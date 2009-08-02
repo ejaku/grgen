@@ -1,6 +1,6 @@
 // This file has been generated automatically by GrGen.
 // Do not modify this file! Any changes will be lost!
-// Generated from "..\..\examples\JavaProgramGraphs\JavaProgramGraphs.grg" on Tue Jul 21 00:01:17 GMT+01:00 2009
+// Generated from "..\..\examples\JavaProgramGraphs\JavaProgramGraphs.grg" on Sun Aug 02 10:10:29 GMT+01:00 2009
 
 using System;
 using System.Collections.Generic;
@@ -55,9 +55,9 @@ namespace de.unika.ipd.grGen.Model_JavaProgramGraphs
 			else
 			{
 				node = pool[--poolLevel];
-				node.inhead = null;
-				node.outhead = null;
-				node.flags &= ~(uint) GRGEN_LGSP.LGSPElemFlags.HAS_VARIABLES;
+				node.lgspInhead = null;
+				node.lgspOuthead = null;
+				node.lgspFlags &= ~(uint) GRGEN_LGSP.LGSPElemFlags.HAS_VARIABLES;
 				// implicit initialization, map/set creation of Node
 			}
 			graph.AddNode(node);
@@ -72,9 +72,9 @@ namespace de.unika.ipd.grGen.Model_JavaProgramGraphs
 			else
 			{
 				node = pool[--poolLevel];
-				node.inhead = null;
-				node.outhead = null;
-				node.flags &= ~(uint) GRGEN_LGSP.LGSPElemFlags.HAS_VARIABLES;
+				node.lgspInhead = null;
+				node.lgspOuthead = null;
+				node.lgspFlags &= ~(uint) GRGEN_LGSP.LGSPElemFlags.HAS_VARIABLES;
 				// implicit initialization, map/set creation of Node
 			}
 			graph.AddNode(node, varName);
@@ -171,9 +171,9 @@ namespace de.unika.ipd.grGen.Model_JavaProgramGraphs
 			else
 			{
 				node = pool[--poolLevel];
-				node.inhead = null;
-				node.outhead = null;
-				node.flags &= ~(uint) GRGEN_LGSP.LGSPElemFlags.HAS_VARIABLES;
+				node.lgspInhead = null;
+				node.lgspOuthead = null;
+				node.lgspFlags &= ~(uint) GRGEN_LGSP.LGSPElemFlags.HAS_VARIABLES;
 				// implicit initialization, map/set creation of Package
 				node.@name = null;
 				// explicit initializations of Package for target Package
@@ -190,9 +190,9 @@ namespace de.unika.ipd.grGen.Model_JavaProgramGraphs
 			else
 			{
 				node = pool[--poolLevel];
-				node.inhead = null;
-				node.outhead = null;
-				node.flags &= ~(uint) GRGEN_LGSP.LGSPElemFlags.HAS_VARIABLES;
+				node.lgspInhead = null;
+				node.lgspOuthead = null;
+				node.lgspFlags &= ~(uint) GRGEN_LGSP.LGSPElemFlags.HAS_VARIABLES;
 				// implicit initialization, map/set creation of Package
 				node.@name = null;
 				// explicit initializations of Package for target Package
@@ -339,9 +339,9 @@ namespace de.unika.ipd.grGen.Model_JavaProgramGraphs
 			else
 			{
 				node = pool[--poolLevel];
-				node.inhead = null;
-				node.outhead = null;
-				node.flags &= ~(uint) GRGEN_LGSP.LGSPElemFlags.HAS_VARIABLES;
+				node.lgspInhead = null;
+				node.lgspOuthead = null;
+				node.lgspFlags &= ~(uint) GRGEN_LGSP.LGSPElemFlags.HAS_VARIABLES;
 				// implicit initialization, map/set creation of Classifier
 				node.@name = null;
 				node.@visibility = null;
@@ -360,9 +360,9 @@ namespace de.unika.ipd.grGen.Model_JavaProgramGraphs
 			else
 			{
 				node = pool[--poolLevel];
-				node.inhead = null;
-				node.outhead = null;
-				node.flags &= ~(uint) GRGEN_LGSP.LGSPElemFlags.HAS_VARIABLES;
+				node.lgspInhead = null;
+				node.lgspOuthead = null;
+				node.lgspFlags &= ~(uint) GRGEN_LGSP.LGSPElemFlags.HAS_VARIABLES;
 				// implicit initialization, map/set creation of Classifier
 				node.@name = null;
 				node.@visibility = null;
@@ -545,9 +545,9 @@ namespace de.unika.ipd.grGen.Model_JavaProgramGraphs
 			else
 			{
 				node = pool[--poolLevel];
-				node.inhead = null;
-				node.outhead = null;
-				node.flags &= ~(uint) GRGEN_LGSP.LGSPElemFlags.HAS_VARIABLES;
+				node.lgspInhead = null;
+				node.lgspOuthead = null;
+				node.lgspFlags &= ~(uint) GRGEN_LGSP.LGSPElemFlags.HAS_VARIABLES;
 				// implicit initialization, map/set creation of Class
 				node.@name = null;
 				node.@visibility = null;
@@ -568,9 +568,9 @@ namespace de.unika.ipd.grGen.Model_JavaProgramGraphs
 			else
 			{
 				node = pool[--poolLevel];
-				node.inhead = null;
-				node.outhead = null;
-				node.flags &= ~(uint) GRGEN_LGSP.LGSPElemFlags.HAS_VARIABLES;
+				node.lgspInhead = null;
+				node.lgspOuthead = null;
+				node.lgspFlags &= ~(uint) GRGEN_LGSP.LGSPElemFlags.HAS_VARIABLES;
 				// implicit initialization, map/set creation of Class
 				node.@name = null;
 				node.@visibility = null;
@@ -771,9 +771,9 @@ namespace de.unika.ipd.grGen.Model_JavaProgramGraphs
 			else
 			{
 				node = pool[--poolLevel];
-				node.inhead = null;
-				node.outhead = null;
-				node.flags &= ~(uint) GRGEN_LGSP.LGSPElemFlags.HAS_VARIABLES;
+				node.lgspInhead = null;
+				node.lgspOuthead = null;
+				node.lgspFlags &= ~(uint) GRGEN_LGSP.LGSPElemFlags.HAS_VARIABLES;
 				// implicit initialization, map/set creation of Interface
 				node.@name = null;
 				node.@visibility = null;
@@ -793,9 +793,9 @@ namespace de.unika.ipd.grGen.Model_JavaProgramGraphs
 			else
 			{
 				node = pool[--poolLevel];
-				node.inhead = null;
-				node.outhead = null;
-				node.flags &= ~(uint) GRGEN_LGSP.LGSPElemFlags.HAS_VARIABLES;
+				node.lgspInhead = null;
+				node.lgspOuthead = null;
+				node.lgspFlags &= ~(uint) GRGEN_LGSP.LGSPElemFlags.HAS_VARIABLES;
 				// implicit initialization, map/set creation of Interface
 				node.@name = null;
 				node.@visibility = null;
@@ -982,9 +982,9 @@ namespace de.unika.ipd.grGen.Model_JavaProgramGraphs
 			else
 			{
 				node = pool[--poolLevel];
-				node.inhead = null;
-				node.outhead = null;
-				node.flags &= ~(uint) GRGEN_LGSP.LGSPElemFlags.HAS_VARIABLES;
+				node.lgspInhead = null;
+				node.lgspOuthead = null;
+				node.lgspFlags &= ~(uint) GRGEN_LGSP.LGSPElemFlags.HAS_VARIABLES;
 				// implicit initialization, map/set creation of Variable
 				node.@name = null;
 				node.@visibility = null;
@@ -1004,9 +1004,9 @@ namespace de.unika.ipd.grGen.Model_JavaProgramGraphs
 			else
 			{
 				node = pool[--poolLevel];
-				node.inhead = null;
-				node.outhead = null;
-				node.flags &= ~(uint) GRGEN_LGSP.LGSPElemFlags.HAS_VARIABLES;
+				node.lgspInhead = null;
+				node.lgspOuthead = null;
+				node.lgspFlags &= ~(uint) GRGEN_LGSP.LGSPElemFlags.HAS_VARIABLES;
 				// implicit initialization, map/set creation of Variable
 				node.@name = null;
 				node.@visibility = null;
@@ -1205,9 +1205,9 @@ namespace de.unika.ipd.grGen.Model_JavaProgramGraphs
 			else
 			{
 				node = pool[--poolLevel];
-				node.inhead = null;
-				node.outhead = null;
-				node.flags &= ~(uint) GRGEN_LGSP.LGSPElemFlags.HAS_VARIABLES;
+				node.lgspInhead = null;
+				node.lgspOuthead = null;
+				node.lgspFlags &= ~(uint) GRGEN_LGSP.LGSPElemFlags.HAS_VARIABLES;
 				// implicit initialization, map/set creation of Operation
 				node.@name = null;
 				node.@visibility = null;
@@ -1228,9 +1228,9 @@ namespace de.unika.ipd.grGen.Model_JavaProgramGraphs
 			else
 			{
 				node = pool[--poolLevel];
-				node.inhead = null;
-				node.outhead = null;
-				node.flags &= ~(uint) GRGEN_LGSP.LGSPElemFlags.HAS_VARIABLES;
+				node.lgspInhead = null;
+				node.lgspOuthead = null;
+				node.lgspFlags &= ~(uint) GRGEN_LGSP.LGSPElemFlags.HAS_VARIABLES;
 				// implicit initialization, map/set creation of Operation
 				node.@name = null;
 				node.@visibility = null;
@@ -1435,9 +1435,9 @@ namespace de.unika.ipd.grGen.Model_JavaProgramGraphs
 			else
 			{
 				node = pool[--poolLevel];
-				node.inhead = null;
-				node.outhead = null;
-				node.flags &= ~(uint) GRGEN_LGSP.LGSPElemFlags.HAS_VARIABLES;
+				node.lgspInhead = null;
+				node.lgspOuthead = null;
+				node.lgspFlags &= ~(uint) GRGEN_LGSP.LGSPElemFlags.HAS_VARIABLES;
 				// implicit initialization, map/set creation of MethodBody
 				// explicit initializations of MethodBody for target MethodBody
 			}
@@ -1453,9 +1453,9 @@ namespace de.unika.ipd.grGen.Model_JavaProgramGraphs
 			else
 			{
 				node = pool[--poolLevel];
-				node.inhead = null;
-				node.outhead = null;
-				node.flags &= ~(uint) GRGEN_LGSP.LGSPElemFlags.HAS_VARIABLES;
+				node.lgspInhead = null;
+				node.lgspOuthead = null;
+				node.lgspFlags &= ~(uint) GRGEN_LGSP.LGSPElemFlags.HAS_VARIABLES;
 				// implicit initialization, map/set creation of MethodBody
 				// explicit initializations of MethodBody for target MethodBody
 			}
@@ -1552,9 +1552,9 @@ namespace de.unika.ipd.grGen.Model_JavaProgramGraphs
 			else
 			{
 				node = pool[--poolLevel];
-				node.inhead = null;
-				node.outhead = null;
-				node.flags &= ~(uint) GRGEN_LGSP.LGSPElemFlags.HAS_VARIABLES;
+				node.lgspInhead = null;
+				node.lgspOuthead = null;
+				node.lgspFlags &= ~(uint) GRGEN_LGSP.LGSPElemFlags.HAS_VARIABLES;
 				// implicit initialization, map/set creation of Expression
 				// explicit initializations of Expression for target Expression
 			}
@@ -1570,9 +1570,9 @@ namespace de.unika.ipd.grGen.Model_JavaProgramGraphs
 			else
 			{
 				node = pool[--poolLevel];
-				node.inhead = null;
-				node.outhead = null;
-				node.flags &= ~(uint) GRGEN_LGSP.LGSPElemFlags.HAS_VARIABLES;
+				node.lgspInhead = null;
+				node.lgspOuthead = null;
+				node.lgspFlags &= ~(uint) GRGEN_LGSP.LGSPElemFlags.HAS_VARIABLES;
 				// implicit initialization, map/set creation of Expression
 				// explicit initializations of Expression for target Expression
 			}
@@ -1674,9 +1674,9 @@ namespace de.unika.ipd.grGen.Model_JavaProgramGraphs
 			else
 			{
 				node = pool[--poolLevel];
-				node.inhead = null;
-				node.outhead = null;
-				node.flags &= ~(uint) GRGEN_LGSP.LGSPElemFlags.HAS_VARIABLES;
+				node.lgspInhead = null;
+				node.lgspOuthead = null;
+				node.lgspFlags &= ~(uint) GRGEN_LGSP.LGSPElemFlags.HAS_VARIABLES;
 				// implicit initialization, map/set creation of Access
 				node.@this = false;
 				// explicit initializations of Expression for target Access
@@ -1694,9 +1694,9 @@ namespace de.unika.ipd.grGen.Model_JavaProgramGraphs
 			else
 			{
 				node = pool[--poolLevel];
-				node.inhead = null;
-				node.outhead = null;
-				node.flags &= ~(uint) GRGEN_LGSP.LGSPElemFlags.HAS_VARIABLES;
+				node.lgspInhead = null;
+				node.lgspOuthead = null;
+				node.lgspFlags &= ~(uint) GRGEN_LGSP.LGSPElemFlags.HAS_VARIABLES;
 				// implicit initialization, map/set creation of Access
 				node.@this = false;
 				// explicit initializations of Expression for target Access
@@ -1844,9 +1844,9 @@ namespace de.unika.ipd.grGen.Model_JavaProgramGraphs
 			else
 			{
 				node = pool[--poolLevel];
-				node.inhead = null;
-				node.outhead = null;
-				node.flags &= ~(uint) GRGEN_LGSP.LGSPElemFlags.HAS_VARIABLES;
+				node.lgspInhead = null;
+				node.lgspOuthead = null;
+				node.lgspFlags &= ~(uint) GRGEN_LGSP.LGSPElemFlags.HAS_VARIABLES;
 				// implicit initialization, map/set creation of Update
 				node.@this = false;
 				// explicit initializations of Expression for target Update
@@ -1864,9 +1864,9 @@ namespace de.unika.ipd.grGen.Model_JavaProgramGraphs
 			else
 			{
 				node = pool[--poolLevel];
-				node.inhead = null;
-				node.outhead = null;
-				node.flags &= ~(uint) GRGEN_LGSP.LGSPElemFlags.HAS_VARIABLES;
+				node.lgspInhead = null;
+				node.lgspOuthead = null;
+				node.lgspFlags &= ~(uint) GRGEN_LGSP.LGSPElemFlags.HAS_VARIABLES;
 				// implicit initialization, map/set creation of Update
 				node.@this = false;
 				// explicit initializations of Expression for target Update
@@ -2016,9 +2016,9 @@ namespace de.unika.ipd.grGen.Model_JavaProgramGraphs
 			else
 			{
 				node = pool[--poolLevel];
-				node.inhead = null;
-				node.outhead = null;
-				node.flags &= ~(uint) GRGEN_LGSP.LGSPElemFlags.HAS_VARIABLES;
+				node.lgspInhead = null;
+				node.lgspOuthead = null;
+				node.lgspFlags &= ~(uint) GRGEN_LGSP.LGSPElemFlags.HAS_VARIABLES;
 				// implicit initialization, map/set creation of Call
 				node.@this = false;
 				node.@super = false;
@@ -2037,9 +2037,9 @@ namespace de.unika.ipd.grGen.Model_JavaProgramGraphs
 			else
 			{
 				node = pool[--poolLevel];
-				node.inhead = null;
-				node.outhead = null;
-				node.flags &= ~(uint) GRGEN_LGSP.LGSPElemFlags.HAS_VARIABLES;
+				node.lgspInhead = null;
+				node.lgspOuthead = null;
+				node.lgspFlags &= ~(uint) GRGEN_LGSP.LGSPElemFlags.HAS_VARIABLES;
 				// implicit initialization, map/set creation of Call
 				node.@this = false;
 				node.@super = false;
@@ -2201,9 +2201,9 @@ namespace de.unika.ipd.grGen.Model_JavaProgramGraphs
 			else
 			{
 				node = pool[--poolLevel];
-				node.inhead = null;
-				node.outhead = null;
-				node.flags &= ~(uint) GRGEN_LGSP.LGSPElemFlags.HAS_VARIABLES;
+				node.lgspInhead = null;
+				node.lgspOuthead = null;
+				node.lgspFlags &= ~(uint) GRGEN_LGSP.LGSPElemFlags.HAS_VARIABLES;
 				// implicit initialization, map/set creation of Instantiation
 				// explicit initializations of Expression for target Instantiation
 				// explicit initializations of Instantiation for target Instantiation
@@ -2220,9 +2220,9 @@ namespace de.unika.ipd.grGen.Model_JavaProgramGraphs
 			else
 			{
 				node = pool[--poolLevel];
-				node.inhead = null;
-				node.outhead = null;
-				node.flags &= ~(uint) GRGEN_LGSP.LGSPElemFlags.HAS_VARIABLES;
+				node.lgspInhead = null;
+				node.lgspOuthead = null;
+				node.lgspFlags &= ~(uint) GRGEN_LGSP.LGSPElemFlags.HAS_VARIABLES;
 				// implicit initialization, map/set creation of Instantiation
 				// explicit initializations of Expression for target Instantiation
 				// explicit initializations of Instantiation for target Instantiation
@@ -2326,9 +2326,9 @@ namespace de.unika.ipd.grGen.Model_JavaProgramGraphs
 			else
 			{
 				node = pool[--poolLevel];
-				node.inhead = null;
-				node.outhead = null;
-				node.flags &= ~(uint) GRGEN_LGSP.LGSPElemFlags.HAS_VARIABLES;
+				node.lgspInhead = null;
+				node.lgspOuthead = null;
+				node.lgspFlags &= ~(uint) GRGEN_LGSP.LGSPElemFlags.HAS_VARIABLES;
 				// implicit initialization, map/set creation of Operator
 				node.@name = null;
 				// explicit initializations of Expression for target Operator
@@ -2346,9 +2346,9 @@ namespace de.unika.ipd.grGen.Model_JavaProgramGraphs
 			else
 			{
 				node = pool[--poolLevel];
-				node.inhead = null;
-				node.outhead = null;
-				node.flags &= ~(uint) GRGEN_LGSP.LGSPElemFlags.HAS_VARIABLES;
+				node.lgspInhead = null;
+				node.lgspOuthead = null;
+				node.lgspFlags &= ~(uint) GRGEN_LGSP.LGSPElemFlags.HAS_VARIABLES;
 				// implicit initialization, map/set creation of Operator
 				node.@name = null;
 				// explicit initializations of Expression for target Operator
@@ -2494,9 +2494,9 @@ namespace de.unika.ipd.grGen.Model_JavaProgramGraphs
 			else
 			{
 				node = pool[--poolLevel];
-				node.inhead = null;
-				node.outhead = null;
-				node.flags &= ~(uint) GRGEN_LGSP.LGSPElemFlags.HAS_VARIABLES;
+				node.lgspInhead = null;
+				node.lgspOuthead = null;
+				node.lgspFlags &= ~(uint) GRGEN_LGSP.LGSPElemFlags.HAS_VARIABLES;
 				// implicit initialization, map/set creation of Return
 				// explicit initializations of Expression for target Return
 				// explicit initializations of Return for target Return
@@ -2513,9 +2513,9 @@ namespace de.unika.ipd.grGen.Model_JavaProgramGraphs
 			else
 			{
 				node = pool[--poolLevel];
-				node.inhead = null;
-				node.outhead = null;
-				node.flags &= ~(uint) GRGEN_LGSP.LGSPElemFlags.HAS_VARIABLES;
+				node.lgspInhead = null;
+				node.lgspOuthead = null;
+				node.lgspFlags &= ~(uint) GRGEN_LGSP.LGSPElemFlags.HAS_VARIABLES;
 				// implicit initialization, map/set creation of Return
 				// explicit initializations of Expression for target Return
 				// explicit initializations of Return for target Return
@@ -2617,9 +2617,9 @@ namespace de.unika.ipd.grGen.Model_JavaProgramGraphs
 			else
 			{
 				node = pool[--poolLevel];
-				node.inhead = null;
-				node.outhead = null;
-				node.flags &= ~(uint) GRGEN_LGSP.LGSPElemFlags.HAS_VARIABLES;
+				node.lgspInhead = null;
+				node.lgspOuthead = null;
+				node.lgspFlags &= ~(uint) GRGEN_LGSP.LGSPElemFlags.HAS_VARIABLES;
 				// implicit initialization, map/set creation of Block
 				// explicit initializations of Expression for target Block
 				// explicit initializations of Block for target Block
@@ -2636,9 +2636,9 @@ namespace de.unika.ipd.grGen.Model_JavaProgramGraphs
 			else
 			{
 				node = pool[--poolLevel];
-				node.inhead = null;
-				node.outhead = null;
-				node.flags &= ~(uint) GRGEN_LGSP.LGSPElemFlags.HAS_VARIABLES;
+				node.lgspInhead = null;
+				node.lgspOuthead = null;
+				node.lgspFlags &= ~(uint) GRGEN_LGSP.LGSPElemFlags.HAS_VARIABLES;
 				// implicit initialization, map/set creation of Block
 				// explicit initializations of Expression for target Block
 				// explicit initializations of Block for target Block
@@ -2739,9 +2739,9 @@ namespace de.unika.ipd.grGen.Model_JavaProgramGraphs
 			else
 			{
 				node = pool[--poolLevel];
-				node.inhead = null;
-				node.outhead = null;
-				node.flags &= ~(uint) GRGEN_LGSP.LGSPElemFlags.HAS_VARIABLES;
+				node.lgspInhead = null;
+				node.lgspOuthead = null;
+				node.lgspFlags &= ~(uint) GRGEN_LGSP.LGSPElemFlags.HAS_VARIABLES;
 				// implicit initialization, map/set creation of Literal
 				node.@value = null;
 				// explicit initializations of Literal for target Literal
@@ -2758,9 +2758,9 @@ namespace de.unika.ipd.grGen.Model_JavaProgramGraphs
 			else
 			{
 				node = pool[--poolLevel];
-				node.inhead = null;
-				node.outhead = null;
-				node.flags &= ~(uint) GRGEN_LGSP.LGSPElemFlags.HAS_VARIABLES;
+				node.lgspInhead = null;
+				node.lgspOuthead = null;
+				node.lgspFlags &= ~(uint) GRGEN_LGSP.LGSPElemFlags.HAS_VARIABLES;
 				// implicit initialization, map/set creation of Literal
 				node.@value = null;
 				// explicit initializations of Literal for target Literal
@@ -2901,9 +2901,9 @@ namespace de.unika.ipd.grGen.Model_JavaProgramGraphs
 			else
 			{
 				node = pool[--poolLevel];
-				node.inhead = null;
-				node.outhead = null;
-				node.flags &= ~(uint) GRGEN_LGSP.LGSPElemFlags.HAS_VARIABLES;
+				node.lgspInhead = null;
+				node.lgspOuthead = null;
+				node.lgspFlags &= ~(uint) GRGEN_LGSP.LGSPElemFlags.HAS_VARIABLES;
 				// implicit initialization, map/set creation of Parameter
 				// explicit initializations of Parameter for target Parameter
 			}
@@ -2919,9 +2919,9 @@ namespace de.unika.ipd.grGen.Model_JavaProgramGraphs
 			else
 			{
 				node = pool[--poolLevel];
-				node.inhead = null;
-				node.outhead = null;
-				node.flags &= ~(uint) GRGEN_LGSP.LGSPElemFlags.HAS_VARIABLES;
+				node.lgspInhead = null;
+				node.lgspOuthead = null;
+				node.lgspFlags &= ~(uint) GRGEN_LGSP.LGSPElemFlags.HAS_VARIABLES;
 				// implicit initialization, map/set creation of Parameter
 				// explicit initializations of Parameter for target Parameter
 			}
@@ -3428,9 +3428,9 @@ namespace de.unika.ipd.grGen.Model_JavaProgramGraphs
 			else
 			{
 				edge = pool[--poolLevel];
-				edge.flags &= ~(uint) GRGEN_LGSP.LGSPElemFlags.HAS_VARIABLES;
-				edge.source = source;
-				edge.target = target;
+				edge.lgspFlags &= ~(uint) GRGEN_LGSP.LGSPElemFlags.HAS_VARIABLES;
+				edge.lgspSource = source;
+				edge.lgspTarget = target;
 				// implicit initialization, map/set creation of Edge
 			}
 			graph.AddEdge(edge);
@@ -3445,9 +3445,9 @@ namespace de.unika.ipd.grGen.Model_JavaProgramGraphs
 			else
 			{
 				edge = pool[--poolLevel];
-				edge.flags &= ~(uint) GRGEN_LGSP.LGSPElemFlags.HAS_VARIABLES;
-				edge.source = source;
-				edge.target = target;
+				edge.lgspFlags &= ~(uint) GRGEN_LGSP.LGSPElemFlags.HAS_VARIABLES;
+				edge.lgspSource = source;
+				edge.lgspTarget = target;
 				// implicit initialization, map/set creation of Edge
 			}
 			graph.AddEdge(edge, varName);
@@ -3540,9 +3540,9 @@ namespace de.unika.ipd.grGen.Model_JavaProgramGraphs
 			else
 			{
 				edge = pool[--poolLevel];
-				edge.flags &= ~(uint) GRGEN_LGSP.LGSPElemFlags.HAS_VARIABLES;
-				edge.source = source;
-				edge.target = target;
+				edge.lgspFlags &= ~(uint) GRGEN_LGSP.LGSPElemFlags.HAS_VARIABLES;
+				edge.lgspSource = source;
+				edge.lgspTarget = target;
 				// implicit initialization, map/set creation of UEdge
 			}
 			graph.AddEdge(edge);
@@ -3557,9 +3557,9 @@ namespace de.unika.ipd.grGen.Model_JavaProgramGraphs
 			else
 			{
 				edge = pool[--poolLevel];
-				edge.flags &= ~(uint) GRGEN_LGSP.LGSPElemFlags.HAS_VARIABLES;
-				edge.source = source;
-				edge.target = target;
+				edge.lgspFlags &= ~(uint) GRGEN_LGSP.LGSPElemFlags.HAS_VARIABLES;
+				edge.lgspSource = source;
+				edge.lgspTarget = target;
 				// implicit initialization, map/set creation of UEdge
 			}
 			graph.AddEdge(edge, varName);
@@ -3658,9 +3658,9 @@ namespace de.unika.ipd.grGen.Model_JavaProgramGraphs
 			else
 			{
 				edge = pool[--poolLevel];
-				edge.flags &= ~(uint) GRGEN_LGSP.LGSPElemFlags.HAS_VARIABLES;
-				edge.source = source;
-				edge.target = target;
+				edge.lgspFlags &= ~(uint) GRGEN_LGSP.LGSPElemFlags.HAS_VARIABLES;
+				edge.lgspSource = source;
+				edge.lgspTarget = target;
 				// implicit initialization, map/set creation of belongsTo
 				// explicit initializations of belongsTo for target belongsTo
 			}
@@ -3676,9 +3676,9 @@ namespace de.unika.ipd.grGen.Model_JavaProgramGraphs
 			else
 			{
 				edge = pool[--poolLevel];
-				edge.flags &= ~(uint) GRGEN_LGSP.LGSPElemFlags.HAS_VARIABLES;
-				edge.source = source;
-				edge.target = target;
+				edge.lgspFlags &= ~(uint) GRGEN_LGSP.LGSPElemFlags.HAS_VARIABLES;
+				edge.lgspSource = source;
+				edge.lgspTarget = target;
 				// implicit initialization, map/set creation of belongsTo
 				// explicit initializations of belongsTo for target belongsTo
 			}
@@ -3779,9 +3779,9 @@ namespace de.unika.ipd.grGen.Model_JavaProgramGraphs
 			else
 			{
 				edge = pool[--poolLevel];
-				edge.flags &= ~(uint) GRGEN_LGSP.LGSPElemFlags.HAS_VARIABLES;
-				edge.source = source;
-				edge.target = target;
+				edge.lgspFlags &= ~(uint) GRGEN_LGSP.LGSPElemFlags.HAS_VARIABLES;
+				edge.lgspSource = source;
+				edge.lgspTarget = target;
 				// implicit initialization, map/set creation of type_
 				// explicit initializations of type_ for target type_
 			}
@@ -3797,9 +3797,9 @@ namespace de.unika.ipd.grGen.Model_JavaProgramGraphs
 			else
 			{
 				edge = pool[--poolLevel];
-				edge.flags &= ~(uint) GRGEN_LGSP.LGSPElemFlags.HAS_VARIABLES;
-				edge.source = source;
-				edge.target = target;
+				edge.lgspFlags &= ~(uint) GRGEN_LGSP.LGSPElemFlags.HAS_VARIABLES;
+				edge.lgspSource = source;
+				edge.lgspTarget = target;
 				// implicit initialization, map/set creation of type_
 				// explicit initializations of type_ for target type_
 			}
@@ -3900,9 +3900,9 @@ namespace de.unika.ipd.grGen.Model_JavaProgramGraphs
 			else
 			{
 				edge = pool[--poolLevel];
-				edge.flags &= ~(uint) GRGEN_LGSP.LGSPElemFlags.HAS_VARIABLES;
-				edge.source = source;
-				edge.target = target;
+				edge.lgspFlags &= ~(uint) GRGEN_LGSP.LGSPElemFlags.HAS_VARIABLES;
+				edge.lgspSource = source;
+				edge.lgspTarget = target;
 				// implicit initialization, map/set creation of extends_
 				// explicit initializations of extends_ for target extends_
 			}
@@ -3918,9 +3918,9 @@ namespace de.unika.ipd.grGen.Model_JavaProgramGraphs
 			else
 			{
 				edge = pool[--poolLevel];
-				edge.flags &= ~(uint) GRGEN_LGSP.LGSPElemFlags.HAS_VARIABLES;
-				edge.source = source;
-				edge.target = target;
+				edge.lgspFlags &= ~(uint) GRGEN_LGSP.LGSPElemFlags.HAS_VARIABLES;
+				edge.lgspSource = source;
+				edge.lgspTarget = target;
 				// implicit initialization, map/set creation of extends_
 				// explicit initializations of extends_ for target extends_
 			}
@@ -4021,9 +4021,9 @@ namespace de.unika.ipd.grGen.Model_JavaProgramGraphs
 			else
 			{
 				edge = pool[--poolLevel];
-				edge.flags &= ~(uint) GRGEN_LGSP.LGSPElemFlags.HAS_VARIABLES;
-				edge.source = source;
-				edge.target = target;
+				edge.lgspFlags &= ~(uint) GRGEN_LGSP.LGSPElemFlags.HAS_VARIABLES;
+				edge.lgspSource = source;
+				edge.lgspTarget = target;
 				// implicit initialization, map/set creation of imports
 				// explicit initializations of imports for target imports
 			}
@@ -4039,9 +4039,9 @@ namespace de.unika.ipd.grGen.Model_JavaProgramGraphs
 			else
 			{
 				edge = pool[--poolLevel];
-				edge.flags &= ~(uint) GRGEN_LGSP.LGSPElemFlags.HAS_VARIABLES;
-				edge.source = source;
-				edge.target = target;
+				edge.lgspFlags &= ~(uint) GRGEN_LGSP.LGSPElemFlags.HAS_VARIABLES;
+				edge.lgspSource = source;
+				edge.lgspTarget = target;
 				// implicit initialization, map/set creation of imports
 				// explicit initializations of imports for target imports
 			}
@@ -4142,9 +4142,9 @@ namespace de.unika.ipd.grGen.Model_JavaProgramGraphs
 			else
 			{
 				edge = pool[--poolLevel];
-				edge.flags &= ~(uint) GRGEN_LGSP.LGSPElemFlags.HAS_VARIABLES;
-				edge.source = source;
-				edge.target = target;
+				edge.lgspFlags &= ~(uint) GRGEN_LGSP.LGSPElemFlags.HAS_VARIABLES;
+				edge.lgspSource = source;
+				edge.lgspTarget = target;
 				// implicit initialization, map/set creation of implements
 				// explicit initializations of implements for target implements
 			}
@@ -4160,9 +4160,9 @@ namespace de.unika.ipd.grGen.Model_JavaProgramGraphs
 			else
 			{
 				edge = pool[--poolLevel];
-				edge.flags &= ~(uint) GRGEN_LGSP.LGSPElemFlags.HAS_VARIABLES;
-				edge.source = source;
-				edge.target = target;
+				edge.lgspFlags &= ~(uint) GRGEN_LGSP.LGSPElemFlags.HAS_VARIABLES;
+				edge.lgspSource = source;
+				edge.lgspTarget = target;
 				// implicit initialization, map/set creation of implements
 				// explicit initializations of implements for target implements
 			}
@@ -4265,9 +4265,9 @@ namespace de.unika.ipd.grGen.Model_JavaProgramGraphs
 			else
 			{
 				edge = pool[--poolLevel];
-				edge.flags &= ~(uint) GRGEN_LGSP.LGSPElemFlags.HAS_VARIABLES;
-				edge.source = source;
-				edge.target = target;
+				edge.lgspFlags &= ~(uint) GRGEN_LGSP.LGSPElemFlags.HAS_VARIABLES;
+				edge.lgspSource = source;
+				edge.lgspTarget = target;
 				// implicit initialization, map/set creation of parameter
 				edge.@order = 0;
 				// explicit initializations of parameter for target parameter
@@ -4284,9 +4284,9 @@ namespace de.unika.ipd.grGen.Model_JavaProgramGraphs
 			else
 			{
 				edge = pool[--poolLevel];
-				edge.flags &= ~(uint) GRGEN_LGSP.LGSPElemFlags.HAS_VARIABLES;
-				edge.source = source;
-				edge.target = target;
+				edge.lgspFlags &= ~(uint) GRGEN_LGSP.LGSPElemFlags.HAS_VARIABLES;
+				edge.lgspSource = source;
+				edge.lgspTarget = target;
 				// implicit initialization, map/set creation of parameter
 				edge.@order = 0;
 				// explicit initializations of parameter for target parameter
@@ -4431,9 +4431,9 @@ namespace de.unika.ipd.grGen.Model_JavaProgramGraphs
 			else
 			{
 				edge = pool[--poolLevel];
-				edge.flags &= ~(uint) GRGEN_LGSP.LGSPElemFlags.HAS_VARIABLES;
-				edge.source = source;
-				edge.target = target;
+				edge.lgspFlags &= ~(uint) GRGEN_LGSP.LGSPElemFlags.HAS_VARIABLES;
+				edge.lgspSource = source;
+				edge.lgspTarget = target;
 				// implicit initialization, map/set creation of actualParameter
 				// explicit initializations of actualParameter for target actualParameter
 			}
@@ -4449,9 +4449,9 @@ namespace de.unika.ipd.grGen.Model_JavaProgramGraphs
 			else
 			{
 				edge = pool[--poolLevel];
-				edge.flags &= ~(uint) GRGEN_LGSP.LGSPElemFlags.HAS_VARIABLES;
-				edge.source = source;
-				edge.target = target;
+				edge.lgspFlags &= ~(uint) GRGEN_LGSP.LGSPElemFlags.HAS_VARIABLES;
+				edge.lgspSource = source;
+				edge.lgspTarget = target;
 				// implicit initialization, map/set creation of actualParameter
 				// explicit initializations of actualParameter for target actualParameter
 			}
@@ -4552,9 +4552,9 @@ namespace de.unika.ipd.grGen.Model_JavaProgramGraphs
 			else
 			{
 				edge = pool[--poolLevel];
-				edge.flags &= ~(uint) GRGEN_LGSP.LGSPElemFlags.HAS_VARIABLES;
-				edge.source = source;
-				edge.target = target;
+				edge.lgspFlags &= ~(uint) GRGEN_LGSP.LGSPElemFlags.HAS_VARIABLES;
+				edge.lgspSource = source;
+				edge.lgspTarget = target;
 				// implicit initialization, map/set creation of binding
 				// explicit initializations of binding for target binding
 			}
@@ -4570,9 +4570,9 @@ namespace de.unika.ipd.grGen.Model_JavaProgramGraphs
 			else
 			{
 				edge = pool[--poolLevel];
-				edge.flags &= ~(uint) GRGEN_LGSP.LGSPElemFlags.HAS_VARIABLES;
-				edge.source = source;
-				edge.target = target;
+				edge.lgspFlags &= ~(uint) GRGEN_LGSP.LGSPElemFlags.HAS_VARIABLES;
+				edge.lgspSource = source;
+				edge.lgspTarget = target;
 				// implicit initialization, map/set creation of binding
 				// explicit initializations of binding for target binding
 			}
@@ -4673,9 +4673,9 @@ namespace de.unika.ipd.grGen.Model_JavaProgramGraphs
 			else
 			{
 				edge = pool[--poolLevel];
-				edge.flags &= ~(uint) GRGEN_LGSP.LGSPElemFlags.HAS_VARIABLES;
-				edge.source = source;
-				edge.target = target;
+				edge.lgspFlags &= ~(uint) GRGEN_LGSP.LGSPElemFlags.HAS_VARIABLES;
+				edge.lgspSource = source;
+				edge.lgspTarget = target;
 				// implicit initialization, map/set creation of link
 				// explicit initializations of link for target link
 			}
@@ -4691,9 +4691,9 @@ namespace de.unika.ipd.grGen.Model_JavaProgramGraphs
 			else
 			{
 				edge = pool[--poolLevel];
-				edge.flags &= ~(uint) GRGEN_LGSP.LGSPElemFlags.HAS_VARIABLES;
-				edge.source = source;
-				edge.target = target;
+				edge.lgspFlags &= ~(uint) GRGEN_LGSP.LGSPElemFlags.HAS_VARIABLES;
+				edge.lgspSource = source;
+				edge.lgspTarget = target;
 				// implicit initialization, map/set creation of link
 				// explicit initializations of link for target link
 			}
@@ -4796,9 +4796,9 @@ namespace de.unika.ipd.grGen.Model_JavaProgramGraphs
 			else
 			{
 				edge = pool[--poolLevel];
-				edge.flags &= ~(uint) GRGEN_LGSP.LGSPElemFlags.HAS_VARIABLES;
-				edge.source = source;
-				edge.target = target;
+				edge.lgspFlags &= ~(uint) GRGEN_LGSP.LGSPElemFlags.HAS_VARIABLES;
+				edge.lgspSource = source;
+				edge.lgspTarget = target;
 				// implicit initialization, map/set creation of expression
 				edge.@order = 0;
 				// explicit initializations of expression for target expression
@@ -4815,9 +4815,9 @@ namespace de.unika.ipd.grGen.Model_JavaProgramGraphs
 			else
 			{
 				edge = pool[--poolLevel];
-				edge.flags &= ~(uint) GRGEN_LGSP.LGSPElemFlags.HAS_VARIABLES;
-				edge.source = source;
-				edge.target = target;
+				edge.lgspFlags &= ~(uint) GRGEN_LGSP.LGSPElemFlags.HAS_VARIABLES;
+				edge.lgspSource = source;
+				edge.lgspTarget = target;
 				// implicit initialization, map/set creation of expression
 				edge.@order = 0;
 				// explicit initializations of expression for target expression
@@ -4962,9 +4962,9 @@ namespace de.unika.ipd.grGen.Model_JavaProgramGraphs
 			else
 			{
 				edge = pool[--poolLevel];
-				edge.flags &= ~(uint) GRGEN_LGSP.LGSPElemFlags.HAS_VARIABLES;
-				edge.source = source;
-				edge.target = target;
+				edge.lgspFlags &= ~(uint) GRGEN_LGSP.LGSPElemFlags.HAS_VARIABLES;
+				edge.lgspSource = source;
+				edge.lgspTarget = target;
 				// implicit initialization, map/set creation of inBlock
 				// explicit initializations of inBlock for target inBlock
 			}
@@ -4980,9 +4980,9 @@ namespace de.unika.ipd.grGen.Model_JavaProgramGraphs
 			else
 			{
 				edge = pool[--poolLevel];
-				edge.flags &= ~(uint) GRGEN_LGSP.LGSPElemFlags.HAS_VARIABLES;
-				edge.source = source;
-				edge.target = target;
+				edge.lgspFlags &= ~(uint) GRGEN_LGSP.LGSPElemFlags.HAS_VARIABLES;
+				edge.lgspSource = source;
+				edge.lgspTarget = target;
 				// implicit initialization, map/set creation of inBlock
 				// explicit initializations of inBlock for target inBlock
 			}
@@ -5083,9 +5083,9 @@ namespace de.unika.ipd.grGen.Model_JavaProgramGraphs
 			else
 			{
 				edge = pool[--poolLevel];
-				edge.flags &= ~(uint) GRGEN_LGSP.LGSPElemFlags.HAS_VARIABLES;
-				edge.source = source;
-				edge.target = target;
+				edge.lgspFlags &= ~(uint) GRGEN_LGSP.LGSPElemFlags.HAS_VARIABLES;
+				edge.lgspSource = source;
+				edge.lgspTarget = target;
 				// implicit initialization, map/set creation of inClass
 				// explicit initializations of inClass for target inClass
 			}
@@ -5101,9 +5101,9 @@ namespace de.unika.ipd.grGen.Model_JavaProgramGraphs
 			else
 			{
 				edge = pool[--poolLevel];
-				edge.flags &= ~(uint) GRGEN_LGSP.LGSPElemFlags.HAS_VARIABLES;
-				edge.source = source;
-				edge.target = target;
+				edge.lgspFlags &= ~(uint) GRGEN_LGSP.LGSPElemFlags.HAS_VARIABLES;
+				edge.lgspSource = source;
+				edge.lgspTarget = target;
 				// implicit initialization, map/set creation of inClass
 				// explicit initializations of inClass for target inClass
 			}

@@ -1,0 +1,104 @@
+Agri:
+  Agri.grs -> 255
+AntWorld:
+  AntWorld_BorderNodes.grs -> 0
+  AntWorld_ExtendAtAimless.grs -> 0
+  AntWorld_ExtendAtEndOfRound.grs -> 0
+  AntWorld_ExtendAtEndOfRound_NoGammel.grs -> 0
+  AntWorld_GrowWithFirst.grs -> 0
+  AntWorld_RememberBorder.grs -> 0
+Clique:
+  Clique.grs -> 0
+Connectivity:
+  Connectivity.grs -> 0
+DTree:
+  DTree.grs -> 0
+DebugExec:
+  debugexec.grs -> 0
+Dragon:
+  Dragon.grs -> 0
+  DragonDebug.grs -> 0
+FiniteStateMachine:
+  removeEpsilons.grs -> 0
+Firm-IFConv:
+  IFConv.grs -> 0
+GrIO:
+  GrIOtest.grs -> 255
+GraBaTs08-Live-Contest(ConferenceScheduling)-Winning-Solution:
+  conference.grs -> 0
+  conferenceShow.grs -> 0
+  conferenceassignment4.grs -> 0
+GraBaTs09-Live-Contest(ConveyorBeltSystem)-Winning-Solution:
+  Run.grs -> 0
+GraBaTs09-Program-Comprehension:
+  task1.grs -> 0
+  task2.grs -> 0
+JavaProgramGraphs:
+  EncapsulateField.grs -> 0
+  MoveMethod.grs -> 0
+Ludo2:
+  Ludo2.grs -> 0
+  Ludo2_000000042.grs -> 0
+  Ludo2_004937812.grs -> 0
+  Ludo2_098754321.grs -> 0
+  Ludo2_123456789.grs -> 0
+  Ludo2_987654321.grs -> 0
+Mutex:
+  Mutex10.grs -> 0
+  Mutex1000.grs -> 0
+  Mutex100000.grs -> 0
+  Mutex1000000.grs -> 0
+  Mutex160000.grs -> 0
+  Mutex40000.grs -> 0
+  Mutex8000.grs -> 0
+  Mutex80000.grs -> 0
+  MutexPimped1000.grs -> 0
+  MutexPimped100000.grs -> 0
+  MutexPimped1000000.grs -> 0
+ObjectToSchema:
+  ObjectToSchema.grs -> 0
+Petri:
+  sp100.grs -> 0
+  sp10000.grs -> 0
+ProgramGraphs:
+  ProgramGraphs.grs -> 0
+Recursive:
+  Recursive.grs -> 0
+  RecursiveReverse.grs -> 0
+  RecursiveReverseToCommon.grs -> 0
+Sierpinski:
+  Sierpinski.grs -> 0
+Sierpinski2:
+  Sierpinski2.grs -> 0
+Sierpinski3:
+  Sierpinski3.grs -> 0
+Snowflake:
+  Snowflake.grs -> 0
+Transkription:
+  Transkription.grs -> 0
+TranskriptionAbstrakt:
+  TranskriptionAbstrakt.grs -> 0
+  generateGraph.grs -> 0
+TranskriptionAbstraktNachAtom:
+  TranskriptionAbstraktNachAtom.grs -> 0
+Turing:
+  busybeaver3.grs -> 0
+  busybeaver5_1.grs -> 0
+  busybeaver5_7.grs -> 0
+Turing3:
+  busybeaver3__3.grs -> 0
+  busybeaver3__5_1.grs -> 0
+  busybeaver3__5_7.grs -> 0
+TuringRubino:
+  TuringRubino_BB3.grs -> 0
+UML:
+  StateMachine_001.grs -> 255
+  demo_sm.grs -> 255
+  g2x.grs -> 255
+  test.grs -> 255
+UML2CSP:
+  UML2CSP.grs -> 0
+UML2CSP2:
+  UML2CSP.grs -> 0
+WeakComponents:
+  visit.grs -> 0

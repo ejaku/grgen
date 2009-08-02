@@ -226,7 +226,7 @@ public class ModelGen extends CSharpBase {
 	 */
 	private void genDirectSuperTypeList(InheritanceType type) {
 		boolean isNode = type instanceof NodeType;
-		String elemKind = isNode ? "Node" : "Edge";
+		String kindStr = isNode ? "Node" : "Edge";
 
 		String iprefix = "I" + getNodeOrEdgeTypePrefix(type);
 		Collection<InheritanceType> directSuperTypes = type.getDirectSuperTypes();
@@ -247,7 +247,7 @@ public class ModelGen extends CSharpBase {
 
 				if(first) first = false;
 				else sb.append(", ");
-				sb.append("GRGEN_LIBGR.I" + elemKind);
+				sb.append("GRGEN_LIBGR.I" + kindStr);
 			}
 			else {
 				if(first) first = false;
@@ -287,7 +287,7 @@ public class ModelGen extends CSharpBase {
 	 */
 	private void genElementImplementation(InheritanceType type) {
 		boolean isNode = type instanceof NodeType;
-		String elemKind = isNode ? "Node" : "Edge";
+		String kindStr = isNode ? "Node" : "Edge";
 		String elemname = formatElementClassName(type);
 		String elemref = formatElementClassRef(type);
 		String extName = type.getExternalName();
@@ -301,7 +301,7 @@ public class ModelGen extends CSharpBase {
 
 		if(extName == null) {
 			sb.append("\n\tpublic sealed class " + elemname + " : GRGEN_LGSP.LGSP"
-					+ elemKind + ", " + ielemref + "\n\t{\n");
+					+ kindStr + ", " + ielemref + "\n\t{\n");
 		}
 		else { // what's that?
 			routedSB = getStubBuffer();
@@ -323,7 +323,7 @@ public class ModelGen extends CSharpBase {
 					+ "\t\tpublic " + extClassName + "() : base() { }\n\n");
 
 			sb.append("\n\tpublic abstract class " + elemname + " : GRGEN_LGSP.LGSP"
-					+ elemKind + ", " + ielemref + "\n\t{\n");
+					+ kindStr + ", " + ielemref + "\n\t{\n");
 		}
 		sb.append("\t\tprivate static int poolLevel = 0;\n"
 				+ "\t\tprivate static " + elemref + "[] pool = new " + elemref + "[10];\n");
@@ -392,9 +392,9 @@ public class ModelGen extends CSharpBase {
 					+ "\t\t\telse\n"
 					+ "\t\t\t{\n"
 					+ "\t\t\t\tnode = pool[--poolLevel];\n"
-					+ "\t\t\t\tnode.inhead = null;\n"
-					+ "\t\t\t\tnode.outhead = null;\n"
-					+ "\t\t\t\tnode.flags &= ~(uint) GRGEN_LGSP.LGSPElemFlags.HAS_VARIABLES;\n");
+					+ "\t\t\t\tnode.lgspInhead = null;\n"
+					+ "\t\t\t\tnode.lgspOuthead = null;\n"
+					+ "\t\t\t\tnode.lgspFlags &= ~(uint) GRGEN_LGSP.LGSPElemFlags.HAS_VARIABLES;\n");
 			initAllMembersNonConst(type, "node", "\t\t\t\t", true, false);
 			sb.append("\t\t\t}\n"
 					+ "\t\t\tgraph.AddNode(node);\n"
@@ -408,9 +408,9 @@ public class ModelGen extends CSharpBase {
 					+ "\t\t\telse\n"
 					+ "\t\t\t{\n"
 					+ "\t\t\t\tnode = pool[--poolLevel];\n"
-					+ "\t\t\t\tnode.inhead = null;\n"
-					+ "\t\t\t\tnode.outhead = null;\n"
-					+ "\t\t\t\tnode.flags &= ~(uint) GRGEN_LGSP.LGSPElemFlags.HAS_VARIABLES;\n");
+					+ "\t\t\t\tnode.lgspInhead = null;\n"
+					+ "\t\t\t\tnode.lgspOuthead = null;\n"
+					+ "\t\t\t\tnode.lgspFlags &= ~(uint) GRGEN_LGSP.LGSPElemFlags.HAS_VARIABLES;\n");
 			initAllMembersNonConst(type, "node", "\t\t\t\t", true, false);
 			sb.append("\t\t\t}\n"
 					+ "\t\t\tgraph.AddNode(node, varName);\n"
@@ -427,9 +427,9 @@ public class ModelGen extends CSharpBase {
 					+ "\t\t\telse\n"
 					+ "\t\t\t{\n"
 					+ "\t\t\t\tedge = pool[--poolLevel];\n"
-					+ "\t\t\t\tedge.flags &= ~(uint) GRGEN_LGSP.LGSPElemFlags.HAS_VARIABLES;\n"
-					+ "\t\t\t\tedge.source = source;\n"
-					+ "\t\t\t\tedge.target = target;\n");
+					+ "\t\t\t\tedge.lgspFlags &= ~(uint) GRGEN_LGSP.LGSPElemFlags.HAS_VARIABLES;\n"
+					+ "\t\t\t\tedge.lgspSource = source;\n"
+					+ "\t\t\t\tedge.lgspTarget = target;\n");
 			initAllMembersNonConst(type, "edge", "\t\t\t\t", true, false);
 			sb.append("\t\t\t}\n"
 					+ "\t\t\tgraph.AddEdge(edge);\n"
@@ -444,9 +444,9 @@ public class ModelGen extends CSharpBase {
 					+ "\t\t\telse\n"
 					+ "\t\t\t{\n"
 					+ "\t\t\t\tedge = pool[--poolLevel];\n"
-					+ "\t\t\t\tedge.flags &= ~(uint) GRGEN_LGSP.LGSPElemFlags.HAS_VARIABLES;\n"
-					+ "\t\t\t\tedge.source = source;\n"
-					+ "\t\t\t\tedge.target = target;\n");
+					+ "\t\t\t\tedge.lgspFlags &= ~(uint) GRGEN_LGSP.LGSPElemFlags.HAS_VARIABLES;\n"
+					+ "\t\t\t\tedge.lgspSource = source;\n"
+					+ "\t\t\t\tedge.lgspTarget = target;\n");
 			initAllMembersNonConst(type, "edge", "\t\t\t\t", true, false);
 			sb.append("\t\t\t}\n"
 					+ "\t\t\tgraph.AddEdge(edge, varName);\n"
@@ -958,10 +958,10 @@ member_loop:
 		String extName = type.getExternalName();
 		String allocName = extName != null ? "global::" + extName : elemref;
 		boolean isNode = type instanceof NodeType;
-		String elemKind = isNode ? "Node" : "Edge";
+		String kindStr = isNode ? "Node" : "Edge";
 
 		sb.append("\n");
-		sb.append("\tpublic sealed class " + typename + " : GRGEN_LIBGR." + elemKind + "Type\n");
+		sb.append("\tpublic sealed class " + typename + " : GRGEN_LIBGR." + kindStr + "Type\n");
 		sb.append("\t{\n");
 		sb.append("\t\tpublic static " + typeref + " typeVar = new " + typeref + "();\n");
 		genIsA(types, type);
@@ -1331,22 +1331,24 @@ commonLoop:	for(InheritanceType commonType : firstCommonAncestors) {
 	 * Generates the model class for the edge or node types.
 	 */
 	private void genModelClass(Collection<? extends InheritanceType> types, boolean isNode) {
+		String kindStr = isNode ? "Node" : "Edge";
+
 		sb.append("\t//\n");
 		sb.append("\t// " + formatNodeOrEdge(isNode) + " model\n");
 		sb.append("\t//\n");
 		sb.append("\n");
 		sb.append("\tpublic sealed class " + model.getIdent() + formatNodeOrEdge(isNode)
-				+ "Model : GRGEN_LIBGR.I" + (isNode ? "Node" : "Edge") + "Model\n");
+				+ "Model : GRGEN_LIBGR.I" + kindStr + "Model\n");
 		sb.append("\t{\n");
 
 		InheritanceType rootType = genModelConstructor(isNode, types);
 
 		sb.append("\t\tpublic bool IsNodeModel { get { return " + (isNode?"true":"false") +"; } }\n");
-		sb.append("\t\tpublic GRGEN_LIBGR." + (isNode ? "Node" : "Edge") + "Type RootType { get { return "
+		sb.append("\t\tpublic GRGEN_LIBGR." + kindStr + "Type RootType { get { return "
 				+ formatTypeClassRef(rootType) + ".typeVar; } }\n");
 		sb.append("\t\tGRGEN_LIBGR.GrGenType GRGEN_LIBGR.ITypeModel.RootType { get { return "
 				+ formatTypeClassRef(rootType) + ".typeVar; } }\n");
-		sb.append("\t\tpublic GRGEN_LIBGR." + (isNode ? "Node" : "Edge") + "Type GetType(string name)\n");
+		sb.append("\t\tpublic GRGEN_LIBGR." + kindStr + "Type GetType(string name)\n");
 		sb.append("\t\t{\n");
 		sb.append("\t\t\tswitch(name)\n");
 		sb.append("\t\t\t{\n");
@@ -1360,20 +1362,19 @@ commonLoop:	for(InheritanceType commonType : firstCommonAncestors) {
 		sb.append("\t\t\treturn GetType(name);\n");
 		sb.append("\t\t}\n");
 
-		String elemKind = isNode ? "Node" : "Edge";
-		sb.append("\t\tprivate GRGEN_LIBGR." + elemKind + "Type[] types = {\n");
+		sb.append("\t\tprivate GRGEN_LIBGR." + kindStr + "Type[] types = {\n");
 		for(InheritanceType type : types)
 			sb.append("\t\t\t" + formatTypeClassRef(type) + ".typeVar,\n");
 		sb.append("\t\t};\n");
-		sb.append("\t\tpublic GRGEN_LIBGR." + elemKind + "Type[] Types { get { return types; } }\n");
+		sb.append("\t\tpublic GRGEN_LIBGR." + kindStr + "Type[] Types { get { return types; } }\n");
 		sb.append("\t\tGRGEN_LIBGR.GrGenType[] GRGEN_LIBGR.ITypeModel.Types "
 				+ "{ get { return types; } }\n");
 
-		sb.append("\t\tprivate Type[] typeTypes = {\n");
+		sb.append("\t\tprivate System.Type[] typeTypes = {\n");
 		for(InheritanceType type : types)
 			sb.append("\t\t\ttypeof(" + formatTypeClassRef(type) + "),\n");
 		sb.append("\t\t};\n");
-		sb.append("\t\tpublic Type[] TypeTypes { get { return typeTypes; } }\n");
+		sb.append("\t\tpublic System.Type[] TypeTypes { get { return typeTypes; } }\n");
 
 		sb.append("\t\tprivate GRGEN_LIBGR.AttributeType[] attributeTypes = {\n");
 		for(InheritanceType type : types) {
@@ -1389,6 +1390,7 @@ commonLoop:	for(InheritanceType commonType : firstCommonAncestors) {
 	}
 
 	private InheritanceType genModelConstructor(boolean isNode, Collection<? extends InheritanceType> types) {
+		String kindStr = (isNode ? "Node" : "Edge");
 		InheritanceType rootType = null;
 
 		sb.append("\t\tpublic " + model.getIdent() + formatNodeOrEdge(isNode) + "Model()\n");
@@ -1397,7 +1399,7 @@ commonLoop:	for(InheritanceType commonType : firstCommonAncestors) {
 			String ctype = formatTypeClassRef(type);
 			sb.append("\t\t\t" + ctype + ".typeVar.subOrSameGrGenTypes = "
 					+ ctype + ".typeVar.subOrSameTypes = new GRGEN_LIBGR."
-					+ (isNode ? "Node" : "Edge") + "Type[] {\n");
+					+ kindStr + "Type[] {\n");
 			sb.append("\t\t\t\t" + ctype + ".typeVar,\n");
 			for(InheritanceType otherType : types) {
 				if(type != otherType && otherType.isCastableTo(type))
@@ -1407,7 +1409,7 @@ commonLoop:	for(InheritanceType commonType : firstCommonAncestors) {
 
 			sb.append("\t\t\t" + ctype + ".typeVar.directSubGrGenTypes = "
 					+ ctype + ".typeVar.directSubTypes = new GRGEN_LIBGR."
-					+ (isNode ? "Node" : "Edge") + "Type[] {\n");
+					+ kindStr + "Type[] {\n");
 			for(InheritanceType subType : type.getDirectSubTypes()) {
 				// TODO: HACK, because direct sub types may also contain types from other models...
 				if(!types.contains(subType))
@@ -1418,7 +1420,7 @@ commonLoop:	for(InheritanceType commonType : firstCommonAncestors) {
 
 			sb.append("\t\t\t" + ctype + ".typeVar.superOrSameGrGenTypes = "
 					+ ctype + ".typeVar.superOrSameTypes = new GRGEN_LIBGR."
-					+ (isNode ? "Node" : "Edge") + "Type[] {\n");
+					+ kindStr + "Type[] {\n");
 			sb.append("\t\t\t\t" + ctype + ".typeVar,\n");
 			for(InheritanceType otherType : types) {
 				if(type != otherType && type.isCastableTo(otherType))
@@ -1428,7 +1430,7 @@ commonLoop:	for(InheritanceType commonType : firstCommonAncestors) {
 
 			sb.append("\t\t\t" + ctype + ".typeVar.directSuperGrGenTypes = "
 					+ ctype + ".typeVar.directSuperTypes = new GRGEN_LIBGR."
-					+ (isNode ? "Node" : "Edge") + "Type[] {\n");
+					+ kindStr + "Type[] {\n");
 			for(InheritanceType superType : type.getDirectSuperTypes()) {
 				sb.append("\t\t\t\t" + formatTypeClassRef(superType) + ".typeVar,\n");
 			}

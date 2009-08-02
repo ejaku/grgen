@@ -620,20 +620,20 @@ namespace de.unika.ipd.grGen.lgsp
 
             for(int i = 0; i < dataSource.nodesByTypeHeads.Length; i++)
             {
-                for(LGSPNode head = dataSource.nodesByTypeHeads[i], node = head.typePrev; node != head; node = node.typePrev)
+                for(LGSPNode head = dataSource.nodesByTypeHeads[i], node = head.lgspTypePrev; node != head; node = node.lgspTypePrev)
                 {
                     LGSPNode newNode = (LGSPNode) node.Clone();
-                    AddNodeWithoutEvents(newNode, node.type.TypeID);
+                    AddNodeWithoutEvents(newNode, node.lgspType.TypeID);
                     oldToNewMap[node] = newNode;
                 }
             }
 
             for(int i = 0; i < dataSource.edgesByTypeHeads.Length; i++)
             {
-                for(LGSPEdge head = dataSource.edgesByTypeHeads[i], edge = head.typePrev; edge != head; edge = edge.typePrev)
+                for(LGSPEdge head = dataSource.edgesByTypeHeads[i], edge = head.lgspTypePrev; edge != head; edge = edge.lgspTypePrev)
                 {
-                    LGSPEdge newEdge = (LGSPEdge) edge.Clone((INode) oldToNewMap[edge.source], (INode) oldToNewMap[edge.target]);
-                    AddEdgeWithoutEvents(newEdge, newEdge.type.TypeID);
+                    LGSPEdge newEdge = (LGSPEdge) edge.Clone((INode) oldToNewMap[edge.lgspSource], (INode) oldToNewMap[edge.lgspTarget]);
+                    AddEdgeWithoutEvents(newEdge, newEdge.lgspType.TypeID);
                     oldToNewMap[edge] = newEdge;
                 }
             }
@@ -692,8 +692,8 @@ namespace de.unika.ipd.grGen.lgsp
             for(int i = 0; i < model.NodeModel.Types.Length; i++)
             {
                 LGSPNode head = new LGSPNodeHead();
-                head.typeNext = head;
-                head.typePrev = head;
+                head.lgspTypeNext = head;
+                head.lgspTypePrev = head;
                 nodesByTypeHeads[i] = head;
             }
             nodesByTypeCounts = new int[model.NodeModel.Types.Length];
@@ -701,8 +701,8 @@ namespace de.unika.ipd.grGen.lgsp
             for(int i = 0; i < model.EdgeModel.Types.Length; i++)
             {
                 LGSPEdge head = new LGSPEdgeHead();
-                head.typeNext = head;
-                head.typePrev = head;
+                head.lgspTypeNext = head;
+                head.lgspTypePrev = head;
                 edgesByTypeHeads[i] = head;
             }
             edgesByTypeCounts = new int[model.EdgeModel.Types.Length];
@@ -855,11 +855,11 @@ namespace de.unika.ipd.grGen.lgsp
         public override IEnumerable<INode> GetExactNodes(NodeType nodeType)
         {
             LGSPNode head = nodesByTypeHeads[nodeType.TypeID];
-            LGSPNode cur = head.typeNext;
+            LGSPNode cur = head.lgspTypeNext;
             LGSPNode next;
             while(cur != head)
             {
-                next = cur.typeNext;
+                next = cur.lgspTypeNext;
                 yield return cur;
                 cur = next;
             }
@@ -871,11 +871,11 @@ namespace de.unika.ipd.grGen.lgsp
         public override IEnumerable<IEdge> GetExactEdges(EdgeType edgeType)
         {
             LGSPEdge head = edgesByTypeHeads[edgeType.TypeID];
-            LGSPEdge cur = head.typeNext;
+            LGSPEdge cur = head.lgspTypeNext;
             LGSPEdge next;
             while(cur != head)
             {
-                next = cur.typeNext;
+                next = cur.lgspTypeNext;
                 yield return cur;
                 cur = next;
             }
@@ -913,11 +913,11 @@ namespace de.unika.ipd.grGen.lgsp
             foreach(NodeType type in nodeType.SubOrSameTypes)
             {
                 LGSPNode head = nodesByTypeHeads[type.TypeID];
-                LGSPNode cur = head.typeNext;
+                LGSPNode cur = head.lgspTypeNext;
                 LGSPNode next;
                 while(cur != head)
                 {
-                    next = cur.typeNext;
+                    next = cur.lgspTypeNext;
                     yield return cur;
                     cur = next;
                 }
@@ -932,11 +932,11 @@ namespace de.unika.ipd.grGen.lgsp
             foreach(EdgeType type in edgeType.SubOrSameTypes)
             {
                 LGSPEdge head = edgesByTypeHeads[type.TypeID];
-                LGSPEdge cur = head.typeNext;
+                LGSPEdge cur = head.lgspTypeNext;
                 LGSPEdge next;
                 while(cur != head)
                 {
-                    next = cur.typeNext;
+                    next = cur.lgspTypeNext;
                     yield return cur;
                     cur = next;
                 }
@@ -950,16 +950,16 @@ namespace de.unika.ipd.grGen.lgsp
         /// <param name="elem">The node.</param>
         public void MoveHeadAfter(LGSPNode elem)
         {
-            if(elem.type == null) return;       // elem is head
-            LGSPNode head = nodesByTypeHeads[elem.type.TypeID];
+            if(elem.lgspType == null) return;       // elem is head
+            LGSPNode head = nodesByTypeHeads[elem.lgspType.TypeID];
 
-            head.typePrev.typeNext = head.typeNext;
-            head.typeNext.typePrev = head.typePrev;
+            head.lgspTypePrev.lgspTypeNext = head.lgspTypeNext;
+            head.lgspTypeNext.lgspTypePrev = head.lgspTypePrev;
 
-            elem.typeNext.typePrev = head;
-            head.typeNext = elem.typeNext;
-            head.typePrev = elem;
-            elem.typeNext = head;
+            elem.lgspTypeNext.lgspTypePrev = head;
+            head.lgspTypeNext = elem.lgspTypeNext;
+            head.lgspTypePrev = elem;
+            elem.lgspTypeNext = head;
         }
 
         /// <summary>
@@ -969,16 +969,16 @@ namespace de.unika.ipd.grGen.lgsp
         /// <param name="elem">The edge.</param>
         public void MoveHeadAfter(LGSPEdge elem)
         {
-            if(elem.type == null) return;       // elem is head
-            LGSPEdge head = edgesByTypeHeads[elem.type.TypeID];
+            if(elem.lgspType == null) return;       // elem is head
+            LGSPEdge head = edgesByTypeHeads[elem.lgspType.TypeID];
 
-            head.typePrev.typeNext = head.typeNext;
-            head.typeNext.typePrev = head.typePrev;
+            head.lgspTypePrev.lgspTypeNext = head.lgspTypeNext;
+            head.lgspTypeNext.lgspTypePrev = head.lgspTypePrev;
 
-            elem.typeNext.typePrev = head;
-            head.typeNext = elem.typeNext;
-            head.typePrev = elem;
-            elem.typeNext = head;
+            elem.lgspTypeNext.lgspTypePrev = head;
+            head.lgspTypeNext = elem.lgspTypeNext;
+            head.lgspTypePrev = elem;
+            elem.lgspTypeNext = head;
         }
 
         /// <summary>
@@ -990,10 +990,10 @@ namespace de.unika.ipd.grGen.lgsp
         public void AddNodeWithoutEvents(LGSPNode node, int typeid)
         {
             LGSPNode head = nodesByTypeHeads[typeid];
-            head.typeNext.typePrev = node;
-            node.typeNext = head.typeNext;
-            node.typePrev = head;
-            head.typeNext = node;
+            head.lgspTypeNext.lgspTypePrev = node;
+            node.lgspTypeNext = head.lgspTypeNext;
+            node.lgspTypePrev = head;
+            head.lgspTypeNext = node;
 
             nodesByTypeCounts[typeid]++;
         }
@@ -1007,13 +1007,13 @@ namespace de.unika.ipd.grGen.lgsp
         public void AddEdgeWithoutEvents(LGSPEdge edge, int typeid)
         {
             LGSPEdge head = edgesByTypeHeads[typeid];
-            head.typeNext.typePrev = edge;
-            edge.typeNext = head.typeNext;
-            edge.typePrev = head;
-            head.typeNext = edge;
+            head.lgspTypeNext.lgspTypePrev = edge;
+            edge.lgspTypeNext = head.lgspTypeNext;
+            edge.lgspTypePrev = head;
+            head.lgspTypeNext = edge;
 
-            edge.source.AddOutgoing(edge);
-            edge.target.AddIncoming(edge);
+            edge.lgspSource.AddOutgoing(edge);
+            edge.lgspTarget.AddIncoming(edge);
 
             edgesByTypeCounts[typeid]++;
         }
@@ -1049,7 +1049,7 @@ namespace de.unika.ipd.grGen.lgsp
         /// <param name="node">The node to be added.</param>
         public void AddNode(LGSPNode node)
         {
-            AddNodeWithoutEvents(node, node.type.TypeID);
+            AddNodeWithoutEvents(node, node.lgspType.TypeID);
             NodeAdded(node);
         }
 
@@ -1087,7 +1087,7 @@ namespace de.unika.ipd.grGen.lgsp
         /// <param name="varName">The name of the variable.</param>
         public void AddNode(LGSPNode node, String varName)
         {
-            AddNodeWithoutEvents(node, node.type.TypeID);
+            AddNodeWithoutEvents(node, node.lgspType.TypeID);
             SetVariableValue(varName, node);
             NodeAdded(node);
         }
@@ -1151,7 +1151,7 @@ namespace de.unika.ipd.grGen.lgsp
         /// <param name="edge">The edge to be added.</param>
         public void AddEdge(LGSPEdge edge)
         {
-            AddEdgeWithoutEvents(edge, edge.type.TypeID);
+            AddEdgeWithoutEvents(edge, edge.lgspType.TypeID);
             EdgeAdded(edge);
         }
 
@@ -1192,7 +1192,7 @@ namespace de.unika.ipd.grGen.lgsp
         /// <param name="varName">The name of the variable.</param>
         public void AddEdge(LGSPEdge edge, String varName)
         {
-            AddEdgeWithoutEvents(edge, edge.type.TypeID);
+            AddEdgeWithoutEvents(edge, edge.lgspType.TypeID);
             SetVariableValue(varName, edge);
             EdgeAdded(edge);
         }
@@ -1232,10 +1232,10 @@ namespace de.unika.ipd.grGen.lgsp
 
         internal void RemoveNodeWithoutEvents(LGSPNode node, int typeid)
         {
-            node.typePrev.typeNext = node.typeNext;
-            node.typeNext.typePrev = node.typePrev;
-            node.typeNext = null;
-            node.typePrev = null;
+            node.lgspTypePrev.lgspTypeNext = node.lgspTypeNext;
+            node.lgspTypeNext.lgspTypePrev = node.lgspTypePrev;
+            node.lgspTypeNext = null;
+            node.lgspTypePrev = null;
 
             nodesByTypeCounts[typeid]--;
             if(reuseOptimization)
@@ -1254,14 +1254,14 @@ namespace de.unika.ipd.grGen.lgsp
 
             RemovingNode(node);
 
-            if((lnode.flags & (uint) LGSPElemFlags.HAS_VARIABLES) != 0)
+            if((lnode.lgspFlags & (uint) LGSPElemFlags.HAS_VARIABLES) != 0)
             {
                 foreach(Variable var in ElementMap[lnode])
                     VariableMap.Remove(var.Name);
                 ElementMap.Remove(lnode);
-                lnode.flags &= ~(uint) LGSPElemFlags.HAS_VARIABLES;
+                lnode.lgspFlags &= ~(uint) LGSPElemFlags.HAS_VARIABLES;
             }
-            RemoveNodeWithoutEvents(lnode, lnode.type.TypeID);
+            RemoveNodeWithoutEvents(lnode, lnode.lgspType.TypeID);
         }
 
         /// <summary>
@@ -1274,22 +1274,22 @@ namespace de.unika.ipd.grGen.lgsp
 
             RemovingEdge(edge);
 
-            if((ledge.flags & (uint) LGSPElemFlags.HAS_VARIABLES) != 0)
+            if((ledge.lgspFlags & (uint) LGSPElemFlags.HAS_VARIABLES) != 0)
             {
                 foreach(Variable var in ElementMap[ledge])
                     VariableMap.Remove(var.Name);
                 ElementMap.Remove(ledge);
-                ledge.flags &= ~(uint) LGSPElemFlags.HAS_VARIABLES;
+                ledge.lgspFlags &= ~(uint) LGSPElemFlags.HAS_VARIABLES;
             }
-            ledge.source.RemoveOutgoing(ledge);
-            ledge.target.RemoveIncoming(ledge);
+            ledge.lgspSource.RemoveOutgoing(ledge);
+            ledge.lgspTarget.RemoveIncoming(ledge);
 
-            ledge.typePrev.typeNext = ledge.typeNext;
-            ledge.typeNext.typePrev = ledge.typePrev;
-            ledge.typeNext = null;
-            ledge.typePrev = null;
+            ledge.lgspTypePrev.lgspTypeNext = ledge.lgspTypeNext;
+            ledge.lgspTypeNext.lgspTypePrev = ledge.lgspTypePrev;
+            ledge.lgspTypeNext = null;
+            ledge.lgspTypePrev = null;
 
-            edgesByTypeCounts[ledge.type.TypeID]--;
+            edgesByTypeCounts[ledge.lgspType.TypeID]--;
             if(reuseOptimization)
                 ledge.Recycle();
         }
@@ -1319,12 +1319,12 @@ namespace de.unika.ipd.grGen.lgsp
             RemoveEdges(node);
             RemovingNode(node);
 
-            if((node.flags & (uint) LGSPElemFlags.HAS_VARIABLES) != 0)
+            if((node.lgspFlags & (uint) LGSPElemFlags.HAS_VARIABLES) != 0)
             {
                 foreach(Variable var in ElementMap[node])
                     VariableMap.Remove(var.Name);
                 ElementMap.Remove(node);
-                node.flags &= ~(uint) LGSPElemFlags.HAS_VARIABLES;
+                node.lgspFlags &= ~(uint) LGSPElemFlags.HAS_VARIABLES;
             }
 
             node.ResetAllAttributes();
@@ -1343,71 +1343,71 @@ namespace de.unika.ipd.grGen.lgsp
         {
             RemovingEdge(edge);
 
-            if((edge.flags & (uint) LGSPElemFlags.HAS_VARIABLES) != 0)
+            if((edge.lgspFlags & (uint) LGSPElemFlags.HAS_VARIABLES) != 0)
             {
                 foreach(Variable var in ElementMap[edge])
                     VariableMap.Remove(var.Name);
                 ElementMap.Remove(edge);
-                edge.flags &= ~(uint) LGSPElemFlags.HAS_VARIABLES;
+                edge.lgspFlags &= ~(uint) LGSPElemFlags.HAS_VARIABLES;
             }
 
             if(newSource != null)
             {
                 // removeOutgoing
-                if(edge == edge.source.outhead)
+                if(edge == edge.lgspSource.lgspOuthead)
                 {
-                    edge.source.outhead = edge.outNext;
-                    if(edge.source.outhead == edge)
-                        edge.source.outhead = null;
+                    edge.lgspSource.lgspOuthead = edge.lgspOutNext;
+                    if(edge.lgspSource.lgspOuthead == edge)
+                        edge.lgspSource.lgspOuthead = null;
                 }
-                edge.outPrev.outNext = edge.outNext;
-                edge.outNext.outPrev = edge.outPrev;
-                edge.source = newSource;
+                edge.lgspOutPrev.lgspOutNext = edge.lgspOutNext;
+                edge.lgspOutNext.lgspOutPrev = edge.lgspOutPrev;
+                edge.lgspSource = newSource;
 
                 // addOutgoing
-                LGSPEdge outhead = newSource.outhead;
+                LGSPEdge outhead = newSource.lgspOuthead;
                 if(outhead == null)
                 {
-                    newSource.outhead = edge;
-                    edge.outNext = edge;
-                    edge.outPrev = edge;
+                    newSource.lgspOuthead = edge;
+                    edge.lgspOutNext = edge;
+                    edge.lgspOutPrev = edge;
                 }
                 else
                 {
-                    outhead.outPrev.outNext = edge;
-                    edge.outPrev = outhead.outPrev;
-                    edge.outNext = outhead;
-                    outhead.outPrev = edge;
+                    outhead.lgspOutPrev.lgspOutNext = edge;
+                    edge.lgspOutPrev = outhead.lgspOutPrev;
+                    edge.lgspOutNext = outhead;
+                    outhead.lgspOutPrev = edge;
                 }
             }
 
             if(newTarget != null)
             {
                 // removeIncoming
-                if(edge == edge.target.inhead)
+                if(edge == edge.lgspTarget.lgspInhead)
                 {
-                    edge.target.inhead = edge.inNext;
-                    if(edge.target.inhead == edge)
-                        edge.target.inhead = null;
+                    edge.lgspTarget.lgspInhead = edge.lgspInNext;
+                    if(edge.lgspTarget.lgspInhead == edge)
+                        edge.lgspTarget.lgspInhead = null;
                 }
-                edge.inPrev.inNext = edge.inNext;
-                edge.inNext.inPrev = edge.inPrev;
-                edge.target = newTarget;
+                edge.lgspInPrev.lgspInNext = edge.lgspInNext;
+                edge.lgspInNext.lgspInPrev = edge.lgspInPrev;
+                edge.lgspTarget = newTarget;
 
                 // addIncoming
-                LGSPEdge inhead = newTarget.inhead;
+                LGSPEdge inhead = newTarget.lgspInhead;
                 if(inhead == null)
                 {
-                    newTarget.inhead = edge;
-                    edge.inNext = edge;
-                    edge.inPrev = edge;
+                    newTarget.lgspInhead = edge;
+                    edge.lgspInNext = edge;
+                    edge.lgspInPrev = edge;
                 }
                 else
                 {
-                    inhead.inPrev.inNext = edge;
-                    edge.inPrev = inhead.inPrev;
-                    edge.inNext = inhead;
-                    inhead.inPrev = edge;
+                    inhead.lgspInPrev.lgspInNext = edge;
+                    edge.lgspInPrev = inhead.lgspInPrev;
+                    edge.lgspInNext = inhead;
+                    inhead.lgspInPrev = edge;
                 }
             }
 
@@ -1466,7 +1466,7 @@ namespace de.unika.ipd.grGen.lgsp
         /// <returns>The new edge object representing the retyped edge.</returns>
         public LGSPEdge Retype(LGSPEdge edge, EdgeType newEdgeType)
         {
-            LGSPEdge newEdge = (LGSPEdge) newEdgeType.CreateEdgeWithCopyCommons(edge.source, edge.target, edge);
+            LGSPEdge newEdge = (LGSPEdge) newEdgeType.CreateEdgeWithCopyCommons(edge.lgspSource, edge.lgspTarget, edge);
 
             RetypingEdge(edge, newEdge);
 
@@ -1497,61 +1497,61 @@ namespace de.unika.ipd.grGen.lgsp
         /// <param name="newNode">The replacement for the node.</param>
         public void ReplaceNode(LGSPNode oldNode, LGSPNode newNode)
         {
-            if((oldNode.flags & (uint) LGSPElemFlags.HAS_VARIABLES) != 0)
+            if((oldNode.lgspFlags & (uint) LGSPElemFlags.HAS_VARIABLES) != 0)
             {
                 LinkedList<Variable> varList = ElementMap[oldNode];
                 foreach(Variable var in varList)
                     var.Value = newNode;
                 ElementMap.Remove(oldNode);
                 ElementMap[newNode] = varList;
-                newNode.flags |= (uint) LGSPElemFlags.HAS_VARIABLES;
+                newNode.lgspFlags |= (uint) LGSPElemFlags.HAS_VARIABLES;
             }
 
-            if(oldNode.type != newNode.type)
+            if(oldNode.lgspType != newNode.lgspType)
             {
-				oldNode.typePrev.typeNext = oldNode.typeNext;
-				oldNode.typeNext.typePrev = oldNode.typePrev;
-				nodesByTypeCounts[oldNode.type.TypeID]--;
+				oldNode.lgspTypePrev.lgspTypeNext = oldNode.lgspTypeNext;
+				oldNode.lgspTypeNext.lgspTypePrev = oldNode.lgspTypePrev;
+				nodesByTypeCounts[oldNode.lgspType.TypeID]--;
 
-                AddNodeWithoutEvents(newNode, newNode.type.TypeID);
+                AddNodeWithoutEvents(newNode, newNode.lgspType.TypeID);
             }
             else
             {
-                newNode.typeNext = oldNode.typeNext;
-                newNode.typePrev = oldNode.typePrev;
-                oldNode.typeNext.typePrev = newNode;
-                oldNode.typePrev.typeNext = newNode;
+                newNode.lgspTypeNext = oldNode.lgspTypeNext;
+                newNode.lgspTypePrev = oldNode.lgspTypePrev;
+                oldNode.lgspTypeNext.lgspTypePrev = newNode;
+                oldNode.lgspTypePrev.lgspTypeNext = newNode;
             }
-			oldNode.typeNext = newNode;			// indicate replacement
-			oldNode.typePrev = null;			// indicate node is node valid anymore
+			oldNode.lgspTypeNext = newNode;			// indicate replacement
+			oldNode.lgspTypePrev = null;			// indicate node is node valid anymore
 
             // Reassign all outgoing edges
-            LGSPEdge outHead = oldNode.outhead;
+            LGSPEdge outHead = oldNode.lgspOuthead;
             if(outHead != null)
             {
                 LGSPEdge outCur = outHead;
                 do
                 {
-                    outCur.source = newNode;
-                    outCur = outCur.outNext;
+                    outCur.lgspSource = newNode;
+                    outCur = outCur.lgspOutNext;
                 }
                 while(outCur != outHead);
             }
-            newNode.outhead = outHead;
+            newNode.lgspOuthead = outHead;
 
             // Reassign all incoming edges
-            LGSPEdge inHead = oldNode.inhead;
+            LGSPEdge inHead = oldNode.lgspInhead;
             if(inHead != null)
             {
                 LGSPEdge inCur = inHead;
                 do
                 {
-                    inCur.target = newNode;
-                    inCur = inCur.inNext;
+                    inCur.lgspTarget = newNode;
+                    inCur = inCur.lgspInNext;
                 }
                 while(inCur != inHead);
             }
-            newNode.inhead = inHead;
+            newNode.lgspInhead = inHead;
 
             if(reuseOptimization)
                 oldNode.Recycle();
@@ -1604,84 +1604,84 @@ namespace de.unika.ipd.grGen.lgsp
         /// <param name="newEdge">The replacement for the edge.</param>
         public void ReplaceEdge(LGSPEdge oldEdge, LGSPEdge newEdge)
         {
-            if((oldEdge.flags & (uint) LGSPElemFlags.HAS_VARIABLES) != 0)
+            if((oldEdge.lgspFlags & (uint) LGSPElemFlags.HAS_VARIABLES) != 0)
             {
                 LinkedList<Variable> varList = ElementMap[oldEdge];
                 foreach(Variable var in varList)
                     var.Value = newEdge;
                 ElementMap.Remove(oldEdge);
                 ElementMap[newEdge] = varList;
-                newEdge.flags |= (uint) LGSPElemFlags.HAS_VARIABLES;
+                newEdge.lgspFlags |= (uint) LGSPElemFlags.HAS_VARIABLES;
             }
 
-            if(oldEdge.type != newEdge.type)
+            if(oldEdge.lgspType != newEdge.lgspType)
             {
-                oldEdge.typePrev.typeNext = oldEdge.typeNext;
-                oldEdge.typeNext.typePrev = oldEdge.typePrev;
+                oldEdge.lgspTypePrev.lgspTypeNext = oldEdge.lgspTypeNext;
+                oldEdge.lgspTypeNext.lgspTypePrev = oldEdge.lgspTypePrev;
 
-                edgesByTypeCounts[oldEdge.type.TypeID]--;
+                edgesByTypeCounts[oldEdge.lgspType.TypeID]--;
 
-                LGSPEdge head = edgesByTypeHeads[newEdge.type.TypeID];
-                head.typeNext.typePrev = newEdge;
-                newEdge.typeNext = head.typeNext;
-                newEdge.typePrev = head;
-                head.typeNext = newEdge;
+                LGSPEdge head = edgesByTypeHeads[newEdge.lgspType.TypeID];
+                head.lgspTypeNext.lgspTypePrev = newEdge;
+                newEdge.lgspTypeNext = head.lgspTypeNext;
+                newEdge.lgspTypePrev = head;
+                head.lgspTypeNext = newEdge;
 
-                edgesByTypeCounts[newEdge.type.TypeID]++;
+                edgesByTypeCounts[newEdge.lgspType.TypeID]++;
             }
             else
             {
-                newEdge.typeNext = oldEdge.typeNext;
-                newEdge.typePrev = oldEdge.typePrev;
-                oldEdge.typeNext.typePrev = newEdge;
-                oldEdge.typePrev.typeNext = newEdge;
+                newEdge.lgspTypeNext = oldEdge.lgspTypeNext;
+                newEdge.lgspTypePrev = oldEdge.lgspTypePrev;
+                oldEdge.lgspTypeNext.lgspTypePrev = newEdge;
+                oldEdge.lgspTypePrev.lgspTypeNext = newEdge;
             }
-			oldEdge.typeNext = newEdge;			// indicate replacement
-			oldEdge.typePrev = null;			// indicate node is node valid anymore
+			oldEdge.lgspTypeNext = newEdge;			// indicate replacement
+			oldEdge.lgspTypePrev = null;			// indicate node is node valid anymore
 
             // Reassign source node
-            LGSPNode src = oldEdge.source;
-            if(src.outhead == oldEdge)
-                src.outhead = newEdge;
+            LGSPNode src = oldEdge.lgspSource;
+            if(src.lgspOuthead == oldEdge)
+                src.lgspOuthead = newEdge;
 
-            if(oldEdge.outNext == oldEdge)  // the only outgoing edge?
+            if(oldEdge.lgspOutNext == oldEdge)  // the only outgoing edge?
             {
-                newEdge.outNext = newEdge;
-                newEdge.outPrev = newEdge;
+                newEdge.lgspOutNext = newEdge;
+                newEdge.lgspOutPrev = newEdge;
             }
             else
             {
-                LGSPEdge oldOutNext = oldEdge.outNext;
-                LGSPEdge oldOutPrev = oldEdge.outPrev;
-                oldOutNext.outPrev = newEdge;
-                oldOutPrev.outNext = newEdge;
-                newEdge.outNext = oldOutNext;
-                newEdge.outPrev = oldOutPrev;
+                LGSPEdge oldOutNext = oldEdge.lgspOutNext;
+                LGSPEdge oldOutPrev = oldEdge.lgspOutPrev;
+                oldOutNext.lgspOutPrev = newEdge;
+                oldOutPrev.lgspOutNext = newEdge;
+                newEdge.lgspOutNext = oldOutNext;
+                newEdge.lgspOutPrev = oldOutPrev;
             }
-            oldEdge.outNext = null;
-            oldEdge.outPrev = null;
+            oldEdge.lgspOutNext = null;
+            oldEdge.lgspOutPrev = null;
 
             // Reassign target node
-            LGSPNode tgt = oldEdge.target;
-            if(tgt.inhead == oldEdge)
-                tgt.inhead = newEdge;
+            LGSPNode tgt = oldEdge.lgspTarget;
+            if(tgt.lgspInhead == oldEdge)
+                tgt.lgspInhead = newEdge;
 
-            if(oldEdge.inNext == oldEdge)   // the only incoming edge?
+            if(oldEdge.lgspInNext == oldEdge)   // the only incoming edge?
             {
-                newEdge.inNext = newEdge;
-                newEdge.inPrev = newEdge;
+                newEdge.lgspInNext = newEdge;
+                newEdge.lgspInPrev = newEdge;
             }
             else
             {
-                LGSPEdge oldInNext = oldEdge.inNext;
-                LGSPEdge oldInPrev = oldEdge.inPrev;
-                oldInNext.inPrev = newEdge;
-                oldInPrev.inNext = newEdge;
-                newEdge.inNext = oldInNext;
-                newEdge.inPrev = oldInPrev;
+                LGSPEdge oldInNext = oldEdge.lgspInNext;
+                LGSPEdge oldInPrev = oldEdge.lgspInPrev;
+                oldInNext.lgspInPrev = newEdge;
+                oldInPrev.lgspInNext = newEdge;
+                newEdge.lgspInNext = oldInNext;
+                newEdge.lgspInPrev = oldInPrev;
             }
-            oldEdge.inNext = null;
-            oldEdge.inPrev = null;
+            oldEdge.lgspInNext = null;
+            oldEdge.lgspInPrev = null;
 
             if(reuseOptimization)
                 oldEdge.Recycle();
@@ -1770,8 +1770,8 @@ namespace de.unika.ipd.grGen.lgsp
                 {
                     for(int i = 0; i < nodesByTypeHeads.Length; i++)
                     {
-                        for(LGSPNode head = nodesByTypeHeads[i], node = head.typePrev; node != head; node = node.typePrev)
-                            node.flags &= ~((uint) LGSPElemFlags.IS_VISITED << visitorID);
+                        for(LGSPNode head = nodesByTypeHeads[i], node = head.lgspTypePrev; node != head; node = node.lgspTypePrev)
+                            node.lgspFlags &= ~((uint) LGSPElemFlags.IS_VISITED << visitorID);
                     }
                     data.NodesMarked = false;
                 }
@@ -1779,8 +1779,8 @@ namespace de.unika.ipd.grGen.lgsp
                 {
                     for(int i = 0; i < edgesByTypeHeads.Length; i++)
                     {
-                        for(LGSPEdge head = edgesByTypeHeads[i], edge = head.typePrev; edge != head; edge = edge.typePrev)
-                            edge.flags &= ~((uint) LGSPElemFlags.IS_VISITED << visitorID);
+                        for(LGSPEdge head = edgesByTypeHeads[i], edge = head.lgspTypePrev; edge != head; edge = edge.lgspTypePrev)
+                            edge.lgspFlags &= ~((uint) LGSPElemFlags.IS_VISITED << visitorID);
                     }
                     data.EdgesMarked = false;
                 }
@@ -1810,20 +1810,20 @@ namespace de.unika.ipd.grGen.lgsp
                 {
                     if(visited)
                     {
-                        node.flags |= mask;
+                        node.lgspFlags |= mask;
                         data.NodesMarked = true;
                     }
-                    else node.flags &= ~mask;
+                    else node.lgspFlags &= ~mask;
                 }
                 else
                 {
                     LGSPEdge edge = (LGSPEdge) elem;
                     if(visited)
                     {
-                        edge.flags |= mask;
+                        edge.lgspFlags |= mask;
                         data.NodesMarked = true;
                     }
-                    else edge.flags &= ~mask;
+                    else edge.lgspFlags &= ~mask;
                 }
             }
             else                                                        // no, use hash map
@@ -1853,11 +1853,11 @@ namespace de.unika.ipd.grGen.lgsp
                 uint mask = (uint) LGSPElemFlags.IS_VISITED << visitorID;
                 LGSPNode node = elem as LGSPNode;
                 if(node != null)
-                    return (node.flags & mask) != 0;
+                    return (node.lgspFlags & mask) != 0;
                 else
                 {
                     LGSPEdge edge = (LGSPEdge) elem;
-                    return (edge.flags & mask) != 0;
+                    return (edge.lgspFlags & mask) != 0;
                 }
             }
             else                                                        // no, use hash map
@@ -1949,11 +1949,11 @@ namespace de.unika.ipd.grGen.lgsp
                 ElementMap.Remove(elem);
 
                 LGSPNode oldNode = elem as LGSPNode;
-                if(oldNode != null) oldNode.flags &= ~(uint) LGSPElemFlags.HAS_VARIABLES;
+                if(oldNode != null) oldNode.lgspFlags &= ~(uint) LGSPElemFlags.HAS_VARIABLES;
                 else
                 {
                     LGSPEdge oldEdge = (LGSPEdge) elem;
-                    oldEdge.flags &= ~(uint) LGSPElemFlags.HAS_VARIABLES;
+                    oldEdge.lgspFlags &= ~(uint) LGSPElemFlags.HAS_VARIABLES;
                 }
             }
         }
@@ -2006,11 +2006,11 @@ namespace de.unika.ipd.grGen.lgsp
 
             LGSPNode node = elem as LGSPNode;
             if(node != null)
-                node.flags |= (uint) LGSPElemFlags.HAS_VARIABLES;
+                node.lgspFlags |= (uint) LGSPElemFlags.HAS_VARIABLES;
             else
             {
                 LGSPEdge edge = (LGSPEdge) elem;
-                edge.flags |= (uint) LGSPElemFlags.HAS_VARIABLES;
+                edge.lgspFlags |= (uint) LGSPElemFlags.HAS_VARIABLES;
             }
         }
 
@@ -2406,7 +2406,7 @@ namespace de.unika.ipd.grGen.lgsp
                 foreach(NodeType superType in nodeType.SuperOrSameTypes)
                     nodeCounts[superType.TypeID] += nodesByTypeCounts[nodeType.TypeID];
 
-                for(LGSPNode nodeHead = nodesByTypeHeads[nodeType.TypeID], node = nodeHead.typeNext; node != nodeHead; node = node.typeNext)
+                for(LGSPNode nodeHead = nodesByTypeHeads[nodeType.TypeID], node = nodeHead.lgspTypeNext; node != nodeHead; node = node.lgspTypeNext)
                 {
                     //
                     // count outgoing v structures
@@ -2416,15 +2416,15 @@ namespace de.unika.ipd.grGen.lgsp
                         for(int j = 0; j < numNodeTypes; j++)
                             outgoingVCount[i, j] = 0;
 
-                    LGSPEdge outhead = node.outhead;
+                    LGSPEdge outhead = node.lgspOuthead;
                     if(outhead != null)
                     {
                         LGSPEdge edge = outhead;
                         do
                         {
-                            NodeType targetType = edge.target.type;
+                            NodeType targetType = edge.lgspTarget.lgspType;
                             meanOutDegree[nodeType.TypeID]++;
-                            foreach(EdgeType edgeSuperType in edge.type.superOrSameTypes)
+                            foreach(EdgeType edgeSuperType in edge.lgspType.superOrSameTypes)
                             {
                                 int superTypeID = edgeSuperType.TypeID;
                                 foreach(NodeType targetSuperType in targetType.SuperOrSameTypes)
@@ -2432,7 +2432,7 @@ namespace de.unika.ipd.grGen.lgsp
                                     outgoingVCount[superTypeID, targetSuperType.TypeID]++;
                                 }
                             }
-                            edge = edge.outNext;
+                            edge = edge.lgspOutNext;
                         }
                         while(edge != outhead);
                     }
@@ -2445,15 +2445,15 @@ namespace de.unika.ipd.grGen.lgsp
                         for(int j = 0; j < numNodeTypes; j++)
                             incomingVCount[i, j] = 0;
 
-                    LGSPEdge inhead = node.inhead;
+                    LGSPEdge inhead = node.lgspInhead;
                     if(inhead != null)
                     {
                         LGSPEdge edge = inhead;
                         do
                         {
-                            NodeType sourceType = edge.source.type;
+                            NodeType sourceType = edge.lgspSource.lgspType;
                             meanInDegree[nodeType.TypeID]++;
-                            foreach(EdgeType edgeSuperType in edge.type.superOrSameTypes)
+                            foreach(EdgeType edgeSuperType in edge.lgspType.superOrSameTypes)
                             {
                                 int superTypeID = edgeSuperType.TypeID;
                                 foreach(NodeType sourceSuperType in sourceType.superOrSameTypes)
@@ -2461,7 +2461,7 @@ namespace de.unika.ipd.grGen.lgsp
                                     incomingVCount[superTypeID, sourceSuperType.TypeID]++;
                                 }
                             }
-                            edge = edge.inNext;
+                            edge = edge.lgspInNext;
                         }
                         while(edge != inhead);
                     }
@@ -2475,10 +2475,10 @@ namespace de.unika.ipd.grGen.lgsp
                         LGSPEdge edge = outhead;
                         do
                         {
-                            NodeType targetType = edge.target.type;
+                            NodeType targetType = edge.lgspTarget.lgspType;
                             int targetTypeID = targetType.TypeID;
 
-                            foreach(EdgeType edgeSuperType in edge.type.superOrSameTypes)
+                            foreach(EdgeType edgeSuperType in edge.lgspType.superOrSameTypes)
                             {
                                 int edgeSuperTypeID = edgeSuperType.TypeID;
 
@@ -2502,7 +2502,7 @@ namespace de.unika.ipd.grGen.lgsp
                                     }
                                 }
                             }
-                            edge = edge.outNext;
+                            edge = edge.lgspOutNext;
                         }
                         while(edge != outhead);
                     }
@@ -2512,10 +2512,10 @@ namespace de.unika.ipd.grGen.lgsp
                         LGSPEdge edge = inhead;
                         do
                         {
-                            NodeType sourceType = edge.source.type;
+                            NodeType sourceType = edge.lgspSource.lgspType;
                             int sourceTypeID = sourceType.TypeID;
 
-                            foreach(EdgeType edgeSuperType in edge.type.superOrSameTypes)
+                            foreach(EdgeType edgeSuperType in edge.lgspType.superOrSameTypes)
                             {
                                 int edgeSuperTypeID = edgeSuperType.TypeID;
                                 foreach(NodeType sourceSuperType in sourceType.superOrSameTypes)
@@ -2536,7 +2536,7 @@ namespace de.unika.ipd.grGen.lgsp
                                     }
                                 }
                             }
-                            edge = edge.inNext;
+                            edge = edge.lgspInNext;
                         }
                         while(edge != inhead);
                     }
@@ -2571,9 +2571,9 @@ namespace de.unika.ipd.grGen.lgsp
         {
             foreach (NodeType nodeType in Model.NodeModel.Types)
             {
-                for (LGSPNode nodeHead = nodesByTypeHeads[nodeType.TypeID], node = nodeHead.typeNext; node != nodeHead; node = node.typeNext)
+                for (LGSPNode nodeHead = nodesByTypeHeads[nodeType.TypeID], node = nodeHead.lgspTypeNext; node != nodeHead; node = node.lgspTypeNext)
                 {
-                    if (node.flags != 0 && node.flags != 1)
+                    if (node.lgspFlags != 0 && node.lgspFlags != 1)
                     {
                         Debug.Assert(false); // no matching underway, but matching state still in graph
                     }
@@ -2582,9 +2582,9 @@ namespace de.unika.ipd.grGen.lgsp
 
             foreach (EdgeType edgeType in Model.EdgeModel.Types)
             {
-                for (LGSPEdge edgeHead = edgesByTypeHeads[edgeType.TypeID], edge = edgeHead.typeNext; edge != edgeHead; edge = edge.typeNext)
+                for (LGSPEdge edgeHead = edgesByTypeHeads[edgeType.TypeID], edge = edgeHead.lgspTypeNext; edge != edgeHead; edge = edge.lgspTypeNext)
                 {
-                    if (edge.flags != 0 && edge.flags != 1)
+                    if (edge.lgspFlags != 0 && edge.lgspFlags != 1)
                     {
                         Debug.Assert(false); // no matching underway, but matching state still in graph
                     }

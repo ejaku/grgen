@@ -1,6 +1,6 @@
 // This file has been generated automatically by GrGen.
 // Do not modify this file! Any changes will be lost!
-// Generated from "..\..\examples\Mutex\MutexPimped.grg" on Tue Jul 21 00:01:28 GMT+01:00 2009
+// Generated from "..\..\examples\Mutex\MutexPimped.grg" on Sun Aug 02 10:10:38 GMT+01:00 2009
 
 using System;
 using System.Collections.Generic;
@@ -55,9 +55,9 @@ namespace de.unika.ipd.grGen.Model_Mutex
 			else
 			{
 				node = pool[--poolLevel];
-				node.inhead = null;
-				node.outhead = null;
-				node.flags &= ~(uint) GRGEN_LGSP.LGSPElemFlags.HAS_VARIABLES;
+				node.lgspInhead = null;
+				node.lgspOuthead = null;
+				node.lgspFlags &= ~(uint) GRGEN_LGSP.LGSPElemFlags.HAS_VARIABLES;
 				// implicit initialization, map/set creation of Node
 			}
 			graph.AddNode(node);
@@ -72,9 +72,9 @@ namespace de.unika.ipd.grGen.Model_Mutex
 			else
 			{
 				node = pool[--poolLevel];
-				node.inhead = null;
-				node.outhead = null;
-				node.flags &= ~(uint) GRGEN_LGSP.LGSPElemFlags.HAS_VARIABLES;
+				node.lgspInhead = null;
+				node.lgspOuthead = null;
+				node.lgspFlags &= ~(uint) GRGEN_LGSP.LGSPElemFlags.HAS_VARIABLES;
 				// implicit initialization, map/set creation of Node
 			}
 			graph.AddNode(node, varName);
@@ -169,9 +169,9 @@ namespace de.unika.ipd.grGen.Model_Mutex
 			else
 			{
 				node = pool[--poolLevel];
-				node.inhead = null;
-				node.outhead = null;
-				node.flags &= ~(uint) GRGEN_LGSP.LGSPElemFlags.HAS_VARIABLES;
+				node.lgspInhead = null;
+				node.lgspOuthead = null;
+				node.lgspFlags &= ~(uint) GRGEN_LGSP.LGSPElemFlags.HAS_VARIABLES;
 				// implicit initialization, map/set creation of Process
 				// explicit initializations of Process for target Process
 			}
@@ -187,9 +187,9 @@ namespace de.unika.ipd.grGen.Model_Mutex
 			else
 			{
 				node = pool[--poolLevel];
-				node.inhead = null;
-				node.outhead = null;
-				node.flags &= ~(uint) GRGEN_LGSP.LGSPElemFlags.HAS_VARIABLES;
+				node.lgspInhead = null;
+				node.lgspOuthead = null;
+				node.lgspFlags &= ~(uint) GRGEN_LGSP.LGSPElemFlags.HAS_VARIABLES;
 				// implicit initialization, map/set creation of Process
 				// explicit initializations of Process for target Process
 			}
@@ -286,9 +286,9 @@ namespace de.unika.ipd.grGen.Model_Mutex
 			else
 			{
 				node = pool[--poolLevel];
-				node.inhead = null;
-				node.outhead = null;
-				node.flags &= ~(uint) GRGEN_LGSP.LGSPElemFlags.HAS_VARIABLES;
+				node.lgspInhead = null;
+				node.lgspOuthead = null;
+				node.lgspFlags &= ~(uint) GRGEN_LGSP.LGSPElemFlags.HAS_VARIABLES;
 				// implicit initialization, map/set creation of Resource
 				// explicit initializations of Resource for target Resource
 			}
@@ -304,9 +304,9 @@ namespace de.unika.ipd.grGen.Model_Mutex
 			else
 			{
 				node = pool[--poolLevel];
-				node.inhead = null;
-				node.outhead = null;
-				node.flags &= ~(uint) GRGEN_LGSP.LGSPElemFlags.HAS_VARIABLES;
+				node.lgspInhead = null;
+				node.lgspOuthead = null;
+				node.lgspFlags &= ~(uint) GRGEN_LGSP.LGSPElemFlags.HAS_VARIABLES;
 				// implicit initialization, map/set creation of Resource
 				// explicit initializations of Resource for target Resource
 			}
@@ -520,9 +520,9 @@ namespace de.unika.ipd.grGen.Model_Mutex
 			else
 			{
 				edge = pool[--poolLevel];
-				edge.flags &= ~(uint) GRGEN_LGSP.LGSPElemFlags.HAS_VARIABLES;
-				edge.source = source;
-				edge.target = target;
+				edge.lgspFlags &= ~(uint) GRGEN_LGSP.LGSPElemFlags.HAS_VARIABLES;
+				edge.lgspSource = source;
+				edge.lgspTarget = target;
 				// implicit initialization, map/set creation of Edge
 			}
 			graph.AddEdge(edge);
@@ -537,9 +537,9 @@ namespace de.unika.ipd.grGen.Model_Mutex
 			else
 			{
 				edge = pool[--poolLevel];
-				edge.flags &= ~(uint) GRGEN_LGSP.LGSPElemFlags.HAS_VARIABLES;
-				edge.source = source;
-				edge.target = target;
+				edge.lgspFlags &= ~(uint) GRGEN_LGSP.LGSPElemFlags.HAS_VARIABLES;
+				edge.lgspSource = source;
+				edge.lgspTarget = target;
 				// implicit initialization, map/set creation of Edge
 			}
 			graph.AddEdge(edge, varName);
@@ -632,9 +632,9 @@ namespace de.unika.ipd.grGen.Model_Mutex
 			else
 			{
 				edge = pool[--poolLevel];
-				edge.flags &= ~(uint) GRGEN_LGSP.LGSPElemFlags.HAS_VARIABLES;
-				edge.source = source;
-				edge.target = target;
+				edge.lgspFlags &= ~(uint) GRGEN_LGSP.LGSPElemFlags.HAS_VARIABLES;
+				edge.lgspSource = source;
+				edge.lgspTarget = target;
 				// implicit initialization, map/set creation of UEdge
 			}
 			graph.AddEdge(edge);
@@ -649,9 +649,9 @@ namespace de.unika.ipd.grGen.Model_Mutex
 			else
 			{
 				edge = pool[--poolLevel];
-				edge.flags &= ~(uint) GRGEN_LGSP.LGSPElemFlags.HAS_VARIABLES;
-				edge.source = source;
-				edge.target = target;
+				edge.lgspFlags &= ~(uint) GRGEN_LGSP.LGSPElemFlags.HAS_VARIABLES;
+				edge.lgspSource = source;
+				edge.lgspTarget = target;
 				// implicit initialization, map/set creation of UEdge
 			}
 			graph.AddEdge(edge, varName);
@@ -750,9 +750,9 @@ namespace de.unika.ipd.grGen.Model_Mutex
 			else
 			{
 				edge = pool[--poolLevel];
-				edge.flags &= ~(uint) GRGEN_LGSP.LGSPElemFlags.HAS_VARIABLES;
-				edge.source = source;
-				edge.target = target;
+				edge.lgspFlags &= ~(uint) GRGEN_LGSP.LGSPElemFlags.HAS_VARIABLES;
+				edge.lgspSource = source;
+				edge.lgspTarget = target;
 				// implicit initialization, map/set creation of next
 				// explicit initializations of next for target next
 			}
@@ -768,9 +768,9 @@ namespace de.unika.ipd.grGen.Model_Mutex
 			else
 			{
 				edge = pool[--poolLevel];
-				edge.flags &= ~(uint) GRGEN_LGSP.LGSPElemFlags.HAS_VARIABLES;
-				edge.source = source;
-				edge.target = target;
+				edge.lgspFlags &= ~(uint) GRGEN_LGSP.LGSPElemFlags.HAS_VARIABLES;
+				edge.lgspSource = source;
+				edge.lgspTarget = target;
 				// implicit initialization, map/set creation of next
 				// explicit initializations of next for target next
 			}
@@ -871,9 +871,9 @@ namespace de.unika.ipd.grGen.Model_Mutex
 			else
 			{
 				edge = pool[--poolLevel];
-				edge.flags &= ~(uint) GRGEN_LGSP.LGSPElemFlags.HAS_VARIABLES;
-				edge.source = source;
-				edge.target = target;
+				edge.lgspFlags &= ~(uint) GRGEN_LGSP.LGSPElemFlags.HAS_VARIABLES;
+				edge.lgspSource = source;
+				edge.lgspTarget = target;
 				// implicit initialization, map/set creation of blocked
 				// explicit initializations of blocked for target blocked
 			}
@@ -889,9 +889,9 @@ namespace de.unika.ipd.grGen.Model_Mutex
 			else
 			{
 				edge = pool[--poolLevel];
-				edge.flags &= ~(uint) GRGEN_LGSP.LGSPElemFlags.HAS_VARIABLES;
-				edge.source = source;
-				edge.target = target;
+				edge.lgspFlags &= ~(uint) GRGEN_LGSP.LGSPElemFlags.HAS_VARIABLES;
+				edge.lgspSource = source;
+				edge.lgspTarget = target;
 				// implicit initialization, map/set creation of blocked
 				// explicit initializations of blocked for target blocked
 			}
@@ -992,9 +992,9 @@ namespace de.unika.ipd.grGen.Model_Mutex
 			else
 			{
 				edge = pool[--poolLevel];
-				edge.flags &= ~(uint) GRGEN_LGSP.LGSPElemFlags.HAS_VARIABLES;
-				edge.source = source;
-				edge.target = target;
+				edge.lgspFlags &= ~(uint) GRGEN_LGSP.LGSPElemFlags.HAS_VARIABLES;
+				edge.lgspSource = source;
+				edge.lgspTarget = target;
 				// implicit initialization, map/set creation of held_by
 				// explicit initializations of held_by for target held_by
 			}
@@ -1010,9 +1010,9 @@ namespace de.unika.ipd.grGen.Model_Mutex
 			else
 			{
 				edge = pool[--poolLevel];
-				edge.flags &= ~(uint) GRGEN_LGSP.LGSPElemFlags.HAS_VARIABLES;
-				edge.source = source;
-				edge.target = target;
+				edge.lgspFlags &= ~(uint) GRGEN_LGSP.LGSPElemFlags.HAS_VARIABLES;
+				edge.lgspSource = source;
+				edge.lgspTarget = target;
 				// implicit initialization, map/set creation of held_by
 				// explicit initializations of held_by for target held_by
 			}
@@ -1113,9 +1113,9 @@ namespace de.unika.ipd.grGen.Model_Mutex
 			else
 			{
 				edge = pool[--poolLevel];
-				edge.flags &= ~(uint) GRGEN_LGSP.LGSPElemFlags.HAS_VARIABLES;
-				edge.source = source;
-				edge.target = target;
+				edge.lgspFlags &= ~(uint) GRGEN_LGSP.LGSPElemFlags.HAS_VARIABLES;
+				edge.lgspSource = source;
+				edge.lgspTarget = target;
 				// implicit initialization, map/set creation of token
 				// explicit initializations of token for target token
 			}
@@ -1131,9 +1131,9 @@ namespace de.unika.ipd.grGen.Model_Mutex
 			else
 			{
 				edge = pool[--poolLevel];
-				edge.flags &= ~(uint) GRGEN_LGSP.LGSPElemFlags.HAS_VARIABLES;
-				edge.source = source;
-				edge.target = target;
+				edge.lgspFlags &= ~(uint) GRGEN_LGSP.LGSPElemFlags.HAS_VARIABLES;
+				edge.lgspSource = source;
+				edge.lgspTarget = target;
 				// implicit initialization, map/set creation of token
 				// explicit initializations of token for target token
 			}
@@ -1234,9 +1234,9 @@ namespace de.unika.ipd.grGen.Model_Mutex
 			else
 			{
 				edge = pool[--poolLevel];
-				edge.flags &= ~(uint) GRGEN_LGSP.LGSPElemFlags.HAS_VARIABLES;
-				edge.source = source;
-				edge.target = target;
+				edge.lgspFlags &= ~(uint) GRGEN_LGSP.LGSPElemFlags.HAS_VARIABLES;
+				edge.lgspSource = source;
+				edge.lgspTarget = target;
 				// implicit initialization, map/set creation of release
 				// explicit initializations of release for target release
 			}
@@ -1252,9 +1252,9 @@ namespace de.unika.ipd.grGen.Model_Mutex
 			else
 			{
 				edge = pool[--poolLevel];
-				edge.flags &= ~(uint) GRGEN_LGSP.LGSPElemFlags.HAS_VARIABLES;
-				edge.source = source;
-				edge.target = target;
+				edge.lgspFlags &= ~(uint) GRGEN_LGSP.LGSPElemFlags.HAS_VARIABLES;
+				edge.lgspSource = source;
+				edge.lgspTarget = target;
 				// implicit initialization, map/set creation of release
 				// explicit initializations of release for target release
 			}
@@ -1355,9 +1355,9 @@ namespace de.unika.ipd.grGen.Model_Mutex
 			else
 			{
 				edge = pool[--poolLevel];
-				edge.flags &= ~(uint) GRGEN_LGSP.LGSPElemFlags.HAS_VARIABLES;
-				edge.source = source;
-				edge.target = target;
+				edge.lgspFlags &= ~(uint) GRGEN_LGSP.LGSPElemFlags.HAS_VARIABLES;
+				edge.lgspSource = source;
+				edge.lgspTarget = target;
 				// implicit initialization, map/set creation of request
 				// explicit initializations of request for target request
 			}
@@ -1373,9 +1373,9 @@ namespace de.unika.ipd.grGen.Model_Mutex
 			else
 			{
 				edge = pool[--poolLevel];
-				edge.flags &= ~(uint) GRGEN_LGSP.LGSPElemFlags.HAS_VARIABLES;
-				edge.source = source;
-				edge.target = target;
+				edge.lgspFlags &= ~(uint) GRGEN_LGSP.LGSPElemFlags.HAS_VARIABLES;
+				edge.lgspSource = source;
+				edge.lgspTarget = target;
 				// implicit initialization, map/set creation of request
 				// explicit initializations of request for target request
 			}

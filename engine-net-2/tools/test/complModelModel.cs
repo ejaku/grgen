@@ -55,9 +55,9 @@ namespace de.unika.ipd.grGen.Model_complModel
 			else
 			{
 				node = pool[--poolLevel];
-				node.inhead = null;
-				node.outhead = null;
-				node.flags &= ~(uint) GRGEN_LGSP.LGSPElemFlags.HAS_VARIABLES;
+				node.lgspInhead = null;
+				node.lgspOuthead = null;
+				node.lgspFlags &= ~(uint) GRGEN_LGSP.LGSPElemFlags.HAS_VARIABLES;
 				// implicit initialization, map/set creation of Node
 			}
 			graph.AddNode(node);
@@ -72,9 +72,9 @@ namespace de.unika.ipd.grGen.Model_complModel
 			else
 			{
 				node = pool[--poolLevel];
-				node.inhead = null;
-				node.outhead = null;
-				node.flags &= ~(uint) GRGEN_LGSP.LGSPElemFlags.HAS_VARIABLES;
+				node.lgspInhead = null;
+				node.lgspOuthead = null;
+				node.lgspFlags &= ~(uint) GRGEN_LGSP.LGSPElemFlags.HAS_VARIABLES;
 				// implicit initialization, map/set creation of Node
 			}
 			graph.AddNode(node, varName);
@@ -171,9 +171,9 @@ namespace de.unika.ipd.grGen.Model_complModel
 			else
 			{
 				node = pool[--poolLevel];
-				node.inhead = null;
-				node.outhead = null;
-				node.flags &= ~(uint) GRGEN_LGSP.LGSPElemFlags.HAS_VARIABLES;
+				node.lgspInhead = null;
+				node.lgspOuthead = null;
+				node.lgspFlags &= ~(uint) GRGEN_LGSP.LGSPElemFlags.HAS_VARIABLES;
 				// implicit initialization, map/set creation of A1
 				node.@a1 = 0;
 				// explicit initializations of A1 for target A1
@@ -190,9 +190,9 @@ namespace de.unika.ipd.grGen.Model_complModel
 			else
 			{
 				node = pool[--poolLevel];
-				node.inhead = null;
-				node.outhead = null;
-				node.flags &= ~(uint) GRGEN_LGSP.LGSPElemFlags.HAS_VARIABLES;
+				node.lgspInhead = null;
+				node.lgspOuthead = null;
+				node.lgspFlags &= ~(uint) GRGEN_LGSP.LGSPElemFlags.HAS_VARIABLES;
 				// implicit initialization, map/set creation of A1
 				node.@a1 = 0;
 				// explicit initializations of A1 for target A1
@@ -336,9 +336,9 @@ namespace de.unika.ipd.grGen.Model_complModel
 			else
 			{
 				node = pool[--poolLevel];
-				node.inhead = null;
-				node.outhead = null;
-				node.flags &= ~(uint) GRGEN_LGSP.LGSPElemFlags.HAS_VARIABLES;
+				node.lgspInhead = null;
+				node.lgspOuthead = null;
+				node.lgspFlags &= ~(uint) GRGEN_LGSP.LGSPElemFlags.HAS_VARIABLES;
 				// implicit initialization, map/set creation of A2
 				node.@a2 = 0;
 				// explicit initializations of A2 for target A2
@@ -355,9 +355,9 @@ namespace de.unika.ipd.grGen.Model_complModel
 			else
 			{
 				node = pool[--poolLevel];
-				node.inhead = null;
-				node.outhead = null;
-				node.flags &= ~(uint) GRGEN_LGSP.LGSPElemFlags.HAS_VARIABLES;
+				node.lgspInhead = null;
+				node.lgspOuthead = null;
+				node.lgspFlags &= ~(uint) GRGEN_LGSP.LGSPElemFlags.HAS_VARIABLES;
 				// implicit initialization, map/set creation of A2
 				node.@a2 = 0;
 				// explicit initializations of A2 for target A2
@@ -508,9 +508,9 @@ namespace de.unika.ipd.grGen.Model_complModel
 			else
 			{
 				node = pool[--poolLevel];
-				node.inhead = null;
-				node.outhead = null;
-				node.flags &= ~(uint) GRGEN_LGSP.LGSPElemFlags.HAS_VARIABLES;
+				node.lgspInhead = null;
+				node.lgspOuthead = null;
+				node.lgspFlags &= ~(uint) GRGEN_LGSP.LGSPElemFlags.HAS_VARIABLES;
 				// implicit initialization, map/set creation of A3
 				node.@a3 = 0;
 				// explicit initializations of A3 for target A3
@@ -527,9 +527,9 @@ namespace de.unika.ipd.grGen.Model_complModel
 			else
 			{
 				node = pool[--poolLevel];
-				node.inhead = null;
-				node.outhead = null;
-				node.flags &= ~(uint) GRGEN_LGSP.LGSPElemFlags.HAS_VARIABLES;
+				node.lgspInhead = null;
+				node.lgspOuthead = null;
+				node.lgspFlags &= ~(uint) GRGEN_LGSP.LGSPElemFlags.HAS_VARIABLES;
 				// implicit initialization, map/set creation of A3
 				node.@a3 = 0;
 				// explicit initializations of A3 for target A3
@@ -673,9 +673,9 @@ namespace de.unika.ipd.grGen.Model_complModel
 			else
 			{
 				node = pool[--poolLevel];
-				node.inhead = null;
-				node.outhead = null;
-				node.flags &= ~(uint) GRGEN_LGSP.LGSPElemFlags.HAS_VARIABLES;
+				node.lgspInhead = null;
+				node.lgspOuthead = null;
+				node.lgspFlags &= ~(uint) GRGEN_LGSP.LGSPElemFlags.HAS_VARIABLES;
 				// implicit initialization, map/set creation of A4
 				node.@a4 = 0;
 				// explicit initializations of A4 for target A4
@@ -692,9 +692,9 @@ namespace de.unika.ipd.grGen.Model_complModel
 			else
 			{
 				node = pool[--poolLevel];
-				node.inhead = null;
-				node.outhead = null;
-				node.flags &= ~(uint) GRGEN_LGSP.LGSPElemFlags.HAS_VARIABLES;
+				node.lgspInhead = null;
+				node.lgspOuthead = null;
+				node.lgspFlags &= ~(uint) GRGEN_LGSP.LGSPElemFlags.HAS_VARIABLES;
 				// implicit initialization, map/set creation of A4
 				node.@a4 = 0;
 				// explicit initializations of A4 for target A4
@@ -846,9 +846,9 @@ namespace de.unika.ipd.grGen.Model_complModel
 			else
 			{
 				node = pool[--poolLevel];
-				node.inhead = null;
-				node.outhead = null;
-				node.flags &= ~(uint) GRGEN_LGSP.LGSPElemFlags.HAS_VARIABLES;
+				node.lgspInhead = null;
+				node.lgspOuthead = null;
+				node.lgspFlags &= ~(uint) GRGEN_LGSP.LGSPElemFlags.HAS_VARIABLES;
 				// implicit initialization, map/set creation of A5
 				node.@a5 = 0;
 				// explicit initializations of A5 for target A5
@@ -865,9 +865,9 @@ namespace de.unika.ipd.grGen.Model_complModel
 			else
 			{
 				node = pool[--poolLevel];
-				node.inhead = null;
-				node.outhead = null;
-				node.flags &= ~(uint) GRGEN_LGSP.LGSPElemFlags.HAS_VARIABLES;
+				node.lgspInhead = null;
+				node.lgspOuthead = null;
+				node.lgspFlags &= ~(uint) GRGEN_LGSP.LGSPElemFlags.HAS_VARIABLES;
 				// implicit initialization, map/set creation of A5
 				node.@a5 = 0;
 				// explicit initializations of A5 for target A5
@@ -1016,9 +1016,9 @@ namespace de.unika.ipd.grGen.Model_complModel
 			else
 			{
 				node = pool[--poolLevel];
-				node.inhead = null;
-				node.outhead = null;
-				node.flags &= ~(uint) GRGEN_LGSP.LGSPElemFlags.HAS_VARIABLES;
+				node.lgspInhead = null;
+				node.lgspOuthead = null;
+				node.lgspFlags &= ~(uint) GRGEN_LGSP.LGSPElemFlags.HAS_VARIABLES;
 				// implicit initialization, map/set creation of B21
 				node.@a2 = 0;
 				node.@b21 = 0;
@@ -1037,9 +1037,9 @@ namespace de.unika.ipd.grGen.Model_complModel
 			else
 			{
 				node = pool[--poolLevel];
-				node.inhead = null;
-				node.outhead = null;
-				node.flags &= ~(uint) GRGEN_LGSP.LGSPElemFlags.HAS_VARIABLES;
+				node.lgspInhead = null;
+				node.lgspOuthead = null;
+				node.lgspFlags &= ~(uint) GRGEN_LGSP.LGSPElemFlags.HAS_VARIABLES;
 				// implicit initialization, map/set creation of B21
 				node.@a2 = 0;
 				node.@b21 = 0;
@@ -1216,9 +1216,9 @@ namespace de.unika.ipd.grGen.Model_complModel
 			else
 			{
 				node = pool[--poolLevel];
-				node.inhead = null;
-				node.outhead = null;
-				node.flags &= ~(uint) GRGEN_LGSP.LGSPElemFlags.HAS_VARIABLES;
+				node.lgspInhead = null;
+				node.lgspOuthead = null;
+				node.lgspFlags &= ~(uint) GRGEN_LGSP.LGSPElemFlags.HAS_VARIABLES;
 				// implicit initialization, map/set creation of B22
 				node.@a2 = 0;
 				node.@b22 = 0;
@@ -1237,9 +1237,9 @@ namespace de.unika.ipd.grGen.Model_complModel
 			else
 			{
 				node = pool[--poolLevel];
-				node.inhead = null;
-				node.outhead = null;
-				node.flags &= ~(uint) GRGEN_LGSP.LGSPElemFlags.HAS_VARIABLES;
+				node.lgspInhead = null;
+				node.lgspOuthead = null;
+				node.lgspFlags &= ~(uint) GRGEN_LGSP.LGSPElemFlags.HAS_VARIABLES;
 				// implicit initialization, map/set creation of B22
 				node.@a2 = 0;
 				node.@b22 = 0;
@@ -1416,9 +1416,9 @@ namespace de.unika.ipd.grGen.Model_complModel
 			else
 			{
 				node = pool[--poolLevel];
-				node.inhead = null;
-				node.outhead = null;
-				node.flags &= ~(uint) GRGEN_LGSP.LGSPElemFlags.HAS_VARIABLES;
+				node.lgspInhead = null;
+				node.lgspOuthead = null;
+				node.lgspFlags &= ~(uint) GRGEN_LGSP.LGSPElemFlags.HAS_VARIABLES;
 				// implicit initialization, map/set creation of B23
 				node.@a2 = 0;
 				node.@b23 = 0;
@@ -1437,9 +1437,9 @@ namespace de.unika.ipd.grGen.Model_complModel
 			else
 			{
 				node = pool[--poolLevel];
-				node.inhead = null;
-				node.outhead = null;
-				node.flags &= ~(uint) GRGEN_LGSP.LGSPElemFlags.HAS_VARIABLES;
+				node.lgspInhead = null;
+				node.lgspOuthead = null;
+				node.lgspFlags &= ~(uint) GRGEN_LGSP.LGSPElemFlags.HAS_VARIABLES;
 				// implicit initialization, map/set creation of B23
 				node.@a2 = 0;
 				node.@b23 = 0;
@@ -1616,9 +1616,9 @@ namespace de.unika.ipd.grGen.Model_complModel
 			else
 			{
 				node = pool[--poolLevel];
-				node.inhead = null;
-				node.outhead = null;
-				node.flags &= ~(uint) GRGEN_LGSP.LGSPElemFlags.HAS_VARIABLES;
+				node.lgspInhead = null;
+				node.lgspOuthead = null;
+				node.lgspFlags &= ~(uint) GRGEN_LGSP.LGSPElemFlags.HAS_VARIABLES;
 				// implicit initialization, map/set creation of B41
 				node.@a4 = 0;
 				node.@b41 = 0;
@@ -1637,9 +1637,9 @@ namespace de.unika.ipd.grGen.Model_complModel
 			else
 			{
 				node = pool[--poolLevel];
-				node.inhead = null;
-				node.outhead = null;
-				node.flags &= ~(uint) GRGEN_LGSP.LGSPElemFlags.HAS_VARIABLES;
+				node.lgspInhead = null;
+				node.lgspOuthead = null;
+				node.lgspFlags &= ~(uint) GRGEN_LGSP.LGSPElemFlags.HAS_VARIABLES;
 				// implicit initialization, map/set creation of B41
 				node.@a4 = 0;
 				node.@b41 = 0;
@@ -1817,9 +1817,9 @@ namespace de.unika.ipd.grGen.Model_complModel
 			else
 			{
 				node = pool[--poolLevel];
-				node.inhead = null;
-				node.outhead = null;
-				node.flags &= ~(uint) GRGEN_LGSP.LGSPElemFlags.HAS_VARIABLES;
+				node.lgspInhead = null;
+				node.lgspOuthead = null;
+				node.lgspFlags &= ~(uint) GRGEN_LGSP.LGSPElemFlags.HAS_VARIABLES;
 				// implicit initialization, map/set creation of B42
 				node.@a4 = 0;
 				node.@b42 = 0;
@@ -1838,9 +1838,9 @@ namespace de.unika.ipd.grGen.Model_complModel
 			else
 			{
 				node = pool[--poolLevel];
-				node.inhead = null;
-				node.outhead = null;
-				node.flags &= ~(uint) GRGEN_LGSP.LGSPElemFlags.HAS_VARIABLES;
+				node.lgspInhead = null;
+				node.lgspOuthead = null;
+				node.lgspFlags &= ~(uint) GRGEN_LGSP.LGSPElemFlags.HAS_VARIABLES;
 				// implicit initialization, map/set creation of B42
 				node.@a4 = 0;
 				node.@b42 = 0;
@@ -2016,9 +2016,9 @@ namespace de.unika.ipd.grGen.Model_complModel
 			else
 			{
 				node = pool[--poolLevel];
-				node.inhead = null;
-				node.outhead = null;
-				node.flags &= ~(uint) GRGEN_LGSP.LGSPElemFlags.HAS_VARIABLES;
+				node.lgspInhead = null;
+				node.lgspOuthead = null;
+				node.lgspFlags &= ~(uint) GRGEN_LGSP.LGSPElemFlags.HAS_VARIABLES;
 				// implicit initialization, map/set creation of B43
 				node.@a4 = 0;
 				// explicit initializations of A4 for target B43
@@ -2036,9 +2036,9 @@ namespace de.unika.ipd.grGen.Model_complModel
 			else
 			{
 				node = pool[--poolLevel];
-				node.inhead = null;
-				node.outhead = null;
-				node.flags &= ~(uint) GRGEN_LGSP.LGSPElemFlags.HAS_VARIABLES;
+				node.lgspInhead = null;
+				node.lgspOuthead = null;
+				node.lgspFlags &= ~(uint) GRGEN_LGSP.LGSPElemFlags.HAS_VARIABLES;
 				// implicit initialization, map/set creation of B43
 				node.@a4 = 0;
 				// explicit initializations of A4 for target B43
@@ -2204,9 +2204,9 @@ namespace de.unika.ipd.grGen.Model_complModel
 			else
 			{
 				node = pool[--poolLevel];
-				node.inhead = null;
-				node.outhead = null;
-				node.flags &= ~(uint) GRGEN_LGSP.LGSPElemFlags.HAS_VARIABLES;
+				node.lgspInhead = null;
+				node.lgspOuthead = null;
+				node.lgspFlags &= ~(uint) GRGEN_LGSP.LGSPElemFlags.HAS_VARIABLES;
 				// implicit initialization, map/set creation of C221
 				node.@a2 = 0;
 				node.@b22 = 0;
@@ -2227,9 +2227,9 @@ namespace de.unika.ipd.grGen.Model_complModel
 			else
 			{
 				node = pool[--poolLevel];
-				node.inhead = null;
-				node.outhead = null;
-				node.flags &= ~(uint) GRGEN_LGSP.LGSPElemFlags.HAS_VARIABLES;
+				node.lgspInhead = null;
+				node.lgspOuthead = null;
+				node.lgspFlags &= ~(uint) GRGEN_LGSP.LGSPElemFlags.HAS_VARIABLES;
 				// implicit initialization, map/set creation of C221
 				node.@a2 = 0;
 				node.@b22 = 0;
@@ -2441,9 +2441,9 @@ namespace de.unika.ipd.grGen.Model_complModel
 			else
 			{
 				node = pool[--poolLevel];
-				node.inhead = null;
-				node.outhead = null;
-				node.flags &= ~(uint) GRGEN_LGSP.LGSPElemFlags.HAS_VARIABLES;
+				node.lgspInhead = null;
+				node.lgspOuthead = null;
+				node.lgspFlags &= ~(uint) GRGEN_LGSP.LGSPElemFlags.HAS_VARIABLES;
 				// implicit initialization, map/set creation of C222_411
 				node.@a2 = 0;
 				node.@b22 = 0;
@@ -2468,9 +2468,9 @@ namespace de.unika.ipd.grGen.Model_complModel
 			else
 			{
 				node = pool[--poolLevel];
-				node.inhead = null;
-				node.outhead = null;
-				node.flags &= ~(uint) GRGEN_LGSP.LGSPElemFlags.HAS_VARIABLES;
+				node.lgspInhead = null;
+				node.lgspOuthead = null;
+				node.lgspFlags &= ~(uint) GRGEN_LGSP.LGSPElemFlags.HAS_VARIABLES;
 				// implicit initialization, map/set creation of C222_411
 				node.@a2 = 0;
 				node.@b22 = 0;
@@ -2746,9 +2746,9 @@ namespace de.unika.ipd.grGen.Model_complModel
 			else
 			{
 				node = pool[--poolLevel];
-				node.inhead = null;
-				node.outhead = null;
-				node.flags &= ~(uint) GRGEN_LGSP.LGSPElemFlags.HAS_VARIABLES;
+				node.lgspInhead = null;
+				node.lgspOuthead = null;
+				node.lgspFlags &= ~(uint) GRGEN_LGSP.LGSPElemFlags.HAS_VARIABLES;
 				// implicit initialization, map/set creation of C412_421_431_51
 				node.@a4 = 0;
 				node.@b41 = 0;
@@ -2773,9 +2773,9 @@ namespace de.unika.ipd.grGen.Model_complModel
 			else
 			{
 				node = pool[--poolLevel];
-				node.inhead = null;
-				node.outhead = null;
-				node.flags &= ~(uint) GRGEN_LGSP.LGSPElemFlags.HAS_VARIABLES;
+				node.lgspInhead = null;
+				node.lgspOuthead = null;
+				node.lgspFlags &= ~(uint) GRGEN_LGSP.LGSPElemFlags.HAS_VARIABLES;
 				// implicit initialization, map/set creation of C412_421_431_51
 				node.@a4 = 0;
 				node.@b41 = 0;
@@ -3030,9 +3030,9 @@ namespace de.unika.ipd.grGen.Model_complModel
 			else
 			{
 				node = pool[--poolLevel];
-				node.inhead = null;
-				node.outhead = null;
-				node.flags &= ~(uint) GRGEN_LGSP.LGSPElemFlags.HAS_VARIABLES;
+				node.lgspInhead = null;
+				node.lgspOuthead = null;
+				node.lgspFlags &= ~(uint) GRGEN_LGSP.LGSPElemFlags.HAS_VARIABLES;
 				// implicit initialization, map/set creation of C432_422
 				node.@a4 = 0;
 				node.@b42 = 0;
@@ -3054,9 +3054,9 @@ namespace de.unika.ipd.grGen.Model_complModel
 			else
 			{
 				node = pool[--poolLevel];
-				node.inhead = null;
-				node.outhead = null;
-				node.flags &= ~(uint) GRGEN_LGSP.LGSPElemFlags.HAS_VARIABLES;
+				node.lgspInhead = null;
+				node.lgspOuthead = null;
+				node.lgspFlags &= ~(uint) GRGEN_LGSP.LGSPElemFlags.HAS_VARIABLES;
 				// implicit initialization, map/set creation of C432_422
 				node.@a4 = 0;
 				node.@b42 = 0;
@@ -3294,9 +3294,9 @@ namespace de.unika.ipd.grGen.Model_complModel
 			else
 			{
 				node = pool[--poolLevel];
-				node.inhead = null;
-				node.outhead = null;
-				node.flags &= ~(uint) GRGEN_LGSP.LGSPElemFlags.HAS_VARIABLES;
+				node.lgspInhead = null;
+				node.lgspOuthead = null;
+				node.lgspFlags &= ~(uint) GRGEN_LGSP.LGSPElemFlags.HAS_VARIABLES;
 				// implicit initialization, map/set creation of D11_2221
 				node.@a1 = 0;
 				node.@a2 = 0;
@@ -3325,9 +3325,9 @@ namespace de.unika.ipd.grGen.Model_complModel
 			else
 			{
 				node = pool[--poolLevel];
-				node.inhead = null;
-				node.outhead = null;
-				node.flags &= ~(uint) GRGEN_LGSP.LGSPElemFlags.HAS_VARIABLES;
+				node.lgspInhead = null;
+				node.lgspOuthead = null;
+				node.lgspFlags &= ~(uint) GRGEN_LGSP.LGSPElemFlags.HAS_VARIABLES;
 				// implicit initialization, map/set creation of D11_2221
 				node.@a1 = 0;
 				node.@a2 = 0;
@@ -3663,9 +3663,9 @@ namespace de.unika.ipd.grGen.Model_complModel
 			else
 			{
 				node = pool[--poolLevel];
-				node.inhead = null;
-				node.outhead = null;
-				node.flags &= ~(uint) GRGEN_LGSP.LGSPElemFlags.HAS_VARIABLES;
+				node.lgspInhead = null;
+				node.lgspOuthead = null;
+				node.lgspFlags &= ~(uint) GRGEN_LGSP.LGSPElemFlags.HAS_VARIABLES;
 				// implicit initialization, map/set creation of D2211_2222_31
 				node.@a2 = 0;
 				node.@b22 = 0;
@@ -3696,9 +3696,9 @@ namespace de.unika.ipd.grGen.Model_complModel
 			else
 			{
 				node = pool[--poolLevel];
-				node.inhead = null;
-				node.outhead = null;
-				node.flags &= ~(uint) GRGEN_LGSP.LGSPElemFlags.HAS_VARIABLES;
+				node.lgspInhead = null;
+				node.lgspOuthead = null;
+				node.lgspFlags &= ~(uint) GRGEN_LGSP.LGSPElemFlags.HAS_VARIABLES;
 				// implicit initialization, map/set creation of D2211_2222_31
 				node.@a2 = 0;
 				node.@b22 = 0;
@@ -4048,9 +4048,9 @@ namespace de.unika.ipd.grGen.Model_complModel
 			else
 			{
 				node = pool[--poolLevel];
-				node.inhead = null;
-				node.outhead = null;
-				node.flags &= ~(uint) GRGEN_LGSP.LGSPElemFlags.HAS_VARIABLES;
+				node.lgspInhead = null;
+				node.lgspOuthead = null;
+				node.lgspFlags &= ~(uint) GRGEN_LGSP.LGSPElemFlags.HAS_VARIABLES;
 				// implicit initialization, map/set creation of D231_4121
 				node.@a2 = 0;
 				node.@b23 = 0;
@@ -4081,9 +4081,9 @@ namespace de.unika.ipd.grGen.Model_complModel
 			else
 			{
 				node = pool[--poolLevel];
-				node.inhead = null;
-				node.outhead = null;
-				node.flags &= ~(uint) GRGEN_LGSP.LGSPElemFlags.HAS_VARIABLES;
+				node.lgspInhead = null;
+				node.lgspOuthead = null;
+				node.lgspFlags &= ~(uint) GRGEN_LGSP.LGSPElemFlags.HAS_VARIABLES;
 				// implicit initialization, map/set creation of D231_4121
 				node.@a2 = 0;
 				node.@b23 = 0;
@@ -4877,9 +4877,9 @@ namespace de.unika.ipd.grGen.Model_complModel
 			else
 			{
 				edge = pool[--poolLevel];
-				edge.flags &= ~(uint) GRGEN_LGSP.LGSPElemFlags.HAS_VARIABLES;
-				edge.source = source;
-				edge.target = target;
+				edge.lgspFlags &= ~(uint) GRGEN_LGSP.LGSPElemFlags.HAS_VARIABLES;
+				edge.lgspSource = source;
+				edge.lgspTarget = target;
 				// implicit initialization, map/set creation of Edge
 			}
 			graph.AddEdge(edge);
@@ -4894,9 +4894,9 @@ namespace de.unika.ipd.grGen.Model_complModel
 			else
 			{
 				edge = pool[--poolLevel];
-				edge.flags &= ~(uint) GRGEN_LGSP.LGSPElemFlags.HAS_VARIABLES;
-				edge.source = source;
-				edge.target = target;
+				edge.lgspFlags &= ~(uint) GRGEN_LGSP.LGSPElemFlags.HAS_VARIABLES;
+				edge.lgspSource = source;
+				edge.lgspTarget = target;
 				// implicit initialization, map/set creation of Edge
 			}
 			graph.AddEdge(edge, varName);
@@ -4989,9 +4989,9 @@ namespace de.unika.ipd.grGen.Model_complModel
 			else
 			{
 				edge = pool[--poolLevel];
-				edge.flags &= ~(uint) GRGEN_LGSP.LGSPElemFlags.HAS_VARIABLES;
-				edge.source = source;
-				edge.target = target;
+				edge.lgspFlags &= ~(uint) GRGEN_LGSP.LGSPElemFlags.HAS_VARIABLES;
+				edge.lgspSource = source;
+				edge.lgspTarget = target;
 				// implicit initialization, map/set creation of UEdge
 			}
 			graph.AddEdge(edge);
@@ -5006,9 +5006,9 @@ namespace de.unika.ipd.grGen.Model_complModel
 			else
 			{
 				edge = pool[--poolLevel];
-				edge.flags &= ~(uint) GRGEN_LGSP.LGSPElemFlags.HAS_VARIABLES;
-				edge.source = source;
-				edge.target = target;
+				edge.lgspFlags &= ~(uint) GRGEN_LGSP.LGSPElemFlags.HAS_VARIABLES;
+				edge.lgspSource = source;
+				edge.lgspTarget = target;
 				// implicit initialization, map/set creation of UEdge
 			}
 			graph.AddEdge(edge, varName);

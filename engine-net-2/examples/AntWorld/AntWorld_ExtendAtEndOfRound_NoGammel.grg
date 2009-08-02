@@ -190,7 +190,7 @@ rule GrowWorldFirstNotAtCorner(cur:GridNode\GridCornerNode) : (GridNode, GridNod
     }
 }
 
-rule GrowWorldNextAtCorner(cur:GridCornerNode, curOuter:GridNode) : (GridNode, GridNode)
+rule GrowWorldNextAtCorner(cur:GridCornerNode<GridNode>, curOuter:GridNode) : (GridNode, GridNode)
 {
     cur -:GridEdge\PathToHill-> next:GridNode;
     negative { cur <-:PathToHill-; }

@@ -1,6 +1,6 @@
 // This file has been generated automatically by GrGen.
 // Do not modify this file! Any changes will be lost!
-// Generated from "..\..\examples\Turing3\Turing3.grg" on Tue Jul 21 00:00:59 GMT+01:00 2009
+// Generated from "..\..\examples\Turing3\Turing3.grg" on Sun Aug 02 10:10:13 GMT+01:00 2009
 
 using System;
 using System.Collections.Generic;
@@ -2281,7 +2281,7 @@ namespace de.unika.ipd.grGen.Action_Turing3
                 }
                 return matches;
             }
-            if(candidate_readZeroRule_node_s.type.TypeID!=2) {
+            if(candidate_readZeroRule_node_s.lgspType.TypeID!=2) {
                 return matches;
             }
             // Preset readZeroRule_node_bp 
@@ -2295,7 +2295,7 @@ namespace de.unika.ipd.grGen.Action_Turing3
                 }
                 return matches;
             }
-            if(candidate_readZeroRule_node_bp.type.TypeID!=1) {
+            if(candidate_readZeroRule_node_bp.lgspType.TypeID!=1) {
                 return matches;
             }
             // Condition 
@@ -2303,18 +2303,18 @@ namespace de.unika.ipd.grGen.Action_Turing3
                 return matches;
             }
             // Extend Outgoing readZeroRule_edge_rv from readZeroRule_node_s 
-            GRGEN_LGSP.LGSPEdge head_candidate_readZeroRule_edge_rv = candidate_readZeroRule_node_s.outhead;
+            GRGEN_LGSP.LGSPEdge head_candidate_readZeroRule_edge_rv = candidate_readZeroRule_node_s.lgspOuthead;
             if(head_candidate_readZeroRule_edge_rv != null)
             {
                 GRGEN_LGSP.LGSPEdge candidate_readZeroRule_edge_rv = head_candidate_readZeroRule_edge_rv;
                 do
                 {
-                    if(candidate_readZeroRule_edge_rv.type.TypeID!=4) {
+                    if(candidate_readZeroRule_edge_rv.lgspType.TypeID!=4) {
                         continue;
                     }
                     // Implicit Target readZeroRule_node_wv from readZeroRule_edge_rv 
-                    GRGEN_LGSP.LGSPNode candidate_readZeroRule_node_wv = candidate_readZeroRule_edge_rv.target;
-                    if(candidate_readZeroRule_node_wv.type.TypeID!=3) {
+                    GRGEN_LGSP.LGSPNode candidate_readZeroRule_node_wv = candidate_readZeroRule_edge_rv.lgspTarget;
+                    if(candidate_readZeroRule_node_wv.lgspType.TypeID!=3) {
                         continue;
                     }
                     Rule_readZeroRule.Match_readZeroRule match = matches.GetNextUnfilledPosition();
@@ -2330,7 +2330,7 @@ namespace de.unika.ipd.grGen.Action_Turing3
                         return matches;
                     }
                 }
-                while( (candidate_readZeroRule_edge_rv = candidate_readZeroRule_edge_rv.outNext) != head_candidate_readZeroRule_edge_rv );
+                while( (candidate_readZeroRule_edge_rv = candidate_readZeroRule_edge_rv.lgspOutNext) != head_candidate_readZeroRule_edge_rv );
             }
             return matches;
         }
@@ -2339,7 +2339,7 @@ namespace de.unika.ipd.grGen.Action_Turing3
             int negLevel = 0;
             // Lookup readZeroRule_node_s 
             int type_id_candidate_readZeroRule_node_s = 2;
-            for(GRGEN_LGSP.LGSPNode head_candidate_readZeroRule_node_s = graph.nodesByTypeHeads[type_id_candidate_readZeroRule_node_s], candidate_readZeroRule_node_s = head_candidate_readZeroRule_node_s.typeNext; candidate_readZeroRule_node_s != head_candidate_readZeroRule_node_s; candidate_readZeroRule_node_s = candidate_readZeroRule_node_s.typeNext)
+            for(GRGEN_LGSP.LGSPNode head_candidate_readZeroRule_node_s = graph.nodesByTypeHeads[type_id_candidate_readZeroRule_node_s], candidate_readZeroRule_node_s = head_candidate_readZeroRule_node_s.lgspTypeNext; candidate_readZeroRule_node_s != head_candidate_readZeroRule_node_s; candidate_readZeroRule_node_s = candidate_readZeroRule_node_s.lgspTypeNext)
             {
                 // Preset readZeroRule_node_bp 
                 GRGEN_LGSP.LGSPNode candidate_readZeroRule_node_bp = (GRGEN_LGSP.LGSPNode)readZeroRule_node_bp;
@@ -2352,7 +2352,7 @@ namespace de.unika.ipd.grGen.Action_Turing3
                     }
                     continue;
                 }
-                if(candidate_readZeroRule_node_bp.type.TypeID!=1) {
+                if(candidate_readZeroRule_node_bp.lgspType.TypeID!=1) {
                     continue;
                 }
                 // Condition 
@@ -2360,18 +2360,18 @@ namespace de.unika.ipd.grGen.Action_Turing3
                     continue;
                 }
                 // Extend Outgoing readZeroRule_edge_rv from readZeroRule_node_s 
-                GRGEN_LGSP.LGSPEdge head_candidate_readZeroRule_edge_rv = candidate_readZeroRule_node_s.outhead;
+                GRGEN_LGSP.LGSPEdge head_candidate_readZeroRule_edge_rv = candidate_readZeroRule_node_s.lgspOuthead;
                 if(head_candidate_readZeroRule_edge_rv != null)
                 {
                     GRGEN_LGSP.LGSPEdge candidate_readZeroRule_edge_rv = head_candidate_readZeroRule_edge_rv;
                     do
                     {
-                        if(candidate_readZeroRule_edge_rv.type.TypeID!=4) {
+                        if(candidate_readZeroRule_edge_rv.lgspType.TypeID!=4) {
                             continue;
                         }
                         // Implicit Target readZeroRule_node_wv from readZeroRule_edge_rv 
-                        GRGEN_LGSP.LGSPNode candidate_readZeroRule_node_wv = candidate_readZeroRule_edge_rv.target;
-                        if(candidate_readZeroRule_node_wv.type.TypeID!=3) {
+                        GRGEN_LGSP.LGSPNode candidate_readZeroRule_node_wv = candidate_readZeroRule_edge_rv.lgspTarget;
+                        if(candidate_readZeroRule_node_wv.lgspType.TypeID!=3) {
                             continue;
                         }
                         Rule_readZeroRule.Match_readZeroRule match = matches.GetNextUnfilledPosition();
@@ -2388,7 +2388,7 @@ namespace de.unika.ipd.grGen.Action_Turing3
                             return;
                         }
                     }
-                    while( (candidate_readZeroRule_edge_rv = candidate_readZeroRule_edge_rv.outNext) != head_candidate_readZeroRule_edge_rv );
+                    while( (candidate_readZeroRule_edge_rv = candidate_readZeroRule_edge_rv.lgspOutNext) != head_candidate_readZeroRule_edge_rv );
                 }
             }
             return;
@@ -2398,25 +2398,25 @@ namespace de.unika.ipd.grGen.Action_Turing3
             int negLevel = 0;
             // Lookup readZeroRule_node_bp 
             int type_id_candidate_readZeroRule_node_bp = 1;
-            for(GRGEN_LGSP.LGSPNode head_candidate_readZeroRule_node_bp = graph.nodesByTypeHeads[type_id_candidate_readZeroRule_node_bp], candidate_readZeroRule_node_bp = head_candidate_readZeroRule_node_bp.typeNext; candidate_readZeroRule_node_bp != head_candidate_readZeroRule_node_bp; candidate_readZeroRule_node_bp = candidate_readZeroRule_node_bp.typeNext)
+            for(GRGEN_LGSP.LGSPNode head_candidate_readZeroRule_node_bp = graph.nodesByTypeHeads[type_id_candidate_readZeroRule_node_bp], candidate_readZeroRule_node_bp = head_candidate_readZeroRule_node_bp.lgspTypeNext; candidate_readZeroRule_node_bp != head_candidate_readZeroRule_node_bp; candidate_readZeroRule_node_bp = candidate_readZeroRule_node_bp.lgspTypeNext)
             {
                 // Condition 
                 if(!((((GRGEN_MODEL.IBandPosition)candidate_readZeroRule_node_bp).@value == 0))) {
                     continue;
                 }
                 // Extend Outgoing readZeroRule_edge_rv from readZeroRule_node_s 
-                GRGEN_LGSP.LGSPEdge head_candidate_readZeroRule_edge_rv = candidate_readZeroRule_node_s.outhead;
+                GRGEN_LGSP.LGSPEdge head_candidate_readZeroRule_edge_rv = candidate_readZeroRule_node_s.lgspOuthead;
                 if(head_candidate_readZeroRule_edge_rv != null)
                 {
                     GRGEN_LGSP.LGSPEdge candidate_readZeroRule_edge_rv = head_candidate_readZeroRule_edge_rv;
                     do
                     {
-                        if(candidate_readZeroRule_edge_rv.type.TypeID!=4) {
+                        if(candidate_readZeroRule_edge_rv.lgspType.TypeID!=4) {
                             continue;
                         }
                         // Implicit Target readZeroRule_node_wv from readZeroRule_edge_rv 
-                        GRGEN_LGSP.LGSPNode candidate_readZeroRule_node_wv = candidate_readZeroRule_edge_rv.target;
-                        if(candidate_readZeroRule_node_wv.type.TypeID!=3) {
+                        GRGEN_LGSP.LGSPNode candidate_readZeroRule_node_wv = candidate_readZeroRule_edge_rv.lgspTarget;
+                        if(candidate_readZeroRule_node_wv.lgspType.TypeID!=3) {
                             continue;
                         }
                         Rule_readZeroRule.Match_readZeroRule match = matches.GetNextUnfilledPosition();
@@ -2433,7 +2433,7 @@ namespace de.unika.ipd.grGen.Action_Turing3
                             return;
                         }
                     }
-                    while( (candidate_readZeroRule_edge_rv = candidate_readZeroRule_edge_rv.outNext) != head_candidate_readZeroRule_edge_rv );
+                    while( (candidate_readZeroRule_edge_rv = candidate_readZeroRule_edge_rv.lgspOutNext) != head_candidate_readZeroRule_edge_rv );
                 }
             }
             return;
@@ -2647,7 +2647,7 @@ namespace de.unika.ipd.grGen.Action_Turing3
                 }
                 return matches;
             }
-            if(candidate_readOneRule_node_s.type.TypeID!=2) {
+            if(candidate_readOneRule_node_s.lgspType.TypeID!=2) {
                 return matches;
             }
             // Preset readOneRule_node_bp 
@@ -2661,7 +2661,7 @@ namespace de.unika.ipd.grGen.Action_Turing3
                 }
                 return matches;
             }
-            if(candidate_readOneRule_node_bp.type.TypeID!=1) {
+            if(candidate_readOneRule_node_bp.lgspType.TypeID!=1) {
                 return matches;
             }
             // Condition 
@@ -2669,18 +2669,18 @@ namespace de.unika.ipd.grGen.Action_Turing3
                 return matches;
             }
             // Extend Outgoing readOneRule_edge_rv from readOneRule_node_s 
-            GRGEN_LGSP.LGSPEdge head_candidate_readOneRule_edge_rv = candidate_readOneRule_node_s.outhead;
+            GRGEN_LGSP.LGSPEdge head_candidate_readOneRule_edge_rv = candidate_readOneRule_node_s.lgspOuthead;
             if(head_candidate_readOneRule_edge_rv != null)
             {
                 GRGEN_LGSP.LGSPEdge candidate_readOneRule_edge_rv = head_candidate_readOneRule_edge_rv;
                 do
                 {
-                    if(candidate_readOneRule_edge_rv.type.TypeID!=5) {
+                    if(candidate_readOneRule_edge_rv.lgspType.TypeID!=5) {
                         continue;
                     }
                     // Implicit Target readOneRule_node_wv from readOneRule_edge_rv 
-                    GRGEN_LGSP.LGSPNode candidate_readOneRule_node_wv = candidate_readOneRule_edge_rv.target;
-                    if(candidate_readOneRule_node_wv.type.TypeID!=3) {
+                    GRGEN_LGSP.LGSPNode candidate_readOneRule_node_wv = candidate_readOneRule_edge_rv.lgspTarget;
+                    if(candidate_readOneRule_node_wv.lgspType.TypeID!=3) {
                         continue;
                     }
                     Rule_readOneRule.Match_readOneRule match = matches.GetNextUnfilledPosition();
@@ -2696,7 +2696,7 @@ namespace de.unika.ipd.grGen.Action_Turing3
                         return matches;
                     }
                 }
-                while( (candidate_readOneRule_edge_rv = candidate_readOneRule_edge_rv.outNext) != head_candidate_readOneRule_edge_rv );
+                while( (candidate_readOneRule_edge_rv = candidate_readOneRule_edge_rv.lgspOutNext) != head_candidate_readOneRule_edge_rv );
             }
             return matches;
         }
@@ -2705,7 +2705,7 @@ namespace de.unika.ipd.grGen.Action_Turing3
             int negLevel = 0;
             // Lookup readOneRule_node_s 
             int type_id_candidate_readOneRule_node_s = 2;
-            for(GRGEN_LGSP.LGSPNode head_candidate_readOneRule_node_s = graph.nodesByTypeHeads[type_id_candidate_readOneRule_node_s], candidate_readOneRule_node_s = head_candidate_readOneRule_node_s.typeNext; candidate_readOneRule_node_s != head_candidate_readOneRule_node_s; candidate_readOneRule_node_s = candidate_readOneRule_node_s.typeNext)
+            for(GRGEN_LGSP.LGSPNode head_candidate_readOneRule_node_s = graph.nodesByTypeHeads[type_id_candidate_readOneRule_node_s], candidate_readOneRule_node_s = head_candidate_readOneRule_node_s.lgspTypeNext; candidate_readOneRule_node_s != head_candidate_readOneRule_node_s; candidate_readOneRule_node_s = candidate_readOneRule_node_s.lgspTypeNext)
             {
                 // Preset readOneRule_node_bp 
                 GRGEN_LGSP.LGSPNode candidate_readOneRule_node_bp = (GRGEN_LGSP.LGSPNode)readOneRule_node_bp;
@@ -2718,7 +2718,7 @@ namespace de.unika.ipd.grGen.Action_Turing3
                     }
                     continue;
                 }
-                if(candidate_readOneRule_node_bp.type.TypeID!=1) {
+                if(candidate_readOneRule_node_bp.lgspType.TypeID!=1) {
                     continue;
                 }
                 // Condition 
@@ -2726,18 +2726,18 @@ namespace de.unika.ipd.grGen.Action_Turing3
                     continue;
                 }
                 // Extend Outgoing readOneRule_edge_rv from readOneRule_node_s 
-                GRGEN_LGSP.LGSPEdge head_candidate_readOneRule_edge_rv = candidate_readOneRule_node_s.outhead;
+                GRGEN_LGSP.LGSPEdge head_candidate_readOneRule_edge_rv = candidate_readOneRule_node_s.lgspOuthead;
                 if(head_candidate_readOneRule_edge_rv != null)
                 {
                     GRGEN_LGSP.LGSPEdge candidate_readOneRule_edge_rv = head_candidate_readOneRule_edge_rv;
                     do
                     {
-                        if(candidate_readOneRule_edge_rv.type.TypeID!=5) {
+                        if(candidate_readOneRule_edge_rv.lgspType.TypeID!=5) {
                             continue;
                         }
                         // Implicit Target readOneRule_node_wv from readOneRule_edge_rv 
-                        GRGEN_LGSP.LGSPNode candidate_readOneRule_node_wv = candidate_readOneRule_edge_rv.target;
-                        if(candidate_readOneRule_node_wv.type.TypeID!=3) {
+                        GRGEN_LGSP.LGSPNode candidate_readOneRule_node_wv = candidate_readOneRule_edge_rv.lgspTarget;
+                        if(candidate_readOneRule_node_wv.lgspType.TypeID!=3) {
                             continue;
                         }
                         Rule_readOneRule.Match_readOneRule match = matches.GetNextUnfilledPosition();
@@ -2754,7 +2754,7 @@ namespace de.unika.ipd.grGen.Action_Turing3
                             return;
                         }
                     }
-                    while( (candidate_readOneRule_edge_rv = candidate_readOneRule_edge_rv.outNext) != head_candidate_readOneRule_edge_rv );
+                    while( (candidate_readOneRule_edge_rv = candidate_readOneRule_edge_rv.lgspOutNext) != head_candidate_readOneRule_edge_rv );
                 }
             }
             return;
@@ -2764,25 +2764,25 @@ namespace de.unika.ipd.grGen.Action_Turing3
             int negLevel = 0;
             // Lookup readOneRule_node_bp 
             int type_id_candidate_readOneRule_node_bp = 1;
-            for(GRGEN_LGSP.LGSPNode head_candidate_readOneRule_node_bp = graph.nodesByTypeHeads[type_id_candidate_readOneRule_node_bp], candidate_readOneRule_node_bp = head_candidate_readOneRule_node_bp.typeNext; candidate_readOneRule_node_bp != head_candidate_readOneRule_node_bp; candidate_readOneRule_node_bp = candidate_readOneRule_node_bp.typeNext)
+            for(GRGEN_LGSP.LGSPNode head_candidate_readOneRule_node_bp = graph.nodesByTypeHeads[type_id_candidate_readOneRule_node_bp], candidate_readOneRule_node_bp = head_candidate_readOneRule_node_bp.lgspTypeNext; candidate_readOneRule_node_bp != head_candidate_readOneRule_node_bp; candidate_readOneRule_node_bp = candidate_readOneRule_node_bp.lgspTypeNext)
             {
                 // Condition 
                 if(!((((GRGEN_MODEL.IBandPosition)candidate_readOneRule_node_bp).@value == 1))) {
                     continue;
                 }
                 // Extend Outgoing readOneRule_edge_rv from readOneRule_node_s 
-                GRGEN_LGSP.LGSPEdge head_candidate_readOneRule_edge_rv = candidate_readOneRule_node_s.outhead;
+                GRGEN_LGSP.LGSPEdge head_candidate_readOneRule_edge_rv = candidate_readOneRule_node_s.lgspOuthead;
                 if(head_candidate_readOneRule_edge_rv != null)
                 {
                     GRGEN_LGSP.LGSPEdge candidate_readOneRule_edge_rv = head_candidate_readOneRule_edge_rv;
                     do
                     {
-                        if(candidate_readOneRule_edge_rv.type.TypeID!=5) {
+                        if(candidate_readOneRule_edge_rv.lgspType.TypeID!=5) {
                             continue;
                         }
                         // Implicit Target readOneRule_node_wv from readOneRule_edge_rv 
-                        GRGEN_LGSP.LGSPNode candidate_readOneRule_node_wv = candidate_readOneRule_edge_rv.target;
-                        if(candidate_readOneRule_node_wv.type.TypeID!=3) {
+                        GRGEN_LGSP.LGSPNode candidate_readOneRule_node_wv = candidate_readOneRule_edge_rv.lgspTarget;
+                        if(candidate_readOneRule_node_wv.lgspType.TypeID!=3) {
                             continue;
                         }
                         Rule_readOneRule.Match_readOneRule match = matches.GetNextUnfilledPosition();
@@ -2799,7 +2799,7 @@ namespace de.unika.ipd.grGen.Action_Turing3
                             return;
                         }
                     }
-                    while( (candidate_readOneRule_edge_rv = candidate_readOneRule_edge_rv.outNext) != head_candidate_readOneRule_edge_rv );
+                    while( (candidate_readOneRule_edge_rv = candidate_readOneRule_edge_rv.lgspOutNext) != head_candidate_readOneRule_edge_rv );
                 }
             }
             return;
@@ -3013,7 +3013,7 @@ namespace de.unika.ipd.grGen.Action_Turing3
                 }
                 return matches;
             }
-            if(candidate_ensureMoveLeftValidRule_node_wv.type.TypeID!=3) {
+            if(candidate_ensureMoveLeftValidRule_node_wv.lgspType.TypeID!=3) {
                 return matches;
             }
             // Preset ensureMoveLeftValidRule_node_bp 
@@ -3027,57 +3027,57 @@ namespace de.unika.ipd.grGen.Action_Turing3
                 }
                 return matches;
             }
-            if(candidate_ensureMoveLeftValidRule_node_bp.type.TypeID!=1) {
+            if(candidate_ensureMoveLeftValidRule_node_bp.lgspType.TypeID!=1) {
                 return matches;
             }
             // NegativePattern 
             {
                 ++negLevel;
                 uint prev_neg_0__candidate_ensureMoveLeftValidRule_node_bp;
-                prev_neg_0__candidate_ensureMoveLeftValidRule_node_bp = candidate_ensureMoveLeftValidRule_node_bp.flags & (uint) GRGEN_LGSP.LGSPElemFlags.IS_MATCHED << negLevel;
-                candidate_ensureMoveLeftValidRule_node_bp.flags |= (uint) GRGEN_LGSP.LGSPElemFlags.IS_MATCHED << negLevel;
+                prev_neg_0__candidate_ensureMoveLeftValidRule_node_bp = candidate_ensureMoveLeftValidRule_node_bp.lgspFlags & (uint) GRGEN_LGSP.LGSPElemFlags.IS_MATCHED << negLevel;
+                candidate_ensureMoveLeftValidRule_node_bp.lgspFlags |= (uint) GRGEN_LGSP.LGSPElemFlags.IS_MATCHED << negLevel;
                 // Extend Incoming ensureMoveLeftValidRule_neg_0_edge__edge0 from ensureMoveLeftValidRule_node_bp 
-                GRGEN_LGSP.LGSPEdge head_candidate_ensureMoveLeftValidRule_neg_0_edge__edge0 = candidate_ensureMoveLeftValidRule_node_bp.inhead;
+                GRGEN_LGSP.LGSPEdge head_candidate_ensureMoveLeftValidRule_neg_0_edge__edge0 = candidate_ensureMoveLeftValidRule_node_bp.lgspInhead;
                 if(head_candidate_ensureMoveLeftValidRule_neg_0_edge__edge0 != null)
                 {
                     GRGEN_LGSP.LGSPEdge candidate_ensureMoveLeftValidRule_neg_0_edge__edge0 = head_candidate_ensureMoveLeftValidRule_neg_0_edge__edge0;
                     do
                     {
-                        if(candidate_ensureMoveLeftValidRule_neg_0_edge__edge0.type.TypeID!=3) {
+                        if(candidate_ensureMoveLeftValidRule_neg_0_edge__edge0.lgspType.TypeID!=3) {
                             continue;
                         }
                         // Implicit Source ensureMoveLeftValidRule_neg_0_node__node0 from ensureMoveLeftValidRule_neg_0_edge__edge0 
-                        GRGEN_LGSP.LGSPNode candidate_ensureMoveLeftValidRule_neg_0_node__node0 = candidate_ensureMoveLeftValidRule_neg_0_edge__edge0.source;
-                        if(candidate_ensureMoveLeftValidRule_neg_0_node__node0.type.TypeID!=1) {
+                        GRGEN_LGSP.LGSPNode candidate_ensureMoveLeftValidRule_neg_0_node__node0 = candidate_ensureMoveLeftValidRule_neg_0_edge__edge0.lgspSource;
+                        if(candidate_ensureMoveLeftValidRule_neg_0_node__node0.lgspType.TypeID!=1) {
                             continue;
                         }
-                        if((candidate_ensureMoveLeftValidRule_neg_0_node__node0.flags & (uint) GRGEN_LGSP.LGSPElemFlags.IS_MATCHED << negLevel) != 0)
+                        if((candidate_ensureMoveLeftValidRule_neg_0_node__node0.lgspFlags & (uint) GRGEN_LGSP.LGSPElemFlags.IS_MATCHED << negLevel) != 0)
                         {
                             continue;
                         }
                         // negative pattern found
-                        candidate_ensureMoveLeftValidRule_node_bp.flags = candidate_ensureMoveLeftValidRule_node_bp.flags & ~((uint) GRGEN_LGSP.LGSPElemFlags.IS_MATCHED << negLevel) | prev_neg_0__candidate_ensureMoveLeftValidRule_node_bp;
+                        candidate_ensureMoveLeftValidRule_node_bp.lgspFlags = candidate_ensureMoveLeftValidRule_node_bp.lgspFlags & ~((uint) GRGEN_LGSP.LGSPElemFlags.IS_MATCHED << negLevel) | prev_neg_0__candidate_ensureMoveLeftValidRule_node_bp;
                         --negLevel;
                         return matches;
                     }
-                    while( (candidate_ensureMoveLeftValidRule_neg_0_edge__edge0 = candidate_ensureMoveLeftValidRule_neg_0_edge__edge0.inNext) != head_candidate_ensureMoveLeftValidRule_neg_0_edge__edge0 );
+                    while( (candidate_ensureMoveLeftValidRule_neg_0_edge__edge0 = candidate_ensureMoveLeftValidRule_neg_0_edge__edge0.lgspInNext) != head_candidate_ensureMoveLeftValidRule_neg_0_edge__edge0 );
                 }
-                candidate_ensureMoveLeftValidRule_node_bp.flags = candidate_ensureMoveLeftValidRule_node_bp.flags & ~((uint) GRGEN_LGSP.LGSPElemFlags.IS_MATCHED << negLevel) | prev_neg_0__candidate_ensureMoveLeftValidRule_node_bp;
+                candidate_ensureMoveLeftValidRule_node_bp.lgspFlags = candidate_ensureMoveLeftValidRule_node_bp.lgspFlags & ~((uint) GRGEN_LGSP.LGSPElemFlags.IS_MATCHED << negLevel) | prev_neg_0__candidate_ensureMoveLeftValidRule_node_bp;
                 --negLevel;
             }
             // Extend Outgoing ensureMoveLeftValidRule_edge__edge0 from ensureMoveLeftValidRule_node_wv 
-            GRGEN_LGSP.LGSPEdge head_candidate_ensureMoveLeftValidRule_edge__edge0 = candidate_ensureMoveLeftValidRule_node_wv.outhead;
+            GRGEN_LGSP.LGSPEdge head_candidate_ensureMoveLeftValidRule_edge__edge0 = candidate_ensureMoveLeftValidRule_node_wv.lgspOuthead;
             if(head_candidate_ensureMoveLeftValidRule_edge__edge0 != null)
             {
                 GRGEN_LGSP.LGSPEdge candidate_ensureMoveLeftValidRule_edge__edge0 = head_candidate_ensureMoveLeftValidRule_edge__edge0;
                 do
                 {
-                    if(candidate_ensureMoveLeftValidRule_edge__edge0.type.TypeID!=6) {
+                    if(candidate_ensureMoveLeftValidRule_edge__edge0.lgspType.TypeID!=6) {
                         continue;
                     }
                     // Implicit Target ensureMoveLeftValidRule_node__node0 from ensureMoveLeftValidRule_edge__edge0 
-                    GRGEN_LGSP.LGSPNode candidate_ensureMoveLeftValidRule_node__node0 = candidate_ensureMoveLeftValidRule_edge__edge0.target;
-                    if(candidate_ensureMoveLeftValidRule_node__node0.type.TypeID!=2) {
+                    GRGEN_LGSP.LGSPNode candidate_ensureMoveLeftValidRule_node__node0 = candidate_ensureMoveLeftValidRule_edge__edge0.lgspTarget;
+                    if(candidate_ensureMoveLeftValidRule_node__node0.lgspType.TypeID!=2) {
                         continue;
                     }
                     Rule_ensureMoveLeftValidRule.Match_ensureMoveLeftValidRule match = matches.GetNextUnfilledPosition();
@@ -3093,7 +3093,7 @@ namespace de.unika.ipd.grGen.Action_Turing3
                         return matches;
                     }
                 }
-                while( (candidate_ensureMoveLeftValidRule_edge__edge0 = candidate_ensureMoveLeftValidRule_edge__edge0.outNext) != head_candidate_ensureMoveLeftValidRule_edge__edge0 );
+                while( (candidate_ensureMoveLeftValidRule_edge__edge0 = candidate_ensureMoveLeftValidRule_edge__edge0.lgspOutNext) != head_candidate_ensureMoveLeftValidRule_edge__edge0 );
             }
             return matches;
         }
@@ -3102,7 +3102,7 @@ namespace de.unika.ipd.grGen.Action_Turing3
             int negLevel = 0;
             // Lookup ensureMoveLeftValidRule_node_wv 
             int type_id_candidate_ensureMoveLeftValidRule_node_wv = 3;
-            for(GRGEN_LGSP.LGSPNode head_candidate_ensureMoveLeftValidRule_node_wv = graph.nodesByTypeHeads[type_id_candidate_ensureMoveLeftValidRule_node_wv], candidate_ensureMoveLeftValidRule_node_wv = head_candidate_ensureMoveLeftValidRule_node_wv.typeNext; candidate_ensureMoveLeftValidRule_node_wv != head_candidate_ensureMoveLeftValidRule_node_wv; candidate_ensureMoveLeftValidRule_node_wv = candidate_ensureMoveLeftValidRule_node_wv.typeNext)
+            for(GRGEN_LGSP.LGSPNode head_candidate_ensureMoveLeftValidRule_node_wv = graph.nodesByTypeHeads[type_id_candidate_ensureMoveLeftValidRule_node_wv], candidate_ensureMoveLeftValidRule_node_wv = head_candidate_ensureMoveLeftValidRule_node_wv.lgspTypeNext; candidate_ensureMoveLeftValidRule_node_wv != head_candidate_ensureMoveLeftValidRule_node_wv; candidate_ensureMoveLeftValidRule_node_wv = candidate_ensureMoveLeftValidRule_node_wv.lgspTypeNext)
             {
                 // Preset ensureMoveLeftValidRule_node_bp 
                 GRGEN_LGSP.LGSPNode candidate_ensureMoveLeftValidRule_node_bp = (GRGEN_LGSP.LGSPNode)ensureMoveLeftValidRule_node_bp;
@@ -3115,57 +3115,57 @@ namespace de.unika.ipd.grGen.Action_Turing3
                     }
                     continue;
                 }
-                if(candidate_ensureMoveLeftValidRule_node_bp.type.TypeID!=1) {
+                if(candidate_ensureMoveLeftValidRule_node_bp.lgspType.TypeID!=1) {
                     continue;
                 }
                 // NegativePattern 
                 {
                     ++negLevel;
                     uint prev_neg_0__candidate_ensureMoveLeftValidRule_node_bp;
-                    prev_neg_0__candidate_ensureMoveLeftValidRule_node_bp = candidate_ensureMoveLeftValidRule_node_bp.flags & (uint) GRGEN_LGSP.LGSPElemFlags.IS_MATCHED << negLevel;
-                    candidate_ensureMoveLeftValidRule_node_bp.flags |= (uint) GRGEN_LGSP.LGSPElemFlags.IS_MATCHED << negLevel;
+                    prev_neg_0__candidate_ensureMoveLeftValidRule_node_bp = candidate_ensureMoveLeftValidRule_node_bp.lgspFlags & (uint) GRGEN_LGSP.LGSPElemFlags.IS_MATCHED << negLevel;
+                    candidate_ensureMoveLeftValidRule_node_bp.lgspFlags |= (uint) GRGEN_LGSP.LGSPElemFlags.IS_MATCHED << negLevel;
                     // Extend Incoming ensureMoveLeftValidRule_neg_0_edge__edge0 from ensureMoveLeftValidRule_node_bp 
-                    GRGEN_LGSP.LGSPEdge head_candidate_ensureMoveLeftValidRule_neg_0_edge__edge0 = candidate_ensureMoveLeftValidRule_node_bp.inhead;
+                    GRGEN_LGSP.LGSPEdge head_candidate_ensureMoveLeftValidRule_neg_0_edge__edge0 = candidate_ensureMoveLeftValidRule_node_bp.lgspInhead;
                     if(head_candidate_ensureMoveLeftValidRule_neg_0_edge__edge0 != null)
                     {
                         GRGEN_LGSP.LGSPEdge candidate_ensureMoveLeftValidRule_neg_0_edge__edge0 = head_candidate_ensureMoveLeftValidRule_neg_0_edge__edge0;
                         do
                         {
-                            if(candidate_ensureMoveLeftValidRule_neg_0_edge__edge0.type.TypeID!=3) {
+                            if(candidate_ensureMoveLeftValidRule_neg_0_edge__edge0.lgspType.TypeID!=3) {
                                 continue;
                             }
                             // Implicit Source ensureMoveLeftValidRule_neg_0_node__node0 from ensureMoveLeftValidRule_neg_0_edge__edge0 
-                            GRGEN_LGSP.LGSPNode candidate_ensureMoveLeftValidRule_neg_0_node__node0 = candidate_ensureMoveLeftValidRule_neg_0_edge__edge0.source;
-                            if(candidate_ensureMoveLeftValidRule_neg_0_node__node0.type.TypeID!=1) {
+                            GRGEN_LGSP.LGSPNode candidate_ensureMoveLeftValidRule_neg_0_node__node0 = candidate_ensureMoveLeftValidRule_neg_0_edge__edge0.lgspSource;
+                            if(candidate_ensureMoveLeftValidRule_neg_0_node__node0.lgspType.TypeID!=1) {
                                 continue;
                             }
-                            if((candidate_ensureMoveLeftValidRule_neg_0_node__node0.flags & (uint) GRGEN_LGSP.LGSPElemFlags.IS_MATCHED << negLevel) != 0)
+                            if((candidate_ensureMoveLeftValidRule_neg_0_node__node0.lgspFlags & (uint) GRGEN_LGSP.LGSPElemFlags.IS_MATCHED << negLevel) != 0)
                             {
                                 continue;
                             }
                             // negative pattern found
-                            candidate_ensureMoveLeftValidRule_node_bp.flags = candidate_ensureMoveLeftValidRule_node_bp.flags & ~((uint) GRGEN_LGSP.LGSPElemFlags.IS_MATCHED << negLevel) | prev_neg_0__candidate_ensureMoveLeftValidRule_node_bp;
+                            candidate_ensureMoveLeftValidRule_node_bp.lgspFlags = candidate_ensureMoveLeftValidRule_node_bp.lgspFlags & ~((uint) GRGEN_LGSP.LGSPElemFlags.IS_MATCHED << negLevel) | prev_neg_0__candidate_ensureMoveLeftValidRule_node_bp;
                             --negLevel;
                             goto label0;
                         }
-                        while( (candidate_ensureMoveLeftValidRule_neg_0_edge__edge0 = candidate_ensureMoveLeftValidRule_neg_0_edge__edge0.inNext) != head_candidate_ensureMoveLeftValidRule_neg_0_edge__edge0 );
+                        while( (candidate_ensureMoveLeftValidRule_neg_0_edge__edge0 = candidate_ensureMoveLeftValidRule_neg_0_edge__edge0.lgspInNext) != head_candidate_ensureMoveLeftValidRule_neg_0_edge__edge0 );
                     }
-                    candidate_ensureMoveLeftValidRule_node_bp.flags = candidate_ensureMoveLeftValidRule_node_bp.flags & ~((uint) GRGEN_LGSP.LGSPElemFlags.IS_MATCHED << negLevel) | prev_neg_0__candidate_ensureMoveLeftValidRule_node_bp;
+                    candidate_ensureMoveLeftValidRule_node_bp.lgspFlags = candidate_ensureMoveLeftValidRule_node_bp.lgspFlags & ~((uint) GRGEN_LGSP.LGSPElemFlags.IS_MATCHED << negLevel) | prev_neg_0__candidate_ensureMoveLeftValidRule_node_bp;
                     --negLevel;
                 }
                 // Extend Outgoing ensureMoveLeftValidRule_edge__edge0 from ensureMoveLeftValidRule_node_wv 
-                GRGEN_LGSP.LGSPEdge head_candidate_ensureMoveLeftValidRule_edge__edge0 = candidate_ensureMoveLeftValidRule_node_wv.outhead;
+                GRGEN_LGSP.LGSPEdge head_candidate_ensureMoveLeftValidRule_edge__edge0 = candidate_ensureMoveLeftValidRule_node_wv.lgspOuthead;
                 if(head_candidate_ensureMoveLeftValidRule_edge__edge0 != null)
                 {
                     GRGEN_LGSP.LGSPEdge candidate_ensureMoveLeftValidRule_edge__edge0 = head_candidate_ensureMoveLeftValidRule_edge__edge0;
                     do
                     {
-                        if(candidate_ensureMoveLeftValidRule_edge__edge0.type.TypeID!=6) {
+                        if(candidate_ensureMoveLeftValidRule_edge__edge0.lgspType.TypeID!=6) {
                             continue;
                         }
                         // Implicit Target ensureMoveLeftValidRule_node__node0 from ensureMoveLeftValidRule_edge__edge0 
-                        GRGEN_LGSP.LGSPNode candidate_ensureMoveLeftValidRule_node__node0 = candidate_ensureMoveLeftValidRule_edge__edge0.target;
-                        if(candidate_ensureMoveLeftValidRule_node__node0.type.TypeID!=2) {
+                        GRGEN_LGSP.LGSPNode candidate_ensureMoveLeftValidRule_node__node0 = candidate_ensureMoveLeftValidRule_edge__edge0.lgspTarget;
+                        if(candidate_ensureMoveLeftValidRule_node__node0.lgspType.TypeID!=2) {
                             continue;
                         }
                         Rule_ensureMoveLeftValidRule.Match_ensureMoveLeftValidRule match = matches.GetNextUnfilledPosition();
@@ -3182,7 +3182,7 @@ namespace de.unika.ipd.grGen.Action_Turing3
                             return;
                         }
                     }
-                    while( (candidate_ensureMoveLeftValidRule_edge__edge0 = candidate_ensureMoveLeftValidRule_edge__edge0.outNext) != head_candidate_ensureMoveLeftValidRule_edge__edge0 );
+                    while( (candidate_ensureMoveLeftValidRule_edge__edge0 = candidate_ensureMoveLeftValidRule_edge__edge0.lgspOutNext) != head_candidate_ensureMoveLeftValidRule_edge__edge0 );
                 }
 label0: ;
             }
@@ -3193,56 +3193,56 @@ label0: ;
             int negLevel = 0;
             // Lookup ensureMoveLeftValidRule_node_bp 
             int type_id_candidate_ensureMoveLeftValidRule_node_bp = 1;
-            for(GRGEN_LGSP.LGSPNode head_candidate_ensureMoveLeftValidRule_node_bp = graph.nodesByTypeHeads[type_id_candidate_ensureMoveLeftValidRule_node_bp], candidate_ensureMoveLeftValidRule_node_bp = head_candidate_ensureMoveLeftValidRule_node_bp.typeNext; candidate_ensureMoveLeftValidRule_node_bp != head_candidate_ensureMoveLeftValidRule_node_bp; candidate_ensureMoveLeftValidRule_node_bp = candidate_ensureMoveLeftValidRule_node_bp.typeNext)
+            for(GRGEN_LGSP.LGSPNode head_candidate_ensureMoveLeftValidRule_node_bp = graph.nodesByTypeHeads[type_id_candidate_ensureMoveLeftValidRule_node_bp], candidate_ensureMoveLeftValidRule_node_bp = head_candidate_ensureMoveLeftValidRule_node_bp.lgspTypeNext; candidate_ensureMoveLeftValidRule_node_bp != head_candidate_ensureMoveLeftValidRule_node_bp; candidate_ensureMoveLeftValidRule_node_bp = candidate_ensureMoveLeftValidRule_node_bp.lgspTypeNext)
             {
                 // NegativePattern 
                 {
                     ++negLevel;
                     uint prev_neg_0__candidate_ensureMoveLeftValidRule_node_bp;
-                    prev_neg_0__candidate_ensureMoveLeftValidRule_node_bp = candidate_ensureMoveLeftValidRule_node_bp.flags & (uint) GRGEN_LGSP.LGSPElemFlags.IS_MATCHED << negLevel;
-                    candidate_ensureMoveLeftValidRule_node_bp.flags |= (uint) GRGEN_LGSP.LGSPElemFlags.IS_MATCHED << negLevel;
+                    prev_neg_0__candidate_ensureMoveLeftValidRule_node_bp = candidate_ensureMoveLeftValidRule_node_bp.lgspFlags & (uint) GRGEN_LGSP.LGSPElemFlags.IS_MATCHED << negLevel;
+                    candidate_ensureMoveLeftValidRule_node_bp.lgspFlags |= (uint) GRGEN_LGSP.LGSPElemFlags.IS_MATCHED << negLevel;
                     // Extend Incoming ensureMoveLeftValidRule_neg_0_edge__edge0 from ensureMoveLeftValidRule_node_bp 
-                    GRGEN_LGSP.LGSPEdge head_candidate_ensureMoveLeftValidRule_neg_0_edge__edge0 = candidate_ensureMoveLeftValidRule_node_bp.inhead;
+                    GRGEN_LGSP.LGSPEdge head_candidate_ensureMoveLeftValidRule_neg_0_edge__edge0 = candidate_ensureMoveLeftValidRule_node_bp.lgspInhead;
                     if(head_candidate_ensureMoveLeftValidRule_neg_0_edge__edge0 != null)
                     {
                         GRGEN_LGSP.LGSPEdge candidate_ensureMoveLeftValidRule_neg_0_edge__edge0 = head_candidate_ensureMoveLeftValidRule_neg_0_edge__edge0;
                         do
                         {
-                            if(candidate_ensureMoveLeftValidRule_neg_0_edge__edge0.type.TypeID!=3) {
+                            if(candidate_ensureMoveLeftValidRule_neg_0_edge__edge0.lgspType.TypeID!=3) {
                                 continue;
                             }
                             // Implicit Source ensureMoveLeftValidRule_neg_0_node__node0 from ensureMoveLeftValidRule_neg_0_edge__edge0 
-                            GRGEN_LGSP.LGSPNode candidate_ensureMoveLeftValidRule_neg_0_node__node0 = candidate_ensureMoveLeftValidRule_neg_0_edge__edge0.source;
-                            if(candidate_ensureMoveLeftValidRule_neg_0_node__node0.type.TypeID!=1) {
+                            GRGEN_LGSP.LGSPNode candidate_ensureMoveLeftValidRule_neg_0_node__node0 = candidate_ensureMoveLeftValidRule_neg_0_edge__edge0.lgspSource;
+                            if(candidate_ensureMoveLeftValidRule_neg_0_node__node0.lgspType.TypeID!=1) {
                                 continue;
                             }
-                            if((candidate_ensureMoveLeftValidRule_neg_0_node__node0.flags & (uint) GRGEN_LGSP.LGSPElemFlags.IS_MATCHED << negLevel) != 0)
+                            if((candidate_ensureMoveLeftValidRule_neg_0_node__node0.lgspFlags & (uint) GRGEN_LGSP.LGSPElemFlags.IS_MATCHED << negLevel) != 0)
                             {
                                 continue;
                             }
                             // negative pattern found
-                            candidate_ensureMoveLeftValidRule_node_bp.flags = candidate_ensureMoveLeftValidRule_node_bp.flags & ~((uint) GRGEN_LGSP.LGSPElemFlags.IS_MATCHED << negLevel) | prev_neg_0__candidate_ensureMoveLeftValidRule_node_bp;
+                            candidate_ensureMoveLeftValidRule_node_bp.lgspFlags = candidate_ensureMoveLeftValidRule_node_bp.lgspFlags & ~((uint) GRGEN_LGSP.LGSPElemFlags.IS_MATCHED << negLevel) | prev_neg_0__candidate_ensureMoveLeftValidRule_node_bp;
                             --negLevel;
                             goto label1;
                         }
-                        while( (candidate_ensureMoveLeftValidRule_neg_0_edge__edge0 = candidate_ensureMoveLeftValidRule_neg_0_edge__edge0.inNext) != head_candidate_ensureMoveLeftValidRule_neg_0_edge__edge0 );
+                        while( (candidate_ensureMoveLeftValidRule_neg_0_edge__edge0 = candidate_ensureMoveLeftValidRule_neg_0_edge__edge0.lgspInNext) != head_candidate_ensureMoveLeftValidRule_neg_0_edge__edge0 );
                     }
-                    candidate_ensureMoveLeftValidRule_node_bp.flags = candidate_ensureMoveLeftValidRule_node_bp.flags & ~((uint) GRGEN_LGSP.LGSPElemFlags.IS_MATCHED << negLevel) | prev_neg_0__candidate_ensureMoveLeftValidRule_node_bp;
+                    candidate_ensureMoveLeftValidRule_node_bp.lgspFlags = candidate_ensureMoveLeftValidRule_node_bp.lgspFlags & ~((uint) GRGEN_LGSP.LGSPElemFlags.IS_MATCHED << negLevel) | prev_neg_0__candidate_ensureMoveLeftValidRule_node_bp;
                     --negLevel;
                 }
                 // Extend Outgoing ensureMoveLeftValidRule_edge__edge0 from ensureMoveLeftValidRule_node_wv 
-                GRGEN_LGSP.LGSPEdge head_candidate_ensureMoveLeftValidRule_edge__edge0 = candidate_ensureMoveLeftValidRule_node_wv.outhead;
+                GRGEN_LGSP.LGSPEdge head_candidate_ensureMoveLeftValidRule_edge__edge0 = candidate_ensureMoveLeftValidRule_node_wv.lgspOuthead;
                 if(head_candidate_ensureMoveLeftValidRule_edge__edge0 != null)
                 {
                     GRGEN_LGSP.LGSPEdge candidate_ensureMoveLeftValidRule_edge__edge0 = head_candidate_ensureMoveLeftValidRule_edge__edge0;
                     do
                     {
-                        if(candidate_ensureMoveLeftValidRule_edge__edge0.type.TypeID!=6) {
+                        if(candidate_ensureMoveLeftValidRule_edge__edge0.lgspType.TypeID!=6) {
                             continue;
                         }
                         // Implicit Target ensureMoveLeftValidRule_node__node0 from ensureMoveLeftValidRule_edge__edge0 
-                        GRGEN_LGSP.LGSPNode candidate_ensureMoveLeftValidRule_node__node0 = candidate_ensureMoveLeftValidRule_edge__edge0.target;
-                        if(candidate_ensureMoveLeftValidRule_node__node0.type.TypeID!=2) {
+                        GRGEN_LGSP.LGSPNode candidate_ensureMoveLeftValidRule_node__node0 = candidate_ensureMoveLeftValidRule_edge__edge0.lgspTarget;
+                        if(candidate_ensureMoveLeftValidRule_node__node0.lgspType.TypeID!=2) {
                             continue;
                         }
                         Rule_ensureMoveLeftValidRule.Match_ensureMoveLeftValidRule match = matches.GetNextUnfilledPosition();
@@ -3259,7 +3259,7 @@ label0: ;
                             return;
                         }
                     }
-                    while( (candidate_ensureMoveLeftValidRule_edge__edge0 = candidate_ensureMoveLeftValidRule_edge__edge0.outNext) != head_candidate_ensureMoveLeftValidRule_edge__edge0 );
+                    while( (candidate_ensureMoveLeftValidRule_edge__edge0 = candidate_ensureMoveLeftValidRule_edge__edge0.lgspOutNext) != head_candidate_ensureMoveLeftValidRule_edge__edge0 );
                 }
 label1: ;
             }
@@ -3469,7 +3469,7 @@ label1: ;
                 }
                 return matches;
             }
-            if(candidate_ensureMoveRightValidRule_node_wv.type.TypeID!=3) {
+            if(candidate_ensureMoveRightValidRule_node_wv.lgspType.TypeID!=3) {
                 return matches;
             }
             // Preset ensureMoveRightValidRule_node_bp 
@@ -3483,57 +3483,57 @@ label1: ;
                 }
                 return matches;
             }
-            if(candidate_ensureMoveRightValidRule_node_bp.type.TypeID!=1) {
+            if(candidate_ensureMoveRightValidRule_node_bp.lgspType.TypeID!=1) {
                 return matches;
             }
             // NegativePattern 
             {
                 ++negLevel;
                 uint prev_neg_0__candidate_ensureMoveRightValidRule_node_bp;
-                prev_neg_0__candidate_ensureMoveRightValidRule_node_bp = candidate_ensureMoveRightValidRule_node_bp.flags & (uint) GRGEN_LGSP.LGSPElemFlags.IS_MATCHED << negLevel;
-                candidate_ensureMoveRightValidRule_node_bp.flags |= (uint) GRGEN_LGSP.LGSPElemFlags.IS_MATCHED << negLevel;
+                prev_neg_0__candidate_ensureMoveRightValidRule_node_bp = candidate_ensureMoveRightValidRule_node_bp.lgspFlags & (uint) GRGEN_LGSP.LGSPElemFlags.IS_MATCHED << negLevel;
+                candidate_ensureMoveRightValidRule_node_bp.lgspFlags |= (uint) GRGEN_LGSP.LGSPElemFlags.IS_MATCHED << negLevel;
                 // Extend Outgoing ensureMoveRightValidRule_neg_0_edge__edge0 from ensureMoveRightValidRule_node_bp 
-                GRGEN_LGSP.LGSPEdge head_candidate_ensureMoveRightValidRule_neg_0_edge__edge0 = candidate_ensureMoveRightValidRule_node_bp.outhead;
+                GRGEN_LGSP.LGSPEdge head_candidate_ensureMoveRightValidRule_neg_0_edge__edge0 = candidate_ensureMoveRightValidRule_node_bp.lgspOuthead;
                 if(head_candidate_ensureMoveRightValidRule_neg_0_edge__edge0 != null)
                 {
                     GRGEN_LGSP.LGSPEdge candidate_ensureMoveRightValidRule_neg_0_edge__edge0 = head_candidate_ensureMoveRightValidRule_neg_0_edge__edge0;
                     do
                     {
-                        if(candidate_ensureMoveRightValidRule_neg_0_edge__edge0.type.TypeID!=3) {
+                        if(candidate_ensureMoveRightValidRule_neg_0_edge__edge0.lgspType.TypeID!=3) {
                             continue;
                         }
                         // Implicit Target ensureMoveRightValidRule_neg_0_node__node0 from ensureMoveRightValidRule_neg_0_edge__edge0 
-                        GRGEN_LGSP.LGSPNode candidate_ensureMoveRightValidRule_neg_0_node__node0 = candidate_ensureMoveRightValidRule_neg_0_edge__edge0.target;
-                        if(candidate_ensureMoveRightValidRule_neg_0_node__node0.type.TypeID!=1) {
+                        GRGEN_LGSP.LGSPNode candidate_ensureMoveRightValidRule_neg_0_node__node0 = candidate_ensureMoveRightValidRule_neg_0_edge__edge0.lgspTarget;
+                        if(candidate_ensureMoveRightValidRule_neg_0_node__node0.lgspType.TypeID!=1) {
                             continue;
                         }
-                        if((candidate_ensureMoveRightValidRule_neg_0_node__node0.flags & (uint) GRGEN_LGSP.LGSPElemFlags.IS_MATCHED << negLevel) != 0)
+                        if((candidate_ensureMoveRightValidRule_neg_0_node__node0.lgspFlags & (uint) GRGEN_LGSP.LGSPElemFlags.IS_MATCHED << negLevel) != 0)
                         {
                             continue;
                         }
                         // negative pattern found
-                        candidate_ensureMoveRightValidRule_node_bp.flags = candidate_ensureMoveRightValidRule_node_bp.flags & ~((uint) GRGEN_LGSP.LGSPElemFlags.IS_MATCHED << negLevel) | prev_neg_0__candidate_ensureMoveRightValidRule_node_bp;
+                        candidate_ensureMoveRightValidRule_node_bp.lgspFlags = candidate_ensureMoveRightValidRule_node_bp.lgspFlags & ~((uint) GRGEN_LGSP.LGSPElemFlags.IS_MATCHED << negLevel) | prev_neg_0__candidate_ensureMoveRightValidRule_node_bp;
                         --negLevel;
                         return matches;
                     }
-                    while( (candidate_ensureMoveRightValidRule_neg_0_edge__edge0 = candidate_ensureMoveRightValidRule_neg_0_edge__edge0.outNext) != head_candidate_ensureMoveRightValidRule_neg_0_edge__edge0 );
+                    while( (candidate_ensureMoveRightValidRule_neg_0_edge__edge0 = candidate_ensureMoveRightValidRule_neg_0_edge__edge0.lgspOutNext) != head_candidate_ensureMoveRightValidRule_neg_0_edge__edge0 );
                 }
-                candidate_ensureMoveRightValidRule_node_bp.flags = candidate_ensureMoveRightValidRule_node_bp.flags & ~((uint) GRGEN_LGSP.LGSPElemFlags.IS_MATCHED << negLevel) | prev_neg_0__candidate_ensureMoveRightValidRule_node_bp;
+                candidate_ensureMoveRightValidRule_node_bp.lgspFlags = candidate_ensureMoveRightValidRule_node_bp.lgspFlags & ~((uint) GRGEN_LGSP.LGSPElemFlags.IS_MATCHED << negLevel) | prev_neg_0__candidate_ensureMoveRightValidRule_node_bp;
                 --negLevel;
             }
             // Extend Outgoing ensureMoveRightValidRule_edge__edge0 from ensureMoveRightValidRule_node_wv 
-            GRGEN_LGSP.LGSPEdge head_candidate_ensureMoveRightValidRule_edge__edge0 = candidate_ensureMoveRightValidRule_node_wv.outhead;
+            GRGEN_LGSP.LGSPEdge head_candidate_ensureMoveRightValidRule_edge__edge0 = candidate_ensureMoveRightValidRule_node_wv.lgspOuthead;
             if(head_candidate_ensureMoveRightValidRule_edge__edge0 != null)
             {
                 GRGEN_LGSP.LGSPEdge candidate_ensureMoveRightValidRule_edge__edge0 = head_candidate_ensureMoveRightValidRule_edge__edge0;
                 do
                 {
-                    if(candidate_ensureMoveRightValidRule_edge__edge0.type.TypeID!=7) {
+                    if(candidate_ensureMoveRightValidRule_edge__edge0.lgspType.TypeID!=7) {
                         continue;
                     }
                     // Implicit Target ensureMoveRightValidRule_node__node0 from ensureMoveRightValidRule_edge__edge0 
-                    GRGEN_LGSP.LGSPNode candidate_ensureMoveRightValidRule_node__node0 = candidate_ensureMoveRightValidRule_edge__edge0.target;
-                    if(candidate_ensureMoveRightValidRule_node__node0.type.TypeID!=2) {
+                    GRGEN_LGSP.LGSPNode candidate_ensureMoveRightValidRule_node__node0 = candidate_ensureMoveRightValidRule_edge__edge0.lgspTarget;
+                    if(candidate_ensureMoveRightValidRule_node__node0.lgspType.TypeID!=2) {
                         continue;
                     }
                     Rule_ensureMoveRightValidRule.Match_ensureMoveRightValidRule match = matches.GetNextUnfilledPosition();
@@ -3549,7 +3549,7 @@ label1: ;
                         return matches;
                     }
                 }
-                while( (candidate_ensureMoveRightValidRule_edge__edge0 = candidate_ensureMoveRightValidRule_edge__edge0.outNext) != head_candidate_ensureMoveRightValidRule_edge__edge0 );
+                while( (candidate_ensureMoveRightValidRule_edge__edge0 = candidate_ensureMoveRightValidRule_edge__edge0.lgspOutNext) != head_candidate_ensureMoveRightValidRule_edge__edge0 );
             }
             return matches;
         }
@@ -3558,7 +3558,7 @@ label1: ;
             int negLevel = 0;
             // Lookup ensureMoveRightValidRule_node_wv 
             int type_id_candidate_ensureMoveRightValidRule_node_wv = 3;
-            for(GRGEN_LGSP.LGSPNode head_candidate_ensureMoveRightValidRule_node_wv = graph.nodesByTypeHeads[type_id_candidate_ensureMoveRightValidRule_node_wv], candidate_ensureMoveRightValidRule_node_wv = head_candidate_ensureMoveRightValidRule_node_wv.typeNext; candidate_ensureMoveRightValidRule_node_wv != head_candidate_ensureMoveRightValidRule_node_wv; candidate_ensureMoveRightValidRule_node_wv = candidate_ensureMoveRightValidRule_node_wv.typeNext)
+            for(GRGEN_LGSP.LGSPNode head_candidate_ensureMoveRightValidRule_node_wv = graph.nodesByTypeHeads[type_id_candidate_ensureMoveRightValidRule_node_wv], candidate_ensureMoveRightValidRule_node_wv = head_candidate_ensureMoveRightValidRule_node_wv.lgspTypeNext; candidate_ensureMoveRightValidRule_node_wv != head_candidate_ensureMoveRightValidRule_node_wv; candidate_ensureMoveRightValidRule_node_wv = candidate_ensureMoveRightValidRule_node_wv.lgspTypeNext)
             {
                 // Preset ensureMoveRightValidRule_node_bp 
                 GRGEN_LGSP.LGSPNode candidate_ensureMoveRightValidRule_node_bp = (GRGEN_LGSP.LGSPNode)ensureMoveRightValidRule_node_bp;
@@ -3571,57 +3571,57 @@ label1: ;
                     }
                     continue;
                 }
-                if(candidate_ensureMoveRightValidRule_node_bp.type.TypeID!=1) {
+                if(candidate_ensureMoveRightValidRule_node_bp.lgspType.TypeID!=1) {
                     continue;
                 }
                 // NegativePattern 
                 {
                     ++negLevel;
                     uint prev_neg_0__candidate_ensureMoveRightValidRule_node_bp;
-                    prev_neg_0__candidate_ensureMoveRightValidRule_node_bp = candidate_ensureMoveRightValidRule_node_bp.flags & (uint) GRGEN_LGSP.LGSPElemFlags.IS_MATCHED << negLevel;
-                    candidate_ensureMoveRightValidRule_node_bp.flags |= (uint) GRGEN_LGSP.LGSPElemFlags.IS_MATCHED << negLevel;
+                    prev_neg_0__candidate_ensureMoveRightValidRule_node_bp = candidate_ensureMoveRightValidRule_node_bp.lgspFlags & (uint) GRGEN_LGSP.LGSPElemFlags.IS_MATCHED << negLevel;
+                    candidate_ensureMoveRightValidRule_node_bp.lgspFlags |= (uint) GRGEN_LGSP.LGSPElemFlags.IS_MATCHED << negLevel;
                     // Extend Outgoing ensureMoveRightValidRule_neg_0_edge__edge0 from ensureMoveRightValidRule_node_bp 
-                    GRGEN_LGSP.LGSPEdge head_candidate_ensureMoveRightValidRule_neg_0_edge__edge0 = candidate_ensureMoveRightValidRule_node_bp.outhead;
+                    GRGEN_LGSP.LGSPEdge head_candidate_ensureMoveRightValidRule_neg_0_edge__edge0 = candidate_ensureMoveRightValidRule_node_bp.lgspOuthead;
                     if(head_candidate_ensureMoveRightValidRule_neg_0_edge__edge0 != null)
                     {
                         GRGEN_LGSP.LGSPEdge candidate_ensureMoveRightValidRule_neg_0_edge__edge0 = head_candidate_ensureMoveRightValidRule_neg_0_edge__edge0;
                         do
                         {
-                            if(candidate_ensureMoveRightValidRule_neg_0_edge__edge0.type.TypeID!=3) {
+                            if(candidate_ensureMoveRightValidRule_neg_0_edge__edge0.lgspType.TypeID!=3) {
                                 continue;
                             }
                             // Implicit Target ensureMoveRightValidRule_neg_0_node__node0 from ensureMoveRightValidRule_neg_0_edge__edge0 
-                            GRGEN_LGSP.LGSPNode candidate_ensureMoveRightValidRule_neg_0_node__node0 = candidate_ensureMoveRightValidRule_neg_0_edge__edge0.target;
-                            if(candidate_ensureMoveRightValidRule_neg_0_node__node0.type.TypeID!=1) {
+                            GRGEN_LGSP.LGSPNode candidate_ensureMoveRightValidRule_neg_0_node__node0 = candidate_ensureMoveRightValidRule_neg_0_edge__edge0.lgspTarget;
+                            if(candidate_ensureMoveRightValidRule_neg_0_node__node0.lgspType.TypeID!=1) {
                                 continue;
                             }
-                            if((candidate_ensureMoveRightValidRule_neg_0_node__node0.flags & (uint) GRGEN_LGSP.LGSPElemFlags.IS_MATCHED << negLevel) != 0)
+                            if((candidate_ensureMoveRightValidRule_neg_0_node__node0.lgspFlags & (uint) GRGEN_LGSP.LGSPElemFlags.IS_MATCHED << negLevel) != 0)
                             {
                                 continue;
                             }
                             // negative pattern found
-                            candidate_ensureMoveRightValidRule_node_bp.flags = candidate_ensureMoveRightValidRule_node_bp.flags & ~((uint) GRGEN_LGSP.LGSPElemFlags.IS_MATCHED << negLevel) | prev_neg_0__candidate_ensureMoveRightValidRule_node_bp;
+                            candidate_ensureMoveRightValidRule_node_bp.lgspFlags = candidate_ensureMoveRightValidRule_node_bp.lgspFlags & ~((uint) GRGEN_LGSP.LGSPElemFlags.IS_MATCHED << negLevel) | prev_neg_0__candidate_ensureMoveRightValidRule_node_bp;
                             --negLevel;
                             goto label2;
                         }
-                        while( (candidate_ensureMoveRightValidRule_neg_0_edge__edge0 = candidate_ensureMoveRightValidRule_neg_0_edge__edge0.outNext) != head_candidate_ensureMoveRightValidRule_neg_0_edge__edge0 );
+                        while( (candidate_ensureMoveRightValidRule_neg_0_edge__edge0 = candidate_ensureMoveRightValidRule_neg_0_edge__edge0.lgspOutNext) != head_candidate_ensureMoveRightValidRule_neg_0_edge__edge0 );
                     }
-                    candidate_ensureMoveRightValidRule_node_bp.flags = candidate_ensureMoveRightValidRule_node_bp.flags & ~((uint) GRGEN_LGSP.LGSPElemFlags.IS_MATCHED << negLevel) | prev_neg_0__candidate_ensureMoveRightValidRule_node_bp;
+                    candidate_ensureMoveRightValidRule_node_bp.lgspFlags = candidate_ensureMoveRightValidRule_node_bp.lgspFlags & ~((uint) GRGEN_LGSP.LGSPElemFlags.IS_MATCHED << negLevel) | prev_neg_0__candidate_ensureMoveRightValidRule_node_bp;
                     --negLevel;
                 }
                 // Extend Outgoing ensureMoveRightValidRule_edge__edge0 from ensureMoveRightValidRule_node_wv 
-                GRGEN_LGSP.LGSPEdge head_candidate_ensureMoveRightValidRule_edge__edge0 = candidate_ensureMoveRightValidRule_node_wv.outhead;
+                GRGEN_LGSP.LGSPEdge head_candidate_ensureMoveRightValidRule_edge__edge0 = candidate_ensureMoveRightValidRule_node_wv.lgspOuthead;
                 if(head_candidate_ensureMoveRightValidRule_edge__edge0 != null)
                 {
                     GRGEN_LGSP.LGSPEdge candidate_ensureMoveRightValidRule_edge__edge0 = head_candidate_ensureMoveRightValidRule_edge__edge0;
                     do
                     {
-                        if(candidate_ensureMoveRightValidRule_edge__edge0.type.TypeID!=7) {
+                        if(candidate_ensureMoveRightValidRule_edge__edge0.lgspType.TypeID!=7) {
                             continue;
                         }
                         // Implicit Target ensureMoveRightValidRule_node__node0 from ensureMoveRightValidRule_edge__edge0 
-                        GRGEN_LGSP.LGSPNode candidate_ensureMoveRightValidRule_node__node0 = candidate_ensureMoveRightValidRule_edge__edge0.target;
-                        if(candidate_ensureMoveRightValidRule_node__node0.type.TypeID!=2) {
+                        GRGEN_LGSP.LGSPNode candidate_ensureMoveRightValidRule_node__node0 = candidate_ensureMoveRightValidRule_edge__edge0.lgspTarget;
+                        if(candidate_ensureMoveRightValidRule_node__node0.lgspType.TypeID!=2) {
                             continue;
                         }
                         Rule_ensureMoveRightValidRule.Match_ensureMoveRightValidRule match = matches.GetNextUnfilledPosition();
@@ -3638,7 +3638,7 @@ label1: ;
                             return;
                         }
                     }
-                    while( (candidate_ensureMoveRightValidRule_edge__edge0 = candidate_ensureMoveRightValidRule_edge__edge0.outNext) != head_candidate_ensureMoveRightValidRule_edge__edge0 );
+                    while( (candidate_ensureMoveRightValidRule_edge__edge0 = candidate_ensureMoveRightValidRule_edge__edge0.lgspOutNext) != head_candidate_ensureMoveRightValidRule_edge__edge0 );
                 }
 label2: ;
             }
@@ -3649,56 +3649,56 @@ label2: ;
             int negLevel = 0;
             // Lookup ensureMoveRightValidRule_node_bp 
             int type_id_candidate_ensureMoveRightValidRule_node_bp = 1;
-            for(GRGEN_LGSP.LGSPNode head_candidate_ensureMoveRightValidRule_node_bp = graph.nodesByTypeHeads[type_id_candidate_ensureMoveRightValidRule_node_bp], candidate_ensureMoveRightValidRule_node_bp = head_candidate_ensureMoveRightValidRule_node_bp.typeNext; candidate_ensureMoveRightValidRule_node_bp != head_candidate_ensureMoveRightValidRule_node_bp; candidate_ensureMoveRightValidRule_node_bp = candidate_ensureMoveRightValidRule_node_bp.typeNext)
+            for(GRGEN_LGSP.LGSPNode head_candidate_ensureMoveRightValidRule_node_bp = graph.nodesByTypeHeads[type_id_candidate_ensureMoveRightValidRule_node_bp], candidate_ensureMoveRightValidRule_node_bp = head_candidate_ensureMoveRightValidRule_node_bp.lgspTypeNext; candidate_ensureMoveRightValidRule_node_bp != head_candidate_ensureMoveRightValidRule_node_bp; candidate_ensureMoveRightValidRule_node_bp = candidate_ensureMoveRightValidRule_node_bp.lgspTypeNext)
             {
                 // NegativePattern 
                 {
                     ++negLevel;
                     uint prev_neg_0__candidate_ensureMoveRightValidRule_node_bp;
-                    prev_neg_0__candidate_ensureMoveRightValidRule_node_bp = candidate_ensureMoveRightValidRule_node_bp.flags & (uint) GRGEN_LGSP.LGSPElemFlags.IS_MATCHED << negLevel;
-                    candidate_ensureMoveRightValidRule_node_bp.flags |= (uint) GRGEN_LGSP.LGSPElemFlags.IS_MATCHED << negLevel;
+                    prev_neg_0__candidate_ensureMoveRightValidRule_node_bp = candidate_ensureMoveRightValidRule_node_bp.lgspFlags & (uint) GRGEN_LGSP.LGSPElemFlags.IS_MATCHED << negLevel;
+                    candidate_ensureMoveRightValidRule_node_bp.lgspFlags |= (uint) GRGEN_LGSP.LGSPElemFlags.IS_MATCHED << negLevel;
                     // Extend Outgoing ensureMoveRightValidRule_neg_0_edge__edge0 from ensureMoveRightValidRule_node_bp 
-                    GRGEN_LGSP.LGSPEdge head_candidate_ensureMoveRightValidRule_neg_0_edge__edge0 = candidate_ensureMoveRightValidRule_node_bp.outhead;
+                    GRGEN_LGSP.LGSPEdge head_candidate_ensureMoveRightValidRule_neg_0_edge__edge0 = candidate_ensureMoveRightValidRule_node_bp.lgspOuthead;
                     if(head_candidate_ensureMoveRightValidRule_neg_0_edge__edge0 != null)
                     {
                         GRGEN_LGSP.LGSPEdge candidate_ensureMoveRightValidRule_neg_0_edge__edge0 = head_candidate_ensureMoveRightValidRule_neg_0_edge__edge0;
                         do
                         {
-                            if(candidate_ensureMoveRightValidRule_neg_0_edge__edge0.type.TypeID!=3) {
+                            if(candidate_ensureMoveRightValidRule_neg_0_edge__edge0.lgspType.TypeID!=3) {
                                 continue;
                             }
                             // Implicit Target ensureMoveRightValidRule_neg_0_node__node0 from ensureMoveRightValidRule_neg_0_edge__edge0 
-                            GRGEN_LGSP.LGSPNode candidate_ensureMoveRightValidRule_neg_0_node__node0 = candidate_ensureMoveRightValidRule_neg_0_edge__edge0.target;
-                            if(candidate_ensureMoveRightValidRule_neg_0_node__node0.type.TypeID!=1) {
+                            GRGEN_LGSP.LGSPNode candidate_ensureMoveRightValidRule_neg_0_node__node0 = candidate_ensureMoveRightValidRule_neg_0_edge__edge0.lgspTarget;
+                            if(candidate_ensureMoveRightValidRule_neg_0_node__node0.lgspType.TypeID!=1) {
                                 continue;
                             }
-                            if((candidate_ensureMoveRightValidRule_neg_0_node__node0.flags & (uint) GRGEN_LGSP.LGSPElemFlags.IS_MATCHED << negLevel) != 0)
+                            if((candidate_ensureMoveRightValidRule_neg_0_node__node0.lgspFlags & (uint) GRGEN_LGSP.LGSPElemFlags.IS_MATCHED << negLevel) != 0)
                             {
                                 continue;
                             }
                             // negative pattern found
-                            candidate_ensureMoveRightValidRule_node_bp.flags = candidate_ensureMoveRightValidRule_node_bp.flags & ~((uint) GRGEN_LGSP.LGSPElemFlags.IS_MATCHED << negLevel) | prev_neg_0__candidate_ensureMoveRightValidRule_node_bp;
+                            candidate_ensureMoveRightValidRule_node_bp.lgspFlags = candidate_ensureMoveRightValidRule_node_bp.lgspFlags & ~((uint) GRGEN_LGSP.LGSPElemFlags.IS_MATCHED << negLevel) | prev_neg_0__candidate_ensureMoveRightValidRule_node_bp;
                             --negLevel;
                             goto label3;
                         }
-                        while( (candidate_ensureMoveRightValidRule_neg_0_edge__edge0 = candidate_ensureMoveRightValidRule_neg_0_edge__edge0.outNext) != head_candidate_ensureMoveRightValidRule_neg_0_edge__edge0 );
+                        while( (candidate_ensureMoveRightValidRule_neg_0_edge__edge0 = candidate_ensureMoveRightValidRule_neg_0_edge__edge0.lgspOutNext) != head_candidate_ensureMoveRightValidRule_neg_0_edge__edge0 );
                     }
-                    candidate_ensureMoveRightValidRule_node_bp.flags = candidate_ensureMoveRightValidRule_node_bp.flags & ~((uint) GRGEN_LGSP.LGSPElemFlags.IS_MATCHED << negLevel) | prev_neg_0__candidate_ensureMoveRightValidRule_node_bp;
+                    candidate_ensureMoveRightValidRule_node_bp.lgspFlags = candidate_ensureMoveRightValidRule_node_bp.lgspFlags & ~((uint) GRGEN_LGSP.LGSPElemFlags.IS_MATCHED << negLevel) | prev_neg_0__candidate_ensureMoveRightValidRule_node_bp;
                     --negLevel;
                 }
                 // Extend Outgoing ensureMoveRightValidRule_edge__edge0 from ensureMoveRightValidRule_node_wv 
-                GRGEN_LGSP.LGSPEdge head_candidate_ensureMoveRightValidRule_edge__edge0 = candidate_ensureMoveRightValidRule_node_wv.outhead;
+                GRGEN_LGSP.LGSPEdge head_candidate_ensureMoveRightValidRule_edge__edge0 = candidate_ensureMoveRightValidRule_node_wv.lgspOuthead;
                 if(head_candidate_ensureMoveRightValidRule_edge__edge0 != null)
                 {
                     GRGEN_LGSP.LGSPEdge candidate_ensureMoveRightValidRule_edge__edge0 = head_candidate_ensureMoveRightValidRule_edge__edge0;
                     do
                     {
-                        if(candidate_ensureMoveRightValidRule_edge__edge0.type.TypeID!=7) {
+                        if(candidate_ensureMoveRightValidRule_edge__edge0.lgspType.TypeID!=7) {
                             continue;
                         }
                         // Implicit Target ensureMoveRightValidRule_node__node0 from ensureMoveRightValidRule_edge__edge0 
-                        GRGEN_LGSP.LGSPNode candidate_ensureMoveRightValidRule_node__node0 = candidate_ensureMoveRightValidRule_edge__edge0.target;
-                        if(candidate_ensureMoveRightValidRule_node__node0.type.TypeID!=2) {
+                        GRGEN_LGSP.LGSPNode candidate_ensureMoveRightValidRule_node__node0 = candidate_ensureMoveRightValidRule_edge__edge0.lgspTarget;
+                        if(candidate_ensureMoveRightValidRule_node__node0.lgspType.TypeID!=2) {
                             continue;
                         }
                         Rule_ensureMoveRightValidRule.Match_ensureMoveRightValidRule match = matches.GetNextUnfilledPosition();
@@ -3715,7 +3715,7 @@ label2: ;
                             return;
                         }
                     }
-                    while( (candidate_ensureMoveRightValidRule_edge__edge0 = candidate_ensureMoveRightValidRule_edge__edge0.outNext) != head_candidate_ensureMoveRightValidRule_edge__edge0 );
+                    while( (candidate_ensureMoveRightValidRule_edge__edge0 = candidate_ensureMoveRightValidRule_edge__edge0.lgspOutNext) != head_candidate_ensureMoveRightValidRule_edge__edge0 );
                 }
 label3: ;
             }
@@ -3925,7 +3925,7 @@ label3: ;
                 }
                 return matches;
             }
-            if(candidate_moveLeftRule_node_wv.type.TypeID!=3) {
+            if(candidate_moveLeftRule_node_wv.lgspType.TypeID!=3) {
                 return matches;
             }
             // Preset moveLeftRule_node_bp 
@@ -3939,43 +3939,43 @@ label3: ;
                 }
                 return matches;
             }
-            if(candidate_moveLeftRule_node_bp.type.TypeID!=1) {
+            if(candidate_moveLeftRule_node_bp.lgspType.TypeID!=1) {
                 return matches;
             }
             uint prev__candidate_moveLeftRule_node_bp;
-            prev__candidate_moveLeftRule_node_bp = candidate_moveLeftRule_node_bp.flags & (uint) GRGEN_LGSP.LGSPElemFlags.IS_MATCHED << negLevel;
-            candidate_moveLeftRule_node_bp.flags |= (uint) GRGEN_LGSP.LGSPElemFlags.IS_MATCHED << negLevel;
+            prev__candidate_moveLeftRule_node_bp = candidate_moveLeftRule_node_bp.lgspFlags & (uint) GRGEN_LGSP.LGSPElemFlags.IS_MATCHED << negLevel;
+            candidate_moveLeftRule_node_bp.lgspFlags |= (uint) GRGEN_LGSP.LGSPElemFlags.IS_MATCHED << negLevel;
             // Extend Outgoing moveLeftRule_edge__edge0 from moveLeftRule_node_wv 
-            GRGEN_LGSP.LGSPEdge head_candidate_moveLeftRule_edge__edge0 = candidate_moveLeftRule_node_wv.outhead;
+            GRGEN_LGSP.LGSPEdge head_candidate_moveLeftRule_edge__edge0 = candidate_moveLeftRule_node_wv.lgspOuthead;
             if(head_candidate_moveLeftRule_edge__edge0 != null)
             {
                 GRGEN_LGSP.LGSPEdge candidate_moveLeftRule_edge__edge0 = head_candidate_moveLeftRule_edge__edge0;
                 do
                 {
-                    if(candidate_moveLeftRule_edge__edge0.type.TypeID!=6) {
+                    if(candidate_moveLeftRule_edge__edge0.lgspType.TypeID!=6) {
                         continue;
                     }
                     // Implicit Target moveLeftRule_node_s from moveLeftRule_edge__edge0 
-                    GRGEN_LGSP.LGSPNode candidate_moveLeftRule_node_s = candidate_moveLeftRule_edge__edge0.target;
-                    if(candidate_moveLeftRule_node_s.type.TypeID!=2) {
+                    GRGEN_LGSP.LGSPNode candidate_moveLeftRule_node_s = candidate_moveLeftRule_edge__edge0.lgspTarget;
+                    if(candidate_moveLeftRule_node_s.lgspType.TypeID!=2) {
                         continue;
                     }
                     // Extend Incoming moveLeftRule_edge__edge1 from moveLeftRule_node_bp 
-                    GRGEN_LGSP.LGSPEdge head_candidate_moveLeftRule_edge__edge1 = candidate_moveLeftRule_node_bp.inhead;
+                    GRGEN_LGSP.LGSPEdge head_candidate_moveLeftRule_edge__edge1 = candidate_moveLeftRule_node_bp.lgspInhead;
                     if(head_candidate_moveLeftRule_edge__edge1 != null)
                     {
                         GRGEN_LGSP.LGSPEdge candidate_moveLeftRule_edge__edge1 = head_candidate_moveLeftRule_edge__edge1;
                         do
                         {
-                            if(candidate_moveLeftRule_edge__edge1.type.TypeID!=3) {
+                            if(candidate_moveLeftRule_edge__edge1.lgspType.TypeID!=3) {
                                 continue;
                             }
                             // Implicit Source moveLeftRule_node_lbp from moveLeftRule_edge__edge1 
-                            GRGEN_LGSP.LGSPNode candidate_moveLeftRule_node_lbp = candidate_moveLeftRule_edge__edge1.source;
-                            if(candidate_moveLeftRule_node_lbp.type.TypeID!=1) {
+                            GRGEN_LGSP.LGSPNode candidate_moveLeftRule_node_lbp = candidate_moveLeftRule_edge__edge1.lgspSource;
+                            if(candidate_moveLeftRule_node_lbp.lgspType.TypeID!=1) {
                                 continue;
                             }
-                            if((candidate_moveLeftRule_node_lbp.flags & (uint) GRGEN_LGSP.LGSPElemFlags.IS_MATCHED << negLevel) != 0)
+                            if((candidate_moveLeftRule_node_lbp.lgspFlags & (uint) GRGEN_LGSP.LGSPElemFlags.IS_MATCHED << negLevel) != 0)
                             {
                                 continue;
                             }
@@ -3992,16 +3992,16 @@ label3: ;
                             {
                                 candidate_moveLeftRule_node_bp.MoveInHeadAfter(candidate_moveLeftRule_edge__edge1);
                                 candidate_moveLeftRule_node_wv.MoveOutHeadAfter(candidate_moveLeftRule_edge__edge0);
-                                candidate_moveLeftRule_node_bp.flags = candidate_moveLeftRule_node_bp.flags & ~((uint) GRGEN_LGSP.LGSPElemFlags.IS_MATCHED << negLevel) | prev__candidate_moveLeftRule_node_bp;
+                                candidate_moveLeftRule_node_bp.lgspFlags = candidate_moveLeftRule_node_bp.lgspFlags & ~((uint) GRGEN_LGSP.LGSPElemFlags.IS_MATCHED << negLevel) | prev__candidate_moveLeftRule_node_bp;
                                 return matches;
                             }
                         }
-                        while( (candidate_moveLeftRule_edge__edge1 = candidate_moveLeftRule_edge__edge1.inNext) != head_candidate_moveLeftRule_edge__edge1 );
+                        while( (candidate_moveLeftRule_edge__edge1 = candidate_moveLeftRule_edge__edge1.lgspInNext) != head_candidate_moveLeftRule_edge__edge1 );
                     }
                 }
-                while( (candidate_moveLeftRule_edge__edge0 = candidate_moveLeftRule_edge__edge0.outNext) != head_candidate_moveLeftRule_edge__edge0 );
+                while( (candidate_moveLeftRule_edge__edge0 = candidate_moveLeftRule_edge__edge0.lgspOutNext) != head_candidate_moveLeftRule_edge__edge0 );
             }
-            candidate_moveLeftRule_node_bp.flags = candidate_moveLeftRule_node_bp.flags & ~((uint) GRGEN_LGSP.LGSPElemFlags.IS_MATCHED << negLevel) | prev__candidate_moveLeftRule_node_bp;
+            candidate_moveLeftRule_node_bp.lgspFlags = candidate_moveLeftRule_node_bp.lgspFlags & ~((uint) GRGEN_LGSP.LGSPElemFlags.IS_MATCHED << negLevel) | prev__candidate_moveLeftRule_node_bp;
             return matches;
         }
         public void MissingPreset_moveLeftRule_node_wv(GRGEN_LGSP.LGSPGraph graph, int maxMatches, GRGEN_MODEL.IWriteValue moveLeftRule_node_wv, GRGEN_MODEL.IBandPosition moveLeftRule_node_bp, Stack<GRGEN_LGSP.LGSPSubpatternAction> openTasks, List<Stack<GRGEN_LIBGR.IMatch>> foundPartialMatches, List<Stack<GRGEN_LIBGR.IMatch>> matchesList)
@@ -4009,7 +4009,7 @@ label3: ;
             int negLevel = 0;
             // Lookup moveLeftRule_node_wv 
             int type_id_candidate_moveLeftRule_node_wv = 3;
-            for(GRGEN_LGSP.LGSPNode head_candidate_moveLeftRule_node_wv = graph.nodesByTypeHeads[type_id_candidate_moveLeftRule_node_wv], candidate_moveLeftRule_node_wv = head_candidate_moveLeftRule_node_wv.typeNext; candidate_moveLeftRule_node_wv != head_candidate_moveLeftRule_node_wv; candidate_moveLeftRule_node_wv = candidate_moveLeftRule_node_wv.typeNext)
+            for(GRGEN_LGSP.LGSPNode head_candidate_moveLeftRule_node_wv = graph.nodesByTypeHeads[type_id_candidate_moveLeftRule_node_wv], candidate_moveLeftRule_node_wv = head_candidate_moveLeftRule_node_wv.lgspTypeNext; candidate_moveLeftRule_node_wv != head_candidate_moveLeftRule_node_wv; candidate_moveLeftRule_node_wv = candidate_moveLeftRule_node_wv.lgspTypeNext)
             {
                 // Preset moveLeftRule_node_bp 
                 GRGEN_LGSP.LGSPNode candidate_moveLeftRule_node_bp = (GRGEN_LGSP.LGSPNode)moveLeftRule_node_bp;
@@ -4022,43 +4022,43 @@ label3: ;
                     }
                     continue;
                 }
-                if(candidate_moveLeftRule_node_bp.type.TypeID!=1) {
+                if(candidate_moveLeftRule_node_bp.lgspType.TypeID!=1) {
                     continue;
                 }
                 uint prev__candidate_moveLeftRule_node_bp;
-                prev__candidate_moveLeftRule_node_bp = candidate_moveLeftRule_node_bp.flags & (uint) GRGEN_LGSP.LGSPElemFlags.IS_MATCHED << negLevel;
-                candidate_moveLeftRule_node_bp.flags |= (uint) GRGEN_LGSP.LGSPElemFlags.IS_MATCHED << negLevel;
+                prev__candidate_moveLeftRule_node_bp = candidate_moveLeftRule_node_bp.lgspFlags & (uint) GRGEN_LGSP.LGSPElemFlags.IS_MATCHED << negLevel;
+                candidate_moveLeftRule_node_bp.lgspFlags |= (uint) GRGEN_LGSP.LGSPElemFlags.IS_MATCHED << negLevel;
                 // Extend Outgoing moveLeftRule_edge__edge0 from moveLeftRule_node_wv 
-                GRGEN_LGSP.LGSPEdge head_candidate_moveLeftRule_edge__edge0 = candidate_moveLeftRule_node_wv.outhead;
+                GRGEN_LGSP.LGSPEdge head_candidate_moveLeftRule_edge__edge0 = candidate_moveLeftRule_node_wv.lgspOuthead;
                 if(head_candidate_moveLeftRule_edge__edge0 != null)
                 {
                     GRGEN_LGSP.LGSPEdge candidate_moveLeftRule_edge__edge0 = head_candidate_moveLeftRule_edge__edge0;
                     do
                     {
-                        if(candidate_moveLeftRule_edge__edge0.type.TypeID!=6) {
+                        if(candidate_moveLeftRule_edge__edge0.lgspType.TypeID!=6) {
                             continue;
                         }
                         // Implicit Target moveLeftRule_node_s from moveLeftRule_edge__edge0 
-                        GRGEN_LGSP.LGSPNode candidate_moveLeftRule_node_s = candidate_moveLeftRule_edge__edge0.target;
-                        if(candidate_moveLeftRule_node_s.type.TypeID!=2) {
+                        GRGEN_LGSP.LGSPNode candidate_moveLeftRule_node_s = candidate_moveLeftRule_edge__edge0.lgspTarget;
+                        if(candidate_moveLeftRule_node_s.lgspType.TypeID!=2) {
                             continue;
                         }
                         // Extend Incoming moveLeftRule_edge__edge1 from moveLeftRule_node_bp 
-                        GRGEN_LGSP.LGSPEdge head_candidate_moveLeftRule_edge__edge1 = candidate_moveLeftRule_node_bp.inhead;
+                        GRGEN_LGSP.LGSPEdge head_candidate_moveLeftRule_edge__edge1 = candidate_moveLeftRule_node_bp.lgspInhead;
                         if(head_candidate_moveLeftRule_edge__edge1 != null)
                         {
                             GRGEN_LGSP.LGSPEdge candidate_moveLeftRule_edge__edge1 = head_candidate_moveLeftRule_edge__edge1;
                             do
                             {
-                                if(candidate_moveLeftRule_edge__edge1.type.TypeID!=3) {
+                                if(candidate_moveLeftRule_edge__edge1.lgspType.TypeID!=3) {
                                     continue;
                                 }
                                 // Implicit Source moveLeftRule_node_lbp from moveLeftRule_edge__edge1 
-                                GRGEN_LGSP.LGSPNode candidate_moveLeftRule_node_lbp = candidate_moveLeftRule_edge__edge1.source;
-                                if(candidate_moveLeftRule_node_lbp.type.TypeID!=1) {
+                                GRGEN_LGSP.LGSPNode candidate_moveLeftRule_node_lbp = candidate_moveLeftRule_edge__edge1.lgspSource;
+                                if(candidate_moveLeftRule_node_lbp.lgspType.TypeID!=1) {
                                     continue;
                                 }
-                                if((candidate_moveLeftRule_node_lbp.flags & (uint) GRGEN_LGSP.LGSPElemFlags.IS_MATCHED << negLevel) != 0)
+                                if((candidate_moveLeftRule_node_lbp.lgspFlags & (uint) GRGEN_LGSP.LGSPElemFlags.IS_MATCHED << negLevel) != 0)
                                 {
                                     continue;
                                 }
@@ -4076,16 +4076,16 @@ label3: ;
                                     candidate_moveLeftRule_node_bp.MoveInHeadAfter(candidate_moveLeftRule_edge__edge1);
                                     candidate_moveLeftRule_node_wv.MoveOutHeadAfter(candidate_moveLeftRule_edge__edge0);
                                     graph.MoveHeadAfter(candidate_moveLeftRule_node_wv);
-                                    candidate_moveLeftRule_node_bp.flags = candidate_moveLeftRule_node_bp.flags & ~((uint) GRGEN_LGSP.LGSPElemFlags.IS_MATCHED << negLevel) | prev__candidate_moveLeftRule_node_bp;
+                                    candidate_moveLeftRule_node_bp.lgspFlags = candidate_moveLeftRule_node_bp.lgspFlags & ~((uint) GRGEN_LGSP.LGSPElemFlags.IS_MATCHED << negLevel) | prev__candidate_moveLeftRule_node_bp;
                                     return;
                                 }
                             }
-                            while( (candidate_moveLeftRule_edge__edge1 = candidate_moveLeftRule_edge__edge1.inNext) != head_candidate_moveLeftRule_edge__edge1 );
+                            while( (candidate_moveLeftRule_edge__edge1 = candidate_moveLeftRule_edge__edge1.lgspInNext) != head_candidate_moveLeftRule_edge__edge1 );
                         }
                     }
-                    while( (candidate_moveLeftRule_edge__edge0 = candidate_moveLeftRule_edge__edge0.outNext) != head_candidate_moveLeftRule_edge__edge0 );
+                    while( (candidate_moveLeftRule_edge__edge0 = candidate_moveLeftRule_edge__edge0.lgspOutNext) != head_candidate_moveLeftRule_edge__edge0 );
                 }
-                candidate_moveLeftRule_node_bp.flags = candidate_moveLeftRule_node_bp.flags & ~((uint) GRGEN_LGSP.LGSPElemFlags.IS_MATCHED << negLevel) | prev__candidate_moveLeftRule_node_bp;
+                candidate_moveLeftRule_node_bp.lgspFlags = candidate_moveLeftRule_node_bp.lgspFlags & ~((uint) GRGEN_LGSP.LGSPElemFlags.IS_MATCHED << negLevel) | prev__candidate_moveLeftRule_node_bp;
             }
             return;
         }
@@ -4094,42 +4094,42 @@ label3: ;
             int negLevel = 0;
             // Lookup moveLeftRule_node_bp 
             int type_id_candidate_moveLeftRule_node_bp = 1;
-            for(GRGEN_LGSP.LGSPNode head_candidate_moveLeftRule_node_bp = graph.nodesByTypeHeads[type_id_candidate_moveLeftRule_node_bp], candidate_moveLeftRule_node_bp = head_candidate_moveLeftRule_node_bp.typeNext; candidate_moveLeftRule_node_bp != head_candidate_moveLeftRule_node_bp; candidate_moveLeftRule_node_bp = candidate_moveLeftRule_node_bp.typeNext)
+            for(GRGEN_LGSP.LGSPNode head_candidate_moveLeftRule_node_bp = graph.nodesByTypeHeads[type_id_candidate_moveLeftRule_node_bp], candidate_moveLeftRule_node_bp = head_candidate_moveLeftRule_node_bp.lgspTypeNext; candidate_moveLeftRule_node_bp != head_candidate_moveLeftRule_node_bp; candidate_moveLeftRule_node_bp = candidate_moveLeftRule_node_bp.lgspTypeNext)
             {
                 uint prev__candidate_moveLeftRule_node_bp;
-                prev__candidate_moveLeftRule_node_bp = candidate_moveLeftRule_node_bp.flags & (uint) GRGEN_LGSP.LGSPElemFlags.IS_MATCHED << negLevel;
-                candidate_moveLeftRule_node_bp.flags |= (uint) GRGEN_LGSP.LGSPElemFlags.IS_MATCHED << negLevel;
+                prev__candidate_moveLeftRule_node_bp = candidate_moveLeftRule_node_bp.lgspFlags & (uint) GRGEN_LGSP.LGSPElemFlags.IS_MATCHED << negLevel;
+                candidate_moveLeftRule_node_bp.lgspFlags |= (uint) GRGEN_LGSP.LGSPElemFlags.IS_MATCHED << negLevel;
                 // Extend Outgoing moveLeftRule_edge__edge0 from moveLeftRule_node_wv 
-                GRGEN_LGSP.LGSPEdge head_candidate_moveLeftRule_edge__edge0 = candidate_moveLeftRule_node_wv.outhead;
+                GRGEN_LGSP.LGSPEdge head_candidate_moveLeftRule_edge__edge0 = candidate_moveLeftRule_node_wv.lgspOuthead;
                 if(head_candidate_moveLeftRule_edge__edge0 != null)
                 {
                     GRGEN_LGSP.LGSPEdge candidate_moveLeftRule_edge__edge0 = head_candidate_moveLeftRule_edge__edge0;
                     do
                     {
-                        if(candidate_moveLeftRule_edge__edge0.type.TypeID!=6) {
+                        if(candidate_moveLeftRule_edge__edge0.lgspType.TypeID!=6) {
                             continue;
                         }
                         // Implicit Target moveLeftRule_node_s from moveLeftRule_edge__edge0 
-                        GRGEN_LGSP.LGSPNode candidate_moveLeftRule_node_s = candidate_moveLeftRule_edge__edge0.target;
-                        if(candidate_moveLeftRule_node_s.type.TypeID!=2) {
+                        GRGEN_LGSP.LGSPNode candidate_moveLeftRule_node_s = candidate_moveLeftRule_edge__edge0.lgspTarget;
+                        if(candidate_moveLeftRule_node_s.lgspType.TypeID!=2) {
                             continue;
                         }
                         // Extend Incoming moveLeftRule_edge__edge1 from moveLeftRule_node_bp 
-                        GRGEN_LGSP.LGSPEdge head_candidate_moveLeftRule_edge__edge1 = candidate_moveLeftRule_node_bp.inhead;
+                        GRGEN_LGSP.LGSPEdge head_candidate_moveLeftRule_edge__edge1 = candidate_moveLeftRule_node_bp.lgspInhead;
                         if(head_candidate_moveLeftRule_edge__edge1 != null)
                         {
                             GRGEN_LGSP.LGSPEdge candidate_moveLeftRule_edge__edge1 = head_candidate_moveLeftRule_edge__edge1;
                             do
                             {
-                                if(candidate_moveLeftRule_edge__edge1.type.TypeID!=3) {
+                                if(candidate_moveLeftRule_edge__edge1.lgspType.TypeID!=3) {
                                     continue;
                                 }
                                 // Implicit Source moveLeftRule_node_lbp from moveLeftRule_edge__edge1 
-                                GRGEN_LGSP.LGSPNode candidate_moveLeftRule_node_lbp = candidate_moveLeftRule_edge__edge1.source;
-                                if(candidate_moveLeftRule_node_lbp.type.TypeID!=1) {
+                                GRGEN_LGSP.LGSPNode candidate_moveLeftRule_node_lbp = candidate_moveLeftRule_edge__edge1.lgspSource;
+                                if(candidate_moveLeftRule_node_lbp.lgspType.TypeID!=1) {
                                     continue;
                                 }
-                                if((candidate_moveLeftRule_node_lbp.flags & (uint) GRGEN_LGSP.LGSPElemFlags.IS_MATCHED << negLevel) != 0)
+                                if((candidate_moveLeftRule_node_lbp.lgspFlags & (uint) GRGEN_LGSP.LGSPElemFlags.IS_MATCHED << negLevel) != 0)
                                 {
                                     continue;
                                 }
@@ -4147,16 +4147,16 @@ label3: ;
                                     candidate_moveLeftRule_node_bp.MoveInHeadAfter(candidate_moveLeftRule_edge__edge1);
                                     candidate_moveLeftRule_node_wv.MoveOutHeadAfter(candidate_moveLeftRule_edge__edge0);
                                     graph.MoveHeadAfter(candidate_moveLeftRule_node_bp);
-                                    candidate_moveLeftRule_node_bp.flags = candidate_moveLeftRule_node_bp.flags & ~((uint) GRGEN_LGSP.LGSPElemFlags.IS_MATCHED << negLevel) | prev__candidate_moveLeftRule_node_bp;
+                                    candidate_moveLeftRule_node_bp.lgspFlags = candidate_moveLeftRule_node_bp.lgspFlags & ~((uint) GRGEN_LGSP.LGSPElemFlags.IS_MATCHED << negLevel) | prev__candidate_moveLeftRule_node_bp;
                                     return;
                                 }
                             }
-                            while( (candidate_moveLeftRule_edge__edge1 = candidate_moveLeftRule_edge__edge1.inNext) != head_candidate_moveLeftRule_edge__edge1 );
+                            while( (candidate_moveLeftRule_edge__edge1 = candidate_moveLeftRule_edge__edge1.lgspInNext) != head_candidate_moveLeftRule_edge__edge1 );
                         }
                     }
-                    while( (candidate_moveLeftRule_edge__edge0 = candidate_moveLeftRule_edge__edge0.outNext) != head_candidate_moveLeftRule_edge__edge0 );
+                    while( (candidate_moveLeftRule_edge__edge0 = candidate_moveLeftRule_edge__edge0.lgspOutNext) != head_candidate_moveLeftRule_edge__edge0 );
                 }
-                candidate_moveLeftRule_node_bp.flags = candidate_moveLeftRule_node_bp.flags & ~((uint) GRGEN_LGSP.LGSPElemFlags.IS_MATCHED << negLevel) | prev__candidate_moveLeftRule_node_bp;
+                candidate_moveLeftRule_node_bp.lgspFlags = candidate_moveLeftRule_node_bp.lgspFlags & ~((uint) GRGEN_LGSP.LGSPElemFlags.IS_MATCHED << negLevel) | prev__candidate_moveLeftRule_node_bp;
             }
             return;
         }
@@ -4374,7 +4374,7 @@ label3: ;
                 }
                 return matches;
             }
-            if(candidate_moveRightRule_node_wv.type.TypeID!=3) {
+            if(candidate_moveRightRule_node_wv.lgspType.TypeID!=3) {
                 return matches;
             }
             // Preset moveRightRule_node_bp 
@@ -4388,43 +4388,43 @@ label3: ;
                 }
                 return matches;
             }
-            if(candidate_moveRightRule_node_bp.type.TypeID!=1) {
+            if(candidate_moveRightRule_node_bp.lgspType.TypeID!=1) {
                 return matches;
             }
             uint prev__candidate_moveRightRule_node_bp;
-            prev__candidate_moveRightRule_node_bp = candidate_moveRightRule_node_bp.flags & (uint) GRGEN_LGSP.LGSPElemFlags.IS_MATCHED << negLevel;
-            candidate_moveRightRule_node_bp.flags |= (uint) GRGEN_LGSP.LGSPElemFlags.IS_MATCHED << negLevel;
+            prev__candidate_moveRightRule_node_bp = candidate_moveRightRule_node_bp.lgspFlags & (uint) GRGEN_LGSP.LGSPElemFlags.IS_MATCHED << negLevel;
+            candidate_moveRightRule_node_bp.lgspFlags |= (uint) GRGEN_LGSP.LGSPElemFlags.IS_MATCHED << negLevel;
             // Extend Outgoing moveRightRule_edge__edge0 from moveRightRule_node_wv 
-            GRGEN_LGSP.LGSPEdge head_candidate_moveRightRule_edge__edge0 = candidate_moveRightRule_node_wv.outhead;
+            GRGEN_LGSP.LGSPEdge head_candidate_moveRightRule_edge__edge0 = candidate_moveRightRule_node_wv.lgspOuthead;
             if(head_candidate_moveRightRule_edge__edge0 != null)
             {
                 GRGEN_LGSP.LGSPEdge candidate_moveRightRule_edge__edge0 = head_candidate_moveRightRule_edge__edge0;
                 do
                 {
-                    if(candidate_moveRightRule_edge__edge0.type.TypeID!=7) {
+                    if(candidate_moveRightRule_edge__edge0.lgspType.TypeID!=7) {
                         continue;
                     }
                     // Implicit Target moveRightRule_node_s from moveRightRule_edge__edge0 
-                    GRGEN_LGSP.LGSPNode candidate_moveRightRule_node_s = candidate_moveRightRule_edge__edge0.target;
-                    if(candidate_moveRightRule_node_s.type.TypeID!=2) {
+                    GRGEN_LGSP.LGSPNode candidate_moveRightRule_node_s = candidate_moveRightRule_edge__edge0.lgspTarget;
+                    if(candidate_moveRightRule_node_s.lgspType.TypeID!=2) {
                         continue;
                     }
                     // Extend Outgoing moveRightRule_edge__edge1 from moveRightRule_node_bp 
-                    GRGEN_LGSP.LGSPEdge head_candidate_moveRightRule_edge__edge1 = candidate_moveRightRule_node_bp.outhead;
+                    GRGEN_LGSP.LGSPEdge head_candidate_moveRightRule_edge__edge1 = candidate_moveRightRule_node_bp.lgspOuthead;
                     if(head_candidate_moveRightRule_edge__edge1 != null)
                     {
                         GRGEN_LGSP.LGSPEdge candidate_moveRightRule_edge__edge1 = head_candidate_moveRightRule_edge__edge1;
                         do
                         {
-                            if(candidate_moveRightRule_edge__edge1.type.TypeID!=3) {
+                            if(candidate_moveRightRule_edge__edge1.lgspType.TypeID!=3) {
                                 continue;
                             }
                             // Implicit Target moveRightRule_node_rbp from moveRightRule_edge__edge1 
-                            GRGEN_LGSP.LGSPNode candidate_moveRightRule_node_rbp = candidate_moveRightRule_edge__edge1.target;
-                            if(candidate_moveRightRule_node_rbp.type.TypeID!=1) {
+                            GRGEN_LGSP.LGSPNode candidate_moveRightRule_node_rbp = candidate_moveRightRule_edge__edge1.lgspTarget;
+                            if(candidate_moveRightRule_node_rbp.lgspType.TypeID!=1) {
                                 continue;
                             }
-                            if((candidate_moveRightRule_node_rbp.flags & (uint) GRGEN_LGSP.LGSPElemFlags.IS_MATCHED << negLevel) != 0)
+                            if((candidate_moveRightRule_node_rbp.lgspFlags & (uint) GRGEN_LGSP.LGSPElemFlags.IS_MATCHED << negLevel) != 0)
                             {
                                 continue;
                             }
@@ -4441,16 +4441,16 @@ label3: ;
                             {
                                 candidate_moveRightRule_node_bp.MoveOutHeadAfter(candidate_moveRightRule_edge__edge1);
                                 candidate_moveRightRule_node_wv.MoveOutHeadAfter(candidate_moveRightRule_edge__edge0);
-                                candidate_moveRightRule_node_bp.flags = candidate_moveRightRule_node_bp.flags & ~((uint) GRGEN_LGSP.LGSPElemFlags.IS_MATCHED << negLevel) | prev__candidate_moveRightRule_node_bp;
+                                candidate_moveRightRule_node_bp.lgspFlags = candidate_moveRightRule_node_bp.lgspFlags & ~((uint) GRGEN_LGSP.LGSPElemFlags.IS_MATCHED << negLevel) | prev__candidate_moveRightRule_node_bp;
                                 return matches;
                             }
                         }
-                        while( (candidate_moveRightRule_edge__edge1 = candidate_moveRightRule_edge__edge1.outNext) != head_candidate_moveRightRule_edge__edge1 );
+                        while( (candidate_moveRightRule_edge__edge1 = candidate_moveRightRule_edge__edge1.lgspOutNext) != head_candidate_moveRightRule_edge__edge1 );
                     }
                 }
-                while( (candidate_moveRightRule_edge__edge0 = candidate_moveRightRule_edge__edge0.outNext) != head_candidate_moveRightRule_edge__edge0 );
+                while( (candidate_moveRightRule_edge__edge0 = candidate_moveRightRule_edge__edge0.lgspOutNext) != head_candidate_moveRightRule_edge__edge0 );
             }
-            candidate_moveRightRule_node_bp.flags = candidate_moveRightRule_node_bp.flags & ~((uint) GRGEN_LGSP.LGSPElemFlags.IS_MATCHED << negLevel) | prev__candidate_moveRightRule_node_bp;
+            candidate_moveRightRule_node_bp.lgspFlags = candidate_moveRightRule_node_bp.lgspFlags & ~((uint) GRGEN_LGSP.LGSPElemFlags.IS_MATCHED << negLevel) | prev__candidate_moveRightRule_node_bp;
             return matches;
         }
         public void MissingPreset_moveRightRule_node_wv(GRGEN_LGSP.LGSPGraph graph, int maxMatches, GRGEN_MODEL.IWriteValue moveRightRule_node_wv, GRGEN_MODEL.IBandPosition moveRightRule_node_bp, Stack<GRGEN_LGSP.LGSPSubpatternAction> openTasks, List<Stack<GRGEN_LIBGR.IMatch>> foundPartialMatches, List<Stack<GRGEN_LIBGR.IMatch>> matchesList)
@@ -4458,7 +4458,7 @@ label3: ;
             int negLevel = 0;
             // Lookup moveRightRule_node_wv 
             int type_id_candidate_moveRightRule_node_wv = 3;
-            for(GRGEN_LGSP.LGSPNode head_candidate_moveRightRule_node_wv = graph.nodesByTypeHeads[type_id_candidate_moveRightRule_node_wv], candidate_moveRightRule_node_wv = head_candidate_moveRightRule_node_wv.typeNext; candidate_moveRightRule_node_wv != head_candidate_moveRightRule_node_wv; candidate_moveRightRule_node_wv = candidate_moveRightRule_node_wv.typeNext)
+            for(GRGEN_LGSP.LGSPNode head_candidate_moveRightRule_node_wv = graph.nodesByTypeHeads[type_id_candidate_moveRightRule_node_wv], candidate_moveRightRule_node_wv = head_candidate_moveRightRule_node_wv.lgspTypeNext; candidate_moveRightRule_node_wv != head_candidate_moveRightRule_node_wv; candidate_moveRightRule_node_wv = candidate_moveRightRule_node_wv.lgspTypeNext)
             {
                 // Preset moveRightRule_node_bp 
                 GRGEN_LGSP.LGSPNode candidate_moveRightRule_node_bp = (GRGEN_LGSP.LGSPNode)moveRightRule_node_bp;
@@ -4471,43 +4471,43 @@ label3: ;
                     }
                     continue;
                 }
-                if(candidate_moveRightRule_node_bp.type.TypeID!=1) {
+                if(candidate_moveRightRule_node_bp.lgspType.TypeID!=1) {
                     continue;
                 }
                 uint prev__candidate_moveRightRule_node_bp;
-                prev__candidate_moveRightRule_node_bp = candidate_moveRightRule_node_bp.flags & (uint) GRGEN_LGSP.LGSPElemFlags.IS_MATCHED << negLevel;
-                candidate_moveRightRule_node_bp.flags |= (uint) GRGEN_LGSP.LGSPElemFlags.IS_MATCHED << negLevel;
+                prev__candidate_moveRightRule_node_bp = candidate_moveRightRule_node_bp.lgspFlags & (uint) GRGEN_LGSP.LGSPElemFlags.IS_MATCHED << negLevel;
+                candidate_moveRightRule_node_bp.lgspFlags |= (uint) GRGEN_LGSP.LGSPElemFlags.IS_MATCHED << negLevel;
                 // Extend Outgoing moveRightRule_edge__edge0 from moveRightRule_node_wv 
-                GRGEN_LGSP.LGSPEdge head_candidate_moveRightRule_edge__edge0 = candidate_moveRightRule_node_wv.outhead;
+                GRGEN_LGSP.LGSPEdge head_candidate_moveRightRule_edge__edge0 = candidate_moveRightRule_node_wv.lgspOuthead;
                 if(head_candidate_moveRightRule_edge__edge0 != null)
                 {
                     GRGEN_LGSP.LGSPEdge candidate_moveRightRule_edge__edge0 = head_candidate_moveRightRule_edge__edge0;
                     do
                     {
-                        if(candidate_moveRightRule_edge__edge0.type.TypeID!=7) {
+                        if(candidate_moveRightRule_edge__edge0.lgspType.TypeID!=7) {
                             continue;
                         }
                         // Implicit Target moveRightRule_node_s from moveRightRule_edge__edge0 
-                        GRGEN_LGSP.LGSPNode candidate_moveRightRule_node_s = candidate_moveRightRule_edge__edge0.target;
-                        if(candidate_moveRightRule_node_s.type.TypeID!=2) {
+                        GRGEN_LGSP.LGSPNode candidate_moveRightRule_node_s = candidate_moveRightRule_edge__edge0.lgspTarget;
+                        if(candidate_moveRightRule_node_s.lgspType.TypeID!=2) {
                             continue;
                         }
                         // Extend Outgoing moveRightRule_edge__edge1 from moveRightRule_node_bp 
-                        GRGEN_LGSP.LGSPEdge head_candidate_moveRightRule_edge__edge1 = candidate_moveRightRule_node_bp.outhead;
+                        GRGEN_LGSP.LGSPEdge head_candidate_moveRightRule_edge__edge1 = candidate_moveRightRule_node_bp.lgspOuthead;
                         if(head_candidate_moveRightRule_edge__edge1 != null)
                         {
                             GRGEN_LGSP.LGSPEdge candidate_moveRightRule_edge__edge1 = head_candidate_moveRightRule_edge__edge1;
                             do
                             {
-                                if(candidate_moveRightRule_edge__edge1.type.TypeID!=3) {
+                                if(candidate_moveRightRule_edge__edge1.lgspType.TypeID!=3) {
                                     continue;
                                 }
                                 // Implicit Target moveRightRule_node_rbp from moveRightRule_edge__edge1 
-                                GRGEN_LGSP.LGSPNode candidate_moveRightRule_node_rbp = candidate_moveRightRule_edge__edge1.target;
-                                if(candidate_moveRightRule_node_rbp.type.TypeID!=1) {
+                                GRGEN_LGSP.LGSPNode candidate_moveRightRule_node_rbp = candidate_moveRightRule_edge__edge1.lgspTarget;
+                                if(candidate_moveRightRule_node_rbp.lgspType.TypeID!=1) {
                                     continue;
                                 }
-                                if((candidate_moveRightRule_node_rbp.flags & (uint) GRGEN_LGSP.LGSPElemFlags.IS_MATCHED << negLevel) != 0)
+                                if((candidate_moveRightRule_node_rbp.lgspFlags & (uint) GRGEN_LGSP.LGSPElemFlags.IS_MATCHED << negLevel) != 0)
                                 {
                                     continue;
                                 }
@@ -4525,16 +4525,16 @@ label3: ;
                                     candidate_moveRightRule_node_bp.MoveOutHeadAfter(candidate_moveRightRule_edge__edge1);
                                     candidate_moveRightRule_node_wv.MoveOutHeadAfter(candidate_moveRightRule_edge__edge0);
                                     graph.MoveHeadAfter(candidate_moveRightRule_node_wv);
-                                    candidate_moveRightRule_node_bp.flags = candidate_moveRightRule_node_bp.flags & ~((uint) GRGEN_LGSP.LGSPElemFlags.IS_MATCHED << negLevel) | prev__candidate_moveRightRule_node_bp;
+                                    candidate_moveRightRule_node_bp.lgspFlags = candidate_moveRightRule_node_bp.lgspFlags & ~((uint) GRGEN_LGSP.LGSPElemFlags.IS_MATCHED << negLevel) | prev__candidate_moveRightRule_node_bp;
                                     return;
                                 }
                             }
-                            while( (candidate_moveRightRule_edge__edge1 = candidate_moveRightRule_edge__edge1.outNext) != head_candidate_moveRightRule_edge__edge1 );
+                            while( (candidate_moveRightRule_edge__edge1 = candidate_moveRightRule_edge__edge1.lgspOutNext) != head_candidate_moveRightRule_edge__edge1 );
                         }
                     }
-                    while( (candidate_moveRightRule_edge__edge0 = candidate_moveRightRule_edge__edge0.outNext) != head_candidate_moveRightRule_edge__edge0 );
+                    while( (candidate_moveRightRule_edge__edge0 = candidate_moveRightRule_edge__edge0.lgspOutNext) != head_candidate_moveRightRule_edge__edge0 );
                 }
-                candidate_moveRightRule_node_bp.flags = candidate_moveRightRule_node_bp.flags & ~((uint) GRGEN_LGSP.LGSPElemFlags.IS_MATCHED << negLevel) | prev__candidate_moveRightRule_node_bp;
+                candidate_moveRightRule_node_bp.lgspFlags = candidate_moveRightRule_node_bp.lgspFlags & ~((uint) GRGEN_LGSP.LGSPElemFlags.IS_MATCHED << negLevel) | prev__candidate_moveRightRule_node_bp;
             }
             return;
         }
@@ -4543,42 +4543,42 @@ label3: ;
             int negLevel = 0;
             // Lookup moveRightRule_node_bp 
             int type_id_candidate_moveRightRule_node_bp = 1;
-            for(GRGEN_LGSP.LGSPNode head_candidate_moveRightRule_node_bp = graph.nodesByTypeHeads[type_id_candidate_moveRightRule_node_bp], candidate_moveRightRule_node_bp = head_candidate_moveRightRule_node_bp.typeNext; candidate_moveRightRule_node_bp != head_candidate_moveRightRule_node_bp; candidate_moveRightRule_node_bp = candidate_moveRightRule_node_bp.typeNext)
+            for(GRGEN_LGSP.LGSPNode head_candidate_moveRightRule_node_bp = graph.nodesByTypeHeads[type_id_candidate_moveRightRule_node_bp], candidate_moveRightRule_node_bp = head_candidate_moveRightRule_node_bp.lgspTypeNext; candidate_moveRightRule_node_bp != head_candidate_moveRightRule_node_bp; candidate_moveRightRule_node_bp = candidate_moveRightRule_node_bp.lgspTypeNext)
             {
                 uint prev__candidate_moveRightRule_node_bp;
-                prev__candidate_moveRightRule_node_bp = candidate_moveRightRule_node_bp.flags & (uint) GRGEN_LGSP.LGSPElemFlags.IS_MATCHED << negLevel;
-                candidate_moveRightRule_node_bp.flags |= (uint) GRGEN_LGSP.LGSPElemFlags.IS_MATCHED << negLevel;
+                prev__candidate_moveRightRule_node_bp = candidate_moveRightRule_node_bp.lgspFlags & (uint) GRGEN_LGSP.LGSPElemFlags.IS_MATCHED << negLevel;
+                candidate_moveRightRule_node_bp.lgspFlags |= (uint) GRGEN_LGSP.LGSPElemFlags.IS_MATCHED << negLevel;
                 // Extend Outgoing moveRightRule_edge__edge0 from moveRightRule_node_wv 
-                GRGEN_LGSP.LGSPEdge head_candidate_moveRightRule_edge__edge0 = candidate_moveRightRule_node_wv.outhead;
+                GRGEN_LGSP.LGSPEdge head_candidate_moveRightRule_edge__edge0 = candidate_moveRightRule_node_wv.lgspOuthead;
                 if(head_candidate_moveRightRule_edge__edge0 != null)
                 {
                     GRGEN_LGSP.LGSPEdge candidate_moveRightRule_edge__edge0 = head_candidate_moveRightRule_edge__edge0;
                     do
                     {
-                        if(candidate_moveRightRule_edge__edge0.type.TypeID!=7) {
+                        if(candidate_moveRightRule_edge__edge0.lgspType.TypeID!=7) {
                             continue;
                         }
                         // Implicit Target moveRightRule_node_s from moveRightRule_edge__edge0 
-                        GRGEN_LGSP.LGSPNode candidate_moveRightRule_node_s = candidate_moveRightRule_edge__edge0.target;
-                        if(candidate_moveRightRule_node_s.type.TypeID!=2) {
+                        GRGEN_LGSP.LGSPNode candidate_moveRightRule_node_s = candidate_moveRightRule_edge__edge0.lgspTarget;
+                        if(candidate_moveRightRule_node_s.lgspType.TypeID!=2) {
                             continue;
                         }
                         // Extend Outgoing moveRightRule_edge__edge1 from moveRightRule_node_bp 
-                        GRGEN_LGSP.LGSPEdge head_candidate_moveRightRule_edge__edge1 = candidate_moveRightRule_node_bp.outhead;
+                        GRGEN_LGSP.LGSPEdge head_candidate_moveRightRule_edge__edge1 = candidate_moveRightRule_node_bp.lgspOuthead;
                         if(head_candidate_moveRightRule_edge__edge1 != null)
                         {
                             GRGEN_LGSP.LGSPEdge candidate_moveRightRule_edge__edge1 = head_candidate_moveRightRule_edge__edge1;
                             do
                             {
-                                if(candidate_moveRightRule_edge__edge1.type.TypeID!=3) {
+                                if(candidate_moveRightRule_edge__edge1.lgspType.TypeID!=3) {
                                     continue;
                                 }
                                 // Implicit Target moveRightRule_node_rbp from moveRightRule_edge__edge1 
-                                GRGEN_LGSP.LGSPNode candidate_moveRightRule_node_rbp = candidate_moveRightRule_edge__edge1.target;
-                                if(candidate_moveRightRule_node_rbp.type.TypeID!=1) {
+                                GRGEN_LGSP.LGSPNode candidate_moveRightRule_node_rbp = candidate_moveRightRule_edge__edge1.lgspTarget;
+                                if(candidate_moveRightRule_node_rbp.lgspType.TypeID!=1) {
                                     continue;
                                 }
-                                if((candidate_moveRightRule_node_rbp.flags & (uint) GRGEN_LGSP.LGSPElemFlags.IS_MATCHED << negLevel) != 0)
+                                if((candidate_moveRightRule_node_rbp.lgspFlags & (uint) GRGEN_LGSP.LGSPElemFlags.IS_MATCHED << negLevel) != 0)
                                 {
                                     continue;
                                 }
@@ -4596,16 +4596,16 @@ label3: ;
                                     candidate_moveRightRule_node_bp.MoveOutHeadAfter(candidate_moveRightRule_edge__edge1);
                                     candidate_moveRightRule_node_wv.MoveOutHeadAfter(candidate_moveRightRule_edge__edge0);
                                     graph.MoveHeadAfter(candidate_moveRightRule_node_bp);
-                                    candidate_moveRightRule_node_bp.flags = candidate_moveRightRule_node_bp.flags & ~((uint) GRGEN_LGSP.LGSPElemFlags.IS_MATCHED << negLevel) | prev__candidate_moveRightRule_node_bp;
+                                    candidate_moveRightRule_node_bp.lgspFlags = candidate_moveRightRule_node_bp.lgspFlags & ~((uint) GRGEN_LGSP.LGSPElemFlags.IS_MATCHED << negLevel) | prev__candidate_moveRightRule_node_bp;
                                     return;
                                 }
                             }
-                            while( (candidate_moveRightRule_edge__edge1 = candidate_moveRightRule_edge__edge1.outNext) != head_candidate_moveRightRule_edge__edge1 );
+                            while( (candidate_moveRightRule_edge__edge1 = candidate_moveRightRule_edge__edge1.lgspOutNext) != head_candidate_moveRightRule_edge__edge1 );
                         }
                     }
-                    while( (candidate_moveRightRule_edge__edge0 = candidate_moveRightRule_edge__edge0.outNext) != head_candidate_moveRightRule_edge__edge0 );
+                    while( (candidate_moveRightRule_edge__edge0 = candidate_moveRightRule_edge__edge0.lgspOutNext) != head_candidate_moveRightRule_edge__edge0 );
                 }
-                candidate_moveRightRule_node_bp.flags = candidate_moveRightRule_node_bp.flags & ~((uint) GRGEN_LGSP.LGSPElemFlags.IS_MATCHED << negLevel) | prev__candidate_moveRightRule_node_bp;
+                candidate_moveRightRule_node_bp.lgspFlags = candidate_moveRightRule_node_bp.lgspFlags & ~((uint) GRGEN_LGSP.LGSPElemFlags.IS_MATCHED << negLevel) | prev__candidate_moveRightRule_node_bp;
             }
             return;
         }
@@ -4814,7 +4814,7 @@ label3: ;
             int negLevel = 0;
             // Lookup countZeros_node_bp 
             int type_id_candidate_countZeros_node_bp = 1;
-            for(GRGEN_LGSP.LGSPNode head_candidate_countZeros_node_bp = graph.nodesByTypeHeads[type_id_candidate_countZeros_node_bp], candidate_countZeros_node_bp = head_candidate_countZeros_node_bp.typeNext; candidate_countZeros_node_bp != head_candidate_countZeros_node_bp; candidate_countZeros_node_bp = candidate_countZeros_node_bp.typeNext)
+            for(GRGEN_LGSP.LGSPNode head_candidate_countZeros_node_bp = graph.nodesByTypeHeads[type_id_candidate_countZeros_node_bp], candidate_countZeros_node_bp = head_candidate_countZeros_node_bp.lgspTypeNext; candidate_countZeros_node_bp != head_candidate_countZeros_node_bp; candidate_countZeros_node_bp = candidate_countZeros_node_bp.lgspTypeNext)
             {
                 // Condition 
                 if(!((((GRGEN_MODEL.IBandPosition)candidate_countZeros_node_bp).@value == 0))) {
@@ -5035,7 +5035,7 @@ label3: ;
             int negLevel = 0;
             // Lookup countOnes_node_bp 
             int type_id_candidate_countOnes_node_bp = 1;
-            for(GRGEN_LGSP.LGSPNode head_candidate_countOnes_node_bp = graph.nodesByTypeHeads[type_id_candidate_countOnes_node_bp], candidate_countOnes_node_bp = head_candidate_countOnes_node_bp.typeNext; candidate_countOnes_node_bp != head_candidate_countOnes_node_bp; candidate_countOnes_node_bp = candidate_countOnes_node_bp.typeNext)
+            for(GRGEN_LGSP.LGSPNode head_candidate_countOnes_node_bp = graph.nodesByTypeHeads[type_id_candidate_countOnes_node_bp], candidate_countOnes_node_bp = head_candidate_countOnes_node_bp.lgspTypeNext; candidate_countOnes_node_bp != head_candidate_countOnes_node_bp; candidate_countOnes_node_bp = candidate_countOnes_node_bp.lgspTypeNext)
             {
                 // Condition 
                 if(!((((GRGEN_MODEL.IBandPosition)candidate_countOnes_node_bp).@value == 1))) {

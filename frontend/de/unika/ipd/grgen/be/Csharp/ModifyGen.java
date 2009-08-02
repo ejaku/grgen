@@ -930,11 +930,11 @@ public class ModifyGen extends CSharpBase {
 	{
 		for(Node node : state.nodesNeededAsTypes()) {
 			String name = formatEntity(node);
-			sb.append("\t\t\tGRGEN_LIBGR.NodeType " + name + "_type = " + name + ".type;\n");
+			sb.append("\t\t\tGRGEN_LIBGR.NodeType " + name + "_type = " + name + ".lgspType;\n");
 		}
 		for(Edge edge : state.edgesNeededAsTypes()) {
 			String name = formatEntity(edge);
-			sb.append("\t\t\tGRGEN_LIBGR.EdgeType " + name + "_type = " + name + ".type;\n");
+			sb.append("\t\t\tGRGEN_LIBGR.EdgeType " + name + "_type = " + name + ".lgspType;\n");
 		}
 	}
 
@@ -1490,7 +1490,7 @@ public class ModifyGen extends CSharpBase {
 					String tgt = formatEntity(tgt_node);
 
 					sb2.append("\t\t\t" + elemref + " " + newEdgeName + ";\n"
-								   + "\t\t\tif(" + reusedEdgeName + ".type == "
+								   + "\t\t\tif(" + reusedEdgeName + ".lgspType == "
 								   + formatTypeClassRef(edge.getType()) + ".typeVar)\n"
 								   + "\t\t\t{\n"
 								   + "\t\t\t\t// re-using " + reusedEdgeName + " as " + newEdgeName + "\n"

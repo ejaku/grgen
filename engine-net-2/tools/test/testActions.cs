@@ -351,40 +351,40 @@ namespace de.unika.ipd.grGen.Action_test
             int negLevel = 0;
             // Lookup testRule_edge__edge1 
             int type_id_candidate_testRule_edge__edge1 = 1;
-            for(GRGEN_LGSP.LGSPEdge head_candidate_testRule_edge__edge1 = graph.edgesByTypeHeads[type_id_candidate_testRule_edge__edge1], candidate_testRule_edge__edge1 = head_candidate_testRule_edge__edge1.typeNext; candidate_testRule_edge__edge1 != head_candidate_testRule_edge__edge1; candidate_testRule_edge__edge1 = candidate_testRule_edge__edge1.typeNext)
+            for(GRGEN_LGSP.LGSPEdge head_candidate_testRule_edge__edge1 = graph.edgesByTypeHeads[type_id_candidate_testRule_edge__edge1], candidate_testRule_edge__edge1 = head_candidate_testRule_edge__edge1.lgspTypeNext; candidate_testRule_edge__edge1 != head_candidate_testRule_edge__edge1; candidate_testRule_edge__edge1 = candidate_testRule_edge__edge1.lgspTypeNext)
             {
                 uint prev__candidate_testRule_edge__edge1;
-                prev__candidate_testRule_edge__edge1 = candidate_testRule_edge__edge1.flags & (uint) GRGEN_LGSP.LGSPElemFlags.IS_MATCHED << negLevel;
-                candidate_testRule_edge__edge1.flags |= (uint) GRGEN_LGSP.LGSPElemFlags.IS_MATCHED << negLevel;
+                prev__candidate_testRule_edge__edge1 = candidate_testRule_edge__edge1.lgspFlags & (uint) GRGEN_LGSP.LGSPElemFlags.IS_MATCHED << negLevel;
+                candidate_testRule_edge__edge1.lgspFlags |= (uint) GRGEN_LGSP.LGSPElemFlags.IS_MATCHED << negLevel;
                 // Implicit Source testRule_node_f from testRule_edge__edge1 
-                GRGEN_LGSP.LGSPNode candidate_testRule_node_f = candidate_testRule_edge__edge1.source;
-                if(candidate_testRule_node_f.type.TypeID!=6) {
-                    candidate_testRule_edge__edge1.flags = candidate_testRule_edge__edge1.flags & ~((uint) GRGEN_LGSP.LGSPElemFlags.IS_MATCHED << negLevel) | prev__candidate_testRule_edge__edge1;
+                GRGEN_LGSP.LGSPNode candidate_testRule_node_f = candidate_testRule_edge__edge1.lgspSource;
+                if(candidate_testRule_node_f.lgspType.TypeID!=6) {
+                    candidate_testRule_edge__edge1.lgspFlags = candidate_testRule_edge__edge1.lgspFlags & ~((uint) GRGEN_LGSP.LGSPElemFlags.IS_MATCHED << negLevel) | prev__candidate_testRule_edge__edge1;
                     continue;
                 }
                 // Implicit Target testRule_node_m from testRule_edge__edge1 
-                GRGEN_LGSP.LGSPNode candidate_testRule_node_m = candidate_testRule_edge__edge1.target;
-                if(candidate_testRule_node_m.type.TypeID!=17) {
-                    candidate_testRule_edge__edge1.flags = candidate_testRule_edge__edge1.flags & ~((uint) GRGEN_LGSP.LGSPElemFlags.IS_MATCHED << negLevel) | prev__candidate_testRule_edge__edge1;
+                GRGEN_LGSP.LGSPNode candidate_testRule_node_m = candidate_testRule_edge__edge1.lgspTarget;
+                if(candidate_testRule_node_m.lgspType.TypeID!=17) {
+                    candidate_testRule_edge__edge1.lgspFlags = candidate_testRule_edge__edge1.lgspFlags & ~((uint) GRGEN_LGSP.LGSPElemFlags.IS_MATCHED << negLevel) | prev__candidate_testRule_edge__edge1;
                     continue;
                 }
                 // Extend Incoming testRule_edge__edge0 from testRule_node_f 
-                GRGEN_LGSP.LGSPEdge head_candidate_testRule_edge__edge0 = candidate_testRule_node_f.inhead;
+                GRGEN_LGSP.LGSPEdge head_candidate_testRule_edge__edge0 = candidate_testRule_node_f.lgspInhead;
                 if(head_candidate_testRule_edge__edge0 != null)
                 {
                     GRGEN_LGSP.LGSPEdge candidate_testRule_edge__edge0 = head_candidate_testRule_edge__edge0;
                     do
                     {
-                        if(candidate_testRule_edge__edge0.type.TypeID!=1) {
+                        if(candidate_testRule_edge__edge0.lgspType.TypeID!=1) {
                             continue;
                         }
-                        if((candidate_testRule_edge__edge0.flags & (uint) GRGEN_LGSP.LGSPElemFlags.IS_MATCHED << negLevel) != 0)
+                        if((candidate_testRule_edge__edge0.lgspFlags & (uint) GRGEN_LGSP.LGSPElemFlags.IS_MATCHED << negLevel) != 0)
                         {
                             continue;
                         }
                         // Implicit Source testRule_node_a from testRule_edge__edge0 
-                        GRGEN_LGSP.LGSPNode candidate_testRule_node_a = candidate_testRule_edge__edge0.source;
-                        if(candidate_testRule_node_a.type.TypeID!=18) {
+                        GRGEN_LGSP.LGSPNode candidate_testRule_node_a = candidate_testRule_edge__edge0.lgspSource;
+                        if(candidate_testRule_node_a.lgspType.TypeID!=18) {
                             continue;
                         }
                         Rule_testRule.Match_testRule match = matches.GetNextUnfilledPosition();
@@ -399,13 +399,13 @@ namespace de.unika.ipd.grGen.Action_test
                         {
                             candidate_testRule_node_f.MoveInHeadAfter(candidate_testRule_edge__edge0);
                             graph.MoveHeadAfter(candidate_testRule_edge__edge1);
-                            candidate_testRule_edge__edge1.flags = candidate_testRule_edge__edge1.flags & ~((uint) GRGEN_LGSP.LGSPElemFlags.IS_MATCHED << negLevel) | prev__candidate_testRule_edge__edge1;
+                            candidate_testRule_edge__edge1.lgspFlags = candidate_testRule_edge__edge1.lgspFlags & ~((uint) GRGEN_LGSP.LGSPElemFlags.IS_MATCHED << negLevel) | prev__candidate_testRule_edge__edge1;
                             return matches;
                         }
                     }
-                    while( (candidate_testRule_edge__edge0 = candidate_testRule_edge__edge0.inNext) != head_candidate_testRule_edge__edge0 );
+                    while( (candidate_testRule_edge__edge0 = candidate_testRule_edge__edge0.lgspInNext) != head_candidate_testRule_edge__edge0 );
                 }
-                candidate_testRule_edge__edge1.flags = candidate_testRule_edge__edge1.flags & ~((uint) GRGEN_LGSP.LGSPElemFlags.IS_MATCHED << negLevel) | prev__candidate_testRule_edge__edge1;
+                candidate_testRule_edge__edge1.lgspFlags = candidate_testRule_edge__edge1.lgspFlags & ~((uint) GRGEN_LGSP.LGSPElemFlags.IS_MATCHED << negLevel) | prev__candidate_testRule_edge__edge1;
             }
             return matches;
         }

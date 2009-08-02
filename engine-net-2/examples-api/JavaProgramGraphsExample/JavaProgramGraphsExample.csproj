@@ -62,6 +62,6 @@
   </Target>
   -->
   <PropertyGroup>
-    <PostBuildEvent>copy "$(SolutionDir)\examples\JavaProgramGraphs\InstanceGraph.grs" "$(TargetDir)InstanceGraph.grs"</PostBuildEvent>
+    <PostBuildEvent>copy "$(SolutionDir)\examples\JavaProgramGraphs\InstanceGraph.grsi" "$(TargetDir)InstanceGraph.grsi"</PostBuildEvent>
   </PropertyGroup>
 </Project>

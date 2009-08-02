@@ -68,12 +68,12 @@ namespace de.unika.ipd.grGen.lgsp
         /// <summary>
         /// The node type of the node.
         /// </summary>
-        public NodeType type;
+        public NodeType lgspType;
 
         /// <summary>
         /// contains some booleans coded as bitvector
         /// </summary>
-        public uint flags;
+        public uint lgspFlags;
 
         /// <summary>
         /// Previous and next node in the list containing all the nodes of one type.
@@ -84,17 +84,17 @@ namespace de.unika.ipd.grGen.lgsp
         /// "delete node + return edge", "hom + delete + return", "hom + retype + return", "hom + retype + delete",
         /// "hom + retype + delete + return".
         /// </summary>
-        public LGSPNode typePrev, typeNext;
+        public LGSPNode lgspTypePrev, lgspTypeNext;
 
         /// <summary>
         /// Entry node into the outgoing edges list - not of type edge head, real edge or null
         /// </summary>
-        public LGSPEdge outhead;
+        public LGSPEdge lgspOuthead;
 
         /// <summary>
         /// Entry node into the incoming edges list - not of type edge head, real edge or null
         /// </summary>
-        public LGSPEdge inhead;
+        public LGSPEdge lgspInhead;
 
         /// <summary>
         /// Instantiates an LGSPNode object.
@@ -102,7 +102,7 @@ namespace de.unika.ipd.grGen.lgsp
         /// <param name="nodeType">The node type.</param>
         public LGSPNode(NodeType nodeType)
         {
-            type = nodeType;
+            lgspType = nodeType;
         }
 
         /// <summary>
@@ -111,7 +111,7 @@ namespace de.unika.ipd.grGen.lgsp
         public bool Valid
         {
             [DebuggerStepThrough]
-            get { return typePrev != null; }
+            get { return lgspTypePrev != null; }
         }
 
 		/// <summary>
@@ -131,7 +131,7 @@ namespace de.unika.ipd.grGen.lgsp
 		public LGSPNode ReplacedByNode
         {
             [DebuggerStepThrough]
-            get { return typePrev != null ? null : typeNext; }
+            get { return lgspTypePrev != null ? null : lgspTypeNext; }
         }
 
 		/// <summary>
@@ -150,18 +150,18 @@ namespace de.unika.ipd.grGen.lgsp
         /// </summary>
         public IEnumerable<IEdge> GetCompatibleOutgoing(EdgeType edgeType)
         {
-            if(outhead == null) yield break;
-            LGSPEdge cur = outhead.outNext;
+            if(lgspOuthead == null) yield break;
+            LGSPEdge cur = lgspOuthead.lgspOutNext;
             LGSPEdge next;
-            while(outhead != null && cur != outhead)
+            while(lgspOuthead != null && cur != lgspOuthead)
             {
-                next = cur.outNext;
+                next = cur.lgspOutNext;
                 if(cur.Type.IsA(edgeType))
                     yield return cur;
                 cur = next;
             }
-            if(outhead != null && outhead.Type.IsA(edgeType))
-                yield return outhead;
+            if(lgspOuthead != null && lgspOuthead.Type.IsA(edgeType))
+                yield return lgspOuthead;
         }
 
         /// <summary>
@@ -169,18 +169,18 @@ namespace de.unika.ipd.grGen.lgsp
         /// </summary>
         public IEnumerable<IEdge> GetCompatibleIncoming(EdgeType edgeType)
         {
-            if(inhead == null) yield break;
-            LGSPEdge cur = inhead.inNext;
+            if(lgspInhead == null) yield break;
+            LGSPEdge cur = lgspInhead.lgspInNext;
             LGSPEdge next;
-            while(inhead != null && cur != inhead)
+            while(lgspInhead != null && cur != lgspInhead)
             {
-                next = cur.inNext;
+                next = cur.lgspInNext;
                 if(cur.Type.IsA(edgeType))
                     yield return cur;
                 cur = next;
             }
-            if(inhead != null && inhead.Type.IsA(edgeType))
-                yield return inhead;
+            if(lgspInhead != null && lgspInhead.Type.IsA(edgeType))
+                yield return lgspInhead;
         }
 
         /// <summary>
@@ -188,34 +188,34 @@ namespace de.unika.ipd.grGen.lgsp
         /// </summary>
         public IEnumerable<IEdge> GetCompatibleAdjacent(EdgeType edgeType)
         {
-            if(outhead != null)
+            if(lgspOuthead != null)
             {
-                LGSPEdge cur = outhead.outNext;
+                LGSPEdge cur = lgspOuthead.lgspOutNext;
                 LGSPEdge next;
-                while(outhead != null && cur != outhead)
+                while(lgspOuthead != null && cur != lgspOuthead)
                 {
-                    next = cur.outNext;
+                    next = cur.lgspOutNext;
                     if(cur.Type.IsA(edgeType))
                         yield return cur;
                     cur = next;
                 }
-                if(outhead != null && outhead.Type.IsA(edgeType))
-                    yield return outhead;
+                if(lgspOuthead != null && lgspOuthead.Type.IsA(edgeType))
+                    yield return lgspOuthead;
             }
 
-            if(inhead != null)
+            if(lgspInhead != null)
             {
-                LGSPEdge cur = inhead.inNext;
+                LGSPEdge cur = lgspInhead.lgspInNext;
                 LGSPEdge next;
-                while(inhead != null && cur != inhead)
+                while(lgspInhead != null && cur != lgspInhead)
                 {
-                    next = cur.inNext;
+                    next = cur.lgspInNext;
                     if(cur.Type.IsA(edgeType))
                         yield return cur;
                     cur = next;
                 }
-                if(inhead != null && inhead.Type.IsA(edgeType))
-                    yield return inhead;
+                if(lgspInhead != null && lgspInhead.Type.IsA(edgeType))
+                    yield return lgspInhead;
             }
         }
 
@@ -224,18 +224,18 @@ namespace de.unika.ipd.grGen.lgsp
         /// </summary>
         public IEnumerable<IEdge> GetExactOutgoing(EdgeType edgeType)
         {
-            if(outhead == null) yield break;
-            LGSPEdge cur = outhead.outNext;
+            if(lgspOuthead == null) yield break;
+            LGSPEdge cur = lgspOuthead.lgspOutNext;
             LGSPEdge next;
-            while(outhead != null && cur != outhead)
+            while(lgspOuthead != null && cur != lgspOuthead)
             {
-                next = cur.outNext;
+                next = cur.lgspOutNext;
                 if(cur.Type == edgeType)
                     yield return cur;
                 cur = next;
             }
-            if(outhead != null && outhead.Type == edgeType)
-                yield return outhead;
+            if(lgspOuthead != null && lgspOuthead.Type == edgeType)
+                yield return lgspOuthead;
         }
 
         /// <summary>
@@ -243,18 +243,18 @@ namespace de.unika.ipd.grGen.lgsp
         /// </summary>
         public IEnumerable<IEdge> GetExactIncoming(EdgeType edgeType)
         {
-            if(inhead == null) yield break;
-            LGSPEdge cur = inhead.inNext;
+            if(lgspInhead == null) yield break;
+            LGSPEdge cur = lgspInhead.lgspInNext;
             LGSPEdge next;
-            while(inhead != null && cur != inhead)
+            while(lgspInhead != null && cur != lgspInhead)
             {
-                next = cur.inNext;
+                next = cur.lgspInNext;
                 if(cur.Type == edgeType)
                     yield return cur;
                 cur = next;
             }
-            if(inhead != null && inhead.Type == edgeType)
-                yield return inhead;
+            if(lgspInhead != null && lgspInhead.Type == edgeType)
+                yield return lgspInhead;
         }
 
         /// <summary>
@@ -262,34 +262,34 @@ namespace de.unika.ipd.grGen.lgsp
         /// </summary>
         public IEnumerable<IEdge> GetExactAdjacent(EdgeType edgeType)
         {
-            if(outhead != null)
+            if(lgspOuthead != null)
             {
-                LGSPEdge cur = outhead.outNext;
+                LGSPEdge cur = lgspOuthead.lgspOutNext;
                 LGSPEdge next;
-                while(outhead != null && cur != outhead)
+                while(lgspOuthead != null && cur != lgspOuthead)
                 {
-                    next = cur.outNext;
+                    next = cur.lgspOutNext;
                     if(cur.Type == edgeType)
                         yield return cur;
                     cur = next;
                 }
-                if(outhead != null && outhead.Type == edgeType)
-                    yield return outhead;
+                if(lgspOuthead != null && lgspOuthead.Type == edgeType)
+                    yield return lgspOuthead;
             }
 
-            if(inhead != null)
+            if(lgspInhead != null)
             {
-                LGSPEdge cur = inhead.inNext;
+                LGSPEdge cur = lgspInhead.lgspInNext;
                 LGSPEdge next;
-                while(inhead != null && cur != inhead)
+                while(lgspInhead != null && cur != lgspInhead)
                 {
-                    next = cur.inNext;
+                    next = cur.lgspInNext;
                     if(cur.Type == edgeType)
                         yield return cur;
                     cur = next;
                 }
-                if(inhead != null && inhead.Type == edgeType)
-                    yield return inhead;
+                if(lgspInhead != null && lgspInhead.Type == edgeType)
+                    yield return lgspInhead;
             }
         }
 
@@ -300,17 +300,17 @@ namespace de.unika.ipd.grGen.lgsp
         {
             get
             {
-                if(outhead == null) yield break;
-                LGSPEdge cur = outhead.outNext;
+                if(lgspOuthead == null) yield break;
+                LGSPEdge cur = lgspOuthead.lgspOutNext;
                 LGSPEdge next;
-                while(outhead != null && cur != outhead)
+                while(lgspOuthead != null && cur != lgspOuthead)
                 {
-                    next = cur.outNext;
+                    next = cur.lgspOutNext;
                     yield return cur;
                     cur = next;
                 }
-                if(outhead != null)
-                    yield return outhead;
+                if(lgspOuthead != null)
+                    yield return lgspOuthead;
             }
         }
 
@@ -321,17 +321,17 @@ namespace de.unika.ipd.grGen.lgsp
         {
             get
             {
-                if(inhead == null) yield break;
-                LGSPEdge cur = inhead.inNext;
+                if(lgspInhead == null) yield break;
+                LGSPEdge cur = lgspInhead.lgspInNext;
                 LGSPEdge next;
-                while(inhead != null && cur != inhead)
+                while(lgspInhead != null && cur != lgspInhead)
                 {
-                    next = cur.inNext;
+                    next = cur.lgspInNext;
                     yield return cur;
                     cur = next;
                 }
-                if(inhead != null)
-                    yield return inhead;
+                if(lgspInhead != null)
+                    yield return lgspInhead;
             }
         }
 
@@ -342,101 +342,101 @@ namespace de.unika.ipd.grGen.lgsp
         {
             get
             {
-                if(outhead != null)
+                if(lgspOuthead != null)
                 {
-                    LGSPEdge cur = outhead.outNext;
+                    LGSPEdge cur = lgspOuthead.lgspOutNext;
                     LGSPEdge next;
-                    while(outhead != null && cur != outhead)
+                    while(lgspOuthead != null && cur != lgspOuthead)
                     {
-                        next = cur.outNext;
+                        next = cur.lgspOutNext;
                         yield return cur;
                         cur = next;
                     }
-                    if(outhead != null)
-                        yield return outhead;
+                    if(lgspOuthead != null)
+                        yield return lgspOuthead;
                 }
 
-                if(inhead != null)
+                if(lgspInhead != null)
                 {
-                    LGSPEdge cur = inhead.inNext;
+                    LGSPEdge cur = lgspInhead.lgspInNext;
                     LGSPEdge next;
-                    while(inhead != null && cur != inhead)
+                    while(lgspInhead != null && cur != lgspInhead)
                     {
-                        next = cur.inNext;
+                        next = cur.lgspInNext;
                         yield return cur;
                         cur = next;
                     }
-                    if(inhead != null)
-                        yield return inhead;
+                    if(lgspInhead != null)
+                        yield return lgspInhead;
                 }
             }
         }
 
-        internal bool HasOutgoing { [DebuggerStepThrough] get { return outhead != null; } }
-        internal bool HasIncoming { [DebuggerStepThrough] get { return inhead != null; } }
+        internal bool HasOutgoing { [DebuggerStepThrough] get { return lgspOuthead != null; } }
+        internal bool HasIncoming { [DebuggerStepThrough] get { return lgspInhead != null; } }
 
         internal void AddOutgoing(LGSPEdge edge)
         {
-            if(outhead == null)
+            if(lgspOuthead == null)
             {
-                outhead = edge;
-                edge.outNext = edge;
-                edge.outPrev = edge;
+                lgspOuthead = edge;
+                edge.lgspOutNext = edge;
+                edge.lgspOutPrev = edge;
             }
             else
             {
-                outhead.outPrev.outNext = edge;
-                edge.outPrev = outhead.outPrev;
-                edge.outNext = outhead;
-                outhead.outPrev = edge;
+                lgspOuthead.lgspOutPrev.lgspOutNext = edge;
+                edge.lgspOutPrev = lgspOuthead.lgspOutPrev;
+                edge.lgspOutNext = lgspOuthead;
+                lgspOuthead.lgspOutPrev = edge;
             }
         }
 
         internal void AddIncoming(LGSPEdge edge)
         {
-            if(inhead == null)
+            if(lgspInhead == null)
             {
-                inhead = edge;
-                edge.inNext = edge;
-                edge.inPrev = edge;
+                lgspInhead = edge;
+                edge.lgspInNext = edge;
+                edge.lgspInPrev = edge;
             }
             else
             {
-                inhead.inPrev.inNext = edge;
-                edge.inPrev = inhead.inPrev;
-                edge.inNext = inhead;
-                inhead.inPrev = edge;
+                lgspInhead.lgspInPrev.lgspInNext = edge;
+                edge.lgspInPrev = lgspInhead.lgspInPrev;
+                edge.lgspInNext = lgspInhead;
+                lgspInhead.lgspInPrev = edge;
             }
         }
 
         internal void RemoveOutgoing(LGSPEdge edge)
         {
-            if(edge == outhead)
+            if(edge == lgspOuthead)
             {
-                outhead = edge.outNext;
-                if(outhead == edge)
-                    outhead = null;
+                lgspOuthead = edge.lgspOutNext;
+                if(lgspOuthead == edge)
+                    lgspOuthead = null;
             }
-            edge.outPrev.outNext = edge.outNext;
-            edge.outNext.outPrev = edge.outPrev;
+            edge.lgspOutPrev.lgspOutNext = edge.lgspOutNext;
+            edge.lgspOutNext.lgspOutPrev = edge.lgspOutPrev;
 
-            edge.outNext = null;
-            edge.outPrev = null;
+            edge.lgspOutNext = null;
+            edge.lgspOutPrev = null;
         }
 
         internal void RemoveIncoming(LGSPEdge edge)
         {
-            if(edge == inhead)
+            if(edge == lgspInhead)
             {
-                inhead = edge.inNext;
-                if(inhead == edge)
-                    inhead = null;
+                lgspInhead = edge.lgspInNext;
+                if(lgspInhead == edge)
+                    lgspInhead = null;
             }
-            edge.inPrev.inNext = edge.inNext;
-            edge.inNext.inPrev = edge.inPrev;
+            edge.lgspInPrev.lgspInNext = edge.lgspInNext;
+            edge.lgspInNext.lgspInPrev = edge.lgspInPrev;
 
-            edge.inNext = null;
-            edge.inPrev = null;
+            edge.lgspInNext = null;
+            edge.lgspInPrev = null;
         }
 
         /// <summary>
@@ -446,7 +446,7 @@ namespace de.unika.ipd.grGen.lgsp
         /// <param name="edge">The edge.</param>
         public void MoveOutHeadAfter(LGSPEdge edge)
         {
-            outhead = edge.outNext;
+            lgspOuthead = edge.lgspOutNext;
         }
 
         /// <summary>
@@ -456,25 +456,25 @@ namespace de.unika.ipd.grGen.lgsp
         /// <param name="edge">The edge.</param>
         public void MoveInHeadAfter(LGSPEdge edge)
         {
-            inhead = edge.inNext;
+            lgspInhead = edge.lgspInNext;
         }
 
         /// <summary>
         /// The NodeType of the node.
         /// </summary>
-        public NodeType Type { [DebuggerStepThrough] get { return type; } }
+        public NodeType Type { [DebuggerStepThrough] get { return lgspType; } }
 
         /// <summary>
         /// The GrGenType of the node.
         /// </summary>
-        GrGenType IGraphElement.Type { [DebuggerStepThrough] get { return type; } }
+        GrGenType IGraphElement.Type { [DebuggerStepThrough] get { return lgspType; } }
 
         /// <summary>
         /// Returns true, if the graph element is compatible to the given type.
         /// </summary>
         public bool InstanceOf(GrGenType otherType)
         {
-            return type.IsA(otherType);
+            return lgspType.IsA(otherType);
         }
 
         /// <summary>
@@ -563,12 +563,12 @@ namespace de.unika.ipd.grGen.lgsp
         /// <summary>
         /// The EdgeType of the edge.
         /// </summary>
-        public EdgeType type;
+        public EdgeType lgspType;
 
         /// <summary>
         /// contains some booleans coded as bitvector
         /// </summary>
-        public uint flags;
+        public uint lgspFlags;
 
         /// <summary>
         /// Previous and next edge in the list containing all the edges of one type.
@@ -579,22 +579,22 @@ namespace de.unika.ipd.grGen.lgsp
         /// "delete node + return edge", "hom + delete + return", "hom + retype + return", "hom + retype + delete",
         /// "hom + retype + delete + return".
         /// </summary>
-        public LGSPEdge typeNext, typePrev;
+        public LGSPEdge lgspTypeNext, lgspTypePrev;
 
         /// <summary>
         /// source and target nodes of this edge
         /// </summary>
-        public LGSPNode source, target;
+        public LGSPNode lgspSource, lgspTarget;
 
         /// <summary>
         /// previous and next edge in the incoming list of the target node containing all of it's incoming edges
         /// </summary>
-        public LGSPEdge inNext, inPrev;
+        public LGSPEdge lgspInNext, lgspInPrev;
 
         /// <summary>
         /// previous and next edge in the outgoing list of the source node containing all of it's outgoing edges
         /// </summary>
-        public LGSPEdge outNext, outPrev;
+        public LGSPEdge lgspOutNext, lgspOutPrev;
 
         /// <summary>
         /// Instantiates an LGSPEdge object.
@@ -604,9 +604,9 @@ namespace de.unika.ipd.grGen.lgsp
         /// <param name="targetNode">The target node.</param>
         public LGSPEdge(EdgeType edgeType, LGSPNode sourceNode, LGSPNode targetNode)
         {
-            type = edgeType;
-            source = sourceNode;
-            target = targetNode;
+            lgspType = edgeType;
+            lgspSource = sourceNode;
+            lgspTarget = targetNode;
         }
 
         /// <summary>
@@ -615,7 +615,7 @@ namespace de.unika.ipd.grGen.lgsp
         public bool Valid
         {
             [DebuggerStepThrough]
-            get { return typePrev != null; }
+            get { return lgspTypePrev != null; }
         }
 
 		/// <summary>
@@ -634,7 +634,7 @@ namespace de.unika.ipd.grGen.lgsp
 		/// </summary>
         public LGSPEdge ReplacedByEdge
         {
-            get { return typePrev != null ? null : typeNext; }
+            get { return lgspTypePrev != null ? null : lgspTypeNext; }
         }
 
 		/// <summary>
@@ -650,12 +650,12 @@ namespace de.unika.ipd.grGen.lgsp
         /// <summary>
         /// The source node of the edge.
         /// </summary>
-        public INode Source { [DebuggerStepThrough] get { return source; } }
+        public INode Source { [DebuggerStepThrough] get { return lgspSource; } }
 
         /// <summary>
         /// The target node of the edge.
         /// </summary>
-        public INode Target { [DebuggerStepThrough] get { return target; } }
+        public INode Target { [DebuggerStepThrough] get { return lgspTarget; } }
 
         /// <summary>
         /// Retrieves the other adjacent node of this edge.
@@ -665,26 +665,26 @@ namespace de.unika.ipd.grGen.lgsp
         /// <returns>The other node of this edge.</returns>
         public INode GetOther(INode sourceOrTarget)
         {
-            if(sourceOrTarget == source) return target;
-            else return source;
+            if(sourceOrTarget == lgspSource) return lgspTarget;
+            else return lgspSource;
         }
 
         /// <summary>
         /// The EdgeType of the edge.
         /// </summary>
-        public EdgeType Type { [DebuggerStepThrough] get { return type; } }
+        public EdgeType Type { [DebuggerStepThrough] get { return lgspType; } }
 
         /// <summary>
         /// The GrGenType of the edge.
         /// </summary>
-        GrGenType IGraphElement.Type { [DebuggerStepThrough] get { return type; } }
+        GrGenType IGraphElement.Type { [DebuggerStepThrough] get { return lgspType; } }
 
         /// <summary>
         /// Returns true, if the graph element is compatible to the given type
         /// </summary>
         public bool InstanceOf(GrGenType otherType)
         {
-            return type.IsA(otherType);
+            return lgspType.IsA(otherType);
         }
 
         /// <summary>

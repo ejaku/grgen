@@ -1,6 +1,6 @@
 // This file has been generated automatically by GrGen.
 // Do not modify this file! Any changes will be lost!
-// Generated from "..\..\examples\Turing3\Turing3.grg" on Tue Jul 21 00:00:59 GMT+01:00 2009
+// Generated from "..\..\examples\Turing3\Turing3.grg" on Sun Aug 02 10:10:13 GMT+01:00 2009
 
 using System;
 using System.Collections.Generic;
@@ -55,9 +55,9 @@ namespace de.unika.ipd.grGen.Model_Turing3
 			else
 			{
 				node = pool[--poolLevel];
-				node.inhead = null;
-				node.outhead = null;
-				node.flags &= ~(uint) GRGEN_LGSP.LGSPElemFlags.HAS_VARIABLES;
+				node.lgspInhead = null;
+				node.lgspOuthead = null;
+				node.lgspFlags &= ~(uint) GRGEN_LGSP.LGSPElemFlags.HAS_VARIABLES;
 				// implicit initialization, map/set creation of Node
 			}
 			graph.AddNode(node);
@@ -72,9 +72,9 @@ namespace de.unika.ipd.grGen.Model_Turing3
 			else
 			{
 				node = pool[--poolLevel];
-				node.inhead = null;
-				node.outhead = null;
-				node.flags &= ~(uint) GRGEN_LGSP.LGSPElemFlags.HAS_VARIABLES;
+				node.lgspInhead = null;
+				node.lgspOuthead = null;
+				node.lgspFlags &= ~(uint) GRGEN_LGSP.LGSPElemFlags.HAS_VARIABLES;
 				// implicit initialization, map/set creation of Node
 			}
 			graph.AddNode(node, varName);
@@ -171,9 +171,9 @@ namespace de.unika.ipd.grGen.Model_Turing3
 			else
 			{
 				node = pool[--poolLevel];
-				node.inhead = null;
-				node.outhead = null;
-				node.flags &= ~(uint) GRGEN_LGSP.LGSPElemFlags.HAS_VARIABLES;
+				node.lgspInhead = null;
+				node.lgspOuthead = null;
+				node.lgspFlags &= ~(uint) GRGEN_LGSP.LGSPElemFlags.HAS_VARIABLES;
 				// implicit initialization, map/set creation of BandPosition
 				node.@value = 0;
 				// explicit initializations of BandPosition for target BandPosition
@@ -190,9 +190,9 @@ namespace de.unika.ipd.grGen.Model_Turing3
 			else
 			{
 				node = pool[--poolLevel];
-				node.inhead = null;
-				node.outhead = null;
-				node.flags &= ~(uint) GRGEN_LGSP.LGSPElemFlags.HAS_VARIABLES;
+				node.lgspInhead = null;
+				node.lgspOuthead = null;
+				node.lgspFlags &= ~(uint) GRGEN_LGSP.LGSPElemFlags.HAS_VARIABLES;
 				// implicit initialization, map/set creation of BandPosition
 				node.@value = 0;
 				// explicit initializations of BandPosition for target BandPosition
@@ -333,9 +333,9 @@ namespace de.unika.ipd.grGen.Model_Turing3
 			else
 			{
 				node = pool[--poolLevel];
-				node.inhead = null;
-				node.outhead = null;
-				node.flags &= ~(uint) GRGEN_LGSP.LGSPElemFlags.HAS_VARIABLES;
+				node.lgspInhead = null;
+				node.lgspOuthead = null;
+				node.lgspFlags &= ~(uint) GRGEN_LGSP.LGSPElemFlags.HAS_VARIABLES;
 				// implicit initialization, map/set creation of State
 				// explicit initializations of State for target State
 			}
@@ -351,9 +351,9 @@ namespace de.unika.ipd.grGen.Model_Turing3
 			else
 			{
 				node = pool[--poolLevel];
-				node.inhead = null;
-				node.outhead = null;
-				node.flags &= ~(uint) GRGEN_LGSP.LGSPElemFlags.HAS_VARIABLES;
+				node.lgspInhead = null;
+				node.lgspOuthead = null;
+				node.lgspFlags &= ~(uint) GRGEN_LGSP.LGSPElemFlags.HAS_VARIABLES;
 				// implicit initialization, map/set creation of State
 				// explicit initializations of State for target State
 			}
@@ -452,9 +452,9 @@ namespace de.unika.ipd.grGen.Model_Turing3
 			else
 			{
 				node = pool[--poolLevel];
-				node.inhead = null;
-				node.outhead = null;
-				node.flags &= ~(uint) GRGEN_LGSP.LGSPElemFlags.HAS_VARIABLES;
+				node.lgspInhead = null;
+				node.lgspOuthead = null;
+				node.lgspFlags &= ~(uint) GRGEN_LGSP.LGSPElemFlags.HAS_VARIABLES;
 				// implicit initialization, map/set creation of WriteValue
 				node.@value = 0;
 				// explicit initializations of WriteValue for target WriteValue
@@ -471,9 +471,9 @@ namespace de.unika.ipd.grGen.Model_Turing3
 			else
 			{
 				node = pool[--poolLevel];
-				node.inhead = null;
-				node.outhead = null;
-				node.flags &= ~(uint) GRGEN_LGSP.LGSPElemFlags.HAS_VARIABLES;
+				node.lgspInhead = null;
+				node.lgspOuthead = null;
+				node.lgspFlags &= ~(uint) GRGEN_LGSP.LGSPElemFlags.HAS_VARIABLES;
 				// implicit initialization, map/set creation of WriteValue
 				node.@value = 0;
 				// explicit initializations of WriteValue for target WriteValue
@@ -750,9 +750,9 @@ namespace de.unika.ipd.grGen.Model_Turing3
 			else
 			{
 				edge = pool[--poolLevel];
-				edge.flags &= ~(uint) GRGEN_LGSP.LGSPElemFlags.HAS_VARIABLES;
-				edge.source = source;
-				edge.target = target;
+				edge.lgspFlags &= ~(uint) GRGEN_LGSP.LGSPElemFlags.HAS_VARIABLES;
+				edge.lgspSource = source;
+				edge.lgspTarget = target;
 				// implicit initialization, map/set creation of Edge
 			}
 			graph.AddEdge(edge);
@@ -767,9 +767,9 @@ namespace de.unika.ipd.grGen.Model_Turing3
 			else
 			{
 				edge = pool[--poolLevel];
-				edge.flags &= ~(uint) GRGEN_LGSP.LGSPElemFlags.HAS_VARIABLES;
-				edge.source = source;
-				edge.target = target;
+				edge.lgspFlags &= ~(uint) GRGEN_LGSP.LGSPElemFlags.HAS_VARIABLES;
+				edge.lgspSource = source;
+				edge.lgspTarget = target;
 				// implicit initialization, map/set creation of Edge
 			}
 			graph.AddEdge(edge, varName);
@@ -862,9 +862,9 @@ namespace de.unika.ipd.grGen.Model_Turing3
 			else
 			{
 				edge = pool[--poolLevel];
-				edge.flags &= ~(uint) GRGEN_LGSP.LGSPElemFlags.HAS_VARIABLES;
-				edge.source = source;
-				edge.target = target;
+				edge.lgspFlags &= ~(uint) GRGEN_LGSP.LGSPElemFlags.HAS_VARIABLES;
+				edge.lgspSource = source;
+				edge.lgspTarget = target;
 				// implicit initialization, map/set creation of UEdge
 			}
 			graph.AddEdge(edge);
@@ -879,9 +879,9 @@ namespace de.unika.ipd.grGen.Model_Turing3
 			else
 			{
 				edge = pool[--poolLevel];
-				edge.flags &= ~(uint) GRGEN_LGSP.LGSPElemFlags.HAS_VARIABLES;
-				edge.source = source;
-				edge.target = target;
+				edge.lgspFlags &= ~(uint) GRGEN_LGSP.LGSPElemFlags.HAS_VARIABLES;
+				edge.lgspSource = source;
+				edge.lgspTarget = target;
 				// implicit initialization, map/set creation of UEdge
 			}
 			graph.AddEdge(edge, varName);
@@ -980,9 +980,9 @@ namespace de.unika.ipd.grGen.Model_Turing3
 			else
 			{
 				edge = pool[--poolLevel];
-				edge.flags &= ~(uint) GRGEN_LGSP.LGSPElemFlags.HAS_VARIABLES;
-				edge.source = source;
-				edge.target = target;
+				edge.lgspFlags &= ~(uint) GRGEN_LGSP.LGSPElemFlags.HAS_VARIABLES;
+				edge.lgspSource = source;
+				edge.lgspTarget = target;
 				// implicit initialization, map/set creation of right
 				// explicit initializations of right for target right
 			}
@@ -998,9 +998,9 @@ namespace de.unika.ipd.grGen.Model_Turing3
 			else
 			{
 				edge = pool[--poolLevel];
-				edge.flags &= ~(uint) GRGEN_LGSP.LGSPElemFlags.HAS_VARIABLES;
-				edge.source = source;
-				edge.target = target;
+				edge.lgspFlags &= ~(uint) GRGEN_LGSP.LGSPElemFlags.HAS_VARIABLES;
+				edge.lgspSource = source;
+				edge.lgspTarget = target;
 				// implicit initialization, map/set creation of right
 				// explicit initializations of right for target right
 			}
@@ -1101,9 +1101,9 @@ namespace de.unika.ipd.grGen.Model_Turing3
 			else
 			{
 				edge = pool[--poolLevel];
-				edge.flags &= ~(uint) GRGEN_LGSP.LGSPElemFlags.HAS_VARIABLES;
-				edge.source = source;
-				edge.target = target;
+				edge.lgspFlags &= ~(uint) GRGEN_LGSP.LGSPElemFlags.HAS_VARIABLES;
+				edge.lgspSource = source;
+				edge.lgspTarget = target;
 				// implicit initialization, map/set creation of readZero
 				// explicit initializations of readZero for target readZero
 			}
@@ -1119,9 +1119,9 @@ namespace de.unika.ipd.grGen.Model_Turing3
 			else
 			{
 				edge = pool[--poolLevel];
-				edge.flags &= ~(uint) GRGEN_LGSP.LGSPElemFlags.HAS_VARIABLES;
-				edge.source = source;
-				edge.target = target;
+				edge.lgspFlags &= ~(uint) GRGEN_LGSP.LGSPElemFlags.HAS_VARIABLES;
+				edge.lgspSource = source;
+				edge.lgspTarget = target;
 				// implicit initialization, map/set creation of readZero
 				// explicit initializations of readZero for target readZero
 			}
@@ -1222,9 +1222,9 @@ namespace de.unika.ipd.grGen.Model_Turing3
 			else
 			{
 				edge = pool[--poolLevel];
-				edge.flags &= ~(uint) GRGEN_LGSP.LGSPElemFlags.HAS_VARIABLES;
-				edge.source = source;
-				edge.target = target;
+				edge.lgspFlags &= ~(uint) GRGEN_LGSP.LGSPElemFlags.HAS_VARIABLES;
+				edge.lgspSource = source;
+				edge.lgspTarget = target;
 				// implicit initialization, map/set creation of readOne
 				// explicit initializations of readOne for target readOne
 			}
@@ -1240,9 +1240,9 @@ namespace de.unika.ipd.grGen.Model_Turing3
 			else
 			{
 				edge = pool[--poolLevel];
-				edge.flags &= ~(uint) GRGEN_LGSP.LGSPElemFlags.HAS_VARIABLES;
-				edge.source = source;
-				edge.target = target;
+				edge.lgspFlags &= ~(uint) GRGEN_LGSP.LGSPElemFlags.HAS_VARIABLES;
+				edge.lgspSource = source;
+				edge.lgspTarget = target;
 				// implicit initialization, map/set creation of readOne
 				// explicit initializations of readOne for target readOne
 			}
@@ -1343,9 +1343,9 @@ namespace de.unika.ipd.grGen.Model_Turing3
 			else
 			{
 				edge = pool[--poolLevel];
-				edge.flags &= ~(uint) GRGEN_LGSP.LGSPElemFlags.HAS_VARIABLES;
-				edge.source = source;
-				edge.target = target;
+				edge.lgspFlags &= ~(uint) GRGEN_LGSP.LGSPElemFlags.HAS_VARIABLES;
+				edge.lgspSource = source;
+				edge.lgspTarget = target;
 				// implicit initialization, map/set creation of moveLeft
 				// explicit initializations of moveLeft for target moveLeft
 			}
@@ -1361,9 +1361,9 @@ namespace de.unika.ipd.grGen.Model_Turing3
 			else
 			{
 				edge = pool[--poolLevel];
-				edge.flags &= ~(uint) GRGEN_LGSP.LGSPElemFlags.HAS_VARIABLES;
-				edge.source = source;
-				edge.target = target;
+				edge.lgspFlags &= ~(uint) GRGEN_LGSP.LGSPElemFlags.HAS_VARIABLES;
+				edge.lgspSource = source;
+				edge.lgspTarget = target;
 				// implicit initialization, map/set creation of moveLeft
 				// explicit initializations of moveLeft for target moveLeft
 			}
@@ -1464,9 +1464,9 @@ namespace de.unika.ipd.grGen.Model_Turing3
 			else
 			{
 				edge = pool[--poolLevel];
-				edge.flags &= ~(uint) GRGEN_LGSP.LGSPElemFlags.HAS_VARIABLES;
-				edge.source = source;
-				edge.target = target;
+				edge.lgspFlags &= ~(uint) GRGEN_LGSP.LGSPElemFlags.HAS_VARIABLES;
+				edge.lgspSource = source;
+				edge.lgspTarget = target;
 				// implicit initialization, map/set creation of moveRight
 				// explicit initializations of moveRight for target moveRight
 			}
@@ -1482,9 +1482,9 @@ namespace de.unika.ipd.grGen.Model_Turing3
 			else
 			{
 				edge = pool[--poolLevel];
-				edge.flags &= ~(uint) GRGEN_LGSP.LGSPElemFlags.HAS_VARIABLES;
-				edge.source = source;
-				edge.target = target;
+				edge.lgspFlags &= ~(uint) GRGEN_LGSP.LGSPElemFlags.HAS_VARIABLES;
+				edge.lgspSource = source;
+				edge.lgspTarget = target;
 				// implicit initialization, map/set creation of moveRight
 				// explicit initializations of moveRight for target moveRight
 			}

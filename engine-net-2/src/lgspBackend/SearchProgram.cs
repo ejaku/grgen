@@ -968,13 +968,13 @@ namespace de.unika.ipd.grGen.lgsp
                 // emit declaration and initialization of variable containing candidates
                 string variableContainingCandidate =
                     NamesOfEntities.CandidateVariable(PatternElementName);
-                sourceCode.AppendFormat("{0} = {1}.typeNext; ",
+                sourceCode.AppendFormat("{0} = {1}.lgspTypeNext; ",
                     variableContainingCandidate, variableContainingListHead);
                 // emit loop condition: check for head reached again 
                 sourceCode.AppendFormat("{0} != {1}; ",
                     variableContainingCandidate, variableContainingListHead);
                 // emit loop increment: switch to next element of same type
-                sourceCode.AppendFormat("{0} = {0}.typeNext",
+                sourceCode.AppendFormat("{0} = {0}.lgspTypeNext",
                     variableContainingCandidate);
                 // close loop header
                 sourceCode.Append(")\n");
@@ -1008,7 +1008,7 @@ namespace de.unika.ipd.grGen.lgsp
                     string variableContainingStartingPointNode =
                         NamesOfEntities.CandidateVariable(StartingPointNodeName);
                     string memberOfNodeContainingListHead =
-                        EdgeType == IncidentEdgeType.Incoming ? "inhead" : "outhead";
+                        EdgeType == IncidentEdgeType.Incoming ? "lgspInhead" : "lgspOuthead";
                     sourceCode.AppendFormat(" = {0}.{1};\n",
                         variableContainingStartingPointNode, memberOfNodeContainingListHead);
 
@@ -1039,7 +1039,7 @@ namespace de.unika.ipd.grGen.lgsp
                     // emit loop tail
                     // - emit switch to next edge in list within assignment expression
                     string memberOfEdgeContainingNextEdge =
-                        EdgeType == IncidentEdgeType.Incoming ? "inNext" : "outNext";
+                        EdgeType == IncidentEdgeType.Incoming ? "lgspInNext" : "lgspOutNext";
                     sourceCode.AppendFrontFormat("while( ({0} = {0}.{1})",
                         variableContainingCandidate, memberOfEdgeContainingNextEdge);
                     // - check condition that head has been reached again (compare with assignment value)
@@ -1060,7 +1060,7 @@ namespace de.unika.ipd.grGen.lgsp
                     // emit initialization of variable containing incident edges list head
                     string variableContainingStartingPointNode =
                         NamesOfEntities.CandidateVariable(StartingPointNodeName);
-                    sourceCode.AppendFormat(" = {0}==0 ? {1}.inhead : {1}.outhead;\n",
+                    sourceCode.AppendFormat(" = {0}==0 ? {1}.lgspInhead : {1}.lgspOuthead;\n",
                         directionRunCounter, variableContainingStartingPointNode);
 
                     // emit execute the following code only if head != null
@@ -1089,7 +1089,7 @@ namespace de.unika.ipd.grGen.lgsp
 
                     // emit loop tail
                     // - emit switch to next edge in list within assignment expression
-                    sourceCode.AppendFrontFormat("while( ({0}==0 ? {1} = {1}.inNext : {1} = {1}.outNext)",
+                    sourceCode.AppendFrontFormat("while( ({0}==0 ? {1} = {1}.lgspInNext : {1} = {1}.lgspOutNext)",
                         directionRunCounter, variableContainingCandidate);
                     // - check condition that head has been reached again (compare with assignment value)
                     sourceCode.AppendFormat(" != {0} );\n", variableContainingListHead);
@@ -1233,7 +1233,7 @@ namespace de.unika.ipd.grGen.lgsp
                     string variableContainingStartingPointEdge =
                         NamesOfEntities.CandidateVariable(StartingPointEdgeName);
                     string whichImplicitNode =
-                        NodeType==ImplicitNodeType.Source ? "source" : "target";
+                        NodeType==ImplicitNodeType.Source ? "lgspSource" : "lgspTarget";
                     sourceCode.AppendFormat(" = {0}.{1};\n",
                         variableContainingStartingPointEdge, whichImplicitNode);
                 }
@@ -1249,7 +1249,7 @@ namespace de.unika.ipd.grGen.lgsp
                     // emit initialization with demanded node from variable containing edge
                     string variableContainingStartingPointEdge =
                         NamesOfEntities.CandidateVariable(StartingPointEdgeName);
-                    sourceCode.AppendFormat(" = {0}==0 ? {1}.source : {1}.target;\n",
+                    sourceCode.AppendFormat(" = {0}==0 ? {1}.lgspSource : {1}.lgspTarget;\n",
                         directionRunCounter, variableContainingStartingPointEdge);
                 }
                 else // NodeType == ImplicitNodeType.TheOther
@@ -1261,7 +1261,7 @@ namespace de.unika.ipd.grGen.lgsp
                     // emit initialization with other node from edge
                     string variableContainingStartingPointEdge =
                         NamesOfEntities.CandidateVariable(StartingPointEdgeName);
-                    sourceCode.AppendFormat(" = {0}=={1}.source ? {1}.target : {1}.source;\n",
+                    sourceCode.AppendFormat(" = {0}=={1}.lgspSource ? {1}.lgspTarget : {1}.lgspSource;\n",
                         NamesOfEntities.CandidateVariable(TheOtherPatternElementName),
                         variableContainingStartingPointEdge);
                 }
@@ -1457,13 +1457,13 @@ namespace de.unika.ipd.grGen.lgsp
             {
                 string isAllowedTypeArrayMemberOfRulePattern =
                     PatternElementName + "_IsAllowedType";
-                sourceCode.AppendFrontFormat("if(!{0}.{1}[{2}.type.TypeID]) ",
+                sourceCode.AppendFrontFormat("if(!{0}.{1}[{2}.lgspType.TypeID]) ",
                     RulePatternTypeName, isAllowedTypeArrayMemberOfRulePattern,
                     variableContainingCandidate);
             }
             else if (Type == CheckCandidateForTypeType.ByIsMyType)
             {
-                sourceCode.AppendFrontFormat("if(!{0}.isMyType[{1}.type.TypeID]) ",
+                sourceCode.AppendFrontFormat("if(!{0}.isMyType[{1}.lgspType.TypeID]) ",
                     TypeName, variableContainingCandidate);
             }
             else // Type == CheckCandidateForTypeType.ByTypeID)
@@ -1475,7 +1475,7 @@ namespace de.unika.ipd.grGen.lgsp
                     if (first) first = false;
                     else sourceCode.Append(" && ");
 
-                    sourceCode.AppendFormat("{0}.type.TypeID!={1}",
+                    sourceCode.AppendFormat("{0}.lgspType.TypeID!={1}",
                         variableContainingCandidate, typeID);
                 }
                 sourceCode.Append(") ");
@@ -1594,21 +1594,21 @@ namespace de.unika.ipd.grGen.lgsp
             if (ConnectednessType == CheckCandidateForConnectednessType.Source)
             {
                 // emit check decision for is candidate connected to already found partial match, i.e. edge source equals node
-                sourceCode.AppendFrontFormat("if({0}.source != {1}) ",
+                sourceCode.AppendFrontFormat("if({0}.lgspSource != {1}) ",
                     NamesOfEntities.CandidateVariable(PatternEdgeName),
                     NamesOfEntities.CandidateVariable(PatternNodeName));
             }
             else if (ConnectednessType == CheckCandidateForConnectednessType.Target)
             {
                 // emit check decision for is candidate connected to already found partial match, i.e. edge target equals node
-                sourceCode.AppendFrontFormat("if({0}.target != {1}) ",
+                sourceCode.AppendFrontFormat("if({0}.lgspTarget != {1}) ",
                     NamesOfEntities.CandidateVariable(PatternEdgeName),
                     NamesOfEntities.CandidateVariable(PatternNodeName));
             }
             else if(ConnectednessType == CheckCandidateForConnectednessType.SourceOrTarget)
             {
                 // we've to check both node positions of the edge, we do so by checking source or target dependent on the direction run
-                sourceCode.AppendFrontFormat("if( ({0}==0 ? {1}.source : {1}.target) != {2}) ",
+                sourceCode.AppendFrontFormat("if( ({0}==0 ? {1}.lgspSource : {1}.lgspTarget) != {2}) ",
                     NamesOfEntities.DirectionRunCounterVariable(PatternEdgeName), 
                     NamesOfEntities.CandidateVariable(PatternEdgeName),
                     NamesOfEntities.CandidateVariable(PatternNodeName));
@@ -1616,7 +1616,7 @@ namespace de.unika.ipd.grGen.lgsp
             else //ConnectednessType == CheckCandidateForConnectednessType.TheOther
             {
                 // we've to check the node position of the edge the first node is not assigned to
-                sourceCode.AppendFrontFormat("if( ({0}=={1}.source ? {1}.target : {1}.source) != {2}) ",
+                sourceCode.AppendFrontFormat("if( ({0}=={1}.lgspSource ? {1}.lgspTarget : {1}.lgspSource) != {2}) ",
                     NamesOfEntities.CandidateVariable(TheOtherPatternNodeName),
                     NamesOfEntities.CandidateVariable(PatternEdgeName),
                     NamesOfEntities.CandidateVariable(PatternNodeName));
@@ -1695,7 +1695,7 @@ namespace de.unika.ipd.grGen.lgsp
             }
             string variableContainingCandidate = NamesOfEntities.CandidateVariable(PatternElementName);
             string isMatchedBit = "(uint) GRGEN_LGSP.LGSPElemFlags.IS_MATCHED << negLevel";
-            sourceCode.AppendFormat("({0}.flags & {1}) != 0", variableContainingCandidate, isMatchedBit);
+            sourceCode.AppendFormat("({0}.lgspFlags & {1}) != 0", variableContainingCandidate, isMatchedBit);
 
             if (!NeverAboveMaxNegLevel)
             {
@@ -1825,7 +1825,7 @@ namespace de.unika.ipd.grGen.lgsp
             string variableContainingCandidate = NamesOfEntities.CandidateVariable(PatternElementName);
             string isMatchedBit = "(uint) GRGEN_LGSP.LGSPElemFlags.IS_MATCHED_BY_ENCLOSING_PATTERN << negLevel";
 
-            sourceCode.AppendFormat("({0}.flags & {1})=={1}",
+            sourceCode.AppendFormat("({0}.lgspFlags & {1})=={1}",
                 variableContainingCandidate, isMatchedBit);
 
             if (!NeverAboveMaxNegLevel)
@@ -1910,7 +1910,7 @@ namespace de.unika.ipd.grGen.lgsp
                 sourceCode.Append("searchPatternpath && ");
             }
 
-            sourceCode.AppendFormat("({0}.flags & {1})=={1} && GRGEN_LGSP.PatternpathIsomorphyChecker.IsMatched({0}, {2})",
+            sourceCode.AppendFormat("({0}.lgspFlags & {1})=={1} && GRGEN_LGSP.PatternpathIsomorphyChecker.IsMatched({0}, {2})",
                 variableContainingCandidate, isMatchedBySomeBit, LastMatchAtPreviousNestingLevel);
 
             sourceCode.Append(")\n");
@@ -2327,9 +2327,9 @@ namespace de.unika.ipd.grGen.lgsp
             }
 
             string isMatchedBit = "(uint) GRGEN_LGSP.LGSPElemFlags.IS_MATCHED << negLevel";
-            sourceCode.AppendFrontFormat("{0} = {1}.flags & {2};\n",
+            sourceCode.AppendFrontFormat("{0} = {1}.lgspFlags & {2};\n",
                 variableContainingBackupOfMappedMember, variableContainingCandidate, isMatchedBit);
-            sourceCode.AppendFrontFormat("{0}.flags |= {1};\n",
+            sourceCode.AppendFrontFormat("{0}.lgspFlags |= {1};\n",
                 variableContainingCandidate, isMatchedBit);
 
             if (!NeverAboveMaxNegLevel)
@@ -2396,9 +2396,9 @@ namespace de.unika.ipd.grGen.lgsp
             }
 
             string isMatchedBit = "(uint) GRGEN_LGSP.LGSPElemFlags.IS_MATCHED_BY_ENCLOSING_PATTERN << negLevel";
-            sourceCode.AppendFrontFormat("{0} = {1}.flags & {2};\n",
+            sourceCode.AppendFrontFormat("{0} = {1}.lgspFlags & {2};\n",
                 variableContainingBackupOfMappedMember, variableContainingCandidate, isMatchedBit);
-            sourceCode.AppendFrontFormat("{0}.flags |= {1};\n",
+            sourceCode.AppendFrontFormat("{0}.lgspFlags |= {1};\n",
                 variableContainingCandidate, isMatchedBit);
 
             if (!NeverAboveMaxNegLevel)
@@ -2455,9 +2455,9 @@ namespace de.unika.ipd.grGen.lgsp
                 NamesOfEntities.VariableWithBackupOfIsMatchedGlobalInSomePatternBit(PatternElementName, NegativeIndependentNamePrefix);
             sourceCode.AppendFrontFormat("uint {0};\n", variableContainingBackupOfMappedMemberGlobalSome);
             string isMatchedInSomePatternBit = "(uint) GRGEN_LGSP.LGSPElemFlags.IS_MATCHED_BY_SOME_ENCLOSING_PATTERN";
-            sourceCode.AppendFrontFormat("{0} = {1}.flags & {2};\n",
+            sourceCode.AppendFrontFormat("{0} = {1}.lgspFlags & {2};\n",
                 variableContainingBackupOfMappedMemberGlobalSome, variableContainingCandidate, isMatchedInSomePatternBit);
-            sourceCode.AppendFrontFormat("{0}.flags |= {1};\n",
+            sourceCode.AppendFrontFormat("{0}.lgspFlags |= {1};\n",
                 variableContainingCandidate, isMatchedInSomePatternBit);
         }
 
@@ -2528,7 +2528,7 @@ namespace de.unika.ipd.grGen.lgsp
             }
 
             string isMatchedBit = "(uint) GRGEN_LGSP.LGSPElemFlags.IS_MATCHED << negLevel";
-            sourceCode.AppendFrontFormat("{0}.flags = {0}.flags & ~({1}) | {2};\n",
+            sourceCode.AppendFrontFormat("{0}.lgspFlags = {0}.lgspFlags & ~({1}) | {2};\n",
                 variableContainingCandidate, isMatchedBit, variableContainingBackupOfMappedMember);
 
             if (!NeverAboveMaxNegLevel)
@@ -2594,7 +2594,7 @@ namespace de.unika.ipd.grGen.lgsp
             }
 
             string isMatchedBit = "(uint) GRGEN_LGSP.LGSPElemFlags.IS_MATCHED_BY_ENCLOSING_PATTERN << negLevel";
-            sourceCode.AppendFrontFormat("{0}.flags = {0}.flags & ~({1}) | {2};\n",
+            sourceCode.AppendFrontFormat("{0}.lgspFlags = {0}.lgspFlags & ~({1}) | {2};\n",
                 variableContainingCandidate, isMatchedBit, variableContainingBackupOfMappedMember);
 
             if (!NeverAboveMaxNegLevel)
@@ -2651,7 +2651,7 @@ namespace de.unika.ipd.grGen.lgsp
             string variableContainingBackupOfMappedMemberGlobalSome =
                 NamesOfEntities.VariableWithBackupOfIsMatchedGlobalInSomePatternBit(PatternElementName, NegativeIndependentNamePrefix);
             string isMatchedInSomePatternBit = "(uint) GRGEN_LGSP.LGSPElemFlags.IS_MATCHED_BY_SOME_ENCLOSING_PATTERN";
-            sourceCode.AppendFrontFormat("{0}.flags = {0}.flags & ~({1}) | {2};\n",
+            sourceCode.AppendFrontFormat("{0}.lgspFlags = {0}.lgspFlags & ~({1}) | {2};\n",
                 variableContainingCandidate, isMatchedInSomePatternBit, variableContainingBackupOfMappedMemberGlobalSome);
         }
 
@@ -3676,7 +3676,7 @@ namespace de.unika.ipd.grGen.lgsp
                 string variableContainingStartingPointNode =
                     NamesOfEntities.CandidateVariable(StartingPointNodeName);
                 string memberOfNodeContainingListHead =
-                    IsIncoming ? "inhead" : "outhead";
+                    IsIncoming ? "lgspInhead" : "lgspOuthead";
                 sourceCode.AppendFrontFormat("if({0}.{1}!=null)\n",
                     variableContainingStartingPointNode, memberOfNodeContainingListHead);
                 sourceCode.AppendFront("{\n");
@@ -3688,7 +3688,7 @@ namespace de.unika.ipd.grGen.lgsp
                 sourceCode.AppendFrontFormat("int {0} = 0;", variableContainingRandomPosition);
                 // misuse variable to store length of list which is computed within the follwing iteration
                 string memberOfEdgeContainingNextEdge =
-                    IsIncoming ? "inNext" : "outNext";
+                    IsIncoming ? "lgspInNext" : "lgspOutNext";
                 sourceCode.AppendFrontFormat("for(GRGEN_LGSP.LGSPEdge edge = {0}.{1}; edge!={0}.{1}; edge=edge.{2}) ++{3};\n",
                     variableContainingStartingPointNode, memberOfNodeContainingListHead,
                     memberOfEdgeContainingNextEdge, variableContainingRandomPosition);

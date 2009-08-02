@@ -39,7 +39,7 @@ namespace de.unika.ipd.grGen.libGr
         /// <summary>
         /// An array of C# types of model types.
         /// </summary>
-        Type[] TypeTypes { get; }
+        System.Type[] TypeTypes { get; }
 
         /// <summary>
         /// Enumerates all attribute types of this model.

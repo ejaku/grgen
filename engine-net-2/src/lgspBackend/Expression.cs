@@ -616,7 +616,7 @@ namespace de.unika.ipd.grGen.expression
 
         public override void Emit(SourceBuilder sourceCode)
         {
-            sourceCode.Append(NamesOfEntities.CandidateVariable(Entity) +".type");
+            sourceCode.Append(NamesOfEntities.CandidateVariable(Entity) + ".lgspType");
         }
 
         String Entity;

@@ -4,7 +4,6 @@ debug set layout Organic
 dump set node Ant color red
 dump add node Ant infotag hasFood
 dump add edge NextAnt exclude
-dump add node GammelFix exclude
 
 randomseed 13
 

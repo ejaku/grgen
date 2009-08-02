@@ -1,7 +1,7 @@
 #solution to encapsulate field of RefactoringCase "the scruffy challenge" of Grabats
 
-include InstanceGraph.grs
-include InstanceGraphLayout.grs
+include InstanceGraph.grsi
+include InstanceGraphLayout.grsi
 
 redirect emit program.txt
 visID = allocvisitflag
