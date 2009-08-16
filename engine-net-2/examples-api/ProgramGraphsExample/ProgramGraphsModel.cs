@@ -1,6 +1,6 @@
 // This file has been generated automatically by GrGen.
 // Do not modify this file! Any changes will be lost!
-// Generated from "..\..\examples\ProgramGraphs\ProgramGraphs.grg" on Sun Aug 02 10:10:42 GMT+01:00 2009
+// Generated from "..\..\examples\ProgramGraphs\ProgramGraphs.grg" on Sun Aug 16 14:38:42 GMT+01:00 2009
 
 using System;
 using System.Collections.Generic;
@@ -1301,7 +1301,7 @@ namespace de.unika.ipd.grGen.Model_ProgramGraphs
 		};
 		public GRGEN_LIBGR.NodeType[] Types { get { return types; } }
 		GRGEN_LIBGR.GrGenType[] GRGEN_LIBGR.ITypeModel.Types { get { return types; } }
-		private Type[] typeTypes = {
+		private System.Type[] typeTypes = {
 			typeof(GRGEN_MODEL.NodeType_Node),
 			typeof(GRGEN_MODEL.NodeType_Entity),
 			typeof(GRGEN_MODEL.NodeType_MethodBody),
@@ -1314,7 +1314,7 @@ namespace de.unika.ipd.grGen.Model_ProgramGraphs
 			typeof(GRGEN_MODEL.NodeType_Constant),
 			typeof(GRGEN_MODEL.NodeType_Variabel),
 		};
-		public Type[] TypeTypes { get { return typeTypes; } }
+		public System.Type[] TypeTypes { get { return typeTypes; } }
 		private GRGEN_LIBGR.AttributeType[] attributeTypes = {
 		};
 		public IEnumerable<GRGEN_LIBGR.AttributeType> AttributeTypes { get { return attributeTypes; } }
@@ -2944,7 +2944,7 @@ namespace de.unika.ipd.grGen.Model_ProgramGraphs
 		};
 		public GRGEN_LIBGR.EdgeType[] Types { get { return types; } }
 		GRGEN_LIBGR.GrGenType[] GRGEN_LIBGR.ITypeModel.Types { get { return types; } }
-		private Type[] typeTypes = {
+		private System.Type[] typeTypes = {
 			typeof(GRGEN_MODEL.EdgeType_AEdge),
 			typeof(GRGEN_MODEL.EdgeType_Edge),
 			typeof(GRGEN_MODEL.EdgeType_UEdge),
@@ -2958,7 +2958,7 @@ namespace de.unika.ipd.grGen.Model_ProgramGraphs
 			typeof(GRGEN_MODEL.EdgeType_containedInClass),
 			typeof(GRGEN_MODEL.EdgeType_containedInMethodBody),
 		};
-		public Type[] TypeTypes { get { return typeTypes; } }
+		public System.Type[] TypeTypes { get { return typeTypes; } }
 		private GRGEN_LIBGR.AttributeType[] attributeTypes = {
 		};
 		public IEnumerable<GRGEN_LIBGR.AttributeType> AttributeTypes { get { return attributeTypes; } }

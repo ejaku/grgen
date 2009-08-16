@@ -1929,17 +1929,17 @@
             Class implementing nodes in the libGr search plan backend
             </summary>
         </member>
-        <member name="F:de.unika.ipd.grGen.lgsp.LGSPNode.type">
+        <member name="F:de.unika.ipd.grGen.lgsp.LGSPNode.lgspType">
             <summary>
             The node type of the node.
             </summary>
         </member>
-        <member name="F:de.unika.ipd.grGen.lgsp.LGSPNode.flags">
+        <member name="F:de.unika.ipd.grGen.lgsp.LGSPNode.lgspFlags">
             <summary>
             contains some booleans coded as bitvector
             </summary>
         </member>
-        <member name="F:de.unika.ipd.grGen.lgsp.LGSPNode.typePrev">
+        <member name="F:de.unika.ipd.grGen.lgsp.LGSPNode.lgspTypePrev">
             <summary>
             Previous and next node in the list containing all the nodes of one type.
             The node is not part of a graph, iff typePrev is null.
@@ -1950,7 +1950,7 @@
             "hom + retype + delete + return".
             </summary>
         </member>
-        <member name="F:de.unika.ipd.grGen.lgsp.LGSPNode.typeNext">
+        <member name="F:de.unika.ipd.grGen.lgsp.LGSPNode.lgspTypeNext">
             <summary>
             Previous and next node in the list containing all the nodes of one type.
             The node is not part of a graph, iff typePrev is null.
@@ -1961,12 +1961,12 @@
             "hom + retype + delete + return".
             </summary>
         </member>
-        <member name="F:de.unika.ipd.grGen.lgsp.LGSPNode.outhead">
+        <member name="F:de.unika.ipd.grGen.lgsp.LGSPNode.lgspOuthead">
             <summary>
             Entry node into the outgoing edges list - not of type edge head, real edge or null
             </summary>
         </member>
-        <member name="F:de.unika.ipd.grGen.lgsp.LGSPNode.inhead">
+        <member name="F:de.unika.ipd.grGen.lgsp.LGSPNode.lgspInhead">
             <summary>
             Entry node into the incoming edges list - not of type edge head, real edge or null
             </summary>
@@ -2124,17 +2124,17 @@
             Class implementing edges in the libGr search plan backend
             </summary>
         </member>
-        <member name="F:de.unika.ipd.grGen.lgsp.LGSPEdge.type">
+        <member name="F:de.unika.ipd.grGen.lgsp.LGSPEdge.lgspType">
             <summary>
             The EdgeType of the edge.
             </summary>
         </member>
-        <member name="F:de.unika.ipd.grGen.lgsp.LGSPEdge.flags">
+        <member name="F:de.unika.ipd.grGen.lgsp.LGSPEdge.lgspFlags">
             <summary>
             contains some booleans coded as bitvector
             </summary>
         </member>
-        <member name="F:de.unika.ipd.grGen.lgsp.LGSPEdge.typeNext">
+        <member name="F:de.unika.ipd.grGen.lgsp.LGSPEdge.lgspTypeNext">
             <summary>
             Previous and next edge in the list containing all the edges of one type.
             The node is not part of a graph, iff typePrev is null.
@@ -2145,7 +2145,7 @@
             "hom + retype + delete + return".
             </summary>
         </member>
-        <member name="F:de.unika.ipd.grGen.lgsp.LGSPEdge.typePrev">
+        <member name="F:de.unika.ipd.grGen.lgsp.LGSPEdge.lgspTypePrev">
             <summary>
             Previous and next edge in the list containing all the edges of one type.
             The node is not part of a graph, iff typePrev is null.
@@ -2156,32 +2156,32 @@
             "hom + retype + delete + return".
             </summary>
         </member>
-        <member name="F:de.unika.ipd.grGen.lgsp.LGSPEdge.source">
+        <member name="F:de.unika.ipd.grGen.lgsp.LGSPEdge.lgspSource">
             <summary>
             source and target nodes of this edge
             </summary>
         </member>
-        <member name="F:de.unika.ipd.grGen.lgsp.LGSPEdge.target">
+        <member name="F:de.unika.ipd.grGen.lgsp.LGSPEdge.lgspTarget">
             <summary>
             source and target nodes of this edge
             </summary>
         </member>
-        <member name="F:de.unika.ipd.grGen.lgsp.LGSPEdge.inNext">
+        <member name="F:de.unika.ipd.grGen.lgsp.LGSPEdge.lgspInNext">
             <summary>
             previous and next edge in the incoming list of the target node containing all of it's incoming edges
             </summary>
         </member>
-        <member name="F:de.unika.ipd.grGen.lgsp.LGSPEdge.inPrev">
+        <member name="F:de.unika.ipd.grGen.lgsp.LGSPEdge.lgspInPrev">
             <summary>
             previous and next edge in the incoming list of the target node containing all of it's incoming edges
             </summary>
         </member>
-        <member name="F:de.unika.ipd.grGen.lgsp.LGSPEdge.outNext">
+        <member name="F:de.unika.ipd.grGen.lgsp.LGSPEdge.lgspOutNext">
             <summary>
             previous and next edge in the outgoing list of the source node containing all of it's outgoing edges
             </summary>
         </member>
-        <member name="F:de.unika.ipd.grGen.lgsp.LGSPEdge.outPrev">
+        <member name="F:de.unika.ipd.grGen.lgsp.LGSPEdge.lgspOutPrev">
             <summary>
             previous and next edge in the outgoing list of the source node containing all of it's outgoing edges
             </summary>
@@ -3044,6 +3044,11 @@
             A pattern variable of a rule pattern.
             </summary>
         </member>
+        <member name="F:de.unika.ipd.grGen.lgsp.PatternVariable.PointOfDefinition">
+            <summary>
+            The pattern where this element gets matched (null if rule parameter).
+            </summary>
+        </member>
         <member name="F:de.unika.ipd.grGen.lgsp.PatternVariable.Type">
             <summary>
             The GrGen type of the variable.
@@ -3108,7 +3113,12 @@
             An array of variable names needed by this condition.
             </summary>
         </member>
-        <member name="M:de.unika.ipd.grGen.lgsp.PatternCondition.#ctor(de.unika.ipd.grGen.expression.Expression,System.String[],System.String[],System.String[])">
+        <member name="F:de.unika.ipd.grGen.lgsp.PatternCondition.NeededVariableTypes">
+            <summary>
+            An array of variable types (corresponding to the variable names) needed by this condition.
+            </summary>
+        </member>
+        <member name="M:de.unika.ipd.grGen.lgsp.PatternCondition.#ctor(de.unika.ipd.grGen.expression.Expression,System.String[],System.String[],System.String[],de.unika.ipd.grGen.libGr.VarType[])">
             <summary>
             Constructs a PatternCondition object.
             </summary>
@@ -3116,6 +3126,7 @@
             <param name="neededNodes">An array of node names needed by this condition.</param>
             <param name="neededEdges">An array of edge names needed by this condition.</param>
             <param name="neededVariables">An array of variable names needed by this condition.</param>
+            <param name="neededVariableTypes">An array of variable types (corresponding to the variable names) needed by this condition.</param>
         </member>
         <member name="T:de.unika.ipd.grGen.lgsp.PatternGraph">
             <summary>
@@ -3317,6 +3328,12 @@
             Set of names, with dummy bool due to lacking set class in c#
             </summary>
         </member>
+        <member name="F:de.unika.ipd.grGen.lgsp.PatternGraph.neededVariables">
+            <summary>
+            The variables from the enclosing graph(s) used in this graph or one of it's subgraphs.
+            Map of names to types
+            </summary>
+        </member>
         <member name="F:de.unika.ipd.grGen.lgsp.PatternGraph.usedSubpatterns">
             <summary>
             The subpatterns used by this pattern (directly as well as indirectly),
@@ -3447,7 +3464,12 @@
             An array of variable names needed by this subpattern embedding.
             </summary>
         </member>
-        <member name="M:de.unika.ipd.grGen.lgsp.PatternGraphEmbedding.#ctor(System.String,de.unika.ipd.grGen.lgsp.LGSPMatchingPattern,de.unika.ipd.grGen.expression.Expression[],System.String[],System.String[],System.String[])">
+        <member name="F:de.unika.ipd.grGen.lgsp.PatternGraphEmbedding.neededVariableTypes">
+            <summary>
+            An array of variable types (corresponding to the variable names) needed by this embedding.
+            </summary>
+        </member>
+        <member name="M:de.unika.ipd.grGen.lgsp.PatternGraphEmbedding.#ctor(System.String,de.unika.ipd.grGen.lgsp.LGSPMatchingPattern,de.unika.ipd.grGen.expression.Expression[],System.String[],System.String[],System.String[],de.unika.ipd.grGen.libGr.VarType[])">
             <summary>
             Constructs a PatternGraphEmbedding object.
             </summary>

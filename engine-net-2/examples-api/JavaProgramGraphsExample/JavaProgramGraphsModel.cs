@@ -1,6 +1,6 @@
 // This file has been generated automatically by GrGen.
 // Do not modify this file! Any changes will be lost!
-// Generated from "..\..\examples\JavaProgramGraphs\JavaProgramGraphs.grg" on Sun Aug 02 10:10:29 GMT+01:00 2009
+// Generated from "..\..\examples\JavaProgramGraphs-GraBaTs08\JavaProgramGraphs.grg" on Sun Aug 16 14:38:26 GMT+01:00 2009
 
 using System;
 using System.Collections.Generic;
@@ -3310,7 +3310,7 @@ namespace de.unika.ipd.grGen.Model_JavaProgramGraphs
 		};
 		public GRGEN_LIBGR.NodeType[] Types { get { return types; } }
 		GRGEN_LIBGR.GrGenType[] GRGEN_LIBGR.ITypeModel.Types { get { return types; } }
-		private Type[] typeTypes = {
+		private System.Type[] typeTypes = {
 			typeof(GRGEN_MODEL.NodeType_Node),
 			typeof(GRGEN_MODEL.NodeType_Package),
 			typeof(GRGEN_MODEL.NodeType_Classifier),
@@ -3330,7 +3330,7 @@ namespace de.unika.ipd.grGen.Model_JavaProgramGraphs
 			typeof(GRGEN_MODEL.NodeType_Literal),
 			typeof(GRGEN_MODEL.NodeType_Parameter),
 		};
-		public Type[] TypeTypes { get { return typeTypes; } }
+		public System.Type[] TypeTypes { get { return typeTypes; } }
 		private GRGEN_LIBGR.AttributeType[] attributeTypes = {
 			GRGEN_MODEL.NodeType_Package.AttributeType_name,
 			GRGEN_MODEL.NodeType_Classifier.AttributeType_name,
@@ -5451,7 +5451,7 @@ namespace de.unika.ipd.grGen.Model_JavaProgramGraphs
 		};
 		public GRGEN_LIBGR.EdgeType[] Types { get { return types; } }
 		GRGEN_LIBGR.GrGenType[] GRGEN_LIBGR.ITypeModel.Types { get { return types; } }
-		private Type[] typeTypes = {
+		private System.Type[] typeTypes = {
 			typeof(GRGEN_MODEL.EdgeType_AEdge),
 			typeof(GRGEN_MODEL.EdgeType_Edge),
 			typeof(GRGEN_MODEL.EdgeType_UEdge),
@@ -5468,7 +5468,7 @@ namespace de.unika.ipd.grGen.Model_JavaProgramGraphs
 			typeof(GRGEN_MODEL.EdgeType_inBlock),
 			typeof(GRGEN_MODEL.EdgeType_inClass),
 		};
-		public Type[] TypeTypes { get { return typeTypes; } }
+		public System.Type[] TypeTypes { get { return typeTypes; } }
 		private GRGEN_LIBGR.AttributeType[] attributeTypes = {
 			GRGEN_MODEL.EdgeType_parameter.AttributeType_order,
 			GRGEN_MODEL.EdgeType_expression.AttributeType_order,

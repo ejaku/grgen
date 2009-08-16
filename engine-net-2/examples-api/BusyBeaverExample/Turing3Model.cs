@@ -1,6 +1,6 @@
 // This file has been generated automatically by GrGen.
 // Do not modify this file! Any changes will be lost!
-// Generated from "..\..\examples\Turing3\Turing3.grg" on Sun Aug 02 10:10:13 GMT+01:00 2009
+// Generated from "..\..\examples\Turing3\Turing3.grg" on Sun Aug 16 14:38:04 GMT+01:00 2009
 
 using System;
 using System.Collections.Generic;
@@ -664,13 +664,13 @@ namespace de.unika.ipd.grGen.Model_Turing3
 		};
 		public GRGEN_LIBGR.NodeType[] Types { get { return types; } }
 		GRGEN_LIBGR.GrGenType[] GRGEN_LIBGR.ITypeModel.Types { get { return types; } }
-		private Type[] typeTypes = {
+		private System.Type[] typeTypes = {
 			typeof(GRGEN_MODEL.NodeType_Node),
 			typeof(GRGEN_MODEL.NodeType_BandPosition),
 			typeof(GRGEN_MODEL.NodeType_State),
 			typeof(GRGEN_MODEL.NodeType_WriteValue),
 		};
-		public Type[] TypeTypes { get { return typeTypes; } }
+		public System.Type[] TypeTypes { get { return typeTypes; } }
 		private GRGEN_LIBGR.AttributeType[] attributeTypes = {
 			GRGEN_MODEL.NodeType_BandPosition.AttributeType_value,
 			GRGEN_MODEL.NodeType_WriteValue.AttributeType_value,
@@ -1706,7 +1706,7 @@ namespace de.unika.ipd.grGen.Model_Turing3
 		};
 		public GRGEN_LIBGR.EdgeType[] Types { get { return types; } }
 		GRGEN_LIBGR.GrGenType[] GRGEN_LIBGR.ITypeModel.Types { get { return types; } }
-		private Type[] typeTypes = {
+		private System.Type[] typeTypes = {
 			typeof(GRGEN_MODEL.EdgeType_AEdge),
 			typeof(GRGEN_MODEL.EdgeType_Edge),
 			typeof(GRGEN_MODEL.EdgeType_UEdge),
@@ -1716,7 +1716,7 @@ namespace de.unika.ipd.grGen.Model_Turing3
 			typeof(GRGEN_MODEL.EdgeType_moveLeft),
 			typeof(GRGEN_MODEL.EdgeType_moveRight),
 		};
-		public Type[] TypeTypes { get { return typeTypes; } }
+		public System.Type[] TypeTypes { get { return typeTypes; } }
 		private GRGEN_LIBGR.AttributeType[] attributeTypes = {
 		};
 		public IEnumerable<GRGEN_LIBGR.AttributeType> AttributeTypes { get { return attributeTypes; } }

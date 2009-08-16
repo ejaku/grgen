@@ -1,6 +1,6 @@
 // This file has been generated automatically by GrGen.
 // Do not modify this file! Any changes will be lost!
-// Generated from "..\..\tests\TNT\TNT.grg" on Sun Aug 02 10:10:52 GMT+01:00 2009
+// Generated from "..\..\tests\TNT\TNT.grg" on Sun Aug 16 14:38:58 GMT+01:00 2009
 
 using System;
 using System.Collections.Generic;
@@ -969,7 +969,7 @@ namespace de.unika.ipd.grGen.Model_TNT
 		};
 		public GRGEN_LIBGR.NodeType[] Types { get { return types; } }
 		GRGEN_LIBGR.GrGenType[] GRGEN_LIBGR.ITypeModel.Types { get { return types; } }
-		private Type[] typeTypes = {
+		private System.Type[] typeTypes = {
 			typeof(GRGEN_MODEL.NodeType_Node),
 			typeof(GRGEN_MODEL.NodeType_C),
 			typeof(GRGEN_MODEL.NodeType_H),
@@ -978,7 +978,7 @@ namespace de.unika.ipd.grGen.Model_TNT
 			typeof(GRGEN_MODEL.NodeType_P),
 			typeof(GRGEN_MODEL.NodeType_S),
 		};
-		public Type[] TypeTypes { get { return typeTypes; } }
+		public System.Type[] TypeTypes { get { return typeTypes; } }
 		private GRGEN_LIBGR.AttributeType[] attributeTypes = {
 		};
 		public IEnumerable<GRGEN_LIBGR.AttributeType> AttributeTypes { get { return attributeTypes; } }
@@ -1317,12 +1317,12 @@ namespace de.unika.ipd.grGen.Model_TNT
 		};
 		public GRGEN_LIBGR.EdgeType[] Types { get { return types; } }
 		GRGEN_LIBGR.GrGenType[] GRGEN_LIBGR.ITypeModel.Types { get { return types; } }
-		private Type[] typeTypes = {
+		private System.Type[] typeTypes = {
 			typeof(GRGEN_MODEL.EdgeType_AEdge),
 			typeof(GRGEN_MODEL.EdgeType_Edge),
 			typeof(GRGEN_MODEL.EdgeType_UEdge),
 		};
-		public Type[] TypeTypes { get { return typeTypes; } }
+		public System.Type[] TypeTypes { get { return typeTypes; } }
 		private GRGEN_LIBGR.AttributeType[] attributeTypes = {
 		};
 		public IEnumerable<GRGEN_LIBGR.AttributeType> AttributeTypes { get { return attributeTypes; } }
