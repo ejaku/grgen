@@ -481,4 +481,45 @@ Specify multiple rewrite rules instead of using multiple commands for each rule 
 \end{rail}\ixkeyw{custom}\ixkeyw{actions}
 Sets the maximum amount of possible pattern matches to \emph{Number}. This command affects the expression \texttt{[\emph{Rule}]}. If \emph{Number} is less or equal to zero, the constraint is reset.
 
+\section{TODO:Integrate}
+New set commands:
+<var> = new set <type> - creates a new set of given type and assigns it to the variable
+ e.g. v = new set string
+set <setname> add <key> - adds key to set
+ e.g. set n.a add "foo"
+set <setname> remove <key> - removes key from set
+ e.g. set v remove "bar"
+set <setname> size - prints out the number of set entries
+ e.g. set n.a size
 
+New map commands:
+<var> = new map <keytype> <valuetype> - creates a new map of given types and assigns it to the variable
+ e.g. v = new map string int
+map <mapname> add <key> <value> - adds pair (key,value) to map
+ e.g. map n.a add "foo"
+map <mapname> remove <key> - removes pair (key,*) from map
+ e.g. map v remove "bar"
+map <mapname> size - prints out the number of map entries
+ e.g. map n.a size
+ 
+ Improved interactivity: debug apply <rule with ? as placeholders>
+    allows to select wildcard elements ? by double clicking at elements in graph viewer yComp
+  - show var <variable> implemented
+  - Replaced "dump edge labels (on | off)" by "dump edge [only] <type> labels (on | off | <text>)"
+  - Added "dump set node [only] <type> labels (on | off | <text>)"
+  - Added "dump add (node | edge) [only] <type> shortinfotag <member>"  
+  
+  Added "setvisited <elem> <visid> <visited>" command
+  - Added "isvisited <elem> <visid>" command
+  - Added "silence (on|off)" command
+  
+  Added "randomseed" command
+    (e.g. "randomseed 13" sets the random seed to 13 for reproducible
+     results when using the \$-operator-prefix or the random-match-selector;
+     "randomseed time" sets the random seed to the current time in ms)
+	 
+	   - Added support for variable assignments with literals
+  - Variable to variable assignments
+  - "show graph" and "dump graph" now use the layouter configured
+    via "debug set layout"
+	 

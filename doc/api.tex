@@ -1,0 +1,92 @@
+\chapter{Application Programming Interface}\indexmain{application programming interface}
+\label{chapapi}
+
+This chapter describes the Application Programming Interface of GrGen.NET, i.e. of the sytem runtime - the LibGr - and of the assemblies generated from the model and rule specifications.
+
+The LibGr offers
+\begin{itemize}
+\item interface to host graph
+\item porter module for importing and exporting of graphs
+\item xgrs execution
+\end{itemize}
+
+Graph model and rewrite rule entities are mapped to the following code entities.
+
+*Import/Export:
+---------------
+
+GrGen natively supports the following formats:
+ - GRS: GrShell script files (graph only; a very limited version of the normal grs)
+ - GXL: Graph exchange language (graph only, see http://www.gupro.de/GXL/)
+ - EMF/ECORE: Eclipse Modeling Framework (model and graph; partial and only import).
+      .ecore files describe the graph models, .xmi files the graph instances.
+
+Import:
+To import a graph model and/or a graph instance you can either use
+Porter.Import() from the libGr API, or use the GrShell command "import <filename>+".
+In any case the file format is determined by the file extensions.
+While both GRS and GXL importers expect exactly one file, the EMF/ECORE importer
+expects first one or more .ecore files and following optionally a .xmi files and/or
+a .grg file. To use additional custom graph models you should supply an own .grg
+file which may be based on the automatically generated .grg file, if none was
+supplied (see the GraBaTs09-Program-Comprehension example).
+
+Export:
+To export a graph instance you can either use Porter.Export() from the libGr API,
+or use the GrShell command "export <filename>".
+
+
+*Application programming interface:
+-----------------------------------
+
+For every action=rule or test in the Bar.grg, 
+several classes are generated in \begin{csharplet}namespace Action_Bar\end{csharplet}.
+For example for a rule foo, you get
+- a LGSPRulePattern-object \begin{csharplet}Rule_foo\end{csharplet} containing:
+  - a match interface \begin{csharplet}IMatch_foo\end{csharplet} which defines how a match of the rule looks like, extending the (old) rule-unspecific \begin{csharplet}IMatch\end{csharplet} interface.
+  - and internal: a match implementation Match_foo.
+  - and internal: a description of the pattern to match.
+  - and internal: the modify methods doing the rewriting.
+- an action interface \begin{csharplet}IAction_foo\end{csharplet} which contains the methods:
+  - Match, to match the pattern in the host graph,
+     with in parameters corresponding to the in parameters of the rule,
+	 returning matches of type \begin{csharplet}Rule_foo.IMatch_foo\end{csharplet}.
+  - Modify, to modify a given match according to the rewrite specification,
+     with out parameters corresponding to the out parameters of the rule.
+  - Apply, to match and modify the found match 
+     with in parameters corresponding to the in parameters of the rule,
+     with ref parameters corresponding to the out parameters of the rule.
+- and internal: its implementation \begin{csharplet}Action_foo\end{csharplet},
+   extending the (old) rule-unspecific \begin{csharplet}IAction\end{csharplet} interface,
+   containing the generated matcher program(s) searching for the pattern.
+The action instances are available in the BarActions class,
+  as member foo of type \begin{csharplet}IAction_foo\end{csharplet}.
+These files and classes use further classes representing the node and edge types,
+which are generated in \begin{csharplet}namespace Model_Bla\end{csharplet}, according to the model file Bla.gm.
+
+The actions expect inputs of correct type; the old input parameters semantics
+of silently failing rule application on a wrong type is now only available 
+with the syntax \begin{grgenlet}r(x:ExactType<InexactType>)\end{grgenlet}, with InexactType showing up in the API,
+and the rule failing if the given element is not of ExactType)
+
+\LibGr\ allows for splitting a rule application into two steps: Find all the subgraphs of the host graph that match the pattern and rewrite one of these matches. 
+By returning a collection of all matches, the \LibGr\ retains the complete graph rewrite process under control.
+As a \LibGr\ user have a look at the following methods of the \texttt{IAction} interface:
+\begin{csharplet}
+IMatches Match(IGraph graph, int maxMatches, IGraphElement[] parameters);
+IGraphElement[] Modify(IGraph graph, IMatch match);
+\end{csharplet}
+In C\#, this might look like:
+\begin{csharplet}
+IMatches myMatches = myAction.Match(myGraph, -1, null); /* -1: get all the matches */
+for (int i = 0; i < myMatches.NumMatches; i++)
+{
+	if (inspectCarefully(myMatches.GetMatch(i))
+	{
+		myAction.Modify(myGraph, myMatches.GetMatch(i));
+		break;
+  	}
+}
+\end{csharplet}
+
+

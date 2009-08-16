@@ -1,0 +1,393 @@
+\chapter{Subpatterns}\indexmain{rule set language subpatterns}
+\label{chapsubpatterns}
+
+This chapter describes the rule set language constructs related to subpatterns, which are
+\begin{itemize}
+\item negative application condition (keyword negative)
+\item positive application condition (keyword independent)
+\item pattern cardinality (keywords iterated, multiple, optional)
+\item alternative patterns (keyword alternative)
+\item subpattern declaration and usage (keyword pattern)
+\item subrule declaration and usage (keyword pattern with contained replace/modify)
+\end{itemize}
+
+\section{Negative Application Condition (NAC)}
+\indexmain{negative application condition}\indexmainsee{NAC}{negative application condition}\label{nac}
+
+  With negative application conditions (keyword \texttt{negative}) we can specify graph patterns which forbid the application of a rule if any of them is present in the host graph (cf.~\cite{adam}). 
+  NACs possess a \indexed{scope} of their own. 
+  Names defined within a NAC do not exist outside the NAC. 
+  Identifiers from surrounding scopes must not be redefined.
+  In general NACs do not care about bindings within the outer scope. 
+   Nevertheless, if you use an \emph{identifier} that is defined in the outer scope, this specifies exactly the graph element, the identifier is bound to in the outer scope.
+  \begin{example}
+    We specify a node \texttt{x} which is not connected to a node of type \texttt{BadType}:
+    \begin{grgen}
+  x:Node;
+  negative {
+    x ?--? :BadType;
+  }
+    \end{grgen}
+  \end{example}
+   Because NACs have their ``own'' binding, using NACs leads to specifications which might look a bit redundant.
+  \begin{example}
+    Let's specify a singleton, a node of type \texttt{T} which is the only one of this type.
+    The following specification is \emph{wrong} (it will never return a match):
+    \begin{grgen}
+  x:T;
+  negative {
+    y:T;
+  }
+    \end{grgen}
+    Instead we have to specify the \emph{complete} forbidden pattern inside the NAC. This is done by:
+     \begin{grgen}
+  x:T;
+  negative {
+    x;
+    y:T;
+  }
+    \end{grgen}
+  \end{example} 
+
+As a straight-forward generalization of negatives within positive patterns,
+negatives may get nested to an arbitrary depth. Matching of the nested
+negative pattern causes the matching of the nesting pattern to fail.
+
+\begin{example}
+  \begin{grgen}
+test foo {
+  a:NA --> b:NB;
+  negative {
+    a --> c:NC;
+    negative {
+      b --> c;
+    }
+  }
+}
+  \end{grgen}
+\end{example}
+
+   negative pattern elements get matched independent from the subpatterns utilizing them
+	(explicit patternpath/pattern statement in the negative/independent needed for old behaviour)
+
+	
+\section{Positive Application Condition (PAC)}
+\indexmain{positive application condition}\indexmainsee{PAC}{positive application condition} \label{pac}
+  
+*Independent block:
+-------------------
+
+The independent block allows to specify further patterns 
+to be applied as positive application conditions.
+In contrast to the negative application conditions given by negative blocks,
+matching its subpattern does not cause the matching of the enclosing pattern 
+to fail, but is necessary in order for the matching of the enclosing pattern
+to succeed. It shares with the negative pattern its independence from the 
+enclosing pattern, i.e. host graph elements already matched to elements of the
+enclosing pattern may get matched again in the nested pattern, they are not
+locked/part of if - this is in contrast to the normal mode of matching within
+one pattern, which is isomorphic by default (it is forbidden to match one 
+host graph element by several pattern elements (unless explicitely specified 
+by the hom(a,b) construct)). As it only represents an application condition,
+it is not possible to rewrite the matched independent block,
+i.e. you can't specify a nested modify/replace block.
+
+\begin{example}
+  \begin{grgen}
+
+rule fancyRule
+{
+  a:A -- b:B -- c:C;
+  independent {
+    b -- cc:C;
+	if { cc.a=="foo"; }
+  }
+  independent {
+    :Chain(c,a)
+  }
+  
+  replace {
+    a; c;
+  }
+}
+
+pattern Chain(src:Node, tgt:Node)
+{
+  alternative {
+    Found {
+	  src --> tgt;
+    }
+    Further {
+      src --> intermediate:Node;
+      :Chain(intermediate, tgt);
+    }
+  }
+}
+  \end{grgen}
+\end{example}
+
+In the example given above, three nodes a,b,c of types A,B,C
+connected by undirected edges are searched, and if found, b gets deleted, but:
+a) only if b is connected to a further node cc of type C,
+with its attribute a holding the string value "foo", as specified 
+by the first independent; note that cc might be identical with c.
+b) only if there is an iterated path of directed edges from c to a.
+If there would be such an path containing b in the host graph, 
+it would get matched. The same path specified in the pattern of the rule 
+- not in the independent - would not get matched, as b was already matched
+and is thus locked by the isomorphy constraint.
+
+  
+\section{Pattern Cardinality}
+\indexmain{pattern cardinality}\label{pc}
+
+The *iterated block* is matching the contained subpattern as often as possible
+(succeeding if the contained pattern is not available, too).
+You can use it to match and rewrite breadth-splitting structures,
+like reversing all edges in the graph representation of a blowball.
+
+\begin{example}
+  \begin{grgen}
+rule BlowballReverse {
+  root:Node --> head:HeadNode;
+  iterated {
+    head --> n:Node;
+	replace {
+	  head <-- n;
+	}
+  }
+  replace { 
+    root <-- head;
+  }
+}
+  \end{grgen}
+\end{example}
+
+Combined with subpatterns, you may match structures extending into breadth and depth,
+like e.g. a spanning tree.
+
+\begin{example}
+  \begin{grgen}
+pattern SpanningTree(root:Node)
+{
+  iterated {
+    root -- next:Node;
+    :SpanningTree(next);
+  }
+}
+  \end{grgen}
+\end{example}
+
+The *multiple block* is working like the iterated block, 
+but expects the contained subpattern to be available at least once,
+if it is not, matching of the multiple block and thus its enclosing pattern fails.
+
+\begin{example}
+  \begin{grgen}
+test OneOrMoreEdges(src:Node, tgt:Node)
+{
+  multiple {
+    src --> tgt;
+  }
+}
+  \end{grgen}
+\end{example}
+
+The *optional block* is working like the iterated block,
+but matches the contained subpattern at most once, 
+further occurences of the subpattern are left unmatched.
+The follwing test matches two nodes connected by an directed edge
+of unspecified direction, and optionally an undirected reflexive edge
+on node 1, and optionally an arbitrarily directed edge on node 2,
+in case there are some.
+
+\begin{example}
+  \begin{grgen}
+test foo {
+  n1:Node <--> n2:Node;
+  optional {
+    n1 -- n1;
+  }
+  optional {
+    n2 ?--? n2;
+  }
+}
+  \end{grgen}
+\end{example}
+
+
+\section{Alternative Patterns}
+\indexmain{alternative patterns}\label{alternative}
+
+With the alternative block you can specify several nested alternative
+patterns. One of them must get matched for the matching of the entire pattern
+to succeed. The order of matching the alternative patterns is unspecified.
+
+\begin{example}
+  \begin{grgen}
+test t {
+  x:Node <-- y:Node;
+  alternative {
+    A {
+      x --> y;
+    }
+    B {
+      x --> z:Node;
+    }
+  }
+}
+  \end{grgen}
+\end{example}
+
+
+\section{Subpattern Declaration and Usage}
+\indexmain{subpattern}\label{subpattern}
+
+In addition to node declarations "Name:NodeType" and edge declarations
+"-Name:EdgeType->" you can now also declare subpattern entities of some
+specific shape "Name:SubpatternType()".
+
+The shape is specified by a subpattern type specification
+
+pattern Name() {
+  // local content: nodes, edges, and even subpatterns.
+}
+
+Subpatterns can get connected to their containing pattern 
+by some kind of parameters:
+
+\begin{example}
+  \begin{grgen}
+test t {
+  x:Node <-- y:Node;
+  f:Foo(x);
+}
+pattern Foo(bar:Node) {
+  bar --> :Node;
+}
+  \end{grgen}
+\end{example}
+
+Alternatives and subpatterns can be combined into recursive subpatterns
+(note the negative pattern to ensure you get a longest possible match):
+
+\begin{example}
+  \begin{grgen}
+pattern Chain(prev:Node) {
+  alternative {
+    Empty {
+      negative {
+        prev --> next:Node;
+      }
+    }
+    Further {
+      prev --> next:Node;
+      :Chain(next);
+    }
+  }
+}
+  \end{grgen}
+\end{example}
+
+
+\section{Subrule Declaration and Usage}
+\indexmain{subrule}\label{nac}
+
+Subpatterns and alternatives may contain a dependent replacement, effectively
+turning subpatterns into subrules:
+The replacement part nested within the alternative case chosen in matching
+will be used for carrying out the replacement. To trigger the replacement of a
+subpattern, use call-syntax on the pattern entity name:
+
+\begin{example}
+  \begin{grgen}
+rule R {
+  sub:FancySubrule();
+
+  modify {
+    sub();        // trigger rewriting the FancySubrule instance
+  }
+}
+
+pattern FancySubrule {
+  x:Node <-- y:Node;
+  alternative {
+    A {
+      x --> y;
+
+      modify {
+        x --> y2:Node;
+      }
+    }
+    B {
+      x --> z:Node;
+
+      modify {
+        delete(z);
+      }
+    }
+  }
+
+  modify {
+    delete(y);
+  }
+}
+  \end{grgen}
+\end{example}
+
+*The dependent replacement may get connected to the containing replacement
+graph by parameters, too.
+
+\begin{example}
+  \begin{grgen}
+pattern ChainFromToReverseToCommon(from:Node, to:Node) {
+  alternative {
+    base {
+      from --> to;
+
+      replace(common:Node) {
+        from <-- to;
+        from --> common;
+        to --> common;
+      }
+    }
+    rec {
+      from --> intermediate:Node;
+      cftrtc:ChainFromToReverseToCommon(intermediate, to);
+
+      replace(common:Node) {
+        from <-- intermediate;
+        from --> common;
+        cftrtc(common);
+      }
+    }
+  }
+
+  replace(common:Node) {
+    from; to;
+  }
+}
+  \end{grgen}
+\end{example}
+
+Creation, Deletion and Preservation of subpatterns
+In addition to the fine-grain dependent replacement, 
+subpatterns may get created or deleted or kept as a whole.
+Creation currently works only for subpatterns without alternatives,
+as the capability to choose the case to create is missing.
+
+\begin{example}
+  \begin{grgen}
+rule R {
+  foo:Foo();
+  bar:Bar();
+
+  replace {
+    foo; // is kept
+    // bar not included here - will be deleted
+    blub:Blub(); // will be created
+    // foo(); -- would apply dependent replacement
+  }
+}
+  \end{grgen}
+\end{example}

@@ -305,6 +305,10 @@ The \indexed{signature} sets the name of a rewrite rule to \emph{IdentDecl} and 
   Parameters: '(' ((IdentDecl ':' NodeType | '-' IdentDecl ':' EdgeType '->') + ',') ')' ;
 \end{rail}\ixnterm{Parameters}
 Within a rule, parameters are treated as (predefined) graph elements of the pattern. Even if a supplied parameter value is undefined\indexmain{undefined parameter}, it is treated as valid node or edge definition. So in any case a graph element of the specified type has to be mapped. \GrG\ assumes the lookup operation for parameters to be in $\mathcal{O}(1)$. In case of an undefined parameter value this might lead to bad \indexed{search plan}s, because \GrG\ has to actually search for such a graph element.
+
+Old input parameters semantics - silently failing rule application on wrong type -
+now only available with syntax r(x:ExactType<InexactType>)
+
 \begin{figure}[htbp]
 \begin{example}
 Assume the following \indexed{test} that checks whether the edge \texttt{e} is not \indexed{incident} to \texttt{x}:
@@ -380,25 +384,6 @@ See Section~\ref{rulebb} for a detailed explanation of names and graphlets.
 \label{note:indeterminism}
 The \indexed{application} of a rule is not deterministic\indexmain{non-determinism}\indexmainsee{determinism}{non-determinism} (remember the example of the introduction in Section~\ref{ov:example}); in particular there may be more than one subgraph that matches the pattern. 
 Whereas the \GrShell\ selects one of them arbitrarily (without further abilities to control the selection), the underlying \LibGr\indexmain{libGr} provides a mechanism to deal with such ambiguities. 
-\LibGr\ allows for splitting a rule application into two steps: Find all the subgraphs of the host graph that match the pattern and rewrite one of these matches. 
-By returning a collection of all matches, the \LibGr\ retains the complete graph rewrite process under control.
-As a \LibGr\ user have a look at the following methods of the \texttt{IAction} interface:
-\begin{csharplet}
-IMatches Match(IGraph graph, int maxMatches, IGraphElement[] parameters);
-IGraphElement[] Modify(IGraph graph, IMatch match);
-\end{csharplet}
-In C\#, this might look like:
-\begin{csharplet}
-IMatches myMatches = myAction.Match(myGraph, -1, null); /* -1: get all the matches */
-for (int i = 0; i < myMatches.NumMatches; i++)
-{
-	if (inspectCarefully(myMatches.GetMatch(i))
-	{
-		myAction.Modify(myGraph, myMatches.GetMatch(i));
-		break;
-  	}
-}
-\end{csharplet}
 
 Also notice that graph rewrite \emph{sequences}\indexmain{graph rewrite sequence} introduce a further variant of non-determinism on rule application level: 
 The \indexed{\texttt{\$<op>}} flag marks the operator \texttt{<op>} as commutative, i.e.\ the execution order of its operands (rules) is non-deterministic. 
@@ -421,45 +406,10 @@ The semantics of the various pattern statements are given below:
   In contrast to the default isomorphic matching, the specified graph elements \emph{may} be mapped to the same graph element in the host graph. Note that the graph elements must have a common subtype. 
   Several homomorphically matched graph elements will be mapped to a graph element of a common subtype.
   In Example~\ref{ex:rule:SomeRule} nodes \texttt{n1} and \texttt{n2} may be the same node. This is possible because they are of the same type (\texttt{NodeTypeA}).
-  A name may not occur in multiple \texttt{hom} statements. 
-  For instance it is illegal to write \texttt{hom(a, b); hom(b, c);}. Instead write \texttt{hom(a, b, c);}. 
   Inside a NAC the \texttt{hom} operator may only operate on graph elements that are either defined or used in the NAC.
-  \item[Negative Application Conditions (NACs)] \indexmain{negative application condition}\indexmainsee{NAC}{negative application condition}With negative application conditions (keyword \texttt{negative}) we can specify graph patterns which forbid the application of a rule if any of them is present in the host graph (cf.~\cite{adam}). 
-  NACs must not be nested.
-  NACs possess a \indexed{scope} of their own. 
-  Names defined within a NAC do not exist outside the NAC. 
-  Identifiers from surrounding scopes must not be redefined.
-  In general NACs do not care about bindings within the outer scope. 
-   Nevertheless, if you use an \emph{identifier} that is defined in the outer scope, this specifies exactly the graph element, the identifier is bound to in the outer scope.
-  \begin{example}
-    We specify a node \texttt{x} which is not connected to a node of type \texttt{BadType}:
-    \begin{grgen}
-  x:Node;
-  negative {
-    x ?--? :BadType;
-  }
-    \end{grgen}
-  \end{example}
-   Because NACs have their ``own'' binding, using NACs leads to specifications which might look a bit redundant.
-  \begin{example}
-    Let's specify a singleton, a node of type \texttt{T} which is the only one of this type.
-    The following specification is \emph{wrong} (it will never return a match):
-    \begin{grgen}
-  x:T;
-  negative {
-    y:T;
-  }
-    \end{grgen}
-    Instead we have to specify the \emph{complete} forbidden pattern inside the NAC. This is done by:
-     \begin{grgen}
-  x:T;
-  negative {
-    x;
-    y:T;
-  }
-    \end{grgen}
-  \end{example} 
-  \item[Attribute Conditions] \indexmain{attribute condition}The Java-like attribute conditions (keyword \texttt{if}) in the pattern part allow for further restriction of the applicability of a rule.
+ - hom declarations are inherited into nested negatives/independents now
+ - hom delarations are non-transitive by now (hom(a,b) and hom(b,c) don't cause hom(a,c) unless specified)
+   \item[Attribute Conditions] \indexmain{attribute condition}The Java-like attribute conditions (keyword \texttt{if}) in the pattern part allow for further restriction of the applicability of a rule.
   \item[Pattern Modifiers] Additionally to modifiers that apply to a pattern as a whole, you may also specify pattern modifiers for a specific set of nodes. Accordingly the list of identifiers for a pattern modifier must not contain any edge identifier. See section \ref{sct:patternmodifier} for an explanation of the \texttt{exact} and \texttt{induced} modifiers. 
 \end{description}
 
@@ -632,20 +582,6 @@ modify {
 This toy example yields $\texttt{y.i} = 42$, $\texttt{y.j} = 1$.
 \end{example}
 
-\begin{rail}  
-  ExecStatement: 'emit' '(' StringExpr ')' ';' |
-    'exec' '(' RewriteSequence ')' ';'
-\end{rail}\ixkeyw{emit}\ixkeyw{exec}\ixnterm{ExecStatement}
-The statements \texttt{emit} and \texttt{exec} enhance the declarative rewrite part by imperative clauses.
-That means, these statements are executed in the same order as they appear within the rule.
-The execution statements take place after all the rewrite operations are done, i.e.\ they operate on the modified host graph.
-However, \emph{attribute} values of deleted graph elements are still available for reading.
-The \texttt{eval} statements are executed before the execution statements, i.e.\ the execution statements work on the recalculated attributes.
-\begin{description}
-  \item[Text Output] The \texttt{emit} statement prints a string to the currently associated output stream (default is \texttt{stdout}). See section \ref{expressions} for a description of string expressions.
-  \item[XGRS Execution] The \texttt{exec} statement executes a graph rewrite sequence, which is a composition of graph rewrite rules. See section \ref{sct:xgrs} for  a description of graph rewrite sequences.
-\end{description}
-
 \section{Rule and Pattern Modifiers}\indexmain{modifier} 
 \label{sct:patternmodifier}
 By default \GrG\ performs rewriting according to \indexmain{SPO} semantics as explained in section \ref{rule:morphismr}.
@@ -719,7 +655,7 @@ Example \ref{ex:rules:modifiers} explains the modifiers by small toy-graphs.
                 \node[draw] (n2) at (1,0) {};
                 \node[draw] (n3) at (2,0) {};
                 \node[draw] (n4) at (1,-1) {};
-    	
+    	c
                 \draw[-latex] (n1) -- (n2) {};
                 \draw[-latex] (n2) -- (n3) {};
                 \draw[-latex] (n2) -- (n4) node[midway,right] {$e$};
@@ -731,137 +667,31 @@ Example \ref{ex:rules:modifiers} explains the modifiers by small toy-graphs.
 \end{example}
 \end{figure}
 
-\section{Extended Graph Rewrite Sequences (XGRS)}
-\label{sct:xgrs}\indexmainsee{XGRS}{graph rewrite sequence}
+\section{Imperative Statements}\indexmain{imperative statements} 
+\label{sct:imperative}
 
-Graph rewrite sequences\indexmain{graph rewrite sequence} are an imperative enhancement to the rule set language.
-Graph rewrite sequences are syntactically expressed as expressions similar to boolean expressions.
-Composing an expresiion out of single graph rewrite rules not only yields more complex host graph operations but also determines sort of a control flow by means of evaluation order of the operands.
-Graph rewrite sequences have a boolean return value; for a single rule, \texttt{true} means the rule was successfully applied to the host graph.
-A \texttt{false} return value means that the pattern was not found in the host graph.
-Graph rewrite sequences can be processed \indexed{transaction}ally by using angle brackets (\texttt{<>}).
-If the return value is \texttt{false}, all the related operations on the host graph will be rolled back.
-Nested transactions\indexmainsee{nested transaction}{transaction} are supported.
+\begin{rail}  
+  ExecStatement: 'emit' '(' StringExpr ')' ';' |
+    'exec' '(' RewriteSequence ')' ';'
+\end{rail}\ixkeyw{emit}\ixkeyw{exec}\ixnterm{ExecStatement}
+The statements \texttt{emit} and \texttt{exec} enhance the declarative rewrite part by imperative clauses.
+That means, these statements are executed in the same order as they appear within the rule.
+The execution statements take place after all the rewrite operations are done, i.e.\ they operate on the modified host graph.
+However, \emph{attribute} values of deleted graph elements are still available for reading.
+The \texttt{eval} statements are executed before the execution statements, i.e.\ the execution statements work on the recalculated attributes.
+\begin{description}
+  \item[Text Output] The \texttt{emit} statement prints a string to the currently associated output stream (default is \texttt{stdout}). See section \ref{expressions} for a description of string expressions.
+  \item[XGRS Execution] The \texttt{exec} statement executes a graph rewrite sequence, which is a composition of graph rewrite rules. See section \ref{sct:xgrs} for  a description of graph rewrite sequences.
+\end{description}
 
-In order to store return values of rewrite terms and to pass return values of rules to other rules, \emph{variables} can be defined.
-A variable is an arbitrary identifier which is defined by assigning a graph element, a boolean value, or another variable to it.
-You may use named graph elements of the enclosing rule as read-only variables.
-A parameter is alive from its first assignment until the end of the enclosing \texttt{exec} statement.
+\section{TODO:Integrate}
+-emitpre (before emitting from subpatterns) and emitpost(=emit; after emitting from subpatterns)
 
-Note that we have two kinds of return values in graph rewrite sequences.
-Every rewrite term returns a boolean value, indicating whether the rewriting could be successfully processed.
-Additionally rules may return graph elements.
-These return values can be assigned to variables on the fly (see example \ref{ex:grsreturn}).
-\begin{figure}[htbp]
-\begin{example}
-	\label{ex:grsreturn}
-	The graph rewrite sequence
-	\begin{grgen}	 
-a = ((b,c) = R(x,y,z))
-	\end{grgen}
-	is valid. 
-	It assigns returned graph elements from rule \texttt{R} to variables \texttt{b} and \texttt{c} and the information whether \texttt{R} mached or not to variable \texttt{a}.
-\end{example}
-\end{figure}
-
-\makeatletter
-\begin{rail}
-  RewriteSequence: ((() | '!') RewriteTerm (() | ('*' | '[' Number ']'))) + ((() | dollar) ('|' | ampersand | '||' | doubleampersand | xorhat));
-\end{rail}\ixnterm{RewriteSequence}
-A graph rewrite sequence consists of several, logically linked rewrite terms.
-The modifier \texttt{\$} flags the following operator to act commutative: Usually operands are executed / evaluated from left to right with respect to bracketing (left-\indexed{associative}). 
-In contrast the sequences \texttt{s}, \texttt{t}, \texttt{u} in \texttt{s \$<op> t \$<op> u} are executed / evaluated in arbitrary order.
-A sequence can further be executed multiple times: The star (\texttt{*}) executes a sequence repeatedly as long as its execution does not fail. 
-Such a sequence always returns \texttt{true}.
-The brackets (\texttt{[]}) execute a sequence repeatedly as long as its execution does not fail but \emph{Number} times at most.
-
-\begin{rail} 
-  RewriteTerm: RuleExecution |
-    VarAssignment |
-    '<' RewriteSequence '>' | 
-    '(' RewriteSequence ')' |
-    Variable |
-    'def' '(' (Variable+',') ')' |
-    'true' |
-    'false';
-\end{rail}\ixnterm{RewriteTerm}\ixkeyw{def}\ixkeyw{true}\ixkeyw{false}\indexmain{\texttt{<>}}
-Rewrite terms are the building blocks of graph rewrite sequences.
-They either act as a rule application or assign a value to a variable
-A variable in the \emph{Variable} term must contain a boolean value, accordingly.
-A \texttt{def} term is successful if all the the variables are defined.
-
-\begin{rail}    
-  RuleExecution: (() | '(' (Variable+',') ')' '=') \\ (() | '\%') (() | '?') ('[' Rule ']' | Rule);   
-  Rule: RuleIdent (() | '(' (Variable+',') ')');
-\end{rail}\ixnterm{RuleExecution} \ixnterm{Rule} 
-The \emph{RuleExecution} clause applies a single rule or test.
-In case of a rule, the first found pattern match will be rewritten.
-Variables and named graph elements from the enclosing rule can be passed.
-The returned graph elements can be assigned to variables again.
-The operator \texttt{?} switches the rule to a test, i.e.\ the rule application does not perform the rewrite part of the rule but only tests if a match exists.
-The operator \texttt{\%} is a multi-purpose flag. In the \GrShell\ (see chapter \ref{chapgrshell}) it dumps the matched graph elements to \texttt{stdout}; in \texttt{debug}-mode (see section \ref{sct:debugger}) it acts as a \indexed{break point}; you are also able to use this flag for your own purposes, when using \GrG\ via its API interface (see section \ref{sct:API}).
-The sqare braces (\texttt{[]}) introduce a special kind of multiple rule application: Every pattern match produced by the will be rewritten. \textbf{Be careful:} Its semantics is not equal to \texttt{Rule*}. Instead this operator collects all the matches first before starting rewritings. In particular the semantics is unsafe, i.e.\ one needs to avoid deleting a graph element that is bound by another match. If \emph{Rule} returns values, the values of \emph{one} of the executed rules will be returned.
-
-\begin{rail}
-  VarAssignment: Variable '=' (Variable | 
-    '(' RewriteSequence ')' | 
-    'true' | 
-    'false');
-\end{rail}\ixnterm{VarAssignment}\ixnterm{Variable}\makeatother
-Variables can hold graph elements or boolean values.
-Graph elments are initially assigned by the \emph{RuleExecution} statement.
-An \emph{VarAssignment} rewrite term ist always true.
-
-Table~\ref{ruletab} lists operations of graph rewrite expressions at a glance.
-
-\makeatletter
-\begin{table}[htbp]
-\begin{minipage}{\linewidth} \renewcommand{\footnoterule}{} 
-\begin{tabularx}{\linewidth}{|lX|}
-\hline
-\texttt{s | t}		& First execute \texttt{s} afterwards execute \texttt{t}. The sequence \texttt{s | t} is successfully executed if \texttt{s} or \texttt{t} is successfully executed.\\
-\texttt{s || t}	& The same as \texttt{s | t} but with lazy evaluation, i.e.\ if \texttt{s} is successful, \texttt{t} will not be executed,\\
-\texttt{s \& t}	& First execute \texttt{s}, afterwards execute \texttt{t}. The sequence \texttt{s \& t} is successfully executed if \texttt{s} and \texttt{t} is successful.\\
-\texttt{s \&\& t}	& The same as \texttt{s \& t} but with lazy evaluation, i.e.\ if \texttt{s} fails, \texttt{t} will not be executed.\\
-\texttt{s \^\ t}	& First execute \texttt{s} afterwards execute \texttt{t}. The sequence \texttt{s \^\ t} is successfully executed if \texttt{s} is successful or \texttt{t} successfully but not both; i.e.\ this an XOR sequence.\\
-\texttt{<s>}	& Execute \texttt{s} transactionally.\\
-\texttt{!s}		& Switch the result of \texttt{s} from successful to fail and vice versa.\\
-\texttt{\$<op>}	& Flag the operator \texttt{<op>} as commutative. \\
-\texttt{s *}		& Execute \texttt{s} repeatedly as long as its execution does not fail.\\
-\texttt{s [n]}	& Execute \texttt{s} repeatedly as long as its execution does not fail but \texttt{n} times at most.\\
-\texttt{?\emph{Rule}} & Switches \emph{Rule} to a test. \\
-\texttt{\%\emph{Rule}} & This is the multi-purpose flag when accessed from \LibGr. Also used for graph dumping and break points. \\
-\texttt{[\emph{Rule}]} & Rewrite every pattern match produced by the action \emph{Rule}.\\
-\texttt{def(\emph{Parameters})} & Check if all the variables are defined.\\
-\texttt{true}	& A constant acting as a successful match.\\
-\texttt{false}	& A constant acting as a failed match.\\ \hline
-\end{tabularx}\indexmain{\texttt{\textasciicircum}}\indexmain{\texttt{\&\&}@\texttt{"|}}
-\indexmain{\texttt{\&}}\indexmain{\texttt{\$<op>}}\indexmain{\texttt{*}}\indexmain{\texttt{"!}}
-\end{minipage}\\
-\\ 
-{\small Let \texttt{s}, \texttt{t}, \texttt{u} be graph rewrite sequences, \texttt{v}, \texttt{w} variable identifiers, \texttt{<op>} $\in \{\texttt{|}, \texttt{||}, \texttt{\&}, \texttt{\&\&}\}$ and \texttt{n} $\in \N_0$.}
-\caption{GRS expressions at a glance}
-\label{ruletab}
-\end{table}
-\makeatother
-
-\begin{figure}[htbp]
-\begin{example}
-	The following example works on a hypothetical network flow.
-	We don't define all the rules nor the graph meta model.
-	It's just about the look and feel of the \texttt{exec} and \texttt{emit} statements
-	\begin{grgen}
-rule AddRedundancy {
-  s: SourceNode;
-  t: DestinationNode;	
-  modify {
-    emit ("Source node is " + s.name + ". Destination node is " + t.name + ".");
-    exec ( (x:SourceNode) = DuplicateNode(s) & ConnectNeighbors(s, x)* );
-    exec ( [DuplicateCriticalEdge] );
-    exec ( MaxCapacityIncidentEdge(t)* );
-    emit ("Redundancy added");
-  }
-}  
-	\end{grgen}
-\end{example}
-\end{figure}
+  - Added visited flags
+- Shorthand visited(el) for visited(el, 0)
+ - Added nameof()-operator
+    (e.g. "nameof(blub)" yields the name of the graph entity "blub";
+     "nameof()" yields the name of the graph)
+	 
+	 - Introduced "var" parameters and re    like int and string
+  - Allow expressions as return argumentsturn values for basic types
