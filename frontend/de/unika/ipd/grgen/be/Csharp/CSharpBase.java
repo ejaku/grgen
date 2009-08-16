@@ -482,7 +482,7 @@ public abstract class CSharpBase {
 		}
 		else if(expr instanceof Typeof) {
 			Typeof to = (Typeof) expr;
-			sb.append(formatEntity(to.getEntity()) + ".type");
+			sb.append(formatEntity(to.getEntity()) + ".lgspType");
 		}
 		else if(expr instanceof Cast) {
 			Cast cast = (Cast) expr;
