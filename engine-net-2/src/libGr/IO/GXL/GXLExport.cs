@@ -38,7 +38,7 @@ namespace de.unika.ipd.grGen.libGr
         {
             writer.WriteLine("<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n"
                 + "<!DOCTYPE gxl SYSTEM \"http://www.gupro.de/GXL/gxl-1.0.dtd\">\n"
-                + "<gxl>");
+                + "<gxl xmlns:xlink=\"http://www.w3.org/1999/xlink\">");
             WriteModel(graph);
             WriteGraph(graph);
             writer.WriteLine("</gxl>");
