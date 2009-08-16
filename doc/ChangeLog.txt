@@ -1,4 +1,19 @@
-﻿v2.5 (2009-06-28)
+﻿v.2.5.1 (2009-0?-??)
+ Additions:
+  - subpatterns now support var parameters, too
+  - GrShell now with non-debug/gui-mode and return value
+  - additional checks and warnings in GrGen compiler
+  - GraBaTs 2009 Live Contest Winning Solution ConveyorBeltSystem added
+  - some renaming in examples folder to show case origins
+ Fixes:
+  - usage of var parameters in alternative, iterated - blocks
+  - nested iterated blocks
+  - elements of enclosing lhs pattern only mentioned in eval of rhs
+  - gxl export (showing in mono glx import exception) 
+  - several examples work again (not all, though)
+  - some previously failing tests
+
+v2.5 (2009-06-28)
  Advanced subpattern/subrule features:
   - iterated block matching contained subpattern as often as possible implemented
   - multiple block as an iterated block requiring at least one match added
