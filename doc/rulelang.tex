@@ -305,7 +305,7 @@ The \indexed{signature} sets the name of a rewrite rule to \emph{IdentDecl} and 
   Parameters: '(' ((IdentDecl ':' NodeType | '-' IdentDecl ':' EdgeType '->') + ',') ')' ;
 \end{rail}\ixnterm{Parameters}
 Within a rule, parameters are treated as (predefined) graph elements of the pattern. Even if a supplied parameter value is undefined\indexmain{undefined parameter}, it is treated as valid node or edge definition. So in any case a graph element of the specified type has to be mapped. \GrG\ assumes the lookup operation for parameters to be in $\mathcal{O}(1)$. In case of an undefined parameter value this might lead to bad \indexed{search plan}s, because \GrG\ has to actually search for such a graph element.
-
+todo: Introduced "var" parameters and return values for basic types like int and string
 Old input parameters semantics - silently failing rule application on wrong type -
 now only available with syntax r(x:ExactType<InexactType>)
 
@@ -343,6 +343,7 @@ In particular, test \texttt{s} is successful if there is \emph{some} edge in the
   ReturnTypes: '(' ((NodeType | EdgeType) + ',') ')' ;
 \end{rail}\ixnterm{ReturnTypes}
 The return types specify edge and node types of graph elements that are returned by the replace/modify part. If return types are specified, the \texttt{return} statement is mandatory. Otherwise no \texttt{return} statement must occur. See also Section~\ref{replacepart}, \texttt{return}.
+todo: Allow expressions as return arguments, Basis types.
 \begin{figure}[htbp]
 \begin{example}\label{ex:rule:someruleext}
 We extend \texttt{SomeRule} (Example~\ref{ex:rule:SomeRule}) with a user defined node to match and we want it to return the rewritten graph elements \texttt{n5} and \texttt{e1}.
@@ -680,18 +681,9 @@ The execution statements take place after all the rewrite operations are done, i
 However, \emph{attribute} values of deleted graph elements are still available for reading.
 The \texttt{eval} statements are executed before the execution statements, i.e.\ the execution statements work on the recalculated attributes.
 \begin{description}
+  \item[XGRS Execution] The \texttt{exec} statement executes a graph rewrite sequence, which is a composition of graph rewrite rules. See section \ref{sct:xgrs} for a description of graph rewrite sequences.
   \item[Text Output] The \texttt{emit} statement prints a string to the currently associated output stream (default is \texttt{stdout}). See section \ref{expressions} for a description of string expressions.
-  \item[XGRS Execution] The \texttt{exec} statement executes a graph rewrite sequence, which is a composition of graph rewrite rules. See section \ref{sct:xgrs} for  a description of graph rewrite sequences.
+  With subpatterns used in the pattern, there are \texttt{emitpre} and \texttt{emitpost} statements available.
+  The \texttt{emitpre} is executed before emitting is taking place in the subpatterns. 
+  The \texttt{emitpost} is executed after emitting in the used subpatterns, is is a synonym for \texttt{emit}. 
 \end{description}
-
-\section{TODO:Integrate}
--emitpre (before emitting from subpatterns) and emitpost(=emit; after emitting from subpatterns)
-
-  - Added visited flags
-- Shorthand visited(el) for visited(el, 0)
- - Added nameof()-operator
-    (e.g. "nameof(blub)" yields the name of the graph entity "blub";
-     "nameof()" yields the name of the graph)
-	 
-	 - Introduced "var" parameters and re    like int and string
-  - Allow expressions as return argumentsturn values for basic types

@@ -146,9 +146,24 @@ The \texttt{\%} operator on float values works analogous to the integer modulo o
 \end{note}
 
 \begin{rail}
-  StringExpr: PrimaryExpr | StringExpr '+' StringExpr;
+  StringExpr: PrimaryExpr (SelectorExpr) | StringExpr '+' StringExpr;
 \end{rail}\ixnterm{StringExpr}
 The operator \texttt{+} concatenates two strings.
+There are Several operations on strings available in method call notation, these are
+ (examples are given for \texttt{n.str == "foo bar foo"} )
+ 
+\begin{description}
+\item[.length()] returns length of string, as int, \\
+ e.g. \texttt{n.str.length()==11}
+\item[.indexOf(strToSearchFor)] returns first position the string strToSearchFor appears at, as int, -1 if not found \\
+ e.g. \texttt{n.str.indexOf("foo")==0}
+\item[.lastIndexOf(strToSearchFor)] returns last position the string strToSearchFor appears at, as int, -1 if not found \\
+ e.g. \texttt{n.str.lastIndexOf("foo")==8}
+\item[.substring(startIndex, length)] returns substring of given length from startIndex on \\
+ e.g. \texttt{n.str(4,3)=="bar"}
+\item[.replace(startIndex, length, replaceStr)] return string with substring from startIndex of given length replaced by replaceStr, \\
+ e.g. \texttt{n.str(4,3,"foo")=="foo foo foo"}
+\end{description}
 
 \begin{rail} 
   PrimaryExpr: '(' ('int' | 'float' | 'double' | 'string') ')' PrimaryExpr | '(' Expression ')' | (NodeOrEdge '.' Ident) | (EnumType '::' Ident) | ObjectIdent | Constant;
@@ -237,21 +252,6 @@ We search the pattern \texttt{v:NodeTypeA -e:EdgeType-> w:NodeTypeB}. We have a 
 \end{example}
 
 \section{TODO:Integrate}
-
-\subsection{New string operations}
-
-Several operations on strings in method notation have been added.
- (examples given with n.str == "foo bar foo")
-- .length() returns length of string, as int, 
- e.g. n.str.length()==11
-- .indexOf(strToSearchFor) returns first position the string strToSearchFor appears at, as int, -1 if not found
- e.g. n.str.indexOf("foo")==0
-- .lastIndexOf(strToSearchFor) returns last position the string strToSearchFor appears at, as int, -1 if not found
- e.g. n.str.lastIndexOf("foo")==8
-- .substring(startIndex, length) returns substring of given length from startIndex on
- e.g. n.str(4,3)=="bar"
-- .replace(startIndex, length, replaceStr) return string with substring from startIndex of given length replaced by replaceStr,
- e.g. n.str(4,3,"foo")=="foo foo foo"
 
 \subsection{New attribute types set<K> and map<K,V>}
 with K,V = boolean|int|float|double|string|enum
@@ -372,3 +372,9 @@ test bla(var varMap:map<int,int>)
 	if {  varMap[n.foo]==42; }
 }
 \end{grgen}
+
+- Added visited flags
+- Shorthand visited(el) for visited(el, 0)
+ - Added nameof()-operator
+    (e.g. "nameof(blub)" yields the name of the graph entity "blub";
+     "nameof()" yields the name of the graph)
