@@ -1,4 +1,5 @@
 OK     should_pass/alternative_001.grg
+OK     should_pass/alternative_002.grg
 OK     should_pass/annot_001.grg
 OK     should_pass/annot_002.grg
 OK     should_pass/annot_003.grg
@@ -198,6 +199,8 @@ OK     should_pass/inh_attrib_002.grg
 OK     should_pass/inh_attrib_003.grg
 OK     should_pass/iterated_001.grg
 OK     should_pass/iterated_002.grg
+OK     should_pass/iterated_003.grg
+OK     should_pass/iterated_004.grg
 OK     should_pass/map_001.grg
 OK     should_pass/map_002.grg
 OK     should_pass/map_003.grg
@@ -237,6 +240,7 @@ OK     should_pass/pattern_012.grg
 OK     should_pass/pattern_013.grg
 OK     should_pass/pattern_014.grg
 OK     should_pass/pattern_015.grg
+OK     should_pass/pattern_016.grg
 OK     should_pass/ret_001.grg
 OK     should_pass/ret_002.grg
 OK     should_pass/ret_003.grg
@@ -296,7 +300,11 @@ WARNED should_warn/basic_203.grg
 WARNED should_warn/constfold_001.grg
 WARNED should_warn/constfold_002.grg
 WARNED should_warn/del_001.grg
+WARNED should_warn/del_002.grg
+WARNED should_warn/del_003.grg
 WARNED should_warn/del_004.grg
+WARNED should_warn/del_005.grg
+WARNED should_warn/del_006.grg
 WARNED should_warn/dpo_001.grg
 WARNED should_warn/edge_001.grg
 WARNED should_warn/edge_002.grg
@@ -497,8 +505,6 @@ ERROR  should_fail/dangle_011.grg
 ERROR  should_fail/dangle_012.grg
 ERROR  should_fail/dangle_013.grg
 ERROR  should_fail/dangle_014.grg
-WARNED should_fail/del_002.grg
-WARNED should_fail/del_003.grg
 ERROR  should_fail/dpo_001.grg
 ERROR  should_fail/dpo_002.grg
 ERROR  should_fail/edge_001.grg
@@ -675,6 +681,7 @@ ERROR  should_fail/pattern_008.grg
 ERROR  should_fail/pattern_009.grg
 ERROR  should_fail/pattern_010.grg
 ERROR  should_fail/pattern_011.grg
+ERROR  should_fail/pattern_012.grg
 ERROR  should_fail/range_001.grg
 ERROR  should_fail/repl_000.grg
 ERROR  should_fail/repl_001a.grg
@@ -741,8 +748,6 @@ ERROR  should_fail/rhs_001.grg
 ERROR  should_fail/rhs_002.grg
 ERROR  should_fail/rhs_003.grg
 ERROR  should_fail/rhs_004.grg
-WARNED should_fail/rhs_005.grg
-WARNED should_fail/rhs_006.grg
 OK     should_fail/rhs_007.grg
 ERROR  should_fail/set_001.grg
 ERROR  should_fail/set_002.grg
