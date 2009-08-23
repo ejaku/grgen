@@ -5,6 +5,7 @@ It belongs to \GrG's standard equipment. \GrShell\ is capable of creating, manip
 The \GrShell\ provides a line oriented scripting language. 
 \GrShell\ scripts are structured by simple statements separated by line breaks.
 
+
 \section{Building Blocks}
 
 \GrShell\ is \indexed{case sensitive}. 
@@ -69,9 +70,15 @@ Persistent names belong to a specific graph whereas variables belong to the curr
 \end{note}
 
 \begin{rail}
-  Variable '=' GraphElement   
+  Variable '=' ( GraphElement | Variable | Literal )
 \end{rail}
 Assigns the variable or persistent name \emph{GraphElement} to \emph{Variable}. If \emph{Variable} has not been defined yet, it will be defined implicitly. As usual for scripting languages, variables have neither static types nor declarations.
+
+\begin{rail} 
+'show' 'var' Variable 
+\end{rail}\ixkeyw{show}
+Prints the content of the specified variable.
+
 
 \section{\GrShell\ Commands}
 This section describes the \GrShell\ commands\ixnterm{Command}. Commands are assembled from basic elements. 
@@ -80,6 +87,7 @@ Like an operating system shell, the \GrShell\ allows you to span a single comman
 \begin{rail}
   Script: ((Command ('<line break>' | ';;'))+) '<end of file>' ;
 \end{rail}\ixnterm{Script}
+
 
 \subsection{Common Commands}
 \label{commcommands}
@@ -135,6 +143,22 @@ On a Linux machine you might execute
 !sh -c "ls | grep stuff"
 \end{grshell}
 \end{example}
+
+\begin{rail}
+'silence' ('on'|'off')
+\end{rail}\ixkeyw{silence}
+Switches the new node / edge created / deleted messages on(default) or off. Switching them off allows for much faster execution of grs containing a lot of them.
+
+\begin{rail}
+'randomseed' (Number | 'time')
+\end{rail}\ixkeyw{randomseed}
+Sets the random seed to the given number for reproducible results when using the \$-operator-prefix or the random-match-selector; whereas time sets the random seed to the current time in ms.
+
+\begin{rail}
+'redirect' 'emit' Filename
+\end{rail}\ixkeyw{redirect}\ixkeyw{emit}
+Redirects the output of the emit-statements in the rules from stdout to the given file.
+
 
 \subsection{Graph Commands}
 \label{graphcommands}
@@ -206,13 +230,46 @@ The graph is NOT valid:
 \end{example}
 
 \begin{rail}
+  'import' Filename+
+\end{rail}\ixkeyw{import}
+To import a graph model and/or a graph instance.
+For a more detailed discussion, see Import / Export.
+
+\begin{rail}
+  'export' Filename+
+\end{rail}\ixkeyw{export}
+To export a graph model and a graph instance.
+
+\begin{rail}
   'custom' 'graph' ( ( ) | SpacedParameters )
 \end{rail}\ixkeyw{custom}\ixkeyw{graph}
 Executes a command specific to the current backend. If \emph{SpacedParameters} is omitted, a list of available commands will be displayed (for the LGSP backend see Sections~\ref{custom}).
 
+\begin{rail}
+'flagId' '=' 'allocvisitflag'
+\end{rail}\ixkeyw{allocvisitflag}
+Allocates space for a visited flag in the elements of the graph and returns the id of the visited flag (integer number). Afterwards, the visited flag of the id can be read and written by the isvisited and setvisited shell commands or within the rules by the visited() entity.
+(The first visited flags are stored in some excess bytes of the graph elements and are thus essentially for free, but if this implementation defined space is used up completely, the information is stored in dictionaries)
+
+\begin{rail}
+'freevisitflag' 'flagId'
+\end{rail}\ixkeyw{freevisitflag}
+Frees the space previously allocated for the visited flag; afterwards you must not access it anymore.
+
+
 \subsection{Graph Manipulation Commands}
 \label{mani}
 Graph manipulation commands alter existing graphs including creating and deleting graph elements and setting attributes.
+
+\begin{rail} 
+'setvisited' GraphElement 'flagId' 'BooleanValue'
+\end{rail}\ixkeyw{setvisited}
+Sets the visited status of the graph element of the flag id the given boolean value.
+
+\begin{rail}
+'isvisited' GraphElement 'flagId'
+\end{rail}\ixkeyw{isvisited}
+Returns the visited status of the graph element of the flag id.
 
 \begin{rail}
   Constructor : '(' (() | (dollar '=' Text (() | ',' Attributes) | Attributes)) ')';
@@ -249,8 +306,12 @@ Deletes the node \emph{Node} from the current graph. Incident edges will be dele
   'delete' 'edge' Edge
 \end{rail}\ixkeyw{delete}\ixkeyw{edge}
 Deletes the edge \emph{Edge} from the current graph.
+
   
 \subsection{Graph Query Commands}
+
+todo: n.a, e.a shows the content of the attribute
+todo: change this to show n.a, show e.a for consistency?
 
 \begin{rail}
   'show' (() | 'num') ('nodes' (() | (() | 'only') NodeType) | 'edges' (() | (() | 'only') EdgeType))
@@ -292,6 +353,7 @@ Gets the value of a specific attribute.
   'node' 'type' Node 'is' Node | 'edge' 'type' Edge 'is' Edge
 \end{rail}\ixkeyw{node}\ixkeyw{edge}\ixkeyw{type}\ixkeyw{is}
 Gets the information whether the first element is \indexed{type-compatible}\indexmainsee{compatible types}{type-compatible} to the second element.
+
 
 \subsection{Graph Output Commands}
 \label{outputcmds}
@@ -368,6 +430,22 @@ Specifies whether edge \indexed{label}s will be displayed or not (defaults to ``
 \end{rail}\ixkeyw{dump}\ixkeyw{reset}
 Reset all style options (\texttt{dump set}\dots) to their default values.
 
+\begin{grshelllet}
+dump edge [only] <type> labels (on | off | <text>)
+\end{grshelllet}
+todo
+
+\begin{grshelllet}
+dump set node [only] <type> labels (on | off | <text>)
+\end{grshelllet}
+todo
+
+\begin{grshelllet}
+dump add (node | edge) [only] <type> shortinfotag <member>
+\end{grshelllet}  
+todo
+
+
 \subsection{Action Commands (XGRS)}\indexmain{action command}\indexmainsee{action}{graph rewrite sequence}
 \label{grsthings}
 An \emph{action} denotes a graph rewrite rule.
@@ -395,10 +473,21 @@ This executes the graph rewrite sequence \emph{SimpleRewriteSequence}.
 See section \ref{sct:xgrs} for graph rewrite sequences.
 Additionally to the variable assignment in rule-embedded graph rewrite sequences, you are also able to assign \emph{persistant names} to parameters via  \texttt{Variable = \@(Text)}.
 
+Interactive element selection for rule exection
+\begin{rail}
+'debug' 'apply' Rule
+\end{rail}\ixkeyw{debug}\ixkeyw{apply}
+allows to select wildcard elements ? by double clicking at elements in the graph viewer yComp, e.g.
+\begin{grshelllet}
+debug apply r(?, x, ?)
+\end{grshelllet}
+will prompt the user for input of the first and the third parameter, while the second one is taken from variable x.
+
 Graph elements returned by rules can be assigned to variables\indexmain{variable} using \texttt{(Para\-meters) = \emph{Action}}\indexmain{parameter}. 
 The desired variable identifiers have to be listed in \emph{Parameters}. 
 Graph elements required by rules must be provided using \texttt{Action (Para\-meters)}, where \emph{Parameters} is a list of variable identifiers. 
 For \indexed{undefined variables} see Section~\ref{ruledecls}, \emph{Parameters}.
+
 
 \section{Graphical Debugger}
 \label{sct:debugger}
@@ -469,6 +558,7 @@ The \indexed{LGSPBackend} supports the following custom commands:
 \end{rail}\ixkeyw{custom}\ixkeyw{graph}
 Analyzes\indexmain{analyzing graph} the current working graph. The analysis data provides vital information for efficient \indexed{search plan}s. Analysis data is available as long as \GrShell\ is running, i.e.\ when the working graph changes, the analysis data is still available but maybe obsolete.
 
+
 \subsection{Action Related Commands}
 \begin{rail}
   'custom' 'actions' gensearchplan (Action+)
@@ -481,7 +571,8 @@ Specify multiple rewrite rules instead of using multiple commands for each rule 
 \end{rail}\ixkeyw{custom}\ixkeyw{actions}
 Sets the maximum amount of possible pattern matches to \emph{Number}. This command affects the expression \texttt{[\emph{Rule}]}. If \emph{Number} is less or equal to zero, the constraint is reset.
 
-\section{TODO:Integrate}
+
+\section{TODO:First rethink then Integrate}
 
 New set commands:
 
@@ -525,49 +616,3 @@ removes pair (key,*) from map, e.g. map v remove "bar"
 map <mapname> size 
 \end{grshelllet}
 prints out the number of map entries, e.g. map n.a size
- 
-Improved interactivity: 
-\begin{grshelllet}
-debug apply <rule with ? as placeholders>
-\end{grshelllet}
-allows to select wildcard elements ? by double clicking at elements in graph viewer yComp
-
-\begin{grshelllet} 
-show var <variable> 
-\end{grshelllet}
-implemented
-
-todo: Replaced "dump edge labels (on | off)" by "dump edge [only] <type> labels (on | off | <text>)"
-  
-\begin{grshelllet}
-dump set node [only] <type> labels (on | off | <text>)
-\end{grshelllet}
-
-\begin{grshelllet}
-dump add (node | edge) [only] <type> shortinfotag <member>
-\end{grshelllet}  
-  
-\begin{grshelllet} 
-setvisited <elem> <visid> <visited>
-\end{grshelllet}
-
-\begin{grshelllet}
-isvisited <elem> <visid>
-\end{grshelllet}
-
-\begin{grshelllet}
-silence (on|off)
-\end{grshelllet}
-
-\begin{grshelllet}
-randomseed
-\end{grshelllet}
-(e.g. "randomseed 13" sets the random seed to 13 for reproducible
-results when using the \$-operator-prefix or the random-match-selector;
-"randomseed time" sets the random seed to the current time in ms)
-	 
-- Added support for variable assignments with literals
-- Variable to variable assignments
-- "show graph" and "dump graph" now use the layouter configured
-   via "debug set layout"
-	 

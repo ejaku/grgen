@@ -42,14 +42,15 @@ a = ((b,c) = R(x,y,z))
 
 \makeatletter
 \begin{rail}
-  RewriteSequence: ((() | '!') RewriteTerm (() | ('*' | '[' Number ']'))) + ((() | dollar) ('|' | ampersand | '||' | doubleampersand | xorhat));
+  RewriteSequence: ((() | '!') RewriteTerm (() | ('*' | '+' | '[' Number ']' | '[' Number ':' ( Number | '*' ) ']'))) + ((() | dollar) ('|' | ampersand | '||' | doubleampersand | xorhat));
 \end{rail}\ixnterm{RewriteSequence}
 A graph rewrite sequence consists of several, logically linked rewrite terms.
 The modifier \texttt{\$} flags the following operator to act commutative: Usually operands are executed / evaluated from left to right with respect to bracketing (left-\indexed{associative}). 
 In contrast the sequences \texttt{s}, \texttt{t}, \texttt{u} in \texttt{s \$<op> t \$<op> u} are executed / evaluated in arbitrary order.
 A sequence can further be executed multiple times: The star (\texttt{*}) executes a sequence repeatedly as long as its execution does not fail. 
 Such a sequence always returns \texttt{true}.
-The brackets (\texttt{[]}) execute a sequence repeatedly as long as its execution does not fail but \emph{Number} times at most.
+A sequence \verb#s+# is equivalent to \verb#s && s*#.
+The brackets (\texttt{[m]}) execute a sequence repeatedly as long as its execution does not fail but \emph{m} times at most; the min-max-brackets (\texttt{[n:m]}) additionally fail if the minimum amount \emph{n} of iterations was not reached.
 
 \begin{rail} 
   RewriteTerm: RuleExecution |
@@ -67,7 +68,7 @@ A variable in the \emph{Variable} term must contain a boolean value, accordingly
 A \texttt{def} term is successful if all the the variables are defined.
 
 \begin{rail}    
-  RuleExecution: (() | '(' (Variable+',') ')' '=') \\ (() | '\%') (() | '?') ('[' Rule ']' | Rule);   
+  RuleExecution: (() | '(' (Variable+',') ')' '=') \\ (() | percent) (() | '?') ( (dollar ( Number | ()) | ()) '[' Rule ']' | Rule);   
   Rule: RuleIdent (() | '(' (Variable+',') ')');
 \end{rail}\ixnterm{RuleExecution} \ixnterm{Rule} 
 The \emph{RuleExecution} clause applies a single rule or test.
@@ -77,6 +78,7 @@ The returned graph elements can be assigned to variables again.
 The operator \texttt{?} switches the rule to a test, i.e.\ the rule application does not perform the rewrite part of the rule but only tests if a match exists.
 The operator \texttt{\%} is a multi-purpose flag. In the \GrShell\ (see chapter \ref{chapgrshell}) it dumps the matched graph elements to \texttt{stdout}; in \texttt{debug}-mode (see section \ref{sct:debugger}) it acts as a \indexed{break point}; you are also able to use this flag for your own purposes, when using \GrG\ via its API interface (see section \ref{sct:API}).
 The sqare braces (\texttt{[]}) introduce a special kind of multiple rule application: Every pattern match produced by the will be rewritten. \textbf{Be careful:} Its semantics is not equal to \texttt{Rule*}. Instead this operator collects all the matches first before starting rewritings. In particular the semantics is unsafe, i.e.\ one needs to avoid deleting a graph element that is bound by another match. If \emph{Rule} returns values, the values of \emph{one} of the executed rules will be returned.
+The random-match-selector \texttt{\$n} searches for all matches and then randomly selects \texttt{n} of them to be rewritten, with \texttt{\$[r1]} being equivalent to \texttt{\$1[r1]}.
 
 \begin{rail}
   VarAssignment: Variable '=' (Variable | 
@@ -104,7 +106,10 @@ Table~\ref{ruletab} lists operations of graph rewrite expressions at a glance.
 \texttt{!s}		& Switch the result of \texttt{s} from successful to fail and vice versa.\\
 \texttt{\$<op>}	& Flag the operator \texttt{<op>} as commutative. \\
 \texttt{s *}		& Execute \texttt{s} repeatedly as long as its execution does not fail.\\
+\texttt{s +}		& Same as \texttt{s \&\& s *}.\\
 \texttt{s [n]}	& Execute \texttt{s} repeatedly as long as its execution does not fail but \texttt{n} times at most.\\
+\texttt{s [m:n]}	& Same as \texttt{s [n]} but fails if executed less than m times.\\
+\texttt{s [m:*]}	& Same as \texttt{s *} but fails if executed less than m times.\\
 \texttt{?\emph{Rule}} & Switches \emph{Rule} to a test. \\
 \texttt{\%\emph{Rule}} & This is the multi-purpose flag when accessed from \LibGr. Also used for graph dumping and break points. \\
 \texttt{[\emph{Rule}]} & Rewrite every pattern match produced by the action \emph{Rule}.\\
@@ -115,41 +120,10 @@ Table~\ref{ruletab} lists operations of graph rewrite expressions at a glance.
 \indexmain{\texttt{\&}}\indexmain{\texttt{\$<op>}}\indexmain{\texttt{*}}\indexmain{\texttt{"!}}
 \end{minipage}\\
 \\ 
-{\small Let \texttt{s}, \texttt{t}, \texttt{u} be graph rewrite sequences, \texttt{v}, \texttt{w} variable identifiers, \texttt{<op>} $\in \{\texttt{|}, \texttt{||}, \texttt{\&}, \texttt{\&\&}\}$ and \texttt{n} $\in \N_0$.}
+{\small Let \texttt{s}, \texttt{t}, \texttt{u} be graph rewrite sequences, \texttt{v}, \texttt{w} variable identifiers, \texttt{<op>} $\in \{\texttt{|}, \texttt{||}, \texttt{\&}, \texttt{\&\&}\}$ and \texttt{n}, \texttt{m} $\in \N_0$.}
 \caption{GRS expressions at a glance}
 \label{ruletab}
 \end{table}
 \makeatother
-
-\begin{figure}[htbp]
-\begin{example}
-	The following example works on a hypothetical network flow.
-	We don't define all the rules nor the graph meta model.
-	It's just about the look and feel of the \texttt{exec} and \texttt{emit} statements
-	\begin{grgen}
-rule AddRedundancy {
-  s: SourceNode;
-  t: DestinationNode;	
-  modify {
-    emit ("Source node is " + s.name + ". Destination node is " + t.name + ".");
-    exec ( (x:SourceNode) = DuplicateNode(s) & ConnectNeighbors(s, x)* );
-    exec ( [DuplicateCriticalEdge] );
-    exec ( MaxCapacityIncidentEdge(t)* );
-    emit ("Redundancy added");
-  }
-}  
-	\end{grgen}
-\end{example}
-\end{figure}
-
-\section{TODO:Integrate}
-Allow assignments of the success of a sequence to a variable
-    (e.g. \begin{grgenlet}res:boolean=(r1 || r2[5])\end{grgenlet})
-  - Allow boolean variables as sequences (only works in execs, yet)
-%    (e.g. \begin{grgenlet}res && r1\end{grgenlet})
-%  - Added random-match-selector
-%    (e.g. \begin{grgenlet}$7[r1]\end{grgenlet} searches for all matches and then randomly selects 7 of them to be rewritten. 
-%\begin{grgenlet}$[r1]\end{grgenlet} is equivalent to \begin{grgenlet}$1[r1]\end{grgenlet})
-%- Allow to write \begin{grgenlet}r1*\end{grgenlet} instead of \begin{grgenlet}r1[*]\end{grgenlet} in execs
  
  

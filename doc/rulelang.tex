@@ -687,3 +687,24 @@ The \texttt{eval} statements are executed before the execution statements, i.e.\
   The \texttt{emitpre} is executed before emitting is taking place in the subpatterns. 
   The \texttt{emitpost} is executed after emitting in the used subpatterns, is is a synonym for \texttt{emit}. 
 \end{description}
+
+\begin{figure}[htbp]
+\begin{example}
+	The following example works on a hypothetical network flow.
+	We don't define all the rules nor the graph meta model.
+	It's just about the look and feel of the \texttt{exec} and \texttt{emit} statements
+	\begin{grgen}
+rule AddRedundancy {
+  s: SourceNode;
+  t: DestinationNode;	
+  modify {
+    emit ("Source node is " + s.name + ". Destination node is " + t.name + ".");
+    exec ( (x:SourceNode) = DuplicateNode(s) & ConnectNeighbors(s, x)* );
+    exec ( [DuplicateCriticalEdge] );
+    exec ( MaxCapacityIncidentEdge(t)* );
+    emit ("Redundancy added");
+  }
+}  
+	\end{grgen}
+\end{example}
+\end{figure}
