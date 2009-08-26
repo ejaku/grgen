@@ -1,7 +1,7 @@
 \chapter{Nested and Subpatterns}\indexmain{rule set language nested and subpatterns}
 \label{cha:nestedsub}
 
-This chapter describes the rule set language constructs related to nested patterns (negative application condition, positive application condition, nested pattern with cardinality, alternative patterns) and subpatterns (subpattern declaration and usage, subrule declaration and usage).
+This chapter describes the rule set language constructs related to nested patterns (negative application condition, positive application condition, nested pattern with cardinality, alternative patterns) and subpatterns (subpattern declaration and usage, subrule declaration and usage). We begin with the nested patterns:
 
 \begin{rail}  
   NestedPattern: 
@@ -22,8 +22,7 @@ This chapter describes the rule set language constructs related to nested patter
 \end{rail}\ixkeyw{negative}
 
   With negative application conditions (keyword \texttt{negative}) we can specify graph patterns which forbid the application of a rule if any of them is present in the host graph (cf.~\cite{adam}). 
-  NACs possess a \indexed{scope} of their own. 
-  Names defined within a NAC do not exist outside the NAC. 
+  NACs possess a \indexed{scope} of their own, i.e. names defined within a NAC do not exist outside the NAC. 
   Identifiers from surrounding scopes must not be redefined.
   In general NACs do not care about bindings within the outer scope. 
    Nevertheless, if you use an \emph{identifier} that is defined in the outer scope, this specifies exactly the graph element, the identifier is bound to in the outer scope.
@@ -74,8 +73,10 @@ test foo {
   \end{grgen}
 \end{example}
 
-   negative pattern elements get matched independent from the subpatterns utilizing them
-	(explicit patternpath/pattern statement in the negative/independent needed for old behaviour)
+The test to the left searech for a node a linked to a node b, but only if a is not connected to a further node c, with the exception that b is connected to c, too. It matches the host graph to the right, because the match of the inner negative cancels out the match of the outer negative.
+
+%negative pattern elements get matched independent from the subpatterns utilizing them
+%(explicit patternpath/pattern statement in the negative/independent needed for old behaviour)
 
 	
 \section{Positive Application Condition (PAC)}
@@ -86,21 +87,10 @@ test foo {
     'independent' lbrace (()+PatternStatement) rbrace|
     ;
 \end{rail}\ixkeyw{independent}
-  
-The independent block allows to specify further patterns 
-to be applied as positive application conditions.
-In contrast to the negative application conditions given by negative blocks,
-matching its subpattern does not cause the matching of the enclosing pattern 
-to fail, but is necessary in order for the matching of the enclosing pattern
-to succeed. It shares with the negative pattern its independence from the 
-enclosing pattern, i.e. host graph elements already matched to elements of the
-enclosing pattern may get matched again in the nested pattern, they are not
-locked/part of if - this is in contrast to the normal mode of matching within
-one pattern, which is isomorphic by default (it is forbidden to match one 
-host graph element by several pattern elements (unless explicitely specified 
-by the hom(a,b) construct)). As it only represents an application condition,
-it is not possible to rewrite the matched independent block,
-i.e. you can't specify a nested modify/replace block.
+
+With positive application conditions (keyword \texttt{independent}) we can specify graph patterns which, in contrast to negative application conditions, must be present in the host graph to cause the matching of the enclosing pattern to succeed. Together with NACs they share the propertie of opening a \indexed{scope}, with elements being independent from the surrounding scope (i.e. a host graph element can easiely get matched to a pattern element and a PAC element with a different name, unless the pattern element is referenced in the PAC). 
+No isomorphic matching is enforced, as in the case of the elements within one scope (unless declared homomorpic).
+As it only represents an application condition, it is not possible to rewrite the matched independent block, i.e. you can't specify a nested modify/replace block.
 
 \begin{example}
   \begin{grgen}
@@ -110,42 +100,19 @@ rule fancyRule
   a:A -- b:B -- c:C;
   independent {
     b -- cc:C;
-	if { cc.a=="foo"; }
+  	if { cc.a=="foo"; }
   }
-  independent {
-    :Chain(c,a)
-  }
-  
-  replace {
-    a; c;
-  }
-}
-
-pattern Chain(src:Node, tgt:Node)
-{
-  alternative {
-    Found {
-	  src --> tgt;
-    }
-    Further {
-      src --> intermediate:Node;
-      :Chain(intermediate, tgt);
-    }
+ 
+  modify {
+    delete(b);
   }
 }
   \end{grgen}
-\end{example}
 
-In the example given above, three nodes a,b,c of types A,B,C
-connected by undirected edges are searched, and if found, b gets deleted, but:
-a) only if b is connected to a further node cc of type C,
-with its attribute a holding the string value "foo", as specified 
-by the first independent; note that cc might be identical with c.
-b) only if there is an iterated path of directed edges from c to a.
-If there would be such an path containing b in the host graph, 
-it would get matched. The same path specified in the pattern of the rule 
-- not in the independent - would not get matched, as b was already matched
-and is thus locked by the isomorphy constraint.
+In the example given, three nodes a,b,c of types A,B,C connected by undirected edges are searched, and if found, b gets deleted, but only if b is connected to a further node cc of type C, with its attribute a holding the string value "foo", as specified 
+by the independent; due to the independent cc might be identical with c, without the independent c and cc must be different nodes (isomorphy constraint). Only the nodes a,b,c could be deleted, the matched cc is declared in a nested scope unavailable to the outer scope.
+
+\end{example}
 
   
 \section{Pattern Cardinality}
@@ -157,7 +124,7 @@ and is thus locked by the isomorphy constraint.
     ;
 \end{rail}\ixkeyw{iterated}\ixkeyw{multiple}\ixkeyw{optional}
 
-The *iterated block* is matching the contained subpattern as often as possible
+The iterated block is matching the contained subpattern as often as possible
 (succeeding if the contained pattern is not available, too).
 You can use it to match and rewrite breadth-splitting structures,
 like reversing all edges in the graph representation of a blowball.
@@ -309,6 +276,39 @@ pattern Chain(prev:Node) {
   }
 }
   \end{grgen}
+\end{example}
+
+\begin{example}
+  \begin{grgen}
+
+rule fancyRule
+{
+  a:A -- b:B -- c:C;
+  independent {
+    :Chain(c,a)
+  }
+  
+  replace {
+    a; c;
+  }
+}
+
+pattern Chain(src:Node, tgt:Node)
+{
+  alternative {
+    Found {
+      src --> tgt;
+    }
+    Further {
+      src --> intermediate:Node;
+      :Chain(intermediate, tgt);
+    }
+  }
+}
+  \end{grgen}
+
+  This is an example for the interplay of subpatterns and positive application conditions; here, three nodes a,b,c of types A,B,C, connected by undirected edges are searched, and if found, b gets deleted, but only if there is an iterated path of directed edges from c to a. The path may contain the host graph node matched to b again. The same path specified in the pattern of the rule - not in the independent - would not get matched if it would go through the host graph node matched to b, as it is locked by the isomorphy constraint.
+
 \end{example}
 
 

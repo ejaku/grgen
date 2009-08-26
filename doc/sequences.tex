@@ -1,8 +1,7 @@
-\chapter{Extended Graph Rewrite Sequences (XGRS)}\indexmain{rule application language}
+\chapter{Rule application language}\indexmain{rule application language}
 \label{cha:xgrs}
 
-Graph rewrite sequences\indexmain{graph rewrite sequence} are a domain specific GrGen.NET language
-used for controlling the application of graph rewrite rules. They may be used
+Graph rewrite sequences (GRS)\indexmain{graph rewrite sequence} (or extended graph rewrite sequences XGRS, to distinguish them from the older graph rewrite sequences) are a domain specific GrGen.NET language used for controlling the application of graph rewrite rules. They may be used
 \begin{itemize}
 \item as an imperative enhancement to the rule set language.
 \item for controlled rule application within the GrShell
@@ -40,20 +39,34 @@ a = ((b,c) = R(x,y,z))
 \end{example}
 \end{figure}
 
+\section{Rewrite sequence}
+
 \makeatletter
+
 \begin{rail}
-  RewriteSequence: ((() | '!') RewriteTerm (() | ('*' | '+' | '[' Number ']' | '[' Number ':' ( Number | '*' ) ']'))) + ((() | dollar) ('|' | ampersand | '||' | doubleampersand | xorhat));
+  RewriteSequence: 
+    (('!')? RewriteTerm) (( (dollar)? (ampersand | xorhat | '|' | doubleampersand | '||') ('!')? RewriteTerm )*) ;
 \end{rail}\ixnterm{RewriteSequence}
+
 A graph rewrite sequence consists of several, logically linked rewrite terms.
 The modifier \texttt{\$} flags the following operator to act commutative: Usually operands are executed / evaluated from left to right with respect to bracketing (left-\indexed{associative}). 
 In contrast the sequences \texttt{s}, \texttt{t}, \texttt{u} in \texttt{s \$<op> t \$<op> u} are executed / evaluated in arbitrary order.
-A sequence can further be executed multiple times: The star (\texttt{*}) executes a sequence repeatedly as long as its execution does not fail. 
+
+\begin{rail}
+  RewriteTerm: 
+    (RewriteFactor (() | ('*' | '+' | '[' Number ']' | '[' Number ':' ( Number | '*' ) ']')));
+\end{rail}\ixnterm{RewriteTerm}
+
+A rewrite term can be executed multiple times: The star (\texttt{*}) executes a sequence repeatedly as long as its execution does not fail. 
 Such a sequence always returns \texttt{true}.
 A sequence \verb#s+# is equivalent to \verb#s && s*#.
 The brackets (\texttt{[m]}) execute a sequence repeatedly as long as its execution does not fail but \emph{m} times at most; the min-max-brackets (\texttt{[n:m]}) additionally fail if the minimum amount \emph{n} of iterations was not reached.
 
+\section{Rewrite factor}
+
 \begin{rail} 
-  RewriteTerm: RuleExecution |
+  RewriteFactor: 
+    RuleExecution |
     VarAssignment |
     '<' RewriteSequence '>' | 
     '(' RewriteSequence ')' |
@@ -61,8 +74,8 @@ The brackets (\texttt{[m]}) execute a sequence repeatedly as long as its executi
     'def' '(' (Variable+',') ')' |
     'true' |
     'false';
-\end{rail}\ixnterm{RewriteTerm}\ixkeyw{def}\ixkeyw{true}\ixkeyw{false}\indexmain{\texttt{<>}}
-Rewrite terms are the building blocks of graph rewrite sequences.
+\end{rail}\ixnterm{RewriteFactor}\ixkeyw{def}\ixkeyw{true}\ixkeyw{false}\indexmain{\texttt{<>}}
+Rewrite factors are the building blocks of graph rewrite sequences.
 They either act as a rule application or assign a value to a variable
 A variable in the \emph{Variable} term must contain a boolean value, accordingly.
 A \texttt{def} term is successful if all the the variables are defined.
@@ -90,7 +103,11 @@ Variables can hold graph elements or boolean values.
 Graph elments are initially assigned by the \emph{RuleExecution} statement.
 An \emph{VarAssignment} rewrite term ist always true.
 
-\subsection*{Sets and Maps - Implemented in 2.6 - todo}
+\section{Storages}
+
+This is preliminary documentation for functionality which is not available in \GrG~2.5! It will only be available in \GrG~2.6.
+
+Storages = Set of Node / Edge; as in VMTS; here in addition set/map of arbitrary basic types, and of Node/Edge types.
 
 \begin{rail}
   'new' 'set' '<' Type '>'
@@ -142,6 +159,8 @@ Example:
 \verb#foreach n in x do (y)=foo(n) && u.insert(y) && foreach m in z do bar(m) || v.remove(m) od od && foreach n in x do (m)=n && (m)=foo(m)*#
 
 \verb#x:map<Node,Edge> foreach n->e in x do (y,z)=foo(n,e) x.insert(y -> z) foreach n->e in x do bar(n,e) || x.remove(n)#
+
+\section{Quick reference table}
 
 Table~\ref{ruletab} lists operations of graph rewrite expressions at a glance.
 

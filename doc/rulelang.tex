@@ -561,9 +561,12 @@ eval {
 \end{table}
 
 \begin{rail}    
-   Assignment: Ident '.' Ident '=' Expression ;
+   Assignment: Ident '.' Ident '=' Expression | 'visited' '(' NodeOrEdge (',' FlagNumber)? ')' '=' BoolExpr;
 \end{rail}\indexmain{attribute evaluation}\ixnterm{Assignment}
 Several evaluation parts are allowed within the replace part. Multiple evaluation statements will be internally concatenated, preserving their order. Evaluation statements have \indexedsee{imperative}{attribute evaluation} semantics. In particular, \GrG\ does not care about data dependencies. Evaluation takes place before any graph element gets deleted and after all the new elements have been created. You may read (and write, although this is pointless) attributes of graph elements to be deleted.
+Assignment is carried out using \indexmain{value semantics}, even for entities of \verb#set<K># and \verb#map<K,V># or \texttt{string} type. The only exception is the type \texttt{object}, there \indexmain{reference semantics} is used.
+The \texttt{visited} flag assignment sets the \texttt{boolean} status of the \indexed{visited flag} of the given number for the given graph element. If no flag number is given, the default number for the first visited flag of 0 is used. Make sure to allocate\ref{allocvisitflag}/\ref{apiallocvisitflag} visited flags before you try to use them (and deallocate them afterwards, as they are a sparse resource stored in some excess bits of the graph elements, or in some dictionary if the needed number of flags exceeds the number of available bits per graph element.)
+
 \begin{example}
 \begin{grgen}
 ...

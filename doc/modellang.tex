@@ -217,11 +217,11 @@ This is a purely syntactical simplification, i.\,e.\ the effect of using \texttt
 \end{table}
 
 \begin{rail}    
-  AttributeDeclarations: (() | IdentDecl ':' AttributeType (() | '=' Expression) ';' | AttributeOverwrite) + ;
-  AttributeType: PrimitiveType | EnumType ; 
+  AttributeDeclaration: 'const'? IdentDecl ':' AttributeType (() | '=' Expression) ';' | AttributeOverwrite ;
+  AttributeType: PrimitiveType | EnumType | SetType | MapType ; 
   AttributeOverwrite: Ident '=' Expression
 \end{rail}\ixnterm{AttributeDeclarations}\ixnterm{AttributeType}\ixnterm{AttributeOverwrite}
-Defines a node or edge \indexed{attribute}. Possible types are enumeration types (\texttt{enum}) and primitive types. See Section~\ref{builtin} for a list of built-in primitive types. Optionally attributes may be initialized with a constant expression. The expression has to be of a compatible type of the declared attribute, of course. See chapter \ref{typeexpr} for the \GrG\ types and expressions reference. The \emph{AttributeOverwrite} clause lets you overwrite initialization values for attributes of super classes. The initialization values are evaluated in the order as they appear in the rule set file.
+Defines a node or edge \indexed{attribute}. Possible types are enumeration types (\texttt{enum}) and primitive types or set and map types. See Section~\ref{builtin} for a list of built-in primitive types. Optionally attributes may be initialized with a constant expression. The expression has to be of a compatible type of the declared attribute, of course. See chapter \ref{typeexpr} for the \GrG\ types and expressions reference. The \emph{AttributeOverwrite} clause lets you overwrite initialization values for attributes of super classes. The initialization values are evaluated in the order as they appear in the rule set file.
 \begin{example}
 	The following attribute declarations are \emph{illegal} because of the order of evaluation of initialization values:
 	\begin{grgen}
@@ -229,33 +229,3 @@ x:int = y;
 y:int = 42;	
 	\end{grgen}
 \end{example}
-
-\begin{rail}
-  SetDecl: ('const' | ()) Ident ':' 'set' '<' Type '>' \\ (() | '=' lbrace ( () | Expression ( ',' Expression )* ) rbrace ) ';' ;
-\end{rail}\ixnterm{SetDecl}
-
-Regarding sets:
-An attribute of set type is declared like f.ex.
-\begin{grgenlet}
-funnySet:set<int>;
-\end{grgenlet}
-Optionally, you may initialize the sets by a set initializer
-\begin{grgenlet}
-fancySet:set<string> = { "foo", "bar" };
-\end{grgenlet}
-
-\begin{rail}
-  MapDecl: (() | 'const') Ident ':' 'map' '<' Type ',' Type '>' \\ (() | '=' lbrace ( () | Expr. '->' Expr. ( ',' Expr. '->' Expr.)* ) rbrace ) ';';
-\end{rail}\ixnterm{SetDecl}
-
-Regarding maps:
-An attribute of map type is declared like f.ex.
-\begin{grgenlet}
-funnyMap:map<int, boolean>;
-\end{grgenlet}
-Optionally, you may initialize the maps by a map initializer
-\begin{grgenlet}
-fancyMap:map<string, int> = { "foo"->0, "bar"->1 };
-\end{grgenlet}
-
-Further on you may declare them constant.

@@ -65,9 +65,11 @@ Be careful with assignments of objects: \GrG\ does not know your .NET type hiera
 %left to right, left associative?
 \label{expressions}
 \begin{rail}
-  Expression: BoolExpr | IntExpr | FloatExpr | StringExpr | PrimaryExpr ;  
+  Expression: BoolExpr | IntExpr | FloatExpr | StringExpr | SetExpr | MapExpr | PrimaryExpr ;  
+\end{rail}\ixnterm{Expression}
+\begin{rail}
   BoolExpr: ((() | '!') PrimaryExpr) | (BoolExpr '?' BoolExpr ':' BoolExpr) | (BoolExpr BinBoolOperator BoolExpr) | (Expression CompareOperator Expression) | (TypeExpr CompareOperator TypeExpr);
-\end{rail}\ixnterm{Expression}\ixnterm{BoolExpr}
+\end{rail}\ixnterm{BoolExpr}
 The \texttt{!}\ operator negates a Boolean. 
 Table~\ref{tabboolops} lists the binary operators for Boolean expressions. 
 The \texttt{?}\ operator is a simple if-then-else: If the first \emph{BoolExpr} is evaluated to \texttt{true}, the operator returns the second \emph{BoolExpr}, otherwise it returns the third \emph{BoolExpr}.
@@ -146,16 +148,17 @@ The \texttt{\%} operator on float values works analogous to the integer modulo o
 \end{note}
 
 \begin{rail}
-  StringExpr: PrimaryExpr (SelectorExpr) | StringExpr '+' StringExpr;
+  StringExpr: PrimaryExpr (MethodSelector)? | StringExpr '+' StringExpr;
 \end{rail}\ixnterm{StringExpr}
 The operator \texttt{+} concatenates two strings.
-There are several operations on strings available in method call notation (SelectorExpr), these are 
+There are several operations on strings available in method call notation (MethodSelector), these are 
+
 \begin{description}
-\item[.length()] returns length of string, as \texttt{int}
-\item[.indexOf(strToSearchFor)] returns first position the string strToSearchFor appears at, as \texttt{int}, or -1 if not found
-\item[.lastIndexOf(strToSearchFor)] returns last position the string strToSearchFor appears at, as \texttt{int}, or -1 if not found
-\item[.substring(startIndex, length)] returns substring of given length from startIndex on
-\item[.replace(startIndex, length, replaceStr)] returns string with substring from startIndex of given length replaced by replaceStr
+\item[\texttt{.length()}] returns length of string, as \texttt{int}
+\item[\texttt{.indexOf(strToSearchFor)}] returns first position \texttt{strToSearchFor:string} appears at, as \texttt{int}, or -1 if not found
+\item[\texttt{.lastIndexOf(strToSearchFor)}] returns last position \texttt{strToSearchFor:string} appears at, as \texttt{int}, or -1 if not found
+\item[\texttt{.substring(startIndex, length)}] returns substring of given \texttt{length:int} from \texttt{startIndex:int} on
+\item[\texttt{.replace(startIndex, length, replaceStr)}] returns string with substring from \texttt{startIndex:int} on of given \texttt{length:int} replaced by \texttt{replaceStr:int}
 \end{description}
 
 \begin{example}
@@ -167,9 +170,8 @@ For \texttt{n.str == "foo bar foo"} the operations yield \\
 \texttt{n.str(4,3,"foo")=="foo foo foo"} \\
 \end{example}
 
-
 \begin{rail} 
-  PrimaryExpr: '(' ('int' | 'float' | 'double' | 'string') ')' PrimaryExpr | '(' Expression ')' | (NodeOrEdge '.' Ident) | (EnumType '::' Ident) | ObjectIdent | Constant;
+  PrimaryExpr: '(' ('int' | 'float' | 'double' | 'string') ')' PrimaryExpr | '(' Expression ')' | (NodeOrEdge '.' Ident) | (EnumType '::' Ident) | ObjectIdent | Constant | 'visited' '(' NodeOrEdge (',' FlagNumber)? ')' | 'nameof' '(' NodeOrEdge? ')';
   Constant: Number | HexNumber | QuotedText | 'true' | 'false' | 'null';
 \end{rail}\ixnterm{PrimaryExpr}\ixnterm{Constant}
 \begin{description}
@@ -178,115 +180,18 @@ For \texttt{n.str == "foo bar foo"} the operations yield \\
   \item[QuotedText] Is a string constant. It consists of a sequence of characters, enclosed by double quotes.
 \end{description}
 
-\section{Type Related Conditions}\indexmain{type expression}
-\label{typeexpressions}
+The \texttt{visited} query returns the status of the \indexed{visited flag} of the given number for the given graph element as \texttt{boolean}.
+If no flag number is given, the default number for the first visited flag of 0 is used. The visited flags are written in the assignments of the eval statements.
+The \texttt{nameof} query returns the name of the given graph element as \texttt{string}. If no graph element is given, the name of the graph is returned.
 
-\begin{rail}
-  TypeExpr: TypeIdent | 'typeof' '(' NodeOrEdge ')' ;
-\end{rail}\ixkeyw{typeof}\ixnterm{TypeExpr}
-A type expression identifies a type (and---in terms of matching---also its subtypes).
-A type expression is either a type identifier itself or the type of a graph element.
-The type expression \texttt{typeof(x)} stands for the type of the host graph element \texttt{x} is actually bound to.
-\begin{example}
-The following rule will add a reverse edge to a one-way street.
-\begin{grgen}
-rule oneway {
-    a:Node -x:street-> y:Node;
-    negative {
-        y -:typeof(x)-> a;
-    }
-    replace {
-        a -x-> y;
-        y -:typeof(x)-> a;
-    }
-}
-\end{grgen}
-Remember that we have several subtypes of \texttt{street}. By the aid of the \texttt{typeof} operator, the reverse edge will be automatically typed correctly (the same type as the one-way edge). This behavior is not possible without the \texttt{typeof} operator.
-\end{example}
-
-\begin{rail}
-  TypeConstraint: backslash '(' (TypeExpr + '+')  ')' ; 
-\end{rail}\ixnterm{TypeConstraint}
-A \indexed{type constraint} is used to exclude parts of the \indexed{type hierarchy}. The operator \texttt{+} is used to create a union of its operand types. So the following pattern statements are identical:\\
-\begin{center}
-\begin{tabular}[c]{|ll|ll|}\hline
-\begin{tabular}{l}\texttt{x:T \char"5C\ (T1 + $\cdots$ + T$n$);}\\\end{tabular} &&& 
-  \begin{tabular}{l}\texttt{x:T;} \\ \texttt{if \{!(\emph{typeof}(x) <= T1) \&\& $\cdots$} \\ \texttt{\ \ \ \ \&\& !(\emph{typeof}(x) <= T$n$)\}}\\\end{tabular} \\\hline
-\end{tabular}
-\end{center}
-\begin{example}
-\begin{tabularx}{\linewidth}{cX}
-  \begin{tikzpicture}[baseline=(T.base)] \tt
-    \begin{scope}[minimum size=0.5cm]
-      \tikzstyle{every node}=[draw]
-      \node (T)     at (1   ,4) {\texttt{T}};
-      \node (T1)     at (1   ,3) {\texttt{T1}};
-      \node (T2)     at (0   ,2) {\texttt{T2}};
-      \node (T4)     at (0   ,1) {\texttt{T4}};
-      \node (T3)     at (2   ,2) {\texttt{T3}};
-    \end{scope}
-    \draw[thick,-open triangle 45]  (T1) -> (T)  ;
-    \draw[thick,-open triangle 45]  (T2) -> (T1)  ;
-    \draw[thick,-open triangle 45]  (T3) -> (T1)  ;
-    \draw[thick,-open triangle 45]  (T4) -> (T2)  ;
-  \end{tikzpicture} &
-  \parbox{\linewidth}{The expression \texttt{T\char"5C (T2+T3)} applied to the type hierarchy on the left side yields only the types \texttt{T} and \texttt{T1} as valid.}
-\end{tabularx}
-\end{example}
-
-\section{Annotations}\indexmain{annotation}
-\label{annotations}
-
-Identifier \indexed{definition}s can be annotated by \indexedsee{pragma}{annotation}s. Annotations are key-value pairs.
-\begin{rail}
-  IdentDecl: Ident (() | '[' (Ident '=' Constant + ',') ']');
-\end{rail}\ixnterm{IdentDecl}
-Although you can use any key-value pairs between the brackets, only the identifier \ixkeyw{prio} has an effect so far.
-\begin{table}[htbp]
-\begin{tabularx}{\linewidth}{|lllX|} \hline
-  \textbf{Key} & \textbf{Value Type} & \textbf{Applies to} & \textbf{Meaning} \\ \hline
-  \texttt{prio} & int & node, edge & Changes the ranking of a graph element for \indexed{search plan}s. The default is \texttt{prio}=1000. Graph elements with high values are likely to appear prior to graph elements with low values in search plans.\\ \hline
-\end{tabularx}
-\caption{Annotations}
-\label{tabannotations}
-\end{table}
-\begin{example}
-We search the pattern \texttt{v:NodeTypeA -e:EdgeType-> w:NodeTypeB}. We have a host graph with about 100 nodes of \texttt{NodeTypeA}, 1,000 nodes of \texttt{NodeTypeB} and 10,000 edges of \texttt{EdgeType}. Furthermore we know that between each pair of \texttt{NodeTypeA} and \texttt{NodeTypeB} there exists at most one edge of \texttt{EdgeType}. \GrG\ can use this information to improve the initial search plan if we adjust the pattern like \texttt{v[prio=10000]:NodeTypeA -e[prio=5000]:EdgeType-> w:NodeTypeB}.
-\end{example}
-
-\section{Sets and Maps}
+\section{Set and Map Expression}
 
 In addition to the already mentionen types \GrG~supports the types \texttt{set<K>} and \texttt{map<K,V>}, where \texttt{K} and \texttt{V} are of primitive or enumeration type.
 They represent mathematical sets and maps, no type casts are applicable, but there are several operations on them available. They are implemented by C\#-Dictionaries (i.e. Hashmaps).
 
-\subsubsection*{Changes in graph rewrite rules}
-
-Regarding sets:
-
-Assignment of sets
-\begin{grgenlet}
-n.fancySet = m.fancySet;
-\end{grgenlet}
-with value semantics like all the other attribute types, 
-i.e. the set is copied, changes to one set don't show up in the other set.
-The assignment is available only in the eval-block of the modify/replace-part, 
-all the other/following operations are available in the if-block of the pattern, too.
-
-Set constructors, analogous to set initializers, they represent a base set expression, e.g. 
-\begin{grgenlet}
-n.fancySet = { "foo", "bar" };
-\end{grgenlet}
-but in contrast to set initializers, they may contain non constant values, e.g. 
-\begin{grgenlet}
-n.fancySet = { n.strVal, m.strVal, n.strVal+m.strVal }
-\end{grgenlet}
-The values must be all of the same type, if you wish implicit type casts
-you have to prefix the set constructor by the set type, e.g.
-\begin{grgenlet}
-n.fancySet = set<string>{ 42, intVal, "fool" };
-\end{grgenlet}
-Set constructors create and return an anonymous set,
-to be written to an attribute or to be operated on by some of the following set operations:
+\begin{rail} 
+  SetExpr: SetConstructor | PrimaryExpr (MethodSelector)? | SetExpr (backslash | ampersand | '|') SetExpr;
+\end{rail}\ixnterm{SetDecl}
 
 Operations on sets, forming expressions with sets
 -Set union, intersection, difference as binary operators \verb#|,&,\#, e.g. 
@@ -321,31 +226,29 @@ test bla(var varSet:set<int>)
 }
 \end{grgen}
 
-Regarding maps:
+\begin{rail} 
+  SetConstructor: ('set' '<' Type '>')? \\ lbrace ( Expression*',' ) rbrace ;
+\end{rail}\ixnterm{SetConstructor}
 
-Assignment of maps
+Set constructors, analogous to set initializers, they represent a base set expression, e.g. 
 \begin{grgenlet}
-n.fancySet = m.fancySet;
+n.fancySet = { "foo", "bar" };
 \end{grgenlet}
-with value semantics like all the other attribute types, 
-i.e. the map is copied, changes to one map don't show up in the other map.
-The assignment is available only in the eval-block of the modify/replace-part, 
-all the other/following operations are available in the if-block of the pattern, too.
+but in contrast to set initializers, they may contain non constant values, e.g. 
+\begin{grgenlet}
+n.fancySet = { n.strVal, m.strVal, n.strVal+m.strVal }
+\end{grgenlet}
+The values must be all of the same type, if you wish implicit type casts
+you have to prefix the set constructor by the set type, e.g.
+\begin{grgenlet}
+n.fancySet = set<string>{ 42, intVal, "fool" };
+\end{grgenlet}
+Set constructors create and return an anonymous set,
+to be written to an attribute or to be operated on by some of the following set operations:
 
-Map constructors, analogous to map initializers, they represent a base map expression, e.g. 
-\begin{grgenlet}
-n.fancyMap = { "foo"->0, "bar"->1 };
-\end{grgenlet}
-but in contrast to map initializers, they may contain non constant values, e.g.
-\begin{grgenlet}
-n.fancyMap = { n.strVal->m.intVal, m.strVal->n.intVal, (n.strVal+m.strVal)->(m.intVal+n.intVal) } 
-\end{grgenlet}
-The values must be all of the same type, if you wish implicit type casts 
-you have to prefix the map constructor by the map type, e.g.
-\begin{grgenlet}
-n.fancyMap = map<string,int>{ 42->42, intVal->strVal, "fool"->42 };
-\end{grgenlet}
-Map constructors create and return an anonymous map, to be written to an attribute or to be operated on by some of the following map operations:
+\begin{rail}
+  MapDecl: MapConstructor | PrimaryExpr (MethodSelector)? | MapExpr (backslash | ampersand | '|') MapExpr;
+\end{rail}\ixnterm{MapDecl}
 
 Operations on maps, forming expressions with maps
 -Map union, intersection, difference as binary operators
@@ -424,10 +327,99 @@ test bla(var varMap:map<int,int>)
 }
 \end{grgen}
 
-Added visited flags
-check in if for visited(el,index)
-set in eval visited(el,index)=true or false
-Shorthand visited(el) for visited(el, 0)
-Added nameof()-operator
-e.g. "nameof(blub)" yields the name of the graph entity "blub";
-"nameof()" yields the name of the graph
+\begin{rail}
+  MapConstructor: ('map' '<' Type ',' Type '>')? \\ lbrace ( (Expression '->' Expression)*',' ) rbrace ;
+\end{rail}\ixnterm{MapDecl}
+
+Map constructors, analogous to map initializers, they represent a base map expression, e.g. 
+\begin{grgenlet}
+n.fancyMap = { "foo"->0, "bar"->1 };
+\end{grgenlet}
+but in contrast to map initializers, they may contain non constant values, e.g.
+\begin{grgenlet}
+n.fancyMap = { n.strVal->m.intVal, m.strVal->n.intVal, (n.strVal+m.strVal)->(m.intVal+n.intVal) } 
+\end{grgenlet}
+The values must be all of the same type, if you wish implicit type casts 
+you have to prefix the map constructor by the map type, e.g.
+\begin{grgenlet}
+n.fancyMap = map<string,int>{ 42->42, intVal->strVal, "fool"->42 };
+\end{grgenlet}
+Map constructors create and return an anonymous map, to be written to an attribute or to be operated on by some of the following map operations:
+
+
+\section{Type Related Conditions}\indexmain{type expression}
+\label{typeexpressions}
+
+\begin{rail}
+  TypeExpr: TypeIdent | 'typeof' '(' NodeOrEdge ')' ;
+\end{rail}\ixkeyw{typeof}\ixnterm{TypeExpr}
+A type expression identifies a type (and---in terms of matching---also its subtypes).
+A type expression is either a type identifier itself or the type of a graph element.
+The type expression \texttt{typeof(x)} stands for the type of the host graph element \texttt{x} is actually bound to.
+\begin{example}
+The following rule will add a reverse edge to a one-way street.
+\begin{grgen}
+rule oneway {
+    a:Node -x:street-> y:Node;
+    negative {
+        y -:typeof(x)-> a;
+    }
+    replace {
+        a -x-> y;
+        y -:typeof(x)-> a;
+    }
+}
+\end{grgen}
+Remember that we have several subtypes of \texttt{street}. By the aid of the \texttt{typeof} operator, the reverse edge will be automatically typed correctly (the same type as the one-way edge). This behavior is not possible without the \texttt{typeof} operator.
+\end{example}
+
+\begin{rail}
+  TypeConstraint: backslash '(' (TypeExpr + '+')  ')' ; 
+\end{rail}\ixnterm{TypeConstraint}
+A \indexed{type constraint} is used to exclude parts of the \indexed{type hierarchy}. The operator \texttt{+} is used to create a union of its operand types. So the following pattern statements are identical:\\
+\begin{center}
+\begin{tabular}[c]{|ll|ll|}\hline
+\begin{tabular}{l}\texttt{x:T \char"5C\ (T1 + $\cdots$ + T$n$);}\\\end{tabular} &&& 
+  \begin{tabular}{l}\texttt{x:T;} \\ \texttt{if \{!(\emph{typeof}(x) <= T1) \&\& $\cdots$} \\ \texttt{\ \ \ \ \&\& !(\emph{typeof}(x) <= T$n$)\}}\\\end{tabular} \\\hline
+\end{tabular}
+\end{center}
+\begin{example}
+\begin{tabularx}{\linewidth}{cX}
+  \begin{tikzpicture}[baseline=(T.base)] \tt
+    \begin{scope}[minimum size=0.5cm]
+      \tikzstyle{every node}=[draw]
+      \node (T)     at (1   ,4) {\texttt{T}};
+      \node (T1)     at (1   ,3) {\texttt{T1}};
+      \node (T2)     at (0   ,2) {\texttt{T2}};
+      \node (T4)     at (0   ,1) {\texttt{T4}};
+      \node (T3)     at (2   ,2) {\texttt{T3}};
+    \end{scope}
+    \draw[thick,-open triangle 45]  (T1) -> (T)  ;
+    \draw[thick,-open triangle 45]  (T2) -> (T1)  ;
+    \draw[thick,-open triangle 45]  (T3) -> (T1)  ;
+    \draw[thick,-open triangle 45]  (T4) -> (T2)  ;
+  \end{tikzpicture} &
+  \parbox{\linewidth}{The expression \texttt{T\char"5C (T2+T3)} applied to the type hierarchy on the left side yields only the types \texttt{T} and \texttt{T1} as valid.}
+\end{tabularx}
+\end{example}
+
+
+\section{Annotations}\indexmain{annotation}
+\label{annotations}
+
+Identifier \indexed{definition}s can be annotated by \indexedsee{pragma}{annotation}s. Annotations are key-value pairs.
+\begin{rail}
+  IdentDecl: Ident (() | '[' (Ident '=' Constant + ',') ']');
+\end{rail}\ixnterm{IdentDecl}
+Although you can use any key-value pairs between the brackets, only the identifier \ixkeyw{prio} has an effect so far.
+\begin{table}[htbp]
+\begin{tabularx}{\linewidth}{|lllX|} \hline
+  \textbf{Key} & \textbf{Value Type} & \textbf{Applies to} & \textbf{Meaning} \\ \hline
+  \texttt{prio} & int & node, edge & Changes the ranking of a graph element for \indexed{search plan}s. The default is \texttt{prio}=1000. Graph elements with high values are likely to appear prior to graph elements with low values in search plans.\\ \hline
+\end{tabularx}
+\caption{Annotations}
+\label{tabannotations}
+\end{table}
+\begin{example}
+We search the pattern \texttt{v:NodeTypeA -e:EdgeType-> w:NodeTypeB}. We have a host graph with about 100 nodes of \texttt{NodeTypeA}, 1,000 nodes of \texttt{NodeTypeB} and 10,000 edges of \texttt{EdgeType}. Furthermore we know that between each pair of \texttt{NodeTypeA} and \texttt{NodeTypeB} there exists at most one edge of \texttt{EdgeType}. \GrG\ can use this information to improve the initial search plan if we adjust the pattern like \texttt{v[prio=10000]:NodeTypeA -e[prio=5000]:EdgeType-> w:NodeTypeB}.
+\end{example}
