@@ -256,35 +256,10 @@ We search the pattern \texttt{v:NodeTypeA -e:EdgeType-> w:NodeTypeB}. We have a 
 
 \section{Sets and Maps}
 
-\subsection{Sets and Maps}
 In addition to the already mentionen types \GrG~supports the types \texttt{set<K>} and \texttt{map<K,V>}, where \texttt{K} and \texttt{V} are of primitive or enumeration type.
 They represent mathematical sets and maps, no type casts are applicable, but there are several operations on them available. They are implemented by C\#-Dictionaries (i.e. Hashmaps).
 
-\subsubsection{Changes in graph model}
-
-Regarding sets:
-An attribute of set type is declared like f.ex.
-\begin{grgenlet}
-funnySet:set<int>;
-\end{grgenlet}
-Optionally, you may initialize the sets by a set initializer
-\begin{grgenlet}
-fancySet:set<string> = { "foo", "bar" };
-\end{grgenlet}
-
-Regarding maps:
-An attribute of map type is declared like f.ex.
-\begin{grgenlet}
-funnyMap:map<int, boolean>;
-\end{grgenlet}
-Optionally, you may initialize the maps by a map initializer
-\begin{grgenlet}
-fancyMap:map<string, int> = { "foo"->0, "bar"->1 };
-\end{grgenlet}
-
-Further on you may declare them constant.
-
-\subsubsection{Changes in graph rewrite rules}
+\subsubsection*{Changes in graph rewrite rules}
 
 Regarding sets:
 

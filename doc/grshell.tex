@@ -5,6 +5,7 @@ It belongs to \GrG's standard equipment. \GrShell\ is capable of creating, manip
 The \GrShell\ provides a line oriented scripting language. 
 \GrShell\ scripts are structured by simple statements separated by line breaks.
 
+%rewrite stuff to be command based insteaf of splitting commands over several sections?
 
 \section{Building Blocks}
 
@@ -32,7 +33,7 @@ Is an \texttt{int} or \texttt{float} constant in decimal notation (see also Sect
 In order to describe the commands more precisely, the following (semantic) specializations of \emph{Text} are defined:
 \begin{description}
   \item[Filename]A fully qualified file name without spaces (e.g.\ \texttt{/Users/Bob/amazing\textunderscore file.txt}) or a single quoted or double quoted fully qualified file name that may contain spaces (\texttt{"/Users/Bob/amazing file.txt"}).
-  \item[Variable] Identifier of a variable that contains a graph element. 
+  \item[Variable] Identifier of a variable that contains a graph element or a value of basic type. 
   \item[NodeType, EdgeType] Identifier of a node type resp.\ edge type defined in the model of the current graph.
   \item[AttributeName] Identifier of an attribute.
   \item[Graph] Identifies a graph by its name.
@@ -72,7 +73,7 @@ Persistent names belong to a specific graph whereas variables belong to the curr
 \begin{rail}
   Variable '=' ( GraphElement | Variable | Literal )
 \end{rail}
-Assigns the variable or persistent name \emph{GraphElement} to \emph{Variable}. If \emph{Variable} has not been defined yet, it will be defined implicitly. As usual for scripting languages, variables have neither static types nor declarations.
+Assigns the variable or persistent name \emph{GraphElement} or literal to \emph{Variable}. If \emph{Variable} has not been defined yet, it will be defined implicitly. As usual for scripting languages, variables have neither static types nor declarations.
 
 \begin{rail} 
 'show' 'var' Variable 
@@ -147,12 +148,12 @@ On a Linux machine you might execute
 \begin{rail}
 'silence' ('on'|'off')
 \end{rail}\ixkeyw{silence}
-Switches the new node / edge created / deleted messages on(default) or off. Switching them off allows for much faster execution of grs containing a lot of them.
+Switches the new node / edge created / deleted messages on(default) or off. Switching them off allows for much faster execution of scripts containing a lot of creation commands.
 
 \begin{rail}
 'randomseed' (Number | 'time')
 \end{rail}\ixkeyw{randomseed}
-Sets the random seed to the given number for reproducible results when using the \$-operator-prefix or the random-match-selector; whereas time sets the random seed to the current time in ms.
+Sets the random seed to the given number for reproducible results when using the \$-operator-prefix or the random-match-selector, whereas time sets the random seed to the current time in ms.
 
 \begin{rail}
 'redirect' 'emit' Filename
@@ -174,7 +175,7 @@ In this case the necessary assemblies will be created on the fly.
 \begin{rail}
   'open' 'graph' Filename Text
 \end{rail}\ixkeyw{open}\ixkeyw{graph}
-Opens the graph \emph{Text} stored in the backend. However, the \emph{LGSPBackend} doesn't support \indexed{persistent graph}s. The \emph{LGSPBackend} is the only backend so far. Therefore this command is currently useless.
+Opens the graph \emph{Text} stored in the backend. However, the \emph{LGSPBackend} doesn't support \indexed{persistent graph}s. The \emph{LGSPBackend} is the only backend so far. Therefore this command is currently useless. You may achieve persistence by using import/export or save/include instead.
 
 \begin{rail}
   'show' 'graphs'
@@ -233,7 +234,7 @@ The graph is NOT valid:
   'import' Filename+
 \end{rail}\ixkeyw{import}
 To import a graph model and/or a graph instance.
-For a more detailed discussion, see Import / Export.
+For a more detailed discussion, see Import/Export\ref{sub:imexport}.
 
 \begin{rail}
   'export' Filename+
@@ -246,15 +247,15 @@ To export a graph model and a graph instance.
 Executes a command specific to the current backend. If \emph{SpacedParameters} is omitted, a list of available commands will be displayed (for the LGSP backend see Sections~\ref{custom}).
 
 \begin{rail}
-'flagId' '=' 'allocvisitflag'
+'Variable' '=' 'allocvisitflag'
 \end{rail}\ixkeyw{allocvisitflag}
-Allocates space for a visited flag in the elements of the graph and returns the id of the visited flag (integer number). Afterwards, the visited flag of the id can be read and written by the isvisited and setvisited shell commands or within the rules by the visited() entity.
+Allocates space for a visited flag in the elements of the graph and returns the id of the visited flag (integer number). Afterwards, the visited flag of the id can be read and written by the isvisited and setvisited shell commands or within the rules by the \texttt{visited()} expression.
 (The first visited flags are stored in some excess bytes of the graph elements and are thus essentially for free, but if this implementation defined space is used up completely, the information is stored in dictionaries)
 
 \begin{rail}
-'freevisitflag' 'flagId'
+'freevisitflag' 'Variable'
 \end{rail}\ixkeyw{freevisitflag}
-Frees the space previously allocated for the visited flag; afterwards you must not access it anymore.
+Frees the space previously allocated for the visited flag; afterwards you must not access it anymore. The value stored in the variable must be of integer type, stemming from a previous allocation.
 
 
 \subsection{Graph Manipulation Commands}
@@ -571,48 +572,7 @@ Specify multiple rewrite rules instead of using multiple commands for each rule 
 \end{rail}\ixkeyw{custom}\ixkeyw{actions}
 Sets the maximum amount of possible pattern matches to \emph{Number}. This command affects the expression \texttt{[\emph{Rule}]}. If \emph{Number} is less or equal to zero, the constraint is reset.
 
+% don't explain set/map commands, as they will be replaced by graph rewrite sequence terms
+% they are given in the changelog, so if someone needs them now they are there
+% but not fully officially documented, so that they can be dropped as soon as the sequences are extended
 
-\section{TODO:First rethink then Integrate}
-
-New set commands:
-
-\begin{grshelllet}
-<var> = new set <type> 
-\end{grshelllet}
-creates a new set of given type and assigns it to the variable, e.g. v = new set string
-
-\begin{grshelllet}
-set <setname> add <key>
-\end{grshelllet}
-adds key to set, e.g. set n.a add "foo"
-
-\begin{grshelllet}
-set <setname> remove <key> 
-\end{grshelllet}
-removes key from set, e.g. set v remove "bar"
-
-\begin{grshelllet}
-set <setname> size 
-\end{grshelllet}
-prints out the number of set entries, e.g. set n.a size
-
-New map commands:
-\begin{grshelllet}
-<var> = new map <keytype> <valuetype> 
-\end{grshelllet}
-creates a new map of given types and assigns it to the variable, e.g. v = new map string int
-
-\begin{grshelllet}
-map <mapname> add <key> <value> 
-\end{grshelllet}
-adds pair (key,value) to map, e.g. map n.a add "foo"
-
-\begin{grshelllet}
-map <mapname> remove <key>
-\end{grshelllet}
-removes pair (key,*) from map, e.g. map v remove "bar"
-
-\begin{grshelllet}
-map <mapname> size 
-\end{grshelllet}
-prints out the number of map entries, e.g. map n.a size

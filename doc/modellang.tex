@@ -230,3 +230,32 @@ y:int = 42;
 	\end{grgen}
 \end{example}
 
+\begin{rail}
+  SetDecl: ('const' | ()) Ident ':' 'set' '<' Type '>' \\ (() | '=' lbrace ( () | Expression ( ',' Expression )* ) rbrace ) ';' ;
+\end{rail}\ixnterm{SetDecl}
+
+Regarding sets:
+An attribute of set type is declared like f.ex.
+\begin{grgenlet}
+funnySet:set<int>;
+\end{grgenlet}
+Optionally, you may initialize the sets by a set initializer
+\begin{grgenlet}
+fancySet:set<string> = { "foo", "bar" };
+\end{grgenlet}
+
+\begin{rail}
+  MapDecl: (() | 'const') Ident ':' 'map' '<' Type ',' Type '>' \\ (() | '=' lbrace ( () | Expr. '->' Expr. ( ',' Expr. '->' Expr.)* ) rbrace ) ';';
+\end{rail}\ixnterm{SetDecl}
+
+Regarding maps:
+An attribute of map type is declared like f.ex.
+\begin{grgenlet}
+funnyMap:map<int, boolean>;
+\end{grgenlet}
+Optionally, you may initialize the maps by a map initializer
+\begin{grgenlet}
+fancyMap:map<string, int> = { "foo"->0, "bar"->1 };
+\end{grgenlet}
+
+Further on you may declare them constant.

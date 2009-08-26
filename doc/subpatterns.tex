@@ -1,18 +1,25 @@
-\chapter{Subpatterns}\indexmain{rule set language subpatterns}
-\label{chapsubpatterns}
+\chapter{Nested and Subpatterns}\indexmain{rule set language nested and subpatterns}
+\label{cha:nestedsub}
 
-This chapter describes the rule set language constructs related to subpatterns, which are
-\begin{itemize}
-\item negative application condition (keyword negative)
-\item positive application condition (keyword independent)
-\item pattern cardinality (keywords iterated, multiple, optional)
-\item alternative patterns (keyword alternative)
-\item subpattern declaration and usage (keyword pattern)
-\item subrule declaration and usage (keyword pattern with contained replace/modify)
-\end{itemize}
+This chapter describes the rule set language constructs related to nested patterns (negative application condition, positive application condition, nested pattern with cardinality, alternative patterns) and subpatterns (subpattern declaration and usage, subrule declaration and usage).
+
+\begin{rail}  
+  NestedPattern: 
+    NegativeApplicationCondition |
+    PositiveApplicationCondition |
+    NestedPatternWithCardinality |
+    AlternativePatterns 
+    ;
+\end{rail}
 
 \section{Negative Application Condition (NAC)}
 \indexmain{negative application condition}\indexmainsee{NAC}{negative application condition}\label{nac}
+
+\begin{rail}  
+  NegativeApplicationCondition: 
+    'negative' lbrace (()+PatternStatement) rbrace
+    ;
+\end{rail}\ixkeyw{negative}
 
   With negative application conditions (keyword \texttt{negative}) we can specify graph patterns which forbid the application of a rule if any of them is present in the host graph (cf.~\cite{adam}). 
   NACs possess a \indexed{scope} of their own. 
@@ -73,10 +80,13 @@ test foo {
 	
 \section{Positive Application Condition (PAC)}
 \indexmain{positive application condition}\indexmainsee{PAC}{positive application condition} \label{pac}
-  
-*Independent block:
--------------------
 
+\begin{rail}  
+  PositiveApplicationCondition: 
+    'independent' lbrace (()+PatternStatement) rbrace|
+    ;
+\end{rail}\ixkeyw{independent}
+  
 The independent block allows to specify further patterns 
 to be applied as positive application conditions.
 In contrast to the negative application conditions given by negative blocks,
@@ -140,6 +150,12 @@ and is thus locked by the isomorphy constraint.
   
 \section{Pattern Cardinality}
 \indexmain{pattern cardinality}\label{pc}
+
+\begin{rail}  
+  NestedPatternWithCardinality: 
+    ('iterated' | 'multiple' | 'optional') lbrace (()+PatternStatement) rbrace |
+    ;
+\end{rail}\ixkeyw{iterated}\ixkeyw{multiple}\ixkeyw{optional}
 
 The *iterated block* is matching the contained subpattern as often as possible
 (succeeding if the contained pattern is not available, too).
@@ -218,6 +234,12 @@ test foo {
 
 \section{Alternative Patterns}
 \indexmain{alternative patterns}\label{alternative}
+
+\begin{rail}  
+  AlternativePatterns: 
+    'alternative' lbrace ((CaseName lbrace (()+PatternStatement) rbrace)+()) rbrace
+    ;
+\end{rail}\ixkeyw{alternative}
 
 With the alternative block you can specify several nested alternative
 patterns. One of them must get matched for the matching of the entire pattern
