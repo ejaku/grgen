@@ -268,9 +268,9 @@ And some illegal graphlets:\\
 \label{ruledecls}
 The structure of a \indexed{rule set} file is as follows:
 \begin{rail}
-  RuleSet: (() | 'using' ((ModelIdent)+',') ';') ((TestDeclaration | RuleDeclaration)+) ;
+  RuleSet: (() | 'using' ((ModelIdent)+',') ';') ((TestDeclaration | RuleDeclaration | SubpatternDeclaration)+) ;
 \end{rail}\ixkeyw{using}\ixnterm{RuleSet}
-A rule set consists of the underlying \indexed{graph model}s and several rewrite rules. In case of multiple graph models, \GrG\ uses the union of these models. In this case beware of conflicting declarations. There is no built-in conflict resolution mechanism like packages or namespaces for models. If necessary you can use prefixes as you might do in C.
+A rule set consists of the underlying \indexed{graph model}s and several rewrite rules and tests (subpatterns will be introduced in \ref{sec:subpattern}). In case of multiple graph models, \GrG\ uses the union of these models. In this case beware of conflicting declarations. There is no built-in conflict resolution mechanism like packages or namespaces for models. If necessary you can use prefixes as you might do in C.
 
 \begin{rail}
   TestDeclaration: 'test' (() | 'exact' | 'induced') ActionSignature lbrace Pattern rbrace ;
@@ -302,9 +302,11 @@ SomeRule will only be executed, if a node of type \texttt{SeldomNodeType} exists
 The \indexed{signature} sets the name of a rewrite rule to \emph{IdentDecl} and optionally names and types of formal \indexed{parameter}s as well as a list of \indexed{return type}s. Parameters and return types provide users with the ability to exchange graph elements between rules. This is similar to parameters of procedural languages.
 
 \begin{rail}
-  Parameters: '(' ((IdentDecl ':' NodeType | '-' IdentDecl ':' EdgeType '->') + ',') ')' ;
+  Parameters: '(' (Parameter * ',') ')' ;
+  Parameter: IdentDecl ':' NodeType ('<' NodeType '>')? | '-' IdentDecl ':' EdgeType ('<' EdgeType '>')? '->' | 'var' IdentDecl ':' VarType ;
 \end{rail}\ixnterm{Parameters}
-Within a rule, parameters are treated as (predefined) graph elements of the pattern. Even if a supplied parameter value is undefined\indexmain{undefined parameter}, it is treated as valid node or edge definition. So in any case a graph element of the specified type has to be mapped. \GrG\ assumes the lookup operation for parameters to be in $\mathcal{O}(1)$. In case of an undefined parameter value this might lead to bad \indexed{search plan}s, because \GrG\ has to actually search for such a graph element.
+Within a rule, parameters are treated as graph elements of the pattern - just predefined. But in contrast to pervious versions it is the task of the user to ensure the elements handed in satisfy the interface, i.e. parameters must not be null and of the type specified or a subtype. If you need more flexibilty and want to call the rule with parameters not fullfilling the interface you can append the type to accept at the interface to the type to accept as pattern element - if the former is not satisfied, matching simply fails, if the latter is not satisfied, the interface of the rule is violated causing an exception.
+
 todo: Introduced "var" parameters and return values for basic types like int and string
 Old input parameters semantics - silently failing rule application on wrong type -
 now only available with syntax r(x:ExactType<InexactType>)
@@ -340,7 +342,7 @@ In particular, test \texttt{s} is successful if there is \emph{some} edge in the
 \end{figure}
 
 \begin{rail}
-  ReturnTypes: '(' ((NodeType | EdgeType) + ',') ')' ;
+  ReturnTypes: '(' ((NodeType | EdgeType | VarType) + ',') ')' ;
 \end{rail}\ixnterm{ReturnTypes}
 The return types specify edge and node types of graph elements that are returned by the replace/modify part. If return types are specified, the \texttt{return} statement is mandatory. Otherwise no \texttt{return} statement must occur. See also Section~\ref{replacepart}, \texttt{return}.
 todo: Allow expressions as return arguments, Basis types.
@@ -398,7 +400,8 @@ See chapter~\ref{cha:xgrs} for further information on graph rewrite sequences.
     'hom' '(' (Ident + ',') ')' ';' |
     ('exact' | 'induced') '(' (Ident+',') ')' |
     'if' lbrace (BooleanExpr ';' +) rbrace |
-    NestedPattern
+    NestedPattern |
+    SubpatternEntityDeclaration
     ;
 
 \end{rail}\ixkeyw{induced}\ixkeyw{exact}\ixkeyw{hom}\ixkeyw{if}\ixnterm{PatternStatement}
@@ -414,6 +417,8 @@ The semantics of the various pattern statements are given below:
  - hom delarations are non-transitive by now (hom(a,b) and hom(b,c) don't cause hom(a,c) unless specified)
    \item[Attribute Conditions] \indexmain{attribute condition}The Java-like attribute conditions (keyword \texttt{if}) in the pattern part allow for further restriction of the applicability of a rule.
   \item[Pattern Modifiers] Additionally to modifiers that apply to a pattern as a whole, you may also specify pattern modifiers for a specific set of nodes. Accordingly the list of identifiers for a pattern modifier must not contain any edge identifier. See section \ref{sct:patternmodifier} for an explanation of the \texttt{exact} and \texttt{induced} modifiers. 
+  \item[NestedPattern] will be explained in \ref{nac},\ref{pac},\ref{cardinality},\ref{alternative}.
+  \item[SubpatternEntityDeclaration] will be explained in \ref{sec:subpattern}.
 \end{description}
 
 Keep in mind that using type constraints or the \texttt{typeof} operator might be helpful. See Section~\ref{typeexpressions} for further information.
@@ -524,9 +529,12 @@ rule SomeRuleExtModify(varnode: Node): (Node, EdgeTypeB)  {
 Selects whether the replace mode or the modify mode is used. Several replace statements describe the transformation from the pattern subgraph to the destination subgraph.
 
 \begin{rail}  
-  ReplaceStatement: Graphlet ';' |
+  ReplaceStatement:
+    Graphlet ';' |
     'delete' '(' (Ident + ',') ')' ';' |
     'eval' lbrace (Assignment ';' +) rbrace |
+    SubpatternRewriteApplication
+    ;
 \end{rail}\ixkeyw{delete}\ixkeyw{eval}
 The semantics of the various replace statements are given below:
 \begin{description}
@@ -547,6 +555,8 @@ eval {
   The edge specification as well as \emph{ReplaceNode} supports retyping. 
   In Example~\ref{ex:rule:SomeRule} node \texttt{n5} is a retyped node stemming from node \texttt{n1}.
   Note, that---conceptually---the retyping is performed \emph{after} the SPO conform rewrite.
+  \item[SubpatternRewriteApplication] will be explained in \ref{sec:subrule}.
+  \item[SubpatternOccurence] will be explained in \ref{sub:delpressub}.
 \end{description} 
 
 \begin{table}[htbp]

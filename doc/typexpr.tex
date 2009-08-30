@@ -65,7 +65,7 @@ Be careful with assignments of objects: \GrG\ does not know your .NET type hiera
 %left to right, left associative?
 \label{expressions}
 \begin{rail}
-  Expression: BoolExpr | IntExpr | FloatExpr | StringExpr | SetExpr | MapExpr | PrimaryExpr ;  
+  Expression: BoolExpr | IntExpr | FloatExpr | StringExpr | PrimaryExpr | SetExpr | MapExpr ;  
 \end{rail}\ixnterm{Expression}
 \begin{rail}
   BoolExpr: ((() | '!') PrimaryExpr) | (BoolExpr '?' BoolExpr ':' BoolExpr) | (BoolExpr BinBoolOperator BoolExpr) | (Expression CompareOperator Expression) | (TypeExpr CompareOperator TypeExpr);
