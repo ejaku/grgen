@@ -1,0 +1,4 @@
+node class gnode {
+   info: string;
+}
+edge class gedge ;
