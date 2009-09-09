@@ -1,4 +1,4 @@
-﻿v.2.5.1 (2009-0?-??)
+﻿v.2.5.1 (2009-09-09)
  Additions:
   - subpatterns now support var parameters, too
   - GrShell now with non-debug/gui-mode and return value
@@ -7,7 +7,7 @@
   - some renaming in examples folder to show case origins
  Fixes:
   - usage of var parameters in alternative, iterated - blocks
-  - nested iterated blocks
+  - nested iterated, alternative blocks
   - elements of enclosing lhs pattern only mentioned in eval of rhs
   - gxl export (showing in mono glx import exception) 
   - several examples work again (not all, though)
