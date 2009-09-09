@@ -1297,9 +1297,9 @@ public class ModifyGen extends CSharpBase {
 		}
 		for(int i = 0; i < pattern.getAlts().size(); i++) {
 			String altName = "alt_" + i;
-			String altType = "IMatch_"+pattern.getNameOfGraph()+"_"+pathPrefix+altName;
+			String altType = "IMatch_"+pathPrefix+pattern.getNameOfGraph()+"_"+altName;
 			sb.append("\t\t\t"+altType+" alternative_" + altName
-					+ " = curMatch._"+pathPrefix+altName+";\n");
+					+ " = curMatch._"+altName+";\n");
 		}
 	}
 
