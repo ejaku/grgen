@@ -143,7 +143,7 @@ public class EdgeDeclNode extends ConstraintDeclNode implements EdgeCharacter {
 			}
 
 			// Update type
-			typeEdgeDecl = typeofEdge.typeEdgeDecl;
+			typeEdgeDecl = typeofEdge;
 			typeTypeDecl = typeofEdge.typeTypeDecl;
 		}
 	}

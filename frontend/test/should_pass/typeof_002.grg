@@ -1,0 +1,10 @@
+using typeof_model_001;
+
+rule r1 {
+  x:Chunk -c:chunkIn-> y:Chunk;
+  x       -:equivTo->  v:Chunk;
+  modify {
+    v -:typeof(c)-> y;
+    delete(c);
+  }
+} 

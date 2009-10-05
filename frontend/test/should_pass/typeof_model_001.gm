@@ -1,0 +1,3 @@
+abstract node class Chunk;
+abstract edge class chunkIn;
+edge class equivTo;

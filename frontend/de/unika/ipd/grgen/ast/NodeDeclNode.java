@@ -134,7 +134,7 @@ public class NodeDeclNode extends ConstraintDeclNode implements NodeCharacter {
 				}
 
 				// Update type
-				typeNodeDecl = typeofNode.typeNodeDecl;
+				typeNodeDecl = typeofNode;
 				typeTypeDecl = typeofNode.typeTypeDecl;
 			}
 		}
