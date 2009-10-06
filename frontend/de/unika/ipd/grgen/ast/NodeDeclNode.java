@@ -120,11 +120,11 @@ public class NodeDeclNode extends ConstraintDeclNode implements NodeCharacter {
 	 * Warn on typeofs of new created graph nodes (with known type).
 	 */
 	private void warnOnTypeofOfRhsNodes() {
-		if ((context & CONTEXT_LHS_OR_RHS) == CONTEXT_RHS && inheritsType()) {
+		if ((context & CONTEXT_LHS_OR_RHS) == CONTEXT_RHS) {
 			// As long as we're typed with a rhs edge we change our type to the type of that node,
 			// the first time we do so we emit a warning to the user (further steps will be warned by the elements reached there)
 			boolean firstTime = true;
-			while (typeNodeDecl != null
+			while (inheritsType()
 					&& (typeNodeDecl.context & CONTEXT_LHS_OR_RHS) == CONTEXT_RHS) {
 				if (firstTime) {
 					firstTime = false;
@@ -133,7 +133,7 @@ public class NodeDeclNode extends ConstraintDeclNode implements NodeCharacter {
 				typeTypeDecl = typeNodeDecl.typeTypeDecl;
 				typeNodeDecl = typeNodeDecl.typeNodeDecl;
 			}
-			// either reached a statically known type by walking rhs elements 
+			// either reached a statically known type by walking rhs elements
 			// or reached a lhs element (with statically unknown type as it matches any subtypes)
 		}
 	}
