@@ -129,22 +129,20 @@ public class EdgeDeclNode extends ConstraintDeclNode implements EdgeCharacter {
 	 */
 	private void warnOnTypeofOfRhsEdges() {
 		if ((context & CONTEXT_LHS_OR_RHS) == CONTEXT_RHS && inheritsType()) {
-			if ((typeEdgeDecl.context & CONTEXT_LHS_OR_RHS) == CONTEXT_RHS) {
-				reportWarning("type of edge " + typeEdgeDecl.ident
-						+ " is statically known");
+			// As long as we're typed with a rhs edge we change our type to the type of that edge,
+			// the first time we do so we emit a warning to the user (further steps will be warned by the elements reached there)
+			boolean firstTime = true;
+			while (typeEdgeDecl != null
+					&& (typeEdgeDecl.context & CONTEXT_LHS_OR_RHS) == CONTEXT_RHS) {
+				if (firstTime) {
+					firstTime = false;
+					reportWarning("type of edge " + typeEdgeDecl.ident + " is statically known");
+				}
+				typeTypeDecl = typeEdgeDecl.typeTypeDecl;
+				typeEdgeDecl = typeEdgeDecl.typeEdgeDecl;
 			}
-
-			EdgeDeclNode typeofEdge = typeEdgeDecl;
-
-			// As long as the type is statically known
-			while (typeofEdge.typeEdgeDecl != null
-					&& (typeofEdge.typeEdgeDecl.context & CONTEXT_LHS_OR_RHS) == CONTEXT_RHS) {
-				typeofEdge = typeofEdge.typeEdgeDecl;
-			}
-
-			// Update type
-			typeEdgeDecl = typeofEdge;
-			typeTypeDecl = typeofEdge.typeTypeDecl;
+			// either reached a statically known type by walking rhs elements 
+			// or reached a lhs element (with statically unknown type as it matches any subtypes)
 		}
 	}
 
