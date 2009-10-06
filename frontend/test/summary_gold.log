@@ -1,5 +1,6 @@
 OK     should_pass/alternative_001.grg
 OK     should_pass/alternative_002.grg
+OK     should_pass/alterror.grg
 OK     should_pass/annot_001.grg
 OK     should_pass/annot_002.grg
 OK     should_pass/annot_003.grg
@@ -289,6 +290,7 @@ OK     should_pass/to_007.grg
 OK     should_pass/to_008.grg
 OK     should_pass/to_009.grg
 OK     should_pass/typeof_001.grg
+OK     should_pass/typeof_002.grg
 OK     should_pass/unary_001.grg
 OK     should_pass/visit_001.grg
 WARNED should_warn/basic_003.grg
