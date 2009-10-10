@@ -86,7 +86,7 @@ public class RuleDeclNode extends TestDeclNode {
 	}
 
 	/** Check that only graph elements are returned, that are not deleted. */
-	protected boolean checkReturnedElemsNotDeleted(PatternGraphNode left, RhsDeclNode right) {
+	private boolean checkReturnedElemsNotDeleted(PatternGraphNode left, RhsDeclNode right) {
 		assert isResolved();
 
 		boolean res = true;
@@ -109,7 +109,7 @@ public class RuleDeclNode extends TestDeclNode {
 
 
 	/** Check that only graph elements are returned, that are not deleted. */
-	protected boolean checkExecParamsNotDeleted(PatternGraphNode left, GraphNode right) {
+	private boolean checkExecParamsNotDeleted(PatternGraphNode left, GraphNode right) {
 		boolean res = true;
 		Set<DeclNode> dels = getDelete();
 		for (BaseNode x : right.imperativeStmts.getChildren()) {
@@ -137,7 +137,7 @@ public class RuleDeclNode extends TestDeclNode {
 	 * If consistent, replace the dummy nodes with the nodes the pattern edge is
 	 * incident to (if these aren't dummy nodes themselves, of course).
 	 */
-	protected boolean checkRhsReuse(PatternGraphNode left, RhsDeclNode right) {
+	private boolean checkRhsReuse(PatternGraphNode left, RhsDeclNode right) {
 		boolean res = true;
 		Collection<EdgeDeclNode> alreadyReported = new HashSet<EdgeDeclNode>();
 		for (ConnectionNode rConn : right.getReusedConnections(left)) {
@@ -157,7 +157,7 @@ public class RuleDeclNode extends TestDeclNode {
 
 				EdgeDeclNode le = lConn.getEdge();
 
-				if ( ! le.equals(re) ) {
+				if (!le.equals(re)) {
 					continue;
 				}
 				occursInLHS = true;
@@ -250,21 +250,18 @@ public class RuleDeclNode extends TestDeclNode {
 		return res;
 	}
 
-	/** Raises a warning if a "delete-return-conflict" for potentially
-	 *  homomorphic nodes is detected or---more precisely---if a node is
-	 *  returned such that homomorphic matching is allowed with a deleted node.
-	 *
-	 *  NOTE: The implementation of this method must be changed when
-	 *        non-transitive homomorphism is invented.
-	 * */
-	private void warnHomDeleteReturnConflict() {
+	/**
+	 * Raises a warning if a "delete-return-conflict" for potentially
+	 * homomorphic nodes is detected or---more precisely---if a node is
+	 * returned such that homomorphic matching is allowed with a deleted node.
+	 */
+	private boolean checkHomDeleteReturnConflict() {
 		assert isResolved();
 
 		Collection<DeclNode> maybeDeleted = right.getMaybeDeleted(pattern);
 		Collection<ExprNode> retSet = right.graph.returns.getChildren();
 
-		// for all pairs of deleted and returned elems check whether
-		// homomorphic matching is allowed
+		// for each returned element check whether it may be deleted
 		HashSet<BaseNode> alreadyReported = new HashSet<BaseNode>();
 		for(ExprNode expr : retSet) {
 			if(!(expr instanceof DeclExprNode)) continue;
@@ -275,16 +272,18 @@ public class RuleDeclNode extends TestDeclNode {
 				retElem.maybeDeleted = true;
 				if(!retElem.getIdentNode().getAnnotations().isFlagSet("maybeDeleted")) {
 					alreadyReported.add(retElem);
-					String warning = "Returning \"" + retElem.ident + "\" that may be deleted"
+					String errorMessage = "Returning \"" + retElem.ident + "\" that may be deleted"
 							+ ", possibly it's homomorphic with a deleted " + retElem.getUseString();
 					if(retElem instanceof EdgeDeclNode) {
-						warning += " or \"" + retElem.ident + "\" is a dangling " + retElem.getUseString()
+						errorMessage += " or \"" + retElem.ident + "\" is a dangling " + retElem.getUseString()
 								+ " and a deleted node exists";
 					}
-					retElem.reportWarning(warning);
+					retElem.reportError(errorMessage);
 				}
 			}
 		}
+
+		return alreadyReported.isEmpty();
 	}
 
 	private void calcMaybeRetyped() {
@@ -344,8 +343,6 @@ public class RuleDeclNode extends TestDeclNode {
 
 		calcMaybeRetyped();
 
-		warnHomDeleteReturnConflict();
-
 		boolean abstr = true;
 		for(NodeDeclNode node : right.getNodes()) {
 			if(!node.inheritsType() && node.getDeclType().isAbstract() && !left.getNodes().contains(node)) {
@@ -360,11 +357,11 @@ public class RuleDeclNode extends TestDeclNode {
 			}
 		}
 
-		return leftHandGraphsOk
-			& checkRhsReuse(left, this.right) & noReturnInPatternOk & abstr
-			& checkReturnedElemsNotDeleted(left, this.right)
-			& checkExecParamsNotDeleted(left, right)
-			& checkReturns(right.returns);
+		return leftHandGraphsOk & checkHomDeleteReturnConflict()
+				& checkRhsReuse(left, this.right) & noReturnInPatternOk & abstr
+				& checkReturnedElemsNotDeleted(left, this.right)
+				& checkExecParamsNotDeleted(left, right)
+				& checkReturns(right.returns);
 	}
 
 	/**
