@@ -320,7 +320,7 @@ WARNED should_warn/exec_003.grg
 WARNED should_warn/exec_004.grg
 OK     should_warn/exec_005.grg
 WARNED should_warn/hom_001.grg
-WARNED should_warn/hom_002.grg
+ERROR  should_warn/hom_002.grg
 WARNED should_warn/hom_010.grg
 WARNED should_warn/induced_001.grg
 WARNED should_warn/induced_002.grg
@@ -587,10 +587,10 @@ ERROR  should_fail/exec_034.grg
 ERROR  should_fail/hom_002.grg
 ERROR  should_fail/hom_003.grg
 ERROR  should_fail/hom_004.grg
-WARNED should_fail/hom_ret_001.grg
-WARNED should_fail/hom_ret_002.grg
-WARNED should_fail/hom_ret_003.grg
-WARNED should_fail/hom_ret_004.grg
+ERROR  should_fail/hom_ret_001.grg
+ERROR  should_fail/hom_ret_002.grg
+ERROR  should_fail/hom_ret_003.grg
+ERROR  should_fail/hom_ret_004.grg
 ERROR  should_fail/hom_ret_005.grg
 ERROR  should_fail/hom_ret_006.grg
 ERROR  should_fail/independent_001.grg
@@ -713,7 +713,7 @@ ERROR  should_fail/ret_020.grg
 ERROR  should_fail/ret_021.grg
 ERROR  should_fail/ret_022.grg
 ERROR  should_fail/ret_023.grg
-WARNED should_fail/ret_025.grg
+ERROR  should_fail/ret_025.grg
 OK     should_fail/ret_026.grg
 OK     should_fail/ret_027.grg
 ERROR  should_fail/ret_028.grg
