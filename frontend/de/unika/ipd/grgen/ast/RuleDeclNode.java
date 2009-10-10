@@ -251,7 +251,7 @@ public class RuleDeclNode extends TestDeclNode {
 	}
 
 	/**
-	 * Raises a warning if a "delete-return-conflict" for potentially
+	 * Raises an error if a "delete-return-conflict" for potentially
 	 * homomorphic nodes is detected or---more precisely---if a node is
 	 * returned such that homomorphic matching is allowed with a deleted node.
 	 */
