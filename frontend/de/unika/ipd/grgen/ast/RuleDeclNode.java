@@ -258,8 +258,11 @@ public class RuleDeclNode extends TestDeclNode {
 	private boolean checkHomDeleteReturnConflict() {
 		assert isResolved();
 
-		Collection<DeclNode> maybeDeleted = right.getMaybeDeleted(pattern);
 		Collection<ExprNode> retSet = right.graph.returns.getChildren();
+
+		// Consider only elements that may (but not must) be deleted
+		Collection<DeclNode> maybeDeleted = right.getMaybeDeleted(pattern);
+		maybeDeleted.removeAll(getDelete());
 
 		// for each returned element check whether it may be deleted
 		HashSet<BaseNode> alreadyReported = new HashSet<BaseNode>();
