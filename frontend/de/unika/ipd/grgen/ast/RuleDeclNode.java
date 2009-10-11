@@ -130,6 +130,41 @@ public class RuleDeclNode extends TestDeclNode {
 		return valid;
 	}
 
+	/**
+	 * Check that only graph elements are returned, that are not retyped.
+	 *
+	 * The check also consider the case that a node is returned and homomorphic
+	 * matching is allowed with a retyped node.
+	 */
+	private boolean checkReturnedElemsNotRetyped() {
+		assert isResolved();
+
+		boolean valid = true;
+
+		for (ExprNode expr : right.graph.returns.getChildren()) {
+			if(!(expr instanceof DeclExprNode)) continue;
+
+			ConstraintDeclNode retElem = ((DeclExprNode) expr).getConstraintDeclNode();
+			if(retElem == null) continue;
+
+			if (retElem.getRetypedElement() != null) {
+				valid = false;
+
+				expr.reportError("The retyped " + retElem.getUseString()
+						+ " \"" + retElem.ident + "\" must not be returned");
+			}
+			else if(retElem.maybeRetyped) {
+				valid = false;
+
+				expr.reportError("Returning \"" + retElem.ident
+						+ "\" that may be retyped"
+						+ ", possibly it's homomorphic with a retyped "
+						+ retElem.getUseString());
+			}
+		}
+		return valid;
+	}
+
 
 	/**
 	 * Check that exec parameters are not deleted.
@@ -373,7 +408,8 @@ public class RuleDeclNode extends TestDeclNode {
 
 		return leftHandGraphsOk & checkRhsReuse(left, this.right)
 				& noReturnInPatternOk & abstr & checkReturnedElemsNotDeleted()
-				& checkExecParamsNotDeleted() & checkReturns(right.returns);
+				& checkReturnedElemsNotRetyped() & checkExecParamsNotDeleted()
+				& checkReturns(right.returns);
 	}
 
 	/**
