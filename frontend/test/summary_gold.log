@@ -556,7 +556,7 @@ ERROR  should_fail/exec_004.grg
 ERROR  should_fail/exec_005.grg
 ERROR  should_fail/exec_006.grg
 WARNED should_fail/exec_007.grg
-OK     should_fail/exec_008.grg
+ERROR  should_fail/exec_008.grg
 ERROR  should_fail/exec_009.grg
 ERROR  should_fail/exec_010.grg
 ERROR  should_fail/exec_011.grg
