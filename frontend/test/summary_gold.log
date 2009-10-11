@@ -639,7 +639,7 @@ ERROR  should_fail/map_007.grg
 ERROR  should_fail/map_008.grg
 ERROR  should_fail/map_008b.grg
 ERROR  should_fail/map_009.grg
-ABEND  should_fail/map_010.grg
+ERROR  should_fail/map_010.grg
 ERROR  should_fail/map_011.grg
 ERROR  should_fail/map_012.grg
 ERROR  should_fail/mapset_001.grg
