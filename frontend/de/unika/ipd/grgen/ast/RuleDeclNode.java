@@ -131,11 +131,20 @@ public class RuleDeclNode extends TestDeclNode {
 	}
 
 
-	/** Check that only graph elements are returned, that are not deleted. */
-	private boolean checkExecParamsNotDeleted(PatternGraphNode left, GraphNode right) {
-		boolean res = true;
-		Set<DeclNode> dels = getDelete();
-		for (BaseNode x : right.imperativeStmts.getChildren()) {
+	/**
+	 * Check that exec parameters are not deleted.
+	 *
+	 * The check consider the case that parameters are deleted due to
+	 * homomorphic matching.
+	 */
+	private boolean checkExecParamsNotDeleted() {
+		assert isResolved();
+
+		boolean valid = true;
+		Set<DeclNode> delete = right.getDelete(pattern);
+		Collection<DeclNode> maybeDeleted = right.getMaybeDeleted(pattern);
+
+		for (BaseNode x : right.graph.imperativeStmts.getChildren()) {
 			if(!(x instanceof ExecNode)) continue;
 
 			ExecNode exec = (ExecNode) x;
@@ -144,15 +153,33 @@ public class RuleDeclNode extends TestDeclNode {
 					if(!(arg instanceof DeclExprNode)) continue;
 
 					ConstraintDeclNode declNode = ((DeclExprNode) arg).getConstraintDeclNode();
-					if(declNode != null && dels.contains(declNode)) {
-						callAction.reportError("The deleted " + declNode.getUseString()
-								+ " \"" + declNode.ident + "\" must not be passed to an exec statement");
-						res = false;
+					if(declNode != null) {
+						if(delete.contains(declNode)) {
+							arg.reportError("The deleted " + declNode.getUseString()
+									+ " \"" + declNode.ident + "\" must not be passed to an exec statement");
+							valid = false;
+						}
+						else if (maybeDeleted.contains(declNode)) {
+							declNode.maybeDeleted = true;
+
+							if(!declNode.getIdentNode().getAnnotations().isFlagSet("maybeDeleted")) {
+								valid = false;
+
+								String errorMessage = "Parameter \"" + declNode.ident + "\" of exec statement may be deleted"
+										+ ", possibly it's homomorphic with a deleted " + declNode.getUseString();
+
+								if(declNode instanceof EdgeDeclNode) {
+									errorMessage += " or \"" + declNode.ident + "\" is a dangling " + declNode.getUseString()
+											+ " and a deleted node exists";
+								}
+								arg.reportError(errorMessage);
+							}
+						}
 					}
 				}
 			}
 		}
-		return res;
+		return valid;
 	}
 
 	/**
@@ -346,8 +373,7 @@ public class RuleDeclNode extends TestDeclNode {
 
 		return leftHandGraphsOk & checkRhsReuse(left, this.right)
 				& noReturnInPatternOk & abstr & checkReturnedElemsNotDeleted()
-				& checkExecParamsNotDeleted(left, right)
-				& checkReturns(right.returns);
+				& checkExecParamsNotDeleted() & checkReturns(right.returns);
 	}
 
 	/**
