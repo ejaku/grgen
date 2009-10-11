@@ -10,6 +10,8 @@
  */
 package de.unika.ipd.grgen.parser.antlr;
 
+import org.antlr.runtime.CharStream;
+
 /**
  * Coordinates more suitable for an ANTLR parser.
  */
@@ -23,7 +25,11 @@ public class Coords extends de.unika.ipd.grgen.parser.Coords {
 		if(tok!=null) {
 			line = tok.getLine();
 			col = tok.getCharPositionInLine();
-			filename = tok.getInputStream().getSourceName();
+
+			CharStream stream = tok.getInputStream();
+			if (stream != null) {
+				filename = tok.getInputStream().getSourceName();
+			}
 		}
 	}
 
