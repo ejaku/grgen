@@ -85,26 +85,49 @@ public class RuleDeclNode extends TestDeclNode {
 		return right.getDelete(pattern);
 	}
 
-	/** Check that only graph elements are returned, that are not deleted. */
-	private boolean checkReturnedElemsNotDeleted(PatternGraphNode left, RhsDeclNode right) {
+	/**
+	 * Check that only graph elements are returned, that are not deleted.
+	 *
+	 * The check also consider the case that a node is returned and homomorphic
+	 * matching is allowed with a deleted node.
+	 */
+	private boolean checkReturnedElemsNotDeleted() {
 		assert isResolved();
 
-		boolean res = true;
-		Set<DeclNode> delete = right.getDelete(left);
+		boolean valid = true;
+		Set<DeclNode> delete = right.getDelete(pattern);
+		Collection<DeclNode> maybeDeleted = right.getMaybeDeleted(pattern);
 
 		for (ExprNode expr : right.graph.returns.getChildren()) {
 			if(!(expr instanceof DeclExprNode)) continue;
+
 			ConstraintDeclNode retElem = ((DeclExprNode) expr).getConstraintDeclNode();
 			if(retElem == null) continue;
 
 			if (delete.contains(retElem)) {
-				res = false;
+				valid = false;
 
-				ident.reportError("The deleted " + retElem.getUseString()
+				expr.reportError("The deleted " + retElem.getUseString()
 						+ " \"" + retElem.ident + "\" must not be returned");
 			}
+			else if(maybeDeleted.contains(retElem)) {
+				retElem.maybeDeleted = true;
+
+				if(!retElem.getIdentNode().getAnnotations().isFlagSet("maybeDeleted")) {
+					valid = false;
+
+					String errorMessage = "Returning \"" + retElem.ident + "\" that may be deleted"
+							+ ", possibly it's homomorphic with a deleted " + retElem.getUseString();
+
+					if(retElem instanceof EdgeDeclNode) {
+						errorMessage += " or \"" + retElem.ident + "\" is a dangling " + retElem.getUseString()
+								+ " and a deleted node exists";
+					}
+					expr.reportError(errorMessage);
+				}
+			}
 		}
-		return res;
+		return valid;
 	}
 
 
@@ -250,45 +273,6 @@ public class RuleDeclNode extends TestDeclNode {
 		return res;
 	}
 
-	/**
-	 * Raises an error if a "delete-return-conflict" for potentially
-	 * homomorphic nodes is detected or---more precisely---if a node is
-	 * returned such that homomorphic matching is allowed with a deleted node.
-	 */
-	private boolean checkHomDeleteReturnConflict() {
-		assert isResolved();
-
-		Collection<ExprNode> retSet = right.graph.returns.getChildren();
-
-		// Consider only elements that may (but not must) be deleted
-		Collection<DeclNode> maybeDeleted = right.getMaybeDeleted(pattern);
-		maybeDeleted.removeAll(getDelete());
-
-		// for each returned element check whether it may be deleted
-		HashSet<BaseNode> alreadyReported = new HashSet<BaseNode>();
-		for(ExprNode expr : retSet) {
-			if(!(expr instanceof DeclExprNode)) continue;
-			ConstraintDeclNode retElem = ((DeclExprNode) expr).getConstraintDeclNode();
-			if(retElem == null) continue;
-
-			if(maybeDeleted.contains(retElem)) {
-				retElem.maybeDeleted = true;
-				if(!retElem.getIdentNode().getAnnotations().isFlagSet("maybeDeleted")) {
-					alreadyReported.add(retElem);
-					String errorMessage = "Returning \"" + retElem.ident + "\" that may be deleted"
-							+ ", possibly it's homomorphic with a deleted " + retElem.getUseString();
-					if(retElem instanceof EdgeDeclNode) {
-						errorMessage += " or \"" + retElem.ident + "\" is a dangling " + retElem.getUseString()
-								+ " and a deleted node exists";
-					}
-					retElem.reportError(errorMessage);
-				}
-			}
-		}
-
-		return alreadyReported.isEmpty();
-	}
-
 	private void calcMaybeRetyped() {
 		for(Set<ConstraintDeclNode> homSet : pattern.getHoms()) {
 			boolean containsRetypedElem = false;
@@ -330,17 +314,17 @@ public class RuleDeclNode extends TestDeclNode {
 		// named replace/modify parts are only allowed in subpatterns
 		String ruleName = ident.toString();
 		if (!right.nameOfGraph.equals(ruleName)) {
-			error.error(this.right.getCoords(), "Named replace/modify parts in rules are not allowed");
+			this.right.reportError("Named replace/modify parts in rules are not allowed");
 		}
 
 		// check if parameters only exists for subpatterns
 		if (right.params.getChildren().size() > 0) {
-			error.error(this.right.getCoords(), "Parameters for the replace/modify part are only allowed in subpatterns");
+			this.right.reportError("Parameters for the replace/modify part are only allowed in subpatterns");
 		}
 
 		boolean noReturnInPatternOk = true;
 		if(pattern.returns.children.size() > 0) {
-			error.error(getCoords(), "No return statements in pattern parts of rules allowed");
+			reportError("No return statements in pattern parts of rules allowed");
 			noReturnInPatternOk = false;
 		}
 
@@ -360,9 +344,8 @@ public class RuleDeclNode extends TestDeclNode {
 			}
 		}
 
-		return leftHandGraphsOk & checkHomDeleteReturnConflict()
-				& checkRhsReuse(left, this.right) & noReturnInPatternOk & abstr
-				& checkReturnedElemsNotDeleted(left, this.right)
+		return leftHandGraphsOk & checkRhsReuse(left, this.right)
+				& noReturnInPatternOk & abstr & checkReturnedElemsNotDeleted()
 				& checkExecParamsNotDeleted(left, right)
 				& checkReturns(right.returns);
 	}
