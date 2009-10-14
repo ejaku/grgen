@@ -6,6 +6,7 @@
 
 using System;
 using System.Collections.Generic;
+using System.Collections;
 
 namespace de.unika.ipd.grGen.libGr
 {
@@ -14,10 +15,10 @@ namespace de.unika.ipd.grGen.libGr
     /// </summary>
     public enum SequenceType
     {
-        LazyOr, LazyAnd, StrictOr, Xor, StrictAnd, Not, Min, MinMax,
+        ThenLeft, ThenRight, LazyOr, LazyAnd, StrictOr, Xor, StrictAnd, Not, Min, MinMax,
         Rule, RuleAll, Def, True, False, VarPredicate,
         AssignVarToVar, AssignElemToVar, AssignSequenceResultToVar,
-        Transaction
+        Transaction, Foreach, Add, Rem
     }
 
     /// <summary>
@@ -75,6 +76,7 @@ namespace de.unika.ipd.grGen.libGr
         /// <summary>
         /// The precedence of this operator. Zero is the highest priority, int.MaxValue the lowest.
         /// Used to add needed parentheses for printing sequences
+        /// TODO: WTF? das ist im Parser genau umgekehrt implementiert!
         /// </summary>
         public abstract int Precedence { get; }
 
@@ -148,6 +150,54 @@ namespace de.unika.ipd.grGen.libGr
         }
     }
 
+    public class SequenceLeft : SequenceBinary
+    {
+        public SequenceLeft(Sequence left, Sequence right, bool random)
+            : base(left, right, random, SequenceType.ThenLeft)
+        {
+        }
+
+        protected override bool ApplyImpl(IGraph graph)
+        {
+            bool res;
+            if (Randomize && randomGenerator.Next(2) == 1) {
+                Right.Apply(graph);
+                res = Left.Apply(graph);
+            } else {
+                res = Left.Apply(graph);
+                Right.Apply(graph);
+            }
+            return res;
+        }
+
+        public override int Precedence { get { return 0; } }
+        public override string Symbol { get { return "<<"; } }
+    }
+
+    public class SequenceRight : SequenceBinary
+    {
+        public SequenceRight(Sequence left, Sequence right, bool random)
+            : base(left, right, random, SequenceType.ThenRight)
+        {
+        }
+
+        protected override bool ApplyImpl(IGraph graph)
+        {
+            bool res;
+            if (Randomize && randomGenerator.Next(2) == 1) {
+                res = Right.Apply(graph);
+                Left.Apply(graph);
+            } else {
+                Left.Apply(graph);
+                res = Right.Apply(graph);
+            }
+            return res;
+        }
+
+        public override int Precedence { get { return 0; } }
+        public override string Symbol { get { return ">>"; } }
+    }
+
     public class SequenceLazyOr : SequenceBinary
     {
         public SequenceLazyOr(Sequence left, Sequence right, bool random)
@@ -163,7 +213,7 @@ namespace de.unika.ipd.grGen.libGr
                 return Left.Apply(graph) || Right.Apply(graph);
         }
 
-        public override int Precedence { get { return 0; } }
+        public override int Precedence { get { return 1; } }
         public override string Symbol { get { return "||"; } }
     }
 
@@ -182,7 +232,7 @@ namespace de.unika.ipd.grGen.libGr
                 return Left.Apply(graph) && Right.Apply(graph);
         }
 
-        public override int Precedence { get { return 1; } }
+        public override int Precedence { get { return 2; } }
         public override string Symbol { get { return "&&"; } }
     }
 
@@ -201,7 +251,7 @@ namespace de.unika.ipd.grGen.libGr
                 return Left.Apply(graph) | Right.Apply(graph);
         }
 
-        public override int Precedence { get { return 2; } }
+        public override int Precedence { get { return 3; } }
         public override string Symbol { get { return "|"; } }
     }
 
@@ -220,7 +270,7 @@ namespace de.unika.ipd.grGen.libGr
                 return Left.Apply(graph) ^ Right.Apply(graph);
         }
 
-        public override int Precedence { get { return 3; } }
+        public override int Precedence { get { return 4; } }
         public override string Symbol { get { return "^"; } }
     }
 
@@ -239,7 +289,7 @@ namespace de.unika.ipd.grGen.libGr
                 return Left.Apply(graph) & Right.Apply(graph);
         }
 
-        public override int Precedence { get { return 4; } }
+        public override int Precedence { get { return 5; } }
         public override string Symbol { get { return "&"; } }
     }
 
@@ -252,7 +302,7 @@ namespace de.unika.ipd.grGen.libGr
             return !Seq.Apply(graph);
         }
 
-        public override int Precedence { get { return 5; } }
+        public override int Precedence { get { return 6; } }
         public override string Symbol { get { return "!"; } }
     }
 
@@ -273,7 +323,7 @@ namespace de.unika.ipd.grGen.libGr
             return i >= Min;
         }
 
-        public override int Precedence { get { return 6; } }
+        public override int Precedence { get { return 7; } }
         public override string Symbol { get { return "[" + Min + ":*]"; } }
     }
 
@@ -297,7 +347,7 @@ namespace de.unika.ipd.grGen.libGr
             return i >= Min;
         }
 
-        public override int Precedence { get { return 6; } }
+        public override int Precedence { get { return 7; } }
         public override string Symbol { get { return "[" + Min + ":" + Max + "]"; } }
     }
 
@@ -319,7 +369,7 @@ namespace de.unika.ipd.grGen.libGr
         }
 
         public override IEnumerable<Sequence> Children { get { yield break; } }
-        public override int Precedence { get { return 7; } }
+        public override int Precedence { get { return 8; } }
 
         protected String GetRuleString()
         {
@@ -469,7 +519,7 @@ namespace de.unika.ipd.grGen.libGr
         }
 
         public override IEnumerable<Sequence> Children { get { yield break; } }
-        public override int Precedence { get { return 7; } }
+        public override int Precedence { get { return 8; } }
         public override string Symbol { get { return "def(" + String.Join(", ", DefVars) + ")"; } }
     }
 
@@ -482,7 +532,7 @@ namespace de.unika.ipd.grGen.libGr
 
         protected override bool ApplyImpl(IGraph graph) { return true; }
         public override IEnumerable<Sequence> Children { get { yield break; } }
-        public override int Precedence { get { return 7; } }
+        public override int Precedence { get { return 8; } }
         public override string Symbol { get { return Special ? "%true" : "true"; } }
     }
 
@@ -495,7 +545,7 @@ namespace de.unika.ipd.grGen.libGr
 
         protected override bool ApplyImpl(IGraph graph) { return false; }
         public override IEnumerable<Sequence> Children { get { yield break; } }
-        public override int Precedence { get { return 7; } }
+        public override int Precedence { get { return 8; } }
         public override string Symbol { get { return Special ? "%false" : "false"; } }
     }
 
@@ -517,7 +567,7 @@ namespace de.unika.ipd.grGen.libGr
             throw new InvalidOperationException("The variable '" + PredicateVar + "' is not boolean!");
         }
         public override IEnumerable<Sequence> Children { get { yield break; } }
-        public override int Precedence { get { return 7; } }
+        public override int Precedence { get { return 8; } }
         public override string Symbol { get { return PredicateVar; } }
     }
 
@@ -540,7 +590,7 @@ namespace de.unika.ipd.grGen.libGr
         }
 
         public override IEnumerable<Sequence> Children { get { yield break; } }
-        public override int Precedence { get { return 7; } }
+        public override int Precedence { get { return 8; } }
         public override string Symbol { get { return DestVar + "=" + SourceVar; } }
     }
 
@@ -563,7 +613,7 @@ namespace de.unika.ipd.grGen.libGr
         }
 
         public override IEnumerable<Sequence> Children { get { yield break; } }
-        public override int Precedence { get { return 7; } }
+        public override int Precedence { get { return 8; } }
         public override string Symbol { get { return DestVar + "=[<someelem>]"; } }
     }
 
@@ -587,7 +637,7 @@ namespace de.unika.ipd.grGen.libGr
         }
 
         public override IEnumerable<Sequence> Children { get { yield return Seq; } }
-        public override int Precedence { get { return 7; } }
+        public override int Precedence { get { return 8; } }
         public override string Symbol { get { return DestVar + "="; } }
     }
 
@@ -616,7 +666,96 @@ namespace de.unika.ipd.grGen.libGr
             return res;
         }
 
-        public override int Precedence { get { return 7; } }
+        public override int Precedence { get { return 8; } }
         public override string Symbol { get { return "<>"; } }
+    }
+
+    public class SequenceForeach : SequenceUnary
+    {
+        String Var;
+        String VarDst;
+        String Setmap;
+
+        public SequenceForeach(String var, String varDst, String setmap, Sequence seq)
+            : base(seq, SequenceType.Foreach)
+        {
+            Var = var;
+            VarDst = varDst;
+            Setmap = setmap;
+        }
+
+        protected override bool ApplyImpl(IGraph graph)
+        {
+            IDictionary setmap = (IDictionary)graph.GetVariableValue(Setmap);
+            bool res = true;
+            foreach(DictionaryEntry entry in setmap)
+            {
+                graph.SetVariableValue(Var, entry.Key);
+                if(VarDst != null) {
+                    graph.SetVariableValue(VarDst, entry.Value);
+                }
+                res &= Seq.Apply(graph);
+            }
+            return res;
+        }
+
+        public override int Precedence { get { return 8; } }
+        public override string Symbol { get { return "foreach "+Var+(VarDst!=null?"->"+VarDst:"")+" in "+Setmap; } }
+    }
+
+    public class SequenceAdd : Sequence
+    {
+        String Setmap;
+        String Var;
+        String VarDst;
+
+        public SequenceAdd(String setmap, String var, String varDst)
+            : base(SequenceType.Add)
+        {
+            Setmap = setmap;
+            Var = var;
+            VarDst = varDst;
+        }
+
+        protected override bool ApplyImpl(IGraph graph)
+        {
+            IDictionary setmap = (IDictionary)graph.GetVariableValue(Setmap);
+            if(setmap.Contains(graph.GetVariableValue(Var))) {
+                setmap[graph.GetVariableValue(Var)] = VarDst == null ? null : graph.GetVariableValue(VarDst);
+                return false;
+            } else {
+                setmap.Add(graph.GetVariableValue(Var), VarDst == null ? null : graph.GetVariableValue(VarDst));
+                return true;
+            }
+        }
+
+        public override IEnumerable<Sequence> Children { get { yield break; } }
+        public override int Precedence { get { return 8; } }
+        public override string Symbol { get { return Setmap+".add("+Var+(VarDst!=null?"->"+VarDst:"")+")"; } }
+    }
+
+    public class SequenceRem : Sequence
+    {
+        String Setmap;
+        String Var;
+
+        public SequenceRem(String setmap, String var)
+            : base(SequenceType.Rem)
+        {
+            Setmap = setmap;
+            Var = var;
+        }
+
+        protected override bool ApplyImpl(IGraph graph)
+        {
+            IDictionary setmap = (IDictionary)graph.GetVariableValue(Setmap);
+            bool res = setmap.Contains(graph.GetVariableValue(Var));
+            setmap.Remove(graph.GetVariableValue(Var));
+            return res;
+        }
+
+        public override IEnumerable<Sequence> Children { get { yield break; } }
+        public override int Precedence { get { return 8; } }
+        public override string Symbol { get { return Setmap+".add("+Var+")"; } }
     }
 }

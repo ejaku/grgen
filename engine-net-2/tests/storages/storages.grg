@@ -1,0 +1,55 @@
+using storages;
+
+rule addNode : (Node)
+{
+	modify {
+		n:Node;
+		return(n);
+	}
+}
+
+rule addReflexiveEdge(n:Node) : (Edge)
+{
+	modify {
+		n -e:Edge-> n;
+		return(e);
+	}
+}
+
+rule addNodeNN : (NN)
+{
+	modify {
+		n:NN;
+		return(n);
+	}
+}
+
+rule addReflexiveEdgeEE(n:Node) : (EE)
+{
+	modify {
+		n -e:EE-> n;
+		return(e);
+	}
+}
+
+exact test exactlyOneReflexiveEdge(n:Node)
+{
+	n --> n;
+}
+
+test isReflexiveEdge(-e:Edge->)
+{
+	n:Node -e-> n;
+}
+
+rule remNode(n:Node)
+{
+	replace {
+	}
+}
+
+rule remEdge(-e:Edge->)
+{
+	replace {
+	}
+}

@@ -665,6 +665,17 @@ namespace de.unika.ipd.grGen.libGr
         public override bool IsNodeType { [DebuggerStepThrough] get { return true; } }
 
         /// <summary>
+        /// This NodeType describes nodes whose real .NET interface type is named as returned (fully qualified).
+        /// </summary>
+        public abstract String NodeInterfaceName { get; }
+
+        /// <summary>
+        /// This NodeType describes nodes whose real .NET class type is named as returned (fully qualified).
+        /// It might be null in case this type IsAbstract.
+        /// </summary>
+        public abstract String NodeClassName { get; }
+
+        /// <summary>
         /// Creates an INode object according to this type.
         /// </summary>
         /// <returns>The created INode object.</returns>
@@ -744,6 +755,17 @@ namespace de.unika.ipd.grGen.libGr
         /// Always returns false.
         /// </summary>
         public override bool IsNodeType { [DebuggerStepThrough] get { return false; } }
+
+        /// <summary>
+        /// This EdgeType describes edges whose real .NET interface type is named as returned (fully qualified).
+        /// </summary>
+        public abstract String EdgeInterfaceName { get; }
+
+        /// <summary>
+        /// This EdgeType describes edges whose real .NET class type is named as returned (fully qualified).
+        /// It might be null in case this type IsAbstract.
+        /// </summary>
+        public abstract String EdgeClassName { get; }
 
         /// <summary>
         /// Specifies the directedness of this edge type.

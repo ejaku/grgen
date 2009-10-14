@@ -11,7 +11,7 @@ map n.m remove "Hallo"
 
 xgrs getMapValue("Hallo") & getMapValue("Handtuch") & useMapVar(v)
 
-m=new map string int
+m=new map<string, int>
 map m add "Hallo" 80
 xgrs useMapVar(m)
 

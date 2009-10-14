@@ -7,6 +7,7 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Reflection;
 
 namespace de.unika.ipd.grGen.libGr
 {
@@ -59,6 +60,30 @@ namespace de.unika.ipd.grGen.libGr
             {
                 if (enumAttrType.Name == typeName)
                     return enumAttrType.EnumType;
+            }
+
+            Assembly assembly = Assembly.GetAssembly(graph.Model.GetType());
+
+            // check node and edge types
+            foreach (NodeType nodeType in graph.Model.NodeModel.Types)
+            {
+                if (nodeType.Name == typeName)
+                {
+                    Type type = Type.GetType(nodeType.NodeInterfaceName); // available in libGr (INode)?
+                    if (type != null) return type;
+                    type = Type.GetType(nodeType.NodeInterfaceName + "," + assembly.FullName); // no -> search model assembly
+                    return type;
+                }
+            }
+            foreach (EdgeType edgeType in graph.Model.EdgeModel.Types)
+            {
+                if (edgeType.Name == typeName)
+                {
+                    Type type = Type.GetType(edgeType.EdgeInterfaceName); // available in libGr (IEdge)?
+                    if (type != null) return type;
+                    type = Type.GetType(edgeType.EdgeInterfaceName + "," + assembly.FullName); // no -> search model assembly
+                    return type;
+                }
             }
 
             return null;

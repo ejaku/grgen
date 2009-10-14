@@ -1,0 +1,44 @@
+new graph storages/storages
+
+st1 = new set<Node>
+xgrs ( (n)=addNode ;-> st1.add(n) )[5]
+set st1 size
+
+st2 = new set<EE>
+xgrs foreach n in st1 do (e)=addReflexiveEdgeEE(n) ;-> st2.add(e) od
+set st2 size
+show num nodes
+show num edges
+
+xgrs foreach e in st2 do isReflexiveEdge(e) od
+xgrs foreach n in st1 do exactlyOneReflexiveEdge(n) od
+
+xgrs foreach e in st2 do remEdge(e) od
+set st2 size
+show num nodes
+show num edges
+
+st3 = new set<EE>
+xgrs foreach e in st2 do st3.add(e) od
+set st3 size
+
+set st3 size
+xgrs st3.add(e) && addNode
+show num nodes
+set st3 size
+
+xgrs foreach e in st3 do st2.rem(e) od
+set st2 size
+show num nodes
+show num edges
+set st3 size
+
+set st2 size
+xgrs st2.rem(e) && addNode
+show num nodes
+set st2 size
+xgrs foreach n in st3 do st2.rem(n) od && addNode
+show num nodes
+set st2 size
+
+quit

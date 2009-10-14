@@ -56,6 +56,7 @@
             <summary>
             The precedence of this operator. Zero is the highest priority, int.MaxValue the lowest.
             Used to add needed parentheses for printing sequences
+            TODO: WTF? das ist im Parser genau umgekehrt implementiert!
             </summary>
         </member>
         <member name="P:de.unika.ipd.grGen.libGr.Sequence.Symbol">
@@ -3028,6 +3029,17 @@
             Always returns true.
             </summary>
         </member>
+        <member name="P:de.unika.ipd.grGen.libGr.NodeType.NodeInterfaceName">
+            <summary>
+            This NodeType describes nodes whose real .NET interface type is named as returned (fully qualified).
+            </summary>
+        </member>
+        <member name="P:de.unika.ipd.grGen.libGr.NodeType.NodeClassName">
+            <summary>
+            This NodeType describes nodes whose real .NET class type is named as returned (fully qualified).
+            It might be null in case this type IsAbstract.
+            </summary>
+        </member>
         <member name="P:de.unika.ipd.grGen.libGr.NodeType.SubOrSameTypes">
             <summary>
             Array containing this type first and following all sub types
@@ -3114,6 +3126,17 @@
         <member name="P:de.unika.ipd.grGen.libGr.EdgeType.IsNodeType">
             <summary>
             Always returns false.
+            </summary>
+        </member>
+        <member name="P:de.unika.ipd.grGen.libGr.EdgeType.EdgeInterfaceName">
+            <summary>
+            This EdgeType describes edges whose real .NET interface type is named as returned (fully qualified).
+            </summary>
+        </member>
+        <member name="P:de.unika.ipd.grGen.libGr.EdgeType.EdgeClassName">
+            <summary>
+            This EdgeType describes edges whose real .NET class type is named as returned (fully qualified).
+            It might be null in case this type IsAbstract.
             </summary>
         </member>
         <member name="P:de.unika.ipd.grGen.libGr.EdgeType.Directedness">

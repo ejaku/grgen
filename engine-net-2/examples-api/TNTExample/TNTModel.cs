@@ -1,6 +1,6 @@
 // This file has been generated automatically by GrGen.
 // Do not modify this file! Any changes will be lost!
-// Generated from "..\..\tests\TNT\TNT.grg" on Wed Sep 09 22:20:15 GMT+01:00 2009
+// Generated from "..\..\tests\TNT\TNT.grg" on Tue Oct 13 22:42:02 GMT+01:00 2009
 
 using System;
 using System.Collections.Generic;
@@ -112,6 +112,8 @@ namespace de.unika.ipd.grGen.Model_TNT
 		{
 		}
 		public override string Name { get { return "Node"; } }
+		public override String NodeInterfaceName { get { return "de.unika.ipd.grGen.libGr.INode"; } }
+		public override String NodeClassName { get { return "de.unika.ipd.grGen.Model_TNT.@Node"; } }
 		public override GRGEN_LIBGR.INode CreateNode()
 		{
 			return new GRGEN_MODEL.@Node();
@@ -229,6 +231,8 @@ namespace de.unika.ipd.grGen.Model_TNT
 		{
 		}
 		public override string Name { get { return "C"; } }
+		public override String NodeInterfaceName { get { return "de.unika.ipd.grGen.Model_TNT.IC"; } }
+		public override String NodeClassName { get { return "de.unika.ipd.grGen.Model_TNT.@C"; } }
 		public override GRGEN_LIBGR.INode CreateNode()
 		{
 			return new GRGEN_MODEL.@C();
@@ -346,6 +350,8 @@ namespace de.unika.ipd.grGen.Model_TNT
 		{
 		}
 		public override string Name { get { return "H"; } }
+		public override String NodeInterfaceName { get { return "de.unika.ipd.grGen.Model_TNT.IH"; } }
+		public override String NodeClassName { get { return "de.unika.ipd.grGen.Model_TNT.@H"; } }
 		public override GRGEN_LIBGR.INode CreateNode()
 		{
 			return new GRGEN_MODEL.@H();
@@ -463,6 +469,8 @@ namespace de.unika.ipd.grGen.Model_TNT
 		{
 		}
 		public override string Name { get { return "O"; } }
+		public override String NodeInterfaceName { get { return "de.unika.ipd.grGen.Model_TNT.IO"; } }
+		public override String NodeClassName { get { return "de.unika.ipd.grGen.Model_TNT.@O"; } }
 		public override GRGEN_LIBGR.INode CreateNode()
 		{
 			return new GRGEN_MODEL.@O();
@@ -580,6 +588,8 @@ namespace de.unika.ipd.grGen.Model_TNT
 		{
 		}
 		public override string Name { get { return "N"; } }
+		public override String NodeInterfaceName { get { return "de.unika.ipd.grGen.Model_TNT.IN"; } }
+		public override String NodeClassName { get { return "de.unika.ipd.grGen.Model_TNT.@N"; } }
 		public override GRGEN_LIBGR.INode CreateNode()
 		{
 			return new GRGEN_MODEL.@N();
@@ -697,6 +707,8 @@ namespace de.unika.ipd.grGen.Model_TNT
 		{
 		}
 		public override string Name { get { return "P"; } }
+		public override String NodeInterfaceName { get { return "de.unika.ipd.grGen.Model_TNT.IP"; } }
+		public override String NodeClassName { get { return "de.unika.ipd.grGen.Model_TNT.@P"; } }
 		public override GRGEN_LIBGR.INode CreateNode()
 		{
 			return new GRGEN_MODEL.@P();
@@ -814,6 +826,8 @@ namespace de.unika.ipd.grGen.Model_TNT
 		{
 		}
 		public override string Name { get { return "S"; } }
+		public override String NodeInterfaceName { get { return "de.unika.ipd.grGen.Model_TNT.IS"; } }
+		public override String NodeClassName { get { return "de.unika.ipd.grGen.Model_TNT.@S"; } }
 		public override GRGEN_LIBGR.INode CreateNode()
 		{
 			return new GRGEN_MODEL.@S();
@@ -1002,6 +1016,8 @@ namespace de.unika.ipd.grGen.Model_TNT
 		{
 		}
 		public override string Name { get { return "AEdge"; } }
+		public override String EdgeInterfaceName { get { return "de.unika.ipd.grGen.libGr.IEdge"; } }
+		public override String EdgeClassName { get { return null; } }
 		public override GRGEN_LIBGR.Directedness Directedness { get { return GRGEN_LIBGR.Directedness.Arbitrary; } }
 		public override GRGEN_LIBGR.IEdge CreateEdge(GRGEN_LIBGR.INode source, GRGEN_LIBGR.INode target)
 		{
@@ -1113,6 +1129,8 @@ namespace de.unika.ipd.grGen.Model_TNT
 		{
 		}
 		public override string Name { get { return "Edge"; } }
+		public override String EdgeInterfaceName { get { return "de.unika.ipd.grGen.libGr.IEdge"; } }
+		public override String EdgeClassName { get { return "de.unika.ipd.grGen.Model_TNT.@Edge"; } }
 		public override GRGEN_LIBGR.Directedness Directedness { get { return GRGEN_LIBGR.Directedness.Directed; } }
 		public override GRGEN_LIBGR.IEdge CreateEdge(GRGEN_LIBGR.INode source, GRGEN_LIBGR.INode target)
 		{
@@ -1225,6 +1243,8 @@ namespace de.unika.ipd.grGen.Model_TNT
 		{
 		}
 		public override string Name { get { return "UEdge"; } }
+		public override String EdgeInterfaceName { get { return "de.unika.ipd.grGen.libGr.IEdge"; } }
+		public override String EdgeClassName { get { return "de.unika.ipd.grGen.Model_TNT.@UEdge"; } }
 		public override GRGEN_LIBGR.Directedness Directedness { get { return GRGEN_LIBGR.Directedness.Undirected; } }
 		public override GRGEN_LIBGR.IEdge CreateEdge(GRGEN_LIBGR.INode source, GRGEN_LIBGR.INode target)
 		{

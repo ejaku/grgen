@@ -1071,6 +1071,8 @@ namespace de.unika.ipd.grGen.libGr
             }
 
             public override string Name { get { return "__VirtualType__"; } }
+            public override String NodeInterfaceName { get { return "de.unika.ipd.grGen.libGr.INode"; } }
+            public override String NodeClassName { get { return "de.unika.ipd.grGen.libGr.VirtualNode"; } }
             public override bool IsA(GrGenType other) { return other is VirtualNodeType; }
             public override bool IsAbstract { get { return true; } }
             public override bool IsConst { get { return true; } }

@@ -100,6 +100,8 @@ PARSER_BEGIN(SequenceParser)
 		{
 			switch(seq.SequenceType)
 			{
+				case SequenceType.ThenLeft:
+				case SequenceType.ThenRight:
 				case SequenceType.LazyOr:
 				case SequenceType.LazyAnd:
 				case SequenceType.StrictOr:
@@ -211,6 +213,12 @@ PARSER_BEGIN(SequenceParser)
 				case SequenceType.AssignElemToVar:
 					// Nothing to be done here
 					break;
+					
+				case SequenceType.Foreach:
+				case SequenceType.Add:
+				case SequenceType.Rem:
+					// todo
+					break;
 
 				default:
 					throw new Exception("Unknown sequence type: " + seq.SequenceType);
@@ -252,6 +260,16 @@ TOKEN: {
 |   < DEF: "def" >
 |   < TRUE: "true" >
 |   < FALSE: "false" >
+|   < FOREACH: "foreach" >
+|   < ARROW: "->" >
+|   < IN: "in" >
+|   < DO: "do" >
+|   < OD: "od" >
+|   < ADD: "add" >
+|   < REM: "rem" >
+|   < DOT: "." >
+|   < THENLEFT: "<-;" >
+|   < THENRIGHT: ";->" >
 }
 
 TOKEN: {
@@ -465,6 +483,33 @@ Sequence RewriteSequence():
 	bool random = false;
 }
 {
+	seq=RewriteSequence1()
+	(
+		LOOKAHEAD(2)
+		(
+			LOOKAHEAD(2)
+			("$" { random = true; })? "<-;" seq2=RewriteSequence()							
+			{
+				seq = new SequenceLeft(seq, seq2, random);
+			}
+		|
+			("$" { random = true; })? ";->" seq2=RewriteSequence()							
+			{
+				seq = new SequenceRight(seq, seq2, random);
+			}
+		)
+	)?
+	{
+		return seq;
+	}
+}
+
+Sequence RewriteSequence1():
+{
+	Sequence seq, seq2;
+	bool random = false;
+}
+{
 	seq=RewriteSequence2()
 	(
 		LOOKAHEAD(2)
@@ -626,6 +671,7 @@ Sequence SimpleSequence():
 	List<String> defParamVars = new List<String>();
 	String toVarName, typeName = null, fromName;
 	IGraphElement elem;
+	String setmap, var, varDst = null;
 }
 {
 	LOOKAHEAD(2) toVarName=Word() (":" typeName=Word())? "="
@@ -680,6 +726,16 @@ Sequence SimpleSequence():
 		}
     )
 |
+	LOOKAHEAD(3) setmap=Variable() "." "add" "(" var=Variable() ("->" varDst=Variable())? ")"
+	{
+        return new SequenceAdd(setmap, var, varDst);
+    }
+|
+	LOOKAHEAD(2) setmap=Variable() "." "rem" "(" var=Variable() ")"
+	{
+        return new SequenceRem(setmap, var);
+    }
+|
 	LOOKAHEAD(RuleLookahead()) seq=Rule()
 	{
 		return seq;
@@ -708,6 +764,11 @@ Sequence SimpleSequence():
     "<" seq=RewriteSequence() ">"
     {
         return new SequenceTransaction(seq);
+    }
+|
+	"foreach" var=Variable() ("->" varDst=Variable())? "in" setmap=Variable() "do" seq=RewriteSequence() "od"
+	{
+        return new SequenceForeach(var, varDst, setmap, seq);
     }
 }
 

@@ -972,7 +972,24 @@ member_loop:
 		genAttributeInit(type);
 		sb.append("\t\t}\n");
 		sb.append("\t\tpublic override string Name { get { return \"" + typeident + "\"; } }\n");
-
+		if(type.getIdent().toString()=="Node") {
+				sb.append("\t\tpublic override string "+formatNodeOrEdge(type)+"InterfaceName { get { return "
+						+ "\"de.unika.ipd.grGen.libGr.INode\"; } }\n");
+		} else if(type.getIdent().toString()=="AEdge" || type.getIdent().toString()=="Edge" || type.getIdent().toString()=="UEdge") {
+				sb.append("\t\tpublic override string "+formatNodeOrEdge(type)+"InterfaceName { get { return "
+						+ "\"de.unika.ipd.grGen.libGr.IEdge\"; } }\n");
+		} else {
+			sb.append("\t\tpublic override string "+formatNodeOrEdge(type)+"InterfaceName { get { return "
+				+ "\"de.unika.ipd.grGen.Model_" + model.getIdent() + "." 
+				+ "I" + getNodeOrEdgeTypePrefix(type) + formatIdentifiable(type) + "\"; } }\n");
+		}
+		if(type.isAbstract()) {
+			sb.append("\t\tpublic override string "+formatNodeOrEdge(type)+"ClassName { get { return null; } }\n");			
+		} else {
+			sb.append("\t\tpublic override string "+formatNodeOrEdge(type)+"ClassName { get { return \"de.unika.ipd.grGen.Model_"
+					+ model.getIdent() + "." + formatElementClassName(type) + "\"; } }\n");
+		}
+		
 		if(isNode) {
 			sb.append("\t\tpublic override GRGEN_LIBGR.INode CreateNode()\n"
 					+ "\t\t{\n");

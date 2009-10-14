@@ -60,7 +60,7 @@ n.m
 
 xgrs useSetVar(v)
 
-m=new set string
+m=new set<string>
 set m add "Hallo"
 xgrs useSetVar(m)
 
