@@ -2,8 +2,8 @@
 # build the grgen-tool, grrr
 #
 PARSER_DIR = de/unika/ipd/grgen/parser/antlr
-ANTLR_JAR  = $(PWD)/jars/antlr-3.1.jar
-ANTLR_RUNTIME_JAR = $(PWD)/jars/antlr-runtime-3.1.jar
+ANTLR_JAR  = $(PWD)/jars/antlr-3.2.jar
+ANTLR_RUNTIME_JAR = $(PWD)/jars/antlr-runtime-3.2.jar
 JARGS_JAR  = $(PWD)/jars/jargs.jar
 
 ANTLR = java -cp $(ANTLR_JAR) org.antlr.Tool

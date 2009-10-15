@@ -1085,34 +1085,25 @@ typeUnaryExpr returns [ TypeExprNode res = null ]
 //////////////////////////////////////////
 
 
-// Due to a bug in ANTLR it is not possible to use the obvious "xgrs3 ( (DOLLAR)? LAND xgrs2 )?"
 xgrs[ExecNode xg]
-/*
-	: xgrs2 ( DOLLAR LOR xgrs | LOR xgrs | )
-*/
-	: xgrs6[xg] (	DOLLAR (LOR {xg.append("||");} |LAND {xg.append("&&");} |BOR {xg.append("|");} |BXOR {xg.append("^");} |BAND {xg.append("&");} ) xgrs[xg]
-	        		|      (LOR {xg.append("||");} |LAND {xg.append("&&");} |BOR {xg.append("|");} |BXOR {xg.append("^");} |BAND {xg.append("&");} ) xgrs[xg]
-	        		|
-	            )
+	: xgrs2[xg] ( DOLLAR LOR {xg.append("||");} xgrs[xg] | LOR {xg.append("||");} xgrs[xg] | )
 	;
 
-/*
-xgrs2
-	: xgrs3 ( DOLLAR LAND xgrs2 | LAND xgrs2 | )
+xgrs2[ExecNode xg]
+	: xgrs3[xg] ( DOLLAR LAND {xg.append("&&");} xgrs2[xg] | LAND {xg.append("&&");} xgrs2[xg] | )
 	;
 
-xgrs3
-	: xgrs4 ( DOLLAR BOR  xgrs3 | BOR  xgrs3 | )
+xgrs3[ExecNode xg]
+	: xgrs4[xg] ( DOLLAR BOR {xg.append("|");} xgrs3[xg] | BOR {xg.append("|");} xgrs3[xg] | )
 	;
 
-xgrs4
-	: xgrs5 ( DOLLAR BXOR  xgrs4 | BXOR  xgrs4 | )
+xgrs4[ExecNode xg]
+	: xgrs5[xg] ( DOLLAR BXOR {xg.append("^");} xgrs4[xg] | BXOR {xg.append("^");} xgrs4[xg] | )
 	;
 
-xgrs5
-	: xgrs6 ( DOLLAR BAND  xgrs5 | BAND  xgrs5 | )
+xgrs5[ExecNode xg]
+	: xgrs6[xg] ( DOLLAR BAND {xg.append("&");} xgrs5[xg] | BAND {xg.append("&");} xgrs5[xg] | )
 	;
-*/
 
 xgrs6[ExecNode xg]
 	: NOT {xg.append("!");} xgrs6[xg]
