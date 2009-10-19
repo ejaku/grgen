@@ -1,10 +1,10 @@
 new graph storages/storages
 
-st1 = new set<Node>
+st1 = new set Node
 xgrs ( (n)=addNode ;-> st1.add(n) )[5]
 set st1 size
 
-st2 = new set<Edge>
+st2 = new set Edge
 xgrs foreach n in st1 do (e)=addReflexiveEdge(n) ;-> st2.add(e) od
 set st2 size
 show num nodes
@@ -18,7 +18,7 @@ set st2 size
 show num nodes
 show num edges
 
-st3 = new set<Edge>
+st3 = new set Edge
 xgrs foreach e in st2 do st3.add(e) od
 set st3 size
 

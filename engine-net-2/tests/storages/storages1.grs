@@ -1,6 +1,6 @@
 new graph storages/storages
 
-st1 = new set<Node>
+st1 = new set Node
 set st1 size
 show num nodes
 show num edges
@@ -20,7 +20,7 @@ set st1 size
 show num nodes
 show num edges
 
-st2 = new set<Node>
+st2 = new set Node
 xgrs foreach n in st1 do st2.add(n) od
 set st1 size
 show num nodes
