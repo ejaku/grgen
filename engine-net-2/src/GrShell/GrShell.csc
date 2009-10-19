@@ -1038,13 +1038,13 @@ void ShellCommand():
 		|
 			"new" 
 			(
-				"map" "<" str2=Word() "," str3=Word() ">"
+				"map" str2=Word() str3=Word()
 				{
 					obj = impl.MapNew(str2, str3);
 					if(obj == null) noError = false;
 				}
 			|
-				"set" "<" str2=Word() ">"
+				"set" str2=Word() 
 				{
 					obj = impl.SetNew(str2);
 					if(obj == null) noError = false;
