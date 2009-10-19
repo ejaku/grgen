@@ -29,8 +29,8 @@ PARSER_BEGIN(GrShell)
             String command = null;
             ArrayList scriptFilename = new ArrayList();
             bool showUsage = false;
-            int errorCode = 0; // 0==success, the return value
             bool nonDebugNonGuiExitOnError = false;
+			int errorCode = 0; // 0==success, the return value
             
             GrShellImpl.PrintVersion();
 
@@ -59,7 +59,7 @@ PARSER_BEGIN(GrShell)
                     }
                     else if(args[i] == "-N")
                     {
-						nonDebugNonGuiExitOnError = true;
+                        nonDebugNonGuiExitOnError = true;
                     }
                     else if(args[i] == "--help")
                     {
@@ -189,6 +189,11 @@ PARSER_BEGIN(GrShell)
                     }
                 }
             }
+			catch(Exception e)
+			{
+				Console.WriteLine("exit due to " + e.Message);
+				errorCode = -2;
+			}
             finally
             {
                 shell.impl.Cleanup();
@@ -267,6 +272,7 @@ TOKEN: {
 |   < EXCLUDE: "exclude" >
 |   < EXPORT: "export" >
 |   < EXIT: "exit" >
+|   < EXITONFAILURE: "exitonfailure" >
 |   < FALSE: "false" >
 |   < FILE: "file" >
 |   < FREEVISITFLAG: "freevisitflag" >
@@ -767,7 +773,8 @@ void ShellCommand():
 	IEdge edge1, edge2;
 	ShellGraph shellGraph = null;
 	Sequence seq;
-	bool strict = false, shellGraphSpecified = false, boolVal;
+	bool shellGraphSpecified = false, boolVal;
+	bool strict = false, exitOnFailure = false, validated = false;
 	int num;
 	List<String> filenames, parameters;
 }
@@ -868,14 +875,14 @@ void ShellCommand():
         }
     }
 |
-	"validate"
+	"validate" ("exitonfailure" {exitOnFailure = true;})?
 	(
 	    "xgrs" str1=CommandLine()
 	    {
             try
             {
                 seq = SequenceParser.ParseSequence(str1, impl.CurrentActions, impl.CurrentGraph);
-    	        impl.ValidateWithSequence(seq);
+    	        validated = impl.ValidateWithSequence(seq);
                 noError = !impl.OperationCancelled;
             }
             catch(SequenceParserRuleException ex)
@@ -893,11 +900,19 @@ void ShellCommand():
                 Console.WriteLine("Unable to execute xgrs: " + ex);
                 noError = false;
             }
+			if((!validated || !noError) && exitOnFailure)
+			{
+				throw new Exception("validate failed");
+			}
         }
     |
 	    ("strict" { strict = true; })? LineEnd()
 	    {
-		    impl.Validate(strict);
+		    validated = impl.Validate(strict);
+			if(!validated && exitOnFailure)
+			{
+				throw new Exception("validate failed");
+			}
 	    }
 	)
 |

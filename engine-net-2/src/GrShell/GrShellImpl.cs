@@ -453,6 +453,10 @@ namespace de.unika.ipd.grGen.grShell
                         HelpCustom(commands);
                         return;
 
+                    case "validate":
+                        HelpValidate(commands);
+                        return;
+
                     default:
                         Console.WriteLine("No further help available.\n");
                         break;
@@ -475,12 +479,7 @@ namespace de.unika.ipd.grGen.grShell
                 + "                             to the type of e2\n"
                 + " - debug ...                 Debugging related commands\n"
                 + " - xgrs <xgrs>               Executes the given extended graph rewrite sequence\n"
-                + " - validate xgrs <xgrs>      Validates the current graph according to the\n"
-                + "                             given XGRS (true = valid)\n"
-                + " - validate [strict]         Validates the current graph according to the\n"
-                + "                             connection assertions given by the graph model.\n"
-                + "                             In strict mode, all graph elements have to be\n"
-                + "                             mentioned as part of a connection assertion\n"
+                + " - validate ...              Validate related commands\n"
                 + " - dump ...                  Dump related commands\n"
                 + " - save graph <filename>     Saves the current graph as a GrShell script\n"
                 + " - export <filename>         Exports the current graph. The extension states\n"
@@ -754,6 +753,24 @@ namespace de.unika.ipd.grGen.grShell
             Console.WriteLine("\n - custom actions:\n\n");
             CustomActions(new List<String>());
             Console.WriteLine();
+        }
+
+        public void HelpValidate(List<String> commands)
+        {
+            if(commands.Count > 1)
+            {
+                Console.WriteLine("\nNo further help available.");
+            }
+
+            Console.WriteLine("List of available commands for \"validate\":\n"
+                + " - validate [exitonfailure] xgrs <xgrs>\n"
+                + "   Validates the current graph according to the given XGRS (true = valid)\n"
+                + "   If exitonfailure is specified and the graph is invalid the shell is exited\n\n"
+                + " - validate [exitonfailure] [strict]\n"
+                + "   Validates the current graph according to the connection assertions given by\n"
+                + "   the graph model. In strict mode, all graph elements have to be mentioned\n"
+                + "   as part of a connection assertion. If exitonfailure is specified\n"
+                + "   and the graph is invalid the shell is exited\n");
         }
 
         #endregion Help text methods
@@ -3247,82 +3264,94 @@ showavail:
             }
         }
 
-        public void Validate(bool strict)
+        public bool Validate(bool strict)
         {
+            if(!GraphExists()) return false;
+
             List<ConnectionAssertionError> errors;
-            if(!GraphExists()) return;
-            if(curShellGraph.Graph.Validate(strict, out errors))
+            bool valid = curShellGraph.Graph.Validate(strict, out errors);
+            if(valid)
                 Console.WriteLine("The graph is valid.");
             else
             {
                 Console.WriteLine("The graph is NOT valid:");
                 foreach(ConnectionAssertionError error in errors)
                 {
-                    ValidateInfo valInfo = error.ValidateInfo;
-                    switch(error.CAEType)
-                    {
-                        case CAEType.EdgeNotSpecified:
-                        {
-                            IEdge edge = (IEdge) error.Elem;
-                            Console.WriteLine("  CAE: {0} \"{1}\" -- {2} \"{3}\" --> {4} \"{5}\" not specified",
-                                edge.Source.Type.Name, curShellGraph.Graph.GetElementName(edge.Source), 
-                                edge.Type.Name, curShellGraph.Graph.GetElementName(edge), 
-                                edge.Target.Type.Name, curShellGraph.Graph.GetElementName(edge.Target));
-                            break;
-                        }
-                        case CAEType.NodeTooFewSources:
-                        {
-                            INode node = (INode) error.Elem;
-                            Console.Write("  CAE: {0} \"{1}\" [{2}<{3}] -- {4} ", valInfo.SourceType.Name,
-                                curShellGraph.Graph.GetElementName(node), error.FoundEdges,
-                                valInfo.SourceLower, valInfo.EdgeType.Name);
-                            DumpElems(node.GetCompatibleOutgoing(valInfo.EdgeType));
-                            Console.WriteLine(" --> {0}", valInfo.TargetType.Name);
-                            break;
-                        }
-                        case CAEType.NodeTooManySources:
-                        {
-                            INode node = (INode) error.Elem;
-                            Console.Write("  CAE: {0} \"{1}\" [{2}>{3}] -- {4} ", valInfo.SourceType.Name,
-                                curShellGraph.Graph.GetElementName(node), error.FoundEdges,
-                                valInfo.SourceUpper, valInfo.EdgeType.Name);
-                            DumpElems(node.GetCompatibleOutgoing(valInfo.EdgeType));
-                            Console.WriteLine(" --> {0}", valInfo.TargetType.Name);
-                            break;
-                        }
-                        case CAEType.NodeTooFewTargets:
-                        {
-                            INode node = (INode) error.Elem;
-                            Console.Write("  CAE: {0} -- {1} ", valInfo.SourceType.Name,
-                                valInfo.EdgeType.Name);
-                            DumpElems(node.GetCompatibleIncoming(valInfo.EdgeType));
-                            Console.WriteLine(" --> {0} \"{1}\" [{2}<{3}]", valInfo.TargetType.Name,
-                                curShellGraph.Graph.GetElementName(node), error.FoundEdges, valInfo.TargetLower);
-                            break;
-                        }
-                        case CAEType.NodeTooManyTargets:
-                        {
-                            INode node = (INode) error.Elem;
-                            Console.Write("  CAE: {0} -- {1} ", valInfo.SourceType.Name,
-                                valInfo.EdgeType.Name);
-                            DumpElems(node.GetCompatibleIncoming(valInfo.EdgeType));
-                            Console.WriteLine(" --> {0} \"{1}\" [{2}>{3}]", valInfo.TargetType.Name,
-                                curShellGraph.Graph.GetElementName(node), error.FoundEdges, valInfo.TargetUpper);
-                            break;
-                        }
-                    }
+                    PrintValidateError(error);
+                }
+            }
+
+            return valid;
+        }
+
+        public void PrintValidateError(ConnectionAssertionError error)
+        {
+            ValidateInfo valInfo = error.ValidateInfo;
+            switch (error.CAEType)
+            {
+                case CAEType.EdgeNotSpecified:
+                {
+                    IEdge edge = (IEdge)error.Elem;
+                    Console.WriteLine("  CAE: {0} \"{1}\" -- {2} \"{3}\" --> {4} \"{5}\" not specified",
+                        edge.Source.Type.Name, curShellGraph.Graph.GetElementName(edge.Source),
+                        edge.Type.Name, curShellGraph.Graph.GetElementName(edge),
+                        edge.Target.Type.Name, curShellGraph.Graph.GetElementName(edge.Target));
+                    break;
+                }
+                case CAEType.NodeTooFewSources:
+                {
+                    INode node = (INode)error.Elem;
+                    Console.Write("  CAE: {0} \"{1}\" [{2}<{3}] -- {4} ", valInfo.SourceType.Name,
+                        curShellGraph.Graph.GetElementName(node), error.FoundEdges,
+                        valInfo.SourceLower, valInfo.EdgeType.Name);
+                    DumpElems(node.GetCompatibleOutgoing(valInfo.EdgeType));
+                    Console.WriteLine(" --> {0}", valInfo.TargetType.Name);
+                    break;
+                }
+                case CAEType.NodeTooManySources:
+                {
+                    INode node = (INode)error.Elem;
+                    Console.Write("  CAE: {0} \"{1}\" [{2}>{3}] -- {4} ", valInfo.SourceType.Name,
+                        curShellGraph.Graph.GetElementName(node), error.FoundEdges,
+                        valInfo.SourceUpper, valInfo.EdgeType.Name);
+                    DumpElems(node.GetCompatibleOutgoing(valInfo.EdgeType));
+                    Console.WriteLine(" --> {0}", valInfo.TargetType.Name);
+                    break;
+                }
+                case CAEType.NodeTooFewTargets:
+                {
+                    INode node = (INode)error.Elem;
+                    Console.Write("  CAE: {0} -- {1} ", valInfo.SourceType.Name,
+                        valInfo.EdgeType.Name);
+                    DumpElems(node.GetCompatibleIncoming(valInfo.EdgeType));
+                    Console.WriteLine(" --> {0} \"{1}\" [{2}<{3}]", valInfo.TargetType.Name,
+                        curShellGraph.Graph.GetElementName(node), error.FoundEdges, valInfo.TargetLower);
+                    break;
+                }
+                case CAEType.NodeTooManyTargets:
+                {
+                    INode node = (INode)error.Elem;
+                    Console.Write("  CAE: {0} -- {1} ", valInfo.SourceType.Name,
+                        valInfo.EdgeType.Name);
+                    DumpElems(node.GetCompatibleIncoming(valInfo.EdgeType));
+                    Console.WriteLine(" --> {0} \"{1}\" [{2}>{3}]", valInfo.TargetType.Name,
+                        curShellGraph.Graph.GetElementName(node), error.FoundEdges, valInfo.TargetUpper);
+                    break;
                 }
             }
         }
 
-        public void ValidateWithSequence(Sequence seq)
+        public bool ValidateWithSequence(Sequence seq)
         {
-            if(!ActionsExists()) return;
+            if(!GraphExists()) return false;
+            if(!ActionsExists()) return false;
 
-            if(!curShellGraph.Graph.ValidateWithSequence(seq))
-                Console.WriteLine("The graph is NOT valid with respect to the given sequence!");
-            else
+            bool valid = curShellGraph.Graph.ValidateWithSequence(seq);
+            if (valid)
                 Console.WriteLine("The graph is valid with respect to the given sequence.");
+            else
+                Console.WriteLine("The graph is NOT valid with respect to the given sequence!");
+            return valid;
         }
 
         public void NodeTypeIsA(INode node1, INode node2)
