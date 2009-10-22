@@ -1,4 +1,9 @@
-﻿v.2.5.1 (2009-09-09)
+﻿v2.5.2 (not released yet)
+ Fixes:
+  - Escaping of quotation marks in VCG files
+  - Escaping of quotation marks and newlines in communication with yComp
+
+v2.5.1 (2009-09-09)
  Additions:
   - subpatterns now support var parameters, too
   - GrShell now with non-debug/gui-mode and return value

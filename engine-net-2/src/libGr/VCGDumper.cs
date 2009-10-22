@@ -109,6 +109,14 @@ namespace de.unika.ipd.grGen.libGr
             sw.WriteLine(format, arg);
         }
 
+        private static String EncodeString(String str)
+        {
+            StringBuilder encStr = new StringBuilder(str);
+            encStr.Replace("  ", " &nbsp;");
+            encStr.Replace("\"", "&quot;");
+            return encStr.ToString();
+        }
+
         /// <summary>
         /// Gets the VCG string representation of a GrColor object.
         /// </summary>
@@ -219,17 +227,13 @@ namespace de.unika.ipd.grGen.libGr
                 indent++;
                 foreach(String attr in attributes)
                 {
-                    if(first)
-                    {
-                        sw.Write(attr);
-                        first = false;
-                    }
+                    if(first) first = false;
                     else
                     {
                         sw.WriteLine();
                         Indent();
-                        sw.Write(attr);
                     }
+                    sw.Write(EncodeString(attr));
                 }
                 indent--;
                 sw.Write('\"');
@@ -264,15 +268,12 @@ namespace de.unika.ipd.grGen.libGr
 //                indent++;
                 foreach(String attr in attributes)
                 {
-                    if(first)
-                    {
-                        attrStrBuilder.Append(attr);
-                        first = false;
-                    }
+                    if(first) first = false;
                     else
                     {
-                        attrStrBuilder.Append('\n').Append(attr);
+                        attrStrBuilder.Append('\n');
                     }
+                    attrStrBuilder.Append(EncodeString(attr));
                 }
 //                indent--;
 //                sw.Write('\"');
@@ -310,17 +311,13 @@ namespace de.unika.ipd.grGen.libGr
                 indent++;
                 foreach(String attr in attributes)
                 {
-                    if(first)
-                    {
-                        sw.Write(attr);
-                        first = false;
-                    }
+                    if(first) first = false;
                     else
                     {
                         sw.WriteLine();
                         Indent();
-                        sw.Write(attr);
                     }
+                    sw.Write(EncodeString(attr));
                 }
                 indent--;
                 sw.Write('\"');

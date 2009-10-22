@@ -464,6 +464,17 @@ namespace de.unika.ipd.grGen.grShell
             return ycompStream.Read() == "sync\n";
         }
 
+        private String EncodeAttr(object attr)
+        {
+            if(attr == null) return "<Not initialized>";
+
+            StringBuilder sb = new StringBuilder(attr.ToString());
+            sb.Replace("  ", " &nbsp;");
+            sb.Replace("\n", "\\n");
+            sb.Replace("\"", "&quot;");
+            return sb.ToString();
+        }
+
         private String GetElemLabel(IGraphElement elem)
         {
             List<InfoTag> infoTagTypes = dumpInfo.GetTypeInfoTags(elem.Type);
@@ -486,10 +497,9 @@ namespace de.unika.ipd.grGen.grShell
                     if(!first) label += "\\n";
                     else first = false;
 
-                    if(infoTag.ShortInfoTag)
-                        label += attr.ToString();
-                    else
-                        label += infoTag.AttributeType.Name + " = " + attr.ToString();
+                    if(!infoTag.ShortInfoTag)
+                        label += infoTag.AttributeType.Name + " = ";
+                    label += EncodeAttr(attr);
                 }
             }
 
@@ -520,10 +530,9 @@ namespace de.unika.ipd.grGen.grShell
                     if(!first) label += "\\n";
                     else first = false;
 
-                    if(infoTag.ShortInfoTag)
-                        label += attr.ToString();
-                    else
-                        label += infoTag.AttributeType.Name + " = " + attr.ToString();
+                    if(!infoTag.ShortInfoTag)
+                        label += infoTag.AttributeType.Name + " = ";
+                    label += EncodeAttr(attr);
                 }
             }
 
@@ -545,9 +554,8 @@ namespace de.unika.ipd.grGen.grShell
             foreach(AttributeType attrType in node.Type.AttributeTypes)
             {
                 object attr = node.GetAttribute(attrType.Name);
-                String attrString = (attr != null) ? attr.ToString() : "<Not initialized>";
                 ycompStream.Write("changeNodeAttr \"n" + name + "\" \"" + attrType.OwnerType.Name + "::" + attrType.Name + " : "
-                    + GetKindName(attrType) + "\" \"" + attrString + "\"\n");
+                    + GetKindName(attrType) + "\" \"" + EncodeAttr(attr) + "\"\n");
             }
             isDirty = true;
             isLayoutDirty = true;
@@ -608,9 +616,8 @@ namespace de.unika.ipd.grGen.grShell
             foreach(AttributeType attrType in edge.Type.AttributeTypes)
             {
                 object attr = edge.GetAttribute(attrType.Name);
-                String attrString = (attr != null) ? attr.ToString() : "<Not initialized>";
                 ycompStream.Write("changeEdgeAttr \"e" + edgeName + "\" \"" + attrType.OwnerType.Name + "::" + attrType.Name + " : "
-                    + GetKindName(attrType) + "\" \"" + attrString + "\"\n");
+                    + GetKindName(attrType) + "\" \"" + EncodeAttr(attr) + "\"\n");
             }
             isDirty = true;
             isLayoutDirty = true;
@@ -790,9 +797,8 @@ namespace de.unika.ipd.grGen.grShell
             foreach(AttributeType attrType in newType.AttributeTypes)
             {
                 object attr = newElem.GetAttribute(attrType.Name);
-                String attrString = (attr != null) ? attr.ToString() : "<Not initialized>";
                 ycompStream.Write("change" + elemKind + "Attr \"" + oldName + "\" \"" + attrType.OwnerType.Name + "::"
-                    + attrType.Name + " : " + GetKindName(attrType) + "\" \"" + attrString + "\"\n");
+                    + attrType.Name + " : " + GetKindName(attrType) + "\" \"" + EncodeAttr(attr) + "\"\n");
             }
 
             if(isNode)
@@ -921,9 +927,8 @@ namespace de.unika.ipd.grGen.grShell
             foreach(AttributeType attrType in elem.Type.AttributeTypes)
             {
                 object attr = elem.GetAttribute(attrType.Name);
-                String attrString = (attr != null) ? attr.ToString() : "<Not initialized>";
                 attribs.Add(String.Format("{0} {1}::{2} = {3}", GetKindName(attrType),
-                    attrType.OwnerType.Name, attrType.Name, attrString));
+                    attrType.OwnerType.Name, attrType.Name, EncodeAttr(attr)));
             }
             return attribs;
         }
