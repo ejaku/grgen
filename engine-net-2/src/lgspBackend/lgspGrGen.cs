@@ -401,6 +401,19 @@ namespace de.unika.ipd.grGen.lgsp
 			}
 		}
 
+        void EmitSetmapVarIfNew(String varName, String typeKey, String typeValue, SourceBuilder source, IGraphModel model)
+        {
+            if(!xgrsVars.ContainsKey(varName))
+            {
+                xgrsVars.Add(varName, null);
+                // todo: use exact types in compiled xgrs
+                //typeKey = DictionaryHelper.GetQualifiedTypeName(typeKey, model);
+                //typeValue = DictionaryHelper.GetQualifiedTypeName(typeValue, model);
+                //source.AppendFront("IDictionary<"+typeKey+","+typeValue+"> var_" + varName + " = null;\n");
+                source.AppendFront("System.Collections.IDictionary var_" + varName + " = null;\n");
+            }
+        }
+
 		void EmitBoolVarIfNew(String varName, SourceBuilder source)
 		{
 			if(!xgrsVars.ContainsKey(varName))
@@ -410,7 +423,11 @@ namespace de.unika.ipd.grGen.lgsp
 			}
 		}
 
-		void EmitNeededVars(Sequence seq, SourceBuilder source)
+        // pre-run for emitting the needed entities before emitting the real code
+        // - assigns ids to sequences, stores the mapping in xgrsSequenceIDs, needed for naming of result variables
+        // - collects used variables into xgrsVars, only on first occurence some code for the entity gets emitted
+        // - collects used rules into xgrsRules, only on first occurence some code for the entitiy gets emitted
+		void AssignIdsAndEmitNeededVarAndRuleEntities(Sequence seq, SourceBuilder source, IGraphModel model)
 		{
 			source.AppendFront("bool res_" + xgrsNextSequenceID + ";\n");
 			xgrsSequenceIDs.Add(seq, xgrsNextSequenceID++);
@@ -429,11 +446,41 @@ namespace de.unika.ipd.grGen.lgsp
 					EmitElementVarIfNew(seqToVar.DestVar, source);
 					break;
 				}
+                case SequenceType.AssignSetmapSizeToVar:
+                {
+                    SequenceAssignSetmapSizeToVar seqSetmapSizeToVar = (SequenceAssignSetmapSizeToVar)seq;
+                    EmitElementVarIfNew(seqSetmapSizeToVar.DestVar, source); 
+                    break;
+                }
+                case SequenceType.AssignSetmapEmptyToVar:
+                {
+                    SequenceAssignSetmapEmptyToVar seqSetmapEmptyToVar = (SequenceAssignSetmapEmptyToVar)seq;
+                    EmitElementVarIfNew(seqSetmapEmptyToVar.DestVar, source); 
+                    break;
+                }
+                case SequenceType.AssignMapAccessToVar:
+                {
+                    SequenceAssignMapAccessToVar seqMapAccessToVar = (SequenceAssignMapAccessToVar)seq;
+                    EmitElementVarIfNew(seqMapAccessToVar.DestVar, source); 
+                    break;
+                }
+                case SequenceType.AssignSetCreationToVar:
+                {
+                    SequenceAssignSetCreationToVar seqToVar = (SequenceAssignSetCreationToVar)seq;
+                    EmitSetmapVarIfNew(seqToVar.DestVar, seqToVar.TypeName, "de.unika.ipd.grGen.libGr.SetValueType", source, model);
+                    break;
+                }
+                case SequenceType.AssignMapCreationToVar:
+                {
+                    SequenceAssignMapCreationToVar seqToVar = (SequenceAssignMapCreationToVar)seq;
+                    EmitSetmapVarIfNew(seqToVar.DestVar,seqToVar.TypeName, seqToVar.TypeNameDst, source, model);
+                    break;
+                }
 				case SequenceType.AssignSequenceResultToVar:
 				{
 					SequenceAssignSequenceResultToVar seqToVar = (SequenceAssignSequenceResultToVar) seq;
 					EmitBoolVarIfNew(seqToVar.DestVar, source);
-					EmitNeededVars(seqToVar.Seq, source);
+					AssignIdsAndEmitNeededVarAndRuleEntities(seqToVar.Seq, source, model);
 					break;
 				}
 
@@ -457,24 +504,51 @@ namespace de.unika.ipd.grGen.lgsp
 					break;
 				}
 
+                case SequenceType.For:
+                {
+                    SequenceFor seqFor = (SequenceFor)seq;
+                    EmitElementVarIfNew(seqFor.Var, source);
+                    if(seqFor.VarDst!=null) EmitElementVarIfNew(seqFor.VarDst, source);
+                    AssignIdsAndEmitNeededVarAndRuleEntities(seqFor.Seq, source, model);
+                    break;
+                }
+
 				default:
 					foreach(Sequence childSeq in seq.Children)
-						EmitNeededVars(childSeq, source);
+						AssignIdsAndEmitNeededVarAndRuleEntities(childSeq, source, model);
 					break;
 			}
 		}
 
-		void EmitLazyOp(Sequence left, Sequence right, bool isOr, int seqID, SourceBuilder source)
+		void EmitLazyOp(Sequence left, Sequence right, SequenceType seqType, int seqID, SourceBuilder source)
 		{
 			EmitSequence(left, source);
-			source.AppendFront("if(" + (isOr ? "res_" : "!res_") + xgrsSequenceIDs[left] + ") res_" + seqID + " = "
-				+ (isOr ? "true;\n" : "false;\n"));
+
+            if(seqType == SequenceType.LazyOr) {
+                source.AppendFront("if(res_" + xgrsSequenceIDs[left] + ")");
+                source.Indent();
+                source.AppendFront("res_" + seqID + " = true;\n");
+                source.Unindent();
+            } else if(seqType == SequenceType.LazyAnd) {
+                source.AppendFront("if(!res_" + xgrsSequenceIDs[left] + ")");
+                source.Indent();
+                source.AppendFront("res_" + seqID + " = false;\n");
+                source.Unindent();
+            } else { //seqType==SequenceType.IfThen -- lazy implication
+                source.AppendFront("if(!res_" + xgrsSequenceIDs[left] + ")");
+                source.Indent();
+                source.AppendFront("res_" + seqID + " = true;\n");
+                source.Unindent();
+            }
+
 			source.AppendFront("else\n");
 			source.AppendFront("{\n");
 			source.Indent();
-			EmitSequence(right, source);
-			source.AppendFront("res_" + seqID + " = res_" + xgrsSequenceIDs[right] + ";\n");
-			source.Unindent();
+			
+            EmitSequence(right, source);
+            source.AppendFront("res_" + seqID + " = res_" + xgrsSequenceIDs[right] + ";\n");
+
+            source.Unindent();
 			source.AppendFront("}\n");
 		}
 
@@ -589,30 +663,34 @@ namespace de.unika.ipd.grGen.lgsp
 
 				case SequenceType.LazyOr:
 				case SequenceType.LazyAnd:
+                case SequenceType.IfThen:
 				{
 					SequenceBinary seqBin = (SequenceBinary) seq;
-					bool isOr = seq.SequenceType == SequenceType.LazyOr;
 					if(seqBin.Randomize)
 					{
+                        if(seq.SequenceType==SequenceType.IfThen) throw new Exception("Internal error in EmitSequence: Randomized ifthen not possible!");
                         source.AppendFront("if(GRGEN_LIBGR.Sequence.randomGenerator.Next(2) == 1)\n");
 						source.AppendFront("{\n");
 						source.Indent();
-						EmitLazyOp(seqBin.Right, seqBin.Left, isOr, seqID, source);
+                        EmitLazyOp(seqBin.Right, seqBin.Left, seq.SequenceType, seqID, source);
 						source.Unindent();
 						source.AppendFront("}\n");
 						source.AppendFront("else\n");
 						source.AppendFront("{\n");
-						EmitLazyOp(seqBin.Left, seqBin.Right, isOr, seqID, source);
+                        source.Indent();
+                        EmitLazyOp(seqBin.Left, seqBin.Right, seq.SequenceType, seqID, source);
 						source.Unindent();
 						source.AppendFront("}\n");
 					}
 					else
 					{
-						EmitLazyOp(seqBin.Left, seqBin.Right, isOr, seqID, source);
+                        EmitLazyOp(seqBin.Left, seqBin.Right, seq.SequenceType, seqID, source);
 					}
 					break;
 				}
 
+                case SequenceType.ThenLeft:
+                case SequenceType.ThenRight:
 				case SequenceType.StrictAnd:
 				case SequenceType.StrictOr:
 				case SequenceType.Xor:
@@ -629,6 +707,7 @@ namespace de.unika.ipd.grGen.lgsp
 						source.AppendFront("}\n");
 						source.AppendFront("else\n");
 						source.AppendFront("{\n");
+                        source.Indent();
 						EmitSequence(seqBin.Left, source);
 						EmitSequence(seqBin.Right, source);
 						source.Unindent();
@@ -640,18 +719,78 @@ namespace de.unika.ipd.grGen.lgsp
 						EmitSequence(seqBin.Right, source);
 					}
 
-					String op;
-					switch(seq.SequenceType)
-					{
-						case SequenceType.StrictAnd: op = "&"; break;
-						case SequenceType.StrictOr:  op = "|"; break;
-						case SequenceType.Xor:       op = "^"; break;
-						default: throw new Exception("Internal error in EmitSequence: Should not have reached this!");
-					}
-					source.AppendFront("res_" + seqID + " = res_" + xgrsSequenceIDs[seqBin.Left] + " "
-						+ op + " res_" + xgrsSequenceIDs[seqBin.Right] + ";\n");
+                    if(seq.SequenceType==SequenceType.ThenLeft) {
+                        source.AppendFront("res_" + seqID + " = res_" + xgrsSequenceIDs[seqBin.Left] + ";\n");
+                        break;
+                    } else if(seq.SequenceType==SequenceType.ThenRight) {
+                        source.AppendFront("res_" + seqID + " = res_" + xgrsSequenceIDs[seqBin.Right] + ";\n");
+                        break;
+                    }
+
+                    String op;
+				    switch(seq.SequenceType)
+				    {
+					    case SequenceType.StrictAnd: op = "&"; break;
+					    case SequenceType.StrictOr:  op = "|"; break;
+					    case SequenceType.Xor:       op = "^"; break;
+					    default: throw new Exception("Internal error in EmitSequence: Should not have reached this!");
+				    }
+				    source.AppendFront("res_" + seqID + " = res_" + xgrsSequenceIDs[seqBin.Left] + " "
+					    + op + " res_" + xgrsSequenceIDs[seqBin.Right] + ";\n");
 					break;
 				}
+
+                case SequenceType.IfThenElse:
+                {
+                    SequenceIfThenElse seqIf = (SequenceIfThenElse)seq;
+
+                    EmitSequence(seqIf.Condition, source);
+
+                    source.AppendFront("if(res_" + xgrsSequenceIDs[seqIf.Condition] + ")");
+                    source.AppendFront("{\n");
+                    source.Indent();
+
+                    EmitSequence(seqIf.TrueCase, source);
+                    source.AppendFront("res_" + seqID + " = res_" + xgrsSequenceIDs[seqIf.TrueCase] + ";\n");
+
+                    source.Unindent();
+                    source.AppendFront("}\n");                 
+                    source.AppendFront("else\n");
+                    source.AppendFront("{\n");
+                    source.Indent();
+
+                    EmitSequence(seqIf.FalseCase, source);
+                    source.AppendFront("res_" + seqID + " = res_" + xgrsSequenceIDs[seqIf.FalseCase] + ";\n");
+
+                    source.Unindent();
+                    source.AppendFront("}\n");
+
+                    break;
+                }
+
+                case SequenceType.For:
+                {
+                    SequenceFor seqFor = (SequenceFor)seq;
+
+                    source.AppendFront("res_"+seqID+" = true;\n");
+                    source.AppendFront("foreach(System.Collections.DictionaryEntry entry_"+seqID+" in var_"+seqFor.Setmap+")\n");
+                    source.AppendFront("{\n");
+                    source.Indent();
+
+                    source.AppendFront("var_"+seqFor.Var+" = entry_"+seqID+".Key;\n");
+                    if(seqFor.VarDst != null)
+                    {
+                        source.AppendFront("var_"+seqFor.VarDst+" = entry_"+seqID+".Value;\n");
+                    }
+
+                    EmitSequence(seqFor.Seq, source);
+
+                    source.AppendFront("res_"+seqID+" &= res_"+xgrsSequenceIDs[seqFor.Seq]+";\n");
+                    source.Unindent();
+                    source.AppendFront("}\n");
+
+                    break;
+                }
 
 				case SequenceType.Min:
 				{
@@ -706,6 +845,103 @@ namespace de.unika.ipd.grGen.lgsp
 					source.AppendFront("res_" + seqID + " = " + (seq.SequenceType == SequenceType.True ? "true;\n" : "false;\n"));
 					break;
 
+                case SequenceType.SetmapAdd:
+                {
+                    SequenceSetmapAdd seqAdd = (SequenceSetmapAdd)seq;
+
+                    source.AppendFront("if(var_"+seqAdd.Setmap+".Contains(var_"+seqAdd.Var+"))\n");
+					source.AppendFront("{\n");
+					source.Indent();
+                    if(seqAdd.VarDst==null) {
+                        source.AppendFront("var_"+seqAdd.Setmap+"[var_"+seqAdd.Var+"] = null;\n");
+                    } else {
+                        source.AppendFront("var_"+seqAdd.Setmap+"[var_"+seqAdd.Var+"] = var_"+seqAdd.VarDst+";\n");
+                    }
+                    source.AppendFront("res_"+seqID+" = false;\n");
+					source.Unindent();
+					source.AppendFront("}\n");
+                    source.AppendFront("else\n");
+					source.AppendFront("{\n");
+					source.Indent();
+                    if(seqAdd.VarDst==null) {
+                        source.AppendFront("var_"+seqAdd.Setmap+".Add(var_"+seqAdd.Var+", null);\n");
+                    } else {
+                        source.AppendFront("var_"+seqAdd.Setmap+".Add(var_"+seqAdd.Var+", var_"+seqAdd.VarDst+");\n");
+                    }
+                    source.AppendFront("res_"+seqID+" = true;\n");
+					source.Unindent();
+					source.AppendFront("}\n");
+                    
+                    break;
+                }
+
+                case SequenceType.SetmapRem:
+                {
+                    SequenceSetmapRem seqDel = (SequenceSetmapRem)seq;
+                    source.AppendFront("res_"+seqID+" = var_"+seqDel.Setmap+".Contains(var_"+seqDel.Var+");\n");
+                    source.AppendFront("var_"+seqDel.Setmap+".Remove(var_"+seqDel.Var+");\n");
+                    break;
+                }
+
+                case SequenceType.SetmapClear:
+                {
+                    SequenceSetmapClear seqClear = (SequenceSetmapClear)seq;
+                    source.AppendFront("var_"+seqClear.Setmap+".Clear();\n");
+                    source.AppendFront("res_"+seqID+" = true;\n");
+                    break;
+                }
+
+                case SequenceType.InSetmap:
+                {
+                    SequenceIn seqIn = (SequenceIn)seq;
+                    source.AppendFront("res_"+seqID+" = var_"+seqIn.Setmap+".Contains(var_"+seqIn.Var+");\n");
+                    break;
+                }
+
+                case SequenceType.AssignSetmapSizeToVar:
+                {
+                    SequenceAssignSetmapSizeToVar seqSetmapSizeToVar = (SequenceAssignSetmapSizeToVar)seq;
+                    source.AppendFront("var_"+seqSetmapSizeToVar.DestVar+" = var_"+seqSetmapSizeToVar.Setmap+".Count;\n"); 
+                    source.AppendFront("res_"+seqID+" = true;\n");
+                    break;
+                }
+
+                case SequenceType.AssignSetmapEmptyToVar:
+                {
+                    SequenceAssignSetmapEmptyToVar seqSetmapEmptyToVar = (SequenceAssignSetmapEmptyToVar)seq;
+                    source.AppendFront("var_"+seqSetmapEmptyToVar.DestVar+" = var_"+seqSetmapEmptyToVar.Setmap+".Count==0;\n");
+                    source.AppendFront("res_"+seqID+" = true;\n");
+                    break;
+                }
+
+                case SequenceType.AssignMapAccessToVar:
+                {
+                    SequenceAssignMapAccessToVar seqMapAccessToVar = (SequenceAssignMapAccessToVar)seq;
+                    source.AppendFront("var_"+seqMapAccessToVar.DestVar+" = var_"+seqMapAccessToVar.Setmap+"[ var_"+seqMapAccessToVar.KeyVar+" ];\n");
+                    source.AppendFront("res_"+seqID+" = true;\n");
+                    break;
+                }
+
+                case SequenceType.AssignSetCreationToVar:
+                {
+                    SequenceAssignSetCreationToVar seqSetCreationToVar = (SequenceAssignSetCreationToVar)seq;
+                    source.AppendFront("var_"+seqSetCreationToVar.DestVar+" = GRGEN_LIBGR.DictionaryHelper.NewDictionary(\n");
+                    source.AppendFront("  GRGEN_LIBGR.DictionaryHelper.GetTypeFromNameForDictionary(\""+seqSetCreationToVar.TypeName+"\", graph), \n");
+                    source.AppendFront("  typeof(de.unika.ipd.grGen.libGr.SetValueType));\n");
+                    source.AppendFront("res_"+seqID+" = true;\n");
+                    break;
+                }
+
+                case SequenceType.AssignMapCreationToVar:
+                {
+                    SequenceAssignMapCreationToVar seqMapCreationToVar = (SequenceAssignMapCreationToVar)seq;
+                    source.AppendFront("var_"+seqMapCreationToVar.DestVar+" = de.unika.ipd.grGen.libGr.DictionaryHelper.NewDictionary(\n");
+                    source.AppendFront("  GRGEN_LIBGR.DictionaryHelper.GetTypeFromNameForDictionary(\""+seqMapCreationToVar.TypeName+"\", graph), \n");
+                    source.AppendFront("  GRGEN_LIBGR.DictionaryHelper.GetTypeFromNameForDictionary(\""+seqMapCreationToVar.TypeNameDst+"\", graph));\n");
+                    source.AppendFront("res_"+seqID+" = true;\n");
+                    break;
+                }
+
 				case SequenceType.AssignVarToVar:
 				{
 					SequenceAssignVarToVar seqVarToVar = (SequenceAssignVarToVar) seq;
@@ -744,6 +980,7 @@ namespace de.unika.ipd.grGen.lgsp
 			}
 		}
 
+        // emits matcher class static arrays for parameter transmission into rules
         // Must be called after EmitNeededVars as sequence IDs are needed.
         void EmitStaticVars(Sequence seq, SourceBuilder source)
         {
@@ -770,7 +1007,7 @@ namespace de.unika.ipd.grGen.lgsp
             }
         }
 
-		public bool GenerateXGRSCode(int xgrsID, String xgrsStr, String[] paramNames, SourceBuilder source)
+		public bool GenerateXGRSCode(int xgrsID, String xgrsStr, String[] paramNames, SourceBuilder source, IGraphModel model)
 		{
 			Dictionary<String, String> varDecls = new Dictionary<String, String>();
 
@@ -807,7 +1044,7 @@ namespace de.unika.ipd.grGen.lgsp
 
 			foreach(String param in paramNames)
 				xgrsVars.Add(param, null);
-			EmitNeededVars(seq, source);
+			AssignIdsAndEmitNeededVarAndRuleEntities(seq, source, model);
 
 			EmitSequence(seq, source);
 			source.AppendFront("return res_" + xgrsSequenceIDs[seq] + ";\n");
@@ -1104,7 +1341,7 @@ namespace de.unika.ipd.grGen.lgsp
                                 FieldInfo fieldInfo = ruleType.GetField("XGRSInfo_" + xgrsID);
                                 if(fieldInfo == null) break;
                                 LGSPXGRSInfo xgrsInfo = (LGSPXGRSInfo) fieldInfo.GetValue(null);
-                                if(!GenerateXGRSCode(xgrsID, xgrsInfo.XGRS, xgrsInfo.Parameters, source))
+                                if(!GenerateXGRSCode(xgrsID, xgrsInfo.XGRS, xgrsInfo.Parameters, source, model))
                                     return ErrorType.GrGenNetError;
                                 xgrsID++;
                             }

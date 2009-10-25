@@ -39,9 +39,20 @@ namespace de.unika.ipd.grGen.libGr
         /// Returns type object for type name string, to be used for dictionary
         /// </summary>
         /// <param name="typeName">Name of the type we want some type object for</param>
-        /// <param name="graph">Graph to be search for enum types / enum type names</param>
+        /// <param name="graph">Graph to be search for enum,node,edge types / enum,node/edge type names</param>
         /// <returns>The type object corresponding to the given string, null if type was not found</returns>
         public static Type GetTypeFromNameForDictionary(String typeName, IGraph graph)
+        {
+            return GetTypeFromNameForDictionary(typeName, graph.Model);
+        }
+
+        /// <summary>
+        /// Returns type object for type name string, to be used for dictionary
+        /// </summary>
+        /// <param name="typeName">Name of the type we want some type object for</param>
+        /// <param name="model">Graph model to be search for enum,node,edge types / enum,node/edge type names</param>
+        /// <returns>The type object corresponding to the given string, null if type was not found</returns>
+        public static Type GetTypeFromNameForDictionary(String typeName, IGraphModel model)
         {
             switch (typeName)
             {
@@ -53,19 +64,19 @@ namespace de.unika.ipd.grGen.libGr
                 case "object": return typeof(object);
             }
 
-            if (graph == null) return null;
+            if (model == null) return null;
 
             // No standard type, so check enums
-            foreach (EnumAttributeType enumAttrType in graph.Model.EnumAttributeTypes)
+            foreach (EnumAttributeType enumAttrType in model.EnumAttributeTypes)
             {
                 if (enumAttrType.Name == typeName)
                     return enumAttrType.EnumType;
             }
 
-            Assembly assembly = Assembly.GetAssembly(graph.Model.GetType());
+            Assembly assembly = Assembly.GetAssembly(model.GetType());
 
             // check node and edge types
-            foreach (NodeType nodeType in graph.Model.NodeModel.Types)
+            foreach (NodeType nodeType in model.NodeModel.Types)
             {
                 if (nodeType.Name == typeName)
                 {
@@ -75,7 +86,7 @@ namespace de.unika.ipd.grGen.libGr
                     return type;
                 }
             }
-            foreach (EdgeType edgeType in graph.Model.EdgeModel.Types)
+            foreach (EdgeType edgeType in model.EdgeModel.Types)
             {
                 if (edgeType.Name == typeName)
                 {
@@ -87,6 +98,17 @@ namespace de.unika.ipd.grGen.libGr
             }
 
             return null;
+        }
+
+        /// <summary>
+        /// Returns the qualified type name for the type name given
+        /// </summary>
+        public static String GetQualifiedTypeName(String typeName, IGraphModel model)
+        {
+            if(typeName=="de.unika.ipd.grGen.libGr.SetValueType" || typeName=="SetValueType")
+                return "de.unika.ipd.grGen.libGr.SetValueType";
+            Type type = GetTypeFromNameForDictionary(typeName, model);
+            return type!=null ? type.Namespace+"."+type.Name : null;
         }
 
         /// <summary>

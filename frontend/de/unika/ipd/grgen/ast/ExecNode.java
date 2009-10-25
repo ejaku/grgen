@@ -101,7 +101,7 @@ public class ExecNode extends BaseNode {
 		varDecls.addChild(varDecl);
 	}
 
-	public void addGraphElementUsageOutsideOfCall(IdentNode id) {
+	public void addGraphElementUsageOutsideOfActionCall(IdentNode id) {
 		assert !isResolved();
 		becomeParent(id);
 		graphElementUsageOutsideOfCallUnresolved.addChild(id);

@@ -1,0 +1,10 @@
+// True and False regarding match result on an empty graph
+
+test True
+{
+}
+
+test False
+{
+	.;
+}

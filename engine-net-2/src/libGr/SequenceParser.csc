@@ -107,6 +107,7 @@ PARSER_BEGIN(SequenceParser)
 				case SequenceType.StrictOr:
 				case SequenceType.Xor:
 				case SequenceType.StrictAnd:
+				case SequenceType.IfThen: // lazy implication
 				{
 					SequenceBinary binSeq = (SequenceBinary) seq;
 					Resolve(ref binSeq.Left);
@@ -118,9 +119,19 @@ PARSER_BEGIN(SequenceParser)
 				case SequenceType.Min:
 				case SequenceType.MinMax:
 				case SequenceType.Transaction:
+				case SequenceType.For:
 				{
 					SequenceUnary unSeq = (SequenceUnary) seq;
 					Resolve(ref unSeq.Seq);
+					break;
+				}
+				
+				case SequenceType.IfThenElse:
+				{
+					SequenceIfThenElse seqIf = (SequenceIfThenElse) seq;
+					Resolve(ref seqIf.Condition);
+					Resolve(ref seqIf.TrueCase);
+					Resolve(ref seqIf.FalseCase);
 					break;
 				}
 				
@@ -211,13 +222,16 @@ PARSER_BEGIN(SequenceParser)
 				case SequenceType.False:
 				case SequenceType.AssignVarToVar:
 				case SequenceType.AssignElemToVar:
+				case SequenceType.AssignSetmapSizeToVar:
+				case SequenceType.AssignSetmapEmptyToVar:
+				case SequenceType.AssignMapAccessToVar:
+				case SequenceType.AssignSetCreationToVar:
+				case SequenceType.AssignMapCreationToVar:
+				case SequenceType.SetmapAdd:
+				case SequenceType.SetmapRem:
+				case SequenceType.SetmapClear:
+				case SequenceType.InSetmap:
 					// Nothing to be done here
-					break;
-					
-				case SequenceType.Foreach:
-				case SequenceType.Add:
-				case SequenceType.Rem:
-					// todo
 					break;
 
 				default:
@@ -253,6 +267,8 @@ TOKEN: {
 |	< RBOXBRACKET: "]" >
 |   < LANGLE: "<" >
 |   < RANGLE: ">" >
+|   < LBRACE: "{" >
+|   < RBRACE: "}" >
 |	< COLON: ":" >
 |   < PERCENT: "%" >
 |   < QUESTIONMARK: "?" >
@@ -260,16 +276,17 @@ TOKEN: {
 |   < DEF: "def" >
 |   < TRUE: "true" >
 |   < FALSE: "false" >
-|   < FOREACH: "foreach" >
+|   < SET: "set" >
+|   < MAP: "map" >
 |   < ARROW: "->" >
+|   < FOR: "for" >
+|   < IF: "if" >
 |   < IN: "in" >
-|   < DO: "do" >
-|   < OD: "od" >
-|   < ADD: "add" >
-|   < REM: "rem" >
 |   < DOT: "." >
-|   < THENLEFT: "<-;" >
-|   < THENRIGHT: ";->" >
+|   < THENLEFT: "<;" >
+|   < THENRIGHT: ";>" >
+|   < SEMI: ";" >
+|   < DOUBLESEMI: ";;" >
 }
 
 TOKEN: {
@@ -428,10 +445,14 @@ void RuleParameters(List<String> paramVars, List<Object> paramConsts):
 
 String Variable():
 {
-	String toVarName, typeName = null;
+	String toVarName, typeName = null, typeNameDst;
 }
 {
-	toVarName=Word() (":" typeName=Word())?
+	toVarName=Word() (":" (typeName=Word()
+							| "set" "<" typeName=Word() ">" { typeName = "set<"+typeName+">"; }
+							| "map" "<" typeName=Word() "," typeNameDst=Word() ">" { typeName = "map<"+typeName+","+typeNameDst+">"; }
+						  )
+					 )?
 	{
 		if(varDecls != null)
 		{
@@ -483,19 +504,19 @@ Sequence RewriteSequence():
 	bool random = false;
 }
 {
-	seq=RewriteSequence1()
+	seq=RewriteSequenceLazyOr()
 	(
 		LOOKAHEAD(2)
 		(
 			LOOKAHEAD(2)
-			("$" { random = true; })? "<-;" seq2=RewriteSequence()							
+			("$" { random = true; })? "<;" seq2=RewriteSequence()							
 			{
-				seq = new SequenceLeft(seq, seq2, random);
+				seq = new SequenceThenLeft(seq, seq2, random);
 			}
 		|
-			("$" { random = true; })? ";->" seq2=RewriteSequence()							
+			("$" { random = true; })? ";>" seq2=RewriteSequence()							
 			{
-				seq = new SequenceRight(seq, seq2, random);
+				seq = new SequenceThenRight(seq, seq2, random);
 			}
 		)
 	)?
@@ -504,13 +525,13 @@ Sequence RewriteSequence():
 	}
 }
 
-Sequence RewriteSequence1():
+Sequence RewriteSequenceLazyOr():
 {
 	Sequence seq, seq2;
 	bool random = false;
 }
 {
-	seq=RewriteSequence2()
+	seq=RewriteSequenceLazyAnd()
 	(
 		LOOKAHEAD(2)
 		("$" { random = true; })? "||" seq2=RewriteSequence()							
@@ -523,16 +544,16 @@ Sequence RewriteSequence1():
 	}
 }
 
-Sequence RewriteSequence2():
+Sequence RewriteSequenceLazyAnd():
 {
 	Sequence seq, seq2;
 	bool random = false;
 }
 {
-	seq=RewriteSequence3()
+	seq=RewriteSequenceStrictOr()
 	(
 		LOOKAHEAD(2)
-		("$" { random = true; })? "&&" seq2=RewriteSequence2()
+		("$" { random = true; })? "&&" seq2=RewriteSequenceLazyAnd()
 		{
 			seq = new SequenceLazyAnd(seq, seq2, random);
 		}
@@ -542,16 +563,16 @@ Sequence RewriteSequence2():
 	}
 }
 
-Sequence RewriteSequence3():
+Sequence RewriteSequenceStrictOr():
 {
 	Sequence seq, seq2;
 	bool random = false;
 }
 {
-	seq=RewriteSequence4()
+	seq=RewriteSequenceStrictXor()
 	(
 		LOOKAHEAD(2)
-		("$" { random = true; })? "|" seq2=RewriteSequence3()
+		("$" { random = true; })? "|" seq2=RewriteSequenceStrictOr()
 		{
 			seq = new SequenceStrictOr(seq, seq2, random);
 		}
@@ -561,16 +582,16 @@ Sequence RewriteSequence3():
 	}
 }
 
-Sequence RewriteSequence4():
+Sequence RewriteSequenceStrictXor():
 {
 	Sequence seq, seq2;
 	bool random = false;
 }
 {
-	seq=RewriteSequence5()
+	seq=RewriteSequenceStrictAnd()
 	(
 		LOOKAHEAD(2)
-		("$" { random = true; })? "^" seq2=RewriteSequence4()
+		("$" { random = true; })? "^" seq2=RewriteSequenceStrictXor()
 		{
 			seq = new SequenceXor(seq, seq2, random);
 		}
@@ -580,16 +601,16 @@ Sequence RewriteSequence4():
 	}
 }
 
-Sequence RewriteSequence5():
+Sequence RewriteSequenceStrictAnd():
 {
 	Sequence seq, seq2;
 	bool random = false;
 }
 {
-	seq=RewriteSequence6()
+	seq=RewriteSequenceNeg()
 	(
 		LOOKAHEAD(2)
-		("$" { random = true; })? "&" seq2=RewriteSequence5()
+		("$" { random = true; })? "&" seq2=RewriteSequenceStrictAnd()
 		{
 			seq = new SequenceStrictAnd(seq, seq2, random);
 		}
@@ -599,23 +620,23 @@ Sequence RewriteSequence5():
 	}
 }
 
-Sequence RewriteSequence6():
+Sequence RewriteSequenceNeg():
 {
 	Sequence seq;
 }
 {
-    "!" seq=RewriteSequence6()
+    "!" seq=RewriteSequenceNeg()
 	{
 		return new SequenceNot(seq);
 	}
 |	
-	seq=SingleSequence()
+	seq=RewriteSequenceIteration()
 	{
 		return seq;
 	}
 }
 
-Sequence SingleSequence():
+Sequence RewriteSequenceIteration():
 {
 	Sequence seq;
 	long minnum, maxnum = -1;
@@ -669,29 +690,31 @@ Sequence SimpleSequence():
 	bool special = false;
 	Sequence seq;
 	List<String> defParamVars = new List<String>();
-	String toVarName, typeName = null, fromName;
+	String toVarName, typeName = null, typeNameDst, fromName;
 	IGraphElement elem;
-	String setmap, var, varDst = null;
+	String setmap, var = null, varDst = null, method;
+	Sequence seqCond, seqTrue, seqFalse = null;
 }
 {
-	LOOKAHEAD(2) toVarName=Word() (":" typeName=Word())? "="
-	{
-		if(varDecls != null)
-		{
-			String oldTypeName;
-			if(varDecls.TryGetValue(toVarName, out oldTypeName))
-			{
-				if(typeName != null)
-				{
-					if(oldTypeName != null)
-					throw new ParseException("The variable \"" + toVarName + "\" has already been declared!");
-					varDecls[toVarName] = typeName;
-				}
-			}
-			else varDecls[toVarName] = typeName;
-		}
-	}
+	LOOKAHEAD(Variable() "=") toVarName=Variable() "="
     (
+        LOOKAHEAD(2) fromName=Word() "." method=Word() "(" ")"
+		{
+			if(method=="size") return new SequenceAssignSetmapSizeToVar(toVarName, fromName);
+			else if(method=="empty") return new SequenceAssignSetmapEmptyToVar(toVarName, fromName);
+			else throw new ParseException("Unknown method name: \"" + method + "\"! (available are size|empty on set/map)");
+		}
+	|
+		LOOKAHEAD(2) setmap=Word() "[" var=Word() "]" // parsing v=a[ as v=a[x] has priority over (v=a)[*]
+		{
+			return new SequenceAssignMapAccessToVar(toVarName, setmap, var);
+		}
+	|
+		LOOKAHEAD(2) var=Word() "in" setmap=Word()
+		{
+			return new SequenceAssignSequenceResultToVar(toVarName, new SequenceIn(var, setmap));
+		}
+	|
         fromName=Word()
         {
             return new SequenceAssignVarToVar(toVarName, fromName);
@@ -710,6 +733,21 @@ Sequence SimpleSequence():
             return new SequenceAssignElemToVar(toVarName, elem);
         }
     |
+		"set" "<" typeName=Word() ">"
+		{
+			return new SequenceAssignSetCreationToVar(toVarName, typeName);
+		}
+	|
+		"map" "<" typeName=Word() "," typeNameDst=Word() ">"
+		{
+			return new SequenceAssignMapCreationToVar(toVarName, typeName, typeNameDst);
+		}
+	|
+		"def" "(" Parameters(defParamVars) ")" // todo: eigentliches Ziel: Zuweisung simple sequence an Variable
+		{
+			return new SequenceAssignSequenceResultToVar(toVarName, new SequenceDef(defParamVars.ToArray()));
+		}
+	|
 		"true"
 		{
 			return new SequenceAssignSequenceResultToVar(toVarName, new SequenceTrue(false));
@@ -719,22 +757,33 @@ Sequence SimpleSequence():
 		{
 			return new SequenceAssignSequenceResultToVar(toVarName, new SequenceFalse(false));
 		}
-    |
+	|
 		"(" seq=RewriteSequence() ")"
 		{
 			return new SequenceAssignSequenceResultToVar(toVarName, seq);
 		}
     )
 |
-	LOOKAHEAD(3) setmap=Variable() "." "add" "(" var=Variable() ("->" varDst=Variable())? ")"
+	LOOKAHEAD(2) setmap=Word() "." method=Word() "(" ( var=Word() ("," varDst=Word())? )? ")"
 	{
-        return new SequenceAdd(setmap, var, varDst);
+		if(method=="add") {
+			if(var==null) throw new ParseException("\"" + method + "\" expects 1(for set) or 2(for map) parameters)");
+			return new SequenceSetmapAdd(setmap, var, varDst);
+		} else if(method=="rem") {
+			if(var==null || varDst!=null) throw new ParseException("\"" + method + "\" expects 1 parameter)");
+			return new SequenceSetmapRem(setmap, var); 
+		} else if(method=="clear") {
+			if(var!=null || varDst!=null) throw new ParseException("\"" + method + "\" expects no parameters)");
+			return new SequenceSetmapClear(setmap);
+		} else {
+			throw new ParseException("Unknown method name: \"" + method + "\"! (available are add|rem|clear on set/map)");
+		}
     }
 |
-	LOOKAHEAD(2) setmap=Variable() "." "rem" "(" var=Variable() ")"
+	LOOKAHEAD(2) var=Word() "in" setmap=Word()
 	{
-        return new SequenceRem(setmap, var);
-    }
+		return new SequenceIn(var, setmap);
+	}
 |
 	LOOKAHEAD(RuleLookahead()) seq=Rule()
 	{
@@ -766,9 +815,15 @@ Sequence SimpleSequence():
         return new SequenceTransaction(seq);
     }
 |
-	"foreach" var=Variable() ("->" varDst=Variable())? "in" setmap=Variable() "do" seq=RewriteSequence() "od"
+    "if" "{" seqCond=RewriteSequence() ";" seqTrue=RewriteSequence() (";" seqFalse=RewriteSequence())? "}"
+    {
+		if(seqFalse==null) return new SequenceIfThen(seqCond, seqTrue);
+        else return new SequenceIfThenElse(seqCond, seqTrue, seqFalse);
+    }
+|
+	"for" "{" var=Variable() ("->" varDst=Variable())? "in" setmap=Word() ";" seq=RewriteSequence() "}"
 	{
-        return new SequenceForeach(var, varDst, setmap, seq);
+        return new SequenceFor(var, varDst, setmap, seq);
     }
 }
 

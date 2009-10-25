@@ -8,6 +8,18 @@ rule addNode : (Node)
 	}
 }
 
+test pickNode : (Node)
+{
+	 n:Node;
+	 return(n);
+}
+
+test getReflexiveEdge(n:Node) : (Edge)
+{
+	n -e:Edge-> n;
+	return(e);
+}
+
 rule addReflexiveEdge(n:Node) : (Edge)
 {
 	modify {

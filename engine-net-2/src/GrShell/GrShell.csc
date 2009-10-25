@@ -906,7 +906,7 @@ void ShellCommand():
 			}
         }
     |
-	    ("strict" { strict = true; })? LineEnd()
+	    ( "strict" { strict = true; } )? LineEnd()
 	    {
 		    validated = impl.Validate(strict);
 			if(!validated && exitOnFailure)
@@ -1036,7 +1036,7 @@ void ShellCommand():
 				obj = boolVal;
 			}
 		|
-			"new" 
+			"new" // todo: alle set/map-operationen deprecaten
 			(
 				"map" str2=Word() str3=Word()
 				{

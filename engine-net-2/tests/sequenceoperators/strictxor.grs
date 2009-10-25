@@ -1,0 +1,12 @@
+new graph sequenceoperators/sequenceoperators
+
+xgrs r=(True ^ True)
+show var r
+xgrs r=(True ^ False)
+show var r
+xgrs r=(False ^ True)
+show var r
+xgrs r=(False ^ False)
+show var r
+
+quit

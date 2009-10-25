@@ -6,7 +6,7 @@
 
 /**
  * @author Edgar Jakumeit
- * @version $Id: MapTypeNode.java 22952 2008-10-16 19:50:10Z moritz $
+ * @version $Id: SetTypeNode.java 22952 2008-10-16 19:50:10Z moritz $
  */
 
 package de.unika.ipd.grgen.ast;

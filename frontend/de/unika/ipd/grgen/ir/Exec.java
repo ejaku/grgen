@@ -15,7 +15,7 @@ import java.util.LinkedHashSet;
 import java.util.Set;
 
 /**
- * A XGRS in an emit statement.
+ * A XGRS in an exec statement.
  */
 public class Exec extends IR implements ImperativeStmt {
 	private Set<Expression> parameters = new LinkedHashSet<Expression>();

@@ -1,25 +1,25 @@
 new graph storages/storages
 
 st1 = new set Node
-xgrs ( (n)=addNode ;-> st1.add(n) )[5]
+xgrs ( (n)=addNode ;> st1.add(n) )[5]
 set st1 size
 
 st2 = new set Edge
-xgrs foreach n in st1 do (e)=addReflexiveEdge(n) ;-> st2.add(e) od
+xgrs for{n in st1; (e)=addReflexiveEdge(n) ;> st2.add(e)}
 set st2 size
 show num nodes
 show num edges
 
-xgrs foreach e in st2 do isReflexiveEdge(e) od
-xgrs foreach n in st1 do exactlyOneReflexiveEdge(n) od
+xgrs for{e in st2; isReflexiveEdge(e)}
+xgrs for{n in st1; exactlyOneReflexiveEdge(n)}
 
-xgrs foreach e in st2 do remEdge(e) od
+xgrs for{e in st2; remEdge(e)}
 set st2 size
 show num nodes
 show num edges
 
 st3 = new set Edge
-xgrs foreach e in st2 do st3.add(e) od
+xgrs for{e in st2; st3.add(e)}
 set st3 size
 
 set st3 size
@@ -27,7 +27,7 @@ xgrs st3.add(e) && addNode
 show num nodes
 set st3 size
 
-xgrs foreach e in st3 do st2.rem(e) od
+xgrs for{e in st3; st2.rem(e)}
 set st2 size
 show num nodes
 show num edges
@@ -37,8 +37,16 @@ set st2 size
 xgrs st2.rem(e) && addNode
 show num nodes
 set st2 size
-xgrs foreach n in st3 do st2.rem(n) od && addNode
+xgrs for{n in st3; st2.rem(n)} && addNode
 show num nodes
 set st2 size
+
+set st3 size
+xgrs s=st3.size()
+show var s
+xgrs st3.clear()
+set st3 size
+xgrs s=st3.size()
+show var s
 
 quit

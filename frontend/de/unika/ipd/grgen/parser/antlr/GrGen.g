@@ -12,9 +12,9 @@
 
 grammar GrGen;
 
-options {
-	k = 2;
-}
+//options {
+//	k = 2;
+//}
 
 tokens {
 	NUM_INTEGER;
@@ -195,7 +195,7 @@ textActions returns [ UnitNode main = null ]
 	}
 
 	: (
-		( a=ACTIONS i=ident
+		( a=ACTIONS i=IDENT
 			{
 				reportWarning(getCoords(a), "keyword \"actions\" is deprecated");
 				reportWarning(getCoords(i),
@@ -992,7 +992,7 @@ independent [ int idptCount, int context ] returns [ PatternGraphNode res = null
 	;
 
 condition [ CollectNode<ExprNode> conds ]
-	: COND LBRACE
+	: IF LBRACE
 			( e=expr[false] { conds.addChild(e); } SEMI )* 
 		RBRACE
 	;
@@ -1023,26 +1023,6 @@ deleteStmt[CollectNode<IdentNode> res]
 
 paramListOfEntIdentUse[CollectNode<IdentNode> res]
 	: id=entIdentUse { res.addChild(id); }	( COMMA id=entIdentUse { res.addChild(id); } )*
-	;
-
-paramListOfExecEntIdentUseOrEntIdentDecl[CollectNode<BaseNode> res]
-	: child=execEntIdentUseOrEntIdentDecl { res.addChild(child); }
-		( COMMA child=execEntIdentUseOrEntIdentDecl { res.addChild(child); } )*
-	;
-
-execEntIdentUseOrEntIdentDecl returns [BaseNode res = null]
-	:
-		id=entIdentUse { res = id; } // var of node, edge, or basic type
-	|
-		id=entIdentDecl COLON type=typeIdentUse // node decl
-		{
-			res = new ExecVarDeclNode(id, type);
-		}
-	|
-		MINUS id=entIdentDecl COLON type=typeIdentUse  RARROW // edge decl
-		{
-			res = new ExecVarDeclNode(id, type);
-		}
 	;
 
 execStmt[CollectNode<BaseNode> imperativeStmts]
@@ -1086,27 +1066,32 @@ typeUnaryExpr returns [ TypeExprNode res = null ]
 
 
 xgrs[ExecNode xg]
-	: xgrs2[xg] ( DOLLAR LOR {xg.append("||");} xgrs[xg] | LOR {xg.append("||");} xgrs[xg] | )
+	: xgrsLazyOr[xg] ( DOLLAR THENLEFT {xg.append(" $<; ");} xgrs[xg] | THENLEFT {xg.append(" <; ");} xgrs[xg]
+						| DOLLAR THENRIGHT {xg.append(" $;> ");} xgrs[xg] | THENRIGHT {xg.append(" ;> ");} xgrs[xg] )?
 	;
 
-xgrs2[ExecNode xg]
-	: xgrs3[xg] ( DOLLAR LAND {xg.append("&&");} xgrs2[xg] | LAND {xg.append("&&");} xgrs2[xg] | )
+xgrsLazyOr[ExecNode xg]
+	: xgrsLazyAnd[xg] ( DOLLAR LOR {xg.append(" $|| ");} xgrsLazyOr[xg] | LOR {xg.append(" || ");} xgrsLazyOr[xg] )?
 	;
 
-xgrs3[ExecNode xg]
-	: xgrs4[xg] ( DOLLAR BOR {xg.append("|");} xgrs3[xg] | BOR {xg.append("|");} xgrs3[xg] | )
+xgrsLazyAnd[ExecNode xg]
+	: xgrsStrictOr[xg] ( DOLLAR LAND {xg.append(" $&& ");} xgrsLazyAnd[xg] | LAND {xg.append(" && ");} xgrsLazyAnd[xg] )?
 	;
 
-xgrs4[ExecNode xg]
-	: xgrs5[xg] ( DOLLAR BXOR {xg.append("^");} xgrs4[xg] | BXOR {xg.append("^");} xgrs4[xg] | )
+xgrsStrictOr[ExecNode xg]
+	: xgrsStrictXor[xg] ( DOLLAR BOR {xg.append(" $| ");} xgrsStrictOr[xg] | BOR {xg.append(" | ");} xgrsStrictOr[xg] )?
 	;
 
-xgrs5[ExecNode xg]
-	: xgrs6[xg] ( DOLLAR BAND {xg.append("&");} xgrs5[xg] | BAND {xg.append("&");} xgrs5[xg] | )
+xgrsStrictXor[ExecNode xg]
+	: xgrsStrictAnd[xg] ( DOLLAR BXOR {xg.append(" $^ ");} xgrsStrictXor[xg] | BXOR {xg.append(" ^ ");} xgrsStrictXor[xg] )?
 	;
 
-xgrs6[ExecNode xg]
-	: NOT {xg.append("!");} xgrs6[xg]
+xgrsStrictAnd[ExecNode xg]
+	: xgrsNegOrIteration[xg] ( DOLLAR BAND {xg.append(" $& ");} xgrsStrictAnd[xg] | BAND {xg.append(" & ");} xgrsStrictAnd[xg] )?
+	;
+
+xgrsNegOrIteration[ExecNode xg]
+	: NOT {xg.append("!");} xgrsNegOrIteration[xg]
 	| iterSequence[xg]
 	;
 
@@ -1135,49 +1120,33 @@ iterSequence[ExecNode xg]
 simpleSequence[ExecNode xg]
 	@init{
 		CollectNode<BaseNode> returns = new CollectNode<BaseNode>();
+		String id_ = null, id2_ = null;
 	}
 	
-	: LPAREN {xg.append("(");}
+	// attention/todo: names are not resolved!
+	// -> using not existing types, not declared names outside of the return assignment of an action call 
+	// will not be detected in the frontend; xgrs in the frontend are to a certain degree syntax only
+	: lhs=xgrsEntity[xg] ASSIGN { xg.append('='); }
 		(
-			(entIdentUse COMMA | entIdentUse RPAREN ASSIGN | entIdentUse COLON typeIdentUse (COMMA | RPAREN) | MINUS) =>
-				paramListOfExecEntIdentUseOrEntIdentDecl[returns]
-					{
-						for(Iterator<BaseNode> i =returns.getChildren().iterator(); i.hasNext();) {
-							BaseNode r = i.next();
-							if(r instanceof ExecVarDeclNode) {
-								ExecVarDeclNode decl = (ExecVarDeclNode)r;
-								xg.append(decl.getIdentNode().getIdent());
-								xg.append(':');
-								xg.append(decl.typeUnresolved);
-								xg.addVarDecls(decl);
-							} else
-								xg.append(r);
-							if(i.hasNext()) xg.append(",");
-						}
-					}
-				RPAREN ASSIGN {xg.append(")=");} parallelCallRule[xg, returns]
-			| xgrs[xg] RPAREN {xg.append(")");}
-		)
-	| (entIdentUse ASSIGN | entIdentDecl COLON | MINUS) =>
-	lhs=execEntIdentUseOrEntIdentDecl ASSIGN
-		{
-			if(lhs instanceof ExecVarDeclNode) {
-				ExecVarDeclNode decl = (ExecVarDeclNode)lhs;
-				xg.append(decl.getIdentNode().getIdent());
-				xg.append(':');
-				xg.append(decl.typeUnresolved);
-				xg.addVarDecls(decl);
+			id=entIdentUse d=DOT method=IDENT LPAREN RPAREN
+			{ if(method.getText().equals("size")) { xg.append(id+".size()"); xg.addGraphElementUsageOutsideOfActionCall(id); }
+			  else if(method.getText().equals("empty")) { xg.append(id+".empty()"); xg.addGraphElementUsageOutsideOfActionCall(id); }
+			  else reportError(getCoords(d), "Unknown method name \""+method.getText()+"\"! (available are size|empty on set/map)");
 			}
-			else {
-				xg.append(lhs);
-			}
-			xg.append('=');
-		}
-		(
-			id=entIdentUse {
-				xg.append(id);
-				xg.addGraphElementUsageOutsideOfCall(id);
-			}
+		|
+			map=entIdentUse LBRACK var=entIdentUse RBRACK
+			{ xg.append(map+"["+var+"]"); xg.addGraphElementUsageOutsideOfActionCall(map); xg.addGraphElementUsageOutsideOfActionCall(var); }
+		| 
+			var=entIdentUse IN setmap=entIdentUse { xg.append(var+" in "+setmap); }
+		|
+			id=entIdentUse
+			{ xg.append(id); xg.addGraphElementUsageOutsideOfActionCall(id); }
+		|
+			SET LT typeName=typeIdentUse GT
+			{ xg.append("set<"+typeName+">"); }
+		|
+			MAP LT typeName=typeIdentUse COMMA toTypeName=typeIdentUse GT
+			{ xg.append("map<"+typeName+","+toTypeName+">"); }
 		|
 			TRUE { xg.append("true"); }
 		|
@@ -1185,26 +1154,45 @@ simpleSequence[ExecNode xg]
 		|
 			LPAREN { xg.append('('); } xgrs[xg] RPAREN { xg.append(')'); }
 		)
+	| setmap=entIdentUse d=DOT method=IDENT LPAREN ( id=entIdentUse {id_=id.toString();} (COMMA id2=entIdentUse {id2_=id2.toString();})? )? RPAREN
+		{ if(method.getText().equals("add")) { // arrrrgh! == doesn't work for strings in Java ... maximum retardedness!
+			if(id_==null) reportError(getCoords(d), "\""+method.getText()+"\" expects 1(for set) or 2(for map) parameters");
+		    if(id2_!=null) { xg.append(setmap+".add("+id_+","+id2_+")"); xg.addGraphElementUsageOutsideOfActionCall(id); xg.addGraphElementUsageOutsideOfActionCall(id2); }
+			else { xg.append(setmap+".add("+id_+")"); xg.addGraphElementUsageOutsideOfActionCall(id); }
+	      } else if(method.getText().equals("rem")) {
+		    if(id_==null || id2_!=null) reportError(getCoords(d), "\""+method.getText()+"\" expects 1 parameter");
+		    xg.append(setmap+".rem("+id_+")"); xg.addGraphElementUsageOutsideOfActionCall(id);
+		  } else if(method.getText().equals("clear")) { 
+		    if(id_!=null || id2_!=null) reportError(getCoords(d), "\""+method.getText()+"\" expects no parameters");
+		    xg.append(setmap+".clear()");
+		  } else reportError(getCoords(d), "Unknown method name \""+method.getText()+"\"! (available are add|rem|clear on set/map)");
+		}
+	| var=entIdentUse IN setmap=entIdentUse { xg.append(var+" in "+setmap); }
 	| parallelCallRule[xg, returns]
 	| TRUE { xg.append("true"); }
 	| FALSE { xg.append("false"); }
-	| LT {xg.append("<");} xgrs[xg] GT {xg.append(">");}
+	| LPAREN { xg.append("("); } xgrs[xg] RPAREN { xg.append(")"); }
+	| LT { xg.append("<"); } xgrs[xg] GT { xg.append(">"); }
+	| IF LBRACE { xg.append("if{"); } xgrs[xg] SEMI { xg.append("; "); } xgrs[xg] (SEMI { xg.append("; "); } xgrs[xg])? RBRACE { xg.append("}"); }
+	| FOR LBRACE { xg.append("for{"); } xgrsEntity[xg] (RARROW { xg.append(" -> "); } xgrsEntity[xg])?
+		IN { xg.append(" in "); } xgrsEntity[xg] SEMI { xg.append("; "); } xgrs[xg] RBRACE { xg.append("}"); }
 	;
-
+	
 parallelCallRule[ExecNode xg, CollectNode<BaseNode> returns]
 	@init{
 		numRndChoose = 0;
 	}
-	
-	: (LBRACK) => LBRACK {xg.append("[");} callRule[xg, returns] RBRACK {xg.append("]");}
-	| (DOLLAR (NUM_INTEGER)? LBRACK) =>
-	  DOLLAR {xg.append("$");}
-	  (numRndChoose=integerConst {xg.append(numRndChoose);})?
-	  LBRACK {xg.append("[");}
-	  callRule[xg, returns] RBRACK {xg.append("]");}
-	| callRule[xg, returns]
-	;
 
+	: ( LPAREN {xg.append("(");} xgrsVariableList[xg, returns] RPAREN ASSIGN {xg.append(")=");} )?
+		(	( DOLLAR {xg.append("$");} ( numRndChoose=integerConst {xg.append(numRndChoose);} )? )?
+				LBRACK {xg.append("[");} 
+				callRule[xg, returns]
+				RBRACK {xg.append("]");}
+		| 
+			callRule[xg, returns]
+		)
+	;
+		
 callRule[ExecNode xg, CollectNode<BaseNode> returns]
 	@init{
 		CollectNode<BaseNode> params = new CollectNode<BaseNode>();
@@ -1245,6 +1233,50 @@ ruleParams[CollectNode<BaseNode> parameters]
 	: ruleParam[parameters]	( COMMA ruleParam[parameters] )*
 	;
 
+xgrsVariableList[ExecNode xg, CollectNode<BaseNode> res]
+	: child=xgrsEntity[xg] { res.addChild(child); }
+		( COMMA { xg.append(","); } child=xgrsEntity[xg] { res.addChild(child); } )*
+	;
+
+xgrsEntity[ExecNode xg] returns [BaseNode res = null]
+	:
+		id=entIdentUse // var of node, edge, or basic type
+		{ res = id; xg.append(id); } 
+	|
+		id=entIdentDecl COLON type=typeIdentUse // node decl
+		{
+			ExecVarDeclNode decl = new ExecVarDeclNode(id, type);
+			xg.append(id.toString()+":"+type.toString());
+			xg.addVarDecls(decl);
+			res = decl;
+		}
+	|
+		id=entIdentDecl COLON SET LT type=typeIdentUse GT // set decl
+		{
+			ExecVarDeclNode decl = new ExecVarDeclNode(id, SetTypeNode.getSetType(type));
+			xg.append(id.toString()+":set<"+type.toString()+">");
+			xg.addVarDecls(decl);
+			res = decl;
+		}
+	|
+		id=entIdentDecl COLON MAP LT keyType=typeIdentUse COMMA valueType=typeIdentUse GT // map decl
+		{
+			ExecVarDeclNode decl = new ExecVarDeclNode(id, MapTypeNode.getMapType(keyType, valueType));
+			xg.append(id.toString()+":map<"+keyType.toString()+","+valueType.toString()+">");
+			xg.addVarDecls(decl);
+			res = decl;
+		}
+	|
+		MINUS id=entIdentDecl COLON type=typeIdentUse RARROW // edge decl, interpreted grs don't use -:-> form
+		{
+			ExecVarDeclNode decl = new ExecVarDeclNode(id, type);
+			xg.append(decl.getIdentNode().getIdent());
+			xg.append(':');
+			xg.append(decl.typeUnresolved);
+			xg.addVarDecls(decl);
+			res = decl;
+		}
+	;
 
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -1266,7 +1298,7 @@ textTypes returns [ ModelNode model = null ]
 			new de.unika.ipd.grgen.parser.Coords(0, 0, getFilename())));
 	}
 
-	:   ( m=MODEL ignoredToken=ident SEMI
+	:   ( m=MODEL ignoredToken=IDENT SEMI
 			{ reportWarning(getCoords(m), "keyword \"model\" is deprecated"); }
 		)?
 		( usingDecl[modelChilds] )?
@@ -1648,19 +1680,9 @@ constrParam returns [ ConstructorParamNode res = null ]
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
 
-
-nonKeywordLiterals returns [ Token t = null ]
-	: v=VISITED { t = v; }
-	;
-
-ident returns [ Token t = null ]
-	: i=IDENT { t = i; }
-	| l=nonKeywordLiterals { l.setType(IDENT); t = l; }
-	;
-
 memberIdent returns [ Token t = null ]
 	: i=IDENT { t = i; }
-	| l=nonKeywordLiterals { l.setType(IDENT); t = l; }
+	| v=VISITED { v.setType(IDENT); t = v; }
 	| r=REPLACE { r.setType(IDENT); t = r; }             // HACK: For string replace function... better choose another name?
 	; 
 
@@ -1682,62 +1704,90 @@ popScope
 	:
 	;
 
+
 typeIdentDecl returns [ IdentNode res = env.getDummyIdent() ]
-	: i=identDecl[ParserEnvironment.TYPES] { res = i; }
+	: i=IDENT 
+		{ if(i!=null) res = new IdentNode(env.define(ParserEnvironment.TYPES, i.getText(), getCoords(i))); }
+		( annots=annotations { res.setAnnotations(annots); } )?
 	;
 
 rhsIdentDecl returns [ IdentNode res = env.getDummyIdent() ]
-	: i=identDecl[ParserEnvironment.REPLACES] { res = i; }
+	: i=IDENT 
+		{ if(i!=null) res = new IdentNode(env.define(ParserEnvironment.REPLACES, i.getText(), getCoords(i))); }
+		( annots=annotations { res.setAnnotations(annots); } )?
 	;
 
 entIdentDecl returns [ IdentNode res = env.getDummyIdent() ]
-	: i=identDecl[ParserEnvironment.ENTITIES] { res = i; }
+	: i=IDENT 
+		{ if(i!=null) res = new IdentNode(env.define(ParserEnvironment.ENTITIES, i.getText(), getCoords(i))); }
+		( annots=annotations { res.setAnnotations(annots); } )?
 	;
 
 actionIdentDecl returns [ IdentNode res = env.getDummyIdent() ]
-	: i=identDecl[ParserEnvironment.ACTIONS] { res = i; }
+	: i=IDENT 
+		{ if(i!=null) res = new IdentNode(env.define(ParserEnvironment.ACTIONS, i.getText(), getCoords(i))); }
+		( annots=annotations { res.setAnnotations(annots); } )?
 	;
 
 altIdentDecl returns [ IdentNode res = env.getDummyIdent() ]
-	: i=identDecl[ParserEnvironment.ALTERNATIVES] { res = i; }
+	: i=IDENT 
+		{ if(i!=null) res = new IdentNode(env.define(ParserEnvironment.ALTERNATIVES, i.getText(), getCoords(i))); }
+		( annots=annotations { res.setAnnotations(annots); } )?
 	;
 
 iterIdentDecl returns [ IdentNode res = env.getDummyIdent() ]
-	: i=identDecl[ParserEnvironment.ITERATEDS] { res = i; }
+	: i=IDENT 
+		{ if(i!=null) res = new IdentNode(env.define(ParserEnvironment.ITERATEDS, i.getText(), getCoords(i))); }
+		( annots=annotations { res.setAnnotations(annots); } )?
 	;
 
 patIdentDecl returns [ IdentNode res = env.getDummyIdent() ]
-	: i=identDecl[ParserEnvironment.PATTERNS] { res = i; }
+	: i=IDENT 
+		{ if(i!=null) res = new IdentNode(env.define(ParserEnvironment.PATTERNS, i.getText(), getCoords(i))); }
+		( annots=annotations { res.setAnnotations(annots); } )?
 	;
 
+/////////////////////////////////////////////////////////
+// Identifier usages, it is checked, whether the identifier is declared.
+// The IdentNode created by the definition is returned.
+// Don't factor the common stuff into "identUse", that pollutes the follow sets
+
 typeIdentUse returns [ IdentNode res = env.getDummyIdent() ]
-	: i=identUse[ParserEnvironment.TYPES] { res = i; }
+	: i=IDENT 
+	{ if(i!=null) res = new IdentNode(env.occurs(ParserEnvironment.TYPES, i.getText(), getCoords(i))); }
 	;
 
 rhsIdentUse returns [ IdentNode res = env.getDummyIdent() ]
-	: i=identUse[ParserEnvironment.REPLACES] { res = i; }
+	: i=IDENT 
+	{ if(i!=null) res = new IdentNode(env.occurs(ParserEnvironment.REPLACES, i.getText(), getCoords(i))); }
 	;
 
 entIdentUse returns [ IdentNode res = env.getDummyIdent() ]
-	: i=identUse[ParserEnvironment.ENTITIES] { res = i; }
+	: i=IDENT
+	{ if(i!=null) res = new IdentNode(env.occurs(ParserEnvironment.ENTITIES, i.getText(), getCoords(i))); }
 	;
 
 actionIdentUse returns [ IdentNode res = env.getDummyIdent() ]
-	: i=identUse[ParserEnvironment.ACTIONS] { res = i; }
+	: i=IDENT
+	{ if(i!=null) res = new IdentNode(env.occurs(ParserEnvironment.ACTIONS, i.getText(), getCoords(i))); }
 	;
 
 iterIdentUse returns [ IdentNode res = env.getDummyIdent() ]
-	: i=identUse[ParserEnvironment.ITERATEDS] { res = i; }
+	: i=IDENT 
+	{ if(i!=null) res = new IdentNode(env.occurs(ParserEnvironment.ITERATEDS, i.getText(), getCoords(i))); }
 	;
 
 altIdentUse returns [ IdentNode res = env.getDummyIdent() ]
-	: i=identUse[ParserEnvironment.ALTERNATIVES] { res = i; }
+	: i=IDENT 
+	{ if(i!=null) res = new IdentNode(env.occurs(ParserEnvironment.ALTERNATIVES, i.getText(), getCoords(i))); }
 	;
 
 patIdentUse returns [ IdentNode res = env.getDummyIdent() ]
-	: i=identUse[ParserEnvironment.PATTERNS] { res = i; }
+	: i=IDENT 
+	{ if(i!=null) res = new IdentNode(env.occurs(ParserEnvironment.PATTERNS, i.getText(), getCoords(i))); }
 	;
 
+	
 annotations returns [ Annotations annots = new DefaultAnnotations() ]
 	: LBRACK keyValuePairs[annots] RBRACK
 	;
@@ -1758,7 +1808,7 @@ keyValuePairs [ Annotations annots ]
 	;
 
 keyValuePair [ Annotations annots ]
-	: id=ident
+	: id=IDENT
 		(
 			ASSIGN c=constant
 			{ annots.put(id.getText(), ((ConstNode) c).getValue()); }
@@ -1768,27 +1818,8 @@ keyValuePair [ Annotations annots ]
 	;
 
 identList [ Collection<String> strings ]
-	: fid=ident { strings.add(fid.getText()); }
-		( COMMA sid=ident { strings.add(sid.getText()); } )*
-	;
-
-/**
- * declaration of an identifier
- */
-identDecl [ int symTab ] returns [ IdentNode res = env.getDummyIdent() ]
-	: i=ident
-		{ if(i!=null) res = new IdentNode(env.define(symTab, i.getText(), getCoords(i))); }
-		( annots=annotations { res.setAnnotations(annots); } )?
-	;
-
-/**
- * Represents the usage of an identifier.
- * It is checked, whether the identifier is declared. The IdentNode
- * created by the definition is returned.
- */
-identUse [ int symTab ] returns [ IdentNode res = env.getDummyIdent() ]
-	: i=ident
-		{ if(i!=null) res = new IdentNode(env.occurs(symTab, i.getText(), getCoords(i))); }
+	: fid=IDENT { strings.add(fid.getText()); }
+		( COMMA sid=IDENT { strings.add(sid.getText()); } )*
 	;
 
 memberIdentUse returns [ IdentNode res = env.getDummyIdent() ]
@@ -2018,7 +2049,7 @@ constant returns [ ExprNode res = env.initExprNode() ]
 identExpr returns [ ExprNode res = env.initExprNode() ]
 	@init{ IdentNode id; }
 
-	: i=ident
+	: i=IDENT
 		{
 			// Entity names can overwrite type names
 			if(env.test(ParserEnvironment.ENTITIES, i.getText()) || !env.test(ParserEnvironment.TYPES, i.getText()))
@@ -2163,6 +2194,8 @@ BACKSLASH		:	'\\'	;
 PLUSPLUS		:	'++'	;
 MINUSMINUS		:	'--'	;
 DOLLAR          :   '$'     ;
+THENLEFT		:	'<;'	;
+THENRIGHT		:	';>'	;
 
 // Whitespace -- ignored
 WS	:	(	' '
@@ -2232,7 +2265,7 @@ ACTIONS : 'actions';
 ALTERNATIVE : 'alternative';
 ARBITRARY : 'arbitrary';
 CLASS : 'class';
-COND : 'if';
+IF : 'if';
 CONNECT : 'connect';
 CONST : 'const';
 DELETE : 'delete';
@@ -2248,6 +2281,7 @@ EXACT : 'exact';
 EXEC : 'exec';
 EXTENDS : 'extends';
 FALSE : 'false';
+FOR : 'for';
 HOM : 'hom';
 IN : 'in';
 INDEPENDENT : 'independent';

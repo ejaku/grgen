@@ -1,0 +1,73 @@
+new graph storages/storages
+
+st1 = new map Node Edge
+map st1 size
+show num nodes
+show num edges
+
+xgrs ( (n)=addNode ;> (e)=addReflexiveEdge(n) ;> st1.add(n,e) )[5]
+map st1 size
+show num nodes
+show num edges
+
+xgrs (n)=pickNode
+xgrs r=(n in st1)
+show var r
+xgrs e=st1[n]
+#e.id = 42
+xgrs (e)=getReflexiveEdge(n)
+#e.id
+
+xgrs for{n->e in st1; e=st1[n] ;> remEdge(e)}
+map st1 size
+show num nodes
+show num edges
+
+xgrs for{n->e in st1; remNode(n)}
+map st1 size
+show num nodes
+show num edges
+
+xgrs st1.clear()
+map st1 size
+
+xgrs ( (n)=addNode ;> (e)=addReflexiveEdge(n) ;> st1.add(n,e) )[5]
+map st1 size
+show num nodes
+show num edges
+
+xgrs (n)=pickNode
+xgrs r=(n in st1)
+show var r
+xgrs e=st1[n]
+#e.id = 42
+xgrs (e)=getReflexiveEdge(n)
+#e.id
+
+xgrs for{n->e in st1; remEdge(e)}
+map st1 size
+show num nodes
+show num edges
+
+st2 = new map Node Edge
+xgrs for{n->e in st1; st2.add(n,e)}
+map st1 size
+map st2 size
+
+xgrs for{n in st2; st1.rem(n)}
+map st1 size
+xgrs s=st1.size()
+show var s
+map st2 size
+xgrs s=st2.size()
+show var s
+xgrs s=st2.empty()
+show var s
+xgrs st2.clear()
+map st2 size
+xgrs s=st2.size()
+show var s
+xgrs s=st2.empty()
+show var s
+
+quit
