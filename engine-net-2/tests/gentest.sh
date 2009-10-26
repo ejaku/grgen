@@ -32,6 +32,16 @@ for scriptfile in $*; do
       }
       while(\$0 ~ /^All attributes/)
     }
+	/(^The available attributes for)|(^(Node|Edge) types)|(^(Sub|Super) types of (node|edge) type)/ {
+      do {
+        getline
+        while(\$0 ~ /^ - /) {
+          print \$0
+          getline            
+        }
+      }
+      while(\$0 ~ /(^The available attributes for)|(^(Node|Edge) types)|(^(Sub|Super) types of (node|edge) type)/)
+    }
     /matches found/ { print \$2 }
     /rewrites performed/ { print \$2 }
     /Number/ { print \$8 }

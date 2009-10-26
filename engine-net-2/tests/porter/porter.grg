@@ -1,0 +1,106 @@
+using porter;
+
+// note: double is mapped to float in exporting gxl 
+// (gxl does not know the distinction float/double and does not specify what their atomic type Float means)
+
+rule createTestGraph
+{
+	modify {
+		. <-- n1:N4 -e1:E4-> n2:N4 -e2:E4-> n3:N4 -e3:E4-> n1;
+		n4:N3 -e4:E2a-> n5:N2a; n4 -e5:E2b-> n6:N2b; n4 -e6:E3-> n4;
+		
+		eval {
+			n1.foo = 1;
+			n1.bar = "n1";
+			n1.bla = 3.141592654f;
+			n1.huh = true;
+
+			e1.foo = 12;
+			e1.bar = "n1->n2";
+			e1.bla = 12.0f;
+			e1.huh = true;
+			
+			n2.foo = 2;
+			n2.bar = "n2";
+			n2.bla = 4.0f;
+			n2.huh = false;
+
+			e2.foo = 23;
+			e2.bar = "n2->n3";
+			e2.bla = 23.0f;
+			e2.huh = false;
+
+			n3.foo = 3;
+			n3.bar = "n3";
+			n3.bla = 2.718281828f;
+			n3.huh = true;
+			
+			e3.foo = 31;
+			e3.bar = "n3->n1";
+			e3.bla = 31.0f;
+			e3.huh = true;
+
+			n4.bla = 42.0f;
+			
+			e4.foo = 42;
+
+			n5.foo = 42;
+
+			e5.bar = "haha";
+
+			n6.bar = "Weltherrschaft!";
+			
+			e6.bla = 42.0f;
+		}
+	}
+}
+
+test checkForTestGraph
+{
+	. <-- n1:N4 -e1:E4-> n2:N4 -e2:E4-> n3:N4 -e3:E4-> n1;
+	n4:N3 -e4:E2a-> n5:N2a; n4 -e5:E2b-> n6:N2b; n4 -e6:E3-> n4;
+	
+	if {
+		n1.foo == 1 &&
+		n1.bar == "n1" &&
+		n1.bla == 3.141592654f &&
+		n1.huh == true &&
+
+		e1.foo == 12 &&
+		e1.bar == "n1->n2" &&
+		e1.bla == 12.0f &&
+		e1.huh == true &&
+		
+		n2.foo == 2 &&
+		n2.bar == "n2" &&
+		n2.bla == 4.0f &&
+		n2.huh == false &&
+
+		e2.foo == 23 &&
+		e2.bar == "n2->n3" &&
+		e2.bla == 23.0f &&
+		e2.huh == false &&
+
+		n3.foo == 3 &&
+		n3.bar == "n3" &&
+		n3.bla == 2.718281828f &&
+		n3.huh == true &&
+		
+		e3.foo == 31 &&
+		e3.bar == "n3->n1" &&
+		e3.bla == 31.0f &&
+		e3.huh == true &&
+
+		n4.bla == 42.0f &&
+		
+		e4.foo == 42 &&
+
+		n5.foo == 42 &&
+
+		e5.bar == "haha" &&
+
+		n6.bar == "Weltherrschaft!" &&
+		
+		e6.bla == 42.0f;
+	}
+}

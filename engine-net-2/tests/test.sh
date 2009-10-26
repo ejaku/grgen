@@ -68,6 +68,23 @@ for filename in $targets; do
         }
         while(\$0 ~ /^All attributes/)
       }
+	  /(^The available attributes for)|(^(Node|Edge) types)|(^(Sub|Super) types of (node|edge) type)/ {
+        do {
+          getline
+          sub(\"\\r\$\", \"\")
+          while(\$0 ~ /^ - /) {
+            testnum++
+            value = \$0
+            getline correctvalue < \"$grs.data\"
+            sub(\"\\r\$\", \"\", correctvalue)
+            if(value != correctvalue)
+              fail(testnum, \"\n  Test \" testnum \" failed: Expected value of attribute = \" correctvalue \", Found \" value)
+            getline
+            sub(\"\\r\$\", \"\")
+          }
+        }
+        while(\$0 ~ /(^The available attributes for)|(^(Node|Edge) types)|(^(Sub|Super) types of (node|edge) type)/)
+      }
       /NOT valid/ {
         print \"\n    Graph validation failed after test \" testnum \": \" > \"/dev/stderr\"
         getline

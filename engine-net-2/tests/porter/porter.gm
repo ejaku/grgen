@@ -1,0 +1,45 @@
+node class N1;
+
+node class N2a extends N1
+{
+	foo : int;
+}
+
+node class N2b extends N1
+{
+	bar : string;
+}
+
+node class N3
+{
+	bla : float;
+}
+
+node class N4 extends N2a, N2b, N3
+{
+	huh : boolean;
+}
+
+///////////////////////////////////////////
+
+edge class E1;
+
+edge class E2a extends E1
+{
+	foo : int;
+}
+
+edge class E2b extends E1
+{
+	bar : string;
+}
+
+edge class E3
+{
+	bla : float;
+}
+
+edge class E4 extends E2a, E2b, E3
+{
+	huh : boolean;
+}

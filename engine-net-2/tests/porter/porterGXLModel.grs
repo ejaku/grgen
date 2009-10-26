@@ -1,0 +1,71 @@
+new graph "porter/porter"
+
+show node types
+show node attributes
+show node sub types Node
+show node attributes only Node
+show node sub types N1
+show node attributes only N1
+show node sub types N2a
+show node attributes only N2a
+show node sub types N2b
+show node attributes only N2b
+show node sub types N3
+show node attributes only N3
+show node sub types N4
+show node attributes only N4
+show edge types
+show edge attributes
+show edge sub types Edge
+show edge attributes only Edge
+show edge sub types UEdge
+show edge attributes only UEdge
+show edge sub types E1
+show edge attributes only E1
+show edge sub types E2a
+show edge attributes only E2a
+show edge sub types E2b
+show edge attributes only E2b
+show edge sub types E3
+show edge attributes only E3
+show edge sub types E4
+show edge attributes only E4
+
+export porter/testgraph.gxl
+
+import porter/testgraph.gxl
+
+show node types
+show node attributes
+show node sub types Node
+show node attributes only Node
+show node sub types N1
+show node attributes only N1
+show node sub types N2a
+show node attributes only N2a
+show node sub types N2b
+show node attributes only N2b
+show node sub types N3
+show node attributes only N3
+show node sub types N4
+show node attributes only N4
+show edge types
+show edge attributes
+show edge sub types Edge
+show edge attributes only Edge
+show edge sub types UEdge
+show edge attributes only UEdge
+show edge sub types E1
+show edge attributes only E1
+show edge sub types E2a
+show edge attributes only E2a
+show edge sub types E2b
+show edge attributes only E2b
+show edge sub types E3
+show edge attributes only E3
+show edge sub types E4
+show edge attributes only E4
+
+export porter/testgraphAfterImport.gxl
+
+quit

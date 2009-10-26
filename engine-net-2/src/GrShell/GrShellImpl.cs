@@ -1528,7 +1528,7 @@ namespace de.unika.ipd.grGen.grShell
                 nodeType = curShellGraph.Graph.Model.NodeModel.RootType;
             }
             if(only)
-                Console.WriteLine("Number of nodes of type \"" + nodeType.Name + "\": "
+                Console.WriteLine("Number of nodes of the type \"" + nodeType.Name + "\": "
                     + curShellGraph.Graph.GetNumExactNodes(nodeType));
             else
                 Console.WriteLine("Number of nodes compatible to type \"" + nodeType.Name + "\": "
@@ -1543,7 +1543,7 @@ namespace de.unika.ipd.grGen.grShell
                 edgeType = curShellGraph.Graph.Model.EdgeModel.RootType;
             }
             if(only)
-                Console.WriteLine("Number of edges of type \"" + edgeType.Name + "\": "
+                Console.WriteLine("Number of edges of the type \"" + edgeType.Name + "\": "
                     + curShellGraph.Graph.GetNumExactEdges(edgeType));
             else
                 Console.WriteLine("Number of edges compatible to type \"" + edgeType.Name + "\": "
@@ -1761,7 +1761,7 @@ namespace de.unika.ipd.grGen.grShell
 
                 if(first)
                 {
-                    Console.WriteLine("{0,-24} type::attribute\n", "kind");
+                    Console.WriteLine(" - {0,-24} type::attribute", "kind");
                     first = false;
                 }
 
@@ -1777,26 +1777,40 @@ namespace de.unika.ipd.grGen.grShell
                     case AttributeKind.ObjectAttr: kind = "object"; break;
                     default: kind = "<INVALID>"; break;
                 }
-                Console.WriteLine("{0,-24} {1}::{2}", kind, attrType.OwnerType.Name, attrType.Name);
+                Console.WriteLine(" - {0,-24} {1}::{2}", kind, attrType.OwnerType.Name, attrType.Name);
             }
             if(first)
-                Console.WriteLine("No attribute types found.");
+                Console.WriteLine(" - No attribute types found.");
         }
 
         public void ShowAvailableNodeAttributes(bool showOnly, NodeType nodeType)
         {
             if(nodeType == null)
+            {
+                Console.WriteLine("The available attributes for nodes:");
                 ShowAvailableAttributes(curShellGraph.Graph.Model.NodeModel.AttributeTypes, null);
+            }
             else
+            {
+                Console.WriteLine("The available attributes for {0} \"{1}\":", 
+                    (showOnly ? "node type only" : "node type"), nodeType.Name);
                 ShowAvailableAttributes(nodeType.AttributeTypes, showOnly ? nodeType : null);
+            }
         }
 
         public void ShowAvailableEdgeAttributes(bool showOnly, EdgeType edgeType)
         {
             if(edgeType == null)
+            {
+                Console.WriteLine("The available attributes for edges:");
                 ShowAvailableAttributes(curShellGraph.Graph.Model.EdgeModel.AttributeTypes, null);
+            }
             else
+            {
+                Console.WriteLine("The available attributes for {0} \"{1}\":",
+                    (showOnly ? "edge type only" : "edge type"), edgeType.Name);
                 ShowAvailableAttributes(edgeType.AttributeTypes, showOnly ? edgeType : null);
+            }
         }
 
         public AttributeType GetElementAttributeType(IGraphElement elem, String attributeName)
