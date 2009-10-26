@@ -4741,8 +4741,21 @@
             Returns type object for type name string, to be used for dictionary
             </summary>
             <param name="typeName">Name of the type we want some type object for</param>
-            <param name="graph">Graph to be search for enum types / enum type names</param>
+            <param name="graph">Graph to be search for enum,node,edge types / enum,node/edge type names</param>
             <returns>The type object corresponding to the given string, null if type was not found</returns>
+        </member>
+        <member name="M:de.unika.ipd.grGen.libGr.DictionaryHelper.GetTypeFromNameForDictionary(System.String,de.unika.ipd.grGen.libGr.IGraphModel)">
+            <summary>
+            Returns type object for type name string, to be used for dictionary
+            </summary>
+            <param name="typeName">Name of the type we want some type object for</param>
+            <param name="model">Graph model to be search for enum,node,edge types / enum,node/edge type names</param>
+            <returns>The type object corresponding to the given string, null if type was not found</returns>
+        </member>
+        <member name="M:de.unika.ipd.grGen.libGr.DictionaryHelper.GetQualifiedTypeName(System.String,de.unika.ipd.grGen.libGr.IGraphModel)">
+            <summary>
+            Returns the qualified type name for the type name given
+            </summary>
         </member>
         <member name="M:de.unika.ipd.grGen.libGr.DictionaryHelper.NewDictionary(System.Type,System.Type)">
             <summary>

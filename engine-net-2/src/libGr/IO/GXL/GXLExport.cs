@@ -7,6 +7,7 @@
 using System;
 using System.Collections.Generic;
 using System.IO;
+using System.Xml;
 
 namespace de.unika.ipd.grGen.libGr
 {
@@ -15,12 +16,17 @@ namespace de.unika.ipd.grGen.libGr
     /// </summary>
     public class GXLExport : IDisposable
     {
-        StreamWriter writer;
+        XmlTextWriter xmlwriter;
 
-        protected GXLExport(String filename)
-        {
-            writer = new StreamWriter(filename);
+        protected GXLExport(XmlTextWriter writer) {
+            xmlwriter = writer;
+            xmlwriter.Formatting = Formatting.Indented;
+			xmlwriter.WriteStartDocument();
+            xmlwriter.WriteDocType("gxl", null, "http://www.gupro.de/GXL/gxl-1.0.dtd", null);
         }
+
+        protected GXLExport(String filename) : this(
+            new XmlTextWriter(new StreamWriter(filename))) { }
 
         /// <summary>
         /// Exports the given graph to a GXL file with the given filename.
@@ -36,12 +42,14 @@ namespace de.unika.ipd.grGen.libGr
 
         protected void Export(IGraph graph)
         {
-            writer.WriteLine("<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n"
-                + "<!DOCTYPE gxl SYSTEM \"http://www.gupro.de/GXL/gxl-1.0.dtd\">\n"
-                + "<gxl xmlns:xlink=\"http://www.w3.org/1999/xlink\">");
+            xmlwriter.WriteStartElement("gxl");
+			xmlwriter.WriteAttributeString("xmlns:xlink", "http://www.w3.org/1999/xlink");
             WriteModel(graph);
             WriteGraph(graph);
-            writer.WriteLine("</gxl>");
+            xmlwriter.WriteEndElement();
+            xmlwriter.WriteEndDocument();
+			xmlwriter.WriteRaw("\n");
+			xmlwriter.Flush();
         }
 
         protected String GetDomainID(AttributeKind kind)
@@ -83,28 +91,53 @@ namespace de.unika.ipd.grGen.libGr
             }
         }
 
-        protected void WriteGXLNode(String id, String gxlname, params Attr[] attrs)
+        protected void WriteTypeElement(string typestr)
         {
-            writer.WriteLine("\t<node id=\"" + id + "\">\n"
-                + "\t\t<type xlink:href=\"http://www.gupro.de/GXL/gxl-1.0.gxl#" + gxlname + "\"/>");
-            foreach(Attr attr in attrs)
-            {
-                writer.WriteLine("\t\t<attr name=\"" + attr.Name + "\"><" + attr.Type + ">"
-                    + attr.Value + "</" + attr.Type + "></attr>");
-            }            
-            writer.WriteLine("\t</node>");
+            xmlwriter.WriteStartElement("type");
+            xmlwriter.WriteAttributeString("xlink:href", typestr);
+            xmlwriter.WriteEndElement();
         }
 
-        protected void WriteGXLEdge(String fromid, String toid, String gxltype, params Attr[] attrs)
+        protected void WriteAttrs(Attr[] attrs)
         {
-            writer.WriteLine("\t<edge from=\"" + fromid + "\" to=\"" + toid + "\">\n"
-                + "\t\t<type xlink:href=\"http://www.gupro.de/GXL/gxl-1.0.gxl#" + gxltype + "\"/>");
-            foreach(Attr attr in attrs)
-            {
-                writer.WriteLine("\t\t<attr name=\"" + attr.Name + "\"><" + attr.Type + ">"
-                    + attr.Value + "</" + attr.Type + "></attr>");
-            } 
-            writer.WriteLine("\t</edge>");
+            foreach(Attr attr in attrs) {
+                xmlwriter.WriteStartElement("attr");
+                xmlwriter.WriteAttributeString("name", attr.Name);
+                xmlwriter.WriteElementString(attr.Type, attr.Value);
+                xmlwriter.WriteEndElement();
+            }
+        }
+
+        protected void WriteNode(String id, String typename, Attr[] attrs)
+        {
+            xmlwriter.WriteStartElement("node");
+            xmlwriter.WriteAttributeString("id", id);
+            WriteTypeElement(typename);
+            WriteAttrs(attrs);
+            xmlwriter.WriteEndElement();
+        }
+
+        protected void WriteGXLNode(String id, String gxlname, params Attr[] attrs) {
+            WriteNode(id, "http://www.gupro.de/GXL/gxl-1.0.gxl#" + gxlname, attrs);
+        }
+
+        protected void WriteEdge(String id, String fromid, String toid, String typename, Attr[] attrs)
+        {
+            xmlwriter.WriteStartElement("edge");
+            if (id != null) {
+                xmlwriter.WriteAttributeString("id", id);
+            }
+            xmlwriter.WriteAttributeString("from", fromid);
+            xmlwriter.WriteAttributeString("to", toid);
+            WriteTypeElement(typename);
+            WriteAttrs(attrs);
+            xmlwriter.WriteEndElement();
+        }
+
+        protected void WriteGXLEdge(String fromid, String toid, String gxltype,
+                                    params Attr[] attrs)
+        {
+            WriteEdge(null, fromid, toid, "http://www.gupro.de/GXL/gxl-1.0.gxl#" + gxltype, attrs);
         }
 
         protected void WriteAttrTypes(ITypeModel typemodel)
@@ -123,8 +156,9 @@ namespace de.unika.ipd.grGen.libGr
             String modelnodeid = graph.Model.ModelName;
             String rootnodeid = GetElemTypeID(graph.Model.NodeModel.RootType);
 
-            writer.WriteLine("<graph id=\"SCE_" + graph.Model.ModelName + "\">\n"
-                + "\t<type xlink:href=\"http://www.gupro.de/GXL/gxl-1.0.gxl#gxl-1.0\"/>");
+            xmlwriter.WriteStartElement("graph");
+            xmlwriter.WriteAttributeString("id", "SCE_" + graph.Model.ModelName);
+            WriteTypeElement("http://www.gupro.de/GXL/gxl-1.0.gxl#gxl-1.0");
 
             WriteGXLNode(modelnodeid, "GraphClass",
                 new Attr("name", "string", graph.Model.ModelName));
@@ -185,24 +219,23 @@ namespace de.unika.ipd.grGen.libGr
                     new Attr("limits", "tup", "<int>0</int><int>-1</int>"),
                     new Attr("isordered", "bool", "false"));
             }
-            writer.WriteLine("</graph>");
+            xmlwriter.WriteEndElement();
         }
 
-        protected void WriteAttributes(IGraphElement elem)
+        protected List<Attr> GetAttributes(IGraphElement elem)
         {
-            foreach(AttributeType attrType in elem.Type.AttributeTypes)
-            {
+            List<Attr> attrs = new List<Attr>();
+            foreach(AttributeType attrType in elem.Type.AttributeTypes) {
                 object value = elem.GetAttribute(attrType.Name);
 
-                writer.Write("\t\t<attr name=\"" + attrType.Name + "\">");
                 String valType;
+                String valuestr = (value == null) ? "" : value.ToString();
                 switch(attrType.Kind)
                 {
                     case AttributeKind.BooleanAttr:
-                        // special case for bool because we need lowercase characters...
-                        if((bool) value) writer.WriteLine("<bool>true</bool></attr>");
-                        else writer.WriteLine("<bool>false</bool></attr>");
-                        continue;
+                        valType = "bool";
+                        valuestr = ((bool)value) ? "true" : "false";
+                        break;
 
                     case AttributeKind.DoubleAttr:
                     case AttributeKind.FloatAttr:
@@ -216,48 +249,41 @@ namespace de.unika.ipd.grGen.libGr
                     default:
                         throw new Exception("Unsupported attribute value type: \"" + attrType.Kind + "\"");
                 }
+                //                writer.Write("\t\t<attr name=\"" + attrType.Name + "\">");`
+                attrs.Add(new Attr(attrType.Name, valType, valuestr));
                 // TODO: This does not allow differentiating between empty and null strings
-                if(value == null)
-                    writer.WriteLine("<" + valType + "></" + valType + "></attr>");
-                else
-                    writer.WriteLine("<" + valType + ">"
-                        + value.ToString()
-                        + "</" + valType + "></attr>");
             }
+            return attrs;
         }
 
         protected void WriteGraph(IGraph graph)
         {
-            writer.WriteLine("<graph id=\"" + graph.Name + "\" edgeids=\"true\" edgemode=\"defaultdirected\">\n"
-                + "\t<type xlink:href=\"#" + graph.Model.ModelName + "\"/>");
+            xmlwriter.WriteStartElement("graph");
+            xmlwriter.WriteAttributeString("id", graph.Name);
+            xmlwriter.WriteAttributeString("edgeids", "true");
+            xmlwriter.WriteAttributeString("edgemode", "defaultdirected");
+            WriteTypeElement("#" + graph.Model.ModelName);
 
             foreach(INode node in graph.Nodes)
             {
-                writer.WriteLine("\t<node id=\"n" + node.GetHashCode() + "\">\n"
-                    + "\t\t<type xlink:href=\"#" + GetElemTypeID(node.Type) + "\"/>");
-                WriteAttributes(node);
-                writer.WriteLine("\t</node>");
+                WriteNode("n" + node.GetHashCode(), "#" + GetElemTypeID(node.Type),
+                          GetAttributes(node).ToArray());
             }
 
             foreach(IEdge edge in graph.Edges)
             {
-                writer.WriteLine("\t<edge id=\"e" + edge.GetHashCode()
-                    + "\" from=\"n" + edge.Source.GetHashCode()
-                    + "\" to=\"n" + edge.Target.GetHashCode()
-                    + "\">\n"
-                    + "\t\t<type xlink:href=\"#" + GetElemTypeID(edge.Type) + "\"/>");
-                WriteAttributes(edge);
-                writer.WriteLine("\t</edge>");
+                WriteEdge("e" + edge.GetHashCode(), "n" + edge.Source.GetHashCode(),
+                          "n" + edge.Target.GetHashCode(),
+                          "#" + GetElemTypeID(edge.Type),
+                          GetAttributes(edge).ToArray());
             }
-            writer.WriteLine("</graph>");
+            xmlwriter.WriteEndElement();
         }
 
         public void Dispose()
         {
-            if(writer != null)
-            {
-                writer.Dispose();
-                writer = null;
+            if (xmlwriter != null) {
+                xmlwriter.Close();
             }
         }
     }
