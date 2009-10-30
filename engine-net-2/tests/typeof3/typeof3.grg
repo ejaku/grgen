@@ -1,0 +1,15 @@
+using typeof3Model;
+
+rule init : (AstNode) {
+	replace {
+		a:IntConstant;
+		b:IntConstant;
+		
+		return(a);
+	}	
+}
+
+test checkType(x: AstNode) {
+    if { typeof(x) <= Blockify; }
+}
+

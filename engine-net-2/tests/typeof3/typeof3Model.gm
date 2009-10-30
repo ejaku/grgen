@@ -1,0 +1,4 @@
+node class AstNode;
+abstract node class Blockify;
+abstract node class Constant extends AstNode, Blockify;
+node class IntConstant extends Constant;
