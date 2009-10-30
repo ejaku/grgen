@@ -1,6 +1,54 @@
 \chapter{Nested and Subpatterns}\indexmain{rule set language nested and subpatterns}
 \label{cha:nestedsub}
 
+  \begin{example}
+The following patterns to match a simplified abstract syntax tree give a rough picture of the language of nested and subpatterns.
+
+    \begin{grgen}
+test Method
+{
+  m:Method --> n:Name; // signature of name and list of parameters
+  :ParameterList(n); 
+
+  multiple { // implementation by statements attached to method
+    m --> a:Assign;
+    :Assignment(a);
+  }  
+}
+
+pattern ParameterList(prev:Node)
+{
+  optional {
+    prev --> next:Variable;
+    :ParameterList(next);
+  }
+}
+
+pattern Assignment(a:Assign)
+{
+  a -:target-> v:Variable;
+  :Expression(a);  
+}
+
+pattern Expression(root:Expression)
+{
+  alternative {
+    Binary {
+      root --> expr1;
+      root --> expr2;
+      :Expression(expr1);
+      :Expression(expr2);
+    }
+    Unary {
+      root --> v:Variable;
+    }
+  }
+}
+    \end{grgen}
+  \end{example}
+
+todo: Die Beispiele in diesem Kapitel bevorzugt aus dem Gebiet Programmgraphen wählen
+
 Until now we have seen rules and tests with one left hand side static pattern specification in a direct 1:1 correspondence with its dynamic match on a successfull application.
 From now on we will increase the expressiveness of the pattern language, and dependent on it the rewrite language, to describe much finer and more flexible what patterns to accept.
 This will be done by pattern specifications built up from multiple static pattern piece specifications, where the pieces may be matched dynamically zero, one, or multiple times, or are forbidden to exists for the entire pattern to be matched.
@@ -124,7 +172,8 @@ by the independent; due to the independent cc might be identical with c, without
   NestedBody: (PatternStatement+) NestedRewriting?;
 \end{rail}\ixkeyw{iterated}\ixkeyw{multiple}\ixkeyw{optional}
 
-The \indexmain{pattern cardinality} blocks allow to specify how often the nested pattern -- opening a scope -- is to be matched. Matching will be carried out eagerly, i.e. if a further matching is possible and wanted it will be done. 
+The \indexmain{pattern cardinality} blocks allow to specify how often the nested pattern -- opening a scope -- is to be matched. Matching will be carried out eagerly, i.e. if the construct is not limiting the number of matches and a further match is possible it will be done. (The nested body will be explained in section \ref{sec:nestedrewrite}.)
+
 \subsubsection*{The iterated block} 
 is matching the contained subpattern as often as possible, succeeding even in the case the contained pattern is not available (thus it will never fail). It was included in the language to allow for matching breadth-splitting structures, as in the graph representation of a blowball.
 
@@ -155,7 +204,7 @@ test OneOrMoreEdges(src:Node, tgt:Node)
 
 \subsubsection*{The optional block}
 is working like the iterated block, but matches the contained subpattern at most once, further occurences of the subpattern are left unmatched.
-If the nested pattern is available, it will get matched, otherwise it won't, but matching of the optional block will succeed either way.
+If the nested pattern is available, it will get matched, otherwise it won't; matching of the optional block will succeed either way.
 
 \begin{example}
   \begin{grgen}
@@ -180,7 +229,7 @@ The test matches two nodes connected by an directed edge of unspecified directio
     'alternative' lbrace ((CaseName lbrace NestedBody rbrace)+()) rbrace;
 \end{rail}\ixkeyw{alternative}
 
-With the alternative block you can specify several nested alternative patterns. One of them must get matched for the matching of the alternative (and thus its directly nesting pattern) to succeed, and only one of them is matched per match of the alternative / overall pattern. The order of matching the alternative patterns is unspecified (ensuring that something gets not matched has to be done by explicit negatives nested inside). In contrast to the iterated which locally matches everything available and inserts this combined match into the current match, the alternative decides for one case match it inserts into the current match, ignoring other possible matches by other cases. 
+With the alternative block you can specify several nested alternative patterns. One of them must get matched for the matching of the alternative (and thus its directly nesting pattern) to succeed, and only one of them is matched per match of the alternative / overall pattern. The order of matching the alternative patterns is unspecified, especially it is not guaranteed that a case gets matched before the case textually following -- if you want to ensure that a case can not get matched if another case could be matched, you must explicitely prevent that from happening by adding negatives to the cases. In contrast to the iterated which locally matches everything available and inserts this combined match into the current match, the alternative decides for one case match which it inserts into the current match tree, ignoring other possible matches by other cases. 
 
 \begin{example}
   \begin{grgen}
@@ -207,40 +256,53 @@ test t {
 \section{Subpattern Declaration and Subpattern Entity Declaration}
 \indexmain{subpattern}\label{sec:subpattern}
 
-Subpatterns were introduced to factor out a common recurring pattern -- a shape -- into a named subpattern type, ready to be instantiated and reused. The common recurring pattern is specified in a subpattern declaration and used by a subpattern entity declaration.
+Subpatterns were introduced to factor out a common recurring pattern -- a shape -- into a named subpattern type, ready to be reused at points the pattern should get matched. The common recurring pattern is specified in a subpattern declaration and used by a subpattern entity declaration.
 
 \begin{rail}  
   SubpatternDeclaration: 
     'pattern' IdentDecl Parameters? lbrace NestedBody rbrace ;
 \end{rail}\ixkeyw{subpattern}
 
-Subpattern declarations define a subpattern type denoting the specified shape in global namespace, the parameters specify some context elements the pattern may refer to, but which are not part of the pattern itself. 
-So they are only syntactically the same as test/rule-parameters, a further difference is the lack of ReturnTypes, due to the fact that a subpattern can't return anything (they are not actions, just a helper in constructing complex patterns).
-(The subpattern rewrite will be explained in section \ref{sec:subrule})
+Subpattern declarations define a subpattern type denoting the specified shape in global namespace; the parameters specify some context elements the pattern may refer to, but which are not part of the pattern itself. 
+So they are only syntactically the same as test/rule-parameters (which are members of the pattern part), a further difference is the lack of ReturnTypes, due to the fact that a subpattern can't return anything (they are not actions, just a helper in constructing complex patterns).
+(The nested body will be explained in section \ref{sec:subrule}.)
 
 \begin{rail}  
   SubpatternEntityDeclaration: 
     Ident ':' SubpatternType '(' ')' ';' ;
 \end{rail}\ixkeyw{subpattern}
 
-Subpattern entity declarations instantiate an entity of the subpattern type (i.e. specified shape), which means the subpattern must be matched for the matching of the enclosing pattern to succeed.
+Subpattern entity declarations instantiate an entity of the subpattern type (i.e. specified shape), which means the subpattern must get matched for the matching of the enclosing pattern to succeed. The arguments given are bound to the corresponding parameters of the subpattern.
+If you prefer a syntactical point of view, you may see the subpattern entity as a placeholder, which gets substituted in place by the textual body of the subpattern declaration under renaming of the parameters to the arguments.
+Termersetzung mit Termen die Graphen beschreiben.
+Mehrelementige Graphsprachen als Zwischenschritt zu den rekursiven bereits mit alternative... eingeführt -- dort auch so erklärt, wirklich eingeführt? vor rekursiv trotzdem noch ein  Zwischenschritt: pattern mit alternative, statt action mit alternative
 
 \begin{example}
   \begin{grgen}
+pattern Foo(bar:Node) {
+  bar --> .;
+}
 test t {
   x:Node <-- y:Node;
   f:Foo(x);
 }
-pattern Foo(bar:Node) {
-  bar --> :Node;
+  \end{grgen}
+
+  In the given example a subpattern Foo is declared, connecting the context element bar via an edge to anoter node. The test t is using the subpattern foo via the declaration of the entity f of type Foo, binding the context element to its local node x. The resulting test is equivalent to the test tt.
+
+  \begin{grgen}
+test tt {
+  x:Node <-- y:Node;
+  x --> .;
 }
   \end{grgen}
+  
 \end{example}
 
 
 \subsection{Recursive Patterns}
 
-Subpatterns can be combined with alternative patterns or the cardinality patterns into recursive subpatterns, i.e. subpatterns which may contain themselves.
+Subpatterns can be combined with alternative patterns or the cardinality patterns into recursive subpatterns, i.e. subpatterns which may contain themselves. Subpatterns alone would never yield a match .
 
 \begin{example}
   \begin{grgen}
