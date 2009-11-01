@@ -1,0 +1,83 @@
+test t1
+{
+	a:Node;
+	
+	negative {
+		a --> b; // b available?
+	}
+	
+	b:Node;
+}
+
+test t2
+{
+	a:Node;
+	
+	independent {
+		a --> b; // b available?
+	}
+	
+	b:Node;
+}
+
+test t3
+{
+	a:Node;
+	
+	alternative {
+		foo {
+			a --> b; // b available?
+		}
+	}
+	
+	b:Node;
+}
+
+test t4
+{
+	a:Node;
+	
+	iterated {
+		a --> b; // b available?
+	}
+	
+	b:Node;
+}
+
+rule t5
+{
+	a:Node;
+	
+	alternative {
+		foo {
+		
+			modify {
+				a <-- b --> c; // b,c available?
+			}
+		}
+	}
+	
+	b:Node;
+	
+	modify {
+		c:Node;
+	}
+}
+
+rule t6
+{
+	a:Node;
+	
+	iterated {		
+	
+		modify {
+			a <-- b --> c; // b,c available?
+		}
+	}
+	
+	b:Node;
+	
+	modify {
+		c:Node;
+	}
+}
