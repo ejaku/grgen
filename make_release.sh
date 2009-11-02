@@ -7,7 +7,7 @@ GRGENDIRSRC=$GRGENDIR-src
 #contains binaries, examples, documentation, source code
 #excluded internal stuff
 
-svn export https://pp.info.uni-karlsruhe.de/svn/firm/trunk/grgen $GRGENDIRSRC
+svn export https://pp.info.uni-karlsruhe.de/svn/grgen-public/trunk/grgen $GRGENDIRSRC
 
 mv $GRGENDIRSRC/doc/grgen.pdf $GRGENDIRSRC/
 mv $GRGENDIRSRC/doc/VeryShortIntroductionToVersion2.txt $GRGENDIRSRC/
@@ -37,7 +37,7 @@ zip -r $GRGENDIRSRC.zip $GRGENDIRSRC
 #contains binaries, examples, documentation
 #excluded internal stuff,  source code
 
-svn export https://pp.info.uni-karlsruhe.de/svn/firm/trunk/grgen/engine-net-2 $GRGENDIR
+svn export https://pp.info.uni-karlsruhe.de/svn/grgen-public/trunk/grgen/engine-net-2 $GRGENDIR
 rm -rf $GRGENDIR/src
 rm -rf $GRGENDIR/tools
 rm $GRGENDIR/*
@@ -45,7 +45,7 @@ rm $GRGENDIR/*
 rm -rf $GRGENDIR/examples/UML
 rm -rf $GRGENDIR/examples/Firm-IFConv
 
-svn cat https://pp.info.uni-karlsruhe.de/svn/firm/trunk/grgen/LICENSE.txt > $GRGENDIR/LICENSE.txt
+svn cat https://pp.info.uni-karlsruhe.de/svn/grgen-public/trunk/grgen/LICENSE.txt > $GRGENDIR/LICENSE.txt
 
 cp -r $GRGENDIRSRC/doc $GRGENDIR/doc
 cp -r $GRGENDIRSRC/syntaxhighlighting $GRGENDIR/syntaxhighlighting
