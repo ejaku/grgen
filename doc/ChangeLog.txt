@@ -1,4 +1,4 @@
-﻿v2.6 beta (2009-11-02)
+﻿v2.6beta (2009-11-03)
  New sequencing constructs in xgrs:
   - operator then-left l <; r executing l then r, returning the execution result of l
   - operator then-right l ;> r executing l then r, returning the execution result of r

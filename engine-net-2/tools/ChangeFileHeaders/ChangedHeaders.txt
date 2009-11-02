@@ -1,21 +1,7 @@
 /grgen
-  /de
-    /unika
-      /ipd
-        /grgen
-          /parser
-            /antlr
-            +GRActionsParser.java ... NO HEADER
-            +GRActionsParserTokenTypes.java ... NO HEADER
-            +GRBaseParser.java ... NO HEADER
-            +GRBaseParserTokenTypes.java ... NO HEADER
-            +GRBaseTokenTypes.java ... NO HEADER
-            +GRLexer.java ... NO HEADER
-            +GRTypeParser.java ... NO HEADER
-            +GRTypeParserTokenTypes.java ... NO HEADER
   /engine-net-2
     /examples
-      /ConferenceScheduling
+      /ConferenceScheduling-GraBaTs08-Live-Contest-Winning-Solution
         /manualsolution
         +Program.cs ... NO HEADER
         /parseoutput
@@ -44,7 +30,6 @@
       +IndependentExample.cs ... REWRITING ... DONE
       +IndependentModel.cs ... NO HEADER
       /IteratedExample
-      +blowballActions_intermediate.cs ... NO HEADER
       +IteratedExample.cs ... REWRITING ... DONE
       +spanningTreeActions.cs ... NO HEADER
       +spanningTreeActions_intermediate.cs ... NO HEADER
@@ -62,7 +47,7 @@
       /ProgramGraphsExample
       +ProgramGraphsActions.cs ... NO HEADER
       +ProgramGraphsActions_intermediate.cs ... NO HEADER
-      +ProgramGraphsExample.cs ... NO HEADER
+      +ProgramGraphsExample.cs ... REWRITING ... DONE
       +ProgramGraphsModel.cs ... NO HEADER
       /RecursiveExample
       +RecursiveActions.cs ... NO HEADER
@@ -74,8 +59,6 @@
       +TNTActions_intermediate.cs ... NO HEADER
       +TNTExample.cs ... REWRITING ... DONE
       +TNTModel.cs ... NO HEADER
-        /Properties
-        +AssemblyInfo.cs ... NO HEADER
       /VisitedExample
       +StdModel.cs ... NO HEADER
       +VisitedExample.cs ... REWRITING ... DONE
@@ -196,8 +179,7 @@
         /ChangeFileHeaders
         +Program.cs ... REWRITING ... DONE
       /GenerateGraphs
-        /GenerateGraphs
-        +Program.cs ... REWRITING ... DONE
+      +Program.cs ... REWRITING ... DONE
       /GrShellBenchmarker
       +Program.cs ... REWRITING ... DONE
         /Properties
@@ -217,7 +199,6 @@
       +Program.cs ... REWRITING ... DONE
       +testActions.cs ... NO HEADER
       +testActionsManual.cs ... REWRITING ... DONE
-      +testActions_intermediate.cs ... NO HEADER
       +testModelManual.cs ... REWRITING ... DONE
       +testModelManual2.cs ... REWRITING ... DONE
         /Properties
@@ -503,8 +484,6 @@
             +SymbolTableException.java ... REWRITING ... DONE
               /antlr
               +Coords.java ... REWRITING ... DONE
-              +GrGenLexer.java ... NO HEADER
-              +GrGenParser.java ... NO HEADER
               +GRParserEnvironment.java ... REWRITING ... DONE
             /util
             +Annotated.java ... REWRITING ... DONE

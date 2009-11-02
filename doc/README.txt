@@ -1,5 +1,5 @@
-GrGen.NET v2.5 (2009-06-28)
----------------------------
+GrGen.NET v2.6beta (2009-11-03)
+-------------------------------
 
 This is the GrGen.NET system for graph rewriting.
 It consists of two parts of components:
@@ -120,9 +120,9 @@ Adam Szalkowski
 COPYING
 -------
 
-Copyright (C) 2009 Universitaet Karlsruhe, Institut fuer Programmstrukturen und Datenorganisation, LS Goos
+Copyright (C) 2003-2009 Universitaet Karlsruhe, Institut fuer Programmstrukturen und Datenorganisation, LS Goos
 
-This file is part of GrGen, Version GrGen.NET 2.5
+This file is part of GrGen, Version GrGen.NET 2.6
 
 GrGen is free software: you can redistribute it and/or modify
 it under the terms of the GNU Lesser General Public License as published by
