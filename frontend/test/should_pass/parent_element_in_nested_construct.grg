@@ -1,3 +1,5 @@
+using attrib_model_001;
+
 test t1
 {
 	a:Node;
@@ -79,5 +81,130 @@ rule t6
 	
 	modify {
 		c:Node;
+	}
+}
+
+test t7
+{
+	a:NINT;
+	
+	if {
+		a.a+b.a == 42; // b available?
+	}
+	
+	b:NINT;
+}
+
+rule t8
+{
+	a:NINT;
+	
+	modify {
+		eval {
+			a.a = b.a; // b available?
+		}
+		
+		b:NINT;
+	}
+}
+
+test t9
+{
+	a:NINT;
+	
+	if {
+		nameof(b) == nameof(a); // b available?
+		typeof(b) == typeof(a);
+		visited(b) == visited(a);
+	}
+	
+	b:NINT;
+}
+
+rule t10
+{
+	a:NBOOL;
+	
+	modify {
+		eval {
+			b.a = nameof(b) == nameof(a); // b available?
+			b.a = typeof(b) == typeof(a);
+			b.a = visited(b) == visited(a);
+		}
+		b:NBOOL;
+	}
+}
+
+pattern t11
+{
+	a:Node;
+	
+	alternative {
+		foo {
+		
+			modify {
+				a <-- b --> c; // b,c available?
+			}
+		}
+	}
+	
+	b:Node;
+	
+	modify(c:Node) {
+	}
+}
+
+pattern t12
+{
+	a:Node;
+	
+	iterated {		
+	
+		modify {
+			a <-- b --> c; // b,c available?
+		}
+	}
+	
+	b:Node;
+	
+	modify(c:Node) {
+	}
+}
+
+pattern t13
+{
+	a:Node;
+	
+	alternative {
+		foo {
+		
+			modify {
+				a <-- b; // b available?
+				eval { b.a = c; } // c available?
+			}
+		}
+	}
+	
+	b:NINT;
+	
+	modify(var c:int) {
+	}
+}
+
+pattern t14
+{
+	a:Node;
+	
+	iterated {		
+	
+		modify {
+			a <-- b; // b available?
+			eval { b.a = c; } // c available?
+		}
+	}
+	
+	b:NINT;
+	
+	modify(var c:int) {
 	}
 }

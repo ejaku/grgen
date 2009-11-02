@@ -79,6 +79,9 @@ public class DeclExprNode extends ExprNode {
 	/** @see de.unika.ipd.grgen.ast.BaseNode#resolveLocal() */
 	@Override
 	protected boolean resolveLocal() {
+		boolean res = fixupDefinition(declUnresolved, declUnresolved.getScope());
+		if(!res) return false;
+		
 		if(!memberResolver.resolve(declUnresolved)) return false;
 
 		memberResolver.getResult(MemberDeclNode.class);

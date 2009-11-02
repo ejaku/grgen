@@ -1,6 +1,6 @@
 // This file has been generated automatically by GrGen.
 // Do not modify this file! Any changes will be lost!
-// Generated from "..\..\tests\Recursive\Recursive.grg" on Tue Oct 13 22:41:57 GMT+01:00 2009
+// Generated from "..\..\tests\Recursive\Recursive.grg" on Mon Nov 02 15:04:36 CET 2009
 
 using System;
 using System.Collections.Generic;
@@ -306,7 +306,7 @@ namespace de.unika.ipd.grGen.Action_Recursive
 			//Iterateds
 			//Independents
 			// further match object stuff
-			void SetMatchOfEnclosingPattern(GRGEN_LIBGR.IMatch matchOfEnclosingPattern);
+			new void SetMatchOfEnclosingPattern(GRGEN_LIBGR.IMatch matchOfEnclosingPattern);
 		}
 
 		public interface IMatch_ChainFromTo_alt_0_rec : IMatch_ChainFromTo_alt_0
@@ -324,7 +324,7 @@ namespace de.unika.ipd.grGen.Action_Recursive
 			//Iterateds
 			//Independents
 			// further match object stuff
-			void SetMatchOfEnclosingPattern(GRGEN_LIBGR.IMatch matchOfEnclosingPattern);
+			new void SetMatchOfEnclosingPattern(GRGEN_LIBGR.IMatch matchOfEnclosingPattern);
 		}
 
 		public class Match_ChainFromTo : GRGEN_LGSP.ListElement<Match_ChainFromTo>, IMatch_ChainFromTo
@@ -879,7 +879,7 @@ namespace de.unika.ipd.grGen.Action_Recursive
 			//Iterateds
 			//Independents
 			// further match object stuff
-			void SetMatchOfEnclosingPattern(GRGEN_LIBGR.IMatch matchOfEnclosingPattern);
+			new void SetMatchOfEnclosingPattern(GRGEN_LIBGR.IMatch matchOfEnclosingPattern);
 		}
 
 		public interface IMatch_ChainFrom_alt_0_rec : IMatch_ChainFrom_alt_0
@@ -896,7 +896,7 @@ namespace de.unika.ipd.grGen.Action_Recursive
 			//Iterateds
 			//Independents
 			// further match object stuff
-			void SetMatchOfEnclosingPattern(GRGEN_LIBGR.IMatch matchOfEnclosingPattern);
+			new void SetMatchOfEnclosingPattern(GRGEN_LIBGR.IMatch matchOfEnclosingPattern);
 		}
 
 		public class Match_ChainFrom : GRGEN_LGSP.ListElement<Match_ChainFrom>, IMatch_ChainFrom
@@ -1497,7 +1497,7 @@ namespace de.unika.ipd.grGen.Action_Recursive
 			//Iterateds
 			//Independents
 			// further match object stuff
-			void SetMatchOfEnclosingPattern(GRGEN_LIBGR.IMatch matchOfEnclosingPattern);
+			new void SetMatchOfEnclosingPattern(GRGEN_LIBGR.IMatch matchOfEnclosingPattern);
 		}
 
 		public interface IMatch_ChainFromComplete_alt_0_base_neg_0 : GRGEN_LIBGR.IMatch
@@ -1530,7 +1530,7 @@ namespace de.unika.ipd.grGen.Action_Recursive
 			//Iterateds
 			//Independents
 			// further match object stuff
-			void SetMatchOfEnclosingPattern(GRGEN_LIBGR.IMatch matchOfEnclosingPattern);
+			new void SetMatchOfEnclosingPattern(GRGEN_LIBGR.IMatch matchOfEnclosingPattern);
 		}
 
 		public class Match_ChainFromComplete : GRGEN_LGSP.ListElement<Match_ChainFromComplete>, IMatch_ChainFromComplete
@@ -2229,7 +2229,7 @@ namespace de.unika.ipd.grGen.Action_Recursive
 			//Iterateds
 			//Independents
 			// further match object stuff
-			void SetMatchOfEnclosingPattern(GRGEN_LIBGR.IMatch matchOfEnclosingPattern);
+			new void SetMatchOfEnclosingPattern(GRGEN_LIBGR.IMatch matchOfEnclosingPattern);
 		}
 
 		public interface IMatch_ChainFromCompleteArbitraryPatternpathLocked_alt_0_base_neg_0 : GRGEN_LIBGR.IMatch
@@ -2262,7 +2262,7 @@ namespace de.unika.ipd.grGen.Action_Recursive
 			//Iterateds
 			//Independents
 			// further match object stuff
-			void SetMatchOfEnclosingPattern(GRGEN_LIBGR.IMatch matchOfEnclosingPattern);
+			new void SetMatchOfEnclosingPattern(GRGEN_LIBGR.IMatch matchOfEnclosingPattern);
 		}
 
 		public class Match_ChainFromCompleteArbitraryPatternpathLocked : GRGEN_LGSP.ListElement<Match_ChainFromCompleteArbitraryPatternpathLocked>, IMatch_ChainFromCompleteArbitraryPatternpathLocked
@@ -2961,7 +2961,7 @@ namespace de.unika.ipd.grGen.Action_Recursive
 			//Iterateds
 			//Independents
 			// further match object stuff
-			void SetMatchOfEnclosingPattern(GRGEN_LIBGR.IMatch matchOfEnclosingPattern);
+			new void SetMatchOfEnclosingPattern(GRGEN_LIBGR.IMatch matchOfEnclosingPattern);
 		}
 
 		public interface IMatch_ChainFromCompleteArbitraryBaseAlwaysFailesByGoingBackwards_alt_0_base_neg_0 : GRGEN_LIBGR.IMatch
@@ -2994,7 +2994,7 @@ namespace de.unika.ipd.grGen.Action_Recursive
 			//Iterateds
 			//Independents
 			// further match object stuff
-			void SetMatchOfEnclosingPattern(GRGEN_LIBGR.IMatch matchOfEnclosingPattern);
+			new void SetMatchOfEnclosingPattern(GRGEN_LIBGR.IMatch matchOfEnclosingPattern);
 		}
 
 		public class Match_ChainFromCompleteArbitraryBaseAlwaysFailesByGoingBackwards : GRGEN_LGSP.ListElement<Match_ChainFromCompleteArbitraryBaseAlwaysFailesByGoingBackwards>, IMatch_ChainFromCompleteArbitraryBaseAlwaysFailesByGoingBackwards
@@ -3693,7 +3693,7 @@ namespace de.unika.ipd.grGen.Action_Recursive
 			//Iterateds
 			//Independents
 			// further match object stuff
-			void SetMatchOfEnclosingPattern(GRGEN_LIBGR.IMatch matchOfEnclosingPattern);
+			new void SetMatchOfEnclosingPattern(GRGEN_LIBGR.IMatch matchOfEnclosingPattern);
 		}
 
 		public interface IMatch_Blowball_alt_0_end_neg_0 : GRGEN_LIBGR.IMatch
@@ -3726,7 +3726,7 @@ namespace de.unika.ipd.grGen.Action_Recursive
 			//Iterateds
 			//Independents
 			// further match object stuff
-			void SetMatchOfEnclosingPattern(GRGEN_LIBGR.IMatch matchOfEnclosingPattern);
+			new void SetMatchOfEnclosingPattern(GRGEN_LIBGR.IMatch matchOfEnclosingPattern);
 		}
 
 		public class Match_Blowball : GRGEN_LGSP.ListElement<Match_Blowball>, IMatch_Blowball
@@ -4399,7 +4399,7 @@ namespace de.unika.ipd.grGen.Action_Recursive
 			//Iterateds
 			//Independents
 			// further match object stuff
-			void SetMatchOfEnclosingPattern(GRGEN_LIBGR.IMatch matchOfEnclosingPattern);
+			new void SetMatchOfEnclosingPattern(GRGEN_LIBGR.IMatch matchOfEnclosingPattern);
 		}
 
 		public interface IMatch_ReverseChainFromTo_alt_0_rec : IMatch_ReverseChainFromTo_alt_0
@@ -4417,7 +4417,7 @@ namespace de.unika.ipd.grGen.Action_Recursive
 			//Iterateds
 			//Independents
 			// further match object stuff
-			void SetMatchOfEnclosingPattern(GRGEN_LIBGR.IMatch matchOfEnclosingPattern);
+			new void SetMatchOfEnclosingPattern(GRGEN_LIBGR.IMatch matchOfEnclosingPattern);
 		}
 
 		public class Match_ReverseChainFromTo : GRGEN_LGSP.ListElement<Match_ReverseChainFromTo>, IMatch_ReverseChainFromTo
@@ -5132,7 +5132,7 @@ namespace de.unika.ipd.grGen.Action_Recursive
 			//Iterateds
 			//Independents
 			// further match object stuff
-			void SetMatchOfEnclosingPattern(GRGEN_LIBGR.IMatch matchOfEnclosingPattern);
+			new void SetMatchOfEnclosingPattern(GRGEN_LIBGR.IMatch matchOfEnclosingPattern);
 		}
 
 		public interface IMatch_ChainFromToReverse_alt_0_rec : IMatch_ChainFromToReverse_alt_0
@@ -5150,7 +5150,7 @@ namespace de.unika.ipd.grGen.Action_Recursive
 			//Iterateds
 			//Independents
 			// further match object stuff
-			void SetMatchOfEnclosingPattern(GRGEN_LIBGR.IMatch matchOfEnclosingPattern);
+			new void SetMatchOfEnclosingPattern(GRGEN_LIBGR.IMatch matchOfEnclosingPattern);
 		}
 
 		public class Match_ChainFromToReverse : GRGEN_LGSP.ListElement<Match_ChainFromToReverse>, IMatch_ChainFromToReverse
@@ -5871,7 +5871,7 @@ namespace de.unika.ipd.grGen.Action_Recursive
 			//Iterateds
 			//Independents
 			// further match object stuff
-			void SetMatchOfEnclosingPattern(GRGEN_LIBGR.IMatch matchOfEnclosingPattern);
+			new void SetMatchOfEnclosingPattern(GRGEN_LIBGR.IMatch matchOfEnclosingPattern);
 		}
 
 		public interface IMatch_ChainFromToReverseToCommon_alt_0_rec : IMatch_ChainFromToReverseToCommon_alt_0
@@ -5889,7 +5889,7 @@ namespace de.unika.ipd.grGen.Action_Recursive
 			//Iterateds
 			//Independents
 			// further match object stuff
-			void SetMatchOfEnclosingPattern(GRGEN_LIBGR.IMatch matchOfEnclosingPattern);
+			new void SetMatchOfEnclosingPattern(GRGEN_LIBGR.IMatch matchOfEnclosingPattern);
 		}
 
 		public class Match_ChainFromToReverseToCommon : GRGEN_LGSP.ListElement<Match_ChainFromToReverseToCommon>, IMatch_ChainFromToReverseToCommon
@@ -6517,7 +6517,7 @@ namespace de.unika.ipd.grGen.Action_Recursive
 			//Iterateds
 			//Independents
 			// further match object stuff
-			void SetMatchOfEnclosingPattern(GRGEN_LIBGR.IMatch matchOfEnclosingPattern);
+			new void SetMatchOfEnclosingPattern(GRGEN_LIBGR.IMatch matchOfEnclosingPattern);
 		}
 
 		public interface IMatch_ReverseChainFromToToCommon_alt_0_rec : IMatch_ReverseChainFromToToCommon_alt_0
@@ -6537,7 +6537,7 @@ namespace de.unika.ipd.grGen.Action_Recursive
 			//Iterateds
 			//Independents
 			// further match object stuff
-			void SetMatchOfEnclosingPattern(GRGEN_LIBGR.IMatch matchOfEnclosingPattern);
+			new void SetMatchOfEnclosingPattern(GRGEN_LIBGR.IMatch matchOfEnclosingPattern);
 		}
 
 		public class Match_ReverseChainFromToToCommon : GRGEN_LGSP.ListElement<Match_ReverseChainFromToToCommon>, IMatch_ReverseChainFromToToCommon

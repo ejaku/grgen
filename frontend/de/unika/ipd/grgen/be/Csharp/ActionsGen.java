@@ -234,7 +234,8 @@ public class ActionsGen extends CSharpBase {
 	private void genMatch(StringBuffer sb, PatternGraph pattern, String className) {
 		// generate getters to contained nodes, edges, variables, embedded graphs, alternatives
 		genPatternMatchInterface(sb, pattern, pattern.getNameOfGraph(),
-				"GRGEN_LIBGR.IMatch", pattern.getNameOfGraph()+"_", false);
+				"GRGEN_LIBGR.IMatch", pattern.getNameOfGraph()+"_",
+				false, false);
 
 		// generate contained nodes, edges, variables, embedded graphs, alternatives
 		// and the implementation of the various getters from IMatch and the pattern specific match interface
@@ -1435,16 +1436,17 @@ public class ActionsGen extends CSharpBase {
 	//////////////////////////////
 
 	private void genPatternMatchInterface(StringBuffer sb, PatternGraph pattern, String name,
-			String base, String pathPrefixForElements, boolean iterated)
+			String base, String pathPrefixForElements, boolean iterated, boolean alternativeCase)
 	{
 		genMatchInterface(sb, pattern, name,
-				base, pathPrefixForElements, iterated);
+				base, pathPrefixForElements, iterated, alternativeCase);
 
 		int i = 0;
 		for(PatternGraph neg : pattern.getNegs()) {
 			String negName = "neg_" + i;
 			genPatternMatchInterface(sb, neg, pathPrefixForElements+negName,
-					"GRGEN_LIBGR.IMatch", pathPrefixForElements + negName + "_", false);
+					"GRGEN_LIBGR.IMatch", pathPrefixForElements + negName + "_",
+					false, false);
 			++i;
 		}
 
@@ -1452,7 +1454,8 @@ public class ActionsGen extends CSharpBase {
 		for(PatternGraph idpt : pattern.getIdpts()) {
 			String idptName = "idpt_" + i;
 			genPatternMatchInterface(sb, idpt, pathPrefixForElements+idptName,
-					"GRGEN_LIBGR.IMatch", pathPrefixForElements + idptName + "_", false);
+					"GRGEN_LIBGR.IMatch", pathPrefixForElements + idptName + "_",
+					false, false);
 			++i;
 		}
 
@@ -1466,7 +1469,7 @@ public class ActionsGen extends CSharpBase {
 				genPatternMatchInterface(sb, altCasePattern, altPatName,
 						"IMatch_"+pathPrefixForElements+altName,
 						pathPrefixForElements + altName + "_" + altCasePattern.getNameOfGraph() + "_",
-						false);
+						false, true);
 			}
 			++i;
 		}
@@ -1476,7 +1479,8 @@ public class ActionsGen extends CSharpBase {
 			String iterName = "iter_" + i;
 			PatternGraph iterPattern = iter.getLeft();
 			genPatternMatchInterface(sb, iterPattern, pathPrefixForElements+iterName,
-					"GRGEN_LIBGR.IMatch", pathPrefixForElements + iterName + "_", true);
+					"GRGEN_LIBGR.IMatch", pathPrefixForElements + iterName + "_",
+					true, false);
 			++i;
 		}
 	}
@@ -1532,7 +1536,7 @@ public class ActionsGen extends CSharpBase {
 
 	private void genMatchInterface(StringBuffer sb, PatternGraph pattern,
 			String name, String base,
-			String pathPrefixForElements, boolean iterated)
+			String pathPrefixForElements, boolean iterated, boolean alternativeCase)
 	{
 		String interfaceName = "IMatch_" + name;
 		sb.append("\t\tpublic interface "+interfaceName+" : "+base+"\n");
@@ -1549,8 +1553,11 @@ public class ActionsGen extends CSharpBase {
 			sb.append("\t\t\tbool IsNullMatch { get; }\n");
 		}
 
-		sb.append("\t\t\tvoid SetMatchOfEnclosingPattern(GRGEN_LIBGR.IMatch matchOfEnclosingPattern);\n");
-
+		if(alternativeCase) {
+			sb.append("\t\t\tnew void SetMatchOfEnclosingPattern(GRGEN_LIBGR.IMatch matchOfEnclosingPattern);\n");
+		} else {
+			sb.append("\t\t\tvoid SetMatchOfEnclosingPattern(GRGEN_LIBGR.IMatch matchOfEnclosingPattern);\n");
+		}
 		sb.append("\t\t}\n");
 		sb.append("\n");
 	}

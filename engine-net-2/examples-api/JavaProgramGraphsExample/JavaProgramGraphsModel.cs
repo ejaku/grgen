@@ -1,6 +1,6 @@
 // This file has been generated automatically by GrGen.
 // Do not modify this file! Any changes will be lost!
-// Generated from "..\..\examples\JavaProgramGraphs-GraBaTs08\JavaProgramGraphs.grg" on Tue Oct 13 22:41:38 GMT+01:00 2009
+// Generated from "..\..\examples\JavaProgramGraphs-GraBaTs08\JavaProgramGraphs.grg" on Mon Nov 02 15:04:11 CET 2009
 
 using System;
 using System.Collections.Generic;
@@ -112,8 +112,8 @@ namespace de.unika.ipd.grGen.Model_JavaProgramGraphs
 		{
 		}
 		public override string Name { get { return "Node"; } }
-		public override String NodeInterfaceName { get { return "de.unika.ipd.grGen.libGr.INode"; } }
-		public override String NodeClassName { get { return "de.unika.ipd.grGen.Model_JavaProgramGraphs.@Node"; } }
+		public override string NodeInterfaceName { get { return "de.unika.ipd.grGen.libGr.INode"; } }
+		public override string NodeClassName { get { return "de.unika.ipd.grGen.Model_JavaProgramGraphs.@Node"; } }
 		public override GRGEN_LIBGR.INode CreateNode()
 		{
 			return new GRGEN_MODEL.@Node();
@@ -253,8 +253,8 @@ namespace de.unika.ipd.grGen.Model_JavaProgramGraphs
 			AttributeType_name = new GRGEN_LIBGR.AttributeType("name", this, GRGEN_LIBGR.AttributeKind.StringAttr, null, GRGEN_LIBGR.AttributeKind.StringAttr, GRGEN_LIBGR.AttributeKind.StringAttr);
 		}
 		public override string Name { get { return "Package"; } }
-		public override String NodeInterfaceName { get { return "de.unika.ipd.grGen.Model_JavaProgramGraphs.IPackage"; } }
-		public override String NodeClassName { get { return "de.unika.ipd.grGen.Model_JavaProgramGraphs.@Package"; } }
+		public override string NodeInterfaceName { get { return "de.unika.ipd.grGen.Model_JavaProgramGraphs.IPackage"; } }
+		public override string NodeClassName { get { return "de.unika.ipd.grGen.Model_JavaProgramGraphs.@Package"; } }
 		public override GRGEN_LIBGR.INode CreateNode()
 		{
 			return new GRGEN_MODEL.@Package();
@@ -451,8 +451,8 @@ namespace de.unika.ipd.grGen.Model_JavaProgramGraphs
 			AttributeType_isAbstract = new GRGEN_LIBGR.AttributeType("isAbstract", this, GRGEN_LIBGR.AttributeKind.BooleanAttr, null, GRGEN_LIBGR.AttributeKind.BooleanAttr, GRGEN_LIBGR.AttributeKind.BooleanAttr);
 		}
 		public override string Name { get { return "Classifier"; } }
-		public override String NodeInterfaceName { get { return "de.unika.ipd.grGen.Model_JavaProgramGraphs.IClassifier"; } }
-		public override String NodeClassName { get { return "de.unika.ipd.grGen.Model_JavaProgramGraphs.@Classifier"; } }
+		public override string NodeInterfaceName { get { return "de.unika.ipd.grGen.Model_JavaProgramGraphs.IClassifier"; } }
+		public override string NodeClassName { get { return "de.unika.ipd.grGen.Model_JavaProgramGraphs.@Classifier"; } }
 		public override GRGEN_LIBGR.INode CreateNode()
 		{
 			return new GRGEN_MODEL.@Classifier();
@@ -670,8 +670,8 @@ namespace de.unika.ipd.grGen.Model_JavaProgramGraphs
 			AttributeType_isFinal = new GRGEN_LIBGR.AttributeType("isFinal", this, GRGEN_LIBGR.AttributeKind.BooleanAttr, null, GRGEN_LIBGR.AttributeKind.BooleanAttr, GRGEN_LIBGR.AttributeKind.BooleanAttr);
 		}
 		public override string Name { get { return "Class"; } }
-		public override String NodeInterfaceName { get { return "de.unika.ipd.grGen.Model_JavaProgramGraphs.IClass"; } }
-		public override String NodeClassName { get { return "de.unika.ipd.grGen.Model_JavaProgramGraphs.@Class"; } }
+		public override string NodeInterfaceName { get { return "de.unika.ipd.grGen.Model_JavaProgramGraphs.IClass"; } }
+		public override string NodeClassName { get { return "de.unika.ipd.grGen.Model_JavaProgramGraphs.@Class"; } }
 		public override GRGEN_LIBGR.INode CreateNode()
 		{
 			return new GRGEN_MODEL.@Class();
@@ -884,8 +884,8 @@ namespace de.unika.ipd.grGen.Model_JavaProgramGraphs
 		{
 		}
 		public override string Name { get { return "Interface"; } }
-		public override String NodeInterfaceName { get { return "de.unika.ipd.grGen.Model_JavaProgramGraphs.IInterface"; } }
-		public override String NodeClassName { get { return "de.unika.ipd.grGen.Model_JavaProgramGraphs.@Interface"; } }
+		public override string NodeInterfaceName { get { return "de.unika.ipd.grGen.Model_JavaProgramGraphs.IInterface"; } }
+		public override string NodeClassName { get { return "de.unika.ipd.grGen.Model_JavaProgramGraphs.@Interface"; } }
 		public override GRGEN_LIBGR.INode CreateNode()
 		{
 			return new GRGEN_MODEL.@Interface();
@@ -1114,8 +1114,8 @@ namespace de.unika.ipd.grGen.Model_JavaProgramGraphs
 			AttributeType_isFinal = new GRGEN_LIBGR.AttributeType("isFinal", this, GRGEN_LIBGR.AttributeKind.BooleanAttr, null, GRGEN_LIBGR.AttributeKind.BooleanAttr, GRGEN_LIBGR.AttributeKind.BooleanAttr);
 		}
 		public override string Name { get { return "Variable"; } }
-		public override String NodeInterfaceName { get { return "de.unika.ipd.grGen.Model_JavaProgramGraphs.IVariable"; } }
-		public override String NodeClassName { get { return "de.unika.ipd.grGen.Model_JavaProgramGraphs.@Variable"; } }
+		public override string NodeInterfaceName { get { return "de.unika.ipd.grGen.Model_JavaProgramGraphs.IVariable"; } }
+		public override string NodeClassName { get { return "de.unika.ipd.grGen.Model_JavaProgramGraphs.@Variable"; } }
 		public override GRGEN_LIBGR.INode CreateNode()
 		{
 			return new GRGEN_MODEL.@Variable();
@@ -1353,8 +1353,8 @@ namespace de.unika.ipd.grGen.Model_JavaProgramGraphs
 			AttributeType_isFinal = new GRGEN_LIBGR.AttributeType("isFinal", this, GRGEN_LIBGR.AttributeKind.BooleanAttr, null, GRGEN_LIBGR.AttributeKind.BooleanAttr, GRGEN_LIBGR.AttributeKind.BooleanAttr);
 		}
 		public override string Name { get { return "Operation"; } }
-		public override String NodeInterfaceName { get { return "de.unika.ipd.grGen.Model_JavaProgramGraphs.IOperation"; } }
-		public override String NodeClassName { get { return "de.unika.ipd.grGen.Model_JavaProgramGraphs.@Operation"; } }
+		public override string NodeInterfaceName { get { return "de.unika.ipd.grGen.Model_JavaProgramGraphs.IOperation"; } }
+		public override string NodeClassName { get { return "de.unika.ipd.grGen.Model_JavaProgramGraphs.@Operation"; } }
 		public override GRGEN_LIBGR.INode CreateNode()
 		{
 			return new GRGEN_MODEL.@Operation();
@@ -1509,8 +1509,8 @@ namespace de.unika.ipd.grGen.Model_JavaProgramGraphs
 		{
 		}
 		public override string Name { get { return "MethodBody"; } }
-		public override String NodeInterfaceName { get { return "de.unika.ipd.grGen.Model_JavaProgramGraphs.IMethodBody"; } }
-		public override String NodeClassName { get { return "de.unika.ipd.grGen.Model_JavaProgramGraphs.@MethodBody"; } }
+		public override string NodeInterfaceName { get { return "de.unika.ipd.grGen.Model_JavaProgramGraphs.IMethodBody"; } }
+		public override string NodeClassName { get { return "de.unika.ipd.grGen.Model_JavaProgramGraphs.@MethodBody"; } }
 		public override GRGEN_LIBGR.INode CreateNode()
 		{
 			return new GRGEN_MODEL.@MethodBody();
@@ -1628,8 +1628,8 @@ namespace de.unika.ipd.grGen.Model_JavaProgramGraphs
 		{
 		}
 		public override string Name { get { return "Expression"; } }
-		public override String NodeInterfaceName { get { return "de.unika.ipd.grGen.Model_JavaProgramGraphs.IExpression"; } }
-		public override String NodeClassName { get { return "de.unika.ipd.grGen.Model_JavaProgramGraphs.@Expression"; } }
+		public override string NodeInterfaceName { get { return "de.unika.ipd.grGen.Model_JavaProgramGraphs.IExpression"; } }
+		public override string NodeClassName { get { return "de.unika.ipd.grGen.Model_JavaProgramGraphs.@Expression"; } }
 		public override GRGEN_LIBGR.INode CreateNode()
 		{
 			return new GRGEN_MODEL.@Expression();
@@ -1775,8 +1775,8 @@ namespace de.unika.ipd.grGen.Model_JavaProgramGraphs
 			AttributeType_this = new GRGEN_LIBGR.AttributeType("this", this, GRGEN_LIBGR.AttributeKind.BooleanAttr, null, GRGEN_LIBGR.AttributeKind.BooleanAttr, GRGEN_LIBGR.AttributeKind.BooleanAttr);
 		}
 		public override string Name { get { return "Access"; } }
-		public override String NodeInterfaceName { get { return "de.unika.ipd.grGen.Model_JavaProgramGraphs.IAccess"; } }
-		public override String NodeClassName { get { return "de.unika.ipd.grGen.Model_JavaProgramGraphs.@Access"; } }
+		public override string NodeInterfaceName { get { return "de.unika.ipd.grGen.Model_JavaProgramGraphs.IAccess"; } }
+		public override string NodeClassName { get { return "de.unika.ipd.grGen.Model_JavaProgramGraphs.@Access"; } }
 		public override GRGEN_LIBGR.INode CreateNode()
 		{
 			return new GRGEN_MODEL.@Access();
@@ -1947,8 +1947,8 @@ namespace de.unika.ipd.grGen.Model_JavaProgramGraphs
 			AttributeType_this = new GRGEN_LIBGR.AttributeType("this", this, GRGEN_LIBGR.AttributeKind.BooleanAttr, null, GRGEN_LIBGR.AttributeKind.BooleanAttr, GRGEN_LIBGR.AttributeKind.BooleanAttr);
 		}
 		public override string Name { get { return "Update"; } }
-		public override String NodeInterfaceName { get { return "de.unika.ipd.grGen.Model_JavaProgramGraphs.IUpdate"; } }
-		public override String NodeClassName { get { return "de.unika.ipd.grGen.Model_JavaProgramGraphs.@Update"; } }
+		public override string NodeInterfaceName { get { return "de.unika.ipd.grGen.Model_JavaProgramGraphs.IUpdate"; } }
+		public override string NodeClassName { get { return "de.unika.ipd.grGen.Model_JavaProgramGraphs.@Update"; } }
 		public override GRGEN_LIBGR.INode CreateNode()
 		{
 			return new GRGEN_MODEL.@Update();
@@ -2135,8 +2135,8 @@ namespace de.unika.ipd.grGen.Model_JavaProgramGraphs
 			AttributeType_super = new GRGEN_LIBGR.AttributeType("super", this, GRGEN_LIBGR.AttributeKind.BooleanAttr, null, GRGEN_LIBGR.AttributeKind.BooleanAttr, GRGEN_LIBGR.AttributeKind.BooleanAttr);
 		}
 		public override string Name { get { return "Call"; } }
-		public override String NodeInterfaceName { get { return "de.unika.ipd.grGen.Model_JavaProgramGraphs.ICall"; } }
-		public override String NodeClassName { get { return "de.unika.ipd.grGen.Model_JavaProgramGraphs.@Call"; } }
+		public override string NodeInterfaceName { get { return "de.unika.ipd.grGen.Model_JavaProgramGraphs.ICall"; } }
+		public override string NodeClassName { get { return "de.unika.ipd.grGen.Model_JavaProgramGraphs.@Call"; } }
 		public override GRGEN_LIBGR.INode CreateNode()
 		{
 			return new GRGEN_MODEL.@Call();
@@ -2288,8 +2288,8 @@ namespace de.unika.ipd.grGen.Model_JavaProgramGraphs
 		{
 		}
 		public override string Name { get { return "Instantiation"; } }
-		public override String NodeInterfaceName { get { return "de.unika.ipd.grGen.Model_JavaProgramGraphs.IInstantiation"; } }
-		public override String NodeClassName { get { return "de.unika.ipd.grGen.Model_JavaProgramGraphs.@Instantiation"; } }
+		public override string NodeInterfaceName { get { return "de.unika.ipd.grGen.Model_JavaProgramGraphs.IInstantiation"; } }
+		public override string NodeClassName { get { return "de.unika.ipd.grGen.Model_JavaProgramGraphs.@Instantiation"; } }
 		public override GRGEN_LIBGR.INode CreateNode()
 		{
 			return new GRGEN_MODEL.@Instantiation();
@@ -2435,8 +2435,8 @@ namespace de.unika.ipd.grGen.Model_JavaProgramGraphs
 			AttributeType_name = new GRGEN_LIBGR.AttributeType("name", this, GRGEN_LIBGR.AttributeKind.StringAttr, null, GRGEN_LIBGR.AttributeKind.StringAttr, GRGEN_LIBGR.AttributeKind.StringAttr);
 		}
 		public override string Name { get { return "Operator"; } }
-		public override String NodeInterfaceName { get { return "de.unika.ipd.grGen.Model_JavaProgramGraphs.IOperator"; } }
-		public override String NodeClassName { get { return "de.unika.ipd.grGen.Model_JavaProgramGraphs.@Operator"; } }
+		public override string NodeInterfaceName { get { return "de.unika.ipd.grGen.Model_JavaProgramGraphs.IOperator"; } }
+		public override string NodeClassName { get { return "de.unika.ipd.grGen.Model_JavaProgramGraphs.@Operator"; } }
 		public override GRGEN_LIBGR.INode CreateNode()
 		{
 			return new GRGEN_MODEL.@Operator();
@@ -2585,8 +2585,8 @@ namespace de.unika.ipd.grGen.Model_JavaProgramGraphs
 		{
 		}
 		public override string Name { get { return "Return"; } }
-		public override String NodeInterfaceName { get { return "de.unika.ipd.grGen.Model_JavaProgramGraphs.IReturn"; } }
-		public override String NodeClassName { get { return "de.unika.ipd.grGen.Model_JavaProgramGraphs.@Return"; } }
+		public override string NodeInterfaceName { get { return "de.unika.ipd.grGen.Model_JavaProgramGraphs.IReturn"; } }
+		public override string NodeClassName { get { return "de.unika.ipd.grGen.Model_JavaProgramGraphs.@Return"; } }
 		public override GRGEN_LIBGR.INode CreateNode()
 		{
 			return new GRGEN_MODEL.@Return();
@@ -2710,8 +2710,8 @@ namespace de.unika.ipd.grGen.Model_JavaProgramGraphs
 		{
 		}
 		public override string Name { get { return "Block"; } }
-		public override String NodeInterfaceName { get { return "de.unika.ipd.grGen.Model_JavaProgramGraphs.IBlock"; } }
-		public override String NodeClassName { get { return "de.unika.ipd.grGen.Model_JavaProgramGraphs.@Block"; } }
+		public override string NodeInterfaceName { get { return "de.unika.ipd.grGen.Model_JavaProgramGraphs.IBlock"; } }
+		public override string NodeClassName { get { return "de.unika.ipd.grGen.Model_JavaProgramGraphs.@Block"; } }
 		public override GRGEN_LIBGR.INode CreateNode()
 		{
 			return new GRGEN_MODEL.@Block();
@@ -2851,8 +2851,8 @@ namespace de.unika.ipd.grGen.Model_JavaProgramGraphs
 			AttributeType_value = new GRGEN_LIBGR.AttributeType("value", this, GRGEN_LIBGR.AttributeKind.StringAttr, null, GRGEN_LIBGR.AttributeKind.StringAttr, GRGEN_LIBGR.AttributeKind.StringAttr);
 		}
 		public override string Name { get { return "Literal"; } }
-		public override String NodeInterfaceName { get { return "de.unika.ipd.grGen.Model_JavaProgramGraphs.ILiteral"; } }
-		public override String NodeClassName { get { return "de.unika.ipd.grGen.Model_JavaProgramGraphs.@Literal"; } }
+		public override string NodeInterfaceName { get { return "de.unika.ipd.grGen.Model_JavaProgramGraphs.ILiteral"; } }
+		public override string NodeClassName { get { return "de.unika.ipd.grGen.Model_JavaProgramGraphs.@Literal"; } }
 		public override GRGEN_LIBGR.INode CreateNode()
 		{
 			return new GRGEN_MODEL.@Literal();
@@ -2995,8 +2995,8 @@ namespace de.unika.ipd.grGen.Model_JavaProgramGraphs
 		{
 		}
 		public override string Name { get { return "Parameter"; } }
-		public override String NodeInterfaceName { get { return "de.unika.ipd.grGen.Model_JavaProgramGraphs.IParameter"; } }
-		public override String NodeClassName { get { return "de.unika.ipd.grGen.Model_JavaProgramGraphs.@Parameter"; } }
+		public override string NodeInterfaceName { get { return "de.unika.ipd.grGen.Model_JavaProgramGraphs.IParameter"; } }
+		public override string NodeClassName { get { return "de.unika.ipd.grGen.Model_JavaProgramGraphs.@Parameter"; } }
 		public override GRGEN_LIBGR.INode CreateNode()
 		{
 			return new GRGEN_MODEL.@Parameter();
@@ -3410,8 +3410,8 @@ namespace de.unika.ipd.grGen.Model_JavaProgramGraphs
 		{
 		}
 		public override string Name { get { return "AEdge"; } }
-		public override String EdgeInterfaceName { get { return "de.unika.ipd.grGen.libGr.IEdge"; } }
-		public override String EdgeClassName { get { return null; } }
+		public override string EdgeInterfaceName { get { return "de.unika.ipd.grGen.libGr.IEdge"; } }
+		public override string EdgeClassName { get { return null; } }
 		public override GRGEN_LIBGR.Directedness Directedness { get { return GRGEN_LIBGR.Directedness.Arbitrary; } }
 		public override GRGEN_LIBGR.IEdge CreateEdge(GRGEN_LIBGR.INode source, GRGEN_LIBGR.INode target)
 		{
@@ -3523,8 +3523,8 @@ namespace de.unika.ipd.grGen.Model_JavaProgramGraphs
 		{
 		}
 		public override string Name { get { return "Edge"; } }
-		public override String EdgeInterfaceName { get { return "de.unika.ipd.grGen.libGr.IEdge"; } }
-		public override String EdgeClassName { get { return "de.unika.ipd.grGen.Model_JavaProgramGraphs.@Edge"; } }
+		public override string EdgeInterfaceName { get { return "de.unika.ipd.grGen.libGr.IEdge"; } }
+		public override string EdgeClassName { get { return "de.unika.ipd.grGen.Model_JavaProgramGraphs.@Edge"; } }
 		public override GRGEN_LIBGR.Directedness Directedness { get { return GRGEN_LIBGR.Directedness.Directed; } }
 		public override GRGEN_LIBGR.IEdge CreateEdge(GRGEN_LIBGR.INode source, GRGEN_LIBGR.INode target)
 		{
@@ -3637,8 +3637,8 @@ namespace de.unika.ipd.grGen.Model_JavaProgramGraphs
 		{
 		}
 		public override string Name { get { return "UEdge"; } }
-		public override String EdgeInterfaceName { get { return "de.unika.ipd.grGen.libGr.IEdge"; } }
-		public override String EdgeClassName { get { return "de.unika.ipd.grGen.Model_JavaProgramGraphs.@UEdge"; } }
+		public override string EdgeInterfaceName { get { return "de.unika.ipd.grGen.libGr.IEdge"; } }
+		public override string EdgeClassName { get { return "de.unika.ipd.grGen.Model_JavaProgramGraphs.@UEdge"; } }
 		public override GRGEN_LIBGR.Directedness Directedness { get { return GRGEN_LIBGR.Directedness.Undirected; } }
 		public override GRGEN_LIBGR.IEdge CreateEdge(GRGEN_LIBGR.INode source, GRGEN_LIBGR.INode target)
 		{
@@ -3760,8 +3760,8 @@ namespace de.unika.ipd.grGen.Model_JavaProgramGraphs
 		{
 		}
 		public override string Name { get { return "belongsTo"; } }
-		public override String EdgeInterfaceName { get { return "de.unika.ipd.grGen.Model_JavaProgramGraphs.IbelongsTo"; } }
-		public override String EdgeClassName { get { return "de.unika.ipd.grGen.Model_JavaProgramGraphs.@belongsTo"; } }
+		public override string EdgeInterfaceName { get { return "de.unika.ipd.grGen.Model_JavaProgramGraphs.IbelongsTo"; } }
+		public override string EdgeClassName { get { return "de.unika.ipd.grGen.Model_JavaProgramGraphs.@belongsTo"; } }
 		public override GRGEN_LIBGR.Directedness Directedness { get { return GRGEN_LIBGR.Directedness.Directed; } }
 		public override GRGEN_LIBGR.IEdge CreateEdge(GRGEN_LIBGR.INode source, GRGEN_LIBGR.INode target)
 		{
@@ -3883,8 +3883,8 @@ namespace de.unika.ipd.grGen.Model_JavaProgramGraphs
 		{
 		}
 		public override string Name { get { return "type_"; } }
-		public override String EdgeInterfaceName { get { return "de.unika.ipd.grGen.Model_JavaProgramGraphs.Itype_"; } }
-		public override String EdgeClassName { get { return "de.unika.ipd.grGen.Model_JavaProgramGraphs.@type_"; } }
+		public override string EdgeInterfaceName { get { return "de.unika.ipd.grGen.Model_JavaProgramGraphs.Itype_"; } }
+		public override string EdgeClassName { get { return "de.unika.ipd.grGen.Model_JavaProgramGraphs.@type_"; } }
 		public override GRGEN_LIBGR.Directedness Directedness { get { return GRGEN_LIBGR.Directedness.Directed; } }
 		public override GRGEN_LIBGR.IEdge CreateEdge(GRGEN_LIBGR.INode source, GRGEN_LIBGR.INode target)
 		{
@@ -4006,8 +4006,8 @@ namespace de.unika.ipd.grGen.Model_JavaProgramGraphs
 		{
 		}
 		public override string Name { get { return "extends_"; } }
-		public override String EdgeInterfaceName { get { return "de.unika.ipd.grGen.Model_JavaProgramGraphs.Iextends_"; } }
-		public override String EdgeClassName { get { return "de.unika.ipd.grGen.Model_JavaProgramGraphs.@extends_"; } }
+		public override string EdgeInterfaceName { get { return "de.unika.ipd.grGen.Model_JavaProgramGraphs.Iextends_"; } }
+		public override string EdgeClassName { get { return "de.unika.ipd.grGen.Model_JavaProgramGraphs.@extends_"; } }
 		public override GRGEN_LIBGR.Directedness Directedness { get { return GRGEN_LIBGR.Directedness.Directed; } }
 		public override GRGEN_LIBGR.IEdge CreateEdge(GRGEN_LIBGR.INode source, GRGEN_LIBGR.INode target)
 		{
@@ -4129,8 +4129,8 @@ namespace de.unika.ipd.grGen.Model_JavaProgramGraphs
 		{
 		}
 		public override string Name { get { return "imports"; } }
-		public override String EdgeInterfaceName { get { return "de.unika.ipd.grGen.Model_JavaProgramGraphs.Iimports"; } }
-		public override String EdgeClassName { get { return "de.unika.ipd.grGen.Model_JavaProgramGraphs.@imports"; } }
+		public override string EdgeInterfaceName { get { return "de.unika.ipd.grGen.Model_JavaProgramGraphs.Iimports"; } }
+		public override string EdgeClassName { get { return "de.unika.ipd.grGen.Model_JavaProgramGraphs.@imports"; } }
 		public override GRGEN_LIBGR.Directedness Directedness { get { return GRGEN_LIBGR.Directedness.Directed; } }
 		public override GRGEN_LIBGR.IEdge CreateEdge(GRGEN_LIBGR.INode source, GRGEN_LIBGR.INode target)
 		{
@@ -4252,8 +4252,8 @@ namespace de.unika.ipd.grGen.Model_JavaProgramGraphs
 		{
 		}
 		public override string Name { get { return "implements"; } }
-		public override String EdgeInterfaceName { get { return "de.unika.ipd.grGen.Model_JavaProgramGraphs.Iimplements"; } }
-		public override String EdgeClassName { get { return "de.unika.ipd.grGen.Model_JavaProgramGraphs.@implements"; } }
+		public override string EdgeInterfaceName { get { return "de.unika.ipd.grGen.Model_JavaProgramGraphs.Iimplements"; } }
+		public override string EdgeClassName { get { return "de.unika.ipd.grGen.Model_JavaProgramGraphs.@implements"; } }
 		public override GRGEN_LIBGR.Directedness Directedness { get { return GRGEN_LIBGR.Directedness.Directed; } }
 		public override GRGEN_LIBGR.IEdge CreateEdge(GRGEN_LIBGR.INode source, GRGEN_LIBGR.INode target)
 		{
@@ -4397,8 +4397,8 @@ namespace de.unika.ipd.grGen.Model_JavaProgramGraphs
 			AttributeType_order = new GRGEN_LIBGR.AttributeType("order", this, GRGEN_LIBGR.AttributeKind.IntegerAttr, null, GRGEN_LIBGR.AttributeKind.IntegerAttr, GRGEN_LIBGR.AttributeKind.IntegerAttr);
 		}
 		public override string Name { get { return "parameter"; } }
-		public override String EdgeInterfaceName { get { return "de.unika.ipd.grGen.Model_JavaProgramGraphs.Iparameter"; } }
-		public override String EdgeClassName { get { return "de.unika.ipd.grGen.Model_JavaProgramGraphs.@parameter"; } }
+		public override string EdgeInterfaceName { get { return "de.unika.ipd.grGen.Model_JavaProgramGraphs.Iparameter"; } }
+		public override string EdgeClassName { get { return "de.unika.ipd.grGen.Model_JavaProgramGraphs.@parameter"; } }
 		public override GRGEN_LIBGR.Directedness Directedness { get { return GRGEN_LIBGR.Directedness.Directed; } }
 		public override GRGEN_LIBGR.IEdge CreateEdge(GRGEN_LIBGR.INode source, GRGEN_LIBGR.INode target)
 		{
@@ -4545,8 +4545,8 @@ namespace de.unika.ipd.grGen.Model_JavaProgramGraphs
 		{
 		}
 		public override string Name { get { return "actualParameter"; } }
-		public override String EdgeInterfaceName { get { return "de.unika.ipd.grGen.Model_JavaProgramGraphs.IactualParameter"; } }
-		public override String EdgeClassName { get { return "de.unika.ipd.grGen.Model_JavaProgramGraphs.@actualParameter"; } }
+		public override string EdgeInterfaceName { get { return "de.unika.ipd.grGen.Model_JavaProgramGraphs.IactualParameter"; } }
+		public override string EdgeClassName { get { return "de.unika.ipd.grGen.Model_JavaProgramGraphs.@actualParameter"; } }
 		public override GRGEN_LIBGR.Directedness Directedness { get { return GRGEN_LIBGR.Directedness.Directed; } }
 		public override GRGEN_LIBGR.IEdge CreateEdge(GRGEN_LIBGR.INode source, GRGEN_LIBGR.INode target)
 		{
@@ -4668,8 +4668,8 @@ namespace de.unika.ipd.grGen.Model_JavaProgramGraphs
 		{
 		}
 		public override string Name { get { return "binding"; } }
-		public override String EdgeInterfaceName { get { return "de.unika.ipd.grGen.Model_JavaProgramGraphs.Ibinding"; } }
-		public override String EdgeClassName { get { return "de.unika.ipd.grGen.Model_JavaProgramGraphs.@binding"; } }
+		public override string EdgeInterfaceName { get { return "de.unika.ipd.grGen.Model_JavaProgramGraphs.Ibinding"; } }
+		public override string EdgeClassName { get { return "de.unika.ipd.grGen.Model_JavaProgramGraphs.@binding"; } }
 		public override GRGEN_LIBGR.Directedness Directedness { get { return GRGEN_LIBGR.Directedness.Directed; } }
 		public override GRGEN_LIBGR.IEdge CreateEdge(GRGEN_LIBGR.INode source, GRGEN_LIBGR.INode target)
 		{
@@ -4791,8 +4791,8 @@ namespace de.unika.ipd.grGen.Model_JavaProgramGraphs
 		{
 		}
 		public override string Name { get { return "link"; } }
-		public override String EdgeInterfaceName { get { return "de.unika.ipd.grGen.Model_JavaProgramGraphs.Ilink"; } }
-		public override String EdgeClassName { get { return "de.unika.ipd.grGen.Model_JavaProgramGraphs.@link"; } }
+		public override string EdgeInterfaceName { get { return "de.unika.ipd.grGen.Model_JavaProgramGraphs.Ilink"; } }
+		public override string EdgeClassName { get { return "de.unika.ipd.grGen.Model_JavaProgramGraphs.@link"; } }
 		public override GRGEN_LIBGR.Directedness Directedness { get { return GRGEN_LIBGR.Directedness.Directed; } }
 		public override GRGEN_LIBGR.IEdge CreateEdge(GRGEN_LIBGR.INode source, GRGEN_LIBGR.INode target)
 		{
@@ -4936,8 +4936,8 @@ namespace de.unika.ipd.grGen.Model_JavaProgramGraphs
 			AttributeType_order = new GRGEN_LIBGR.AttributeType("order", this, GRGEN_LIBGR.AttributeKind.IntegerAttr, null, GRGEN_LIBGR.AttributeKind.IntegerAttr, GRGEN_LIBGR.AttributeKind.IntegerAttr);
 		}
 		public override string Name { get { return "expression"; } }
-		public override String EdgeInterfaceName { get { return "de.unika.ipd.grGen.Model_JavaProgramGraphs.Iexpression"; } }
-		public override String EdgeClassName { get { return "de.unika.ipd.grGen.Model_JavaProgramGraphs.@expression"; } }
+		public override string EdgeInterfaceName { get { return "de.unika.ipd.grGen.Model_JavaProgramGraphs.Iexpression"; } }
+		public override string EdgeClassName { get { return "de.unika.ipd.grGen.Model_JavaProgramGraphs.@expression"; } }
 		public override GRGEN_LIBGR.Directedness Directedness { get { return GRGEN_LIBGR.Directedness.Directed; } }
 		public override GRGEN_LIBGR.IEdge CreateEdge(GRGEN_LIBGR.INode source, GRGEN_LIBGR.INode target)
 		{
@@ -5084,8 +5084,8 @@ namespace de.unika.ipd.grGen.Model_JavaProgramGraphs
 		{
 		}
 		public override string Name { get { return "inBlock"; } }
-		public override String EdgeInterfaceName { get { return "de.unika.ipd.grGen.Model_JavaProgramGraphs.IinBlock"; } }
-		public override String EdgeClassName { get { return "de.unika.ipd.grGen.Model_JavaProgramGraphs.@inBlock"; } }
+		public override string EdgeInterfaceName { get { return "de.unika.ipd.grGen.Model_JavaProgramGraphs.IinBlock"; } }
+		public override string EdgeClassName { get { return "de.unika.ipd.grGen.Model_JavaProgramGraphs.@inBlock"; } }
 		public override GRGEN_LIBGR.Directedness Directedness { get { return GRGEN_LIBGR.Directedness.Directed; } }
 		public override GRGEN_LIBGR.IEdge CreateEdge(GRGEN_LIBGR.INode source, GRGEN_LIBGR.INode target)
 		{
@@ -5207,8 +5207,8 @@ namespace de.unika.ipd.grGen.Model_JavaProgramGraphs
 		{
 		}
 		public override string Name { get { return "inClass"; } }
-		public override String EdgeInterfaceName { get { return "de.unika.ipd.grGen.Model_JavaProgramGraphs.IinClass"; } }
-		public override String EdgeClassName { get { return "de.unika.ipd.grGen.Model_JavaProgramGraphs.@inClass"; } }
+		public override string EdgeInterfaceName { get { return "de.unika.ipd.grGen.Model_JavaProgramGraphs.IinClass"; } }
+		public override string EdgeClassName { get { return "de.unika.ipd.grGen.Model_JavaProgramGraphs.@inClass"; } }
 		public override GRGEN_LIBGR.Directedness Directedness { get { return GRGEN_LIBGR.Directedness.Directed; } }
 		public override GRGEN_LIBGR.IEdge CreateEdge(GRGEN_LIBGR.INode source, GRGEN_LIBGR.INode target)
 		{

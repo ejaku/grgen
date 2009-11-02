@@ -1,6 +1,6 @@
 // This file has been generated automatically by GrGen.
 // Do not modify this file! Any changes will be lost!
-// Generated from "..\..\examples\JavaProgramGraphs-GraBaTs08\JavaProgramGraphs.grg" on Tue Oct 13 22:41:38 GMT+01:00 2009
+// Generated from "..\..\examples\JavaProgramGraphs-GraBaTs08\JavaProgramGraphs.grg" on Mon Nov 02 15:04:11 CET 2009
 
 using System;
 using System.Collections.Generic;
@@ -4113,7 +4113,7 @@ namespace de.unika.ipd.grGen.Action_JavaProgramGraphs
 			//Iterateds
 			//Independents
 			// further match object stuff
-			void SetMatchOfEnclosingPattern(GRGEN_LIBGR.IMatch matchOfEnclosingPattern);
+			new void SetMatchOfEnclosingPattern(GRGEN_LIBGR.IMatch matchOfEnclosingPattern);
 		}
 
 		public interface IMatch_ExpressionChain_alt_0_CallAndAgain : IMatch_ExpressionChain_alt_0
@@ -4131,7 +4131,7 @@ namespace de.unika.ipd.grGen.Action_JavaProgramGraphs
 			//Iterateds
 			//Independents
 			// further match object stuff
-			void SetMatchOfEnclosingPattern(GRGEN_LIBGR.IMatch matchOfEnclosingPattern);
+			new void SetMatchOfEnclosingPattern(GRGEN_LIBGR.IMatch matchOfEnclosingPattern);
 		}
 
 		public interface IMatch_ExpressionChain_alt_0_End : IMatch_ExpressionChain_alt_0
@@ -4145,7 +4145,7 @@ namespace de.unika.ipd.grGen.Action_JavaProgramGraphs
 			//Iterateds
 			//Independents
 			// further match object stuff
-			void SetMatchOfEnclosingPattern(GRGEN_LIBGR.IMatch matchOfEnclosingPattern);
+			new void SetMatchOfEnclosingPattern(GRGEN_LIBGR.IMatch matchOfEnclosingPattern);
 		}
 
 		public interface IMatch_ExpressionChain_alt_0_End_neg_0 : GRGEN_LIBGR.IMatch
@@ -6167,7 +6167,7 @@ namespace de.unika.ipd.grGen.Action_JavaProgramGraphs
 			//Iterateds
 			//Independents
 			// further match object stuff
-			void SetMatchOfEnclosingPattern(GRGEN_LIBGR.IMatch matchOfEnclosingPattern);
+			new void SetMatchOfEnclosingPattern(GRGEN_LIBGR.IMatch matchOfEnclosingPattern);
 		}
 
 		public interface IMatch_InClass_alt_0_End : IMatch_InClass_alt_0
@@ -6188,7 +6188,7 @@ namespace de.unika.ipd.grGen.Action_JavaProgramGraphs
 			//Iterateds
 			//Independents
 			// further match object stuff
-			void SetMatchOfEnclosingPattern(GRGEN_LIBGR.IMatch matchOfEnclosingPattern);
+			new void SetMatchOfEnclosingPattern(GRGEN_LIBGR.IMatch matchOfEnclosingPattern);
 		}
 
 		public class Match_InClass : GRGEN_LGSP.ListElement<Match_InClass>, IMatch_InClass
@@ -6807,7 +6807,7 @@ namespace de.unika.ipd.grGen.Action_JavaProgramGraphs
 			//Iterateds
 			//Independents
 			// further match object stuff
-			void SetMatchOfEnclosingPattern(GRGEN_LIBGR.IMatch matchOfEnclosingPattern);
+			new void SetMatchOfEnclosingPattern(GRGEN_LIBGR.IMatch matchOfEnclosingPattern);
 		}
 
 		public interface IMatch_methodNameExistsSuper_alt_0_super : IMatch_methodNameExistsSuper_alt_0
@@ -6825,7 +6825,7 @@ namespace de.unika.ipd.grGen.Action_JavaProgramGraphs
 			//Iterateds
 			//Independents
 			// further match object stuff
-			void SetMatchOfEnclosingPattern(GRGEN_LIBGR.IMatch matchOfEnclosingPattern);
+			new void SetMatchOfEnclosingPattern(GRGEN_LIBGR.IMatch matchOfEnclosingPattern);
 		}
 
 		public class Match_methodNameExistsSuper : GRGEN_LGSP.ListElement<Match_methodNameExistsSuper>, IMatch_methodNameExistsSuper
@@ -7313,7 +7313,7 @@ namespace de.unika.ipd.grGen.Action_JavaProgramGraphs
                     graph.Finished(mat_3, false);
                     res_3 = ret_3 != null;
                 }
-                if(res_3) res_2 = true;
+                if(res_3)                    res_2 = true;
                 else
                 {
                     GRGEN_LIBGR.IMatches mat_5 = rule_dumpNodeClass.Match(graph, 1, null);
@@ -7329,7 +7329,7 @@ namespace de.unika.ipd.grGen.Action_JavaProgramGraphs
                         graph.Finished(mat_5, false);
                         res_5 = ret_5 != null;
                     }
-                    if(res_5) res_4 = true;
+                    if(res_5)                        res_4 = true;
                     else
                     {
                         GRGEN_LIBGR.IMatches mat_7 = rule_dumpNodeInterface.Match(graph, 1, null);
@@ -7345,7 +7345,7 @@ namespace de.unika.ipd.grGen.Action_JavaProgramGraphs
                             graph.Finished(mat_7, false);
                             res_7 = ret_7 != null;
                         }
-                        if(res_7) res_6 = true;
+                        if(res_7)                            res_6 = true;
                         else
                         {
                             GRGEN_LIBGR.IMatches mat_9 = rule_dumpNodeVariable.Match(graph, 1, null);
@@ -7361,7 +7361,7 @@ namespace de.unika.ipd.grGen.Action_JavaProgramGraphs
                                 graph.Finished(mat_9, false);
                                 res_9 = ret_9 != null;
                             }
-                            if(res_9) res_8 = true;
+                            if(res_9)                                res_8 = true;
                             else
                             {
                                 GRGEN_LIBGR.IMatches mat_11 = rule_dumpNodeOperation.Match(graph, 1, null);
@@ -7377,7 +7377,7 @@ namespace de.unika.ipd.grGen.Action_JavaProgramGraphs
                                     graph.Finished(mat_11, false);
                                     res_11 = ret_11 != null;
                                 }
-                                if(res_11) res_10 = true;
+                                if(res_11)                                    res_10 = true;
                                 else
                                 {
                                     GRGEN_LIBGR.IMatches mat_13 = rule_dumpNodeMethodBody.Match(graph, 1, null);
@@ -7393,7 +7393,7 @@ namespace de.unika.ipd.grGen.Action_JavaProgramGraphs
                                         graph.Finished(mat_13, false);
                                         res_13 = ret_13 != null;
                                     }
-                                    if(res_13) res_12 = true;
+                                    if(res_13)                                        res_12 = true;
                                     else
                                     {
                                         GRGEN_LIBGR.IMatches mat_15 = rule_dumpNodeAccess.Match(graph, 1, null);
@@ -7409,7 +7409,7 @@ namespace de.unika.ipd.grGen.Action_JavaProgramGraphs
                                             graph.Finished(mat_15, false);
                                             res_15 = ret_15 != null;
                                         }
-                                        if(res_15) res_14 = true;
+                                        if(res_15)                                            res_14 = true;
                                         else
                                         {
                                             GRGEN_LIBGR.IMatches mat_17 = rule_dumpNodeUpdate.Match(graph, 1, null);
@@ -7425,7 +7425,7 @@ namespace de.unika.ipd.grGen.Action_JavaProgramGraphs
                                                 graph.Finished(mat_17, false);
                                                 res_17 = ret_17 != null;
                                             }
-                                            if(res_17) res_16 = true;
+                                            if(res_17)                                                res_16 = true;
                                             else
                                             {
                                                 GRGEN_LIBGR.IMatches mat_19 = rule_dumpNodeCall.Match(graph, 1, null);
@@ -7441,7 +7441,7 @@ namespace de.unika.ipd.grGen.Action_JavaProgramGraphs
                                                     graph.Finished(mat_19, false);
                                                     res_19 = ret_19 != null;
                                                 }
-                                                if(res_19) res_18 = true;
+                                                if(res_19)                                                    res_18 = true;
                                                 else
                                                 {
                                                     GRGEN_LIBGR.IMatches mat_21 = rule_dumpNodeIstantiation.Match(graph, 1, null);
@@ -7457,7 +7457,7 @@ namespace de.unika.ipd.grGen.Action_JavaProgramGraphs
                                                         graph.Finished(mat_21, false);
                                                         res_21 = ret_21 != null;
                                                     }
-                                                    if(res_21) res_20 = true;
+                                                    if(res_21)                                                        res_20 = true;
                                                     else
                                                     {
                                                         GRGEN_LIBGR.IMatches mat_23 = rule_dumpNodeOperator.Match(graph, 1, null);
@@ -7473,7 +7473,7 @@ namespace de.unika.ipd.grGen.Action_JavaProgramGraphs
                                                             graph.Finished(mat_23, false);
                                                             res_23 = ret_23 != null;
                                                         }
-                                                        if(res_23) res_22 = true;
+                                                        if(res_23)                                                            res_22 = true;
                                                         else
                                                         {
                                                             GRGEN_LIBGR.IMatches mat_25 = rule_dumpNodeReturn.Match(graph, 1, null);
@@ -7489,7 +7489,7 @@ namespace de.unika.ipd.grGen.Action_JavaProgramGraphs
                                                                 graph.Finished(mat_25, false);
                                                                 res_25 = ret_25 != null;
                                                             }
-                                                            if(res_25) res_24 = true;
+                                                            if(res_25)                                                                res_24 = true;
                                                             else
                                                             {
                                                                 GRGEN_LIBGR.IMatches mat_27 = rule_dumpNodeBlock.Match(graph, 1, null);
@@ -7505,7 +7505,7 @@ namespace de.unika.ipd.grGen.Action_JavaProgramGraphs
                                                                     graph.Finished(mat_27, false);
                                                                     res_27 = ret_27 != null;
                                                                 }
-                                                                if(res_27) res_26 = true;
+                                                                if(res_27)                                                                    res_26 = true;
                                                                 else
                                                                 {
                                                                     GRGEN_LIBGR.IMatches mat_29 = rule_dumpNodeLiteral.Match(graph, 1, null);
@@ -7521,7 +7521,7 @@ namespace de.unika.ipd.grGen.Action_JavaProgramGraphs
                                                                         graph.Finished(mat_29, false);
                                                                         res_29 = ret_29 != null;
                                                                     }
-                                                                    if(res_29) res_28 = true;
+                                                                    if(res_29)                                                                        res_28 = true;
                                                                     else
                                                                     {
                                                                         GRGEN_LIBGR.IMatches mat_30 = rule_dumpNodeParameter.Match(graph, 1, null);
@@ -7569,7 +7569,7 @@ namespace de.unika.ipd.grGen.Action_JavaProgramGraphs
                 i_1++;
             }
             res_1 = i_1 >= 0;
-            if(!res_1) res_0 = false;
+            if(!res_1)                res_0 = false;
             else
             {
                 long i_31 = 0;
@@ -7588,7 +7588,7 @@ namespace de.unika.ipd.grGen.Action_JavaProgramGraphs
                         graph.Finished(mat_33, false);
                         res_33 = ret_33 != null;
                     }
-                    if(res_33) res_32 = true;
+                    if(res_33)                        res_32 = true;
                     else
                     {
                         GRGEN_LIBGR.IMatches mat_35 = rule_dumpEdgeType.Match(graph, 1, null);
@@ -7604,7 +7604,7 @@ namespace de.unika.ipd.grGen.Action_JavaProgramGraphs
                             graph.Finished(mat_35, false);
                             res_35 = ret_35 != null;
                         }
-                        if(res_35) res_34 = true;
+                        if(res_35)                            res_34 = true;
                         else
                         {
                             GRGEN_LIBGR.IMatches mat_37 = rule_dumpEdgeExtends.Match(graph, 1, null);
@@ -7620,7 +7620,7 @@ namespace de.unika.ipd.grGen.Action_JavaProgramGraphs
                                 graph.Finished(mat_37, false);
                                 res_37 = ret_37 != null;
                             }
-                            if(res_37) res_36 = true;
+                            if(res_37)                                res_36 = true;
                             else
                             {
                                 GRGEN_LIBGR.IMatches mat_39 = rule_dumpEdgeImports.Match(graph, 1, null);
@@ -7636,7 +7636,7 @@ namespace de.unika.ipd.grGen.Action_JavaProgramGraphs
                                     graph.Finished(mat_39, false);
                                     res_39 = ret_39 != null;
                                 }
-                                if(res_39) res_38 = true;
+                                if(res_39)                                    res_38 = true;
                                 else
                                 {
                                     GRGEN_LIBGR.IMatches mat_41 = rule_dumpEdgeImplements.Match(graph, 1, null);
@@ -7652,7 +7652,7 @@ namespace de.unika.ipd.grGen.Action_JavaProgramGraphs
                                         graph.Finished(mat_41, false);
                                         res_41 = ret_41 != null;
                                     }
-                                    if(res_41) res_40 = true;
+                                    if(res_41)                                        res_40 = true;
                                     else
                                     {
                                         GRGEN_LIBGR.IMatches mat_43 = rule_dumpEdgeParameter.Match(graph, 1, null);
@@ -7668,7 +7668,7 @@ namespace de.unika.ipd.grGen.Action_JavaProgramGraphs
                                             graph.Finished(mat_43, false);
                                             res_43 = ret_43 != null;
                                         }
-                                        if(res_43) res_42 = true;
+                                        if(res_43)                                            res_42 = true;
                                         else
                                         {
                                             GRGEN_LIBGR.IMatches mat_45 = rule_dumpEdgeBinding.Match(graph, 1, null);
@@ -7684,7 +7684,7 @@ namespace de.unika.ipd.grGen.Action_JavaProgramGraphs
                                                 graph.Finished(mat_45, false);
                                                 res_45 = ret_45 != null;
                                             }
-                                            if(res_45) res_44 = true;
+                                            if(res_45)                                                res_44 = true;
                                             else
                                             {
                                                 GRGEN_LIBGR.IMatches mat_47 = rule_dumpEdgeLink.Match(graph, 1, null);
@@ -7700,7 +7700,7 @@ namespace de.unika.ipd.grGen.Action_JavaProgramGraphs
                                                     graph.Finished(mat_47, false);
                                                     res_47 = ret_47 != null;
                                                 }
-                                                if(res_47) res_46 = true;
+                                                if(res_47)                                                    res_46 = true;
                                                 else
                                                 {
                                                     GRGEN_LIBGR.IMatches mat_49 = rule_dumpEdgeExpression.Match(graph, 1, null);
@@ -7716,7 +7716,7 @@ namespace de.unika.ipd.grGen.Action_JavaProgramGraphs
                                                         graph.Finished(mat_49, false);
                                                         res_49 = ret_49 != null;
                                                     }
-                                                    if(res_49) res_48 = true;
+                                                    if(res_49)                                                        res_48 = true;
                                                     else
                                                     {
                                                         GRGEN_LIBGR.IMatches mat_50 = rule_dumpEdgeActualParameter.Match(graph, 1, null);
@@ -14297,7 +14297,7 @@ namespace de.unika.ipd.grGen.Action_JavaProgramGraphs
                 i_1++;
             }
             res_1 = i_1 >= 0;
-            if(!res_1) res_0 = false;
+            if(!res_1)                res_0 = false;
             else
             {
                 long i_4 = 0;
@@ -14320,7 +14320,7 @@ namespace de.unika.ipd.grGen.Action_JavaProgramGraphs
                     i_4++;
                 }
                 res_4 = i_4 >= 0;
-                if(!res_4) res_3 = false;
+                if(!res_4)                    res_3 = false;
                 else
                 {
                     long i_6 = 0;
@@ -20610,7 +20610,7 @@ namespace de.unika.ipd.grGen.Action_JavaProgramGraphs
                     graph.Finished(mat_2, false);
                     res_2 = ret_2 != null;
                 }
-                if(res_2) res_1 = true;
+                if(res_2)                    res_1 = true;
                 else
                 {
                     __xgrs_paramarray_1[0] = var_exp;
@@ -20894,7 +20894,7 @@ namespace de.unika.ipd.grGen.Action_JavaProgramGraphs
                     graph.Finished(mat_2, false);
                     res_2 = ret_2 != null;
                 }
-                if(res_2) res_1 = true;
+                if(res_2)                    res_1 = true;
                 else
                 {
                     __xgrs_paramarray_1[0] = var_exp;
@@ -21170,7 +21170,7 @@ namespace de.unika.ipd.grGen.Action_JavaProgramGraphs
                     graph.Finished(mat_2, false);
                     res_2 = ret_2 != null;
                 }
-                if(res_2) res_1 = true;
+                if(res_2)                    res_1 = true;
                 else
                 {
                     __xgrs_paramarray_1[0] = var_exp;

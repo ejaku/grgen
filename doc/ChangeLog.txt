@@ -1,8 +1,46 @@
-﻿v2.5.2 (not released yet)
- Fixes:
-  - Escaping of quotation marks in VCG files
-  - Escaping of quotation marks and newlines in communication with yComp
+﻿v2.6 beta (2009-11-02)
+ New sequencing constructs for xgrs:
+  - operator then-left l<;r, executing l then r, returning the execution result of l
+  - operator then-right l;>r, executing l then r, returning the execution result of r
+  - decision if{cond; truecase; falsecase} executing cond,
+     on success truecase is executed and its result returned,
+     on failure falsecase is executed and its result returned
+  - if{cond; truecase} which equals if{cond;truecase;true} thus giving a lazy implication
 
+ Handling of set<T>/map<S,T> in xgrs:
+  - in contrast to the set/map in models and rules, S/T may be of node/edge typ, giving storages/storagemaps
+  - set/map addition st.add(el)/mp.add(el,val) failing iff el is already contained in set/map
+  - set/map removal st.rem(el)/mp.rem(el), failing iff el is not contained in set
+  - set/map clearing sm.clear() always succeeding
+  - set/map iteration for{el in st; seq} / for{el->val in mp; seq},
+     failing iff seq fails for at least one el/el->val in the set/map
+  - set/map membership query el in sm succeeding iff el is contained in the set/map
+  - map lookup assignment val=mp[el] assigning the result of a map lookup to a variable, 
+     succeeding iff el is contained in mp, otherwise failing, assigning null to the variable
+  - set/map size query sz=sm.size() assigning size to the variable, always succeeding
+  - set/map emptyness query x=sm.empty() assigning to the variable whether set/map is empty, always succeeding
+  - set/map creation st=set<T>/mp=map<S,T>, and variable declarations of explicit set/map type, 
+     st:set<S>, mp:map<S,T>,  e.g. st:set<Node>=set<Node>
+
+ Rewrite part handling of nested patterns:
+  - modify/replace graph elements of nesting pattern
+     are now available in modify/replace of nested alternative/iterated/multiple/optional-patterns 
+  - modify/replace of nested alternative/iterated/multiple/optional-patterns can't take parameters any more,
+     better: no need to give them any more, as they can access the rhs elements of the nesting pattern
+
+ Fixes:
+  - escaping of quotation marks in VCG files
+  - escaping of quotation marks and newlines in communication with yComp
+  - escaping of XML language elements in GXL export
+  - typeof(element of abstract type) now working
+  - several cases of use before definition in rule language now working
+  - Mono compiler error (MS.NET warning) when using alternatives removed
+
+ Further changes:
+  - set/map commands in GrShell are deprecated (succeeded by xgrs set/map operators)
+  - now error reported on attempt to delete and return elments allowed to be matched homomorphically
+  - added exitonfailure to GrShell validate command leaving GrShell on failed validation with error code
+  
 v2.5.1 (2009-09-09)
  Additions:
   - subpatterns now support var parameters, too

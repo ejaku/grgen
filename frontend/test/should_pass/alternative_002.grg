@@ -39,7 +39,7 @@ pattern Alts(var i:int, var j:string, var k:boolean, var l:double, var m:object)
 			ndouble:NDOUBLE;
 			nobject:NOBJECT;
 			nstring:NSTRING;
-			modify(var mi:int, var mj:string, var mk:boolean, var ml:double, var mm:object) {
+			modify {
 				eval {
 					nint.a = mi + i; // var parameters only referenced in eval -- msut be propagated internally to foo lhs
 					nbool.a = mk || k;
@@ -50,7 +50,7 @@ pattern Alts(var i:int, var j:string, var k:boolean, var l:double, var m:object)
 			}
 		}
 		bar {
-			modify(var mi:int, var mj:string, var mk:boolean, var ml:double, var mm:object) {
+			modify {
 				nint:NINT;
 				nbool:NBOOL;
 				ndouble:NDOUBLE;

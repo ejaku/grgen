@@ -1,6 +1,6 @@
 // This file has been generated automatically by GrGen.
 // Do not modify this file! Any changes will be lost!
-// Generated from "..\..\tests\independent\Independent.grg" on Tue Oct 13 22:41:29 GMT+01:00 2009
+// Generated from "..\..\tests\independent\Independent.grg" on Mon Nov 02 15:04:01 CET 2009
 
 using System;
 using System.Collections.Generic;
@@ -306,7 +306,7 @@ namespace de.unika.ipd.grGen.Action_Independent
 			//Iterateds
 			//Independents
 			// further match object stuff
-			void SetMatchOfEnclosingPattern(GRGEN_LIBGR.IMatch matchOfEnclosingPattern);
+			new void SetMatchOfEnclosingPattern(GRGEN_LIBGR.IMatch matchOfEnclosingPattern);
 		}
 
 		public interface IMatch_iteratedPath_alt_0_recursive : IMatch_iteratedPath_alt_0
@@ -324,7 +324,7 @@ namespace de.unika.ipd.grGen.Action_Independent
 			//Iterateds
 			//Independents
 			// further match object stuff
-			void SetMatchOfEnclosingPattern(GRGEN_LIBGR.IMatch matchOfEnclosingPattern);
+			new void SetMatchOfEnclosingPattern(GRGEN_LIBGR.IMatch matchOfEnclosingPattern);
 		}
 
 		public class Match_iteratedPath : GRGEN_LGSP.ListElement<Match_iteratedPath>, IMatch_iteratedPath
@@ -910,7 +910,7 @@ namespace de.unika.ipd.grGen.Action_Independent
 			//Iterateds
 			//Independents
 			// further match object stuff
-			void SetMatchOfEnclosingPattern(GRGEN_LIBGR.IMatch matchOfEnclosingPattern);
+			new void SetMatchOfEnclosingPattern(GRGEN_LIBGR.IMatch matchOfEnclosingPattern);
 		}
 
 		public interface IMatch_iteratedPathToIntNode_alt_0_recursive : IMatch_iteratedPathToIntNode_alt_0
@@ -927,7 +927,7 @@ namespace de.unika.ipd.grGen.Action_Independent
 			//Iterateds
 			//Independents
 			// further match object stuff
-			void SetMatchOfEnclosingPattern(GRGEN_LIBGR.IMatch matchOfEnclosingPattern);
+			new void SetMatchOfEnclosingPattern(GRGEN_LIBGR.IMatch matchOfEnclosingPattern);
 		}
 
 		public class Match_iteratedPathToIntNode : GRGEN_LGSP.ListElement<Match_iteratedPathToIntNode>, IMatch_iteratedPathToIntNode

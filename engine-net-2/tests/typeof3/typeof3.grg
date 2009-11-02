@@ -10,6 +10,6 @@ rule init : (AstNode) {
 }
 
 test checkType(x: AstNode) {
-    if { typeof(x) <= Blockify; }
+    if { typeof(x) >= Blockify; }
 }
 

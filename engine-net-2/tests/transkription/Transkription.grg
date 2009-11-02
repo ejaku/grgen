@@ -42,7 +42,7 @@ pattern DNAChain(pOfPrev:P) {
 			pOfNext:P;
 			c:DNAChain(pOfNext); 
 
-			modify(oOfPrev:O) {
+			modify {
 				e(oOfPrev, oOfNext); 
 				oOfNext:O;
 				c(oOfNext); 
@@ -51,7 +51,7 @@ pattern DNAChain(pOfPrev:P) {
 		End {
 			e:DNAChainEnd(pOfPrev); 
 
-			modify(oOfPrev:O) {
+			modify {
 				e(oOfPrev); 
 			}
 		}
@@ -159,28 +159,28 @@ pattern Nukleinbase(c1:C) {
 		A {
 			a:Adenin(c1); 
 
-			modify(rc1:C) {
+			modify {
 				:Uracil(rc1); 
 			}
 		}
 		C {
 			c:Cytosin(c1); 
 
-			modify(rc1:C) {
+			modify {
 				:Guanin(rc1); 
 			}
 		}
 		G {
 			g:Guanin(c1); 
 
-			modify(rc1:C) {
+			modify {
 				:Cytosin(rc1); 
 			}
 		}
 		T {
 			t:Thymin(c1); 
 
-			modify(rc1:C) {
+			modify {
 				:Adenin(rc1); 
 			}
 		}

@@ -13,6 +13,8 @@ package de.unika.ipd.grgen.ast;
 import java.awt.Color;
 
 import de.unika.ipd.grgen.parser.Coords;
+import de.unika.ipd.grgen.parser.Scope;
+import de.unika.ipd.grgen.parser.Symbol;
 
 /**
  * Base class for all AST nodes representing expressions.
@@ -37,6 +39,39 @@ public abstract class ExprNode extends BaseNode {
 		return true;
 	}
 
+	/*
+	 * This sets the symbol definition to the right place, if the definition is behind the actual position.
+	 * TODO: extract and unify this method to a common place/code duplication
+	 * better yet: move it to own pass before resolving
+	 */
+	public static boolean fixupDefinition(BaseNode elem, Scope scope) {
+		if(!(elem instanceof IdentNode)) {
+			return true;
+		}
+		IdentNode id = (IdentNode)elem;
+		
+		debug.report(NOTE, "Fixup " + id + " in scope " + scope);
+
+		// Get the definition of the ident's symbol local to the owned scope.
+		Symbol.Definition def = scope.getCurrDef(id.getSymbol());
+		debug.report(NOTE, "definition is: " + def);
+
+		// The result is true, if the definition's valid.
+		boolean res = def.isValid();
+
+		// If this definition is valid, i.e. it exists,
+		// the definition of the ident is rewritten to this definition,
+		// else, an error is emitted,
+		// since this ident was supposed to be defined in this scope.
+		if(res) {
+			id.setSymDef(def);
+		} else {
+			id.reportError("Identifier \"" + id + "\" not declared in this scope: " + scope);
+		}
+
+		return res;
+	}
+	
 	public static ExprNode getInvalid() {
 		return INVALID;
 	}

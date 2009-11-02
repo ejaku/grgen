@@ -238,7 +238,7 @@ public class ModifyGen extends CSharpBase {
 			task.right = rule.getRight();
 			task.parameters = rule.getParameters();
 			task.evals = rule.getEvals();
-			task.replParameters = rule.getReplParameters();
+			task.replParameters = rule.getRight().getReplParameters();
 			task.returns = rule.getReturns();
 			task.isSubpattern = isSubpattern;
 			task.reuseNodesAndEdges = true;
@@ -353,8 +353,8 @@ public class ModifyGen extends CSharpBase {
 	private void genModifyAlternative(StringBuffer sb, Rule rule, Alternative alt,
 			String pathPrefix, String altName, boolean isSubpattern) {
 		if(rule.getRight()!=null) { // generate code for dependent modify dispatcher
-			genModifyAlternativeModify(sb, alt, pathPrefix, altName, rule.getReplParameters(), isSubpattern, true);
-			genModifyAlternativeModify(sb, alt, pathPrefix, altName, rule.getReplParameters(), isSubpattern, false);
+			genModifyAlternativeModify(sb, alt, pathPrefix, altName, rule.getRight().getReplParameters(), isSubpattern, true);
+			genModifyAlternativeModify(sb, alt, pathPrefix, altName, rule.getRight().getReplParameters(), isSubpattern, false);
 		}
 
 		if(isSubpattern) { // generate for delete alternative dispatcher
@@ -444,8 +444,8 @@ public class ModifyGen extends CSharpBase {
 
 	private void genModifyIterated(StringBuffer sb, Rule rule, String pathPrefix, String iterName, boolean isSubpattern) {
 		if(rule.getRight()!=null) { // generate code for dependent modify dispatcher
-			genModifyIteratedModify(sb, rule, pathPrefix, iterName, rule.getReplParameters(), isSubpattern, true);
-			genModifyIteratedModify(sb, rule, pathPrefix, iterName, rule.getReplParameters(), isSubpattern, false);
+			genModifyIteratedModify(sb, rule, pathPrefix, iterName, rule.getRight().getReplParameters(), isSubpattern, true);
+			genModifyIteratedModify(sb, rule, pathPrefix, iterName, rule.getRight().getReplParameters(), isSubpattern, false);
 		}
 
 		if(isSubpattern) { // generate for delete iterated dispatcher

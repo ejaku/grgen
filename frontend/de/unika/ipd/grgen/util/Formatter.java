@@ -32,6 +32,7 @@ import de.unika.ipd.grgen.ir.Typeof;
 import de.unika.ipd.grgen.ir.Variable;
 import de.unika.ipd.grgen.ir.VariableExpression;
 import de.unika.ipd.grgen.ir.Visited;
+import de.unika.ipd.grgen.ir.Nameof;
 
 public class Formatter {
 
@@ -155,6 +156,10 @@ public class Formatter {
 			sb.append("visited(" + formatIdentifiable(vis.getEntity()) + ", ");
 			formatConditionEvalAux(sb, vis.getVisitorID());
 			sb.append(")");
+		}
+		else if(cond instanceof Nameof) {
+			Nameof name = (Nameof) cond;
+			// TODO
 		}
 		else if(cond instanceof MapAccessExpr) {
 			// MAP TODO

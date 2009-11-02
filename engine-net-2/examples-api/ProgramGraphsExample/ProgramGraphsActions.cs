@@ -1,6 +1,6 @@
 // This file has been generated automatically by GrGen.
 // Do not modify this file! Any changes will be lost!
-// Generated from "..\..\examples\ProgramGraphs\ProgramGraphs.grg" on Tue Oct 13 22:41:52 GMT+01:00 2009
+// Generated from "..\..\examples\ProgramGraphs\ProgramGraphs.grg" on Mon Nov 02 15:04:29 CET 2009
 
 using System;
 using System.Collections.Generic;
@@ -1457,7 +1457,7 @@ namespace de.unika.ipd.grGen.Action_ProgramGraphs
 			//Iterateds
 			//Independents
 			// further match object stuff
-			void SetMatchOfEnclosingPattern(GRGEN_LIBGR.IMatch matchOfEnclosingPattern);
+			new void SetMatchOfEnclosingPattern(GRGEN_LIBGR.IMatch matchOfEnclosingPattern);
 		}
 
 		public interface IMatch_FeaturePattern_alt_0_MethodSignature : IMatch_FeaturePattern_alt_0
@@ -1473,7 +1473,7 @@ namespace de.unika.ipd.grGen.Action_ProgramGraphs
 			//Iterateds
 			//Independents
 			// further match object stuff
-			void SetMatchOfEnclosingPattern(GRGEN_LIBGR.IMatch matchOfEnclosingPattern);
+			new void SetMatchOfEnclosingPattern(GRGEN_LIBGR.IMatch matchOfEnclosingPattern);
 		}
 
 		public interface IMatch_FeaturePattern_alt_0_Variable : IMatch_FeaturePattern_alt_0
@@ -1489,7 +1489,7 @@ namespace de.unika.ipd.grGen.Action_ProgramGraphs
 			//Iterateds
 			//Independents
 			// further match object stuff
-			void SetMatchOfEnclosingPattern(GRGEN_LIBGR.IMatch matchOfEnclosingPattern);
+			new void SetMatchOfEnclosingPattern(GRGEN_LIBGR.IMatch matchOfEnclosingPattern);
 		}
 
 		public interface IMatch_FeaturePattern_alt_0_Konstante : IMatch_FeaturePattern_alt_0
@@ -1505,7 +1505,7 @@ namespace de.unika.ipd.grGen.Action_ProgramGraphs
 			//Iterateds
 			//Independents
 			// further match object stuff
-			void SetMatchOfEnclosingPattern(GRGEN_LIBGR.IMatch matchOfEnclosingPattern);
+			new void SetMatchOfEnclosingPattern(GRGEN_LIBGR.IMatch matchOfEnclosingPattern);
 		}
 
 		public class Match_FeaturePattern : GRGEN_LGSP.ListElement<Match_FeaturePattern>, IMatch_FeaturePattern
@@ -2641,7 +2641,7 @@ namespace de.unika.ipd.grGen.Action_ProgramGraphs
 			//Iterateds
 			//Independents
 			// further match object stuff
-			void SetMatchOfEnclosingPattern(GRGEN_LIBGR.IMatch matchOfEnclosingPattern);
+			new void SetMatchOfEnclosingPattern(GRGEN_LIBGR.IMatch matchOfEnclosingPattern);
 		}
 
 		public interface IMatch_Parameter_alt_0_Konstante : IMatch_Parameter_alt_0
@@ -2657,7 +2657,7 @@ namespace de.unika.ipd.grGen.Action_ProgramGraphs
 			//Iterateds
 			//Independents
 			// further match object stuff
-			void SetMatchOfEnclosingPattern(GRGEN_LIBGR.IMatch matchOfEnclosingPattern);
+			new void SetMatchOfEnclosingPattern(GRGEN_LIBGR.IMatch matchOfEnclosingPattern);
 		}
 
 		public class Match_Parameter : GRGEN_LGSP.ListElement<Match_Parameter>, IMatch_Parameter
@@ -3724,7 +3724,7 @@ namespace de.unika.ipd.grGen.Action_ProgramGraphs
 			//Iterateds
 			//Independents
 			// further match object stuff
-			void SetMatchOfEnclosingPattern(GRGEN_LIBGR.IMatch matchOfEnclosingPattern);
+			new void SetMatchOfEnclosingPattern(GRGEN_LIBGR.IMatch matchOfEnclosingPattern);
 		}
 
 		public interface IMatch_Statement_alt_0_Call : IMatch_Statement_alt_0
@@ -3742,7 +3742,7 @@ namespace de.unika.ipd.grGen.Action_ProgramGraphs
 			//Iterateds
 			//Independents
 			// further match object stuff
-			void SetMatchOfEnclosingPattern(GRGEN_LIBGR.IMatch matchOfEnclosingPattern);
+			new void SetMatchOfEnclosingPattern(GRGEN_LIBGR.IMatch matchOfEnclosingPattern);
 		}
 
 		public interface IMatch_Statement_alt_0_Return : IMatch_Statement_alt_0
@@ -3759,7 +3759,7 @@ namespace de.unika.ipd.grGen.Action_ProgramGraphs
 			//Iterateds
 			//Independents
 			// further match object stuff
-			void SetMatchOfEnclosingPattern(GRGEN_LIBGR.IMatch matchOfEnclosingPattern);
+			new void SetMatchOfEnclosingPattern(GRGEN_LIBGR.IMatch matchOfEnclosingPattern);
 		}
 
 		public class Match_Statement : GRGEN_LGSP.ListElement<Match_Statement>, IMatch_Statement
@@ -4819,7 +4819,7 @@ namespace de.unika.ipd.grGen.Action_ProgramGraphs
 			//Iterateds
 			//Independents
 			// further match object stuff
-			void SetMatchOfEnclosingPattern(GRGEN_LIBGR.IMatch matchOfEnclosingPattern);
+			new void SetMatchOfEnclosingPattern(GRGEN_LIBGR.IMatch matchOfEnclosingPattern);
 		}
 
 		public interface IMatch_ExpressionPattern_alt_0_Use : IMatch_ExpressionPattern_alt_0
@@ -4834,7 +4834,7 @@ namespace de.unika.ipd.grGen.Action_ProgramGraphs
 			//Iterateds
 			//Independents
 			// further match object stuff
-			void SetMatchOfEnclosingPattern(GRGEN_LIBGR.IMatch matchOfEnclosingPattern);
+			new void SetMatchOfEnclosingPattern(GRGEN_LIBGR.IMatch matchOfEnclosingPattern);
 		}
 
 		public class Match_ExpressionPattern : GRGEN_LGSP.ListElement<Match_ExpressionPattern>, IMatch_ExpressionPattern
@@ -7077,7 +7077,7 @@ namespace de.unika.ipd.grGen.Action_ProgramGraphs
                 i_1++;
             }
             res_1 = i_1 >= 0;
-            if(!res_1) res_0 = false;
+            if(!res_1)                res_0 = false;
             else
             {
                 long i_4 = 0;
@@ -7100,7 +7100,7 @@ namespace de.unika.ipd.grGen.Action_ProgramGraphs
                     i_4++;
                 }
                 res_4 = i_4 >= 0;
-                if(!res_4) res_3 = false;
+                if(!res_4)                    res_3 = false;
                 else
                 {
                     long i_6 = 0;

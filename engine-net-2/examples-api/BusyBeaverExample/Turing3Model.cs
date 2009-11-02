@@ -1,6 +1,6 @@
 // This file has been generated automatically by GrGen.
 // Do not modify this file! Any changes will be lost!
-// Generated from "..\..\examples\Turing3\Turing3.grg" on Tue Oct 13 22:41:21 GMT+01:00 2009
+// Generated from "..\..\examples\Turing3\Turing3.grg" on Mon Nov 02 15:03:51 CET 2009
 
 using System;
 using System.Collections.Generic;
@@ -112,8 +112,8 @@ namespace de.unika.ipd.grGen.Model_Turing3
 		{
 		}
 		public override string Name { get { return "Node"; } }
-		public override String NodeInterfaceName { get { return "de.unika.ipd.grGen.libGr.INode"; } }
-		public override String NodeClassName { get { return "de.unika.ipd.grGen.Model_Turing3.@Node"; } }
+		public override string NodeInterfaceName { get { return "de.unika.ipd.grGen.libGr.INode"; } }
+		public override string NodeClassName { get { return "de.unika.ipd.grGen.Model_Turing3.@Node"; } }
 		public override GRGEN_LIBGR.INode CreateNode()
 		{
 			return new GRGEN_MODEL.@Node();
@@ -253,8 +253,8 @@ namespace de.unika.ipd.grGen.Model_Turing3
 			AttributeType_value = new GRGEN_LIBGR.AttributeType("value", this, GRGEN_LIBGR.AttributeKind.IntegerAttr, null, GRGEN_LIBGR.AttributeKind.IntegerAttr, GRGEN_LIBGR.AttributeKind.IntegerAttr);
 		}
 		public override string Name { get { return "BandPosition"; } }
-		public override String NodeInterfaceName { get { return "de.unika.ipd.grGen.Model_Turing3.IBandPosition"; } }
-		public override String NodeClassName { get { return "de.unika.ipd.grGen.Model_Turing3.@BandPosition"; } }
+		public override string NodeInterfaceName { get { return "de.unika.ipd.grGen.Model_Turing3.IBandPosition"; } }
+		public override string NodeClassName { get { return "de.unika.ipd.grGen.Model_Turing3.@BandPosition"; } }
 		public override GRGEN_LIBGR.INode CreateNode()
 		{
 			return new GRGEN_MODEL.@BandPosition();
@@ -397,8 +397,8 @@ namespace de.unika.ipd.grGen.Model_Turing3
 		{
 		}
 		public override string Name { get { return "State"; } }
-		public override String NodeInterfaceName { get { return "de.unika.ipd.grGen.Model_Turing3.IState"; } }
-		public override String NodeClassName { get { return "de.unika.ipd.grGen.Model_Turing3.@State"; } }
+		public override string NodeInterfaceName { get { return "de.unika.ipd.grGen.Model_Turing3.IState"; } }
+		public override string NodeClassName { get { return "de.unika.ipd.grGen.Model_Turing3.@State"; } }
 		public override GRGEN_LIBGR.INode CreateNode()
 		{
 			return new GRGEN_MODEL.@State();
@@ -538,8 +538,8 @@ namespace de.unika.ipd.grGen.Model_Turing3
 			AttributeType_value = new GRGEN_LIBGR.AttributeType("value", this, GRGEN_LIBGR.AttributeKind.IntegerAttr, null, GRGEN_LIBGR.AttributeKind.IntegerAttr, GRGEN_LIBGR.AttributeKind.IntegerAttr);
 		}
 		public override string Name { get { return "WriteValue"; } }
-		public override String NodeInterfaceName { get { return "de.unika.ipd.grGen.Model_Turing3.IWriteValue"; } }
-		public override String NodeClassName { get { return "de.unika.ipd.grGen.Model_Turing3.@WriteValue"; } }
+		public override string NodeInterfaceName { get { return "de.unika.ipd.grGen.Model_Turing3.IWriteValue"; } }
+		public override string NodeClassName { get { return "de.unika.ipd.grGen.Model_Turing3.@WriteValue"; } }
 		public override GRGEN_LIBGR.INode CreateNode()
 		{
 			return new GRGEN_MODEL.@WriteValue();
@@ -704,8 +704,8 @@ namespace de.unika.ipd.grGen.Model_Turing3
 		{
 		}
 		public override string Name { get { return "AEdge"; } }
-		public override String EdgeInterfaceName { get { return "de.unika.ipd.grGen.libGr.IEdge"; } }
-		public override String EdgeClassName { get { return null; } }
+		public override string EdgeInterfaceName { get { return "de.unika.ipd.grGen.libGr.IEdge"; } }
+		public override string EdgeClassName { get { return null; } }
 		public override GRGEN_LIBGR.Directedness Directedness { get { return GRGEN_LIBGR.Directedness.Arbitrary; } }
 		public override GRGEN_LIBGR.IEdge CreateEdge(GRGEN_LIBGR.INode source, GRGEN_LIBGR.INode target)
 		{
@@ -817,8 +817,8 @@ namespace de.unika.ipd.grGen.Model_Turing3
 		{
 		}
 		public override string Name { get { return "Edge"; } }
-		public override String EdgeInterfaceName { get { return "de.unika.ipd.grGen.libGr.IEdge"; } }
-		public override String EdgeClassName { get { return "de.unika.ipd.grGen.Model_Turing3.@Edge"; } }
+		public override string EdgeInterfaceName { get { return "de.unika.ipd.grGen.libGr.IEdge"; } }
+		public override string EdgeClassName { get { return "de.unika.ipd.grGen.Model_Turing3.@Edge"; } }
 		public override GRGEN_LIBGR.Directedness Directedness { get { return GRGEN_LIBGR.Directedness.Directed; } }
 		public override GRGEN_LIBGR.IEdge CreateEdge(GRGEN_LIBGR.INode source, GRGEN_LIBGR.INode target)
 		{
@@ -931,8 +931,8 @@ namespace de.unika.ipd.grGen.Model_Turing3
 		{
 		}
 		public override string Name { get { return "UEdge"; } }
-		public override String EdgeInterfaceName { get { return "de.unika.ipd.grGen.libGr.IEdge"; } }
-		public override String EdgeClassName { get { return "de.unika.ipd.grGen.Model_Turing3.@UEdge"; } }
+		public override string EdgeInterfaceName { get { return "de.unika.ipd.grGen.libGr.IEdge"; } }
+		public override string EdgeClassName { get { return "de.unika.ipd.grGen.Model_Turing3.@UEdge"; } }
 		public override GRGEN_LIBGR.Directedness Directedness { get { return GRGEN_LIBGR.Directedness.Undirected; } }
 		public override GRGEN_LIBGR.IEdge CreateEdge(GRGEN_LIBGR.INode source, GRGEN_LIBGR.INode target)
 		{
@@ -1054,8 +1054,8 @@ namespace de.unika.ipd.grGen.Model_Turing3
 		{
 		}
 		public override string Name { get { return "right"; } }
-		public override String EdgeInterfaceName { get { return "de.unika.ipd.grGen.Model_Turing3.Iright"; } }
-		public override String EdgeClassName { get { return "de.unika.ipd.grGen.Model_Turing3.@right"; } }
+		public override string EdgeInterfaceName { get { return "de.unika.ipd.grGen.Model_Turing3.Iright"; } }
+		public override string EdgeClassName { get { return "de.unika.ipd.grGen.Model_Turing3.@right"; } }
 		public override GRGEN_LIBGR.Directedness Directedness { get { return GRGEN_LIBGR.Directedness.Directed; } }
 		public override GRGEN_LIBGR.IEdge CreateEdge(GRGEN_LIBGR.INode source, GRGEN_LIBGR.INode target)
 		{
@@ -1177,8 +1177,8 @@ namespace de.unika.ipd.grGen.Model_Turing3
 		{
 		}
 		public override string Name { get { return "readZero"; } }
-		public override String EdgeInterfaceName { get { return "de.unika.ipd.grGen.Model_Turing3.IreadZero"; } }
-		public override String EdgeClassName { get { return "de.unika.ipd.grGen.Model_Turing3.@readZero"; } }
+		public override string EdgeInterfaceName { get { return "de.unika.ipd.grGen.Model_Turing3.IreadZero"; } }
+		public override string EdgeClassName { get { return "de.unika.ipd.grGen.Model_Turing3.@readZero"; } }
 		public override GRGEN_LIBGR.Directedness Directedness { get { return GRGEN_LIBGR.Directedness.Directed; } }
 		public override GRGEN_LIBGR.IEdge CreateEdge(GRGEN_LIBGR.INode source, GRGEN_LIBGR.INode target)
 		{
@@ -1300,8 +1300,8 @@ namespace de.unika.ipd.grGen.Model_Turing3
 		{
 		}
 		public override string Name { get { return "readOne"; } }
-		public override String EdgeInterfaceName { get { return "de.unika.ipd.grGen.Model_Turing3.IreadOne"; } }
-		public override String EdgeClassName { get { return "de.unika.ipd.grGen.Model_Turing3.@readOne"; } }
+		public override string EdgeInterfaceName { get { return "de.unika.ipd.grGen.Model_Turing3.IreadOne"; } }
+		public override string EdgeClassName { get { return "de.unika.ipd.grGen.Model_Turing3.@readOne"; } }
 		public override GRGEN_LIBGR.Directedness Directedness { get { return GRGEN_LIBGR.Directedness.Directed; } }
 		public override GRGEN_LIBGR.IEdge CreateEdge(GRGEN_LIBGR.INode source, GRGEN_LIBGR.INode target)
 		{
@@ -1423,8 +1423,8 @@ namespace de.unika.ipd.grGen.Model_Turing3
 		{
 		}
 		public override string Name { get { return "moveLeft"; } }
-		public override String EdgeInterfaceName { get { return "de.unika.ipd.grGen.Model_Turing3.ImoveLeft"; } }
-		public override String EdgeClassName { get { return "de.unika.ipd.grGen.Model_Turing3.@moveLeft"; } }
+		public override string EdgeInterfaceName { get { return "de.unika.ipd.grGen.Model_Turing3.ImoveLeft"; } }
+		public override string EdgeClassName { get { return "de.unika.ipd.grGen.Model_Turing3.@moveLeft"; } }
 		public override GRGEN_LIBGR.Directedness Directedness { get { return GRGEN_LIBGR.Directedness.Directed; } }
 		public override GRGEN_LIBGR.IEdge CreateEdge(GRGEN_LIBGR.INode source, GRGEN_LIBGR.INode target)
 		{
@@ -1546,8 +1546,8 @@ namespace de.unika.ipd.grGen.Model_Turing3
 		{
 		}
 		public override string Name { get { return "moveRight"; } }
-		public override String EdgeInterfaceName { get { return "de.unika.ipd.grGen.Model_Turing3.ImoveRight"; } }
-		public override String EdgeClassName { get { return "de.unika.ipd.grGen.Model_Turing3.@moveRight"; } }
+		public override string EdgeInterfaceName { get { return "de.unika.ipd.grGen.Model_Turing3.ImoveRight"; } }
+		public override string EdgeClassName { get { return "de.unika.ipd.grGen.Model_Turing3.@moveRight"; } }
 		public override GRGEN_LIBGR.Directedness Directedness { get { return GRGEN_LIBGR.Directedness.Directed; } }
 		public override GRGEN_LIBGR.IEdge CreateEdge(GRGEN_LIBGR.INode source, GRGEN_LIBGR.INode target)
 		{

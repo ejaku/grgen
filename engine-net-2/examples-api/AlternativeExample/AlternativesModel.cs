@@ -1,6 +1,6 @@
 // This file has been generated automatically by GrGen.
 // Do not modify this file! Any changes will be lost!
-// Generated from "..\..\tests\alternatives\Alternatives.grg" on Tue Oct 13 22:41:16 GMT+01:00 2009
+// Generated from "..\..\tests\alternatives\Alternatives.grg" on Mon Nov 02 15:03:45 CET 2009
 
 using System;
 using System.Collections.Generic;
@@ -112,8 +112,8 @@ namespace de.unika.ipd.grGen.Model_Alternatives
 		{
 		}
 		public override string Name { get { return "Node"; } }
-		public override String NodeInterfaceName { get { return "de.unika.ipd.grGen.libGr.INode"; } }
-		public override String NodeClassName { get { return "de.unika.ipd.grGen.Model_Alternatives.@Node"; } }
+		public override string NodeInterfaceName { get { return "de.unika.ipd.grGen.libGr.INode"; } }
+		public override string NodeClassName { get { return "de.unika.ipd.grGen.Model_Alternatives.@Node"; } }
 		public override GRGEN_LIBGR.INode CreateNode()
 		{
 			return new GRGEN_MODEL.@Node();
@@ -231,8 +231,8 @@ namespace de.unika.ipd.grGen.Model_Alternatives
 		{
 		}
 		public override string Name { get { return "A"; } }
-		public override String NodeInterfaceName { get { return "de.unika.ipd.grGen.Model_Alternatives.IA"; } }
-		public override String NodeClassName { get { return "de.unika.ipd.grGen.Model_Alternatives.@A"; } }
+		public override string NodeInterfaceName { get { return "de.unika.ipd.grGen.Model_Alternatives.IA"; } }
+		public override string NodeClassName { get { return "de.unika.ipd.grGen.Model_Alternatives.@A"; } }
 		public override GRGEN_LIBGR.INode CreateNode()
 		{
 			return new GRGEN_MODEL.@A();
@@ -350,8 +350,8 @@ namespace de.unika.ipd.grGen.Model_Alternatives
 		{
 		}
 		public override string Name { get { return "B"; } }
-		public override String NodeInterfaceName { get { return "de.unika.ipd.grGen.Model_Alternatives.IB"; } }
-		public override String NodeClassName { get { return "de.unika.ipd.grGen.Model_Alternatives.@B"; } }
+		public override string NodeInterfaceName { get { return "de.unika.ipd.grGen.Model_Alternatives.IB"; } }
+		public override string NodeClassName { get { return "de.unika.ipd.grGen.Model_Alternatives.@B"; } }
 		public override GRGEN_LIBGR.INode CreateNode()
 		{
 			return new GRGEN_MODEL.@B();
@@ -469,8 +469,8 @@ namespace de.unika.ipd.grGen.Model_Alternatives
 		{
 		}
 		public override string Name { get { return "C"; } }
-		public override String NodeInterfaceName { get { return "de.unika.ipd.grGen.Model_Alternatives.IC"; } }
-		public override String NodeClassName { get { return "de.unika.ipd.grGen.Model_Alternatives.@C"; } }
+		public override string NodeInterfaceName { get { return "de.unika.ipd.grGen.Model_Alternatives.IC"; } }
+		public override string NodeClassName { get { return "de.unika.ipd.grGen.Model_Alternatives.@C"; } }
 		public override GRGEN_LIBGR.INode CreateNode()
 		{
 			return new GRGEN_MODEL.@C();
@@ -608,8 +608,8 @@ namespace de.unika.ipd.grGen.Model_Alternatives
 		{
 		}
 		public override string Name { get { return "AEdge"; } }
-		public override String EdgeInterfaceName { get { return "de.unika.ipd.grGen.libGr.IEdge"; } }
-		public override String EdgeClassName { get { return null; } }
+		public override string EdgeInterfaceName { get { return "de.unika.ipd.grGen.libGr.IEdge"; } }
+		public override string EdgeClassName { get { return null; } }
 		public override GRGEN_LIBGR.Directedness Directedness { get { return GRGEN_LIBGR.Directedness.Arbitrary; } }
 		public override GRGEN_LIBGR.IEdge CreateEdge(GRGEN_LIBGR.INode source, GRGEN_LIBGR.INode target)
 		{
@@ -721,8 +721,8 @@ namespace de.unika.ipd.grGen.Model_Alternatives
 		{
 		}
 		public override string Name { get { return "Edge"; } }
-		public override String EdgeInterfaceName { get { return "de.unika.ipd.grGen.libGr.IEdge"; } }
-		public override String EdgeClassName { get { return "de.unika.ipd.grGen.Model_Alternatives.@Edge"; } }
+		public override string EdgeInterfaceName { get { return "de.unika.ipd.grGen.libGr.IEdge"; } }
+		public override string EdgeClassName { get { return "de.unika.ipd.grGen.Model_Alternatives.@Edge"; } }
 		public override GRGEN_LIBGR.Directedness Directedness { get { return GRGEN_LIBGR.Directedness.Directed; } }
 		public override GRGEN_LIBGR.IEdge CreateEdge(GRGEN_LIBGR.INode source, GRGEN_LIBGR.INode target)
 		{
@@ -835,8 +835,8 @@ namespace de.unika.ipd.grGen.Model_Alternatives
 		{
 		}
 		public override string Name { get { return "UEdge"; } }
-		public override String EdgeInterfaceName { get { return "de.unika.ipd.grGen.libGr.IEdge"; } }
-		public override String EdgeClassName { get { return "de.unika.ipd.grGen.Model_Alternatives.@UEdge"; } }
+		public override string EdgeInterfaceName { get { return "de.unika.ipd.grGen.libGr.IEdge"; } }
+		public override string EdgeClassName { get { return "de.unika.ipd.grGen.Model_Alternatives.@UEdge"; } }
 		public override GRGEN_LIBGR.Directedness Directedness { get { return GRGEN_LIBGR.Directedness.Undirected; } }
 		public override GRGEN_LIBGR.IEdge CreateEdge(GRGEN_LIBGR.INode source, GRGEN_LIBGR.INode target)
 		{

@@ -1,6 +1,6 @@
 // This file has been generated automatically by GrGen.
 // Do not modify this file! Any changes will be lost!
-// Generated from "..\..\examples\Mutex\MutexPimped.grg" on Tue Oct 13 22:41:47 GMT+01:00 2009
+// Generated from "..\..\examples\Mutex\MutexPimped.grg" on Mon Nov 02 15:04:24 CET 2009
 
 using System;
 using System.Collections.Generic;
@@ -112,8 +112,8 @@ namespace de.unika.ipd.grGen.Model_Mutex
 		{
 		}
 		public override string Name { get { return "Node"; } }
-		public override String NodeInterfaceName { get { return "de.unika.ipd.grGen.libGr.INode"; } }
-		public override String NodeClassName { get { return "de.unika.ipd.grGen.Model_Mutex.@Node"; } }
+		public override string NodeInterfaceName { get { return "de.unika.ipd.grGen.libGr.INode"; } }
+		public override string NodeClassName { get { return "de.unika.ipd.grGen.Model_Mutex.@Node"; } }
 		public override GRGEN_LIBGR.INode CreateNode()
 		{
 			return new GRGEN_MODEL.@Node();
@@ -231,8 +231,8 @@ namespace de.unika.ipd.grGen.Model_Mutex
 		{
 		}
 		public override string Name { get { return "Process"; } }
-		public override String NodeInterfaceName { get { return "de.unika.ipd.grGen.Model_Mutex.IProcess"; } }
-		public override String NodeClassName { get { return "de.unika.ipd.grGen.Model_Mutex.@Process"; } }
+		public override string NodeInterfaceName { get { return "de.unika.ipd.grGen.Model_Mutex.IProcess"; } }
+		public override string NodeClassName { get { return "de.unika.ipd.grGen.Model_Mutex.@Process"; } }
 		public override GRGEN_LIBGR.INode CreateNode()
 		{
 			return new GRGEN_MODEL.@Process();
@@ -350,8 +350,8 @@ namespace de.unika.ipd.grGen.Model_Mutex
 		{
 		}
 		public override string Name { get { return "Resource"; } }
-		public override String NodeInterfaceName { get { return "de.unika.ipd.grGen.Model_Mutex.IResource"; } }
-		public override String NodeClassName { get { return "de.unika.ipd.grGen.Model_Mutex.@Resource"; } }
+		public override string NodeInterfaceName { get { return "de.unika.ipd.grGen.Model_Mutex.IResource"; } }
+		public override string NodeClassName { get { return "de.unika.ipd.grGen.Model_Mutex.@Resource"; } }
 		public override GRGEN_LIBGR.INode CreateNode()
 		{
 			return new GRGEN_MODEL.@Resource();
@@ -472,8 +472,8 @@ namespace de.unika.ipd.grGen.Model_Mutex
 		{
 		}
 		public override string Name { get { return "AEdge"; } }
-		public override String EdgeInterfaceName { get { return "de.unika.ipd.grGen.libGr.IEdge"; } }
-		public override String EdgeClassName { get { return null; } }
+		public override string EdgeInterfaceName { get { return "de.unika.ipd.grGen.libGr.IEdge"; } }
+		public override string EdgeClassName { get { return null; } }
 		public override GRGEN_LIBGR.Directedness Directedness { get { return GRGEN_LIBGR.Directedness.Arbitrary; } }
 		public override GRGEN_LIBGR.IEdge CreateEdge(GRGEN_LIBGR.INode source, GRGEN_LIBGR.INode target)
 		{
@@ -585,8 +585,8 @@ namespace de.unika.ipd.grGen.Model_Mutex
 		{
 		}
 		public override string Name { get { return "Edge"; } }
-		public override String EdgeInterfaceName { get { return "de.unika.ipd.grGen.libGr.IEdge"; } }
-		public override String EdgeClassName { get { return "de.unika.ipd.grGen.Model_Mutex.@Edge"; } }
+		public override string EdgeInterfaceName { get { return "de.unika.ipd.grGen.libGr.IEdge"; } }
+		public override string EdgeClassName { get { return "de.unika.ipd.grGen.Model_Mutex.@Edge"; } }
 		public override GRGEN_LIBGR.Directedness Directedness { get { return GRGEN_LIBGR.Directedness.Directed; } }
 		public override GRGEN_LIBGR.IEdge CreateEdge(GRGEN_LIBGR.INode source, GRGEN_LIBGR.INode target)
 		{
@@ -699,8 +699,8 @@ namespace de.unika.ipd.grGen.Model_Mutex
 		{
 		}
 		public override string Name { get { return "UEdge"; } }
-		public override String EdgeInterfaceName { get { return "de.unika.ipd.grGen.libGr.IEdge"; } }
-		public override String EdgeClassName { get { return "de.unika.ipd.grGen.Model_Mutex.@UEdge"; } }
+		public override string EdgeInterfaceName { get { return "de.unika.ipd.grGen.libGr.IEdge"; } }
+		public override string EdgeClassName { get { return "de.unika.ipd.grGen.Model_Mutex.@UEdge"; } }
 		public override GRGEN_LIBGR.Directedness Directedness { get { return GRGEN_LIBGR.Directedness.Undirected; } }
 		public override GRGEN_LIBGR.IEdge CreateEdge(GRGEN_LIBGR.INode source, GRGEN_LIBGR.INode target)
 		{
@@ -822,8 +822,8 @@ namespace de.unika.ipd.grGen.Model_Mutex
 		{
 		}
 		public override string Name { get { return "next"; } }
-		public override String EdgeInterfaceName { get { return "de.unika.ipd.grGen.Model_Mutex.Inext"; } }
-		public override String EdgeClassName { get { return "de.unika.ipd.grGen.Model_Mutex.@next"; } }
+		public override string EdgeInterfaceName { get { return "de.unika.ipd.grGen.Model_Mutex.Inext"; } }
+		public override string EdgeClassName { get { return "de.unika.ipd.grGen.Model_Mutex.@next"; } }
 		public override GRGEN_LIBGR.Directedness Directedness { get { return GRGEN_LIBGR.Directedness.Directed; } }
 		public override GRGEN_LIBGR.IEdge CreateEdge(GRGEN_LIBGR.INode source, GRGEN_LIBGR.INode target)
 		{
@@ -945,8 +945,8 @@ namespace de.unika.ipd.grGen.Model_Mutex
 		{
 		}
 		public override string Name { get { return "blocked"; } }
-		public override String EdgeInterfaceName { get { return "de.unika.ipd.grGen.Model_Mutex.Iblocked"; } }
-		public override String EdgeClassName { get { return "de.unika.ipd.grGen.Model_Mutex.@blocked"; } }
+		public override string EdgeInterfaceName { get { return "de.unika.ipd.grGen.Model_Mutex.Iblocked"; } }
+		public override string EdgeClassName { get { return "de.unika.ipd.grGen.Model_Mutex.@blocked"; } }
 		public override GRGEN_LIBGR.Directedness Directedness { get { return GRGEN_LIBGR.Directedness.Directed; } }
 		public override GRGEN_LIBGR.IEdge CreateEdge(GRGEN_LIBGR.INode source, GRGEN_LIBGR.INode target)
 		{
@@ -1068,8 +1068,8 @@ namespace de.unika.ipd.grGen.Model_Mutex
 		{
 		}
 		public override string Name { get { return "held_by"; } }
-		public override String EdgeInterfaceName { get { return "de.unika.ipd.grGen.Model_Mutex.Iheld_by"; } }
-		public override String EdgeClassName { get { return "de.unika.ipd.grGen.Model_Mutex.@held_by"; } }
+		public override string EdgeInterfaceName { get { return "de.unika.ipd.grGen.Model_Mutex.Iheld_by"; } }
+		public override string EdgeClassName { get { return "de.unika.ipd.grGen.Model_Mutex.@held_by"; } }
 		public override GRGEN_LIBGR.Directedness Directedness { get { return GRGEN_LIBGR.Directedness.Directed; } }
 		public override GRGEN_LIBGR.IEdge CreateEdge(GRGEN_LIBGR.INode source, GRGEN_LIBGR.INode target)
 		{
@@ -1191,8 +1191,8 @@ namespace de.unika.ipd.grGen.Model_Mutex
 		{
 		}
 		public override string Name { get { return "token"; } }
-		public override String EdgeInterfaceName { get { return "de.unika.ipd.grGen.Model_Mutex.Itoken"; } }
-		public override String EdgeClassName { get { return "de.unika.ipd.grGen.Model_Mutex.@token"; } }
+		public override string EdgeInterfaceName { get { return "de.unika.ipd.grGen.Model_Mutex.Itoken"; } }
+		public override string EdgeClassName { get { return "de.unika.ipd.grGen.Model_Mutex.@token"; } }
 		public override GRGEN_LIBGR.Directedness Directedness { get { return GRGEN_LIBGR.Directedness.Directed; } }
 		public override GRGEN_LIBGR.IEdge CreateEdge(GRGEN_LIBGR.INode source, GRGEN_LIBGR.INode target)
 		{
@@ -1314,8 +1314,8 @@ namespace de.unika.ipd.grGen.Model_Mutex
 		{
 		}
 		public override string Name { get { return "release"; } }
-		public override String EdgeInterfaceName { get { return "de.unika.ipd.grGen.Model_Mutex.Irelease"; } }
-		public override String EdgeClassName { get { return "de.unika.ipd.grGen.Model_Mutex.@release"; } }
+		public override string EdgeInterfaceName { get { return "de.unika.ipd.grGen.Model_Mutex.Irelease"; } }
+		public override string EdgeClassName { get { return "de.unika.ipd.grGen.Model_Mutex.@release"; } }
 		public override GRGEN_LIBGR.Directedness Directedness { get { return GRGEN_LIBGR.Directedness.Directed; } }
 		public override GRGEN_LIBGR.IEdge CreateEdge(GRGEN_LIBGR.INode source, GRGEN_LIBGR.INode target)
 		{
@@ -1437,8 +1437,8 @@ namespace de.unika.ipd.grGen.Model_Mutex
 		{
 		}
 		public override string Name { get { return "request"; } }
-		public override String EdgeInterfaceName { get { return "de.unika.ipd.grGen.Model_Mutex.Irequest"; } }
-		public override String EdgeClassName { get { return "de.unika.ipd.grGen.Model_Mutex.@request"; } }
+		public override string EdgeInterfaceName { get { return "de.unika.ipd.grGen.Model_Mutex.Irequest"; } }
+		public override string EdgeClassName { get { return "de.unika.ipd.grGen.Model_Mutex.@request"; } }
 		public override GRGEN_LIBGR.Directedness Directedness { get { return GRGEN_LIBGR.Directedness.Directed; } }
 		public override GRGEN_LIBGR.IEdge CreateEdge(GRGEN_LIBGR.INode source, GRGEN_LIBGR.INode target)
 		{

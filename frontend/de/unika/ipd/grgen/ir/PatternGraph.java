@@ -63,6 +63,11 @@ public class PatternGraph extends Graph {
 	/** modifiers of pattern as defined in PatternGraphNode, only pattern locked, pattern path locked relevant */
 	int modifiers;
 
+	/**
+	 * A list of the replacement parameters 
+	 */
+	private final List<Entity> replParams = new LinkedList<Entity>();
+
 
 	/** Make a new pattern graph. */
 	public PatternGraph(String nameOfGraph, int modifiers) {
@@ -149,6 +154,20 @@ public class PatternGraph extends Graph {
 
 	public void addHomToAll(Edge edge) {
 		homToAllEdges.add(edge);
+	}
+
+	/** Add a replacement parameter to the rule. */
+	public void addReplParameter(Entity entity) {
+		replParams.add(entity);
+	}
+
+	/** Get all replacement parameters of this rule (may currently contain only nodes). */
+	public List<Entity> getReplParameters() {
+		return Collections.unmodifiableList(replParams);
+	}
+	
+	public boolean replParametersContain(Entity entity) {
+		return replParams.contains(entity);
 	}
 
 	/** Get a collection with all conditions in this graph. */
@@ -448,7 +467,7 @@ public class PatternGraph extends Graph {
 		// otherwise they would be created (code generation by locally comparing lhs and rhs))
 
 		for(Node n : right.getNodes()) {
-			if(n.directlyNestingLHSGraph!=this) {
+			if(n.directlyNestingLHSGraph!=this && !right.replParametersContain(n)) {
 				if(!hasNode(n)) {
 					addSingleNode(n);
 					addHomToAll(n);
@@ -457,7 +476,7 @@ public class PatternGraph extends Graph {
 		}
 
 		for(Edge e : right.getEdges()) {
-			if(e.directlyNestingLHSGraph!=this) {
+			if(e.directlyNestingLHSGraph!=this && !right.replParametersContain(e)) {
 				if(!hasEdge(e)) {
 					addSingleEdge(e);	// TODO: maybe we loose context here
 					addHomToAll(e);
@@ -466,7 +485,7 @@ public class PatternGraph extends Graph {
 		}
 		
 		for(Variable v : right.getVars()) {
-			if(v.directlyNestingLHSGraph!=this) {
+			if(v.directlyNestingLHSGraph!=this && !right.replParametersContain(v)) {
 				addVariable(v);
 			}
 		}

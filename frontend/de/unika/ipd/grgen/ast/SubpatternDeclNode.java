@@ -19,6 +19,7 @@ import java.util.Set;
 import java.util.Vector;
 
 import de.unika.ipd.grgen.ast.util.DeclarationTypeResolver;
+import de.unika.ipd.grgen.ir.Alternative;
 import de.unika.ipd.grgen.ir.Edge;
 import de.unika.ipd.grgen.ir.Entity;
 import de.unika.ipd.grgen.ir.Variable;
@@ -316,7 +317,7 @@ public class SubpatternDeclNode extends ActionDeclNode  {
 		return edgeReUse;
 	}
 
-	private boolean SameParametersInNestedAlternativeReplacementsAsInReplacement() {
+	private boolean SameNumberOfRewritePartsAndNoNestedRewriteParameters() {
 		boolean res = true;
 
 		for(AlternativeNode alt : pattern.alts.getChildren()) {
@@ -330,30 +331,34 @@ public class SubpatternDeclNode extends ActionDeclNode  {
 
 				if(right.getChildren().size()==0) continue;
 
-				Vector<DeclNode> parameters = right.children.get(0).graph.getParamDecls(); // todo: choose the right one
 				Vector<DeclNode> parametersInNestedAlternativeCase =
 					altCase.right.children.get(0).graph.getParamDecls(); // todo: choose the right one
 
-				if(parameters.size()!=parametersInNestedAlternativeCase.size()) {
-					error.error(getCoords(), "Different number of replacement parameters in subpattern " + ident.toString()
-							+ " and nested alternative case " + altCase.ident.toString());
+				if(parametersInNestedAlternativeCase.size()!=0) {
+					error.error(altCase.getCoords(), "No replacement parameters allowed in nested alternative cases; given in " + altCase.ident.toString());
 					res = false;
 					continue;
 				}
+			}
+		}
+		
+		for(IteratedNode iter : pattern.iters.getChildren()) {
+			if(right.getChildren().size()!=iter.right.getChildren().size()) {
+				error.error(getCoords(), "Different number of replacement patterns in subpattern " + ident.toString()
+						+ " and nested iterated/multiple/optional " + iter.ident.toString());
+				res = false;
+				continue;
+			}
+			
+			if(right.getChildren().size()==0) continue;
 
-				// check if the types of the parameters are the same
-				for (int i = 0; i < parameters.size(); ++i) {
-					DeclNode parameter = (DeclNode)parameters.get(i);
-					DeclNode parameterInNestedAlternativeCase = (DeclNode)parametersInNestedAlternativeCase.get(i);
-					TypeNode parameterType = parameter.getDeclType();
-					TypeNode parameterInNestedAlternativeCaseType = parameterInNestedAlternativeCase.getDeclType();
+			Vector<DeclNode> parametersInNestedIterated =
+				iter.right.children.get(0).graph.getParamDecls(); // todo: choose the right one
 
-					if(!parameterType.isEqual(parameterInNestedAlternativeCaseType)) {
-						parameterInNestedAlternativeCase.ident.reportError("Different type of replacement parameter in nested alternative case " + altCase.ident.toString()
-								+ " at parameter " + parameterInNestedAlternativeCase.ident.toString() + " compared to replacement parameter in subpattern " + ident.toString());
-						res = false;
-					}
-				}
+			if(parametersInNestedIterated.size()!=0) {
+				error.error(iter.getCoords(), "No replacement parameters allowed in nested iterated/multiple/optional; given in " + iter.ident.toString());
+				res = false;
+				continue;
 			}
 		}
 
@@ -411,7 +416,7 @@ public class SubpatternDeclNode extends ActionDeclNode  {
 		}
 
 		return leftHandGraphsOk & noDeleteOfPatternParameters
-			& SameParametersInNestedAlternativeReplacementsAsInReplacement()
+			& SameNumberOfRewritePartsAndNoNestedRewriteParameters()
 			& checkRhsReuse() & noReturnInPatternOk & abstr
 			& checkExecParamsNotDeleted();
 	}
@@ -438,18 +443,58 @@ public class SubpatternDeclNode extends ActionDeclNode  {
 		PatternGraph right = null;
 		if(this.right.children.size() > 0) {
 			right = this.right.children.get(0).getPatternGraph(pattern.getPatternGraph());
-		}
-		else {
+		} else {
 			return;
 		}
 
+		// add replacement parameters to the current graph
 		for(DeclNode decl : this.right.children.get(0).graph.getParamDecls()) {
 			if(decl instanceof NodeCharacter) {
-				rule.addReplParameter(decl.checkIR(Node.class));
+				right.addReplParameter(decl.checkIR(Node.class));
 				right.addSingleNode(((NodeCharacter) decl).getNode());
 			} else if(decl instanceof VarDeclNode) {
-				rule.addReplParameter(decl.checkIR(Variable.class));
+				right.addReplParameter(decl.checkIR(Variable.class));
 				right.addVariable(((VarDeclNode) decl).getVariable());
+			} else {
+				throw new IllegalArgumentException("unknown Class: " + decl);
+			}
+		}
+
+		// and also to the nested alternatives and iterateds
+		addReplacementParamsToNestedAlternativesAndIterateds(rule);
+	}
+
+	private void addReplacementParamsToNestedAlternativesAndIterateds(Rule rule) {
+		// TODO choose the right one
+		if(right.children.size()==0) {
+			return;
+		}
+
+		// add replacement parameters to the nested alternatives and iterateds
+		PatternGraph patternGraph = rule.getPattern();
+		for(DeclNode decl : this.right.children.get(0).graph.getParamDecls()) {
+			if(decl instanceof NodeCharacter) {
+				for(Alternative alt : patternGraph.getAlts()) {
+					for(Rule altCase : alt.getAlternativeCases()) {
+						altCase.getRight().addReplParameter(decl.checkIR(Node.class));
+						altCase.getRight().addSingleNode(((NodeCharacter) decl).getNode());
+					}
+				}
+				for(Rule iter : patternGraph.getIters()) {
+					iter.getRight().addReplParameter(decl.checkIR(Node.class));
+					iter.getRight().addSingleNode(((NodeCharacter) decl).getNode());					
+				}
+			} else if(decl instanceof VarDeclNode) {
+				for(Alternative alt : patternGraph.getAlts()) {
+					for(Rule altCase : alt.getAlternativeCases()) {
+						altCase.getRight().addReplParameter(decl.checkIR(Variable.class));
+						altCase.getRight().addVariable(((VarDeclNode) decl).getVariable());
+					}
+				}
+				for(Rule iter : patternGraph.getIters()) {
+					iter.getRight().addReplParameter(decl.checkIR(Variable.class));
+					iter.getRight().addVariable(((VarDeclNode) decl).getVariable());					
+				}
 			} else {
 				throw new IllegalArgumentException("unknown Class: " + decl);
 			}
@@ -467,6 +512,7 @@ public class SubpatternDeclNode extends ActionDeclNode  {
 		// return if the pattern graph already constructed the IR object
 		// that may happens in recursive patterns
 		if (isIRAlreadySet()) {
+			addReplacementParamsToNestedAlternativesAndIterateds((Rule)getIR());
 			return getIR();
 		}
 
@@ -479,6 +525,7 @@ public class SubpatternDeclNode extends ActionDeclNode  {
 		// return if the pattern graph already constructed the IR object
 		// that may happens in recursive patterns
 		if (isIRAlreadySet()) {
+			addReplacementParamsToNestedAlternativesAndIterateds((Rule)getIR());
 			return getIR();
 		}
 
