@@ -20,6 +20,7 @@ namespace de.unika.ipd.grGen.libGr
         AssignSetmapSizeToVar, AssignSetmapEmptyToVar, AssignMapAccessToVar,
         AssignSetCreationToVar, AssignMapCreationToVar,
         AssignVarToVar, AssignElemToVar, AssignSequenceResultToVar,
+        AssignConstToVar, AssignAttributeToVar, AssignVarToAttribute,
         SetmapAdd, SetmapRem, SetmapClear, InSetmap, 
         Transaction, IfThenElse, IfThen, For
     }
@@ -640,6 +641,7 @@ namespace de.unika.ipd.grGen.libGr
         protected override bool ApplyImpl(IGraph graph)
         {
             IDictionary setmap = (IDictionary)graph.GetVariableValue(Setmap);
+            if(!setmap.Contains(graph.GetVariableValue(KeyVar))) return false;
             graph.SetVariableValue(DestVar, setmap[graph.GetVariableValue(KeyVar)]);
             return true;
         }
@@ -722,6 +724,103 @@ namespace de.unika.ipd.grGen.libGr
         public override IEnumerable<Sequence> Children { get { yield break; } }
         public override int Precedence { get { return 8; } }
         public override string Symbol { get { return DestVar + "=" + SourceVar; } }
+    }
+
+    public class SequenceAssignConstToVar : Sequence
+    {
+        public String DestVar;
+        public object Constant;
+
+        public SequenceAssignConstToVar(String destVar, object constant)
+            : base(SequenceType.AssignConstToVar)
+        {
+            DestVar = destVar;
+            Constant = constant;
+        }
+
+        protected override bool ApplyImpl(IGraph graph)
+        {
+            graph.SetVariableValue(DestVar, Constant);
+            return true;
+        }
+
+        public override IEnumerable<Sequence> Children { get { yield break; } }
+        public override int Precedence { get { return 8; } }
+        public override string Symbol { get { return DestVar + "=" + Constant; } }
+    }
+
+    public class SequenceAssignVarToAttribute : Sequence
+    {
+        public String DestVar;
+        public String AttributeName;
+        public String SourceVar;
+
+        public SequenceAssignVarToAttribute(String destVar, String attributeName, String sourceVar)
+            : base(SequenceType.AssignVarToAttribute)
+        {
+            DestVar = destVar;
+            AttributeName = attributeName;
+            SourceVar = sourceVar;
+        }
+
+        protected override bool ApplyImpl(IGraph graph)
+        {
+            object value = graph.GetVariableValue(SourceVar);
+            IGraphElement elem = (IGraphElement)graph.GetVariableValue(DestVar);
+            AttributeType attrType = elem.Type.GetAttributeType(AttributeName);
+            AttributeChangeType changeType = AttributeChangeType.Assign;
+            if(elem is INode)
+                graph.ChangingNodeAttribute((INode)elem, attrType, changeType, value, null);
+            else
+                graph.ChangingEdgeAttribute((IEdge)elem, attrType, changeType, value, null);
+            if(attrType.Kind==AttributeKind.SetAttr || attrType.Kind==AttributeKind.MapAttr)
+            {
+                Type keyType, valueType;
+                IDictionary dict = DictionaryHelper.GetDictionaryTypes(
+                    elem.GetAttribute(AttributeName), out keyType, out valueType);
+                value = DictionaryHelper.NewDictionary(keyType, valueType, value); // by-value-semantics -> clone dictionary
+            }
+            elem.SetAttribute(AttributeName, value);
+            return true;
+        }
+
+        public override IEnumerable<Sequence> Children { get { yield break; } }
+        public override int Precedence { get { return 8; } }
+        public override string Symbol { get { return DestVar + "." + AttributeName + "=" + SourceVar; } }
+    }
+
+    public class SequenceAssignAttributeToVar : Sequence
+    {
+        public String DestVar;
+        public String SourceVar;
+        public String AttributeName;
+
+        public SequenceAssignAttributeToVar(String destVar, String sourceVar, String attributeName)
+            : base(SequenceType.AssignAttributeToVar)
+        {
+            DestVar = destVar;
+            SourceVar = sourceVar;
+            AttributeName = attributeName;
+        }
+
+        protected override bool ApplyImpl(IGraph graph)
+        {
+            IGraphElement elem = (IGraphElement)graph.GetVariableValue(SourceVar);
+            object value = elem.GetAttribute(AttributeName);
+            AttributeType attrType = elem.Type.GetAttributeType(AttributeName);
+            if(attrType.Kind==AttributeKind.SetAttr || attrType.Kind==AttributeKind.MapAttr)
+            {
+                Type keyType, valueType;
+                IDictionary dict = DictionaryHelper.GetDictionaryTypes(value, out keyType, out valueType);
+                value = DictionaryHelper.NewDictionary(keyType, valueType, dict); // by-value-semantics -> clone dictionary
+            }
+            graph.SetVariableValue(DestVar, value);
+            return true;
+        }
+
+        public override IEnumerable<Sequence> Children { get { yield break; } }
+        public override int Precedence { get { return 8; } }
+        public override string Symbol { get { return DestVar + "=" + SourceVar + "." + AttributeName; } }
     }
 
     public class SequenceAssignElemToVar : Sequence

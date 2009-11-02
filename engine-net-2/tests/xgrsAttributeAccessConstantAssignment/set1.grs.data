@@ -1,0 +1,74 @@
+"{foo, bar}".
+0
+0
+0
+0
+"blub"
+0
+0
+"{foo, bar}".
+0
+0
+"{foo, bar, blub}".
+0
+0
+"argl".
+"argl"
+0
+0
+0
+0
+0
+0
+"{foo, bar, blub, argl}".
+0
+0
+"4"
+0
+0
+0
+0
+0
+0
+"{foo, bar, blub, argl}".
+0
+0
+"{foo, bar, argl}".
+0
+0
+0
+0
+0
+0
+0
+0
+"{foo, bar}".
+0
+0
+"2"
+0
+0
+0
+0
+"{foo, bar}".
+"{foo, bar}".
+0
+0
+0
+0
+"{foo, bar}".
+"{foo, bar}".
+0
+0
+"{foo, bar}".
+"{bar}".
+0
+0
+0
+0
+"{foo, bar}".
+"{bar}".
+0
+0
+"{}".
+"{bar}".

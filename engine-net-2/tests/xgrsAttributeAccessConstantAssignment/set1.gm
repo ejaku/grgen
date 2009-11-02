@@ -1,0 +1,5 @@
+node class A
+{
+    a:set<string> = { "foo","bar" } ;
+	val:string = "argl";
+}

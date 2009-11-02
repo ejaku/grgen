@@ -489,6 +489,7 @@ namespace de.unika.ipd.grGen.grShell
                 + " - custom graph ...          Graph backend specific commands\n"
                 + " - custom actions ...        Action backend specific commands\n"
                 + " - redirect emit <filename>  Redirects the GrGen emit instructions to a file\n"
+                + " - redirect emit -           Afterwards emit instructions write to stdout again\n"
                 + " - sync io                   Writes out all files (grIO framework)\n"
                 + " - parse file <filename>     Parses the given file (ASTdapter framework)\n"
                 + " - parse <text>              Parses the given string (ASTdapter framework)\n"
@@ -503,12 +504,12 @@ namespace de.unika.ipd.grGen.grShell
                 + "                                  false, or a boolean variable\n"
                 + " - freevisitflag <id>        Frees the given visitor flag\n"
                 + " - resetvisitflag <id>       Unmarks all graph elements for the given visitor\n"
-                + " - map ...                   Map related commands\n"
-                + " - set ...                   Set related commands\n"
+                + " - map ...                   Map related commands - deprecated\n"
+                + " - set ...                   Set related commands - deprecated\n"
                 + " - <elem>.<member>           Shows the given graph element member\n"
                 + " - <elem>.<member> = <val>   Sets the value of the given element member\n"
-                + " - <var> = new map <t1> <t2> Creates a new map<t1, t2> variable\n"
-                + " - <var> = new set <t1>      Creates a new set<t1> variable\n"
+                + " - <var> = new map <t1> <t2> Creates a new map<t1, t2> variable - deprecated\n"
+                + " - <var> = new set <t1>      Creates a new set<t1> variable - deprecated\n"
                 + " - <var> = <expr>            Assigns var the given expression.\n"
                 + "                             Currently the expression may be:\n"
                 + "                               - null\n"
@@ -702,7 +703,7 @@ namespace de.unika.ipd.grGen.grShell
                 Console.WriteLine("\nNo further help available.");
             }
 
-            Console.WriteLine("\nList of available commands for \"map\":\n"
+            Console.WriteLine("\nList of available commands for \"map\" - deprecated:\n"
                 + " - map (<elem>.<member> | <var>) add <keyExpr> <valExpr>\n"
                 + "   Sets the value of the map for the given key.\n\n"
                 + " - map (<elem>.<member> | <var>) remove <keyExpr>\n"
@@ -718,7 +719,7 @@ namespace de.unika.ipd.grGen.grShell
                 Console.WriteLine("\nNo further help available.");
             }
 
-            Console.WriteLine("\nList of available commands for \"set\":\n"
+            Console.WriteLine("\nList of available commands for \"set\" - deprecated:\n"
                 + " - set (<elem>.<member> | <var>) add <keyExpr>\n"
                 + "   Marks the given key as part of the set.\n\n"
                 + " - set (<elem>.<member> | <var>) remove <keyExpr>\n"
@@ -2870,6 +2871,8 @@ showavail:
 
         public void MapAdd(bool usedGraphElement, IGraphElement elem, String attrOrVarName, object keyExpr, object valueExpr)
         {
+            Console.WriteLine("map m add key value is deprecated, use xgrs m.add(key,value) instead");
+
             object map;
 
             if(usedGraphElement)
@@ -2907,6 +2910,8 @@ showavail:
 
         public void MapRemove(bool usedGraphElement, IGraphElement elem, String attrOrVarName, object keyExpr)
         {
+            Console.WriteLine("map m remove key value is deprecated, use xgrs m.rem(key) instead");
+
             object map;
 
             if(usedGraphElement)
@@ -2939,6 +2944,8 @@ showavail:
 
         public void MapSize(bool usedGraphElement, IGraphElement elem, String attrOrVarName)
         {
+            Console.WriteLine("map m size is deprecated, use xgrs ms=m.size() instead");
+
             object map;
 
             if(usedGraphElement)
@@ -2984,6 +2991,8 @@ showavail:
 
         public void SetAdd(bool usedGraphElement, IGraphElement elem, String attrOrVarName, object keyExpr)
         {
+            Console.WriteLine("set s add value is deprecated, use xgrs s.add(value) instead");
+
             object set;
 
             if (usedGraphElement)
@@ -3021,6 +3030,8 @@ showavail:
 
         public void SetRemove(bool usedGraphElement, IGraphElement elem, String attrOrVarName, object keyExpr)
         {
+            Console.WriteLine("set s remove value is deprecated, use xgrs s.rem(value) instead");
+
             object set;
 
             if (usedGraphElement)
@@ -3058,6 +3069,8 @@ showavail:
 
         public void SetSize(bool usedGraphElement, IGraphElement elem, String attrOrVarName)
         {
+            Console.WriteLine("set s size is deprecated, use xgrs ss=s.size() instead");
+
             object set;
 
             if (usedGraphElement)

@@ -917,8 +917,13 @@ namespace de.unika.ipd.grGen.lgsp
                 case SequenceType.AssignMapAccessToVar:
                 {
                     SequenceAssignMapAccessToVar seqMapAccessToVar = (SequenceAssignMapAccessToVar)seq;
+                    source.AppendFront("res_"+seqID+" = false;\n");
+                    source.AppendFront("if(var_"+seqMapAccessToVar.Setmap+".Contains(var_"+seqMapAccessToVar.KeyVar+")) {\n");
+                    source.Indent();
                     source.AppendFront("var_"+seqMapAccessToVar.DestVar+" = var_"+seqMapAccessToVar.Setmap+"[ var_"+seqMapAccessToVar.KeyVar+" ];\n");
                     source.AppendFront("res_"+seqID+" = true;\n");
+                    source.Unindent();
+                    source.AppendFront("}\n");
                     break;
                 }
 

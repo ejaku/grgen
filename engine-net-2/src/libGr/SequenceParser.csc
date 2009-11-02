@@ -221,6 +221,9 @@ PARSER_BEGIN(SequenceParser)
 				case SequenceType.True:
 				case SequenceType.False:
 				case SequenceType.AssignVarToVar:
+				case SequenceType.AssignConstToVar:
+				case SequenceType.AssignAttributeToVar:
+				case SequenceType.AssignVarToAttribute:
 				case SequenceType.AssignElemToVar:
 				case SequenceType.AssignSetmapSizeToVar:
 				case SequenceType.AssignSetmapEmptyToVar:
@@ -408,7 +411,6 @@ void RuleParameter(List<String> paramVars, List<Object> paramConsts):
 {
 	String str;
 	object constant;
-	long number;
 }
 {
 	str=Word()
@@ -417,6 +419,19 @@ void RuleParameter(List<String> paramVars, List<Object> paramConsts):
 		paramConsts.Add(null);
 	}
 |
+	constant=Constant()
+	{
+		paramVars.Add(null);
+		paramConsts.Add(constant);
+	}
+}
+
+object Constant():
+{
+	object constant;
+	long number;
+}
+{
 	(
 		number=Number() { constant = (int) number; }
 	|
@@ -431,8 +446,7 @@ void RuleParameter(List<String> paramVars, List<Object> paramConsts):
 		<FALSE> { constant = false; }
 	)
 	{
-		paramVars.Add(null);
-		paramConsts.Add(constant);
+		return constant;
 	}
 }
 
@@ -690,20 +704,26 @@ Sequence SimpleSequence():
 	bool special = false;
 	Sequence seq;
 	List<String> defParamVars = new List<String>();
-	String toVarName, typeName = null, typeNameDst, fromName;
+	String toVarName, typeName = null, typeNameDst, fromName, attrName;
 	IGraphElement elem;
 	String setmap, var = null, varDst = null, method;
 	Sequence seqCond, seqTrue, seqFalse = null;
+	object constant;
 }
 {
 	LOOKAHEAD(Variable() "=") toVarName=Variable() "="
     (
-        LOOKAHEAD(2) fromName=Word() "." method=Word() "(" ")"
+        LOOKAHEAD(4) fromName=Word() "." method=Word() "(" ")"
 		{
 			if(method=="size") return new SequenceAssignSetmapSizeToVar(toVarName, fromName);
 			else if(method=="empty") return new SequenceAssignSetmapEmptyToVar(toVarName, fromName);
 			else throw new ParseException("Unknown method name: \"" + method + "\"! (available are size|empty on set/map)");
 		}
+	|
+        LOOKAHEAD(2) fromName=Word() "." attrName=Word()
+        {
+            return new SequenceAssignAttributeToVar(toVarName, fromName, attrName);
+        }
 	|
 		LOOKAHEAD(2) setmap=Word() "[" var=Word() "]" // parsing v=a[ as v=a[x] has priority over (v=a)[*]
 		{
@@ -719,6 +739,11 @@ Sequence SimpleSequence():
         {
             return new SequenceAssignVarToVar(toVarName, fromName);
         }
+	|
+		constant=Constant()
+		{
+			return new SequenceAssignConstToVar(toVarName, constant);
+		}
     |
         "@" "(" fromName=Text() ")"
         {
@@ -748,21 +773,16 @@ Sequence SimpleSequence():
 			return new SequenceAssignSequenceResultToVar(toVarName, new SequenceDef(defParamVars.ToArray()));
 		}
 	|
-		"true"
-		{
-			return new SequenceAssignSequenceResultToVar(toVarName, new SequenceTrue(false));
-		}
-    |
-		"false"
-		{
-			return new SequenceAssignSequenceResultToVar(toVarName, new SequenceFalse(false));
-		}
-	|
 		"(" seq=RewriteSequence() ")"
 		{
 			return new SequenceAssignSequenceResultToVar(toVarName, seq);
 		}
     )
+|
+	LOOKAHEAD(4) toVarName=Word() "." attrName=Word() "=" fromName=Word()
+    {
+        return new SequenceAssignVarToAttribute(toVarName, attrName, fromName);
+    }
 |
 	LOOKAHEAD(2) setmap=Word() "." method=Word() "(" ( var=Word() ("," varDst=Word())? )? ")"
 	{

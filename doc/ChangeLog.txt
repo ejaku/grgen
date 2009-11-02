@@ -1,7 +1,7 @@
 ﻿v2.6 beta (2009-11-02)
- New sequencing constructs for xgrs:
-  - operator then-left l<;r, executing l then r, returning the execution result of l
-  - operator then-right l;>r, executing l then r, returning the execution result of r
+ New sequencing constructs in xgrs:
+  - operator then-left l <; r executing l then r, returning the execution result of l
+  - operator then-right l ;> r executing l then r, returning the execution result of r
   - decision if{cond; truecase; falsecase} executing cond,
      on success truecase is executed and its result returned,
      on failure falsecase is executed and its result returned
@@ -16,12 +16,18 @@
      failing iff seq fails for at least one el/el->val in the set/map
   - set/map membership query el in sm succeeding iff el is contained in the set/map
   - map lookup assignment val=mp[el] assigning the result of a map lookup to a variable, 
-     succeeding iff el is contained in mp, otherwise failing, assigning null to the variable
-  - set/map size query sz=sm.size() assigning size to the variable, always succeeding
-  - set/map emptyness query x=sm.empty() assigning to the variable whether set/map is empty, always succeeding
+     succeeding iff el is contained in mp, otherwise failing, not touching the variable
+  - set/map size assignment sz=sm.size() assigning size to the variable, always succeeding
+  - set/map emptyness query result assignment se=sm.empty() assigning to the variable 
+     whether set/map is empty, always succeeding
   - set/map creation st=set<T>/mp=map<S,T>, and variable declarations of explicit set/map type, 
      st:set<S>, mp:map<S,T>,  e.g. st:set<Node>=set<Node>
 
+ New assignments in xgrs: (currently only interpreted xgrs of GrShell, not compiled rule embedded)
+   - attribute reading in xgrs: toVar = fromVar.attributeName (value semantics)
+   - attribute writing in xgrs: toVar.attributeName = fromVar (value semantics)
+   - constant value/literal assignment: toVar = int|float|double|string|boolean - constants/literals
+   
  Rewrite part handling of nested patterns:
   - modify/replace graph elements of nesting pattern
      are now available in modify/replace of nested alternative/iterated/multiple/optional-patterns 

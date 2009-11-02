@@ -1036,16 +1036,18 @@ void ShellCommand():
 				obj = boolVal;
 			}
 		|
-			"new" // todo: alle set/map-operationen deprecaten
+			"new"
 			(
 				"map" str2=Word() str3=Word()
 				{
+					Console.WriteLine(str1+"="+"new map "+str2+" "+str3+" is deprecated, use xgrs "+str1+" = map<"+str2+","+str3+"> instead");
 					obj = impl.MapNew(str2, str3);
 					if(obj == null) noError = false;
 				}
 			|
 				"set" str2=Word() 
 				{
+					Console.WriteLine(str1+"="+"new set "+str2+" is deprecated, use xgrs "+str1+" = set<"+str2+"> instead");
 					obj = impl.SetNew(str2);
 					if(obj == null) noError = false;
 				}
