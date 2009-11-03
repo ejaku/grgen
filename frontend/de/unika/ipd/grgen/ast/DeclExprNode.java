@@ -20,6 +20,9 @@ import de.unika.ipd.grgen.ir.IR;
 import de.unika.ipd.grgen.ir.MemberExpression;
 import de.unika.ipd.grgen.ir.Variable;
 import de.unika.ipd.grgen.ir.VariableExpression;
+import de.unika.ipd.grgen.parser.Scope;
+import de.unika.ipd.grgen.parser.Symbol;
+
 import java.util.Collection;
 import java.util.Vector;
 
@@ -79,8 +82,7 @@ public class DeclExprNode extends ExprNode {
 	/** @see de.unika.ipd.grgen.ast.BaseNode#resolveLocal() */
 	@Override
 	protected boolean resolveLocal() {
-		boolean res = fixupDefinition(declUnresolved, declUnresolved.getScope());
-		if(!res) return false;
+		tryfixupDefinition(declUnresolved, declUnresolved.getScope());
 		
 		if(!memberResolver.resolve(declUnresolved)) return false;
 
@@ -92,6 +94,34 @@ public class DeclExprNode extends ExprNode {
 		decl = memberResolver.getResult();
 
 		return memberResolver.finish();
+	}
+
+	/*
+	 * This sets the symbol definition to the right place, if the definition is behind the actual position.
+	 * TODO: extract and unify this method to a common place/code duplication
+	 * better yet: move it to own pass before resolving
+	 */
+	public static void tryfixupDefinition(BaseNode elem, Scope scope) {
+		if(!(elem instanceof IdentNode)) {
+			return;
+		}
+		IdentNode id = (IdentNode)elem;
+		
+		debug.report(NOTE, "try Fixup " + id + " in scope " + scope);
+
+		// Get the definition of the ident's symbol local to the owned scope.
+		Symbol.Definition def = scope.getCurrDef(id.getSymbol());
+		debug.report(NOTE, "definition is: " + def);
+
+		// If this definition is valid, i.e. it exists,
+		// the definition of the ident is rewritten to this definition,
+		// else nothing happens as this ident may be referenced in an
+		// attribute initialization expression within a node/edge type declaration
+		// and attributes from super types are not found in this stage
+		// this fixup stuff is crappy as hell
+		if(def.isValid()) {
+			id.setSymDef(def);
+		} 
 	}
 
 	/** @see de.unika.ipd.grgen.ast.ExprNode#getType() */

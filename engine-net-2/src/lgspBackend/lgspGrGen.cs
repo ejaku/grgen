@@ -954,6 +954,15 @@ namespace de.unika.ipd.grGen.lgsp
 					source.AppendFront("res_" + seqID + " = true;\n");
 					break;
 				}
+    
+                case SequenceType.AssignConstToVar:
+                {
+                    // currently only boolean values supported, compiled xgrs don't support more at the moment
+                    SequenceAssignConstToVar seqConstToVar = (SequenceAssignConstToVar)seq;
+                    source.AppendFront("var_" + seqConstToVar.DestVar + " = " + (((bool)seqConstToVar.Constant)?"true":"false") + ";\n");
+                    source.AppendFront("res_" + seqID + " = true;\n");
+                    break;
+                }
 
 				case SequenceType.AssignElemToVar:
 					throw new Exception("AssignElemToVar not supported, yet");
