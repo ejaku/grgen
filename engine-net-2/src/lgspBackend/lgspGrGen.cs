@@ -959,7 +959,7 @@ namespace de.unika.ipd.grGen.lgsp
                 {
                     // currently only boolean values supported, compiled xgrs don't support more at the moment
                     SequenceAssignConstToVar seqConstToVar = (SequenceAssignConstToVar)seq;
-                    source.AppendFront("var_" + seqConstToVar.DestVar + " = " + (((bool)seqConstToVar.Constant)?"true":"false") + ";\n");
+                    source.AppendFront("varbool_" + seqConstToVar.DestVar + " = " + (((bool)seqConstToVar.Constant)?"true":"false") + ";\n");
                     source.AppendFront("res_" + seqID + " = true;\n");
                     break;
                 }
