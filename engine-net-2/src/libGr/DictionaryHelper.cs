@@ -56,7 +56,7 @@ namespace de.unika.ipd.grGen.libGr
         {
             switch (typeName)
             {
-                case "bool": return typeof(bool);
+                case "boolean": return typeof(bool);
                 case "int": return typeof(int);
                 case "float": return typeof(float);
                 case "double": return typeof(double);

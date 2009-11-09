@@ -1151,26 +1151,6 @@ namespace de.unika.ipd.grGen.libGr
 		}
 
         /// <summary>
-        /// Returns the name of the kind of the given attribute
-        /// </summary>
-        /// <param name="attrType">The IAttributeType</param>
-        /// <returns>The name of the kind of the attribute</returns>
-        private String GetKindName(AttributeType attrType)
-        {
-            switch(attrType.Kind)
-            {
-                case AttributeKind.IntegerAttr: return "int";
-                case AttributeKind.BooleanAttr: return "boolean";
-                case AttributeKind.StringAttr: return "string";
-                case AttributeKind.EnumAttr: return attrType.EnumType.Name;
-                case AttributeKind.FloatAttr: return "float";
-                case AttributeKind.DoubleAttr: return "double";
-                case AttributeKind.ObjectAttr: return "object";
-            }
-            return "<INVALID>";
-        }
-
-        /// <summary>
         /// Dumps all attributes in the form "kind owner::name = value" into a String List
         /// </summary>
         /// <param name="elem">IGraphElement which attributes are to be dumped</param>
@@ -1183,7 +1163,7 @@ namespace de.unika.ipd.grGen.libGr
                 object attr = elem.GetAttribute(attrType.Name);
                 String attrString = (attr != null) ? attr.ToString() : "<Not initialized>";
                 attribs.Add(String.Format("{0}::{1} : {2} = {3}",
-                    attrType.OwnerType.Name, attrType.Name, GetKindName(attrType), attrString));
+                    attrType.OwnerType.Name, attrType.Name, attrType.GetKindName(), attrString));
             }
             return attribs;
         }

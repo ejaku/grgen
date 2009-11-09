@@ -1,0 +1,47 @@
+enum FooBar
+{
+  foo, bar, bla
+}
+
+node class N1
+{
+	a:set<int>;
+	b:set<string>;
+	c:set<double>;
+	d:set<boolean>;
+	e:set<FooBar>;
+	empty:set<FooBar>;
+}
+
+node class N2
+{
+	a:map<int,string>;
+	b:map<string,double>;
+	c:map<double,boolean>;
+	d:map<boolean,FooBar>;
+	e:map<FooBar,int>;
+	empty:map<FooBar,FooBar>;
+}
+
+///////////////////////////////////////////
+
+edge class E1
+{
+	a:set<int>;
+	b:set<string>;
+	c:set<double>;
+	d:set<boolean>;
+	e:set<FooBar>;
+	empty:set<FooBar>;
+}
+
+edge class E2
+{
+	a:map<int,string>;
+	b:map<string,double>;
+	c:map<double,boolean>;
+	d:map<boolean,FooBar>;
+	e:map<FooBar,int>;
+	empty:map<FooBar,FooBar>;
+}
+

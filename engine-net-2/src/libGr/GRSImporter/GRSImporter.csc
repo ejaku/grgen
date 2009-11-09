@@ -10,15 +10,47 @@ PARSER_BEGIN(GRSImporter)
     using System.IO;
     using de.unika.ipd.grGen.libGr;
 
-	struct Param // KeyValuePair<String, String> waere natuerlich schoener... CSharpCC kann aber kein .NET 2.0 ...
-    {
-        public String Key;
-        public String Value;
+	struct Param
+	{
+        public String Key; // the attribute name
+	
+        // for basic types, enums
+        public String Value; // the attribute value
+        
+        // for set, map attributed
+        public String Type; // set/map(domain) type
+        public String TgtType; // map target type
+        public ArrayList Values; // set/map(domain) values 
+        public ArrayList TgtValues; // map target values
 
         public Param(String key, String value)
         {
             Key = key;
             Value = value;
+            Type = null;
+            TgtType = null;
+            Values = null;
+            TgtValues = null;
+        }
+        
+        public Param(String key, String value, String type)
+        {
+            Key = key;
+            Value = value;
+            Type = type;
+            TgtType = null;
+            Values = new ArrayList();
+            TgtValues = null;
+        }
+        
+        public Param(String key, String value, String type, String tgtType)
+        {
+            Key = key;
+            Value = value;
+            Type = type;
+            TgtType = tgtType;
+            Values = new ArrayList();
+            TgtValues = new ArrayList(); 
         }
     }
     
@@ -155,64 +187,96 @@ PARSER_BEGIN(GRSImporter)
             if(elemDef.Attributes!=null) SetAttributes(edge, elemDef.Attributes);
         }        
 
+		private object ParseAttributeValue(AttributeKind attrKind, String valueString) // not set/map/enum
+        {
+            object value = null;
+            switch(attrKind)
+            {
+            case AttributeKind.BooleanAttr:
+                if(valueString.Equals("true", StringComparison.OrdinalIgnoreCase))
+                    value = true;
+                else if(valueString.Equals("false", StringComparison.OrdinalIgnoreCase))
+                    value = false;
+                else
+                    throw new Exception("Unknown boolean literal");
+                break;
+            case AttributeKind.IntegerAttr:
+				value = Int32.Parse(valueString);
+                break;
+            case AttributeKind.StringAttr:
+                value = valueString;
+                break;
+            case AttributeKind.FloatAttr:
+                value = Single.Parse(valueString);
+                break;
+            case AttributeKind.DoubleAttr:
+                value = Double.Parse(valueString);
+                break;
+            case AttributeKind.ObjectAttr:
+                throw new Exception("Object attributes unsupported");
+            }
+            return value;
+        }
+
+		private object ParseAttributeValue(AttributeType attrType, String valueString) // not set/map
+        {
+            object value = null;
+            if(attrType.Kind==AttributeKind.EnumAttr)
+            {
+                int val;
+                if(Int32.TryParse(valueString, out val)) {
+                    value = Enum.ToObject(attrType.EnumType.EnumType, val);
+                } else {
+       	            value = Enum.Parse(attrType.EnumType.EnumType, valueString);
+                }
+                if(value == null) {
+                    throw new Exception("Unknown enum member");
+                }
+            }
+            else
+            {
+				value = ParseAttributeValue(attrType.Kind, valueString);
+            }
+            return value;
+        }
+        
         private void SetAttributes(IGraphElement elem, ArrayList attributes)
         {
             foreach(Param par in attributes)
             {
                 AttributeType attrType = elem.Type.GetAttributeType(par.Key);
                 object value = null;
+                IDictionary setmap = null;
                 switch(attrType.Kind)
                 {
-                case AttributeKind.BooleanAttr:
-                    if(par.Value.Equals("true", StringComparison.OrdinalIgnoreCase))
-                        value = true;
-                    else if(par.Value.Equals("false", StringComparison.OrdinalIgnoreCase))
-                        value = false;
-                    else
-                        throw new Exception("Unknown boolean literal");
-                    break;
-                case AttributeKind.EnumAttr:
-                {
-                    int val;
-                    if(Int32.TryParse(par.Value, out val))
-                    {
-                        value = val;
-                    }
-                    else
-                    {
-                        foreach(EnumMember member in attrType.EnumType.Members)
-                        {
-                            if(par.Value == member.Name)
-                            {
-                                value = member.Value;
-                                break;
-                            }
-                        }
-                        if(value == null)
-                        {
-                            throw new Exception("Unknown enum member");
-                        }
-                    }
-                    break;
-                }
-                case AttributeKind.IntegerAttr:
-					value = Int32.Parse(par.Value);
-                    break;
-                case AttributeKind.StringAttr:
-                    value = par.Value;
-                    break;
-                case AttributeKind.FloatAttr:
-                    value = Single.Parse(par.Value);
-                    break;
-                case AttributeKind.DoubleAttr:
-                    value = Double.Parse(par.Value);
-                    break;
-                case AttributeKind.ObjectAttr:
-                    throw new Exception("Object attributes unsupported");
                 case AttributeKind.SetAttr:
-                    throw new Exception("Set atttributes unsupported");
+	                if(par.Value!="set") throw new Exception("Set literal expected");
+	                setmap = DictionaryHelper.NewDictionary(
+	                    DictionaryHelper.GetTypeFromNameForDictionary(par.Type, graph),
+	                    typeof(de.unika.ipd.grGen.libGr.SetValueType));
+	                foreach(object val in par.Values)
+	                {
+                        setmap.Add( ParseAttributeValue(attrType.ValueType, (String)val), null );
+	                }
+	                value = setmap;
+	                break;
                 case AttributeKind.MapAttr:
-					throw new Exception("Map attributes unsupported");
+   	                if(par.Value!="map") throw new Exception("Map literal expected");
+	                setmap = DictionaryHelper.NewDictionary(
+	                    DictionaryHelper.GetTypeFromNameForDictionary(par.Type, graph),
+	                    DictionaryHelper.GetTypeFromNameForDictionary(par.TgtType, graph));
+	                IEnumerator tgtValEnum = par.TgtValues.GetEnumerator();
+	                foreach(object val in par.Values)
+	                {
+	                    tgtValEnum.MoveNext();
+                        setmap.Add( ParseAttributeValue(attrType.KeyType, (String)val),
+                            ParseAttributeValue(attrType.ValueType, (String)tgtValEnum.Current) );
+	                }
+	                value = setmap;
+	                break;
+				default:
+					value = ParseAttributeValue(attrType, par.Value);
+					break;
                 }
 
                 AttributeChangeType changeType = AttributeChangeType.Assign;
@@ -246,7 +310,11 @@ TOKEN: {
 |   < MINUS: "-" >
 |   < LPARENTHESIS: "(" >
 |   < RPARENTHESIS: ")" >
-|   < AT : "@" >
+|   < AT: "@" >
+|   < LANGLE: "<" >
+|   < RANGLE: ">" >
+|   < LBRACE: "{" >
+|   < RBRACE: "}" >
 }
 
 TOKEN: {
@@ -256,6 +324,8 @@ TOKEN: {
 |   < NODE: "node" >
 |   < NULL: "null" >
 |   < TRUE: "true" >
+|   < SET: "set" >
+|   < MAP: "map" >
 }
 
 TOKEN: {
@@ -438,11 +508,25 @@ void Attributes(ArrayList attributes):
 
 void SingleAttribute(ArrayList attributes):
 {
-	String a, b;
+	String attribName, value, valueTgt;
+	Token type, typeTgt;
+	Param param;
 }
 {
-	a=Text() "=" b=TextOrNumberOrBoolLit()
-	{
-		attributes.Add(new Param(a, b));
-	}
+	attribName=Text() "=" 
+		(value=TextOrNumberOrBoolLit()
+			{
+				attributes.Add(new Param(attribName, value));
+			}
+		| <SET> <LANGLE> type=<WORD> <RANGLE> 
+			{ param = new Param(attribName, "set", type.image); }
+			<LBRACE> ( value=TextOrNumberOrBoolLit() { param.Values.Add(value); } )? 
+			    (<COMMA> value=TextOrNumberOrBoolLit() { param.Values.Add(value); })* <RBRACE>
+			{ attributes.Add(param); }
+		| <MAP> <LANGLE> type=<WORD> <COMMA> typeTgt=<WORD> <RANGLE>
+			{ param = new Param(attribName, "map", type.image, typeTgt.image); }
+			<LBRACE> ( value=TextOrNumberOrBoolLit() { param.Values.Add(value); } <ARROW> valueTgt=TextOrNumberOrBoolLit() { param.TgtValues.Add(valueTgt); } )?
+				( <COMMA> value=TextOrNumberOrBoolLit() { param.Values.Add(value); } <ARROW> valueTgt=TextOrNumberOrBoolLit() { param.TgtValues.Add(valueTgt); } )* <RBRACE>
+			{ attributes.Add(param); }
+		)
 }

@@ -1,6 +1,6 @@
 // This file has been generated automatically by GrGen.
 // Do not modify this file! Any changes will be lost!
-// Generated from "..\..\tests\independent\Independent.grg" on Mon Nov 02 15:04:01 CET 2009
+// Generated from "..\..\tests\independent\Independent.grg" on Mon Nov 09 00:52:08 CET 2009
 
 using System;
 using System.Collections.Generic;
@@ -250,7 +250,7 @@ namespace de.unika.ipd.grGen.Model_Independent
 		public static GRGEN_LIBGR.AttributeType AttributeType_val;
 		public NodeType_intNode() : base((int) NodeTypes.@intNode)
 		{
-			AttributeType_val = new GRGEN_LIBGR.AttributeType("val", this, GRGEN_LIBGR.AttributeKind.IntegerAttr, null, GRGEN_LIBGR.AttributeKind.IntegerAttr, GRGEN_LIBGR.AttributeKind.IntegerAttr);
+			AttributeType_val = new GRGEN_LIBGR.AttributeType("val", this, GRGEN_LIBGR.AttributeKind.IntegerAttr, null, null, null);
 		}
 		public override string Name { get { return "intNode"; } }
 		public override string NodeInterfaceName { get { return "de.unika.ipd.grGen.Model_Independent.IintNode"; } }

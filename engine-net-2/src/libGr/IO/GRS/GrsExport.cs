@@ -5,6 +5,7 @@
  */
 
 using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.IO;
 
@@ -75,8 +76,9 @@ namespace de.unika.ipd.grGen.libGr
                 {
                     object value = node.GetAttribute(attrType.Name);
                     // TODO: Add support for null values, as the default initializers could assign non-null values!
-                    if (value != null)
-                        sw.Write(", {0} = {1}", attrType.Name, StringToTextToken(value.ToString()));
+                    if(value != null) {
+                        EmitAttributes(attrType, value, sw);
+                    }
                 }
                 sw.WriteLine(")");
                 LinkedList<Variable> vars = graph.GetElementVariables(node);
@@ -84,7 +86,7 @@ namespace de.unika.ipd.grGen.libGr
                 {
                     foreach (Variable var in vars)
                     {
-                        sw.WriteLine("{0} = @({1})", var.Name, StringToTextToken(graph.GetElementName(node)));
+                        sw.WriteLine("#{0} = @({1})", var.Name, StringToTextToken(graph.GetElementName(node)));
                     }
                 }
                 numNodes++;
@@ -103,8 +105,9 @@ namespace de.unika.ipd.grGen.libGr
                     {
                         object value = edge.GetAttribute(attrType.Name);
                         // TODO: Add support for null values, as the default initializers could assign non-null values!
-                        if (value != null)
-                            sw.Write(", {0} = {1}", attrType.Name, StringToTextToken(value.ToString()));
+                        if(value != null) {
+                            EmitAttributes(attrType, value, sw);
+                        }
                     }
                     sw.WriteLine(") -> @({0})", StringToTextToken(graph.GetElementName(edge.Target)));
                     LinkedList<Variable> vars = graph.GetElementVariables(edge);
@@ -112,7 +115,7 @@ namespace de.unika.ipd.grGen.libGr
                     {
                         foreach (Variable var in vars)
                         {
-                            sw.WriteLine("{0} = @({1})", var.Name, StringToTextToken(graph.GetElementName(edge)));
+                            sw.WriteLine("#{0} = @({1})", var.Name, StringToTextToken(graph.GetElementName(edge)));
                         }
                     }
                     numEdges++;
@@ -123,6 +126,42 @@ namespace de.unika.ipd.grGen.libGr
 
             sw.WriteLine("# end of graph \"{0}\" saved by GrsExport", graph.Name);
             sw.WriteLine();
+        }
+
+        /// <summary>
+        /// Emits the node/edge attribute initialization code in graph exporting
+        /// for an attribute of the given type with the given value into the stream writer
+        /// </summary>
+        private static void EmitAttributes(AttributeType attrType, object value, StreamWriter sw)
+        {
+            if(attrType.Kind==AttributeKind.SetAttr)
+            {
+                IDictionary set=(IDictionary)value;
+                sw.Write(", {0} = {1}{{", attrType.Name, attrType.GetKindName());
+                bool first = true;
+                foreach(DictionaryEntry entry in set)
+                {
+                    if(first) { sw.Write(StringToTextToken(entry.Key.ToString())); first = false; }
+                    else { sw.Write("," + StringToTextToken(entry.Key.ToString())); }
+                }
+                sw.Write("}");
+            }
+            else if(attrType.Kind==AttributeKind.MapAttr)
+            {
+                IDictionary map=(IDictionary)value;
+                sw.Write(", {0} = {1}{{", attrType.Name, attrType.GetKindName());
+                bool first = true;
+                foreach(DictionaryEntry entry in map)
+                {
+                    if(first) { sw.Write(StringToTextToken(entry.Key.ToString())+"->"+StringToTextToken(entry.Value.ToString())); first = false; }
+                    else { sw.Write("," + StringToTextToken(entry.Key.ToString())+"->"+StringToTextToken(entry.Value.ToString())); }
+                }
+                sw.Write("}");
+            }
+            else
+            {
+                sw.Write(", {0} = {1}", attrType.Name, StringToTextToken(value.ToString()));
+            }
         }
 
         private static String StringToTextToken(String str)

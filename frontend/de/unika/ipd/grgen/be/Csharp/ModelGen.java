@@ -1034,7 +1034,7 @@ member_loop:
 		sb.append("\t\tpublic override bool IsConst { get { return " + (type.isConst() ? "true" : "false") + "; } }\n");
 
 		sb.append("\t\tpublic override int NumAttributes { get { return " + type.getAllMembers().size() + "; } }\n");
-		genAttributeTypesEnum(type);
+		genAttributeTypesEnumerator(type);
 		genGetAttributeType(type);
 
 		sb.append("\t\tpublic override bool IsA(GRGEN_LIBGR.GrGenType other)\n");
@@ -1069,33 +1069,70 @@ member_loop:
 	}
 
 	private void genAttributeAttributes(InheritanceType type) {
-		for(Entity member : type.getMembers()) // only for locally defined members
+		for(Entity member : type.getMembers()) { // only for locally defined members
 			sb.append("\t\tpublic static GRGEN_LIBGR.AttributeType " + formatAttributeTypeName(member) + ";\n");
+			
+			// attribute types T/S of set<T>/map<T,S> 
+			if(member.getType() instanceof SetType) {
+				sb.append("\t\tpublic static GRGEN_LIBGR.AttributeType " + formatAttributeTypeName(member)+"_set_member_type;\n");		
+			}
+			if(member.getType() instanceof MapType) {
+				sb.append("\t\tpublic static GRGEN_LIBGR.AttributeType " + formatAttributeTypeName(member)+"_map_domain_type;\n");		
+				sb.append("\t\tpublic static GRGEN_LIBGR.AttributeType " + formatAttributeTypeName(member)+"_map_range_type;\n");		
+			}
+		}
 	}
 
 	private void genAttributeInit(InheritanceType type) {
 		for(Entity e : type.getMembers()) {
-			sb.append("\t\t\t" + formatAttributeTypeName(e) + " = new GRGEN_LIBGR.AttributeType(");
-			sb.append("\"" + formatIdentifiable(e) + "\", this, ");
 			Type t = e.getType();
 
-			if (t instanceof EnumType) {
-				sb.append(getAttributeKind(t) + ", GRGEN_MODEL.Enums.@" + formatIdentifiable(t) +", "
-						+ getAttributeKind(t) + ", " + getAttributeKind(t));
-			} else if (t instanceof MapType) {
+			if (t instanceof MapType) {
 				MapType mt = (MapType)t;
-				sb.append(getAttributeKind(t) + ", null, "
-						+ getAttributeKind(mt.getValueType()) + ", " + getAttributeKind(mt.getKeyType()));
-			} else if (t instanceof SetType) {
-				SetType st = (SetType)t;
-				sb.append(getAttributeKind(t) + ", null, "
-						+ getAttributeKind(st.getValueType()) + ", " + getAttributeKind(st.getValueType()));
-			} else {
-				sb.append(getAttributeKind(t) + ", null, "
-						+ getAttributeKind(t) + ", " + getAttributeKind(t));
-			}
 
+				// attribute types T of map<T,S> 
+				sb.append("\t\t\t" + formatAttributeTypeName(e) + "_map_domain_type = new GRGEN_LIBGR.AttributeType(");
+				sb.append("\"" + formatIdentifiable(e) + "_map_domain_type\", this, ");
+				genAttributeInitTypeDependentStuff(mt.getKeyType(), e);
+				sb.append(");\n");
+				
+				// attribute types S of map<T,S> 
+				sb.append("\t\t\t" + formatAttributeTypeName(e) + "_map_range_type = new GRGEN_LIBGR.AttributeType(");
+				sb.append("\"" + formatIdentifiable(e) + "_map_range_type\", this, ");
+				genAttributeInitTypeDependentStuff(mt.getValueType(), e);
+				sb.append(");\n");
+			}
+			if (t instanceof SetType) {
+				SetType st = (SetType)t;
+
+				// attribute type T of set<T>
+				sb.append("\t\t\t" + formatAttributeTypeName(e) + "_set_member_type = new GRGEN_LIBGR.AttributeType(");
+				sb.append("\"" + formatIdentifiable(e) + "_set_member_type\", this, ");
+				genAttributeInitTypeDependentStuff(st.getValueType(), e);
+				sb.append(");\n");
+			}
+			
+			sb.append("\t\t\t" + formatAttributeTypeName(e) + " = new GRGEN_LIBGR.AttributeType(");
+			sb.append("\"" + formatIdentifiable(e) + "\", this, ");
+			genAttributeInitTypeDependentStuff(t, e);
 			sb.append(");\n");
+		}
+	}
+
+	private void genAttributeInitTypeDependentStuff(Type t, Entity e) {
+		if (t instanceof EnumType) {
+			sb.append(getAttributeKind(t) + ", GRGEN_MODEL.Enums.@" + formatIdentifiable(t) + ", "
+					+ "null, null");
+		} else if (t instanceof MapType) {
+			sb.append(getAttributeKind(t) + ", null, "
+					+ formatAttributeTypeName(e) + "_map_range_type" + ", "
+					+ formatAttributeTypeName(e) + "_map_domain_type");
+		} else if (t instanceof SetType) {
+			sb.append(getAttributeKind(t) + ", null, "
+					+ formatAttributeTypeName(e) + "_set_member_type" + ", null");
+		} else {
+			sb.append(getAttributeKind(t) + ", null, " 
+					+ "null, null");
 		}
 	}
 
@@ -1121,7 +1158,7 @@ member_loop:
 		else throw new IllegalArgumentException("Unknown Type: " + t);
 	}
 
-	private void genAttributeTypesEnum(InheritanceType type) {
+	private void genAttributeTypesEnumerator(InheritanceType type) {
 		Collection<Entity> allMembers = type.getAllMembers();
 		sb.append("\t\tpublic override IEnumerable<GRGEN_LIBGR.AttributeType> AttributeTypes");
 

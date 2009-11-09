@@ -1,0 +1,66 @@
+new graph "porter/portersetmap"
+
+xgrs (n,e)=createTestGraph
+
+show num nodes only N1
+show num edges only E1
+
+xgrs [checkForTestGraph]
+
+n.a
+n.b
+n.c
+n.d
+n.e
+n.empty
+
+e.a
+e.b
+e.c
+e.d
+e.e
+e.empty
+
+export porter/testgraphset.grs
+
+n.a
+n.b
+n.c
+n.d
+n.e
+n.empty
+
+e.a
+e.b
+e.c
+e.d
+e.e
+e.empty
+
+import porter/testgraphset.grs porter/portersetmap.gm
+
+show num nodes only N1
+show num edges only E1
+
+select actions porter/lgsp-portersetmapActions.dll
+
+xgrs (n,e)=[checkForTestGraph]
+
+n.a
+n.b
+n.c
+n.d
+n.e
+n.empty
+
+e.a
+e.b
+e.c
+e.d
+e.e
+e.empty
+
+# the test script tries to test all available .grs; no sense in trying to test the exported graph
+!rm porter/testgraphset.grs
+
+quit

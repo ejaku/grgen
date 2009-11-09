@@ -320,17 +320,17 @@ namespace de.unika.ipd.grGen.libGr
         public readonly EnumAttributeType EnumType;
 
         /// <summary>
-        /// The kind of the value of the set, if Kind == AttributeKind.SetAttr.
-        /// The kind of the value of the map, if Kind == AttributeKind.MapAttr.
+        /// The attribute type of the value of the set, if Kind == AttributeKind.SetAttr.
+        /// The attribute type of the value of the map, if Kind == AttributeKind.MapAttr.
         /// Undefined otherwise.
         /// </summary>
-        public readonly AttributeKind ValueKind;
+        public readonly AttributeType ValueType;
 
         /// <summary>
-        /// The kind of the key of the map, if Kind == AttributeKind.MapAttr.
+        /// The attribute type of the key of the map, if Kind == AttributeKind.MapAttr.
         /// Undefined otherwise.
         /// </summary>
-        public readonly AttributeKind KeyKind;
+        public readonly AttributeType KeyType;
 
         /// <summary>
         /// Initializes an AttributeType instance.
@@ -339,17 +339,51 @@ namespace de.unika.ipd.grGen.libGr
         /// <param name="ownerType">The owner model type.</param>
         /// <param name="kind">The kind of the attribute.</param>
         /// <param name="enumType">The enum type description, if Kind == AttributeKind.EnumAttr, otherwise null.</param>
-        /// <param name="valueKind">The kind of the value of the set, if Kind == AttributeKind.SetAttr. The kind of the value of the map, if Kind == AttributeKind.MapAttr. Undefined otherwise. </param>
-        /// <param name="keyKind">The kind of the key of the map, if Kind == AttributeKind.MapAttr. Undefined otherwise.</param>
+        /// <param name="valueType">The attribute type of the value of the set, if Kind == AttributeKind.SetAttr; the attribute type of the value of the map, if Kind == AttributeKind.MapAttr; otherwise null. </param>
+        /// <param name="keyType">The attribute type of the key of the map, if Kind == AttributeKind.MapAttr; otherwise null.</param>
         public AttributeType(String name, GrGenType ownerType, AttributeKind kind,
-            EnumAttributeType enumType, AttributeKind valueKind, AttributeKind keyKind)
+            EnumAttributeType enumType, AttributeType valueType, AttributeType keyType)
         {
             Name = name;
             OwnerType = ownerType;
             Kind = kind;
             EnumType = enumType;
-            ValueKind = valueKind;
-            KeyKind = keyKind;
+            ValueType = valueType;
+            KeyType = keyType;
+        }
+
+        /// <summary>
+        /// Returns the name of the given basic attribute kind (not enum,set,map)
+        /// </summary>
+        /// <param name="attrKind">The AttributeKind value</param>
+        /// <returns>The name of the attribute kind</returns>
+        private static String GetKindName(AttributeKind attrKind)
+        {
+            switch(attrKind)
+            {
+                case AttributeKind.IntegerAttr: return "int";
+                case AttributeKind.BooleanAttr: return "boolean";
+                case AttributeKind.StringAttr: return "string";
+                case AttributeKind.FloatAttr: return "float";
+                case AttributeKind.DoubleAttr: return "double";
+                case AttributeKind.ObjectAttr: return "object";
+            }
+            return "<INVALID>";
+        }
+
+        /// <summary>
+        /// Returns the name of the kind
+        /// </summary>
+        /// <returns>The name of the kind of the attribute</returns>
+        public String GetKindName()
+        {
+            switch(Kind)
+            {
+                case AttributeKind.EnumAttr: return EnumType.Name;
+                case AttributeKind.SetAttr: return "set<"+ValueType.GetKindName()+">";
+                case AttributeKind.MapAttr: return "map<"+KeyType.GetKindName()+","+ValueType.GetKindName()+">";
+            }
+            return GetKindName(Kind);
         }
     }
 
