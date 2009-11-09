@@ -1,10 +1,8 @@
 /*
- * GrGen: graph rewrite generator tool -- release GrGen.NET 2.6
- * Copyright (C) 2003-2009 Universitaet Karlsruhe, Institut fuer Programmstrukturen und Datenorganisation, LS Goos
+ * GrGen: graph rewrite generator tool -- release GrGen.NET 2.5
+ * Copyright (C) 2009 Universitaet Karlsruhe, Institut fuer Programmstrukturen und Datenorganisation, LS Goos
  * licensed under LGPL v3 (see LICENSE.txt included in the packaging of this file)
  */
-
-// author: Moritz Kroll, Nicholas Tung
 
 using System;
 using System.Collections.Generic;
@@ -23,7 +21,8 @@ namespace de.unika.ipd.grGen.libGr
         protected GXLExport(XmlTextWriter writer) {
             xmlwriter = writer;
             xmlwriter.Formatting = Formatting.Indented;
-			xmlwriter.WriteStartDocument();
+            xmlwriter.Indentation = 1;
+            xmlwriter.WriteStartDocument();
             xmlwriter.WriteDocType("gxl", null, "http://www.gupro.de/GXL/gxl-1.0.dtd", null);
         }
 
@@ -45,16 +44,30 @@ namespace de.unika.ipd.grGen.libGr
         protected void Export(IGraph graph)
         {
             xmlwriter.WriteStartElement("gxl");
-			xmlwriter.WriteAttributeString("xmlns:xlink", "http://www.w3.org/1999/xlink");
+            xmlwriter.WriteAttributeString("xmlns:xlink", "http://www.w3.org/1999/xlink");
             WriteModel(graph);
             WriteGraph(graph);
             xmlwriter.WriteEndElement();
             xmlwriter.WriteEndDocument();
-			xmlwriter.WriteRaw("\n");
-			xmlwriter.Flush();
+            xmlwriter.WriteRaw("\n");
+            xmlwriter.Flush();
         }
 
-        protected String GetDomainID(AttributeKind kind)
+        protected String GetModelID(IGraph graph)
+        {
+            String id = graph.Model.ModelName;
+            if(id.EndsWith("__gxl"))
+                id = id.Substring(0, id.Length - 5);
+            return id;
+        }
+
+        /// <summary>
+        /// Returns the domain ID for the given attribute type.
+        /// </summary>
+        /// <param name="kind">The attribute kind</param>
+        /// <param name="enumAttrType">For enums, enumAttrType must be valid. Otherwise it may be null.</param>
+        /// <returns></returns>
+        protected String GetDomainID(AttributeKind kind, EnumAttributeType enumAttrType)
         {
             switch(kind)
             {
@@ -63,9 +76,25 @@ namespace de.unika.ipd.grGen.libGr
                 case AttributeKind.FloatAttr: return "DM_float";
                 case AttributeKind.IntegerAttr: return "DM_int";
                 case AttributeKind.StringAttr: return "DM_string";
+                case AttributeKind.EnumAttr: return "DM_enum_" + enumAttrType.Name;
                 default:
                     throw new Exception("Unsupported attribute value type: \"" + kind + "\"");
             }
+        }
+
+        protected String GetDomainID(AttributeKind kind)
+        {
+            return GetDomainID(kind, null);
+        }
+
+        protected String GetDomainID(AttributeType attrType)
+        {
+            return GetDomainID(attrType.Kind, attrType.EnumType);
+        }
+
+        protected String GetDomainID(EnumAttributeType enumAttrType)
+        {
+            return GetDomainID(AttributeKind.EnumAttr, enumAttrType);
         }
 
         protected String GetAttrTypeID(AttributeType attrtype)
@@ -110,6 +139,22 @@ namespace de.unika.ipd.grGen.libGr
             }
         }
 
+        protected void WriteEnumType(EnumAttributeType enumType)
+        {
+            String enumid = GetDomainID(enumType);
+            WriteGXLNode(enumid, "Enum");
+
+            foreach(EnumMember member in enumType.Members)
+            {
+                String memberid = "EV_";
+                if((int) member.Value < 0) memberid += "_" + (-member.Value);
+                else memberid += member.Value.ToString();
+                memberid += "_" + member.Name;
+                WriteGXLNode(memberid, "EnumVal", new Attr("value", "string", member.Name));
+                WriteGXLEdge(enumid, memberid, "containsValue");
+            }
+        }
+
         protected void WriteNode(String id, String typename, Attr[] attrs)
         {
             xmlwriter.WriteStartElement("node");
@@ -149,27 +194,30 @@ namespace de.unika.ipd.grGen.libGr
             {
                 String id = prefix + attrtype.OwnerType.Name + "_" + attrtype.Name;
                 WriteGXLNode(id, "AttributeClass", new Attr("name", "string", attrtype.Name));
-                WriteGXLEdge(id, GetDomainID(attrtype.Kind), "hasDomain");
+                WriteGXLEdge(id, GetDomainID(attrtype), "hasDomain");
             }
         }
 
         protected void WriteModel(IGraph graph)
         {
-            String modelnodeid = graph.Model.ModelName;
+            String modelnodeid = GetModelID(graph);
             String rootnodeid = GetElemTypeID(graph.Model.NodeModel.RootType);
 
             xmlwriter.WriteStartElement("graph");
-            xmlwriter.WriteAttributeString("id", "SCE_" + graph.Model.ModelName);
+            xmlwriter.WriteAttributeString("id", "SCE_" + modelnodeid);
             WriteTypeElement("http://www.gupro.de/GXL/gxl-1.0.gxl#gxl-1.0");
 
             WriteGXLNode(modelnodeid, "GraphClass",
-                new Attr("name", "string", graph.Model.ModelName));
+                new Attr("name", "string", modelnodeid));
 
             WriteGXLNode(GetDomainID(AttributeKind.BooleanAttr), "Bool");
             WriteGXLNode(GetDomainID(AttributeKind.IntegerAttr), "Int");
             WriteGXLNode(GetDomainID(AttributeKind.FloatAttr),   "Float");
             WriteGXLNode(GetDomainID(AttributeKind.DoubleAttr),  "Float");
             WriteGXLNode(GetDomainID(AttributeKind.StringAttr),  "String");
+
+            foreach(EnumAttributeType enumType in graph.Model.EnumAttributeTypes)
+                WriteEnumType(enumType);
 
             WriteAttrTypes(graph.Model.NodeModel);
             WriteAttrTypes(graph.Model.EdgeModel);
@@ -246,14 +294,15 @@ namespace de.unika.ipd.grGen.libGr
 
                     case AttributeKind.IntegerAttr: valType = "int"; break;
 
+                    // TODO: This does not allow differentiating between empty and null strings
                     case AttributeKind.StringAttr: valType = "string"; break;
+
+                    case AttributeKind.EnumAttr: valType = "enum"; break;
 
                     default:
                         throw new Exception("Unsupported attribute value type: \"" + attrType.Kind + "\"");
                 }
-                //                writer.Write("\t\t<attr name=\"" + attrType.Name + "\">");`
                 attrs.Add(new Attr(attrType.Name, valType, valuestr));
-                // TODO: This does not allow differentiating between empty and null strings
             }
             return attrs;
         }
@@ -264,7 +313,7 @@ namespace de.unika.ipd.grGen.libGr
             xmlwriter.WriteAttributeString("id", graph.Name);
             xmlwriter.WriteAttributeString("edgeids", "true");
             xmlwriter.WriteAttributeString("edgemode", "defaultdirected");
-            WriteTypeElement("#" + graph.Model.ModelName);
+            WriteTypeElement("#" + GetModelID(graph));
 
             foreach(INode node in graph.Nodes)
             {

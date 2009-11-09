@@ -1,6 +1,6 @@
 /*
- * GrGen: graph rewrite generator tool -- release GrGen.NET 2.6
- * Copyright (C) 2003-2009 Universitaet Karlsruhe, Institut fuer Programmstrukturen und Datenorganisation, LS Goos
+ * GrGen: graph rewrite generator tool -- release GrGen.NET 2.5
+ * Copyright (C) 2009 Universitaet Karlsruhe, Institut fuer Programmstrukturen und Datenorganisation, LS Goos
  * licensed under LGPL v3 (see LICENSE.txt included in the packaging of this file)
  */
 
@@ -57,6 +57,7 @@ namespace de.unika.ipd.grGen.libGr
         public static IGraph Import(String importFilename, String modelOverride, IBackend backend)
         {
             XmlDocument doc = new XmlDocument();
+            doc.XmlResolver = null;
             doc.Load(importFilename);
 
             XmlElement gxlelem = doc["gxl"];
@@ -103,6 +104,8 @@ namespace de.unika.ipd.grGen.libGr
                     throw new Exception("Graph type \"" + graphtype + "\" must refer to a GraphClass node.");
 
                 String modelname = GetGXLAttr(modelnode, "name", "string");
+                if(modelname.EndsWith("__gxl"))
+                    modelname = modelname.Substring(0, modelname.Length - 5);
                 XmlElement modelgraph = (XmlElement) modelnode.ParentNode;
                 modelfilename = ImportModel(modelgraph, modelname);
             }
@@ -161,6 +164,8 @@ namespace de.unika.ipd.grGen.libGr
         public enum ThingKind
         {
             Domain,
+            EnumDomain,
+            EnumValue,
             AttributeClass,
             NodeClass,
             EdgeClass
@@ -172,6 +177,17 @@ namespace de.unika.ipd.grGen.libGr
             public String Type;
 
             public AttributeClass(String name)
+            {
+                Name = name;
+            }
+        }
+
+        protected class EnumDomain
+        {
+            public String Name;
+            public List<EnumMember> Members = new List<EnumMember>();
+
+            public EnumDomain(String name)
             {
                 Name = name;
             }
@@ -219,9 +235,32 @@ namespace de.unika.ipd.grGen.libGr
             {
                 get
                 {
-                    if(Kind != ThingKind.Domain)
+                    if(Kind == ThingKind.Domain)
+                        return (String) Value;
+                    else if(Kind == ThingKind.EnumDomain)
+                        return ((EnumDomain) Value).Name;
+                    else
                         throw new Exception("\"" + ID + "\" is not a domain node.");
-                    return (String) Value;
+                }
+            }
+
+            public EnumDomain EnumDomain
+            {
+                get
+                {
+                    if(Kind != ThingKind.EnumDomain)
+                        throw new Exception("\"" + ID + "\" is not an enum domain node.");
+                    return (EnumDomain) Value;
+                }
+            }
+
+            public EnumMember EnumValue
+            {
+                get
+                {
+                    if(Kind != ThingKind.EnumValue)
+                        throw new Exception("\"" + ID + "\" is not an enum value node.");
+                    return (EnumMember) Value;
                 }
             }
 
@@ -268,8 +307,9 @@ namespace de.unika.ipd.grGen.libGr
 
         protected class IDMap : Dictionary<String, Thing>
         {
-            public List<NodeClass> NodeClasses = new List<NodeClass>();
-            public List<EdgeClass> EdgeClasses = new List<EdgeClass>();
+            public List<NodeClass>  NodeClasses = new List<NodeClass>();
+            public List<EdgeClass>  EdgeClasses = new List<EdgeClass>();
+            public List<EnumDomain> EnumDomains = new List<EnumDomain>();
 
             public new Thing this[String key]
             {
@@ -283,6 +323,8 @@ namespace de.unika.ipd.grGen.libGr
                         NodeClasses.Add((NodeClass) value.Value);
                     else if(value.Kind == ThingKind.EdgeClass)
                         EdgeClasses.Add((EdgeClass) value.Value);
+                    else if(value.Kind == ThingKind.EnumDomain)
+                        EnumDomains.Add((EnumDomain) value.Value);
                     base[key] = value;
                 }
             }
@@ -291,6 +333,8 @@ namespace de.unika.ipd.grGen.libGr
         protected static String ImportModel(XmlElement modelgraph, String modelname)
         {
             IDMap idmap = new IDMap();
+            int nextenumval = 1000;
+
             foreach(XmlElement nodeelem in modelgraph.GetElementsByTagName("node"))
             {
                 String nodetype = GetTypeName(nodeelem);
@@ -319,6 +363,40 @@ namespace de.unika.ipd.grGen.libGr
                     case "String":
                         idmap[id] = new Thing(id, ThingKind.Domain, "string");
                         break;
+
+                    case "Enum":
+                    {
+                        String name;
+                        if(id.StartsWith("DM_enum_")) name = id.Substring(8);
+                        else name = id;
+                        idmap[id] = new Thing(id, ThingKind.EnumDomain, new EnumDomain(name));
+                        break;
+                    }
+
+                    case "EnumVal":
+                    {
+                        int val;
+                        if(id.StartsWith("EV_"))
+                        {
+                            int ind = id.IndexOf('_', 4);
+                            if(id[3] == '_')
+                            {
+                                val = -int.Parse(id.Substring(4, ind - 4));
+                            }
+                            else
+                            {
+                                val = int.Parse(id.Substring(3, ind - 3));
+                            }
+                        }
+                        else
+                        {
+                            val = nextenumval++;
+                        }
+
+                        String name = GetGXLAttr(nodeelem, "value", "string");
+                        idmap[id] = new Thing(id, ThingKind.EnumValue, new EnumMember(val, name));
+                        break;
+                    }
 
                     case "AttributeClass":
                     {
@@ -369,6 +447,14 @@ namespace de.unika.ipd.grGen.libGr
                         break;
                     }
 
+                    case "containsValue":
+                    {
+                        EnumDomain enumDomain = idmap[fromid].EnumDomain;
+                        EnumMember enumMember = idmap[toid].EnumValue;
+                        enumDomain.Members.Add(enumMember);
+                        break;
+                    }
+
                     case "isA":
                     {
                         NodeClass nodeClass = idmap[fromid].NodeOrEdgeClass;
@@ -396,6 +482,20 @@ namespace de.unika.ipd.grGen.libGr
         protected static String BuildModel(IDMap idmap)
         {
             StringBuilder sb = new StringBuilder();
+
+            foreach(EnumDomain enumdomain in idmap.EnumDomains)
+            {
+                sb.Append("enum " + enumdomain.Name + " { ");
+
+                bool first = true;
+                foreach(EnumMember enummember in enumdomain.Members)
+                {
+                    if(first) first = false;
+                    else sb.Append(", ");
+                    sb.Append(enummember.Name + "=" + enummember.Value);
+                }
+                sb.Append(" }\n");
+            }
 
             // TODO: Find the root node type!
             String rootnodetype = "Node";
