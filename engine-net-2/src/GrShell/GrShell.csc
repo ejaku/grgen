@@ -1136,13 +1136,27 @@ void Attributes(ArrayList attributes):
 
 void SingleAttribute(ArrayList attributes):
 {
-	String a, b;
+	String attribName, value, valueTgt;
+	Token type, typeTgt;
+	Param param;
 }
 {
-	a=Text() "=" b=TextOrNumberOrBoolLit()
-	{
-		attributes.Add(new Param(a, b));
-	}
+	attribName=Text() "=" 
+		(value=TextOrNumberOrBoolLit()
+			{
+				attributes.Add(new Param(attribName, value));
+			}
+		| <SET> <LANGLE> type=<WORD> <RANGLE> 
+			{ param = new Param(attribName, "set", type.image); }
+			<LBRACE> ( value=TextOrNumberOrBoolLit() { param.Values.Add(value); } )? 
+			    (<COMMA> value=TextOrNumberOrBoolLit() { param.Values.Add(value); })* <RBRACE>
+			{ attributes.Add(param); }
+		| <MAP> <LANGLE> type=<WORD> <COMMA> typeTgt=<WORD> <RANGLE>
+			{ param = new Param(attribName, "map", type.image, typeTgt.image); }
+			<LBRACE> ( value=TextOrNumberOrBoolLit() { param.Values.Add(value); } <ARROW> valueTgt=TextOrNumberOrBoolLit() { param.TgtValues.Add(valueTgt); } )?
+				( <COMMA> value=TextOrNumberOrBoolLit() { param.Values.Add(value); } <ARROW> valueTgt=TextOrNumberOrBoolLit() { param.TgtValues.Add(valueTgt); } )* <RBRACE>
+			{ attributes.Add(param); }
+		)
 }
 
 //////////////////////

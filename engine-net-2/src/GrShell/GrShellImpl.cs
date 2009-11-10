@@ -20,15 +20,47 @@ using de.unika.ipd.grGen.lgsp;
 
 namespace de.unika.ipd.grGen.grShell
 {
-    struct Param        // KeyValuePair<String, String> waere natuerlich schoener... CSharpCC kann aber kein .NET 2.0 ...
+    struct Param
     {
-        public String Key;
-        public String Value;
+        public String Key; // the attribute name
+
+        // for basic types, enums
+        public String Value; // the attribute value
+
+        // for set, map attributed
+        public String Type; // set/map(domain) type
+        public String TgtType; // map target type
+        public ArrayList Values; // set/map(domain) values 
+        public ArrayList TgtValues; // map target values
 
         public Param(String key, String value)
         {
             Key = key;
             Value = value;
+            Type = null;
+            TgtType = null;
+            Values = null;
+            TgtValues = null;
+        }
+
+        public Param(String key, String value, String type)
+        {
+            Key = key;
+            Value = value;
+            Type = type;
+            TgtType = null;
+            Values = new ArrayList();
+            TgtValues = null;
+        }
+
+        public Param(String key, String value, String type, String tgtType)
+        {
+            Key = key;
+            Value = value;
+            Type = type;
+            TgtType = tgtType;
+            Values = new ArrayList();
+            TgtValues = new ArrayList();
         }
     }
 
@@ -1229,78 +1261,160 @@ namespace de.unika.ipd.grGen.grShell
             return edge;
         }
 
+        private object ParseAttributeValue(AttributeKind attrKind, String valueString, String attribute) // not set/map/enum
+        {
+            object value = null;
+            switch(attrKind)
+            {
+                case AttributeKind.BooleanAttr:
+                {
+                    bool val;
+                    if(valueString.Equals("true", StringComparison.OrdinalIgnoreCase))
+                        val = true;
+                    else if(valueString.Equals("false", StringComparison.OrdinalIgnoreCase))
+                        val = false;
+                    else
+                    {
+                        Console.WriteLine("Attribute {0} must be either \"true\" or \"false\"!", attribute);
+                        throw new Exception("Unknown boolean literal");
+                    }
+                    value = val;
+                    break;
+                }
+                case AttributeKind.IntegerAttr:
+                {
+                    int val;
+                    if(!Int32.TryParse(valueString, out val))
+                    {
+                        Console.WriteLine("Attribute {0} must be an integer!", attribute);
+                        throw new Exception("Unknown integer literal");
+                    }
+                    value = val;
+                    break;
+                }
+                case AttributeKind.StringAttr:
+                    value = valueString;
+                    break;
+                case AttributeKind.FloatAttr:
+                {
+                    float val;
+                    if(!Single.TryParse(valueString, out val))
+                    {
+                        Console.WriteLine("Attribute \"{0}\" must be a (single) floating point number!", attribute);
+                        throw new Exception("Unknown float literal");
+                    }
+                    value = val;
+                    break;
+                }
+                case AttributeKind.DoubleAttr:
+                {
+                    double val;
+                    if(!Double.TryParse(valueString, out val))
+                    {
+                        Console.WriteLine("Attribute \"{0}\" must be a (double) floating point number!", attribute);
+                        throw new Exception("Unknown double literal");
+                    }
+                    value = val;
+                    break;
+                }
+                case AttributeKind.ObjectAttr:
+                    Console.WriteLine("Attribute \"" + attribute + "\" is an object type attribute!\n"
+                            + "It is not possible to assign a value to an object type attribute!");
+                    throw new Exception("Object attributes unsupported");
+            }
+            return value;
+        }
+
+        private object ParseAttributeValue(AttributeType attrType, String valueString, String attribute) // not set/map
+        {
+            object value = null;
+            if(attrType.Kind==AttributeKind.EnumAttr)
+            {
+                try
+                {
+                    int val;
+                    if(Int32.TryParse(valueString, out val))
+                    {
+                        value = Enum.ToObject(attrType.EnumType.EnumType, val);
+                    }
+                    else
+                    {
+                        value = Enum.Parse(attrType.EnumType.EnumType, valueString);
+                    }
+                }
+                catch(Exception)
+                {
+                }
+                if(value == null)
+                {
+                    Console.WriteLine("Attribute {0} must be one of the following values:", attribute);
+                    foreach(EnumMember member in attrType.EnumType.Members)
+                        Console.WriteLine(" - {0} = {1}", member.Name, member.Value);
+                    throw new Exception("Unknown enum member");
+                }
+            }
+            else
+            {
+                value = ParseAttributeValue(attrType.Kind, valueString, attribute);
+            }
+            return value;
+        }
+
         private bool CheckAttributes(GrGenType type, ArrayList attributes)
         {
             foreach(Param par in attributes)
             {
                 AttributeType attrType = type.GetAttributeType(par.Key);
-                if(attrType == null)
+                object value = null;
+                try
                 {
-                    Console.WriteLine("Type \"{0}\" does not have an attribute \"{1}\"!", type.Name, par.Key);
-                    return false;
-                }
-                switch(attrType.Kind)
-                {
-                    case AttributeKind.BooleanAttr:
-                        if(par.Value.Equals("true", StringComparison.OrdinalIgnoreCase))
-                            break;
-                        else if(par.Value.Equals("false", StringComparison.OrdinalIgnoreCase))
-                            break;
-                        Console.WriteLine("Attribute \"{0}\" must be either \"true\" or \"false\"!", par.Key);
-                        return false;
-                    case AttributeKind.EnumAttr:
+                    if(attrType == null)
                     {
-                        int val;
-                        if(Int32.TryParse(par.Value, out val)) break;
-                        bool ok = false;
-                        foreach(EnumMember member in attrType.EnumType.Members)
-                        {
-                            if(par.Value == member.Name)
-                            {
-                                ok = true;
-                                break;
-                            }
+                        Console.WriteLine("Type \"{0}\" does not have an attribute \"{1}\"!", type.Name, par.Key);
+                        return false;
+                    }
+                    IDictionary setmap = null;
+                    switch(attrType.Kind)
+                    {
+                    case AttributeKind.SetAttr:
+                        if(par.Value!="set") {
+                            Console.WriteLine("Attribute \"{0}\" must be a set constructor!", par.Key);
+                            throw new Exception("Set literal expected");
                         }
-                        if(ok) break;
-
-                        Console.WriteLine("Attribute \"{0}\" must be one of the following values:", par.Key);
-                        foreach(EnumMember member in attrType.EnumType.Members)
-                            Console.WriteLine(" - {0} = {1}", member.Name, member.Value);
-
-                        return false;
-                    }
-                    case AttributeKind.IntegerAttr:
-                    {
-                        int val;
-                        if(Int32.TryParse(par.Value, out val)) break;
-
-                        Console.WriteLine("Attribute \"{0}\" must be an integer!", par.Key);
-                        return false;
-                    }
-                    case AttributeKind.StringAttr:
+                        setmap = DictionaryHelper.NewDictionary(
+                            DictionaryHelper.GetTypeFromNameForDictionary(par.Type, curShellGraph.Graph),
+                            typeof(de.unika.ipd.grGen.libGr.SetValueType));
+                        foreach(object val in par.Values)
+                        {
+                            setmap.Add(ParseAttributeValue(attrType.ValueType, (String)val, par.Key), null);
+                        }
+                        value = setmap;
                         break;
-                    case AttributeKind.FloatAttr:
-                    {
-                        float val;
-                        if(Single.TryParse(par.Value, out val)) break;
-
-                        Console.WriteLine("Attribute \"{0}\" must be a floating point number!", par.Key);
-                        return false;
+                    case AttributeKind.MapAttr:
+                        if(par.Value!="map") {
+                            Console.WriteLine("Attribute \"{0}\" must be a map constructor!", par.Key);
+                            throw new Exception("Map literal expected");
+                        }
+                        setmap = DictionaryHelper.NewDictionary(
+                            DictionaryHelper.GetTypeFromNameForDictionary(par.Type, curShellGraph.Graph),
+                            DictionaryHelper.GetTypeFromNameForDictionary(par.TgtType, curShellGraph.Graph));
+                        IEnumerator tgtValEnum = par.TgtValues.GetEnumerator();
+                        foreach(object val in par.Values)
+                        {
+                            tgtValEnum.MoveNext();
+                            setmap.Add(ParseAttributeValue(attrType.KeyType, (String)val, par.Key),
+                                ParseAttributeValue(attrType.ValueType, (String)tgtValEnum.Current, par.Key));
+                        }
+                        value = setmap;
+                        break;
+                    default:
+                        value = ParseAttributeValue(attrType, par.Value, par.Key);
+                        break;
                     }
-                    case AttributeKind.DoubleAttr:
-                    {
-                        double val;
-                        if(Double.TryParse(par.Value, out val)) break;
-
-                        Console.WriteLine("Attribute \"{0}\" must be a floating point number!", par.Key);
-                        return false;
-                    }
-                    case AttributeKind.ObjectAttr:
-                    {
-                        Console.WriteLine("Attribute \"" + par.Key + "\" is an object type attribute!\n"
-                            + "It is not possible to assign a value to an object type attribute!");
-                        return false;
-                    }
+                }
+                catch(Exception)
+                {
+                    return false;
                 }
             }
             return true;
@@ -1311,106 +1425,56 @@ namespace de.unika.ipd.grGen.grShell
             foreach(Param par in attributes)
             {
                 AttributeType attrType = elem.Type.GetAttributeType(par.Key);
-                if(attrType == null)
-                {
-                    Console.WriteLine("Type \"{0}\" does not have an attribute \"{1}\"!", elem.Type.Name, par.Key);
-                    return false;
-                }
                 object value = null;
-                switch(attrType.Kind)
+                try
                 {
-                    case AttributeKind.BooleanAttr:
-                        if(par.Value.Equals("true", StringComparison.OrdinalIgnoreCase))
-                            value = true;
-                        else if(par.Value.Equals("false", StringComparison.OrdinalIgnoreCase))
-                            value = false;
-                        else
-                        {
-                            Console.WriteLine("Attribute {0} must be either \"true\" or \"false\"!", par.Key);
-                            return false;
-                        }
-                        break;
-                    case AttributeKind.EnumAttr:
+                    if(attrType == null)
                     {
-                        int val;
-                        if(Int32.TryParse(par.Value, out val))
-                        {
-                            value = val;
-                        }
-                        else
-                        {
-                            foreach(EnumMember member in attrType.EnumType.Members)
-                            {
-                                if(par.Value == member.Name)
-                                {
-                                    value = member.Value;
-                                    break;
-                                }
-                            }
-                            if(value == null)
-                            {
-                                Console.WriteLine("Attribute {0} must be one of the following values:", par.Key);
-                                foreach(EnumMember member in attrType.EnumType.Members)
-                                    Console.WriteLine(" - {0} = {1}", member.Name, member.Value);
-
-                                return false;
-                            }
-                        }
-                        break;
-                    }
-                    case AttributeKind.IntegerAttr:
-                    {
-                        int val;
-                        if(!Int32.TryParse(par.Value, out val))
-                        {
-                            Console.WriteLine("Attribute {0} must be an integer!", par.Key);
-                            return false;
-                        }
-                        value = val;
-                        break;
-                    }
-                    case AttributeKind.StringAttr:
-                        value = par.Value;
-                        break;
-                    case AttributeKind.FloatAttr:
-                    {
-                        float val;
-                        if(!Single.TryParse(par.Value, out val))
-                        {
-                            Console.WriteLine("Attribute \"{0}\" must be a floating point number!", par.Key);
-                            return false;
-                        }
-                        value = val;
-                        break;
-                    }
-                    case AttributeKind.DoubleAttr:
-                    {
-                        double val;
-                        if(!Double.TryParse(par.Value, out val))
-                        {
-                            Console.WriteLine("Attribute \"{0}\" must be a floating point number!", par.Key);
-                            return false;
-                        }
-                        value = val;
-                        break;
-                    }
-                    case AttributeKind.ObjectAttr:
-                    {
-                        Console.WriteLine("Attribute \"" + par.Key + "\" is an object type attribute!\n"
-                            + "It is not possible to assign a value to an object type attribute!");
+                        Console.WriteLine("Type \"{0}\" does not have an attribute \"{1}\"!", elem.Type.Name, par.Key);
                         return false;
                     }
+                    IDictionary setmap = null;
+                    switch(attrType.Kind)
+                    {
                     case AttributeKind.SetAttr:
-                    {
-                        // MAP TODO
-                        return false;
-                    }
+                        if(par.Value!="set") {
+                            Console.WriteLine("Attribute \"{0}\" must be a set constructor!", par.Key);
+                            throw new Exception("Set literal expected");
+                        }
+                        setmap = DictionaryHelper.NewDictionary(
+                            DictionaryHelper.GetTypeFromNameForDictionary(par.Type, curShellGraph.Graph),
+                            typeof(de.unika.ipd.grGen.libGr.SetValueType));
+                        foreach(object val in par.Values)
+                        {
+                            setmap.Add(ParseAttributeValue(attrType.ValueType, (String)val, par.Key), null);
+                        }
+                        value = setmap;
+                        break;
                     case AttributeKind.MapAttr:
-                    {
-                        // MAP TODO
-                        return false;
+                        if(par.Value!="map") {
+                            Console.WriteLine("Attribute \"{0}\" must be a map constructor!", par.Key);
+                            throw new Exception("Map literal expected");
+                        }
+                        setmap = DictionaryHelper.NewDictionary(
+                            DictionaryHelper.GetTypeFromNameForDictionary(par.Type, curShellGraph.Graph),
+                            DictionaryHelper.GetTypeFromNameForDictionary(par.TgtType, curShellGraph.Graph));
+                        IEnumerator tgtValEnum = par.TgtValues.GetEnumerator();
+                        foreach(object val in par.Values)
+                        {
+                            tgtValEnum.MoveNext();
+                            setmap.Add(ParseAttributeValue(attrType.KeyType, (String)val, par.Key),
+                                ParseAttributeValue(attrType.ValueType, (String)tgtValEnum.Current, par.Key));
+                        }
+                        value = setmap;
+                        break;
+                    default:
+                        value = ParseAttributeValue(attrType, par.Value, par.Key);
+                        break;
                     }
-                      
+                }
+                catch(Exception)
+                {
+                    return false;
                 }
 
                 AttributeChangeType changeType = AttributeChangeType.Assign;
