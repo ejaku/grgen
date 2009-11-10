@@ -1,4 +1,4 @@
-﻿v2.6beta (2009-11-03)
+﻿v2.6beta (2009-11-10)
  New sequencing constructs in xgrs:
   - operator then-left l <; r executing l then r, returning the execution result of l
   - operator then-right l ;> r executing l then r, returning the execution result of r
@@ -34,6 +34,11 @@
   - modify/replace of nested alternative/iterated/multiple/optional-patterns can't take parameters any more,
      better: no need to give them any more, as they can access the rhs elements of the nesting pattern
 
+ Export/Import:
+  - GRS import/export (and GrShell) now support set/map attribute initialization
+    (example: new :N1($="$0", a = set<int>{"1","2","3"}, b = map<string,boolean>{"foo"->true,"bar"->false})
+  - GXL import/export now supports enum attributes (set/map missing)
+
  Fixes:
   - escaping of quotation marks in VCG files
   - escaping of quotation marks and newlines in communication with yComp
@@ -46,6 +51,7 @@
   - set/map commands in GrShell are deprecated (succeeded by xgrs set/map operators)
   - now error reported on attempt to delete and return elments allowed to be matched homomorphically
   - added exitonfailure to GrShell validate command leaving GrShell on failed validation with error code
+
   
 v2.5.1 (2009-09-09)
  Additions:
