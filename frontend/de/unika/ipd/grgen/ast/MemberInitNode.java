@@ -19,6 +19,8 @@ import de.unika.ipd.grgen.ir.Entity;
 import de.unika.ipd.grgen.ir.Expression;
 import de.unika.ipd.grgen.ir.IR;
 import de.unika.ipd.grgen.ir.MemberInit;
+import de.unika.ipd.grgen.ir.MapInit;
+import de.unika.ipd.grgen.ir.SetInit;
 import de.unika.ipd.grgen.parser.Coords;
 
 /**
@@ -107,6 +109,16 @@ public class MemberInitNode extends BaseNode {
 	 */
 	@Override
 	protected IR constructIR() {
-		return new MemberInit(lhs.checkIR(Entity.class), rhs.checkIR(Expression.class));
+		if(rhs instanceof MapInitNode) {
+			MapInit mapInit = rhs.checkIR(MapInit.class);
+			mapInit.setMember(lhs.checkIR(Entity.class));
+			return mapInit;
+		} else if(rhs instanceof SetInitNode) {
+			SetInit setInit = rhs.checkIR(SetInit.class);
+			setInit.setMember(lhs.checkIR(Entity.class));
+			return setInit;
+		} else {
+			return new MemberInit(lhs.checkIR(Entity.class), rhs.checkIR(Expression.class));
+		}
 	}
 }

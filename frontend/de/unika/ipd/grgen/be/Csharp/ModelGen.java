@@ -636,17 +636,12 @@ set_init_loop:
 		sb.append(indentString + "// explicit initializations of " + formatIdentifiable(type) + " for target " + formatIdentifiable(targetType) + "\n");
 
 		// init members of primitive value with explicit initialization
-member_init_loop:
 		for(MemberInit memberInit : type.getMemberInits()) {
+			Entity member = memberInit.getMember();
 			if(memberInit.getMember().isConst())
 				continue;
-
-			if(type!=targetType) { // don't generate superclass init if target type contains own init
-				for(MemberInit tmi : targetType.getMemberInits()) {
-					if(memberInit.getMember() == tmi.getMember())
-						continue member_init_loop;
-				}
-			}
+			if(!generateInitializationOfTypeAtCreatingTargetTypeInitialization(member, type, targetType))
+				continue;
 
 			String attrName = formatIdentifiable(memberInit.getMember());
 			sb.append(indentString + varName + ".@" + attrName + " = ");
@@ -655,17 +650,12 @@ member_init_loop:
 		}
 
 		// init members of map value with explicit initialization
-map_init_loop:
 		for(MapInit mapInit : type.getMapInits()) {
+			Entity member = mapInit.getMember();
 			if(mapInit.getMember().isConst())
 				continue;
-
-			if(type!=targetType) { // don't generate superclass init if target type contains own init
-				for(MapInit tmi : targetType.getMapInits()) {
-					if(mapInit.getMember() == tmi.getMember())
-						continue map_init_loop;
-				}
-			}
+			if(!generateInitializationOfTypeAtCreatingTargetTypeInitialization(member, type, targetType))
+				continue;
 
 			String attrName = formatIdentifiable(mapInit.getMember());
 			for(MapItem item : mapInit.getMapItems()) {
@@ -678,17 +668,12 @@ map_init_loop:
 		}
 
 		// init members of set value with explicit initialization
-set_init_loop:
 		for(SetInit setInit : type.getSetInits()) {
+			Entity member = setInit.getMember();
 			if(setInit.getMember().isConst())
 				continue;
-
-			if(type!=targetType) { // don't generate superclass init if target type contains own init
-				for(SetInit tsi : targetType.getSetInits()) {
-					if(setInit.getMember() == tsi.getMember())
-						continue set_init_loop;
-				}
-			}
+			if(!generateInitializationOfTypeAtCreatingTargetTypeInitialization(member, type, targetType))
+				continue;
 
 			String attrName = formatIdentifiable(setInit.getMember());
 			for(SetItem item : setInit.getSetItems()) {
@@ -708,19 +693,13 @@ set_init_loop:
 		HashSet<Entity> initializedConstMembers = new HashSet<Entity>();
 
 		// init const members of primitive value with explicit initialization
-member_init_loop:
 		for(MemberInit memberInit : type.getMemberInits()) {
 			Entity member = memberInit.getMember();
 			if(!member.isConst())
 				continue;
-
-			if(type!=targetType) { // don't generate superclass init if target type contains own init
-				for(MemberInit tmi : targetType.getMemberInits()) {
-					if(member == tmi.getMember())
-						continue member_init_loop;
-				}
-			}
-
+			if(!generateInitializationOfTypeAtCreatingTargetTypeInitialization(member, type, targetType))
+				continue;
+			
 			String attrType = formatAttributeType(member);
 			String attrName = formatIdentifiable(member);
 			sb.append("\t\tprivate static readonly " + attrType + " _" + attrName + " = ");
@@ -731,18 +710,12 @@ member_init_loop:
 		}
 
 		// init const members of map value with explicit initialization
-map_init_loop:
 		for(MapInit mapInit : type.getMapInits()) {
 			Entity member = mapInit.getMember();
 			if(!member.isConst())
 				continue;
-
-			if(type!=targetType) { // don't generate superclass init if target type contains own init
-				for(MapInit tmi : targetType.getMapInits()) {
-					if(member == tmi.getMember())
-						continue map_init_loop;
-				}
-			}
+			if(!generateInitializationOfTypeAtCreatingTargetTypeInitialization(member, type, targetType))
+				continue;
 
 			String attrType = formatAttributeType(member);
 			String attrName = formatIdentifiable(member);
@@ -765,18 +738,12 @@ map_init_loop:
 		}
 
 		// init const members of set value with explicit initialization
-set_init_loop:
 		for(SetInit setInit : type.getSetInits()) {
 			Entity member = setInit.getMember();
 			if(!member.isConst())
 				continue;
-
-			if(type!=targetType) { // don't generate superclass init if target type contains own init
-				for(SetInit tsi : targetType.getSetInits()) {
-					if(member == tsi.getMember())
-						continue set_init_loop;
-				}
-			}
+			if(!generateInitializationOfTypeAtCreatingTargetTypeInitialization(member, type, targetType))
+				continue;
 
 			String attrType = formatAttributeType(member);
 			String attrName = formatIdentifiable(member);
@@ -798,18 +765,14 @@ set_init_loop:
 
 		sb.append("\t\t// implicit initializations of " + formatIdentifiable(type) + " for target " + formatIdentifiable(targetType) + "\n");
 
-member_loop:
 		for(Entity member : type.getMembers()) {
-			if(!member.isConst()) continue;
-			if(initializedConstMembers.contains(member)) continue;
-
-			if(type != targetType) { // don't generate superclass init if target type contains own init
-				for(MemberInit tmi : targetType.getMemberInits()) {
-					if(member == tmi.getMember())
-						continue member_loop;
-				}
-			}
-
+			if(!member.isConst())
+				continue;
+			if(initializedConstMembers.contains(member))
+				continue;
+			if(!generateInitializationOfTypeAtCreatingTargetTypeInitialization(member, type, targetType))
+				continue;
+						
 			Type memberType = member.getType();
 			String attrType = formatAttributeType(member);
 			String attrName = formatIdentifiable(member);
@@ -822,6 +785,48 @@ member_loop:
 		}
 	}
 
+	boolean generateInitializationOfTypeAtCreatingTargetTypeInitialization(
+			Entity member, InheritanceType type, InheritanceType targetType)
+	{
+		// to decide on generating targetType initialization:
+		//  - generate initialization of currently focused supertype type? 
+		// goal: only generate the initialization closest to the target type
+		// -> don't generate initialization of type if there exists a subtype of type,
+		// which is a supertype of the target type, and which contains an initialization
+		
+		Set<InheritanceType> childrenOfFocusedType = 
+			new LinkedHashSet<InheritanceType>(type.getAllSubTypes());
+		childrenOfFocusedType.remove(type); // we want children only, comes with type itself included
+		
+		Set<InheritanceType> targetTypeAndParents = 
+			new LinkedHashSet<InheritanceType>(targetType.getAllSuperTypes());
+		targetTypeAndParents.add(targetType); // we want it inclusive target, comes exclusive
+	
+		Set<InheritanceType> intersection = 
+			new LinkedHashSet<InheritanceType>(childrenOfFocusedType);
+		intersection.retainAll(targetTypeAndParents); // the set is empty if type==targetType
+
+		for(InheritanceType relevantChildrenOfFocusedType : intersection)
+		{
+			// if a type below focused type contains an initialization for current member
+			// then we skip the initialization of the focused type
+			for(MemberInit tmi : relevantChildrenOfFocusedType.getMemberInits()) {
+				if(member == tmi.getMember())
+					return false;
+			}
+			for(MapInit tmi : relevantChildrenOfFocusedType.getMapInits()) {
+				if(member == tmi.getMember())
+					return false;
+			}
+			for(SetInit tsi : relevantChildrenOfFocusedType.getSetInits()) {
+				if(member == tsi.getMember())
+					return false;
+			}
+		}
+		
+		return true;
+	}
+	
 	protected void genQualAccess(StringBuffer sb, Qualification qual, Object modifyGenerationState) {
 		Entity owner = qual.getOwner();
 		sb.append("((I" + getNodeOrEdgeTypePrefix(owner) +

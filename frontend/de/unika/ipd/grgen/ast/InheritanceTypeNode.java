@@ -17,8 +17,11 @@ import java.util.LinkedHashSet;
 import java.util.Map;
 import java.util.Vector;
 
+import de.unika.ipd.grgen.ir.IR;
 import de.unika.ipd.grgen.ir.InheritanceType;
 import de.unika.ipd.grgen.ir.MemberInit;
+import de.unika.ipd.grgen.ir.MapInit;
+import de.unika.ipd.grgen.ir.SetInit;
 import de.unika.ipd.grgen.parser.Symbol;
 
 /**
@@ -247,7 +250,14 @@ public abstract class InheritanceTypeNode extends CompoundTypeNode
 			}
 			else if(n instanceof MemberInitNode) {
 				MemberInitNode mi = (MemberInitNode)n;
-				inhType.addMemberInit(mi.checkIR(MemberInit.class));
+				IR init = mi.getIR();
+				if(init instanceof MapInit) {
+					inhType.addMapInit(mi.checkIR(MapInit.class));
+				} else if(init instanceof SetInit) {
+					inhType.addSetInit(mi.checkIR(SetInit.class));					
+				} else {
+					inhType.addMemberInit(mi.checkIR(MemberInit.class));
+				}
 			}
 			else if(n instanceof MapInitNode) {
 				MapInitNode mi = (MapInitNode) n;

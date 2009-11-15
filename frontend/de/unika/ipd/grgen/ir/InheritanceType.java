@@ -96,13 +96,13 @@ public abstract class InheritanceType extends CompoundType {
 		t.directSubTypes.add(this);
 	}
 
-	/** @return Collection of all types, this type directly inherits from. */
-	public Collection<InheritanceType> getDirectSuperTypes() {
-		return Collections.unmodifiableCollection(directSuperTypes);
+	/** @return Set of all types, this type directly inherits from. */
+	public Set<InheritanceType> getDirectSuperTypes() {
+		return Collections.unmodifiableSet(directSuperTypes);
 	}
 
-	/** @return Collection of all super types this type inherits from (not including itself). */
-	public Collection<InheritanceType> getAllSuperTypes() {
+	/** @return Set of all super types this type inherits from (not including itself). */
+	public Set<InheritanceType> getAllSuperTypes() {
 		if(allSuperTypes==null) {
 			allSuperTypes = new LinkedHashSet<InheritanceType>();
 
@@ -111,11 +111,11 @@ public abstract class InheritanceType extends CompoundType {
 				allSuperTypes.add(type);
 			}
 		}
-		return Collections.unmodifiableCollection(allSuperTypes);
+		return Collections.unmodifiableSet(allSuperTypes);
 	}
 
-	/** @return Collection of all sub types this type inherits from (including itself). */
-	public Collection<InheritanceType> getAllSubTypes() {
+	/** @return Set of all sub types this type inherits from (including itself). */
+	public Set<InheritanceType> getAllSubTypes() {
 		if(allSubTypes==null) {
 			allSubTypes = new LinkedHashSet<InheritanceType>();
 			allSubTypes.add(this);
@@ -125,12 +125,12 @@ public abstract class InheritanceType extends CompoundType {
 				allSubTypes.add(type);
 			}
 		}
-		return Collections.unmodifiableCollection(allSubTypes);
+		return Collections.unmodifiableSet(allSubTypes);
 	}
 
 	/** Get all subtypes of this type. */
-	public Collection<InheritanceType> getDirectSubTypes() {
-		return Collections.unmodifiableCollection(directSubTypes);
+	public Set<InheritanceType> getDirectSubTypes() {
+		return Collections.unmodifiableSet(directSubTypes);
 	}
 
 	/**

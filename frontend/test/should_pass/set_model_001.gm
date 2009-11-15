@@ -5,8 +5,10 @@ enum et
 
 node class A
 {
-	val:int;
-	strval:string;
+	val:int = 42;
+	const constVal:int = 42;
+	strval:string = "foo";
+	const constStrval:string = "foo";
 	niceSet:set<string> = {
 		"foo",
 		"bar"
@@ -29,8 +31,10 @@ node class A
 
 edge class E
 {
-	val:int;
-	strval:string;
+	val:int = 42;
+	const constVal:int = 42;
+	strval:string = "foo";
+	const constStrval:string = "foo";
 	niceSet:set<string> = {
 		"foo",
 		"bar"
@@ -47,5 +51,131 @@ edge class E
 	};
 	enumSet:set<et> = {
 		et::a
+	};
+}
+
+node class AA extends A
+{
+	val = 666;
+	constVal = 666;
+	strval = "fooo";
+	constStrval = "fooo";
+	niceSet = {
+		"fooo",
+		"baar"
+	};
+	constNiceSet = {
+		"fooo",
+		"baar"
+	};
+	spiceSet = {
+		666
+	};
+	constSpiceSet = {
+		666
+	};
+	enumSet = {
+		et::a,
+		et::b,
+		et::c
+	};
+}
+
+node class AAA extends AA
+{
+	val = 4711;
+	constVal = 4711;
+	strval = "urgs";
+	constStrval = "urgs";
+	spiceSet = {
+		4711
+	};
+	constSpiceSet = {
+		4711
+	};
+	enumSet = {
+		et::b
+	};
+}
+
+node class AAb extends A
+{
+	val = 666;
+	constVal = 666;
+	strval = "fooo";
+	constStrval = "fooo";
+	spiceSet = set<int>{
+		666
+	};
+	constSpiceSet = set<int>{
+		666
+	};
+	enumSet = set<et>{
+		et::a,
+		et::b,
+		et::c
+	};
+}
+
+edge class EE extends E
+{
+	val = 666;
+	constVal = 666;
+	strval = "fooo";
+	constStrval = "fooo";
+	niceSet = {
+		"fooo",
+		"baar"
+	};
+	constNiceSet = {
+		"fooo",
+		"baar"
+	};
+	spiceSet = {
+		666
+	};
+	constSpiceSet = {
+		666
+	};
+	enumSet = {
+		et::a,
+		et::b,
+		et::c
+	};
+}
+
+edge class EEE extends EE
+{
+	val = 4711;
+	constVal = 4711;
+	strval = "urgs";
+	constStrval = "urgs";
+	spiceSet = {
+		4711
+	};
+	constSpiceSet = {
+		4711
+	};
+	enumSet = {
+		et::b
+	};
+}
+
+edge class EEb extends E
+{
+	val = 666;
+	constVal = 666;
+	strval = "fooo";
+	constStrval = "fooo";
+	spiceSet = set<int>{
+		666
+	};
+	constSpiceSet = set<int>{
+		666
+	};
+	enumSet = set<et>{
+		et::a,
+		et::b,
+		et::c
 	};
 }

@@ -41,6 +41,11 @@ public class SetInit extends Expression {
 		return setItems;
 	}
 
+	public void setMember(Entity entity) {
+		assert(member==null && entity!=null);
+		member = entity;
+	}
+	
 	public Entity getMember() {
 		return member;
 	}
