@@ -6,6 +6,7 @@
 
 using System;
 using System.Diagnostics;
+using System.Collections.Generic;
 using de.unika.ipd.grGen.lgsp;
 using de.unika.ipd.grGen.libGr;
 using de.unika.ipd.grGen.Action_JavaProgramGraphs;
@@ -81,7 +82,9 @@ namespace JavaProgramGraphs
             graph.FreeVisitedFlag(visitedFlagId);
 
             // export changed graph (alternatively you may export it as InstanceGraphAfter.gxl)
-            Porter.Export(graph, "InstanceGraphAfter.grs");
+            List<String> exportParameters = new List<string>();
+            exportParameters.Add("InstanceGraphAfter.grs");
+            Porter.Export(graph, exportParameters);
         }
 
         static void Main(string[] args)

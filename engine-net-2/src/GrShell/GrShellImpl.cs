@@ -489,6 +489,14 @@ namespace de.unika.ipd.grGen.grShell
                         HelpValidate(commands);
                         return;
 
+                    case "import":
+                        HelpImport(commands);
+                        return;
+
+                    case "export":
+                        HelpExport(commands);
+                        return;
+
                     default:
                         Console.WriteLine("No further help available.\n");
                         break;
@@ -514,9 +522,8 @@ namespace de.unika.ipd.grGen.grShell
                 + " - validate ...              Validate related commands\n"
                 + " - dump ...                  Dump related commands\n"
                 + " - save graph <filename>     Saves the current graph as a GrShell script\n"
-                + " - export <filename>         Exports the current graph. The extension states\n"
-                + "                             which format shall be used.\n"
-                + " - import <filename>+        Imports a graph model and/or a graph instance\n"
+                + " - export ...                Exports the current graph.\n"
+                + " - import ...                Imports a graph instance and/or a graph model\n"
                 + " - echo <text>               Writes the given text to the console\n"
                 + " - custom graph ...          Graph backend specific commands\n"
                 + " - custom actions ...        Action backend specific commands\n"
@@ -552,7 +559,8 @@ namespace de.unika.ipd.grGen.grShell
                 + "                               - true or false\n"
                 + " - ! <command>               Executes the given system command\n"
                 + " - help <command>*           Displays this help or help about a command\n"
-                + " - exit | quit               Exits the GrShell\n");
+                + " - exit | quit               Exits the GrShell\n"
+                + "Type \"help <command>\" to get extended help on <command> (in case of ...)\n");
         }
 
         public void HelpNew(List<String> commands)
@@ -804,6 +812,47 @@ namespace de.unika.ipd.grGen.grShell
                 + "   the graph model. In strict mode, all graph elements have to be mentioned\n"
                 + "   as part of a connection assertion. If exitonfailure is specified\n"
                 + "   and the graph is invalid the shell is exited\n");
+        }
+
+        public void HelpImport(List<String> commands)
+        {
+            if(commands.Count > 1)
+            {
+                Console.WriteLine("\nNo further help available.");
+            }
+
+            Console.WriteLine("List of available commands for \"import\":\n"
+                + " - import <filename> [<modeloverride>]\n"
+                + "   Imports the graph from the file <filename>,\n"
+                + "   the filename extension specifies the format to be used.\n"
+                + "   Available formats are GRS with \".grs\" and GXL with \".gxl\".\n"
+                + "   The GRS-file must come with the \".gm\" of the original graph,\n"
+                + "   and the \".grg\" of same name if you want to apply the rules to it.\n"
+                + "   The <modeloverride> may specifiy a \".gm\" file to get the model to use from,\n"
+                + "   instead of using the model included in the GXL file.\n"
+                + "   To apply GrGen.NET rules on an imported GXL graph,\n"
+                + "   a compatible model override must be used, followed by a\n"
+                + "   \"select actions <dll-name>\" of the actions dll built from the \".grg\"\n"
+                + "   with the rules including the overriding model.\n");
+        }
+
+        public void HelpExport(List<String> commands)
+        {
+            if(commands.Count > 1)
+            {
+                Console.WriteLine("\nNo further help available.");
+            }
+
+            Console.WriteLine("List of available commands for \"export\":\n"
+                + " - export <filename> [withvariables]\n"
+                + "   Exports the current graph into the file <filename>,\n"
+                + "   the filename extension specifies the format to be used.\n"
+                + "   Available formats are GRS with \".grs\" and GXL with \".gxl\".\n"
+                + "   The GXL-file contains a model of its own,\n"
+                + "   the GRS-file is only complete with the \".gm\" of the original graph\n"
+                + "   (and the \".grg\" if you want to use the original rules).\n"
+                + "   The withvariables parameter is only valid for GRS export; if given,\n"
+                + "   in addition to nodes and edges the variables get exported, too.\n");
         }
 
         #endregion Help text methods
@@ -3200,7 +3249,7 @@ showavail:
 					sw.WriteLine();
 				}
 
-                GRSExport.Export(graph, sw);
+                GRSExport.Export(graph, sw, true);
 
                 foreach(KeyValuePair<NodeType, GrColor> nodeTypeColor in curShellGraph.DumpInfo.NodeTypeColors)
                     sw.WriteLine("dump set node only {0} color {1}", nodeTypeColor.Key.Name, nodeTypeColor.Value);
@@ -3287,13 +3336,13 @@ showavail:
             }
         }
 
-        public bool Export(String filename)
+        public bool Export(List<String> filenameParameters)
         {
             if(!GraphExists()) return false;
 
             try
             {
-                Porter.Export(curShellGraph.Graph, filename);
+                Porter.Export(curShellGraph.Graph, filenameParameters);
             }
             catch(Exception e)
             {
@@ -3304,7 +3353,7 @@ showavail:
             return true;
         }
 
-        public bool Import(List<String> filenames)
+        public bool Import(List<String> filenameParameters)
         {
             if(!BackendExists()) return false;
 
@@ -3312,7 +3361,7 @@ showavail:
             try
             {
                 int startTime = Environment.TickCount;
-                graph = Porter.Import(curGraphBackend, filenames);
+                graph = Porter.Import(curGraphBackend, filenameParameters);
                 System.Console.Out.WriteLine("import done after: " + (Environment.TickCount - startTime) + " ms");
                 System.Console.Out.WriteLine("graph size after import: " + System.GC.GetTotalMemory(true) + " bytes");
                 startTime = Environment.TickCount;

@@ -17,10 +17,12 @@ namespace de.unika.ipd.grGen.libGr
     public class GRSExport : IDisposable
     {
         StreamWriter writer;
+        bool withVariables;
 
-        protected GRSExport(String filename)
+        protected GRSExport(String filename, bool withVariables)
         {
             writer = new StreamWriter(filename);
+            this.withVariables = withVariables;
         }
 
         public void Dispose()
@@ -38,15 +40,16 @@ namespace de.unika.ipd.grGen.libGr
         /// </summary>
         /// <param name="graph">The graph to export.</param>
         /// <param name="exportFilename">The filename for the exported file.</param>
-        public static void Export(IGraph graph, String exportFilename)
+        /// <param name="withVariables">Export the graph variables, too?</param>
+        public static void Export(IGraph graph, String exportFilename, bool withVariables)
         {
-            using(GRSExport export = new GRSExport(exportFilename))
+            using(GRSExport export = new GRSExport(exportFilename, withVariables))
                 export.Export(graph);
         }
 
         protected void Export(IGraph graph)
         {
-            Export(graph, writer);
+            Export(graph, writer, withVariables);
         }
 
         /// <summary>
@@ -55,7 +58,8 @@ namespace de.unika.ipd.grGen.libGr
         /// </summary>
         /// <param name="graph">The graph to export.</param>
         /// <param name="sw">The stream writer of the file to export into.</param>
-        public static void Export(IGraph graph, StreamWriter sw)
+        /// <param name="withVariables">Export the graph variables, too?</param>
+        public static void Export(IGraph graph, StreamWriter sw, bool withVariables)
         {
             sw.WriteLine("# begin of graph \"{0}\" saved by GrsExport", graph.Name);
             sw.WriteLine();
@@ -81,12 +85,15 @@ namespace de.unika.ipd.grGen.libGr
                     }
                 }
                 sw.WriteLine(")");
-                LinkedList<Variable> vars = graph.GetElementVariables(node);
-                if (vars != null)
+                if(withVariables)
                 {
-                    foreach (Variable var in vars)
+                    LinkedList<Variable> vars = graph.GetElementVariables(node);
+                    if(vars != null)
                     {
-                        sw.WriteLine("#{0} = @({1})", var.Name, StringToTextToken(graph.GetElementName(node)));
+                        foreach(Variable var in vars)
+                        {
+                            sw.WriteLine("{0} = @({1})", var.Name, StringToTextToken(graph.GetElementName(node)));
+                        }
                     }
                 }
                 numNodes++;
@@ -110,12 +117,16 @@ namespace de.unika.ipd.grGen.libGr
                         }
                     }
                     sw.WriteLine(") -> @({0})", StringToTextToken(graph.GetElementName(edge.Target)));
-                    LinkedList<Variable> vars = graph.GetElementVariables(edge);
-                    if (vars != null)
+
+                    if(withVariables)
                     {
-                        foreach (Variable var in vars)
+                        LinkedList<Variable> vars = graph.GetElementVariables(edge);
+                        if(vars != null)
                         {
-                            sw.WriteLine("#{0} = @({1})", var.Name, StringToTextToken(graph.GetElementName(edge)));
+                            foreach(Variable var in vars)
+                            {
+                                sw.WriteLine("{0} = @({1})", var.Name, StringToTextToken(graph.GetElementName(edge)));
+                            }
                         }
                     }
                     numEdges++;

@@ -2394,19 +2394,16 @@
             Import and export support for graphs.
             </summary>
         </member>
-        <member name="M:de.unika.ipd.grGen.libGr.Porter.Export(de.unika.ipd.grGen.libGr.IGraph,System.String)">
+        <member name="M:de.unika.ipd.grGen.libGr.Porter.Export(de.unika.ipd.grGen.libGr.IGraph,System.Collections.Generic.List{System.String})">
             <summary>
             Exports the given graph to a file with the given filename.
             The format is determined by the file extension.
             Any errors will be reported by exception.
             </summary>
             <param name="graph">The graph to export.</param>
-            <param name="exportFilename">The filename for the exported file.</param>
-        </member>
-        <member name="M:de.unika.ipd.grGen.libGr.Porter.ListGet(System.Collections.Generic.List{System.String},System.Int32)">
-            <summary>
-            Returns the string at the given index, or null if the index is out of bounds.
-            </summary>
+            <param name="filenameParameters">The names of the files to be exported.
+            The first must be a filename, the following may be used for giving export parameters
+            (in fact currently no exporter supports multiple files).</param>
         </member>
         <member name="M:de.unika.ipd.grGen.libGr.Porter.Import(de.unika.ipd.grGen.libGr.IBackend,System.Collections.Generic.List{System.String})">
             <summary>
@@ -2416,7 +2413,7 @@
             Any error will be reported by exception.
             </summary>
             <param name="backend">The backend to use to create the graph.</param>
-            <param name="filenames">The names of the files to be imported.</param>
+            <param name="filenameParameters">The names of the files to be imported.</param>
             <returns>The imported graph.</returns>
         </member>
         <member name="M:de.unika.ipd.grGen.libGr.Porter.Import(System.String,de.unika.ipd.grGen.libGr.IBackend,de.unika.ipd.grGen.libGr.IGraphModel)">
@@ -2430,6 +2427,11 @@
             <param name="backend">The backend to use to create the graph.</param>
             <param name="graphModel">The graph model to be used, 
                 it must be conformant to the model used in the file to be imported.</param>
+        </member>
+        <member name="M:de.unika.ipd.grGen.libGr.Porter.ListGet(System.Collections.Generic.List{System.String},System.Int32)">
+            <summary>
+            Returns the string at the given index, or null if the index is out of bounds.
+            </summary>
         </member>
         <member name="T:de.unika.ipd.grGen.libGr.ITypeModel">
             <summary>
@@ -4134,21 +4136,23 @@
             Exports graphs to the GRS format.
             </summary>
         </member>
-        <member name="M:de.unika.ipd.grGen.libGr.GRSExport.Export(de.unika.ipd.grGen.libGr.IGraph,System.String)">
+        <member name="M:de.unika.ipd.grGen.libGr.GRSExport.Export(de.unika.ipd.grGen.libGr.IGraph,System.String,System.Boolean)">
             <summary>
             Exports the given graph to a GRS file with the given filename.
             Any errors will be reported by exception.
             </summary>
             <param name="graph">The graph to export.</param>
             <param name="exportFilename">The filename for the exported file.</param>
+            <param name="withVariables">Export the graph variables, too?</param>
         </member>
-        <member name="M:de.unika.ipd.grGen.libGr.GRSExport.Export(de.unika.ipd.grGen.libGr.IGraph,System.IO.StreamWriter)">
+        <member name="M:de.unika.ipd.grGen.libGr.GRSExport.Export(de.unika.ipd.grGen.libGr.IGraph,System.IO.StreamWriter,System.Boolean)">
             <summary>
             Exports the given graph in grs format to the file given by the stream writer.
             Any errors will be reported by exception.
             </summary>
             <param name="graph">The graph to export.</param>
             <param name="sw">The stream writer of the file to export into.</param>
+            <param name="withVariables">Export the graph variables, too?</param>
         </member>
         <member name="M:de.unika.ipd.grGen.libGr.GRSExport.EmitAttributes(de.unika.ipd.grGen.libGr.AttributeType,System.Object,System.IO.StreamWriter)">
             <summary>

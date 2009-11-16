@@ -552,7 +552,7 @@ String FilenameOptionalAtEndOfLine():
 	)
 }
 
-String FilenameOrEndOfLine():
+String FilenameParameterOrEndOfLine():
 {
     Token tok;
 }
@@ -571,14 +571,14 @@ String FilenameOrEndOfLine():
 	)
 }
 
-List<String> FilenameList():
+List<String> FilenameParameterList():
 {
 	List<String> list = new List<String>();
 	String cur;
 }
 {
 	{
-		while((cur = FilenameOrEndOfLine()) != null)
+		while((cur = FilenameParameterOrEndOfLine()) != null)
 			list.Add(cur);
 		return list;
 	}	
@@ -776,7 +776,7 @@ void ShellCommand():
 	bool shellGraphSpecified = false, boolVal;
 	bool strict = false, exitOnFailure = false, validated = false;
 	int num;
-	List<String> filenames, parameters;
+	List<String> parameters;
 }
 {
     "!" str1=CommandLine()
@@ -923,14 +923,14 @@ void ShellCommand():
 		impl.SaveGraph(str1);
 	}
 |
-	"export" str1=Filename() LineEnd()
+	"export" parameters=FilenameParameterList()
 	{
-		noError = impl.Export(str1);
+		noError = impl.Export(parameters);
 	}
 |
-	"import" filenames=FilenameList()
+	"import" parameters=FilenameParameterList()
 	{
-		noError = impl.Import(filenames);
+		noError = impl.Import(parameters);
 	}
 |
 	"echo" str1=Text() LineEnd()

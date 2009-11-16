@@ -21,25 +21,18 @@ namespace de.unika.ipd.grGen.libGr
         /// Any errors will be reported by exception.
         /// </summary>
         /// <param name="graph">The graph to export.</param>
-        /// <param name="exportFilename">The filename for the exported file.</param>
-        public static void Export(IGraph graph, String exportFilename)
+        /// <param name="filenameParameters">The names of the files to be exported.
+        /// The first must be a filename, the following may be used for giving export parameters
+        /// (in fact currently no exporter supports multiple files).</param>
+        public static void Export(IGraph graph, List<String> filenameParameters)
         {
-            if(exportFilename.EndsWith(".gxl", StringComparison.InvariantCultureIgnoreCase))
-                GXLExport.Export(graph, exportFilename);
-            else if (exportFilename.EndsWith(".grs", StringComparison.InvariantCultureIgnoreCase))
-                GRSExport.Export(graph, exportFilename);
+            String first = ListGet(filenameParameters, 0);
+            if(first.EndsWith(".gxl", StringComparison.InvariantCultureIgnoreCase))
+                GXLExport.Export(graph, first);
+            else if (first.EndsWith(".grs", StringComparison.InvariantCultureIgnoreCase))
+                GRSExport.Export(graph, first, ListGet(filenameParameters, 1)=="withvariables");
             else
                 throw new NotSupportedException("File format not supported");
-        }
-
-        /// <summary>
-        /// Returns the string at the given index, or null if the index is out of bounds.
-        /// </summary>
-        private static String ListGet(List<String> list, int index)
-        {
-            if(0 <= index && index < list.Count)
-                return list[index];
-            return null;
         }
 
         /// <summary>
@@ -49,21 +42,21 @@ namespace de.unika.ipd.grGen.libGr
         /// Any error will be reported by exception.
         /// </summary>
         /// <param name="backend">The backend to use to create the graph.</param>
-        /// <param name="filenames">The names of the files to be imported.</param>
+        /// <param name="filenameParameters">The names of the files to be imported.</param>
         /// <returns>The imported graph.</returns>
-        public static IGraph Import(IBackend backend, List<String> filenames)
+        public static IGraph Import(IBackend backend, List<String> filenameParameters)
         {
-            String first = ListGet(filenames, 0);
+            String first = ListGet(filenameParameters, 0);
             if(first.EndsWith(".gxl", StringComparison.InvariantCultureIgnoreCase))
-                return GXLImport.Import(first, ListGet(filenames, 1), backend);
+                return GXLImport.Import(first, ListGet(filenameParameters, 1), backend);
             else if(first.EndsWith(".grs", StringComparison.InvariantCultureIgnoreCase))
-                return porter.GRSImporter.Import(first, ListGet(filenames, 1), backend);
+                return porter.GRSImporter.Import(first, ListGet(filenameParameters, 1), backend);
             else if(first.EndsWith(".ecore", StringComparison.InvariantCultureIgnoreCase))
             {
                 List<String> ecores = new List<String>();
                 String grg = null;
                 String xmi = null;
-                foreach(String filename in filenames)
+                foreach(String filename in filenameParameters)
                 {
                     if(filename.EndsWith(".ecore")) ecores.Add(filename);
                     else if(filename.EndsWith(".grg"))
@@ -103,6 +96,16 @@ namespace de.unika.ipd.grGen.libGr
                 return porter.GRSImporter.Import(importFilename, backend, graphModel);
             else
                 throw new NotSupportedException("File format not supported");
+        }
+
+        /// <summary>
+        /// Returns the string at the given index, or null if the index is out of bounds.
+        /// </summary>
+        private static String ListGet(List<String> list, int index)
+        {
+            if(0 <= index && index < list.Count)
+                return list[index];
+            return null;
         }
     }
 }
