@@ -148,3 +148,47 @@ rule constantSetContainedInPatternAndRewrite {
 		}
 	}
 }
+
+rule setEqualityContainment {
+	a:A; b:A;
+	
+	if { a.niceSet == b.niceSet; }
+	if { a.niceSet != b.niceSet; }
+	if { a.niceSet < b.niceSet; }
+	if { a.niceSet <= b.niceSet; }
+	if { a.niceSet > b.niceSet; }
+	if { a.niceSet >= b.niceSet; }
+	
+	modify {
+		eval {
+			a.val = (a.niceSet == b.niceSet) ? 1 : 0;
+			b.val = (a.niceSet != b.niceSet) ? 1 : 0;
+			a.val = (a.niceSet < b.niceSet) ? 1 : 0;
+			b.val = (a.niceSet <= b.niceSet) ? 1 : 0;
+			a.val = (a.niceSet > b.niceSet) ? 1 : 0;
+			b.val = (a.niceSet >= b.niceSet) ? 1 : 0;
+		}
+	}
+}
+
+rule setEqualityContainment2 {	
+	a:A; b:A;
+	
+	if { {1,2} == {1,2,a.val}; }
+	if { {1,2} != {1,2,a.val}; }
+	if { {1,2} < {1,2,a.val}; }
+	if { {1,2} <= {1,2,a.val}; }
+	if { {1,2} > {1,2,a.val}; }
+	if { {1,2} >= {1,2,a.val}; }
+	
+	modify {
+		eval {
+			a.val = ({1,2} == {1,2,a.val}) ? 1 : 0;
+			b.val = ({1,2} != {1,2,a.val}) ? 1 : 0;
+			a.val = ({1,2} < {1,2,a.val}) ? 1 : 0;
+			b.val = ({1,2} <= {1,2,a.val}) ? 1 : 0;
+			a.val = ({1,2} > {1,2,a.val}) ? 1 : 0;
+			b.val = ({1,2} >= {1,2,a.val}) ? 1 : 0;
+		}
+	}
+}

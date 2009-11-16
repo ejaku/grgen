@@ -28,4 +28,9 @@ public class MapItem extends IR {
 	public Expression getValueExpr() {
 		return valueExpr;
 	}
+	
+	public void collectNeededEntities(NeededEntities needs) {
+		keyExpr.collectNeededEntities(needs);
+		valueExpr.collectNeededEntities(needs);
+	}
 }

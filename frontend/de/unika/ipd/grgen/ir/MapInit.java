@@ -35,6 +35,9 @@ public class MapInit extends Expression {
 
 	public void collectNeededEntities(NeededEntities needs) {
 		needs.add(this);
+		for(MapItem mapItem : mapItems) {
+			mapItem.collectNeededEntities(needs);
+		}
 	}
 
 	public Collection<MapItem> getMapItems() {

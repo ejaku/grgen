@@ -73,6 +73,18 @@ public class SetTypeNode extends DeclaredTypeNode {
 
 		OperatorSignature.makeBinOp(OperatorSignature.IN, BasicTypeNode.booleanType,
 				valueType, this, OperatorSignature.setEvaluator);
+		OperatorSignature.makeBinOp(OperatorSignature.EQ, BasicTypeNode.booleanType,
+				this, this, OperatorSignature.setEvaluator);
+		OperatorSignature.makeBinOp(OperatorSignature.NE, BasicTypeNode.booleanType,
+				this, this, OperatorSignature.setEvaluator);
+		OperatorSignature.makeBinOp(OperatorSignature.GT, BasicTypeNode.booleanType,
+				this, this, OperatorSignature.setEvaluator);
+		OperatorSignature.makeBinOp(OperatorSignature.GE, BasicTypeNode.booleanType,
+				this, this, OperatorSignature.setEvaluator);
+		OperatorSignature.makeBinOp(OperatorSignature.LT, BasicTypeNode.booleanType,
+				this, this, OperatorSignature.setEvaluator);
+		OperatorSignature.makeBinOp(OperatorSignature.LE, BasicTypeNode.booleanType,
+				this, this, OperatorSignature.setEvaluator);
 		OperatorSignature.makeBinOp(OperatorSignature.BIT_OR, this, this, this,
 				OperatorSignature.setEvaluator);
 		OperatorSignature.makeBinOp(OperatorSignature.BIT_AND, this, this, this,

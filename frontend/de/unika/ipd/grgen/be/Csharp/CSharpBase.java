@@ -432,6 +432,90 @@ public abstract class CSharpBase {
 							else genBinOpDefault(sb, op, modifyGenerationState);
 							break;
 						}
+						
+						case Operator.EQ:
+						{
+							Type opType = op.getOperand(0).getType();
+							if(opType instanceof MapType || opType instanceof SetType) {
+								sb.append("GRGEN_LIBGR.DictionaryHelper.Equal(");
+								genExpression(sb, op.getOperand(0), modifyGenerationState);
+								sb.append(", ");
+								genExpression(sb, op.getOperand(1), modifyGenerationState);
+								sb.append(")");
+							}
+							else genBinOpDefault(sb, op, modifyGenerationState);
+							break;
+						}
+
+						case Operator.NE:
+						{
+							Type opType = op.getOperand(0).getType();
+							if(opType instanceof MapType || opType instanceof SetType) {
+								sb.append("GRGEN_LIBGR.DictionaryHelper.NotEqual(");
+								genExpression(sb, op.getOperand(0), modifyGenerationState);
+								sb.append(", ");
+								genExpression(sb, op.getOperand(1), modifyGenerationState);
+								sb.append(")");
+							}
+							else genBinOpDefault(sb, op, modifyGenerationState);
+							break;
+						}
+
+						case Operator.GT:
+						{
+							Type opType = op.getOperand(0).getType();
+							if(opType instanceof MapType || opType instanceof SetType) {
+								sb.append("GRGEN_LIBGR.DictionaryHelper.GreaterThan(");
+								genExpression(sb, op.getOperand(0), modifyGenerationState);
+								sb.append(", ");
+								genExpression(sb, op.getOperand(1), modifyGenerationState);
+								sb.append(")");
+							}
+							else genBinOpDefault(sb, op, modifyGenerationState);
+							break;
+						}
+
+						case Operator.GE:
+						{
+							Type opType = op.getOperand(0).getType();
+							if(opType instanceof MapType || opType instanceof SetType) {
+								sb.append("GRGEN_LIBGR.DictionaryHelper.GreaterOrEqual(");
+								genExpression(sb, op.getOperand(0), modifyGenerationState);
+								sb.append(", ");
+								genExpression(sb, op.getOperand(1), modifyGenerationState);
+								sb.append(")");
+							}
+							else genBinOpDefault(sb, op, modifyGenerationState);
+							break;
+						}
+
+						case Operator.LT:
+						{
+							Type opType = op.getOperand(0).getType();
+							if(opType instanceof MapType || opType instanceof SetType) {
+								sb.append("GRGEN_LIBGR.DictionaryHelper.LessThan(");
+								genExpression(sb, op.getOperand(0), modifyGenerationState);
+								sb.append(", ");
+								genExpression(sb, op.getOperand(1), modifyGenerationState);
+								sb.append(")");
+							}
+							else genBinOpDefault(sb, op, modifyGenerationState);
+							break;
+						}
+
+						case Operator.LE:
+						{
+							Type opType = op.getOperand(0).getType();
+							if(opType instanceof MapType || opType instanceof SetType) {
+								sb.append("GRGEN_LIBGR.DictionaryHelper.LessOrEqual(");
+								genExpression(sb, op.getOperand(0), modifyGenerationState);
+								sb.append(", ");
+								genExpression(sb, op.getOperand(1), modifyGenerationState);
+								sb.append(")");
+							}
+							else genBinOpDefault(sb, op, modifyGenerationState);
+							break;
+						}
 
 						default:
 							genBinOpDefault(sb, op, modifyGenerationState);

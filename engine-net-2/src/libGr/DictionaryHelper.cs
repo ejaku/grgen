@@ -255,9 +255,98 @@ namespace de.unika.ipd.grGen.libGr
             return newDict;
         }
 
-        // todo: subset
-        // todo: set equality
-        // todo: set inequality
+        /// <summary>
+        /// Checks if set/map <paramref name="a"/> equals set/map <paramref name="b"/>.
+        /// For a map, key and value must be same to be equal.
+        /// </summary>
+        /// <param name="a">A dictionary.</param>
+        /// <param name="b">Another dictionary of compatible type to <paramref name="a"/>.</param>
+        /// <returns>Boolean result of set/map comparison.</returns>
+        public static bool Equal<K, V>(Dictionary<K, V> a, Dictionary<K, V> b) where V : IEquatable<V>
+        {
+            if(a.Count!=b.Count) return false;
+            if(LessOrEqual(a, b) && LessOrEqual(b, a)) return true;
+            else return false;
+        }
+
+        /// <summary>
+        /// Checks if set/map <paramref name="a"/> is not equal to set/map <paramref name="b"/>.
+        /// For a map, key and value must be same to be equal.
+        /// </summary>
+        /// <param name="a">A dictionary.</param>
+        /// <param name="b">Another dictionary of compatible type to <paramref name="a"/>.</param>
+        /// <returns>Boolean result of set/map comparison.</returns>
+        public static bool NotEqual<K, V>(Dictionary<K, V> a, Dictionary<K, V> b) where V : IEquatable<V>
+        {
+            if(a.Count!=b.Count) return true;
+            if(LessOrEqual(a, b) && LessOrEqual(b, a)) return false;
+            else return true;
+        }
+
+        /// <summary>
+        /// Checks if set/map <paramref name="a"/> is a proper superset/map of <paramref name="b"/>.
+        /// For a map, key and value must be same to be equal.
+        /// </summary>
+        /// <param name="a">A dictionary.</param>
+        /// <param name="b">Another dictionary of compatible type to <paramref name="a"/>.</param>
+        /// <returns>Boolean result of set/map comparison.</returns>
+        public static bool GreaterThan<K, V>(Dictionary<K, V> a, Dictionary<K, V> b) where V : IEquatable<V>
+        {
+            if(GreaterOrEqual(a, b)) return b.Count!=a.Count;
+            else return false;
+        }
+
+        /// <summary>
+        /// Checks if set/map <paramref name="a"/> is a superset/map of <paramref name="b"/>.
+        /// For a map, key and value must be same to be equal.
+        /// </summary>
+        /// <param name="a">A dictionary.</param>
+        /// <param name="b">Another dictionary of compatible type to <paramref name="a"/>.</param>
+        /// <returns>Boolean result of set/map comparison.</returns>
+        public static bool GreaterOrEqual<K, V>(Dictionary<K, V> a, Dictionary<K, V> b) where V : IEquatable<V>
+        {
+            return LessOrEqual(b, a);
+        }
+
+        /// <summary>
+        /// Checks if set/map <paramref name="a"/> is a proper subset/map of <paramref name="b"/>.
+        /// For a map, key and value must be same to be equal.
+        /// </summary>
+        /// <param name="a">A dictionary.</param>
+        /// <param name="b">Another dictionary of compatible type to <paramref name="a"/>.</param>
+        /// <returns>Boolean result of set/map comparison.</returns>
+        public static bool LessThan<K, V>(Dictionary<K, V> a, Dictionary<K, V> b) where V : IEquatable<V>
+        {
+            if(LessOrEqual(a, b)) return a.Count!=b.Count;
+            else return false;
+        }
+
+        /// <summary>
+        /// Checks if set/map <paramref name="a"/> is a subset/map of <paramref name="b"/>.
+        /// For a map, key and value must be same to be equal.
+        /// </summary>
+        /// <param name="a">A dictionary.</param>
+        /// <param name="b">Another dictionary of compatible type to <paramref name="a"/>.</param>
+        /// <returns>Boolean result of set/map comparison.</returns>
+        public static bool LessOrEqual<K, V>(Dictionary<K, V> a, Dictionary<K, V> b) where V : IEquatable<V>
+        {
+            if(typeof(V)==typeof(de.unika.ipd.grGen.libGr.SetValueType))
+            {
+                foreach(KeyValuePair<K, V> entry in a)
+                {
+                    if(!b.ContainsKey(entry.Key)) return false;
+                }
+            }
+            else
+            {
+                foreach(KeyValuePair<K, V> entry in a)
+                {
+                    if(!b.ContainsKey(entry.Key)) return false;
+                    if(!entry.Value.Equals(b[entry.Key])) return false;
+                }
+            }
+            return true;
+        }
 
         /// <summary>
         /// Returns a string representation of the given dictionary

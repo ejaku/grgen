@@ -150,6 +150,9 @@
         <member name="M:de.unika.ipd.grGen.lgsp.LGSPMatcherGenerator.InsertConditionsIntoSchedule(de.unika.ipd.grGen.lgsp.PatternCondition[],System.Collections.Generic.List{de.unika.ipd.grGen.lgsp.SearchOperation})">
             <summary>
             Inserts conditions into the schedule given by the operations list at their earliest possible position
+            todo: set/map operations are potentially expensive, 
+            they shouldn't be insertes asap, but depending an weight, 
+            derived from statistics over set/map size for graph elements, quiet well known for anonymous rule sets
             </summary>
         </member>
         <member name="M:de.unika.ipd.grGen.lgsp.LGSPMatcherGenerator.GenerateActionAndMatcher(de.unika.ipd.grGen.lgsp.SourceBuilder,de.unika.ipd.grGen.lgsp.LGSPMatchingPattern,System.Boolean)">
@@ -1019,6 +1022,36 @@
         <member name="T:de.unika.ipd.grGen.expression.GE">
             <summary>
             Class representing a greater than or equal comparison.
+            </summary>
+        </member>
+        <member name="T:de.unika.ipd.grGen.expression.DICT_EQ">
+            <summary>
+            Class representing set/map equality comparison.
+            </summary>
+        </member>
+        <member name="T:de.unika.ipd.grGen.expression.DICT_NE">
+            <summary>
+            Class representing set/map inequality comparison.
+            </summary>
+        </member>
+        <member name="T:de.unika.ipd.grGen.expression.DICT_LT">
+            <summary>
+            Class representing proper subset/map comparison.
+            </summary>
+        </member>
+        <member name="T:de.unika.ipd.grGen.expression.DICT_LE">
+            <summary>
+            Class representing subset/map comparison.
+            </summary>
+        </member>
+        <member name="T:de.unika.ipd.grGen.expression.DICT_GT">
+            <summary>
+            Class representing proper superset comparison.
+            </summary>
+        </member>
+        <member name="T:de.unika.ipd.grGen.expression.DICT_GE">
+            <summary>
+            Class representing superset comparison.
             </summary>
         </member>
         <member name="T:de.unika.ipd.grGen.expression.SHL">

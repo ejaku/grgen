@@ -35,6 +35,9 @@ public class SetInit extends Expression {
 
 	public void collectNeededEntities(NeededEntities needs) {
 		needs.add(this);
+		for(SetItem setItem : setItems) {
+			setItem.collectNeededEntities(needs);
+		}
 	}
 
 	public Collection<SetItem> getSetItems() {

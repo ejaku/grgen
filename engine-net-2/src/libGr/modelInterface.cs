@@ -453,8 +453,9 @@ namespace de.unika.ipd.grGen.libGr
     /// <summary>
     /// A dummy type used as value type for dictionaries representing sets.
     /// </summary>
-    public abstract class SetValueType
+    public abstract class SetValueType : IEquatable<SetValueType>
     {
+        public bool Equals(SetValueType other) { return true; }
     }
 
     /// <summary>

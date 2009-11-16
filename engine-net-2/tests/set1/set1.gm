@@ -19,6 +19,11 @@ node class B extends A
 	haha:set<et> = { et::aloah, et::crorr };
 }
 
+node class C
+{
+	a:set<string> = { "foo", "bar", "bla" };
+}
+
 edge class EA
 {
     a:set<string> = { "foo","bar" } ;

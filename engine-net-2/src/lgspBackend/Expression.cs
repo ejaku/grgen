@@ -296,6 +296,84 @@ namespace de.unika.ipd.grGen.expression
     }
 
     /// <summary>
+    /// Class representing set/map equality comparison.
+    /// </summary>
+    public class DICT_EQ : BinFuncOperator
+    {
+        public DICT_EQ(Expression left, Expression right) : base(left, right) { }
+
+        public override string GetFuncOperatorAndLParen()
+        {
+            return "GRGEN_LIBGR.DictionaryHelper.Equal(";
+        }
+    }
+
+    /// <summary>
+    /// Class representing set/map inequality comparison.
+    /// </summary>
+    public class DICT_NE : BinFuncOperator
+    {
+        public DICT_NE(Expression left, Expression right) : base(left, right) { }
+
+        public override string GetFuncOperatorAndLParen()
+        {
+            return "GRGEN_LIBGR.DictionaryHelper.NotEqual(";
+        }
+    }
+
+    /// <summary>
+    /// Class representing proper subset/map comparison.
+    /// </summary>
+    public class DICT_LT : BinFuncOperator
+    {
+        public DICT_LT(Expression left, Expression right) : base(left, right) { }
+
+        public override string GetFuncOperatorAndLParen()
+        {
+            return "GRGEN_LIBGR.DictionaryHelper.LessThan(";
+        }
+    }
+
+    /// <summary>
+    /// Class representing subset/map comparison.
+    /// </summary>
+    public class DICT_LE : BinFuncOperator
+    {
+        public DICT_LE(Expression left, Expression right) : base(left, right) { }
+
+        public override string GetFuncOperatorAndLParen()
+        {
+            return "GRGEN_LIBGR.DictionaryHelper.LessOrEqual(";
+        }
+    }
+
+    /// <summary>
+    /// Class representing proper superset comparison.
+    /// </summary>
+    public class DICT_GT : BinFuncOperator
+    {
+        public DICT_GT(Expression left, Expression right) : base(left, right) { }
+
+        public override string GetFuncOperatorAndLParen()
+        {
+            return "GRGEN_LIBGR.DictionaryHelper.GreaterThan(";
+        }
+    }
+
+    /// <summary>
+    /// Class representing superset comparison.
+    /// </summary>
+    public class DICT_GE : BinFuncOperator
+    {
+        public DICT_GE(Expression left, Expression right) : base(left, right) { }
+
+        public override string GetFuncOperatorAndLParen()
+        {
+            return "GRGEN_LIBGR.DictionaryHelper.GreaterOrEqual(";
+        }
+    }
+
+    /// <summary>
     /// Class representing a shift left expression.
     /// </summary>
     public class SHL : BinInfixOperator

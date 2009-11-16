@@ -1206,6 +1206,9 @@ exitSecondLoop: ;
 
         /// <summary>
         /// Inserts conditions into the schedule given by the operations list at their earliest possible position
+        /// todo: set/map operations are potentially expensive, 
+        /// they shouldn't be insertes asap, but depending an weight, 
+        /// derived from statistics over set/map size for graph elements, quiet well known for anonymous rule sets
         /// </summary>
         public void InsertConditionsIntoSchedule(PatternCondition[] conditions, List<SearchOperation> operations)
         {

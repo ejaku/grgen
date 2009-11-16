@@ -84,6 +84,18 @@ public class MapTypeNode extends DeclaredTypeNode {
 
 		OperatorSignature.makeBinOp(OperatorSignature.IN, BasicTypeNode.booleanType,
 				keyType, this, OperatorSignature.mapEvaluator);
+		OperatorSignature.makeBinOp(OperatorSignature.EQ, BasicTypeNode.booleanType,
+				this, this, OperatorSignature.mapEvaluator);
+		OperatorSignature.makeBinOp(OperatorSignature.NE, BasicTypeNode.booleanType,
+				this, this, OperatorSignature.mapEvaluator);
+		OperatorSignature.makeBinOp(OperatorSignature.GT, BasicTypeNode.booleanType,
+				this, this, OperatorSignature.mapEvaluator);
+		OperatorSignature.makeBinOp(OperatorSignature.GE, BasicTypeNode.booleanType,
+				this, this, OperatorSignature.mapEvaluator);
+		OperatorSignature.makeBinOp(OperatorSignature.LT, BasicTypeNode.booleanType,
+				this, this, OperatorSignature.mapEvaluator);
+		OperatorSignature.makeBinOp(OperatorSignature.LE, BasicTypeNode.booleanType,
+				this, this, OperatorSignature.mapEvaluator);
 		OperatorSignature.makeBinOp(OperatorSignature.BIT_OR, this, this, this,
 				OperatorSignature.mapEvaluator);
 		OperatorSignature.makeBinOp(OperatorSignature.BIT_AND, this, this, this,

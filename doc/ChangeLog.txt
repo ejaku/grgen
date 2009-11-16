@@ -1,4 +1,4 @@
-﻿v2.6beta (2009-11-10)
+﻿v2.6beta (2009-11-16)
  New sequencing constructs in xgrs:
   - operator then-left l <; r executing l then r, returning the execution result of l
   - operator then-right l ;> r executing l then r, returning the execution result of r
@@ -37,8 +37,19 @@
  Export/Import:
   - GRS import/export (and GrShell) now support set/map attribute initialization
     (example: new :N1($="$0", a = set<int>{"1","2","3"}, b = map<string,boolean>{"foo"->true,"bar"->false})
-  - GXL import/export now supports enum attributes (set/map missing)
+  - withvariables parameter for grs export causing variables to get exported; default is nodes/edges only
+  - GXL import/export now supports enum attributes (set/map not supported)
 
+ Set/Map comparison in rewrite rules:
+  - new set/map comparison operators in rewrite rules:
+     sm1 == sm2 is true iff sm1 equals sm2 (sm1<=sm2 && sm2<=sm1)
+  	 sm1 != sm2 is true iff sm1 unequal sm2 (at least one entry not available/same in the other set/map)
+ 	 sm1 <= sm2 is true iff sm1 is subset/submap of sm2 (every entry from sm1 is available in sm2)
+	 sm1 < sm2  is true iff sm1 is proper subset/submap of smp (sm1<=sm2 && !sm1==sm2)
+	 sm1 >= sm2 is true iff sm1 is superset of sm2 (sm2<=sm1)
+	 sm1 > sm2  is true iff sm1 is proper superset of sm2 (sm2<sm1)
+	maps require key and value to be same for the equality, (proper) sub/supermap relationships to hold
+ 
  Fixes:
   - escaping of quotation marks in VCG files
   - escaping of quotation marks and newlines in communication with yComp
@@ -46,12 +57,14 @@
   - typeof(element of abstract type) now working
   - several cases of use before definition in rule language now working
   - Mono compiler error (MS.NET warning) when using alternatives removed
+  - initialization overwrite in model (on inheritance paths of depth >2; for sets/maps)
 
  Further changes:
   - set/map commands in GrShell are deprecated (succeeded by xgrs set/map operators)
+  - set/map-valued attributes are now displayed in yComp, too
   - now error reported on attempt to delete and return elments allowed to be matched homomorphically
   - added exitonfailure to GrShell validate command leaving GrShell on failed validation with error code
-
+  
   
 v2.5.1 (2009-09-09)
  Additions:

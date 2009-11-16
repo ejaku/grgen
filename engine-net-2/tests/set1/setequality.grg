@@ -1,0 +1,64 @@
+using set1;
+
+test equality(n1:C, n2:C)
+{
+	hom(n1,n2);
+	if { n1.a == n2.a; }
+}
+
+test inequality(n1:C, n2:C)
+{
+	hom(n1,n2);
+	if { n1.a != n2.a; }
+}
+
+test greaterthan(n1:C, n2:C)
+{
+	if { n1.a > n2.a; }
+}
+
+test greaterorequal(n1:C, n2:C)
+{
+	if { n1.a >= n2.a; }
+}
+
+test lessthan(n1:C, n2:C)
+{
+	if { n1.a < n2.a; }
+}
+
+test lessorequal(n1:C, n2:C)
+{
+	if { n1.a <= n2.a; }
+}
+
+
+test equalityC(n1:C, n2:C)
+{
+	if { { "foo", "bar" } == n2.a; }
+}
+
+test inequalityC(n1:C, n2:C)
+{
+	if { { "foo", "bar" } != n2.a; }
+}
+
+test greaterthanC(n1:C, n2:C)
+{
+	if { { "foo", "bar" } > n2.a; }
+}
+
+test greaterorequalC(n1:C, n2:C)
+{
+	if { { "foo", "bar" } >= n2.a; }
+}
+
+test lessthanC(n1:C, n2:C)
+{
+	if { { "foo", "bar" } < n2.a; }
+}
+
+test lessorequalC(n1:C, n2:C)
+{
+	if { { "foo", "bar" } <= n2.a; }
+}

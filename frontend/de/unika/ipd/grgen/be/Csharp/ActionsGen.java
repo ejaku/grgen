@@ -1142,11 +1142,17 @@ public class ActionsGen extends CSharpBase {
 	{
 		if(expr instanceof Operator) {
 			Operator op = (Operator) expr;
-			String opNamePrefix;
+			String opNamePrefix = "";
 			if(op.getType() instanceof SetType || op.getType() instanceof MapType)
 				opNamePrefix = "DICT_";
-			else
-				opNamePrefix = "";
+			if(op.getOpCode()==Operator.EQ || op.getOpCode()==Operator.NE
+				|| op.getOpCode()==Operator.GT || op.getOpCode()==Operator.GE
+				|| op.getOpCode()==Operator.LT || op.getOpCode()==Operator.LE) {
+				Expression opnd = op.getOperand(0); // or .getOperand(1), irrelevant
+				if(opnd.getType() instanceof SetType || opnd.getType() instanceof MapType) {
+					opNamePrefix = "DICT_";
+				}
+			}
 
 			sb.append("new GRGEN_EXPR." + opNamePrefix + Operator.opNames[op.getOpCode()] + "(");
 			switch (op.arity()) {
