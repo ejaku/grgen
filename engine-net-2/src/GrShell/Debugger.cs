@@ -664,35 +664,13 @@ namespace de.unika.ipd.grGen.grShell
         void DebugChangingNodeAttribute(INode node, AttributeType attrType,
             AttributeChangeType changeType, Object newValue, Object keyValue)
         {
-            if (attrType.Kind == AttributeKind.SetAttr)
-            {
-                // MAP TODO
-            }
-            else if (attrType.Kind == AttributeKind.MapAttr)
-            {
-                // MAP TODO
-            }
-            else
-            {
-                ycompClient.ChangeNodeAttribute(node, attrType, newValue.ToString());
-            }
+            ycompClient.ChangeNodeAttribute(node, attrType, changeType, newValue, keyValue);
         }
 
         void DebugChangingEdgeAttribute(IEdge edge, AttributeType attrType,
             AttributeChangeType changeType, Object newValue, Object keyValue)
         {
-            if (attrType.Kind == AttributeKind.SetAttr)
-            {
-                // MAP TODO
-            }
-            else if (attrType.Kind == AttributeKind.MapAttr)
-            {
-                // MAP TODO
-            }
-            else
-            {
-                ycompClient.ChangeEdgeAttribute(edge, attrType, newValue.ToString());
-            }
+            ycompClient.ChangeEdgeAttribute(edge, attrType, changeType, newValue, keyValue);
         }
 
         void DebugRetypingElement(IGraphElement oldElem, IGraphElement newElem)

@@ -768,18 +768,17 @@ namespace de.unika.ipd.grGen.libGr
             object value = graph.GetVariableValue(SourceVar);
             IGraphElement elem = (IGraphElement)graph.GetVariableValue(DestVar);
             AttributeType attrType = elem.Type.GetAttributeType(AttributeName);
+            if(attrType.Kind==AttributeKind.SetAttr || attrType.Kind==AttributeKind.MapAttr)
+            {
+                Type keyType, valueType;
+                DictionaryHelper.GetDictionaryTypes(elem.GetAttribute(AttributeName), out keyType, out valueType);
+                value = DictionaryHelper.NewDictionary(keyType, valueType, value); // by-value-semantics -> clone dictionary
+            }
             AttributeChangeType changeType = AttributeChangeType.Assign;
             if(elem is INode)
                 graph.ChangingNodeAttribute((INode)elem, attrType, changeType, value, null);
             else
                 graph.ChangingEdgeAttribute((IEdge)elem, attrType, changeType, value, null);
-            if(attrType.Kind==AttributeKind.SetAttr || attrType.Kind==AttributeKind.MapAttr)
-            {
-                Type keyType, valueType;
-                IDictionary dict = DictionaryHelper.GetDictionaryTypes(
-                    elem.GetAttribute(AttributeName), out keyType, out valueType);
-                value = DictionaryHelper.NewDictionary(keyType, valueType, value); // by-value-semantics -> clone dictionary
-            }
             elem.SetAttribute(AttributeName, value);
             return true;
         }

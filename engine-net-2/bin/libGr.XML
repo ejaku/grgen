@@ -1481,6 +1481,14 @@
             <param name="graph">The graph to export.</param>
             <param name="exportFilename">The filename for the exported file.</param>
         </member>
+        <member name="M:de.unika.ipd.grGen.libGr.GXLExport.GetDomainID(de.unika.ipd.grGen.libGr.AttributeKind,de.unika.ipd.grGen.libGr.EnumAttributeType)">
+            <summary>
+            Returns the domain ID for the given attribute type.
+            </summary>
+            <param name="kind">The attribute kind</param>
+            <param name="enumAttrType">For enums, enumAttrType must be valid. Otherwise it may be null.</param>
+            <returns></returns>
+        </member>
         <member name="T:de.unika.ipd.grGen.libGr.ECoreImport">
             <summary>
             Imports a graph model from the ECore format.
@@ -2708,20 +2716,20 @@
             The enum type description, if Kind == AttributeKind.EnumAttr. Otherwise it is null.
             </summary>
         </member>
-        <member name="F:de.unika.ipd.grGen.libGr.AttributeType.ValueKind">
+        <member name="F:de.unika.ipd.grGen.libGr.AttributeType.ValueType">
             <summary>
-            The kind of the value of the set, if Kind == AttributeKind.SetAttr.
-            The kind of the value of the map, if Kind == AttributeKind.MapAttr.
+            The attribute type of the value of the set, if Kind == AttributeKind.SetAttr.
+            The attribute type of the value of the map, if Kind == AttributeKind.MapAttr.
             Undefined otherwise.
             </summary>
         </member>
-        <member name="F:de.unika.ipd.grGen.libGr.AttributeType.KeyKind">
+        <member name="F:de.unika.ipd.grGen.libGr.AttributeType.KeyType">
             <summary>
-            The kind of the key of the map, if Kind == AttributeKind.MapAttr.
+            The attribute type of the key of the map, if Kind == AttributeKind.MapAttr.
             Undefined otherwise.
             </summary>
         </member>
-        <member name="M:de.unika.ipd.grGen.libGr.AttributeType.#ctor(System.String,de.unika.ipd.grGen.libGr.GrGenType,de.unika.ipd.grGen.libGr.AttributeKind,de.unika.ipd.grGen.libGr.EnumAttributeType,de.unika.ipd.grGen.libGr.AttributeKind,de.unika.ipd.grGen.libGr.AttributeKind)">
+        <member name="M:de.unika.ipd.grGen.libGr.AttributeType.#ctor(System.String,de.unika.ipd.grGen.libGr.GrGenType,de.unika.ipd.grGen.libGr.AttributeKind,de.unika.ipd.grGen.libGr.EnumAttributeType,de.unika.ipd.grGen.libGr.AttributeType,de.unika.ipd.grGen.libGr.AttributeType)">
             <summary>
             Initializes an AttributeType instance.
             </summary>
@@ -2729,8 +2737,21 @@
             <param name="ownerType">The owner model type.</param>
             <param name="kind">The kind of the attribute.</param>
             <param name="enumType">The enum type description, if Kind == AttributeKind.EnumAttr, otherwise null.</param>
-            <param name="valueKind">The kind of the value of the set, if Kind == AttributeKind.SetAttr. The kind of the value of the map, if Kind == AttributeKind.MapAttr. Undefined otherwise. </param>
-            <param name="keyKind">The kind of the key of the map, if Kind == AttributeKind.MapAttr. Undefined otherwise.</param>
+            <param name="valueType">The attribute type of the value of the set, if Kind == AttributeKind.SetAttr; the attribute type of the value of the map, if Kind == AttributeKind.MapAttr; otherwise null. </param>
+            <param name="keyType">The attribute type of the key of the map, if Kind == AttributeKind.MapAttr; otherwise null.</param>
+        </member>
+        <member name="M:de.unika.ipd.grGen.libGr.AttributeType.GetKindName(de.unika.ipd.grGen.libGr.AttributeKind)">
+            <summary>
+            Returns the name of the given basic attribute kind (not enum,set,map)
+            </summary>
+            <param name="attrKind">The AttributeKind value</param>
+            <returns>The name of the attribute kind</returns>
+        </member>
+        <member name="M:de.unika.ipd.grGen.libGr.AttributeType.GetKindName">
+            <summary>
+            Returns the name of the kind
+            </summary>
+            <returns>The name of the kind of the attribute</returns>
         </member>
         <member name="T:de.unika.ipd.grGen.libGr.EnumMember">
             <summary>
@@ -3888,13 +3909,6 @@
             TODO: Shouldn't strict be fulfilled, if the dictionary sizes equal the number of nodes/edges?
                 --> faster positive answer
         </member>
-        <member name="M:de.unika.ipd.grGen.libGr.BaseGraph.GetKindName(de.unika.ipd.grGen.libGr.AttributeType)">
-            <summary>
-            Returns the name of the kind of the given attribute
-            </summary>
-            <param name="attrType">The IAttributeType</param>
-            <returns>The name of the kind of the attribute</returns>
-        </member>
         <member name="M:de.unika.ipd.grGen.libGr.BaseGraph.DumpAttributes(de.unika.ipd.grGen.libGr.IGraphElement)">
             <summary>
             Dumps all attributes in the form "kind owner::name = value" into a String List
@@ -4135,6 +4149,12 @@
             </summary>
             <param name="graph">The graph to export.</param>
             <param name="sw">The stream writer of the file to export into.</param>
+        </member>
+        <member name="M:de.unika.ipd.grGen.libGr.GRSExport.EmitAttributes(de.unika.ipd.grGen.libGr.AttributeType,System.Object,System.IO.StreamWriter)">
+            <summary>
+            Emits the node/edge attribute initialization code in graph exporting
+            for an attribute of the given type with the given value into the stream writer
+            </summary>
         </member>
         <member name="T:de.unika.ipd.grGen.libGr.RuleObject">
             <summary>
@@ -4815,6 +4835,8 @@
             <param name="map">A dictionary representing a map.</param>
             <returns>A new set dictionary containing all values from <paramref name="map"/>.</returns>
         </member>
+        <!-- Badly formed XML comment ignored for member "M:de.unika.ipd.grGen.libGr.DictionaryHelper.ToString(System.Collections.IDictionary,System.String@,System.String@)" -->
+        <!-- Badly formed XML comment ignored for member "M:de.unika.ipd.grGen.libGr.DictionaryHelper.ToString(System.Collections.IDictionary,de.unika.ipd.grGen.libGr.AttributeChangeType,System.Object,System.Object,System.String@,System.String@)" -->
         <member name="T:de.unika.ipd.grGen.libGr.sequenceParser.SimpleCharStream">
             <summary>
             An implementation of interface CharStream, where the stream is assumed to

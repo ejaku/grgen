@@ -1,3 +1,8 @@
+enum et
+{
+	aloah, burgs, crorr = 7
+}
+
 node class A
 {
     a:set<string> = { "foo","bar" } ;
@@ -11,6 +16,7 @@ node class B extends A
     b:set<string> = { "blubb" } ;
     const bc:set<int> = { 3 } ;
 	val = "gurgl";
+	haha:set<et> = { et::aloah, et::crorr };
 }
 
 edge class EA

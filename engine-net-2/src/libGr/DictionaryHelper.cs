@@ -8,6 +8,7 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Reflection;
+using System.Text;
 
 namespace de.unika.ipd.grGen.libGr
 {
@@ -252,6 +253,106 @@ namespace de.unika.ipd.grGen.libGr
             }
 
             return newDict;
+        }
+
+        // todo: subset
+        // todo: set equality
+        // todo: set inequality
+
+        /// <summary>
+        /// Returns a string representation of the given dictionary
+        /// </summary>
+        /// <param name="setmap">The dictionary of which to get the string representation</param>
+        /// <param name="type">The type as string, e.g set<int> or map<string,boolean> </param>
+        /// <param name="content">The content as string, e.g. { 42, 43 } or { "foo"->true, "bar"->false } </param>
+        public static void ToString(IDictionary setmap, out string type, out string content)
+        {
+            Type keyType;
+            Type valueType;
+            GetDictionaryTypes(setmap, out keyType, out valueType);
+
+            StringBuilder sb = new StringBuilder(256);
+            sb.Append("{");
+
+            if(valueType==typeof(SetValueType))
+            {
+                type = "set<"+keyType.Name+">";
+                bool first = true;
+                foreach(DictionaryEntry entry in setmap)
+                {
+                    if(first) { sb.Append(entry.Key.ToString()); first = false; }
+                    else { sb.Append(","); sb.Append(entry.Key.ToString()); }
+                }
+            }
+            else
+            {
+                type = "map<"+keyType.Name+","+valueType.Name+">";
+                bool first = true;
+                foreach(DictionaryEntry entry in setmap)
+                {
+                    if(first) { sb.Append(entry.Key.ToString()); sb.Append("->"); sb.Append(entry.Value.ToString()); first = false; }
+                    else { sb.Append(","); sb.Append(entry.Key.ToString()); sb.Append("->"); sb.Append(entry.Value.ToString()); }
+                }
+            }
+
+            sb.Append("}");
+            content = sb.ToString();
+        }
+
+        /// <summary>
+        /// Returns a string representation of the given dictionary
+        /// after the given operation with the given parameters was applied
+        /// </summary>
+        /// <param name="setmap">The base dictionary of the operation</param>
+        /// <param name="changeType">The type of the change operation</param>
+        /// <param name="newValue">The new value of the attribute, if changeType==Assign.
+        ///                        Or the value to be inserted/removed if changeType==PutElement/RemoveElement on set.
+        ///                        Or the new map pair value to be inserted if changeType==PutElement on map.</param>
+        /// <param name="keyValue">The map pair key to be inserted/removed if changeType==PutElement/RemoveElement on map.</param>
+        /// <param name="type">The type as string, e.g set<int> or map<string,boolean> </param>
+        /// <param name="content">The content as string, e.g. { 42, 43 } or { "foo"->true, "bar"->false } </param>
+        public static void ToString(IDictionary setmap, 
+            AttributeChangeType changeType, Object newValue, Object keyValue,
+            out string type, out string content)
+        {
+            if(changeType==AttributeChangeType.PutElement)
+            {
+                Type keyType;
+                Type valueType;
+                GetDictionaryTypes(setmap, out keyType, out valueType);
+
+                if(valueType==typeof(SetValueType))
+                {
+                    ToString(setmap, out type, out content);
+                    content += "|" + newValue.ToString();
+                }
+                else
+                {
+                    ToString(setmap, out type, out content);
+                    content += "|" + keyValue.ToString() + "->" + newValue.ToString();
+                }
+            }
+            else if(changeType==AttributeChangeType.RemoveElement)
+            {
+                Type keyType;
+                Type valueType;
+                GetDictionaryTypes(setmap, out keyType, out valueType);
+
+                if(valueType==typeof(SetValueType))
+                {
+                    ToString(setmap, out type, out content);
+                    content += "\\" + newValue.ToString();
+                }
+                else
+                {
+                    ToString(setmap, out type, out content);
+                    content += "\\" + keyValue.ToString() + "->.";
+                }
+            }
+            else
+            {
+                ToString((IDictionary)newValue, out type, out content);
+            }
         }
     }
 }

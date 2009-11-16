@@ -5,6 +5,7 @@
  */
 
 using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Text;
 using de.unika.ipd.grGen.libGr;
@@ -466,9 +467,15 @@ namespace de.unika.ipd.grGen.grShell
 
         private String EncodeAttr(object attr)
         {
-            if(attr == null) return "<Not initialized>";
+            if(attr == null) return Encode(null);
+            else return Encode(attr.ToString());
+        }
 
-            StringBuilder sb = new StringBuilder(attr.ToString());
+        private String Encode(String str)
+        {
+            if(str == null) return "<Not initialized>";
+
+            StringBuilder sb = new StringBuilder(str);
             sb.Replace("  ", " &nbsp;");
             sb.Replace("\n", "\\n");
             sb.Replace("\"", "&quot;");
@@ -553,9 +560,21 @@ namespace de.unika.ipd.grGen.grShell
                 ycompStream.Write("addNode \"-1\" \"n" + name + "\" \"" + nrName + "\" \"" + GetElemLabel(node) + "\"\n");
             foreach(AttributeType attrType in node.Type.AttributeTypes)
             {
-                object attr = node.GetAttribute(attrType.Name);
-                ycompStream.Write("changeNodeAttr \"n" + name + "\" \"" + attrType.OwnerType.Name + "::" + attrType.Name + " : "
-                    + GetKindName(attrType) + "\" \"" + EncodeAttr(attr) + "\"\n");
+                if(attrType.Kind == AttributeKind.SetAttr || attrType.Kind == AttributeKind.MapAttr)
+                {
+                    IDictionary setmap = (IDictionary)node.GetAttribute(attrType.Name);
+                    string attrTypeString;
+                    string attrValue;
+                    DictionaryHelper.ToString(setmap, out attrTypeString, out attrValue);
+                    ycompStream.Write("changeNodeAttr \"n" + name + "\" \"" + attrType.OwnerType.Name + "::" + attrType.Name + " : "
+                        + attrTypeString + "\" \"" + Encode(attrValue) + "\"\n");
+                }
+                else
+                {
+                    object attr = node.GetAttribute(attrType.Name);
+                    ycompStream.Write("changeNodeAttr \"n" + name + "\" \"" + attrType.OwnerType.Name + "::" + attrType.Name + " : "
+                        + GetKindName(attrType) + "\" \"" + EncodeAttr(attr) + "\"\n");
+                }
             }
             isDirty = true;
             isLayoutDirty = true;
@@ -615,9 +634,21 @@ namespace de.unika.ipd.grGen.grShell
                 + "\" \"" + erName + "\" \"" + GetElemLabel(edge) + "\"\n");
             foreach(AttributeType attrType in edge.Type.AttributeTypes)
             {
-                object attr = edge.GetAttribute(attrType.Name);
-                ycompStream.Write("changeEdgeAttr \"e" + edgeName + "\" \"" + attrType.OwnerType.Name + "::" + attrType.Name + " : "
-                    + GetKindName(attrType) + "\" \"" + EncodeAttr(attr) + "\"\n");
+                if(attrType.Kind == AttributeKind.SetAttr || attrType.Kind == AttributeKind.MapAttr)
+                {
+                    IDictionary setmap = (IDictionary)edge.GetAttribute(attrType.Name);
+                    string attrTypeString;
+                    string attrValue;
+                    DictionaryHelper.ToString(setmap, out attrTypeString, out attrValue);
+                    ycompStream.Write("changeEdgeAttr \"e" + edgeName + "\" \"" + attrType.OwnerType.Name + "::" + attrType.Name + " : "
+                        + attrTypeString + "\" \"" + Encode(attrValue) + "\"\n");
+                }
+                else
+                {
+                    object attr = edge.GetAttribute(attrType.Name);
+                    ycompStream.Write("changeEdgeAttr \"e" + edgeName + "\" \"" + attrType.OwnerType.Name + "::" + attrType.Name + " : "
+                        + GetKindName(attrType) + "\" \"" + EncodeAttr(attr) + "\"\n");
+                }
             }
             isDirty = true;
             isLayoutDirty = true;
@@ -704,20 +735,54 @@ namespace de.unika.ipd.grGen.grShell
             isDirty = true;
         }
 
-        public void ChangeNodeAttribute(INode node, AttributeType attrType, String attrValue)
+        public void ChangeNodeAttribute(INode node, AttributeType attrType,
+            AttributeChangeType changeType, Object newValue, Object keyValue)
+        {
+            if(attrType.Kind == AttributeKind.SetAttr || attrType.Kind == AttributeKind.MapAttr)
+            {
+                IDictionary setmap = (IDictionary)node.GetAttribute(attrType.Name);
+                string attrTypeString;
+                string attrValue;
+                DictionaryHelper.ToString(setmap, changeType, newValue, keyValue, out attrTypeString, out attrValue);
+                ChangeNodeAttribute(node, attrType, attrTypeString, attrValue);
+            }
+            else
+            {
+                ChangeNodeAttribute(node, attrType, GetKindName(attrType), newValue.ToString());
+            }
+        }
+
+        private void ChangeNodeAttribute(INode node, AttributeType attrType, String attrTypeString, String attrValue)
         {
             if(dumpInfo.IsExcludedNodeType(node.Type)) return;
 
             String name = graph.GetElementName(node);
             ycompStream.Write("changeNodeAttr \"n" + name + "\" \"" + attrType.OwnerType.Name + "::" + attrType.Name + " : "
-                    + GetKindName(attrType) + "\" \"" + attrValue + "\"\n");
+                    + attrTypeString + "\" \"" + Encode(attrValue) + "\"\n");
             if(dumpInfo.GetTypeInfoTag(node.Type, attrType) != null)
                 ycompStream.Write("setNodeLabel \"n" + name + "\" \""
                     + GetElemLabelWithChangedAttr(node, attrType, attrValue) + "\"\n");
             isDirty = true;
         }
 
-        public void ChangeEdgeAttribute(IEdge edge, AttributeType attrType, String attrValue)
+        public void ChangeEdgeAttribute(IEdge edge, AttributeType attrType,
+            AttributeChangeType changeType, Object newValue, Object keyValue)
+        {
+            if(attrType.Kind == AttributeKind.SetAttr || attrType.Kind == AttributeKind.MapAttr)
+            {
+                IDictionary setmap = (IDictionary)edge.GetAttribute(attrType.Name);
+                string attrTypeString;
+                string attrValue;
+                DictionaryHelper.ToString(setmap, changeType, newValue, keyValue, out attrTypeString, out attrValue);
+                ChangeEdgeAttribute(edge, attrType, attrTypeString, attrValue);
+            }
+            else
+            {
+                ChangeEdgeAttribute(edge, attrType, GetKindName(attrType), newValue.ToString());
+            }
+        }
+
+        private void ChangeEdgeAttribute(IEdge edge, AttributeType attrType, String attrTypeString, String attrValue)
         {
             if(dumpInfo.IsExcludedEdgeType(edge.Type)
                 || dumpInfo.IsExcludedNodeType(edge.Source.Type)
@@ -726,7 +791,7 @@ namespace de.unika.ipd.grGen.grShell
 
             String name = graph.GetElementName(edge);
             ycompStream.Write("changeEdgeAttr \"e" + name + "\" \"" + attrType.OwnerType.Name + "::" + attrType.Name + " : "
-                    + GetKindName(attrType) + "\" \"" + attrValue + "\"\n");
+                    + attrTypeString + "\" \"" + Encode(attrValue) + "\"\n");
             List<InfoTag> infotags = dumpInfo.GetTypeInfoTags(edge.Type);
             if(dumpInfo.GetTypeInfoTag(edge.Type, attrType) != null)
                 ycompStream.Write("setEdgeLabel \"e" + name + "\" \""
@@ -734,6 +799,7 @@ namespace de.unika.ipd.grGen.grShell
             isDirty = true;
         }
 
+        /* eja: removed as not used
         public void ClearNodeAttribute(INode node, AttributeType attrType)
         {
             if(dumpInfo.IsExcludedNodeType(node.Type)) return;
@@ -760,6 +826,7 @@ namespace de.unika.ipd.grGen.grShell
                 ycompStream.Write("setEdgeLabel \"e" + name + "\" \"" + GetElemLabel(edge) + "\"\n");
             isDirty = true;
         }
+        */
 
         public void RetypingElement(IGraphElement oldElem, IGraphElement newElem)
         {
@@ -916,6 +983,7 @@ namespace de.unika.ipd.grGen.grShell
             return "<INVALID>";
         }
 
+        /* eja: removed as not used
         /// <summary>
         /// Dumps all attributes in the form "kind owner::name = value" into a String List
         /// </summary>
@@ -932,5 +1000,6 @@ namespace de.unika.ipd.grGen.grShell
             }
             return attribs;
         }
+        */
     }
 }
