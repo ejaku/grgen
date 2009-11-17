@@ -41,6 +41,7 @@ import de.unika.ipd.grgen.ir.MapAddItem;
 import de.unika.ipd.grgen.ir.MapInit;
 import de.unika.ipd.grgen.ir.MapRemoveItem;
 import de.unika.ipd.grgen.ir.Operator;
+import de.unika.ipd.grgen.ir.OrderedReplacement;
 import de.unika.ipd.grgen.ir.SetAddItem;
 import de.unika.ipd.grgen.ir.SetInit;
 import de.unika.ipd.grgen.ir.SetRemoveItem;
@@ -595,8 +596,6 @@ public class ModifyGen extends CSharpBase {
 		genNewNodes(sb2, task.reuseNodesAndEdges, stateConst, useAddedElementNames, prefix,
 				state.nodesNeededAsElements, state.nodesNeededAsTypes);
 
-		genPreEmits(sb2, stateConst, task);
-
 		genSubpatternModificationCalls(sb2, task, pathPrefix, stateConst,
 				state.nodesNeededAsElements, state.neededVariables);
 
@@ -797,8 +796,11 @@ public class ModifyGen extends CSharpBase {
 		delSubpatternUsages.removeAll(stateConst.commonSubpatternUsages());
 
 		// subpatterns not appearing on the right side as subpattern usages but as dependent replacements are to be modified by their special method
-		for(SubpatternDependentReplacement subRepl : task.right.getSubpatternDependentReplacements()) {
-			delSubpatternUsages.remove(subRepl.getSubpatternUsage());
+		for(OrderedReplacement orderedRepl : task.right.getOrderedReplacements()) {
+			if(orderedRepl instanceof SubpatternDependentReplacement) {
+				SubpatternDependentReplacement subRepl = (SubpatternDependentReplacement)orderedRepl;
+				delSubpatternUsages.remove(subRepl.getSubpatternUsage());
+			}
 		}
 	}
 
@@ -896,6 +898,16 @@ public class ModifyGen extends CSharpBase {
 			}
 			else assert false : "unknown ImperativeStmt: " + istmt + " in " + task.left.getNameOfGraph();
 		}
+		
+		for(OrderedReplacement orpl : task.right.getOrderedReplacements())
+		{
+			if(orpl instanceof Emit) {
+				Emit emit = (Emit) orpl;
+				for(Expression arg : emit.getArguments())
+					arg.collectNeededEntities(needs);
+			}
+			// the other ordered statement is the totally different dependent subpattern replacement
+		}
 	}
 
 	private void collectElementsAndAttributesNeededByEvals(ModifyGenerationTask task, NeededEntities needs)
@@ -972,9 +984,6 @@ public class ModifyGen extends CSharpBase {
 		for(ImperativeStmt istmt : task.right.getImperativeStmts()) {
 			if(istmt instanceof Emit) {
 				Emit emit = (Emit) istmt;
-				if(emit.isPreEmit()) {
-					continue;
-				}
 				for(Expression arg : emit.getArguments()) {
 					sb.append("\t\t\tgraph.EmitWriter.Write(");
 					genExpression(sb, arg, state);
@@ -1120,21 +1129,6 @@ public class ModifyGen extends CSharpBase {
 		}
 	}
 
-	private void genPreEmits(StringBuffer sb, ModifyGenerationStateConst state, ModifyGenerationTask task) {
-		for(ImperativeStmt istmt : task.right.getImperativeStmts()) {
-			if(istmt instanceof Emit) {
-				Emit emit = (Emit) istmt;
-				if(emit.isPreEmit()) {
-					for(Expression arg : emit.getArguments()) {
-						sb.append("\t\t\tgraph.EmitWriter.Write(");
-						genExpression(sb, arg, state);
-						sb.append(");\n");
-					}
-				}
-			}
-		}
-	}
-
 	private void genAlternativeModificationCalls(StringBuffer sb, ModifyGenerationTask task, String pathPrefix) {
 		if(task.right==task.left) { // test needs top-level-modify due to interface, but not more
 			return;
@@ -1196,31 +1190,41 @@ public class ModifyGen extends CSharpBase {
 		}
 
 		// generate calls to the dependent modifications of the subpatterns
-		for(SubpatternDependentReplacement subRep : task.right.getSubpatternDependentReplacements()) {
-			String subName = formatIdentifiable(subRep);
-			sb.append("\t\t\tPattern_" + formatIdentifiable(subRep.getSubpatternUsage().getSubpatternAction())
-					+ ".Instance." + formatIdentifiable(subRep.getSubpatternUsage().getSubpatternAction()) +
-					"_Modify(graph, subpattern_" + subName);
-			NeededEntities needs = new NeededEntities(true, true, true, false, false, true);
-			for(Expression expr: subRep.getReplConnections()) {
-				expr.collectNeededEntities(needs);
-				sb.append(", ");
-				if(expr instanceof GraphEntityExpression) {
-					sb.append("(" + formatElementClassRef(expr.getType()) + ")(");
-				} else {
-					sb.append("(" + formatAttributeType(expr.getType()) + ") (");
+		for(OrderedReplacement orderedRep : task.right.getOrderedReplacements()) {
+			if(orderedRep instanceof SubpatternDependentReplacement) {
+				SubpatternDependentReplacement subRep = (SubpatternDependentReplacement)orderedRep;
+				String subName = formatIdentifiable(subRep);
+				sb.append("\t\t\tPattern_" + formatIdentifiable(subRep.getSubpatternUsage().getSubpatternAction())
+						+ ".Instance." + formatIdentifiable(subRep.getSubpatternUsage().getSubpatternAction()) +
+						"_Modify(graph, subpattern_" + subName);
+				NeededEntities needs = new NeededEntities(true, true, true, false, false, true);
+				for(Expression expr: subRep.getReplConnections()) {
+					expr.collectNeededEntities(needs);
+					sb.append(", ");
+					if(expr instanceof GraphEntityExpression) {
+						sb.append("(" + formatElementClassRef(expr.getType()) + ")(");
+					} else {
+						sb.append("(" + formatAttributeType(expr.getType()) + ") (");
+					}
+					genExpression(sb, expr, state);
+					sb.append(")");
 				}
-				genExpression(sb, expr, state);
-				sb.append(")");
+				for(Node node : needs.nodes) {
+					nodesNeededAsElements.add(node);
+				}
+				for(Variable var : needs.variables) {
+					neededVariables.add(var);
+				}
+							
+				sb.append(");\n");
+			} else {
+				Emit emit = (Emit)orderedRep;
+				for(Expression arg : emit.getArguments()) {
+					sb.append("\t\t\tgraph.EmitWriter.Write(");
+					genExpression(sb, arg, state);
+					sb.append(");\n");
+				}
 			}
-			for(Node node : needs.nodes) {
-				nodesNeededAsElements.add(node);
-			}
-			for(Variable var : needs.variables) {
-				neededVariables.add(var);
-			}
-						
-			sb.append(");\n");
 		}
 	}
 

@@ -17,19 +17,13 @@ import java.util.List;
 /**
  * An emit statement.
  */
-public class Emit extends IR  implements ImperativeStmt {
+public class Emit extends IR implements ImperativeStmt, OrderedReplacement {
 
 	private List<Expression> arguments;
-	private boolean isPre;
 
-	public Emit(List<Expression> arguments, boolean isPre) {
+	public Emit(List<Expression> arguments) {
 		super("emit");
 		this.arguments = arguments;
-		this.isPre = isPre;
-	}
-
-	public boolean isPreEmit()	{
-		return isPre;
 	}
 
 	/**

@@ -101,7 +101,7 @@ public abstract class Graph extends IR {
 
 	private Set<SubpatternUsage> subpatternUsages = new LinkedHashSet<SubpatternUsage>();
 
-	private Set<SubpatternDependentReplacement> subpatternDependentReplacement = new LinkedHashSet<SubpatternDependentReplacement>();
+	private Set<OrderedReplacement> orderedReplacement = new LinkedHashSet<OrderedReplacement>();
 
 	private String nameOfGraph;
 
@@ -215,12 +215,13 @@ public abstract class Graph extends IR {
 	}
 
 	/**
-	 * Get a read-only collection containing all dependent subpattern replacements in this graph.
-	 * @return A collection containing all dependent subpattern replacements in this graph.
+	 * Get a read-only collection containing all ordered replacements
+	 * (subpattern dependent replacement, emit here) in this graph.
+	 * @return A collection containing all ordered replacements in this graph.
 	 * Note: The collection is read-only and may not be modified.
 	 */
-	public Collection<SubpatternDependentReplacement> getSubpatternDependentReplacements() {
-		return Collections.unmodifiableCollection(subpatternDependentReplacement);
+	public Collection<OrderedReplacement> getOrderedReplacements() {
+		return Collections.unmodifiableCollection(orderedReplacement);
 	}
 
 	/**
@@ -333,9 +334,9 @@ public abstract class Graph extends IR {
 		subpatternUsages.add(subpatternUsage);
 	}
 
-	/** Add a dependent subpattern replacement to the graph */
-	public void addSubpatternReplacement(SubpatternDependentReplacement subpatternDepRepl) {
-		subpatternDependentReplacement.add(subpatternDepRepl);
+	/** Add a ordered replacement (subpattern dependent replacement, emit here) to the graph */
+	public void addOrderedReplacement(OrderedReplacement orderedRepl) {
+		orderedReplacement.add(orderedRepl);
 	}
 
 	/** @return true, if the node is single (i.e. has no incident edges), false if not. */

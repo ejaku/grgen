@@ -18,6 +18,7 @@ import de.unika.ipd.grgen.ir.Edge;
 import de.unika.ipd.grgen.ir.Entity;
 import de.unika.ipd.grgen.ir.Node;
 import de.unika.ipd.grgen.ir.PatternGraph;
+import de.unika.ipd.grgen.ir.OrderedReplacement;
 import de.unika.ipd.grgen.ir.SubpatternDependentReplacement;
 import de.unika.ipd.grgen.ir.SubpatternUsage;
 import java.util.Collection;
@@ -141,7 +142,10 @@ public class ModifyDeclNode extends RhsDeclNode {
 
 		for(SubpatternUsage sub : left.getSubpatternUsages()) {
 			boolean subHasDepModify = false;
-			for(SubpatternDependentReplacement subRepl: right.getSubpatternDependentReplacements()) {
+			for(OrderedReplacement orderedRepl: right.getOrderedReplacements()) {
+				if(!(orderedRepl instanceof SubpatternDependentReplacement))
+					continue;
+				SubpatternDependentReplacement subRepl = (SubpatternDependentReplacement)orderedRepl;
 				if(sub==subRepl.getSubpatternUsage()) {
 					subHasDepModify = true;
 					break;

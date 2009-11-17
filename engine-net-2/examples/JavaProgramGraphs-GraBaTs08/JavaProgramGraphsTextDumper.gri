@@ -13,14 +13,14 @@ rule emitSpanningTree
 		mpc:MultipleContainedPackagesOrClasses(p);
 	
 		modify {
-			emitpre("package ", p.name, "\n{\n");
+			emithere("package ", p.name, "\n{\n");
 			mpc();
-			emitpost("}\n");	
+			emithere("}\n");	
 		}
 	}
 	
 	modify {
-		emitpre("// java program ", nameof(), "\n");
+		emithere("// java program ", nameof(), "\n");
 	}
 }
 
@@ -31,9 +31,9 @@ pattern MultipleContainedPackagesOrClasses(p:Package)
 		mpc:MultipleContainedPackagesOrClasses(sub);	
 		
 		modify {
-			emitpre("package ", sub.name, "\n{\n");
+			emithere("package ", sub.name, "\n{\n");
 			mpc();
-			emitpost("}\n");
+			emithere("}\n");
 		}
 	}
 	
@@ -43,10 +43,10 @@ pattern MultipleContainedPackagesOrClasses(p:Package)
 		mv:MultipleVariables(c);
 		
 		modify {
-			emitpre("class ", c.name, " {\n");
+			emithere("class ", c.name, " {\n");
 			mm();
 			mv();
-			emitpost("}\n");
+			emithere("}\n");
 		}
 	}
 	
@@ -59,7 +59,7 @@ pattern MultipleVariables(c:Class)
 		c <-:belongsTo- v:Variable;
 
 		modify {
-			emitpre("var ", v.name, ";\n");
+			emithere("var ", v.name, ";\n");
 		}			
 	}
 	
@@ -74,9 +74,9 @@ pattern MultipleMethodBodies(c:Class)
 		bi:MethodBodyAndImplementation(mb);
 
 		modify {
-			emitpre("method body");
+			emithere("method body");
 			bi();
-			emitpost(";\n");
+			emithere(";\n");
 		}
 	}
 	
@@ -99,9 +99,9 @@ pattern MethodBodyAndImplementation(mb:MethodBody)
 		me:MultipleExpressions(b);
 		
 		modify {
-			emitpre(" {");
+			emithere(" {");
 			me();
-			emitpost("}");
+			emithere("}");
 		}
 	}
 	
@@ -127,9 +127,9 @@ pattern MultipleExpressions(b:Block)
 		ec:ExpressionChain(next);	
 		
 		modify {
-			emitpre("exp");
+			emithere("exp");
 			ec();
-			emitpost(" ");
+			emithere(" ");
 		}
 	}
 
@@ -139,9 +139,9 @@ pattern MultipleExpressions(b:Block)
 		:MultipleActualParameters(call);
 		
 		modify {
-			emitpre("call");
+			emithere("call");
 			ec();
-			emitpost(" ");
+			emithere(" ");
 		}
 	}
 	
@@ -156,7 +156,7 @@ pattern ExpressionChain(e:Expression)
 			ec:ExpressionChain(next);	
 			
 			modify {
-				emitpre("--exp");
+				emithere("--exp");
 				ec();
 			}
 		}
@@ -166,7 +166,7 @@ pattern ExpressionChain(e:Expression)
 			:MultipleActualParameters(call);
 			
 			modify {
-				emitpre("--call");
+				emithere("--call");
 				ec();
 			}
 		}

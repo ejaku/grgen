@@ -12,7 +12,7 @@ package de.unika.ipd.grgen.ir;
 
 import java.util.List;
 
-public class SubpatternDependentReplacement extends Identifiable {
+public class SubpatternDependentReplacement extends Identifiable implements OrderedReplacement{
 	SubpatternUsage subpatternUsage;
 	List<Expression> replConnections;
 

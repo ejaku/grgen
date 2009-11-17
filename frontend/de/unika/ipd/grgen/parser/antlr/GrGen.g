@@ -418,7 +418,7 @@ patternBody [ Coords coords, CollectNode<BaseNode> params, int mod, int context,
 	@init{
 		CollectNode<BaseNode> connections = new CollectNode<BaseNode>();
 		CollectNode<SubpatternUsageNode> subpatterns = new CollectNode<SubpatternUsageNode>();
-		CollectNode<SubpatternReplNode> subpatternReplacements = new CollectNode<SubpatternReplNode>();
+		CollectNode<OrderedReplacementNode> orderedReplacements = new CollectNode<OrderedReplacementNode>();
 		CollectNode<AlternativeNode> alts = new CollectNode<AlternativeNode>();
 		CollectNode<IteratedNode> iters = new CollectNode<IteratedNode>();
 		CollectNode<PatternGraphNode> negs = new CollectNode<PatternGraphNode>();
@@ -429,22 +429,22 @@ patternBody [ Coords coords, CollectNode<BaseNode> params, int mod, int context,
 		CollectNode<ExactNode> exact = new CollectNode<ExactNode>();
 		CollectNode<InducedNode> induced = new CollectNode<InducedNode>();
 		NestedPatternCounters counters = new NestedPatternCounters();
-		res = new PatternGraphNode(nameOfGraph, coords, connections, params, subpatterns, subpatternReplacements, 
+		res = new PatternGraphNode(nameOfGraph, coords, connections, params, subpatterns, orderedReplacements, 
 				alts, iters, negs, idpts, conds,
 				returnz, homs, exact, induced, mod, context);
 	}
 
-	: ( patternStmt[connections, subpatterns, subpatternReplacements,
+	: ( patternStmt[connections, subpatterns, orderedReplacements,
 			alts, iters, negs, idpts, counters, conds,
 			returnz, homs, exact, induced, context, res] )*
 	;
 
-patternStmt [ CollectNode<BaseNode> conn, CollectNode<SubpatternUsageNode> subpatterns, CollectNode<SubpatternReplNode> subpatternReplacements,
+patternStmt [ CollectNode<BaseNode> conn, CollectNode<SubpatternUsageNode> subpatterns, CollectNode<OrderedReplacementNode> orderedReplacements,
 			CollectNode<AlternativeNode> alts, CollectNode<IteratedNode> iters, CollectNode<PatternGraphNode> negs,
 			CollectNode<PatternGraphNode> idpts, NestedPatternCounters counters, CollectNode<ExprNode> conds,
 			CollectNode<ExprNode> returnz, CollectNode<HomNode> homs, CollectNode<ExactNode> exact, CollectNode<InducedNode> induced,
 			int context, PatternGraphNode directlyNestingLHSGraph]
-	: connectionsOrSubpattern[conn, subpatterns, subpatternReplacements, context, directlyNestingLHSGraph] SEMI
+	: connectionsOrSubpattern[conn, subpatterns, orderedReplacements, context, directlyNestingLHSGraph] SEMI
 	| alt=alternative[counters.alt, context] { alts.addChild(alt); ++counters.alt; }
 	| iter=iterated[counters.iter, context] { iters.addChild(iter); ++counters.iter; }
 	| neg=negative[counters.neg, context] { negs.addChild(neg); ++counters.neg; }
@@ -456,9 +456,9 @@ patternStmt [ CollectNode<BaseNode> conn, CollectNode<SubpatternUsageNode> subpa
 	| ind=inducedStatement { induced.addChild(ind); } SEMI
 	;
 
-connectionsOrSubpattern [ CollectNode<BaseNode> conn, CollectNode<SubpatternUsageNode> subpatterns, CollectNode<SubpatternReplNode> subpatternReplacements, int context, PatternGraphNode directlyNestingLHSGraph ]
+connectionsOrSubpattern [ CollectNode<BaseNode> conn, CollectNode<SubpatternUsageNode> subpatterns, CollectNode<OrderedReplacementNode> orderedReplacements, int context, PatternGraphNode directlyNestingLHSGraph ]
 	: firstEdge[conn, context, directlyNestingLHSGraph] // connection starts with an edge which dangles on the left
-	| firstNodeOrSubpattern[conn, subpatterns, subpatternReplacements, context, directlyNestingLHSGraph] // there's a subpattern or a connection that starts with a node
+	| firstNodeOrSubpattern[conn, subpatterns, orderedReplacements, context, directlyNestingLHSGraph] // there's a subpattern or a connection that starts with a node
 	;
 
 firstEdge [ CollectNode<BaseNode> conn, int context, PatternGraphNode directlyNestingLHSGraph ]
@@ -474,7 +474,7 @@ firstEdge [ CollectNode<BaseNode> conn, int context, PatternGraphNode directlyNe
 		nodeContinuation[e, env.getDummyNodeDecl(context, directlyNestingLHSGraph), forward, direction, conn, context, directlyNestingLHSGraph] // and continue looking for node
 	;
 
-firstNodeOrSubpattern [ CollectNode<BaseNode> conn, CollectNode<SubpatternUsageNode> subpatterns, CollectNode<SubpatternReplNode> subpatternReplacements, int context, PatternGraphNode directlyNestingLHSGraph ]
+firstNodeOrSubpattern [ CollectNode<BaseNode> conn, CollectNode<SubpatternUsageNode> subpatterns, CollectNode<OrderedReplacementNode> orderedReplacements, int context, PatternGraphNode directlyNestingLHSGraph ]
 	@init{
 		id = env.getDummyIdent();
 		type = env.getNodeRoot();
@@ -488,7 +488,7 @@ firstNodeOrSubpattern [ CollectNode<BaseNode> conn, CollectNode<SubpatternUsageN
 
 	: id=entIdentUse firstEdgeContinuation[id, conn, context, directlyNestingLHSGraph] // use of already declared node, continue looking for first edge
 	| id=entIdentUse l=LPAREN arguments[subpatternReplConn] RPAREN // use of already declared subpattern
-		{ subpatternReplacements.addChild(new SubpatternReplNode(id, subpatternReplConn)); }
+		{ orderedReplacements.addChild(new SubpatternReplNode(id, subpatternReplConn)); }
 	| id=entIdentDecl cc=COLON // node or subpattern declaration
 		( // node declaration
 			type=typeIdentUse
@@ -860,23 +860,23 @@ replaceBody [ Coords coords, CollectNode<BaseNode> params, CollectNode<EvalState
 	@init{
 		CollectNode<BaseNode> connections = new CollectNode<BaseNode>();
 		CollectNode<SubpatternUsageNode> subpatterns = new CollectNode<SubpatternUsageNode>();
-		CollectNode<SubpatternReplNode> subpatternReplacements = new CollectNode<SubpatternReplNode>();
+		CollectNode<OrderedReplacementNode> orderedReplacements = new CollectNode<OrderedReplacementNode>();
 		CollectNode<ExprNode> returnz = new CollectNode<ExprNode>();
 		CollectNode<BaseNode> imperativeStmts = new CollectNode<BaseNode>();
-		GraphNode graph = new GraphNode(nameOfRHS.toString(), coords, connections, params, subpatterns, subpatternReplacements, returnz, imperativeStmts, context);
+		GraphNode graph = new GraphNode(nameOfRHS.toString(), coords, connections, params, subpatterns, orderedReplacements, returnz, imperativeStmts, context);
 		res = new ReplaceDeclNode(nameOfRHS, graph, eval);
 	}
 
-	: ( replaceStmt[coords, connections, subpatterns, subpatternReplacements, eval, context, directlyNestingLHSGraph] 
+	: ( replaceStmt[coords, connections, subpatterns, orderedReplacements, eval, context, directlyNestingLHSGraph] 
 		| rets[returnz, context] SEMI
 		| execStmt[imperativeStmts] SEMI
-		| emitStmt[imperativeStmts] SEMI
+		| emitStmt[imperativeStmts, orderedReplacements] SEMI
 		)*
 	;
 
 replaceStmt [ Coords coords, CollectNode<BaseNode> connections, CollectNode<SubpatternUsageNode> subpatterns,
- 		CollectNode<SubpatternReplNode> subpatternReplacements, CollectNode<EvalStatementNode> eval, int context, PatternGraphNode directlyNestingLHSGraph ]
-	: connectionsOrSubpattern[connections, subpatterns, subpatternReplacements, context, directlyNestingLHSGraph] SEMI
+ 		CollectNode<OrderedReplacementNode> orderedReplacements, CollectNode<EvalStatementNode> eval, int context, PatternGraphNode directlyNestingLHSGraph ]
+	: connectionsOrSubpattern[connections, subpatterns, orderedReplacements, context, directlyNestingLHSGraph] SEMI
 	| evalPart[eval]
 	;
 
@@ -884,24 +884,24 @@ modifyBody [ Coords coords, CollectNode<EvalStatementNode> eval, CollectNode<Ide
 	@init{
 		CollectNode<BaseNode> connections = new CollectNode<BaseNode>();
 		CollectNode<SubpatternUsageNode> subpatterns = new CollectNode<SubpatternUsageNode>();
-		CollectNode<SubpatternReplNode> subpatternReplacements = new CollectNode<SubpatternReplNode>();
+		CollectNode<OrderedReplacementNode> orderedReplacements = new CollectNode<OrderedReplacementNode>();
 		CollectNode<ExprNode> returnz = new CollectNode<ExprNode>();
 		CollectNode<BaseNode> imperativeStmts = new CollectNode<BaseNode>();
-		GraphNode graph = new GraphNode(nameOfRHS.toString(), coords, connections, params, subpatterns, subpatternReplacements, returnz, imperativeStmts, context);
+		GraphNode graph = new GraphNode(nameOfRHS.toString(), coords, connections, params, subpatterns, orderedReplacements, returnz, imperativeStmts, context);
 		res = new ModifyDeclNode(nameOfRHS, graph, eval, dels);
 	}
 
-	: ( modifyStmt[coords, connections, subpatterns, subpatternReplacements, eval, dels, context, directlyNestingLHSGraph] 
+	: ( modifyStmt[coords, connections, subpatterns, orderedReplacements, eval, dels, context, directlyNestingLHSGraph] 
 		| rets[returnz, context] SEMI
 		| execStmt[imperativeStmts] SEMI
-		| emitStmt[imperativeStmts] SEMI
+		| emitStmt[imperativeStmts, orderedReplacements] SEMI
 		)*
 	;
 
 modifyStmt [ Coords coords, CollectNode<BaseNode> connections, CollectNode<SubpatternUsageNode> subpatterns,
- 		CollectNode<SubpatternReplNode> subpatternReplacements,
+ 		CollectNode<OrderedReplacementNode> orderedReplacements,
 		CollectNode<EvalStatementNode> eval, CollectNode<IdentNode> dels, int context, PatternGraphNode directlyNestingLHSGraph ]
-	: connectionsOrSubpattern[connections, subpatterns, subpatternReplacements, context, directlyNestingLHSGraph] SEMI
+	: connectionsOrSubpattern[connections, subpatterns, orderedReplacements, context, directlyNestingLHSGraph] SEMI
 	| deleteStmt[dels] SEMI
 	| evalPart[eval]
 	;
@@ -1031,16 +1031,19 @@ execStmt[CollectNode<BaseNode> imperativeStmts]
 	: e=EXEC pushScopeStr["exec_", getCoords(e)] { exec = new ExecNode(getCoords(e)); } LPAREN xgrs[exec] RPAREN { imperativeStmts.addChild(exec); } popScope
 	;
 
-emitStmt[CollectNode<BaseNode> imperativeStmts]
-	@init{ EmitNode emit = null; boolean isPre = false;}
+emitStmt[CollectNode<BaseNode> imperativeStmts, CollectNode<OrderedReplacementNode> orderedReplacements]
+	@init{ EmitNode emit = null; boolean isHere = false;}
 	
-	: (e=EMIT | e=EMITPRE { isPre = true; } | e=EMITPOST)
-		{ emit = new EmitNode(getCoords(e), isPre); }
+	: (e=EMIT | e=EMITHERE { isHere = true; })
+		{ emit = new EmitNode(getCoords(e)); }
 		LPAREN
 			exp=expr[false] { emit.addChild(exp); }
 			( COMMA exp=expr[false] { emit.addChild(exp); } )*
 		RPAREN
-		{ imperativeStmts.addChild(emit); }
+		{ 
+			if(isHere) orderedReplacements.addChild(emit);
+			else imperativeStmts.addChild(emit);
+		}
 	;
 
 typeConstraint returns [ TypeExprNode constr = null ]
@@ -2273,8 +2276,7 @@ DIRECTED : 'directed';
 DPO : 'dpo';
 EDGE : 'edge';
 EMIT : 'emit';
-EMITPRE : 'emitpre';
-EMITPOST : 'emitpost';
+EMITHERE : 'emithere';
 ENUM : 'enum';
 EVAL : 'eval';
 EXACT : 'exact';

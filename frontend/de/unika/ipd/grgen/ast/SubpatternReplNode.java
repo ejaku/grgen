@@ -21,7 +21,7 @@ import de.unika.ipd.grgen.ir.IR;
 import de.unika.ipd.grgen.ir.SubpatternDependentReplacement;
 import de.unika.ipd.grgen.ir.SubpatternUsage;
 
-public class SubpatternReplNode extends BaseNode {
+public class SubpatternReplNode extends OrderedReplacementNode {
 	static {
 		setName(SubpatternReplNode.class, "subpattern repl node");
 	}

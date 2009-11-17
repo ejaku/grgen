@@ -25,17 +25,15 @@ import de.unika.ipd.grgen.parser.Coords;
 /**
  *
  */
-public class EmitNode extends BaseNode {
+public class EmitNode extends OrderedReplacementNode {
 	static {
 		setName(EmitNode.class, "emit");
 	}
 
 	private Vector<ExprNode> childrenUnresolved = new Vector<ExprNode>();
-	private boolean isPre;
 
-	public EmitNode(Coords coords, boolean isPre) {
+	public EmitNode(Coords coords) {
 		super(coords);
-		this.isPre = isPre;
 	}
 
 	public void addChild(ExprNode n) {
@@ -83,7 +81,7 @@ public class EmitNode extends BaseNode {
 		List<Expression> arguments = new ArrayList<Expression>();
 		for(BaseNode child : getChildren())
 			arguments.add(child.checkIR(Expression.class));
-		Emit res= new Emit(arguments, isPre);
+		Emit res= new Emit(arguments);
 		return res;
 	}
 }

@@ -108,13 +108,13 @@ public class PatternGraphNode extends GraphNode {
 
 	public PatternGraphNode(String nameOfGraph, Coords coords,
 			CollectNode<BaseNode> connections, CollectNode<BaseNode> params,
-			CollectNode<SubpatternUsageNode> subpatterns, CollectNode<SubpatternReplNode> subpatternReplacements,
+			CollectNode<SubpatternUsageNode> subpatterns, CollectNode<OrderedReplacementNode> orderedReplacements,
 			CollectNode<AlternativeNode> alts, CollectNode<IteratedNode> iters,
 			CollectNode<PatternGraphNode> negs, CollectNode<PatternGraphNode> idpts,
 			CollectNode<ExprNode> conditions, CollectNode<ExprNode> returns,
 			CollectNode<HomNode> homs, CollectNode<ExactNode> exact,
 			CollectNode<InducedNode> induced, int modifiers, int context) {
-		super(nameOfGraph, coords, connections, params, subpatterns, subpatternReplacements, returns, null, context);
+		super(nameOfGraph, coords, connections, params, subpatterns, orderedReplacements, returns, null, context);
 		this.alts = alts;
 		becomeParent(this.alts);
 		this.iters = iters;
@@ -141,7 +141,7 @@ public class PatternGraphNode extends GraphNode {
 		children.add(getValidVersion(connectionsUnresolved, connections));
 		children.add(params);
 		children.add(subpatterns);
-		children.add(subpatternReplacements);
+		children.add(orderedReplacements);
 		children.add(alts);
 		children.add(iters);
 		children.add(negs);

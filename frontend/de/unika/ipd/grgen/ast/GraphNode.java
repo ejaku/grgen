@@ -19,7 +19,7 @@ import de.unika.ipd.grgen.ast.util.Triple;
 import de.unika.ipd.grgen.ir.IR;
 import de.unika.ipd.grgen.ir.ImperativeStmt;
 import de.unika.ipd.grgen.ir.PatternGraph;
-import de.unika.ipd.grgen.ir.SubpatternDependentReplacement;
+import de.unika.ipd.grgen.ir.OrderedReplacement;
 import de.unika.ipd.grgen.ir.SubpatternUsage;
 import de.unika.ipd.grgen.parser.Coords;
 import java.util.Collection;
@@ -43,7 +43,7 @@ public class GraphNode extends BaseNode {
 	protected CollectNode<BaseNode> connectionsUnresolved;
 	protected CollectNode<BaseNode> connections = new CollectNode<BaseNode>();
 	protected CollectNode<SubpatternUsageNode> subpatterns;
-	protected CollectNode<SubpatternReplNode> subpatternReplacements;
+	protected CollectNode<OrderedReplacementNode> orderedReplacements;
 	protected CollectNode<ExprNode> returns;
 	protected CollectNode<BaseNode> imperativeStmts;
 	protected CollectNode<BaseNode> params;
@@ -66,7 +66,7 @@ public class GraphNode extends BaseNode {
 	public GraphNode(String nameOfGraph, Coords coords,
 			CollectNode<BaseNode> connections, CollectNode<BaseNode> params,
 			CollectNode<SubpatternUsageNode> subpatterns,
-			CollectNode<SubpatternReplNode> subpatternReplacements,
+			CollectNode<OrderedReplacementNode> orderedReplacements,
 			CollectNode<ExprNode> returns, CollectNode<BaseNode> imperativeStmts,
 			int context) {
 		super(coords);
@@ -75,8 +75,8 @@ public class GraphNode extends BaseNode {
 		becomeParent(this.connectionsUnresolved);
 		this.subpatterns = subpatterns;
 		becomeParent(this.subpatterns);
-		this.subpatternReplacements = subpatternReplacements;
-		becomeParent(this.subpatternReplacements);
+		this.orderedReplacements = orderedReplacements;
+		becomeParent(this.orderedReplacements);
 		this.returns = returns;
 		becomeParent(this.returns);
 		this.imperativeStmts = imperativeStmts;
@@ -96,7 +96,7 @@ public class GraphNode extends BaseNode {
 		children.add(getValidVersion(connectionsUnresolved, connections));
 		children.add(params);
 		children.add(subpatterns);
-		children.add(subpatternReplacements);
+		children.add(orderedReplacements);
 		children.add(returns);
 		children.add(imperativeStmts);
 		return children;
@@ -314,8 +314,8 @@ public class GraphNode extends BaseNode {
 			gr.addSubpatternUsage(n.checkIR(SubpatternUsage.class));
 		}
 
-		for(SubpatternReplNode n : subpatternReplacements.getChildren()) {
-			gr.addSubpatternReplacement(n.checkIR(SubpatternDependentReplacement.class));
+		for(OrderedReplacementNode n : orderedReplacements.getChildren()) {
+			gr.addOrderedReplacement((OrderedReplacement)n.getIR());
 		}
 
 		for(BaseNode imp : imperativeStmts.getChildren()) {
