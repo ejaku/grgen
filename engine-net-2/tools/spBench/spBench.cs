@@ -199,7 +199,7 @@ namespace spBench
             return scheduledSearchPlan;*/
 
             MatchGen.GenerateScheduledSearchPlans(Action.rulePattern.patternGraph, Graph, false, false);
-            return Action.rulePattern.patternGraph.schedule;
+            return Action.rulePattern.patternGraph.schedules[0];
         }
 
 /*        private SearchPlanGraph GenerateSearchPlanGraphNewCost(LGSPGraph graph, PatternGraph patternGraph, bool negativePatternGraph)
@@ -419,7 +419,7 @@ namespace spBench
                 case SearchOperationType.ImplicitSource: typeStr = "IS"; break;
                 case SearchOperationType.ImplicitTarget: typeStr = "IT"; break;
                 case SearchOperationType.Lookup: typeStr = " *"; break;
-                case SearchOperationType.MaybePreset: typeStr = " p"; break;
+                case SearchOperationType.ActionPreset: typeStr = " p"; break;
                 case SearchOperationType.NegIdptPreset: typeStr = "np"; break;
             }
 
@@ -872,7 +872,7 @@ namespace spBench
                 case SearchOperationType.ImplicitSource: typeStr = "<-" + src.PatternElement.Name + "-" + tgt.PatternElement.Name; break;
                 case SearchOperationType.ImplicitTarget: typeStr = "-" + src.PatternElement.Name + "->" + tgt.PatternElement.Name; break;
                 case SearchOperationType.Lookup: typeStr = "*" + tgt.PatternElement.Name; break;
-                case SearchOperationType.MaybePreset: typeStr = "p" + tgt.PatternElement.Name; break;
+                case SearchOperationType.ActionPreset: typeStr = "p" + tgt.PatternElement.Name; break;
                 case SearchOperationType.NegIdptPreset: typeStr = "np" + tgt.PatternElement.Name; break;
                 case SearchOperationType.Condition:
                     typeStr = " ?(" + String.Join(",", ((PatternCondition) op.Element).NeededNodes) + ")("
@@ -942,7 +942,7 @@ namespace spBench
                     (PatternGraph)ctx.Action.rulePattern.PatternGraph, ops, spcostproduct);
 
                 ctx.MatchGen.AppendHomomorphyInformation(ssp);
-                ((PatternGraph) ctx.Action.rulePattern.PatternGraph).schedule = ssp;
+                ((PatternGraph) ctx.Action.rulePattern.PatternGraph).schedules[0] = ssp;
                 ctx.MatchGen.MergeNegativeAndIndependentSchedulesIntoEnclosingSchedules(ctx.Action.patternGraph);
 
 #if DUMP_MATCHERPROGRAMS
@@ -1556,12 +1556,12 @@ namespace spBench
                 foreach(SearchPlanEdge edge in node.OutgoingEdges)
                     availEdges.Add(edge);
 
-                SearchOperation newOp = new SearchOperation(SearchOperationType.MaybePreset, node, ctx.SearchPlanGraph.Root, 0);
+                SearchOperation newOp = new SearchOperation(SearchOperationType.ActionPreset, node, ctx.SearchPlanGraph.Root, 0);
                 ctx.Schedule.AddLast(newOp);
                 ctx.NumVisitedElements++;
             }
 
-            RecursiveGenAllSearchPlans(ctx, new SearchPlanEdge(SearchOperationType.MaybePreset, ctx.SearchPlanGraph.Root, ctx.SearchPlanGraph.Root, 0),
+            RecursiveGenAllSearchPlans(ctx, new SearchPlanEdge(SearchOperationType.ActionPreset, ctx.SearchPlanGraph.Root, ctx.SearchPlanGraph.Root, 0),
                 availEdges, ctx.NumVisitedElements);
 
             Console.WriteLine("Num searchplans: " + num);

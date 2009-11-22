@@ -34,8 +34,15 @@ public class EdgeDeclNode extends ConstraintDeclNode implements EdgeCharacter {
 	protected static final DeclarationPairResolver<EdgeDeclNode,TypeDeclNode> typeResolver =
 		new DeclarationPairResolver<EdgeDeclNode,TypeDeclNode>(EdgeDeclNode.class, TypeDeclNode.class);
 
+	
+	public EdgeDeclNode(IdentNode id, BaseNode type, int context, TypeExprNode constraints, 
+			PatternGraphNode directlyNestingLHSGraph, boolean maybeNull) {
+		super(id, type, context, constraints, directlyNestingLHSGraph, maybeNull);
+		setName("edge");
+	}
+
 	public EdgeDeclNode(IdentNode id, BaseNode type, int context, TypeExprNode constraints, PatternGraphNode directlyNestingLHSGraph) {
-		super(id, type, context, constraints, directlyNestingLHSGraph);
+		super(id, type, context, constraints, directlyNestingLHSGraph, false);
 		setName("edge");
 	}
 
@@ -202,6 +209,8 @@ public class EdgeDeclNode extends ConstraintDeclNode implements EdgeCharacter {
 			edge.setTypeof(typeEdgeDecl.checkIR(Edge.class));
 		}
 
+		edge.setMaybeNull(maybeNull);
+		
 		return edge;
 	}
 

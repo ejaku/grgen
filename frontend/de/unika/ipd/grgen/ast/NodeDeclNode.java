@@ -37,13 +37,14 @@ public class NodeDeclNode extends ConstraintDeclNode implements NodeCharacter {
 	private static DeclarationPairResolver<NodeDeclNode, TypeDeclNode> typeResolver =
 		new DeclarationPairResolver<NodeDeclNode, TypeDeclNode>(NodeDeclNode.class, TypeDeclNode.class);
 
-	/**
-	 * Make a new node declaration.
-	 * @param id The identifier of the node.
-	 * @param type The type of the node.
-	 */
+	
+	public NodeDeclNode(IdentNode id, BaseNode type, int context, TypeExprNode constr, 
+			PatternGraphNode directlyNestingLHSGraph, boolean maybeNull) {
+		super(id, type, context, constr, directlyNestingLHSGraph, maybeNull);
+	}
+
 	public NodeDeclNode(IdentNode id, BaseNode type, int context, TypeExprNode constr, PatternGraphNode directlyNestingLHSGraph) {
-		super(id, type, context, constr, directlyNestingLHSGraph);
+		super(id, type, context, constr, directlyNestingLHSGraph, false);
 	}
 
 	/** The TYPE child could be a node in case the type is
@@ -198,6 +199,8 @@ public class NodeDeclNode extends ConstraintDeclNode implements NodeCharacter {
 		if(inheritsType()) {
 			res.setTypeof(typeNodeDecl.checkIR(Node.class));
 		}
+		
+		res.setMaybeNull(maybeNull);
 
 		return res;
 	}

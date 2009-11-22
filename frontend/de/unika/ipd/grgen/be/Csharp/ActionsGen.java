@@ -912,7 +912,8 @@ public class ActionsGen extends CSharpBase {
 			sb.append(nodeName + "_AllowedTypes, ");
 			sb.append(nodeName + "_IsAllowedType, ");
 			appendPrio(sb, node, max);
-			sb.append(parameters.indexOf(node)+");\n");
+			sb.append(parameters.indexOf(node)+", ");
+			sb.append(node.getMaybeNull()?"true);\n":"false);\n");
 			alreadyDefinedEntityToName.put(node, nodeName);
 			aux.append("\t\t\t" + nodeName + ".PointOfDefinition = " + (parameters.indexOf(node)==-1 ? patGraphVarName : "null") + ";\n");
 
@@ -931,7 +932,8 @@ public class ActionsGen extends CSharpBase {
 			sb.append(edgeName + "_AllowedTypes, ");
 			sb.append(edgeName + "_IsAllowedType, ");
 			appendPrio(sb, edge, max);
-			sb.append(parameters.indexOf(edge)+");\n");
+			sb.append(parameters.indexOf(edge)+", ");
+			sb.append(edge.getMaybeNull()?"true);\n":"false);\n");
 			alreadyDefinedEntityToName.put(edge, edgeName);
 			aux.append("\t\t\t" + edgeName + ".PointOfDefinition = " + (parameters.indexOf(edge)==-1 ? patGraphVarName : "null") + ";\n");
 

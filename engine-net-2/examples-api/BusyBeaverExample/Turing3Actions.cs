@@ -1,6 +1,6 @@
 // This file has been generated automatically by GrGen.
 // Do not modify this file! Any changes will be lost!
-// Generated from "..\..\examples\Turing3\Turing3.grg" on Mon Nov 09 00:52:00 CET 2009
+// Generated from "..\..\examples\Turing3\Turing3.grg" on Sun Nov 22 13:11:01 CET 2009
 
 using System;
 using System.Collections.Generic;
@@ -57,10 +57,10 @@ namespace de.unika.ipd.grGen.Action_Turing3
 			};
 			int[] readZeroRule_minMatches = new int[0] ;
 			int[] readZeroRule_maxMatches = new int[0] ;
-			GRGEN_LGSP.PatternNode readZeroRule_node_s = new GRGEN_LGSP.PatternNode((int) GRGEN_MODEL.NodeTypes.@State, "GRGEN_MODEL.IState", "readZeroRule_node_s", "s", readZeroRule_node_s_AllowedTypes, readZeroRule_node_s_IsAllowedType, 5.5F, 0);
-			GRGEN_LGSP.PatternNode readZeroRule_node_wv = new GRGEN_LGSP.PatternNode((int) GRGEN_MODEL.NodeTypes.@WriteValue, "GRGEN_MODEL.IWriteValue", "readZeroRule_node_wv", "wv", readZeroRule_node_wv_AllowedTypes, readZeroRule_node_wv_IsAllowedType, 5.5F, -1);
-			GRGEN_LGSP.PatternNode readZeroRule_node_bp = new GRGEN_LGSP.PatternNode((int) GRGEN_MODEL.NodeTypes.@BandPosition, "GRGEN_MODEL.IBandPosition", "readZeroRule_node_bp", "bp", readZeroRule_node_bp_AllowedTypes, readZeroRule_node_bp_IsAllowedType, 5.5F, 1);
-			GRGEN_LGSP.PatternEdge readZeroRule_edge_rv = new GRGEN_LGSP.PatternEdge(true, (int) GRGEN_MODEL.EdgeTypes.@readZero, "GRGEN_MODEL.IreadZero", "readZeroRule_edge_rv", "rv", readZeroRule_edge_rv_AllowedTypes, readZeroRule_edge_rv_IsAllowedType, 5.5F, -1);
+			GRGEN_LGSP.PatternNode readZeroRule_node_s = new GRGEN_LGSP.PatternNode((int) GRGEN_MODEL.NodeTypes.@State, "GRGEN_MODEL.IState", "readZeroRule_node_s", "s", readZeroRule_node_s_AllowedTypes, readZeroRule_node_s_IsAllowedType, 5.5F, 0, false);
+			GRGEN_LGSP.PatternNode readZeroRule_node_wv = new GRGEN_LGSP.PatternNode((int) GRGEN_MODEL.NodeTypes.@WriteValue, "GRGEN_MODEL.IWriteValue", "readZeroRule_node_wv", "wv", readZeroRule_node_wv_AllowedTypes, readZeroRule_node_wv_IsAllowedType, 5.5F, -1, false);
+			GRGEN_LGSP.PatternNode readZeroRule_node_bp = new GRGEN_LGSP.PatternNode((int) GRGEN_MODEL.NodeTypes.@BandPosition, "GRGEN_MODEL.IBandPosition", "readZeroRule_node_bp", "bp", readZeroRule_node_bp_AllowedTypes, readZeroRule_node_bp_IsAllowedType, 5.5F, 1, false);
+			GRGEN_LGSP.PatternEdge readZeroRule_edge_rv = new GRGEN_LGSP.PatternEdge(true, (int) GRGEN_MODEL.EdgeTypes.@readZero, "GRGEN_MODEL.IreadZero", "readZeroRule_edge_rv", "rv", readZeroRule_edge_rv_AllowedTypes, readZeroRule_edge_rv_IsAllowedType, 5.5F, -1, false);
 			GRGEN_LGSP.PatternCondition cond_0 = new GRGEN_LGSP.PatternCondition(
 				new GRGEN_EXPR.EQ(new GRGEN_EXPR.Qualification("GRGEN_MODEL.IBandPosition", "readZeroRule_node_bp", "value"), new GRGEN_EXPR.Constant("0")),
 				new string[] { "readZeroRule_node_bp" }, new string[] {  }, new string[] {  }, new GRGEN_LIBGR.VarType[] {  });
@@ -301,10 +301,10 @@ namespace de.unika.ipd.grGen.Action_Turing3
 			};
 			int[] readOneRule_minMatches = new int[0] ;
 			int[] readOneRule_maxMatches = new int[0] ;
-			GRGEN_LGSP.PatternNode readOneRule_node_s = new GRGEN_LGSP.PatternNode((int) GRGEN_MODEL.NodeTypes.@State, "GRGEN_MODEL.IState", "readOneRule_node_s", "s", readOneRule_node_s_AllowedTypes, readOneRule_node_s_IsAllowedType, 5.5F, 0);
-			GRGEN_LGSP.PatternNode readOneRule_node_wv = new GRGEN_LGSP.PatternNode((int) GRGEN_MODEL.NodeTypes.@WriteValue, "GRGEN_MODEL.IWriteValue", "readOneRule_node_wv", "wv", readOneRule_node_wv_AllowedTypes, readOneRule_node_wv_IsAllowedType, 5.5F, -1);
-			GRGEN_LGSP.PatternNode readOneRule_node_bp = new GRGEN_LGSP.PatternNode((int) GRGEN_MODEL.NodeTypes.@BandPosition, "GRGEN_MODEL.IBandPosition", "readOneRule_node_bp", "bp", readOneRule_node_bp_AllowedTypes, readOneRule_node_bp_IsAllowedType, 5.5F, 1);
-			GRGEN_LGSP.PatternEdge readOneRule_edge_rv = new GRGEN_LGSP.PatternEdge(true, (int) GRGEN_MODEL.EdgeTypes.@readOne, "GRGEN_MODEL.IreadOne", "readOneRule_edge_rv", "rv", readOneRule_edge_rv_AllowedTypes, readOneRule_edge_rv_IsAllowedType, 5.5F, -1);
+			GRGEN_LGSP.PatternNode readOneRule_node_s = new GRGEN_LGSP.PatternNode((int) GRGEN_MODEL.NodeTypes.@State, "GRGEN_MODEL.IState", "readOneRule_node_s", "s", readOneRule_node_s_AllowedTypes, readOneRule_node_s_IsAllowedType, 5.5F, 0, false);
+			GRGEN_LGSP.PatternNode readOneRule_node_wv = new GRGEN_LGSP.PatternNode((int) GRGEN_MODEL.NodeTypes.@WriteValue, "GRGEN_MODEL.IWriteValue", "readOneRule_node_wv", "wv", readOneRule_node_wv_AllowedTypes, readOneRule_node_wv_IsAllowedType, 5.5F, -1, false);
+			GRGEN_LGSP.PatternNode readOneRule_node_bp = new GRGEN_LGSP.PatternNode((int) GRGEN_MODEL.NodeTypes.@BandPosition, "GRGEN_MODEL.IBandPosition", "readOneRule_node_bp", "bp", readOneRule_node_bp_AllowedTypes, readOneRule_node_bp_IsAllowedType, 5.5F, 1, false);
+			GRGEN_LGSP.PatternEdge readOneRule_edge_rv = new GRGEN_LGSP.PatternEdge(true, (int) GRGEN_MODEL.EdgeTypes.@readOne, "GRGEN_MODEL.IreadOne", "readOneRule_edge_rv", "rv", readOneRule_edge_rv_AllowedTypes, readOneRule_edge_rv_IsAllowedType, 5.5F, -1, false);
 			GRGEN_LGSP.PatternCondition cond_0 = new GRGEN_LGSP.PatternCondition(
 				new GRGEN_EXPR.EQ(new GRGEN_EXPR.Qualification("GRGEN_MODEL.IBandPosition", "readOneRule_node_bp", "value"), new GRGEN_EXPR.Constant("1")),
 				new string[] { "readOneRule_node_bp" }, new string[] {  }, new string[] {  }, new GRGEN_LIBGR.VarType[] {  });
@@ -558,10 +558,10 @@ namespace de.unika.ipd.grGen.Action_Turing3
 			};
 			int[] ensureMoveLeftValidRule_minMatches = new int[0] ;
 			int[] ensureMoveLeftValidRule_maxMatches = new int[0] ;
-			GRGEN_LGSP.PatternNode ensureMoveLeftValidRule_node_wv = new GRGEN_LGSP.PatternNode((int) GRGEN_MODEL.NodeTypes.@WriteValue, "GRGEN_MODEL.IWriteValue", "ensureMoveLeftValidRule_node_wv", "wv", ensureMoveLeftValidRule_node_wv_AllowedTypes, ensureMoveLeftValidRule_node_wv_IsAllowedType, 5.5F, 0);
-			GRGEN_LGSP.PatternNode ensureMoveLeftValidRule_node__node0 = new GRGEN_LGSP.PatternNode((int) GRGEN_MODEL.NodeTypes.@State, "GRGEN_MODEL.IState", "ensureMoveLeftValidRule_node__node0", "_node0", ensureMoveLeftValidRule_node__node0_AllowedTypes, ensureMoveLeftValidRule_node__node0_IsAllowedType, 5.5F, -1);
-			GRGEN_LGSP.PatternNode ensureMoveLeftValidRule_node_bp = new GRGEN_LGSP.PatternNode((int) GRGEN_MODEL.NodeTypes.@BandPosition, "GRGEN_MODEL.IBandPosition", "ensureMoveLeftValidRule_node_bp", "bp", ensureMoveLeftValidRule_node_bp_AllowedTypes, ensureMoveLeftValidRule_node_bp_IsAllowedType, 5.5F, 1);
-			GRGEN_LGSP.PatternEdge ensureMoveLeftValidRule_edge__edge0 = new GRGEN_LGSP.PatternEdge(true, (int) GRGEN_MODEL.EdgeTypes.@moveLeft, "GRGEN_MODEL.ImoveLeft", "ensureMoveLeftValidRule_edge__edge0", "_edge0", ensureMoveLeftValidRule_edge__edge0_AllowedTypes, ensureMoveLeftValidRule_edge__edge0_IsAllowedType, 5.5F, -1);
+			GRGEN_LGSP.PatternNode ensureMoveLeftValidRule_node_wv = new GRGEN_LGSP.PatternNode((int) GRGEN_MODEL.NodeTypes.@WriteValue, "GRGEN_MODEL.IWriteValue", "ensureMoveLeftValidRule_node_wv", "wv", ensureMoveLeftValidRule_node_wv_AllowedTypes, ensureMoveLeftValidRule_node_wv_IsAllowedType, 5.5F, 0, false);
+			GRGEN_LGSP.PatternNode ensureMoveLeftValidRule_node__node0 = new GRGEN_LGSP.PatternNode((int) GRGEN_MODEL.NodeTypes.@State, "GRGEN_MODEL.IState", "ensureMoveLeftValidRule_node__node0", "_node0", ensureMoveLeftValidRule_node__node0_AllowedTypes, ensureMoveLeftValidRule_node__node0_IsAllowedType, 5.5F, -1, false);
+			GRGEN_LGSP.PatternNode ensureMoveLeftValidRule_node_bp = new GRGEN_LGSP.PatternNode((int) GRGEN_MODEL.NodeTypes.@BandPosition, "GRGEN_MODEL.IBandPosition", "ensureMoveLeftValidRule_node_bp", "bp", ensureMoveLeftValidRule_node_bp_AllowedTypes, ensureMoveLeftValidRule_node_bp_IsAllowedType, 5.5F, 1, false);
+			GRGEN_LGSP.PatternEdge ensureMoveLeftValidRule_edge__edge0 = new GRGEN_LGSP.PatternEdge(true, (int) GRGEN_MODEL.EdgeTypes.@moveLeft, "GRGEN_MODEL.ImoveLeft", "ensureMoveLeftValidRule_edge__edge0", "_edge0", ensureMoveLeftValidRule_edge__edge0_AllowedTypes, ensureMoveLeftValidRule_edge__edge0_IsAllowedType, 5.5F, -1, false);
 			bool[,] ensureMoveLeftValidRule_neg_0_isNodeHomomorphicGlobal = new bool[2, 2] {
 				{ false, false, },
 				{ false, false, },
@@ -571,8 +571,8 @@ namespace de.unika.ipd.grGen.Action_Turing3
 			};
 			int[] ensureMoveLeftValidRule_neg_0_minMatches = new int[0] ;
 			int[] ensureMoveLeftValidRule_neg_0_maxMatches = new int[0] ;
-			GRGEN_LGSP.PatternNode ensureMoveLeftValidRule_neg_0_node__node0 = new GRGEN_LGSP.PatternNode((int) GRGEN_MODEL.NodeTypes.@BandPosition, "GRGEN_MODEL.IBandPosition", "ensureMoveLeftValidRule_neg_0_node__node0", "_node0", ensureMoveLeftValidRule_neg_0_node__node0_AllowedTypes, ensureMoveLeftValidRule_neg_0_node__node0_IsAllowedType, 5.5F, -1);
-			GRGEN_LGSP.PatternEdge ensureMoveLeftValidRule_neg_0_edge__edge0 = new GRGEN_LGSP.PatternEdge(true, (int) GRGEN_MODEL.EdgeTypes.@right, "GRGEN_MODEL.Iright", "ensureMoveLeftValidRule_neg_0_edge__edge0", "_edge0", ensureMoveLeftValidRule_neg_0_edge__edge0_AllowedTypes, ensureMoveLeftValidRule_neg_0_edge__edge0_IsAllowedType, 5.5F, -1);
+			GRGEN_LGSP.PatternNode ensureMoveLeftValidRule_neg_0_node__node0 = new GRGEN_LGSP.PatternNode((int) GRGEN_MODEL.NodeTypes.@BandPosition, "GRGEN_MODEL.IBandPosition", "ensureMoveLeftValidRule_neg_0_node__node0", "_node0", ensureMoveLeftValidRule_neg_0_node__node0_AllowedTypes, ensureMoveLeftValidRule_neg_0_node__node0_IsAllowedType, 5.5F, -1, false);
+			GRGEN_LGSP.PatternEdge ensureMoveLeftValidRule_neg_0_edge__edge0 = new GRGEN_LGSP.PatternEdge(true, (int) GRGEN_MODEL.EdgeTypes.@right, "GRGEN_MODEL.Iright", "ensureMoveLeftValidRule_neg_0_edge__edge0", "_edge0", ensureMoveLeftValidRule_neg_0_edge__edge0_AllowedTypes, ensureMoveLeftValidRule_neg_0_edge__edge0_IsAllowedType, 5.5F, -1, false);
 			ensureMoveLeftValidRule_neg_0 = new GRGEN_LGSP.PatternGraph(
 				"neg_0",
 				"ensureMoveLeftValidRule_",
@@ -955,10 +955,10 @@ namespace de.unika.ipd.grGen.Action_Turing3
 			};
 			int[] ensureMoveRightValidRule_minMatches = new int[0] ;
 			int[] ensureMoveRightValidRule_maxMatches = new int[0] ;
-			GRGEN_LGSP.PatternNode ensureMoveRightValidRule_node_wv = new GRGEN_LGSP.PatternNode((int) GRGEN_MODEL.NodeTypes.@WriteValue, "GRGEN_MODEL.IWriteValue", "ensureMoveRightValidRule_node_wv", "wv", ensureMoveRightValidRule_node_wv_AllowedTypes, ensureMoveRightValidRule_node_wv_IsAllowedType, 5.5F, 0);
-			GRGEN_LGSP.PatternNode ensureMoveRightValidRule_node__node0 = new GRGEN_LGSP.PatternNode((int) GRGEN_MODEL.NodeTypes.@State, "GRGEN_MODEL.IState", "ensureMoveRightValidRule_node__node0", "_node0", ensureMoveRightValidRule_node__node0_AllowedTypes, ensureMoveRightValidRule_node__node0_IsAllowedType, 5.5F, -1);
-			GRGEN_LGSP.PatternNode ensureMoveRightValidRule_node_bp = new GRGEN_LGSP.PatternNode((int) GRGEN_MODEL.NodeTypes.@BandPosition, "GRGEN_MODEL.IBandPosition", "ensureMoveRightValidRule_node_bp", "bp", ensureMoveRightValidRule_node_bp_AllowedTypes, ensureMoveRightValidRule_node_bp_IsAllowedType, 5.5F, 1);
-			GRGEN_LGSP.PatternEdge ensureMoveRightValidRule_edge__edge0 = new GRGEN_LGSP.PatternEdge(true, (int) GRGEN_MODEL.EdgeTypes.@moveRight, "GRGEN_MODEL.ImoveRight", "ensureMoveRightValidRule_edge__edge0", "_edge0", ensureMoveRightValidRule_edge__edge0_AllowedTypes, ensureMoveRightValidRule_edge__edge0_IsAllowedType, 5.5F, -1);
+			GRGEN_LGSP.PatternNode ensureMoveRightValidRule_node_wv = new GRGEN_LGSP.PatternNode((int) GRGEN_MODEL.NodeTypes.@WriteValue, "GRGEN_MODEL.IWriteValue", "ensureMoveRightValidRule_node_wv", "wv", ensureMoveRightValidRule_node_wv_AllowedTypes, ensureMoveRightValidRule_node_wv_IsAllowedType, 5.5F, 0, false);
+			GRGEN_LGSP.PatternNode ensureMoveRightValidRule_node__node0 = new GRGEN_LGSP.PatternNode((int) GRGEN_MODEL.NodeTypes.@State, "GRGEN_MODEL.IState", "ensureMoveRightValidRule_node__node0", "_node0", ensureMoveRightValidRule_node__node0_AllowedTypes, ensureMoveRightValidRule_node__node0_IsAllowedType, 5.5F, -1, false);
+			GRGEN_LGSP.PatternNode ensureMoveRightValidRule_node_bp = new GRGEN_LGSP.PatternNode((int) GRGEN_MODEL.NodeTypes.@BandPosition, "GRGEN_MODEL.IBandPosition", "ensureMoveRightValidRule_node_bp", "bp", ensureMoveRightValidRule_node_bp_AllowedTypes, ensureMoveRightValidRule_node_bp_IsAllowedType, 5.5F, 1, false);
+			GRGEN_LGSP.PatternEdge ensureMoveRightValidRule_edge__edge0 = new GRGEN_LGSP.PatternEdge(true, (int) GRGEN_MODEL.EdgeTypes.@moveRight, "GRGEN_MODEL.ImoveRight", "ensureMoveRightValidRule_edge__edge0", "_edge0", ensureMoveRightValidRule_edge__edge0_AllowedTypes, ensureMoveRightValidRule_edge__edge0_IsAllowedType, 5.5F, -1, false);
 			bool[,] ensureMoveRightValidRule_neg_0_isNodeHomomorphicGlobal = new bool[2, 2] {
 				{ false, false, },
 				{ false, false, },
@@ -968,8 +968,8 @@ namespace de.unika.ipd.grGen.Action_Turing3
 			};
 			int[] ensureMoveRightValidRule_neg_0_minMatches = new int[0] ;
 			int[] ensureMoveRightValidRule_neg_0_maxMatches = new int[0] ;
-			GRGEN_LGSP.PatternNode ensureMoveRightValidRule_neg_0_node__node0 = new GRGEN_LGSP.PatternNode((int) GRGEN_MODEL.NodeTypes.@BandPosition, "GRGEN_MODEL.IBandPosition", "ensureMoveRightValidRule_neg_0_node__node0", "_node0", ensureMoveRightValidRule_neg_0_node__node0_AllowedTypes, ensureMoveRightValidRule_neg_0_node__node0_IsAllowedType, 5.5F, -1);
-			GRGEN_LGSP.PatternEdge ensureMoveRightValidRule_neg_0_edge__edge0 = new GRGEN_LGSP.PatternEdge(true, (int) GRGEN_MODEL.EdgeTypes.@right, "GRGEN_MODEL.Iright", "ensureMoveRightValidRule_neg_0_edge__edge0", "_edge0", ensureMoveRightValidRule_neg_0_edge__edge0_AllowedTypes, ensureMoveRightValidRule_neg_0_edge__edge0_IsAllowedType, 5.5F, -1);
+			GRGEN_LGSP.PatternNode ensureMoveRightValidRule_neg_0_node__node0 = new GRGEN_LGSP.PatternNode((int) GRGEN_MODEL.NodeTypes.@BandPosition, "GRGEN_MODEL.IBandPosition", "ensureMoveRightValidRule_neg_0_node__node0", "_node0", ensureMoveRightValidRule_neg_0_node__node0_AllowedTypes, ensureMoveRightValidRule_neg_0_node__node0_IsAllowedType, 5.5F, -1, false);
+			GRGEN_LGSP.PatternEdge ensureMoveRightValidRule_neg_0_edge__edge0 = new GRGEN_LGSP.PatternEdge(true, (int) GRGEN_MODEL.EdgeTypes.@right, "GRGEN_MODEL.Iright", "ensureMoveRightValidRule_neg_0_edge__edge0", "_edge0", ensureMoveRightValidRule_neg_0_edge__edge0_AllowedTypes, ensureMoveRightValidRule_neg_0_edge__edge0_IsAllowedType, 5.5F, -1, false);
 			ensureMoveRightValidRule_neg_0 = new GRGEN_LGSP.PatternGraph(
 				"neg_0",
 				"ensureMoveRightValidRule_",
@@ -1345,12 +1345,12 @@ namespace de.unika.ipd.grGen.Action_Turing3
 			};
 			int[] moveLeftRule_minMatches = new int[0] ;
 			int[] moveLeftRule_maxMatches = new int[0] ;
-			GRGEN_LGSP.PatternNode moveLeftRule_node_wv = new GRGEN_LGSP.PatternNode((int) GRGEN_MODEL.NodeTypes.@WriteValue, "GRGEN_MODEL.IWriteValue", "moveLeftRule_node_wv", "wv", moveLeftRule_node_wv_AllowedTypes, moveLeftRule_node_wv_IsAllowedType, 5.5F, 0);
-			GRGEN_LGSP.PatternNode moveLeftRule_node_s = new GRGEN_LGSP.PatternNode((int) GRGEN_MODEL.NodeTypes.@State, "GRGEN_MODEL.IState", "moveLeftRule_node_s", "s", moveLeftRule_node_s_AllowedTypes, moveLeftRule_node_s_IsAllowedType, 5.5F, -1);
-			GRGEN_LGSP.PatternNode moveLeftRule_node_lbp = new GRGEN_LGSP.PatternNode((int) GRGEN_MODEL.NodeTypes.@BandPosition, "GRGEN_MODEL.IBandPosition", "moveLeftRule_node_lbp", "lbp", moveLeftRule_node_lbp_AllowedTypes, moveLeftRule_node_lbp_IsAllowedType, 5.5F, -1);
-			GRGEN_LGSP.PatternNode moveLeftRule_node_bp = new GRGEN_LGSP.PatternNode((int) GRGEN_MODEL.NodeTypes.@BandPosition, "GRGEN_MODEL.IBandPosition", "moveLeftRule_node_bp", "bp", moveLeftRule_node_bp_AllowedTypes, moveLeftRule_node_bp_IsAllowedType, 5.5F, 1);
-			GRGEN_LGSP.PatternEdge moveLeftRule_edge__edge0 = new GRGEN_LGSP.PatternEdge(true, (int) GRGEN_MODEL.EdgeTypes.@moveLeft, "GRGEN_MODEL.ImoveLeft", "moveLeftRule_edge__edge0", "_edge0", moveLeftRule_edge__edge0_AllowedTypes, moveLeftRule_edge__edge0_IsAllowedType, 5.5F, -1);
-			GRGEN_LGSP.PatternEdge moveLeftRule_edge__edge1 = new GRGEN_LGSP.PatternEdge(true, (int) GRGEN_MODEL.EdgeTypes.@right, "GRGEN_MODEL.Iright", "moveLeftRule_edge__edge1", "_edge1", moveLeftRule_edge__edge1_AllowedTypes, moveLeftRule_edge__edge1_IsAllowedType, 5.5F, -1);
+			GRGEN_LGSP.PatternNode moveLeftRule_node_wv = new GRGEN_LGSP.PatternNode((int) GRGEN_MODEL.NodeTypes.@WriteValue, "GRGEN_MODEL.IWriteValue", "moveLeftRule_node_wv", "wv", moveLeftRule_node_wv_AllowedTypes, moveLeftRule_node_wv_IsAllowedType, 5.5F, 0, false);
+			GRGEN_LGSP.PatternNode moveLeftRule_node_s = new GRGEN_LGSP.PatternNode((int) GRGEN_MODEL.NodeTypes.@State, "GRGEN_MODEL.IState", "moveLeftRule_node_s", "s", moveLeftRule_node_s_AllowedTypes, moveLeftRule_node_s_IsAllowedType, 5.5F, -1, false);
+			GRGEN_LGSP.PatternNode moveLeftRule_node_lbp = new GRGEN_LGSP.PatternNode((int) GRGEN_MODEL.NodeTypes.@BandPosition, "GRGEN_MODEL.IBandPosition", "moveLeftRule_node_lbp", "lbp", moveLeftRule_node_lbp_AllowedTypes, moveLeftRule_node_lbp_IsAllowedType, 5.5F, -1, false);
+			GRGEN_LGSP.PatternNode moveLeftRule_node_bp = new GRGEN_LGSP.PatternNode((int) GRGEN_MODEL.NodeTypes.@BandPosition, "GRGEN_MODEL.IBandPosition", "moveLeftRule_node_bp", "bp", moveLeftRule_node_bp_AllowedTypes, moveLeftRule_node_bp_IsAllowedType, 5.5F, 1, false);
+			GRGEN_LGSP.PatternEdge moveLeftRule_edge__edge0 = new GRGEN_LGSP.PatternEdge(true, (int) GRGEN_MODEL.EdgeTypes.@moveLeft, "GRGEN_MODEL.ImoveLeft", "moveLeftRule_edge__edge0", "_edge0", moveLeftRule_edge__edge0_AllowedTypes, moveLeftRule_edge__edge0_IsAllowedType, 5.5F, -1, false);
+			GRGEN_LGSP.PatternEdge moveLeftRule_edge__edge1 = new GRGEN_LGSP.PatternEdge(true, (int) GRGEN_MODEL.EdgeTypes.@right, "GRGEN_MODEL.Iright", "moveLeftRule_edge__edge1", "_edge1", moveLeftRule_edge__edge1_AllowedTypes, moveLeftRule_edge__edge1_IsAllowedType, 5.5F, -1, false);
 			pat_moveLeftRule = new GRGEN_LGSP.PatternGraph(
 				"moveLeftRule",
 				"",
@@ -1600,12 +1600,12 @@ namespace de.unika.ipd.grGen.Action_Turing3
 			};
 			int[] moveRightRule_minMatches = new int[0] ;
 			int[] moveRightRule_maxMatches = new int[0] ;
-			GRGEN_LGSP.PatternNode moveRightRule_node_wv = new GRGEN_LGSP.PatternNode((int) GRGEN_MODEL.NodeTypes.@WriteValue, "GRGEN_MODEL.IWriteValue", "moveRightRule_node_wv", "wv", moveRightRule_node_wv_AllowedTypes, moveRightRule_node_wv_IsAllowedType, 5.5F, 0);
-			GRGEN_LGSP.PatternNode moveRightRule_node_s = new GRGEN_LGSP.PatternNode((int) GRGEN_MODEL.NodeTypes.@State, "GRGEN_MODEL.IState", "moveRightRule_node_s", "s", moveRightRule_node_s_AllowedTypes, moveRightRule_node_s_IsAllowedType, 5.5F, -1);
-			GRGEN_LGSP.PatternNode moveRightRule_node_bp = new GRGEN_LGSP.PatternNode((int) GRGEN_MODEL.NodeTypes.@BandPosition, "GRGEN_MODEL.IBandPosition", "moveRightRule_node_bp", "bp", moveRightRule_node_bp_AllowedTypes, moveRightRule_node_bp_IsAllowedType, 5.5F, 1);
-			GRGEN_LGSP.PatternNode moveRightRule_node_rbp = new GRGEN_LGSP.PatternNode((int) GRGEN_MODEL.NodeTypes.@BandPosition, "GRGEN_MODEL.IBandPosition", "moveRightRule_node_rbp", "rbp", moveRightRule_node_rbp_AllowedTypes, moveRightRule_node_rbp_IsAllowedType, 5.5F, -1);
-			GRGEN_LGSP.PatternEdge moveRightRule_edge__edge0 = new GRGEN_LGSP.PatternEdge(true, (int) GRGEN_MODEL.EdgeTypes.@moveRight, "GRGEN_MODEL.ImoveRight", "moveRightRule_edge__edge0", "_edge0", moveRightRule_edge__edge0_AllowedTypes, moveRightRule_edge__edge0_IsAllowedType, 5.5F, -1);
-			GRGEN_LGSP.PatternEdge moveRightRule_edge__edge1 = new GRGEN_LGSP.PatternEdge(true, (int) GRGEN_MODEL.EdgeTypes.@right, "GRGEN_MODEL.Iright", "moveRightRule_edge__edge1", "_edge1", moveRightRule_edge__edge1_AllowedTypes, moveRightRule_edge__edge1_IsAllowedType, 5.5F, -1);
+			GRGEN_LGSP.PatternNode moveRightRule_node_wv = new GRGEN_LGSP.PatternNode((int) GRGEN_MODEL.NodeTypes.@WriteValue, "GRGEN_MODEL.IWriteValue", "moveRightRule_node_wv", "wv", moveRightRule_node_wv_AllowedTypes, moveRightRule_node_wv_IsAllowedType, 5.5F, 0, false);
+			GRGEN_LGSP.PatternNode moveRightRule_node_s = new GRGEN_LGSP.PatternNode((int) GRGEN_MODEL.NodeTypes.@State, "GRGEN_MODEL.IState", "moveRightRule_node_s", "s", moveRightRule_node_s_AllowedTypes, moveRightRule_node_s_IsAllowedType, 5.5F, -1, false);
+			GRGEN_LGSP.PatternNode moveRightRule_node_bp = new GRGEN_LGSP.PatternNode((int) GRGEN_MODEL.NodeTypes.@BandPosition, "GRGEN_MODEL.IBandPosition", "moveRightRule_node_bp", "bp", moveRightRule_node_bp_AllowedTypes, moveRightRule_node_bp_IsAllowedType, 5.5F, 1, false);
+			GRGEN_LGSP.PatternNode moveRightRule_node_rbp = new GRGEN_LGSP.PatternNode((int) GRGEN_MODEL.NodeTypes.@BandPosition, "GRGEN_MODEL.IBandPosition", "moveRightRule_node_rbp", "rbp", moveRightRule_node_rbp_AllowedTypes, moveRightRule_node_rbp_IsAllowedType, 5.5F, -1, false);
+			GRGEN_LGSP.PatternEdge moveRightRule_edge__edge0 = new GRGEN_LGSP.PatternEdge(true, (int) GRGEN_MODEL.EdgeTypes.@moveRight, "GRGEN_MODEL.ImoveRight", "moveRightRule_edge__edge0", "_edge0", moveRightRule_edge__edge0_AllowedTypes, moveRightRule_edge__edge0_IsAllowedType, 5.5F, -1, false);
+			GRGEN_LGSP.PatternEdge moveRightRule_edge__edge1 = new GRGEN_LGSP.PatternEdge(true, (int) GRGEN_MODEL.EdgeTypes.@right, "GRGEN_MODEL.Iright", "moveRightRule_edge__edge1", "_edge1", moveRightRule_edge__edge1_AllowedTypes, moveRightRule_edge__edge1_IsAllowedType, 5.5F, -1, false);
 			pat_moveRightRule = new GRGEN_LGSP.PatternGraph(
 				"moveRightRule",
 				"",
@@ -1839,7 +1839,7 @@ namespace de.unika.ipd.grGen.Action_Turing3
 			bool[,] countZeros_isEdgeHomomorphicGlobal = new bool[0, 0] ;
 			int[] countZeros_minMatches = new int[0] ;
 			int[] countZeros_maxMatches = new int[0] ;
-			GRGEN_LGSP.PatternNode countZeros_node_bp = new GRGEN_LGSP.PatternNode((int) GRGEN_MODEL.NodeTypes.@BandPosition, "GRGEN_MODEL.IBandPosition", "countZeros_node_bp", "bp", countZeros_node_bp_AllowedTypes, countZeros_node_bp_IsAllowedType, 5.5F, -1);
+			GRGEN_LGSP.PatternNode countZeros_node_bp = new GRGEN_LGSP.PatternNode((int) GRGEN_MODEL.NodeTypes.@BandPosition, "GRGEN_MODEL.IBandPosition", "countZeros_node_bp", "bp", countZeros_node_bp_AllowedTypes, countZeros_node_bp_IsAllowedType, 5.5F, -1, false);
 			GRGEN_LGSP.PatternCondition cond_0 = new GRGEN_LGSP.PatternCondition(
 				new GRGEN_EXPR.EQ(new GRGEN_EXPR.Qualification("GRGEN_MODEL.IBandPosition", "countZeros_node_bp", "value"), new GRGEN_EXPR.Constant("0")),
 				new string[] { "countZeros_node_bp" }, new string[] {  }, new string[] {  }, new GRGEN_LIBGR.VarType[] {  });
@@ -2033,7 +2033,7 @@ namespace de.unika.ipd.grGen.Action_Turing3
 			bool[,] countOnes_isEdgeHomomorphicGlobal = new bool[0, 0] ;
 			int[] countOnes_minMatches = new int[0] ;
 			int[] countOnes_maxMatches = new int[0] ;
-			GRGEN_LGSP.PatternNode countOnes_node_bp = new GRGEN_LGSP.PatternNode((int) GRGEN_MODEL.NodeTypes.@BandPosition, "GRGEN_MODEL.IBandPosition", "countOnes_node_bp", "bp", countOnes_node_bp_AllowedTypes, countOnes_node_bp_IsAllowedType, 5.5F, -1);
+			GRGEN_LGSP.PatternNode countOnes_node_bp = new GRGEN_LGSP.PatternNode((int) GRGEN_MODEL.NodeTypes.@BandPosition, "GRGEN_MODEL.IBandPosition", "countOnes_node_bp", "bp", countOnes_node_bp_AllowedTypes, countOnes_node_bp_IsAllowedType, 5.5F, -1, false);
 			GRGEN_LGSP.PatternCondition cond_0 = new GRGEN_LGSP.PatternCondition(
 				new GRGEN_EXPR.EQ(new GRGEN_EXPR.Qualification("GRGEN_MODEL.IBandPosition", "countOnes_node_bp", "value"), new GRGEN_EXPR.Constant("1")),
 				new string[] { "countOnes_node_bp" }, new string[] {  }, new string[] {  }, new GRGEN_LIBGR.VarType[] {  });
@@ -2272,29 +2272,11 @@ namespace de.unika.ipd.grGen.Action_Turing3
             int negLevel = 0;
             // Preset readZeroRule_node_s 
             GRGEN_LGSP.LGSPNode candidate_readZeroRule_node_s = (GRGEN_LGSP.LGSPNode)readZeroRule_node_s;
-            if(candidate_readZeroRule_node_s == null) {
-                MissingPreset_readZeroRule_node_s(graph, maxMatches, readZeroRule_node_s, readZeroRule_node_bp, null, null, null);
-                // if enough matches were found, we leave
-                if(maxMatches > 0 && matches.Count >= maxMatches)
-                {
-                    return matches;
-                }
-                return matches;
-            }
             if(candidate_readZeroRule_node_s.lgspType.TypeID!=2) {
                 return matches;
             }
             // Preset readZeroRule_node_bp 
             GRGEN_LGSP.LGSPNode candidate_readZeroRule_node_bp = (GRGEN_LGSP.LGSPNode)readZeroRule_node_bp;
-            if(candidate_readZeroRule_node_bp == null) {
-                MissingPreset_readZeroRule_node_bp(graph, maxMatches, readZeroRule_node_s, readZeroRule_node_bp, null, null, null, candidate_readZeroRule_node_s);
-                // if enough matches were found, we leave
-                if(maxMatches > 0 && matches.Count >= maxMatches)
-                {
-                    return matches;
-                }
-                return matches;
-            }
             if(candidate_readZeroRule_node_bp.lgspType.TypeID!=1) {
                 return matches;
             }
@@ -2333,110 +2315,6 @@ namespace de.unika.ipd.grGen.Action_Turing3
                 while( (candidate_readZeroRule_edge_rv = candidate_readZeroRule_edge_rv.lgspOutNext) != head_candidate_readZeroRule_edge_rv );
             }
             return matches;
-        }
-        public void MissingPreset_readZeroRule_node_s(GRGEN_LGSP.LGSPGraph graph, int maxMatches, GRGEN_MODEL.IState readZeroRule_node_s, GRGEN_MODEL.IBandPosition readZeroRule_node_bp, Stack<GRGEN_LGSP.LGSPSubpatternAction> openTasks, List<Stack<GRGEN_LIBGR.IMatch>> foundPartialMatches, List<Stack<GRGEN_LIBGR.IMatch>> matchesList)
-        {
-            int negLevel = 0;
-            // Lookup readZeroRule_node_s 
-            int type_id_candidate_readZeroRule_node_s = 2;
-            for(GRGEN_LGSP.LGSPNode head_candidate_readZeroRule_node_s = graph.nodesByTypeHeads[type_id_candidate_readZeroRule_node_s], candidate_readZeroRule_node_s = head_candidate_readZeroRule_node_s.lgspTypeNext; candidate_readZeroRule_node_s != head_candidate_readZeroRule_node_s; candidate_readZeroRule_node_s = candidate_readZeroRule_node_s.lgspTypeNext)
-            {
-                // Preset readZeroRule_node_bp 
-                GRGEN_LGSP.LGSPNode candidate_readZeroRule_node_bp = (GRGEN_LGSP.LGSPNode)readZeroRule_node_bp;
-                if(candidate_readZeroRule_node_bp == null) {
-                    MissingPreset_readZeroRule_node_bp(graph, maxMatches, readZeroRule_node_s, readZeroRule_node_bp, null, null, null, candidate_readZeroRule_node_s);
-                    // if enough matches were found, we leave
-                    if(maxMatches > 0 && matches.Count >= maxMatches)
-                    {
-                        return;
-                    }
-                    continue;
-                }
-                if(candidate_readZeroRule_node_bp.lgspType.TypeID!=1) {
-                    continue;
-                }
-                // Condition 
-                if(!((((GRGEN_MODEL.IBandPosition)candidate_readZeroRule_node_bp).@value == 0))) {
-                    continue;
-                }
-                // Extend Outgoing readZeroRule_edge_rv from readZeroRule_node_s 
-                GRGEN_LGSP.LGSPEdge head_candidate_readZeroRule_edge_rv = candidate_readZeroRule_node_s.lgspOuthead;
-                if(head_candidate_readZeroRule_edge_rv != null)
-                {
-                    GRGEN_LGSP.LGSPEdge candidate_readZeroRule_edge_rv = head_candidate_readZeroRule_edge_rv;
-                    do
-                    {
-                        if(candidate_readZeroRule_edge_rv.lgspType.TypeID!=4) {
-                            continue;
-                        }
-                        // Implicit Target readZeroRule_node_wv from readZeroRule_edge_rv 
-                        GRGEN_LGSP.LGSPNode candidate_readZeroRule_node_wv = candidate_readZeroRule_edge_rv.lgspTarget;
-                        if(candidate_readZeroRule_node_wv.lgspType.TypeID!=3) {
-                            continue;
-                        }
-                        Rule_readZeroRule.Match_readZeroRule match = matches.GetNextUnfilledPosition();
-                        match._node_s = candidate_readZeroRule_node_s;
-                        match._node_wv = candidate_readZeroRule_node_wv;
-                        match._node_bp = candidate_readZeroRule_node_bp;
-                        match._edge_rv = candidate_readZeroRule_edge_rv;
-                        matches.PositionWasFilledFixIt();
-                        // if enough matches were found, we leave
-                        if(maxMatches > 0 && matches.Count >= maxMatches)
-                        {
-                            candidate_readZeroRule_node_s.MoveOutHeadAfter(candidate_readZeroRule_edge_rv);
-                            graph.MoveHeadAfter(candidate_readZeroRule_node_s);
-                            return;
-                        }
-                    }
-                    while( (candidate_readZeroRule_edge_rv = candidate_readZeroRule_edge_rv.lgspOutNext) != head_candidate_readZeroRule_edge_rv );
-                }
-            }
-            return;
-        }
-        public void MissingPreset_readZeroRule_node_bp(GRGEN_LGSP.LGSPGraph graph, int maxMatches, GRGEN_MODEL.IState readZeroRule_node_s, GRGEN_MODEL.IBandPosition readZeroRule_node_bp, Stack<GRGEN_LGSP.LGSPSubpatternAction> openTasks, List<Stack<GRGEN_LIBGR.IMatch>> foundPartialMatches, List<Stack<GRGEN_LIBGR.IMatch>> matchesList, GRGEN_LGSP.LGSPNode candidate_readZeroRule_node_s)
-        {
-            int negLevel = 0;
-            // Lookup readZeroRule_node_bp 
-            int type_id_candidate_readZeroRule_node_bp = 1;
-            for(GRGEN_LGSP.LGSPNode head_candidate_readZeroRule_node_bp = graph.nodesByTypeHeads[type_id_candidate_readZeroRule_node_bp], candidate_readZeroRule_node_bp = head_candidate_readZeroRule_node_bp.lgspTypeNext; candidate_readZeroRule_node_bp != head_candidate_readZeroRule_node_bp; candidate_readZeroRule_node_bp = candidate_readZeroRule_node_bp.lgspTypeNext)
-            {
-                // Condition 
-                if(!((((GRGEN_MODEL.IBandPosition)candidate_readZeroRule_node_bp).@value == 0))) {
-                    continue;
-                }
-                // Extend Outgoing readZeroRule_edge_rv from readZeroRule_node_s 
-                GRGEN_LGSP.LGSPEdge head_candidate_readZeroRule_edge_rv = candidate_readZeroRule_node_s.lgspOuthead;
-                if(head_candidate_readZeroRule_edge_rv != null)
-                {
-                    GRGEN_LGSP.LGSPEdge candidate_readZeroRule_edge_rv = head_candidate_readZeroRule_edge_rv;
-                    do
-                    {
-                        if(candidate_readZeroRule_edge_rv.lgspType.TypeID!=4) {
-                            continue;
-                        }
-                        // Implicit Target readZeroRule_node_wv from readZeroRule_edge_rv 
-                        GRGEN_LGSP.LGSPNode candidate_readZeroRule_node_wv = candidate_readZeroRule_edge_rv.lgspTarget;
-                        if(candidate_readZeroRule_node_wv.lgspType.TypeID!=3) {
-                            continue;
-                        }
-                        Rule_readZeroRule.Match_readZeroRule match = matches.GetNextUnfilledPosition();
-                        match._node_s = candidate_readZeroRule_node_s;
-                        match._node_wv = candidate_readZeroRule_node_wv;
-                        match._node_bp = candidate_readZeroRule_node_bp;
-                        match._edge_rv = candidate_readZeroRule_edge_rv;
-                        matches.PositionWasFilledFixIt();
-                        // if enough matches were found, we leave
-                        if(maxMatches > 0 && matches.Count >= maxMatches)
-                        {
-                            candidate_readZeroRule_node_s.MoveOutHeadAfter(candidate_readZeroRule_edge_rv);
-                            graph.MoveHeadAfter(candidate_readZeroRule_node_bp);
-                            return;
-                        }
-                    }
-                    while( (candidate_readZeroRule_edge_rv = candidate_readZeroRule_edge_rv.lgspOutNext) != head_candidate_readZeroRule_edge_rv );
-                }
-            }
-            return;
         }
         /// <summary> Type of the matcher method (with parameters host graph, maximum number of matches to search for (zero=unlimited), and rule parameters; returning found matches). </summary>
         public delegate GRGEN_LIBGR.IMatchesExact<Rule_readZeroRule.IMatch_readZeroRule> MatchInvoker(GRGEN_LGSP.LGSPGraph graph, int maxMatches, GRGEN_MODEL.IState readZeroRule_node_s, GRGEN_MODEL.IBandPosition readZeroRule_node_bp);
@@ -2638,29 +2516,11 @@ namespace de.unika.ipd.grGen.Action_Turing3
             int negLevel = 0;
             // Preset readOneRule_node_s 
             GRGEN_LGSP.LGSPNode candidate_readOneRule_node_s = (GRGEN_LGSP.LGSPNode)readOneRule_node_s;
-            if(candidate_readOneRule_node_s == null) {
-                MissingPreset_readOneRule_node_s(graph, maxMatches, readOneRule_node_s, readOneRule_node_bp, null, null, null);
-                // if enough matches were found, we leave
-                if(maxMatches > 0 && matches.Count >= maxMatches)
-                {
-                    return matches;
-                }
-                return matches;
-            }
             if(candidate_readOneRule_node_s.lgspType.TypeID!=2) {
                 return matches;
             }
             // Preset readOneRule_node_bp 
             GRGEN_LGSP.LGSPNode candidate_readOneRule_node_bp = (GRGEN_LGSP.LGSPNode)readOneRule_node_bp;
-            if(candidate_readOneRule_node_bp == null) {
-                MissingPreset_readOneRule_node_bp(graph, maxMatches, readOneRule_node_s, readOneRule_node_bp, null, null, null, candidate_readOneRule_node_s);
-                // if enough matches were found, we leave
-                if(maxMatches > 0 && matches.Count >= maxMatches)
-                {
-                    return matches;
-                }
-                return matches;
-            }
             if(candidate_readOneRule_node_bp.lgspType.TypeID!=1) {
                 return matches;
             }
@@ -2699,110 +2559,6 @@ namespace de.unika.ipd.grGen.Action_Turing3
                 while( (candidate_readOneRule_edge_rv = candidate_readOneRule_edge_rv.lgspOutNext) != head_candidate_readOneRule_edge_rv );
             }
             return matches;
-        }
-        public void MissingPreset_readOneRule_node_s(GRGEN_LGSP.LGSPGraph graph, int maxMatches, GRGEN_MODEL.IState readOneRule_node_s, GRGEN_MODEL.IBandPosition readOneRule_node_bp, Stack<GRGEN_LGSP.LGSPSubpatternAction> openTasks, List<Stack<GRGEN_LIBGR.IMatch>> foundPartialMatches, List<Stack<GRGEN_LIBGR.IMatch>> matchesList)
-        {
-            int negLevel = 0;
-            // Lookup readOneRule_node_s 
-            int type_id_candidate_readOneRule_node_s = 2;
-            for(GRGEN_LGSP.LGSPNode head_candidate_readOneRule_node_s = graph.nodesByTypeHeads[type_id_candidate_readOneRule_node_s], candidate_readOneRule_node_s = head_candidate_readOneRule_node_s.lgspTypeNext; candidate_readOneRule_node_s != head_candidate_readOneRule_node_s; candidate_readOneRule_node_s = candidate_readOneRule_node_s.lgspTypeNext)
-            {
-                // Preset readOneRule_node_bp 
-                GRGEN_LGSP.LGSPNode candidate_readOneRule_node_bp = (GRGEN_LGSP.LGSPNode)readOneRule_node_bp;
-                if(candidate_readOneRule_node_bp == null) {
-                    MissingPreset_readOneRule_node_bp(graph, maxMatches, readOneRule_node_s, readOneRule_node_bp, null, null, null, candidate_readOneRule_node_s);
-                    // if enough matches were found, we leave
-                    if(maxMatches > 0 && matches.Count >= maxMatches)
-                    {
-                        return;
-                    }
-                    continue;
-                }
-                if(candidate_readOneRule_node_bp.lgspType.TypeID!=1) {
-                    continue;
-                }
-                // Condition 
-                if(!((((GRGEN_MODEL.IBandPosition)candidate_readOneRule_node_bp).@value == 1))) {
-                    continue;
-                }
-                // Extend Outgoing readOneRule_edge_rv from readOneRule_node_s 
-                GRGEN_LGSP.LGSPEdge head_candidate_readOneRule_edge_rv = candidate_readOneRule_node_s.lgspOuthead;
-                if(head_candidate_readOneRule_edge_rv != null)
-                {
-                    GRGEN_LGSP.LGSPEdge candidate_readOneRule_edge_rv = head_candidate_readOneRule_edge_rv;
-                    do
-                    {
-                        if(candidate_readOneRule_edge_rv.lgspType.TypeID!=5) {
-                            continue;
-                        }
-                        // Implicit Target readOneRule_node_wv from readOneRule_edge_rv 
-                        GRGEN_LGSP.LGSPNode candidate_readOneRule_node_wv = candidate_readOneRule_edge_rv.lgspTarget;
-                        if(candidate_readOneRule_node_wv.lgspType.TypeID!=3) {
-                            continue;
-                        }
-                        Rule_readOneRule.Match_readOneRule match = matches.GetNextUnfilledPosition();
-                        match._node_s = candidate_readOneRule_node_s;
-                        match._node_wv = candidate_readOneRule_node_wv;
-                        match._node_bp = candidate_readOneRule_node_bp;
-                        match._edge_rv = candidate_readOneRule_edge_rv;
-                        matches.PositionWasFilledFixIt();
-                        // if enough matches were found, we leave
-                        if(maxMatches > 0 && matches.Count >= maxMatches)
-                        {
-                            candidate_readOneRule_node_s.MoveOutHeadAfter(candidate_readOneRule_edge_rv);
-                            graph.MoveHeadAfter(candidate_readOneRule_node_s);
-                            return;
-                        }
-                    }
-                    while( (candidate_readOneRule_edge_rv = candidate_readOneRule_edge_rv.lgspOutNext) != head_candidate_readOneRule_edge_rv );
-                }
-            }
-            return;
-        }
-        public void MissingPreset_readOneRule_node_bp(GRGEN_LGSP.LGSPGraph graph, int maxMatches, GRGEN_MODEL.IState readOneRule_node_s, GRGEN_MODEL.IBandPosition readOneRule_node_bp, Stack<GRGEN_LGSP.LGSPSubpatternAction> openTasks, List<Stack<GRGEN_LIBGR.IMatch>> foundPartialMatches, List<Stack<GRGEN_LIBGR.IMatch>> matchesList, GRGEN_LGSP.LGSPNode candidate_readOneRule_node_s)
-        {
-            int negLevel = 0;
-            // Lookup readOneRule_node_bp 
-            int type_id_candidate_readOneRule_node_bp = 1;
-            for(GRGEN_LGSP.LGSPNode head_candidate_readOneRule_node_bp = graph.nodesByTypeHeads[type_id_candidate_readOneRule_node_bp], candidate_readOneRule_node_bp = head_candidate_readOneRule_node_bp.lgspTypeNext; candidate_readOneRule_node_bp != head_candidate_readOneRule_node_bp; candidate_readOneRule_node_bp = candidate_readOneRule_node_bp.lgspTypeNext)
-            {
-                // Condition 
-                if(!((((GRGEN_MODEL.IBandPosition)candidate_readOneRule_node_bp).@value == 1))) {
-                    continue;
-                }
-                // Extend Outgoing readOneRule_edge_rv from readOneRule_node_s 
-                GRGEN_LGSP.LGSPEdge head_candidate_readOneRule_edge_rv = candidate_readOneRule_node_s.lgspOuthead;
-                if(head_candidate_readOneRule_edge_rv != null)
-                {
-                    GRGEN_LGSP.LGSPEdge candidate_readOneRule_edge_rv = head_candidate_readOneRule_edge_rv;
-                    do
-                    {
-                        if(candidate_readOneRule_edge_rv.lgspType.TypeID!=5) {
-                            continue;
-                        }
-                        // Implicit Target readOneRule_node_wv from readOneRule_edge_rv 
-                        GRGEN_LGSP.LGSPNode candidate_readOneRule_node_wv = candidate_readOneRule_edge_rv.lgspTarget;
-                        if(candidate_readOneRule_node_wv.lgspType.TypeID!=3) {
-                            continue;
-                        }
-                        Rule_readOneRule.Match_readOneRule match = matches.GetNextUnfilledPosition();
-                        match._node_s = candidate_readOneRule_node_s;
-                        match._node_wv = candidate_readOneRule_node_wv;
-                        match._node_bp = candidate_readOneRule_node_bp;
-                        match._edge_rv = candidate_readOneRule_edge_rv;
-                        matches.PositionWasFilledFixIt();
-                        // if enough matches were found, we leave
-                        if(maxMatches > 0 && matches.Count >= maxMatches)
-                        {
-                            candidate_readOneRule_node_s.MoveOutHeadAfter(candidate_readOneRule_edge_rv);
-                            graph.MoveHeadAfter(candidate_readOneRule_node_bp);
-                            return;
-                        }
-                    }
-                    while( (candidate_readOneRule_edge_rv = candidate_readOneRule_edge_rv.lgspOutNext) != head_candidate_readOneRule_edge_rv );
-                }
-            }
-            return;
         }
         /// <summary> Type of the matcher method (with parameters host graph, maximum number of matches to search for (zero=unlimited), and rule parameters; returning found matches). </summary>
         public delegate GRGEN_LIBGR.IMatchesExact<Rule_readOneRule.IMatch_readOneRule> MatchInvoker(GRGEN_LGSP.LGSPGraph graph, int maxMatches, GRGEN_MODEL.IState readOneRule_node_s, GRGEN_MODEL.IBandPosition readOneRule_node_bp);
@@ -3004,29 +2760,11 @@ namespace de.unika.ipd.grGen.Action_Turing3
             int negLevel = 0;
             // Preset ensureMoveLeftValidRule_node_wv 
             GRGEN_LGSP.LGSPNode candidate_ensureMoveLeftValidRule_node_wv = (GRGEN_LGSP.LGSPNode)ensureMoveLeftValidRule_node_wv;
-            if(candidate_ensureMoveLeftValidRule_node_wv == null) {
-                MissingPreset_ensureMoveLeftValidRule_node_wv(graph, maxMatches, ensureMoveLeftValidRule_node_wv, ensureMoveLeftValidRule_node_bp, null, null, null);
-                // if enough matches were found, we leave
-                if(maxMatches > 0 && matches.Count >= maxMatches)
-                {
-                    return matches;
-                }
-                return matches;
-            }
             if(candidate_ensureMoveLeftValidRule_node_wv.lgspType.TypeID!=3) {
                 return matches;
             }
             // Preset ensureMoveLeftValidRule_node_bp 
             GRGEN_LGSP.LGSPNode candidate_ensureMoveLeftValidRule_node_bp = (GRGEN_LGSP.LGSPNode)ensureMoveLeftValidRule_node_bp;
-            if(candidate_ensureMoveLeftValidRule_node_bp == null) {
-                MissingPreset_ensureMoveLeftValidRule_node_bp(graph, maxMatches, ensureMoveLeftValidRule_node_wv, ensureMoveLeftValidRule_node_bp, null, null, null, candidate_ensureMoveLeftValidRule_node_wv);
-                // if enough matches were found, we leave
-                if(maxMatches > 0 && matches.Count >= maxMatches)
-                {
-                    return matches;
-                }
-                return matches;
-            }
             if(candidate_ensureMoveLeftValidRule_node_bp.lgspType.TypeID!=1) {
                 return matches;
             }
@@ -3096,174 +2834,6 @@ namespace de.unika.ipd.grGen.Action_Turing3
                 while( (candidate_ensureMoveLeftValidRule_edge__edge0 = candidate_ensureMoveLeftValidRule_edge__edge0.lgspOutNext) != head_candidate_ensureMoveLeftValidRule_edge__edge0 );
             }
             return matches;
-        }
-        public void MissingPreset_ensureMoveLeftValidRule_node_wv(GRGEN_LGSP.LGSPGraph graph, int maxMatches, GRGEN_MODEL.IWriteValue ensureMoveLeftValidRule_node_wv, GRGEN_MODEL.IBandPosition ensureMoveLeftValidRule_node_bp, Stack<GRGEN_LGSP.LGSPSubpatternAction> openTasks, List<Stack<GRGEN_LIBGR.IMatch>> foundPartialMatches, List<Stack<GRGEN_LIBGR.IMatch>> matchesList)
-        {
-            int negLevel = 0;
-            // Lookup ensureMoveLeftValidRule_node_wv 
-            int type_id_candidate_ensureMoveLeftValidRule_node_wv = 3;
-            for(GRGEN_LGSP.LGSPNode head_candidate_ensureMoveLeftValidRule_node_wv = graph.nodesByTypeHeads[type_id_candidate_ensureMoveLeftValidRule_node_wv], candidate_ensureMoveLeftValidRule_node_wv = head_candidate_ensureMoveLeftValidRule_node_wv.lgspTypeNext; candidate_ensureMoveLeftValidRule_node_wv != head_candidate_ensureMoveLeftValidRule_node_wv; candidate_ensureMoveLeftValidRule_node_wv = candidate_ensureMoveLeftValidRule_node_wv.lgspTypeNext)
-            {
-                // Preset ensureMoveLeftValidRule_node_bp 
-                GRGEN_LGSP.LGSPNode candidate_ensureMoveLeftValidRule_node_bp = (GRGEN_LGSP.LGSPNode)ensureMoveLeftValidRule_node_bp;
-                if(candidate_ensureMoveLeftValidRule_node_bp == null) {
-                    MissingPreset_ensureMoveLeftValidRule_node_bp(graph, maxMatches, ensureMoveLeftValidRule_node_wv, ensureMoveLeftValidRule_node_bp, null, null, null, candidate_ensureMoveLeftValidRule_node_wv);
-                    // if enough matches were found, we leave
-                    if(maxMatches > 0 && matches.Count >= maxMatches)
-                    {
-                        return;
-                    }
-                    continue;
-                }
-                if(candidate_ensureMoveLeftValidRule_node_bp.lgspType.TypeID!=1) {
-                    continue;
-                }
-                // NegativePattern 
-                {
-                    ++negLevel;
-                    uint prev_neg_0__candidate_ensureMoveLeftValidRule_node_bp;
-                    prev_neg_0__candidate_ensureMoveLeftValidRule_node_bp = candidate_ensureMoveLeftValidRule_node_bp.lgspFlags & (uint) GRGEN_LGSP.LGSPElemFlags.IS_MATCHED << negLevel;
-                    candidate_ensureMoveLeftValidRule_node_bp.lgspFlags |= (uint) GRGEN_LGSP.LGSPElemFlags.IS_MATCHED << negLevel;
-                    // Extend Incoming ensureMoveLeftValidRule_neg_0_edge__edge0 from ensureMoveLeftValidRule_node_bp 
-                    GRGEN_LGSP.LGSPEdge head_candidate_ensureMoveLeftValidRule_neg_0_edge__edge0 = candidate_ensureMoveLeftValidRule_node_bp.lgspInhead;
-                    if(head_candidate_ensureMoveLeftValidRule_neg_0_edge__edge0 != null)
-                    {
-                        GRGEN_LGSP.LGSPEdge candidate_ensureMoveLeftValidRule_neg_0_edge__edge0 = head_candidate_ensureMoveLeftValidRule_neg_0_edge__edge0;
-                        do
-                        {
-                            if(candidate_ensureMoveLeftValidRule_neg_0_edge__edge0.lgspType.TypeID!=3) {
-                                continue;
-                            }
-                            // Implicit Source ensureMoveLeftValidRule_neg_0_node__node0 from ensureMoveLeftValidRule_neg_0_edge__edge0 
-                            GRGEN_LGSP.LGSPNode candidate_ensureMoveLeftValidRule_neg_0_node__node0 = candidate_ensureMoveLeftValidRule_neg_0_edge__edge0.lgspSource;
-                            if(candidate_ensureMoveLeftValidRule_neg_0_node__node0.lgspType.TypeID!=1) {
-                                continue;
-                            }
-                            if((candidate_ensureMoveLeftValidRule_neg_0_node__node0.lgspFlags & (uint) GRGEN_LGSP.LGSPElemFlags.IS_MATCHED << negLevel) != 0)
-                            {
-                                continue;
-                            }
-                            // negative pattern found
-                            candidate_ensureMoveLeftValidRule_node_bp.lgspFlags = candidate_ensureMoveLeftValidRule_node_bp.lgspFlags & ~((uint) GRGEN_LGSP.LGSPElemFlags.IS_MATCHED << negLevel) | prev_neg_0__candidate_ensureMoveLeftValidRule_node_bp;
-                            --negLevel;
-                            goto label0;
-                        }
-                        while( (candidate_ensureMoveLeftValidRule_neg_0_edge__edge0 = candidate_ensureMoveLeftValidRule_neg_0_edge__edge0.lgspInNext) != head_candidate_ensureMoveLeftValidRule_neg_0_edge__edge0 );
-                    }
-                    candidate_ensureMoveLeftValidRule_node_bp.lgspFlags = candidate_ensureMoveLeftValidRule_node_bp.lgspFlags & ~((uint) GRGEN_LGSP.LGSPElemFlags.IS_MATCHED << negLevel) | prev_neg_0__candidate_ensureMoveLeftValidRule_node_bp;
-                    --negLevel;
-                }
-                // Extend Outgoing ensureMoveLeftValidRule_edge__edge0 from ensureMoveLeftValidRule_node_wv 
-                GRGEN_LGSP.LGSPEdge head_candidate_ensureMoveLeftValidRule_edge__edge0 = candidate_ensureMoveLeftValidRule_node_wv.lgspOuthead;
-                if(head_candidate_ensureMoveLeftValidRule_edge__edge0 != null)
-                {
-                    GRGEN_LGSP.LGSPEdge candidate_ensureMoveLeftValidRule_edge__edge0 = head_candidate_ensureMoveLeftValidRule_edge__edge0;
-                    do
-                    {
-                        if(candidate_ensureMoveLeftValidRule_edge__edge0.lgspType.TypeID!=6) {
-                            continue;
-                        }
-                        // Implicit Target ensureMoveLeftValidRule_node__node0 from ensureMoveLeftValidRule_edge__edge0 
-                        GRGEN_LGSP.LGSPNode candidate_ensureMoveLeftValidRule_node__node0 = candidate_ensureMoveLeftValidRule_edge__edge0.lgspTarget;
-                        if(candidate_ensureMoveLeftValidRule_node__node0.lgspType.TypeID!=2) {
-                            continue;
-                        }
-                        Rule_ensureMoveLeftValidRule.Match_ensureMoveLeftValidRule match = matches.GetNextUnfilledPosition();
-                        match._node_wv = candidate_ensureMoveLeftValidRule_node_wv;
-                        match._node__node0 = candidate_ensureMoveLeftValidRule_node__node0;
-                        match._node_bp = candidate_ensureMoveLeftValidRule_node_bp;
-                        match._edge__edge0 = candidate_ensureMoveLeftValidRule_edge__edge0;
-                        matches.PositionWasFilledFixIt();
-                        // if enough matches were found, we leave
-                        if(maxMatches > 0 && matches.Count >= maxMatches)
-                        {
-                            candidate_ensureMoveLeftValidRule_node_wv.MoveOutHeadAfter(candidate_ensureMoveLeftValidRule_edge__edge0);
-                            graph.MoveHeadAfter(candidate_ensureMoveLeftValidRule_node_wv);
-                            return;
-                        }
-                    }
-                    while( (candidate_ensureMoveLeftValidRule_edge__edge0 = candidate_ensureMoveLeftValidRule_edge__edge0.lgspOutNext) != head_candidate_ensureMoveLeftValidRule_edge__edge0 );
-                }
-label0: ;
-            }
-            return;
-        }
-        public void MissingPreset_ensureMoveLeftValidRule_node_bp(GRGEN_LGSP.LGSPGraph graph, int maxMatches, GRGEN_MODEL.IWriteValue ensureMoveLeftValidRule_node_wv, GRGEN_MODEL.IBandPosition ensureMoveLeftValidRule_node_bp, Stack<GRGEN_LGSP.LGSPSubpatternAction> openTasks, List<Stack<GRGEN_LIBGR.IMatch>> foundPartialMatches, List<Stack<GRGEN_LIBGR.IMatch>> matchesList, GRGEN_LGSP.LGSPNode candidate_ensureMoveLeftValidRule_node_wv)
-        {
-            int negLevel = 0;
-            // Lookup ensureMoveLeftValidRule_node_bp 
-            int type_id_candidate_ensureMoveLeftValidRule_node_bp = 1;
-            for(GRGEN_LGSP.LGSPNode head_candidate_ensureMoveLeftValidRule_node_bp = graph.nodesByTypeHeads[type_id_candidate_ensureMoveLeftValidRule_node_bp], candidate_ensureMoveLeftValidRule_node_bp = head_candidate_ensureMoveLeftValidRule_node_bp.lgspTypeNext; candidate_ensureMoveLeftValidRule_node_bp != head_candidate_ensureMoveLeftValidRule_node_bp; candidate_ensureMoveLeftValidRule_node_bp = candidate_ensureMoveLeftValidRule_node_bp.lgspTypeNext)
-            {
-                // NegativePattern 
-                {
-                    ++negLevel;
-                    uint prev_neg_0__candidate_ensureMoveLeftValidRule_node_bp;
-                    prev_neg_0__candidate_ensureMoveLeftValidRule_node_bp = candidate_ensureMoveLeftValidRule_node_bp.lgspFlags & (uint) GRGEN_LGSP.LGSPElemFlags.IS_MATCHED << negLevel;
-                    candidate_ensureMoveLeftValidRule_node_bp.lgspFlags |= (uint) GRGEN_LGSP.LGSPElemFlags.IS_MATCHED << negLevel;
-                    // Extend Incoming ensureMoveLeftValidRule_neg_0_edge__edge0 from ensureMoveLeftValidRule_node_bp 
-                    GRGEN_LGSP.LGSPEdge head_candidate_ensureMoveLeftValidRule_neg_0_edge__edge0 = candidate_ensureMoveLeftValidRule_node_bp.lgspInhead;
-                    if(head_candidate_ensureMoveLeftValidRule_neg_0_edge__edge0 != null)
-                    {
-                        GRGEN_LGSP.LGSPEdge candidate_ensureMoveLeftValidRule_neg_0_edge__edge0 = head_candidate_ensureMoveLeftValidRule_neg_0_edge__edge0;
-                        do
-                        {
-                            if(candidate_ensureMoveLeftValidRule_neg_0_edge__edge0.lgspType.TypeID!=3) {
-                                continue;
-                            }
-                            // Implicit Source ensureMoveLeftValidRule_neg_0_node__node0 from ensureMoveLeftValidRule_neg_0_edge__edge0 
-                            GRGEN_LGSP.LGSPNode candidate_ensureMoveLeftValidRule_neg_0_node__node0 = candidate_ensureMoveLeftValidRule_neg_0_edge__edge0.lgspSource;
-                            if(candidate_ensureMoveLeftValidRule_neg_0_node__node0.lgspType.TypeID!=1) {
-                                continue;
-                            }
-                            if((candidate_ensureMoveLeftValidRule_neg_0_node__node0.lgspFlags & (uint) GRGEN_LGSP.LGSPElemFlags.IS_MATCHED << negLevel) != 0)
-                            {
-                                continue;
-                            }
-                            // negative pattern found
-                            candidate_ensureMoveLeftValidRule_node_bp.lgspFlags = candidate_ensureMoveLeftValidRule_node_bp.lgspFlags & ~((uint) GRGEN_LGSP.LGSPElemFlags.IS_MATCHED << negLevel) | prev_neg_0__candidate_ensureMoveLeftValidRule_node_bp;
-                            --negLevel;
-                            goto label1;
-                        }
-                        while( (candidate_ensureMoveLeftValidRule_neg_0_edge__edge0 = candidate_ensureMoveLeftValidRule_neg_0_edge__edge0.lgspInNext) != head_candidate_ensureMoveLeftValidRule_neg_0_edge__edge0 );
-                    }
-                    candidate_ensureMoveLeftValidRule_node_bp.lgspFlags = candidate_ensureMoveLeftValidRule_node_bp.lgspFlags & ~((uint) GRGEN_LGSP.LGSPElemFlags.IS_MATCHED << negLevel) | prev_neg_0__candidate_ensureMoveLeftValidRule_node_bp;
-                    --negLevel;
-                }
-                // Extend Outgoing ensureMoveLeftValidRule_edge__edge0 from ensureMoveLeftValidRule_node_wv 
-                GRGEN_LGSP.LGSPEdge head_candidate_ensureMoveLeftValidRule_edge__edge0 = candidate_ensureMoveLeftValidRule_node_wv.lgspOuthead;
-                if(head_candidate_ensureMoveLeftValidRule_edge__edge0 != null)
-                {
-                    GRGEN_LGSP.LGSPEdge candidate_ensureMoveLeftValidRule_edge__edge0 = head_candidate_ensureMoveLeftValidRule_edge__edge0;
-                    do
-                    {
-                        if(candidate_ensureMoveLeftValidRule_edge__edge0.lgspType.TypeID!=6) {
-                            continue;
-                        }
-                        // Implicit Target ensureMoveLeftValidRule_node__node0 from ensureMoveLeftValidRule_edge__edge0 
-                        GRGEN_LGSP.LGSPNode candidate_ensureMoveLeftValidRule_node__node0 = candidate_ensureMoveLeftValidRule_edge__edge0.lgspTarget;
-                        if(candidate_ensureMoveLeftValidRule_node__node0.lgspType.TypeID!=2) {
-                            continue;
-                        }
-                        Rule_ensureMoveLeftValidRule.Match_ensureMoveLeftValidRule match = matches.GetNextUnfilledPosition();
-                        match._node_wv = candidate_ensureMoveLeftValidRule_node_wv;
-                        match._node__node0 = candidate_ensureMoveLeftValidRule_node__node0;
-                        match._node_bp = candidate_ensureMoveLeftValidRule_node_bp;
-                        match._edge__edge0 = candidate_ensureMoveLeftValidRule_edge__edge0;
-                        matches.PositionWasFilledFixIt();
-                        // if enough matches were found, we leave
-                        if(maxMatches > 0 && matches.Count >= maxMatches)
-                        {
-                            candidate_ensureMoveLeftValidRule_node_wv.MoveOutHeadAfter(candidate_ensureMoveLeftValidRule_edge__edge0);
-                            graph.MoveHeadAfter(candidate_ensureMoveLeftValidRule_node_bp);
-                            return;
-                        }
-                    }
-                    while( (candidate_ensureMoveLeftValidRule_edge__edge0 = candidate_ensureMoveLeftValidRule_edge__edge0.lgspOutNext) != head_candidate_ensureMoveLeftValidRule_edge__edge0 );
-                }
-label1: ;
-            }
-            return;
         }
         /// <summary> Type of the matcher method (with parameters host graph, maximum number of matches to search for (zero=unlimited), and rule parameters; returning found matches). </summary>
         public delegate GRGEN_LIBGR.IMatchesExact<Rule_ensureMoveLeftValidRule.IMatch_ensureMoveLeftValidRule> MatchInvoker(GRGEN_LGSP.LGSPGraph graph, int maxMatches, GRGEN_MODEL.IWriteValue ensureMoveLeftValidRule_node_wv, GRGEN_MODEL.IBandPosition ensureMoveLeftValidRule_node_bp);
@@ -3460,29 +3030,11 @@ label1: ;
             int negLevel = 0;
             // Preset ensureMoveRightValidRule_node_wv 
             GRGEN_LGSP.LGSPNode candidate_ensureMoveRightValidRule_node_wv = (GRGEN_LGSP.LGSPNode)ensureMoveRightValidRule_node_wv;
-            if(candidate_ensureMoveRightValidRule_node_wv == null) {
-                MissingPreset_ensureMoveRightValidRule_node_wv(graph, maxMatches, ensureMoveRightValidRule_node_wv, ensureMoveRightValidRule_node_bp, null, null, null);
-                // if enough matches were found, we leave
-                if(maxMatches > 0 && matches.Count >= maxMatches)
-                {
-                    return matches;
-                }
-                return matches;
-            }
             if(candidate_ensureMoveRightValidRule_node_wv.lgspType.TypeID!=3) {
                 return matches;
             }
             // Preset ensureMoveRightValidRule_node_bp 
             GRGEN_LGSP.LGSPNode candidate_ensureMoveRightValidRule_node_bp = (GRGEN_LGSP.LGSPNode)ensureMoveRightValidRule_node_bp;
-            if(candidate_ensureMoveRightValidRule_node_bp == null) {
-                MissingPreset_ensureMoveRightValidRule_node_bp(graph, maxMatches, ensureMoveRightValidRule_node_wv, ensureMoveRightValidRule_node_bp, null, null, null, candidate_ensureMoveRightValidRule_node_wv);
-                // if enough matches were found, we leave
-                if(maxMatches > 0 && matches.Count >= maxMatches)
-                {
-                    return matches;
-                }
-                return matches;
-            }
             if(candidate_ensureMoveRightValidRule_node_bp.lgspType.TypeID!=1) {
                 return matches;
             }
@@ -3552,174 +3104,6 @@ label1: ;
                 while( (candidate_ensureMoveRightValidRule_edge__edge0 = candidate_ensureMoveRightValidRule_edge__edge0.lgspOutNext) != head_candidate_ensureMoveRightValidRule_edge__edge0 );
             }
             return matches;
-        }
-        public void MissingPreset_ensureMoveRightValidRule_node_wv(GRGEN_LGSP.LGSPGraph graph, int maxMatches, GRGEN_MODEL.IWriteValue ensureMoveRightValidRule_node_wv, GRGEN_MODEL.IBandPosition ensureMoveRightValidRule_node_bp, Stack<GRGEN_LGSP.LGSPSubpatternAction> openTasks, List<Stack<GRGEN_LIBGR.IMatch>> foundPartialMatches, List<Stack<GRGEN_LIBGR.IMatch>> matchesList)
-        {
-            int negLevel = 0;
-            // Lookup ensureMoveRightValidRule_node_wv 
-            int type_id_candidate_ensureMoveRightValidRule_node_wv = 3;
-            for(GRGEN_LGSP.LGSPNode head_candidate_ensureMoveRightValidRule_node_wv = graph.nodesByTypeHeads[type_id_candidate_ensureMoveRightValidRule_node_wv], candidate_ensureMoveRightValidRule_node_wv = head_candidate_ensureMoveRightValidRule_node_wv.lgspTypeNext; candidate_ensureMoveRightValidRule_node_wv != head_candidate_ensureMoveRightValidRule_node_wv; candidate_ensureMoveRightValidRule_node_wv = candidate_ensureMoveRightValidRule_node_wv.lgspTypeNext)
-            {
-                // Preset ensureMoveRightValidRule_node_bp 
-                GRGEN_LGSP.LGSPNode candidate_ensureMoveRightValidRule_node_bp = (GRGEN_LGSP.LGSPNode)ensureMoveRightValidRule_node_bp;
-                if(candidate_ensureMoveRightValidRule_node_bp == null) {
-                    MissingPreset_ensureMoveRightValidRule_node_bp(graph, maxMatches, ensureMoveRightValidRule_node_wv, ensureMoveRightValidRule_node_bp, null, null, null, candidate_ensureMoveRightValidRule_node_wv);
-                    // if enough matches were found, we leave
-                    if(maxMatches > 0 && matches.Count >= maxMatches)
-                    {
-                        return;
-                    }
-                    continue;
-                }
-                if(candidate_ensureMoveRightValidRule_node_bp.lgspType.TypeID!=1) {
-                    continue;
-                }
-                // NegativePattern 
-                {
-                    ++negLevel;
-                    uint prev_neg_0__candidate_ensureMoveRightValidRule_node_bp;
-                    prev_neg_0__candidate_ensureMoveRightValidRule_node_bp = candidate_ensureMoveRightValidRule_node_bp.lgspFlags & (uint) GRGEN_LGSP.LGSPElemFlags.IS_MATCHED << negLevel;
-                    candidate_ensureMoveRightValidRule_node_bp.lgspFlags |= (uint) GRGEN_LGSP.LGSPElemFlags.IS_MATCHED << negLevel;
-                    // Extend Outgoing ensureMoveRightValidRule_neg_0_edge__edge0 from ensureMoveRightValidRule_node_bp 
-                    GRGEN_LGSP.LGSPEdge head_candidate_ensureMoveRightValidRule_neg_0_edge__edge0 = candidate_ensureMoveRightValidRule_node_bp.lgspOuthead;
-                    if(head_candidate_ensureMoveRightValidRule_neg_0_edge__edge0 != null)
-                    {
-                        GRGEN_LGSP.LGSPEdge candidate_ensureMoveRightValidRule_neg_0_edge__edge0 = head_candidate_ensureMoveRightValidRule_neg_0_edge__edge0;
-                        do
-                        {
-                            if(candidate_ensureMoveRightValidRule_neg_0_edge__edge0.lgspType.TypeID!=3) {
-                                continue;
-                            }
-                            // Implicit Target ensureMoveRightValidRule_neg_0_node__node0 from ensureMoveRightValidRule_neg_0_edge__edge0 
-                            GRGEN_LGSP.LGSPNode candidate_ensureMoveRightValidRule_neg_0_node__node0 = candidate_ensureMoveRightValidRule_neg_0_edge__edge0.lgspTarget;
-                            if(candidate_ensureMoveRightValidRule_neg_0_node__node0.lgspType.TypeID!=1) {
-                                continue;
-                            }
-                            if((candidate_ensureMoveRightValidRule_neg_0_node__node0.lgspFlags & (uint) GRGEN_LGSP.LGSPElemFlags.IS_MATCHED << negLevel) != 0)
-                            {
-                                continue;
-                            }
-                            // negative pattern found
-                            candidate_ensureMoveRightValidRule_node_bp.lgspFlags = candidate_ensureMoveRightValidRule_node_bp.lgspFlags & ~((uint) GRGEN_LGSP.LGSPElemFlags.IS_MATCHED << negLevel) | prev_neg_0__candidate_ensureMoveRightValidRule_node_bp;
-                            --negLevel;
-                            goto label2;
-                        }
-                        while( (candidate_ensureMoveRightValidRule_neg_0_edge__edge0 = candidate_ensureMoveRightValidRule_neg_0_edge__edge0.lgspOutNext) != head_candidate_ensureMoveRightValidRule_neg_0_edge__edge0 );
-                    }
-                    candidate_ensureMoveRightValidRule_node_bp.lgspFlags = candidate_ensureMoveRightValidRule_node_bp.lgspFlags & ~((uint) GRGEN_LGSP.LGSPElemFlags.IS_MATCHED << negLevel) | prev_neg_0__candidate_ensureMoveRightValidRule_node_bp;
-                    --negLevel;
-                }
-                // Extend Outgoing ensureMoveRightValidRule_edge__edge0 from ensureMoveRightValidRule_node_wv 
-                GRGEN_LGSP.LGSPEdge head_candidate_ensureMoveRightValidRule_edge__edge0 = candidate_ensureMoveRightValidRule_node_wv.lgspOuthead;
-                if(head_candidate_ensureMoveRightValidRule_edge__edge0 != null)
-                {
-                    GRGEN_LGSP.LGSPEdge candidate_ensureMoveRightValidRule_edge__edge0 = head_candidate_ensureMoveRightValidRule_edge__edge0;
-                    do
-                    {
-                        if(candidate_ensureMoveRightValidRule_edge__edge0.lgspType.TypeID!=7) {
-                            continue;
-                        }
-                        // Implicit Target ensureMoveRightValidRule_node__node0 from ensureMoveRightValidRule_edge__edge0 
-                        GRGEN_LGSP.LGSPNode candidate_ensureMoveRightValidRule_node__node0 = candidate_ensureMoveRightValidRule_edge__edge0.lgspTarget;
-                        if(candidate_ensureMoveRightValidRule_node__node0.lgspType.TypeID!=2) {
-                            continue;
-                        }
-                        Rule_ensureMoveRightValidRule.Match_ensureMoveRightValidRule match = matches.GetNextUnfilledPosition();
-                        match._node_wv = candidate_ensureMoveRightValidRule_node_wv;
-                        match._node__node0 = candidate_ensureMoveRightValidRule_node__node0;
-                        match._node_bp = candidate_ensureMoveRightValidRule_node_bp;
-                        match._edge__edge0 = candidate_ensureMoveRightValidRule_edge__edge0;
-                        matches.PositionWasFilledFixIt();
-                        // if enough matches were found, we leave
-                        if(maxMatches > 0 && matches.Count >= maxMatches)
-                        {
-                            candidate_ensureMoveRightValidRule_node_wv.MoveOutHeadAfter(candidate_ensureMoveRightValidRule_edge__edge0);
-                            graph.MoveHeadAfter(candidate_ensureMoveRightValidRule_node_wv);
-                            return;
-                        }
-                    }
-                    while( (candidate_ensureMoveRightValidRule_edge__edge0 = candidate_ensureMoveRightValidRule_edge__edge0.lgspOutNext) != head_candidate_ensureMoveRightValidRule_edge__edge0 );
-                }
-label2: ;
-            }
-            return;
-        }
-        public void MissingPreset_ensureMoveRightValidRule_node_bp(GRGEN_LGSP.LGSPGraph graph, int maxMatches, GRGEN_MODEL.IWriteValue ensureMoveRightValidRule_node_wv, GRGEN_MODEL.IBandPosition ensureMoveRightValidRule_node_bp, Stack<GRGEN_LGSP.LGSPSubpatternAction> openTasks, List<Stack<GRGEN_LIBGR.IMatch>> foundPartialMatches, List<Stack<GRGEN_LIBGR.IMatch>> matchesList, GRGEN_LGSP.LGSPNode candidate_ensureMoveRightValidRule_node_wv)
-        {
-            int negLevel = 0;
-            // Lookup ensureMoveRightValidRule_node_bp 
-            int type_id_candidate_ensureMoveRightValidRule_node_bp = 1;
-            for(GRGEN_LGSP.LGSPNode head_candidate_ensureMoveRightValidRule_node_bp = graph.nodesByTypeHeads[type_id_candidate_ensureMoveRightValidRule_node_bp], candidate_ensureMoveRightValidRule_node_bp = head_candidate_ensureMoveRightValidRule_node_bp.lgspTypeNext; candidate_ensureMoveRightValidRule_node_bp != head_candidate_ensureMoveRightValidRule_node_bp; candidate_ensureMoveRightValidRule_node_bp = candidate_ensureMoveRightValidRule_node_bp.lgspTypeNext)
-            {
-                // NegativePattern 
-                {
-                    ++negLevel;
-                    uint prev_neg_0__candidate_ensureMoveRightValidRule_node_bp;
-                    prev_neg_0__candidate_ensureMoveRightValidRule_node_bp = candidate_ensureMoveRightValidRule_node_bp.lgspFlags & (uint) GRGEN_LGSP.LGSPElemFlags.IS_MATCHED << negLevel;
-                    candidate_ensureMoveRightValidRule_node_bp.lgspFlags |= (uint) GRGEN_LGSP.LGSPElemFlags.IS_MATCHED << negLevel;
-                    // Extend Outgoing ensureMoveRightValidRule_neg_0_edge__edge0 from ensureMoveRightValidRule_node_bp 
-                    GRGEN_LGSP.LGSPEdge head_candidate_ensureMoveRightValidRule_neg_0_edge__edge0 = candidate_ensureMoveRightValidRule_node_bp.lgspOuthead;
-                    if(head_candidate_ensureMoveRightValidRule_neg_0_edge__edge0 != null)
-                    {
-                        GRGEN_LGSP.LGSPEdge candidate_ensureMoveRightValidRule_neg_0_edge__edge0 = head_candidate_ensureMoveRightValidRule_neg_0_edge__edge0;
-                        do
-                        {
-                            if(candidate_ensureMoveRightValidRule_neg_0_edge__edge0.lgspType.TypeID!=3) {
-                                continue;
-                            }
-                            // Implicit Target ensureMoveRightValidRule_neg_0_node__node0 from ensureMoveRightValidRule_neg_0_edge__edge0 
-                            GRGEN_LGSP.LGSPNode candidate_ensureMoveRightValidRule_neg_0_node__node0 = candidate_ensureMoveRightValidRule_neg_0_edge__edge0.lgspTarget;
-                            if(candidate_ensureMoveRightValidRule_neg_0_node__node0.lgspType.TypeID!=1) {
-                                continue;
-                            }
-                            if((candidate_ensureMoveRightValidRule_neg_0_node__node0.lgspFlags & (uint) GRGEN_LGSP.LGSPElemFlags.IS_MATCHED << negLevel) != 0)
-                            {
-                                continue;
-                            }
-                            // negative pattern found
-                            candidate_ensureMoveRightValidRule_node_bp.lgspFlags = candidate_ensureMoveRightValidRule_node_bp.lgspFlags & ~((uint) GRGEN_LGSP.LGSPElemFlags.IS_MATCHED << negLevel) | prev_neg_0__candidate_ensureMoveRightValidRule_node_bp;
-                            --negLevel;
-                            goto label3;
-                        }
-                        while( (candidate_ensureMoveRightValidRule_neg_0_edge__edge0 = candidate_ensureMoveRightValidRule_neg_0_edge__edge0.lgspOutNext) != head_candidate_ensureMoveRightValidRule_neg_0_edge__edge0 );
-                    }
-                    candidate_ensureMoveRightValidRule_node_bp.lgspFlags = candidate_ensureMoveRightValidRule_node_bp.lgspFlags & ~((uint) GRGEN_LGSP.LGSPElemFlags.IS_MATCHED << negLevel) | prev_neg_0__candidate_ensureMoveRightValidRule_node_bp;
-                    --negLevel;
-                }
-                // Extend Outgoing ensureMoveRightValidRule_edge__edge0 from ensureMoveRightValidRule_node_wv 
-                GRGEN_LGSP.LGSPEdge head_candidate_ensureMoveRightValidRule_edge__edge0 = candidate_ensureMoveRightValidRule_node_wv.lgspOuthead;
-                if(head_candidate_ensureMoveRightValidRule_edge__edge0 != null)
-                {
-                    GRGEN_LGSP.LGSPEdge candidate_ensureMoveRightValidRule_edge__edge0 = head_candidate_ensureMoveRightValidRule_edge__edge0;
-                    do
-                    {
-                        if(candidate_ensureMoveRightValidRule_edge__edge0.lgspType.TypeID!=7) {
-                            continue;
-                        }
-                        // Implicit Target ensureMoveRightValidRule_node__node0 from ensureMoveRightValidRule_edge__edge0 
-                        GRGEN_LGSP.LGSPNode candidate_ensureMoveRightValidRule_node__node0 = candidate_ensureMoveRightValidRule_edge__edge0.lgspTarget;
-                        if(candidate_ensureMoveRightValidRule_node__node0.lgspType.TypeID!=2) {
-                            continue;
-                        }
-                        Rule_ensureMoveRightValidRule.Match_ensureMoveRightValidRule match = matches.GetNextUnfilledPosition();
-                        match._node_wv = candidate_ensureMoveRightValidRule_node_wv;
-                        match._node__node0 = candidate_ensureMoveRightValidRule_node__node0;
-                        match._node_bp = candidate_ensureMoveRightValidRule_node_bp;
-                        match._edge__edge0 = candidate_ensureMoveRightValidRule_edge__edge0;
-                        matches.PositionWasFilledFixIt();
-                        // if enough matches were found, we leave
-                        if(maxMatches > 0 && matches.Count >= maxMatches)
-                        {
-                            candidate_ensureMoveRightValidRule_node_wv.MoveOutHeadAfter(candidate_ensureMoveRightValidRule_edge__edge0);
-                            graph.MoveHeadAfter(candidate_ensureMoveRightValidRule_node_bp);
-                            return;
-                        }
-                    }
-                    while( (candidate_ensureMoveRightValidRule_edge__edge0 = candidate_ensureMoveRightValidRule_edge__edge0.lgspOutNext) != head_candidate_ensureMoveRightValidRule_edge__edge0 );
-                }
-label3: ;
-            }
-            return;
         }
         /// <summary> Type of the matcher method (with parameters host graph, maximum number of matches to search for (zero=unlimited), and rule parameters; returning found matches). </summary>
         public delegate GRGEN_LIBGR.IMatchesExact<Rule_ensureMoveRightValidRule.IMatch_ensureMoveRightValidRule> MatchInvoker(GRGEN_LGSP.LGSPGraph graph, int maxMatches, GRGEN_MODEL.IWriteValue ensureMoveRightValidRule_node_wv, GRGEN_MODEL.IBandPosition ensureMoveRightValidRule_node_bp);
@@ -3916,29 +3300,11 @@ label3: ;
             int negLevel = 0;
             // Preset moveLeftRule_node_wv 
             GRGEN_LGSP.LGSPNode candidate_moveLeftRule_node_wv = (GRGEN_LGSP.LGSPNode)moveLeftRule_node_wv;
-            if(candidate_moveLeftRule_node_wv == null) {
-                MissingPreset_moveLeftRule_node_wv(graph, maxMatches, moveLeftRule_node_wv, moveLeftRule_node_bp, null, null, null);
-                // if enough matches were found, we leave
-                if(maxMatches > 0 && matches.Count >= maxMatches)
-                {
-                    return matches;
-                }
-                return matches;
-            }
             if(candidate_moveLeftRule_node_wv.lgspType.TypeID!=3) {
                 return matches;
             }
             // Preset moveLeftRule_node_bp 
             GRGEN_LGSP.LGSPNode candidate_moveLeftRule_node_bp = (GRGEN_LGSP.LGSPNode)moveLeftRule_node_bp;
-            if(candidate_moveLeftRule_node_bp == null) {
-                MissingPreset_moveLeftRule_node_bp(graph, maxMatches, moveLeftRule_node_wv, moveLeftRule_node_bp, null, null, null, candidate_moveLeftRule_node_wv);
-                // if enough matches were found, we leave
-                if(maxMatches > 0 && matches.Count >= maxMatches)
-                {
-                    return matches;
-                }
-                return matches;
-            }
             if(candidate_moveLeftRule_node_bp.lgspType.TypeID!=1) {
                 return matches;
             }
@@ -4003,162 +3369,6 @@ label3: ;
             }
             candidate_moveLeftRule_node_bp.lgspFlags = candidate_moveLeftRule_node_bp.lgspFlags & ~((uint) GRGEN_LGSP.LGSPElemFlags.IS_MATCHED << negLevel) | prev__candidate_moveLeftRule_node_bp;
             return matches;
-        }
-        public void MissingPreset_moveLeftRule_node_wv(GRGEN_LGSP.LGSPGraph graph, int maxMatches, GRGEN_MODEL.IWriteValue moveLeftRule_node_wv, GRGEN_MODEL.IBandPosition moveLeftRule_node_bp, Stack<GRGEN_LGSP.LGSPSubpatternAction> openTasks, List<Stack<GRGEN_LIBGR.IMatch>> foundPartialMatches, List<Stack<GRGEN_LIBGR.IMatch>> matchesList)
-        {
-            int negLevel = 0;
-            // Lookup moveLeftRule_node_wv 
-            int type_id_candidate_moveLeftRule_node_wv = 3;
-            for(GRGEN_LGSP.LGSPNode head_candidate_moveLeftRule_node_wv = graph.nodesByTypeHeads[type_id_candidate_moveLeftRule_node_wv], candidate_moveLeftRule_node_wv = head_candidate_moveLeftRule_node_wv.lgspTypeNext; candidate_moveLeftRule_node_wv != head_candidate_moveLeftRule_node_wv; candidate_moveLeftRule_node_wv = candidate_moveLeftRule_node_wv.lgspTypeNext)
-            {
-                // Preset moveLeftRule_node_bp 
-                GRGEN_LGSP.LGSPNode candidate_moveLeftRule_node_bp = (GRGEN_LGSP.LGSPNode)moveLeftRule_node_bp;
-                if(candidate_moveLeftRule_node_bp == null) {
-                    MissingPreset_moveLeftRule_node_bp(graph, maxMatches, moveLeftRule_node_wv, moveLeftRule_node_bp, null, null, null, candidate_moveLeftRule_node_wv);
-                    // if enough matches were found, we leave
-                    if(maxMatches > 0 && matches.Count >= maxMatches)
-                    {
-                        return;
-                    }
-                    continue;
-                }
-                if(candidate_moveLeftRule_node_bp.lgspType.TypeID!=1) {
-                    continue;
-                }
-                uint prev__candidate_moveLeftRule_node_bp;
-                prev__candidate_moveLeftRule_node_bp = candidate_moveLeftRule_node_bp.lgspFlags & (uint) GRGEN_LGSP.LGSPElemFlags.IS_MATCHED << negLevel;
-                candidate_moveLeftRule_node_bp.lgspFlags |= (uint) GRGEN_LGSP.LGSPElemFlags.IS_MATCHED << negLevel;
-                // Extend Outgoing moveLeftRule_edge__edge0 from moveLeftRule_node_wv 
-                GRGEN_LGSP.LGSPEdge head_candidate_moveLeftRule_edge__edge0 = candidate_moveLeftRule_node_wv.lgspOuthead;
-                if(head_candidate_moveLeftRule_edge__edge0 != null)
-                {
-                    GRGEN_LGSP.LGSPEdge candidate_moveLeftRule_edge__edge0 = head_candidate_moveLeftRule_edge__edge0;
-                    do
-                    {
-                        if(candidate_moveLeftRule_edge__edge0.lgspType.TypeID!=6) {
-                            continue;
-                        }
-                        // Implicit Target moveLeftRule_node_s from moveLeftRule_edge__edge0 
-                        GRGEN_LGSP.LGSPNode candidate_moveLeftRule_node_s = candidate_moveLeftRule_edge__edge0.lgspTarget;
-                        if(candidate_moveLeftRule_node_s.lgspType.TypeID!=2) {
-                            continue;
-                        }
-                        // Extend Incoming moveLeftRule_edge__edge1 from moveLeftRule_node_bp 
-                        GRGEN_LGSP.LGSPEdge head_candidate_moveLeftRule_edge__edge1 = candidate_moveLeftRule_node_bp.lgspInhead;
-                        if(head_candidate_moveLeftRule_edge__edge1 != null)
-                        {
-                            GRGEN_LGSP.LGSPEdge candidate_moveLeftRule_edge__edge1 = head_candidate_moveLeftRule_edge__edge1;
-                            do
-                            {
-                                if(candidate_moveLeftRule_edge__edge1.lgspType.TypeID!=3) {
-                                    continue;
-                                }
-                                // Implicit Source moveLeftRule_node_lbp from moveLeftRule_edge__edge1 
-                                GRGEN_LGSP.LGSPNode candidate_moveLeftRule_node_lbp = candidate_moveLeftRule_edge__edge1.lgspSource;
-                                if(candidate_moveLeftRule_node_lbp.lgspType.TypeID!=1) {
-                                    continue;
-                                }
-                                if((candidate_moveLeftRule_node_lbp.lgspFlags & (uint) GRGEN_LGSP.LGSPElemFlags.IS_MATCHED << negLevel) != 0)
-                                {
-                                    continue;
-                                }
-                                Rule_moveLeftRule.Match_moveLeftRule match = matches.GetNextUnfilledPosition();
-                                match._node_wv = candidate_moveLeftRule_node_wv;
-                                match._node_s = candidate_moveLeftRule_node_s;
-                                match._node_lbp = candidate_moveLeftRule_node_lbp;
-                                match._node_bp = candidate_moveLeftRule_node_bp;
-                                match._edge__edge0 = candidate_moveLeftRule_edge__edge0;
-                                match._edge__edge1 = candidate_moveLeftRule_edge__edge1;
-                                matches.PositionWasFilledFixIt();
-                                // if enough matches were found, we leave
-                                if(maxMatches > 0 && matches.Count >= maxMatches)
-                                {
-                                    candidate_moveLeftRule_node_bp.MoveInHeadAfter(candidate_moveLeftRule_edge__edge1);
-                                    candidate_moveLeftRule_node_wv.MoveOutHeadAfter(candidate_moveLeftRule_edge__edge0);
-                                    graph.MoveHeadAfter(candidate_moveLeftRule_node_wv);
-                                    candidate_moveLeftRule_node_bp.lgspFlags = candidate_moveLeftRule_node_bp.lgspFlags & ~((uint) GRGEN_LGSP.LGSPElemFlags.IS_MATCHED << negLevel) | prev__candidate_moveLeftRule_node_bp;
-                                    return;
-                                }
-                            }
-                            while( (candidate_moveLeftRule_edge__edge1 = candidate_moveLeftRule_edge__edge1.lgspInNext) != head_candidate_moveLeftRule_edge__edge1 );
-                        }
-                    }
-                    while( (candidate_moveLeftRule_edge__edge0 = candidate_moveLeftRule_edge__edge0.lgspOutNext) != head_candidate_moveLeftRule_edge__edge0 );
-                }
-                candidate_moveLeftRule_node_bp.lgspFlags = candidate_moveLeftRule_node_bp.lgspFlags & ~((uint) GRGEN_LGSP.LGSPElemFlags.IS_MATCHED << negLevel) | prev__candidate_moveLeftRule_node_bp;
-            }
-            return;
-        }
-        public void MissingPreset_moveLeftRule_node_bp(GRGEN_LGSP.LGSPGraph graph, int maxMatches, GRGEN_MODEL.IWriteValue moveLeftRule_node_wv, GRGEN_MODEL.IBandPosition moveLeftRule_node_bp, Stack<GRGEN_LGSP.LGSPSubpatternAction> openTasks, List<Stack<GRGEN_LIBGR.IMatch>> foundPartialMatches, List<Stack<GRGEN_LIBGR.IMatch>> matchesList, GRGEN_LGSP.LGSPNode candidate_moveLeftRule_node_wv)
-        {
-            int negLevel = 0;
-            // Lookup moveLeftRule_node_bp 
-            int type_id_candidate_moveLeftRule_node_bp = 1;
-            for(GRGEN_LGSP.LGSPNode head_candidate_moveLeftRule_node_bp = graph.nodesByTypeHeads[type_id_candidate_moveLeftRule_node_bp], candidate_moveLeftRule_node_bp = head_candidate_moveLeftRule_node_bp.lgspTypeNext; candidate_moveLeftRule_node_bp != head_candidate_moveLeftRule_node_bp; candidate_moveLeftRule_node_bp = candidate_moveLeftRule_node_bp.lgspTypeNext)
-            {
-                uint prev__candidate_moveLeftRule_node_bp;
-                prev__candidate_moveLeftRule_node_bp = candidate_moveLeftRule_node_bp.lgspFlags & (uint) GRGEN_LGSP.LGSPElemFlags.IS_MATCHED << negLevel;
-                candidate_moveLeftRule_node_bp.lgspFlags |= (uint) GRGEN_LGSP.LGSPElemFlags.IS_MATCHED << negLevel;
-                // Extend Outgoing moveLeftRule_edge__edge0 from moveLeftRule_node_wv 
-                GRGEN_LGSP.LGSPEdge head_candidate_moveLeftRule_edge__edge0 = candidate_moveLeftRule_node_wv.lgspOuthead;
-                if(head_candidate_moveLeftRule_edge__edge0 != null)
-                {
-                    GRGEN_LGSP.LGSPEdge candidate_moveLeftRule_edge__edge0 = head_candidate_moveLeftRule_edge__edge0;
-                    do
-                    {
-                        if(candidate_moveLeftRule_edge__edge0.lgspType.TypeID!=6) {
-                            continue;
-                        }
-                        // Implicit Target moveLeftRule_node_s from moveLeftRule_edge__edge0 
-                        GRGEN_LGSP.LGSPNode candidate_moveLeftRule_node_s = candidate_moveLeftRule_edge__edge0.lgspTarget;
-                        if(candidate_moveLeftRule_node_s.lgspType.TypeID!=2) {
-                            continue;
-                        }
-                        // Extend Incoming moveLeftRule_edge__edge1 from moveLeftRule_node_bp 
-                        GRGEN_LGSP.LGSPEdge head_candidate_moveLeftRule_edge__edge1 = candidate_moveLeftRule_node_bp.lgspInhead;
-                        if(head_candidate_moveLeftRule_edge__edge1 != null)
-                        {
-                            GRGEN_LGSP.LGSPEdge candidate_moveLeftRule_edge__edge1 = head_candidate_moveLeftRule_edge__edge1;
-                            do
-                            {
-                                if(candidate_moveLeftRule_edge__edge1.lgspType.TypeID!=3) {
-                                    continue;
-                                }
-                                // Implicit Source moveLeftRule_node_lbp from moveLeftRule_edge__edge1 
-                                GRGEN_LGSP.LGSPNode candidate_moveLeftRule_node_lbp = candidate_moveLeftRule_edge__edge1.lgspSource;
-                                if(candidate_moveLeftRule_node_lbp.lgspType.TypeID!=1) {
-                                    continue;
-                                }
-                                if((candidate_moveLeftRule_node_lbp.lgspFlags & (uint) GRGEN_LGSP.LGSPElemFlags.IS_MATCHED << negLevel) != 0)
-                                {
-                                    continue;
-                                }
-                                Rule_moveLeftRule.Match_moveLeftRule match = matches.GetNextUnfilledPosition();
-                                match._node_wv = candidate_moveLeftRule_node_wv;
-                                match._node_s = candidate_moveLeftRule_node_s;
-                                match._node_lbp = candidate_moveLeftRule_node_lbp;
-                                match._node_bp = candidate_moveLeftRule_node_bp;
-                                match._edge__edge0 = candidate_moveLeftRule_edge__edge0;
-                                match._edge__edge1 = candidate_moveLeftRule_edge__edge1;
-                                matches.PositionWasFilledFixIt();
-                                // if enough matches were found, we leave
-                                if(maxMatches > 0 && matches.Count >= maxMatches)
-                                {
-                                    candidate_moveLeftRule_node_bp.MoveInHeadAfter(candidate_moveLeftRule_edge__edge1);
-                                    candidate_moveLeftRule_node_wv.MoveOutHeadAfter(candidate_moveLeftRule_edge__edge0);
-                                    graph.MoveHeadAfter(candidate_moveLeftRule_node_bp);
-                                    candidate_moveLeftRule_node_bp.lgspFlags = candidate_moveLeftRule_node_bp.lgspFlags & ~((uint) GRGEN_LGSP.LGSPElemFlags.IS_MATCHED << negLevel) | prev__candidate_moveLeftRule_node_bp;
-                                    return;
-                                }
-                            }
-                            while( (candidate_moveLeftRule_edge__edge1 = candidate_moveLeftRule_edge__edge1.lgspInNext) != head_candidate_moveLeftRule_edge__edge1 );
-                        }
-                    }
-                    while( (candidate_moveLeftRule_edge__edge0 = candidate_moveLeftRule_edge__edge0.lgspOutNext) != head_candidate_moveLeftRule_edge__edge0 );
-                }
-                candidate_moveLeftRule_node_bp.lgspFlags = candidate_moveLeftRule_node_bp.lgspFlags & ~((uint) GRGEN_LGSP.LGSPElemFlags.IS_MATCHED << negLevel) | prev__candidate_moveLeftRule_node_bp;
-            }
-            return;
         }
         /// <summary> Type of the matcher method (with parameters host graph, maximum number of matches to search for (zero=unlimited), and rule parameters; returning found matches). </summary>
         public delegate GRGEN_LIBGR.IMatchesExact<Rule_moveLeftRule.IMatch_moveLeftRule> MatchInvoker(GRGEN_LGSP.LGSPGraph graph, int maxMatches, GRGEN_MODEL.IWriteValue moveLeftRule_node_wv, GRGEN_MODEL.IBandPosition moveLeftRule_node_bp);
@@ -4365,29 +3575,11 @@ label3: ;
             int negLevel = 0;
             // Preset moveRightRule_node_wv 
             GRGEN_LGSP.LGSPNode candidate_moveRightRule_node_wv = (GRGEN_LGSP.LGSPNode)moveRightRule_node_wv;
-            if(candidate_moveRightRule_node_wv == null) {
-                MissingPreset_moveRightRule_node_wv(graph, maxMatches, moveRightRule_node_wv, moveRightRule_node_bp, null, null, null);
-                // if enough matches were found, we leave
-                if(maxMatches > 0 && matches.Count >= maxMatches)
-                {
-                    return matches;
-                }
-                return matches;
-            }
             if(candidate_moveRightRule_node_wv.lgspType.TypeID!=3) {
                 return matches;
             }
             // Preset moveRightRule_node_bp 
             GRGEN_LGSP.LGSPNode candidate_moveRightRule_node_bp = (GRGEN_LGSP.LGSPNode)moveRightRule_node_bp;
-            if(candidate_moveRightRule_node_bp == null) {
-                MissingPreset_moveRightRule_node_bp(graph, maxMatches, moveRightRule_node_wv, moveRightRule_node_bp, null, null, null, candidate_moveRightRule_node_wv);
-                // if enough matches were found, we leave
-                if(maxMatches > 0 && matches.Count >= maxMatches)
-                {
-                    return matches;
-                }
-                return matches;
-            }
             if(candidate_moveRightRule_node_bp.lgspType.TypeID!=1) {
                 return matches;
             }
@@ -4452,162 +3644,6 @@ label3: ;
             }
             candidate_moveRightRule_node_bp.lgspFlags = candidate_moveRightRule_node_bp.lgspFlags & ~((uint) GRGEN_LGSP.LGSPElemFlags.IS_MATCHED << negLevel) | prev__candidate_moveRightRule_node_bp;
             return matches;
-        }
-        public void MissingPreset_moveRightRule_node_wv(GRGEN_LGSP.LGSPGraph graph, int maxMatches, GRGEN_MODEL.IWriteValue moveRightRule_node_wv, GRGEN_MODEL.IBandPosition moveRightRule_node_bp, Stack<GRGEN_LGSP.LGSPSubpatternAction> openTasks, List<Stack<GRGEN_LIBGR.IMatch>> foundPartialMatches, List<Stack<GRGEN_LIBGR.IMatch>> matchesList)
-        {
-            int negLevel = 0;
-            // Lookup moveRightRule_node_wv 
-            int type_id_candidate_moveRightRule_node_wv = 3;
-            for(GRGEN_LGSP.LGSPNode head_candidate_moveRightRule_node_wv = graph.nodesByTypeHeads[type_id_candidate_moveRightRule_node_wv], candidate_moveRightRule_node_wv = head_candidate_moveRightRule_node_wv.lgspTypeNext; candidate_moveRightRule_node_wv != head_candidate_moveRightRule_node_wv; candidate_moveRightRule_node_wv = candidate_moveRightRule_node_wv.lgspTypeNext)
-            {
-                // Preset moveRightRule_node_bp 
-                GRGEN_LGSP.LGSPNode candidate_moveRightRule_node_bp = (GRGEN_LGSP.LGSPNode)moveRightRule_node_bp;
-                if(candidate_moveRightRule_node_bp == null) {
-                    MissingPreset_moveRightRule_node_bp(graph, maxMatches, moveRightRule_node_wv, moveRightRule_node_bp, null, null, null, candidate_moveRightRule_node_wv);
-                    // if enough matches were found, we leave
-                    if(maxMatches > 0 && matches.Count >= maxMatches)
-                    {
-                        return;
-                    }
-                    continue;
-                }
-                if(candidate_moveRightRule_node_bp.lgspType.TypeID!=1) {
-                    continue;
-                }
-                uint prev__candidate_moveRightRule_node_bp;
-                prev__candidate_moveRightRule_node_bp = candidate_moveRightRule_node_bp.lgspFlags & (uint) GRGEN_LGSP.LGSPElemFlags.IS_MATCHED << negLevel;
-                candidate_moveRightRule_node_bp.lgspFlags |= (uint) GRGEN_LGSP.LGSPElemFlags.IS_MATCHED << negLevel;
-                // Extend Outgoing moveRightRule_edge__edge0 from moveRightRule_node_wv 
-                GRGEN_LGSP.LGSPEdge head_candidate_moveRightRule_edge__edge0 = candidate_moveRightRule_node_wv.lgspOuthead;
-                if(head_candidate_moveRightRule_edge__edge0 != null)
-                {
-                    GRGEN_LGSP.LGSPEdge candidate_moveRightRule_edge__edge0 = head_candidate_moveRightRule_edge__edge0;
-                    do
-                    {
-                        if(candidate_moveRightRule_edge__edge0.lgspType.TypeID!=7) {
-                            continue;
-                        }
-                        // Implicit Target moveRightRule_node_s from moveRightRule_edge__edge0 
-                        GRGEN_LGSP.LGSPNode candidate_moveRightRule_node_s = candidate_moveRightRule_edge__edge0.lgspTarget;
-                        if(candidate_moveRightRule_node_s.lgspType.TypeID!=2) {
-                            continue;
-                        }
-                        // Extend Outgoing moveRightRule_edge__edge1 from moveRightRule_node_bp 
-                        GRGEN_LGSP.LGSPEdge head_candidate_moveRightRule_edge__edge1 = candidate_moveRightRule_node_bp.lgspOuthead;
-                        if(head_candidate_moveRightRule_edge__edge1 != null)
-                        {
-                            GRGEN_LGSP.LGSPEdge candidate_moveRightRule_edge__edge1 = head_candidate_moveRightRule_edge__edge1;
-                            do
-                            {
-                                if(candidate_moveRightRule_edge__edge1.lgspType.TypeID!=3) {
-                                    continue;
-                                }
-                                // Implicit Target moveRightRule_node_rbp from moveRightRule_edge__edge1 
-                                GRGEN_LGSP.LGSPNode candidate_moveRightRule_node_rbp = candidate_moveRightRule_edge__edge1.lgspTarget;
-                                if(candidate_moveRightRule_node_rbp.lgspType.TypeID!=1) {
-                                    continue;
-                                }
-                                if((candidate_moveRightRule_node_rbp.lgspFlags & (uint) GRGEN_LGSP.LGSPElemFlags.IS_MATCHED << negLevel) != 0)
-                                {
-                                    continue;
-                                }
-                                Rule_moveRightRule.Match_moveRightRule match = matches.GetNextUnfilledPosition();
-                                match._node_wv = candidate_moveRightRule_node_wv;
-                                match._node_s = candidate_moveRightRule_node_s;
-                                match._node_bp = candidate_moveRightRule_node_bp;
-                                match._node_rbp = candidate_moveRightRule_node_rbp;
-                                match._edge__edge0 = candidate_moveRightRule_edge__edge0;
-                                match._edge__edge1 = candidate_moveRightRule_edge__edge1;
-                                matches.PositionWasFilledFixIt();
-                                // if enough matches were found, we leave
-                                if(maxMatches > 0 && matches.Count >= maxMatches)
-                                {
-                                    candidate_moveRightRule_node_bp.MoveOutHeadAfter(candidate_moveRightRule_edge__edge1);
-                                    candidate_moveRightRule_node_wv.MoveOutHeadAfter(candidate_moveRightRule_edge__edge0);
-                                    graph.MoveHeadAfter(candidate_moveRightRule_node_wv);
-                                    candidate_moveRightRule_node_bp.lgspFlags = candidate_moveRightRule_node_bp.lgspFlags & ~((uint) GRGEN_LGSP.LGSPElemFlags.IS_MATCHED << negLevel) | prev__candidate_moveRightRule_node_bp;
-                                    return;
-                                }
-                            }
-                            while( (candidate_moveRightRule_edge__edge1 = candidate_moveRightRule_edge__edge1.lgspOutNext) != head_candidate_moveRightRule_edge__edge1 );
-                        }
-                    }
-                    while( (candidate_moveRightRule_edge__edge0 = candidate_moveRightRule_edge__edge0.lgspOutNext) != head_candidate_moveRightRule_edge__edge0 );
-                }
-                candidate_moveRightRule_node_bp.lgspFlags = candidate_moveRightRule_node_bp.lgspFlags & ~((uint) GRGEN_LGSP.LGSPElemFlags.IS_MATCHED << negLevel) | prev__candidate_moveRightRule_node_bp;
-            }
-            return;
-        }
-        public void MissingPreset_moveRightRule_node_bp(GRGEN_LGSP.LGSPGraph graph, int maxMatches, GRGEN_MODEL.IWriteValue moveRightRule_node_wv, GRGEN_MODEL.IBandPosition moveRightRule_node_bp, Stack<GRGEN_LGSP.LGSPSubpatternAction> openTasks, List<Stack<GRGEN_LIBGR.IMatch>> foundPartialMatches, List<Stack<GRGEN_LIBGR.IMatch>> matchesList, GRGEN_LGSP.LGSPNode candidate_moveRightRule_node_wv)
-        {
-            int negLevel = 0;
-            // Lookup moveRightRule_node_bp 
-            int type_id_candidate_moveRightRule_node_bp = 1;
-            for(GRGEN_LGSP.LGSPNode head_candidate_moveRightRule_node_bp = graph.nodesByTypeHeads[type_id_candidate_moveRightRule_node_bp], candidate_moveRightRule_node_bp = head_candidate_moveRightRule_node_bp.lgspTypeNext; candidate_moveRightRule_node_bp != head_candidate_moveRightRule_node_bp; candidate_moveRightRule_node_bp = candidate_moveRightRule_node_bp.lgspTypeNext)
-            {
-                uint prev__candidate_moveRightRule_node_bp;
-                prev__candidate_moveRightRule_node_bp = candidate_moveRightRule_node_bp.lgspFlags & (uint) GRGEN_LGSP.LGSPElemFlags.IS_MATCHED << negLevel;
-                candidate_moveRightRule_node_bp.lgspFlags |= (uint) GRGEN_LGSP.LGSPElemFlags.IS_MATCHED << negLevel;
-                // Extend Outgoing moveRightRule_edge__edge0 from moveRightRule_node_wv 
-                GRGEN_LGSP.LGSPEdge head_candidate_moveRightRule_edge__edge0 = candidate_moveRightRule_node_wv.lgspOuthead;
-                if(head_candidate_moveRightRule_edge__edge0 != null)
-                {
-                    GRGEN_LGSP.LGSPEdge candidate_moveRightRule_edge__edge0 = head_candidate_moveRightRule_edge__edge0;
-                    do
-                    {
-                        if(candidate_moveRightRule_edge__edge0.lgspType.TypeID!=7) {
-                            continue;
-                        }
-                        // Implicit Target moveRightRule_node_s from moveRightRule_edge__edge0 
-                        GRGEN_LGSP.LGSPNode candidate_moveRightRule_node_s = candidate_moveRightRule_edge__edge0.lgspTarget;
-                        if(candidate_moveRightRule_node_s.lgspType.TypeID!=2) {
-                            continue;
-                        }
-                        // Extend Outgoing moveRightRule_edge__edge1 from moveRightRule_node_bp 
-                        GRGEN_LGSP.LGSPEdge head_candidate_moveRightRule_edge__edge1 = candidate_moveRightRule_node_bp.lgspOuthead;
-                        if(head_candidate_moveRightRule_edge__edge1 != null)
-                        {
-                            GRGEN_LGSP.LGSPEdge candidate_moveRightRule_edge__edge1 = head_candidate_moveRightRule_edge__edge1;
-                            do
-                            {
-                                if(candidate_moveRightRule_edge__edge1.lgspType.TypeID!=3) {
-                                    continue;
-                                }
-                                // Implicit Target moveRightRule_node_rbp from moveRightRule_edge__edge1 
-                                GRGEN_LGSP.LGSPNode candidate_moveRightRule_node_rbp = candidate_moveRightRule_edge__edge1.lgspTarget;
-                                if(candidate_moveRightRule_node_rbp.lgspType.TypeID!=1) {
-                                    continue;
-                                }
-                                if((candidate_moveRightRule_node_rbp.lgspFlags & (uint) GRGEN_LGSP.LGSPElemFlags.IS_MATCHED << negLevel) != 0)
-                                {
-                                    continue;
-                                }
-                                Rule_moveRightRule.Match_moveRightRule match = matches.GetNextUnfilledPosition();
-                                match._node_wv = candidate_moveRightRule_node_wv;
-                                match._node_s = candidate_moveRightRule_node_s;
-                                match._node_bp = candidate_moveRightRule_node_bp;
-                                match._node_rbp = candidate_moveRightRule_node_rbp;
-                                match._edge__edge0 = candidate_moveRightRule_edge__edge0;
-                                match._edge__edge1 = candidate_moveRightRule_edge__edge1;
-                                matches.PositionWasFilledFixIt();
-                                // if enough matches were found, we leave
-                                if(maxMatches > 0 && matches.Count >= maxMatches)
-                                {
-                                    candidate_moveRightRule_node_bp.MoveOutHeadAfter(candidate_moveRightRule_edge__edge1);
-                                    candidate_moveRightRule_node_wv.MoveOutHeadAfter(candidate_moveRightRule_edge__edge0);
-                                    graph.MoveHeadAfter(candidate_moveRightRule_node_bp);
-                                    candidate_moveRightRule_node_bp.lgspFlags = candidate_moveRightRule_node_bp.lgspFlags & ~((uint) GRGEN_LGSP.LGSPElemFlags.IS_MATCHED << negLevel) | prev__candidate_moveRightRule_node_bp;
-                                    return;
-                                }
-                            }
-                            while( (candidate_moveRightRule_edge__edge1 = candidate_moveRightRule_edge__edge1.lgspOutNext) != head_candidate_moveRightRule_edge__edge1 );
-                        }
-                    }
-                    while( (candidate_moveRightRule_edge__edge0 = candidate_moveRightRule_edge__edge0.lgspOutNext) != head_candidate_moveRightRule_edge__edge0 );
-                }
-                candidate_moveRightRule_node_bp.lgspFlags = candidate_moveRightRule_node_bp.lgspFlags & ~((uint) GRGEN_LGSP.LGSPElemFlags.IS_MATCHED << negLevel) | prev__candidate_moveRightRule_node_bp;
-            }
-            return;
         }
         /// <summary> Type of the matcher method (with parameters host graph, maximum number of matches to search for (zero=unlimited), and rule parameters; returning found matches). </summary>
         public delegate GRGEN_LIBGR.IMatchesExact<Rule_moveRightRule.IMatch_moveRightRule> MatchInvoker(GRGEN_LGSP.LGSPGraph graph, int maxMatches, GRGEN_MODEL.IWriteValue moveRightRule_node_wv, GRGEN_MODEL.IBandPosition moveRightRule_node_bp);

@@ -27,6 +27,9 @@ public class Node extends GraphEntity {
 	// in case of retyped node thats the pattern graph of the old node, otherwise of the node itself
 	public PatternGraph directlyNestingLHSGraph;
 
+	protected boolean maybeNull;
+	
+	
 	/**
 	 * Make a new node.
 	 * @param ident The identifier for the node.
@@ -54,6 +57,14 @@ public class Node extends GraphEntity {
 		this(ident, type, EmptyAnnotations.get(), directlyNestingLHSGraph, maybeDeleted, maybeRetyped);
 	}
 
+	public void setMaybeNull(boolean maybeNull) {
+		this.maybeNull = maybeNull;
+	}
+	
+	public boolean getMaybeNull() {
+		return maybeNull;
+	}
+	
 	/** @return The type of the node. */
 	public NodeType getNodeType() {
 		return type;

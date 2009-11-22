@@ -27,8 +27,10 @@ public class EdgeInterfaceTypeChangeNode extends EdgeDeclNode implements EdgeCha
 	private IdentNode interfaceTypeUnresolved;
 	private TypeDeclNode interfaceType = null;
 
-	public EdgeInterfaceTypeChangeNode(IdentNode id, BaseNode newType, int context, IdentNode interfaceType, PatternGraphNode directlyNestingLHSGraph) {
-		super(id, newType, context, TypeExprNode.getEmpty(), directlyNestingLHSGraph);
+	
+	public EdgeInterfaceTypeChangeNode(IdentNode id, BaseNode newType, int context, IdentNode interfaceType, 
+			PatternGraphNode directlyNestingLHSGraph, boolean maybeNull) {
+		super(id, newType, context, TypeExprNode.getEmpty(), directlyNestingLHSGraph, maybeNull);
 		this.interfaceTypeUnresolved = interfaceType;
 		becomeParent(this.interfaceTypeUnresolved);
 	}

@@ -28,6 +28,8 @@ public class Edge extends GraphEntity {
 	public PatternGraph directlyNestingLHSGraph;
 
 	protected boolean fixedDirection;
+	
+	protected boolean maybeNull;
 
 	/**
 	 * Make a new edge.
@@ -56,6 +58,14 @@ public class Edge extends GraphEntity {
 		this(ident, type, EmptyAnnotations.get(), directlyNestingLHSGraph, maybeDeleted, maybeRetyped);
 	}
 
+	public void setMaybeNull(boolean maybeNull) {
+		this.maybeNull = maybeNull;
+	}
+	
+	public boolean getMaybeNull() {
+		return maybeNull;
+	}
+	
 	/** @return The type of the edge. */
 	public EdgeType getEdgeType() {
 		return type;

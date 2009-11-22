@@ -30,8 +30,10 @@ public class NodeInterfaceTypeChangeNode extends NodeDeclNode implements NodeCha
 	private IdentNode interfaceTypeUnresolved;
 	private TypeDeclNode interfaceType = null;
 
-	public NodeInterfaceTypeChangeNode(IdentNode id, BaseNode type, int context, IdentNode interfaceType, PatternGraphNode directlyNestingLHSGraph) {
-		super(id, type, context, TypeExprNode.getEmpty(), directlyNestingLHSGraph);
+	
+	public NodeInterfaceTypeChangeNode(IdentNode id, BaseNode type, int context, IdentNode interfaceType,
+			PatternGraphNode directlyNestingLHSGraph, boolean maybeNull) {
+		super(id, type, context, TypeExprNode.getEmpty(), directlyNestingLHSGraph, maybeNull);
 		this.interfaceTypeUnresolved = interfaceType;
 		becomeParent(this.interfaceTypeUnresolved);
 	}
@@ -101,11 +103,6 @@ public class NodeInterfaceTypeChangeNode extends NodeDeclNode implements NodeCha
 
 		constraints.reportError("replace nodes can't change interface type, only pattern nodes can");
 		return false;
-	}
-
-	@Override
-	public Node getNode() {
-		return checkIR(Node.class);
 	}
 
 	/**

@@ -147,6 +147,12 @@
             Inserts schedules of negative and independent pattern graphs into the schedule of the enclosing pattern graph
             </summary>
         </member>
+        <member name="M:de.unika.ipd.grGen.lgsp.LGSPMatcherGenerator.InsertNegativesAndIndependentsIntoSchedule(de.unika.ipd.grGen.lgsp.PatternGraph,System.Int32)">
+            <summary>
+            Inserts schedules of negative and independent pattern graphs into the schedule of the enclosing pattern graph
+            for the schedule with the given array index
+            </summary>
+        </member>
         <member name="M:de.unika.ipd.grGen.lgsp.LGSPMatcherGenerator.InsertConditionsIntoSchedule(de.unika.ipd.grGen.lgsp.PatternCondition[],System.Collections.Generic.List{de.unika.ipd.grGen.lgsp.SearchOperation})">
             <summary>
             Inserts conditions into the schedule given by the operations list at their earliest possible position
@@ -183,7 +189,7 @@
         <!-- Badly formed XML comment ignored for member "M:de.unika.ipd.grGen.lgsp.LGSPMatcherGenerator.GenerateActionImplementation(de.unika.ipd.grGen.lgsp.SourceBuilder,de.unika.ipd.grGen.lgsp.LGSPRulePattern)" -->
         <member name="M:de.unika.ipd.grGen.lgsp.LGSPMatcherGenerator.GenerateSearchProgram(de.unika.ipd.grGen.lgsp.LGSPMatchingPattern)">
             <summary>
-            Generates the search program for the pattern graph of the given rule
+            Generates the search program(s) for the pattern graph of the given rule
             </summary>
         </member>
         <member name="M:de.unika.ipd.grGen.lgsp.LGSPMatcherGenerator.GenerateSearchProgramAlternative(de.unika.ipd.grGen.lgsp.LGSPMatchingPattern,de.unika.ipd.grGen.lgsp.Alternative)">
@@ -2425,27 +2431,6 @@
             and finally continues in missing preset search program list by emitting following search program
             </summary>
         </member>
-        <member name="T:de.unika.ipd.grGen.lgsp.SearchProgramOfMissingPreset">
-            <summary>
-            Class representing the search program of a missing preset matching action,
-            originating from some test or rule with parameters which may be preset but may be null, too
-            The list forming concatenation field is used for adding further missing preset search subprograms.
-            </summary>
-        </member>
-        <member name="M:de.unika.ipd.grGen.lgsp.SearchProgramOfMissingPreset.Dump(de.unika.ipd.grGen.lgsp.SourceBuilder)">
-            <summary>
-            Dumps search program followed by further missing preset search subprograms
-            </summary>
-        </member>
-        <member name="M:de.unika.ipd.grGen.lgsp.SearchProgramOfMissingPreset.Emit(de.unika.ipd.grGen.lgsp.SourceBuilder)">
-            <summary>
-            Emits the matcher source code for all search programs
-            first head of matching function of the current search program
-            then the search program operations list in depth first walk over search program operations list
-            then tail of matching function of the current search program
-            and finally continues in missing preset search program list by emitting following search program
-            </summary>
-        </member>
         <member name="T:de.unika.ipd.grGen.lgsp.SearchProgramOfSubpattern">
             <summary>
             Class representing the search program of a subpattern
@@ -2632,11 +2617,6 @@
             <summary>
             Class representing "check whether candidate is not already mapped 
               to some other pattern element on the pattern derivation path, to ensure required isomorphy" operation
-            </summary>
-        </member>
-        <member name="T:de.unika.ipd.grGen.lgsp.CheckCandidateForPreset">
-            <summary>
-            Class representing "check whether candidate was preset (not null)" operation
             </summary>
         </member>
         <member name="T:de.unika.ipd.grGen.lgsp.CheckPartialMatch">
@@ -2972,7 +2952,13 @@
             Only valid if pattern element is handed in as rule parameter.
             </summary>
         </member>
-        <member name="M:de.unika.ipd.grGen.lgsp.PatternElement.#ctor(System.Int32,System.String,System.String,System.String,de.unika.ipd.grGen.libGr.GrGenType[],System.Boolean[],System.Single,System.Int32)">
+        <member name="F:de.unika.ipd.grGen.lgsp.PatternElement.MaybeNull">
+            <summary>
+            Tells whether this pattern element may be null.
+            May only be true if pattern element is handed in as rule parameter.
+            </summary>
+        </member>
+        <member name="M:de.unika.ipd.grGen.lgsp.PatternElement.#ctor(System.Int32,System.String,System.String,System.String,de.unika.ipd.grGen.libGr.GrGenType[],System.Boolean[],System.Single,System.Int32,System.Boolean)">
             <summary>
             Instantiates a new PatternElement object.
             </summary>
@@ -2988,6 +2974,7 @@
                 It should be null if allowedTypes is null or empty or has only one element.</param>
             <param name="cost">Default cost/priority from frontend, user priority if given.</param>
             <param name="parameterIndex">Specifies to which rule parameter this pattern element corresponds.</param>
+            <param name="maybeNull">Tells whether this pattern element may be null (is a parameter if true).</param>
         </member>
         <member name="M:de.unika.ipd.grGen.lgsp.PatternElement.ToString">
             <summary>
@@ -3015,7 +3002,7 @@
             plan graph node corresponding to this pattern node, used in plan graph generation, just hacked into this place
             </summary>
         </member>
-        <member name="M:de.unika.ipd.grGen.lgsp.PatternNode.#ctor(System.Int32,System.String,System.String,System.String,de.unika.ipd.grGen.libGr.GrGenType[],System.Boolean[],System.Single,System.Int32)">
+        <member name="M:de.unika.ipd.grGen.lgsp.PatternNode.#ctor(System.Int32,System.String,System.String,System.String,de.unika.ipd.grGen.libGr.GrGenType[],System.Boolean[],System.Single,System.Int32,System.Boolean)">
             <summary>
             Instantiates a new PatternNode object
             </summary>
@@ -3031,6 +3018,7 @@
                 It should be null if allowedTypes is null or empty or has only one element.</param>
             <param name="cost"> default cost/priority from frontend, user priority if given</param>
             <param name="parameterIndex">Specifies to which rule parameter this pattern element corresponds</param>
+            <param name="maybeNull">Tells whether this pattern node may be null (is a parameter if true).</param>
         </member>
         <member name="M:de.unika.ipd.grGen.lgsp.PatternNode.ToString">
             <summary>
@@ -3048,7 +3036,7 @@
             Indicates, whether this pattern edge should be matched with a fixed direction or not.
             </summary>
         </member>
-        <member name="M:de.unika.ipd.grGen.lgsp.PatternEdge.#ctor(System.Boolean,System.Int32,System.String,System.String,System.String,de.unika.ipd.grGen.libGr.GrGenType[],System.Boolean[],System.Single,System.Int32)">
+        <member name="M:de.unika.ipd.grGen.lgsp.PatternEdge.#ctor(System.Boolean,System.Int32,System.String,System.String,System.String,de.unika.ipd.grGen.libGr.GrGenType[],System.Boolean[],System.Single,System.Int32,System.Boolean)">
             <summary>
             Instantiates a new PatternEdge object
             </summary>
@@ -3065,6 +3053,7 @@
                 It should be null if allowedTypes is null or empty or has only one element.</param>
             <param name="cost"> default cost/priority from frontend, user priority if given</param>
             <param name="parameterIndex">Specifies to which rule parameter this pattern element corresponds</param>
+            <param name="maybeNull">Tells whether this pattern edge may be null (is a parameter if true).</param>
         </member>
         <member name="M:de.unika.ipd.grGen.lgsp.PatternEdge.ToString">
             <summary>
@@ -3333,14 +3322,28 @@
             may be matched non-isomorphic to which pattern edge globally, i.e. the edges are contained
             in different, but locally nested patterns (alternative cases, iterateds).</param>
         </member>
-        <member name="F:de.unika.ipd.grGen.lgsp.PatternGraph.schedule">
+        <member name="F:de.unika.ipd.grGen.lgsp.PatternGraph.maybeNullElementNames">
             <summary>
-            A schedule for this pattern graph without any nested pattern graphs.
+            Names of the elements which may be null
+            The following members are ordered along it/generated along this order
             </summary>
         </member>
-        <member name="F:de.unika.ipd.grGen.lgsp.PatternGraph.scheduleIncludingNegativesAndIndependents">
+        <member name="F:de.unika.ipd.grGen.lgsp.PatternGraph.schedules">
             <summary>
-            A schedule for this pattern graph including negatives and independents (and subpatterns?).   TODO
+            The schedules for this pattern graph without any nested pattern graphs.
+            Normally one, but each maybe null action preset causes doubling of schedules
+            </summary>
+        </member>
+        <member name="F:de.unika.ipd.grGen.lgsp.PatternGraph.schedulesIncludingNegativesAndIndependents">
+            <summary>
+            The schedules for this pattern graph including negatives and independents (and subpatterns?).   TODO
+            Normally one, but each maybe null action preset causes doubling of schedules
+            </summary>
+        </member>
+        <member name="F:de.unika.ipd.grGen.lgsp.PatternGraph.availabilityOfMaybeNullElements">
+            <summary>
+            For each schedule the availability of the maybe null presets - true if is available, false if not
+            Empty dictionary if there are no maybe null action preset elements
             </summary>
         </member>
         <member name="F:de.unika.ipd.grGen.lgsp.PatternGraph.pathPrefixesAndNamesOfNestedIndependents">
@@ -3646,9 +3649,9 @@
             name says everything
             </summary>
         </member>
-        <member name="M:de.unika.ipd.grGen.lgsp.SearchProgramBuilder.BuildSearchProgram(de.unika.ipd.grGen.libGr.IGraphModel,de.unika.ipd.grGen.lgsp.LGSPRulePattern,System.String,System.Collections.Generic.List{System.String},System.Collections.Generic.List{System.Boolean})">
+        <member name="M:de.unika.ipd.grGen.lgsp.SearchProgramBuilder.BuildSearchProgram(de.unika.ipd.grGen.libGr.IGraphModel,de.unika.ipd.grGen.lgsp.LGSPRulePattern,System.Int32,System.String)">
             <summary>
-            Builds search program from scheduled search plan in pattern graph of the action rule pattern
+            Builds search program from scheduled search plan at given index in pattern graph of the action rule pattern
             </summary>
         </member>
         <member name="M:de.unika.ipd.grGen.lgsp.SearchProgramBuilder.BuildSearchProgram(de.unika.ipd.grGen.libGr.IGraphModel,de.unika.ipd.grGen.lgsp.LGSPMatchingPattern)">
@@ -3664,13 +3667,6 @@
         <member name="M:de.unika.ipd.grGen.lgsp.SearchProgramBuilder.BuildSearchProgram(de.unika.ipd.grGen.libGr.IGraphModel,de.unika.ipd.grGen.lgsp.LGSPMatchingPattern,de.unika.ipd.grGen.lgsp.PatternGraph)">
             <summary>
             Builds search program for iterated from scheduled search plan of iterated pattern graph
-            </summary>
-        </member>
-        <member name="M:de.unika.ipd.grGen.lgsp.SearchProgramBuilder.BuildAddionalSearchSubprograms(de.unika.ipd.grGen.lgsp.ScheduledSearchPlan,de.unika.ipd.grGen.lgsp.SearchProgram,de.unika.ipd.grGen.lgsp.LGSPRulePattern)">
-            <summary>
-            Create an extra search subprogram per MaybePreset operation.
-            Created search programs are added to search program next field, forming list.
-            Destroys the scheduled search program.
             </summary>
         </member>
         <member name="F:de.unika.ipd.grGen.lgsp.SearchProgramBuilder.programType">
@@ -3725,6 +3721,11 @@
             is always below the maximum neg level
             </summary>
         </member>
+        <member name="F:de.unika.ipd.grGen.lgsp.SearchProgramBuilder.indexOfSchedule">
+            <summary>
+            The index of the currently built schedule
+            </summary>
+        </member>
         <member name="M:de.unika.ipd.grGen.lgsp.SearchProgramBuilder.BuildScheduledSearchPlanOperationIntoSearchProgram(System.Int32,de.unika.ipd.grGen.lgsp.SearchProgramOperation)">
             <summary>
             Builds search program operations from scheduled search plan operation.
@@ -3733,10 +3734,10 @@
             in order to process the next search plan operation.
             </summary>
         </member>
-        <member name="M:de.unika.ipd.grGen.lgsp.SearchProgramBuilder.buildMaybePreset(de.unika.ipd.grGen.lgsp.SearchProgramOperation,System.Int32,de.unika.ipd.grGen.lgsp.SearchPlanNode,de.unika.ipd.grGen.lgsp.IsomorphyInformation)">
+        <member name="M:de.unika.ipd.grGen.lgsp.SearchProgramBuilder.buildActionPreset(de.unika.ipd.grGen.lgsp.SearchProgramOperation,System.Int32,de.unika.ipd.grGen.lgsp.SearchPlanNode,de.unika.ipd.grGen.lgsp.IsomorphyInformation)">
             <summary>
             Search program operations implementing the
-            MaybePreset search plan operation
+            ActionPreset search plan operation
             are created and inserted into search program
             </summary>
         </member>
@@ -3971,18 +3972,6 @@
             returns new insertion point and continuation point
              for continuing buildup after the stuff nested within both directions iteration was built
             todo: if no direction iteration was needed, insertion point == continuation point ?
-            </summary>
-        </member>
-        <member name="M:de.unika.ipd.grGen.lgsp.SearchProgramBuilder.CompleteCallsToMissingPresetHandlingMethodInAllSearchPrograms(de.unika.ipd.grGen.lgsp.SearchProgram,System.String,System.Collections.Generic.List{System.String},System.Collections.Generic.List{System.Boolean})">
-            <summary>
-            Completes calls to missing preset handling methods in all search programs
-              (available at the time the functions is called)
-            </summary>
-        </member>
-        <member name="M:de.unika.ipd.grGen.lgsp.SearchProgramBuilder.CompleteCallsToMissingPresetHandlingMethod(de.unika.ipd.grGen.lgsp.SearchProgramOperation,System.String,System.Collections.Generic.List{System.String},System.Collections.Generic.List{System.Boolean})">
-            <summary>
-            Completes calls to missing preset handling methods 
-            by inserting the initially not given arguments
             </summary>
         </member>
         <member name="M:de.unika.ipd.grGen.lgsp.SearchProgramBuilder.NegativeIndependentNamePrefix(de.unika.ipd.grGen.lgsp.PatternGraph)">
@@ -4220,7 +4209,7 @@
             <param name="path">The original path string potentially with wrong chars</param>
             <returns>The corrected path string</returns>
         </member>
-        <member name="M:de.unika.ipd.grGen.lgsp.LGSPGrGen.GenerateStaticPlanGraph(de.unika.ipd.grGen.lgsp.PatternGraph,System.Boolean,System.Boolean)">
+        <member name="M:de.unika.ipd.grGen.lgsp.LGSPGrGen.GenerateStaticPlanGraph(de.unika.ipd.grGen.lgsp.PatternGraph,System.Int32,System.Boolean,System.Boolean)">
             <summary>
             Generate plan graph for given pattern graph with costs from initial static schedule handed in with graph elements.
             Plan graph contains nodes representing the pattern elements (nodes and edges)
@@ -4262,9 +4251,10 @@
             Void operation; retype to void to delete operation from ssp quickly.
             </summary>
         </member>
-        <member name="F:de.unika.ipd.grGen.lgsp.SearchOperationType.MaybePreset">
+        <member name="F:de.unika.ipd.grGen.lgsp.SearchOperationType.ActionPreset">
             <summary>
-            Preset handed in to action pattern, maybe null
+            Preset handed in to action pattern, maybe null, 
+            in this causing creation of two search plans, one with preset, one with lookup operation
             (might occur in enclosed negative pattern, too, but replaced by neg preset in schedule).
             </summary>
         </member>

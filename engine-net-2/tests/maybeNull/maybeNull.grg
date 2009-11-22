@@ -1,0 +1,7 @@
+rule r(x:Node<null>, -y:Edge<null>->)
+{
+	x -y-> .;
+	
+	modify {
+	}
+}

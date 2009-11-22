@@ -1,0 +1,13 @@
+test foo(a:Node, b:Node<null>, -c:Edge->, -d:Edge<null>->)
+{
+	a -c-> b -d-> e:Node --> f:Node;
+}
+
+rule bar(a:Node<Node+null>, b:Node<null+Node>, c:Node<Node>)
+{
+	a -e1:Edge-> b <-e2:Edge- c;
+
+	modify {
+		delete(e1);
+	}
+}

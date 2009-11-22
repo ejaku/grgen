@@ -128,7 +128,7 @@ namespace de.unika.ipd.grGen.lgsp
 
         public static SearchOperation CreateMaybePreset(SearchPlanNode element)
         {
-            return new SearchOperation(SearchOperationType.MaybePreset,
+            return new SearchOperation(SearchOperationType.ActionPreset,
                 element, null, 0);
         }
 

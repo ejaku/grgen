@@ -28,13 +28,17 @@ public abstract class ConstraintDeclNode extends DeclNode
 
 	protected boolean maybeDeleted = false;
 	protected boolean maybeRetyped = false;
+	protected boolean maybeNull = false; 
 
-	protected ConstraintDeclNode(IdentNode id, BaseNode type, int context, TypeExprNode constraints, PatternGraphNode directlyNestingLHSGraph) {
+	
+	protected ConstraintDeclNode(IdentNode id, BaseNode type, int context, TypeExprNode constraints,
+			PatternGraphNode directlyNestingLHSGraph, boolean maybeNull) {
 		super(id, type);
 		this.constraints = constraints;
 		becomeParent(this.constraints);
 		this.context = context;
 		this.directlyNestingLHSGraph = directlyNestingLHSGraph;
+		this.maybeNull = maybeNull;
 	}
 
 	@Override

@@ -50,11 +50,12 @@ public class PatternGraphNode extends GraphNode {
 		setName(PatternGraphNode.class, "pattern_graph");
 	}
 
-	public static final int MOD_DPO = 1;
-	public static final int MOD_EXACT = 2;
-	public static final int MOD_INDUCED = 4;
-	public static final int MOD_PATTERN_LOCKED = 8;
-	public static final int MOD_PATTERNPATH_LOCKED = 16;
+	public static final int MOD_DANGLING = 1; // dangling+identification=dpo
+	public static final int MOD_IDENTIFICATION = 2;
+	public static final int MOD_EXACT = 4;
+	public static final int MOD_INDUCED = 8;
+	public static final int MOD_PATTERN_LOCKED = 16;
+	public static final int MOD_PATTERNPATH_LOCKED = 32;
 
 	/** The modifiers for this type. An ORed combination of the constants above. */
 	private int modifiers = 0;
@@ -684,7 +685,7 @@ public class PatternGraphNode extends GraphNode {
 	}
 
 	private boolean isDPO() {
-		return (modifiers & MOD_DPO) != 0;
+		return (modifiers & MOD_DANGLING) != 0 && (modifiers & MOD_IDENTIFICATION) != 0;
 	}
 
 	private boolean isExact() {

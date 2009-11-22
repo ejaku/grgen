@@ -61,53 +61,16 @@ namespace de.unika.ipd.grGen.lgsp
                 if (currentOperation is CheckCandidate)
                 //////////////////////////////////////////////////////////
                 {
-                    if (currentOperation is CheckCandidateForPreset)
-                    {
-                        Debug.Assert(enclosingAlternative == null);
-                        Debug.Assert(enclosingCheckNegativeOrIndependent == null);
-
-                        // when the call to the preset handling returns
-                        // it might be because it found all available matches from the given parameters on
-                        //   then we want to continue the matching
-                        // or it might be because it found the required number of matches
-                        //   then we want to abort the matching process
-                        // so we have to add an additional maximum matches check to the check preset
-                        CheckCandidateForPreset checkPreset =
-                            (CheckCandidateForPreset)currentOperation;
-                        checkPreset.CheckFailedOperations =
-                            new SearchProgramList(checkPreset);
-                        CheckContinueMatchingMaximumMatchesReached checkMaximumMatches =
-                            new CheckContinueMatchingMaximumMatchesReached(CheckMaximumMatchesType.Action, false);
-                        checkPreset.CheckFailedOperations.Append(checkMaximumMatches);
-
-                        string[] neededElementsForCheckOperation = new string[1];
-                        neededElementsForCheckOperation[0] = checkPreset.PatternElementName;
-                        MoveOutwardsAppendingRemoveIsomorphyAndJump(
-                            checkPreset,
-                            neededElementsForCheckOperation,
-                            enclosingSearchProgram);
-
-                        // check preset has a further check maximum matches nested within check failed code
-                        // give it its special bit of attention here
-                        CompleteCheckOperations(
-                            checkPreset.CheckFailedOperations,
-                            enclosingSearchProgram,
-                            enclosingAlternative,
-                            enclosingCheckNegativeOrIndependent);
-                    }
-                    else
-                    {
-                        CheckCandidate checkCandidate =
-                            (CheckCandidate)currentOperation;
-                        checkCandidate.CheckFailedOperations =
-                            new SearchProgramList(checkCandidate);
-                        string[] neededElementsForCheckOperation = new string[1];
-                        neededElementsForCheckOperation[0] = checkCandidate.PatternElementName;
-                        MoveOutwardsAppendingRemoveIsomorphyAndJump(
-                            checkCandidate,
-                            neededElementsForCheckOperation,
-                            enclosingCheckNegativeOrIndependent ?? (enclosingAlternative ?? enclosingSearchProgram));
-                    }
+                    CheckCandidate checkCandidate =
+                        (CheckCandidate)currentOperation;
+                    checkCandidate.CheckFailedOperations =
+                        new SearchProgramList(checkCandidate);
+                    string[] neededElementsForCheckOperation = new string[1];
+                    neededElementsForCheckOperation[0] = checkCandidate.PatternElementName;
+                    MoveOutwardsAppendingRemoveIsomorphyAndJump(
+                        checkCandidate,
+                        neededElementsForCheckOperation,
+                        enclosingCheckNegativeOrIndependent ?? (enclosingAlternative ?? enclosingSearchProgram));
                 }
                 //////////////////////////////////////////////////////////
                 else if (currentOperation is CheckPartialMatch)

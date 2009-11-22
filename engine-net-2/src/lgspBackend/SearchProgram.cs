@@ -192,9 +192,10 @@ namespace de.unika.ipd.grGen.lgsp
     class SearchProgramOfAction : SearchProgram
     {
         public SearchProgramOfAction(string rulePatternClassName,
-            string patternName, string[] parameterTypes, string[] parameterNames,
+            string patternName, string[] parameterTypes, string[] parameterNames, string name,
             List<string> namesOfPatternGraphsOnPathToEnclosedSubpatternUsageOrAlternativeOrIterated,
-            string name, bool containsSubpatterns)
+            bool containsSubpatterns, 
+            string[] dispatchConditions, List<string> suffixedMatcherNames, List<string[]> arguments)
         {
             RulePatternClassName = rulePatternClassName;
             NamesOfPatternGraphsOnPathToEnclosedSubpatternUsageOrAlternativeOrIterated =
@@ -208,6 +209,10 @@ namespace de.unika.ipd.grGen.lgsp
                 Parameters += ", " + parameterTypes[i] + " " + parameterNames[i];
             }
             SetupSubpatternMatching = containsSubpatterns;
+
+            DispatchConditions = dispatchConditions;
+            SuffixedMatcherNames = suffixedMatcherNames;
+            Arguments = arguments;
         }
 
         /// <summary>
@@ -252,6 +257,13 @@ namespace de.unika.ipd.grGen.lgsp
                     + "GRGEN_LGSP.LGSPGraph graph, int maxMatches{2})\n", matchesType, Name, Parameters);
             sourceCode.AppendFront("{\n");
             sourceCode.Indent();
+
+            if(Arguments!=null)
+            {
+                sourceCode.AppendFront("// maybe null dispatching\n");
+                EmitMaybeNullDispatching(sourceCode, 0, 0);
+            }
+
             sourceCode.AppendFront("matches.Clear();\n");
             sourceCode.AppendFront("int negLevel = 0;\n");
 
@@ -287,133 +299,42 @@ namespace de.unika.ipd.grGen.lgsp
             }
         }
 
+        private int EmitMaybeNullDispatching(SourceBuilder sourceCode, int conditionLevel, int emittedCounter)
+        {
+            if(conditionLevel<DispatchConditions.Length)
+            {
+                sourceCode.AppendFrontFormat("if({0}!=null) {{\n", DispatchConditions[conditionLevel]);
+                sourceCode.Indent();
+                emittedCounter = EmitMaybeNullDispatching(sourceCode, conditionLevel+1, emittedCounter);
+                sourceCode.Unindent();
+                sourceCode.AppendFront("} else {\n");
+                sourceCode.Indent();
+                emittedCounter = EmitMaybeNullDispatching(sourceCode, conditionLevel+1, emittedCounter);
+                sourceCode.Unindent();
+                sourceCode.AppendFront("}\n");
+            }
+            else
+            {
+                if(emittedCounter>0) // first entry are we ourselves, don't call, just nop
+                {
+                    sourceCode.AppendFrontFormat("return {0}(graph, maxMatches", SuffixedMatcherNames[emittedCounter]);
+                    foreach(string argument in Arguments[emittedCounter]) {
+                        sourceCode.AppendFormat(", {0}", argument);                        
+                    }
+                    sourceCode.Append(");\n");
+                }
+                ++emittedCounter;
+            }
+            return emittedCounter;
+        }
+
         public string PatternName;
         public string Parameters;
         public bool SetupSubpatternMatching;
-    }
 
-    /// <summary>
-    /// Class representing the search program of a missing preset matching action,
-    /// originating from some test or rule with parameters which may be preset but may be null, too
-    /// The list forming concatenation field is used for adding further missing preset search subprograms.
-    /// </summary>
-    class SearchProgramOfMissingPreset : SearchProgram
-    {
-        public SearchProgramOfMissingPreset(string rulePatternClassName,
-            string[] parameterTypes, string[] parameterNames,
-            List<string> namesOfPatternGraphsOnPathToEnclosedSubpatternUsageOrAlternativeOrIterated,
-            string name, bool containsSubpatterns,
-            string[] availableParametersOrFoundElements, bool[] availableParameterOrFoundElementIsNode)
-        {
-            RulePatternClassName = rulePatternClassName;
-            NamesOfPatternGraphsOnPathToEnclosedSubpatternUsageOrAlternativeOrIterated =
-                namesOfPatternGraphsOnPathToEnclosedSubpatternUsageOrAlternativeOrIterated;
-            Name = name;
-
-            Parameters = "";
-            for (int i = 0; i < parameterTypes.Length; ++i)
-            {
-                Parameters += ", " + parameterTypes[i] + " " + parameterNames[i];
-            }
-            Parameters += ", "; // add , as other parameters are following here
-            SetupSubpatternMatching = containsSubpatterns;
-            AvailableParametersOrFoundElements = availableParametersOrFoundElements;
-            AvailableParameterOrFoundElementIsNode = availableParameterOrFoundElementIsNode;
-        }
-
-        /// <summary>
-        /// Dumps search program followed by further missing preset search subprograms
-        /// </summary>
-        public override void Dump(SourceBuilder builder)
-        {
-            // first dump local content
-            builder.AppendFrontFormat("Search program {0} of missing preset {1}",
-                Name, SetupSubpatternMatching ? "with subpattern matching setup" : "");
-            // parameters
-            for (int i = 0; i < AvailableParametersOrFoundElements.Length; ++i)
-            {
-                string typeOfParameterVariableContainingCandidate =
-                    AvailableParameterOrFoundElementIsNode[i] ? "LGSPNode" : "LGSPEdge";
-                string parameterVariableContainingCandidate =
-                    NamesOfEntities.CandidateVariable(AvailableParametersOrFoundElements[i]);
-                builder.AppendFormat(", GRGEN_LGSP.{0} {1}",
-                    typeOfParameterVariableContainingCandidate,
-                    parameterVariableContainingCandidate);
-            }
-            builder.Append("\n");
-
-            // then nested content
-            if (OperationsList != null)
-            {
-                builder.Indent();
-                OperationsList.Dump(builder);
-                builder.Unindent();
-            }
-
-            // then next search subprogram
-            if (Next != null)
-            {
-                Next.Dump(builder);
-            }
-        }
-
-        /// <summary>
-        /// Emits the matcher source code for all search programs
-        /// first head of matching function of the current search program
-        /// then the search program operations list in depth first walk over search program operations list
-        /// then tail of matching function of the current search program
-        /// and finally continues in missing preset search program list by emitting following search program
-        /// </summary>
-        public override void Emit(SourceBuilder sourceCode)
-        {
-#if RANDOM_LOOKUP_LIST_START
-            sourceCode.AppendFront("private Random random = new Random(13795661);\n");
-#endif
-
-            sourceCode.AppendFrontFormat("public void " + Name + "(GRGEN_LGSP.LGSPGraph graph, int maxMatches{0}"
-                    + "Stack<GRGEN_LGSP.LGSPSubpatternAction> openTasks, List<Stack<"
-                    + "GRGEN_LIBGR.IMatch>> foundPartialMatches, List<Stack<"
-                    + "GRGEN_LIBGR.IMatch>> matchesList", Parameters);
-            for (int i = 0; i < AvailableParametersOrFoundElements.Length; ++i)
-            {
-                string typeOfParameterVariableContainingCandidate =
-                    AvailableParameterOrFoundElementIsNode[i] ? "LGSPNode" : "LGSPEdge";
-                string parameterVariableContainingCandidate =
-                    NamesOfEntities.CandidateVariable(AvailableParametersOrFoundElements[i]);
-                sourceCode.AppendFormat(", GRGEN_LGSP.{0} {1}",
-                    typeOfParameterVariableContainingCandidate,
-                    parameterVariableContainingCandidate);
-            }
-            sourceCode.Append(")\n");
-            sourceCode.AppendFront("{\n");
-            sourceCode.Indent();
-            sourceCode.AppendFront("int negLevel = 0;\n");
-
-            foreach (string graphsOnPath in NamesOfPatternGraphsOnPathToEnclosedSubpatternUsageOrAlternativeOrIterated)
-            {
-                sourceCode.AppendFrontFormat("{0}.{1} {2} = null;\n",
-                    RulePatternClassName, NamesOfEntities.MatchClassName(graphsOnPath),
-                    NamesOfEntities.PatternpathMatch(graphsOnPath));
-            }
-
-            OperationsList.Emit(sourceCode);
-
-            sourceCode.AppendFront("return;\n");
-            sourceCode.Unindent();
-            sourceCode.AppendFront("}\n");
-
-            // emit next search subprogram
-            if (Next != null)
-            {
-                Next.Emit(sourceCode);
-            }
-        }
-
-        public string[] AvailableParametersOrFoundElements;
-        public bool[] AvailableParameterOrFoundElementIsNode;
-
-        public string Parameters;
-        public bool SetupSubpatternMatching;
+        string[] DispatchConditions;
+        List<string> SuffixedMatcherNames; // for maybe null dispatcher
+        List<string[]> Arguments; // for maybe null dispatcher
     }
 
     /// <summary>
@@ -1926,105 +1847,6 @@ namespace de.unika.ipd.grGen.lgsp
         public bool IsNode; // node|edge
         public bool Always; // have a look at searchPatternpath or search always
         string LastMatchAtPreviousNestingLevel;
-    }
-
-    /// <summary>
-    /// Class representing "check whether candidate was preset (not null)" operation
-    /// </summary>
-    class CheckCandidateForPreset : CheckCandidate
-    {
-        public CheckCandidateForPreset(
-            string patternElementName,
-            bool isNode,
-            string[] arguments)
-        {
-            PatternElementName = patternElementName;
-            IsNode = isNode;
-            for (int i = 0; i < arguments.Length; ++i)
-            {
-                Arguments += ", " + arguments[i];
-            }
-        }
-
-        public void CompleteWithArguments(
-            List<string> neededElements,
-            List<bool> neededElementIsNode)
-        {
-            NeededElements = new string[neededElements.Count];
-            NeededElementIsNode = new bool[neededElementIsNode.Count];
-            int i = 0;
-            foreach (string ne in neededElements)
-            {
-                NeededElements[i] = ne;
-                ++i;
-            }
-            i = 0;
-            foreach (bool nein in neededElementIsNode)
-            {
-                NeededElementIsNode[i] = nein;
-                ++i;
-            }
-        }
-
-        public override void Dump(SourceBuilder builder)
-        {
-            // first dump check
-            builder.AppendFront("CheckCandidate ForPreset ");
-            builder.AppendFormat("on {0} node:{1} ",
-                PatternElementName, IsNode);
-            if (NeededElements != null)
-            {
-                builder.Append("with ");
-                foreach (string neededElement in NeededElements)
-                {
-                    builder.AppendFormat("{0} ", neededElement);
-                }
-            }
-            builder.Append("\n");
-            // then operations for case check failed
-            if (CheckFailedOperations != null)
-            {
-                builder.Indent();
-                CheckFailedOperations.Dump(builder);
-                builder.Unindent();
-            }
-        }
-
-        public override void Emit(SourceBuilder sourceCode)
-        {
-            // emit check whether candidate was preset (not null)
-            string variableContainingCandidate = NamesOfEntities.CandidateVariable(PatternElementName);
-            sourceCode.AppendFrontFormat("if({0} == null) ",
-                variableContainingCandidate);
-
-            // emit check failed code
-            sourceCode.Append("{\n");
-            sourceCode.Indent();
-            // emit call to search program doing lookup if candidate was not preset
-            string nameOfMissingPresetHandlingMethod = NamesOfEntities.MissingPresetHandlingMethod(
-                PatternElementName);
-            sourceCode.AppendFrontFormat("{0}",
-                nameOfMissingPresetHandlingMethod);
-            // emit call arguments
-            sourceCode.Append("(");
-            sourceCode.AppendFormat("graph, maxMatches{0}, null, null, null", Arguments);
-            for (int i = 0; i < NeededElements.Length; ++i)
-            {
-                sourceCode.AppendFormat(", {0}", NamesOfEntities.CandidateVariable(NeededElements[i]));
-            }
-            sourceCode.Append(")");
-            sourceCode.Append(";\n");
-
-            // emit further check failed code
-            CheckFailedOperations.Emit(sourceCode);
-            sourceCode.Unindent();
-            sourceCode.AppendFront("}\n");
-        }
-
-        string Arguments;
-        public string[] NeededElements;
-        public bool[] NeededElementIsNode;
-        public bool IsNode; // node|edge
     }
 
     /// <summary>

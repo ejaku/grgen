@@ -80,6 +80,12 @@ namespace de.unika.ipd.grGen.lgsp
         public int ParameterIndex;
 
         /// <summary>
+        /// Tells whether this pattern element may be null.
+        /// May only be true if pattern element is handed in as rule parameter.
+        /// </summary>
+        public bool MaybeNull;
+
+        /// <summary>
         /// Instantiates a new PatternElement object.
         /// </summary>
         /// <param name="typeID">The type ID of the pattern element.</param>
@@ -94,10 +100,11 @@ namespace de.unika.ipd.grGen.lgsp
         ///     It should be null if allowedTypes is null or empty or has only one element.</param>
         /// <param name="cost">Default cost/priority from frontend, user priority if given.</param>
         /// <param name="parameterIndex">Specifies to which rule parameter this pattern element corresponds.</param>
+        /// <param name="maybeNull">Tells whether this pattern element may be null (is a parameter if true).</param>
         public PatternElement(int typeID, String typeName, 
             String name, String unprefixedName, 
             GrGenType[] allowedTypes, bool[] isAllowedType, 
-            float cost, int parameterIndex)
+            float cost, int parameterIndex, bool maybeNull)
         {
             this.TypeID = typeID;
             this.typeName = typeName;
@@ -107,6 +114,7 @@ namespace de.unika.ipd.grGen.lgsp
             this.IsAllowedType = isAllowedType;
             this.Cost = cost;
             this.ParameterIndex = parameterIndex;
+            this.MaybeNull = maybeNull;
         }
 
         /// <summary>
@@ -144,11 +152,12 @@ namespace de.unika.ipd.grGen.lgsp
         ///     It should be null if allowedTypes is null or empty or has only one element.</param>
         /// <param name="cost"> default cost/priority from frontend, user priority if given</param>
         /// <param name="parameterIndex">Specifies to which rule parameter this pattern element corresponds</param>
+        /// <param name="maybeNull">Tells whether this pattern node may be null (is a parameter if true).</param>
         public PatternNode(int typeID, String typeName,
             String name, String unprefixedName,
             GrGenType[] allowedTypes, bool[] isAllowedType, 
-            float cost, int parameterIndex)
-            : base(typeID, typeName, name, unprefixedName, allowedTypes, isAllowedType, cost, parameterIndex)
+            float cost, int parameterIndex, bool maybeNull)
+            : base(typeID, typeName, name, unprefixedName, allowedTypes, isAllowedType, cost, parameterIndex, maybeNull)
         {
         }
 
@@ -188,12 +197,13 @@ namespace de.unika.ipd.grGen.lgsp
         ///     It should be null if allowedTypes is null or empty or has only one element.</param>
         /// <param name="cost"> default cost/priority from frontend, user priority if given</param>
         /// <param name="parameterIndex">Specifies to which rule parameter this pattern element corresponds</param>
+        /// <param name="maybeNull">Tells whether this pattern edge may be null (is a parameter if true).</param>
         public PatternEdge(bool fixedDirection,
             int typeID, String typeName, 
             String name, String unprefixedName,
             GrGenType[] allowedTypes, bool[] isAllowedType,
-            float cost, int parameterIndex)
-            : base(typeID, typeName, name, unprefixedName, allowedTypes, isAllowedType, cost, parameterIndex)
+            float cost, int parameterIndex, bool maybeNull)
+            : base(typeID, typeName, name, unprefixedName, allowedTypes, isAllowedType, cost, parameterIndex, maybeNull)
         {
             this.fixedDirection = fixedDirection;
         }
@@ -622,20 +632,139 @@ namespace de.unika.ipd.grGen.lgsp
             this.homomorphicEdges = homomorphicEdges;
             this.homomorphicNodesGlobal = homomorphicNodesGlobal;
             this.homomorphicEdgesGlobal = homomorphicEdgesGlobal;
+
+            // create schedule arrays; normally only one schedule per pattern graph,
+            // but each maybe null parameter causes a doubling of the number of schedules
+            List<PatternElement> elements = new List<PatternElement>();
+            foreach(PatternNode node in nodes) {
+                if(node.MaybeNull) {
+                    elements.Add(node);
+                }
+            }
+            foreach(PatternEdge edge in edges) {
+                if(edge.MaybeNull) {
+                    elements.Add(edge);
+                }
+            } 
+
+            maybeNullElementNames = new String[elements.Count];
+            for(int i=0; i<elements.Count; ++i) {
+                maybeNullElementNames[i] = elements[i].Name;
+            }
+            int numCombinations = (int)Math.Pow(2, elements.Count);
+            schedules = new ScheduledSearchPlan[numCombinations];
+            schedulesIncludingNegativesAndIndependents = new ScheduledSearchPlan[numCombinations];
+            availabilityOfMaybeNullElements = new Dictionary<String,bool>[numCombinations];
+            FillElementsAvailability(elements, 0, new Dictionary<String, bool>(), 0);
         }
 
+        private int FillElementsAvailability(List<PatternElement> elements, int elementsIndex, 
+            Dictionary<String, bool> baseDict, int availabilityIndex)
+        {
+            if(elementsIndex<elements.Count)
+            {
+                Dictionary<String, bool> dictTrue = new Dictionary<String, bool>(baseDict);
+                dictTrue.Add(elements[elementsIndex].Name, true);
+                availabilityIndex = FillElementsAvailability(elements, elementsIndex+1, dictTrue, availabilityIndex);
+                Dictionary<String, bool> dictFalse = new Dictionary<String, bool>(baseDict);
+                dictFalse.Add(elements[elementsIndex].Name, false);
+                availabilityIndex = FillElementsAvailability(elements, elementsIndex+1, dictFalse, availabilityIndex);
+            }
+            else
+            {
+                availabilityOfMaybeNullElements[availabilityIndex] = baseDict;
+                ++availabilityIndex;
+            }
+            return availabilityIndex;
+        }
+
+        public void AdaptToMaybeNull(int availabilityIndex)
+        {
+            // for the not available elements, set them to not preset, i.e. pointOfDefintion == patternGraph
+            foreach(KeyValuePair<string,bool> elemIsAvail in availabilityOfMaybeNullElements[availabilityIndex])
+            {
+                if(elemIsAvail.Value) {
+                    continue;
+                }
+
+                foreach(PatternNode node in nodes)
+                {
+                    if(node.Name!=elemIsAvail.Key) {
+                        continue;
+                    }
+
+                    Debug.Assert(node.PointOfDefinition==null);
+                    node.PointOfDefinition = this;
+                }
+
+                foreach(PatternEdge edge in edges)
+                {
+                    if(edge.Name!=elemIsAvail.Key) {
+                        continue;
+                    }
+
+                    Debug.Assert(edge.PointOfDefinition==null);
+                    edge.PointOfDefinition = this;
+                }
+            }
+        }
+
+        public void RevertMaybeNullAdaption(int availabilityIndex)
+        {
+            // revert the not available elements set to not preset again to preset, i.e. pointOfDefintion == null
+            foreach(KeyValuePair<string,bool> elemIsAvail in availabilityOfMaybeNullElements[availabilityIndex])
+            {
+                if(elemIsAvail.Value) {
+                    continue;
+                }
+
+                foreach(PatternNode node in nodes)
+                {
+                    if(node.Name!=elemIsAvail.Key) {
+                        continue;
+                    }
+
+                    Debug.Assert(node.PointOfDefinition==this);
+                    node.PointOfDefinition = null;
+                }
+
+                foreach(PatternEdge edge in edges)
+                {
+                    if(edge.Name!=elemIsAvail.Key) {
+                        continue;
+                    }
+
+                    Debug.Assert(edge.PointOfDefinition==this);
+                    edge.PointOfDefinition = null;
+                }
+            }
+        }
 
         // -------- intermdiate results of matcher generation ----------------------------------
 
         /// <summary>
-        /// A schedule for this pattern graph without any nested pattern graphs.
+        /// Names of the elements which may be null
+        /// The following members are ordered along it/generated along this order
         /// </summary>
-        public ScheduledSearchPlan schedule;
+        public String[] maybeNullElementNames;
 
         /// <summary>
-        /// A schedule for this pattern graph including negatives and independents (and subpatterns?).   TODO
+        /// The schedules for this pattern graph without any nested pattern graphs.
+        /// Normally one, but each maybe null action preset causes doubling of schedules
         /// </summary>
-        public ScheduledSearchPlan scheduleIncludingNegativesAndIndependents;
+        public ScheduledSearchPlan[] schedules;
+
+        /// <summary>
+        /// The schedules for this pattern graph including negatives and independents (and subpatterns?).   TODO
+        /// Normally one, but each maybe null action preset causes doubling of schedules
+        /// </summary>
+        public ScheduledSearchPlan[] schedulesIncludingNegativesAndIndependents;
+
+        /// <summary>
+        /// For each schedule the availability of the maybe null presets - true if is available, false if not
+        /// Empty dictionary if there are no maybe null action preset elements
+        /// </summary>
+        public Dictionary<String, bool>[] availabilityOfMaybeNullElements;
 
         //////////////////////////////////////////////////////////////////////////////////////////////
         // if you get a null pointer access on one of these members,
@@ -645,7 +774,7 @@ namespace de.unika.ipd.grGen.lgsp
         /// The path prefixes and names of the independents nested within this pattern graph
         /// only in top-level-patterns, alternatives, iterateds, only independents not nested within negatives 
         /// </summary>
-        public List<Pair<String,String>> pathPrefixesAndNamesOfNestedIndependents;
+        public List<Pair<String, String>> pathPrefixesAndNamesOfNestedIndependents;
 
         /// <summary>
         /// The nodes from the enclosing graph(s) used in this graph or one of it's subgraphs.

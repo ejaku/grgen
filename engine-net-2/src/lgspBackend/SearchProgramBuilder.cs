@@ -20,7 +20,6 @@ namespace de.unika.ipd.grGen.lgsp
     enum SearchProgramType
     {
         Action, // action pattern matcher
-        MissingPreset, // missing preset matcher
         Subpattern, // subpattern matcher
         AlternativeCase, // alternative case matcher
         Iterated // iterated matcher
@@ -33,20 +32,15 @@ namespace de.unika.ipd.grGen.lgsp
     class SearchProgramBuilder
     {
         /// <summary>
-        /// Builds search program from scheduled search plan in pattern graph of the action rule pattern
+        /// Builds search program from scheduled search plan at given index in pattern graph of the action rule pattern
         /// </summary>
         public SearchProgram BuildSearchProgram(
             IGraphModel model,
             LGSPRulePattern rulePattern,
-            string nameOfSearchProgram,
-            List<string> availableParametersOrFoundElementsList,
-            List<bool> availableParameterOrFoundElementIsNodeList)
+            int index,
+            string nameOfSearchProgram)
         {
-            Debug.Assert(nameOfSearchProgram == null && availableParametersOrFoundElementsList == null && availableParameterOrFoundElementIsNodeList == null
-                || nameOfSearchProgram != null && availableParametersOrFoundElementsList != null && availableParameterOrFoundElementIsNodeList != null);
-
             PatternGraph patternGraph = rulePattern.patternGraph;
-            programType = nameOfSearchProgram != null ? SearchProgramType.MissingPreset : SearchProgramType.Action;
             this.model = model;
             patternGraphWithNestingPatterns = new Stack<PatternGraph>();
             patternGraphWithNestingPatterns.Push(patternGraph);
@@ -55,52 +49,45 @@ namespace de.unika.ipd.grGen.lgsp
             rulePatternClassName = NamesOfEntities.RulePatternClassName(rulePattern.name, false);
             negLevelNeverAboveMaxNegLevel = computeMaxNegLevel(rulePattern.patternGraph) <= (int) LGSPElemFlags.MAX_NEG_LEVEL;
             
-            SearchProgram searchProgram;
-            if (availableParametersOrFoundElementsList != null)
-            {
-                string[] availableParametersOrFoundElements = new string[availableParametersOrFoundElementsList.Count];
-                bool[] availableParameterOrFoundElementIsNode = new bool[availableParameterOrFoundElementIsNodeList.Count];
-                int i = 0;
-                foreach (string p in availableParametersOrFoundElementsList)
-                {
-                    availableParametersOrFoundElements[i] = p;
-                    ++i;
-                }
-                i = 0;
-                foreach (bool pis in availableParameterOrFoundElementIsNodeList)
-                {
-                    availableParameterOrFoundElementIsNode[i] = pis;
-                    ++i;
-                }
+            // filter out parameters which are implemented by lookup due to maybe null unfolding
+            // and suffix matcher method name by missing parameters which get computed by lookup here
+            String name;
+            GetFilteredParametersAndSuffixedMatcherName(
+                rulePattern, patternGraph, index,
+                out parameterTypes, out parameterNames, out name);
 
-                // build outermost search program operation, create the list anchor starting it's program
-                searchProgram = new SearchProgramOfMissingPreset(
-                    rulePatternClassName,
-                    parameterTypes, parameterNames,
-                    rulePattern.patternGraph.patternGraphsOnPathToEnclosedSubpatternOrAlternativeOrIteratedOrPatternpath,
-                    nameOfSearchProgram,
-                    patternGraph.embeddedGraphs.Length > 0 || patternGraph.iterateds.Length > 0 || patternGraph.alternatives.Length > 0,
-                    availableParametersOrFoundElements, 
-                    availableParameterOrFoundElementIsNode);
-            }
-            else
+            // this is the all presets available method (index 0) and there are presets which may be null?
+            // -> collect data for missing preset calls
+            List<String[]> paramTypesList = null;
+            List<String[]> paramNamesList = null;
+            List<String> suffixedMatcherNameList = null;
+            if(patternGraph.schedules.Length>1 && index==0)
             {
-                parameterTypes = new String[rulePattern.Inputs.Length];
-                parameterNames = new String[rulePattern.Inputs.Length];
-                for (int i = 0; i < rulePattern.Inputs.Length; ++i)
+                paramTypesList = new List<String[]>();
+                paramNamesList = new List<String[]>();
+                suffixedMatcherNameList = new List<String>();
+                for(int i=0; i<patternGraph.schedules.Length; ++i)
                 {
-                    parameterTypes[i] = TypesHelper.TypeName(rulePattern.Inputs[i]);
-                    parameterNames[i] = rulePattern.InputNames[i];
+                    String[] paramTypes;
+                    String[] paramNames;
+                    String suffixedMatcherName;
+                    GetFilteredParametersAndSuffixedMatcherName(
+                        rulePattern, patternGraph, i,
+                        out paramTypes, out paramNames, out suffixedMatcherName);
+                    paramTypesList.Add(paramTypes);
+                    paramNamesList.Add(paramNames);
+                    suffixedMatcherNameList.Add(suffixedMatcherName);
                 }
-
-                // build outermost search program operation, create the list anchor starting it's program
-                searchProgram = new SearchProgramOfAction(
-                    rulePatternClassName,
-                    patternGraph.name, parameterTypes, parameterNames,
-                    rulePattern.patternGraph.patternGraphsOnPathToEnclosedSubpatternOrAlternativeOrIteratedOrPatternpath,
-                    "myMatch",
-                    patternGraph.embeddedGraphs.Length > 0 || patternGraph.iterateds.Length > 0 || patternGraph.alternatives.Length > 0);
             }
+
+            // build outermost search program operation, create the list anchor starting it's program
+            SearchProgram searchProgram = new SearchProgramOfAction(
+                rulePatternClassName,
+                patternGraph.name, parameterTypes, parameterNames, name,
+                rulePattern.patternGraph.patternGraphsOnPathToEnclosedSubpatternOrAlternativeOrIteratedOrPatternpath,
+                patternGraph.embeddedGraphs.Length > 0 || patternGraph.iterateds.Length > 0 || patternGraph.alternatives.Length > 0,
+                patternGraph.maybeNullElementNames, suffixedMatcherNameList, paramNamesList);
+ 
             searchProgram.OperationsList = new SearchProgramList(searchProgram);
             SearchProgramOperation insertionPoint = searchProgram.OperationsList;
 
@@ -111,13 +98,48 @@ namespace de.unika.ipd.grGen.lgsp
             }
 
             // start building with first operation in scheduled search plan
+            indexOfSchedule = index;
             insertionPoint = BuildScheduledSearchPlanOperationIntoSearchProgram(
-                0,
-                insertionPoint);
+                0, insertionPoint);
 
             patternGraphWithNestingPatterns.Pop();
 
             return searchProgram;
+        }
+
+        public void GetFilteredParametersAndSuffixedMatcherName(
+            LGSPRulePattern rulePattern, PatternGraph patternGraph, int index,
+            out String[] paramTypesArray, out String[] paramNamesArray, out String suffixedMatcherName)
+        {
+            List<String> paramTypes = new List<String>();
+            List<String> paramNames = new List<String>();
+            List<String> removedNames = new List<String>();
+            for(int i = 0; i < rulePattern.Inputs.Length; ++i)
+            {
+                String inputName = rulePattern.InputNames[i];
+                if(patternGraph.availabilityOfMaybeNullElements[index].ContainsKey(inputName)
+                    && !patternGraph.availabilityOfMaybeNullElements[index][inputName])
+                {
+                    removedNames.Add(rulePattern.InputNames[i]);
+                }
+                else
+                {
+                    paramTypes.Add(TypesHelper.TypeName(rulePattern.Inputs[i]));
+                    paramNames.Add(rulePattern.InputNames[i]);
+                }
+            }
+            paramTypesArray = new String[paramTypes.Count];
+            paramNamesArray = new String[paramNames.Count];
+            for(int i = 0; i < paramTypes.Count; ++i)
+            {
+                paramTypesArray[i] = paramTypes[i];
+                paramNamesArray[i] = paramNames[i];
+            }
+            suffixedMatcherName = "myMatch";
+            foreach(String removedName in removedNames)
+            {
+                suffixedMatcherName += "_MissingPreset_"+removedName;
+            }
         }
 
         /// <summary>
@@ -159,6 +181,7 @@ namespace de.unika.ipd.grGen.lgsp
             insertionPoint = insertionPoint.Append(initialize);
 
             // start building with first operation in scheduled search plan
+            indexOfSchedule = 0;
             insertionPoint = BuildScheduledSearchPlanOperationIntoSearchProgram(
                 0,
                 insertionPoint);
@@ -217,7 +240,7 @@ namespace de.unika.ipd.grGen.lgsp
             for (int i=0; i<alternative.alternativeCases.Length; ++i)
             {
                 PatternGraph altCase = alternative.alternativeCases[i];
-                ScheduledSearchPlan scheduledSearchPlan = altCase.scheduleIncludingNegativesAndIndependents;
+                ScheduledSearchPlan scheduledSearchPlan = altCase.schedulesIncludingNegativesAndIndependents[0];
 
                 GetPartialMatchOfAlternative matchAlternative = new GetPartialMatchOfAlternative(
                     scheduledSearchPlan.PatternGraph.pathPrefix, 
@@ -239,6 +262,8 @@ namespace de.unika.ipd.grGen.lgsp
                 isNestedInNegative = false;
 
                 // start building with first operation in scheduled search plan
+
+                indexOfSchedule = 0;
                 BuildScheduledSearchPlanOperationIntoSearchProgram(
                     0,
                     insertionPoint);
@@ -302,6 +327,7 @@ namespace de.unika.ipd.grGen.lgsp
             insertionPoint = insertionPoint.Append(initialize);
 
             // start building with first operation in scheduled search plan
+            indexOfSchedule = 0;
             insertionPoint = BuildScheduledSearchPlanOperationIntoSearchProgram(
                 0,
                 insertionPoint);
@@ -317,94 +343,6 @@ namespace de.unika.ipd.grGen.lgsp
             patternGraphWithNestingPatterns.Pop();
 
             return searchProgram;
-        }
-
-        /// <summary>
-        /// Create an extra search subprogram per MaybePreset operation.
-        /// Created search programs are added to search program next field, forming list.
-        /// Destroys the scheduled search program.
-        /// </summary>
-        public void BuildAddionalSearchSubprograms(ScheduledSearchPlan scheduledSearchPlan,
-            SearchProgram searchProgram, LGSPRulePattern rulePattern)
-        {
-            // insertion point for next search subprogram
-            SearchProgramOperation insertionPoint = searchProgram;
-            // for stepwise buildup of parameter lists
-            List<string> neededElementsInRemainderProgram = new List<string>();
-            List<bool> neededElementInRemainderProgramIsNode = new List<bool>();
-
-            foreach (SearchOperation op in scheduledSearchPlan.Operations)
-            {
-                switch (op.Type)
-                {
-                    // candidates bound in the program up to the maybe preset operation
-                    // are handed in to the "lookup missing element and continue"
-                    // remainder search program as parameters 
-                    // - so they don't need to be searched any more
-                    case SearchOperationType.Lookup:
-                    case SearchOperationType.Outgoing:
-                    case SearchOperationType.Incoming:
-                    case SearchOperationType.Incident:
-                    case SearchOperationType.ImplicitSource:
-                    case SearchOperationType.ImplicitTarget:
-                    case SearchOperationType.Implicit:
-                        // don't search
-                        op.Type = SearchOperationType.Void;
-                        // make parameter in remainder program
-                        SearchPlanNode element = (SearchPlanNode)op.Element;
-                        neededElementsInRemainderProgram.Add(element.PatternElement.Name);
-                        neededElementInRemainderProgramIsNode.Add(element.NodeType == PlanNodeType.Node);
-                        break;
-                    // check operations were already executed in the calling program 
-                    // they don't need any treatement in the remainder search program
-                    case SearchOperationType.Condition:
-                    case SearchOperationType.NegativePattern:
-                    case SearchOperationType.IndependentPattern:
-                    case SearchOperationType.LockLocalElementsForPatternpath:
-                        op.Type = SearchOperationType.Void;
-                        break;
-                    // the maybe preset operation splitting off an extra search program
-                    // to look the missing element up and continue within that 
-                    // remainder search program until the end (or the next split)
-                    // replace the maybe preset by a lookup within that program
-                    // and build the extra program (with the rest unmodified (yet))
-                    // insert the search program into the search program list
-                    case SearchOperationType.MaybePreset:
-                        // change maybe preset on element which was not handed in  
-                        // into lookup on element, then build search program with lookup
-                        op.Type = SearchOperationType.Lookup;
-                        element = (SearchPlanNode)op.Element;
-                        SearchProgramOperation searchSubprogram =
-                            BuildSearchProgram(
-                                model,
-                                rulePattern,
-                                NamesOfEntities.MissingPresetHandlingMethod(element.PatternElement.Name),
-                                neededElementsInRemainderProgram,
-                                neededElementInRemainderProgramIsNode
-                                );
-                        insertionPoint = insertionPoint.Append(searchSubprogram);
-                        // search calls to this new search program and complete arguments in
-                        CompleteCallsToMissingPresetHandlingMethodInAllSearchPrograms(
-                            searchProgram,
-                            NamesOfEntities.MissingPresetHandlingMethod(element.PatternElement.Name),
-                            neededElementsInRemainderProgram,
-                            neededElementInRemainderProgramIsNode);
-                        // make parameter in remainder program
-                        neededElementsInRemainderProgram.Add(element.PatternElement.Name);
-                        neededElementInRemainderProgramIsNode.Add(element.NodeType == PlanNodeType.Node);
-                        // handled, now do same as with other candidate binding operations
-                        op.Type = SearchOperationType.Void;
-                        break;
-                    // operations which are not allowed in a positive scheduled search plan
-                    // after ssp creation and/or the buildup pass
-                    case SearchOperationType.Void:
-                    case SearchOperationType.NegIdptPreset:
-                    case SearchOperationType.SubPreset:
-                    default:
-                        Debug.Assert(false, "At this pass/position not allowed search operation");
-                        break;
-                }
-            }
         }
 
         ///////////////////////////////////////////////////////////////////////////////////
@@ -467,6 +405,11 @@ namespace de.unika.ipd.grGen.lgsp
         /// </summary>
         private const int MAXIMUM_NUMBER_OF_TYPES_TO_CHECK_BY_TYPE_ID = 2;
 
+        /// <summary>
+        /// The index of the currently built schedule
+        /// </summary>
+        private int indexOfSchedule;
+
         ///////////////////////////////////////////////////////////////////////////////////
 
         /// <summary>
@@ -482,12 +425,12 @@ namespace de.unika.ipd.grGen.lgsp
             PatternGraph patternGraph = patternGraphWithNestingPatterns.Peek();
 
             if (indexOfScheduledSearchPlanOperationToBuild >=
-                patternGraph.scheduleIncludingNegativesAndIndependents.Operations.Length)
+                patternGraph.schedulesIncludingNegativesAndIndependents[indexOfSchedule].Operations.Length)
             { // end of scheduled search plan reached, stop recursive iteration
                 return buildMatchComplete(insertionPointWithinSearchProgram);
             }
 
-            SearchOperation op = patternGraph.scheduleIncludingNegativesAndIndependents.
+            SearchOperation op = patternGraph.schedulesIncludingNegativesAndIndependents[indexOfSchedule].
                 Operations[indexOfScheduledSearchPlanOperationToBuild];
 
             // for current scheduled search plan operation 
@@ -499,8 +442,8 @@ namespace de.unika.ipd.grGen.lgsp
                         indexOfScheduledSearchPlanOperationToBuild + 1,
                         insertionPointWithinSearchProgram);
 
-                case SearchOperationType.MaybePreset:
-                    return buildMaybePreset(insertionPointWithinSearchProgram,
+                case SearchOperationType.ActionPreset:
+                    return buildActionPreset(insertionPointWithinSearchProgram,
                         indexOfScheduledSearchPlanOperationToBuild,
                         (SearchPlanNode)op.Element,
                         op.Isomorphy);
@@ -598,10 +541,10 @@ namespace de.unika.ipd.grGen.lgsp
 
         /// <summary>
         /// Search program operations implementing the
-        /// MaybePreset search plan operation
+        /// ActionPreset search plan operation
         /// are created and inserted into search program
         /// </summary>
-        private SearchProgramOperation buildMaybePreset(
+        private SearchProgramOperation buildActionPreset(
             SearchProgramOperation insertionPoint,
             int currentOperationIndex,
             SearchPlanNode target,
@@ -612,6 +555,7 @@ namespace de.unika.ipd.grGen.lgsp
             Debug.Assert(negativeIndependentNamePrefix == "", "Top-level maybe preset in negative/independent search plan");
             Debug.Assert(programType != SearchProgramType.Subpattern, "Maybe preset in subpattern");
             Debug.Assert(programType != SearchProgramType.AlternativeCase, "Maybe preset in alternative");
+            Debug.Assert(programType != SearchProgramType.Iterated, "Maybe preset in iterated");
 
             // get candidate from inputs
             GetCandidateByDrawing fromInputs =
@@ -620,14 +564,6 @@ namespace de.unika.ipd.grGen.lgsp
                     target.PatternElement.Name,
                     isNode);
             insertionPoint = insertionPoint.Append(fromInputs);
-
-            // check whether candidate was preset (not null)
-            // continues with missing preset searching and continuing search program on fail
-            CheckCandidateForPreset checkPreset = new CheckCandidateForPreset(
-                target.PatternElement.Name,
-                isNode,
-                parameterNames);
-            insertionPoint = insertionPoint.Append(checkPreset);
 
             // check type of candidate
             insertionPoint = decideOnAndInsertCheckType(insertionPoint, target);
@@ -1206,7 +1142,7 @@ namespace de.unika.ipd.grGen.lgsp
         {
             // fill needed elements array for CheckPartialMatchByNegative
             int numberOfNeededElements = 0;
-            foreach (SearchOperation op in negativePatternGraph.scheduleIncludingNegativesAndIndependents.Operations)
+            foreach (SearchOperation op in negativePatternGraph.schedulesIncludingNegativesAndIndependents[0].Operations)
             {
                 if (op.Type == SearchOperationType.NegIdptPreset)
                 {
@@ -1215,7 +1151,7 @@ namespace de.unika.ipd.grGen.lgsp
             }
             string[] neededElements = new string[numberOfNeededElements];
             int i = 0;
-            foreach (SearchOperation op in negativePatternGraph.scheduleIncludingNegativesAndIndependents.Operations)
+            foreach(SearchOperation op in negativePatternGraph.schedulesIncludingNegativesAndIndependents[0].Operations)
             {
                 if (op.Type == SearchOperationType.NegIdptPreset)
                 {
@@ -1288,7 +1224,7 @@ namespace de.unika.ipd.grGen.lgsp
         {
             // fill needed elements array for CheckPartialMatchByIndependent
             int numberOfNeededElements = 0;
-            foreach (SearchOperation op in independentPatternGraph.scheduleIncludingNegativesAndIndependents.Operations)
+            foreach(SearchOperation op in independentPatternGraph.schedulesIncludingNegativesAndIndependents[0].Operations)
             {
                 if (op.Type == SearchOperationType.NegIdptPreset)
                 {
@@ -1297,7 +1233,7 @@ namespace de.unika.ipd.grGen.lgsp
             }
             string[] neededElements = new string[numberOfNeededElements];
             int i = 0;
-            foreach (SearchOperation op in independentPatternGraph.scheduleIncludingNegativesAndIndependents.Operations)
+            foreach(SearchOperation op in independentPatternGraph.schedulesIncludingNegativesAndIndependents[0].Operations)
             {
                 if (op.Type == SearchOperationType.NegIdptPreset)
                 {
@@ -2039,8 +1975,7 @@ namespace de.unika.ipd.grGen.lgsp
         /// </summary>
         private SearchProgramOperation insertGlobalAccept(SearchProgramOperation insertionPoint)
         {
-            bool isAction = programType == SearchProgramType.Action
-                || programType == SearchProgramType.MissingPreset;
+            bool isAction = programType == SearchProgramType.Action;
             PatternGraph patternGraph = patternGraphWithNestingPatterns.Peek();
             string negativeIndependentNamePrefix = NegativeIndependentNamePrefix(patternGraph);
 
@@ -2081,8 +2016,7 @@ namespace de.unika.ipd.grGen.lgsp
         private SearchProgramOperation insertPatternpathAccept(SearchProgramOperation insertionPoint,
             PatternGraph patternGraph)
         {
-            bool isAction = programType == SearchProgramType.Action
-                || programType == SearchProgramType.MissingPreset;
+            bool isAction = programType == SearchProgramType.Action;
             string negativeIndependentNamePrefix = NegativeIndependentNamePrefix(patternGraph);
 
             for (int i = 0; i < patternGraph.nodes.Length; ++i)
@@ -2119,8 +2053,7 @@ namespace de.unika.ipd.grGen.lgsp
         /// </summary>
         private SearchProgramOperation insertGlobalAbandon(SearchProgramOperation insertionPoint)
         {
-            bool isAction = programType == SearchProgramType.Action
-                    || programType == SearchProgramType.MissingPreset;
+            bool isAction = programType == SearchProgramType.Action;
             PatternGraph patternGraph = patternGraphWithNestingPatterns.Peek();
             string negativeIndependentNamePrefix = NegativeIndependentNamePrefix(patternGraph);
 
@@ -2162,8 +2095,7 @@ namespace de.unika.ipd.grGen.lgsp
         private SearchProgramOperation insertPatternpathAbandon(SearchProgramOperation insertionPoint,
             PatternGraph patternGraph)
         {
-            bool isAction = programType == SearchProgramType.Action
-                    || programType == SearchProgramType.MissingPreset;
+            bool isAction = programType == SearchProgramType.Action;
             string negativeIndependentNamePrefix = NegativeIndependentNamePrefix(patternGraph);
 
             // patternpath abandon of all candidate elements (remove isomorphy information)
@@ -2216,7 +2148,7 @@ namespace de.unika.ipd.grGen.lgsp
 
             // ---- check failed, some subpattern matches found, pattern and subpatterns were matched
             PatternAndSubpatternsMatchedType type = PatternAndSubpatternsMatchedType.SubpatternOrAlternative;
-            if (programType == SearchProgramType.Action || programType == SearchProgramType.MissingPreset) {
+            if (programType == SearchProgramType.Action) {
                 type = PatternAndSubpatternsMatchedType.Action;
             } else if (programType == SearchProgramType.Iterated) {
                 if (isIteratedNullMatch) type = PatternAndSubpatternsMatchedType.IteratedNullMatch;
@@ -3055,70 +2987,6 @@ namespace de.unika.ipd.grGen.lgsp
         }
 
         ///////////////////////////////////////////////////////////////////////////////////
-
-        /// <summary>
-        /// Completes calls to missing preset handling methods in all search programs
-        ///   (available at the time the functions is called)
-        /// </summary>
-        private void CompleteCallsToMissingPresetHandlingMethodInAllSearchPrograms(
-            SearchProgram searchProgram,
-            string nameOfMissingPresetHandlingMethod,
-            List<string> arguments,
-            List<bool> argumentIsNode)
-        {
-            // Iterate all search programs 
-            // search for calls to missing preset handling methods 
-            // within check preset opertions which are the only ones utilizing them
-            // and complete them with the arguments given
-            do
-            {
-                CompleteCallsToMissingPresetHandlingMethod(
-                    searchProgram.GetNestedSearchOperationsList(),
-                    nameOfMissingPresetHandlingMethod,
-                    arguments,
-                    argumentIsNode);
-                searchProgram = searchProgram.Next as SearchProgram;
-            }
-            while (searchProgram != null);
-        }
-
-        /// <summary>
-        /// Completes calls to missing preset handling methods 
-        /// by inserting the initially not given arguments
-        /// </summary>
-        private void CompleteCallsToMissingPresetHandlingMethod(
-            SearchProgramOperation searchProgramOperation,
-            string nameOfMissingPresetHandlingMethod,
-            List<string> arguments,
-            List<bool> argumentIsNode)
-        {
-            // complete calls with arguments 
-            // find them in depth first search of search program
-            while (searchProgramOperation != null)
-            {
-                if (searchProgramOperation is CheckCandidateForPreset)
-                {
-                    CheckCandidateForPreset checkPreset =
-                        (CheckCandidateForPreset)searchProgramOperation;
-                    if (NamesOfEntities.MissingPresetHandlingMethod(checkPreset.PatternElementName)
-                        == nameOfMissingPresetHandlingMethod)
-                    {
-                        checkPreset.CompleteWithArguments(arguments, argumentIsNode);
-                    }
-                }
-                else if (searchProgramOperation.IsSearchNestingOperation())
-                { // depth first
-                    CompleteCallsToMissingPresetHandlingMethod(
-                        searchProgramOperation.GetNestedSearchOperationsList(),
-                        nameOfMissingPresetHandlingMethod,
-                        arguments,
-                        argumentIsNode);
-                }
-
-                // breadth
-                searchProgramOperation = searchProgramOperation.Next;
-            }
-        }
 
         /// <summary>
         /// returns name prefix for candidate variables of the given pattern graph

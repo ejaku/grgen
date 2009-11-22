@@ -260,21 +260,41 @@ patternModifiers returns [ int res = 0 ]
 	;
 
 patternModifier [ int mod ] returns [ int res = 0 ]
-	: i=INDUCED { if((mod & PatternGraphNode.MOD_INDUCED)!=0) {
-	              reportError(getCoords(i), "\"induced\" modifier already declared");
-	              }
-	              res = mod | PatternGraphNode.MOD_INDUCED;
-	            }
-	| e=EXACT { if((mod & PatternGraphNode.MOD_EXACT)!=0) {
-	              reportError(getCoords(e), "\"exact\" modifier already declared");
-	              }
-	              res = mod | PatternGraphNode.MOD_EXACT;
-	          }
-	| d=DPO { if((mod & PatternGraphNode.MOD_DPO)!=0) {
-	              reportError(getCoords(d), "\"dpo\" modifier already declared");
-	              }
-	              res = mod | PatternGraphNode.MOD_DPO;
-	        }
+	: modifier=INDUCED
+		{
+			if((mod & PatternGraphNode.MOD_INDUCED)!=0) {
+				reportError(getCoords(modifier), "\"induced\" modifier already declared");
+			}
+			res = mod | PatternGraphNode.MOD_INDUCED;
+		}
+	| modifier=EXACT
+		{		
+			if((mod & PatternGraphNode.MOD_EXACT)!=0) {
+				reportError(getCoords(modifier), "\"exact\" modifier already declared");
+			}
+			res = mod | PatternGraphNode.MOD_EXACT;
+		}
+	| modifier=IDENT 
+		{
+			if(modifier.getText().equals("dpo")) {
+				if((mod & PatternGraphNode.MOD_DANGLING)!=0 || (mod & PatternGraphNode.MOD_IDENTIFICATION)!=0) {
+					reportError(getCoords(modifier), "\"dpo\" or \"dangling\" or \"identification\" modifier dangling already declared");
+				}
+				res = mod | PatternGraphNode.MOD_DANGLING | PatternGraphNode.MOD_IDENTIFICATION;
+			} else if(modifier.getText().equals("dangling")) {
+				if((mod & PatternGraphNode.MOD_DANGLING)!=0) {
+					reportError(getCoords(modifier), "\"dangling\" modifier already declared");
+				}
+				res = mod | PatternGraphNode.MOD_DANGLING;
+			} else if(modifier.getText().equals("identification")) {
+				if((mod & PatternGraphNode.MOD_IDENTIFICATION)!=0) {
+					reportError(getCoords(modifier), "\"identification\" modifier already declared");
+				}
+				res = mod | PatternGraphNode.MOD_IDENTIFICATION;
+			} else {
+				reportError(getCoords(modifier), "unknown modifier "+modifier.getText());
+			}
+		}
 	;
 
 patternOrActionDecl [ CollectNode<IdentNode> patternChilds, CollectNode<IdentNode> actionChilds, int mod ]
@@ -292,8 +312,8 @@ patternOrActionDecl [ CollectNode<IdentNode> patternChilds, CollectNode<IdentNod
 			}
 		RBRACE popScope
 		{
-			if((mod & PatternGraphNode.MOD_DPO)!=0) {
-				reportError(getCoords(t), "no \"dpo\" modifier allowed");
+			if((mod & PatternGraphNode.MOD_DANGLING)!=0 || (mod & PatternGraphNode.MOD_IDENTIFICATION)!=0) {
+				reportError(getCoords(t), "no \"dpo\" or \"dangling\" or \"identification\" modifier allowed for test");
 			}
 		}
 	| r=RULE id=actionIdentDecl pushScope[id] params=parameters[BaseNode.CONTEXT_RULE|BaseNode.CONTEXT_ACTION|BaseNode.CONTEXT_LHS, null] ret=returnTypes LBRACE
@@ -685,12 +705,13 @@ nodeDeclParam [ int context, PatternGraphNode directlyNestingLHSGraph ] returns 
 	: id=entIdentDecl COLON
 		type=typeIdentUse
 		( constr=typeConstraint )?
-		( LT interfaceType=typeIdentUse GT )?
+		( LT (interfaceType=typeIdentUse | maybe=NULL 
+				| interfaceType=typeIdentUse PLUS maybe=NULL | maybe=NULL PLUS interfaceType=typeIdentUse) GT )?
 			{
 				if(interfaceType==null) {
-					res = new NodeDeclNode(id, type, context, constr, directlyNestingLHSGraph);
+					res = new NodeDeclNode(id, type, context, constr, directlyNestingLHSGraph, maybe!=null);
 				} else {
-					res = new NodeInterfaceTypeChangeNode(id, type, context, interfaceType, directlyNestingLHSGraph);
+					res = new NodeInterfaceTypeChangeNode(id, type, context, interfaceType, directlyNestingLHSGraph, maybe!=null);
 				}
 			}
 	;
@@ -797,12 +818,13 @@ edgeDeclParam [ int context, PatternGraphNode directlyNestingLHSGraph ] returns 
 
 	: id=entIdentDecl COLON type=typeIdentUse
 		( constr=typeConstraint )?
-		( LT interfaceType=typeIdentUse GT )?
+		( LT (interfaceType=typeIdentUse | maybe=NULL 
+				| interfaceType=typeIdentUse PLUS maybe=NULL | maybe=NULL PLUS interfaceType=typeIdentUse) GT )?
 			{
 				if( interfaceType == null ) {
-					res = new EdgeDeclNode(id, type, context, constr, directlyNestingLHSGraph);
+					res = new EdgeDeclNode(id, type, context, constr, directlyNestingLHSGraph, maybe!=null);
 				} else {
-					res = new EdgeInterfaceTypeChangeNode(id, type, context, interfaceType, directlyNestingLHSGraph);
+					res = new EdgeInterfaceTypeChangeNode(id, type, context, interfaceType, directlyNestingLHSGraph, maybe!=null);
 				}
 			}
 	;
@@ -2268,12 +2290,13 @@ ACTIONS : 'actions';
 ALTERNATIVE : 'alternative';
 ARBITRARY : 'arbitrary';
 CLASS : 'class';
+COPY : 'copy';
 IF : 'if';
 CONNECT : 'connect';
 CONST : 'const';
+DEF : 'def';
 DELETE : 'delete';
 DIRECTED : 'directed';
-DPO : 'dpo';
 EDGE : 'edge';
 EMIT : 'emit';
 EMITHERE : 'emithere';
@@ -2311,5 +2334,4 @@ UNDIRECTED : 'undirected';
 USING : 'using';
 VAR : 'var';
 VISITED : 'visited';
-
 IDENT : ('a'..'z'|'A'..'Z'|'_') ('a'..'z'|'A'..'Z'|'_'|'0'..'9')* ;

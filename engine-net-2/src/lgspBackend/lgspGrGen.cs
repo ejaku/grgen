@@ -187,7 +187,8 @@ namespace de.unika.ipd.grGen.lgsp
         /// and edges representing the matching operations to get the elements by.
         /// Edges in plan graph are given in the nodes by incoming list, as needed for MSA computation.
         /// </summary>
-        PlanGraph GenerateStaticPlanGraph(PatternGraph patternGraph, bool isNegativeOrIndependent, bool isSubpattern)
+        PlanGraph GenerateStaticPlanGraph(PatternGraph patternGraph, int index,
+            bool isNegativeOrIndependent, bool isSubpattern)
         {
             //
             // If you change this method, chances are high you also want to change GeneratePlanGraph in LGSPMatcherGenerator
@@ -226,7 +227,7 @@ namespace de.unika.ipd.grGen.lgsp
                 {
                     cost = 0;
                     isPreset = true;
-                    searchOperationType = isSubpattern ? SearchOperationType.SubPreset : SearchOperationType.MaybePreset;
+                    searchOperationType = isSubpattern ? SearchOperationType.SubPreset : SearchOperationType.ActionPreset;
                 }
                 else if (node.PointOfDefinition != patternGraph)
                 {
@@ -262,7 +263,7 @@ namespace de.unika.ipd.grGen.lgsp
                 {
                     cost = 0;
                     isPreset = true;
-                    searchOperationType = isSubpattern ? SearchOperationType.SubPreset : SearchOperationType.MaybePreset;
+                    searchOperationType = isSubpattern ? SearchOperationType.SubPreset : SearchOperationType.ActionPreset;
                 }
                 else if (edge.PointOfDefinition != patternGraph)
                 {
@@ -353,36 +354,41 @@ namespace de.unika.ipd.grGen.lgsp
         protected void GenerateScheduledSearchPlans(PatternGraph patternGraph, LGSPMatcherGenerator matcherGen,
             bool isSubpattern, bool isNegativeOrIndependent)
         {
-            PlanGraph planGraph = GenerateStaticPlanGraph(
-                patternGraph, isNegativeOrIndependent, isSubpattern);
-            matcherGen.MarkMinimumSpanningArborescence(planGraph, patternGraph.name);
-            SearchPlanGraph searchPlanGraph = matcherGen.GenerateSearchPlanGraph(planGraph);
-            ScheduledSearchPlan scheduledSearchPlan = matcherGen.ScheduleSearchPlan(
-                searchPlanGraph, patternGraph, isNegativeOrIndependent);
-            matcherGen.AppendHomomorphyInformation(scheduledSearchPlan);
-            patternGraph.schedule = scheduledSearchPlan;
-
-            foreach (PatternGraph neg in patternGraph.negativePatternGraphs)
+            for(int i=0; i<patternGraph.schedules.Length; ++i)
             {
-                GenerateScheduledSearchPlans(neg, matcherGen, isSubpattern, true);
-            }
+                patternGraph.AdaptToMaybeNull(i);
+                PlanGraph planGraph = GenerateStaticPlanGraph(patternGraph, i,
+                    isNegativeOrIndependent, isSubpattern);
+                matcherGen.MarkMinimumSpanningArborescence(planGraph, patternGraph.name);
+                SearchPlanGraph searchPlanGraph = matcherGen.GenerateSearchPlanGraph(planGraph);
+                ScheduledSearchPlan scheduledSearchPlan = matcherGen.ScheduleSearchPlan(
+                    searchPlanGraph, patternGraph, isNegativeOrIndependent);
+                matcherGen.AppendHomomorphyInformation(scheduledSearchPlan);
+                patternGraph.schedules[i] = scheduledSearchPlan;
+                patternGraph.RevertMaybeNullAdaption(i);
 
-            foreach (PatternGraph idpt in patternGraph.independentPatternGraphs)
-            {
-                GenerateScheduledSearchPlans(idpt, matcherGen, isSubpattern, true);
-            }
-
-            foreach (Alternative alt in patternGraph.alternatives)
-            {
-                foreach (PatternGraph altCase in alt.alternativeCases)
+                foreach(PatternGraph neg in patternGraph.negativePatternGraphs)
                 {
-                    GenerateScheduledSearchPlans(altCase, matcherGen, true, false);
+                    GenerateScheduledSearchPlans(neg, matcherGen, isSubpattern, true);
                 }
-            }
 
-            foreach (PatternGraph iter in patternGraph.iterateds)
-            {
-                GenerateScheduledSearchPlans(iter, matcherGen, true, false);
+                foreach(PatternGraph idpt in patternGraph.independentPatternGraphs)
+                {
+                    GenerateScheduledSearchPlans(idpt, matcherGen, isSubpattern, true);
+                }
+
+                foreach(Alternative alt in patternGraph.alternatives)
+                {
+                    foreach(PatternGraph altCase in alt.alternativeCases)
+                    {
+                        GenerateScheduledSearchPlans(altCase, matcherGen, true, false);
+                    }
+                }
+
+                foreach(PatternGraph iter in patternGraph.iterateds)
+                {
+                    GenerateScheduledSearchPlans(iter, matcherGen, true, false);
+                }
             }
         }
 

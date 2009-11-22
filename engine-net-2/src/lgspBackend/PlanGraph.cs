@@ -115,7 +115,7 @@ namespace de.unika.ipd.grGen.lgsp
         public PlanNode(String rootName)
         {
             NodeType = PlanNodeType.Root;
-            PatternElement = new PatternNode(-1, "", rootName, rootName, null, null, 0.0f, -1);
+            PatternElement = new PatternNode(-1, "", rootName, rootName, null, null, 0.0f, -1, false);
         }
 
         /// <summary>
@@ -337,7 +337,7 @@ namespace de.unika.ipd.grGen.lgsp
     {
         public PlanNode Root; // the root node of the plan graph
         public PlanNode[] Nodes; // nodes of the plan graph without the root node, representing pattern elements
-        public PlanEdge[] Edges; // edges of the plan graph, represeneting search operations
+        public PlanEdge[] Edges; // edges of the plan graph, representing search operations
 
         public PlanGraph(PlanNode root, PlanNode[] nodes, PlanEdge[] edges)
         {
