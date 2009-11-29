@@ -216,6 +216,9 @@ This is a purely syntactical simplification, i.\,e.\ the effect of using \texttt
 \label{multiplicities}
 \end{table}
 
+\subsection{Attribute Types}
+\label{sct:attrtypes}
+
 \begin{rail}    
   AttributeDeclaration: 'const'? IdentDecl ':' AttributeType (() | '=' Expression) ';' | AttributeOverwrite ;
   AttributeType: PrimitiveType | EnumType | SetType | MapType ; 

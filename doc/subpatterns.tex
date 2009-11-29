@@ -260,12 +260,14 @@ Subpatterns were introduced to factor out a common recurring pattern -- a shape 
 
 \begin{rail}  
   SubpatternDeclaration: 
-    'pattern' IdentDecl Parameters? lbrace NestedBody rbrace ;
+    'pattern' IdentDecl Parameters? lbrace SubpatternBody rbrace ;
+  SubpatternBody: (PatternStatement+) SubpatternRewriting?;
 \end{rail}\ixkeyw{subpattern}
 
 Subpattern declarations define a subpattern type denoting the specified shape in global namespace; the parameters specify some context elements the pattern may refer to, but which are not part of the pattern itself. 
 So they are only syntactically the same as test/rule-parameters (which are members of the pattern part), a further difference is the lack of ReturnTypes, due to the fact that a subpattern can't return anything (they are not actions, just a helper in constructing complex patterns).
 (The nested body will be explained in section \ref{sec:subrule}.)
+(The name pattern was chosen because if was an old keyword and because of its usage in VIATRA for the same purpose, the first GRS to support them.)
 
 \begin{rail}  
   SubpatternEntityDeclaration: 
@@ -393,7 +395,7 @@ pattern SpanningTree(root:Node)
 Until now we focused on the pattern matching of nested and subpatterns -- but we're not only interested in finding patterns combined from several pattern pieces, we want to rewrite the pattern pieces, too. This does not hold for the application conditions, which are pure conditions, but for all the other language constructs introduced in this chapter.
 
 \begin{rail}  
-  NestedRewriting: ('replace' | 'modify') Parameters? lbrace (()+ReplaceStatement) rbrace;
+  NestedRewriting: ('replace' | 'modify') lbrace (()+ReplaceStatement) rbrace;
 \end{rail}
 
 Syntactically the rewrite is specified by a modify or replace clause nested directly within the scope of each nested pattern; in addition to the rewrite clause nested within the top level pattern, which must be present even if the top level pattern is empty. 
@@ -456,16 +458,24 @@ rule r(x:Node, y:Node) {
 
 Alongside the separation into subpattern declaration and subpattern entity declaration, subpattern rewriting is separated into a nested rewrite specification given within the subpattern declaration defining how the rewrite looks like and a subpattern rewrite application given withing the rewrite part of the pattern containing the subpattern entity declaration requesting the rewrite to be actually applied.
 
-The nested rewriting specifications of the subpattern declaration allows for additional rewrite parameters -- they may be only used here or within one of the nested patterns of this subpattern; a nested pattern within a test or rule declaration is not allowed to have rewrite parameters. The nested rewrite of a subpattern may contain rewrite parameters so that graph elements may be handed in from the user of the pattern (most elements can be handed in with normal parametes, but elements only created in the rewrite part of the user of the subpattern can only be handed in at rewrite time.)
-The rewrites of the nested patterns of a subpattern with rewrite parameters in its rewrite specification must have the same rewrite parametes as the subpattern rewrite specification (and they will receive the same parameters). 
+\begin{rail}  
+  SubpatterbRewriting: ('replace' | 'modify') Parameters? lbrace (()+ReplaceStatement) rbrace;
+\end{rail}
+
+The nested rewriting specifications of the subpattern declaration allows for additional rewrite parameters -- they may be only used here or within one of the nested patterns of this subpattern; a nested pattern within a test or rule declaration is not allowed to have rewrite parameters.
+The nested rewrite of a subpattern may contain rewrite parameters so that graph elements may be handed in from the user of the pattern  (most elements can be handed in with normal parametes, but elements only created in the rewrite part of the user of the subpattern can only be handed in at rewrite time.) 
 
 \begin{rail}  
   SubpatternRewriteApplication: 
     Ident '(' ((Ident ':' NodeType)*',') ')' ';' |
-    SubpatternOccurence ;
+    SubpatternOccurence |
+	'emithere' '(' StringExpr ')' ';'
+	;
 \end{rail}\ixkeyw{rewrite application}
 
+The SubpatternRewriteApplication is part of a ReplaceStatement.
 The subpattern rewrite application is given within the rewrite part of the pattern containing the subpattern entity declaration, in call notation on the declared subpattern identifier.
+The \texttt{emithere}-statements are executed before the emit statements, and in the order in between the subpattern rewrite applications as syntactically specified.
 
 \begin{example}
   \begin{grgen}

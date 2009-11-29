@@ -13,7 +13,7 @@ The \indexed{LGSPBackend} maps the \GrG\ primitive types to the corresponding C\
 	\texttt{\indexed{int}} & A signed integer with at least 32 bits \\
 	\texttt{\indexed{float}}, \texttt{\indexed{double}} & A floating-point number with single precision or double precision respectively \\
 	\texttt{\indexed{string}} & A character sequence of arbitrary length\\
-        \texttt{\indexed{object}} & Contains a .NET object\\ \hline
+	\texttt{\indexed{object}} & Contains a .NET object\\ \hline
 \end{tabularx}
 \caption{\GrG\ built-in primitive types}
 \label{builtintypes}
@@ -28,6 +28,8 @@ Thus, enum values can only be assigned to attributes having the same enum type.
 A cast of an enum value to a string value will return the declared name of the enum value.
 A cast of an object value to a string value will return ``null'' or it will call the \texttt{toString()} method of the .NET object.
 Be careful with assignments of objects: \GrG\ does not know your .NET type hierarchy and therefore it cannot check two objects for type compatibility.
+Objects of type object are not very useful for \GrG processing, but they can be used on the API level.
+
 \begin{table}[htbp]
   \centering
   \begin{tabular}[c]{|c|ccccccc|} \hline
@@ -61,24 +63,91 @@ Be careful with assignments of objects: \GrG\ does not know your .NET type hiera
 	The reason is, that the range of an enum type is just defined in that context.
 \end{note}
 
+TODO: set/map
+
 \section{Expressions}
+
+TODO: Expressions on types
 %left to right, left associative?
+
 \label{expressions}
 \begin{rail}
-  Expression: BoolExpr | IntExpr | FloatExpr | StringExpr | PrimaryExpr | SetExpr | MapExpr ;  
+  Expression: BoolExpr | RelationalExpr | IntExpr | FloatExpr | StringExpr | SetExpr | MapExpr | TypeExpr | PrimaryExpr;  
 \end{rail}\ixnterm{Expression}
+
+
+\section{Boolean Expressions}
+
 \begin{rail}
-  BoolExpr: ((() | '!') PrimaryExpr) | (BoolExpr '?' BoolExpr ':' BoolExpr) | (BoolExpr BinBoolOperator BoolExpr) | (Expression CompareOperator Expression) | (TypeExpr CompareOperator TypeExpr);
+  BoolExpr: ((() | '!') PrimaryExpr) | (BoolExpr '?' BoolExpr ':' BoolExpr) | (BoolExpr BinBoolOperator BoolExpr) | RelationalExpr;
 \end{rail}\ixnterm{BoolExpr}
-The \texttt{!}\ operator negates a Boolean. 
-Table~\ref{tabboolops} lists the binary operators for Boolean expressions. 
-The \texttt{?}\ operator is a simple if-then-else: If the first \emph{BoolExpr} is evaluated to \texttt{true}, the operator returns the second \emph{BoolExpr}, otherwise it returns the third \emph{BoolExpr}.
-The \emph{BinBoolOperator} is one of the operators in Table~\ref{tabboolops}.
+The unary \texttt{!}\ operator negates a Boolean. 
+The binary \emph{BinBoolOperator} is one of the operators in Table~\ref{tabboolops}.
+\begin{table}[htbp] 
+  \centering
+  %\begin{tabularx}{0.45\linewidth}{|ll|} \hline
+  \begin{tabular}[c]{|lp{0.6\linewidth}|} \hline
+    \begin{tabular}[c]{l} \texttt{\^} \end{tabular} & \begin{tabular}[c]{l} Logical XOR. True, iff either the first or the second \\ Boolean expression is true. \end{tabular} \\ \hline
+    \begin{tabular}[c]{l} \texttt{\&\&} \\ \texttt{||} \end{tabular} & \begin{tabular}[c]{l} Logical AND and OR. Lazy evaluation. \end{tabular}\\ \hline
+    \begin{tabular}[c]{l} \texttt{\&} \\ \texttt{|} \end{tabular} & \begin{tabular}[c]{l} Logical AND and OR. Strict evaluation. \end{tabular}\\ \hline
+  \end{tabular}
+  \caption{Binary Boolean operators, in ascending order of precedence}\indexmain{order of precedence}\indexmainsee{precedence}{order of precedence}
+  \label{tabboolops}
+\end{table}
+The ternary \texttt{?}\ operator is a simple if-then-else: If the first \emph{BoolExpr} is evaluated to \texttt{true}, the operator returns the second \emph{BoolExpr}, otherwise it returns the third \emph{BoolExpr}.
+
+
+\section{Relational Expressions}
+
+They compare enitites of different kinds, mapping them to boolean.
+
+\begin{rail}
+ RelationalExpr: (Expression CompareOperator Expression)
+\end{rail}
+
 The \emph{CompareOperator} is one of the following operators:
 \[ \texttt{<} \;\;\;\;\; \texttt{<=} \;\;\;\;\; \texttt{==} \;\;\;\;\; \texttt{!=} \;\;\;\;\; \texttt{>=} \;\;\;\;\; \texttt{>} \]
-These operators are supported by \texttt{int} types and \texttt{float}/\texttt{double} types (but by implicit casting they can also by used with all enum types).
-\texttt{String} types, \texttt{boolean} types, and \texttt{object} types support only the \texttt{==} and the \texttt{!=} operators.
-Table~\ref{compandtypes} describes the semantics of compare operators on \indexed{type expression}s.
+Their semantics are type dependent.
+
+For arithmetic expressions on \texttt{int} and \texttt{float} or \texttt{double} types 
+the semantics is given by Table~\ref{compandarithmetic} (by implicit casting they can also by used with all enum types).
+
+\begin{table}[htbp]
+  \centering
+  \begin{tabularx}{\linewidth}{|l|X|} \hline
+    \texttt{A == B} & True, iff $A$ is the same number as $B$. \\
+    \texttt{A != B} & True, iff $A$ is a different number than $B$. \\
+    \texttt{A <\ \ B} & True, iff $A$ is smaller than and not equal $B$. \\
+    \texttt{A >\ \ B} & True, iff $A$ is greater than and not equal $B$. \\
+    \texttt{A <= B} & True, iff $A$ is smaller than (or equal) $B$. \\
+    \texttt{A >= B} & True, iff $A$ is greater than (or equal) $B$. \\ \hline
+  \end{tabularx}
+  \caption{Compare operators on arithmetic expressions}
+  \label{compandarithmetic}
+\end{table}
+
+\texttt{String} types, \texttt{boolean} types, and \texttt{object} types support only the \texttt{==} and the \texttt{!=} operators;
+for strings they denote whether the strings are the same or not, 
+on boolean values they denote equivalence and antivalence, 
+and on object types the tell whether the references are the same, thus the objects identical.
+
+For set and map expressions, table~\ref{compandsetmap} describes the semantics of the compare operators.
+\begin{table}[htbp]
+  \centering
+  \begin{tabularx}{\linewidth}{|l|X|} \hline
+    \texttt{A == B} & True, iff $A$ and $B$ are identical. \\
+    \texttt{A != B} & True, iff $A$ and $B$ are not identical. \\
+    \texttt{A <\ \ B} & True, iff $A$ is a subset/map of $B$, but $A$ and $B$ are not identical. \\
+    \texttt{A >\ \ B} & True, iff $A$ is a superset/map of $B$, but $A$ and $B$ are not identical. \\
+    \texttt{A <= B} & True, iff $A$ is a subset/map of $B$ or $A$ and $B$ are identical. \\
+    \texttt{A >= B} & True, iff $A$ is a superset/map of $B$ or $A$ and $B$ are identical. \\ \hline
+  \end{tabularx}
+  \caption{Compare operators on set/map expressions}
+  \label{compandsetmap}
+\end{table}
+
+For \indexed{type expression}s the semantics of compare operators are given by table~\ref{compandtypes},
+the rule to remember is: types grow larger with extension/refinement.
 \begin{table}[htbp]
   \centering
   \begin{tabularx}{\linewidth}{|l|X|} \hline
@@ -95,18 +164,17 @@ Table~\ref{compandtypes} describes the semantics of compare operators on \indexe
 \begin{note}
   \texttt{A < B} corresponds to the direction of the arrow in an \indexed{UML class diagram}.
 \end{note}
+\begin{note}
+  \texttt{Node} and \texttt{Edge} are the least specific, thus bottom elements $\bot$ of the type hierarchy,\\
+  i.e. the following holds:
+  \begin{itemize}
+    \item $\forall n\in Types_{Node}: Node <= n$
+    \item $\forall e\in Types_{Edge}: Edge <= e$
+  \end{itemize}
+\end{note}
 
-\begin{table}[htbp] 
-  \centering
-  %\begin{tabularx}{0.45\linewidth}{|ll|} \hline
-  \begin{tabular}[c]{|lp{0.6\linewidth}|} \hline
-    \begin{tabular}[c]{l} \texttt{\^} \end{tabular} & \begin{tabular}[c]{l} Logical XOR. True, iff either the first or the second \\ Boolean expression is true. \end{tabular} \\ \hline
-    \begin{tabular}[c]{l} \texttt{\&\&} \\ \texttt{||} \end{tabular} & \begin{tabular}[c]{l} Logical AND and OR. Lazy evaluation. \end{tabular}\\ \hline
-    \begin{tabular}[c]{l} \texttt{\&} \\ \texttt{|} \end{tabular} & \begin{tabular}[c]{l} Logical AND and OR. Strict evaluation. \end{tabular}\\ \hline
-  \end{tabular}
-  \caption{Binary Boolean operators, in ascending order of precedence}\indexmain{order of precedence}\indexmainsee{precedence}{order of precedence}
-  \label{tabboolops}
-\end{table}
+
+\section{Arithmetic and Bitwise Expressions}
 
 \begin{rail}
   IntExpr: ((() | '+' | '-' | tilde) PrimaryExpr) | (BoolExpr '?' IntExpr ':' IntExpr) | (IntExpr BinIntOperator IntExpr);
@@ -147,6 +215,8 @@ The \emph{BinFloatOperator} is one of the operators in Table~\ref{tabfloatbinops
 The \texttt{\%} operator on float values works analogous to the integer modulo operator. For instance \texttt{4.5 \% 2.3 == 2.2}.
 \end{note}
 
+\section{String Expressions}
+
 \begin{rail}
   StringExpr: PrimaryExpr (MethodSelector)? | StringExpr '+' StringExpr;
 \end{rail}\ixnterm{StringExpr}
@@ -170,24 +240,11 @@ For \texttt{n.str == "foo bar foo"} the operations yield \\
 \texttt{n.str(4,3,"foo")=="foo foo foo"} \\
 \end{example}
 
-\begin{rail} 
-  PrimaryExpr: '(' ('int' | 'float' | 'double' | 'string') ')' PrimaryExpr | '(' Expression ')' | (NodeOrEdge '.' Ident) | (EnumType '::' Ident) | ObjectIdent | Constant | 'visited' '(' NodeOrEdge (',' FlagNumber)? ')' | 'nameof' '(' NodeOrEdge? ')';
-  Constant: Number | HexNumber | QuotedText | 'true' | 'false' | 'null';
-\end{rail}\ixnterm{PrimaryExpr}\ixnterm{Constant}
-\begin{description}
-  \item[Number] Is an \texttt{int}, \texttt{float}, or \texttt{double} constant in decimal notation.
-  \item[HexNumber] Is an \texttt{int} constant in hexadecimal notation starting with \texttt{0x}.
-  \item[QuotedText] Is a string constant. It consists of a sequence of characters, enclosed by double quotes.
-\end{description}
-
-The \texttt{visited} query returns the status of the \indexed{visited flag} of the given number for the given graph element as \texttt{boolean}.
-If no flag number is given, the default number for the first visited flag of 0 is used. The visited flags are written in the assignments of the eval statements.
-The \texttt{nameof} query returns the name of the given graph element as \texttt{string}. If no graph element is given, the name of the graph is returned.
-
 \section{Set and Map Expression}
 
 In addition to the already mentionen types \GrG~supports the types \texttt{set<K>} and \texttt{map<K,V>}, where \texttt{K} and \texttt{V} are of primitive or enumeration type.
 They represent mathematical sets and maps, no type casts are applicable, but there are several operations on them available. They are implemented by C\#-Dictionaries (i.e. Hashmaps).
+They were especially added to support uses in computer linguistics (and knowledge representation), where string dictionaries are needed, an area we think could profit considerably from using graph rewrite systems.
 
 \begin{rail} 
   SetExpr: SetConstructor | PrimaryExpr (MethodSelector)? | SetExpr (backslash | ampersand | '|') SetExpr;
@@ -347,7 +404,7 @@ n.fancyMap = map<string,int>{ 42->42, intVal->strVal, "fool"->42 };
 Map constructors create and return an anonymous map, to be written to an attribute or to be operated on by some of the following map operations:
 
 
-\section{Type Related Conditions}\indexmain{type expression}
+\section{Type Expressions}\indexmain{type expression}
 \label{typeexpressions}
 
 \begin{rail}
@@ -356,70 +413,24 @@ Map constructors create and return an anonymous map, to be written to an attribu
 A type expression identifies a type (and---in terms of matching---also its subtypes).
 A type expression is either a type identifier itself or the type of a graph element.
 The type expression \texttt{typeof(x)} stands for the type of the host graph element \texttt{x} is actually bound to.
-\begin{example}
-The following rule will add a reverse edge to a one-way street.
-\begin{grgen}
-rule oneway {
-    a:Node -x:street-> y:Node;
-    negative {
-        y -:typeof(x)-> a;
-    }
-    replace {
-        a -x-> y;
-        y -:typeof(x)-> a;
-    }
-}
-\end{grgen}
-Remember that we have several subtypes of \texttt{street}. By the aid of the \texttt{typeof} operator, the reverse edge will be automatically typed correctly (the same type as the one-way edge). This behavior is not possible without the \texttt{typeof} operator.
-\end{example}
 
-\begin{rail}
-  TypeConstraint: backslash '(' (TypeExpr + '+')  ')' ; 
-\end{rail}\ixnterm{TypeConstraint}
-A \indexed{type constraint} is used to exclude parts of the \indexed{type hierarchy}. The operator \texttt{+} is used to create a union of its operand types. So the following pattern statements are identical:\\
-\begin{center}
-\begin{tabular}[c]{|ll|ll|}\hline
-\begin{tabular}{l}\texttt{x:T \char"5C\ (T1 + $\cdots$ + T$n$);}\\\end{tabular} &&& 
-  \begin{tabular}{l}\texttt{x:T;} \\ \texttt{if \{!(\emph{typeof}(x) <= T1) \&\& $\cdots$} \\ \texttt{\ \ \ \ \&\& !(\emph{typeof}(x) <= T$n$)\}}\\\end{tabular} \\\hline
-\end{tabular}
-\end{center}
-\begin{example}
-\begin{tabularx}{\linewidth}{cX}
-  \begin{tikzpicture}[baseline=(T.base)] \tt
-    \begin{scope}[minimum size=0.5cm]
-      \tikzstyle{every node}=[draw]
-      \node (T)     at (1   ,4) {\texttt{T}};
-      \node (T1)     at (1   ,3) {\texttt{T1}};
-      \node (T2)     at (0   ,2) {\texttt{T2}};
-      \node (T4)     at (0   ,1) {\texttt{T4}};
-      \node (T3)     at (2   ,2) {\texttt{T3}};
-    \end{scope}
-    \draw[thick,-open triangle 45]  (T1) -> (T)  ;
-    \draw[thick,-open triangle 45]  (T2) -> (T1)  ;
-    \draw[thick,-open triangle 45]  (T3) -> (T1)  ;
-    \draw[thick,-open triangle 45]  (T4) -> (T2)  ;
-  \end{tikzpicture} &
-  \parbox{\linewidth}{The expression \texttt{T\char"5C (T2+T3)} applied to the type hierarchy on the left side yields only the types \texttt{T} and \texttt{T1} as valid.}
-\end{tabularx}
-\end{example}
+TODO: give an example of a typeof expression
 
 
-\section{Annotations}\indexmain{annotation}
-\label{annotations}
+\section{Primary expressions}
 
-Identifier \indexed{definition}s can be annotated by \indexedsee{pragma}{annotation}s. Annotations are key-value pairs.
-\begin{rail}
-  IdentDecl: Ident (() | '[' (Ident '=' Constant + ',') ']');
-\end{rail}\ixnterm{IdentDecl}
-Although you can use any key-value pairs between the brackets, only the identifier \ixkeyw{prio} has an effect so far.
-\begin{table}[htbp]
-\begin{tabularx}{\linewidth}{|lllX|} \hline
-  \textbf{Key} & \textbf{Value Type} & \textbf{Applies to} & \textbf{Meaning} \\ \hline
-  \texttt{prio} & int & node, edge & Changes the ranking of a graph element for \indexed{search plan}s. The default is \texttt{prio}=1000. Graph elements with high values are likely to appear prior to graph elements with low values in search plans.\\ \hline
-\end{tabularx}
-\caption{Annotations}
-\label{tabannotations}
-\end{table}
-\begin{example}
-We search the pattern \texttt{v:NodeTypeA -e:EdgeType-> w:NodeTypeB}. We have a host graph with about 100 nodes of \texttt{NodeTypeA}, 1,000 nodes of \texttt{NodeTypeB} and 10,000 edges of \texttt{EdgeType}. Furthermore we know that between each pair of \texttt{NodeTypeA} and \texttt{NodeTypeB} there exists at most one edge of \texttt{EdgeType}. \GrG\ can use this information to improve the initial search plan if we adjust the pattern like \texttt{v[prio=10000]:NodeTypeA -e[prio=5000]:EdgeType-> w:NodeTypeB}.
-\end{example}
+After we've seen the all the ways to combine expressions, finally we'll have a look at the atoms the expressions are built of.
+
+\begin{rail} 
+  PrimaryExpr: '(' ('int' | 'float' | 'double' | 'string') ')' PrimaryExpr | '(' Expression ')' | (NodeOrEdge '.' Ident) | (EnumType '::' Ident) | ObjectIdent | Constant | 'visited' '(' NodeOrEdge (',' FlagNumber)? ')' | 'nameof' '(' NodeOrEdge? ')';
+  Constant: Number | HexNumber | QuotedText | 'true' | 'false' | 'null';
+\end{rail}\ixnterm{PrimaryExpr}\ixnterm{Constant}
+\begin{description}
+  \item[Number] Is an \texttt{int}, \texttt{float}, or \texttt{double} constant in decimal notation.
+  \item[HexNumber] Is an \texttt{int} constant in hexadecimal notation starting with \texttt{0x}.
+  \item[QuotedText] Is a string constant. It consists of a sequence of characters, enclosed by double quotes.
+\end{description}
+
+The \texttt{visited} query returns the status of the \indexed{visited flag} of the given number for the given graph element as \texttt{boolean}.
+If no flag number is given, the default number for the first visited flag of 0 is used. The visited flags are written in the assignments of the eval statements.
+The \texttt{nameof} query returns the name of the given graph element as \texttt{string}. If no graph element is given, the name of the graph is returned.

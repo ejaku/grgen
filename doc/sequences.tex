@@ -1,7 +1,7 @@
 \chapter{Rule application language}\indexmain{rule application language}
 \label{cha:xgrs}
 
-Graph rewrite sequences (GRS)\indexmain{graph rewrite sequence} (or extended graph rewrite sequences XGRS, to distinguish them from the older graph rewrite sequences) are a domain specific GrGen.NET language used for controlling the application of graph rewrite rules. They may be used
+Graph rewrite sequences (GRS)\indexmain{graph rewrite sequence} (or extended graph rewrite sequences XGRS, to distinguish them from the older graph rewrite sequences) are a domain specific \GrG language used for controlling the application of graph rewrite rules. They may be used
 \begin{itemize}
 \item as an imperative enhancement to the rule set language.
 \item for controlled rule application within the GrShell
@@ -9,8 +9,9 @@ Graph rewrite sequences (GRS)\indexmain{graph rewrite sequence} (or extended gra
 \end{itemize}
 
 If they appear in rules, they get compiled, otherwise they get interpreted.
+Iff used within GrShell, they are amenable to debugging.
 
-Graph rewrite sequences are syntactically expressed as expressions similar to boolean expressions.
+Graph rewrite sequences are syntactically expressed as expressions similar to boolean and regular expressions.
 Composing an expression out of single graph rewrite rules not only yields more complex host graph operations but also determines sort of a control flow by means of evaluation order of the operands.
 Graph rewrite sequences have a boolean return value; for a single rule, \texttt{true} means the rule was successfully applied to the host graph.
 A \texttt{false} return value means that the pattern was not found in the host graph.
@@ -45,12 +46,22 @@ a = ((b,c) = R(x,y,z))
 
 \begin{rail}
   RewriteSequence: 
-    (('!')? RewriteTerm) (( (dollar)? (ampersand | xorhat | '|' | doubleampersand | '||') ('!')? RewriteTerm )*) ;
+    (RewriteNegTerm) (( (dollar)? (ampersand | xorhat | '|' | doubleampersand | '||' | ';>' | '<;') RewriteNegTerm )*)
+	;
+  RewriteNegTerm: 
+    ('!')? RewriteTerm
+	;
 \end{rail}\ixnterm{RewriteSequence}
 
 A graph rewrite sequence consists of several, logically linked rewrite terms.
 The modifier \texttt{\$} flags the following operator to act commutative: Usually operands are executed / evaluated from left to right with respect to bracketing (left-\indexed{associative}). 
 In contrast the sequences \texttt{s}, \texttt{t}, \texttt{u} in \texttt{s \$<op> t \$<op> u} are executed / evaluated in arbitrary order.
+
+TODO: Semantic! same as progamming languages of C-family. 
+logical, lazy, eager
+then left and then right, lazy or, lazy an, exclusive or, or, and
+negation
+TODO: Prioritäten! 
 
 \begin{rail}
   RewriteTerm: 
@@ -67,18 +78,15 @@ The brackets (\texttt{[m]}) execute a sequence repeatedly as long as its executi
 \begin{rail} 
   RewriteFactor: 
     RuleExecution |
-    VarAssignment |
+    VariableHandling |
+	'if' lbrace Condition ';' TrueCase ';' FalseCase rbrace |
+	'if' lbrace Condition ';' TrueCase rbrace |
     '<' RewriteSequence '>' | 
     '(' RewriteSequence ')' |
-    Variable |
-    'def' '(' (Variable+',') ')' |
-    'true' |
-    'false';
+    BoolLiteral;
 \end{rail}\ixnterm{RewriteFactor}\ixkeyw{def}\ixkeyw{true}\ixkeyw{false}\indexmain{\texttt{<>}}
 Rewrite factors are the building blocks of graph rewrite sequences.
-They either act as a rule application or assign a value to a variable
-A variable in the \emph{Variable} term must contain a boolean value, accordingly.
-A \texttt{def} term is successful if all the the variables are defined.
+They either act as a rule application or assign a value to a variable.
 
 \begin{rail}    
   RuleExecution: (() | '(' (Variable+',') ')' '=') \\ (() | percent) (() | '?') ( (dollar ( Number | ()) | ()) '[' Rule ']' | Rule);   
@@ -94,66 +102,88 @@ The sqare braces (\texttt{[]}) introduce a special kind of multiple rule applica
 The random-match-selector \texttt{\$n} searches for all matches and then randomly selects \texttt{n} of them to be rewritten, with \texttt{\$[r1]} being equivalent to \texttt{\$1[r1]}.
 
 \begin{rail}
-  VarAssignment: Variable '=' (Variable | 
-    '(' RewriteSequence ')' | 
-    'true' | 
-    'false');
+  VariableHandling: 
+    (Variable (':' Type)? '=' 
+	  (Variable | 
+      '(' RewriteSequence ')' | 
+      Literal | 
+	  Variable '.' Attribute)
+    ) |
+	Variable '.' Attribute '=' Variable |
+    Variable |
+    'def' '(' (Variable+',') ')'
+;
 \end{rail}\ixnterm{VarAssignment}\ixnterm{Variable}\makeatother
-Variables can hold graph elements or boolean values.
+Variables can hold graph elements, or values of attribute types, esp. boolean values.
 Graph elments are initially assigned by the \emph{RuleExecution} statement.
-An \emph{VarAssignment} rewrite term ist always true.
+A \emph{VarAssignment} rewrite term ist always true.
+A variable in the \emph{Variable} term must contain a boolean value, accordingly.
+A \texttt{def} term is successful if all the the variables are defined.
 
+TODO: literal irgendwo definiert?
+
+ 
 \section{Storages}
 
-This is preliminary documentation for functionality which is not available in \GrG~2.5! It will only be available in \GrG~2.6.
+Storages are Set of Node / Edge 
+- in contrast to the set/map in models and rules where S/T can only be primitive types or enums,
+ S/T may be of node/edge typ. This is not only a may be, but this is their primary task:
+ acting as sets/maps of nodes/edges, storing them and allowing iteration over them,
+ giving storages/storagemaps (names chosen to resemble the storages of VMTS where this concepts originats from)
 
-Storages = Set of Node / Edge; as in VMTS; here in addition set/map of arbitrary basic types, and of Node/Edge types.
+ The already known, now with set/map types, which are ... .
+ 
+\begin{rail}
+  VariableHandling: 
+    Variable (SetMapTypeDecl)? '=' RHS |
+    SetVariable '.' ( 'add' '(' Value ')' | 'remove' '(' Value ')' | 'clear' '(' ')' ) |
+    MapVariable '.' ( 'add' '(' Key ',' Value ')' | 'remove' '(' Key ')' | 'clear' '(' ')' ) |
+	Variable '.' Attribute '=' Variable |
+	Variable '=' MapVariable '[' Variable ']'
+    ;
+\end{rail}\ixnterm{VarAssignment}\ixnterm{Variable}\makeatother
 
 \begin{rail}
-  'new' 'set' '<' Type '>'
-\end{rail}\ixkeyw{new}\ixkeyw{set}
-creates a new set of given type, e.g. v = new set<string>
+  SetMapTypeDecl: 
+    ':' ('set' '<' Type '>' | 'map' '<' KeyType ',' ValueType '>')
+    ;
+  RHS:
+    'set' '<' Type '>' |
+    'map' '<' KeyType ',' ValueType '>' |
+	Variable |
+	Variable '.' Attribute |
+    SetVariable '.' ( size '(' ')' | empty '(' ')' ) |
+    MapVariable '.' ( size '(' ')' | empty '(' ')' )
+    ;
+\end{rail}\ixnterm{VarAssignment}\ixnterm{Variable}\makeatother
+
+Set addition: adds value to the set, e.g. n.add("foo")
+Set removal: removes value from set, e.g. n.remove("bar")
+Set clearing: removes all value from the set
+
+Map addition: adds pair (key,value) to map, e.g. n.add("foo" ',' 42)
+Map removal: removes pair (key,*) from map, e.g. n.remove("bar")
+Map clearing: removes all key-value-pairs from the map
+
+Assigns to a variable, of declared set type (optional in interpreted, requires in compiled XGRS).
+Assigns to a variable, of declared map type (optional in interpreted, required in compiled XGRS).
+Set assignment, writes the number of set entries to the variable, e.g. n.size().
+Map size assigment, writes the number of map entries to the variable, e.g. x=n.size().
+
+- set/map membership query el in sm succeeding iff el is contained in the set/map
+- map lookup assignment val=mp[el] assigning the result of a map lookup to a variable, 
+     succeeding iff el is contained in mp, otherwise failing, not touching the variable
+- set/map emptyness query result assignment se=sm.empty() assigning to the variable 
+     whether set/map is empty, always succeeding
 
 \begin{rail}
-  'NameOfSetVariable' '.' 'add' '(' Value ')'
-\end{rail}\ixkeyw{add}\ixkeyw{set}
-adds value to the set, e.g. n.add("foo")
-Was ist mit n.a.add("foo")
-
-\begin{rail}
-  'NameOfSetVariable' '.' 'remove' '(' Value ')'
-\end{rail}\ixkeyw{remove}\ixkeyw{set}
-removes value from set, e.g. n.remove("bar")
-
-\begin{rail}
-  'NameOfSetVariable' '.' 'size' '(' ')'
-\end{rail}\ixkeyw{size}\ixkeyw{set}
-returns the number of set entries, e.g. n.size()
-
-\begin{rail}
-  'new' 'map' '<' KeyType ',' ValueType '>'
-\end{rail}\ixkeyw{new}\ixkeyw{set}
-creates a new map of given types, e.g. new map<string,int>
-
-\begin{rail}
-  'NameOfMapVariable' '.' 'add' '(' Key '->' Value ')'
-\end{rail}\ixkeyw{add}\ixkeyw{map}
-adds pair (key,value) to map, e.g. n.add("foo"->42)
-
-\begin{rail}
-  'NameOfMapVariable' '.' 'remove' '(' Key ')'
-\end{rail}\ixkeyw{remove}\ixkeyw{set}
-removes pair (key,*) from map, e.g. n.remove("bar")
-
-\begin{rail}
-  'NameOfMapVariable' '.' 'size' '(' ')'
-\end{rail}\ixkeyw{size}\ixkeyw{set}
-returns the number of map entries, e.g. n.size()
-
-\begin{rail}
-  'foreach' Variable (() | '->' Variable) 'in' Variable 'do' XGRS 'od'
+  RewriteFactor:
+    Var 'in' SetVar |
+    Var 'in' MapVar |
+    'for' lbrace Var 'in' SetVar ';' RewriteSequence rbrace |
+    'for' lbrace Var '->' Var 'in' MapVar ';' RewriteSequence rbrace
 \end{rail}
-The foreach command iterates over all elements in the set or all key-value pairs in the map and executes for each element / key-value pair the graph rewrite sequence; it completes successfully if all sequences executed were successful.
+The for command iterates over all elements in the set or all key-value pairs in the map and executes for each element / key-value pair the graph rewrite sequence; it completes successfully if all sequences executed were successful.
 
 Example:
 \verb#foreach n in x do (y)=foo(n) && u.insert(y) && foreach m in z do bar(m) || v.remove(m) od od && foreach n in x do (m)=n && (m)=foo(m)*#

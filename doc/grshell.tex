@@ -278,6 +278,7 @@ Returns the visited status of the graph element of the flag id.
 \end{rail}\indexmain{\texttt{\$}}\ixnterm{Constructor}\ixnterm{Attributes}
 A \indexed{constructor} is used to initialize a new graph element (see \texttt{new \dots} below). A comma separated list of \indexed{attribute} declarations is supplied to the constructor. Available attribute names are specified by the graph model of the current working graph. All the undeclared attributes will be initialized with \indexed{default value}s, depending on their type (int $\leftarrow$ \texttt{0}, enum $\leftarrow$ unspecified; boolean $\leftarrow$ \texttt{false}; float, double $\leftarrow$ \texttt{0.0}; string $\leftarrow$ \texttt{""}).\\
 The \texttt{\$} is a special attribute name: a unique identifier of the new graph element. This identifier is also called \newterm{persistent name} (see Example~\ref{persistentex}). This name can be specified by a constructor only.
+TODO: set/map constructor
 
 \begin{rail}
   'new' (() | Text) (() | ':' NodeType (() | Constructor))
@@ -445,6 +446,18 @@ todo
 dump add (node | edge) [only] <type> shortinfotag <member>
 \end{grshelllet}  
 todo
+
+\begin{note}
+todo: 
+Graph readability
+Small graphs allow for fast visual understanding, but with an increasing number of nodes and edges they quickly loose this propertie.
+The group commands are of outstanding importance to keep readability with increasing graph sizes.
+For program graphs it allows to lump together expressions of a method inside the method node, attributes of the class inside the class node,
+or for firm graphs (ssa and graph based compiler intermediate representation) to paint the operations within a large basic block node.
+Together with layout compiler graph cutting edges (todo: which ones)<
+And the capability to exclude nodes from dumping. (the less hay in the stack the easier to find the needle)
+The infotag allows to decide which attribute information to display directly without the need to use an explicit show attributes. 
+\end{note}
 
 
 \subsection{Action Commands (XGRS)}\indexmain{action command}\indexmainsee{action}{graph rewrite sequence}
