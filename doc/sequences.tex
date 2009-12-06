@@ -56,12 +56,24 @@ a = ((b,c) = R(x,y,z))
 A graph rewrite sequence consists of several, logically linked rewrite terms.
 The modifier \texttt{\$} flags the following operator to act commutative: Usually operands are executed / evaluated from left to right with respect to bracketing (left-\indexed{associative}). 
 In contrast the sequences \texttt{s}, \texttt{t}, \texttt{u} in \texttt{s \$<op> t \$<op> u} are executed / evaluated in arbitrary order.
+The following table gives the priorities and semantics of the operators, the more to the top the higher the priority;
+Then-Left and Then-Right are of the same priority, their execution order can't be altered by the \$ operator prefix.
 
-TODO: Semantic! same as progamming languages of C-family. 
-logical, lazy, eager
-then left and then right, lazy or, lazy an, exclusive or, or, and
-negation
-TODO: Prioritäten! 
+\begin{table}[htbp]
+    \begin{tabularx}{\linewidth}{l|X}
+        \bf Operator & \bf Meaning \\\hline\hline
+        \verb/!s/ & Negation, evaluates \texttt{s} and returns its logical negation\\\hline
+        \verb/s1 & s2/ & Strict And, evaluates \texttt{s1} then \texttt{s2}, the result is the logical conjunction\\\hline
+        \verb/s1 ^ s2/ & Strict Xor, evaluates \texttt{s1} then \texttt{s2}, the result is the logical antivalence\\\hline
+        \verb/s1 | s2/ & Strict Or, evaluates \texttt{s1} then \texttt{s2}, the result is the logical disjunction\\\hline
+        \verb/s1 && s2/ & Lazy And, the result is the logical conjunction, evaluates \texttt{s1}, only if \texttt{s1} is true \texttt{s2} gets evaluated\\\hline
+        \verb/s1 || s2/ & Lazy Or, the result is the logical disjunction, evaluates \texttt{s1}, only if \texttt{s1} is false \texttt{s2} gets evaluated\\\hline
+        \verb/s1 <; s2/ & Then-Left, evaluates \texttt{s1} then \texttt{s2} and returns the result of \texttt{s1}\\
+		\verb/s1 ;> s2/ & Then-Right, evaluates \texttt{s1} then \texttt{s2} and returns the result of \texttt{s2}\\\hline
+    \end{tabularx}    
+    \caption{Semantics and priorities of rewrite sequence operators}
+    \label{tbl:sequ:op}
+\end{table}
 
 \begin{rail}
   RewriteTerm: 
@@ -136,8 +148,8 @@ Storages are Set of Node / Edge
 \begin{rail}
   VariableHandling: 
     Variable (SetMapTypeDecl)? '=' RHS |
-    SetVariable '.' ( 'add' '(' Value ')' | 'remove' '(' Value ')' | 'clear' '(' ')' ) |
-    MapVariable '.' ( 'add' '(' Key ',' Value ')' | 'remove' '(' Key ')' | 'clear' '(' ')' ) |
+    SetVariable '.' ( 'add' '(' Value ')' | 'rem' '(' Value ')' | 'clear' '(' ')' ) |
+    MapVariable '.' ( 'add' '(' Key ',' Value ')' | 'rem' '(' Key ')' | 'clear' '(' ')' ) |
 	Variable '.' Attribute '=' Variable |
 	Variable '=' MapVariable '[' Variable ']'
     ;

@@ -159,7 +159,7 @@ Sets the random seed to the given number for reproducible results when using the
 'redirect' 'emit' Filename
 \end{rail}\ixkeyw{redirect}\ixkeyw{emit}
 Redirects the output of the emit-statements in the rules from stdout to the given file.
-
+If \texttt{Filename} is \texttt{-}, the output is redirected to stdout again.
 
 \subsection{Graph Commands}
 \label{graphcommands}
@@ -248,8 +248,8 @@ Executes a command specific to the current backend. If \emph{SpacedParameters} i
 
 \begin{rail}
 'Variable' '=' 'allocvisitflag'
-\end{rail}\ixkeyw{allocvisitflag}
-Allocates space for a visited flag in the elements of the graph and returns the id of the visited flag (integer number). Afterwards, the visited flag of the id can be read and written by the isvisited and setvisited shell commands or within the rules by the \texttt{visited()} expression.
+\end{rail}\ixkeyw{allocvisitflag}\label{allocvisitflag}
+Allocates space for a visited flag in the elements of the graph and returns the id of the visited flag (integer number), starting at 0. Afterwards, the visited flag of the id can be read and written by the isvisited and setvisited shell commands or within the rules by the \texttt{visited()} expression.
 (The first visited flags are stored in some excess bytes of the graph elements and are thus essentially for free, but if this implementation defined space is used up completely, the information is stored in dictionaries)
 
 \begin{rail}

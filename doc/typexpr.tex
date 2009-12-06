@@ -67,7 +67,6 @@ TODO: set/map
 
 \section{Expressions}
 
-TODO: Expressions on types
 %left to right, left associative?
 
 \label{expressions}
@@ -147,7 +146,7 @@ For set and map expressions, table~\ref{compandsetmap} describes the semantics o
 \end{table}
 
 For \indexed{type expression}s the semantics of compare operators are given by table~\ref{compandtypes},
-the rule to remember is: types grow larger with extension/refinement.
+the rule to remember is: types grow larger with extension/refinement. An example is given in \ref{typeexpressions}.
 \begin{table}[htbp]
   \centering
   \begin{tabularx}{\linewidth}{|l|X|} \hline
@@ -414,7 +413,27 @@ A type expression identifies a type (and---in terms of matching---also its subty
 A type expression is either a type identifier itself or the type of a graph element.
 The type expression \texttt{typeof(x)} stands for the type of the host graph element \texttt{x} is actually bound to.
 
-TODO: give an example of a typeof expression
+\begin{example}
+\begin{tabularx}{\linewidth}{cX}
+  \begin{tikzpicture}[baseline=(T.base)] \tt
+    \begin{scope}[minimum size=0.5cm]
+      \tikzstyle{every node}=[draw]
+      \node (T)     at (1   ,4) {\texttt{T}};
+      \node (T1)     at (1   ,3) {\texttt{T1}};
+      \node (T2)     at (0   ,2) {\texttt{T2}};
+      \node (T4)     at (0   ,1) {\texttt{T4}};
+      \node (T3)     at (2   ,2) {\texttt{T3}};
+    \end{scope}
+    \draw[thick,-open triangle 45]  (T1) -> (T)  ;
+    \draw[thick,-open triangle 45]  (T2) -> (T1)  ;
+    \draw[thick,-open triangle 45]  (T3) -> (T1)  ;
+    \draw[thick,-open triangle 45]  (T4) -> (T2)  ;
+  \end{tikzpicture} &
+  \parbox{\linewidth}{The expression \texttt{typeof(x)<=T2} applied to the type hierarchy on the left side yields \texttt{true} if \texttt{x} is a graph element of type \texttt{T} or \texttt{T1} or \texttt{T2}.
+                      The expression \texttt{typeof(x)>T2} only yields \texttt{true} for \texttt{x} being a graph element of type \texttt{T4}. The expression \texttt{T1<T3} always yields \texttt{true}.}
+\end{tabularx}
+\end{example}
+
 
 
 \section{Primary expressions}

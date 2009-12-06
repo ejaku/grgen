@@ -32,6 +32,7 @@ rule SomeRule {
 \end{example}
 %\end{figure}
 In this chapter we use excerpts of Example~\ref{ex:rule:SomeRule} (\texttt{SomeRule}) for illustration purposes.
+The nested negative which specify a pattern which must not be available in the host graph are described in the following chapter \ref{cha:nestedsub}
 
 \section{Building Blocks}
 \label{rulebb}
@@ -254,26 +255,30 @@ And some illegal graphlets:\\
 \texttt{.\ -e:Edge-> .; .\ -e-> .;} & Would affect redirecting of edge \texttt{e}. \\
  & \\
  \texttt{x -e:T-> y; x -e-> x;} & Would affect redirecting of edge \texttt{e}. \\
-  & \\
- \texttt{x:Node; negative \{y:Node; hom(x,y)\}} & Here \texttt{x} must not occur in the \texttt{hom} statement. See Section~\ref{patternpart} for further information. \\
-  & \\
-  \texttt{<-- --> ;} & There must be at least a node between the edges.
+ & \\
+ \texttt{<-- --> ;} & There must be at least a node between the edges.
 \end{tabularx}
 \end{example}
 \end{figure}
 
 \begin{note}
 	Although both, the pattern part and the replace/modify part use graphlets, there are subtle differences between them. 
-	These concern the \emph{TypeConstraint} clause, the \emph{retype} operator \texttt{<>}, and the allowed arrow tips for edges.
+	These concern the \emph{TypeConstraint} and \emph{Retyping} clause plus the allowed arrow tips for edges.
 \end{note}
 
 \section{Rules and Tests}
 \label{ruledecls}
 The structure of a \indexed{rule set} file is as follows:
 \begin{rail}
-  RuleSet: (() | 'using' ((ModelIdent)+',') ';') ((TestDeclaration | RuleDeclaration | SubpatternDeclaration)+) ;
+  RuleSet: Header ((TestDeclaration | RuleDeclaration | SubpatternDeclaration)+) ;
+  Header: ('using' ((ModelIdent)+',') ';')? (('\#include' Filename)*());
 \end{rail}\ixkeyw{using}\ixnterm{RuleSet}
-A rule set consists of the underlying \indexed{graph model}s and several rewrite rules and tests (subpatterns will be introduced in \ref{sec:subpattern}). In case of multiple graph models, \GrG\ uses the union of these models. In this case beware of conflicting declarations. There is no built-in conflict resolution mechanism like packages or namespaces for models. If necessary you can use prefixes as you might do in C.
+
+A rule set consists of the underlying \indexed{graph model}s and several rewrite rules and tests (subpatterns will be introduced in \ref{sec:subpattern}).
+Additionally you may include further rule set files (without \texttt{using} directives, we prefer to suffix them with \textt{.gri} in this case).
+In case of multiple graph models, \GrG\ uses the union of these models. In this case beware of conflicting declarations.
+There is no built-in conflict resolution mechanism like packages or namespaces for models.
+If necessary you can use prefixes as you might do in C.
 
 \begin{rail}
   TestDeclaration: 'test' (() | 'exact' | 'induced') ActionSignature lbrace Pattern rbrace ;
@@ -307,9 +312,8 @@ The \indexed{signature} sets the name of a rewrite rule to \emph{IdentDecl} and 
 
 \begin{rail}
   Parameters: '(' (Parameter * ',') ')' ;
-  Parameter: IdentDecl ':' NodeType (NodeInputTypeSpecification)? | '-' IdentDecl ':' EdgeType (EdgeInputTypeSpecification)? '->' | 'var' IdentDecl ':' VarType ;
-  NodeInputTypeSpecification: '<' (NodeType | 'null' | NodeType '+' 'null' | 'null' '+' NodeType ) '>' ;
-  EdgeInputTypeSpecification: '<' (EdgeType | 'null' | EdgeType '+' 'null' | 'null' '+' EdgeType ) '>' ;
+  Parameter: IdentDecl ':' NodeType (InputTypeSpecification)? | '-' IdentDecl ':' EdgeType (InputTypeSpecification)? '->' | 'var' IdentDecl ':' VarType ;
+  InputTypeSpecification: '<' (NodeEdgeType | 'null' | NodeEdgeType '+' 'null' | 'null' '+' NodeEdgeType ) '>' ;
 \end{rail}\ixnterm{Parameters}
 
 Within a rule, parameters are treated as graph elements of the pattern - just predefined.
@@ -323,31 +327,28 @@ now only available with syntax r(x:ExactType<InexactType>)
 
 \begin{figure}[htbp]
 \begin{example}
-Assume the following \indexed{test} that checks whether the edge \texttt{e} is not \indexed{incident} to \texttt{x}:
+The \indexed{test} \texttt{t} that checks whether node \texttt{n1} is \indexed{adjacent} to \texttt{n2} (connected by an undirected edge or incoming directed edge or outgoing directed edge)
 \begin{grgen}
-test r(-e:Edge->, x:Node) {
-  negative {
-    -e-> x;
-  }
-  negative {
-    x -e-> ;
-  }
+test t(n1:Node<null>, n2:Node<null>) {
+  n1 ?--? n2;
 }
 \end{grgen}
-If \texttt{x} and \texttt{e} are undefined, test \texttt{r} is equivalent to test \texttt{s}:
+is equivalent to the tests \texttt{t1}-\texttt{t4} which are chosen dependent on what parameters are defined.
 \begin{grgen}
-test s {
-  x:Node;
-  -e:Edge->;
-  negative {
-    -e-> x;
-  }
-  negative {
-    x -e-> ;
-  }
+test t1(n1:Node, n2:Node) {
+  n1 ?--? n2;
+}
+test t2(n1:Node) {
+  n1 ?--? n2:Node;
+}
+test t3(n2:Node) {
+  n1:Node ?--? n2;
+}
+test t4 {
+  n1:Node ?--? n2:Node;
 }
 \end{grgen}
-In particular, test \texttt{s} is successful if there is \emph{some} edge in the host graph that is \emph{not} incident to \texttt{x}.
+So if both parameters are not defined, \texttt{t4} is chosen, which succeeds as soon as there are two distinct nodes in the graph connected by some edge.
 \end{example}
 \end{figure}
 
@@ -423,9 +424,9 @@ The semantics of the various pattern statements are given below:
   Several homomorphically matched graph elements will be mapped to a graph element of a common subtype.
   In Example~\ref{ex:rule:SomeRule} nodes \texttt{n1} and \texttt{n2} may be the same node. This is possible because they are of the same type (\texttt{NodeTypeA}).
   Inside a NAC the \texttt{hom} operator may only operate on graph elements that are either defined or used in the NAC.
- - hom declarations are inherited into nested negatives/independents now
- - hom delarations are non-transitive by now (hom(a,b) and hom(b,c) don't cause hom(a,c) unless specified)
-   \item[Attribute Conditions] \indexmain{attribute condition}The Java-like attribute conditions (keyword \texttt{if}) in the pattern part allow for further restriction of the applicability of a rule.
+  Nested \texttt{negative}/\texttt{independent} blocks inherit the \texttt{hom} declarations of their nesting pattern.
+  In contrast to previous versions \texttt{hom} delarations are non-transitive, i.e \texttt{hom(a,b)} and \texttt{hom(b,c)} don't cause \texttt{hom(a,c)} unless specified.
+  \item[Attribute Conditions] \indexmain{attribute condition}The Java-like attribute conditions (keyword \texttt{if}) in the pattern part allow for further restriction of the applicability of a rule.
   \item[Pattern Modifiers] Additionally to modifiers that apply to a pattern as a whole, you may also specify pattern modifiers for a specific set of nodes. Accordingly the list of identifiers for a pattern modifier must not contain any edge identifier. See section \ref{sct:patternmodifier} for an explanation of the \texttt{exact} and \texttt{induced} modifiers. 
   \item[NestedPattern] will be explained in \ref{nac},\ref{pac},\ref{cardinality},\ref{alternative}.
   \item[SubpatternEntityDeclaration] will be explained in \ref{sec:subpattern}.
@@ -557,9 +558,17 @@ The semantics of the various replace statements are given below:
 \begin{rail}    
    Assignment: Ident '.' Ident '=' Expression | 'visited' '(' NodeOrEdge (',' FlagNumber)? ')' '=' BoolExpr;
 \end{rail}\indexmain{attribute evaluation}\ixnterm{Assignment}
-Several evaluation parts are allowed within the replace part. Multiple evaluation statements will be internally concatenated, preserving their order. Evaluation statements have \indexedsee{imperative}{attribute evaluation} semantics. In particular, \GrG\ does not care about data dependencies. Evaluation takes place before any graph element gets deleted and after all the new elements have been created. You may read (and write, although this is pointless) attributes of graph elements to be deleted.
-Assignment is carried out using \indexmain{value semantics}, even for entities of \verb#set<K># and \verb#map<K,V># or \texttt{string} type. The only exception is the type \texttt{object}, there \indexmain{reference semantics} is used.
-The \texttt{visited} flag assignment sets the \texttt{boolean} status of the \indexed{visited flag} of the given number for the given graph element. If no flag number is given, the default number for the first visited flag of 0 is used. Make sure to allocate\ref{allocvisitflag}/\ref{apiallocvisitflag} visited flags before you try to use them (and deallocate them afterwards, as they are a sparse resource stored in some excess bits of the graph elements, or in some dictionary if the needed number of flags exceeds the number of available bits per graph element.)
+Several evaluation parts are allowed within the replace part. 
+Multiple evaluation statements will be internally concatenated, preserving their order.
+Evaluation statements have \indexedsee{imperative}{attribute evaluation} semantics.
+In particular, \GrG\ does not care about data dependencies.
+Evaluation takes place before any graph element gets deleted and after all the new elements have been created.
+You may read (and write, although this is pointless) attributes of graph elements to be deleted.
+Assignment is carried out using \indexmain{value semantics}, even for entities of \verb#set<K># and \verb#map<K,V># or \texttt{string} type.
+The only exception is the type \texttt{object}, there \indexmain{reference semantics} is used.
+The \texttt{visited} flag assignment sets the \texttt{boolean} status of the \indexed{visited flag} of the given number for the given graph element.
+If no flag number is given, the default number for the first visited flag of 0 is used.
+Make sure to allocate\ref{allocvisitflag}/\ref{apiallocvisitflag} visited flags before you try to use them (and deallocate them afterwards, as they are a sparse resource stored in some excess bits of the graph elements, or in some dictionary if the needed number of flags exceeds the number of available bits per graph element.)
 
 \begin{example}
 \begin{grgen}
@@ -681,6 +690,7 @@ A \indexed{type constraint} is used to exclude parts of the \indexed{type hierar
   \begin{tabular}{l}\texttt{x:T;} \\ \texttt{if \{!(\emph{typeof}(x) >= T1) \&\& $\cdots$} \\ \texttt{\ \ \ \ \&\& !(\emph{typeof}(x) >= T$n$)\}}\\\end{tabular} \\\hline
 \end{tabular}
 \end{center}
+
 \begin{example}
 \begin{tabularx}{\linewidth}{cX}
   \begin{tikzpicture}[baseline=(T.base)] \tt
@@ -697,7 +707,7 @@ A \indexed{type constraint} is used to exclude parts of the \indexed{type hierar
     \draw[thick,-open triangle 45]  (T3) -> (T1)  ;
     \draw[thick,-open triangle 45]  (T4) -> (T2)  ;
   \end{tikzpicture} &
-  \parbox{\linewidth}{The expression \texttt{T\char"5C (T2+T3)} applied to the type hierarchy on the left side yields only the types \texttt{T} and \texttt{T1} as valid.}
+  \parbox{\linewidth}{The type constraint \texttt{T\char"5C (T2+T3)} applied to the type hierarchy on the left side yields only the types \texttt{T} and \texttt{T1} as valid.}
 \end{tabularx}
 \end{example}
 

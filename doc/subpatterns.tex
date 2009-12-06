@@ -1,58 +1,53 @@
 \chapter{Nested and Subpatterns}\indexmain{rule set language nested and subpatterns}
 \label{cha:nestedsub}
 
+The extension of the rule set language described in the previous chapter by nested patterns and subpatterns greatly enhances the flexibility and expressiveness of pattern matching and rewriting.
+The following patterns to match a simplified abstract syntax tree give a rough picture of the language of nested and subpatterns:
   \begin{example}
-The following patterns to match a simplified abstract syntax tree give a rough picture of the language of nested and subpatterns.
-
     \begin{grgen}
 test Method
 {
-  m:Method --> n:Name; // signature of name and list of parameters
-  :ParameterList(n); 
-
-  multiple { // implementation by statements attached to method
-    m --> a:Assign;
-    :Assignment(a);
+  m:Method <-- n:Name; // signature of method consisting of name
+  iterated { // and 0-n parameters
+    m <-- :Variable;
   }  
+  
+  :AssignmentList(m); // body consisting of a list of assignment statements
 }
 
-pattern ParameterList(prev:Node)
+pattern AssignmentList(prev:Node)
 {
-  optional {
-    prev --> next:Variable;
-    :ParameterList(next);
+  optional { // nothing or a linked assignment and again a list
+    prev --> a:Assign; // assignment node 
+    a -:target-> v:Variable; // which has a variable as target 
+    :Expression(a);  // and an expression which defines the left hand side 
+    :AssignmentList(prev:Node); // next one, plz
   }
 }
 
-pattern Assignment(a:Assign)
+pattern Expression(root:Expr)
 {
-  a -:target-> v:Variable;
-  :Expression(a);  
-}
-
-pattern Expression(root:Expression)
-{
-  alternative {
-    Binary {
-      root --> expr1;
-      root --> expr2;
-      :Expression(expr1);
-      :Expression(expr2);
+  alternative { // expression may be
+    Binary { // a binary expression of an operator and two expresions
+      root <-- expr1:Expr;
+	  :Expression(expr1);
+      root <-- expr2:Expr;
+	  :Expression(expr2);
+      root <-- :Operator;
     }
-    Unary {
-      root --> v:Variable;
+    Unary { // or a unary expression which is a variable (reading it)
+      root <-- v:Variable;
     }
   }
 }
     \end{grgen}
   \end{example}
 
-todo: Die Beispiele in diesem Kapitel bevorzugt aus dem Gebiet Programmgraphen wählen
 
-Until now we have seen rules and tests with one left hand side static pattern specification in a direct 1:1 correspondence with its dynamic match on a successfull application.
+Until now we have seen rules and tests with one left hand side static pattern specification in a direct 1:1 correspondence with its dynamic match in the host graph on a successful application.
 From now on we will increase the expressiveness of the pattern language, and dependent on it the rewrite language, to describe much finer and more flexible what patterns to accept.
 This will be done by pattern specifications built up from multiple static pattern piece specifications, where the pieces may be matched dynamically zero, one, or multiple times, or are forbidden to exists for the entire pattern to be matched.
-We will introduce rule set language constructs related to nested patterns (negative application condition, positive application condition, nested pattern with cardinality, alternative patterns) and subpatterns (subpattern declaration and subpattern entity declaration, subrule declaration and usage), beginning with the nested patterns:
+These rule set language constructs can be split into nested patterns (negative application condition, positive application condition, nested pattern with cardinality, alternative patterns) and subpatterns (subpattern declaration and subpattern entity declaration, subrule declaration and usage), we will start with the nested patterns:
 
 \begin{rail}  
   NestedPattern: 
@@ -71,59 +66,79 @@ We will introduce rule set language constructs related to nested patterns (negat
     'negative' lbrace (()+PatternStatement) rbrace;
 \end{rail}\ixkeyw{negative}
 
-  With negative application conditions (keyword \texttt{negative}) we can specify graph patterns which forbid the application of a rule if any of them is present in the host graph (cf.~\cite{adam}). 
-  NACs possess a \indexed{scope} of their own, i.e. names defined within a NAC do not exist outside the NAC. 
-  Identifiers from surrounding scopes must not be redefined.
-  In general NACs do not care about bindings within the outer scope. 
-   Nevertheless, if you use an \emph{identifier} that is defined in the outer scope, this specifies exactly the graph element, the identifier is bound to in the outer scope.
+With negative application conditions (keyword \texttt{negative}) we can specify graph patterns which forbid the application of a rule if any of them is present in the host graph (cf.~\cite{adam}). 
+NACs possess a \indexed{scope} of their own, i.e. names defined within a NAC do not exist outside the NAC. 
+Identifiers from surrounding scopes must not be redefined.
+If they are not explicitely mentioned, the NAC gets matched independent from them, i.e. elements inside a negative are \texttt{hom(everything from the outside)} by default.
+But referencing the element from the outside within the negative pattern causes it to get matched isomorphically/distinct to the other elements in the negative pattern. 
+This is a bit unintuitive if you think of extending the pattern by negative elements, but cleaner and more powerful: 
+just think of NACs to simply specify a pattern which should not be in the graph, with the possibility of forcing elements to be the same as in the enclosing pattern by name equality.
+
   \begin{example}
-    We specify a node \texttt{x} which is not connected to a node of type \texttt{BadType}:
+    We specify a variable which is not badly typed, i.e. a node \texttt{x} of type \texttt{Variable} which must not be target of an edge of type \text{type} with a source node of type \texttt{BadType}:
     \begin{grgen}
-  x:Node;
+  x:Variable;
   negative {
-    x ?--? :BadType;
+    x <-:type- :BadType;
   }
     \end{grgen}
   \end{example}
-   Because NACs have their ``own'' binding, using NACs leads to specifications which might look a bit redundant.
+ 
+Because NACs have their ``own'' binding, using NACs leads to specifications which might look a bit redundant.
+
   \begin{example}
-    Let's specify a singleton, a node of type \texttt{T} which is the only one of this type.
+    Let's check the singleton condition, meaning there's exactly one node of the type to check, for the type \texttt{RootNamespace}.
     The following specification is \emph{wrong} (it will never return a match):
     \begin{grgen}
-  x:T;
+  x:RootNamespace;
   negative {
-    y:T;
+    y:RootNamespace;
   }
     \end{grgen}
+	
     Instead we have to specify the \emph{complete} forbidden pattern inside the NAC. This is done by:
-     \begin{grgen}
-  x:T;
+    
+	\begin{grgen}
+  x:RootNamespace;
   negative {
     x;
-    y:T;
+    y:RootNamespace; // now it is ensured that y must be different from x
   }
     \end{grgen}
   \end{example} 
 
-As a straight-forward generalization of negatives within positive patterns,
-negatives may get nested to an arbitrary depth. Matching of the nested
-negative pattern causes the matching of the nesting pattern to fail.
+If there are several patterns which should not occur, use several negatives.
+If there are exceptions to the forbidden pattern, use nested negatives.
+As a straight-forward generalization of negatives within positive patterns, negatives may get nested to an arbitrary depth.
+Matching of the nested negative pattern causes the matching of the nesting pattern to fail.
 
 \begin{example}
+  A fabricated example using parallel as well as nested \texttt{negative}s:
   \begin{grgen}
-test foo {
-  a:NA --> b:NB;
+test OnlyOneChildOrAllChildrenHaveExactlyOneCommonChild {
+  root:Class;
   negative {
-    a --> c:NC;
+    root -:extends-> :Class; // root does not extend another class
+  }
+  root <-:extends- c1:Class; // a class c1 extends root
+  negative {
+    c1;
+    root <-:extends- c2:Class; // there is no c2 which extends root
     negative {
-      b --> c;
+      c1 <-:extends- child:Class -:extends-> c2; // except c1 and c2 have a common child
+	  negative { // and c1 has no further children
+	    child;
+	    c1 <-:extends- :Class;
+	  }
+	  negative { // and c2 has no further children
+	    child;
+	    c2 <-:extends- :Class; 
+	  }
     }
   }
 }
   \end{grgen}
 \end{example}
-
-The test to the left searech for a node a linked to a node b, but only if a is not connected to a further node c, with the exception that b is connected to c, too. It matches the host graph to the right, because the match of the inner negative cancels out the match of the outer negative.
 
 %negative pattern elements get matched independent from the subpatterns utilizing them
 %(explicit patternpath/pattern statement in the negative/independent needed for old behaviour)
@@ -137,29 +152,38 @@ The test to the left searech for a node a linked to a node b, but only if a is n
     'independent' lbrace (()+PatternStatement) rbrace;
 \end{rail}\ixkeyw{independent}
 
-With positive application conditions (keyword \texttt{independent}) we can specify graph patterns which, in contrast to negative application conditions, must be present in the host graph to cause the matching of the enclosing pattern to succeed. Together with NACs they share the propertie of opening a \indexed{scope}, with elements being independent from the surrounding scope (i.e. a host graph element can easiely get matched to a pattern element and a PAC element with a different name, unless the pattern element is referenced in the PAC). 
-No isomorphic matching is enforced, as in the case of the elements within one scope (unless declared homomorpic).
+With positive application conditions (keyword \texttt{independent}) we can specify graph patterns which, in contrast to negative application conditions, must be present in the host graph to cause the matching of the enclosing pattern to succeed.
+Together with NACs they share the property of opening a \indexed{scope}, with elements being independent from the surrounding scope (i.e. a host graph element can easiely get matched to a pattern element and a PAC element with a different name, unless the pattern element is referenced in the PAC). 
+They are used to improve the logical structure of rules by separating a pure condition from the main pattern of the rule amenable to rewriting.
+They are really needed if subpatterns want to match elements which were already matched during the subpattern derivation.
 
 \begin{example}
-  \begin{grgen}
+  A further fabricated example using \texttt{independent} patterns to check some conditions with only the main pattern available to rewriting:
 
-rule fancyRule
+  \begin{grgen}
+rule MoveMethod
 {
-  a:A -- b:B -- c:C;
+  c:Class --> m:Method;
+  csub -:extends-> c;
+  csub:Class -e:Edge-> msub:Method;
+  
   independent {
-    b -- cc:C;
-  	if { cc.a=="foo"; }
+    // a complicated pattern to find out that m and msub have same signatures
+  }
+  independent {
+    // a complicated pattern to find out that msub is only using variables available in c
+  }
+  independent {
+    // a complicated pattern to find out that m is not used
   }
  
-  modify {
-    delete(b);
+  modify { // move method upwards
+    delete(m);
+    delete(e);
+    c --> msub;
   }
 }
   \end{grgen}
-
-In the example given, three nodes a,b,c of types A,B,C connected by undirected edges are searched, and if found, b gets deleted, but only if b is connected to a further node cc of type C, with its attribute a holding the string value "foo", as specified 
-by the independent; due to the independent cc might be identical with c, without the independent c and cc must be different nodes (isomorphy constraint). Only the nodes a,b,c could be deleted, the matched cc is declared in a nested scope unavailable to the outer scope.
-
 \end{example}
 
   
@@ -172,17 +196,20 @@ by the independent; due to the independent cc might be identical with c, without
   NestedBody: (PatternStatement+) NestedRewriting?;
 \end{rail}\ixkeyw{iterated}\ixkeyw{multiple}\ixkeyw{optional}
 
-The \indexmain{pattern cardinality} blocks allow to specify how often the nested pattern -- opening a scope -- is to be matched. Matching will be carried out eagerly, i.e. if the construct is not limiting the number of matches and a further match is possible it will be done. (The nested body will be explained in section \ref{sec:nestedrewrite}.)
+The \indexmain{pattern cardinality} blocks allow to specify how often the nested pattern -- opening a scope -- is to be matched.
+Matching will be carried out eagerly, i.e. if the construct is not limiting the number of matches and a further match is possible it will be done.
+(The nested body will be explained in section \ref{sec:nestedrewrite}.)
 
 \subsubsection*{The iterated block} 
-is matching the contained subpattern as often as possible, succeeding even in the case the contained pattern is not available (thus it will never fail). It was included in the language to allow for matching breadth-splitting structures, as in the graph representation of a blowball.
+is matching the contained subpattern as often as possible, succeeding even in the case the contained pattern is not available (thus it will never fail).
+It was included in the language to allow for matching breadth-splitting structures, as in capturing all methods of a class in a program graph.
 
 \begin{example}
   \begin{grgen}
-test Blowball {
-  root:Node --> head:HeadNode;
+test Methods {
+  c:Class;
   iterated {
-    head --> n:Node;
+    c --> m:Method;
   }  
 }
   \end{grgen}
@@ -193,10 +220,11 @@ is working like the iterated block, but expects the contained subpattern to be a
 
 \begin{example}
   \begin{grgen}
-test OneOrMoreEdges(src:Node, tgt:Node)
+test OneOrMoreMethods
 {
+  c:Class;
   multiple {
-    src --> tgt;
+    c --> m:Method;
   }
 }
   \end{grgen}
@@ -208,17 +236,13 @@ If the nested pattern is available, it will get matched, otherwise it won't; mat
 
 \begin{example}
   \begin{grgen}
-test foo {
-  n1:Node <--> n2:Node;
-  optional {
-    n1 -- n1;
-  }
-  optional {
-    n2 ?--? n2;
+test VariableMaybeInitialized {
+  v:Variable; // match variable
+  optional { // and an initialization with a different one if available
+    v <-- otherV:Variable;
   }
 }
   \end{grgen}
-The test matches two nodes connected by an directed edge of unspecified direction, and optionally an undirected reflexive edge on node 1, and optionally an arbitrarily directed edge on node 2, in case there are some.
 \end{example}
 
 \section{Alternative Patterns}
@@ -229,26 +253,27 @@ The test matches two nodes connected by an directed edge of unspecified directio
     'alternative' lbrace ((CaseName lbrace NestedBody rbrace)+()) rbrace;
 \end{rail}\ixkeyw{alternative}
 
-With the alternative block you can specify several nested alternative patterns. One of them must get matched for the matching of the alternative (and thus its directly nesting pattern) to succeed, and only one of them is matched per match of the alternative / overall pattern. The order of matching the alternative patterns is unspecified, especially it is not guaranteed that a case gets matched before the case textually following -- if you want to ensure that a case can not get matched if another case could be matched, you must explicitely prevent that from happening by adding negatives to the cases. In contrast to the iterated which locally matches everything available and inserts this combined match into the current match, the alternative decides for one case match which it inserts into the current match tree, ignoring other possible matches by other cases. 
+With the alternative block you can specify several nested alternative patterns. One of them must get matched for the matching of the alternative (and thus its directly nesting pattern) to succeed, and only one of them is matched per match of the alternative / overall pattern.
+The order of matching the alternative patterns is unspecified, especially it is not guaranteed that a case gets matched before the case textually following -- if you want to ensure that a case can not get matched if another case could be matched, you must explicitely prevent that from happening by adding negatives to the cases.
+In contrast to the iterated which locally matches everything available and inserts this combined match into the current match, the alternative decides for one case match which it inserts into the current match tree, ignoring other possible matches by other cases. 
 
 \begin{example}
   \begin{grgen}
-test t {
-  x:Node <-- y:Node;
-  alternative {
-    A {
-      x --> y;
-    }
-    B {
-      x --> z:Node;
-    }
-    C {
-      negative {
-        x --> ;
-      }
-    }
-  }
-}
+test feature(c:Class)
+{
+	alternative // a feature of the class is either
+	{
+		FeatureMethod { // a method
+			c --> :Method;
+		}
+		FeatureVariable { // or a variable
+			c --> :Variable;
+		}
+		FeatureConstant { // or a constant
+			c ---> :Constant;
+		}
+	}
+}  
   \end{grgen}
 \end{example}
 
@@ -542,7 +567,7 @@ pattern ChainFromToReverseToCommon(from:Node, to:Node) {
     base {
       from --> to;
 
-      replace(common:Node) {
+      replace {
         from <-- to;
         from --> common;
         to --> common;
@@ -552,7 +577,7 @@ pattern ChainFromToReverseToCommon(from:Node, to:Node) {
       from --> intermediate:Node;
       cftrtc:ChainFromToReverseToCommon(intermediate, to);
 
-      replace(common:Node) {
+      replace {
         from <-- intermediate;
         from --> common;
         cftrtc(common);
