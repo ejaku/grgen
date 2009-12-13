@@ -1,34 +1,41 @@
 \chapter{Types and Expressions}
 \label{typeexpr}
-In the following sections \emph{Ident} refers to an identifier of the graph model language (see Section~\ref{modelbb}) or the rule set language (see Section~\ref{rulebb}). \emph{TypeIdent} is an identifier of a node type or an edge type, \emph{NodeOrEdge} is an identifier of a node or an edge.
+%In the following sections \emph{Ident} refers to an identifier of the graph model language (see Section~\ref{modelbb}) or the rule set language (see Section~\ref{rulebb}).
+%\emph{TypeIdent} is an identifier of a node type or an edge type, \emph{NodeOrEdge} is an identifier of a node or an edge.
 
 \section{Built-In Types}
 \label{builtin}
-Besides user-defined node types, edge types, and enumeration types, \GrG\ supports the built-in \indexed{primitive types}\indexmainsee{built-in types}{primitive types} in Table~\ref{builtintypes}.
+Besides user-defined node types, edge types, and enumeration types (as introduced in chapter \ref{chapmodellang}), \GrG\ supports the built-in \indexed{primitive types}\indexmainsee{built-in types}{primitive types} in Table~\ref{builtintypes} and the built-in \indexed{generic types}\indexmainsee{built-in generic types}{generic types} in Table~\ref{builtingenerictypes}.
 The exact type format is \indexed{backend} specific. 
-The \indexed{LGSPBackend} maps the \GrG\ primitive types to the corresponding C\# primitive types.
+The \indexed{LGSPBackend} maps the \GrG\ primitive types to the corresponding C\# primitive types, and the generic types to generic C\#-Dictionaries of their corresponding primitive types (i.e. hashmaps), with \texttt{de.unika.ipd.grGen.libGr.SetValueType} as target type for sets, only used with the value \texttt{null}.
+
 \begin{table}[htbp]
-\begin{tabularx}{\linewidth}{|l|X|}\hline
+\begin{tabularx}{\linewidth}{|l|X|}
+	\hline
 	\texttt{\indexed{boolean}} & Covers the values \texttt{true} and \texttt{false} \\
 	\texttt{\indexed{int}} & A signed integer with at least 32 bits \\
 	\texttt{\indexed{float}}, \texttt{\indexed{double}} & A floating-point number with single precision or double precision respectively \\
 	\texttt{\indexed{string}} & A character sequence of arbitrary length\\
-	\texttt{\indexed{object}} & Contains a .NET object\\ \hline
+	\texttt{\indexed{object}} & Contains a .NET object\\ 
+	\hline
 \end{tabularx}
 \caption{\GrG\ built-in primitive types}
 \label{builtintypes}
 \end{table}
+
+\begin{table}[htbp]
+\begin{tabularx}{\linewidth}{|l|X|}
+	\hline
+	\texttt{\indexed{set}<T>} & A (mathematical) set of type \texttt{T}, where \texttt{T} may be an enumeration type or one of the primitive types from above \\
+	\texttt{\indexed{map}<S,T>} & A (mathematical) map from type \texttt{S} to type \texttt{T}, where \texttt{S} and \texttt{T} may be enumeration types or one of the primitive types from above \\
+	\hline
+\end{tabularx}
+\caption{\GrG\ built-in generic types}
+\label{builtingenerictypes}
+\end{table}
+
 Table~\ref{tabcasts} lists \GrG's implicit \indexed{type cast}s and the allowed explicit type casts.
 Of course you are free to express an implicit type cast by an explicit type cast as well as ``cast'' a type to itself.
-
-According to table~\ref{tabcasts} neither implicit nor explicit casts from {\tt int} to any \indexed{enum type} are allowed.
-This is because the range of an enum type is very sparse in general.
-For the same reason implicit and explicit casts between enum types are also forbidden.
-Thus, enum values can only be assigned to attributes having the same enum type.
-A cast of an enum value to a string value will return the declared name of the enum value.
-A cast of an object value to a string value will return ``null'' or it will call the \texttt{toString()} method of the .NET object.
-Be careful with assignments of objects: \GrG\ does not know your .NET type hierarchy and therefore it cannot check two objects for type compatibility.
-Objects of type object are not very useful for \GrG processing, but they can be used on the API level.
 
 \begin{table}[htbp]
   \centering
@@ -45,6 +52,15 @@ Objects of type object are not very useful for \GrG processing, but they can be 
   \caption{\GrG\ type casts}
   \label{tabcasts}
 \end{table}
+
+According to table~\ref{tabcasts} neither implicit nor explicit casts from {\tt int} to any \indexed{enum type} are allowed.
+This is because the range of an enum type is very sparse in general.
+For the same reason implicit and explicit casts between enum types are also forbidden.
+Thus, enum values can only be assigned to attributes having the same enum type.
+A cast of an enum value to a string value will return the declared name of the enum value.
+A cast of an object value to a string value will return ``null'' or it will call the \texttt{toString()} method of the .NET object.
+Be careful with assignments of objects: \GrG\ does not know your .NET type hierarchy and therefore it cannot check two objects for type compatibility.
+Objects of type object are not very useful for \GrG processing (and the im/exporters can't handle them), but they can be used on the API level.
 
 \begin{example}
   \begin{itemize}
@@ -63,19 +79,21 @@ Objects of type object are not very useful for \GrG processing, but they can be 
 	The reason is, that the range of an enum type is just defined in that context.
 \end{note}
 
-TODO: set/map
 
 \section{Expressions}
 
-%left to right, left associative?
+\GrG supports numerous operations on the entities of the types introduced above, which are organized into left associative expressions.
+In the following they will be explained with their semantics and relative priorities one type after another in the order of the rail diagram below.
 
-\label{expressions}
 \begin{rail}
   Expression: BoolExpr | RelationalExpr | IntExpr | FloatExpr | StringExpr | SetExpr | MapExpr | TypeExpr | PrimaryExpr;  
 \end{rail}\ixnterm{Expression}
 
 
 \section{Boolean Expressions}
+
+The boolean expressions combine boolean values with logical operations.
+They bind weaker than the relational expressions which bind weaker than the other expressions.
 
 \begin{rail}
   BoolExpr: ((() | '!') PrimaryExpr) | (BoolExpr '?' BoolExpr ':' BoolExpr) | (BoolExpr BinBoolOperator BoolExpr) | RelationalExpr;
@@ -98,7 +116,8 @@ The ternary \texttt{?}\ operator is a simple if-then-else: If the first \emph{Bo
 
 \section{Relational Expressions}
 
-They compare enitites of different kinds, mapping them to boolean.
+The relational expressions compare enitites of different kinds, mapping them to the type boolean.
+The bind stronger than the boolean expressions but weaker than all the other non-boolean expressions.
 
 \begin{rail}
  RelationalExpr: (Expression CompareOperator Expression)
@@ -175,6 +194,9 @@ the rule to remember is: types grow larger with extension/refinement. An example
 
 \section{Arithmetic and Bitwise Expressions}
 
+The arithmetic and bitwise expressions combinde integer and floating point values with the arithmetic operations usually available in programming languages
+and integer values with bitwise logical operations (interpreting integer values as bit-vectors).
+
 \begin{rail}
   IntExpr: ((() | '+' | '-' | tilde) PrimaryExpr) | (BoolExpr '?' IntExpr ':' IntExpr) | (IntExpr BinIntOperator IntExpr);
 \end{rail}\ixnterm{IntExpr}
@@ -211,10 +233,13 @@ The \emph{BinFloatOperator} is one of the operators in Table~\ref{tabfloatbinops
   \label{tabfloatbinops}
 \end{table}
 \begin{note}
-The \texttt{\%} operator on float values works analogous to the integer modulo operator. For instance \texttt{4.5 \% 2.3 == 2.2}.
+The \texttt{\%} operator on float values works analogous to the integer modulo operator.
+For instance \texttt{4.5 \% 2.3 == 2.2}.
 \end{note}
 
 \section{String Expressions}
+
+String expressions combine string values by string operations, with integer numbers used as helpers to denote positions in the strings (and giving the result of length counting).
 
 \begin{rail}
   StringExpr: PrimaryExpr (MethodSelector)? | StringExpr '+' StringExpr;
@@ -239,168 +264,89 @@ For \texttt{n.str == "foo bar foo"} the operations yield \\
 \texttt{n.str(4,3,"foo")=="foo foo foo"} \\
 \end{example}
 
-\section{Set and Map Expression}
 
-In addition to the already mentionen types \GrG~supports the types \texttt{set<K>} and \texttt{map<K,V>}, where \texttt{K} and \texttt{V} are of primitive or enumeration type.
-They represent mathematical sets and maps, no type casts are applicable, but there are several operations on them available. They are implemented by C\#-Dictionaries (i.e. Hashmaps).
-They were especially added to support uses in computer linguistics (and knowledge representation), where string dictionaries are needed, an area we think could profit considerably from using graph rewrite systems.
+\section{Set Expression}\label{sec:setexpr}
+
+Set expressions consist of the known mathematical set operations and size counting.
 
 \begin{rail} 
-  SetExpr: SetConstructor | PrimaryExpr (MethodSelector)? | SetExpr (backslash | ampersand | '|') SetExpr;
-\end{rail}\ixnterm{SetDecl}
+  SetExpr: Expr 'in' SetExpr | SetExpr (MethodSelector)? | SetExpr (backslash | ampersand | '|') SetExpr;
+\end{rail}\ixnterm{SetExpr}
 
-Operations on sets, forming expressions with sets
--Set union, intersection, difference as binary operators \verb#|,&,\#, e.g. 
-\begin{grgenlet}
-n.fancySet \ { "la","le","lu" };
-\end{grgenlet}
-taking two sets of equal types and returning a new, computed set.
-Priorities \verb#| < & < \# (higher priority binds stronger, so
-\verb#a&b\c|d == (a&(b\c))|d)#
--Set membership in, returning whether the set contains the given element, as boolean, e.g. \begin{grgenlet}
-42 in intSet
-\end{grgenlet}
-or
-\begin{grgenlet}
-m.boolValue = n.stringValue in { "foo", "bar" };
-\end{grgenlet}
+\begin{table}[htbp] 
+  \centering
+  %\begin{tabularx}{0.45\linewidth}{|ll|} \hline
+  \begin{tabular}[c]{|ll|} \hline
+    \begin{tabular}[c]{l} \verb#|# \end{tabular} & \begin{tabular}[c]{l}Set union (contained in resulting set as soon as contained in one of the sets)\end{tabular}\\ \hline
+    \begin{tabular}[c]{l} \verb#&# \end{tabular} & \begin{tabular}[c]{l}Set intersection (contained in resulting set only if contained in both of the sets)\end{tabular} \\ \hline
+    \begin{tabular}[c]{l} \verb#\# \end{tabular} & \begin{tabular}[c]{l}Set difference (contained in resulting set iff contained in left but not right set)\end{tabular} \\ \hline
+  \end{tabular}
+  \caption{Binary set operators, in ascending order of precedence}\indexmain{order of precedence}
+  \label{tabsetbinops}
+\end{table}
 
-Methods on sets
-.size() returns the number of elements in the set, as int
-e.g.
-\begin{grgenlet}
-n.fancySet.size()
-\end{grgenlet}
+The binary set operators require the left and right operands to be of identical type \verb#set<T>#.
+The operator \texttt{x in s} denotes set membership $x \in s$, returning whether the set contains the given element, as \texttt{boolean}.
+Furthermore there is one operations on sets available in method call notation (MethodSelector): 
 
-Parameters of set type, can be used to hand some set in.
-(The result of assigning to the input set is undefined.)
+\begin{description}
+\item[\texttt{.size()}] returns the number of elements in the set, as \texttt{int}
+\end{description}
+ 
+\begin{note}
+The declarative rule language comes without the imperative set \texttt{s.add(x)} or \texttt{s.rem(x)} methods known from the XGRS,
+to add a value to a set use set union with a single valued set constructor,
+to remove a value from a set use set difference with a single valued set constructor (for set constructors cf. \ref{sec:primexpr}).
 \begin{grgen}
-test bla(var varSet:set<int>) 
-{
-	n:SomeType;
-	if { n.foo in (varSet \ { n.a }); }
-}
+s | { "foo" }
+s \ { n.a }
 \end{grgen}
+Used in this way they get internally optimized to set addition and removal.
+\end{note}
 
-\begin{rail} 
-  SetConstructor: ('set' '<' Type '>')? \\ lbrace ( Expression*',' ) rbrace ;
-\end{rail}\ixnterm{SetConstructor}
+\section{Map Expression} \label{sec:mapexpr}
 
-Set constructors, analogous to set initializers, they represent a base set expression, e.g. 
-\begin{grgenlet}
-n.fancySet = { "foo", "bar" };
-\end{grgenlet}
-but in contrast to set initializers, they may contain non constant values, e.g. 
-\begin{grgenlet}
-n.fancySet = { n.strVal, m.strVal, n.strVal+m.strVal }
-\end{grgenlet}
-The values must be all of the same type, if you wish implicit type casts
-you have to prefix the set constructor by the set type, e.g.
-\begin{grgenlet}
-n.fancySet = set<string>{ 42, intVal, "fool" };
-\end{grgenlet}
-Set constructors create and return an anonymous set,
-to be written to an attribute or to be operated on by some of the following set operations:
+Map expressions consist of the known mathematical set operations extended to maps, plus map value lookup and size counting.
 
 \begin{rail}
-  MapDecl: MapConstructor | PrimaryExpr (MethodSelector)? | MapExpr (backslash | ampersand | '|') MapExpr;
-\end{rail}\ixnterm{MapDecl}
+  MapExpr: Expr 'in' MapExpr | MapExpr '[' Expr ']' | PrimaryExpr (MethodSelector)? | MapExpr (backslash | ampersand | '|') MapExpr;
+\end{rail}\ixnterm{MapExpr}
 
-Operations on maps, forming expressions with maps
--Map union, intersection, difference as binary operators
-\verb#|,&,\#
-e.g. 
-\begin{grgenlet} 
-n.fancyMap | { "la"->0,"le"->1,"lu"->2 };
-\end{grgenlet}
-taking two maps of equal types and returning a new, computed map.
-Priorities 
-\begin{grgenlet}
-| < & < \
-\end{grgenlet}
-(higher priority binds stronger, so
-\verb#a&b\c|d == (a&(b\c))|d)#
+\begin{table}[htbp] 
+  \centering
+  %\begin{tabularx}{0.45\linewidth}{|ll|} \hline
+  \begin{tabular}[c]{|ll|} \hline
+    \begin{tabular}[c]{l} \verb#|# \end{tabular} & \begin{tabular}[c]{l}Map union: returns new map with elements which are in at least one of the maps,\\ with the value of map2 taking precedence\end{tabular}\\ \hline
+    \begin{tabular}[c]{l} \verb#&# \end{tabular} & \begin{tabular}[c]{l}Map intersection: returns new map with elements which are in both maps,\\ with the value of map2 taking precedence\end{tabular} \\ \hline
+    \begin{tabular}[c]{l} \verb#\# \end{tabular} & \begin{tabular}[c]{l}Map difference: returns new map with elements from map1\\ without the elements with a key contained in map2\end{tabular}\\ \hline
+  \end{tabular}
+  \caption{Binary map operators, in ascending order of precedence}\indexmain{order of precedence}
+  \label{tabmapbinops}
+\end{table}
 
-Semantics of \verb#|,&,\# on maps:
-\begin{grgenlet}
-map1 | map2
-\end{grgenlet}
- - new map with elements which are in at least one of the maps, with the value of map2 taking precedence
-\begin{grgenlet}
-map1 & map2
-\end{grgenlet}
-- new map with elements which are in both maps, with the value of map2 taking precedence
-\begin{grgenlet}
-map1 \ map2
-\end{grgenlet}
-- new map with elements from map1 without the elements with a key contained in map2
--Additionally, 
-\begin{grgenlet}
-map<K,V> \ set<K>
-\end{grgenlet}
-is allowed, e.g.
-\begin{grgenlet}
-m.fancyMap \ { "hui","buh" }
-\end{grgenlet} 
-or 
-\begin{grgenlet}
-m.fancyMap = m.fancyMap \ n.fancySet 
-\end{grgenlet}
--Map membership in, returning whether the map domain contains the given element, as boolean, e.g. 
-\begin{grgenlet}
-42 in intMap
-\end{grgenlet}  
-or  
-\begin{grgenlet}
-m.boolValue = n.stringValue in { "foo"->0, "bar"->1 };
-\end{grgenlet}
--Map access 
-\begin{grgenlet}
-map[key]
-\end{grgenlet}
-returning value in map saved under key (value in range mapped to by given key from domain), e.g.
-\begin{grgenlet}
-n.intVal = m.fancyMap["bla"] + 42;
-\end{grgenlet}
+The binary map operators require the left and right operands to be of identical type \verb#map<S,T>#,
+with one exception for map difference, this operator accepts for a left operand of type \verb#map<S,T># a right operand of type \verb#set<T>#, too.
+The operator \texttt{x in s} denotes map domain membership $x \in dom(s)$, returning whether the domain of the set contains the given element, as \texttt{boolean}.
+The operator \texttt{m[x]} denotes map lookup, i.e. it returns the value \texttt{y} which is stored in the map \texttt{m} for the value \texttt{x} (domain value \texttt{x} is mapped by the mapping \texttt{m} to range value \texttt{y}). The value \texttt{x} \emph{must} be in the map, i.e. \texttt{x in m} must hold.
+There are several operations on maps available in method call notation (MethodSelector), these are:
 
-Methods on maps
 \begin{description}
-  \item[.size()] returns the number of elements in the map, as \texttt{int}
- e.g. \texttt{n.fancyMap.size()}
-  \item[.domain()] returns the set of elements in the domain of the map
- e.g. \texttt{n.fancyMap.domain()}, result \verb#set<K>#
-  \item[.range()] returns the set of elements in the range of the map
- e.g. \texttt{n.fancyMap.range()}, result \verb#set<V>#
+\item[\texttt{.size()}] returns the number of elements in the map, as \texttt{int}
+\item[\texttt{.domain()}] returns the set of elements in the domain of the map, as \verb#set<S># for \verb#map<S,T>#
+\item[\texttt{.range()}] returns the set of elements in the range of the map, as \verb#set<T># for \verb#map<S,T>#
 \end{description}
 
-Parameters of map type, can be used to hand some map in.
-(The result of assigning to the input map is undefined.)
+\begin{note}
+The declarative rule language comes without the imperative map \texttt{m.add(x,y)} or \texttt{m.rem(x)} methods known from the XGRS,
+and \emph{without} a mapping assignment operator \texttt{m[x]=y}, map lookup returns only a RHS value.
+To add a key,value-pair to a map use map union with a single valued map constructor,
+to remove a value from a map use map difference with a single valued set or map constructor (for map constructors cf. \ref{sec:primexpr}).
 \begin{grgen}
-test bla(var varMap:map<int,int>) 
-{
-	n:SomeType;
-	if {  varMap[n.foo]==42; }
-}
+m | { "foo" -> 42 }
+m \ { n.a -> n.b } or m \ { n.a } 
 \end{grgen}
-
-\begin{rail}
-  MapConstructor: ('map' '<' Type ',' Type '>')? \\ lbrace ( (Expression '->' Expression)*',' ) rbrace ;
-\end{rail}\ixnterm{MapDecl}
-
-Map constructors, analogous to map initializers, they represent a base map expression, e.g. 
-\begin{grgenlet}
-n.fancyMap = { "foo"->0, "bar"->1 };
-\end{grgenlet}
-but in contrast to map initializers, they may contain non constant values, e.g.
-\begin{grgenlet}
-n.fancyMap = { n.strVal->m.intVal, m.strVal->n.intVal, (n.strVal+m.strVal)->(m.intVal+n.intVal) } 
-\end{grgenlet}
-The values must be all of the same type, if you wish implicit type casts 
-you have to prefix the map constructor by the map type, e.g.
-\begin{grgenlet}
-n.fancyMap = map<string,int>{ 42->42, intVal->strVal, "fool"->42 };
-\end{grgenlet}
-Map constructors create and return an anonymous map, to be written to an attribute or to be operated on by some of the following map operations:
+Used in this way they get internally optimized to map addition and removal.
+\end{note}
 
 
 \section{Type Expressions}\indexmain{type expression}
@@ -436,20 +382,99 @@ The type expression \texttt{typeof(x)} stands for the type of the host graph ele
 
 
 
-\section{Primary expressions}
+\section{Primary expressions}\label{sec:primexpr}
 
 After we've seen the all the ways to combine expressions, finally we'll have a look at the atoms the expressions are built of.
 
 \begin{rail} 
-  PrimaryExpr: '(' ('int' | 'float' | 'double' | 'string') ')' PrimaryExpr | '(' Expression ')' | (NodeOrEdge '.' Ident) | (EnumType '::' Ident) | ObjectIdent | Constant | 'visited' '(' NodeOrEdge (',' FlagNumber)? ')' | 'nameof' '(' NodeOrEdge? ')';
-  Constant: Number | HexNumber | QuotedText | 'true' | 'false' | 'null';
-\end{rail}\ixnterm{PrimaryExpr}\ixnterm{Constant}
-\begin{description}
-  \item[Number] Is an \texttt{int}, \texttt{float}, or \texttt{double} constant in decimal notation.
-  \item[HexNumber] Is an \texttt{int} constant in hexadecimal notation starting with \texttt{0x}.
-  \item[QuotedText] Is a string constant. It consists of a sequence of characters, enclosed by double quotes.
-\end{description}
+  PrimaryExpr: CastExpr | MemberAccess | VarIdent | 'visited' '(' NodeOrEdge (',' FlagNumber)? ')' | 'nameof' '(' NodeOrEdge? ')' | '(' Expression ')';
+\end{rail}\ixnterm{PrimaryExpr}
 
 The \texttt{visited} query returns the status of the \indexed{visited flag} of the given number for the given graph element as \texttt{boolean}.
-If no flag number is given, the default number for the first visited flag of 0 is used. The visited flags are written in the assignments of the eval statements.
-The \texttt{nameof} query returns the name of the given graph element as \texttt{string}. If no graph element is given, the name of the graph is returned.
+If no flag number is given, the default number for the first visited flag of 0 is used. 
+The visited flags are written in the assignments of the eval statements (see \ref{Assignment}).
+Make sure to allocate\ref{allocvisitflag}/\ref{apiallocvisitflag} visited flags before you try to use them 
+(and deallocate them afterwards, as they are a sparse resource stored in some excess bits of the graph elements, or in some dictionary if the needed number of flags exceeds the number of available bits per graph element.)
+
+The \texttt{nameof} query returns the name of the given graph element as \texttt{string}; 
+graphs elements at the API level bear no name, the operator can only be used with Shell-graphs.
+If no graph element is given, the name of the graph is returned.
+
+\begin{rail} 
+  CastExpr: '(' ('int' | 'float' | 'double' | 'string') ')' PrimaryExpr;
+  MemberAccess: (NodeOrEdge '.' Ident);
+\end{rail}
+
+The cast expression returns the original value casted to the new prefixed type.
+The member access \texttt{n.a} returns the value of the attribute \texttt{a} of the graph element \texttt{n}.
+
+\begin{rail} 
+  Literal: Constant | SetConstructor | MapConstructor;
+  Constant: EnumLit | Number | HexNum | DoubleNum | FloatNum | QuotedText | BoolLit | NullLit;
+\end{rail}\ixnterm{Constant}
+
+The Constants are:
+\begin{description}
+  \item[EnumLit] Is the value of an enum type, given in notation \texttt{EnumType '::' EnumValue}.
+  \item[Number] Is an \texttt{int} number in decimal notation without decimal point.
+  \item[HexNum] Is an \texttt{int} number in hexadecimal notation starting with \texttt{0x}.
+  \item[DoubleNum] Is a \texttt{double} number in decimal notation with decimal point, maybe postfixed with \texttt{d}.
+  \item[FloatNum] Is a \texttt{float} number in decimal notation with decimal point, postfixed with \texttt{f}.
+  \item[QuotedText] Is a string constant. It consists of a sequence of characters, enclosed by double quotes.
+  \item[BoolLit] Is a constant of boolean type, i.e. one of the literals \texttt{true} or \texttt{false}.
+  \item[NullLit] Is the one constant of object type, the literal \texttt{null}.
+\end{description}
+
+\begin{rail} 
+  SetConstructor: ('set' '<' Type '>')? \\ lbrace ( Expression*',' ) rbrace ;
+  MapConstructor: ('map' '<' Type ',' Type '>')? \\ lbrace ( (Expression '->' Expression)*',' ) rbrace ;
+\end{rail}\ixnterm{SetConstructor}\ixnterm{MapDecl}
+
+The set/map constructors are constant if only primitive type literals, enum literals, or constant expressions are used; 
+this is required for set/map initializations in the model.
+They are non-constant if they contain member accesses, which is the common case if used in rules.
+If the type of the set/map is given before the constructor, the elements given in the type constructor are casted to the specified member types if needed and possible.
+Without the type prefix all elements given in the constructor must be of the same type.
+
+\begin{example}
+Some examples of literals:
+\begin{grgen}
+Apple::ToffeeApple // an enum literal
+42 // an integer number in decimal notation
+0xdeadbeef // an integer number in hexadecimal notation
+3.14159 // a double number
+3.14159f // a float number
+"ve rule and 0wn ze vorld" // a text literal
+true // a bool literal
+null // the object literal
+{ "foo", "bar" } // a constant set<string> constructor
+map<string,int>{ (n.strVal+m.strVal)->(m.intVal+n.intVal), intVal->strVal, "fool"->42 } // a non-constant map constructor with type prefix
+\end{grgen}
+\end{example}
+
+
+\section{Operator Priorities}
+
+The priorities of all available operators are shown in ascending order in the table below, the dots mark the positions of the operands, the commas separate the operators available on the respective priority level.
+
+\begin{table}[htbp] 
+  \centering
+  \begin{tabular}[c]{|ll|} \hline
+    \begin{tabular}[c]{l} 01 \end{tabular} & \begin{tabular}[c]{l} \verb#. ? . : .# \end{tabular}\\ \hline
+    \begin{tabular}[c]{l} 02 \end{tabular} & \begin{tabular}[c]{l} \verb#. || .# \end{tabular}\\ \hline
+    \begin{tabular}[c]{l} 03 \end{tabular} & \begin{tabular}[c]{l} \verb#. && .# \end{tabular}\\ \hline
+    \begin{tabular}[c]{l} 04 \end{tabular} & \begin{tabular}[c]{l} \verb#. | .# \end{tabular}\\ \hline
+    \begin{tabular}[c]{l} 05 \end{tabular} & \begin{tabular}[c]{l} \verb#. ^ .# \end{tabular}\\ \hline
+    \begin{tabular}[c]{l} 06 \end{tabular} & \begin{tabular}[c]{l} \verb#. & .# \end{tabular}\\ \hline
+    \begin{tabular}[c]{l} 07 \end{tabular} & \begin{tabular}[c]{l} \verb#. \ .# \end{tabular}\\ \hline
+    \begin{tabular}[c]{l} 08 \end{tabular} & \begin{tabular}[c]{l} \verb#. ==,!= .# \end{tabular}\\ \hline
+    \begin{tabular}[c]{l} 09 \end{tabular} & \begin{tabular}[c]{l} \verb#. <,<=,>,>=,in .# \end{tabular}\\ \hline
+    \begin{tabular}[c]{l} 10 \end{tabular} & \begin{tabular}[c]{l} \verb#. <<,>>,>>> .# \end{tabular}\\ \hline
+    \begin{tabular}[c]{l} 11 \end{tabular} & \begin{tabular}[c]{l} \verb#. +,- .# \end{tabular}\\ \hline
+    \begin{tabular}[c]{l} 12 \end{tabular} & \begin{tabular}[c]{l} \verb#. *,\%,/ .# \end{tabular}\\ \hline
+    \begin{tabular}[c]{l} 13 \end{tabular} & \begin{tabular}[c]{l} \verb#~,!,-,+ .# \end{tabular}\\ \hline
+  \end{tabular}
+  \caption{All operators, in ascending order of precedence}\indexmain{order of precedence}
+  \label{tabopprios}
+\end{table}
+

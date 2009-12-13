@@ -1,7 +1,8 @@
 \chapter{Rule application language}\indexmain{rule application language}
 \label{cha:xgrs}
 
-Graph rewrite sequences (GRS)\indexmain{graph rewrite sequence} (or extended graph rewrite sequences XGRS, to distinguish them from the older graph rewrite sequences) are a domain specific \GrG language used for controlling the application of graph rewrite rules. They may be used
+Graph rewrite sequences (GRS)\indexmain{graph rewrite sequence}, better extended graph rewrite sequences XGRS, to distinguish them from the older graph rewrite sequences, are a domain specific \GrG~language used for controlling the application of graph rewrite rules. 
+They may be used
 \begin{itemize}
 \item as an imperative enhancement to the rule set language.
 \item for controlled rule application within the GrShell
@@ -12,20 +13,18 @@ If they appear in rules, they get compiled, otherwise they get interpreted.
 Iff used within GrShell, they are amenable to debugging.
 
 Graph rewrite sequences are syntactically expressed as expressions similar to boolean and regular expressions.
-Composing an expression out of single graph rewrite rules not only yields more complex host graph operations but also determines sort of a control flow by means of evaluation order of the operands.
+Composing an expression out of single graph rewrite rules not only yields more complex host graph operations but also determines control flow by means of evaluation order of the operands.
 Graph rewrite sequences have a boolean return value; for a single rule, \texttt{true} means the rule was successfully applied to the host graph.
 A \texttt{false} return value means that the pattern was not found in the host graph.
-Graph rewrite sequences can be processed \indexed{transaction}ally by using angle brackets (\texttt{<>}).
-If the return value is \texttt{false}, all the related operations on the host graph will be rolled back.
-Nested transactions\indexmainsee{nested transaction}{transaction} are supported.
 
 In order to store return values of rewrite terms and to pass return values of rules to other rules, \emph{variables} can be defined.
 A variable is an arbitrary identifier which is defined by assigning a graph element, a boolean value, or another variable to it.
-You may use named graph elements of the enclosing rule as read-only variables.
-A parameter is alive from its first assignment until the end of the enclosing \texttt{exec} statement.
+
+If used in some rule, i.e. within an \texttt{exec}, named graph elements of the enclosing rule are available as read-only variables.
+A variable is alive from its first assignment on; if used within an \texttt{exec} it is alive until the end of the \texttt{exec} statement.
 
 Note that we have two kinds of return values in graph rewrite sequences.
-Every rewrite term returns a boolean value, indicating whether the rewriting could be successfully processed.
+Every rewrite term returns a boolean value, indicating whether the rewriting could be successfully processed, i.e. denoting success or failure.
 Additionally rules may return graph elements.
 These return values can be assigned to variables on the fly (see example \ref{ex:grsreturn}).
 \begin{figure}[htbp]
@@ -53,37 +52,41 @@ a = ((b,c) = R(x,y,z))
 	;
 \end{rail}\ixnterm{RewriteSequence}
 
-A graph rewrite sequence consists of several, logically linked rewrite terms.
-The modifier \texttt{\$} flags the following operator to act commutative: Usually operands are executed / evaluated from left to right with respect to bracketing (left-\indexed{associative}). 
+A graph rewrite sequence consists of several rewrite terms linked by operators.
+Table \ref{tbl:sequ:op} gives the priorities and semantics of the operators, priorities in ascending order.
+The modifier \texttt{\$} flags the following operator to randomly execute the left or the right operand first; usually operands are executed / evaluated from left to right if not altered by bracketing (left-\indexed{associative}). 
 In contrast the sequences \texttt{s}, \texttt{t}, \texttt{u} in \texttt{s \$<op> t \$<op> u} are executed / evaluated in arbitrary order.
-The following table gives the priorities and semantics of the operators, the more to the top the higher the priority;
-Then-Left and Then-Right are of the same priority, their execution order can't be altered by the \$ operator prefix.
+Then-Left and Then-Right are of the same priority and their execution order can't be altered by the \$ operator prefix.
 
 \begin{table}[htbp]
     \begin{tabularx}{\linewidth}{l|X}
         \bf Operator & \bf Meaning \\\hline\hline
-        \verb/!s/ & Negation, evaluates \texttt{s} and returns its logical negation\\\hline
-        \verb/s1 & s2/ & Strict And, evaluates \texttt{s1} then \texttt{s2}, the result is the logical conjunction\\\hline
-        \verb/s1 ^ s2/ & Strict Xor, evaluates \texttt{s1} then \texttt{s2}, the result is the logical antivalence\\\hline
-        \verb/s1 | s2/ & Strict Or, evaluates \texttt{s1} then \texttt{s2}, the result is the logical disjunction\\\hline
-        \verb/s1 && s2/ & Lazy And, the result is the logical conjunction, evaluates \texttt{s1}, only if \texttt{s1} is true \texttt{s2} gets evaluated\\\hline
-        \verb/s1 || s2/ & Lazy Or, the result is the logical disjunction, evaluates \texttt{s1}, only if \texttt{s1} is false \texttt{s2} gets evaluated\\\hline
         \verb/s1 <; s2/ & Then-Left, evaluates \texttt{s1} then \texttt{s2} and returns the result of \texttt{s1}\\
 		\verb/s1 ;> s2/ & Then-Right, evaluates \texttt{s1} then \texttt{s2} and returns the result of \texttt{s2}\\\hline
-    \end{tabularx}    
+        \verb/s1 || s2/ & Lazy Or, the result is the logical disjunction, evaluates \texttt{s1}, only if \texttt{s1} is false \texttt{s2} gets evaluated\\\hline
+        \verb/s1 && s2/ & Lazy And, the result is the logical conjunction, evaluates \texttt{s1}, only if \texttt{s1} is true \texttt{s2} gets evaluated\\\hline
+        \verb/s1 | s2/ & Strict Or, evaluates \texttt{s1} then \texttt{s2}, the result is the logical disjunction\\\hline
+        \verb/s1 ^ s2/ & Strict Xor, evaluates \texttt{s1} then \texttt{s2}, the result is the logical antivalence\\\hline
+        \verb/s1 & s2/ & Strict And, evaluates \texttt{s1} then \texttt{s2}, the result is the logical conjunction\\\hline
+        \verb/!s/ & Negation, evaluates \texttt{s} and returns its logical negation\\\hline
+	\end{tabularx}    
     \caption{Semantics and priorities of rewrite sequence operators}
     \label{tbl:sequ:op}
 \end{table}
+
+\section{Rewrite term}
 
 \begin{rail}
   RewriteTerm: 
     (RewriteFactor (() | ('*' | '+' | '[' Number ']' | '[' Number ':' ( Number | '*' ) ']')));
 \end{rail}\ixnterm{RewriteTerm}
 
-A rewrite term can be executed multiple times: The star (\texttt{*}) executes a sequence repeatedly as long as its execution does not fail. 
+A rewrite term consists of a rewrite factor which can be executed multiple times.
+The star (\texttt{*}) executes a sequence repeatedly as long as its execution does not fail. 
 Such a sequence always returns \texttt{true}.
 A sequence \verb#s+# is equivalent to \verb#s && s*#.
-The brackets (\texttt{[m]}) execute a sequence repeatedly as long as its execution does not fail but \emph{m} times at most; the min-max-brackets (\texttt{[n:m]}) additionally fail if the minimum amount \emph{n} of iterations was not reached.
+The brackets (\texttt{[m]}) execute a sequence repeatedly as long as its execution does not fail but \emph{m} times at most;
+the min-max-brackets (\texttt{[n:m]}) additionally fail if the minimum amount \emph{n} of iterations was not reached.
 
 \section{Rewrite factor}
 
@@ -97,8 +100,15 @@ The brackets (\texttt{[m]}) execute a sequence repeatedly as long as its executi
     '(' RewriteSequence ')' |
     BoolLiteral;
 \end{rail}\ixnterm{RewriteFactor}\ixkeyw{def}\ixkeyw{true}\ixkeyw{false}\indexmain{\texttt{<>}}
+
 Rewrite factors are the building blocks of graph rewrite sequences.
-They either act as a rule application or assign a value to a variable.
+They mainly act as a rule application or variable assignment.
+In addition, they comprise the condition execution statement \texttt{if}, which executes the condition xgrs, and if it yielded true executes the true case xgrs, otherwise the false case xgrs.
+The sequence \verb#if{Condition;TrueCase}# is equivalent to \verb#if{Condition;TrueCase;true}#, thus giving a lazy implication.
+Graph rewrite sequences can be processed \indexed{transaction}ally by using angle brackets (\texttt{<>}).
+If the return value is \texttt{false}, all the related operations on the host graph will be rolled back.
+Nested transactions\indexmainsee{nested transaction}{transaction} are supported.
+Forcing execution orders can be achives by parentheses, an boolean literal \texttt{true}/\texttt{false} comes in handy if a sequence is to be evaluated but its result must be a predefined value.
 
 \begin{rail}    
   RuleExecution: (() | '(' (Variable+',') ')' '=') \\ (() | percent) (() | '?') ( (dollar ( Number | ()) | ()) '[' Rule ']' | Rule);   
@@ -109,8 +119,16 @@ In case of a rule, the first found pattern match will be rewritten.
 Variables and named graph elements from the enclosing rule can be passed.
 The returned graph elements can be assigned to variables again.
 The operator \texttt{?} switches the rule to a test, i.e.\ the rule application does not perform the rewrite part of the rule but only tests if a match exists.
-The operator \texttt{\%} is a multi-purpose flag. In the \GrShell\ (see chapter \ref{chapgrshell}) it dumps the matched graph elements to \texttt{stdout}; in \texttt{debug}-mode (see section \ref{sct:debugger}) it acts as a \indexed{break point}; you are also able to use this flag for your own purposes, when using \GrG\ via its API interface (see section \ref{sct:API}).
-The sqare braces (\texttt{[]}) introduce a special kind of multiple rule application: Every pattern match produced by the will be rewritten. \textbf{Be careful:} Its semantics is not equal to \texttt{Rule*}. Instead this operator collects all the matches first before starting rewritings. In particular the semantics is unsafe, i.e.\ one needs to avoid deleting a graph element that is bound by another match. If \emph{Rule} returns values, the values of \emph{one} of the executed rules will be returned.
+The operator \texttt{\%} is a multi-purpose flag. 
+In the \GrShell\ (see chapter \ref{chapgrshell}) it dumps the matched graph elements to \texttt{stdout};
+in \texttt{debug}-mode (see section \ref{sct:debugger}) it acts as a \indexed{break point};
+you are also able to use this flag for your own purposes, when using \GrG\ via its API interface (see section \ref{sct:API}).
+The sqare braces (\texttt{[]}) introduce a special kind of multiple rule application:
+Every pattern match produced by the will be rewritten.
+\textbf{Be careful:} Its semantics is not equal to \texttt{Rule*}.
+Instead this operator collects all the matches first before starting rewritings.
+In particular the semantics is unsafe, i.e.\ one needs to avoid deleting a graph element that is bound by another match.
+If \emph{Rule} returns values, the values of \emph{one} of the executed rules will be returned.
 The random-match-selector \texttt{\$n} searches for all matches and then randomly selects \texttt{n} of them to be rewritten, with \texttt{\$[r1]} being equivalent to \texttt{\$1[r1]}.
 
 \begin{rail}
@@ -128,22 +146,18 @@ The random-match-selector \texttt{\$n} searches for all matches and then randoml
 \end{rail}\ixnterm{VarAssignment}\ixnterm{Variable}\makeatother
 Variables can hold graph elements, or values of attribute types, esp. boolean values.
 Graph elments are initially assigned by the \emph{RuleExecution} statement.
-A \emph{VarAssignment} rewrite term ist always true.
-A variable in the \emph{Variable} term must contain a boolean value, accordingly.
+A \emph{VarAssignment} rewrite factor ist always true.
+A variable in the \emph{Variable} factor must contain a boolean value, accordingly.
 A \texttt{def} term is successful if all the the variables are defined.
-
-TODO: literal irgendwo definiert?
 
  
 \section{Storages}
 
-Storages are Set of Node / Edge 
-- in contrast to the set/map in models and rules where S/T can only be primitive types or enums,
- S/T may be of node/edge typ. This is not only a may be, but this is their primary task:
- acting as sets/maps of nodes/edges, storing them and allowing iteration over them,
- giving storages/storagemaps (names chosen to resemble the storages of VMTS where this concepts originats from)
-
- The already known, now with set/map types, which are ... .
+Storages are variables of set or map type used in the sequences;
+in contrast to the sets in the graph model and rewrite rules, their elements can be of node or edge type. 
+Storing nodes and edges is in fact their primary usage. 
+They allow to decouple processing phases: the first run collects all graph elements relevant for the second run which consists of a sequence executed for each graph element in the set.
+A further difference to the sets and maps in the rewrite rules is that they only offer imperative addition and removal instead of union, intersection, difference and construction.
  
 \begin{rail}
   VariableHandling: 
@@ -151,42 +165,64 @@ Storages are Set of Node / Edge
     SetVariable '.' ( 'add' '(' Value ')' | 'rem' '(' Value ')' | 'clear' '(' ')' ) |
     MapVariable '.' ( 'add' '(' Key ',' Value ')' | 'rem' '(' Key ')' | 'clear' '(' ')' ) |
 	Variable '.' Attribute '=' Variable |
+	Varible 'in' SetMapVariable |
 	Variable '=' MapVariable '[' Variable ']'
+    ;
+  SetMapTypeDecl: 
+    ':' ('set' '<' Type '>' | 'map' '<' KeyType ',' ValueType '>')
     ;
 \end{rail}\ixnterm{VarAssignment}\ixnterm{Variable}\makeatother
 
 \begin{rail}
-  SetMapTypeDecl: 
-    ':' ('set' '<' Type '>' | 'map' '<' KeyType ',' ValueType '>')
-    ;
   RHS:
-    'set' '<' Type '>' |
-    'map' '<' KeyType ',' ValueType '>' |
+    SetMapCreation |
 	Variable |
 	Variable '.' Attribute |
     SetVariable '.' ( size '(' ')' | empty '(' ')' ) |
     MapVariable '.' ( size '(' ')' | empty '(' ')' )
     ;
+  SetMapCreation:
+	'set' '<' Type '>' |
+    'map' '<' KeyType ',' ValueType '>' 
+	;
 \end{rail}\ixnterm{VarAssignment}\ixnterm{Variable}\makeatother
 
-Set addition: adds value to the set, e.g. n.add("foo")
-Set removal: removes value from set, e.g. n.remove("bar")
-Set clearing: removes all value from the set
+In the interpreted sequences, variables can be declared to be of set/map type;
+in the compiled sequences, they must be declared to be of set/map type (all variables must be declared in the compiled sequences).
+Both types of sequences require a set/map to be created and assigned to a variable before it can be used.
 
-Map addition: adds pair (key,value) to map, e.g. n.add("foo" ',' 42)
-Map removal: removes pair (key,*) from map, e.g. n.remove("bar")
-Map clearing: removes all key-value-pairs from the map
+\begin{example}
+\begin{grgen}
+x=set<NodeTypeA>
+y:map<Node,Edge> = map<Node,Edge>
+\end{grgen}
+The first line declares or references a variable \texttt{x} (without static type) and assigns the newly created, empty set of type \texttt{set<NodeTypeA>} to it as value.
+The second line declares a variable \texttt{y} of type \texttt{map<Node,Edge>} and assigns the newly created, empty map of the same type to it as value.
+\end{example}
 
-Assigns to a variable, of declared set type (optional in interpreted, requires in compiled XGRS).
-Assigns to a variable, of declared map type (optional in interpreted, required in compiled XGRS).
-Set assignment, writes the number of set entries to the variable, e.g. n.size().
-Map size assigment, writes the number of map entries to the variable, e.g. x=n.size().
+\noindent There are several operations on set variables available in method call notation, these are:
 
-- set/map membership query el in sm succeeding iff el is contained in the set/map
-- map lookup assignment val=mp[el] assigning the result of a map lookup to a variable, 
-     succeeding iff el is contained in mp, otherwise failing, not touching the variable
-- set/map emptyness query result assignment se=sm.empty() assigning to the variable 
-     whether set/map is empty, always succeeding
+\begin{description}
+\item[Set addition:] \texttt{s.add(v)} adds the value \texttt{v} to the set \texttt{s}, succeeds always.
+\item[Set removal:] \texttt{s.rem(v)} removes the value \texttt{v} from the set \texttt{s}, succeeds always.
+\item[Set clearing:] \texttt{s.clear()} removes all values from the set \texttt{s}, succeeds always.
+\end{description}
+
+\noindent Very similar operations are available on map variables:
+
+\begin{description}
+\item[Map addition:] \texttt{m.add(k,v)} adds the pair (\texttt{k},\texttt{v}) to the map \texttt{m}, succeeds always.
+\item[Map removal:] \texttt{m.rem(k)} removes the pair (\texttt{k},unknown) from the map \texttt{m}, succeeds always.
+\item[Map clearing:] \texttt{m.clear()} removes all key-value-pairs from the map \texttt{m}, succeeds always.
+\end{description}
+
+\noindent There are further operations which are only available in variable assignments:
+
+\begin{description}
+\item[Size assignment:] \texttt{v=sm.size()} writes the number of entries in the set or map \texttt{sm} to the variable \texttt{v}, succeeds always.
+\item[Emptyness assignment:] \texttt{v=sm.empty()} writes to the variable \texttt{v} whether the set or map \texttt{sm} is empty,\\ succeeds always.
+\item[Map lookup assignemt:] \texttt{v=m[el]} assigns the result of the map lookup to the variable \texttt{v},\\succeeds iff \texttt{el} is contained in \texttt{m},\\ fails otherwise, not touching the variable \texttt{v}.
+\end{description}
 
 \begin{rail}
   RewriteFactor:
@@ -195,49 +231,73 @@ Map size assigment, writes the number of map entries to the variable, e.g. x=n.s
     'for' lbrace Var 'in' SetVar ';' RewriteSequence rbrace |
     'for' lbrace Var '->' Var 'in' MapVar ';' RewriteSequence rbrace
 \end{rail}
-The for command iterates over all elements in the set or all key-value pairs in the map and executes for each element / key-value pair the graph rewrite sequence; it completes successfully if all sequences executed were successful.
 
-Example:
-\verb#foreach n in x do (y)=foo(n) && u.insert(y) && foreach m in z do bar(m) || v.remove(m) od od && foreach n in x do (m)=n && (m)=foo(m)*#
+\noindent Handling of the storages is completed by the rewrite factors for membership query and storage iteration.
+The binary operator \texttt{el in sm} checks for set/map membership; it returns true if \texttt{el} is contained in the set or the domain of the map, otherwise false.
+The \texttt{for} command iterates over all elements in the set or all key-value pairs in the map and executes for each element / key-value pair the nested graph rewrite sequence; it completes successfully iff all sequences were executed successfully (an empty set/map causes immediate successful completion).
 
-\verb#x:map<Node,Edge> foreach n->e in x do (y,z)=foo(n,e) x.insert(y -> z) foreach n->e in x do bar(n,e) || x.remove(n)#
+\begin{example}
+The following XGRS is a typical storage usage.
+First an empty set \texttt{x} is created, which gets populated by an rule \texttt{t} executed iteratedly, returning a node which is written to the set.
+Then another rule is executed iteratedly for every member of the set doing the main work, and finally the set gets cleared to prevent memory leaks or later mistakes.
+If the graph should stay untouched during set filling you may need \texttt{visited} flags to prevent endless looping.
+\verb#x=set<Node> ;> ( (v)=t() && x.add(v) )+ && for{v in x; r(v)} <; x.clear()#
+\end{example}
+
+\begin{note}
+The set/map over which the for loop iterates must stay untouched during iteration.
+\end{example}
+
 
 \section{Quick reference table}
 
-Table~\ref{ruletab} lists operations of graph rewrite expressions at a glance.
+Table~\ref{ruletab} lists most of the operations of the graph rewrite expressions at a glance.
 
-\makeatletter
+%\makeatletter
 \begin{table}[htbp]
 \begin{minipage}{\linewidth} \renewcommand{\footnoterule}{} 
 \begin{tabularx}{\linewidth}{|lX|}
 \hline
-\texttt{s | t}		& First execute \texttt{s} afterwards execute \texttt{t}. The sequence \texttt{s | t} is successfully executed if \texttt{s} or \texttt{t} is successfully executed.\\
-\texttt{s || t}	& The same as \texttt{s | t} but with lazy evaluation, i.e.\ if \texttt{s} is successful, \texttt{t} will not be executed,\\
-\texttt{s \& t}	& First execute \texttt{s}, afterwards execute \texttt{t}. The sequence \texttt{s \& t} is successfully executed if \texttt{s} and \texttt{t} is successful.\\
-\texttt{s \&\& t}	& The same as \texttt{s \& t} but with lazy evaluation, i.e.\ if \texttt{s} fails, \texttt{t} will not be executed.\\
-\texttt{s \^\ t}	& First execute \texttt{s} afterwards execute \texttt{t}. The sequence \texttt{s \^\ t} is successfully executed if \texttt{s} is successful or \texttt{t} successfully but not both; i.e.\ this an XOR sequence.\\
+\texttt{s ;> t}		& Execute \texttt{s} then \texttt{t}. Success if \texttt{t} succeeded.\\
+\texttt{s <; t}		& Execute \texttt{s} then \texttt{t}. Success if \texttt{s} succeeded.\\
+\texttt{s | t}		& Execute \texttt{s} then \texttt{t}. Success if \texttt{s} or \texttt{t} succeeded.\\
+\texttt{s || t}	& The same as \texttt{s | t} but with lazy evaluation, i.e. if \texttt{s} is successful, \texttt{t} will not be executed,\\
+\texttt{s \& t}	& Execute \texttt{s} then \texttt{t}. Success if \texttt{s} and \texttt{t} succeeded.\\
+\texttt{s \&\& t}	& The same as \texttt{s \& t} but with lazy evaluation, i.e. if \texttt{s} fails, \texttt{t} will not be executed.\\
+\texttt{s \^\ t}	& Execute \texttt{s} then \texttt{t}. Success if \texttt{s} or \texttt{t} succeeded, but not both.\\
+\texttt{if\{r;s;t\}}	& Execute \texttt{r}. If \texttt{r} succeeded, execute \texttt{s} and return the result of \texttt{s}. Otherwise execute \texttt{t} and return the result of \texttt{t}.\\
+\texttt{if\{r;s\}}	& Same as \texttt{if\{r;s;true\}}\\
 \texttt{<s>}	& Execute \texttt{s} transactionally.\\
 \texttt{!s}		& Switch the result of \texttt{s} from successful to fail and vice versa.\\
-\texttt{\$<op>}	& Flag the operator \texttt{<op>} as commutative. \\
-\texttt{s *}		& Execute \texttt{s} repeatedly as long as its execution does not fail.\\
-\texttt{s +}		& Same as \texttt{s \&\& s *}.\\
-\texttt{s [n]}	& Execute \texttt{s} repeatedly as long as its execution does not fail but \texttt{n} times at most.\\
-\texttt{s [m:n]}	& Same as \texttt{s [n]} but fails if executed less than m times.\\
-\texttt{s [m:*]}	& Same as \texttt{s *} but fails if executed less than m times.\\
+\texttt{\$<op>}	& Use random instead of left-associative execution order for \texttt{<op>}. \\
+\texttt{s*}		& Execute \texttt{s} repeatedly as long as its execution does not fail.\\
+\texttt{s+}		& Same as \texttt{s \&\& s*}.\\
+\texttt{s[n]}	& Execute \texttt{s} repeatedly as long as its execution does not fail but \texttt{n} times at most.\\
+\texttt{s[m:n]}	& Same as \texttt{s[n]} but fails if executed less than m times.\\
+\texttt{s[m:*]}	& Same as \texttt{s*} but fails if executed less than m times.\\
 \texttt{?\emph{Rule}} & Switches \emph{Rule} to a test. \\
 \texttt{\%\emph{Rule}} & This is the multi-purpose flag when accessed from \LibGr. Also used for graph dumping and break points. \\
 \texttt{[\emph{Rule}]} & Rewrite every pattern match produced by the action \emph{Rule}.\\
 \texttt{def(\emph{Parameters})} & Check if all the variables are defined.\\
 \texttt{true}	& A constant acting as a successful match.\\
-\texttt{false}	& A constant acting as a failed match.\\ \hline
+\texttt{false}	& A constant acting as a failed match.\\
+\texttt{u=set<Node>}	& Create storage set and assign to \texttt{u}.\\
+\texttt{u.add(v)}	& Add \texttt{v} to storage set \texttt{u}.\\
+\texttt{u.rem(v)}	& Remove \texttt{v} from storage set \texttt{u}.\\
+\texttt{for\{v in u; t\}}	& Execute \texttt{t} for every \texttt{v} in storage set \texttt{u}. One \texttt{t} failing pins the execution result to failure.\\
+\texttt{u.clear()}	& Clears the storage set \texttt{u}.\\
+\texttt{v in u} & Membership query: succeeds if \texttt{v} is element of \texttt{u}, otherwise fails.\\
+\texttt{u=map<Node,Edge>}	& Create storage map and assign to \texttt{u}. Operations are the same or similar to the operations of storage sets.\\
+\texttt{v=u[w]}	& Assign target value of \texttt{w} in \texttt{u} to \texttt{v}. Fails if \texttt{!(w in u)}.\\
+\hline
 \end{tabularx}\indexmain{\texttt{\textasciicircum}}\indexmain{\texttt{\&\&}@\texttt{"|}}
 \indexmain{\texttt{\&}}\indexmain{\texttt{\$<op>}}\indexmain{\texttt{*}}\indexmain{\texttt{"!}}
 \end{minipage}\\
 \\ 
-{\small Let \texttt{s}, \texttt{t}, \texttt{u} be graph rewrite sequences, \texttt{v}, \texttt{w} variable identifiers, \texttt{<op>} $\in \{\texttt{|}, \texttt{||}, \texttt{\&}, \texttt{\&\&}\}$ and \texttt{n}, \texttt{m} $\in \N_0$.}
+{\small Let \texttt{r}, \texttt{s}, \texttt{t} be sequences, \texttt{u}, \texttt{v}, \texttt{w} variable identifiers, \texttt{<op>} $\in \{\texttt{|}, \texttt{\^}, \texttt{\&}, \texttt{||}, \texttt{\&\&}\}$ and \texttt{n}, \texttt{m} $\in \N_0$.}
 \caption{GRS expressions at a glance}
 \label{ruletab}
 \end{table}
-\makeatother
+%\makeatother
  
  

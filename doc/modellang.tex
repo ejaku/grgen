@@ -161,12 +161,19 @@ Defines a new \indexed{node type}. Node types can inherit\indexmain{inheritance}
   EdgeClass: 'edge' 'class' IdentDecl (() | 'extends' (EdgeType+',')) \\
     (() + ConnectAssertions) (';' | lbrace AttributeDeclarations rbrace);
 \end{rail}\ixkeyw{edge}\ixkeyw{class}\ixkeyw{extends}\ixnterm{EdgeClass}
-Defines a new \indexed{edge type}. Edge types can inherit\indexmain{inheritance} from other edge types defined within the same file. If the \texttt{extends} clause is omitted, \emph{EdgeType} will inherit from the built-in type \texttt{\indexed{Edge}}. Optionally edges can possess attributes. A \newterm{connection assertion} specifies that certain edge types should only connect specific nodes. Moreover, the number of outgoing and incoming edges can be constrained.
+Defines a new \indexed{edge type}.
+Edge types can inherit\indexmain{inheritance} from other edge types defined within the same file.
+If the \texttt{extends} clause is omitted, \emph{EdgeType} will inherit from the built-in type \texttt{\indexed{Edge}}.
+Optionally edges can possess attributes.
+A \newterm{connection assertion} specifies that certain edge types should only connect specific nodes.
+Moreover, the number of outgoing and incoming edges can be constrained.
 
 (see Section~\ref{sct:basetypes})
 
 \begin{note}
-It is not forbidden to create graphs that are invalid according to \indexed{connection assertion}s. \GrG\ just enables you to check, whether a graph is valid or not. See also Section~\ref{graphcommands}, \texttt{validate}.
+It is not forbidden to create graphs that are invalid according to \indexed{connection assertion}s.
+\GrG\ just enables you to check, whether a graph is valid or not.
+See also Section~\ref{graphcommands}, \texttt{validate}.
 \end{note}
 
 \begin{rail}  
@@ -193,6 +200,7 @@ Note that even though a connection assertion applies to the specified node types
 However, you are able to make use of the edge class hierarchy by using the keyword \texttt{inherited}.
 The \texttt{inherited} assertion ``imports'' the connection assertions of the \emph{direct} ancestors of the declaring edge.
 This is a purely syntactical simplification, i.\,e.\ the effect of using \texttt{inherited} is the same as copying connection assertions from direct ancestors by hand.
+TODO: reported to not work - make it work or remove it!
 %\begin{note}
 %	Connection assertions must be consistent according to the type hierarchy.
 %	That means---roughly spoken---the assertions for subtypes must get monotonously more restrictive or monotonously less restrictive.
@@ -221,14 +229,20 @@ This is a purely syntactical simplification, i.\,e.\ the effect of using \texttt
 
 \begin{rail}    
   AttributeDeclaration: 'const'? IdentDecl ':' AttributeType (() | '=' Expression) ';' | AttributeOverwrite ;
-  AttributeType: PrimitiveType | EnumType | SetType | MapType ; 
+  AttributeType: PrimitiveType | EnumType | GenericType; 
   AttributeOverwrite: Ident '=' Expression
 \end{rail}\ixnterm{AttributeDeclarations}\ixnterm{AttributeType}\ixnterm{AttributeOverwrite}
-Defines a node or edge \indexed{attribute}. Possible types are enumeration types (\texttt{enum}) and primitive types or set and map types. See Section~\ref{builtin} for a list of built-in primitive types. Optionally attributes may be initialized with a constant expression. The expression has to be of a compatible type of the declared attribute, of course. See chapter \ref{typeexpr} for the \GrG\ types and expressions reference. The \emph{AttributeOverwrite} clause lets you overwrite initialization values for attributes of super classes. The initialization values are evaluated in the order as they appear in the rule set file.
-\begin{example}
+Defines a node or edge \indexed{attribute}. Possible types are enumeration types (\texttt{enum}) and primitive types or generic types.
+See Section~\ref{builtin} for a list of built-in primitive and generic types.
+Optionally attributes may be initialized with a \emph{constant} expression.
+The expression has to be of a compatible type of the declared attribute.
+See chapter \ref{typeexpr} for the \GrG\ types and expressions reference.
+The \emph{AttributeOverwrite} clause lets you overwrite initialization values for attributes of super classes.
+The initialization values are evaluated in the order as they appear in the rule set file.
+\begin{noze}
 	The following attribute declarations are \emph{illegal} because of the order of evaluation of initialization values:
 	\begin{grgen}
 x:int = y;
 y:int = 42;	
 	\end{grgen}
-\end{example}
+\end{note}

@@ -308,7 +308,9 @@ For graph rewrite sequences in \GrShell\ see Section~\ref{grsthings}.
 \begin{rail}  
   ActionSignature: IdentDecl (() | Parameters) (() | ':' ReturnTypes) ;
 \end{rail}\ixnterm{ActionSignature}
-The \indexed{signature} sets the name of a rewrite rule to \emph{IdentDecl} and optionally names and types of formal \indexed{parameter}s as well as a list of \indexed{return type}s. Parameters and return types provide users with the ability to exchange graph elements between rules. This is similar to parameters of procedural languages.
+The \indexed{signature} sets the name of a rewrite rule to \emph{IdentDecl} and optionally names and types of formal \indexed{parameter}s as well as a list of \indexed{return type}s.
+Parameters and return types provide users with the ability to exchange graph elements between rules, similar to parameters of procedural languages.
+This way it is possible to specify \emph{where} a rule should be applied.
 
 \begin{rail}
   Parameters: '(' (Parameter * ',') ')' ;
@@ -316,14 +318,14 @@ The \indexed{signature} sets the name of a rewrite rule to \emph{IdentDecl} and 
   InputTypeSpecification: '<' (NodeEdgeType | 'null' | NodeEdgeType '+' 'null' | 'null' '+' NodeEdgeType ) '>' ;
 \end{rail}\ixnterm{Parameters}
 
-Within a rule, parameters are treated as graph elements of the pattern - just predefined.
-But in contrast to pervious versions it is the task of the user to ensure the elements handed in satisfy the interface, i.e. parameters must not be null and of the type specified or a subtype. 
-If you need more flexibilty and want to call the rule with parameters not fullfilling the interface you can append the type to accept at the interface to the type to accept as pattern element 
-- if the former is not satisfied, matching simply fails, if the latter is not satisfied, the interface of the rule is violated causing an exception.
-
-todo: Introduced "var" parameters and return values for basic types like int and string
-Old input parameters semantics - silently failing rule application on wrong type -
-now only available with syntax r(x:ExactType<InexactType>)
+Within a rule, graph element parameters are treated as graph elements of the pattern - just predefined.
+But in contrast to pervious versions it is the task of the user to ensure the elements handed in satisfy the interface, i.e. parameters must not be null and must be of the type specified or a subtype of the type specified. 
+If you need more flexibility and want to call the rule with parameters not fullfilling the interface you can append an input type specification to the relevant parameters, which consists of the type to accept at the action interface, or null, or both, enclosed in left and right angles. 
+If the input type specification type is given, but the more specific pattern element type is not satisfied, matching simply fails.
+If null is declared in the input type specification and given at runtime, the element is searched in the host graph.
+Don't use null parameters unless you need them, because every null parameter doubles the number of matcher routines which get generated.
+Non-graph element parameters must be prefixed by the \texttt{var}-keyword, VarType is one of the attribute types supported by \GrG (\ref{built-in-types}).
+Please not that the effect of assigning to a var parameter in \texttt{eval}\ref{eval} is undefined (concerning the parameters as well as the argument).
 
 \begin{figure}[htbp]
 \begin{example}
@@ -436,10 +438,29 @@ Keep in mind that using type constraints or the \texttt{typeof} operator might b
 
 
 \begin{rail}
-  ReturnStatement: 'return' '(' (Ident+',') ')' ';' ;
+  ReturnStatement: 'return' '(' ((Ident|Expression)+',') ')' ';' ;
 \end{rail}\ixkeyw{return}\ixnterm{ReturnStatement}
-\indexmain{return value}Returned graph elements must be given in the same order as defined by the return types in the signature (see Section~\ref{ruledecls}, \texttt{ActionSignature}).
-Their types must be compatible to the return types.
+\indexmain{return value}Returned graph elements (given by their name) and value entities (given by an expression computing them) must appear in the same order as defined by the return types in the signature (see Section~\ref{ruledecls}, \texttt{ActionSignature}).
+Their types must be compatible to the return types specified.
+
+\begin{note}
+If you are using a graph at the API level without shell-provided names accessible by the \texttt{nameof}-operator, you may want to number the graph elements for dumping like this:
+\begin{grgen}
+rule numberNode(var id:int) : (int)
+{
+  n:NodeWithIntId;
+  if { n.id == 0; }
+  
+  modify {
+    eval {
+      n.id = id;
+    }
+    return (id + 1);
+  }
+}
+\end{grgen}
+\end{note} 
+
 
 \section{Replace/Modify Part}\indexmain{replacement graph}
 \label{replacepart}
@@ -568,7 +589,8 @@ Assignment is carried out using \indexmain{value semantics}, even for entities o
 The only exception is the type \texttt{object}, there \indexmain{reference semantics} is used.
 The \texttt{visited} flag assignment sets the \texttt{boolean} status of the \indexed{visited flag} of the given number for the given graph element.
 If no flag number is given, the default number for the first visited flag of 0 is used.
-Make sure to allocate\ref{allocvisitflag}/\ref{apiallocvisitflag} visited flags before you try to use them (and deallocate them afterwards, as they are a sparse resource stored in some excess bits of the graph elements, or in some dictionary if the needed number of flags exceeds the number of available bits per graph element.)
+Make sure to allocate\ref{allocvisitflag}/\ref{apiallocvisitflag} visited flags before you try to use them 
+(and deallocate them afterwards, as they are a sparse resource stored in some excess bits of the graph elements, or in some dictionary if the needed number of flags exceeds the number of available bits per graph element.)
 
 \begin{example}
 \begin{grgen}
