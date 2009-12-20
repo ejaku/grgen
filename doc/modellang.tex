@@ -199,8 +199,8 @@ For arbitrary edges (edges not inheriting from \texttt{Edge} or \texttt{UEdge}),
 Note that even though a connection assertion applies to the specified node types \emph{including} their subtypes, subtypes of the declaring edge are not taken into account.
 However, you are able to make use of the edge class hierarchy by using the keyword \texttt{inherited}.
 The \texttt{inherited} assertion ``imports'' the connection assertions of the \emph{direct} ancestors of the declaring edge.
-This is a purely syntactical simplification, i.\,e.\ the effect of using \texttt{inherited} is the same as copying connection assertions from direct ancestors by hand.
-TODO: reported to not work - make it work or remove it!
+This is a purely syntactical simplification, i.\,e.\ the effect of using \texttt{inherited} is the same as copying connection assertions from direct ancestors by hand
+(Not implemented yet - must copy by hand - TODO!).
 %\begin{note}
 %	Connection assertions must be consistent according to the type hierarchy.
 %	That means---roughly spoken---the assertions for subtypes must get monotonously more restrictive or monotonously less restrictive.

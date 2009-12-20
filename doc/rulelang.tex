@@ -358,7 +358,7 @@ So if both parameters are not defined, \texttt{t4} is chosen, which succeeds as 
   ReturnTypes: '(' ((NodeType | EdgeType | VarType) + ',') ')' ;
 \end{rail}\ixnterm{ReturnTypes}
 The return types specify edge and node types of graph elements that are returned by the replace/modify part. If return types are specified, the \texttt{return} statement is mandatory. Otherwise no \texttt{return} statement must occur. See also Section~\ref{replacepart}, \texttt{return}.
-todo: Allow expressions as return arguments, Basis types.
+
 \begin{figure}[htbp]
 \begin{example}\label{ex:rule:someruleext}
 We extend \texttt{SomeRule} (Example~\ref{ex:rule:SomeRule}) with a user defined node to match and we want it to return the rewritten graph elements \texttt{n5} and \texttt{e1}.
@@ -761,7 +761,7 @@ Remember that we have several subtypes of \texttt{street}. By the aid of the \te
 
 
 \section{Retyping} \label{retyping}
-In addition to graph rewriting, \GrG allows graph relabeling, too; we prefer to call it retyping. 
+In addition to graph rewriting, \GrG allows graph relabeling\cite{Relabelling}, too; we prefer to call it retyping. 
 Nodes as well as edges may be retyped to a different type; attributes common to the initial and final type are kept.
 The target type does not need to be a subtype or supertype of the original type.
 Retyping is useful for rewriting a node but keeping its incident edges; without it you'd need to remember and restore those.

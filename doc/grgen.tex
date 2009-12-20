@@ -6,7 +6,7 @@
 \lstset{breaklines=true, breakautoindent=true, breakatwhitespace=true}
 
 \lstdefinelanguage{LANGgrgen}
-{morekeywords={actions,using,rule,test,pattern,replace,if,eval,negative,node,edge,path,graph,modify,delete,class,model,connect,extends,enum,abstract,const,exec,emit},
+{morekeywords={actions,using,rule,test,pattern,replace,if,eval,negative,independent,node,edge,graph,modify,delete,class,model,connect,extends,enum,abstract,const,exec,emit,multiple,iterated,optional},
 sensitive=true,
 morecomment=[l]{//},
 morecomment=[s]{/*}{*/},
@@ -90,8 +90,8 @@ morestring=[b]",
 
 \definecolor{exampleborder}{rgb}{0,0,.7}
 \definecolor{examplebg}{rgb}{.9,.9,1}
-\definecolor{statementborder}{rgb}{.9,0,0}
-\definecolor{statementbg}{rgb}{1,.9,.9}
+\definecolor{statementborder}{rgb}{0,.8,0}
+\definecolor{statementbg}{rgb}{.9,1,.9}
 \newsavebox\envbox
 \newcounter{example}
 \newenvironment{example}[1][EXAMPLE]{%
@@ -204,7 +204,7 @@ morestring=[b]",
 
   \vspace*{2.5cm}
   \Huge The \GrG\ User Manual\\[1ex]
-  \LARGE Refers to \GrG\ Release 2.6\\[1ex]
+  \LARGE Refers to \GrG\ Release 2.6 beta 4\\[1ex]
   \LARGE ---DRAFT---\\[1ex]
   \LARGE www.grgen.net\\[6ex]
   \includegraphics[width=0.9\linewidth]{fig/title}\\[6ex]
@@ -228,9 +228,13 @@ morestring=[b]",
 \noindent \textsc{GrGen.NET} is a graph rewrite tool enabling elegant and convenient development of graph rewriting applications with comparable performance to conventionally developed ones.
 \GrG\ uses attributed, typed, and directed multigraphs with multiple inheritance on node and edge types.
 Extensive graphical debugging integrated into an interactive shell complements the feature highlights of \GrG.
-This user manual contains both, normative statements in the sense of a reference manual as well as an informal guide to the features and usage of \GrG.
+This user manual contains both, normative statements in the sense of a reference manual as well as an informal guide to the features and usage of \GrG.\\[6ex]
 
-\chapter*{Foreword}
+\noindent This is a draft; it is published early because it is useful as-is, due to the many changes since the last version of the manual. 
+Note: Especially the index and the internal references are broken.
+
+
+\chapter*{Old Foreword}
 First of all a word about the term ``graph rewriting''.
 Some would rather say ``graph transformation''; some even think there is a difference between these two.
 We don't see such differences and use graph rewriting for consistency.
@@ -238,7 +242,7 @@ We don't see such differences and use graph rewriting for consistency.
 The \textsc{GrGen} project started in spring 2003 with the diploma thesis of Sebastian Hack under supervision of Rubino Gei\ss.
 At that time we needed a tool to find patterns in graph based intermediate representations used in compiler construction.
 We imagined a tool that is fast, expressive, and easy to integrate into our compiler infrastructure.
-So far Optimix was the only tool that brought together the areas of compiler construction and graph rewriting~\cite{assmann00graph}.
+So far Optimix\cite{assmann00graph} was the only tool that brought together the areas of compiler construction and graph rewriting.
 However its approach is to feature many provable properties of the system per se, such as termination, confluence of derivations, and complete coverage of graphs.
 This is achieved by restricting the expressiveness of the whole formalism below Turing-completeness.
 Our tool \textsc{GrGen} in contrast should be Turing-complete.
@@ -259,10 +263,55 @@ Finally, all this would not happened without the productive atmosphere and the g
 We wish all readers of the manual---and especially all users of \GrG---a pleasant graph rewrite experience.
 We hope you enjoy using \GrG\ as much as we enjoy developing it.\\[3ex]
 
-If you find that any statement in this manual needs improvement, we encourage you to contact the maintainer of \GrG: \url{rubino@ipd.uni-karlsruhe.de}.
 Thank you for using \GrG.\\[6ex]
 
-\noindent Karlsruhe in July 2007, the authors of \GrG\\
+\noindent Karlsruhe in July 2007, Rubino Gei\ss~on behalf of the \GrG-Team
+
+%\pagebreak seems to be exactly one page
+
+\chapter*{New Foreword}
+
+Since the last version of this manual which was written for \GrG\ v1.4 a lot has happened, 
+as can be seen quite easily in the fact that this manual describes \GrG\ v2.6.
+The porting of C to C\# \cite{Kro:07} allowed for a faster pace of development,
+which yielded alternatives and subpatterns allowing for structural recursion \cite{Jak:08,StructuralRecursion},
+undirected edge support plus fine grain pattern condition \cite{SABuchwald:2008}, 
+a data model more user friendly at the API, support for visited flags, 
+and an prototypical implementation of an embedding of \GrG\ as s domain specific language into C\# \cite{DAMoritz}
+-- resulting in \GrG\ v2.0.
+\\[1ex]
+
+Then Dr. Rubino Gei\ss~finished his dissertation \cite{DissRuby} and left, and Prof. Goos retired.
+The succeeding Professor had no interested in graph rewriting,
+so \GrG\ switched from a university project developed by students in their bachelor/masters thesis's
+to an open source project (which is still hosted at the IPD, reachable from \url{www.grgen.net}).
+
+And development continued:
+With the introduction of generic set and map types in the model language to facilitate uses in computer linguistics
+and in the rule control language to allow for more concise rule combinations.
+With the 2+n pushdown automaton for matching patterns with structural recursion extended 
+to handle pattern cardinality specifications and positive applications conditions.
+With massive API improvements, now featuring an interface of typed, named entities in addition to the old name string and object based interface.
+With the introduction of importers and exporters for GXL (the quasi standard graph exchange format in graph rewriting),
+and for GRS, a much easier and less bloated native format.
+
+Most of these features were introduced due to feedback from users and use cases:\\
+We want to thank the organizers of GraBaTs\cite{grabats}, the annual meeting of the graph rewrite tool community,
+which gave us the possibility to ruthlessly steal the best ideas of the competing tools.
+Thanks to Berthold Hoffmann, for his ``french''-courses and the ideas about how to handle program graphs.
+And thanks to several early users giving valuable feedback or even code (which is of course the best contribution you can give to an open source project), by name: 
+Tom Gelhausen and Bugra Derre (you may have a look at \url{https://svn.ipd.uni-karlsruhe.de/trac/mx/wiki/Home} for some interesting results of this work at IPD Tichy), Paul Bedaride, Normen Müller, and Nicholas Tung.
+\\[1ex]
+
+\noindent Regarding questions please contact the \GrG-Team \foototesize{(currently consisting of Sebastian Buchwald, Rubino Gei\ss, Edgar Jakumeit, Moritz Kroll)}
+via email to \texttt{grgen} at the host given by \texttt{ipd.info.uni-karlsruhe.de}.\\[2ex]
+
+\noindent We hope you enjoy using \GrG\ even more than we enjoyed developing it\\ (it was fun but had its lengths from time to time ;).
+\\[2ex]
+
+Thank you for using \GrG.\\[3ex]
+
+\noindent Karlsruhe in December 2009, Edgar Jakumeit on behalf of the \GrG-Team
 
 
 \clearpage
@@ -288,6 +337,8 @@ Thank you for using \GrG.\\[6ex]
 \include{examples}
 
 \include{api}
+
+%\include{building}
 
 \appendix
 \include{xsyntax}

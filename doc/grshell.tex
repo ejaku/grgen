@@ -320,7 +320,7 @@ Imports the specified graph instance and model in GXL format.
 If a model override of the form \texttt{Filename.gm} is specified, the given model will be used instead of the model in the GXL file.
 The \texttt{.gxl}-graph must be compatible to the \texttt{.gm}-model.
 
-\begin{note}
+\begin{note}\label{shellgxlimport}
 Normally you are not only interested in importing a GXL graph (and viewing it), but you want to execute actions on it.
 The problem is that the actions are model dependent.
 So, in order to apply actions, you must use a model override, which works this way:
@@ -367,16 +367,20 @@ Otherwise the edge will be of the base edge class type \emph{Edge}.
 
 \begin{rail}
   Constructor : '(' (() | (dollar '=' Text (() | ',' Attributes) | Attributes)) ')';
-  Attributes : AttributeName '=' (Text | Number) + ',' ;
+  Attributes : (AttributeName '=' AttributeValue) + (',');
+  AttributeValue :  PrimitiveAttributeValue | SetConstr | MapConstr ;
+  PrimitiveAttributeValue : QuotedText | Number | FloatingPointNumber | BoolLit | EnumValue ;
+  SetConstr: 'set' '<' Type '>' lbrace ( Expression*',' ) rbrace ;
+  MapConstr: 'map' '<' Type ',' Type '>' \\ lbrace ( (Expression '->' Expression)*',' ) rbrace ;
 \end{rail}\indexmain{\texttt{\$}}\ixnterm{Constructor}\ixnterm{Attributes}
 A \indexed{constructor} is used to initialize a new graph element (see \texttt{new \dots} below).
 A comma separated list of \indexed{attribute} declarations is supplied to the constructor.
 Available attribute names are specified by the graph model of the current working graph.
-All the undeclared attributes will be initialized with \indexed{default value}s, depending on their type (int $\leftarrow$ \texttt{0}, enum $\leftarrow$ unspecified; boolean $\leftarrow$ \texttt{false}; float, double $\leftarrow$ \texttt{0.0}; string $\leftarrow$ \texttt{""}).\\
+All the undeclared attributes will be initialized with \indexed{default value}s, depending on their type 
+(\texttt{int} $\leftarrow$ \texttt{0}, \texttt{enum} $\leftarrow$ unspecified; \texttt{boolean} $\leftarrow$ \texttt{false}; \texttt{float}, \texttt{double} $\leftarrow$ \texttt{0.0}; \texttt{string} $\leftarrow$ \texttt{""}, \texttt{set<T>} $\leftarrow$ empty \texttt{set<T>}, \texttt{map<S,T>} $\leftarrow$ empty \texttt{map<S,T>}).\\
 The \texttt{\$} is a special attribute name: a unique identifier of the new graph element.
 This identifier is also called \newterm{persistent name} (see Example~\ref{persistentex}).
 This name can be specified by a constructor only.
-TODO: set/map constructor
 
 \begin{rail}
   'delete' 'node' Node
@@ -396,9 +400,6 @@ Set the \indexed{attribute} \emph{AttributeName} of the graph element \emph{Grap
 
   
 \subsection{Graph and Model Query Commands}
-
-todo: n.a, e.a shows the content of the attribute
-todo: change this to show n.a, show e.a for consistency?
 
 \begin{rail}
   'show' (() | 'num') ('nodes' (() | (() | 'only') NodeType) | 'edges' (() | (() | 'only') EdgeType))
@@ -541,6 +542,12 @@ Choose the layout algorithm and the options delivering the best results for your
 (an extension of hierarchic with automatic edge cutting -- marking cut edges by fat dots, showing the edge only on mouse over and allowing to jump to the other end on a mouse click)
 should be tried first.
 \end{note}
+
+The following example shows several of the layout options employed to considerably increase the readability of a program graph (as given in \texttt{examples/JavaProgramGraphs-GraBaTs08}):
+\begin{center}
+  \fbox{\includegraphics[width=0.45\linewidth]{fig/screen-overview}}  \hfill \fbox{\includegraphics[width=0.45\linewidth]{fig/screen-detail}}\\
+  {\small Overview of the initial program graph and some details of the ``Node'' class}
+\end{center}
 
 
 \subsection{Action Commands (XGRS)}\indexmain{action command}\indexmainsee{action}{graph rewrite sequence}
