@@ -27,7 +27,7 @@ public abstract class BasicTypeNode extends DeclaredTypeNode {
 	public static final BasicTypeNode doubleType = new DoubleTypeNode();
 	public static final BasicTypeNode floatType = new FloatTypeNode();
 	public static final BasicTypeNode booleanType = new BooleanTypeNode();
-	public static final BasicTypeNode objectType = ObjectTypeNode.OBJECT_TYPE;
+	public static final BasicTypeNode objectType = new ObjectTypeNode();
 	public static final BasicTypeNode enumItemType = new EnumItemTypeNode();
 	public static final BasicTypeNode voidType = new VoidTypeNode();
 	public static final BasicTypeNode nullType = new NullTypeNode();

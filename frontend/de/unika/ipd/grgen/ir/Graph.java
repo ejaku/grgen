@@ -49,7 +49,7 @@ public abstract class Graph extends IR {
 		private final String nodeId;
 
 		private GraphNode(Node n) {
-			super(n.getIdent(), n.getNodeType(), n.directlyNestingLHSGraph, n.isMaybeDeleted(), n.isMaybeRetyped());
+			super(n.getIdent(), n.getNodeType(), n.directlyNestingLHSGraph, n.isMaybeDeleted(), n.isMaybeRetyped(), n.context);
 			this.incoming = new LinkedHashSet<Graph.GraphEdge>();
 			this.outgoing = new LinkedHashSet<Graph.GraphEdge>();
 			this.node = n;
@@ -74,7 +74,7 @@ public abstract class Graph extends IR {
 		private final String nodeId;
 
 		private GraphEdge(Edge e) {
-			super(e.getIdent(), e.getEdgeType(), e.directlyNestingLHSGraph, e.isMaybeDeleted(), e.isMaybeRetyped());
+			super(e.getIdent(), e.getEdgeType(), e.directlyNestingLHSGraph, e.isMaybeDeleted(), e.isMaybeRetyped(), e.context);
 			this.edge = e;
 			this.nodeId = "g" + Graph.super.getId() + "_" + super.getNodeId();
 			this.fixedDirection = e.fixedDirection;

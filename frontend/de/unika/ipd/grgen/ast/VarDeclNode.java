@@ -26,16 +26,23 @@ public class VarDeclNode extends DeclNode {
 	private TypeNode type;
 
 	protected PatternGraphNode directlyNestingLHSGraph;
+	
+	int context;
+	
 
-	public VarDeclNode(IdentNode id, IdentNode type, PatternGraphNode directlyNestingLHSGraph) {
+	public VarDeclNode(IdentNode id, IdentNode type, 
+			PatternGraphNode directlyNestingLHSGraph, int context) {
 		super(id, type);
 		this.directlyNestingLHSGraph = directlyNestingLHSGraph;
+		this.context = context;
     }
 
-	public VarDeclNode(IdentNode id, TypeNode type, PatternGraphNode directlyNestingLHSGraph) {
+	public VarDeclNode(IdentNode id, TypeNode type,
+			PatternGraphNode directlyNestingLHSGraph, int context) {
 		super(id, type);
 		this.type = type;
 		this.directlyNestingLHSGraph = directlyNestingLHSGraph;
+		this.context = context;
 	}
 
 	/** returns children of this node */
@@ -111,7 +118,7 @@ public class VarDeclNode extends DeclNode {
 	@Override
 	protected IR constructIR() {
 		return new Variable("Var", getIdentNode().getIdent(), type.getType(),
-				directlyNestingLHSGraph.getGraph());
+				directlyNestingLHSGraph.getGraph(), context);
 	}
 }
 

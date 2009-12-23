@@ -158,17 +158,17 @@ public class Unit extends IR {
 		HashSet<Edge> alreadyDefinedEdges = new HashSet<Edge>();
 		HashSet<Variable> alreadyDefinedVariables = new HashSet<Variable>();
 		for(Rule actionRule : actionRules) {
-			actionRule.pattern.insertElementsFromRhsDeclaredInNestingLhsToLocalLhs(actionRule.getRight());
 			actionRule.pattern.ensureDirectlyNestingPatternContainsAllNonLocalElementsOfNestedPattern(
-					alreadyDefinedNodes, alreadyDefinedEdges, alreadyDefinedVariables);
+					alreadyDefinedNodes, alreadyDefinedEdges, alreadyDefinedVariables,
+					actionRule.getRight());
 			alreadyDefinedNodes.clear();
 			alreadyDefinedEdges.clear();
 			alreadyDefinedVariables.clear();
 		}
 		for(Rule subpatternRule : subpatternRules) {
-			subpatternRule.pattern.insertElementsFromRhsDeclaredInNestingLhsToLocalLhs(subpatternRule.getRight());
 			subpatternRule.pattern.ensureDirectlyNestingPatternContainsAllNonLocalElementsOfNestedPattern(
-					alreadyDefinedNodes, alreadyDefinedEdges, alreadyDefinedVariables);
+					alreadyDefinedNodes, alreadyDefinedEdges, alreadyDefinedVariables,
+					subpatternRule.getRight());
 			alreadyDefinedNodes.clear();
 			alreadyDefinedEdges.clear();
 			alreadyDefinedVariables.clear();

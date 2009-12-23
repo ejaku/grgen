@@ -29,6 +29,9 @@ public class Entity extends Identifiable {
 
 	/** Is the entity constant - (only) relevant in backend for node/edge attributes. */
 	protected boolean isConst = false;
+	
+	/** Context of the declaration */
+	int context;
 
 
 	/**
@@ -37,12 +40,14 @@ public class Entity extends Identifiable {
 	 * @param ident The declaring identifier.
 	 * @param type The type used in the declaration.
 	 * @param isConst Is the entity constant.
+	 * @param context The context of the declaration
 	 */
-	public Entity(String name, Ident ident, Type type, boolean isConst) {
+	public Entity(String name, Ident ident, Type type, boolean isConst, int context) {
 		super(name, ident);
 		setChildrenNames(childrenNames);
 		this.type = type;
 		this.isConst = isConst;
+		this.context = context;
 	}
 
 	/** @return The entity's type. */

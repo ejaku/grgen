@@ -37,9 +37,7 @@ public class ObjectTypeNode extends BasicTypeNode {
 		}
 	}
 
-	protected static ObjectTypeNode OBJECT_TYPE = new ObjectTypeNode();
-
-	private ObjectTypeNode() {}
+	protected ObjectTypeNode() {}
 
 	@Override
 	protected IR constructIR() {

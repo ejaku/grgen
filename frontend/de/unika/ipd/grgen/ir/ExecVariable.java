@@ -14,7 +14,7 @@ package de.unika.ipd.grgen.ir;
  * A variable declared inside an "exec" statement containing nodes, edges or primitive types.
  */
 public class ExecVariable extends Entity {
-	public ExecVariable(String name, Ident ident, Type type) {
-		super(name, ident, type, false);
+	public ExecVariable(String name, Ident ident, Type type, int context) {
+		super(name, ident, type, false, context);
 	}
 }

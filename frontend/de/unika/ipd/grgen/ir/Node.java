@@ -37,10 +37,12 @@ public class Node extends GraphEntity {
 	 * @param annots The annotations of this node.
 	 * @param maybeDeleted Indicates whether this element might be deleted due to homomorphy.
 	 * @param maybeRetyped Indicates whether this element might be retyped due to homomorphy.
+	 * @param context The context of the declaration
 	 */
 	public Node(Ident ident, NodeType type, Annotations annots,
-			PatternGraph directlyNestingLHSGraph, boolean maybeDeleted, boolean maybeRetyped) {
-		super("node", ident, type, annots, maybeDeleted, maybeRetyped);
+			PatternGraph directlyNestingLHSGraph, 
+			boolean maybeDeleted, boolean maybeRetyped, int context) {
+		super("node", ident, type, annots, maybeDeleted, maybeRetyped, context);
 		this.type = type;
 		this.directlyNestingLHSGraph = directlyNestingLHSGraph;
 	}
@@ -53,8 +55,9 @@ public class Node extends GraphEntity {
 	 * @param maybeRetyped Indicates whether this element might be retyped due to homomorphy.
 	 */
 	public Node(Ident ident, NodeType type,
-			PatternGraph directlyNestingLHSGraph, boolean maybeDeleted, boolean maybeRetyped) {
-		this(ident, type, EmptyAnnotations.get(), directlyNestingLHSGraph, maybeDeleted, maybeRetyped);
+			PatternGraph directlyNestingLHSGraph,
+			boolean maybeDeleted, boolean maybeRetyped, int context) {
+		this(ident, type, EmptyAnnotations.get(), directlyNestingLHSGraph, maybeDeleted, maybeRetyped, context);
 	}
 
 	public void setMaybeNull(boolean maybeNull) {

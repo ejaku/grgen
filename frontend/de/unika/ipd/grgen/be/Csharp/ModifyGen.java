@@ -354,8 +354,8 @@ public class ModifyGen extends CSharpBase {
 	private void genModifyAlternative(StringBuffer sb, Rule rule, Alternative alt,
 			String pathPrefix, String altName, boolean isSubpattern) {
 		if(rule.getRight()!=null) { // generate code for dependent modify dispatcher
-			genModifyAlternativeModify(sb, alt, pathPrefix, altName, rule.getRight().getReplParameters(), isSubpattern, true);
-			genModifyAlternativeModify(sb, alt, pathPrefix, altName, rule.getRight().getReplParameters(), isSubpattern, false);
+			genModifyAlternativeModify(sb, alt, pathPrefix, altName, isSubpattern, true);
+			genModifyAlternativeModify(sb, alt, pathPrefix, altName, isSubpattern, false);
 		}
 
 		if(isSubpattern) { // generate for delete alternative dispatcher
@@ -364,12 +364,14 @@ public class ModifyGen extends CSharpBase {
 	}
 
 	private void genModifyAlternativeModify(StringBuffer sb, Alternative alt, String pathPrefix, String altName,
-			List<Entity> replParameters, boolean isSubpattern, boolean reuseNodesAndEdges) {
+			boolean isSubpattern, boolean reuseNodesAndEdges) {
 		// Emit function header
 		sb.append("\n");
 		sb.append("\t\tpublic void "
 					  + pathPrefix+altName+"_" + (reuseNodesAndEdges ? "Modify" : "ModifyNoReuse")
 					  + "(GRGEN_LGSP.LGSPGraph graph, IMatch_"+pathPrefix+altName+" curMatch");
+		List<Entity> replParameters = new LinkedList<Entity>();
+		getUnionOfReplaceParametersOfAlternativeCases(alt, replParameters);
 		for(Entity entity : replParameters) {
 			if(entity instanceof Node) {
 				Node node = (Node)entity;
@@ -398,6 +400,7 @@ public class ModifyGen extends CSharpBase {
 			sb.append("\t\t\t\t" + pathPrefix+altName+"_"+altCase.getPattern().getNameOfGraph()+"_"
 					+ (reuseNodesAndEdges ? "Modify" : "ModifyNoReuse")
 					+ "(graph, (Match_"+pathPrefix+altName+"_"+altCase.getPattern().getNameOfGraph()+")curMatch");
+			replParameters = altCase.getRight().getReplParameters();
 			for(Entity entity : replParameters) {
 				sb.append(", " + formatEntity(entity));
 			}
@@ -409,6 +412,17 @@ public class ModifyGen extends CSharpBase {
 
 		// Emit end of function
 		sb.append("\t\t}\n");
+	}
+	
+	private void getUnionOfReplaceParametersOfAlternativeCases(Alternative alt, Collection<Entity> replaceParameters) {
+		for(Rule altCase : alt.getAlternativeCases()) {
+			List<Entity> replParams = altCase.getRight().getReplParameters();
+			for(Entity entity : replParams) {
+				if(!replaceParameters.contains(entity)) {
+					replaceParameters.add(entity);
+				}
+			}
+		}
 	}
 
 	private void genModifyAlternativeDelete(StringBuffer sb, Alternative alt, String pathPrefix, String altName,
@@ -445,8 +459,8 @@ public class ModifyGen extends CSharpBase {
 
 	private void genModifyIterated(StringBuffer sb, Rule rule, String pathPrefix, String iterName, boolean isSubpattern) {
 		if(rule.getRight()!=null) { // generate code for dependent modify dispatcher
-			genModifyIteratedModify(sb, rule, pathPrefix, iterName, rule.getRight().getReplParameters(), isSubpattern, true);
-			genModifyIteratedModify(sb, rule, pathPrefix, iterName, rule.getRight().getReplParameters(), isSubpattern, false);
+			genModifyIteratedModify(sb, rule, pathPrefix, iterName, isSubpattern, true);
+			genModifyIteratedModify(sb, rule, pathPrefix, iterName, isSubpattern, false);
 		}
 
 		if(isSubpattern) { // generate for delete iterated dispatcher
@@ -455,13 +469,14 @@ public class ModifyGen extends CSharpBase {
 	}
 
 	private void genModifyIteratedModify(StringBuffer sb, Rule iter, String pathPrefix, String iterName,
-			List<Entity> replParameters, boolean isSubpattern, boolean reuseNodesAndEdges) {
+			boolean isSubpattern, boolean reuseNodesAndEdges) {
 		// Emit function header
 		sb.append("\n");
 		sb.append("\t\tpublic void "+pathPrefix+iterName+"_"+(reuseNodesAndEdges ? "Modify" : "ModifyNoReuse")
 					  + "(GRGEN_LGSP.LGSPGraph graph, "
 					  + "GRGEN_LGSP.LGSPMatchesList<Match_"+pathPrefix+iterName
 					  + ", IMatch_"+pathPrefix+iterName+"> curMatches");
+		List<Entity> replParameters = iter.getRight().getReplParameters();
 		for(Entity entity : replParameters) {
 			if(entity instanceof Node) {
 				Node node = (Node)entity;
@@ -816,13 +831,11 @@ public class ModifyGen extends CSharpBase {
 		newSubpatternUsages.addAll(task.right.getSubpatternUsages());
 		newSubpatternUsages.removeAll(stateConst.commonSubpatternUsages());
 
-		// and which are not in the replacement parameters of a subpattern
-		if(task.isSubpattern) {
-			for(Entity entity : task.replParameters) {
-				if(entity instanceof Node) {
-					Node node = (Node)entity;
-					newNodes.remove(node);
-				}
+		// and which are not in the replacement parameters
+		for(Entity entity : task.replParameters) {
+			if(entity instanceof Node) {
+				Node node = (Node)entity;
+				newNodes.remove(node);
 			}
 		}
 	}
@@ -1136,14 +1149,19 @@ public class ModifyGen extends CSharpBase {
 
 		if(task.typeOfTask==TYPE_OF_TASK_MODIFY) {
 			// generate calls to the modifications of the alternatives (nested alternatives are handled in their enclosing alternative)
-			for(int i = 0; i < task.left.getAlts().size(); i++) {
+			int i = 0;
+			Collection<Alternative> alts = task.left.getAlts();
+			for(Alternative alt : alts) {
 				String altName = "alt_" + i;
 				sb.append("\t\t\t" + pathPrefix+task.left.getNameOfGraph()+"_"+altName+"_" +
 						(task.reuseNodesAndEdges ? "Modify" : "ModifyNoReuse") + "(graph, alternative_" + altName);
-				for(Entity entity : task.replParameters) {
+				List<Entity> replParameters = new LinkedList<Entity>();
+				getUnionOfReplaceParametersOfAlternativeCases(alt, replParameters);
+				for(Entity entity : replParameters) {
 					sb.append(", " + formatEntity(entity));
 				}
 				sb.append(");\n");
+				++i;
 			}
 		}
 		else if(task.typeOfTask==TYPE_OF_TASK_DELETION) {
@@ -1163,14 +1181,18 @@ public class ModifyGen extends CSharpBase {
 
 		if(task.typeOfTask==TYPE_OF_TASK_MODIFY) {
 			// generate calls to the modifications of the iterateds (nested iterateds are handled in their enclosing iterated)
-			for(int i = 0; i < task.left.getIters().size(); i++) {
+			int i = 0;
+			Collection<Rule> iters = task.left.getIters();
+			for(Rule iter : iters) {
 				String iterName = "iter_" + i;
 				sb.append("\t\t\t" + pathPrefix+task.left.getNameOfGraph()+"_"+iterName+"_" +
 						(task.reuseNodesAndEdges ? "Modify" : "ModifyNoReuse") + "(graph, iterated_" + iterName);
-				for(Entity entity : task.replParameters) {
+				List<Entity> replParameters = iter.getRight().getReplParameters();
+				for(Entity entity : replParameters) {
 					sb.append(", " + formatEntity(entity));
 				}
 				sb.append(");\n");
+				++i;
 			}
 		}
 		else if(task.typeOfTask==TYPE_OF_TASK_DELETION) {

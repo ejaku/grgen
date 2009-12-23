@@ -188,7 +188,7 @@ public class NodeDeclNode extends ConstraintDeclNode implements NodeCharacter {
 		IdentNode ident = getIdentNode();
 
 		Node res = new Node(ident.getIdent(), nt, ident.getAnnotations(),
-				directlyNestingLHSGraph.getGraph(), isMaybeDeleted(), isMaybeRetyped());
+				directlyNestingLHSGraph.getGraph(), isMaybeDeleted(), isMaybeRetyped(), context);
 		res.setConstraints(getConstraints());
 
 		if( res.getConstraints().contains(res.getType()) ) {

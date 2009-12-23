@@ -13,6 +13,7 @@
 package de.unika.ipd.grgen.ir;
 
 import de.unika.ipd.grgen.ast.PatternGraphNode; // for the MOD_... - constants
+import de.unika.ipd.grgen.ast.BaseNode; // for the context constants
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
@@ -283,10 +284,15 @@ public class PatternGraph extends Graph {
 	}
 
 	public void ensureDirectlyNestingPatternContainsAllNonLocalElementsOfNestedPattern(
-			HashSet<Node> alreadyDefinedNodes, HashSet<Edge> alreadyDefinedEdges, HashSet<Variable> alreadyDefinedVariables) {
+			HashSet<Node> alreadyDefinedNodes, HashSet<Edge> alreadyDefinedEdges, HashSet<Variable> alreadyDefinedVariables,
+			PatternGraph right) {
+		// first local corrections, then global consistency
+		if(right!=null) insertElementsFromRhsDeclaredInNestingRhsToReplParams(right);
+		if(right!=null) insertElementsFromRhsDeclaredInNestingLhsToLocalLhs(right);
+
 		///////////////////////////////////////////////////////////////////////////////
 		// pre: add locally referenced/defined elements to already referenced/defined elements
-
+		
 		for(Node node : getNodes()) {
 			alreadyDefinedNodes.add(node);
 		}
@@ -301,26 +307,24 @@ public class PatternGraph extends Graph {
 		// depth first walk over IR-pattern-graph tree structure
 		for(Alternative alternative : getAlts()) {
 			for(Rule altCase : alternative.getAlternativeCases()) {
-				altCase.getLeft().insertElementsFromRhsDeclaredInNestingLhsToLocalLhs(altCase.getRight());
-
 				PatternGraph altCasePattern = altCase.getLeft();
 				HashSet<Node> alreadyDefinedNodesClone = new HashSet<Node>(alreadyDefinedNodes);
 				HashSet<Edge> alreadyDefinedEdgesClone = new HashSet<Edge>(alreadyDefinedEdges);
 				HashSet<Variable> alreadyDefinedVariablesClone = new HashSet<Variable>(alreadyDefinedVariables);
 				altCasePattern.ensureDirectlyNestingPatternContainsAllNonLocalElementsOfNestedPattern(
-						alreadyDefinedNodesClone, alreadyDefinedEdgesClone, alreadyDefinedVariablesClone);
+						alreadyDefinedNodesClone, alreadyDefinedEdgesClone, alreadyDefinedVariablesClone,
+						altCase.getRight());
 			}
 		}
 
 		for(Rule iterated : getIters()) {
-			iterated.getLeft().insertElementsFromRhsDeclaredInNestingLhsToLocalLhs(iterated.getRight());
-
 			PatternGraph iteratedPattern = iterated.getLeft();
 			HashSet<Node> alreadyDefinedNodesClone = new HashSet<Node>(alreadyDefinedNodes);
 			HashSet<Edge> alreadyDefinedEdgesClone = new HashSet<Edge>(alreadyDefinedEdges);
 			HashSet<Variable> alreadyDefinedVariablesClone = new HashSet<Variable>(alreadyDefinedVariables);
 			iteratedPattern.ensureDirectlyNestingPatternContainsAllNonLocalElementsOfNestedPattern(
-					alreadyDefinedNodesClone, alreadyDefinedEdgesClone, alreadyDefinedVariablesClone);
+					alreadyDefinedNodesClone, alreadyDefinedEdgesClone, alreadyDefinedVariablesClone,
+					iterated.getRight());
 		}
 
 		for (PatternGraph negative : getNegs()) {
@@ -328,7 +332,8 @@ public class PatternGraph extends Graph {
 			HashSet<Edge> alreadyDefinedEdgesClone = new HashSet<Edge>(alreadyDefinedEdges);
 			HashSet<Variable> alreadyDefinedVariablesClone = new HashSet<Variable>(alreadyDefinedVariables);
 			negative.ensureDirectlyNestingPatternContainsAllNonLocalElementsOfNestedPattern(
-					alreadyDefinedNodesClone, alreadyDefinedEdgesClone, alreadyDefinedVariablesClone);
+					alreadyDefinedNodesClone, alreadyDefinedEdgesClone, alreadyDefinedVariablesClone,
+					null);
 		}
 
 		for (PatternGraph independent : getIdpts()) {
@@ -336,12 +341,14 @@ public class PatternGraph extends Graph {
 			HashSet<Edge> alreadyDefinedEdgesClone = new HashSet<Edge>(alreadyDefinedEdges);
 			HashSet<Variable> alreadyDefinedVariablesClone = new HashSet<Variable>(alreadyDefinedVariables);
 			independent.ensureDirectlyNestingPatternContainsAllNonLocalElementsOfNestedPattern(
-					alreadyDefinedNodesClone, alreadyDefinedEdgesClone, alreadyDefinedVariablesClone);
+					alreadyDefinedNodesClone, alreadyDefinedEdgesClone, alreadyDefinedVariablesClone,
+					null);
 		}
 
 		///////////////////////////////////////////////////////////////////////////////
 		// post: add elements of subpatterns not defined there to our nodes'n'edges
 
+		// 
 		// add elements needed in alternative cases, which are not defined there and are neither defined nor used here
 		// they must get handed down as preset from the defining nesting pattern to here
 		for(Alternative alternative : getAlts()) {
@@ -372,6 +379,41 @@ public class PatternGraph extends Graph {
 				for(Variable var : altCasePattern.getVars()) {
 					if(!hasVar(var) && alreadyDefinedVariables.contains(var)) {
 						addVariable(var);
+					}
+				}
+				
+				// add rhs parameters from nested alternative cases if they are not used or defined here
+				// to our rhs parameters, so we get and forward them
+				if(right!=null) {
+					List<Entity> altCaseReplParameters = altCase.getRight().getReplParameters();
+					for(Entity entity : altCaseReplParameters) {
+						if(entity instanceof Node) {
+							Node node = (Node) entity;
+							if(node.directlyNestingLHSGraph!=this) {
+								if(!right.getReplParameters().contains(node)) {
+									// evt. todo: right.addSingleNode(node); right.addHomToAll(node);
+									right.addReplParameter(node);
+								}
+							}
+						}
+						if(entity instanceof Edge) {
+							Edge edge = (Edge) entity;
+							if(edge.directlyNestingLHSGraph!=this) {
+								if(!right.getReplParameters().contains(edge)) {
+									// evt. todo: right.addSingleEdge(edge); right.addHomToAll(edge);
+									right.addReplParameter(edge);
+								}
+							}
+						}
+						if(entity instanceof Variable) {
+							Variable var = (Variable) entity;
+							if(var.directlyNestingLHSGraph!=this) {
+								if(!right.getReplParameters().contains(var)) {
+									// evt. todo: right.addVariable(var);
+									right.addReplParameter(var);
+								}
+							}				
+						}
 					}
 				}
 			}
@@ -406,6 +448,41 @@ public class PatternGraph extends Graph {
 			for(Variable var : iteratedPattern.getVars()) {
 				if(!hasVar(var) && alreadyDefinedVariables.contains(var)) {
 					addVariable(var);
+				}
+			}
+			
+			// add rhs parameters from nested iterateds if they are not used or defined here
+			// to our rhs parameters, so we get and forward them
+			if(right!=null) {
+				List<Entity> iteratedReplParameters = iterated.getRight().getReplParameters();
+				for(Entity entity : iteratedReplParameters) {
+					if(entity instanceof Node) {
+						Node node = (Node) entity;
+						if(node.directlyNestingLHSGraph!=this) {
+							if(!right.getReplParameters().contains(node)) {
+								// evt. todo: right.addSingleNode(node); right.addHomToAll(node);
+								right.addReplParameter(node);
+							}
+						}
+					}
+					if(entity instanceof Edge) {
+						Edge edge = (Edge) entity;
+						if(edge.directlyNestingLHSGraph!=this) {
+							if(!right.getReplParameters().contains(edge)) {
+								// evt. todo: right.addSingleEdge(edge); right.addHomToAll(edge);
+								right.addReplParameter(edge);
+							}
+						}
+					}
+					if(entity instanceof Variable) {
+						Variable var = (Variable) entity;
+						if(var.directlyNestingLHSGraph!=this) {
+							if(!right.getReplParameters().contains(var)) {
+								// evt. todo: right.addVariable(var);
+								right.addReplParameter(var);
+							}
+						}				
+					}
 				}
 			}
 		}
@@ -455,6 +532,41 @@ public class PatternGraph extends Graph {
 		}
 	}
 
+	// construct implicit rhs replace parameters
+	public void insertElementsFromRhsDeclaredInNestingRhsToReplParams(PatternGraph right) {
+		if(right==null) {
+			return;
+		}
+
+		// insert all elements, which are used (not declared) on the right hand side and not declared on left hand side,
+		// and are declared in some nesting right hand side,
+		// to the replacement parameters (so that they get handed down from the nesting replacement)
+
+		for(Node n : right.getNodes()) {
+			if(n.directlyNestingLHSGraph!=this && !right.replParametersContain(n)) {
+				if((n.context&BaseNode.CONTEXT_LHS_OR_RHS)==BaseNode.CONTEXT_RHS) {
+					right.addReplParameter(n);
+				}
+			}
+		}
+
+		for(Edge e : right.getEdges()) {
+			if(e.directlyNestingLHSGraph!=this && !right.replParametersContain(e)) {
+				if((e.context&BaseNode.CONTEXT_LHS_OR_RHS)==BaseNode.CONTEXT_RHS) {
+					right.addReplParameter(e);
+				}
+			}
+		}
+		
+		for(Variable v : right.getVars()) {
+			if(v.directlyNestingLHSGraph!=this && !right.replParametersContain(v)) {
+				if((v.context&BaseNode.CONTEXT_LHS_OR_RHS)==BaseNode.CONTEXT_RHS) {
+					right.addReplParameter(v);
+				}
+			}
+		}
+	}
+	
 	// constructs implicit lhs elements
 	public void insertElementsFromRhsDeclaredInNestingLhsToLocalLhs(PatternGraph right) {
 		if(right==null) {
@@ -462,7 +574,8 @@ public class PatternGraph extends Graph {
 		}
 
 		// insert all elements, which are used (not declared) on the right hand side and not declared on left hand side,
-		// (which means they are declared in some pattern the left hand side is nested in,)
+		//   and are not amongst the replacement parameters
+		// which means they are declared in some pattern the left hand side is nested in,
 		// to the left hand side (so that they get handed down from the nesting pattern;
 		// otherwise they would be created (code generation by locally comparing lhs and rhs))
 

@@ -9,56 +9,56 @@ rule init1 : (Node, Node)
     }
 }
 
-test test1Param1(a : Node)
+test test1Param1(a:Node<null>)
 {
     b:Node;
 }
 
-test test1Param2(a : Node)
+test test1Param2(a:Node<null>)
 {
     b:Node;
     c:Node;
 }
 
-test test1Param3(a : Node)
+test test1Param3(a:Node<null>)
 {
     hom(a,b);
     b:Node;
     c:Node;
 }
 
-test test1Param4(a : Node)
+test test1Param4(a:Node<null>)
 {
     hom(b,c);
     b:Node;
     c:Node;
 }
 
-test test1Param5(a : Node)
+test test1Param5(a:Node<null>)
 {
     hom(a,b,c);
     b:Node;
     c:Node;
 }
 
-test test1Param6(a : Node, b : Node)
+test test1Param6(a:Node<null>, b:Node<null>)
 {
     c:Node;
 }
 
-test test1Param7(a : Node, b : Node)
+test test1Param7(a:Node<null>, b:Node<null>)
 {
     hom(a,b);
     c:Node;
 }
 
-test test1Param8(a : Node, b : Node)
+test test1Param8(a:Node<null>, b:Node<null>)
 {
     hom(a,c);
     c:Node;
 }
 
-test test1Param9(a : Node, b : Node)
+test test1Param9(a:Node<null>, b:Node<null>)
 {
     hom(a,b,c);
     c:Node;
@@ -85,56 +85,56 @@ rule init2 : (Edge, Edge, Edge)
     }
 }
 
-test test2Param1(-a : Edge->)
+test test2Param1(-a:Edge<null>->)
 {
     -b:Edge->;
 }
 
-test test2Param2(-a : Edge->)
+test test2Param2(-a:Edge<null>->)
 {
     -b:Edge->;
     -c:Edge->;
 }
 
-test test2Param3(-a : Edge->)
+test test2Param3(-a:Edge<null>->)
 {
     hom(a,b);
     -b:Edge->;
     -c:Edge->;
 }
 
-test test2Param4(-a : Edge->)
+test test2Param4(-a:Edge<null>->)
 {
     hom(b,c);
     -b:Edge->;
     -c:Edge->;
 }
 
-test test2Param5(-a : Edge->)
+test test2Param5(-a:Edge<null>->)
 {
     hom(a,b,c);
     -b:Edge->;
     -c:Edge->;
 }
 
-test test2Param6(-a : Edge->, -b : Edge->)
+test test2Param6(-a:Edge<null>->, -b:Edge<null>->)
 {
     -c:Edge->;
 }
 
-test test2Param7(-a : Edge->, -b : Edge->)
+test test2Param7(-a:Edge<null>->, -b:Edge<null>->)
 {
     hom(a,b);
     -c:Edge->;
 }
 
-test test2Param8(-a : Edge->, -b : Edge->)
+test test2Param8(-a:Edge<null>->, -b:Edge<null>->)
 {
     hom(a,c);
     -c:Edge->;
 }
 
-test test2Param9(-a : Edge->, -b : Edge->)
+test test2Param9(-a:Edge<null>->, -b:Edge<null>->)
 {
     hom(a,b,c);
     -c:Edge->;

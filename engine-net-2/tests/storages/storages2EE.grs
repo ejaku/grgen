@@ -23,7 +23,7 @@ xgrs for{e in st2; st3.add(e)}
 set st3 size
 
 set st3 size
-xgrs st3.add(e) && addNode
+xgrs if{e in st3; false; st3.add(e) && addNode}
 show num nodes
 set st3 size
 
@@ -34,10 +34,10 @@ show num edges
 set st3 size
 
 set st2 size
-xgrs st2.rem(e) && addNode
+xgrs if{e in st2; st2.rem(e) && addNode; false}
 show num nodes
 set st2 size
-xgrs for{n in st3; st2.rem(n)} && addNode
+xgrs for{n in st3; st2.rem(n) && false} && addNode
 show num nodes
 set st2 size
 

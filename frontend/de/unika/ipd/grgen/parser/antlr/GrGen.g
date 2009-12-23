@@ -721,17 +721,17 @@ varDecl [ int context, PatternGraphNode directlyNestingLHSGraph ] returns [ Base
 		(
 			type=typeIdentUse
 			{
-				res = new VarDeclNode(id, type, directlyNestingLHSGraph);
+				res = new VarDeclNode(id, type, directlyNestingLHSGraph, context);
 			}
 		|
 			MAP LT keyType=typeIdentUse COMMA valueType=typeIdentUse GT
 			{ // MAP TODO: das sollte eigentlich kein Schluesselwort sein, sondern ein Typbezeichner
-				res = new VarDeclNode(id, MapTypeNode.getMapType(keyType, valueType), directlyNestingLHSGraph);
+				res = new VarDeclNode(id, MapTypeNode.getMapType(keyType, valueType), directlyNestingLHSGraph, context);
 			}
 		|
 			SET LT keyType=typeIdentUse GT
 			{ // MAP TODO: das sollte eigentlich kein Schluesselwort sein, sondern ein Typbezeichner
-				res = new VarDeclNode(id, SetTypeNode.getSetType(keyType), directlyNestingLHSGraph);
+				res = new VarDeclNode(id, SetTypeNode.getSetType(keyType), directlyNestingLHSGraph, context);
 			}
 		)
 	;

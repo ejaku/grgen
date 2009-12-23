@@ -1258,6 +1258,7 @@ void ShowCommand():
 	String args = null;
 	NodeType nodeType = null;
 	EdgeType edgeType = null;
+	IGraphElement elem = null;
 	bool typeProvided = false;
 	bool only = false;
 }
@@ -1314,6 +1315,11 @@ void ShowCommand():
 		{
 			impl.ShowBackend();
 		}
+	|
+		elem=GraphElement() "." str=AnyString() LineEnd()
+        {
+            impl.ShowElementAttribute(elem, str);
+        }
 	}
 	catch(ParseException ex)
 	{

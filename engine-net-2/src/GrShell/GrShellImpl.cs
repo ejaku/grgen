@@ -649,6 +649,8 @@ namespace de.unika.ipd.grGen.grShell
                 + "   Shows the attributes of the given node/edge.\n\n"
                 + " - show var <var>\n"
                 + "   Shows the value of the given variable.\n\n"
+                + " - show <element>.<attribute>\n"
+                + "   Shows the value of the given attribute of the given value.\n\n"
                 + " - show graph <program> [<arguments>]\n"
                 + "   Shows the current graph in VCG format with the given program.\n"
                 + "   The name of the temporary VCG file will always be the first parameter.\n"
@@ -1859,13 +1861,9 @@ namespace de.unika.ipd.grGen.grShell
         }
 
         /// <summary>
-        /// Displays the attributes from the given type or all types, if typeName is null.
-        /// If showAll is false, inherited attributes are not shown (only applies to a given type)
+        /// Displays the attribute types and names for the given attrTypes.
+        /// If onlyType is not null, it shows only the attributes of exactly the type.
         /// </summary>
-        /// <typeparam name="T">An IType interface</typeparam>
-        /// <param name="showOnly">If true, only non inherited attributes are shown</param>
-        /// <param name="typeName">Type which attributes are to be shown or null to show all attributes of all types</param>
-        /// <param name="model">The model to take the attributes from</param>
         private void ShowAvailableAttributes(IEnumerable<AttributeType> attrTypes, GrGenType onlyType)
         {
             bool first = true;
@@ -1897,6 +1895,10 @@ namespace de.unika.ipd.grGen.grShell
                 Console.WriteLine(" - No attribute types found.");
         }
 
+        /// <summary>
+        /// Displays the attributes from the given type or all types, if typeName is null.
+        /// If showAll is false, inherited attributes are not shown (only applies to a given type)
+        /// </summary>
         public void ShowAvailableNodeAttributes(bool showOnly, NodeType nodeType)
         {
             if(nodeType == null)
@@ -1912,6 +1914,10 @@ namespace de.unika.ipd.grGen.grShell
             }
         }
 
+        /// <summary>
+        /// Displays the attributes from the given type or all types, if typeName is null.
+        /// If showAll is false, inherited attributes are not shown (only applies to a given type)
+        /// </summary>
         public void ShowAvailableEdgeAttributes(bool showOnly, EdgeType edgeType)
         {
             if(edgeType == null)
@@ -2012,8 +2018,42 @@ namespace de.unika.ipd.grGen.grShell
                 else if (val.GetType() == typeof(double)) Console.WriteLine("The value of variable \"" + name + "\" of type double is: \"" + (double)val + "\"");
                 else if (val.GetType() == typeof(bool)) Console.WriteLine("The value of variable \"" + name + "\" of type bool is: \"" + (bool)val + "\"");
                 else if (val.GetType() == typeof(string)) Console.WriteLine("The value of variable \"" + name + "\" of type string is: \"" + (string)val + "\"");
+                else if (val.GetType().Name=="Dictionary`2")
+                {
+                    string type;
+                    string content;
+                    DictionaryHelper.ToString((IDictionary)val, out type, out content);
+                    Console.WriteLine("The value of variable \"" + name + "\" of type " + type + " is: \"" + content + "\"");
+                    return;
+                }
+                else if(GraphExists())
+                {
+                    foreach(EnumAttributeType enumAttrType in curShellGraph.Graph.Model.EnumAttributeTypes)
+                    {
+                        if(val.GetType() == enumAttrType.EnumType)
+                        {
+                            Console.WriteLine("The value of variable \"" + name + "\" of type " + enumAttrType.Name + " is: \"" + val.ToString() + "\"");
+                            return;
+                        }
+                    }
+                    if(val is LGSPNode)
+                    {
+                        LGSPNode node = (LGSPNode)val;
+                        Console.WriteLine("The value of variable \"" + name + "\" of type " + node.Type.Name + " is: \"" + curShellGraph.Graph.GetElementName((IGraphElement)val) + "\"");
+                        //ShowElementAttributes((IGraphElement)val);
+                        return;
+                    }
+                    if(val is LGSPEdge)
+                    {
+                        LGSPEdge edge = (LGSPEdge)val;
+                        Console.WriteLine("The value of variable \"" + name + "\" of type " + edge.Type.Name + " is: \"" + curShellGraph.Graph.GetElementName((IGraphElement)val) + "\"");
+                        //ShowElementAttributes((IGraphElement)val);
+                        return;
+                    }
+     
+                    Console.WriteLine("Type of variable \"" + name + "\" is not known");
+                }
                 else Console.WriteLine("Type of variable \"" + name + "\" is not known");
-                // todo: map / set ; including key/value of type enum
             }
         }
 

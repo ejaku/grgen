@@ -352,6 +352,19 @@ namespace de.unika.ipd.grGen.libGr
         /// Returns a string representation of the given dictionary
         /// </summary>
         /// <param name="setmap">The dictionary of which to get the string representation</param>
+        /// <returns>String representation of set/map.</returns>
+        public static string ToString(IDictionary setmap)
+        {
+            string type;
+            string content;
+            ToString(setmap, out type, out content);
+            return content;
+        }
+
+        /// <summary>
+        /// Returns a string representation of the given dictionary
+        /// </summary>
+        /// <param name="setmap">The dictionary of which to get the string representation</param>
         /// <param name="type">The type as string, e.g set<int> or map<string,boolean> </param>
         /// <param name="content">The content as string, e.g. { 42, 43 } or { "foo"->true, "bar"->false } </param>
         public static void ToString(IDictionary setmap, out string type, out string content)

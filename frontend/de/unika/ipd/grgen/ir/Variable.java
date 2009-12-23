@@ -17,8 +17,9 @@ public class Variable extends Entity {
 	// the pattern graph of the variable
 	public PatternGraph directlyNestingLHSGraph;
 	
-	public Variable(String name, Ident ident, Type type, PatternGraph directlyNestingLHSGraph) {
-		super(name, ident, type, false);
+	public Variable(String name, Ident ident, Type type,
+			PatternGraph directlyNestingLHSGraph, int context) {
+		super(name, ident, type, false, context);
 		this.directlyNestingLHSGraph = directlyNestingLHSGraph;
 	}
 }

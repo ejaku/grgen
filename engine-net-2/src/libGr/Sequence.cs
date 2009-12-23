@@ -176,7 +176,7 @@ namespace de.unika.ipd.grGen.libGr
         }
 
         public override int Precedence { get { return 0; } }
-        public override string Symbol { get { return "<<"; } }
+        public override string Symbol { get { return "<;"; } }
     }
 
     public class SequenceThenRight : SequenceBinary
@@ -200,7 +200,7 @@ namespace de.unika.ipd.grGen.libGr
         }
 
         public override int Precedence { get { return 0; } }
-        public override string Symbol { get { return ">>"; } }
+        public override string Symbol { get { return ";>"; } }
     }
 
     public class SequenceLazyOr : SequenceBinary
@@ -990,11 +990,10 @@ namespace de.unika.ipd.grGen.libGr
             IDictionary setmap = (IDictionary)graph.GetVariableValue(Setmap);
             if(setmap.Contains(graph.GetVariableValue(Var))) {
                 setmap[graph.GetVariableValue(Var)] = (VarDst == null ? null : graph.GetVariableValue(VarDst));
-                return false;
             } else {
                 setmap.Add(graph.GetVariableValue(Var), (VarDst == null ? null : graph.GetVariableValue(VarDst)));
-                return true;
             }
+            return true;
         }
 
         public override IEnumerable<Sequence> Children { get { yield break; } }
@@ -1017,9 +1016,8 @@ namespace de.unika.ipd.grGen.libGr
         protected override bool ApplyImpl(IGraph graph)
         {
             IDictionary setmap = (IDictionary)graph.GetVariableValue(Setmap);
-            bool res = setmap.Contains(graph.GetVariableValue(Var));
             setmap.Remove(graph.GetVariableValue(Var));
-            return res;
+            return true;
         }
 
         public override IEnumerable<Sequence> Children { get { yield break; } }

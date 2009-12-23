@@ -69,6 +69,7 @@
     <Compile Include="lgspMatcherGenerator.cs" />
     <None Include="MonoILReader.cs" />
     <Compile Include="lgspPattern.cs" />
+    <Compile Include="lgspSequenceGenerator.cs" />
     <Compile Include="NamesOfEntities.cs" />
     <Compile Include="Pair.cs" />
     <Compile Include="PatternGraphAnalyzer.cs" />

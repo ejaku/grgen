@@ -38,10 +38,12 @@ public class Edge extends GraphEntity {
 	 * @param annots The annotations of this edge.
 	 * @param maybeDeleted Indicates whether this element might be deleted due to homomorphy.
 	 * @param maybeRetyped Indicates whether this element might be retyped due to homomorphy.
+	 * @param context The context of the declaration
 	 */
 	public Edge(Ident ident, EdgeType type, Annotations annots,
-			PatternGraph directlyNestingLHSGraph, boolean maybeDeleted, boolean maybeRetyped) {
-		super("edge", ident, type, annots, maybeDeleted, maybeRetyped);
+			PatternGraph directlyNestingLHSGraph, 
+			boolean maybeDeleted, boolean maybeRetyped, int context) {
+		super("edge", ident, type, annots, maybeDeleted, maybeRetyped, context);
 		this.type = type;
 		this.directlyNestingLHSGraph = directlyNestingLHSGraph;
 	}
@@ -52,10 +54,12 @@ public class Edge extends GraphEntity {
 	 * @param type The type of the edge.
 	 * @param maybeDeleted Indicates whether this element might be deleted due to homomorphy
 	 * @param maybeRetyped Indicates whether this element might be retyped due to homomorphy.
+	 * @param context The context of the declaration
 	 */
 	public Edge(Ident ident, EdgeType type,
-			PatternGraph directlyNestingLHSGraph, boolean maybeDeleted, boolean maybeRetyped) {
-		this(ident, type, EmptyAnnotations.get(), directlyNestingLHSGraph, maybeDeleted, maybeRetyped);
+			PatternGraph directlyNestingLHSGraph, 
+			boolean maybeDeleted, boolean maybeRetyped, int context) {
+		this(ident, type, EmptyAnnotations.get(), directlyNestingLHSGraph, maybeDeleted, maybeRetyped, context);
 	}
 
 	public void setMaybeNull(boolean maybeNull) {

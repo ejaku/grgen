@@ -27,7 +27,7 @@ show num nodes
 show num edges
 
 set st2 size
-xgrs st2.add(n) && addNode
+xgrs if{n in st2; false; st2.add(n) && addNode}
 show num nodes
 set st2 size
 
@@ -38,10 +38,10 @@ show num edges
 set st2 size
 
 set st1 size
-xgrs st1.rem(n) && addNode
+xgrs if{n in st1; st1.rem(n) && addNode; false}
 show num nodes
 set st1 size
-xgrs for{n in st2; st1.rem(n)} && addNode
+xgrs for{n in st2; st1.rem(n) && false} && addNode
 show num nodes
 set st1 size
 

@@ -18,8 +18,8 @@ public class RetypedNode extends Node implements Retyped {
 	protected Node oldNode = null;
 
 	public RetypedNode(Ident ident, NodeType type, Annotations annots,
-			boolean maybeDeleted, boolean maybeRetyped) {
-		super(ident, type, annots, null, maybeDeleted, maybeRetyped);
+			boolean maybeDeleted, boolean maybeRetyped, int context) {
+		super(ident, type, annots, null, maybeDeleted, maybeRetyped, context);
 	}
 
 	/*public RetypedNode(Ident ident, NodeType type, Node old, boolean maybeDeleted, boolean maybeRetyped) {
