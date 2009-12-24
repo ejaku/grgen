@@ -1,4 +1,7 @@
-﻿v2.6beta (2009-11-16)
+﻿v2.6beta (2009-12-24)
+ Single most important change:
+  - user manual updated (1.4->2.6)
+ 
  New sequencing constructs in xgrs:
   - operator then-left l <; r executing l then r, returning the execution result of l
   - operator then-right l ;> r executing l then r, returning the execution result of r
@@ -9,8 +12,8 @@
 
  Handling of set<T>/map<S,T> in xgrs:
   - in contrast to the set/map in models and rules, S/T may be of node/edge typ, giving storages/storagemaps
-  - set/map addition st.add(el)/mp.add(el,val) failing iff el is already contained in set/map
-  - set/map removal st.rem(el)/mp.rem(el), failing iff el is not contained in set
+  - set/map addition st.add(el)/mp.add(el,val) always succeding
+  - set/map removal st.rem(el)/mp.rem(el) always succeding
   - set/map clearing sm.clear() always succeeding
   - set/map iteration for{el in st; seq} / for{el->val in mp; seq},
      failing iff seq fails for at least one el/el->val in the set/map
@@ -58,13 +61,22 @@
   - several cases of use before definition in rule language now working
   - Mono compiler error (MS.NET warning) when using alternatives removed
   - initialization overwrite in model (on inheritance paths of depth >2; for sets/maps)
+  - fixes for nesting hierarchies of right hand side declared elements
 
  Further changes:
+  - null arguments must be declared beforehand if they should be used, 
+    causing the element to be searched by its own search plan, 
+	thus every null-capable argument doubles the number of matchers;
+    declaration syntax example: rule r(x:Node<null>, y:T<S+null>)
+	  (y is example for inexactly typed input which may be null in addition)
+  - replaced emitpre by emithere, which is emitted before regular emits,
+    at the position syntax-relative to the subpattern modification invocations and the other emitheres
   - set/map commands in GrShell are deprecated (succeeded by xgrs set/map operators)
   - set/map-valued attributes are now displayed in yComp, too
   - now error reported on attempt to delete and return elments allowed to be matched homomorphically
   - added exitonfailure to GrShell validate command leaving GrShell on failed validation with error code
-  
+  - reserved keywords for 2.7
+
   
 v2.5.1 (2009-09-09)
  Additions:

@@ -1,0 +1,11 @@
+rule r {
+  iterated {
+    n:Node;
+    modify {
+      exec(r);
+    }
+  }  
+  
+  modify {
+  }
+}

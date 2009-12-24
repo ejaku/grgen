@@ -115,7 +115,7 @@ We create the actions to apply on the graph, and a single node of type \texttt{B
 Then we get the action from the actions and save it to an action variable \texttt{bar};
 afterwards we use the action for finding all available matches of \texttt{bar} with input \texttt{b} -- which is different from the first version -- and remember the found matches in the matches variable with its exact type.
 Finally we take the first match from the matches and execute the rewrite with it.
-We could have inspected the nodes and edges of the match or their attributes before (using element names prefixed with node\_/edge\_ or attribute names to get exactly typed entities). 
+We could have inspected the nodes and edges of the match or their attributes before (using element names prefixed with \texttt{node\_/edge\_} or attribute names to get exactly typed entities). 
 \begin{verbatim}
 IGraphModel model = new FooGraphModel();
 LGSPGraph graph = new LGSPGraph(model);

@@ -58,7 +58,7 @@ debug xgrs (p)=someParameterOfTargetType(mb,tgt) \
 		&& relinkOperationAndMethodBody(op,mb,src,tgt) \
 		&& ( (call,pe)=getUnprocessedCallWithActualParameter(op,p) \
 				&& ((def(srcparam) && addSourceToCall(call,srcparam)) || true) \
-				&& (replaceAccess_Parameter_AccessWithoutLink(c,pe) || replaceAccess_Parameter_AccessWithLinkToExpression(c,pe)) \
+				&& (replaceAccess_Parameter_AccessWithoutLink(call,pe) || replaceAccess_Parameter_AccessWithLinkToExpression(call,pe)) \
 		   )*
 
 #debug xgrs (v)=someInstanceVariableOfTargetType(mb,tgt) \

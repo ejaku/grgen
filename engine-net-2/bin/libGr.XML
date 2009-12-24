@@ -4893,6 +4893,13 @@
             <param name="b">Another dictionary of compatible type to <paramref name="a"/>.</param>
             <returns>Boolean result of set/map comparison.</returns>
         </member>
+        <member name="M:de.unika.ipd.grGen.libGr.DictionaryHelper.ToString(System.Collections.IDictionary)">
+            <summary>
+            Returns a string representation of the given dictionary
+            </summary>
+            <param name="setmap">The dictionary of which to get the string representation</param>
+            <returns>String representation of set/map.</returns>
+        </member>
         <!-- Badly formed XML comment ignored for member "M:de.unika.ipd.grGen.libGr.DictionaryHelper.ToString(System.Collections.IDictionary,System.String@,System.String@)" -->
         <!-- Badly formed XML comment ignored for member "M:de.unika.ipd.grGen.libGr.DictionaryHelper.ToString(System.Collections.IDictionary,de.unika.ipd.grGen.libGr.AttributeChangeType,System.Object,System.Object,System.String@,System.String@)" -->
         <member name="T:de.unika.ipd.grGen.libGr.sequenceParser.SimpleCharStream">

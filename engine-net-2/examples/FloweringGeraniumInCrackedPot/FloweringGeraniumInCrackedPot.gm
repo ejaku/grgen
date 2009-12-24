@@ -1,0 +1,9 @@
+node class Pot
+{
+	cracked:boolean;
+}
+
+node class Geranium
+{
+	flowering:boolean;
+}

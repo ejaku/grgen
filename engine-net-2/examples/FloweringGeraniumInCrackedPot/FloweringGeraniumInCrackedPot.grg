@@ -1,0 +1,33 @@
+using FloweringGeraniumInCrackedPot;
+
+rule moveFloweringInCrackedPotsToNewPots()
+{
+	iterated {
+		p:Pot;
+		if { p.cracked; }
+		independent {
+			p --> g:Geranium;
+			if { g.flowering; }
+		}
+		
+		multiple {
+			p --> g:Geranium;
+			if { g.flowering; }
+			
+			modify {
+				np --> ng:Geranium;
+				eval { ng.flowering = true; }
+				delete(g);
+			}
+		}
+		
+		modify {
+			np:Pot;
+			eval { np.cracked = false; }
+		}
+	}
+	
+	modify {
+	}
+}
+

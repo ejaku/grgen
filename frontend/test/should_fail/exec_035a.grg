@@ -1,0 +1,12 @@
+pattern P {
+  modify{
+    exec(r);
+  }
+}
+
+rule r {
+  p:P();
+  modify {
+    p();
+  }
+}

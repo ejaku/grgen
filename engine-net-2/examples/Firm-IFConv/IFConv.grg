@@ -262,11 +262,11 @@ rule ICCopyPhi(block:Block, pred:Block, var i:int, pred_pred:Block, var j:int, v
     
     modify {
 //        exec(ICCopyTo(phi_pred, pred, pred_pred, j));
-        exec(((copy:IR_node)=ICCopyTo_otherBlock(phi_pred, pred, pred_pred)
-            || (copy)=ICCopyTo_isPhi(phi_pred, pred, pred_pred, j)
-            || (copy)=ICCopyTo_default(phi_pred, pred, pred_pred, j))
+        exec(((copy_:IR_node)=ICCopyTo_otherBlock(phi_pred, pred, pred_pred)
+            || (copy_)=ICCopyTo_isPhi(phi_pred, pred, pred_pred, j)
+            || (copy_)=ICCopyTo_default(phi_pred, pred, pred_pred, j))
             && ICAddPred(phi, nextPos, phi_pred)
-            && ICSetPred(phi, i, copy));
+            && ICSetPred(phi, i, copy_));
     }
 }
 
@@ -321,10 +321,10 @@ rule ICCopyTo_default(curNode:IR_node, pred:Block, pred_pred:Block, var i:int) :
     
     modify {
         // TODO: Copy all attributes...
-        copy:typeof(curNode) -:df-> pred_pred;
-        return (copy);
+        copy_:typeof(curNode) -:df-> pred_pred;
+        return (copy_);
 
-        exec([ICCopyPred(copy, curNode, pred, pred_pred, i)]);
+        exec([ICCopyPred(copy_, curNode, pred, pred_pred, i)]);
     }
 }
 
@@ -373,10 +373,10 @@ rule ICCopyPred(to:IR_node, from:IR_node, pred:Block, pred_pred:Block, var i:int
             
             modify {
                 // TODO: Copy all attributes...
-                copy:typeof(curNode) -:df-> pred_block;
-//                return (copy);
+                copy_:typeof(curNode) -:df-> pred_block;
+//                return (copy_);
                 
-                exec([ICCopyPred(copy, curNode, block, i)]);
+                exec([ICCopyPred(copy_, curNode, block, i)]);
             }
         }
     }

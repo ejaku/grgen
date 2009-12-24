@@ -145,7 +145,7 @@ pattern ChainFromToReverseToCommon(from:Node, to:Node) {
 		base {
 			from --> to;
 			
-			replace(common:Node) {
+			replace {
 				from <-- to;
 				from --> common;
 				to --> common;
@@ -155,7 +155,7 @@ pattern ChainFromToReverseToCommon(from:Node, to:Node) {
 			from --> intermediate:Node;
 			cftrtc:ChainFromToReverseToCommon(intermediate, to);
 			
-			replace(common:Node) {
+			replace {
 				from <-- intermediate;
 				from --> common;
 				cftrtc(common);

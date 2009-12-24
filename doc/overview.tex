@@ -19,71 +19,6 @@ Starting as a compiler construction helper tool it has grown into a software dev
 which offers through its declarative languages with automatic optimization the highest combined speed of development and execution.
 
 
-\section{Development goals}
-
-The development goals of \GrG\ were
-
-\begin{description}
-
-\item[Expressiveness]
-is achieved by powerful and declarative specification languages for pattern matching and rewriting by rewrite rules, builing upon a rich graph model language.
-In addition to the unmatched expressiveness of the basic actions,
-the rule language now offers nested and subpatterns which allow to handle substructures of arbitrary depth and arbitrary breadth declaratively within the rules,
-by now even surpassing the capabilities of the VIATRA2\cite{viatra2,recursiveviatra} graph rewriting tool, the strongest competitor in rule expressiveness. 
-The rules can be combined by graph rewrite sequences, a rule application control language with variables and logical as well as iterative control flow;
-it was recently extended by storages as pioneered by the VMTS\cite{vmts} graph rewriting tool, allowing for more concise and faster solutions.
-
-\item[Performance]
-i.e. high speed at modest memory consumption, is needed to tackle real world problems.
-It is achieved by typing, easening the life of the programmer by eliminating large classes or errors as well as speeding up the pattern matcher,
-by the generative approach compiling the rules into executable code, 
-and by the heuristic optimizations of search state space stepping and the host graph sensitive search plans.
-In order to accelerate the matching step, we internally introduce \newterm{search plans} 
-to represent different \newterm{matching strategies} and equip these search plans with a cost model, taking the present host graph into account.
-The task of selecting a good search plan is then considered as an optimization problem~\cite{BKG:07,Bat:06}.
-In contrast to systems like \indexed{Fujaba}~\cite{fujaba,fuj}, our strongest competitor regarding performance, 
-our pattern matching algorithm is fully automatic and does not need to be tuned nor to be implemented in parts by hand.
-According to \indexed{Varr\'o's benchmark}\cite{varro_bench}, it is at least one order of magnitude faster than any other tool known to us.
-
-\item[Development Convenience]
-is gained by interactive and graphical debugging of the rule application, capable of visualizing the matched pattern, the rewrite which will be applied, and the currently active rule out of the rewrite sequence.
-A further point easening development is the application programming interface of the generated code,
-which offers access to named, statically typed entities, catching most errors before runtime and allowing the code completion mechanisms of modern IDEs to excel.
-In addition a generic interface operating on name strings and .NET objects is available for applications where the rules may change at runtime (as e.g. the \GrShell\).
-Another important factor regarding development convenience is currently read by you.
-There's one convenience not offered you may expect: a visual rule language and an editor.
-This brings a clear benefit -- graph transformation specifications to be processed by \GrG\ can be easily generated --
-and especially is a good deal cheaper to implement. Given the limited resources of an university project this is an important point,
-as can be seen with the AGG\cite{agg} tool, offering a nice graphical editor but delivering performance only up to simple toy examples.
-
-\item[Well Founded Semantics]
-to ease formal, but especially human reasoning.
-The semantics of \GrG\ are specified in \cite{DissRuby}, based upon graph homomorphisms, denotational evaluation functions and category theory.
-The \GrG-rewrite step is based by default on the \newterm{single-pushout approach} (SPO, for explanation see~\cite{spoapproach}),
-with the \newterm{double-pushout approach} (DPO, for explanation see~\cite{dpoapproach}) available on request, too.
-The semantics of the recursive rules introduced in version 2.0 are given in \cite{Jak:08},
-utilizing pair star graph grammars on the meta level to assemble the rules of the object level.
-The formal semantics are not as complete as for the graph programming language GP\cite{gp} though, mainly due to the large amount of features 
--- the convenience at using the language had priority over the convenience at reasoning formally about the language.
-
-\item[Platform Independence]
-is achived by using languages compiled to byte code for virtual machines backed by large, standardized libraries, specifically: Java and C\#.
-This should prevent the fate of the grandfather of all graph rewrite systems, PROGRES\cite{schuerr99progres},
-which achieved a high level of sophistication, but is difficult to run by now, or simply: outdated.
-
-\item[General Purpose Graph Transformation]
-in contrast to special purpose graph transformation.
-A lot of other tools are geared towards special purpose applications, e.g. model transformation or biology (corresponding examples are VIATRA2\cite{viatra2} and XL \cite{xl}).
-This means that design decisions were taken to ease uses in this applications at the cost rendering uses in other domains more difficult.
-While the old \textsc{GrGen} was built as a special purpose compiler construction tool, the new \GrG\ was built from the beginning as a general purpose graph transformation tool,
-to be used in areas as diverse as computer linguistics, software engineering, computational biology or sociology;
-for reasoning with semantic nets, transformation of natural language to UML models,
-model transformation, processing of program graphs, genome simulation, or pattern matching in social nets. 
-Several of them are worked on, you may have a look at \cite{usecomputerlinguistics} or \cite{usemodeltransformation} or \cite{usegeneexpression}.
-
-\end{description}
-
-
 \section{Features of \GrG}
 
 The process of graph rewriting can be divided into four steps:
@@ -588,3 +523,67 @@ in the form of a dump of the compiler IR as a .vcg file:\\
 \texttt{java -jar grgen.jar -i yourfile.grg}
 \end{note}
 
+
+\section{Development goals}
+
+The development goals of \GrG\ were
+
+\begin{description}
+
+\item[Expressiveness]
+is achieved by powerful and declarative specification languages for pattern matching and rewriting by rewrite rules, builing upon a rich graph model language.
+In addition to the unmatched expressiveness of the basic actions,
+the rule language now offers nested and subpatterns which allow to handle substructures of arbitrary depth and arbitrary breadth declaratively within the rules,
+by now even surpassing the capabilities of the VIATRA2\cite{viatra2,recursiveviatra} graph rewriting tool, the strongest competitor in rule expressiveness. 
+The rules can be combined by graph rewrite sequences, a rule application control language with variables and logical as well as iterative control flow;
+it was recently extended by storages as pioneered by the VMTS\cite{vmts} graph rewriting tool, allowing for more concise and faster solutions.
+
+\item[Performance]
+i.e. high speed at modest memory consumption, is needed to tackle real world problems.
+It is achieved by typing, easening the life of the programmer by eliminating large classes or errors as well as speeding up the pattern matcher,
+by the generative approach compiling the rules into executable code, 
+and by the heuristic optimizations of search state space stepping and the host graph sensitive search plans.
+In order to accelerate the matching step, we internally introduce \newterm{search plans} 
+to represent different \newterm{matching strategies} and equip these search plans with a cost model, taking the present host graph into account.
+The task of selecting a good search plan is then considered as an optimization problem~\cite{BKG:07,Bat:06}.
+In contrast to systems like \indexed{Fujaba}~\cite{fujaba,fuj}, our strongest competitor regarding performance, 
+our pattern matching algorithm is fully automatic and does not need to be tuned nor to be implemented in parts by hand.
+According to \indexed{Varr\'o's benchmark}\cite{varro_bench}, it is at least one order of magnitude faster than any other tool known to us.
+
+\item[Development Convenience]
+is gained by interactive and graphical debugging of the rule application, capable of visualizing the matched pattern, the rewrite which will be applied, and the currently active rule out of the rewrite sequence.
+A further point easening development is the application programming interface of the generated code,
+which offers access to named, statically typed entities, catching most errors before runtime and allowing the code completion mechanisms of modern IDEs to excel.
+In addition a generic interface operating on name strings and .NET objects is available for applications where the rules may change at runtime (as e.g. the \GrShell\).
+Another important factor regarding development convenience is currently read by you.
+There's one convenience not offered you may expect: a visual rule language and an editor.
+This brings a clear benefit -- graph transformation specifications to be processed by \GrG\ can be easily generated --
+and especially is a good deal cheaper to implement. Given the limited resources of an university project this is an important point,
+as can be seen with the AGG\cite{agg} tool, offering a nice graphical editor but delivering performance only up to simple toy examples.
+
+\item[Well Founded Semantics]
+to ease formal, but especially human reasoning.
+The semantics of \GrG\ are specified in \cite{DissRuby}, based upon graph homomorphisms, denotational evaluation functions and category theory.
+The \GrG-rewrite step is based by default on the \newterm{single-pushout approach} (SPO, for explanation see~\cite{spoapproach}),
+with the \newterm{double-pushout approach} (DPO, for explanation see~\cite{dpoapproach}) available on request, too.
+The semantics of the recursive rules introduced in version 2.0 are given in \cite{Jak:08},
+utilizing pair star graph grammars on the meta level to assemble the rules of the object level.
+The formal semantics are not as complete as for the graph programming language GP\cite{gp} though, mainly due to the large amount of features 
+-- the convenience at using the language had priority over the convenience at reasoning formally about the language.
+
+\item[Platform Independence]
+is achived by using languages compiled to byte code for virtual machines backed by large, standardized libraries, specifically: Java and C\#.
+This should prevent the fate of the grandfather of all graph rewrite systems, PROGRES\cite{schuerr99progres},
+which achieved a high level of sophistication, but is difficult to run by now, or simply: outdated.
+
+\item[General Purpose Graph Transformation]
+in contrast to special purpose graph transformation.
+A lot of other tools are geared towards special purpose applications, e.g. model transformation or biology (corresponding examples are VIATRA2\cite{viatra2} and XL \cite{xl}).
+This means that design decisions were taken to ease uses in this applications at the cost rendering uses in other domains more difficult.
+While the old \textsc{GrGen} was built as a special purpose compiler construction tool, the new \GrG\ was built from the beginning as a general purpose graph transformation tool,
+to be used in areas as diverse as computer linguistics, software engineering, computational biology or sociology;
+for reasoning with semantic nets, transformation of natural language to UML models,
+model transformation, processing of program graphs, genome simulation, or pattern matching in social nets. 
+Several of them are worked on, you may have a look at \cite{usecomputerlinguistics} or \cite{usemodeltransformation} or \cite{usegeneexpression}.
+
+\end{description}

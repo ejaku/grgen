@@ -149,6 +149,13 @@ namespace de.unika.ipd.grGen.lgsp
 					AssignIdsAndEmitNeededVarAndRuleEntities(seqToVar.Seq, source, model);
 					break;
 				}
+                case SequenceType.AssignConstToVar:
+                {
+                    SequenceAssignConstToVar constToVar = (SequenceAssignConstToVar)seq;
+                    EmitBoolVarIfNew(constToVar.DestVar, source);
+                    break;
+                }
+
 
 				case SequenceType.Rule:
 				case SequenceType.RuleAll:

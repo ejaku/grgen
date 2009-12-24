@@ -54,7 +54,7 @@ pattern A2K(prev:D)
 			n:A2KNucleotide(next);
 			a2k:A2K(next);
 			
-			modify(prevC5:A_C) {
+			modify {
 				:PhosphateGroup(prevC5, p);
 				p:A_P --> :A_O --> c3:A_C; 
 				c1:A_C; c5:A_C;
@@ -68,7 +68,7 @@ pattern A2K(prev:D)
 				prev -:PG-> next:D;
 			}
 			
-			modify(prevC5:A_C) {
+			modify {
 				:PhosphateGroupEnd(prevC5);
 			}
 		}
@@ -84,42 +84,42 @@ pattern A2KNucleotide(d:D)
 		A {
 			d --> :A;
 			
-			modify(c1:A_C) {
+			modify {
 				:Adenin(c1);
 			}
 		}
 		C {
 			d --> :C;
 			
-			modify(c1:A_C) {
+			modify {
 				:Cytosin(c1);
 			}
 		}
 		G {
 			d --> :G;
 			
-			modify(c1:A_C) {
+			modify {
 				:Guanin(c1);
 			}
 		}
 		T {
 			d --> :T;
 			
-			modify(c1:A_C) {
+			modify {
 				:Thymin(c1);
 			}
 		}
 		U { // corrupt DNA
 			d --> :U;
 			
-			modify(c1:A_C) {
+			modify {
 				:Uracil(c1);
 			}
 		}
 		H { // corrupt DNA
 			d --> :H;
 			
-			modify(c1:A_C) {
+			modify {
 				:HydroxyGuanin(c1);
 			}
 		}
@@ -242,7 +242,7 @@ pattern DNAChain(pOfPrev:A_P) {
 			pOfNext:A_P;
 			c:DNAChain(pOfNext); 
 
-			modify(oOfPrev:A_O) {
+			modify {
 				e(oOfPrev, oOfNext); 
 				oOfNext:A_O;
 				c(oOfNext); 
@@ -251,7 +251,7 @@ pattern DNAChain(pOfPrev:A_P) {
 		End {
 			e:DNAChainEnd(pOfPrev); 
 
-			modify(oOfPrev:A_O) {
+			modify {
 				e(oOfPrev); 
 			}
 		}
@@ -359,28 +359,28 @@ pattern Nukleinbase(c1:A_C) {
 		A {
 			a:Adenin(c1); 
 
-			modify(rc1:A_C) {
+			modify {
 				:Uracil(rc1); 
 			}
 		}
 		C {
 			c:Cytosin(c1); 
 
-			modify(rc1:A_C) {
+			modify {
 				:Guanin(rc1); 
 			}
 		}
 		G {
 			g:Guanin(c1); 
 
-			modify(rc1:A_C) {
+			modify {
 				:Cytosin(rc1); 
 			}
 		}
 		T {
 			t:Thymin(c1); 
 
-			modify(rc1:A_C) {
+			modify {
 				:Adenin(rc1); 
 			}
 		}

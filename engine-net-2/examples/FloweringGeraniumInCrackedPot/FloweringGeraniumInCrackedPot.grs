@@ -1,0 +1,33 @@
+new graph "FloweringGeraniumInCrackedPot"
+
+debug set layout Organic
+dump set node Pot color black
+dump set node Pot textcolor white
+dump add node Pot shortinfotag cracked
+dump set node Geranium shape circle
+dump set node Geranium color red
+dump add node Geranium shortinfotag flowering
+dump set edge Edge color green
+
+new P1:Pot(cracked=false)
+new P2:Pot(cracked=true)
+new P3:Pot(cracked=false)
+new P4:Pot(cracked=true)
+new P1G1:Geranium(flowering=true)
+new P1G2:Geranium(flowering=false)
+new P1G3:Geranium(flowering=true)
+new P2G1:Geranium(flowering=true)
+new P2G2:Geranium(flowering=false)
+new P2G3:Geranium(flowering=true)
+new P3G1:Geranium(flowering=false)
+new P4G1:Geranium(flowering=false)
+new P1 -EP1G1:Edge -> P1G1
+new P1 -EP1G2:Edge -> P1G2
+new P1 -EP1G3:Edge -> P1G3
+new P2 -EP2G1:Edge -> P2G1
+new P2 -EP2G2:Edge -> P2G2
+new P2 -EP2G3:Edge -> P2G3
+new P3 -EP3G1:Edge -> P3G1
+new P4 -EP4G1:Edge -> P4G1
+
+debug xgrs moveFloweringInCrackedPotsToNewPots

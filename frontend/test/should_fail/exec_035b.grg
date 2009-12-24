@@ -1,0 +1,17 @@
+rule r {
+  alternative {
+    a {
+	  modify {
+ 	    exec(r);
+      }
+	}
+	b {
+	  n:Node;
+	  modify {
+	  }
+    }
+  }  
+  
+  modify {
+  }
+}

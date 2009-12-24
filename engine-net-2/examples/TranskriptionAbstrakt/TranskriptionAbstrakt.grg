@@ -31,7 +31,7 @@ pattern DNAChain(prev:D)
 			n:DNANucleotide(next);
 			d2r:DNAChain(next);
 						
-			modify(rprev:R) {
+			modify {
 				rprev -:PG-> rnext:R; 
 				n(rnext);
 				d2r(rnext);
@@ -40,7 +40,7 @@ pattern DNAChain(prev:D)
 		End	{
 			:TerminationSequence(prev);
 			
-			modify(rprev:R) {
+			modify {
 			}
 		}
 	}
@@ -55,34 +55,34 @@ pattern DNANucleotide(d:D)
 		A {
 			d --> a:A;
 			
-			modify(r:R) {
+			modify {
 				r --> u:U;
 			}
 		}
 		C {
 			d --> c:C;
 			
-			modify(r:R) {
+			modify {
 				r --> g:G;
 			}
 		}
 		G {
 			d --> g:G; 
 			
-			modify(r:R) {
+			modify {
 				r --> c:C;
 			}
 		}
 		T {	
 			d --> t:T; 
 			
-			modify(r:R) {
+			modify {
 				r --> a:A;
 			}
 		}
 	}
 	
-	modify(rprev:R) {
+	modify(r:R) {
 	}
 }
 

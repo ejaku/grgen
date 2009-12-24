@@ -929,6 +929,33 @@
             This is unused (and thus null), if the graph element flags are used for this visitor ID.
             </summary>
         </member>
+        <member name="T:de.unika.ipd.grGen.lgsp.LGSPXGRSInfo">
+            <summary>
+            Represents an XGRS used in an exec statement.
+            </summary>
+        </member>
+        <member name="M:de.unika.ipd.grGen.lgsp.LGSPXGRSInfo.#ctor(System.String[],System.String)">
+            <summary>
+            Constructs an LGSPXGRSInfo object.
+            </summary>
+            <param name="parameters">The names of the needed graph elements of the containing action.</param>
+            <param name="xgrs">The XGRS string.</param>
+        </member>
+        <member name="F:de.unika.ipd.grGen.lgsp.LGSPXGRSInfo.Parameters">
+            <summary>
+            The names of the needed graph elements of the containing action.
+            </summary>
+        </member>
+        <member name="F:de.unika.ipd.grGen.lgsp.LGSPXGRSInfo.XGRS">
+            <summary>
+            The XGRS string.
+            </summary>
+        </member>
+        <member name="T:de.unika.ipd.grGen.lgsp.LGSPSequenceGenerator">
+            <summary>
+            The C#-part responsible for compiling the XGRSs of the exec statements.
+            </summary>
+        </member>
         <member name="T:de.unika.ipd.grGen.expression.Expression">
             <summary>
             Base class of expressions used in conditions to constrain the pattern
@@ -4167,33 +4194,11 @@
             The plan graph data structure for the MSA-algorithm.
             </summary>
         </member>
-        <member name="T:de.unika.ipd.grGen.lgsp.LGSPXGRSInfo">
-            <summary>
-            Represents an XGRS used in an exec statement.
-            </summary>
-        </member>
-        <member name="M:de.unika.ipd.grGen.lgsp.LGSPXGRSInfo.#ctor(System.String[],System.String)">
-            <summary>
-            Constructs an LGSPXGRSInfo object.
-            </summary>
-            <param name="parameters">The names of the needed graph elements of the containing action.</param>
-            <param name="xgrs">The XGRS string.</param>
-        </member>
-        <member name="F:de.unika.ipd.grGen.lgsp.LGSPXGRSInfo.Parameters">
-            <summary>
-            The names of the needed graph elements of the containing action.
-            </summary>
-        </member>
-        <member name="F:de.unika.ipd.grGen.lgsp.LGSPXGRSInfo.XGRS">
-            <summary>
-            The XGRS string.
-            </summary>
-        </member>
         <member name="T:de.unika.ipd.grGen.lgsp.LGSPGrGen">
             <summary>
             The C#-part of the GrGen.NET frontend.
-            It is responsible for compiling the XGRSs of the exec statements
-            and generating initial actions with static search plans.
+            It is responsible for generating initial actions with static search plans.
+            (and compiling the XGRSs of the exec statements vie LGSPSequenceGenerator)
             </summary>
         </member>
         <member name="M:de.unika.ipd.grGen.lgsp.LGSPGrGen.#ctor(de.unika.ipd.grGen.libGr.ProcessSpecFlags)">

@@ -356,6 +356,19 @@ public class AlternativeCaseNode extends ActionDeclNode  {
 		return true;
 	}
 
+	private boolean noExecNoEmit()
+	{
+		if(right.children.size()>0) {
+			for (BaseNode x : right.children.get(0).graph.imperativeStmts.getChildren()) {
+    			if(x instanceof ExecNode) {
+    				reportError("Alternative cases can't possess exec statements");
+    				return false;
+    			}
+			}
+		}
+		return true;
+	}
+	
 	/**
 	 * Check, if the rule type node is right.
 	 * The children of a rule type are
@@ -416,7 +429,7 @@ public class AlternativeCaseNode extends ActionDeclNode  {
 
 		return leftHandGraphsOk & noDeleteOfPatternParameters & SameNumberOfRewritePartsAndNoNestedRewriteParameters()
 			& checkRhsReuse() & noReturnInPatternOk & noReturnInAlterntiveCaseReplacement & abstr
-			& noDeletionOfElementsFromNestingPattern();
+			& noDeletionOfElementsFromNestingPattern() && noExecNoEmit();
 	}
 
 	private void constructIRaux(Rule rule) {

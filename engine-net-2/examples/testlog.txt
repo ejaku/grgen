@@ -1,6 +1,6 @@
 Agri:
   Agri.grs -> 255
-AntWorld:
+AntWorld-GraBaTs08:
   AntWorld_BorderNodes.grs -> 0
   AntWorld_ExtendAtAimless.grs -> 0
   AntWorld_ExtendAtEndOfRound.grs -> 0
@@ -9,8 +9,14 @@ AntWorld:
   AntWorld_RememberBorder.grs -> 0
 Clique:
   Clique.grs -> 0
+ConferenceScheduling-GraBaTs08-Live-Contest-Winning-Solution:
+  conference.grs -> 0
+  conferenceShow.grs -> 0
+  conferenceassignment4.grs -> 0
 Connectivity:
   Connectivity.grs -> 0
+ConveyorBeltSystem-GraBaTs09-Live-Contest-Winning-Solution:
+  Run.grs -> 0
 DTree:
   DTree.grs -> 0
 DebugExec:
@@ -22,18 +28,11 @@ FiniteStateMachine:
   removeEpsilons.grs -> 0
 Firm-IFConv:
   IFConv.grs -> 0
+FloweringGeraniumInCrackedPot:
+  FloweringGeraniumInCrackedPot.grs -> 0
 GrIO:
   GrIOtest.grs -> 255
-GraBaTs08-Live-Contest(ConferenceScheduling)-Winning-Solution:
-  conference.grs -> 0
-  conferenceShow.grs -> 0
-  conferenceassignment4.grs -> 0
-GraBaTs09-Live-Contest(ConveyorBeltSystem)-Winning-Solution:
-  Run.grs -> 0
-GraBaTs09-Program-Comprehension:
-  task1.grs -> 0
-  task2.grs -> 0
-JavaProgramGraphs:
+JavaProgramGraphs-GraBaTs08:
   EncapsulateField.grs -> 0
   MoveMethod.grs -> 0
 Ludo2:
@@ -60,6 +59,9 @@ ObjectToSchema:
 Petri:
   sp100.grs -> 0
   sp10000.grs -> 0
+ProgramComprehension-GraBaTs09:
+  task1.grs -> 0
+  task2.grs -> 0
 ProgramGraphs:
   ProgramGraphs.grs -> 0
 Recursive:
@@ -96,9 +98,9 @@ UML:
   demo_sm.grs -> 255
   g2x.grs -> 255
   test.grs -> 255
-UML2CSP:
+UML2CSP-GraBaTs09:
   UML2CSP.grs -> 0
-UML2CSP2:
+UML2CSP2-GraBaTs08:
   UML2CSP.grs -> 0
 WeakComponents:
   visit.grs -> 0

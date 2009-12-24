@@ -237,12 +237,12 @@ rule add_transitive_valid_path {
 		a -:org_amma_cfg_AbstractNode_expression-> expr_a:org_amma_cfg_Expression;
 		b -:org_amma_cfg_AbstractNode_expression-> expr_b:org_amma_cfg_Expression;
 		
-		expr_a -def_edge:org_amma_cfg_Expression_innerExpression-> def:org_amma_cfg_Expression;
+		expr_a -def_edge:org_amma_cfg_Expression_innerExpression-> def_:org_amma_cfg_Expression;
 		expr_b -redef_edge:org_amma_cfg_Expression_innerExpression-> redef:org_amma_cfg_Expression;
 		
-		if { def_edge.index == 0 && def._isIdentifier &&
+		if { def_edge.index == 0 && def_._isIdentifier &&
 		     redef_edge.index == 0 && redef._isIdentifier &&
-		     def._expressionName == redef._expressionName;
+		     def_._expressionName == redef._expressionName;
 	   }
 	}
 	
@@ -284,12 +284,12 @@ rule PDG_add_binary_data_dependency {
 	a -ea:org_amma_cfg_AbstractNode_expression-> expr_a:org_amma_cfg_Expression;
 	b -eb:org_amma_cfg_AbstractNode_expression-> expr_b:org_amma_cfg_Expression;
 
-	expr_a -def_edge:org_amma_cfg_Expression_innerExpression-> def:org_amma_cfg_Expression;
+	expr_a -def_edge:org_amma_cfg_Expression_innerExpression-> def_:org_amma_cfg_Expression;
 	expr_b -use_edge:org_amma_cfg_Expression_innerExpression-> use:org_amma_cfg_Expression;
 	
-	if { def_edge.index == 0 && def._isIdentifier &&
+	if { def_edge.index == 0 && def_._isIdentifier &&
 	     use_edge.index == 1 && use._isIdentifier &&
-	     def._expressionName == use._expressionName;
+	     def_._expressionName == use._expressionName;
 	   }
 	
 	negative {
@@ -313,14 +313,14 @@ rule PDG_add_unary_data_dependency {
 	a -ea:org_amma_cfg_AbstractNode_expression-> expr_a:org_amma_cfg_Expression;
 	b -eb:org_amma_cfg_AbstractNode_expression-> expr_b:org_amma_cfg_Expression;
 
-	hom(def, use);
+	hom(def_, use);
 	hom(def_edge, use_edge);
-	expr_a -def_edge:org_amma_cfg_Expression_innerExpression-> def:org_amma_cfg_Expression;
+	expr_a -def_edge:org_amma_cfg_Expression_innerExpression-> def_:org_amma_cfg_Expression;
 	expr_b -use_edge:org_amma_cfg_Expression_innerExpression-> use:org_amma_cfg_Expression;
 	
-	if { def_edge.index == 0 && def._isIdentifier &&
+	if { def_edge.index == 0 && def_._isIdentifier &&
 	     use_edge.index == 0 && use._isIdentifier &&
-	     def._expressionName == use._expressionName;
+	     def_._expressionName == use._expressionName;
 	   }
 	
 	negative {
