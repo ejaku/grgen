@@ -1,5 +1,5 @@
 /*
- * GrGen: graph rewrite generator tool -- release GrGen.NET 2.5
+ * GrGen: graph rewrite generator tool -- release GrGen.NET 2.6
  * Copyright (C) 2009 Universitaet Karlsruhe, Institut fuer Programmstrukturen und Datenorganisation, LS Goos
  * licensed under LGPL v3 (see LICENSE.txt included in the packaging of this file)
  */
@@ -12,15 +12,23 @@
 
 grammar GrGen;
 
-//options {
-//	k = 2;
-//}
+options {
+	k = 2;
+}
 
 tokens {
 	NUM_INTEGER;
 	NUM_FLOAT;
 	NUM_DOUBLE;
 }
+
+// todo: use scopes for the variables passed through numerous parsing rules as e.g. context
+// should simplify grammar a good deal / eliminate a lot of explicit parameter passing
+//scope Context {
+//	int context;
+//	PatternGraphNode directlyNestingLHSGraph;
+//}
+// todo: maybe user other features of antlr 3?
 
 @lexer::header {
 	package de.unika.ipd.grgen.parser.antlr;
@@ -929,9 +937,16 @@ modifyStmt [ Coords coords, CollectNode<BaseNode> connections, CollectNode<Subpa
 	;
 
 alternative [ int altCount, int context ] returns [ AlternativeNode alt = null ]
-	: a=ALTERNATIVE { alt = new AlternativeNode(getCoords(a)); } LBRACE
+	@init{
+		int altCasesCount = 0;
+	}
+	: a=ALTERNATIVE (name=altIdentDecl)? { alt = new AlternativeNode(getCoords(a)); } LBRACE
 		( alternativeCase[alt, altCount, context] ) +
 		RBRACE
+	| a=LPAREN { alt = new AlternativeNode(getCoords(a)); }
+		( alternativeCasePure[alt, a, altCount, altCasesCount, context] { ++altCasesCount; } )
+			( BOR alternativeCasePure[alt, a, altCount, altCasesCount, context] { ++altCasesCount; } ) *
+		RPAREN
 	;	
 	
 alternativeCase [ AlternativeNode alt, int altCount, int context ]
@@ -955,6 +970,31 @@ alternativeCase [ AlternativeNode alt, int altCount, int context ]
 				}
 		) ?
 		RBRACE popScope	{ alt.addChild(new AlternativeCaseNode(id, left, rightHandSides)); }
+	;
+
+alternativeCasePure [ AlternativeNode alt, Token a, int altCount, int altCasesCount, int context ]
+	@init{
+		int mod = 0;
+		CollectNode<EvalStatementNode> eval = new CollectNode<EvalStatementNode>();
+		CollectNode<IdentNode> dels = new CollectNode<IdentNode>();
+		CollectNode<RhsDeclNode> rightHandSides = new CollectNode<RhsDeclNode>();
+		IdentNode altCaseName = IdentNode.getInvalid();
+	}
+	
+	: { altCaseName = new IdentNode(env.define(ParserEnvironment.ALTERNATIVES, "alt_"+altCount+"_"+altCasesCount, getCoords(a))); }
+		pushScopeStr["alt_"+altCount+"_"+altCaseName.toString(), getCoords(a)]
+		left=patternBody[getCoords(a), new CollectNode<BaseNode>(), mod, context, altCaseName.toString()]
+		(
+			rightReplace=replacePart[eval, new CollectNode<BaseNode>(), context|BaseNode.CONTEXT_RHS, altCaseName, left]
+				{
+					rightHandSides.addChild(rightReplace);
+				}
+			| rightModify=modifyPart[eval, dels, new CollectNode<BaseNode>(), context|BaseNode.CONTEXT_RHS, altCaseName, left]
+				{
+					rightHandSides.addChild(rightModify);
+				}
+		) ?
+		popScope { alt.addChild(new AlternativeCaseNode(altCaseName, left, rightHandSides)); }
 	;
 
 iterated [ int iterCount, int context ] returns [ IteratedNode res = null ]
@@ -985,6 +1025,24 @@ iterated [ int iterCount, int context ] returns [ IteratedNode res = null ]
 				}
 		) ?				
 		RBRACE popScope { res = new IteratedNode(iterName, left, rightHandSides, minMatches, maxMatches); }
+	| (i=STAR { minMatches = 0; maxMatches = 0; } 
+	  | i=QUESTION { minMatches = 0; maxMatches = 1; }
+	  | i=PLUS { minMatches = 1; maxMatches = 0; }
+	  )
+		{ iterName = new IdentNode(env.define(ParserEnvironment.ITERATEDS, "iter_"+iterCount, getCoords(i))); }
+		LPAREN pushScopeStr["iter_"+iterCount, getCoords(i)]
+		left=patternBody[getCoords(i), new CollectNode<BaseNode>(), 0, context, "iter_"+iterCount]
+		(
+			rightReplace=replacePart[eval, new CollectNode<BaseNode>(), context|BaseNode.CONTEXT_RHS, iterName, left]
+				{
+					rightHandSides.addChild(rightReplace);
+				}
+			| rightModify=modifyPart[eval, dels, new CollectNode<BaseNode>(), context|BaseNode.CONTEXT_RHS, iterName, left]
+				{
+					rightHandSides.addChild(rightModify);
+				}
+		) ?				
+		RPAREN popScope { res = new IteratedNode(iterName, left, rightHandSides, minMatches, maxMatches); }
 	;
 
 negative [ int negCount, int context ] returns [ PatternGraphNode res = null ]
@@ -992,12 +1050,18 @@ negative [ int negCount, int context ] returns [ PatternGraphNode res = null ]
 		int mod = 0;
 	}
 	
-	: n=NEGATIVE LBRACE pushScopeStr["neg"+negCount, getCoords(n)]
+	: n=NEGATIVE (name=negIdentDecl)? LBRACE pushScopeStr["neg"+negCount, getCoords(n)]
 			( ( PATTERNPATH { mod = PatternGraphNode.MOD_PATTERNPATH_LOCKED; }
 			| PATTERN { mod = PatternGraphNode.MOD_PATTERN_LOCKED; } ) SEMI )*
 			b=patternBody[getCoords(n), new CollectNode<BaseNode>(), mod, 
 				context|BaseNode.CONTEXT_NEGATIVE, "negative"+negCount] { res = b; } 
 		RBRACE popScope
+	| n=TILDE LPAREN pushScopeStr["neg"+negCount, getCoords(n)]
+			( ( PATTERNPATH { mod = PatternGraphNode.MOD_PATTERNPATH_LOCKED; }
+			| PATTERN { mod = PatternGraphNode.MOD_PATTERN_LOCKED; } ) SEMI )*
+			b=patternBody[getCoords(n), new CollectNode<BaseNode>(), mod, 
+				context|BaseNode.CONTEXT_NEGATIVE, "negative"+negCount] { res = b; } 
+		RPAREN popScope
 	;
 
 independent [ int idptCount, int context ] returns [ PatternGraphNode res = null ]
@@ -1005,12 +1069,18 @@ independent [ int idptCount, int context ] returns [ PatternGraphNode res = null
 		int mod = 0;
 	}
 	
-	: i=INDEPENDENT LBRACE pushScopeStr["idpt"+idptCount, getCoords(i)]
+	: i=INDEPENDENT (name=idptIdentDecl)? LBRACE pushScopeStr["idpt"+idptCount, getCoords(i)]
 			( ( PATTERNPATH { mod = PatternGraphNode.MOD_PATTERNPATH_LOCKED; }
 			| PATTERN { mod = PatternGraphNode.MOD_PATTERN_LOCKED; } ) SEMI )*
 			b=patternBody[getCoords(i), new CollectNode<BaseNode>(), mod,
 				context|BaseNode.CONTEXT_INDEPENDENT, "independent"+idptCount] { res = b; } 
 		RBRACE popScope
+	| i=BAND LPAREN pushScopeStr["idpt"+idptCount, getCoords(i)]
+			( ( PATTERNPATH { mod = PatternGraphNode.MOD_PATTERNPATH_LOCKED; }
+			| PATTERN { mod = PatternGraphNode.MOD_PATTERN_LOCKED; } ) SEMI )*
+			b=patternBody[getCoords(i), new CollectNode<BaseNode>(), mod,
+				context|BaseNode.CONTEXT_INDEPENDENT, "independent"+idptCount] { res = b; } 
+		RPAREN popScope
 	;
 
 condition [ CollectNode<ExprNode> conds ]
@@ -1143,6 +1213,7 @@ iterSequence[ExecNode xg]
 	;
 
 simpleSequence[ExecNode xg]
+	options { k = *; }
 	@init{
 		CollectNode<BaseNode> returns = new CollectNode<BaseNode>();
 		String id_ = null, id2_ = null;
@@ -1159,7 +1230,7 @@ simpleSequence[ExecNode xg]
 			  else reportError(getCoords(d), "Unknown method name \""+method.getText()+"\"! (available are size|empty on set/map)");
 			}
 		|
-			map=entIdentUse LBRACK var=entIdentUse RBRACK
+			(map=entIdentUse LBRACK) => map=entIdentUse LBRACK var=entIdentUse RBRACK // parsing v=a[ as v=a[x] has priority over (v=a)[*]
 			{ xg.append(map+"["+var+"]"); xg.addGraphElementUsageOutsideOfActionCall(map); xg.addGraphElementUsageOutsideOfActionCall(var); }
 		| 
 			var=entIdentUse IN setmap=entIdentUse { xg.append(var+" in "+setmap); }
@@ -1264,6 +1335,7 @@ xgrsVariableList[ExecNode xg, CollectNode<BaseNode> res]
 	;
 
 xgrsEntity[ExecNode xg] returns [BaseNode res = null]
+options { k = *; }
 	:
 		id=entIdentUse // var of node, edge, or basic type
 		{ res = id; xg.append(id); } 
@@ -1765,6 +1837,18 @@ iterIdentDecl returns [ IdentNode res = env.getDummyIdent() ]
 		{ if(i!=null) res = new IdentNode(env.define(ParserEnvironment.ITERATEDS, i.getText(), getCoords(i))); }
 		( annots=annotations { res.setAnnotations(annots); } )?
 	;
+	
+negIdentDecl returns [ IdentNode res = env.getDummyIdent() ]
+	: i=IDENT 
+		{ if(i!=null) res = new IdentNode(env.define(ParserEnvironment.ITERATEDS, i.getText(), getCoords(i))); }
+		( annots=annotations { res.setAnnotations(annots); } )?
+	;
+
+idptIdentDecl returns [ IdentNode res = env.getDummyIdent() ]
+	: i=IDENT 
+		{ if(i!=null) res = new IdentNode(env.define(ParserEnvironment.INDEPENDENTS, i.getText(), getCoords(i))); }
+		( annots=annotations { res.setAnnotations(annots); } )?
+	;
 
 patIdentDecl returns [ IdentNode res = env.getDummyIdent() ]
 	: i=IDENT 
@@ -1797,14 +1881,24 @@ actionIdentUse returns [ IdentNode res = env.getDummyIdent() ]
 	{ if(i!=null) res = new IdentNode(env.occurs(ParserEnvironment.ACTIONS, i.getText(), getCoords(i))); }
 	;
 
+altIdentUse returns [ IdentNode res = env.getDummyIdent() ]
+	: i=IDENT 
+	{ if(i!=null) res = new IdentNode(env.occurs(ParserEnvironment.ALTERNATIVES, i.getText(), getCoords(i))); }
+	;
+
 iterIdentUse returns [ IdentNode res = env.getDummyIdent() ]
 	: i=IDENT 
 	{ if(i!=null) res = new IdentNode(env.occurs(ParserEnvironment.ITERATEDS, i.getText(), getCoords(i))); }
 	;
 
-altIdentUse returns [ IdentNode res = env.getDummyIdent() ]
+negIdentUse returns [ IdentNode res = env.getDummyIdent() ]
 	: i=IDENT 
-	{ if(i!=null) res = new IdentNode(env.occurs(ParserEnvironment.ALTERNATIVES, i.getText(), getCoords(i))); }
+	{ if(i!=null) res = new IdentNode(env.occurs(ParserEnvironment.NEGATIVES, i.getText(), getCoords(i))); }
+	;
+
+idptIdentUse returns [ IdentNode res = env.getDummyIdent() ]
+	: i=IDENT 
+	{ if(i!=null) res = new IdentNode(env.occurs(ParserEnvironment.INDEPENDENTS, i.getText(), getCoords(i))); }
 	;
 
 patIdentUse returns [ IdentNode res = env.getDummyIdent() ]

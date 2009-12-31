@@ -49,14 +49,18 @@ public abstract class ParserEnvironment extends Base {
 	public static final int ACTIONS = ENTITIES; // actions are also entities to get exec working
 	public static final int ALTERNATIVES = 2;
 	public static final int ITERATEDS = 3;
-	public static final int REPLACES = 4;
-	public static final int MODELS = 5;
+	public static final int NEGATIVES = 4;
+	public static final int INDEPENDENTS = 5;
+	public static final int REPLACES = 6;
+	public static final int MODELS = 7;
 
 	private final SymbolTable[] symTabs = new SymbolTable[] {
 		new SymbolTable("types", TYPES),        // types and patterns
 		new SymbolTable("entities", ENTITIES),     // entities and actions
 		new SymbolTable("alternatives", ALTERNATIVES),
 		new SymbolTable("iterateds", ITERATEDS),
+		new SymbolTable("negatives", NEGATIVES),
+		new SymbolTable("independents", INDEPENDENTS),
 		new SymbolTable("replaces", REPLACES),
 		new SymbolTable("models", MODELS),
 	};
