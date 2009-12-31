@@ -1237,130 +1237,277 @@ namespace de.unika.ipd.grGen.libGr
                 textColor, color, GrLineStyle.Default);
         }
 
-        private void DumpEdgesFromNode(INode node, DumpContext ctx)
+        /// <summary>
+        /// Dumps the given matches.
+        /// </summary>
+        /// <param name="dumper">The graph dumper to be used.</param>
+        /// <param name="dumpInfo">Specifies how the graph shall be dumped.</param>
+        /// <param name="matches">An IMatches object containing the matches.</param>
+        /// <param name="which">Which match to dump, or AllMatches for dumping all matches
+        /// adding connections between them, or OnlyMatches to dump the matches only</param>
+        public void DumpMatchOnly(IDumper dumper, DumpInfo dumpInfo, IMatches matches, DumpMatchSpecial which,
+            ref Set<INode> matchedNodes, ref Set<INode> multiMatchedNodes, ref Set<IEdge> matchedEdges, ref Set<IEdge> multiMatchedEdges)
         {
-            foreach(IEdge edge in node.Outgoing)        // TODO: This is probably wrong for group nodes grouped by outgoing edges
-            {
-                if(ctx.DumpInfo.IsExcludedEdgeType(edge.Type)) continue;
-                if(ctx.ExcludedEdges.Contains(edge)) continue;
-                if(!ctx.InitialNodes.Contains(edge.Target)) continue;
+            matchedNodes = new Set<INode>();
+            matchedEdges = new Set<IEdge>();
 
-                GrColor color;
-                GrColor textColor;
-                if(ctx.MatchedEdges != null && ctx.MatchedEdges.Contains(edge))
-                {
-                    GrElemDumpType dumpType;
-                    if(ctx.MultiMatchedEdges != null && ctx.MultiMatchedEdges.Contains(edge))
-                        dumpType = GrElemDumpType.MultiMatched;
-                    else
-                        dumpType = GrElemDumpType.SingleMatched;
-                    color = ctx.DumpInfo.GetEdgeDumpTypeColor(dumpType);
-                    textColor = ctx.DumpInfo.GetEdgeDumpTypeTextColor(dumpType);
-                }
-                else
-                {
-                    color = ctx.DumpInfo.GetEdgeTypeColor(edge.Type);
-                    textColor = ctx.DumpInfo.GetEdgeTypeTextColor(edge.Type);
-                }
-                
-                DumpEdge(edge, textColor, color, ctx.Dumper, ctx.DumpInfo);
+            if((int)which >= 0 && (int)which < matches.Count)
+            {
+                // Show exactly one match
+
+                IMatch match = matches.GetMatch((int)which);
+                matchedNodes.Add(match.Nodes);
+                matchedEdges.Add(match.Edges);
             }
-        }
-
-        private void DumpGroups(int iteration, Set<INode> rootNodes, DumpContext ctx)
-        {
-            Set<INode> roots = new Set<INode>();
-            int i = 0;
-            foreach(GroupNodeType groupNodeType in ctx.DumpInfo.GroupNodeTypes)
+            else
             {
-                if(i++ < iteration) continue;
+                GrColor vnodeColor = dumpInfo.GetNodeDumpTypeColor(GrElemDumpType.VirtualMatch);
+                GrColor vedgeColor = dumpInfo.GetEdgeDumpTypeColor(GrElemDumpType.VirtualMatch);
+                GrColor vnodeBorderColor = dumpInfo.GetNodeDumpTypeBorderColor(GrElemDumpType.VirtualMatch);
+                GrColor vnodeTextColor = dumpInfo.GetNodeDumpTypeTextColor(GrElemDumpType.VirtualMatch);
+                GrColor vedgeTextColor = dumpInfo.GetEdgeDumpTypeTextColor(GrElemDumpType.VirtualMatch);
 
-                roots.Clear();
+                multiMatchedNodes = new Set<INode>();
+                multiMatchedEdges = new Set<IEdge>();
 
-                foreach(INode node in GetCompatibleNodes(groupNodeType.NodeType))
+                // TODO: May edges to nodes be dumped before those nodes exist??
+                // TODO: Should indices in strings start at 0 or 1? (original: 0)
+
+                // Dump all matches with virtual nodes
+                int i = 0;
+                foreach(IMatch match in matches)
                 {
-                    if(rootNodes.Contains(node))
+                    VirtualNode virtNode = new VirtualNode(-i - 1);
+                    dumper.DumpNode(virtNode, String.Format("{0}. match of {1}", i + 1, matches.Producer.Name),
+                        null, vnodeTextColor, vnodeColor, vnodeBorderColor, GrNodeShape.Default);
+                    int j = 1;
+                    foreach(INode node in match.Nodes)
                     {
-                        roots.Add(node);
-                        ctx.Nodes.Remove(node);
-                        rootNodes.Remove(node);
+                        dumper.DumpEdge(virtNode, node, String.Format("node {0}", j++), null, vedgeTextColor, vedgeColor,
+                            GrLineStyle.Default);
+
+                        if(matchedNodes.Contains(node)) multiMatchedNodes.Add(node);
+                        else matchedNodes.Add(node);
                     }
-                }
-                foreach(INode root in roots)
-                {
-                    GrElemDumpType dumpType = GrElemDumpType.Normal;
-                    if(ctx.MatchedNodes != null && ctx.MatchedNodes.Contains(root))
+
+                    // Collect matched edges
+                    foreach(IEdge edge in match.Edges)
                     {
-                        if(ctx.MultiMatchedNodes != null && ctx.MultiMatchedNodes.Contains(root))
+                        if(matchedEdges.Contains(edge)) multiMatchedEdges.Add(edge);
+                        else matchedEdges.Add(edge);
+                    }
+                    i++;
+                }
+
+                if(which == DumpMatchSpecial.OnlyMatches)
+                {
+                    // Dump the matches only
+                    // First dump the matched nodes
+
+                    foreach(INode node in matchedNodes)
+                    {
+                        GrElemDumpType dumpType;
+                        if(multiMatchedNodes.Contains(node))
                             dumpType = GrElemDumpType.MultiMatched;
                         else
                             dumpType = GrElemDumpType.SingleMatched;
+
+                        DumpNode(node, dumpInfo.GetNodeDumpTypeTextColor(dumpType),
+                            dumpInfo.GetNodeDumpTypeColor(dumpType),
+                            dumpInfo.GetNodeDumpTypeBorderColor(dumpType),
+                            GrNodeShape.Default, dumper, dumpInfo);
                     }
 
-                    ctx.Dumper.StartSubgraph(root, GetElemLabel(root, ctx.DumpInfo), DumpAttributes(root),
-                        ctx.DumpInfo.GetNodeDumpTypeTextColor(dumpType), ctx.DumpInfo.GetNodeTypeColor(root.Type)); // TODO: Check coloring...
+                    // Now add the matched edges (possibly including "Not matched" nodes)
 
-                    Set<INode> leafNodes = new Set<INode>();
-                    foreach(IEdge edge in root.Incoming)
+                    foreach(IEdge edge in matchedEdges)
+                    {
+                        if(!matchedNodes.Contains(edge.Source))
+                            DumpNode(edge.Source, dumpInfo.GetNodeTypeTextColor(edge.Source.Type),
+                                dumpInfo.GetNodeTypeColor(edge.Source.Type),
+                                dumpInfo.GetNodeTypeBorderColor(edge.Source.Type),
+                                dumpInfo.GetNodeTypeShape(edge.Source.Type), dumper, dumpInfo);
+
+                        if(!matchedNodes.Contains(edge.Target))
+                            DumpNode(edge.Target, dumpInfo.GetNodeTypeTextColor(edge.Target.Type),
+                                dumpInfo.GetNodeTypeColor(edge.Target.Type),
+                                dumpInfo.GetNodeTypeBorderColor(edge.Target.Type),
+                                dumpInfo.GetNodeTypeShape(edge.Target.Type), dumper, dumpInfo);
+
+                        GrElemDumpType dumpType;
+                        if(multiMatchedEdges.Contains(edge))
+                            dumpType = GrElemDumpType.MultiMatched;
+                        else
+                            dumpType = GrElemDumpType.SingleMatched;
+
+                        DumpEdge(edge, dumpInfo.GetEdgeDumpTypeTextColor(dumpType),
+                            dumpInfo.GetEdgeDumpTypeColor(dumpType), dumper, dumpInfo);
+                    }
+                    return;
+                }
+            }
+        }
+
+        private void DumpEdgesFromNode(INode node, DumpContext dc)
+        {
+            // dumping only outgoing ensures every edge is dumped only once
+            foreach(IEdge edge in node.Outgoing)        // TODO: This is probably wrong for group nodes grouped by outgoing edges
+            {
+                if(dc.DumpInfo.IsExcludedEdgeType(edge.Type)) continue;
+                if(dc.ExcludedEdges.Contains(edge)) continue;
+                if(!dc.InitialNodes.Contains(edge.Target)) continue;
+
+                GrColor color;
+                GrColor textColor;
+                if(dc.MatchedEdges != null && dc.MatchedEdges.Contains(edge))
+                {
+                    GrElemDumpType dumpType;
+                    if(dc.MultiMatchedEdges != null && dc.MultiMatchedEdges.Contains(edge))
+                        dumpType = GrElemDumpType.MultiMatched;
+                    else
+                        dumpType = GrElemDumpType.SingleMatched;
+                    color = dc.DumpInfo.GetEdgeDumpTypeColor(dumpType);
+                    textColor = dc.DumpInfo.GetEdgeDumpTypeTextColor(dumpType);
+                }
+                else
+                {
+                    color = dc.DumpInfo.GetEdgeTypeColor(edge.Type);
+                    textColor = dc.DumpInfo.GetEdgeTypeTextColor(edge.Type);
+                }
+
+                DumpEdge(edge, textColor, color, dc.Dumper, dc.DumpInfo);
+            }
+        }
+
+        internal void DumpNodeAndEdges(INode node, DumpContext dc)
+        {
+            GrElemDumpType dumpType = GrElemDumpType.Normal;
+            GrColor color, borderColor, textColor;
+            GrNodeShape shape;
+            if(dc.MatchedNodes != null && dc.MatchedNodes.Contains(node))
+            {
+                if(dc.MultiMatchedNodes != null && dc.MultiMatchedNodes.Contains(node))
+                    dumpType = GrElemDumpType.MultiMatched;
+                else
+                    dumpType = GrElemDumpType.SingleMatched;
+                color = dc.DumpInfo.GetNodeDumpTypeColor(dumpType);
+                borderColor = dc.DumpInfo.GetNodeDumpTypeBorderColor(dumpType);
+                textColor = dc.DumpInfo.GetNodeDumpTypeTextColor(dumpType);
+                shape = GrNodeShape.Default;
+            }
+            else
+            {
+                color = dc.DumpInfo.GetNodeTypeColor(node.Type);
+                borderColor = dc.DumpInfo.GetNodeTypeBorderColor(node.Type);
+                textColor = dc.DumpInfo.GetNodeTypeTextColor(node.Type);
+                shape = dc.DumpInfo.GetNodeTypeShape(node.Type);
+            }
+
+            DumpNode(node, textColor, color, borderColor, shape, dc.Dumper, dc.DumpInfo);
+
+            DumpEdgesFromNode(node, dc);
+        }
+
+        internal class DumpGroupNode
+        {
+            public DumpGroupNode()
+            {
+                groupedNodes = new Set<INode>();
+            }
+
+            public Set<INode> groupedNodes;
+        }
+
+        internal void DumpGroupTree(INode root, Dictionary<INode, DumpGroupNode> groupNodes, DumpContext dc)
+        {
+            GrElemDumpType dumpType = GrElemDumpType.Normal;
+            if(dc.MatchedNodes != null && dc.MatchedNodes.Contains(root))
+            {
+                if(dc.MultiMatchedNodes != null && dc.MultiMatchedNodes.Contains(root))
+                    dumpType = GrElemDumpType.MultiMatched;
+                else
+                    dumpType = GrElemDumpType.SingleMatched;
+            }
+
+            dc.Dumper.StartSubgraph(root, GetElemLabel(root, dc.DumpInfo), DumpAttributes(root),
+                dc.DumpInfo.GetNodeDumpTypeTextColor(dumpType), dc.DumpInfo.GetNodeTypeColor(root.Type)); // TODO: Check coloring...
+            
+            // Dump the elements nested inside this subgraph
+            foreach(INode node in groupNodes[root].groupedNodes)
+            {
+                if(groupNodes.ContainsKey(node))
+                {
+                    DumpGroupTree(node, groupNodes, dc);
+                    DumpEdgesFromNode(node, dc);
+                }
+                else
+                {
+                    DumpNodeAndEdges(node, dc);
+                }
+            }
+
+            dc.Dumper.FinishSubgraph();
+        }
+
+        private void DumpGroups(Set<INode> nodes, DumpContext dc)
+        {
+            // Compute the nesting hierarchy (groups)
+            Dictionary<INode, DumpGroupNode> groupNodes = new Dictionary<INode, DumpGroupNode>();
+            Dictionary<INode, INode> containedIn = new Dictionary<INode, INode>();
+            Set<INode> groupedNodes = new Set<INode>();
+
+                // (by iterating the group node types in order of dump declaration and removing the iterated nodes from the available nodes,
+                //  the conflict resolution priorities of debug enable are taken care of)
+            foreach(GroupNodeType groupNodeType in dc.DumpInfo.GroupNodeTypes)
+            {
+                foreach(INode node in GetCompatibleNodes(groupNodeType.NodeType))
+                {
+                    if(nodes.Contains(node))
+                    {
+                        if(!groupNodes.ContainsKey(node)) groupNodes.Add(node, new DumpGroupNode()); // todo: is the if needed?
+                        nodes.Remove(node);
+                    }
+
+                    foreach(IEdge edge in node.Incoming)
                     {
                         GroupMode grpMode = groupNodeType.GetEdgeGroupMode(edge.Type, edge.Source.Type);
                         if((grpMode & GroupMode.GroupIncomingNodes) == 0) continue;
-                        if(!ctx.Nodes.Contains(edge.Source)) continue;
-                        leafNodes.Add(edge.Source);
-                        ctx.ExcludedEdges.Add(edge);
+                        if(!dc.Nodes.Contains(edge.Source)) continue;
+                        groupNodes[node].groupedNodes.Add(edge.Source);
+                        if(!containedIn.ContainsKey(edge.Source)) containedIn.Add(edge.Source, node); // crashes without if in case of multiple containment due to dump misspecification by user
+                        groupedNodes.Add(edge.Source);
+                        if((grpMode & GroupMode.Hidden) != 0) dc.ExcludedEdges.Add(edge);
                     }
-                    foreach(IEdge edge in root.Outgoing)
+                    foreach(IEdge edge in node.Outgoing)
                     {
                         GroupMode grpMode = groupNodeType.GetEdgeGroupMode(edge.Type, edge.Target.Type);
                         if((grpMode & GroupMode.GroupOutgoingNodes) == 0) continue;
-                        if(!ctx.Nodes.Contains(edge.Target)) continue;
-                        leafNodes.Add(edge.Target);
-                        ctx.ExcludedEdges.Add(edge);
+                        if(!dc.Nodes.Contains(edge.Target)) continue;
+                        groupNodes[node].groupedNodes.Add(edge.Target);
+                        if(!containedIn.ContainsKey(edge.Target)) containedIn.Add(edge.Target, node); // crashes without if in case of multiple containment due to dump misspecification by user
+                        groupedNodes.Add(edge.Target);
+                        if((grpMode & GroupMode.Hidden) != 0) dc.ExcludedEdges.Add(edge);
                     }
+                }
+            }
 
-                    DumpGroups(iteration + 1, leafNodes, ctx);
-
-                    rootNodes.Remove(leafNodes);
-                    ctx.Dumper.FinishSubgraph();
-
-                    // Dump edges from this subgraph
-                    DumpEdgesFromNode(root, ctx);
+            // Dump the groups (begin at the roots of the group trees)
+            foreach(KeyValuePair<INode, DumpGroupNode> groupNode in groupNodes)
+            {
+                if(!containedIn.ContainsKey(groupNode.Key))
+                {
+                    DumpGroupTree(groupNode.Key, groupNodes, dc);
+                    DumpEdgesFromNode(groupNode.Key, dc);
                 }
             }
 
             // Dump the rest, which has not been grouped
+            nodes.Remove(groupedNodes);
 
-            foreach(INode node in rootNodes)
+            foreach(INode node in nodes)
             {
-                GrElemDumpType dumpType = GrElemDumpType.Normal;
-                GrColor color, borderColor, textColor;
-                GrNodeShape shape;
-                if(ctx.MatchedNodes != null && ctx.MatchedNodes.Contains(node))
-                {
-                    if(ctx.MultiMatchedNodes != null && ctx.MultiMatchedNodes.Contains(node))
-                        dumpType = GrElemDumpType.MultiMatched;
-                    else
-                        dumpType = GrElemDumpType.SingleMatched;
-                    color = ctx.DumpInfo.GetNodeDumpTypeColor(dumpType);
-                    borderColor = ctx.DumpInfo.GetNodeDumpTypeBorderColor(dumpType);
-                    textColor = ctx.DumpInfo.GetNodeDumpTypeTextColor(dumpType);
-                    shape = GrNodeShape.Default;
-                }
-                else
-                {
-                    color = ctx.DumpInfo.GetNodeTypeColor(node.Type);
-                    borderColor = ctx.DumpInfo.GetNodeTypeBorderColor(node.Type);
-                    textColor = ctx.DumpInfo.GetNodeTypeTextColor(node.Type);
-                    shape = ctx.DumpInfo.GetNodeTypeShape(node.Type);
-                }
-
-                DumpNode(node, textColor, color, borderColor, shape, ctx.Dumper, ctx.DumpInfo);
-
-                DumpEdgesFromNode(node, ctx);
+                DumpNodeAndEdges(node, dc);
             }
-
-            if(iteration > 0)                        // for iteration 0 ctx.Nodes == rootNodes
-                ctx.Nodes.Remove(rootNodes);
         }
 
         /// <summary>
@@ -1381,120 +1528,24 @@ namespace de.unika.ipd.grGen.libGr
 
             if(matches != null)
             {
-                matchedNodes = new Set<INode>();
-                matchedEdges = new Set<IEdge>();
-
-                if((int) which >= 0 && (int) which < matches.Count)
-                {
-                    // Show exactly one match
-
-                    IMatch match = matches.GetMatch((int) which);
-                    matchedNodes.Add(match.Nodes);
-                    matchedEdges.Add(match.Edges);
-                }
-                else
-                {
-                    GrColor vnodeColor = dumpInfo.GetNodeDumpTypeColor(GrElemDumpType.VirtualMatch);
-                    GrColor vedgeColor = dumpInfo.GetEdgeDumpTypeColor(GrElemDumpType.VirtualMatch);
-                    GrColor vnodeBorderColor = dumpInfo.GetNodeDumpTypeBorderColor(GrElemDumpType.VirtualMatch);
-                    GrColor vnodeTextColor = dumpInfo.GetNodeDumpTypeTextColor(GrElemDumpType.VirtualMatch);
-                    GrColor vedgeTextColor = dumpInfo.GetEdgeDumpTypeTextColor(GrElemDumpType.VirtualMatch);
-
-                    multiMatchedNodes = new Set<INode>();
-                    multiMatchedEdges = new Set<IEdge>();
-
-                    // TODO: May edges to nodes be dumped before those nodes exist??
-                    // TODO: Should indices in strings start at 0 or 1? (original: 0)
-
-                    // Dump all matches with virtual nodes
-                    int i = 0;
-                    foreach(IMatch match in matches)
-                    {
-                        VirtualNode virtNode = new VirtualNode(-i - 1);
-                        dumper.DumpNode(virtNode, String.Format("{0}. match of {1}", i + 1, matches.Producer.Name),
-                            null, vnodeTextColor, vnodeColor, vnodeBorderColor, GrNodeShape.Default);
-                        int j = 1;
-                        foreach(INode node in match.Nodes)
-                        {
-                            dumper.DumpEdge(virtNode, node, String.Format("node {0}", j++), null, vedgeTextColor, vedgeColor,
-                                GrLineStyle.Default);
-
-                            if(matchedNodes.Contains(node)) multiMatchedNodes.Add(node);
-                            else matchedNodes.Add(node);
-                        }
-
-                        // Collect matched edges
-                        foreach(IEdge edge in match.Edges)
-                        {
-                            if(matchedEdges.Contains(edge)) multiMatchedEdges.Add(edge);
-                            else matchedEdges.Add(edge);
-                        }
-                        i++;
-                    }
-
-                    if(which == DumpMatchSpecial.OnlyMatches)
-                    {
-                        // Dump the matches only
-                        // First dump the matched nodes
-
-                        foreach(INode node in matchedNodes)
-                        {
-                            GrElemDumpType dumpType;
-                            if(multiMatchedNodes.Contains(node))
-                                dumpType = GrElemDumpType.MultiMatched;
-                            else
-                                dumpType = GrElemDumpType.SingleMatched;
-
-                            DumpNode(node, dumpInfo.GetNodeDumpTypeTextColor(dumpType),
-                                dumpInfo.GetNodeDumpTypeColor(dumpType),
-                                dumpInfo.GetNodeDumpTypeBorderColor(dumpType),
-                                GrNodeShape.Default, dumper, dumpInfo);
-                        }
-
-                        // Now add the matched edges (possibly including "Not matched" nodes)
-
-                        foreach(IEdge edge in matchedEdges)
-                        {
-                            if(!matchedNodes.Contains(edge.Source))
-                                DumpNode(edge.Source, dumpInfo.GetNodeTypeTextColor(edge.Source.Type),
-                                    dumpInfo.GetNodeTypeColor(edge.Source.Type),
-                                    dumpInfo.GetNodeTypeBorderColor(edge.Source.Type),
-                                    dumpInfo.GetNodeTypeShape(edge.Source.Type), dumper, dumpInfo);
-
-                            if(!matchedNodes.Contains(edge.Target))
-                                DumpNode(edge.Target, dumpInfo.GetNodeTypeTextColor(edge.Target.Type),
-                                    dumpInfo.GetNodeTypeColor(edge.Target.Type),
-                                    dumpInfo.GetNodeTypeBorderColor(edge.Target.Type),
-                                    dumpInfo.GetNodeTypeShape(edge.Target.Type), dumper, dumpInfo);
-
-                            GrElemDumpType dumpType;
-                            if(multiMatchedEdges.Contains(edge))
-                                dumpType = GrElemDumpType.MultiMatched;
-                            else
-                                dumpType = GrElemDumpType.SingleMatched;
-
-                            DumpEdge(edge, dumpInfo.GetEdgeDumpTypeTextColor(dumpType),
-                                dumpInfo.GetEdgeDumpTypeColor(dumpType), dumper, dumpInfo);
-                        }
-                        return;
-                    }
-                }
+                DumpMatchOnly(dumper, dumpInfo, matches, which,
+                    ref matchedNodes, ref multiMatchedNodes, ref matchedEdges, ref multiMatchedEdges);
             }
 
             // Dump the graph, but color the matches if any exist
 
-            DumpContext ctx = new DumpContext(dumper, dumpInfo, matchedNodes, multiMatchedNodes,
-                matchedEdges, multiMatchedEdges);
+            DumpContext dc = new DumpContext(dumper, dumpInfo, 
+                matchedNodes, multiMatchedNodes, matchedEdges, multiMatchedEdges);
 
             foreach(NodeType nodeType in Model.NodeModel.Types)
             {
                 if(dumpInfo.IsExcludedNodeType(nodeType)) continue;
-                ctx.Nodes.Add(GetExactNodes(nodeType));
+                dc.Nodes.Add(GetExactNodes(nodeType));
             }
 
-            ctx.InitialNodes = new Set<INode>(ctx.Nodes);
-
-            DumpGroups(0, ctx.Nodes, ctx);
+            dc.InitialNodes = new Set<INode>(dc.Nodes);
+            Set<INode> nodes = new Set<INode>(dc.Nodes);
+            DumpGroups(nodes, dc);
         }
 
         /// <summary>
@@ -1515,6 +1566,7 @@ namespace de.unika.ipd.grGen.libGr
         {
             DumpMatch(dumper, new DumpInfo(GetElementName), null, 0);
         }
+
         #endregion Graph dumping stuff
     }
 }
