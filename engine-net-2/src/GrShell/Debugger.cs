@@ -575,7 +575,7 @@ namespace de.unika.ipd.grGen.grShell
                 i = 0;
                 foreach(IEdge edge in match.Edges)
                 {
-                    ycompClient.ChangeEdge(edge, ycompClient.MatchedEdgeRealizer);
+                    ycompClient.ChangeEdge(edge, edgeRealizerName);
                     if(annotateElements)
                     {
                         String name = match.Pattern.Edges[i].UnprefixedName;

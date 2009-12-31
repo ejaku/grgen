@@ -254,7 +254,7 @@ namespace de.unika.ipd.grGen.grShell
             RetypedNodeRealizer = GetNodeRealizer(GrColor.Cyan, GrColor.DarkYellow, GrColor.Black, GrNodeShape.Box);
 
             NormalEdgeRealizer = GetEdgeRealizer(GrColor.DarkYellow, GrColor.Black, 1, GrLineStyle.Solid);
-            MatchedEdgeRealizer = GetEdgeRealizer(GrColor.DarkYellow, GrColor.Black, 2, GrLineStyle.Solid);
+            MatchedEdgeRealizer = GetEdgeRealizer(GrColor.Khaki, GrColor.Black, 2, GrLineStyle.Solid);
             NewEdgeRealizer = GetEdgeRealizer(GrColor.LightRed, GrColor.Black, 2, GrLineStyle.Solid);
             DeletedEdgeRealizer = GetEdgeRealizer(GrColor.LightGrey, GrColor.Black, 2, GrLineStyle.Solid);
             RetypedEdgeRealizer = GetEdgeRealizer(GrColor.Cyan, GrColor.Black, 2, GrLineStyle.Solid);
@@ -586,7 +586,7 @@ namespace de.unika.ipd.grGen.grShell
                 || dumpInfo.IsExcludedNodeType(edge.Source.Type)
                 || dumpInfo.IsExcludedNodeType(edge.Target.Type)) return;
 
-            String erName = edgeRealizer ?? GetEdgeRealizer(edge.Type);
+            String edgeRealizerName = edgeRealizer ?? GetEdgeRealizer(edge.Type);
 
             String edgeName = graph.GetElementName(edge);
             String srcName = graph.GetElementName(edge.Source);
@@ -631,7 +631,7 @@ namespace de.unika.ipd.grGen.grShell
             }
 
             ycompStream.Write("addEdge \"e" + edgeName + "\" \"n" + srcName + "\" \"n" + tgtName
-                + "\" \"" + erName + "\" \"" + GetElemLabel(edge) + "\"\n");
+                + "\" \"" + edgeRealizerName + "\" \"" + GetElemLabel(edge) + "\"\n");
             foreach(AttributeType attrType in edge.Type.AttributeTypes)
             {
                 if(attrType.Kind == AttributeKind.SetAttr || attrType.Kind == AttributeKind.MapAttr)
