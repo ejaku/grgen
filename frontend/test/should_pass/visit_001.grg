@@ -1,22 +1,25 @@
 using attrib_model_001;
 
+// the tests with visited_ were tests for entities of name visited
+// thats not worth the effort, visited is keyword, be it
+
 test VisitedNotAKeyword1(var visitorID:int) : (Node)
 {
-	visited:NINT;
-	if { typeof(visited) > Node; visited.a == 7; }
+	visited_:NINT;
+	if { typeof(visited_) > Node; visited_.a == 7; }
 	
-	return(visited);
+	return(visited_);
 }
 
-test VisitedNotAKeyword2(var visited:boolean)
+test VisitedNotAKeyword2(var visited_:boolean)
 {
-	if { visited; }
+	if { visited_; }
 }
 
 test FindUnvisitedNode1(var visitorID:int) : (Node)
 {
 	n:Node;
-	if { visited(n, visitorID); }
+	if { n.visited[visitorID]; }
 	
 	return(n);
 }
@@ -24,7 +27,7 @@ test FindUnvisitedNode1(var visitorID:int) : (Node)
 rule FindUnvisitedNode2(visitorIDNode:NINT) : (Node)
 {
 	n:Node;
-	if { !visited(n, visitorIDNode.a); }
+	if { !n.visited[visitorIDNode.a]; }
 	
 	modify {
 		return(n);
@@ -35,7 +38,7 @@ rule FindUnvisitedNode2(visitorIDNode:NINT) : (Node)
 test FindUnvisitedNode3(visitorIDNode:NINT) : (Node)
 {
 	n:Node;
-	if { !visited(n, visitorIDNode.a + 1); }
+	if { !n.visited[visitorIDNode.a + 1]; }
 	
 	return(n);
 }
@@ -43,7 +46,7 @@ test FindUnvisitedNode3(visitorIDNode:NINT) : (Node)
 test FindUnvisitedEdge1(var visitorID:int) : (Edge)
 {
 	-e:Edge->;
-	if { visited(e, visitorID); }
+	if { e.visited[visitorID]; }
 	
 	return(e);
 }
@@ -51,7 +54,7 @@ test FindUnvisitedEdge1(var visitorID:int) : (Edge)
 rule FindUnvisitedEdge2(-visitorIDEdge:EINT->) : (Edge)
 {
 	-e:Edge->;
-	if { !visited(e, visitorIDEdge.a); }
+	if { !e.visited[visitorIDEdge.a]; }
 	
 	modify {
 		return(e);
@@ -62,7 +65,7 @@ rule FindUnvisitedEdge2(-visitorIDEdge:EINT->) : (Edge)
 test FindUnvisitedEdge3(-visitorIDEdge:EINT->) : (Edge)
 {
 	-e:Edge->;
-	if { !visited(e, visitorIDEdge.a + 1); }
+	if { !e.visited[visitorIDEdge.a + 1]; }
 	
 	return(e);
 }
@@ -70,11 +73,11 @@ test FindUnvisitedEdge3(-visitorIDEdge:EINT->) : (Edge)
 rule VisitUnvisitedNode(var visID:int)
 {
     n:Node;
-    if { !visited(n, visID); }
+    if { !n.visited[visID]; }
 
     modify {
         eval {
-            visited(n, visID) = true;
+            n.visited[visID] = true;
         }
     }
 }
@@ -82,30 +85,30 @@ rule VisitUnvisitedNode(var visID:int)
 rule VisitUnvisitedEdge(var visID:int)
 {
 	-e:Edge->;
-    if { !visited(e, visID); }
+    if { !e.visited[visID]; }
 
     modify {
         eval {
-            visited(e, visID) = true;
+            e.visited[visID] = true;
         }
     }
 }
 
 test GetVisitedNode1(n:Node, var id:int) : (boolean)
 {
-    return (visited(n, id));
+    return (n.visited[id]);
 }
 
 test GetVisitedNode2(var id:int) : (boolean)
 {
     n:Node;
-    return (visited(n, id));
+    return (n.visited[id]);
 }
 
 rule GetVisitedNode3(n:Node, var id:int) : (boolean)
 {
     modify {
-        return (visited(n, id));
+        return (n.visited[id]);
     }
 }
 
@@ -113,14 +116,14 @@ rule GetVisitedNode4(var id:int) : (boolean)
 {
     n:Node;
     modify {
-        return (visited(n, id));
+        return (n.visited[id]);
     }
 }
 
 rule GetVisitedEdge3(-e:Edge->, var id:int) : (boolean)
 {
     modify {
-        return (visited(e, id));
+        return (e.visited[id]);
     }
 }
 
@@ -128,44 +131,44 @@ rule GetVisitedEdge4(var id:int) : (boolean)
 {
     -e:Edge->;
     modify {
-        return (visited(e, id));
+        return (e.visited[id]);
     }
 }
 
 rule SetVisitedNode(var visID1:int, var visID2:int) : (boolean)
 {
     n:Node;
-    if { !visited(n, visID1) || !visited(n, visID2); }
+    if { !n.visited[visID1] || !n.visited[visID2]; }
     m:Node;
 
     modify {
         eval {
-            visited(n, visID1) = visited(m, visID2) ? true
-                : visited(n, visID2) ^ visited(m, visID1);
+            n.visited[visID1] = m.visited[visID2] ? true
+                : n.visited[visID2] ^ m.visited[visID1];
         }
-        return(visited(m, visID2));
+        return(m.visited[visID2]);
     }
 }
 
 rule SetVisitedEdge(var visID1:int, var visID2:int) : (boolean)
 {
     -e:Edge->;
-    if { !visited(e, visID1) || !visited(f, visID2); }
+    if { !e.visited[visID1] || !f.visited[visID2]; }
     -f:Edge->;
 
     modify {
         eval {
-            visited(e, visID1) = visited(f, visID2) ? true
-                : visited(e, visID2) ^ visited(f, visID1);
+            e.visited[visID1] = f.visited[visID2] ? true
+                : e.visited[visID2] ^ f.visited[visID1];
         }
-        return(visited(f, visID2));
+        return(f.visited[visID2]);
     }
 }
 
 test FixedVisitedNode
 {
     n:Node;
-    if { visited(n, 0); }
+    if { n.visited[0]; }
 }
 
 rule SetFixedVisitedNode
@@ -174,7 +177,7 @@ rule SetFixedVisitedNode
 
     modify {
         eval {
-            visited(n, 0) = true;
+            n.visited[0] = true;
         }
     }
 }

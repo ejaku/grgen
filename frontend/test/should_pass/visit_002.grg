@@ -1,0 +1,135 @@
+using visit;
+
+test initCounter : (int) {
+	return (0);
+}
+
+rule componentStart(var counter:int) : (int)
+{
+    n:N;
+    if { !n.visited; }
+	
+	modify {
+		eval { n.visited = true; }
+		return (counter+1);
+	}
+}
+
+rule markComponent
+{
+	n:Node ?--? m:Node;
+	if { n.visited && !m.visited; }
+	
+	modify {
+		eval {
+			m.visited = true;
+		}
+	}
+}
+
+// calling patterns with variables is not supported yet, otherwise handing in visited flag id would be nicer
+pattern Component(n:Node)
+{
+	iterated {
+		n ?--? m:Node;
+		c:Component(m);
+		
+		modify {
+			c();
+			eval {
+				m.visited = true;
+			}
+		}
+    }
+
+    modify {}
+}
+
+rule findComponent()
+{
+    n:N;
+    if { !n.visited; }
+    c:Component(n);
+    
+    modify {
+        c();
+		eval {
+			n.visited = true;
+		}
+    }
+}
+
+rule removeVisited()
+{
+	n:Node;
+	if { n.visited; }
+	
+	modify {
+		eval {
+			n.visited = false;
+		}
+	}
+}
+
+test isVisited(var visId:int)
+{
+	n:Node;
+	if { n.visited[visId]; }
+}
+
+rule empty
+{
+	modify {
+	}
+}
+
+rule setVisited(var visId:int)
+{
+	n:Node;
+	if { !n.visited[visId]; }
+
+	modify {
+		eval {
+			n.visited[visId] = true;
+		}
+	}
+}
+
+rule fromGrs()
+{
+	n1:Node;
+	n2:Node;
+	n3:Node;
+	
+	modify {
+		exec(visId1:int=valloc()
+			;> visId2:int=valloc()
+			;> n1.visited[visId1]=true
+			;> n2.visited[visId2]=true
+			;> n1.visited[visId1] && empty
+			;> n1.visited[visId2] && empty
+			;> n2.visited[visId1] && empty
+			;> n2.visited[visId2] && empty
+			;> n3.visited[visId1] && empty
+			;> n3.visited[visId2] && empty
+			;> [isVisited(visId1)]
+			;> [isVisited(visId2)]
+			;> vreset(visId2)
+			;> [isVisited(visId1)]
+			;> [isVisited(visId2)]
+			;> n1.visited[visId1]=false
+			;> [isVisited(visId1)]
+			;> [isVisited(visId2)]
+			;> [setVisited(visId1)]
+			;> [isVisited(visId1)]
+			;> n3.visited[visId1] && empty
+			;> [isVisited(visId2)]
+			;> vreset(visId1)
+			;> [isVisited(visId1)]
+			;> emit("id1 is ") && emit(visId1) && emit("\\n")
+			;> emit("id2 is ") && emit(visId2) && emit("\\n")
+			;> vfree(visId2)
+			;> vfree(visId1));
+	}
+}
+

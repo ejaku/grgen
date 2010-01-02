@@ -1224,6 +1224,12 @@ simpleSequence[ExecNode xg]
 	// will not be detected in the frontend; xgrs in the frontend are to a certain degree syntax only
 	: lhs=xgrsEntity[xg] ASSIGN { xg.append('='); }
 		(
+			VALLOC LPAREN RPAREN
+			{ xg.append("valloc()"); }
+		|
+			(id=entIdentUse DOT VISITED) => id=entIdentUse DOT VISITED LBRACK var=entIdentUse RBRACK
+			{ xg.append(id+".visited["+var+"]"); xg.addGraphElementUsageOutsideOfActionCall(id); }
+		|
 			id=entIdentUse d=DOT method=IDENT LPAREN RPAREN
 			{ if(method.getText().equals("size")) { xg.append(id+".size()"); xg.addGraphElementUsageOutsideOfActionCall(id); }
 			  else if(method.getText().equals("empty")) { xg.append(id+".empty()"); xg.addGraphElementUsageOutsideOfActionCall(id); }
@@ -1250,6 +1256,20 @@ simpleSequence[ExecNode xg]
 		|
 			LPAREN { xg.append('('); } xgrs[xg] RPAREN { xg.append(')'); }
 		)
+	| id=entIdentUse DOT VISITED LBRACK var=entIdentUse RBRACK ASSIGN 
+		{ xg.append(id); xg.addGraphElementUsageOutsideOfActionCall(id); xg.append(".visited["+var+"] = "); }
+			( var2=entIdentUse { xg.append(var2); }
+			| TRUE { xg.append("true"); }
+			| FALSE { xg.append("false"); }
+			)
+	| id=entIdentUse DOT VISITED LBRACK var=entIdentUse RBRACK
+		{ xg.append(id); xg.addGraphElementUsageOutsideOfActionCall(id); xg.append(".visited["+var+"]"); }
+	| VFREE LPAREN var=entIdentUse RPAREN
+		{ xg.append("vfree("+var+")"); }
+	| VRESET LPAREN var=entIdentUse RPAREN
+		{ xg.append("vreset("+var+")"); }
+	| EMIT LPAREN (str=STRING_LITERAL { xg.append("emit("+str.getText()+")"); }
+					| id=entIdentUse { xg.append("emit("+id.toString()+")"); } ) RPAREN
 	| setmap=entIdentUse d=DOT method=IDENT LPAREN ( id=entIdentUse {id_=id.toString();} (COMMA id2=entIdentUse {id2_=id2.toString();})? )? RPAREN
 		{ if(method.getText().equals("add")) { // arrrrgh! == doesn't work for strings in Java ... maximum retardedness!
 			if(id_==null) reportError(getCoords(d), "\""+method.getText()+"\" expects 1(for set) or 2(for map) parameters");
@@ -1779,7 +1799,6 @@ constrParam returns [ ConstructorParamNode res = null ]
 
 memberIdent returns [ Token t = null ]
 	: i=IDENT { t = i; }
-	| v=VISITED { v.setType(IDENT); t = v; }
 	| r=REPLACE { r.setType(IDENT); t = r; }             // HACK: For string replace function... better choose another name?
 	; 
 
@@ -1952,6 +1971,7 @@ memberIdentUse returns [ IdentNode res = env.getDummyIdent() ]
 
 
 assignment returns [ EvalStatementNode res = null ]
+options { k = 3; }
 	: tgt=qualIdent a=ASSIGN e=expr[false] //'false' because this rule is not used for the assignments in enum item decls
 		{ res = new AssignNode(getCoords(a), tgt, e); }
 	|
@@ -2105,6 +2125,7 @@ unaryExpr [ boolean inEnumInit ] returns [ ExprNode res = env.initExprNode() ]
 	; 
 
 primaryExpr [ boolean inEnumInit ] returns [ ExprNode res = env.initExprNode() ]
+options { k = 3; }
 	: e=visitedExpr { res = e; }
 	| e=nameOf { res = e; }
 	| e=identExpr { res = e; }
@@ -2122,6 +2143,14 @@ visitedExpr returns [ ExprNode res = env.initExprNode() ]
 		( COMMA idExpr=expr[false] RPAREN
 			{ res = new VisitedNode(getCoords(v), idExpr, elem); }
 		| RPAREN
+			{ res = new VisitedNode(getCoords(v), new IntConstNode(getCoords(v), 0), elem); }
+		)
+		{ reportWarning(getCoords(v), "visited in function notation deprecated, use element.visited[flag-id] instead"); }
+	|
+		elem=entIdentUse DOT v=VISITED  
+		( (LBRACK) => LBRACK idExpr=expr[false] RBRACK // [ starts a visited flag expression, not a following map access selector expression
+			{ res = new VisitedNode(getCoords(v), idExpr, elem); }
+		| 
 			{ res = new VisitedNode(getCoords(v), new IntConstNode(getCoords(v), 0), elem); }
 		)
 	;
@@ -2427,5 +2456,8 @@ TYPEOF : 'typeof';
 UNDIRECTED : 'undirected';
 USING : 'using';
 VAR : 'var';
+VALLOC : 'valloc';
+VFREE : 'vfree';
 VISITED : 'visited';
+VRESET : 'vreset';
 IDENT : ('a'..'z'|'A'..'Z'|'_') ('a'..'z'|'A'..'Z'|'_'|'0'..'9')* ;

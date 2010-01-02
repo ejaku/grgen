@@ -112,6 +112,12 @@ namespace de.unika.ipd.grGen.lgsp
 					EmitElementVarIfNew(seqToVar.DestVar, source);
 					break;
 				}
+                case SequenceType.AssignVAllocToVar:
+                {
+                    SequenceAssignVAllocToVar vallocToVar = (SequenceAssignVAllocToVar) seq;
+                    EmitElementVarIfNew(vallocToVar.DestVar, source);
+                    break;
+                }
                 case SequenceType.AssignSetmapSizeToVar:
                 {
                     SequenceAssignSetmapSizeToVar seqSetmapSizeToVar = (SequenceAssignSetmapSizeToVar)seq;
@@ -567,6 +573,66 @@ namespace de.unika.ipd.grGen.lgsp
                 {
                     SequenceIn seqIn = (SequenceIn)seq;
                     source.AppendFront("res_"+seqID+" = var_"+seqIn.Setmap+".Contains(var_"+seqIn.Var+");\n");
+                    break;
+                }
+
+                case SequenceType.IsVisited:
+                {
+                    SequenceIsVisited seqIsVisited = (SequenceIsVisited)seq;
+                    source.AppendFront("res_"+seqID+" = graph.IsVisited((GRGEN_LIBGR.IGraphElement)var_"+seqIsVisited.GraphElementVar+", (int)var_"+seqIsVisited.VisitedFlagVar+");\n");
+                    break;
+                }
+
+                case SequenceType.SetVisited:
+                {
+                    SequenceSetVisited seqSetVisited = (SequenceSetVisited)seq;
+                    if(seqSetVisited.Var!=null) {
+                        source.AppendFront("graph.SetVisited((GRGEN_LIBGR.IGraphElement)var_"+seqSetVisited.GraphElementVar
+                            +", (int)var_"+seqSetVisited.VisitedFlagVar+", varbool_"+seqSetVisited.Var+");\n");
+                    } else {
+                        source.AppendFront("graph.SetVisited((GRGEN_LIBGR.IGraphElement)var_"+seqSetVisited.GraphElementVar
+                            +", (int)var_"+seqSetVisited.VisitedFlagVar+", "+(seqSetVisited.Val?"true":"false")+");\n");
+                    } 
+                    source.AppendFront("res_"+seqID+" = true;\n");
+                    break;
+                }
+
+                case SequenceType.VFree:
+                {
+                    SequenceVFree seqVFree = (SequenceVFree)seq;
+                    source.AppendFront("graph.FreeVisitedFlag((int)var_"+seqVFree.VisitedFlagVar+");\n");
+                    source.AppendFront("res_"+seqID+" = true;\n");
+                    break;
+                }
+
+                case SequenceType.VReset:
+                {
+                    SequenceVReset seqVReset = (SequenceVReset)seq;
+                    source.AppendFront("graph.ResetVisitedFlag((int)var_"+seqVReset.VisitedFlagVar+");\n");
+                    source.AppendFront("res_"+seqID+" = true;\n");
+                    break;
+                }
+
+                case SequenceType.Emit:
+                {
+                    SequenceEmit seqEmit = (SequenceEmit)seq;
+                    if(seqEmit.IsVariable) {
+                        source.AppendFront("graph.EmitWriter.Write(var_"+seqEmit.Text+".ToString());\n");
+                    } else {
+                        String text = seqEmit.Text.Replace("\n", "\\n");
+                        text = text.Replace("\r", "\\r");
+                        text = text.Replace("\t", "\\t");
+                        source.AppendFront("graph.EmitWriter.Write(\""+text+"\");\n");
+                    }
+                    source.AppendFront("res_"+seqID+" = true;\n");
+                    break;
+                }
+
+                case SequenceType.AssignVAllocToVar:
+                {
+                    SequenceAssignVAllocToVar seqVAllocToVar = (SequenceAssignVAllocToVar)seq;
+                    source.AppendFront("var_"+seqVAllocToVar.DestVar+" = graph.AllocateVisitedFlag();\n");
+                    source.AppendFront("res_"+seqID+" = true;\n");
                     break;
                 }
 

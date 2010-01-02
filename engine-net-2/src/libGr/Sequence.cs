@@ -17,10 +17,11 @@ namespace de.unika.ipd.grGen.libGr
     {
         ThenLeft, ThenRight, LazyOr, LazyAnd, StrictOr, Xor, StrictAnd, Not, Min, MinMax,
         Rule, RuleAll, Def, True, False, VarPredicate,
-        AssignSetmapSizeToVar, AssignSetmapEmptyToVar, AssignMapAccessToVar,
+        AssignVAllocToVar, AssignSetmapSizeToVar, AssignSetmapEmptyToVar, AssignMapAccessToVar,
         AssignSetCreationToVar, AssignMapCreationToVar,
         AssignVarToVar, AssignElemToVar, AssignSequenceResultToVar,
         AssignConstToVar, AssignAttributeToVar, AssignVarToAttribute,
+        IsVisited, SetVisited, VFree, VReset, Emit,
         SetmapAdd, SetmapRem, SetmapClear, InSetmap, 
         Transaction, IfThenElse, IfThen, For
     }
@@ -576,6 +577,27 @@ namespace de.unika.ipd.grGen.libGr
         public override string Symbol { get { return PredicateVar; } }
     }
 
+    public class SequenceAssignVAllocToVar : Sequence
+    {
+        public String DestVar;
+
+        public SequenceAssignVAllocToVar(String destVar)
+            : base(SequenceType.AssignVAllocToVar)
+        {
+            DestVar = destVar;
+        }
+
+        protected override bool ApplyImpl(IGraph graph)
+        {
+            graph.SetVariableValue(DestVar, graph.AllocateVisitedFlag());
+            return true;
+        }
+
+        public override IEnumerable<Sequence> Children { get { yield break; } }
+        public override int Precedence { get { return 8; } }
+        public override string Symbol { get { return DestVar + "=valloc()"; } }
+    }
+
     public class SequenceAssignSetmapSizeToVar : Sequence
     {
         public String DestVar;
@@ -969,6 +991,148 @@ namespace de.unika.ipd.grGen.libGr
 
         public override int Precedence { get { return 8; } }
         public override string Symbol { get { return "for{"+Var+(VarDst!=null?"->"+VarDst:"")+" in "+Setmap+"; ...}"; } }
+    }
+
+    public class SequenceIsVisited : Sequence
+    {
+        public String GraphElementVar;
+        public String VisitedFlagVar;
+
+        public SequenceIsVisited(String graphElementVar, String visitedFlagVar)
+            : base(SequenceType.IsVisited)
+        {
+            GraphElementVar = graphElementVar;
+            VisitedFlagVar = visitedFlagVar;
+        }
+
+        protected override bool ApplyImpl(IGraph graph)
+        {
+            IGraphElement elem = (IGraphElement)graph.GetVariableValue(GraphElementVar);
+            int visitedFlag = (int)graph.GetVariableValue(VisitedFlagVar);
+            return graph.IsVisited(elem, visitedFlag);
+        }
+
+        public override IEnumerable<Sequence> Children { get { yield break; } }
+        public override int Precedence { get { return 8; } }
+        public override string Symbol { get { return GraphElementVar+".visited["+VisitedFlagVar+"]"; } }
+    }
+
+    public class SequenceSetVisited : Sequence
+    {
+        public String GraphElementVar;
+        public String VisitedFlagVar;
+        public String Var;
+        public bool Val;
+
+        public SequenceSetVisited(String graphElementVar, String visitedFlagVar, String var)
+            : base(SequenceType.SetVisited)
+        {
+            GraphElementVar = graphElementVar;
+            VisitedFlagVar = visitedFlagVar;
+            Var = var;
+        }
+
+        public SequenceSetVisited(String graphElementVar, String visitedFlagVar, bool val)
+            : base(SequenceType.SetVisited)
+        {
+            GraphElementVar = graphElementVar;
+            VisitedFlagVar = visitedFlagVar;
+            Val = val;
+        }
+
+        protected override bool ApplyImpl(IGraph graph)
+        {
+            IGraphElement elem = (IGraphElement)graph.GetVariableValue(GraphElementVar);
+            int visitedFlag = (int)graph.GetVariableValue(VisitedFlagVar);
+            bool value;
+            if(Var!=null) {
+                value = (bool)graph.GetVariableValue(Var);
+            } else {
+                value = Val;
+            }
+            graph.SetVisited(elem, visitedFlag, value);
+            return true;
+        }
+
+        public override IEnumerable<Sequence> Children { get { yield break; } }
+        public override int Precedence { get { return 8; } }
+        public override string Symbol { get { return GraphElementVar+".visited["+VisitedFlagVar+"]="+(Var ?? Val.ToString()); } }
+    }
+
+    public class SequenceVFree : Sequence
+    {
+        public String VisitedFlagVar;
+
+        public SequenceVFree(String visitedFlagVar)
+            : base(SequenceType.VFree)
+        {
+            VisitedFlagVar = visitedFlagVar;
+        }
+
+        protected override bool ApplyImpl(IGraph graph)
+        {
+            int visitedFlag = (int)graph.GetVariableValue(VisitedFlagVar);
+            graph.FreeVisitedFlag(visitedFlag);
+            return true;
+        }
+
+        public override IEnumerable<Sequence> Children { get { yield break; } }
+        public override int Precedence { get { return 8; } }
+        public override string Symbol { get { return "vfree("+VisitedFlagVar+")"; } }
+    }
+
+    public class SequenceVReset : Sequence
+    {
+        public String VisitedFlagVar;
+
+        public SequenceVReset(String visitedFlagVar)
+            : base(SequenceType.VReset)
+        {
+            VisitedFlagVar = visitedFlagVar;
+        }
+
+        protected override bool ApplyImpl(IGraph graph)
+        {
+            int visitedFlag = (int)graph.GetVariableValue(VisitedFlagVar);
+            graph.ResetVisitedFlag(visitedFlag);
+            return true;
+        }
+
+        public override IEnumerable<Sequence> Children { get { yield break; } }
+        public override int Precedence { get { return 8; } }
+        public override string Symbol { get { return "vreset("+VisitedFlagVar+")"; } }
+    }
+
+    public class SequenceEmit : Sequence
+    {
+        public String Text;
+        public bool IsVariable;
+
+        public SequenceEmit(String text, bool isVariable)
+            : base(SequenceType.Emit)
+        {
+            Text = text;
+            IsVariable = isVariable;
+            if(!IsVariable) {
+                Text = Text.Replace("\\n", "\n");
+                Text = Text.Replace("\\r", "\r");
+                Text = Text.Replace("\\t", "\t");
+            }
+        }
+
+        protected override bool ApplyImpl(IGraph graph)
+        {
+            if(IsVariable) {
+                graph.EmitWriter.Write(graph.GetVariableValue(Text).ToString());
+            } else {
+                graph.EmitWriter.Write(Text);
+            }
+            return true;
+        }
+
+        public override IEnumerable<Sequence> Children { get { yield break; } }
+        public override int Precedence { get { return 8; } }
+        public override string Symbol { get { return "emit("+Text+")"; } }
     }
 
     public class SequenceSetmapAdd : Sequence

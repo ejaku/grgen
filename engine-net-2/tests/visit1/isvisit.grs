@@ -1,0 +1,37 @@
+new graph "visit1\visit"
+
+new n1:Node
+new n2:Node
+new n3:Node
+xgrs visId1=valloc()
+xgrs visId2=valloc()
+xgrs n1.visited[visId1]=true
+xgrs n2.visited[visId2]=true
+show num nodes
+xgrs n1.visited[visId1] && empty
+xgrs n1.visited[visId2] && empty
+xgrs n2.visited[visId1] && empty
+xgrs n2.visited[visId2] && empty
+xgrs n3.visited[visId1] && empty
+xgrs n3.visited[visId2] && empty
+show num nodes
+xgrs [isVisited(visId1)]
+xgrs [isVisited(visId2)]
+xgrs vreset(visId2)
+xgrs [isVisited(visId1)]
+xgrs [isVisited(visId2)]
+xgrs n1.visited[visId1]=false
+xgrs [isVisited(visId1)]
+xgrs [isVisited(visId2)]
+show num nodes
+xgrs [setVisited(visId1)]
+xgrs [isVisited(visId1)]
+xgrs n3.visited[visId1] && empty
+xgrs [isVisited(visId2)]
+xgrs vreset(visId1)
+xgrs [isVisited(visId1)]
+xgrs emit("id1 is ") && emit(visId1) && emit("\n")
+xgrs emit("id2 is ") && emit(visId2) && emit("\n")
+xgrs vfree(visId2)
+xgrs vfree(visId1)
+quit

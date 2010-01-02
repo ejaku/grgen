@@ -9,10 +9,10 @@ test initCounter : (int) {
 rule componentStart(var counter:int) : (int)
 {
     n:N;
-    if { !visited(n); }
+    if { !n.visited; }
 	
 	modify {
-		eval { visited(n) = true; }
+		eval { n.visited = true; }
 		return (counter+1);
 	}
 }
@@ -20,11 +20,11 @@ rule componentStart(var counter:int) : (int)
 rule markComponent
 {
 	n:Node ?--? m:Node;
-	if { visited(n) && !visited(m); }
+	if { n.visited && !m.visited; }
 	
 	modify {
 		eval {
-			visited(m) = true;
+			m.visited = true;
 		}
 	}
 }
@@ -39,7 +39,7 @@ pattern Component(n:Node)
 		modify {
 			c();
 			eval {
-				visited(m) = true;
+				m.visited = true;
 			}
 		}
     }
@@ -50,13 +50,13 @@ pattern Component(n:Node)
 rule findComponent()
 {
     n:N;
-    if { !visited(n); }
+    if { !n.visited; }
     c:Component(n);
     
     modify {
         c();
 		eval {
-			visited(n) = true;
+			n.visited = true;
 		}
     }
 }
@@ -64,11 +64,35 @@ rule findComponent()
 rule removeVisited()
 {
 	n:Node;
-	if { visited(n); }
+	if { n.visited; }
 	
 	modify {
 		eval {
-			visited(n) = false;
+			n.visited = false;
+		}
+	}
+}
+
+test isVisited(var visId:int)
+{
+	n:Node;
+	if { n.visited[visId]; }
+}
+
+rule empty
+{
+	modify {
+	}
+}
+
+rule setVisited(var visId:int)
+{
+	n:Node;
+	if { !n.visited[visId]; }
+
+	modify {
+		eval {
+			n.visited[visId] = true;
 		}
 	}
 }

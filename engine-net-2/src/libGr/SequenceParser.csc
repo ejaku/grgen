@@ -225,11 +225,17 @@ PARSER_BEGIN(SequenceParser)
 				case SequenceType.AssignAttributeToVar:
 				case SequenceType.AssignVarToAttribute:
 				case SequenceType.AssignElemToVar:
+				case SequenceType.AssignVAllocToVar:
 				case SequenceType.AssignSetmapSizeToVar:
 				case SequenceType.AssignSetmapEmptyToVar:
 				case SequenceType.AssignMapAccessToVar:
 				case SequenceType.AssignSetCreationToVar:
 				case SequenceType.AssignMapCreationToVar:
+				case SequenceType.IsVisited:
+				case SequenceType.SetVisited:
+				case SequenceType.VFree:
+				case SequenceType.VReset:
+				case SequenceType.Emit:
 				case SequenceType.SetmapAdd:
 				case SequenceType.SetmapRem:
 				case SequenceType.SetmapClear:
@@ -290,6 +296,11 @@ TOKEN: {
 |   < THENRIGHT: ";>" >
 |   < SEMI: ";" >
 |   < DOUBLESEMI: ";;" >
+|   < VALLOC: "valloc" >
+|   < VFREE: "vfree" >
+|   < VISITED: "visited" >
+|   < VRESET: "vreset" >
+|   < EMIT: "emit" >
 }
 
 TOKEN: {
@@ -704,15 +715,26 @@ Sequence SimpleSequence():
 	bool special = false;
 	Sequence seq;
 	List<String> defParamVars = new List<String>();
-	String toVarName, typeName = null, typeNameDst, fromName, attrName;
+	String toVarName, typeName = null, typeNameDst, fromName, attrName, visitedFlagVar;
 	IGraphElement elem;
 	String setmap, var = null, varDst = null, method;
 	Sequence seqCond, seqTrue, seqFalse = null;
 	object constant;
+	String str;
 }
 {
 	LOOKAHEAD(Variable() "=") toVarName=Variable() "="
     (
+	    "valloc" "(" ")"
+		{
+			return new SequenceAssignVAllocToVar(toVarName);
+		}
+	|
+		LOOKAHEAD(3) fromName=Word() "." "visited" "[" visitedFlagVar=Word() "]"
+        {
+			return new SequenceAssignSequenceResultToVar(toVarName, new SequenceIsVisited(fromName, visitedFlagVar));
+        }
+	|
         LOOKAHEAD(4) fromName=Word() "." method=Word() "(" ")"
 		{
 			if(method=="size") return new SequenceAssignSetmapSizeToVar(toVarName, fromName);
@@ -778,6 +800,35 @@ Sequence SimpleSequence():
 			return new SequenceAssignSequenceResultToVar(toVarName, seq);
 		}
     )
+|
+	LOOKAHEAD(7) toVarName=Word() "." "visited" "[" visitedFlagVar=Word() "]" "="
+		(
+			fromName=Word() { return new SequenceSetVisited(toVarName, visitedFlagVar, fromName); }
+		|
+			"true" { return new SequenceSetVisited(toVarName, visitedFlagVar, true); }
+		|
+			"false" { return new SequenceSetVisited(toVarName, visitedFlagVar, false); }
+		)
+|
+	LOOKAHEAD(3) fromName=Word() "." "visited" "[" visitedFlagVar=Word() "]"
+	{
+		return new SequenceIsVisited(fromName, visitedFlagVar);
+	}
+|
+	"vfree" "(" visitedFlagVar=Word() ")"
+	{
+		return new SequenceVFree(visitedFlagVar);
+	}
+|
+	"vreset" "(" visitedFlagVar=Word() ")"
+	{
+		return new SequenceVReset(visitedFlagVar);
+	}
+|
+	"emit" "("
+		( str=TextString() { seq = new SequenceEmit(str, false); }
+		| var=Word() { seq = new SequenceEmit(var, true);} )
+	")" { return seq; } 
 |
 	LOOKAHEAD(4) toVarName=Word() "." attrName=Word() "=" fromName=Word()
     {

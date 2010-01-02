@@ -535,14 +535,17 @@ namespace de.unika.ipd.grGen.grShell
                 + " - randomseed (time|<seed>)  Sets the seed of the random number generator\n"
                 + "                             to the current time or the given integer\n"
                 + " - <var> = allocvisitflag    Allocates a visitor flag and assigns it to var\n"
+                + "                             deprecated - use xgrs <var> = valloc()\n"
                 + " - [<var>=]isvisited <elem> <id>  Tells whether the given element is marked as\n"
-                + "                                  visited for the given visitor and optionally\n"
-                + "                                  assigns the result to var\n"
-                + " - setvisited <elem> <id> <vis>   Marks the given element according to vis\n"
-                + "                                  for the given visitor id. vis may be true,\n"
-                + "                                  false, or a boolean variable\n"
+                + "        visited for the given visitor id and optionally assigns the result to var\n"
+                + "        deprecated - use xgrs [<var> =] <elem>.visited[<id>]\n"
+                + " - setvisited <elem> <id> <vis>  Marks the given element according to vis\n"
+                + "        for the given visitor id. vis may be true, false, or a boolean variable\n"
+                + "        deprecated - use xgrs <elem>.visited[<id>] = <vis>\n"
                 + " - freevisitflag <id>        Frees the given visitor flag\n"
-                + " - resetvisitflag <id>       Unmarks all graph elements for the given visitor\n"
+                + "                             deprecated - use xgrs vfree(<id>)\n"
+                + " - resetvisitflag <id>       Resets the visitor flag in all graph elements\n"
+                + "                             deprecated - use xgrs vreset(<id>)\n"
                 + " - map ...                   Map related commands - deprecated\n"
                 + " - set ...                   Set related commands - deprecated\n"
                 + " - <elem>.<member>           Shows the given graph element member\n"
@@ -808,6 +811,7 @@ namespace de.unika.ipd.grGen.grShell
             Console.WriteLine("List of available commands for \"validate\":\n"
                 + " - validate [exitonfailure] xgrs <xgrs>\n"
                 + "   Validates the current graph according to the given XGRS (true = valid)\n"
+                + "   The xgrs is applied to a clone of the original graph\n"
                 + "   If exitonfailure is specified and the graph is invalid the shell is exited\n\n"
                 + " - validate [exitonfailure] [strict]\n"
                 + "   Validates the current graph according to the connection assertions given by\n"
@@ -2098,6 +2102,8 @@ namespace de.unika.ipd.grGen.grShell
 
         public int AllocVisitFlag()
         {
+            Console.WriteLine("<var> = allocvisitflag is deprecated, use xgrs <var> = valloc() instead");
+
             if(!GraphExists()) return -1;
             return curShellGraph.Graph.AllocateVisitedFlag();
         }
@@ -2105,6 +2111,7 @@ namespace de.unika.ipd.grGen.grShell
         public bool IsVisited(IGraphElement elem, object idObj, bool printResult, out bool val)
         {
             val = false;    // make compiler happy
+            Console.WriteLine("[<var>=]isvisited <elem> <id> is deprecated, use xgrs [<var> =] <elem>.visited[<id>] instead");
 
             if(!GraphExists()) return false;
             if(!(idObj is int))
@@ -2121,6 +2128,8 @@ namespace de.unika.ipd.grGen.grShell
 
         public bool SetVisited(IGraphElement elem, object idObj, object val)
         {
+            Console.WriteLine("setvisited <elem> <id> <vis> is deprecated, use xgrs <elem>.visited[<id>] = <vis> instead");
+
             if(!GraphExists()) return false;
             if(!(idObj is int))
             {
@@ -2138,6 +2147,8 @@ namespace de.unika.ipd.grGen.grShell
 
         public bool FreeVisitFlag(object idObj)
         {
+            Console.WriteLine("freevisitflag <id> is deprecated, use xgrs vfree(<id>) instead");
+
             if(!GraphExists()) return false;
             if(!(idObj is int))
             {
@@ -2150,6 +2161,8 @@ namespace de.unika.ipd.grGen.grShell
 
         public bool ResetVisitFlag(object idObj)
         {
+            Console.WriteLine("resetvisitflag <id> is deprecated, use xgrs vreset(<id>) instead");
+
             if(!GraphExists()) return false;
             if(!(idObj is int))
             {
