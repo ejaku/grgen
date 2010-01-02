@@ -577,7 +577,7 @@ The semantics of the various replace statements are given below:
 \end{description} 
 
 \begin{rail}    
-   Assignment: Ident '.' Ident '=' Expression | 'visited' '(' NodeOrEdge (',' FlagNumber)? ')' '=' BoolExpr;
+   Assignment: NodeOrEdge '.' Ident '=' Expression | NodeOrEdge '.' 'visited' ('[' FlagNumber ']')? '=' BoolExpr;
 \end{rail}\indexmain{attribute evaluation}\ixnterm{Assignment}
 Several evaluation parts are allowed within the replace part. 
 Multiple evaluation statements will be internally concatenated, preserving their order.

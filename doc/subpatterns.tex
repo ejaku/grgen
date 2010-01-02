@@ -41,7 +41,7 @@ pattern Expression(root:Expr)
   }
 }
     \end{grgen}
-  \end{example}
+  \end{example}\label{introexample}
 
 
 Until now we have seen rules and tests with one left hand side static pattern specification in a direct 1:1 correspondence with its dynamic match in the host graph on a successful application.
@@ -324,8 +324,10 @@ So they are only syntactically the same as test/rule-parameters (which are membe
 Subpattern entity declarations instantiate an entity of the subpattern type (i.e. specified shape), which means the subpattern must get matched for the matching of the enclosing pattern to succeed.
 The arguments given are bound to the corresponding parameters of the subpattern.
 If you prefer a syntactical point of view, you may see the subpattern entity as a placeholder, which gets substituted in place by the textual body of the subpattern declaration under renaming of the parameters to the arguments.
-Termersetzung mit Termen die Graphen beschreiben.
-Mehrelementige Graphsprachen als Zwischenschritt zu den rekursiven bereits mit alternative... eingeführt -- dort auch so erklärt, wirklich eingeführt? vor rekursiv trotzdem noch ein  Zwischenschritt: pattern mit alternative, statt action mit alternative
+
+%TODO:remove
+%Termersetzung mit Termen die Graphen beschreiben.
+%Mehrelementige Graphsprachen als Zwischenschritt zu den rekursiven bereits mit alternative... eingeführt -- dort auch so erklärt, wirklich eingeführt? vor rekursiv trotzdem noch ein  Zwischenschritt: pattern mit alternative, statt action mit alternative
 
 \begin{example}
   \begin{grgen}
@@ -688,3 +690,65 @@ rule R {
 }
   \end{grgen}
 \end{example}
+
+
+\section{Regular Expression Syntax}
+
+In addition to the already introduced syntax for the nested patterns with the keywords 
+\texttt{negative}, \texttt{independent}, \texttt{alternative}, \texttt{iterated}, \texttt{multiple} and \texttt{optional},
+there's a more lightweight syntax resembling prefixed regular expressions.
+Table \ref{keywordregexpsyntax} lists the corresponding (/equivalent) language constructs; 
+Example \ref{introexampleregexp} is a version of the introductionary example \ref{introexample} modified to use the new syntax.
+
+\begin{table}[htbp]
+  \centering
+  \begin{tabularx}{\linewidth}{|l|X|} \hline
+    \texttt{ negative \{ P \} } & \texttt{ $\sim$(P) } \\
+    \texttt{ independent \{ P \} } & \texttt{ \&(P)} \\
+    \texttt{ alternative \{ l1 \{ P1 \} ... ln \{ Pn \} \} } & \texttt{ (P1|...|Pn) } \\
+    \texttt{ iterated \{ P \} } & \texttt{ *(P) } \\
+    \texttt{ multiple \{ P \} } & \texttt{ +(P) } \\
+    \texttt{ optional \{ P \} } & \texttt{ ?(P) } \\ \hline 
+  \end{tabularx}
+  \caption{Map of nested patterns in keyword syntax to regular expression syntax}
+  \label{keywordregexpsyntax}
+\end{table}
+
+
+  \begin{example}
+    \begin{grgen}
+test method
+{
+  m:Method <-- n:Name; // signature of method consisting of name
+  *( m <-- :Variable; ) // and 0-n parameters
+  
+  :AssignmentList(m); // body consisting of a list of assignment statements
+}
+
+pattern AssignmentList(prev:Node)
+{
+  ?( // nothing or a linked assignment and again a list
+    prev --> a:Assign; // assignment node 
+    a -:target-> v:Variable; // which has a variable as target 
+    :Expression(a);  // and an expression which defines the left hand side 
+    :AssignmentList(a); // next one, plz
+  )
+}
+
+pattern Expression(root:Expr)
+{
+  ( // expression may be a binary expression of an operator and two expresions
+      root <-- expr1:Expr;
+	  :Expression(expr1);
+      root <-- expr2:Expr;
+	  :Expression(expr2);
+      root <-- :Operator;
+  | // or a unary expression which is a variable (reading it)
+      root <-- v:Variable;
+  )
+}
+    \end{grgen}
+  \end{example}\label{introexampleregexp}
+
+
+

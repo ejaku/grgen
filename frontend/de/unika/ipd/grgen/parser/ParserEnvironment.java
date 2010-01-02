@@ -325,23 +325,24 @@ public abstract class ParserEnvironment extends Base {
 		keywords.add("alternative");
 		keywords.add("arbitrary");
 		keywords.add("class");
-		keywords.add("if");
+		keywords.add("copy");
 		keywords.add("connect");
 		keywords.add("const");
+		keywords.add("def");
 		keywords.add("delete");
 		keywords.add("directed");
-		keywords.add("dpo");
 		keywords.add("edge");
 		keywords.add("emit");
-		keywords.add("emitpre");
-		keywords.add("emitpost");
+		keywords.add("emithere");
 		keywords.add("enum");
 		keywords.add("eval");
 		keywords.add("exact");
 		keywords.add("exec");
 		keywords.add("extends");
 		keywords.add("false");
+		keywords.add("for");
 		keywords.add("hom");
+		keywords.add("if");
 		keywords.add("in");
 		keywords.add("independent");
 		keywords.add("induced");
@@ -367,7 +368,10 @@ public abstract class ParserEnvironment extends Base {
 		keywords.add("undirected");
 		keywords.add("using");
 		keywords.add("var");
+		keywords.add("valloc");
+		keywords.add("vfree");
 		keywords.add("visited");
+		keywords.add("vreset");
 	}
 
 	public abstract UnitNode parseActions(File inputFile);

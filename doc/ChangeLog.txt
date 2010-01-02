@@ -1,4 +1,4 @@
-﻿v2.6beta (2009-12-24)
+﻿v2.6beta5 (2010-01-02)
  Single most important change:
   - user manual updated (1.4->2.6)
  
@@ -25,6 +25,20 @@
      whether set/map is empty, always succeeding
   - set/map creation st=set<T>/mp=map<S,T>, and variable declarations of explicit set/map type, 
      st:set<S>, mp:map<S,T>,  e.g. st:set<Node>=set<Node>
+
+ Visited flags handling:
+  - visited flags processing in rules in function notation deprecated
+    visited flags processing in rules now by syntax:
+      e.visited[f] = b  or  e.visited = b
+      e.visited[f]  or  e.visited
+  - visited flags management in shell deprecated 
+    (allocvisitflag, isvisited, setvisited, freevisitflag, resetvisitflag)
+    visited flags management now by xgrs operations instead of shell commands:
+      f=valloc() for visited flags allocation
+      vfree(f) for visited flags deallocation
+      vreset(f) for resetting visited flag in all graph elements
+      e.visited[f] for query whether graph element was visited
+      e.visited[f] = b for setting whether graph element was visited
 
  New assignments in xgrs: (currently only interpreted xgrs of GrShell, not compiled rule embedded)
    - attribute reading in xgrs: toVar = fromVar.attributeName (value semantics)
@@ -53,6 +67,14 @@
 	 sm1 > sm2  is true iff sm1 is proper superset of sm2 (sm2<sm1)
 	maps require key and value to be same for the equality, (proper) sub/supermap relationships to hold
  
+  EBNF/regular expression-like notation for nested patterns added:
+  - *(P) = iterated { P }
+  - +(P) = multiple { P }
+  - ?(P) = optional { P }
+  - (P1|P2) = alternative { L1 { P1 } L2 { P2 } } 
+  - ~(P) = negative { P }
+  - &(P) = independent { P }
+  
  Fixes:
   - escaping of quotation marks in VCG files
   - escaping of quotation marks and newlines in communication with yComp
@@ -62,6 +84,7 @@
   - Mono compiler error (MS.NET warning) when using alternatives removed
   - initialization overwrite in model (on inheritance paths of depth >2; for sets/maps)
   - fixes for nesting hierarchies of right hand side declared elements
+  - dump into .vcg format now handles nesting as declared by "dump add group" commands correctly
 
  Further changes:
   - null arguments must be declared beforehand if they should be used, 
@@ -71,10 +94,13 @@
 	  (y is example for inexactly typed input which may be null in addition)
   - replaced emitpre by emithere, which is emitted before regular emits,
     at the position syntax-relative to the subpattern modification invocations and the other emitheres
+  - added emit to xgrs: emit(double-quoted-text|variable)  
+      example: xgrs emit("foo") && emit(v)
   - set/map commands in GrShell are deprecated (succeeded by xgrs set/map operators)
   - set/map-valued attributes are now displayed in yComp, too
   - now error reported on attempt to delete and return elments allowed to be matched homomorphically
   - added exitonfailure to GrShell validate command leaving GrShell on failed validation with error code
+  - added GrGen-version of "Repotting the Geraniums: On Nested Graph Transformation Rules" to examples
   - reserved keywords for 2.7
 
   

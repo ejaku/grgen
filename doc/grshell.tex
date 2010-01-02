@@ -247,33 +247,6 @@ This gives a rather costly but extremely flexible and powerful mechanism to spec
 The GrShell is exited with an error code if \texttt{exitonfailure} is specified and the validation fails.
 
 
-\subsection{Visited Flag Commands}
-
-\begin{rail}
-'Variable' '=' 'allocvisitflag'
-\end{rail}\ixkeyw{allocvisitflag}\label{allocvisitflag}
-Allocates space for a visited flag in the elements of the graph and returns the id of the visited flag (integer number), starting at 0.
-Afterwards, the visited flag of the id can be read and written within the rules by the \texttt{visited}-expression and the \texttt{visited}-assignment,
-as well as by the \texttt{isvisited} and \texttt{setvisited} shell commands.
-The first visited flags are stored in some excess bytes of the graph elements and are thus essentially for free, but if this implementation defined space is used up completely, the information is stored in dictionaries.
-
-\begin{rail}
-'freevisitflag' 'Variable'
-\end{rail}\ixkeyw{freevisitflag}
-Frees the space previously allocated for the visited flag; afterwards you must not access it anymore. 
-The value stored in the variable must be of integer type, stemming from a previous allocation.
-
-\begin{rail} 
-'setvisited' GraphElement 'flagId' 'BooleanValue'
-\end{rail}\ixkeyw{setvisited}
-Sets the visited status of the graph element of the flag id the given boolean value; visited flags are normally written by rules of the rule language.
-
-\begin{rail}
-'isvisited' GraphElement 'flagId'
-\end{rail}\ixkeyw{isvisited}
-Returns the visited status of the graph element of the flag id; visited flags are normally read by tests and rules of the rule language.
-
-
 \subsection{Graph Input and Output Commands}
 \label{outputcmds}
 
@@ -483,10 +456,10 @@ The keyword \texttt{only} excludes the subtypes. The available colors are specif
 The default labeling is set to \texttt{on} with \texttt{Name:Type}, it can be overwritten by an specified label string or switched off.
 
 \begin{rail}
-  'dump' 'add' 'node' ('only')? NodeType 'exclude' ;
-\end{rail}\ixkeyw{dump}\ixkeyw{add}\ixkeyw{node}\ixkeyw{only}\ixkeyw{exclude}
-Excludes nodes of type \emph{NodeType} and all of its subtypes as well as their incident edges from output.
-The keyword \texttt{only} excludes the subtypes from exlusion, i.e.\ subtypes of \emph{NodeType} are dumped.
+  'dump' 'add' (('node' ('only')? NodeType)|('edge' ('only')? EdgeType)) 'exclude' ;
+\end{rail}\ixkeyw{dump}\ixkeyw{add}\ixkeyw{node}\ixkeyw{edge}\ixkeyw{only}\ixkeyw{exclude}
+Excludes nodes/edges of type \emph{NodeType}/\emph{EdgeType} and all of its subtypes from output, for a node it also excludes its incident edges.
+The keyword \texttt{only} excludes the subtypes from exlusion, i.e.\ subtypes of \emph{NodeType}/\emph{EdgeType} are dumped.
 
 \begin{rail}
   'dump' 'add' 'node' ('only')? NodeType 'group' (GroupConstraints)? ;
@@ -499,8 +472,16 @@ Declares \emph{NodeType} and subtypes of \emph{NodeType} as \indexed{group node}
 All the differently typed nodes that point to a node of type \emph{NodeType} 
 (i.e.\ there is a directed edge between such nodes) will be grouped and visibly enclosed by the \emph{NodeType}-node.
 \texttt{GroupMode} is one of \texttt{no},\texttt{incoming},\texttt{outgoing},\texttt{any}; \texttt{hidden} causes hiding of the edges by which grouping happens.
-The \texttt{EdgeType} constrains the type of the edges which cause grouping, the \texttt{with} clause additionally constains the type of the adjacent node; 
+The \texttt{EdgeType} constrains the type of the edges which cause grouping, the \texttt{with} clause additionally constrains the type of the adjacent node; 
 \texttt{only} excludes subtypes.
+
+\begin{note}
+Only apply group commands on a graph if they indeed lead to a containment tree of groups.
+If the group commands would lead to a directed acyclic or even cyclic containment graph, the results are undefined.
+The implementation is free to choose indeterministically between the possible nestings; it may even grow an arm and stab you in your back.
+(A conflict resultion strategy in case of two groupings are applicable to a node-edge-node pair is currently given by the order of group commands executed:
+the earlier executed \texttt{add group} command takes precedence; but you'd better refine your groups or change the model in that case.)
+\end{note}
 
 The following example shows \emph{metropolis} ungrouped and grouped:
 \begin{center}
@@ -522,7 +503,7 @@ In the following example \emph{river} and \emph{jam} are info tags:
 \begin{rail}
   'dump' 'reset'
 \end{rail}\ixkeyw{dump}\ixkeyw{reset}
-Resets all style options (\texttt{dump set}\dots) to their default values.
+Resets all style options (\texttt{dump set}\dots) and (\texttt{dump add}\dots) to their default values.
 
 
 \begin{note}
@@ -533,7 +514,7 @@ Additional helpers in keeping the graph readable are:
 the capability to exclude elements from dumping (the less hay in the stack the easier to find the needle),
 the different colors and shapes to quickly find the elements of interest,
 as well as the labels/infotags/shortinfotags to display the most important information directly. 
-Choose the layout algorithm and the options delivering the best results for your needs, organic and compiler graph 
+Choose the layout algorithm and the options delivering the best results for your needs, organic and hierarchic or compiler graph 
 (an extension of hierarchic with automatic edge cutting -- marking cut edges by fat dots, showing the edge only on mouse over and allowing to jump to the other end on a mouse click)
 should be tried first.
 \end{note}

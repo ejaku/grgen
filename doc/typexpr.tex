@@ -387,7 +387,7 @@ The type expression \texttt{typeof(x)} stands for the type of the host graph ele
 After we've seen the all the ways to combine expressions, finally we'll have a look at the atoms the expressions are built of.
 
 \begin{rail} 
-  PrimaryExpr: CastExpr | MemberAccess | VarIdent | 'visited' '(' NodeOrEdge (',' FlagNumber)? ')' | 'nameof' '(' NodeOrEdge? ')' | '(' Expression ')';
+  PrimaryExpr: CastExpr | MemberAccess | VarIdent | NodeOrEdge '.' 'visited' ('[' FlagNumber ']')? | 'nameof' '(' NodeOrEdge? ')' | '(' Expression ')';
 \end{rail}\ixnterm{PrimaryExpr}
 
 The \texttt{visited} query returns the status of the \indexed{visited flag} of the given number for the given graph element as \texttt{boolean}.
