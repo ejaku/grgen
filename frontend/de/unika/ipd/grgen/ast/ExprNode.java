@@ -14,8 +14,6 @@ package de.unika.ipd.grgen.ast;
 import java.awt.Color;
 
 import de.unika.ipd.grgen.parser.Coords;
-import de.unika.ipd.grgen.parser.Scope;
-import de.unika.ipd.grgen.parser.Symbol;
 
 /**
  * Base class for all AST nodes representing expressions.
@@ -39,7 +37,7 @@ public abstract class ExprNode extends BaseNode {
 	protected boolean resolveLocal() {
 		return true;
 	}
-	
+
 	public static ExprNode getInvalid() {
 		return INVALID;
 	}

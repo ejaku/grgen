@@ -159,7 +159,6 @@ public class Formatter {
 			sb.append(")");
 		}
 		else if(cond instanceof Nameof) {
-			Nameof name = (Nameof) cond;
 			// TODO
 		}
 		else if(cond instanceof MapAccessExpr) {
