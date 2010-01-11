@@ -154,14 +154,6 @@ public class RuleDeclNode extends TestDeclNode {
 				expr.reportError("The retyped " + retElem.getUseString()
 						+ " \"" + retElem.ident + "\" must not be returned");
 			}
-			else if(retElem.maybeRetyped) {
-				valid = false;
-
-				expr.reportError("Returning \"" + retElem.ident
-						+ "\" that may be retyped"
-						+ ", possibly it's homomorphic with a retyped "
-						+ retElem.getUseString());
-			}
 		}
 		return valid;
 	}

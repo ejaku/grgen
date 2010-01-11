@@ -1,3 +1,4 @@
+OK     should_pass/MaybeNull.grg
 OK     should_pass/alternative_001.grg
 OK     should_pass/alternative_002.grg
 OK     should_pass/alterror.grg
@@ -65,7 +66,7 @@ OK     should_pass/basic_050.grg
 OK     should_pass/basic_051.grg
 OK     should_pass/basic_052.grg
 OK     should_pass/basic_053.grg
-OK     should_pass/basic_054.grg
+WARNED should_pass/basic_054.grg
 OK     should_pass/basic_055.grg
 OK     should_pass/basic_056.grg
 OK     should_pass/basic_060.grg
@@ -162,6 +163,7 @@ OK     should_pass/exec_012.grg
 OK     should_pass/exec_013.grg
 OK     should_pass/exec_014.grg
 OK     should_pass/exec_015.grg
+OK     should_pass/exec_016.grg
 OK     should_pass/external_001.grg
 OK     should_pass/hom_001.grg
 OK     should_pass/hom_002.grg
@@ -214,6 +216,7 @@ OK     should_pass/negative_001.grg
 OK     should_pass/negative_002.grg
 OK     should_pass/negative_003.grg
 OK     should_pass/negative_004.grg
+OK     should_pass/nested_pattern_001.grg
 OK     should_pass/object_001.grg
 OK     should_pass/object_002.grg
 OK     should_pass/param_001.grg
@@ -227,6 +230,7 @@ OK     should_pass/param_008.grg
 OK     should_pass/param_100.grg
 OK     should_pass/param_101.grg
 OK     should_pass/param_102.grg
+WARNED should_pass/parent_element_in_nested_construct.grg
 OK     should_pass/pattern_001.grg
 OK     should_pass/pattern_002.grg
 OK     should_pass/pattern_003.grg
@@ -242,7 +246,7 @@ OK     should_pass/pattern_012.grg
 OK     should_pass/pattern_013.grg
 OK     should_pass/pattern_014.grg
 OK     should_pass/pattern_015.grg
-OK     should_pass/pattern_016.grg
+WARNED should_pass/pattern_016.grg
 OK     should_pass/ret_001.grg
 OK     should_pass/ret_002.grg
 OK     should_pass/ret_003.grg
@@ -293,6 +297,7 @@ OK     should_pass/typeof_001.grg
 OK     should_pass/typeof_002.grg
 OK     should_pass/unary_001.grg
 OK     should_pass/visit_001.grg
+OK     should_pass/visit_002.grg
 WARNED should_warn/basic_003.grg
 WARNED should_warn/basic_025.grg
 WARNED should_warn/basic_200.grg
@@ -583,6 +588,9 @@ ERROR  should_fail/exec_031.grg
 ERROR  should_fail/exec_032.grg
 ERROR  should_fail/exec_033.grg
 ERROR  should_fail/exec_034.grg
+ERROR  should_fail/exec_035a.grg
+ERROR  should_fail/exec_035b.grg
+ERROR  should_fail/exec_035c.grg
 ERROR  should_fail/hom_002.grg
 ERROR  should_fail/hom_003.grg
 ERROR  should_fail/hom_004.grg
@@ -714,8 +722,8 @@ ERROR  should_fail/ret_021.grg
 ERROR  should_fail/ret_022.grg
 ERROR  should_fail/ret_023.grg
 ERROR  should_fail/ret_025.grg
-OK     should_fail/ret_026.grg
-OK     should_fail/ret_027.grg
+ERROR  should_fail/ret_026.grg
+ERROR  should_fail/ret_027.grg
 ERROR  should_fail/ret_028.grg
 ERROR  should_fail/retype_001.grg
 ERROR  should_fail/retype_002.grg
