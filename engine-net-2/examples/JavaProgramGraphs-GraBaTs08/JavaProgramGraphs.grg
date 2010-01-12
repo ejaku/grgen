@@ -201,10 +201,10 @@ rule markExpressionOfBody(mb:MethodBody)
 {
 	mb <-:belongsTo- :Block -:expression-> exp:Expression;
 
-	if { !visited(exp, 0); }
+	if { !exp.visited[0]; }
 	
 	modify {
-		eval { visited(exp, 0) = true; }
+		eval { exp.visited[0] = true; }
 		
 		exec( ( markExpressionFollowingExpression(exp) || markExpressionFollowingActualParameter(exp) )* );
 	}
@@ -214,10 +214,10 @@ rule markExpressionFollowingExpression(root:Expression)
 {
 	root -:expression-> exp:Expression;
 	
-	if { !visited(exp, 0); }
+	if { !exp.visited[0]; }
 	
 	modify {
-		eval { visited(exp, 0) = true; }
+		eval { exp.visited[0] = true; }
 		
 		exec( ( markExpressionFollowingExpression(exp) || markExpressionFollowingActualParameter(exp) )* );
 	}
@@ -227,10 +227,10 @@ rule markExpressionFollowingActualParameter(root:Expression)
 {
 	root -:actualParameter-> exp:Expression;
 	
-	if { !visited(exp, 0); }
+	if { !exp.visited[0]; }
 	
 	modify {
-		eval { visited(exp, 0) = true; }
+		eval { exp.visited[0] = true; }
 		
 		exec( ( markExpressionFollowingExpression(exp) || markExpressionFollowingActualParameter(exp) )* );
 	}
@@ -240,10 +240,10 @@ rule unmarkExpression
 {
 	exp:Expression;
 
-	if { visited(exp, 0); }
+	if { exp.visited[0]; }
 
 	modify {
-		eval { visited(exp, 0) = false; }
+		eval { exp.visited[0] = false; }
 	}
 }
 
@@ -251,7 +251,7 @@ test callToSuperExists
 {
 	call:Call;
 	
-	if { call.super && visited(call, 0); }
+	if { call.super && call.visited[0]; }
 }
 
 test isStatic(mb:MethodBody)
@@ -292,7 +292,7 @@ test thisIsAccessed()
 {
 	access:Access;
 	
-	if { visited(access, 0); }
+	if { access.visited[0]; }
 	
 	negative {
 		access -:link-> ;
@@ -312,7 +312,7 @@ rule useSourceParameter(srcparam:Parameter)
 {
 	access:Access;
 	
-	if { visited(access, 0); }
+	if { access.visited[0]; }
 	
 	negative {
 		access -:link-> ;

@@ -1600,7 +1600,8 @@ commonLoop:	for(InheritanceType commonType : firstCommonAncestors) {
 				sb.append(formatLong(ca.getSrcLower()) + ", ");
 				sb.append(formatLong(ca.getSrcUpper()) + ", ");
 				sb.append(formatLong(ca.getTgtLower()) + ", ");
-				sb.append(formatLong(ca.getTgtUpper()));
+				sb.append(formatLong(ca.getTgtUpper()) + ", ");
+				sb.append(ca.getBothDirections());
 				sb.append("),\n");
 			}
 		}

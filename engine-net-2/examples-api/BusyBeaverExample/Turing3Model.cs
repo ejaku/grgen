@@ -1,6 +1,6 @@
 // This file has been generated automatically by GrGen.
 // Do not modify this file! Any changes will be lost!
-// Generated from "..\..\examples\Turing3\Turing3.grg" on Sun Nov 22 13:11:01 CET 2009
+// Generated from "..\..\examples\Turing3\Turing3.grg" on Tue Jan 12 22:53:42 CET 2010
 
 using System;
 using System.Collections.Generic;
@@ -1755,7 +1755,7 @@ namespace de.unika.ipd.grGen.Model_Turing3
 		private Turing3NodeModel nodeModel = new Turing3NodeModel();
 		private Turing3EdgeModel edgeModel = new Turing3EdgeModel();
 		private GRGEN_LIBGR.ValidateInfo[] validateInfos = {
-			new GRGEN_LIBGR.ValidateInfo(GRGEN_MODEL.EdgeType_right.typeVar, GRGEN_MODEL.NodeType_BandPosition.typeVar, GRGEN_MODEL.NodeType_BandPosition.typeVar, 0, 1, 0, 1),
+			new GRGEN_LIBGR.ValidateInfo(GRGEN_MODEL.EdgeType_right.typeVar, GRGEN_MODEL.NodeType_BandPosition.typeVar, GRGEN_MODEL.NodeType_BandPosition.typeVar, 0, 1, 0, 1, false),
 		};
 		private GRGEN_LIBGR.EnumAttributeType[] enumAttributeTypes = {
 		};
@@ -1891,7 +1891,7 @@ namespace de.unika.ipd.grGen.Model_Turing3
 		private Turing3NodeModel nodeModel = new Turing3NodeModel();
 		private Turing3EdgeModel edgeModel = new Turing3EdgeModel();
 		private GRGEN_LIBGR.ValidateInfo[] validateInfos = {
-			new GRGEN_LIBGR.ValidateInfo(GRGEN_MODEL.EdgeType_right.typeVar, GRGEN_MODEL.NodeType_BandPosition.typeVar, GRGEN_MODEL.NodeType_BandPosition.typeVar, 0, 1, 0, 1),
+			new GRGEN_LIBGR.ValidateInfo(GRGEN_MODEL.EdgeType_right.typeVar, GRGEN_MODEL.NodeType_BandPosition.typeVar, GRGEN_MODEL.NodeType_BandPosition.typeVar, 0, 1, 0, 1, false),
 		};
 		private GRGEN_LIBGR.EnumAttributeType[] enumAttributeTypes = {
 		};

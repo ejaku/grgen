@@ -23,9 +23,11 @@ public class ConnAssert extends IR {
 	private final long tgtUpper;
 	private final NodeType srcType;
 	private final NodeType tgtType;
-
+	private final boolean bothDirections;
+	
 	public ConnAssert(NodeType srcType, long srcLower, long srcUpper,
-										NodeType tgtType, long tgtLower, long tgtUpper) {
+						NodeType tgtType, long tgtLower, long tgtUpper,
+						boolean bothDirections) {
 		super("conn assert");
 		this.srcType = srcType;
 		this.srcLower = srcLower;
@@ -33,6 +35,7 @@ public class ConnAssert extends IR {
 		this.tgtType = tgtType;
 		this.tgtLower = tgtLower;
 		this.tgtUpper = tgtUpper;
+		this.bothDirections = bothDirections;
 	}
 
 	public NodeType getSrcType() {
@@ -57,6 +60,10 @@ public class ConnAssert extends IR {
 
 	public long getTgtUpper() {
 		return tgtUpper;
+	}
+	
+	public boolean getBothDirections() {
+		return bothDirections;
 	}
 
 	public void addFields(Map<String, Object> fields) {

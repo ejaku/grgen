@@ -127,9 +127,12 @@ Moreover, the semantics is as in C~\cite{Sch:1990:ANSIC}. So, the following hold
 
 \begin{rail}  
   ClassDeclaration: (() | 'abstract') (() | 'const') \\
-    (NodeClass | (() | (() | 'arbitrary') ('directed' | 'undirected')) EdgeClass);
+    (NodeClass | (() | ('arbitrary' | 'directed' | 'undirected')) EdgeClass);
 \end{rail}\ixkeyw{abstract}\ixkeyw{const}\ixnterm{ClassDeclaration}\ixkeyw{arbitrary}\ixkeyw{directed}\ixkeyw{undirected}
-Defines a new node type or edge type. The keyword \texttt{abstract} indicates that you cannot instantiate graph elements of this type. Instead you have to derive non-abstract types to create graph elements. The abstract-property will not be inherited by subclasses, of course.
+Defines a new node type or edge type.
+The keyword \texttt{abstract} indicates that you cannot instantiate graph elements of this type.
+Instead you have to derive non-abstract types to create graph elements.
+The abstract-property will not be inherited by subclasses, of course.
 
 \begin{example}
 We adjust our map model and make \texttt{city} abstract:
@@ -177,39 +180,31 @@ See also Section~\ref{graphcommands}, \texttt{validate}.
 \end{note}
 
 \begin{rail}  
-  ConnectAssertions: 'connect' ((NodeConstraint ('-->' | '<->' | '--') NodeConstraint | 'inherited') + ',');
+  ConnectAssertions: 'connect' ((NodeConstraint ('-->' | '<--' | '<-->' | '--') NodeConstraint | 'copy' 'extends') + ',');
   NodeConstraint: NodeType (() | '[' ('*' | '+' | Number | RangeConstraint) ']') ;
   RangeConstraint: Number ':' ('*' | Number) ;
-\end{rail}\ixkeyw{connect}\ixkeyw{inherited}\ixnterm{ConnectAssertions}\ixnterm{NodeConstraint}\ixnterm{RangeConstraint}
+\end{rail}\ixkeyw{connect}\ixkeyw{copy}\ixkeyw{extends}\ixnterm{ConnectAssertions}\ixnterm{NodeConstraint}\ixnterm{RangeConstraint}
 A \emph{\indexed{connection assertion}} is denoted as a pair of node types in conjunction with their multiplicities\indexmainsee{multiplicity}{connection assertion}. 
-A corresponding edge may connect a node of the first node type or one of its subtypes (source) with a node of the second node type or one of its subtypes (target). 
-The multiplicity is a constraint on the out-degree and in-degree\indexmainsee{degree}{connection assertion} of the source and target node type, respectively. 
-\emph{Number} is an \texttt{int} constant as defined in Section~\ref{expressions}. 
-See Section~\ref{graphcommands}, \texttt{validate}\ixkeyw{validate}, for an example. 
-Table~\ref{multiplicities} describes the multiplicity definitions. 
-Multiple connection assertions are applied by conjunction, i.\,e.\ all of them must be fulfilled.
-
+It is best understood as a simple pattern of the form(cf. ~\ref{sct:graphlets}) \texttt{:SourceNodeType -:EdgeType-> :TargetNodeType}, of which every occurance in the graph is searched.
+In contrast to a real such pattern and the node types only edges of exactly the given edge type are taken into account.
+Per node of \texttt{SourceNodeType} (or a subtype) it is counted how often it was covered by a match of the pattern starting at it,
+and per node of \texttt{TargetNodeType} (or a subtype) it is counted how often it was covered by a match of the pattern ending at it.
+The numbers must be in the range specified at the \texttt{SourceNodeType} and the \texttt{TargetNodeType} for the connection assertion to be fulfilled.
+Multiple connection assertions are applied by conjunction, i.\,e.\ all of them must be fulfilled. 
+It might happen that none of the connection assertion of an \texttt{EdgeType} are matching an edge of this type in the graph.
+This is accepted in the case of normal validation; but as you normally want to see \emph{only} the specified connections occuring in the graph,
+there is the additional mode of strict validation: if an edge is not covered by a single matching connection, validation fails.
+See Section~\ref{graphcommands}, \texttt{validate}\ixkeyw{validate}, for an example.
+ 
 The arrow syntax is based on the \GrG\ graphlet specification (see Section~\ref{sct:graphlets}).
 The different kinds of arrows distinguish between directed und undirected edges.
-The \texttt{-->} arrow means---what you intuitively expect---a directed edge directing to a node of the target node type (or one of its subtypes).
+The \texttt{-->} arrow means a directed edge aiming towards a node of the target node type (or one of its subtypes).
+The \texttt{A<--B} connection assertion is equivalent to the \texttt{B-->A} connection assertion.
 The \texttt{<-->} arrow means a directed edge as well, but source node type and target node type are not determined, i.\,e.\ \texttt{A <--> B} is equivalent to \texttt{A --> B, B --> A}.
 The \texttt{--} arrow is used for undirected edges.
 For arbitrary edges (edges not inheriting from \texttt{Edge} or \texttt{UEdge}), a connection assertion must not be specified.
-
-Note that even though a connection assertion applies to the specified node types \emph{including} their subtypes, subtypes of the declaring edge are not taken into account.
-However, you are able to make use of the edge class hierarchy by using the keyword \texttt{inherited}.
-The \texttt{inherited} assertion ``imports'' the connection assertions of the \emph{direct} ancestors of the declaring edge.
-This is a purely syntactical simplification, i.\,e.\ the effect of using \texttt{inherited} is the same as copying connection assertions from direct ancestors by hand
-(Not implemented yet - must copy by hand - TODO!).
-%\begin{note}
-%	Connection assertions must be consistent according to the type hierarchy.
-%	That means---roughly spoken---the assertions for subtypes must get monotonously more restrictive or monotonously less restrictive.
-%	For instance, the following connection assertions are illegal for node types \texttt{A}, \texttt{B}, \texttt{C}, \texttt{D} with \texttt{A} inherits from \texttt{B} and \texttt{C} inherits from \texttt{B}:
-%	\begin{grgen}
-%connect A[*] -> D, B[0:5] -> D, C[*] -> D
-%	\end{grgen}
-%	The \GrG\ compiler will warn you, if you're using inconsistent connection assertions.
-%\end{note}
+\emph{Number} is an \texttt{int} constant as defined in Section~\ref{expressions}. 
+Table~\ref{multiplicities} describes the multiplicity definitions. 
 
 \begin{table}[htbp]
 \begin{tabularx}{\linewidth}{|l|X|}\hline
@@ -223,6 +218,19 @@ This is a purely syntactical simplification, i.\,e.\ the effect of using \texttt
 \caption{\GrG\ node constraint multiplicities}
 \label{multiplicities}
 \end{table}
+
+In order to apply the connection assertions of the supertypes of \texttt{EdgeType} to \texttt{EdgeType}, you may use the keywords \texttt{copy extends}.
+The \texttt{copy extends} assertion ``imports'' the connection assertions of the \emph{direct} ancestors of the declaring edge.
+This is a purely syntactical simplification, i.\,e.\ the effect of using \texttt{copy extends} is the same as copying connection assertions from direct ancestors by hand.
+%\begin{note}
+%	Connection assertions must be consistent according to the type hierarchy.
+%	That means---roughly spoken---the assertions for subtypes must get monotonously more restrictive or monotonously less restrictive.
+%	For instance, the following connection assertions are illegal for node types \texttt{A}, \texttt{B}, \texttt{C}, \texttt{D} with \texttt{A} inherits from \texttt{B} and \texttt{C} inherits from \texttt{B}:
+%	\begin{grgen}
+%connect A[*] -> D, B[0:5] -> D, C[*] -> D
+%	\end{grgen}
+%	The \GrG\ compiler will warn you, if you're using inconsistent connection assertions.
+%\end{note}
 
 \subsection{Attribute Types}
 \label{sct:attrtypes}

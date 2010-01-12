@@ -115,7 +115,7 @@ test t9
 	if {
 		nameof(b) == nameof(a); // b available?
 		typeof(b) == typeof(a);
-		visited(b) == visited(a);
+		b.visited == a.visited;
 	}
 	
 	b:NINT;
@@ -129,7 +129,7 @@ rule t10
 		eval {
 			b.a = nameof(b) == nameof(a); // b available?
 			b.a = typeof(b) == typeof(a);
-			b.a = visited(b) == visited(a);
+			b.a = b.visited == a.visited;
 		}
 		b:NBOOL;
 	}

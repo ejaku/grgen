@@ -29,7 +29,7 @@ node class Metamodel_String extends Metamodel_ValueNode, Metamodel_BaseNode {
 
 abstract edge class Metamodel_BaseEdge
 	connect
-		Metamodel_BaseNode -> Metamodel_BaseNode;
+		Metamodel_BaseNode --> Metamodel_BaseNode;
 
 
 		
@@ -60,59 +60,59 @@ node class Metamodel_Property extends Metamodel_BaseNode;
 
 edge class Metamodel_ownedLiteral extends Metamodel_BaseEdge
 	connect
-		Metamodel_Enumeration -> Metamodel_EnumerationLiteral;
+		Metamodel_Enumeration --> Metamodel_EnumerationLiteral;
 
 edge class Metamodel_ownedAttribute extends Metamodel_BaseEdge
 	connect
-		Metamodel_Class -> Metamodel_Property;
+		Metamodel_Class --> Metamodel_Property;
 
 edge class Metamodel_ownedOperation extends Metamodel_BaseEdge
 	connect
-		Metamodel_Enumeration -> Metamodel_Operation,
-		Metamodel_Class -> Metamodel_Operation;
+		Metamodel_Enumeration --> Metamodel_Operation,
+		Metamodel_Class --> Metamodel_Operation;
 
 edge class Metamodel_ownedComment extends Metamodel_BaseEdge
 	connect
-		Metamodel_PrimitiveType -> Metamodel_Comment,
-		Metamodel_Association -> Metamodel_Comment,
-		Metamodel_Enumeration -> Metamodel_Comment,
-		Metamodel_EnumerationLiteral -> Metamodel_Comment,
-		Metamodel_Class -> Metamodel_Comment,
-		Metamodel_Constraint -> Metamodel_Comment,
-		Metamodel_Property -> Metamodel_Comment,
-		Metamodel_Operation -> Metamodel_Comment;
+		Metamodel_PrimitiveType --> Metamodel_Comment,
+		Metamodel_Association --> Metamodel_Comment,
+		Metamodel_Enumeration --> Metamodel_Comment,
+		Metamodel_EnumerationLiteral --> Metamodel_Comment,
+		Metamodel_Class --> Metamodel_Comment,
+		Metamodel_Constraint --> Metamodel_Comment,
+		Metamodel_Property --> Metamodel_Comment,
+		Metamodel_Operation --> Metamodel_Comment;
 
 edge class Metamodel_ownedRule extends Metamodel_BaseEdge
 	connect
-		Metamodel_Enumeration -> Metamodel_Constraint,
-		Metamodel_Class -> Metamodel_Constraint,
-		Metamodel_Operation -> Metamodel_Constraint;
+		Metamodel_Enumeration --> Metamodel_Constraint,
+		Metamodel_Class --> Metamodel_Constraint,
+		Metamodel_Operation --> Metamodel_Constraint;
 
 edge class Metamodel_specification extends Metamodel_BaseEdge
 	connect
-		Metamodel_Constraint -> Metamodel_OpaqueExpression;
+		Metamodel_Constraint --> Metamodel_OpaqueExpression;
 
 edge class Metamodel_language extends Metamodel_BaseEdge
 	connect
-		Metamodel_OpaqueExpression -> Metamodel_String;
+		Metamodel_OpaqueExpression --> Metamodel_String;
 
 edge class Metamodel_body extends Metamodel_BaseEdge
 	connect
-		Metamodel_Comment -> Metamodel_String,
-		Metamodel_OpaqueExpression -> Metamodel_String;
+		Metamodel_Comment --> Metamodel_String,
+		Metamodel_OpaqueExpression --> Metamodel_String;
 
 edge class Metamodel_ownedParameter extends Metamodel_BaseEdge
 	connect
-		Metamodel_Operation -> Metamodel_Parameter;
+		Metamodel_Operation --> Metamodel_Parameter;
 
 edge class Metamodel_ownedMember extends Metamodel_BaseEdge
 	connect
-		Metamodel_Package -> Metamodel_Class,
-		Metamodel_Package -> Metamodel_Package;
+		Metamodel_Package --> Metamodel_Class,
+		Metamodel_Package --> Metamodel_Package;
 
 edge class Metamodel_ownedEnd extends Metamodel_BaseEdge
 	connect
-		Metamodel_Association -> Metamodel_Property;
+		Metamodel_Association --> Metamodel_Property;
 
 edge class Metamodel_uri extends Metamodel_BaseEdge;
 

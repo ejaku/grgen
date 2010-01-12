@@ -1,6 +1,6 @@
 node class A;
 
 edge class e
-    connect A[*] -> B[*];
+    connect A[*] --> B[*];
 
 node class B;

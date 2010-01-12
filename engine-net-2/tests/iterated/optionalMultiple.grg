@@ -34,11 +34,11 @@ rule unmarkEdge
 {
 	-e:Edge->;
 	
-	if { visited(e); }
+	if { e.visited; }
 	
 	modify {
 		eval {
-			visited(e) = false;
+			e.visited = false;
 		}
 	}
 }
@@ -47,11 +47,11 @@ rule unmarkUEdge
 {
 	-e:UEdge-;
 	
-	if { visited(e); }
+	if { e.visited; }
 	
 	modify {
 		eval {
-			visited(e) = false;
+			e.visited = false;
 		}
 	}
 }
@@ -83,7 +83,7 @@ rule foo {
 		n1 -e:UEdge- n1;
 		modify {
 			eval {
-				visited(e) = true;
+				e.visited = true;
 			}
 		}
 	}
@@ -91,7 +91,7 @@ rule foo {
 		n2 ?-e:AEdge-? n2;
 		modify {
 			eval {
-				visited(e) = true;
+				e.visited = true;
 			}
 		}
 	}
@@ -106,7 +106,7 @@ rule bar {
 		n1 -e:UEdge- n1;
 		modify {
 			eval {
-				visited(e) = true;
+				e.visited = true;
 			}
 		}
 	}
@@ -114,7 +114,7 @@ rule bar {
 		n2 ?-e:AEdge-? n2;
 		modify {
 			eval {
-				visited(e) = true;
+				e.visited = true;
 			}
 		}
 	}

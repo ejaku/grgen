@@ -899,8 +899,7 @@ namespace de.unika.ipd.grGen.libGr
 
         /// <summary>
         /// Checks whether a graph meets the connection assertions.
-        /// In strict mode all occuring connections must be specified
-        /// by a connection assertion.
+        /// In strict mode all edges must be specified by a connection assertion.
         /// </summary>
         /// <param name="strict">If false, only check for specified assertions,
         /// otherwise it isn an error, if an edge connects nodes without a
@@ -911,130 +910,34 @@ namespace de.unika.ipd.grGen.libGr
         ///     --> faster positive answer
         public bool Validate(bool strict, out List<ConnectionAssertionError> errors)
         {
+            bool result = true;
             Dictionary<IEdge, bool> checkedOutEdges = new Dictionary<IEdge, bool>(2 * NumEdges);
             Dictionary<IEdge, bool> checkedInEdges = new Dictionary<IEdge, bool>(2 * NumEdges);
-            Dictionary<INode, bool> checkedOutNodes = new Dictionary<INode, bool>(2 * NumNodes);
-            Dictionary<INode, bool> checkedInNodes = new Dictionary<INode, bool>(2 * NumNodes);
-            bool result = true;
             errors = new List<ConnectionAssertionError>();
 
             foreach(ValidateInfo valInfo in Model.ValidateInfo)
             {
-                checkedOutNodes.Clear();
-                checkedInNodes.Clear();
-
-                foreach(IEdge edge in GetExactEdges(valInfo.EdgeType))
+                if(valInfo.BothDirections)
                 {
-                    if(!edge.Source.Type.IsA(valInfo.SourceType) || !edge.Target.Type.IsA(valInfo.TargetType)) continue;
+                    Dictionary<INode, bool> checkedNodes = new Dictionary<INode, bool>(2 * NumNodes);
 
-                    if(!checkedOutNodes.ContainsKey(edge.Source))   // don't check the same node more then once for the same valInfo
+                    foreach(IEdge edge in GetExactEdges(valInfo.EdgeType))
                     {
-                        // Check outgoing edges
-                        long num = 0;
-                        foreach(IEdge outEdge in edge.Source.GetExactOutgoing(valInfo.EdgeType))
-                        {
-                            if(!outEdge.Target.Type.IsA(valInfo.TargetType)) continue;
-                            checkedOutEdges[outEdge] = true;
-                            num++;
-                        }
-                        if(num < valInfo.SourceLower)
-                        {
-                            errors.Add(new ConnectionAssertionError(CAEType.NodeTooFewSources, edge.Source, num, valInfo));
-                            result = false;
-                        }
-                        else if(num > valInfo.SourceUpper)
-                        {
-                            errors.Add(new ConnectionAssertionError(CAEType.NodeTooManySources, edge.Source, num, valInfo));
-                            result = false;
-                        }
-                        checkedOutNodes[edge.Source] = true;
-                    }
-
-                    if(!checkedInNodes.ContainsKey(edge.Target))   // don't check the same node more then once for the same valInfo
-                    {
-                        // Check incoming edges
-                        long num = 0;
-                        foreach(IEdge inEdge in edge.Target.GetExactIncoming(valInfo.EdgeType))
-                        {
-                            if(!inEdge.Source.Type.IsA(valInfo.SourceType)) continue;
-                            checkedInEdges[inEdge] = true;
-                            num++;
-                        }
-                        if(num < valInfo.TargetLower)
-                        {
-                            errors.Add(new ConnectionAssertionError(CAEType.NodeTooFewTargets, edge.Target, num, valInfo));
-                            result = false;
-                        }
-                        else if(num > valInfo.TargetUpper)
-                        {
-                            errors.Add(new ConnectionAssertionError(CAEType.NodeTooManyTargets, edge.Target, num, valInfo));
-                            result = false;
-                        }
-                        checkedInNodes[edge.Target] = true;
+                        result &= ValidateBothDirections(edge, valInfo, ref errors, 
+                            ref checkedOutEdges, ref checkedInEdges, ref checkedNodes);
                     }
                 }
-
-/*                foreach(INode node in GetCompatibleNodes(valInfo.SourceType))
+                else
                 {
-                    int num = 0;
-                    foreach(IEdge outEdge in node.GetExactOutgoing(valInfo.EdgeType))
-                    {
-                        checkedOutEdges[outEdge] = true;
-                        num++;
-                    }
-                    if(num < valInfo.SourceLower)
-                    {
-                        errors.Add(new ConnectionAssertionError(CAEType.NodeTooFewSources, node, num, valInfo));
-                        result = false;
-                    }
-                    else if(num > valInfo.SourceUpper)
-                    {
-                        errors.Add(new ConnectionAssertionError(CAEType.NodeTooManySources, node, num, valInfo));
-                        result = false;
-                    }
-                }*/
+                    Dictionary<INode, bool> checkedOutNodes = new Dictionary<INode, bool>(2 * NumNodes);
+                    Dictionary<INode, bool> checkedInNodes = new Dictionary<INode, bool>(2 * NumNodes);
 
-/*                // Check outgoing edges
-                foreach(INode node in GetCompatibleNodes(valInfo.SourceType))
-                {
-                    int num = 0;
-                    foreach(IEdge edge in node.GetOutgoing(valInfo.EdgeType))
+                    foreach(IEdge edge in GetExactEdges(valInfo.EdgeType))
                     {
-                        checkedOutEdges[edge] = true;
-                        num++;
-                    }
-                    if(num < valInfo.SourceLower)
-                    {
-                        errors.Add(new ConnectionAssertionError(CAEType.NodeTooFewSources, node, num, valInfo));
-                        result = false;
-                    }
-                    else if(num > valInfo.SourceUpper)
-                    {
-                        errors.Add(new ConnectionAssertionError(CAEType.NodeTooManySources, node, num, valInfo));
-                        result = false;
+                        result &= ValidateDirected(edge, valInfo, ref errors,
+                            ref checkedOutEdges, ref checkedInEdges, ref checkedOutNodes, ref checkedInNodes);
                     }
                 }
-
-                // Check incoming edges
-                foreach(INode node in GetCompatibleNodes(valInfo.TargetType))
-                {
-                    int num = 0;
-                    foreach(IEdge edge in node.GetIncoming(valInfo.EdgeType))
-                    {
-                        checkedInEdges[edge] = true;
-                        num++;
-                    }
-                    if(num < valInfo.TargetLower)
-                    {
-                        errors.Add(new ConnectionAssertionError(CAEType.NodeTooFewTargets, node, num, valInfo));
-                        result = false;
-                    }
-                    else if(num > valInfo.TargetUpper)
-                    {
-                        errors.Add(new ConnectionAssertionError(CAEType.NodeTooManyTargets, node, num, valInfo));
-                        result = false;
-                    }
-                }*/
             }
 
             if(strict && (NumEdges != checkedOutEdges.Count || NumEdges != checkedInEdges.Count))
@@ -1049,9 +952,170 @@ namespace de.unika.ipd.grGen.libGr
                     }
                 }
             }
+
             if(result) errors = null;
             return result;
         }
+
+        bool ValidateDirected(IEdge edge, ValidateInfo valInfo, ref List<ConnectionAssertionError> errors,
+            ref Dictionary<IEdge, bool> checkedOutEdges, ref Dictionary<IEdge, bool> checkedInEdges,
+            ref Dictionary<INode, bool> checkedOutNodes, ref Dictionary<INode, bool> checkedInNodes)
+        {
+            bool result = true;
+            // only check if source and target node types match
+            if(!edge.Source.Type.IsA(valInfo.SourceType) || !edge.Target.Type.IsA(valInfo.TargetType)) return result;
+
+            if(!checkedOutNodes.ContainsKey(edge.Source))   // don't check the same node more then once for the same valInfo
+            {
+                // Check outgoing edges
+                long num = CountOutgoing(edge.Source, valInfo.EdgeType, valInfo.TargetType, ref checkedOutEdges);
+                if(num < valInfo.SourceLower) {
+                    errors.Add(new ConnectionAssertionError(CAEType.NodeTooFewSources, edge.Source, num, valInfo));
+                    result = false;
+                } else if(num > valInfo.SourceUpper) {
+                    errors.Add(new ConnectionAssertionError(CAEType.NodeTooManySources, edge.Source, num, valInfo));
+                    result = false;
+                }
+                checkedOutNodes[edge.Source] = true;
+            }
+
+            if(!checkedInNodes.ContainsKey(edge.Target))   // don't check the same node more then once for the same valInfo
+            {
+                // Check incoming edges
+                long num = CountIncoming(edge.Source, valInfo.EdgeType, valInfo.SourceType, ref checkedInEdges);
+                if(num < valInfo.TargetLower) {
+                    errors.Add(new ConnectionAssertionError(CAEType.NodeTooFewTargets, edge.Target, num, valInfo));
+                    result = false;
+                } else if(num > valInfo.TargetUpper) {
+                    errors.Add(new ConnectionAssertionError(CAEType.NodeTooManyTargets, edge.Target, num, valInfo));
+                    result = false;
+                }
+                checkedInNodes[edge.Target] = true;
+            }
+
+            return result;
+        }
+
+        bool ValidateBothDirections(IEdge edge, ValidateInfo valInfo, ref List<ConnectionAssertionError> errors,
+            ref Dictionary<IEdge, bool> checkedOutEdges, ref Dictionary<IEdge, bool> checkedInEdges,
+            ref Dictionary<INode, bool> checkedNodes)
+        {
+            bool result = true;
+            bool sourceChecked = false;
+            bool targetChecked = false;
+
+            // check if source and target node types match
+            if(edge.Source.Type.IsA(valInfo.SourceType) && edge.Target.Type.IsA(valInfo.TargetType))
+            {
+                if(!checkedNodes.ContainsKey(edge.Source))   // don't check the same node more than once for the same valInfo
+                {
+                    // Check incident edges
+                    long num = CountOutgoing(edge.Source, valInfo.EdgeType, valInfo.TargetType, ref checkedOutEdges);
+                    num += CountIncoming(edge.Source, valInfo.EdgeType, valInfo.TargetType, ref checkedInEdges);
+                    if(num < valInfo.SourceLower)
+                    {
+                        errors.Add(new ConnectionAssertionError(CAEType.NodeTooFewSources, edge.Source, num, valInfo));
+                        result = false;
+                    }
+                    else if(num > valInfo.SourceUpper)
+                    {
+                        errors.Add(new ConnectionAssertionError(CAEType.NodeTooManySources, edge.Source, num, valInfo));
+                        result = false;
+                    }
+                    sourceChecked = true;
+                }
+
+                if(!checkedNodes.ContainsKey(edge.Target))   // don't check the same node more than once for the same valInfo
+                {
+                    // Check incident edges
+                    long num = CountOutgoing(edge.Target, valInfo.EdgeType, valInfo.SourceType, ref checkedOutEdges);
+                    num += CountIncoming(edge.Target, valInfo.EdgeType, valInfo.SourceType, ref checkedInEdges);
+                    if(num < valInfo.TargetLower)
+                    {
+                        errors.Add(new ConnectionAssertionError(CAEType.NodeTooFewTargets, edge.Target, num, valInfo));
+                        result = false;
+                    }
+                    else if(num > valInfo.TargetUpper)
+                    {
+                        errors.Add(new ConnectionAssertionError(CAEType.NodeTooManyTargets, edge.Target, num, valInfo));
+                        result = false;
+                    }
+                    targetChecked = true;
+                }
+            }
+
+            // check if source and target node types match in reverse direction
+            if(edge.Source.Type.IsA(valInfo.TargetType) && edge.Target.Type.IsA(valInfo.SourceType))
+            {
+                if(!checkedNodes.ContainsKey(edge.Source))   // don't check the same node more than once for the same valInfo
+                {
+                    // Check incident edges
+                    long num = CountOutgoing(edge.Source, valInfo.EdgeType, valInfo.SourceType, ref checkedOutEdges);
+                    num += CountIncoming(edge.Source, valInfo.EdgeType, valInfo.SourceType, ref checkedInEdges);
+                    if(num < valInfo.SourceLower)
+                    {
+                        errors.Add(new ConnectionAssertionError(CAEType.NodeTooFewTargets, edge.Source, num, valInfo));
+                        result = false;
+                    }
+                    else if(num > valInfo.SourceUpper)
+                    {
+                        errors.Add(new ConnectionAssertionError(CAEType.NodeTooManyTargets, edge.Source, num, valInfo));
+                        result = false;
+                    }
+                    sourceChecked = true;
+                }
+
+                if(!checkedNodes.ContainsKey(edge.Target))   // don't check the same node more than once for the same valInfo
+                {
+                    // Check incident edges
+                    long num = CountOutgoing(edge.Target, valInfo.EdgeType, valInfo.TargetType, ref checkedOutEdges);
+                    num += CountIncoming(edge.Target, valInfo.EdgeType, valInfo.TargetType, ref checkedInEdges);
+                    if(num < valInfo.TargetLower)
+                    {
+                        errors.Add(new ConnectionAssertionError(CAEType.NodeTooFewSources, edge.Target, num, valInfo));
+                        result = false;
+                    }
+                    else if(num > valInfo.TargetUpper)
+                    {
+                        errors.Add(new ConnectionAssertionError(CAEType.NodeTooManySources, edge.Target, num, valInfo));
+                        result = false;
+                    }
+                    targetChecked = true;
+                }
+            }
+
+            if(sourceChecked) checkedNodes[edge.Source] = true;
+            if(targetChecked) checkedNodes[edge.Target] = true;
+
+            return result;
+        }
+
+        long CountOutgoing(INode node, EdgeType edgeType, NodeType targetNodeType,
+            ref Dictionary<IEdge, bool> checkedOutEdges)
+        {
+            long num = 0;
+            foreach(IEdge outEdge in node.GetExactOutgoing(edgeType))
+            {
+                if(!outEdge.Target.Type.IsA(targetNodeType)) continue;
+                checkedOutEdges[outEdge] = true;
+                ++num;
+            }
+            return num;
+        }
+
+        long CountIncoming(INode node, EdgeType edgeType, NodeType sourceNodeType,
+            ref Dictionary<IEdge, bool> checkedInEdges)
+        {
+            long num = 0;
+            foreach(IEdge inEdge in node.GetExactIncoming(edgeType))
+            {
+                if(!inEdge.Source.Type.IsA(sourceNodeType)) continue;
+                checkedInEdges[inEdge] = true;
+                ++num;
+            }
+            return num;
+        }
+
         #endregion Graph validation
 
 

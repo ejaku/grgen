@@ -8,7 +8,7 @@ node class ForkNode extends ActivityNode;
 node class DecisionNode extends ActivityNode;
 
 edge class ActivityEdge
-  connect ActivityNode [*] -> ActivityNode [*]
+  connect ActivityNode [*] --> ActivityNode [*]
 {
   name:string;
   guard:string;

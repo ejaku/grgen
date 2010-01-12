@@ -4,11 +4,11 @@ include InstanceGraph.grsi
 include InstanceGraphLayout.grsi
 
 redirect emit program.txt
-visID = allocvisitflag
+xgrs visID = valloc()
 # HACK: The visID variable should be given to the emitSpanningTree rule, but subpatterns don't support value variables yet
 #       so use constant 0 inside the rules, correct as the first allocated visited flag is always 0
 xgrs emitSpanningTree
-freevisitflag visID
+xgrs vfree(visID)
 
 xgrs InsertHelperEdgesForNestedLayout
 
@@ -35,9 +35,9 @@ xgrs (isStatic) = variableInClass(c, v) \
 	&& adaptUpdate(c, v, setter)*
 
 redirect emit programafter.txt
-visID = allocvisitflag
+xgrs visID = valloc()
 # HACK: The visID variable should be given to the emitSpanningTree rule, but subpatterns don't support value variables yet
 #       so use constant 0 inside the rules, correct as the first allocated visited flag is always 0
 xgrs emitSpanningTree
-freevisitflag visID
+xgrs vfree(visID)
 

@@ -5,7 +5,7 @@ node class State;
 node class WriteValue { value : int; }
 
 edge class right
-	connect BandPosition [0:1] -> BandPosition [0:1];
+	connect BandPosition [0:1] --> BandPosition [0:1];
 
 edge class readZero;
 edge class readOne;

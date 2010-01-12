@@ -50,7 +50,7 @@ rule spanningTree(root:Node)
 	modify {
 		sptr();
 		eval {
-			visited(root) = true;
+			root.visited = true;
 		}
 	}
 }
@@ -63,8 +63,8 @@ pattern SpanningTree(root:Node)
 		
 		modify {
 			eval {
-				visited(e) = true;
-				visited(next) = true;
+				e.visited = true;
+				next.visited = true;
 			}
 			sptr();
 		}
@@ -79,7 +79,7 @@ test edgesVisited
 	-e:UEdge-;
 	
 	if {
-		visited(e);
+		e.visited;
 	}
 }
 
@@ -88,7 +88,7 @@ test nodesVisited
 	n:Node;
 	
 	if {
-		visited(n);
+		n.visited;
 	}
 }
 

@@ -16,7 +16,7 @@ echo "  connected components consisting of nodes of type N in the current graph"
 echo "==========================================================================="
 echo ""
 
-visID = allocvisitflag
+xgrs visID = valloc()
 
 # HACK: The visID variable should be given to the findComponent rule,
 #       but as subpatterns don't support value variables yet and the first
@@ -24,4 +24,4 @@ visID = allocvisitflag
 #       inside the rules...
 xgrs findComponent*
 
-freevisitflag visID
+xgrs vfree(visID)

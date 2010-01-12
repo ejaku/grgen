@@ -8,10 +8,10 @@ node class WriteOne extends WriteValue;
 node class WriteEmpty extends WriteValue;
 
 edge class right
-	connect BandPosition [0:1] -> BandPosition [0:1];
+	connect BandPosition [0:1] --> BandPosition [0:1];
 
 edge class value
-	connect BandPosition [1] -> BandPosition [1];
+	connect BandPosition [1] --> BandPosition [1];
 edge class zero extends value;
 edge class one extends value;
 edge class empty extends value;

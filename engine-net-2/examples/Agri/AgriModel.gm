@@ -5,7 +5,7 @@ node class RedApple extends Apple, Red { tasty : boolean; }
 node class ToffeeApple extends Apple;
 node class AntHill { name : string; size : int; }
 node class Farmer { angry : boolean; }
-edge class AntTrail connect AntHill[2:5] -> Apple[*] { /*distance : float;*/ }
-edge class Sees connect Farmer[*] -> Apple[*],
-    Farmer[*] -> AntHill[*], Farmer[*] -> Farmer[*];
+edge class AntTrail connect AntHill[2:5] --> Apple[*] { /*distance : float;*/ }
+edge class Sees connect Farmer[*] --> Apple[*],
+    Farmer[*] --> AntHill[*], Farmer[*] --> Farmer[*];
 edge class Fancies extends Sees;

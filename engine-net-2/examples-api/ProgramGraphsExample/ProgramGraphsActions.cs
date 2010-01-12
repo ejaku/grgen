@@ -1,6 +1,6 @@
 // This file has been generated automatically by GrGen.
 // Do not modify this file! Any changes will be lost!
-// Generated from "..\..\examples\ProgramGraphs\ProgramGraphs.grg" on Sun Nov 22 13:11:40 CET 2009
+// Generated from "..\..\examples\ProgramGraphs\ProgramGraphs.grg" on Tue Jan 12 22:54:29 CET 2010
 
 using System;
 using System.Collections.Generic;
@@ -15500,6 +15500,6 @@ label5: ;
         public IAction_LinkClassToFeature @LinkClassToFeature;
         
         public override string Name { get { return "ProgramGraphsActions"; } }
-        public override string ModelMD5Hash { get { return "e6271fc2f2794368b53b1fb118947e8d"; } }
+        public override string ModelMD5Hash { get { return "0ce6c1f760afcefa34af880f04d608b3"; } }
     }
 }

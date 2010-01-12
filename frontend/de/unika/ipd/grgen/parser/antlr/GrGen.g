@@ -1535,9 +1535,21 @@ connectAssertions returns [ CollectNode<ConnAssertNode> c = new CollectNode<Conn
 	;
 
 connectAssertion [ CollectNode<ConnAssertNode> c ]
-	: src=typeIdentUse srcRange=rangeSpec RARROW
-		tgt=typeIdentUse tgtRange=rangeSpec
-			{ c.addChild(new ConnAssertNode(src, srcRange, tgt, tgtRange)); }
+options { k = *; }
+	: src=typeIdentUse srcRange=rangeSpec r=RARROW tgt=typeIdentUse tgtRange=rangeSpec
+		{ c.addChild(new ConnAssertNode(src, srcRange, tgt, tgtRange, false));
+		  reportWarning(getCoords(r), "-> in connection assertion is deprecated, use --> (or <-- for reverse direction, or <--> for either direction, or -- for undirected edges)");
+		}
+	| src=typeIdentUse srcRange=rangeSpec DOUBLE_LARROW tgt=typeIdentUse tgtRange=rangeSpec
+		{ c.addChild(new ConnAssertNode(src, srcRange, tgt, tgtRange, false)); }
+	| src=typeIdentUse srcRange=rangeSpec DOUBLE_RARROW tgt=typeIdentUse tgtRange=rangeSpec
+		{ c.addChild(new ConnAssertNode(tgt, tgtRange, src, srcRange, false)); }
+	| src=typeIdentUse srcRange=rangeSpec LRARROW tgt=typeIdentUse tgtRange=rangeSpec
+		{ c.addChild(new ConnAssertNode(src, srcRange, tgt, tgtRange, true)); }
+	| src=typeIdentUse srcRange=rangeSpec MINUSMINUS tgt=typeIdentUse tgtRange=rangeSpec
+		{ c.addChild(new ConnAssertNode(src, srcRange, tgt, tgtRange, true)); }
+	| co=COPY EXTENDS
+		{ c.addChild(new ConnAssertNode(getCoords(co))); }
 	;
 
 edgeExtends [IdentNode clsId, boolean arbitrary, boolean undirected] returns [ CollectNode<IdentNode> c = new CollectNode<IdentNode>() ]

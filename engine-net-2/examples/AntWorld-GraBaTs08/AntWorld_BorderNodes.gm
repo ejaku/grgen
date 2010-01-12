@@ -23,7 +23,7 @@ node class Zero       extends GammelFix;
 node class MinusOne   extends GammelFix { val = -1; }
 node class MinusTwo   extends GammelFix { val = -2; }
 
-edge class GridEdge connect GridNode[1] -> GridNode[1];
+edge class GridEdge connect GridNode[1] --> GridNode[1];
 edge class PathToHill extends GridEdge;
 
 edge class AntPosition;

@@ -47,17 +47,17 @@ edge class notGreenPath   extends  redPath, bluePath, yellowPath;
 
 edge class anyPath        extends  redPath, bluePath, yellowPath, greenPath;
 
-edge class holds      connect Player[0:1] -> Dice[1];
-edge class occupies   connect Figure[0:1] -> Field[0:1];
-edge class intends    connect Figure[0:1] -> Field[0:1];
+edge class holds      connect Player[0:1] --> Dice[1];
+edge class occupies   connect Figure[0:1] --> Field[0:1];
+edge class intends    connect Figure[0:1] --> Field[0:1];
 
-edge class nextFigure connect Figure[1] -> Figure[1];
+edge class nextFigure connect Figure[1] --> Figure[1];
 
-edge class current    connect Player[1] -> Figure[0:1];
-edge class last       connect Player[1] -> Figure[0:1];
+edge class current    connect Player[1] --> Figure[0:1];
+edge class last       connect Player[1] --> Figure[0:1];
 
-edge class start      connect Player[1] -> Field[0:1];
+edge class start      connect Player[1] --> Field[0:1];
 
-edge class nextPlayer connect Player[1] -> Player[1];
+edge class nextPlayer connect Player[1] --> Player[1];
 
 edge class invisible;

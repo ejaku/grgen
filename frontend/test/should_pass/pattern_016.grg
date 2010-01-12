@@ -45,7 +45,7 @@ pattern Foo(var i:int, var j:string, var k:boolean, var l:double, var m:object)
 	
 	modify
 	{
-		eval { visited(eint, i) = true; }
+		eval { eint.visited[i] = true; }
 		eval { nint.a = i + 1; } // todo:allow var param assignment?
 		eval { estring.a = j + " Welt"; }
 		eval { nbool.a = !k; }
@@ -60,14 +60,14 @@ pattern Foo(var i:int, var j:string, var k:boolean, var l:double, var m:object)
 rule r(var i:int, var j:string, var k:boolean, var l:double, var m:object)
 {
 	x:Node;
-	if { !visited(x, i); }
+	if { !x.visited[i]; }
 	
 	foo:Foo(i, "Hallo", true, 2.718281828, null);
 	footoo:Foo(i-1, "Ollah"+j, k||true, 1.0+l, m);
 
 	modify
 	{
-		eval { visited(x, i) = true; }
+		eval { x.visited[i] = true; }
 		foo();
 	}
 }

@@ -28,7 +28,7 @@ pattern Component(n:Node)
             
             modify {
                 eval {
-                    visited(n, 0) = true;
+                    n.visited[0] = true;
                 }
             }
         }
@@ -39,7 +39,7 @@ pattern Component(n:Node)
 rule findComponent()
 {
     n:N;
-    if { !visited(n, 0); }
+    if { !n.visited[0]; }
     
     comp:Component(n);
     

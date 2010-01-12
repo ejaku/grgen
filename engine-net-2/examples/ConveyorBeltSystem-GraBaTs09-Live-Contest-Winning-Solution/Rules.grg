@@ -105,10 +105,10 @@ pattern Cycl(begin:Carrier, end:Carrier)
 
 rule LableLinks(var i:int) : (int) {
 	-l:Link->;
-	if { !visited(l); }
+	if { !l.visited; }
 	modify {
 		eval {
-			visited(l) = true;
+			l.visited = true;
 			l.Id = i;
 		}
 		return(i+1);
@@ -123,7 +123,7 @@ rule CreatePredSucc {
 	-t11:Transition-> is1 -t12:Transition->;
 	-t21:Transition-> is2 -t22:Transition->;
 	
-	if { !visited(j); }
+	if { !j.visited; }
 	
 	modify {
 		eval {
@@ -131,7 +131,7 @@ rule CreatePredSucc {
 			t12.succ = t12.succ | {l2.Id};
 			t21.pred = t21.pred | {l1.Id};
 			t22.pred = t22.pred | {l1.Id};
-			visited(j) = true;
+			j.visited = true;
 		}			
 	}
 }

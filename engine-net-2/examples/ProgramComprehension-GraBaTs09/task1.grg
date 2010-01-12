@@ -9,7 +9,7 @@ rule filter(var visID:int, var counter:int):(int) {
 	publicModifier:dom_Modifier <-:dom_BodyDeclaration_modifiers- method;  
 	staticModifier:dom_Modifier <-:dom_BodyDeclaration_modifiers- method;  
 	
-	if { !visited(type, visID);
+	if { !type.visited[visID];
 		 name._identifier == returnName._identifier;
 	     publicModifier._public == true;
 	     staticModifier._static == true;
@@ -17,7 +17,7 @@ rule filter(var visID:int, var counter:int):(int) {
 	
 	modify {
 		eval {
-			visited(type, visID) = true;
+			type.visited[visID] = true;
 		}
 		emit("\t<View:Class xmi:id=\"a" + counter + "\" name=\"" + name._identifier + "\"/>\n");
 		

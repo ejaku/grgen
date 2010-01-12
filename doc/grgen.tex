@@ -63,6 +63,7 @@ morestring=[b]",
 \providecommand{\yComp}{{\scshape yComp}}
 \providecommand{\yFiles}{{\scshape yFiles}}
 
+% general index
 \newcommand{\newterm}[1]{\emph{#1}\index{#1}}
 \newcommand{\newtermsee}[2]{\emph{#1}\index{#1|see{#2}}}
 \newcommand{\indexed}[1]{#1\index{#1}}
@@ -70,8 +71,10 @@ morestring=[b]",
 \newcommand{\indexmain}[1]{\index{#1}}
 \newcommand{\indexmainsee}[2]{\index{#1|see{#2}}}
 
+% index section keywords
 \newcommand{\keyw}[1]{\texttt{#1}}
 \newcommand{\ixkeyw}[1]{\index{...#1@\protect\keyw{#1}}}
+% index section nonterminal
 \newcommand{\nterm}[1]{\emph{#1}}
 \newcommand{\ixnterm}[1]{\index{..#1@\protect\nterm{#1}}}
 

@@ -111,24 +111,24 @@ node class Primitive extends Type;
 
 /************* Type Edges         *************/ 
 
-// Class (Sub) -> Class (Super)
+// Class (Sub) --> Class (Super)
 edge class is_subtype_of extends FIRM_edge
-	connect Class [*] -> Class [*]; 	// Subclass -> Superclass
+	connect Class [*] --> Class [*]; 	// Subclass --> Superclass
 edge class member extends FIRM_edge
                 // Entities may or may not be an Compound member: [0:1]
-	connect	Compound [*] -> Entity [0:1];
+	connect	Compound [*] --> Entity [0:1];
 edge class parameter extends FIRM_edge 
-	connect	Method [*] -> Type [*] {
+	connect	Method [*] --> Type [*] {
 	position : int;
 }
 edge class result extends FIRM_edge 
-	connect Method [*] -> Type [*] {
+	connect Method [*] --> Type [*] {
 	position : int; 
 }
 edge class element_type extends FIRM_edge
-	connect	Array [1] -> Type [*];
+	connect	Array [1] --> Type [*];
 edge class element_ent extends FIRM_edge
-	connect	Array [1] -> Entity [*];
+	connect	Array [1] --> Entity [*];
 
 
 /* !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
@@ -137,22 +137,22 @@ edge class element_ent extends FIRM_edge
    !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
  */
 edge class lower extends FIRM_edge 		// TODO: multidim arrays???
-	connect	Array [*] -> IR_node [*] {
+	connect	Array [*] --> IR_node [*] {
 	position : int;
 }
 edge class upper extends FIRM_edge
-	connect	Array [*] -> IR_node [*] {
+	connect	Array [*] --> IR_node [*] {
 	position : int;
 }
 
-edge class named_value extends FIRM_edge 	// Enum -> Tarval
-	connect Enum [*] -> Tarval [*] {	// TODO: empty Enums [+]???
+edge class named_value extends FIRM_edge 	// Enum --> Tarval
+	connect Enum [*] --> Tarval [*] {	// TODO: empty Enums [+]???
 	name : string;
 }
 edge class has_type extends FIRM_edge
-	connect	Call     [1]   -> Type [*],
-		SymConst [0:1] -> Type [*],
-		Pointer  [1]   -> Type [*];
+	connect	Call     [1]   --> Type [*],
+		SymConst [0:1] --> Type [*],
+		Pointer  [1]   --> Type [*];
 
 
 /**********************************************
@@ -164,15 +164,15 @@ node class Tarval extends FIRM_node {
 }
 
 edge class has_mode extends FIRM_edge
-	connect	Tarval    [1] -> Mode [*],
-		Pointer   [1] -> Mode [*],
-		Primitive [1] -> Mode [*],
-		Method    [1] -> Mode [*],
-		IR_node   [1] -> Mode [*],
-		Struct    [0:1]->Mode [*],
-                Enum      [1] -> Mode [*];
+	connect	Tarval    [1] --> Mode [*],
+		Pointer   [1] --> Mode [*],
+		Primitive [1] --> Mode [*],
+		Method    [1] --> Mode [*],
+		IR_node   [1] --> Mode [*],
+		Struct    [0:1]-->Mode [*],
+                Enum      [1] --> Mode [*];
 edge class has_entity extends FIRM_edge
-	connect	SymConst[0:1] -> Entity [*];
+	connect	SymConst[0:1] --> Entity [*];
 
 
 /**********************************************
@@ -200,19 +200,19 @@ node class Entity extends FIRM_node {
 /************* Entity Edges       *************/ 
 
 edge class overwrites extends FIRM_edge
-	connect Entity -> Entity;		// TODO arity ???
+	connect Entity --> Entity;		// TODO arity ???
 
 edge class init_node extends FIRM_edge;
-//	connect Entity -> Node (of Init);	// TODO arity ???
+//	connect Entity --> Node (of Init);	// TODO arity ???
 
 edge class init_entity extends FIRM_edge;
-//	connect Entity -> Entity (of Init);	// TODO arity ???
+//	connect Entity --> Entity (of Init);	// TODO arity ???
 
 edge class graph extends FIRM_edge
-	connect Entity [0:1] -> Method_IRG [*];
+	connect Entity [0:1] --> Method_IRG [*];
 
 edge class type extends FIRM_edge
-	connect Entity [1] -> Type [*];
+	connect Entity [1] --> Type [*];
 
 
 /**********************************************
@@ -228,16 +228,16 @@ node class Method_IRG extends FIRM_node {
 }
 
 edge class meth_start extends FIRM_edge
-	connect Method_IRG -> Start;
+	connect Method_IRG --> Start;
 
 edge class meth_end extends FIRM_edge
-	connect Method_IRG -> End;
+	connect Method_IRG --> End;
 
 edge class frame_type extends FIRM_edge
-	connect Method_IRG -> Type;
+	connect Method_IRG --> Type;
 
 edge class belong_to extends FIRM_edge
-	connect Block -> Method_IRG;
+	connect Block --> Method_IRG;
 
 node class IR_node extends FIRM_node {
 	index : int; //quickfix for using vprojs
@@ -394,18 +394,18 @@ node class IntrinsicMatch extends Match{
 /************* IR Edges         *************/ 
 
 edge class flow extends FIRM_edge 
-	connect IR_node [*] -> IR_node [*] {
+	connect IR_node [*] --> IR_node [*] {
 	position : int;
 }
 
-edge class df extends flow;		// IR_node -> IR_node, data flow
-edge class mem extends df;		// IR_node -> IR_node, memory
+edge class df extends flow;		// IR_node --> IR_node, data flow
+edge class mem extends df;		// IR_node --> IR_node, memory
 edge class tuple extends df;		// Edges of Mode Tuple
 edge class cf extends flow		// control flow 
-	connect IR_node [1] -> Block [*],
+	connect IR_node [1] --> Block [*],
                 // We cannot distinguish ProjI etc from ProjXi: therefor 0
                 // ProjX form Start has 2 successors
-	        Block   [*] -> Proj  [0:2];
+	        Block   [*] --> Proj  [0:2];
 
 	
 /**********************************************
@@ -468,5 +468,5 @@ node class MultipleAdd extends IR_node
 // A node which represents the base pointer of a vector
 node class VectorBase extends IR_node; 
 
-// A backend node we need to copy simd -> gp register on ia32
+// A backend node we need to copy simd --> gp register on ia32
 node class IR_Keep extends IR_node;

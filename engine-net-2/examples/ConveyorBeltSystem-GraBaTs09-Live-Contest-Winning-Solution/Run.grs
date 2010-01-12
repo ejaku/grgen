@@ -20,7 +20,7 @@ xgrs InitialGraph
 
 debug xgrs InitStatechart && ((s)=CreateCompoundStateAndInit && ((s)=CreateStates(s))*)* && FixupInitialStates*
 
-flags = allocvisitflag
+xgrs flags = valloc()
 i = 0
 xgrs ((i)=LableLinks(i))*
 
@@ -29,5 +29,7 @@ xgrs CreatePredSucc* && CopyPredSucc*
 debug xgrs LuggageInput[5] && (Fire $| FireFinal)*
 
 xgrs FindCycle
+
+xgrs vfree(flags)
 
 #show graph ycomp

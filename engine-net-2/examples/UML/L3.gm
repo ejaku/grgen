@@ -323,17 +323,17 @@ node class Comment extends Element {
 
 edge class body extends CMOFProperty
 	connect
-		Comment[0:1] -> String[*],
-		OpaqueExpression[0:*] -> String[*],
-		OpaqueBehavior[0:*] -> String[*],
-		OpaqueAction[0:*] -> String[*],
-		Clause[0:*] -> ExecutableNode[*] {
+		Comment[0:1] --> String[*],
+		OpaqueExpression[0:*] --> String[*],
+		OpaqueBehavior[0:*] --> String[*],
+		OpaqueAction[0:*] --> String[*],
+		Clause[0:*] --> ExecutableNode[*] {
 			name = "body";
 }
 
 edge class annotatedElement extends CMOFProperty
 	connect
-		Comment[0:*] -> Element[*] {
+		Comment[0:*] --> Element[*] {
 			name = "annotatedElement";
 }
 
@@ -345,21 +345,21 @@ node class DirectedRelationship extends Relationship {
 
 edge class source extends CMOFProperty
 	connect
-		DirectedRelationship[1:*] -> Element[*],
-		Transition[1:1] -> Vertex[*],
-		ActivityEdge[1:1] -> ActivityNode[*] {
+		DirectedRelationship[1:*] --> Element[*],
+		Transition[1:1] --> Vertex[*],
+		ActivityEdge[1:1] --> ActivityNode[*] {
 			name = "source";
 }
 
 edge class target extends CMOFProperty
 	connect
-		DirectedRelationship[1:*] -> Element[*],
-		SendSignalAction[1:1] -> InputPin[*],
-		CallOperationAction[1:1] -> InputPin[*],
-		DestroyObjectAction[1:1] -> InputPin[*],
-		SendObjectAction[1:1] -> InputPin[*],
-		Transition[1:1] -> Vertex[*],
-		ActivityEdge[1:1] -> ActivityNode[*] {
+		DirectedRelationship[1:*] --> Element[*],
+		SendSignalAction[1:1] --> InputPin[*],
+		CallOperationAction[1:1] --> InputPin[*],
+		DestroyObjectAction[1:1] --> InputPin[*],
+		SendObjectAction[1:1] --> InputPin[*],
+		Transition[1:1] --> Vertex[*],
+		ActivityEdge[1:1] --> ActivityNode[*] {
 			name = "target";
 }
 
@@ -377,17 +377,17 @@ node class LiteralInteger extends LiteralSpecification {
 
 edge class value extends CMOFProperty
 	connect
-		LiteralInteger[1:1] -> Integer[*],
-		LiteralString[0:1] -> String[*],
-		LiteralBoolean[1:1] -> Boolean[*],
-		Slot[0:*] -> ValueSpecification[*],
-		LiteralUnlimitedNatural[1:1] -> UnlimitedNatural[*],
-		ValuePin[1:1] -> ValueSpecification[*],
-		WriteStructuralFeatureAction[1:1] -> InputPin[*],
-		ValueSpecificationAction[1:1] -> ValueSpecification[*],
-		WriteVariableAction[1:1] -> InputPin[*],
-		QualifierValue[1:1] -> InputPin[*],
-		LinkEndData[0:1] -> InputPin[*] {
+		LiteralInteger[1:1] --> Integer[*],
+		LiteralString[0:1] --> String[*],
+		LiteralBoolean[1:1] --> Boolean[*],
+		Slot[0:*] --> ValueSpecification[*],
+		LiteralUnlimitedNatural[1:1] --> UnlimitedNatural[*],
+		ValuePin[1:1] --> ValueSpecification[*],
+		WriteStructuralFeatureAction[1:1] --> InputPin[*],
+		ValueSpecificationAction[1:1] --> ValueSpecification[*],
+		WriteVariableAction[1:1] --> InputPin[*],
+		QualifierValue[1:1] --> InputPin[*],
+		LinkEndData[0:1] --> InputPin[*] {
 			name = "value";
 }
 
@@ -417,26 +417,26 @@ node class Constraint extends PackageableElement {
 
 edge class constrainedElement extends CMOFProperty
 	connect
-		Constraint[0:*] -> Element[*] {
+		Constraint[0:*] --> Element[*] {
 			name = "constrainedElement";
 }
 
 edge class specification extends CMOFProperty
 	connect
-		Constraint[1:1] -> ValueSpecification[*],
-		InstanceSpecification[0:1] -> ValueSpecification[*],
-		TimeConstraint[1:1] -> TimeInterval[*],
-		DurationConstraint[1:1] -> DurationInterval[*],
-		IntervalConstraint[1:1] -> Interval[*],
-		Behavior[0:1] -> BehavioralFeature[*] {
+		Constraint[1:1] --> ValueSpecification[*],
+		InstanceSpecification[0:1] --> ValueSpecification[*],
+		TimeConstraint[1:1] --> TimeInterval[*],
+		DurationConstraint[1:1] --> DurationInterval[*],
+		IntervalConstraint[1:1] --> Interval[*],
+		Behavior[0:1] --> BehavioralFeature[*] {
 			name = "specification";
 }
 
 edge class context extends CMOFProperty
 	connect
-		Constraint[0:1] -> Namespace[*],
-		Action[0:1] -> Classifier[*],
-		Behavior[0:1] -> BehavioredClassifier[*] {
+		Constraint[0:1] --> Namespace[*],
+		Action[0:1] --> Classifier[*],
+		Behavior[0:1] --> BehavioredClassifier[*] {
 			name = "context";
 }
 
@@ -448,29 +448,29 @@ node class ElementImport extends DirectedRelationship {
 
 edge class visibility extends CMOFProperty
 	connect
-		ElementImport[1:1] -> VisibilityKind[*],
-		PackageImport[1:1] -> VisibilityKind[*],
-		NamedElement[0:1] -> VisibilityKind[*],
-		PackageableElement[1:1] -> VisibilityKind[*] {
+		ElementImport[1:1] --> VisibilityKind[*],
+		PackageImport[1:1] --> VisibilityKind[*],
+		NamedElement[0:1] --> VisibilityKind[*],
+		PackageableElement[1:1] --> VisibilityKind[*] {
 			name = "visibility";
 }
 
 edge class alias extends CMOFProperty
 	connect
-		ElementImport[0:1] -> String[*] {
+		ElementImport[0:1] --> String[*] {
 			name = "alias";
 }
 
 edge class importedElement extends CMOFProperty
 	connect
-		ElementImport[1:1] -> PackageableElement[*] {
+		ElementImport[1:1] --> PackageableElement[*] {
 			name = "importedElement";
 }
 
 edge class importingNamespace extends CMOFProperty
 	connect
-		ElementImport[1:1] -> Namespace[*],
-		PackageImport[1:1] -> Namespace[*] {
+		ElementImport[1:1] --> Namespace[*],
+		PackageImport[1:1] --> Namespace[*] {
 			name = "importingNamespace";
 }
 
@@ -482,11 +482,11 @@ node class TypedElement extends NamedElement {
 
 edge class type_ extends CMOFProperty
 	connect
-		TypedElement[0:1] -> Type[*],
-		CollaborationUse[1:1] -> Collaboration[*],
-		Connector[0:1] -> Association[*],
-		ExtensionEnd[1:1] -> Stereotype[*],
-		Operation[0:1] -> Type[*] {
+		TypedElement[0:1] --> Type[*],
+		CollaborationUse[1:1] --> Collaboration[*],
+		Connector[0:1] --> Association[*],
+		ExtensionEnd[1:1] --> Stereotype[*],
+		Operation[0:1] --> Type[*] {
 			name = "type";
 }
 
@@ -498,13 +498,13 @@ node class Feature extends RedefinableElement {
 
 edge class isStatic extends CMOFProperty
 	connect
-		Feature[1:1] -> Boolean[*] {
+		Feature[1:1] --> Boolean[*] {
 			name = "isStatic";
 }
 
 edge class featuringClassifier extends CMOFProperty
 	connect
-		Feature[0:*] -> Classifier[*] {
+		Feature[0:*] --> Classifier[*] {
 			name = "featuringClassifier";
 }
 
@@ -516,22 +516,22 @@ node class RedefinableElement extends NamedElement {
 
 edge class isLeaf extends CMOFProperty
 	connect
-		RedefinableElement[1:1] -> Boolean[*] {
+		RedefinableElement[1:1] --> Boolean[*] {
 			name = "isLeaf";
 }
 
 edge class redefinedElement extends CMOFProperty
 	connect
-		RedefinableElement[0:*] -> RedefinableElement[*] {
+		RedefinableElement[0:*] --> RedefinableElement[*] {
 			name = "redefinedElement";
 }
 
 edge class redefinitionContext extends CMOFProperty
 	connect
-		RedefinableElement[0:*] -> Classifier[*],
-		Transition[1:1] -> Classifier[*],
-		State[1:1] -> Classifier[*],
-		Region[1:1] -> Classifier[*] {
+		RedefinableElement[0:*] --> Classifier[*],
+		Transition[1:1] --> Classifier[*],
+		State[1:1] --> Classifier[*],
+		Region[1:1] --> Classifier[*] {
 			name = "redefinitionContext";
 }
 
@@ -543,9 +543,9 @@ node class StructuralFeature extends Feature, TypedElement, MultiplicityElement 
 
 edge class isReadOnly extends CMOFProperty
 	connect
-		StructuralFeature[1:1] -> Boolean[*],
-		Activity[1:1] -> Boolean[*],
-		Property[1:1] -> Boolean[*] {
+		StructuralFeature[1:1] --> Boolean[*],
+		Activity[1:1] --> Boolean[*],
+		Property[1:1] --> Boolean[*] {
 			name = "isReadOnly";
 }
 
@@ -557,13 +557,13 @@ node class Slot extends Element {
 
 edge class owningInstance extends CMOFProperty
 	connect
-		Slot[1:1] -> InstanceSpecification[*] {
+		Slot[1:1] --> InstanceSpecification[*] {
 			name = "owningInstance";
 }
 
 edge class definingFeature extends CMOFProperty
 	connect
-		Slot[1:1] -> StructuralFeature[*] {
+		Slot[1:1] --> StructuralFeature[*] {
 			name = "definingFeature";
 }
 
@@ -575,7 +575,7 @@ node class PackageImport extends DirectedRelationship {
 
 edge class importedPackage extends CMOFProperty
 	connect
-		PackageImport[1:1] -> Package[*] {
+		PackageImport[1:1] --> Package[*] {
 			name = "importedPackage";
 }
 
@@ -587,21 +587,21 @@ node class DataType extends Classifier {
 
 edge class ownedAttribute extends CMOFProperty
 	connect
-		DataType[0:*] -> Property[*],
-		StructuredClassifier[0:*] -> Property[*],
-		Signal[0:*] -> Property[*],
-		Artifact[0:*] -> Property[*],
-		Class[0:*] -> Property[*],
-		Interface[0:*] -> Property[*] {
+		DataType[0:*] --> Property[*],
+		StructuredClassifier[0:*] --> Property[*],
+		Signal[0:*] --> Property[*],
+		Artifact[0:*] --> Property[*],
+		Class[0:*] --> Property[*],
+		Interface[0:*] --> Property[*] {
 			name = "ownedAttribute";
 }
 
 edge class ownedOperation extends CMOFProperty
 	connect
-		DataType[0:*] -> Operation[*],
-		Artifact[0:*] -> Operation[*],
-		Class[0:*] -> Operation[*],
-		Interface[0:*] -> Operation[*] {
+		DataType[0:*] --> Operation[*],
+		Artifact[0:*] --> Operation[*],
+		Class[0:*] --> Operation[*],
+		Interface[0:*] --> Operation[*] {
 			name = "ownedOperation";
 }
 
@@ -613,7 +613,7 @@ node class Enumeration extends DataType {
 
 edge class ownedLiteral extends CMOFProperty
 	connect
-		Enumeration[0:*] -> EnumerationLiteral[*] {
+		Enumeration[0:*] --> EnumerationLiteral[*] {
 			name = "ownedLiteral";
 }
 
@@ -625,7 +625,7 @@ node class EnumerationLiteral extends InstanceSpecification {
 
 edge class enumeration extends CMOFProperty
 	connect
-		EnumerationLiteral[0:1] -> Enumeration[*] {
+		EnumerationLiteral[0:1] --> Enumeration[*] {
 			name = "enumeration";
 }
 
@@ -643,33 +643,33 @@ node class Association extends Relationship, Classifier {
 
 edge class isDerived extends CMOFProperty
 	connect
-		Association[1:1] -> Boolean[*],
-		Property[1:1] -> Boolean[*] {
+		Association[1:1] --> Boolean[*],
+		Property[1:1] --> Boolean[*] {
 			name = "isDerived";
 }
 
 edge class ownedEnd extends CMOFProperty
 	connect
-		Association[0:*] -> Property[*],
-		Extension[1:1] -> ExtensionEnd[*] {
+		Association[0:*] --> Property[*],
+		Extension[1:1] --> ExtensionEnd[*] {
 			name = "ownedEnd";
 }
 
 edge class endType extends CMOFProperty
 	connect
-		Association[1:*] -> Type[*] {
+		Association[1:*] --> Type[*] {
 			name = "endType";
 }
 
 edge class memberEnd extends CMOFProperty
 	connect
-		Association[2:*] -> Property[*] {
+		Association[2:*] --> Property[*] {
 			name = "memberEnd";
 }
 
 edge class navigableOwnedEnd extends CMOFProperty
 	connect
-		Association[0:*] -> Property[*] {
+		Association[0:*] --> Property[*] {
 			name = "navigableOwnedEnd";
 }
 
@@ -681,7 +681,7 @@ node class Relationship extends Element {
 
 edge class relatedElement extends CMOFProperty
 	connect
-		Relationship[1:*] -> Element[*] {
+		Relationship[1:*] --> Element[*] {
 			name = "relatedElement";
 }
 
@@ -693,13 +693,13 @@ node class PackageMerge extends DirectedRelationship {
 
 edge class receivingPackage extends CMOFProperty
 	connect
-		PackageMerge[1:1] -> Package[*] {
+		PackageMerge[1:1] --> Package[*] {
 			name = "receivingPackage";
 }
 
 edge class mergedPackage extends CMOFProperty
 	connect
-		PackageMerge[1:1] -> Package[*] {
+		PackageMerge[1:1] --> Package[*] {
 			name = "mergedPackage";
 }
 
@@ -711,7 +711,7 @@ node class InstanceValue extends ValueSpecification {
 
 edge class instance extends CMOFProperty
 	connect
-		InstanceValue[1:1] -> InstanceSpecification[*] {
+		InstanceValue[1:1] --> InstanceSpecification[*] {
 			name = "instance";
 }
 
@@ -729,7 +729,7 @@ node class Type extends PackageableElement {
 
 edge class package extends CMOFProperty
 	connect
-		Type[0:1] -> Package[*] {
+		Type[0:1] --> Package[*] {
 			name = "package";
 }
 
@@ -741,14 +741,14 @@ node class Expression extends ValueSpecification {
 
 edge class symbol extends CMOFProperty
 	connect
-		Expression[0:1] -> String[*] {
+		Expression[0:1] --> String[*] {
 			name = "symbol";
 }
 
 edge class operand extends CMOFProperty
 	connect
-		Expression[0:*] -> ValueSpecification[*],
-		CombinedFragment[1:*] -> InteractionOperand[*] {
+		Expression[0:*] --> ValueSpecification[*],
+		CombinedFragment[1:*] --> InteractionOperand[*] {
 			name = "operand";
 }
 
@@ -760,41 +760,41 @@ node class OpaqueExpression extends ValueSpecification {
 
 edge class language extends CMOFProperty
 	connect
-		OpaqueExpression[0:*] -> String[*],
-		OpaqueBehavior[0:*] -> String[*],
-		OpaqueAction[0:*] -> String[*] {
+		OpaqueExpression[0:*] --> String[*],
+		OpaqueBehavior[0:*] --> String[*],
+		OpaqueAction[0:*] --> String[*] {
 			name = "language";
 }
 
 edge class result extends CMOFProperty
 	connect
-		OpaqueExpression[0:1] -> Parameter[*],
-		CallAction[0:*] -> OutputPin[*],
-		CreateObjectAction[1:1] -> OutputPin[*],
-		TestIdentityAction[1:1] -> OutputPin[*],
-		ReadSelfAction[1:1] -> OutputPin[*],
-		ReadStructuralFeatureAction[1:1] -> OutputPin[*],
-		ReadLinkAction[1:1] -> OutputPin[*],
-		ValueSpecificationAction[1:1] -> OutputPin[*],
-		ReadVariableAction[1:1] -> OutputPin[*],
-		ReadExtentAction[1:1] -> OutputPin[*],
-		ReadIsClassifiedObjectAction[1:1] -> OutputPin[*],
-		ReadLinkObjectEndAction[1:1] -> OutputPin[*],
-		ReadLinkObjectEndQualifierAction[1:1] -> OutputPin[*],
-		CreateLinkObjectAction[1:1] -> OutputPin[*],
-		AcceptEventAction[0:*] -> OutputPin[*],
-		UnmarshallAction[1:*] -> OutputPin[*],
-		ReduceAction[1:1] -> OutputPin[*],
-		ConditionalNode[0:*] -> OutputPin[*],
-		LoopNode[0:*] -> OutputPin[*] {
+		OpaqueExpression[0:1] --> Parameter[*],
+		CallAction[0:*] --> OutputPin[*],
+		CreateObjectAction[1:1] --> OutputPin[*],
+		TestIdentityAction[1:1] --> OutputPin[*],
+		ReadSelfAction[1:1] --> OutputPin[*],
+		ReadStructuralFeatureAction[1:1] --> OutputPin[*],
+		ReadLinkAction[1:1] --> OutputPin[*],
+		ValueSpecificationAction[1:1] --> OutputPin[*],
+		ReadVariableAction[1:1] --> OutputPin[*],
+		ReadExtentAction[1:1] --> OutputPin[*],
+		ReadIsClassifiedObjectAction[1:1] --> OutputPin[*],
+		ReadLinkObjectEndAction[1:1] --> OutputPin[*],
+		ReadLinkObjectEndQualifierAction[1:1] --> OutputPin[*],
+		CreateLinkObjectAction[1:1] --> OutputPin[*],
+		AcceptEventAction[0:*] --> OutputPin[*],
+		UnmarshallAction[1:*] --> OutputPin[*],
+		ReduceAction[1:1] --> OutputPin[*],
+		ConditionalNode[0:*] --> OutputPin[*],
+		LoopNode[0:*] --> OutputPin[*] {
 			name = "result";
 }
 
 edge class behavior extends CMOFProperty
 	connect
-		OpaqueExpression[0:1] -> Behavior[*],
-		CallBehaviorAction[1:1] -> Behavior[*],
-		BehaviorExecutionSpecification[0:1] -> Behavior[*] {
+		OpaqueExpression[0:1] --> Behavior[*],
+		CallBehaviorAction[1:1] --> Behavior[*],
+		BehaviorExecutionSpecification[0:1] --> Behavior[*] {
 			name = "behavior";
 }
 
@@ -818,14 +818,14 @@ node class OpaqueAction extends Action {
 
 edge class inputValue extends CMOFProperty
 	connect
-		OpaqueAction[0:*] -> InputPin[*],
-		LinkAction[1:*] -> InputPin[*] {
+		OpaqueAction[0:*] --> InputPin[*],
+		LinkAction[1:*] --> InputPin[*] {
 			name = "inputValue";
 }
 
 edge class outputValue extends CMOFProperty
 	connect
-		OpaqueAction[0:*] -> OutputPin[*] {
+		OpaqueAction[0:*] --> OutputPin[*] {
 			name = "outputValue";
 }
 
@@ -837,7 +837,7 @@ node class CallAction extends InvocationAction {
 
 edge class isSynchronous extends CMOFProperty
 	connect
-		CallAction[1:1] -> Boolean[*] {
+		CallAction[1:1] --> Boolean[*] {
 			name = "isSynchronous";
 }
 
@@ -849,12 +849,12 @@ node class SendSignalAction extends InvocationAction {
 
 edge class signal extends CMOFProperty
 	connect
-		SendSignalAction[1:1] -> Signal[*],
-		SendSignalEvent[1:1] -> Signal[*],
-		ReceiveSignalEvent[1:1] -> Signal[*],
-		Reception[0:1] -> Signal[*],
-		SignalEvent[1:1] -> Signal[*],
-		BroadcastSignalAction[1:1] -> Signal[*] {
+		SendSignalAction[1:1] --> Signal[*],
+		SendSignalEvent[1:1] --> Signal[*],
+		ReceiveSignalEvent[1:1] --> Signal[*],
+		Reception[0:1] --> Signal[*],
+		SignalEvent[1:1] --> Signal[*],
+		BroadcastSignalAction[1:1] --> Signal[*] {
 			name = "signal";
 }
 
@@ -866,11 +866,11 @@ node class CallOperationAction extends CallAction {
 
 edge class operation extends CMOFProperty
 	connect
-		CallOperationAction[1:1] -> Operation[*],
-		SendOperationEvent[1:1] -> Operation[*],
-		ReceiveOperationEvent[1:1] -> Operation[*],
-		CallEvent[1:1] -> Operation[*],
-		Parameter[0:1] -> Operation[*] {
+		CallOperationAction[1:1] --> Operation[*],
+		SendOperationEvent[1:1] --> Operation[*],
+		ReceiveOperationEvent[1:1] --> Operation[*],
+		CallEvent[1:1] --> Operation[*],
+		Parameter[0:1] --> Operation[*] {
 			name = "operation";
 }
 
@@ -888,43 +888,43 @@ node class MultiplicityElement extends Element {
 
 edge class isOrdered extends CMOFProperty
 	connect
-		MultiplicityElement[1:1] -> Boolean[*],
-		ReduceAction[1:1] -> Boolean[*],
-		Operation[1:1] -> Boolean[*] {
+		MultiplicityElement[1:1] --> Boolean[*],
+		ReduceAction[1:1] --> Boolean[*],
+		Operation[1:1] --> Boolean[*] {
 			name = "isOrdered";
 }
 
 edge class isUnique extends CMOFProperty
 	connect
-		MultiplicityElement[1:1] -> Boolean[*],
-		Operation[1:1] -> Boolean[*] {
+		MultiplicityElement[1:1] --> Boolean[*],
+		Operation[1:1] --> Boolean[*] {
 			name = "isUnique";
 }
 
 edge class upper extends CMOFProperty
 	connect
-		MultiplicityElement[0:1] -> UnlimitedNatural[*],
-		Operation[0:1] -> UnlimitedNatural[*] {
+		MultiplicityElement[0:1] --> UnlimitedNatural[*],
+		Operation[0:1] --> UnlimitedNatural[*] {
 			name = "upper";
 }
 
 edge class lower extends CMOFProperty
 	connect
-		MultiplicityElement[0:1] -> Integer[*],
-		ExtensionEnd[0:1] -> Integer[*],
-		Operation[0:1] -> Integer[*] {
+		MultiplicityElement[0:1] --> Integer[*],
+		ExtensionEnd[0:1] --> Integer[*],
+		Operation[0:1] --> Integer[*] {
 			name = "lower";
 }
 
 edge class upperValue extends CMOFProperty
 	connect
-		MultiplicityElement[0:1] -> ValueSpecification[*] {
+		MultiplicityElement[0:1] --> ValueSpecification[*] {
 			name = "upperValue";
 }
 
 edge class lowerValue extends CMOFProperty
 	connect
-		MultiplicityElement[0:1] -> ValueSpecification[*] {
+		MultiplicityElement[0:1] --> ValueSpecification[*] {
 			name = "lowerValue";
 }
 
@@ -936,7 +936,7 @@ node class SequenceNode extends StructuredActivityNode {
 
 edge class executableNode extends CMOFProperty
 	connect
-		SequenceNode[0:*] -> ExecutableNode[*] {
+		SequenceNode[0:*] --> ExecutableNode[*] {
 			name = "executableNode";
 }
 
@@ -966,7 +966,7 @@ node class Abstraction extends Dependency {
 
 edge class mapping extends CMOFProperty
 	connect
-		Abstraction[0:1] -> OpaqueExpression[*] {
+		Abstraction[0:1] --> OpaqueExpression[*] {
 			name = "mapping";
 }
 
@@ -978,13 +978,13 @@ node class Dependency extends DirectedRelationship, PackageableElement {
 
 edge class supplier extends CMOFProperty
 	connect
-		Dependency[1:*] -> NamedElement[*] {
+		Dependency[1:*] --> NamedElement[*] {
 			name = "supplier";
 }
 
 edge class client extends CMOFProperty
 	connect
-		Dependency[1:*] -> NamedElement[*] {
+		Dependency[1:*] --> NamedElement[*] {
 			name = "client";
 }
 
@@ -1002,15 +1002,15 @@ node class Substitution extends Realization {
 
 edge class contract extends CMOFProperty
 	connect
-		Substitution[1:1] -> Classifier[*],
-		InterfaceRealization[1:1] -> Interface[*],
-		Connector[0:*] -> Behavior[*] {
+		Substitution[1:1] --> Classifier[*],
+		InterfaceRealization[1:1] --> Interface[*],
+		Connector[0:*] --> Behavior[*] {
 			name = "contract";
 }
 
 edge class substitutingClassifier extends CMOFProperty
 	connect
-		Substitution[1:1] -> Classifier[*] {
+		Substitution[1:1] --> Classifier[*] {
 			name = "substitutingClassifier";
 }
 
@@ -1022,37 +1022,37 @@ node class Namespace extends NamedElement {
 
 edge class elementImport extends CMOFProperty
 	connect
-		Namespace[0:*] -> ElementImport[*] {
+		Namespace[0:*] --> ElementImport[*] {
 			name = "elementImport";
 }
 
 edge class packageImport extends CMOFProperty
 	connect
-		Namespace[0:*] -> PackageImport[*] {
+		Namespace[0:*] --> PackageImport[*] {
 			name = "packageImport";
 }
 
 edge class ownedRule extends CMOFProperty
 	connect
-		Namespace[0:*] -> Constraint[*] {
+		Namespace[0:*] --> Constraint[*] {
 			name = "ownedRule";
 }
 
 edge class member extends CMOFProperty
 	connect
-		Namespace[0:*] -> NamedElement[*] {
+		Namespace[0:*] --> NamedElement[*] {
 			name = "member";
 }
 
 edge class importedMember extends CMOFProperty
 	connect
-		Namespace[0:*] -> PackageableElement[*] {
+		Namespace[0:*] --> PackageableElement[*] {
 			name = "importedMember";
 }
 
 edge class ownedMember extends CMOFProperty
 	connect
-		Namespace[0:*] -> NamedElement[*] {
+		Namespace[0:*] --> NamedElement[*] {
 			name = "ownedMember";
 }
 
@@ -1064,7 +1064,7 @@ node class InterfaceRealization extends Realization {
 
 edge class implementingClassifier extends CMOFProperty
 	connect
-		InterfaceRealization[1:1] -> BehavioredClassifier[*] {
+		InterfaceRealization[1:1] --> BehavioredClassifier[*] {
 			name = "implementingClassifier";
 }
 
@@ -1076,20 +1076,20 @@ node class StructuredClassifier extends Classifier {
 
 edge class part extends CMOFProperty
 	connect
-		StructuredClassifier[0:*] -> Property[*] {
+		StructuredClassifier[0:*] --> Property[*] {
 			name = "part";
 }
 
 edge class role extends CMOFProperty
 	connect
-		StructuredClassifier[0:*] -> ConnectableElement[*],
-		ConnectorEnd[1:1] -> ConnectableElement[*] {
+		StructuredClassifier[0:*] --> ConnectableElement[*],
+		ConnectorEnd[1:1] --> ConnectableElement[*] {
 			name = "role";
 }
 
 edge class ownedConnector extends CMOFProperty
 	connect
-		StructuredClassifier[0:*] -> Connector[*] {
+		StructuredClassifier[0:*] --> Connector[*] {
 			name = "ownedConnector";
 }
 
@@ -1101,13 +1101,13 @@ node class Variable extends MultiplicityElement, ConnectableElement {
 
 edge class scope extends CMOFProperty
 	connect
-		Variable[0:1] -> StructuredActivityNode[*] {
+		Variable[0:1] --> StructuredActivityNode[*] {
 			name = "scope";
 }
 
 edge class activityScope extends CMOFProperty
 	connect
-		Variable[0:1] -> Activity[*] {
+		Variable[0:1] --> Activity[*] {
 			name = "activityScope";
 }
 
@@ -1119,7 +1119,7 @@ node class CollaborationUse extends NamedElement {
 
 edge class roleBinding extends CMOFProperty
 	connect
-		CollaborationUse[0:*] -> Dependency[*] {
+		CollaborationUse[0:*] --> Dependency[*] {
 			name = "roleBinding";
 }
 
@@ -1131,7 +1131,7 @@ node class Collaboration extends StructuredClassifier, BehavioredClassifier {
 
 edge class collaborationRole extends CMOFProperty
 	connect
-		Collaboration[0:*] -> ConnectableElement[*] {
+		Collaboration[0:*] --> ConnectableElement[*] {
 			name = "collaborationRole";
 }
 
@@ -1161,9 +1161,9 @@ node class ActivityParameterNode extends ObjectNode {
 
 edge class parameter extends CMOFProperty
 	connect
-		ActivityParameterNode[1:1] -> Parameter[*],
-		ParameterSet[1:*] -> Parameter[*],
-		TemplateSignature[1:*] -> TemplateParameter[*] {
+		ActivityParameterNode[1:1] --> Parameter[*],
+		ParameterSet[1:*] --> Parameter[*],
+		TemplateSignature[1:*] --> TemplateParameter[*] {
 			name = "parameter";
 }
 
@@ -1181,54 +1181,54 @@ node class Message extends NamedElement {
 
 edge class messageKind extends CMOFProperty
 	connect
-		Message[1:1] -> MessageKind[*] {
+		Message[1:1] --> MessageKind[*] {
 			name = "messageKind";
 }
 
 edge class messageSort extends CMOFProperty
 	connect
-		Message[1:1] -> MessageSort[*] {
+		Message[1:1] --> MessageSort[*] {
 			name = "messageSort";
 }
 
 edge class receiveEvent extends CMOFProperty
 	connect
-		Message[0:1] -> MessageEnd[*] {
+		Message[0:1] --> MessageEnd[*] {
 			name = "receiveEvent";
 }
 
 edge class sendEvent extends CMOFProperty
 	connect
-		Message[0:1] -> MessageEnd[*] {
+		Message[0:1] --> MessageEnd[*] {
 			name = "sendEvent";
 }
 
 edge class connector extends CMOFProperty
 	connect
-		Message[0:1] -> Connector[*] {
+		Message[0:1] --> Connector[*] {
 			name = "connector";
 }
 
 edge class interaction extends CMOFProperty
 	connect
-		Message[1:1] -> Interaction[*],
-		Lifeline[1:1] -> Interaction[*] {
+		Message[1:1] --> Interaction[*],
+		Lifeline[1:1] --> Interaction[*] {
 			name = "interaction";
 }
 
 edge class argument extends CMOFProperty
 	connect
-		Message[0:*] -> ValueSpecification[*],
-		InteractionUse[0:*] -> Action[*],
-		InvocationAction[0:*] -> InputPin[*] {
+		Message[0:*] --> ValueSpecification[*],
+		InteractionUse[0:*] --> Action[*],
+		InvocationAction[0:*] --> InputPin[*] {
 			name = "argument";
 }
 
 edge class signature extends CMOFProperty
 	connect
-		Message[0:1] -> NamedElement[*],
-		TemplateParameter[1:1] -> TemplateSignature[*],
-		TemplateBinding[1:1] -> TemplateSignature[*] {
+		Message[0:1] --> NamedElement[*],
+		TemplateParameter[1:1] --> TemplateSignature[*],
+		TemplateBinding[1:1] --> TemplateSignature[*] {
 			name = "signature";
 }
 
@@ -1240,13 +1240,13 @@ node class GeneralOrdering extends NamedElement {
 
 edge class before extends CMOFProperty
 	connect
-		GeneralOrdering[1:1] -> OccurrenceSpecification[*] {
+		GeneralOrdering[1:1] --> OccurrenceSpecification[*] {
 			name = "before";
 }
 
 edge class after extends CMOFProperty
 	connect
-		GeneralOrdering[1:1] -> OccurrenceSpecification[*] {
+		GeneralOrdering[1:1] --> OccurrenceSpecification[*] {
 			name = "after";
 }
 
@@ -1258,13 +1258,13 @@ node class ExecutionSpecification extends InteractionFragment {
 
 edge class start extends CMOFProperty
 	connect
-		ExecutionSpecification[1:1] -> OccurrenceSpecification[*] {
+		ExecutionSpecification[1:1] --> OccurrenceSpecification[*] {
 			name = "start";
 }
 
 edge class finish extends CMOFProperty
 	connect
-		ExecutionSpecification[1:1] -> OccurrenceSpecification[*] {
+		ExecutionSpecification[1:1] --> OccurrenceSpecification[*] {
 			name = "finish";
 }
 
@@ -1276,31 +1276,31 @@ node class OccurrenceSpecification extends InteractionFragment {
 
 edge class covered extends CMOFProperty
 	connect
-		OccurrenceSpecification[1:1] -> Lifeline[*],
-		StateInvariant[1:1] -> Lifeline[*],
-		InteractionFragment[0:*] -> Lifeline[*] {
+		OccurrenceSpecification[1:1] --> Lifeline[*],
+		StateInvariant[1:1] --> Lifeline[*],
+		InteractionFragment[0:*] --> Lifeline[*] {
 			name = "covered";
 }
 
 edge class toAfter extends CMOFProperty
 	connect
-		OccurrenceSpecification[0:*] -> GeneralOrdering[*] {
+		OccurrenceSpecification[0:*] --> GeneralOrdering[*] {
 			name = "toAfter";
 }
 
 edge class toBefore extends CMOFProperty
 	connect
-		OccurrenceSpecification[0:*] -> GeneralOrdering[*] {
+		OccurrenceSpecification[0:*] --> GeneralOrdering[*] {
 			name = "toBefore";
 }
 
 edge class event extends CMOFProperty
 	connect
-		OccurrenceSpecification[1:1] -> Event[*],
-		ExecutionOccurrenceSpecification[1:1] -> ExecutionEvent[*],
-		TimeObservation[1:1] -> NamedElement[*],
-		DurationObservation[1:2] -> NamedElement[*],
-		Trigger[1:1] -> Event[*] {
+		OccurrenceSpecification[1:1] --> Event[*],
+		ExecutionOccurrenceSpecification[1:1] --> ExecutionEvent[*],
+		TimeObservation[1:1] --> NamedElement[*],
+		DurationObservation[1:2] --> NamedElement[*],
+		Trigger[1:1] --> Event[*] {
 			name = "event";
 }
 
@@ -1312,9 +1312,9 @@ node class MessageEnd extends NamedElement {
 
 edge class message extends CMOFProperty
 	connect
-		MessageEnd[0:1] -> Message[*],
-		Interaction[0:*] -> Message[*],
-		ConsiderIgnoreFragment[0:*] -> NamedElement[*] {
+		MessageEnd[0:1] --> Message[*],
+		Interaction[0:*] --> Message[*],
+		ConsiderIgnoreFragment[0:*] --> NamedElement[*] {
 			name = "message";
 }
 
@@ -1326,7 +1326,7 @@ node class StateInvariant extends InteractionFragment {
 
 edge class invariant extends CMOFProperty
 	connect
-		StateInvariant[1:1] -> Constraint[*] {
+		StateInvariant[1:1] --> Constraint[*] {
 			name = "invariant";
 }
 
@@ -1338,8 +1338,8 @@ node class ActionExecutionSpecification extends ExecutionSpecification {
 
 edge class action extends CMOFProperty
 	connect
-		ActionExecutionSpecification[1:1] -> Action[*],
-		Interaction[0:*] -> Action[*] {
+		ActionExecutionSpecification[1:1] --> Action[*],
+		Interaction[0:*] --> Action[*] {
 			name = "action";
 }
 
@@ -1393,7 +1393,7 @@ node class ExecutionOccurrenceSpecification extends OccurrenceSpecification {
 
 edge class execution extends CMOFProperty
 	connect
-		ExecutionOccurrenceSpecification[1:1] -> ExecutionSpecification[*] {
+		ExecutionOccurrenceSpecification[1:1] --> ExecutionSpecification[*] {
 			name = "execution";
 }
 
@@ -1423,27 +1423,27 @@ node class Extend extends DirectedRelationship, NamedElement {
 
 edge class extendedCase extends CMOFProperty
 	connect
-		Extend[1:1] -> UseCase[*] {
+		Extend[1:1] --> UseCase[*] {
 			name = "extendedCase";
 }
 
 edge class extension extends CMOFProperty
 	connect
-		Extend[1:1] -> UseCase[*],
-		Class[0:*] -> Extension[*] {
+		Extend[1:1] --> UseCase[*],
+		Class[0:*] --> Extension[*] {
 			name = "extension";
 }
 
 edge class condition extends CMOFProperty
 	connect
-		Extend[0:1] -> Constraint[*],
-		ParameterSet[0:*] -> Constraint[*] {
+		Extend[0:1] --> Constraint[*],
+		ParameterSet[0:*] --> Constraint[*] {
 			name = "condition";
 }
 
 edge class extensionLocation extends CMOFProperty
 	connect
-		Extend[1:*] -> ExtensionPoint[*] {
+		Extend[1:*] --> ExtensionPoint[*] {
 			name = "extensionLocation";
 }
 
@@ -1455,13 +1455,13 @@ node class Include extends DirectedRelationship, NamedElement {
 
 edge class includingCase extends CMOFProperty
 	connect
-		Include[1:1] -> UseCase[*] {
+		Include[1:1] --> UseCase[*] {
 			name = "includingCase";
 }
 
 edge class addition extends CMOFProperty
 	connect
-		Include[1:1] -> UseCase[*] {
+		Include[1:1] --> UseCase[*] {
 			name = "addition";
 }
 
@@ -1473,25 +1473,25 @@ node class UseCase extends BehavioredClassifier {
 
 edge class include_ extends CMOFProperty
 	connect
-		UseCase[0:*] -> Include[*] {
+		UseCase[0:*] --> Include[*] {
 			name = "include";
 }
 
 edge class extend extends CMOFProperty
 	connect
-		UseCase[0:*] -> Extend[*] {
+		UseCase[0:*] --> Extend[*] {
 			name = "extend";
 }
 
 edge class extensionPoint extends CMOFProperty
 	connect
-		UseCase[0:*] -> ExtensionPoint[*] {
+		UseCase[0:*] --> ExtensionPoint[*] {
 			name = "extensionPoint";
 }
 
 edge class subject extends CMOFProperty
 	connect
-		UseCase[0:*] -> Classifier[*] {
+		UseCase[0:*] --> Classifier[*] {
 			name = "subject";
 }
 
@@ -1503,8 +1503,8 @@ node class ExtensionPoint extends RedefinableElement {
 
 edge class useCase extends CMOFProperty
 	connect
-		ExtensionPoint[1:1] -> UseCase[*],
-		Classifier[0:*] -> UseCase[*] {
+		ExtensionPoint[1:1] --> UseCase[*],
+		Classifier[0:*] --> UseCase[*] {
 			name = "useCase";
 }
 
@@ -1522,7 +1522,7 @@ node class ChangeEvent extends Event {
 
 edge class changeExpression extends CMOFProperty
 	connect
-		ChangeEvent[1:1] -> ValueSpecification[*] {
+		ChangeEvent[1:1] --> ValueSpecification[*] {
 			name = "changeExpression";
 }
 
@@ -1564,25 +1564,25 @@ node class BehavioredClassifier extends Classifier {
 
 edge class ownedBehavior extends CMOFProperty
 	connect
-		BehavioredClassifier[0:*] -> Behavior[*] {
+		BehavioredClassifier[0:*] --> Behavior[*] {
 			name = "ownedBehavior";
 }
 
 edge class classifierBehavior extends CMOFProperty
 	connect
-		BehavioredClassifier[0:1] -> Behavior[*] {
+		BehavioredClassifier[0:1] --> Behavior[*] {
 			name = "classifierBehavior";
 }
 
 edge class interfaceRealization extends CMOFProperty
 	connect
-		BehavioredClassifier[0:*] -> InterfaceRealization[*] {
+		BehavioredClassifier[0:*] --> InterfaceRealization[*] {
 			name = "interfaceRealization";
 }
 
 edge class ownedTrigger extends CMOFProperty
 	connect
-		BehavioredClassifier[0:*] -> Trigger[*] {
+		BehavioredClassifier[0:*] --> Trigger[*] {
 			name = "ownedTrigger";
 }
 
@@ -1618,49 +1618,49 @@ node class ActivityPartition extends NamedElement, ActivityGroup {
 
 edge class isDimension extends CMOFProperty
 	connect
-		ActivityPartition[1:1] -> Boolean[*] {
+		ActivityPartition[1:1] --> Boolean[*] {
 			name = "isDimension";
 }
 
 edge class isExternal extends CMOFProperty
 	connect
-		ActivityPartition[1:1] -> Boolean[*] {
+		ActivityPartition[1:1] --> Boolean[*] {
 			name = "isExternal";
 }
 
 edge class edge_ extends CMOFProperty
 	connect
-		ActivityPartition[0:*] -> ActivityEdge[*],
-		Activity[0:*] -> ActivityEdge[*],
-		StructuredActivityNode[0:*] -> ActivityEdge[*] {
+		ActivityPartition[0:*] --> ActivityEdge[*],
+		Activity[0:*] --> ActivityEdge[*],
+		StructuredActivityNode[0:*] --> ActivityEdge[*] {
 			name = "edge";
 }
 
 edge class node_ extends CMOFProperty
 	connect
-		ActivityPartition[0:*] -> ActivityNode[*],
-		Activity[0:*] -> ActivityNode[*],
-		InterruptibleActivityRegion[0:*] -> ActivityNode[*],
-		StructuredActivityNode[0:*] -> ActivityNode[*] {
+		ActivityPartition[0:*] --> ActivityNode[*],
+		Activity[0:*] --> ActivityNode[*],
+		InterruptibleActivityRegion[0:*] --> ActivityNode[*],
+		StructuredActivityNode[0:*] --> ActivityNode[*] {
 			name = "node";
 }
 
 edge class subpartition extends CMOFProperty
 	connect
-		ActivityPartition[0:*] -> ActivityPartition[*] {
+		ActivityPartition[0:*] --> ActivityPartition[*] {
 			name = "subpartition";
 }
 
 edge class superPartition extends CMOFProperty
 	connect
-		ActivityPartition[0:1] -> ActivityPartition[*] {
+		ActivityPartition[0:1] --> ActivityPartition[*] {
 			name = "superPartition";
 }
 
 edge class represents extends CMOFProperty
 	connect
-		ActivityPartition[0:1] -> Element[*],
-		Lifeline[0:1] -> ConnectableElement[*] {
+		ActivityPartition[0:1] --> Element[*],
+		Lifeline[0:1] --> ConnectableElement[*] {
 			name = "represents";
 }
 
@@ -1678,7 +1678,7 @@ node class DecisionNode extends ControlNode {
 
 edge class decisionInput extends CMOFProperty
 	connect
-		DecisionNode[0:1] -> Behavior[*] {
+		DecisionNode[0:1] --> Behavior[*] {
 			name = "decisionInput";
 }
 
@@ -1702,7 +1702,7 @@ node class EncapsulatedClassifier extends StructuredClassifier {
 
 edge class ownedPort extends CMOFProperty
 	connect
-		EncapsulatedClassifier[0:*] -> Port[*] {
+		EncapsulatedClassifier[0:*] --> Port[*] {
 			name = "ownedPort";
 }
 
@@ -1714,13 +1714,13 @@ node class ConnectorEnd extends MultiplicityElement {
 
 edge class definingEnd extends CMOFProperty
 	connect
-		ConnectorEnd[0:1] -> Property[*] {
+		ConnectorEnd[0:1] --> Property[*] {
 			name = "definingEnd";
 }
 
 edge class partWithPort extends CMOFProperty
 	connect
-		ConnectorEnd[0:1] -> Property[*] {
+		ConnectorEnd[0:1] --> Property[*] {
 			name = "partWithPort";
 }
 
@@ -1732,13 +1732,13 @@ node class ComponentRealization extends Realization {
 
 edge class abstraction extends CMOFProperty
 	connect
-		ComponentRealization[0:1] -> Component[*] {
+		ComponentRealization[0:1] --> Component[*] {
 			name = "abstraction";
 }
 
 edge class realizingClassifier extends CMOFProperty
 	connect
-		ComponentRealization[1:1] -> Classifier[*] {
+		ComponentRealization[1:1] --> Classifier[*] {
 			name = "realizingClassifier";
 }
 
@@ -1750,24 +1750,24 @@ node class Connector extends Feature {
 
 edge class redefinedConnector extends CMOFProperty
 	connect
-		Connector[0:*] -> Connector[*] {
+		Connector[0:*] --> Connector[*] {
 			name = "redefinedConnector";
 }
 
 edge class end extends CMOFProperty
 	connect
-		Connector[2:*] -> ConnectorEnd[*],
-		LinkEndData[1:1] -> Property[*],
-		ReadLinkObjectEndAction[1:1] -> Property[*],
-		ConnectableElement[0:*] -> ConnectorEnd[*] {
+		Connector[2:*] --> ConnectorEnd[*],
+		LinkEndData[1:1] --> Property[*],
+		ReadLinkObjectEndAction[1:1] --> Property[*],
+		ConnectableElement[0:*] --> ConnectorEnd[*] {
 			name = "end";
 }
 
 edge class kind extends CMOFProperty
 	connect
-		Connector[0:1] -> ConnectorKind[*],
-		Transition[1:1] -> TransitionKind[*],
-		Pseudostate[1:1] -> PseudostateKind[*] {
+		Connector[0:1] --> ConnectorKind[*],
+		Transition[1:1] --> TransitionKind[*],
+		Pseudostate[1:1] --> PseudostateKind[*] {
 			name = "kind";
 }
 
@@ -1779,7 +1779,7 @@ node class Manifestation extends Abstraction {
 
 edge class utilizedElement extends CMOFProperty
 	connect
-		Manifestation[1:1] -> PackageableElement[*] {
+		Manifestation[1:1] --> PackageableElement[*] {
 			name = "utilizedElement";
 }
 
@@ -1791,7 +1791,7 @@ node class Node_ extends Class, DeploymentTarget {
 
 edge class nestedNode extends CMOFProperty
 	connect
-		Node_[0:*] -> Node_[*] {
+		Node_[0:*] --> Node_[*] {
 			name = "nestedNode";
 }
 
@@ -1815,14 +1815,14 @@ node class DeploymentTarget extends NamedElement {
 
 edge class deployment extends CMOFProperty
 	connect
-		DeploymentTarget[0:*] -> Deployment[*],
-		DeploymentSpecification[0:1] -> Deployment[*] {
+		DeploymentTarget[0:*] --> Deployment[*],
+		DeploymentSpecification[0:1] --> Deployment[*] {
 			name = "deployment";
 }
 
 edge class deployedElement extends CMOFProperty
 	connect
-		DeploymentTarget[0:*] -> PackageableElement[*] {
+		DeploymentTarget[0:*] --> PackageableElement[*] {
 			name = "deployedElement";
 }
 
@@ -1846,17 +1846,17 @@ node class InstanceSpecification extends PackageableElement, DeploymentTarget, D
 
 edge class classifier extends CMOFProperty
 	connect
-		InstanceSpecification[0:*] -> Classifier[*],
-		CreateObjectAction[1:1] -> Classifier[*],
-		ReadExtentAction[1:1] -> Classifier[*],
-		ReadIsClassifiedObjectAction[1:1] -> Classifier[*],
-		RedefinableTemplateSignature[1:1] -> Classifier[*] {
+		InstanceSpecification[0:*] --> Classifier[*],
+		CreateObjectAction[1:1] --> Classifier[*],
+		ReadExtentAction[1:1] --> Classifier[*],
+		ReadIsClassifiedObjectAction[1:1] --> Classifier[*],
+		RedefinableTemplateSignature[1:1] --> Classifier[*] {
 			name = "classifier";
 }
 
 edge class slot extends CMOFProperty
 	connect
-		InstanceSpecification[0:*] -> Slot[*] {
+		InstanceSpecification[0:*] --> Slot[*] {
 			name = "slot";
 }
 
@@ -1868,19 +1868,19 @@ node class Artifact extends Classifier, DeployedArtifact {
 
 edge class fileName extends CMOFProperty
 	connect
-		Artifact[0:1] -> String[*] {
+		Artifact[0:1] --> String[*] {
 			name = "fileName";
 }
 
 edge class nestedArtifact extends CMOFProperty
 	connect
-		Artifact[0:*] -> Artifact[*] {
+		Artifact[0:*] --> Artifact[*] {
 			name = "nestedArtifact";
 }
 
 edge class manifestation extends CMOFProperty
 	connect
-		Artifact[0:*] -> Manifestation[*] {
+		Artifact[0:*] --> Manifestation[*] {
 			name = "manifestation";
 }
 
@@ -1892,13 +1892,13 @@ node class InteractionUse extends InteractionFragment {
 
 edge class refersTo extends CMOFProperty
 	connect
-		InteractionUse[1:1] -> Interaction[*] {
+		InteractionUse[1:1] --> Interaction[*] {
 			name = "refersTo";
 }
 
 edge class actualGate extends CMOFProperty
 	connect
-		InteractionUse[0:*] -> Gate[*] {
+		InteractionUse[0:*] --> Gate[*] {
 			name = "actualGate";
 }
 
@@ -1916,16 +1916,16 @@ node class InteractionOperand extends InteractionFragment, Namespace {
 
 edge class guard extends CMOFProperty
 	connect
-		InteractionOperand[0:1] -> InteractionConstraint[*],
-		Transition[0:1] -> Constraint[*],
-		ActivityEdge[1:1] -> ValueSpecification[*] {
+		InteractionOperand[0:1] --> InteractionConstraint[*],
+		Transition[0:1] --> Constraint[*],
+		ActivityEdge[1:1] --> ValueSpecification[*] {
 			name = "guard";
 }
 
 edge class fragment extends CMOFProperty
 	connect
-		InteractionOperand[0:*] -> InteractionFragment[*],
-		Interaction[0:*] -> InteractionFragment[*] {
+		InteractionOperand[0:*] --> InteractionFragment[*],
+		Interaction[0:*] --> InteractionFragment[*] {
 			name = "fragment";
 }
 
@@ -1937,13 +1937,13 @@ node class InteractionConstraint extends Constraint {
 
 edge class minint extends CMOFProperty
 	connect
-		InteractionConstraint[0:1] -> ValueSpecification[*] {
+		InteractionConstraint[0:1] --> ValueSpecification[*] {
 			name = "minint";
 }
 
 edge class maxint extends CMOFProperty
 	connect
-		InteractionConstraint[0:1] -> ValueSpecification[*] {
+		InteractionConstraint[0:1] --> ValueSpecification[*] {
 			name = "maxint";
 }
 
@@ -1961,13 +1961,13 @@ node class CombinedFragment extends InteractionFragment {
 
 edge class interactionOperator extends CMOFProperty
 	connect
-		CombinedFragment[1:1] -> InteractionOperatorKind[*] {
+		CombinedFragment[1:1] --> InteractionOperatorKind[*] {
 			name = "interactionOperator";
 }
 
 edge class cfragmentGate extends CMOFProperty
 	connect
-		CombinedFragment[0:*] -> Gate[*] {
+		CombinedFragment[0:*] --> Gate[*] {
 			name = "cfragmentGate";
 }
 
@@ -1979,13 +1979,13 @@ node class Interaction extends InteractionFragment, Behavior {
 
 edge class lifeline extends CMOFProperty
 	connect
-		Interaction[0:*] -> Lifeline[*] {
+		Interaction[0:*] --> Lifeline[*] {
 			name = "lifeline";
 }
 
 edge class formalGate extends CMOFProperty
 	connect
-		Interaction[0:*] -> Gate[*] {
+		Interaction[0:*] --> Gate[*] {
 			name = "formalGate";
 }
 
@@ -1997,19 +1997,19 @@ node class Lifeline extends NamedElement {
 
 edge class coveredBy extends CMOFProperty
 	connect
-		Lifeline[0:*] -> InteractionFragment[*] {
+		Lifeline[0:*] --> InteractionFragment[*] {
 			name = "coveredBy";
 }
 
 edge class selector extends CMOFProperty
 	connect
-		Lifeline[0:1] -> ValueSpecification[*] {
+		Lifeline[0:1] --> ValueSpecification[*] {
 			name = "selector";
 }
 
 edge class decomposedAs extends CMOFProperty
 	connect
-		Lifeline[0:1] -> PartDecomposition[*] {
+		Lifeline[0:1] --> PartDecomposition[*] {
 			name = "decomposedAs";
 }
 
@@ -2021,7 +2021,7 @@ node class Continuation extends InteractionFragment {
 
 edge class setting extends CMOFProperty
 	connect
-		Continuation[1:1] -> Boolean[*] {
+		Continuation[1:1] --> Boolean[*] {
 			name = "setting";
 }
 
@@ -2033,19 +2033,19 @@ node class InteractionFragment extends NamedElement {
 
 edge class generalOrdering extends CMOFProperty
 	connect
-		InteractionFragment[0:*] -> GeneralOrdering[*] {
+		InteractionFragment[0:*] --> GeneralOrdering[*] {
 			name = "generalOrdering";
 }
 
 edge class enclosingInteraction extends CMOFProperty
 	connect
-		InteractionFragment[0:1] -> Interaction[*] {
+		InteractionFragment[0:1] --> Interaction[*] {
 			name = "enclosingInteraction";
 }
 
 edge class enclosingOperand extends CMOFProperty
 	connect
-		InteractionFragment[0:1] -> InteractionOperand[*] {
+		InteractionFragment[0:1] --> InteractionOperand[*] {
 			name = "enclosingOperand";
 }
 
@@ -2069,13 +2069,13 @@ node class DestroyObjectAction extends Action {
 
 edge class isDestroyLinks extends CMOFProperty
 	connect
-		DestroyObjectAction[1:1] -> Boolean[*] {
+		DestroyObjectAction[1:1] --> Boolean[*] {
 			name = "isDestroyLinks";
 }
 
 edge class isDestroyOwnedObjects extends CMOFProperty
 	connect
-		DestroyObjectAction[1:1] -> Boolean[*] {
+		DestroyObjectAction[1:1] --> Boolean[*] {
 			name = "isDestroyOwnedObjects";
 }
 
@@ -2087,13 +2087,13 @@ node class TestIdentityAction extends Action {
 
 edge class first extends CMOFProperty
 	connect
-		TestIdentityAction[1:1] -> InputPin[*] {
+		TestIdentityAction[1:1] --> InputPin[*] {
 			name = "first";
 }
 
 edge class second extends CMOFProperty
 	connect
-		TestIdentityAction[1:1] -> InputPin[*] {
+		TestIdentityAction[1:1] --> InputPin[*] {
 			name = "second";
 }
 
@@ -2111,20 +2111,20 @@ node class StructuralFeatureAction extends Action {
 
 edge class structuralFeature extends CMOFProperty
 	connect
-		StructuralFeatureAction[1:1] -> StructuralFeature[*] {
+		StructuralFeatureAction[1:1] --> StructuralFeature[*] {
 			name = "structuralFeature";
 }
 
 edge class object_ extends CMOFProperty
 	connect
-		StructuralFeatureAction[1:1] -> InputPin[*],
-		ClearAssociationAction[1:1] -> InputPin[*],
-		ReclassifyObjectAction[1:1] -> InputPin[*],
-		ReadIsClassifiedObjectAction[1:1] -> InputPin[*],
-		StartClassifierBehaviorAction[1:1] -> InputPin[*],
-		ReadLinkObjectEndAction[1:1] -> InputPin[*],
-		ReadLinkObjectEndQualifierAction[1:1] -> InputPin[*],
-		UnmarshallAction[1:1] -> InputPin[*] {
+		StructuralFeatureAction[1:1] --> InputPin[*],
+		ClearAssociationAction[1:1] --> InputPin[*],
+		ReclassifyObjectAction[1:1] --> InputPin[*],
+		ReadIsClassifiedObjectAction[1:1] --> InputPin[*],
+		StartClassifierBehaviorAction[1:1] --> InputPin[*],
+		ReadLinkObjectEndAction[1:1] --> InputPin[*],
+		ReadLinkObjectEndQualifierAction[1:1] --> InputPin[*],
+		UnmarshallAction[1:1] --> InputPin[*] {
 			name = "object";
 }
 
@@ -2154,15 +2154,15 @@ node class RemoveStructuralFeatureValueAction extends WriteStructuralFeatureActi
 
 edge class isRemoveDuplicates extends CMOFProperty
 	connect
-		RemoveStructuralFeatureValueAction[1:1] -> Boolean[*],
-		RemoveVariableValueAction[1:1] -> Boolean[*] {
+		RemoveStructuralFeatureValueAction[1:1] --> Boolean[*],
+		RemoveVariableValueAction[1:1] --> Boolean[*] {
 			name = "isRemoveDuplicates";
 }
 
 edge class removeAt extends CMOFProperty
 	connect
-		RemoveStructuralFeatureValueAction[0:1] -> InputPin[*],
-		RemoveVariableValueAction[0:1] -> InputPin[*] {
+		RemoveStructuralFeatureValueAction[0:1] --> InputPin[*],
+		RemoveVariableValueAction[0:1] --> InputPin[*] {
 			name = "removeAt";
 }
 
@@ -2174,18 +2174,18 @@ node class AddStructuralFeatureValueAction extends WriteStructuralFeatureAction 
 
 edge class isReplaceAll extends CMOFProperty
 	connect
-		AddStructuralFeatureValueAction[1:1] -> Boolean[*],
-		LinkEndCreationData[1:1] -> Boolean[*],
-		AddVariableValueAction[1:1] -> Boolean[*],
-		ReclassifyObjectAction[1:1] -> Boolean[*] {
+		AddStructuralFeatureValueAction[1:1] --> Boolean[*],
+		LinkEndCreationData[1:1] --> Boolean[*],
+		AddVariableValueAction[1:1] --> Boolean[*],
+		ReclassifyObjectAction[1:1] --> Boolean[*] {
 			name = "isReplaceAll";
 }
 
 edge class insertAt extends CMOFProperty
 	connect
-		AddStructuralFeatureValueAction[0:1] -> InputPin[*],
-		LinkEndCreationData[0:1] -> InputPin[*],
-		AddVariableValueAction[0:1] -> InputPin[*] {
+		AddStructuralFeatureValueAction[0:1] --> InputPin[*],
+		LinkEndCreationData[0:1] --> InputPin[*],
+		AddVariableValueAction[0:1] --> InputPin[*] {
 			name = "insertAt";
 }
 
@@ -2197,9 +2197,9 @@ node class LinkAction extends Action {
 
 edge class endData extends CMOFProperty
 	connect
-		LinkAction[2:*] -> LinkEndData[*],
-		CreateLinkAction[2:*] -> LinkEndCreationData[*],
-		DestroyLinkAction[2:*] -> LinkEndDestructionData[*] {
+		LinkAction[2:*] --> LinkEndData[*],
+		CreateLinkAction[2:*] --> LinkEndCreationData[*],
+		DestroyLinkAction[2:*] --> LinkEndDestructionData[*] {
 			name = "endData";
 }
 
@@ -2241,8 +2241,8 @@ node class ClearAssociationAction extends Action {
 
 edge class association extends CMOFProperty
 	connect
-		ClearAssociationAction[1:1] -> Association[*],
-		Property[0:1] -> Association[*] {
+		ClearAssociationAction[1:1] --> Association[*],
+		Property[0:1] --> Association[*] {
 			name = "association";
 }
 
@@ -2260,7 +2260,7 @@ node class SendObjectAction extends InvocationAction {
 
 edge class request extends CMOFProperty
 	connect
-		SendObjectAction[1:1] -> InputPin[*] {
+		SendObjectAction[1:1] --> InputPin[*] {
 			name = "request";
 }
 
@@ -2272,13 +2272,13 @@ node class LinkEndDestructionData extends LinkEndData {
 
 edge class isDestroyDuplicates extends CMOFProperty
 	connect
-		LinkEndDestructionData[1:1] -> Boolean[*] {
+		LinkEndDestructionData[1:1] --> Boolean[*] {
 			name = "isDestroyDuplicates";
 }
 
 edge class destroyAt extends CMOFProperty
 	connect
-		LinkEndDestructionData[0:1] -> InputPin[*] {
+		LinkEndDestructionData[0:1] --> InputPin[*] {
 			name = "destroyAt";
 }
 
@@ -2296,15 +2296,15 @@ node class TimeExpression extends ValueSpecification {
 
 edge class expr extends CMOFProperty
 	connect
-		TimeExpression[0:1] -> ValueSpecification[*],
-		Duration[0:1] -> ValueSpecification[*] {
+		TimeExpression[0:1] --> ValueSpecification[*],
+		Duration[0:1] --> ValueSpecification[*] {
 			name = "expr";
 }
 
 edge class observation extends CMOFProperty
 	connect
-		TimeExpression[0:*] -> Observation[*],
-		Duration[0:*] -> Observation[*] {
+		TimeExpression[0:*] --> Observation[*],
+		Duration[0:*] --> Observation[*] {
 			name = "observation";
 }
 
@@ -2322,17 +2322,17 @@ node class DurationInterval extends Interval {
 
 edge class min extends CMOFProperty
 	connect
-		DurationInterval[1:1] -> Duration[*],
-		TimeInterval[1:1] -> TimeExpression[*],
-		Interval[1:1] -> ValueSpecification[*] {
+		DurationInterval[1:1] --> Duration[*],
+		TimeInterval[1:1] --> TimeExpression[*],
+		Interval[1:1] --> ValueSpecification[*] {
 			name = "min";
 }
 
 edge class max extends CMOFProperty
 	connect
-		DurationInterval[1:1] -> Duration[*],
-		TimeInterval[1:1] -> TimeExpression[*],
-		Interval[1:1] -> ValueSpecification[*] {
+		DurationInterval[1:1] --> Duration[*],
+		TimeInterval[1:1] --> TimeExpression[*],
+		Interval[1:1] --> ValueSpecification[*] {
 			name = "max";
 }
 
@@ -2344,10 +2344,10 @@ node class TimeConstraint extends IntervalConstraint {
 
 edge class firstEvent extends CMOFProperty
 	connect
-		TimeConstraint[0:1] -> Boolean[*],
-		DurationConstraint[0:2] -> Boolean[*],
-		TimeObservation[1:1] -> Boolean[*],
-		DurationObservation[0:2] -> Boolean[*] {
+		TimeConstraint[0:1] --> Boolean[*],
+		DurationConstraint[0:2] --> Boolean[*],
+		TimeObservation[1:1] --> Boolean[*],
+		DurationObservation[0:2] --> Boolean[*] {
 			name = "firstEvent";
 }
 
@@ -2401,7 +2401,7 @@ node class InvocationAction extends Action {
 
 edge class onPort extends CMOFProperty
 	connect
-		InvocationAction[0:1] -> Port[*] {
+		InvocationAction[0:1] --> Port[*] {
 			name = "onPort";
 }
 
@@ -2413,7 +2413,7 @@ node class Trigger extends NamedElement {
 
 edge class port extends CMOFProperty
 	connect
-		Trigger[0:*] -> Port[*] {
+		Trigger[0:*] --> Port[*] {
 			name = "port";
 }
 
@@ -2425,27 +2425,27 @@ node class StateMachine extends Behavior {
 
 edge class region extends CMOFProperty
 	connect
-		StateMachine[1:*] -> Region[*],
-		State[0:*] -> Region[*] {
+		StateMachine[1:*] --> Region[*],
+		State[0:*] --> Region[*] {
 			name = "region";
 }
 
 edge class connectionPoint extends CMOFProperty
 	connect
-		StateMachine[0:*] -> Pseudostate[*],
-		State[0:*] -> Pseudostate[*] {
+		StateMachine[0:*] --> Pseudostate[*],
+		State[0:*] --> Pseudostate[*] {
 			name = "connectionPoint";
 }
 
 edge class extendedStateMachine extends CMOFProperty
 	connect
-		StateMachine[0:*] -> StateMachine[*] {
+		StateMachine[0:*] --> StateMachine[*] {
 			name = "extendedStateMachine";
 }
 
 edge class submachineState extends CMOFProperty
 	connect
-		StateMachine[0:*] -> State[*] {
+		StateMachine[0:*] --> State[*] {
 			name = "submachineState";
 }
 
@@ -2457,28 +2457,28 @@ node class Transition extends RedefinableElement, Namespace {
 
 edge class container extends CMOFProperty
 	connect
-		Transition[1:1] -> Region[*],
-		Vertex[0:1] -> Region[*] {
+		Transition[1:1] --> Region[*],
+		Vertex[0:1] --> Region[*] {
 			name = "container";
 }
 
 edge class redefinedTransition extends CMOFProperty
 	connect
-		Transition[0:1] -> Transition[*] {
+		Transition[0:1] --> Transition[*] {
 			name = "redefinedTransition";
 }
 
 edge class effect extends CMOFProperty
 	connect
-		Transition[0:1] -> Behavior[*],
-		Parameter[0:1] -> ParameterEffectKind[*] {
+		Transition[0:1] --> Behavior[*],
+		Parameter[0:1] --> ParameterEffectKind[*] {
 			name = "effect";
 }
 
 edge class trigger extends CMOFProperty
 	connect
-		Transition[0:*] -> Trigger[*],
-		AcceptEventAction[1:*] -> Trigger[*] {
+		Transition[0:*] --> Trigger[*],
+		AcceptEventAction[1:*] --> Trigger[*] {
 			name = "trigger";
 }
 
@@ -2490,15 +2490,15 @@ node class Vertex extends NamedElement {
 
 edge class outgoing extends CMOFProperty
 	connect
-		Vertex[0:*] -> Transition[*],
-		ActivityNode[0:*] -> ActivityEdge[*] {
+		Vertex[0:*] --> Transition[*],
+		ActivityNode[0:*] --> ActivityEdge[*] {
 			name = "outgoing";
 }
 
 edge class incoming extends CMOFProperty
 	connect
-		Vertex[0:*] -> Transition[*],
-		ActivityNode[0:*] -> ActivityEdge[*] {
+		Vertex[0:*] --> Transition[*],
+		ActivityNode[0:*] --> ActivityEdge[*] {
 			name = "incoming";
 }
 
@@ -2510,16 +2510,16 @@ node class Pseudostate extends Vertex {
 
 edge class stateMachine extends CMOFProperty
 	connect
-		Pseudostate[0:1] -> StateMachine[*],
-		Region[0:1] -> StateMachine[*] {
+		Pseudostate[0:1] --> StateMachine[*],
+		Region[0:1] --> StateMachine[*] {
 			name = "stateMachine";
 }
 
 edge class state extends CMOFProperty
 	connect
-		Pseudostate[0:1] -> State[*],
-		ConnectionPointReference[0:1] -> State[*],
-		Region[0:1] -> State[*] {
+		Pseudostate[0:1] --> State[*],
+		ConnectionPointReference[0:1] --> State[*],
+		Region[0:1] --> State[*] {
 			name = "state";
 }
 
@@ -2537,15 +2537,15 @@ node class ConnectionPointReference extends Vertex {
 
 edge class entry extends CMOFProperty
 	connect
-		ConnectionPointReference[0:*] -> Pseudostate[*],
-		State[0:1] -> Behavior[*] {
+		ConnectionPointReference[0:*] --> Pseudostate[*],
+		State[0:1] --> Behavior[*] {
 			name = "entry";
 }
 
 edge class exit extends CMOFProperty
 	connect
-		ConnectionPointReference[0:*] -> Pseudostate[*],
-		State[0:1] -> Behavior[*] {
+		ConnectionPointReference[0:*] --> Pseudostate[*],
+		State[0:1] --> Behavior[*] {
 			name = "exit";
 }
 
@@ -2557,13 +2557,13 @@ node class TimeEvent extends Event {
 
 edge class isRelative extends CMOFProperty
 	connect
-		TimeEvent[1:1] -> Boolean[*] {
+		TimeEvent[1:1] --> Boolean[*] {
 			name = "isRelative";
 }
 
 edge class when extends CMOFProperty
 	connect
-		TimeEvent[1:1] -> ValueSpecification[*] {
+		TimeEvent[1:1] --> ValueSpecification[*] {
 			name = "when";
 }
 
@@ -2575,7 +2575,7 @@ node class Stereotype extends Class {
 
 edge class icon extends CMOFProperty
 	connect
-		Stereotype[0:*] -> Image[*] {
+		Stereotype[0:*] --> Image[*] {
 			name = "icon";
 }
 
@@ -2587,19 +2587,19 @@ node class Profile extends Package {
 
 edge class ownedStereotype extends CMOFProperty
 	connect
-		Profile[0:*] -> Stereotype[*] {
+		Profile[0:*] --> Stereotype[*] {
 			name = "ownedStereotype";
 }
 
 edge class metaclassReference extends CMOFProperty
 	connect
-		Profile[0:*] -> ElementImport[*] {
+		Profile[0:*] --> ElementImport[*] {
 			name = "metaclassReference";
 }
 
 edge class metamodelReference extends CMOFProperty
 	connect
-		Profile[0:*] -> PackageImport[*] {
+		Profile[0:*] --> PackageImport[*] {
 			name = "metamodelReference";
 }
 
@@ -2611,35 +2611,35 @@ node class Class extends BehavioredClassifier, EncapsulatedClassifier {
 
 edge class isAbstract extends CMOFProperty
 	connect
-		Class[1:1] -> Boolean[*],
-		BehavioralFeature[1:1] -> Boolean[*],
-		Classifier[1:1] -> Boolean[*] {
+		Class[1:1] --> Boolean[*],
+		BehavioralFeature[1:1] --> Boolean[*],
+		Classifier[1:1] --> Boolean[*] {
 			name = "isAbstract";
 }
 
 edge class nestedClassifier extends CMOFProperty
 	connect
-		Class[0:*] -> Classifier[*],
-		Interface[0:*] -> Classifier[*] {
+		Class[0:*] --> Classifier[*],
+		Interface[0:*] --> Classifier[*] {
 			name = "nestedClassifier";
 }
 
 edge class superClass extends CMOFProperty
 	connect
-		Class[0:*] -> Class[*] {
+		Class[0:*] --> Class[*] {
 			name = "superClass";
 }
 
 edge class isActive extends CMOFProperty
 	connect
-		Class[1:1] -> Boolean[*] {
+		Class[1:1] --> Boolean[*] {
 			name = "isActive";
 }
 
 edge class ownedReception extends CMOFProperty
 	connect
-		Class[0:*] -> Reception[*],
-		Interface[0:*] -> Reception[*] {
+		Class[0:*] --> Reception[*],
+		Interface[0:*] --> Reception[*] {
 			name = "ownedReception";
 }
 
@@ -2651,19 +2651,19 @@ node class ProfileApplication extends DirectedRelationship {
 
 edge class appliedProfile extends CMOFProperty
 	connect
-		ProfileApplication[1:1] -> Profile[*] {
+		ProfileApplication[1:1] --> Profile[*] {
 			name = "appliedProfile";
 }
 
 edge class isStrict extends CMOFProperty
 	connect
-		ProfileApplication[1:1] -> Boolean[*] {
+		ProfileApplication[1:1] --> Boolean[*] {
 			name = "isStrict";
 }
 
 edge class applyingPackage extends CMOFProperty
 	connect
-		ProfileApplication[1:1] -> Package[*] {
+		ProfileApplication[1:1] --> Package[*] {
 			name = "applyingPackage";
 }
 
@@ -2675,13 +2675,13 @@ node class Extension extends Association {
 
 edge class isRequired extends CMOFProperty
 	connect
-		Extension[1:1] -> Boolean[*] {
+		Extension[1:1] --> Boolean[*] {
 			name = "isRequired";
 }
 
 edge class metaclass extends CMOFProperty
 	connect
-		Extension[1:1] -> Class[*] {
+		Extension[1:1] --> Class[*] {
 			name = "metaclass";
 }
 
@@ -2693,20 +2693,20 @@ node class Image extends Element {
 
 edge class content extends CMOFProperty
 	connect
-		Image[0:1] -> String[*] {
+		Image[0:1] --> String[*] {
 			name = "content";
 }
 
 edge class location extends CMOFProperty
 	connect
-		Image[0:1] -> String[*],
-		Deployment[1:1] -> DeploymentTarget[*] {
+		Image[0:1] --> String[*],
+		Deployment[1:1] --> DeploymentTarget[*] {
 			name = "location";
 }
 
 edge class format extends CMOFProperty
 	connect
-		Image[0:1] -> String[*] {
+		Image[0:1] --> String[*] {
 			name = "format";
 }
 
@@ -2718,19 +2718,19 @@ node class Element extends CMOFClass {
 
 edge class ownedElement extends CMOFProperty
 	connect
-		Element[0:*] -> Element[*] {
+		Element[0:*] --> Element[*] {
 			name = "ownedElement";
 }
 
 edge class owner extends CMOFProperty
 	connect
-		Element[0:1] -> Element[*] {
+		Element[0:1] --> Element[*] {
 			name = "owner";
 }
 
 edge class ownedComment extends CMOFProperty
 	connect
-		Element[0:*] -> Comment[*] {
+		Element[0:*] --> Comment[*] {
 			name = "ownedComment";
 }
 
@@ -2748,9 +2748,9 @@ node class VariableAction extends Action {
 
 edge class variable extends CMOFProperty
 	connect
-		VariableAction[1:1] -> Variable[*],
-		Activity[0:*] -> Variable[*],
-		StructuredActivityNode[0:*] -> Variable[*] {
+		VariableAction[1:1] --> Variable[*],
+		Activity[0:*] --> Variable[*],
+		StructuredActivityNode[0:*] --> Variable[*] {
 			name = "variable";
 }
 
@@ -2792,7 +2792,7 @@ node class RaiseExceptionAction extends Action {
 
 edge class exception extends CMOFProperty
 	connect
-		RaiseExceptionAction[1:1] -> InputPin[*] {
+		RaiseExceptionAction[1:1] --> InputPin[*] {
 			name = "exception";
 }
 
@@ -2804,7 +2804,7 @@ node class ActionInputPin extends InputPin {
 
 edge class fromAction extends CMOFProperty
 	connect
-		ActionInputPin[1:1] -> Action[*] {
+		ActionInputPin[1:1] --> Action[*] {
 			name = "fromAction";
 }
 
@@ -2816,26 +2816,26 @@ node class GeneralizationSet extends PackageableElement {
 
 edge class isCovering extends CMOFProperty
 	connect
-		GeneralizationSet[1:1] -> Boolean[*] {
+		GeneralizationSet[1:1] --> Boolean[*] {
 			name = "isCovering";
 }
 
 edge class isDisjoint extends CMOFProperty
 	connect
-		GeneralizationSet[1:1] -> Boolean[*] {
+		GeneralizationSet[1:1] --> Boolean[*] {
 			name = "isDisjoint";
 }
 
 edge class powertype extends CMOFProperty
 	connect
-		GeneralizationSet[0:1] -> Classifier[*] {
+		GeneralizationSet[0:1] --> Classifier[*] {
 			name = "powertype";
 }
 
 edge class generalization extends CMOFProperty
 	connect
-		GeneralizationSet[0:*] -> Generalization[*],
-		Classifier[0:*] -> Generalization[*] {
+		GeneralizationSet[0:*] --> Generalization[*],
+		Classifier[0:*] --> Generalization[*] {
 			name = "generalization";
 }
 
@@ -2847,26 +2847,26 @@ node class Generalization extends DirectedRelationship {
 
 edge class isSubstitutable extends CMOFProperty
 	connect
-		Generalization[0:1] -> Boolean[*] {
+		Generalization[0:1] --> Boolean[*] {
 			name = "isSubstitutable";
 }
 
 edge class specific extends CMOFProperty
 	connect
-		Generalization[1:1] -> Classifier[*] {
+		Generalization[1:1] --> Classifier[*] {
 			name = "specific";
 }
 
 edge class general extends CMOFProperty
 	connect
-		Generalization[1:1] -> Classifier[*],
-		Classifier[0:*] -> Classifier[*] {
+		Generalization[1:1] --> Classifier[*],
+		Classifier[0:*] --> Classifier[*] {
 			name = "general";
 }
 
 edge class generalizationSet extends CMOFProperty
 	connect
-		Generalization[0:*] -> GeneralizationSet[*] {
+		Generalization[0:*] --> GeneralizationSet[*] {
 			name = "generalizationSet";
 }
 
@@ -2878,7 +2878,7 @@ node class InformationItem extends Classifier {
 
 edge class represented extends CMOFProperty
 	connect
-		InformationItem[0:*] -> Classifier[*] {
+		InformationItem[0:*] --> Classifier[*] {
 			name = "represented";
 }
 
@@ -2890,44 +2890,44 @@ node class InformationFlow extends DirectedRelationship, PackageableElement {
 
 edge class realization extends CMOFProperty
 	connect
-		InformationFlow[0:*] -> Relationship[*],
-		Component[0:*] -> ComponentRealization[*] {
+		InformationFlow[0:*] --> Relationship[*],
+		Component[0:*] --> ComponentRealization[*] {
 			name = "realization";
 }
 
 edge class conveyed extends CMOFProperty
 	connect
-		InformationFlow[1:*] -> Classifier[*] {
+		InformationFlow[1:*] --> Classifier[*] {
 			name = "conveyed";
 }
 
 edge class informationSource extends CMOFProperty
 	connect
-		InformationFlow[1:*] -> NamedElement[*] {
+		InformationFlow[1:*] --> NamedElement[*] {
 			name = "informationSource";
 }
 
 edge class informationTarget extends CMOFProperty
 	connect
-		InformationFlow[1:*] -> NamedElement[*] {
+		InformationFlow[1:*] --> NamedElement[*] {
 			name = "informationTarget";
 }
 
 edge class realizingActivityEdge extends CMOFProperty
 	connect
-		InformationFlow[0:*] -> ActivityEdge[*] {
+		InformationFlow[0:*] --> ActivityEdge[*] {
 			name = "realizingActivityEdge";
 }
 
 edge class realizingConnector extends CMOFProperty
 	connect
-		InformationFlow[0:*] -> Connector[*] {
+		InformationFlow[0:*] --> Connector[*] {
 			name = "realizingConnector";
 }
 
 edge class realizingMessage extends CMOFProperty
 	connect
-		InformationFlow[0:*] -> Message[*] {
+		InformationFlow[0:*] --> Message[*] {
 			name = "realizingMessage";
 }
 
@@ -2939,7 +2939,7 @@ node class Model extends Package {
 
 edge class viewpoint extends CMOFProperty
 	connect
-		Model[0:1] -> String[*] {
+		Model[0:1] --> String[*] {
 			name = "viewpoint";
 }
 
@@ -2957,13 +2957,13 @@ node class ReclassifyObjectAction extends Action {
 
 edge class oldClassifier extends CMOFProperty
 	connect
-		ReclassifyObjectAction[0:*] -> Classifier[*] {
+		ReclassifyObjectAction[0:*] --> Classifier[*] {
 			name = "oldClassifier";
 }
 
 edge class newClassifier extends CMOFProperty
 	connect
-		ReclassifyObjectAction[0:*] -> Classifier[*] {
+		ReclassifyObjectAction[0:*] --> Classifier[*] {
 			name = "newClassifier";
 }
 
@@ -2975,7 +2975,7 @@ node class ReadIsClassifiedObjectAction extends Action {
 
 edge class isDirect extends CMOFProperty
 	connect
-		ReadIsClassifiedObjectAction[1:1] -> Boolean[*] {
+		ReadIsClassifiedObjectAction[1:1] --> Boolean[*] {
 			name = "isDirect";
 }
 
@@ -2993,10 +2993,10 @@ node class QualifierValue extends Element {
 
 edge class qualifier extends CMOFProperty
 	connect
-		QualifierValue[1:1] -> Property[*],
-		LinkEndData[0:*] -> QualifierValue[*],
-		ReadLinkObjectEndQualifierAction[1:1] -> Property[*],
-		Property[0:*] -> Property[*] {
+		QualifierValue[1:1] --> Property[*],
+		LinkEndData[0:*] --> QualifierValue[*],
+		ReadLinkObjectEndQualifierAction[1:1] --> Property[*],
+		Property[0:*] --> Property[*] {
 			name = "qualifier";
 }
 
@@ -3032,7 +3032,7 @@ node class AcceptEventAction extends Action {
 
 edge class isUnmarshall extends CMOFProperty
 	connect
-		AcceptEventAction[1:1] -> Boolean[*] {
+		AcceptEventAction[1:1] --> Boolean[*] {
 			name = "isUnmarshall";
 }
 
@@ -3044,8 +3044,8 @@ node class AcceptCallAction extends AcceptEventAction {
 
 edge class returnInformation extends CMOFProperty
 	connect
-		AcceptCallAction[1:1] -> OutputPin[*],
-		ReplyAction[1:1] -> InputPin[*] {
+		AcceptCallAction[1:1] --> OutputPin[*],
+		ReplyAction[1:1] --> InputPin[*] {
 			name = "returnInformation";
 }
 
@@ -3057,13 +3057,13 @@ node class ReplyAction extends Action {
 
 edge class replyToCall extends CMOFProperty
 	connect
-		ReplyAction[1:1] -> Trigger[*] {
+		ReplyAction[1:1] --> Trigger[*] {
 			name = "replyToCall";
 }
 
 edge class replyValue extends CMOFProperty
 	connect
-		ReplyAction[0:*] -> InputPin[*] {
+		ReplyAction[0:*] --> InputPin[*] {
 			name = "replyValue";
 }
 
@@ -3075,7 +3075,7 @@ node class UnmarshallAction extends Action {
 
 edge class unmarshallType extends CMOFProperty
 	connect
-		UnmarshallAction[1:1] -> Classifier[*] {
+		UnmarshallAction[1:1] --> Classifier[*] {
 			name = "unmarshallType";
 }
 
@@ -3087,13 +3087,13 @@ node class ReduceAction extends Action {
 
 edge class reducer extends CMOFProperty
 	connect
-		ReduceAction[1:1] -> Behavior[*] {
+		ReduceAction[1:1] --> Behavior[*] {
 			name = "reducer";
 }
 
 edge class collection extends CMOFProperty
 	connect
-		ReduceAction[1:1] -> InputPin[*] {
+		ReduceAction[1:1] --> InputPin[*] {
 			name = "collection";
 }
 
@@ -3105,13 +3105,13 @@ node class JoinNode extends ControlNode {
 
 edge class isCombineDuplicate extends CMOFProperty
 	connect
-		JoinNode[1:1] -> Boolean[*] {
+		JoinNode[1:1] --> Boolean[*] {
 			name = "isCombineDuplicate";
 }
 
 edge class joinSpec extends CMOFProperty
 	connect
-		JoinNode[1:1] -> ValueSpecification[*] {
+		JoinNode[1:1] --> ValueSpecification[*] {
 			name = "joinSpec";
 }
 
@@ -3129,26 +3129,26 @@ node class ObjectFlow extends ActivityEdge {
 
 edge class isMulticast extends CMOFProperty
 	connect
-		ObjectFlow[1:1] -> Boolean[*] {
+		ObjectFlow[1:1] --> Boolean[*] {
 			name = "isMulticast";
 }
 
 edge class isMultireceive extends CMOFProperty
 	connect
-		ObjectFlow[1:1] -> Boolean[*] {
+		ObjectFlow[1:1] --> Boolean[*] {
 			name = "isMultireceive";
 }
 
 edge class transformation extends CMOFProperty
 	connect
-		ObjectFlow[0:1] -> Behavior[*] {
+		ObjectFlow[0:1] --> Behavior[*] {
 			name = "transformation";
 }
 
 edge class selection extends CMOFProperty
 	connect
-		ObjectFlow[0:1] -> Behavior[*],
-		ObjectNode[0:1] -> Behavior[*] {
+		ObjectFlow[0:1] --> Behavior[*],
+		ObjectNode[0:1] --> Behavior[*] {
 			name = "selection";
 }
 
@@ -3160,25 +3160,25 @@ node class ObjectNode extends ActivityNode, TypedElement {
 
 edge class ordering extends CMOFProperty
 	connect
-		ObjectNode[1:1] -> ObjectNodeOrderingKind[*] {
+		ObjectNode[1:1] --> ObjectNodeOrderingKind[*] {
 			name = "ordering";
 }
 
 edge class isControlType extends CMOFProperty
 	connect
-		ObjectNode[1:1] -> Boolean[*] {
+		ObjectNode[1:1] --> Boolean[*] {
 			name = "isControlType";
 }
 
 edge class upperBound extends CMOFProperty
 	connect
-		ObjectNode[1:1] -> ValueSpecification[*] {
+		ObjectNode[1:1] --> ValueSpecification[*] {
 			name = "upperBound";
 }
 
 edge class inState extends CMOFProperty
 	connect
-		ObjectNode[0:*] -> State[*] {
+		ObjectNode[0:*] --> State[*] {
 			name = "inState";
 }
 
@@ -3196,25 +3196,25 @@ node class Activity extends Behavior {
 
 edge class structuredNode extends CMOFProperty
 	connect
-		Activity[0:*] -> StructuredActivityNode[*] {
+		Activity[0:*] --> StructuredActivityNode[*] {
 			name = "structuredNode";
 }
 
 edge class partition extends CMOFProperty
 	connect
-		Activity[0:*] -> ActivityPartition[*] {
+		Activity[0:*] --> ActivityPartition[*] {
 			name = "partition";
 }
 
 edge class group extends CMOFProperty
 	connect
-		Activity[0:*] -> ActivityGroup[*] {
+		Activity[0:*] --> ActivityGroup[*] {
 			name = "group";
 }
 
 edge class isSingleExecution extends CMOFProperty
 	connect
-		Activity[1:1] -> Boolean[*] {
+		Activity[1:1] --> Boolean[*] {
 			name = "isSingleExecution";
 }
 
@@ -3226,40 +3226,40 @@ node class Parameter extends MultiplicityElement, ConnectableElement {
 
 edge class direction extends CMOFProperty
 	connect
-		Parameter[1:1] -> ParameterDirectionKind[*] {
+		Parameter[1:1] --> ParameterDirectionKind[*] {
 			name = "direction";
 }
 
 edge class default extends CMOFProperty
 	connect
-		Parameter[0:1] -> String[*],
-		TemplateParameter[0:1] -> ParameterableElement[*],
-		Property[0:1] -> String[*] {
+		Parameter[0:1] --> String[*],
+		TemplateParameter[0:1] --> ParameterableElement[*],
+		Property[0:1] --> String[*] {
 			name = "default";
 }
 
 edge class defaultValue extends CMOFProperty
 	connect
-		Parameter[0:1] -> ValueSpecification[*],
-		Property[0:1] -> ValueSpecification[*] {
+		Parameter[0:1] --> ValueSpecification[*],
+		Property[0:1] --> ValueSpecification[*] {
 			name = "defaultValue";
 }
 
 edge class isException extends CMOFProperty
 	connect
-		Parameter[1:1] -> Boolean[*] {
+		Parameter[1:1] --> Boolean[*] {
 			name = "isException";
 }
 
 edge class isStream extends CMOFProperty
 	connect
-		Parameter[1:1] -> Boolean[*] {
+		Parameter[1:1] --> Boolean[*] {
 			name = "isStream";
 }
 
 edge class parameterSet extends CMOFProperty
 	connect
-		Parameter[0:*] -> ParameterSet[*] {
+		Parameter[0:*] --> ParameterSet[*] {
 			name = "parameterSet";
 }
 
@@ -3271,25 +3271,25 @@ node class Action extends ExecutableNode {
 
 edge class output extends CMOFProperty
 	connect
-		Action[0:*] -> OutputPin[*] {
+		Action[0:*] --> OutputPin[*] {
 			name = "output";
 }
 
 edge class input extends CMOFProperty
 	connect
-		Action[0:*] -> InputPin[*] {
+		Action[0:*] --> InputPin[*] {
 			name = "input";
 }
 
 edge class localPrecondition extends CMOFProperty
 	connect
-		Action[0:*] -> Constraint[*] {
+		Action[0:*] --> Constraint[*] {
 			name = "localPrecondition";
 }
 
 edge class localPostcondition extends CMOFProperty
 	connect
-		Action[0:*] -> Constraint[*] {
+		Action[0:*] --> Constraint[*] {
 			name = "localPostcondition";
 }
 
@@ -3301,7 +3301,7 @@ node class InterruptibleActivityRegion extends ActivityGroup {
 
 edge class interruptingEdge extends CMOFProperty
 	connect
-		InterruptibleActivityRegion[0:*] -> ActivityEdge[*] {
+		InterruptibleActivityRegion[0:*] --> ActivityEdge[*] {
 			name = "interruptingEdge";
 }
 
@@ -3313,42 +3313,42 @@ node class ActivityNode extends RedefinableElement {
 
 edge class inStructuredNode extends CMOFProperty
 	connect
-		ActivityNode[0:1] -> StructuredActivityNode[*],
-		ActivityEdge[0:1] -> StructuredActivityNode[*] {
+		ActivityNode[0:1] --> StructuredActivityNode[*],
+		ActivityEdge[0:1] --> StructuredActivityNode[*] {
 			name = "inStructuredNode";
 }
 
 edge class activity extends CMOFProperty
 	connect
-		ActivityNode[0:1] -> Activity[*],
-		StructuredActivityNode[0:1] -> Activity[*],
-		ActivityEdge[0:1] -> Activity[*] {
+		ActivityNode[0:1] --> Activity[*],
+		StructuredActivityNode[0:1] --> Activity[*],
+		ActivityEdge[0:1] --> Activity[*] {
 			name = "activity";
 }
 
 edge class redefinedNode extends CMOFProperty
 	connect
-		ActivityNode[0:*] -> ActivityNode[*] {
+		ActivityNode[0:*] --> ActivityNode[*] {
 			name = "redefinedNode";
 }
 
 edge class inPartition extends CMOFProperty
 	connect
-		ActivityNode[0:*] -> ActivityPartition[*],
-		ActivityEdge[0:*] -> ActivityPartition[*] {
+		ActivityNode[0:*] --> ActivityPartition[*],
+		ActivityEdge[0:*] --> ActivityPartition[*] {
 			name = "inPartition";
 }
 
 edge class inInterruptibleRegion extends CMOFProperty
 	connect
-		ActivityNode[0:*] -> InterruptibleActivityRegion[*] {
+		ActivityNode[0:*] --> InterruptibleActivityRegion[*] {
 			name = "inInterruptibleRegion";
 }
 
 edge class inGroup extends CMOFProperty
 	connect
-		ActivityNode[0:*] -> ActivityGroup[*],
-		ActivityEdge[0:*] -> ActivityGroup[*] {
+		ActivityNode[0:*] --> ActivityGroup[*],
+		ActivityEdge[0:*] --> ActivityGroup[*] {
 			name = "inGroup";
 }
 
@@ -3360,36 +3360,36 @@ node class BehavioralFeature extends Feature, Namespace {
 
 edge class ownedParameter extends CMOFProperty
 	connect
-		BehavioralFeature[0:*] -> Parameter[*],
-		Behavior[0:*] -> Parameter[*],
-		TemplateSignature[0:*] -> TemplateParameter[*],
-		Operation[0:*] -> Parameter[*] {
+		BehavioralFeature[0:*] --> Parameter[*],
+		Behavior[0:*] --> Parameter[*],
+		TemplateSignature[0:*] --> TemplateParameter[*],
+		Operation[0:*] --> Parameter[*] {
 			name = "ownedParameter";
 }
 
 edge class method extends CMOFProperty
 	connect
-		BehavioralFeature[0:*] -> Behavior[*] {
+		BehavioralFeature[0:*] --> Behavior[*] {
 			name = "method";
 }
 
 edge class concurrency extends CMOFProperty
 	connect
-		BehavioralFeature[1:1] -> CallConcurrencyKind[*] {
+		BehavioralFeature[1:1] --> CallConcurrencyKind[*] {
 			name = "concurrency";
 }
 
 edge class raisedException extends CMOFProperty
 	connect
-		BehavioralFeature[0:*] -> Type[*],
-		Operation[0:*] -> Type[*] {
+		BehavioralFeature[0:*] --> Type[*],
+		Operation[0:*] --> Type[*] {
 			name = "raisedException";
 }
 
 edge class ownedParameterSet extends CMOFProperty
 	connect
-		BehavioralFeature[0:*] -> ParameterSet[*],
-		Behavior[0:*] -> ParameterSet[*] {
+		BehavioralFeature[0:*] --> ParameterSet[*],
+		Behavior[0:*] --> ParameterSet[*] {
 			name = "ownedParameterSet";
 }
 
@@ -3401,27 +3401,27 @@ node class Behavior extends Class {
 
 edge class isReentrant extends CMOFProperty
 	connect
-		Behavior[1:1] -> Boolean[*] {
+		Behavior[1:1] --> Boolean[*] {
 			name = "isReentrant";
 }
 
 edge class redefinedBehavior extends CMOFProperty
 	connect
-		Behavior[0:*] -> Behavior[*] {
+		Behavior[0:*] --> Behavior[*] {
 			name = "redefinedBehavior";
 }
 
 edge class precondition extends CMOFProperty
 	connect
-		Behavior[0:*] -> Constraint[*],
-		Operation[0:*] -> Constraint[*] {
+		Behavior[0:*] --> Constraint[*],
+		Operation[0:*] --> Constraint[*] {
 			name = "precondition";
 }
 
 edge class postcondition extends CMOFProperty
 	connect
-		Behavior[0:*] -> Constraint[*],
-		Operation[0:*] -> Constraint[*] {
+		Behavior[0:*] --> Constraint[*],
+		Operation[0:*] --> Constraint[*] {
 			name = "postcondition";
 }
 
@@ -3433,7 +3433,7 @@ node class Pin extends MultiplicityElement, ObjectNode {
 
 edge class isControl extends CMOFProperty
 	connect
-		Pin[1:1] -> Boolean[*] {
+		Pin[1:1] --> Boolean[*] {
 			name = "isControl";
 }
 
@@ -3445,19 +3445,19 @@ node class ConditionalNode extends StructuredActivityNode {
 
 edge class isDeterminate extends CMOFProperty
 	connect
-		ConditionalNode[1:1] -> Boolean[*] {
+		ConditionalNode[1:1] --> Boolean[*] {
 			name = "isDeterminate";
 }
 
 edge class isAssured extends CMOFProperty
 	connect
-		ConditionalNode[1:1] -> Boolean[*] {
+		ConditionalNode[1:1] --> Boolean[*] {
 			name = "isAssured";
 }
 
 edge class clause extends CMOFProperty
 	connect
-		ConditionalNode[1:*] -> Clause[*] {
+		ConditionalNode[1:*] --> Clause[*] {
 			name = "clause";
 }
 
@@ -3469,7 +3469,7 @@ node class StructuredActivityNode extends Namespace, Action, ActivityGroup {
 
 edge class mustIsolate extends CMOFProperty
 	connect
-		StructuredActivityNode[1:1] -> Boolean[*] {
+		StructuredActivityNode[1:1] --> Boolean[*] {
 			name = "mustIsolate";
 }
 
@@ -3481,52 +3481,52 @@ node class LoopNode extends StructuredActivityNode {
 
 edge class isTestedFirst extends CMOFProperty
 	connect
-		LoopNode[1:1] -> Boolean[*] {
+		LoopNode[1:1] --> Boolean[*] {
 			name = "isTestedFirst";
 }
 
 edge class bodyPart extends CMOFProperty
 	connect
-		LoopNode[0:*] -> ExecutableNode[*] {
+		LoopNode[0:*] --> ExecutableNode[*] {
 			name = "bodyPart";
 }
 
 edge class setupPart extends CMOFProperty
 	connect
-		LoopNode[0:*] -> ExecutableNode[*] {
+		LoopNode[0:*] --> ExecutableNode[*] {
 			name = "setupPart";
 }
 
 edge class decider extends CMOFProperty
 	connect
-		LoopNode[1:1] -> OutputPin[*],
-		Clause[1:1] -> OutputPin[*] {
+		LoopNode[1:1] --> OutputPin[*],
+		Clause[1:1] --> OutputPin[*] {
 			name = "decider";
 }
 
 edge class test_ extends CMOFProperty
 	connect
-		LoopNode[0:*] -> ExecutableNode[*],
-		Clause[0:*] -> ExecutableNode[*] {
+		LoopNode[0:*] --> ExecutableNode[*],
+		Clause[0:*] --> ExecutableNode[*] {
 			name = "test";
 }
 
 edge class loopVariable extends CMOFProperty
 	connect
-		LoopNode[0:*] -> OutputPin[*] {
+		LoopNode[0:*] --> OutputPin[*] {
 			name = "loopVariable";
 }
 
 edge class bodyOutput extends CMOFProperty
 	connect
-		LoopNode[0:*] -> OutputPin[*],
-		Clause[0:*] -> OutputPin[*] {
+		LoopNode[0:*] --> OutputPin[*],
+		Clause[0:*] --> OutputPin[*] {
 			name = "bodyOutput";
 }
 
 edge class loopVariableInput extends CMOFProperty
 	connect
-		LoopNode[0:*] -> InputPin[*] {
+		LoopNode[0:*] --> InputPin[*] {
 			name = "loopVariableInput";
 }
 
@@ -3538,13 +3538,13 @@ node class Clause extends Element {
 
 edge class predecessorClause extends CMOFProperty
 	connect
-		Clause[0:*] -> Clause[*] {
+		Clause[0:*] --> Clause[*] {
 			name = "predecessorClause";
 }
 
 edge class successorClause extends CMOFProperty
 	connect
-		Clause[0:*] -> Clause[*] {
+		Clause[0:*] --> Clause[*] {
 			name = "successorClause";
 }
 
@@ -3556,19 +3556,19 @@ node class ActivityEdge extends RedefinableElement {
 
 edge class redefinedEdge extends CMOFProperty
 	connect
-		ActivityEdge[0:*] -> ActivityEdge[*] {
+		ActivityEdge[0:*] --> ActivityEdge[*] {
 			name = "redefinedEdge";
 }
 
 edge class weight extends CMOFProperty
 	connect
-		ActivityEdge[1:1] -> ValueSpecification[*] {
+		ActivityEdge[1:1] --> ValueSpecification[*] {
 			name = "weight";
 }
 
 edge class interrupts extends CMOFProperty
 	connect
-		ActivityEdge[0:1] -> InterruptibleActivityRegion[*] {
+		ActivityEdge[0:1] --> InterruptibleActivityRegion[*] {
 			name = "interrupts";
 }
 
@@ -3580,31 +3580,31 @@ node class ActivityGroup extends Element {
 
 edge class subgroup extends CMOFProperty
 	connect
-		ActivityGroup[0:*] -> ActivityGroup[*] {
+		ActivityGroup[0:*] --> ActivityGroup[*] {
 			name = "subgroup";
 }
 
 edge class superGroup extends CMOFProperty
 	connect
-		ActivityGroup[0:1] -> ActivityGroup[*] {
+		ActivityGroup[0:1] --> ActivityGroup[*] {
 			name = "superGroup";
 }
 
 edge class inActivity extends CMOFProperty
 	connect
-		ActivityGroup[0:1] -> Activity[*] {
+		ActivityGroup[0:1] --> Activity[*] {
 			name = "inActivity";
 }
 
 edge class containedNode extends CMOFProperty
 	connect
-		ActivityGroup[0:*] -> ActivityNode[*] {
+		ActivityGroup[0:*] --> ActivityNode[*] {
 			name = "containedNode";
 }
 
 edge class containedEdge extends CMOFProperty
 	connect
-		ActivityGroup[0:*] -> ActivityEdge[*] {
+		ActivityGroup[0:*] --> ActivityEdge[*] {
 			name = "containedEdge";
 }
 
@@ -3616,13 +3616,13 @@ node class ExpansionNode extends ObjectNode {
 
 edge class regionAsOutput extends CMOFProperty
 	connect
-		ExpansionNode[0:1] -> ExpansionRegion[*] {
+		ExpansionNode[0:1] --> ExpansionRegion[*] {
 			name = "regionAsOutput";
 }
 
 edge class regionAsInput extends CMOFProperty
 	connect
-		ExpansionNode[0:1] -> ExpansionRegion[*] {
+		ExpansionNode[0:1] --> ExpansionRegion[*] {
 			name = "regionAsInput";
 }
 
@@ -3634,19 +3634,19 @@ node class ExpansionRegion extends StructuredActivityNode {
 
 edge class mode extends CMOFProperty
 	connect
-		ExpansionRegion[1:1] -> ExpansionKind[*] {
+		ExpansionRegion[1:1] --> ExpansionKind[*] {
 			name = "mode";
 }
 
 edge class outputElement extends CMOFProperty
 	connect
-		ExpansionRegion[0:*] -> ExpansionNode[*] {
+		ExpansionRegion[0:*] --> ExpansionNode[*] {
 			name = "outputElement";
 }
 
 edge class inputElement extends CMOFProperty
 	connect
-		ExpansionRegion[1:*] -> ExpansionNode[*] {
+		ExpansionRegion[1:*] --> ExpansionNode[*] {
 			name = "inputElement";
 }
 
@@ -3658,7 +3658,7 @@ node class ExecutableNode extends ActivityNode {
 
 edge class handler extends CMOFProperty
 	connect
-		ExecutableNode[0:*] -> ExceptionHandler[*] {
+		ExecutableNode[0:*] --> ExceptionHandler[*] {
 			name = "handler";
 }
 
@@ -3670,25 +3670,25 @@ node class ExceptionHandler extends Element {
 
 edge class protectedNode extends CMOFProperty
 	connect
-		ExceptionHandler[1:1] -> ExecutableNode[*] {
+		ExceptionHandler[1:1] --> ExecutableNode[*] {
 			name = "protectedNode";
 }
 
 edge class handlerBody extends CMOFProperty
 	connect
-		ExceptionHandler[1:1] -> ExecutableNode[*] {
+		ExceptionHandler[1:1] --> ExecutableNode[*] {
 			name = "handlerBody";
 }
 
 edge class exceptionInput extends CMOFProperty
 	connect
-		ExceptionHandler[1:1] -> ObjectNode[*] {
+		ExceptionHandler[1:1] --> ObjectNode[*] {
 			name = "exceptionInput";
 }
 
 edge class exceptionType extends CMOFProperty
 	connect
-		ExceptionHandler[1:*] -> Classifier[*] {
+		ExceptionHandler[1:*] --> Classifier[*] {
 			name = "exceptionType";
 }
 
@@ -3700,28 +3700,28 @@ node class Component extends Class, Namespace {
 
 edge class isIndirectlyInstantiated extends CMOFProperty
 	connect
-		Component[1:1] -> Boolean[*] {
+		Component[1:1] --> Boolean[*] {
 			name = "isIndirectlyInstantiated";
 }
 
 edge class required extends CMOFProperty
 	connect
-		Component[0:*] -> Interface[*],
-		Port[0:*] -> Interface[*] {
+		Component[0:*] --> Interface[*],
+		Port[0:*] --> Interface[*] {
 			name = "required";
 }
 
 edge class provided extends CMOFProperty
 	connect
-		Component[0:*] -> Interface[*],
-		Port[0:*] -> Interface[*] {
+		Component[0:*] --> Interface[*],
+		Port[0:*] --> Interface[*] {
 			name = "provided";
 }
 
 edge class packagedElement extends CMOFProperty
 	connect
-		Component[0:*] -> PackageableElement[*],
-		Package[0:*] -> PackageableElement[*] {
+		Component[0:*] --> PackageableElement[*],
+		Package[0:*] --> PackageableElement[*] {
 			name = "packagedElement";
 }
 
@@ -3733,13 +3733,13 @@ node class Deployment extends Dependency {
 
 edge class deployedArtifact extends CMOFProperty
 	connect
-		Deployment[0:*] -> DeployedArtifact[*] {
+		Deployment[0:*] --> DeployedArtifact[*] {
 			name = "deployedArtifact";
 }
 
 edge class configuration extends CMOFProperty
 	connect
-		Deployment[0:*] -> DeploymentSpecification[*] {
+		Deployment[0:*] --> DeploymentSpecification[*] {
 			name = "configuration";
 }
 
@@ -3751,13 +3751,13 @@ node class DeploymentSpecification extends Artifact {
 
 edge class deploymentLocation extends CMOFProperty
 	connect
-		DeploymentSpecification[0:1] -> String[*] {
+		DeploymentSpecification[0:1] --> String[*] {
 			name = "deploymentLocation";
 }
 
 edge class executionLocation extends CMOFProperty
 	connect
-		DeploymentSpecification[0:1] -> String[*] {
+		DeploymentSpecification[0:1] --> String[*] {
 			name = "executionLocation";
 }
 
@@ -3769,13 +3769,13 @@ node class ProtocolConformance extends DirectedRelationship {
 
 edge class specificMachine extends CMOFProperty
 	connect
-		ProtocolConformance[1:1] -> ProtocolStateMachine[*] {
+		ProtocolConformance[1:1] --> ProtocolStateMachine[*] {
 			name = "specificMachine";
 }
 
 edge class generalMachine extends CMOFProperty
 	connect
-		ProtocolConformance[1:1] -> ProtocolStateMachine[*] {
+		ProtocolConformance[1:1] --> ProtocolStateMachine[*] {
 			name = "generalMachine";
 }
 
@@ -3787,14 +3787,14 @@ node class Interface extends Classifier {
 
 edge class redefinedInterface extends CMOFProperty
 	connect
-		Interface[0:*] -> Interface[*] {
+		Interface[0:*] --> Interface[*] {
 			name = "redefinedInterface";
 }
 
 edge class protocol extends CMOFProperty
 	connect
-		Interface[0:1] -> ProtocolStateMachine[*],
-		Port[0:1] -> ProtocolStateMachine[*] {
+		Interface[0:1] --> ProtocolStateMachine[*],
+		Port[0:1] --> ProtocolStateMachine[*] {
 			name = "protocol";
 }
 
@@ -3806,19 +3806,19 @@ node class Port extends Property {
 
 edge class isBehavior extends CMOFProperty
 	connect
-		Port[1:1] -> Boolean[*] {
+		Port[1:1] --> Boolean[*] {
 			name = "isBehavior";
 }
 
 edge class isService extends CMOFProperty
 	connect
-		Port[1:1] -> Boolean[*] {
+		Port[1:1] --> Boolean[*] {
 			name = "isService";
 }
 
 edge class redefinedPort extends CMOFProperty
 	connect
-		Port[0:*] -> Port[*] {
+		Port[0:*] --> Port[*] {
 			name = "redefinedPort";
 }
 
@@ -3830,19 +3830,19 @@ node class ProtocolTransition extends Transition {
 
 edge class postCondition extends CMOFProperty
 	connect
-		ProtocolTransition[0:1] -> Constraint[*] {
+		ProtocolTransition[0:1] --> Constraint[*] {
 			name = "postCondition";
 }
 
 edge class referred extends CMOFProperty
 	connect
-		ProtocolTransition[0:*] -> Operation[*] {
+		ProtocolTransition[0:*] --> Operation[*] {
 			name = "referred";
 }
 
 edge class preCondition extends CMOFProperty
 	connect
-		ProtocolTransition[0:1] -> Constraint[*] {
+		ProtocolTransition[0:1] --> Constraint[*] {
 			name = "preCondition";
 }
 
@@ -3854,7 +3854,7 @@ node class ProtocolStateMachine extends StateMachine {
 
 edge class conformance extends CMOFProperty
 	connect
-		ProtocolStateMachine[0:*] -> ProtocolConformance[*] {
+		ProtocolStateMachine[0:*] --> ProtocolConformance[*] {
 			name = "conformance";
 }
 
@@ -3866,62 +3866,62 @@ node class State extends Vertex, RedefinableElement, Namespace {
 
 edge class isComposite extends CMOFProperty
 	connect
-		State[1:1] -> Boolean[*],
-		Property[1:1] -> Boolean[*] {
+		State[1:1] --> Boolean[*],
+		Property[1:1] --> Boolean[*] {
 			name = "isComposite";
 }
 
 edge class isOrthogonal extends CMOFProperty
 	connect
-		State[1:1] -> Boolean[*] {
+		State[1:1] --> Boolean[*] {
 			name = "isOrthogonal";
 }
 
 edge class isSimple extends CMOFProperty
 	connect
-		State[1:1] -> Boolean[*] {
+		State[1:1] --> Boolean[*] {
 			name = "isSimple";
 }
 
 edge class isSubmachineState extends CMOFProperty
 	connect
-		State[1:1] -> Boolean[*] {
+		State[1:1] --> Boolean[*] {
 			name = "isSubmachineState";
 }
 
 edge class submachine extends CMOFProperty
 	connect
-		State[0:1] -> StateMachine[*] {
+		State[0:1] --> StateMachine[*] {
 			name = "submachine";
 }
 
 edge class connection extends CMOFProperty
 	connect
-		State[0:*] -> ConnectionPointReference[*] {
+		State[0:*] --> ConnectionPointReference[*] {
 			name = "connection";
 }
 
 edge class redefinedState extends CMOFProperty
 	connect
-		State[0:1] -> State[*] {
+		State[0:1] --> State[*] {
 			name = "redefinedState";
 }
 
 edge class stateInvariant extends CMOFProperty
 	connect
-		State[0:1] -> Constraint[*] {
+		State[0:1] --> Constraint[*] {
 			name = "stateInvariant";
 }
 
 edge class doActivity extends CMOFProperty
 	connect
-		State[0:1] -> Behavior[*] {
+		State[0:1] --> Behavior[*] {
 			name = "doActivity";
 }
 
 edge class deferrableTrigger extends CMOFProperty
 	connect
-		State[0:*] -> Trigger[*] {
+		State[0:*] --> Trigger[*] {
 			name = "deferrableTrigger";
 }
 
@@ -3933,19 +3933,19 @@ node class Region extends RedefinableElement, Namespace {
 
 edge class subvertex extends CMOFProperty
 	connect
-		Region[0:*] -> Vertex[*] {
+		Region[0:*] --> Vertex[*] {
 			name = "subvertex";
 }
 
 edge class transition extends CMOFProperty
 	connect
-		Region[0:*] -> Transition[*] {
+		Region[0:*] --> Transition[*] {
 			name = "transition";
 }
 
 edge class extendedRegion extends CMOFProperty
 	connect
-		Region[0:1] -> Region[*] {
+		Region[0:1] --> Region[*] {
 			name = "extendedRegion";
 }
 
@@ -3963,7 +3963,7 @@ node class TemplateSignature extends Element {
 
 edge class template extends CMOFProperty
 	connect
-		TemplateSignature[1:1] -> TemplateableElement[*] {
+		TemplateSignature[1:1] --> TemplateableElement[*] {
 			name = "template";
 }
 
@@ -3975,31 +3975,31 @@ node class NamedElement extends Element {
 
 edge class name extends CMOFProperty
 	connect
-		NamedElement[0:1] -> String[*] {
+		NamedElement[0:1] --> String[*] {
 			name = "name";
 }
 
 edge class qualifiedName extends CMOFProperty
 	connect
-		NamedElement[0:1] -> String[*] {
+		NamedElement[0:1] --> String[*] {
 			name = "qualifiedName";
 }
 
 edge class clientDependency extends CMOFProperty
 	connect
-		NamedElement[0:*] -> Dependency[*] {
+		NamedElement[0:*] --> Dependency[*] {
 			name = "clientDependency";
 }
 
 edge class namespace extends CMOFProperty
 	connect
-		NamedElement[0:1] -> Namespace[*] {
+		NamedElement[0:1] --> Namespace[*] {
 			name = "namespace";
 }
 
 edge class nameExpression extends CMOFProperty
 	connect
-		NamedElement[0:1] -> StringExpression[*] {
+		NamedElement[0:1] --> StringExpression[*] {
 			name = "nameExpression";
 }
 
@@ -4011,22 +4011,22 @@ node class TemplateParameter extends Element {
 
 edge class parameteredElement extends CMOFProperty
 	connect
-		TemplateParameter[1:1] -> ParameterableElement[*],
-		OperationTemplateParameter[1:1] -> Operation[*],
-		ClassifierTemplateParameter[1:1] -> Classifier[*],
-		ConnectableElementTemplateParameter[1:1] -> ConnectableElement[*] {
+		TemplateParameter[1:1] --> ParameterableElement[*],
+		OperationTemplateParameter[1:1] --> Operation[*],
+		ClassifierTemplateParameter[1:1] --> Classifier[*],
+		ConnectableElementTemplateParameter[1:1] --> ConnectableElement[*] {
 			name = "parameteredElement";
 }
 
 edge class ownedParameteredElement extends CMOFProperty
 	connect
-		TemplateParameter[0:1] -> ParameterableElement[*] {
+		TemplateParameter[0:1] --> ParameterableElement[*] {
 			name = "ownedParameteredElement";
 }
 
 edge class ownedDefault extends CMOFProperty
 	connect
-		TemplateParameter[0:1] -> ParameterableElement[*] {
+		TemplateParameter[0:1] --> ParameterableElement[*] {
 			name = "ownedDefault";
 }
 
@@ -4038,13 +4038,13 @@ node class StringExpression extends TemplateableElement, Expression {
 
 edge class subExpression extends CMOFProperty
 	connect
-		StringExpression[0:*] -> StringExpression[*] {
+		StringExpression[0:*] --> StringExpression[*] {
 			name = "subExpression";
 }
 
 edge class owningExpression extends CMOFProperty
 	connect
-		StringExpression[0:1] -> StringExpression[*] {
+		StringExpression[0:1] --> StringExpression[*] {
 			name = "owningExpression";
 }
 
@@ -4056,13 +4056,13 @@ node class TemplateBinding extends DirectedRelationship {
 
 edge class boundElement extends CMOFProperty
 	connect
-		TemplateBinding[1:1] -> TemplateableElement[*] {
+		TemplateBinding[1:1] --> TemplateableElement[*] {
 			name = "boundElement";
 }
 
 edge class parameterSubstitution extends CMOFProperty
 	connect
-		TemplateBinding[0:*] -> TemplateParameterSubstitution[*] {
+		TemplateBinding[0:*] --> TemplateParameterSubstitution[*] {
 			name = "parameterSubstitution";
 }
 
@@ -4074,26 +4074,26 @@ node class TemplateParameterSubstitution extends Element {
 
 edge class formal extends CMOFProperty
 	connect
-		TemplateParameterSubstitution[1:1] -> TemplateParameter[*] {
+		TemplateParameterSubstitution[1:1] --> TemplateParameter[*] {
 			name = "formal";
 }
 
 edge class templateBinding extends CMOFProperty
 	connect
-		TemplateParameterSubstitution[1:1] -> TemplateBinding[*],
-		TemplateableElement[0:*] -> TemplateBinding[*] {
+		TemplateParameterSubstitution[1:1] --> TemplateBinding[*],
+		TemplateableElement[0:*] --> TemplateBinding[*] {
 			name = "templateBinding";
 }
 
 edge class actual extends CMOFProperty
 	connect
-		TemplateParameterSubstitution[1:*] -> ParameterableElement[*] {
+		TemplateParameterSubstitution[1:*] --> ParameterableElement[*] {
 			name = "actual";
 }
 
 edge class ownedActual extends CMOFProperty
 	connect
-		TemplateParameterSubstitution[0:*] -> ParameterableElement[*] {
+		TemplateParameterSubstitution[0:*] --> ParameterableElement[*] {
 			name = "ownedActual";
 }
 
@@ -4105,8 +4105,8 @@ node class TemplateableElement extends Element {
 
 edge class ownedTemplateSignature extends CMOFProperty
 	connect
-		TemplateableElement[0:1] -> TemplateSignature[*],
-		Classifier[0:1] -> RedefinableTemplateSignature[*] {
+		TemplateableElement[0:1] --> TemplateSignature[*],
+		Classifier[0:1] --> RedefinableTemplateSignature[*] {
 			name = "ownedTemplateSignature";
 }
 
@@ -4118,16 +4118,16 @@ node class ParameterableElement extends Element {
 
 edge class templateParameter extends CMOFProperty
 	connect
-		ParameterableElement[0:1] -> TemplateParameter[*],
-		Operation[0:1] -> OperationTemplateParameter[*],
-		Classifier[0:1] -> ClassifierTemplateParameter[*],
-		ConnectableElement[0:1] -> ConnectableElementTemplateParameter[*] {
+		ParameterableElement[0:1] --> TemplateParameter[*],
+		Operation[0:1] --> OperationTemplateParameter[*],
+		Classifier[0:1] --> ClassifierTemplateParameter[*],
+		ConnectableElement[0:1] --> ConnectableElementTemplateParameter[*] {
 			name = "templateParameter";
 }
 
 edge class owningTemplateParameter extends CMOFProperty
 	connect
-		ParameterableElement[0:1] -> TemplateParameter[*] {
+		ParameterableElement[0:1] --> TemplateParameter[*] {
 			name = "owningTemplateParameter";
 }
 
@@ -4139,57 +4139,57 @@ node class Property extends ConnectableElement, DeploymentTarget, StructuralFeat
 
 edge class isDerivedUnion extends CMOFProperty
 	connect
-		Property[1:1] -> Boolean[*] {
+		Property[1:1] --> Boolean[*] {
 			name = "isDerivedUnion";
 }
 
 edge class aggregation extends CMOFProperty
 	connect
-		Property[1:1] -> AggregationKind[*] {
+		Property[1:1] --> AggregationKind[*] {
 			name = "aggregation";
 }
 
 edge class class_ extends CMOFProperty
 	connect
-		Property[0:1] -> Class[*],
-		Operation[0:1] -> Class[*] {
+		Property[0:1] --> Class[*],
+		Operation[0:1] --> Class[*] {
 			name = "class";
 }
 
 edge class redefinedProperty extends CMOFProperty
 	connect
-		Property[0:*] -> Property[*] {
+		Property[0:*] --> Property[*] {
 			name = "redefinedProperty";
 }
 
 edge class owningAssociation extends CMOFProperty
 	connect
-		Property[0:1] -> Association[*] {
+		Property[0:1] --> Association[*] {
 			name = "owningAssociation";
 }
 
 edge class datatype extends CMOFProperty
 	connect
-		Property[0:1] -> DataType[*],
-		Operation[0:1] -> DataType[*] {
+		Property[0:1] --> DataType[*],
+		Operation[0:1] --> DataType[*] {
 			name = "datatype";
 }
 
 edge class opposite extends CMOFProperty
 	connect
-		Property[0:1] -> Property[*] {
+		Property[0:1] --> Property[*] {
 			name = "opposite";
 }
 
 edge class subsettedProperty extends CMOFProperty
 	connect
-		Property[0:*] -> Property[*] {
+		Property[0:*] --> Property[*] {
 			name = "subsettedProperty";
 }
 
 edge class associationEnd extends CMOFProperty
 	connect
-		Property[0:1] -> Property[*] {
+		Property[0:1] --> Property[*] {
 			name = "associationEnd";
 }
 
@@ -4207,25 +4207,25 @@ node class Operation extends BehavioralFeature, ParameterableElement, Templateab
 
 edge class isQuery extends CMOFProperty
 	connect
-		Operation[1:1] -> Boolean[*] {
+		Operation[1:1] --> Boolean[*] {
 			name = "isQuery";
 }
 
 edge class redefinedOperation extends CMOFProperty
 	connect
-		Operation[0:*] -> Operation[*] {
+		Operation[0:*] --> Operation[*] {
 			name = "redefinedOperation";
 }
 
 edge class bodyCondition extends CMOFProperty
 	connect
-		Operation[0:1] -> Constraint[*] {
+		Operation[0:1] --> Constraint[*] {
 			name = "bodyCondition";
 }
 
 edge class interface extends CMOFProperty
 	connect
-		Operation[0:1] -> Interface[*] {
+		Operation[0:1] --> Interface[*] {
 			name = "interface";
 }
 
@@ -4249,55 +4249,55 @@ node class Classifier extends RedefinableElement, Type, TemplateableElement, Nam
 
 edge class feature extends CMOFProperty
 	connect
-		Classifier[0:*] -> Feature[*] {
+		Classifier[0:*] --> Feature[*] {
 			name = "feature";
 }
 
 edge class inheritedMember extends CMOFProperty
 	connect
-		Classifier[0:*] -> NamedElement[*] {
+		Classifier[0:*] --> NamedElement[*] {
 			name = "inheritedMember";
 }
 
 edge class redefinedClassifier extends CMOFProperty
 	connect
-		Classifier[0:*] -> Classifier[*] {
+		Classifier[0:*] --> Classifier[*] {
 			name = "redefinedClassifier";
 }
 
 edge class substitution extends CMOFProperty
 	connect
-		Classifier[0:*] -> Substitution[*] {
+		Classifier[0:*] --> Substitution[*] {
 			name = "substitution";
 }
 
 edge class attribute extends CMOFProperty
 	connect
-		Classifier[0:*] -> Property[*] {
+		Classifier[0:*] --> Property[*] {
 			name = "attribute";
 }
 
 edge class representation extends CMOFProperty
 	connect
-		Classifier[0:1] -> CollaborationUse[*] {
+		Classifier[0:1] --> CollaborationUse[*] {
 			name = "representation";
 }
 
 edge class collaborationUse extends CMOFProperty
 	connect
-		Classifier[0:*] -> CollaborationUse[*] {
+		Classifier[0:*] --> CollaborationUse[*] {
 			name = "collaborationUse";
 }
 
 edge class ownedUseCase extends CMOFProperty
 	connect
-		Classifier[0:*] -> UseCase[*] {
+		Classifier[0:*] --> UseCase[*] {
 			name = "ownedUseCase";
 }
 
 edge class powertypeExtent extends CMOFProperty
 	connect
-		Classifier[0:*] -> GeneralizationSet[*] {
+		Classifier[0:*] --> GeneralizationSet[*] {
 			name = "powertypeExtent";
 }
 
@@ -4309,19 +4309,19 @@ node class ClassifierTemplateParameter extends TemplateParameter {
 
 edge class allowSubstitutable extends CMOFProperty
 	connect
-		ClassifierTemplateParameter[1:1] -> Boolean[*] {
+		ClassifierTemplateParameter[1:1] --> Boolean[*] {
 			name = "allowSubstitutable";
 }
 
 edge class defaultClassifier extends CMOFProperty
 	connect
-		ClassifierTemplateParameter[0:1] -> Classifier[*] {
+		ClassifierTemplateParameter[0:1] --> Classifier[*] {
 			name = "defaultClassifier";
 }
 
 edge class constrainingClassifier extends CMOFProperty
 	connect
-		ClassifierTemplateParameter[0:1] -> Classifier[*] {
+		ClassifierTemplateParameter[0:1] --> Classifier[*] {
 			name = "constrainingClassifier";
 }
 
@@ -4333,13 +4333,13 @@ node class RedefinableTemplateSignature extends RedefinableElement, TemplateSign
 
 edge class extendedSignature extends CMOFProperty
 	connect
-		RedefinableTemplateSignature[0:*] -> RedefinableTemplateSignature[*] {
+		RedefinableTemplateSignature[0:*] --> RedefinableTemplateSignature[*] {
 			name = "extendedSignature";
 }
 
 edge class inheritedParameter extends CMOFProperty
 	connect
-		RedefinableTemplateSignature[0:*] -> TemplateParameter[*] {
+		RedefinableTemplateSignature[0:*] --> TemplateParameter[*] {
 			name = "inheritedParameter";
 }
 
@@ -4363,30 +4363,30 @@ node class Package extends PackageableElement, Namespace, TemplateableElement {
 
 edge class packageMerge extends CMOFProperty
 	connect
-		Package[0:*] -> PackageMerge[*] {
+		Package[0:*] --> PackageMerge[*] {
 			name = "packageMerge";
 }
 
 edge class ownedType extends CMOFProperty
 	connect
-		Package[0:*] -> Type[*] {
+		Package[0:*] --> Type[*] {
 			name = "ownedType";
 }
 
 edge class nestedPackage extends CMOFProperty
 	connect
-		Package[0:*] -> Package[*] {
+		Package[0:*] --> Package[*] {
 			name = "nestedPackage";
 }
 
 edge class nestingPackage extends CMOFProperty
 	connect
-		Package[0:1] -> Package[*] {
+		Package[0:1] --> Package[*] {
 			name = "nestingPackage";
 }
 
 edge class profileApplication extends CMOFProperty
 	connect
-		Package[0:*] -> ProfileApplication[*] {
+		Package[0:*] --> ProfileApplication[*] {
 			name = "profileApplication";
 }

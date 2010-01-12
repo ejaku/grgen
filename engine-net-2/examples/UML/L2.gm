@@ -257,13 +257,13 @@ node class Comment extends Element {
 	
 }
 edge class body_ extends association connect 
-		Comment[0:1] -> String[*],
-		OpaqueExpression[0:*] -> String[*],
-		OpaqueBehavior[0:*] -> String[*],
-		OpaqueAction[0:*] -> String[*],
-		Clause[0:*] -> ExecutableNode[*];
+		Comment[0:1] --> String[*],
+		OpaqueExpression[0:*] --> String[*],
+		OpaqueBehavior[0:*] --> String[*],
+		OpaqueAction[0:*] --> String[*],
+		Clause[0:*] --> ExecutableNode[*];
 edge class annotatedElement extends attribute connect 
-		Comment[0:*] -> Element[*];
+		Comment[0:*] --> Element[*];
 
 //A directed relationship represents a relationship between a collection of source model elements and a collection of target model elements.
 abstract node class DirectedRelationship extends Relationship {
@@ -271,17 +271,17 @@ abstract node class DirectedRelationship extends Relationship {
 	
 }
 edge class source extends attribute connect 
-		DirectedRelationship[1:*] -> Element[*],
-		ActivityEdge[1:1] -> ActivityNode[*],
-		Transition[1:1] -> Vertex[*];
+		DirectedRelationship[1:*] --> Element[*],
+		ActivityEdge[1:1] --> ActivityNode[*],
+		Transition[1:1] --> Vertex[*];
 edge class target extends attribute connect 
-		DirectedRelationship[1:*] -> Element[*],
-		SendSignalAction[1:1] -> InputPin[*],
-		CallOperationAction[1:1] -> InputPin[*],
-		ActivityEdge[1:1] -> ActivityNode[*],
-		DestroyObjectAction[1:1] -> InputPin[*],
-		SendObjectAction[1:1] -> InputPin[*],
-		Transition[1:1] -> Vertex[*];
+		DirectedRelationship[1:*] --> Element[*],
+		SendSignalAction[1:1] --> InputPin[*],
+		CallOperationAction[1:1] --> InputPin[*],
+		ActivityEdge[1:1] --> ActivityNode[*],
+		DestroyObjectAction[1:1] --> InputPin[*],
+		SendObjectAction[1:1] --> InputPin[*],
+		Transition[1:1] --> Vertex[*];
 
 //A literal specification identifies a literal constant being modeled.
 abstract node class LiteralSpecification extends ValueSpecification;
@@ -307,18 +307,18 @@ node class Constraint extends PackageableElement {
 	
 }
 edge class constrainedElement extends attribute connect 
-		Constraint[0:*] -> Element[*];
+		Constraint[0:*] --> Element[*];
 edge class specification extends attribute connect 
-		Constraint[1:1] -> ValueSpecification[*],
-		Behavior[0:1] -> BehavioralFeature[*],
-		InstanceSpecification[0:1] -> ValueSpecification[*],
-		TimeConstraint[1:1] -> TimeInterval[*],
-		DurationConstraint[1:1] -> DurationInterval[*],
-		IntervalConstraint[1:1] -> Interval[*];
+		Constraint[1:1] --> ValueSpecification[*],
+		Behavior[0:1] --> BehavioralFeature[*],
+		InstanceSpecification[0:1] --> ValueSpecification[*],
+		TimeConstraint[1:1] --> TimeInterval[*],
+		DurationConstraint[1:1] --> DurationInterval[*],
+		IntervalConstraint[1:1] --> Interval[*];
 edge class context extends attribute connect 
-		Constraint[0:1] -> Namespace[*],
-		Behavior[0:1] -> BehavioredClassifier[*],
-		Action[0:1] -> Classifier[*];
+		Constraint[0:1] --> Namespace[*],
+		Behavior[0:1] --> BehavioredClassifier[*],
+		Action[0:1] --> Classifier[*];
 
 //An element import identifies an element in another package, and allows the element to be referenced using its name without a qualifier.
 node class ElementImport extends DirectedRelationship {
@@ -327,12 +327,12 @@ node class ElementImport extends DirectedRelationship {
 	
 }
 edge class alias extends association connect 
-		ElementImport[0:1] -> String[*];
+		ElementImport[0:1] --> String[*];
 edge class importedElement extends attribute connect 
-		ElementImport[1:1] -> PackageableElement[*];
+		ElementImport[1:1] --> PackageableElement[*];
 edge class importingNamespace extends attribute connect 
-		ElementImport[1:1] -> Namespace[*],
-		PackageImport[1:1] -> Namespace[*];
+		ElementImport[1:1] --> Namespace[*],
+		PackageImport[1:1] --> Namespace[*];
 
 //A typed element is a kind of named element that represents an element with a type.
 abstract node class TypedElement extends NamedElement {
@@ -340,10 +340,10 @@ abstract node class TypedElement extends NamedElement {
 	
 }
 edge class type extends attribute connect 
-		TypedElement[0:1] -> Type[*],
-		Operation[0:1] -> Type[*],
-		Connector[0:1] -> Association[*],
-		ExtensionEnd[1:1] -> Stereotype[*];
+		TypedElement[0:1] --> Type[*],
+		Operation[0:1] --> Type[*],
+		Connector[0:1] --> Association[*],
+		ExtensionEnd[1:1] --> Stereotype[*];
 
 //A feature declares a behavioral or structural characteristic of instances of classifiers.
 abstract node class Feature extends RedefinableElement {
@@ -352,7 +352,7 @@ abstract node class Feature extends RedefinableElement {
 	
 }
 edge class featuringClassifier extends attribute connect 
-		Feature[0:*] -> Classifier[*];
+		Feature[0:*] --> Classifier[*];
 
 //A redefinable element is an element that, when defined in the context of a classifier, can be redefined more specifically or differently in the context of another classifier that specializes (directly or indirectly) the context classifier.
 abstract node class RedefinableElement extends NamedElement {
@@ -361,12 +361,12 @@ abstract node class RedefinableElement extends NamedElement {
 	
 }
 edge class redefinedElement extends attribute connect 
-		RedefinableElement[0:*] -> RedefinableElement[*];
+		RedefinableElement[0:*] --> RedefinableElement[*];
 edge class redefinitionContext extends attribute connect 
-		RedefinableElement[0:*] -> Classifier[*],
-		State[1:1] -> Classifier[*],
-		Transition[1:1] -> Classifier[*],
-		Region[1:1] -> Classifier[*];
+		RedefinableElement[0:*] --> Classifier[*],
+		State[1:1] --> Classifier[*],
+		Transition[1:1] --> Classifier[*],
+		Region[1:1] --> Classifier[*];
 
 //A generalization is a taxonomic relationship between a more general classifier and a more specific classifier. Each instance of the specific classifier is also an indirect instance of the general classifier. Thus, the specific classifier inherits the features of the more general classifier.
 node class Generalization extends DirectedRelationship {
@@ -374,12 +374,12 @@ node class Generalization extends DirectedRelationship {
 	
 }
 edge class isSubstitutable extends association connect 
-		Generalization[0:1] -> Boolean[*];
+		Generalization[0:1] --> Boolean[*];
 edge class specific extends attribute connect 
-		Generalization[1:1] -> Classifier[*];
+		Generalization[1:1] --> Classifier[*];
 edge class general extends attribute connect 
-		Generalization[1:1] -> Classifier[*],
-		Classifier[0:*] -> Classifier[*];
+		Generalization[1:1] --> Classifier[*],
+		Classifier[0:*] --> Classifier[*];
 
 //A parameter is a specification of an argument used to pass information into or out of an invocation of a behavioral feature.
 node class Parameter extends TypedElement, MultiplicityElement {
@@ -388,17 +388,17 @@ node class Parameter extends TypedElement, MultiplicityElement {
 	
 }
 edge class default extends association connect 
-		Parameter[0:1] -> String[*],
-		Property[0:1] -> String[*];
+		Parameter[0:1] --> String[*],
+		Property[0:1] --> String[*];
 edge class defaultValue extends attribute connect 
-		Parameter[0:1] -> ValueSpecification[*],
-		Property[0:1] -> ValueSpecification[*];
+		Parameter[0:1] --> ValueSpecification[*],
+		Property[0:1] --> ValueSpecification[*];
 edge class operation extends attribute connect 
-		Parameter[0:1] -> Operation[*],
-		CallOperationAction[1:1] -> Operation[*],
-		SendOperationEvent[1:1] -> Operation[*],
-		ReceiveOperationEvent[1:1] -> Operation[*],
-		CallEvent[1:1] -> Operation[*];
+		Parameter[0:1] --> Operation[*],
+		CallOperationAction[1:1] --> Operation[*],
+		SendOperationEvent[1:1] --> Operation[*],
+		ReceiveOperationEvent[1:1] --> Operation[*],
+		CallEvent[1:1] --> Operation[*];
 
 //A structural feature is a typed feature of a classifier that specifies the structure of instances of the classifier.
 abstract node class StructuralFeature extends Feature, TypedElement, MultiplicityElement;
@@ -409,9 +409,9 @@ node class Slot extends Element {
 	
 }
 edge class owningInstance extends attribute connect 
-		Slot[1:1] -> InstanceSpecification[*];
+		Slot[1:1] --> InstanceSpecification[*];
 edge class definingFeature extends attribute connect 
-		Slot[1:1] -> StructuralFeature[*];
+		Slot[1:1] --> StructuralFeature[*];
 
 //A package import is a relationship that allows the use of unqualified names to refer to package members from other namespaces.
 node class PackageImport extends DirectedRelationship {
@@ -420,7 +420,7 @@ node class PackageImport extends DirectedRelationship {
 	
 }
 edge class importedPackage extends attribute connect 
-		PackageImport[1:1] -> Package[*];
+		PackageImport[1:1] --> Package[*];
 
 //A data type is a type whose instances are identified only by their value. A data type may contain attributes to support the modeling of structured data types.
 node class DataType extends Classifier {
@@ -428,17 +428,17 @@ node class DataType extends Classifier {
 	
 }
 edge class ownedAttribute extends attribute connect 
-		DataType[0:*] -> Property[*],
-		StructuredClassifier[0:*] -> Property[*],
-		Interface[0:*] -> Property[*],
-		Signal[0:*] -> Property[*],
-		Artifact[0:*] -> Property[*],
-		Class[0:*] -> Property[*];
+		DataType[0:*] --> Property[*],
+		StructuredClassifier[0:*] --> Property[*],
+		Interface[0:*] --> Property[*],
+		Signal[0:*] --> Property[*],
+		Artifact[0:*] --> Property[*],
+		Class[0:*] --> Property[*];
 edge class ownedOperation extends attribute connect 
-		DataType[0:*] -> Operation[*],
-		Interface[0:*] -> Operation[*],
-		Artifact[0:*] -> Operation[*],
-		Class[0:*] -> Operation[*];
+		DataType[0:*] --> Operation[*],
+		Interface[0:*] --> Operation[*],
+		Artifact[0:*] --> Operation[*],
+		Class[0:*] --> Operation[*];
 
 //An enumeration is a data type whose values are enumerated in the model as enumeration literals.
 node class Enumeration extends DataType {
@@ -446,7 +446,7 @@ node class Enumeration extends DataType {
 	
 }
 edge class ownedLiteral extends attribute connect 
-		Enumeration[0:*] -> EnumerationLiteral[*];
+		Enumeration[0:*] --> EnumerationLiteral[*];
 
 //An enumeration literal is a user-defined data value for an enumeration.
 node class EnumerationLiteral extends InstanceSpecification {
@@ -454,7 +454,7 @@ node class EnumerationLiteral extends InstanceSpecification {
 	
 }
 edge class enumeration extends attribute connect 
-		EnumerationLiteral[0:1] -> Enumeration[*];
+		EnumerationLiteral[0:1] --> Enumeration[*];
 
 //A primitive type defines a predefined data type, without any relevant substructure (i.e., it has no parts in the context of UML). A primitive datatype may have an algebra and operations defined outside of UML, for example, mathematically.
 node class PrimitiveType extends DataType;
@@ -466,14 +466,14 @@ node class Association extends Relationship, Classifier {
 	
 }
 edge class ownedEnd extends attribute connect 
-		Association[0:*] -> Property[*],
-		Extension[1:1] -> ExtensionEnd[*];
+		Association[0:*] --> Property[*],
+		Extension[1:1] --> ExtensionEnd[*];
 edge class endType extends attribute connect 
-		Association[1:*] -> Type[*];
+		Association[1:*] --> Type[*];
 edge class memberEnd extends attribute connect 
-		Association[2:*] -> Property[*];
+		Association[2:*] --> Property[*];
 edge class navigableOwnedEnd extends attribute connect 
-		Association[0:*] -> Property[*];
+		Association[0:*] --> Property[*];
 
 //A value specification is the specification of a (possibly empty) set of instances, including both objects and data values.
 abstract node class ValueSpecification extends TypedElement, PackageableElement;
@@ -484,7 +484,7 @@ abstract node class Relationship extends Element {
 	
 }
 edge class relatedElement extends attribute connect 
-		Relationship[1:*] -> Element[*];
+		Relationship[1:*] --> Element[*];
 
 //A package merge defines how the contents of one package are extended by the contents of another package.
 node class PackageMerge extends DirectedRelationship {
@@ -492,9 +492,9 @@ node class PackageMerge extends DirectedRelationship {
 	
 }
 edge class receivingPackage extends attribute connect 
-		PackageMerge[1:1] -> Package[*];
+		PackageMerge[1:1] --> Package[*];
 edge class mergedPackage extends attribute connect 
-		PackageMerge[1:1] -> Package[*];
+		PackageMerge[1:1] --> Package[*];
 
 //An instance value is a value specification that identifies an instance.
 node class InstanceValue extends ValueSpecification {
@@ -502,7 +502,7 @@ node class InstanceValue extends ValueSpecification {
 	
 }
 edge class instance extends attribute connect 
-		InstanceValue[1:1] -> InstanceSpecification[*];
+		InstanceValue[1:1] --> InstanceSpecification[*];
 
 //A literal unlimited natural is a specification of an unlimited natural number.
 node class LiteralUnlimitedNatural extends LiteralSpecification;
@@ -513,7 +513,7 @@ abstract node class Type extends PackageableElement {
 	
 }
 edge class package extends attribute connect 
-		Type[0:1] -> Package[*];
+		Type[0:1] --> Package[*];
 
 //An expression is a structured tree of symbols that denotes a (possibly empty) set of values when evaluated in a context.
 node class Expression extends ValueSpecification {
@@ -521,10 +521,10 @@ node class Expression extends ValueSpecification {
 	
 }
 edge class symbol extends association connect 
-		Expression[0:1] -> String[*];
+		Expression[0:1] --> String[*];
 edge class operand extends attribute connect 
-		Expression[0:*] -> ValueSpecification[*],
-		CombinedFragment[1:*] -> InteractionOperand[*];
+		Expression[0:*] --> ValueSpecification[*],
+		CombinedFragment[1:*] --> InteractionOperand[*];
 
 //Behavior is a specification of how its context classifier changes state over time. This specification may be either a definition of possible behavior execution or emergent behavior, or a selective illustration of an interesting subset of possible executions. The latter form is typically used for capturing examples, such as a trace of a particular execution.
 abstract node class Behavior extends Class {
@@ -533,17 +533,17 @@ abstract node class Behavior extends Class {
 	
 }
 edge class redefinedBehavior extends attribute connect 
-		Behavior[0:*] -> Behavior[*];
+		Behavior[0:*] --> Behavior[*];
 edge class ownedParameter extends attribute connect 
-		Behavior[0:*] -> Parameter[*],
-		BehavioralFeature[0:*] -> Parameter[*],
-		Operation[0:*] -> Parameter[*];
+		Behavior[0:*] --> Parameter[*],
+		BehavioralFeature[0:*] --> Parameter[*],
+		Operation[0:*] --> Parameter[*];
 edge class precondition extends attribute connect 
-		Behavior[0:*] -> Constraint[*],
-		Operation[0:*] -> Constraint[*];
+		Behavior[0:*] --> Constraint[*],
+		Operation[0:*] --> Constraint[*];
 edge class postcondition extends attribute connect 
-		Behavior[0:*] -> Constraint[*],
-		Operation[0:*] -> Constraint[*];
+		Behavior[0:*] --> Constraint[*],
+		Operation[0:*] --> Constraint[*];
 
 //An opaque expression is an uninterpreted textual statement that denotes a (possibly empty) set of values when evaluated in a context.
 node class OpaqueExpression extends ValueSpecification {
@@ -552,23 +552,23 @@ node class OpaqueExpression extends ValueSpecification {
 }
 
 edge class language extends association connect 
-		OpaqueExpression[0:*] -> String[*],
-		OpaqueBehavior[0:*] -> String[*],
-		OpaqueAction[0:*] -> String[*];
+		OpaqueExpression[0:*] --> String[*],
+		OpaqueBehavior[0:*] --> String[*],
+		OpaqueAction[0:*] --> String[*];
 edge class result extends attribute connect 
-		OpaqueExpression[0:1] -> Parameter[*],
-		CallAction[0:*] -> OutputPin[*],
-		CreateObjectAction[1:1] -> OutputPin[*],
-		TestIdentityAction[1:1] -> OutputPin[*],
-		ReadSelfAction[1:1] -> OutputPin[*],
-		ReadStructuralFeatureAction[1:1] -> OutputPin[*],
-		ReadLinkAction[1:1] -> OutputPin[*],
-		ValueSpecificationAction[1:1] -> OutputPin[*],
-		ReadVariableAction[1:1] -> OutputPin[*];
+		OpaqueExpression[0:1] --> Parameter[*],
+		CallAction[0:*] --> OutputPin[*],
+		CreateObjectAction[1:1] --> OutputPin[*],
+		TestIdentityAction[1:1] --> OutputPin[*],
+		ReadSelfAction[1:1] --> OutputPin[*],
+		ReadStructuralFeatureAction[1:1] --> OutputPin[*],
+		ReadLinkAction[1:1] --> OutputPin[*],
+		ValueSpecificationAction[1:1] --> OutputPin[*],
+		ReadVariableAction[1:1] --> OutputPin[*];
 edge class behavior extends attribute connect 
-		OpaqueExpression[0:1] -> Behavior[*],
-		CallBehaviorAction[1:1] -> Behavior[*],
-		BehaviorExecutionSpecification[0:1] -> Behavior[*];
+		OpaqueExpression[0:1] --> Behavior[*],
+		CallBehaviorAction[1:1] --> Behavior[*],
+		BehaviorExecutionSpecification[0:1] --> Behavior[*];
 
 //An behavior with implementation-specific semantics.
 node class OpaqueBehavior extends Behavior {
@@ -585,10 +585,10 @@ node class OpaqueAction extends Action {
 	
 }
 edge class inputValue extends attribute connect 
-		OpaqueAction[0:*] -> InputPin[*],
-		LinkAction[1:*] -> InputPin[*];
+		OpaqueAction[0:*] --> InputPin[*],
+		LinkAction[1:*] --> InputPin[*];
 edge class outputValue extends attribute connect 
-		OpaqueAction[0:*] -> OutputPin[*];
+		OpaqueAction[0:*] --> OutputPin[*];
 
 //CallAction is an abstract class for actions that invoke behavior and receive return values.
 abstract node class CallAction extends InvocationAction {
@@ -603,12 +603,12 @@ node class SendSignalAction extends InvocationAction {
 	
 }
 edge class signal extends attribute connect 
-		SendSignalAction[1:1] -> Signal[*],
-		SendSignalEvent[1:1] -> Signal[*],
-		ReceiveSignalEvent[1:1] -> Signal[*],
-		Reception[0:1] -> Signal[*],
-		SignalEvent[1:1] -> Signal[*],
-		BroadcastSignalAction[1:1] -> Signal[*];
+		SendSignalAction[1:1] --> Signal[*],
+		SendSignalEvent[1:1] --> Signal[*],
+		ReceiveSignalEvent[1:1] --> Signal[*],
+		Reception[0:1] --> Signal[*],
+		SignalEvent[1:1] --> Signal[*],
+		BroadcastSignalAction[1:1] --> Signal[*];
 
 //A call operation action is an action that transmits an operation call request to the target object, where it may cause the invocation of associated behavior. The argument values of the action are available to the execution of the invoked behavior. If the action is marked synchronous, the execution of the call operation action waits until the execution of the invoked behavior completes and a reply transmission is returned to the caller; otherwise execution of the action is complete when the invocation of the operation is established and the execution of the invoked operation proceeds concurrently with the execution of the calling behavior. Any values returned as part of the reply transmission are put on the result output pins of the call operation action. Upon receipt of the reply transmission, execution of the call operation action is complete.
 node class CallOperationAction extends CallAction {
@@ -630,16 +630,16 @@ abstract node class MultiplicityElement extends Element {
 	
 }
 edge class upper extends association connect 
-		MultiplicityElement[0:1] -> UnlimitedNatural[*],
-		Operation[0:1] -> UnlimitedNatural[*];
+		MultiplicityElement[0:1] --> UnlimitedNatural[*],
+		Operation[0:1] --> UnlimitedNatural[*];
 edge class lower extends association connect 
-		MultiplicityElement[0:1] -> Integer[*],
-		Operation[0:1] -> Integer[*],
-		ExtensionEnd[0:1] -> Integer[*];
+		MultiplicityElement[0:1] --> Integer[*],
+		Operation[0:1] --> Integer[*],
+		ExtensionEnd[0:1] --> Integer[*];
 edge class upperValue extends attribute connect 
-		MultiplicityElement[0:1] -> ValueSpecification[*];
+		MultiplicityElement[0:1] --> ValueSpecification[*];
 edge class lowerValue extends attribute connect 
-		MultiplicityElement[0:1] -> ValueSpecification[*];
+		MultiplicityElement[0:1] --> ValueSpecification[*];
 
 //An object node is an abstract activity node that is part of defining object flow in an activity.
 abstract node class ObjectNode extends ActivityNode, TypedElement;
@@ -662,7 +662,7 @@ node class ActivityParameterNode extends ObjectNode {
 	
 }
 edge class parameter extends attribute connect 
-		ActivityParameterNode[1:1] -> Parameter[*];
+		ActivityParameterNode[1:1] --> Parameter[*];
 
 //A pin is a typed element and multiplicity element that provides values to actions and accept result values from them.
 node class Pin extends MultiplicityElement, ObjectNode;
@@ -682,7 +682,7 @@ node class Abstraction extends Dependency {
 	
 }
 edge class mapping extends attribute connect 
-		Abstraction[0:1] -> OpaqueExpression[*];
+		Abstraction[0:1] --> OpaqueExpression[*];
 
 //A dependency is a relationship that signifies that a single or a set of model elements requires other model elements for their specification or implementation. This means that the complete semantics of the depending elements is either semantically or structurally dependent on the definition of the supplier element(s).
 node class Dependency extends DirectedRelationship, PackageableElement {
@@ -690,9 +690,9 @@ node class Dependency extends DirectedRelationship, PackageableElement {
 	
 }
 edge class supplier extends attribute connect 
-		Dependency[1:*] -> NamedElement[*];
+		Dependency[1:*] --> NamedElement[*];
 edge class client extends attribute connect 
-		Dependency[1:*] -> NamedElement[*];
+		Dependency[1:*] --> NamedElement[*];
 
 //Realization is a specialized abstraction relationship between two sets of model elements, one representing a specification (the supplier) and the other represents an implementation of the latter (the client). Realization can be used to model stepwise refinement, optimizations, transformations, templates, model synthesis, framework composition, etc.
 node class Realization extends Abstraction;
@@ -703,11 +703,11 @@ node class Substitution extends Realization {
 	
 }
 edge class contract extends attribute connect 
-		Substitution[1:1] -> Classifier[*],
-		InterfaceRealization[1:1] -> Interface[*],
-		Connector[0:*] -> Behavior[*];
+		Substitution[1:1] --> Classifier[*],
+		InterfaceRealization[1:1] --> Interface[*],
+		Connector[0:*] --> Behavior[*];
 edge class substitutingClassifier extends attribute connect 
-		Substitution[1:1] -> Classifier[*];
+		Substitution[1:1] --> Classifier[*];
 
 //A packageable element indicates a named element that may be owned directly by a package.
 abstract node class PackageableElement extends NamedElement;
@@ -718,17 +718,17 @@ abstract node class Namespace extends NamedElement {
 	
 }
 edge class elementImport extends attribute connect 
-		Namespace[0:*] -> ElementImport[*];
+		Namespace[0:*] --> ElementImport[*];
 edge class packageImport extends attribute connect 
-		Namespace[0:*] -> PackageImport[*];
+		Namespace[0:*] --> PackageImport[*];
 edge class ownedRule extends attribute connect 
-		Namespace[0:*] -> Constraint[*];
+		Namespace[0:*] --> Constraint[*];
 edge class member extends attribute connect 
-		Namespace[0:*] -> NamedElement[*];
+		Namespace[0:*] --> NamedElement[*];
 edge class importedMember extends attribute connect 
-		Namespace[0:*] -> PackageableElement[*];
+		Namespace[0:*] --> PackageableElement[*];
 edge class ownedMember extends attribute connect 
-		Namespace[0:*] -> NamedElement[*];
+		Namespace[0:*] --> NamedElement[*];
 
 //An interface realization is a specialized realization relationship between a classifier and an interface. This relationship signifies that the realizing classifier conforms to the contract specified by the interface.
 node class InterfaceRealization extends Realization {
@@ -736,7 +736,7 @@ node class InterfaceRealization extends Realization {
 	
 }
 edge class implementingClassifier extends attribute connect 
-		InterfaceRealization[1:1] -> BehavioredClassifier[*];
+		InterfaceRealization[1:1] --> BehavioredClassifier[*];
 
 //A structured classifier is an abstract metaclass that represents any classifier whose behavior can be fully or partly described by the collaboration of owned or referenced instances.
 abstract node class StructuredClassifier extends Classifier {
@@ -744,12 +744,12 @@ abstract node class StructuredClassifier extends Classifier {
 	
 }
 edge class part extends attribute connect 
-		StructuredClassifier[0:*] -> Property[*];
+		StructuredClassifier[0:*] --> Property[*];
 edge class role extends attribute connect 
-		StructuredClassifier[0:*] -> ConnectableElement[*],
-		ConnectorEnd[1:1] -> ConnectableElement[*];
+		StructuredClassifier[0:*] --> ConnectableElement[*],
+		ConnectorEnd[1:1] --> ConnectableElement[*];
 edge class ownedConnector extends attribute connect 
-		StructuredClassifier[0:*] -> Connector[*];
+		StructuredClassifier[0:*] --> Connector[*];
 
 //ConnectableElement is an abstract metaclass representing a set of instances that play roles of a classifier. Connectable elements may be joined by attached connectors and specify configurations of linked instances to be created within an instance of the containing classifier.
 abstract node class ConnectableElement extends TypedElement {
@@ -757,9 +757,9 @@ abstract node class ConnectableElement extends TypedElement {
 	
 }
 edge class end extends attribute connect 
-		ConnectableElement[0:*] -> ConnectorEnd[*],
-		Connector[2:*] -> ConnectorEnd[*],
-		LinkEndData[1:1] -> Property[*];
+		ConnectableElement[0:*] --> ConnectorEnd[*],
+		Connector[2:*] --> ConnectorEnd[*],
+		LinkEndData[1:1] --> Property[*];
 
 //A message defines a particular communication between lifelines of an interaction.
 node class Message extends NamedElement {
@@ -769,20 +769,20 @@ node class Message extends NamedElement {
 	
 }
 edge class receiveEvent extends attribute connect 
-		Message[0:1] -> MessageEnd[*];
+		Message[0:1] --> MessageEnd[*];
 edge class sendEvent extends attribute connect 
-		Message[0:1] -> MessageEnd[*];
+		Message[0:1] --> MessageEnd[*];
 edge class connector extends attribute connect 
-		Message[0:1] -> Connector[*];
+		Message[0:1] --> Connector[*];
 edge class interaction extends attribute connect 
-		Message[1:1] -> Interaction[*],
-		Lifeline[1:1] -> Interaction[*];
+		Message[1:1] --> Interaction[*],
+		Lifeline[1:1] --> Interaction[*];
 edge class argument extends attribute connect 
-		Message[0:*] -> ValueSpecification[*],
-		InteractionUse[0:*] -> Action[*],
-		InvocationAction[0:*] -> InputPin[*];
+		Message[0:*] --> ValueSpecification[*],
+		InteractionUse[0:*] --> Action[*],
+		InvocationAction[0:*] --> InputPin[*];
 edge class signature extends attribute connect 
-		Message[0:1] -> NamedElement[*];
+		Message[0:1] --> NamedElement[*];
 
 //A general ordering represents a binary relation between two occurrence specifications, to describe that one occurrence specification must occur before the other in a valid trace. This mechanism provides the ability to define partial orders of occurrence cpecifications that may otherwise not have a specified order.
 node class GeneralOrdering extends NamedElement {
@@ -790,9 +790,9 @@ node class GeneralOrdering extends NamedElement {
 	
 }
 edge class before extends attribute connect 
-		GeneralOrdering[1:1] -> OccurrenceSpecification[*];
+		GeneralOrdering[1:1] --> OccurrenceSpecification[*];
 edge class after extends attribute connect 
-		GeneralOrdering[1:1] -> OccurrenceSpecification[*];
+		GeneralOrdering[1:1] --> OccurrenceSpecification[*];
 
 //An execution specification is a specification of the execution of a unit of behavior or action within the lifeline. The duration of an execution specification is represented by two cccurrence specifications, the start occurrence specification and the finish occurrence specification.
 abstract node class ExecutionSpecification extends InteractionFragment {
@@ -800,9 +800,9 @@ abstract node class ExecutionSpecification extends InteractionFragment {
 	
 }
 edge class start extends attribute connect 
-		ExecutionSpecification[1:1] -> OccurrenceSpecification[*];
+		ExecutionSpecification[1:1] --> OccurrenceSpecification[*];
 edge class finish extends attribute connect 
-		ExecutionSpecification[1:1] -> OccurrenceSpecification[*];
+		ExecutionSpecification[1:1] --> OccurrenceSpecification[*];
 
 //An occurrence specification is the basic semantic unit of interactions. The sequences of occurrences specified by them are the meanings of interactions.
 node class OccurrenceSpecification extends InteractionFragment {
@@ -810,19 +810,19 @@ node class OccurrenceSpecification extends InteractionFragment {
 	
 }
 edge class covered extends attribute connect 
-		OccurrenceSpecification[1:1] -> Lifeline[*],
-		StateInvariant[1:1] -> Lifeline[*],
-		InteractionFragment[0:*] -> Lifeline[*];
+		OccurrenceSpecification[1:1] --> Lifeline[*],
+		StateInvariant[1:1] --> Lifeline[*],
+		InteractionFragment[0:*] --> Lifeline[*];
 edge class toAfter extends attribute connect 
-		OccurrenceSpecification[0:*] -> GeneralOrdering[*];
+		OccurrenceSpecification[0:*] --> GeneralOrdering[*];
 edge class toBefore extends attribute connect 
-		OccurrenceSpecification[0:*] -> GeneralOrdering[*];
+		OccurrenceSpecification[0:*] --> GeneralOrdering[*];
 edge class event extends attribute connect 
-		OccurrenceSpecification[1:1] -> Event[*],
-		ExecutionOccurrenceSpecification[1:1] -> ExecutionEvent[*],
-		TimeObservation[1:1] -> NamedElement[*],
-		DurationObservation[1:2] -> NamedElement[*],
-		Trigger[1:1] -> Event[*];
+		OccurrenceSpecification[1:1] --> Event[*],
+		ExecutionOccurrenceSpecification[1:1] --> ExecutionEvent[*],
+		TimeObservation[1:1] --> NamedElement[*],
+		DurationObservation[1:2] --> NamedElement[*],
+		Trigger[1:1] --> Event[*];
 
 //MessageEnd is an abstract specialization of NamedElement that represents what can occur at the end of a message.
 abstract node class MessageEnd extends NamedElement {
@@ -830,9 +830,9 @@ abstract node class MessageEnd extends NamedElement {
 	
 }
 edge class message extends attribute connect 
-		MessageEnd[0:1] -> Message[*],
-		Interaction[0:*] -> Message[*],
-		ConsiderIgnoreFragment[0:*] -> NamedElement[*];
+		MessageEnd[0:1] --> Message[*],
+		Interaction[0:*] --> Message[*],
+		ConsiderIgnoreFragment[0:*] --> NamedElement[*];
 
 //A state invariant is a runtime constraint on the participants of the interaction. It may be used to specify a variety of different kinds of constraints, such as values of attributes or variables, internal or external states, and so on. A state invariant is an interaction fragment and it is placed on a lifeline.
 node class StateInvariant extends InteractionFragment {
@@ -840,7 +840,7 @@ node class StateInvariant extends InteractionFragment {
 	
 }
 edge class invariant extends attribute connect 
-		StateInvariant[1:1] -> Constraint[*];
+		StateInvariant[1:1] --> Constraint[*];
 
 //An action execution specification is a kind of execution specification representing the execution of an action.
 node class ActionExecutionSpecification extends ExecutionSpecification {
@@ -848,8 +848,8 @@ node class ActionExecutionSpecification extends ExecutionSpecification {
 	
 }
 edge class action extends attribute connect 
-		ActionExecutionSpecification[1:1] -> Action[*],
-		Interaction[0:*] -> Action[*];
+		ActionExecutionSpecification[1:1] --> Action[*],
+		Interaction[0:*] --> Action[*];
 
 //A behavior execution specification is a kind of execution specification representing the execution of a behavior.
 node class BehaviorExecutionSpecification extends ExecutionSpecification {
@@ -887,7 +887,7 @@ node class ExecutionOccurrenceSpecification extends OccurrenceSpecification {
 	
 }
 edge class execution extends attribute connect 
-		ExecutionOccurrenceSpecification[1:1] -> ExecutionSpecification[*];
+		ExecutionOccurrenceSpecification[1:1] --> ExecutionSpecification[*];
 
 //A receive operation event specifies the event of receiving an operation invocation for a particular operation by the target entity.
 node class ReceiveOperationEvent extends MessageEvent {
@@ -910,14 +910,14 @@ node class Extend extends DirectedRelationship, NamedElement {
 	
 }
 edge class extendedCase extends attribute connect 
-		Extend[1:1] -> UseCase[*];
+		Extend[1:1] --> UseCase[*];
 edge class extension extends attribute connect 
-		Extend[1:1] -> UseCase[*],
-		Class[0:*] -> Extension[*];
+		Extend[1:1] --> UseCase[*],
+		Class[0:*] --> Extension[*];
 edge class condition extends attribute connect 
-		Extend[0:1] -> Constraint[*];
+		Extend[0:1] --> Constraint[*];
 edge class extensionLocation extends attribute connect 
-		Extend[1:*] -> ExtensionPoint[*];
+		Extend[1:*] --> ExtensionPoint[*];
 
 //An include relationship defines that a use case contains the behavior defined in another use case.
 node class Include extends DirectedRelationship, NamedElement {
@@ -925,9 +925,9 @@ node class Include extends DirectedRelationship, NamedElement {
 	
 }
 edge class includingCase extends attribute connect 
-		Include[1:1] -> UseCase[*];
+		Include[1:1] --> UseCase[*];
 edge class addition extends attribute connect 
-		Include[1:1] -> UseCase[*];
+		Include[1:1] --> UseCase[*];
 
 //A use case is the specification of a set of actions performed by a system, which yields an observable result that is, typically, of value for one or more actors or other stakeholders of the system.
 node class UseCase extends BehavioredClassifier {
@@ -935,13 +935,13 @@ node class UseCase extends BehavioredClassifier {
 	
 }
 edge class include_ extends attribute connect 
-		UseCase[0:*] -> Include[*];
+		UseCase[0:*] --> Include[*];
 edge class extend extends attribute connect 
-		UseCase[0:*] -> Extend[*];
+		UseCase[0:*] --> Extend[*];
 edge class extensionPoint extends attribute connect 
-		UseCase[0:*] -> ExtensionPoint[*];
+		UseCase[0:*] --> ExtensionPoint[*];
 edge class subject extends attribute connect 
-		UseCase[0:*] -> Classifier[*];
+		UseCase[0:*] --> Classifier[*];
 
 //An extension point identifies a point in the behavior of a use case where that behavior can be extended by the behavior of some other (extending) use case, as specified by an extend relationship.
 node class ExtensionPoint extends RedefinableElement {
@@ -949,8 +949,8 @@ node class ExtensionPoint extends RedefinableElement {
 	
 }
 edge class useCase extends attribute connect 
-		ExtensionPoint[1:1] -> UseCase[*],
-		Classifier[0:*] -> UseCase[*];
+		ExtensionPoint[1:1] --> UseCase[*],
+		Classifier[0:*] --> UseCase[*];
 
 //A classifier is a classification of instances - it describes a set of instances that have features in common. A classifier can specify a generalization hierarchy by referencing its general classifiers.
 abstract node class Classifier extends RedefinableElement, Type, Namespace {
@@ -959,19 +959,19 @@ abstract node class Classifier extends RedefinableElement, Type, Namespace {
 	
 }
 edge class generalization extends attribute connect 
-		Classifier[0:*] -> Generalization[*];
+		Classifier[0:*] --> Generalization[*];
 edge class feature extends attribute connect 
-		Classifier[0:*] -> Feature[*];
+		Classifier[0:*] --> Feature[*];
 edge class inheritedMember extends attribute connect 
-		Classifier[0:*] -> NamedElement[*];
+		Classifier[0:*] --> NamedElement[*];
 edge class redefinedClassifier extends attribute connect 
-		Classifier[0:*] -> Classifier[*];
+		Classifier[0:*] --> Classifier[*];
 edge class substitution extends attribute connect 
-		Classifier[0:*] -> Substitution[*];
+		Classifier[0:*] --> Substitution[*];
 edge class attribute_ extends attribute connect 
-		Classifier[0:*] -> Property[*];
+		Classifier[0:*] --> Property[*];
 edge class ownedUseCase extends attribute connect 
-		Classifier[0:*] -> UseCase[*];
+		Classifier[0:*] --> UseCase[*];
 
 //A behavioral feature is a feature of a classifier that specifies an aspect of the behavior of its instances.
 abstract node class BehavioralFeature extends Feature, Namespace {
@@ -981,10 +981,10 @@ abstract node class BehavioralFeature extends Feature, Namespace {
 	
 }
 edge class method extends attribute connect 
-		BehavioralFeature[0:*] -> Behavior[*];
+		BehavioralFeature[0:*] --> Behavior[*];
 edge class raisedException extends attribute connect 
-		BehavioralFeature[0:*] -> Type[*],
-		Operation[0:*] -> Type[*];
+		BehavioralFeature[0:*] --> Type[*],
+		Operation[0:*] --> Type[*];
 
 //A call event models the receipt by an object of a message invoking a call of an operation.
 node class CallEvent extends MessageEvent {
@@ -998,7 +998,7 @@ node class ChangeEvent extends Event {
 	
 }
 edge class changeExpression extends attribute connect 
-		ChangeEvent[1:1] -> ValueSpecification[*];
+		ChangeEvent[1:1] --> ValueSpecification[*];
 
 //An interface is a kind of classifier that represents a declaration of a set of coherent public features and obligations. An interface specifies a contract; any instance of a classifier that realizes the interface must fulfill that contract. The obligations that may be associated with an interface are in the form of various kinds of constraints (such as pre- and post-conditions) or protocol specifications, which may impose ordering restrictions on interactions through the interface.
 node class Interface extends Classifier {
@@ -1006,13 +1006,13 @@ node class Interface extends Classifier {
 	
 }
 edge class nestedClassifier extends attribute connect 
-		Interface[0:*] -> Classifier[*],
-		Class[0:*] -> Classifier[*];
+		Interface[0:*] --> Classifier[*],
+		Class[0:*] --> Classifier[*];
 edge class redefinedInterface extends attribute connect 
-		Interface[0:*] -> Interface[*];
+		Interface[0:*] --> Interface[*];
 edge class ownedReception extends attribute connect 
-		Interface[0:*] -> Reception[*],
-		Class[0:*] -> Reception[*];
+		Interface[0:*] --> Reception[*],
+		Class[0:*] --> Reception[*];
 
 //A reception is a declaration stating that a classifier is prepared to react to the receipt of a signal. A reception designates a signal and specifies the expected behavioral response. The details of handling a signal are specified by the behavior associated with the reception or the classifier itself.
 node class Reception extends BehavioralFeature {
@@ -1044,13 +1044,13 @@ abstract node class BehavioredClassifier extends Classifier {
 	
 }
 edge class ownedBehavior extends attribute connect 
-		BehavioredClassifier[0:*] -> Behavior[*];
+		BehavioredClassifier[0:*] --> Behavior[*];
 edge class classifierBehavior extends attribute connect 
-		BehavioredClassifier[0:1] -> Behavior[*];
+		BehavioredClassifier[0:1] --> Behavior[*];
 edge class interfaceRealization extends attribute connect 
-		BehavioredClassifier[0:*] -> InterfaceRealization[*];
+		BehavioredClassifier[0:*] --> InterfaceRealization[*];
 edge class ownedTrigger extends attribute connect 
-		BehavioredClassifier[0:*] -> Trigger[*];
+		BehavioredClassifier[0:*] --> Trigger[*];
 
 //An event is the specification of some occurrence that may potentially trigger effects by an object.
 abstract node class Event extends PackageableElement;
@@ -1064,17 +1064,17 @@ node class Operation extends BehavioralFeature {
 	
 }
 edge class class_ extends attribute connect 
-		Operation[0:1] -> Class[*],
-		Property[0:1] -> Class[*];
+		Operation[0:1] --> Class[*],
+		Property[0:1] --> Class[*];
 edge class redefinedOperation extends attribute connect 
-		Operation[0:*] -> Operation[*];
+		Operation[0:*] --> Operation[*];
 edge class datatype extends attribute connect 
-		Operation[0:1] -> DataType[*],
-		Property[0:1] -> DataType[*];
+		Operation[0:1] --> DataType[*],
+		Property[0:1] --> DataType[*];
 edge class bodyCondition extends attribute connect 
-		Operation[0:1] -> Constraint[*];
+		Operation[0:1] --> Constraint[*];
 edge class interface extends attribute connect 
-		Operation[0:1] -> Interface[*];
+		Operation[0:1] --> Interface[*];
 
 //A fork node is a control node that splits a flow into multiple concurrent flows.
 node class ForkNode extends ControlNode;
@@ -1093,19 +1093,19 @@ node class ActivityPartition extends NamedElement, ActivityGroup {
 	
 }
 edge class edge_ extends attribute connect 
-		ActivityPartition[0:*] -> ActivityEdge[*],
-		Activity[0:*] -> ActivityEdge[*];
+		ActivityPartition[0:*] --> ActivityEdge[*],
+		Activity[0:*] --> ActivityEdge[*];
 edge class node_ extends attribute connect 
-		ActivityPartition[0:*] -> ActivityNode[*],
-		StructuredActivityNode[0:*] -> ActivityNode[*],
-		Activity[0:*] -> ActivityNode[*];
+		ActivityPartition[0:*] --> ActivityNode[*],
+		StructuredActivityNode[0:*] --> ActivityNode[*],
+		Activity[0:*] --> ActivityNode[*];
 edge class subpartition extends attribute connect 
-		ActivityPartition[0:*] -> ActivityPartition[*];
+		ActivityPartition[0:*] --> ActivityPartition[*];
 edge class superPartition extends attribute connect 
-		ActivityPartition[0:1] -> ActivityPartition[*];
+		ActivityPartition[0:1] --> ActivityPartition[*];
 edge class represents extends attribute connect 
-		ActivityPartition[0:1] -> Element[*],
-		Lifeline[0:1] -> ConnectableElement[*];
+		ActivityPartition[0:1] --> Element[*],
+		Lifeline[0:1] --> ConnectableElement[*];
 
 //An activity edge is an abstract class for directed connections between two activity nodes.
 abstract node class ActivityEdge extends RedefinableElement {
@@ -1113,21 +1113,21 @@ abstract node class ActivityEdge extends RedefinableElement {
 	
 }
 edge class activity extends attribute connect 
-		ActivityEdge[0:1] -> Activity[*],
-		StructuredActivityNode[0:1] -> Activity[*],
-		ActivityNode[0:1] -> Activity[*];
+		ActivityEdge[0:1] --> Activity[*],
+		StructuredActivityNode[0:1] --> Activity[*],
+		ActivityNode[0:1] --> Activity[*];
 edge class redefinedEdge extends attribute connect 
-		ActivityEdge[0:*] -> ActivityEdge[*];
+		ActivityEdge[0:*] --> ActivityEdge[*];
 edge class inPartition extends attribute connect 
-		ActivityEdge[0:*] -> ActivityPartition[*],
-		ActivityNode[0:*] -> ActivityPartition[*];
+		ActivityEdge[0:*] --> ActivityPartition[*],
+		ActivityNode[0:*] --> ActivityPartition[*];
 edge class guard extends attribute connect 
-		ActivityEdge[1:1] -> ValueSpecification[*],
-		InteractionOperand[0:1] -> InteractionConstraint[*],
-		Transition[0:1] -> Constraint[*];
+		ActivityEdge[1:1] --> ValueSpecification[*],
+		InteractionOperand[0:1] --> InteractionConstraint[*],
+		Transition[0:1] --> Constraint[*];
 edge class inGroup extends attribute connect 
-		ActivityEdge[0:*] -> ActivityGroup[*],
-		ActivityNode[0:*] -> ActivityGroup[*];
+		ActivityEdge[0:*] --> ActivityGroup[*],
+		ActivityNode[0:*] --> ActivityGroup[*];
 
 //A merge node is a control node that brings together multiple alternate flows. It is not used to synchronize concurrent flows but to accept one among several alternate flows.
 node class MergeNode extends ControlNode;
@@ -1138,7 +1138,7 @@ node class DecisionNode extends ControlNode {
 	
 }
 edge class decisionInput extends attribute connect 
-		DecisionNode[0:1] -> Behavior[*];
+		DecisionNode[0:1] --> Behavior[*];
 
 //A final node is an abstract control node at which a flow in an activity stops.
 abstract node class FinalNode extends ControlNode;
@@ -1157,13 +1157,13 @@ node class Port extends Property {
 	
 }
 edge class required extends attribute connect 
-		Port[0:*] -> Interface[*],
-		Component[0:*] -> Interface[*];
+		Port[0:*] --> Interface[*],
+		Component[0:*] --> Interface[*];
 edge class redefinedPort extends attribute connect 
-		Port[0:*] -> Port[*];
+		Port[0:*] --> Port[*];
 edge class provided extends attribute connect 
-		Port[0:*] -> Interface[*],
-		Component[0:*] -> Interface[*];
+		Port[0:*] --> Interface[*],
+		Component[0:*] --> Interface[*];
 
 //A classifier has the ability to own ports as specific and type checked interaction points.
 abstract node class EncapsulatedClassifier extends StructuredClassifier {
@@ -1171,7 +1171,7 @@ abstract node class EncapsulatedClassifier extends StructuredClassifier {
 	
 }
 edge class ownedPort extends attribute connect 
-		EncapsulatedClassifier[0:*] -> Port[*];
+		EncapsulatedClassifier[0:*] --> Port[*];
 
 //A connector end is an endpoint of a connector, which attaches the connector to a connectable element. Each connector end is part of one connector.
 node class ConnectorEnd extends MultiplicityElement {
@@ -1179,9 +1179,9 @@ node class ConnectorEnd extends MultiplicityElement {
 	
 }
 edge class definingEnd extends attribute connect 
-		ConnectorEnd[0:1] -> Property[*];
+		ConnectorEnd[0:1] --> Property[*];
 edge class partWithPort extends attribute connect 
-		ConnectorEnd[0:1] -> Property[*];
+		ConnectorEnd[0:1] --> Property[*];
 
 //A component represents a modular part of a system that encapsulates its contents and whose manifestation is replaceable within its environment.
 node class Component extends Class {
@@ -1190,7 +1190,7 @@ node class Component extends Class {
 	
 }
 edge class realization extends attribute connect 
-		Component[0:*] -> ComponentRealization[*];
+		Component[0:*] --> ComponentRealization[*];
 
 //The realization concept is specialized to (optionally) define the classifiers that realize the contract offered by a component in terms of its provided and required interfaces. The component forms an abstraction from these various classifiers.
 node class ComponentRealization extends Realization {
@@ -1198,9 +1198,9 @@ node class ComponentRealization extends Realization {
 	
 }
 edge class abstraction extends attribute connect 
-		ComponentRealization[0:1] -> Component[*];
+		ComponentRealization[0:1] --> Component[*];
 edge class realizingClassifier extends attribute connect 
-		ComponentRealization[1:1] -> Classifier[*];
+		ComponentRealization[1:1] --> Classifier[*];
 
 //Specifies a link that enables communication between two or more instances. This link may be an instance of an association, or it may represent the possibility of the instances being able to communicate because their identities are known by virtue of being passed in as parameters, held in variables or slots, or because the communicating instances are the same instance. The link may be realized by something as simple as a pointer or by something as complex as a network connection. In contrast to associations, which specify links between any instance of the associated classifiers, connectors specify links between instances playing the connected parts only.
 node class Connector extends Feature {
@@ -1208,11 +1208,11 @@ node class Connector extends Feature {
 	
 }
 edge class redefinedConnector extends attribute connect 
-		Connector[0:*] -> Connector[*];
+		Connector[0:*] --> Connector[*];
 edge class kind extends association connect 
-		Connector[0:1] -> ConnectorKind_Value[*],
-		Transition[1:1] -> TransitionKind_Value[*],
-		Pseudostate[1:1] -> PseudostateKind_Value[*];
+		Connector[0:1] --> ConnectorKind_Value[*],
+		Transition[1:1] --> TransitionKind_Value[*],
+		Pseudostate[1:1] --> PseudostateKind_Value[*];
 
 //A manifestation is the concrete physical rendering of one or more model elements by an artifact.
 node class Manifestation extends Abstraction {
@@ -1220,7 +1220,7 @@ node class Manifestation extends Abstraction {
 	
 }
 edge class utilizedElement extends attribute connect 
-		Manifestation[1:1] -> PackageableElement[*];
+		Manifestation[1:1] --> PackageableElement[*];
 
 //A deployment is the allocation of an artifact or artifact instance to a deployment target.
 node class Deployment extends Dependency {
@@ -1228,10 +1228,10 @@ node class Deployment extends Dependency {
 	
 }
 edge class deployedArtifact extends attribute connect 
-		Deployment[0:*] -> DeployedArtifact[*];
+		Deployment[0:*] --> DeployedArtifact[*];
 edge class location extends attribute connect 
-		Deployment[1:1] -> DeploymentTarget[*],
-		Image[0:1] -> String[*];
+		Deployment[1:1] --> DeploymentTarget[*],
+		Image[0:1] --> String[*];
 
 //A node is computational resource upon which artifacts may be deployed for execution. Nodes can be interconnected through communication paths to define network structures.
 node class Node_ extends Class, DeploymentTarget {
@@ -1239,7 +1239,7 @@ node class Node_ extends Class, DeploymentTarget {
 	
 }
 edge class nestedNode extends attribute connect 
-		Node_[0:*] -> Node_[*];
+		Node_[0:*] --> Node_[*];
 
 //A device is a physical computational resource with processing capability upon which artifacts may be deployed for execution. Devices may be complex (i.e., they may consist of other devices).
 node class Device extends Node_;
@@ -1253,9 +1253,9 @@ abstract node class DeploymentTarget extends NamedElement {
 	
 }
 edge class deployment extends attribute connect 
-		DeploymentTarget[0:*] -> Deployment[*];
+		DeploymentTarget[0:*] --> Deployment[*];
 edge class deployedElement extends attribute connect 
-		DeploymentTarget[0:*] -> PackageableElement[*];
+		DeploymentTarget[0:*] --> PackageableElement[*];
 
 //A deployed artifact is an artifact or artifact instance that has been deployed to a deployment target.
 abstract node class DeployedArtifact extends NamedElement;
@@ -1274,16 +1274,16 @@ node class Property extends ConnectableElement, StructuralFeature, DeploymentTar
 	
 }
 edge class redefinedProperty extends attribute connect 
-		Property[0:*] -> Property[*];
+		Property[0:*] --> Property[*];
 edge class owningAssociation extends attribute connect 
-		Property[0:1] -> Association[*];
+		Property[0:1] --> Association[*];
 edge class opposite extends attribute connect 
-		Property[0:1] -> Property[*];
+		Property[0:1] --> Property[*];
 edge class subsettedProperty extends attribute connect 
-		Property[0:*] -> Property[*];
+		Property[0:*] --> Property[*];
 edge class association_ extends attribute connect 
-		Property[0:1] -> Association[*],
-		ClearAssociationAction[1:1] -> Association[*];
+		Property[0:1] --> Association[*],
+		ClearAssociationAction[1:1] --> Association[*];
 
 //An instance specification is a model element that represents an instance in a modeled system.
 node class InstanceSpecification extends PackageableElement, DeploymentTarget, DeployedArtifact {
@@ -1291,10 +1291,10 @@ node class InstanceSpecification extends PackageableElement, DeploymentTarget, D
 	
 }
 edge class classifier extends attribute connect 
-		InstanceSpecification[0:*] -> Classifier[*],
-		CreateObjectAction[1:1] -> Classifier[*];
+		InstanceSpecification[0:*] --> Classifier[*],
+		CreateObjectAction[1:1] --> Classifier[*];
 edge class slot extends attribute connect 
-		InstanceSpecification[0:*] -> Slot[*];
+		InstanceSpecification[0:*] --> Slot[*];
 
 //An artifact is the specification of a physical piece of information that is used or produced by a software development process, or by deployment and operation of a system. Examples of artifacts include model files, source files, scripts, and binary executable files, a table in a database system, a development deliverable, or a word-processing document, a mail message.
 node class Artifact extends Classifier, DeployedArtifact {
@@ -1302,11 +1302,11 @@ node class Artifact extends Classifier, DeployedArtifact {
 	
 }
 edge class fileName extends association connect 
-		Artifact[0:1] -> String[*];
+		Artifact[0:1] --> String[*];
 edge class nestedArtifact extends attribute connect 
-		Artifact[0:*] -> Artifact[*];
+		Artifact[0:*] --> Artifact[*];
 edge class manifestation extends attribute connect 
-		Artifact[0:*] -> Manifestation[*];
+		Artifact[0:*] --> Manifestation[*];
 
 //An interaction use refers to an interaction. The interaction use is a shorthand for copying the contents of the referenced interaction where the interaction use is. To be accurate the copying must take into account substituting parameters with arguments and connect the formal gates with the actual ones.
 node class InteractionUse extends InteractionFragment {
@@ -1314,9 +1314,9 @@ node class InteractionUse extends InteractionFragment {
 	
 }
 edge class refersTo extends attribute connect 
-		InteractionUse[1:1] -> Interaction[*];
+		InteractionUse[1:1] --> Interaction[*];
 edge class actualGate extends attribute connect 
-		InteractionUse[0:*] -> Gate[*];
+		InteractionUse[0:*] --> Gate[*];
 
 //A part decomposition is a description of the internal interactions of one lifeline relative to an interaction.
 node class PartDecomposition extends InteractionUse;
@@ -1327,8 +1327,8 @@ node class InteractionOperand extends InteractionFragment, Namespace {
 	
 }
 edge class fragment extends attribute connect 
-		InteractionOperand[0:*] -> InteractionFragment[*],
-		Interaction[0:*] -> InteractionFragment[*];
+		InteractionOperand[0:*] --> InteractionFragment[*],
+		Interaction[0:*] --> InteractionFragment[*];
 
 //An interaction constraint is a Boolean expression that guards an operand in a combined fragment.
 node class InteractionConstraint extends Constraint {
@@ -1336,9 +1336,9 @@ node class InteractionConstraint extends Constraint {
 	
 }
 edge class minint extends attribute connect 
-		InteractionConstraint[0:1] -> ValueSpecification[*];
+		InteractionConstraint[0:1] --> ValueSpecification[*];
 edge class maxint extends attribute connect 
-		InteractionConstraint[0:1] -> ValueSpecification[*];
+		InteractionConstraint[0:1] --> ValueSpecification[*];
 
 //A gate is a connection point for relating a message outside an interaction fragment with a message inside the interaction fragment.
 node class Gate extends MessageEnd;
@@ -1350,7 +1350,7 @@ node class CombinedFragment extends InteractionFragment {
 	
 }
 edge class cfragmentGate extends attribute connect 
-		CombinedFragment[0:*] -> Gate[*];
+		CombinedFragment[0:*] --> Gate[*];
 
 //An interaction is a unit of behavior that focuses on the observable exchange of information between connectable elements.
 node class Interaction extends InteractionFragment, Behavior {
@@ -1358,9 +1358,9 @@ node class Interaction extends InteractionFragment, Behavior {
 	
 }
 edge class lifeline extends attribute connect 
-		Interaction[0:*] -> Lifeline[*];
+		Interaction[0:*] --> Lifeline[*];
 edge class formalGate extends attribute connect 
-		Interaction[0:*] -> Gate[*];
+		Interaction[0:*] --> Gate[*];
 
 //A lifeline represents an individual participant in the interaction. While parts and structural features may have multiplicity greater than 1, lifelines represent only one interacting entity.
 node class Lifeline extends NamedElement {
@@ -1368,11 +1368,11 @@ node class Lifeline extends NamedElement {
 	
 }
 edge class coveredBy extends attribute connect 
-		Lifeline[0:*] -> InteractionFragment[*];
+		Lifeline[0:*] --> InteractionFragment[*];
 edge class selector extends attribute connect 
-		Lifeline[0:1] -> ValueSpecification[*];
+		Lifeline[0:1] --> ValueSpecification[*];
 edge class decomposedAs extends attribute connect 
-		Lifeline[0:1] -> PartDecomposition[*];
+		Lifeline[0:1] --> PartDecomposition[*];
 
 //A continuation is a syntactic way to define continuations of different branches of an alternative combined fragment. Continuations is intuitively similar to labels representing intermediate points in a flow of control.
 node class Continuation extends InteractionFragment;
@@ -1383,11 +1383,11 @@ abstract node class InteractionFragment extends NamedElement {
 	
 }
 edge class generalOrdering extends attribute connect 
-		InteractionFragment[0:*] -> GeneralOrdering[*];
+		InteractionFragment[0:*] --> GeneralOrdering[*];
 edge class enclosingInteraction extends attribute connect 
-		InteractionFragment[0:1] -> Interaction[*];
+		InteractionFragment[0:1] --> Interaction[*];
 edge class enclosingOperand extends attribute connect 
-		InteractionFragment[0:1] -> InteractionOperand[*];
+		InteractionFragment[0:1] --> InteractionOperand[*];
 
 //A consider ignore fragment is a kind of combined fragment that is used for the consider and ignore cases, which require lists of pertinent messages to be specified.
 node class ConsiderIgnoreFragment extends CombinedFragment {
@@ -1415,9 +1415,9 @@ node class TestIdentityAction extends Action {
 	
 }
 edge class first extends attribute connect 
-		TestIdentityAction[1:1] -> InputPin[*];
+		TestIdentityAction[1:1] --> InputPin[*];
 edge class second extends attribute connect 
-		TestIdentityAction[1:1] -> InputPin[*];
+		TestIdentityAction[1:1] --> InputPin[*];
 
 //A read self action is an action that retrieves the host object of an action.
 node class ReadSelfAction extends Action {
@@ -1431,10 +1431,10 @@ abstract node class StructuralFeatureAction extends Action {
 	
 }
 edge class structuralFeature extends attribute connect 
-		StructuralFeatureAction[1:1] -> StructuralFeature[*];
+		StructuralFeatureAction[1:1] --> StructuralFeature[*];
 edge class object_ extends attribute connect 
-		StructuralFeatureAction[1:1] -> InputPin[*],
-		ClearAssociationAction[1:1] -> InputPin[*];
+		StructuralFeatureAction[1:1] --> InputPin[*],
+		ClearAssociationAction[1:1] --> InputPin[*];
 
 //A read structural feature action is a structural feature action that retrieves the values of a structural feature.
 node class ReadStructuralFeatureAction extends StructuralFeatureAction {
@@ -1458,8 +1458,8 @@ node class RemoveStructuralFeatureValueAction extends WriteStructuralFeatureActi
 	
 }
 edge class removeAt extends attribute connect 
-		RemoveStructuralFeatureValueAction[0:1] -> InputPin[*],
-		RemoveVariableValueAction[0:1] -> InputPin[*];
+		RemoveStructuralFeatureValueAction[0:1] --> InputPin[*],
+		RemoveVariableValueAction[0:1] --> InputPin[*];
 
 //An add structural feature value action is a write structural feature action for adding values to a structural feature.
 node class AddStructuralFeatureValueAction extends WriteStructuralFeatureAction {
@@ -1468,9 +1468,9 @@ node class AddStructuralFeatureValueAction extends WriteStructuralFeatureAction 
 	
 }
 edge class insertAt extends attribute connect 
-		AddStructuralFeatureValueAction[0:1] -> InputPin[*],
-		LinkEndCreationData[0:1] -> InputPin[*],
-		AddVariableValueAction[0:1] -> InputPin[*];
+		AddStructuralFeatureValueAction[0:1] --> InputPin[*],
+		LinkEndCreationData[0:1] --> InputPin[*],
+		AddVariableValueAction[0:1] --> InputPin[*];
 
 //LinkAction is an abstract class for all link actions that identify their links by the objects at the ends of the links and by the qualifiers at ends of the links.
 abstract node class LinkAction extends Action {
@@ -1478,9 +1478,9 @@ abstract node class LinkAction extends Action {
 	
 }
 edge class endData extends attribute connect 
-		LinkAction[2:*] -> LinkEndData[*],
-		CreateLinkAction[2:*] -> LinkEndCreationData[*],
-		DestroyLinkAction[2:*] -> LinkEndDestructionData[*];
+		LinkAction[2:*] --> LinkEndData[*],
+		CreateLinkAction[2:*] --> LinkEndCreationData[*],
+		DestroyLinkAction[2:*] --> LinkEndDestructionData[*];
 
 //A link end data is not an action. It is an element that identifies links. It identifies one end of a link to be read or written by the children of a link action. A link cannot be passed as a runtime value to or from an action. Instead, a link is identified by its end objects and qualifier values, if any. This requires more than one piece of data, namely, the statically-specified end in the user model, the object on the end, and the qualifier values for that end, if any. These pieces are brought together around a link end data. Each association end is identified separately with an instance of the LinkEndData class.
 node class LinkEndData extends Element {
@@ -1534,7 +1534,7 @@ node class SendObjectAction extends InvocationAction {
 	
 }
 edge class request extends attribute connect 
-		SendObjectAction[1:1] -> InputPin[*];
+		SendObjectAction[1:1] --> InputPin[*];
 
 //A link end destruction data is not an action. It is an element that identifies links. It identifies one end of a link to be destroyed by destroy link action.
 node class LinkEndDestructionData extends LinkEndData {
@@ -1543,7 +1543,7 @@ node class LinkEndDestructionData extends LinkEndData {
 	
 }
 edge class destroyAt extends attribute connect 
-		LinkEndDestructionData[0:1] -> InputPin[*];
+		LinkEndDestructionData[0:1] --> InputPin[*];
 
 //A value specification action is an action that evaluates a value specification.
 node class ValueSpecificationAction extends Action {
@@ -1557,11 +1557,11 @@ node class TimeExpression extends ValueSpecification {
 	
 }
 edge class expr extends attribute connect 
-		TimeExpression[0:1] -> ValueSpecification[*],
-		Duration[0:1] -> ValueSpecification[*];
+		TimeExpression[0:1] --> ValueSpecification[*],
+		Duration[0:1] --> ValueSpecification[*];
 edge class observation extends attribute connect 
-		TimeExpression[0:*] -> Observation[*],
-		Duration[0:*] -> Observation[*];
+		TimeExpression[0:*] --> Observation[*],
+		Duration[0:*] --> Observation[*];
 
 //Duration defines a value specification that specifies the temporal distance between two time instants.
 node class Duration extends ValueSpecification {
@@ -1575,13 +1575,13 @@ node class DurationInterval extends Interval {
 	
 }
 edge class min extends attribute connect 
-		DurationInterval[1:1] -> Duration[*],
-		TimeInterval[1:1] -> TimeExpression[*],
-		Interval[1:1] -> ValueSpecification[*];
+		DurationInterval[1:1] --> Duration[*],
+		TimeInterval[1:1] --> TimeExpression[*],
+		Interval[1:1] --> ValueSpecification[*];
 edge class max extends attribute connect 
-		DurationInterval[1:1] -> Duration[*],
-		TimeInterval[1:1] -> TimeExpression[*],
-		Interval[1:1] -> ValueSpecification[*];
+		DurationInterval[1:1] --> Duration[*],
+		TimeInterval[1:1] --> TimeExpression[*],
+		Interval[1:1] --> ValueSpecification[*];
 
 //A time constraint is a constraint that refers to a time interval.
 node class TimeConstraint extends IntervalConstraint {
@@ -1589,10 +1589,10 @@ node class TimeConstraint extends IntervalConstraint {
 	
 }
 edge class firstEvent extends association connect 
-		TimeConstraint[0:1] -> Boolean[*],
-		DurationConstraint[0:2] -> Boolean[*],
-		TimeObservation[1:1] -> Boolean[*],
-		DurationObservation[0:2] -> Boolean[*];
+		TimeConstraint[0:1] --> Boolean[*],
+		DurationConstraint[0:2] --> Boolean[*],
+		TimeObservation[1:1] --> Boolean[*],
+		DurationObservation[0:2] --> Boolean[*];
 
 //A time interval defines the range between two time expressions.
 node class TimeInterval extends Interval {
@@ -1640,7 +1640,7 @@ abstract node class InvocationAction extends Action {
 	
 }
 edge class onPort extends attribute connect 
-		InvocationAction[0:1] -> Port[*];
+		InvocationAction[0:1] --> Port[*];
 
 //A trigger relates an event to a behavior that may affect an instance of the classifier.
 node class Trigger extends NamedElement {
@@ -1648,7 +1648,7 @@ node class Trigger extends NamedElement {
 	
 }
 edge class port extends attribute connect 
-		Trigger[0:*] -> Port[*];
+		Trigger[0:*] --> Port[*];
 
 //State machines can be used to express the behavior of part of a system. Behavior is modeled as a traversal of a graph of state nodes interconnected by one or more joined transition arcs that are triggered by the dispatching of series of (event) occurrences. During this traversal, the state machine executes a series of activities associated with various elements of the state machine.
 node class StateMachine extends Behavior {
@@ -1656,15 +1656,15 @@ node class StateMachine extends Behavior {
 	
 }
 edge class region extends attribute connect 
-		StateMachine[1:*] -> Region[*],
-		State[0:*] -> Region[*];
+		StateMachine[1:*] --> Region[*],
+		State[0:*] --> Region[*];
 edge class connectionPoint extends attribute connect 
-		StateMachine[0:*] -> Pseudostate[*],
-		State[0:*] -> Pseudostate[*];
+		StateMachine[0:*] --> Pseudostate[*],
+		State[0:*] --> Pseudostate[*];
 edge class extendedStateMachine extends attribute connect 
-		StateMachine[0:*] -> StateMachine[*];
+		StateMachine[0:*] --> StateMachine[*];
 edge class submachineState extends attribute connect 
-		StateMachine[0:*] -> State[*];
+		StateMachine[0:*] --> State[*];
 
 //A state models a situation during which some (usually implicit) invariant condition holds.
 node class State extends Vertex, RedefinableElement, Namespace {
@@ -1676,23 +1676,23 @@ node class State extends Vertex, RedefinableElement, Namespace {
 	
 }
 edge class submachine extends attribute connect 
-		State[0:1] -> StateMachine[*];
+		State[0:1] --> StateMachine[*];
 edge class connection extends attribute connect 
-		State[0:*] -> ConnectionPointReference[*];
+		State[0:*] --> ConnectionPointReference[*];
 edge class redefinedState extends attribute connect 
-		State[0:1] -> State[*];
+		State[0:1] --> State[*];
 edge class stateInvariant extends attribute connect 
-		State[0:1] -> Constraint[*];
+		State[0:1] --> Constraint[*];
 edge class entry extends attribute connect 
-		State[0:1] -> Behavior[*],
-		ConnectionPointReference[0:*] -> Pseudostate[*];
+		State[0:1] --> Behavior[*],
+		ConnectionPointReference[0:*] --> Pseudostate[*];
 edge class exit extends attribute connect 
-		State[0:1] -> Behavior[*],
-		ConnectionPointReference[0:*] -> Pseudostate[*];
+		State[0:1] --> Behavior[*],
+		ConnectionPointReference[0:*] --> Pseudostate[*];
 edge class doActivity extends attribute connect 
-		State[0:1] -> Behavior[*];
+		State[0:1] --> Behavior[*];
 edge class deferrableTrigger extends attribute connect 
-		State[0:*] -> Trigger[*];
+		State[0:*] --> Trigger[*];
 
 //A transition is a directed relationship between a source vertex and a target vertex. It may be part of a compound transition, which takes the state machine from one state configuration to another, representing the complete response of the state machine to an occurrence of an event of a particular type.
 node class Transition extends RedefinableElement, Namespace {
@@ -1701,14 +1701,14 @@ node class Transition extends RedefinableElement, Namespace {
 	
 }
 edge class container extends attribute connect 
-		Transition[1:1] -> Region[*],
-		Vertex[0:1] -> Region[*];
+		Transition[1:1] --> Region[*],
+		Vertex[0:1] --> Region[*];
 edge class redefinedTransition extends attribute connect 
-		Transition[0:1] -> Transition[*];
+		Transition[0:1] --> Transition[*];
 edge class effect extends attribute connect 
-		Transition[0:1] -> Behavior[*];
+		Transition[0:1] --> Behavior[*];
 edge class trigger extends attribute connect 
-		Transition[0:*] -> Trigger[*];
+		Transition[0:*] --> Trigger[*];
 
 //A vertex is an abstraction of a node in a state machine graph. In general, it can be the source or destination of any number of transitions.
 abstract node class Vertex extends NamedElement {
@@ -1716,11 +1716,11 @@ abstract node class Vertex extends NamedElement {
 	
 }
 edge class outgoing extends attribute connect 
-		Vertex[0:*] -> Transition[*],
-		ActivityNode[0:*] -> ActivityEdge[*];
+		Vertex[0:*] --> Transition[*],
+		ActivityNode[0:*] --> ActivityEdge[*];
 edge class incoming extends attribute connect 
-		Vertex[0:*] -> Transition[*],
-		ActivityNode[0:*] -> ActivityEdge[*];
+		Vertex[0:*] --> Transition[*],
+		ActivityNode[0:*] --> ActivityEdge[*];
 
 //A pseudostate is an abstraction that encompasses different types of transient vertices in the state machine graph.
 node class Pseudostate extends Vertex {
@@ -1729,12 +1729,12 @@ node class Pseudostate extends Vertex {
 	
 }
 edge class stateMachine extends attribute connect 
-		Pseudostate[0:1] -> StateMachine[*],
-		Region[0:1] -> StateMachine[*];
+		Pseudostate[0:1] --> StateMachine[*],
+		Region[0:1] --> StateMachine[*];
 edge class state extends attribute connect 
-		Pseudostate[0:1] -> State[*],
-		ConnectionPointReference[0:1] -> State[*],
-		Region[0:1] -> State[*];
+		Pseudostate[0:1] --> State[*],
+		ConnectionPointReference[0:1] --> State[*],
+		Region[0:1] --> State[*];
 
 //A special kind of state signifying that the enclosing region is completed. If the enclosing region is directly contained in a state machine and all other regions in the state machine also are completed, then it means that the entire state machine is completed.
 node class FinalState extends State;
@@ -1751,11 +1751,11 @@ node class Region extends RedefinableElement, Namespace {
 	
 }
 edge class subvertex extends attribute connect 
-		Region[0:*] -> Vertex[*];
+		Region[0:*] --> Vertex[*];
 edge class transition extends attribute connect 
-		Region[0:*] -> Transition[*];
+		Region[0:*] --> Transition[*];
 edge class extendedRegion extends attribute connect 
-		Region[0:1] -> Region[*];
+		Region[0:1] --> Region[*];
 
 //A time event specifies a point in time. At the specified time, the event occurs.
 node class TimeEvent extends Event {
@@ -1764,7 +1764,7 @@ node class TimeEvent extends Event {
 	
 }
 edge class when extends attribute connect 
-		TimeEvent[1:1] -> ValueSpecification[*];
+		TimeEvent[1:1] --> ValueSpecification[*];
 
 //Variables are elements for passing data between actions indirectly. A local variable stores values shared by the actions within a structured activity group but not accessible outside it. The output of an action may be written to a variable and read for the input to a subsequent action, which is effectively an indirect data flow path. Because there is no predefined relationship between actions that read and write variables, these actions must be sequenced by control flows to prevent race conditions that may occur between actions that read or write the same variable.
 node class Variable extends TypedElement, MultiplicityElement {
@@ -1772,9 +1772,9 @@ node class Variable extends TypedElement, MultiplicityElement {
 	
 }
 edge class scope extends attribute connect 
-		Variable[0:1] -> StructuredActivityNode[*];
+		Variable[0:1] --> StructuredActivityNode[*];
 edge class activityScope extends attribute connect 
-		Variable[0:1] -> Activity[*];
+		Variable[0:1] --> Activity[*];
 
 //A structured activity node is an executable activity node that may have an expansion into subordinate nodes as an activity group. The subordinate nodes must belong to only one structured activity node, although they may be nested.
 node class StructuredActivityNode extends ActivityGroup, ExecutableNode, Namespace {
@@ -1782,9 +1782,9 @@ node class StructuredActivityNode extends ActivityGroup, ExecutableNode, Namespa
 	
 }
 edge class variable extends attribute connect 
-		StructuredActivityNode[0:*] -> Variable[*],
-		Activity[0:*] -> Variable[*],
-		VariableAction[1:1] -> Variable[*];
+		StructuredActivityNode[0:*] --> Variable[*],
+		Activity[0:*] --> Variable[*],
+		VariableAction[1:1] --> Variable[*];
 
 //A conditional node is a structured activity node that represents an exclusive choice among some number of alternatives.
 node class ConditionalNode extends StructuredActivityNode {
@@ -1794,7 +1794,7 @@ node class ConditionalNode extends StructuredActivityNode {
 	
 }
 edge class clause extends attribute connect 
-		ConditionalNode[1:*] -> Clause[*];
+		ConditionalNode[1:*] --> Clause[*];
 
 //A loop node is a structured activity node that represents a loop with setup, test, and body sections.
 node class LoopNode extends StructuredActivityNode {
@@ -1803,15 +1803,15 @@ node class LoopNode extends StructuredActivityNode {
 	
 }
 edge class bodyPart extends attribute connect 
-		LoopNode[0:*] -> ExecutableNode[*];
+		LoopNode[0:*] --> ExecutableNode[*];
 edge class setupPart extends attribute connect 
-		LoopNode[0:*] -> ExecutableNode[*];
+		LoopNode[0:*] --> ExecutableNode[*];
 edge class decider extends attribute connect 
-		LoopNode[1:1] -> OutputPin[*],
-		Clause[1:1] -> OutputPin[*];
+		LoopNode[1:1] --> OutputPin[*],
+		Clause[1:1] --> OutputPin[*];
 edge class test_ extends attribute connect 
-		LoopNode[0:*] -> ExecutableNode[*],
-		Clause[0:*] -> ExecutableNode[*];
+		LoopNode[0:*] --> ExecutableNode[*],
+		Clause[0:*] --> ExecutableNode[*];
 
 //A clause is an element that represents a single branch of a conditional construct, including a test and a body section. The body section is executed only if (but not necessarily if) the test section evaluates true.
 node class Clause extends Element {
@@ -1819,9 +1819,9 @@ node class Clause extends Element {
 	
 }
 edge class predecessorClause extends attribute connect 
-		Clause[0:*] -> Clause[*];
+		Clause[0:*] --> Clause[*];
 edge class successorClause extends attribute connect 
-		Clause[0:*] -> Clause[*];
+		Clause[0:*] --> Clause[*];
 
 //An activity is the specification of parameterized behavior as the coordinated sequencing of subordinate units whose individual elements are actions.
 node class Activity extends Behavior {
@@ -1830,11 +1830,11 @@ node class Activity extends Behavior {
 	
 }
 edge class partition extends attribute connect 
-		Activity[0:*] -> ActivityPartition[*];
+		Activity[0:*] --> ActivityPartition[*];
 edge class structuredNode extends attribute connect 
-		Activity[0:*] -> StructuredActivityNode[*];
+		Activity[0:*] --> StructuredActivityNode[*];
 edge class group extends attribute connect 
-		Activity[0:*] -> ActivityGroup[*];
+		Activity[0:*] --> ActivityGroup[*];
 
 //ActivityNode is an abstract class for points in the flow of an activity connected by edges.
 abstract node class ActivityNode extends RedefinableElement {
@@ -1842,9 +1842,9 @@ abstract node class ActivityNode extends RedefinableElement {
 	
 }
 edge class redefinedNode extends attribute connect 
-		ActivityNode[0:*] -> ActivityNode[*];
+		ActivityNode[0:*] --> ActivityNode[*];
 edge class inStructuredNode extends attribute connect 
-		ActivityNode[0:1] -> StructuredActivityNode[*];
+		ActivityNode[0:1] --> StructuredActivityNode[*];
 
 //An executable node is an abstract class for activity nodes that may be executed. It is used as an attachment point for exception handlers.
 abstract node class ExecutableNode extends ActivityNode;
@@ -1855,7 +1855,7 @@ node class SequenceNode extends StructuredActivityNode {
 	
 }
 edge class executableNode extends attribute connect 
-		SequenceNode[0:*] -> ExecutableNode[*];
+		SequenceNode[0:*] --> ExecutableNode[*];
 
 //An action is a named element that is the fundamental unit of executable functionality. The execution of an action represents some transformation or processing in the modeled system, be it a computer system or otherwise.
 abstract node class Action extends ExecutableNode {
@@ -1863,9 +1863,9 @@ abstract node class Action extends ExecutableNode {
 	
 }
 edge class output extends attribute connect 
-		Action[0:*] -> OutputPin[*];
+		Action[0:*] --> OutputPin[*];
 edge class input extends attribute connect 
-		Action[0:*] -> InputPin[*];
+		Action[0:*] --> InputPin[*];
 
 //ActivityGroup is an abstract class for defining sets of nodes and edges in an activity.
 abstract node class ActivityGroup extends Element {
@@ -1873,15 +1873,15 @@ abstract node class ActivityGroup extends Element {
 	
 }
 edge class subgroup extends attribute connect 
-		ActivityGroup[0:*] -> ActivityGroup[*];
+		ActivityGroup[0:*] --> ActivityGroup[*];
 edge class superGroup extends attribute connect 
-		ActivityGroup[0:1] -> ActivityGroup[*];
+		ActivityGroup[0:1] --> ActivityGroup[*];
 edge class containedEdge extends attribute connect 
-		ActivityGroup[0:*] -> ActivityEdge[*];
+		ActivityGroup[0:*] --> ActivityEdge[*];
 edge class containedNode extends attribute connect 
-		ActivityGroup[0:*] -> ActivityNode[*];
+		ActivityGroup[0:*] --> ActivityNode[*];
 edge class inActivity extends attribute connect 
-		ActivityGroup[0:1] -> Activity[*];
+		ActivityGroup[0:1] --> Activity[*];
 
 //An input pin is a pin that holds input values to be consumed by an action.
 node class InputPin extends Pin;
@@ -1895,7 +1895,7 @@ node class Stereotype extends Class {
 	
 }
 edge class icon extends attribute connect 
-		Stereotype[0:*] -> Image[*];
+		Stereotype[0:*] --> Image[*];
 
 //A profile defines limited extensions to a reference metamodel with the purpose of adapting the metamodel to a specific platform or domain.
 node class Profile extends Package {
@@ -1903,11 +1903,11 @@ node class Profile extends Package {
 	
 }
 edge class ownedStereotype extends attribute connect 
-		Profile[0:*] -> Stereotype[*];
+		Profile[0:*] --> Stereotype[*];
 edge class metaclassReference extends attribute connect 
-		Profile[0:*] -> ElementImport[*];
+		Profile[0:*] --> ElementImport[*];
 edge class metamodelReference extends attribute connect 
-		Profile[0:*] -> PackageImport[*];
+		Profile[0:*] --> PackageImport[*];
 
 //A package is used to group elements, and provides a namespace for the grouped elements.
 node class Package extends PackageableElement, Namespace {
@@ -1915,17 +1915,17 @@ node class Package extends PackageableElement, Namespace {
 	
 }
 edge class packageMerge extends attribute connect 
-		Package[0:*] -> PackageMerge[*];
+		Package[0:*] --> PackageMerge[*];
 edge class packagedElement extends attribute connect 
-		Package[0:*] -> PackageableElement[*];
+		Package[0:*] --> PackageableElement[*];
 edge class ownedType extends attribute connect 
-		Package[0:*] -> Type[*];
+		Package[0:*] --> Type[*];
 edge class nestedPackage extends attribute connect 
-		Package[0:*] -> Package[*];
+		Package[0:*] --> Package[*];
 edge class nestingPackage extends attribute connect 
-		Package[0:1] -> Package[*];
+		Package[0:1] --> Package[*];
 edge class profileApplication extends attribute connect 
-		Package[0:*] -> ProfileApplication[*];
+		Package[0:*] --> ProfileApplication[*];
 
 //A class describes a set of objects that share the same specifications of features, constraints, and semantics.
 node class Class extends BehavioredClassifier, EncapsulatedClassifier {
@@ -1935,7 +1935,7 @@ node class Class extends BehavioredClassifier, EncapsulatedClassifier {
 	
 }
 edge class superClass extends attribute connect 
-		Class[0:*] -> Class[*];
+		Class[0:*] --> Class[*];
 
 //A profile application is used to show which profiles have been applied to a package.
 node class ProfileApplication extends DirectedRelationship {
@@ -1944,9 +1944,9 @@ node class ProfileApplication extends DirectedRelationship {
 	
 }
 edge class appliedProfile extends attribute connect 
-		ProfileApplication[1:1] -> Profile[*];
+		ProfileApplication[1:1] --> Profile[*];
 edge class applyingPackage extends attribute connect 
-		ProfileApplication[1:1] -> Package[*];
+		ProfileApplication[1:1] --> Package[*];
 
 //An extension is used to indicate that the properties of a metaclass are extended through a stereotype, and gives the ability to flexibly add (and later remove) stereotypes to classes.
 node class Extension extends Association {
@@ -1955,7 +1955,7 @@ node class Extension extends Association {
 	
 }
 edge class metaclass extends attribute connect 
-		Extension[1:1] -> Class[*];
+		Extension[1:1] --> Class[*];
 
 //Physical definition of a graphical image.
 node class Image extends Element {
@@ -1963,9 +1963,9 @@ node class Image extends Element {
 	
 }
 edge class content extends association connect 
-		Image[0:1] -> String[*];
+		Image[0:1] --> String[*];
 edge class format extends association connect 
-		Image[0:1] -> String[*];
+		Image[0:1] --> String[*];
 
 //An element is a constituent of a model. As such, it has the capability of owning other elements.
 abstract node class Element {
@@ -1973,11 +1973,11 @@ abstract node class Element {
 	
 }
 edge class ownedElement extends attribute connect 
-		Element[0:*] -> Element[*];
+		Element[0:*] --> Element[*];
 edge class owner extends attribute connect 
-		Element[0:1] -> Element[*];
+		Element[0:1] --> Element[*];
 edge class ownedComment extends attribute connect 
-		Element[0:*] -> Comment[*];
+		Element[0:*] --> Comment[*];
 
 //A named element is an element in a model that may have a name.
 abstract node class NamedElement extends Element {
@@ -1985,13 +1985,13 @@ abstract node class NamedElement extends Element {
 	
 }
 edge class name extends association connect 
-		NamedElement[0:1] -> String[*];
+		NamedElement[0:1] --> String[*];
 edge class qualifiedName extends association connect 
-		NamedElement[0:1] -> String[*];
+		NamedElement[0:1] --> String[*];
 edge class clientDependency extends attribute connect 
-		NamedElement[0:*] -> Dependency[*];
+		NamedElement[0:*] --> Dependency[*];
 edge class namespace extends attribute connect 
-		NamedElement[0:1] -> Namespace[*];
+		NamedElement[0:1] --> Namespace[*];
 
 //An extension end is used to tie an extension to a stereotype when extending a metaclass.
 node class ExtensionEnd extends Property {
@@ -2040,7 +2040,7 @@ node class RaiseExceptionAction extends Action {
 	
 }
 edge class exception extends attribute connect 
-		RaiseExceptionAction[1:1] -> InputPin[*];
+		RaiseExceptionAction[1:1] --> InputPin[*];
 
 //An action input pin is a kind of pin that executes an action to determine the values to input to another.
 node class ActionInputPin extends InputPin {
@@ -2048,4 +2048,4 @@ node class ActionInputPin extends InputPin {
 	
 }
 edge class fromAction extends attribute connect 
-		ActionInputPin[1:1] -> Action[*];
+		ActionInputPin[1:1] --> Action[*];

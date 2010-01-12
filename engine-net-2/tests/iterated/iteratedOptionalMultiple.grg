@@ -12,7 +12,7 @@ rule markIterated
 		
 		modify {
 			eval {
-				visited(n,0) = true;
+				n.visited[0] = true;
 			}
 		}
 	}
@@ -28,7 +28,7 @@ rule markOptional
 		
 		modify {
 			eval {
-				visited(n,0) = true;
+				n.visited[0] = true;
 			}
 		}
 	}
@@ -44,7 +44,7 @@ rule markMultiple
 		
 		modify {
 			eval {
-				visited(n,0) = true;
+				n.visited[0] = true;
 			}
 		}
 	}
@@ -57,11 +57,11 @@ rule unmark
 {
 	n:Node;
 	
-	if { visited(n,0); }
+	if { n.visited[0]; }
 	
 	modify {
 		eval {
-			visited(n,0) = false;
+			n.visited[0] = false;
 		}
 	}
 }

@@ -119,6 +119,7 @@ public class RuleDeclNode extends TestDeclNode {
 
 					String errorMessage = "Returning \"" + retElem.ident + "\" that may be deleted"
 							+ ", possibly it's homomorphic with a deleted " + retElem.getUseString();
+					errorMessage += " (use a [maybeDeleted] annotation if you think that this does not cause problems)";
 
 					if(retElem instanceof EdgeDeclNode) {
 						errorMessage += " or \"" + retElem.ident + "\" is a dangling " + retElem.getUseString()
@@ -195,6 +196,7 @@ public class RuleDeclNode extends TestDeclNode {
 
 								String errorMessage = "Parameter \"" + declNode.ident + "\" of exec statement may be deleted"
 										+ ", possibly it's homomorphic with a deleted " + declNode.getUseString();
+								errorMessage += " (use a [maybeDeleted] annotation if you think that this does not cause problems)";
 
 								if(declNode instanceof EdgeDeclNode) {
 									errorMessage += " or \"" + declNode.ident + "\" is a dangling " + declNode.getUseString()

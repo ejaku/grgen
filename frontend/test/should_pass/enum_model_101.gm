@@ -1,5 +1,5 @@
 edge class A
-	connect	B [*] -> B [*];
+	connect	B [*] --> B [*];
 
 enum e { eItem }
 

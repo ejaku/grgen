@@ -1,6 +1,6 @@
 // This file has been generated automatically by GrGen.
 // Do not modify this file! Any changes will be lost!
-// Generated from "..\..\examples\Mutex\MutexPimped.grg" on Sun Nov 22 13:11:35 CET 2009
+// Generated from "..\..\examples\Mutex\MutexPimped.grg" on Tue Jan 12 22:54:22 CET 2010
 
 using System;
 using System.Collections.Generic;
@@ -10011,6 +10011,6 @@ label7: ;
         public IAction_aux_attachResource @aux_attachResource;
         
         public override string Name { get { return "MutexPimpedActions"; } }
-        public override string ModelMD5Hash { get { return "b2c79abf46750619401de30166fff963"; } }
+        public override string ModelMD5Hash { get { return "4360e7ffc9af4953df7dc0858028b08b"; } }
     }
 }

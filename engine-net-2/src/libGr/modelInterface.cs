@@ -132,6 +132,11 @@ namespace de.unika.ipd.grGen.libGr
         public readonly long TargetUpper;
 
         /// <summary>
+        /// Check the connection assertion in both directions (i.e. for reverse source and target, too)
+        /// </summary>
+        public readonly bool BothDirections;
+
+        /// <summary>
         /// Constructs a ValidateInfo instance.
         /// </summary>
         /// <param name="edgeType">The edge type to which this constraint applies.</param>
@@ -141,8 +146,9 @@ namespace de.unika.ipd.grGen.libGr
         /// <param name="sourceUpper">The upper bound on the out-degree of the source node according to edges compatible to EdgeType.</param>
         /// <param name="targetLower">The lower bound on the in-degree of the target node according to edges compatible to EdgeType.</param>
         /// <param name="targetUpper">The upper bound on the in-degree of the target node according to edges compatible to EdgeType.</param>
+        /// <param name="bothDirections">Both directions are to be checked (undirected edge or arbitrary direction)</param>
         public ValidateInfo(EdgeType edgeType, NodeType sourceType, NodeType targetType,
-			long sourceLower, long sourceUpper, long targetLower, long targetUpper)
+			long sourceLower, long sourceUpper, long targetLower, long targetUpper, bool bothDirections)
         {
             EdgeType = edgeType;
             SourceType = sourceType;
@@ -151,6 +157,7 @@ namespace de.unika.ipd.grGen.libGr
             SourceUpper = sourceUpper;
             TargetLower = targetLower;
             TargetUpper = targetUpper;
+            BothDirections = bothDirections;
         }
     }
 
