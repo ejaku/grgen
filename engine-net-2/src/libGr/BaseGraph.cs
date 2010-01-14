@@ -982,7 +982,7 @@ namespace de.unika.ipd.grGen.libGr
             if(!checkedInNodes.ContainsKey(edge.Target))   // don't check the same node more then once for the same valInfo
             {
                 // Check incoming edges
-                long num = CountIncoming(edge.Source, valInfo.EdgeType, valInfo.SourceType, ref checkedInEdges);
+                long num = CountIncoming(edge.Target, valInfo.EdgeType, valInfo.SourceType, ref checkedInEdges);
                 if(num < valInfo.TargetLower) {
                     errors.Add(new ConnectionAssertionError(CAEType.NodeTooFewTargets, edge.Target, num, valInfo));
                     result = false;

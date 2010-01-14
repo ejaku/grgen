@@ -1540,9 +1540,9 @@ options { k = *; }
 		{ c.addChild(new ConnAssertNode(src, srcRange, tgt, tgtRange, false));
 		  reportWarning(getCoords(r), "-> in connection assertion is deprecated, use --> (or <-- for reverse direction, or <--> for either direction, or -- for undirected edges)");
 		}
-	| src=typeIdentUse srcRange=rangeSpec DOUBLE_LARROW tgt=typeIdentUse tgtRange=rangeSpec
-		{ c.addChild(new ConnAssertNode(src, srcRange, tgt, tgtRange, false)); }
 	| src=typeIdentUse srcRange=rangeSpec DOUBLE_RARROW tgt=typeIdentUse tgtRange=rangeSpec
+		{ c.addChild(new ConnAssertNode(src, srcRange, tgt, tgtRange, false)); }
+	| src=typeIdentUse srcRange=rangeSpec DOUBLE_LARROW tgt=typeIdentUse tgtRange=rangeSpec
 		{ c.addChild(new ConnAssertNode(tgt, tgtRange, src, srcRange, false)); }
 	| src=typeIdentUse srcRange=rangeSpec LRARROW tgt=typeIdentUse tgtRange=rangeSpec
 		{ c.addChild(new ConnAssertNode(src, srcRange, tgt, tgtRange, true)); }

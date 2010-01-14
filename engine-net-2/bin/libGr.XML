@@ -2549,7 +2549,12 @@
             The upper bound on the in-degree of the target node according to edges compatible to EdgeType.
             </summary>
         </member>
-        <member name="M:de.unika.ipd.grGen.libGr.ValidateInfo.#ctor(de.unika.ipd.grGen.libGr.EdgeType,de.unika.ipd.grGen.libGr.NodeType,de.unika.ipd.grGen.libGr.NodeType,System.Int64,System.Int64,System.Int64,System.Int64)">
+        <member name="F:de.unika.ipd.grGen.libGr.ValidateInfo.BothDirections">
+            <summary>
+            Check the connection assertion in both directions (i.e. for reverse source and target, too)
+            </summary>
+        </member>
+        <member name="M:de.unika.ipd.grGen.libGr.ValidateInfo.#ctor(de.unika.ipd.grGen.libGr.EdgeType,de.unika.ipd.grGen.libGr.NodeType,de.unika.ipd.grGen.libGr.NodeType,System.Int64,System.Int64,System.Int64,System.Int64,System.Boolean)">
             <summary>
             Constructs a ValidateInfo instance.
             </summary>
@@ -2560,6 +2565,7 @@
             <param name="sourceUpper">The upper bound on the out-degree of the source node according to edges compatible to EdgeType.</param>
             <param name="targetLower">The lower bound on the in-degree of the target node according to edges compatible to EdgeType.</param>
             <param name="targetUpper">The upper bound on the in-degree of the target node according to edges compatible to EdgeType.</param>
+            <param name="bothDirections">Both directions are to be checked (undirected edge or arbitrary direction)</param>
         </member>
         <member name="T:de.unika.ipd.grGen.libGr.CAEType">
             <summary>
@@ -3900,8 +3906,7 @@
         <member name="M:de.unika.ipd.grGen.libGr.BaseGraph.Validate(System.Boolean,System.Collections.Generic.List{de.unika.ipd.grGen.libGr.ConnectionAssertionError}@)">
             <summary>
             Checks whether a graph meets the connection assertions.
-            In strict mode all occuring connections must be specified
-            by a connection assertion.
+            In strict mode all edges must be specified by a connection assertion.
             </summary>
             <param name="strict">If false, only check for specified assertions,
             otherwise it isn an error, if an edge connects nodes without a
