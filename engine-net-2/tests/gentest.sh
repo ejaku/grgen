@@ -47,6 +47,7 @@ for scriptfile in $*; do
     /Number/ { print \$8 }
     /value of attribute/ { print getAttribute(7) }
     /value of variable/ { print getAttribute(10) }
+    /The graph is/ { print \$4 }
     
     function getAttribute(startindex)
     {

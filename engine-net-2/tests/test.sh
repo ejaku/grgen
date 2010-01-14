@@ -85,14 +85,28 @@ for filename in $targets; do
         }
         while(\$0 ~ /(^The available attributes for)|(^(Node|Edge) types)|(^(Sub|Super) types of (node|edge) type)/)
       }
-      /NOT valid/ {
-        print \"\n    Graph validation failed after test \" testnum \": \" > \"/dev/stderr\"
-        getline
-        while(\$1 == \"CAE:\") {
-          print \"    \" \$0 > \"/dev/stderr\"
-          getline
-        }
-        fail(testnum, 0)
+      /The graph is NOT valid/ {
+        testnum++
+        if ((getline correctval < \"$grs.data\") <= 0)
+          fail(testnum, \"\n  No reference data for Test \" testnum \"!\")
+        sub(\"\\r\$\", \"\", correctval)
+        if(\$4 != correctval) {
+          print \"\n    Wrong graph validation result at test \" testnum \", Expected = \" correctval \", Found = \" \$4 > \"/dev/stderr\"
+		  getline
+          while(\$1 == \"CAE:\") {
+            print \"    \" \$0 > \"/dev/stderr\"
+            getline 
+          }
+          fail(testnum, 0)
+		}
+      }
+      /The graph is valid/ {
+        testnum++
+        if ((getline correctval < \"$grs.data\") <= 0)
+          fail(testnum, \"\n  No reference data for Test \" testnum \"!\")
+        sub(\"\\r\$\", \"\", correctval)
+        if(\$4 != correctval) 
+		  fail(testnum, \"\n  Wrong graph validation result at test \" testnum \", Expected = \" correctval \", Found = \" \$4)
       }
       /^> / {
         fail(testnum, \"\n  Test failed! It is waiting for user input!\")
