@@ -230,7 +230,7 @@ OK     should_pass/param_008.grg
 OK     should_pass/param_100.grg
 OK     should_pass/param_101.grg
 OK     should_pass/param_102.grg
-WARNED should_pass/parent_element_in_nested_construct.grg
+OK     should_pass/parent_element_in_nested_construct.grg
 OK     should_pass/pattern_001.grg
 OK     should_pass/pattern_002.grg
 OK     should_pass/pattern_003.grg
@@ -246,7 +246,7 @@ OK     should_pass/pattern_012.grg
 OK     should_pass/pattern_013.grg
 OK     should_pass/pattern_014.grg
 OK     should_pass/pattern_015.grg
-WARNED should_pass/pattern_016.grg
+OK     should_pass/pattern_016.grg
 OK     should_pass/ret_001.grg
 OK     should_pass/ret_002.grg
 OK     should_pass/ret_003.grg
@@ -520,7 +520,6 @@ ERROR  should_fail/edge_004.grg
 ERROR  should_fail/edge_005.grg
 ERROR  should_fail/edge_006.grg
 ERROR  should_fail/edge_007.grg
-ERROR  should_fail/edge_008.grg
 ERROR  should_fail/edge_010.grg
 ERROR  should_fail/edge_011.grg
 ERROR  should_fail/edge_012.grg
@@ -529,7 +528,6 @@ ERROR  should_fail/edge_014.grg
 ERROR  should_fail/edge_015.grg
 ERROR  should_fail/edge_016.grg
 ERROR  should_fail/edge_017.grg
-ERROR  should_fail/edge_019.grg
 ERROR  should_fail/edge_020.grg
 ERROR  should_fail/edge_into_neg_001.grg
 ERROR  should_fail/edge_into_neg_002.grg

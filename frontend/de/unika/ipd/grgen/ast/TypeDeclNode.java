@@ -67,7 +67,7 @@ public class TypeDeclNode extends DeclNode {
 	/** @see de.unika.ipd.grgen.ast.BaseNode#checkLocal() */
 	@Override
 	protected boolean checkLocal() {
-		return checkOnlyAbstractArbitraryEdgeChildren() & checkNoConflictingEdgeParents();
+		return checkNoConflictingEdgeParents();
 	}
 
 	/**
@@ -117,47 +117,6 @@ public class TypeDeclNode extends DeclNode {
 	    }
 
 	    return true;
-    }
-
-	/**
-	 * Only Edge and UEdge should extends AEdge.
-	 *
-	 * @return Whether this type is not an illegal extend of AEdge.
-	 */
-	private boolean checkOnlyAbstractArbitraryEdgeChildren()
-    {
-	    if (!(type instanceof EdgeTypeNode)) {
-	    	return true;
-	    }
-
-	    EdgeTypeNode edgeType = (EdgeTypeNode) type;
-
-	    // arbitrary subtypes of AEdge are legal
-	    if (edgeType instanceof ArbitraryEdgeTypeNode) {
-	    	return true;
-	    }
-
-	    // don't check Edge and UEdge
-	    if (ident.getNodeLabel().equals("UEdge")
-   			 || ident.getNodeLabel().equals("Edge")) {
-	    	return true;
-	    }
-
-		boolean onlyExtendAEdge = true;
-	    for (InheritanceTypeNode inh : edgeType.getAllSuperTypes()) {
-	    	if (inh.getDecl().ident.getNodeLabel().equals("UEdge")
-	    			 || inh.getDecl().ident.getNodeLabel().equals("Edge")) {
-	    		onlyExtendAEdge = false;
-	    	}
-        }
-
-	    // type is not arbitrary (see above)
-	    if (onlyExtendAEdge) {
-	    	reportError("A non-arbitrary edge class should extend Edge or UEdge");
-	    	return false;
-	    }
-
-		return true;
     }
 
 	/**
