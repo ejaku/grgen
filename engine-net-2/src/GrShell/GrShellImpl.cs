@@ -1257,7 +1257,7 @@ namespace de.unika.ipd.grGen.grShell
             return node;
         }
 
-        public IEdge NewEdge(ElementDef elemDef, INode node1, INode node2)
+        public IEdge NewEdge(ElementDef elemDef, INode node1, INode node2, bool directed)
         {
             if(node1 == null || node2 == null) return null;
 
@@ -1276,7 +1276,11 @@ namespace de.unika.ipd.grGen.grShell
                     return null;
                 }
             }
-            else edgeType = curShellGraph.Graph.Model.EdgeModel.RootType;
+            else 
+            {
+                if (directed) edgeType = curShellGraph.Graph.Model.EdgeModel.GetType("Edge");
+                else edgeType = curShellGraph.Graph.Model.EdgeModel.GetType("UEdge");
+            }
 
             if(elemDef.Attributes != null && !CheckAttributes(edgeType, elemDef.Attributes)) return null;
 

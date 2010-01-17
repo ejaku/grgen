@@ -331,12 +331,16 @@ This is in contrast to the rule language (chapter~\ref{chaprulelang}), where we 
 \end{note}
 
 \begin{rail}
-  'new' Node '-' (()|Text) \\ (() | ':' EdgeType (() | Constructor)) '->' Node
+  'new' Node (('-' EdgeEntityConstructor '->') | ('-' EdgeEntityConstructor '-')) Node ;
+EdgeEntityConstructor:
+  (()|Text) (() | ':' EdgeType (() | Constructor)) ;
 \end{rail}\ixkeyw{new}
-Creates a new edge within the current graph between the specified nodes, directed towards the second \emph{Node}.
+Creates a new edge within the current graph between the specified nodes,
+directed from the first to the second \emph{Node} in the case of \texttt{-->},
+or undirected in the case of \texttt{--}.
 Optionally a variable \emph{Text} is assigned to the new edge.
 If \emph{EdgeType} is supplied, the new edge will be of type \emph{EdgeType} and attributes can be initialized by a constructor.
-Otherwise the edge will be of the base edge class type \emph{Edge}.
+Otherwise the edge will be of the base edge class type \texttt{Edge} for \texttt{-->} or \texttt{UEdge} for \texttt{--}.
 
 \begin{rail}
   Constructor : '(' (() | (dollar '=' Text (() | ',' Attributes) | Attributes)) ')';

@@ -34,10 +34,10 @@ arbitrary edge class onetooneA
 arbitrary edge class tomanyA
 	connect N[0:1] ?--? NN[+];
 
-edge class onetooneAA extends onetooneA, Edge
+edge class onetooneAA extends onetooneA
 	connect copy extends;
 
-edge class tomanyAA extends tomanyA, Edge
+edge class tomanyAA extends tomanyA
 	connect copy extends;
 
 undirected edge class onetooneU

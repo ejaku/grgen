@@ -1074,6 +1074,7 @@ void NewCommand():
 	String modelFilename, graphName = "DefaultGraph";
 	INode srcNode, tgtNode;
 	ElementDef elemDef;
+	bool directed;
 }
 {
 	try
@@ -1084,9 +1085,9 @@ void NewCommand():
 		}
 	|
 		LOOKAHEAD(2)
-		srcNode=Node() "-" elemDef=ElementDefinition() ("->" | "-") tgtNode=Node() LineEnd()
+		srcNode=Node() "-" elemDef=ElementDefinition() ( "->" { directed = true; } | "-" { directed = false; } ) tgtNode=Node() LineEnd()
 		{
-			noError = impl.NewEdge(elemDef, srcNode, tgtNode) != null;
+			noError = impl.NewEdge(elemDef, srcNode, tgtNode, directed) != null;
 		}
 	|
 		elemDef=ElementDefinition() LineEnd()
