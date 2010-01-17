@@ -1558,7 +1558,7 @@ namespace de.unika.ipd.grGen.grShell
                 Console.WriteLine("Unable to remove node: " + e.Message);
                 return false;
             }
-            return false;
+            return true;
         }
 
         public bool Remove(IEdge edge)
@@ -3445,17 +3445,17 @@ showavail:
                 return String.Format("\"{0}\" ({1})", name, elem.ID);
         }*/
 
-        private void DumpElems<T>(IEnumerable<T> elems) where T : IGraphElement
+        private bool DumpElems<T>(IEnumerable<T> elems, bool first) where T : IGraphElement
         {
-            bool first = true;
-            foreach(IGraphElement elem in elems)
+            foreach (IGraphElement elem in elems)
             {
-                if(!first)
+                if (!first)
                     Console.Write(',');
                 else
                     first = false;
                 Console.Write("\"{0}\"", curShellGraph.Graph.GetElementName(elem));
             }
+            return first;
         }
 
         public bool Validate(bool strict)
@@ -3486,10 +3486,11 @@ showavail:
                 case CAEType.EdgeNotSpecified:
                 {
                     IEdge edge = (IEdge)error.Elem;
-                    Console.WriteLine("  CAE: {0} \"{1}\" -- {2} \"{3}\" --> {4} \"{5}\" not specified",
+                    Console.WriteLine("  CAE: {0} \"{1}\" -- {2} \"{3}\" {6} {4} \"{5}\" not specified",
                         edge.Source.Type.Name, curShellGraph.Graph.GetElementName(edge.Source),
                         edge.Type.Name, curShellGraph.Graph.GetElementName(edge),
-                        edge.Target.Type.Name, curShellGraph.Graph.GetElementName(edge.Target));
+                        edge.Target.Type.Name, curShellGraph.Graph.GetElementName(edge.Target),
+                        edge.Type.Directedness==Directedness.Directed ? "-->" : "--");
                     break;
                 }
                 case CAEType.NodeTooFewSources:
@@ -3498,8 +3499,13 @@ showavail:
                     Console.Write("  CAE: {0} \"{1}\" [{2}<{3}] -- {4} ", valInfo.SourceType.Name,
                         curShellGraph.Graph.GetElementName(node), error.FoundEdges,
                         valInfo.SourceLower, valInfo.EdgeType.Name);
-                    DumpElems(node.GetCompatibleOutgoing(valInfo.EdgeType));
-                    Console.WriteLine(" --> {0}", valInfo.TargetType.Name);
+                    bool first = DumpElems(OutgoingEdgeToNodeOfType(node, valInfo.EdgeType, valInfo.TargetType), true);
+                    if (valInfo.EdgeType.Directedness!=Directedness.Directed) {
+                        DumpElems(IncomingEdgeFromNodeOfType(node, valInfo.EdgeType, valInfo.TargetType), first);
+                        Console.WriteLine(" -- {0}", valInfo.TargetType.Name);
+                    } else {
+                        Console.WriteLine(" --> {0}", valInfo.TargetType.Name);
+                    }
                     break;
                 }
                 case CAEType.NodeTooManySources:
@@ -3508,8 +3514,13 @@ showavail:
                     Console.Write("  CAE: {0} \"{1}\" [{2}>{3}] -- {4} ", valInfo.SourceType.Name,
                         curShellGraph.Graph.GetElementName(node), error.FoundEdges,
                         valInfo.SourceUpper, valInfo.EdgeType.Name);
-                    DumpElems(node.GetCompatibleOutgoing(valInfo.EdgeType));
-                    Console.WriteLine(" --> {0}", valInfo.TargetType.Name);
+                    bool first = DumpElems(OutgoingEdgeToNodeOfType(node, valInfo.EdgeType, valInfo.TargetType), true);
+                    if (valInfo.EdgeType.Directedness!=Directedness.Directed) {
+                        DumpElems(IncomingEdgeFromNodeOfType(node, valInfo.EdgeType, valInfo.TargetType), first);
+                        Console.WriteLine(" -- {0}", valInfo.TargetType.Name);
+                    } else {
+                        Console.WriteLine(" --> {0}", valInfo.TargetType.Name);
+                    }
                     break;
                 }
                 case CAEType.NodeTooFewTargets:
@@ -3517,9 +3528,15 @@ showavail:
                     INode node = (INode)error.Elem;
                     Console.Write("  CAE: {0} -- {1} ", valInfo.SourceType.Name,
                         valInfo.EdgeType.Name);
-                    DumpElems(node.GetCompatibleIncoming(valInfo.EdgeType));
-                    Console.WriteLine(" --> {0} \"{1}\" [{2}<{3}]", valInfo.TargetType.Name,
-                        curShellGraph.Graph.GetElementName(node), error.FoundEdges, valInfo.TargetLower);
+                    bool first = DumpElems(IncomingEdgeFromNodeOfType(node, valInfo.EdgeType, valInfo.SourceType), true);
+                    if (valInfo.EdgeType.Directedness!=Directedness.Directed) {
+                        DumpElems(OutgoingEdgeToNodeOfType(node, valInfo.EdgeType, valInfo.SourceType), first);
+                        Console.WriteLine(" -- {0} \"{1}\" [{2}<{3}]", valInfo.TargetType.Name,
+                            curShellGraph.Graph.GetElementName(node), error.FoundEdges, valInfo.TargetLower);
+                    } else {
+                        Console.WriteLine(" --> {0} \"{1}\" [{2}<{3}]", valInfo.TargetType.Name,
+                            curShellGraph.Graph.GetElementName(node), error.FoundEdges, valInfo.TargetLower);
+                    }
                     break;
                 }
                 case CAEType.NodeTooManyTargets:
@@ -3527,11 +3544,35 @@ showavail:
                     INode node = (INode)error.Elem;
                     Console.Write("  CAE: {0} -- {1} ", valInfo.SourceType.Name,
                         valInfo.EdgeType.Name);
-                    DumpElems(node.GetCompatibleIncoming(valInfo.EdgeType));
-                    Console.WriteLine(" --> {0} \"{1}\" [{2}>{3}]", valInfo.TargetType.Name,
-                        curShellGraph.Graph.GetElementName(node), error.FoundEdges, valInfo.TargetUpper);
+                    bool first = DumpElems(IncomingEdgeFromNodeOfType(node, valInfo.EdgeType, valInfo.SourceType), true);
+                    if (valInfo.EdgeType.Directedness!=Directedness.Directed) {
+                        DumpElems(OutgoingEdgeToNodeOfType(node, valInfo.EdgeType, valInfo.SourceType), first);
+                        Console.WriteLine(" -- {0} \"{1}\" [{2}>{3}]", valInfo.TargetType.Name,
+                            curShellGraph.Graph.GetElementName(node), error.FoundEdges, valInfo.TargetUpper);
+                    } else {
+                        Console.WriteLine(" --> {0} \"{1}\" [{2}>{3}]", valInfo.TargetType.Name,
+                            curShellGraph.Graph.GetElementName(node), error.FoundEdges, valInfo.TargetUpper);
+                    }
                     break;
                 }
+            }
+        }
+
+        IEnumerable<IEdge> OutgoingEdgeToNodeOfType(INode node, EdgeType edgeType, NodeType targetNodeType)
+        {
+            foreach (IEdge outEdge in node.GetExactOutgoing(edgeType))
+            {
+                if (!outEdge.Target.Type.IsA(targetNodeType)) continue;
+                yield return outEdge;
+            }
+        }
+
+        IEnumerable<IEdge> IncomingEdgeFromNodeOfType(INode node, EdgeType edgeType, NodeType sourceNodeType)
+        {
+            foreach (IEdge inEdge in node.GetExactIncoming(edgeType))
+            {
+                if (!inEdge.Source.Type.IsA(sourceNodeType)) continue;
+                yield return inEdge;
             }
         }
 

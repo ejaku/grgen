@@ -1084,11 +1084,10 @@ void NewCommand():
 		}
 	|
 		LOOKAHEAD(2)
-		srcNode=Node() "-" elemDef=ElementDefinition() "->" tgtNode=Node() LineEnd()
+		srcNode=Node() "-" elemDef=ElementDefinition() ("->" | "-") tgtNode=Node() LineEnd()
 		{
 			noError = impl.NewEdge(elemDef, srcNode, tgtNode) != null;
 		}
-		
 	|
 		elemDef=ElementDefinition() LineEnd()
 		{

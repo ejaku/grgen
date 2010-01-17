@@ -29,13 +29,19 @@ edge class manytoone
 	connect N[+] --> N;
 
 arbitrary edge class onetooneA
-	connect N <--> N;
+	connect N ?--? NN;
 
 arbitrary edge class tomanyA
-	connect N[0:1] <--> N[+];
+	connect N[0:1] ?--? NN[+];
+
+edge class onetooneAA extends onetooneA, Edge
+	connect copy extends;
+
+edge class tomanyAA extends tomanyA, Edge
+	connect copy extends;
 
 undirected edge class onetooneU
-	connect N -- N;
+	connect N -- NN;
 
 undirected edge class tomanyU
-	connect N[0:1] -- N[+];
+	connect N[0:1] -- NN[+];

@@ -1544,7 +1544,7 @@ options { k = *; }
 		{ c.addChild(new ConnAssertNode(src, srcRange, tgt, tgtRange, false)); }
 	| src=typeIdentUse srcRange=rangeSpec DOUBLE_LARROW tgt=typeIdentUse tgtRange=rangeSpec
 		{ c.addChild(new ConnAssertNode(tgt, tgtRange, src, srcRange, false)); }
-	| src=typeIdentUse srcRange=rangeSpec LRARROW tgt=typeIdentUse tgtRange=rangeSpec
+	| src=typeIdentUse srcRange=rangeSpec QMMQ tgt=typeIdentUse tgtRange=rangeSpec
 		{ c.addChild(new ConnAssertNode(src, srcRange, tgt, tgtRange, true)); }
 	| src=typeIdentUse srcRange=rangeSpec MINUSMINUS tgt=typeIdentUse tgtRange=rangeSpec
 		{ c.addChild(new ConnAssertNode(src, srcRange, tgt, tgtRange, true)); }

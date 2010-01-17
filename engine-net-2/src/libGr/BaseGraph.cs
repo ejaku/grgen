@@ -1045,6 +1045,7 @@ namespace de.unika.ipd.grGen.libGr
             }
 
             // check if source and target node types match in reverse direction
+            // i.e. pattern target is graph edge source and pattern source is graph edge target 
             if(edge.Source.Type.IsA(valInfo.TargetType) && edge.Target.Type.IsA(valInfo.SourceType))
             {
                 if(!checkedNodes.ContainsKey(edge.Source))   // don't check the same node more than once for the same valInfo
@@ -1052,12 +1053,12 @@ namespace de.unika.ipd.grGen.libGr
                     // Check incident edges
                     long num = CountOutgoing(edge.Source, valInfo.EdgeType, valInfo.SourceType, ref checkedOutEdges);
                     num += CountIncoming(edge.Source, valInfo.EdgeType, valInfo.SourceType, ref checkedInEdges);
-                    if(num < valInfo.SourceLower)
+                    if(num < valInfo.TargetLower)
                     {
                         errors.Add(new ConnectionAssertionError(CAEType.NodeTooFewTargets, edge.Source, num, valInfo));
                         result = false;
                     }
-                    else if(num > valInfo.SourceUpper)
+                    else if(num > valInfo.TargetUpper)
                     {
                         errors.Add(new ConnectionAssertionError(CAEType.NodeTooManyTargets, edge.Source, num, valInfo));
                         result = false;
@@ -1070,12 +1071,12 @@ namespace de.unika.ipd.grGen.libGr
                     // Check incident edges
                     long num = CountOutgoing(edge.Target, valInfo.EdgeType, valInfo.TargetType, ref checkedOutEdges);
                     num += CountIncoming(edge.Target, valInfo.EdgeType, valInfo.TargetType, ref checkedInEdges);
-                    if(num < valInfo.TargetLower)
+                    if(num < valInfo.SourceLower)
                     {
                         errors.Add(new ConnectionAssertionError(CAEType.NodeTooFewSources, edge.Target, num, valInfo));
                         result = false;
                     }
-                    else if(num > valInfo.TargetUpper)
+                    else if(num > valInfo.SourceUpper)
                     {
                         errors.Add(new ConnectionAssertionError(CAEType.NodeTooManySources, edge.Target, num, valInfo));
                         result = false;
