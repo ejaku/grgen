@@ -1,4 +1,4 @@
-dpo exact rule r {
+dangling exact rule r {
 	x:Node;
 
 	replace {

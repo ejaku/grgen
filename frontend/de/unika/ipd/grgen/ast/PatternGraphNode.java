@@ -643,7 +643,7 @@ public class PatternGraphNode extends GraphNode {
 	 */
 	private Set<Set<ConstraintDeclNode>> splitHoms(Collection<? extends BaseNode> homChildren) {
 		Set<Set<ConstraintDeclNode>> ret = new LinkedHashSet<Set<ConstraintDeclNode>>();
-		if (isDPO()) {
+		if (isIdentification()) {
     		// homs between deleted entities
     		HashSet<ConstraintDeclNode> deleteHomSet = new HashSet<ConstraintDeclNode>();
     		// homs between reused entities
@@ -685,8 +685,12 @@ public class PatternGraphNode extends GraphNode {
 		return (modifiers & MOD_INDUCED) != 0;
 	}
 
-	private boolean isDPO() {
-		return (modifiers & MOD_DANGLING) != 0 && (modifiers & MOD_IDENTIFICATION) != 0;
+	private boolean isDangling() {
+		return (modifiers & MOD_DANGLING) != 0;
+	}
+
+	private boolean isIdentification() {
+		return (modifiers & MOD_IDENTIFICATION) != 0;
 	}
 
 	private boolean isExact() {
@@ -836,8 +840,8 @@ public class PatternGraphNode extends GraphNode {
 		if (isExact()) {
 			addToSingleNodeMap(getNodes());
 
-			if (isDPO()) {
-				reportWarning("The keyword \"dpo\" is redundant for exact patterns");
+			if (isDangling() && !isIdentification()) {
+				reportWarning("The keyword \"dangling\" is redundant for exact patterns");
 			}
 
 			for (ExactNode node : exactNodes) {
@@ -847,7 +851,7 @@ public class PatternGraphNode extends GraphNode {
 			return;
 		}
 
-		if (isDPO()) {
+		if (isDangling()) {
 			Set<DeclNode> deletedNodes = getRule().getDelete();
 			addToSingleNodeMap(getDpoPatternNodes(deletedNodes));
 
@@ -860,7 +864,7 @@ public class PatternGraphNode extends GraphNode {
 								+ nodeDeclNode.getUseString()
 								+ " "
 								+ nodeDeclNode.getIdentNode().getSymbol().getText()
-								+ " is redundant, since the pattern is DPO");
+								+ " is redundant, since the pattern is declared \"dangling\" or \"dpo\"");
 					}
 				}
 			}
