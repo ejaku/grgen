@@ -1,4 +1,4 @@
-﻿v2.6beta5 (2010-01-02)
+﻿v2.6beta6 (2010-01-21)
  Single most important change:
   - user manual updated (1.4->2.6)
  
@@ -67,13 +67,23 @@
 	 sm1 > sm2  is true iff sm1 is proper superset of sm2 (sm2<sm1)
 	maps require key and value to be same for the equality, (proper) sub/supermap relationships to hold
  
-  EBNF/regular expression-like notation for nested patterns added:
-  - *(P) = iterated { P }
-  - +(P) = multiple { P }
-  - ?(P) = optional { P }
+ EBNF/regular expression-like notation for nested patterns added:
+  - (P)* = iterated { P }
+  - (P)+ = multiple { P }
+  - (P)? = optional { P }
   - (P1|P2) = alternative { L1 { P1 } L2 { P2 } } 
   - ~(P) = negative { P }
   - &(P) = independent { P }
+  The notation supports additionally (P)[k], (P)[k:l], (P)[k:*] for matching a bounded number of times.
+  
+  The rewrite part can be given in embedded action style:
+  - {+ R } = modify { R }
+  - {- R } = replace { R }
+  
+ Connection assertions:
+  - now support "copy extends" to copy the connection assertions of the direct supertypes
+  - now support undirected edges with -- syntax
+  - now support arbitrary edges with ?--? syntax
   
  Fixes:
   - escaping of quotation marks in VCG files
@@ -85,13 +95,21 @@
   - initialization overwrite in model (on inheritance paths of depth >2; for sets/maps)
   - fixes for nesting hierarchies of right hand side declared elements
   - dump into .vcg format now handles nesting as declared by "dump add group" commands correctly
-
+  - directed/undirected edges (as given by edge syntax) can extend arbitrary edges 
+    without being forces to explicitely extend Edge/UEdge, too
+  - removed check against homomorphy of retyped elements not needed 
+  - further minor fixes
+  
  Further changes:
   - null arguments must be declared beforehand if they should be used, 
     causing the element to be searched by its own search plan, 
 	thus every null-capable argument doubles the number of matchers;
     declaration syntax example: rule r(x:Node<null>, y:T<S+null>)
 	  (y is example for inexactly typed input which may be null in addition)
+  - new rule modifiers dangling (only apply rule if all incident edges of a node to be deleted 
+     are specified in the pattern), and identification (don't apply rule if a node to be deleted
+     was matched homomorphically to a node to be kept), allowing to pick from the dpo conditions
+	 (dpo = dangling + identification)
   - replaced emitpre by emithere, which is emitted before regular emits,
     at the position syntax-relative to the subpattern modification invocations and the other emitheres
   - added emit to xgrs: emit(double-quoted-text|variable)  
@@ -100,6 +118,7 @@
   - set/map-valued attributes are now displayed in yComp, too
   - now error reported on attempt to delete and return elments allowed to be matched homomorphically
   - added exitonfailure to GrShell validate command leaving GrShell on failed validation with error code
+  - undirected edge creation in GrShell with -name:type- syntax and type UEdge if no type given
   - added GrGen-version of "Repotting the Geraniums: On Nested Graph Transformation Rules" to examples
   - reserved keywords for 2.7
 

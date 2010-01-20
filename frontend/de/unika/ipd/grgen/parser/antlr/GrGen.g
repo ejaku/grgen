@@ -421,6 +421,10 @@ replacePart [ CollectNode<EvalStatementNode> eval, CollectNode<BaseNode> params,
 		LBRACE
 		b=replaceBody[getCoords(r), params, eval, context, nameOfRHS, directlyNestingLHSGraph] { res = b; }
 		RBRACE
+	| LBRACEMINUS 
+		{ params = new CollectNode<BaseNode>(); }
+		b=replaceBody[getCoords(r), params, eval, context, nameOfRHS, directlyNestingLHSGraph] { res = b; }
+	  RBRACE
 	;
 
 modifyPart [ CollectNode<EvalStatementNode> eval, CollectNode<IdentNode> dels,
@@ -431,6 +435,10 @@ modifyPart [ CollectNode<EvalStatementNode> eval, CollectNode<IdentNode> dels,
 		LBRACE
 		b=modifyBody[getCoords(m), eval, dels, params, context, nameOfRHS, directlyNestingLHSGraph] { res = b; }
 		RBRACE
+	| LBRACEPLUS 
+		{ params = new CollectNode<BaseNode>(); }
+		b=modifyBody[getCoords(m), eval, dels, params, context, nameOfRHS, directlyNestingLHSGraph] { res = b; }
+	  RBRACE
 	;
 
 evalPart [ CollectNode<EvalStatementNode> n ]
@@ -474,8 +482,8 @@ patternStmt [ CollectNode<BaseNode> conn, CollectNode<SubpatternUsageNode> subpa
 			CollectNode<ExprNode> returnz, CollectNode<HomNode> homs, CollectNode<ExactNode> exact, CollectNode<InducedNode> induced,
 			int context, PatternGraphNode directlyNestingLHSGraph]
 	: connectionsOrSubpattern[conn, subpatterns, orderedReplacements, context, directlyNestingLHSGraph] SEMI
+	| (iterated[0, 0]) => iter=iterated[counters.iter, context] { iters.addChild(iter); ++counters.iter; } // must scan ahead to end of () to see if *,+,?,[ is following in order to distinguish from one-case alternative ()
 	| alt=alternative[counters.alt, context] { alts.addChild(alt); ++counters.alt; }
-	| iter=iterated[counters.iter, context] { iters.addChild(iter); ++counters.iter; }
 	| neg=negative[counters.neg, context] { negs.addChild(neg); ++counters.neg; }
 	| idpt=independent[counters.idpt, context] { idpts.addChild(idpt); ++counters.idpt; }
 	| condition[conds]
@@ -1008,7 +1016,7 @@ iterated [ int iterCount, int context ] returns [ IteratedNode res = null ]
 		int maxMatches = -1;
 	}
 
-	: (i=ITERATED { minMatches = 0; maxMatches = 0; } 
+	: ( i=ITERATED { minMatches = 0; maxMatches = 0; } 
 	  | i=OPTIONAL { minMatches = 0; maxMatches = 1; }
 	  | i=MULTIPLE { minMatches = 1; maxMatches = 0; }
 	  )
@@ -1026,10 +1034,7 @@ iterated [ int iterCount, int context ] returns [ IteratedNode res = null ]
 				}
 		) ?				
 		RBRACE popScope { res = new IteratedNode(iterName, left, rightHandSides, minMatches, maxMatches); }
-	| (i=STAR { minMatches = 0; maxMatches = 0; } 
-	  | i=QUESTION { minMatches = 0; maxMatches = 1; }
-	  | i=PLUS { minMatches = 1; maxMatches = 0; }
-	  )
+	| 
 		{ iterName = new IdentNode(env.define(ParserEnvironment.ITERATEDS, "iter_"+iterCount, getCoords(i))); }
 		LPAREN pushScopeStr["iter_"+iterCount, getCoords(i)]
 		left=patternBody[getCoords(i), new CollectNode<BaseNode>(), 0, context, "iter_"+iterCount]
@@ -1042,8 +1047,17 @@ iterated [ int iterCount, int context ] returns [ IteratedNode res = null ]
 				{
 					rightHandSides.addChild(rightModify);
 				}
-		) ?				
-		RPAREN popScope { res = new IteratedNode(iterName, left, rightHandSides, minMatches, maxMatches); }
+		) ?	
+		RPAREN popScope 
+	  ( 
+	    i=STAR { minMatches = 0; maxMatches = 0; } 
+	  | i=QUESTION { minMatches = 0; maxMatches = 1; }
+	  | i=PLUS { minMatches = 1; maxMatches = 0; }
+	  | l=LBRACK i=NUM_INTEGER { minMatches = Integer.parseInt(i.getText()); }
+	  	   ( COLON ( STAR { maxMatches=0; } | i=NUM_INTEGER { maxMatches = Integer.parseInt(i.getText()); } ) | { maxMatches = minMatches; } )
+		  RBRACK
+	  )
+		{ res = new IteratedNode(iterName, left, rightHandSides, minMatches, maxMatches); }
 	;
 
 negative [ int negCount, int context ] returns [ PatternGraphNode res = null ]
@@ -2317,6 +2331,8 @@ RPAREN			:	')'		;
 LBRACK			:	'['		;
 RBRACK			:	']'		;
 LBRACE			:	'{'		;
+LBRACEMINUS		:	'{-'	;
+LBRACEPLUS		:	'{+'	;
 RBRACE			:	'}'		;
 COLON			:	':'		;
 DOUBLECOLON     :   '::'    ;

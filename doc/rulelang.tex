@@ -282,13 +282,13 @@ If necessary you can use prefixes as you might do in C.
 
 \begin{rail}
   TestDeclaration: 'test' (() | 'exact' | 'induced') ActionSignature lbrace Pattern rbrace ;
-  RuleDeclaration: 'rule' (() | 'exact' | 'induced' | 'dpo') ActionSignature lbrace Pattern Replace rbrace ;
+  RuleDeclaration: 'rule' (() | 'exact' | 'induced' | 'dpo' | 'dangling' | 'identification' ) ActionSignature lbrace Pattern Replace rbrace ;
 \end{rail}\ixkeyw{test}\ixkeyw{rule}\ixkeyw{exact}\ixkeyw{induced}\ixkeyw{dpo}\ixnterm{TestDeclaration}\ixnterm{RuleDeclaration}
 Declares a single \indexed{rewrite rule} such as \texttt{SomeRule}. 
 It consists of a pattern part (see Section~\ref{patternpart}) in conjunction with its rewrite/modify part (see Section~\ref{replacepart}). 
 A \newterm{test} has no rewrite specification. 
 It's intended to check whether (and maybe how many times) a pattern occurs (see example \ref{ex:rulelang:testrule}).
-For an explanation of the \texttt{exact}, \texttt{induced}, and \texttt{dpo} pattern modifiers see section \ref{sct:patternmodifier}. 
+For an explanation of the \texttt{exact}, \texttt{induced}, \texttt{dangling}, \texttt{identification}, and \texttt{dpo} pattern modifiers see section \ref{sct:patternmodifier}. 
 \begin{example}
 \label{ex:rulelang:testrule}
 We define a test \texttt{SomeCond}
@@ -390,7 +390,7 @@ A \indexed{pattern} consists of zero or more pattern statements and, in case of 
 All the pattern statements must be fulfilled by a subgraph of the host graph in order to form a match. 
 An \indexed{empty pattern} always produces exactly one (empty) match. 
 This is caused by the uniqueness of the total and totally undefined function.
-For an explanation of the pattern modifiers \texttt{dpo}, \texttt{induced}, and \texttt{exact} see section~\ref{sct:patternmodifier}.
+For an explanation of the pattern modifiers \texttt{dpo}, \texttt{identification}, \texttt{dangling}, \texttt{induced}, and \texttt{exact} see section~\ref{sct:patternmodifier}.
 
 Names defined for graph elements may be used by other pattern statements as well as by replace/modify statements. 
 Like all identifier definitions, such names may be used before their \indexed{declaration}. 
@@ -616,29 +616,41 @@ This toy example yields $\texttt{y.i} = 42$, $\texttt{y.j} = 1$.
 \section{Rule and Pattern Modifiers}\indexmain{modifier} 
 \label{sct:patternmodifier}
 By default \GrG\ performs rewriting according to \indexmain{SPO} semantics as explained in section \ref{rule:morphismr}.
-This behaviour can be changed with \newterm{rule / pattern modifiers}.
+This behaviour can be changed with \newterm{pattern modifiers} and \newterm{rule modifiers}.
 Such modifiers add certain conditions to the applicability of a pattern.
 The idea is to match only parts of the host graph that look more or less exactly like the pattern.
 The level of ``exactness'' depends on the choosen modifier.
-A modifier in front of the \texttt{pattern}-keyword is equivalent to one modifier-statement inside the pattern containing all the specified nodes (including anonymous nodes).
-Table \ref{tbl:rules:modifiers} lists the modifiers with their semantics.
+A pattern modifier in front of the \texttt{rule}/\texttt{test}-keyword is equivalent to one modifier-statement inside the pattern containing all the specified nodes (including anonymous nodes).
+Table \ref{tbl:rules:patternmodifiers} lists the pattern modifiers with their semantics, table \ref{tbl:rules:rulemodifiers} lists the rule only modifiers with their semantics.
 Example \ref{ex:rules:modifiers} explains the modifiers by small toy-graphs.
+
+\begin{table}[htbp]
+    \begin{tabularx}{\linewidth}{l|X}
+        \bf Modifier & \bf Meaning \\\hline
+        \texttt{exact} & Switches to the most restricitive mode. An exactly-matched node is matched, if all its incident edges in the host graph are specified in the pattern.\\
+        \texttt{induced} & Switches to the induced-mode, where nodes contained in the same \texttt{induced} statement require their induced subgraph within the host graph to be specified, in order to be matched. In particular this means that in general \texttt{induced(a,b,c)} differs from \texttt{induced(a,b); induced(b,c)}.\\
+    \end{tabularx}    
+    \caption{Semantics of pattern modifiers}
+    \label{tbl:rules:patternmodifiers}
+\end{table}
+
+\begin{table}[htbp]
+    \begin{tabularx}{\linewidth}{l|X}
+        \bf Modifier & \bf Meaning \\\hline
+        \texttt{dpo} & Switches to DPO semantics. This modifier affects only nodes that are to be deleted during the rewrite. DPO says---roughly spoken---that implicit deletions must not occur by all means. To ensure this the dangling condition (see \texttt{dangling} below) and the identification condition (see \texttt{identification} below) get enforced (i.e. \texttt{dpo = dangling + identification}). In contrast to \texttt{exact} and \texttt{induced} this modifier applies neither to a pattern as such (can't be used with a \texttt{test}) nor to a single statement but only to an entire rule. See Corradini et al.\cite{dpoapproach} for a DPO reference.\\
+		\texttt{dangling} & Ensures the dangling condition. This modifier affects only nodes that are to be deleted during the rewrite. Nodes going to be deleted due to the rewrite part have to be specified exactly (with all their incident edges, \texttt{exact} semantics) in order to be matched. As with \texttt{dpo}, this modifier applies only to rules.\\
+		\texttt{identification} & Ensures the identification condition. This modifier affects only nodes that are to be deleted during the rewrite. If you specify two pattern graph elements to be homomorphically matched but only one of them is subject to deletion during rewrite, those pattern graph elements will never actually be matched to the same host graph element. As with \texttt{dpo}, this modifier applies only to rules.\\
+    \end{tabularx}    
+    \caption{Semantics of rule only modifiers}
+    \label{tbl:rules:rulemodifiers}
+\end{table}
+
 \begin{note}
     Internally all the modifier-annotated rules are resolved into equivalent rules in standard SPO semantics.
     The semantics of the modifiers is mostly implemented by NACs.
     In particular you might want to use such modifiers in order to avoid writing a bunch of NACs yourself.
     The number of internally created NACs is bounded by $\mathcal{O}(n)$ for \texttt{exact} and \texttt{dpo} and by $\mathcal{O}(n^2)$ for \texttt{induced} respectively, where $n$ is the number of specified nodes.
 \end{note} 
-\begin{table}[htbp]
-    \begin{tabularx}{\linewidth}{l|X}
-        \bf Modifier & \bf Meaning \\\hline
-        \texttt{exact} & Switches to the most restricitive mode. An exactly-matched node is matched, if all its incident edges in the host graph are specified in the pattern.\\
-        \texttt{induced} & Switches to the induced-mode, where nodes contained in the same induced statement require their induced subgraph within the host graph to be specified, in order to be matched. In particular this means that in general \texttt{induced(a,b,c)} differs from \texttt{induced(a,b); induced(b,c)}.\\
-        \texttt{dpo} & Switches to DPO semantics. This modifier affects only nodes that are to be deleted during the rewrite. DPO says---roughly spoken---that implicit deletions must not occur by all means. Accordingly nodes going to be deleted due to the rewrite part have to be specified exactly (\texttt{exact} semantics) in order to be matched. Furthermore if you specify two pattern graph elements to be homomorphically matched but only one of them is subject to deletion during rewrite, those pattern graph elements will never actually be matched to the same host graph element. In contrast to \texttt{exact} and \texttt{induced} this modifier applies neither to a pattern as such nor to a single statement but only to an entire rule. See Corradini et al.\cite{dpoapproach} for a DPO reference.\\
-    \end{tabularx}    
-    \caption{Semantics of rule and pattern modifiers}
-    \label{tbl:rules:modifiers}
-\end{table}
 
 \begin{figure}[htbp]
 \begin{example}

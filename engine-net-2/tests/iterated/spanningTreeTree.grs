@@ -2,7 +2,7 @@ new graph "iterated\spanningTree"
 
 xgrs (root)=initTree
 
-flag=allocvisitflag
+xgrs flag=valloc()
 
 show num nodes
 show num edges
@@ -16,5 +16,7 @@ show num nodes
 show num edges
 xgrs [edgesVisited]
 xgrs [nodesVisited]
+
+xgrs vfree(flag)
 
 quit

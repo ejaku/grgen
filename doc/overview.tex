@@ -78,21 +78,21 @@ We have organized the presentation of the features of the \GrG\ languages accord
 the generator \texttt{grgen.exe} and its languages plus its runtime environment \texttt{libGr}.
 In addition, the \GrG system offers a shell application, the \GrShell, 
 which features commands for
-\begin{itemize}
-\item graph management,
-\item graph validation,
-\item graph input and output,
-\item graph manipulation,
-\item graph and model queries,
-\item graph visualisation,
-\item action execution,
-\item debugging,
-\item backend selection and usage.
-\end{itemize}
+\begin{table}[htbp]
+    \begin{tabularx}{\linewidth}{ll}
+		\hspace{12mm}-- graph management,\hspace{3cm} & -- graph validation,\\[5pt]
+		\hspace{12mm}-- graph input and output, & -- graph manipulation,\\[5pt]
+		\hspace{12mm}-- graph and model queries, & -- graph visualisation,\\[5pt]
+		\hspace{12mm}-- action execution, & -- debugging,\\[5pt]
+		\hspace{12mm}-- backend selection and usage. 
+    \end{tabularx}    
+%    \caption{Semantics of pattern modifiers}
+    \label{tbl:overview:shellcommands}
+\end{table}
+
 The debugging and graph visualisation commands are implemented in cooperation with the graph viewer \yComp.
 Alternatively to \GrShell, you can access the match and rewrite facility through \LibGr. 
 This way you can build your own algorithmic rule applications in a .NET language of your choice. 
-
 
 \section{System Overview}
 
@@ -212,7 +212,7 @@ However, \GrShell\ does not provide the full power of the \LibGr; see also note~
 The notion of graph rewriting as understood by \GrG\ is a method for declaratively specifying ``changes'' to a graph.
 This is comparable to the well-known term rewriting. 
 Normally you use one or more \newterm{graph rewrite rules} to accomplish a certain task.
-\GrG\ implements an SPO-based approach.
+\GrG\ implements an SPO-based approach (as default).
 In the simplest case such a graph rewrite rule consists of a tuple $L \rightarrow R$, whereas $L$---the \newterm{left hand side}\indexmainsee{LHS}{left hand side} of the rule---is called \newterm{pattern graph} and $R$---the \newterm{right hand side}\indexmainsee{RHS}{right hand side} of the rule---is the \newterm{replacement graph}.
 
 \begin{figure}[htbp]

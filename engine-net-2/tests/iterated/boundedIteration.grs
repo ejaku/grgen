@@ -1,0 +1,56 @@
+new graph "iterated\boundedIteration"
+
+new n1
+new n2
+new n1 -e1- n2
+
+xgrs [?r2]
+
+new n3
+new n4
+new n3 -e2- n4
+
+xgrs [?r2]
+
+new n5
+new n6
+new n5 -e3- n6
+
+xgrs [?r2x2]
+
+new n7
+new n8
+new n7 -e4- n8
+
+xgrs [?r2x2]
+
+clear graph
+
+show num nodes
+show num edges
+
+new n1
+new n2
+new n1 -e1- n2
+
+xgrs ?r23
+
+new n3
+new n4
+new n3 -e2- n4
+
+xgrs ?r23
+
+new n5
+new n6
+new n5 -e3- n6
+
+show num nodes
+show num edges
+
+xgrs r23
+
+show num nodes
+show num edges
+
+quit

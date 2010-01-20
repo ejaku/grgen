@@ -685,7 +685,7 @@ rule R {
     tp1; // is kept
     // tp2 not included here - will be deleted
     // tp1(); or tp2(); -- would apply dependent replacement
-	m1; m2;
+    m1; m2;
   }
 }
   \end{grgen}
@@ -696,20 +696,27 @@ rule R {
 
 In addition to the already introduced syntax for the nested patterns with the keywords 
 \texttt{negative}, \texttt{independent}, \texttt{alternative}, \texttt{iterated}, \texttt{multiple} and \texttt{optional},
-there's a more lightweight syntax resembling prefixed regular expressions.
+there is a more lightweight syntax resembling regular expressions; 
+using it together with the subpatterns gives graph rewrite specifications which look like EBNF-grammars with embedded actions. 
+Exceeding the more verbose syntax they offer constructs for matching the pattern a bounded number of times (same notation as the one for the bounded iteration in the xgrs).
+A limitation compared to the more verbose syntax is that the rewrite part in embedded action notation can't receive rewrite parameters. 
 Table \ref{keywordregexpsyntax} lists the corresponding (/equivalent) language constructs; 
 Example \ref{introexampleregexp} is a version of the introductionary example \ref{introexample} modified to use the new syntax.
 
 \begin{table}[htbp]
   \centering
   \begin{tabularx}{\linewidth}{|l|X|} \hline
+    \texttt{ iterated \{ P \} } & \texttt{ (P)* } \\
+    \texttt{ multiple \{ P \} } & \texttt{ (P)+ } \\
+    \texttt{ optional \{ P \} } & \texttt{ (P)? } \\ 
+	\texttt{ alternative \{ l1 \{ P1 \} .. lk \{ Pk \} \} } & \texttt{ (P1|..|Pk) } \\
     \texttt{ negative \{ P \} } & \texttt{ $\sim$(P) } \\
-    \texttt{ independent \{ P \} } & \texttt{ \&(P)} \\
-    \texttt{ alternative \{ l1 \{ P1 \} ... ln \{ Pn \} \} } & \texttt{ (P1|...|Pn) } \\
-    \texttt{ iterated \{ P \} } & \texttt{ *(P) } \\
-    \texttt{ multiple \{ P \} } & \texttt{ +(P) } \\
-    \texttt{ optional \{ P \} } & \texttt{ ?(P) } \\ \hline 
-  \end{tabularx}
+    \texttt{ independent \{ P \} } & \texttt{ \&(P)} \\ \hline 
+    \texttt{ modify \{ R \} } & \texttt{  \{+ R \} } \\
+    \texttt{ replace \{ R \} } & \texttt{ \{- R \} } \\ \hline 
+    \texttt{ - } & \texttt{ (P)[k] / (P)[k:l] / (P)[k:*] } \\ 
+    \texttt{ modify/replace(p1:T1,..,pk:Tk) } & \texttt{ - } \\ \hline 
+	\end{tabularx}
   \caption{Map of nested patterns in keyword syntax to regular expression syntax}
   \label{keywordregexpsyntax}
 \end{table}
