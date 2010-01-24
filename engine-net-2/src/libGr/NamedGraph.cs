@@ -28,7 +28,13 @@ namespace de.unika.ipd.grGen.libGr
 
         private String GetNextName()
         {
-            return String.Format("${0,00000000:X}", nextID++);
+            String nameCandidate;
+            do
+            {
+                nameCandidate = String.Format("${0,00000000:X}", nextID++);
+            }
+            while(NameToElem.ContainsKey(nameCandidate));
+            return nameCandidate;
         }
 
         /// <summary>

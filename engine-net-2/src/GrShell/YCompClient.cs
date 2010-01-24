@@ -5,6 +5,8 @@
  * www.grgen.net
  */
 
+//#define DUMP_COMMANDS_TO_YCOMP
+
 using System;
 using System.Collections;
 using System.Collections.Generic;
@@ -147,15 +149,27 @@ namespace de.unika.ipd.grGen.grShell
 
             public event ConnectionLostHandler OnConnectionLost;
 
+#if DUMP_COMMANDS_TO_YCOMP
+            StreamWriter dumpWriter;
+#endif
+
             public YCompStream(TcpClient client)
             {
                 stream = client.GetStream();
+
+#if DUMP_COMMANDS_TO_YCOMP
+                dumpWriter = new StreamWriter("ycomp_dump.txt");
+#endif
             }
 
             public void Write(String message)
             {
                 try
                 {
+#if DUMP_COMMANDS_TO_YCOMP
+                    dumpWriter.Write(message);
+                    dumpWriter.Flush();
+#endif
                     byte[] data = Encoding.ASCII.GetBytes(message);
                     stream.Write(data, 0, data.Length);
                 }
@@ -163,10 +177,22 @@ namespace de.unika.ipd.grGen.grShell
                 {
                     stream = null;
                     if(closing) return;
+#if DUMP_COMMANDS_TO_YCOMP
+                    dumpWriter.Write("connection lost!\n");
+                    dumpWriter.Flush();
+#endif
                     ConnectionLostHandler handler = OnConnectionLost;
                     if(handler != null) handler();
                 }
             }
+
+#if DUMP_COMMANDS_TO_YCOMP
+            public void Dump(String message)
+            {
+                    dumpWriter.Write(message);
+                    dumpWriter.Flush();
+            }
+#endif
 
             /// <summary>
             /// Reads up to 4096 bytes from the stream
