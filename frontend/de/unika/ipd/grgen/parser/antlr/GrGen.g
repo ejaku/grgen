@@ -1552,7 +1552,7 @@ connectAssertion [ CollectNode<ConnAssertNode> c ]
 options { k = *; }
 	: src=typeIdentUse srcRange=rangeSpec r=RARROW tgt=typeIdentUse tgtRange=rangeSpec
 		{ c.addChild(new ConnAssertNode(src, srcRange, tgt, tgtRange, false));
-		  reportWarning(getCoords(r), "-> in connection assertion is deprecated, use --> (or <-- for reverse direction, or <--> for either direction, or -- for undirected edges)");
+		  reportWarning(getCoords(r), "-> in connection assertion is deprecated, use --> (or <-- for reverse direction, or -- for undirected edges, or ?--? for arbitrary edges)");
 		}
 	| src=typeIdentUse srcRange=rangeSpec DOUBLE_RARROW tgt=typeIdentUse tgtRange=rangeSpec
 		{ c.addChild(new ConnAssertNode(src, srcRange, tgt, tgtRange, false)); }
