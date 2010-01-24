@@ -1,4 +1,4 @@
-﻿v2.6beta6 (2010-01-21)
+﻿v2.6beta7 (2010-01-25)
  Single most important change:
   - user manual updated (1.4->2.6)
  
@@ -95,6 +95,7 @@
   - initialization overwrite in model (on inheritance paths of depth >2; for sets/maps)
   - fixes for nesting hierarchies of right hand side declared elements
   - dump into .vcg format now handles nesting as declared by "dump add group" commands correctly
+  - name collision between shell and rule generated graph elements causing debug display corruption
   - directed/undirected edges (as given by edge syntax) can extend arbitrary edges 
     without being forces to explicitely extend Edge/UEdge, too
   - removed check against homomorphy of retyped elements not needed 
