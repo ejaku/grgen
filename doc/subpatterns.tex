@@ -727,19 +727,19 @@ Example \ref{introexampleregexp} is a version of the introductionary example \re
 test method
 {
   m:Method <-- n:Name; // signature of method consisting of name
-  *( m <-- :Variable; ) // and 0-n parameters
+  ( m <-- :Variable; )* // and 0-n parameters
   
   :AssignmentList(m); // body consisting of a list of assignment statements
 }
 
 pattern AssignmentList(prev:Node)
 {
-  ?( // nothing or a linked assignment and again a list
+  ( // nothing or a linked assignment and again a list
     prev --> a:Assign; // assignment node 
     a -:target-> v:Variable; // which has a variable as target 
     :Expression(a);  // and an expression which defines the left hand side 
     :AssignmentList(a); // next one, plz
-  )
+  )?
 }
 
 pattern Expression(root:Expr)
