@@ -756,7 +756,8 @@ ERROR  should_fail/rhs_001.grg
 ERROR  should_fail/rhs_002.grg
 ERROR  should_fail/rhs_003.grg
 ERROR  should_fail/rhs_004.grg
-OK     should_fail/rhs_007.grg
+ERROR  should_fail/rhs_007.grg
+ERROR  should_fail/rhs_008.grg
 ERROR  should_fail/set_001.grg
 ERROR  should_fail/set_002.grg
 ERROR  should_fail/set_003.grg

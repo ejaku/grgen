@@ -159,6 +159,29 @@ public class RuleDeclNode extends TestDeclNode {
 		return valid;
 	}
 
+	/**
+	 * Check that only graph elements are retyped, that are not deleted.
+	 */
+	private boolean checkRetypedElemsNotDeleted() {
+		assert isResolved();
+
+		boolean valid = true;
+
+		for (DeclNode decl : getDelete()) {
+			if(!(decl instanceof ConstraintDeclNode)) continue;
+
+			ConstraintDeclNode retElem = ((ConstraintDeclNode) decl);
+
+			if (retElem.getRetypedElement() != null) {
+				valid = false;
+
+				retElem.reportError("The retyped " + retElem.getUseString()
+						+ " \"" + retElem.ident + "\" must not be deleted");
+			}
+		}
+		return valid;
+	}
+
 
 	/**
 	 * Check that exec parameters are not deleted.
@@ -402,7 +425,8 @@ public class RuleDeclNode extends TestDeclNode {
 		}
 
 		return leftHandGraphsOk & checkRhsReuse(left, this.right)
-				& noReturnInPatternOk & abstr & checkReturnedElemsNotDeleted()
+				& noReturnInPatternOk & abstr & checkRetypedElemsNotDeleted()
+				& checkReturnedElemsNotDeleted()
 				& checkReturnedElemsNotRetyped() & checkExecParamsNotDeleted()
 				& checkReturns(right.returns);
 	}
