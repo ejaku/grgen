@@ -103,6 +103,7 @@ public class EdgeTypeChangeNode extends EdgeDeclNode implements EdgeCharacter {
 			// doesn't matter which parent you choose, in the end you reach RuleDeclNode/SubpatternDeclNode/AlternativeCaseNode
 			curr = curr.getParents().iterator().next();
 		}
+
 		if (curr instanceof RuleDeclNode && prev == ((RuleDeclNode)curr).right
 				|| curr instanceof SubpatternDeclNode && prev == ((SubpatternDeclNode)curr).right
 				|| curr instanceof AlternativeCaseNode && prev == ((AlternativeCaseNode)curr).right) {
@@ -118,7 +119,7 @@ public class EdgeTypeChangeNode extends EdgeDeclNode implements EdgeCharacter {
 			// TODO: p.old == old always true, since p is a parent (of type EdgeTypeChangeNode) of old?
 			if (p != this && p instanceof EdgeTypeChangeNode && (((EdgeTypeChangeNode)p).old == old)) {
 				reportError("Two (and hence ambiguous) retype statements for the same edge are forbidden,"
-								+ "previous retype statement at " + p.getCoords());
+								+ " previous retype statement at " + p.getCoords());
 				res = false;
 			}
 		}
