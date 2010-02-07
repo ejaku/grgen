@@ -38,8 +38,8 @@ public abstract class GraphEntity extends Entity {
 
 	protected Collection<? extends InheritanceType> constraints = Collections.emptySet();
 
-	boolean maybeDeleted;
-	boolean maybeRetyped;
+	private boolean maybeDeleted;
+	private boolean maybeRetyped;
 
 	/**
 	 * Make a new graph entity of a given type.
