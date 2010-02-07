@@ -66,7 +66,6 @@ OK     should_pass/basic_050.grg
 OK     should_pass/basic_051.grg
 OK     should_pass/basic_052.grg
 OK     should_pass/basic_053.grg
-WARNED should_pass/basic_054.grg
 OK     should_pass/basic_055.grg
 OK     should_pass/basic_056.grg
 OK     should_pass/basic_060.grg
@@ -300,6 +299,7 @@ OK     should_pass/visit_001.grg
 OK     should_pass/visit_002.grg
 WARNED should_warn/basic_003.grg
 WARNED should_warn/basic_025.grg
+WARNED should_warn/basic_054.grg
 WARNED should_warn/basic_200.grg
 WARNED should_warn/basic_201.grg
 WARNED should_warn/basic_202.grg
