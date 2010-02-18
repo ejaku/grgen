@@ -160,6 +160,51 @@ public class RuleDeclNode extends TestDeclNode {
 	}
 
 	/**
+	 * Check that every graph element is retyped to at most one type.
+	 */
+	private boolean checkElemsNotRetypedToDifferentTypes() {
+		assert isResolved();
+
+		boolean valid = true;
+
+		for(Set<ConstraintDeclNode> homSet : pattern.getHoms()) {
+			boolean containsRetypedElem = false;
+			boolean multipleRetypes = false;
+			InheritanceTypeNode type = null;
+
+			for(ConstraintDeclNode elem : homSet) {
+				ConstraintDeclNode retypedElem = elem.getRetypedElement();
+
+				if(retypedElem != null) {
+					InheritanceTypeNode currentType = retypedElem.getDeclType();
+					
+					if (type != null && currentType != type) {
+						multipleRetypes = true;
+						break;
+					}
+					
+					type = currentType;
+				}
+			}
+
+			if (multipleRetypes) {
+				valid = false;
+
+				for(ConstraintDeclNode elem : homSet) {
+					ConstraintDeclNode retypedElem = elem.getRetypedElement();
+
+					if(retypedElem != null) {
+						retypedElem.reportError("The " + elem.getUseString() + " " 
+								+ elem + " must not retyped to different types");
+					}
+				}
+			}
+		}
+		
+		return valid;
+	}
+
+	/**
 	 * Check that only graph elements are retyped, that are not deleted.
 	 */
 	private boolean checkRetypedElemsNotDeleted() {
@@ -426,7 +471,7 @@ public class RuleDeclNode extends TestDeclNode {
 
 		return leftHandGraphsOk & checkRhsReuse(left, this.right)
 				& noReturnInPatternOk & abstr & checkRetypedElemsNotDeleted()
-				& checkReturnedElemsNotDeleted()
+				& checkReturnedElemsNotDeleted() & checkElemsNotRetypedToDifferentTypes()
 				& checkReturnedElemsNotRetyped() & checkExecParamsNotDeleted()
 				& checkReturns(right.returns);
 	}

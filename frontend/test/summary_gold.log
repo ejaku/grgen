@@ -731,8 +731,8 @@ ERROR  should_fail/retype_005.grg
 ERROR  should_fail/retype_006.grg
 ERROR  should_fail/retype_010.grg
 ERROR  should_fail/retype_011.grg
-OK     should_fail/retype_012.grg
-OK     should_fail/retype_013.grg
+ERROR  should_fail/retype_012.grg
+ERROR  should_fail/retype_013.grg
 ERROR  should_fail/retype_014.grg
 ERROR  should_fail/retype_015.grg
 ERROR  should_fail/retype_016.grg
