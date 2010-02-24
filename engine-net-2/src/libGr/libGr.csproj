@@ -93,9 +93,11 @@
     <Compile Include="SequenceParserConstants.cs" />
     <Compile Include="SequenceParserExceptions.cs" />
     <Compile Include="SequenceParserTokenManager.cs" />
+    <Compile Include="SequenceVariable.cs" />
     <Compile Include="set.cs" />
     <Compile Include="SimpleCharStream.cs" />
     <Compile Include="SingleLinkedList.cs" />
+    <Compile Include="SymbolTable.cs" />
     <Compile Include="Token.cs" />
     <Compile Include="TokenMgrError.cs" />
     <Compile Include="VCGDumper.cs" />
