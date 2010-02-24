@@ -29,4 +29,9 @@ public class MapType extends Type {
 	public Type getValueType() {
 		return valueType;
 	}
+	
+	/** @see de.unika.ipd.grgen.ir.Type#classify() */
+	public int classify() {
+		return IS_MAP;
+	}
 }

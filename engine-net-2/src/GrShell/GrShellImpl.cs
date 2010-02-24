@@ -368,6 +368,10 @@ namespace de.unika.ipd.grGen.grShell
                     Console.WriteLine("The variable \"" + ex.RuleName + "\" may neither receive parameters nor return values!");
                     return;
 
+                case SequenceParserError.InvalidUseOfVariable:
+                    Console.WriteLine("The variable \"" + ex.RuleName + "\" must be of boolean type (or untyped containing a boolean value)!");
+                    return;
+
                 default:
                     throw new ArgumentException("Invalid error kind: " + ex.Kind);
             }
@@ -2465,7 +2469,7 @@ namespace de.unika.ipd.grGen.grShell
         {
             if(curGRS == null || cancelSequence) return;
             if(curRule == null) Console.WriteLine("Cancelling...");
-            else Console.WriteLine("Cancelling: Waiting for \"" + curRule.RuleObj.Action.Name + "\" to finish...");
+            else Console.WriteLine("Cancelling: Waiting for \"" + curRule.ParamBindings.Action.Name + "\" to finish...");
             e.Cancel = true;        // we handled the cancel event
             cancelSequence = true;
         }
@@ -2541,14 +2545,14 @@ namespace de.unika.ipd.grGen.grShell
             return true;
         }
 
-        bool ApplyRule(RuleObject ruleObject)
+        bool ApplyRule(RuleInvocationParameterBindings paramBindings)
         {
-            IRulePattern pattern = ruleObject.Action.RulePattern;
+            IRulePattern pattern = paramBindings.Action.RulePattern;
 
             bool askForElems = false;
-            for(int i = 0; i < ruleObject.ParamVars.Length; i++)
+            for(int i = 0; i < paramBindings.ParamVars.Length; i++)
             {
-                String param = ruleObject.ParamVars[i];
+                String param = paramBindings.ParamVars[i].Name;
                 if(param == "?")
                 {
                     askForElems = true;
@@ -2562,9 +2566,9 @@ namespace de.unika.ipd.grGen.grShell
                 if(askForElems)
                 {
                     Console.WriteLine("Select the wildcarded elements via double clicking in yComp (ESC for abort):");
-                    for(int i = 0; i < ruleObject.ParamVars.Length; i++)
+                    for(int i = 0; i < paramBindings.ParamVars.Length; i++)
                     {
-                        String param = ruleObject.ParamVars[i];
+                        String param = paramBindings.ParamVars[i].Name;
                         if(param == "?")
                         {
                             GrGenType paramType = pattern.Inputs[i];
@@ -2575,7 +2579,7 @@ namespace de.unika.ipd.grGen.grShell
                             }
 
                             // skip prefixes ("<rulename>_<kind>_" with <kind> in {"node", "edge"}
-                            String name = pattern.InputNames[i].Substring(ruleObject.RuleName.Length + 6);
+                            String name = pattern.InputNames[i].Substring(paramBindings.RuleName.Length + 6);
                             while(true)
                             {
                                 Console.Write("  " + (paramType.IsNodeType ? "Node" : "Edge")
@@ -2625,8 +2629,8 @@ namespace de.unika.ipd.grGen.grShell
                                     Console.WriteLine(elem.Type.Name + " is not compatible with " + paramType.Name + ".");
                                     continue;
                                 }
-                                ruleObject.Parameters[i] = elem;
-                                ruleObject.ParamVars[i] = null;
+                                paramBindings.Parameters[i] = elem;
+                                paramBindings.ParamVars[i] = null;
                                 break;
                             }
                         }
@@ -2634,7 +2638,7 @@ namespace de.unika.ipd.grGen.grShell
                 }
 
                 Console.WriteLine("\nExecuting graph rewrite action...");
-                int numFound = curShellGraph.Graph.ApplyRewrite(ruleObject, 0, 1, false, false);
+                int numFound = curShellGraph.Graph.ApplyRewrite(paramBindings, 0, 1, false, false);
                 if(numFound == 0)
                     Console.WriteLine("  No matches found");
                 else
@@ -2649,7 +2653,7 @@ namespace de.unika.ipd.grGen.grShell
             return true;
         }
 
-        public bool DebugApply(RuleObject ruleObject)
+        public bool DebugApply(RuleInvocationParameterBindings paramBindings)
         {
             bool debugModeActivated;
 
@@ -2665,7 +2669,7 @@ namespace de.unika.ipd.grGen.grShell
                 debugModeActivated = false;
             }
 
-            bool noerror = ApplyRule(ruleObject);
+            bool noerror = ApplyRule(paramBindings);
 
             if(debugModeActivated && CheckDebuggerAlive())   // enabled debug mode here and didn't loose connection?
             {

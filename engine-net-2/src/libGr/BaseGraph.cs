@@ -454,7 +454,7 @@ namespace de.unika.ipd.grGen.libGr
         /// <summary>
         /// Apply a rewrite rule.
         /// </summary>
-        /// <param name="ruleObject">RuleObject to be applied</param>
+        /// <param name="paramBindings">The parameter bindings of the rule invocation</param>
         /// <param name="which">The index of the match to be rewritten or -1 to rewrite all matches</param>
         /// <param name="localMaxMatches">Specifies the maximum number of matches to be found (if less or equal 0 the number of matches
         /// depends on MaxMatches)</param>
@@ -462,27 +462,27 @@ namespace de.unika.ipd.grGen.libGr
         /// the application</param>
         /// <param name="test">If true, no rewrite step is performed.</param>
         /// <returns>The number of matches found</returns>
-        public int ApplyRewrite(RuleObject ruleObject, int which, int localMaxMatches, bool special, bool test)
+        public int ApplyRewrite(RuleInvocationParameterBindings paramBindings, int which, int localMaxMatches, bool special, bool test)
         {
             int curMaxMatches = (localMaxMatches > 0) ? localMaxMatches : MaxMatches;
 
             object[] parameters;
-            if(ruleObject.ParamVars.Length > 0)
+            if(paramBindings.ParamVars.Length > 0)
             {
-                parameters = ruleObject.Parameters;
-                for(int i = 0; i < ruleObject.ParamVars.Length; i++)
+                parameters = paramBindings.Parameters;
+                for(int i = 0; i < paramBindings.ParamVars.Length; i++)
                 {
                     // If this parameter is not constant, the according ParamVars entry holds the
                     // name of a variable to be used for the parameter.
                     // Otherwise the parameters entry remains unchanged (it already contains the constant)
-                    if(ruleObject.ParamVars[i] != null)
-                        parameters[i] = GetVariableValue(ruleObject.ParamVars[i]);
+                    if(paramBindings.ParamVars[i] != null)
+                        parameters[i] = paramBindings.ParamVars[i].GetVariableValue(this);
                 }
             }
             else parameters = null;
 
             if(PerformanceInfo != null) PerformanceInfo.StartLocal();
-            IMatches matches = ruleObject.Action.Match(this, curMaxMatches, parameters);
+            IMatches matches = paramBindings.Action.Match(this, curMaxMatches, parameters);
             if(PerformanceInfo != null) PerformanceInfo.StopMatch();
 
             if(OnMatched != null) OnMatched(matches, special);
@@ -496,8 +496,8 @@ namespace de.unika.ipd.grGen.libGr
 
             if(PerformanceInfo != null) PerformanceInfo.StartLocal();
             object[] retElems = Replace(matches, which);
-            for(int i = 0; i < ruleObject.ReturnVars.Length; i++)
-                SetVariableValue(ruleObject.ReturnVars[i], retElems[i]);
+            for(int i = 0; i < paramBindings.ReturnVars.Length; i++)
+                paramBindings.ReturnVars[i].SetVariableValue(retElems[i], this);
             if(PerformanceInfo != null) PerformanceInfo.StopRewrite();
 
             if(OnFinished != null) OnFinished(matches, special);

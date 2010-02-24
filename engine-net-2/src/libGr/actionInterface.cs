@@ -16,10 +16,11 @@ using System.Diagnostics;
 namespace de.unika.ipd.grGen.libGr
 {
     /// <summary>
-    /// An object representing a rule invocation with optional parameter variables and optional return value receiving variables.
-    /// Used by the sequence objects and BaseActions.
+    /// An object representing a rule invocation.
+    /// It tells from where (which variables/constants) to get the input values 
+    /// and where (which variables) to store the output values.
     /// </summary>
-    public class RuleObject
+    public class RuleInvocationParameterBindings
     {
         /// <summary>
         /// The IAction instance to be used
@@ -32,16 +33,16 @@ namespace de.unika.ipd.grGen.libGr
         public String RuleName;
 
         /// <summary>
-        /// An array of variable names used for the parameters.
+        /// An array of variables used for the parameters.
         /// It must have the same length as Parameters.
         /// If an entry is null, the according entry in parameters is used unchanged.
         /// </summary>
-        public String[] ParamVars;
+        public SequenceVariable[] ParamVars;
 
         /// <summary>
-        /// An array of variable names used for the return values
+        /// An array of variables used for the return values.
         /// </summary>
-        public String[] ReturnVars;
+        public SequenceVariable[] ReturnVars;
 
         /// <summary>
         /// Buffer to store parameters used by libGr to avoid unneccessary memory allocation.
@@ -50,13 +51,13 @@ namespace de.unika.ipd.grGen.libGr
         public object[] Parameters;
 
         /// <summary>
-        /// Instantiates a new RuleObject
+        /// Instantiates a new RuleInvocationParameterBindings object
         /// </summary>
         /// <param name="action">The IAction instance to be used</param>
-        /// <param name="paramVars">An array of variable names used for the parameters</param>
+        /// <param name="paramVars">An array of variable used for the parameters</param>
         /// <param name="paramConsts">An array of constants used for the parameters.</param>
-        /// <param name="returnVars">An array of variable names used for the return values</param>
-        public RuleObject(IAction action, String[] paramVars, object[] paramConsts, String[] returnVars)
+        /// <param name="returnVars">An array of variables used for the return values</param>
+        public RuleInvocationParameterBindings(IAction action, SequenceVariable[] paramVars, object[] paramConsts, SequenceVariable[] returnVars)
         {
             if(paramVars.Length != paramConsts.Length)
                 throw new ArgumentException("Lengths of variable and constant parameter array do not match");

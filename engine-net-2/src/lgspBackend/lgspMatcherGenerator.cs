@@ -1492,7 +1492,7 @@ exitSecondLoop: ;
                 outParameters += ", out " + TypesHelper.TypeName(matchingPattern.Outputs[i]) + " output_" + i;
                 refParameters += ", ref " + TypesHelper.TypeName(matchingPattern.Outputs[i]) + " output_" + i;
                 outLocals += TypesHelper.TypeName(matchingPattern.Outputs[i]) + " output_" + i + "; ";
-                refLocals += TypesHelper.TypeName(matchingPattern.Outputs[i]) + " output_" + i + " = " + TypesHelper.DefaultValue(matchingPattern.Outputs[i]) + "; ";
+                refLocals += TypesHelper.TypeName(matchingPattern.Outputs[i]) + " output_" + i + " = " + TypesHelper.DefaultValue(matchingPattern.Outputs[i].Name, model) + "; ";
                 outArguments += ", out output_" + i;
                 refArguments += ", ref output_" + i;
             }
@@ -1532,7 +1532,7 @@ exitSecondLoop: ;
             sb.AppendFront("{\n");
             sb.Indent();
             for (int i = 0; i < matchingPattern.Outputs.Length; ++i) {
-                sb.AppendFrontFormat("output_{0} = {1};\n", i, TypesHelper.DefaultValue(matchingPattern.Outputs[i]));
+                sb.AppendFrontFormat("output_{0} = {1};\n", i, TypesHelper.DefaultValue(matchingPattern.Outputs[i].Name, model));
             }
             sb.AppendFront("if(!graph.TransactionManager.TransactionActive && graph.ReuseOptimization) {\n");
             sb.Indent();

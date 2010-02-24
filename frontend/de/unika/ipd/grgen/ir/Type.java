@@ -48,6 +48,8 @@ public abstract class Type extends Identifiable {
 	public static final int IS_STRING  = 5;
 	public static final int IS_TYPE  = 6;
 	public static final int IS_OBJECT = 7;
+	public static final int IS_SET = 8;
+	public static final int IS_MAP = 9;
 
 
 	/**

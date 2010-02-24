@@ -24,7 +24,9 @@ import de.unika.ipd.grgen.ir.Bad;
 import de.unika.ipd.grgen.ir.EdgeType;
 import de.unika.ipd.grgen.ir.IR;
 import de.unika.ipd.grgen.ir.InheritanceType;
+import de.unika.ipd.grgen.ir.MapType;
 import de.unika.ipd.grgen.ir.NodeType;
+import de.unika.ipd.grgen.ir.SetType;
 import de.unika.ipd.grgen.ir.Type;
 import de.unika.ipd.grgen.parser.Coords;
 import de.unika.ipd.grgen.parser.Scope;
@@ -191,11 +193,14 @@ public class CallActionNode extends BaseNode {
 			res = false;
 		} else if(actualParams.size() > 0) {
 			Iterator<? extends ExprNode> iterAP = actualParams.iterator();
+			int paramCounter = 1;
 			for(DeclNode formalParam : formalParams) {
-				Type     formalParamType = formalParam.getDecl().getDeclType().getType();
+				TypeNode formalParameterType = formalParam.getDecl().getDeclType();
+				Type     formalParamType = formalParameterType.getType();
 
 				ExprNode actualParam     = iterAP.next();
-				Type     actualParamType = actualParam.getType().getType();
+				TypeNode actualParameterType = actualParam.getType();
+				Type     actualParamType = actualParameterType.getType();
 
 				boolean incommensurable = false;
 
@@ -204,6 +209,28 @@ public class CallActionNode extends BaseNode {
 					// Do types match?
 					if(actualParamType.classify() != formalParamType.classify())
 						incommensurable = true;		// No => illegal
+					else {
+						if(actualParamType instanceof SetType) {
+							SetType apt = (SetType)actualParamType;
+							SetType fpt = (SetType)formalParamType;
+							if(apt.getValueType().classify()!=fpt.getValueType().classify()) {
+								reportError("Set value types are incommensurable. ("+paramCounter+". argument)");
+								incommensurable = true;
+							}
+						}
+						if(actualParamType instanceof MapType) {
+							MapType apt = (MapType)actualParamType;
+							MapType fpt = (MapType)formalParamType;
+							if(apt.getValueType().classify()!=fpt.getValueType().classify()) {
+								reportError("Map value types are incommensurable. ("+paramCounter+". argument)");
+								incommensurable = true;
+							}
+							if(apt.getKeyType().classify()!=fpt.getKeyType().classify()) {
+								reportError("Map key types are incommensurable. ("+paramCounter+". argument)");
+								incommensurable = true;
+							}
+						}
+					}
 				}
 				// No, are formal and actual param types of same kind?
 				else if(!(actualParamType instanceof EdgeType && formalParamType instanceof EdgeType ||
@@ -213,17 +240,22 @@ public class CallActionNode extends BaseNode {
 				if(incommensurable) {
 					reportError("Actual param type \"" + actualParamType
 							+ "\" and formal param type \"" + formalParamType
-							+ "\" are incommensurable.");
+							+ "\" are incommensurable. ("+paramCounter+". argument)");
 					res = false;
 				}
 				else if(actualParamType instanceof InheritanceType) {
-					InheritanceType fpt = (InheritanceType)formalParamType;
-					InheritanceType apt = (InheritanceType)actualParamType;
-					if(fpt!=apt && !fpt.isRoot() && !apt.isRoot()
-							&& Collections.disjoint(fpt.getAllSubTypes(), apt.getAllSubTypes()))
-						reportWarning("Formal param type \"" + formalParamType
-								+ "\" will never match to actual param type \"" + actualParamType +  "\".");
+					if(!actualParameterType.isCompatibleTo(formalParameterType)) {
+						reportError("The "+paramCounter+". argument is not the same or a subtype of the formal parameter");
+					} else {
+						InheritanceType fpt = (InheritanceType)formalParamType;
+						InheritanceType apt = (InheritanceType)actualParamType;
+						if(fpt!=apt && !fpt.isRoot() && !apt.isRoot()
+								&& Collections.disjoint(fpt.getAllSubTypes(), apt.getAllSubTypes()))
+							reportWarning("Formal param type \"" + formalParamType
+									+ "\" will never match to actual param type \"" + actualParamType +  "\".");
+					}
 				}
+				++paramCounter;
 			}
 		}
 		return res;
@@ -237,7 +269,7 @@ public class CallActionNode extends BaseNode {
 	 *
 	 * @return   a  boolean
 	 */
-	private boolean checkReturns(CollectNode<IdentNode> formalReturns, CollectNode<ExecVarDeclNode> actualReturns) {
+	private boolean checkReturns(CollectNode<TypeNode> formalReturns, CollectNode<ExecVarDeclNode> actualReturns) {
 		boolean res = true;
 		// It is ok to have no actual returns, but if there are some, then they have to fit.
 		if(actualReturns.children.size() > 0 && formalReturns.children.size() != actualReturns.children.size()) {
@@ -247,8 +279,8 @@ public class CallActionNode extends BaseNode {
 			res = false;
 		} else if(actualReturns.children.size() > 0) {
 			Iterator<ExecVarDeclNode> iterAR = actualReturns.getChildren().iterator();
-			for(IdentNode formalReturn : formalReturns.getChildren()) {
-				Type     formalReturnType = formalReturn.getDecl().getDeclType().getType();
+			for(TypeNode formalReturn : formalReturns.getChildren()) {
+				Type     formalReturnType = formalReturn.getType();
 
 				DeclNode actualReturn     = iterAR.next();
 				Type     actualReturnType = actualReturn.getDecl().getDeclType().getType();

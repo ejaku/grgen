@@ -178,10 +178,11 @@ public class GraphNode extends BaseNode {
 			VarDeclNode paramVar = (VarDeclNode) n;
 			if(paramVar.resolve()) {
 				if(!(paramVar.getDeclType() instanceof BasicTypeNode)
+						&& !(paramVar.getDeclType() instanceof EnumTypeNode)
 						&& !(paramVar.getDeclType() instanceof MapTypeNode)
 						&& !(paramVar.getDeclType() instanceof SetTypeNode)) {
 					paramVar.typeUnresolved.reportError("Type of variable \""
-							+ paramVar.getIdentNode() + "\" must be a basic type (like int or string), a map or a set");
+							+ paramVar.getIdentNode() + "\" must be a basic type (like int or string), or an enum, or a map or a set");
 					paramsOK = false;
 				}
 			}

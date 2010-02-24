@@ -100,7 +100,7 @@ namespace de.unika.ipd.grGen.lgsp
     {
         public SearchOperationType Type;
         /// <summary>
-        /// If Type is NegativePattern, Element is a negative ScheduledSearchPlan object.
+        /// If Type is NegativePattern or IndependentPattern, Element is a negative ScheduledSearchPlan object.
         /// If Type is Condition, Element is a Condition object.
         /// Otherwise Element is the target SearchPlanNode for this operation.
         /// </summary>

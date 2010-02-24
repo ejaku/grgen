@@ -11,8 +11,7 @@
  */
 package de.unika.ipd.grgen.ast;
 
-import de.unika.ipd.grgen.ast.util.Checker;
-import de.unika.ipd.grgen.ast.util.CollectChecker;
+import de.unika.ipd.grgen.ast.util.CollectResolver;
 import de.unika.ipd.grgen.ast.util.DeclarationTypeResolver;
 import de.unika.ipd.grgen.ir.Edge;
 import de.unika.ipd.grgen.ir.Entity;
@@ -21,7 +20,6 @@ import de.unika.ipd.grgen.ir.IR;
 import de.unika.ipd.grgen.ir.MatchingAction;
 import de.unika.ipd.grgen.ir.PatternGraph;
 import de.unika.ipd.grgen.ir.Rule;
-import de.unika.ipd.grgen.util.report.ErrorReporter;
 import java.util.Collection;
 import java.util.HashSet;
 import java.util.LinkedList;
@@ -37,23 +35,24 @@ public class TestDeclNode extends ActionDeclNode {
 		setName(TestDeclNode.class, "test declaration");
 	}
 
-	protected CollectNode<IdentNode> returnFormalParameters;
+	protected CollectNode<BaseNode> returnFormalParametersUnresolved;
+	protected CollectNode<TypeNode> returnFormalParameters;
 	private TestTypeNode type;
 	protected PatternGraphNode pattern;
 
 	private static final TypeNode testType = new TestTypeNode();
 
 	protected TestDeclNode(IdentNode id, TypeNode type, PatternGraphNode pattern,
-						   CollectNode<IdentNode> rets) {
+						   CollectNode<BaseNode> rets) {
 		super(id, type);
-		this.returnFormalParameters = rets;
-		becomeParent(this.returnFormalParameters);
+		this.returnFormalParametersUnresolved = rets;
+		becomeParent(this.returnFormalParametersUnresolved);
 		this.pattern = pattern;
 		becomeParent(this.pattern);
 	}
 
 	public TestDeclNode(IdentNode id, PatternGraphNode pattern,
-						CollectNode<IdentNode> rets) {
+						CollectNode<BaseNode> rets) {
 		this(id, testType, pattern, rets);
 	}
 
@@ -63,7 +62,7 @@ public class TestDeclNode extends ActionDeclNode {
 		Vector<BaseNode> children = new Vector<BaseNode>();
 		children.add(ident);
 		children.add(getValidVersion(typeUnresolved, type));
-		children.add(returnFormalParameters);
+		children.add(getValidVersion(returnFormalParametersUnresolved, returnFormalParameters));
 		children.add(pattern);
 		return children;
 	}
@@ -80,13 +79,16 @@ public class TestDeclNode extends ActionDeclNode {
 	}
 
 	private static final DeclarationTypeResolver<TestTypeNode> typeResolver = new DeclarationTypeResolver<TestTypeNode>(TestTypeNode.class);
+	private static final CollectResolver<TypeNode> retTypeResolver = new CollectResolver<TypeNode>(
+    		new DeclarationTypeResolver<TypeNode>(TypeNode.class));
 
 	/** @see de.unika.ipd.grgen.ast.BaseNode#resolveLocal() */
 	@Override
 	protected boolean resolveLocal() {
 		type = typeResolver.resolve(typeUnresolved, this);
+		returnFormalParameters = retTypeResolver.resolve(returnFormalParametersUnresolved, this);
 
-		return type != null;
+		return type != null && returnFormalParameters != null;
 	}
 
 	/**
@@ -96,16 +98,13 @@ public class TestDeclNode extends ActionDeclNode {
 	protected boolean checkReturns(CollectNode<ExprNode> returnArgs) {
 		boolean res = true;
 
-		Vector<IdentNode> retTypeIdents = returnFormalParameters.children;
-
-		int declaredNumRets = retTypeIdents.size();
+		int declaredNumRets = returnFormalParameters.size();
 		int actualNumRets = returnArgs.children.size();
 retLoop:for (int i = 0; i < Math.min(declaredNumRets, actualNumRets); i++) {
 			ExprNode retExpr = returnArgs.children.get(i);
 			TypeNode retExprType = retExpr.getType();
 
-			IdentNode retIdent = retTypeIdents.get(i);
-			TypeNode retDeclType = retIdent.getDecl().getDeclType();
+			TypeNode retDeclType = returnFormalParameters.get(i);
 			if(!retExprType.isCompatibleTo(retDeclType)) {
 				res = false;
 				String exprTypeName;
@@ -114,7 +113,7 @@ retLoop:for (int i = 0; i < Math.min(declaredNumRets, actualNumRets); i++) {
 				else
 					exprTypeName = retExprType.toString();
 				ident.reportError("Cannot convert " + (i + 1) + ". return parameter from \""
-						+ exprTypeName + "\" to \"" + retIdent + "\"");
+						+ exprTypeName + "\" to \"" + returnFormalParameters.get(i).toString() + "\"");
 				continue;
 			}
 
@@ -161,35 +160,9 @@ retLoop:for (int i = 0; i < Math.min(declaredNumRets, actualNumRets); i++) {
 		return res;
 	}
 
-	private static final Checker retDeclarationChecker = new CollectChecker(
-		new Checker() {
-			public boolean check(BaseNode node, ErrorReporter reporter) {
-				boolean res = true;
-
-				if ( ! (node instanceof IdentNode) ) {
-					//this should never be reached
-					node.reportError("Not an identifier");
-					return false;
-				}
-				if ( ((IdentNode)node).getDecl().equals(DeclNode.getInvalid()) ) {
-					res = false;
-					node.reportError("\"" + node + "\" is undeclared");
-				} else {
-					TypeNode type = ((IdentNode)node).getDecl().getDeclType();
-					res = (type instanceof NodeTypeNode) || (type instanceof EdgeTypeNode)
-						|| (type instanceof BasicTypeNode);
-					if (!res) {
-						node.reportError("\"" + node + "\" is neither a node nor an edge nor a basic type");
-					}
-				}
-				return res;
-			}
-		}
-	);
-
 	@Override
 	protected boolean checkLocal() {
-		boolean childs = retDeclarationChecker.check(returnFormalParameters, error);
+		boolean childs = true;
 
 		// check if reused names of edges connect the same nodes in the same direction with the same edge kind for each usage
 		boolean edgeReUse = false;

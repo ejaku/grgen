@@ -104,10 +104,22 @@ namespace de.unika.ipd.grGen.libGr
         /// Creates an instance of a SequenceParserRuleException used by the SequenceParser, when the rule with the
         /// given name does not exist or input or output parameters do not match.
         /// </summary>
-        /// <param name="ruleObj">A rule object.</param>
+        /// <param name="ruleName">Name of the rule or variable.</param>
         /// <param name="errorKind">The kind of error.</param>
-        public SequenceParserRuleException(RuleObject ruleObj, SequenceParserError errorKind)
-            : this(ruleObj, errorKind, -1)
+        public SequenceParserRuleException(String ruleName, SequenceParserError errorKind)
+        {
+            RuleName = ruleName;
+            Kind = errorKind; 
+        }
+
+        /// <summary>
+        /// Creates an instance of a SequenceParserRuleException used by the SequenceParser, when the rule with the
+        /// given name does not exist or input or output parameters do not match.
+        /// </summary>
+        /// <param name="paramBindings">The parameter bindings of the rule invocation.</param>
+        /// <param name="errorKind">The kind of error.</param>
+        public SequenceParserRuleException(RuleInvocationParameterBindings paramBindings, SequenceParserError errorKind)
+            : this(paramBindings, errorKind, -1)
         {
         }
 
@@ -115,16 +127,16 @@ namespace de.unika.ipd.grGen.libGr
         /// Creates an instance of a SequenceParserRuleException used by the SequenceParser, when the rule with the
         /// given name does not exist or input or output parameters do not match.
         /// </summary>
-        /// <param name="ruleObj">A rule object.</param>
+        /// <param name="paramBindings">The parameter bindings of the rule invocation.</param>
         /// <param name="errorKind">The kind of error.</param>
         /// <param name="badParamIndex">The index of a bad parameter or -1 if another error occurred.</param>
-        public SequenceParserRuleException(RuleObject ruleObj, SequenceParserError errorKind, int badParamIndex)
+        public SequenceParserRuleException(RuleInvocationParameterBindings paramBindings, SequenceParserError errorKind, int badParamIndex)
         {
             Kind = errorKind;
-            RuleName = ruleObj.RuleName;
-            Action = ruleObj.Action;
-            NumGivenInputs = ruleObj.Parameters.Length;
-            NumGivenOutputs = ruleObj.ReturnVars.Length;
+            RuleName = paramBindings.RuleName;
+            Action = paramBindings.Action;
+            NumGivenInputs = paramBindings.Parameters.Length;
+            NumGivenOutputs = paramBindings.ReturnVars.Length;
             BadParamIndex = badParamIndex;
         }
     }

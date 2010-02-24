@@ -398,11 +398,30 @@ forwardOrUndirectedEdgeParam returns [ int res = ConnectionNode.ARBITRARY ]
 	| MINUS  { res = ConnectionNode.UNDIRECTED; }
 	;
 
-returnTypes returns [ CollectNode<IdentNode> res = new CollectNode<IdentNode>() ]
-	: COLON LPAREN
-		( type=typeIdentUse { res.addChild(type); } ( COMMA type=typeIdentUse { res.addChild(type); } )* )?
-		RPAREN
+returnTypes returns [ CollectNode<BaseNode> res = new CollectNode<BaseNode>() ]
+	: COLON LPAREN (returnTypeList[res])? RPAREN
 	|
+	;
+
+returnTypeList [ CollectNode<BaseNode> returnTypes ]
+	: t=returnType { returnTypes.addChild(t); } ( COMMA t=returnType { returnTypes.addChild(t); } )*
+	;
+
+returnType returns [ BaseNode res = env.initNode() ]
+	:	type=typeIdentUse
+		{
+			res = type;
+		}
+	|
+		MAP LT keyType=typeIdentUse COMMA valueType=typeIdentUse GT
+		{ // MAP TODO: das sollte eigentlich kein Schluesselwort sein, sondern ein Typbezeichner
+			res = MapTypeNode.getMapType(keyType, valueType);
+		}
+	|
+		SET LT keyType=typeIdentUse GT
+		{ // MAP TODO: das sollte eigentlich kein Schluesselwort sein, sondern ein Typbezeichner
+			res = SetTypeNode.getSetType(keyType);
+		}
 	;
 
 patternPart [ Coords pattern_coords, CollectNode<BaseNode> params, int mod, int context, String nameOfGraph ] returns [ PatternGraphNode res = null ]

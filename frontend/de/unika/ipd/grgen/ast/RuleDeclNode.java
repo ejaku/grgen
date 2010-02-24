@@ -12,6 +12,7 @@
 package de.unika.ipd.grgen.ast;
 
 
+import de.unika.ipd.grgen.ast.util.CollectResolver;
 import de.unika.ipd.grgen.ast.util.DeclarationTypeResolver;
 import de.unika.ipd.grgen.ir.EvalStatement;
 import de.unika.ipd.grgen.ir.IR;
@@ -45,7 +46,7 @@ public class RuleDeclNode extends TestDeclNode {
 	 * @param neg The context preventing the rule to match.
 	 */
 	public RuleDeclNode(IdentNode id, PatternGraphNode left, RhsDeclNode right,
-			CollectNode<IdentNode> rets) {
+			CollectNode<BaseNode> rets) {
 		super(id, ruleType, left, rets);
 		this.right = right;
 		becomeParent(this.right);
@@ -56,7 +57,7 @@ public class RuleDeclNode extends TestDeclNode {
 		Vector<BaseNode> children = new Vector<BaseNode>();
 		children.add(ident);
 		children.add(getValidVersion(typeUnresolved, type));
-		children.add(returnFormalParameters);
+		children.add(getValidVersion(returnFormalParametersUnresolved, returnFormalParameters));
 		children.add(pattern);
 		children.add(right);
 		return children;
@@ -74,12 +75,15 @@ public class RuleDeclNode extends TestDeclNode {
 	}
 
 	protected static final DeclarationTypeResolver<RuleTypeNode> typeResolver =	new DeclarationTypeResolver<RuleTypeNode>(RuleTypeNode.class);
-
+	private static final CollectResolver<TypeNode> retTypeResolver = new CollectResolver<TypeNode>(
+    		new DeclarationTypeResolver<TypeNode>(TypeNode.class));
+	
 	/** @see de.unika.ipd.grgen.ast.BaseNode#resolveLocal() */
 	protected boolean resolveLocal() {
 		type = typeResolver.resolve(typeUnresolved, this);
+		returnFormalParameters = retTypeResolver.resolve(returnFormalParametersUnresolved, this);
 
-		return type != null;
+		return type != null && returnFormalParameters != null;
 	}
 
 	protected Set<DeclNode> getDelete() {

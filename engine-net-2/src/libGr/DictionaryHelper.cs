@@ -31,10 +31,21 @@ namespace de.unika.ipd.grGen.libGr
                 return null;
             }
             Type dictType = dict.GetType();
+            GetDictionaryTypes(dictType, out keyType, out valueType);
+            return (IDictionary)dict;
+        }
+
+        /// <summary>
+        /// The key and value types are returned of the dictionary
+        /// </summary>
+        /// <param name="dictType">The dictionary type</param>
+        /// <param name="keyType">The key type of the dictionary</param>
+        /// <param name="valueType">The value type of the dictionary</param>
+        public static void GetDictionaryTypes(Type dictType, out Type keyType, out Type valueType)
+        {
             Type[] dictTypeArgs = dictType.GetGenericArguments();
             keyType = dictTypeArgs[0];
             valueType = dictTypeArgs[1];
-            return (IDictionary)dict;
         }
 
         /// <summary>

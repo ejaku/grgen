@@ -8,6 +8,7 @@
 using System;
 using System.Collections.Generic;
 using System.Collections;
+using System.Text;
 
 namespace de.unika.ipd.grGen.libGr
 {
@@ -16,7 +17,7 @@ namespace de.unika.ipd.grGen.libGr
     /// </summary>
     public enum SequenceType
     {
-        ThenLeft, ThenRight, LazyOr, LazyAnd, StrictOr, Xor, StrictAnd, Not, Min, MinMax,
+        ThenLeft, ThenRight, LazyOr, LazyAnd, StrictOr, Xor, StrictAnd, Not, IterationMin, IterationMinMax,
         Rule, RuleAll, Def, True, False, VarPredicate,
         AssignVAllocToVar, AssignSetmapSizeToVar, AssignSetmapEmptyToVar, AssignMapAccessToVar,
         AssignSetCreationToVar, AssignMapCreationToVar,
@@ -50,6 +51,9 @@ namespace de.unika.ipd.grGen.libGr
         public Sequence(SequenceType seqType)
         {
             SequenceType = seqType;
+
+            id = idSource;
+            ++idSource;
         }
 
         /// <summary>
@@ -90,6 +94,21 @@ namespace de.unika.ipd.grGen.libGr
         /// A string symbol representing this sequence type.
         /// </summary>
         public abstract String Symbol { get; }
+
+        /// <summary>
+        /// returns the sequence id - every sequence is assigned a unique id used in xgrs code generation
+        /// </summary>
+        public int Id { get { return id; } }
+
+        /// <summary>
+        /// stores the sequence unique id
+        /// </summary>
+        private int id;
+
+        /// <summary>
+        /// the static member used to assign the unique ids to the sequence instances
+        /// </summary>
+        private static int idSource = 0;
     }
 
     /// <summary>
@@ -313,11 +332,11 @@ namespace de.unika.ipd.grGen.libGr
         public override string Symbol { get { return "!"; } }
     }
 
-    public class SequenceMin : SequenceUnary
+    public class SequenceIterationMin : SequenceUnary
     {
         public long Min;
 
-        public SequenceMin(Sequence seq, long min) : base(seq, SequenceType.Min)
+        public SequenceIterationMin(Sequence seq, long min) : base(seq, SequenceType.IterationMin)
         {
             Min = min;
         }
@@ -334,11 +353,11 @@ namespace de.unika.ipd.grGen.libGr
         public override string Symbol { get { return "[" + Min + ":*]"; } }
     }
 
-    public class SequenceMinMax : SequenceUnary
+    public class SequenceIterationMinMax : SequenceUnary
     {
         public long Min, Max;
 
-        public SequenceMinMax(Sequence seq, long min, long max) : base(seq, SequenceType.MinMax)
+        public SequenceIterationMinMax(Sequence seq, long min, long max) : base(seq, SequenceType.IterationMinMax)
         {
             Min = min;
             Max = max;
@@ -360,19 +379,20 @@ namespace de.unika.ipd.grGen.libGr
 
     public class SequenceRule : SequenceSpecial
     {
-        public RuleObject RuleObj;
+        public RuleInvocationParameterBindings ParamBindings;
+
         public bool Test;
 
-        public SequenceRule(RuleObject ruleObj, bool special, bool test)
+        public SequenceRule(RuleInvocationParameterBindings paramBindings, bool special, bool test)
             : base(special, SequenceType.Rule)
         {
-            RuleObj = ruleObj;
+            ParamBindings = paramBindings;
             Test = test;
         }
 
         protected override bool ApplyImpl(IGraph graph)
         {
-            return graph.ApplyRewrite(RuleObj, 0, 1, Special, Test) > 0;
+            return graph.ApplyRewrite(ParamBindings, 0, 1, Special, Test) > 0;
         }
 
         public override IEnumerable<Sequence> Children { get { yield break; } }
@@ -380,13 +400,29 @@ namespace de.unika.ipd.grGen.libGr
 
         protected String GetRuleString()
         {
-            String sym = "";
-            if(RuleObj.ReturnVars.Length > 0 && RuleObj.ReturnVars[0] != null)
-                sym = "(" + String.Join(", ", RuleObj.ReturnVars) + ")=";
-            sym += RuleObj.Action.Name;
-            if(RuleObj.ParamVars.Length > 0)
-                sym += "(" + String.Join(", ", RuleObj.ParamVars) + ")";
-            return sym;
+            StringBuilder sb = new StringBuilder();
+            if(ParamBindings.ReturnVars.Length > 0 && ParamBindings.ReturnVars[0] != null)
+            {
+                sb.Append("(");
+                for(int i = 0; i < ParamBindings.ReturnVars.Length; ++i)
+                {
+                    sb.Append(ParamBindings.ReturnVars[i].Name);
+                    if(i != ParamBindings.ReturnVars.Length - 1) sb.Append(",");
+                }
+                sb.Append(")=");
+            }
+            sb.Append(ParamBindings.Action.Name);
+            if(ParamBindings.ParamVars.Length > 0)
+            {
+                sb.Append("(");
+                for(int i = 0; i < ParamBindings.ParamVars.Length; ++i)
+                {
+                    sb.Append(ParamBindings.ParamVars[i].Name);
+                    if(i != ParamBindings.ParamVars.Length - 1) sb.Append(",");
+                }
+                sb.Append(")");
+            }
+            return sb.ToString();
         }
 
         public override string Symbol      
@@ -413,8 +449,8 @@ namespace de.unika.ipd.grGen.libGr
     {
 		public int NumChooseRandom;
 
-        public SequenceRuleAll(RuleObject ruleObj, bool special, bool test, int numChooseRandom)
-            : base(ruleObj, special, test)
+        public SequenceRuleAll(RuleInvocationParameterBindings paramBindings, bool special, bool test, int numChooseRandom)
+            : base(paramBindings, special, test)
         {
             SequenceType = SequenceType.RuleAll;
 			NumChooseRandom = numChooseRandom;
@@ -423,7 +459,7 @@ namespace de.unika.ipd.grGen.libGr
         protected override bool ApplyImpl(IGraph graph)
         {
 			if(NumChooseRandom <= 0)
-				return graph.ApplyRewrite(RuleObj, -1, -1, Special, Test) > 0;
+				return graph.ApplyRewrite(ParamBindings, -1, -1, Special, Test) > 0;
 			else
 			{
                 // TODO: Code duplication! Compare with BaseGraph.ApplyRewrite.
@@ -431,22 +467,22 @@ namespace de.unika.ipd.grGen.libGr
 				int curMaxMatches = graph.MaxMatches;
 
 				object[] parameters;
-				if(RuleObj.ParamVars.Length > 0)
+				if(ParamBindings.ParamVars.Length > 0)
 				{
-					parameters = RuleObj.Parameters;
-                    for(int i = 0; i < RuleObj.ParamVars.Length; i++)
+					parameters = ParamBindings.Parameters;
+                    for(int i = 0; i < ParamBindings.ParamVars.Length; i++)
                     {
                         // If this parameter is not constant, the according ParamVars entry holds the
                         // name of a variable to be used for the parameter.
                         // Otherwise the parameters entry remains unchanged (it already contains the constant)
-                        if(RuleObj.ParamVars[i] != null)
-                            parameters[i] = graph.GetVariableValue(RuleObj.ParamVars[i]);
+                        if(ParamBindings.ParamVars[i] != null)
+                            parameters[i] = ParamBindings.ParamVars[i].GetVariableValue(graph);
                     }
 				}
 				else parameters = null;
 
 				if(graph.PerformanceInfo != null) graph.PerformanceInfo.StartLocal();
-				IMatches matches = RuleObj.Action.Match(graph, curMaxMatches, parameters);
+				IMatches matches = ParamBindings.Action.Match(graph, curMaxMatches, parameters);
 				if(graph.PerformanceInfo != null)
 				{
 					graph.PerformanceInfo.StopMatch();              // total match time does NOT include listeners anymore
@@ -472,8 +508,8 @@ namespace de.unika.ipd.grGen.libGr
 				}
 				if(retElems == null) retElems = BaseGraph.NoElems;
 
-				for(int i = 0; i < RuleObj.ReturnVars.Length; i++)
-					graph.SetVariableValue(RuleObj.ReturnVars[i], retElems[i]);
+				for(int i = 0; i < ParamBindings.ReturnVars.Length; i++)
+                    ParamBindings.ReturnVars[i].SetVariableValue(retElems[i], graph);
 				if(graph.PerformanceInfo != null) graph.PerformanceInfo.StopRewrite();            // total rewrite time does NOT include listeners anymore
 
 				graph.Finished(matches, Special);
@@ -508,9 +544,9 @@ namespace de.unika.ipd.grGen.libGr
 
     public class SequenceDef : Sequence
     {
-        public String[] DefVars;
+        public SequenceVariable[] DefVars;
 
-        public SequenceDef(String[] defVars)
+        public SequenceDef(SequenceVariable[] defVars)
             : base(SequenceType.Def)
         {
             DefVars = defVars;
@@ -518,16 +554,28 @@ namespace de.unika.ipd.grGen.libGr
 
         protected override bool ApplyImpl(IGraph graph)
         {
-            foreach(String defVar in DefVars)
-                if(graph.GetVariableValue(defVar) == null) 
+            foreach(SequenceVariable defVar in DefVars)
+            {
+                if(defVar.GetVariableValue(graph) == null) 
                     return false;
-
+            }
             return true;
         }
 
         public override IEnumerable<Sequence> Children { get { yield break; } }
         public override int Precedence { get { return 8; } }
-        public override string Symbol { get { return "def(" + String.Join(", ", DefVars) + ")"; } }
+        public override string Symbol { get {
+                StringBuilder sb = new StringBuilder(); 
+                sb.Append("def(");
+                for(int i=0; i<DefVars.Length; ++i)
+                {
+                    sb.Append(DefVars[i].Name);
+                    if(i!=DefVars.Length-1) sb.Append(",");
+                }
+                sb.Append(")");
+                return sb.ToString();
+            }
+        }
     }
 
     public class SequenceTrue : SequenceSpecial
@@ -558,31 +606,30 @@ namespace de.unika.ipd.grGen.libGr
 
     public class SequenceVarPredicate : SequenceSpecial
     {
-        public String PredicateVar;
+        public SequenceVariable PredicateVar;
 
-        public SequenceVarPredicate(String varName, bool special)
+        public SequenceVarPredicate(SequenceVariable var, bool special)
             : base(special, SequenceType.VarPredicate)
         {
-            PredicateVar = varName;
+            PredicateVar = var;
         }
 
         protected override bool ApplyImpl(IGraph graph)
         {
-            object val = graph.GetVariableValue(PredicateVar);
-            if(val is bool) return (bool) val;
-
+            object val = PredicateVar.GetVariableValue(graph);
+            if(val is bool) return (bool)val;
             throw new InvalidOperationException("The variable '" + PredicateVar + "' is not boolean!");
         }
         public override IEnumerable<Sequence> Children { get { yield break; } }
         public override int Precedence { get { return 8; } }
-        public override string Symbol { get { return PredicateVar; } }
+        public override string Symbol { get { return PredicateVar.Name; } }
     }
 
     public class SequenceAssignVAllocToVar : Sequence
     {
-        public String DestVar;
+        public SequenceVariable DestVar;
 
-        public SequenceAssignVAllocToVar(String destVar)
+        public SequenceAssignVAllocToVar(SequenceVariable destVar)
             : base(SequenceType.AssignVAllocToVar)
         {
             DestVar = destVar;
@@ -590,21 +637,21 @@ namespace de.unika.ipd.grGen.libGr
 
         protected override bool ApplyImpl(IGraph graph)
         {
-            graph.SetVariableValue(DestVar, graph.AllocateVisitedFlag());
+            DestVar.SetVariableValue(graph.AllocateVisitedFlag(), graph);
             return true;
         }
 
         public override IEnumerable<Sequence> Children { get { yield break; } }
         public override int Precedence { get { return 8; } }
-        public override string Symbol { get { return DestVar + "=valloc()"; } }
+        public override string Symbol { get { return DestVar.Name + "=valloc()"; } }
     }
 
     public class SequenceAssignSetmapSizeToVar : Sequence
     {
-        public String DestVar;
-        public String Setmap;
+        public SequenceVariable DestVar;
+        public SequenceVariable Setmap;
 
-        public SequenceAssignSetmapSizeToVar(String destVar, String setmap)
+        public SequenceAssignSetmapSizeToVar(SequenceVariable destVar, SequenceVariable setmap)
             : base(SequenceType.AssignSetmapSizeToVar)
         {
             DestVar = destVar;
@@ -613,22 +660,22 @@ namespace de.unika.ipd.grGen.libGr
 
         protected override bool ApplyImpl(IGraph graph)
         {
-            IDictionary setmap = (IDictionary)graph.GetVariableValue(Setmap);
-            graph.SetVariableValue(DestVar, setmap.Count);
+            IDictionary setmap = (IDictionary)Setmap.GetVariableValue(graph);
+            DestVar.SetVariableValue(setmap.Count, graph);
             return true;
         }
 
         public override IEnumerable<Sequence> Children { get { yield break; } }
         public override int Precedence { get { return 8; } }
-        public override string Symbol { get { return DestVar + "=" + Setmap + ".size()"; } }
+        public override string Symbol { get { return DestVar.Name + "=" + Setmap.Name + ".size()"; } }
     }
 
     public class SequenceAssignSetmapEmptyToVar : Sequence
     {
-        public String DestVar;
-        public String Setmap;
+        public SequenceVariable DestVar;
+        public SequenceVariable Setmap;
 
-        public SequenceAssignSetmapEmptyToVar(String destVar, String setmap)
+        public SequenceAssignSetmapEmptyToVar(SequenceVariable destVar, SequenceVariable setmap)
             : base(SequenceType.AssignSetmapEmptyToVar)
         {
             DestVar = destVar;
@@ -637,23 +684,23 @@ namespace de.unika.ipd.grGen.libGr
 
         protected override bool ApplyImpl(IGraph graph)
         {
-            IDictionary setmap = (IDictionary)graph.GetVariableValue(Setmap);
-            graph.SetVariableValue(DestVar, setmap.Count==0);
+            IDictionary setmap = (IDictionary)Setmap.GetVariableValue(graph);
+            DestVar.SetVariableValue(setmap.Count == 0, graph);
             return true;
         }
 
         public override IEnumerable<Sequence> Children { get { yield break; } }
         public override int Precedence { get { return 8; } }
-        public override string Symbol { get { return DestVar + "=" + Setmap + ".empty()"; } }
+        public override string Symbol { get { return DestVar.Name + "=" + Setmap.Name + ".empty()"; } }
     }
 
     public class SequenceAssignMapAccessToVar : Sequence
         {
-        public String DestVar;
-        public String Setmap;
-        public String KeyVar;
+        public SequenceVariable DestVar;
+        public SequenceVariable Setmap;
+        public SequenceVariable KeyVar;
 
-        public SequenceAssignMapAccessToVar(String destVar, String setmap, String keyVar)
+        public SequenceAssignMapAccessToVar(SequenceVariable destVar, SequenceVariable setmap, SequenceVariable keyVar)
             : base(SequenceType.AssignMapAccessToVar)
         {
             DestVar = destVar;
@@ -663,23 +710,24 @@ namespace de.unika.ipd.grGen.libGr
 
         protected override bool ApplyImpl(IGraph graph)
         {
-            IDictionary setmap = (IDictionary)graph.GetVariableValue(Setmap);
-            if(!setmap.Contains(graph.GetVariableValue(KeyVar))) return false;
-            graph.SetVariableValue(DestVar, setmap[graph.GetVariableValue(KeyVar)]);
+            IDictionary setmap = (IDictionary)Setmap.GetVariableValue(graph);
+            object keyVar = KeyVar.GetVariableValue(graph);
+            if(!setmap.Contains(keyVar)) return false;
+            DestVar.SetVariableValue(setmap[keyVar], graph);
             return true;
         }
 
         public override IEnumerable<Sequence> Children { get { yield break; } }
         public override int Precedence { get { return 8; } }
-        public override string Symbol { get { return DestVar + "=" + Setmap + "[" + KeyVar + "]"; } }
+        public override string Symbol { get { return DestVar.Name + "=" + Setmap.Name + "[" + KeyVar.Name + "]"; } }
     }
     
     public class SequenceAssignSetCreationToVar : Sequence
     {
-        public String DestVar;
+        public SequenceVariable DestVar;
         public String TypeName;
 
-        public SequenceAssignSetCreationToVar(String destVar, String typeName)
+        public SequenceAssignSetCreationToVar(SequenceVariable destVar, String typeName)
             : base(SequenceType.AssignSetCreationToVar)
         {
             DestVar = destVar;
@@ -690,22 +738,22 @@ namespace de.unika.ipd.grGen.libGr
         {
             Type srcType = DictionaryHelper.GetTypeFromNameForDictionary(TypeName, graph);
             Type dstType = typeof(de.unika.ipd.grGen.libGr.SetValueType);
-            graph.SetVariableValue(DestVar, DictionaryHelper.NewDictionary(srcType, dstType));
+            DestVar.SetVariableValue(DictionaryHelper.NewDictionary(srcType, dstType), graph);
             return true;
         }
 
         public override IEnumerable<Sequence> Children { get { yield break; } }
         public override int Precedence { get { return 8; } }
-        public override string Symbol { get { return DestVar + "= set<" + TypeName + ">"; } }
+        public override string Symbol { get { return DestVar.Name + "= set<" + TypeName + ">"; } }
     }
     
     public class SequenceAssignMapCreationToVar : Sequence
     {
-        public String DestVar;
+        public SequenceVariable DestVar;
         public String TypeName;
         public String TypeNameDst;
 
-        public SequenceAssignMapCreationToVar(String destVar, String typeName, String typeNameDst)
+        public SequenceAssignMapCreationToVar(SequenceVariable destVar, String typeName, String typeNameDst)
             : base(SequenceType.AssignMapCreationToVar)
         {
             DestVar = destVar;
@@ -717,21 +765,21 @@ namespace de.unika.ipd.grGen.libGr
         {
             Type srcType = DictionaryHelper.GetTypeFromNameForDictionary(TypeName, graph);
             Type dstType = DictionaryHelper.GetTypeFromNameForDictionary(TypeNameDst, graph);
-            graph.SetVariableValue(DestVar, DictionaryHelper.NewDictionary(srcType, dstType));
+            DestVar.SetVariableValue(DictionaryHelper.NewDictionary(srcType, dstType), graph);
             return true;
         }
 
         public override IEnumerable<Sequence> Children { get { yield break; } }
         public override int Precedence { get { return 8; } }
-        public override string Symbol { get { return DestVar + "= map<" + TypeName + "," + TypeNameDst + ">"; } }
+        public override string Symbol { get { return DestVar.Name + "= map<" + TypeName + "," + TypeNameDst + ">"; } }
     }
 
     public class SequenceAssignVarToVar : Sequence
     {
-        public String DestVar;
-        public String SourceVar;
+        public SequenceVariable DestVar;
+        public SequenceVariable SourceVar;
 
-        public SequenceAssignVarToVar(String destVar, String sourceVar)
+        public SequenceAssignVarToVar(SequenceVariable destVar, SequenceVariable sourceVar)
             : base(SequenceType.AssignVarToVar)
         {
             DestVar = destVar;
@@ -740,21 +788,21 @@ namespace de.unika.ipd.grGen.libGr
 
         protected override bool ApplyImpl(IGraph graph)
         {
-            graph.SetVariableValue(DestVar, graph.GetVariableValue(SourceVar));
+            DestVar.SetVariableValue(SourceVar.GetVariableValue(graph), graph);
             return true;                    // Semantics changed! Now always returns true, as it is always successful!
         }
 
         public override IEnumerable<Sequence> Children { get { yield break; } }
         public override int Precedence { get { return 8; } }
-        public override string Symbol { get { return DestVar + "=" + SourceVar; } }
+        public override string Symbol { get { return DestVar.Name + "=" + SourceVar.Name; } }
     }
 
     public class SequenceAssignConstToVar : Sequence
     {
-        public String DestVar;
+        public SequenceVariable DestVar;
         public object Constant;
 
-        public SequenceAssignConstToVar(String destVar, object constant)
+        public SequenceAssignConstToVar(SequenceVariable destVar, object constant)
             : base(SequenceType.AssignConstToVar)
         {
             DestVar = destVar;
@@ -763,22 +811,22 @@ namespace de.unika.ipd.grGen.libGr
 
         protected override bool ApplyImpl(IGraph graph)
         {
-            graph.SetVariableValue(DestVar, Constant);
+            DestVar.SetVariableValue(Constant, graph);
             return true;
         }
 
         public override IEnumerable<Sequence> Children { get { yield break; } }
         public override int Precedence { get { return 8; } }
-        public override string Symbol { get { return DestVar + "=" + Constant; } }
+        public override string Symbol { get { return DestVar.Name + "=" + Constant; } }
     }
 
     public class SequenceAssignVarToAttribute : Sequence
     {
-        public String DestVar;
+        public SequenceVariable DestVar;
         public String AttributeName;
-        public String SourceVar;
+        public SequenceVariable SourceVar;
 
-        public SequenceAssignVarToAttribute(String destVar, String attributeName, String sourceVar)
+        public SequenceAssignVarToAttribute(SequenceVariable destVar, String attributeName, SequenceVariable sourceVar)
             : base(SequenceType.AssignVarToAttribute)
         {
             DestVar = destVar;
@@ -788,8 +836,8 @@ namespace de.unika.ipd.grGen.libGr
 
         protected override bool ApplyImpl(IGraph graph)
         {
-            object value = graph.GetVariableValue(SourceVar);
-            IGraphElement elem = (IGraphElement)graph.GetVariableValue(DestVar);
+            object value = SourceVar.GetVariableValue(graph);
+            IGraphElement elem = (IGraphElement)DestVar.GetVariableValue(graph);
             AttributeType attrType = elem.Type.GetAttributeType(AttributeName);
             if(attrType.Kind==AttributeKind.SetAttr || attrType.Kind==AttributeKind.MapAttr)
             {
@@ -808,16 +856,16 @@ namespace de.unika.ipd.grGen.libGr
 
         public override IEnumerable<Sequence> Children { get { yield break; } }
         public override int Precedence { get { return 8; } }
-        public override string Symbol { get { return DestVar + "." + AttributeName + "=" + SourceVar; } }
+        public override string Symbol { get { return DestVar.Name + "." + AttributeName + "=" + SourceVar.Name; } }
     }
 
     public class SequenceAssignAttributeToVar : Sequence
     {
-        public String DestVar;
-        public String SourceVar;
+        public SequenceVariable DestVar;
+        public SequenceVariable SourceVar;
         public String AttributeName;
 
-        public SequenceAssignAttributeToVar(String destVar, String sourceVar, String attributeName)
+        public SequenceAssignAttributeToVar(SequenceVariable destVar, SequenceVariable sourceVar, String attributeName)
             : base(SequenceType.AssignAttributeToVar)
         {
             DestVar = destVar;
@@ -827,7 +875,7 @@ namespace de.unika.ipd.grGen.libGr
 
         protected override bool ApplyImpl(IGraph graph)
         {
-            IGraphElement elem = (IGraphElement)graph.GetVariableValue(SourceVar);
+            IGraphElement elem = (IGraphElement)SourceVar.GetVariableValue(graph);
             object value = elem.GetAttribute(AttributeName);
             AttributeType attrType = elem.Type.GetAttributeType(AttributeName);
             if(attrType.Kind==AttributeKind.SetAttr || attrType.Kind==AttributeKind.MapAttr)
@@ -836,21 +884,21 @@ namespace de.unika.ipd.grGen.libGr
                 IDictionary dict = DictionaryHelper.GetDictionaryTypes(value, out keyType, out valueType);
                 value = DictionaryHelper.NewDictionary(keyType, valueType, dict); // by-value-semantics -> clone dictionary
             }
-            graph.SetVariableValue(DestVar, value);
+            DestVar.SetVariableValue(value, graph);
             return true;
         }
 
         public override IEnumerable<Sequence> Children { get { yield break; } }
         public override int Precedence { get { return 8; } }
-        public override string Symbol { get { return DestVar + "=" + SourceVar + "." + AttributeName; } }
+        public override string Symbol { get { return DestVar.Name + "=" + SourceVar.Name + "." + AttributeName; } }
     }
 
     public class SequenceAssignElemToVar : Sequence
     {
-        public String DestVar;
+        public SequenceVariable DestVar;
         public IGraphElement Element;
 
-        public SequenceAssignElemToVar(String destVar, IGraphElement elem)
+        public SequenceAssignElemToVar(SequenceVariable destVar, IGraphElement elem)
             : base(SequenceType.AssignElemToVar)
         {
             DestVar = destVar;
@@ -859,21 +907,21 @@ namespace de.unika.ipd.grGen.libGr
 
         protected override bool ApplyImpl(IGraph graph)
         {
-            graph.SetVariableValue(DestVar, Element);
+            DestVar.SetVariableValue(Element, graph);
             return true;                    // Semantics changed! Now always returns true, as it is always successful!
         }
 
         public override IEnumerable<Sequence> Children { get { yield break; } }
         public override int Precedence { get { return 8; } }
-        public override string Symbol { get { return DestVar + "=[<someelem>]"; } }
+        public override string Symbol { get { return DestVar.Name + "=[<someelem>]"; } }
     }
 
     public class SequenceAssignSequenceResultToVar : Sequence
     {
-        public String DestVar;
+        public SequenceVariable DestVar;
         public Sequence Seq;
 
-        public SequenceAssignSequenceResultToVar(String destVar, Sequence sequence)
+        public SequenceAssignSequenceResultToVar(SequenceVariable destVar, Sequence sequence)
             : base(SequenceType.AssignSequenceResultToVar)
         {
             DestVar = destVar;
@@ -883,13 +931,13 @@ namespace de.unika.ipd.grGen.libGr
         protected override bool ApplyImpl(IGraph graph)
         {
             bool result = Seq.Apply(graph);
-            graph.SetVariableValue(DestVar, result);
+            DestVar.SetVariableValue(result, graph);
             return result;
         }
 
         public override IEnumerable<Sequence> Children { get { yield return Seq; } }
         public override int Precedence { get { return 8; } }
-        public override string Symbol { get { return DestVar + "="; } }
+        public override string Symbol { get { return DestVar.Name + "="; } }
     }
 
     public class SequenceTransaction : SequenceUnary
@@ -963,11 +1011,11 @@ namespace de.unika.ipd.grGen.libGr
 
     public class SequenceFor : SequenceUnary
     {
-        public String Var;
-        public String VarDst;
-        public String Setmap;
+        public SequenceVariable Var;
+        public SequenceVariable VarDst;
+        public SequenceVariable Setmap;
 
-        public SequenceFor(String var, String varDst, String setmap, Sequence seq)
+        public SequenceFor(SequenceVariable var, SequenceVariable varDst, SequenceVariable setmap, Sequence seq)
             : base(seq, SequenceType.For)
         {
             Var = var;
@@ -977,13 +1025,13 @@ namespace de.unika.ipd.grGen.libGr
 
         protected override bool ApplyImpl(IGraph graph)
         {
-            IDictionary setmap = (IDictionary)graph.GetVariableValue(Setmap);
+            IDictionary setmap = (IDictionary)Setmap.GetVariableValue(graph);
             bool res = true;
             foreach(DictionaryEntry entry in setmap)
             {
-                graph.SetVariableValue(Var, entry.Key);
+                Var.SetVariableValue(entry.Key, graph);
                 if(VarDst != null) {
-                    graph.SetVariableValue(VarDst, entry.Value);
+                    VarDst.SetVariableValue(entry.Value, graph);
                 }
                 res &= Seq.Apply(graph);
             }
@@ -991,15 +1039,15 @@ namespace de.unika.ipd.grGen.libGr
         }
 
         public override int Precedence { get { return 8; } }
-        public override string Symbol { get { return "for{"+Var+(VarDst!=null?"->"+VarDst:"")+" in "+Setmap+"; ...}"; } }
+        public override string Symbol { get { return "for{"+Var.Name+(VarDst!=null?"->"+VarDst.Name:"")+" in "+Setmap.Name+"; ...}"; } }
     }
 
     public class SequenceIsVisited : Sequence
     {
-        public String GraphElementVar;
-        public String VisitedFlagVar;
+        public SequenceVariable GraphElementVar;
+        public SequenceVariable VisitedFlagVar;
 
-        public SequenceIsVisited(String graphElementVar, String visitedFlagVar)
+        public SequenceIsVisited(SequenceVariable graphElementVar, SequenceVariable visitedFlagVar)
             : base(SequenceType.IsVisited)
         {
             GraphElementVar = graphElementVar;
@@ -1008,24 +1056,24 @@ namespace de.unika.ipd.grGen.libGr
 
         protected override bool ApplyImpl(IGraph graph)
         {
-            IGraphElement elem = (IGraphElement)graph.GetVariableValue(GraphElementVar);
-            int visitedFlag = (int)graph.GetVariableValue(VisitedFlagVar);
+            IGraphElement elem = (IGraphElement)GraphElementVar.GetVariableValue(graph);
+            int visitedFlag = (int)VisitedFlagVar.GetVariableValue(graph);
             return graph.IsVisited(elem, visitedFlag);
         }
 
         public override IEnumerable<Sequence> Children { get { yield break; } }
         public override int Precedence { get { return 8; } }
-        public override string Symbol { get { return GraphElementVar+".visited["+VisitedFlagVar+"]"; } }
+        public override string Symbol { get { return GraphElementVar.Name+".visited["+VisitedFlagVar.Name+"]"; } }
     }
 
     public class SequenceSetVisited : Sequence
     {
-        public String GraphElementVar;
-        public String VisitedFlagVar;
-        public String Var;
+        public SequenceVariable GraphElementVar;
+        public SequenceVariable VisitedFlagVar;
+        public SequenceVariable Var; // if Var!=null take Var, otherwise Val
         public bool Val;
 
-        public SequenceSetVisited(String graphElementVar, String visitedFlagVar, String var)
+        public SequenceSetVisited(SequenceVariable graphElementVar, SequenceVariable visitedFlagVar, SequenceVariable var)
             : base(SequenceType.SetVisited)
         {
             GraphElementVar = graphElementVar;
@@ -1033,7 +1081,7 @@ namespace de.unika.ipd.grGen.libGr
             Var = var;
         }
 
-        public SequenceSetVisited(String graphElementVar, String visitedFlagVar, bool val)
+        public SequenceSetVisited(SequenceVariable graphElementVar, SequenceVariable visitedFlagVar, bool val)
             : base(SequenceType.SetVisited)
         {
             GraphElementVar = graphElementVar;
@@ -1043,11 +1091,11 @@ namespace de.unika.ipd.grGen.libGr
 
         protected override bool ApplyImpl(IGraph graph)
         {
-            IGraphElement elem = (IGraphElement)graph.GetVariableValue(GraphElementVar);
-            int visitedFlag = (int)graph.GetVariableValue(VisitedFlagVar);
+            IGraphElement elem = (IGraphElement)GraphElementVar.GetVariableValue(graph);
+            int visitedFlag = (int)VisitedFlagVar.GetVariableValue(graph);
             bool value;
             if(Var!=null) {
-                value = (bool)graph.GetVariableValue(Var);
+                value = (bool)Var.GetVariableValue(graph);
             } else {
                 value = Val;
             }
@@ -1057,14 +1105,14 @@ namespace de.unika.ipd.grGen.libGr
 
         public override IEnumerable<Sequence> Children { get { yield break; } }
         public override int Precedence { get { return 8; } }
-        public override string Symbol { get { return GraphElementVar+".visited["+VisitedFlagVar+"]="+(Var ?? Val.ToString()); } }
+        public override string Symbol { get { return GraphElementVar.Name+".visited["+VisitedFlagVar.Name+"]="+(Var!=null ? Var.Name : Val.ToString()); } }
     }
 
     public class SequenceVFree : Sequence
     {
-        public String VisitedFlagVar;
+        public SequenceVariable VisitedFlagVar;
 
-        public SequenceVFree(String visitedFlagVar)
+        public SequenceVFree(SequenceVariable visitedFlagVar)
             : base(SequenceType.VFree)
         {
             VisitedFlagVar = visitedFlagVar;
@@ -1072,21 +1120,21 @@ namespace de.unika.ipd.grGen.libGr
 
         protected override bool ApplyImpl(IGraph graph)
         {
-            int visitedFlag = (int)graph.GetVariableValue(VisitedFlagVar);
+            int visitedFlag = (int)VisitedFlagVar.GetVariableValue(graph);
             graph.FreeVisitedFlag(visitedFlag);
             return true;
         }
 
         public override IEnumerable<Sequence> Children { get { yield break; } }
         public override int Precedence { get { return 8; } }
-        public override string Symbol { get { return "vfree("+VisitedFlagVar+")"; } }
+        public override string Symbol { get { return "vfree("+VisitedFlagVar.Name+")"; } }
     }
 
     public class SequenceVReset : Sequence
     {
-        public String VisitedFlagVar;
+        public SequenceVariable VisitedFlagVar;
 
-        public SequenceVReset(String visitedFlagVar)
+        public SequenceVReset(SequenceVariable visitedFlagVar)
             : base(SequenceType.VReset)
         {
             VisitedFlagVar = visitedFlagVar;
@@ -1094,37 +1142,40 @@ namespace de.unika.ipd.grGen.libGr
 
         protected override bool ApplyImpl(IGraph graph)
         {
-            int visitedFlag = (int)graph.GetVariableValue(VisitedFlagVar);
+            int visitedFlag = (int)VisitedFlagVar.GetVariableValue(graph);
             graph.ResetVisitedFlag(visitedFlag);
             return true;
         }
 
         public override IEnumerable<Sequence> Children { get { yield break; } }
         public override int Precedence { get { return 8; } }
-        public override string Symbol { get { return "vreset("+VisitedFlagVar+")"; } }
+        public override string Symbol { get { return "vreset("+VisitedFlagVar.Name+")"; } }
     }
 
     public class SequenceEmit : Sequence
     {
         public String Text;
-        public bool IsVariable;
+        public SequenceVariable Variable;
 
-        public SequenceEmit(String text, bool isVariable)
+        public SequenceEmit(String text)
             : base(SequenceType.Emit)
         {
             Text = text;
-            IsVariable = isVariable;
-            if(!IsVariable) {
-                Text = Text.Replace("\\n", "\n");
-                Text = Text.Replace("\\r", "\r");
-                Text = Text.Replace("\\t", "\t");
-            }
+            Text = Text.Replace("\\n", "\n");
+            Text = Text.Replace("\\r", "\r");
+            Text = Text.Replace("\\t", "\t");
+        }
+
+        public SequenceEmit(SequenceVariable var)
+            : base(SequenceType.Emit)
+        {
+            Variable = var;
         }
 
         protected override bool ApplyImpl(IGraph graph)
         {
-            if(IsVariable) {
-                graph.EmitWriter.Write(graph.GetVariableValue(Text).ToString());
+            if(Variable!=null) {
+                graph.EmitWriter.Write(Variable.GetVariableValue(graph).ToString());
             } else {
                 graph.EmitWriter.Write(Text);
             }
@@ -1133,16 +1184,16 @@ namespace de.unika.ipd.grGen.libGr
 
         public override IEnumerable<Sequence> Children { get { yield break; } }
         public override int Precedence { get { return 8; } }
-        public override string Symbol { get { return "emit("+Text+")"; } }
+        public override string Symbol { get { return Variable!=null ? "emit("+Variable.Name+")" : "emit("+Text+")"; } }
     }
 
     public class SequenceSetmapAdd : Sequence
     {
-        public String Setmap;
-        public String Var;
-        public String VarDst;
+        public SequenceVariable Setmap;
+        public SequenceVariable Var;
+        public SequenceVariable VarDst;
 
-        public SequenceSetmapAdd(String setmap, String var, String varDst)
+        public SequenceSetmapAdd(SequenceVariable setmap, SequenceVariable var, SequenceVariable varDst)
             : base(SequenceType.SetmapAdd)
         {
             Setmap = setmap;
@@ -1152,26 +1203,26 @@ namespace de.unika.ipd.grGen.libGr
 
         protected override bool ApplyImpl(IGraph graph)
         {
-            IDictionary setmap = (IDictionary)graph.GetVariableValue(Setmap);
-            if(setmap.Contains(graph.GetVariableValue(Var))) {
-                setmap[graph.GetVariableValue(Var)] = (VarDst == null ? null : graph.GetVariableValue(VarDst));
+            IDictionary setmap = (IDictionary)Setmap.GetVariableValue(graph);
+            if(setmap.Contains(Var.GetVariableValue(graph))) {
+                setmap[Var.GetVariableValue(graph)] = (VarDst == null ? null : VarDst.GetVariableValue(graph));
             } else {
-                setmap.Add(graph.GetVariableValue(Var), (VarDst == null ? null : graph.GetVariableValue(VarDst)));
+                setmap.Add(Var.GetVariableValue(graph), (VarDst == null ? null : VarDst.GetVariableValue(graph)));
             }
             return true;
         }
 
         public override IEnumerable<Sequence> Children { get { yield break; } }
         public override int Precedence { get { return 8; } }
-        public override string Symbol { get { return Setmap+".add("+Var+(VarDst!=null?"->"+VarDst:"")+")"; } }
+        public override string Symbol { get { return Setmap.Name+".add("+Var.Name+(VarDst!=null?"->"+VarDst.Name:"")+")"; } }
     }
 
     public class SequenceSetmapRem : Sequence
     {
-        public String Setmap;
-        public String Var;
+        public SequenceVariable Setmap;
+        public SequenceVariable Var;
 
-        public SequenceSetmapRem(String setmap, String var)
+        public SequenceSetmapRem(SequenceVariable setmap, SequenceVariable var)
             : base(SequenceType.SetmapRem)
         {
             Setmap = setmap;
@@ -1180,21 +1231,21 @@ namespace de.unika.ipd.grGen.libGr
 
         protected override bool ApplyImpl(IGraph graph)
         {
-            IDictionary setmap = (IDictionary)graph.GetVariableValue(Setmap);
-            setmap.Remove(graph.GetVariableValue(Var));
+            IDictionary setmap = (IDictionary)Setmap.GetVariableValue(graph);
+            setmap.Remove(Var.GetVariableValue(graph));
             return true;
         }
 
         public override IEnumerable<Sequence> Children { get { yield break; } }
         public override int Precedence { get { return 8; } }
-        public override string Symbol { get { return Setmap+".rem("+Var+")"; } }
+        public override string Symbol { get { return Setmap.Name+".rem("+Var.Name+")"; } }
     }
 
     public class SequenceSetmapClear : Sequence
     {
-        public String Setmap;
+        public SequenceVariable Setmap;
 
-        public SequenceSetmapClear(String setmap)
+        public SequenceSetmapClear(SequenceVariable setmap)
             : base(SequenceType.SetmapClear)
         {
             Setmap = setmap;
@@ -1202,22 +1253,22 @@ namespace de.unika.ipd.grGen.libGr
 
         protected override bool ApplyImpl(IGraph graph)
         {
-            IDictionary setmap = (IDictionary)graph.GetVariableValue(Setmap);
+            IDictionary setmap = (IDictionary)Setmap.GetVariableValue(graph);
             setmap.Clear();
             return true;
         }
 
         public override IEnumerable<Sequence> Children { get { yield break; } }
         public override int Precedence { get { return 8; } }
-        public override string Symbol { get { return Setmap + ".clear()"; } }
+        public override string Symbol { get { return Setmap.Name + ".clear()"; } }
     }
 
     public class SequenceIn: Sequence
     {
-        public String Var;
-        public String Setmap;
+        public SequenceVariable Var;
+        public SequenceVariable Setmap;
 
-        public SequenceIn(String var, String setmap)
+        public SequenceIn(SequenceVariable var, SequenceVariable setmap)
             : base(SequenceType.InSetmap)
         {
             Var = var;
@@ -1226,12 +1277,12 @@ namespace de.unika.ipd.grGen.libGr
 
         protected override bool ApplyImpl(IGraph graph)
         {
-            IDictionary setmap = (IDictionary)graph.GetVariableValue(Setmap);
-            return setmap.Contains(graph.GetVariableValue(Var));
+            IDictionary setmap = (IDictionary)Setmap.GetVariableValue(graph);
+            return setmap.Contains(Var.GetVariableValue(graph));
         }
 
         public override IEnumerable<Sequence> Children { get { yield break; } }
         public override int Precedence { get { return 8; } }
-        public override string Symbol { get { return Var + " in " + Setmap; } }
+        public override string Symbol { get { return Var.Name + " in " + Setmap.Name; } }
     }
 }

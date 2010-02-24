@@ -330,6 +330,14 @@ public abstract class CSharpBase {
 		return "AttributeType_" + formatIdentifiable(e);
 	}
 
+	public String formatType(Type type) {
+		if(type instanceof InheritanceType) {
+			return formatElementInterfaceRef(type);
+		} else {
+			return formatAttributeType(type);
+		}
+	}
+	
 	public String formatEntity(Entity entity) {
 		return formatEntity(entity, "");
 	}

@@ -278,6 +278,8 @@ namespace de.unika.ipd.grGen.grShell
             // print parentheses, if neccessary
             if(parent != null && seq.Precedence < parent.Precedence) Console.Write("(");
 
+            // TODO: needs adaption to new sequence types?
+
             switch(seq.SequenceType)
             {
                 case SequenceType.LazyOr:
@@ -306,16 +308,16 @@ namespace de.unika.ipd.grGen.grShell
                     }
                     break;
                 }
-                case SequenceType.Min:
+                case SequenceType.IterationMin:
                 {
-                    SequenceMin seqMin = (SequenceMin)seq;
+                    SequenceIterationMin seqMin = (SequenceIterationMin)seq;
                     PrintChildSequence(seqMin.Seq, seq, highlightSeq, workaround, ref bpposCounter);
                     Console.Write("[" + seqMin.Min + ":*]");
                     break;
                 }
-                case SequenceType.MinMax:
+                case SequenceType.IterationMinMax:
                 {
-                    SequenceMinMax seqMinMax = (SequenceMinMax)seq;
+                    SequenceIterationMinMax seqMinMax = (SequenceIterationMinMax)seq;
                     PrintChildSequence(seqMinMax.Seq, seq, highlightSeq, workaround, ref bpposCounter);
                     Console.Write("[" + seqMinMax.Min + ":" + seqMinMax.Max + "]");
                     break;
@@ -448,7 +450,7 @@ namespace de.unika.ipd.grGen.grShell
         {
             bool breakpointReached;
             // Entering a loop?
-            if(seq.SequenceType == SequenceType.Min || seq.SequenceType == SequenceType.MinMax)
+            if(seq.SequenceType == SequenceType.IterationMin || seq.SequenceType == SequenceType.IterationMinMax)
                 loopList.AddFirst(seq);
 
             // Breakpoint reached?
@@ -519,7 +521,7 @@ namespace de.unika.ipd.grGen.grShell
         {
             if(stepMode == false && seq == curStepSequence)
                 stepMode = true;
-            if(seq.SequenceType == SequenceType.Min || seq.SequenceType == SequenceType.MinMax)
+            if(seq.SequenceType == SequenceType.IterationMin || seq.SequenceType == SequenceType.IterationMinMax)
                 loopList.RemoveFirst();
         }
 

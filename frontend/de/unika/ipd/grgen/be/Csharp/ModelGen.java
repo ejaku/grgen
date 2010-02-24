@@ -80,7 +80,7 @@ public class ModelGen extends CSharpBase {
 
 		System.out.println("  generating the " + filename + " file...");
 
-		sb.append("// This file has been generated automatically by GrGen.\n"
+		sb.append("// This file has been generated automatically by GrGen (www.grgen.net)\n"
 				+ "// Do not modify this file! Any changes will be lost!\n"
 				+ "// Generated from \"" + be.unit.getFilename() + "\" on " + new Date() + "\n"
 				+ "\n"
@@ -129,7 +129,7 @@ public class ModelGen extends CSharpBase {
 	private StringBuffer getStubBuffer() {
 		if(stubsb == null) {
 			stubsb = new StringBuffer();
-			stubsb.append("// This file has been generated automatically by GrGen.\n"
+			stubsb.append("// This file has been generated automatically by GrGen (www.grgen.net)\n"
 					+ "// Do not modify this file! Any changes will be lost!\n"
 					+ "// Rename this file or use a copy!\n"
 					+ "// Generated from \"" + be.unit.getFilename() + "\" on " + new Date() + "\n"

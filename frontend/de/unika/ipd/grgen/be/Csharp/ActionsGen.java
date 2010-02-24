@@ -98,7 +98,7 @@ public class ActionsGen extends CSharpBase {
 
 		System.out.println("  generating the " + filename + " file...");
 
-		sb.append("// This file has been generated automatically by GrGen.\n"
+		sb.append("// This file has been generated automatically by GrGen (www.grgen.net)\n"
 				+ "// Do not modify this file! Any changes will be lost!\n"
 				+ "// Generated from \"" + be.unit.getFilename() + "\" on " + new Date() + "\n"
 				+ "\n"
@@ -258,6 +258,8 @@ public class ActionsGen extends CSharpBase {
 		genLocalMapsAndSets(sb, rule.getLeft(), staticInitializers,
 				pathPrefixForElements, alreadyDefinedEntityToName);
 		genLocalMapsAndSets(sb, rule.getEvals(), staticInitializers,
+				pathPrefixForElements, alreadyDefinedEntityToName);
+		genLocalMapsAndSetsJavaSucks(sb, rule.getReturns(), staticInitializers,
 				pathPrefixForElements, alreadyDefinedEntityToName);
 		if(rule.getRight()!=null) {
 			genLocalMapsAndSets(sb, rule.getRight().getImperativeStmts(), staticInitializers,
@@ -523,6 +525,16 @@ public class ActionsGen extends CSharpBase {
 		genLocalMapsAndSets(sb, needs, staticInitializers);
 	}
 
+	// type collision with the method below cause java can't distinguish List<Expression> from List<ImperativeStmt>
+	private void genLocalMapsAndSetsJavaSucks(StringBuffer sb, List<Expression> returns, List<String> staticInitializers,
+			String pathPrefixForElements, HashMap<Entity, String> alreadyDefinedEntityToName) {
+		NeededEntities needs = new NeededEntities(false, false, false, false, false, true);
+		for(Expression expr : returns) {
+			expr.collectNeededEntities(needs);
+		}
+		genLocalMapsAndSets(sb, needs, staticInitializers);
+	}
+	
 	private void genLocalMapsAndSets(StringBuffer sb, List<ImperativeStmt> istmts, List<String> staticInitializers,
 			String pathPrefixForElements, HashMap<Entity, String> alreadyDefinedEntityToName)
 	{
@@ -1121,14 +1133,24 @@ public class ActionsGen extends CSharpBase {
 
 				sb.append("\t\tpublic static GRGEN_LGSP.LGSPXGRSInfo XGRSInfo_" + xgrsID
 						+ " = new GRGEN_LGSP.LGSPXGRSInfo(new string[] {");
+				for(Rule actionRule : be.unit.getActionRules()) {
+					sb.append("\"" + actionRule.getIdent() + "\", ");
+				}
+				sb.append("},\n");
+				sb.append("\t\t\tnew string[] {");
 				for(Entity neededEntity : exec.getNeededEntities()) {
 					sb.append("\"" + neededEntity.getIdent() + "\", ");
+				}
+				sb.append("},\n");
+				sb.append("\t\t\tnew string[] {");
+				for(Entity neededEntity : exec.getNeededEntities()) {
+					sb.append("\"" + formatType(neededEntity.getType()) + "\", ");
 				}
 				sb.append("},\n");
 				sb.append("\t\t\t\"" + exec.getXGRSString().replace("\"", "\\\"") + "\");\n");
 				sb.append("\t\tprivate void ApplyXGRS_" + xgrsID++ + "(GRGEN_LGSP.LGSPGraph graph");
 				for(Entity neededEntity : exec.getNeededEntities()) {
-					sb.append(", object var_" + neededEntity.getIdent());
+					sb.append(", " + formatType(neededEntity.getType()) + " var_" + neededEntity.getIdent());
 				}
 				sb.append(") {}\n");
 			} else assert false : "unknown ImperativeStmt: " + istmt + " in " + rule;

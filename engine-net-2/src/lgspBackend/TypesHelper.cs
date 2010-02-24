@@ -49,21 +49,131 @@ namespace de.unika.ipd.grGen.lgsp
             }
         }
 
-        public static String DefaultValue(GrGenType type)
+        public static String DotNetTypeToXgrsType(GrGenType type)
         {
             if (type is VarType)
             {
-                switch (type.Name)
+                Type typeOfVar = ((VarType)type).Type;
+                if (typeOfVar.IsGenericType)
                 {
-                    case "Int32": return "0";
-                    case "Boolean": return "false";
-                    case "Single": return "0.0f";
-                    case "Double": return "0.0";
-                    case "String": return "\"\"";
+                    Type keyType;
+                    Type valueType;
+                    DictionaryHelper.GetDictionaryTypes(typeOfVar, out keyType, out valueType);
+                    if (valueType.Name == "SetValueType")
+                        return "set<" + DotNetTypeToXgrsType(keyType.Name) + ">";
+                    else
+                        return "map<" + DotNetTypeToXgrsType(keyType.Name) + "," + DotNetTypeToXgrsType(valueType.Name) + ">";
                 }
+                return DotNetTypeToXgrsType(type.Name);
             }
 
-            return "null";
+            return type.Name;
+        }
+
+        public static String DotNetTypeToXgrsType(String typeName)
+        {
+            switch (typeName)
+            {
+                case "Int32": return "int";
+                case "Boolean": return "boolean";
+                case "Single": return "float";
+                case "Double": return "double";
+                case "String": return "string";
+                case "Object": return "object";
+            }
+
+            if (typeName.StartsWith("ENUM_")) return typeName.Substring(5);
+
+            return typeName;
+        }
+
+        public static String DefaultValue(String typeName, IGraphModel model)
+        {
+            switch (typeName)
+            {
+                case "Int32": return "0";
+                case "Boolean": return "false";
+                case "Single": return "0.0f";
+                case "Double": return "0.0";
+                case "String": return "\"\"";
+            }
+
+            switch (typeName)
+            {
+                case "int": return "0";
+                case "bool": return "false";
+                case "float": return "0.0f";
+                case "double": return "0.0";
+                case "string": return "\"\"";
+                case "object": return "null";
+            }
+
+            if(typeName == "boolean") return "false";
+
+            foreach (EnumAttributeType enumAttrType in model.EnumAttributeTypes)
+            {
+                if ("ENUM_" + enumAttrType.Name == typeName)
+                    return "(GRGEN_MODEL.ENUM_" + enumAttrType.Name + ")0";
+                if (enumAttrType.Name == typeName)
+                    return "(GRGEN_MODEL.ENUM_" + enumAttrType.Name + ")0";
+            }
+
+            return "null"; // object or node type or edge type
+        }
+
+        public static String ExtractSrc(String setmapType)
+        {
+            if (setmapType == null) return null;
+            if (setmapType.StartsWith("set<")) // map<srcType>
+            {
+                setmapType = setmapType.Remove(0, 4);
+                setmapType = setmapType.Remove(setmapType.Length - 1);
+                return setmapType;
+            }
+            else if (setmapType.StartsWith("map<")) // map<srcType,dstType>
+            {
+                setmapType = setmapType.Remove(0, 4);
+                setmapType = setmapType.Remove(setmapType.IndexOf(","));
+                return setmapType;
+            }
+            return null;
+        }
+
+        public static String ExtractDst(String setmapType)
+        {
+            if (setmapType == null) return null;
+            if (setmapType.StartsWith("set<")) // set<srcType>
+            {
+                return "SetValueType";
+            }
+            else if (setmapType.StartsWith("map<")) // map<srcType,dstType>
+            {
+                setmapType = setmapType.Remove(0, setmapType.IndexOf(",") + 1);
+                setmapType = setmapType.Remove(setmapType.Length - 1);
+                return setmapType;
+            }
+            return null;
+        }
+
+        /// <summary>
+        /// Returns type with correct namespace prefix for the type given
+        /// </summary>
+        public static string XgrsTypeToCSharpType(string type, IGraphModel model)
+        {
+            if (type == "Node") return "GRGEN_LIBGR.INode";
+            if (type == "AEdge" || type == "Edge" || type == "UEdge") return "GRGEN_LIBGR.IEdge";
+            if (type == "int" || type == "bool" || type == "string" || type == "float" || type == "double" || type == "object") return type;
+            if (type == "boolean") return "bool";
+            if (type.StartsWith("set<") || type.StartsWith("map<")) return "Dictionary<" + XgrsTypeToCSharpType(ExtractSrc(type), model) + "," + XgrsTypeToCSharpType(ExtractDst(type), model) + ">";
+            if (type == "SetValueType") return "GRGEN_LIBGR.SetValueType";
+
+            foreach (EnumAttributeType enumAttrType in model.EnumAttributeTypes)
+            {
+                if (enumAttrType.Name == type)
+                    return "GRGEN_MODEL.ENUM_" + type;
+            }
+
+            return "GRGEN_MODEL.I" + type;
         }
     }
 }

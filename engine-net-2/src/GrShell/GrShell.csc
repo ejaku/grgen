@@ -838,16 +838,10 @@ void ShellCommand():
 |
     "debug" DebugCommand()
 |
-	"grs" { valid = true; } seq=OldRewriteSequence() LineEnd()
+	"grs" str1=CommandLine()
 	{
-		if(valid)
-		{
-		    impl.WarnDeprecatedGrs(seq);
-		    impl.ApplyRewriteSequence(seq, false);
-		    
-		    noError = !impl.OperationCancelled;
-		}
-		else noError = false;
+        Console.WriteLine("The old grs are not supported any longer. Please use the extended graph rewrite sequences xgrs.");
+        noError = false;
 	}
 |
     "xgrs" str1=CommandLine()
@@ -1415,29 +1409,24 @@ void DebugCommand():
 {
     Sequence seq;
     String str = null, str2;
-    RuleObject ruleObject;
+    RuleInvocationParameterBindings paramBindings;
 }
 {
 	try
 	{
-		"apply" ruleObject=Rule() LineEnd()
+		"apply" paramBindings=Rule() LineEnd()
 		{
-			if(ruleObject != null)
+			if(paramBindings != null)
 			{
-				noError = impl.DebugApply(ruleObject);
+				noError = impl.DebugApply(paramBindings);
 			}
 			else noError = false;
 		}
 	|
-		"grs" { valid = true; } seq=OldRewriteSequence() LineEnd()
+		"grs" str=CommandLine()
 		{
-			if(valid)
-			{
-				impl.WarnDeprecatedGrs(seq);
-				impl.DebugRewriteSequence(seq);
-				noError = !impl.OperationCancelled;
-			}
-			else noError = false;
+			Console.WriteLine("The old grs are not supported any longer. Please use the extended graph rewrite sequences xgrs.");
+			noError = false;
 		}
 	|
 		"xgrs" str=CommandLine()
@@ -1507,176 +1496,23 @@ void DebugCommand():
 	}
 }
 
-/////////////////////////////////////////
-// Old rewrite sequence                //
-// (lowest precedence operators first) //
-/////////////////////////////////////////
 
-Sequence OldRewriteSequence():
-{
-	Sequence seq, seq2;
-	bool random = false;
-}
-{
-	seq=OldRewriteSequence2()
-	(
-		LOOKAHEAD(2)
-		("$" { random = true; })? ";" seq2=OldRewriteSequence()							
-		{
-			seq = new SequenceStrictOr(seq, seq2, random);
-		}
-	)?
-	{
-		return seq;
-	}
-}
+///////////////////////
+// debug apply stuff //
+///////////////////////
 
-Sequence OldRewriteSequence2():
-{
-	Sequence seq, seq2;
-	bool random = false;
-}
-{
-	seq=OldRewriteSequence3()
-	(
-		LOOKAHEAD(2)
-		("$" { random = true; })? "|" seq2=OldRewriteSequence2()
-		{
-			seq = new SequenceLazyOr(seq, seq2, random);
-		}
-	)?
-	{
-		return seq;
-	}
-}
-
-Sequence OldRewriteSequence3():
-{
-	Sequence seq, seq2;
-	bool random = false;
-}
-{
-	seq=OldSingleSequence()
-	(
-		LOOKAHEAD(2)
-		("$" { random = true; })? "&" seq2=OldRewriteSequence3()
-		{
-			seq = new SequenceTransaction(new SequenceLazyAnd(seq, seq2, random));
-		}
-	)?
-	{
-		return seq;
-	}
-}
-
-Sequence OldSingleSequence():
-{
-	Sequence seq;
-	int maxnum;
-}
-{
-	(
-		seq=OldSimpleSequence()
-		(
-			"*"
-			{
-				seq = new SequenceMin(seq, 1);
-			}
-		|	"{" maxnum=Number() "}"
-			{
-				seq = new SequenceMinMax(seq, 1, maxnum);
-			}
-		)?
-	)
-	{
-		return seq;
-	}
-}
-
-Sequence OldSimpleSequence():
-{
-	bool dump = false;
-	Sequence seq;
-	RuleObject ruleObject;
-	ArrayList defParamVars = new ArrayList();
-	String toVarName, fromName;
-	IGraphElement elem;
-}
-{
-	LOOKAHEAD(2)
-	("!" { dump = true; } )? "[" ruleObject=Rule() "]"
-	{
-		if(ruleObject == null)
-		{
-			return null;
-		}
-		return new SequenceRuleAll(ruleObject, dump, false, 0);
-	}
-|
-	LOOKAHEAD(2)
-    toVarName=Text() "="
-    (
-        fromName=Text()
-        {
-            return new SequenceNot(new SequenceAssignVarToVar(toVarName, fromName));
-        }
-    |
-        "@" "(" fromName=Text() ")"
-        {
-            elem = impl.GetElemByName(fromName);
-            if(elem == null)
-            {
-                valid = false;
-                return null;
-            }
-            return new SequenceNot(new SequenceAssignElemToVar(toVarName, elem));
-        }
-    )
-|
-    // 4 tokens lookahead: "(" <TEXT> ")" ("=" => next is Rule() | (<NL> | operator) => parentheses around OldRewriteSequence)
-	LOOKAHEAD(4)        
-	("!" { dump = true; } )? ruleObject=Rule()
-	{
-		if(ruleObject == null)
-		{
-			return null;
-		}
-		return new SequenceRule(ruleObject, dump, false);
-	}
-|
-	"def" "(" Parameters(defParamVars) ")"
-	{
-		return new SequenceDef((String[]) defParamVars.ToArray(typeof(String)));
-	}
-|
-    "true"
-    {
-        return new SequenceTrue(false);
-    }
-|
-    "false"
-    {
-        return new SequenceFalse(false);
-    }
-|
-	"(" seq=OldRewriteSequence() ")"
-	{
-		return seq;
-	}
-}
-
-RuleObject Rule():
+RuleInvocationParameterBindings Rule():
 {
 	String str;
 	IAction action;
 	bool retSpecified = false;
-	ArrayList paramVars = new ArrayList();
-	ArrayList returnVars = new ArrayList();
+	ArrayList paramVarNames = new ArrayList();
+	ArrayList returnVarNames = new ArrayList();
 }
 {
-	("(" Parameters(returnVars) ")" "=" { retSpecified = true; })? str=Text() ("(" RuleParameters(paramVars) ")")?
+	("(" Parameters(returnVarNames) ")" "=" { retSpecified = true; })? str=Text() ("(" RuleParameters(paramVarNames) ")")?
 	{
-		action = impl.GetAction(str, paramVars.Count, returnVars.Count, retSpecified);
+		action = impl.GetAction(str, paramVarNames.Count, returnVarNames.Count, retSpecified);
 		if(action == null)
 		{
 			valid = false;
@@ -1684,10 +1520,20 @@ RuleObject Rule():
 		}
 		if(!retSpecified && action.RulePattern.Outputs.Length > 0)
 		{
-			returnVars = ArrayList.Repeat(null, action.RulePattern.Outputs.Length);
+			returnVarNames = ArrayList.Repeat(null, action.RulePattern.Outputs.Length);
 		}
-		return new RuleObject(action, (String[]) paramVars.ToArray(typeof(String)),
-				new object[paramVars.Count], (String[]) returnVars.ToArray(typeof(String)));
+		SequenceVariable[] paramVars = new SequenceVariable[paramVarNames.Count];
+		for(int i=0; i<paramVarNames.Count; ++i) {
+			String paramVarName = (String)paramVarNames[i];
+			paramVars[i] = new SequenceVariable(paramVarName, "", "");
+		}
+		SequenceVariable[] returnVars = new SequenceVariable[returnVarNames.Count];
+		for(int i=0; i<returnVarNames.Count; ++i) {
+			String returnVarName = (String)returnVarNames[i];
+			returnVars[i] = new SequenceVariable(returnVarName, "", "");
+		}
+
+		return new RuleInvocationParameterBindings(action, paramVars, new object[paramVars.Length], returnVars);
 	}
 }
 

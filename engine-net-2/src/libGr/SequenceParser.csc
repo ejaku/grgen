@@ -18,13 +18,13 @@ PARSER_BEGIN(SequenceParser)
 	{
 		BaseActions actions;
 		NamedGraph namedGraph;
+		String[] ruleNames;
 		
 		/// <summary>
-		/// Maps variable names to type names.
-		/// Variable usages before declaration create a map entry with a null type.
-		/// If varDecls is null, no variable declarations are allowed.
+		/// Symbol table of the sequence variables, maps from name to the prefixed(by block nesting) name and the type;
+		/// a graph-global variable maps to type "", a sequence-local to its type
 		/// </summary>
-		Dictionary<String, String> varDecls;
+		SymbolTable varDecls;
 		
         /// <summary>
         /// Parses a given string in xgrs syntax and builds a Sequence object.
@@ -37,24 +37,23 @@ PARSER_BEGIN(SequenceParser)
         /// or return parameters.</exception>
 		public static Sequence ParseSequence(String sequenceStr, BaseActions actions)
 		{
-			return ParseSequence(sequenceStr, actions, new Dictionary<String, String>(), null);
+			return ParseSequence(sequenceStr, actions, null, null, null);
 		}		
 
         /// <summary>
         /// Parses a given string in xgrs syntax and builds a Sequence object.
         /// </summary>
         /// <param name="sequenceStr">The string representing a xgrs (e.g. "test[7] &amp;&amp; (chicken+ || egg)*")</param>
-        /// <param name="actions">The BaseActions object containing the rules used in the string.</param>
-        /// <param name="varDecls">A map from variables to types which will be filled for the
-        /// given sequence. It may already contain predefined variables.</param>
+        /// <param name="ruleNames">An array containing the names of the rules used in the specification.</param>
+        /// <param name="predefinedVariables">A map from variables to types giving the parameters to the sequence, i.e. predefined variables.</param>
         /// <returns>The sequence object according to sequenceStr.</returns>
         /// <exception cref="ParseException">Thrown when a syntax error was found in the string.</exception>
         /// <exception cref="SequenceParserRuleException">Thrown when a rule is used with the wrong number of arguments
         /// or return parameters.</exception>
-		public static Sequence ParseSequence(String sequenceStr, BaseActions actions,
-		        Dictionary<String, String> varDecls)
+		public static Sequence ParseSequence(String sequenceStr, String[] ruleNames,
+		        Dictionary<String, String> predefinedVariables)
 		{
-			return ParseSequence(sequenceStr, actions, varDecls, null);
+			return ParseSequence(sequenceStr, null, ruleNames, predefinedVariables, null);
 		}		
 
         /// <summary>
@@ -69,27 +68,29 @@ PARSER_BEGIN(SequenceParser)
         /// or return parameters.</exception>
 		public static Sequence ParseSequence(String sequenceStr, BaseActions actions, NamedGraph namedGraph)
 		{
-			return ParseSequence(sequenceStr, actions, new Dictionary<String, String>(), namedGraph);
+			return ParseSequence(sequenceStr, actions, null, null, namedGraph);
 		}
 		
         /// <summary>
         /// Parses a given string in xgrs syntax and builds a Sequence object.
         /// </summary>
         /// <param name="sequenceStr">The string representing a xgrs (e.g. "test[7] &amp;&amp; (chicken+ || egg)*")</param>
-        /// <param name="actions">The BaseActions object containing the rules used in the string.</param>
-        /// <param name="varDecls">A map from variables to types which will be filled for the
-        /// given sequence. It may already contain predefined variables.</param>
+        /// <param name="actions">The BaseActions object containing the rules used in the string. Either this is null or ruleNames (it is set for interpreted xgrs).</param>
+        /// <param name="ruleNames">An array containing the names of the rules used in the specification. Either this is null or actions (it is set for compiled xgrs).</param>
+        /// <param name="predefinedVariables">A map from variables to types giving the parameters to the sequence, i.e. predefined variables.</param>
         /// <param name="namedGraph">A NamedGraph object to be used for named element access (@-operator).</param>
         /// <returns>The sequence object according to sequenceStr.</returns>
         /// <exception cref="ParseException">Thrown when a syntax error was found in the string.</exception>
         /// <exception cref="SequenceParserRuleException">Thrown when a rule is used with the wrong number of arguments
         /// or return parameters.</exception>
-		public static Sequence ParseSequence(String sequenceStr, BaseActions actions,
-		        Dictionary<String, String> varDecls, NamedGraph namedGraph)
+		public static Sequence ParseSequence(String sequenceStr, BaseActions actions, String[] ruleNames,
+		        Dictionary<String, String> predefinedVariables, NamedGraph namedGraph)
 		{
 			SequenceParser parser = new SequenceParser(new StringReader(sequenceStr));
 			parser.actions = actions;
-			parser.varDecls = varDecls;
+			parser.ruleNames = ruleNames;
+			parser.varDecls = new SymbolTable();
+			parser.varDecls.PushFirstScope(predefinedVariables);
 			parser.namedGraph = namedGraph;
 			Sequence seq = parser.XGRS();
 			parser.Resolve(ref seq);
@@ -116,8 +117,8 @@ PARSER_BEGIN(SequenceParser)
 				}
 				
 				case SequenceType.Not:
-				case SequenceType.Min:
-				case SequenceType.MinMax:
+				case SequenceType.IterationMin:
+				case SequenceType.IterationMinMax:
 				case SequenceType.Transaction:
 				case SequenceType.For:
 				{
@@ -135,78 +136,56 @@ PARSER_BEGIN(SequenceParser)
 					break;
 				}
 				
+				case SequenceType.RuleAll:
 				case SequenceType.Rule:
 				{
 					SequenceRule ruleSeq = (SequenceRule) seq;
-					RuleObject ruleObj = ruleSeq.RuleObj;
+					RuleInvocationParameterBindings paramBindings = ruleSeq.ParamBindings;
 					
-					// Was the parser supplied with a BaseActions object and found an according rule?
-					if(ruleObj.Action != null)
-					{
-						IAction action = ruleObj.Action;
+					// Was an action found for the rule name? (only for interpreted xgrs possible, there the parser is supplied with a BaseActions object)
+					if(paramBindings.Action != null)
+					{ // yes -> this is a rule call; now check it
+						IAction action = paramBindings.Action;
 						
 						// Check whether number of parameters and return parameters match
-						if(action.RulePattern.Inputs.Length != ruleObj.ParamVars.Length
-								|| ruleObj.ReturnVars.Length != 0 && action.RulePattern.Outputs.Length != ruleObj.ReturnVars.Length)
-							throw new SequenceParserRuleException(ruleObj, SequenceParserError.BadNumberOfParametersOrReturnParameters);
+						if(action.RulePattern.Inputs.Length != paramBindings.ParamVars.Length
+								|| paramBindings.ReturnVars.Length != 0 && action.RulePattern.Outputs.Length != paramBindings.ReturnVars.Length)
+							throw new SequenceParserRuleException(paramBindings, SequenceParserError.BadNumberOfParametersOrReturnParameters);
 						
 						// Check parameter types
-						for(int i = 0; i < ruleObj.ParamVars.Length; i++)
+						for(int i = 0; i < paramBindings.ParamVars.Length; i++)
 						{
 							// CSharpCC does not support as-expressions, yet...
 							VarType inputType = (VarType) (action.RulePattern.Inputs[i] is VarType ? action.RulePattern.Inputs[i] : null);
 
 							// If input type is not a VarType, a variable must be specified.
 							// Otherwise, if a constant is specified, the VarType must match the type of the constant
-							if(inputType == null && ruleObj.ParamVars[i] == null
-									|| inputType != null && ruleObj.Parameters[i] != null && inputType.Type != ruleObj.Parameters[i].GetType())
-								throw new SequenceParserRuleException(ruleObj, SequenceParserError.BadParameter, i);
+							if(inputType == null && paramBindings.ParamVars[i] == null
+									|| inputType != null && paramBindings.Parameters[i] != null && inputType.Type != paramBindings.Parameters[i].GetType())
+								throw new SequenceParserRuleException(paramBindings, SequenceParserError.BadParameter, i);
+						}
+
+						if(seq.SequenceType!=SequenceType.RuleAll)
+						{
+							// When no return parameters were specified for a rule with returns, create an according array with null entries
+							if(paramBindings.ReturnVars.Length == 0 && action.RulePattern.Outputs.Length > 0)
+								paramBindings.ReturnVars = new SequenceVariable[action.RulePattern.Outputs.Length];
 						}
 						
-						// When no return parameters were specified for a rule with returns, create an according array with null entries
-						if(ruleObj.ReturnVars.Length == 0 && action.RulePattern.Outputs.Length > 0)
-							ruleObj.ReturnVars = new String[action.RulePattern.Outputs.Length];
-						
-						// No variable with this name may exist
-						if(varDecls.ContainsKey(ruleObj.RuleName))
-							throw new SequenceParserRuleException(ruleObj, SequenceParserError.RuleNameUsedByVariable);
+						// ok, this is a well-formed rule invocation
 						break;
 					}
-
-					// Does no variable exist with this "rule" name?
-					if(!varDecls.ContainsKey(ruleObj.RuleName))
-					{
-						// Yes, so we have an unknown rule, which is an error, if an BaseActions object was provided
-						if(actions != null)
-							throw new SequenceParserRuleException(ruleObj, SequenceParserError.UnknownRule);
-						else
-							break;
-					}
-
-					// This can only be a predicate, if this "rule" has neither parameters nor returns
-					if(ruleObj.ParamVars.Length != 0 || ruleObj.ReturnVars.Length != 0)
-						throw new SequenceParserRuleException(ruleObj, SequenceParserError.VariableUsedWithParametersOrReturnParameters);
 					
-					// Is the variable non-boolean? (i.e. it is not a typeless variable and the type is not boolean)
-					String typeName;
-					if(!varDecls.TryGetValue(ruleObj.RuleName, out typeName) || typeName != null && typeName != "boolean")
-						throw new SequenceParserRuleException(ruleObj, SequenceParserError.InvalidUseOfVariable);
-
-					// This should be a valid predicate, so transform this SequenceRule into a SequenceVarPredicate
-					seq = new SequenceVarPredicate(ruleObj.RuleName, ruleSeq.Special);
-					break;
-				}
-
-				case SequenceType.RuleAll:
-				{
-					SequenceRuleAll ruleSeq = (SequenceRuleAll) seq;
-					RuleObject ruleObj = ruleSeq.RuleObj;
+					// BaseActions object supplied, but no rule name found -> error						
+					if(actions != null)
+						throw new SequenceParserRuleException(paramBindings, SequenceParserError.UnknownRule);
 					
-					if(ruleObj.Action == null && actions != null)
-					{
-						// We have an unknown rule, which is an error, if an BaseActions object was provided
-						throw new SequenceParserRuleException(ruleObj, SequenceParserError.UnknownRule);
-					}
+					// processing of a compiled xgrs without BaseActions but array of rule names,
+					// check the rule name against the available rule names
+					if(Array.IndexOf(ruleNames, paramBindings.RuleName)==-1)
+						throw new SequenceParserRuleException(paramBindings, SequenceParserError.UnknownRule);
+					
+					// ok, this is a rule invocation
 					break;
 				}
 
@@ -410,23 +389,23 @@ double DoubleNumber():
 	}
 }
 
-void Parameters(List<String> parameters):
+void Parameters(List<SequenceVariable> parameters):
 {
-	String str;
+	SequenceVariable var;
 }
 {
-	str=Word() { parameters.Add(str); } ("," str=Word() { parameters.Add(str); })*
+	var=VariableUse() { parameters.Add(var); } ("," var=VariableUse() { parameters.Add(var); })*
 }
 
-void RuleParameter(List<String> paramVars, List<Object> paramConsts):
+void RuleParameter(List<SequenceVariable> paramVars, List<Object> paramConsts):
 {
-	String str;
+	SequenceVariable var;
 	object constant;
 }
 {
-	str=Word()
+	var=VariableUse()
 	{
-		paramVars.Add(str);
+		paramVars.Add(var);
 		paramConsts.Add(null);
 	}
 |
@@ -461,50 +440,72 @@ object Constant():
 	}
 }
 
-void RuleParameters(List<String> paramVars, List<Object> paramConsts):
+void RuleParameters(List<SequenceVariable> paramVars, List<Object> paramConsts):
 { }
 {
 	RuleParameter(paramVars, paramConsts) ("," RuleParameter(paramVars, paramConsts))*
 }
 
 
-String Variable():
+SequenceVariable Variable(): // usage as well as definition
 {
-	String toVarName, typeName = null, typeNameDst;
+	String varName, typeName = null, typeNameDst;
 }
 {
-	toVarName=Word() (":" (typeName=Word()
+	varName=Word() (":" (typeName=Word()
 							| "set" "<" typeName=Word() ">" { typeName = "set<"+typeName+">"; }
 							| "map" "<" typeName=Word() "," typeNameDst=Word() ">" { typeName = "map<"+typeName+","+typeNameDst+">"; }
 						  )
 					 )?
 	{
-		if(varDecls != null)
+		SequenceVariable oldVariable = varDecls.Lookup(varName);
+		SequenceVariable newVariable;
+		if(typeName!=null)
 		{
-			String oldTypeName;
-			if(varDecls.TryGetValue(toVarName, out oldTypeName))
-			{
-				if(typeName != null)
-				{
-					if(oldTypeName != null)
-						throw new ParseException("The variable \"" + toVarName + "\" has already been declared!");
-					varDecls[toVarName] = typeName;
-				}
+			if(oldVariable==null) {
+				newVariable = varDecls.Define(varName, typeName);
+			} else if(oldVariable.Type=="") {
+				throw new ParseException("The variable \""+varName+"\" has already been used/implicitely declared as global variable!");
+			} else {
+				throw new ParseException("The variable \""+varName+"\" has already been declared as local variable with type \""+oldVariable.Type+"\"!");
 			}
-			else varDecls[toVarName] = typeName;
 		}
-		else if(typeName != null)
-			throw new ParseException("Variable types are not supported here!");
-		return toVarName;
+		else
+		{
+			if(oldVariable==null) {
+				newVariable = varDecls.Define(varName, "");
+			} else {
+				newVariable = oldVariable;
+			}
+		}		
+		return newVariable;
 	}
 }
 
-void VariableList(List<String> variables):
+SequenceVariable VariableUse(): // only usage in contrast to Variable()
 {
-	String str;
+	String varName;
 }
 {
-	str=Variable() { variables.Add(str); } ("," str=Variable() { variables.Add(str); })*
+	varName=Word()
+	{
+		SequenceVariable oldVariable = varDecls.Lookup(varName);
+		SequenceVariable newVariable;
+		if(oldVariable==null) {
+			newVariable = varDecls.Define(varName, "");
+		} else {
+			newVariable = oldVariable;
+		}
+		return newVariable;
+	}
+}
+
+void VariableList(List<SequenceVariable> variables):
+{
+	SequenceVariable var;
+}
+{
+	var=Variable() { variables.Add(var); } ("," var=Variable() { variables.Add(var); })*
 }
 
 Sequence XGRS():
@@ -674,12 +675,12 @@ Sequence RewriteSequenceIteration():
 		(
 			"*"
 			{
-				seq = new SequenceMin(seq, 0);
+				seq = new SequenceIterationMin(seq, 0);
 			}
 		|
 			"+"
 			{
-				seq = new SequenceMin(seq, 1);
+				seq = new SequenceIterationMin(seq, 1);
 			}
 		|
 		    "[" minnum=Number()
@@ -695,12 +696,12 @@ Sequence RewriteSequenceIteration():
 			{
 			    if(maxstar)
 			    {
-					seq = new SequenceMin(seq, minnum);
+					seq = new SequenceIterationMin(seq, minnum);
 			    }
 			    else
 			    {
 					if(!maxspecified) maxnum = minnum;
-					seq = new SequenceMinMax(seq, minnum, maxnum);
+					seq = new SequenceIterationMinMax(seq, minnum, maxnum);
 				}
 			}
 		)?
@@ -713,147 +714,146 @@ Sequence RewriteSequenceIteration():
 Sequence SimpleSequence():
 {
 	bool special = false;
-	Sequence seq;
-	List<String> defParamVars = new List<String>();
-	String toVarName, typeName = null, typeNameDst, fromName, attrName, visitedFlagVar;
+	Sequence seq, seq2, seq3 = null;
+	List<SequenceVariable> defParamVars = new List<SequenceVariable>();
+	SequenceVariable toVar, fromVar, fromVar2 = null, fromVar3 = null;
+	String typeName, typeNameDst, attrName, method, elemName;
 	IGraphElement elem;
-	String setmap, var = null, varDst = null, method;
-	Sequence seqCond, seqTrue, seqFalse = null;
 	object constant;
 	String str;
 }
 {
-	LOOKAHEAD(Variable() "=") toVarName=Variable() "="
+	LOOKAHEAD(Variable() "=") toVar=Variable() "="
     (
 	    "valloc" "(" ")"
 		{
-			return new SequenceAssignVAllocToVar(toVarName);
+			return new SequenceAssignVAllocToVar(toVar);
 		}
 	|
-		LOOKAHEAD(3) fromName=Word() "." "visited" "[" visitedFlagVar=Word() "]"
+		LOOKAHEAD(3) fromVar=VariableUse() "." "visited" "[" fromVar2=VariableUse() "]"
         {
-			return new SequenceAssignSequenceResultToVar(toVarName, new SequenceIsVisited(fromName, visitedFlagVar));
+			return new SequenceAssignSequenceResultToVar(toVar, new SequenceIsVisited(fromVar, fromVar2));
         }
 	|
-        LOOKAHEAD(4) fromName=Word() "." method=Word() "(" ")"
+        LOOKAHEAD(4) fromVar=VariableUse() "." method=Word() "(" ")"
 		{
-			if(method=="size") return new SequenceAssignSetmapSizeToVar(toVarName, fromName);
-			else if(method=="empty") return new SequenceAssignSetmapEmptyToVar(toVarName, fromName);
+			if(method=="size") return new SequenceAssignSetmapSizeToVar(toVar, fromVar);
+			else if(method=="empty") return new SequenceAssignSetmapEmptyToVar(toVar, fromVar);
 			else throw new ParseException("Unknown method name: \"" + method + "\"! (available are size|empty on set/map)");
 		}
 	|
-        LOOKAHEAD(2) fromName=Word() "." attrName=Word()
+        LOOKAHEAD(2) fromVar=VariableUse() "." attrName=Word()
         {
-            return new SequenceAssignAttributeToVar(toVarName, fromName, attrName);
+            return new SequenceAssignAttributeToVar(toVar, fromVar, attrName);
         }
 	|
-		LOOKAHEAD(2) setmap=Word() "[" var=Word() "]" // parsing v=a[ as v=a[x] has priority over (v=a)[*]
+		LOOKAHEAD(2) fromVar=VariableUse() "[" fromVar2=VariableUse() "]" // parsing v=a[ as v=a[x] has priority over (v=a)[*]
 		{
-			return new SequenceAssignMapAccessToVar(toVarName, setmap, var);
+			return new SequenceAssignMapAccessToVar(toVar, fromVar, fromVar2);
 		}
 	|
-		LOOKAHEAD(2) var=Word() "in" setmap=Word()
+		LOOKAHEAD(2) fromVar=VariableUse() "in" fromVar2=VariableUse()
 		{
-			return new SequenceAssignSequenceResultToVar(toVarName, new SequenceIn(var, setmap));
+			return new SequenceAssignSequenceResultToVar(toVar, new SequenceIn(fromVar, fromVar2));
 		}
 	|
-        fromName=Word()
+        fromVar=VariableUse()
         {
-            return new SequenceAssignVarToVar(toVarName, fromName);
+            return new SequenceAssignVarToVar(toVar, fromVar);
         }
 	|
 		constant=Constant()
 		{
-			return new SequenceAssignConstToVar(toVarName, constant);
+			return new SequenceAssignConstToVar(toVar, constant);
 		}
     |
-        "@" "(" fromName=Text() ")"
+        "@" "(" elemName=Text() ")"
         {
             if(actions == null)
                 throw new ParseException("The @-operator is not allowed without an BaseActions instance!");
             if(namedGraph == null)
                 throw new ParseException("The @-operator can only be used with NamedGraphs!");
                 
-            elem = namedGraph.GetGraphElement(fromName);
+            elem = namedGraph.GetGraphElement(elemName);
             if(elem == null)
-                throw new ParseException("Graph element does not exist: \"" + fromName + "\"!");
-            return new SequenceAssignElemToVar(toVarName, elem);
+                throw new ParseException("Graph element does not exist: \"" + elemName + "\"!");
+            return new SequenceAssignElemToVar(toVar, elem);
         }
     |
 		"set" "<" typeName=Word() ">"
 		{
-			return new SequenceAssignSetCreationToVar(toVarName, typeName);
+			return new SequenceAssignSetCreationToVar(toVar, typeName);
 		}
 	|
 		"map" "<" typeName=Word() "," typeNameDst=Word() ">"
 		{
-			return new SequenceAssignMapCreationToVar(toVarName, typeName, typeNameDst);
+			return new SequenceAssignMapCreationToVar(toVar, typeName, typeNameDst);
 		}
 	|
 		"def" "(" Parameters(defParamVars) ")" // todo: eigentliches Ziel: Zuweisung simple sequence an Variable
 		{
-			return new SequenceAssignSequenceResultToVar(toVarName, new SequenceDef(defParamVars.ToArray()));
+			return new SequenceAssignSequenceResultToVar(toVar, new SequenceDef(defParamVars.ToArray()));
 		}
 	|
 		"(" seq=RewriteSequence() ")"
 		{
-			return new SequenceAssignSequenceResultToVar(toVarName, seq);
+			return new SequenceAssignSequenceResultToVar(toVar, seq);
 		}
     )
 |
-	LOOKAHEAD(7) toVarName=Word() "." "visited" "[" visitedFlagVar=Word() "]" "="
+	LOOKAHEAD(7) toVar=VariableUse() "." "visited" "[" fromVar=VariableUse() "]" "="
 		(
-			fromName=Word() { return new SequenceSetVisited(toVarName, visitedFlagVar, fromName); }
+			fromVar2=VariableUse() { return new SequenceSetVisited(toVar, fromVar, fromVar2); }
 		|
-			"true" { return new SequenceSetVisited(toVarName, visitedFlagVar, true); }
+			"true" { return new SequenceSetVisited(toVar, fromVar, true); }
 		|
-			"false" { return new SequenceSetVisited(toVarName, visitedFlagVar, false); }
+			"false" { return new SequenceSetVisited(toVar, fromVar, false); }
 		)
 |
-	LOOKAHEAD(3) fromName=Word() "." "visited" "[" visitedFlagVar=Word() "]"
+	LOOKAHEAD(3) fromVar=VariableUse() "." "visited" "[" fromVar2=VariableUse() "]"
 	{
-		return new SequenceIsVisited(fromName, visitedFlagVar);
+		return new SequenceIsVisited(fromVar, fromVar2);
 	}
 |
-	"vfree" "(" visitedFlagVar=Word() ")"
+	"vfree" "(" fromVar=VariableUse() ")"
 	{
-		return new SequenceVFree(visitedFlagVar);
+		return new SequenceVFree(fromVar);
 	}
 |
-	"vreset" "(" visitedFlagVar=Word() ")"
+	"vreset" "(" fromVar=VariableUse() ")"
 	{
-		return new SequenceVReset(visitedFlagVar);
+		return new SequenceVReset(fromVar);
 	}
 |
 	"emit" "("
-		( str=TextString() { seq = new SequenceEmit(str, false); }
-		| var=Word() { seq = new SequenceEmit(var, true);} )
+		( str=TextString() { seq = new SequenceEmit(str); }
+		| fromVar=VariableUse() { seq = new SequenceEmit(fromVar);} )
 	")" { return seq; } 
 |
-	LOOKAHEAD(4) toVarName=Word() "." attrName=Word() "=" fromName=Word()
+	LOOKAHEAD(4) toVar=VariableUse() "." attrName=Word() "=" fromVar=VariableUse()
     {
-        return new SequenceAssignVarToAttribute(toVarName, attrName, fromName);
+        return new SequenceAssignVarToAttribute(toVar, attrName, fromVar);
     }
 |
-	LOOKAHEAD(2) setmap=Word() "." method=Word() "(" ( var=Word() ("," varDst=Word())? )? ")"
+	LOOKAHEAD(2) fromVar=VariableUse() "." method=Word() "(" ( fromVar2=VariableUse() ("," fromVar3=VariableUse())? )? ")"
 	{
 		if(method=="add") {
-			if(var==null) throw new ParseException("\"" + method + "\" expects 1(for set) or 2(for map) parameters)");
-			return new SequenceSetmapAdd(setmap, var, varDst);
+			if(fromVar2==null) throw new ParseException("\"" + method + "\" expects 1(for set) or 2(for map) parameters)");
+			return new SequenceSetmapAdd(fromVar, fromVar2, fromVar3);
 		} else if(method=="rem") {
-			if(var==null || varDst!=null) throw new ParseException("\"" + method + "\" expects 1 parameter)");
-			return new SequenceSetmapRem(setmap, var); 
+			if(fromVar2==null || fromVar3!=null) throw new ParseException("\"" + method + "\" expects 1 parameter)");
+			return new SequenceSetmapRem(fromVar, fromVar2); 
 		} else if(method=="clear") {
-			if(var!=null || varDst!=null) throw new ParseException("\"" + method + "\" expects no parameters)");
-			return new SequenceSetmapClear(setmap);
+			if(fromVar2!=null || fromVar3!=null) throw new ParseException("\"" + method + "\" expects no parameters)");
+			return new SequenceSetmapClear(fromVar);
 		} else {
 			throw new ParseException("Unknown method name: \"" + method + "\"! (available are add|rem|clear on set/map)");
 		}
     }
 |
-	LOOKAHEAD(2) var=Word() "in" setmap=Word()
+	LOOKAHEAD(2) fromVar=VariableUse() "in" fromVar2=VariableUse()
 	{
-		return new SequenceIn(var, setmap);
+		return new SequenceIn(fromVar, fromVar2);
 	}
 |
 	LOOKAHEAD(RuleLookahead()) seq=Rule()
@@ -886,15 +886,15 @@ Sequence SimpleSequence():
         return new SequenceTransaction(seq);
     }
 |
-    "if" "{" seqCond=RewriteSequence() ";" seqTrue=RewriteSequence() (";" seqFalse=RewriteSequence())? "}"
-    {
-		if(seqFalse==null) return new SequenceIfThen(seqCond, seqTrue);
-        else return new SequenceIfThenElse(seqCond, seqTrue, seqFalse);
+    "if" "{" seq=RewriteSequence() ";" seq2=RewriteSequence() (";" seq3=RewriteSequence())? "}"
+    { // TODO block nesting
+		if(seq3==null) return new SequenceIfThen(seq, seq2);
+        else return new SequenceIfThenElse(seq, seq2, seq3);
     }
 |
-	"for" "{" var=Variable() ("->" varDst=Variable())? "in" setmap=Word() ";" seq=RewriteSequence() "}"
-	{
-        return new SequenceFor(var, varDst, setmap, seq);
+	"for" "{" fromVar=Variable() ("->" fromVar2=Variable())? "in" fromVar3=VariableUse() ";" seq=RewriteSequence() "}"
+	{ // TODO block nesting
+        return new SequenceFor(fromVar, fromVar2, fromVar3, seq);
     }
 }
 
@@ -902,7 +902,8 @@ void RuleLookahead():
 {
 }
 {
-	("(" Word() (":" Word())? ("," Word() (":" Word())?)* ")" "=")?
+	("(" Word() (":" (Word() | "set" "<" Word() ">" | "map" "<" Word() "," Word() ">"))?
+			("," Word() (":" (Word() | "set" "<" Word() ">" | "map" "<" Word() "," Word() ">"))?)* ")" "=")?
 	(
 	    ("$" (Number())?)? "["
 	|
@@ -917,9 +918,9 @@ Sequence Rule():
 	IAction action = null;
 	bool retSpecified = false, numChooseRandSpecified = false;
 	long numChooseRand = 1;
-	List<String> paramVars = new List<String>();
+	List<SequenceVariable> paramVars = new List<SequenceVariable>();
 	List<Object> paramConsts = new List<Object>();
-	List<String> returnVars = new List<String>();
+	List<SequenceVariable> returnVars = new List<SequenceVariable>();
 }
 {
 	("(" VariableList(returnVars) ")" "=" { retSpecified = true; })? 
@@ -938,32 +939,53 @@ Sequence Rule():
 		("(" RuleParameters(paramVars, paramConsts) ")")?
 		"]"
 		{
-			return new SequenceRuleAll(CreateRuleObject(str, paramVars, paramConsts, returnVars, retSpecified),
+			// No variable with this name may exist
+			if(varDecls.Lookup(str)!=null)
+				throw new SequenceParserRuleException(str, SequenceParserError.RuleNameUsedByVariable);
+
+			return new SequenceRuleAll(CreateRuleInvocationParameterBindings(str, paramVars, paramConsts, returnVars),
 					special, test, numChooseRandSpecified ? (int) numChooseRand : 0);
 		}
 	|
 		("%" { special = true; } | "?" { test = true; })*
-		str=Word() ("(" RuleParameters(paramVars, paramConsts) ")")?
+		str=Word() ("(" RuleParameters(paramVars, paramConsts) ")")? // if only str is given, this might be a variable predicate; but this is decided later on in resolve
 		{
-			return new SequenceRule(CreateRuleObject(str, paramVars, paramConsts, returnVars, retSpecified),
+			if(paramVars.Count==0 && returnVars.Count==0)
+			{
+				SequenceVariable var = varDecls.Lookup(str);
+				if(var!=null)
+				{
+					if(var.Type!="" && var.Type!="boolean")
+						throw new SequenceParserRuleException(str, SequenceParserError.InvalidUseOfVariable);
+					return new SequenceVarPredicate(var, special);
+				}
+			}
+
+			// No variable with this name may exist
+			if(varDecls.Lookup(str)!=null)
+				throw new SequenceParserRuleException(str, SequenceParserError.RuleNameUsedByVariable);
+				
+			return new SequenceRule(CreateRuleInvocationParameterBindings(str, paramVars, paramConsts, returnVars),
 					special, test);
 		}
 	)
 }
 
 CSHARPCODE
-RuleObject CreateRuleObject(String ruleName, List<String> paramVars, List<Object> paramConsts,
-		List<String> returnVars, bool retSpecified)
+RuleInvocationParameterBindings CreateRuleInvocationParameterBindings(String ruleName, 
+				List<SequenceVariable> paramVars, List<Object> paramConsts, List<SequenceVariable> returnVars)
 {
 	IAction action = null;
 	if(actions != null)
 		action = actions.GetAction(ruleName);
-		
-	RuleObject ruleObj = new RuleObject(action, paramVars.ToArray(), paramConsts.ToArray(), returnVars.ToArray());
-	if(action == null)
-		ruleObj.RuleName = ruleName;
+			
+	RuleInvocationParameterBindings paramBindings = new RuleInvocationParameterBindings(action, 
+			paramVars.ToArray(), paramConsts.ToArray(), returnVars.ToArray());
 
-	return ruleObj;
+	if(action == null)
+		paramBindings.RuleName = ruleName;
+
+	return paramBindings;
 }
 
 TOKEN: { < ERROR: ~[] > }

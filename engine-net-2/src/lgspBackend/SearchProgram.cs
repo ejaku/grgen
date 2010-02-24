@@ -2463,7 +2463,7 @@ namespace de.unika.ipd.grGen.lgsp
 
         public override void Dump(SourceBuilder builder)
         {
-            builder.AppendFront("AbandonCandidateGlobal ");
+            builder.AppendFront("AbandonCandidatePatternpath");
             builder.AppendFormat("on {0} negNamePrefix:{1} node:{2}\n",
                 PatternElementName, NegativeIndependentNamePrefix, IsNode);
         }

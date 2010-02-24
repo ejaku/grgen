@@ -619,6 +619,35 @@ namespace de.unika.ipd.grGen.lgsp
                         actionTypes.Add(type.Name, type);
                 }
 
+                LGSPRuleAndMatchingPatterns ruleAndMatchingPatterns = null;
+                foreach (Type type in initialAssembly.GetTypes())
+                {
+                    if (!type.IsClass || type.IsNotPublic) continue;
+                    if (type.BaseType == typeof(LGSPRuleAndMatchingPatterns))
+                    {
+                        ruleAndMatchingPatterns = (LGSPRuleAndMatchingPatterns)Activator.CreateInstance(type);
+                        break;
+                    }
+                }
+
+                Dictionary<String, List<String>> rulesToInputTypes = new Dictionary<String, List<String>>();
+                Dictionary<String, List<String>> rulesToOutputTypes = new Dictionary<String, List<String>>();
+                foreach (IRulePattern rulePattern in ruleAndMatchingPatterns.Rules)
+                {
+                    List<String> inputTypes = new List<String>();
+                    rulesToInputTypes.Add(rulePattern.PatternGraph.Name, inputTypes);
+                    foreach (GrGenType inputType in rulePattern.Inputs)
+                    {
+                        inputTypes.Add(TypesHelper.DotNetTypeToXgrsType(inputType));
+                    }
+                    List<String> outputTypes = new List<String>();
+                    rulesToOutputTypes.Add(rulePattern.PatternGraph.Name, outputTypes);
+                    foreach (GrGenType outputType in rulePattern.Outputs)
+                    {
+                        outputTypes.Add(TypesHelper.DotNetTypeToXgrsType(outputType));
+                    }
+                }
+
                 ///////////////////////////////////////////////
                 // take action intermediate file until action insertion point as base for action file 
                 ///////////////////////////////////////////////
@@ -641,7 +670,8 @@ namespace de.unika.ipd.grGen.lgsp
                         }
                         else if(line.Length > 0 && line[0] == '#' && line.Contains("// GrGen imperative statement section"))
                         {
-                            LGSPSequenceGenerator seqGen = new LGSPSequenceGenerator(this);
+                            LGSPSequenceGenerator seqGen = new LGSPSequenceGenerator(this, model, 
+                                rulesToInputTypes, rulesToOutputTypes);
                             int lastSpace = line.LastIndexOf(' ');
                             String ruleName = line.Substring(lastSpace + 1);
                             Type ruleType = actionTypes[ruleName];
@@ -651,7 +681,8 @@ namespace de.unika.ipd.grGen.lgsp
                                 FieldInfo fieldInfo = ruleType.GetField("XGRSInfo_" + xgrsID);
                                 if(fieldInfo == null) break;
                                 LGSPXGRSInfo xgrsInfo = (LGSPXGRSInfo) fieldInfo.GetValue(null);
-                                if(!seqGen.GenerateXGRSCode(xgrsID, xgrsInfo.XGRS, xgrsInfo.Parameters, source, model))
+                                if(!seqGen.GenerateXGRSCode(xgrsID, xgrsInfo.XGRS, xgrsInfo.RuleNames, 
+                                                            xgrsInfo.Parameters, xgrsInfo.ParameterTypes, source))
                                     return ErrorType.GrGenNetError;
                                 xgrsID++;
                             }
@@ -722,17 +753,6 @@ namespace de.unika.ipd.grGen.lgsp
                 PatternGraphAnalyzer analyzer = new PatternGraphAnalyzer();
                 LGSPMatcherGenerator matcherGen = new LGSPMatcherGenerator(model);
                 if ((flags & ProcessSpecFlags.KeepGeneratedFiles) != 0) matcherGen.CommentSourceCode = true;
-
-                LGSPRuleAndMatchingPatterns ruleAndMatchingPatterns = null;
-                foreach (Type type in initialAssembly.GetTypes())
-                {
-                    if (!type.IsClass || type.IsNotPublic) continue;
-                    if (type.BaseType == typeof(LGSPRuleAndMatchingPatterns))
-                    {
-                        ruleAndMatchingPatterns = (LGSPRuleAndMatchingPatterns)Activator.CreateInstance(type);
-                        break;
-                    }
-                }
 
                 foreach (LGSPMatchingPattern matchingPattern in ruleAndMatchingPatterns.RulesAndSubpatterns)
                 {

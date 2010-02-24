@@ -12,7 +12,7 @@ using System.IO;
 namespace de.unika.ipd.grGen.libGr
 {
     /// <summary>
-    /// A named variable.
+    /// A named graph-global variable.
     /// </summary>
     public class Variable
     {
@@ -629,7 +629,7 @@ namespace de.unika.ipd.grGen.libGr
         /// <summary>
         /// Apply a rewrite rule.
         /// </summary>
-        /// <param name="ruleObject">RuleObject to be applied</param>
+        /// <param name="paramBindings">The parameter bindings of the rule invocation</param>
         /// <param name="which">The index of the match to be rewritten or -1 to rewrite all matches</param>
         /// <param name="localMaxMatches">Specifies the maximum number of matches to be found (if less or equal 0 the number of matches
         /// depends on MaxMatches)</param>
@@ -637,7 +637,7 @@ namespace de.unika.ipd.grGen.libGr
         /// the application</param>
         /// <param name="test">If true, no rewrite step is performed.</param>
         /// <returns>The number of matches found</returns>
-        int ApplyRewrite(RuleObject ruleObject, int which, int localMaxMatches, bool special, bool test);
+        int ApplyRewrite(RuleInvocationParameterBindings paramBindings, int which, int localMaxMatches, bool special, bool test);
 
         /// <summary>
         /// Apply a graph rewrite sequence.

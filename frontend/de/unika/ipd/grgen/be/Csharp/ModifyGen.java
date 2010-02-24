@@ -38,6 +38,7 @@ import de.unika.ipd.grgen.ir.Expression;
 import de.unika.ipd.grgen.ir.GraphEntity;
 import de.unika.ipd.grgen.ir.GraphEntityExpression;
 import de.unika.ipd.grgen.ir.ImperativeStmt;
+import de.unika.ipd.grgen.ir.InheritanceType;
 import de.unika.ipd.grgen.ir.MapAddItem;
 import de.unika.ipd.grgen.ir.MapInit;
 import de.unika.ipd.grgen.ir.MapRemoveItem;
@@ -1008,6 +1009,9 @@ public class ModifyGen extends CSharpBase {
 				sb.append("\t\t\tApplyXGRS_" + xgrsID++ + "(graph");
 				for(Entity neededEntity : exec.getNeededEntities()) {
 					sb.append(", ");
+					if(neededEntity.getType() instanceof InheritanceType) {
+						sb.append("("+formatElementInterfaceRef(neededEntity.getType())+")");
+					}
 					sb.append(formatEntity(neededEntity));
 				}
 /*				for(Expression arg : exec.getArguments()) {
