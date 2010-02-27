@@ -72,7 +72,7 @@ show num edges moveRight
 show num edges right
 show num edges value
 show num edges zero
-grs ((readOneRule|readEmptyRule);(writeOneRule|writeEmptyRule);(ensureMoveLeftValidRule|ensureMoveRightValidRule);(moveLeftRule|moveRightRule)){100}
+xgrs ((readOneRule||readEmptyRule)|(writeOneRule||writeEmptyRule)|(ensureMoveLeftValidRule||ensureMoveRightValidRule)|(moveLeftRule||moveRightRule))[100]
 
 custom graph analyze
 custom actions gen_searchplan readOneRule readEmptyRule writeOneRule writeEmptyRule ensureMoveLeftValidRule ensureMoveRightValidRule moveLeftRule moveRightRule
@@ -94,7 +94,7 @@ show num edges moveRight
 show num edges right
 show num edges value
 show num edges zero
-grs ((readOneRule|readEmptyRule);(writeOneRule|writeEmptyRule);(ensureMoveLeftValidRule|ensureMoveRightValidRule);(moveLeftRule|moveRightRule))*
+xgrs ((readOneRule||readEmptyRule)|(writeOneRule||writeEmptyRule)|(ensureMoveLeftValidRule||ensureMoveRightValidRule)|(moveLeftRule||moveRightRule))*
 show num nodes
 show num edges
 show num nodes WriteZero

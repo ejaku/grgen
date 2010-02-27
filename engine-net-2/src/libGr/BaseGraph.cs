@@ -496,8 +496,9 @@ namespace de.unika.ipd.grGen.libGr
 
             if(PerformanceInfo != null) PerformanceInfo.StartLocal();
             object[] retElems = Replace(matches, which);
-            for(int i = 0; i < paramBindings.ReturnVars.Length; i++)
-                paramBindings.ReturnVars[i].SetVariableValue(retElems[i], this);
+            if(paramBindings.ReturnVars.Length > 0 && paramBindings.ReturnVars[0] != null)
+                for(int i = 0; i < paramBindings.ReturnVars.Length; i++)
+                    paramBindings.ReturnVars[i].SetVariableValue(retElems[i], this);
             if(PerformanceInfo != null) PerformanceInfo.StopRewrite();
 
             if(OnFinished != null) OnFinished(matches, special);

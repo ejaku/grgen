@@ -29,7 +29,7 @@ public class NodeInterfaceTypeChangeNode extends NodeDeclNode implements NodeCha
 	}
 
 	private IdentNode interfaceTypeUnresolved;
-	private TypeDeclNode interfaceType = null;
+	TypeDeclNode interfaceType = null;
 
 	
 	public NodeInterfaceTypeChangeNode(IdentNode id, BaseNode type, int context, IdentNode interfaceType,

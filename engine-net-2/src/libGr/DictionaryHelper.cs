@@ -468,5 +468,23 @@ namespace de.unika.ipd.grGen.libGr
                 ToString((IDictionary)newValue, out type, out content);
             }
         }
+
+        /// <summary>
+        /// If the attribute of the given name of the given element is a set or map attribute
+        /// then return a clone of the given dictionary value, otherwise just return the original value;
+        /// additionally returns the AttributeType of the attribute of the element.
+        /// </summary>
+        public static object IfAttributeOfElementIsDictionaryThenCloneDictionaryValue(
+                IGraphElement element, String AttributeName, object value, out AttributeType attrType)
+        {
+            attrType = element.Type.GetAttributeType(AttributeName);
+            if(attrType.Kind == AttributeKind.SetAttr || attrType.Kind == AttributeKind.MapAttr)
+            {
+                Type keyType, valueType;
+                DictionaryHelper.GetDictionaryTypes(element.GetAttribute(AttributeName), out keyType, out valueType);
+                return DictionaryHelper.NewDictionary(keyType, valueType, value); // by-value-semantics -> clone dictionary
+            }
+            return value;
+        }
     }
 }

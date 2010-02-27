@@ -848,7 +848,7 @@ void ShellCommand():
     {
         try
         {
-            seq = SequenceParser.ParseSequence(str1, impl.CurrentActions, impl.CurrentGraph);
+            seq = SequenceParser.ParseSequence(str1, impl.CurrentActions);
             impl.ApplyRewriteSequence(seq, false);
             noError = !impl.OperationCancelled;
         }
@@ -875,7 +875,7 @@ void ShellCommand():
 	    {
             try
             {
-                seq = SequenceParser.ParseSequence(str1, impl.CurrentActions, impl.CurrentGraph);
+                seq = SequenceParser.ParseSequence(str1, impl.CurrentActions);
     	        validated = impl.ValidateWithSequence(seq);
                 noError = !impl.OperationCancelled;
             }
@@ -1433,7 +1433,7 @@ void DebugCommand():
 		{
 			try
 			{
-				seq = SequenceParser.ParseSequence(str, impl.CurrentActions, impl.CurrentGraph);
+				seq = SequenceParser.ParseSequence(str, impl.CurrentActions);
 				impl.DebugRewriteSequence(seq);
 				noError = !impl.OperationCancelled;
 			}

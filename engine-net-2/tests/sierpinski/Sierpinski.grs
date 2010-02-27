@@ -10,7 +10,7 @@ show num nodes B
 show num nodes C
 show num edges E0
 show num edges E1
-grs init
+xgrs init
 
 debug set layout Organic
 

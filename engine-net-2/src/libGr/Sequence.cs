@@ -838,13 +838,9 @@ namespace de.unika.ipd.grGen.libGr
         {
             object value = SourceVar.GetVariableValue(graph);
             IGraphElement elem = (IGraphElement)DestVar.GetVariableValue(graph);
-            AttributeType attrType = elem.Type.GetAttributeType(AttributeName);
-            if(attrType.Kind==AttributeKind.SetAttr || attrType.Kind==AttributeKind.MapAttr)
-            {
-                Type keyType, valueType;
-                DictionaryHelper.GetDictionaryTypes(elem.GetAttribute(AttributeName), out keyType, out valueType);
-                value = DictionaryHelper.NewDictionary(keyType, valueType, value); // by-value-semantics -> clone dictionary
-            }
+            AttributeType attrType;
+            value = DictionaryHelper.IfAttributeOfElementIsDictionaryThenCloneDictionaryValue(
+                elem, AttributeName, value, out attrType);
             AttributeChangeType changeType = AttributeChangeType.Assign;
             if(elem is INode)
                 graph.ChangingNodeAttribute((INode)elem, attrType, changeType, value, null);
@@ -877,13 +873,9 @@ namespace de.unika.ipd.grGen.libGr
         {
             IGraphElement elem = (IGraphElement)SourceVar.GetVariableValue(graph);
             object value = elem.GetAttribute(AttributeName);
-            AttributeType attrType = elem.Type.GetAttributeType(AttributeName);
-            if(attrType.Kind==AttributeKind.SetAttr || attrType.Kind==AttributeKind.MapAttr)
-            {
-                Type keyType, valueType;
-                IDictionary dict = DictionaryHelper.GetDictionaryTypes(value, out keyType, out valueType);
-                value = DictionaryHelper.NewDictionary(keyType, valueType, dict); // by-value-semantics -> clone dictionary
-            }
+            AttributeType attrType;
+            value = DictionaryHelper.IfAttributeOfElementIsDictionaryThenCloneDictionaryValue(
+                elem, AttributeName, value, out attrType);
             DestVar.SetVariableValue(value, graph);
             return true;
         }
@@ -896,24 +888,30 @@ namespace de.unika.ipd.grGen.libGr
     public class SequenceAssignElemToVar : Sequence
     {
         public SequenceVariable DestVar;
-        public IGraphElement Element;
+        public String ElementName;
 
-        public SequenceAssignElemToVar(SequenceVariable destVar, IGraphElement elem)
+        public SequenceAssignElemToVar(SequenceVariable destVar, String elemName)
             : base(SequenceType.AssignElemToVar)
         {
             DestVar = destVar;
-            Element = elem;
+            ElementName = elemName;
         }
 
         protected override bool ApplyImpl(IGraph graph)
         {
-            DestVar.SetVariableValue(Element, graph);
+            if(!(graph is NamedGraph))
+                throw new InvalidOperationException("The @-operator can only be used with NamedGraphs!");
+            NamedGraph namedGraph = (NamedGraph)graph;
+            IGraphElement elem = namedGraph.GetGraphElement(ElementName);
+            if(elem == null)
+                throw new InvalidOperationException("Graph element does not exist: \"" + ElementName + "\"!");
+            DestVar.SetVariableValue(elem, graph);
             return true;                    // Semantics changed! Now always returns true, as it is always successful!
         }
 
         public override IEnumerable<Sequence> Children { get { yield break; } }
         public override int Precedence { get { return 8; } }
-        public override string Symbol { get { return DestVar.Name + "=[<someelem>]"; } }
+        public override string Symbol { get { return DestVar.Name + "=@<someelem>"; } }
     }
 
     public class SequenceAssignSequenceResultToVar : Sequence

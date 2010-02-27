@@ -11,7 +11,7 @@ show num nodes Process
 show num edges next
 validate
 
-grs newRule{998} ; mountRule ; requestRule{1000}	
+xgrs newRule[998] | mountRule | requestRule[1000]	
 
 custom graph analyze
 custom actions gen_searchplan takeRule releaseRule giveRule
@@ -23,7 +23,7 @@ show num edges token
 show num edges request
 validate
 
-grs (takeRule ; releaseRule ; giveRule){1000}
+xgrs (takeRule | releaseRule | giveRule)[1000]
 
 show num nodes
 show num edges

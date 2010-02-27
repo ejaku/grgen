@@ -195,7 +195,14 @@ public class CallActionNode extends BaseNode {
 			Iterator<? extends ExprNode> iterAP = actualParams.iterator();
 			int paramCounter = 1;
 			for(DeclNode formalParam : formalParams) {
-				TypeNode formalParameterType = formalParam.getDecl().getDeclType();
+				TypeNode formalParameterType;
+				if(formalParam instanceof EdgeInterfaceTypeChangeNode) {
+					formalParameterType = ((EdgeInterfaceTypeChangeNode)formalParam).interfaceType.getDeclType();
+				} else if(formalParam instanceof NodeInterfaceTypeChangeNode) {
+					formalParameterType = ((NodeInterfaceTypeChangeNode)formalParam).interfaceType.getDeclType();
+				} else {
+					formalParameterType = formalParam.getDecl().getDeclType();
+				}
 				Type     formalParamType = formalParameterType.getType();
 
 				ExprNode actualParam     = iterAP.next();

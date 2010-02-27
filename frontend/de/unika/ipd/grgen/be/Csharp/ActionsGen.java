@@ -1144,7 +1144,11 @@ public class ActionsGen extends CSharpBase {
 				sb.append("},\n");
 				sb.append("\t\t\tnew string[] {");
 				for(Entity neededEntity : exec.getNeededEntities()) {
-					sb.append("\"" + formatType(neededEntity.getType()) + "\", ");
+					if(neededEntity instanceof GraphEntity && ((GraphEntity)neededEntity).getParameterInterfaceType()!=null) {
+						sb.append("\"" + formatType(((GraphEntity)neededEntity).getParameterInterfaceType()) + "\", ");
+					} else {
+						sb.append("\"" + formatType(neededEntity.getType()) + "\", ");
+					}
 				}
 				sb.append("},\n");
 				sb.append("\t\t\t\"" + exec.getXGRSString().replace("\"", "\\\"") + "\");\n");

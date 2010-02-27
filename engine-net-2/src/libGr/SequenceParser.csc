@@ -17,7 +17,6 @@ PARSER_BEGIN(SequenceParser)
 	public class SequenceParser
 	{
 		BaseActions actions;
-		NamedGraph namedGraph;
 		String[] ruleNames;
 		
 		/// <summary>
@@ -37,7 +36,7 @@ PARSER_BEGIN(SequenceParser)
         /// or return parameters.</exception>
 		public static Sequence ParseSequence(String sequenceStr, BaseActions actions)
 		{
-			return ParseSequence(sequenceStr, actions, null, null, null);
+			return ParseSequence(sequenceStr, actions, null, null);
 		}		
 
         /// <summary>
@@ -53,23 +52,8 @@ PARSER_BEGIN(SequenceParser)
 		public static Sequence ParseSequence(String sequenceStr, String[] ruleNames,
 		        Dictionary<String, String> predefinedVariables)
 		{
-			return ParseSequence(sequenceStr, null, ruleNames, predefinedVariables, null);
+			return ParseSequence(sequenceStr, null, ruleNames, predefinedVariables);
 		}		
-
-        /// <summary>
-        /// Parses a given string in xgrs syntax and builds a Sequence object.
-        /// </summary>
-        /// <param name="sequenceStr">The string representing a xgrs (e.g. "test[7] &amp;&amp; (chicken+ || egg)*")</param>
-        /// <param name="actions">The BaseActions object containing the rules used in the string.</param>
-        /// <param name="namedGraph">A NamedGraph object to be used for named element access (@-operator).</param>
-        /// <returns>The sequence object according to sequenceStr.</returns>
-        /// <exception cref="ParseException">Thrown when a syntax error was found in the string.</exception>
-        /// <exception cref="SequenceParserRuleException">Thrown when a rule is used with the wrong number of arguments
-        /// or return parameters.</exception>
-		public static Sequence ParseSequence(String sequenceStr, BaseActions actions, NamedGraph namedGraph)
-		{
-			return ParseSequence(sequenceStr, actions, null, null, namedGraph);
-		}
 		
         /// <summary>
         /// Parses a given string in xgrs syntax and builds a Sequence object.
@@ -78,20 +62,18 @@ PARSER_BEGIN(SequenceParser)
         /// <param name="actions">The BaseActions object containing the rules used in the string. Either this is null or ruleNames (it is set for interpreted xgrs).</param>
         /// <param name="ruleNames">An array containing the names of the rules used in the specification. Either this is null or actions (it is set for compiled xgrs).</param>
         /// <param name="predefinedVariables">A map from variables to types giving the parameters to the sequence, i.e. predefined variables.</param>
-        /// <param name="namedGraph">A NamedGraph object to be used for named element access (@-operator).</param>
         /// <returns>The sequence object according to sequenceStr.</returns>
         /// <exception cref="ParseException">Thrown when a syntax error was found in the string.</exception>
         /// <exception cref="SequenceParserRuleException">Thrown when a rule is used with the wrong number of arguments
         /// or return parameters.</exception>
 		public static Sequence ParseSequence(String sequenceStr, BaseActions actions, String[] ruleNames,
-		        Dictionary<String, String> predefinedVariables, NamedGraph namedGraph)
+		        Dictionary<String, String> predefinedVariables)
 		{
 			SequenceParser parser = new SequenceParser(new StringReader(sequenceStr));
 			parser.actions = actions;
 			parser.ruleNames = ruleNames;
 			parser.varDecls = new SymbolTable();
 			parser.varDecls.PushFirstScope(predefinedVariables);
-			parser.namedGraph = namedGraph;
 			Sequence seq = parser.XGRS();
 			parser.Resolve(ref seq);
 			return seq;
@@ -199,6 +181,7 @@ PARSER_BEGIN(SequenceParser)
 				case SequenceType.Def:
 				case SequenceType.True:
 				case SequenceType.False:
+				case SequenceType.VarPredicate:
 				case SequenceType.AssignVarToVar:
 				case SequenceType.AssignConstToVar:
 				case SequenceType.AssignAttributeToVar:
@@ -718,7 +701,6 @@ Sequence SimpleSequence():
 	List<SequenceVariable> defParamVars = new List<SequenceVariable>();
 	SequenceVariable toVar, fromVar, fromVar2 = null, fromVar3 = null;
 	String typeName, typeNameDst, attrName, method, elemName;
-	IGraphElement elem;
 	object constant;
 	String str;
 }
@@ -769,15 +751,7 @@ Sequence SimpleSequence():
     |
         "@" "(" elemName=Text() ")"
         {
-            if(actions == null)
-                throw new ParseException("The @-operator is not allowed without an BaseActions instance!");
-            if(namedGraph == null)
-                throw new ParseException("The @-operator can only be used with NamedGraphs!");
-                
-            elem = namedGraph.GetGraphElement(elemName);
-            if(elem == null)
-                throw new ParseException("Graph element does not exist: \"" + elemName + "\"!");
-            return new SequenceAssignElemToVar(toVar, elem);
+            return new SequenceAssignElemToVar(toVar, elemName);
         }
     |
 		"set" "<" typeName=Word() ">"

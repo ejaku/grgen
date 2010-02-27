@@ -397,9 +397,9 @@ namespace de.unika.ipd.grGen.lgsp
             {
                 IEnumerator<int> a;
                 String varName = paramBindings.ReturnVars[i].Prefix + paramBindings.ReturnVars[i].Name;
-                returnParameterDeclarations = TypesHelper.XgrsTypeToCSharpType(rulesToOutputTypes[paramBindings.RuleName][i], model) + " tmpvar_" + varName + "; ";
+                returnParameterDeclarations += TypesHelper.XgrsTypeToCSharpType(rulesToOutputTypes[paramBindings.RuleName][i], model) + " tmpvar_" + varName + "; ";
                 returnArguments += ", out tmpvar_" + varName;
-                returnAssignments += "var_" + varName + " = tmpvar_" + varName + ";";
+                returnAssignments += "var_" + varName + " = tmpvar_" + varName + "; ";
             }
 
             if(seqRule.SequenceType == SequenceType.Rule)
@@ -862,7 +862,15 @@ namespace de.unika.ipd.grGen.lgsp
 				}
 
                 case SequenceType.AssignElemToVar:
-                    throw new Exception("AssignElemToVar not supported, yet"); // TODO
+                {
+                    SequenceAssignElemToVar seqElemToVar = (SequenceAssignElemToVar)seq;
+                    source.AppendFront("if(!(graph is NamedGraph)) throw new InvalidOperationException(\"The @-operator can only be used with NamedGraphs!\");\n");
+                    source.AppendFront("IGraphElement elem_"+seqElemToVar.Id+" = ((NamedGraph)namedGraph).GetGraphElement(\"" + seqElemToVar.ElementName + "\");");
+                    source.AppendFront("if(elem_"+seqElemToVar.Id+" == null) throw new InvalidOperationException(\"Graph element does not exist: \"" + seqElemToVar.ElementName + "\"!\");");
+                    source.AppendFront(SetVar(seqElemToVar.DestVar, "elem_"+seqElemToVar.Id));
+                    source.AppendFront(SetResultVar(seqElemToVar, "true"));
+                    break;
+                }
 
                 case SequenceType.AssignSequenceResultToVar:
                 {
@@ -875,18 +883,40 @@ namespace de.unika.ipd.grGen.lgsp
 
                 case SequenceType.AssignConstToVar:
                 {
-                    // currently only boolean values supported, compiled xgrs don't support more at the moment TODO
                     SequenceAssignConstToVar seqConstToVar = (SequenceAssignConstToVar)seq;
-                    source.AppendFront(SetVar(seqConstToVar.DestVar, (((bool)seqConstToVar.Constant)?"true":"false")));
+                    source.AppendFront(SetVar(seqConstToVar.DestVar, seqConstToVar.Constant.ToString()));
                     source.AppendFront(SetResultVar(seqConstToVar, "true"));
                     break;
                 }
 
                 case SequenceType.AssignAttributeToVar:
-                    throw new Exception("AssignAttributeToVar not supported, yet"); // TODO
+                {
+                    SequenceAssignAttributeToVar seqAttrToVar = (SequenceAssignAttributeToVar)seq;
+                    source.AppendFront("object value_"+seqAttrToVar.Id+" = " + GetVar(seqAttrToVar.SourceVar) + ";\n");
+                    source.AppendFront("IGraphElement elem_"+seqAttrToVar.Id+" = (IGraphElement)" + GetVar(seqAttrToVar.DestVar) + ";\n");
+                    source.AppendFront("AttributeType attrType_"+seqAttrToVar.Id+";\n");
+                    source.AppendFront("value_"+seqAttrToVar.Id+" = DictionaryHelper.IfAttributeOfElementIsDictionaryThenCloneDictionaryValue(elem_"+seqAttrToVar.Id+", \"" + seqAttrToVar.AttributeName + "\", value_"+seqAttrToVar.Id+", out attrType"+seqAttrToVar.Id+");\n");
+                    source.AppendFront("AttributeChangeType changeType_"+seqAttrToVar.Id+" = AttributeChangeType.Assign;\n");
+                    source.AppendFront("if(elem_"+seqAttrToVar.Id+" is INode)\n");
+                    source.AppendFront("\tgraph.ChangingNodeAttribute((INode)elem_"+seqAttrToVar.Id+", attrType_"+seqAttrToVar.Id+", changeType_"+seqAttrToVar.Id+", value_"+seqAttrToVar.Id+", null);\n");
+                    source.AppendFront("else\n");
+                    source.AppendFront("\tgraph.ChangingEdgeAttribute((IEdge)elem_"+seqAttrToVar.Id+", attrType_"+seqAttrToVar.Id+", changeType_"+seqAttrToVar.Id+", value_"+seqAttrToVar.Id+", null);\n");
+                    source.AppendFront("elem_"+seqAttrToVar.Id+".SetAttribute(\"" + seqAttrToVar.AttributeName + "\", value_"+seqAttrToVar.Id+");\n");
+                    source.AppendFront(SetResultVar(seqAttrToVar, "true"));
+                    break;
+                }
 
                 case SequenceType.AssignVarToAttribute:
-                    throw new Exception("AssignVarToAttribute not supported, yet"); // TODO
+                {
+                    SequenceAssignVarToAttribute seqVarToAttr = (SequenceAssignVarToAttribute)seq;
+                    source.AppendFront("IGraphElement elem_"+seqVarToAttr.Id+" = (IGraphElement)" + GetVar(seqVarToAttr.SourceVar) + ";\n");
+                    source.AppendFront("object value_"+seqVarToAttr.Id+" = elem_"+seqVarToAttr.Id+".GetAttribute(\""+seqVarToAttr.AttributeName+"\");\n");
+                    source.AppendFront("AttributeType attrType_"+seqVarToAttr.Id+";\n");
+                    source.AppendFront("value_"+seqVarToAttr.Id+" = DictionaryHelper.IfAttributeOfElementIsDictionaryThenCloneDictionaryValue(elem_"+seqVarToAttr.Id+", \"" + seqVarToAttr.AttributeName + "\", value_"+seqVarToAttr.Id+", out attrType_"+seqVarToAttr.Id+");\n");
+                    source.AppendFront(SetVar(seqVarToAttr.DestVar, "value_"+seqVarToAttr.Id));
+                    source.AppendFront(SetResultVar(seqVarToAttr, "true"));
+                    break;
+                }
 
 				case SequenceType.Transaction:
 				{

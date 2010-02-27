@@ -26,7 +26,7 @@ public class EdgeInterfaceTypeChangeNode extends EdgeDeclNode implements EdgeCha
 	}
 
 	private IdentNode interfaceTypeUnresolved;
-	private TypeDeclNode interfaceType = null;
+	TypeDeclNode interfaceType = null;
 
 	
 	public EdgeInterfaceTypeChangeNode(IdentNode id, BaseNode newType, int context, IdentNode interfaceType, 

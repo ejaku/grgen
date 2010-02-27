@@ -50,7 +50,7 @@ show num edges moveRight
 show num edges right
 show num edges value
 show num edges zero
-grs ((readZeroRule|readOneRule|readEmptyRule);(writeZeroRule|writeOneRule|writeEmptyRule);(ensureMoveLeftValidRule|ensureMoveRightValidRule);(moveLeftRule|moveRightRule|dontMoveRule))*
+xgrs ((readZeroRule||readOneRule||readEmptyRule)|(writeZeroRule||writeOneRule||writeEmptyRule)|(ensureMoveLeftValidRule||ensureMoveRightValidRule)|(moveLeftRule||moveRightRule||dontMoveRule))*
 show num nodes
 show num edges
 show num nodes WriteZero
