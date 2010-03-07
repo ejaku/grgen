@@ -30,6 +30,11 @@ namespace de.unika.ipd.grGen.libGr
         BadParameter,
 
         /// <summary>
+        /// The type of a return parameter does not match the signature of the action.
+        /// </summary>
+        BadReturnParameter,
+
+        /// <summary>
         /// A variable has been declared with the name of an action.
         /// </summary>
         RuleNameUsedByVariable,
@@ -40,16 +45,16 @@ namespace de.unika.ipd.grGen.libGr
         VariableUsedWithParametersOrReturnParameters,
 
         /// <summary>
-        /// A non-boolean variable has been used as a predicate.
+        /// Type check error
         /// </summary>
-        InvalidUseOfVariable
+        TypeMismatch
     }
 
     /// <summary>
-    /// An exception thrown by SequenceParser describing,
-    /// which rule caused the problem and how it was used
+    /// An exception thrown by SequenceParser,
+    /// describing the error, e.g. which rule caused the problem and how it was used
     /// </summary>
-    public class SequenceParserRuleException : Exception
+    public class SequenceParserException : Exception
     {
         /// <summary>
         /// The kind of error.
@@ -81,8 +86,26 @@ namespace de.unika.ipd.grGen.libGr
         /// </summary>
         public int BadParamIndex;
 
+        // the members for a type mismatch error
+
         /// <summary>
-        /// Creates an instance of a SequenceParserRuleException used by the SequenceParser, when the rule with the
+        /// The variable which caused the type error or the function which caused the type error
+        /// </summary>
+        public String VariableOrFunctionName;
+
+        /// <summary>
+        /// The expected type or types
+        /// </summary>
+        public String ExpectedType;
+
+        /// <summary>
+        /// The given type
+        /// </summary>
+        public String GivenType;
+
+
+        /// <summary>
+        /// Creates an instance of a SequenceParserException used by the SequenceParser, when the rule with the
         /// given name does not exist or input or output parameters do not match.
         /// </summary>
         /// <param name="ruleName">The name of the rule.</param>
@@ -91,7 +114,7 @@ namespace de.unika.ipd.grGen.libGr
         /// <param name="numGivenInputs">The number of inputs given to the rule.</param>
         /// <param name="numGivenOutputs">The number of outputs given to the rule.</param>
         /// <param name="badParamIndex">The index of a bad parameter or -1 if another error occurred.</param>
-        public SequenceParserRuleException(String ruleName, IAction action, int numGivenInputs, int numGivenOutputs, int badParamIndex)
+        public SequenceParserException(String ruleName, IAction action, int numGivenInputs, int numGivenOutputs, int badParamIndex)
         {
             RuleName = ruleName;
             Action = action;
@@ -101,36 +124,36 @@ namespace de.unika.ipd.grGen.libGr
         }
 
         /// <summary>
-        /// Creates an instance of a SequenceParserRuleException used by the SequenceParser, when the rule with the
+        /// Creates an instance of a SequenceParserException used by the SequenceParser, when the rule with the
         /// given name does not exist or input or output parameters do not match.
         /// </summary>
         /// <param name="ruleName">Name of the rule or variable.</param>
         /// <param name="errorKind">The kind of error.</param>
-        public SequenceParserRuleException(String ruleName, SequenceParserError errorKind)
+        public SequenceParserException(String ruleName, SequenceParserError errorKind)
         {
             RuleName = ruleName;
             Kind = errorKind; 
         }
 
         /// <summary>
-        /// Creates an instance of a SequenceParserRuleException used by the SequenceParser, when the rule with the
+        /// Creates an instance of a SequenceParserException used by the SequenceParser, when the rule with the
         /// given name does not exist or input or output parameters do not match.
         /// </summary>
         /// <param name="paramBindings">The parameter bindings of the rule invocation.</param>
         /// <param name="errorKind">The kind of error.</param>
-        public SequenceParserRuleException(RuleInvocationParameterBindings paramBindings, SequenceParserError errorKind)
+        public SequenceParserException(RuleInvocationParameterBindings paramBindings, SequenceParserError errorKind)
             : this(paramBindings, errorKind, -1)
         {
         }
 
         /// <summary>
-        /// Creates an instance of a SequenceParserRuleException used by the SequenceParser, when the rule with the
+        /// Creates an instance of a SequenceParserException used by the SequenceParser, when the rule with the
         /// given name does not exist or input or output parameters do not match.
         /// </summary>
         /// <param name="paramBindings">The parameter bindings of the rule invocation.</param>
         /// <param name="errorKind">The kind of error.</param>
         /// <param name="badParamIndex">The index of a bad parameter or -1 if another error occurred.</param>
-        public SequenceParserRuleException(RuleInvocationParameterBindings paramBindings, SequenceParserError errorKind, int badParamIndex)
+        public SequenceParserException(RuleInvocationParameterBindings paramBindings, SequenceParserError errorKind, int badParamIndex)
         {
             Kind = errorKind;
             RuleName = paramBindings.RuleName;
@@ -138,6 +161,18 @@ namespace de.unika.ipd.grGen.libGr
             NumGivenInputs = paramBindings.Parameters.Length;
             NumGivenOutputs = paramBindings.ReturnVars.Length;
             BadParamIndex = badParamIndex;
+        }
+
+        /// <summary>
+        /// Creates an instance of a SequenceParserException used by the SequenceParser,
+        /// when the expected type does not match the given type of the variable of function.
+        /// </summary>
+        public SequenceParserException(String varOrFuncName, String expectedType, String givenType)
+        {
+            VariableOrFunctionName = varOrFuncName;
+            ExpectedType = expectedType;
+            GivenType = givenType;
+            Kind = SequenceParserError.TypeMismatch;
         }
     }
 }

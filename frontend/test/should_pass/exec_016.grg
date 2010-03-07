@@ -17,7 +17,7 @@ rule r(p : Node) : (Node)
 			st1:set<Node> = set<Node> ;> ( (n:Node)=addNode ;> st1.add(n) )[5] ;> for{n in st1; addReflexiveEdge(n)}
 			;> for{n in st1; remNode(n)} ;> st2:set<Node> = set<Node> ;> for{n in st1; st2.add(n)} ;> st2.add(n)
 			;> for{n in st2; st1.rem(n)} ;> st1.rem(n) ;> for{n in st2; st1.rem(n)}
-			;> s=st2.size() ;> st2.clear() ;> s=st2.size() 
+			;> s:int=st2.size() ;> st2.clear() ;> s=st2.size() 
 		);
 		
 		exec(
@@ -25,15 +25,15 @@ rule r(p : Node) : (Node)
 			;> for{n in st1; (e:Edge)=addReflexiveEdge(n) ;> st2.add(e)} ;> for{e in st2; isReflexiveEdge(e)}
 			;> for{n in st1; exactlyOneReflexiveEdge(n)} ;> for{e in st2; remEdge(e)} ;> st3:set<Edge> = set<Edge>
 			;> for{e in st2; st3.add(e)} ;> st3.add(e) ;> for{e in st3; st2.rem(e)}
-			;> st2.rem(e) ;> for{n in st3; st2.rem(n)} 
-			;> s=st3.size() ;> st3.clear() ;> s=st3.size()
+			;> st2.rem(e) ;> for{e in st3; st2.rem(e)} 
+			;> s:int=st3.size() ;> st3.clear() ;> s=st3.size()
 		);
 		
 		exec(
 			st1:set<NN> = set<NN> ;> ( (n:NN)=addNodeNN ;> st1.add(n) )[5] ;> for{n in st1; addReflexiveEdge(n)}
 			;> for{n in st1; remNode(n)} ;> st2:set<NN> = set<NN> ;> for{n in st1; st2.add(n)} ;> st2.add(n)
 			;> for{n in st2; st1.rem(n)} ;> st1.rem(n) ;> for{n in st2; st1.rem(n)}
-			;> s=st2.size() ;> st2.clear() ;> s=st2.size()
+			;> s:int=st2.size() ;> st2.clear() ;> s=st2.size()
 		);
 		
 		exec(
@@ -41,30 +41,30 @@ rule r(p : Node) : (Node)
 			;> for{n in st1; (e:EE)=addReflexiveEdgeEE(n) ;> st2.add(e)} ;> for{e in st2; isReflexiveEdge(e)}
 			;> for{n in st1; exactlyOneReflexiveEdge(n)} ;> for{e in st2; remEdge(e)} ;> st3:set<EE> = set<EE>
 			;> for{e in st2; st3.add(e)} ;> st3.add(e) ;> for{e in st3; st2.rem(e)}
-			;> st2.rem(e) ;> for{n in st3; st2.rem(n)}
-			;> s=st3.size() ;> st3.clear() ;> s=st3.size()
+			;> st2.rem(e) ;> for{e in st3; st3.rem(e)}
+			;> s:int=st3.size() ;> st3.clear() ;> s=st3.size()
 		);
 		
 		exec(
 			st1:map<Node,Edge> = map<Node,Edge> ;> ( (n:Node)=addNode ;> (e:Edge)=addReflexiveEdge(n) ;> st1.add(n,e) )[5]
-			;> (n)=pickNode ;> r=(n in st1) ;> e=st1[n] ;> (e)=getReflexiveEdge(n) 
+			;> (n)=pickNode ;> rb:boolean=(n in st1) ;> e=st1[n] ;> (e)=getReflexiveEdge(n) 
 			;> for{n->e in st1; e=st1[n] ;> remEdge(e)} ;> for{n->e in st1; remNode(n)} ;> st1.clear()
 			;> ( (n)=addNode ;> (e)=addReflexiveEdge(n) ;> st1.add(n,e) )[5]
-			;> (n)=pickNode ;> r=(n in st1) ;> e=st1[n] ;> (e)=getReflexiveEdge(n)
+			;> (n)=pickNode ;> rb=(n in st1) ;> e=st1[n] ;> (e)=getReflexiveEdge(n)
 			;> for{n->e in st1; remEdge(e)} ;> st2:map<Node,Edge> = map<Node, Edge>
-			;> for{n->e in st1; st2.add(n,e)} ;> for{n in st2; st1.rem(n)} ;> s=st1.size() ;> s=st2.size()
-			;> s=st2.empty() ;> st2.clear() ;> s=st2.size() ;> s=st2.empty()
+			;> for{n->e in st1; st2.add(n,e)} ;> for{n in st2; st1.rem(n)} ;> s:int=st1.size() ;> s=st2.size()
+			;> s=st2.size() ;> st2.clear() ;> s=st2.size() ;> s=st2.size()
 		);
 		
 		exec(
 			st1:map<NN,EE> = map<NN,EE> ;> ( (n:NN)=addNodeNN ;> (e:EE)=addReflexiveEdgeEE(n) ;> st1.add(n,e) )[5]
-			;> (no:Node)=pickNode ;> r=(no in st1) ;> e=st1[no] ;> (ed:Edge)=getReflexiveEdge(n)
+			;> st1b:map<Node,EE> = map<Node,EE> ;> (no:Node)=pickNode ;> rb:boolean=(no in st1b) ;> e=st1b[no] ;> (ed:Edge)=getReflexiveEdge(n)
 			;> for{n->e in st1; e=st1[n] ;> remEdge(e)} ;> for{n->e in st1; remNode(n)} ;> st1.clear()
 			;> ( (n)=addNodeNN ;> (e)=addReflexiveEdgeEE(n) ;> st1.add(n,e) )[5]
-			;> (no)=pickNode ;> r=(no in st1) ;> e=st1[no] ;> (ed)=getReflexiveEdge(n)
+			;> (no)=pickNode ;> rb=(no in st1b) ;> e=st1b[no] ;> (ed)=getReflexiveEdge(n)
 			;> for{n->e in st1; remEdge(e)} ;> st2:map<NN,EE> = map<NN,EE>
-			;> for{n->e in st1; st2.add(n,e)} ;> for{n in st2; st1.rem(n)} ;> s=st1.size() ;> s=st2.size()
-			;> s=st2.empty() ;> st2.clear() ;> s=st2.size() ;> s=st2.empty()
+			;> for{n->e in st1; st2.add(n,e)} ;> for{n in st2; st1.rem(n)} ;> s:int=st1.size() ;> s=st2.size()
+			;> s=st2.size() ;> st2.clear() ;> s=st2.size() ;> s=st2.size()
 		);
 	}
 }

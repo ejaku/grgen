@@ -56,79 +56,248 @@ namespace de.unika.ipd.grGen.lgsp
             case SequenceType.Xor:
             case SequenceType.StrictAnd:
             case SequenceType.IfThen: // lazy implication
-                {
-                    SequenceBinary binSeq = (SequenceBinary)seq;
-                    Check(binSeq.Left);
-                    Check(binSeq.Right);
-                    break;
-                }
+            {
+                SequenceBinary binSeq = (SequenceBinary)seq;
+                Check(binSeq.Left);
+                Check(binSeq.Right);
+                break;
+            }
 
             case SequenceType.Not:
             case SequenceType.IterationMin:
             case SequenceType.IterationMinMax:
             case SequenceType.Transaction:
             case SequenceType.For:
-                {
-                    SequenceUnary unSeq = (SequenceUnary)seq;
-                    Check(unSeq.Seq);
-                    break;
-                }
+            {
+                SequenceUnary unSeq = (SequenceUnary)seq;
+                Check(unSeq.Seq);
+                break;
+            }
 
             case SequenceType.IfThenElse:
-                {
-                    SequenceIfThenElse seqIf = (SequenceIfThenElse)seq;
-                    Check(seqIf.Condition);
-                    Check(seqIf.TrueCase);
-                    Check(seqIf.FalseCase);
-                    break;
-                }
+            {
+                SequenceIfThenElse seqIf = (SequenceIfThenElse)seq;
+                Check(seqIf.Condition);
+                Check(seqIf.TrueCase);
+                Check(seqIf.FalseCase);
+                break;
+            }
 
             case SequenceType.RuleAll:
             case SequenceType.Rule:
+            {
+                SequenceRule ruleSeq = (SequenceRule)seq;
+                RuleInvocationParameterBindings paramBindings = ruleSeq.ParamBindings;
+
+                // processing of a compiled xgrs without BaseActions but array of rule names,
+                // check the rule name against the available rule names
+                if(Array.IndexOf(ruleNames, paramBindings.RuleName) == -1)
+                    throw new SequenceParserException(paramBindings, SequenceParserError.UnknownRule);
+
+                // Check whether number of parameters and return parameters match
+                if(rulesToInputTypes[paramBindings.RuleName].Count != paramBindings.ParamVars.Length
+                        || paramBindings.ReturnVars.Length != 0 && rulesToOutputTypes[paramBindings.RuleName].Count != paramBindings.ReturnVars.Length)
+                    throw new SequenceParserException(paramBindings, SequenceParserError.BadNumberOfParametersOrReturnParameters);
+
+                // Check parameter types
+                for(int i = 0; i < paramBindings.ParamVars.Length; i++)
                 {
-                    SequenceRule ruleSeq = (SequenceRule)seq;
-                    RuleInvocationParameterBindings paramBindings = ruleSeq.ParamBindings;
-
-                    // processing of a compiled xgrs without BaseActions but array of rule names,
-                    // check the rule name against the available rule names
-                    if(Array.IndexOf(ruleNames, paramBindings.RuleName) == -1)
-                        throw new SequenceParserRuleException(paramBindings, SequenceParserError.UnknownRule);
-
-                    // ok, this is a rule invocation
-                    break;
+                    if(paramBindings.ParamVars[i] != null 
+                        && !TypesHelper.IsSameOrSubtype(paramBindings.ParamVars[i].Type, rulesToInputTypes[paramBindings.RuleName][i], model))
+                        throw new SequenceParserException(paramBindings, SequenceParserError.BadParameter, i);
                 }
+
+                // Check return types
+                for(int i = 0; i < paramBindings.ReturnVars.Length; ++i)
+                {
+                    if(!TypesHelper.IsSameOrSubtype(rulesToOutputTypes[paramBindings.RuleName][i], paramBindings.ReturnVars[i].Type, model))
+                        throw new SequenceParserException(paramBindings, SequenceParserError.BadReturnParameter, i);
+                }
+
+                // ok, this is a well-formed rule invocation
+                break;
+            }
 
             case SequenceType.AssignSequenceResultToVar:
+            {
+                SequenceAssignSequenceResultToVar assignSeq = (SequenceAssignSequenceResultToVar)seq;
+                Check(assignSeq.Seq);
+                break;
+            }
+
+            case SequenceType.VarPredicate:
+            {
+                SequenceVarPredicate varPredSeq = (SequenceVarPredicate)seq;
+                // TODO
+                break;
+            }
+
+            case SequenceType.AssignVarToVar:
+            {
+                SequenceAssignVarToVar assignSeq = (SequenceAssignVarToVar)seq;
+                // TODO
+                break;
+            }
+
+            case SequenceType.AssignConstToVar:
+            {
+                SequenceAssignConstToVar assignSeq = (SequenceAssignConstToVar)seq;
+                // TODO
+                break;
+            }
+
+            case SequenceType.AssignAttributeToVar:
+            {
+                SequenceAssignAttributeToVar assignSeq = (SequenceAssignAttributeToVar)seq;
+                // TODO
+                break;
+            }
+
+            case SequenceType.AssignVarToAttribute:
+            {
+                SequenceAssignVarToAttribute assignSeq = (SequenceAssignVarToAttribute)seq;
+                // TODO
+                break;
+            }
+
+            case SequenceType.AssignElemToVar:
+            {
+                SequenceAssignElemToVar assignSeq = (SequenceAssignElemToVar)seq;
+                // TODO
+                break;
+            }
+
+            case SequenceType.AssignVAllocToVar:
+            {
+                SequenceAssignVAllocToVar assignSeq = (SequenceAssignVAllocToVar)seq;
+                // TODO
+                break;
+            }
+
+            case SequenceType.AssignSetmapSizeToVar:
+            {
+                SequenceAssignSetmapSizeToVar assignSeq = (SequenceAssignSetmapSizeToVar)seq;
+                // TODO
+                break;
+            }
+
+            case SequenceType.AssignSetmapEmptyToVar:
+            {
+                SequenceAssignSetmapEmptyToVar assignSeq = (SequenceAssignSetmapEmptyToVar)seq;
+                // TODO
+                break;
+            }
+
+            case SequenceType.AssignMapAccessToVar:
+            {
+                SequenceAssignMapAccessToVar assignSeq = (SequenceAssignMapAccessToVar)seq;
+                // TODO
+                break;
+            }
+
+            case SequenceType.AssignSetCreationToVar:
+            {
+                SequenceAssignSetCreationToVar assignSeq = (SequenceAssignSetCreationToVar)seq;
+                // TODO
+                break;
+            }
+
+            case SequenceType.AssignMapCreationToVar:
+            {
+                SequenceAssignMapCreationToVar assignSeq = (SequenceAssignMapCreationToVar)seq;
+                // TODO
+                break;
+            }
+
+            case SequenceType.IsVisited:
+            {
+                SequenceIsVisited isVisSeq = (SequenceIsVisited)seq;
+                // TODO
+                break;
+            }
+
+            case SequenceType.SetVisited:
+            {
+                SequenceSetVisited setVisSeq = (SequenceSetVisited)seq;
+                // TODO
+                break;
+            }
+
+            case SequenceType.VFree:
+            {
+                SequenceVFree vFreeSeq = (SequenceVFree)seq;
+                // TODO
+                break;
+            }
+            
+            case SequenceType.VReset:
+            {
+                SequenceVReset vResetSeq = (SequenceVReset)seq;
+                // TODO
+                break;
+            }
+            
+            case SequenceType.SetmapAdd:
+            {
+                SequenceSetmapAdd addSeq = (SequenceSetmapAdd)seq;
+                if(!addSeq.Setmap.Type.StartsWith("set<") && !addSeq.Setmap.Type.StartsWith("map<"))
                 {
-                    SequenceAssignSequenceResultToVar assignSeq = (SequenceAssignSequenceResultToVar)seq;
-                    Check(assignSeq.Seq);
-                    break;
+                    throw new SequenceParserException(addSeq.Setmap.Name, "set or map type", addSeq.Setmap.Type);
                 }
+                if(!TypesHelper.IsSameOrSubtype(addSeq.Var.Type, TypesHelper.ExtractSrc(addSeq.Setmap.Type), model))
+                {
+                    throw new SequenceParserException(addSeq.Setmap.Name+".Add("+addSeq.Var.Name+")", TypesHelper.ExtractSrc(addSeq.Setmap.Type), addSeq.Var.Type);
+                }
+                if(TypesHelper.ExtractDst(addSeq.Setmap.Type) != "SetValueType"
+                    && !TypesHelper.IsSameOrSubtype(addSeq.VarDst.Type, TypesHelper.ExtractDst(addSeq.Setmap.Type), model))
+                {
+                    throw new SequenceParserException(addSeq.Setmap.Name+".Add(.,"+addSeq.VarDst.Name+")", TypesHelper.ExtractDst(addSeq.Setmap.Type), addSeq.VarDst.Type);
+                }
+                break;
+            }
+
+            case SequenceType.SetmapRem:
+            {
+                SequenceSetmapRem remSeq = (SequenceSetmapRem)seq;
+                if(!remSeq.Setmap.Type.StartsWith("set<") && !remSeq.Setmap.Type.StartsWith("map<"))
+                {
+                    throw new SequenceParserException(remSeq.Setmap.Name, "set or map type", remSeq.Setmap.Type);
+                }
+                if(!TypesHelper.IsSameOrSubtype(remSeq.Var.Type, TypesHelper.ExtractSrc(remSeq.Setmap.Type), model))
+                {
+                    throw new SequenceParserException(remSeq.Setmap.Name+".Rem("+remSeq.Var.Name+")", TypesHelper.ExtractSrc(remSeq.Setmap.Type), remSeq.Var.Type);
+                }
+                break;
+            }
+
+            case SequenceType.SetmapClear:
+            {
+                SequenceSetmapClear clrSeq = (SequenceSetmapClear)seq;
+                if(!clrSeq.Setmap.Type.StartsWith("set<") && !clrSeq.Setmap.Type.StartsWith("map<"))
+                {
+                    throw new SequenceParserException(clrSeq.Setmap.Name, "set or map type", clrSeq.Setmap.Type);
+                }
+                break;
+            }
+
+            case SequenceType.InSetmap:
+            {
+                SequenceIn inSeq = (SequenceIn)seq;
+                if(!inSeq.Setmap.Type.StartsWith("set<") && !inSeq.Setmap.Type.StartsWith("map<"))
+                {
+                    throw new SequenceParserException(inSeq.Setmap.Name, "set or map type", inSeq.Setmap.Type);
+                }
+                if(!TypesHelper.IsSameOrSubtype(inSeq.Var.Type, TypesHelper.ExtractSrc(inSeq.Setmap.Type), model))
+                {
+                    throw new SequenceParserException(inSeq.Var.Name+" in "+inSeq.Setmap.Name , TypesHelper.ExtractSrc(inSeq.Setmap.Type), inSeq.Var.Type);
+                }
+                break;
+            }
 
             case SequenceType.Def:
             case SequenceType.True:
             case SequenceType.False:
-            case SequenceType.VarPredicate:
-            case SequenceType.AssignVarToVar:
-            case SequenceType.AssignConstToVar:
-            case SequenceType.AssignAttributeToVar:
-            case SequenceType.AssignVarToAttribute:
-            case SequenceType.AssignElemToVar:
-            case SequenceType.AssignVAllocToVar:
-            case SequenceType.AssignSetmapSizeToVar:
-            case SequenceType.AssignSetmapEmptyToVar:
-            case SequenceType.AssignMapAccessToVar:
-            case SequenceType.AssignSetCreationToVar:
-            case SequenceType.AssignMapCreationToVar:
-            case SequenceType.IsVisited:
-            case SequenceType.SetVisited:
-            case SequenceType.VFree:
-            case SequenceType.VReset:
             case SequenceType.Emit:
-            case SequenceType.SetmapAdd:
-            case SequenceType.SetmapRem:
-            case SequenceType.SetmapClear:
-            case SequenceType.InSetmap:
                 // Nothing to be done here
                 break;
 

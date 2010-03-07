@@ -1137,15 +1137,18 @@ public class ActionsGen extends CSharpBase {
 					sb.append("\"" + neededEntity.getIdent() + "\", ");
 				}
 				sb.append("},\n");
-				sb.append("\t\t\tnew string[] {");
+
+				sb.append("\t\t\tnew GRGEN_LIBGR.GrGenType[] { ");
 				for(Entity neededEntity : exec.getNeededEntities()) {
-					if(neededEntity instanceof GraphEntity && ((GraphEntity)neededEntity).getParameterInterfaceType()!=null) {
-						sb.append("\"" + formatType(((GraphEntity)neededEntity).getParameterInterfaceType()) + "\", ");
+					if(neededEntity instanceof Variable) {
+						sb.append("GRGEN_LIBGR.VarType.GetVarType(typeof(" + formatAttributeType(neededEntity) + ")), ");
 					} else {
-						sb.append("\"" + formatType(neededEntity.getType()) + "\", ");
+						GraphEntity gent = (GraphEntity)neededEntity;
+						sb.append(formatTypeClassRef(gent.getType()) + ".typeVar, ");
 					}
 				}
 				sb.append("},\n");
+				
 				sb.append("\t\t\t\"" + exec.getXGRSString().replace("\"", "\\\"") + "\");\n");
 				sb.append("\t\tprivate void ApplyXGRS_" + xgrsID++ + "(GRGEN_LGSP.LGSPGraph graph");
 				for(Entity neededEntity : exec.getNeededEntities()) {

@@ -70,7 +70,7 @@ namespace de.unika.ipd.grGen.lgsp
             return type.Name;
         }
 
-        public static String DotNetTypeToXgrsType(String typeName)
+        private static String DotNetTypeToXgrsType(String typeName)
         {
             switch (typeName)
             {
@@ -174,6 +174,64 @@ namespace de.unika.ipd.grGen.lgsp
             }
 
             return "GRGEN_MODEL.I" + type;
+        }
+
+        public static bool IsSameOrSubtype(string xgrsTypeLeft, string xgrsTypeRight, IGraphModel model)
+        {
+            if(xgrsTypeLeft == "" || xgrsTypeRight == "")
+                return true;
+
+            if(xgrsTypeLeft.StartsWith("set<"))
+            {
+                if(!xgrsTypeRight.StartsWith("set<")) return false;
+                return ExtractSrc(xgrsTypeLeft) == ExtractSrc(xgrsTypeRight);
+            }
+            if(xgrsTypeLeft.StartsWith("map<"))
+            {
+                if(!xgrsTypeRight.StartsWith("map<")) return false;
+                return ExtractSrc(xgrsTypeLeft) == ExtractSrc(xgrsTypeRight) && ExtractDst(xgrsTypeLeft) == ExtractDst(xgrsTypeRight);
+            }
+
+            if(xgrsTypeLeft == "int" || xgrsTypeLeft == "string" || xgrsTypeLeft == "float" || xgrsTypeLeft == "double" || xgrsTypeLeft == "object") 
+                return xgrsTypeLeft==xgrsTypeRight;
+            if(xgrsTypeLeft == "bool" || xgrsTypeLeft == "boolean") 
+                return xgrsTypeRight=="bool" || xgrsTypeRight=="boolean";
+
+            foreach(EnumAttributeType enumAttrType in model.EnumAttributeTypes)
+            {
+                if(enumAttrType.Name == xgrsTypeLeft)
+                    return xgrsTypeLeft == xgrsTypeRight;
+            }
+
+            foreach(NodeType leftNodeType in model.NodeModel.Types)
+            {
+                if(leftNodeType.Name == xgrsTypeLeft)
+                {
+                    foreach(NodeType rightNodeType in model.NodeModel.Types)
+                    {
+                        if(rightNodeType.Name == xgrsTypeRight)
+                        {
+                            return leftNodeType.IsA(rightNodeType);
+                        }
+                    }
+                }
+            }
+
+            foreach(EdgeType leftEdgeType in model.EdgeModel.Types)
+            {
+                if(leftEdgeType.Name == xgrsTypeLeft)
+                {
+                    foreach(EdgeType rightEdgeType in model.EdgeModel.Types)
+                    {
+                        if(rightEdgeType.Name == xgrsTypeRight)
+                        {
+                            return leftEdgeType.IsA(rightEdgeType);
+                        }
+                    }
+                }
+            }
+
+            return false;
         }
     }
 }

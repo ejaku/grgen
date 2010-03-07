@@ -41,84 +41,83 @@ namespace de.unika.ipd.grGen.libGr
             case SequenceType.Xor:
             case SequenceType.StrictAnd:
             case SequenceType.IfThen: // lazy implication
-                {
-                    SequenceBinary binSeq = (SequenceBinary)seq;
-                    Check(binSeq.Left);
-                    Check(binSeq.Right);
-                    break;
-                }
+            {
+                SequenceBinary binSeq = (SequenceBinary)seq;
+                Check(binSeq.Left);
+                Check(binSeq.Right);
+                break;
+            }
 
             case SequenceType.Not:
             case SequenceType.IterationMin:
             case SequenceType.IterationMinMax:
             case SequenceType.Transaction:
             case SequenceType.For:
-                {
-                    SequenceUnary unSeq = (SequenceUnary)seq;
-                    Check(unSeq.Seq);
-                    break;
-                }
+            {
+                SequenceUnary unSeq = (SequenceUnary)seq;
+                Check(unSeq.Seq);
+                break;
+            }
 
             case SequenceType.IfThenElse:
-                {
-                    SequenceIfThenElse seqIf = (SequenceIfThenElse)seq;
-                    Check(seqIf.Condition);
-                    Check(seqIf.TrueCase);
-                    Check(seqIf.FalseCase);
-                    break;
-                }
+            {
+                SequenceIfThenElse seqIf = (SequenceIfThenElse)seq;
+                Check(seqIf.Condition);
+                Check(seqIf.TrueCase);
+                Check(seqIf.FalseCase);
+                break;
+            }
 
             case SequenceType.RuleAll:
             case SequenceType.Rule:
+            {
+                SequenceRule ruleSeq = (SequenceRule)seq;
+                RuleInvocationParameterBindings paramBindings = ruleSeq.ParamBindings;
+
+                // We found the rule?
+                if(paramBindings.Action == null)
                 {
-                    SequenceRule ruleSeq = (SequenceRule)seq;
-                    RuleInvocationParameterBindings paramBindings = ruleSeq.ParamBindings;
-
-                    // We found the rule?
-                    if(paramBindings.Action == null)
-                    {
-                        throw new SequenceParserRuleException(paramBindings, SequenceParserError.UnknownRule);
-                    }
-                    
-                    // yes -> this is a rule call; now check it
-                    IAction action = paramBindings.Action;
-
-                    // Check whether number of parameters and return parameters match
-                    if(action.RulePattern.Inputs.Length != paramBindings.ParamVars.Length
-                            || paramBindings.ReturnVars.Length != 0 && action.RulePattern.Outputs.Length != paramBindings.ReturnVars.Length)
-                        throw new SequenceParserRuleException(paramBindings, SequenceParserError.BadNumberOfParametersOrReturnParameters);
-
-                    // Check parameter types
-                    for(int i = 0; i < paramBindings.ParamVars.Length; i++)
-                    {
-                        // CSharpCC does not support as-expressions, yet...
-                        VarType inputType = (VarType)(action.RulePattern.Inputs[i] is VarType ? action.RulePattern.Inputs[i] : null);
-
-                        // If input type is not a VarType, a variable must be specified.
-                        // Otherwise, if a constant is specified, the VarType must match the type of the constant
-                        if(inputType == null && paramBindings.ParamVars[i] == null
-                                || inputType != null && paramBindings.Parameters[i] != null && inputType.Type != paramBindings.Parameters[i].GetType())
-                            throw new SequenceParserRuleException(paramBindings, SequenceParserError.BadParameter, i);
-                 
-                    }
-
-                    if(seq.SequenceType != SequenceType.RuleAll)
-                    {
-                        // When no return parameters were specified for a rule with returns, create an according array with null entries
-                        if(paramBindings.ReturnVars.Length == 0 && action.RulePattern.Outputs.Length > 0)
-                            paramBindings.ReturnVars = new SequenceVariable[action.RulePattern.Outputs.Length];
-                    }
-
-                    // ok, this is a well-formed rule invocation
-                    break;
+                    throw new SequenceParserException(paramBindings, SequenceParserError.UnknownRule);
                 }
+                
+                // yes -> this is a rule call; now check it
+                IAction action = paramBindings.Action;
+
+                // Check whether number of parameters and return parameters match
+                if(action.RulePattern.Inputs.Length != paramBindings.ParamVars.Length
+                        || paramBindings.ReturnVars.Length != 0 && action.RulePattern.Outputs.Length != paramBindings.ReturnVars.Length)
+                    throw new SequenceParserException(paramBindings, SequenceParserError.BadNumberOfParametersOrReturnParameters);
+
+                // Check parameter types
+                for(int i = 0; i < paramBindings.ParamVars.Length; i++)
+                {
+                    // CSharpCC does not support as-expressions, yet...
+                    VarType inputType = (VarType)(action.RulePattern.Inputs[i] is VarType ? action.RulePattern.Inputs[i] : null);
+
+                    // If input type is not a VarType, a variable must be specified.
+                    // Otherwise, if a constant is specified, the VarType must match the type of the constant
+                    if(inputType == null && paramBindings.ParamVars[i] == null
+                            || inputType != null && paramBindings.Parameters[i] != null && inputType.Type != paramBindings.Parameters[i].GetType())
+                        throw new SequenceParserException(paramBindings, SequenceParserError.BadParameter, i);
+                }
+
+                if(seq.SequenceType != SequenceType.RuleAll)
+                {
+                    // When no return parameters were specified for a rule with returns, create an according array with null entries
+                    if(paramBindings.ReturnVars.Length == 0 && action.RulePattern.Outputs.Length > 0)
+                        paramBindings.ReturnVars = new SequenceVariable[action.RulePattern.Outputs.Length];
+                }
+
+                // ok, this is a well-formed rule invocation
+                break;
+            }
 
             case SequenceType.AssignSequenceResultToVar:
-                {
-                    SequenceAssignSequenceResultToVar assignSeq = (SequenceAssignSequenceResultToVar)seq;
-                    Check(assignSeq.Seq);
-                    break;
-                }
+            {
+                SequenceAssignSequenceResultToVar assignSeq = (SequenceAssignSequenceResultToVar)seq;
+                Check(assignSeq.Seq);
+                break;
+            }
 
             case SequenceType.Def:
             case SequenceType.True:

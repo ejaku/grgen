@@ -26,7 +26,7 @@ namespace de.unika.ipd.grGen.lgsp
         /// <param name="parameters">The names of the needed graph elements of the containing action.</param>
         /// <param name="parameterTypes">The types of the needed graph elements of the containing action.</param>
         /// <param name="xgrs">The XGRS string.</param>
-		public LGSPXGRSInfo(String[] parameters, String[] parameterTypes, String xgrs)
+		public LGSPXGRSInfo(String[] parameters, GrGenType[] parameterTypes, String xgrs)
 		{
 			Parameters = parameters;
             ParameterTypes = parameterTypes;
@@ -41,7 +41,7 @@ namespace de.unika.ipd.grGen.lgsp
         /// <summary>
         /// The types of the needed graph elements of the containing action.
         /// </summary>
-        public String[] ParameterTypes;
+        public GrGenType[] ParameterTypes;
 
         /// <summary>
         /// The XGRS string.
@@ -920,12 +920,12 @@ namespace de.unika.ipd.grGen.lgsp
 			}
 		}
 
-		public bool GenerateXGRSCode(int xgrsID, String xgrsStr, String[] paramNames, String[] paramTypes, SourceBuilder source)
+		public bool GenerateXGRSCode(int xgrsID, String xgrsStr, String[] paramNames, GrGenType[] paramTypes, SourceBuilder source)
 		{
 			Dictionary<String, String> varDecls = new Dictionary<String, String>();
             for (int i = 0; i < paramNames.Length; i++)
             {
-                varDecls.Add(paramNames[i], paramTypes[i]);
+                varDecls.Add(paramNames[i], TypesHelper.DotNetTypeToXgrsType(paramTypes[i]));
             }
             String[] ruleNames = new String[rulesToInputTypes.Count];
             int j = 0;
@@ -936,23 +936,96 @@ namespace de.unika.ipd.grGen.lgsp
             }
 
 			Sequence seq;
-			try
-			{
-				seq = SequenceParser.ParseSequence(xgrsStr, ruleNames, varDecls);
+            try
+            {
+                seq = SequenceParser.ParseSequence(xgrsStr, ruleNames, varDecls);
                 LGSPSequenceChecker checker = new LGSPSequenceChecker(ruleNames, rulesToInputTypes, rulesToOutputTypes, model);
                 checker.Check(seq);
-			}
-			catch(ParseException ex)
-			{
-				Console.Error.WriteLine("The exec statement \"" + xgrsStr
-					+ "\" caused the following error:\n" + ex.Message);
-				return false;
-			}
+            }
+            catch(ParseException ex)
+            {
+                Console.Error.WriteLine("The exec statement \"" + xgrsStr
+                    + "\" caused the following error:\n" + ex.Message);
+                return false;
+            }
+            catch(SequenceParserException ex)
+            {
+                Console.Error.WriteLine("The exec statement \"" + xgrsStr
+                    + "\" caused the following error:\n");
+                if(ex.RuleName == null && ex.Kind != SequenceParserError.TypeMismatch)
+                {
+                    Console.Error.WriteLine("Unknown rule: \"{0}\"", ex.RuleName);
+                    return false;
+                }
+                switch(ex.Kind)
+                {
+                case SequenceParserError.BadNumberOfParametersOrReturnParameters:
+                    if(rulesToInputTypes[ex.RuleName].Count != ex.NumGivenInputs && rulesToOutputTypes[ex.RuleName].Count != ex.NumGivenOutputs)
+                        Console.Error.WriteLine("Wrong number of parameters and return values for action \"" + ex.RuleName + "\"!");
+                    else if(rulesToInputTypes[ex.RuleName].Count != ex.NumGivenInputs)
+                        Console.Error.WriteLine("Wrong number of parameters for action \"" + ex.RuleName + "\"!");
+                    else if(rulesToOutputTypes[ex.RuleName].Count != ex.NumGivenOutputs)
+                        Console.Error.WriteLine("Wrong number of return values for action \"" + ex.RuleName + "\"!");
+                    else
+                        goto default;
+                    break;
+
+                case SequenceParserError.BadParameter:
+                    Console.Error.WriteLine("The " + (ex.BadParamIndex + 1) + ". parameter is not valid for action \"" + ex.RuleName + "\"!");
+                    break;
+
+                case SequenceParserError.BadReturnParameter:
+                    Console.Error.WriteLine("The " + (ex.BadParamIndex + 1) + ". return parameter is not valid for action \"" + ex.RuleName + "\"!");
+                    break;
+
+                case SequenceParserError.RuleNameUsedByVariable:
+                    Console.Error.WriteLine("The name of the variable conflicts with the name of action \"" + ex.RuleName + "\"!");
+                    return false;
+
+                case SequenceParserError.VariableUsedWithParametersOrReturnParameters:
+                    Console.Error.WriteLine("The variable \"" + ex.RuleName + "\" may neither receive parameters nor return values!");
+                    return false;
+
+                case SequenceParserError.TypeMismatch:
+                    Console.Error.WriteLine("The variable or function \"" + ex.VariableOrFunctionName + "\" expects:" + ex.ExpectedType + " but is / is given " + ex.GivenType + "!");
+                    return false;
+
+                default:
+                    throw new ArgumentException("Invalid error kind: " + ex.Kind);
+                }
+
+                Console.Error.Write("Prototype: {0}", ex.RuleName);
+                if(rulesToInputTypes[ex.RuleName].Count != 0)
+                {
+                    Console.Error.Write("(");
+                    bool first = true;
+                    foreach(String typeName in rulesToInputTypes[ex.RuleName])
+                    {
+                        Console.Error.Write("{0}{1}", first ? "" : ", ", typeName);
+                        first = false;
+                    }
+                    Console.Error.Write(")");
+                }
+                if(rulesToOutputTypes[ex.RuleName].Count != 0)
+                {
+                    Console.Error.Write(" : (");
+                    bool first = true;
+                    foreach(String typeName in rulesToOutputTypes[ex.RuleName])
+                    {
+                        Console.Error.Write("{0}{1}", first ? "" : ", ", typeName);
+                        first = false;
+                    }
+                    Console.Error.Write(")");
+                }
+                Console.Error.WriteLine();
+
+                return false;
+            }
 
             source.AppendFront("public static bool ApplyXGRS_" + xgrsID + "(GRGEN_LGSP.LGSPGraph graph");
 			for(int i = 0; i < paramNames.Length; i++)
 			{
-				source.Append(", " + paramTypes[i] + " var_");
+				source.Append(", " + TypesHelper.XgrsTypeToCSharpType(TypesHelper.DotNetTypeToXgrsType(paramTypes[i]), model) + " var_");
 				source.Append(paramNames[i]);
 			}
 			source.Append(")\n");

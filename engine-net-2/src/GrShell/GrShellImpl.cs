@@ -335,10 +335,10 @@ namespace de.unika.ipd.grGen.grShell
             return graphs[index];
         }
 
-        public void HandleSequenceParserRuleException(SequenceParserRuleException ex)
+        public void HandleSequenceParserRuleException(SequenceParserException ex)
         {
             IAction action = ex.Action;
-            if(action == null)
+            if(action == null && ex.Kind != SequenceParserError.TypeMismatch)
             {
                 Console.WriteLine("Unknown rule: \"{0}\"", ex.RuleName);
                 return;
@@ -360,6 +360,10 @@ namespace de.unika.ipd.grGen.grShell
                     Console.WriteLine("The " + (ex.BadParamIndex + 1) + ". parameter is not valid for action \"" + ex.RuleName + "\"!");
                     break;
 
+                case SequenceParserError.BadReturnParameter:
+                    Console.WriteLine("The " + (ex.BadParamIndex + 1) + ". return parameter is not valid for action \"" + ex.RuleName + "\"!");
+                    break;
+
                 case SequenceParserError.RuleNameUsedByVariable:
                     Console.WriteLine("The name of the variable conflicts with the name of action \"" + ex.RuleName + "\"!");
                     return;
@@ -368,8 +372,8 @@ namespace de.unika.ipd.grGen.grShell
                     Console.WriteLine("The variable \"" + ex.RuleName + "\" may neither receive parameters nor return values!");
                     return;
 
-                case SequenceParserError.InvalidUseOfVariable:
-                    Console.WriteLine("The variable \"" + ex.RuleName + "\" must be of boolean type (or untyped containing a boolean value)!");
+                case SequenceParserError.TypeMismatch:
+                    Console.WriteLine("The variable or function \"" + ex.VariableOrFunctionName + "\" expects:" + ex.ExpectedType + " but is /given " + ex.GivenType + "!");
                     return;
 
                 default:

@@ -32,7 +32,7 @@ PARSER_BEGIN(SequenceParser)
         /// <param name="actions">The BaseActions object containing the rules used in the string.</param>
         /// <returns>The sequence object according to sequenceStr.</returns>
         /// <exception cref="ParseException">Thrown when a syntax error was found in the string.</exception>
-        /// <exception cref="SequenceParserRuleException">Thrown when a rule is used with the wrong number of arguments
+        /// <exception cref="SequenceParserException">Thrown when a rule is used with the wrong number of arguments
         /// or return parameters.</exception>
 		public static Sequence ParseSequence(String sequenceStr, BaseActions actions)
 		{
@@ -55,7 +55,7 @@ PARSER_BEGIN(SequenceParser)
         /// <param name="predefinedVariables">A map from variables to types giving the parameters to the sequence, i.e. predefined variables.</param>
         /// <returns>The sequence object according to sequenceStr.</returns>
         /// <exception cref="ParseException">Thrown when a syntax error was found in the string.</exception>
-        /// <exception cref="SequenceParserRuleException">Thrown when a rule is used with the wrong number of arguments
+        /// <exception cref="SequenceParserException">Thrown when a rule is used with the wrong number of arguments
         /// or return parameters.</exception>
 		public static Sequence ParseSequence(String sequenceStr, String[] ruleNames,
 		        Dictionary<String, String> predefinedVariables)
@@ -780,7 +780,7 @@ Sequence Rule():
 		{
 			// No variable with this name may exist
 			if(varDecls.Lookup(str)!=null)
-				throw new SequenceParserRuleException(str, SequenceParserError.RuleNameUsedByVariable);
+				throw new SequenceParserException(str, SequenceParserError.RuleNameUsedByVariable);
 
 			return new SequenceRuleAll(CreateRuleInvocationParameterBindings(str, paramVars, paramConsts, returnVars),
 					special, test, numChooseRandSpecified ? (int) numChooseRand : 0);
@@ -795,14 +795,14 @@ Sequence Rule():
 				if(var!=null)
 				{
 					if(var.Type!="" && var.Type!="boolean")
-						throw new SequenceParserRuleException(str, SequenceParserError.InvalidUseOfVariable);
+						throw new SequenceParserException(str, "untyped or bool", var.Type);
 					return new SequenceVarPredicate(var, special);
 				}
 			}
 
 			// No variable with this name may exist
 			if(varDecls.Lookup(str)!=null)
-				throw new SequenceParserRuleException(str, SequenceParserError.RuleNameUsedByVariable);
+				throw new SequenceParserException(str, SequenceParserError.RuleNameUsedByVariable);
 				
 			return new SequenceRule(CreateRuleInvocationParameterBindings(str, paramVars, paramConsts, returnVars),
 					special, test);

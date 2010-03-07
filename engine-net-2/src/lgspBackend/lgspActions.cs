@@ -261,6 +261,21 @@ namespace de.unika.ipd.grGen.lgsp
         public MatchInterface FirstExact { get { return count > 0 ? root : null; } }
 
         /// <summary>
+        /// Removes the match of exact type at the given index and returns it.
+        /// </summary>
+        public MatchInterface RemoveMatchExact(int index)
+        {
+            if(index < 0 || index >= count)
+                throw new IndexOutOfRangeException("Index out of range: " + index);
+            Match cur = root, last = null;
+            for(int i = 0; i < index; i++, last = cur, cur = cur.next) ;
+            if(last == null) root = cur.next;
+            else last.next = cur.next;
+            count--;
+            return cur;
+        }
+
+        /// <summary>
         /// Returns an enumerator over all found matches with inexact match interface type.
         /// </summary>
         public IEnumerator<IMatch> GetEnumerator()
