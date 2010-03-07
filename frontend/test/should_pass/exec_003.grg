@@ -10,6 +10,5 @@ rule r(b : B) : (B) {
     exec((x:B)=r(b) && (x)=r(x));
     exec((x:B)=r(x) && (x)=r(x));
     exec((x:B)=r(b) && (x)=r(b));
-    exec((x)=r(b) && (x:B)=r(b));
   }
 }

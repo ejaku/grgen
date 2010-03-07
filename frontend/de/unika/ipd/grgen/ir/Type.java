@@ -50,7 +50,7 @@ public abstract class Type extends Identifiable {
 	public static final int IS_OBJECT = 7;
 	public static final int IS_SET = 8;
 	public static final int IS_MAP = 9;
-
+	public static final int IS_UNTYPED_EXEC_VAR_TYPE = 10;
 
 	/**
 	 * Make a new type.

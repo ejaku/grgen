@@ -480,6 +480,11 @@ namespace de.unika.ipd.grGen.libGr
         /// Returns the first match of exact type (null if no match exists).
         /// </summary>
         MatchInterface FirstExact { get; }
+
+        /// <summary>
+        /// Removes the match of exact type at the given index and returns it.
+        /// </summary>
+        MatchInterface RemoveMatchExact(int index);
     }
 
     /// <summary>

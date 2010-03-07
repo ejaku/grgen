@@ -27,6 +27,7 @@ import de.unika.ipd.grgen.ir.GraphEntity;
 import de.unika.ipd.grgen.ir.GraphEntityExpression;
 import de.unika.ipd.grgen.ir.IR;
 import de.unika.ipd.grgen.parser.Coords;
+import de.unika.ipd.grgen.parser.Symbol;
 
 /**
  *
@@ -43,8 +44,8 @@ public class ExecNode extends BaseNode {
 	private StringBuilder sb = new StringBuilder();
 	protected CollectNode<CallActionNode> callActions = new CollectNode<CallActionNode>();
 	private CollectNode<ExecVarDeclNode> varDecls = new CollectNode<ExecVarDeclNode>();
-	private CollectNode<IdentNode> graphElementUsageOutsideOfCallUnresolved = new CollectNode<IdentNode>();
-	private CollectNode<DeclNode> graphElementUsageOutsideOfCall = new CollectNode<DeclNode>();
+	private CollectNode<IdentNode> usageUnresolved = new CollectNode<IdentNode>();
+	private CollectNode<DeclNode> usage = new CollectNode<DeclNode>();
 
 	public ExecNode(Coords coords) {
 		super(coords);
@@ -96,16 +97,26 @@ public class ExecNode extends BaseNode {
 		callActions.addChild(n);
 	}
 
-	public void addVarDecls(ExecVarDeclNode varDecl) {
+	/**
+	 * Registers an explicit sequence-local variable declaration
+	 */
+	public void addVarDecl(ExecVarDeclNode varDecl) {
 		assert !isResolved();
 		becomeParent(varDecl);
 		varDecls.addChild(varDecl);
 	}
 
-	public void addGraphElementUsageOutsideOfActionCall(IdentNode id) {
+	/**
+	 * Registers an identifier usage which might denote
+	 * a) the use of a declared graph element (node/edge)
+	 * b) the use of a graph-global or sequence-local variable
+	 * c) the implicit declaration of a graph-global variable at the first occurance
+	 * which appears outside of a call (i.e. is not a rule call (input) parameter)
+	 */
+	public void addUsage(IdentNode id) {
 		assert !isResolved();
 		becomeParent(id);
-		graphElementUsageOutsideOfCallUnresolved.addChild(id);
+		usageUnresolved.addChild(id);
 	}
 
 	/** returns children of this node */
@@ -114,7 +125,7 @@ public class ExecNode extends BaseNode {
 		Vector<BaseNode> res = new Vector<BaseNode>();
 		res.add(callActions);
 		res.add(varDecls);
-		res.add(getValidVersion(graphElementUsageOutsideOfCallUnresolved, graphElementUsageOutsideOfCall));
+		res.add(getValidVersion(usageUnresolved, usage));
 		return res;
 	}
 
@@ -128,32 +139,66 @@ public class ExecNode extends BaseNode {
 		return childrenNames;
 	}
 
+	/*
+	 * This introduces an ExecVar definition if an identifier is not defined
+	 * to support the usage-is-definition policy of the graph global variables in the sequences.
+	 * Note: an (x)=r() & (x:A)=r() error will not be found due to the grgen symbol table and the fixupDefinition
+	 * not taking care of the position of the definition compared to the uses
+	 * (which makes sense for every other construct of the grgen language);
+	 * this error will be caught later on when the xgrs is processed by the libgr sequence parser and symbol table.
+	 */
+	public void addImplicitDefinitions() {
+		for(IdentNode id : usageUnresolved.children)	
+		{
+			debug.report(NOTE, "Implicit definition for " + id + " in scope " + getScope());
+		
+			// Get the definition of the ident's symbol local to the owned scope.
+			Symbol.Definition def = getScope().getCurrDef(id.getSymbol());
+			debug.report(NOTE, "definition is: " + def);
+	
+			// If this definition is valid, i.e. it exists, it will be used
+			// else, an ExecVarDeclNode of this name is added to the scope
+			if(def.isValid()) {
+				id.setSymDef(def);
+			} else {
+				Symbol.Definition vdef = getScope().define(id.getSymbol(), id.getCoords());
+				id.setSymDef(vdef);
+				vdef.setNode(id);
+				getScope().leaveScope();
+				ExecVarDeclNode evd = new ExecVarDeclNode(id, new UntypedExecVarTypeNode());
+				id.setDecl(evd);
+				addVarDecl(evd);
+			}
+		}
+	}
+
 	/** @see de.unika.ipd.grgen.ast.BaseNode#resolveLocal() */
 	@Override
 	protected boolean resolveLocal() {
+		addImplicitDefinitions();
 		Triple<CollectNode<ExecVarDeclNode>, CollectNode<NodeDeclNode>, CollectNode<EdgeDeclNode>> resolve =
-			graphElementUsageOutsideOfCallResolver.resolve(graphElementUsageOutsideOfCallUnresolved);
+			graphElementUsageOutsideOfCallResolver.resolve(usageUnresolved);
 
 		if (resolve != null) {
 			if (resolve.first != null) {
 				for (ExecVarDeclNode c : resolve.first.getChildren()) {
-					graphElementUsageOutsideOfCall.addChild(c);
+					usage.addChild(c);
 				}
 			}
 
 			if (resolve.second != null) {
 				for (NodeDeclNode c : resolve.second.getChildren()) {
-					graphElementUsageOutsideOfCall.addChild(c);
+					usage.addChild(c);
 				}
 			}
 
 			if (resolve.third != null) {
 				for (EdgeDeclNode c : resolve.third.getChildren()) {
-					graphElementUsageOutsideOfCall.addChild(c);
+					usage.addChild(c);
 				}
 			}
 
-			becomeParent(graphElementUsageOutsideOfCall);
+			becomeParent(usage);
 		}
 
 		return resolve != null;
@@ -175,7 +220,7 @@ public class ExecNode extends BaseNode {
 		for(ExecVarDeclNode node : varDecls.getChildren())
 			localVars.add(node);
 		Set<Expression> parameters = new LinkedHashSet<Expression>();
-		for(DeclNode dn : graphElementUsageOutsideOfCall.getChildren())
+		for(DeclNode dn : usage.getChildren())
 			if(dn instanceof ConstraintDeclNode)
 				parameters.add(new GraphEntityExpression(dn.checkIR(GraphEntity.class)));
 		for(CallActionNode callActionNode : callActions.getChildren()) {

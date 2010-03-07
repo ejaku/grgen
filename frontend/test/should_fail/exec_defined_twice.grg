@@ -1,0 +1,8 @@
+using deep_model_001;
+
+rule r(b : B) : (B) {
+  modify{
+    return (b);
+    exec((x:B)=r(b) && (x:B)=r(b)); // defined twice
+  }
+}

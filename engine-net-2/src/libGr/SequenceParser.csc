@@ -26,7 +26,7 @@ PARSER_BEGIN(SequenceParser)
 		SymbolTable varDecls;
 		
         /// <summary>
-        /// Parses a given string in xgrs syntax and builds a Sequence object.
+        /// Parses a given string in xgrs syntax and builds a Sequence object. Used for the interpreted xgrs.
         /// </summary>
         /// <param name="sequenceStr">The string representing a xgrs (e.g. "test[7] &amp;&amp; (chicken+ || egg)*")</param>
         /// <param name="actions">The BaseActions object containing the rules used in the string.</param>
@@ -36,11 +36,19 @@ PARSER_BEGIN(SequenceParser)
         /// or return parameters.</exception>
 		public static Sequence ParseSequence(String sequenceStr, BaseActions actions)
 		{
-			return ParseSequence(sequenceStr, actions, null, null);
+			SequenceParser parser = new SequenceParser(new StringReader(sequenceStr));
+			parser.actions = actions;
+			parser.ruleNames = null;
+			parser.varDecls = new SymbolTable();
+			parser.varDecls.PushFirstScope(null);
+			Sequence seq = parser.XGRS();
+			SequenceChecker seqChecker = new SequenceChecker(actions);
+			seqChecker.Check(seq);
+			return seq;
 		}		
 
         /// <summary>
-        /// Parses a given string in xgrs syntax and builds a Sequence object.
+        /// Parses a given string in xgrs syntax and builds a Sequence object. Used for the compiled xgrs.
         /// </summary>
         /// <param name="sequenceStr">The string representing a xgrs (e.g. "test[7] &amp;&amp; (chicken+ || egg)*")</param>
         /// <param name="ruleNames">An array containing the names of the rules used in the specification.</param>
@@ -52,163 +60,15 @@ PARSER_BEGIN(SequenceParser)
 		public static Sequence ParseSequence(String sequenceStr, String[] ruleNames,
 		        Dictionary<String, String> predefinedVariables)
 		{
-			return ParseSequence(sequenceStr, null, ruleNames, predefinedVariables);
-		}		
-		
-        /// <summary>
-        /// Parses a given string in xgrs syntax and builds a Sequence object.
-        /// </summary>
-        /// <param name="sequenceStr">The string representing a xgrs (e.g. "test[7] &amp;&amp; (chicken+ || egg)*")</param>
-        /// <param name="actions">The BaseActions object containing the rules used in the string. Either this is null or ruleNames (it is set for interpreted xgrs).</param>
-        /// <param name="ruleNames">An array containing the names of the rules used in the specification. Either this is null or actions (it is set for compiled xgrs).</param>
-        /// <param name="predefinedVariables">A map from variables to types giving the parameters to the sequence, i.e. predefined variables.</param>
-        /// <returns>The sequence object according to sequenceStr.</returns>
-        /// <exception cref="ParseException">Thrown when a syntax error was found in the string.</exception>
-        /// <exception cref="SequenceParserRuleException">Thrown when a rule is used with the wrong number of arguments
-        /// or return parameters.</exception>
-		public static Sequence ParseSequence(String sequenceStr, BaseActions actions, String[] ruleNames,
-		        Dictionary<String, String> predefinedVariables)
-		{
 			SequenceParser parser = new SequenceParser(new StringReader(sequenceStr));
-			parser.actions = actions;
+			parser.actions = null;
 			parser.ruleNames = ruleNames;
 			parser.varDecls = new SymbolTable();
 			parser.varDecls.PushFirstScope(predefinedVariables);
 			Sequence seq = parser.XGRS();
-			parser.Resolve(ref seq);
+			// check will be done by LGSPSequenceChecker from lgsp code afterwards outside of this libGr code
 			return seq;
-		}		
-		
-		private void Resolve(ref Sequence seq)
-		{
-			switch(seq.SequenceType)
-			{
-				case SequenceType.ThenLeft:
-				case SequenceType.ThenRight:
-				case SequenceType.LazyOr:
-				case SequenceType.LazyAnd:
-				case SequenceType.StrictOr:
-				case SequenceType.Xor:
-				case SequenceType.StrictAnd:
-				case SequenceType.IfThen: // lazy implication
-				{
-					SequenceBinary binSeq = (SequenceBinary) seq;
-					Resolve(ref binSeq.Left);
-					Resolve(ref binSeq.Right);
-					break;
-				}
-				
-				case SequenceType.Not:
-				case SequenceType.IterationMin:
-				case SequenceType.IterationMinMax:
-				case SequenceType.Transaction:
-				case SequenceType.For:
-				{
-					SequenceUnary unSeq = (SequenceUnary) seq;
-					Resolve(ref unSeq.Seq);
-					break;
-				}
-				
-				case SequenceType.IfThenElse:
-				{
-					SequenceIfThenElse seqIf = (SequenceIfThenElse) seq;
-					Resolve(ref seqIf.Condition);
-					Resolve(ref seqIf.TrueCase);
-					Resolve(ref seqIf.FalseCase);
-					break;
-				}
-				
-				case SequenceType.RuleAll:
-				case SequenceType.Rule:
-				{
-					SequenceRule ruleSeq = (SequenceRule) seq;
-					RuleInvocationParameterBindings paramBindings = ruleSeq.ParamBindings;
-					
-					// Was an action found for the rule name? (only for interpreted xgrs possible, there the parser is supplied with a BaseActions object)
-					if(paramBindings.Action != null)
-					{ // yes -> this is a rule call; now check it
-						IAction action = paramBindings.Action;
-						
-						// Check whether number of parameters and return parameters match
-						if(action.RulePattern.Inputs.Length != paramBindings.ParamVars.Length
-								|| paramBindings.ReturnVars.Length != 0 && action.RulePattern.Outputs.Length != paramBindings.ReturnVars.Length)
-							throw new SequenceParserRuleException(paramBindings, SequenceParserError.BadNumberOfParametersOrReturnParameters);
-						
-						// Check parameter types
-						for(int i = 0; i < paramBindings.ParamVars.Length; i++)
-						{
-							// CSharpCC does not support as-expressions, yet...
-							VarType inputType = (VarType) (action.RulePattern.Inputs[i] is VarType ? action.RulePattern.Inputs[i] : null);
-
-							// If input type is not a VarType, a variable must be specified.
-							// Otherwise, if a constant is specified, the VarType must match the type of the constant
-							if(inputType == null && paramBindings.ParamVars[i] == null
-									|| inputType != null && paramBindings.Parameters[i] != null && inputType.Type != paramBindings.Parameters[i].GetType())
-								throw new SequenceParserRuleException(paramBindings, SequenceParserError.BadParameter, i);
-						}
-
-						if(seq.SequenceType!=SequenceType.RuleAll)
-						{
-							// When no return parameters were specified for a rule with returns, create an according array with null entries
-							if(paramBindings.ReturnVars.Length == 0 && action.RulePattern.Outputs.Length > 0)
-								paramBindings.ReturnVars = new SequenceVariable[action.RulePattern.Outputs.Length];
-						}
-						
-						// ok, this is a well-formed rule invocation
-						break;
-					}
-					
-					// BaseActions object supplied, but no rule name found -> error						
-					if(actions != null)
-						throw new SequenceParserRuleException(paramBindings, SequenceParserError.UnknownRule);
-					
-					// processing of a compiled xgrs without BaseActions but array of rule names,
-					// check the rule name against the available rule names
-					if(Array.IndexOf(ruleNames, paramBindings.RuleName)==-1)
-						throw new SequenceParserRuleException(paramBindings, SequenceParserError.UnknownRule);
-					
-					// ok, this is a rule invocation
-					break;
-				}
-
-				case SequenceType.AssignSequenceResultToVar:
-				{
-					SequenceAssignSequenceResultToVar assignSeq = (SequenceAssignSequenceResultToVar) seq;
-					Resolve(ref assignSeq.Seq);
-					break;
-				}
-				
-				case SequenceType.Def:
-				case SequenceType.True:
-				case SequenceType.False:
-				case SequenceType.VarPredicate:
-				case SequenceType.AssignVarToVar:
-				case SequenceType.AssignConstToVar:
-				case SequenceType.AssignAttributeToVar:
-				case SequenceType.AssignVarToAttribute:
-				case SequenceType.AssignElemToVar:
-				case SequenceType.AssignVAllocToVar:
-				case SequenceType.AssignSetmapSizeToVar:
-				case SequenceType.AssignSetmapEmptyToVar:
-				case SequenceType.AssignMapAccessToVar:
-				case SequenceType.AssignSetCreationToVar:
-				case SequenceType.AssignMapCreationToVar:
-				case SequenceType.IsVisited:
-				case SequenceType.SetVisited:
-				case SequenceType.VFree:
-				case SequenceType.VReset:
-				case SequenceType.Emit:
-				case SequenceType.SetmapAdd:
-				case SequenceType.SetmapRem:
-				case SequenceType.SetmapClear:
-				case SequenceType.InSetmap:
-					// Nothing to be done here
-					break;
-
-				default:
-					throw new Exception("Unknown sequence type: " + seq.SequenceType);
-			}			
-		}
+		}				
 	}
 PARSER_END(SequenceParser)
 
@@ -738,6 +598,11 @@ Sequence SimpleSequence():
 		{
 			return new SequenceAssignSequenceResultToVar(toVar, new SequenceIn(fromVar, fromVar2));
 		}
+	|
+        LOOKAHEAD(2) fromVar=VariableUse() "(" // deliver understandable error message for case of missing parenthesis at rule result assignment
+        { 
+            throw new ParseException("the destination variable(s) of a rule result assignment must be enclosed in parenthesis");
+        }
 	|
         fromVar=VariableUse()
         {

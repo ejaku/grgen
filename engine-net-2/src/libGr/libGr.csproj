@@ -89,6 +89,7 @@
     <Compile Include="GRSImporter\TokenMgrError.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Sequence.cs" />
+    <Compile Include="SequenceChecker.cs" />
     <Compile Include="SequenceParser.cs" />
     <Compile Include="SequenceParserConstants.cs" />
     <Compile Include="SequenceParserExceptions.cs" />

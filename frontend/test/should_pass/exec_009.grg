@@ -1,11 +1,11 @@
 using deep_model_001;
 
-rule r(y : Bcc) : (B) {
+rule r(y : Bcc) : (Bcc) {
   modify{
     return (y);
-    exec(c:B=c & (c)=r(c)   & (c)=r(c));
-    exec(c=c   & (c:B)=r(c) & (c)=r(c));
-    exec(c:B=y & (c)=r(c)   & (c)=r(c));
-    exec(c=y   & (c:B)=r(c) & (c)=r(c));
+	// removed use before definition and argument type not matching parameter type bullshit
+    exec(c:Bcc=c & (c)=r(c)   & (c)=r(c));
+    exec((c:Bcc)=r(c) & (c)=r(c));
+    exec(c:Bcc=y & (c)=r(c)   & (c)=r(c));
   }
 }

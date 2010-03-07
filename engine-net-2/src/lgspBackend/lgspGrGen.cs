@@ -681,8 +681,7 @@ namespace de.unika.ipd.grGen.lgsp
                                 FieldInfo fieldInfo = ruleType.GetField("XGRSInfo_" + xgrsID);
                                 if(fieldInfo == null) break;
                                 LGSPXGRSInfo xgrsInfo = (LGSPXGRSInfo) fieldInfo.GetValue(null);
-                                if(!seqGen.GenerateXGRSCode(xgrsID, xgrsInfo.XGRS, xgrsInfo.RuleNames, 
-                                                            xgrsInfo.Parameters, xgrsInfo.ParameterTypes, source))
+                                if(!seqGen.GenerateXGRSCode(xgrsID, xgrsInfo.XGRS, xgrsInfo.Parameters, xgrsInfo.ParameterTypes, source))
                                     return ErrorType.GrGenNetError;
                                 xgrsID++;
                             }

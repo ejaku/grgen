@@ -1,0 +1,10 @@
+using deep_model_001;
+
+rule r(b : B) : (B) {
+  modify{
+    return (b);
+    exec((x)=r(b) && (x:B)=r(b)); // first implicit declaration of graph gobal variable on first use,
+								  // then explicit declaration of sequence local variable with same name
+								  // must fail because variable can only be of one kind
+  }
+}

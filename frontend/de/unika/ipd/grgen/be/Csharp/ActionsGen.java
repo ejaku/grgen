@@ -1133,11 +1133,6 @@ public class ActionsGen extends CSharpBase {
 
 				sb.append("\t\tpublic static GRGEN_LGSP.LGSPXGRSInfo XGRSInfo_" + xgrsID
 						+ " = new GRGEN_LGSP.LGSPXGRSInfo(new string[] {");
-				for(Rule actionRule : be.unit.getActionRules()) {
-					sb.append("\"" + actionRule.getIdent() + "\", ");
-				}
-				sb.append("},\n");
-				sb.append("\t\t\tnew string[] {");
 				for(Entity neededEntity : exec.getNeededEntities()) {
 					sb.append("\"" + neededEntity.getIdent() + "\", ");
 				}

@@ -1,0 +1,8 @@
+using deep_model_001;
+
+rule r(y : Acc) {
+  n : Node;
+  modify{
+    exec(r(n)); // supertype as argument
+  }
+}

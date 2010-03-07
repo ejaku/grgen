@@ -1,7 +1,7 @@
 using enum_model_001;
 
 rule r1(x:A) {
-  y:Node;
+  y:A;
   replace {
     y;
     exec(r1(y));

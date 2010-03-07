@@ -9,6 +9,5 @@ rule r(y : Acc) {
     c : AcccAccAcA<b>;
     exec(r(c)); // subtype as param
     exec(r(y)); // exact type as param
-    exec(r(n)); // supertype as param
   }
 }

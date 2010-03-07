@@ -120,6 +120,44 @@ public class CallActionNode extends BaseNode {
 		return res;
 	}
 
+	/*
+	 * This introduces an ExecVar definition if an identifier is not defined
+	 * to support the usage-is-definition policy of the graph global variables in the sequences.
+	 * Note: an (x)=r() & (x:A)=r() error will not be found due to the grgen symbol table and the fixupDefinition
+	 * not taking care of the position of the definition compared to the uses
+	 * (which makes sense for every other construct of the grgen language);
+	 * this error will be caught later on when the xgrs is processed by the libgr sequence parser and symbol table.
+	 */
+	public void addImplicitDefinitions() {
+		for(int i=0; i<returnsUnresolved.children.size(); ++i)	
+		{
+			if(!(returnsUnresolved.children.get(i) instanceof IdentNode)) {
+				continue;
+			}
+			IdentNode id = (IdentNode)returnsUnresolved.children.get(i);
+
+			debug.report(NOTE, "Implicit definition for " + id + " in scope " + getScope());
+		
+			// Get the definition of the ident's symbol local to the owned scope.
+			Symbol.Definition def = getScope().getCurrDef(id.getSymbol());
+			debug.report(NOTE, "definition is: " + def);
+	
+			// If this definition is valid, i.e. it exists, it will be used
+			// else, an ExecVarDeclNode of this name is added to the scope
+			if(def.isValid()) {
+				id.setSymDef(def);
+			} else {
+				Symbol.Definition vdef = getScope().define(id.getSymbol(), id.getCoords());
+				id.setSymDef(vdef);
+				vdef.setNode(id);
+				getScope().leaveScope();
+				ExecVarDeclNode evd = new ExecVarDeclNode(id, new UntypedExecVarTypeNode());
+				id.setDecl(evd);
+				returnsUnresolved.children.set(i, evd);
+			}
+		}
+	}
+	
 	private static final DeclarationPairResolver<TestDeclNode, ExecVarDeclNode> actionResolver =
 		new DeclarationPairResolver<TestDeclNode, ExecVarDeclNode>(TestDeclNode.class, ExecVarDeclNode.class);
 
@@ -133,6 +171,7 @@ public class CallActionNode extends BaseNode {
 	@Override
 	protected boolean resolveLocal() {
 		boolean successfullyResolved = true;
+		addImplicitDefinitions();
 		fixupDefinition(actionUnresolved, actionUnresolved.getScope());
 		Pair<TestDeclNode, ExecVarDeclNode> resolved = actionResolver.resolve(actionUnresolved, this);
 		if(resolved!=null)
@@ -208,6 +247,8 @@ public class CallActionNode extends BaseNode {
 				ExprNode actualParam     = iterAP.next();
 				TypeNode actualParameterType = actualParam.getType();
 				Type     actualParamType = actualParameterType.getType();
+
+				if(actualParamType.classify()==Type.IS_UNTYPED_EXEC_VAR_TYPE) continue;
 
 				boolean incommensurable = false;
 
@@ -291,6 +332,8 @@ public class CallActionNode extends BaseNode {
 
 				DeclNode actualReturn     = iterAR.next();
 				Type     actualReturnType = actualReturn.getDecl().getDeclType().getType();
+				
+				if(actualReturnType.classify()==Type.IS_UNTYPED_EXEC_VAR_TYPE) continue;
 
 				boolean incommensurable = false;
 

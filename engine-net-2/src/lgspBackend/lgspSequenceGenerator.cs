@@ -23,22 +23,15 @@ namespace de.unika.ipd.grGen.lgsp
         /// <summary>
         /// Constructs an LGSPXGRSInfo object.
         /// </summary>
-        /// <param name="ruleNames">The names of the available rules.</param>
         /// <param name="parameters">The names of the needed graph elements of the containing action.</param>
         /// <param name="parameterTypes">The types of the needed graph elements of the containing action.</param>
         /// <param name="xgrs">The XGRS string.</param>
-		public LGSPXGRSInfo(String[] ruleNames, String[] parameters, String[] parameterTypes, String xgrs)
+		public LGSPXGRSInfo(String[] parameters, String[] parameterTypes, String xgrs)
 		{
-            RuleNames = ruleNames;
 			Parameters = parameters;
             ParameterTypes = parameterTypes;
 			XGRS = xgrs;
 		}
-
-        /// <summary>
-        /// The names of the available rules.
-        /// </summary>
-        public String[] RuleNames;
 
         /// <summary>
         /// The names of the needed graph elements of the containing action.
@@ -61,11 +54,18 @@ namespace de.unika.ipd.grGen.lgsp
     /// </summary>
     public class LGSPSequenceGenerator
     {
+        // the generator using us
         LGSPGrGen gen;
+
+        // the model object of the .grg to compile
         IGraphModel model;
+
+        // maps rule names available in the .grg to compile to the list of the input typ names
         Dictionary<String, List<String>> rulesToInputTypes;
+        // maps rule names available in the .grg to compile to the list of the output typ names
         Dictionary<String, List<String>> rulesToOutputTypes;
 
+        // the used rules (so that a variable was created for easy acess to them)
 		Dictionary<String, object> knownRules = new Dictionary<string, object>();
 
         public LGSPSequenceGenerator(LGSPGrGen gen, IGraphModel model,
@@ -84,7 +84,7 @@ namespace de.unika.ipd.grGen.lgsp
         {
             if(seqVar.Type == "")
             {
-                return "graph.GetVariableValue(" + seqVar.Name + ")";
+                return "graph.GetVariableValue(\"" + seqVar.Name + "\")";
             }
             else
             {
@@ -100,11 +100,12 @@ namespace de.unika.ipd.grGen.lgsp
         {
             if(seqVar.Type == "")
             {
-                return "graph.SetVariableValue(" + seqVar.Name + ", " + valueToWrite + ");\n";
+                return "graph.SetVariableValue(\"" + seqVar.Name + "\", " + valueToWrite + ");\n";
             }
             else
             {
-                return "var_" + seqVar.Prefix + seqVar.Name + " = " + valueToWrite + ";\n";
+                String cast = "(" + TypesHelper.XgrsTypeToCSharpType(seqVar.Type, model) + ")";
+                return "var_" + seqVar.Prefix + seqVar.Name + " = " + cast + "(" + valueToWrite + ");\n";
             }
         }
 
@@ -146,7 +147,7 @@ namespace de.unika.ipd.grGen.lgsp
         /// </summary>
         public string SetResultVar(Sequence seq, String valueToWrite)
         {
-            return "res_" + seq.Id + " = " + valueToWrite + ";\n";
+            return "res_" + seq.Id + " = (bool)(" + valueToWrite + ");\n";
         }
 
         /// <summary>
@@ -348,7 +349,10 @@ namespace de.unika.ipd.grGen.lgsp
             for(int i = 0; i < paramLen; i++)
             {
                 if(paramBindings.ParamVars[i] != null)
-                    parameters += ", " + GetVar(paramBindings.ParamVars[i]);
+                {
+                    String cast = "(" + TypesHelper.XgrsTypeToCSharpType(rulesToInputTypes[seqRule.ParamBindings.RuleName][i], model) + ")";
+                    parameters += ", " + cast + GetVar(paramBindings.ParamVars[i]);
+                }
                 else
                 {
                     object arg = paramBindings.Parameters[i];
@@ -399,33 +403,33 @@ namespace de.unika.ipd.grGen.lgsp
                 String varName = paramBindings.ReturnVars[i].Prefix + paramBindings.ReturnVars[i].Name;
                 returnParameterDeclarations += TypesHelper.XgrsTypeToCSharpType(rulesToOutputTypes[paramBindings.RuleName][i], model) + " tmpvar_" + varName + "; ";
                 returnArguments += ", out tmpvar_" + varName;
-                returnAssignments += "var_" + varName + " = tmpvar_" + varName + "; ";
+                returnAssignments += SetVar(paramBindings.ReturnVars[i], "tmpvar_" + varName);
             }
 
             if(seqRule.SequenceType == SequenceType.Rule)
             {
                 source.AppendFront(matchType + " " + matchName + " = " + matchesName + ".FirstExact;\n");
-                source.AppendFront(returnParameterDeclarations + "\n");
+                if(returnParameterDeclarations.Length!=0) source.AppendFront(returnParameterDeclarations + "\n");
                 source.AppendFront("rule_" + paramBindings.RuleName + ".Modify(graph, " + matchName + returnArguments + ");\n");
-                source.AppendFront(returnAssignments + "\n");
+                if(returnAssignments.Length != 0) source.AppendFront(returnAssignments + "\n");
                 if(gen.UsePerfInfo)
                     source.AppendFront("if(graph.PerformanceInfo != null) graph.PerformanceInfo.RewritesPerformed++;\n");
             }
             else // seq.SequenceType == SequenceType.RuleAll
             {
-                String enumeratorName = "enum_" + seqRule.Id;
                 if(((SequenceRuleAll)seqRule).NumChooseRandom <= 0)
                 {
                     // iterate through matches, use Modify on each, fire the next match event after the first
+                    String enumeratorName = "enum_" + seqRule.Id;
                     source.AppendFront("IEnumerator<" + matchType + "> " + enumeratorName + " = " + matchesName + ".GetEnumeratorExact();\n");
                     source.AppendFront("while(" + enumeratorName + ".MoveNext())\n");
                     source.AppendFront("{\n");
                     source.Indent();
                     source.AppendFront(matchType + " " + matchName + " = " + enumeratorName + ".Current;\n");
-                    source.AppendFront(returnParameterDeclarations + "\n");
+                    if(returnParameterDeclarations.Length != 0) source.AppendFront(returnParameterDeclarations + "\n");
                     source.AppendFront("rule_" + paramBindings.RuleName + ".Modify(graph, " + matchName + returnArguments + ");\n");
-                    source.AppendFront(returnAssignments + "\n");
-                    source.AppendFront("if(" + matchName + "!=" + matchesName + ".FirstExact) graph.RewritingNextMatch();");
+                    if(returnAssignments.Length != 0) source.AppendFront(returnAssignments + "\n");
+                    source.AppendFront("if(" + matchName + "!=" + matchesName + ".FirstExact) graph.RewritingNextMatch();\n");
                     if(gen.UsePerfInfo)
                         source.AppendFront("if(graph.PerformanceInfo!=null) graph.PerformanceInfo.RewritesPerformed++;\n");
                     source.Unindent();
@@ -436,40 +440,18 @@ namespace de.unika.ipd.grGen.lgsp
                     // todo: bisher gibt es eine exception wenn zu wenig matches für die random-auswahl vorhanden, auch bei interpretiert
                     // -- das so ändern, dass geclippt nach vorhandenen matches - das andere ist für die nutzer scheisse (wohl noch nie vorgekommen, weil immer nur ein match gewählt wurde)
 
-                    // compute indices to select, to reach same behaviour as interpreted version, using an available indices and a selected indices list
+                    // as long as a further rewrite has to be selected: randomly choose next match, rewrite it and remove it from available matches; fire the next match event after the first
                     String matchesToSelect = ((SequenceRuleAll)seqRule).NumChooseRandom.ToString();
-                    source.AppendFront("List<int> availableIndices = new List<int>(" + matchesName + ".Count);\n");
-                    source.AppendFront("for(int i=0; i<" + matchesName + ".Count; ++i) availableIndices.Add(i);\n");
-                    source.AppendFront("List<int> selectedIndices = new List<int>(" + matchesToSelect + ");\n");
-                    source.AppendFront("for(int i=0; i<" + matchesToSelect + "; ++i) {\n");
-                    source.Indent();
-                    source.AppendFront("int index = GRGEN_LIBGR.Sequence.randomGenerator.Next(availableIndices.Count);\n");
-                    source.AppendFront("selectedIndices.Add(availableIndices[index]);\n");
-                    source.AppendFront("availableIndices.RemoveAt(index);\n");
-                    source.Unindent();
-                    source.AppendFront("}\n");
-
-                    // iterate through matches, use Modify on matches of selected indices, fire the next match event after the first
-                    String matchCounter = "matchCounter_" + seqRule.Id;
-                    source.AppendFront("int " + matchCounter + " = 0;\n");
-                    source.AppendFront("IEnumerator<" + matchType + "> " + enumeratorName + " = " + matchesName + ".GetEnumeratorExact();\n");
-                    source.AppendFront("while(" + enumeratorName + ".MoveNext())\n");
+                    source.AppendFront("for(int i = 0; i < " + matchesToSelect + "; ++i)\n");
                     source.AppendFront("{\n");
                     source.Indent();
-                    source.AppendFront(matchType + " " + matchName + " = " + enumeratorName + ".Current;\n");
-                    source.AppendFront("if(" + matchCounter + "==selectedIndices[0])\n");
-                    source.AppendFront("{\n");
-                    source.Indent();
-                    source.AppendFront(returnParameterDeclarations + "\n");
+                    source.AppendFront("if(i != 0) graph.RewritingNextMatch();\n");
+                    source.AppendFront(matchType + " " + matchName + " = " + matchesName + ".RemoveMatchExact(GRGEN_LIBGR.Sequence.randomGenerator.Next(" + matchesName + ".Count));\n");
+                    if(returnParameterDeclarations.Length != 0) source.AppendFront(returnParameterDeclarations + "\n");
                     source.AppendFront("rule_" + paramBindings.RuleName + ".Modify(graph, " + matchName + returnArguments + ");\n");
-                    source.AppendFront(returnAssignments + "\n");
-                    source.AppendFront("if(selectedIndices.Count!=" + matchesToSelect + ") graph.RewritingNextMatch();");
+                    if(returnAssignments.Length != 0) source.AppendFront(returnAssignments + "\n");
                     if(gen.UsePerfInfo)
                         source.AppendFront("if(graph.PerformanceInfo!=null) graph.PerformanceInfo.RewritesPerformed++;\n");
-                    source.AppendFront("selectedIndices.RemoveAt(0);");
-                    source.AppendFront("if(selectedIndices.Count==0) break;");
-                    source.Unindent();
-                    source.AppendFront("}\n");
                     source.Unindent();
                     source.AppendFront("}\n");
                 }
@@ -693,7 +675,7 @@ namespace de.unika.ipd.grGen.lgsp
                 {
                     SequenceSetmapAdd seqAdd = (SequenceSetmapAdd)seq;
 
-                    source.AppendFront("if("+GetVar(seqAdd.Setmap)+".Contains("+GetVar(seqAdd.Var)+"))\n");
+                    source.AppendFront("if("+GetVar(seqAdd.Setmap)+".ContainsKey("+GetVar(seqAdd.Var)+"))\n");
 					source.AppendFront("{\n");
 					source.Indent();
                     if(seqAdd.VarDst==null) {
@@ -737,7 +719,7 @@ namespace de.unika.ipd.grGen.lgsp
                 case SequenceType.InSetmap:
                 {
                     SequenceIn seqIn = (SequenceIn)seq;
-                    source.AppendFront(SetResultVar(seqIn, GetVar(seqIn.Setmap)+".Contains("+GetVar(seqIn.Var)+")"));
+                    source.AppendFront(SetResultVar(seqIn, GetVar(seqIn.Setmap)+".ContainsKey("+GetVar(seqIn.Var)+")"));
                     break;
                 }
 
@@ -824,7 +806,7 @@ namespace de.unika.ipd.grGen.lgsp
                 {
                     SequenceAssignMapAccessToVar seqMapAccessToVar = (SequenceAssignMapAccessToVar)seq;
                     source.AppendFront(SetResultVar(seqMapAccessToVar, "false"));
-                    source.AppendFront("if("+GetVar(seqMapAccessToVar.Setmap)+".Contains("+GetVar(seqMapAccessToVar.KeyVar)+")) {\n");
+                    source.AppendFront("if("+GetVar(seqMapAccessToVar.Setmap)+".ContainsKey("+GetVar(seqMapAccessToVar.KeyVar)+")) {\n");
                     source.Indent();
                     source.AppendFront(SetVar(seqMapAccessToVar.DestVar, GetVar(seqMapAccessToVar.Setmap)+"["+GetVar(seqMapAccessToVar.KeyVar)+"]"));
                     source.AppendFront(SetResultVar(seqMapAccessToVar, "true"));
@@ -884,7 +866,11 @@ namespace de.unika.ipd.grGen.lgsp
                 case SequenceType.AssignConstToVar:
                 {
                     SequenceAssignConstToVar seqConstToVar = (SequenceAssignConstToVar)seq;
-                    source.AppendFront(SetVar(seqConstToVar.DestVar, seqConstToVar.Constant.ToString()));
+                    if(seqConstToVar.Constant is bool) {
+                        source.AppendFront(SetVar(seqConstToVar.DestVar, (bool)seqConstToVar.Constant==true ? "true" : "false"));
+                    } else {
+                        source.AppendFront(SetVar(seqConstToVar.DestVar, seqConstToVar.Constant.ToString()));
+                    }
                     source.AppendFront(SetResultVar(seqConstToVar, "true"));
                     break;
                 }
@@ -892,16 +878,11 @@ namespace de.unika.ipd.grGen.lgsp
                 case SequenceType.AssignAttributeToVar:
                 {
                     SequenceAssignAttributeToVar seqAttrToVar = (SequenceAssignAttributeToVar)seq;
-                    source.AppendFront("object value_"+seqAttrToVar.Id+" = " + GetVar(seqAttrToVar.SourceVar) + ";\n");
-                    source.AppendFront("IGraphElement elem_"+seqAttrToVar.Id+" = (IGraphElement)" + GetVar(seqAttrToVar.DestVar) + ";\n");
-                    source.AppendFront("AttributeType attrType_"+seqAttrToVar.Id+";\n");
-                    source.AppendFront("value_"+seqAttrToVar.Id+" = DictionaryHelper.IfAttributeOfElementIsDictionaryThenCloneDictionaryValue(elem_"+seqAttrToVar.Id+", \"" + seqAttrToVar.AttributeName + "\", value_"+seqAttrToVar.Id+", out attrType"+seqAttrToVar.Id+");\n");
-                    source.AppendFront("AttributeChangeType changeType_"+seqAttrToVar.Id+" = AttributeChangeType.Assign;\n");
-                    source.AppendFront("if(elem_"+seqAttrToVar.Id+" is INode)\n");
-                    source.AppendFront("\tgraph.ChangingNodeAttribute((INode)elem_"+seqAttrToVar.Id+", attrType_"+seqAttrToVar.Id+", changeType_"+seqAttrToVar.Id+", value_"+seqAttrToVar.Id+", null);\n");
-                    source.AppendFront("else\n");
-                    source.AppendFront("\tgraph.ChangingEdgeAttribute((IEdge)elem_"+seqAttrToVar.Id+", attrType_"+seqAttrToVar.Id+", changeType_"+seqAttrToVar.Id+", value_"+seqAttrToVar.Id+", null);\n");
-                    source.AppendFront("elem_"+seqAttrToVar.Id+".SetAttribute(\"" + seqAttrToVar.AttributeName + "\", value_"+seqAttrToVar.Id+");\n");
+                    source.AppendFront("IGraphElement elem_" + seqAttrToVar.Id + " = (IGraphElement)" + GetVar(seqAttrToVar.SourceVar) + ";\n");
+                    source.AppendFront("object value_" + seqAttrToVar.Id + " = elem_" + seqAttrToVar.Id + ".GetAttribute(\"" + seqAttrToVar.AttributeName + "\");\n");
+                    source.AppendFront("AttributeType attrType_" + seqAttrToVar.Id + ";\n");
+                    source.AppendFront("value_" + seqAttrToVar.Id + " = DictionaryHelper.IfAttributeOfElementIsDictionaryThenCloneDictionaryValue(elem_" + seqAttrToVar.Id + ", \"" + seqAttrToVar.AttributeName + "\", value_" + seqAttrToVar.Id + ", out attrType_" + seqAttrToVar.Id + ");\n");
+                    source.AppendFront(SetVar(seqAttrToVar.DestVar, "value_" + seqAttrToVar.Id));
                     source.AppendFront(SetResultVar(seqAttrToVar, "true"));
                     break;
                 }
@@ -909,13 +890,18 @@ namespace de.unika.ipd.grGen.lgsp
                 case SequenceType.AssignVarToAttribute:
                 {
                     SequenceAssignVarToAttribute seqVarToAttr = (SequenceAssignVarToAttribute)seq;
-                    source.AppendFront("IGraphElement elem_"+seqVarToAttr.Id+" = (IGraphElement)" + GetVar(seqVarToAttr.SourceVar) + ";\n");
-                    source.AppendFront("object value_"+seqVarToAttr.Id+" = elem_"+seqVarToAttr.Id+".GetAttribute(\""+seqVarToAttr.AttributeName+"\");\n");
-                    source.AppendFront("AttributeType attrType_"+seqVarToAttr.Id+";\n");
-                    source.AppendFront("value_"+seqVarToAttr.Id+" = DictionaryHelper.IfAttributeOfElementIsDictionaryThenCloneDictionaryValue(elem_"+seqVarToAttr.Id+", \"" + seqVarToAttr.AttributeName + "\", value_"+seqVarToAttr.Id+", out attrType_"+seqVarToAttr.Id+");\n");
-                    source.AppendFront(SetVar(seqVarToAttr.DestVar, "value_"+seqVarToAttr.Id));
+                    source.AppendFront("object value_" + seqVarToAttr.Id + " = " + GetVar(seqVarToAttr.SourceVar) + ";\n");
+                    source.AppendFront("IGraphElement elem_" + seqVarToAttr.Id + " = (IGraphElement)" + GetVar(seqVarToAttr.DestVar) + ";\n");
+                    source.AppendFront("AttributeType attrType_" + seqVarToAttr.Id + ";\n");
+                    source.AppendFront("value_" + seqVarToAttr.Id + " = DictionaryHelper.IfAttributeOfElementIsDictionaryThenCloneDictionaryValue(elem_" + seqVarToAttr.Id + ", \"" + seqVarToAttr.AttributeName + "\", value_" + seqVarToAttr.Id + ", out attrType" + seqVarToAttr.Id + ");\n");
+                    source.AppendFront("AttributeChangeType changeType_" + seqVarToAttr.Id + " = AttributeChangeType.Assign;\n");
+                    source.AppendFront("if(elem_" + seqVarToAttr.Id + " is INode)\n");
+                    source.AppendFront("\tgraph.ChangingNodeAttribute((INode)elem_" + seqVarToAttr.Id + ", attrType_" + seqVarToAttr.Id + ", changeType_" + seqVarToAttr.Id + ", value_" + seqVarToAttr.Id + ", null);\n");
+                    source.AppendFront("else\n");
+                    source.AppendFront("\tgraph.ChangingEdgeAttribute((IEdge)elem_" + seqVarToAttr.Id + ", attrType_" + seqVarToAttr.Id + ", changeType_" + seqVarToAttr.Id + ", value_" + seqVarToAttr.Id + ", null);\n");
+                    source.AppendFront("elem_" + seqVarToAttr.Id + ".SetAttribute(\"" + seqVarToAttr.AttributeName + "\", value_" + seqVarToAttr.Id + ");\n");
                     source.AppendFront(SetResultVar(seqVarToAttr, "true"));
-                    break;
+                    break; 
                 }
 
 				case SequenceType.Transaction:
@@ -934,19 +920,27 @@ namespace de.unika.ipd.grGen.lgsp
 			}
 		}
 
-		public bool GenerateXGRSCode(int xgrsID, String xgrsStr, String[] ruleNames, String[] paramNames, String[] paramTypes, 
-                                     SourceBuilder source)
+		public bool GenerateXGRSCode(int xgrsID, String xgrsStr, String[] paramNames, String[] paramTypes, SourceBuilder source)
 		{
 			Dictionary<String, String> varDecls = new Dictionary<String, String>();
             for (int i = 0; i < paramNames.Length; i++)
             {
                 varDecls.Add(paramNames[i], paramTypes[i]);
             }
+            String[] ruleNames = new String[rulesToInputTypes.Count];
+            int j = 0;
+            foreach(KeyValuePair<String, List<String>> ruleToInputTypes in rulesToInputTypes)
+            {  
+                ruleNames[j] = ruleToInputTypes.Key;
+                ++j;
+            }
 
 			Sequence seq;
 			try
 			{
 				seq = SequenceParser.ParseSequence(xgrsStr, ruleNames, varDecls);
+                LGSPSequenceChecker checker = new LGSPSequenceChecker(ruleNames, rulesToInputTypes, rulesToOutputTypes, model);
+                checker.Check(seq);
 			}
 			catch(ParseException ex)
 			{

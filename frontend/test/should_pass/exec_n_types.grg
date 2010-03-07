@@ -1,0 +1,238 @@
+using exec_model_001;
+
+rule r
+{
+	modify {
+	exec ( (sb:set<boolean>)=tsetboolean );
+		exec( (a:A)=tA && sA(a) && (a)=tAB
+			|| ((ab:AB)=tAB && sAB(ab) && (ab)=tABC && sA(ab))
+			|| ((abc:ABC)=tABC && sABC(abc) && sA(abc)) 
+			|| ((n:Node)=tNode && sNode(n) && (n)=[tA]) );
+		exec( (i:int)=tint && (b:boolean)=tboolean && (s:string)=tstring 
+			&& (f:float)=tfloat && (d:double)=tdouble && (o:object)=tobject && (fo:foo)=tfoo
+			&& (sb:set<boolean>)=tsetboolean && (mis:map<int,string>)=tmapintstring && (mfd:map<foo,double>)=tmapfoodouble );
+	}
+}
+
+test tNode : (Node)
+{
+	n:Node;
+	return(n);
+}
+
+test tA : (A)
+{
+	a:A;
+	return(a);
+}
+
+test tAB : (AB)
+{
+	ab:AB;
+	return(ab);
+}
+
+test tABC : (ABC)
+{
+	abc:ABC;
+	return(abc);
+}
+
+test tAEdge : (AEdge)
+{
+	?-e:AEdge-?;
+	return(e);
+}
+
+test tUEdge : (UEdge)
+{
+	-e:UEdge-;
+	return(e);
+}
+
+test tEdge : (Edge)
+{
+	-e:Edge->;
+	return(e);
+}
+
+test tE : (E)
+{
+	?-e:E-?;
+	return(e);
+}
+
+test tF : (F)
+{
+	-f:F->;
+	return(f);
+}
+
+test tG : (G)
+{
+	-g:G-;
+	return(g);
+}
+
+test tH : (H)
+{
+	-h:H->;
+	return(h);
+}
+
+test tHI : (HI)
+{
+	-hi:HI->;
+	return(hi);
+}
+
+test tHIJ : (HIJ)
+{
+	-hij:HIJ->;
+	return(hij);
+}
+
+
+test sNode(n:Node)
+{
+}
+
+test sA(a:A)
+{
+}
+
+test sAB(ab:AB)
+{
+}
+
+test sABC(abc:ABC)
+{
+}
+
+test sAEdge(?-e:AEdge-?)
+{
+}
+
+test sUEdge(-e:UEdge-)
+{
+}
+
+test sEdge(-e:Edge->)
+{
+}
+
+test sE(?-e:E-?)
+{
+}
+
+test sF(-f:F->)
+{
+}
+
+test sG(-g:G-)
+{
+}
+
+test sH(-h:H->)
+{
+}
+
+test sHI(-hi:HI->)
+{
+}
+
+test sHIJ(-hij:HIJ->)
+{
+}
+
+
+test tint : (int)
+{
+	return(0);
+}
+
+test tboolean : (boolean)
+{
+	return(true);
+}
+
+test tstring : (string)
+{
+	return("");
+}
+
+test tfloat : (float)
+{
+	return(3.141f);
+}
+
+test tdouble : (double)
+{
+	return(3.141); 
+}
+
+test tobject : (object)
+{
+	return(null);
+}
+
+test tfoo : (foo)
+{
+	return(foo::Bar);
+}
+
+test tsetboolean : (set<boolean>)
+{
+	return( { true } );
+}
+
+test tmapintstring : (map<int,string>)
+{
+	return({ 0->"" });
+}
+
+test tmapfoodouble : (map<foo,double>)
+{
+	return({ foo::Bar->0.1 });
+}
+
+
+test sint(var v:int)
+{
+}
+
+test sboolean(var v:boolean)
+{
+}
+
+test sstring(var v:string)
+{
+}
+
+test sfloat(var v:float)
+{
+}
+
+test sdouble(var v:double)
+{
+}
+
+test sobject(var v:object)
+{
+}
+
+test sfoo(var v:foo)
+{
+}
+
+test ssetboolean(var v:set<boolean>)
+{
+}
+
+test smapintstring(var v:map<int,string>)
+{
+}
+
+test smapfoodouble(var v:map<foo,double>)
+{
+}
