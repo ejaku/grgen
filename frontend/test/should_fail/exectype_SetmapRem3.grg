@@ -1,0 +1,8 @@
+using exectype;
+
+rule r
+{
+	modify  {
+		exec(u:map<AA,H> =map<AA,H> && v:A=varia && u.rem(v));
+	}
+}

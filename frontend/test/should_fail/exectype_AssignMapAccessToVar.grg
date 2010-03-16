@@ -1,0 +1,8 @@
+using exectype;
+
+rule r
+{
+	modify  {
+		exec(m:set<A> =set<A> ;> aa:AA=varia && h=m[aa]); // must be map type
+	}
+}

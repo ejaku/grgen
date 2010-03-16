@@ -1,0 +1,8 @@
+using exectype;
+
+rule r
+{
+	modify  {
+		exec(m:map<A,int> =map<A,int> ;> aa:AA=varia && h:string=m[aa]); // map yields int, not string
+	}
+}

@@ -122,118 +122,228 @@ namespace de.unika.ipd.grGen.lgsp
             {
                 SequenceAssignSequenceResultToVar assignSeq = (SequenceAssignSequenceResultToVar)seq;
                 Check(assignSeq.Seq);
+                if(!TypesHelper.IsSameOrSubtype(assignSeq.DestVar.Type, "boolean", model))
+                {
+                    throw new SequenceParserException(assignSeq.DestVar.Name + "=sequence", "boolean", assignSeq.DestVar.Type);
+                }
                 break;
             }
 
             case SequenceType.VarPredicate:
             {
                 SequenceVarPredicate varPredSeq = (SequenceVarPredicate)seq;
-                // TODO
+                if(!TypesHelper.IsSameOrSubtype(varPredSeq.PredicateVar.Type, "boolean", model))
+                {
+                    throw new SequenceParserException(varPredSeq.PredicateVar.Name, "boolean", varPredSeq.PredicateVar.Type);
+                }
                 break;
             }
 
             case SequenceType.AssignVarToVar:
             {
+                // the assignment of an untyped variable to a typed variable is ok, cause we want access to persistency
+                // which is only offered by the untyped variables; it is checked at runtime / causes an invalid cast exception
                 SequenceAssignVarToVar assignSeq = (SequenceAssignVarToVar)seq;
-                // TODO
+                if(!TypesHelper.IsSameOrSubtype(assignSeq.SourceVar.Type, assignSeq.DestVar.Type, model))
+                {
+                    throw new SequenceParserException(assignSeq.DestVar.Name + "=" + assignSeq.SourceVar.Name, assignSeq.DestVar.Type, assignSeq.SourceVar.Type);
+                }
                 break;
             }
 
             case SequenceType.AssignConstToVar:
             {
                 SequenceAssignConstToVar assignSeq = (SequenceAssignConstToVar)seq;
-                // TODO
+                if(!TypesHelper.IsSameOrSubtype(TypesHelper.XgrsTypeOfConstant(assignSeq.Constant, model), assignSeq.DestVar.Type, model))
+                {
+                    throw new SequenceParserException(assignSeq.DestVar.Name + "=" + assignSeq.Constant.ToString(), assignSeq.DestVar.Type, TypesHelper.XgrsTypeOfConstant(assignSeq.Constant, model));
+                }
                 break;
+
             }
 
             case SequenceType.AssignAttributeToVar:
             {
                 SequenceAssignAttributeToVar assignSeq = (SequenceAssignAttributeToVar)seq;
-                // TODO
+                if(assignSeq.SourceVar.Type=="") break; // we can't gain access to an attribute type if the variable is untyped, only runtime-check possible
+                GrGenType nodeOrEdgeType = TypesHelper.GetNodeOrEdgeType(assignSeq.SourceVar.Type, model);
+                if(nodeOrEdgeType==null)
+                {
+                    throw new SequenceParserException(assignSeq.DestVar.Name + "=" + assignSeq.SourceVar.Name + "." + assignSeq.AttributeName, "node or edge type", assignSeq.SourceVar.Type);
+                } 
+                AttributeType attributeType = nodeOrEdgeType.GetAttributeType(assignSeq.AttributeName);
+                if(attributeType==null)
+                {
+                    throw new SequenceParserException(assignSeq.AttributeName, SequenceParserError.UnknownAttribute);
+                } 
+                if(!TypesHelper.IsSameOrSubtype(TypesHelper.AttributeTypeToXgrsType(attributeType), assignSeq.DestVar.Type, model))
+                {
+                    throw new SequenceParserException(assignSeq.DestVar.Name + "=" + assignSeq.SourceVar.Name + "." + assignSeq.AttributeName, assignSeq.DestVar.Type, TypesHelper.AttributeTypeToXgrsType(attributeType));
+                }
                 break;
             }
 
             case SequenceType.AssignVarToAttribute:
             {
                 SequenceAssignVarToAttribute assignSeq = (SequenceAssignVarToAttribute)seq;
-                // TODO
+                if(assignSeq.DestVar.Type == "") break; // we can't gain access to an attribute type if the variable is untyped, only runtime-check possible
+                GrGenType nodeOrEdgeType = TypesHelper.GetNodeOrEdgeType(assignSeq.DestVar.Type, model);
+                if(nodeOrEdgeType == null)
+                {
+                    throw new SequenceParserException(assignSeq.DestVar.Name + "." + assignSeq.AttributeName + "=" + assignSeq.SourceVar.Name, "node or edge type", assignSeq.DestVar.Type);
+                }
+                AttributeType attributeType = nodeOrEdgeType.GetAttributeType(assignSeq.AttributeName);
+                if(attributeType == null)
+                {
+                    throw new SequenceParserException(assignSeq.AttributeName, SequenceParserError.UnknownAttribute);
+                }
+                if(!TypesHelper.IsSameOrSubtype(assignSeq.SourceVar.Type, TypesHelper.AttributeTypeToXgrsType(attributeType), model))
+                {
+                    throw new SequenceParserException(assignSeq.DestVar.Name + "." + assignSeq.AttributeName + "=" + assignSeq.SourceVar.Name, TypesHelper.AttributeTypeToXgrsType(attributeType), assignSeq.SourceVar.Type);
+                }
                 break;
             }
 
             case SequenceType.AssignElemToVar:
             {
                 SequenceAssignElemToVar assignSeq = (SequenceAssignElemToVar)seq;
-                // TODO
+                GrGenType nodeOrEdgeType = TypesHelper.GetNodeOrEdgeType(assignSeq.DestVar.Type, model);
+                if(nodeOrEdgeType == null)
+                {
+                    throw new SequenceParserException(assignSeq.DestVar.Name + "=@(" + assignSeq.ElementName + ")", "node or edge type", assignSeq.DestVar.Type);
+                } 
                 break;
             }
 
             case SequenceType.AssignVAllocToVar:
             {
                 SequenceAssignVAllocToVar assignSeq = (SequenceAssignVAllocToVar)seq;
-                // TODO
+                if(!TypesHelper.IsSameOrSubtype(assignSeq.DestVar.Type, "int", model))
+                {
+                    throw new SequenceParserException(assignSeq.DestVar.Name + "=valloc()", "int", assignSeq.DestVar.Type);
+                }
                 break;
             }
 
             case SequenceType.AssignSetmapSizeToVar:
             {
                 SequenceAssignSetmapSizeToVar assignSeq = (SequenceAssignSetmapSizeToVar)seq;
-                // TODO
+                if(TypesHelper.ExtractSrc(assignSeq.Setmap.Type) == null || TypesHelper.ExtractDst(assignSeq.Setmap.Type) == null)
+                {
+                    throw new SequenceParserException(assignSeq.DestVar.Name + "=" + assignSeq.Setmap + ".size()", "set<S> or map<S,T> type", assignSeq.Setmap.Type);
+                }
+                if(!TypesHelper.IsSameOrSubtype(assignSeq.DestVar.Type, "int", model))
+                {
+                    throw new SequenceParserException(assignSeq.DestVar.Name + "=" + assignSeq.Setmap + ".size()", "int", assignSeq.DestVar.Type);
+                }
                 break;
             }
 
             case SequenceType.AssignSetmapEmptyToVar:
             {
                 SequenceAssignSetmapEmptyToVar assignSeq = (SequenceAssignSetmapEmptyToVar)seq;
-                // TODO
+                if(TypesHelper.ExtractSrc(assignSeq.Setmap.Type) == null || TypesHelper.ExtractDst(assignSeq.Setmap.Type) == null)
+                {
+                    throw new SequenceParserException(assignSeq.DestVar.Name + "=" + assignSeq.Setmap + ".empty()", "set<S> or map<S,T> type", assignSeq.Setmap.Type);
+                }
+                if(!TypesHelper.IsSameOrSubtype(assignSeq.DestVar.Type, "boolean", model))
+                {
+                    throw new SequenceParserException(assignSeq.DestVar.Name + "=" + assignSeq.Setmap + ".empty()", "boolean", assignSeq.DestVar.Type);
+                }
                 break;
             }
 
             case SequenceType.AssignMapAccessToVar:
             {
                 SequenceAssignMapAccessToVar assignSeq = (SequenceAssignMapAccessToVar)seq;
-                // TODO
+                if(assignSeq.Setmap.Type == "") break; // we can't check source and destination types if the variable is untyped, only runtime-check possible
+                if(TypesHelper.ExtractSrc(assignSeq.Setmap.Type)==null || TypesHelper.ExtractDst(assignSeq.Setmap.Type)==null || TypesHelper.ExtractDst(assignSeq.Setmap.Type)=="SetValueType")
+                {
+                    throw new SequenceParserException(assignSeq.DestVar.Name + "=" + assignSeq.Setmap + "[" + assignSeq.KeyVar + "]", "map<S,T>", assignSeq.Setmap.Type);
+                }
+                if(!TypesHelper.IsSameOrSubtype(assignSeq.KeyVar.Type, TypesHelper.ExtractSrc(assignSeq.Setmap.Type), model))
+                {
+                    throw new SequenceParserException(assignSeq.DestVar.Name + "=" + assignSeq.Setmap + "[" + assignSeq.KeyVar + "]", TypesHelper.ExtractSrc(assignSeq.Setmap.Type), assignSeq.KeyVar.Type);
+                }
+                if(!TypesHelper.IsSameOrSubtype(TypesHelper.ExtractDst(assignSeq.Setmap.Type), assignSeq.DestVar.Type, model))
+                {
+                    throw new SequenceParserException(assignSeq.DestVar.Name + "=" + assignSeq.Setmap + "[" + assignSeq.KeyVar + "]", assignSeq.DestVar.Type, TypesHelper.ExtractDst(assignSeq.Setmap.Type));
+                }
                 break;
             }
 
             case SequenceType.AssignSetCreationToVar:
             {
                 SequenceAssignSetCreationToVar assignSeq = (SequenceAssignSetCreationToVar)seq;
-                // TODO
+                if(!TypesHelper.IsSameOrSubtype("set<"+assignSeq.TypeName+">", assignSeq.DestVar.Type, model))
+                {
+                    throw new SequenceParserException(assignSeq.DestVar.Name + "= set<" + assignSeq.TypeName + ">", assignSeq.DestVar.Type, "set<" + assignSeq.TypeName + ">");
+                }
                 break;
             }
 
             case SequenceType.AssignMapCreationToVar:
             {
                 SequenceAssignMapCreationToVar assignSeq = (SequenceAssignMapCreationToVar)seq;
-                // TODO
+                if(!TypesHelper.IsSameOrSubtype("map<" + assignSeq.TypeName + "," + assignSeq.TypeNameDst + ">", assignSeq.DestVar.Type, model))
+                {
+                    throw new SequenceParserException(assignSeq.DestVar.Name + "= map<" + assignSeq.TypeName + "," + assignSeq.TypeNameDst +">", assignSeq.DestVar.Type, "map<" + assignSeq.TypeName + "," + assignSeq.TypeNameDst + ">");
+                }
                 break;
             }
 
             case SequenceType.IsVisited:
             {
                 SequenceIsVisited isVisSeq = (SequenceIsVisited)seq;
-                // TODO
+                GrGenType nodeOrEdgeType = TypesHelper.GetNodeOrEdgeType(isVisSeq.GraphElementVar.Type, model);
+                if(isVisSeq.GraphElementVar.Type!="" && nodeOrEdgeType==null)
+                {
+                    throw new SequenceParserException(isVisSeq.GraphElementVar.Name + ".visited[" + isVisSeq.VisitedFlagVar.Name + "]", "node or edge type", isVisSeq.GraphElementVar.Type);
+                }
+                if(!TypesHelper.IsSameOrSubtype(isVisSeq.VisitedFlagVar.Type, "int", model))
+                {
+                    throw new SequenceParserException(isVisSeq.GraphElementVar.Name + ".visited[" + isVisSeq.VisitedFlagVar.Name + "]", "int", isVisSeq.VisitedFlagVar.Type);
+                }
                 break;
             }
 
             case SequenceType.SetVisited:
             {
                 SequenceSetVisited setVisSeq = (SequenceSetVisited)seq;
-                // TODO
+                String varVal = setVisSeq.Var != null ? setVisSeq.Var.Name : setVisSeq.Val.ToString();
+                GrGenType nodeOrEdgeType = TypesHelper.GetNodeOrEdgeType(setVisSeq.GraphElementVar.Type, model);
+                if(setVisSeq.GraphElementVar.Type != "" && nodeOrEdgeType == null)
+                {
+                    throw new SequenceParserException(setVisSeq.GraphElementVar.Name + ".visited[" + setVisSeq.VisitedFlagVar.Name + "]=" + varVal, "node or edge type", setVisSeq.GraphElementVar.Type);
+                }
+                if(!TypesHelper.IsSameOrSubtype(setVisSeq.VisitedFlagVar.Type, "int", model))
+                {
+                    throw new SequenceParserException(setVisSeq.GraphElementVar.Name + ".visited[" + setVisSeq.VisitedFlagVar.Name + "]=" + varVal, "int", setVisSeq.VisitedFlagVar.Type);
+                }
+                if(setVisSeq.Var!=null && !TypesHelper.IsSameOrSubtype(setVisSeq.Var.Type, "boolean", model))
+                {
+                    throw new SequenceParserException(setVisSeq.GraphElementVar.Name + ".visited[" + setVisSeq.VisitedFlagVar.Name + "]=" + varVal, "boolean", setVisSeq.Var.Type);
+                }
                 break;
             }
 
             case SequenceType.VFree:
             {
                 SequenceVFree vFreeSeq = (SequenceVFree)seq;
-                // TODO
+                if(!TypesHelper.IsSameOrSubtype(vFreeSeq.VisitedFlagVar.Type, "int", model))
+                {
+                    throw new SequenceParserException("vfree(" + vFreeSeq.VisitedFlagVar.Name + ")", "int", vFreeSeq.VisitedFlagVar.Type);
+                }
                 break;
             }
             
             case SequenceType.VReset:
             {
                 SequenceVReset vResetSeq = (SequenceVReset)seq;
-                // TODO
+                if(!TypesHelper.IsSameOrSubtype(vResetSeq.VisitedFlagVar.Type, "int", model))
+                {
+                    throw new SequenceParserException("vfree(" + vResetSeq.VisitedFlagVar.Name + ")", "int", vResetSeq.VisitedFlagVar.Type);
+                }
                 break;
             }
             
@@ -242,11 +352,16 @@ namespace de.unika.ipd.grGen.lgsp
                 SequenceSetmapAdd addSeq = (SequenceSetmapAdd)seq;
                 if(!addSeq.Setmap.Type.StartsWith("set<") && !addSeq.Setmap.Type.StartsWith("map<"))
                 {
-                    throw new SequenceParserException(addSeq.Setmap.Name, "set or map type", addSeq.Setmap.Type);
+                    throw new SequenceParserException(addSeq.Setmap.Name, addSeq.VarDst==null ? "set type" : "map type", addSeq.Setmap.Type);
+                }
+                if(addSeq.VarDst!=null && TypesHelper.ExtractDst(addSeq.Setmap.Type)=="SetValueType")
+                {
+                    throw new SequenceParserException(addSeq.Setmap.Name, "map type", addSeq.Setmap.Type);
                 }
                 if(!TypesHelper.IsSameOrSubtype(addSeq.Var.Type, TypesHelper.ExtractSrc(addSeq.Setmap.Type), model))
                 {
-                    throw new SequenceParserException(addSeq.Setmap.Name+".Add("+addSeq.Var.Name+")", TypesHelper.ExtractSrc(addSeq.Setmap.Type), addSeq.Var.Type);
+                    if(addSeq.VarDst==null) throw new SequenceParserException(addSeq.Setmap.Name+".Add("+addSeq.Var.Name+")", TypesHelper.ExtractSrc(addSeq.Setmap.Type), addSeq.Var.Type);
+                    else throw new SequenceParserException(addSeq.Setmap.Name + ".Add(" + addSeq.Var.Name + "," + addSeq.VarDst.Name + ")", TypesHelper.ExtractSrc(addSeq.Setmap.Type), addSeq.Var.Type);
                 }
                 if(TypesHelper.ExtractDst(addSeq.Setmap.Type) != "SetValueType"
                     && !TypesHelper.IsSameOrSubtype(addSeq.VarDst.Type, TypesHelper.ExtractDst(addSeq.Setmap.Type), model))

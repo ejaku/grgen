@@ -372,8 +372,12 @@ namespace de.unika.ipd.grGen.grShell
                     Console.WriteLine("The variable \"" + ex.RuleName + "\" may neither receive parameters nor return values!");
                     return;
 
+                case SequenceParserError.UnknownAttribute:
+                    Console.WriteLine("Unknown attribute \"" + ex.RuleName + "\"!");
+                    return;
+
                 case SequenceParserError.TypeMismatch:
-                    Console.WriteLine("The variable or function \"" + ex.VariableOrFunctionName + "\" expects:" + ex.ExpectedType + " but is /given " + ex.GivenType + "!");
+                    Console.WriteLine("The construct \"" + ex.VariableOrFunctionName + "\" expects:" + ex.ExpectedType + " but is /given " + ex.GivenType + "!");
                     return;
 
                 default:

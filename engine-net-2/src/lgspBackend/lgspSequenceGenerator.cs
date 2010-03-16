@@ -256,6 +256,18 @@ namespace de.unika.ipd.grGen.lgsp
                     EmitVarIfNew(constToVar.DestVar, source);
                     break;
                 }
+                case SequenceType.AssignAttributeToVar:
+                {
+                    SequenceAssignAttributeToVar attrToVar = (SequenceAssignAttributeToVar)seq;
+                    EmitVarIfNew(attrToVar.DestVar, source);
+                    break;
+                }
+                case SequenceType.AssignVarToAttribute:
+                {
+                    SequenceAssignVarToAttribute varToAttr = (SequenceAssignVarToAttribute)seq;
+                    EmitVarIfNew(varToAttr.DestVar, source);
+                    break;
+                }
 
 				case SequenceType.Rule:
 				case SequenceType.RuleAll:
@@ -805,8 +817,9 @@ namespace de.unika.ipd.grGen.lgsp
                 case SequenceType.AssignMapAccessToVar:
                 {
                     SequenceAssignMapAccessToVar seqMapAccessToVar = (SequenceAssignMapAccessToVar)seq;
+                    String cast = "(" + TypesHelper.XgrsTypeToCSharpType(TypesHelper.ExtractSrc(seqMapAccessToVar.Setmap.Type), model) + ")";
                     source.AppendFront(SetResultVar(seqMapAccessToVar, "false"));
-                    source.AppendFront("if("+GetVar(seqMapAccessToVar.Setmap)+".ContainsKey("+GetVar(seqMapAccessToVar.KeyVar)+")) {\n");
+                    source.AppendFront("if("+GetVar(seqMapAccessToVar.Setmap)+".ContainsKey("+cast+"("+GetVar(seqMapAccessToVar.KeyVar)+"))) {\n");
                     source.Indent();
                     source.AppendFront(SetVar(seqMapAccessToVar.DestVar, GetVar(seqMapAccessToVar.Setmap)+"["+GetVar(seqMapAccessToVar.KeyVar)+"]"));
                     source.AppendFront(SetResultVar(seqMapAccessToVar, "true"));
@@ -845,13 +858,7 @@ namespace de.unika.ipd.grGen.lgsp
 
                 case SequenceType.AssignElemToVar:
                 {
-                    SequenceAssignElemToVar seqElemToVar = (SequenceAssignElemToVar)seq;
-                    source.AppendFront("if(!(graph is NamedGraph)) throw new InvalidOperationException(\"The @-operator can only be used with NamedGraphs!\");\n");
-                    source.AppendFront("IGraphElement elem_"+seqElemToVar.Id+" = ((NamedGraph)namedGraph).GetGraphElement(\"" + seqElemToVar.ElementName + "\");");
-                    source.AppendFront("if(elem_"+seqElemToVar.Id+" == null) throw new InvalidOperationException(\"Graph element does not exist: \"" + seqElemToVar.ElementName + "\"!\");");
-                    source.AppendFront(SetVar(seqElemToVar.DestVar, "elem_"+seqElemToVar.Id));
-                    source.AppendFront(SetResultVar(seqElemToVar, "true"));
-                    break;
+                    throw new Exception("Internal Error: the AssignElemToVar is interpreted only (no NamedGraph available at lgsp level)");
                 }
 
                 case SequenceType.AssignSequenceResultToVar:
@@ -868,6 +875,14 @@ namespace de.unika.ipd.grGen.lgsp
                     SequenceAssignConstToVar seqConstToVar = (SequenceAssignConstToVar)seq;
                     if(seqConstToVar.Constant is bool) {
                         source.AppendFront(SetVar(seqConstToVar.DestVar, (bool)seqConstToVar.Constant==true ? "true" : "false"));
+                    } else if(seqConstToVar.Constant is string && ((string)seqConstToVar.Constant).Contains("::")) {
+                        string strConst = (string)seqConstToVar.Constant;
+                        int separationPos = strConst.IndexOf("::");
+                        string type = strConst.Substring(0, separationPos);
+                        string value = strConst.Substring(separationPos + 2);
+                        source.AppendFront(SetVar(seqConstToVar.DestVar, "GRGEN_MODEL.ENUM_" + type + "." + value));
+                    } else if(seqConstToVar.Constant is string) {
+                        source.AppendFront(SetVar(seqConstToVar.DestVar, "\"" + seqConstToVar.Constant.ToString() + "\""));
                     } else {
                         source.AppendFront(SetVar(seqConstToVar.DestVar, seqConstToVar.Constant.ToString()));
                     }
@@ -878,10 +893,10 @@ namespace de.unika.ipd.grGen.lgsp
                 case SequenceType.AssignAttributeToVar:
                 {
                     SequenceAssignAttributeToVar seqAttrToVar = (SequenceAssignAttributeToVar)seq;
-                    source.AppendFront("IGraphElement elem_" + seqAttrToVar.Id + " = (IGraphElement)" + GetVar(seqAttrToVar.SourceVar) + ";\n");
+                    source.AppendFront("GRGEN_LIBGR.IGraphElement elem_" + seqAttrToVar.Id + " = (GRGEN_LIBGR.IGraphElement)" + GetVar(seqAttrToVar.SourceVar) + ";\n");
                     source.AppendFront("object value_" + seqAttrToVar.Id + " = elem_" + seqAttrToVar.Id + ".GetAttribute(\"" + seqAttrToVar.AttributeName + "\");\n");
-                    source.AppendFront("AttributeType attrType_" + seqAttrToVar.Id + ";\n");
-                    source.AppendFront("value_" + seqAttrToVar.Id + " = DictionaryHelper.IfAttributeOfElementIsDictionaryThenCloneDictionaryValue(elem_" + seqAttrToVar.Id + ", \"" + seqAttrToVar.AttributeName + "\", value_" + seqAttrToVar.Id + ", out attrType_" + seqAttrToVar.Id + ");\n");
+                    source.AppendFront("GRGEN_LIBGR.AttributeType attrType_" + seqAttrToVar.Id + ";\n");
+                    source.AppendFront("value_" + seqAttrToVar.Id + " = GRGEN_LIBGR.DictionaryHelper.IfAttributeOfElementIsDictionaryThenCloneDictionaryValue(elem_" + seqAttrToVar.Id + ", \"" + seqAttrToVar.AttributeName + "\", value_" + seqAttrToVar.Id + ", out attrType_" + seqAttrToVar.Id + ");\n");
                     source.AppendFront(SetVar(seqAttrToVar.DestVar, "value_" + seqAttrToVar.Id));
                     source.AppendFront(SetResultVar(seqAttrToVar, "true"));
                     break;
@@ -891,14 +906,14 @@ namespace de.unika.ipd.grGen.lgsp
                 {
                     SequenceAssignVarToAttribute seqVarToAttr = (SequenceAssignVarToAttribute)seq;
                     source.AppendFront("object value_" + seqVarToAttr.Id + " = " + GetVar(seqVarToAttr.SourceVar) + ";\n");
-                    source.AppendFront("IGraphElement elem_" + seqVarToAttr.Id + " = (IGraphElement)" + GetVar(seqVarToAttr.DestVar) + ";\n");
-                    source.AppendFront("AttributeType attrType_" + seqVarToAttr.Id + ";\n");
-                    source.AppendFront("value_" + seqVarToAttr.Id + " = DictionaryHelper.IfAttributeOfElementIsDictionaryThenCloneDictionaryValue(elem_" + seqVarToAttr.Id + ", \"" + seqVarToAttr.AttributeName + "\", value_" + seqVarToAttr.Id + ", out attrType" + seqVarToAttr.Id + ");\n");
-                    source.AppendFront("AttributeChangeType changeType_" + seqVarToAttr.Id + " = AttributeChangeType.Assign;\n");
-                    source.AppendFront("if(elem_" + seqVarToAttr.Id + " is INode)\n");
-                    source.AppendFront("\tgraph.ChangingNodeAttribute((INode)elem_" + seqVarToAttr.Id + ", attrType_" + seqVarToAttr.Id + ", changeType_" + seqVarToAttr.Id + ", value_" + seqVarToAttr.Id + ", null);\n");
+                    source.AppendFront("GRGEN_LIBGR.IGraphElement elem_" + seqVarToAttr.Id + " = (GRGEN_LIBGR.IGraphElement)" + GetVar(seqVarToAttr.DestVar) + ";\n");
+                    source.AppendFront("GRGEN_LIBGR.AttributeType attrType_" + seqVarToAttr.Id + ";\n");
+                    source.AppendFront("value_" + seqVarToAttr.Id + " = GRGEN_LIBGR.DictionaryHelper.IfAttributeOfElementIsDictionaryThenCloneDictionaryValue(elem_" + seqVarToAttr.Id + ", \"" + seqVarToAttr.AttributeName + "\", value_" + seqVarToAttr.Id + ", out attrType_" + seqVarToAttr.Id + ");\n");
+                    source.AppendFront("GRGEN_LIBGR.AttributeChangeType changeType_" + seqVarToAttr.Id + " = GRGEN_LIBGR.AttributeChangeType.Assign;\n");
+                    source.AppendFront("if(elem_" + seqVarToAttr.Id + " is GRGEN_LIBGR.INode)\n");
+                    source.AppendFront("\tgraph.ChangingNodeAttribute((GRGEN_LIBGR.INode)elem_" + seqVarToAttr.Id + ", attrType_" + seqVarToAttr.Id + ", changeType_" + seqVarToAttr.Id + ", value_" + seqVarToAttr.Id + ", null);\n");
                     source.AppendFront("else\n");
-                    source.AppendFront("\tgraph.ChangingEdgeAttribute((IEdge)elem_" + seqVarToAttr.Id + ", attrType_" + seqVarToAttr.Id + ", changeType_" + seqVarToAttr.Id + ", value_" + seqVarToAttr.Id + ", null);\n");
+                    source.AppendFront("\tgraph.ChangingEdgeAttribute((GRGEN_LIBGR.IEdge)elem_" + seqVarToAttr.Id + ", attrType_" + seqVarToAttr.Id + ", changeType_" + seqVarToAttr.Id + ", value_" + seqVarToAttr.Id + ", null);\n");
                     source.AppendFront("elem_" + seqVarToAttr.Id + ".SetAttribute(\"" + seqVarToAttr.AttributeName + "\", value_" + seqVarToAttr.Id + ");\n");
                     source.AppendFront(SetResultVar(seqVarToAttr, "true"));
                     break; 
@@ -986,8 +1001,12 @@ namespace de.unika.ipd.grGen.lgsp
                     Console.Error.WriteLine("The variable \"" + ex.RuleName + "\" may neither receive parameters nor return values!");
                     return false;
 
+                case SequenceParserError.UnknownAttribute:
+                    Console.WriteLine("Unknown attribute \"" + ex.RuleName + "\"!");
+                    return false;
+
                 case SequenceParserError.TypeMismatch:
-                    Console.Error.WriteLine("The variable or function \"" + ex.VariableOrFunctionName + "\" expects:" + ex.ExpectedType + " but is / is given " + ex.GivenType + "!");
+                    Console.Error.WriteLine("The construct \"" + ex.VariableOrFunctionName + "\" expects:" + ex.ExpectedType + " but is / is given " + ex.GivenType + "!");
                     return false;
 
                 default:

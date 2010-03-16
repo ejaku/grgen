@@ -1,0 +1,8 @@
+using exectype;
+
+rule r
+{
+	modify  {
+		exec(x:A=varia && i:int=0 && y:int=42 && x.visited[i]=y);
+	}
+}

@@ -1,0 +1,8 @@
+using exectype;
+
+rule r
+{
+	modify  {
+		exec(x:foo=A::Bar); // A is not an enum type
+	}
+}

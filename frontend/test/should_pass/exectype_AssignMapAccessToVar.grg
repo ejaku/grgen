@@ -1,0 +1,8 @@
+using exectype;
+
+rule r
+{
+	modify  {
+		exec(m:map<A,HH> =map<A,HH> && n:map<int,foo> =map<int,foo> ;> aa:AA=varia && h:H=m[aa] && k:int=3 && i:foo=n[k]);
+	}
+}

@@ -811,6 +811,22 @@ namespace de.unika.ipd.grGen.libGr
 
         protected override bool ApplyImpl(IGraph graph)
         {
+            if(Constant is string && ((string)Constant).Contains("::"))
+            {
+                string strConst = (string)Constant;
+                int separationPos = strConst.IndexOf("::");
+                string type = strConst.Substring(0, separationPos);
+                string value = strConst.Substring(separationPos+2);
+                foreach(EnumAttributeType attrType in graph.Model.EnumAttributeTypes)
+                {
+                    if(attrType.Name == type)
+                    {
+                        Type enumType = attrType.EnumType;
+                        Constant = Enum.Parse(enumType, value);
+                        break;
+                    }
+                }
+            }
             DestVar.SetVariableValue(Constant, graph);
             return true;
         }
@@ -895,6 +911,7 @@ namespace de.unika.ipd.grGen.libGr
         {
             DestVar = destVar;
             ElementName = elemName;
+            if(ElementName[0]=='\"') ElementName = ElementName.Substring(1, ElementName.Length-2); 
         }
 
         protected override bool ApplyImpl(IGraph graph)
@@ -911,7 +928,7 @@ namespace de.unika.ipd.grGen.libGr
 
         public override IEnumerable<Sequence> Children { get { yield break; } }
         public override int Precedence { get { return 8; } }
-        public override string Symbol { get { return DestVar.Name + "=@<someelem>"; } }
+        public override string Symbol { get { return DestVar.Name + "=@("+ElementName+")"; } }
     }
 
     public class SequenceAssignSequenceResultToVar : Sequence

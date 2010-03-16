@@ -1290,9 +1290,10 @@ simpleSequence[ExecNode xg]
 			MAP LT typeName=typeIdentUse COMMA toTypeName=typeIdentUse GT
 			{ xg.append("map<"+typeName+","+toTypeName+">"); }
 		|
-			TRUE { xg.append("true"); }
+			xgrsConstant[xg]
 		|
-			FALSE { xg.append("false"); }
+			a=AT LPAREN (IDENT | STRING_LITERAL) RPAREN
+			{ reportError(getCoords(a), "a NamedGraph is a GrShell-only construct -> no element names available at lgsp(libgr search plan backend)-level"); }
 		|
 			DEF LPAREN { xg.append("def("); } xgrsVariableList[xg, returns] RPAREN { xg.append(")"); } 
 		|
@@ -1338,6 +1339,17 @@ simpleSequence[ExecNode xg]
 	| IF LBRACE { xg.append("if{"); } xgrs[xg] SEMI { xg.append("; "); } xgrs[xg] (SEMI { xg.append("; "); } xgrs[xg])? RBRACE { xg.append("}"); }
 	| FOR LBRACE { xg.append("for{"); } xgrsEntity[xg] (RARROW { xg.append(" -> "); } xgrsEntity[xg])?
 		IN { xg.append(" in "); } xgrsEntity[xg] SEMI { xg.append("; "); } xgrs[xg] RBRACE { xg.append("}"); }
+	;
+
+xgrsConstant[ExecNode xg]
+	: i=NUM_INTEGER	{ xg.append(i.getText()); }
+	| f=NUM_FLOAT { xg.append(f.getText()); }
+	| d=NUM_DOUBLE { xg.append(d.getText()); }
+	| s=STRING_LITERAL { xg.append(s.getText()); }
+	| tt=TRUE { xg.append(tt.getText()); }
+	| ff=FALSE { xg.append(ff.getText()); }
+	| n=NULL { xg.append(n.getText()); }
+	| tid=typeIdentUse d=DOUBLECOLON id=entIdentUse { xg.append(tid + "::" + id); }
 	;
 	
 parallelCallRule[ExecNode xg, CollectNode<BaseNode> returns]
@@ -2404,6 +2416,7 @@ MINUSMINUS		:	'--'	;
 DOLLAR          :   '$'     ;
 THENLEFT		:	'<;'	;
 THENRIGHT		:	';>'	;
+AT				:   '@'		;
 
 // Whitespace -- ignored
 WS	:	(	' '

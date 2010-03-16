@@ -45,6 +45,11 @@ namespace de.unika.ipd.grGen.libGr
         VariableUsedWithParametersOrReturnParameters,
 
         /// <summary>
+        /// The attribute is not known
+        /// </summary>
+        UnknownAttribute,
+
+        /// <summary>
         /// Type check error
         /// </summary>
         TypeMismatch

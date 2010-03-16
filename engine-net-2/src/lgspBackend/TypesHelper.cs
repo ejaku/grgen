@@ -11,6 +11,8 @@ using de.unika.ipd.grGen.libGr;
 
 namespace de.unika.ipd.grGen.lgsp
 {
+    // TODO: all of this string handling is scruffy, there should be some type representation used throughout the entire backend
+
     public class TypesHelper
     {
         public static String TypeName(GrGenType type)
@@ -47,6 +49,21 @@ namespace de.unika.ipd.grGen.lgsp
                     default: return "GRGEN_MODEL.I" + type.Name;
                 }
             }
+        }
+
+        public static GrGenType GetNodeOrEdgeType(String typeName, IGraphModel model)
+        {
+            foreach(NodeType nodeType in model.NodeModel.Types)
+            {
+                if(nodeType.Name == typeName) return nodeType;
+            }
+
+            foreach(EdgeType edgeType in model.EdgeModel.Types)
+            {
+                if(edgeType.Name == typeName) return edgeType;
+            }
+
+            return null;
         }
 
         public static String DotNetTypeToXgrsType(GrGenType type)
@@ -87,6 +104,33 @@ namespace de.unika.ipd.grGen.lgsp
             return typeName;
         }
 
+        public static String AttributeTypeToXgrsType(AttributeType attributeType)
+        {
+            switch(attributeType.Kind)
+            {
+            case AttributeKind.IntegerAttr:
+                return "int";
+            case AttributeKind.BooleanAttr:
+                return "boolean";
+            case AttributeKind.StringAttr:
+                return "string";
+            case AttributeKind.FloatAttr:
+                return "float";
+            case AttributeKind.DoubleAttr:
+                return "double";
+            case AttributeKind.ObjectAttr:
+                return "object";
+            case AttributeKind.EnumAttr:
+                return attributeType.EnumType.Name;
+            case AttributeKind.SetAttr:
+                return "set<"+AttributeTypeToXgrsType(attributeType.ValueType)+">";
+            case AttributeKind.MapAttr:
+                return "map<" + AttributeTypeToXgrsType(attributeType.KeyType) + "," + AttributeTypeToXgrsType(attributeType.ValueType) + ">";
+            default:
+                return null;
+            }
+        }
+
         public static String DefaultValue(String typeName, IGraphModel model)
         {
             switch (typeName)
@@ -119,6 +163,46 @@ namespace de.unika.ipd.grGen.lgsp
             }
 
             return "null"; // object or node type or edge type
+        }
+
+        public static String XgrsTypeOfConstant(object constant, IGraphModel model)
+        {
+            if(constant is int) {
+                return "int";
+            } else if(constant is bool) {
+                return "boolean";
+            } else if(constant is float) {
+                return "float";
+            } else if(constant is double) {
+                return "double";
+            } else if(constant is string && ((string)constant).Contains("::")) {
+                string strConst = (string)constant;
+                int separationPos = strConst.IndexOf("::");
+                string type = strConst.Substring(0, separationPos);
+                string value = strConst.Substring(separationPos + 2);
+                foreach(EnumAttributeType attrType in model.EnumAttributeTypes)
+                {
+                    if(attrType.Name == type)
+                    {
+                        Type enumType = attrType.EnumType;
+                        foreach(EnumMember enumMember in attrType.Members)
+                        {
+                            if(enumMember.Name == value)
+                            {
+                                return type;
+                            }
+                        }
+                        return "!value " + value + " of enum " + type + " not found";
+                    }
+                }
+                return "!enum "+type+" not found";
+            } else if(constant is string) {
+                return "string";
+            }
+
+            // todo: set/map ? - use set/map constructor set<S>{}/map<S,T>{} instead of set/map assignment, merge into here
+
+            return "object";
         }
 
         public static String ExtractSrc(String setmapType)
@@ -176,40 +260,40 @@ namespace de.unika.ipd.grGen.lgsp
             return "GRGEN_MODEL.I" + type;
         }
 
-        public static bool IsSameOrSubtype(string xgrsTypeLeft, string xgrsTypeRight, IGraphModel model)
+        public static bool IsSameOrSubtype(string xgrsTypeSameOrSub, string xgrsTypeBase, IGraphModel model)
         {
-            if(xgrsTypeLeft == "" || xgrsTypeRight == "")
+            if(xgrsTypeSameOrSub == "" || xgrsTypeBase == "")
                 return true;
 
-            if(xgrsTypeLeft.StartsWith("set<"))
+            if(xgrsTypeSameOrSub.StartsWith("set<"))
             {
-                if(!xgrsTypeRight.StartsWith("set<")) return false;
-                return ExtractSrc(xgrsTypeLeft) == ExtractSrc(xgrsTypeRight);
+                if(!xgrsTypeBase.StartsWith("set<")) return false;
+                return ExtractSrc(xgrsTypeSameOrSub) == ExtractSrc(xgrsTypeBase);
             }
-            if(xgrsTypeLeft.StartsWith("map<"))
+            if(xgrsTypeSameOrSub.StartsWith("map<"))
             {
-                if(!xgrsTypeRight.StartsWith("map<")) return false;
-                return ExtractSrc(xgrsTypeLeft) == ExtractSrc(xgrsTypeRight) && ExtractDst(xgrsTypeLeft) == ExtractDst(xgrsTypeRight);
+                if(!xgrsTypeBase.StartsWith("map<")) return false;
+                return ExtractSrc(xgrsTypeSameOrSub) == ExtractSrc(xgrsTypeBase) && ExtractDst(xgrsTypeSameOrSub) == ExtractDst(xgrsTypeBase);
             }
 
-            if(xgrsTypeLeft == "int" || xgrsTypeLeft == "string" || xgrsTypeLeft == "float" || xgrsTypeLeft == "double" || xgrsTypeLeft == "object") 
-                return xgrsTypeLeft==xgrsTypeRight;
-            if(xgrsTypeLeft == "bool" || xgrsTypeLeft == "boolean") 
-                return xgrsTypeRight=="bool" || xgrsTypeRight=="boolean";
+            if(xgrsTypeSameOrSub == "int" || xgrsTypeSameOrSub == "string" || xgrsTypeSameOrSub == "float" || xgrsTypeSameOrSub == "double" || xgrsTypeSameOrSub == "object") 
+                return xgrsTypeSameOrSub==xgrsTypeBase;
+            if(xgrsTypeSameOrSub == "bool" || xgrsTypeSameOrSub == "boolean") 
+                return xgrsTypeBase=="bool" || xgrsTypeBase=="boolean";
 
             foreach(EnumAttributeType enumAttrType in model.EnumAttributeTypes)
             {
-                if(enumAttrType.Name == xgrsTypeLeft)
-                    return xgrsTypeLeft == xgrsTypeRight;
+                if(enumAttrType.Name == xgrsTypeSameOrSub)
+                    return xgrsTypeSameOrSub == xgrsTypeBase;
             }
 
             foreach(NodeType leftNodeType in model.NodeModel.Types)
             {
-                if(leftNodeType.Name == xgrsTypeLeft)
+                if(leftNodeType.Name == xgrsTypeSameOrSub)
                 {
                     foreach(NodeType rightNodeType in model.NodeModel.Types)
                     {
-                        if(rightNodeType.Name == xgrsTypeRight)
+                        if(rightNodeType.Name == xgrsTypeBase)
                         {
                             return leftNodeType.IsA(rightNodeType);
                         }
@@ -219,11 +303,11 @@ namespace de.unika.ipd.grGen.lgsp
 
             foreach(EdgeType leftEdgeType in model.EdgeModel.Types)
             {
-                if(leftEdgeType.Name == xgrsTypeLeft)
+                if(leftEdgeType.Name == xgrsTypeSameOrSub)
                 {
                     foreach(EdgeType rightEdgeType in model.EdgeModel.Types)
                     {
-                        if(rightEdgeType.Name == xgrsTypeRight)
+                        if(rightEdgeType.Name == xgrsTypeBase)
                         {
                             return leftEdgeType.IsA(rightEdgeType);
                         }

@@ -1,0 +1,8 @@
+using exectype;
+
+rule r
+{
+	modify  {
+		exec(m:int=3 ;> aa:AA=varia && h=m[aa]); // must be map type
+	}
+}

@@ -1,0 +1,8 @@
+using exectype;
+
+rule r
+{
+	modify  {
+		exec(x:A=varia ;> f:foo=x.f && i:string=x.i); // x.i is integer
+	}
+}

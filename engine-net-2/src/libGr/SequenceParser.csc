@@ -101,6 +101,7 @@ TOKEN: {
 |   < LBRACE: "{" >
 |   < RBRACE: "}" >
 |	< COLON: ":" >
+|	< DOUBLECOLON: "::" >
 |   < PERCENT: "%" >
 |   < QUESTIONMARK: "?" >
 |	< AT : "@" >
@@ -123,6 +124,7 @@ TOKEN: {
 |   < VISITED: "visited" >
 |   < VRESET: "vreset" >
 |   < EMIT: "emit" >
+|   < NULL: "null" >
 }
 
 TOKEN: {
@@ -246,16 +248,16 @@ void RuleParameter(List<SequenceVariable> paramVars, List<Object> paramConsts):
 	object constant;
 }
 {
+	LOOKAHEAD(2) constant=Constant()
+	{
+		paramVars.Add(null);
+		paramConsts.Add(constant);
+	}
+|
 	var=VariableUse()
 	{
 		paramVars.Add(var);
 		paramConsts.Add(null);
-	}
-|
-	constant=Constant()
-	{
-		paramVars.Add(null);
-		paramConsts.Add(constant);
 	}
 }
 
@@ -263,6 +265,7 @@ object Constant():
 {
 	object constant;
 	long number;
+	string tid, id;
 }
 {
 	(
@@ -277,6 +280,10 @@ object Constant():
 		<TRUE> { constant = true; }
 	|
 		<FALSE> { constant = false; }
+	|
+		<NULL> { constant = null; }
+	| 
+		tid=Word() "::" id=Word() { constant = tid+"::"+id; }
 	)
 	{
 		return constant;
@@ -604,15 +611,15 @@ Sequence SimpleSequence():
             throw new ParseException("the destination variable(s) of a rule result assignment must be enclosed in parenthesis");
         }
 	|
-        fromVar=VariableUse()
-        {
-            return new SequenceAssignVarToVar(toVar, fromVar);
-        }
-	|
-		constant=Constant()
+		LOOKAHEAD(2) constant=Constant()
 		{
 			return new SequenceAssignConstToVar(toVar, constant);
 		}
+    |
+		fromVar=VariableUse()
+        {
+            return new SequenceAssignVarToVar(toVar, fromVar);
+        }
     |
         "@" "(" elemName=Text() ")"
         {
