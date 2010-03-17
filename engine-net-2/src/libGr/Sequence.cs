@@ -20,7 +20,6 @@ namespace de.unika.ipd.grGen.libGr
         ThenLeft, ThenRight, LazyOr, LazyAnd, StrictOr, Xor, StrictAnd, Not, IterationMin, IterationMinMax,
         Rule, RuleAll, Def, True, False, VarPredicate,
         AssignVAllocToVar, AssignSetmapSizeToVar, AssignSetmapEmptyToVar, AssignMapAccessToVar,
-        AssignSetCreationToVar, AssignMapCreationToVar,
         AssignVarToVar, AssignElemToVar, AssignSequenceResultToVar,
         AssignConstToVar, AssignAttributeToVar, AssignVarToAttribute,
         IsVisited, SetVisited, VFree, VReset, Emit,
@@ -722,58 +721,6 @@ namespace de.unika.ipd.grGen.libGr
         public override string Symbol { get { return DestVar.Name + "=" + Setmap.Name + "[" + KeyVar.Name + "]"; } }
     }
     
-    public class SequenceAssignSetCreationToVar : Sequence
-    {
-        public SequenceVariable DestVar;
-        public String TypeName;
-
-        public SequenceAssignSetCreationToVar(SequenceVariable destVar, String typeName)
-            : base(SequenceType.AssignSetCreationToVar)
-        {
-            DestVar = destVar;
-            TypeName = typeName;
-        }
-
-        protected override bool ApplyImpl(IGraph graph)
-        {
-            Type srcType = DictionaryHelper.GetTypeFromNameForDictionary(TypeName, graph);
-            Type dstType = typeof(de.unika.ipd.grGen.libGr.SetValueType);
-            DestVar.SetVariableValue(DictionaryHelper.NewDictionary(srcType, dstType), graph);
-            return true;
-        }
-
-        public override IEnumerable<Sequence> Children { get { yield break; } }
-        public override int Precedence { get { return 8; } }
-        public override string Symbol { get { return DestVar.Name + "= set<" + TypeName + ">"; } }
-    }
-    
-    public class SequenceAssignMapCreationToVar : Sequence
-    {
-        public SequenceVariable DestVar;
-        public String TypeName;
-        public String TypeNameDst;
-
-        public SequenceAssignMapCreationToVar(SequenceVariable destVar, String typeName, String typeNameDst)
-            : base(SequenceType.AssignMapCreationToVar)
-        {
-            DestVar = destVar;
-            TypeName = typeName;
-            TypeNameDst = typeNameDst;
-        }
-
-        protected override bool ApplyImpl(IGraph graph)
-        {
-            Type srcType = DictionaryHelper.GetTypeFromNameForDictionary(TypeName, graph);
-            Type dstType = DictionaryHelper.GetTypeFromNameForDictionary(TypeNameDst, graph);
-            DestVar.SetVariableValue(DictionaryHelper.NewDictionary(srcType, dstType), graph);
-            return true;
-        }
-
-        public override IEnumerable<Sequence> Children { get { yield break; } }
-        public override int Precedence { get { return 8; } }
-        public override string Symbol { get { return DestVar.Name + "= map<" + TypeName + "," + TypeNameDst + ">"; } }
-    }
-
     public class SequenceAssignVarToVar : Sequence
     {
         public SequenceVariable DestVar;
@@ -800,7 +747,13 @@ namespace de.unika.ipd.grGen.libGr
     public class SequenceAssignConstToVar : Sequence
     {
         public SequenceVariable DestVar;
-        public object Constant;
+        public object Constant; // the string representation if not yet interpreted and an enum value, set constructor, map constructor
+                                // otherwise the value; i.e. enum/set/map are rewritten to the value with the first interpretation
+                                // that's safe regarding compiled and interpreted expecting different things 
+                                // because a sequence can't be both, compiled and interpreted
+                                // for interpreted only the value is of interest, but can't be computed in the constructor due to missing model
+                                // but it's not safe regarding string vs enum/set/map because a string my contain the content interpreted as defining enum/set/map
+                                // -> todo: distinguish a real string because of "" and a helper string for enum,set,map; the content inspection is to fragile
 
         public SequenceAssignConstToVar(SequenceVariable destVar, object constant)
             : base(SequenceType.AssignConstToVar)
@@ -827,9 +780,58 @@ namespace de.unika.ipd.grGen.libGr
                     }
                 }
             }
+            else if(Constant is string && ((string)Constant).StartsWith("set<") && ((string)Constant).EndsWith(">"))
+            {
+                Type srcType = DictionaryHelper.GetTypeFromNameForDictionary(ExtractSrc((string)Constant), graph);
+                Type dstType = typeof(de.unika.ipd.grGen.libGr.SetValueType);
+                if(srcType!=null)
+                    Constant = DictionaryHelper.NewDictionary(srcType, dstType);
+            }
+            else if(Constant is string && ((string)Constant).StartsWith("map<") && ((string)Constant).EndsWith(">"))
+            {
+                Type srcType = DictionaryHelper.GetTypeFromNameForDictionary(ExtractSrc((string)Constant), graph);
+                Type dstType = DictionaryHelper.GetTypeFromNameForDictionary(ExtractDst((string)Constant), graph);
+                if(srcType!=null && dstType!=null) 
+                    Constant = DictionaryHelper.NewDictionary(srcType, dstType);
+            }
             DestVar.SetVariableValue(Constant, graph);
             return true;
         }
+
+        public static String ExtractSrc(String setmapType)
+        {
+            if(setmapType == null) return null;
+            if(setmapType.StartsWith("set<")) // map<srcType>
+            {
+                setmapType = setmapType.Remove(0, 4);
+                setmapType = setmapType.Remove(setmapType.Length - 1);
+                return setmapType;
+            }
+            else if(setmapType.StartsWith("map<")) // map<srcType,dstType>
+            {
+                setmapType = setmapType.Remove(0, 4);
+                setmapType = setmapType.Remove(setmapType.IndexOf(","));
+                return setmapType;
+            }
+            return null;
+        }
+
+        public static String ExtractDst(String setmapType)
+        {
+            if(setmapType == null) return null;
+            if(setmapType.StartsWith("set<")) // set<srcType>
+            {
+                return "SetValueType";
+            }
+            else if(setmapType.StartsWith("map<")) // map<srcType,dstType>
+            {
+                setmapType = setmapType.Remove(0, setmapType.IndexOf(",") + 1);
+                setmapType = setmapType.Remove(setmapType.Length - 1);
+                return setmapType;
+            }
+            return null;
+        }
+
 
         public override IEnumerable<Sequence> Children { get { yield break; } }
         public override int Precedence { get { return 8; } }

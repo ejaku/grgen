@@ -132,8 +132,6 @@ namespace de.unika.ipd.grGen.libGr
             case SequenceType.AssignSetmapSizeToVar:
             case SequenceType.AssignSetmapEmptyToVar:
             case SequenceType.AssignMapAccessToVar:
-            case SequenceType.AssignSetCreationToVar:
-            case SequenceType.AssignMapCreationToVar:
             case SequenceType.IsVisited:
             case SequenceType.SetVisited:
             case SequenceType.VFree:

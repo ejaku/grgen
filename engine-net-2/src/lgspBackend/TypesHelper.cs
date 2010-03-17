@@ -196,11 +196,13 @@ namespace de.unika.ipd.grGen.lgsp
                     }
                 }
                 return "!enum "+type+" not found";
+            } else if(constant is string && ((string)constant).StartsWith("set<") && ((string)constant).EndsWith(">")) {
+                return "set<"+ExtractSrc((string)constant)+">";
+            } else if(constant is string && ((string)constant).StartsWith("map<") && ((string)constant).EndsWith(">")) {
+                return "map<"+ExtractSrc((string)constant)+","+ExtractDst((string)constant)+">";
             } else if(constant is string) {
                 return "string";
             }
-
-            // todo: set/map ? - use set/map constructor set<S>{}/map<S,T>{} instead of set/map assignment, merge into here
 
             return "object";
         }

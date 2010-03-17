@@ -67,6 +67,8 @@ namespace de.unika.ipd.grGen.libGr
         /// <returns>The type object corresponding to the given string, null if type was not found</returns>
         public static Type GetTypeFromNameForDictionary(String typeName, IGraphModel model)
         {
+            if(typeName == null) return null;
+
             switch (typeName)
             {
                 case "boolean": return typeof(bool);

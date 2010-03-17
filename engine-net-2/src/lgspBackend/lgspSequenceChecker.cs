@@ -159,7 +159,6 @@ namespace de.unika.ipd.grGen.lgsp
                     throw new SequenceParserException(assignSeq.DestVar.Name + "=" + assignSeq.Constant.ToString(), assignSeq.DestVar.Type, TypesHelper.XgrsTypeOfConstant(assignSeq.Constant, model));
                 }
                 break;
-
             }
 
             case SequenceType.AssignAttributeToVar:
@@ -228,13 +227,13 @@ namespace de.unika.ipd.grGen.lgsp
             case SequenceType.AssignSetmapSizeToVar:
             {
                 SequenceAssignSetmapSizeToVar assignSeq = (SequenceAssignSetmapSizeToVar)seq;
-                if(TypesHelper.ExtractSrc(assignSeq.Setmap.Type) == null || TypesHelper.ExtractDst(assignSeq.Setmap.Type) == null)
+                if(assignSeq.Setmap.Type != "" && (TypesHelper.ExtractSrc(assignSeq.Setmap.Type) == null || TypesHelper.ExtractDst(assignSeq.Setmap.Type) == null))
                 {
-                    throw new SequenceParserException(assignSeq.DestVar.Name + "=" + assignSeq.Setmap + ".size()", "set<S> or map<S,T> type", assignSeq.Setmap.Type);
+                    throw new SequenceParserException(assignSeq.DestVar.Name + "=" + assignSeq.Setmap.Name + ".size()", "set<S> or map<S,T> type", assignSeq.Setmap.Type);
                 }
                 if(!TypesHelper.IsSameOrSubtype(assignSeq.DestVar.Type, "int", model))
                 {
-                    throw new SequenceParserException(assignSeq.DestVar.Name + "=" + assignSeq.Setmap + ".size()", "int", assignSeq.DestVar.Type);
+                    throw new SequenceParserException(assignSeq.DestVar.Name + "=" + assignSeq.Setmap.Name + ".size()", "int", assignSeq.DestVar.Type);
                 }
                 break;
             }
@@ -242,13 +241,13 @@ namespace de.unika.ipd.grGen.lgsp
             case SequenceType.AssignSetmapEmptyToVar:
             {
                 SequenceAssignSetmapEmptyToVar assignSeq = (SequenceAssignSetmapEmptyToVar)seq;
-                if(TypesHelper.ExtractSrc(assignSeq.Setmap.Type) == null || TypesHelper.ExtractDst(assignSeq.Setmap.Type) == null)
+                if(assignSeq.Setmap.Type!="" && (TypesHelper.ExtractSrc(assignSeq.Setmap.Type)==null || TypesHelper.ExtractDst(assignSeq.Setmap.Type)==null))
                 {
-                    throw new SequenceParserException(assignSeq.DestVar.Name + "=" + assignSeq.Setmap + ".empty()", "set<S> or map<S,T> type", assignSeq.Setmap.Type);
+                    throw new SequenceParserException(assignSeq.DestVar.Name + "=" + assignSeq.Setmap.Name + ".empty()", "set<S> or map<S,T> type", assignSeq.Setmap.Type);
                 }
                 if(!TypesHelper.IsSameOrSubtype(assignSeq.DestVar.Type, "boolean", model))
                 {
-                    throw new SequenceParserException(assignSeq.DestVar.Name + "=" + assignSeq.Setmap + ".empty()", "boolean", assignSeq.DestVar.Type);
+                    throw new SequenceParserException(assignSeq.DestVar.Name + "=" + assignSeq.Setmap.Name + ".empty()", "boolean", assignSeq.DestVar.Type);
                 }
                 break;
             }
@@ -259,35 +258,15 @@ namespace de.unika.ipd.grGen.lgsp
                 if(assignSeq.Setmap.Type == "") break; // we can't check source and destination types if the variable is untyped, only runtime-check possible
                 if(TypesHelper.ExtractSrc(assignSeq.Setmap.Type)==null || TypesHelper.ExtractDst(assignSeq.Setmap.Type)==null || TypesHelper.ExtractDst(assignSeq.Setmap.Type)=="SetValueType")
                 {
-                    throw new SequenceParserException(assignSeq.DestVar.Name + "=" + assignSeq.Setmap + "[" + assignSeq.KeyVar + "]", "map<S,T>", assignSeq.Setmap.Type);
+                    throw new SequenceParserException(assignSeq.DestVar.Name + "=" + assignSeq.Setmap.Name + "[" + assignSeq.KeyVar.Name + "]", "map<S,T>", assignSeq.Setmap.Type);
                 }
                 if(!TypesHelper.IsSameOrSubtype(assignSeq.KeyVar.Type, TypesHelper.ExtractSrc(assignSeq.Setmap.Type), model))
                 {
-                    throw new SequenceParserException(assignSeq.DestVar.Name + "=" + assignSeq.Setmap + "[" + assignSeq.KeyVar + "]", TypesHelper.ExtractSrc(assignSeq.Setmap.Type), assignSeq.KeyVar.Type);
+                    throw new SequenceParserException(assignSeq.DestVar.Name + "=" + assignSeq.Setmap.Name + "[" + assignSeq.KeyVar.Name + "]", TypesHelper.ExtractSrc(assignSeq.Setmap.Type), assignSeq.KeyVar.Type);
                 }
                 if(!TypesHelper.IsSameOrSubtype(TypesHelper.ExtractDst(assignSeq.Setmap.Type), assignSeq.DestVar.Type, model))
                 {
-                    throw new SequenceParserException(assignSeq.DestVar.Name + "=" + assignSeq.Setmap + "[" + assignSeq.KeyVar + "]", assignSeq.DestVar.Type, TypesHelper.ExtractDst(assignSeq.Setmap.Type));
-                }
-                break;
-            }
-
-            case SequenceType.AssignSetCreationToVar:
-            {
-                SequenceAssignSetCreationToVar assignSeq = (SequenceAssignSetCreationToVar)seq;
-                if(!TypesHelper.IsSameOrSubtype("set<"+assignSeq.TypeName+">", assignSeq.DestVar.Type, model))
-                {
-                    throw new SequenceParserException(assignSeq.DestVar.Name + "= set<" + assignSeq.TypeName + ">", assignSeq.DestVar.Type, "set<" + assignSeq.TypeName + ">");
-                }
-                break;
-            }
-
-            case SequenceType.AssignMapCreationToVar:
-            {
-                SequenceAssignMapCreationToVar assignSeq = (SequenceAssignMapCreationToVar)seq;
-                if(!TypesHelper.IsSameOrSubtype("map<" + assignSeq.TypeName + "," + assignSeq.TypeNameDst + ">", assignSeq.DestVar.Type, model))
-                {
-                    throw new SequenceParserException(assignSeq.DestVar.Name + "= map<" + assignSeq.TypeName + "," + assignSeq.TypeNameDst +">", assignSeq.DestVar.Type, "map<" + assignSeq.TypeName + "," + assignSeq.TypeNameDst + ">");
+                    throw new SequenceParserException(assignSeq.DestVar.Name + "=" + assignSeq.Setmap.Name + "[" + assignSeq.KeyVar.Name + "]", assignSeq.DestVar.Type, TypesHelper.ExtractDst(assignSeq.Setmap.Type));
                 }
                 break;
             }
@@ -350,6 +329,7 @@ namespace de.unika.ipd.grGen.lgsp
             case SequenceType.SetmapAdd:
             {
                 SequenceSetmapAdd addSeq = (SequenceSetmapAdd)seq;
+                if(addSeq.Setmap.Type == "") break; // we can't check further types if the variable is untyped, only runtime-check possible
                 if(!addSeq.Setmap.Type.StartsWith("set<") && !addSeq.Setmap.Type.StartsWith("map<"))
                 {
                     throw new SequenceParserException(addSeq.Setmap.Name, addSeq.VarDst==null ? "set type" : "map type", addSeq.Setmap.Type);
@@ -374,7 +354,7 @@ namespace de.unika.ipd.grGen.lgsp
             case SequenceType.SetmapRem:
             {
                 SequenceSetmapRem remSeq = (SequenceSetmapRem)seq;
-                if(!remSeq.Setmap.Type.StartsWith("set<") && !remSeq.Setmap.Type.StartsWith("map<"))
+                if(remSeq.Setmap.Type!="" && !remSeq.Setmap.Type.StartsWith("set<") && !remSeq.Setmap.Type.StartsWith("map<"))
                 {
                     throw new SequenceParserException(remSeq.Setmap.Name, "set or map type", remSeq.Setmap.Type);
                 }
@@ -388,7 +368,7 @@ namespace de.unika.ipd.grGen.lgsp
             case SequenceType.SetmapClear:
             {
                 SequenceSetmapClear clrSeq = (SequenceSetmapClear)seq;
-                if(!clrSeq.Setmap.Type.StartsWith("set<") && !clrSeq.Setmap.Type.StartsWith("map<"))
+                if(clrSeq.Setmap.Type!="" && !clrSeq.Setmap.Type.StartsWith("set<") && !clrSeq.Setmap.Type.StartsWith("map<"))
                 {
                     throw new SequenceParserException(clrSeq.Setmap.Name, "set or map type", clrSeq.Setmap.Type);
                 }
@@ -398,7 +378,7 @@ namespace de.unika.ipd.grGen.lgsp
             case SequenceType.InSetmap:
             {
                 SequenceIn inSeq = (SequenceIn)seq;
-                if(!inSeq.Setmap.Type.StartsWith("set<") && !inSeq.Setmap.Type.StartsWith("map<"))
+                if(inSeq.Setmap.Type!="" && !inSeq.Setmap.Type.StartsWith("set<") && !inSeq.Setmap.Type.StartsWith("map<"))
                 {
                     throw new SequenceParserException(inSeq.Setmap.Name, "set or map type", inSeq.Setmap.Type);
                 }

@@ -3,6 +3,6 @@ using exectype;
 rule r
 {
 	modify  {
-		exec(x:set<HH> =set<HH>{});
+		exec(y=x.m);
 	}
 }

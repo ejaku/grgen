@@ -231,18 +231,6 @@ namespace de.unika.ipd.grGen.lgsp
                     EmitVarIfNew(seqMapAccessToVar.DestVar, source); 
                     break;
                 }
-                case SequenceType.AssignSetCreationToVar:
-                {
-                    SequenceAssignSetCreationToVar seqToVar = (SequenceAssignSetCreationToVar)seq;
-                    EmitVarIfNew(seqToVar.DestVar, source);
-                    break;
-                }
-                case SequenceType.AssignMapCreationToVar:
-                {
-                    SequenceAssignMapCreationToVar seqToVar = (SequenceAssignMapCreationToVar)seq;
-                    EmitVarIfNew(seqToVar.DestVar, source);
-                    break;
-                }
 				case SequenceType.AssignSequenceResultToVar:
 				{
 					SequenceAssignSequenceResultToVar seqToVar = (SequenceAssignSequenceResultToVar) seq;
@@ -686,14 +674,31 @@ namespace de.unika.ipd.grGen.lgsp
                 case SequenceType.SetmapAdd:
                 {
                     SequenceSetmapAdd seqAdd = (SequenceSetmapAdd)seq;
+                    string dictionary;
+                    string contains;
+                    string sourceValue;
+                    string destinationValue = null;
+                    if(seqAdd.Setmap.Type == "") {
+                        dictionary = "((System.Collections.IDictionary)" + GetVar(seqAdd.Setmap) + ")";
+                        contains = "Contains";
+                        sourceValue = GetVar(seqAdd.Var);
+                        if(seqAdd.VarDst!=null) destinationValue = GetVar(seqAdd.VarDst);
+                    } else {
+                        dictionary = GetVar(seqAdd.Setmap);
+                        contains = "ContainsKey";
+                        string dictSrcType = TypesHelper.XgrsTypeToCSharpType(TypesHelper.ExtractSrc(seqAdd.Setmap.Type), model);
+                        sourceValue = "((" + dictSrcType + ")" + GetVar(seqAdd.Var) +")";
+                        string dictDstType = TypesHelper.XgrsTypeToCSharpType(TypesHelper.ExtractDst(seqAdd.Setmap.Type), model);
+                        if(seqAdd.VarDst!=null) destinationValue = "((" + dictDstType + ")" + GetVar(seqAdd.VarDst) + ")";
+                    }
 
-                    source.AppendFront("if("+GetVar(seqAdd.Setmap)+".ContainsKey("+GetVar(seqAdd.Var)+"))\n");
+                    source.AppendFront("if("+dictionary+"."+contains+"("+sourceValue+"))\n");
 					source.AppendFront("{\n");
 					source.Indent();
                     if(seqAdd.VarDst==null) {
-                        source.AppendFront(GetVar(seqAdd.Setmap)+"["+GetVar(seqAdd.Var)+"] = null;\n");
+                        source.AppendFront(dictionary+"["+sourceValue+"] = null;\n");
                     } else {
-                        source.AppendFront(GetVar(seqAdd.Setmap)+"["+GetVar(seqAdd.Var)+"] = "+GetVar(seqAdd.VarDst)+";\n");
+                        source.AppendFront(dictionary+"["+sourceValue+"] = "+destinationValue+";\n");
                     }
 					source.Unindent();
 					source.AppendFront("}\n");
@@ -701,9 +706,9 @@ namespace de.unika.ipd.grGen.lgsp
 					source.AppendFront("{\n");
 					source.Indent();
                     if(seqAdd.VarDst==null) {
-                        source.AppendFront(GetVar(seqAdd.Setmap)+".Add("+GetVar(seqAdd.Var)+", null);\n");
+                        source.AppendFront(dictionary+".Add("+sourceValue+", null);\n");
                     } else {
-                        source.AppendFront(GetVar(seqAdd.Setmap)+".Add("+GetVar(seqAdd.Var)+", "+GetVar(seqAdd.VarDst)+");\n");
+                        source.AppendFront(dictionary+".Add("+sourceValue+", "+destinationValue+");\n");
                     }
 					source.Unindent();
 					source.AppendFront("}\n");
@@ -715,7 +720,17 @@ namespace de.unika.ipd.grGen.lgsp
                 case SequenceType.SetmapRem:
                 {
                     SequenceSetmapRem seqDel = (SequenceSetmapRem)seq;
-                    source.AppendFront(GetVar(seqDel.Setmap)+".Remove("+GetVar(seqDel.Var)+");\n");
+                    string dictionary;
+                    string sourceValue;
+                    if(seqDel.Setmap.Type == "") {
+                        dictionary = "((System.Collections.IDictionary)" + GetVar(seqDel.Setmap) + ")";
+                        sourceValue = GetVar(seqDel.Var);
+                    } else {
+                        dictionary = GetVar(seqDel.Setmap);
+                        string dictSrcType = TypesHelper.XgrsTypeToCSharpType(TypesHelper.ExtractSrc(seqDel.Setmap.Type), model);
+                        sourceValue = "((" + dictSrcType + ")" + GetVar(seqDel.Var) +")";
+                    }
+                    source.AppendFront(dictionary+".Remove("+sourceValue+");\n");
                     source.AppendFront(SetResultVar(seqDel, "true"));
                     break;
                 }
@@ -723,7 +738,13 @@ namespace de.unika.ipd.grGen.lgsp
                 case SequenceType.SetmapClear:
                 {
                     SequenceSetmapClear seqClear = (SequenceSetmapClear)seq;
-                    source.AppendFront(GetVar(seqClear.Setmap)+".Clear();\n");
+                    string dictionary;
+                    if(seqClear.Setmap.Type == "") {
+                        dictionary = "((System.Collections.IDictionary)" + GetVar(seqClear.Setmap) + ")";
+                    } else {
+                        dictionary = GetVar(seqClear.Setmap);
+                    }
+                    source.AppendFront(dictionary+".Clear();\n");
                     source.AppendFront(SetResultVar(seqClear, "true"));
                     break;
                 }
@@ -731,7 +752,20 @@ namespace de.unika.ipd.grGen.lgsp
                 case SequenceType.InSetmap:
                 {
                     SequenceIn seqIn = (SequenceIn)seq;
-                    source.AppendFront(SetResultVar(seqIn, GetVar(seqIn.Setmap)+".ContainsKey("+GetVar(seqIn.Var)+")"));
+                    string dictionary;
+                    string contains;
+                    string sourceValue;
+                    if(seqIn.Setmap.Type == "") {
+                        dictionary = "((System.Collections.IDictionary)" + GetVar(seqIn.Setmap) + ")";
+                        contains = "Contains";
+                        sourceValue = GetVar(seqIn.Var);
+                    } else {
+                        dictionary = GetVar(seqIn.Setmap);
+                        contains = "ContainsKey";
+                        string dictSrcType = TypesHelper.XgrsTypeToCSharpType(TypesHelper.ExtractSrc(seqIn.Setmap.Type), model);
+                        sourceValue = "((" + dictSrcType + ")" + GetVar(seqIn.Var) +")";
+                    }
+                    source.AppendFront(SetResultVar(seqIn, dictionary+"."+contains+"("+sourceValue+")"));
                     break;
                 }
 
@@ -750,7 +784,7 @@ namespace de.unika.ipd.grGen.lgsp
                     SequenceSetVisited seqSetVisited = (SequenceSetVisited)seq;
                     if(seqSetVisited.Var!=null) {
                         source.AppendFront("graph.SetVisited((GRGEN_LIBGR.IGraphElement)"+GetVar(seqSetVisited.GraphElementVar)
-                            +", (int)"+GetVar(seqSetVisited.VisitedFlagVar)+", "+GetVar(seqSetVisited.Var)+");\n");
+                            +", (int)"+GetVar(seqSetVisited.VisitedFlagVar)+", (bool)"+GetVar(seqSetVisited.Var)+");\n");
                     } else {
                         source.AppendFront("graph.SetVisited((GRGEN_LIBGR.IGraphElement)"+GetVar(seqSetVisited.GraphElementVar)
                             +", (int)"+GetVar(seqSetVisited.VisitedFlagVar)+", "+(seqSetVisited.Val?"true":"false")+");\n");
@@ -801,7 +835,13 @@ namespace de.unika.ipd.grGen.lgsp
                 case SequenceType.AssignSetmapSizeToVar:
                 {
                     SequenceAssignSetmapSizeToVar seqSetmapSizeToVar = (SequenceAssignSetmapSizeToVar)seq;
-                    source.AppendFront(SetVar(seqSetmapSizeToVar.DestVar, GetVar(seqSetmapSizeToVar.Setmap)+".Count")); 
+                    String dictionary;
+                    if(seqSetmapSizeToVar.Setmap.Type == "") {
+                        dictionary = "((System.Collections.IDictionary)" + GetVar(seqSetmapSizeToVar.Setmap) + ")";
+                    } else {
+                        dictionary = GetVar(seqSetmapSizeToVar.Setmap);
+                    }
+                    source.AppendFront(SetVar(seqSetmapSizeToVar.DestVar, dictionary+".Count")); 
                     source.AppendFront(SetResultVar(seqSetmapSizeToVar, "true"));
                     break;
                 }
@@ -809,42 +849,40 @@ namespace de.unika.ipd.grGen.lgsp
                 case SequenceType.AssignSetmapEmptyToVar:
                 {
                     SequenceAssignSetmapEmptyToVar seqSetmapEmptyToVar = (SequenceAssignSetmapEmptyToVar)seq;
-                    source.AppendFront(SetVar(seqSetmapEmptyToVar.DestVar, GetVar(seqSetmapEmptyToVar.Setmap)+".Count==0"));
+                    String dictionary;
+                    if(seqSetmapEmptyToVar.Setmap.Type == "") {
+                        dictionary = "((System.Collections.IDictionary)" + GetVar(seqSetmapEmptyToVar.Setmap) + ")";
+                    } else {
+                        dictionary = GetVar(seqSetmapEmptyToVar.Setmap);
+                    }
+                    source.AppendFront(SetVar(seqSetmapEmptyToVar.DestVar, dictionary +".Count==0"));
                     source.AppendFront(SetResultVar(seqSetmapEmptyToVar, "true"));
                     break;
                 }
 
                 case SequenceType.AssignMapAccessToVar:
                 {
-                    SequenceAssignMapAccessToVar seqMapAccessToVar = (SequenceAssignMapAccessToVar)seq;
-                    String cast = "(" + TypesHelper.XgrsTypeToCSharpType(TypesHelper.ExtractSrc(seqMapAccessToVar.Setmap.Type), model) + ")";
+                    SequenceAssignMapAccessToVar seqMapAccessToVar = (SequenceAssignMapAccessToVar)seq; // todo: dst type unknownTypesHelper.ExtractSrc(seqMapAccessToVar.Setmap.Type)
                     source.AppendFront(SetResultVar(seqMapAccessToVar, "false"));
-                    source.AppendFront("if("+GetVar(seqMapAccessToVar.Setmap)+".ContainsKey("+cast+"("+GetVar(seqMapAccessToVar.KeyVar)+"))) {\n");
+                    string dictionary;
+                    string contains;
+                    string sourceValue;
+                    if(seqMapAccessToVar.Setmap.Type == "") {
+                        dictionary = "((System.Collections.IDictionary)" + GetVar(seqMapAccessToVar.Setmap) + ")";
+                        contains = "Contains";
+                        sourceValue = GetVar(seqMapAccessToVar.KeyVar);
+                    } else {
+                        dictionary = GetVar(seqMapAccessToVar.Setmap);
+                        contains = "ContainsKey";
+                        string dictSrcType = TypesHelper.XgrsTypeToCSharpType(TypesHelper.ExtractSrc(seqMapAccessToVar.Setmap.Type), model);
+                        sourceValue = "((" + dictSrcType + ")" + GetVar(seqMapAccessToVar.KeyVar) +")";
+                    }
+                    source.AppendFront("if(" + dictionary + "." + contains + "("+ sourceValue +")) {\n");
                     source.Indent();
-                    source.AppendFront(SetVar(seqMapAccessToVar.DestVar, GetVar(seqMapAccessToVar.Setmap)+"["+GetVar(seqMapAccessToVar.KeyVar)+"]"));
+                    source.AppendFront(SetVar(seqMapAccessToVar.DestVar, dictionary + "[" + sourceValue + "]"));
                     source.AppendFront(SetResultVar(seqMapAccessToVar, "true"));
                     source.Unindent();
                     source.AppendFront("}\n");
-                    break;
-                }
-
-                case SequenceType.AssignSetCreationToVar:
-                {
-                    SequenceAssignSetCreationToVar seqSetCreationToVar = (SequenceAssignSetCreationToVar)seq;
-                    String srcType = "GRGEN_LIBGR.DictionaryHelper.GetTypeFromNameForDictionary(\""+seqSetCreationToVar.TypeName+"\", graph)";
-                    String dstType = "typeof(de.unika.ipd.grGen.libGr.SetValueType)";
-                    source.AppendFront(SetVar(seqSetCreationToVar.DestVar, "GRGEN_LIBGR.DictionaryHelper.NewDictionary("+srcType+", "+dstType+")"));
-                    source.AppendFront(SetResultVar(seqSetCreationToVar, "true"));
-                    break;
-                }
-
-                case SequenceType.AssignMapCreationToVar:
-                {
-                    SequenceAssignMapCreationToVar seqMapCreationToVar = (SequenceAssignMapCreationToVar)seq;
-                    String srcType = "GRGEN_LIBGR.DictionaryHelper.GetTypeFromNameForDictionary(\""+seqMapCreationToVar.TypeName+"\", graph)";
-                    String dstType = "GRGEN_LIBGR.DictionaryHelper.GetTypeFromNameForDictionary(\""+seqMapCreationToVar.TypeNameDst+"\", graph)";
-                    source.AppendFront(SetVar(seqMapCreationToVar.DestVar, "GRGEN_LIBGR.DictionaryHelper.NewDictionary("+srcType+", "+dstType+")"));
-                    source.AppendFront(SetResultVar(seqMapCreationToVar, "true"));
                     break;
                 }
 
@@ -873,17 +911,38 @@ namespace de.unika.ipd.grGen.lgsp
                 case SequenceType.AssignConstToVar:
                 {
                     SequenceAssignConstToVar seqConstToVar = (SequenceAssignConstToVar)seq;
-                    if(seqConstToVar.Constant is bool) {
+                    if(seqConstToVar.Constant is bool)
+                    {
                         source.AppendFront(SetVar(seqConstToVar.DestVar, (bool)seqConstToVar.Constant==true ? "true" : "false"));
-                    } else if(seqConstToVar.Constant is string && ((string)seqConstToVar.Constant).Contains("::")) {
+                    }
+                    else if(seqConstToVar.Constant is string && ((string)seqConstToVar.Constant).Contains("::"))
+                    {
                         string strConst = (string)seqConstToVar.Constant;
                         int separationPos = strConst.IndexOf("::");
                         string type = strConst.Substring(0, separationPos);
                         string value = strConst.Substring(separationPos + 2);
                         source.AppendFront(SetVar(seqConstToVar.DestVar, "GRGEN_MODEL.ENUM_" + type + "." + value));
-                    } else if(seqConstToVar.Constant is string) {
+                    }
+                    else if(seqConstToVar.Constant is string && ((string)seqConstToVar.Constant).StartsWith("set<") && ((string)seqConstToVar.Constant).EndsWith(">"))
+                    {
+                        String srcType = "GRGEN_LIBGR.DictionaryHelper.GetTypeFromNameForDictionary(\""+TypesHelper.ExtractSrc((string)seqConstToVar.Constant)+"\", graph)";
+                        String dstType = "typeof(de.unika.ipd.grGen.libGr.SetValueType)";
+                        source.AppendFront(SetVar(seqConstToVar.DestVar, "GRGEN_LIBGR.DictionaryHelper.NewDictionary("+srcType+", "+dstType+")"));
+                        source.AppendFront(SetResultVar(seqConstToVar, "true"));
+                    }
+                    else if(seqConstToVar.Constant is string && ((string)seqConstToVar.Constant).StartsWith("map<") && ((string)seqConstToVar.Constant).EndsWith(">"))
+                    {
+                        String srcType = "GRGEN_LIBGR.DictionaryHelper.GetTypeFromNameForDictionary(\""+TypesHelper.ExtractSrc((string)seqConstToVar.Constant)+"\", graph)";
+                        String dstType = "GRGEN_LIBGR.DictionaryHelper.GetTypeFromNameForDictionary(\""+TypesHelper.ExtractDst((string)seqConstToVar.Constant)+"\", graph)";
+                        source.AppendFront(SetVar(seqConstToVar.DestVar, "GRGEN_LIBGR.DictionaryHelper.NewDictionary("+srcType+", "+dstType+")"));
+                        source.AppendFront(SetResultVar(seqConstToVar, "true"));
+                    }
+                    else if(seqConstToVar.Constant is string)
+                    {
                         source.AppendFront(SetVar(seqConstToVar.DestVar, "\"" + seqConstToVar.Constant.ToString() + "\""));
-                    } else {
+                    }
+                    else 
+                    {
                         source.AppendFront(SetVar(seqConstToVar.DestVar, seqConstToVar.Constant.ToString()));
                     }
                     source.AppendFront(SetResultVar(seqConstToVar, "true"));

@@ -1,0 +1,8 @@
+using exectype;
+
+rule r
+{
+	modify  {
+		exec(x:set<int> =set<int>{} && u:map<int,A> =map<int,A>{} && x.add(y) && u.add(v,w));
+	}
+}

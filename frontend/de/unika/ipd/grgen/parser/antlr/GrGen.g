@@ -1284,12 +1284,6 @@ simpleSequence[ExecNode xg]
 			id=entIdentUse LPAREN // deliver understandable error message for case of missing parenthesis at rule result assignment
 			{ reportError(id.getCoords(), "the destination variable(s) of a rule result assignment must be enclosed in parenthesis"); }
 		|
-			SET LT typeName=typeIdentUse GT
-			{ xg.append("set<"+typeName+">"); }
-		|
-			MAP LT typeName=typeIdentUse COMMA toTypeName=typeIdentUse GT
-			{ xg.append("map<"+typeName+","+toTypeName+">"); }
-		|
 			xgrsConstant[xg]
 		|
 			a=AT LPAREN (IDENT | STRING_LITERAL) RPAREN
@@ -1350,6 +1344,8 @@ xgrsConstant[ExecNode xg]
 	| ff=FALSE { xg.append(ff.getText()); }
 	| n=NULL { xg.append(n.getText()); }
 	| tid=typeIdentUse d=DOUBLECOLON id=entIdentUse { xg.append(tid + "::" + id); }
+	| SET LT typeName=typeIdentUse GT LBRACE RBRACE { xg.append("set<"+typeName+">{ }"); }
+	| MAP LT typeName=typeIdentUse COMMA toTypeName=typeIdentUse GT LBRACE RBRACE { xg.append("map<"+typeName+","+toTypeName+">{ }"); }
 	;
 	
 parallelCallRule[ExecNode xg, CollectNode<BaseNode> returns]

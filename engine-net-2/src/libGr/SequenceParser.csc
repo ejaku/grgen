@@ -266,6 +266,7 @@ object Constant():
 	object constant;
 	long number;
 	string tid, id;
+	string typeName, typeNameDst;
 }
 {
 	(
@@ -284,6 +285,10 @@ object Constant():
 		<NULL> { constant = null; }
 	| 
 		tid=Word() "::" id=Word() { constant = tid+"::"+id; }
+    |
+		"set" "<" typeName=Word() ">" "{" "}" { constant = "set<"+typeName+">"; }
+	|
+		"map" "<" typeName=Word() "," typeNameDst=Word() ">" "{" "}" { constant = "map<"+typeName+","+typeNameDst+">"; }
 	)
 	{
 		return constant;
@@ -567,7 +572,7 @@ Sequence SimpleSequence():
 	Sequence seq, seq2, seq3 = null;
 	List<SequenceVariable> defParamVars = new List<SequenceVariable>();
 	SequenceVariable toVar, fromVar, fromVar2 = null, fromVar3 = null;
-	String typeName, typeNameDst, attrName, method, elemName;
+	String attrName, method, elemName;
 	object constant;
 	String str;
 }
@@ -625,16 +630,6 @@ Sequence SimpleSequence():
         {
             return new SequenceAssignElemToVar(toVar, elemName);
         }
-    |
-		"set" "<" typeName=Word() ">"
-		{
-			return new SequenceAssignSetCreationToVar(toVar, typeName);
-		}
-	|
-		"map" "<" typeName=Word() "," typeNameDst=Word() ">"
-		{
-			return new SequenceAssignMapCreationToVar(toVar, typeName, typeNameDst);
-		}
 	|
 		"def" "(" Parameters(defParamVars) ")" // todo: eigentliches Ziel: Zuweisung simple sequence an Variable
 		{
