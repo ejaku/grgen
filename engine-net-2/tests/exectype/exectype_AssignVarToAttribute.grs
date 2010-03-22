@@ -1,0 +1,31 @@
+new graph "exectype/exectype"
+new x:A
+show var x
+x.f
+x.i
+x.b
+x.st
+x.s
+x.m
+x.fl
+x.d
+xgrs f:foo=foo::Bla && i:int=42 && b:boolean=true && st:string="Gnampf!" && s:set<foo>=set<foo>{} && m:map<int,string>=map<int,string>{} && fl:float=3.141f && d:double=3.141592654 \
+	&& s.add(f) && m.add(i,st) \
+	&& emit("value of variable f 5 6 7 8 9 ") && emit(f) && emit("\n") \
+	&& emit("value of variable i 5 6 7 8 9 ") && emit(i) && emit("\n") \
+	&& emit("value of variable b 5 6 7 8 9 ") && emit(b) && emit("\n") \
+	&& emit("value of variable st 5 6 7 8 9 ") && emit(st) && emit("\n") \
+	&& emit("value of variable s 5 6 7 8 9 ") && emit(s) && emit("\n") \
+	&& emit("value of variable m 5 6 7 8 9 ") && emit(m) && emit("\n") \
+	&& emit("value of variable fl 5 6 7 8 9 ") && emit(fl) && emit("\n") \
+	&& emit("value of variable d 5 6 7 8 9 ") && emit(d) && emit("\n") \
+	&& x.f=f && x.i=i && x.b=b && x.st=st && x.s=s && x.m=m && x.fl=fl && x.d=d
+x.f
+x.i
+x.b
+x.st
+x.s
+x.m
+x.fl
+x.d
+quit

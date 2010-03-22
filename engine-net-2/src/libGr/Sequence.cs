@@ -747,13 +747,7 @@ namespace de.unika.ipd.grGen.libGr
     public class SequenceAssignConstToVar : Sequence
     {
         public SequenceVariable DestVar;
-        public object Constant; // the string representation if not yet interpreted and an enum value, set constructor, map constructor
-                                // otherwise the value; i.e. enum/set/map are rewritten to the value with the first interpretation
-                                // that's safe regarding compiled and interpreted expecting different things 
-                                // because a sequence can't be both, compiled and interpreted
-                                // for interpreted only the value is of interest, but can't be computed in the constructor due to missing model
-                                // but it's not safe regarding string vs enum/set/map because a string my contain the content interpreted as defining enum/set/map
-                                // -> todo: distinguish a real string because of "" and a helper string for enum,set,map; the content inspection is to fragile
+        public object Constant; 
 
         public SequenceAssignConstToVar(SequenceVariable destVar, object constant)
             : base(SequenceType.AssignConstToVar)
@@ -764,74 +758,9 @@ namespace de.unika.ipd.grGen.libGr
 
         protected override bool ApplyImpl(IGraph graph)
         {
-            if(Constant is string && ((string)Constant).Contains("::"))
-            {
-                string strConst = (string)Constant;
-                int separationPos = strConst.IndexOf("::");
-                string type = strConst.Substring(0, separationPos);
-                string value = strConst.Substring(separationPos+2);
-                foreach(EnumAttributeType attrType in graph.Model.EnumAttributeTypes)
-                {
-                    if(attrType.Name == type)
-                    {
-                        Type enumType = attrType.EnumType;
-                        Constant = Enum.Parse(enumType, value);
-                        break;
-                    }
-                }
-            }
-            else if(Constant is string && ((string)Constant).StartsWith("set<") && ((string)Constant).EndsWith(">"))
-            {
-                Type srcType = DictionaryHelper.GetTypeFromNameForDictionary(ExtractSrc((string)Constant), graph);
-                Type dstType = typeof(de.unika.ipd.grGen.libGr.SetValueType);
-                if(srcType!=null)
-                    Constant = DictionaryHelper.NewDictionary(srcType, dstType);
-            }
-            else if(Constant is string && ((string)Constant).StartsWith("map<") && ((string)Constant).EndsWith(">"))
-            {
-                Type srcType = DictionaryHelper.GetTypeFromNameForDictionary(ExtractSrc((string)Constant), graph);
-                Type dstType = DictionaryHelper.GetTypeFromNameForDictionary(ExtractDst((string)Constant), graph);
-                if(srcType!=null && dstType!=null) 
-                    Constant = DictionaryHelper.NewDictionary(srcType, dstType);
-            }
             DestVar.SetVariableValue(Constant, graph);
             return true;
         }
-
-        public static String ExtractSrc(String setmapType)
-        {
-            if(setmapType == null) return null;
-            if(setmapType.StartsWith("set<")) // map<srcType>
-            {
-                setmapType = setmapType.Remove(0, 4);
-                setmapType = setmapType.Remove(setmapType.Length - 1);
-                return setmapType;
-            }
-            else if(setmapType.StartsWith("map<")) // map<srcType,dstType>
-            {
-                setmapType = setmapType.Remove(0, 4);
-                setmapType = setmapType.Remove(setmapType.IndexOf(","));
-                return setmapType;
-            }
-            return null;
-        }
-
-        public static String ExtractDst(String setmapType)
-        {
-            if(setmapType == null) return null;
-            if(setmapType.StartsWith("set<")) // set<srcType>
-            {
-                return "SetValueType";
-            }
-            else if(setmapType.StartsWith("map<")) // map<srcType,dstType>
-            {
-                setmapType = setmapType.Remove(0, setmapType.IndexOf(",") + 1);
-                setmapType = setmapType.Remove(setmapType.Length - 1);
-                return setmapType;
-            }
-            return null;
-        }
-
 
         public override IEnumerable<Sequence> Children { get { yield break; } }
         public override int Precedence { get { return 8; } }
@@ -949,7 +878,7 @@ namespace de.unika.ipd.grGen.libGr
         {
             bool result = Seq.Apply(graph);
             DestVar.SetVariableValue(result, graph);
-            return result;
+            return true; // Semantics changed! Now always returns true, as it is always successful!
         }
 
         public override IEnumerable<Sequence> Children { get { yield return Seq; } }
@@ -1192,7 +1121,12 @@ namespace de.unika.ipd.grGen.libGr
         protected override bool ApplyImpl(IGraph graph)
         {
             if(Variable!=null) {
-                graph.EmitWriter.Write(Variable.GetVariableValue(graph).ToString());
+                object val = Variable.GetVariableValue(graph);
+                if(val==null) graph.EmitWriter.Write("");
+                else {
+                    if(val is IDictionary) graph.EmitWriter.Write(DictionaryHelper.ToString((IDictionary)val));
+                    else graph.EmitWriter.Write(val.ToString());
+                }
             } else {
                 graph.EmitWriter.Write(Text);
             }

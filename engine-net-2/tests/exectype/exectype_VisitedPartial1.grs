@@ -1,0 +1,12 @@
+new graph "exectype/exectype"
+new n:A
+new n -e:H-> n
+xgrs i:int=valloc() && v=false && n.visited[i]=v && v=true && e.visited[i]=v \
+		;> n.visited[i] && emit("value of variable n 5 6 7 8 9 visited\n") || emit("value of variable n 5 6 7 8 9 notvisited\n") \
+		;> e.visited[i] && emit("value of variable e 5 6 7 8 9 visited\n") || emit("value of variable e 5 6 7 8 9 notvisited\n") \
+		;> vreset(i) \
+		;> n.visited[i] && emit("value of variable n 5 6 7 8 9 visited\n") || emit("value of variable n 5 6 7 8 9 notvisited\n") \
+		;> e.visited[i] && emit("value of variable e 5 6 7 8 9 visited\n") || emit("value of variable e 5 6 7 8 9 notvisited\n") \
+		;> vfree(i)
+show var v
+quit

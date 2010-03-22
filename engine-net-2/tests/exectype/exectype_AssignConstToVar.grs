@@ -1,0 +1,13 @@
+new graph "exectype/exectype"
+xgrs x:int=3 && y:string="fool" && z:foo=foo::Bar \
+		&& u:double=3.141592654 && l:float=3.141f && v:boolean=true \
+		&& w:set<int>=set<int>{} && k:map<A,H>=map<A,H>{} \
+		&& emit("value of variable x 5 6 7 8 9 ") && emit(x) && emit("\n") \
+		&& emit("value of variable y 5 6 7 8 9 ") && emit(y) && emit("\n") \
+		&& emit("value of variable z 5 6 7 8 9 ") && emit(z) && emit("\n") \
+		&& emit("value of variable u 5 6 7 8 9 ") && emit(u) && emit("\n") \
+		&& emit("value of variable l 5 6 7 8 9 ") && emit(l) && emit("\n") \
+		&& emit("value of variable v 5 6 7 8 9 ") && emit(v) && emit("\n") \
+		&& emit("value of variable w 5 6 7 8 9 ") && emit(w) && emit("\n") \
+		&& emit("value of variable k 5 6 7 8 9 ") && emit(k) && emit("\n")
+quit

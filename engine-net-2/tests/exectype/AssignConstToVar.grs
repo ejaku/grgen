@@ -1,0 +1,19 @@
+new graph "exectype/exectype.gm"
+
+x=3 
+show var x
+y="fool"
+show var y
+z=foo::Bar
+show var z
+u=3.141592654
+show var u
+l=3.141f
+show var l
+v=true
+show var v
+w=set<int>{}
+show var w
+k=map<A,H>{}
+show var k
+quit

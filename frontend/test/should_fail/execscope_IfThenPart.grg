@@ -1,0 +1,8 @@
+using exectype;
+
+rule r
+{
+	modify  {
+		exec(if{x:string="Gnampf!"; x:int=42; y:foo=foo::Bar});
+	}
+}

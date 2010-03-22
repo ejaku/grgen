@@ -16,8 +16,20 @@ PARSER_BEGIN(SequenceParser)
 	/// </summary>
 	public class SequenceParser
 	{
+		/// <summary>
+		/// The rules used in the specification, set if parsing an xgrs to be interpreted
+		/// </summary>
 		BaseActions actions;
+
+		/// <summary>
+		/// The names of the rules used in the specification, set if parsing an xgrs to be compiled
+		/// </summary>
 		String[] ruleNames;
+		
+		/// <summary>
+		/// The model used in the specification
+		/// </summary>
+		IGraphModel model;
 		
 		/// <summary>
 		/// Symbol table of the sequence variables, maps from name to the prefixed(by block nesting) name and the type;
@@ -39,6 +51,7 @@ PARSER_BEGIN(SequenceParser)
 			SequenceParser parser = new SequenceParser(new StringReader(sequenceStr));
 			parser.actions = actions;
 			parser.ruleNames = null;
+			parser.model = actions.Graph.Model;
 			parser.varDecls = new SymbolTable();
 			parser.varDecls.PushFirstScope(null);
 			Sequence seq = parser.XGRS();
@@ -53,16 +66,18 @@ PARSER_BEGIN(SequenceParser)
         /// <param name="sequenceStr">The string representing a xgrs (e.g. "test[7] &amp;&amp; (chicken+ || egg)*")</param>
         /// <param name="ruleNames">An array containing the names of the rules used in the specification.</param>
         /// <param name="predefinedVariables">A map from variables to types giving the parameters to the sequence, i.e. predefined variables.</param>
+        /// <param name="model">The model used in the specification.</param>
         /// <returns>The sequence object according to sequenceStr.</returns>
         /// <exception cref="ParseException">Thrown when a syntax error was found in the string.</exception>
         /// <exception cref="SequenceParserException">Thrown when a rule is used with the wrong number of arguments
         /// or return parameters.</exception>
 		public static Sequence ParseSequence(String sequenceStr, String[] ruleNames,
-		        Dictionary<String, String> predefinedVariables)
+		        Dictionary<String, String> predefinedVariables, IGraphModel model)
 		{
 			SequenceParser parser = new SequenceParser(new StringReader(sequenceStr));
 			parser.actions = null;
 			parser.ruleNames = ruleNames;
+			parser.model = model;
 			parser.varDecls = new SymbolTable();
 			parser.varDecls.PushFirstScope(predefinedVariables);
 			Sequence seq = parser.XGRS();
@@ -263,10 +278,11 @@ void RuleParameter(List<SequenceVariable> paramVars, List<Object> paramConsts):
 
 object Constant():
 {
-	object constant;
+	object constant = null;
 	long number;
-	string tid, id;
+	string type, value;
 	string typeName, typeNameDst;
+	Type srcType, dstType;
 }
 {
 	(
@@ -284,11 +300,40 @@ object Constant():
 	|
 		<NULL> { constant = null; }
 	| 
-		tid=Word() "::" id=Word() { constant = tid+"::"+id; }
+		type=Word() "::" value=Word() 
+		{ 
+			foreach(EnumAttributeType attrType in model.EnumAttributeTypes)
+			{
+				if(attrType.Name == type)
+				{
+					Type enumType = attrType.EnumType;
+					constant = Enum.Parse(enumType, value);
+					break;
+				}
+			}
+			if(constant==null) 
+				throw new ParseException("Invalid constant \""+type+"::"+value+"\"!");
+		}
     |
-		"set" "<" typeName=Word() ">" "{" "}" { constant = "set<"+typeName+">"; }
+		"set" "<" typeName=Word() ">" "{" "}"
+		{
+			srcType = DictionaryHelper.GetTypeFromNameForDictionary(typeName, model);
+			dstType = typeof(de.unika.ipd.grGen.libGr.SetValueType);
+			if(srcType!=null)
+				constant = DictionaryHelper.NewDictionary(srcType, dstType);
+			if(constant==null) 
+				throw new ParseException("Invalid constant \"set<"+typeName+">\"!");
+		}
 	|
-		"map" "<" typeName=Word() "," typeNameDst=Word() ">" "{" "}" { constant = "map<"+typeName+","+typeNameDst+">"; }
+		"map" "<" typeName=Word() "," typeNameDst=Word() ">" "{" "}"
+		{
+			srcType = DictionaryHelper.GetTypeFromNameForDictionary(typeName, model);
+			dstType = DictionaryHelper.GetTypeFromNameForDictionary(typeNameDst, model);
+			if(srcType!=null && dstType!=null) 
+				constant = DictionaryHelper.NewDictionary(srcType, dstType);
+			if(constant==null) 
+				throw new ParseException("Invalid constant \"map<"+typeName+","+typeNameDst+">\"!");
+		}
 	)
 	{
 		return constant;
@@ -415,7 +460,7 @@ Sequence RewriteSequenceLazyOr():
 	seq=RewriteSequenceLazyAnd()
 	(
 		LOOKAHEAD(2)
-		("$" { random = true; })? "||" seq2=RewriteSequence()							
+		("$" { random = true; })? "||" seq2=RewriteSequenceLazyOr()							
 		{
 			seq = new SequenceLazyOr(seq, seq2, random);
 		}
@@ -727,14 +772,17 @@ Sequence SimpleSequence():
         return new SequenceTransaction(seq);
     }
 |
-    "if" "{" seq=RewriteSequence() ";" seq2=RewriteSequence() (";" seq3=RewriteSequence())? "}"
-    { // TODO block nesting
+    "if" "{" { varDecls.PushScope(ScopeType.If); } seq=RewriteSequence() ";"
+		{ varDecls.PushScope(ScopeType.IfThenPart); } seq2=RewriteSequence() { varDecls.PopScope(); }
+		(";" seq3=RewriteSequence())? { varDecls.PopScope(); } "}"
+    {
 		if(seq3==null) return new SequenceIfThen(seq, seq2);
         else return new SequenceIfThenElse(seq, seq2, seq3);
     }
 |
-	"for" "{" fromVar=Variable() ("->" fromVar2=Variable())? "in" fromVar3=VariableUse() ";" seq=RewriteSequence() "}"
-	{ // TODO block nesting
+	"for" "{" { varDecls.PushScope(ScopeType.For); } fromVar=Variable() ("->" fromVar2=Variable())? "in" fromVar3=VariableUse() ";"
+		seq=RewriteSequence() { varDecls.PopScope(); } "}"
+	{
         return new SequenceFor(fromVar, fromVar2, fromVar3, seq);
     }
 }
@@ -756,15 +804,14 @@ Sequence Rule():
 {
 	bool special = false, test = false;
 	String str;
-	IAction action = null;
-	bool retSpecified = false, numChooseRandSpecified = false;
+	bool numChooseRandSpecified = false;
 	long numChooseRand = 1;
 	List<SequenceVariable> paramVars = new List<SequenceVariable>();
 	List<Object> paramConsts = new List<Object>();
 	List<SequenceVariable> returnVars = new List<SequenceVariable>();
 }
 {
-	("(" VariableList(returnVars) ")" "=" { retSpecified = true; })? 
+	("(" VariableList(returnVars) ")" "=" )? 
 	(
 		(
 			"$" (numChooseRand=Number())?

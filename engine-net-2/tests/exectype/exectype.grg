@@ -1,0 +1,16 @@
+using exectype;
+
+rule r
+{
+
+	modify {
+	}
+}
+
+rule s
+{
+	-hh:HH->;
+	
+	modify {
+	}
+}

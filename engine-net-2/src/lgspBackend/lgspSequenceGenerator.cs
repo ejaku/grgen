@@ -7,6 +7,8 @@
 
 using System;
 using System.Collections.Generic;
+using System.Collections;
+using System.Reflection;
 using System.Text;
 using System.IO;
 using System.Diagnostics;
@@ -170,19 +172,6 @@ namespace de.unika.ipd.grGen.lgsp
 			}
 		}
 
-        /*void EmitSetmapVarIfNew(String varName, String type, String typeKey, String typeValue, SourceBuilder source)
-        {
-            if(!vars.ContainsKey(varName))
-            {
-                vars.Add(varName, "IDictionary");
-                // todo: use exact types in compiled xgrs
-                //typeKey = DictionaryHelper.GetQualifiedTypeName(typeKey, model);
-                //typeValue = DictionaryHelper.GetQualifiedTypeName(typeValue, model);
-                //source.AppendFront("IDictionary<"+typeKey+","+typeValue+"> var_" + varName + " = null;\n");
-                source.AppendFront("System.Collections.IDictionary var_" + varName + " = null;\n");
-            }
-        }*/ // TODO remove
-
         /// <summary>
         /// pre-run for emitting the needed entities before emitting the real code
         /// - emits result variable declarations
@@ -195,12 +184,6 @@ namespace de.unika.ipd.grGen.lgsp
 
 			switch(seq.SequenceType)
 			{
-				case SequenceType.AssignElemToVar:
-				{
-					SequenceAssignElemToVar elemToVar = (SequenceAssignElemToVar) seq;
-					EmitVarIfNew(elemToVar.DestVar, source);
-					break;
-				}
 				case SequenceType.AssignVarToVar:		// TODO: Load from external vars?
 				{
 					SequenceAssignVarToVar varToVar = (SequenceAssignVarToVar) seq;
@@ -290,7 +273,7 @@ namespace de.unika.ipd.grGen.lgsp
                     break;
                 }
 
-				default:
+				default: // esp. AssignElemToVar
 					foreach(Sequence childSeq in seq.Children)
 						EmitNeededVarAndRuleEntities(childSeq, source);
 					break;
@@ -399,7 +382,6 @@ namespace de.unika.ipd.grGen.lgsp
             String returnAssignments = "";
             for(int i = 0; i < paramBindings.ReturnVars.Length; i++)
             {
-                IEnumerator<int> a;
                 String varName = paramBindings.ReturnVars[i].Prefix + paramBindings.ReturnVars[i].Name;
                 returnParameterDeclarations += TypesHelper.XgrsTypeToCSharpType(rulesToOutputTypes[paramBindings.RuleName][i], model) + " tmpvar_" + varName + "; ";
                 returnArguments += ", out tmpvar_" + varName;
@@ -598,17 +580,20 @@ namespace de.unika.ipd.grGen.lgsp
                 {
                     SequenceFor seqFor = (SequenceFor)seq;
 
-                    String srcType = TypesHelper.XgrsTypeToCSharpType(TypesHelper.ExtractSrc(seqFor.Setmap.Type), model);
-                    String dstType = TypesHelper.XgrsTypeToCSharpType(TypesHelper.ExtractDst(seqFor.Setmap.Type), model);
                     source.AppendFront(SetResultVar(seqFor, "true"));
-                    source.AppendFront("foreach(KeyValuePair<"+srcType+","+dstType+"> entry_"+seqFor.Id+" in "+GetVar(seqFor.Setmap)+")\n");
+                    if(seqFor.Setmap.Type == "") {
+                        source.AppendFront("foreach(DictionaryEntry entry_" + seqFor.Id + " in (IDictionary)" + GetVar(seqFor.Setmap) + ")\n");
+                    } else {
+                        String srcType = TypesHelper.XgrsTypeToCSharpType(TypesHelper.ExtractSrc(seqFor.Setmap.Type), model);
+                        String dstType = TypesHelper.XgrsTypeToCSharpType(TypesHelper.ExtractDst(seqFor.Setmap.Type), model);
+                        source.AppendFront("foreach(KeyValuePair<" + srcType + "," + dstType + "> entry_" + seqFor.Id + " in " + GetVar(seqFor.Setmap) + ")\n");
+                    }
                     source.AppendFront("{\n");
                     source.Indent();
 
-                    source.AppendFront(SetVar(seqFor.Var, "entry_"+seqFor.Id+".Key"));
-                    if(seqFor.VarDst != null)
-                    {
-                        source.AppendFront(SetVar(seqFor.VarDst, "entry_"+seqFor.Id+".Value"));
+                    source.AppendFront(SetVar(seqFor.Var, "entry_" + seqFor.Id + ".Key"));
+                    if(seqFor.VarDst != null) {
+                        source.AppendFront(SetVar(seqFor.VarDst, "entry_" + seqFor.Id + ".Value"));
                     }
 
                     EmitSequence(seqFor.Seq, source);
@@ -904,7 +889,7 @@ namespace de.unika.ipd.grGen.lgsp
                     SequenceAssignSequenceResultToVar seqToVar = (SequenceAssignSequenceResultToVar)seq;
                     EmitSequence(seqToVar.Seq, source);
                     source.AppendFront(SetVar(seqToVar.DestVar, GetResultVar(seqToVar.Seq)));
-                    source.AppendFront(SetResultVar(seqToVar, GetVar(seqToVar.DestVar)));
+                    source.AppendFront(SetResultVar(seqToVar, "true"));
                     break;
                 }
 
@@ -915,31 +900,32 @@ namespace de.unika.ipd.grGen.lgsp
                     {
                         source.AppendFront(SetVar(seqConstToVar.DestVar, (bool)seqConstToVar.Constant==true ? "true" : "false"));
                     }
-                    else if(seqConstToVar.Constant is string && ((string)seqConstToVar.Constant).Contains("::"))
+                    else if(seqConstToVar.Constant is Enum)
                     {
-                        string strConst = (string)seqConstToVar.Constant;
-                        int separationPos = strConst.IndexOf("::");
-                        string type = strConst.Substring(0, separationPos);
-                        string value = strConst.Substring(separationPos + 2);
-                        source.AppendFront(SetVar(seqConstToVar.DestVar, "GRGEN_MODEL.ENUM_" + type + "." + value));
+                        Enum enumConst = (Enum)seqConstToVar.Constant;
+                        source.AppendFront(SetVar(seqConstToVar.DestVar, enumConst.GetType().ToString() + "." + enumConst.ToString()));
                     }
-                    else if(seqConstToVar.Constant is string && ((string)seqConstToVar.Constant).StartsWith("set<") && ((string)seqConstToVar.Constant).EndsWith(">"))
+                    else if(seqConstToVar.Constant is IDictionary)
                     {
-                        String srcType = "GRGEN_LIBGR.DictionaryHelper.GetTypeFromNameForDictionary(\""+TypesHelper.ExtractSrc((string)seqConstToVar.Constant)+"\", graph)";
-                        String dstType = "typeof(de.unika.ipd.grGen.libGr.SetValueType)";
-                        source.AppendFront(SetVar(seqConstToVar.DestVar, "GRGEN_LIBGR.DictionaryHelper.NewDictionary("+srcType+", "+dstType+")"));
-                        source.AppendFront(SetResultVar(seqConstToVar, "true"));
-                    }
-                    else if(seqConstToVar.Constant is string && ((string)seqConstToVar.Constant).StartsWith("map<") && ((string)seqConstToVar.Constant).EndsWith(">"))
-                    {
-                        String srcType = "GRGEN_LIBGR.DictionaryHelper.GetTypeFromNameForDictionary(\""+TypesHelper.ExtractSrc((string)seqConstToVar.Constant)+"\", graph)";
-                        String dstType = "GRGEN_LIBGR.DictionaryHelper.GetTypeFromNameForDictionary(\""+TypesHelper.ExtractDst((string)seqConstToVar.Constant)+"\", graph)";
-                        source.AppendFront(SetVar(seqConstToVar.DestVar, "GRGEN_LIBGR.DictionaryHelper.NewDictionary("+srcType+", "+dstType+")"));
+                        Type keyType;
+                        Type valueType;
+                        DictionaryHelper.GetDictionaryTypes(seqConstToVar.Constant, out keyType, out valueType);
+                        String srcType = "typeof(" + TypesHelper.PrefixedTypeFromType(keyType) + ")";
+                        String dstType = "typeof(" + TypesHelper.PrefixedTypeFromType(valueType) + ")";
+                        source.AppendFront(SetVar(seqConstToVar.DestVar, "GRGEN_LIBGR.DictionaryHelper.NewDictionary(" + srcType + "," + dstType + ")"));
                         source.AppendFront(SetResultVar(seqConstToVar, "true"));
                     }
                     else if(seqConstToVar.Constant is string)
                     {
                         source.AppendFront(SetVar(seqConstToVar.DestVar, "\"" + seqConstToVar.Constant.ToString() + "\""));
+                    }
+                    else if(seqConstToVar.Constant is float)
+                    {
+                        source.AppendFront(SetVar(seqConstToVar.DestVar, ((float)seqConstToVar.Constant).ToString(System.Globalization.CultureInfo.InvariantCulture)+"f"));
+                    }
+                    else if(seqConstToVar.Constant is double)
+                    {
+                        source.AppendFront(SetVar(seqConstToVar.DestVar, ((double)seqConstToVar.Constant).ToString(System.Globalization.CultureInfo.InvariantCulture)));
                     }
                     else 
                     {
@@ -1012,7 +998,7 @@ namespace de.unika.ipd.grGen.lgsp
 			Sequence seq;
             try
             {
-                seq = SequenceParser.ParseSequence(xgrsStr, ruleNames, varDecls);
+                seq = SequenceParser.ParseSequence(xgrsStr, ruleNames, varDecls, model);
                 LGSPSequenceChecker checker = new LGSPSequenceChecker(ruleNames, rulesToInputTypes, rulesToOutputTypes, model);
                 checker.Check(seq);
             }

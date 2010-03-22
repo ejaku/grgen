@@ -396,7 +396,7 @@ namespace de.unika.ipd.grGen.lgsp
                 // Nothing to be done here
                 break;
 
-            default:
+            default: // esp. AssignElemToVar
                 throw new Exception("Unknown sequence type: " + seq.SequenceType);
             }
         }

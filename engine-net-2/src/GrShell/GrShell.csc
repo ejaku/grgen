@@ -24,6 +24,11 @@ PARSER_BEGIN(GrShell)
         bool noError;
         bool exitOnError = false;
 
+		public void SetImpl(GrShellImpl impl)
+		{
+			this.impl = impl;
+		}
+		
         static int Main(string[] args)
         {
             String command = null;
@@ -252,6 +257,7 @@ TOKEN: {
 |   < ADD: "add" >
 |   < ALLOCVISITFLAG: "allocvisitflag" >
 |   < APPLY: "apply" >
+|   < ASKFOR: "askfor" >
 |   < ATTRIBUTES: "attributes" >
 |   < BACKEND: "backend" >
 |   < BORDERCOLOR: "bordercolor" >
@@ -336,6 +342,22 @@ TOKEN: {
 
 TOKEN: {
 	< NUMBER: (["0"-"9"])+ >
+}
+
+TOKEN: {
+	< NUMFLOAT:
+			("-")? (["0"-"9"])+ ("." (["0"-"9"])+)? (<EXPONENT>)? ["f", "F"]
+		|	("-")? "." (["0"-"9"])+ (<EXPONENT>)? ["f", "F"]
+	>
+|
+	< NUMDOUBLE:
+			("-")? (["0"-"9"])+ "." (["0"-"9"])+ (<EXPONENT>)? (["d", "D"])?
+		|	("-")? "." (["0"-"9"])+ (<EXPONENT>)? (["d", "D"])?
+		|	("-")? (["0"-"9"])+ <EXPONENT> (["d", "D"])?
+		|	("-")? (["0"-"9"])+ ["d", "D"]
+	>
+|
+	< #EXPONENT: ["e", "E"] (["+", "-"])? (["0"-"9"])+ >
 }
 
 TOKEN: {
@@ -482,6 +504,43 @@ int Number():
 	t=<NUMBER>
 	{
 		return Convert.ToInt32(t.image);
+	}
+}
+
+float FloatNumber():
+{
+	Token t;
+	float val;
+}
+{
+	t=<NUMFLOAT>
+	{
+		// Remove 'F' from the end of the image to parse it
+		if(!float.TryParse(t.image.Substring(0, t.image.Length - 1), System.Globalization.NumberStyles.Float,
+				System.Globalization.CultureInfo.InvariantCulture, out val))
+			throw new ParseException("float expected but found: \"" + t + "\" (" + t.kind + ")");
+		return val;
+	}
+}
+
+double DoubleNumber():
+{
+	Token t;
+	String img;
+	double val;
+}
+{
+	t=<NUMDOUBLE>
+	{
+		// Remove optional 'D' from the end of the image to parse it if necessary
+		if(t.image[t.image.Length - 1] == 'd' || t.image[t.image.Length - 1] == 'D')
+			img = t.image.Substring(0, t.image.Length - 1);
+		else
+			img = t.image;
+		if(!double.TryParse(img, System.Globalization.NumberStyles.Float,
+				System.Globalization.CultureInfo.InvariantCulture, out val))
+			throw new ParseException("double expected but found: \"" + t + "\" (" + t.kind + ")");
+		return val;
 	}
 }
 
@@ -700,6 +759,7 @@ ShellGraph Graph():
 	)
 }
 
+// TODO: remove this in 2.7 and the set/map functions using it
 object Expr():
 {
 	Object obj;
@@ -721,17 +781,68 @@ object Expr():
     { return obj; }
 }
 
-List<Object> ExprList():
+object Constant():
 {
-	List<Object> exprList = new List<Object>();
-	Object obj;
+	object constant = null;
+	long number;
+	string type, value;
+	string typeName, typeNameDst;
+	Type srcType, dstType;
 }
 {
 	(
-		obj=Expr() { exprList.Add(obj); }
-		( "," obj=Expr() { exprList.Add(obj); } )*
-	)?
-	{ return exprList; }
+		number=Number() { constant = (int) number; }
+	|
+		constant=FloatNumber()
+	|
+		constant=DoubleNumber()
+	|
+		constant=QuotedText()
+	|
+		<TRUE> { constant = true; }
+	|
+		<FALSE> { constant = false; }
+	|
+		<NULL> { constant = null; }
+	| 
+		type=Word() "::" value=Word() 
+		{ 
+			foreach(EnumAttributeType attrType in impl.CurrentGraph.Model.EnumAttributeTypes)
+			{
+				if(attrType.Name == type)
+				{
+					Type enumType = attrType.EnumType;
+					constant = Enum.Parse(enumType, value);
+					break;
+				}
+			}
+			if(constant==null) 
+				throw new ParseException("Invalid constant \""+type+"::"+value+"\"!");
+		}
+    |
+		"set" "<" typeName=Word() ">" "{" "}"
+		{
+			srcType = DictionaryHelper.GetTypeFromNameForDictionary(typeName, impl.CurrentGraph.Model);
+			dstType = typeof(de.unika.ipd.grGen.libGr.SetValueType);
+			if(srcType!=null)
+				constant = DictionaryHelper.NewDictionary(srcType, dstType);
+			if(constant==null) 
+				throw new ParseException("Invalid constant \"set<"+typeName+">\"!");
+		}
+	|
+		"map" "<" typeName=Word() "," typeNameDst=Word() ">" "{" "}"
+		{
+			srcType = DictionaryHelper.GetTypeFromNameForDictionary(typeName, impl.CurrentGraph.Model);
+			dstType = DictionaryHelper.GetTypeFromNameForDictionary(typeNameDst, impl.CurrentGraph.Model);
+			if(srcType!=null && dstType!=null) 
+				constant = DictionaryHelper.NewDictionary(srcType, dstType);
+			if(constant==null) 
+				throw new ParseException("Invalid constant \"map<"+typeName+","+typeNameDst+">\"!");
+		}
+	)
+	{
+		return constant;
+	}
 }
 
 void LineEnd():
@@ -852,9 +963,9 @@ void ShellCommand():
             impl.ApplyRewriteSequence(seq, false);
             noError = !impl.OperationCancelled;
         }
-        catch(SequenceParserRuleException ex)
+        catch(SequenceParserException ex)
         {
-            impl.HandleSequenceParserRuleException(ex);
+            impl.HandleSequenceParserException(ex);
             noError = false;
         }
         catch(de.unika.ipd.grGen.libGr.sequenceParser.ParseException ex)
@@ -879,9 +990,9 @@ void ShellCommand():
     	        validated = impl.ValidateWithSequence(seq);
                 noError = !impl.OperationCancelled;
             }
-            catch(SequenceParserRuleException ex)
+            catch(SequenceParserException ex)
             {
-                impl.HandleSequenceParserRuleException(ex);
+                impl.HandleSequenceParserException(ex);
                 noError = false;
             }
             catch(de.unika.ipd.grGen.libGr.sequenceParser.ParseException ex)
@@ -1045,9 +1156,33 @@ void ShellCommand():
 					obj = impl.SetNew(str2);
 					if(obj == null) noError = false;
 				}
-			)
+			) LineEnd()
 		|
-			obj=Expr() LineEnd()
+			"askfor" 
+			(
+				str2=Word()
+				{
+					obj = impl.Askfor(str2);
+					if(obj == null) noError = false;
+				}
+			|
+				"set" "<" str2=Word() ">" 
+				{
+					obj = impl.Askfor("set<"+str2+">");
+					if(obj == null) noError = false;
+				}
+			|
+				"map" "<" str2=Word() "," str3=Word() ">"
+				{
+					obj = impl.Askfor("map<"+str2+","+str3+">");
+					if(obj == null) noError = false;
+				}
+			) LineEnd()
+		|
+		    LOOKAHEAD(2) obj=GraphElementOrVar()
+			( "." str2=AnyString() { obj = impl.GetElementAttribute((IGraphElement) obj, str2); } )? LineEnd()
+		|
+			obj=Constant() LineEnd()
 		)
         {
 			if(noError) impl.SetVariable(str1, obj);
@@ -1416,6 +1551,7 @@ void DebugCommand():
 	{
 		"apply" paramBindings=Rule() LineEnd()
 		{
+			Console.WriteLine("debug apply is deprecated, use <var> = askfor <type> instead");
 			if(paramBindings != null)
 			{
 				noError = impl.DebugApply(paramBindings);
@@ -1437,9 +1573,9 @@ void DebugCommand():
 				impl.DebugRewriteSequence(seq);
 				noError = !impl.OperationCancelled;
 			}
-			catch(SequenceParserRuleException ex)
+			catch(SequenceParserException ex)
 			{
-				impl.HandleSequenceParserRuleException(ex);
+				impl.HandleSequenceParserException(ex);
 				noError = false;
 			}
 			catch(de.unika.ipd.grGen.libGr.sequenceParser.ParseException ex)

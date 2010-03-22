@@ -1822,7 +1822,7 @@ namespace de.unika.ipd.grGen.lgsp
                     if(visited)
                     {
                         edge.lgspFlags |= mask;
-                        data.NodesMarked = true;
+                        data.EdgesMarked = true;
                     }
                     else edge.lgspFlags &= ~mask;
                 }

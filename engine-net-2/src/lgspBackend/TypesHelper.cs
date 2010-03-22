@@ -77,17 +77,17 @@ namespace de.unika.ipd.grGen.lgsp
                     Type valueType;
                     DictionaryHelper.GetDictionaryTypes(typeOfVar, out keyType, out valueType);
                     if (valueType.Name == "SetValueType")
-                        return "set<" + DotNetTypeToXgrsType(keyType.Name) + ">";
+                        return "set<" + DotNetTypeToXgrsType(keyType.Name, false) + ">";
                     else
-                        return "map<" + DotNetTypeToXgrsType(keyType.Name) + "," + DotNetTypeToXgrsType(valueType.Name) + ">";
+                        return "map<" + DotNetTypeToXgrsType(keyType.Name, false) + "," + DotNetTypeToXgrsType(valueType.Name, false) + ">";
                 }
-                return DotNetTypeToXgrsType(type.Name);
+                return DotNetTypeToXgrsType(type.Name, false);
             }
 
             return type.Name;
         }
 
-        private static String DotNetTypeToXgrsType(String typeName)
+        private static String DotNetTypeToXgrsType(String typeName, bool withIPrefix)
         {
             switch (typeName)
             {
@@ -101,7 +101,7 @@ namespace de.unika.ipd.grGen.lgsp
 
             if (typeName.StartsWith("ENUM_")) return typeName.Substring(5);
 
-            return typeName;
+            return withIPrefix ? typeName.Substring(1) : typeName;
         }
 
         public static String AttributeTypeToXgrsType(AttributeType attributeType)
@@ -167,44 +167,18 @@ namespace de.unika.ipd.grGen.lgsp
 
         public static String XgrsTypeOfConstant(object constant, IGraphModel model)
         {
-            if(constant is int) {
-                return "int";
-            } else if(constant is bool) {
-                return "boolean";
-            } else if(constant is float) {
-                return "float";
-            } else if(constant is double) {
-                return "double";
-            } else if(constant is string && ((string)constant).Contains("::")) {
-                string strConst = (string)constant;
-                int separationPos = strConst.IndexOf("::");
-                string type = strConst.Substring(0, separationPos);
-                string value = strConst.Substring(separationPos + 2);
-                foreach(EnumAttributeType attrType in model.EnumAttributeTypes)
-                {
-                    if(attrType.Name == type)
-                    {
-                        Type enumType = attrType.EnumType;
-                        foreach(EnumMember enumMember in attrType.Members)
-                        {
-                            if(enumMember.Name == value)
-                            {
-                                return type;
-                            }
-                        }
-                        return "!value " + value + " of enum " + type + " not found";
-                    }
+            if(constant.GetType().IsGenericType) {
+                Type keyType;
+                Type valueType;
+                DictionaryHelper.GetDictionaryTypes(constant, out keyType, out valueType);
+                if(valueType == typeof(de.unika.ipd.grGen.libGr.SetValueType)) {
+                    return "set<" + DotNetTypeToXgrsType(keyType.Name, true) + ">";
+                } else {
+                    return "map<" + DotNetTypeToXgrsType(keyType.Name, true) + "," + DotNetTypeToXgrsType(valueType.Name, true) + ">";
                 }
-                return "!enum "+type+" not found";
-            } else if(constant is string && ((string)constant).StartsWith("set<") && ((string)constant).EndsWith(">")) {
-                return "set<"+ExtractSrc((string)constant)+">";
-            } else if(constant is string && ((string)constant).StartsWith("map<") && ((string)constant).EndsWith(">")) {
-                return "map<"+ExtractSrc((string)constant)+","+ExtractDst((string)constant)+">";
-            } else if(constant is string) {
-                return "string";
             }
 
-            return "object";
+            return DotNetTypeToXgrsType(constant.GetType().Name, true);
         }
 
         public static String ExtractSrc(String setmapType)
@@ -239,6 +213,29 @@ namespace de.unika.ipd.grGen.lgsp
                 return setmapType;
             }
             return null;
+        }
+
+        /// <summary>
+        /// Returns type string with correct namespace prefix for the type given
+        /// </summary>
+        public static string PrefixedTypeFromType(Type type)
+        {
+            if(type.Name == "INode") return "GRGEN_LIBGR.INode";
+            if(type.Name == "IEdge") return "GRGEN_LIBGR.IEdge";
+
+            if(type.Name == "SetValueType") return "GRGEN_LIBGR.SetValueType";
+
+            switch(type.Name)
+            {
+            case "Int32": return "int";
+            case "Boolean": return "bool";
+            case "Single": return "float";
+            case "Double": return "double";
+            case "String": return "string";
+            case "Object": return "object";
+            }
+
+            return "GRGEN_MODEL." + type.Name;
         }
 
         /// <summary>

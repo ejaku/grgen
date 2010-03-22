@@ -3,6 +3,6 @@ using exectype;
 rule r
 {
 	modify  {
-		exec(m:map<A,HH> =map<A,HH>{} && n:map<int,foo> =map<int,foo>{});
+		exec(m:map<A,HH>=map<A,HH>{} && n:map<int,foo>=map<int,foo>{});
 	}
 }

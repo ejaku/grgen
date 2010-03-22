@@ -3,6 +3,6 @@ using exectype;
 rule r
 {
 	modify  {
-		exec(x:set<int> =set<int>{} && y in x);
+		exec(x:set<int>=set<int>{} && y in x);
 	}
 }

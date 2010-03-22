@@ -1,0 +1,8 @@
+using exectype;
+
+rule r
+{
+	modify  {
+		exec(for{x:int in y; z=x} && for{x:string in v; z=x} && x:foo=foo::Bar);
+	}
+}

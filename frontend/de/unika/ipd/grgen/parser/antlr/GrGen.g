@@ -1256,7 +1256,7 @@ simpleSequence[ExecNode xg]
 	// attention/todo: names are are only partly resolved!
 	// -> using not existing types, not declared names outside of the return assignment of an action call 
 	// will not be detected in the frontend; xgrs in the frontend are to a certain degree syntax only
-	: lhs=xgrsEntity[xg] ASSIGN { xg.append('='); }
+	: lhs=xgrsEntity[xg] (ASSIGN | GE) { xg.append('='); }
 		(
 			VALLOC LPAREN RPAREN
 			{ xg.append("valloc()"); }
@@ -1330,9 +1330,11 @@ simpleSequence[ExecNode xg]
 	| FALSE { xg.append("false"); }
 	| LPAREN { xg.append("("); } xgrs[xg] RPAREN { xg.append(")"); }
 	| LT { xg.append("<"); } xgrs[xg] GT { xg.append(">"); }
-	| IF LBRACE { xg.append("if{"); } xgrs[xg] SEMI { xg.append("; "); } xgrs[xg] (SEMI { xg.append("; "); } xgrs[xg])? RBRACE { xg.append("}"); }
-	| FOR LBRACE { xg.append("for{"); } xgrsEntity[xg] (RARROW { xg.append(" -> "); } xgrsEntity[xg])?
-		IN { xg.append(" in "); } xgrsEntity[xg] SEMI { xg.append("; "); } xgrs[xg] RBRACE { xg.append("}"); }
+	| IF l=LBRACE pushScopeStr["if/exec", getCoords(l)] { xg.append("if{"); } xgrs[xg] s=SEMI 
+		pushScopeStr["if/then-part", getCoords(s)] { xg.append("; "); } xgrs[xg] popScope
+		(SEMI { xg.append("; "); } xgrs[xg])? popScope RBRACE { xg.append("}"); }
+	| FOR l=LBRACE pushScopeStr["for", getCoords(l)] { xg.append("for{"); } xgrsEntity[xg] (RARROW { xg.append(" -> "); } xgrsEntity[xg])?
+		IN { xg.append(" in "); } xgrsEntity[xg] SEMI { xg.append("; "); } xgrs[xg] popScope RBRACE { xg.append("}"); }
 	;
 
 xgrsConstant[ExecNode xg]
@@ -1430,7 +1432,25 @@ options { k = *; }
 			res = decl;
 		}
 	|
+		(entIdentDecl COLON SET LT typeIdentUse GE) => 
+		id=entIdentDecl COLON SET LT type=typeIdentUse // set decl; special to save user from splitting set<S>=x to set<S> =x as >= is GE not GT ASSIGN
+		{
+			ExecVarDeclNode decl = new ExecVarDeclNode(id, SetTypeNode.getSetType(type));
+			xg.append(id.toString()+":set<"+type.toString()+">");
+			xg.addVarDecl(decl);
+			res = decl;
+		}
+	|
 		id=entIdentDecl COLON MAP LT keyType=typeIdentUse COMMA valueType=typeIdentUse GT // map decl
+		{
+			ExecVarDeclNode decl = new ExecVarDeclNode(id, MapTypeNode.getMapType(keyType, valueType));
+			xg.append(id.toString()+":map<"+keyType.toString()+","+valueType.toString()+">");
+			xg.addVarDecl(decl);
+			res = decl;
+		}
+	|
+		(entIdentDecl COLON MAP LT typeIdentUse COMMA typeIdentUse GE) =>
+		id=entIdentDecl COLON MAP LT keyType=typeIdentUse COMMA valueType=typeIdentUse // map decl; special to save user from splitting map<S,T>=x to map<S,T> =x as >= is GE not GT ASSIGN
 		{
 			ExecVarDeclNode decl = new ExecVarDeclNode(id, MapTypeNode.getMapType(keyType, valueType));
 			xg.append(id.toString()+":map<"+keyType.toString()+","+valueType.toString()+">");

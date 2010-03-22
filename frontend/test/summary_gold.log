@@ -163,6 +163,9 @@ OK     should_pass/exec_014.grg
 OK     should_pass/exec_015.grg
 OK     should_pass/exec_016.grg
 OK     should_pass/exec_n_types.grg
+OK     should_pass/execscope_For.grg
+OK     should_pass/execscope_If.grg
+OK     should_pass/execscope_IfThenPart.grg
 OK     should_pass/exectype_AssignAttributeToVar.grg
 OK     should_pass/exectype_AssignAttributeToVarUntyped.grg
 OK     should_pass/exectype_AssignConstToVar.grg
@@ -633,6 +636,9 @@ ERROR  should_fail/exec_disjoint_type_returned.grg
 ERROR  should_fail/exec_subtype_as_return_type.grg
 ERROR  should_fail/exec_supertype_as_argument.grg
 FAILED should_fail/exec_use_before_definition.grg
+ERROR  should_fail/execscope_For.grg
+ERROR  should_fail/execscope_If.grg
+ERROR  should_fail/execscope_IfThenPart.grg
 FAILED should_fail/exectype_AssignAttributeToVar.grg
 FAILED should_fail/exectype_AssignAttributeToVar2.grg
 FAILED should_fail/exectype_AssignAttributeToVar3.grg

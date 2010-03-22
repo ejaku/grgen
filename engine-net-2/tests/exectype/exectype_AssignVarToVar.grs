@@ -1,0 +1,16 @@
+new graph "exectype/exectype"
+new n:A
+new m:AA
+xgrs x:A=n && y:AA=m \
+		&& emit("value of variable x 5 6 7 8 9 ") && emit(x) && emit("\n") \
+		&& emit("value of variable y 5 6 7 8 9 ") && emit(y) && emit("\n") \
+		&& x=y \
+		&& emit("value of variable x 5 6 7 8 9 ") && emit(x) && emit("\n") \
+		&& emit("value of variable y 5 6 7 8 9 ") && emit(y) && emit("\n") \
+		&& u:int=42 && v:int=1 \
+		&& emit("value of variable u 5 6 7 8 9 ") && emit(u) && emit("\n") \
+		&& emit("value of variable v 5 6 7 8 9 ") && emit(v) && emit("\n") \
+		&& u=v \
+		&& emit("value of variable u 5 6 7 8 9 ") && emit(u) && emit("\n") \
+		&& emit("value of variable v 5 6 7 8 9 ") && emit(v) && emit("\n")
+quit

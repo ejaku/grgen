@@ -1931,7 +1931,10 @@ exitSecondLoop: ;
         public void GenerateFileHeaderForActionsFile(SourceBuilder sb,
                 String namespaceOfModel, String namespaceOfRulePatterns)
         {
-            sb.AppendFront("using System;\nusing System.Collections.Generic;\n"
+            sb.AppendFront("using System;\n"
+                + "using System.Collections.Generic;\n"
+                + "using System.Collections;\n"
+                + "using System.Text;\n"
                 + "using GRGEN_LIBGR = de.unika.ipd.grGen.libGr;\n"
                 + "using GRGEN_LGSP = de.unika.ipd.grGen.lgsp;\n"
                 + "using GRGEN_MODEL = " + namespaceOfModel + ";\n"

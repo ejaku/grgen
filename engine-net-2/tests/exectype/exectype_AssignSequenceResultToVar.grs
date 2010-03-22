@@ -1,0 +1,4 @@
+new graph "exectype/exectype"
+xgrs x:boolean=(r) && emit("The value of variable x of type bool is: ") && emit(x) && emit("\n")
+xgrs y:boolean=(s) && emit("The value of variable y of type bool is: ") && emit(y) && emit("\n")
+quit

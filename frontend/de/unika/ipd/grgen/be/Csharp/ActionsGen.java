@@ -104,6 +104,7 @@ public class ActionsGen extends CSharpBase {
 				+ "\n"
 				+ "using System;\n"
 				+ "using System.Collections.Generic;\n"
+				+ "using System.Collections;\n"
 				+ "using System.Text;\n"
                 + "using GRGEN_LIBGR = de.unika.ipd.grGen.libGr;\n"
                 + "using GRGEN_LGSP = de.unika.ipd.grGen.lgsp;\n"

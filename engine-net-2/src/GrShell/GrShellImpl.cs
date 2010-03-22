@@ -335,7 +335,7 @@ namespace de.unika.ipd.grGen.grShell
             return graphs[index];
         }
 
-        public void HandleSequenceParserRuleException(SequenceParserException ex)
+        public void HandleSequenceParserException(SequenceParserException ex)
         {
             IAction action = ex.Action;
             if(action == null && ex.Kind != SequenceParserError.TypeMismatch)
@@ -565,7 +565,7 @@ namespace de.unika.ipd.grGen.grShell
                 + " - <elem>.<member> = <val>   Sets the value of the given element member\n"
                 + " - <var> = new map <t1> <t2> Creates a new map<t1, t2> variable - deprecated\n"
                 + " - <var> = new set <t1>      Creates a new set<t1> variable - deprecated\n"
-                + " - <var> = <expr>            Assigns var the given expression.\n"
+                + " - <var> = <expr>            Assigns the given expression to <var>.\n"
                 + "                             Currently the expression may be:\n"
                 + "                               - null\n"
                 + "                               - <elem>\n"
@@ -573,6 +573,13 @@ namespace de.unika.ipd.grGen.grShell
                 + "                               - <text>\n"
                 + "                               - <number> (integer or floating point)\n"
                 + "                               - true or false\n"
+                + "                               - Enum::Value\n" 
+                + "                               - set<S>{} / map<S,T>{}\n"
+                + " - <var> = askfor <type>     Asks the user to input a value of given type\n"
+                + "                             a node/edge is to be entered in yComp (debug\n"
+                + "                             mode must be enabled); other values are to be\n"
+                + "                             entered on the keyboard (format as in <expr>\n"
+                + "                             but constant only)\n"
                 + " - ! <command>               Executes the given system command\n"
                 + " - help <command>*           Displays this help or help about a command\n"
                 + " - exit | quit               Exits the GrShell\n"
@@ -690,6 +697,7 @@ namespace de.unika.ipd.grGen.grShell
 
             Console.WriteLine("\nList of available commands for \"debug\":\n"
                 + " - debug apply ['(' <retvars> ')' = ] <rule> ['(' <params> ')']\n"
+                + "   deprecated - use <var> = askfor <type> instead to get user inputs.\n"
                 + "   Applies the given rule using the parameters and assigning results.\n"
                 + "   For all '?'s used as parameters you will be asked to select the\n"
                 + "   according element in yComp.\n\n"
@@ -2783,6 +2791,75 @@ namespace de.unika.ipd.grGen.grShell
 
             if(debugger.SetLayoutOption(optionName, optionValue))
                 optMap[optionName] = optionValue;       // only remember option if no error was reported
+        }
+
+        public object Askfor(String typeName)
+        {
+            if(TypesHelper.GetNodeOrEdgeType(typeName, curShellGraph.Graph.Model)!=null) // if type is node/edge type let the user select the element in yComp
+            {
+                if(!CheckDebuggerAlive())
+                {
+                    Console.WriteLine("debug mode must be enabled (yComp available) for asking for a node/edge type");
+                    return null;
+                }
+
+                Console.WriteLine("Select an element of type " + typeName + " by double clicking in yComp (ESC for abort):");
+                debugger.YCompClient.WaitForElement(true);
+
+                // Allow to abort with ESC
+                while(true)
+                {
+                    if(Console.KeyAvailable && workaround.ReadKey(true).Key == ConsoleKey.Escape)
+                    {
+                        Console.WriteLine("... aborted");
+                        debugger.YCompClient.WaitForElement(false);
+                        return null;
+                    }
+                    if(debugger.YCompClient.CommandAvailable)
+                        break;
+                    Thread.Sleep(100);
+                }
+
+                String cmd = debugger.YCompClient.ReadCommand();
+                if(cmd.Length < 7 || !cmd.StartsWith("send "))
+                {
+                    Console.WriteLine("Unexpected yComp command: \"" + cmd + "\"");
+                    return null;
+                }
+
+                // Skip 'n' or 'e'
+                String id = cmd.Substring(6);
+                Console.WriteLine("@(\"" + id + "\")");
+
+                IGraphElement elem = curShellGraph.Graph.GetGraphElement(id);
+                if(elem == null)
+                {
+                    Console.WriteLine("Graph element does not exist (anymore?).");
+                    return null;
+                }
+                if(!TypesHelper.IsSameOrSubtype(elem.Type.Name, typeName, curShellGraph.Graph.Model))
+                {
+                    Console.WriteLine(elem.Type.Name + " is not the same type as/a subtype of " + typeName + ".");
+                    return null;
+                }
+                return elem;
+            }
+            else // else let the user type in the value
+            {
+                Console.WriteLine("Enter a value of type " + typeName + ":");
+                String inputValue = Console.ReadLine();
+                StringReader reader = new StringReader(inputValue);
+                GrShell shellForParsing = new GrShell(reader);
+                shellForParsing.SetImpl(this);
+                object val = shellForParsing.Constant();
+                String valTypeName = TypesHelper.XgrsTypeOfConstant(val, curShellGraph.Graph.Model);
+                if(!TypesHelper.IsSameOrSubtype(valTypeName, typeName, curShellGraph.Graph.Model))
+                {
+                    Console.WriteLine(valTypeName + " is not the same type as/a subtype of " + typeName + ".");
+                    return null;
+                }
+                return val;
+            }
         }
 
         #region "dump" commands
