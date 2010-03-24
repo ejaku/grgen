@@ -1,0 +1,8 @@
+new graph "exectype/exectype"
+
+new n:AA
+new n -e:HH-> n
+
+xgrs Map(n,e)
+
+quit

@@ -798,7 +798,22 @@ namespace de.unika.ipd.grGen.lgsp
                 {
                     SequenceEmit seqEmit = (SequenceEmit)seq;
                     if(seqEmit.Variable!=null) {
-                        source.AppendFront("graph.EmitWriter.Write("+GetVar(seqEmit.Variable)+".ToString());\n");
+                        if(seqEmit.Variable.Type=="string" || seqEmit.Variable.Type==""
+                            || seqEmit.Variable.Type.StartsWith("set<") || seqEmit.Variable.Type.StartsWith("map<"))
+                        {
+                            source.AppendFront("if(" + GetVar(seqEmit.Variable) + "!=null) {\n");
+                            source.Indent();
+                            if(seqEmit.Variable.Type=="string") {
+                                source.AppendFront("graph.EmitWriter.Write(" + GetVar(seqEmit.Variable) + ".ToString());\n");
+                            } else {
+                                source.AppendFront("if(" + GetVar(seqEmit.Variable) + " is IDictionary) graph.EmitWriter.Write(GRGEN_LIBGR.DictionaryHelper.ToString((IDictionary)" + GetVar(seqEmit.Variable) + "));\n");
+                                source.AppendFront("else graph.EmitWriter.Write(" + GetVar(seqEmit.Variable) + ".ToString());\n");
+                            }
+                            source.Unindent();
+                            source.AppendFront("}\n");
+                        } else {
+                            source.AppendFront("graph.EmitWriter.Write(" + GetVar(seqEmit.Variable) + ".ToString());\n");
+                        }
                     } else {
                         String text = seqEmit.Text.Replace("\n", "\\n");
                         text = text.Replace("\r", "\\r");

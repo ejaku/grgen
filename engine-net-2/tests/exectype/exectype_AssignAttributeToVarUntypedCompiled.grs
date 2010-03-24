@@ -1,0 +1,14 @@
+new graph "exectype/exectype"
+new x:A
+show var x
+x.f
+x.i
+x.b
+x.st
+x.s
+x.m
+x.fl
+x.d
+xgrs AssignAttributeToVarUntyped(x)
+quit
+	

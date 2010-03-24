@@ -1,0 +1,11 @@
+new graph "exectype/exectype"
+
+new n:AA
+new n -e:HH-> n
+
+xgrs MapPartial1(n,e)
+show var n
+show var e
+show var x
+show var y
+quit

@@ -1150,7 +1150,7 @@ public class ActionsGen extends CSharpBase {
 				}
 				sb.append("},\n");
 				
-				sb.append("\t\t\t\"" + exec.getXGRSString().replace("\"", "\\\"") + "\");\n");
+				sb.append("\t\t\t\"" + exec.getXGRSString().replace("\\", "\\\\").replace("\"", "\\\"") + "\");\n");
 				sb.append("\t\tprivate void ApplyXGRS_" + xgrsID++ + "(GRGEN_LGSP.LGSPGraph graph");
 				for(Entity neededEntity : exec.getNeededEntities()) {
 					sb.append(", " + formatType(neededEntity.getType()) + " var_" + neededEntity.getIdent());

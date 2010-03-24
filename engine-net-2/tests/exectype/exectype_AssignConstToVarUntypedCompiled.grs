@@ -1,0 +1,11 @@
+new graph "exectype/exectype"
+xgrs AssignConstToVarUntyped
+show var x
+show var y
+show var z
+show var u
+show var l
+show var v
+show var w
+show var k
+quit

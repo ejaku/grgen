@@ -1122,8 +1122,7 @@ namespace de.unika.ipd.grGen.libGr
         {
             if(Variable!=null) {
                 object val = Variable.GetVariableValue(graph);
-                if(val==null) graph.EmitWriter.Write("");
-                else {
+                if(val!=null) {
                     if(val is IDictionary) graph.EmitWriter.Write(DictionaryHelper.ToString((IDictionary)val));
                     else graph.EmitWriter.Write(val.ToString());
                 }

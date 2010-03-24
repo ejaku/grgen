@@ -1,0 +1,12 @@
+new graph "exectype/exectype"
+
+new n:AA
+
+xgrs SetPartial2(n)
+show var v
+show var k
+show var i
+show var j
+show var u
+show var w
+quit

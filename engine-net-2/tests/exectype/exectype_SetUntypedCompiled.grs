@@ -1,0 +1,14 @@
+new graph "exectype/exectype"
+
+new n:AA
+
+xgrs SetUntyped(n)
+show var x
+show var y
+show var v
+show var k
+show var i
+show var j
+show var u
+show var w
+quit

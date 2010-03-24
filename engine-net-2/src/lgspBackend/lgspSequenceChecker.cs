@@ -354,7 +354,8 @@ namespace de.unika.ipd.grGen.lgsp
             case SequenceType.SetmapRem:
             {
                 SequenceSetmapRem remSeq = (SequenceSetmapRem)seq;
-                if(remSeq.Setmap.Type!="" && !remSeq.Setmap.Type.StartsWith("set<") && !remSeq.Setmap.Type.StartsWith("map<"))
+                if(remSeq.Setmap.Type == "") break; // we can't check further types if the variable is untyped, only runtime-check possible
+                if(!remSeq.Setmap.Type.StartsWith("set<") && !remSeq.Setmap.Type.StartsWith("map<"))
                 {
                     throw new SequenceParserException(remSeq.Setmap.Name, "set or map type", remSeq.Setmap.Type);
                 }
@@ -368,7 +369,8 @@ namespace de.unika.ipd.grGen.lgsp
             case SequenceType.SetmapClear:
             {
                 SequenceSetmapClear clrSeq = (SequenceSetmapClear)seq;
-                if(clrSeq.Setmap.Type!="" && !clrSeq.Setmap.Type.StartsWith("set<") && !clrSeq.Setmap.Type.StartsWith("map<"))
+                if(clrSeq.Setmap.Type == "") break; // we can't check further types if the variable is untyped, only runtime-check possible
+                if(!clrSeq.Setmap.Type.StartsWith("set<") && !clrSeq.Setmap.Type.StartsWith("map<"))
                 {
                     throw new SequenceParserException(clrSeq.Setmap.Name, "set or map type", clrSeq.Setmap.Type);
                 }
@@ -378,7 +380,8 @@ namespace de.unika.ipd.grGen.lgsp
             case SequenceType.InSetmap:
             {
                 SequenceIn inSeq = (SequenceIn)seq;
-                if(inSeq.Setmap.Type!="" && !inSeq.Setmap.Type.StartsWith("set<") && !inSeq.Setmap.Type.StartsWith("map<"))
+                if(inSeq.Setmap.Type == "") break; // we can't check further types if the variable is untyped, only runtime-check possible
+                if(!inSeq.Setmap.Type.StartsWith("set<") && !inSeq.Setmap.Type.StartsWith("map<"))
                 {
                     throw new SequenceParserException(inSeq.Setmap.Name, "set or map type", inSeq.Setmap.Type);
                 }

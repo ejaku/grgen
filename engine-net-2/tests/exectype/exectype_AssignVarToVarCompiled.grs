@@ -1,0 +1,5 @@
+new graph "exectype/exectype"
+new n:A
+new m:AA
+xgrs AssignVarToVar(n,m)
+quit
