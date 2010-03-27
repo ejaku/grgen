@@ -267,10 +267,12 @@ namespace de.unika.ipd.grGen.lgsp
         {
             if(index < 0 || index >= count)
                 throw new IndexOutOfRangeException("Index out of range: " + index);
-            Match cur = root, last = null;
-            for(int i = 0; i < index; i++, last = cur, cur = cur.next) ;
-            if(last == null) root = cur.next;
-            else last.next = cur.next;
+            Match cur = root, prev = null;
+            for(int i = 0; i < index; i++, prev = cur, cur = cur.next) ;
+            if(prev == null) root = cur.next;
+            else prev.next = cur.next;
+            cur.next = last.next;
+            last.next = cur;
             count--;
             return cur;
         }
@@ -323,10 +325,12 @@ namespace de.unika.ipd.grGen.lgsp
         {
             if (index < 0 || index >= count)
                 throw new IndexOutOfRangeException("Index out of range: " + index);
-            Match cur = root, last = null;
-            for (int i = 0; i < index; i++, last = cur, cur = cur.next) ;
-            if (last == null) root = cur.next;
-            else last.next = cur.next;
+            Match cur = root, prev = null;
+            for (int i = 0; i < index; i++, prev = cur, cur = cur.next) ;
+            if (prev == null) root = cur.next;
+            else prev.next = cur.next;
+            cur.next = last.next;
+            last.next = cur;
             count--;
             return cur;
         }
