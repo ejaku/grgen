@@ -10,13 +10,11 @@ GRGENDIRSRC=$GRGENDIR-src
 svn export https://pp.info.uni-karlsruhe.de/svn/grgen-public/trunk/grgen $GRGENDIRSRC
 
 mv $GRGENDIRSRC/doc/grgen.pdf $GRGENDIRSRC/
-mv $GRGENDIRSRC/doc/VeryShortIntroductionToVersion2.txt $GRGENDIRSRC/
 mv $GRGENDIRSRC/doc/ChangeLog.txt $GRGENDIRSRC/
 mv $GRGENDIRSRC/doc/README.txt $GRGENDIRSRC/
 rm -rf $GRGENDIRSRC/doc
 mkdir $GRGENDIRSRC/doc
 mv $GRGENDIRSRC/grgen.pdf $GRGENDIRSRC/doc/grgen.pdf
-mv $GRGENDIRSRC/VeryShortIntroductionToVersion2.txt $GRGENDIRSRC/doc/VeryShortIntroductionToVersion2.txt
 mv $GRGENDIRSRC/ChangeLog.txt $GRGENDIRSRC/doc/ChangeLog.txt
 mv $GRGENDIRSRC/README.txt $GRGENDIRSRC/doc/README.txt
 
