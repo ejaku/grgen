@@ -67,9 +67,7 @@
   </Target>
   -->
   <PropertyGroup>
-    <PostBuildEvent>copy "$(ProjectDir)..\..\bin\grgen.jar" "$(TargetDir)"
-copy "$(ProjectDir)..\..\bin\antlr.jar" "$(TargetDir)"
-copy "$(ProjectDir)..\..\bin\jargs.jar" "$(TargetDir)"
+    <PostBuildEvent>copy "$(ProjectDir)..\..\bin\*.jar" "$(TargetDir)"
 copy "$(ProjectDir)..\..\bin\ycomp.bat" "$(TargetDir)"</PostBuildEvent>
   </PropertyGroup>
 </Project>
