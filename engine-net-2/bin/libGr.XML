@@ -4,6 +4,14 @@
         <name>libGr</name>
     </assembly>
     <members>
+        <member name="T:de.unika.ipd.grGen.libGr.SequenceVariable">
+            <summary>
+            A variable declared/used within a sequence, 
+            might be a sequence-local variable or a reference to a graph-global variable.
+            It is first stored within the symbol table belonging to the sequence on sequence parsing,
+            after parsing only on the heap, with references from the sequence AST pointing to it.
+            </summary>
+        </member>
         <member name="T:de.unika.ipd.grGen.libGr.SequenceType">
             <summary>
             Specifies the actual subtype used for a Sequence.
@@ -47,6 +55,16 @@
             <param name="graph">The graph on which this sequence is to be applied.</param>
             <returns>True, iff the sequence succeeded</returns>
         </member>
+        <member name="F:de.unika.ipd.grGen.libGr.Sequence.id">
+            <summary>
+            stores the sequence unique id
+            </summary>
+        </member>
+        <member name="F:de.unika.ipd.grGen.libGr.Sequence.idSource">
+            <summary>
+            the static member used to assign the unique ids to the sequence instances
+            </summary>
+        </member>
         <member name="P:de.unika.ipd.grGen.libGr.Sequence.Children">
             <summary>
             Enumerates all child sequence objects
@@ -62,6 +80,11 @@
         <member name="P:de.unika.ipd.grGen.libGr.Sequence.Symbol">
             <summary>
             A string symbol representing this sequence type.
+            </summary>
+        </member>
+        <member name="P:de.unika.ipd.grGen.libGr.Sequence.Id">
+            <summary>
+            returns the sequence id - every sequence is assigned a unique id used in xgrs code generation
             </summary>
         </member>
         <member name="T:de.unika.ipd.grGen.libGr.SequenceSpecial">
@@ -98,62 +121,61 @@
             A parser class for xgrs strings.
             </summary>
         </member>
+        <member name="F:de.unika.ipd.grGen.libGr.sequenceParser.SequenceParser.actions">
+            <summary>
+            The rules used in the specification, set if parsing an xgrs to be interpreted
+            </summary>
+        </member>
+        <member name="F:de.unika.ipd.grGen.libGr.sequenceParser.SequenceParser.ruleNames">
+            <summary>
+            The names of the rules used in the specification, set if parsing an xgrs to be compiled
+            </summary>
+        </member>
+        <member name="F:de.unika.ipd.grGen.libGr.sequenceParser.SequenceParser.model">
+            <summary>
+            The model used in the specification
+            </summary>
+        </member>
         <member name="F:de.unika.ipd.grGen.libGr.sequenceParser.SequenceParser.varDecls">
             <summary>
-            Maps variable names to type names.
-            Variable usages before declaration create a map entry with a null type.
-            If varDecls is null, no variable declarations are allowed.
+            Symbol table of the sequence variables, maps from name to the prefixed(by block nesting) name and the type;
+            a graph-global variable maps to type "", a sequence-local to its type
             </summary>
         </member>
         <member name="M:de.unika.ipd.grGen.libGr.sequenceParser.SequenceParser.ParseSequence(System.String,de.unika.ipd.grGen.libGr.BaseActions)">
             <summary>
-            Parses a given string in xgrs syntax and builds a Sequence object.
+            Parses a given string in xgrs syntax and builds a Sequence object. Used for the interpreted xgrs.
             </summary>
             <param name="sequenceStr">The string representing a xgrs (e.g. "test[7] &amp;&amp; (chicken+ || egg)*")</param>
             <param name="actions">The BaseActions object containing the rules used in the string.</param>
             <returns>The sequence object according to sequenceStr.</returns>
             <exception cref="T:de.unika.ipd.grGen.libGr.sequenceParser.ParseException">Thrown when a syntax error was found in the string.</exception>
-            <exception cref="T:de.unika.ipd.grGen.libGr.SequenceParserRuleException">Thrown when a rule is used with the wrong number of arguments
+            <exception cref="T:de.unika.ipd.grGen.libGr.SequenceParserException">Thrown when a rule is used with the wrong number of arguments
             or return parameters.</exception>
         </member>
-        <member name="M:de.unika.ipd.grGen.libGr.sequenceParser.SequenceParser.ParseSequence(System.String,de.unika.ipd.grGen.libGr.BaseActions,System.Collections.Generic.Dictionary{System.String,System.String})">
+        <member name="M:de.unika.ipd.grGen.libGr.sequenceParser.SequenceParser.ParseSequence(System.String,System.String[],System.Collections.Generic.Dictionary{System.String,System.String},de.unika.ipd.grGen.libGr.IGraphModel)">
             <summary>
-            Parses a given string in xgrs syntax and builds a Sequence object.
+            Parses a given string in xgrs syntax and builds a Sequence object. Used for the compiled xgrs.
             </summary>
             <param name="sequenceStr">The string representing a xgrs (e.g. "test[7] &amp;&amp; (chicken+ || egg)*")</param>
-            <param name="actions">The BaseActions object containing the rules used in the string.</param>
-            <param name="varDecls">A map from variables to types which will be filled for the
-            given sequence. It may already contain predefined variables.</param>
+            <param name="ruleNames">An array containing the names of the rules used in the specification.</param>
+            <param name="predefinedVariables">A map from variables to types giving the parameters to the sequence, i.e. predefined variables.</param>
+            <param name="model">The model used in the specification.</param>
             <returns>The sequence object according to sequenceStr.</returns>
             <exception cref="T:de.unika.ipd.grGen.libGr.sequenceParser.ParseException">Thrown when a syntax error was found in the string.</exception>
-            <exception cref="T:de.unika.ipd.grGen.libGr.SequenceParserRuleException">Thrown when a rule is used with the wrong number of arguments
+            <exception cref="T:de.unika.ipd.grGen.libGr.SequenceParserException">Thrown when a rule is used with the wrong number of arguments
             or return parameters.</exception>
         </member>
-        <member name="M:de.unika.ipd.grGen.libGr.sequenceParser.SequenceParser.ParseSequence(System.String,de.unika.ipd.grGen.libGr.BaseActions,de.unika.ipd.grGen.libGr.NamedGraph)">
+        <member name="T:de.unika.ipd.grGen.libGr.ScopeType">
             <summary>
-            Parses a given string in xgrs syntax and builds a Sequence object.
+            The possible scope opening types
             </summary>
-            <param name="sequenceStr">The string representing a xgrs (e.g. "test[7] &amp;&amp; (chicken+ || egg)*")</param>
-            <param name="actions">The BaseActions object containing the rules used in the string.</param>
-            <param name="namedGraph">A NamedGraph object to be used for named element access (@-operator).</param>
-            <returns>The sequence object according to sequenceStr.</returns>
-            <exception cref="T:de.unika.ipd.grGen.libGr.sequenceParser.ParseException">Thrown when a syntax error was found in the string.</exception>
-            <exception cref="T:de.unika.ipd.grGen.libGr.SequenceParserRuleException">Thrown when a rule is used with the wrong number of arguments
-            or return parameters.</exception>
         </member>
-        <member name="M:de.unika.ipd.grGen.libGr.sequenceParser.SequenceParser.ParseSequence(System.String,de.unika.ipd.grGen.libGr.BaseActions,System.Collections.Generic.Dictionary{System.String,System.String},de.unika.ipd.grGen.libGr.NamedGraph)">
+        <member name="T:de.unika.ipd.grGen.libGr.SymbolTable">
             <summary>
-            Parses a given string in xgrs syntax and builds a Sequence object.
+            class of symbol table containing the variables declared in the sequence 
+            variables might be implicitely(graph-global) or explicitely(sequence-local) declared
             </summary>
-            <param name="sequenceStr">The string representing a xgrs (e.g. "test[7] &amp;&amp; (chicken+ || egg)*")</param>
-            <param name="actions">The BaseActions object containing the rules used in the string.</param>
-            <param name="varDecls">A map from variables to types which will be filled for the
-            given sequence. It may already contain predefined variables.</param>
-            <param name="namedGraph">A NamedGraph object to be used for named element access (@-operator).</param>
-            <returns>The sequence object according to sequenceStr.</returns>
-            <exception cref="T:de.unika.ipd.grGen.libGr.sequenceParser.ParseException">Thrown when a syntax error was found in the string.</exception>
-            <exception cref="T:de.unika.ipd.grGen.libGr.SequenceParserRuleException">Thrown when a rule is used with the wrong number of arguments
-            or return parameters.</exception>
         </member>
         <member name="F:de.unika.ipd.grGen.libGr.porter.TokenMgrError.LexicalError">
             Lexical error occured.
@@ -496,11 +518,11 @@
             or -1, if all matches are to be applied.</param>
             <returns>A possibly empty array of objects returned by the last applied rewrite.</returns>
         </member>
-        <member name="M:de.unika.ipd.grGen.libGr.IGraph.ApplyRewrite(de.unika.ipd.grGen.libGr.RuleObject,System.Int32,System.Int32,System.Boolean,System.Boolean)">
+        <member name="M:de.unika.ipd.grGen.libGr.IGraph.ApplyRewrite(de.unika.ipd.grGen.libGr.RuleInvocationParameterBindings,System.Int32,System.Int32,System.Boolean,System.Boolean)">
             <summary>
             Apply a rewrite rule.
             </summary>
-            <param name="ruleObject">RuleObject to be applied</param>
+            <param name="paramBindings">The parameter bindings of the rule invocation</param>
             <param name="which">The index of the match to be rewritten or -1 to rewrite all matches</param>
             <param name="localMaxMatches">Specifies the maximum number of matches to be found (if less or equal 0 the number of matches
             depends on MaxMatches)</param>
@@ -1149,11 +1171,11 @@
             or -1, if all matches are to be applied.</param>
             <returns>A possibly empty array of objects returned by the last applied rewrite.</returns>
         </member>
-        <member name="M:de.unika.ipd.grGen.libGr.NamedGraph.ApplyRewrite(de.unika.ipd.grGen.libGr.RuleObject,System.Int32,System.Int32,System.Boolean,System.Boolean)">
+        <member name="M:de.unika.ipd.grGen.libGr.NamedGraph.ApplyRewrite(de.unika.ipd.grGen.libGr.RuleInvocationParameterBindings,System.Int32,System.Int32,System.Boolean,System.Boolean)">
             <summary>
             Apply a rewrite rule.
             </summary>
-            <param name="ruleObject">RuleObject to be applied</param>
+            <param name="paramBindings">The parameter bindings of the rule invocation</param>
             <param name="which">The index of the match to be rewritten or -1 to rewrite all matches</param>
             <param name="localMaxMatches">Specifies the maximum number of matches to be found (if less or equal 0 the number of matches
             depends on MaxMatches)</param>
@@ -1860,7 +1882,7 @@
         </member>
         <member name="T:de.unika.ipd.grGen.libGr.Variable">
             <summary>
-            A named variable.
+            A named graph-global variable.
             </summary>
         </member>
         <member name="F:de.unika.ipd.grGen.libGr.Variable.Name">
@@ -3730,11 +3752,11 @@
             or -1, if all matches are to be applied.</param>
             <returns>A possibly empty array of objects returned by the last applied rewrite.</returns>
         </member>
-        <member name="M:de.unika.ipd.grGen.libGr.BaseGraph.ApplyRewrite(de.unika.ipd.grGen.libGr.RuleObject,System.Int32,System.Int32,System.Boolean,System.Boolean)">
+        <member name="M:de.unika.ipd.grGen.libGr.BaseGraph.ApplyRewrite(de.unika.ipd.grGen.libGr.RuleInvocationParameterBindings,System.Int32,System.Int32,System.Boolean,System.Boolean)">
             <summary>
             Apply a rewrite rule.
             </summary>
-            <param name="ruleObject">RuleObject to be applied</param>
+            <param name="paramBindings">The parameter bindings of the rule invocation</param>
             <param name="which">The index of the match to be rewritten or -1 to rewrite all matches</param>
             <param name="localMaxMatches">Specifies the maximum number of matches to be found (if less or equal 0 the number of matches
             depends on MaxMatches)</param>
@@ -4146,6 +4168,17 @@
             Deprecated...
             </summary>
         </member>
+        <member name="T:de.unika.ipd.grGen.libGr.SequenceChecker">
+            <summary>
+            Class for some basic checking of the sequence which is to be interpreted.
+            </summary>
+        </member>
+        <member name="M:de.unika.ipd.grGen.libGr.SequenceChecker.Check(de.unika.ipd.grGen.libGr.Sequence)">
+            <summary>
+            Checks the given sequence for errors
+            reports them by exception
+            </summary>
+        </member>
         <member name="T:de.unika.ipd.grGen.libGr.GRSExport">
             <summary>
             Exports graphs to the GRS format.
@@ -4175,48 +4208,49 @@
             for an attribute of the given type with the given value into the stream writer
             </summary>
         </member>
-        <member name="T:de.unika.ipd.grGen.libGr.RuleObject">
+        <member name="T:de.unika.ipd.grGen.libGr.RuleInvocationParameterBindings">
             <summary>
-            An object representing a rule invocation with optional parameter variables and optional return value receiving variables.
-            Used by the sequence objects and BaseActions.
+            An object representing a rule invocation.
+            It tells from where (which variables/constants) to get the input values 
+            and where (which variables) to store the output values.
             </summary>
         </member>
-        <member name="F:de.unika.ipd.grGen.libGr.RuleObject.Action">
+        <member name="F:de.unika.ipd.grGen.libGr.RuleInvocationParameterBindings.Action">
             <summary>
             The IAction instance to be used
             </summary>
         </member>
-        <member name="F:de.unika.ipd.grGen.libGr.RuleObject.RuleName">
+        <member name="F:de.unika.ipd.grGen.libGr.RuleInvocationParameterBindings.RuleName">
             <summary>
             The name of the rule. Used for generation, where the IAction objects do not exist yet.
             </summary>
         </member>
-        <member name="F:de.unika.ipd.grGen.libGr.RuleObject.ParamVars">
+        <member name="F:de.unika.ipd.grGen.libGr.RuleInvocationParameterBindings.ParamVars">
             <summary>
-            An array of variable names used for the parameters.
+            An array of variables used for the parameters.
             It must have the same length as Parameters.
             If an entry is null, the according entry in parameters is used unchanged.
             </summary>
         </member>
-        <member name="F:de.unika.ipd.grGen.libGr.RuleObject.ReturnVars">
+        <member name="F:de.unika.ipd.grGen.libGr.RuleInvocationParameterBindings.ReturnVars">
             <summary>
-            An array of variable names used for the return values
+            An array of variables used for the return values.
             </summary>
         </member>
-        <member name="F:de.unika.ipd.grGen.libGr.RuleObject.Parameters">
+        <member name="F:de.unika.ipd.grGen.libGr.RuleInvocationParameterBindings.Parameters">
             <summary>
             Buffer to store parameters used by libGr to avoid unneccessary memory allocation.
             Also holds constant parameters at the positions where ParamVars has null entries.
             </summary>
         </member>
-        <member name="M:de.unika.ipd.grGen.libGr.RuleObject.#ctor(de.unika.ipd.grGen.libGr.IAction,System.String[],System.Object[],System.String[])">
+        <member name="M:de.unika.ipd.grGen.libGr.RuleInvocationParameterBindings.#ctor(de.unika.ipd.grGen.libGr.IAction,de.unika.ipd.grGen.libGr.SequenceVariable[],System.Object[],de.unika.ipd.grGen.libGr.SequenceVariable[])">
             <summary>
-            Instantiates a new RuleObject
+            Instantiates a new RuleInvocationParameterBindings object
             </summary>
             <param name="action">The IAction instance to be used</param>
-            <param name="paramVars">An array of variable names used for the parameters</param>
+            <param name="paramVars">An array of variable used for the parameters</param>
             <param name="paramConsts">An array of constants used for the parameters.</param>
-            <param name="returnVars">An array of variable names used for the return values</param>
+            <param name="returnVars">An array of variables used for the return values</param>
         </member>
         <member name="T:de.unika.ipd.grGen.libGr.IAction">
             <summary>
@@ -4591,6 +4625,11 @@
             Returns enumerator over matches of exact type
             </summary>
         </member>
+        <member name="M:de.unika.ipd.grGen.libGr.IMatchesExact`1.RemoveMatchExact(System.Int32)">
+            <summary>
+            Removes the match of exact type at the given index and returns it.
+            </summary>
+        </member>
         <member name="P:de.unika.ipd.grGen.libGr.IMatchesExact`1.FirstExact">
             <summary>
             Returns the first match of exact type (null if no match exists).
@@ -4775,6 +4814,14 @@
             <param name="valueType">The value type of the dictionary</param>
             <returns>The casted input dictionary, or null if not a dictionary</returns>
         </member>
+        <member name="M:de.unika.ipd.grGen.libGr.DictionaryHelper.GetDictionaryTypes(System.Type,System.Type@,System.Type@)">
+            <summary>
+            The key and value types are returned of the dictionary
+            </summary>
+            <param name="dictType">The dictionary type</param>
+            <param name="keyType">The key type of the dictionary</param>
+            <param name="valueType">The value type of the dictionary</param>
+        </member>
         <member name="M:de.unika.ipd.grGen.libGr.DictionaryHelper.GetTypeFromNameForDictionary(System.String,de.unika.ipd.grGen.libGr.IGraph)">
             <summary>
             Returns type object for type name string, to be used for dictionary
@@ -4917,6 +4964,13 @@
         </member>
         <!-- Badly formed XML comment ignored for member "M:de.unika.ipd.grGen.libGr.DictionaryHelper.ToString(System.Collections.IDictionary,System.String@,System.String@)" -->
         <!-- Badly formed XML comment ignored for member "M:de.unika.ipd.grGen.libGr.DictionaryHelper.ToString(System.Collections.IDictionary,de.unika.ipd.grGen.libGr.AttributeChangeType,System.Object,System.Object,System.String@,System.String@)" -->
+        <member name="M:de.unika.ipd.grGen.libGr.DictionaryHelper.IfAttributeOfElementIsDictionaryThenCloneDictionaryValue(de.unika.ipd.grGen.libGr.IGraphElement,System.String,System.Object,de.unika.ipd.grGen.libGr.AttributeType@)">
+            <summary>
+            If the attribute of the given name of the given element is a set or map attribute
+            then return a clone of the given dictionary value, otherwise just return the original value;
+            additionally returns the AttributeType of the attribute of the element.
+            </summary>
+        </member>
         <member name="T:de.unika.ipd.grGen.libGr.sequenceParser.SimpleCharStream">
             <summary>
             An implementation of interface CharStream, where the stream is assumed to
@@ -4955,6 +5009,11 @@
             The type of a parameter does not match the signature of the action.
             </summary>
         </member>
+        <member name="F:de.unika.ipd.grGen.libGr.SequenceParserError.BadReturnParameter">
+            <summary>
+            The type of a return parameter does not match the signature of the action.
+            </summary>
+        </member>
         <member name="F:de.unika.ipd.grGen.libGr.SequenceParserError.RuleNameUsedByVariable">
             <summary>
             A variable has been declared with the name of an action.
@@ -4965,50 +5024,70 @@
             A variable has been used with parameters and/or return parameters.
             </summary>
         </member>
-        <member name="F:de.unika.ipd.grGen.libGr.SequenceParserError.InvalidUseOfVariable">
+        <member name="F:de.unika.ipd.grGen.libGr.SequenceParserError.UnknownAttribute">
             <summary>
-            A non-boolean variable has been used as a predicate.
+            The attribute is not known
             </summary>
         </member>
-        <member name="T:de.unika.ipd.grGen.libGr.SequenceParserRuleException">
+        <member name="F:de.unika.ipd.grGen.libGr.SequenceParserError.TypeMismatch">
             <summary>
-            An exception thrown by SequenceParser describing,
-            which rule caused the problem and how it was used
+            Type check error
             </summary>
         </member>
-        <member name="F:de.unika.ipd.grGen.libGr.SequenceParserRuleException.Kind">
+        <member name="T:de.unika.ipd.grGen.libGr.SequenceParserException">
+            <summary>
+            An exception thrown by SequenceParser,
+            describing the error, e.g. which rule caused the problem and how it was used
+            </summary>
+        </member>
+        <member name="F:de.unika.ipd.grGen.libGr.SequenceParserException.Kind">
             <summary>
             The kind of error.
             </summary>
         </member>
-        <member name="F:de.unika.ipd.grGen.libGr.SequenceParserRuleException.RuleName">
+        <member name="F:de.unika.ipd.grGen.libGr.SequenceParserException.RuleName">
             <summary>
             The name of the rule.
             </summary>
         </member>
-        <member name="F:de.unika.ipd.grGen.libGr.SequenceParserRuleException.Action">
+        <member name="F:de.unika.ipd.grGen.libGr.SequenceParserException.Action">
             <summary>
             The associated action instance. If it is null, there was no rule with the name specified in RuleName.
             </summary>
         </member>
-        <member name="F:de.unika.ipd.grGen.libGr.SequenceParserRuleException.NumGivenInputs">
+        <member name="F:de.unika.ipd.grGen.libGr.SequenceParserException.NumGivenInputs">
             <summary>
             The number of inputs given to the rule.
             </summary>
         </member>
-        <member name="F:de.unika.ipd.grGen.libGr.SequenceParserRuleException.NumGivenOutputs">
+        <member name="F:de.unika.ipd.grGen.libGr.SequenceParserException.NumGivenOutputs">
             <summary>
             The number of outputs given to the rule.
             </summary>
         </member>
-        <member name="F:de.unika.ipd.grGen.libGr.SequenceParserRuleException.BadParamIndex">
+        <member name="F:de.unika.ipd.grGen.libGr.SequenceParserException.BadParamIndex">
             <summary>
             The index of a bad parameter or -1 if another error occurred.
             </summary>
         </member>
-        <member name="M:de.unika.ipd.grGen.libGr.SequenceParserRuleException.#ctor(System.String,de.unika.ipd.grGen.libGr.IAction,System.Int32,System.Int32,System.Int32)">
+        <member name="F:de.unika.ipd.grGen.libGr.SequenceParserException.VariableOrFunctionName">
             <summary>
-            Creates an instance of a SequenceParserRuleException used by the SequenceParser, when the rule with the
+            The variable which caused the type error or the function which caused the type error
+            </summary>
+        </member>
+        <member name="F:de.unika.ipd.grGen.libGr.SequenceParserException.ExpectedType">
+            <summary>
+            The expected type or types
+            </summary>
+        </member>
+        <member name="F:de.unika.ipd.grGen.libGr.SequenceParserException.GivenType">
+            <summary>
+            The given type
+            </summary>
+        </member>
+        <member name="M:de.unika.ipd.grGen.libGr.SequenceParserException.#ctor(System.String,de.unika.ipd.grGen.libGr.IAction,System.Int32,System.Int32,System.Int32)">
+            <summary>
+            Creates an instance of a SequenceParserException used by the SequenceParser, when the rule with the
             given name does not exist or input or output parameters do not match.
             </summary>
             <param name="ruleName">The name of the rule.</param>
@@ -5018,22 +5097,36 @@
             <param name="numGivenOutputs">The number of outputs given to the rule.</param>
             <param name="badParamIndex">The index of a bad parameter or -1 if another error occurred.</param>
         </member>
-        <member name="M:de.unika.ipd.grGen.libGr.SequenceParserRuleException.#ctor(de.unika.ipd.grGen.libGr.RuleObject,de.unika.ipd.grGen.libGr.SequenceParserError)">
+        <member name="M:de.unika.ipd.grGen.libGr.SequenceParserException.#ctor(System.String,de.unika.ipd.grGen.libGr.SequenceParserError)">
             <summary>
-            Creates an instance of a SequenceParserRuleException used by the SequenceParser, when the rule with the
+            Creates an instance of a SequenceParserException used by the SequenceParser, when the rule with the
             given name does not exist or input or output parameters do not match.
             </summary>
-            <param name="ruleObj">A rule object.</param>
+            <param name="ruleName">Name of the rule or variable.</param>
             <param name="errorKind">The kind of error.</param>
         </member>
-        <member name="M:de.unika.ipd.grGen.libGr.SequenceParserRuleException.#ctor(de.unika.ipd.grGen.libGr.RuleObject,de.unika.ipd.grGen.libGr.SequenceParserError,System.Int32)">
+        <member name="M:de.unika.ipd.grGen.libGr.SequenceParserException.#ctor(de.unika.ipd.grGen.libGr.RuleInvocationParameterBindings,de.unika.ipd.grGen.libGr.SequenceParserError)">
             <summary>
-            Creates an instance of a SequenceParserRuleException used by the SequenceParser, when the rule with the
+            Creates an instance of a SequenceParserException used by the SequenceParser, when the rule with the
             given name does not exist or input or output parameters do not match.
             </summary>
-            <param name="ruleObj">A rule object.</param>
+            <param name="paramBindings">The parameter bindings of the rule invocation.</param>
+            <param name="errorKind">The kind of error.</param>
+        </member>
+        <member name="M:de.unika.ipd.grGen.libGr.SequenceParserException.#ctor(de.unika.ipd.grGen.libGr.RuleInvocationParameterBindings,de.unika.ipd.grGen.libGr.SequenceParserError,System.Int32)">
+            <summary>
+            Creates an instance of a SequenceParserException used by the SequenceParser, when the rule with the
+            given name does not exist or input or output parameters do not match.
+            </summary>
+            <param name="paramBindings">The parameter bindings of the rule invocation.</param>
             <param name="errorKind">The kind of error.</param>
             <param name="badParamIndex">The index of a bad parameter or -1 if another error occurred.</param>
+        </member>
+        <member name="M:de.unika.ipd.grGen.libGr.SequenceParserException.#ctor(System.String,System.String,System.String)">
+            <summary>
+            Creates an instance of a SequenceParserException used by the SequenceParser,
+            when the expected type does not match the given type of the variable of function.
+            </summary>
         </member>
         <member name="T:de.unika.ipd.grGen.libGr.BaseActions">
             <summary>
