@@ -6,17 +6,37 @@
 \section{What is \GrG?}
 
 {\scshape GrGen} (\textsc{G}raph \textsc{R}ewrite \textsc{Gen}erator) is a generative programming system for graph rewriting,
-meant to be used for the generation of the algorithmic core of applications processing graph structured data.
+which considerably eases the transformation of complex graph structured data,
+comparable to other programming tools like parser generators which ease the task of formal language recognition,
+or databases which ease the task of persistent data storage and querying. 
+
 It is combined from two groups of components:
-The first consists of the compiler grgen -- transforming declarative graph rewrite rule specifications into highly efficient .NET-assemblies --
-and the execution environment libGr, which offer the basic functionality of the system. 
-The second consists of the interactive command line GrShell and the graph viewer yComp,
+The first consists of the compiler \texttt{grgen} -- transforming declarative graph rewrite rule specifications into highly efficient .NET-assemblies --
+and the execution environment \texttt{libGr}, which offer the basic functionality of the system. 
+The second consists of the interactive command line \texttt{GrShell} and the graph viewer \texttt{yComp},
 which offer a rapid prototyping environment supporting graphical and stepwise debugging of programmed rule applications.
+
 \GrG~\cite{grgen_web} is the successor of the \textsc{GrGen} tool presented at ICGT 2006~\cite{GBGHS:06}. 
 The ``.NET'' postfix of the new name indicates that \textsc{GrGen} has been reimplemented in C\# for the Microsoft .NET or Mono environment~\cite{NET,MONO};
 it is open source licensed under LGPL3 and available for download at \url{www.grgen.net}.
 Starting as a compiler construction helper tool it has grown into a software development tool for general purpose graph transformation,
-which offers through its declarative languages with automatic optimization the highest combined speed of development and execution.
+which offers the highest combined speed of development and execution for graph based algorithms through its declarative languages with automatic optimization.
+
+
+\section{When to use \GrG~and when not}
+You may be interested in using \GrG\ if you have to tackle the task of transforming meshes of massively linked objects, i.e. graph-like data structures,
+as is the case in e.g. model transformation, computer linguistics, or modern compiler construction 
+(any time there is more than one relation of interest in between the data entities your algorithm operates upon).
+These tasks are traditionally handled by pointer structures and pointer structure navigation-, search-, and replacement routines written by hand
+-- this low-level, pointer-fiddling code can be generated automatically for you by \GrG.
+You specify your transformation task on a higher level of nodes connected by edges, and rewrite rules of patterns to be searched plus modifications to be carried out,
+and then let \GrG\ generate the algorithmic core of your application.
+
+There is nothing to gain from \GrG\ if scalars, lists and trees are sufficient to \emph{adequately} model your domain 
+(which is the case for a lot of tasks in computing indeed; 
+but which is not the case for others which would be better modeled with graphs, but aren't because of the cost of maintaining graph structures by hand).
+The graph rewrite generator is not the right tool for you if you're searching for a visual environment to teach children programming -- it's a tool for software engineers.
+Neither is it what you need if your graph structured data is to be interactively edited by an end user instead of being automatically transformed by rules (the editor generator DiaGen\cite{diagen} may be of interest in this case).
 
 
 \section{Features of \GrG}
@@ -76,7 +96,7 @@ We have organized the presentation of the features of the \GrG\ languages accord
 
 \noindent These were the features of the core of \GrG-System, 
 the generator \texttt{grgen.exe} and its languages plus its runtime environment \texttt{libGr}.
-In addition, the \GrG system offers a shell application, the \GrShell, 
+In addition, the \GrG\ system offers a shell application, the \GrShell, 
 which features commands for
 \begin{table}[htbp]
     \begin{tabularx}{\linewidth}{ll}
@@ -93,6 +113,7 @@ which features commands for
 The debugging and graph visualisation commands are implemented in cooperation with the graph viewer \yComp.
 Alternatively to \GrShell, you can access the match and rewrite facility through \LibGr. 
 This way you can build your own algorithmic rule applications in a .NET language of your choice. 
+
 
 \section{System Overview}
 
@@ -152,7 +173,8 @@ Figure~\ref{figsys} gives an overview of the \GrG\ system components.
 %  \label{dirstruc}
 %\end{table}
 
-A graph rewrite system\footnote{In this context, system is not a CH0-like grammar rewrite system, but rather a set of interacting software components.} is defined by a rule set file (*.grg) and zero or more graph model description files (*.gm). 
+A graph rewrite system\footnote{In this context, system is not a CH0-like grammar rewrite system, but rather a set of interacting software components.} 
+is defined by a rule set file (*.grg, which may include further rule set files) and zero or more graph model description files (*.gm). 
 It is generated from these specifications by GrGen.exe and can be used by applications such as \GrShell.
 Figure~\ref{process} shows the generation process.
 
@@ -464,7 +486,8 @@ By default \GrG\ tries to write the compiled assemblies into the same directory 
 \begin{itemize}
   \item \texttt{printOutput.txt}---a snapshot of \texttt{stdout} during program execution.
   \item \emph{Name}\texttt{Model.cs}---the C\# source file(s) of the \emph{rule-set}\texttt{Modell.dll} assembly.
-  \item \emph{Name}\texttt{Actions\_intermediate.cs}---a preliminary version of the C\# source file of the \emph{rule-set}'s actions assembly. This file is for internal debug purposes only.
+  \item \emph{Name}\texttt{Actions\_intermediate.cs}---a preliminary version of the C\# source file of the \emph{rule-set}'s actions assembly. 
+	This file is for internal debug purposes only (it contains the frontend actions output).
   \item \emph{Name}\texttt{Actions.cs}---the C\# source file of the \emph{rule-set}\texttt{Actions.dll} assembly.
 \end{itemize}\\
       \texttt{-use} & Don't re-generate C\# source files. Instead use the files in \emph{existing-dir} to build the assemblies.\\	
@@ -565,11 +588,11 @@ According to \indexed{Varr\'o's benchmark}\cite{varro_bench}, it is at least one
 is gained by interactive and graphical debugging of the rule application, capable of visualizing the matched pattern, the rewrite which will be applied, and the currently active rule out of the rewrite sequence.
 A further point easening development is the application programming interface of the generated code,
 which offers access to named, statically typed entities, catching most errors before runtime and allowing the code completion mechanisms of modern IDEs to excel.
-In addition a generic interface operating on name strings and .NET objects is available for applications where the rules may change at runtime (as e.g. the \GrShell\).
+In addition a generic interface operating on name strings and .NET objects is available for applications where the rules may change at runtime (as e.g. the \GrShell).
 Another important factor regarding development convenience is currently read by you.
 There's one convenience not offered you may expect: a visual rule language and an editor.
 This brings a clear benefit -- graph transformation specifications to be processed by \GrG\ can be easily generated --
-and especially is a good deal cheaper to implement. Given the limited resources of an university project this is an important point,
+but especially is a good deal cheaper to implement. Given the limited resources of an university project this is an important point,
 as can be seen with the AGG\cite{agg} tool, offering a nice graphical editor but delivering performance only up to simple toy examples.
 
 \item[Well Founded Semantics]
@@ -590,7 +613,7 @@ which achieved a high level of sophistication, but is difficult to run by now, o
 \item[General Purpose Graph Transformation]
 in contrast to special purpose graph transformation.
 A lot of other tools are geared towards special purpose applications, e.g. model transformation or biology (corresponding examples are VIATRA2\cite{viatra2} and XL \cite{xl}).
-This means that design decisions were taken to ease uses in this applications at the cost rendering uses in other domains more difficult.
+This means that design decisions were taken to ease uses in this applications at the cost of rendering uses in other domains more difficult.
 While the old \textsc{GrGen} was built as a special purpose compiler construction tool, the new \GrG\ was built from the beginning as a general purpose graph transformation tool,
 to be used in areas as diverse as computer linguistics, software engineering, computational biology or sociology;
 for reasoning with semantic nets, transformation of natural language to UML models,

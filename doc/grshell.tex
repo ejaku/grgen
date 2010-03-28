@@ -75,7 +75,10 @@ Persistent names have to be unique for a graph (the graph they belong to).
 \begin{rail}
   Variable '=' ( GraphElement | Variable | Literal )
 \end{rail}
-Assigns the variable or persistent name \emph{GraphElement} or literal to \emph{Variable}. If \emph{Variable} has not been defined yet, it will be defined implicitly. As usual for scripting languages, variables have neither static types nor declarations.
+Assigns the variable or persistent name \emph{GraphElement} or literal to \emph{Variable}.
+If \emph{Variable} has not been defined yet, it will be defined implicitly.
+As usual for scripting languages, variables have neither static types nor declarations.
+The variables known to \GrShell\ are the graph global variables (see \ref{cha:xgrs} for the distinction between graph global and sequence local variables).
 
 \begin{rail} 
 'show' 'var' Variable 
@@ -117,6 +120,26 @@ If a parser error occurs, execution of the script will stop immediately.
   'echo' Text
 \end{rail}\ixkeyw{echo}
 Prints \emph{Text} onto the \GrShell\ command prompt.
+
+\begin{rail}
+  Variable '=' 'askfor' Type
+\end{rail}\ixkeyw{askfor}
+The \texttt{askfor} command interactively asks the user for a value of the specified type.
+The entered value is type checked against the expected type, and assigned to the given variable in case it matches.
+If the type is a value type, the user is prompted to enter a value literal with the keyboard.
+If the type is a graph element type, the user is prompted to enter the graph element by double clicking in yComp.
+Note that in this case the debug mode must have been enabled before.
+
+\begin{example}
+\begin{grshelllet}
+x = askfor int
+\end{grshelllet}
+asks the user to enter an integer value; pressing 4 then 2 then enter will do fine.
+\begin{grshelllet}
+x = askfor Node
+\end{grshelllet}
+asks the user to select a graph element in yComp; double clicking any node will do fine. 
+\end{example}
 
 \begin{rail}
   '!' CommandLine
@@ -258,7 +281,7 @@ The created script includes
 \begin{itemize}
   \item selecting the backend
   \item creating a new graph with all nodes and edges (including their persistent names)
-  \item restoring the variables
+  \item restoring the (graph global) variables
   \item restoring the visualisation styles
 \end{itemize}
 but not necessarily using the same commands you typed in during construction. 
@@ -269,7 +292,7 @@ Such a script can be loaded and executed by the \texttt{include} command (see Se
 \end{rail}\ixkeyw{export}
 Exports an instance graph in GRS format, which is a reduced \GrShell\ script (it can get imported and exported on API level\ref{sub:imexport} without using the \GrShell\).
 It contains the \texttt{new graph} command, followed by \texttt{new node} commands, followed by \texttt{new edge} commands.
-If \texttt{withvariables} is specified, the variables are exported, too.
+If \texttt{withvariables} is specified, the (graph global) variables are exported, too.
 The export is only complete with the model of the graph given in the \texttt{.gm} file.
 Exporting fails if the graph model contains attributes of \texttt{object}-type.
 The \texttt{save} command is for saving a \GrShell\ session including visualization styles, the goal of the \texttt{export} command is graph rewrite system interoperability.
@@ -609,19 +632,6 @@ Forces re-layout of the graph shown in yComp (same as pressing the play button w
 This executes the graph rewrite sequence \emph{SimpleRewriteSequence} in the debugger\indexmain{debugger}.
 Same as \texttt{xgrs SimpleRewriteSequence} in the previous section, but allows tracing the rewriting process step-by-step. 
 
-\begin{rail}
-'debug' 'apply' Rule
-\end{rail}\ixkeyw{debug}\ixkeyw{apply}
-The \texttt{debug apply} command allows to interactively select parameters for the execution of the rule \texttt{Rule}.
-The parameters to select are specified by the wildcard elements \texttt{?}, they are given by double clicking at elements in the graph viewer yComp.
-
-\begin{example}
-\begin{grshelllet}
-debug apply r(?, x, ?)
-\end{grshelllet}
-will prompt the user for input of the first and the third parameter, while the second one is taken from variable x.
-\end{example}
-
 
 \subsection{Using the Debugger}
 
@@ -717,27 +727,39 @@ If \emph{SpacedParameters} is omitted, a list of available commands will be disp
 The \indexed{LGSPBackend} supports the following custom commands:
 
 \begin{rail}
-  'custom' 'graph' analyzegraph
+  'custom' 'graph' (analyzegraph | 'analyze') 
 \end{rail}\ixkeyw{custom}\ixkeyw{graph}
 Analyzes\indexmain{analyzing graph} the current working graph.
 The analysis data provides vital information for efficient \indexed{search plan}s.
 Analysis data is available as long as \GrShell\ is running, i.e.\ when the working graph changes, the analysis data is still available but maybe obsolete.
 
 \begin{rail}
-  'custom' 'actions' gensearchplan (Action+)
-\end{rail}\ixkeyw{custom}\ixkeyw{actions}
-Creates a search plan for each rewrite rule \emph{Action} using a heuristic method and the analyzes data (if the graph has been analyzed by \texttt{custom graph analyze\_graph}).
-Otherwise a \indexed{default search plan} is used.
-For efficiency reasons it is recommended to do analyzing and search plan creation during the rewriting procedure.
-Therefore the host graph should be in a stage ``similar'' to the final result.
-Indeed there might be some trial-and-error steps necessary to get an efficient search plan.
-A search plan is available as long as the current rule set remains loaded. 
-Specify multiple rewrite rules instead of using multiple commands for each rule to improve the search plan generation performance.
-
-\begin{rail}
-  'custom' 'actions' setmaxmatches Number
+  'custom' 'graph' setmaxmatches Number
 \end{rail}\ixkeyw{custom}\ixkeyw{actions}
 Sets the maximum amount of possible pattern matches to \emph{Number}.
 This command affects the expression \texttt{[\emph{Rule}]}.
 If \emph{Number} is less or equal to zero, the constraint is reset.
+
+\begin{rail}
+  'custom' 'graph' 'optimizereuse' BoolLit
+\end{rail}\ixkeyw{custom}\ixkeyw{actions}
+If set to false it prevents deleted elements from getting reused in a rewrite (i.e. it disables a performance optimization).
+If set to true, new elements may not be discriminable anymore from already deleted elements using object equality, hash maps, etc.
+					
+\begin{rail}
+  'custom' 'actions' gensearchplan (Action+)
+\end{rail}\ixkeyw{custom}\ixkeyw{actions}
+Creates a search plan (and executable code from it) for each rewrite rule \emph{Action} using the data from analyzing the graph (\texttt{custom graph analyze}).
+Otherwise a \indexed{default search plan} is used. 
+Analyzing and search plan/code generation themselves take some time, but they can lead to massively faster pattern matching, thus overall execution times
+(the less uniform the type distribution and edge wiring between the nodes is, the higher are the improvements to be expected).
+During the analysis phase the host graph must be in a shape ``similar'' to its shape when the main amount of work is done
+(there may be some trial-and-error steps at different time points needed to get the overall most efficient search plan.)
+A search plan is available as long as the current rule set remains loaded. 
+Specify multiple rewrite rules instead of using multiple commands for each rule to improve the search plan generation performance.
+
+\begin{rail}
+  'custom' 'actions' dumpsourcecode BoolLit
+\end{rail}\ixkeyw{custom}\ixkeyw{actions}
+If set to true, C\# files will be dumped for the newly generated searchplans (similar to the \texttt{-keep} option of the generator).
 

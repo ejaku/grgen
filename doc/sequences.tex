@@ -2,26 +2,36 @@
 \label{cha:xgrs}
 
 Graph rewrite sequences (GRS)\indexmain{graph rewrite sequence}, better extended graph rewrite sequences XGRS, to distinguish them from the older graph rewrite sequences, are a domain specific \GrG~language used for controlling the application of graph rewrite rules. 
-They may be used
+They are available
 \begin{itemize}
 \item as an imperative enhancement to the rule set language.
-\item for controlled rule application within the GrShell
-\item for controlled rule application on the API level out of user programms
+\item for controlled rule application within the \GrShell.
+\item for controlled rule application on the API level out of user programms.
 \end{itemize}
 
 If they appear in rules, they get compiled, otherwise they get interpreted.
-Iff used within GrShell, they are amenable to debugging.
+Iff used within \GrShell, they are amenable to debugging.
 
-Graph rewrite sequences are syntactically expressed as expressions similar to boolean and regular expressions.
-Composing an expression out of single graph rewrite rules not only yields more complex host graph operations but also determines control flow by means of the evaluation order of the operands.
+Graph rewrite sequences are written down with a syntax similar to boolean and regular expressions.
+They are a means of composing complex graph operations out of single graph rewrite rules; 
+they determine the control flow by the evaluation order of the operands.
 Graph rewrite sequences have a boolean return value; for a single rule, \texttt{true} means the rule was successfully applied to the host graph.
 A \texttt{false} return value means that the pattern was not found in the host graph.
 
 In order to store return values of rewrite terms and to pass return values of rules to other rules, \emph{variables} can be defined.
-A variable is an arbitrary identifier which is defined by assigning a graph element, a boolean value, or another variable to it.
+A variable is an arbitrary identifier which can hold a graph element or a value of one of the attribute or value types \GrG\ knows.
+There are two kinds of variables available in \GrG, i) graph global variables\indexmain{graph global variables} and ii) sequence local variables\indexmain{sequence local variables}.
+A variable is alive from its first declaration on: graph global variables are implicitely declared upon first assignment to their name,
+sequence local variables are explicitely declared with a typed variable declaration of the form \texttt{name:type}.
+Graph global variables are untyped; their values are typed, though, so type errors cause an exception at runtime.
+They belong to and are stored in the graph -- if you save the graph in \GrShell\ (or export to \texttt{.grs} using the \texttt{withvariables} option)
+then the variables are saved, too, and restored next time you load the saved graph.
+Sequence local variables are typed, so type errors are caught at compile time (parsing time for the interpreted sequences); 
+an assignment of an untyped variable to a typed variable is checked at runtime.
+They belong to the sequence they appear in, their life ends when the sequence finishes execution 
+(so there is no persistency available for them as for the graph global variables). 
 
 If used in some rule, i.e. within an \texttt{exec}, named graph elements of the enclosing rule are available as read-only variables.
-A variable is alive from its first assignment on; if used within an \texttt{exec} it is alive until the end of the \texttt{exec} statement.
 
 Note that we have two kinds of return values in graph rewrite sequences.
 Every rewrite term returns a boolean value, indicating whether the rewriting could be successfully processed, i.e. denoting success or failure.
@@ -55,7 +65,8 @@ a = ((b,c) = R(x,y,z))
 
 A graph rewrite sequence consists of several rewrite terms linked by operators.
 Table \ref{tbl:sequ:op} gives the priorities and semantics of the operators, priorities in ascending order.
-The modifier \texttt{\$} flags the following operator to randomly execute the left or the right operand first; usually operands are executed / evaluated from left to right if not altered by bracketing (left-\indexed{associative}). 
+The modifier \texttt{\$} flags the following operator to randomly execute the left or the right operand first;
+usually operands are executed / evaluated from left to right if not altered by bracketing (left-\indexed{associative}). 
 In contrast the sequences \texttt{s}, \texttt{t}, \texttt{u} in \texttt{s \$<op> t \$<op> u} are executed / evaluated in arbitrary order.
 Then-Left and Then-Right are of the same priority and their execution order can't be altered by the \$ operator prefix.
 
@@ -103,19 +114,19 @@ the min-max-brackets (\texttt{[n:m]}) additionally fail if the minimum amount \e
 	'if' lbrace Condition ';' TrueCase rbrace |
     '<' RewriteSequence '>' | 
     '(' RewriteSequence ')' |
-    BoolLiteral;
+    BoolLit;
 \end{rail}\ixnterm{RewriteFactor}\ixkeyw{def}\ixkeyw{true}\ixkeyw{false}\indexmain{\texttt{<>}}
 
 Rewrite factors are the building blocks of graph rewrite sequences.
 They mainly act as a rule application or variable assignment.
 Further on, there are commands for visited flags management.
-The \texttt{emit} sequence writes a double quoted string or the value of a variable of primitive type to the emit target (stdout as default, or a file specified with the shell command \texttt{redirect emit}).
+The \texttt{emit} sequence writes a double quoted string or the value of a variable to the emit target (stdout as default, or a file specified with the shell command \texttt{redirect emit}).
 In addition, they comprise the condition execution statement \texttt{if}, which executes the condition xgrs, and if it yielded true executes the true case xgrs, otherwise the false case xgrs.
 The sequence \verb#if{Condition;TrueCase}# is equivalent to \verb#if{Condition;TrueCase;true}#, thus giving a lazy implication.
-Graph rewrite sequences can be processed \indexed{transaction}ally by using angle brackets (\texttt{<>}).
-If the return value is \texttt{false}, all the related operations on the host graph will be rolled back.
+Graph rewrite sequences can be processed \indexed{transaction}ally by using angle brackets (\texttt{<>}), i.e.
+if the return value is \texttt{false}, all the related operations on the host graph will be rolled back.
 Nested transactions\indexmainsee{nested transaction}{transaction} are supported.
-Forcing execution orders can be achives by parentheses, an boolean literal \texttt{true}/\texttt{false} comes in handy if a sequence is to be evaluated but its result must be a predefined value.
+Forcing execution orders can be achived by parentheses, an boolean literal \texttt{true}/\texttt{false} comes in handy if a sequence is to be evaluated but its result must be a predefined value.
 
 \begin{rail}    
   RuleExecution: (() | '(' (Variable+',') ')' '=') \\ (() | percent) (() | '?') ( (dollar ( Number | ()) | ()) '[' Rule ']' | Rule);   
@@ -132,8 +143,8 @@ in \texttt{debug}-mode (see section \ref{sct:debugger}) it acts as a \indexed{br
 you are also able to use this flag for your own purposes, when using \GrG\ via its API interface (see section \ref{sct:API}).
 The sqare braces (\texttt{[]}) introduce a special kind of multiple rule application:
 Every pattern match produced by the will be rewritten.
-\textbf{Be careful:} Its semantics is not equal to \texttt{Rule*}.
-Instead this operator collects all the matches first before starting rewritings.
+Attention: Its semantics is \textbf{not} equal to \texttt{Rule*}.
+Instead this operator collects all the matches first before starting to rewrite.
 In particular the semantics is unsafe, i.e.\ one needs to avoid deleting a graph element that is bound by another match.
 If \emph{Rule} returns values, the values of \emph{one} of the executed rules will be returned.
 The random-match-selector \texttt{\$n} searches for all matches and then randomly selects \texttt{n} of them to be rewritten, with \texttt{\$[r1]} being equivalent to \texttt{\$1[r1]}.
@@ -144,19 +155,22 @@ The random-match-selector \texttt{\$n} searches for all matches and then randoml
 	  (Variable | 
       '(' RewriteSequence ')' | 
       Literal | 
-	  Variable '.' Attribute)
+	  Variable '.' Attribute |
+	  '@' '(' NameString ')')
     ) |
 	Variable '.' Attribute '=' Variable |
     Variable |
     'def' '(' (Variable+',') ')'
   ;
 \end{rail}\ixnterm{VarAssignment}\ixnterm{Variable}\makeatother
-Variables can hold graph elements, or values of attribute types, esp. boolean values.
-Graph elments are initially assigned by the \emph{RuleExecution} statement.
+Variables can hold graph elements, or values of value/attribute types.
+The typed explicit declaration introduces a sequence local variable, 
+if the double colon and the type are missing, a graph global variable gets implicitely declared if not existing yet.
+Graph elments are initially assigned by the element returns of the \emph{RuleExecution} statement.
 A \emph{VarAssignment} rewrite factor ist always true.
-A variable in the \emph{Variable} factor must contain a boolean value, accordingly.
-A \texttt{def} term is successful if all the the variables are defined.
-Assigning graph elements or graph element attributes, or reading graph element attributes is currently not supported in compiled sequences (Not implemented yet - TODO).
+A variable in the \emph{Variable} factor must contain a boolean value.
+A \texttt{def} term is successful iff all the the variables are defined.
+Assigning graph elements by name to variables is not supported in compiled sequences (names are not available on this level).
 
  
 \section{Visited Flags}
@@ -171,13 +185,15 @@ Assigning graph elements or graph element attributes, or reading graph element a
 \end{rail}\ixkeyw{valloc}\ixkeyw{vfree}\ixkeyw{visited}\ixkeyw{vreset}\label{allocvisitflag}\label{freevisitflag}
 The visited flags are stored in some excess bits of the graph elements, but if this pool is exceeded they are stored in additional dictionaries, one per visited flag requested.
 Due to this flags must get allocated/deallocated, and all flag related operations require an integer number -- the flag id -- specifying the flag to operate on (with exception of the allocation operation returning this flag id).
-The operations always return true as sequence results (with exception of the operation reading the flag, it fails iff the visited flag is not set for the graph element); if you try to access a not previously allocated visited flag, an exception is thrown.
+The operations always return true as sequence results (with exception of the operation reading the flag, it fails iff the visited flag is not set for the graph element);
+if you try to access a not previously allocated visited flag, an exception is thrown.
 The operations managing the visited flags are:
 \begin{description}
 \item[Flag allocation:] By \texttt{valloc} -- allocates space for a visited flag in the elements of the graph and returns the id of the visited flag (integer number), starting at 0.
 Afterwards, the visited flag of the id can be read and written within the rules by the \texttt{visited}-expression and the \texttt{visited}-assignment,
 as well as by the \texttt{visited} flag reading and writing rewrite factors.
-The first visited flags are stored in some excess bits of the graph elements and are thus essentially for free, but if this implementation defined space is used up completely, the information is stored in graph element external dictionaries.
+The first visited flags are stored in some excess bits of the graph elements and are thus essentially for free,
+but if this implementation defined space is used up completely, the information is stored in graph element external dictionaries.
 \item[Flag deallocation:] By \texttt{vfree} -- frees the space previously allocated for the visited flag; afterwards you must not access it anymore. 
 The value stored in the variable must be of integer type, stemming from a previous allocation.
 \item[Flag writing:] By \texttt{e.visited[f] = b} -- sets the visited status of the flag given by the flag id variable \texttt{f} of the graph element \texttt{e} to the given boolean value \texttt{b}; visited flags are normally written by rules of the rule language.
@@ -217,8 +233,8 @@ A further difference to the sets and maps in the rewrite rules is that they only
     MapVariable '.' ( size '(' ')' | empty '(' ')' )
     ;
   SetMapCreation:
-	'set' '<' Type '>' |
-    'map' '<' KeyType ',' ValueType '>' 
+	'set' '<' Type '>' lbrace rbrace |
+    'map' '<' KeyType ',' ValueType '>' lbrace rbrace
 	;
 \end{rail}\ixnterm{VarAssignment}\ixnterm{Variable}\makeatother
 
@@ -228,8 +244,8 @@ Both types of sequences require a set/map to be created and assigned to a variab
 
 \begin{example}
 \begin{grgen}
-x=set<NodeTypeA>
-y:map<Node,Edge> = map<Node,Edge>
+x=set<NodeTypeA>{}
+y:map<Node,Edge> = map<Node,Edge>{}
 \end{grgen}
 The first line declares or references a variable \texttt{x} (without static type) and assigns the newly created, empty set of type \texttt{set<NodeTypeA>} to it as value.
 The second line declares a variable \texttt{y} of type \texttt{map<Node,Edge>} and assigns the newly created, empty map of the same type to it as value.
@@ -276,7 +292,7 @@ The following XGRS is a typical storage usage.
 First an empty set \texttt{x} is created, which gets populated by an rule \texttt{t} executed iteratedly, returning a node which is written to the set.
 Then another rule is executed iteratedly for every member of the set doing the main work, and finally the set gets cleared to prevent memory leaks or later mistakes.
 If the graph should stay untouched during set filling you may need \texttt{visited} flags to prevent endless looping.
-\verb#x=set<Node> ;> ( (v)=t() && x.add(v) )+ && for{v in x; r(v)} <; x.clear()#
+\verb#x=set<Node>{} ;> ( (v)=t() && x.add(v) )+ && for{v in x; r(v)} <; x.clear()#
 \end{example}
 
 \begin{note}
@@ -302,7 +318,7 @@ Table~\ref{ruletab} lists most of the operations of the graph rewrite expression
 \texttt{s \^\ t}	& Execute \texttt{s} then \texttt{t}. Success if \texttt{s} or \texttt{t} succeeded, but not both.\\
 \texttt{if\{r;s;t\}}	& Execute \texttt{r}. If \texttt{r} succeeded, execute \texttt{s} and return the result of \texttt{s}. Otherwise execute \texttt{t} and return the result of \texttt{t}.\\
 \texttt{if\{r;s\}}	& Same as \texttt{if\{r;s;true\}}\\
-\texttt{<s>}	& Execute \texttt{s} transactionally.\\
+\texttt{<s>}	& Execute \texttt{s} transactionally (rollback on failure).\\
 \texttt{!s}		& Switch the result of \texttt{s} from successful to fail and vice versa.\\
 \texttt{\$<op>}	& Use random instead of left-associative execution order for \texttt{<op>}. \\
 \texttt{s*}		& Execute \texttt{s} repeatedly as long as its execution does not fail.\\
@@ -319,13 +335,13 @@ Table~\ref{ruletab} lists most of the operations of the graph rewrite expression
 \texttt{id=valloc()} & Allocates a visited-flag, returns its id.\\
 \texttt{vfree(id)} & Frees the visited-flag given.\\
 \texttt{vreset(id)} & Resets the visited-flag given in all graph elements.\\
-\texttt{u=set<Node>}	& Create storage set and assign to \texttt{u}.\\
+\texttt{u=set<Node>\{\}}	& Create storage set and assign to \texttt{u}.\\
 \texttt{u.add(v)}	& Add \texttt{v} to storage set \texttt{u}.\\
 \texttt{u.rem(v)}	& Remove \texttt{v} from storage set \texttt{u}.\\
 \texttt{for\{v in u; t\}}	& Execute \texttt{t} for every \texttt{v} in storage set \texttt{u}. One \texttt{t} failing pins the execution result to failure.\\
 \texttt{u.clear()}	& Clears the storage set \texttt{u}.\\
 \texttt{v in u} & Membership query: succeeds if \texttt{v} is element of \texttt{u}, otherwise fails.\\
-\texttt{u=map<Node,Edge>}	& Create storage map and assign to \texttt{u}. Operations are the same or similar to the operations of storage sets.\\
+\texttt{u=map<N,Edge>\{\}}	& Create storage map and assign to \texttt{u}. Operations are the same or similar to the operations of storage sets.\\
 \texttt{v=u[w]}	& Assign target value of \texttt{w} in \texttt{u} to \texttt{v}. Fails if \texttt{!(w in u)}.\\
 \hline
 \end{tabularx}\indexmain{\texttt{\textasciicircum}}\indexmain{\texttt{\&\&}@\texttt{"|}}

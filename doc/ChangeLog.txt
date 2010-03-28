@@ -1,6 +1,6 @@
-﻿v2.6beta7 (2010-01-25)
+﻿v2.6beta8 / last beta (2010-03-28)
  Single most important change:
-  - user manual updated (1.4->2.6)
+  - user manual updated (including all the changes from 1.4->2.6)
  
  New sequencing constructs in xgrs:
   - operator then-left l <; r executing l then r, returning the execution result of l
@@ -9,6 +9,13 @@
      on success truecase is executed and its result returned,
      on failure falsecase is executed and its result returned
   - if{cond; truecase} which equals if{cond;truecase;true} thus giving a lazy implication
+
+ Uniform variable handling in xgrs:
+  - now the compiled and the interpreted sequences both always support
+    i) graph global variables, untyped, i.e. type errors are only detected at runtime,
+     live from first assignment/implicit declaration on, written to file on save and restored on load
+    ii) sequence local variables, typed thus statically type checked, 
+     only live until sequence execution ends (thus no persistency available)
 
  Handling of set<T>/map<S,T> in xgrs:
   - in contrast to the set/map in models and rules, S/T may be of node/edge typ, giving storages/storagemaps
@@ -43,7 +50,7 @@
  New assignments in xgrs: (currently only interpreted xgrs of GrShell, not compiled rule embedded)
    - attribute reading in xgrs: toVar = fromVar.attributeName (value semantics)
    - attribute writing in xgrs: toVar.attributeName = fromVar (value semantics)
-   - constant value/literal assignment: toVar = int|float|double|string|boolean - constants/literals
+   - constant value/literal assignment: toVar = int|float|double|string|boolean|enum - constants/literals
    
  Rewrite part handling of nested patterns:
   - modify/replace graph elements of nesting pattern
@@ -99,6 +106,8 @@
   - directed/undirected edges (as given by edge syntax) can extend arbitrary edges 
     without being forces to explicitely extend Edge/UEdge, too
   - removed check against homomorphy of retyped elements not needed 
+  - lazy or operator parsing priority bug
+  - ResetVisitedFlag/vreset now reliably working on edge types, too
   - further minor fixes
   
  Further changes:
@@ -107,21 +116,28 @@
 	thus every null-capable argument doubles the number of matchers;
     declaration syntax example: rule r(x:Node<null>, y:T<S+null>)
 	  (y is example for inexactly typed input which may be null in addition)
+  - the deprecated old grs were removed
+  - new shell construct <Var> = askfor <Type> prompting the user to enter a value of given type
+     - if the type is a graph element type the user is asked to select a graph element
+       by double clicking in yComp (debug mode must be enabled)
+     - if the type is a value type the user is asked to enter a value of this type on the keyboard
+    the older debug apply with wildcard elements is deprecated now, succeeded by this construct
+  - assignment of sequence result to variable is now always true (independent of sequence result)
+  - replaced emitpre by emithere, which is emitted before regular emits,
+    at the position syntax-relative to the subpattern modification invocations and the other emitheres
   - new rule modifiers dangling (only apply rule if all incident edges of a node to be deleted 
      are specified in the pattern), and identification (don't apply rule if a node to be deleted
      was matched homomorphically to a node to be kept), allowing to pick from the dpo conditions
 	 (dpo = dangling + identification)
-  - replaced emitpre by emithere, which is emitted before regular emits,
-    at the position syntax-relative to the subpattern modification invocations and the other emitheres
   - added emit to xgrs: emit(double-quoted-text|variable)  
-      example: xgrs emit("foo") && emit(v)
+      example: xgrs emit("foo\n") && emit(v)
   - set/map commands in GrShell are deprecated (succeeded by xgrs set/map operators)
   - set/map-valued attributes are now displayed in yComp, too
   - now error reported on attempt to delete and return elments allowed to be matched homomorphically
   - added exitonfailure to GrShell validate command leaving GrShell on failed validation with error code
   - undirected edge creation in GrShell with -name:type- syntax and type UEdge if no type given
   - added GrGen-version of "Repotting the Geraniums: On Nested Graph Transformation Rules" to examples
-  - reserved keywords for 2.7
+  - further minor improvements
 
   
 v2.5.1 (2009-09-09)
