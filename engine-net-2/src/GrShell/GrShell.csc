@@ -405,7 +405,7 @@ SPECIAL_TOKEN: {
         { matchedToken.image = matchedToken.image.Substring(1, matchedToken.image.Length-2); } : DEFAULT
 |   < SINGLEQUOTEDANYSTRING: "\'" (~["\'", "\n", "\r"])* "\'" >
         { matchedToken.image = matchedToken.image.Substring(1, matchedToken.image.Length-2); } : DEFAULT
-|   < ANYSTRING: (~[" ", "\t", "\n", "\r", "#", "\"", "\'"])+ > : DEFAULT
+|   < ANYSTRING: (~[" ", "\t", "\n", "\r", "#", "\"", "\'", "="])+ > : DEFAULT
 |   < ERRORANYSTRING: ~[] > : DEFAULT
 }
 
@@ -424,7 +424,7 @@ SPECIAL_TOKEN: {
         { matchedToken.image = matchedToken.image.Substring(1, matchedToken.image.Length-2); }
 |   < SINGLEQUOTEDANYSTRINGS: "\'" (~["\'", "\n", "\r"])* "\'" >
         { matchedToken.image = matchedToken.image.Substring(1, matchedToken.image.Length-2); }
-|   < ANYSTRINGS: (~[" ", "\t", "\n", "\r", "#", "\"", "\'"])+ >
+|   < ANYSTRINGS: (~[" ", "\t", "\n", "\r", "#", "\"", "\'", "="])+ >
 |   < NLINANYSTRINGS: "\n" > : DEFAULT
 |   < ERRORANYSTRINGS: ~[] > : DEFAULT
 }

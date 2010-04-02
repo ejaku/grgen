@@ -303,7 +303,7 @@ rule ICCopyTo_otherBlock(curNode:IR_node, block:Block, pred_pred:Block) : (IR_no
     }            
 }
 
-rule ICCopyTo_isPhi(curNode:Phi, block:Block, pred_pred:Block, var i:int) : (IR_node)
+rule ICCopyTo_isPhi(curNode:Phi<IR_node>, block:Block, pred_pred:Block, var i:int) : (IR_node)
 {
     //curNode -:df-> block;            // same block
     curNode -dfphi:df-> pred:IR_node\Block;

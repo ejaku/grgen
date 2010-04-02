@@ -151,7 +151,7 @@ rule GrowFoodIfEqual(n:GridNode, var val:int)
 }
 
 // TODO: Check whether we can use alternatives
-rule GrowWorldFirstAtCorner(cur:GridCornerNode) : (GridNode, GridNode)
+rule GrowWorldFirstAtCorner(cur:GridCornerNode<GridNode>) : (GridNode, GridNode)
 {
     cur -:GridEdge\PathToHill-> next:GridNode;
     hill:AntHill;

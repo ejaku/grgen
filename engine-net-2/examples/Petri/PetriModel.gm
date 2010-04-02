@@ -7,19 +7,19 @@ node class Transition;
 node class Token;
 
 edge class places
-  connect PetriNet[*] --> Place[0:1];
+	connect PetriNet[*] --> Place[0:1];
 
 edge class transitions
-  connect PetriNet[*] --> Transition[0:1];
+	connect PetriNet[*] --> Transition[0:1];
 
 edge class tokens
-  connect Place [*] --> Token[1];
+	connect Place [*] --> Token[1];
 
 edge class inArc
-  connect Transition [*] --> Place [*];
+	connect Transition [*] --> Place [*];
 
 edge class outArc
-  connect Place [*] --> Transition [*];
+	connect Place [*] --> Transition [*];
 
 edge class inhibitorArc
-  connect Place [*] --> Transition [*];
+	connect Place [*] --> Transition [*];

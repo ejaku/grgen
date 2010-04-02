@@ -95,7 +95,7 @@ rule CFG_dump_ToNode_attribute(n:org_amma_cfg_AbstractNode) {
 	}
 }
 
-rule CFG_dump_IterativeNode(n:org_amma_cfg_IterativeNode) {
+rule CFG_dump_IterativeNode(n:org_amma_cfg_IterativeNode<org_amma_cfg_AbstractNode>) {
 	n -:org_amma_cfg_AbstractNode_expression-> expr:org_amma_cfg_Expression;
 
 	modify {

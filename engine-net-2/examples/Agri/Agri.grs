@@ -9,7 +9,7 @@ new farmer3:Farmer(angry="true")
 new apple:ToffeeApple
 new apple2:RedApple(worms=2, origin=NZ)
 new apple3:Apple(worms=3)
-new hill:AntHill(name="Antopolus", size=52)
+new hill:AntHill(name="Antopolus", size=52) #size is keyword in shell, remove deprecated set/map commands in v2.7 and example will work again
 new hill2:AntHill(name="Antalien", size=34)
 new farmer1 -:Sees-> apple
 new farmer1 -:Sees-> apple2

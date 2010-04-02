@@ -1,5 +1,5 @@
 Agri:
-  Agri.grs -> 255
+  Agri.grs -> 127
 AntWorld-GraBaTs08:
   AntWorld_BorderNodes.grs -> 0
   AntWorld_ExtendAtAimless.grs -> 0
@@ -31,7 +31,7 @@ Firm-IFConv:
 FloweringGeraniumInCrackedPot:
   FloweringGeraniumInCrackedPot.grs -> 0
 GrIO:
-  GrIOtest.grs -> 255
+  GrIOtest.grs -> 0
 JavaProgramGraphs-GraBaTs08:
   EncapsulateField.grs -> 0
   MoveMethod.grs -> 0
@@ -94,10 +94,10 @@ Turing3:
 TuringRubino:
   TuringRubino_BB3.grs -> 0
 UML:
-  StateMachine_001.grs -> 255
-  demo_sm.grs -> 255
-  g2x.grs -> 255
-  test.grs -> 255
+  StateMachine_001.grs -> 127
+  demo_sm.grs -> 127
+  g2x.grs -> 127
+  test.grs -> 127
 UML2CSP-GraBaTs09:
   UML2CSP.grs -> 0
 UML2CSP2-GraBaTs08:

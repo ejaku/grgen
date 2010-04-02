@@ -1,47 +1,50 @@
 // GrGen-version of the Petri net simulation benchmark from 
 // A Benchmark Evaluation of Incremental Pattern Matching in Graph Transformation
+// see http://viatra.inf.mit.bme.hu/download/icgt2008_pn_benchmark.zip for original/further versions
 
 using PetriModel;
 
-rule fireRule {
-  pattern {
-    net:PetriNet -ts:transitions-> t:Transition;
-    negative {
-      t <-o:outArc- pEmpty:Place;
-      negative {
-        pEmpty -ksn:tokens-> ;
-      }
-    }
-    negative {
-      t <-i:inhibitorArc- pFilled:Place -ks:tokens-> ;
-    }
-  }
-  modify {
-    exec( [emitTokens(t)] && [consumeTokens(t)] );
-  }
+rule fireRule
+{
+	net:PetriNet -ts:transitions-> t:Transition;
+	negative {
+		t <-o:outArc- pEmpty:Place;
+		negative {
+			pEmpty -ksn:tokens-> ;
+		}
+	}
+	negative {
+		t <-i:inhibitorArc- pFilled:Place -ks:tokens-> ;
+	}
+
+	modify {
+		exec( [emitTokens(t)] && [consumeTokens(t)] );
+	}
 }
 
-rule emitTokens(t:Transition) {
-  pattern {
-    t -i:inArc-> p:Place;
-  }
-  modify {
-    p -ks:tokens-> k:Token; 
-  }
+rule emitTokens(t:Transition)
+{
+	t -i:inArc-> p:Place;
+
+	modify {
+		p -ks:tokens-> k:Token; 
+	}
 }
-rule consumeTokens(t:Transition) {
-  pattern {
-    t <-o:outArc- p:Place;
-  }
-  modify {
-    exec(deleteToken(p));
-  }
+
+rule consumeTokens(t:Transition)
+{
+	t <-o:outArc- p:Place;
+	
+	modify {
+		exec(deleteToken(p));
+	}
 }
-rule deleteToken(p:Place) {
-  pattern {
+
+rule deleteToken(p:Place)
+{
     p -ks:tokens-> k:Token;
-  }
-  replace{
-    p; 
-  }
+
+	replace{
+		p; 
+	}
 }

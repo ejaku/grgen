@@ -1,6 +1,6 @@
 rule f
 {
-  pattern { }
+
   replace
   {
     Proj51 : Proj;
@@ -128,7 +128,7 @@ rule f
 
 rule f_psi
 {
-  pattern { }
+
   replace
   {
     Block30 : Block;
@@ -220,7 +220,7 @@ rule f_psi
 
 rule g
 {
-  pattern { }
+
   replace
   {
     Cond106 : Cond;
@@ -399,7 +399,7 @@ rule g
 
 rule g_psi
 {
-  pattern { }
+
   replace
   {
     And211 : And;

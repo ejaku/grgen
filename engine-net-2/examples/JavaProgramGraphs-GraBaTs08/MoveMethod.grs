@@ -79,7 +79,7 @@ debug xgrs (p)=someParameterOfTargetType(mb,tgt) \
 xgrs unmarkExpression*
 
 redirect emit programafter.txt
-xgra visID = valloc()
+xgrs visID = valloc()
 # HACK: The visID variable should be given to the emitSpanningTree rule, but subpatterns don't support value variables yet
 #       so use constant 0 inside the rules, correct as the first allocated visited flag is always 0
 xgrs emitSpanningTree

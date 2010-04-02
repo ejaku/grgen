@@ -154,7 +154,7 @@ rule GrowFoodIfEqual(n:GridNode, val:GammelFix)
 }
 
 // TODO: Check whether we can use alternatives
-rule GrowWorldFirstAtCorner(cur:GridBorderCornerNode) : (GridNode, GridBorderNode)
+rule GrowWorldFirstAtCorner(cur:GridBorderCornerNode<GridNode>) : (GridNode, GridBorderNode)
 {
     cur -:GridEdge\PathToHill-> next:GridBorderNode;
     hill:AntHill;
@@ -181,7 +181,7 @@ rule GrowWorldFirstAtCorner(cur:GridBorderCornerNode) : (GridNode, GridBorderNod
     }
 }
 
-rule GrowWorldFirstNotAtCorner(cur:GridBorderNode\GridBorderCornerNode) : (GridNode, GridBorderNode)
+rule GrowWorldFirstNotAtCorner(cur:GridBorderNode\GridBorderCornerNode<GridNode>) : (GridNode, GridBorderNode)
 {
     cur -:GridEdge\PathToHill-> next:GridBorderNode;
     hill:AntHill;
@@ -318,7 +318,7 @@ rule doAntWorld(firstAnt:Ant)
                                     $[SearchAimless(curAnt)])
             ) && (curAnt)=GetNextAnt(curAnt))*
             | ((cur:GridNode)=ReachedEndOfWorldAnywhere
-                && ((cur, curOuter:GridNode)=GrowWorldFirstNotAtCorner(cur)
+                && ((cur, curOuter:GridBorderNode)=GrowWorldFirstNotAtCorner(cur)
                     || (cur, curOuter)=GrowWorldFirstAtCorner(cur))
                 && ((cur, curOuter)=GrowWorldNextNotAtCorner(cur, curOuter)
                     || (cur, curOuter)=GrowWorldNextAtCorner(cur, curOuter))*
