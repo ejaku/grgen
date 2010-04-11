@@ -199,7 +199,7 @@ rule moveMethod
 
 The \indexmain{pattern cardinality} blocks allow to specify how often the nested pattern -- opening a scope -- is to be matched.
 Matching will be carried out eagerly, i.e. if the construct is not limiting the number of matches and a further match is possible it will be done.
-(The nested body will be explained in section \ref{sec:nestedrewrite}.)
+(The nested body will be explained in Section~\ref{sec:nestedrewrite}.)
 
 \subsubsection*{The iterated block} 
 is matching the contained subpattern as often as possible, succeeding even in the case the contained pattern is not available (thus it will never fail).
@@ -322,7 +322,7 @@ The common recurring pattern is specified in a subpattern declaration and used b
 Subpattern declarations define a subpattern type denoting the specified shape in global namespace; the parameters specify some context elements the pattern may refer to, but which are not part of the pattern itself. 
 So they are only syntactically the same as test/rule-parameters (which are members of the pattern part), a further difference is the lack of ReturnTypes, due to the fact that a subpattern can't return anything (they are not actions, just a helper in constructing complex patterns).
 Subpatterns can receive additional rewrite parameters in contrast to the actions; they can be used to hand in elements which are created in the rewrite part of the action or subpattern which contains the subpattern entity.
-(The nested body will be explained in section \ref{sec:subrule}.)
+(The nested body will be explained in Section~\ref{sec:subrule}.)
 
 \begin{rail}  
   SubpatternEntityDeclaration: 

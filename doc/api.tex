@@ -1,5 +1,5 @@
 \chapter{Application Programming Interface}\indexmain{application programming interface}
-\label{chapapi}
+\label{cha:api}
 
 This chapter describes the Application Programming Interface of \GrG, i.e. of the system runtime - the LibGr - and of the assemblies generated from the model and rule specifications.
 We'll have a look at
@@ -135,15 +135,11 @@ GrGen natively supports the following formats:
 \begin{description}
   \item[GRS] Reduced GrShell script files (graph only, model from \texttt{.gm}; a very limited version of the normal \texttt{.grs})
   \item[GXL] Graph eXchange Language (\texttt{.gxl}-files, see \url{http://www.gupro.de/GXL/})
-  \item[EMF/ECORE] Eclipse Modeling Framework (model and graph; partial and only import).
-      For \texttt{.ecore} files which describe the graph models, and \texttt{.xmi} files the graph instances.
-	  The EMF exporter was added for the GraBaTs program comprehension case\cite{}
-	  and it is to a certain degree a special purpose solution.
-	  It is not supported, but you may take it as starting point of your own work if you need this feature. 
+  \item[ECORE/XMI] Ecore(\texttt{.ecore}) model files and XMI(\texttt{.xmi}) graph file. Import only, export must be programmed with \texttt{emit}-statements. In an intermediate step, a \texttt{.gm} file is generated for the model.
 \end{description}
 
 While both GRS and GXL importers expect one file
-(the GXL importer allows to specify a model override, see GrShell import \ref{shellgxlimport}),
+(the GXL importer allows to specify a model override, see GrShell import, Note \ref{shellgxlimport}),
 the EMF/ECORE importer expects first one or more \texttt{.ecore} files and following optionally a \texttt{.xmi} files and/or
 a \texttt{.grg} file. To use additional custom graph models you should supply an own \texttt{.grg}
 file which may be based on the automatically generated \texttt{.grg} file, if none was

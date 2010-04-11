@@ -138,9 +138,9 @@ Variables and named graph elements from the enclosing rule can be passed.
 The returned graph elements can be assigned to variables again.
 The operator \texttt{?} switches the rule to a test, i.e.\ the rule application does not perform the rewrite part of the rule but only tests if a match exists.
 The operator \texttt{\%} is a multi-purpose flag. 
-In the \GrShell\ (see chapter \ref{chapgrshell}) it dumps the matched graph elements to \texttt{stdout};
-in \texttt{debug}-mode (see section \ref{sct:debugger}) it acts as a \indexed{break point};
-you are also able to use this flag for your own purposes, when using \GrG\ via its API interface (see section \ref{sct:API}).
+In the \GrShell\ (see Chapter~\ref{chapgrshell}) it dumps the matched graph elements to \texttt{stdout};
+in \texttt{debug}-mode (see Section~\ref{sct:debugger}) it acts as a \indexed{break point};
+you are also able to use this flag for your own purposes, when using \GrG\ via its API interface (see Section~\ref{sct:API}).
 The sqare braces (\texttt{[]}) introduce a special kind of multiple rule application:
 Every pattern match produced by the will be rewritten.
 Attention: Its semantics is \textbf{not} equal to \texttt{Rule*}.

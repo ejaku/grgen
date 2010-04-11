@@ -1,11 +1,11 @@
 \chapter{Types and Expressions}
-\label{typeexpr}
+\label{cha:typeexpr}
 %In the following sections \emph{Ident} refers to an identifier of the graph model language (see Section~\ref{modelbb}) or the rule set language (see Section~\ref{rulebb}).
 %\emph{TypeIdent} is an identifier of a node type or an edge type, \emph{NodeOrEdge} is an identifier of a node or an edge.
 
 \section{Built-In Types}
-\label{builtin}
-Besides user-defined node types, edge types, and enumeration types (as introduced in chapter \ref{chapmodellang}), \GrG\ supports the built-in \indexed{primitive types}\indexmainsee{built-in types}{primitive types} in Table~\ref{builtintypes} and the built-in \indexed{generic types}\indexmainsee{built-in generic types}{generic types} in Table~\ref{builtingenerictypes}.
+\label{sec:builtintypes}
+Besides user-defined node types, edge types, and enumeration types (as introduced in Chapter~\ref{chapmodellang}), \GrG\ supports the built-in \indexed{primitive types}\indexmainsee{built-in types}{primitive types} in Table~\ref{builtintypes} and the built-in \indexed{generic types}\indexmainsee{built-in generic types}{generic types} in Table~\ref{builtingenerictypes}.
 The exact type format is \indexed{backend} specific. 
 The \indexed{LGSPBackend} maps the \GrG\ primitive types to the corresponding C\# primitive types, and the generic types to generic C\#-Dictionaries of their corresponding primitive types (i.e. hashmaps), with \texttt{de.unika.ipd.grGen.libGr.SetValueType} as target type for sets, only used with the value \texttt{null}.
 
@@ -75,7 +75,7 @@ Objects of type object are not very useful for \GrG processing (and the im/expor
 \end{example}
 
 \begin{note}
-	Unlike an {\tt eval} part (which must not contain assignments to node or edge attributes) the declaration of an enum type can contain assignments of {\tt int} values to \indexed{enum item}s (see section~\ref{typedecl}).
+	Unlike an {\tt eval} part (which must not contain assignments to node or edge attributes) the declaration of an enum type can contain assignments of {\tt int} values to \indexed{enum item}s (see Section~\ref{typedecl}).
 	The reason is, that the range of an enum type is just defined in that context.
 \end{note}
 
@@ -392,7 +392,7 @@ After we've seen the all the ways to combine expressions, finally we'll have a l
 
 The \texttt{visited} query returns the status of the \indexed{visited flag} of the given number for the given graph element as \texttt{boolean}.
 If no flag number is given, the default number for the first visited flag of 0 is used. 
-The visited flags are written in the assignments of the eval statements (see \ref{Assignment}).
+The visited flags are written in the assignments of the eval statements (see section \ref{sec:replacemodify}).
 Make sure to allocate\ref{allocvisitflag}/\ref{apiallocvisitflag} visited flags before you try to use them 
 (and deallocate them afterwards, as they are a sparse resource stored in some excess bits of the graph elements, or in some dictionary if the needed number of flags exceeds the number of available bits per graph element.)
 

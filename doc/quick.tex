@@ -1,7 +1,7 @@
 \chapter{Quickstart}\indexmain{quickstart}
 
 In this chapter we'll build a \GrG\ system from scratch. 
-You should already have read chapter \ref{chp:intro} to have a glimpse of the \GrG\ system and its components.
+You should already have read Chapter~\ref{chp:intro} to have a glimpse of the \GrG\ system and its components.
 We will use \GrG\ to construct non-deterministic state machines.
 We further show some actual graph rewriting by removing $\varepsilon$-transitions from our state machines.
 This chapter is mostly about the \GrG\ look and feel; please take a look at the succeeding chapters for comprehensive specifications.
@@ -40,7 +40,7 @@ Furthermore we create a directory for our \GrG\ data, for instance by \texttt{mk
 
 \section{Creating a Graph Model}
 In the directory \texttt{/home/grgen} we create a text file \texttt{StateMachine.gm} that contains the graph meta model for our state machine\footnote{You'll find the source code of this quick start example shipped with the \GrG\ package in the \texttt{examples/FiniteStateMachine/} directory.}.
-By graph meta model we mean a set of node types and edge types which are available for building state machine graphs (see chapter \ref{chapmodellang}).
+By graph meta model we mean a set of node types and edge types which are available for building state machine graphs (see Chapter~\ref{chapmodellang}).
 Figure \ref{fig:quick:mm} shows the meta model.
 \begin{figure}[htbp]
     \centering
@@ -73,7 +73,7 @@ As you can see \GrG\ supports multiple inheritance, and with \texttt{StartFinalS
 \section{Creating Graphs}
 \label{sct:quick:create}
 Let's test our graph meta model by creating a state machine graph.
-We will use the \GrShell\ (see chapter \ref{chapgrshell}) and---for visualization---\yComp.
+We will use the \GrShell\ (see Chapter~\ref{chapgrshell}) and---for visualization---\yComp.
 To get everything working we need a rule set file, too.
 For the moment we just create an almost empty file \texttt{removeEpsilons.grg} in the \texttt{/home/grgen} directory, containing only the line
 \begin{grgen}
@@ -106,7 +106,7 @@ show graph ycomp
     \caption{Constructing a state machine graph in \GrShell}
     \label{fig:quick:shell}
 \end{figure}
-The graph viewer \yComp\ opens and after clicking the blue ``layout graph'' button on the very right side of the button bar, you get a window similiar to figure \ref{fig:quick:ycomp} (see also section \ref{tools:ycomp}).
+The graph viewer \yComp\ opens and after clicking the blue ``layout graph'' button on the very right side of the button bar, you get a window similiar to figure \ref{fig:quick:ycomp} (see also Section~\ref{tools:ycomp}).
 \begin{figure}[htbp]
 	\centering
 	\includegraphics[width=0.8\linewidth]{fig/quickycomp}
@@ -134,7 +134,7 @@ We will now add the real rewrite rules to the rule set file \texttt{removeEpsilo
 The idea is to ``forward'' the $\varepsilon$-transitions one after another, i.e.\ if we have a pattern like \texttt{a:State -EpsilonTransition-> b:State -e:Transition-> c:State} we forward to \texttt{a -e-> c}.
 After all such transitions are forwarded we can remove the $\varepsilon$-transitions alltogether.
 The complete rule set is shown in figure \ref{fig:quick:ruleset}.
-See chapter \ref{chaprulelang} for the rule set language reference.
+See Chapter~\ref{chaprulelang} for the rule set language reference.
 \begin{figure}[htbp]
 	\centering
 	\begin{grgen}
@@ -200,10 +200,10 @@ rule removeEpsilonTransition {
 In detail: The rule set file consists of a number of rules and tests, each of them bearing a name, like \texttt{forwardTransition}.
 Rules contain a pattern expressed as several semicolon-separated pattern statements and a modify part or a rewrite part.
 Tests contain only a pattern; they are used to check for a certain pattern without doing any rewrite operation.
-If a rule is applied, \GrG\ tries to find the pattern within a host graph, for instance within the graph we created in section \ref{sct:quick:create}.
+If a rule is applied, \GrG\ tries to find the pattern within a host graph, for instance within the graph we created in Section~\ref{sct:quick:create}.
 Of course there could be several matches for a pattern---\GrG\ will choose one of them arbitrarily.
 
-Figure \ref{fig:quick:ruleset} also shows the syntax \texttt{x:NodeType} for nodes and \texttt{-e:EdgeType->} for Edges, which we have already seen in section \ref{sct:quick:create}.
+Figure \ref{fig:quick:ruleset} also shows the syntax \texttt{x:NodeType} for nodes and \texttt{-e:EdgeType->} for Edges, which we have already seen in Section~\ref{sct:quick:create}.
 There are also statements like \texttt{:FinalState} or \texttt{-:EpsilonTransistion->}, i.e.\ we are searching for a node of type \texttt{FinalState} resp.\ an edge of type \texttt{EpsilonTransition}, but we are not assigning these graph elements to a name (like \texttt{x} or \texttt{e} above).
 Defining of names is a key concept of the \GrG\ rule sets: names work as connection points between several pattern statements and between the pattern and the replace / modify part.
 As a rule of thumb: If you want to do something with your found graph element, define a name; otherwise an anonymous graph element will do fine.
@@ -226,7 +226,7 @@ Imagine retyping as a kind of a type cast.
 The created rewrite rules might be considered as rewrite primitives.
 In order to implement more complex functionality, we will compose a sequence of rewrite rules out of them. 
 For instance we don't want to forward just one $\varepsilon$-transition as \texttt{forwardTransition} would do; we want to forward them all.
-Such a rule composing is called \emph{graph rewrite sequence} (see section \ref{sct:xgrs}).
+Such a rule composing is called \emph{graph rewrite sequence} (see Chapter~\ref{cha:xgrs}).
 We add the following line to our shell script \texttt{removeEpsilons.grs}:
 \begin{grgen}
 debug xgrs (checkStartState && checkDoublettes) && <forwardTransition* | addStartFinalState | addFinalState* | removeEpsilonTransition*>

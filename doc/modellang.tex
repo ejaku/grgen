@@ -39,7 +39,7 @@ edge class Highway extends Street
 \end{grgen}
 \end{example}
 \end{figure}
-In this chapter as well as in chapter~\ref{chapgrshell} (\GrShell) we use excerpts of Example~\ref{ex:model:map} (the \texttt{Map} model) for illustration purposes.
+In this chapter as well as in Chapter~\ref{chapgrshell} (\GrShell) we use excerpts of Example~\ref{ex:model:map} (the \texttt{Map} model) for illustration purposes.
 
 \section{Building Blocks}
 \label{modelbb}
@@ -96,7 +96,8 @@ Figure~\ref{fig:basetypes} shows the edge \indexed{type hierarchy}.
 \begin{rail}
   GraphModel: () + (ClassDeclaration | EnumDeclaration);
 \end{rail}\ixnterm{GraphModel}
-The \indexed{graph model} consists of zero or multiple type declarations. Whereas \emph{ClassDeclaration} defines a node type or an edge type, \emph{EnumDeclaration} defines an enum type to be used as a type for a attributes of nodes or edges.
+The \indexed{graph model} consists of zero or multiple type declarations. 
+Whereas \emph{ClassDeclaration} defines a node type or an edge type, \emph{EnumDeclaration} defines an enum type to be used as a type for a attributes of nodes or edges.
 Like all identifier definitions, types do not need to be declared\indexmain{declaration} before they are used.
 
 \begin{rail}
@@ -104,12 +105,12 @@ Like all identifier definitions, types do not need to be declared\indexmain{decl
 \end{rail}\ixkeyw{enum}\ixnterm{EnumDeclaration}
 Defines an \indexed{enum type}.
 An enum type is a collection of so called \emph{\indexed{enum item}s} that are associated with integral numbers, each.
-Accordingly, a \GrG\ enum is internally represented as \texttt{int} (see Section~\ref{builtin}).
+Accordingly, a \GrG\ enum is internally represented as \texttt{int} (see Section~\ref{sec:builtintypes}).
 \begin{note}
-	An enum type and an {\tt int} are different things, but in expressions enum values are implicitly casted to {\tt int} values 	(see section~\ref{builtin}).
+	An enum type and an {\tt int} are different things, but in expressions enum values are implicitly casted to {\tt int} values 	(see Section~\ref{sec:builtintypes}).
 \end{note}
 \begin{note}
-	Normally, assignments of {\tt int} values to something that has an enum type are forbidden (see section~\ref{builtin}).
+	Normally, assignments of {\tt int} values to something that has an enum type are forbidden (see Section~\ref{sec:builtintypes}).
 	Only inside a declaration of an enum type an int value may be assigned to the enum item that is currently declared.
 	This also includes the usage of items taken from other enum types (because they are implicitly casted to {\tt int}).
 	However, items from other enum types must be written fully qualified in this case (which, e.g., looks like {\tt MyEnum::a}, where {\tt MyEnum} is the name of the other enum type).
@@ -151,7 +152,7 @@ node class GhostTown extends AbandonedCity;
 \end{grgen}
 You will be able to create nodes of type \texttt{GhostTown}, but not of type \texttt{City} or \texttt{AbandonedCity}. However, nodes of type \texttt{GhostTown} are also of type \texttt{AbandonedCity} as well as of type \texttt{City} and they have the attribute \texttt{Size}, hence.
 \end{example}
-The keyword \texttt{const} indicates that rules may not write to attributes (see also Section~\ref{replacepart}, \texttt{eval}). However, such attributes are still writable by \LibGr\indexmain{libGr} and \GrShell\indexmain{GrShell} directly. This property applies to attributes defined in the current class, only. It does not apply to inherited attributes. The \texttt{const} property will not be inherited by subclasses, either. If you want a subclass to have the \texttt{const} property, you have to set the \texttt{const} modifier explicitly.
+The keyword \texttt{const} indicates that rules may not write to attributes (see also Section~\ref{sec:replacemodify}, \texttt{eval}). However, such attributes are still writable by \LibGr\indexmain{libGr} and \GrShell\indexmain{GrShell} directly. This property applies to attributes defined in the current class, only. It does not apply to inherited attributes. The \texttt{const} property will not be inherited by subclasses, either. If you want a subclass to have the \texttt{const} property, you have to set the \texttt{const} modifier explicitly.
 
 The keywords \texttt{arbitrary}, \texttt{directed}, and \texttt{undirected} specify the direction ``attribute'' of an edge class and thus its inheritance.
 An \texttt{arbitrary} edge inherits from \texttt{AEdge}, it is always abstract and neither directed nor undirected.
@@ -207,7 +208,7 @@ The \texttt{-->} arrow means a directed edge aiming towards a node of the target
 The \texttt{A<--B} connection assertion is equivalent to the \texttt{B-->A} connection assertion.
 The \texttt{--} arrow is used for undirected edges.
 The \texttt{?--?} arrow means an arbitrary edge, i.e. directed as well as undirected possible (fixed by the concrete type inheriting from it); in case of an directed edge the connection pattern gets matched in both directions.
-\emph{Number} is an \texttt{int} constant as defined in Section~\ref{expressions}. 
+\emph{Number} is an \texttt{int} constant as defined in Chapter~\ref{cha:typeexpr}. 
 Table~\ref{multiplicities} describes the multiplicity definitions. 
 
 \begin{table}[htbp]
@@ -245,10 +246,10 @@ This is a purely syntactical simplification, i.\,e.\ the effect of using \texttt
   AttributeOverwrite: Ident '=' Expression
 \end{rail}\ixnterm{AttributeDeclarations}\ixnterm{AttributeType}\ixnterm{AttributeOverwrite}
 Defines a node or edge \indexed{attribute}. Possible types are enumeration types (\texttt{enum}) and primitive types or generic types.
-See Section~\ref{builtin} for a list of built-in primitive and generic types.
+See Section~\ref{sec:builtintypes} for a list of built-in primitive and generic types.
 Optionally attributes may be initialized with a \emph{constant} expression.
 The expression has to be of a compatible type of the declared attribute.
-See chapter \ref{typeexpr} for the \GrG\ types and expressions reference.
+See Chapter~\ref{cha:typeexpr} for the \GrG\ types and expressions reference.
 The \emph{AttributeOverwrite} clause lets you overwrite initialization values for attributes of super classes.
 The initialization values are evaluated in the order as they appear in the rule set file.
 \begin{noze}

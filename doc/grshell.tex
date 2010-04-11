@@ -24,7 +24,7 @@ May be one of the following:
 \end{itemize}
 \mbox{ }\\
 \emph{Number}\\
-Is an \texttt{int} or \texttt{float} constant in decimal notation (see also Section~\ref{builtin}).
+Is an \texttt{int} or \texttt{float} constant in decimal notation (see also Section~\ref{sec:builtintypes}).
 
 \begin{rail} 
  Parameters : Text + ',' ;
@@ -231,7 +231,7 @@ Validation fails iff the xgrs fails, thus giving a very flexible and powerful me
 The GrShell is exited with an error code if \texttt{exitonfailure} is specified and the validation fails.
 
 \begin{example}
-We reuse a simplified version of the road map model from chapter~\ref{chapmodellang}:
+We reuse a simplified version of the road map model from Chapter~\ref{chapmodellang}:
 \begin{grgen} 
 model Map;
 
@@ -300,7 +300,7 @@ The \texttt{save} command is for saving a \GrShell\ session including visualizat
 \begin{rail}
   'export' Filename.gxl
 \end{rail}\ixkeyw{export}
-Exports an instance graph and a graph model in GXL format \ref{}, which is somewhat of a standard format for graphs of graph rewrite systems, but suffers from the well-known XML problems -- it is barely human-readable and bloated.
+Exports an instance graph and a graph model in GXL format \cite{GXL,GXL2}, which is somewhat of a standard format for graphs of graph rewrite systems, but suffers from the well-known XML problems -- it is barely human-readable and bloated.
 Exporting fails if the graph model contains attributes of \texttt{set<S>}-,\texttt{map<S,T>}-, or \texttt{object}-type.
 
 \begin{rail}
@@ -350,7 +350,7 @@ If \emph{NodeType} is supplied, the new node will be of type \emph{NodeType} and
 Otherwise the node will be of the base node class type \emph{Node}.
 \begin{note}
 The \GrShell\ can reassign \indexed{variable}s. 
-This is in contrast to the rule language (chapter~\ref{chaprulelang}), where we use \emph{names}\indexmain{name}.
+This is in contrast to the rule language (Chapter~\ref{chaprulelang}), where we use \emph{names}\indexmain{name}.
 \end{note}
 
 \begin{rail}
@@ -581,7 +581,7 @@ If \emph{SpacedParameters} is omitted, a list of available commands will be disp
   GraphRewriteSequence: 'xgrs' SimpleRewriteSequence ;
 \end{rail}\ixkeyw{grs}\indexmain{graph rewrite sequence}\indexmainsee{GRS}{graph rewrite sequence}\ixnterm{GraphRewriteSequence}
 This executes the graph rewrite sequence \emph{SimpleRewriteSequence}.
-See section \ref{sct:xgrs} for graph rewrite sequences.
+See Chapter~\ref{cha:xgrs} for graph rewrite sequences.
 Additionally to the variable assignment in rule-embedded graph rewrite sequences, you are also able to assign \emph{persistent names} to parameters via  \texttt{Variable = \@(Text)}.
 
 Graph elements returned by rules can be assigned to variables\indexmain{variable} using \texttt{(Para\-meters) = \emph{Action}}\indexmain{parameter}. 
