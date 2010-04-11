@@ -1,0 +1,7 @@
+rule r modify(b:Node) {
+	a:Node;
+	
+	modify {
+		a-->b;
+	}
+}

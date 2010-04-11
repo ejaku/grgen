@@ -1,10 +1,10 @@
 using patt;
 
-pattern Foo
+pattern Foo modify(a:A, b:B)
 {
 	n:Node;
 	
-	modify(a:A, b:B) {
+	modify {
 		a --> n <-- b;
         eval {
             x3.a = 7;

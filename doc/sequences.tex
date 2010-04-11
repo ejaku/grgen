@@ -50,7 +50,7 @@ a = ((b,c) = R(x,y,z))
 \end{figure}
 
 
-\section{Rewrite sequence}
+\section{Rewrite sequence (logical connectives)}
 
 \makeatletter
 
@@ -87,7 +87,7 @@ Then-Left and Then-Right are of the same priority and their execution order can'
 \end{table}
 
 
-\section{Rewrite term}
+\section{Rewrite term (loops)}
 
 \begin{rail}
   RewriteTerm: 
@@ -102,7 +102,7 @@ The brackets (\texttt{[m]}) execute a sequence repeatedly as long as its executi
 the min-max-brackets (\texttt{[n:m]}) additionally fail if the minimum amount \emph{n} of iterations was not reached.
 
 
-\section{Rewrite factor}
+\section{Rewrite factor (rule application and variable handling)}
 
 \begin{rail} 
   RewriteFactor: 

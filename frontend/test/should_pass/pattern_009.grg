@@ -1,8 +1,8 @@
-pattern Foo
+pattern Foo replace(y:Node)
 {
 	x: Node;
 	
-	replace(y:Node)
+	replace
 	{
 	}
 }

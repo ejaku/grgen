@@ -30,7 +30,8 @@ test t(var x:int) {
 	}	
 }
 
-pattern Alts(var i:int, var j:string, var k:boolean, var l:double, var m:object)
+pattern Alts(var i:int, var j:string, var k:boolean, var l:double, var m:object) 
+		modify(var mi:int, var mj:string, var mk:boolean, var ml:double, var mm:object)
 {
 	alternative {
 		foo {
@@ -67,6 +68,6 @@ pattern Alts(var i:int, var j:string, var k:boolean, var l:double, var m:object)
 		}
 	}
 	
-	modify(var mi:int, var mj:string, var mk:boolean, var ml:double, var mm:object) {
+	modify {
 	}
 }

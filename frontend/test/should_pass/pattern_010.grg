@@ -1,8 +1,8 @@
-pattern Foo
+pattern Foo modify(y:Node)
 {
 	x: Node;
 	
-	modify(y:Node)
+	modify
 	{
 	}
 }

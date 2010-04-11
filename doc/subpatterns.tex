@@ -314,12 +314,14 @@ The common recurring pattern is specified in a subpattern declaration and used b
 
 \begin{rail}  
   SubpatternDeclaration: 
-    'pattern' IdentDecl Parameters? lbrace SubpatternBody rbrace ;
+    'pattern' IdentDecl Parameters? (('modify'|'replace') Parameters)? \\
+	lbrace SubpatternBody rbrace ;
   SubpatternBody: (PatternStatement+) SubpatternRewriting?;
-\end{rail}\ixkeyw{subpattern}
+\end{rail}\ixkeyw{subpattern}\label{subpatterndecl}
 
 Subpattern declarations define a subpattern type denoting the specified shape in global namespace; the parameters specify some context elements the pattern may refer to, but which are not part of the pattern itself. 
 So they are only syntactically the same as test/rule-parameters (which are members of the pattern part), a further difference is the lack of ReturnTypes, due to the fact that a subpattern can't return anything (they are not actions, just a helper in constructing complex patterns).
+Subpatterns can receive additional rewrite parameters in contrast to the actions; they can be used to hand in elements which are created in the rewrite part of the action or subpattern which contains the subpattern entity.
 (The nested body will be explained in section \ref{sec:subrule}.)
 
 \begin{rail}  
@@ -551,13 +553,12 @@ rule methodWithTwoOrThreeParameters(m:Method)
 Alongside the separation into subpattern declaration and subpattern entity declaration, subpattern rewriting is separated into a nested rewrite specification given within the subpattern declaration defining how the rewrite looks like and a subpattern rewrite application given withing the rewrite part of the pattern containing the subpattern entity declaration requesting the rewrite to be actually applied.
 
 \begin{rail}  
-  SubpatterbRewriting: ('replace' | 'modify') Parameters? lbrace (()+ReplaceStatement) rbrace;
+  SubpatternRewriting: ('replace' | 'modify') lbrace (()+ReplaceStatement) rbrace;
 \end{rail}
 
-The nested rewriting specifications of the subpattern declaration allows for additional rewrite parameters -- they may be only used here or within one of the nested patterns of this subpattern;
-a nested pattern within a test or rule declaration is not allowed to have rewrite parameters.
-The nested rewrite of a subpattern may contain rewrite parameters so that graph elements may be handed in from the user of the pattern 
-(most elements can be handed in with normal parametes, but elements created in the rewrite part of the user of the subpattern can only be handed in at rewrite time.) 
+The subpattern rewriting specifications within the subpattern declaration looks like a nested rewriting specification,
+but additionally there may be rewrite parameters given in the subpattern header (cf. \ref{subpatterndecl}) which can be referenced in the rewrite body.
+(Most elements can be handed in with normal parametes, but elements created in the rewrite part of the user of the subpattern can only be handed in at rewrite time.) 
 
 \begin{rail}  
   SubpatternRewriteApplication: 
@@ -622,7 +623,7 @@ This is an example for rewrite parameters, connecting every node on an iterated 
 It can't be simulated by subpattern parameters which get defined at matching time because the common element is only created later on, at rewrite time.
 
   \begin{grgen}
-pattern ChainFromToReverseToCommon(from:Node, to:Node)
+pattern ChainFromToReverseToCommon(from:Node, to:Node) replace(common:Node)
 {
   alternative {
     rec {
@@ -646,7 +647,7 @@ pattern ChainFromToReverseToCommon(from:Node, to:Node)
     }
   }
 
-  replace(common:Node) {
+  replace {
     from; to;
   }
 }
@@ -705,7 +706,6 @@ In addition to the already introduced syntax for the nested patterns with the ke
 there is a more lightweight syntax resembling regular expressions; 
 using it together with the subpatterns gives graph rewrite specifications which look like EBNF-grammars with embedded actions. 
 Exceeding the more verbose syntax they offer constructs for matching the pattern a bounded number of times (same notation as the one for the bounded iteration in the xgrs).
-A limitation compared to the more verbose syntax is that the rewrite part in embedded action notation can't receive rewrite parameters. 
 Table \ref{keywordregexpsyntax} lists the corresponding (/equivalent) language constructs; 
 Example \ref{introexampleregexp} is a version of the introductionary example \ref{introexample} modified to use the new syntax.
 
@@ -720,8 +720,7 @@ Example \ref{introexampleregexp} is a version of the introductionary example \re
     \texttt{ independent \{ P \} } & \texttt{ \&(P)} \\ \hline 
     \texttt{ modify \{ R \} } & \texttt{  \{+ R \} } \\
     \texttt{ replace \{ R \} } & \texttt{ \{- R \} } \\ \hline 
-    \texttt{ - } & \texttt{ (P)[k] / (P)[k:l] / (P)[k:*] } \\ 
-    \texttt{ modify/replace(p1:T1,..,pk:Tk) } & \texttt{ - } \\ \hline 
+    \texttt{ - } & \texttt{ (P)[k] / (P)[k:l] / (P)[k:*] } \\ \hline 
 	\end{tabularx}
   \caption{Map of nested patterns in keyword syntax to regular expression syntax}
   \label{keywordregexpsyntax}

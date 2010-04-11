@@ -1,8 +1,8 @@
-pattern Foo()
+pattern Foo() modify(-a:Edge->)
 {
 	:Node;
 	
-	modify(-a:Edge->) {
+	modify {
 	}
 }
 

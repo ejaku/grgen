@@ -23,6 +23,7 @@ test t(var x:int) {
 }
 
 pattern Alts(var i:int, var j:string, var k:boolean, var l:double, var m:object)
+		modify(var mi:int, var mj:string, var mk:boolean, var ml:double, var mm:object)
 {
 	iterated {
 		nint:NINT;
@@ -58,6 +59,6 @@ pattern Alts(var i:int, var j:string, var k:boolean, var l:double, var m:object)
 		}
 	}
 	
-	modify(var mi:int, var mj:string, var mk:boolean, var ml:double, var mm:object) {
+	modify {
 	}
 }

@@ -311,6 +311,7 @@ patternOrActionDecl [ CollectNode<IdentNode> patternChilds, CollectNode<IdentNod
 		CollectNode<EvalStatementNode> eval = new CollectNode<EvalStatementNode>();
 		CollectNode<IdentNode> dels = new CollectNode<IdentNode>();
 		CollectNode<RhsDeclNode> rightHandSides = new CollectNode<RhsDeclNode>();
+		CollectNode<BaseNode> modifyParams = new CollectNode<BaseNode>();
 	}
 
 	: t=TEST id=actionIdentDecl pushScope[id] params=parameters[BaseNode.CONTEXT_TEST|BaseNode.CONTEXT_ACTION|BaseNode.CONTEXT_LHS, null] ret=returnTypes LBRACE
@@ -339,13 +340,14 @@ patternOrActionDecl [ CollectNode<IdentNode> patternChilds, CollectNode<IdentNod
 			}
 		)
 		RBRACE popScope
-	| p=PATTERN id=patIdentDecl pushScope[id] params=parameters[BaseNode.CONTEXT_PATTERN|BaseNode.CONTEXT_LHS, null] LBRACE
+	| p=PATTERN id=patIdentDecl pushScope[id] params=parameters[BaseNode.CONTEXT_PATTERN|BaseNode.CONTEXT_LHS, null] 
+		((MODIFY|REPLACE) mp=parameters[BaseNode.CONTEXT_PATTERN|BaseNode.CONTEXT_RHS, null] { modifyParams = mp; })? LBRACE
 		left=patternPart[getCoords(p), params, mod, BaseNode.CONTEXT_PATTERN|BaseNode.CONTEXT_LHS, id.toString()]
-		( rightReplace=replacePart[eval, new CollectNode<BaseNode>(), BaseNode.CONTEXT_PATTERN|BaseNode.CONTEXT_RHS, id, left]
+		( rightReplace=replacePart[eval, modifyParams, BaseNode.CONTEXT_PATTERN|BaseNode.CONTEXT_RHS, id, left]
 			{
 				rightHandSides.addChild(rightReplace);
 			}
-		| rightModify=modifyPart[eval, dels, new CollectNode<BaseNode>(), BaseNode.CONTEXT_PATTERN|BaseNode.CONTEXT_RHS, id, left]
+		| rightModify=modifyPart[eval, dels, modifyParams, BaseNode.CONTEXT_PATTERN|BaseNode.CONTEXT_RHS, id, left]
 			{
 				rightHandSides.addChild(rightModify);
 			}
@@ -436,7 +438,6 @@ replacePart [ CollectNode<EvalStatementNode> eval, CollectNode<BaseNode> params,
               int context, IdentNode nameOfRHS, PatternGraphNode directlyNestingLHSGraph ]
             returns [ ReplaceDeclNode res = null ]
 	: r=REPLACE ( id=rhsIdentDecl { nameOfRHS = id; } )?
-		p=parameters[context, directlyNestingLHSGraph] { params = p; } 
 		LBRACE
 		b=replaceBody[getCoords(r), params, eval, context, nameOfRHS, directlyNestingLHSGraph] { res = b; }
 		RBRACE
@@ -450,7 +451,6 @@ modifyPart [ CollectNode<EvalStatementNode> eval, CollectNode<IdentNode> dels,
              CollectNode<BaseNode> params, int context, IdentNode nameOfRHS, PatternGraphNode directlyNestingLHSGraph ]
            returns [ ModifyDeclNode res = null ]
 	: m=MODIFY ( id=rhsIdentDecl { nameOfRHS = id; } )?
-		p=parameters[context, directlyNestingLHSGraph] { params = p; } 
 		LBRACE
 		b=modifyBody[getCoords(m), eval, dels, params, context, nameOfRHS, directlyNestingLHSGraph] { res = b; }
 		RBRACE
@@ -921,7 +921,7 @@ replaceBody [ Coords coords, CollectNode<BaseNode> params, CollectNode<EvalState
 		CollectNode<OrderedReplacementNode> orderedReplacements = new CollectNode<OrderedReplacementNode>();
 		CollectNode<ExprNode> returnz = new CollectNode<ExprNode>();
 		CollectNode<BaseNode> imperativeStmts = new CollectNode<BaseNode>();
-		GraphNode graph = new GraphNode(nameOfRHS.toString(), coords, connections, params, subpatterns, orderedReplacements, returnz, imperativeStmts, context);
+		GraphNode graph = new GraphNode(nameOfRHS.toString(), coords, connections, params, subpatterns, orderedReplacements, returnz, imperativeStmts, context, directlyNestingLHSGraph);
 		res = new ReplaceDeclNode(nameOfRHS, graph, eval);
 	}
 
@@ -945,7 +945,7 @@ modifyBody [ Coords coords, CollectNode<EvalStatementNode> eval, CollectNode<Ide
 		CollectNode<OrderedReplacementNode> orderedReplacements = new CollectNode<OrderedReplacementNode>();
 		CollectNode<ExprNode> returnz = new CollectNode<ExprNode>();
 		CollectNode<BaseNode> imperativeStmts = new CollectNode<BaseNode>();
-		GraphNode graph = new GraphNode(nameOfRHS.toString(), coords, connections, params, subpatterns, orderedReplacements, returnz, imperativeStmts, context);
+		GraphNode graph = new GraphNode(nameOfRHS.toString(), coords, connections, params, subpatterns, orderedReplacements, returnz, imperativeStmts, context, directlyNestingLHSGraph);
 		res = new ModifyDeclNode(nameOfRHS, graph, eval, dels);
 	}
 

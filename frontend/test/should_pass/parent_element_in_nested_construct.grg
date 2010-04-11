@@ -135,7 +135,7 @@ rule t10
 	}
 }
 
-pattern t11
+pattern t11 modify(c:Node)
 {
 	a:Node;
 	
@@ -150,11 +150,11 @@ pattern t11
 	
 	b:Node;
 	
-	modify(c:Node) {
+	modify {
 	}
 }
 
-pattern t12
+pattern t12 modify(c:Node)
 {
 	a:Node;
 	
@@ -167,11 +167,11 @@ pattern t12
 	
 	b:Node;
 	
-	modify(c:Node) {
+	modify {
 	}
 }
 
-pattern t13
+pattern t13 modify(var c:int)
 {
 	a:Node;
 	
@@ -187,11 +187,11 @@ pattern t13
 	
 	b:NINT;
 	
-	modify(var c:int) {
+	modify {
 	}
 }
 
-pattern t14
+pattern t14 modify(var c:int)
 {
 	a:Node;
 	
@@ -205,6 +205,6 @@ pattern t14
 	
 	b:NINT;
 	
-	modify(var c:int) {
+	modify {
 	}
 }

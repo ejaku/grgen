@@ -54,9 +54,11 @@ public class GraphNode extends BaseNode {
 	// Cache variables
 	protected Set<NodeDeclNode> nodes;
 	protected Set<EdgeDeclNode> edges;
-
+	
 	/** context(action or pattern, lhs not rhs) in which this node occurs*/
 	protected int context = 0;
+
+	PatternGraphNode directlyNestingLHSGraph;
 
 	protected String nameOfGraph;
 
@@ -69,7 +71,7 @@ public class GraphNode extends BaseNode {
 			CollectNode<SubpatternUsageNode> subpatterns,
 			CollectNode<OrderedReplacementNode> orderedReplacements,
 			CollectNode<ExprNode> returns, CollectNode<BaseNode> imperativeStmts,
-			int context) {
+			int context, PatternGraphNode directlyNestingLHSGraph) {
 		super(coords);
 		this.nameOfGraph = nameOfGraph;
 		this.connectionsUnresolved = connections;
@@ -86,8 +88,13 @@ public class GraphNode extends BaseNode {
 		becomeParent(this.params);
 		this.context = context;
 
-		// treat non-var parameters like connections
-		addParamsToConnections(params);
+		// if we're constructed as part of a PatternGraphNode 
+		// this code will be executed by the PatternGraphNode
+		if(directlyNestingLHSGraph!=null) {
+			this.directlyNestingLHSGraph = directlyNestingLHSGraph;
+			// treat non-var parameters like connections
+			addParamsToConnections(params);
+		}
 	}
 
 	/** returns children of this node */
@@ -330,7 +337,23 @@ public class GraphNode extends BaseNode {
 	protected void addParamsToConnections(CollectNode<BaseNode> params)
     {
     	for (BaseNode n : params.getChildren()) {
-			if(n instanceof VarDeclNode) continue;
+			// directly nesting lhs pattern is null for parameters of lhs/rhs pattern
+			// because it doesn't exist at the time the parameters are parsed -> patch it in here
+			if(n instanceof VarDeclNode) {
+				((VarDeclNode)n).directlyNestingLHSGraph = directlyNestingLHSGraph;
+				continue;
+			} else if(n instanceof SingleNodeConnNode) {
+				SingleNodeConnNode sncn = (SingleNodeConnNode)n;
+				((NodeDeclNode)sncn.nodeUnresolved).directlyNestingLHSGraph = directlyNestingLHSGraph;
+			} else if(n instanceof ConstraintDeclNode) {
+				((ConstraintDeclNode)n).directlyNestingLHSGraph = directlyNestingLHSGraph;
+			} else {
+				// don't need to adapt left/right nodes as only dummies
+				// TODO casts checked?
+				ConnectionNode cn = (ConnectionNode)n;
+				((EdgeDeclNode)cn.edgeUnresolved).directlyNestingLHSGraph = directlyNestingLHSGraph;
+			}
+
             connectionsUnresolved.addChild(n);
         }
     }

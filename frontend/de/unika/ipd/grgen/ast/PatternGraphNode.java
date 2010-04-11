@@ -116,7 +116,8 @@ public class PatternGraphNode extends GraphNode {
 			CollectNode<ExprNode> conditions, CollectNode<ExprNode> returns,
 			CollectNode<HomNode> homs, CollectNode<ExactNode> exact,
 			CollectNode<InducedNode> induced, int modifiers, int context) {
-		super(nameOfGraph, coords, connections, params, subpatterns, orderedReplacements, returns, null, context);
+		super(nameOfGraph, coords, connections, params, subpatterns, orderedReplacements,
+				returns, null, context, null);
 		this.alts = alts;
 		becomeParent(this.alts);
 		this.iters = iters;
@@ -134,6 +135,9 @@ public class PatternGraphNode extends GraphNode {
 		this.induced = induced;
 		becomeParent(this.induced);
 		this.modifiers = modifiers;
+		
+		directlyNestingLHSGraph = this;
+		addParamsToConnections(params);
 	}
 
 	/** returns children of this node */
@@ -451,31 +455,6 @@ public class PatternGraphNode extends GraphNode {
 			gr.addCondition(op);
 		}
 	}
-
-	@Override
-	protected void addParamsToConnections(CollectNode<BaseNode> params)
-    {
-    	for (BaseNode n : params.getChildren()) {
-			// directly nesting lhs pattern is null for parameters of lhs pattern
-			// because it doesn't exist at the time the parameters are parsed -> fix it in here
-			if(n instanceof VarDeclNode) {
-				((VarDeclNode)n).directlyNestingLHSGraph = this;
-				continue;
-			} else if(n instanceof SingleNodeConnNode) {
-				SingleNodeConnNode sncn = (SingleNodeConnNode)n;
-				((NodeDeclNode)sncn.nodeUnresolved).directlyNestingLHSGraph = this;
-			} else if(n instanceof ConstraintDeclNode) {
-				((ConstraintDeclNode)n).directlyNestingLHSGraph = this;
-			} else {
-				// don't need to adapt left/right nodes as only dummies
-				// TODO casts checked?
-				ConnectionNode cn = (ConnectionNode)n;
-				((EdgeDeclNode)cn.edgeUnresolved).directlyNestingLHSGraph = this;
-			}
-
-            connectionsUnresolved.addChild(n);
-        }
-    }
 
 	@Override
 	protected IR constructIR() {

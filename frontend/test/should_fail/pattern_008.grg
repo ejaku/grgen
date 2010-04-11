@@ -1,10 +1,10 @@
 using patt;
 
-pattern Foo
+pattern Foo modify(a:A, b:B)
 {
 	n:Node -x1->;
 	
-	modify(a:A, b:B) {
+	modify {
 		a --> n <-- b;
 	}	
 }

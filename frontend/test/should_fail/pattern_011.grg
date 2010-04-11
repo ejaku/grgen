@@ -1,11 +1,11 @@
 using patt;
 
-pattern Foo
+pattern Foo modify(a:A, b:B)
 {
 	n:Node;
     if { x3 == x1; }
 	
-	modify(a:A, b:B) {
+	modify {
 		a --> n <-- b;
 	}	
 }
