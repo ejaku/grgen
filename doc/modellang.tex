@@ -45,7 +45,10 @@ In this chapter as well as in Chapter~\ref{chapgrshell} (\GrShell) we use excerp
 \label{modelbb}
 
 \begin{note}
-The following syntax specifications make heavy use of \newtermsee{syntax diagram}{rail diagram}s (also known as \indexed{rail diagram}s). Syntax diagrams provide a visualization of EBNF\footnote{Extended Backus–Naur Form.} grammars. Follow a path along the arrows through a diagram to get a valid sentence (or subsentence) of the language. Ellipses represent terminals whereas rectangles represent non-terminals. For further information on syntax diagrams see~\cite{MMJW:91}.
+The following syntax specifications make heavy use of \newtermsee{syntax diagram}{rail diagram}s (also known as \indexed{rail diagram}s).
+Syntax diagrams provide a visualization of EBNF\footnote{Extended Backus–Naur Form.}\indexmainsee{EBNF}{rail diagram} grammars.
+Follow a path along the arrows through a diagram to get a valid sentence (or subsentence) of the language.
+Ellipses represent terminals whereas rectangles represent non-terminals. For further information on syntax diagrams see~\cite{MMJW:91}.
 \end{note}
 Basic elements of the \GrG\ graph model language are identifiers to denominate nodes, edges, and attributes.
 The model's name itself is given by its file name.
@@ -169,7 +172,7 @@ Defines a new \indexed{node type}. Node types can inherit\indexmain{inheritance}
 
 \begin{rail}    
   EdgeClass: 'edge' 'class' IdentDecl (() | 'extends' (EdgeType+',')) \\
-    (() + ConnectAssertions) (';' | lbrace AttributeDeclarations rbrace);
+    (() + ConnectionAssertions) (';' | lbrace AttributeDeclarations rbrace);
 \end{rail}\ixkeyw{edge}\ixkeyw{class}\ixkeyw{extends}\ixnterm{EdgeClass}
 Defines a new \indexed{edge type}.
 Edge types can inherit\indexmain{inheritance} from other edge types defined within the same file.
@@ -185,10 +188,10 @@ See also Section~\ref{graphcommands}, \texttt{validate}.
 \end{note}
 
 \begin{rail}  
-  ConnectAssertions: 'connect' ((NodeConstraint ('-->' | '<--' | '--' | '?--?') NodeConstraint | 'copy' 'extends') + ',');
+  ConnectionAssertions: 'connect' ((NodeConstraint ('-->' | '<--' | '--' | '?--?') NodeConstraint | 'copy' 'extends') + ',');
   NodeConstraint: NodeType (() | '[' ('*' | '+' | Number | RangeConstraint) ']') ;
   RangeConstraint: Number ':' ('*' | Number) ;
-\end{rail}\ixkeyw{connect}\ixkeyw{copy}\ixkeyw{extends}\ixnterm{ConnectAssertions}\ixnterm{NodeConstraint}\ixnterm{RangeConstraint}
+\end{rail}\ixkeyw{connect}\ixkeyw{copy}\ixkeyw{extends}\ixnterm{ConnectionAssertion}\ixnterm{NodeConstraint}\ixnterm{RangeConstraint}
 A \emph{\indexed{connection assertion}} is denoted as a pair of node types in conjunction with their multiplicities\indexmainsee{multiplicity}{connection assertion}. 
 It is best understood as a simple pattern of the form(cf. ~\ref{sct:graphlets}) \texttt{:SourceNodeType -:EdgeType-> :TargetNodeType}, of which every occurrence in the graph is searched.
 In contrast to a real such pattern and the node types only edges of exactly the given edge type are taken into account.
@@ -244,7 +247,7 @@ This is a purely syntactical simplification, i.\,e.\ the effect of using \texttt
   AttributeDeclaration: 'const'? IdentDecl ':' AttributeType (() | '=' Expression) ';' | AttributeOverwrite ;
   AttributeType: PrimitiveType | EnumType | GenericType; 
   AttributeOverwrite: Ident '=' Expression
-\end{rail}\ixnterm{AttributeDeclarations}\ixnterm{AttributeType}\ixnterm{AttributeOverwrite}
+\end{rail}\ixnterm{AttributeDeclaration}\ixnterm{AttributeType}\ixnterm{AttributeOverwrite}\ixkeyw{const}
 Defines a node or edge \indexed{attribute}. Possible types are enumeration types (\texttt{enum}) and primitive types or generic types.
 See Section~\ref{sec:builtintypes} for a list of built-in primitive and generic types.
 Optionally attributes may be initialized with a \emph{constant} expression.

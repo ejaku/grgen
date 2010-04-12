@@ -20,7 +20,7 @@ A \texttt{false} return value means that the pattern was not found in the host g
 
 In order to store return values of rewrite terms and to pass return values of rules to other rules, \emph{variables} can be defined.
 A variable is an arbitrary identifier which can hold a graph element or a value of one of the attribute or value types \GrG\ knows.
-There are two kinds of variables available in \GrG, i) graph global variables\indexmain{graph global variables} and ii) sequence local variables\indexmain{sequence local variables}.
+There are two kinds of variables available in \GrG, i) graph global variables\indexmain{graph global variables}\indexmainsee{variable}{graph global variables} and ii) sequence local variables\indexmain{sequence local variables}\indexmainsee{variable}{sequence local variables}.
 A variable is alive from its first declaration on: graph global variables are implicitely declared upon first assignment to their name,
 sequence local variables are explicitely declared with a typed variable declaration of the form \texttt{name:type}.
 Graph global variables are untyped; their values are typed, though, so type errors cause an exception at runtime.
@@ -61,7 +61,7 @@ a = ((b,c) = R(x,y,z))
   RewriteNegTerm: 
     ('!')? RewriteTerm
 	;
-\end{rail}\ixnterm{RewriteSequence}
+\end{rail}\ixnterm{RewriteSequence}\ixnterm{RewriteNegTerm}
 
 A graph rewrite sequence consists of several rewrite terms linked by operators.
 Table \ref{tbl:sequ:op} gives the priorities and semantics of the operators, priorities in ascending order.
@@ -87,7 +87,7 @@ Then-Left and Then-Right are of the same priority and their execution order can'
 \end{table}
 
 
-\section{Rewrite term (loops)}
+\section{Rewrite term (loops)}\indexmain{loop}\indexmain{regular expression syntax}
 
 \begin{rail}
   RewriteTerm: 
@@ -115,7 +115,7 @@ the min-max-brackets (\texttt{[n:m]}) additionally fail if the minimum amount \e
     '<' RewriteSequence '>' | 
     '(' RewriteSequence ')' |
     BoolLit;
-\end{rail}\ixnterm{RewriteFactor}\ixkeyw{def}\ixkeyw{true}\ixkeyw{false}\indexmain{\texttt{<>}}
+\end{rail}\ixnterm{RewriteFactor}\ixkeyw{emit}\ixkeyw{if}\indexmain{\texttt{<>}}
 
 Rewrite factors are the building blocks of graph rewrite sequences.
 They mainly act as a rule application or variable assignment.
@@ -131,7 +131,7 @@ Forcing execution orders can be achived by parentheses, an boolean literal \text
 \begin{rail}    
   RuleExecution: (() | '(' (Variable+',') ')' '=') \\ (() | percent) (() | '?') ( (dollar ( Number | ()) | ()) '[' Rule ']' | Rule);   
   Rule: RuleIdent (() | '(' (Variable+',') ')');
-\end{rail}\ixnterm{RuleExecution} \ixnterm{Rule} 
+\end{rail}\ixnterm{RuleExecution}\ixnterm{Rule} 
 The \emph{RuleExecution} clause applies a single rule or test.
 In case of a rule, the first found pattern match will be rewritten.
 Variables and named graph elements from the enclosing rule can be passed.
@@ -162,7 +162,7 @@ The random-match-selector \texttt{\$n} searches for all matches and then randoml
     Variable |
     'def' '(' (Variable+',') ')'
   ;
-\end{rail}\ixnterm{VarAssignment}\ixnterm{Variable}\makeatother
+\end{rail}\ixnterm{VariableHandling}\ixkeyw{def}\makeatother
 Variables can hold graph elements, or values of value/attribute types.
 The typed explicit declaration introduces a sequence local variable, 
 if the double colon and the type are missing, a graph global variable gets implicitely declared if not existing yet.
@@ -173,7 +173,7 @@ A \texttt{def} term is successful iff all the the variables are defined.
 Assigning graph elements by name to variables is not supported in compiled sequences (names are not available on this level).
 
  
-\section{Visited Flags}
+\section{Visited Flags}\indexmain{visited flag}
 
 \begin{rail}
   VisitedFlagsManagement:
@@ -182,14 +182,14 @@ Assigning graph elements by name to variables is not supported in compiled seque
     GraphElement '.' 'visited' '[' Variable ']' '=' (Variable|BoolLit) |
     GraphElement '.' 'visited' '[' Variable ']' |
     'vreset' '(' Variable ')'
-\end{rail}\ixkeyw{valloc}\ixkeyw{vfree}\ixkeyw{visited}\ixkeyw{vreset}\label{allocvisitflag}\label{freevisitflag}
+\end{rail}\ixnterm{VisitedFlagsManagement}\ixkeyw{valloc}\ixkeyw{vfree}\ixkeyw{visited}\ixkeyw{vreset}
 The visited flags are stored in some excess bits of the graph elements, but if this pool is exceeded they are stored in additional dictionaries, one per visited flag requested.
 Due to this flags must get allocated/deallocated, and all flag related operations require an integer number -- the flag id -- specifying the flag to operate on (with exception of the allocation operation returning this flag id).
 The operations always return true as sequence results (with exception of the operation reading the flag, it fails iff the visited flag is not set for the graph element);
 if you try to access a not previously allocated visited flag, an exception is thrown.
 The operations managing the visited flags are:
 \begin{description}
-\item[Flag allocation:] By \texttt{valloc} -- allocates space for a visited flag in the elements of the graph and returns the id of the visited flag (integer number), starting at 0.
+\item[Flag allocation:] By \texttt{valloc}\label{allocvisitflag} -- allocates space for a visited flag in the elements of the graph and returns the id of the visited flag (integer number), starting at 0.
 Afterwards, the visited flag of the id can be read and written within the rules by the \texttt{visited}-expression and the \texttt{visited}-assignment,
 as well as by the \texttt{visited} flag reading and writing rewrite factors.
 The first visited flags are stored in some excess bits of the graph elements and are thus essentially for free,
@@ -202,7 +202,7 @@ The value stored in the variable must be of integer type, stemming from a previo
 \end{description}
 
 
-\section{Storages}
+\section{Storages}\indexmain{storage}
 
 Storages are variables of set or map type used in the sequences;
 in contrast to the sets in the graph model and rewrite rules, their elements can be of node or edge type. 
@@ -222,7 +222,7 @@ A further difference to the sets and maps in the rewrite rules is that they only
   SetMapTypeDecl: 
     ':' ('set' '<' Type '>' | 'map' '<' KeyType ',' ValueType '>')
     ;
-\end{rail}\ixnterm{VarAssignment}\ixnterm{Variable}\makeatother
+\end{rail}\ixnterm{VariableHandling}\ixnterm{SetMapTypeDecl}\ixkeyw{in}\indexmain{map}\indexmain{set}\makeatother
 
 \begin{rail}
   RHS:
@@ -236,7 +236,7 @@ A further difference to the sets and maps in the rewrite rules is that they only
 	'set' '<' Type '>' lbrace rbrace |
     'map' '<' KeyType ',' ValueType '>' lbrace rbrace
 	;
-\end{rail}\ixnterm{VarAssignment}\ixnterm{Variable}\makeatother
+\end{rail}\ixnterm{RHS}\ixnterm{SetMapCreation}\makeatother
 
 In the interpreted sequences, variables can be declared to be of set/map type;
 in the compiled sequences, they must be declared to be of set/map type (all variables must be declared in the compiled sequences).
@@ -281,7 +281,7 @@ The second line declares a variable \texttt{y} of type \texttt{map<Node,Edge>} a
     Var 'in' MapVar |
     'for' lbrace Var 'in' SetVar ';' RewriteSequence rbrace |
     'for' lbrace Var '->' Var 'in' MapVar ';' RewriteSequence rbrace
-\end{rail}
+\end{rail}\ixkeyw{in}\ixkeyw{for}\ixnterm{RewriteFactor}
 
 \noindent Handling of the storages is completed by the rewrite factors for membership query and storage iteration.
 The binary operator \texttt{el in sm} checks for set/map membership; it returns true if \texttt{el} is contained in the set or the domain of the map, otherwise false.
@@ -345,7 +345,7 @@ Table~\ref{ruletab} lists most of the operations of the graph rewrite expression
 \texttt{v=u[w]}	& Assign target value of \texttt{w} in \texttt{u} to \texttt{v}. Fails if \texttt{!(w in u)}.\\
 \hline
 \end{tabularx}\indexmain{\texttt{\textasciicircum}}\indexmain{\texttt{\&\&}@\texttt{"|}}
-\indexmain{\texttt{\&}}\indexmain{\texttt{\$<op>}}\indexmain{\texttt{*}}\indexmain{\texttt{"!}}
+\indexmain{\texttt{\&}}\indexmain{\texttt{\$<op>}}\indexmain{\texttt{*}}\indexmain{\texttt{"!}}\indexmain{\texttt{;>}}\indexmain{\texttt{<;}}\indexmain{\texttt{+}}
 \end{minipage}\\
 \\ 
 {\small Let \texttt{r}, \texttt{s}, \texttt{t} be sequences, \texttt{u}, \texttt{v}, \texttt{w} variable identifiers, \texttt{<op>} $\in \{\texttt{|}, \texttt{\^}, \texttt{\&}, \texttt{||}, \texttt{\&\&}\}$ and \texttt{n}, \texttt{m} $\in \N_0$.}

@@ -1,7 +1,7 @@
 \chapter{Examples}
 \label{anexample}
 
-\section{Fractals}
+\section{Fractals}\indexmain{example}
 \label{fractals}
 The \GrG\ package ships with samples for fractal generation. We will construct the \indexed{Sierpinski triangle} and the \indexed{Koch snowflake}. They are created by consecutive rule applications starting with the initial host graphs
 \begin{center}
@@ -42,7 +42,7 @@ respectively. Because both of the scripts are using the debug mode, we complete 
 \end{figure}
 \vfill\pagebreak
 
-\section{Busy Beaver}
+\section{Busy Beaver}\indexmain{example}
 We want \GrG\ to work as hard as a \indexed{busy beaver}~\cite{Kro:07,Dew:84}. Our busy beaver is a Turing machine that has got five states plus a ``halt''-state; it writes 1,471 bars onto the tape and terminates~\cite{MB:00}. So first of all we design a Turing machine as graph model. Besides, this example shows that \GrG\ is \indexed{Turing complete}.
 
 We use the graph model and the rewrite rules to define a general Turing machine. Our approach is to basically draw the machine as a graph. The busy beaver logic is implemented by rule applications in \GrShell.

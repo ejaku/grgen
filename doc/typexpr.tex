@@ -80,7 +80,7 @@ Objects of type object are not very useful for \GrG processing (and the im/expor
 \end{note}
 
 
-\section{Expressions}
+\section{Expressions}\indexmain{expression}
 
 \GrG supports numerous operations on the entities of the types introduced above, which are organized into left associative expressions.
 In the following they will be explained with their semantics and relative priorities one type after another in the order of the rail diagram below.
@@ -121,7 +121,7 @@ The bind stronger than the boolean expressions but weaker than all the other non
 
 \begin{rail}
  RelationalExpr: (Expression CompareOperator Expression)
-\end{rail}
+\end{rail}\ixnterm{RelationalExpr}
 
 The \emph{CompareOperator} is one of the following operators:
 \[ \texttt{<} \;\;\;\;\; \texttt{<=} \;\;\;\;\; \texttt{==} \;\;\;\;\; \texttt{!=} \;\;\;\;\; \texttt{>=} \;\;\;\;\; \texttt{>} \]
@@ -271,7 +271,7 @@ Set expressions consist of the known mathematical set operations and size counti
 
 \begin{rail} 
   SetExpr: Expr 'in' SetExpr | SetExpr (MethodSelector)? | SetExpr (backslash | ampersand | '|') SetExpr;
-\end{rail}\ixnterm{SetExpr}
+\end{rail}\ixnterm{SetExpr}\ixkeyw{in}
 
 \begin{table}[htbp] 
   \centering
@@ -310,7 +310,7 @@ Map expressions consist of the known mathematical set operations extended to map
 
 \begin{rail}
   MapExpr: Expr 'in' MapExpr | MapExpr '[' Expr ']' | PrimaryExpr (MethodSelector)? | MapExpr (backslash | ampersand | '|') MapExpr;
-\end{rail}\ixnterm{MapExpr}
+\end{rail}\ixnterm{MapExpr}\ixkeyw{in}
 
 \begin{table}[htbp] 
   \centering
@@ -388,7 +388,7 @@ After we've seen the all the ways to combine expressions, finally we'll have a l
 
 \begin{rail} 
   PrimaryExpr: CastExpr | MemberAccess | VarIdent | NodeOrEdge '.' 'visited' ('[' FlagNumber ']')? | 'nameof' '(' NodeOrEdge? ')' | '(' Expression ')';
-\end{rail}\ixnterm{PrimaryExpr}
+\end{rail}\ixnterm{PrimaryExpr}\ixkeyw{visited}\ixkeyw{nameof}\indexmainsee{variable}{expression variable}\indexmain{expression variable}\indexmain{variable}
 
 The \texttt{visited} query returns the status of the \indexed{visited flag} of the given number for the given graph element as \texttt{boolean}.
 If no flag number is given, the default number for the first visited flag of 0 is used. 
@@ -403,7 +403,7 @@ If no graph element is given, the name of the graph is returned.
 \begin{rail} 
   CastExpr: '(' ('int' | 'float' | 'double' | 'string') ')' PrimaryExpr;
   MemberAccess: (NodeOrEdge '.' Ident);
-\end{rail}
+\end{rail}\ixnterm{CastExpr}\ixnterm{MemberAccess}
 
 The cast expression returns the original value casted to the new prefixed type.
 The member access \texttt{n.a} returns the value of the attribute \texttt{a} of the graph element \texttt{n}.
@@ -411,7 +411,7 @@ The member access \texttt{n.a} returns the value of the attribute \texttt{a} of 
 \begin{rail} 
   Literal: Constant | SetConstructor | MapConstructor;
   Constant: EnumLit | Number | HexNum | DoubleNum | FloatNum | QuotedText | BoolLit | NullLit;
-\end{rail}\ixnterm{Constant}
+\end{rail}\ixnterm{Constant}\ixnterm{Literal}
 
 The Constants are:
 \begin{description}
@@ -428,7 +428,7 @@ The Constants are:
 \begin{rail} 
   SetConstructor: ('set' '<' Type '>')? \\ lbrace ( Expression*',' ) rbrace ;
   MapConstructor: ('map' '<' Type ',' Type '>')? \\ lbrace ( (Expression '->' Expression)*',' ) rbrace ;
-\end{rail}\ixnterm{SetConstructor}\ixnterm{MapDecl}
+\end{rail}\ixnterm{SetConstructor}\ixnterm{MapConstructor}
 
 The set/map constructors are constant if only primitive type literals, enum literals, or constant expressions are used; 
 this is required for set/map initializations in the model.

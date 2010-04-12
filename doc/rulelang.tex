@@ -276,9 +276,9 @@ And some illegal graphlets:\\
 \label{ruledecls}
 The structure of a \indexed{rule set} file is as follows:
 \begin{rail}
-  RuleSet: Header ((TestDeclaration | RuleDeclaration | SubpatternDeclaration)+) ;
-  Header: ('using' ((ModelIdent)+',') ';')? (('\#include' Filename)*());
-\end{rail}\ixkeyw{using}\ixnterm{RuleSet}
+  RuleSet: FileHeader ((TestDeclaration | RuleDeclaration | SubpatternDeclaration)+) ;
+  FileHeader: ('using' ((ModelIdent)+',') ';')? (('\#include' Filename)*());
+\end{rail}\ixkeyw{using}\ixkeyw{include}\ixnterm{RuleSet}\ixnterm{FileHeader}
 
 A rule set consists of the underlying \indexed{graph model}s and several rewrite rules and tests (subpatterns will be introduced in \ref{sec:subpattern}).
 Additionally you may include further rule set files (without \texttt{using} directives, we prefer to suffix them with \textt{.gri} in this case).
@@ -289,7 +289,7 @@ If necessary you can use prefixes as you might do in C.
 \begin{rail}
   TestDeclaration: 'test' (() | 'exact' | 'induced') ActionSignature lbrace Pattern rbrace ;
   RuleDeclaration: 'rule' (() | 'exact' | 'induced' | 'dpo' | 'dangling' | 'identification' ) ActionSignature lbrace Pattern Replace rbrace ;
-\end{rail}\ixkeyw{test}\ixkeyw{rule}\ixkeyw{exact}\ixkeyw{induced}\ixkeyw{dpo}\ixnterm{TestDeclaration}\ixnterm{RuleDeclaration}
+\end{rail}\ixkeyw{test}\ixkeyw{rule}\ixkeyw{exact}\ixkeyw{induced}\ixkeyw{dpo}\ixkeyw{dangling}\ixkeyw{identification}\ixnterm{TestDeclaration}\ixnterm{RuleDeclaration}
 Declares a single \indexed{rewrite rule} such as \texttt{SomeRule}. 
 It consists of a pattern part (see Section~\ref{patternpart}) in conjunction with its rewrite/modify part (see Section~\ref{sec:replacemodify}). 
 A \newterm{test} has no rewrite specification. 
@@ -322,7 +322,7 @@ This way it is possible to specify \emph{where} a rule should be applied.
   Parameters: '(' (Parameter * ',') ')' ;
   Parameter: IdentDecl ':' NodeType (InputTypeSpecification)? | '-' IdentDecl ':' EdgeType (InputTypeSpecification)? '->' | 'var' IdentDecl ':' VarType ;
   InputTypeSpecification: '<' (NodeEdgeType | 'null' | NodeEdgeType '+' 'null' | 'null' '+' NodeEdgeType ) '>' ;
-\end{rail}\ixnterm{Parameters}
+\end{rail}\ixnterm{Parameter}\ixnterm{InputTypeSpecification}\ixkeyw{null}\ixkeyw{var}
 
 Within a rule, graph element parameters are treated as graph elements of the pattern - just predefined.
 But in contrast to pervious versions it is the task of the user to ensure the elements handed in satisfy the interface, i.e. parameters must not be null and must be of the type specified or a subtype of the type specified. 
@@ -393,7 +393,7 @@ We do not define \texttt{varnode} within the pattern part because this is alread
 %\end{rail}\ixkeyw{pattern}\ixkeyw{induced}\ixnterm{Pattern}
 \begin{rail}
   Pattern: (()+PatternStatement) (() | ReturnStatement);
-\end{rail}
+\end{rail}\ixnterm{Pattern}
 A \indexed{pattern} consists of zero or more pattern statements and, in case of a test, an optional return statement.
 All the pattern statements must be fulfilled by a subgraph of the host graph in order to form a match. 
 An \indexed{empty pattern} always produces exactly one (empty) match. 
@@ -424,7 +424,6 @@ See Chapter~\ref{cha:xgrs} for further information on graph rewrite sequences.
     NestedPattern |
     SubpatternEntityDeclaration
     ;
-
 \end{rail}\ixkeyw{induced}\ixkeyw{exact}\ixkeyw{hom}\ixkeyw{if}\ixnterm{PatternStatement}
 The semantics of the various pattern statements are given below:
 \begin{description}
@@ -575,7 +574,7 @@ Selects whether the replace mode or the modify mode is used. Several replace sta
     'eval' lbrace (Assignment ';' +) rbrace |
     SubpatternRewriteApplication
     ;
-\end{rail}\ixkeyw{delete}\ixkeyw{eval}
+\end{rail}\ixkeyw{delete}\ixkeyw{eval}\ixntern{ReplaceStatement}
 The semantics of the various replace statements are given below:
 \begin{description}
   \item[Graphlet] \indexmain{graphlet}Analogous to a pattern graphlet; a specification of a connected subgraph. Its graph elements are either kept because they are elements of the pattern or added otherwise. Names defined in the pattern part must not be redefined in the replace graphlet. See Section~\ref{rulebb} for a detailed explanation of graphlets. 
@@ -586,7 +585,7 @@ The semantics of the various replace statements are given below:
 
 \begin{rail}    
    Assignment: NodeOrEdge '.' Ident '=' Expression | NodeOrEdge '.' 'visited' ('[' FlagNumber ']')? '=' BoolExpr;
-\end{rail}\indexmain{attribute evaluation}\ixnterm{Assignment}
+\end{rail}\indexmain{attribute evaluation}\ixnterm{Assignment}\ixkeyw{visited}
 Several evaluation parts are allowed within the replace part. 
 Multiple evaluation statements will be internally concatenated, preserving their order.
 Evaluation statements have \indexedsee{imperative}{attribute evaluation} semantics.
@@ -645,9 +644,9 @@ Example \ref{ex:rules:modifiers} explains the modifiers by small toy-graphs.
 \begin{table}[htbp]
     \begin{tabularx}{\linewidth}{l|X}
         \bf Modifier & \bf Meaning \\\hline
-        \texttt{dpo} & Switches to DPO semantics. This modifier affects only nodes that are to be deleted during the rewrite. DPO says---roughly spoken---that implicit deletions must not occur by all means. To ensure this the dangling condition (see \texttt{dangling} below) and the identification condition (see \texttt{identification} below) get enforced (i.e. \texttt{dpo = dangling + identification}). In contrast to \texttt{exact} and \texttt{induced} this modifier applies neither to a pattern as such (can't be used with a \texttt{test}) nor to a single statement but only to an entire rule. See Corradini et al.\cite{dpoapproach} for a DPO reference.\\
-		\texttt{dangling} & Ensures the dangling condition. This modifier affects only nodes that are to be deleted during the rewrite. Nodes going to be deleted due to the rewrite part have to be specified exactly (with all their incident edges, \texttt{exact} semantics) in order to be matched. As with \texttt{dpo}, this modifier applies only to rules.\\
-		\texttt{identification} & Ensures the identification condition. This modifier affects only nodes that are to be deleted during the rewrite. If you specify two pattern graph elements to be homomorphically matched but only one of them is subject to deletion during rewrite, those pattern graph elements will never actually be matched to the same host graph element. As with \texttt{dpo}, this modifier applies only to rules.\\
+        \texttt{dpo} & Switches to DPO semantics \indexmainsee{DPO}{double-pushout approach}. This modifier affects only nodes that are to be deleted during the rewrite. DPO says---roughly spoken---that implicit deletions must not occur by all means. To ensure this the dangling condition (see \texttt{dangling} below) and the identification condition (see \texttt{identification} below) get enforced (i.e. \texttt{dpo = dangling + identification}). In contrast to \texttt{exact} and \texttt{induced} this modifier applies neither to a pattern as such (can't be used with a \texttt{test}) nor to a single statement but only to an entire rule. See Corradini et al.\cite{dpoapproach} for a DPO reference.\\
+		\texttt{dangling} & Ensures the dangling condition \indexmain{dangling condition}. This modifier affects only nodes that are to be deleted during the rewrite. Nodes going to be deleted due to the rewrite part have to be specified exactly (with all their incident edges, \texttt{exact} semantics) in order to be matched. As with \texttt{dpo}, this modifier applies only to rules.\\
+		\texttt{identification} & Ensures the identification condition \indexmain{identification condition}. This modifier affects only nodes that are to be deleted during the rewrite. If you specify two pattern graph elements to be homomorphically matched but only one of them is subject to deletion during rewrite, those pattern graph elements will never actually be matched to the same host graph element. As with \texttt{dpo}, this modifier applies only to rules.\\
     \end{tabularx}    
     \caption{Semantics of rule only modifiers}
     \label{tbl:rules:rulemodifiers}
@@ -755,11 +754,11 @@ A \indexed{type constraint} is used to exclude parts of the \indexed{type hierar
 \end{example}
 
 
-\section{Exact Dynamic Type}
+\section{Exact Dynamic Type}\indexmainsee{exact dynamic type}{dynamic type}\indexmain{dynamic type}
 
 \begin{rail}
   Type: TypeIdent | 'typeof' '(' NodeOrEdge ')' ;
-\end{rail}\ixkeyw{typeof}\ixnterm{TypeExpr}
+\end{rail}\ixkeyw{typeof}\ixnterm{Type}
 The type of a graph element may be given by a type identifier,
 or a typeof denoting the exact dynamic type of a matched graph element.
 The element declaration \texttt{el:typeof(x)} introduces a graph element of the type the host graph element \texttt{x} is actually bound to.
@@ -789,7 +788,7 @@ Retyping is useful for rewriting a node but keeping its incident edges; without 
 Syntacically it is specified by giving the original node enclosed in left and right angles.
 \begin{rail}
   Retyping: '<' Ident '>';
-\end{rail}\ixnterm{IdentDecl}
+\end{rail}\ixnterm{Retyping}
 
 \begin{table}[htbp]
 \centering

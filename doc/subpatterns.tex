@@ -56,7 +56,7 @@ These rule set language constructs can be split into nested patterns (negative a
     NestedPatternWithCardinality |
     AlternativePatterns 
     ;
-\end{rail}
+\end{rail}\ixnterm{NestedPattern}
 
 \section{Negative Application Condition (NAC)}
 \indexmain{negative application condition}\indexmainsee{NAC}{negative application condition}\label{nac}
@@ -64,7 +64,7 @@ These rule set language constructs can be split into nested patterns (negative a
 \begin{rail}  
   NegativeApplicationCondition: 
     'negative' lbrace (()+PatternStatement) rbrace;
-\end{rail}\ixkeyw{negative}
+\end{rail}\ixkeyw{negative}\ixnterm{NegativeApplicationCondition}
 
 With negative application conditions (keyword \texttt{negative}) we can specify graph patterns which forbid the application of a rule if any of them is present in the host graph (cf.~\cite{adam}). 
 NACs possess a \indexed{scope} of their own, i.e. names defined within a NAC do not exist outside the NAC. 
@@ -151,7 +151,7 @@ test onlyOneChildOrAllChildrenHaveExactlyOneCommonChild
 \begin{rail}  
   PositiveApplicationCondition: 
     'independent' lbrace (()+PatternStatement) rbrace;
-\end{rail}\ixkeyw{independent}
+\end{rail}\ixkeyw{independent}\ixnterm{PositiveApplicationCondition}
 
 With positive application conditions (keyword \texttt{independent}) we can specify graph patterns which, in contrast to negative application conditions, must be present in the host graph to cause the matching of the enclosing pattern to succeed.
 Together with NACs they share the property of opening a \indexed{scope}, with elements being independent from the surrounding scope (i.e. a host graph element can easiely get matched to a pattern element and a PAC element with a different name, unless the pattern element is referenced in the PAC). 
@@ -189,13 +189,13 @@ rule moveMethod
 
   
 \section{Pattern Cardinality}
-\indexmain{pattern cardinality}\label{cardinality}
+\indexmainsee{cardinality}{pattern cardinality}\indexmain{pattern cardinality}\label{cardinality}
 
 \begin{rail}  
   NestedPatternWithCardinality: 
     ('iterated' | 'multiple' | 'optional') lbrace NestedBody rbrace;
   NestedBody: (PatternStatement+) NestedRewriting?;
-\end{rail}\ixkeyw{iterated}\ixkeyw{multiple}\ixkeyw{optional}
+\end{rail}\ixkeyw{iterated}\ixkeyw{multiple}\ixkeyw{optional}\ixnterm{NestedPatternWithCardinality}
 
 The \indexmain{pattern cardinality} blocks allow to specify how often the nested pattern -- opening a scope -- is to be matched.
 Matching will be carried out eagerly, i.e. if the construct is not limiting the number of matches and a further match is possible it will be done.
@@ -260,7 +260,7 @@ For every pattern instance, the iterated/... yields only one match, even if in a
 \begin{rail}  
   AlternativePatterns: 
     'alternative' lbrace ((CaseName lbrace NestedBody rbrace)+()) rbrace;
-\end{rail}\ixkeyw{alternative}
+\end{rail}\ixkeyw{alternative}\ixnterm{AlternativePattern}
 
 With the alternative block you can specify several nested alternative patterns. One of them must get matched for the matching of the alternative (and thus its directly nesting pattern) to succeed, and only one of them is matched per match of the alternative / overall pattern.
 The order of matching the alternative patterns is unspecified, especially it is not guaranteed that a case gets matched before the case textually following -- if you want to ensure that a case can not get matched if another case could be matched, you must explicitely prevent that from happening by adding negatives to the cases.
@@ -317,7 +317,7 @@ The common recurring pattern is specified in a subpattern declaration and used b
     'pattern' IdentDecl Parameters? (('modify'|'replace') Parameters)? \\
 	lbrace SubpatternBody rbrace ;
   SubpatternBody: (PatternStatement+) SubpatternRewriting?;
-\end{rail}\ixkeyw{subpattern}\label{subpatterndecl}
+\end{rail}\ixkeyw{pattern}\ixkeyw{modify}\ixkeyw{replace}\ixnterm{SubpatternDeclaration}\ixnterm{SubpatternBody}\label{subpatterndecl}\indexmain{subpattern declaration}
 
 Subpattern declarations define a subpattern type denoting the specified shape in global namespace; the parameters specify some context elements the pattern may refer to, but which are not part of the pattern itself. 
 So they are only syntactically the same as test/rule-parameters (which are members of the pattern part), a further difference is the lack of ReturnTypes, due to the fact that a subpattern can't return anything (they are not actions, just a helper in constructing complex patterns).
@@ -327,7 +327,7 @@ Subpatterns can receive additional rewrite parameters in contrast to the actions
 \begin{rail}  
   SubpatternEntityDeclaration: 
     Ident ':' SubpatternType '(' ')' ';' ;
-\end{rail}\ixkeyw{subpattern}
+\end{rail}\ixnterm{SubpatternEntityDeclaration}\indexmain{subpattern entity declaration}
 
 Subpattern entity declarations instantiate an entity of the subpattern type (i.e. specified shape), which means the subpattern must get matched for the matching of the enclosing pattern to succeed.
 The arguments given are bound to the corresponding parameters of the subpattern.
@@ -366,7 +366,7 @@ test methodWithTwoParameters
 \end{example}
 
 
-\subsection{Recursive Patterns}
+\subsection{Recursive Patterns}\indexmain{recursive pattern}\indexmain{structural recursion}
 
 Subpatterns can be combined with alternative patterns or the cardinality patterns into recursive subpatterns, i.e. subpatterns which may contain themselves.
 Subpatterns containing themselves alone -- directly or indirectly -- would never yield a match.
@@ -475,7 +475,7 @@ This does not hold for the application conditions, which are pure conditions, bu
 
 \begin{rail}  
   NestedRewriting: ('replace' | 'modify') lbrace (()+ReplaceStatement) rbrace;
-\end{rail}
+\end{rail}\ixnterm{NestedRewriting}\ixkeyw{replace}\ixkeyw{modify}
 
 Syntactically the rewrite is specified by a modify or replace clause nested directly within the scope of each nested pattern;
 in addition to the rewrite clause nested within the top level pattern, which must be present even if the top level pattern is empty. 
@@ -554,7 +554,7 @@ Alongside the separation into subpattern declaration and subpattern entity decla
 
 \begin{rail}  
   SubpatternRewriting: ('replace' | 'modify') lbrace (()+ReplaceStatement) rbrace;
-\end{rail}
+\end{rail}\ixnterm{SubpatternRewriting}\ixkeyw{replace}\ixkeyw{modify}
 
 The subpattern rewriting specifications within the subpattern declaration looks like a nested rewriting specification,
 but additionally there may be rewrite parameters given in the subpattern header (cf. \ref{subpatterndecl}) which can be referenced in the rewrite body.
@@ -566,7 +566,7 @@ but additionally there may be rewrite parameters given in the subpattern header 
     SubpatternOccurence |
 	'emithere' '(' StringExpr ')' ';'
 	;
-\end{rail}\ixkeyw{rewrite application}
+\end{rail}\ixnterm{SubpatternRewriteApplication}\ixkeyw{emithere}
 
 The SubpatternRewriteApplication is part of a ReplaceStatement.
 The subpattern rewrite application is given within the rewrite part of the pattern containing the subpattern entity declaration, in call notation on the declared subpattern identifier.
@@ -676,7 +676,7 @@ In addition to the fine-grain dependent replacement, subpatterns may get deleted
   SubpatternOccurence: 
     Ident ';' |
     'delete' '(' (Ident + ',') ')' ';';
-\end{rail}\ixkeyw{subpattern occurence}
+\end{rail}\ixkeyw{SubpatternOccurence}\ixkeyw{delete}
 
 In modify mode, they are kept by default, but deleted if the name of the declared subpattern entity is mentioned within a delete statement.
 In replace mode, they are deleted by default, but kept if the name of the declared subpattern entity is mentioned (using occurence, same as with nodes or edges).
@@ -699,7 +699,7 @@ rule R {
 \end{example}
 
 
-\section{Regular Expression Syntax}
+\section{Regular Expression Syntax}\indexmainsee{EBNF}{regular expression syntax}\indexmain{regular expression syntax}
 
 In addition to the already introduced syntax for the nested patterns with the keywords 
 \texttt{negative}, \texttt{independent}, \texttt{alternative}, \texttt{iterated}, \texttt{multiple} and \texttt{optional},

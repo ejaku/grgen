@@ -71,6 +71,9 @@ morestring=[b]",
 \newcommand{\indexmain}[1]{\index{#1}}
 \newcommand{\indexmainsee}[2]{\index{#1|see{#2}}}
 
+%todo: split index of shell language keywords/nonterminals off from the rest
+%todo: without operators the index is incomplete
+%todo: how to handle literals? - keywords or nonterminals (true vs. Number)
 % index section keywords
 \newcommand{\keyw}[1]{\texttt{#1}}
 \newcommand{\ixkeyw}[1]{\index{...#1@\protect\keyw{#1}}}
@@ -232,9 +235,6 @@ morestring=[b]",
 \GrG\ uses attributed, typed, and directed multigraphs with multiple inheritance on node and edge types.
 Extensive graphical debugging integrated into an interactive shell complements the feature highlights of \GrG.
 This user manual contains both, normative statements in the sense of a reference manual as well as an informal guide to the features and usage of \GrG.\\[6ex]
-
-\noindent This is a draft; it is published early because it is useful as-is, due to the many changes since the last version of the manual. 
-Note: Especially the index is broken.
 
 
 \chapter*{Old Foreword}

@@ -34,7 +34,7 @@ Is an \texttt{int} or \texttt{float} constant in decimal notation (see also Sect
 In order to describe the commands more precisely, the following (semantic) specializations of \emph{Text} are defined:
 \begin{description}
   \item[Filename]A fully qualified file name without spaces (e.g.\ \texttt{/Users/Bob/amazing\textunderscore file.txt}) or a single quoted or double quoted fully qualified file name that may contain spaces (\texttt{"/Users/Bob/amazing file.txt"}).
-  \item[Variable] Identifier of a variable that contains a graph element or a value of basic type. 
+  \item[Variable] Identifier of a (graph global) variable that contains a graph element or a value. \indexmainsee{GrShell variable}{graph global variable}
   \item[NodeType, EdgeType] Identifier of a node type resp.\ edge type defined in the model of the current graph.
   \item[AttributeName] Identifier of an attribute.
   \item[Graph] Identifies a graph by its name.
@@ -46,7 +46,7 @@ In order to describe the commands more precisely, the following (semantic) speci
   GraphElement: Text | ('@' '(' Text ')')
 \end{rail}\indexmain{\texttt{"@}}\ixnterm{GraphElement}
 \makeatother
-The elements of a graph (nodes and edges) can be accessed both by their \indexed{variable} identifier and by their \newterm{persistent name} specified through a constructor (see Section~\ref{mani}).
+The elements of a graph (nodes and edges) can be accessed both by their (graph global) \indexed{variable}\indexmain{graph global variable} identifier and by their \newterm{persistent name} specified through a constructor (see Section~\ref{mani}).
 The specializations \emph{Node} and \emph{Edge} of \emph{GraphElement} require the corresponding graph element to be a node or an edge respectively.
 \begin{example}
 \label{persistentex} 
@@ -82,7 +82,7 @@ The variables known to \GrShell\ are the graph global variables (see \ref{cha:xg
 
 \begin{rail} 
 'show' 'var' Variable 
-\end{rail}\ixkeyw{show}
+\end{rail}\ixkeyw{show}\ixkeyw{var}
 Prints the content of the specified variable.
 
 
@@ -154,13 +154,13 @@ On a Linux machine you might execute
 
 \begin{rail}
 'silence' ('on'|'off')
-\end{rail}\ixkeyw{silence}
+\end{rail}\ixkeyw{silence}\ixkeyw{on}\ixkeyw{off}
 Switches the new node / edge created / deleted messages on(default) or off.
 Switching them off allows for much faster execution of scripts containing a lot of creation commands.
 
 \begin{rail}
 'randomseed' (Number | 'time')
-\end{rail}\ixkeyw{randomseed}
+\end{rail}\ixkeyw{randomseed}\ixkeyw{time}
 Sets the random seed to the given number for reproducible results when using the \$-operator-prefix or the random-match-selector, whereas time sets the random seed to the current time in ms.
 
 \begin{rail}
@@ -222,7 +222,7 @@ Deletes the graph \emph{Graph} from the backend storage.
 
 \begin{rail}
   'validate' ('exitonfailure')? ('strict')?
-\end{rail}\ixkeyw{validate}\ixkeyw{strict}
+\end{rail}\ixkeyw{validate}\ixkeyw{exitonfailure}\ixkeyw{strict}
 Validates\indexmain{validate} if the current working graph fulfills the \indexed{connection assertion}s specified in the corresponding graph model.
 The \emph{strict} mode additionally requires all the edges available in the instance graph to be specified in the model in order to be ``valid''.
 Otherwise edges between nodes without specified constraints are ignored.
@@ -261,7 +261,7 @@ The graph is NOT valid:
 
 \begin{rail}
   'validate' ('exitonfailure')? 'xgrs' GRS
-\end{rail}\ixkeyw{validate}\ixkeyw{grs}
+\end{rail}\ixkeyw{validate}\ixkeyw{exitonfailure}\ixkeyw{xgrs}
 Validates\indexmain{validate} if the current working graph satisfies the \indexed{graph rewrite sequence} given.
 Before the graph rewrite sequence is executed, the instance graph gets cloned;
 the sequence operates on the clone, allowing you to change the graph as you want to, without influence on the host graph.
@@ -289,7 +289,7 @@ Such a script can be loaded and executed by the \texttt{include} command (see Se
 
 \begin{rail}
   'export' Filename.grs (withvariables)?
-\end{rail}\ixkeyw{export}
+\end{rail}\ixkeyw{export}\ixkeyw{withvariables}\indexmain{export}
 Exports an instance graph in GRS format, which is a reduced \GrShell\ script (it can get imported and exported on API level\ref{sub:imexport} without using the \GrShell\).
 It contains the \texttt{new graph} command, followed by \texttt{new node} commands, followed by \texttt{new edge} commands.
 If \texttt{withvariables} is specified, the (graph global) variables are exported, too.
@@ -299,7 +299,7 @@ The \texttt{save} command is for saving a \GrShell\ session including visualizat
 
 \begin{rail}
   'export' Filename.gxl
-\end{rail}\ixkeyw{export}
+\end{rail}\ixkeyw{export}\indexmain{import}
 Exports an instance graph and a graph model in GXL format \cite{GXL,GXL2}, which is somewhat of a standard format for graphs of graph rewrite systems, but suffers from the well-known XML problems -- it is barely human-readable and bloated.
 Exporting fails if the graph model contains attributes of \texttt{set<S>}-,\texttt{map<S,T>}-, or \texttt{object}-type.
 
@@ -350,7 +350,7 @@ If \emph{NodeType} is supplied, the new node will be of type \emph{NodeType} and
 Otherwise the node will be of the base node class type \emph{Node}.
 \begin{note}
 The \GrShell\ can reassign \indexed{variable}s. 
-This is in contrast to the rule language (Chapter~\ref{chaprulelang}), where we use \emph{names}\indexmain{name}.
+This is in contrast to the rule language (Chapter~\ref{chaprulelang}), where we use \emph{names}\indexmain{name}\indexmain{expression variable}\indexmainsee{expression variable}{name}.
 \end{note}
 
 \begin{rail}
@@ -372,7 +372,7 @@ Otherwise the edge will be of the base edge class type \texttt{Edge} for \texttt
   PrimitiveAttributeValue : QuotedText | Number | FloatingPointNumber | BoolLit | EnumValue ;
   SetConstr: 'set' '<' Type '>' lbrace ( Expression*',' ) rbrace ;
   MapConstr: 'map' '<' Type ',' Type '>' \\ lbrace ( (Expression '->' Expression)*',' ) rbrace ;
-\end{rail}\indexmain{\texttt{\$}}\ixnterm{Constructor}\ixnterm{Attributes}
+\end{rail}\indexmain{\texttt{\$}}\ixnterm{Constructor}\ixnterm{Attributes}\ixnterm{AttributeValue}\ixnterm{PrimitiveAttributeValue}\ixnterm{SetConstr}\ixnterm{MapConst}
 A \indexed{constructor} is used to initialize a new graph element (see \texttt{new \dots} below).
 A comma separated list of \indexed{attribute} declarations is supplied to the constructor.
 Available attribute names are specified by the graph model of the current working graph.
@@ -411,17 +411,17 @@ If the command is specified with \texttt{num}, only the number of nodes/edges wi
 
 \begin{rail}
   'show' ('node' | 'edge') 'types'
-\end{rail}\ixkeyw{show}\ixkeyw{node}\ixkeyw{edge}
+\end{rail}\ixkeyw{show}\ixkeyw{node}\ixkeyw{edge}\ixkeyw{types}
 Gets the node/edge types of the current graph model.
 
 \begin{rail}
 'show' ('node' ('super' | 'sub') 'types' NodeType | 'edge' ('super' | 'sub') 'types' EdgeType)
-\end{rail}\ixkeyw{show}\ixkeyw{node}\ixkeyw{edge}\ixkeyw{super}\ixkeyw{sub}\indexmain{inheritance}
+\end{rail}\ixkeyw{show}\ixkeyw{node}\ixkeyw{edge}\ixkeyw{super}\ixkeyw{sub}\ixkeyw{types}\indexmain{inheritance}
 Gets the inherited/descendant types of \emph{NodeType}/\emph{EdgeType}.
 
 \begin{rail}
   'show' ('node' 'attributes' (() | (() | 'only') NodeType) | 'edge' 'attributes' (() | (() | 'only') EdgeType))
-\end{rail}\ixkeyw{show}\ixkeyw{node}\ixkeyw{edge}\ixkeyw{only}
+\end{rail}\ixkeyw{show}\ixkeyw{node}\ixkeyw{edge}\ixkeyw{only}\ixkeyw{attributes}
 Gets the available node/edge \indexed{attribute} types.
 If \emph{NodeType}/\emph{EdgeType} is supplied, only attributes defined in \emph{NodeType}/\emph{EdgeType} are diplayed.
 The \texttt{only} keyword excludes inherited attributes.\\
@@ -437,7 +437,7 @@ Gets the attribute types and values of a specific graph element.
 
 \begin{rail}
   'show' GraphElement '.' AttributeName
-\end{rail}\ixkeyw{show}\ixkeyw{attribute}
+\end{rail}\ixkeyw{show}
 Displays the value of the specified attribute.
 
 \begin{rail}
@@ -446,7 +446,7 @@ Displays the value of the specified attribute.
 Gets the information whether the first element is \indexed{type-compatible}\indexmainsee{compatible types}{type-compatible} to the second element.
 
 
-\subsection{Graph Visualization Commands}
+\subsection{Graph Visualization Commands}\indexmain{visualization}\indexmainsee{layout}{visualization}\indexmainsee{visualization}{group node}
 
 \begin{rail}
   'show' 'graph' ExecutableName (() | Text)
@@ -468,7 +468,7 @@ Dumps the current graph in \indexed{VCG} format into the file \emph{Filename}.\\
 The following commands control the style of the VCG output. This affects \texttt{dump graph}, \texttt{show graph}, and \texttt{enable debug}. 
 \begin{rail}
   'dump' 'set' 'node' (() | 'only') NodeType \\ (('color' | 'textcolor' | 'bordercolor') Color | 'shape' Text | 'labels' ('on' | 'off' | Text)) ;
-\end{rail}\ixkeyw{dump}\ixkeyw{set}\ixkeyw{node}\ixkeyw{only}\ixkeyw{color}\ixkeyw{textcolor}\ixkeyw{bordercolor}\ixkeyw{shape}\ixkeyw{labels}
+\end{rail}\ixkeyw{dump}\ixkeyw{set}\ixkeyw{node}\ixkeyw{only}\ixkeyw{color}\ixkeyw{textcolor}\ixkeyw{bordercolor}\ixkeyw{shape}\ixkeyw{labels}\ixkeyw{on}\ixkeyw{off}
 Sets the \indexed{color}, text color, border color, the shape or the label of the nodes of type \emph{NodeType} and all of its subtypes.
 The keyword \texttt{only} excludes the subtypes. The available colors are specified at the begin of this chapter. 
 The following shapes are supported: \texttt{box}, \texttt{triangle}, \texttt{circle}, \texttt{ellipse}, \texttt{rhom}, \texttt{hexagon}, \texttt{trapeze}, \texttt{uptrapeze}, \texttt{lparallelogram}, \texttt{rparallelogram}.
@@ -477,7 +477,7 @@ The default labeling is set to \texttt{on} with \texttt{Name:Type}, it can be ov
 
 \begin{rail}
   'dump' 'set' 'edge' (() | 'only') EdgeType \\ (('color' | 'textcolor') Color | 'labels' ('on' | 'off' | Text));
-\end{rail}\ixkeyw{dump}\ixkeyw{set}\ixkeyw{edge}\ixkeyw{only}\ixkeyw{color}\ixkeyw{textcolor}\ixkeyw{labels}
+\end{rail}\ixkeyw{dump}\ixkeyw{set}\ixkeyw{edge}\ixkeyw{only}\ixkeyw{color}\ixkeyw{textcolor}\ixkeyw{labels}\ixkeyw{on}\ixkeyw{off}
 Sets the color, text color or label of the edges of type \emph{EdgeType} and all of its subtypes.
 The keyword \texttt{only} excludes the subtypes. The available colors are specified at the begin of this chapter.
 The default labeling is set to \texttt{on} with \texttt{Name:Type}, it can be overwritten by an specified label string or switched off.
@@ -494,8 +494,8 @@ GroupConstraints:
   'by' ('hidden')? GroupMode (IncAdjTypeConstraints)? ;
 IncAdjTypeConstraints:
   ('only')? EdgeType ('with' ('only')? NodeType)? ;
-\end{rail}\ixkeyw{dump}\ixkeyw{add}\ixkeyw{node}\ixkeyw{group}
-Declares \emph{NodeType} and subtypes of \emph{NodeType} as \indexed{group node} type.
+\end{rail}\ixkeyw{dump}\ixkeyw{add}\ixkeyw{node}\ixkeyw{only}\ixkeyw{group}\ixkeyw{by}\ixkeyw{hidden}\ixkeyw{with}\ixnterm{GroupConstraints}\ixnterm{IncAdjTypeConstraints}
+Declares \emph{NodeType} and subtypes of \emph{NodeType} as \indexed{group node}\indexmainsee{hierarchic}{group node} type.
 All the differently typed nodes that point to a node of type \emph{NodeType} 
 (i.e.\ there is a directed edge between such nodes) will be grouped and visibly enclosed by the \emph{NodeType}-node.
 \texttt{GroupMode} is one of \texttt{no},\texttt{incoming},\texttt{outgoing},\texttt{any}; \texttt{hidden} causes hiding of the edges by which grouping happens.
@@ -518,7 +518,7 @@ The following example shows \emph{metropolis} ungrouped and grouped:
 
 \begin{rail}
   'dump' 'add' (() | 'only') ('node' NodeType | 'edge' EdgeType) \\ ('infotag' | 'shortinfotag') AttributeName
-\end{rail}\ixkeyw{dump}\ixkeyw{add}\ixkeyw{only}\ixkeyw{node}\ixkeyw{edge}\ixkeyw{infotag}
+\end{rail}\ixkeyw{dump}\ixkeyw{add}\ixkeyw{only}\ixkeyw{node}\ixkeyw{edge}\ixkeyw{infotag}\ixkeyw{shortinfotag}
 Declares the \indexed{attribute} \emph{AttributeName} to be an ``\indexed{info tag}'' or ``\indexed{short info tag}''.
 Info tags are displayed like additional node/edge \indexed{label}s, in format \texttt{Name=Value}, or \texttt{Value} only for short info tags. 
 The keyword \texttt{only} excludes the subtypes of \emph{NodeType} resp.\ \emph{EdgeType}. 
@@ -579,7 +579,7 @@ If \emph{SpacedParameters} is omitted, a list of available commands will be disp
 \makeatletter
 \begin{rail}
   GraphRewriteSequence: 'xgrs' SimpleRewriteSequence ;
-\end{rail}\ixkeyw{grs}\indexmain{graph rewrite sequence}\indexmainsee{GRS}{graph rewrite sequence}\ixnterm{GraphRewriteSequence}
+\end{rail}\ixkeyw{xgrs}\indexmain{graph rewrite sequence}\indexmainsee{GRS}{graph rewrite sequence}\ixnterm{GraphRewriteSequence}
 This executes the graph rewrite sequence \emph{SimpleRewriteSequence}.
 See Chapter~\ref{cha:xgrs} for graph rewrite sequences.
 Additionally to the variable assignment in rule-embedded graph rewrite sequences, you are also able to assign \emph{persistent names} to parameters via  \texttt{Variable = \@(Text)}.
@@ -609,7 +609,7 @@ All changes to the working graph are tracked by \yComp\ immediately.
 
 \begin{rail}
   'debug' 'set' 'layout' ( (Text)? | 'option' Name String ) ;
-\end{rail}\ixkeyw{debug}\ixkeyw{set}\ixkeyw{layout}
+\end{rail}\ixkeyw{debug}\ixkeyw{set}\ixkeyw{layout}\ixkeyw{option}
 Sets the default graph \indexed{layout algorithm} to \emph{Text}.
 If \emph{Text} is omitted, a list of available layout algorithms is displayed.
 See Section~\ref{tools:ycomp} on \yComp\ layouters.
@@ -618,7 +618,7 @@ The available layout options can be listed by the following command.
 
 \begin{rail}
   'debug' 'get' 'layout' 'options';
-\end{rail}\ixkeyw{debug}\ixkeyw{layout}
+\end{rail}\ixkeyw{debug}\ixkeyw{get}\ixkeyw{layout}\ixkeyw{options}
 Prints a list of the available layout options of the layout algorithm.
 
 \begin{rail}
@@ -628,7 +628,7 @@ Forces re-layout of the graph shown in yComp (same as pressing the play button w
 
 \begin{rail}
   GraphRewriteSequence: 'debug' 'xgrs' SimpleRewriteSequence ;
-\end{rail}\ixkeyw{debug}\ixkeyw{grs}\indexmain{graph rewrite sequence}\indexmainsee{GRS}{graph rewrite sequence}\ixnterm{GraphRewriteSequence}
+\end{rail}\ixkeyw{debug}\ixkeyw{xgrs}\indexmain{graph rewrite sequence}\indexmainsee{GRS}{graph rewrite sequence}\ixnterm{GraphRewriteSequence}
 This executes the graph rewrite sequence \emph{SimpleRewriteSequence} in the debugger\indexmain{debugger}.
 Same as \texttt{xgrs SimpleRewriteSequence} in the previous section, but allows tracing the rewriting process step-by-step. 
 
@@ -727,28 +727,28 @@ If \emph{SpacedParameters} is omitted, a list of available commands will be disp
 The \indexed{LGSPBackend} supports the following custom commands:
 
 \begin{rail}
-  'custom' 'graph' (analyzegraph | 'analyze') 
-\end{rail}\ixkeyw{custom}\ixkeyw{graph}
+  'custom' 'graph' ('analyzegraph' | 'analyze') 
+\end{rail}\ixkeyw{custom}\ixkeyw{graph}\ixkeyw{analyze}\ixkeyw{analyzegraph}
 Analyzes\indexmain{analyzing graph} the current working graph.
 The analysis data provides vital information for efficient \indexed{search plan}s.
 Analysis data is available as long as \GrShell\ is running, i.e.\ when the working graph changes, the analysis data is still available but maybe obsolete.
 
 \begin{rail}
-  'custom' 'graph' setmaxmatches Number
-\end{rail}\ixkeyw{custom}\ixkeyw{actions}
+  'custom' 'graph' 'setmaxmatches' Number
+\end{rail}\ixkeyw{custom}\ixkeyw{graph}\ixkeyw{setmaxmatches}
 Sets the maximum amount of possible pattern matches to \emph{Number}.
 This command affects the expression \texttt{[\emph{Rule}]}.
 If \emph{Number} is less or equal to zero, the constraint is reset.
 
 \begin{rail}
   'custom' 'graph' 'optimizereuse' BoolLit
-\end{rail}\ixkeyw{custom}\ixkeyw{actions}
+\end{rail}\ixkeyw{custom}\ixkeyw{graph}\ixkeyw{optimizereuse}
 If set to false it prevents deleted elements from getting reused in a rewrite (i.e. it disables a performance optimization).
 If set to true, new elements may not be discriminable anymore from already deleted elements using object equality, hash maps, etc.
 					
 \begin{rail}
-  'custom' 'actions' gensearchplan (Action+)
-\end{rail}\ixkeyw{custom}\ixkeyw{actions}
+  'custom' 'actions' 'gensearchplan' (Action+)
+\end{rail}\ixkeyw{custom}\ixkeyw{actions}\ixkeyw{gensearchplan}
 Creates a search plan (and executable code from it) for each rewrite rule \emph{Action} using the data from analyzing the graph (\texttt{custom graph analyze}).
 Otherwise a \indexed{default search plan} is used. 
 Analyzing and search plan/code generation themselves take some time, but they can lead to massively faster pattern matching, thus overall execution times
@@ -759,7 +759,7 @@ A search plan is available as long as the current rule set remains loaded.
 Specify multiple rewrite rules instead of using multiple commands for each rule to improve the search plan generation performance.
 
 \begin{rail}
-  'custom' 'actions' dumpsourcecode BoolLit
-\end{rail}\ixkeyw{custom}\ixkeyw{actions}
+  'custom' 'actions' 'dumpsourcecode' BoolLit
+\end{rail}\ixkeyw{custom}\ixkeyw{actions}\ixkeyw{dumpsourcecode}
 If set to true, C\# files will be dumped for the newly generated searchplans (similar to the \texttt{-keep} option of the generator).
 

@@ -39,7 +39,7 @@ The graph rewrite generator is not the right tool for you if you're searching fo
 Neither is it what you need if your graph structured data is to be interactively edited by an end user instead of being automatically transformed by rules (the editor generator DiaGen\cite{diagen} may be of interest in this case).
 
 
-\section{Features of \GrG}
+\section{Features of \GrG}\indexmain{features}
 
 The process of graph rewriting can be divided into four steps:
 Representing a graph according to a model (creating an instance graph), 
@@ -115,7 +115,7 @@ Alternatively to \GrShell, you can access the match and rewrite facility through
 This way you can build your own algorithmic rule applications in a .NET language of your choice. 
 
 
-\section{System Overview}
+\section{System Overview}\indexmain{overview, system}
 
 Figure~\ref{figsys} gives an overview of the \GrG\ system components. 
 %Table~\ref{dirstruc} shows the \GrG\ directory structure.
@@ -228,7 +228,7 @@ For most issues---in particular for experimental purposes---you might rather wan
 However, \GrShell\ does not provide the full power of the \LibGr; see also note~\ref{note:indeterminism} on page~\pageref{note:indeterminism}.
 
 
-\section{What is Graph Rewriting?}
+\section{What is Graph Rewriting?}\indexmain{graph rewriting}
 \label{ov:whatsallabout}
 
 The notion of graph rewriting as understood by \GrG\ is a method for declaratively specifying ``changes'' to a graph.
@@ -276,7 +276,7 @@ Elements of $R$ not in the image of $r$ are inserted into $H$, all others (eleme
 The outcome of these steps is the resulting graph $H'$. In symbolic language: $H \xRightarrow{m, p} H'$.
 
 
-\section{An Example}
+\section{An Example}\indexmain{example}
 \label{ov:example}
 
 We'll have a look at a small example. 
@@ -548,7 +548,7 @@ It is well integrated and shipped with \GrG, but it's not a part of \GrG.
   Or by executing the batch file \texttt{ycomp} under Linux / \texttt{ycomp.bat} under Windows, 
   which will start \yComp\ on the given file with increased heap space. 
   The \emph{graph-file} may be any graph file in a supported format. \yComp\ will open this file on startup.
-  \item[Hints] The \indexed{layout algorithm} \indexedsee{compiler graph}{layout algorithm} (\yComp's default setting, a version of (\texttt{\indexedsee{hierarchic}{layout algorithm}} optimized for graph based compiler intermediate representations) may not be a good choice for your graph at hand. 
+  \item[Hints] The \indexed{layout algorithm}\indexmainsee{layout}{layout algorithm} \indexedsee{compiler graph}{layout algorithm} (\yComp's default setting, a version of (\texttt{\indexedsee{hierarchic}{layout algorithm}} optimized for graph based compiler intermediate representations) may not be a good choice for your graph at hand. 
   Instead \texttt{\indexedsee{organic}{layout algorithm}} or \texttt{\indexedsee{orthogonal}{layout algorithm}} might be worth trying). 
   Use the rightmost blue play button to start the layout process. Depending on the graph size this may take a while.
 \begin{center}
@@ -580,7 +580,7 @@ and by the heuristic optimizations of search state space stepping and the host g
 In order to accelerate the matching step, we internally introduce \newterm{search plans} 
 to represent different \newterm{matching strategies} and equip these search plans with a cost model, taking the present host graph into account.
 The task of selecting a good search plan is then considered as an optimization problem~\cite{BKG:07,Bat:06}.
-In contrast to systems like \indexed{Fujaba}~\cite{fujaba,fuj}, our strongest competitor regarding performance, 
+In contrast to systems like Fujaba\cite{fujaba,fuj}, our strongest competitor regarding performance, 
 our pattern matching algorithm is fully automatic and does not need to be tuned nor to be implemented in parts by hand.
 According to \indexed{Varr\'o's benchmark}\cite{varro_bench}, it is at least one order of magnitude faster than any other tool known to us.
 
