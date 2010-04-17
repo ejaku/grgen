@@ -125,45 +125,54 @@ namespace de.unika.ipd.grGen.libGr
 
         private String ParseModel(String ecoreFilename)
         {
+            StringBuilder sb = new StringBuilder();
+            sb.Append("// Automatically generated from \"" + ecoreFilename + "\"\n// Do not change, changes will be lost!\n\n");
+
             XmlDocument doc = new XmlDocument();
             doc.Load(ecoreFilename);
 
             XmlElement xmielem = doc["xmi:XMI"];
             if(xmielem == null)
-                throw new Exception("The document has no xmi:XMI element.");
-
-            StringBuilder sb = new StringBuilder();
-            sb.Append("// Automatically generated from \"" + ecoreFilename + "\"\n// Do not change, changes will be lost!\n\n");
-
-            // Parse the ECore file, create the model file content, and collect important infos used to import a model instance
-            foreach(XmlElement package in xmielem.GetElementsByTagName("ecore:EPackage"))
             {
-                String packageName = package.GetAttribute("nsPrefix");
-                foreach(XmlElement classifier in package.GetElementsByTagName("eClassifiers"))
-                {
-                    String classifierType = classifier.GetAttribute("xsi:type");
-                    String classifierName = classifier.GetAttribute("name");
-
-                    switch(classifierType)
-                    {
-                        case "ecore:EClass":
-                            ParseEClass(sb, xmielem, packageName, classifier, classifierName);
-                            break;
-                        case "ecore:EEnum":
-                            ParseEEnum(sb, xmielem, packageName, classifier, classifierName);
-                            break;
-                    }
-                }
+                // Parse the ECore file, create the model file content, and collect important infos used to import a model instance
+                foreach(XmlElement package in doc.GetElementsByTagName("ecore:EPackage"))
+                    ParsePackageContent(package, sb, null);
             }
+            else
+            {
+                // Parse the ECore file, create the model file content, and collect important infos used to import a model instance
+                foreach(XmlElement package in xmielem.GetElementsByTagName("ecore:EPackage"))
+                    ParsePackageContent(package, sb, xmielem);
+            }
+
             return sb.ToString();
         }
 
-        private String GetGrGenTypeName(String xmitypename, XmlElement xmielem, String packageDelim)
+        private void ParsePackageContent(XmlElement package, StringBuilder sb, XmlElement xmielem)
         {
-            // xmitypename has the syntax "#/<number>/<typename>"
+            foreach(XmlElement classifier in package.GetElementsByTagName("eClassifiers"))
+            {
+                String classifierType = classifier.GetAttribute("xsi:type");
+                String classifierName = classifier.GetAttribute("name");
+
+                switch(classifierType)
+                {
+                case "ecore:EClass":
+                    ParseEClass(sb, xmielem, package, classifier, classifierName);
+                    break;
+                case "ecore:EEnum":
+                    ParseEEnum(sb, xmielem, package, classifier, classifierName);
+                    break;
+                }
+            }
+        }
+
+        private String GetGrGenTypeName(String xmitypename, XmlElement xmielem, XmlElement package, String packageDelim)
+        {
+            // xmitypename has the syntax "#/<number>/<typename>"; number may be empty in case the file contains only one package
             int lastSlashPos = xmitypename.LastIndexOf('/');
 
-            int rootIndex = int.Parse(xmitypename.Substring(2, lastSlashPos - 2));
+            String fullXmiTypeName = xmitypename;
 
             // Remove "#/<number>/" from begining of xmitypename
             xmitypename = xmitypename.Substring(lastSlashPos + 1);
@@ -172,27 +181,39 @@ namespace de.unika.ipd.grGen.libGr
             // All others are considered as normal types
             switch(xmitypename)
             {
-                case "String": xmitypename = "string"; break;
-                case "Boolean": xmitypename = "boolean"; break;
-                case "Integer": xmitypename = "int"; break;
-                default:
+            case "String": xmitypename = "string"; break;
+            case "EString": xmitypename = "string"; break;
+            case "Boolean": xmitypename = "boolean"; break;
+            case "EBoolean": xmitypename = "boolean"; break;
+            case "Integer": xmitypename = "int"; break;
+            case "EInteger": xmitypename = "int"; break;
+            default:
                 {
-                    XmlElement packageNode = (XmlElement) xmielem.ChildNodes[rootIndex];
+                    XmlElement packageNode = package;
+                    if(xmielem != null)
+                    {
+                        int rootIndex = int.Parse(fullXmiTypeName.Substring(2, lastSlashPos - 2));
+                        packageNode = (XmlElement)xmielem.ChildNodes[rootIndex];
+                    }
+
                     String packageName = packageNode.GetAttribute("nsPrefix");
                     xmitypename = packageName + packageDelim + xmitypename;
                     break;
                 }
             }
+
             return xmitypename;
         }
 
-        private String GetGrGenTypeName(String xmitypename, XmlElement xmielem)
+        private String GetGrGenTypeName(String xmitypename, XmlElement xmielem, XmlElement package)
         {
-            return GetGrGenTypeName(xmitypename, xmielem, "_");
+            return GetGrGenTypeName(xmitypename, xmielem, package, "_");
         }
 
-        private void ParseEClass(StringBuilder sb, XmlElement xmielem, String packageName, XmlElement classifier, String classifierName)
+        private void ParseEClass(StringBuilder sb, XmlElement xmielem, XmlElement package, XmlElement classifier, String classifierName)
         {
+            String packageName = package.GetAttribute("nsPrefix");
+
             bool first;
             NodeType nodeType = new NodeType();
 
@@ -215,7 +236,7 @@ namespace de.unika.ipd.grGen.libGr
                     if(first) first = false;
                     else sb.Append(", ");
 
-                    String name = GetGrGenTypeName(superType, xmielem, ":");
+                    String name = GetGrGenTypeName(superType, xmielem, package, ":");
                     nodeType.SuperTypes.Add(name);
                     sb.Append(name.Replace(':', '_').Replace('.', '_'));
                 }
@@ -236,7 +257,7 @@ namespace de.unika.ipd.grGen.libGr
 
                     String attrName = item.GetAttribute("name");
                     String attrType = item.GetAttribute("eType");
-                    attrType = GetGrGenTypeName(attrType, xmielem);
+                    attrType = GetGrGenTypeName(attrType, xmielem, package);
 
                     sb.Append("\t_" + attrName + ":" + attrType + ";\n");
                 }
@@ -254,7 +275,7 @@ namespace de.unika.ipd.grGen.libGr
                     String refType = item.GetAttribute("eType");
 
                     String edgeTypeName = packageName + "_" + classifierName + "_" + refName;
-                    String typeName = GetGrGenTypeName(refType, xmielem, ":");
+                    String typeName = GetGrGenTypeName(refType, xmielem, package, ":");
                     bool ordered = item.GetAttribute("ordered") != "false";          // Default is ordered
 
                     sb.Append("edge class " + edgeTypeName.Replace('.', '_'));
@@ -268,8 +289,10 @@ namespace de.unika.ipd.grGen.libGr
             }
         }
 
-        private void ParseEEnum(StringBuilder sb, XmlElement xmielem, String packageName, XmlElement classifier, String classifierName)
+        private void ParseEEnum(StringBuilder sb, XmlElement xmielem, XmlElement package, XmlElement classifier, String classifierName)
         {
+            String packageName = package.GetAttribute("nsPrefix");
+
             Dictionary<String, int> literalToValue = new Dictionary<String, int>();
 
             String enumTypeName = packageName + "_" + classifierName;
@@ -284,13 +307,18 @@ namespace de.unika.ipd.grGen.libGr
                 String name = item.GetAttribute("name");
                 String value = item.GetAttribute("value");
 
-                sb.Append("\t_" + name + " = " + value);
+                if(value != "")
+                {
+                    sb.Append("\t_" + name + " = " + value);
 
-                int val = int.Parse(value);
-                literalToValue[name] = val;
+                    int val = int.Parse(value);
+                    literalToValue[name] = val;
 
-                String literal = item.GetAttribute("literal");
-                if(literal != "") literalToValue[literal] = val;
+                    String literal = item.GetAttribute("literal");
+                    if(literal != "") literalToValue[literal] = val;
+                }
+                else
+                    sb.Append("\t_" + name);
             }
             sb.Append("\n}\n\n");
 
@@ -305,6 +333,7 @@ namespace de.unika.ipd.grGen.libGr
                 while(reader.Read())
                 {
                     if(reader.NodeType != XmlNodeType.Element) continue;
+                    if(reader.Name == "xmi:XMI") continue;
 
                     String tagName = reader.Name;
                     String grgenTypeName = tagName.Replace(':', '_').Replace(':', '_');
@@ -325,6 +354,7 @@ namespace de.unika.ipd.grGen.libGr
                 while(reader.Read())
                 {
                     if(reader.NodeType != XmlNodeType.Element) continue;
+                    if(reader.Name == "xmi:XMI") continue;
 
                     ParseNodeSecondPass(reader, reader.Name, reader.IsEmptyElement);
                 }
@@ -516,6 +546,7 @@ namespace de.unika.ipd.grGen.libGr
 
                 case AttributeKind.EnumAttr:
                 {
+                    // TODO: there might be literals without values, we must cope with them
                     int val;
                     if(Int32.TryParse(attrval, out val)) value = val;
                     else value = enumToLiteralToValue[attrType.EnumType.Name][attrval];
