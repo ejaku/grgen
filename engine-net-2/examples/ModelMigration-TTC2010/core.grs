@@ -1,0 +1,35 @@
+# This is the GrGen.NET solution to the Model Migration case of Grabats 2010.
+
+import original_minimal_metamodel.ecore original_model.xmi core.grg
+
+debug set layout Hierarchic
+
+# Nesting
+dump add node minuml1_ActivityGraph group by hidden outgoing minuml1_ActivityGraph_partition
+dump add node minuml1_ActivityGraph group by hidden outgoing minuml1_StateMachine_transitions
+dump add node minuml1_Partition group by hidden outgoing minuml1_Partition_contents
+dump add edge minuml1_StateVertex_partition exclude
+
+# Hiding
+dump add node minuml1_CompositeState exclude
+
+dump add edge minuml1_Transition_source exclude
+dump add edge minuml1_Transition_target exclude
+
+dump add edge minuml1_CompositeState_subvertex exclude
+dump add edge minuml1_StateMachine_top exclude
+
+# Appearance
+dump set node minuml1_ActionState shape ellipse
+dump set node minuml1_ActionState labels off
+dump add node minuml1_ActionState shortinfotag _name
+dump set node minuml1_FinalState shape circle
+dump set node minuml1_FinalState color red
+dump set node minuml1_FinalState labels off
+dump set node minuml1_ObjectFlowState shape lparallelogram
+dump set node minuml1_ObjectFlowState labels off
+dump add node minuml1_ObjectFlowState shortinfotag _name
+
+xgrs dump_addTransitionsToPartitions*
+#xgrs dump_transitionEdges*
+show graph ycomp
