@@ -15,6 +15,26 @@ rule dump_addTransitionsToPartitions {
 	}
 }
 
+rule dump_guardedTransitionEdges {
+	state1:minuml1_StateVertex;
+	state2:minuml1_StateVertex;
+
+	state1 -:minuml1_StateVertex_incoming-> transition:minuml1_Transition <-:minuml1_StateVertex_outgoing- state2;
+	
+	transition -:minuml1_Transition_guard-> guard:minuml1_Guard;
+	guard -:minuml1_Guard_expression-> expr:minuml1_BooleanExpression;
+
+	modify {
+		delete(transition, guard, expr);
+
+		state1 -e:dump_transition-> state2;
+
+		eval {
+			e.name = guard._name;
+		}
+	}
+}
+
 rule dump_transitionEdges {
 	state1:minuml1_StateVertex;
 	state2:minuml1_StateVertex;

@@ -1,1 +1,3 @@
-edge class dump_transition;
+edge class dump_transition {
+	name: string;
+}
