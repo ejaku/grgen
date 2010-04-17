@@ -25,6 +25,8 @@
         eType="#//Transition" eOpposite="#//Transition/source"/>
     <eStructuralFeatures xsi:type="ecore:EReference" name="incoming" upperBound="-1"
         eType="#//Transition" eOpposite="#//Transition/target"/>
+	<eStructuralFeatures xsi:type="ecore:EReference" name="partition" upperBound="-1"
+        eType="#//Partition"/>
   </eClassifiers>
   <eClassifiers xsi:type="ecore:EClass" name="State" eSuperTypes="#//StateVertex"/>
   <eClassifiers xsi:type="ecore:EClass" name="CompositeState" eSuperTypes="#//State">
