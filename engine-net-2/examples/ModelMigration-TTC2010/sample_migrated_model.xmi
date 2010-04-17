@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<uml:Package xmi:version="2.1" xmlns:xmi="http://schema.omg.org/spec/XMI/2.1" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:uml="http://www.eclipse.org/uml2/3.0.0/UML" xmi:id="_DPgTYyztEd--ifnHk8Skpw" name="model">
+  <packagedElement xsi:type="uml:Activity" xmi:id="_DPfsVyztEd--ifnHk8Skpw" name="graph" partition="_DPgTZSztEd--ifnHk8Skpw _DPg6cCztEd--ifnHk8Skpw _DPg6cSztEd--ifnHk8Skpw">
+    <node xsi:type="uml:InitialNode" xmi:id="_DPg6ciztEd--ifnHk8Skpw" name="Start" outgoing="_DPj9wCztEd--ifnHk8Skpw"/>
+    <node xsi:type="uml:OpaqueAction" xmi:id="_DPfsUCztEd--ifnHk8Skpw" name="Request service" outgoing="_DPlL4CztEd--ifnHk8Skpw" incoming="_DPj9wCztEd--ifnHk8Skpw" inPartition="_DPgTZSztEd--ifnHk8Skpw"/>
+    <node xsi:type="uml:ForkNode" xmi:id="_DPg6cyztEd--ifnHk8Skpw" name="Fork1" outgoing="_DPly8CztEd--ifnHk8Skpw _DPr5kCztEd--ifnHk8Skpw" incoming="_DPlL4CztEd--ifnHk8Skpw" inPartition="_DPgTZSztEd--ifnHk8Skpw"/>
+    <node xsi:type="uml:OpaqueAction" xmi:id="_DPfsUSztEd--ifnHk8Skpw" name="Take order" outgoing="_DPoPMCztEd--ifnHk8Skpw" incoming="_DPnBECztEd--ifnHk8Skpw _DPly8CztEd--ifnHk8Skpw" inPartition="_DPg6cCztEd--ifnHk8Skpw"/>
+    <node xsi:type="uml:OpaqueAction" xmi:id="_DPfsUiztEd--ifnHk8Skpw" name="Fill order" outgoing="_DPpdUCztEd--ifnHk8Skpw" incoming="_DP2RoCztEd--ifnHk8Skpw" inPartition="_DPg6cSztEd--ifnHk8Skpw"/>
+    <node xsi:type="uml:JoinNode" xmi:id="_DPhhgCztEd--ifnHk8Skpw" name="Join1" outgoing="_DPuV0CztEd--ifnHk8Skpw" incoming="_DPqrcCztEd--ifnHk8Skpw _DPsgoCztEd--ifnHk8Skpw _DPpdUCztEd--ifnHk8Skpw" inPartition="_DPg6cCztEd--ifnHk8Skpw"/>
+    <node xsi:type="uml:OpaqueAction" xmi:id="_DPfsUyztEd--ifnHk8Skpw" name="Pay" outgoing="_DPsgoCztEd--ifnHk8Skpw" incoming="_DPr5kCztEd--ifnHk8Skpw" inPartition="_DPgTZSztEd--ifnHk8Skpw"/>
+    <node xsi:type="uml:OpaqueAction" xmi:id="_DPfsVCztEd--ifnHk8Skpw" name="Deliver order" outgoing="_DPvj8CztEd--ifnHk8Skpw" incoming="_DPuV0CztEd--ifnHk8Skpw" inPartition="_DPg6cCztEd--ifnHk8Skpw"/>
+    <node xsi:type="uml:OpaqueAction" xmi:id="_DPfsVSztEd--ifnHk8Skpw" name="Collect order" outgoing="_DP8_UCztEd--ifnHk8Skpw" incoming="_DPwyECztEd--ifnHk8Skpw _DPvj8CztEd--ifnHk8Skpw" inPartition="_DPgTZSztEd--ifnHk8Skpw"/>
+    <node xsi:type="uml:DecisionNode" xmi:id="_DPhhgSztEd--ifnHk8Skpw" name="Junction1" outgoing="_DPzOUCztEd--ifnHk8Skpw _DP1DgCztEd--ifnHk8Skpw" incoming="_DPyAMCztEd--ifnHk8Skpw _DPoPMCztEd--ifnHk8Skpw" inPartition="_DPg6cSztEd--ifnHk8Skpw"/>
+    <node xsi:type="uml:OpaqueAction" xmi:id="_DPfsViztEd--ifnHk8Skpw" name="Restock" outgoing="_DP7KICztEd--ifnHk8Skpw" incoming="_DP1DgCztEd--ifnHk8Skpw" inPartition="_DPg6cSztEd--ifnHk8Skpw"/>
+    <node xsi:type="uml:DecisionNode" xmi:id="_DPiIkCztEd--ifnHk8Skpw" name="Junction2" outgoing="_DP2RoCztEd--ifnHk8Skpw" incoming="_DPzOUCztEd--ifnHk8Skpw _DP7KICztEd--ifnHk8Skpw" inPartition="_DPg6cSztEd--ifnHk8Skpw"/>
+    <node xsi:type="uml:ActivityFinalNode" xmi:id="_DPgTYCztEd--ifnHk8Skpw" name="End" incoming="_DP8_UCztEd--ifnHk8Skpw"/>
+    <edge xsi:type="uml:ControlFlow" xmi:id="_DPj9wCztEd--ifnHk8Skpw" source="_DPg6ciztEd--ifnHk8Skpw" target="_DPfsUCztEd--ifnHk8Skpw"/>
+    <edge xsi:type="uml:ControlFlow" xmi:id="_DPlL4CztEd--ifnHk8Skpw" source="_DPfsUCztEd--ifnHk8Skpw" target="_DPg6cyztEd--ifnHk8Skpw"/>
+    <edge xsi:type="uml:ObjectFlow" xmi:id="_DPly8CztEd--ifnHk8Skpw" source="_DPg6cyztEd--ifnHk8Skpw" target="_DPfsUSztEd--ifnHk8Skpw"/>
+    <edge xsi:type="uml:ControlFlow" xmi:id="_DPnBECztEd--ifnHk8Skpw" target="_DPfsUSztEd--ifnHk8Skpw"/>
+    <edge xsi:type="uml:ObjectFlow" xmi:id="_DPoPMCztEd--ifnHk8Skpw" source="_DPfsUSztEd--ifnHk8Skpw" target="_DPhhgSztEd--ifnHk8Skpw"/>
+    <edge xsi:type="uml:ObjectFlow" xmi:id="_DPpdUCztEd--ifnHk8Skpw" source="_DPfsUiztEd--ifnHk8Skpw" target="_DPhhgCztEd--ifnHk8Skpw"/>
+    <edge xsi:type="uml:ControlFlow" xmi:id="_DPqrcCztEd--ifnHk8Skpw" target="_DPhhgCztEd--ifnHk8Skpw"/>
+    <edge xsi:type="uml:ControlFlow" xmi:id="_DPr5kCztEd--ifnHk8Skpw" source="_DPg6cyztEd--ifnHk8Skpw" target="_DPfsUyztEd--ifnHk8Skpw"/>
+    <edge xsi:type="uml:ControlFlow" xmi:id="_DPsgoCztEd--ifnHk8Skpw" source="_DPfsUyztEd--ifnHk8Skpw" target="_DPhhgCztEd--ifnHk8Skpw"/>
+    <edge xsi:type="uml:ControlFlow" xmi:id="_DPuV0CztEd--ifnHk8Skpw" source="_DPhhgCztEd--ifnHk8Skpw" target="_DPfsVCztEd--ifnHk8Skpw"/>
+    <edge xsi:type="uml:ObjectFlow" xmi:id="_DPvj8CztEd--ifnHk8Skpw" source="_DPfsVCztEd--ifnHk8Skpw" target="_DPfsVSztEd--ifnHk8Skpw"/>
+    <edge xsi:type="uml:ControlFlow" xmi:id="_DPwyECztEd--ifnHk8Skpw" target="_DPfsVSztEd--ifnHk8Skpw"/>
+    <edge xsi:type="uml:ControlFlow" xmi:id="_DPyAMCztEd--ifnHk8Skpw" target="_DPhhgSztEd--ifnHk8Skpw"/>
+    <edge xsi:type="uml:ControlFlow" xmi:id="_DPzOUCztEd--ifnHk8Skpw" source="_DPhhgSztEd--ifnHk8Skpw" target="_DPiIkCztEd--ifnHk8Skpw">
+      <guard xsi:type="uml:OpaqueExpression" xmi:id="_DPgTYSztEd--ifnHk8Skpw" name="in stock">
+        <body>in stock</body>
+      </guard>
+    </edge>
+    <edge xsi:type="uml:ControlFlow" xmi:id="_DP1DgCztEd--ifnHk8Skpw" source="_DPhhgSztEd--ifnHk8Skpw" target="_DPfsViztEd--ifnHk8Skpw">
+      <guard xsi:type="uml:OpaqueExpression" xmi:id="_DPgTYiztEd--ifnHk8Skpw" name="not in stock">
+        <body>not in stock</body>
+      </guard>
+    </edge>
+    <edge xsi:type="uml:ControlFlow" xmi:id="_DP2RoCztEd--ifnHk8Skpw" source="_DPiIkCztEd--ifnHk8Skpw" target="_DPfsUiztEd--ifnHk8Skpw"/>
+    <edge xsi:type="uml:ControlFlow" xmi:id="_DP7KICztEd--ifnHk8Skpw" source="_DPfsViztEd--ifnHk8Skpw" target="_DPiIkCztEd--ifnHk8Skpw"/>
+    <edge xsi:type="uml:ControlFlow" xmi:id="_DP8_UCztEd--ifnHk8Skpw" source="_DPfsVSztEd--ifnHk8Skpw" target="_DPgTYCztEd--ifnHk8Skpw"/>
+    <group xsi:type="uml:ActivityPartition" xmi:id="_DPgTZSztEd--ifnHk8Skpw" name="Customer" node="_DPfsUyztEd--ifnHk8Skpw _DPfsVSztEd--ifnHk8Skpw _DPg6cyztEd--ifnHk8Skpw _DPfsUCztEd--ifnHk8Skpw"/>
+    <group xsi:type="uml:ActivityPartition" xmi:id="_DPg6cCztEd--ifnHk8Skpw" name="Sales" node="_DPhhgCztEd--ifnHk8Skpw _DPfsUSztEd--ifnHk8Skpw _DPfsVCztEd--ifnHk8Skpw"/>
+    <group xsi:type="uml:ActivityPartition" xmi:id="_DPg6cSztEd--ifnHk8Skpw" name="Stockroom" node="_DPfsViztEd--ifnHk8Skpw _DPfsUiztEd--ifnHk8Skpw _DPiIkCztEd--ifnHk8Skpw _DPhhgSztEd--ifnHk8Skpw"/>
+  </packagedElement>
+</uml:Package>
