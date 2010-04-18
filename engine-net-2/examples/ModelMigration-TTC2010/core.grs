@@ -54,5 +54,9 @@ xgrs transform_PseudoState_To_Decision*
 xgrs transform_ObjectFlowState*
 xgrs transform_CompositeState*
 xgrs transform_Partition*
-xgrs transform_Transition_To_ObjectFlow*
+xgrs transform_Transition_To_ObjectFlow1*
+xgrs transform_Transition_To_ObjectFlow2*
+xgrs transform_Transition_To_ControlFlow*
+xgrs transform_Guard*
+xgrs transform_ActivityGraph*
 show graph ycomp

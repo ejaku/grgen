@@ -196,6 +196,7 @@ rule transform_Partition {
 	}
 }
 
+/*
 rule transform_Transition_To_ObjectFlow {
 	transition:minuml1_Transition;
 	
@@ -218,3 +219,62 @@ rule transform_Transition_To_ObjectFlow {
 		eval { of._name = transition._name; }
 	}
 }
+*/
+
+rule transform_Transition_To_ObjectFlow1 {
+	transition:minuml1_Transition <-:minuml1_StateVertex_incoming- :uml_Pin; 
+
+	modify {
+		of:uml_ObjectFlow<transition>;
+
+		eval { of._name = transition._name; }
+	}
+}
+
+rule transform_Transition_To_ObjectFlow2 {
+	transition:minuml1_Transition <-:minuml1_StateVertex_outgoing- :uml_Pin;
+
+	modify {
+		of:uml_ObjectFlow<transition>;
+
+		eval { of._name = transition._name; }
+	}
+}
+
+rule transform_Transition_To_ControlFlow {
+	transition:minuml1_Transition;
+
+	modify {
+		cf:uml_ControlFlow<transition>;
+
+		eval { cf._name = transition._name; }
+	}
+}
+
+rule transform_Guard {
+	guard:minuml1_Guard -:minuml1_Guard_expression-> expr:minuml1_BooleanExpression;
+
+	modify {
+		opaque:uml_OpaqueExpression<guard>;
+		delete(expr);
+
+		eval {
+			opaque._body = expr._body;
+			opaque._language = expr._language;
+			opaque._name = guard._name;
+		}
+	}
+}
+
+rule transform_ActivityGraph {
+	graph:minuml1_ActivityGraph;
+
+	modify {
+		activity:uml_Activity<graph>;
+
+		eval {
+			activity._name = graph._name;
+		}
+	}
+}
+
