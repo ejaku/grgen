@@ -191,6 +191,7 @@ namespace de.unika.ipd.grGen.libGr
             case "EBoolean": xmitypename = "boolean"; break;
             case "Integer": xmitypename = "int"; break;
             case "EInteger": xmitypename = "int"; break;
+            case "UnlimitedNatural": xmitypename = "int"; break;
             default:
                 {
                     XmlElement packageNode = package;
