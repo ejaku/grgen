@@ -1,6 +1,6 @@
 # This is the GrGen.NET solution to the Model Migration case of Grabats 2010.
 
-import original_minimal_metamodel.ecore original_model.xmi core.grg
+import original_minimal_metamodel.ecore evolved_metamodel.ecore original_model.xmi core.grg
 
 debug set layout Compilergraph
 
@@ -11,13 +11,13 @@ dump add node minuml1_Partition group by hidden outgoing minuml1_Partition_conte
 dump add edge minuml1_StateVertex_partition exclude
 
 # Hiding
-dump add node minuml1_CompositeState exclude
-
-dump add edge minuml1_Transition_source exclude
-dump add edge minuml1_Transition_target exclude
-
-dump add edge minuml1_CompositeState_subvertex exclude
-dump add edge minuml1_StateMachine_top exclude
+#dump add node minuml1_CompositeState exclude
+#
+#dump add edge minuml1_Transition_source exclude
+#dump add edge minuml1_Transition_target exclude
+#
+#dump add edge minuml1_CompositeState_subvertex exclude
+#dump add edge minuml1_StateMachine_top exclude
 
 # Appearance
 dump set node minuml1_ActionState shape ellipse
@@ -42,7 +42,17 @@ dump set node minuml1_Partition labels off
 dump add node minuml1_Partition shortinfotag _name
 
 # Rules
-xgrs dump_addTransitionsToPartitions*
-xgrs dump_guardedTransitionEdges*
-xgrs dump_transitionEdges*
+#xgrs dump_addTransitionsToPartitions*
+#xgrs dump_guardedTransitionEdges*
+#xgrs dump_transitionEdges*
+xgrs transform_FinalState*
+xgrs transform_ActionState*
+xgrs transform_PseudoState_To_Initial*
+xgrs transform_PseudoState_To_Join*
+xgrs transform_PseudoState_To_Fork*
+xgrs transform_PseudoState_To_Decision*
+xgrs transform_ObjectFlowState*
+xgrs transform_CompositeState*
+xgrs transform_Partition*
+xgrs transform_Transition_To_ObjectFlow*
 show graph ycomp

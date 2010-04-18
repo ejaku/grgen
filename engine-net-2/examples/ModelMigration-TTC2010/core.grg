@@ -1,4 +1,4 @@
-using original_minimal_metamodel__ecore, dump_helper;
+using original_minimal_metamodel__ecore, evolved_metamodel__ecore, dump_helper;
 
 rule dump_addTransitionsToPartitions {
 	state1:minuml1_StateVertex <-:minuml1_Transition_source- transition:minuml1_Transition;
@@ -48,3 +48,173 @@ rule dump_transitionEdges {
 	}
 }
 
+rule transform_FinalState {
+	state:minuml1_FinalState;
+
+	modify {
+		final:uml_ActivityFinalNode<state>;
+
+		eval {
+			final._name = state._name;
+		}
+	}
+}
+
+rule transform_ActionState {
+	state:minuml1_ActionState;
+
+	modify {
+		opaque:uml_OpaqueAction<state>;
+
+		eval {
+			opaque._name = state._name;
+		}
+	}
+}
+
+/*
+rule transform_PseudoState {
+	state:minuml1_Pseudostate;
+
+	alternative {
+		Initial {
+			if { state._kind == minuml1_PseudostateKind::_initial; }
+
+			modify {
+				initial:uml_InitialNode<state>;
+
+				eval { initial._name = state._name; }
+			}
+		}
+		Join {
+			if { state._kind == minuml1_PseudostateKind::_join; }
+
+			modify {
+				join:uml_JoinNode<state>;
+
+				eval { join._name = state._name; }
+			}
+		}
+		Fork {
+			if { state._kind == minuml1_PseudostateKind::_fork; }
+
+			modify {
+				fork:uml_ForkNode<state>;
+
+				eval { fork._name = state._name; }
+			}
+		}
+		Junction {
+			if { state._kind == minuml1_PseudostateKind::_junction; }
+
+			modify {
+				decision:uml_DecisionNode<state>;
+
+				eval { decision._name = state._name; }
+			}
+		}
+	}
+
+	modify {}
+}
+*/
+
+rule transform_PseudoState_To_Initial {
+	state:minuml1_Pseudostate;
+
+	if { state._kind == minuml1_PseudostateKind::_initial; }
+
+	modify {
+		initial:uml_InitialNode<state>;
+
+		eval { initial._name = state._name; }
+	}
+}
+
+rule transform_PseudoState_To_Join {
+	state:minuml1_Pseudostate;
+
+	if { state._kind == minuml1_PseudostateKind::_join; }
+
+	modify {
+		join:uml_JoinNode<state>;
+
+		eval { join._name = state._name; }
+	}
+}
+
+rule transform_PseudoState_To_Fork {
+	state:minuml1_Pseudostate;
+
+	if { state._kind == minuml1_PseudostateKind::_fork; }
+
+	modify {
+		fork:uml_ForkNode<state>;
+
+		eval { fork._name = state._name; }
+	}
+}
+
+rule transform_PseudoState_To_Decision {
+	state:minuml1_Pseudostate;
+
+	if { state._kind == minuml1_PseudostateKind::_junction; }
+
+	modify {
+		decision:uml_DecisionNode<state>;
+
+		eval { decision._name = state._name; }
+	}
+}
+
+rule transform_ObjectFlowState {
+	state:minuml1_ObjectFlowState;
+
+	modify {
+		pin:uml_Pin<state>;
+
+		eval { pin._name = state._name; }
+	}
+}
+
+rule transform_CompositeState {
+	state:minuml1_CompositeState;
+
+	modify {
+		// TODO Replace with a StructuredActivityNode or an ActivityPartition?
+		delete(state);
+	}
+}
+
+rule transform_Partition {
+	partition:minuml1_Partition;
+
+	modify {
+		ap:uml_ActivityPartition<partition>;
+
+		eval { ap._name = partition._name; }
+	}
+}
+
+rule transform_Transition_To_ObjectFlow {
+	transition:minuml1_Transition;
+	
+	alternative {
+		incomingObjectFlow {
+			transition <-:minuml1_StateVertex_incoming- :uml_Pin;
+
+			modify {}
+		}
+		outgoingObjectFlow {
+			transition <-:minuml1_StateVertex_outgoing- :uml_Pin;
+
+			modify {}
+		}
+	}
+
+	modify {
+		of:uml_ObjectFlow<transition>;
+
+		eval { of._name = transition._name; }
+	}
+}
