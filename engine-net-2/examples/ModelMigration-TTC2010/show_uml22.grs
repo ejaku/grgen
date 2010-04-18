@@ -1,0 +1,55 @@
+# This is the GrGen.NET solution to the Model Migration case of Grabats 2010.
+
+include core.grs
+
+#debug set layout Compilergraph
+#debug set layout option CREATE_LOOP_TREE false
+
+# Nesting
+dump add node uml_Activity group by hidden outgoing uml_Activity_group
+dump add node uml_ActivityPartition group by hidden outgoing uml_ActivityPartition_node
+
+# Hiding
+dump add edge uml_ActivityNode_inPartition exclude
+
+# Appearance
+dump set node uml_OpaqueAction shape ellipse
+dump set node uml_OpaqueAction labels off
+dump add node uml_OpaqueAction shortinfotag _name
+
+dump set node uml_ActivityFinalNode shape circle
+dump set node uml_ActivityFinalNode color red
+dump set node uml_ActivityFinalNode labels off
+
+dump set node uml_InitialNode shape circle
+dump set node uml_InitialNode color green
+dump set node uml_InitialNode labels off
+
+dump set node uml_Pin labels off
+dump add node uml_Pin shortinfotag _name
+
+dump set node uml_DecisionNode shape rhomb
+dump set node uml_DecisionNode labels off
+dump set node uml_DecisionNode color white
+
+dump set node uml_ForkNode labels "                    "
+dump set node uml_ForkNode color black
+
+dump set node uml_JoinNode labels "                    "
+dump set node uml_JoinNode color black
+
+dump set edge dump_transition labels off
+dump add edge dump_transition shortinfotag name
+
+dump set node uml_Activity labels off
+dump set node uml_Activity color white
+
+dump set node uml_ActivityPartition labels off
+dump add node uml_ActivityPartition shortinfotag _name
+
+# beautify and dump the graph
+xgrs dump_addActivityEdgesToActivityPartition*
+xgrs dump_guarded_OpaqueExpression*
+xgrs dump_ActivityEdge*
+
+show graph ycomp

@@ -1,0 +1,96 @@
+// Rules for beautify the UML 1.4 graph
+
+rule dump_addTransitionsToPartitions {
+	state1:minuml1_StateVertex <-:minuml1_Transition_source- transition:minuml1_Transition;
+	state2:minuml1_StateVertex <-:minuml1_Transition_target- transition;
+
+	state1 <-:minuml1_Partition_contents- partition:minuml1_Partition -:minuml1_Partition_contents-> state2;
+
+	negative {
+		partition -:minuml1_Partition_contents-> transition;
+	}
+
+	modify {
+		partition -:minuml1_Partition_contents-> transition;
+	}
+}
+
+rule dump_guardedTransitionEdges {
+	state1:minuml1_StateVertex;
+	state2:minuml1_StateVertex;
+
+	state1 -:minuml1_StateVertex_incoming-> transition:minuml1_Transition <-:minuml1_StateVertex_outgoing- state2;
+	
+	transition -:minuml1_Transition_guard-> guard:minuml1_Guard;
+	guard -:minuml1_Guard_expression-> expr:minuml1_BooleanExpression;
+
+	modify {
+		delete(transition, guard, expr);
+
+		state1 -e:dump_transition-> state2;
+
+		eval {
+			e.name = guard._name;
+		}
+	}
+}
+
+rule dump_transitionEdges {
+	state1:minuml1_StateVertex;
+	state2:minuml1_StateVertex;
+
+	state1 -:minuml1_StateVertex_incoming-> transition:minuml1_Transition <-:minuml1_StateVertex_outgoing- state2;
+
+	modify {
+		delete(transition);
+
+		state1 -:dump_transition-> state2;
+	}
+}
+
+// Rules for beautify the UML 2.2 graph
+
+rule dump_addActivityEdgesToActivityPartition {
+	activity1:uml_ActivityNode <-:uml_ActivityEdge_source- actEdge:uml_ActivityEdge;
+	activity2:uml_ActivityNode <-:uml_ActivityEdge_target- actEdge;
+
+	activity1 <-:uml_ActivityPartition_node- partition:uml_ActivityPartition -:uml_ActivityPartition_node-> activity2;
+
+	negative {
+		partition -:uml_ActivityPartition_node-> actEdge;
+	}
+
+	modify {
+		partition -:uml_ActivityPartition_node-> actEdge;
+	}
+}
+
+rule dump_guarded_OpaqueExpression {
+	actEdge:uml_ActivityEdge;
+
+	actEdge -:uml_ActivityEdge_guard-> expr:uml_OpaqueExpression;
+
+	modify {
+		delete(expr);
+
+		eval {
+			actEdge._name = expr._name;
+		}
+	}
+}
+
+rule dump_ActivityEdge {
+	actNode1:uml_ActivityNode;
+	actNode2:uml_ActivityNode;
+
+	actNode1 <-:uml_ActivityEdge_source- actEdge:uml_ActivityEdge -:uml_ActivityEdge_target-> actNode2;
+
+	modify {
+		delete(actEdge);
+
+		actNode1 -e:dump_transition-> actNode2;
+
+		eval { e.name = actEdge._name; }
+	}
+}
+

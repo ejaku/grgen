@@ -1,54 +1,7 @@
 using original_minimal_metamodel__ecore, evolved_metamodel__ecore, dump_helper;
 
 // Rules for beautify the graph
-
-rule dump_addTransitionsToPartitions {
-	state1:minuml1_StateVertex <-:minuml1_Transition_source- transition:minuml1_Transition;
-	state2:minuml1_StateVertex <-:minuml1_Transition_target- transition;
-
-	state1 <-:minuml1_Partition_contents- partition:minuml1_Partition -:minuml1_Partition_contents-> state2;
-
-	negative {
-		partition -:minuml1_Partition_contents-> transition;
-	}
-
-	modify {
-		partition -:minuml1_Partition_contents-> transition;
-	}
-}
-
-rule dump_guardedTransitionEdges {
-	state1:minuml1_StateVertex;
-	state2:minuml1_StateVertex;
-
-	state1 -:minuml1_StateVertex_incoming-> transition:minuml1_Transition <-:minuml1_StateVertex_outgoing- state2;
-	
-	transition -:minuml1_Transition_guard-> guard:minuml1_Guard;
-	guard -:minuml1_Guard_expression-> expr:minuml1_BooleanExpression;
-
-	modify {
-		delete(transition, guard, expr);
-
-		state1 -e:dump_transition-> state2;
-
-		eval {
-			e.name = guard._name;
-		}
-	}
-}
-
-rule dump_transitionEdges {
-	state1:minuml1_StateVertex;
-	state2:minuml1_StateVertex;
-
-	state1 -:minuml1_StateVertex_incoming-> transition:minuml1_Transition <-:minuml1_StateVertex_outgoing- state2;
-
-	modify {
-		delete(transition);
-
-		state1 -:dump_transition-> state2;
-	}
-}
+#include "dump_helper.gri"
 
 // Rules for node transformation
 
