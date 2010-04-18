@@ -1,28 +1,28 @@
 using original_minimal_metamodel__ecore, dump_helper;
 
 rule dump_addTransitionsToPartitions {
-	state1:_StateVertex <-:_Transition_source- transition:_Transition;
-	state2:_StateVertex <-:_Transition_target- transition;
+	state1:minuml1_StateVertex <-:minuml1_Transition_source- transition:minuml1_Transition;
+	state2:minuml1_StateVertex <-:minuml1_Transition_target- transition;
 
-	state1 <-:_Partition_contents- partition:_Partition -:_Partition_contents-> state2;
+	state1 <-:minuml1_Partition_contents- partition:minuml1_Partition -:minuml1_Partition_contents-> state2;
 
 	negative {
-		partition -:_Partition_contents-> transition;
+		partition -:minuml1_Partition_contents-> transition;
 	}
 
 	modify {
-		partition -:_Partition_contents-> transition;
+		partition -:minuml1_Partition_contents-> transition;
 	}
 }
 
 rule dump_guardedTransitionEdges {
-	state1:_StateVertex;
-	state2:_StateVertex;
+	state1:minuml1_StateVertex;
+	state2:minuml1_StateVertex;
 
-	state1 -:_StateVertex_incoming-> transition:_Transition <-:_StateVertex_outgoing- state2;
+	state1 -:minuml1_StateVertex_incoming-> transition:minuml1_Transition <-:minuml1_StateVertex_outgoing- state2;
 	
-	transition -:_Transition_guard-> guard:_Guard;
-	guard -:_Guard_expression-> expr:_BooleanExpression;
+	transition -:minuml1_Transition_guard-> guard:minuml1_Guard;
+	guard -:minuml1_Guard_expression-> expr:minuml1_BooleanExpression;
 
 	modify {
 		delete(transition, guard, expr);
@@ -36,10 +36,10 @@ rule dump_guardedTransitionEdges {
 }
 
 rule dump_transitionEdges {
-	state1:_StateVertex;
-	state2:_StateVertex;
+	state1:minuml1_StateVertex;
+	state2:minuml1_StateVertex;
 
-	state1 -:_StateVertex_incoming-> transition:_Transition <-:_StateVertex_outgoing- state2;
+	state1 -:minuml1_StateVertex_incoming-> transition:minuml1_Transition <-:minuml1_StateVertex_outgoing- state2;
 
 	modify {
 		delete(transition);
