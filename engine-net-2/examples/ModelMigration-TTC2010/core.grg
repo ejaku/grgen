@@ -1,5 +1,7 @@
 using original_minimal_metamodel__ecore, evolved_metamodel__ecore, dump_helper;
 
+// Rules for beautify the graph
+
 rule dump_addTransitionsToPartitions {
 	state1:minuml1_StateVertex <-:minuml1_Transition_source- transition:minuml1_Transition;
 	state2:minuml1_StateVertex <-:minuml1_Transition_target- transition;
@@ -47,6 +49,8 @@ rule dump_transitionEdges {
 		state1 -:dump_transition-> state2;
 	}
 }
+
+// Rules for node transformation
 
 rule transform_FinalState {
 	state:minuml1_FinalState;
@@ -278,3 +282,84 @@ rule transform_ActivityGraph {
 	}
 }
 
+// Rules for edge transformation
+
+rule transform_StateVertex_incoming {
+	-e:minuml1_StateVertex_incoming->;
+
+	modify {
+		-:uml_ActivityNode_incoming<e>->;
+	}
+}
+
+rule transform_StateVertex_outgoing {
+	-e:minuml1_StateVertex_outgoing->;
+
+	modify {
+		-:uml_ActivityNode_outgoing<e>->;
+	}
+}
+
+rule transform_StateVertex_partition1 {
+	:uml_ActivityNode -e:minuml1_StateVertex_partition->;
+
+	modify {
+		-:uml_ActivityNode_inPartition<e>->;
+	}
+}
+
+rule transform_StateVertex_partition2 {
+	:uml_ActivityEdge -e:minuml1_StateVertex_partition->;
+
+	modify {
+		-:uml_ActivityEdge_inPartition<e>->;
+	}
+}
+
+rule transform_StateMachine_transitions {
+	-e:minuml1_StateMachine_transitions->;
+
+	modify {
+		-:uml_Activity_edge<e>->;
+	}
+}
+
+rule transform_Transition_source {
+	-e:minuml1_Transition_source->;
+
+	modify {
+		-:uml_ActivityEdge_source<e>->;
+	}
+}
+
+rule transform_Transition_target {
+	-e:minuml1_Transition_target->;
+
+	modify {
+		-:uml_ActivityEdge_target<e>->;
+	}
+}
+
+rule transform_Transition_guard {
+	-e:minuml1_Transition_guard->;
+
+	modify {
+		-:uml_ActivityEdge_guard<e>->;
+	}
+}
+
+rule transform_ActivityGraph_partition {
+	-e:minuml1_ActivityGraph_partition->;
+
+	modify {
+		-:uml_Activity_group<e>->;
+	}
+}
+
+rule transform_Partition_contents {
+	-e:minuml1_Partition_contents->;
+
+	modify {
+		-:uml_ActivityPartition_node<e>->;
+	}
+}
