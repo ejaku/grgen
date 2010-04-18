@@ -36,6 +36,8 @@ namespace de.unika.ipd.grGen.libGr
             public Dictionary<String, RefType> RefAttrToRefType = new Dictionary<String, RefType>();
         }
 
+        bool noPackageNamePrefix;
+
         IGraph graph;
         Dictionary<String, NodeType> typeMap = new Dictionary<String, NodeType>();
         Dictionary<String, INode> nodeMap = new Dictionary<String, INode>();
@@ -52,9 +54,11 @@ namespace de.unika.ipd.grGen.libGr
         /// <param name="ecoreFilenames">A list of ECore model specification files. It must at least contain one element.</param>
         /// <param name="grgFilename">A grg file to be used to create the graph, or null.</param>
         /// <param name="xmiFilename">The filename of the model instance to be imported, or null.</param>
-        public static IGraph Import(IBackend backend, List<String> ecoreFilenames, String grgFilename, String xmiFilename)
+        /// <param name="noPackageNamePrefix">Prefix the types with the name of the package? Can only be used if names from the packages are disjoint.</param>
+        public static IGraph Import(IBackend backend, List<String> ecoreFilenames, String grgFilename, String xmiFilename, bool noPackageNamePrefix)
         {
             ECoreImport imported = new ECoreImport();
+            imported.noPackageNamePrefix = noPackageNamePrefix;
             imported.graph = imported.ImportModels(ecoreFilenames, grgFilename, backend);
             if(xmiFilename != null)
             {
@@ -190,14 +194,17 @@ namespace de.unika.ipd.grGen.libGr
             default:
                 {
                     XmlElement packageNode = package;
-                    if(xmielem != null)
-                    {
+                    if(xmielem != null) {
                         int rootIndex = int.Parse(fullXmiTypeName.Substring(2, lastSlashPos - 2));
                         packageNode = (XmlElement)xmielem.ChildNodes[rootIndex];
                     }
 
-                    String packageName = packageNode.GetAttribute("nsPrefix");
-                    xmitypename = packageName + packageDelim + xmitypename;
+                    if(noPackageNamePrefix) {
+                        xmitypename = packageDelim + xmitypename;
+                    } else {
+                        String packageName = packageNode.GetAttribute("nsPrefix");
+                        xmitypename = packageName + packageDelim + xmitypename;
+                    }
                     break;
                 }
             }
@@ -213,6 +220,7 @@ namespace de.unika.ipd.grGen.libGr
         private void ParseEClass(StringBuilder sb, XmlElement xmielem, XmlElement package, XmlElement classifier, String classifierName)
         {
             String packageName = package.GetAttribute("nsPrefix");
+            if(noPackageNamePrefix) packageName = "";
 
             bool first;
             NodeType nodeType = new NodeType();
@@ -292,6 +300,7 @@ namespace de.unika.ipd.grGen.libGr
         private void ParseEEnum(StringBuilder sb, XmlElement xmielem, XmlElement package, XmlElement classifier, String classifierName)
         {
             String packageName = package.GetAttribute("nsPrefix");
+            if(noPackageNamePrefix) packageName = "";
 
             Dictionary<String, int> literalToValue = new Dictionary<String, int>();
 
@@ -336,6 +345,7 @@ namespace de.unika.ipd.grGen.libGr
                     if(reader.Name == "xmi:XMI") continue;
 
                     String tagName = reader.Name;
+                    if(noPackageNamePrefix) tagName = tagName.Substring(tagName.LastIndexOf(":"));
                     String grgenTypeName = tagName.Replace(':', '_').Replace(':', '_');
                     INode gnode = graph.AddNode(graph.Model.NodeModel.GetType(grgenTypeName));
 
@@ -435,11 +445,13 @@ namespace de.unika.ipd.grGen.libGr
                         continue;
                     }
                 }
+                if(noPackageNamePrefix) typeName = typeName.Substring(typeName.LastIndexOf(":"));
                 String grgenTypeName = typeName.Replace(':', '_').Replace('.', '_');
                 INode gnode = graph.AddNode(nodeModel.GetType(grgenTypeName));
                 nodeMap[id] = gnode;
 
                 String edgeTypeName = FindContainingTypeName(parentTypeName, tagName);
+                if(noPackageNamePrefix) edgeTypeName = edgeTypeName.Substring(edgeTypeName.LastIndexOf(":"));
                 String grgenEdgeTypeName = edgeTypeName.Replace(':', '_').Replace('.', '_') + "_" + tagName;
                 IEdge parentEdge = graph.AddEdge(edgeModel.GetType(grgenEdgeTypeName), parentNode, gnode);
                 if(IsRefOrdered(parentTypeName, tagName))
@@ -457,6 +469,8 @@ namespace de.unika.ipd.grGen.libGr
 
         private void ParseNodeSecondPass(XmlTextReader reader, String curTypeName, bool isEmpty)
         {
+            if(noPackageNamePrefix) curTypeName = curTypeName.Substring(curTypeName.LastIndexOf(":"));
+
             if(!reader.MoveToAttribute("xmi:id"))
             {
                 // probably an attribute in element form (already handled), so ignore

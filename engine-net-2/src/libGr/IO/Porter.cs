@@ -57,6 +57,7 @@ namespace de.unika.ipd.grGen.libGr
                 List<String> ecores = new List<String>();
                 String grg = null;
                 String xmi = null;
+                bool noPackageNamePrefix = false;
                 foreach(String filename in filenameParameters)
                 {
                     if(filename.EndsWith(".ecore")) ecores.Add(filename);
@@ -72,8 +73,12 @@ namespace de.unika.ipd.grGen.libGr
                             throw new NotSupportedException("Only one .xmi file supported");
                         xmi = filename;
                     }
+                    else if(filename == "nopackagenameprefix")
+                    {
+                        noPackageNamePrefix = true;
+                    }
                 }
-                return ECoreImport.Import(backend, ecores, grg, xmi);
+                return ECoreImport.Import(backend, ecores, grg, xmi, noPackageNamePrefix);
             }
             else
                 throw new NotSupportedException("File format not supported");
