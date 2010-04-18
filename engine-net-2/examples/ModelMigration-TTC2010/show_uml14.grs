@@ -9,7 +9,6 @@ debug set layout option CREATE_LOOP_TREE false
 dump add node minuml1_ActivityGraph group by hidden outgoing minuml1_ActivityGraph_partition
 dump add node minuml1_ActivityGraph group by hidden outgoing minuml1_StateMachine_transitions
 dump add node minuml1_Partition group by hidden outgoing minuml1_Partition_contents
-dump add edge minuml1_StateVertex_partition exclude
 
 # Hiding
 dump add node minuml1_CompositeState exclude
@@ -19,6 +18,7 @@ dump add edge minuml1_Transition_target exclude
 
 dump add edge minuml1_CompositeState_subvertex exclude
 dump add edge minuml1_StateMachine_top exclude
+dump add edge minuml1_StateVertex_partition exclude
 
 # Appearance
 dump set node minuml1_ActionState shape ellipse
