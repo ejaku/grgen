@@ -12,7 +12,6 @@
 package de.unika.ipd.grgen.ast;
 
 import de.unika.ipd.grgen.ir.IR;
-import de.unika.ipd.grgen.ir.ObjectType;
 import de.unika.ipd.grgen.ir.UntypedExecVarType;
 
 import java.util.Collection;
@@ -39,7 +38,7 @@ public class UntypedExecVarTypeNode extends DeclaredTypeNode
 		// no children
 		return childrenNames;
 	}
-	
+
 	@Override
 	protected boolean isCompatibleTo(TypeNode t) {
 		// compatible to everything

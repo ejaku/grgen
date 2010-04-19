@@ -77,7 +77,7 @@ public class RuleDeclNode extends TestDeclNode {
 	protected static final DeclarationTypeResolver<RuleTypeNode> typeResolver =	new DeclarationTypeResolver<RuleTypeNode>(RuleTypeNode.class);
 	private static final CollectResolver<TypeNode> retTypeResolver = new CollectResolver<TypeNode>(
     		new DeclarationTypeResolver<TypeNode>(TypeNode.class));
-	
+
 	/** @see de.unika.ipd.grgen.ast.BaseNode#resolveLocal() */
 	protected boolean resolveLocal() {
 		type = typeResolver.resolve(typeUnresolved, this);
@@ -172,7 +172,6 @@ public class RuleDeclNode extends TestDeclNode {
 		boolean valid = true;
 
 		for(Set<ConstraintDeclNode> homSet : pattern.getHoms()) {
-			boolean containsRetypedElem = false;
 			boolean multipleRetypes = false;
 			InheritanceTypeNode type = null;
 
@@ -181,12 +180,12 @@ public class RuleDeclNode extends TestDeclNode {
 
 				if(retypedElem != null) {
 					InheritanceTypeNode currentType = retypedElem.getDeclType();
-					
+
 					if (type != null && currentType != type) {
 						multipleRetypes = true;
 						break;
 					}
-					
+
 					type = currentType;
 				}
 			}
@@ -198,13 +197,13 @@ public class RuleDeclNode extends TestDeclNode {
 					ConstraintDeclNode retypedElem = elem.getRetypedElement();
 
 					if(retypedElem != null) {
-						retypedElem.reportError("The " + elem.getUseString() + " " 
+						retypedElem.reportError("The " + elem.getUseString() + " "
 								+ elem + " must not retyped to different types");
 					}
 				}
 			}
 		}
-		
+
 		return valid;
 	}
 
