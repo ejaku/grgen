@@ -1,0 +1,20 @@
+using attrib_model_001;
+
+rule r {
+	-x:Edge->;
+	
+	alternative {
+		First {
+			modify {
+				-y:EINT<x>->;
+			}
+		}
+		Second {
+			modify {
+				-y:ESTRING<x>->;
+			}
+		}
+	}
+	
+	modify {}
+}
