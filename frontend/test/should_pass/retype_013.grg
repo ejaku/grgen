@@ -1,0 +1,21 @@
+using retype_model_001;
+
+rule r {
+	x:TYPE1;
+	
+	alternative {
+		First {
+			modify {
+				y:TYPE2<x>;
+			}
+		}
+		Second {
+			modify {
+				y:TYPE3<x>;
+			}
+		}
+	}
+	
+	modify {}
+}
+
