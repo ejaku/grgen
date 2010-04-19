@@ -116,8 +116,7 @@ public class EdgeTypeChangeNode extends EdgeDeclNode implements EdgeCharacter {
 		Collection<BaseNode> parents = old.getParents();
 		for (BaseNode p : parents) {
 			// to be erroneous there must be another EdgeTypeChangeNode with the same OLD-child
-			// TODO: p.old == old always true, since p is a parent (of type EdgeTypeChangeNode) of old?
-			if (p != this && p instanceof EdgeTypeChangeNode && (((EdgeTypeChangeNode)p).old == old)) {
+			if (p != this && p instanceof EdgeTypeChangeNode) {
 				reportError("Two (and hence ambiguous) retype statements for the same edge are forbidden,"
 								+ " previous retype statement at " + p.getCoords());
 				res = false;
