@@ -313,6 +313,7 @@ OK     should_pass/retype_010.grg
 OK     should_pass/retype_011.grg
 OK     should_pass/retype_012.grg
 ERROR  should_pass/retype_013.grg
+ERROR  should_fail/retype_014.grg
 OK     should_pass/retype_101.grg
 OK     should_pass/retype_102.grg
 OK     should_pass/reuse_001.grg
@@ -849,7 +850,6 @@ ERROR  should_fail/retype_015.grg
 ERROR  should_fail/retype_016.grg
 ERROR  should_fail/retype_017.grg
 ERROR  should_fail/retype_018.grg
-ERROR  should_fail/retype_019.grg
 ERROR  should_fail/retype_101.grg
 ERROR  should_fail/retype_102.grg
 ERROR  should_fail/retype_103.grg
