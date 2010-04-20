@@ -850,6 +850,10 @@ ERROR  should_fail/retype_015.grg
 ERROR  should_fail/retype_016.grg
 ERROR  should_fail/retype_017.grg
 ERROR  should_fail/retype_018.grg
+ERROR  should_fail/retype_019.grg
+ERROR  should_fail/retype_020.grg
+ERROR  should_fail/retype_021.grg
+ERROR  should_fail/retype_022.grg
 ERROR  should_fail/retype_101.grg
 ERROR  should_fail/retype_102.grg
 ERROR  should_fail/retype_103.grg
