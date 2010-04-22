@@ -16,12 +16,12 @@ rule r {
 				}
 			}
 
-			modify {}
-		}
-		Second {
 			modify {
 				-y:EINT<x>->;
 			}
+		}
+		Second {
+			modify {}
 		}
 	}
 	
