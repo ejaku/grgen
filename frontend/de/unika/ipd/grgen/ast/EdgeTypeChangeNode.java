@@ -12,6 +12,7 @@
 package de.unika.ipd.grgen.ast;
 
 import java.util.Collection;
+import java.util.LinkedHashSet;
 import java.util.Vector;
 
 import de.unika.ipd.grgen.ast.util.Checker;
@@ -111,15 +112,38 @@ public class EdgeTypeChangeNode extends EdgeDeclNode implements EdgeCharacter {
 			res = false;
 		}
 
-		// check if two ambiguous retyping statements for the same edge
-		// declaration occurs
+		// Collect all outer Alternative cases
+		Collection<BaseNode> cases= new LinkedHashSet<BaseNode>();
+		BaseNode currCase = this;
+
+		while (!currCase.isRoot()) {
+			if (currCase instanceof AlternativeCaseNode || currCase instanceof RuleDeclNode) {
+				cases.add(currCase);
+			}
+
+			currCase = currCase.getParents().iterator().next();
+		}
+
+		// check if two ambiguous retyping statements for the same edge declaration occurs
 		Collection<BaseNode> parents = old.getParents();
 		for (BaseNode p : parents) {
 			// to be erroneous there must be another EdgeTypeChangeNode with the same OLD-child
 			if (p != this && p instanceof EdgeTypeChangeNode && ((EdgeTypeChangeNode)p).old == old) {
-				reportError("Two (and hence ambiguous) retype statements for the same edge are forbidden,"
-								+ " previous retype statement at " + p.getCoords());
-				res = false;
+				BaseNode alternativeCase = p;
+
+				while (!alternativeCase.isRoot()) {
+					if (alternativeCase instanceof AlternativeCaseNode || alternativeCase instanceof RuleDeclNode) {
+						if (cases.contains(alternativeCase)) {
+							reportError("Two (and hence ambiguous) retype statements for the same edge are forbidden,"
+											+ " previous retype statement at " + p.getCoords());
+							res = false;
+						}
+
+						break;
+					}
+
+					alternativeCase = alternativeCase.getParents().iterator().next();
+				}
 			}
 		}
 
