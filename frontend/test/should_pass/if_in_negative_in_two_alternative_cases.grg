@@ -1,0 +1,16 @@
+pattern if_in_negative_in_two_alternative_cases {
+  alternative {
+    foo {
+	  x:Node;
+      negative{
+        if{x.visited;}
+      }
+    }
+	bar {
+	  x:Node;
+      negative{
+        if{x.visited;}
+      }
+    }
+  }
+}
