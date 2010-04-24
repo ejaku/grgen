@@ -686,7 +686,7 @@ public class ActionsGen extends CSharpBase {
 		sb.append("\t\t{\n");
 
 		genPatternGraph(sb, aux, pattern, "", pattern.getNameOfGraph(), patGraphVarName, className,
-				alreadyDefinedEntityToName, alreadyDefinedIdentifiableToName, 0, action.getParameters(), max);
+				alreadyDefinedEntityToName, alreadyDefinedIdentifiableToName, action.getParameters(), max);
 		sb.append(aux);
 		sb.append("\n");
 		sb.append("\t\t\tpatternGraph = " + patGraphVarName + ";\n");
@@ -694,14 +694,14 @@ public class ActionsGen extends CSharpBase {
 		sb.append("\t\t}\n");
 	}
 
-	private int genPatternGraph(StringBuffer sb, StringBuilder aux, PatternGraph pattern,
+	private void genPatternGraph(StringBuffer sb, StringBuilder aux, PatternGraph pattern,
 								String pathPrefix, String patternName, // negatives without name, have to compute it and hand it in
 								String patGraphVarName, String className,
 								HashMap<Entity, String> alreadyDefinedEntityToName,
 								HashMap<Identifiable, String> alreadyDefinedIdentifiableToName,
-								int condCntInit, List<Entity> parameters, double max) {
+								List<Entity> parameters, double max) {
 		genElementsRequiredByPatternGraph(sb, aux, pattern, pathPrefix, patternName, patGraphVarName, className,
-										  alreadyDefinedEntityToName, alreadyDefinedIdentifiableToName, condCntInit, parameters, max);
+										  alreadyDefinedEntityToName, alreadyDefinedIdentifiableToName, parameters, max);
 
 		sb.append("\t\t\t" + patGraphVarName + " = new GRGEN_LGSP.PatternGraph(\n");
 		sb.append("\t\t\t\t\"" + patternName + "\",\n");
@@ -754,10 +754,8 @@ public class ActionsGen extends CSharpBase {
 		sb.append(" }, \n");
 
 		sb.append("\t\t\t\tnew GRGEN_LGSP.PatternCondition[] { ");
-		int condCnt = condCntInit;
 		for (int i = 0; i < pattern.getConditions().size(); i++){
-			sb.append("cond_" + condCnt + ", ");
-			condCnt++;
+			sb.append(pathPrefixForElements+"cond_" + i + ", ");
 		}
 		sb.append(" }, \n");
 
@@ -845,8 +843,6 @@ public class ActionsGen extends CSharpBase {
 		}
 
 		sb.append("\n");
-
-		return condCnt;
 	}
 
 	private void genElementsRequiredByPatternGraph(StringBuffer sb, StringBuilder aux, PatternGraph pattern,
@@ -854,7 +850,7 @@ public class ActionsGen extends CSharpBase {
 												   String patGraphVarName, String className,
 												   HashMap<Entity, String> alreadyDefinedEntityToName,
 												   HashMap<Identifiable, String> alreadyDefinedIdentifiableToName,
-												   int condCntInit, List<Entity> parameters, double max) {
+												   List<Entity> parameters, double max) {
 		String pathPrefixForElements = pathPrefix+patternName+"_";
 
 		sb.append("\t\t\tbool[,] " + pathPrefixForElements + "isNodeHomomorphicGlobal = "
@@ -998,11 +994,11 @@ public class ActionsGen extends CSharpBase {
 			aux.append("\t\t\t" + subName + ".PointOfDefinition = " + patGraphVarName + ";\n");
 		}
 
-		int condCnt = condCntInit;
+		int i = 0;
 		for(Expression expr : pattern.getConditions()) {
 			NeededEntities needs = new NeededEntities(true, true, true, false, false, true);
 			expr.collectNeededEntities(needs);
-			sb.append("\t\t\tGRGEN_LGSP.PatternCondition cond_" + condCnt
+			sb.append("\t\t\tGRGEN_LGSP.PatternCondition " + pathPrefixForElements+"cond_"+i
 					+ " = new GRGEN_LGSP.PatternCondition(\n"
 					+ "\t\t\t\t");
 			genExpressionTree(sb, expr, className, pathPrefixForElements, alreadyDefinedEntityToName);
@@ -1016,10 +1012,10 @@ public class ActionsGen extends CSharpBase {
 			sb.append(", new GRGEN_LIBGR.VarType[] ");
 			genVarTypeSet(sb, needs.variables, true);
 			sb.append(");\n");
-			condCnt++;
+			++i;
 		}
 
-		int i = 0;
+		i = 0;
 		for(Alternative alt : pattern.getAlts()) {
 			String altName = "alt_" + i;
 			for(Rule altCase : alt.getAlternativeCases()) {
@@ -1027,12 +1023,12 @@ public class ActionsGen extends CSharpBase {
 				String altPatGraphVarName = pathPrefixForElements + altName + "_" + altCasePattern.getNameOfGraph();
 				HashMap<Entity, String> alreadyDefinedEntityToNameClone = new HashMap<Entity, String>(alreadyDefinedEntityToName);
 				HashMap<Identifiable, String> alreadyDefinedIdentifiableToNameClone = new HashMap<Identifiable, String>(alreadyDefinedIdentifiableToName);
-				condCnt = genPatternGraph(sb, aux, altCasePattern,
-										  pathPrefixForElements+altName+"_", altCasePattern.getNameOfGraph(),
-										  altPatGraphVarName, className,
-										  alreadyDefinedEntityToNameClone,
-										  alreadyDefinedIdentifiableToNameClone,
-										  condCnt, parameters, max);
+				genPatternGraph(sb, aux, altCasePattern,
+								  pathPrefixForElements+altName+"_", altCasePattern.getNameOfGraph(),
+								  altPatGraphVarName, className,
+								  alreadyDefinedEntityToNameClone,
+								  alreadyDefinedIdentifiableToNameClone,
+								  parameters, max);
 			}
 			++i;
 		}
@@ -1055,12 +1051,12 @@ public class ActionsGen extends CSharpBase {
 			PatternGraph iterPattern = iter.getLeft();
 			HashMap<Entity, String> alreadyDefinedEntityToNameClone = new HashMap<Entity, String>(alreadyDefinedEntityToName);
 			HashMap<Identifiable, String> alreadyDefinedIdentifiableToNameClone = new HashMap<Identifiable, String>(alreadyDefinedIdentifiableToName);
-			condCnt = genPatternGraph(sb, aux, iterPattern,
-									  pathPrefixForElements, iterName,
-									  pathPrefixForElements+iterName, className,
-									  alreadyDefinedEntityToNameClone,
-									  alreadyDefinedIdentifiableToNameClone,
-									  condCnt, parameters, max);
+			genPatternGraph(sb, aux, iterPattern,
+							  pathPrefixForElements, iterName,
+							  pathPrefixForElements+iterName, className,
+							  alreadyDefinedEntityToNameClone,
+							  alreadyDefinedIdentifiableToNameClone,
+							  parameters, max);
 			++i;
 		}
 
@@ -1069,12 +1065,12 @@ public class ActionsGen extends CSharpBase {
 			String negName = "neg_" + i;
 			HashMap<Entity, String> alreadyDefinedEntityToNameClone = new HashMap<Entity, String>(alreadyDefinedEntityToName);
 			HashMap<Identifiable, String> alreadyDefinedIdentifiableToNameClone = new HashMap<Identifiable, String>(alreadyDefinedIdentifiableToName);
-			condCnt = genPatternGraph(sb, aux, neg,
-									  pathPrefixForElements, negName,
-									  pathPrefixForElements+negName, className,
-									  alreadyDefinedEntityToNameClone,
-									  alreadyDefinedIdentifiableToNameClone,
-									  condCnt, parameters, max);
+			genPatternGraph(sb, aux, neg,
+							  pathPrefixForElements, negName,
+							  pathPrefixForElements+negName, className,
+							  alreadyDefinedEntityToNameClone,
+							  alreadyDefinedIdentifiableToNameClone,
+							  parameters, max);
 			++i;
 		}
 
@@ -1083,12 +1079,12 @@ public class ActionsGen extends CSharpBase {
 			String idptName = "idpt_" + i;
 			HashMap<Entity, String> alreadyDefinedEntityToNameClone = new HashMap<Entity, String>(alreadyDefinedEntityToName);
 			HashMap<Identifiable, String> alreadyDefinedIdentifiableToNameClone = new HashMap<Identifiable, String>(alreadyDefinedIdentifiableToName);
-			condCnt = genPatternGraph(sb, aux, idpt,
-									  pathPrefixForElements, idptName,
-									  pathPrefixForElements+idptName, className,
-									  alreadyDefinedEntityToNameClone,
-									  alreadyDefinedIdentifiableToNameClone,
-									  condCnt, parameters, max);
+			genPatternGraph(sb, aux, idpt,
+							  pathPrefixForElements, idptName,
+							  pathPrefixForElements+idptName, className,
+							  alreadyDefinedEntityToNameClone,
+							  alreadyDefinedIdentifiableToNameClone,
+							  parameters, max);
 			++i;
 		}
 	}
