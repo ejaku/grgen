@@ -459,7 +459,8 @@ public class PatternGraphNode extends GraphNode {
 	@Override
 	protected IR constructIR() {
 		PatternGraph gr = new PatternGraph(nameOfGraph, modifiers);
-
+		gr.setDirectlyNestingLHSGraph(gr);
+		
 		// mark this node as already visited
 		setIR(gr);
 
@@ -925,6 +926,7 @@ public class PatternGraphNode extends GraphNode {
 				Set<NodeDeclNode> allNegNodes = new LinkedHashSet<NodeDeclNode>();
 				Set<ConnectionNode> edgeSet = singleNodeNegMap.get(getHomomorphic(singleNodeNegNode));
 				PatternGraph neg = new PatternGraph(nameOfGraph, 0);
+				neg.setDirectlyNestingLHSGraph(neg);
 
 				// add edges to NAC
 				for (ConnectionNode conn : edgeSet) {
@@ -1062,7 +1064,8 @@ public class PatternGraphNode extends GraphNode {
 			edgeSet.addAll(doubleNodeNegMap.get(key2));
 
 			PatternGraph neg = new PatternGraph(nameOfGraph, 0);
-
+			neg.setDirectlyNestingLHSGraph(neg);
+			
 			// add edges to the NAC
 			for (ConnectionNode conn : edgeSet) {
 				conn.addToGraph(neg);

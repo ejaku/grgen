@@ -181,9 +181,7 @@ public class NodeTypeChangeNode extends NodeDeclNode implements NodeCharacter  {
 				isMaybeDeleted(), isMaybeRetyped(), context);
 
 		Node oldNode = old.getNode();
-		oldNode.setRetypedNode(res);
 		res.setOldNode(oldNode);
-		res.directlyNestingLHSGraph = oldNode.directlyNestingLHSGraph;
 
 		if (inheritsType()) {
 			res.setTypeof(typeNodeDecl.checkIR(Node.class));

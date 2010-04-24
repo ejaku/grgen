@@ -681,7 +681,7 @@ public class SearchPlanBackend extends MoreInformationCollector implements Backe
 
 			int nodeId;
 			String name, type;
-			if(node.getRetypedNode() == null || graphType != GraphType.Replacement)
+			if(node.getRetypedNode(graph) == null || graphType != GraphType.Replacement)
 			{
 				nodeId = nodeIds.computeId(node);
 				name = node.getIdent().toString() + nameSuffix;
@@ -689,9 +689,9 @@ public class SearchPlanBackend extends MoreInformationCollector implements Backe
 			}
 			else
 			{ // node gets retyped
-				nodeId = nodeIds.computeId(node.getRetypedNode());
-				name = node.getRetypedNode().getIdent().toString() + nameSuffix;
-				type = node.getRetypedNode().getNodeType().getIdent().toString();
+				nodeId = nodeIds.computeId(node.getRetypedNode(graph));
+				name = node.getRetypedNode(graph).getIdent().toString() + nameSuffix;
+				type = node.getRetypedNode(graph).getNodeType().getIdent().toString();
 			}
 			String mode = "ANY";
 			String lsmode = "ANY"; // just for Load/Store nodes!
@@ -770,7 +770,7 @@ public class SearchPlanBackend extends MoreInformationCollector implements Backe
 
 	private int getModifiedFlags(Rule rule, Node node) {
 		int flags = 0;
-		if (node.isRetyped() || node.getRetypedEntity() != null) {
+		if (node.isRetyped() || node.getRetypedEntity(rule.getRight()) != null) {
 			flags |= MOD_RETYPED;
 		}
 

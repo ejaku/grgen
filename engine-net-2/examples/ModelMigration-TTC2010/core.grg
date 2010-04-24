@@ -29,7 +29,6 @@ rule transform_ActionState {
 	}
 }
 
-/*
 rule transform_PseudoState {
 	state:minuml1_Pseudostate;
 
@@ -74,55 +73,6 @@ rule transform_PseudoState {
 
 	modify {}
 }
-*/
-
-rule transform_PseudoState_To_Initial {
-	state:minuml1_Pseudostate;
-
-	if { state._kind == minuml1_PseudostateKind::_initial; }
-
-	modify {
-		initial:uml_InitialNode<state>;
-
-		eval { initial._name = state._name; }
-	}
-}
-
-rule transform_PseudoState_To_Join {
-	state:minuml1_Pseudostate;
-
-	if { state._kind == minuml1_PseudostateKind::_join; }
-
-	modify {
-		join:uml_JoinNode<state>;
-
-		eval { join._name = state._name; }
-	}
-}
-
-rule transform_PseudoState_To_Fork {
-	state:minuml1_Pseudostate;
-
-	if { state._kind == minuml1_PseudostateKind::_fork; }
-
-	modify {
-		fork:uml_ForkNode<state>;
-
-		eval { fork._name = state._name; }
-	}
-}
-
-rule transform_PseudoState_To_Decision {
-	state:minuml1_Pseudostate;
-
-	if { state._kind == minuml1_PseudostateKind::_junction; }
-
-	modify {
-		decision:uml_DecisionNode<state>;
-
-		eval { decision._name = state._name; }
-	}
-}
 
 rule transform_ObjectFlowState {
 	state:minuml1_ObjectFlowState;
@@ -153,7 +103,6 @@ rule transform_Partition {
 	}
 }
 
-/*
 rule transform_Transition_To_ObjectFlow {
 	transition:minuml1_Transition;
 	
@@ -169,27 +118,6 @@ rule transform_Transition_To_ObjectFlow {
 			modify {}
 		}
 	}
-
-	modify {
-		of:uml_ObjectFlow<transition>;
-
-		eval { of._name = transition._name; }
-	}
-}
-*/
-
-rule transform_Transition_To_ObjectFlow1 {
-	transition:minuml1_Transition <-:minuml1_StateVertex_incoming- :uml_Pin; 
-
-	modify {
-		of:uml_ObjectFlow<transition>;
-
-		eval { of._name = transition._name; }
-	}
-}
-
-rule transform_Transition_To_ObjectFlow2 {
-	transition:minuml1_Transition <-:minuml1_StateVertex_outgoing- :uml_Pin;
 
 	modify {
 		of:uml_ObjectFlow<transition>;

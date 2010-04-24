@@ -276,6 +276,7 @@ public class ModifyGen extends CSharpBase {
 				ModifyGenerationTask task = new ModifyGenerationTask();
 				task.typeOfTask = TYPE_OF_TASK_CREATION;
 				task.left = new PatternGraph(rule.getLeft().getNameOfGraph(), 0); // empty graph
+				task.left.setDirectlyNestingLHSGraph(task.left);
 				task.right = rule.getLeft();
 				task.parameters = rule.getParameters();
 				task.evals = emptyEvals;
@@ -299,6 +300,7 @@ public class ModifyGen extends CSharpBase {
 			task.typeOfTask = TYPE_OF_TASK_DELETION;
 			task.left = rule.getLeft();
 			task.right = new PatternGraph(rule.getLeft().getNameOfGraph(), 0); // empty graph
+			task.right.setDirectlyNestingLHSGraph(task.left);
 			task.parameters = rule.getParameters();
 			task.evals = emptyEvals;
 			task.replParameters = emptyParameters;
@@ -764,13 +766,13 @@ public class ModifyGen extends CSharpBase {
 	{
 		newOrRetypedNodes.addAll(state.newNodes());
 		for(Node node : task.right.getNodes()) {
-			if(node.changesType())
-				newOrRetypedNodes.add(node.getRetypedNode());
+			if(node.changesType(task.right))
+				newOrRetypedNodes.add(node.getRetypedNode(task.right));
 		}
 		newOrRetypedEdges.addAll(state.newEdges());
 		for(Edge edge : task.right.getEdges()) {
-			if(edge.changesType())
-				newOrRetypedEdges.add(edge.getRetypedEdge());
+			if(edge.changesType(task.right))
+				newOrRetypedEdges.add(edge.getRetypedEdge(task.right));
 		}
 	}
 
@@ -886,14 +888,14 @@ public class ModifyGen extends CSharpBase {
 		for(Node node : task.right.getNodes()) {
 			if(node.inheritsType())
 				accessViaInterface.add(node);
-			else if(node.changesType())
-				accessViaInterface.add(node.getRetypedEntity());
+			else if(node.changesType(task.right))
+				accessViaInterface.add(node.getRetypedEntity(task.right));
 		}
 		for(Edge edge : task.right.getEdges()) {
 			if(edge.inheritsType())
 				accessViaInterface.add(edge);
-			else if(edge.changesType())
-				accessViaInterface.add(edge.getRetypedEntity());
+			else if(edge.changesType(task.right))
+				accessViaInterface.add(edge.getRetypedEntity(task.right));
 		}
 	}
 
@@ -1088,9 +1090,9 @@ public class ModifyGen extends CSharpBase {
 			HashSet<Edge> edgesNeededAsElements, HashSet<Edge> edgesNeededAsTypes)
 	{
 		for(Edge edge : task.right.getEdges()) {
-			if(!edge.changesType()) continue;
+			if(!edge.changesType(task.right)) continue;
 			String new_type;
-			RetypedEdge redge = edge.getRetypedEdge();
+			RetypedEdge redge = edge.getRetypedEdge(task.right);
 
 			if(redge.inheritsType()) {
 				Edge typeofElem = (Edge) getConcreteTypeofElem(redge);
@@ -1116,9 +1118,9 @@ public class ModifyGen extends CSharpBase {
 			HashSet<Node> nodesNeededAsElements, HashSet<Node> nodesNeededAsTypes)
 	{
 		for(Node node : task.right.getNodes()) {
-			if(!node.changesType()) continue;
+			if(!node.changesType(task.right)) continue;
 			String new_type;
-			RetypedNode rnode = node.getRetypedNode();
+			RetypedNode rnode = node.getRetypedNode(task.right);
 
 			if(rnode.inheritsType()) {
 				Node typeofElem = (Node) getConcreteTypeofElem(rnode);
@@ -1463,8 +1465,8 @@ public class ModifyGen extends CSharpBase {
 				return; // don't create dangling edges    - todo: what's the correct way to handle them?
 			}
 
-			if(src_node.changesType()) src_node = src_node.getRetypedNode();
-			if(tgt_node.changesType()) tgt_node = tgt_node.getRetypedNode();
+			if(src_node.changesType(task.right)) src_node = src_node.getRetypedNode(task.right);
+			if(tgt_node.changesType(task.right)) tgt_node = tgt_node.getRetypedNode(task.right);
 
 			if(state.commonNodes().contains(src_node))
 				nodesNeededAsElements.add(src_node);

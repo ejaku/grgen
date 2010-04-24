@@ -134,10 +134,10 @@ public class AssignNode extends EvalStatementNode {
 		Expression target;
 		if(lhs instanceof QualIdentNode) {
 			Qualification qual = lhs.checkIR(Qualification.class);
-			if(qual.getOwner() instanceof Node && ((Node)qual.getOwner()).changesType()) {
+			if(qual.getOwner() instanceof Node && ((Node)qual.getOwner()).changesType(null)) {
 				error.error(getCoords(), "Assignment to an old node of a type changed node is not allowed");
 			}
-			if(qual.getOwner() instanceof Edge && ((Edge)qual.getOwner()).changesType()) {
+			if(qual.getOwner() instanceof Edge && ((Edge)qual.getOwner()).changesType(null)) {
 				error.error(getCoords(), "Assignment to an old edge of a type changed edge is not allowed");
 			}
 			target = qual;

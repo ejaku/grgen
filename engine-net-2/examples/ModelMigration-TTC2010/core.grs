@@ -5,15 +5,11 @@ import original_minimal_metamodel.ecore evolved_metamodel.ecore original_model.x
 # Transform nodes
 xgrs transform_FinalState*
 xgrs transform_ActionState*
-xgrs transform_PseudoState_To_Initial*
-xgrs transform_PseudoState_To_Join*
-xgrs transform_PseudoState_To_Fork*
-xgrs transform_PseudoState_To_Decision*
+xgrs transform_PseudoState*
 xgrs transform_ObjectFlowState*
 xgrs transform_CompositeState*
 xgrs transform_Partition*
-xgrs transform_Transition_To_ObjectFlow1*
-xgrs transform_Transition_To_ObjectFlow2*
+xgrs transform_Transition_To_ObjectFlow*
 xgrs transform_Transition_To_ControlFlow*
 xgrs transform_Guard*
 xgrs transform_ActivityGraph*

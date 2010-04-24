@@ -104,6 +104,8 @@ public abstract class Graph extends IR {
 
 	private Set<OrderedReplacement> orderedReplacement = new LinkedHashSet<OrderedReplacement>();
 
+	PatternGraph directlyNestingLHSGraph; // either this or the left graph
+
 	private String nameOfGraph;
 
 	/** Make a new graph. */
@@ -112,6 +114,15 @@ public abstract class Graph extends IR {
 		this.nameOfGraph = nameOfGraph;
 	}
 
+	public void setDirectlyNestingLHSGraph(PatternGraph directlyNestingLHSGraph) {
+		// this is for setting the directlyNestingLHSGraph for a retyped node when it gets added
+		// TODO: in a lot of situations one would need the pointer to the parent node in the AST and in the IR 
+		// a lot of convoluted code making everything unnecessarily complex was written to circumvent the lack thereof
+		// TODO: take care of the major architectural misdecision to not include parent-pointers only allowing top-down processing,
+		// and replace a lot of non understandable side effects by local routines accessing the parent to get the context information needed
+		this.directlyNestingLHSGraph = directlyNestingLHSGraph;
+	}
+	
 	public String getNameOfGraph() {
 		return nameOfGraph;
 	}
@@ -123,9 +134,13 @@ public abstract class Graph extends IR {
 		// Do not include the virtual retyped nodes in the graph.
 		// TODO why??? we could just check in the generator whether this is a retyped node
 		// this would eliminate this unnecessary <code>changesType()</code> stuff
-		if (n.isRetyped())
-			n = ((RetypedNode) n).getOldNode();
-
+		if (n.isRetyped()) {
+			RetypedNode retypedNode = (RetypedNode) n;
+			n = retypedNode.getOldNode();
+			n.setRetypedNode(retypedNode, this);
+			retypedNode.directlyNestingLHSGraph = directlyNestingLHSGraph;
+		}
+		
 		if (!nodes.containsKey(n)) {
 			res = new GraphNode(n);
 			nodes.put(n, res);
@@ -141,9 +156,13 @@ public abstract class Graph extends IR {
 
 		// TODO Batz included this because an analogous invocation can be found
 		// in the method right above, don't exactly whether this makes sense
-		if (e.isRetyped())
-			e = ((RetypedEdge) e).getOldEdge();
-
+		if (e.isRetyped()) {
+			RetypedEdge retypedEdge = (RetypedEdge) e;
+			e = retypedEdge.getOldEdge();
+			e.setRetypedEdge(retypedEdge, this);
+			retypedEdge.directlyNestingLHSGraph = directlyNestingLHSGraph;
+		}
+		
 		if (!edges.containsKey(e)) {
 			res = new GraphEdge(e);
 			edges.put(e, res);

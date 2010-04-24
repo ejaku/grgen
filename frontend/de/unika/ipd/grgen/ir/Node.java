@@ -82,17 +82,19 @@ public class Node extends GraphEntity {
 	/**
 	 * Sets the corresponding retyped version of this node
 	 * @param retyped The retyped node
+	 * @param graph The graph where the node gets retyped
 	 */
-	public void setRetypedNode(Node retyped) {
-		this.retyped = retyped;
+	public void setRetypedNode(Node retyped, Graph graph) {
+		super.setRetypedEntity(retyped, graph);
 	}
 
 	/**
 	 * Returns the corresponding retyped version of this node
+	 * @param graph The graph where the node might get retyped
 	 * @return The retyped version or <code>null</code>
 	 */
-	public RetypedNode getRetypedNode() {
-		return (RetypedNode)this.retyped;
+	public RetypedNode getRetypedNode(Graph graph) {
+		return (RetypedNode)super.getRetypedEntity(graph);
 	}
 
 	public void setPointOfDefinition(PatternGraph pointOfDefinition) {

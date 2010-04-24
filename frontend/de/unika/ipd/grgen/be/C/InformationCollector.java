@@ -561,13 +561,13 @@ public class InformationCollector extends CBackend {
 
 			if (action.getRight() != null) {
 				for ( Node node : action.getRight().getNodes() ) {
-					if(!node.changesType()) continue;
+					if(!node.changesType(action.getRight())) continue;
 
 					int node_num =
 						replacement_node_num.get(act_id).get(node).intValue();
 
 					NodeType old_type = node.getNodeType();
-					NodeType new_type = node.getRetypedNode().getNodeType();
+					NodeType new_type = node.getRetypedNode(action.getRight()).getNodeType();
 
 					if ( ! nodeTypeMap.get(old_type).equals(nodeTypeMap.get(new_type)) )
 						replacementNodeChangesTypeTo[act_id][node_num] =

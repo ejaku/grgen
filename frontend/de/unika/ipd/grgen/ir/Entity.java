@@ -81,7 +81,7 @@ public class Entity extends Identifiable {
 		fields.put("owner", Collections.singleton(owner));
 	}
 
-	/** @return true, if this is a retyped entity, else false */
+	/** @return true, if this is a retyped entity, i.e. the result of a retype, else false */
 	public boolean isRetyped() {
 		return false;
 	}

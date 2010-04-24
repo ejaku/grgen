@@ -172,9 +172,7 @@ public class EdgeTypeChangeNode extends EdgeDeclNode implements EdgeCharacter {
 				isMaybeDeleted(), isMaybeRetyped(), context);
 
 		Edge oldEdge = old.getEdge();
-		oldEdge.setRetypedEdge(res);
 		res.setOldEdge(oldEdge);
-		res.directlyNestingLHSGraph = oldEdge.directlyNestingLHSGraph;
 
 		if (inheritsType()) {
 			res.setTypeof(typeEdgeDecl.checkIR(Edge.class));

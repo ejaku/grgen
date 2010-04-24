@@ -84,17 +84,19 @@ public class Edge extends GraphEntity {
 	/**
 	 * Sets the corresponding retyped version of this edge
 	 * @param retyped The retyped edge
+	 * @param graph The graph where the edge gets retyped
 	 */
-	public void setRetypedEdge(Edge retyped) {
-		this.retyped = retyped;
+	public void setRetypedEdge(Edge retyped, Graph graph) {
+		super.setRetypedEntity(retyped, graph);
 	}
 
 	/**
 	 * Returns the corresponding retyped version of this edge
+	 * @param graph The graph where the edge might get retyped
 	 * @return The retyped version or <code>null</code>
 	 */
-	public RetypedEdge getRetypedEdge() {
-		return (RetypedEdge)this.retyped;
+	public RetypedEdge getRetypedEdge(Graph graph) {
+		return (RetypedEdge)super.getRetypedEntity(graph);
 	}
 
 	/**

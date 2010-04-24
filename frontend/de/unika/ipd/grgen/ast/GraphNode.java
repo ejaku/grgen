@@ -313,7 +313,8 @@ public class GraphNode extends BaseNode {
 	@Override
 	protected IR constructIR() {
 		PatternGraph gr = new PatternGraph(nameOfGraph, 0);
-
+		gr.setDirectlyNestingLHSGraph(directlyNestingLHSGraph.getGraph());
+		
 		for(BaseNode n : connections.getChildren()) {
 			ConnectionCharacter conn = (ConnectionCharacter)n;
 			conn.addToGraph(gr);

@@ -13,6 +13,7 @@ package de.unika.ipd.grgen.ir;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.Map;
+import java.util.HashMap;
 
 import de.unika.ipd.grgen.util.Annotations;
 
@@ -28,7 +29,7 @@ public abstract class GraphEntity extends Entity {
 	protected final Annotations annotations;
 
 	/** The retyped version of this entity if any. */
-	protected GraphEntity retyped = null;
+	protected HashMap<Graph, GraphEntity> retyped = null;
 
 	/** The entity from which this one will inherit its dynamic type */
 	protected GraphEntity typeof = null;
@@ -95,30 +96,43 @@ public abstract class GraphEntity extends Entity {
 		fields.put("typeof", Collections.singleton(typeof));
 	}
 
-	/** @return true, if this is a retyped entity */
+	/** @return true, if this is a retyped entity, i.e. the result of a retype, else false */
 	public boolean isRetyped() {
 		return false;
 	}
 
-	/** @return true, if this entity changes its type */
-	public boolean changesType() {
-		return retyped != null;
+	/** 
+	 * @return true, if this entity changes its type
+	 * @param graph The graph where the entity is queried to change its type; 
+	 * if null any graph will match, i.e. return is true as soon as one graph exists where type changes
+	 */
+	public boolean changesType(Graph graph) {
+		if(graph==null) return this.retyped != null;
+		return getRetypedEntity(graph) != null;
 	}
 
 	/**
 	 * Sets the corresponding retyped version of this entity
 	 * @param retyped The retyped version
+	 * @param graph The graph where the entity gets retyped
 	 */
-	public void setRetypedEntity(GraphEntity retyped) {
-		this.retyped = retyped;
+	public void setRetypedEntity(GraphEntity retyped, Graph graph) {
+		if(this.retyped==null) {
+			this.retyped = new HashMap<Graph, GraphEntity>();
+		}
+		this.retyped.put(graph, retyped);
 	}
 
 	/**
 	 * Returns the corresponding retyped version of this entity
+	 * @param graph The graph where the entity might get retyped
 	 * @return The retyped version or <code>null</code>
 	 */
-	public GraphEntity getRetypedEntity() {
-		return this.retyped;
+	public GraphEntity getRetypedEntity(Graph graph) {
+		if(this.retyped==null) {
+			return null;
+		}
+		return this.retyped.get(graph);
 	}
 
 	/** Get the entity from which this entity inherits its dynamic type */
