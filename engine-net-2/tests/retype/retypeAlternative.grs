@@ -1,0 +1,215 @@
+new graph retype/retype
+
+show num nodes
+show num edges
+show num nodes only "AA"
+show num nodes only "BB"
+show num nodes only "CA"
+show num nodes only "CB"
+show num nodes only "CAB"
+show num nodes only "CACB"
+show num nodes only "A"
+show num nodes only "B"
+show num nodes only "C"
+show num edges only "EAA"
+show num edges only "EBB"
+show num edges only "ECA"
+show num edges only "ECB"
+show num edges only "ECAB"
+show num edges only "ECACB"
+show num edges only "EA"
+show num edges only "EB"
+show num edges only "EC"
+xgrs (n0,n1,n2,n3,n4,e1,e2,e3,e4,e0)=Init
+show node n0
+show node n1
+show node n2
+show node n3
+show node n4
+show num nodes
+show num edges
+show num nodes only "AA"
+show num nodes only "BB"
+show num nodes only "CA"
+show num nodes only "CB"
+show num nodes only "CAB"
+show num nodes only "CACB"
+show num nodes only "A"
+show num nodes only "B"
+show num nodes only "C"
+show num edges only "EAA"
+show num edges only "EBB"
+show num edges only "ECA"
+show num edges only "ECB"
+show num edges only "ECAB"
+show num edges only "ECACB"
+show num edges only "EA"
+show num edges only "EB"
+show num edges only "EC"
+xgrs AcrosstoBorC
+show node n0
+show node n1
+show node n2
+show node n3
+show node n4
+show num nodes
+show num edges
+show num nodes only "AA"
+show num nodes only "BB"
+show num nodes only "CA"
+show num nodes only "CB"
+show num nodes only "CAB"
+show num nodes only "CACB"
+show num nodes only "A"
+show num nodes only "B"
+show num nodes only "C"
+show num edges only "EAA"
+show num edges only "EBB"
+show num edges only "ECA"
+show num edges only "ECB"
+show num edges only "ECAB"
+show num edges only "ECACB"
+show num edges only "EA"
+show num edges only "EB"
+show num edges only "EC"
+xgrs a42to33
+show node n0
+show node n1
+show node n2
+show node n3
+show node n4
+show num nodes
+show num edges
+show num nodes only "AA"
+show num nodes only "BB"
+show num nodes only "CA"
+show num nodes only "CB"
+show num nodes only "CAB"
+show num nodes only "CACB"
+show num nodes only "A"
+show num nodes only "B"
+show num nodes only "C"
+show num edges only "EAA"
+show num edges only "EBB"
+show num edges only "ECA"
+show num edges only "ECB"
+show num edges only "ECAB"
+show num edges only "ECACB"
+show num edges only "EA"
+show num edges only "EB"
+show num edges only "EC"
+xgrs AcrosstoBorC
+show node n0
+show node n1
+show node n2
+show node n3
+show node n4
+show num nodes
+show num edges
+show num nodes only "AA"
+show num nodes only "BB"
+show num nodes only "CA"
+show num nodes only "CB"
+show num nodes only "CAB"
+show num nodes only "CACB"
+show num nodes only "A"
+show num nodes only "B"
+show num nodes only "C"
+show num edges only "EAA"
+show num edges only "EBB"
+show num edges only "ECA"
+show num edges only "ECB"
+show num edges only "ECAB"
+show num edges only "ECACB"
+show num edges only "EA"
+show num edges only "EB"
+show num edges only "EC"
+show edge e0
+show edge e1
+show edge e2
+show edge e3
+show edge e4
+xgrs EBcrosstoEAorEC
+show edge e0
+show edge e1
+show edge e2
+show edge e3
+show edge e4
+show num nodes
+show num edges
+show num nodes only "AA"
+show num nodes only "BB"
+show num nodes only "CA"
+show num nodes only "CB"
+show num nodes only "CAB"
+show num nodes only "CACB"
+show num nodes only "A"
+show num nodes only "B"
+show num nodes only "C"
+show num edges only "EAA"
+show num edges only "EBB"
+show num edges only "ECA"
+show num edges only "ECB"
+show num edges only "ECAB"
+show num edges only "ECACB"
+show num edges only "EA"
+show num edges only "EB"
+show num edges only "EC"
+xgrs ebtobar
+show edge e0
+show edge e1
+show edge e2
+show edge e3
+show edge e4
+show num nodes
+show num edges
+show num nodes only "AA"
+show num nodes only "BB"
+show num nodes only "CA"
+show num nodes only "CB"
+show num nodes only "CAB"
+show num nodes only "CACB"
+show num nodes only "A"
+show num nodes only "B"
+show num nodes only "C"
+show num edges only "EAA"
+show num edges only "EBB"
+show num edges only "ECA"
+show num edges only "ECB"
+show num edges only "ECAB"
+show num edges only "ECACB"
+show num edges only "EA"
+show num edges only "EB"
+show num edges only "EC"
+xgrs EBcrosstoEAorEC
+show edge e0
+show edge e1
+show edge e2
+show edge e3
+show edge e4
+show num nodes
+show num edges
+show num nodes only "AA"
+show num nodes only "BB"
+show num nodes only "CA"
+show num nodes only "CB"
+show num nodes only "CAB"
+show num nodes only "CACB"
+show num nodes only "A"
+show num nodes only "B"
+show num nodes only "C"
+show num edges only "EAA"
+show num edges only "EBB"
+show num edges only "ECA"
+show num edges only "ECB"
+show num edges only "ECAB"
+show num edges only "ECACB"
+show num edges only "EA"
+show num edges only "EB"
+show num edges only "EC"
+show node n0
+show node n1
+show node n2
+show node n3
+show node n4
+quit

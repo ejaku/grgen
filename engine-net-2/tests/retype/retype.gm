@@ -1,0 +1,71 @@
+node class A
+{
+	a:int = 42;
+}
+
+node class B
+{
+	b:string = "foo";
+}
+
+node class C
+{
+	c:boolean = true;
+}
+
+node class AA extends A
+{
+	a = 66;
+	aa:int = 1;
+}
+
+node class BB extends B
+{
+	b = "foool";
+	bb:string = "ha";
+}
+
+node class CA extends C, A
+{
+	d:string = "bar";
+}
+
+node class CB extends C, B;
+node class CAB extends CA, B;
+node class CACB extends CA, CB;
+
+edge class EA
+{
+	a:int = 42;
+}
+
+edge class EB
+{
+	b:string = "foo";
+}
+
+edge class EC
+{
+	c:boolean = true;
+}
+
+edge class EAA extends EA
+{
+	a = 66;
+	aa:int = 1;
+}
+
+edge class EBB extends EB
+{
+	b = "foool";
+	bb:string = "ha";
+}
+
+edge class ECA extends EC, EA
+{
+	d:string = "bar";
+}
+
+edge class ECB extends EC, EB;
+edge class ECAB extends ECA, EB;
+edge class ECACB extends ECA, ECB;

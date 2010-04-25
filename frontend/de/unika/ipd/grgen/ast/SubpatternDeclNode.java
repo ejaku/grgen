@@ -324,7 +324,7 @@ public class SubpatternDeclNode extends ActionDeclNode  {
 		for(AlternativeNode alt : pattern.alts.getChildren()) {
 			for(AlternativeCaseNode altCase : alt.getChildren()) {
 				if(right.getChildren().size()!=altCase.right.getChildren().size()) {
-					error.error(getCoords(), "Different number of replacement patterns in subpattern " + ident.toString()
+					error.error(getCoords(), "Different number of replacement patterns/rewrite parts in subpattern " + ident.toString()
 							+ " and nested alternative case " + altCase.ident.toString());
 					res = false;
 					continue;
@@ -345,7 +345,7 @@ public class SubpatternDeclNode extends ActionDeclNode  {
 		
 		for(IteratedNode iter : pattern.iters.getChildren()) {
 			if(right.getChildren().size()!=iter.right.getChildren().size()) {
-				error.error(getCoords(), "Different number of replacement patterns in subpattern " + ident.toString()
+				error.error(getCoords(), "Different number of replacement patterns/rewrite partss in subpattern " + ident.toString()
 						+ " and nested iterated/multiple/optional " + iter.ident.toString());
 				res = false;
 				continue;

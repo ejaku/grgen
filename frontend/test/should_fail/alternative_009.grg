@@ -1,0 +1,17 @@
+rule alttest
+{
+    alternative // missing nested modifies, error but no abnormal end plz
+    {
+        alt1
+        {
+			-y:Edge->;
+        }
+        alt2
+        {
+            x:Node;
+        }
+    }
+	
+	modify {
+	}
+}

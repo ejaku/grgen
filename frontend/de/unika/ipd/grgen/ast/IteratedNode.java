@@ -302,7 +302,7 @@ public class IteratedNode extends ActionDeclNode  {
 		for(AlternativeNode alt : pattern.alts.getChildren()) {
 			for(AlternativeCaseNode altCase : alt.getChildren()) {
 				if(right.getChildren().size()!=altCase.right.getChildren().size()) {
-					error.error(getCoords(), "Different number of replacement patterns in iterated/multiple/optional " + ident.toString()
+					error.error(getCoords(), "Different number of replacement patterns/rewrite parts in iterated/multiple/optional " + ident.toString()
 							+ " and nested alternative case " + altCase.ident.toString());
 					res = false;
 					continue;
@@ -323,7 +323,7 @@ public class IteratedNode extends ActionDeclNode  {
 		
 		for(IteratedNode iter : pattern.iters.getChildren()) {
 			if(right.getChildren().size()!=iter.right.getChildren().size()) {
-				error.error(getCoords(), "Different number of replacement patterns in iterated/multiple/optional " + ident.toString()
+				error.error(getCoords(), "Different number of replacement patterns/rewrite parts in iterated/multiple/optional " + ident.toString()
 						+ " and nested iterated/multiple/optional " + iter.ident.toString());
 				res = false;
 				continue;
@@ -405,6 +405,7 @@ public class IteratedNode extends ActionDeclNode  {
 
 		boolean noDeleteOfPatternParameters = true;
 		boolean abstr = true;
+		boolean noRetype = true;
 
 		for (int i = 0; i < right.getChildren().size(); i++) {
     		GraphNode right = this.right.children.get(i).graph;
@@ -423,17 +424,27 @@ public class IteratedNode extends ActionDeclNode  {
     				error.error(node.getCoords(), "Instances of abstract nodes are not allowed");
     				abstr = false;
     			}
+    			if(maxMatches!=1 && node instanceof NodeTypeChangeNode) {
+    				// todo: this must be checked for every recursively contained node
+    				error.error(node.getCoords(), "Retype of nodes only allowed in optional, not in multiple/iterated (if pattern cardinality construct can get matched more than once)");
+    				noRetype = false;
+    			}
     		}
     		for(EdgeDeclNode edge : right.getEdges()) {
     			if(!edge.inheritsType() && edge.getDeclType().isAbstract() && !pattern.getEdges().contains(edge)) {
     				error.error(edge.getCoords(), "Instances of abstract edges are not allowed");
     				abstr = false;
     			}
+    			if(maxMatches!=1 && edge instanceof EdgeTypeChangeNode) {
+    				// todo: this must be checked for every recursively contained edge
+    				error.error(edge.getCoords(), "Retype of edges only allowed in optional, not in multiple/iterated (if pattern cardinality construct can get matched more than once)");
+    				noRetype = false;
+    			}
     		}
 		}
 
 		return leftHandGraphsOk & noDeleteOfPatternParameters & SameNumberOfRewritePartsAndNoNestedRewriteParameters()
-			& checkRhsReuse() & noReturnInPatternOk & noReturnInAlterntiveCaseReplacement & abstr
+			& checkRhsReuse() & noReturnInPatternOk & noReturnInAlterntiveCaseReplacement & abstr & noRetype
 			& noDeletionOfElementsFromNestingPattern() & noExecNoEmit();
 	}
 

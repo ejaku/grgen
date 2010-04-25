@@ -1,0 +1,214 @@
+using retype;
+
+rule Init : (C, A, AA, B, BB, EA, EAA, EB, EBB, Edge)
+{
+	modify {
+		n0:C;
+		n0 -e1:EA-> n1:A;
+		n0 <-e2:EAA- n2:AA;
+		n0 -e3:EB-> n3:B;
+		n0 <-e4:EBB- n4:BB -e0:Edge-> n4;
+		return(n0,n1,n2,n3,n4,e1,e2,e3,e4,e0);
+	}
+}
+
+rule AAdowntoA
+{
+	n2:AA;
+	
+	modify {
+		:A<n2>;
+	}
+}
+
+rule BBcrosstoCB
+{
+	n4:BB;
+	
+	modify {
+		:CB<n4>;
+	}
+}
+
+rule CuptoCA
+{
+	n0:C;
+	
+	modify {
+		:CA<n0>;
+	}
+}
+
+rule CAuptoCAB
+{
+	n0:CA;
+	
+	modify {
+		:CAB<n0>;
+	}
+}
+
+rule CABcrosstoCACB
+{
+	n0:CAB;
+	
+	modify {
+		:CACB<n0>;
+	}
+}
+
+rule EAAdowntoEA
+{
+	-e2:EAA->;
+	
+	modify {
+		-:EA<e2>->;
+	}
+}
+
+rule EBBcrosstoECB
+{
+	-e4:EBB->;
+	
+	modify {
+		-:ECB<e4>->;
+	}
+}
+
+rule ECBuptoECACB
+{
+	-e4:ECB->;
+	
+	modify {
+		-:ECACB<e4>->;
+	}
+}
+
+rule AcrosstoBorC
+{
+	n:A;
+
+	alternative {
+		A33toB {
+			if{ n.a == 33; }
+			
+			modify {
+				:B<n>;
+			}
+		}
+		A66toC {
+			if{ n.a == 66; }
+			
+			modify {
+				:C<n>;
+			}
+		}
+	}
+	
+	modify { }
+}
+
+rule AcrosstoBopt
+{
+	n:A;
+
+	optional {
+		if{ n.a == 33; }
+		
+		modify {
+			:B<n>;
+		}
+	}
+	
+	modify { }
+}
+
+rule AcrosstoCopt
+{
+	n:A;
+
+	optional {
+		if{ n.a == 66; }
+		
+		modify {
+			:C<n>;
+		}
+	}
+	
+	modify { }
+}
+
+rule a42to33
+{
+	n:A;
+	
+	if{ n.a == 42; }
+	
+	modify {
+		eval { n.a = 33; }
+	}
+}
+
+rule EBcrosstoEAorEC
+{
+	-e:EB->;
+
+	alternative {
+		EBbartoEA {
+			if{ e.b == "bar"; }
+			
+			modify {
+				-:EA<e>->;
+			}
+		}
+		EBfootoEC {
+			if{ e.b == "foo"; }
+			
+			modify {
+				-:EC<e>->;
+			}
+		}
+	}
+	
+	modify { }
+}
+
+rule EBcrosstoEAopt
+{
+	-e:EB->;
+
+	multiple {
+		if{ e.b == "bar"; }
+		
+		modify {
+			-:EA<e>->;
+		}
+	}
+	
+	modify { }
+}
+
+rule EBcrosstoECopt
+{
+	-e:EB->;
+
+	iterated {
+		if{ e.b == "foo"; }
+		
+		modify {
+			-:EC<e>->;
+		}
+	}
+	
+	modify { }
+}
+
+rule ebtobar
+{
+	-e:EB->;
+		
+	modify {
+		eval { e.b = "bar"; }
+	}
+}
+
