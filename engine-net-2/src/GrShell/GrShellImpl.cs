@@ -143,7 +143,7 @@ namespace de.unika.ipd.grGen.grShell
 
         public static void PrintVersion()
         {
-            Console.WriteLine(VersionString + " ($Revision$)");
+            Console.WriteLine(VersionString + " ($Revision$) (type \"help\" for a list of commands)");
         }
 
         private bool BackendExists()

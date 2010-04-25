@@ -1516,7 +1516,7 @@
             Imports a graph model from the ECore format.
             </summary>
         </member>
-        <member name="M:de.unika.ipd.grGen.libGr.ECoreImport.Import(de.unika.ipd.grGen.libGr.IBackend,System.Collections.Generic.List{System.String},System.String,System.String)">
+        <member name="M:de.unika.ipd.grGen.libGr.ECoreImport.Import(de.unika.ipd.grGen.libGr.IBackend,System.Collections.Generic.List{System.String},System.String,System.String,System.Boolean)">
             <summary>
             Creates a new graph from the given ECore metamodels.
             If a grg file is given, the graph will use the graph model declared in it and the according
@@ -1528,6 +1528,7 @@
             <param name="ecoreFilenames">A list of ECore model specification files. It must at least contain one element.</param>
             <param name="grgFilename">A grg file to be used to create the graph, or null.</param>
             <param name="xmiFilename">The filename of the model instance to be imported, or null.</param>
+            <param name="noPackageNamePrefix">Prefix the types with the name of the package? Can only be used if names from the packages are disjoint.</param>
         </member>
         <member name="T:de.unika.ipd.grGen.libGr.IDumper">
             <summary>
