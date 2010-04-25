@@ -1,9 +1,10 @@
-// This file has been generated automatically by GrGen.
+// This file has been generated automatically by GrGen (www.grgen.net)
 // Do not modify this file! Any changes will be lost!
-// Generated from "..\..\tests\iterated\spanningTree.grg" on Tue Jan 12 22:54:01 CET 2010
+// Generated from "..\..\tests\iterated\spanningTree.grg" on Sun Apr 25 15:44:52 CEST 2010
 
 using System;
 using System.Collections.Generic;
+using System.Collections;
 using System.Text;
 using GRGEN_LIBGR = de.unika.ipd.grGen.libGr;
 using GRGEN_LGSP = de.unika.ipd.grGen.lgsp;
@@ -28,6 +29,7 @@ namespace de.unika.ipd.grGen.Action_spanningTree
 
 
 
+
 		GRGEN_LGSP.PatternGraph pat_SpanningTree;
 
 		public static GRGEN_LIBGR.NodeType[] SpanningTree_iter_0_node_next_AllowedTypes = null;
@@ -40,6 +42,7 @@ namespace de.unika.ipd.grGen.Action_spanningTree
 		public enum SpanningTree_iter_0_SubNums { @sptr, };
 		public enum SpanningTree_iter_0_AltNums { };
 		public enum SpanningTree_iter_0_IterNums { };
+
 
 
 
@@ -495,6 +498,7 @@ namespace de.unika.ipd.grGen.Action_spanningTree
 
 
 
+
 		GRGEN_LGSP.PatternGraph pat_SpanningTreeReverse;
 
 		public static GRGEN_LIBGR.NodeType[] SpanningTreeReverse_iter_0_node_next_AllowedTypes = null;
@@ -507,6 +511,7 @@ namespace de.unika.ipd.grGen.Action_spanningTree
 		public enum SpanningTreeReverse_iter_0_SubNums { @sptrr, };
 		public enum SpanningTreeReverse_iter_0_AltNums { };
 		public enum SpanningTreeReverse_iter_0_IterNums { };
+
 
 
 
@@ -973,6 +978,7 @@ namespace de.unika.ipd.grGen.Action_spanningTree
 		public enum SpanningTreeOutgoing_IterNums { @iter_0, };
 
 
+
 		GRGEN_LGSP.PatternGraph pat_SpanningTreeOutgoing;
 
 		public static GRGEN_LIBGR.NodeType[] SpanningTreeOutgoing_iter_0_node_next_AllowedTypes = null;
@@ -985,6 +991,7 @@ namespace de.unika.ipd.grGen.Action_spanningTree
 		public enum SpanningTreeOutgoing_iter_0_SubNums { @_subpattern0, };
 		public enum SpanningTreeOutgoing_iter_0_AltNums { };
 		public enum SpanningTreeOutgoing_iter_0_IterNums { };
+
 
 
 		GRGEN_LGSP.PatternGraph SpanningTreeOutgoing_iter_0;
@@ -1376,6 +1383,7 @@ namespace de.unika.ipd.grGen.Action_spanningTree
 		public enum SpanningTreeIncoming_IterNums { @iter_0, };
 
 
+
 		GRGEN_LGSP.PatternGraph pat_SpanningTreeIncoming;
 
 		public static GRGEN_LIBGR.NodeType[] SpanningTreeIncoming_iter_0_node_next_AllowedTypes = null;
@@ -1388,6 +1396,7 @@ namespace de.unika.ipd.grGen.Action_spanningTree
 		public enum SpanningTreeIncoming_iter_0_SubNums { @_subpattern0, };
 		public enum SpanningTreeIncoming_iter_0_AltNums { };
 		public enum SpanningTreeIncoming_iter_0_IterNums { };
+
 
 
 		GRGEN_LGSP.PatternGraph SpanningTreeIncoming_iter_0;
@@ -1778,6 +1787,7 @@ namespace de.unika.ipd.grGen.Action_spanningTree
 
 
 
+
 		GRGEN_LGSP.PatternGraph pat_initTree;
 
 
@@ -2001,6 +2011,7 @@ namespace de.unika.ipd.grGen.Action_spanningTree
 
 
 
+
 		GRGEN_LGSP.PatternGraph pat_initUndirected;
 
 
@@ -2209,6 +2220,7 @@ namespace de.unika.ipd.grGen.Action_spanningTree
 		public enum initDirected_SubNums { };
 		public enum initDirected_AltNums { };
 		public enum initDirected_IterNums { };
+
 
 
 
@@ -2425,6 +2437,7 @@ namespace de.unika.ipd.grGen.Action_spanningTree
 
 
 
+
 		GRGEN_LGSP.PatternGraph pat_spanningTree;
 
 
@@ -2633,6 +2646,7 @@ namespace de.unika.ipd.grGen.Action_spanningTree
 		public enum edgesVisited_IterNums { };
 
 
+
 		GRGEN_LGSP.PatternGraph pat_edgesVisited;
 
 
@@ -2653,7 +2667,7 @@ namespace de.unika.ipd.grGen.Action_spanningTree
 			int[] edgesVisited_minMatches = new int[0] ;
 			int[] edgesVisited_maxMatches = new int[0] ;
 			GRGEN_LGSP.PatternEdge edgesVisited_edge_e = new GRGEN_LGSP.PatternEdge(false, (int) GRGEN_MODEL.EdgeTypes.@UEdge, "GRGEN_LIBGR.IEdge", "edgesVisited_edge_e", "e", edgesVisited_edge_e_AllowedTypes, edgesVisited_edge_e_IsAllowedType, 5.5F, -1, false);
-			GRGEN_LGSP.PatternCondition cond_0 = new GRGEN_LGSP.PatternCondition(
+			GRGEN_LGSP.PatternCondition edgesVisited_cond_0 = new GRGEN_LGSP.PatternCondition(
 				new GRGEN_EXPR.Visited("edgesVisited_edge_e", new GRGEN_EXPR.Constant("0")),
 				new string[] {  }, new string[] { "edgesVisited_edge_e" }, new string[] {  }, new GRGEN_LIBGR.VarType[] {  });
 			pat_edgesVisited = new GRGEN_LGSP.PatternGraph(
@@ -2670,7 +2684,7 @@ namespace de.unika.ipd.grGen.Action_spanningTree
 				edgesVisited_maxMatches,
 				new GRGEN_LGSP.PatternGraph[] {  }, 
 				new GRGEN_LGSP.PatternGraph[] {  }, 
-				new GRGEN_LGSP.PatternCondition[] { cond_0,  }, 
+				new GRGEN_LGSP.PatternCondition[] { edgesVisited_cond_0,  }, 
 				new bool[0, 0] ,
 				new bool[1, 1] {
 					{ true, },
@@ -2820,6 +2834,7 @@ namespace de.unika.ipd.grGen.Action_spanningTree
 		public enum nodesVisited_IterNums { };
 
 
+
 		GRGEN_LGSP.PatternGraph pat_nodesVisited;
 
 
@@ -2840,7 +2855,7 @@ namespace de.unika.ipd.grGen.Action_spanningTree
 			int[] nodesVisited_minMatches = new int[0] ;
 			int[] nodesVisited_maxMatches = new int[0] ;
 			GRGEN_LGSP.PatternNode nodesVisited_node_n = new GRGEN_LGSP.PatternNode((int) GRGEN_MODEL.NodeTypes.@Node, "GRGEN_LIBGR.INode", "nodesVisited_node_n", "n", nodesVisited_node_n_AllowedTypes, nodesVisited_node_n_IsAllowedType, 5.5F, -1, false);
-			GRGEN_LGSP.PatternCondition cond_0 = new GRGEN_LGSP.PatternCondition(
+			GRGEN_LGSP.PatternCondition nodesVisited_cond_0 = new GRGEN_LGSP.PatternCondition(
 				new GRGEN_EXPR.Visited("nodesVisited_node_n", new GRGEN_EXPR.Constant("0")),
 				new string[] { "nodesVisited_node_n" }, new string[] {  }, new string[] {  }, new GRGEN_LIBGR.VarType[] {  });
 			pat_nodesVisited = new GRGEN_LGSP.PatternGraph(
@@ -2857,7 +2872,7 @@ namespace de.unika.ipd.grGen.Action_spanningTree
 				nodesVisited_maxMatches,
 				new GRGEN_LGSP.PatternGraph[] {  }, 
 				new GRGEN_LGSP.PatternGraph[] {  }, 
-				new GRGEN_LGSP.PatternCondition[] { cond_0,  }, 
+				new GRGEN_LGSP.PatternCondition[] { nodesVisited_cond_0,  }, 
 				new bool[1, 1] {
 					{ true, },
 				},
@@ -3005,6 +3020,7 @@ namespace de.unika.ipd.grGen.Action_spanningTree
 		public enum spanningTreeReverse_SubNums { @sptrr, };
 		public enum spanningTreeReverse_AltNums { };
 		public enum spanningTreeReverse_IterNums { };
+
 
 
 
@@ -3212,6 +3228,7 @@ namespace de.unika.ipd.grGen.Action_spanningTree
 		public enum spanningTreeOutgoing_IterNums { };
 
 
+
 		GRGEN_LGSP.PatternGraph pat_spanningTreeOutgoing;
 
 
@@ -3406,6 +3423,7 @@ namespace de.unika.ipd.grGen.Action_spanningTree
 		public enum spanningTreeIncoming_SubNums { @_subpattern0, };
 		public enum spanningTreeIncoming_AltNums { };
 		public enum spanningTreeIncoming_IterNums { };
+
 
 
 		GRGEN_LGSP.PatternGraph pat_spanningTreeIncoming;

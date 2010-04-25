@@ -1,6 +1,6 @@
-// This file has been generated automatically by GrGen.
+// This file has been generated automatically by GrGen (www.grgen.net)
 // Do not modify this file! Any changes will be lost!
-// Generated from "..\..\examples\JavaProgramGraphs-GraBaTs08\JavaProgramGraphs.grg" on Tue Jan 12 22:54:08 CET 2010
+// Generated from "..\..\examples\JavaProgramGraphs-GraBaTs08\JavaProgramGraphs.grg" on Sun Apr 25 15:44:56 CEST 2010
 
 using System;
 using System.Collections.Generic;

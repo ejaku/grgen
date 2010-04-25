@@ -1,9 +1,10 @@
-// This file has been generated automatically by GrGen.
+// This file has been generated automatically by GrGen (www.grgen.net)
 // Do not modify this file! Any changes will be lost!
-// Generated from "..\..\examples\ProgramGraphs\ProgramGraphs.grg" on Tue Jan 12 22:54:29 CET 2010
+// Generated from "..\..\examples\ProgramGraphs\ProgramGraphs.grg" on Sun Apr 25 15:45:04 CEST 2010
 
 using System;
 using System.Collections.Generic;
+using System.Collections;
 using System.Text;
 using GRGEN_LIBGR = de.unika.ipd.grGen.libGr;
 using GRGEN_LGSP = de.unika.ipd.grGen.lgsp;
@@ -27,6 +28,7 @@ namespace de.unika.ipd.grGen.Action_ProgramGraphs
 		public enum Subclasses_IterNums { @iter_0, };
 
 
+
 		GRGEN_LGSP.PatternGraph pat_Subclasses;
 
 		public static GRGEN_LIBGR.NodeType[] Subclasses_iter_0_node_sub_AllowedTypes = null;
@@ -39,6 +41,7 @@ namespace de.unika.ipd.grGen.Action_ProgramGraphs
 		public enum Subclasses_iter_0_SubNums { @_subpattern0, };
 		public enum Subclasses_iter_0_AltNums { };
 		public enum Subclasses_iter_0_IterNums { };
+
 
 
 		GRGEN_LGSP.PatternGraph Subclasses_iter_0;
@@ -430,6 +433,7 @@ namespace de.unika.ipd.grGen.Action_ProgramGraphs
 		public enum Subclass_IterNums { };
 
 
+
 		GRGEN_LGSP.PatternGraph pat_Subclass;
 
 
@@ -639,6 +643,7 @@ namespace de.unika.ipd.grGen.Action_ProgramGraphs
 		public enum Features_IterNums { @iter_0, };
 
 
+
 		GRGEN_LGSP.PatternGraph pat_Features;
 
 		public enum Features_iter_0_NodeNums { @c, };
@@ -647,6 +652,7 @@ namespace de.unika.ipd.grGen.Action_ProgramGraphs
 		public enum Features_iter_0_SubNums { @_subpattern0, };
 		public enum Features_iter_0_AltNums { };
 		public enum Features_iter_0_IterNums { };
+
 
 
 		GRGEN_LGSP.PatternGraph Features_iter_0;
@@ -1011,6 +1017,7 @@ namespace de.unika.ipd.grGen.Action_ProgramGraphs
 		public enum FeaturePattern_IterNums { };
 
 
+
 		GRGEN_LGSP.PatternGraph pat_FeaturePattern;
 
 		public enum FeaturePattern_alt_0_CaseNums { @MethodBody, @MethodSignature, @Variable, @Konstante, };
@@ -1024,6 +1031,7 @@ namespace de.unika.ipd.grGen.Action_ProgramGraphs
 		public enum FeaturePattern_alt_0_MethodBody_SubNums { @_subpattern0, @_subpattern1, };
 		public enum FeaturePattern_alt_0_MethodBody_AltNums { };
 		public enum FeaturePattern_alt_0_MethodBody_IterNums { };
+
 
 
 		GRGEN_LGSP.PatternGraph FeaturePattern_alt_0_MethodBody;
@@ -1040,6 +1048,7 @@ namespace de.unika.ipd.grGen.Action_ProgramGraphs
 		public enum FeaturePattern_alt_0_MethodSignature_IterNums { };
 
 
+
 		GRGEN_LGSP.PatternGraph FeaturePattern_alt_0_MethodSignature;
 
 		public static GRGEN_LIBGR.NodeType[] FeaturePattern_alt_0_Variable_node__node0_AllowedTypes = null;
@@ -1054,6 +1063,7 @@ namespace de.unika.ipd.grGen.Action_ProgramGraphs
 		public enum FeaturePattern_alt_0_Variable_IterNums { };
 
 
+
 		GRGEN_LGSP.PatternGraph FeaturePattern_alt_0_Variable;
 
 		public static GRGEN_LIBGR.NodeType[] FeaturePattern_alt_0_Konstante_node__node0_AllowedTypes = null;
@@ -1066,6 +1076,7 @@ namespace de.unika.ipd.grGen.Action_ProgramGraphs
 		public enum FeaturePattern_alt_0_Konstante_SubNums { };
 		public enum FeaturePattern_alt_0_Konstante_AltNums { };
 		public enum FeaturePattern_alt_0_Konstante_IterNums { };
+
 
 
 		GRGEN_LGSP.PatternGraph FeaturePattern_alt_0_Konstante;
@@ -2003,6 +2014,7 @@ namespace de.unika.ipd.grGen.Action_ProgramGraphs
 		public enum Parameters_IterNums { @iter_0, };
 
 
+
 		GRGEN_LGSP.PatternGraph pat_Parameters;
 
 		public enum Parameters_iter_0_NodeNums { @b, };
@@ -2011,6 +2023,7 @@ namespace de.unika.ipd.grGen.Action_ProgramGraphs
 		public enum Parameters_iter_0_SubNums { @_subpattern0, };
 		public enum Parameters_iter_0_AltNums { };
 		public enum Parameters_iter_0_IterNums { };
+
 
 
 		GRGEN_LGSP.PatternGraph Parameters_iter_0;
@@ -2375,6 +2388,7 @@ namespace de.unika.ipd.grGen.Action_ProgramGraphs
 		public enum Parameter_IterNums { };
 
 
+
 		GRGEN_LGSP.PatternGraph pat_Parameter;
 
 		public enum Parameter_alt_0_CaseNums { @Variable, @Konstante, };
@@ -2390,6 +2404,7 @@ namespace de.unika.ipd.grGen.Action_ProgramGraphs
 		public enum Parameter_alt_0_Variable_IterNums { };
 
 
+
 		GRGEN_LGSP.PatternGraph Parameter_alt_0_Variable;
 
 		public static GRGEN_LIBGR.NodeType[] Parameter_alt_0_Konstante_node_c_AllowedTypes = null;
@@ -2402,6 +2417,7 @@ namespace de.unika.ipd.grGen.Action_ProgramGraphs
 		public enum Parameter_alt_0_Konstante_SubNums { };
 		public enum Parameter_alt_0_Konstante_AltNums { };
 		public enum Parameter_alt_0_Konstante_IterNums { };
+
 
 
 		GRGEN_LGSP.PatternGraph Parameter_alt_0_Konstante;
@@ -2959,6 +2975,7 @@ namespace de.unika.ipd.grGen.Action_ProgramGraphs
 		public enum Statements_IterNums { @iter_0, };
 
 
+
 		GRGEN_LGSP.PatternGraph pat_Statements;
 
 		public enum Statements_iter_0_NodeNums { @b, };
@@ -2967,6 +2984,7 @@ namespace de.unika.ipd.grGen.Action_ProgramGraphs
 		public enum Statements_iter_0_SubNums { @_subpattern0, };
 		public enum Statements_iter_0_AltNums { };
 		public enum Statements_iter_0_IterNums { };
+
 
 
 		GRGEN_LGSP.PatternGraph Statements_iter_0;
@@ -3331,6 +3349,7 @@ namespace de.unika.ipd.grGen.Action_ProgramGraphs
 		public enum Statement_IterNums { };
 
 
+
 		GRGEN_LGSP.PatternGraph pat_Statement;
 
 		public enum Statement_alt_0_CaseNums { @Assignment, @Call, @Return, };
@@ -3346,6 +3365,7 @@ namespace de.unika.ipd.grGen.Action_ProgramGraphs
 		public enum Statement_alt_0_Assignment_SubNums { @_subpattern0, };
 		public enum Statement_alt_0_Assignment_AltNums { };
 		public enum Statement_alt_0_Assignment_IterNums { };
+
 
 
 		GRGEN_LGSP.PatternGraph Statement_alt_0_Assignment;
@@ -3364,6 +3384,7 @@ namespace de.unika.ipd.grGen.Action_ProgramGraphs
 		public enum Statement_alt_0_Call_IterNums { };
 
 
+
 		GRGEN_LGSP.PatternGraph Statement_alt_0_Call;
 
 		public static GRGEN_LIBGR.NodeType[] Statement_alt_0_Return_node_e_AllowedTypes = null;
@@ -3378,6 +3399,7 @@ namespace de.unika.ipd.grGen.Action_ProgramGraphs
 		public enum Statement_alt_0_Return_SubNums { };
 		public enum Statement_alt_0_Return_AltNums { };
 		public enum Statement_alt_0_Return_IterNums { };
+
 
 
 		GRGEN_LGSP.PatternGraph Statement_alt_0_Return;
@@ -4171,6 +4193,7 @@ namespace de.unika.ipd.grGen.Action_ProgramGraphs
 		public enum Expressions_IterNums { @iter_0, };
 
 
+
 		GRGEN_LGSP.PatternGraph pat_Expressions;
 
 		public enum Expressions_iter_0_NodeNums { @e, };
@@ -4179,6 +4202,7 @@ namespace de.unika.ipd.grGen.Action_ProgramGraphs
 		public enum Expressions_iter_0_SubNums { @_subpattern0, };
 		public enum Expressions_iter_0_AltNums { };
 		public enum Expressions_iter_0_IterNums { };
+
 
 
 		GRGEN_LGSP.PatternGraph Expressions_iter_0;
@@ -4547,6 +4571,7 @@ namespace de.unika.ipd.grGen.Action_ProgramGraphs
 		public enum ExpressionPattern_IterNums { };
 
 
+
 		GRGEN_LGSP.PatternGraph pat_ExpressionPattern;
 
 		public enum ExpressionPattern_alt_0_CaseNums { @Call, @Use, };
@@ -4560,6 +4585,7 @@ namespace de.unika.ipd.grGen.Action_ProgramGraphs
 		public enum ExpressionPattern_alt_0_Call_IterNums { };
 
 
+
 		GRGEN_LGSP.PatternGraph ExpressionPattern_alt_0_Call;
 
 		public static GRGEN_LIBGR.EdgeType[] ExpressionPattern_alt_0_Use_edge__edge0_AllowedTypes = null;
@@ -4570,6 +4596,7 @@ namespace de.unika.ipd.grGen.Action_ProgramGraphs
 		public enum ExpressionPattern_alt_0_Use_SubNums { };
 		public enum ExpressionPattern_alt_0_Use_AltNums { };
 		public enum ExpressionPattern_alt_0_Use_IterNums { };
+
 
 
 		GRGEN_LGSP.PatternGraph ExpressionPattern_alt_0_Use;
@@ -5142,6 +5169,7 @@ namespace de.unika.ipd.grGen.Action_ProgramGraphs
 
 
 
+
 		GRGEN_LGSP.PatternGraph pat_Bodies;
 
 		public enum Bodies_iter_0_NodeNums { @m5, @c1, };
@@ -5150,6 +5178,7 @@ namespace de.unika.ipd.grGen.Action_ProgramGraphs
 		public enum Bodies_iter_0_SubNums { @b, };
 		public enum Bodies_iter_0_AltNums { };
 		public enum Bodies_iter_0_IterNums { };
+
 
 
 
@@ -5598,6 +5627,7 @@ namespace de.unika.ipd.grGen.Action_ProgramGraphs
 
 
 
+
 		GRGEN_LGSP.PatternGraph pat_Body;
 
 
@@ -5917,6 +5947,7 @@ namespace de.unika.ipd.grGen.Action_ProgramGraphs
 
 
 
+
 		GRGEN_LGSP.PatternGraph pat_createProgramGraphExample;
 
 
@@ -6220,6 +6251,7 @@ namespace de.unika.ipd.grGen.Action_ProgramGraphs
 
 
 
+
 		GRGEN_LGSP.PatternGraph pat_createProgramGraphPullUp;
 
 
@@ -6505,6 +6537,7 @@ namespace de.unika.ipd.grGen.Action_ProgramGraphs
 
 
 
+
 		GRGEN_LGSP.PatternGraph pat_pullUpMethod;
 
 
@@ -6786,6 +6819,7 @@ namespace de.unika.ipd.grGen.Action_ProgramGraphs
 		public enum matchAll_IterNums { };
 
 
+
 		GRGEN_LGSP.PatternGraph pat_matchAll;
 
 
@@ -6981,6 +7015,7 @@ namespace de.unika.ipd.grGen.Action_ProgramGraphs
 
 
 
+
 		GRGEN_LGSP.PatternGraph pat_InsertHelperEdgesForNestedLayout;
 
 
@@ -7046,90 +7081,91 @@ namespace de.unika.ipd.grGen.Action_ProgramGraphs
         public static bool ApplyXGRS_0(GRGEN_LGSP.LGSPGraph graph)
         {
             GRGEN_LGSP.LGSPActions actions = graph.curActions;
-            bool res_0;
-            bool res_1;
-            bool res_2;
-            Action_LinkMethodBodyToContainedEntity rule_LinkMethodBodyToContainedEntity = Action_LinkMethodBodyToContainedEntity.Instance;
-            bool res_3;
-            bool res_4;
-            bool res_5;
-            Action_LinkMethodBodyToContainedExpressionTransitive rule_LinkMethodBodyToContainedExpressionTransitive = Action_LinkMethodBodyToContainedExpressionTransitive.Instance;
-            bool res_6;
             bool res_7;
+            bool res_1;
+            bool res_0;
+            Action_LinkMethodBodyToContainedEntity rule_LinkMethodBodyToContainedEntity = Action_LinkMethodBodyToContainedEntity.Instance;
+            bool res_6;
+            bool res_3;
+            bool res_2;
+            Action_LinkMethodBodyToContainedExpressionTransitive rule_LinkMethodBodyToContainedExpressionTransitive = Action_LinkMethodBodyToContainedExpressionTransitive.Instance;
+            bool res_5;
+            bool res_4;
             Action_LinkClassToFeature rule_LinkClassToFeature = Action_LinkClassToFeature.Instance;
             long i_1 = 0;
             while(true)
             {
-                GRGEN_LIBGR.IMatches mat_2 = rule_LinkMethodBodyToContainedEntity.Match(graph, 1, null);
-                graph.Matched(mat_2, false);
-                if(mat_2.Count == 0)
-                	res_2 = false;
-                else
-                {
-                    if(graph.PerformanceInfo != null) graph.PerformanceInfo.MatchesFound += mat_2.Count;
-                    graph.Finishing(mat_2, false);
-                    object[] ret_2 = rule_LinkMethodBodyToContainedEntity.Modify(graph, mat_2.First);
+                GRGEN_LIBGR.IMatchesExact<Rule_LinkMethodBodyToContainedEntity.IMatch_LinkMethodBodyToContainedEntity> matches_0 = rule_LinkMethodBodyToContainedEntity.Match(graph, 1);
+                graph.Matched(matches_0, false);
+                if(matches_0.Count==0) {
+                    res_0 = (bool)(false);
+                } else {
+                    res_0 = (bool)(true);
+                    if(graph.PerformanceInfo!=null) graph.PerformanceInfo.MatchesFound += matches_0.Count;
+                    graph.Finishing(matches_0, false);
+                    Rule_LinkMethodBodyToContainedEntity.IMatch_LinkMethodBodyToContainedEntity match_0 = matches_0.FirstExact;
+                    rule_LinkMethodBodyToContainedEntity.Modify(graph, match_0);
                     if(graph.PerformanceInfo != null) graph.PerformanceInfo.RewritesPerformed++;
-                    graph.Finished(mat_2, false);
-                    res_2 = ret_2 != null;
+                    graph.Finished(matches_0, false);
                 }
-                if(!res_2) break;
+                if(!res_0) break;
                 i_1++;
             }
-            res_1 = i_1 >= 0;
-            if(!res_1)                res_0 = false;
+            res_1 = (bool)(i_1 >= 0);
+            if(!res_1)
+                res_7 = (bool)(false);
             else
             {
-                long i_4 = 0;
+                long i_3 = 0;
                 while(true)
                 {
-                    GRGEN_LIBGR.IMatches mat_5 = rule_LinkMethodBodyToContainedExpressionTransitive.Match(graph, 1, null);
-                    graph.Matched(mat_5, false);
-                    if(mat_5.Count == 0)
-                    	res_5 = false;
-                    else
-                    {
-                        if(graph.PerformanceInfo != null) graph.PerformanceInfo.MatchesFound += mat_5.Count;
-                        graph.Finishing(mat_5, false);
-                        object[] ret_5 = rule_LinkMethodBodyToContainedExpressionTransitive.Modify(graph, mat_5.First);
+                    GRGEN_LIBGR.IMatchesExact<Rule_LinkMethodBodyToContainedExpressionTransitive.IMatch_LinkMethodBodyToContainedExpressionTransitive> matches_2 = rule_LinkMethodBodyToContainedExpressionTransitive.Match(graph, 1);
+                    graph.Matched(matches_2, false);
+                    if(matches_2.Count==0) {
+                        res_2 = (bool)(false);
+                    } else {
+                        res_2 = (bool)(true);
+                        if(graph.PerformanceInfo!=null) graph.PerformanceInfo.MatchesFound += matches_2.Count;
+                        graph.Finishing(matches_2, false);
+                        Rule_LinkMethodBodyToContainedExpressionTransitive.IMatch_LinkMethodBodyToContainedExpressionTransitive match_2 = matches_2.FirstExact;
+                        rule_LinkMethodBodyToContainedExpressionTransitive.Modify(graph, match_2);
                         if(graph.PerformanceInfo != null) graph.PerformanceInfo.RewritesPerformed++;
-                        graph.Finished(mat_5, false);
-                        res_5 = ret_5 != null;
+                        graph.Finished(matches_2, false);
                     }
-                    if(!res_5) break;
-                    i_4++;
+                    if(!res_2) break;
+                    i_3++;
                 }
-                res_4 = i_4 >= 0;
-                if(!res_4)                    res_3 = false;
+                res_3 = (bool)(i_3 >= 0);
+                if(!res_3)
+                    res_6 = (bool)(false);
                 else
                 {
-                    long i_6 = 0;
+                    long i_5 = 0;
                     while(true)
                     {
-                        GRGEN_LIBGR.IMatches mat_7 = rule_LinkClassToFeature.Match(graph, 1, null);
-                        graph.Matched(mat_7, false);
-                        if(mat_7.Count == 0)
-                        	res_7 = false;
-                        else
-                        {
-                            if(graph.PerformanceInfo != null) graph.PerformanceInfo.MatchesFound += mat_7.Count;
-                            graph.Finishing(mat_7, false);
-                            object[] ret_7 = rule_LinkClassToFeature.Modify(graph, mat_7.First);
+                        GRGEN_LIBGR.IMatchesExact<Rule_LinkClassToFeature.IMatch_LinkClassToFeature> matches_4 = rule_LinkClassToFeature.Match(graph, 1);
+                        graph.Matched(matches_4, false);
+                        if(matches_4.Count==0) {
+                            res_4 = (bool)(false);
+                        } else {
+                            res_4 = (bool)(true);
+                            if(graph.PerformanceInfo!=null) graph.PerformanceInfo.MatchesFound += matches_4.Count;
+                            graph.Finishing(matches_4, false);
+                            Rule_LinkClassToFeature.IMatch_LinkClassToFeature match_4 = matches_4.FirstExact;
+                            rule_LinkClassToFeature.Modify(graph, match_4);
                             if(graph.PerformanceInfo != null) graph.PerformanceInfo.RewritesPerformed++;
-                            graph.Finished(mat_7, false);
-                            res_7 = ret_7 != null;
+                            graph.Finished(matches_4, false);
                         }
-                        if(!res_7) break;
-                        i_6++;
+                        if(!res_4) break;
+                        i_5++;
                     }
-                    res_6 = i_6 >= 0;
-                    res_3 = res_6;
+                    res_5 = (bool)(i_5 >= 0);
+                    res_6 = (bool)(res_5);
                 }
-                res_0 = res_3;
+                res_7 = (bool)(res_6);
             }
-            return res_0;
+            return res_7;
         }
-        private static object[] __xgrs_paramarray_0 = new object[0];
 
 		static Rule_InsertHelperEdgesForNestedLayout() {
 		}
@@ -7252,6 +7288,7 @@ namespace de.unika.ipd.grGen.Action_ProgramGraphs
 		public enum LinkMethodBodyToContainedEntity_SubNums { };
 		public enum LinkMethodBodyToContainedEntity_AltNums { };
 		public enum LinkMethodBodyToContainedEntity_IterNums { };
+
 
 
 
@@ -7639,6 +7676,7 @@ namespace de.unika.ipd.grGen.Action_ProgramGraphs
 		public enum LinkMethodBodyToContainedExpressionTransitive_SubNums { };
 		public enum LinkMethodBodyToContainedExpressionTransitive_AltNums { };
 		public enum LinkMethodBodyToContainedExpressionTransitive_IterNums { };
+
 
 
 
@@ -8044,6 +8082,7 @@ namespace de.unika.ipd.grGen.Action_ProgramGraphs
 		public enum LinkClassToFeature_SubNums { };
 		public enum LinkClassToFeature_AltNums { };
 		public enum LinkClassToFeature_IterNums { };
+
 
 
 
@@ -15500,6 +15539,6 @@ label5: ;
         public IAction_LinkClassToFeature @LinkClassToFeature;
         
         public override string Name { get { return "ProgramGraphsActions"; } }
-        public override string ModelMD5Hash { get { return "0ce6c1f760afcefa34af880f04d608b3"; } }
+        public override string ModelMD5Hash { get { return "e6271fc2f2794368b53b1fb118947e8d"; } }
     }
 }

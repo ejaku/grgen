@@ -1,9 +1,10 @@
-// This file has been generated automatically by GrGen.
+// This file has been generated automatically by GrGen (www.grgen.net)
 // Do not modify this file! Any changes will be lost!
-// Generated from "..\..\tests\TNT\TNT.grg" on Tue Jan 12 22:54:45 CET 2010
+// Generated from "..\..\tests\TNT\TNT.grg" on Sun Apr 25 15:45:10 CEST 2010
 
 using System;
 using System.Collections.Generic;
+using System.Collections;
 using System.Text;
 using GRGEN_LIBGR = de.unika.ipd.grGen.libGr;
 using GRGEN_LGSP = de.unika.ipd.grGen.lgsp;
@@ -53,6 +54,7 @@ namespace de.unika.ipd.grGen.Action_TNT
 		public enum BenzolRing_SubNums { };
 		public enum BenzolRing_AltNums { };
 		public enum BenzolRing_IterNums { };
+
 
 
 		GRGEN_LGSP.PatternGraph pat_BenzolRing;
@@ -449,6 +451,7 @@ namespace de.unika.ipd.grGen.Action_TNT
 		public enum BenzolRingC123456Exposed_IterNums { };
 
 
+
 		GRGEN_LGSP.PatternGraph pat_BenzolRingC123456Exposed;
 
 
@@ -817,6 +820,7 @@ namespace de.unika.ipd.grGen.Action_TNT
 		public enum BenzolRingC1Exposed_SubNums { };
 		public enum BenzolRingC1Exposed_AltNums { };
 		public enum BenzolRingC1Exposed_IterNums { };
+
 
 
 		GRGEN_LGSP.PatternGraph pat_BenzolRingC1Exposed;
@@ -1207,6 +1211,7 @@ namespace de.unika.ipd.grGen.Action_TNT
 		public enum BenzolRingC1ExposedNotC6Nitro_SubNums { };
 		public enum BenzolRingC1ExposedNotC6Nitro_AltNums { };
 		public enum BenzolRingC1ExposedNotC6Nitro_IterNums { };
+
 
 
 		GRGEN_LGSP.PatternGraph pat_BenzolRingC1ExposedNotC6Nitro;
@@ -1787,6 +1792,7 @@ namespace de.unika.ipd.grGen.Action_TNT
 		public enum Oxygen_IterNums { };
 
 
+
 		GRGEN_LGSP.PatternGraph pat_Oxygen;
 
 
@@ -2018,6 +2024,7 @@ namespace de.unika.ipd.grGen.Action_TNT
 		public enum Hydrogen_IterNums { };
 
 
+
 		GRGEN_LGSP.PatternGraph pat_Hydrogen;
 
 
@@ -2234,6 +2241,7 @@ namespace de.unika.ipd.grGen.Action_TNT
 		public enum Hydroxyl_SubNums { };
 		public enum Hydroxyl_AltNums { };
 		public enum Hydroxyl_IterNums { };
+
 
 
 		GRGEN_LGSP.PatternGraph pat_Hydroxyl;
@@ -2485,6 +2493,7 @@ namespace de.unika.ipd.grGen.Action_TNT
 		public enum Methyl_SubNums { };
 		public enum Methyl_AltNums { };
 		public enum Methyl_IterNums { };
+
 
 
 		GRGEN_LGSP.PatternGraph pat_Methyl;
@@ -2784,6 +2793,7 @@ namespace de.unika.ipd.grGen.Action_TNT
 		public enum Nitro_IterNums { };
 
 
+
 		GRGEN_LGSP.PatternGraph pat_Nitro;
 
 
@@ -3048,6 +3058,7 @@ namespace de.unika.ipd.grGen.Action_TNT
 		public enum TriNitro_IterNums { };
 
 
+
 		GRGEN_LGSP.PatternGraph pat_TriNitro;
 
 
@@ -3294,6 +3305,7 @@ namespace de.unika.ipd.grGen.Action_TNT
 		public enum ToluolCoreThenTriNitro_SubNums { @_subpattern0, @_subpattern1, @_subpattern2, @_subpattern3, };
 		public enum ToluolCoreThenTriNitro_AltNums { };
 		public enum ToluolCoreThenTriNitro_IterNums { };
+
 
 
 		GRGEN_LGSP.PatternGraph pat_ToluolCoreThenTriNitro;
@@ -3571,6 +3583,7 @@ namespace de.unika.ipd.grGen.Action_TNT
 		public enum BenzolRing_IterNums { };
 
 
+
 		GRGEN_LGSP.PatternGraph pat_BenzolRing;
 
 
@@ -3764,6 +3777,7 @@ namespace de.unika.ipd.grGen.Action_TNT
 		public enum TNTTotallyFolded_SubNums { @_subpattern0, @_subpattern1, @_subpattern2, @_subpattern3, @_subpattern4, @_subpattern5, @_subpattern6, };
 		public enum TNTTotallyFolded_AltNums { };
 		public enum TNTTotallyFolded_IterNums { };
+
 
 
 		GRGEN_LGSP.PatternGraph pat_TNTTotallyFolded;
@@ -4089,6 +4103,7 @@ namespace de.unika.ipd.grGen.Action_TNT
 		public enum TNTChain_IterNums { };
 
 
+
 		GRGEN_LGSP.PatternGraph pat_TNTChain;
 
 
@@ -4347,6 +4362,7 @@ namespace de.unika.ipd.grGen.Action_TNT
 		public enum ToluolCore_IterNums { };
 
 
+
 		GRGEN_LGSP.PatternGraph pat_ToluolCore;
 
 
@@ -4553,6 +4569,7 @@ namespace de.unika.ipd.grGen.Action_TNT
 		public enum ToluolCoreNotC6Nitro_SubNums { @_subpattern0, @_subpattern1, };
 		public enum ToluolCoreNotC6Nitro_AltNums { };
 		public enum ToluolCoreNotC6Nitro_IterNums { };
+
 
 
 		GRGEN_LGSP.PatternGraph pat_ToluolCoreNotC6Nitro;
@@ -4771,6 +4788,7 @@ namespace de.unika.ipd.grGen.Action_TNT
 		public enum Toluol_SubNums { @_subpattern0, @_subpattern1, @_subpattern2, @_subpattern3, @_subpattern4, @_subpattern5, @_subpattern6, };
 		public enum Toluol_AltNums { };
 		public enum Toluol_IterNums { };
+
 
 
 		GRGEN_LGSP.PatternGraph pat_Toluol;
@@ -5112,6 +5130,7 @@ namespace de.unika.ipd.grGen.Action_TNT
 		public enum TNT_SubNums { @_subpattern0, @_subpattern1, @_subpattern2, @_subpattern3, @_subpattern4, @_subpattern5, };
 		public enum TNT_AltNums { };
 		public enum TNT_IterNums { };
+
 
 
 		GRGEN_LGSP.PatternGraph pat_TNT;
@@ -5588,6 +5607,7 @@ namespace de.unika.ipd.grGen.Action_TNT
 		public enum TNTUnfolded_SubNums { };
 		public enum TNTUnfolded_AltNums { };
 		public enum TNTUnfolded_IterNums { };
+
 
 
 		GRGEN_LGSP.PatternGraph pat_TNTUnfolded;
@@ -6175,6 +6195,7 @@ namespace de.unika.ipd.grGen.Action_TNT
 
 
 
+
 		GRGEN_LGSP.PatternGraph pat_createTNT;
 
 
@@ -6471,6 +6492,7 @@ namespace de.unika.ipd.grGen.Action_TNT
 		public enum DNT_SubNums { @_subpattern0, @_subpattern1, @_subpattern2, @_subpattern3, @_subpattern4, @_subpattern5, };
 		public enum DNT_AltNums { };
 		public enum DNT_IterNums { };
+
 
 
 		GRGEN_LGSP.PatternGraph pat_DNT;
@@ -6939,6 +6961,7 @@ namespace de.unika.ipd.grGen.Action_TNT
 		public enum DNTUnfolded_SubNums { };
 		public enum DNTUnfolded_AltNums { };
 		public enum DNTUnfolded_IterNums { };
+
 
 
 		GRGEN_LGSP.PatternGraph pat_DNTUnfolded;
@@ -7490,6 +7513,7 @@ namespace de.unika.ipd.grGen.Action_TNT
 
 
 
+
 		GRGEN_LGSP.PatternGraph pat_createDNT;
 
 
@@ -7778,6 +7802,7 @@ namespace de.unika.ipd.grGen.Action_TNT
 		public enum TNB_SubNums { @_subpattern0, @_subpattern1, @_subpattern2, @_subpattern3, @_subpattern4, @_subpattern5, };
 		public enum TNB_AltNums { };
 		public enum TNB_IterNums { };
+
 
 
 		GRGEN_LGSP.PatternGraph pat_TNB;
@@ -8242,6 +8267,7 @@ namespace de.unika.ipd.grGen.Action_TNT
 		public enum TNBUnfolded_SubNums { };
 		public enum TNBUnfolded_AltNums { };
 		public enum TNBUnfolded_IterNums { };
+
 
 
 		GRGEN_LGSP.PatternGraph pat_TNBUnfolded;
@@ -8775,6 +8801,7 @@ namespace de.unika.ipd.grGen.Action_TNT
 
 
 
+
 		GRGEN_LGSP.PatternGraph pat_createTNB;
 
 
@@ -9032,6 +9059,7 @@ namespace de.unika.ipd.grGen.Action_TNT
 
 
 
+
 		GRGEN_LGSP.PatternGraph pat_keepBenzolRingPattern;
 
 
@@ -9222,6 +9250,7 @@ namespace de.unika.ipd.grGen.Action_TNT
 
 
 
+
 		GRGEN_LGSP.PatternGraph pat_createBenzolRingPattern;
 
 
@@ -9400,6 +9429,7 @@ namespace de.unika.ipd.grGen.Action_TNT
 		public enum deleteBenzolRingPattern_SubNums { @_subpattern0, };
 		public enum deleteBenzolRingPattern_AltNums { };
 		public enum deleteBenzolRingPattern_IterNums { };
+
 
 
 
@@ -9592,6 +9622,7 @@ namespace de.unika.ipd.grGen.Action_TNT
 		public enum deleteInModifyBenzolRingPattern_SubNums { @br, };
 		public enum deleteInModifyBenzolRingPattern_AltNums { };
 		public enum deleteInModifyBenzolRingPattern_IterNums { };
+
 
 
 

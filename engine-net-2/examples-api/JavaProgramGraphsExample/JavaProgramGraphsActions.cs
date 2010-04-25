@@ -1,9 +1,10 @@
-// This file has been generated automatically by GrGen.
+// This file has been generated automatically by GrGen (www.grgen.net)
 // Do not modify this file! Any changes will be lost!
-// Generated from "..\..\examples\JavaProgramGraphs-GraBaTs08\JavaProgramGraphs.grg" on Tue Jan 12 22:54:08 CET 2010
+// Generated from "..\..\examples\JavaProgramGraphs-GraBaTs08\JavaProgramGraphs.grg" on Sun Apr 25 15:44:56 CEST 2010
 
 using System;
 using System.Collections.Generic;
+using System.Collections;
 using System.Text;
 using GRGEN_LIBGR = de.unika.ipd.grGen.libGr;
 using GRGEN_LGSP = de.unika.ipd.grGen.lgsp;
@@ -28,6 +29,7 @@ namespace de.unika.ipd.grGen.Action_JavaProgramGraphs
 
 
 
+
 		GRGEN_LGSP.PatternGraph pat_MultipleContainedPackagesOrClasses;
 
 		public static GRGEN_LIBGR.NodeType[] MultipleContainedPackagesOrClasses_iter_0_node_sub_AllowedTypes = null;
@@ -43,6 +45,7 @@ namespace de.unika.ipd.grGen.Action_JavaProgramGraphs
 
 
 
+
 		GRGEN_LGSP.PatternGraph MultipleContainedPackagesOrClasses_iter_0;
 
 		public static GRGEN_LIBGR.NodeType[] MultipleContainedPackagesOrClasses_iter_1_node_c_AllowedTypes = null;
@@ -55,6 +58,7 @@ namespace de.unika.ipd.grGen.Action_JavaProgramGraphs
 		public enum MultipleContainedPackagesOrClasses_iter_1_SubNums { @mm, @mv, };
 		public enum MultipleContainedPackagesOrClasses_iter_1_AltNums { };
 		public enum MultipleContainedPackagesOrClasses_iter_1_IterNums { };
+
 
 
 
@@ -783,6 +787,7 @@ namespace de.unika.ipd.grGen.Action_JavaProgramGraphs
 
 
 
+
 		GRGEN_LGSP.PatternGraph pat_MultipleVariables;
 
 		public static GRGEN_LIBGR.NodeType[] MultipleVariables_iter_0_node_v_AllowedTypes = null;
@@ -795,6 +800,7 @@ namespace de.unika.ipd.grGen.Action_JavaProgramGraphs
 		public enum MultipleVariables_iter_0_SubNums { };
 		public enum MultipleVariables_iter_0_AltNums { };
 		public enum MultipleVariables_iter_0_IterNums { };
+
 
 
 
@@ -1235,6 +1241,7 @@ namespace de.unika.ipd.grGen.Action_JavaProgramGraphs
 
 
 
+
 		GRGEN_LGSP.PatternGraph pat_MultipleMethodBodies;
 
 		public static GRGEN_LIBGR.NodeType[] MultipleMethodBodies_iter_0_node_mb_AllowedTypes = null;
@@ -1247,6 +1254,7 @@ namespace de.unika.ipd.grGen.Action_JavaProgramGraphs
 		public enum MultipleMethodBodies_iter_0_SubNums { @bi, };
 		public enum MultipleMethodBodies_iter_0_AltNums { };
 		public enum MultipleMethodBodies_iter_0_IterNums { };
+
 
 
 
@@ -1698,6 +1706,7 @@ namespace de.unika.ipd.grGen.Action_JavaProgramGraphs
 
 
 
+
 		GRGEN_LGSP.PatternGraph pat_MethodBodyAndImplementation;
 
 		public static GRGEN_LIBGR.NodeType[] MethodBodyAndImplementation_iter_0_node_op_AllowedTypes = null;
@@ -1713,6 +1722,7 @@ namespace de.unika.ipd.grGen.Action_JavaProgramGraphs
 
 
 
+
 		GRGEN_LGSP.PatternGraph MethodBodyAndImplementation_iter_0;
 
 		public static GRGEN_LIBGR.NodeType[] MethodBodyAndImplementation_iter_1_node_b_AllowedTypes = null;
@@ -1725,6 +1735,7 @@ namespace de.unika.ipd.grGen.Action_JavaProgramGraphs
 		public enum MethodBodyAndImplementation_iter_1_SubNums { @me, };
 		public enum MethodBodyAndImplementation_iter_1_AltNums { };
 		public enum MethodBodyAndImplementation_iter_1_IterNums { };
+
 
 
 
@@ -2414,6 +2425,7 @@ namespace de.unika.ipd.grGen.Action_JavaProgramGraphs
 
 
 
+
 		GRGEN_LGSP.PatternGraph pat_MultipleParameters;
 
 		public static GRGEN_LIBGR.NodeType[] MultipleParameters_iter_0_node__node0_AllowedTypes = null;
@@ -2426,6 +2438,7 @@ namespace de.unika.ipd.grGen.Action_JavaProgramGraphs
 		public enum MultipleParameters_iter_0_SubNums { };
 		public enum MultipleParameters_iter_0_AltNums { };
 		public enum MultipleParameters_iter_0_IterNums { };
+
 
 
 
@@ -2856,6 +2869,7 @@ namespace de.unika.ipd.grGen.Action_JavaProgramGraphs
 
 
 
+
 		GRGEN_LGSP.PatternGraph pat_MultipleExpressions;
 
 		public static GRGEN_LIBGR.NodeType[] MultipleExpressions_iter_0_node_next_AllowedTypes = { GRGEN_MODEL.NodeType_Expression.typeVar, GRGEN_MODEL.NodeType_Access.typeVar, GRGEN_MODEL.NodeType_Update.typeVar, GRGEN_MODEL.NodeType_Instantiation.typeVar, GRGEN_MODEL.NodeType_Operator.typeVar, GRGEN_MODEL.NodeType_Return.typeVar, GRGEN_MODEL.NodeType_Block.typeVar, };
@@ -2871,6 +2885,7 @@ namespace de.unika.ipd.grGen.Action_JavaProgramGraphs
 
 
 
+
 		GRGEN_LGSP.PatternGraph MultipleExpressions_iter_0;
 
 		public static GRGEN_LIBGR.NodeType[] MultipleExpressions_iter_1_node_call_AllowedTypes = null;
@@ -2883,6 +2898,7 @@ namespace de.unika.ipd.grGen.Action_JavaProgramGraphs
 		public enum MultipleExpressions_iter_1_SubNums { @ec, @_subpattern0, };
 		public enum MultipleExpressions_iter_1_AltNums { };
 		public enum MultipleExpressions_iter_1_IterNums { };
+
 
 
 
@@ -3593,6 +3609,7 @@ namespace de.unika.ipd.grGen.Action_JavaProgramGraphs
 
 
 
+
 		GRGEN_LGSP.PatternGraph pat_ExpressionChain;
 
 		public enum ExpressionChain_alt_0_CaseNums { @ExprAndAgain, @CallAndAgain, @End, };
@@ -3606,6 +3623,7 @@ namespace de.unika.ipd.grGen.Action_JavaProgramGraphs
 		public enum ExpressionChain_alt_0_ExprAndAgain_SubNums { @ec, };
 		public enum ExpressionChain_alt_0_ExprAndAgain_AltNums { };
 		public enum ExpressionChain_alt_0_ExprAndAgain_IterNums { };
+
 
 
 
@@ -3624,6 +3642,7 @@ namespace de.unika.ipd.grGen.Action_JavaProgramGraphs
 
 
 
+
 		GRGEN_LGSP.PatternGraph ExpressionChain_alt_0_CallAndAgain;
 
 		public enum ExpressionChain_alt_0_End_NodeNums { @e, };
@@ -3632,6 +3651,7 @@ namespace de.unika.ipd.grGen.Action_JavaProgramGraphs
 		public enum ExpressionChain_alt_0_End_SubNums { };
 		public enum ExpressionChain_alt_0_End_AltNums { };
 		public enum ExpressionChain_alt_0_End_IterNums { };
+
 
 
 
@@ -4653,6 +4673,7 @@ namespace de.unika.ipd.grGen.Action_JavaProgramGraphs
 
 
 
+
 		GRGEN_LGSP.PatternGraph pat_MultipleActualParameters;
 
 		public static GRGEN_LIBGR.NodeType[] MultipleActualParameters_iter_0_node_next_AllowedTypes = { GRGEN_MODEL.NodeType_Expression.typeVar, GRGEN_MODEL.NodeType_Access.typeVar, GRGEN_MODEL.NodeType_Update.typeVar, GRGEN_MODEL.NodeType_Instantiation.typeVar, GRGEN_MODEL.NodeType_Operator.typeVar, GRGEN_MODEL.NodeType_Return.typeVar, GRGEN_MODEL.NodeType_Block.typeVar, };
@@ -4668,6 +4689,7 @@ namespace de.unika.ipd.grGen.Action_JavaProgramGraphs
 
 
 
+
 		GRGEN_LGSP.PatternGraph MultipleActualParameters_iter_0;
 
 		public static GRGEN_LIBGR.NodeType[] MultipleActualParameters_iter_1_node_call_AllowedTypes = null;
@@ -4680,6 +4702,7 @@ namespace de.unika.ipd.grGen.Action_JavaProgramGraphs
 		public enum MultipleActualParameters_iter_1_SubNums { @_subpattern0, @_subpattern1, };
 		public enum MultipleActualParameters_iter_1_AltNums { };
 		public enum MultipleActualParameters_iter_1_IterNums { };
+
 
 
 
@@ -5378,6 +5401,7 @@ namespace de.unika.ipd.grGen.Action_JavaProgramGraphs
 
 
 
+
 		GRGEN_LGSP.PatternGraph pat_MultipleExtendingClasses;
 
 		public static GRGEN_LIBGR.NodeType[] MultipleExtendingClasses_iter_0_node_sub_AllowedTypes = null;
@@ -5390,6 +5414,7 @@ namespace de.unika.ipd.grGen.Action_JavaProgramGraphs
 		public enum MultipleExtendingClasses_iter_0_SubNums { @_subpattern0, };
 		public enum MultipleExtendingClasses_iter_0_AltNums { };
 		public enum MultipleExtendingClasses_iter_0_IterNums { };
+
 
 
 
@@ -5836,6 +5861,7 @@ namespace de.unika.ipd.grGen.Action_JavaProgramGraphs
 		public enum InClass_IterNums { };
 
 
+
 		GRGEN_LGSP.PatternGraph pat_InClass;
 
 		public enum InClass_alt_0_CaseNums { @Previous, @End, };
@@ -5849,6 +5875,7 @@ namespace de.unika.ipd.grGen.Action_JavaProgramGraphs
 		public enum InClass_alt_0_Previous_SubNums { @_subpattern0, };
 		public enum InClass_alt_0_Previous_AltNums { };
 		public enum InClass_alt_0_Previous_IterNums { };
+
 
 
 		GRGEN_LGSP.PatternGraph InClass_alt_0_Previous;
@@ -5871,6 +5898,7 @@ namespace de.unika.ipd.grGen.Action_JavaProgramGraphs
 		public enum InClass_alt_0_End_SubNums { };
 		public enum InClass_alt_0_End_AltNums { };
 		public enum InClass_alt_0_End_IterNums { };
+
 
 
 		GRGEN_LGSP.PatternGraph InClass_alt_0_End;
@@ -6520,6 +6548,7 @@ namespace de.unika.ipd.grGen.Action_JavaProgramGraphs
 		public enum methodNameExistsSuper_IterNums { };
 
 
+
 		GRGEN_LGSP.PatternGraph pat_methodNameExistsSuper;
 
 		public enum methodNameExistsSuper_alt_0_CaseNums { @here, @super, };
@@ -6529,6 +6558,7 @@ namespace de.unika.ipd.grGen.Action_JavaProgramGraphs
 		public enum methodNameExistsSuper_alt_0_here_SubNums { };
 		public enum methodNameExistsSuper_alt_0_here_AltNums { };
 		public enum methodNameExistsSuper_alt_0_here_IterNums { };
+
 
 
 		GRGEN_LGSP.PatternGraph methodNameExistsSuper_alt_0_here;
@@ -6543,6 +6573,7 @@ namespace de.unika.ipd.grGen.Action_JavaProgramGraphs
 		public enum methodNameExistsSuper_alt_0_super_SubNums { @_subpattern0, };
 		public enum methodNameExistsSuper_alt_0_super_AltNums { };
 		public enum methodNameExistsSuper_alt_0_super_IterNums { };
+
 
 
 		GRGEN_LGSP.PatternGraph methodNameExistsSuper_alt_0_super;
@@ -6578,7 +6609,7 @@ namespace de.unika.ipd.grGen.Action_JavaProgramGraphs
 			bool[,] methodNameExistsSuper_alt_0_here_isEdgeHomomorphicGlobal = new bool[0, 0] ;
 			int[] methodNameExistsSuper_alt_0_here_minMatches = new int[0] ;
 			int[] methodNameExistsSuper_alt_0_here_maxMatches = new int[0] ;
-			GRGEN_LGSP.PatternCondition cond_0 = new GRGEN_LGSP.PatternCondition(
+			GRGEN_LGSP.PatternCondition methodNameExistsSuper_alt_0_here_cond_0 = new GRGEN_LGSP.PatternCondition(
 				new GRGEN_EXPR.EQ(new GRGEN_EXPR.Qualification("GRGEN_MODEL.IOperation", "methodNameExistsSuper_node_op", "name"), new GRGEN_EXPR.Qualification("GRGEN_MODEL.IOperation", "methodNameExistsSuper_node_opForName", "name")),
 				new string[] { "methodNameExistsSuper_node_op", "methodNameExistsSuper_node_opForName" }, new string[] {  }, new string[] {  }, new GRGEN_LIBGR.VarType[] {  });
 			methodNameExistsSuper_alt_0_here = new GRGEN_LGSP.PatternGraph(
@@ -6595,7 +6626,7 @@ namespace de.unika.ipd.grGen.Action_JavaProgramGraphs
 				methodNameExistsSuper_alt_0_here_maxMatches,
 				new GRGEN_LGSP.PatternGraph[] {  }, 
 				new GRGEN_LGSP.PatternGraph[] {  }, 
-				new GRGEN_LGSP.PatternCondition[] { cond_0,  }, 
+				new GRGEN_LGSP.PatternCondition[] { methodNameExistsSuper_alt_0_here_cond_0,  }, 
 				new bool[2, 2] {
 					{ true, true, },
 					{ true, true, },
@@ -7138,6 +7169,7 @@ namespace de.unika.ipd.grGen.Action_JavaProgramGraphs
 
 
 
+
 		GRGEN_LGSP.PatternGraph pat_dumpGxl;
 
 
@@ -7221,544 +7253,567 @@ namespace de.unika.ipd.grGen.Action_JavaProgramGraphs
         public static bool ApplyXGRS_0(GRGEN_LGSP.LGSPGraph graph)
         {
             GRGEN_LGSP.LGSPActions actions = graph.curActions;
-            bool res_0;
-            bool res_1;
-            bool res_2;
-            bool res_3;
-            Action_dumpNodePackage rule_dumpNodePackage = Action_dumpNodePackage.Instance;
-            bool res_4;
-            bool res_5;
-            Action_dumpNodeClass rule_dumpNodeClass = Action_dumpNodeClass.Instance;
-            bool res_6;
-            bool res_7;
-            Action_dumpNodeInterface rule_dumpNodeInterface = Action_dumpNodeInterface.Instance;
-            bool res_8;
-            bool res_9;
-            Action_dumpNodeVariable rule_dumpNodeVariable = Action_dumpNodeVariable.Instance;
-            bool res_10;
-            bool res_11;
-            Action_dumpNodeOperation rule_dumpNodeOperation = Action_dumpNodeOperation.Instance;
-            bool res_12;
-            bool res_13;
-            Action_dumpNodeMethodBody rule_dumpNodeMethodBody = Action_dumpNodeMethodBody.Instance;
-            bool res_14;
-            bool res_15;
-            Action_dumpNodeAccess rule_dumpNodeAccess = Action_dumpNodeAccess.Instance;
-            bool res_16;
-            bool res_17;
-            Action_dumpNodeUpdate rule_dumpNodeUpdate = Action_dumpNodeUpdate.Instance;
-            bool res_18;
-            bool res_19;
-            Action_dumpNodeCall rule_dumpNodeCall = Action_dumpNodeCall.Instance;
-            bool res_20;
-            bool res_21;
-            Action_dumpNodeIstantiation rule_dumpNodeIstantiation = Action_dumpNodeIstantiation.Instance;
-            bool res_22;
-            bool res_23;
-            Action_dumpNodeOperator rule_dumpNodeOperator = Action_dumpNodeOperator.Instance;
-            bool res_24;
-            bool res_25;
-            Action_dumpNodeReturn rule_dumpNodeReturn = Action_dumpNodeReturn.Instance;
-            bool res_26;
-            bool res_27;
-            Action_dumpNodeBlock rule_dumpNodeBlock = Action_dumpNodeBlock.Instance;
-            bool res_28;
-            bool res_29;
-            Action_dumpNodeLiteral rule_dumpNodeLiteral = Action_dumpNodeLiteral.Instance;
-            bool res_30;
-            Action_dumpNodeParameter rule_dumpNodeParameter = Action_dumpNodeParameter.Instance;
-            bool res_31;
-            bool res_32;
-            bool res_33;
-            Action_dumpEdgeBelongsTo rule_dumpEdgeBelongsTo = Action_dumpEdgeBelongsTo.Instance;
-            bool res_34;
-            bool res_35;
-            Action_dumpEdgeType rule_dumpEdgeType = Action_dumpEdgeType.Instance;
-            bool res_36;
-            bool res_37;
-            Action_dumpEdgeExtends rule_dumpEdgeExtends = Action_dumpEdgeExtends.Instance;
-            bool res_38;
-            bool res_39;
-            Action_dumpEdgeImports rule_dumpEdgeImports = Action_dumpEdgeImports.Instance;
-            bool res_40;
-            bool res_41;
-            Action_dumpEdgeImplements rule_dumpEdgeImplements = Action_dumpEdgeImplements.Instance;
-            bool res_42;
-            bool res_43;
-            Action_dumpEdgeParameter rule_dumpEdgeParameter = Action_dumpEdgeParameter.Instance;
-            bool res_44;
-            bool res_45;
-            Action_dumpEdgeBinding rule_dumpEdgeBinding = Action_dumpEdgeBinding.Instance;
-            bool res_46;
-            bool res_47;
-            Action_dumpEdgeLink rule_dumpEdgeLink = Action_dumpEdgeLink.Instance;
-            bool res_48;
-            bool res_49;
-            Action_dumpEdgeExpression rule_dumpEdgeExpression = Action_dumpEdgeExpression.Instance;
             bool res_50;
+            bool res_29;
+            bool res_28;
+            bool res_0;
+            Action_dumpNodePackage rule_dumpNodePackage = Action_dumpNodePackage.Instance;
+            bool res_27;
+            bool res_1;
+            Action_dumpNodeClass rule_dumpNodeClass = Action_dumpNodeClass.Instance;
+            bool res_26;
+            bool res_2;
+            Action_dumpNodeInterface rule_dumpNodeInterface = Action_dumpNodeInterface.Instance;
+            bool res_25;
+            bool res_3;
+            Action_dumpNodeVariable rule_dumpNodeVariable = Action_dumpNodeVariable.Instance;
+            bool res_24;
+            bool res_4;
+            Action_dumpNodeOperation rule_dumpNodeOperation = Action_dumpNodeOperation.Instance;
+            bool res_23;
+            bool res_5;
+            Action_dumpNodeMethodBody rule_dumpNodeMethodBody = Action_dumpNodeMethodBody.Instance;
+            bool res_22;
+            bool res_6;
+            Action_dumpNodeAccess rule_dumpNodeAccess = Action_dumpNodeAccess.Instance;
+            bool res_21;
+            bool res_7;
+            Action_dumpNodeUpdate rule_dumpNodeUpdate = Action_dumpNodeUpdate.Instance;
+            bool res_20;
+            bool res_8;
+            Action_dumpNodeCall rule_dumpNodeCall = Action_dumpNodeCall.Instance;
+            bool res_19;
+            bool res_9;
+            Action_dumpNodeIstantiation rule_dumpNodeIstantiation = Action_dumpNodeIstantiation.Instance;
+            bool res_18;
+            bool res_10;
+            Action_dumpNodeOperator rule_dumpNodeOperator = Action_dumpNodeOperator.Instance;
+            bool res_17;
+            bool res_11;
+            Action_dumpNodeReturn rule_dumpNodeReturn = Action_dumpNodeReturn.Instance;
+            bool res_16;
+            bool res_12;
+            Action_dumpNodeBlock rule_dumpNodeBlock = Action_dumpNodeBlock.Instance;
+            bool res_15;
+            bool res_13;
+            Action_dumpNodeLiteral rule_dumpNodeLiteral = Action_dumpNodeLiteral.Instance;
+            bool res_14;
+            Action_dumpNodeParameter rule_dumpNodeParameter = Action_dumpNodeParameter.Instance;
+            bool res_49;
+            bool res_48;
+            bool res_30;
+            Action_dumpEdgeBelongsTo rule_dumpEdgeBelongsTo = Action_dumpEdgeBelongsTo.Instance;
+            bool res_47;
+            bool res_31;
+            Action_dumpEdgeType rule_dumpEdgeType = Action_dumpEdgeType.Instance;
+            bool res_46;
+            bool res_32;
+            Action_dumpEdgeExtends rule_dumpEdgeExtends = Action_dumpEdgeExtends.Instance;
+            bool res_45;
+            bool res_33;
+            Action_dumpEdgeImports rule_dumpEdgeImports = Action_dumpEdgeImports.Instance;
+            bool res_44;
+            bool res_34;
+            Action_dumpEdgeImplements rule_dumpEdgeImplements = Action_dumpEdgeImplements.Instance;
+            bool res_43;
+            bool res_35;
+            Action_dumpEdgeParameter rule_dumpEdgeParameter = Action_dumpEdgeParameter.Instance;
+            bool res_42;
+            bool res_36;
+            Action_dumpEdgeBinding rule_dumpEdgeBinding = Action_dumpEdgeBinding.Instance;
+            bool res_41;
+            bool res_37;
+            Action_dumpEdgeLink rule_dumpEdgeLink = Action_dumpEdgeLink.Instance;
+            bool res_40;
+            bool res_38;
+            Action_dumpEdgeExpression rule_dumpEdgeExpression = Action_dumpEdgeExpression.Instance;
+            bool res_39;
             Action_dumpEdgeActualParameter rule_dumpEdgeActualParameter = Action_dumpEdgeActualParameter.Instance;
-            long i_1 = 0;
+            long i_29 = 0;
             while(true)
             {
-                GRGEN_LIBGR.IMatches mat_3 = rule_dumpNodePackage.Match(graph, 1, null);
-                graph.Matched(mat_3, false);
-                if(mat_3.Count == 0)
-                	res_3 = false;
-                else
-                {
-                    if(graph.PerformanceInfo != null) graph.PerformanceInfo.MatchesFound += mat_3.Count;
-                    graph.Finishing(mat_3, false);
-                    object[] ret_3 = rule_dumpNodePackage.Modify(graph, mat_3.First);
+                GRGEN_LIBGR.IMatchesExact<Rule_dumpNodePackage.IMatch_dumpNodePackage> matches_0 = rule_dumpNodePackage.Match(graph, 1);
+                graph.Matched(matches_0, false);
+                if(matches_0.Count==0) {
+                    res_0 = (bool)(false);
+                } else {
+                    res_0 = (bool)(true);
+                    if(graph.PerformanceInfo!=null) graph.PerformanceInfo.MatchesFound += matches_0.Count;
+                    graph.Finishing(matches_0, false);
+                    Rule_dumpNodePackage.IMatch_dumpNodePackage match_0 = matches_0.FirstExact;
+                    rule_dumpNodePackage.Modify(graph, match_0);
                     if(graph.PerformanceInfo != null) graph.PerformanceInfo.RewritesPerformed++;
-                    graph.Finished(mat_3, false);
-                    res_3 = ret_3 != null;
+                    graph.Finished(matches_0, false);
                 }
-                if(res_3)                    res_2 = true;
+                if(res_0)
+                    res_28 = (bool)(true);
                 else
                 {
-                    GRGEN_LIBGR.IMatches mat_5 = rule_dumpNodeClass.Match(graph, 1, null);
-                    graph.Matched(mat_5, false);
-                    if(mat_5.Count == 0)
-                    	res_5 = false;
-                    else
-                    {
-                        if(graph.PerformanceInfo != null) graph.PerformanceInfo.MatchesFound += mat_5.Count;
-                        graph.Finishing(mat_5, false);
-                        object[] ret_5 = rule_dumpNodeClass.Modify(graph, mat_5.First);
+                    GRGEN_LIBGR.IMatchesExact<Rule_dumpNodeClass.IMatch_dumpNodeClass> matches_1 = rule_dumpNodeClass.Match(graph, 1);
+                    graph.Matched(matches_1, false);
+                    if(matches_1.Count==0) {
+                        res_1 = (bool)(false);
+                    } else {
+                        res_1 = (bool)(true);
+                        if(graph.PerformanceInfo!=null) graph.PerformanceInfo.MatchesFound += matches_1.Count;
+                        graph.Finishing(matches_1, false);
+                        Rule_dumpNodeClass.IMatch_dumpNodeClass match_1 = matches_1.FirstExact;
+                        rule_dumpNodeClass.Modify(graph, match_1);
                         if(graph.PerformanceInfo != null) graph.PerformanceInfo.RewritesPerformed++;
-                        graph.Finished(mat_5, false);
-                        res_5 = ret_5 != null;
+                        graph.Finished(matches_1, false);
                     }
-                    if(res_5)                        res_4 = true;
+                    if(res_1)
+                        res_27 = (bool)(true);
                     else
                     {
-                        GRGEN_LIBGR.IMatches mat_7 = rule_dumpNodeInterface.Match(graph, 1, null);
-                        graph.Matched(mat_7, false);
-                        if(mat_7.Count == 0)
-                        	res_7 = false;
-                        else
-                        {
-                            if(graph.PerformanceInfo != null) graph.PerformanceInfo.MatchesFound += mat_7.Count;
-                            graph.Finishing(mat_7, false);
-                            object[] ret_7 = rule_dumpNodeInterface.Modify(graph, mat_7.First);
+                        GRGEN_LIBGR.IMatchesExact<Rule_dumpNodeInterface.IMatch_dumpNodeInterface> matches_2 = rule_dumpNodeInterface.Match(graph, 1);
+                        graph.Matched(matches_2, false);
+                        if(matches_2.Count==0) {
+                            res_2 = (bool)(false);
+                        } else {
+                            res_2 = (bool)(true);
+                            if(graph.PerformanceInfo!=null) graph.PerformanceInfo.MatchesFound += matches_2.Count;
+                            graph.Finishing(matches_2, false);
+                            Rule_dumpNodeInterface.IMatch_dumpNodeInterface match_2 = matches_2.FirstExact;
+                            rule_dumpNodeInterface.Modify(graph, match_2);
                             if(graph.PerformanceInfo != null) graph.PerformanceInfo.RewritesPerformed++;
-                            graph.Finished(mat_7, false);
-                            res_7 = ret_7 != null;
+                            graph.Finished(matches_2, false);
                         }
-                        if(res_7)                            res_6 = true;
+                        if(res_2)
+                            res_26 = (bool)(true);
                         else
                         {
-                            GRGEN_LIBGR.IMatches mat_9 = rule_dumpNodeVariable.Match(graph, 1, null);
-                            graph.Matched(mat_9, false);
-                            if(mat_9.Count == 0)
-                            	res_9 = false;
-                            else
-                            {
-                                if(graph.PerformanceInfo != null) graph.PerformanceInfo.MatchesFound += mat_9.Count;
-                                graph.Finishing(mat_9, false);
-                                object[] ret_9 = rule_dumpNodeVariable.Modify(graph, mat_9.First);
+                            GRGEN_LIBGR.IMatchesExact<Rule_dumpNodeVariable.IMatch_dumpNodeVariable> matches_3 = rule_dumpNodeVariable.Match(graph, 1);
+                            graph.Matched(matches_3, false);
+                            if(matches_3.Count==0) {
+                                res_3 = (bool)(false);
+                            } else {
+                                res_3 = (bool)(true);
+                                if(graph.PerformanceInfo!=null) graph.PerformanceInfo.MatchesFound += matches_3.Count;
+                                graph.Finishing(matches_3, false);
+                                Rule_dumpNodeVariable.IMatch_dumpNodeVariable match_3 = matches_3.FirstExact;
+                                rule_dumpNodeVariable.Modify(graph, match_3);
                                 if(graph.PerformanceInfo != null) graph.PerformanceInfo.RewritesPerformed++;
-                                graph.Finished(mat_9, false);
-                                res_9 = ret_9 != null;
+                                graph.Finished(matches_3, false);
                             }
-                            if(res_9)                                res_8 = true;
+                            if(res_3)
+                                res_25 = (bool)(true);
                             else
                             {
-                                GRGEN_LIBGR.IMatches mat_11 = rule_dumpNodeOperation.Match(graph, 1, null);
-                                graph.Matched(mat_11, false);
-                                if(mat_11.Count == 0)
-                                	res_11 = false;
-                                else
-                                {
-                                    if(graph.PerformanceInfo != null) graph.PerformanceInfo.MatchesFound += mat_11.Count;
-                                    graph.Finishing(mat_11, false);
-                                    object[] ret_11 = rule_dumpNodeOperation.Modify(graph, mat_11.First);
+                                GRGEN_LIBGR.IMatchesExact<Rule_dumpNodeOperation.IMatch_dumpNodeOperation> matches_4 = rule_dumpNodeOperation.Match(graph, 1);
+                                graph.Matched(matches_4, false);
+                                if(matches_4.Count==0) {
+                                    res_4 = (bool)(false);
+                                } else {
+                                    res_4 = (bool)(true);
+                                    if(graph.PerformanceInfo!=null) graph.PerformanceInfo.MatchesFound += matches_4.Count;
+                                    graph.Finishing(matches_4, false);
+                                    Rule_dumpNodeOperation.IMatch_dumpNodeOperation match_4 = matches_4.FirstExact;
+                                    rule_dumpNodeOperation.Modify(graph, match_4);
                                     if(graph.PerformanceInfo != null) graph.PerformanceInfo.RewritesPerformed++;
-                                    graph.Finished(mat_11, false);
-                                    res_11 = ret_11 != null;
+                                    graph.Finished(matches_4, false);
                                 }
-                                if(res_11)                                    res_10 = true;
+                                if(res_4)
+                                    res_24 = (bool)(true);
                                 else
                                 {
-                                    GRGEN_LIBGR.IMatches mat_13 = rule_dumpNodeMethodBody.Match(graph, 1, null);
-                                    graph.Matched(mat_13, false);
-                                    if(mat_13.Count == 0)
-                                    	res_13 = false;
-                                    else
-                                    {
-                                        if(graph.PerformanceInfo != null) graph.PerformanceInfo.MatchesFound += mat_13.Count;
-                                        graph.Finishing(mat_13, false);
-                                        object[] ret_13 = rule_dumpNodeMethodBody.Modify(graph, mat_13.First);
+                                    GRGEN_LIBGR.IMatchesExact<Rule_dumpNodeMethodBody.IMatch_dumpNodeMethodBody> matches_5 = rule_dumpNodeMethodBody.Match(graph, 1);
+                                    graph.Matched(matches_5, false);
+                                    if(matches_5.Count==0) {
+                                        res_5 = (bool)(false);
+                                    } else {
+                                        res_5 = (bool)(true);
+                                        if(graph.PerformanceInfo!=null) graph.PerformanceInfo.MatchesFound += matches_5.Count;
+                                        graph.Finishing(matches_5, false);
+                                        Rule_dumpNodeMethodBody.IMatch_dumpNodeMethodBody match_5 = matches_5.FirstExact;
+                                        rule_dumpNodeMethodBody.Modify(graph, match_5);
                                         if(graph.PerformanceInfo != null) graph.PerformanceInfo.RewritesPerformed++;
-                                        graph.Finished(mat_13, false);
-                                        res_13 = ret_13 != null;
+                                        graph.Finished(matches_5, false);
                                     }
-                                    if(res_13)                                        res_12 = true;
+                                    if(res_5)
+                                        res_23 = (bool)(true);
                                     else
                                     {
-                                        GRGEN_LIBGR.IMatches mat_15 = rule_dumpNodeAccess.Match(graph, 1, null);
-                                        graph.Matched(mat_15, false);
-                                        if(mat_15.Count == 0)
-                                        	res_15 = false;
-                                        else
-                                        {
-                                            if(graph.PerformanceInfo != null) graph.PerformanceInfo.MatchesFound += mat_15.Count;
-                                            graph.Finishing(mat_15, false);
-                                            object[] ret_15 = rule_dumpNodeAccess.Modify(graph, mat_15.First);
+                                        GRGEN_LIBGR.IMatchesExact<Rule_dumpNodeAccess.IMatch_dumpNodeAccess> matches_6 = rule_dumpNodeAccess.Match(graph, 1);
+                                        graph.Matched(matches_6, false);
+                                        if(matches_6.Count==0) {
+                                            res_6 = (bool)(false);
+                                        } else {
+                                            res_6 = (bool)(true);
+                                            if(graph.PerformanceInfo!=null) graph.PerformanceInfo.MatchesFound += matches_6.Count;
+                                            graph.Finishing(matches_6, false);
+                                            Rule_dumpNodeAccess.IMatch_dumpNodeAccess match_6 = matches_6.FirstExact;
+                                            rule_dumpNodeAccess.Modify(graph, match_6);
                                             if(graph.PerformanceInfo != null) graph.PerformanceInfo.RewritesPerformed++;
-                                            graph.Finished(mat_15, false);
-                                            res_15 = ret_15 != null;
+                                            graph.Finished(matches_6, false);
                                         }
-                                        if(res_15)                                            res_14 = true;
+                                        if(res_6)
+                                            res_22 = (bool)(true);
                                         else
                                         {
-                                            GRGEN_LIBGR.IMatches mat_17 = rule_dumpNodeUpdate.Match(graph, 1, null);
-                                            graph.Matched(mat_17, false);
-                                            if(mat_17.Count == 0)
-                                            	res_17 = false;
-                                            else
-                                            {
-                                                if(graph.PerformanceInfo != null) graph.PerformanceInfo.MatchesFound += mat_17.Count;
-                                                graph.Finishing(mat_17, false);
-                                                object[] ret_17 = rule_dumpNodeUpdate.Modify(graph, mat_17.First);
+                                            GRGEN_LIBGR.IMatchesExact<Rule_dumpNodeUpdate.IMatch_dumpNodeUpdate> matches_7 = rule_dumpNodeUpdate.Match(graph, 1);
+                                            graph.Matched(matches_7, false);
+                                            if(matches_7.Count==0) {
+                                                res_7 = (bool)(false);
+                                            } else {
+                                                res_7 = (bool)(true);
+                                                if(graph.PerformanceInfo!=null) graph.PerformanceInfo.MatchesFound += matches_7.Count;
+                                                graph.Finishing(matches_7, false);
+                                                Rule_dumpNodeUpdate.IMatch_dumpNodeUpdate match_7 = matches_7.FirstExact;
+                                                rule_dumpNodeUpdate.Modify(graph, match_7);
                                                 if(graph.PerformanceInfo != null) graph.PerformanceInfo.RewritesPerformed++;
-                                                graph.Finished(mat_17, false);
-                                                res_17 = ret_17 != null;
+                                                graph.Finished(matches_7, false);
                                             }
-                                            if(res_17)                                                res_16 = true;
+                                            if(res_7)
+                                                res_21 = (bool)(true);
                                             else
                                             {
-                                                GRGEN_LIBGR.IMatches mat_19 = rule_dumpNodeCall.Match(graph, 1, null);
-                                                graph.Matched(mat_19, false);
-                                                if(mat_19.Count == 0)
-                                                	res_19 = false;
-                                                else
-                                                {
-                                                    if(graph.PerformanceInfo != null) graph.PerformanceInfo.MatchesFound += mat_19.Count;
-                                                    graph.Finishing(mat_19, false);
-                                                    object[] ret_19 = rule_dumpNodeCall.Modify(graph, mat_19.First);
+                                                GRGEN_LIBGR.IMatchesExact<Rule_dumpNodeCall.IMatch_dumpNodeCall> matches_8 = rule_dumpNodeCall.Match(graph, 1);
+                                                graph.Matched(matches_8, false);
+                                                if(matches_8.Count==0) {
+                                                    res_8 = (bool)(false);
+                                                } else {
+                                                    res_8 = (bool)(true);
+                                                    if(graph.PerformanceInfo!=null) graph.PerformanceInfo.MatchesFound += matches_8.Count;
+                                                    graph.Finishing(matches_8, false);
+                                                    Rule_dumpNodeCall.IMatch_dumpNodeCall match_8 = matches_8.FirstExact;
+                                                    rule_dumpNodeCall.Modify(graph, match_8);
                                                     if(graph.PerformanceInfo != null) graph.PerformanceInfo.RewritesPerformed++;
-                                                    graph.Finished(mat_19, false);
-                                                    res_19 = ret_19 != null;
+                                                    graph.Finished(matches_8, false);
                                                 }
-                                                if(res_19)                                                    res_18 = true;
+                                                if(res_8)
+                                                    res_20 = (bool)(true);
                                                 else
                                                 {
-                                                    GRGEN_LIBGR.IMatches mat_21 = rule_dumpNodeIstantiation.Match(graph, 1, null);
-                                                    graph.Matched(mat_21, false);
-                                                    if(mat_21.Count == 0)
-                                                    	res_21 = false;
-                                                    else
-                                                    {
-                                                        if(graph.PerformanceInfo != null) graph.PerformanceInfo.MatchesFound += mat_21.Count;
-                                                        graph.Finishing(mat_21, false);
-                                                        object[] ret_21 = rule_dumpNodeIstantiation.Modify(graph, mat_21.First);
+                                                    GRGEN_LIBGR.IMatchesExact<Rule_dumpNodeIstantiation.IMatch_dumpNodeIstantiation> matches_9 = rule_dumpNodeIstantiation.Match(graph, 1);
+                                                    graph.Matched(matches_9, false);
+                                                    if(matches_9.Count==0) {
+                                                        res_9 = (bool)(false);
+                                                    } else {
+                                                        res_9 = (bool)(true);
+                                                        if(graph.PerformanceInfo!=null) graph.PerformanceInfo.MatchesFound += matches_9.Count;
+                                                        graph.Finishing(matches_9, false);
+                                                        Rule_dumpNodeIstantiation.IMatch_dumpNodeIstantiation match_9 = matches_9.FirstExact;
+                                                        rule_dumpNodeIstantiation.Modify(graph, match_9);
                                                         if(graph.PerformanceInfo != null) graph.PerformanceInfo.RewritesPerformed++;
-                                                        graph.Finished(mat_21, false);
-                                                        res_21 = ret_21 != null;
+                                                        graph.Finished(matches_9, false);
                                                     }
-                                                    if(res_21)                                                        res_20 = true;
+                                                    if(res_9)
+                                                        res_19 = (bool)(true);
                                                     else
                                                     {
-                                                        GRGEN_LIBGR.IMatches mat_23 = rule_dumpNodeOperator.Match(graph, 1, null);
-                                                        graph.Matched(mat_23, false);
-                                                        if(mat_23.Count == 0)
-                                                        	res_23 = false;
-                                                        else
-                                                        {
-                                                            if(graph.PerformanceInfo != null) graph.PerformanceInfo.MatchesFound += mat_23.Count;
-                                                            graph.Finishing(mat_23, false);
-                                                            object[] ret_23 = rule_dumpNodeOperator.Modify(graph, mat_23.First);
+                                                        GRGEN_LIBGR.IMatchesExact<Rule_dumpNodeOperator.IMatch_dumpNodeOperator> matches_10 = rule_dumpNodeOperator.Match(graph, 1);
+                                                        graph.Matched(matches_10, false);
+                                                        if(matches_10.Count==0) {
+                                                            res_10 = (bool)(false);
+                                                        } else {
+                                                            res_10 = (bool)(true);
+                                                            if(graph.PerformanceInfo!=null) graph.PerformanceInfo.MatchesFound += matches_10.Count;
+                                                            graph.Finishing(matches_10, false);
+                                                            Rule_dumpNodeOperator.IMatch_dumpNodeOperator match_10 = matches_10.FirstExact;
+                                                            rule_dumpNodeOperator.Modify(graph, match_10);
                                                             if(graph.PerformanceInfo != null) graph.PerformanceInfo.RewritesPerformed++;
-                                                            graph.Finished(mat_23, false);
-                                                            res_23 = ret_23 != null;
+                                                            graph.Finished(matches_10, false);
                                                         }
-                                                        if(res_23)                                                            res_22 = true;
+                                                        if(res_10)
+                                                            res_18 = (bool)(true);
                                                         else
                                                         {
-                                                            GRGEN_LIBGR.IMatches mat_25 = rule_dumpNodeReturn.Match(graph, 1, null);
-                                                            graph.Matched(mat_25, false);
-                                                            if(mat_25.Count == 0)
-                                                            	res_25 = false;
-                                                            else
-                                                            {
-                                                                if(graph.PerformanceInfo != null) graph.PerformanceInfo.MatchesFound += mat_25.Count;
-                                                                graph.Finishing(mat_25, false);
-                                                                object[] ret_25 = rule_dumpNodeReturn.Modify(graph, mat_25.First);
+                                                            GRGEN_LIBGR.IMatchesExact<Rule_dumpNodeReturn.IMatch_dumpNodeReturn> matches_11 = rule_dumpNodeReturn.Match(graph, 1);
+                                                            graph.Matched(matches_11, false);
+                                                            if(matches_11.Count==0) {
+                                                                res_11 = (bool)(false);
+                                                            } else {
+                                                                res_11 = (bool)(true);
+                                                                if(graph.PerformanceInfo!=null) graph.PerformanceInfo.MatchesFound += matches_11.Count;
+                                                                graph.Finishing(matches_11, false);
+                                                                Rule_dumpNodeReturn.IMatch_dumpNodeReturn match_11 = matches_11.FirstExact;
+                                                                rule_dumpNodeReturn.Modify(graph, match_11);
                                                                 if(graph.PerformanceInfo != null) graph.PerformanceInfo.RewritesPerformed++;
-                                                                graph.Finished(mat_25, false);
-                                                                res_25 = ret_25 != null;
+                                                                graph.Finished(matches_11, false);
                                                             }
-                                                            if(res_25)                                                                res_24 = true;
+                                                            if(res_11)
+                                                                res_17 = (bool)(true);
                                                             else
                                                             {
-                                                                GRGEN_LIBGR.IMatches mat_27 = rule_dumpNodeBlock.Match(graph, 1, null);
-                                                                graph.Matched(mat_27, false);
-                                                                if(mat_27.Count == 0)
-                                                                	res_27 = false;
-                                                                else
-                                                                {
-                                                                    if(graph.PerformanceInfo != null) graph.PerformanceInfo.MatchesFound += mat_27.Count;
-                                                                    graph.Finishing(mat_27, false);
-                                                                    object[] ret_27 = rule_dumpNodeBlock.Modify(graph, mat_27.First);
+                                                                GRGEN_LIBGR.IMatchesExact<Rule_dumpNodeBlock.IMatch_dumpNodeBlock> matches_12 = rule_dumpNodeBlock.Match(graph, 1);
+                                                                graph.Matched(matches_12, false);
+                                                                if(matches_12.Count==0) {
+                                                                    res_12 = (bool)(false);
+                                                                } else {
+                                                                    res_12 = (bool)(true);
+                                                                    if(graph.PerformanceInfo!=null) graph.PerformanceInfo.MatchesFound += matches_12.Count;
+                                                                    graph.Finishing(matches_12, false);
+                                                                    Rule_dumpNodeBlock.IMatch_dumpNodeBlock match_12 = matches_12.FirstExact;
+                                                                    rule_dumpNodeBlock.Modify(graph, match_12);
                                                                     if(graph.PerformanceInfo != null) graph.PerformanceInfo.RewritesPerformed++;
-                                                                    graph.Finished(mat_27, false);
-                                                                    res_27 = ret_27 != null;
+                                                                    graph.Finished(matches_12, false);
                                                                 }
-                                                                if(res_27)                                                                    res_26 = true;
+                                                                if(res_12)
+                                                                    res_16 = (bool)(true);
                                                                 else
                                                                 {
-                                                                    GRGEN_LIBGR.IMatches mat_29 = rule_dumpNodeLiteral.Match(graph, 1, null);
-                                                                    graph.Matched(mat_29, false);
-                                                                    if(mat_29.Count == 0)
-                                                                    	res_29 = false;
-                                                                    else
-                                                                    {
-                                                                        if(graph.PerformanceInfo != null) graph.PerformanceInfo.MatchesFound += mat_29.Count;
-                                                                        graph.Finishing(mat_29, false);
-                                                                        object[] ret_29 = rule_dumpNodeLiteral.Modify(graph, mat_29.First);
+                                                                    GRGEN_LIBGR.IMatchesExact<Rule_dumpNodeLiteral.IMatch_dumpNodeLiteral> matches_13 = rule_dumpNodeLiteral.Match(graph, 1);
+                                                                    graph.Matched(matches_13, false);
+                                                                    if(matches_13.Count==0) {
+                                                                        res_13 = (bool)(false);
+                                                                    } else {
+                                                                        res_13 = (bool)(true);
+                                                                        if(graph.PerformanceInfo!=null) graph.PerformanceInfo.MatchesFound += matches_13.Count;
+                                                                        graph.Finishing(matches_13, false);
+                                                                        Rule_dumpNodeLiteral.IMatch_dumpNodeLiteral match_13 = matches_13.FirstExact;
+                                                                        rule_dumpNodeLiteral.Modify(graph, match_13);
                                                                         if(graph.PerformanceInfo != null) graph.PerformanceInfo.RewritesPerformed++;
-                                                                        graph.Finished(mat_29, false);
-                                                                        res_29 = ret_29 != null;
+                                                                        graph.Finished(matches_13, false);
                                                                     }
-                                                                    if(res_29)                                                                        res_28 = true;
+                                                                    if(res_13)
+                                                                        res_15 = (bool)(true);
                                                                     else
                                                                     {
-                                                                        GRGEN_LIBGR.IMatches mat_30 = rule_dumpNodeParameter.Match(graph, 1, null);
-                                                                        graph.Matched(mat_30, false);
-                                                                        if(mat_30.Count == 0)
-                                                                        	res_30 = false;
-                                                                        else
-                                                                        {
-                                                                            if(graph.PerformanceInfo != null) graph.PerformanceInfo.MatchesFound += mat_30.Count;
-                                                                            graph.Finishing(mat_30, false);
-                                                                            object[] ret_30 = rule_dumpNodeParameter.Modify(graph, mat_30.First);
+                                                                        GRGEN_LIBGR.IMatchesExact<Rule_dumpNodeParameter.IMatch_dumpNodeParameter> matches_14 = rule_dumpNodeParameter.Match(graph, 1);
+                                                                        graph.Matched(matches_14, false);
+                                                                        if(matches_14.Count==0) {
+                                                                            res_14 = (bool)(false);
+                                                                        } else {
+                                                                            res_14 = (bool)(true);
+                                                                            if(graph.PerformanceInfo!=null) graph.PerformanceInfo.MatchesFound += matches_14.Count;
+                                                                            graph.Finishing(matches_14, false);
+                                                                            Rule_dumpNodeParameter.IMatch_dumpNodeParameter match_14 = matches_14.FirstExact;
+                                                                            rule_dumpNodeParameter.Modify(graph, match_14);
                                                                             if(graph.PerformanceInfo != null) graph.PerformanceInfo.RewritesPerformed++;
-                                                                            graph.Finished(mat_30, false);
-                                                                            res_30 = ret_30 != null;
+                                                                            graph.Finished(matches_14, false);
                                                                         }
-                                                                        res_28 = res_30;
+                                                                        res_15 = (bool)(res_14);
                                                                     }
-                                                                    res_26 = res_28;
+                                                                    res_16 = (bool)(res_15);
                                                                 }
-                                                                res_24 = res_26;
+                                                                res_17 = (bool)(res_16);
                                                             }
-                                                            res_22 = res_24;
+                                                            res_18 = (bool)(res_17);
                                                         }
-                                                        res_20 = res_22;
+                                                        res_19 = (bool)(res_18);
                                                     }
-                                                    res_18 = res_20;
+                                                    res_20 = (bool)(res_19);
                                                 }
-                                                res_16 = res_18;
+                                                res_21 = (bool)(res_20);
                                             }
-                                            res_14 = res_16;
+                                            res_22 = (bool)(res_21);
                                         }
-                                        res_12 = res_14;
+                                        res_23 = (bool)(res_22);
                                     }
-                                    res_10 = res_12;
+                                    res_24 = (bool)(res_23);
                                 }
-                                res_8 = res_10;
+                                res_25 = (bool)(res_24);
                             }
-                            res_6 = res_8;
+                            res_26 = (bool)(res_25);
                         }
-                        res_4 = res_6;
+                        res_27 = (bool)(res_26);
                     }
-                    res_2 = res_4;
+                    res_28 = (bool)(res_27);
                 }
-                if(!res_2) break;
-                i_1++;
+                if(!res_28) break;
+                i_29++;
             }
-            res_1 = i_1 >= 0;
-            if(!res_1)                res_0 = false;
+            res_29 = (bool)(i_29 >= 0);
+            if(!res_29)
+                res_50 = (bool)(false);
             else
             {
-                long i_31 = 0;
+                long i_49 = 0;
                 while(true)
                 {
-                    GRGEN_LIBGR.IMatches mat_33 = rule_dumpEdgeBelongsTo.Match(graph, 1, null);
-                    graph.Matched(mat_33, false);
-                    if(mat_33.Count == 0)
-                    	res_33 = false;
-                    else
-                    {
-                        if(graph.PerformanceInfo != null) graph.PerformanceInfo.MatchesFound += mat_33.Count;
-                        graph.Finishing(mat_33, false);
-                        object[] ret_33 = rule_dumpEdgeBelongsTo.Modify(graph, mat_33.First);
+                    GRGEN_LIBGR.IMatchesExact<Rule_dumpEdgeBelongsTo.IMatch_dumpEdgeBelongsTo> matches_30 = rule_dumpEdgeBelongsTo.Match(graph, 1);
+                    graph.Matched(matches_30, false);
+                    if(matches_30.Count==0) {
+                        res_30 = (bool)(false);
+                    } else {
+                        res_30 = (bool)(true);
+                        if(graph.PerformanceInfo!=null) graph.PerformanceInfo.MatchesFound += matches_30.Count;
+                        graph.Finishing(matches_30, false);
+                        Rule_dumpEdgeBelongsTo.IMatch_dumpEdgeBelongsTo match_30 = matches_30.FirstExact;
+                        rule_dumpEdgeBelongsTo.Modify(graph, match_30);
                         if(graph.PerformanceInfo != null) graph.PerformanceInfo.RewritesPerformed++;
-                        graph.Finished(mat_33, false);
-                        res_33 = ret_33 != null;
+                        graph.Finished(matches_30, false);
                     }
-                    if(res_33)                        res_32 = true;
+                    if(res_30)
+                        res_48 = (bool)(true);
                     else
                     {
-                        GRGEN_LIBGR.IMatches mat_35 = rule_dumpEdgeType.Match(graph, 1, null);
-                        graph.Matched(mat_35, false);
-                        if(mat_35.Count == 0)
-                        	res_35 = false;
-                        else
-                        {
-                            if(graph.PerformanceInfo != null) graph.PerformanceInfo.MatchesFound += mat_35.Count;
-                            graph.Finishing(mat_35, false);
-                            object[] ret_35 = rule_dumpEdgeType.Modify(graph, mat_35.First);
+                        GRGEN_LIBGR.IMatchesExact<Rule_dumpEdgeType.IMatch_dumpEdgeType> matches_31 = rule_dumpEdgeType.Match(graph, 1);
+                        graph.Matched(matches_31, false);
+                        if(matches_31.Count==0) {
+                            res_31 = (bool)(false);
+                        } else {
+                            res_31 = (bool)(true);
+                            if(graph.PerformanceInfo!=null) graph.PerformanceInfo.MatchesFound += matches_31.Count;
+                            graph.Finishing(matches_31, false);
+                            Rule_dumpEdgeType.IMatch_dumpEdgeType match_31 = matches_31.FirstExact;
+                            rule_dumpEdgeType.Modify(graph, match_31);
                             if(graph.PerformanceInfo != null) graph.PerformanceInfo.RewritesPerformed++;
-                            graph.Finished(mat_35, false);
-                            res_35 = ret_35 != null;
+                            graph.Finished(matches_31, false);
                         }
-                        if(res_35)                            res_34 = true;
+                        if(res_31)
+                            res_47 = (bool)(true);
                         else
                         {
-                            GRGEN_LIBGR.IMatches mat_37 = rule_dumpEdgeExtends.Match(graph, 1, null);
-                            graph.Matched(mat_37, false);
-                            if(mat_37.Count == 0)
-                            	res_37 = false;
-                            else
-                            {
-                                if(graph.PerformanceInfo != null) graph.PerformanceInfo.MatchesFound += mat_37.Count;
-                                graph.Finishing(mat_37, false);
-                                object[] ret_37 = rule_dumpEdgeExtends.Modify(graph, mat_37.First);
+                            GRGEN_LIBGR.IMatchesExact<Rule_dumpEdgeExtends.IMatch_dumpEdgeExtends> matches_32 = rule_dumpEdgeExtends.Match(graph, 1);
+                            graph.Matched(matches_32, false);
+                            if(matches_32.Count==0) {
+                                res_32 = (bool)(false);
+                            } else {
+                                res_32 = (bool)(true);
+                                if(graph.PerformanceInfo!=null) graph.PerformanceInfo.MatchesFound += matches_32.Count;
+                                graph.Finishing(matches_32, false);
+                                Rule_dumpEdgeExtends.IMatch_dumpEdgeExtends match_32 = matches_32.FirstExact;
+                                rule_dumpEdgeExtends.Modify(graph, match_32);
                                 if(graph.PerformanceInfo != null) graph.PerformanceInfo.RewritesPerformed++;
-                                graph.Finished(mat_37, false);
-                                res_37 = ret_37 != null;
+                                graph.Finished(matches_32, false);
                             }
-                            if(res_37)                                res_36 = true;
+                            if(res_32)
+                                res_46 = (bool)(true);
                             else
                             {
-                                GRGEN_LIBGR.IMatches mat_39 = rule_dumpEdgeImports.Match(graph, 1, null);
-                                graph.Matched(mat_39, false);
-                                if(mat_39.Count == 0)
-                                	res_39 = false;
-                                else
-                                {
-                                    if(graph.PerformanceInfo != null) graph.PerformanceInfo.MatchesFound += mat_39.Count;
-                                    graph.Finishing(mat_39, false);
-                                    object[] ret_39 = rule_dumpEdgeImports.Modify(graph, mat_39.First);
+                                GRGEN_LIBGR.IMatchesExact<Rule_dumpEdgeImports.IMatch_dumpEdgeImports> matches_33 = rule_dumpEdgeImports.Match(graph, 1);
+                                graph.Matched(matches_33, false);
+                                if(matches_33.Count==0) {
+                                    res_33 = (bool)(false);
+                                } else {
+                                    res_33 = (bool)(true);
+                                    if(graph.PerformanceInfo!=null) graph.PerformanceInfo.MatchesFound += matches_33.Count;
+                                    graph.Finishing(matches_33, false);
+                                    Rule_dumpEdgeImports.IMatch_dumpEdgeImports match_33 = matches_33.FirstExact;
+                                    rule_dumpEdgeImports.Modify(graph, match_33);
                                     if(graph.PerformanceInfo != null) graph.PerformanceInfo.RewritesPerformed++;
-                                    graph.Finished(mat_39, false);
-                                    res_39 = ret_39 != null;
+                                    graph.Finished(matches_33, false);
                                 }
-                                if(res_39)                                    res_38 = true;
+                                if(res_33)
+                                    res_45 = (bool)(true);
                                 else
                                 {
-                                    GRGEN_LIBGR.IMatches mat_41 = rule_dumpEdgeImplements.Match(graph, 1, null);
-                                    graph.Matched(mat_41, false);
-                                    if(mat_41.Count == 0)
-                                    	res_41 = false;
-                                    else
-                                    {
-                                        if(graph.PerformanceInfo != null) graph.PerformanceInfo.MatchesFound += mat_41.Count;
-                                        graph.Finishing(mat_41, false);
-                                        object[] ret_41 = rule_dumpEdgeImplements.Modify(graph, mat_41.First);
+                                    GRGEN_LIBGR.IMatchesExact<Rule_dumpEdgeImplements.IMatch_dumpEdgeImplements> matches_34 = rule_dumpEdgeImplements.Match(graph, 1);
+                                    graph.Matched(matches_34, false);
+                                    if(matches_34.Count==0) {
+                                        res_34 = (bool)(false);
+                                    } else {
+                                        res_34 = (bool)(true);
+                                        if(graph.PerformanceInfo!=null) graph.PerformanceInfo.MatchesFound += matches_34.Count;
+                                        graph.Finishing(matches_34, false);
+                                        Rule_dumpEdgeImplements.IMatch_dumpEdgeImplements match_34 = matches_34.FirstExact;
+                                        rule_dumpEdgeImplements.Modify(graph, match_34);
                                         if(graph.PerformanceInfo != null) graph.PerformanceInfo.RewritesPerformed++;
-                                        graph.Finished(mat_41, false);
-                                        res_41 = ret_41 != null;
+                                        graph.Finished(matches_34, false);
                                     }
-                                    if(res_41)                                        res_40 = true;
+                                    if(res_34)
+                                        res_44 = (bool)(true);
                                     else
                                     {
-                                        GRGEN_LIBGR.IMatches mat_43 = rule_dumpEdgeParameter.Match(graph, 1, null);
-                                        graph.Matched(mat_43, false);
-                                        if(mat_43.Count == 0)
-                                        	res_43 = false;
-                                        else
-                                        {
-                                            if(graph.PerformanceInfo != null) graph.PerformanceInfo.MatchesFound += mat_43.Count;
-                                            graph.Finishing(mat_43, false);
-                                            object[] ret_43 = rule_dumpEdgeParameter.Modify(graph, mat_43.First);
+                                        GRGEN_LIBGR.IMatchesExact<Rule_dumpEdgeParameter.IMatch_dumpEdgeParameter> matches_35 = rule_dumpEdgeParameter.Match(graph, 1);
+                                        graph.Matched(matches_35, false);
+                                        if(matches_35.Count==0) {
+                                            res_35 = (bool)(false);
+                                        } else {
+                                            res_35 = (bool)(true);
+                                            if(graph.PerformanceInfo!=null) graph.PerformanceInfo.MatchesFound += matches_35.Count;
+                                            graph.Finishing(matches_35, false);
+                                            Rule_dumpEdgeParameter.IMatch_dumpEdgeParameter match_35 = matches_35.FirstExact;
+                                            rule_dumpEdgeParameter.Modify(graph, match_35);
                                             if(graph.PerformanceInfo != null) graph.PerformanceInfo.RewritesPerformed++;
-                                            graph.Finished(mat_43, false);
-                                            res_43 = ret_43 != null;
+                                            graph.Finished(matches_35, false);
                                         }
-                                        if(res_43)                                            res_42 = true;
+                                        if(res_35)
+                                            res_43 = (bool)(true);
                                         else
                                         {
-                                            GRGEN_LIBGR.IMatches mat_45 = rule_dumpEdgeBinding.Match(graph, 1, null);
-                                            graph.Matched(mat_45, false);
-                                            if(mat_45.Count == 0)
-                                            	res_45 = false;
-                                            else
-                                            {
-                                                if(graph.PerformanceInfo != null) graph.PerformanceInfo.MatchesFound += mat_45.Count;
-                                                graph.Finishing(mat_45, false);
-                                                object[] ret_45 = rule_dumpEdgeBinding.Modify(graph, mat_45.First);
+                                            GRGEN_LIBGR.IMatchesExact<Rule_dumpEdgeBinding.IMatch_dumpEdgeBinding> matches_36 = rule_dumpEdgeBinding.Match(graph, 1);
+                                            graph.Matched(matches_36, false);
+                                            if(matches_36.Count==0) {
+                                                res_36 = (bool)(false);
+                                            } else {
+                                                res_36 = (bool)(true);
+                                                if(graph.PerformanceInfo!=null) graph.PerformanceInfo.MatchesFound += matches_36.Count;
+                                                graph.Finishing(matches_36, false);
+                                                Rule_dumpEdgeBinding.IMatch_dumpEdgeBinding match_36 = matches_36.FirstExact;
+                                                rule_dumpEdgeBinding.Modify(graph, match_36);
                                                 if(graph.PerformanceInfo != null) graph.PerformanceInfo.RewritesPerformed++;
-                                                graph.Finished(mat_45, false);
-                                                res_45 = ret_45 != null;
+                                                graph.Finished(matches_36, false);
                                             }
-                                            if(res_45)                                                res_44 = true;
+                                            if(res_36)
+                                                res_42 = (bool)(true);
                                             else
                                             {
-                                                GRGEN_LIBGR.IMatches mat_47 = rule_dumpEdgeLink.Match(graph, 1, null);
-                                                graph.Matched(mat_47, false);
-                                                if(mat_47.Count == 0)
-                                                	res_47 = false;
-                                                else
-                                                {
-                                                    if(graph.PerformanceInfo != null) graph.PerformanceInfo.MatchesFound += mat_47.Count;
-                                                    graph.Finishing(mat_47, false);
-                                                    object[] ret_47 = rule_dumpEdgeLink.Modify(graph, mat_47.First);
+                                                GRGEN_LIBGR.IMatchesExact<Rule_dumpEdgeLink.IMatch_dumpEdgeLink> matches_37 = rule_dumpEdgeLink.Match(graph, 1);
+                                                graph.Matched(matches_37, false);
+                                                if(matches_37.Count==0) {
+                                                    res_37 = (bool)(false);
+                                                } else {
+                                                    res_37 = (bool)(true);
+                                                    if(graph.PerformanceInfo!=null) graph.PerformanceInfo.MatchesFound += matches_37.Count;
+                                                    graph.Finishing(matches_37, false);
+                                                    Rule_dumpEdgeLink.IMatch_dumpEdgeLink match_37 = matches_37.FirstExact;
+                                                    rule_dumpEdgeLink.Modify(graph, match_37);
                                                     if(graph.PerformanceInfo != null) graph.PerformanceInfo.RewritesPerformed++;
-                                                    graph.Finished(mat_47, false);
-                                                    res_47 = ret_47 != null;
+                                                    graph.Finished(matches_37, false);
                                                 }
-                                                if(res_47)                                                    res_46 = true;
+                                                if(res_37)
+                                                    res_41 = (bool)(true);
                                                 else
                                                 {
-                                                    GRGEN_LIBGR.IMatches mat_49 = rule_dumpEdgeExpression.Match(graph, 1, null);
-                                                    graph.Matched(mat_49, false);
-                                                    if(mat_49.Count == 0)
-                                                    	res_49 = false;
-                                                    else
-                                                    {
-                                                        if(graph.PerformanceInfo != null) graph.PerformanceInfo.MatchesFound += mat_49.Count;
-                                                        graph.Finishing(mat_49, false);
-                                                        object[] ret_49 = rule_dumpEdgeExpression.Modify(graph, mat_49.First);
+                                                    GRGEN_LIBGR.IMatchesExact<Rule_dumpEdgeExpression.IMatch_dumpEdgeExpression> matches_38 = rule_dumpEdgeExpression.Match(graph, 1);
+                                                    graph.Matched(matches_38, false);
+                                                    if(matches_38.Count==0) {
+                                                        res_38 = (bool)(false);
+                                                    } else {
+                                                        res_38 = (bool)(true);
+                                                        if(graph.PerformanceInfo!=null) graph.PerformanceInfo.MatchesFound += matches_38.Count;
+                                                        graph.Finishing(matches_38, false);
+                                                        Rule_dumpEdgeExpression.IMatch_dumpEdgeExpression match_38 = matches_38.FirstExact;
+                                                        rule_dumpEdgeExpression.Modify(graph, match_38);
                                                         if(graph.PerformanceInfo != null) graph.PerformanceInfo.RewritesPerformed++;
-                                                        graph.Finished(mat_49, false);
-                                                        res_49 = ret_49 != null;
+                                                        graph.Finished(matches_38, false);
                                                     }
-                                                    if(res_49)                                                        res_48 = true;
+                                                    if(res_38)
+                                                        res_40 = (bool)(true);
                                                     else
                                                     {
-                                                        GRGEN_LIBGR.IMatches mat_50 = rule_dumpEdgeActualParameter.Match(graph, 1, null);
-                                                        graph.Matched(mat_50, false);
-                                                        if(mat_50.Count == 0)
-                                                        	res_50 = false;
-                                                        else
-                                                        {
-                                                            if(graph.PerformanceInfo != null) graph.PerformanceInfo.MatchesFound += mat_50.Count;
-                                                            graph.Finishing(mat_50, false);
-                                                            object[] ret_50 = rule_dumpEdgeActualParameter.Modify(graph, mat_50.First);
+                                                        GRGEN_LIBGR.IMatchesExact<Rule_dumpEdgeActualParameter.IMatch_dumpEdgeActualParameter> matches_39 = rule_dumpEdgeActualParameter.Match(graph, 1);
+                                                        graph.Matched(matches_39, false);
+                                                        if(matches_39.Count==0) {
+                                                            res_39 = (bool)(false);
+                                                        } else {
+                                                            res_39 = (bool)(true);
+                                                            if(graph.PerformanceInfo!=null) graph.PerformanceInfo.MatchesFound += matches_39.Count;
+                                                            graph.Finishing(matches_39, false);
+                                                            Rule_dumpEdgeActualParameter.IMatch_dumpEdgeActualParameter match_39 = matches_39.FirstExact;
+                                                            rule_dumpEdgeActualParameter.Modify(graph, match_39);
                                                             if(graph.PerformanceInfo != null) graph.PerformanceInfo.RewritesPerformed++;
-                                                            graph.Finished(mat_50, false);
-                                                            res_50 = ret_50 != null;
+                                                            graph.Finished(matches_39, false);
                                                         }
-                                                        res_48 = res_50;
+                                                        res_40 = (bool)(res_39);
                                                     }
-                                                    res_46 = res_48;
+                                                    res_41 = (bool)(res_40);
                                                 }
-                                                res_44 = res_46;
+                                                res_42 = (bool)(res_41);
                                             }
-                                            res_42 = res_44;
+                                            res_43 = (bool)(res_42);
                                         }
-                                        res_40 = res_42;
+                                        res_44 = (bool)(res_43);
                                     }
-                                    res_38 = res_40;
+                                    res_45 = (bool)(res_44);
                                 }
-                                res_36 = res_38;
+                                res_46 = (bool)(res_45);
                             }
-                            res_34 = res_36;
+                            res_47 = (bool)(res_46);
                         }
-                        res_32 = res_34;
+                        res_48 = (bool)(res_47);
                     }
-                    if(!res_32) break;
-                    i_31++;
+                    if(!res_48) break;
+                    i_49++;
                 }
-                res_31 = i_31 >= 0;
-                res_0 = res_31;
+                res_49 = (bool)(i_49 >= 0);
+                res_50 = (bool)(res_49);
             }
-            return res_0;
+            return res_50;
         }
-        private static object[] __xgrs_paramarray_0 = new object[0];
 
 		static Rule_dumpGxl() {
 		}
@@ -7880,6 +7935,7 @@ namespace de.unika.ipd.grGen.Action_JavaProgramGraphs
 
 
 
+
 		GRGEN_LGSP.PatternGraph pat_dumpNodePackage;
 
 
@@ -7900,7 +7956,7 @@ namespace de.unika.ipd.grGen.Action_JavaProgramGraphs
 			int[] dumpNodePackage_minMatches = new int[0] ;
 			int[] dumpNodePackage_maxMatches = new int[0] ;
 			GRGEN_LGSP.PatternNode dumpNodePackage_node_n = new GRGEN_LGSP.PatternNode((int) GRGEN_MODEL.NodeTypes.@Package, "GRGEN_MODEL.IPackage", "dumpNodePackage_node_n", "n", dumpNodePackage_node_n_AllowedTypes, dumpNodePackage_node_n_IsAllowedType, 5.5F, -1, false);
-			GRGEN_LGSP.PatternCondition cond_0 = new GRGEN_LGSP.PatternCondition(
+			GRGEN_LGSP.PatternCondition dumpNodePackage_cond_0 = new GRGEN_LGSP.PatternCondition(
 				new GRGEN_EXPR.LOG_NOT(new GRGEN_EXPR.Visited("dumpNodePackage_node_n", new GRGEN_EXPR.Constant("0"))),
 				new string[] { "dumpNodePackage_node_n" }, new string[] {  }, new string[] {  }, new GRGEN_LIBGR.VarType[] {  });
 			pat_dumpNodePackage = new GRGEN_LGSP.PatternGraph(
@@ -7917,7 +7973,7 @@ namespace de.unika.ipd.grGen.Action_JavaProgramGraphs
 				dumpNodePackage_maxMatches,
 				new GRGEN_LGSP.PatternGraph[] {  }, 
 				new GRGEN_LGSP.PatternGraph[] {  }, 
-				new GRGEN_LGSP.PatternCondition[] { cond_0,  }, 
+				new GRGEN_LGSP.PatternCondition[] { dumpNodePackage_cond_0,  }, 
 				new bool[1, 1] {
 					{ true, },
 				},
@@ -8098,6 +8154,7 @@ namespace de.unika.ipd.grGen.Action_JavaProgramGraphs
 
 
 
+
 		GRGEN_LGSP.PatternGraph pat_dumpNodeClass;
 
 
@@ -8118,7 +8175,7 @@ namespace de.unika.ipd.grGen.Action_JavaProgramGraphs
 			int[] dumpNodeClass_minMatches = new int[0] ;
 			int[] dumpNodeClass_maxMatches = new int[0] ;
 			GRGEN_LGSP.PatternNode dumpNodeClass_node_n = new GRGEN_LGSP.PatternNode((int) GRGEN_MODEL.NodeTypes.@Class, "GRGEN_MODEL.IClass", "dumpNodeClass_node_n", "n", dumpNodeClass_node_n_AllowedTypes, dumpNodeClass_node_n_IsAllowedType, 5.5F, -1, false);
-			GRGEN_LGSP.PatternCondition cond_0 = new GRGEN_LGSP.PatternCondition(
+			GRGEN_LGSP.PatternCondition dumpNodeClass_cond_0 = new GRGEN_LGSP.PatternCondition(
 				new GRGEN_EXPR.LOG_NOT(new GRGEN_EXPR.Visited("dumpNodeClass_node_n", new GRGEN_EXPR.Constant("0"))),
 				new string[] { "dumpNodeClass_node_n" }, new string[] {  }, new string[] {  }, new GRGEN_LIBGR.VarType[] {  });
 			pat_dumpNodeClass = new GRGEN_LGSP.PatternGraph(
@@ -8135,7 +8192,7 @@ namespace de.unika.ipd.grGen.Action_JavaProgramGraphs
 				dumpNodeClass_maxMatches,
 				new GRGEN_LGSP.PatternGraph[] {  }, 
 				new GRGEN_LGSP.PatternGraph[] {  }, 
-				new GRGEN_LGSP.PatternCondition[] { cond_0,  }, 
+				new GRGEN_LGSP.PatternCondition[] { dumpNodeClass_cond_0,  }, 
 				new bool[1, 1] {
 					{ true, },
 				},
@@ -8340,6 +8397,7 @@ namespace de.unika.ipd.grGen.Action_JavaProgramGraphs
 
 
 
+
 		GRGEN_LGSP.PatternGraph pat_dumpNodeInterface;
 
 
@@ -8360,7 +8418,7 @@ namespace de.unika.ipd.grGen.Action_JavaProgramGraphs
 			int[] dumpNodeInterface_minMatches = new int[0] ;
 			int[] dumpNodeInterface_maxMatches = new int[0] ;
 			GRGEN_LGSP.PatternNode dumpNodeInterface_node_n = new GRGEN_LGSP.PatternNode((int) GRGEN_MODEL.NodeTypes.@Interface, "GRGEN_MODEL.IInterface", "dumpNodeInterface_node_n", "n", dumpNodeInterface_node_n_AllowedTypes, dumpNodeInterface_node_n_IsAllowedType, 5.5F, -1, false);
-			GRGEN_LGSP.PatternCondition cond_0 = new GRGEN_LGSP.PatternCondition(
+			GRGEN_LGSP.PatternCondition dumpNodeInterface_cond_0 = new GRGEN_LGSP.PatternCondition(
 				new GRGEN_EXPR.LOG_NOT(new GRGEN_EXPR.Visited("dumpNodeInterface_node_n", new GRGEN_EXPR.Constant("0"))),
 				new string[] { "dumpNodeInterface_node_n" }, new string[] {  }, new string[] {  }, new GRGEN_LIBGR.VarType[] {  });
 			pat_dumpNodeInterface = new GRGEN_LGSP.PatternGraph(
@@ -8377,7 +8435,7 @@ namespace de.unika.ipd.grGen.Action_JavaProgramGraphs
 				dumpNodeInterface_maxMatches,
 				new GRGEN_LGSP.PatternGraph[] {  }, 
 				new GRGEN_LGSP.PatternGraph[] {  }, 
-				new GRGEN_LGSP.PatternCondition[] { cond_0,  }, 
+				new GRGEN_LGSP.PatternCondition[] { dumpNodeInterface_cond_0,  }, 
 				new bool[1, 1] {
 					{ true, },
 				},
@@ -8574,6 +8632,7 @@ namespace de.unika.ipd.grGen.Action_JavaProgramGraphs
 
 
 
+
 		GRGEN_LGSP.PatternGraph pat_dumpNodeVariable;
 
 
@@ -8594,7 +8653,7 @@ namespace de.unika.ipd.grGen.Action_JavaProgramGraphs
 			int[] dumpNodeVariable_minMatches = new int[0] ;
 			int[] dumpNodeVariable_maxMatches = new int[0] ;
 			GRGEN_LGSP.PatternNode dumpNodeVariable_node_n = new GRGEN_LGSP.PatternNode((int) GRGEN_MODEL.NodeTypes.@Variable, "GRGEN_MODEL.IVariable", "dumpNodeVariable_node_n", "n", dumpNodeVariable_node_n_AllowedTypes, dumpNodeVariable_node_n_IsAllowedType, 5.5F, -1, false);
-			GRGEN_LGSP.PatternCondition cond_0 = new GRGEN_LGSP.PatternCondition(
+			GRGEN_LGSP.PatternCondition dumpNodeVariable_cond_0 = new GRGEN_LGSP.PatternCondition(
 				new GRGEN_EXPR.LOG_NOT(new GRGEN_EXPR.Visited("dumpNodeVariable_node_n", new GRGEN_EXPR.Constant("0"))),
 				new string[] { "dumpNodeVariable_node_n" }, new string[] {  }, new string[] {  }, new GRGEN_LIBGR.VarType[] {  });
 			pat_dumpNodeVariable = new GRGEN_LGSP.PatternGraph(
@@ -8611,7 +8670,7 @@ namespace de.unika.ipd.grGen.Action_JavaProgramGraphs
 				dumpNodeVariable_maxMatches,
 				new GRGEN_LGSP.PatternGraph[] {  }, 
 				new GRGEN_LGSP.PatternGraph[] {  }, 
-				new GRGEN_LGSP.PatternCondition[] { cond_0,  }, 
+				new GRGEN_LGSP.PatternCondition[] { dumpNodeVariable_cond_0,  }, 
 				new bool[1, 1] {
 					{ true, },
 				},
@@ -8816,6 +8875,7 @@ namespace de.unika.ipd.grGen.Action_JavaProgramGraphs
 
 
 
+
 		GRGEN_LGSP.PatternGraph pat_dumpNodeOperation;
 
 
@@ -8836,7 +8896,7 @@ namespace de.unika.ipd.grGen.Action_JavaProgramGraphs
 			int[] dumpNodeOperation_minMatches = new int[0] ;
 			int[] dumpNodeOperation_maxMatches = new int[0] ;
 			GRGEN_LGSP.PatternNode dumpNodeOperation_node_n = new GRGEN_LGSP.PatternNode((int) GRGEN_MODEL.NodeTypes.@Operation, "GRGEN_MODEL.IOperation", "dumpNodeOperation_node_n", "n", dumpNodeOperation_node_n_AllowedTypes, dumpNodeOperation_node_n_IsAllowedType, 5.5F, -1, false);
-			GRGEN_LGSP.PatternCondition cond_0 = new GRGEN_LGSP.PatternCondition(
+			GRGEN_LGSP.PatternCondition dumpNodeOperation_cond_0 = new GRGEN_LGSP.PatternCondition(
 				new GRGEN_EXPR.LOG_NOT(new GRGEN_EXPR.Visited("dumpNodeOperation_node_n", new GRGEN_EXPR.Constant("0"))),
 				new string[] { "dumpNodeOperation_node_n" }, new string[] {  }, new string[] {  }, new GRGEN_LIBGR.VarType[] {  });
 			pat_dumpNodeOperation = new GRGEN_LGSP.PatternGraph(
@@ -8853,7 +8913,7 @@ namespace de.unika.ipd.grGen.Action_JavaProgramGraphs
 				dumpNodeOperation_maxMatches,
 				new GRGEN_LGSP.PatternGraph[] {  }, 
 				new GRGEN_LGSP.PatternGraph[] {  }, 
-				new GRGEN_LGSP.PatternCondition[] { cond_0,  }, 
+				new GRGEN_LGSP.PatternCondition[] { dumpNodeOperation_cond_0,  }, 
 				new bool[1, 1] {
 					{ true, },
 				},
@@ -9066,6 +9126,7 @@ namespace de.unika.ipd.grGen.Action_JavaProgramGraphs
 
 
 
+
 		GRGEN_LGSP.PatternGraph pat_dumpNodeMethodBody;
 
 
@@ -9086,7 +9147,7 @@ namespace de.unika.ipd.grGen.Action_JavaProgramGraphs
 			int[] dumpNodeMethodBody_minMatches = new int[0] ;
 			int[] dumpNodeMethodBody_maxMatches = new int[0] ;
 			GRGEN_LGSP.PatternNode dumpNodeMethodBody_node_n = new GRGEN_LGSP.PatternNode((int) GRGEN_MODEL.NodeTypes.@MethodBody, "GRGEN_MODEL.IMethodBody", "dumpNodeMethodBody_node_n", "n", dumpNodeMethodBody_node_n_AllowedTypes, dumpNodeMethodBody_node_n_IsAllowedType, 5.5F, -1, false);
-			GRGEN_LGSP.PatternCondition cond_0 = new GRGEN_LGSP.PatternCondition(
+			GRGEN_LGSP.PatternCondition dumpNodeMethodBody_cond_0 = new GRGEN_LGSP.PatternCondition(
 				new GRGEN_EXPR.LOG_NOT(new GRGEN_EXPR.Visited("dumpNodeMethodBody_node_n", new GRGEN_EXPR.Constant("0"))),
 				new string[] { "dumpNodeMethodBody_node_n" }, new string[] {  }, new string[] {  }, new GRGEN_LIBGR.VarType[] {  });
 			pat_dumpNodeMethodBody = new GRGEN_LGSP.PatternGraph(
@@ -9103,7 +9164,7 @@ namespace de.unika.ipd.grGen.Action_JavaProgramGraphs
 				dumpNodeMethodBody_maxMatches,
 				new GRGEN_LGSP.PatternGraph[] {  }, 
 				new GRGEN_LGSP.PatternGraph[] {  }, 
-				new GRGEN_LGSP.PatternCondition[] { cond_0,  }, 
+				new GRGEN_LGSP.PatternCondition[] { dumpNodeMethodBody_cond_0,  }, 
 				new bool[1, 1] {
 					{ true, },
 				},
@@ -9274,6 +9335,7 @@ namespace de.unika.ipd.grGen.Action_JavaProgramGraphs
 
 
 
+
 		GRGEN_LGSP.PatternGraph pat_dumpNodeAccess;
 
 
@@ -9294,7 +9356,7 @@ namespace de.unika.ipd.grGen.Action_JavaProgramGraphs
 			int[] dumpNodeAccess_minMatches = new int[0] ;
 			int[] dumpNodeAccess_maxMatches = new int[0] ;
 			GRGEN_LGSP.PatternNode dumpNodeAccess_node_n = new GRGEN_LGSP.PatternNode((int) GRGEN_MODEL.NodeTypes.@Access, "GRGEN_MODEL.IAccess", "dumpNodeAccess_node_n", "n", dumpNodeAccess_node_n_AllowedTypes, dumpNodeAccess_node_n_IsAllowedType, 5.5F, -1, false);
-			GRGEN_LGSP.PatternCondition cond_0 = new GRGEN_LGSP.PatternCondition(
+			GRGEN_LGSP.PatternCondition dumpNodeAccess_cond_0 = new GRGEN_LGSP.PatternCondition(
 				new GRGEN_EXPR.LOG_NOT(new GRGEN_EXPR.Visited("dumpNodeAccess_node_n", new GRGEN_EXPR.Constant("0"))),
 				new string[] { "dumpNodeAccess_node_n" }, new string[] {  }, new string[] {  }, new GRGEN_LIBGR.VarType[] {  });
 			pat_dumpNodeAccess = new GRGEN_LGSP.PatternGraph(
@@ -9311,7 +9373,7 @@ namespace de.unika.ipd.grGen.Action_JavaProgramGraphs
 				dumpNodeAccess_maxMatches,
 				new GRGEN_LGSP.PatternGraph[] {  }, 
 				new GRGEN_LGSP.PatternGraph[] {  }, 
-				new GRGEN_LGSP.PatternCondition[] { cond_0,  }, 
+				new GRGEN_LGSP.PatternCondition[] { dumpNodeAccess_cond_0,  }, 
 				new bool[1, 1] {
 					{ true, },
 				},
@@ -9492,6 +9554,7 @@ namespace de.unika.ipd.grGen.Action_JavaProgramGraphs
 
 
 
+
 		GRGEN_LGSP.PatternGraph pat_dumpNodeUpdate;
 
 
@@ -9512,7 +9575,7 @@ namespace de.unika.ipd.grGen.Action_JavaProgramGraphs
 			int[] dumpNodeUpdate_minMatches = new int[0] ;
 			int[] dumpNodeUpdate_maxMatches = new int[0] ;
 			GRGEN_LGSP.PatternNode dumpNodeUpdate_node_n = new GRGEN_LGSP.PatternNode((int) GRGEN_MODEL.NodeTypes.@Update, "GRGEN_MODEL.IUpdate", "dumpNodeUpdate_node_n", "n", dumpNodeUpdate_node_n_AllowedTypes, dumpNodeUpdate_node_n_IsAllowedType, 5.5F, -1, false);
-			GRGEN_LGSP.PatternCondition cond_0 = new GRGEN_LGSP.PatternCondition(
+			GRGEN_LGSP.PatternCondition dumpNodeUpdate_cond_0 = new GRGEN_LGSP.PatternCondition(
 				new GRGEN_EXPR.LOG_NOT(new GRGEN_EXPR.Visited("dumpNodeUpdate_node_n", new GRGEN_EXPR.Constant("0"))),
 				new string[] { "dumpNodeUpdate_node_n" }, new string[] {  }, new string[] {  }, new GRGEN_LIBGR.VarType[] {  });
 			pat_dumpNodeUpdate = new GRGEN_LGSP.PatternGraph(
@@ -9529,7 +9592,7 @@ namespace de.unika.ipd.grGen.Action_JavaProgramGraphs
 				dumpNodeUpdate_maxMatches,
 				new GRGEN_LGSP.PatternGraph[] {  }, 
 				new GRGEN_LGSP.PatternGraph[] {  }, 
-				new GRGEN_LGSP.PatternCondition[] { cond_0,  }, 
+				new GRGEN_LGSP.PatternCondition[] { dumpNodeUpdate_cond_0,  }, 
 				new bool[1, 1] {
 					{ true, },
 				},
@@ -9710,6 +9773,7 @@ namespace de.unika.ipd.grGen.Action_JavaProgramGraphs
 
 
 
+
 		GRGEN_LGSP.PatternGraph pat_dumpNodeCall;
 
 
@@ -9730,7 +9794,7 @@ namespace de.unika.ipd.grGen.Action_JavaProgramGraphs
 			int[] dumpNodeCall_minMatches = new int[0] ;
 			int[] dumpNodeCall_maxMatches = new int[0] ;
 			GRGEN_LGSP.PatternNode dumpNodeCall_node_n = new GRGEN_LGSP.PatternNode((int) GRGEN_MODEL.NodeTypes.@Call, "GRGEN_MODEL.ICall", "dumpNodeCall_node_n", "n", dumpNodeCall_node_n_AllowedTypes, dumpNodeCall_node_n_IsAllowedType, 5.5F, -1, false);
-			GRGEN_LGSP.PatternCondition cond_0 = new GRGEN_LGSP.PatternCondition(
+			GRGEN_LGSP.PatternCondition dumpNodeCall_cond_0 = new GRGEN_LGSP.PatternCondition(
 				new GRGEN_EXPR.LOG_NOT(new GRGEN_EXPR.Visited("dumpNodeCall_node_n", new GRGEN_EXPR.Constant("0"))),
 				new string[] { "dumpNodeCall_node_n" }, new string[] {  }, new string[] {  }, new GRGEN_LIBGR.VarType[] {  });
 			pat_dumpNodeCall = new GRGEN_LGSP.PatternGraph(
@@ -9747,7 +9811,7 @@ namespace de.unika.ipd.grGen.Action_JavaProgramGraphs
 				dumpNodeCall_maxMatches,
 				new GRGEN_LGSP.PatternGraph[] {  }, 
 				new GRGEN_LGSP.PatternGraph[] {  }, 
-				new GRGEN_LGSP.PatternCondition[] { cond_0,  }, 
+				new GRGEN_LGSP.PatternCondition[] { dumpNodeCall_cond_0,  }, 
 				new bool[1, 1] {
 					{ true, },
 				},
@@ -9936,6 +10000,7 @@ namespace de.unika.ipd.grGen.Action_JavaProgramGraphs
 
 
 
+
 		GRGEN_LGSP.PatternGraph pat_dumpNodeIstantiation;
 
 
@@ -9956,7 +10021,7 @@ namespace de.unika.ipd.grGen.Action_JavaProgramGraphs
 			int[] dumpNodeIstantiation_minMatches = new int[0] ;
 			int[] dumpNodeIstantiation_maxMatches = new int[0] ;
 			GRGEN_LGSP.PatternNode dumpNodeIstantiation_node_n = new GRGEN_LGSP.PatternNode((int) GRGEN_MODEL.NodeTypes.@Instantiation, "GRGEN_MODEL.IInstantiation", "dumpNodeIstantiation_node_n", "n", dumpNodeIstantiation_node_n_AllowedTypes, dumpNodeIstantiation_node_n_IsAllowedType, 5.5F, -1, false);
-			GRGEN_LGSP.PatternCondition cond_0 = new GRGEN_LGSP.PatternCondition(
+			GRGEN_LGSP.PatternCondition dumpNodeIstantiation_cond_0 = new GRGEN_LGSP.PatternCondition(
 				new GRGEN_EXPR.LOG_NOT(new GRGEN_EXPR.Visited("dumpNodeIstantiation_node_n", new GRGEN_EXPR.Constant("0"))),
 				new string[] { "dumpNodeIstantiation_node_n" }, new string[] {  }, new string[] {  }, new GRGEN_LIBGR.VarType[] {  });
 			pat_dumpNodeIstantiation = new GRGEN_LGSP.PatternGraph(
@@ -9973,7 +10038,7 @@ namespace de.unika.ipd.grGen.Action_JavaProgramGraphs
 				dumpNodeIstantiation_maxMatches,
 				new GRGEN_LGSP.PatternGraph[] {  }, 
 				new GRGEN_LGSP.PatternGraph[] {  }, 
-				new GRGEN_LGSP.PatternCondition[] { cond_0,  }, 
+				new GRGEN_LGSP.PatternCondition[] { dumpNodeIstantiation_cond_0,  }, 
 				new bool[1, 1] {
 					{ true, },
 				},
@@ -10144,6 +10209,7 @@ namespace de.unika.ipd.grGen.Action_JavaProgramGraphs
 
 
 
+
 		GRGEN_LGSP.PatternGraph pat_dumpNodeOperator;
 
 
@@ -10164,7 +10230,7 @@ namespace de.unika.ipd.grGen.Action_JavaProgramGraphs
 			int[] dumpNodeOperator_minMatches = new int[0] ;
 			int[] dumpNodeOperator_maxMatches = new int[0] ;
 			GRGEN_LGSP.PatternNode dumpNodeOperator_node_n = new GRGEN_LGSP.PatternNode((int) GRGEN_MODEL.NodeTypes.@Operator, "GRGEN_MODEL.IOperator", "dumpNodeOperator_node_n", "n", dumpNodeOperator_node_n_AllowedTypes, dumpNodeOperator_node_n_IsAllowedType, 5.5F, -1, false);
-			GRGEN_LGSP.PatternCondition cond_0 = new GRGEN_LGSP.PatternCondition(
+			GRGEN_LGSP.PatternCondition dumpNodeOperator_cond_0 = new GRGEN_LGSP.PatternCondition(
 				new GRGEN_EXPR.LOG_NOT(new GRGEN_EXPR.Visited("dumpNodeOperator_node_n", new GRGEN_EXPR.Constant("0"))),
 				new string[] { "dumpNodeOperator_node_n" }, new string[] {  }, new string[] {  }, new GRGEN_LIBGR.VarType[] {  });
 			pat_dumpNodeOperator = new GRGEN_LGSP.PatternGraph(
@@ -10181,7 +10247,7 @@ namespace de.unika.ipd.grGen.Action_JavaProgramGraphs
 				dumpNodeOperator_maxMatches,
 				new GRGEN_LGSP.PatternGraph[] {  }, 
 				new GRGEN_LGSP.PatternGraph[] {  }, 
-				new GRGEN_LGSP.PatternCondition[] { cond_0,  }, 
+				new GRGEN_LGSP.PatternCondition[] { dumpNodeOperator_cond_0,  }, 
 				new bool[1, 1] {
 					{ true, },
 				},
@@ -10362,6 +10428,7 @@ namespace de.unika.ipd.grGen.Action_JavaProgramGraphs
 
 
 
+
 		GRGEN_LGSP.PatternGraph pat_dumpNodeReturn;
 
 
@@ -10382,7 +10449,7 @@ namespace de.unika.ipd.grGen.Action_JavaProgramGraphs
 			int[] dumpNodeReturn_minMatches = new int[0] ;
 			int[] dumpNodeReturn_maxMatches = new int[0] ;
 			GRGEN_LGSP.PatternNode dumpNodeReturn_node_n = new GRGEN_LGSP.PatternNode((int) GRGEN_MODEL.NodeTypes.@Return, "GRGEN_MODEL.IReturn", "dumpNodeReturn_node_n", "n", dumpNodeReturn_node_n_AllowedTypes, dumpNodeReturn_node_n_IsAllowedType, 5.5F, -1, false);
-			GRGEN_LGSP.PatternCondition cond_0 = new GRGEN_LGSP.PatternCondition(
+			GRGEN_LGSP.PatternCondition dumpNodeReturn_cond_0 = new GRGEN_LGSP.PatternCondition(
 				new GRGEN_EXPR.LOG_NOT(new GRGEN_EXPR.Visited("dumpNodeReturn_node_n", new GRGEN_EXPR.Constant("0"))),
 				new string[] { "dumpNodeReturn_node_n" }, new string[] {  }, new string[] {  }, new GRGEN_LIBGR.VarType[] {  });
 			pat_dumpNodeReturn = new GRGEN_LGSP.PatternGraph(
@@ -10399,7 +10466,7 @@ namespace de.unika.ipd.grGen.Action_JavaProgramGraphs
 				dumpNodeReturn_maxMatches,
 				new GRGEN_LGSP.PatternGraph[] {  }, 
 				new GRGEN_LGSP.PatternGraph[] {  }, 
-				new GRGEN_LGSP.PatternCondition[] { cond_0,  }, 
+				new GRGEN_LGSP.PatternCondition[] { dumpNodeReturn_cond_0,  }, 
 				new bool[1, 1] {
 					{ true, },
 				},
@@ -10570,6 +10637,7 @@ namespace de.unika.ipd.grGen.Action_JavaProgramGraphs
 
 
 
+
 		GRGEN_LGSP.PatternGraph pat_dumpNodeBlock;
 
 
@@ -10590,7 +10658,7 @@ namespace de.unika.ipd.grGen.Action_JavaProgramGraphs
 			int[] dumpNodeBlock_minMatches = new int[0] ;
 			int[] dumpNodeBlock_maxMatches = new int[0] ;
 			GRGEN_LGSP.PatternNode dumpNodeBlock_node_n = new GRGEN_LGSP.PatternNode((int) GRGEN_MODEL.NodeTypes.@Block, "GRGEN_MODEL.IBlock", "dumpNodeBlock_node_n", "n", dumpNodeBlock_node_n_AllowedTypes, dumpNodeBlock_node_n_IsAllowedType, 5.5F, -1, false);
-			GRGEN_LGSP.PatternCondition cond_0 = new GRGEN_LGSP.PatternCondition(
+			GRGEN_LGSP.PatternCondition dumpNodeBlock_cond_0 = new GRGEN_LGSP.PatternCondition(
 				new GRGEN_EXPR.LOG_NOT(new GRGEN_EXPR.Visited("dumpNodeBlock_node_n", new GRGEN_EXPR.Constant("0"))),
 				new string[] { "dumpNodeBlock_node_n" }, new string[] {  }, new string[] {  }, new GRGEN_LIBGR.VarType[] {  });
 			pat_dumpNodeBlock = new GRGEN_LGSP.PatternGraph(
@@ -10607,7 +10675,7 @@ namespace de.unika.ipd.grGen.Action_JavaProgramGraphs
 				dumpNodeBlock_maxMatches,
 				new GRGEN_LGSP.PatternGraph[] {  }, 
 				new GRGEN_LGSP.PatternGraph[] {  }, 
-				new GRGEN_LGSP.PatternCondition[] { cond_0,  }, 
+				new GRGEN_LGSP.PatternCondition[] { dumpNodeBlock_cond_0,  }, 
 				new bool[1, 1] {
 					{ true, },
 				},
@@ -10778,6 +10846,7 @@ namespace de.unika.ipd.grGen.Action_JavaProgramGraphs
 
 
 
+
 		GRGEN_LGSP.PatternGraph pat_dumpNodeLiteral;
 
 
@@ -10798,7 +10867,7 @@ namespace de.unika.ipd.grGen.Action_JavaProgramGraphs
 			int[] dumpNodeLiteral_minMatches = new int[0] ;
 			int[] dumpNodeLiteral_maxMatches = new int[0] ;
 			GRGEN_LGSP.PatternNode dumpNodeLiteral_node_n = new GRGEN_LGSP.PatternNode((int) GRGEN_MODEL.NodeTypes.@Literal, "GRGEN_MODEL.ILiteral", "dumpNodeLiteral_node_n", "n", dumpNodeLiteral_node_n_AllowedTypes, dumpNodeLiteral_node_n_IsAllowedType, 5.5F, -1, false);
-			GRGEN_LGSP.PatternCondition cond_0 = new GRGEN_LGSP.PatternCondition(
+			GRGEN_LGSP.PatternCondition dumpNodeLiteral_cond_0 = new GRGEN_LGSP.PatternCondition(
 				new GRGEN_EXPR.LOG_NOT(new GRGEN_EXPR.Visited("dumpNodeLiteral_node_n", new GRGEN_EXPR.Constant("0"))),
 				new string[] { "dumpNodeLiteral_node_n" }, new string[] {  }, new string[] {  }, new GRGEN_LIBGR.VarType[] {  });
 			pat_dumpNodeLiteral = new GRGEN_LGSP.PatternGraph(
@@ -10815,7 +10884,7 @@ namespace de.unika.ipd.grGen.Action_JavaProgramGraphs
 				dumpNodeLiteral_maxMatches,
 				new GRGEN_LGSP.PatternGraph[] {  }, 
 				new GRGEN_LGSP.PatternGraph[] {  }, 
-				new GRGEN_LGSP.PatternCondition[] { cond_0,  }, 
+				new GRGEN_LGSP.PatternCondition[] { dumpNodeLiteral_cond_0,  }, 
 				new bool[1, 1] {
 					{ true, },
 				},
@@ -10996,6 +11065,7 @@ namespace de.unika.ipd.grGen.Action_JavaProgramGraphs
 
 
 
+
 		GRGEN_LGSP.PatternGraph pat_dumpNodeParameter;
 
 
@@ -11016,7 +11086,7 @@ namespace de.unika.ipd.grGen.Action_JavaProgramGraphs
 			int[] dumpNodeParameter_minMatches = new int[0] ;
 			int[] dumpNodeParameter_maxMatches = new int[0] ;
 			GRGEN_LGSP.PatternNode dumpNodeParameter_node_n = new GRGEN_LGSP.PatternNode((int) GRGEN_MODEL.NodeTypes.@Parameter, "GRGEN_MODEL.IParameter", "dumpNodeParameter_node_n", "n", dumpNodeParameter_node_n_AllowedTypes, dumpNodeParameter_node_n_IsAllowedType, 5.5F, -1, false);
-			GRGEN_LGSP.PatternCondition cond_0 = new GRGEN_LGSP.PatternCondition(
+			GRGEN_LGSP.PatternCondition dumpNodeParameter_cond_0 = new GRGEN_LGSP.PatternCondition(
 				new GRGEN_EXPR.LOG_NOT(new GRGEN_EXPR.Visited("dumpNodeParameter_node_n", new GRGEN_EXPR.Constant("0"))),
 				new string[] { "dumpNodeParameter_node_n" }, new string[] {  }, new string[] {  }, new GRGEN_LIBGR.VarType[] {  });
 			pat_dumpNodeParameter = new GRGEN_LGSP.PatternGraph(
@@ -11033,7 +11103,7 @@ namespace de.unika.ipd.grGen.Action_JavaProgramGraphs
 				dumpNodeParameter_maxMatches,
 				new GRGEN_LGSP.PatternGraph[] {  }, 
 				new GRGEN_LGSP.PatternGraph[] {  }, 
-				new GRGEN_LGSP.PatternCondition[] { cond_0,  }, 
+				new GRGEN_LGSP.PatternCondition[] { dumpNodeParameter_cond_0,  }, 
 				new bool[1, 1] {
 					{ true, },
 				},
@@ -11208,6 +11278,7 @@ namespace de.unika.ipd.grGen.Action_JavaProgramGraphs
 
 
 
+
 		GRGEN_LGSP.PatternGraph pat_dumpEdgeBelongsTo;
 
 
@@ -11233,7 +11304,7 @@ namespace de.unika.ipd.grGen.Action_JavaProgramGraphs
 			GRGEN_LGSP.PatternNode dumpEdgeBelongsTo_node_src = new GRGEN_LGSP.PatternNode((int) GRGEN_MODEL.NodeTypes.@Node, "GRGEN_LIBGR.INode", "dumpEdgeBelongsTo_node_src", "src", dumpEdgeBelongsTo_node_src_AllowedTypes, dumpEdgeBelongsTo_node_src_IsAllowedType, 5.5F, -1, false);
 			GRGEN_LGSP.PatternNode dumpEdgeBelongsTo_node_tgt = new GRGEN_LGSP.PatternNode((int) GRGEN_MODEL.NodeTypes.@Node, "GRGEN_LIBGR.INode", "dumpEdgeBelongsTo_node_tgt", "tgt", dumpEdgeBelongsTo_node_tgt_AllowedTypes, dumpEdgeBelongsTo_node_tgt_IsAllowedType, 5.5F, -1, false);
 			GRGEN_LGSP.PatternEdge dumpEdgeBelongsTo_edge_e = new GRGEN_LGSP.PatternEdge(true, (int) GRGEN_MODEL.EdgeTypes.@belongsTo, "GRGEN_MODEL.IbelongsTo", "dumpEdgeBelongsTo_edge_e", "e", dumpEdgeBelongsTo_edge_e_AllowedTypes, dumpEdgeBelongsTo_edge_e_IsAllowedType, 5.5F, -1, false);
-			GRGEN_LGSP.PatternCondition cond_0 = new GRGEN_LGSP.PatternCondition(
+			GRGEN_LGSP.PatternCondition dumpEdgeBelongsTo_cond_0 = new GRGEN_LGSP.PatternCondition(
 				new GRGEN_EXPR.LOG_NOT(new GRGEN_EXPR.Visited("dumpEdgeBelongsTo_edge_e", new GRGEN_EXPR.Constant("0"))),
 				new string[] {  }, new string[] { "dumpEdgeBelongsTo_edge_e" }, new string[] {  }, new GRGEN_LIBGR.VarType[] {  });
 			pat_dumpEdgeBelongsTo = new GRGEN_LGSP.PatternGraph(
@@ -11250,7 +11321,7 @@ namespace de.unika.ipd.grGen.Action_JavaProgramGraphs
 				dumpEdgeBelongsTo_maxMatches,
 				new GRGEN_LGSP.PatternGraph[] {  }, 
 				new GRGEN_LGSP.PatternGraph[] {  }, 
-				new GRGEN_LGSP.PatternCondition[] { cond_0,  }, 
+				new GRGEN_LGSP.PatternCondition[] { dumpEdgeBelongsTo_cond_0,  }, 
 				new bool[2, 2] {
 					{ true, false, },
 					{ false, true, },
@@ -11452,6 +11523,7 @@ namespace de.unika.ipd.grGen.Action_JavaProgramGraphs
 
 
 
+
 		GRGEN_LGSP.PatternGraph pat_dumpEdgeType;
 
 
@@ -11477,7 +11549,7 @@ namespace de.unika.ipd.grGen.Action_JavaProgramGraphs
 			GRGEN_LGSP.PatternNode dumpEdgeType_node_src = new GRGEN_LGSP.PatternNode((int) GRGEN_MODEL.NodeTypes.@Node, "GRGEN_LIBGR.INode", "dumpEdgeType_node_src", "src", dumpEdgeType_node_src_AllowedTypes, dumpEdgeType_node_src_IsAllowedType, 5.5F, -1, false);
 			GRGEN_LGSP.PatternNode dumpEdgeType_node_tgt = new GRGEN_LGSP.PatternNode((int) GRGEN_MODEL.NodeTypes.@Node, "GRGEN_LIBGR.INode", "dumpEdgeType_node_tgt", "tgt", dumpEdgeType_node_tgt_AllowedTypes, dumpEdgeType_node_tgt_IsAllowedType, 5.5F, -1, false);
 			GRGEN_LGSP.PatternEdge dumpEdgeType_edge_e = new GRGEN_LGSP.PatternEdge(true, (int) GRGEN_MODEL.EdgeTypes.@type_, "GRGEN_MODEL.Itype_", "dumpEdgeType_edge_e", "e", dumpEdgeType_edge_e_AllowedTypes, dumpEdgeType_edge_e_IsAllowedType, 5.5F, -1, false);
-			GRGEN_LGSP.PatternCondition cond_0 = new GRGEN_LGSP.PatternCondition(
+			GRGEN_LGSP.PatternCondition dumpEdgeType_cond_0 = new GRGEN_LGSP.PatternCondition(
 				new GRGEN_EXPR.LOG_NOT(new GRGEN_EXPR.Visited("dumpEdgeType_edge_e", new GRGEN_EXPR.Constant("0"))),
 				new string[] {  }, new string[] { "dumpEdgeType_edge_e" }, new string[] {  }, new GRGEN_LIBGR.VarType[] {  });
 			pat_dumpEdgeType = new GRGEN_LGSP.PatternGraph(
@@ -11494,7 +11566,7 @@ namespace de.unika.ipd.grGen.Action_JavaProgramGraphs
 				dumpEdgeType_maxMatches,
 				new GRGEN_LGSP.PatternGraph[] {  }, 
 				new GRGEN_LGSP.PatternGraph[] {  }, 
-				new GRGEN_LGSP.PatternCondition[] { cond_0,  }, 
+				new GRGEN_LGSP.PatternCondition[] { dumpEdgeType_cond_0,  }, 
 				new bool[2, 2] {
 					{ true, false, },
 					{ false, true, },
@@ -11696,6 +11768,7 @@ namespace de.unika.ipd.grGen.Action_JavaProgramGraphs
 
 
 
+
 		GRGEN_LGSP.PatternGraph pat_dumpEdgeExtends;
 
 
@@ -11721,7 +11794,7 @@ namespace de.unika.ipd.grGen.Action_JavaProgramGraphs
 			GRGEN_LGSP.PatternNode dumpEdgeExtends_node_src = new GRGEN_LGSP.PatternNode((int) GRGEN_MODEL.NodeTypes.@Node, "GRGEN_LIBGR.INode", "dumpEdgeExtends_node_src", "src", dumpEdgeExtends_node_src_AllowedTypes, dumpEdgeExtends_node_src_IsAllowedType, 5.5F, -1, false);
 			GRGEN_LGSP.PatternNode dumpEdgeExtends_node_tgt = new GRGEN_LGSP.PatternNode((int) GRGEN_MODEL.NodeTypes.@Node, "GRGEN_LIBGR.INode", "dumpEdgeExtends_node_tgt", "tgt", dumpEdgeExtends_node_tgt_AllowedTypes, dumpEdgeExtends_node_tgt_IsAllowedType, 5.5F, -1, false);
 			GRGEN_LGSP.PatternEdge dumpEdgeExtends_edge_e = new GRGEN_LGSP.PatternEdge(true, (int) GRGEN_MODEL.EdgeTypes.@extends_, "GRGEN_MODEL.Iextends_", "dumpEdgeExtends_edge_e", "e", dumpEdgeExtends_edge_e_AllowedTypes, dumpEdgeExtends_edge_e_IsAllowedType, 5.5F, -1, false);
-			GRGEN_LGSP.PatternCondition cond_0 = new GRGEN_LGSP.PatternCondition(
+			GRGEN_LGSP.PatternCondition dumpEdgeExtends_cond_0 = new GRGEN_LGSP.PatternCondition(
 				new GRGEN_EXPR.LOG_NOT(new GRGEN_EXPR.Visited("dumpEdgeExtends_edge_e", new GRGEN_EXPR.Constant("0"))),
 				new string[] {  }, new string[] { "dumpEdgeExtends_edge_e" }, new string[] {  }, new GRGEN_LIBGR.VarType[] {  });
 			pat_dumpEdgeExtends = new GRGEN_LGSP.PatternGraph(
@@ -11738,7 +11811,7 @@ namespace de.unika.ipd.grGen.Action_JavaProgramGraphs
 				dumpEdgeExtends_maxMatches,
 				new GRGEN_LGSP.PatternGraph[] {  }, 
 				new GRGEN_LGSP.PatternGraph[] {  }, 
-				new GRGEN_LGSP.PatternCondition[] { cond_0,  }, 
+				new GRGEN_LGSP.PatternCondition[] { dumpEdgeExtends_cond_0,  }, 
 				new bool[2, 2] {
 					{ true, false, },
 					{ false, true, },
@@ -11940,6 +12013,7 @@ namespace de.unika.ipd.grGen.Action_JavaProgramGraphs
 
 
 
+
 		GRGEN_LGSP.PatternGraph pat_dumpEdgeImports;
 
 
@@ -11965,7 +12039,7 @@ namespace de.unika.ipd.grGen.Action_JavaProgramGraphs
 			GRGEN_LGSP.PatternNode dumpEdgeImports_node_src = new GRGEN_LGSP.PatternNode((int) GRGEN_MODEL.NodeTypes.@Node, "GRGEN_LIBGR.INode", "dumpEdgeImports_node_src", "src", dumpEdgeImports_node_src_AllowedTypes, dumpEdgeImports_node_src_IsAllowedType, 5.5F, -1, false);
 			GRGEN_LGSP.PatternNode dumpEdgeImports_node_tgt = new GRGEN_LGSP.PatternNode((int) GRGEN_MODEL.NodeTypes.@Node, "GRGEN_LIBGR.INode", "dumpEdgeImports_node_tgt", "tgt", dumpEdgeImports_node_tgt_AllowedTypes, dumpEdgeImports_node_tgt_IsAllowedType, 5.5F, -1, false);
 			GRGEN_LGSP.PatternEdge dumpEdgeImports_edge_e = new GRGEN_LGSP.PatternEdge(true, (int) GRGEN_MODEL.EdgeTypes.@imports, "GRGEN_MODEL.Iimports", "dumpEdgeImports_edge_e", "e", dumpEdgeImports_edge_e_AllowedTypes, dumpEdgeImports_edge_e_IsAllowedType, 5.5F, -1, false);
-			GRGEN_LGSP.PatternCondition cond_0 = new GRGEN_LGSP.PatternCondition(
+			GRGEN_LGSP.PatternCondition dumpEdgeImports_cond_0 = new GRGEN_LGSP.PatternCondition(
 				new GRGEN_EXPR.LOG_NOT(new GRGEN_EXPR.Visited("dumpEdgeImports_edge_e", new GRGEN_EXPR.Constant("0"))),
 				new string[] {  }, new string[] { "dumpEdgeImports_edge_e" }, new string[] {  }, new GRGEN_LIBGR.VarType[] {  });
 			pat_dumpEdgeImports = new GRGEN_LGSP.PatternGraph(
@@ -11982,7 +12056,7 @@ namespace de.unika.ipd.grGen.Action_JavaProgramGraphs
 				dumpEdgeImports_maxMatches,
 				new GRGEN_LGSP.PatternGraph[] {  }, 
 				new GRGEN_LGSP.PatternGraph[] {  }, 
-				new GRGEN_LGSP.PatternCondition[] { cond_0,  }, 
+				new GRGEN_LGSP.PatternCondition[] { dumpEdgeImports_cond_0,  }, 
 				new bool[2, 2] {
 					{ true, false, },
 					{ false, true, },
@@ -12184,6 +12258,7 @@ namespace de.unika.ipd.grGen.Action_JavaProgramGraphs
 
 
 
+
 		GRGEN_LGSP.PatternGraph pat_dumpEdgeImplements;
 
 
@@ -12209,7 +12284,7 @@ namespace de.unika.ipd.grGen.Action_JavaProgramGraphs
 			GRGEN_LGSP.PatternNode dumpEdgeImplements_node_src = new GRGEN_LGSP.PatternNode((int) GRGEN_MODEL.NodeTypes.@Node, "GRGEN_LIBGR.INode", "dumpEdgeImplements_node_src", "src", dumpEdgeImplements_node_src_AllowedTypes, dumpEdgeImplements_node_src_IsAllowedType, 5.5F, -1, false);
 			GRGEN_LGSP.PatternNode dumpEdgeImplements_node_tgt = new GRGEN_LGSP.PatternNode((int) GRGEN_MODEL.NodeTypes.@Node, "GRGEN_LIBGR.INode", "dumpEdgeImplements_node_tgt", "tgt", dumpEdgeImplements_node_tgt_AllowedTypes, dumpEdgeImplements_node_tgt_IsAllowedType, 5.5F, -1, false);
 			GRGEN_LGSP.PatternEdge dumpEdgeImplements_edge_e = new GRGEN_LGSP.PatternEdge(true, (int) GRGEN_MODEL.EdgeTypes.@implements, "GRGEN_MODEL.Iimplements", "dumpEdgeImplements_edge_e", "e", dumpEdgeImplements_edge_e_AllowedTypes, dumpEdgeImplements_edge_e_IsAllowedType, 5.5F, -1, false);
-			GRGEN_LGSP.PatternCondition cond_0 = new GRGEN_LGSP.PatternCondition(
+			GRGEN_LGSP.PatternCondition dumpEdgeImplements_cond_0 = new GRGEN_LGSP.PatternCondition(
 				new GRGEN_EXPR.LOG_NOT(new GRGEN_EXPR.Visited("dumpEdgeImplements_edge_e", new GRGEN_EXPR.Constant("0"))),
 				new string[] {  }, new string[] { "dumpEdgeImplements_edge_e" }, new string[] {  }, new GRGEN_LIBGR.VarType[] {  });
 			pat_dumpEdgeImplements = new GRGEN_LGSP.PatternGraph(
@@ -12226,7 +12301,7 @@ namespace de.unika.ipd.grGen.Action_JavaProgramGraphs
 				dumpEdgeImplements_maxMatches,
 				new GRGEN_LGSP.PatternGraph[] {  }, 
 				new GRGEN_LGSP.PatternGraph[] {  }, 
-				new GRGEN_LGSP.PatternCondition[] { cond_0,  }, 
+				new GRGEN_LGSP.PatternCondition[] { dumpEdgeImplements_cond_0,  }, 
 				new bool[2, 2] {
 					{ true, false, },
 					{ false, true, },
@@ -12428,6 +12503,7 @@ namespace de.unika.ipd.grGen.Action_JavaProgramGraphs
 
 
 
+
 		GRGEN_LGSP.PatternGraph pat_dumpEdgeParameter;
 
 
@@ -12453,7 +12529,7 @@ namespace de.unika.ipd.grGen.Action_JavaProgramGraphs
 			GRGEN_LGSP.PatternNode dumpEdgeParameter_node_src = new GRGEN_LGSP.PatternNode((int) GRGEN_MODEL.NodeTypes.@Node, "GRGEN_LIBGR.INode", "dumpEdgeParameter_node_src", "src", dumpEdgeParameter_node_src_AllowedTypes, dumpEdgeParameter_node_src_IsAllowedType, 5.5F, -1, false);
 			GRGEN_LGSP.PatternNode dumpEdgeParameter_node_tgt = new GRGEN_LGSP.PatternNode((int) GRGEN_MODEL.NodeTypes.@Node, "GRGEN_LIBGR.INode", "dumpEdgeParameter_node_tgt", "tgt", dumpEdgeParameter_node_tgt_AllowedTypes, dumpEdgeParameter_node_tgt_IsAllowedType, 5.5F, -1, false);
 			GRGEN_LGSP.PatternEdge dumpEdgeParameter_edge_e = new GRGEN_LGSP.PatternEdge(true, (int) GRGEN_MODEL.EdgeTypes.@parameter, "GRGEN_MODEL.Iparameter", "dumpEdgeParameter_edge_e", "e", dumpEdgeParameter_edge_e_AllowedTypes, dumpEdgeParameter_edge_e_IsAllowedType, 5.5F, -1, false);
-			GRGEN_LGSP.PatternCondition cond_0 = new GRGEN_LGSP.PatternCondition(
+			GRGEN_LGSP.PatternCondition dumpEdgeParameter_cond_0 = new GRGEN_LGSP.PatternCondition(
 				new GRGEN_EXPR.LOG_NOT(new GRGEN_EXPR.Visited("dumpEdgeParameter_edge_e", new GRGEN_EXPR.Constant("0"))),
 				new string[] {  }, new string[] { "dumpEdgeParameter_edge_e" }, new string[] {  }, new GRGEN_LIBGR.VarType[] {  });
 			pat_dumpEdgeParameter = new GRGEN_LGSP.PatternGraph(
@@ -12470,7 +12546,7 @@ namespace de.unika.ipd.grGen.Action_JavaProgramGraphs
 				dumpEdgeParameter_maxMatches,
 				new GRGEN_LGSP.PatternGraph[] {  }, 
 				new GRGEN_LGSP.PatternGraph[] {  }, 
-				new GRGEN_LGSP.PatternCondition[] { cond_0,  }, 
+				new GRGEN_LGSP.PatternCondition[] { dumpEdgeParameter_cond_0,  }, 
 				new bool[2, 2] {
 					{ true, false, },
 					{ false, true, },
@@ -12672,6 +12748,7 @@ namespace de.unika.ipd.grGen.Action_JavaProgramGraphs
 
 
 
+
 		GRGEN_LGSP.PatternGraph pat_dumpEdgeBinding;
 
 
@@ -12697,7 +12774,7 @@ namespace de.unika.ipd.grGen.Action_JavaProgramGraphs
 			GRGEN_LGSP.PatternNode dumpEdgeBinding_node_src = new GRGEN_LGSP.PatternNode((int) GRGEN_MODEL.NodeTypes.@Node, "GRGEN_LIBGR.INode", "dumpEdgeBinding_node_src", "src", dumpEdgeBinding_node_src_AllowedTypes, dumpEdgeBinding_node_src_IsAllowedType, 5.5F, -1, false);
 			GRGEN_LGSP.PatternNode dumpEdgeBinding_node_tgt = new GRGEN_LGSP.PatternNode((int) GRGEN_MODEL.NodeTypes.@Node, "GRGEN_LIBGR.INode", "dumpEdgeBinding_node_tgt", "tgt", dumpEdgeBinding_node_tgt_AllowedTypes, dumpEdgeBinding_node_tgt_IsAllowedType, 5.5F, -1, false);
 			GRGEN_LGSP.PatternEdge dumpEdgeBinding_edge_e = new GRGEN_LGSP.PatternEdge(true, (int) GRGEN_MODEL.EdgeTypes.@binding, "GRGEN_MODEL.Ibinding", "dumpEdgeBinding_edge_e", "e", dumpEdgeBinding_edge_e_AllowedTypes, dumpEdgeBinding_edge_e_IsAllowedType, 5.5F, -1, false);
-			GRGEN_LGSP.PatternCondition cond_0 = new GRGEN_LGSP.PatternCondition(
+			GRGEN_LGSP.PatternCondition dumpEdgeBinding_cond_0 = new GRGEN_LGSP.PatternCondition(
 				new GRGEN_EXPR.LOG_NOT(new GRGEN_EXPR.Visited("dumpEdgeBinding_edge_e", new GRGEN_EXPR.Constant("0"))),
 				new string[] {  }, new string[] { "dumpEdgeBinding_edge_e" }, new string[] {  }, new GRGEN_LIBGR.VarType[] {  });
 			pat_dumpEdgeBinding = new GRGEN_LGSP.PatternGraph(
@@ -12714,7 +12791,7 @@ namespace de.unika.ipd.grGen.Action_JavaProgramGraphs
 				dumpEdgeBinding_maxMatches,
 				new GRGEN_LGSP.PatternGraph[] {  }, 
 				new GRGEN_LGSP.PatternGraph[] {  }, 
-				new GRGEN_LGSP.PatternCondition[] { cond_0,  }, 
+				new GRGEN_LGSP.PatternCondition[] { dumpEdgeBinding_cond_0,  }, 
 				new bool[2, 2] {
 					{ true, false, },
 					{ false, true, },
@@ -12916,6 +12993,7 @@ namespace de.unika.ipd.grGen.Action_JavaProgramGraphs
 
 
 
+
 		GRGEN_LGSP.PatternGraph pat_dumpEdgeLink;
 
 
@@ -12941,7 +13019,7 @@ namespace de.unika.ipd.grGen.Action_JavaProgramGraphs
 			GRGEN_LGSP.PatternNode dumpEdgeLink_node_src = new GRGEN_LGSP.PatternNode((int) GRGEN_MODEL.NodeTypes.@Node, "GRGEN_LIBGR.INode", "dumpEdgeLink_node_src", "src", dumpEdgeLink_node_src_AllowedTypes, dumpEdgeLink_node_src_IsAllowedType, 5.5F, -1, false);
 			GRGEN_LGSP.PatternNode dumpEdgeLink_node_tgt = new GRGEN_LGSP.PatternNode((int) GRGEN_MODEL.NodeTypes.@Node, "GRGEN_LIBGR.INode", "dumpEdgeLink_node_tgt", "tgt", dumpEdgeLink_node_tgt_AllowedTypes, dumpEdgeLink_node_tgt_IsAllowedType, 5.5F, -1, false);
 			GRGEN_LGSP.PatternEdge dumpEdgeLink_edge_e = new GRGEN_LGSP.PatternEdge(true, (int) GRGEN_MODEL.EdgeTypes.@link, "GRGEN_MODEL.Ilink", "dumpEdgeLink_edge_e", "e", dumpEdgeLink_edge_e_AllowedTypes, dumpEdgeLink_edge_e_IsAllowedType, 5.5F, -1, false);
-			GRGEN_LGSP.PatternCondition cond_0 = new GRGEN_LGSP.PatternCondition(
+			GRGEN_LGSP.PatternCondition dumpEdgeLink_cond_0 = new GRGEN_LGSP.PatternCondition(
 				new GRGEN_EXPR.LOG_NOT(new GRGEN_EXPR.Visited("dumpEdgeLink_edge_e", new GRGEN_EXPR.Constant("0"))),
 				new string[] {  }, new string[] { "dumpEdgeLink_edge_e" }, new string[] {  }, new GRGEN_LIBGR.VarType[] {  });
 			pat_dumpEdgeLink = new GRGEN_LGSP.PatternGraph(
@@ -12958,7 +13036,7 @@ namespace de.unika.ipd.grGen.Action_JavaProgramGraphs
 				dumpEdgeLink_maxMatches,
 				new GRGEN_LGSP.PatternGraph[] {  }, 
 				new GRGEN_LGSP.PatternGraph[] {  }, 
-				new GRGEN_LGSP.PatternCondition[] { cond_0,  }, 
+				new GRGEN_LGSP.PatternCondition[] { dumpEdgeLink_cond_0,  }, 
 				new bool[2, 2] {
 					{ true, false, },
 					{ false, true, },
@@ -13160,6 +13238,7 @@ namespace de.unika.ipd.grGen.Action_JavaProgramGraphs
 
 
 
+
 		GRGEN_LGSP.PatternGraph pat_dumpEdgeExpression;
 
 
@@ -13185,7 +13264,7 @@ namespace de.unika.ipd.grGen.Action_JavaProgramGraphs
 			GRGEN_LGSP.PatternNode dumpEdgeExpression_node_src = new GRGEN_LGSP.PatternNode((int) GRGEN_MODEL.NodeTypes.@Node, "GRGEN_LIBGR.INode", "dumpEdgeExpression_node_src", "src", dumpEdgeExpression_node_src_AllowedTypes, dumpEdgeExpression_node_src_IsAllowedType, 5.5F, -1, false);
 			GRGEN_LGSP.PatternNode dumpEdgeExpression_node_tgt = new GRGEN_LGSP.PatternNode((int) GRGEN_MODEL.NodeTypes.@Node, "GRGEN_LIBGR.INode", "dumpEdgeExpression_node_tgt", "tgt", dumpEdgeExpression_node_tgt_AllowedTypes, dumpEdgeExpression_node_tgt_IsAllowedType, 5.5F, -1, false);
 			GRGEN_LGSP.PatternEdge dumpEdgeExpression_edge_e = new GRGEN_LGSP.PatternEdge(true, (int) GRGEN_MODEL.EdgeTypes.@expression, "GRGEN_MODEL.Iexpression", "dumpEdgeExpression_edge_e", "e", dumpEdgeExpression_edge_e_AllowedTypes, dumpEdgeExpression_edge_e_IsAllowedType, 5.5F, -1, false);
-			GRGEN_LGSP.PatternCondition cond_0 = new GRGEN_LGSP.PatternCondition(
+			GRGEN_LGSP.PatternCondition dumpEdgeExpression_cond_0 = new GRGEN_LGSP.PatternCondition(
 				new GRGEN_EXPR.LOG_NOT(new GRGEN_EXPR.Visited("dumpEdgeExpression_edge_e", new GRGEN_EXPR.Constant("0"))),
 				new string[] {  }, new string[] { "dumpEdgeExpression_edge_e" }, new string[] {  }, new GRGEN_LIBGR.VarType[] {  });
 			pat_dumpEdgeExpression = new GRGEN_LGSP.PatternGraph(
@@ -13202,7 +13281,7 @@ namespace de.unika.ipd.grGen.Action_JavaProgramGraphs
 				dumpEdgeExpression_maxMatches,
 				new GRGEN_LGSP.PatternGraph[] {  }, 
 				new GRGEN_LGSP.PatternGraph[] {  }, 
-				new GRGEN_LGSP.PatternCondition[] { cond_0,  }, 
+				new GRGEN_LGSP.PatternCondition[] { dumpEdgeExpression_cond_0,  }, 
 				new bool[2, 2] {
 					{ true, false, },
 					{ false, true, },
@@ -13404,6 +13483,7 @@ namespace de.unika.ipd.grGen.Action_JavaProgramGraphs
 
 
 
+
 		GRGEN_LGSP.PatternGraph pat_dumpEdgeActualParameter;
 
 
@@ -13429,7 +13509,7 @@ namespace de.unika.ipd.grGen.Action_JavaProgramGraphs
 			GRGEN_LGSP.PatternNode dumpEdgeActualParameter_node_src = new GRGEN_LGSP.PatternNode((int) GRGEN_MODEL.NodeTypes.@Node, "GRGEN_LIBGR.INode", "dumpEdgeActualParameter_node_src", "src", dumpEdgeActualParameter_node_src_AllowedTypes, dumpEdgeActualParameter_node_src_IsAllowedType, 5.5F, -1, false);
 			GRGEN_LGSP.PatternNode dumpEdgeActualParameter_node_tgt = new GRGEN_LGSP.PatternNode((int) GRGEN_MODEL.NodeTypes.@Node, "GRGEN_LIBGR.INode", "dumpEdgeActualParameter_node_tgt", "tgt", dumpEdgeActualParameter_node_tgt_AllowedTypes, dumpEdgeActualParameter_node_tgt_IsAllowedType, 5.5F, -1, false);
 			GRGEN_LGSP.PatternEdge dumpEdgeActualParameter_edge_e = new GRGEN_LGSP.PatternEdge(true, (int) GRGEN_MODEL.EdgeTypes.@actualParameter, "GRGEN_MODEL.IactualParameter", "dumpEdgeActualParameter_edge_e", "e", dumpEdgeActualParameter_edge_e_AllowedTypes, dumpEdgeActualParameter_edge_e_IsAllowedType, 5.5F, -1, false);
-			GRGEN_LGSP.PatternCondition cond_0 = new GRGEN_LGSP.PatternCondition(
+			GRGEN_LGSP.PatternCondition dumpEdgeActualParameter_cond_0 = new GRGEN_LGSP.PatternCondition(
 				new GRGEN_EXPR.LOG_NOT(new GRGEN_EXPR.Visited("dumpEdgeActualParameter_edge_e", new GRGEN_EXPR.Constant("0"))),
 				new string[] {  }, new string[] { "dumpEdgeActualParameter_edge_e" }, new string[] {  }, new GRGEN_LIBGR.VarType[] {  });
 			pat_dumpEdgeActualParameter = new GRGEN_LGSP.PatternGraph(
@@ -13446,7 +13526,7 @@ namespace de.unika.ipd.grGen.Action_JavaProgramGraphs
 				dumpEdgeActualParameter_maxMatches,
 				new GRGEN_LGSP.PatternGraph[] {  }, 
 				new GRGEN_LGSP.PatternGraph[] {  }, 
-				new GRGEN_LGSP.PatternCondition[] { cond_0,  }, 
+				new GRGEN_LGSP.PatternCondition[] { dumpEdgeActualParameter_cond_0,  }, 
 				new bool[2, 2] {
 					{ true, false, },
 					{ false, true, },
@@ -13642,6 +13722,7 @@ namespace de.unika.ipd.grGen.Action_JavaProgramGraphs
 
 
 
+
 		GRGEN_LGSP.PatternGraph pat_emitSpanningTree;
 
 		public static GRGEN_LIBGR.NodeType[] emitSpanningTree_iter_0_node_p_AllowedTypes = null;
@@ -13652,6 +13733,7 @@ namespace de.unika.ipd.grGen.Action_JavaProgramGraphs
 		public enum emitSpanningTree_iter_0_SubNums { @mpc, };
 		public enum emitSpanningTree_iter_0_AltNums { };
 		public enum emitSpanningTree_iter_0_IterNums { };
+
 
 
 
@@ -14201,6 +14283,7 @@ namespace de.unika.ipd.grGen.Action_JavaProgramGraphs
 
 
 
+
 		GRGEN_LGSP.PatternGraph pat_InsertHelperEdgesForNestedLayout;
 
 
@@ -14266,90 +14349,91 @@ namespace de.unika.ipd.grGen.Action_JavaProgramGraphs
         public static bool ApplyXGRS_0(GRGEN_LGSP.LGSPGraph graph)
         {
             GRGEN_LGSP.LGSPActions actions = graph.curActions;
-            bool res_0;
-            bool res_1;
-            bool res_2;
+            bool res_58;
+            bool res_52;
+            bool res_51;
             Action_BindOperations rule_BindOperations = Action_BindOperations.Instance;
-            bool res_3;
-            bool res_4;
-            bool res_5;
+            bool res_57;
+            bool res_54;
+            bool res_53;
             Action_InitMoveIntoBlocks rule_InitMoveIntoBlocks = Action_InitMoveIntoBlocks.Instance;
-            bool res_6;
-            bool res_7;
+            bool res_56;
+            bool res_55;
             Action_MoveIntoBlocks rule_MoveIntoBlocks = Action_MoveIntoBlocks.Instance;
-            long i_1 = 0;
+            long i_52 = 0;
             while(true)
             {
-                GRGEN_LIBGR.IMatches mat_2 = rule_BindOperations.Match(graph, 1, null);
-                graph.Matched(mat_2, false);
-                if(mat_2.Count == 0)
-                	res_2 = false;
-                else
-                {
-                    if(graph.PerformanceInfo != null) graph.PerformanceInfo.MatchesFound += mat_2.Count;
-                    graph.Finishing(mat_2, false);
-                    object[] ret_2 = rule_BindOperations.Modify(graph, mat_2.First);
+                GRGEN_LIBGR.IMatchesExact<Rule_BindOperations.IMatch_BindOperations> matches_51 = rule_BindOperations.Match(graph, 1);
+                graph.Matched(matches_51, false);
+                if(matches_51.Count==0) {
+                    res_51 = (bool)(false);
+                } else {
+                    res_51 = (bool)(true);
+                    if(graph.PerformanceInfo!=null) graph.PerformanceInfo.MatchesFound += matches_51.Count;
+                    graph.Finishing(matches_51, false);
+                    Rule_BindOperations.IMatch_BindOperations match_51 = matches_51.FirstExact;
+                    rule_BindOperations.Modify(graph, match_51);
                     if(graph.PerformanceInfo != null) graph.PerformanceInfo.RewritesPerformed++;
-                    graph.Finished(mat_2, false);
-                    res_2 = ret_2 != null;
+                    graph.Finished(matches_51, false);
                 }
-                if(!res_2) break;
-                i_1++;
+                if(!res_51) break;
+                i_52++;
             }
-            res_1 = i_1 >= 0;
-            if(!res_1)                res_0 = false;
+            res_52 = (bool)(i_52 >= 0);
+            if(!res_52)
+                res_58 = (bool)(false);
             else
             {
-                long i_4 = 0;
+                long i_54 = 0;
                 while(true)
                 {
-                    GRGEN_LIBGR.IMatches mat_5 = rule_InitMoveIntoBlocks.Match(graph, 1, null);
-                    graph.Matched(mat_5, false);
-                    if(mat_5.Count == 0)
-                    	res_5 = false;
-                    else
-                    {
-                        if(graph.PerformanceInfo != null) graph.PerformanceInfo.MatchesFound += mat_5.Count;
-                        graph.Finishing(mat_5, false);
-                        object[] ret_5 = rule_InitMoveIntoBlocks.Modify(graph, mat_5.First);
+                    GRGEN_LIBGR.IMatchesExact<Rule_InitMoveIntoBlocks.IMatch_InitMoveIntoBlocks> matches_53 = rule_InitMoveIntoBlocks.Match(graph, 1);
+                    graph.Matched(matches_53, false);
+                    if(matches_53.Count==0) {
+                        res_53 = (bool)(false);
+                    } else {
+                        res_53 = (bool)(true);
+                        if(graph.PerformanceInfo!=null) graph.PerformanceInfo.MatchesFound += matches_53.Count;
+                        graph.Finishing(matches_53, false);
+                        Rule_InitMoveIntoBlocks.IMatch_InitMoveIntoBlocks match_53 = matches_53.FirstExact;
+                        rule_InitMoveIntoBlocks.Modify(graph, match_53);
                         if(graph.PerformanceInfo != null) graph.PerformanceInfo.RewritesPerformed++;
-                        graph.Finished(mat_5, false);
-                        res_5 = ret_5 != null;
+                        graph.Finished(matches_53, false);
                     }
-                    if(!res_5) break;
-                    i_4++;
+                    if(!res_53) break;
+                    i_54++;
                 }
-                res_4 = i_4 >= 0;
-                if(!res_4)                    res_3 = false;
+                res_54 = (bool)(i_54 >= 0);
+                if(!res_54)
+                    res_57 = (bool)(false);
                 else
                 {
-                    long i_6 = 0;
+                    long i_56 = 0;
                     while(true)
                     {
-                        GRGEN_LIBGR.IMatches mat_7 = rule_MoveIntoBlocks.Match(graph, 1, null);
-                        graph.Matched(mat_7, false);
-                        if(mat_7.Count == 0)
-                        	res_7 = false;
-                        else
-                        {
-                            if(graph.PerformanceInfo != null) graph.PerformanceInfo.MatchesFound += mat_7.Count;
-                            graph.Finishing(mat_7, false);
-                            object[] ret_7 = rule_MoveIntoBlocks.Modify(graph, mat_7.First);
+                        GRGEN_LIBGR.IMatchesExact<Rule_MoveIntoBlocks.IMatch_MoveIntoBlocks> matches_55 = rule_MoveIntoBlocks.Match(graph, 1);
+                        graph.Matched(matches_55, false);
+                        if(matches_55.Count==0) {
+                            res_55 = (bool)(false);
+                        } else {
+                            res_55 = (bool)(true);
+                            if(graph.PerformanceInfo!=null) graph.PerformanceInfo.MatchesFound += matches_55.Count;
+                            graph.Finishing(matches_55, false);
+                            Rule_MoveIntoBlocks.IMatch_MoveIntoBlocks match_55 = matches_55.FirstExact;
+                            rule_MoveIntoBlocks.Modify(graph, match_55);
                             if(graph.PerformanceInfo != null) graph.PerformanceInfo.RewritesPerformed++;
-                            graph.Finished(mat_7, false);
-                            res_7 = ret_7 != null;
+                            graph.Finished(matches_55, false);
                         }
-                        if(!res_7) break;
-                        i_6++;
+                        if(!res_55) break;
+                        i_56++;
                     }
-                    res_6 = i_6 >= 0;
-                    res_3 = res_6;
+                    res_56 = (bool)(i_56 >= 0);
+                    res_57 = (bool)(res_56);
                 }
-                res_0 = res_3;
+                res_58 = (bool)(res_57);
             }
-            return res_0;
+            return res_58;
         }
-        private static object[] __xgrs_paramarray_0 = new object[0];
 
 		static Rule_InsertHelperEdgesForNestedLayout() {
 		}
@@ -14476,6 +14560,7 @@ namespace de.unika.ipd.grGen.Action_JavaProgramGraphs
 		public enum BindOperations_SubNums { };
 		public enum BindOperations_AltNums { };
 		public enum BindOperations_IterNums { };
+
 
 
 
@@ -15688,6 +15773,7 @@ namespace de.unika.ipd.grGen.Action_JavaProgramGraphs
 
 
 
+
 		GRGEN_LGSP.PatternGraph pat_InitMoveIntoBlocks;
 
 		public static GRGEN_LIBGR.EdgeType[] InitMoveIntoBlocks_neg_0_edge__edge0_AllowedTypes = null;
@@ -16075,6 +16161,7 @@ namespace de.unika.ipd.grGen.Action_JavaProgramGraphs
 
 
 
+
 		GRGEN_LGSP.PatternGraph pat_MoveIntoBlocks;
 
 		public static GRGEN_LIBGR.EdgeType[] MoveIntoBlocks_neg_0_edge__edge0_AllowedTypes = null;
@@ -16115,7 +16202,7 @@ namespace de.unika.ipd.grGen.Action_JavaProgramGraphs
 			GRGEN_LGSP.PatternNode MoveIntoBlocks_node_exp = new GRGEN_LGSP.PatternNode((int) GRGEN_MODEL.NodeTypes.@Expression, "GRGEN_MODEL.IExpression", "MoveIntoBlocks_node_exp", "exp", MoveIntoBlocks_node_exp_AllowedTypes, MoveIntoBlocks_node_exp_IsAllowedType, 5.5F, -1, false);
 			GRGEN_LGSP.PatternEdge MoveIntoBlocks_edge__edge0 = new GRGEN_LGSP.PatternEdge(true, (int) GRGEN_MODEL.EdgeTypes.@inBlock, "GRGEN_MODEL.IinBlock", "MoveIntoBlocks_edge__edge0", "_edge0", MoveIntoBlocks_edge__edge0_AllowedTypes, MoveIntoBlocks_edge__edge0_IsAllowedType, 5.5F, -1, false);
 			GRGEN_LGSP.PatternEdge MoveIntoBlocks_edge_e = new GRGEN_LGSP.PatternEdge(true, (int) GRGEN_MODEL.EdgeTypes.@Edge, "GRGEN_LIBGR.IEdge", "MoveIntoBlocks_edge_e", "e", MoveIntoBlocks_edge_e_AllowedTypes, MoveIntoBlocks_edge_e_IsAllowedType, 5.5F, -1, false);
-			GRGEN_LGSP.PatternCondition cond_0 = new GRGEN_LGSP.PatternCondition(
+			GRGEN_LGSP.PatternCondition MoveIntoBlocks_cond_0 = new GRGEN_LGSP.PatternCondition(
 				new GRGEN_EXPR.LOG_OR(new GRGEN_EXPR.EQ(new GRGEN_EXPR.Typeof("MoveIntoBlocks_edge_e"), new GRGEN_EXPR.Constant("GRGEN_MODEL.EdgeType_expression.typeVar")), new GRGEN_EXPR.EQ(new GRGEN_EXPR.Typeof("MoveIntoBlocks_edge_e"), new GRGEN_EXPR.Constant("GRGEN_MODEL.EdgeType_actualParameter.typeVar"))),
 				new string[] {  }, new string[] { "MoveIntoBlocks_edge_e" }, new string[] {  }, new GRGEN_LIBGR.VarType[] {  });
 			bool[,] MoveIntoBlocks_neg_0_isNodeHomomorphicGlobal = new bool[2, 2] {
@@ -16170,7 +16257,7 @@ namespace de.unika.ipd.grGen.Action_JavaProgramGraphs
 				MoveIntoBlocks_maxMatches,
 				new GRGEN_LGSP.PatternGraph[] { MoveIntoBlocks_neg_0,  }, 
 				new GRGEN_LGSP.PatternGraph[] {  }, 
-				new GRGEN_LGSP.PatternCondition[] { cond_0,  }, 
+				new GRGEN_LGSP.PatternCondition[] { MoveIntoBlocks_cond_0,  }, 
 				new bool[3, 3] {
 					{ true, false, false, },
 					{ false, true, false, },
@@ -16476,6 +16563,7 @@ namespace de.unika.ipd.grGen.Action_JavaProgramGraphs
 		public enum getClassAndVariable_IterNums { };
 
 
+
 		GRGEN_LGSP.PatternGraph pat_getClassAndVariable;
 
 
@@ -16682,6 +16770,7 @@ namespace de.unika.ipd.grGen.Action_JavaProgramGraphs
 		public enum variableInClass_SubNums { };
 		public enum variableInClass_AltNums { };
 		public enum variableInClass_IterNums { };
+
 
 
 		GRGEN_LGSP.PatternGraph pat_variableInClass;
@@ -16920,6 +17009,7 @@ namespace de.unika.ipd.grGen.Action_JavaProgramGraphs
 		public enum methodExists_IterNums { };
 
 
+
 		GRGEN_LGSP.PatternGraph pat_methodExists;
 
 
@@ -16950,7 +17040,7 @@ namespace de.unika.ipd.grGen.Action_JavaProgramGraphs
 			GRGEN_LGSP.PatternEdge methodExists_edge__edge0 = new GRGEN_LGSP.PatternEdge(true, (int) GRGEN_MODEL.EdgeTypes.@belongsTo, "GRGEN_MODEL.IbelongsTo", "methodExists_edge__edge0", "_edge0", methodExists_edge__edge0_AllowedTypes, methodExists_edge__edge0_IsAllowedType, 5.5F, -1, false);
 			GRGEN_LGSP.PatternEdge methodExists_edge__edge1 = new GRGEN_LGSP.PatternEdge(true, (int) GRGEN_MODEL.EdgeTypes.@binding, "GRGEN_MODEL.Ibinding", "methodExists_edge__edge1", "_edge1", methodExists_edge__edge1_AllowedTypes, methodExists_edge__edge1_IsAllowedType, 5.5F, -1, false);
 			GRGEN_LGSP.PatternVariable methodExists_var_name = new GRGEN_LGSP.PatternVariable(GRGEN_LIBGR.VarType.GetVarType(typeof(string)), "methodExists_var_name", "name", 1);
-			GRGEN_LGSP.PatternCondition cond_0 = new GRGEN_LGSP.PatternCondition(
+			GRGEN_LGSP.PatternCondition methodExists_cond_0 = new GRGEN_LGSP.PatternCondition(
 				new GRGEN_EXPR.EQ(new GRGEN_EXPR.Qualification("GRGEN_MODEL.IOperation", "methodExists_node_op", "name"), new GRGEN_EXPR.VariableExpression("methodExists_var_name")),
 				new string[] { "methodExists_node_op" }, new string[] {  }, new string[] { "methodExists_var_name" }, new GRGEN_LIBGR.VarType[] { GRGEN_LIBGR.VarType.GetVarType(typeof(string)) });
 			pat_methodExists = new GRGEN_LGSP.PatternGraph(
@@ -16967,7 +17057,7 @@ namespace de.unika.ipd.grGen.Action_JavaProgramGraphs
 				methodExists_maxMatches,
 				new GRGEN_LGSP.PatternGraph[] {  }, 
 				new GRGEN_LGSP.PatternGraph[] {  }, 
-				new GRGEN_LGSP.PatternCondition[] { cond_0,  }, 
+				new GRGEN_LGSP.PatternCondition[] { methodExists_cond_0,  }, 
 				new bool[3, 3] {
 					{ true, false, false, },
 					{ false, true, false, },
@@ -17156,6 +17246,7 @@ namespace de.unika.ipd.grGen.Action_JavaProgramGraphs
 		public enum sameStaticness_IterNums { };
 
 
+
 		GRGEN_LGSP.PatternGraph pat_sameStaticness;
 
 
@@ -17178,7 +17269,7 @@ namespace de.unika.ipd.grGen.Action_JavaProgramGraphs
 			int[] sameStaticness_maxMatches = new int[0] ;
 			GRGEN_LGSP.PatternNode sameStaticness_node_v = new GRGEN_LGSP.PatternNode((int) GRGEN_MODEL.NodeTypes.@Variable, "GRGEN_MODEL.IVariable", "sameStaticness_node_v", "v", sameStaticness_node_v_AllowedTypes, sameStaticness_node_v_IsAllowedType, 5.5F, 0, false);
 			GRGEN_LGSP.PatternNode sameStaticness_node_op = new GRGEN_LGSP.PatternNode((int) GRGEN_MODEL.NodeTypes.@Operation, "GRGEN_MODEL.IOperation", "sameStaticness_node_op", "op", sameStaticness_node_op_AllowedTypes, sameStaticness_node_op_IsAllowedType, 5.5F, 1, false);
-			GRGEN_LGSP.PatternCondition cond_0 = new GRGEN_LGSP.PatternCondition(
+			GRGEN_LGSP.PatternCondition sameStaticness_cond_0 = new GRGEN_LGSP.PatternCondition(
 				new GRGEN_EXPR.EQ(new GRGEN_EXPR.Qualification("GRGEN_MODEL.IVariable", "sameStaticness_node_v", "isStatic"), new GRGEN_EXPR.Qualification("GRGEN_MODEL.IOperation", "sameStaticness_node_op", "isStatic")),
 				new string[] { "sameStaticness_node_v", "sameStaticness_node_op" }, new string[] {  }, new string[] {  }, new GRGEN_LIBGR.VarType[] {  });
 			pat_sameStaticness = new GRGEN_LGSP.PatternGraph(
@@ -17195,7 +17286,7 @@ namespace de.unika.ipd.grGen.Action_JavaProgramGraphs
 				sameStaticness_maxMatches,
 				new GRGEN_LGSP.PatternGraph[] {  }, 
 				new GRGEN_LGSP.PatternGraph[] {  }, 
-				new GRGEN_LGSP.PatternCondition[] { cond_0,  }, 
+				new GRGEN_LGSP.PatternCondition[] { sameStaticness_cond_0,  }, 
 				new bool[2, 2] {
 					{ true, false, },
 					{ false, true, },
@@ -17351,6 +17442,7 @@ namespace de.unika.ipd.grGen.Action_JavaProgramGraphs
 		public enum insertMethodGetter_SubNums { };
 		public enum insertMethodGetter_AltNums { };
 		public enum insertMethodGetter_IterNums { };
+
 
 
 
@@ -17628,6 +17720,7 @@ namespace de.unika.ipd.grGen.Action_JavaProgramGraphs
 		public enum insertMethodSetter_SubNums { };
 		public enum insertMethodSetter_AltNums { };
 		public enum insertMethodSetter_IterNums { };
+
 
 
 
@@ -17932,6 +18025,7 @@ namespace de.unika.ipd.grGen.Action_JavaProgramGraphs
 
 
 
+
 		GRGEN_LGSP.PatternGraph pat_changeVisibility;
 
 
@@ -18138,6 +18232,7 @@ namespace de.unika.ipd.grGen.Action_JavaProgramGraphs
 		public enum adaptAccess_SubNums { };
 		public enum adaptAccess_AltNums { };
 		public enum adaptAccess_IterNums { };
+
 
 
 
@@ -18558,6 +18653,7 @@ namespace de.unika.ipd.grGen.Action_JavaProgramGraphs
 		public enum adaptUpdate_SubNums { };
 		public enum adaptUpdate_AltNums { };
 		public enum adaptUpdate_IterNums { };
+
 
 
 
@@ -19003,6 +19099,7 @@ namespace de.unika.ipd.grGen.Action_JavaProgramGraphs
 
 
 
+
 		GRGEN_LGSP.PatternGraph pat_adaptAccessUseAccessorsAlways;
 
 
@@ -19261,6 +19358,7 @@ namespace de.unika.ipd.grGen.Action_JavaProgramGraphs
 		public enum adaptUpdateUseAccessorsAlways_SubNums { };
 		public enum adaptUpdateUseAccessorsAlways_AltNums { };
 		public enum adaptUpdateUseAccessorsAlways_IterNums { };
+
 
 
 
@@ -19542,6 +19640,7 @@ namespace de.unika.ipd.grGen.Action_JavaProgramGraphs
 		public enum getSourceAndTargetAndMethodBody_IterNums { };
 
 
+
 		GRGEN_LGSP.PatternGraph pat_getSourceAndTargetAndMethodBody;
 
 
@@ -19756,6 +19855,7 @@ namespace de.unika.ipd.grGen.Action_JavaProgramGraphs
 		public enum getOperation_SubNums { };
 		public enum getOperation_AltNums { };
 		public enum getOperation_IterNums { };
+
 
 
 		GRGEN_LGSP.PatternGraph pat_getOperation;
@@ -19976,6 +20076,7 @@ namespace de.unika.ipd.grGen.Action_JavaProgramGraphs
 		public enum someInstanceVariableOfTargetType_SubNums { };
 		public enum someInstanceVariableOfTargetType_AltNums { };
 		public enum someInstanceVariableOfTargetType_IterNums { };
+
 
 
 		GRGEN_LGSP.PatternGraph pat_someInstanceVariableOfTargetType;
@@ -20234,6 +20335,7 @@ namespace de.unika.ipd.grGen.Action_JavaProgramGraphs
 		public enum someParameterOfTargetType_IterNums { };
 
 
+
 		GRGEN_LGSP.PatternGraph pat_someParameterOfTargetType;
 
 
@@ -20487,6 +20589,7 @@ namespace de.unika.ipd.grGen.Action_JavaProgramGraphs
 
 
 
+
 		GRGEN_LGSP.PatternGraph pat_markExpressionOfBody;
 
 
@@ -20516,7 +20619,7 @@ namespace de.unika.ipd.grGen.Action_JavaProgramGraphs
 			GRGEN_LGSP.PatternNode markExpressionOfBody_node_exp = new GRGEN_LGSP.PatternNode((int) GRGEN_MODEL.NodeTypes.@Expression, "GRGEN_MODEL.IExpression", "markExpressionOfBody_node_exp", "exp", markExpressionOfBody_node_exp_AllowedTypes, markExpressionOfBody_node_exp_IsAllowedType, 5.5F, -1, false);
 			GRGEN_LGSP.PatternEdge markExpressionOfBody_edge__edge0 = new GRGEN_LGSP.PatternEdge(true, (int) GRGEN_MODEL.EdgeTypes.@belongsTo, "GRGEN_MODEL.IbelongsTo", "markExpressionOfBody_edge__edge0", "_edge0", markExpressionOfBody_edge__edge0_AllowedTypes, markExpressionOfBody_edge__edge0_IsAllowedType, 5.5F, -1, false);
 			GRGEN_LGSP.PatternEdge markExpressionOfBody_edge__edge1 = new GRGEN_LGSP.PatternEdge(true, (int) GRGEN_MODEL.EdgeTypes.@expression, "GRGEN_MODEL.Iexpression", "markExpressionOfBody_edge__edge1", "_edge1", markExpressionOfBody_edge__edge1_AllowedTypes, markExpressionOfBody_edge__edge1_IsAllowedType, 5.5F, -1, false);
-			GRGEN_LGSP.PatternCondition cond_0 = new GRGEN_LGSP.PatternCondition(
+			GRGEN_LGSP.PatternCondition markExpressionOfBody_cond_0 = new GRGEN_LGSP.PatternCondition(
 				new GRGEN_EXPR.LOG_NOT(new GRGEN_EXPR.Visited("markExpressionOfBody_node_exp", new GRGEN_EXPR.Constant("0"))),
 				new string[] { "markExpressionOfBody_node_exp" }, new string[] {  }, new string[] {  }, new GRGEN_LIBGR.VarType[] {  });
 			pat_markExpressionOfBody = new GRGEN_LGSP.PatternGraph(
@@ -20533,7 +20636,7 @@ namespace de.unika.ipd.grGen.Action_JavaProgramGraphs
 				markExpressionOfBody_maxMatches,
 				new GRGEN_LGSP.PatternGraph[] {  }, 
 				new GRGEN_LGSP.PatternGraph[] {  }, 
-				new GRGEN_LGSP.PatternCondition[] { cond_0,  }, 
+				new GRGEN_LGSP.PatternCondition[] { markExpressionOfBody_cond_0,  }, 
 				new bool[3, 3] {
 					{ true, false, false, },
 					{ false, true, false, },
@@ -20568,7 +20671,7 @@ namespace de.unika.ipd.grGen.Action_JavaProgramGraphs
 			graph.SettingAddedNodeNames( markExpressionOfBody_addedNodeNames );
 			graph.SettingAddedEdgeNames( markExpressionOfBody_addedEdgeNames );
 			graph.SetVisited(node_exp, 0, true);
-			ApplyXGRS_0(graph, node_exp);
+			ApplyXGRS_0(graph, (GRGEN_MODEL.IExpression)node_exp);
 			return;
 		}
 		private static string[] markExpressionOfBody_addedNodeNames = new string[] {  };
@@ -20581,61 +20684,59 @@ namespace de.unika.ipd.grGen.Action_JavaProgramGraphs
 			graph.SettingAddedNodeNames( markExpressionOfBody_addedNodeNames );
 			graph.SettingAddedEdgeNames( markExpressionOfBody_addedEdgeNames );
 			graph.SetVisited(node_exp, 0, true);
-			ApplyXGRS_0(graph, node_exp);
+			ApplyXGRS_0(graph, (GRGEN_MODEL.IExpression)node_exp);
 			return;
 		}
-        public static bool ApplyXGRS_0(GRGEN_LGSP.LGSPGraph graph, object var_exp)
+        public static bool ApplyXGRS_0(GRGEN_LGSP.LGSPGraph graph, GRGEN_MODEL.IExpression var_exp)
         {
             GRGEN_LGSP.LGSPActions actions = graph.curActions;
-            bool res_0;
-            bool res_1;
-            bool res_2;
+            bool res_62;
+            bool res_61;
+            bool res_59;
             Action_markExpressionFollowingExpression rule_markExpressionFollowingExpression = Action_markExpressionFollowingExpression.Instance;
-            bool res_3;
+            bool res_60;
             Action_markExpressionFollowingActualParameter rule_markExpressionFollowingActualParameter = Action_markExpressionFollowingActualParameter.Instance;
-            long i_0 = 0;
+            long i_62 = 0;
             while(true)
             {
-                __xgrs_paramarray_1[0] = var_exp;
-                GRGEN_LIBGR.IMatches mat_2 = rule_markExpressionFollowingExpression.Match(graph, 1, __xgrs_paramarray_1);
-                graph.Matched(mat_2, false);
-                if(mat_2.Count == 0)
-                	res_2 = false;
-                else
-                {
-                    if(graph.PerformanceInfo != null) graph.PerformanceInfo.MatchesFound += mat_2.Count;
-                    graph.Finishing(mat_2, false);
-                    object[] ret_2 = rule_markExpressionFollowingExpression.Modify(graph, mat_2.First);
+                GRGEN_LIBGR.IMatchesExact<Rule_markExpressionFollowingExpression.IMatch_markExpressionFollowingExpression> matches_59 = rule_markExpressionFollowingExpression.Match(graph, 1, (GRGEN_MODEL.IExpression)var_exp);
+                graph.Matched(matches_59, false);
+                if(matches_59.Count==0) {
+                    res_59 = (bool)(false);
+                } else {
+                    res_59 = (bool)(true);
+                    if(graph.PerformanceInfo!=null) graph.PerformanceInfo.MatchesFound += matches_59.Count;
+                    graph.Finishing(matches_59, false);
+                    Rule_markExpressionFollowingExpression.IMatch_markExpressionFollowingExpression match_59 = matches_59.FirstExact;
+                    rule_markExpressionFollowingExpression.Modify(graph, match_59);
                     if(graph.PerformanceInfo != null) graph.PerformanceInfo.RewritesPerformed++;
-                    graph.Finished(mat_2, false);
-                    res_2 = ret_2 != null;
+                    graph.Finished(matches_59, false);
                 }
-                if(res_2)                    res_1 = true;
+                if(res_59)
+                    res_61 = (bool)(true);
                 else
                 {
-                    __xgrs_paramarray_1[0] = var_exp;
-                    GRGEN_LIBGR.IMatches mat_3 = rule_markExpressionFollowingActualParameter.Match(graph, 1, __xgrs_paramarray_1);
-                    graph.Matched(mat_3, false);
-                    if(mat_3.Count == 0)
-                    	res_3 = false;
-                    else
-                    {
-                        if(graph.PerformanceInfo != null) graph.PerformanceInfo.MatchesFound += mat_3.Count;
-                        graph.Finishing(mat_3, false);
-                        object[] ret_3 = rule_markExpressionFollowingActualParameter.Modify(graph, mat_3.First);
+                    GRGEN_LIBGR.IMatchesExact<Rule_markExpressionFollowingActualParameter.IMatch_markExpressionFollowingActualParameter> matches_60 = rule_markExpressionFollowingActualParameter.Match(graph, 1, (GRGEN_MODEL.IExpression)var_exp);
+                    graph.Matched(matches_60, false);
+                    if(matches_60.Count==0) {
+                        res_60 = (bool)(false);
+                    } else {
+                        res_60 = (bool)(true);
+                        if(graph.PerformanceInfo!=null) graph.PerformanceInfo.MatchesFound += matches_60.Count;
+                        graph.Finishing(matches_60, false);
+                        Rule_markExpressionFollowingActualParameter.IMatch_markExpressionFollowingActualParameter match_60 = matches_60.FirstExact;
+                        rule_markExpressionFollowingActualParameter.Modify(graph, match_60);
                         if(graph.PerformanceInfo != null) graph.PerformanceInfo.RewritesPerformed++;
-                        graph.Finished(mat_3, false);
-                        res_3 = ret_3 != null;
+                        graph.Finished(matches_60, false);
                     }
-                    res_1 = res_3;
+                    res_61 = (bool)(res_60);
                 }
-                if(!res_1) break;
-                i_0++;
+                if(!res_61) break;
+                i_62++;
             }
-            res_0 = i_0 >= 0;
-            return res_0;
+            res_62 = (bool)(i_62 >= 0);
+            return res_62;
         }
-        private static object[] __xgrs_paramarray_1 = new object[1];
 
 		static Rule_markExpressionOfBody() {
 		}
@@ -20781,6 +20882,7 @@ namespace de.unika.ipd.grGen.Action_JavaProgramGraphs
 
 
 
+
 		GRGEN_LGSP.PatternGraph pat_markExpressionFollowingExpression;
 
 
@@ -20806,7 +20908,7 @@ namespace de.unika.ipd.grGen.Action_JavaProgramGraphs
 			GRGEN_LGSP.PatternNode markExpressionFollowingExpression_node_root = new GRGEN_LGSP.PatternNode((int) GRGEN_MODEL.NodeTypes.@Expression, "GRGEN_MODEL.IExpression", "markExpressionFollowingExpression_node_root", "root", markExpressionFollowingExpression_node_root_AllowedTypes, markExpressionFollowingExpression_node_root_IsAllowedType, 5.5F, 0, false);
 			GRGEN_LGSP.PatternNode markExpressionFollowingExpression_node_exp = new GRGEN_LGSP.PatternNode((int) GRGEN_MODEL.NodeTypes.@Expression, "GRGEN_MODEL.IExpression", "markExpressionFollowingExpression_node_exp", "exp", markExpressionFollowingExpression_node_exp_AllowedTypes, markExpressionFollowingExpression_node_exp_IsAllowedType, 5.5F, -1, false);
 			GRGEN_LGSP.PatternEdge markExpressionFollowingExpression_edge__edge0 = new GRGEN_LGSP.PatternEdge(true, (int) GRGEN_MODEL.EdgeTypes.@expression, "GRGEN_MODEL.Iexpression", "markExpressionFollowingExpression_edge__edge0", "_edge0", markExpressionFollowingExpression_edge__edge0_AllowedTypes, markExpressionFollowingExpression_edge__edge0_IsAllowedType, 5.5F, -1, false);
-			GRGEN_LGSP.PatternCondition cond_0 = new GRGEN_LGSP.PatternCondition(
+			GRGEN_LGSP.PatternCondition markExpressionFollowingExpression_cond_0 = new GRGEN_LGSP.PatternCondition(
 				new GRGEN_EXPR.LOG_NOT(new GRGEN_EXPR.Visited("markExpressionFollowingExpression_node_exp", new GRGEN_EXPR.Constant("0"))),
 				new string[] { "markExpressionFollowingExpression_node_exp" }, new string[] {  }, new string[] {  }, new GRGEN_LIBGR.VarType[] {  });
 			pat_markExpressionFollowingExpression = new GRGEN_LGSP.PatternGraph(
@@ -20823,7 +20925,7 @@ namespace de.unika.ipd.grGen.Action_JavaProgramGraphs
 				markExpressionFollowingExpression_maxMatches,
 				new GRGEN_LGSP.PatternGraph[] {  }, 
 				new GRGEN_LGSP.PatternGraph[] {  }, 
-				new GRGEN_LGSP.PatternCondition[] { cond_0,  }, 
+				new GRGEN_LGSP.PatternCondition[] { markExpressionFollowingExpression_cond_0,  }, 
 				new bool[2, 2] {
 					{ true, false, },
 					{ false, true, },
@@ -20852,7 +20954,7 @@ namespace de.unika.ipd.grGen.Action_JavaProgramGraphs
 			graph.SettingAddedNodeNames( markExpressionFollowingExpression_addedNodeNames );
 			graph.SettingAddedEdgeNames( markExpressionFollowingExpression_addedEdgeNames );
 			graph.SetVisited(node_exp, 0, true);
-			ApplyXGRS_0(graph, node_exp);
+			ApplyXGRS_0(graph, (GRGEN_MODEL.IExpression)node_exp);
 			return;
 		}
 		private static string[] markExpressionFollowingExpression_addedNodeNames = new string[] {  };
@@ -20865,61 +20967,59 @@ namespace de.unika.ipd.grGen.Action_JavaProgramGraphs
 			graph.SettingAddedNodeNames( markExpressionFollowingExpression_addedNodeNames );
 			graph.SettingAddedEdgeNames( markExpressionFollowingExpression_addedEdgeNames );
 			graph.SetVisited(node_exp, 0, true);
-			ApplyXGRS_0(graph, node_exp);
+			ApplyXGRS_0(graph, (GRGEN_MODEL.IExpression)node_exp);
 			return;
 		}
-        public static bool ApplyXGRS_0(GRGEN_LGSP.LGSPGraph graph, object var_exp)
+        public static bool ApplyXGRS_0(GRGEN_LGSP.LGSPGraph graph, GRGEN_MODEL.IExpression var_exp)
         {
             GRGEN_LGSP.LGSPActions actions = graph.curActions;
-            bool res_0;
-            bool res_1;
-            bool res_2;
+            bool res_66;
+            bool res_65;
+            bool res_63;
             Action_markExpressionFollowingExpression rule_markExpressionFollowingExpression = Action_markExpressionFollowingExpression.Instance;
-            bool res_3;
+            bool res_64;
             Action_markExpressionFollowingActualParameter rule_markExpressionFollowingActualParameter = Action_markExpressionFollowingActualParameter.Instance;
-            long i_0 = 0;
+            long i_66 = 0;
             while(true)
             {
-                __xgrs_paramarray_1[0] = var_exp;
-                GRGEN_LIBGR.IMatches mat_2 = rule_markExpressionFollowingExpression.Match(graph, 1, __xgrs_paramarray_1);
-                graph.Matched(mat_2, false);
-                if(mat_2.Count == 0)
-                	res_2 = false;
-                else
-                {
-                    if(graph.PerformanceInfo != null) graph.PerformanceInfo.MatchesFound += mat_2.Count;
-                    graph.Finishing(mat_2, false);
-                    object[] ret_2 = rule_markExpressionFollowingExpression.Modify(graph, mat_2.First);
+                GRGEN_LIBGR.IMatchesExact<Rule_markExpressionFollowingExpression.IMatch_markExpressionFollowingExpression> matches_63 = rule_markExpressionFollowingExpression.Match(graph, 1, (GRGEN_MODEL.IExpression)var_exp);
+                graph.Matched(matches_63, false);
+                if(matches_63.Count==0) {
+                    res_63 = (bool)(false);
+                } else {
+                    res_63 = (bool)(true);
+                    if(graph.PerformanceInfo!=null) graph.PerformanceInfo.MatchesFound += matches_63.Count;
+                    graph.Finishing(matches_63, false);
+                    Rule_markExpressionFollowingExpression.IMatch_markExpressionFollowingExpression match_63 = matches_63.FirstExact;
+                    rule_markExpressionFollowingExpression.Modify(graph, match_63);
                     if(graph.PerformanceInfo != null) graph.PerformanceInfo.RewritesPerformed++;
-                    graph.Finished(mat_2, false);
-                    res_2 = ret_2 != null;
+                    graph.Finished(matches_63, false);
                 }
-                if(res_2)                    res_1 = true;
+                if(res_63)
+                    res_65 = (bool)(true);
                 else
                 {
-                    __xgrs_paramarray_1[0] = var_exp;
-                    GRGEN_LIBGR.IMatches mat_3 = rule_markExpressionFollowingActualParameter.Match(graph, 1, __xgrs_paramarray_1);
-                    graph.Matched(mat_3, false);
-                    if(mat_3.Count == 0)
-                    	res_3 = false;
-                    else
-                    {
-                        if(graph.PerformanceInfo != null) graph.PerformanceInfo.MatchesFound += mat_3.Count;
-                        graph.Finishing(mat_3, false);
-                        object[] ret_3 = rule_markExpressionFollowingActualParameter.Modify(graph, mat_3.First);
+                    GRGEN_LIBGR.IMatchesExact<Rule_markExpressionFollowingActualParameter.IMatch_markExpressionFollowingActualParameter> matches_64 = rule_markExpressionFollowingActualParameter.Match(graph, 1, (GRGEN_MODEL.IExpression)var_exp);
+                    graph.Matched(matches_64, false);
+                    if(matches_64.Count==0) {
+                        res_64 = (bool)(false);
+                    } else {
+                        res_64 = (bool)(true);
+                        if(graph.PerformanceInfo!=null) graph.PerformanceInfo.MatchesFound += matches_64.Count;
+                        graph.Finishing(matches_64, false);
+                        Rule_markExpressionFollowingActualParameter.IMatch_markExpressionFollowingActualParameter match_64 = matches_64.FirstExact;
+                        rule_markExpressionFollowingActualParameter.Modify(graph, match_64);
                         if(graph.PerformanceInfo != null) graph.PerformanceInfo.RewritesPerformed++;
-                        graph.Finished(mat_3, false);
-                        res_3 = ret_3 != null;
+                        graph.Finished(matches_64, false);
                     }
-                    res_1 = res_3;
+                    res_65 = (bool)(res_64);
                 }
-                if(!res_1) break;
-                i_0++;
+                if(!res_65) break;
+                i_66++;
             }
-            res_0 = i_0 >= 0;
-            return res_0;
+            res_66 = (bool)(i_66 >= 0);
+            return res_66;
         }
-        private static object[] __xgrs_paramarray_1 = new object[1];
 
 		static Rule_markExpressionFollowingExpression() {
 		}
@@ -21057,6 +21157,7 @@ namespace de.unika.ipd.grGen.Action_JavaProgramGraphs
 
 
 
+
 		GRGEN_LGSP.PatternGraph pat_markExpressionFollowingActualParameter;
 
 
@@ -21082,7 +21183,7 @@ namespace de.unika.ipd.grGen.Action_JavaProgramGraphs
 			GRGEN_LGSP.PatternNode markExpressionFollowingActualParameter_node_root = new GRGEN_LGSP.PatternNode((int) GRGEN_MODEL.NodeTypes.@Expression, "GRGEN_MODEL.IExpression", "markExpressionFollowingActualParameter_node_root", "root", markExpressionFollowingActualParameter_node_root_AllowedTypes, markExpressionFollowingActualParameter_node_root_IsAllowedType, 5.5F, 0, false);
 			GRGEN_LGSP.PatternNode markExpressionFollowingActualParameter_node_exp = new GRGEN_LGSP.PatternNode((int) GRGEN_MODEL.NodeTypes.@Expression, "GRGEN_MODEL.IExpression", "markExpressionFollowingActualParameter_node_exp", "exp", markExpressionFollowingActualParameter_node_exp_AllowedTypes, markExpressionFollowingActualParameter_node_exp_IsAllowedType, 5.5F, -1, false);
 			GRGEN_LGSP.PatternEdge markExpressionFollowingActualParameter_edge__edge0 = new GRGEN_LGSP.PatternEdge(true, (int) GRGEN_MODEL.EdgeTypes.@actualParameter, "GRGEN_MODEL.IactualParameter", "markExpressionFollowingActualParameter_edge__edge0", "_edge0", markExpressionFollowingActualParameter_edge__edge0_AllowedTypes, markExpressionFollowingActualParameter_edge__edge0_IsAllowedType, 5.5F, -1, false);
-			GRGEN_LGSP.PatternCondition cond_0 = new GRGEN_LGSP.PatternCondition(
+			GRGEN_LGSP.PatternCondition markExpressionFollowingActualParameter_cond_0 = new GRGEN_LGSP.PatternCondition(
 				new GRGEN_EXPR.LOG_NOT(new GRGEN_EXPR.Visited("markExpressionFollowingActualParameter_node_exp", new GRGEN_EXPR.Constant("0"))),
 				new string[] { "markExpressionFollowingActualParameter_node_exp" }, new string[] {  }, new string[] {  }, new GRGEN_LIBGR.VarType[] {  });
 			pat_markExpressionFollowingActualParameter = new GRGEN_LGSP.PatternGraph(
@@ -21099,7 +21200,7 @@ namespace de.unika.ipd.grGen.Action_JavaProgramGraphs
 				markExpressionFollowingActualParameter_maxMatches,
 				new GRGEN_LGSP.PatternGraph[] {  }, 
 				new GRGEN_LGSP.PatternGraph[] {  }, 
-				new GRGEN_LGSP.PatternCondition[] { cond_0,  }, 
+				new GRGEN_LGSP.PatternCondition[] { markExpressionFollowingActualParameter_cond_0,  }, 
 				new bool[2, 2] {
 					{ true, false, },
 					{ false, true, },
@@ -21128,7 +21229,7 @@ namespace de.unika.ipd.grGen.Action_JavaProgramGraphs
 			graph.SettingAddedNodeNames( markExpressionFollowingActualParameter_addedNodeNames );
 			graph.SettingAddedEdgeNames( markExpressionFollowingActualParameter_addedEdgeNames );
 			graph.SetVisited(node_exp, 0, true);
-			ApplyXGRS_0(graph, node_exp);
+			ApplyXGRS_0(graph, (GRGEN_MODEL.IExpression)node_exp);
 			return;
 		}
 		private static string[] markExpressionFollowingActualParameter_addedNodeNames = new string[] {  };
@@ -21141,61 +21242,59 @@ namespace de.unika.ipd.grGen.Action_JavaProgramGraphs
 			graph.SettingAddedNodeNames( markExpressionFollowingActualParameter_addedNodeNames );
 			graph.SettingAddedEdgeNames( markExpressionFollowingActualParameter_addedEdgeNames );
 			graph.SetVisited(node_exp, 0, true);
-			ApplyXGRS_0(graph, node_exp);
+			ApplyXGRS_0(graph, (GRGEN_MODEL.IExpression)node_exp);
 			return;
 		}
-        public static bool ApplyXGRS_0(GRGEN_LGSP.LGSPGraph graph, object var_exp)
+        public static bool ApplyXGRS_0(GRGEN_LGSP.LGSPGraph graph, GRGEN_MODEL.IExpression var_exp)
         {
             GRGEN_LGSP.LGSPActions actions = graph.curActions;
-            bool res_0;
-            bool res_1;
-            bool res_2;
+            bool res_70;
+            bool res_69;
+            bool res_67;
             Action_markExpressionFollowingExpression rule_markExpressionFollowingExpression = Action_markExpressionFollowingExpression.Instance;
-            bool res_3;
+            bool res_68;
             Action_markExpressionFollowingActualParameter rule_markExpressionFollowingActualParameter = Action_markExpressionFollowingActualParameter.Instance;
-            long i_0 = 0;
+            long i_70 = 0;
             while(true)
             {
-                __xgrs_paramarray_1[0] = var_exp;
-                GRGEN_LIBGR.IMatches mat_2 = rule_markExpressionFollowingExpression.Match(graph, 1, __xgrs_paramarray_1);
-                graph.Matched(mat_2, false);
-                if(mat_2.Count == 0)
-                	res_2 = false;
-                else
-                {
-                    if(graph.PerformanceInfo != null) graph.PerformanceInfo.MatchesFound += mat_2.Count;
-                    graph.Finishing(mat_2, false);
-                    object[] ret_2 = rule_markExpressionFollowingExpression.Modify(graph, mat_2.First);
+                GRGEN_LIBGR.IMatchesExact<Rule_markExpressionFollowingExpression.IMatch_markExpressionFollowingExpression> matches_67 = rule_markExpressionFollowingExpression.Match(graph, 1, (GRGEN_MODEL.IExpression)var_exp);
+                graph.Matched(matches_67, false);
+                if(matches_67.Count==0) {
+                    res_67 = (bool)(false);
+                } else {
+                    res_67 = (bool)(true);
+                    if(graph.PerformanceInfo!=null) graph.PerformanceInfo.MatchesFound += matches_67.Count;
+                    graph.Finishing(matches_67, false);
+                    Rule_markExpressionFollowingExpression.IMatch_markExpressionFollowingExpression match_67 = matches_67.FirstExact;
+                    rule_markExpressionFollowingExpression.Modify(graph, match_67);
                     if(graph.PerformanceInfo != null) graph.PerformanceInfo.RewritesPerformed++;
-                    graph.Finished(mat_2, false);
-                    res_2 = ret_2 != null;
+                    graph.Finished(matches_67, false);
                 }
-                if(res_2)                    res_1 = true;
+                if(res_67)
+                    res_69 = (bool)(true);
                 else
                 {
-                    __xgrs_paramarray_1[0] = var_exp;
-                    GRGEN_LIBGR.IMatches mat_3 = rule_markExpressionFollowingActualParameter.Match(graph, 1, __xgrs_paramarray_1);
-                    graph.Matched(mat_3, false);
-                    if(mat_3.Count == 0)
-                    	res_3 = false;
-                    else
-                    {
-                        if(graph.PerformanceInfo != null) graph.PerformanceInfo.MatchesFound += mat_3.Count;
-                        graph.Finishing(mat_3, false);
-                        object[] ret_3 = rule_markExpressionFollowingActualParameter.Modify(graph, mat_3.First);
+                    GRGEN_LIBGR.IMatchesExact<Rule_markExpressionFollowingActualParameter.IMatch_markExpressionFollowingActualParameter> matches_68 = rule_markExpressionFollowingActualParameter.Match(graph, 1, (GRGEN_MODEL.IExpression)var_exp);
+                    graph.Matched(matches_68, false);
+                    if(matches_68.Count==0) {
+                        res_68 = (bool)(false);
+                    } else {
+                        res_68 = (bool)(true);
+                        if(graph.PerformanceInfo!=null) graph.PerformanceInfo.MatchesFound += matches_68.Count;
+                        graph.Finishing(matches_68, false);
+                        Rule_markExpressionFollowingActualParameter.IMatch_markExpressionFollowingActualParameter match_68 = matches_68.FirstExact;
+                        rule_markExpressionFollowingActualParameter.Modify(graph, match_68);
                         if(graph.PerformanceInfo != null) graph.PerformanceInfo.RewritesPerformed++;
-                        graph.Finished(mat_3, false);
-                        res_3 = ret_3 != null;
+                        graph.Finished(matches_68, false);
                     }
-                    res_1 = res_3;
+                    res_69 = (bool)(res_68);
                 }
-                if(!res_1) break;
-                i_0++;
+                if(!res_69) break;
+                i_70++;
             }
-            res_0 = i_0 >= 0;
-            return res_0;
+            res_70 = (bool)(i_70 >= 0);
+            return res_70;
         }
-        private static object[] __xgrs_paramarray_1 = new object[1];
 
 		static Rule_markExpressionFollowingActualParameter() {
 		}
@@ -21329,6 +21428,7 @@ namespace de.unika.ipd.grGen.Action_JavaProgramGraphs
 
 
 
+
 		GRGEN_LGSP.PatternGraph pat_unmarkExpression;
 
 
@@ -21349,7 +21449,7 @@ namespace de.unika.ipd.grGen.Action_JavaProgramGraphs
 			int[] unmarkExpression_minMatches = new int[0] ;
 			int[] unmarkExpression_maxMatches = new int[0] ;
 			GRGEN_LGSP.PatternNode unmarkExpression_node_exp = new GRGEN_LGSP.PatternNode((int) GRGEN_MODEL.NodeTypes.@Expression, "GRGEN_MODEL.IExpression", "unmarkExpression_node_exp", "exp", unmarkExpression_node_exp_AllowedTypes, unmarkExpression_node_exp_IsAllowedType, 5.5F, -1, false);
-			GRGEN_LGSP.PatternCondition cond_0 = new GRGEN_LGSP.PatternCondition(
+			GRGEN_LGSP.PatternCondition unmarkExpression_cond_0 = new GRGEN_LGSP.PatternCondition(
 				new GRGEN_EXPR.Visited("unmarkExpression_node_exp", new GRGEN_EXPR.Constant("0")),
 				new string[] { "unmarkExpression_node_exp" }, new string[] {  }, new string[] {  }, new GRGEN_LIBGR.VarType[] {  });
 			pat_unmarkExpression = new GRGEN_LGSP.PatternGraph(
@@ -21366,7 +21466,7 @@ namespace de.unika.ipd.grGen.Action_JavaProgramGraphs
 				unmarkExpression_maxMatches,
 				new GRGEN_LGSP.PatternGraph[] {  }, 
 				new GRGEN_LGSP.PatternGraph[] {  }, 
-				new GRGEN_LGSP.PatternCondition[] { cond_0,  }, 
+				new GRGEN_LGSP.PatternCondition[] { unmarkExpression_cond_0,  }, 
 				new bool[1, 1] {
 					{ true, },
 				},
@@ -21526,6 +21626,7 @@ namespace de.unika.ipd.grGen.Action_JavaProgramGraphs
 		public enum callToSuperExists_IterNums { };
 
 
+
 		GRGEN_LGSP.PatternGraph pat_callToSuperExists;
 
 
@@ -21546,7 +21647,7 @@ namespace de.unika.ipd.grGen.Action_JavaProgramGraphs
 			int[] callToSuperExists_minMatches = new int[0] ;
 			int[] callToSuperExists_maxMatches = new int[0] ;
 			GRGEN_LGSP.PatternNode callToSuperExists_node_call = new GRGEN_LGSP.PatternNode((int) GRGEN_MODEL.NodeTypes.@Call, "GRGEN_MODEL.ICall", "callToSuperExists_node_call", "call", callToSuperExists_node_call_AllowedTypes, callToSuperExists_node_call_IsAllowedType, 5.5F, -1, false);
-			GRGEN_LGSP.PatternCondition cond_0 = new GRGEN_LGSP.PatternCondition(
+			GRGEN_LGSP.PatternCondition callToSuperExists_cond_0 = new GRGEN_LGSP.PatternCondition(
 				new GRGEN_EXPR.LOG_AND(new GRGEN_EXPR.Qualification("GRGEN_MODEL.ICall", "callToSuperExists_node_call", "super"), new GRGEN_EXPR.Visited("callToSuperExists_node_call", new GRGEN_EXPR.Constant("0"))),
 				new string[] { "callToSuperExists_node_call" }, new string[] {  }, new string[] {  }, new GRGEN_LIBGR.VarType[] {  });
 			pat_callToSuperExists = new GRGEN_LGSP.PatternGraph(
@@ -21563,7 +21664,7 @@ namespace de.unika.ipd.grGen.Action_JavaProgramGraphs
 				callToSuperExists_maxMatches,
 				new GRGEN_LGSP.PatternGraph[] {  }, 
 				new GRGEN_LGSP.PatternGraph[] {  }, 
-				new GRGEN_LGSP.PatternCondition[] { cond_0,  }, 
+				new GRGEN_LGSP.PatternCondition[] { callToSuperExists_cond_0,  }, 
 				new bool[1, 1] {
 					{ true, },
 				},
@@ -21717,6 +21818,7 @@ namespace de.unika.ipd.grGen.Action_JavaProgramGraphs
 		public enum isStatic_IterNums { };
 
 
+
 		GRGEN_LGSP.PatternGraph pat_isStatic;
 
 
@@ -21742,7 +21844,7 @@ namespace de.unika.ipd.grGen.Action_JavaProgramGraphs
 			GRGEN_LGSP.PatternNode isStatic_node_op = new GRGEN_LGSP.PatternNode((int) GRGEN_MODEL.NodeTypes.@Operation, "GRGEN_MODEL.IOperation", "isStatic_node_op", "op", isStatic_node_op_AllowedTypes, isStatic_node_op_IsAllowedType, 5.5F, -1, false);
 			GRGEN_LGSP.PatternNode isStatic_node_mb = new GRGEN_LGSP.PatternNode((int) GRGEN_MODEL.NodeTypes.@MethodBody, "GRGEN_MODEL.IMethodBody", "isStatic_node_mb", "mb", isStatic_node_mb_AllowedTypes, isStatic_node_mb_IsAllowedType, 5.5F, 0, false);
 			GRGEN_LGSP.PatternEdge isStatic_edge__edge0 = new GRGEN_LGSP.PatternEdge(true, (int) GRGEN_MODEL.EdgeTypes.@binding, "GRGEN_MODEL.Ibinding", "isStatic_edge__edge0", "_edge0", isStatic_edge__edge0_AllowedTypes, isStatic_edge__edge0_IsAllowedType, 5.5F, -1, false);
-			GRGEN_LGSP.PatternCondition cond_0 = new GRGEN_LGSP.PatternCondition(
+			GRGEN_LGSP.PatternCondition isStatic_cond_0 = new GRGEN_LGSP.PatternCondition(
 				new GRGEN_EXPR.Qualification("GRGEN_MODEL.IOperation", "isStatic_node_op", "isStatic"),
 				new string[] { "isStatic_node_op" }, new string[] {  }, new string[] {  }, new GRGEN_LIBGR.VarType[] {  });
 			pat_isStatic = new GRGEN_LGSP.PatternGraph(
@@ -21759,7 +21861,7 @@ namespace de.unika.ipd.grGen.Action_JavaProgramGraphs
 				isStatic_maxMatches,
 				new GRGEN_LGSP.PatternGraph[] {  }, 
 				new GRGEN_LGSP.PatternGraph[] {  }, 
-				new GRGEN_LGSP.PatternCondition[] { cond_0,  }, 
+				new GRGEN_LGSP.PatternCondition[] { isStatic_cond_0,  }, 
 				new bool[2, 2] {
 					{ true, false, },
 					{ false, true, },
@@ -21928,6 +22030,7 @@ namespace de.unika.ipd.grGen.Action_JavaProgramGraphs
 		public enum methodNameExists_SubNums { @_subpattern0, };
 		public enum methodNameExists_AltNums { };
 		public enum methodNameExists_IterNums { };
+
 
 
 		GRGEN_LGSP.PatternGraph pat_methodNameExists;
@@ -22155,6 +22258,7 @@ namespace de.unika.ipd.grGen.Action_JavaProgramGraphs
 		public enum thisIsAccessed_IterNums { };
 
 
+
 		GRGEN_LGSP.PatternGraph pat_thisIsAccessed;
 
 		public static GRGEN_LIBGR.EdgeType[] thisIsAccessed_neg_0_edge__edge0_AllowedTypes = null;
@@ -22186,7 +22290,7 @@ namespace de.unika.ipd.grGen.Action_JavaProgramGraphs
 			int[] thisIsAccessed_minMatches = new int[0] ;
 			int[] thisIsAccessed_maxMatches = new int[0] ;
 			GRGEN_LGSP.PatternNode thisIsAccessed_node_access = new GRGEN_LGSP.PatternNode((int) GRGEN_MODEL.NodeTypes.@Access, "GRGEN_MODEL.IAccess", "thisIsAccessed_node_access", "access", thisIsAccessed_node_access_AllowedTypes, thisIsAccessed_node_access_IsAllowedType, 5.5F, -1, false);
-			GRGEN_LGSP.PatternCondition cond_0 = new GRGEN_LGSP.PatternCondition(
+			GRGEN_LGSP.PatternCondition thisIsAccessed_cond_0 = new GRGEN_LGSP.PatternCondition(
 				new GRGEN_EXPR.Visited("thisIsAccessed_node_access", new GRGEN_EXPR.Constant("0")),
 				new string[] { "thisIsAccessed_node_access" }, new string[] {  }, new string[] {  }, new GRGEN_LIBGR.VarType[] {  });
 			bool[,] thisIsAccessed_neg_0_isNodeHomomorphicGlobal = new bool[1, 1] {
@@ -22238,7 +22342,7 @@ namespace de.unika.ipd.grGen.Action_JavaProgramGraphs
 				thisIsAccessed_maxMatches,
 				new GRGEN_LGSP.PatternGraph[] { thisIsAccessed_neg_0,  }, 
 				new GRGEN_LGSP.PatternGraph[] {  }, 
-				new GRGEN_LGSP.PatternCondition[] { cond_0,  }, 
+				new GRGEN_LGSP.PatternCondition[] { thisIsAccessed_cond_0,  }, 
 				new bool[1, 1] {
 					{ true, },
 				},
@@ -22500,6 +22604,7 @@ namespace de.unika.ipd.grGen.Action_JavaProgramGraphs
 
 
 
+
 		GRGEN_LGSP.PatternGraph pat_addSourceParameter;
 
 
@@ -22713,6 +22818,7 @@ namespace de.unika.ipd.grGen.Action_JavaProgramGraphs
 
 
 
+
 		GRGEN_LGSP.PatternGraph pat_useSourceParameter;
 
 		public static GRGEN_LIBGR.EdgeType[] useSourceParameter_neg_0_edge__edge0_AllowedTypes = null;
@@ -22746,7 +22852,7 @@ namespace de.unika.ipd.grGen.Action_JavaProgramGraphs
 			int[] useSourceParameter_maxMatches = new int[0] ;
 			GRGEN_LGSP.PatternNode useSourceParameter_node_srcparam = new GRGEN_LGSP.PatternNode((int) GRGEN_MODEL.NodeTypes.@Parameter, "GRGEN_MODEL.IParameter", "useSourceParameter_node_srcparam", "srcparam", useSourceParameter_node_srcparam_AllowedTypes, useSourceParameter_node_srcparam_IsAllowedType, 5.5F, 0, false);
 			GRGEN_LGSP.PatternNode useSourceParameter_node_access = new GRGEN_LGSP.PatternNode((int) GRGEN_MODEL.NodeTypes.@Access, "GRGEN_MODEL.IAccess", "useSourceParameter_node_access", "access", useSourceParameter_node_access_AllowedTypes, useSourceParameter_node_access_IsAllowedType, 5.5F, -1, false);
-			GRGEN_LGSP.PatternCondition cond_0 = new GRGEN_LGSP.PatternCondition(
+			GRGEN_LGSP.PatternCondition useSourceParameter_cond_0 = new GRGEN_LGSP.PatternCondition(
 				new GRGEN_EXPR.Visited("useSourceParameter_node_access", new GRGEN_EXPR.Constant("0")),
 				new string[] { "useSourceParameter_node_access" }, new string[] {  }, new string[] {  }, new GRGEN_LIBGR.VarType[] {  });
 			bool[,] useSourceParameter_neg_0_isNodeHomomorphicGlobal = new bool[1, 1] {
@@ -22798,7 +22904,7 @@ namespace de.unika.ipd.grGen.Action_JavaProgramGraphs
 				useSourceParameter_maxMatches,
 				new GRGEN_LGSP.PatternGraph[] { useSourceParameter_neg_0,  }, 
 				new GRGEN_LGSP.PatternGraph[] {  }, 
-				new GRGEN_LGSP.PatternCondition[] { cond_0,  }, 
+				new GRGEN_LGSP.PatternCondition[] { useSourceParameter_cond_0,  }, 
 				new bool[2, 2] {
 					{ true, false, },
 					{ false, true, },
@@ -23078,6 +23184,7 @@ namespace de.unika.ipd.grGen.Action_JavaProgramGraphs
 
 
 
+
 		GRGEN_LGSP.PatternGraph pat_copyOperation;
 
 
@@ -23288,6 +23395,7 @@ namespace de.unika.ipd.grGen.Action_JavaProgramGraphs
 		public enum copyOperationParameter_SubNums { };
 		public enum copyOperationParameter_AltNums { };
 		public enum copyOperationParameter_IterNums { };
+
 
 
 
@@ -23525,6 +23633,7 @@ namespace de.unika.ipd.grGen.Action_JavaProgramGraphs
 		public enum relinkMethodBody_SubNums { };
 		public enum relinkMethodBody_AltNums { };
 		public enum relinkMethodBody_IterNums { };
+
 
 
 
@@ -23827,6 +23936,7 @@ namespace de.unika.ipd.grGen.Action_JavaProgramGraphs
 
 
 
+
 		GRGEN_LGSP.PatternGraph pat_relinkParameter;
 
 
@@ -24120,6 +24230,7 @@ namespace de.unika.ipd.grGen.Action_JavaProgramGraphs
 
 
 
+
 		GRGEN_LGSP.PatternGraph pat_relinkOperationAndMethodBody;
 
 
@@ -24387,6 +24498,7 @@ namespace de.unika.ipd.grGen.Action_JavaProgramGraphs
 
 
 
+
 		GRGEN_LGSP.PatternGraph pat_addDelegateBody;
 
 
@@ -24644,6 +24756,7 @@ namespace de.unika.ipd.grGen.Action_JavaProgramGraphs
 
 
 
+
 		GRGEN_LGSP.PatternGraph pat_linkDelegateBodyToOperation;
 
 
@@ -24884,6 +24997,7 @@ namespace de.unika.ipd.grGen.Action_JavaProgramGraphs
 		public enum replaceAccess_Variable_SubNums { };
 		public enum replaceAccess_Variable_AltNums { };
 		public enum replaceAccess_Variable_IterNums { };
+
 
 
 
@@ -25190,6 +25304,7 @@ namespace de.unika.ipd.grGen.Action_JavaProgramGraphs
 
 
 
+
 		GRGEN_LGSP.PatternGraph pat_replaceAccess_Variable_WithSource;
 
 
@@ -25491,6 +25606,7 @@ namespace de.unika.ipd.grGen.Action_JavaProgramGraphs
 
 
 
+
 		GRGEN_LGSP.PatternGraph pat_addSourceToCall;
 
 
@@ -25709,6 +25825,7 @@ namespace de.unika.ipd.grGen.Action_JavaProgramGraphs
 		public enum getUnprocessedCallWithActualParameter_SubNums { };
 		public enum getUnprocessedCallWithActualParameter_AltNums { };
 		public enum getUnprocessedCallWithActualParameter_IterNums { };
+
 
 
 		GRGEN_LGSP.PatternGraph pat_getUnprocessedCallWithActualParameter;
@@ -26148,6 +26265,7 @@ namespace de.unika.ipd.grGen.Action_JavaProgramGraphs
 
 
 
+
 		GRGEN_LGSP.PatternGraph pat_replaceAccess_Parameter_AccessWithoutLink;
 
 		public static GRGEN_LIBGR.NodeType[] replaceAccess_Parameter_AccessWithoutLink_neg_0_node__node0_AllowedTypes = null;
@@ -26558,6 +26676,7 @@ namespace de.unika.ipd.grGen.Action_JavaProgramGraphs
 		public enum replaceAccess_Parameter_AccessWithLinkToExpression_SubNums { };
 		public enum replaceAccess_Parameter_AccessWithLinkToExpression_AltNums { };
 		public enum replaceAccess_Parameter_AccessWithLinkToExpression_IterNums { };
+
 
 
 

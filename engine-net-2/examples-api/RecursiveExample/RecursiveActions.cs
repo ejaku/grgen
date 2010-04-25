@@ -1,9 +1,10 @@
-// This file has been generated automatically by GrGen.
+// This file has been generated automatically by GrGen (www.grgen.net)
 // Do not modify this file! Any changes will be lost!
-// Generated from "..\..\tests\Recursive\Recursive.grg" on Tue Jan 12 22:54:37 CET 2010
+// Generated from "..\..\tests\Recursive\Recursive.grg" on Sun Apr 25 15:45:07 CEST 2010
 
 using System;
 using System.Collections.Generic;
+using System.Collections;
 using System.Text;
 using GRGEN_LIBGR = de.unika.ipd.grGen.libGr;
 using GRGEN_LGSP = de.unika.ipd.grGen.lgsp;
@@ -29,6 +30,7 @@ namespace de.unika.ipd.grGen.Action_Recursive
 		public enum ChainFromTo_IterNums { };
 
 
+
 		GRGEN_LGSP.PatternGraph pat_ChainFromTo;
 
 		public enum ChainFromTo_alt_0_CaseNums { @base, @rec, };
@@ -40,6 +42,7 @@ namespace de.unika.ipd.grGen.Action_Recursive
 		public enum ChainFromTo_alt_0_base_SubNums { };
 		public enum ChainFromTo_alt_0_base_AltNums { };
 		public enum ChainFromTo_alt_0_base_IterNums { };
+
 
 
 		GRGEN_LGSP.PatternGraph ChainFromTo_alt_0_base;
@@ -54,6 +57,7 @@ namespace de.unika.ipd.grGen.Action_Recursive
 		public enum ChainFromTo_alt_0_rec_SubNums { @_subpattern0, };
 		public enum ChainFromTo_alt_0_rec_AltNums { };
 		public enum ChainFromTo_alt_0_rec_IterNums { };
+
 
 
 		GRGEN_LGSP.PatternGraph ChainFromTo_alt_0_rec;
@@ -635,6 +639,7 @@ namespace de.unika.ipd.grGen.Action_Recursive
 		public enum ChainFrom_IterNums { };
 
 
+
 		GRGEN_LGSP.PatternGraph pat_ChainFrom;
 
 		public enum ChainFrom_alt_0_CaseNums { @base, @rec, };
@@ -644,6 +649,7 @@ namespace de.unika.ipd.grGen.Action_Recursive
 		public enum ChainFrom_alt_0_base_SubNums { };
 		public enum ChainFrom_alt_0_base_AltNums { };
 		public enum ChainFrom_alt_0_base_IterNums { };
+
 
 
 		GRGEN_LGSP.PatternGraph ChainFrom_alt_0_base;
@@ -658,6 +664,7 @@ namespace de.unika.ipd.grGen.Action_Recursive
 		public enum ChainFrom_alt_0_rec_SubNums { @_subpattern0, };
 		public enum ChainFrom_alt_0_rec_AltNums { };
 		public enum ChainFrom_alt_0_rec_IterNums { };
+
 
 
 		GRGEN_LGSP.PatternGraph ChainFrom_alt_0_rec;
@@ -1192,6 +1199,7 @@ namespace de.unika.ipd.grGen.Action_Recursive
 		public enum ChainFromComplete_IterNums { };
 
 
+
 		GRGEN_LGSP.PatternGraph pat_ChainFromComplete;
 
 		public enum ChainFromComplete_alt_0_CaseNums { @base, @rec, };
@@ -1201,6 +1209,7 @@ namespace de.unika.ipd.grGen.Action_Recursive
 		public enum ChainFromComplete_alt_0_base_SubNums { };
 		public enum ChainFromComplete_alt_0_base_AltNums { };
 		public enum ChainFromComplete_alt_0_base_IterNums { };
+
 
 
 		GRGEN_LGSP.PatternGraph ChainFromComplete_alt_0_base;
@@ -1228,6 +1237,7 @@ namespace de.unika.ipd.grGen.Action_Recursive
 		public enum ChainFromComplete_alt_0_rec_SubNums { @_subpattern0, };
 		public enum ChainFromComplete_alt_0_rec_AltNums { };
 		public enum ChainFromComplete_alt_0_rec_IterNums { };
+
 
 
 		GRGEN_LGSP.PatternGraph ChainFromComplete_alt_0_rec;
@@ -1924,6 +1934,7 @@ namespace de.unika.ipd.grGen.Action_Recursive
 		public enum ChainFromCompleteArbitraryPatternpathLocked_IterNums { };
 
 
+
 		GRGEN_LGSP.PatternGraph pat_ChainFromCompleteArbitraryPatternpathLocked;
 
 		public enum ChainFromCompleteArbitraryPatternpathLocked_alt_0_CaseNums { @base, @rec, };
@@ -1933,6 +1944,7 @@ namespace de.unika.ipd.grGen.Action_Recursive
 		public enum ChainFromCompleteArbitraryPatternpathLocked_alt_0_base_SubNums { };
 		public enum ChainFromCompleteArbitraryPatternpathLocked_alt_0_base_AltNums { };
 		public enum ChainFromCompleteArbitraryPatternpathLocked_alt_0_base_IterNums { };
+
 
 
 		GRGEN_LGSP.PatternGraph ChainFromCompleteArbitraryPatternpathLocked_alt_0_base;
@@ -1960,6 +1972,7 @@ namespace de.unika.ipd.grGen.Action_Recursive
 		public enum ChainFromCompleteArbitraryPatternpathLocked_alt_0_rec_SubNums { @_subpattern0, };
 		public enum ChainFromCompleteArbitraryPatternpathLocked_alt_0_rec_AltNums { };
 		public enum ChainFromCompleteArbitraryPatternpathLocked_alt_0_rec_IterNums { };
+
 
 
 		GRGEN_LGSP.PatternGraph ChainFromCompleteArbitraryPatternpathLocked_alt_0_rec;
@@ -2656,6 +2669,7 @@ namespace de.unika.ipd.grGen.Action_Recursive
 		public enum ChainFromCompleteArbitraryBaseAlwaysFailesByGoingBackwards_IterNums { };
 
 
+
 		GRGEN_LGSP.PatternGraph pat_ChainFromCompleteArbitraryBaseAlwaysFailesByGoingBackwards;
 
 		public enum ChainFromCompleteArbitraryBaseAlwaysFailesByGoingBackwards_alt_0_CaseNums { @base, @rec, };
@@ -2665,6 +2679,7 @@ namespace de.unika.ipd.grGen.Action_Recursive
 		public enum ChainFromCompleteArbitraryBaseAlwaysFailesByGoingBackwards_alt_0_base_SubNums { };
 		public enum ChainFromCompleteArbitraryBaseAlwaysFailesByGoingBackwards_alt_0_base_AltNums { };
 		public enum ChainFromCompleteArbitraryBaseAlwaysFailesByGoingBackwards_alt_0_base_IterNums { };
+
 
 
 		GRGEN_LGSP.PatternGraph ChainFromCompleteArbitraryBaseAlwaysFailesByGoingBackwards_alt_0_base;
@@ -2692,6 +2707,7 @@ namespace de.unika.ipd.grGen.Action_Recursive
 		public enum ChainFromCompleteArbitraryBaseAlwaysFailesByGoingBackwards_alt_0_rec_SubNums { @_subpattern0, };
 		public enum ChainFromCompleteArbitraryBaseAlwaysFailesByGoingBackwards_alt_0_rec_AltNums { };
 		public enum ChainFromCompleteArbitraryBaseAlwaysFailesByGoingBackwards_alt_0_rec_IterNums { };
+
 
 
 		GRGEN_LGSP.PatternGraph ChainFromCompleteArbitraryBaseAlwaysFailesByGoingBackwards_alt_0_rec;
@@ -3388,6 +3404,7 @@ namespace de.unika.ipd.grGen.Action_Recursive
 		public enum Blowball_IterNums { };
 
 
+
 		GRGEN_LGSP.PatternGraph pat_Blowball;
 
 		public enum Blowball_alt_0_CaseNums { @end, @further, };
@@ -3397,6 +3414,7 @@ namespace de.unika.ipd.grGen.Action_Recursive
 		public enum Blowball_alt_0_end_SubNums { };
 		public enum Blowball_alt_0_end_AltNums { };
 		public enum Blowball_alt_0_end_IterNums { };
+
 
 
 		GRGEN_LGSP.PatternGraph Blowball_alt_0_end;
@@ -3424,6 +3442,7 @@ namespace de.unika.ipd.grGen.Action_Recursive
 		public enum Blowball_alt_0_further_SubNums { @_subpattern0, };
 		public enum Blowball_alt_0_further_AltNums { };
 		public enum Blowball_alt_0_further_IterNums { };
+
 
 
 		GRGEN_LGSP.PatternGraph Blowball_alt_0_further;
@@ -4122,6 +4141,7 @@ namespace de.unika.ipd.grGen.Action_Recursive
 		public enum ReverseChainFromTo_IterNums { };
 
 
+
 		GRGEN_LGSP.PatternGraph pat_ReverseChainFromTo;
 
 		public enum ReverseChainFromTo_alt_0_CaseNums { @base, @rec, };
@@ -4133,6 +4153,7 @@ namespace de.unika.ipd.grGen.Action_Recursive
 		public enum ReverseChainFromTo_alt_0_base_SubNums { };
 		public enum ReverseChainFromTo_alt_0_base_AltNums { };
 		public enum ReverseChainFromTo_alt_0_base_IterNums { };
+
 
 
 		GRGEN_LGSP.PatternGraph ReverseChainFromTo_alt_0_base;
@@ -4147,6 +4168,7 @@ namespace de.unika.ipd.grGen.Action_Recursive
 		public enum ReverseChainFromTo_alt_0_rec_SubNums { @_subpattern0, };
 		public enum ReverseChainFromTo_alt_0_rec_AltNums { };
 		public enum ReverseChainFromTo_alt_0_rec_IterNums { };
+
 
 
 		GRGEN_LGSP.PatternGraph ReverseChainFromTo_alt_0_rec;
@@ -4731,6 +4753,7 @@ namespace de.unika.ipd.grGen.Action_Recursive
 
 
 
+
 		GRGEN_LGSP.PatternGraph pat_ChainFromToReverse;
 
 		public enum ChainFromToReverse_alt_0_CaseNums { @base, @rec, };
@@ -4742,6 +4765,7 @@ namespace de.unika.ipd.grGen.Action_Recursive
 		public enum ChainFromToReverse_alt_0_base_SubNums { };
 		public enum ChainFromToReverse_alt_0_base_AltNums { };
 		public enum ChainFromToReverse_alt_0_base_IterNums { };
+
 
 
 
@@ -4757,6 +4781,7 @@ namespace de.unika.ipd.grGen.Action_Recursive
 		public enum ChainFromToReverse_alt_0_rec_SubNums { @cftr, };
 		public enum ChainFromToReverse_alt_0_rec_AltNums { };
 		public enum ChainFromToReverse_alt_0_rec_IterNums { };
+
 
 
 
@@ -5464,6 +5489,7 @@ namespace de.unika.ipd.grGen.Action_Recursive
 
 
 
+
 		GRGEN_LGSP.PatternGraph pat_ChainFromToReverseToCommon;
 
 		public enum ChainFromToReverseToCommon_alt_0_CaseNums { @base, @rec, };
@@ -5475,6 +5501,7 @@ namespace de.unika.ipd.grGen.Action_Recursive
 		public enum ChainFromToReverseToCommon_alt_0_base_SubNums { };
 		public enum ChainFromToReverseToCommon_alt_0_base_AltNums { };
 		public enum ChainFromToReverseToCommon_alt_0_base_IterNums { };
+
 
 
 
@@ -5490,6 +5517,7 @@ namespace de.unika.ipd.grGen.Action_Recursive
 		public enum ChainFromToReverseToCommon_alt_0_rec_SubNums { @cftrtc, };
 		public enum ChainFromToReverseToCommon_alt_0_rec_AltNums { };
 		public enum ChainFromToReverseToCommon_alt_0_rec_IterNums { };
+
 
 
 
@@ -6204,6 +6232,7 @@ namespace de.unika.ipd.grGen.Action_Recursive
 		public enum ReverseChainFromToToCommon_IterNums { };
 
 
+
 		GRGEN_LGSP.PatternGraph pat_ReverseChainFromToToCommon;
 
 		public enum ReverseChainFromToToCommon_alt_0_CaseNums { @base, @rec, };
@@ -6217,6 +6246,7 @@ namespace de.unika.ipd.grGen.Action_Recursive
 		public enum ReverseChainFromToToCommon_alt_0_base_SubNums { };
 		public enum ReverseChainFromToToCommon_alt_0_base_AltNums { };
 		public enum ReverseChainFromToToCommon_alt_0_base_IterNums { };
+
 
 
 		GRGEN_LGSP.PatternGraph ReverseChainFromToToCommon_alt_0_base;
@@ -6233,6 +6263,7 @@ namespace de.unika.ipd.grGen.Action_Recursive
 		public enum ReverseChainFromToToCommon_alt_0_rec_SubNums { @_subpattern0, };
 		public enum ReverseChainFromToToCommon_alt_0_rec_AltNums { };
 		public enum ReverseChainFromToToCommon_alt_0_rec_IterNums { };
+
 
 
 		GRGEN_LGSP.PatternGraph ReverseChainFromToToCommon_alt_0_rec;
@@ -6862,6 +6893,7 @@ namespace de.unika.ipd.grGen.Action_Recursive
 
 
 
+
 		GRGEN_LGSP.PatternGraph pat_createChain;
 
 
@@ -7060,6 +7092,7 @@ namespace de.unika.ipd.grGen.Action_Recursive
 		public enum chainFromTo_SubNums { @_subpattern0, };
 		public enum chainFromTo_AltNums { };
 		public enum chainFromTo_IterNums { };
+
 
 
 		GRGEN_LGSP.PatternGraph pat_chainFromTo;
@@ -7267,6 +7300,7 @@ namespace de.unika.ipd.grGen.Action_Recursive
 		public enum chainFrom_IterNums { };
 
 
+
 		GRGEN_LGSP.PatternGraph pat_chainFrom;
 
 
@@ -7461,6 +7495,7 @@ namespace de.unika.ipd.grGen.Action_Recursive
 		public enum chainFromComplete_SubNums { @_subpattern0, };
 		public enum chainFromComplete_AltNums { };
 		public enum chainFromComplete_IterNums { };
+
 
 
 		GRGEN_LGSP.PatternGraph pat_chainFromComplete;
@@ -7659,6 +7694,7 @@ namespace de.unika.ipd.grGen.Action_Recursive
 		public enum chainFromCompleteArbitraryPatternpathLocked_IterNums { };
 
 
+
 		GRGEN_LGSP.PatternGraph pat_chainFromCompleteArbitraryPatternpathLocked;
 
 
@@ -7855,6 +7891,7 @@ namespace de.unika.ipd.grGen.Action_Recursive
 		public enum chainFromCompleteArbitraryBaseAlwaysFailesByGoingBackwards_IterNums { };
 
 
+
 		GRGEN_LGSP.PatternGraph pat_chainFromCompleteArbitraryBaseAlwaysFailesByGoingBackwards;
 
 
@@ -8047,6 +8084,7 @@ namespace de.unika.ipd.grGen.Action_Recursive
 		public enum createBlowball_SubNums { };
 		public enum createBlowball_AltNums { };
 		public enum createBlowball_IterNums { };
+
 
 
 
@@ -8250,6 +8288,7 @@ namespace de.unika.ipd.grGen.Action_Recursive
 		public enum blowball_IterNums { };
 
 
+
 		GRGEN_LGSP.PatternGraph pat_blowball;
 
 
@@ -8446,6 +8485,7 @@ namespace de.unika.ipd.grGen.Action_Recursive
 		public enum reverseChainFromTo_SubNums { @_subpattern0, };
 		public enum reverseChainFromTo_AltNums { };
 		public enum reverseChainFromTo_IterNums { };
+
 
 
 		GRGEN_LGSP.PatternGraph pat_reverseChainFromTo;
@@ -8652,6 +8692,7 @@ namespace de.unika.ipd.grGen.Action_Recursive
 
 
 
+
 		GRGEN_LGSP.PatternGraph pat_createReverseChain;
 
 
@@ -8850,6 +8891,7 @@ namespace de.unika.ipd.grGen.Action_Recursive
 		public enum chainFromToReverse_SubNums { @cftr, };
 		public enum chainFromToReverse_AltNums { };
 		public enum chainFromToReverse_IterNums { };
+
 
 
 
@@ -9066,6 +9108,7 @@ namespace de.unika.ipd.grGen.Action_Recursive
 		public enum chainFromToReverseToCommon_SubNums { @cftrtc, };
 		public enum chainFromToReverseToCommon_AltNums { };
 		public enum chainFromToReverseToCommon_IterNums { };
+
 
 
 
@@ -9288,6 +9331,7 @@ namespace de.unika.ipd.grGen.Action_Recursive
 		public enum reverseChainFromToToCommon_SubNums { @_subpattern0, };
 		public enum reverseChainFromToToCommon_AltNums { };
 		public enum reverseChainFromToToCommon_IterNums { };
+
 
 
 		GRGEN_LGSP.PatternGraph pat_reverseChainFromToToCommon;

@@ -1,6 +1,6 @@
-// This file has been generated automatically by GrGen.
+// This file has been generated automatically by GrGen (www.grgen.net)
 // Do not modify this file! Any changes will be lost!
-// Generated from "..\..\examples\ProgramGraphs\ProgramGraphs.grg" on Tue Jan 12 22:54:29 CET 2010
+// Generated from "..\..\examples\ProgramGraphs\ProgramGraphs.grg" on Sun Apr 25 15:45:04 CEST 2010
 
 using System;
 using System.Collections.Generic;
@@ -3019,13 +3019,13 @@ namespace de.unika.ipd.grGen.Model_ProgramGraphs
 		private ProgramGraphsNodeModel nodeModel = new ProgramGraphsNodeModel();
 		private ProgramGraphsEdgeModel edgeModel = new ProgramGraphsEdgeModel();
 		private GRGEN_LIBGR.ValidateInfo[] validateInfos = {
-			new GRGEN_LIBGR.ValidateInfo(GRGEN_MODEL.EdgeType_contains.typeVar, GRGEN_MODEL.NodeType_Entity.typeVar, GRGEN_MODEL.NodeType_Entity.typeVar, 1, long.MaxValue, 0, 1, false),
-			new GRGEN_LIBGR.ValidateInfo(GRGEN_MODEL.EdgeType_references.typeVar, GRGEN_MODEL.NodeType_Declaration.typeVar, GRGEN_MODEL.NodeType_Entity.typeVar, 1, long.MaxValue, 0, 1, false),
-			new GRGEN_LIBGR.ValidateInfo(GRGEN_MODEL.EdgeType_hasType.typeVar, GRGEN_MODEL.NodeType_Class.typeVar, GRGEN_MODEL.NodeType_Feature.typeVar, 1, long.MaxValue, 1, 1, false),
-			new GRGEN_LIBGR.ValidateInfo(GRGEN_MODEL.EdgeType_bindsTo.typeVar, GRGEN_MODEL.NodeType_MethodSignature.typeVar, GRGEN_MODEL.NodeType_MethodBody.typeVar, 1, long.MaxValue, 0, 1, false),
-			new GRGEN_LIBGR.ValidateInfo(GRGEN_MODEL.EdgeType_uses.typeVar, GRGEN_MODEL.NodeType_Attribute.typeVar, GRGEN_MODEL.NodeType_Expression.typeVar, 1, long.MaxValue, 0, 1, false),
-			new GRGEN_LIBGR.ValidateInfo(GRGEN_MODEL.EdgeType_writesTo.typeVar, GRGEN_MODEL.NodeType_Variabel.typeVar, GRGEN_MODEL.NodeType_Expression.typeVar, 1, long.MaxValue, 0, 1, false),
-			new GRGEN_LIBGR.ValidateInfo(GRGEN_MODEL.EdgeType_calls.typeVar, GRGEN_MODEL.NodeType_MethodSignature.typeVar, GRGEN_MODEL.NodeType_Expression.typeVar, 1, long.MaxValue, 0, 1, false),
+			new GRGEN_LIBGR.ValidateInfo(GRGEN_MODEL.EdgeType_contains.typeVar, GRGEN_MODEL.NodeType_Entity.typeVar, GRGEN_MODEL.NodeType_Entity.typeVar, 0, 1, 1, long.MaxValue, false),
+			new GRGEN_LIBGR.ValidateInfo(GRGEN_MODEL.EdgeType_references.typeVar, GRGEN_MODEL.NodeType_Entity.typeVar, GRGEN_MODEL.NodeType_Declaration.typeVar, 0, 1, 1, long.MaxValue, false),
+			new GRGEN_LIBGR.ValidateInfo(GRGEN_MODEL.EdgeType_hasType.typeVar, GRGEN_MODEL.NodeType_Feature.typeVar, GRGEN_MODEL.NodeType_Class.typeVar, 1, 1, 1, long.MaxValue, false),
+			new GRGEN_LIBGR.ValidateInfo(GRGEN_MODEL.EdgeType_bindsTo.typeVar, GRGEN_MODEL.NodeType_MethodBody.typeVar, GRGEN_MODEL.NodeType_MethodSignature.typeVar, 0, 1, 1, long.MaxValue, false),
+			new GRGEN_LIBGR.ValidateInfo(GRGEN_MODEL.EdgeType_uses.typeVar, GRGEN_MODEL.NodeType_Expression.typeVar, GRGEN_MODEL.NodeType_Attribute.typeVar, 0, 1, 1, long.MaxValue, false),
+			new GRGEN_LIBGR.ValidateInfo(GRGEN_MODEL.EdgeType_writesTo.typeVar, GRGEN_MODEL.NodeType_Expression.typeVar, GRGEN_MODEL.NodeType_Variabel.typeVar, 0, 1, 1, long.MaxValue, false),
+			new GRGEN_LIBGR.ValidateInfo(GRGEN_MODEL.EdgeType_calls.typeVar, GRGEN_MODEL.NodeType_Expression.typeVar, GRGEN_MODEL.NodeType_MethodSignature.typeVar, 0, 1, 1, long.MaxValue, false),
 		};
 		private GRGEN_LIBGR.EnumAttributeType[] enumAttributeTypes = {
 		};
@@ -3035,7 +3035,7 @@ namespace de.unika.ipd.grGen.Model_ProgramGraphs
 		public GRGEN_LIBGR.IEdgeModel EdgeModel { get { return edgeModel; } }
 		public IEnumerable<GRGEN_LIBGR.ValidateInfo> ValidateInfo { get { return validateInfos; } }
 		public IEnumerable<GRGEN_LIBGR.EnumAttributeType> EnumAttributeTypes { get { return enumAttributeTypes; } }
-		public string MD5Hash { get { return "0ce6c1f760afcefa34af880f04d608b3"; } }
+		public string MD5Hash { get { return "e6271fc2f2794368b53b1fb118947e8d"; } }
 	}
 	//
 	// IGraph/IGraphModel implementation
@@ -3231,13 +3231,13 @@ namespace de.unika.ipd.grGen.Model_ProgramGraphs
 		private ProgramGraphsNodeModel nodeModel = new ProgramGraphsNodeModel();
 		private ProgramGraphsEdgeModel edgeModel = new ProgramGraphsEdgeModel();
 		private GRGEN_LIBGR.ValidateInfo[] validateInfos = {
-			new GRGEN_LIBGR.ValidateInfo(GRGEN_MODEL.EdgeType_contains.typeVar, GRGEN_MODEL.NodeType_Entity.typeVar, GRGEN_MODEL.NodeType_Entity.typeVar, 1, long.MaxValue, 0, 1, false),
-			new GRGEN_LIBGR.ValidateInfo(GRGEN_MODEL.EdgeType_references.typeVar, GRGEN_MODEL.NodeType_Declaration.typeVar, GRGEN_MODEL.NodeType_Entity.typeVar, 1, long.MaxValue, 0, 1, false),
-			new GRGEN_LIBGR.ValidateInfo(GRGEN_MODEL.EdgeType_hasType.typeVar, GRGEN_MODEL.NodeType_Class.typeVar, GRGEN_MODEL.NodeType_Feature.typeVar, 1, long.MaxValue, 1, 1, false),
-			new GRGEN_LIBGR.ValidateInfo(GRGEN_MODEL.EdgeType_bindsTo.typeVar, GRGEN_MODEL.NodeType_MethodSignature.typeVar, GRGEN_MODEL.NodeType_MethodBody.typeVar, 1, long.MaxValue, 0, 1, false),
-			new GRGEN_LIBGR.ValidateInfo(GRGEN_MODEL.EdgeType_uses.typeVar, GRGEN_MODEL.NodeType_Attribute.typeVar, GRGEN_MODEL.NodeType_Expression.typeVar, 1, long.MaxValue, 0, 1, false),
-			new GRGEN_LIBGR.ValidateInfo(GRGEN_MODEL.EdgeType_writesTo.typeVar, GRGEN_MODEL.NodeType_Variabel.typeVar, GRGEN_MODEL.NodeType_Expression.typeVar, 1, long.MaxValue, 0, 1, false),
-			new GRGEN_LIBGR.ValidateInfo(GRGEN_MODEL.EdgeType_calls.typeVar, GRGEN_MODEL.NodeType_MethodSignature.typeVar, GRGEN_MODEL.NodeType_Expression.typeVar, 1, long.MaxValue, 0, 1, false),
+			new GRGEN_LIBGR.ValidateInfo(GRGEN_MODEL.EdgeType_contains.typeVar, GRGEN_MODEL.NodeType_Entity.typeVar, GRGEN_MODEL.NodeType_Entity.typeVar, 0, 1, 1, long.MaxValue, false),
+			new GRGEN_LIBGR.ValidateInfo(GRGEN_MODEL.EdgeType_references.typeVar, GRGEN_MODEL.NodeType_Entity.typeVar, GRGEN_MODEL.NodeType_Declaration.typeVar, 0, 1, 1, long.MaxValue, false),
+			new GRGEN_LIBGR.ValidateInfo(GRGEN_MODEL.EdgeType_hasType.typeVar, GRGEN_MODEL.NodeType_Feature.typeVar, GRGEN_MODEL.NodeType_Class.typeVar, 1, 1, 1, long.MaxValue, false),
+			new GRGEN_LIBGR.ValidateInfo(GRGEN_MODEL.EdgeType_bindsTo.typeVar, GRGEN_MODEL.NodeType_MethodBody.typeVar, GRGEN_MODEL.NodeType_MethodSignature.typeVar, 0, 1, 1, long.MaxValue, false),
+			new GRGEN_LIBGR.ValidateInfo(GRGEN_MODEL.EdgeType_uses.typeVar, GRGEN_MODEL.NodeType_Expression.typeVar, GRGEN_MODEL.NodeType_Attribute.typeVar, 0, 1, 1, long.MaxValue, false),
+			new GRGEN_LIBGR.ValidateInfo(GRGEN_MODEL.EdgeType_writesTo.typeVar, GRGEN_MODEL.NodeType_Expression.typeVar, GRGEN_MODEL.NodeType_Variabel.typeVar, 0, 1, 1, long.MaxValue, false),
+			new GRGEN_LIBGR.ValidateInfo(GRGEN_MODEL.EdgeType_calls.typeVar, GRGEN_MODEL.NodeType_Expression.typeVar, GRGEN_MODEL.NodeType_MethodSignature.typeVar, 0, 1, 1, long.MaxValue, false),
 		};
 		private GRGEN_LIBGR.EnumAttributeType[] enumAttributeTypes = {
 		};
@@ -3247,6 +3247,6 @@ namespace de.unika.ipd.grGen.Model_ProgramGraphs
 		public GRGEN_LIBGR.IEdgeModel EdgeModel { get { return edgeModel; } }
 		public IEnumerable<GRGEN_LIBGR.ValidateInfo> ValidateInfo { get { return validateInfos; } }
 		public IEnumerable<GRGEN_LIBGR.EnumAttributeType> EnumAttributeTypes { get { return enumAttributeTypes; } }
-		public string MD5Hash { get { return "0ce6c1f760afcefa34af880f04d608b3"; } }
+		public string MD5Hash { get { return "e6271fc2f2794368b53b1fb118947e8d"; } }
 	}
 }

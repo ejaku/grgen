@@ -1,9 +1,10 @@
-// This file has been generated automatically by GrGen.
+// This file has been generated automatically by GrGen (www.grgen.net)
 // Do not modify this file! Any changes will be lost!
-// Generated from "..\..\tests\independent\Independent.grg" on Tue Jan 12 22:53:54 CET 2010
+// Generated from "..\..\tests\independent\Independent.grg" on Sun Apr 25 15:44:50 CEST 2010
 
 using System;
 using System.Collections.Generic;
+using System.Collections;
 using System.Text;
 using GRGEN_LIBGR = de.unika.ipd.grGen.libGr;
 using GRGEN_LGSP = de.unika.ipd.grGen.lgsp;
@@ -29,6 +30,7 @@ namespace de.unika.ipd.grGen.Action_Independent
 		public enum iteratedPath_IterNums { };
 
 
+
 		GRGEN_LGSP.PatternGraph pat_iteratedPath;
 
 		public enum iteratedPath_alt_0_CaseNums { @base, @recursive, };
@@ -40,6 +42,7 @@ namespace de.unika.ipd.grGen.Action_Independent
 		public enum iteratedPath_alt_0_base_SubNums { };
 		public enum iteratedPath_alt_0_base_AltNums { };
 		public enum iteratedPath_alt_0_base_IterNums { };
+
 
 
 		GRGEN_LGSP.PatternGraph iteratedPath_alt_0_base;
@@ -54,6 +57,7 @@ namespace de.unika.ipd.grGen.Action_Independent
 		public enum iteratedPath_alt_0_recursive_SubNums { @_subpattern0, };
 		public enum iteratedPath_alt_0_recursive_AltNums { };
 		public enum iteratedPath_alt_0_recursive_IterNums { };
+
 
 
 		GRGEN_LGSP.PatternGraph iteratedPath_alt_0_recursive;
@@ -635,6 +639,7 @@ namespace de.unika.ipd.grGen.Action_Independent
 		public enum iteratedPathToIntNode_IterNums { };
 
 
+
 		GRGEN_LGSP.PatternGraph pat_iteratedPathToIntNode;
 
 		public enum iteratedPathToIntNode_alt_0_CaseNums { @base, @recursive, };
@@ -650,6 +655,7 @@ namespace de.unika.ipd.grGen.Action_Independent
 		public enum iteratedPathToIntNode_alt_0_base_IterNums { };
 
 
+
 		GRGEN_LGSP.PatternGraph iteratedPathToIntNode_alt_0_base;
 
 		public static GRGEN_LIBGR.NodeType[] iteratedPathToIntNode_alt_0_recursive_node_intermediate_AllowedTypes = { GRGEN_MODEL.NodeType_Node.typeVar, };
@@ -662,6 +668,7 @@ namespace de.unika.ipd.grGen.Action_Independent
 		public enum iteratedPathToIntNode_alt_0_recursive_SubNums { @_subpattern0, };
 		public enum iteratedPathToIntNode_alt_0_recursive_AltNums { };
 		public enum iteratedPathToIntNode_alt_0_recursive_IterNums { };
+
 
 
 		GRGEN_LGSP.PatternGraph iteratedPathToIntNode_alt_0_recursive;
@@ -1231,6 +1238,7 @@ namespace de.unika.ipd.grGen.Action_Independent
 
 
 
+
 		GRGEN_LGSP.PatternGraph pat_create;
 
 
@@ -1441,6 +1449,7 @@ namespace de.unika.ipd.grGen.Action_Independent
 		public enum find_SubNums { };
 		public enum find_AltNums { };
 		public enum find_IterNums { };
+
 
 
 		GRGEN_LGSP.PatternGraph pat_find;
@@ -1699,6 +1708,7 @@ namespace de.unika.ipd.grGen.Action_Independent
 		public enum findIndependent_SubNums { };
 		public enum findIndependent_AltNums { };
 		public enum findIndependent_IterNums { };
+
 
 
 		GRGEN_LGSP.PatternGraph pat_findIndependent;
@@ -2117,6 +2127,7 @@ namespace de.unika.ipd.grGen.Action_Independent
 		public enum findMultiNested_SubNums { };
 		public enum findMultiNested_AltNums { };
 		public enum findMultiNested_IterNums { };
+
 
 
 		GRGEN_LGSP.PatternGraph pat_findMultiNested;
@@ -3092,6 +3103,7 @@ namespace de.unika.ipd.grGen.Action_Independent
 
 
 
+
 		GRGEN_LGSP.PatternGraph pat_createIterated;
 
 
@@ -3304,6 +3316,7 @@ namespace de.unika.ipd.grGen.Action_Independent
 		public enum findChainPlusChainToInt_SubNums { @_subpattern0, @_subpattern1, };
 		public enum findChainPlusChainToInt_AltNums { };
 		public enum findChainPlusChainToInt_IterNums { };
+
 
 
 		GRGEN_LGSP.PatternGraph pat_findChainPlusChainToInt;
@@ -3523,6 +3536,7 @@ namespace de.unika.ipd.grGen.Action_Independent
 		public enum findChainPlusChainToIntIndependent_SubNums { @_subpattern0, };
 		public enum findChainPlusChainToIntIndependent_AltNums { };
 		public enum findChainPlusChainToIntIndependent_IterNums { };
+
 
 
 		GRGEN_LGSP.PatternGraph pat_findChainPlusChainToIntIndependent;

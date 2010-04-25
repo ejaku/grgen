@@ -1,9 +1,10 @@
-// This file has been generated automatically by GrGen.
+// This file has been generated automatically by GrGen (www.grgen.net)
 // Do not modify this file! Any changes will be lost!
-// Generated from "..\..\examples\Mutex\MutexPimped.grg" on Tue Jan 12 22:54:22 CET 2010
+// Generated from "..\..\examples\Mutex\MutexPimped.grg" on Sun Apr 25 15:45:01 CEST 2010
 
 using System;
 using System.Collections.Generic;
+using System.Collections;
 using System.Text;
 using GRGEN_LIBGR = de.unika.ipd.grGen.libGr;
 using GRGEN_LGSP = de.unika.ipd.grGen.lgsp;
@@ -29,6 +30,7 @@ namespace de.unika.ipd.grGen.Action_MutexPimped
 		public enum newRule_SubNums { };
 		public enum newRule_AltNums { };
 		public enum newRule_IterNums { };
+
 
 
 
@@ -272,6 +274,7 @@ namespace de.unika.ipd.grGen.Action_MutexPimped
 		public enum killRule_SubNums { };
 		public enum killRule_AltNums { };
 		public enum killRule_IterNums { };
+
 
 
 
@@ -534,6 +537,7 @@ namespace de.unika.ipd.grGen.Action_MutexPimped
 
 
 
+
 		GRGEN_LGSP.PatternGraph pat_mountRule;
 
 
@@ -732,6 +736,7 @@ namespace de.unika.ipd.grGen.Action_MutexPimped
 		public enum unmountRule_SubNums { };
 		public enum unmountRule_AltNums { };
 		public enum unmountRule_IterNums { };
+
 
 
 
@@ -961,6 +966,7 @@ namespace de.unika.ipd.grGen.Action_MutexPimped
 		public enum passRule_SubNums { };
 		public enum passRule_AltNums { };
 		public enum passRule_IterNums { };
+
 
 
 
@@ -1374,6 +1380,7 @@ namespace de.unika.ipd.grGen.Action_MutexPimped
 		public enum requestRule_SubNums { };
 		public enum requestRule_AltNums { };
 		public enum requestRule_IterNums { };
+
 
 
 
@@ -1916,6 +1923,7 @@ namespace de.unika.ipd.grGen.Action_MutexPimped
 
 
 
+
 		GRGEN_LGSP.PatternGraph pat_takeRule;
 
 
@@ -2152,6 +2160,7 @@ namespace de.unika.ipd.grGen.Action_MutexPimped
 		public enum releaseRule_SubNums { };
 		public enum releaseRule_AltNums { };
 		public enum releaseRule_IterNums { };
+
 
 
 
@@ -2550,6 +2559,7 @@ namespace de.unika.ipd.grGen.Action_MutexPimped
 
 
 
+
 		GRGEN_LGSP.PatternGraph pat_giveRule;
 
 
@@ -2794,6 +2804,7 @@ namespace de.unika.ipd.grGen.Action_MutexPimped
 		public enum blockedRule_SubNums { };
 		public enum blockedRule_AltNums { };
 		public enum blockedRule_IterNums { };
+
 
 
 
@@ -3043,6 +3054,7 @@ namespace de.unika.ipd.grGen.Action_MutexPimped
 		public enum waitingRule_SubNums { };
 		public enum waitingRule_AltNums { };
 		public enum waitingRule_IterNums { };
+
 
 
 
@@ -3328,6 +3340,7 @@ namespace de.unika.ipd.grGen.Action_MutexPimped
 		public enum ignoreRule_SubNums { };
 		public enum ignoreRule_AltNums { };
 		public enum ignoreRule_IterNums { };
+
 
 
 
@@ -3718,6 +3731,7 @@ namespace de.unika.ipd.grGen.Action_MutexPimped
 
 
 
+
 		GRGEN_LGSP.PatternGraph pat_unlockRule;
 
 
@@ -3962,6 +3976,7 @@ namespace de.unika.ipd.grGen.Action_MutexPimped
 		public enum requestStarRule_SubNums { };
 		public enum requestStarRule_AltNums { };
 		public enum requestStarRule_IterNums { };
+
 
 
 
@@ -4392,6 +4407,7 @@ namespace de.unika.ipd.grGen.Action_MutexPimped
 
 
 
+
 		GRGEN_LGSP.PatternGraph pat_releaseStarRule;
 
 
@@ -4650,6 +4666,7 @@ namespace de.unika.ipd.grGen.Action_MutexPimped
 		public enum requestSimpleRule_SubNums { };
 		public enum requestSimpleRule_AltNums { };
 		public enum requestSimpleRule_IterNums { };
+
 
 
 
@@ -5029,6 +5046,7 @@ namespace de.unika.ipd.grGen.Action_MutexPimped
 		public enum aux_attachResource_SubNums { };
 		public enum aux_attachResource_AltNums { };
 		public enum aux_attachResource_IterNums { };
+
 
 
 
@@ -10011,6 +10029,6 @@ label7: ;
         public IAction_aux_attachResource @aux_attachResource;
         
         public override string Name { get { return "MutexPimpedActions"; } }
-        public override string ModelMD5Hash { get { return "4360e7ffc9af4953df7dc0858028b08b"; } }
+        public override string ModelMD5Hash { get { return "b2c79abf46750619401de30166fff963"; } }
     }
 }

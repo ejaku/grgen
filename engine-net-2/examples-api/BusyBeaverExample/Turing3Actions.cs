@@ -1,9 +1,10 @@
-// This file has been generated automatically by GrGen.
+// This file has been generated automatically by GrGen (www.grgen.net)
 // Do not modify this file! Any changes will be lost!
-// Generated from "..\..\examples\Turing3\Turing3.grg" on Tue Jan 12 22:53:42 CET 2010
+// Generated from "..\..\examples\Turing3\Turing3.grg" on Sun Apr 25 15:44:44 CEST 2010
 
 using System;
 using System.Collections.Generic;
+using System.Collections;
 using System.Text;
 using GRGEN_LIBGR = de.unika.ipd.grGen.libGr;
 using GRGEN_LGSP = de.unika.ipd.grGen.lgsp;
@@ -34,6 +35,7 @@ namespace de.unika.ipd.grGen.Action_Turing3
 
 
 
+
 		GRGEN_LGSP.PatternGraph pat_readZeroRule;
 
 
@@ -61,7 +63,7 @@ namespace de.unika.ipd.grGen.Action_Turing3
 			GRGEN_LGSP.PatternNode readZeroRule_node_wv = new GRGEN_LGSP.PatternNode((int) GRGEN_MODEL.NodeTypes.@WriteValue, "GRGEN_MODEL.IWriteValue", "readZeroRule_node_wv", "wv", readZeroRule_node_wv_AllowedTypes, readZeroRule_node_wv_IsAllowedType, 5.5F, -1, false);
 			GRGEN_LGSP.PatternNode readZeroRule_node_bp = new GRGEN_LGSP.PatternNode((int) GRGEN_MODEL.NodeTypes.@BandPosition, "GRGEN_MODEL.IBandPosition", "readZeroRule_node_bp", "bp", readZeroRule_node_bp_AllowedTypes, readZeroRule_node_bp_IsAllowedType, 5.5F, 1, false);
 			GRGEN_LGSP.PatternEdge readZeroRule_edge_rv = new GRGEN_LGSP.PatternEdge(true, (int) GRGEN_MODEL.EdgeTypes.@readZero, "GRGEN_MODEL.IreadZero", "readZeroRule_edge_rv", "rv", readZeroRule_edge_rv_AllowedTypes, readZeroRule_edge_rv_IsAllowedType, 5.5F, -1, false);
-			GRGEN_LGSP.PatternCondition cond_0 = new GRGEN_LGSP.PatternCondition(
+			GRGEN_LGSP.PatternCondition readZeroRule_cond_0 = new GRGEN_LGSP.PatternCondition(
 				new GRGEN_EXPR.EQ(new GRGEN_EXPR.Qualification("GRGEN_MODEL.IBandPosition", "readZeroRule_node_bp", "value"), new GRGEN_EXPR.Constant("0")),
 				new string[] { "readZeroRule_node_bp" }, new string[] {  }, new string[] {  }, new GRGEN_LIBGR.VarType[] {  });
 			pat_readZeroRule = new GRGEN_LGSP.PatternGraph(
@@ -78,7 +80,7 @@ namespace de.unika.ipd.grGen.Action_Turing3
 				readZeroRule_maxMatches,
 				new GRGEN_LGSP.PatternGraph[] {  }, 
 				new GRGEN_LGSP.PatternGraph[] {  }, 
-				new GRGEN_LGSP.PatternCondition[] { cond_0,  }, 
+				new GRGEN_LGSP.PatternCondition[] { readZeroRule_cond_0,  }, 
 				new bool[3, 3] {
 					{ true, false, false, },
 					{ false, true, false, },
@@ -278,6 +280,7 @@ namespace de.unika.ipd.grGen.Action_Turing3
 
 
 
+
 		GRGEN_LGSP.PatternGraph pat_readOneRule;
 
 
@@ -305,7 +308,7 @@ namespace de.unika.ipd.grGen.Action_Turing3
 			GRGEN_LGSP.PatternNode readOneRule_node_wv = new GRGEN_LGSP.PatternNode((int) GRGEN_MODEL.NodeTypes.@WriteValue, "GRGEN_MODEL.IWriteValue", "readOneRule_node_wv", "wv", readOneRule_node_wv_AllowedTypes, readOneRule_node_wv_IsAllowedType, 5.5F, -1, false);
 			GRGEN_LGSP.PatternNode readOneRule_node_bp = new GRGEN_LGSP.PatternNode((int) GRGEN_MODEL.NodeTypes.@BandPosition, "GRGEN_MODEL.IBandPosition", "readOneRule_node_bp", "bp", readOneRule_node_bp_AllowedTypes, readOneRule_node_bp_IsAllowedType, 5.5F, 1, false);
 			GRGEN_LGSP.PatternEdge readOneRule_edge_rv = new GRGEN_LGSP.PatternEdge(true, (int) GRGEN_MODEL.EdgeTypes.@readOne, "GRGEN_MODEL.IreadOne", "readOneRule_edge_rv", "rv", readOneRule_edge_rv_AllowedTypes, readOneRule_edge_rv_IsAllowedType, 5.5F, -1, false);
-			GRGEN_LGSP.PatternCondition cond_0 = new GRGEN_LGSP.PatternCondition(
+			GRGEN_LGSP.PatternCondition readOneRule_cond_0 = new GRGEN_LGSP.PatternCondition(
 				new GRGEN_EXPR.EQ(new GRGEN_EXPR.Qualification("GRGEN_MODEL.IBandPosition", "readOneRule_node_bp", "value"), new GRGEN_EXPR.Constant("1")),
 				new string[] { "readOneRule_node_bp" }, new string[] {  }, new string[] {  }, new GRGEN_LIBGR.VarType[] {  });
 			pat_readOneRule = new GRGEN_LGSP.PatternGraph(
@@ -322,7 +325,7 @@ namespace de.unika.ipd.grGen.Action_Turing3
 				readOneRule_maxMatches,
 				new GRGEN_LGSP.PatternGraph[] {  }, 
 				new GRGEN_LGSP.PatternGraph[] {  }, 
-				new GRGEN_LGSP.PatternCondition[] { cond_0,  }, 
+				new GRGEN_LGSP.PatternCondition[] { readOneRule_cond_0,  }, 
 				new bool[3, 3] {
 					{ true, false, false, },
 					{ false, true, false, },
@@ -519,6 +522,7 @@ namespace de.unika.ipd.grGen.Action_Turing3
 		public enum ensureMoveLeftValidRule_SubNums { };
 		public enum ensureMoveLeftValidRule_AltNums { };
 		public enum ensureMoveLeftValidRule_IterNums { };
+
 
 
 
@@ -916,6 +920,7 @@ namespace de.unika.ipd.grGen.Action_Turing3
 		public enum ensureMoveRightValidRule_SubNums { };
 		public enum ensureMoveRightValidRule_AltNums { };
 		public enum ensureMoveRightValidRule_IterNums { };
+
 
 
 
@@ -1320,6 +1325,7 @@ namespace de.unika.ipd.grGen.Action_Turing3
 
 
 
+
 		GRGEN_LGSP.PatternGraph pat_moveLeftRule;
 
 
@@ -1575,6 +1581,7 @@ namespace de.unika.ipd.grGen.Action_Turing3
 
 
 
+
 		GRGEN_LGSP.PatternGraph pat_moveRightRule;
 
 
@@ -1820,6 +1827,7 @@ namespace de.unika.ipd.grGen.Action_Turing3
 
 
 
+
 		GRGEN_LGSP.PatternGraph pat_countZeros;
 
 
@@ -1840,7 +1848,7 @@ namespace de.unika.ipd.grGen.Action_Turing3
 			int[] countZeros_minMatches = new int[0] ;
 			int[] countZeros_maxMatches = new int[0] ;
 			GRGEN_LGSP.PatternNode countZeros_node_bp = new GRGEN_LGSP.PatternNode((int) GRGEN_MODEL.NodeTypes.@BandPosition, "GRGEN_MODEL.IBandPosition", "countZeros_node_bp", "bp", countZeros_node_bp_AllowedTypes, countZeros_node_bp_IsAllowedType, 5.5F, -1, false);
-			GRGEN_LGSP.PatternCondition cond_0 = new GRGEN_LGSP.PatternCondition(
+			GRGEN_LGSP.PatternCondition countZeros_cond_0 = new GRGEN_LGSP.PatternCondition(
 				new GRGEN_EXPR.EQ(new GRGEN_EXPR.Qualification("GRGEN_MODEL.IBandPosition", "countZeros_node_bp", "value"), new GRGEN_EXPR.Constant("0")),
 				new string[] { "countZeros_node_bp" }, new string[] {  }, new string[] {  }, new GRGEN_LIBGR.VarType[] {  });
 			pat_countZeros = new GRGEN_LGSP.PatternGraph(
@@ -1857,7 +1865,7 @@ namespace de.unika.ipd.grGen.Action_Turing3
 				countZeros_maxMatches,
 				new GRGEN_LGSP.PatternGraph[] {  }, 
 				new GRGEN_LGSP.PatternGraph[] {  }, 
-				new GRGEN_LGSP.PatternCondition[] { cond_0,  }, 
+				new GRGEN_LGSP.PatternCondition[] { countZeros_cond_0,  }, 
 				new bool[1, 1] {
 					{ true, },
 				},
@@ -2014,6 +2022,7 @@ namespace de.unika.ipd.grGen.Action_Turing3
 
 
 
+
 		GRGEN_LGSP.PatternGraph pat_countOnes;
 
 
@@ -2034,7 +2043,7 @@ namespace de.unika.ipd.grGen.Action_Turing3
 			int[] countOnes_minMatches = new int[0] ;
 			int[] countOnes_maxMatches = new int[0] ;
 			GRGEN_LGSP.PatternNode countOnes_node_bp = new GRGEN_LGSP.PatternNode((int) GRGEN_MODEL.NodeTypes.@BandPosition, "GRGEN_MODEL.IBandPosition", "countOnes_node_bp", "bp", countOnes_node_bp_AllowedTypes, countOnes_node_bp_IsAllowedType, 5.5F, -1, false);
-			GRGEN_LGSP.PatternCondition cond_0 = new GRGEN_LGSP.PatternCondition(
+			GRGEN_LGSP.PatternCondition countOnes_cond_0 = new GRGEN_LGSP.PatternCondition(
 				new GRGEN_EXPR.EQ(new GRGEN_EXPR.Qualification("GRGEN_MODEL.IBandPosition", "countOnes_node_bp", "value"), new GRGEN_EXPR.Constant("1")),
 				new string[] { "countOnes_node_bp" }, new string[] {  }, new string[] {  }, new GRGEN_LIBGR.VarType[] {  });
 			pat_countOnes = new GRGEN_LGSP.PatternGraph(
@@ -2051,7 +2060,7 @@ namespace de.unika.ipd.grGen.Action_Turing3
 				countOnes_maxMatches,
 				new GRGEN_LGSP.PatternGraph[] {  }, 
 				new GRGEN_LGSP.PatternGraph[] {  }, 
-				new GRGEN_LGSP.PatternCondition[] { cond_0,  }, 
+				new GRGEN_LGSP.PatternCondition[] { countOnes_cond_0,  }, 
 				new bool[1, 1] {
 					{ true, },
 				},
