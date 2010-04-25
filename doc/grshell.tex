@@ -471,7 +471,7 @@ The following commands control the style of the VCG output. This affects \texttt
 \end{rail}\ixkeyw{dump}\ixkeyw{set}\ixkeyw{node}\ixkeyw{only}\ixkeyw{color}\ixkeyw{textcolor}\ixkeyw{bordercolor}\ixkeyw{shape}\ixkeyw{labels}\ixkeyw{on}\ixkeyw{off}
 Sets the \indexed{color}, text color, border color, the shape or the label of the nodes of type \emph{NodeType} and all of its subtypes.
 The keyword \texttt{only} excludes the subtypes. The available colors are specified at the begin of this chapter. 
-The following shapes are supported: \texttt{box}, \texttt{triangle}, \texttt{circle}, \texttt{ellipse}, \texttt{rhom}, \texttt{hexagon}, \texttt{trapeze}, \texttt{uptrapeze}, \texttt{lparallelogram}, \texttt{rparallelogram}.
+The following shapes are supported: \texttt{box}, \texttt{triangle}, \texttt{circle}, \texttt{ellipse}, \texttt{rhomb}, \texttt{hexagon}, \texttt{trapeze}, \texttt{uptrapeze}, \texttt{lparallelogram}, \texttt{rparallelogram}.
 Those are shape names of \yComp\ (for a VCG definition see~\cite{vcg}).
 The default labeling is set to \texttt{on} with \texttt{Name:Type}, it can be overwritten by an specified label string (e.g. the source code line originating the node in a program graph) or switched off.
 
@@ -505,9 +505,10 @@ The \texttt{EdgeType} constrains the type of the edges which cause grouping, the
 \begin{note}
 Only apply group commands on a graph if they indeed lead to a containment tree of groups.
 If the group commands would lead to a directed acyclic or even cyclic containment graph, the results are undefined.
-The implementation is free to choose indeterministically between the possible nestings; it may even grow an arm and stab you in your back.
-(A conflict resultion strategy in case of two groupings are applicable to a node-edge-node pair is currently given by the order of group commands executed:
-the earlier executed \texttt{add group} command takes precedence; but you'd better refine your groups or change the model in that case.)
+You may get duplicate edges (and nodes); the implementation is free to choose indeterministically between the possible nestings -- it may even grow an arm and stab you in your back.
+(A conflict resultion heuristic used is to give the earlier executed \texttt{add group} command priority. 
+But this mechanism is incomplete -- you'd better refine your groups or change the model in that case.
+Using a model separating edges denoting direct containment from cross-linking edges by type is normally the better design, even disregarding visual node nesting.)
 \end{note}
 
 The following example shows \emph{metropolis} ungrouped and grouped:

@@ -489,6 +489,11 @@ For a static pattern specification like the iterated block yielding dynamically 
 This allows e.g. for reversing all edges in the iterated-example (denoting containment in the class), as it is shown in the first of the following two examples.
 For the alternative construct the rewrite is specified directly at every nested pattern, i.e. alternative case as shown in the second of the following two examples); the rewrite of the matched case will be applied.
 
+Nodes and edges from the pattern containing the nested pattern containing the nested rewrite are not available for deletion inside the nested rewrite;
+only the rewrite part of the pattern in which they are declared is allowed to delete them.
+They are available for retyping though, but only in case the retyping is unambigous -- it must be guaranteed that only one retyping can occur.
+So only the rewrites of alternative cases and optional patterns may contain retypings of elements not declared in the alternative case or optional pattern (in contrast to iterated and multiple pattern rewrites).
+
 \begin{example}
   \begin{grgen}
 rule methods

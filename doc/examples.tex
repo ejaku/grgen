@@ -52,10 +52,10 @@ The tape will be a chain of \texttt{TapePosition} nodes connected by right edges
 \begin{grgen}[firstnumber=last]
 node class TapePosition; 
 edge class right
-  connect TapePosition[0:1] -> TapePosition[0:1];
+  connect TapePosition[0:1] --> TapePosition[0:1];
   
 edge class value
-  connect TapePosition[1] -> TapePosition[1];  
+  connect TapePosition[1] --> TapePosition[1];  
 edge class zero  extends value;
 edge class one   extends value;
 edge class empty extends value;
