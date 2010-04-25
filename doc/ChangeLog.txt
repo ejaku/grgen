@@ -1,4 +1,4 @@
-﻿v2.6beta8 / last beta (2010-03-28)
+﻿v2.6RC (2010-04-25)
  Single most important change:
   - user manual updated (including all the changes from 1.4->2.6)
  
@@ -57,12 +57,19 @@
      are now available in modify/replace of nested alternative/iterated/multiple/optional-patterns 
   - modify/replace of nested alternative/iterated/multiple/optional-patterns can't take parameters any more,
      better: no need to give them any more, as they can access the rhs elements of the nesting pattern
+  - the modify/replace parameter declaration of the subpattern has to be given at the subpattern head / interface,
+     not in the subpattern body any more
+
+ Retyping:
+   - graph elements matched outside alternative case now can get retyped in alternatives cases
+   - graph elements matched outside optional pattern now can get retyped in optional pattern
 
  Export/Import:
   - GRS import/export (and GrShell) now support set/map attribute initialization
     (example: new :N1($="$0", a = set<int>{"1","2","3"}, b = map<string,boolean>{"foo"->true,"bar"->false})
   - withvariables parameter for grs export causing variables to get exported; default is nodes/edges only
   - GXL import/export now supports enum attributes (set/map not supported)
+  - ecore/XMI importer extended to support a larger class of inputs (plus nopackagenameprefix parameter)
 
  Set/Map comparison in rewrite rules:
   - new set/map comparison operators in rewrite rules:
@@ -108,6 +115,7 @@
   - removed check against homomorphy of retyped elements not needed 
   - lazy or operator parsing priority bug
   - ResetVisitedFlag/vreset now reliably working on edge types, too
+  - code generation for conditions in nested patterns
   - further minor fixes
   
  Further changes:
@@ -136,6 +144,7 @@
   - now error reported on attempt to delete and return elments allowed to be matched homomorphically
   - added exitonfailure to GrShell validate command leaving GrShell on failed validation with error code
   - undirected edge creation in GrShell with -name:type- syntax and type UEdge if no type given
+  - added GrGen-solution for ModelMigration case from TTC2010
   - added GrGen-version of "Repotting the Geraniums: On Nested Graph Transformation Rules" to examples
   - further minor improvements
 
