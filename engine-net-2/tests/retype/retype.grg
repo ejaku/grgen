@@ -177,7 +177,7 @@ rule EBcrosstoEAopt
 {
 	-e:EB->;
 
-	multiple {
+	optional {
 		if{ e.b == "bar"; }
 		
 		modify {
@@ -192,7 +192,7 @@ rule EBcrosstoECopt
 {
 	-e:EB->;
 
-	iterated {
+	optional {
 		if{ e.b == "foo"; }
 		
 		modify {

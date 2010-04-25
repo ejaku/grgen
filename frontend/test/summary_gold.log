@@ -231,6 +231,7 @@ OK     should_pass/hom_018.grg
 OK     should_pass/hom_019.grg
 OK     should_pass/hom_ret_001.grg
 OK     should_pass/if_001.grg
+OK     should_pass/if_in_negative_in_two_alternative_cases.grg
 OK     should_pass/independent_001.grg
 OK     should_pass/independent_002.grg
 OK     should_pass/independent_003.grg
@@ -314,6 +315,8 @@ OK     should_pass/retype_011.grg
 OK     should_pass/retype_012.grg
 OK     should_pass/retype_013.grg
 OK     should_pass/retype_014.grg
+OK     should_pass/retype_015.grg
+OK     should_pass/retype_016.grg
 OK     should_pass/retype_101.grg
 OK     should_pass/retype_102.grg
 OK     should_pass/reuse_001.grg
@@ -388,6 +391,7 @@ ERROR  should_fail/alternative_005.grg
 ERROR  should_fail/alternative_006.grg
 ERROR  should_fail/alternative_007.grg
 ERROR  should_fail/alternative_008.grg
+ERROR  should_fail/alternative_009.grg
 ERROR  should_fail/annot_001.grg
 ERROR  should_fail/annot_002.grg
 ERROR  should_fail/annot_003.grg
@@ -855,6 +859,8 @@ ERROR  should_fail/retype_019.grg
 ERROR  should_fail/retype_020.grg
 ERROR  should_fail/retype_021.grg
 ERROR  should_fail/retype_022.grg
+ERROR  should_fail/retype_023.grg
+ERROR  should_fail/retype_024.grg
 ERROR  should_fail/retype_101.grg
 ERROR  should_fail/retype_102.grg
 ERROR  should_fail/retype_103.grg
