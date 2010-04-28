@@ -281,7 +281,7 @@ The structure of a \indexed{rule set} file is as follows:
 \end{rail}\ixkeyw{using}\ixkeyw{include}\ixnterm{RuleSet}\ixnterm{FileHeader}
 
 A rule set consists of the underlying \indexed{graph model}s and several rewrite rules and tests (subpatterns will be introduced in \ref{sec:subpattern}).
-Additionally you may include further rule set files (without \texttt{using} directives, we prefer to suffix them with \textt{.gri} in this case).
+Additionally you may include further rule set files (without \texttt{using} directives, we prefer to suffix them with \texttt{.gri} in this case).
 In case of multiple graph models, \GrG\ uses the union of these models. In this case beware of conflicting declarations.
 There is no built-in conflict resolution mechanism like packages or namespaces for models.
 If necessary you can use prefixes as you might do in C.
@@ -574,7 +574,7 @@ Selects whether the replace mode or the modify mode is used. Several replace sta
     'eval' lbrace (Assignment ';' +) rbrace |
     SubpatternRewriteApplication
     ;
-\end{rail}\ixkeyw{delete}\ixkeyw{eval}\ixntern{ReplaceStatement}
+\end{rail}\ixkeyw{delete}\ixkeyw{eval}\ixnterm{ReplaceStatement}
 The semantics of the various replace statements are given below:
 \begin{description}
   \item[Graphlet] \indexmain{graphlet}Analogous to a pattern graphlet; a specification of a connected subgraph. Its graph elements are either kept because they are elements of the pattern or added otherwise. Names defined in the pattern part must not be redefined in the replace graphlet. See Section~\ref{rulebb} for a detailed explanation of graphlets. 
