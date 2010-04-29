@@ -1,0 +1,12 @@
+Copy the files in your .vim directory and add the following lines to your .vimrc
+
+au BufRead,BufNewFile *.gm set filetype=gm
+au BufRead,BufNewFile *.gr[gi] set filetype=grg
+au BufRead,BufNewFile *.grs set filetype=grs
+
+au! Syntax gm source $HOME/.vim/syntax/gm.vim
+au! Syntax grg source $HOME/.vim/syntax/grg.vim
+au! Syntax grs source $HOME/.vim/syntax/grs.vim
+
+filetype plugin indent on
+
