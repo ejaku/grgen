@@ -15,7 +15,7 @@ for F in $@ ; do
       pdflatex --interaction=nonstopmode "$F".tex > /dev/null
       
 	  echo Building rail diagrams...
-      rail -h "$F" > /dev/null
+      ./rail -h "$F" > /dev/null
     
 	  echo Building bibliography...  
 	  bibtex "$F" > /dev/null
