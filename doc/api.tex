@@ -29,11 +29,11 @@ It contains for every node or edge class \texttt{Bar} an interface \texttt{IBar}
 This builds the exact interface of the model, it is implemented by a sealed class \texttt{Bar} with generated code and with code from the lgsp backend.
 Furtheron the namespace contains a model class \texttt{FooGraphModel} implementing the interface \texttt{de.unika.ipd.grGen.libGr.IGraphModel},
 which supports iteration over the entities defined in the model using further, generic(i.e. inexact) interfaces from libGr.
-Finally, the namespace contains a class \texttt{Foo} which defines an lgsp-graph of a model equivalent to \texttt{FooGraphModel}; 
+Finally, the namespace contains a class \texttt{FooGraph} which defines an lgsp-graph of a model equivalent to \texttt{FooGraphModel}; 
 it contains convenience functions to easily create nodes and edges of exact type in the graph.
 
 \begin{note}
-If you want to use the type-safe interface, use the interface \texttt{IBar}, and the \texttt{CreateNodeBar}-methods of \texttt{Foo} or the \texttt{CreateNode}-method of \texttt{Bar}.
+If you want to use the type-safe interface, use the interface \texttt{IBar}, and the \texttt{CreateNodeBar}-methods of \texttt{FooGraph} or the \texttt{CreateNode}-method of \texttt{Bar}.
 If you want to use the generic interface, your entry point is the \texttt{IGraphModel}, with \texttt{INodeModel.GetType("Bar")} returning a \texttt{NodeType}, used in \texttt{IGraph.AddNode(NodeType)} returning an \texttt{INode}.
 \end{note}
 
@@ -103,7 +103,7 @@ Afterwards we create a single node of type \texttt{Bar} in the graph and save it
 Finally we apply the action \texttt{bar(Bar x) : (Bar)} to the graph with \texttt{b} as input receiving the output as well.
 The rule is taken from the actions via the member named as the action.
 \begin{verbatim}
-Foo graph = new Foo();
+FooGraph graph = new FooGraph();
 FooActions actions = new FooActions(graph);
 Bar b = graph.CreateNodeBar();
 actions.bar.Apply(graph, b, ref b); // input of type Bar, output of type Bar

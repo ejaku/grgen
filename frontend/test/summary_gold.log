@@ -327,6 +327,7 @@ OK     should_pass/reuse_005.grg
 OK     should_pass/reuse_006.grg
 OK     should_pass/reuse_007.grg
 OK     should_pass/reuse_008.grg
+OK     should_pass/same_node_name_as_model_name.grg
 OK     should_pass/set_001.grg
 OK     should_pass/set_002.grg
 OK     should_pass/set_003.grg
