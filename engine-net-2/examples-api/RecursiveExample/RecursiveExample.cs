@@ -15,12 +15,12 @@ namespace Recursive
 {
     class RecursiveExample
     {
-        Std graph;
+        StdGraph graph;
         RecursiveActions actions;
 
         void DoAlt()
         {
-            graph = new Std();
+            graph = new StdGraph();
             actions = new RecursiveActions(graph);
 
             IMatches matches;

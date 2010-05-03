@@ -15,12 +15,12 @@ namespace edge1
 {
     class edge1Example
     {
-        Std graph;
+        StdGraph graph;
         edge1Actions actions;
 
         void DoEdge1()
         {
-            graph = new Std();
+            graph = new StdGraph();
             actions = new edge1Actions(graph);
 
 			graph.PerformanceInfo = new PerformanceInfo();

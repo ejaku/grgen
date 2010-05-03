@@ -1,6 +1,6 @@
 // This file has been generated automatically by GrGen (www.grgen.net)
 // Do not modify this file! Any changes will be lost!
-// Generated from "..\..\tests\iterated\spanningTree.grg" on Sun Apr 25 15:44:52 CEST 2010
+// Generated from "..\..\tests\iterated\spanningTree.grg" on Mon May 03 01:43:09 CEST 2010
 
 using System;
 using System.Collections.Generic;
@@ -30,7 +30,7 @@ namespace de.unika.ipd.grGen.Action_spanningTree
 
 
 
-		GRGEN_LGSP.PatternGraph pat_SpanningTree;
+		public GRGEN_LGSP.PatternGraph pat_SpanningTree;
 
 		public static GRGEN_LIBGR.NodeType[] SpanningTree_iter_0_node_next_AllowedTypes = null;
 		public static bool[] SpanningTree_iter_0_node_next_IsAllowedType = null;
@@ -46,7 +46,7 @@ namespace de.unika.ipd.grGen.Action_spanningTree
 
 
 
-		GRGEN_LGSP.PatternGraph SpanningTree_iter_0;
+		public GRGEN_LGSP.PatternGraph SpanningTree_iter_0;
 
 
 		private Pattern_SpanningTree()
@@ -499,7 +499,7 @@ namespace de.unika.ipd.grGen.Action_spanningTree
 
 
 
-		GRGEN_LGSP.PatternGraph pat_SpanningTreeReverse;
+		public GRGEN_LGSP.PatternGraph pat_SpanningTreeReverse;
 
 		public static GRGEN_LIBGR.NodeType[] SpanningTreeReverse_iter_0_node_next_AllowedTypes = null;
 		public static bool[] SpanningTreeReverse_iter_0_node_next_IsAllowedType = null;
@@ -515,7 +515,7 @@ namespace de.unika.ipd.grGen.Action_spanningTree
 
 
 
-		GRGEN_LGSP.PatternGraph SpanningTreeReverse_iter_0;
+		public GRGEN_LGSP.PatternGraph SpanningTreeReverse_iter_0;
 
 
 		private Pattern_SpanningTreeReverse()
@@ -979,7 +979,7 @@ namespace de.unika.ipd.grGen.Action_spanningTree
 
 
 
-		GRGEN_LGSP.PatternGraph pat_SpanningTreeOutgoing;
+		public GRGEN_LGSP.PatternGraph pat_SpanningTreeOutgoing;
 
 		public static GRGEN_LIBGR.NodeType[] SpanningTreeOutgoing_iter_0_node_next_AllowedTypes = null;
 		public static bool[] SpanningTreeOutgoing_iter_0_node_next_IsAllowedType = null;
@@ -994,7 +994,7 @@ namespace de.unika.ipd.grGen.Action_spanningTree
 
 
 
-		GRGEN_LGSP.PatternGraph SpanningTreeOutgoing_iter_0;
+		public GRGEN_LGSP.PatternGraph SpanningTreeOutgoing_iter_0;
 
 
 		private Pattern_SpanningTreeOutgoing()
@@ -1384,7 +1384,7 @@ namespace de.unika.ipd.grGen.Action_spanningTree
 
 
 
-		GRGEN_LGSP.PatternGraph pat_SpanningTreeIncoming;
+		public GRGEN_LGSP.PatternGraph pat_SpanningTreeIncoming;
 
 		public static GRGEN_LIBGR.NodeType[] SpanningTreeIncoming_iter_0_node_next_AllowedTypes = null;
 		public static bool[] SpanningTreeIncoming_iter_0_node_next_IsAllowedType = null;
@@ -1399,7 +1399,7 @@ namespace de.unika.ipd.grGen.Action_spanningTree
 
 
 
-		GRGEN_LGSP.PatternGraph SpanningTreeIncoming_iter_0;
+		public GRGEN_LGSP.PatternGraph SpanningTreeIncoming_iter_0;
 
 
 		private Pattern_SpanningTreeIncoming()
@@ -1788,7 +1788,7 @@ namespace de.unika.ipd.grGen.Action_spanningTree
 
 
 
-		GRGEN_LGSP.PatternGraph pat_initTree;
+		public GRGEN_LGSP.PatternGraph pat_initTree;
 
 
 		private Rule_initTree()
@@ -2012,7 +2012,7 @@ namespace de.unika.ipd.grGen.Action_spanningTree
 
 
 
-		GRGEN_LGSP.PatternGraph pat_initUndirected;
+		public GRGEN_LGSP.PatternGraph pat_initUndirected;
 
 
 		private Rule_initUndirected()
@@ -2224,7 +2224,7 @@ namespace de.unika.ipd.grGen.Action_spanningTree
 
 
 
-		GRGEN_LGSP.PatternGraph pat_initDirected;
+		public GRGEN_LGSP.PatternGraph pat_initDirected;
 
 
 		private Rule_initDirected()
@@ -2438,7 +2438,7 @@ namespace de.unika.ipd.grGen.Action_spanningTree
 
 
 
-		GRGEN_LGSP.PatternGraph pat_spanningTree;
+		public GRGEN_LGSP.PatternGraph pat_spanningTree;
 
 
 		private Rule_spanningTree()
@@ -2647,7 +2647,7 @@ namespace de.unika.ipd.grGen.Action_spanningTree
 
 
 
-		GRGEN_LGSP.PatternGraph pat_edgesVisited;
+		public GRGEN_LGSP.PatternGraph pat_edgesVisited;
 
 
 		private Rule_edgesVisited()
@@ -2835,7 +2835,7 @@ namespace de.unika.ipd.grGen.Action_spanningTree
 
 
 
-		GRGEN_LGSP.PatternGraph pat_nodesVisited;
+		public GRGEN_LGSP.PatternGraph pat_nodesVisited;
 
 
 		private Rule_nodesVisited()
@@ -3024,7 +3024,7 @@ namespace de.unika.ipd.grGen.Action_spanningTree
 
 
 
-		GRGEN_LGSP.PatternGraph pat_spanningTreeReverse;
+		public GRGEN_LGSP.PatternGraph pat_spanningTreeReverse;
 
 
 		private Rule_spanningTreeReverse()
@@ -3229,7 +3229,7 @@ namespace de.unika.ipd.grGen.Action_spanningTree
 
 
 
-		GRGEN_LGSP.PatternGraph pat_spanningTreeOutgoing;
+		public GRGEN_LGSP.PatternGraph pat_spanningTreeOutgoing;
 
 
 		private Rule_spanningTreeOutgoing()
@@ -3426,7 +3426,7 @@ namespace de.unika.ipd.grGen.Action_spanningTree
 
 
 
-		GRGEN_LGSP.PatternGraph pat_spanningTreeIncoming;
+		public GRGEN_LGSP.PatternGraph pat_spanningTreeIncoming;
 
 
 		private Rule_spanningTreeIncoming()

@@ -1,6 +1,6 @@
 // This file has been generated automatically by GrGen (www.grgen.net)
 // Do not modify this file! Any changes will be lost!
-// Generated from "..\..\tests\independent\Independent.grg" on Sun Apr 25 15:44:50 CEST 2010
+// Generated from "..\..\tests\independent\Independent.grg" on Mon May 03 01:43:02 CEST 2010
 
 using System;
 using System.Collections.Generic;
@@ -719,7 +719,6 @@ namespace de.unika.ipd.grGen.Model_Independent
 	//
 	// IGraphModel implementation
 	//
-
 	public sealed class IndependentGraphModel : GRGEN_LIBGR.IGraphModel
 	{
 		private IndependentNodeModel nodeModel = new IndependentNodeModel();
@@ -736,13 +735,13 @@ namespace de.unika.ipd.grGen.Model_Independent
 		public IEnumerable<GRGEN_LIBGR.EnumAttributeType> EnumAttributeTypes { get { return enumAttributeTypes; } }
 		public string MD5Hash { get { return "a5b70deb49575f4d0997a3b831be3dfa"; } }
 	}
+
 	//
 	// IGraph/IGraphModel implementation
 	//
-
-	public class Independent : GRGEN_LGSP.LGSPGraph, GRGEN_LIBGR.IGraphModel
+	public class IndependentGraph : GRGEN_LGSP.LGSPGraph, GRGEN_LIBGR.IGraphModel
 	{
-		public Independent() : base(GetNextGraphName())
+		public IndependentGraph() : base(GetNextGraphName())
 		{
 			InitializeGraph(this);
 		}

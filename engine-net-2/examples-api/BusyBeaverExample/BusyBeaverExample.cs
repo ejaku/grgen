@@ -23,7 +23,7 @@ namespace BusyBeaver
         const int L = -1;
         const int R = 1;
 
-        Turing3 graph;
+        Turing3Graph graph;
         Turing3Actions actions;
 
         void GenStateTransition(String srcState, int input, String destState, int output, int move)
@@ -49,7 +49,7 @@ namespace BusyBeaver
             long startBytes = System.GC.GetTotalMemory(true);
             int startTime = Environment.TickCount;
 
-            graph = new Turing3();
+            graph = new Turing3Graph();
             actions = new Turing3Actions(graph);
 
             // Enable step counting

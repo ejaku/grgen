@@ -165,3 +165,19 @@ test XtoAorB {
 	x:Node;
 	:toAorB(x);
 }
+
+rule alternative_in_negative {
+	negative {
+		alternative {
+			Foo {
+				.;
+			}
+			Bar {
+				.-->.;
+			}
+		}
+	}
+	
+	modify {		
+	}
+}

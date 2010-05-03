@@ -1,6 +1,6 @@
 // This file has been generated automatically by GrGen (www.grgen.net)
 // Do not modify this file! Any changes will be lost!
-// Generated from "..\..\examples\Turing3\Turing3.grg" on Sun Apr 25 15:44:44 CEST 2010
+// Generated from "..\..\examples\Turing3\Turing3.grg" on Mon May 03 01:42:50 CEST 2010
 
 using System;
 using System.Collections.Generic;
@@ -36,7 +36,7 @@ namespace de.unika.ipd.grGen.Action_Turing3
 
 
 
-		GRGEN_LGSP.PatternGraph pat_readZeroRule;
+		public GRGEN_LGSP.PatternGraph pat_readZeroRule;
 
 
 		private Rule_readZeroRule()
@@ -281,7 +281,7 @@ namespace de.unika.ipd.grGen.Action_Turing3
 
 
 
-		GRGEN_LGSP.PatternGraph pat_readOneRule;
+		public GRGEN_LGSP.PatternGraph pat_readOneRule;
 
 
 		private Rule_readOneRule()
@@ -526,7 +526,7 @@ namespace de.unika.ipd.grGen.Action_Turing3
 
 
 
-		GRGEN_LGSP.PatternGraph pat_ensureMoveLeftValidRule;
+		public GRGEN_LGSP.PatternGraph pat_ensureMoveLeftValidRule;
 
 		public static GRGEN_LIBGR.NodeType[] ensureMoveLeftValidRule_neg_0_node__node0_AllowedTypes = null;
 		public static bool[] ensureMoveLeftValidRule_neg_0_node__node0_IsAllowedType = null;
@@ -539,7 +539,7 @@ namespace de.unika.ipd.grGen.Action_Turing3
 		public enum ensureMoveLeftValidRule_neg_0_AltNums { };
 		public enum ensureMoveLeftValidRule_neg_0_IterNums { };
 
-		GRGEN_LGSP.PatternGraph ensureMoveLeftValidRule_neg_0;
+		public GRGEN_LGSP.PatternGraph ensureMoveLeftValidRule_neg_0;
 
 
 		private Rule_ensureMoveLeftValidRule()
@@ -924,7 +924,7 @@ namespace de.unika.ipd.grGen.Action_Turing3
 
 
 
-		GRGEN_LGSP.PatternGraph pat_ensureMoveRightValidRule;
+		public GRGEN_LGSP.PatternGraph pat_ensureMoveRightValidRule;
 
 		public static GRGEN_LIBGR.NodeType[] ensureMoveRightValidRule_neg_0_node__node0_AllowedTypes = null;
 		public static bool[] ensureMoveRightValidRule_neg_0_node__node0_IsAllowedType = null;
@@ -937,7 +937,7 @@ namespace de.unika.ipd.grGen.Action_Turing3
 		public enum ensureMoveRightValidRule_neg_0_AltNums { };
 		public enum ensureMoveRightValidRule_neg_0_IterNums { };
 
-		GRGEN_LGSP.PatternGraph ensureMoveRightValidRule_neg_0;
+		public GRGEN_LGSP.PatternGraph ensureMoveRightValidRule_neg_0;
 
 
 		private Rule_ensureMoveRightValidRule()
@@ -1326,7 +1326,7 @@ namespace de.unika.ipd.grGen.Action_Turing3
 
 
 
-		GRGEN_LGSP.PatternGraph pat_moveLeftRule;
+		public GRGEN_LGSP.PatternGraph pat_moveLeftRule;
 
 
 		private Rule_moveLeftRule()
@@ -1582,7 +1582,7 @@ namespace de.unika.ipd.grGen.Action_Turing3
 
 
 
-		GRGEN_LGSP.PatternGraph pat_moveRightRule;
+		public GRGEN_LGSP.PatternGraph pat_moveRightRule;
 
 
 		private Rule_moveRightRule()
@@ -1828,7 +1828,7 @@ namespace de.unika.ipd.grGen.Action_Turing3
 
 
 
-		GRGEN_LGSP.PatternGraph pat_countZeros;
+		public GRGEN_LGSP.PatternGraph pat_countZeros;
 
 
 		private Rule_countZeros()
@@ -2023,7 +2023,7 @@ namespace de.unika.ipd.grGen.Action_Turing3
 
 
 
-		GRGEN_LGSP.PatternGraph pat_countOnes;
+		public GRGEN_LGSP.PatternGraph pat_countOnes;
 
 
 		private Rule_countOnes()

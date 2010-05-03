@@ -1,6 +1,6 @@
 // This file has been generated automatically by GrGen (www.grgen.net)
 // Do not modify this file! Any changes will be lost!
-// Generated from "..\..\examples\Turing3\Turing3.grg" on Sun Apr 25 15:44:44 CEST 2010
+// Generated from "..\..\examples\Turing3\Turing3.grg" on Mon May 03 01:42:50 CEST 2010
 
 using System;
 using System.Collections.Generic;
@@ -1749,7 +1749,6 @@ namespace de.unika.ipd.grGen.Model_Turing3
 	//
 	// IGraphModel implementation
 	//
-
 	public sealed class Turing3GraphModel : GRGEN_LIBGR.IGraphModel
 	{
 		private Turing3NodeModel nodeModel = new Turing3NodeModel();
@@ -1767,13 +1766,13 @@ namespace de.unika.ipd.grGen.Model_Turing3
 		public IEnumerable<GRGEN_LIBGR.EnumAttributeType> EnumAttributeTypes { get { return enumAttributeTypes; } }
 		public string MD5Hash { get { return "3f4f1e3e3ccd5475eeca1ab5c25802bc"; } }
 	}
+
 	//
 	// IGraph/IGraphModel implementation
 	//
-
-	public class Turing3 : GRGEN_LGSP.LGSPGraph, GRGEN_LIBGR.IGraphModel
+	public class Turing3Graph : GRGEN_LGSP.LGSPGraph, GRGEN_LIBGR.IGraphModel
 	{
-		public Turing3() : base(GetNextGraphName())
+		public Turing3Graph() : base(GetNextGraphName())
 		{
 			InitializeGraph(this);
 		}

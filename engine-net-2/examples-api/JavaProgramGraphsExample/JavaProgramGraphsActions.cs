@@ -1,6 +1,6 @@
 // This file has been generated automatically by GrGen (www.grgen.net)
 // Do not modify this file! Any changes will be lost!
-// Generated from "..\..\examples\JavaProgramGraphs-GraBaTs08\JavaProgramGraphs.grg" on Sun Apr 25 15:44:56 CEST 2010
+// Generated from "..\..\examples\JavaProgramGraphs-GraBaTs08\JavaProgramGraphs.grg" on Mon May 03 01:43:15 CEST 2010
 
 using System;
 using System.Collections.Generic;
@@ -30,7 +30,7 @@ namespace de.unika.ipd.grGen.Action_JavaProgramGraphs
 
 
 
-		GRGEN_LGSP.PatternGraph pat_MultipleContainedPackagesOrClasses;
+		public GRGEN_LGSP.PatternGraph pat_MultipleContainedPackagesOrClasses;
 
 		public static GRGEN_LIBGR.NodeType[] MultipleContainedPackagesOrClasses_iter_0_node_sub_AllowedTypes = null;
 		public static bool[] MultipleContainedPackagesOrClasses_iter_0_node_sub_IsAllowedType = null;
@@ -46,7 +46,7 @@ namespace de.unika.ipd.grGen.Action_JavaProgramGraphs
 
 
 
-		GRGEN_LGSP.PatternGraph MultipleContainedPackagesOrClasses_iter_0;
+		public GRGEN_LGSP.PatternGraph MultipleContainedPackagesOrClasses_iter_0;
 
 		public static GRGEN_LIBGR.NodeType[] MultipleContainedPackagesOrClasses_iter_1_node_c_AllowedTypes = null;
 		public static bool[] MultipleContainedPackagesOrClasses_iter_1_node_c_IsAllowedType = null;
@@ -62,7 +62,7 @@ namespace de.unika.ipd.grGen.Action_JavaProgramGraphs
 
 
 
-		GRGEN_LGSP.PatternGraph MultipleContainedPackagesOrClasses_iter_1;
+		public GRGEN_LGSP.PatternGraph MultipleContainedPackagesOrClasses_iter_1;
 
 
 		private Pattern_MultipleContainedPackagesOrClasses()
@@ -788,7 +788,7 @@ namespace de.unika.ipd.grGen.Action_JavaProgramGraphs
 
 
 
-		GRGEN_LGSP.PatternGraph pat_MultipleVariables;
+		public GRGEN_LGSP.PatternGraph pat_MultipleVariables;
 
 		public static GRGEN_LIBGR.NodeType[] MultipleVariables_iter_0_node_v_AllowedTypes = null;
 		public static bool[] MultipleVariables_iter_0_node_v_IsAllowedType = null;
@@ -804,7 +804,7 @@ namespace de.unika.ipd.grGen.Action_JavaProgramGraphs
 
 
 
-		GRGEN_LGSP.PatternGraph MultipleVariables_iter_0;
+		public GRGEN_LGSP.PatternGraph MultipleVariables_iter_0;
 
 
 		private Pattern_MultipleVariables()
@@ -1242,7 +1242,7 @@ namespace de.unika.ipd.grGen.Action_JavaProgramGraphs
 
 
 
-		GRGEN_LGSP.PatternGraph pat_MultipleMethodBodies;
+		public GRGEN_LGSP.PatternGraph pat_MultipleMethodBodies;
 
 		public static GRGEN_LIBGR.NodeType[] MultipleMethodBodies_iter_0_node_mb_AllowedTypes = null;
 		public static bool[] MultipleMethodBodies_iter_0_node_mb_IsAllowedType = null;
@@ -1258,7 +1258,7 @@ namespace de.unika.ipd.grGen.Action_JavaProgramGraphs
 
 
 
-		GRGEN_LGSP.PatternGraph MultipleMethodBodies_iter_0;
+		public GRGEN_LGSP.PatternGraph MultipleMethodBodies_iter_0;
 
 
 		private Pattern_MultipleMethodBodies()
@@ -1707,7 +1707,7 @@ namespace de.unika.ipd.grGen.Action_JavaProgramGraphs
 
 
 
-		GRGEN_LGSP.PatternGraph pat_MethodBodyAndImplementation;
+		public GRGEN_LGSP.PatternGraph pat_MethodBodyAndImplementation;
 
 		public static GRGEN_LIBGR.NodeType[] MethodBodyAndImplementation_iter_0_node_op_AllowedTypes = null;
 		public static bool[] MethodBodyAndImplementation_iter_0_node_op_IsAllowedType = null;
@@ -1723,7 +1723,7 @@ namespace de.unika.ipd.grGen.Action_JavaProgramGraphs
 
 
 
-		GRGEN_LGSP.PatternGraph MethodBodyAndImplementation_iter_0;
+		public GRGEN_LGSP.PatternGraph MethodBodyAndImplementation_iter_0;
 
 		public static GRGEN_LIBGR.NodeType[] MethodBodyAndImplementation_iter_1_node_b_AllowedTypes = null;
 		public static bool[] MethodBodyAndImplementation_iter_1_node_b_IsAllowedType = null;
@@ -1739,7 +1739,7 @@ namespace de.unika.ipd.grGen.Action_JavaProgramGraphs
 
 
 
-		GRGEN_LGSP.PatternGraph MethodBodyAndImplementation_iter_1;
+		public GRGEN_LGSP.PatternGraph MethodBodyAndImplementation_iter_1;
 
 
 		private Pattern_MethodBodyAndImplementation()
@@ -2426,7 +2426,7 @@ namespace de.unika.ipd.grGen.Action_JavaProgramGraphs
 
 
 
-		GRGEN_LGSP.PatternGraph pat_MultipleParameters;
+		public GRGEN_LGSP.PatternGraph pat_MultipleParameters;
 
 		public static GRGEN_LIBGR.NodeType[] MultipleParameters_iter_0_node__node0_AllowedTypes = null;
 		public static bool[] MultipleParameters_iter_0_node__node0_IsAllowedType = null;
@@ -2442,7 +2442,7 @@ namespace de.unika.ipd.grGen.Action_JavaProgramGraphs
 
 
 
-		GRGEN_LGSP.PatternGraph MultipleParameters_iter_0;
+		public GRGEN_LGSP.PatternGraph MultipleParameters_iter_0;
 
 
 		private Pattern_MultipleParameters()
@@ -2870,7 +2870,7 @@ namespace de.unika.ipd.grGen.Action_JavaProgramGraphs
 
 
 
-		GRGEN_LGSP.PatternGraph pat_MultipleExpressions;
+		public GRGEN_LGSP.PatternGraph pat_MultipleExpressions;
 
 		public static GRGEN_LIBGR.NodeType[] MultipleExpressions_iter_0_node_next_AllowedTypes = { GRGEN_MODEL.NodeType_Expression.typeVar, GRGEN_MODEL.NodeType_Access.typeVar, GRGEN_MODEL.NodeType_Update.typeVar, GRGEN_MODEL.NodeType_Instantiation.typeVar, GRGEN_MODEL.NodeType_Operator.typeVar, GRGEN_MODEL.NodeType_Return.typeVar, GRGEN_MODEL.NodeType_Block.typeVar, };
 		public static bool[] MultipleExpressions_iter_0_node_next_IsAllowedType = { false, false, false, false, false, false, false, false, true, true, true, false, true, true, true, true, false, false, };
@@ -2886,7 +2886,7 @@ namespace de.unika.ipd.grGen.Action_JavaProgramGraphs
 
 
 
-		GRGEN_LGSP.PatternGraph MultipleExpressions_iter_0;
+		public GRGEN_LGSP.PatternGraph MultipleExpressions_iter_0;
 
 		public static GRGEN_LIBGR.NodeType[] MultipleExpressions_iter_1_node_call_AllowedTypes = null;
 		public static bool[] MultipleExpressions_iter_1_node_call_IsAllowedType = null;
@@ -2902,7 +2902,7 @@ namespace de.unika.ipd.grGen.Action_JavaProgramGraphs
 
 
 
-		GRGEN_LGSP.PatternGraph MultipleExpressions_iter_1;
+		public GRGEN_LGSP.PatternGraph MultipleExpressions_iter_1;
 
 
 		private Pattern_MultipleExpressions()
@@ -3610,7 +3610,7 @@ namespace de.unika.ipd.grGen.Action_JavaProgramGraphs
 
 
 
-		GRGEN_LGSP.PatternGraph pat_ExpressionChain;
+		public GRGEN_LGSP.PatternGraph pat_ExpressionChain;
 
 		public enum ExpressionChain_alt_0_CaseNums { @ExprAndAgain, @CallAndAgain, @End, };
 		public static GRGEN_LIBGR.NodeType[] ExpressionChain_alt_0_ExprAndAgain_node_next_AllowedTypes = { GRGEN_MODEL.NodeType_Expression.typeVar, GRGEN_MODEL.NodeType_Access.typeVar, GRGEN_MODEL.NodeType_Update.typeVar, GRGEN_MODEL.NodeType_Instantiation.typeVar, GRGEN_MODEL.NodeType_Operator.typeVar, GRGEN_MODEL.NodeType_Return.typeVar, GRGEN_MODEL.NodeType_Block.typeVar, };
@@ -3627,7 +3627,7 @@ namespace de.unika.ipd.grGen.Action_JavaProgramGraphs
 
 
 
-		GRGEN_LGSP.PatternGraph ExpressionChain_alt_0_ExprAndAgain;
+		public GRGEN_LGSP.PatternGraph ExpressionChain_alt_0_ExprAndAgain;
 
 		public static GRGEN_LIBGR.NodeType[] ExpressionChain_alt_0_CallAndAgain_node_call_AllowedTypes = null;
 		public static bool[] ExpressionChain_alt_0_CallAndAgain_node_call_IsAllowedType = null;
@@ -3643,7 +3643,7 @@ namespace de.unika.ipd.grGen.Action_JavaProgramGraphs
 
 
 
-		GRGEN_LGSP.PatternGraph ExpressionChain_alt_0_CallAndAgain;
+		public GRGEN_LGSP.PatternGraph ExpressionChain_alt_0_CallAndAgain;
 
 		public enum ExpressionChain_alt_0_End_NodeNums { @e, };
 		public enum ExpressionChain_alt_0_End_EdgeNums { };
@@ -3655,7 +3655,7 @@ namespace de.unika.ipd.grGen.Action_JavaProgramGraphs
 
 
 
-		GRGEN_LGSP.PatternGraph ExpressionChain_alt_0_End;
+		public GRGEN_LGSP.PatternGraph ExpressionChain_alt_0_End;
 
 		public static GRGEN_LIBGR.EdgeType[] ExpressionChain_alt_0_End_neg_0_edge__edge0_AllowedTypes = null;
 		public static bool[] ExpressionChain_alt_0_End_neg_0_edge__edge0_IsAllowedType = null;
@@ -3666,7 +3666,7 @@ namespace de.unika.ipd.grGen.Action_JavaProgramGraphs
 		public enum ExpressionChain_alt_0_End_neg_0_AltNums { };
 		public enum ExpressionChain_alt_0_End_neg_0_IterNums { };
 
-		GRGEN_LGSP.PatternGraph ExpressionChain_alt_0_End_neg_0;
+		public GRGEN_LGSP.PatternGraph ExpressionChain_alt_0_End_neg_0;
 
 
 		private Pattern_ExpressionChain()
@@ -4674,7 +4674,7 @@ namespace de.unika.ipd.grGen.Action_JavaProgramGraphs
 
 
 
-		GRGEN_LGSP.PatternGraph pat_MultipleActualParameters;
+		public GRGEN_LGSP.PatternGraph pat_MultipleActualParameters;
 
 		public static GRGEN_LIBGR.NodeType[] MultipleActualParameters_iter_0_node_next_AllowedTypes = { GRGEN_MODEL.NodeType_Expression.typeVar, GRGEN_MODEL.NodeType_Access.typeVar, GRGEN_MODEL.NodeType_Update.typeVar, GRGEN_MODEL.NodeType_Instantiation.typeVar, GRGEN_MODEL.NodeType_Operator.typeVar, GRGEN_MODEL.NodeType_Return.typeVar, GRGEN_MODEL.NodeType_Block.typeVar, };
 		public static bool[] MultipleActualParameters_iter_0_node_next_IsAllowedType = { false, false, false, false, false, false, false, false, true, true, true, false, true, true, true, true, false, false, };
@@ -4690,7 +4690,7 @@ namespace de.unika.ipd.grGen.Action_JavaProgramGraphs
 
 
 
-		GRGEN_LGSP.PatternGraph MultipleActualParameters_iter_0;
+		public GRGEN_LGSP.PatternGraph MultipleActualParameters_iter_0;
 
 		public static GRGEN_LIBGR.NodeType[] MultipleActualParameters_iter_1_node_call_AllowedTypes = null;
 		public static bool[] MultipleActualParameters_iter_1_node_call_IsAllowedType = null;
@@ -4706,7 +4706,7 @@ namespace de.unika.ipd.grGen.Action_JavaProgramGraphs
 
 
 
-		GRGEN_LGSP.PatternGraph MultipleActualParameters_iter_1;
+		public GRGEN_LGSP.PatternGraph MultipleActualParameters_iter_1;
 
 
 		private Pattern_MultipleActualParameters()
@@ -5402,7 +5402,7 @@ namespace de.unika.ipd.grGen.Action_JavaProgramGraphs
 
 
 
-		GRGEN_LGSP.PatternGraph pat_MultipleExtendingClasses;
+		public GRGEN_LGSP.PatternGraph pat_MultipleExtendingClasses;
 
 		public static GRGEN_LIBGR.NodeType[] MultipleExtendingClasses_iter_0_node_sub_AllowedTypes = null;
 		public static bool[] MultipleExtendingClasses_iter_0_node_sub_IsAllowedType = null;
@@ -5418,7 +5418,7 @@ namespace de.unika.ipd.grGen.Action_JavaProgramGraphs
 
 
 
-		GRGEN_LGSP.PatternGraph MultipleExtendingClasses_iter_0;
+		public GRGEN_LGSP.PatternGraph MultipleExtendingClasses_iter_0;
 
 
 		private Pattern_MultipleExtendingClasses()
@@ -5862,7 +5862,7 @@ namespace de.unika.ipd.grGen.Action_JavaProgramGraphs
 
 
 
-		GRGEN_LGSP.PatternGraph pat_InClass;
+		public GRGEN_LGSP.PatternGraph pat_InClass;
 
 		public enum InClass_alt_0_CaseNums { @Previous, @End, };
 		public static GRGEN_LIBGR.NodeType[] InClass_alt_0_Previous_node_prev_AllowedTypes = { GRGEN_MODEL.NodeType_Expression.typeVar, GRGEN_MODEL.NodeType_Access.typeVar, GRGEN_MODEL.NodeType_Update.typeVar, GRGEN_MODEL.NodeType_Call.typeVar, GRGEN_MODEL.NodeType_Instantiation.typeVar, GRGEN_MODEL.NodeType_Operator.typeVar, GRGEN_MODEL.NodeType_Return.typeVar, };
@@ -5878,7 +5878,7 @@ namespace de.unika.ipd.grGen.Action_JavaProgramGraphs
 
 
 
-		GRGEN_LGSP.PatternGraph InClass_alt_0_Previous;
+		public GRGEN_LGSP.PatternGraph InClass_alt_0_Previous;
 
 		public static GRGEN_LIBGR.NodeType[] InClass_alt_0_End_node_prev_AllowedTypes = null;
 		public static GRGEN_LIBGR.NodeType[] InClass_alt_0_End_node_b_AllowedTypes = null;
@@ -5901,7 +5901,7 @@ namespace de.unika.ipd.grGen.Action_JavaProgramGraphs
 
 
 
-		GRGEN_LGSP.PatternGraph InClass_alt_0_End;
+		public GRGEN_LGSP.PatternGraph InClass_alt_0_End;
 
 
 		private Pattern_InClass()
@@ -6549,7 +6549,7 @@ namespace de.unika.ipd.grGen.Action_JavaProgramGraphs
 
 
 
-		GRGEN_LGSP.PatternGraph pat_methodNameExistsSuper;
+		public GRGEN_LGSP.PatternGraph pat_methodNameExistsSuper;
 
 		public enum methodNameExistsSuper_alt_0_CaseNums { @here, @super, };
 		public enum methodNameExistsSuper_alt_0_here_NodeNums { @op, @opForName, };
@@ -6561,7 +6561,7 @@ namespace de.unika.ipd.grGen.Action_JavaProgramGraphs
 
 
 
-		GRGEN_LGSP.PatternGraph methodNameExistsSuper_alt_0_here;
+		public GRGEN_LGSP.PatternGraph methodNameExistsSuper_alt_0_here;
 
 		public static GRGEN_LIBGR.NodeType[] methodNameExistsSuper_alt_0_super_node_super_AllowedTypes = null;
 		public static bool[] methodNameExistsSuper_alt_0_super_node_super_IsAllowedType = null;
@@ -6576,7 +6576,7 @@ namespace de.unika.ipd.grGen.Action_JavaProgramGraphs
 
 
 
-		GRGEN_LGSP.PatternGraph methodNameExistsSuper_alt_0_super;
+		public GRGEN_LGSP.PatternGraph methodNameExistsSuper_alt_0_super;
 
 
 		private Pattern_methodNameExistsSuper()
@@ -7170,7 +7170,7 @@ namespace de.unika.ipd.grGen.Action_JavaProgramGraphs
 
 
 
-		GRGEN_LGSP.PatternGraph pat_dumpGxl;
+		public GRGEN_LGSP.PatternGraph pat_dumpGxl;
 
 
 		private Rule_dumpGxl()
@@ -7936,7 +7936,7 @@ namespace de.unika.ipd.grGen.Action_JavaProgramGraphs
 
 
 
-		GRGEN_LGSP.PatternGraph pat_dumpNodePackage;
+		public GRGEN_LGSP.PatternGraph pat_dumpNodePackage;
 
 
 		private Rule_dumpNodePackage()
@@ -8155,7 +8155,7 @@ namespace de.unika.ipd.grGen.Action_JavaProgramGraphs
 
 
 
-		GRGEN_LGSP.PatternGraph pat_dumpNodeClass;
+		public GRGEN_LGSP.PatternGraph pat_dumpNodeClass;
 
 
 		private Rule_dumpNodeClass()
@@ -8398,7 +8398,7 @@ namespace de.unika.ipd.grGen.Action_JavaProgramGraphs
 
 
 
-		GRGEN_LGSP.PatternGraph pat_dumpNodeInterface;
+		public GRGEN_LGSP.PatternGraph pat_dumpNodeInterface;
 
 
 		private Rule_dumpNodeInterface()
@@ -8633,7 +8633,7 @@ namespace de.unika.ipd.grGen.Action_JavaProgramGraphs
 
 
 
-		GRGEN_LGSP.PatternGraph pat_dumpNodeVariable;
+		public GRGEN_LGSP.PatternGraph pat_dumpNodeVariable;
 
 
 		private Rule_dumpNodeVariable()
@@ -8876,7 +8876,7 @@ namespace de.unika.ipd.grGen.Action_JavaProgramGraphs
 
 
 
-		GRGEN_LGSP.PatternGraph pat_dumpNodeOperation;
+		public GRGEN_LGSP.PatternGraph pat_dumpNodeOperation;
 
 
 		private Rule_dumpNodeOperation()
@@ -9127,7 +9127,7 @@ namespace de.unika.ipd.grGen.Action_JavaProgramGraphs
 
 
 
-		GRGEN_LGSP.PatternGraph pat_dumpNodeMethodBody;
+		public GRGEN_LGSP.PatternGraph pat_dumpNodeMethodBody;
 
 
 		private Rule_dumpNodeMethodBody()
@@ -9336,7 +9336,7 @@ namespace de.unika.ipd.grGen.Action_JavaProgramGraphs
 
 
 
-		GRGEN_LGSP.PatternGraph pat_dumpNodeAccess;
+		public GRGEN_LGSP.PatternGraph pat_dumpNodeAccess;
 
 
 		private Rule_dumpNodeAccess()
@@ -9555,7 +9555,7 @@ namespace de.unika.ipd.grGen.Action_JavaProgramGraphs
 
 
 
-		GRGEN_LGSP.PatternGraph pat_dumpNodeUpdate;
+		public GRGEN_LGSP.PatternGraph pat_dumpNodeUpdate;
 
 
 		private Rule_dumpNodeUpdate()
@@ -9774,7 +9774,7 @@ namespace de.unika.ipd.grGen.Action_JavaProgramGraphs
 
 
 
-		GRGEN_LGSP.PatternGraph pat_dumpNodeCall;
+		public GRGEN_LGSP.PatternGraph pat_dumpNodeCall;
 
 
 		private Rule_dumpNodeCall()
@@ -10001,7 +10001,7 @@ namespace de.unika.ipd.grGen.Action_JavaProgramGraphs
 
 
 
-		GRGEN_LGSP.PatternGraph pat_dumpNodeIstantiation;
+		public GRGEN_LGSP.PatternGraph pat_dumpNodeIstantiation;
 
 
 		private Rule_dumpNodeIstantiation()
@@ -10210,7 +10210,7 @@ namespace de.unika.ipd.grGen.Action_JavaProgramGraphs
 
 
 
-		GRGEN_LGSP.PatternGraph pat_dumpNodeOperator;
+		public GRGEN_LGSP.PatternGraph pat_dumpNodeOperator;
 
 
 		private Rule_dumpNodeOperator()
@@ -10429,7 +10429,7 @@ namespace de.unika.ipd.grGen.Action_JavaProgramGraphs
 
 
 
-		GRGEN_LGSP.PatternGraph pat_dumpNodeReturn;
+		public GRGEN_LGSP.PatternGraph pat_dumpNodeReturn;
 
 
 		private Rule_dumpNodeReturn()
@@ -10638,7 +10638,7 @@ namespace de.unika.ipd.grGen.Action_JavaProgramGraphs
 
 
 
-		GRGEN_LGSP.PatternGraph pat_dumpNodeBlock;
+		public GRGEN_LGSP.PatternGraph pat_dumpNodeBlock;
 
 
 		private Rule_dumpNodeBlock()
@@ -10847,7 +10847,7 @@ namespace de.unika.ipd.grGen.Action_JavaProgramGraphs
 
 
 
-		GRGEN_LGSP.PatternGraph pat_dumpNodeLiteral;
+		public GRGEN_LGSP.PatternGraph pat_dumpNodeLiteral;
 
 
 		private Rule_dumpNodeLiteral()
@@ -11066,7 +11066,7 @@ namespace de.unika.ipd.grGen.Action_JavaProgramGraphs
 
 
 
-		GRGEN_LGSP.PatternGraph pat_dumpNodeParameter;
+		public GRGEN_LGSP.PatternGraph pat_dumpNodeParameter;
 
 
 		private Rule_dumpNodeParameter()
@@ -11279,7 +11279,7 @@ namespace de.unika.ipd.grGen.Action_JavaProgramGraphs
 
 
 
-		GRGEN_LGSP.PatternGraph pat_dumpEdgeBelongsTo;
+		public GRGEN_LGSP.PatternGraph pat_dumpEdgeBelongsTo;
 
 
 		private Rule_dumpEdgeBelongsTo()
@@ -11524,7 +11524,7 @@ namespace de.unika.ipd.grGen.Action_JavaProgramGraphs
 
 
 
-		GRGEN_LGSP.PatternGraph pat_dumpEdgeType;
+		public GRGEN_LGSP.PatternGraph pat_dumpEdgeType;
 
 
 		private Rule_dumpEdgeType()
@@ -11769,7 +11769,7 @@ namespace de.unika.ipd.grGen.Action_JavaProgramGraphs
 
 
 
-		GRGEN_LGSP.PatternGraph pat_dumpEdgeExtends;
+		public GRGEN_LGSP.PatternGraph pat_dumpEdgeExtends;
 
 
 		private Rule_dumpEdgeExtends()
@@ -12014,7 +12014,7 @@ namespace de.unika.ipd.grGen.Action_JavaProgramGraphs
 
 
 
-		GRGEN_LGSP.PatternGraph pat_dumpEdgeImports;
+		public GRGEN_LGSP.PatternGraph pat_dumpEdgeImports;
 
 
 		private Rule_dumpEdgeImports()
@@ -12259,7 +12259,7 @@ namespace de.unika.ipd.grGen.Action_JavaProgramGraphs
 
 
 
-		GRGEN_LGSP.PatternGraph pat_dumpEdgeImplements;
+		public GRGEN_LGSP.PatternGraph pat_dumpEdgeImplements;
 
 
 		private Rule_dumpEdgeImplements()
@@ -12504,7 +12504,7 @@ namespace de.unika.ipd.grGen.Action_JavaProgramGraphs
 
 
 
-		GRGEN_LGSP.PatternGraph pat_dumpEdgeParameter;
+		public GRGEN_LGSP.PatternGraph pat_dumpEdgeParameter;
 
 
 		private Rule_dumpEdgeParameter()
@@ -12749,7 +12749,7 @@ namespace de.unika.ipd.grGen.Action_JavaProgramGraphs
 
 
 
-		GRGEN_LGSP.PatternGraph pat_dumpEdgeBinding;
+		public GRGEN_LGSP.PatternGraph pat_dumpEdgeBinding;
 
 
 		private Rule_dumpEdgeBinding()
@@ -12994,7 +12994,7 @@ namespace de.unika.ipd.grGen.Action_JavaProgramGraphs
 
 
 
-		GRGEN_LGSP.PatternGraph pat_dumpEdgeLink;
+		public GRGEN_LGSP.PatternGraph pat_dumpEdgeLink;
 
 
 		private Rule_dumpEdgeLink()
@@ -13239,7 +13239,7 @@ namespace de.unika.ipd.grGen.Action_JavaProgramGraphs
 
 
 
-		GRGEN_LGSP.PatternGraph pat_dumpEdgeExpression;
+		public GRGEN_LGSP.PatternGraph pat_dumpEdgeExpression;
 
 
 		private Rule_dumpEdgeExpression()
@@ -13484,7 +13484,7 @@ namespace de.unika.ipd.grGen.Action_JavaProgramGraphs
 
 
 
-		GRGEN_LGSP.PatternGraph pat_dumpEdgeActualParameter;
+		public GRGEN_LGSP.PatternGraph pat_dumpEdgeActualParameter;
 
 
 		private Rule_dumpEdgeActualParameter()
@@ -13723,7 +13723,7 @@ namespace de.unika.ipd.grGen.Action_JavaProgramGraphs
 
 
 
-		GRGEN_LGSP.PatternGraph pat_emitSpanningTree;
+		public GRGEN_LGSP.PatternGraph pat_emitSpanningTree;
 
 		public static GRGEN_LIBGR.NodeType[] emitSpanningTree_iter_0_node_p_AllowedTypes = null;
 		public static bool[] emitSpanningTree_iter_0_node_p_IsAllowedType = null;
@@ -13737,7 +13737,7 @@ namespace de.unika.ipd.grGen.Action_JavaProgramGraphs
 
 
 
-		GRGEN_LGSP.PatternGraph emitSpanningTree_iter_0;
+		public GRGEN_LGSP.PatternGraph emitSpanningTree_iter_0;
 
 		public static GRGEN_LIBGR.EdgeType[] emitSpanningTree_iter_0_neg_0_edge__edge0_AllowedTypes = null;
 		public static bool[] emitSpanningTree_iter_0_neg_0_edge__edge0_IsAllowedType = null;
@@ -13748,7 +13748,7 @@ namespace de.unika.ipd.grGen.Action_JavaProgramGraphs
 		public enum emitSpanningTree_iter_0_neg_0_AltNums { };
 		public enum emitSpanningTree_iter_0_neg_0_IterNums { };
 
-		GRGEN_LGSP.PatternGraph emitSpanningTree_iter_0_neg_0;
+		public GRGEN_LGSP.PatternGraph emitSpanningTree_iter_0_neg_0;
 
 
 		private Rule_emitSpanningTree()
@@ -14284,7 +14284,7 @@ namespace de.unika.ipd.grGen.Action_JavaProgramGraphs
 
 
 
-		GRGEN_LGSP.PatternGraph pat_InsertHelperEdgesForNestedLayout;
+		public GRGEN_LGSP.PatternGraph pat_InsertHelperEdgesForNestedLayout;
 
 
 		private Rule_InsertHelperEdgesForNestedLayout()
@@ -14564,7 +14564,7 @@ namespace de.unika.ipd.grGen.Action_JavaProgramGraphs
 
 
 
-		GRGEN_LGSP.PatternGraph pat_BindOperations;
+		public GRGEN_LGSP.PatternGraph pat_BindOperations;
 
 		public static GRGEN_LIBGR.EdgeType[] BindOperations_neg_0_edge__edge3_AllowedTypes = null;
 		public static bool[] BindOperations_neg_0_edge__edge3_IsAllowedType = null;
@@ -14575,7 +14575,7 @@ namespace de.unika.ipd.grGen.Action_JavaProgramGraphs
 		public enum BindOperations_neg_0_AltNums { };
 		public enum BindOperations_neg_0_IterNums { };
 
-		GRGEN_LGSP.PatternGraph BindOperations_neg_0;
+		public GRGEN_LGSP.PatternGraph BindOperations_neg_0;
 
 		public static GRGEN_LIBGR.EdgeType[] BindOperations_neg_1_edge__edge4_AllowedTypes = null;
 		public static bool[] BindOperations_neg_1_edge__edge4_IsAllowedType = null;
@@ -14586,7 +14586,7 @@ namespace de.unika.ipd.grGen.Action_JavaProgramGraphs
 		public enum BindOperations_neg_1_AltNums { };
 		public enum BindOperations_neg_1_IterNums { };
 
-		GRGEN_LGSP.PatternGraph BindOperations_neg_1;
+		public GRGEN_LGSP.PatternGraph BindOperations_neg_1;
 
 		public static GRGEN_LIBGR.EdgeType[] BindOperations_neg_2_edge__edge5_AllowedTypes = null;
 		public static bool[] BindOperations_neg_2_edge__edge5_IsAllowedType = null;
@@ -14597,7 +14597,7 @@ namespace de.unika.ipd.grGen.Action_JavaProgramGraphs
 		public enum BindOperations_neg_2_AltNums { };
 		public enum BindOperations_neg_2_IterNums { };
 
-		GRGEN_LGSP.PatternGraph BindOperations_neg_2;
+		public GRGEN_LGSP.PatternGraph BindOperations_neg_2;
 
 		public static GRGEN_LIBGR.EdgeType[] BindOperations_neg_3_edge__edge6_AllowedTypes = null;
 		public static bool[] BindOperations_neg_3_edge__edge6_IsAllowedType = null;
@@ -14608,7 +14608,7 @@ namespace de.unika.ipd.grGen.Action_JavaProgramGraphs
 		public enum BindOperations_neg_3_AltNums { };
 		public enum BindOperations_neg_3_IterNums { };
 
-		GRGEN_LGSP.PatternGraph BindOperations_neg_3;
+		public GRGEN_LGSP.PatternGraph BindOperations_neg_3;
 
 		public static GRGEN_LIBGR.EdgeType[] BindOperations_neg_4_edge__edge7_AllowedTypes = null;
 		public static bool[] BindOperations_neg_4_edge__edge7_IsAllowedType = null;
@@ -14619,7 +14619,7 @@ namespace de.unika.ipd.grGen.Action_JavaProgramGraphs
 		public enum BindOperations_neg_4_AltNums { };
 		public enum BindOperations_neg_4_IterNums { };
 
-		GRGEN_LGSP.PatternGraph BindOperations_neg_4;
+		public GRGEN_LGSP.PatternGraph BindOperations_neg_4;
 
 		public static GRGEN_LIBGR.EdgeType[] BindOperations_neg_5_edge__edge8_AllowedTypes = null;
 		public static bool[] BindOperations_neg_5_edge__edge8_IsAllowedType = null;
@@ -14630,7 +14630,7 @@ namespace de.unika.ipd.grGen.Action_JavaProgramGraphs
 		public enum BindOperations_neg_5_AltNums { };
 		public enum BindOperations_neg_5_IterNums { };
 
-		GRGEN_LGSP.PatternGraph BindOperations_neg_5;
+		public GRGEN_LGSP.PatternGraph BindOperations_neg_5;
 
 
 		private Rule_BindOperations()
@@ -15774,7 +15774,7 @@ namespace de.unika.ipd.grGen.Action_JavaProgramGraphs
 
 
 
-		GRGEN_LGSP.PatternGraph pat_InitMoveIntoBlocks;
+		public GRGEN_LGSP.PatternGraph pat_InitMoveIntoBlocks;
 
 		public static GRGEN_LIBGR.EdgeType[] InitMoveIntoBlocks_neg_0_edge__edge0_AllowedTypes = null;
 		public static bool[] InitMoveIntoBlocks_neg_0_edge__edge0_IsAllowedType = null;
@@ -15785,7 +15785,7 @@ namespace de.unika.ipd.grGen.Action_JavaProgramGraphs
 		public enum InitMoveIntoBlocks_neg_0_AltNums { };
 		public enum InitMoveIntoBlocks_neg_0_IterNums { };
 
-		GRGEN_LGSP.PatternGraph InitMoveIntoBlocks_neg_0;
+		public GRGEN_LGSP.PatternGraph InitMoveIntoBlocks_neg_0;
 
 
 		private Rule_InitMoveIntoBlocks()
@@ -16162,7 +16162,7 @@ namespace de.unika.ipd.grGen.Action_JavaProgramGraphs
 
 
 
-		GRGEN_LGSP.PatternGraph pat_MoveIntoBlocks;
+		public GRGEN_LGSP.PatternGraph pat_MoveIntoBlocks;
 
 		public static GRGEN_LIBGR.EdgeType[] MoveIntoBlocks_neg_0_edge__edge0_AllowedTypes = null;
 		public static bool[] MoveIntoBlocks_neg_0_edge__edge0_IsAllowedType = null;
@@ -16173,7 +16173,7 @@ namespace de.unika.ipd.grGen.Action_JavaProgramGraphs
 		public enum MoveIntoBlocks_neg_0_AltNums { };
 		public enum MoveIntoBlocks_neg_0_IterNums { };
 
-		GRGEN_LGSP.PatternGraph MoveIntoBlocks_neg_0;
+		public GRGEN_LGSP.PatternGraph MoveIntoBlocks_neg_0;
 
 
 		private Rule_MoveIntoBlocks()
@@ -16564,7 +16564,7 @@ namespace de.unika.ipd.grGen.Action_JavaProgramGraphs
 
 
 
-		GRGEN_LGSP.PatternGraph pat_getClassAndVariable;
+		public GRGEN_LGSP.PatternGraph pat_getClassAndVariable;
 
 
 		private Rule_getClassAndVariable()
@@ -16773,7 +16773,7 @@ namespace de.unika.ipd.grGen.Action_JavaProgramGraphs
 
 
 
-		GRGEN_LGSP.PatternGraph pat_variableInClass;
+		public GRGEN_LGSP.PatternGraph pat_variableInClass;
 
 
 		private Rule_variableInClass()
@@ -17010,7 +17010,7 @@ namespace de.unika.ipd.grGen.Action_JavaProgramGraphs
 
 
 
-		GRGEN_LGSP.PatternGraph pat_methodExists;
+		public GRGEN_LGSP.PatternGraph pat_methodExists;
 
 
 		private Rule_methodExists()
@@ -17247,7 +17247,7 @@ namespace de.unika.ipd.grGen.Action_JavaProgramGraphs
 
 
 
-		GRGEN_LGSP.PatternGraph pat_sameStaticness;
+		public GRGEN_LGSP.PatternGraph pat_sameStaticness;
 
 
 		private Rule_sameStaticness()
@@ -17446,7 +17446,7 @@ namespace de.unika.ipd.grGen.Action_JavaProgramGraphs
 
 
 
-		GRGEN_LGSP.PatternGraph pat_insertMethodGetter;
+		public GRGEN_LGSP.PatternGraph pat_insertMethodGetter;
 
 
 		private Rule_insertMethodGetter()
@@ -17724,7 +17724,7 @@ namespace de.unika.ipd.grGen.Action_JavaProgramGraphs
 
 
 
-		GRGEN_LGSP.PatternGraph pat_insertMethodSetter;
+		public GRGEN_LGSP.PatternGraph pat_insertMethodSetter;
 
 
 		private Rule_insertMethodSetter()
@@ -18026,7 +18026,7 @@ namespace de.unika.ipd.grGen.Action_JavaProgramGraphs
 
 
 
-		GRGEN_LGSP.PatternGraph pat_changeVisibility;
+		public GRGEN_LGSP.PatternGraph pat_changeVisibility;
 
 
 		private Rule_changeVisibility()
@@ -18236,7 +18236,7 @@ namespace de.unika.ipd.grGen.Action_JavaProgramGraphs
 
 
 
-		GRGEN_LGSP.PatternGraph pat_adaptAccess;
+		public GRGEN_LGSP.PatternGraph pat_adaptAccess;
 
 		public enum adaptAccess_neg_0_NodeNums { @a, @c, };
 		public enum adaptAccess_neg_0_EdgeNums { };
@@ -18245,7 +18245,7 @@ namespace de.unika.ipd.grGen.Action_JavaProgramGraphs
 		public enum adaptAccess_neg_0_AltNums { };
 		public enum adaptAccess_neg_0_IterNums { };
 
-		GRGEN_LGSP.PatternGraph adaptAccess_neg_0;
+		public GRGEN_LGSP.PatternGraph adaptAccess_neg_0;
 
 
 		private Rule_adaptAccess()
@@ -18657,7 +18657,7 @@ namespace de.unika.ipd.grGen.Action_JavaProgramGraphs
 
 
 
-		GRGEN_LGSP.PatternGraph pat_adaptUpdate;
+		public GRGEN_LGSP.PatternGraph pat_adaptUpdate;
 
 		public enum adaptUpdate_neg_0_NodeNums { @u, @c, };
 		public enum adaptUpdate_neg_0_EdgeNums { };
@@ -18666,7 +18666,7 @@ namespace de.unika.ipd.grGen.Action_JavaProgramGraphs
 		public enum adaptUpdate_neg_0_AltNums { };
 		public enum adaptUpdate_neg_0_IterNums { };
 
-		GRGEN_LGSP.PatternGraph adaptUpdate_neg_0;
+		public GRGEN_LGSP.PatternGraph adaptUpdate_neg_0;
 
 
 		private Rule_adaptUpdate()
@@ -19100,7 +19100,7 @@ namespace de.unika.ipd.grGen.Action_JavaProgramGraphs
 
 
 
-		GRGEN_LGSP.PatternGraph pat_adaptAccessUseAccessorsAlways;
+		public GRGEN_LGSP.PatternGraph pat_adaptAccessUseAccessorsAlways;
 
 
 		private Rule_adaptAccessUseAccessorsAlways()
@@ -19362,7 +19362,7 @@ namespace de.unika.ipd.grGen.Action_JavaProgramGraphs
 
 
 
-		GRGEN_LGSP.PatternGraph pat_adaptUpdateUseAccessorsAlways;
+		public GRGEN_LGSP.PatternGraph pat_adaptUpdateUseAccessorsAlways;
 
 
 		private Rule_adaptUpdateUseAccessorsAlways()
@@ -19641,7 +19641,7 @@ namespace de.unika.ipd.grGen.Action_JavaProgramGraphs
 
 
 
-		GRGEN_LGSP.PatternGraph pat_getSourceAndTargetAndMethodBody;
+		public GRGEN_LGSP.PatternGraph pat_getSourceAndTargetAndMethodBody;
 
 
 		private Rule_getSourceAndTargetAndMethodBody()
@@ -19858,7 +19858,7 @@ namespace de.unika.ipd.grGen.Action_JavaProgramGraphs
 
 
 
-		GRGEN_LGSP.PatternGraph pat_getOperation;
+		public GRGEN_LGSP.PatternGraph pat_getOperation;
 
 
 		private Rule_getOperation()
@@ -20079,7 +20079,7 @@ namespace de.unika.ipd.grGen.Action_JavaProgramGraphs
 
 
 
-		GRGEN_LGSP.PatternGraph pat_someInstanceVariableOfTargetType;
+		public GRGEN_LGSP.PatternGraph pat_someInstanceVariableOfTargetType;
 
 
 		private Rule_someInstanceVariableOfTargetType()
@@ -20336,7 +20336,7 @@ namespace de.unika.ipd.grGen.Action_JavaProgramGraphs
 
 
 
-		GRGEN_LGSP.PatternGraph pat_someParameterOfTargetType;
+		public GRGEN_LGSP.PatternGraph pat_someParameterOfTargetType;
 
 
 		private Rule_someParameterOfTargetType()
@@ -20590,7 +20590,7 @@ namespace de.unika.ipd.grGen.Action_JavaProgramGraphs
 
 
 
-		GRGEN_LGSP.PatternGraph pat_markExpressionOfBody;
+		public GRGEN_LGSP.PatternGraph pat_markExpressionOfBody;
 
 
 		private Rule_markExpressionOfBody()
@@ -20883,7 +20883,7 @@ namespace de.unika.ipd.grGen.Action_JavaProgramGraphs
 
 
 
-		GRGEN_LGSP.PatternGraph pat_markExpressionFollowingExpression;
+		public GRGEN_LGSP.PatternGraph pat_markExpressionFollowingExpression;
 
 
 		private Rule_markExpressionFollowingExpression()
@@ -21158,7 +21158,7 @@ namespace de.unika.ipd.grGen.Action_JavaProgramGraphs
 
 
 
-		GRGEN_LGSP.PatternGraph pat_markExpressionFollowingActualParameter;
+		public GRGEN_LGSP.PatternGraph pat_markExpressionFollowingActualParameter;
 
 
 		private Rule_markExpressionFollowingActualParameter()
@@ -21429,7 +21429,7 @@ namespace de.unika.ipd.grGen.Action_JavaProgramGraphs
 
 
 
-		GRGEN_LGSP.PatternGraph pat_unmarkExpression;
+		public GRGEN_LGSP.PatternGraph pat_unmarkExpression;
 
 
 		private Rule_unmarkExpression()
@@ -21627,7 +21627,7 @@ namespace de.unika.ipd.grGen.Action_JavaProgramGraphs
 
 
 
-		GRGEN_LGSP.PatternGraph pat_callToSuperExists;
+		public GRGEN_LGSP.PatternGraph pat_callToSuperExists;
 
 
 		private Rule_callToSuperExists()
@@ -21819,7 +21819,7 @@ namespace de.unika.ipd.grGen.Action_JavaProgramGraphs
 
 
 
-		GRGEN_LGSP.PatternGraph pat_isStatic;
+		public GRGEN_LGSP.PatternGraph pat_isStatic;
 
 
 		private Rule_isStatic()
@@ -22033,7 +22033,7 @@ namespace de.unika.ipd.grGen.Action_JavaProgramGraphs
 
 
 
-		GRGEN_LGSP.PatternGraph pat_methodNameExists;
+		public GRGEN_LGSP.PatternGraph pat_methodNameExists;
 
 
 		private Rule_methodNameExists()
@@ -22259,7 +22259,7 @@ namespace de.unika.ipd.grGen.Action_JavaProgramGraphs
 
 
 
-		GRGEN_LGSP.PatternGraph pat_thisIsAccessed;
+		public GRGEN_LGSP.PatternGraph pat_thisIsAccessed;
 
 		public static GRGEN_LIBGR.EdgeType[] thisIsAccessed_neg_0_edge__edge0_AllowedTypes = null;
 		public static bool[] thisIsAccessed_neg_0_edge__edge0_IsAllowedType = null;
@@ -22270,7 +22270,7 @@ namespace de.unika.ipd.grGen.Action_JavaProgramGraphs
 		public enum thisIsAccessed_neg_0_AltNums { };
 		public enum thisIsAccessed_neg_0_IterNums { };
 
-		GRGEN_LGSP.PatternGraph thisIsAccessed_neg_0;
+		public GRGEN_LGSP.PatternGraph thisIsAccessed_neg_0;
 
 
 		private Rule_thisIsAccessed()
@@ -22605,7 +22605,7 @@ namespace de.unika.ipd.grGen.Action_JavaProgramGraphs
 
 
 
-		GRGEN_LGSP.PatternGraph pat_addSourceParameter;
+		public GRGEN_LGSP.PatternGraph pat_addSourceParameter;
 
 
 		private Rule_addSourceParameter()
@@ -22819,7 +22819,7 @@ namespace de.unika.ipd.grGen.Action_JavaProgramGraphs
 
 
 
-		GRGEN_LGSP.PatternGraph pat_useSourceParameter;
+		public GRGEN_LGSP.PatternGraph pat_useSourceParameter;
 
 		public static GRGEN_LIBGR.EdgeType[] useSourceParameter_neg_0_edge__edge0_AllowedTypes = null;
 		public static bool[] useSourceParameter_neg_0_edge__edge0_IsAllowedType = null;
@@ -22830,7 +22830,7 @@ namespace de.unika.ipd.grGen.Action_JavaProgramGraphs
 		public enum useSourceParameter_neg_0_AltNums { };
 		public enum useSourceParameter_neg_0_IterNums { };
 
-		GRGEN_LGSP.PatternGraph useSourceParameter_neg_0;
+		public GRGEN_LGSP.PatternGraph useSourceParameter_neg_0;
 
 
 		private Rule_useSourceParameter()
@@ -23185,7 +23185,7 @@ namespace de.unika.ipd.grGen.Action_JavaProgramGraphs
 
 
 
-		GRGEN_LGSP.PatternGraph pat_copyOperation;
+		public GRGEN_LGSP.PatternGraph pat_copyOperation;
 
 
 		private Rule_copyOperation()
@@ -23399,7 +23399,7 @@ namespace de.unika.ipd.grGen.Action_JavaProgramGraphs
 
 
 
-		GRGEN_LGSP.PatternGraph pat_copyOperationParameter;
+		public GRGEN_LGSP.PatternGraph pat_copyOperationParameter;
 
 
 		private Rule_copyOperationParameter()
@@ -23637,7 +23637,7 @@ namespace de.unika.ipd.grGen.Action_JavaProgramGraphs
 
 
 
-		GRGEN_LGSP.PatternGraph pat_relinkMethodBody;
+		public GRGEN_LGSP.PatternGraph pat_relinkMethodBody;
 
 
 		private Rule_relinkMethodBody()
@@ -23937,7 +23937,7 @@ namespace de.unika.ipd.grGen.Action_JavaProgramGraphs
 
 
 
-		GRGEN_LGSP.PatternGraph pat_relinkParameter;
+		public GRGEN_LGSP.PatternGraph pat_relinkParameter;
 
 
 		private Rule_relinkParameter()
@@ -24231,7 +24231,7 @@ namespace de.unika.ipd.grGen.Action_JavaProgramGraphs
 
 
 
-		GRGEN_LGSP.PatternGraph pat_relinkOperationAndMethodBody;
+		public GRGEN_LGSP.PatternGraph pat_relinkOperationAndMethodBody;
 
 
 		private Rule_relinkOperationAndMethodBody()
@@ -24499,7 +24499,7 @@ namespace de.unika.ipd.grGen.Action_JavaProgramGraphs
 
 
 
-		GRGEN_LGSP.PatternGraph pat_addDelegateBody;
+		public GRGEN_LGSP.PatternGraph pat_addDelegateBody;
 
 
 		private Rule_addDelegateBody()
@@ -24757,7 +24757,7 @@ namespace de.unika.ipd.grGen.Action_JavaProgramGraphs
 
 
 
-		GRGEN_LGSP.PatternGraph pat_linkDelegateBodyToOperation;
+		public GRGEN_LGSP.PatternGraph pat_linkDelegateBodyToOperation;
 
 
 		private Rule_linkDelegateBodyToOperation()
@@ -25001,7 +25001,7 @@ namespace de.unika.ipd.grGen.Action_JavaProgramGraphs
 
 
 
-		GRGEN_LGSP.PatternGraph pat_replaceAccess_Variable;
+		public GRGEN_LGSP.PatternGraph pat_replaceAccess_Variable;
 
 
 		private Rule_replaceAccess_Variable()
@@ -25305,7 +25305,7 @@ namespace de.unika.ipd.grGen.Action_JavaProgramGraphs
 
 
 
-		GRGEN_LGSP.PatternGraph pat_replaceAccess_Variable_WithSource;
+		public GRGEN_LGSP.PatternGraph pat_replaceAccess_Variable_WithSource;
 
 
 		private Rule_replaceAccess_Variable_WithSource()
@@ -25607,7 +25607,7 @@ namespace de.unika.ipd.grGen.Action_JavaProgramGraphs
 
 
 
-		GRGEN_LGSP.PatternGraph pat_addSourceToCall;
+		public GRGEN_LGSP.PatternGraph pat_addSourceToCall;
 
 
 		private Rule_addSourceToCall()
@@ -25828,7 +25828,7 @@ namespace de.unika.ipd.grGen.Action_JavaProgramGraphs
 
 
 
-		GRGEN_LGSP.PatternGraph pat_getUnprocessedCallWithActualParameter;
+		public GRGEN_LGSP.PatternGraph pat_getUnprocessedCallWithActualParameter;
 
 		public static GRGEN_LIBGR.EdgeType[] getUnprocessedCallWithActualParameter_neg_0_edge__edge0_AllowedTypes = null;
 		public static bool[] getUnprocessedCallWithActualParameter_neg_0_edge__edge0_IsAllowedType = null;
@@ -25839,7 +25839,7 @@ namespace de.unika.ipd.grGen.Action_JavaProgramGraphs
 		public enum getUnprocessedCallWithActualParameter_neg_0_AltNums { };
 		public enum getUnprocessedCallWithActualParameter_neg_0_IterNums { };
 
-		GRGEN_LGSP.PatternGraph getUnprocessedCallWithActualParameter_neg_0;
+		public GRGEN_LGSP.PatternGraph getUnprocessedCallWithActualParameter_neg_0;
 
 
 		private Rule_getUnprocessedCallWithActualParameter()
@@ -26266,7 +26266,7 @@ namespace de.unika.ipd.grGen.Action_JavaProgramGraphs
 
 
 
-		GRGEN_LGSP.PatternGraph pat_replaceAccess_Parameter_AccessWithoutLink;
+		public GRGEN_LGSP.PatternGraph pat_replaceAccess_Parameter_AccessWithoutLink;
 
 		public static GRGEN_LIBGR.NodeType[] replaceAccess_Parameter_AccessWithoutLink_neg_0_node__node0_AllowedTypes = null;
 		public static bool[] replaceAccess_Parameter_AccessWithoutLink_neg_0_node__node0_IsAllowedType = null;
@@ -26279,7 +26279,7 @@ namespace de.unika.ipd.grGen.Action_JavaProgramGraphs
 		public enum replaceAccess_Parameter_AccessWithoutLink_neg_0_AltNums { };
 		public enum replaceAccess_Parameter_AccessWithoutLink_neg_0_IterNums { };
 
-		GRGEN_LGSP.PatternGraph replaceAccess_Parameter_AccessWithoutLink_neg_0;
+		public GRGEN_LGSP.PatternGraph replaceAccess_Parameter_AccessWithoutLink_neg_0;
 
 
 		private Rule_replaceAccess_Parameter_AccessWithoutLink()
@@ -26680,7 +26680,7 @@ namespace de.unika.ipd.grGen.Action_JavaProgramGraphs
 
 
 
-		GRGEN_LGSP.PatternGraph pat_replaceAccess_Parameter_AccessWithLinkToExpression;
+		public GRGEN_LGSP.PatternGraph pat_replaceAccess_Parameter_AccessWithLinkToExpression;
 
 
 		private Rule_replaceAccess_Parameter_AccessWithLinkToExpression()
@@ -29946,7 +29946,7 @@ maxMatchesIterReached:
             patternpath_match_ExpressionChain._matchOfEnclosingPattern = matchOfNestingPattern;
             patternpath_match_ExpressionChain._node_e = candidate_ExpressionChain_node_e;
             // Push alternative matching task for ExpressionChain_alt_0
-            AlternativeAction_ExpressionChain_alt_0 taskFor_alt_0 = AlternativeAction_ExpressionChain_alt_0.getNewTask(graph, openTasks, patternGraph.alternatives[(int)Pattern_ExpressionChain.ExpressionChain_AltNums.@alt_0].alternativeCases);
+            AlternativeAction_ExpressionChain_alt_0 taskFor_alt_0 = AlternativeAction_ExpressionChain_alt_0.getNewTask(graph, openTasks, Pattern_ExpressionChain.Instance.patternGraph.alternatives[(int)Pattern_ExpressionChain.ExpressionChain_AltNums.@alt_0].alternativeCases);
             taskFor_alt_0.ExpressionChain_node_e = candidate_ExpressionChain_node_e;
             taskFor_alt_0.searchPatternpath = searchPatternpath;
             taskFor_alt_0.matchOfNestingPattern = patternpath_match_ExpressionChain;
@@ -31504,7 +31504,7 @@ maxMatchesIterReached:
             patternpath_match_InClass._node_e = candidate_InClass_node_e;
             patternpath_match_InClass._node_c = candidate_InClass_node_c;
             // Push alternative matching task for InClass_alt_0
-            AlternativeAction_InClass_alt_0 taskFor_alt_0 = AlternativeAction_InClass_alt_0.getNewTask(graph, openTasks, patternGraph.alternatives[(int)Pattern_InClass.InClass_AltNums.@alt_0].alternativeCases);
+            AlternativeAction_InClass_alt_0 taskFor_alt_0 = AlternativeAction_InClass_alt_0.getNewTask(graph, openTasks, Pattern_InClass.Instance.patternGraph.alternatives[(int)Pattern_InClass.InClass_AltNums.@alt_0].alternativeCases);
             taskFor_alt_0.InClass_node_e = candidate_InClass_node_e;
             taskFor_alt_0.InClass_node_c = candidate_InClass_node_c;
             taskFor_alt_0.searchPatternpath = searchPatternpath;
@@ -32308,7 +32308,7 @@ maxMatchesIterReached:
                     prevSomeGlobal__candidate_methodNameExistsSuper_edge__edge0 = candidate_methodNameExistsSuper_edge__edge0.lgspFlags & (uint) GRGEN_LGSP.LGSPElemFlags.IS_MATCHED_BY_SOME_ENCLOSING_PATTERN;
                     candidate_methodNameExistsSuper_edge__edge0.lgspFlags |= (uint) GRGEN_LGSP.LGSPElemFlags.IS_MATCHED_BY_SOME_ENCLOSING_PATTERN;
                     // Push alternative matching task for methodNameExistsSuper_alt_0
-                    AlternativeAction_methodNameExistsSuper_alt_0 taskFor_alt_0 = AlternativeAction_methodNameExistsSuper_alt_0.getNewTask(graph, openTasks, patternGraph.alternatives[(int)Pattern_methodNameExistsSuper.methodNameExistsSuper_AltNums.@alt_0].alternativeCases);
+                    AlternativeAction_methodNameExistsSuper_alt_0 taskFor_alt_0 = AlternativeAction_methodNameExistsSuper_alt_0.getNewTask(graph, openTasks, Pattern_methodNameExistsSuper.Instance.patternGraph.alternatives[(int)Pattern_methodNameExistsSuper.methodNameExistsSuper_AltNums.@alt_0].alternativeCases);
                     taskFor_alt_0.methodNameExistsSuper_node_op = candidate_methodNameExistsSuper_node_op;
                     taskFor_alt_0.methodNameExistsSuper_node_opForName = candidate_methodNameExistsSuper_node_opForName;
                     taskFor_alt_0.methodNameExistsSuper_node_cls = candidate_methodNameExistsSuper_node_cls;

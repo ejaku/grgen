@@ -37,7 +37,7 @@ namespace MutexExample
         {
             int startTime = Environment.TickCount;
 
-            Mutex graph = new Mutex();
+            MutexGraph graph = new MutexGraph();
             MutexPimpedActions actions = new MutexPimpedActions(graph);
 
             LGSPNode p1 = graph.CreateNodeProcess();
@@ -115,7 +115,7 @@ namespace MutexExample
         {
             int startTime = Environment.TickCount;
 
-			Mutex graph = new Mutex();
+			MutexGraph graph = new MutexGraph();
 			MutexPimpedActions actions = new MutexPimpedActions(graph);
 
 			LGSPNode p1 = graph.CreateNodeProcess();
@@ -154,7 +154,7 @@ namespace MutexExample
         {
             int startTime = Environment.TickCount;
 
-			Mutex graph = new Mutex();
+			MutexGraph graph = new MutexGraph();
 			MutexPimpedActions actions = new MutexPimpedActions(graph);
 
 			LGSPNode p1 = graph.CreateNodeProcess();

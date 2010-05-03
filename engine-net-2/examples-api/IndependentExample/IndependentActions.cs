@@ -1,6 +1,6 @@
 // This file has been generated automatically by GrGen (www.grgen.net)
 // Do not modify this file! Any changes will be lost!
-// Generated from "..\..\tests\independent\Independent.grg" on Sun Apr 25 15:44:50 CEST 2010
+// Generated from "..\..\tests\independent\Independent.grg" on Mon May 03 01:43:02 CEST 2010
 
 using System;
 using System.Collections.Generic;
@@ -31,7 +31,7 @@ namespace de.unika.ipd.grGen.Action_Independent
 
 
 
-		GRGEN_LGSP.PatternGraph pat_iteratedPath;
+		public GRGEN_LGSP.PatternGraph pat_iteratedPath;
 
 		public enum iteratedPath_alt_0_CaseNums { @base, @recursive, };
 		public static GRGEN_LIBGR.EdgeType[] iteratedPath_alt_0_base_edge__edge0_AllowedTypes = null;
@@ -45,7 +45,7 @@ namespace de.unika.ipd.grGen.Action_Independent
 
 
 
-		GRGEN_LGSP.PatternGraph iteratedPath_alt_0_base;
+		public GRGEN_LGSP.PatternGraph iteratedPath_alt_0_base;
 
 		public static GRGEN_LIBGR.NodeType[] iteratedPath_alt_0_recursive_node_intermediate_AllowedTypes = null;
 		public static bool[] iteratedPath_alt_0_recursive_node_intermediate_IsAllowedType = null;
@@ -60,7 +60,7 @@ namespace de.unika.ipd.grGen.Action_Independent
 
 
 
-		GRGEN_LGSP.PatternGraph iteratedPath_alt_0_recursive;
+		public GRGEN_LGSP.PatternGraph iteratedPath_alt_0_recursive;
 
 
 		private Pattern_iteratedPath()
@@ -640,7 +640,7 @@ namespace de.unika.ipd.grGen.Action_Independent
 
 
 
-		GRGEN_LGSP.PatternGraph pat_iteratedPathToIntNode;
+		public GRGEN_LGSP.PatternGraph pat_iteratedPathToIntNode;
 
 		public enum iteratedPathToIntNode_alt_0_CaseNums { @base, @recursive, };
 		public static GRGEN_LIBGR.NodeType[] iteratedPathToIntNode_alt_0_base_node_end_AllowedTypes = null;
@@ -656,7 +656,7 @@ namespace de.unika.ipd.grGen.Action_Independent
 
 
 
-		GRGEN_LGSP.PatternGraph iteratedPathToIntNode_alt_0_base;
+		public GRGEN_LGSP.PatternGraph iteratedPathToIntNode_alt_0_base;
 
 		public static GRGEN_LIBGR.NodeType[] iteratedPathToIntNode_alt_0_recursive_node_intermediate_AllowedTypes = { GRGEN_MODEL.NodeType_Node.typeVar, };
 		public static bool[] iteratedPathToIntNode_alt_0_recursive_node_intermediate_IsAllowedType = { true, false, };
@@ -671,7 +671,7 @@ namespace de.unika.ipd.grGen.Action_Independent
 
 
 
-		GRGEN_LGSP.PatternGraph iteratedPathToIntNode_alt_0_recursive;
+		public GRGEN_LGSP.PatternGraph iteratedPathToIntNode_alt_0_recursive;
 
 
 		private Pattern_iteratedPathToIntNode()
@@ -1239,7 +1239,7 @@ namespace de.unika.ipd.grGen.Action_Independent
 
 
 
-		GRGEN_LGSP.PatternGraph pat_create;
+		public GRGEN_LGSP.PatternGraph pat_create;
 
 
 		private Rule_create()
@@ -1452,7 +1452,7 @@ namespace de.unika.ipd.grGen.Action_Independent
 
 
 
-		GRGEN_LGSP.PatternGraph pat_find;
+		public GRGEN_LGSP.PatternGraph pat_find;
 
 
 		private Rule_find()
@@ -1711,7 +1711,7 @@ namespace de.unika.ipd.grGen.Action_Independent
 
 
 
-		GRGEN_LGSP.PatternGraph pat_findIndependent;
+		public GRGEN_LGSP.PatternGraph pat_findIndependent;
 
 		public static GRGEN_LIBGR.NodeType[] findIndependent_idpt_0_node__node0_AllowedTypes = null;
 		public static bool[] findIndependent_idpt_0_node__node0_IsAllowedType = null;
@@ -1726,7 +1726,7 @@ namespace de.unika.ipd.grGen.Action_Independent
 		public enum findIndependent_idpt_0_AltNums { };
 		public enum findIndependent_idpt_0_IterNums { };
 
-		GRGEN_LGSP.PatternGraph findIndependent_idpt_0;
+		public GRGEN_LGSP.PatternGraph findIndependent_idpt_0;
 
 
 		private Rule_findIndependent()
@@ -2130,7 +2130,7 @@ namespace de.unika.ipd.grGen.Action_Independent
 
 
 
-		GRGEN_LGSP.PatternGraph pat_findMultiNested;
+		public GRGEN_LGSP.PatternGraph pat_findMultiNested;
 
 		public static GRGEN_LIBGR.NodeType[] findMultiNested_idpt_0_node__node0_AllowedTypes = null;
 		public static bool[] findMultiNested_idpt_0_node__node0_IsAllowedType = null;
@@ -2145,7 +2145,7 @@ namespace de.unika.ipd.grGen.Action_Independent
 		public enum findMultiNested_idpt_0_AltNums { };
 		public enum findMultiNested_idpt_0_IterNums { };
 
-		GRGEN_LGSP.PatternGraph findMultiNested_idpt_0;
+		public GRGEN_LGSP.PatternGraph findMultiNested_idpt_0;
 
 		public static GRGEN_LIBGR.NodeType[] findMultiNested_idpt_0_idpt_0_node__node0_AllowedTypes = null;
 		public static bool[] findMultiNested_idpt_0_idpt_0_node__node0_IsAllowedType = null;
@@ -2160,7 +2160,7 @@ namespace de.unika.ipd.grGen.Action_Independent
 		public enum findMultiNested_idpt_0_idpt_0_AltNums { };
 		public enum findMultiNested_idpt_0_idpt_0_IterNums { };
 
-		GRGEN_LGSP.PatternGraph findMultiNested_idpt_0_idpt_0;
+		public GRGEN_LGSP.PatternGraph findMultiNested_idpt_0_idpt_0;
 
 		public static GRGEN_LIBGR.NodeType[] findMultiNested_idpt_1_node__node0_AllowedTypes = null;
 		public static bool[] findMultiNested_idpt_1_node__node0_IsAllowedType = null;
@@ -2175,7 +2175,7 @@ namespace de.unika.ipd.grGen.Action_Independent
 		public enum findMultiNested_idpt_1_AltNums { };
 		public enum findMultiNested_idpt_1_IterNums { };
 
-		GRGEN_LGSP.PatternGraph findMultiNested_idpt_1;
+		public GRGEN_LGSP.PatternGraph findMultiNested_idpt_1;
 
 		public static GRGEN_LIBGR.NodeType[] findMultiNested_idpt_1_idpt_0_node__node0_AllowedTypes = null;
 		public static bool[] findMultiNested_idpt_1_idpt_0_node__node0_IsAllowedType = null;
@@ -2190,7 +2190,7 @@ namespace de.unika.ipd.grGen.Action_Independent
 		public enum findMultiNested_idpt_1_idpt_0_AltNums { };
 		public enum findMultiNested_idpt_1_idpt_0_IterNums { };
 
-		GRGEN_LGSP.PatternGraph findMultiNested_idpt_1_idpt_0;
+		public GRGEN_LGSP.PatternGraph findMultiNested_idpt_1_idpt_0;
 
 
 		private Rule_findMultiNested()
@@ -3104,7 +3104,7 @@ namespace de.unika.ipd.grGen.Action_Independent
 
 
 
-		GRGEN_LGSP.PatternGraph pat_createIterated;
+		public GRGEN_LGSP.PatternGraph pat_createIterated;
 
 
 		private Rule_createIterated()
@@ -3319,7 +3319,7 @@ namespace de.unika.ipd.grGen.Action_Independent
 
 
 
-		GRGEN_LGSP.PatternGraph pat_findChainPlusChainToInt;
+		public GRGEN_LGSP.PatternGraph pat_findChainPlusChainToInt;
 
 
 		private Rule_findChainPlusChainToInt()
@@ -3539,7 +3539,7 @@ namespace de.unika.ipd.grGen.Action_Independent
 
 
 
-		GRGEN_LGSP.PatternGraph pat_findChainPlusChainToIntIndependent;
+		public GRGEN_LGSP.PatternGraph pat_findChainPlusChainToIntIndependent;
 
 		public enum findChainPlusChainToIntIndependent_idpt_0_NodeNums { @end, };
 		public enum findChainPlusChainToIntIndependent_idpt_0_EdgeNums { };
@@ -3548,7 +3548,7 @@ namespace de.unika.ipd.grGen.Action_Independent
 		public enum findChainPlusChainToIntIndependent_idpt_0_AltNums { };
 		public enum findChainPlusChainToIntIndependent_idpt_0_IterNums { };
 
-		GRGEN_LGSP.PatternGraph findChainPlusChainToIntIndependent_idpt_0;
+		public GRGEN_LGSP.PatternGraph findChainPlusChainToIntIndependent_idpt_0;
 
 
 		private Rule_findChainPlusChainToIntIndependent()
@@ -3976,7 +3976,7 @@ namespace de.unika.ipd.grGen.Action_Independent
             patternpath_match_iteratedPath._node_beg = candidate_iteratedPath_node_beg;
             patternpath_match_iteratedPath._node_end = candidate_iteratedPath_node_end;
             // Push alternative matching task for iteratedPath_alt_0
-            AlternativeAction_iteratedPath_alt_0 taskFor_alt_0 = AlternativeAction_iteratedPath_alt_0.getNewTask(graph, openTasks, patternGraph.alternatives[(int)Pattern_iteratedPath.iteratedPath_AltNums.@alt_0].alternativeCases);
+            AlternativeAction_iteratedPath_alt_0 taskFor_alt_0 = AlternativeAction_iteratedPath_alt_0.getNewTask(graph, openTasks, Pattern_iteratedPath.Instance.patternGraph.alternatives[(int)Pattern_iteratedPath.iteratedPath_AltNums.@alt_0].alternativeCases);
             taskFor_alt_0.iteratedPath_node_beg = candidate_iteratedPath_node_beg;
             taskFor_alt_0.iteratedPath_node_end = candidate_iteratedPath_node_end;
             taskFor_alt_0.searchPatternpath = searchPatternpath;
@@ -4408,7 +4408,7 @@ namespace de.unika.ipd.grGen.Action_Independent
             patternpath_match_iteratedPathToIntNode._matchOfEnclosingPattern = matchOfNestingPattern;
             patternpath_match_iteratedPathToIntNode._node_beg = candidate_iteratedPathToIntNode_node_beg;
             // Push alternative matching task for iteratedPathToIntNode_alt_0
-            AlternativeAction_iteratedPathToIntNode_alt_0 taskFor_alt_0 = AlternativeAction_iteratedPathToIntNode_alt_0.getNewTask(graph, openTasks, patternGraph.alternatives[(int)Pattern_iteratedPathToIntNode.iteratedPathToIntNode_AltNums.@alt_0].alternativeCases);
+            AlternativeAction_iteratedPathToIntNode_alt_0 taskFor_alt_0 = AlternativeAction_iteratedPathToIntNode_alt_0.getNewTask(graph, openTasks, Pattern_iteratedPathToIntNode.Instance.patternGraph.alternatives[(int)Pattern_iteratedPathToIntNode.iteratedPathToIntNode_AltNums.@alt_0].alternativeCases);
             taskFor_alt_0.iteratedPathToIntNode_node_beg = candidate_iteratedPathToIntNode_node_beg;
             taskFor_alt_0.searchPatternpath = searchPatternpath;
             taskFor_alt_0.matchOfNestingPattern = patternpath_match_iteratedPathToIntNode;

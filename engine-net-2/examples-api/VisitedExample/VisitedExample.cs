@@ -142,7 +142,7 @@ namespace VisitedExample
 
     class VisitedExample
     {
-        Std graph;
+        StdGraph graph;
 
         int countedNodesPre = 0;
         int countedNodesPost = 0;
@@ -163,7 +163,7 @@ namespace VisitedExample
 
         private void Run()
         {
-            graph = new Std();
+            graph = new StdGraph();
 
             int numNodes = 10;
             int numEdges = 20;

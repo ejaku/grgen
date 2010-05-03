@@ -1,6 +1,6 @@
 // This file has been generated automatically by GrGen (www.grgen.net)
 // Do not modify this file! Any changes will be lost!
-// Generated from "..\..\examples\Mutex\MutexPimped.grg" on Sun Apr 25 15:45:01 CEST 2010
+// Generated from "..\..\examples\Mutex\MutexPimped.grg" on Mon May 03 01:43:25 CEST 2010
 
 using System;
 using System.Collections.Generic;
@@ -1659,7 +1659,6 @@ namespace de.unika.ipd.grGen.Model_Mutex
 	//
 	// IGraphModel implementation
 	//
-
 	public sealed class MutexGraphModel : GRGEN_LIBGR.IGraphModel
 	{
 		private MutexNodeModel nodeModel = new MutexNodeModel();
@@ -1682,13 +1681,13 @@ namespace de.unika.ipd.grGen.Model_Mutex
 		public IEnumerable<GRGEN_LIBGR.EnumAttributeType> EnumAttributeTypes { get { return enumAttributeTypes; } }
 		public string MD5Hash { get { return "b2c79abf46750619401de30166fff963"; } }
 	}
+
 	//
 	// IGraph/IGraphModel implementation
 	//
-
-	public class Mutex : GRGEN_LGSP.LGSPGraph, GRGEN_LIBGR.IGraphModel
+	public class MutexGraph : GRGEN_LGSP.LGSPGraph, GRGEN_LIBGR.IGraphModel
 	{
-		public Mutex() : base(GetNextGraphName())
+		public MutexGraph() : base(GetNextGraphName())
 		{
 			InitializeGraph(this);
 		}

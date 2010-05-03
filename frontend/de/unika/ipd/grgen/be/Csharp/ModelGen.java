@@ -1512,22 +1512,21 @@ commonLoop:	for(InheritanceType commonType : firstCommonAncestors) {
 		sb.append("\t//\n");
 		sb.append("\t// IGraphModel implementation\n");
 		sb.append("\t//\n");
-		sb.append("\n");
 
 		sb.append("\tpublic sealed class " + modelName + "GraphModel : GRGEN_LIBGR.IGraphModel\n");
 		sb.append("\t{\n");
 		genGraphModelBody(modelName);
 		sb.append("\t}\n");
+		sb.append("\n");
 
 		sb.append("\t//\n");
 		sb.append("\t// IGraph/IGraphModel implementation\n");
 		sb.append("\t//\n");
-		sb.append("\n");
 
 		sb.append(
-			  "\tpublic class " + modelName + " : GRGEN_LGSP.LGSPGraph, GRGEN_LIBGR.IGraphModel\n"
+			  "\tpublic class " + modelName + "Graph : GRGEN_LGSP.LGSPGraph, GRGEN_LIBGR.IGraphModel\n"
 			+ "\t{\n"
-			+ "\t\tpublic " + modelName + "() : base(GetNextGraphName())\n"
+			+ "\t\tpublic " + modelName + "Graph() : base(GetNextGraphName())\n"
 			+ "\t\t{\n"
 			+ "\t\t\tInitializeGraph(this);\n"
 			+ "\t\t}\n\n"

@@ -1,6 +1,6 @@
 // This file has been generated automatically by GrGen (www.grgen.net)
 // Do not modify this file! Any changes will be lost!
-// Generated from "..\..\examples\ProgramGraphs\ProgramGraphs.grg" on Sun Apr 25 15:45:04 CEST 2010
+// Generated from "..\..\examples\ProgramGraphs\ProgramGraphs.grg" on Mon May 03 01:43:31 CEST 2010
 
 using System;
 using System.Collections.Generic;
@@ -29,7 +29,7 @@ namespace de.unika.ipd.grGen.Action_ProgramGraphs
 
 
 
-		GRGEN_LGSP.PatternGraph pat_Subclasses;
+		public GRGEN_LGSP.PatternGraph pat_Subclasses;
 
 		public static GRGEN_LIBGR.NodeType[] Subclasses_iter_0_node_sub_AllowedTypes = null;
 		public static bool[] Subclasses_iter_0_node_sub_IsAllowedType = null;
@@ -44,7 +44,7 @@ namespace de.unika.ipd.grGen.Action_ProgramGraphs
 
 
 
-		GRGEN_LGSP.PatternGraph Subclasses_iter_0;
+		public GRGEN_LGSP.PatternGraph Subclasses_iter_0;
 
 
 		private Pattern_Subclasses()
@@ -434,7 +434,7 @@ namespace de.unika.ipd.grGen.Action_ProgramGraphs
 
 
 
-		GRGEN_LGSP.PatternGraph pat_Subclass;
+		public GRGEN_LGSP.PatternGraph pat_Subclass;
 
 
 		private Pattern_Subclass()
@@ -644,7 +644,7 @@ namespace de.unika.ipd.grGen.Action_ProgramGraphs
 
 
 
-		GRGEN_LGSP.PatternGraph pat_Features;
+		public GRGEN_LGSP.PatternGraph pat_Features;
 
 		public enum Features_iter_0_NodeNums { @c, };
 		public enum Features_iter_0_EdgeNums { };
@@ -655,7 +655,7 @@ namespace de.unika.ipd.grGen.Action_ProgramGraphs
 
 
 
-		GRGEN_LGSP.PatternGraph Features_iter_0;
+		public GRGEN_LGSP.PatternGraph Features_iter_0;
 
 
 		private Pattern_Features()
@@ -1018,7 +1018,7 @@ namespace de.unika.ipd.grGen.Action_ProgramGraphs
 
 
 
-		GRGEN_LGSP.PatternGraph pat_FeaturePattern;
+		public GRGEN_LGSP.PatternGraph pat_FeaturePattern;
 
 		public enum FeaturePattern_alt_0_CaseNums { @MethodBody, @MethodSignature, @Variable, @Konstante, };
 		public static GRGEN_LIBGR.NodeType[] FeaturePattern_alt_0_MethodBody_node_b_AllowedTypes = null;
@@ -1034,7 +1034,7 @@ namespace de.unika.ipd.grGen.Action_ProgramGraphs
 
 
 
-		GRGEN_LGSP.PatternGraph FeaturePattern_alt_0_MethodBody;
+		public GRGEN_LGSP.PatternGraph FeaturePattern_alt_0_MethodBody;
 
 		public static GRGEN_LIBGR.NodeType[] FeaturePattern_alt_0_MethodSignature_node__node0_AllowedTypes = null;
 		public static bool[] FeaturePattern_alt_0_MethodSignature_node__node0_IsAllowedType = null;
@@ -1049,7 +1049,7 @@ namespace de.unika.ipd.grGen.Action_ProgramGraphs
 
 
 
-		GRGEN_LGSP.PatternGraph FeaturePattern_alt_0_MethodSignature;
+		public GRGEN_LGSP.PatternGraph FeaturePattern_alt_0_MethodSignature;
 
 		public static GRGEN_LIBGR.NodeType[] FeaturePattern_alt_0_Variable_node__node0_AllowedTypes = null;
 		public static bool[] FeaturePattern_alt_0_Variable_node__node0_IsAllowedType = null;
@@ -1064,7 +1064,7 @@ namespace de.unika.ipd.grGen.Action_ProgramGraphs
 
 
 
-		GRGEN_LGSP.PatternGraph FeaturePattern_alt_0_Variable;
+		public GRGEN_LGSP.PatternGraph FeaturePattern_alt_0_Variable;
 
 		public static GRGEN_LIBGR.NodeType[] FeaturePattern_alt_0_Konstante_node__node0_AllowedTypes = null;
 		public static bool[] FeaturePattern_alt_0_Konstante_node__node0_IsAllowedType = null;
@@ -1079,7 +1079,7 @@ namespace de.unika.ipd.grGen.Action_ProgramGraphs
 
 
 
-		GRGEN_LGSP.PatternGraph FeaturePattern_alt_0_Konstante;
+		public GRGEN_LGSP.PatternGraph FeaturePattern_alt_0_Konstante;
 
 
 		private Pattern_FeaturePattern()
@@ -2015,7 +2015,7 @@ namespace de.unika.ipd.grGen.Action_ProgramGraphs
 
 
 
-		GRGEN_LGSP.PatternGraph pat_Parameters;
+		public GRGEN_LGSP.PatternGraph pat_Parameters;
 
 		public enum Parameters_iter_0_NodeNums { @b, };
 		public enum Parameters_iter_0_EdgeNums { };
@@ -2026,7 +2026,7 @@ namespace de.unika.ipd.grGen.Action_ProgramGraphs
 
 
 
-		GRGEN_LGSP.PatternGraph Parameters_iter_0;
+		public GRGEN_LGSP.PatternGraph Parameters_iter_0;
 
 
 		private Pattern_Parameters()
@@ -2389,7 +2389,7 @@ namespace de.unika.ipd.grGen.Action_ProgramGraphs
 
 
 
-		GRGEN_LGSP.PatternGraph pat_Parameter;
+		public GRGEN_LGSP.PatternGraph pat_Parameter;
 
 		public enum Parameter_alt_0_CaseNums { @Variable, @Konstante, };
 		public static GRGEN_LIBGR.NodeType[] Parameter_alt_0_Variable_node_v_AllowedTypes = null;
@@ -2405,7 +2405,7 @@ namespace de.unika.ipd.grGen.Action_ProgramGraphs
 
 
 
-		GRGEN_LGSP.PatternGraph Parameter_alt_0_Variable;
+		public GRGEN_LGSP.PatternGraph Parameter_alt_0_Variable;
 
 		public static GRGEN_LIBGR.NodeType[] Parameter_alt_0_Konstante_node_c_AllowedTypes = null;
 		public static bool[] Parameter_alt_0_Konstante_node_c_IsAllowedType = null;
@@ -2420,7 +2420,7 @@ namespace de.unika.ipd.grGen.Action_ProgramGraphs
 
 
 
-		GRGEN_LGSP.PatternGraph Parameter_alt_0_Konstante;
+		public GRGEN_LGSP.PatternGraph Parameter_alt_0_Konstante;
 
 
 		private Pattern_Parameter()
@@ -2976,7 +2976,7 @@ namespace de.unika.ipd.grGen.Action_ProgramGraphs
 
 
 
-		GRGEN_LGSP.PatternGraph pat_Statements;
+		public GRGEN_LGSP.PatternGraph pat_Statements;
 
 		public enum Statements_iter_0_NodeNums { @b, };
 		public enum Statements_iter_0_EdgeNums { };
@@ -2987,7 +2987,7 @@ namespace de.unika.ipd.grGen.Action_ProgramGraphs
 
 
 
-		GRGEN_LGSP.PatternGraph Statements_iter_0;
+		public GRGEN_LGSP.PatternGraph Statements_iter_0;
 
 
 		private Pattern_Statements()
@@ -3350,7 +3350,7 @@ namespace de.unika.ipd.grGen.Action_ProgramGraphs
 
 
 
-		GRGEN_LGSP.PatternGraph pat_Statement;
+		public GRGEN_LGSP.PatternGraph pat_Statement;
 
 		public enum Statement_alt_0_CaseNums { @Assignment, @Call, @Return, };
 		public static GRGEN_LIBGR.NodeType[] Statement_alt_0_Assignment_node_e_AllowedTypes = null;
@@ -3368,7 +3368,7 @@ namespace de.unika.ipd.grGen.Action_ProgramGraphs
 
 
 
-		GRGEN_LGSP.PatternGraph Statement_alt_0_Assignment;
+		public GRGEN_LGSP.PatternGraph Statement_alt_0_Assignment;
 
 		public static GRGEN_LIBGR.NodeType[] Statement_alt_0_Call_node_e_AllowedTypes = null;
 		public static bool[] Statement_alt_0_Call_node_e_IsAllowedType = null;
@@ -3385,7 +3385,7 @@ namespace de.unika.ipd.grGen.Action_ProgramGraphs
 
 
 
-		GRGEN_LGSP.PatternGraph Statement_alt_0_Call;
+		public GRGEN_LGSP.PatternGraph Statement_alt_0_Call;
 
 		public static GRGEN_LIBGR.NodeType[] Statement_alt_0_Return_node_e_AllowedTypes = null;
 		public static bool[] Statement_alt_0_Return_node_e_IsAllowedType = null;
@@ -3402,7 +3402,7 @@ namespace de.unika.ipd.grGen.Action_ProgramGraphs
 
 
 
-		GRGEN_LGSP.PatternGraph Statement_alt_0_Return;
+		public GRGEN_LGSP.PatternGraph Statement_alt_0_Return;
 
 
 		private Pattern_Statement()
@@ -4194,7 +4194,7 @@ namespace de.unika.ipd.grGen.Action_ProgramGraphs
 
 
 
-		GRGEN_LGSP.PatternGraph pat_Expressions;
+		public GRGEN_LGSP.PatternGraph pat_Expressions;
 
 		public enum Expressions_iter_0_NodeNums { @e, };
 		public enum Expressions_iter_0_EdgeNums { };
@@ -4205,7 +4205,7 @@ namespace de.unika.ipd.grGen.Action_ProgramGraphs
 
 
 
-		GRGEN_LGSP.PatternGraph Expressions_iter_0;
+		public GRGEN_LGSP.PatternGraph Expressions_iter_0;
 
 
 		private Pattern_Expressions()
@@ -4572,7 +4572,7 @@ namespace de.unika.ipd.grGen.Action_ProgramGraphs
 
 
 
-		GRGEN_LGSP.PatternGraph pat_ExpressionPattern;
+		public GRGEN_LGSP.PatternGraph pat_ExpressionPattern;
 
 		public enum ExpressionPattern_alt_0_CaseNums { @Call, @Use, };
 		public static GRGEN_LIBGR.EdgeType[] ExpressionPattern_alt_0_Call_edge__edge0_AllowedTypes = null;
@@ -4586,7 +4586,7 @@ namespace de.unika.ipd.grGen.Action_ProgramGraphs
 
 
 
-		GRGEN_LGSP.PatternGraph ExpressionPattern_alt_0_Call;
+		public GRGEN_LGSP.PatternGraph ExpressionPattern_alt_0_Call;
 
 		public static GRGEN_LIBGR.EdgeType[] ExpressionPattern_alt_0_Use_edge__edge0_AllowedTypes = null;
 		public static bool[] ExpressionPattern_alt_0_Use_edge__edge0_IsAllowedType = null;
@@ -4599,7 +4599,7 @@ namespace de.unika.ipd.grGen.Action_ProgramGraphs
 
 
 
-		GRGEN_LGSP.PatternGraph ExpressionPattern_alt_0_Use;
+		public GRGEN_LGSP.PatternGraph ExpressionPattern_alt_0_Use;
 
 
 		private Pattern_ExpressionPattern()
@@ -5170,7 +5170,7 @@ namespace de.unika.ipd.grGen.Action_ProgramGraphs
 
 
 
-		GRGEN_LGSP.PatternGraph pat_Bodies;
+		public GRGEN_LGSP.PatternGraph pat_Bodies;
 
 		public enum Bodies_iter_0_NodeNums { @m5, @c1, };
 		public enum Bodies_iter_0_EdgeNums { };
@@ -5182,7 +5182,7 @@ namespace de.unika.ipd.grGen.Action_ProgramGraphs
 
 
 
-		GRGEN_LGSP.PatternGraph Bodies_iter_0;
+		public GRGEN_LGSP.PatternGraph Bodies_iter_0;
 
 
 		private Pattern_Bodies()
@@ -5628,7 +5628,7 @@ namespace de.unika.ipd.grGen.Action_ProgramGraphs
 
 
 
-		GRGEN_LGSP.PatternGraph pat_Body;
+		public GRGEN_LGSP.PatternGraph pat_Body;
 
 
 		private Pattern_Body()
@@ -5948,7 +5948,7 @@ namespace de.unika.ipd.grGen.Action_ProgramGraphs
 
 
 
-		GRGEN_LGSP.PatternGraph pat_createProgramGraphExample;
+		public GRGEN_LGSP.PatternGraph pat_createProgramGraphExample;
 
 
 		private Rule_createProgramGraphExample()
@@ -6252,7 +6252,7 @@ namespace de.unika.ipd.grGen.Action_ProgramGraphs
 
 
 
-		GRGEN_LGSP.PatternGraph pat_createProgramGraphPullUp;
+		public GRGEN_LGSP.PatternGraph pat_createProgramGraphPullUp;
 
 
 		private Rule_createProgramGraphPullUp()
@@ -6538,7 +6538,7 @@ namespace de.unika.ipd.grGen.Action_ProgramGraphs
 
 
 
-		GRGEN_LGSP.PatternGraph pat_pullUpMethod;
+		public GRGEN_LGSP.PatternGraph pat_pullUpMethod;
 
 
 		private Rule_pullUpMethod()
@@ -6820,7 +6820,7 @@ namespace de.unika.ipd.grGen.Action_ProgramGraphs
 
 
 
-		GRGEN_LGSP.PatternGraph pat_matchAll;
+		public GRGEN_LGSP.PatternGraph pat_matchAll;
 
 
 		private Rule_matchAll()
@@ -7016,7 +7016,7 @@ namespace de.unika.ipd.grGen.Action_ProgramGraphs
 
 
 
-		GRGEN_LGSP.PatternGraph pat_InsertHelperEdgesForNestedLayout;
+		public GRGEN_LGSP.PatternGraph pat_InsertHelperEdgesForNestedLayout;
 
 
 		private Rule_InsertHelperEdgesForNestedLayout()
@@ -7292,7 +7292,7 @@ namespace de.unika.ipd.grGen.Action_ProgramGraphs
 
 
 
-		GRGEN_LGSP.PatternGraph pat_LinkMethodBodyToContainedEntity;
+		public GRGEN_LGSP.PatternGraph pat_LinkMethodBodyToContainedEntity;
 
 		public static GRGEN_LIBGR.EdgeType[] LinkMethodBodyToContainedEntity_neg_0_edge__edge0_AllowedTypes = null;
 		public static bool[] LinkMethodBodyToContainedEntity_neg_0_edge__edge0_IsAllowedType = null;
@@ -7303,7 +7303,7 @@ namespace de.unika.ipd.grGen.Action_ProgramGraphs
 		public enum LinkMethodBodyToContainedEntity_neg_0_AltNums { };
 		public enum LinkMethodBodyToContainedEntity_neg_0_IterNums { };
 
-		GRGEN_LGSP.PatternGraph LinkMethodBodyToContainedEntity_neg_0;
+		public GRGEN_LGSP.PatternGraph LinkMethodBodyToContainedEntity_neg_0;
 
 
 		private Rule_LinkMethodBodyToContainedEntity()
@@ -7680,7 +7680,7 @@ namespace de.unika.ipd.grGen.Action_ProgramGraphs
 
 
 
-		GRGEN_LGSP.PatternGraph pat_LinkMethodBodyToContainedExpressionTransitive;
+		public GRGEN_LGSP.PatternGraph pat_LinkMethodBodyToContainedExpressionTransitive;
 
 		public static GRGEN_LIBGR.EdgeType[] LinkMethodBodyToContainedExpressionTransitive_neg_0_edge__edge0_AllowedTypes = null;
 		public static bool[] LinkMethodBodyToContainedExpressionTransitive_neg_0_edge__edge0_IsAllowedType = null;
@@ -7691,7 +7691,7 @@ namespace de.unika.ipd.grGen.Action_ProgramGraphs
 		public enum LinkMethodBodyToContainedExpressionTransitive_neg_0_AltNums { };
 		public enum LinkMethodBodyToContainedExpressionTransitive_neg_0_IterNums { };
 
-		GRGEN_LGSP.PatternGraph LinkMethodBodyToContainedExpressionTransitive_neg_0;
+		public GRGEN_LGSP.PatternGraph LinkMethodBodyToContainedExpressionTransitive_neg_0;
 
 
 		private Rule_LinkMethodBodyToContainedExpressionTransitive()
@@ -8086,7 +8086,7 @@ namespace de.unika.ipd.grGen.Action_ProgramGraphs
 
 
 
-		GRGEN_LGSP.PatternGraph pat_LinkClassToFeature;
+		public GRGEN_LGSP.PatternGraph pat_LinkClassToFeature;
 
 		public static GRGEN_LIBGR.EdgeType[] LinkClassToFeature_neg_0_edge__edge0_AllowedTypes = null;
 		public static bool[] LinkClassToFeature_neg_0_edge__edge0_IsAllowedType = null;
@@ -8097,7 +8097,7 @@ namespace de.unika.ipd.grGen.Action_ProgramGraphs
 		public enum LinkClassToFeature_neg_0_AltNums { };
 		public enum LinkClassToFeature_neg_0_IterNums { };
 
-		GRGEN_LGSP.PatternGraph LinkClassToFeature_neg_0;
+		public GRGEN_LGSP.PatternGraph LinkClassToFeature_neg_0;
 
 
 		private Rule_LinkClassToFeature()
@@ -9241,7 +9241,7 @@ maxMatchesIterReached:
             patternpath_match_FeaturePattern._matchOfEnclosingPattern = matchOfNestingPattern;
             patternpath_match_FeaturePattern._node_c = candidate_FeaturePattern_node_c;
             // Push alternative matching task for FeaturePattern_alt_0
-            AlternativeAction_FeaturePattern_alt_0 taskFor_alt_0 = AlternativeAction_FeaturePattern_alt_0.getNewTask(graph, openTasks, patternGraph.alternatives[(int)Pattern_FeaturePattern.FeaturePattern_AltNums.@alt_0].alternativeCases);
+            AlternativeAction_FeaturePattern_alt_0 taskFor_alt_0 = AlternativeAction_FeaturePattern_alt_0.getNewTask(graph, openTasks, Pattern_FeaturePattern.Instance.patternGraph.alternatives[(int)Pattern_FeaturePattern.FeaturePattern_AltNums.@alt_0].alternativeCases);
             taskFor_alt_0.FeaturePattern_node_c = candidate_FeaturePattern_node_c;
             taskFor_alt_0.searchPatternpath = searchPatternpath;
             taskFor_alt_0.matchOfNestingPattern = patternpath_match_FeaturePattern;
@@ -10252,7 +10252,7 @@ maxMatchesIterReached:
             patternpath_match_Parameter._matchOfEnclosingPattern = matchOfNestingPattern;
             patternpath_match_Parameter._node_b = candidate_Parameter_node_b;
             // Push alternative matching task for Parameter_alt_0
-            AlternativeAction_Parameter_alt_0 taskFor_alt_0 = AlternativeAction_Parameter_alt_0.getNewTask(graph, openTasks, patternGraph.alternatives[(int)Pattern_Parameter.Parameter_AltNums.@alt_0].alternativeCases);
+            AlternativeAction_Parameter_alt_0 taskFor_alt_0 = AlternativeAction_Parameter_alt_0.getNewTask(graph, openTasks, Pattern_Parameter.Instance.patternGraph.alternatives[(int)Pattern_Parameter.Parameter_AltNums.@alt_0].alternativeCases);
             taskFor_alt_0.Parameter_node_b = candidate_Parameter_node_b;
             taskFor_alt_0.searchPatternpath = searchPatternpath;
             taskFor_alt_0.matchOfNestingPattern = patternpath_match_Parameter;
@@ -10930,7 +10930,7 @@ maxMatchesIterReached:
             patternpath_match_Statement._matchOfEnclosingPattern = matchOfNestingPattern;
             patternpath_match_Statement._node_b = candidate_Statement_node_b;
             // Push alternative matching task for Statement_alt_0
-            AlternativeAction_Statement_alt_0 taskFor_alt_0 = AlternativeAction_Statement_alt_0.getNewTask(graph, openTasks, patternGraph.alternatives[(int)Pattern_Statement.Statement_AltNums.@alt_0].alternativeCases);
+            AlternativeAction_Statement_alt_0 taskFor_alt_0 = AlternativeAction_Statement_alt_0.getNewTask(graph, openTasks, Pattern_Statement.Instance.patternGraph.alternatives[(int)Pattern_Statement.Statement_AltNums.@alt_0].alternativeCases);
             taskFor_alt_0.Statement_node_b = candidate_Statement_node_b;
             taskFor_alt_0.searchPatternpath = searchPatternpath;
             taskFor_alt_0.matchOfNestingPattern = patternpath_match_Statement;
@@ -11999,7 +11999,7 @@ maxMatchesIterReached:
                     prevSomeGlobal__candidate_ExpressionPattern_edge__edge0 = candidate_ExpressionPattern_edge__edge0.lgspFlags & (uint) GRGEN_LGSP.LGSPElemFlags.IS_MATCHED_BY_SOME_ENCLOSING_PATTERN;
                     candidate_ExpressionPattern_edge__edge0.lgspFlags |= (uint) GRGEN_LGSP.LGSPElemFlags.IS_MATCHED_BY_SOME_ENCLOSING_PATTERN;
                     // Push alternative matching task for ExpressionPattern_alt_0
-                    AlternativeAction_ExpressionPattern_alt_0 taskFor_alt_0 = AlternativeAction_ExpressionPattern_alt_0.getNewTask(graph, openTasks, patternGraph.alternatives[(int)Pattern_ExpressionPattern.ExpressionPattern_AltNums.@alt_0].alternativeCases);
+                    AlternativeAction_ExpressionPattern_alt_0 taskFor_alt_0 = AlternativeAction_ExpressionPattern_alt_0.getNewTask(graph, openTasks, Pattern_ExpressionPattern.Instance.patternGraph.alternatives[(int)Pattern_ExpressionPattern.ExpressionPattern_AltNums.@alt_0].alternativeCases);
                     taskFor_alt_0.ExpressionPattern_node_sub = candidate_ExpressionPattern_node_sub;
                     taskFor_alt_0.searchPatternpath = searchPatternpath;
                     taskFor_alt_0.matchOfNestingPattern = patternpath_match_ExpressionPattern;

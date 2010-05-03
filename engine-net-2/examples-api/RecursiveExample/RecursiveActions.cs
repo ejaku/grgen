@@ -1,6 +1,6 @@
 // This file has been generated automatically by GrGen (www.grgen.net)
 // Do not modify this file! Any changes will be lost!
-// Generated from "..\..\tests\Recursive\Recursive.grg" on Sun Apr 25 15:45:07 CEST 2010
+// Generated from "..\..\tests\Recursive\Recursive.grg" on Mon May 03 01:43:37 CEST 2010
 
 using System;
 using System.Collections.Generic;
@@ -31,7 +31,7 @@ namespace de.unika.ipd.grGen.Action_Recursive
 
 
 
-		GRGEN_LGSP.PatternGraph pat_ChainFromTo;
+		public GRGEN_LGSP.PatternGraph pat_ChainFromTo;
 
 		public enum ChainFromTo_alt_0_CaseNums { @base, @rec, };
 		public static GRGEN_LIBGR.EdgeType[] ChainFromTo_alt_0_base_edge__edge0_AllowedTypes = null;
@@ -45,7 +45,7 @@ namespace de.unika.ipd.grGen.Action_Recursive
 
 
 
-		GRGEN_LGSP.PatternGraph ChainFromTo_alt_0_base;
+		public GRGEN_LGSP.PatternGraph ChainFromTo_alt_0_base;
 
 		public static GRGEN_LIBGR.NodeType[] ChainFromTo_alt_0_rec_node_intermediate_AllowedTypes = null;
 		public static bool[] ChainFromTo_alt_0_rec_node_intermediate_IsAllowedType = null;
@@ -60,7 +60,7 @@ namespace de.unika.ipd.grGen.Action_Recursive
 
 
 
-		GRGEN_LGSP.PatternGraph ChainFromTo_alt_0_rec;
+		public GRGEN_LGSP.PatternGraph ChainFromTo_alt_0_rec;
 
 
 		private Pattern_ChainFromTo()
@@ -640,7 +640,7 @@ namespace de.unika.ipd.grGen.Action_Recursive
 
 
 
-		GRGEN_LGSP.PatternGraph pat_ChainFrom;
+		public GRGEN_LGSP.PatternGraph pat_ChainFrom;
 
 		public enum ChainFrom_alt_0_CaseNums { @base, @rec, };
 		public enum ChainFrom_alt_0_base_NodeNums { };
@@ -652,7 +652,7 @@ namespace de.unika.ipd.grGen.Action_Recursive
 
 
 
-		GRGEN_LGSP.PatternGraph ChainFrom_alt_0_base;
+		public GRGEN_LGSP.PatternGraph ChainFrom_alt_0_base;
 
 		public static GRGEN_LIBGR.NodeType[] ChainFrom_alt_0_rec_node_to_AllowedTypes = null;
 		public static bool[] ChainFrom_alt_0_rec_node_to_IsAllowedType = null;
@@ -667,7 +667,7 @@ namespace de.unika.ipd.grGen.Action_Recursive
 
 
 
-		GRGEN_LGSP.PatternGraph ChainFrom_alt_0_rec;
+		public GRGEN_LGSP.PatternGraph ChainFrom_alt_0_rec;
 
 
 		private Pattern_ChainFrom()
@@ -1200,7 +1200,7 @@ namespace de.unika.ipd.grGen.Action_Recursive
 
 
 
-		GRGEN_LGSP.PatternGraph pat_ChainFromComplete;
+		public GRGEN_LGSP.PatternGraph pat_ChainFromComplete;
 
 		public enum ChainFromComplete_alt_0_CaseNums { @base, @rec, };
 		public enum ChainFromComplete_alt_0_base_NodeNums { @from, };
@@ -1212,7 +1212,7 @@ namespace de.unika.ipd.grGen.Action_Recursive
 
 
 
-		GRGEN_LGSP.PatternGraph ChainFromComplete_alt_0_base;
+		public GRGEN_LGSP.PatternGraph ChainFromComplete_alt_0_base;
 
 		public static GRGEN_LIBGR.NodeType[] ChainFromComplete_alt_0_base_neg_0_node__node0_AllowedTypes = null;
 		public static bool[] ChainFromComplete_alt_0_base_neg_0_node__node0_IsAllowedType = null;
@@ -1225,7 +1225,7 @@ namespace de.unika.ipd.grGen.Action_Recursive
 		public enum ChainFromComplete_alt_0_base_neg_0_AltNums { };
 		public enum ChainFromComplete_alt_0_base_neg_0_IterNums { };
 
-		GRGEN_LGSP.PatternGraph ChainFromComplete_alt_0_base_neg_0;
+		public GRGEN_LGSP.PatternGraph ChainFromComplete_alt_0_base_neg_0;
 
 		public static GRGEN_LIBGR.NodeType[] ChainFromComplete_alt_0_rec_node_to_AllowedTypes = null;
 		public static bool[] ChainFromComplete_alt_0_rec_node_to_IsAllowedType = null;
@@ -1240,7 +1240,7 @@ namespace de.unika.ipd.grGen.Action_Recursive
 
 
 
-		GRGEN_LGSP.PatternGraph ChainFromComplete_alt_0_rec;
+		public GRGEN_LGSP.PatternGraph ChainFromComplete_alt_0_rec;
 
 
 		private Pattern_ChainFromComplete()
@@ -1935,7 +1935,7 @@ namespace de.unika.ipd.grGen.Action_Recursive
 
 
 
-		GRGEN_LGSP.PatternGraph pat_ChainFromCompleteArbitraryPatternpathLocked;
+		public GRGEN_LGSP.PatternGraph pat_ChainFromCompleteArbitraryPatternpathLocked;
 
 		public enum ChainFromCompleteArbitraryPatternpathLocked_alt_0_CaseNums { @base, @rec, };
 		public enum ChainFromCompleteArbitraryPatternpathLocked_alt_0_base_NodeNums { @from, };
@@ -1947,7 +1947,7 @@ namespace de.unika.ipd.grGen.Action_Recursive
 
 
 
-		GRGEN_LGSP.PatternGraph ChainFromCompleteArbitraryPatternpathLocked_alt_0_base;
+		public GRGEN_LGSP.PatternGraph ChainFromCompleteArbitraryPatternpathLocked_alt_0_base;
 
 		public static GRGEN_LIBGR.NodeType[] ChainFromCompleteArbitraryPatternpathLocked_alt_0_base_neg_0_node__node0_AllowedTypes = null;
 		public static bool[] ChainFromCompleteArbitraryPatternpathLocked_alt_0_base_neg_0_node__node0_IsAllowedType = null;
@@ -1960,7 +1960,7 @@ namespace de.unika.ipd.grGen.Action_Recursive
 		public enum ChainFromCompleteArbitraryPatternpathLocked_alt_0_base_neg_0_AltNums { };
 		public enum ChainFromCompleteArbitraryPatternpathLocked_alt_0_base_neg_0_IterNums { };
 
-		GRGEN_LGSP.PatternGraph ChainFromCompleteArbitraryPatternpathLocked_alt_0_base_neg_0;
+		public GRGEN_LGSP.PatternGraph ChainFromCompleteArbitraryPatternpathLocked_alt_0_base_neg_0;
 
 		public static GRGEN_LIBGR.NodeType[] ChainFromCompleteArbitraryPatternpathLocked_alt_0_rec_node_to_AllowedTypes = null;
 		public static bool[] ChainFromCompleteArbitraryPatternpathLocked_alt_0_rec_node_to_IsAllowedType = null;
@@ -1975,7 +1975,7 @@ namespace de.unika.ipd.grGen.Action_Recursive
 
 
 
-		GRGEN_LGSP.PatternGraph ChainFromCompleteArbitraryPatternpathLocked_alt_0_rec;
+		public GRGEN_LGSP.PatternGraph ChainFromCompleteArbitraryPatternpathLocked_alt_0_rec;
 
 
 		private Pattern_ChainFromCompleteArbitraryPatternpathLocked()
@@ -2670,7 +2670,7 @@ namespace de.unika.ipd.grGen.Action_Recursive
 
 
 
-		GRGEN_LGSP.PatternGraph pat_ChainFromCompleteArbitraryBaseAlwaysFailesByGoingBackwards;
+		public GRGEN_LGSP.PatternGraph pat_ChainFromCompleteArbitraryBaseAlwaysFailesByGoingBackwards;
 
 		public enum ChainFromCompleteArbitraryBaseAlwaysFailesByGoingBackwards_alt_0_CaseNums { @base, @rec, };
 		public enum ChainFromCompleteArbitraryBaseAlwaysFailesByGoingBackwards_alt_0_base_NodeNums { @from, };
@@ -2682,7 +2682,7 @@ namespace de.unika.ipd.grGen.Action_Recursive
 
 
 
-		GRGEN_LGSP.PatternGraph ChainFromCompleteArbitraryBaseAlwaysFailesByGoingBackwards_alt_0_base;
+		public GRGEN_LGSP.PatternGraph ChainFromCompleteArbitraryBaseAlwaysFailesByGoingBackwards_alt_0_base;
 
 		public static GRGEN_LIBGR.NodeType[] ChainFromCompleteArbitraryBaseAlwaysFailesByGoingBackwards_alt_0_base_neg_0_node__node0_AllowedTypes = null;
 		public static bool[] ChainFromCompleteArbitraryBaseAlwaysFailesByGoingBackwards_alt_0_base_neg_0_node__node0_IsAllowedType = null;
@@ -2695,7 +2695,7 @@ namespace de.unika.ipd.grGen.Action_Recursive
 		public enum ChainFromCompleteArbitraryBaseAlwaysFailesByGoingBackwards_alt_0_base_neg_0_AltNums { };
 		public enum ChainFromCompleteArbitraryBaseAlwaysFailesByGoingBackwards_alt_0_base_neg_0_IterNums { };
 
-		GRGEN_LGSP.PatternGraph ChainFromCompleteArbitraryBaseAlwaysFailesByGoingBackwards_alt_0_base_neg_0;
+		public GRGEN_LGSP.PatternGraph ChainFromCompleteArbitraryBaseAlwaysFailesByGoingBackwards_alt_0_base_neg_0;
 
 		public static GRGEN_LIBGR.NodeType[] ChainFromCompleteArbitraryBaseAlwaysFailesByGoingBackwards_alt_0_rec_node_to_AllowedTypes = null;
 		public static bool[] ChainFromCompleteArbitraryBaseAlwaysFailesByGoingBackwards_alt_0_rec_node_to_IsAllowedType = null;
@@ -2710,7 +2710,7 @@ namespace de.unika.ipd.grGen.Action_Recursive
 
 
 
-		GRGEN_LGSP.PatternGraph ChainFromCompleteArbitraryBaseAlwaysFailesByGoingBackwards_alt_0_rec;
+		public GRGEN_LGSP.PatternGraph ChainFromCompleteArbitraryBaseAlwaysFailesByGoingBackwards_alt_0_rec;
 
 
 		private Pattern_ChainFromCompleteArbitraryBaseAlwaysFailesByGoingBackwards()
@@ -3405,7 +3405,7 @@ namespace de.unika.ipd.grGen.Action_Recursive
 
 
 
-		GRGEN_LGSP.PatternGraph pat_Blowball;
+		public GRGEN_LGSP.PatternGraph pat_Blowball;
 
 		public enum Blowball_alt_0_CaseNums { @end, @further, };
 		public enum Blowball_alt_0_end_NodeNums { @head, };
@@ -3417,7 +3417,7 @@ namespace de.unika.ipd.grGen.Action_Recursive
 
 
 
-		GRGEN_LGSP.PatternGraph Blowball_alt_0_end;
+		public GRGEN_LGSP.PatternGraph Blowball_alt_0_end;
 
 		public static GRGEN_LIBGR.NodeType[] Blowball_alt_0_end_neg_0_node__node0_AllowedTypes = null;
 		public static bool[] Blowball_alt_0_end_neg_0_node__node0_IsAllowedType = null;
@@ -3430,7 +3430,7 @@ namespace de.unika.ipd.grGen.Action_Recursive
 		public enum Blowball_alt_0_end_neg_0_AltNums { };
 		public enum Blowball_alt_0_end_neg_0_IterNums { };
 
-		GRGEN_LGSP.PatternGraph Blowball_alt_0_end_neg_0;
+		public GRGEN_LGSP.PatternGraph Blowball_alt_0_end_neg_0;
 
 		public static GRGEN_LIBGR.NodeType[] Blowball_alt_0_further_node__node0_AllowedTypes = null;
 		public static bool[] Blowball_alt_0_further_node__node0_IsAllowedType = null;
@@ -3445,7 +3445,7 @@ namespace de.unika.ipd.grGen.Action_Recursive
 
 
 
-		GRGEN_LGSP.PatternGraph Blowball_alt_0_further;
+		public GRGEN_LGSP.PatternGraph Blowball_alt_0_further;
 
 
 		private Pattern_Blowball()
@@ -4142,7 +4142,7 @@ namespace de.unika.ipd.grGen.Action_Recursive
 
 
 
-		GRGEN_LGSP.PatternGraph pat_ReverseChainFromTo;
+		public GRGEN_LGSP.PatternGraph pat_ReverseChainFromTo;
 
 		public enum ReverseChainFromTo_alt_0_CaseNums { @base, @rec, };
 		public static GRGEN_LIBGR.EdgeType[] ReverseChainFromTo_alt_0_base_edge__edge0_AllowedTypes = null;
@@ -4156,7 +4156,7 @@ namespace de.unika.ipd.grGen.Action_Recursive
 
 
 
-		GRGEN_LGSP.PatternGraph ReverseChainFromTo_alt_0_base;
+		public GRGEN_LGSP.PatternGraph ReverseChainFromTo_alt_0_base;
 
 		public static GRGEN_LIBGR.NodeType[] ReverseChainFromTo_alt_0_rec_node_intermediate_AllowedTypes = null;
 		public static bool[] ReverseChainFromTo_alt_0_rec_node_intermediate_IsAllowedType = null;
@@ -4171,7 +4171,7 @@ namespace de.unika.ipd.grGen.Action_Recursive
 
 
 
-		GRGEN_LGSP.PatternGraph ReverseChainFromTo_alt_0_rec;
+		public GRGEN_LGSP.PatternGraph ReverseChainFromTo_alt_0_rec;
 
 
 		private Pattern_ReverseChainFromTo()
@@ -4754,7 +4754,7 @@ namespace de.unika.ipd.grGen.Action_Recursive
 
 
 
-		GRGEN_LGSP.PatternGraph pat_ChainFromToReverse;
+		public GRGEN_LGSP.PatternGraph pat_ChainFromToReverse;
 
 		public enum ChainFromToReverse_alt_0_CaseNums { @base, @rec, };
 		public static GRGEN_LIBGR.EdgeType[] ChainFromToReverse_alt_0_base_edge__edge0_AllowedTypes = null;
@@ -4769,7 +4769,7 @@ namespace de.unika.ipd.grGen.Action_Recursive
 
 
 
-		GRGEN_LGSP.PatternGraph ChainFromToReverse_alt_0_base;
+		public GRGEN_LGSP.PatternGraph ChainFromToReverse_alt_0_base;
 
 		public static GRGEN_LIBGR.NodeType[] ChainFromToReverse_alt_0_rec_node_intermediate_AllowedTypes = null;
 		public static bool[] ChainFromToReverse_alt_0_rec_node_intermediate_IsAllowedType = null;
@@ -4785,7 +4785,7 @@ namespace de.unika.ipd.grGen.Action_Recursive
 
 
 
-		GRGEN_LGSP.PatternGraph ChainFromToReverse_alt_0_rec;
+		public GRGEN_LGSP.PatternGraph ChainFromToReverse_alt_0_rec;
 
 
 		private Pattern_ChainFromToReverse()
@@ -5490,7 +5490,7 @@ namespace de.unika.ipd.grGen.Action_Recursive
 
 
 
-		GRGEN_LGSP.PatternGraph pat_ChainFromToReverseToCommon;
+		public GRGEN_LGSP.PatternGraph pat_ChainFromToReverseToCommon;
 
 		public enum ChainFromToReverseToCommon_alt_0_CaseNums { @base, @rec, };
 		public static GRGEN_LIBGR.EdgeType[] ChainFromToReverseToCommon_alt_0_base_edge__edge0_AllowedTypes = null;
@@ -5505,7 +5505,7 @@ namespace de.unika.ipd.grGen.Action_Recursive
 
 
 
-		GRGEN_LGSP.PatternGraph ChainFromToReverseToCommon_alt_0_base;
+		public GRGEN_LGSP.PatternGraph ChainFromToReverseToCommon_alt_0_base;
 
 		public static GRGEN_LIBGR.NodeType[] ChainFromToReverseToCommon_alt_0_rec_node_intermediate_AllowedTypes = null;
 		public static bool[] ChainFromToReverseToCommon_alt_0_rec_node_intermediate_IsAllowedType = null;
@@ -5521,7 +5521,7 @@ namespace de.unika.ipd.grGen.Action_Recursive
 
 
 
-		GRGEN_LGSP.PatternGraph ChainFromToReverseToCommon_alt_0_rec;
+		public GRGEN_LGSP.PatternGraph ChainFromToReverseToCommon_alt_0_rec;
 
 
 		private Pattern_ChainFromToReverseToCommon()
@@ -6233,7 +6233,7 @@ namespace de.unika.ipd.grGen.Action_Recursive
 
 
 
-		GRGEN_LGSP.PatternGraph pat_ReverseChainFromToToCommon;
+		public GRGEN_LGSP.PatternGraph pat_ReverseChainFromToToCommon;
 
 		public enum ReverseChainFromToToCommon_alt_0_CaseNums { @base, @rec, };
 		public static GRGEN_LIBGR.EdgeType[] ReverseChainFromToToCommon_alt_0_base_edge__edge0_AllowedTypes = null;
@@ -6249,7 +6249,7 @@ namespace de.unika.ipd.grGen.Action_Recursive
 
 
 
-		GRGEN_LGSP.PatternGraph ReverseChainFromToToCommon_alt_0_base;
+		public GRGEN_LGSP.PatternGraph ReverseChainFromToToCommon_alt_0_base;
 
 		public static GRGEN_LIBGR.NodeType[] ReverseChainFromToToCommon_alt_0_rec_node_intermediate_AllowedTypes = null;
 		public static bool[] ReverseChainFromToToCommon_alt_0_rec_node_intermediate_IsAllowedType = null;
@@ -6266,7 +6266,7 @@ namespace de.unika.ipd.grGen.Action_Recursive
 
 
 
-		GRGEN_LGSP.PatternGraph ReverseChainFromToToCommon_alt_0_rec;
+		public GRGEN_LGSP.PatternGraph ReverseChainFromToToCommon_alt_0_rec;
 
 
 		private Pattern_ReverseChainFromToToCommon()
@@ -6894,7 +6894,7 @@ namespace de.unika.ipd.grGen.Action_Recursive
 
 
 
-		GRGEN_LGSP.PatternGraph pat_createChain;
+		public GRGEN_LGSP.PatternGraph pat_createChain;
 
 
 		private Rule_createChain()
@@ -7095,7 +7095,7 @@ namespace de.unika.ipd.grGen.Action_Recursive
 
 
 
-		GRGEN_LGSP.PatternGraph pat_chainFromTo;
+		public GRGEN_LGSP.PatternGraph pat_chainFromTo;
 
 
 		private Rule_chainFromTo()
@@ -7301,7 +7301,7 @@ namespace de.unika.ipd.grGen.Action_Recursive
 
 
 
-		GRGEN_LGSP.PatternGraph pat_chainFrom;
+		public GRGEN_LGSP.PatternGraph pat_chainFrom;
 
 
 		private Rule_chainFrom()
@@ -7498,7 +7498,7 @@ namespace de.unika.ipd.grGen.Action_Recursive
 
 
 
-		GRGEN_LGSP.PatternGraph pat_chainFromComplete;
+		public GRGEN_LGSP.PatternGraph pat_chainFromComplete;
 
 
 		private Rule_chainFromComplete()
@@ -7695,7 +7695,7 @@ namespace de.unika.ipd.grGen.Action_Recursive
 
 
 
-		GRGEN_LGSP.PatternGraph pat_chainFromCompleteArbitraryPatternpathLocked;
+		public GRGEN_LGSP.PatternGraph pat_chainFromCompleteArbitraryPatternpathLocked;
 
 
 		private Rule_chainFromCompleteArbitraryPatternpathLocked()
@@ -7892,7 +7892,7 @@ namespace de.unika.ipd.grGen.Action_Recursive
 
 
 
-		GRGEN_LGSP.PatternGraph pat_chainFromCompleteArbitraryBaseAlwaysFailesByGoingBackwards;
+		public GRGEN_LGSP.PatternGraph pat_chainFromCompleteArbitraryBaseAlwaysFailesByGoingBackwards;
 
 
 		private Rule_chainFromCompleteArbitraryBaseAlwaysFailesByGoingBackwards()
@@ -8088,7 +8088,7 @@ namespace de.unika.ipd.grGen.Action_Recursive
 
 
 
-		GRGEN_LGSP.PatternGraph pat_createBlowball;
+		public GRGEN_LGSP.PatternGraph pat_createBlowball;
 
 
 		private Rule_createBlowball()
@@ -8289,7 +8289,7 @@ namespace de.unika.ipd.grGen.Action_Recursive
 
 
 
-		GRGEN_LGSP.PatternGraph pat_blowball;
+		public GRGEN_LGSP.PatternGraph pat_blowball;
 
 
 		private Rule_blowball()
@@ -8488,7 +8488,7 @@ namespace de.unika.ipd.grGen.Action_Recursive
 
 
 
-		GRGEN_LGSP.PatternGraph pat_reverseChainFromTo;
+		public GRGEN_LGSP.PatternGraph pat_reverseChainFromTo;
 
 
 		private Rule_reverseChainFromTo()
@@ -8693,7 +8693,7 @@ namespace de.unika.ipd.grGen.Action_Recursive
 
 
 
-		GRGEN_LGSP.PatternGraph pat_createReverseChain;
+		public GRGEN_LGSP.PatternGraph pat_createReverseChain;
 
 
 		private Rule_createReverseChain()
@@ -8895,7 +8895,7 @@ namespace de.unika.ipd.grGen.Action_Recursive
 
 
 
-		GRGEN_LGSP.PatternGraph pat_chainFromToReverse;
+		public GRGEN_LGSP.PatternGraph pat_chainFromToReverse;
 
 
 		private Rule_chainFromToReverse()
@@ -9112,7 +9112,7 @@ namespace de.unika.ipd.grGen.Action_Recursive
 
 
 
-		GRGEN_LGSP.PatternGraph pat_chainFromToReverseToCommon;
+		public GRGEN_LGSP.PatternGraph pat_chainFromToReverseToCommon;
 
 
 		private Rule_chainFromToReverseToCommon()
@@ -9334,7 +9334,7 @@ namespace de.unika.ipd.grGen.Action_Recursive
 
 
 
-		GRGEN_LGSP.PatternGraph pat_reverseChainFromToToCommon;
+		public GRGEN_LGSP.PatternGraph pat_reverseChainFromToToCommon;
 
 
 		private Rule_reverseChainFromToToCommon()
@@ -9652,7 +9652,7 @@ namespace de.unika.ipd.grGen.Action_Recursive
             patternpath_match_ChainFromTo._node_from = candidate_ChainFromTo_node_from;
             patternpath_match_ChainFromTo._node_to = candidate_ChainFromTo_node_to;
             // Push alternative matching task for ChainFromTo_alt_0
-            AlternativeAction_ChainFromTo_alt_0 taskFor_alt_0 = AlternativeAction_ChainFromTo_alt_0.getNewTask(graph, openTasks, patternGraph.alternatives[(int)Pattern_ChainFromTo.ChainFromTo_AltNums.@alt_0].alternativeCases);
+            AlternativeAction_ChainFromTo_alt_0 taskFor_alt_0 = AlternativeAction_ChainFromTo_alt_0.getNewTask(graph, openTasks, Pattern_ChainFromTo.Instance.patternGraph.alternatives[(int)Pattern_ChainFromTo.ChainFromTo_AltNums.@alt_0].alternativeCases);
             taskFor_alt_0.ChainFromTo_node_from = candidate_ChainFromTo_node_from;
             taskFor_alt_0.ChainFromTo_node_to = candidate_ChainFromTo_node_to;
             taskFor_alt_0.searchPatternpath = searchPatternpath;
@@ -10084,7 +10084,7 @@ namespace de.unika.ipd.grGen.Action_Recursive
             patternpath_match_ChainFrom._matchOfEnclosingPattern = matchOfNestingPattern;
             patternpath_match_ChainFrom._node_from = candidate_ChainFrom_node_from;
             // Push alternative matching task for ChainFrom_alt_0
-            AlternativeAction_ChainFrom_alt_0 taskFor_alt_0 = AlternativeAction_ChainFrom_alt_0.getNewTask(graph, openTasks, patternGraph.alternatives[(int)Pattern_ChainFrom.ChainFrom_AltNums.@alt_0].alternativeCases);
+            AlternativeAction_ChainFrom_alt_0 taskFor_alt_0 = AlternativeAction_ChainFrom_alt_0.getNewTask(graph, openTasks, Pattern_ChainFrom.Instance.patternGraph.alternatives[(int)Pattern_ChainFrom.ChainFrom_AltNums.@alt_0].alternativeCases);
             taskFor_alt_0.ChainFrom_node_from = candidate_ChainFrom_node_from;
             taskFor_alt_0.searchPatternpath = searchPatternpath;
             taskFor_alt_0.matchOfNestingPattern = patternpath_match_ChainFrom;
@@ -10443,7 +10443,7 @@ namespace de.unika.ipd.grGen.Action_Recursive
             patternpath_match_ChainFromComplete._matchOfEnclosingPattern = matchOfNestingPattern;
             patternpath_match_ChainFromComplete._node_from = candidate_ChainFromComplete_node_from;
             // Push alternative matching task for ChainFromComplete_alt_0
-            AlternativeAction_ChainFromComplete_alt_0 taskFor_alt_0 = AlternativeAction_ChainFromComplete_alt_0.getNewTask(graph, openTasks, patternGraph.alternatives[(int)Pattern_ChainFromComplete.ChainFromComplete_AltNums.@alt_0].alternativeCases);
+            AlternativeAction_ChainFromComplete_alt_0 taskFor_alt_0 = AlternativeAction_ChainFromComplete_alt_0.getNewTask(graph, openTasks, Pattern_ChainFromComplete.Instance.patternGraph.alternatives[(int)Pattern_ChainFromComplete.ChainFromComplete_AltNums.@alt_0].alternativeCases);
             taskFor_alt_0.ChainFromComplete_node_from = candidate_ChainFromComplete_node_from;
             taskFor_alt_0.searchPatternpath = searchPatternpath;
             taskFor_alt_0.matchOfNestingPattern = patternpath_match_ChainFromComplete;
@@ -10881,7 +10881,7 @@ label2: ;
             patternpath_match_ChainFromCompleteArbitraryPatternpathLocked._matchOfEnclosingPattern = matchOfNestingPattern;
             patternpath_match_ChainFromCompleteArbitraryPatternpathLocked._node_from = candidate_ChainFromCompleteArbitraryPatternpathLocked_node_from;
             // Push alternative matching task for ChainFromCompleteArbitraryPatternpathLocked_alt_0
-            AlternativeAction_ChainFromCompleteArbitraryPatternpathLocked_alt_0 taskFor_alt_0 = AlternativeAction_ChainFromCompleteArbitraryPatternpathLocked_alt_0.getNewTask(graph, openTasks, patternGraph.alternatives[(int)Pattern_ChainFromCompleteArbitraryPatternpathLocked.ChainFromCompleteArbitraryPatternpathLocked_AltNums.@alt_0].alternativeCases);
+            AlternativeAction_ChainFromCompleteArbitraryPatternpathLocked_alt_0 taskFor_alt_0 = AlternativeAction_ChainFromCompleteArbitraryPatternpathLocked_alt_0.getNewTask(graph, openTasks, Pattern_ChainFromCompleteArbitraryPatternpathLocked.Instance.patternGraph.alternatives[(int)Pattern_ChainFromCompleteArbitraryPatternpathLocked.ChainFromCompleteArbitraryPatternpathLocked_AltNums.@alt_0].alternativeCases);
             taskFor_alt_0.ChainFromCompleteArbitraryPatternpathLocked_node_from = candidate_ChainFromCompleteArbitraryPatternpathLocked_node_from;
             taskFor_alt_0.searchPatternpath = searchPatternpath;
             taskFor_alt_0.matchOfNestingPattern = patternpath_match_ChainFromCompleteArbitraryPatternpathLocked;
@@ -11348,7 +11348,7 @@ label5: ;
             patternpath_match_ChainFromCompleteArbitraryBaseAlwaysFailesByGoingBackwards._matchOfEnclosingPattern = matchOfNestingPattern;
             patternpath_match_ChainFromCompleteArbitraryBaseAlwaysFailesByGoingBackwards._node_from = candidate_ChainFromCompleteArbitraryBaseAlwaysFailesByGoingBackwards_node_from;
             // Push alternative matching task for ChainFromCompleteArbitraryBaseAlwaysFailesByGoingBackwards_alt_0
-            AlternativeAction_ChainFromCompleteArbitraryBaseAlwaysFailesByGoingBackwards_alt_0 taskFor_alt_0 = AlternativeAction_ChainFromCompleteArbitraryBaseAlwaysFailesByGoingBackwards_alt_0.getNewTask(graph, openTasks, patternGraph.alternatives[(int)Pattern_ChainFromCompleteArbitraryBaseAlwaysFailesByGoingBackwards.ChainFromCompleteArbitraryBaseAlwaysFailesByGoingBackwards_AltNums.@alt_0].alternativeCases);
+            AlternativeAction_ChainFromCompleteArbitraryBaseAlwaysFailesByGoingBackwards_alt_0 taskFor_alt_0 = AlternativeAction_ChainFromCompleteArbitraryBaseAlwaysFailesByGoingBackwards_alt_0.getNewTask(graph, openTasks, Pattern_ChainFromCompleteArbitraryBaseAlwaysFailesByGoingBackwards.Instance.patternGraph.alternatives[(int)Pattern_ChainFromCompleteArbitraryBaseAlwaysFailesByGoingBackwards.ChainFromCompleteArbitraryBaseAlwaysFailesByGoingBackwards_AltNums.@alt_0].alternativeCases);
             taskFor_alt_0.ChainFromCompleteArbitraryBaseAlwaysFailesByGoingBackwards_node_from = candidate_ChainFromCompleteArbitraryBaseAlwaysFailesByGoingBackwards_node_from;
             taskFor_alt_0.searchPatternpath = searchPatternpath;
             taskFor_alt_0.matchOfNestingPattern = patternpath_match_ChainFromCompleteArbitraryBaseAlwaysFailesByGoingBackwards;
@@ -11787,7 +11787,7 @@ label8: ;
             patternpath_match_Blowball._matchOfEnclosingPattern = matchOfNestingPattern;
             patternpath_match_Blowball._node_head = candidate_Blowball_node_head;
             // Push alternative matching task for Blowball_alt_0
-            AlternativeAction_Blowball_alt_0 taskFor_alt_0 = AlternativeAction_Blowball_alt_0.getNewTask(graph, openTasks, patternGraph.alternatives[(int)Pattern_Blowball.Blowball_AltNums.@alt_0].alternativeCases);
+            AlternativeAction_Blowball_alt_0 taskFor_alt_0 = AlternativeAction_Blowball_alt_0.getNewTask(graph, openTasks, Pattern_Blowball.Instance.patternGraph.alternatives[(int)Pattern_Blowball.Blowball_AltNums.@alt_0].alternativeCases);
             taskFor_alt_0.Blowball_node_head = candidate_Blowball_node_head;
             taskFor_alt_0.searchPatternpath = searchPatternpath;
             taskFor_alt_0.matchOfNestingPattern = patternpath_match_Blowball;
@@ -12257,7 +12257,7 @@ label11: ;
             patternpath_match_ReverseChainFromTo._node_from = candidate_ReverseChainFromTo_node_from;
             patternpath_match_ReverseChainFromTo._node_to = candidate_ReverseChainFromTo_node_to;
             // Push alternative matching task for ReverseChainFromTo_alt_0
-            AlternativeAction_ReverseChainFromTo_alt_0 taskFor_alt_0 = AlternativeAction_ReverseChainFromTo_alt_0.getNewTask(graph, openTasks, patternGraph.alternatives[(int)Pattern_ReverseChainFromTo.ReverseChainFromTo_AltNums.@alt_0].alternativeCases);
+            AlternativeAction_ReverseChainFromTo_alt_0 taskFor_alt_0 = AlternativeAction_ReverseChainFromTo_alt_0.getNewTask(graph, openTasks, Pattern_ReverseChainFromTo.Instance.patternGraph.alternatives[(int)Pattern_ReverseChainFromTo.ReverseChainFromTo_AltNums.@alt_0].alternativeCases);
             taskFor_alt_0.ReverseChainFromTo_node_to = candidate_ReverseChainFromTo_node_to;
             taskFor_alt_0.ReverseChainFromTo_node_from = candidate_ReverseChainFromTo_node_from;
             taskFor_alt_0.searchPatternpath = searchPatternpath;
@@ -12693,7 +12693,7 @@ label11: ;
             patternpath_match_ChainFromToReverse._node_from = candidate_ChainFromToReverse_node_from;
             patternpath_match_ChainFromToReverse._node_to = candidate_ChainFromToReverse_node_to;
             // Push alternative matching task for ChainFromToReverse_alt_0
-            AlternativeAction_ChainFromToReverse_alt_0 taskFor_alt_0 = AlternativeAction_ChainFromToReverse_alt_0.getNewTask(graph, openTasks, patternGraph.alternatives[(int)Pattern_ChainFromToReverse.ChainFromToReverse_AltNums.@alt_0].alternativeCases);
+            AlternativeAction_ChainFromToReverse_alt_0 taskFor_alt_0 = AlternativeAction_ChainFromToReverse_alt_0.getNewTask(graph, openTasks, Pattern_ChainFromToReverse.Instance.patternGraph.alternatives[(int)Pattern_ChainFromToReverse.ChainFromToReverse_AltNums.@alt_0].alternativeCases);
             taskFor_alt_0.ChainFromToReverse_node_from = candidate_ChainFromToReverse_node_from;
             taskFor_alt_0.ChainFromToReverse_node_to = candidate_ChainFromToReverse_node_to;
             taskFor_alt_0.searchPatternpath = searchPatternpath;
@@ -13129,7 +13129,7 @@ label11: ;
             patternpath_match_ChainFromToReverseToCommon._node_from = candidate_ChainFromToReverseToCommon_node_from;
             patternpath_match_ChainFromToReverseToCommon._node_to = candidate_ChainFromToReverseToCommon_node_to;
             // Push alternative matching task for ChainFromToReverseToCommon_alt_0
-            AlternativeAction_ChainFromToReverseToCommon_alt_0 taskFor_alt_0 = AlternativeAction_ChainFromToReverseToCommon_alt_0.getNewTask(graph, openTasks, patternGraph.alternatives[(int)Pattern_ChainFromToReverseToCommon.ChainFromToReverseToCommon_AltNums.@alt_0].alternativeCases);
+            AlternativeAction_ChainFromToReverseToCommon_alt_0 taskFor_alt_0 = AlternativeAction_ChainFromToReverseToCommon_alt_0.getNewTask(graph, openTasks, Pattern_ChainFromToReverseToCommon.Instance.patternGraph.alternatives[(int)Pattern_ChainFromToReverseToCommon.ChainFromToReverseToCommon_AltNums.@alt_0].alternativeCases);
             taskFor_alt_0.ChainFromToReverseToCommon_node_from = candidate_ChainFromToReverseToCommon_node_from;
             taskFor_alt_0.ChainFromToReverseToCommon_node_to = candidate_ChainFromToReverseToCommon_node_to;
             taskFor_alt_0.searchPatternpath = searchPatternpath;
@@ -13569,7 +13569,7 @@ label11: ;
             patternpath_match_ReverseChainFromToToCommon._node_to = candidate_ReverseChainFromToToCommon_node_to;
             patternpath_match_ReverseChainFromToToCommon._node_common = candidate_ReverseChainFromToToCommon_node_common;
             // Push alternative matching task for ReverseChainFromToToCommon_alt_0
-            AlternativeAction_ReverseChainFromToToCommon_alt_0 taskFor_alt_0 = AlternativeAction_ReverseChainFromToToCommon_alt_0.getNewTask(graph, openTasks, patternGraph.alternatives[(int)Pattern_ReverseChainFromToToCommon.ReverseChainFromToToCommon_AltNums.@alt_0].alternativeCases);
+            AlternativeAction_ReverseChainFromToToCommon_alt_0 taskFor_alt_0 = AlternativeAction_ReverseChainFromToToCommon_alt_0.getNewTask(graph, openTasks, Pattern_ReverseChainFromToToCommon.Instance.patternGraph.alternatives[(int)Pattern_ReverseChainFromToToCommon.ReverseChainFromToToCommon_AltNums.@alt_0].alternativeCases);
             taskFor_alt_0.ReverseChainFromToToCommon_node_to = candidate_ReverseChainFromToToCommon_node_to;
             taskFor_alt_0.ReverseChainFromToToCommon_node_from = candidate_ReverseChainFromToToCommon_node_from;
             taskFor_alt_0.ReverseChainFromToToCommon_node_common = candidate_ReverseChainFromToToCommon_node_common;

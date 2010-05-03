@@ -1,6 +1,6 @@
 // This file has been generated automatically by GrGen (www.grgen.net)
 // Do not modify this file! Any changes will be lost!
-// Generated from "..\..\tests\TNT\TNT.grg" on Sun Apr 25 15:45:10 CEST 2010
+// Generated from "..\..\tests\TNT\TNT.grg" on Mon May 03 01:43:44 CEST 2010
 
 using System;
 using System.Collections.Generic;
@@ -1351,7 +1351,6 @@ namespace de.unika.ipd.grGen.Model_TNT
 	//
 	// IGraphModel implementation
 	//
-
 	public sealed class TNTGraphModel : GRGEN_LIBGR.IGraphModel
 	{
 		private TNTNodeModel nodeModel = new TNTNodeModel();
@@ -1368,13 +1367,13 @@ namespace de.unika.ipd.grGen.Model_TNT
 		public IEnumerable<GRGEN_LIBGR.EnumAttributeType> EnumAttributeTypes { get { return enumAttributeTypes; } }
 		public string MD5Hash { get { return "6589f1c2ac770b020a3debe9eff7e74d"; } }
 	}
+
 	//
 	// IGraph/IGraphModel implementation
 	//
-
-	public class TNT : GRGEN_LGSP.LGSPGraph, GRGEN_LIBGR.IGraphModel
+	public class TNTGraph : GRGEN_LGSP.LGSPGraph, GRGEN_LIBGR.IGraphModel
 	{
-		public TNT() : base(GetNextGraphName())
+		public TNTGraph() : base(GetNextGraphName())
 		{
 			InitializeGraph(this);
 		}

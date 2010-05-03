@@ -1,6 +1,6 @@
 // This file has been generated automatically by GrGen (www.grgen.net)
 // Do not modify this file! Any changes will be lost!
-// Generated from "..\..\tests\edge1\edge1.grg" on Sun Apr 25 15:44:47 CEST 2010
+// Generated from "..\..\tests\edge1\edge1.grg" on Mon May 03 01:42:56 CEST 2010
 
 using System;
 using System.Collections.Generic;
@@ -28,7 +28,7 @@ namespace de.unika.ipd.grGen.Action_edge1
 
 
 
-		GRGEN_LGSP.PatternGraph pat_init;
+		public GRGEN_LGSP.PatternGraph pat_init;
 
 
 		private Rule_init()
@@ -220,7 +220,7 @@ namespace de.unika.ipd.grGen.Action_edge1
 
 
 
-		GRGEN_LGSP.PatternGraph pat_init2;
+		public GRGEN_LGSP.PatternGraph pat_init2;
 
 
 		private Rule_init2()
@@ -410,7 +410,7 @@ namespace de.unika.ipd.grGen.Action_edge1
 
 
 
-		GRGEN_LGSP.PatternGraph pat_init3;
+		public GRGEN_LGSP.PatternGraph pat_init3;
 
 
 		private Rule_init3()
@@ -607,7 +607,7 @@ namespace de.unika.ipd.grGen.Action_edge1
 
 
 
-		GRGEN_LGSP.PatternGraph pat_findUndirectedEdge;
+		public GRGEN_LGSP.PatternGraph pat_findUndirectedEdge;
 
 
 		private Rule_findUndirectedEdge()
@@ -816,7 +816,7 @@ namespace de.unika.ipd.grGen.Action_edge1
 
 
 
-		GRGEN_LGSP.PatternGraph pat_findArbitraryEdge;
+		public GRGEN_LGSP.PatternGraph pat_findArbitraryEdge;
 
 
 		private Rule_findArbitraryEdge()
@@ -1025,7 +1025,7 @@ namespace de.unika.ipd.grGen.Action_edge1
 
 
 
-		GRGEN_LGSP.PatternGraph pat_findArbitraryDirectedEdge;
+		public GRGEN_LGSP.PatternGraph pat_findArbitraryDirectedEdge;
 
 
 		private Rule_findArbitraryDirectedEdge()
@@ -1232,7 +1232,7 @@ namespace de.unika.ipd.grGen.Action_edge1
 
 
 
-		GRGEN_LGSP.PatternGraph pat_findArbitraryDirectedReflexiveEdge;
+		public GRGEN_LGSP.PatternGraph pat_findArbitraryDirectedReflexiveEdge;
 
 
 		private Rule_findArbitraryDirectedReflexiveEdge()
@@ -1435,7 +1435,7 @@ namespace de.unika.ipd.grGen.Action_edge1
 
 
 
-		GRGEN_LGSP.PatternGraph pat_findArbitraryDirectedReflexiveEdgeAfterUndirectedOne;
+		public GRGEN_LGSP.PatternGraph pat_findArbitraryDirectedReflexiveEdgeAfterUndirectedOne;
 
 
 		private Rule_findArbitraryDirectedReflexiveEdgeAfterUndirectedOne()
@@ -1658,7 +1658,7 @@ namespace de.unika.ipd.grGen.Action_edge1
 
 
 
-		GRGEN_LGSP.PatternGraph pat_findArbitraryDirectedTriple;
+		public GRGEN_LGSP.PatternGraph pat_findArbitraryDirectedTriple;
 
 
 		private Rule_findArbitraryDirectedTriple()
@@ -1885,7 +1885,7 @@ namespace de.unika.ipd.grGen.Action_edge1
 
 
 
-		GRGEN_LGSP.PatternGraph pat_findDirectedEdge;
+		public GRGEN_LGSP.PatternGraph pat_findDirectedEdge;
 
 
 		private Rule_findDirectedEdge()
@@ -2100,7 +2100,7 @@ namespace de.unika.ipd.grGen.Action_edge1
 
 
 
-		GRGEN_LGSP.PatternGraph pat_findTripleCircle;
+		public GRGEN_LGSP.PatternGraph pat_findTripleCircle;
 
 
 		private Rule_findTripleCircle()

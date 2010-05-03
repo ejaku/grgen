@@ -1,6 +1,6 @@
 // This file has been generated automatically by GrGen (www.grgen.net)
 // Do not modify this file! Any changes will be lost!
-// Generated from "..\..\tests\TNT\TNT.grg" on Sun Apr 25 15:45:10 CEST 2010
+// Generated from "..\..\tests\TNT\TNT.grg" on Mon May 03 01:43:44 CEST 2010
 
 using System;
 using System.Collections.Generic;
@@ -57,7 +57,7 @@ namespace de.unika.ipd.grGen.Action_TNT
 
 
 
-		GRGEN_LGSP.PatternGraph pat_BenzolRing;
+		public GRGEN_LGSP.PatternGraph pat_BenzolRing;
 
 
 		private Pattern_BenzolRing()
@@ -452,7 +452,7 @@ namespace de.unika.ipd.grGen.Action_TNT
 
 
 
-		GRGEN_LGSP.PatternGraph pat_BenzolRingC123456Exposed;
+		public GRGEN_LGSP.PatternGraph pat_BenzolRingC123456Exposed;
 
 
 		private Pattern_BenzolRingC123456Exposed()
@@ -823,7 +823,7 @@ namespace de.unika.ipd.grGen.Action_TNT
 
 
 
-		GRGEN_LGSP.PatternGraph pat_BenzolRingC1Exposed;
+		public GRGEN_LGSP.PatternGraph pat_BenzolRingC1Exposed;
 
 
 		private Pattern_BenzolRingC1Exposed()
@@ -1214,7 +1214,7 @@ namespace de.unika.ipd.grGen.Action_TNT
 
 
 
-		GRGEN_LGSP.PatternGraph pat_BenzolRingC1ExposedNotC6Nitro;
+		public GRGEN_LGSP.PatternGraph pat_BenzolRingC1ExposedNotC6Nitro;
 
 		public static GRGEN_LIBGR.NodeType[] BenzolRingC1ExposedNotC6Nitro_neg_0_node_n_AllowedTypes = null;
 		public static GRGEN_LIBGR.NodeType[] BenzolRingC1ExposedNotC6Nitro_neg_0_node__node0_AllowedTypes = null;
@@ -1235,7 +1235,7 @@ namespace de.unika.ipd.grGen.Action_TNT
 		public enum BenzolRingC1ExposedNotC6Nitro_neg_0_AltNums { };
 		public enum BenzolRingC1ExposedNotC6Nitro_neg_0_IterNums { };
 
-		GRGEN_LGSP.PatternGraph BenzolRingC1ExposedNotC6Nitro_neg_0;
+		public GRGEN_LGSP.PatternGraph BenzolRingC1ExposedNotC6Nitro_neg_0;
 
 
 		private Pattern_BenzolRingC1ExposedNotC6Nitro()
@@ -1793,7 +1793,7 @@ namespace de.unika.ipd.grGen.Action_TNT
 
 
 
-		GRGEN_LGSP.PatternGraph pat_Oxygen;
+		public GRGEN_LGSP.PatternGraph pat_Oxygen;
 
 
 		private Pattern_Oxygen()
@@ -2025,7 +2025,7 @@ namespace de.unika.ipd.grGen.Action_TNT
 
 
 
-		GRGEN_LGSP.PatternGraph pat_Hydrogen;
+		public GRGEN_LGSP.PatternGraph pat_Hydrogen;
 
 
 		private Pattern_Hydrogen()
@@ -2244,7 +2244,7 @@ namespace de.unika.ipd.grGen.Action_TNT
 
 
 
-		GRGEN_LGSP.PatternGraph pat_Hydroxyl;
+		public GRGEN_LGSP.PatternGraph pat_Hydroxyl;
 
 
 		private Pattern_Hydroxyl()
@@ -2496,7 +2496,7 @@ namespace de.unika.ipd.grGen.Action_TNT
 
 
 
-		GRGEN_LGSP.PatternGraph pat_Methyl;
+		public GRGEN_LGSP.PatternGraph pat_Methyl;
 
 
 		private Pattern_Methyl()
@@ -2794,7 +2794,7 @@ namespace de.unika.ipd.grGen.Action_TNT
 
 
 
-		GRGEN_LGSP.PatternGraph pat_Nitro;
+		public GRGEN_LGSP.PatternGraph pat_Nitro;
 
 
 		private Pattern_Nitro()
@@ -3059,7 +3059,7 @@ namespace de.unika.ipd.grGen.Action_TNT
 
 
 
-		GRGEN_LGSP.PatternGraph pat_TriNitro;
+		public GRGEN_LGSP.PatternGraph pat_TriNitro;
 
 
 		private Pattern_TriNitro()
@@ -3308,7 +3308,7 @@ namespace de.unika.ipd.grGen.Action_TNT
 
 
 
-		GRGEN_LGSP.PatternGraph pat_ToluolCoreThenTriNitro;
+		public GRGEN_LGSP.PatternGraph pat_ToluolCoreThenTriNitro;
 
 
 		private Pattern_ToluolCoreThenTriNitro()
@@ -3584,7 +3584,7 @@ namespace de.unika.ipd.grGen.Action_TNT
 
 
 
-		GRGEN_LGSP.PatternGraph pat_BenzolRing;
+		public GRGEN_LGSP.PatternGraph pat_BenzolRing;
 
 
 		private Rule_BenzolRing()
@@ -3780,7 +3780,7 @@ namespace de.unika.ipd.grGen.Action_TNT
 
 
 
-		GRGEN_LGSP.PatternGraph pat_TNTTotallyFolded;
+		public GRGEN_LGSP.PatternGraph pat_TNTTotallyFolded;
 
 
 		private Rule_TNTTotallyFolded()
@@ -4104,7 +4104,7 @@ namespace de.unika.ipd.grGen.Action_TNT
 
 
 
-		GRGEN_LGSP.PatternGraph pat_TNTChain;
+		public GRGEN_LGSP.PatternGraph pat_TNTChain;
 
 
 		private Rule_TNTChain()
@@ -4363,7 +4363,7 @@ namespace de.unika.ipd.grGen.Action_TNT
 
 
 
-		GRGEN_LGSP.PatternGraph pat_ToluolCore;
+		public GRGEN_LGSP.PatternGraph pat_ToluolCore;
 
 
 		private Rule_ToluolCore()
@@ -4572,7 +4572,7 @@ namespace de.unika.ipd.grGen.Action_TNT
 
 
 
-		GRGEN_LGSP.PatternGraph pat_ToluolCoreNotC6Nitro;
+		public GRGEN_LGSP.PatternGraph pat_ToluolCoreNotC6Nitro;
 
 
 		private Rule_ToluolCoreNotC6Nitro()
@@ -4791,7 +4791,7 @@ namespace de.unika.ipd.grGen.Action_TNT
 
 
 
-		GRGEN_LGSP.PatternGraph pat_Toluol;
+		public GRGEN_LGSP.PatternGraph pat_Toluol;
 
 
 		private Rule_Toluol()
@@ -5133,7 +5133,7 @@ namespace de.unika.ipd.grGen.Action_TNT
 
 
 
-		GRGEN_LGSP.PatternGraph pat_TNT;
+		public GRGEN_LGSP.PatternGraph pat_TNT;
 
 
 		private Rule_TNT()
@@ -5610,7 +5610,7 @@ namespace de.unika.ipd.grGen.Action_TNT
 
 
 
-		GRGEN_LGSP.PatternGraph pat_TNTUnfolded;
+		public GRGEN_LGSP.PatternGraph pat_TNTUnfolded;
 
 
 		private Rule_TNTUnfolded()
@@ -6196,7 +6196,7 @@ namespace de.unika.ipd.grGen.Action_TNT
 
 
 
-		GRGEN_LGSP.PatternGraph pat_createTNT;
+		public GRGEN_LGSP.PatternGraph pat_createTNT;
 
 
 		private Rule_createTNT()
@@ -6495,7 +6495,7 @@ namespace de.unika.ipd.grGen.Action_TNT
 
 
 
-		GRGEN_LGSP.PatternGraph pat_DNT;
+		public GRGEN_LGSP.PatternGraph pat_DNT;
 
 
 		private Rule_DNT()
@@ -6964,7 +6964,7 @@ namespace de.unika.ipd.grGen.Action_TNT
 
 
 
-		GRGEN_LGSP.PatternGraph pat_DNTUnfolded;
+		public GRGEN_LGSP.PatternGraph pat_DNTUnfolded;
 
 
 		private Rule_DNTUnfolded()
@@ -7514,7 +7514,7 @@ namespace de.unika.ipd.grGen.Action_TNT
 
 
 
-		GRGEN_LGSP.PatternGraph pat_createDNT;
+		public GRGEN_LGSP.PatternGraph pat_createDNT;
 
 
 		private Rule_createDNT()
@@ -7805,7 +7805,7 @@ namespace de.unika.ipd.grGen.Action_TNT
 
 
 
-		GRGEN_LGSP.PatternGraph pat_TNB;
+		public GRGEN_LGSP.PatternGraph pat_TNB;
 
 
 		private Rule_TNB()
@@ -8270,7 +8270,7 @@ namespace de.unika.ipd.grGen.Action_TNT
 
 
 
-		GRGEN_LGSP.PatternGraph pat_TNBUnfolded;
+		public GRGEN_LGSP.PatternGraph pat_TNBUnfolded;
 
 
 		private Rule_TNBUnfolded()
@@ -8802,7 +8802,7 @@ namespace de.unika.ipd.grGen.Action_TNT
 
 
 
-		GRGEN_LGSP.PatternGraph pat_createTNB;
+		public GRGEN_LGSP.PatternGraph pat_createTNB;
 
 
 		private Rule_createTNB()
@@ -9060,7 +9060,7 @@ namespace de.unika.ipd.grGen.Action_TNT
 
 
 
-		GRGEN_LGSP.PatternGraph pat_keepBenzolRingPattern;
+		public GRGEN_LGSP.PatternGraph pat_keepBenzolRingPattern;
 
 
 		private Rule_keepBenzolRingPattern()
@@ -9251,7 +9251,7 @@ namespace de.unika.ipd.grGen.Action_TNT
 
 
 
-		GRGEN_LGSP.PatternGraph pat_createBenzolRingPattern;
+		public GRGEN_LGSP.PatternGraph pat_createBenzolRingPattern;
 
 
 		private Rule_createBenzolRingPattern()
@@ -9433,7 +9433,7 @@ namespace de.unika.ipd.grGen.Action_TNT
 
 
 
-		GRGEN_LGSP.PatternGraph pat_deleteBenzolRingPattern;
+		public GRGEN_LGSP.PatternGraph pat_deleteBenzolRingPattern;
 
 
 		private Rule_deleteBenzolRingPattern()
@@ -9626,7 +9626,7 @@ namespace de.unika.ipd.grGen.Action_TNT
 
 
 
-		GRGEN_LGSP.PatternGraph pat_deleteInModifyBenzolRingPattern;
+		public GRGEN_LGSP.PatternGraph pat_deleteInModifyBenzolRingPattern;
 
 
 		private Rule_deleteInModifyBenzolRingPattern()

@@ -1,0 +1,5 @@
+using same;
+
+test foo
+{
+}

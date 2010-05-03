@@ -3687,7 +3687,8 @@ namespace de.unika.ipd.grGen.lgsp
                 // create matching task for alternative
                 variableContainingTask = NamesOfEntities.TaskVariable(AlternativeOrIteratedName, NegativeIndependentNamePrefix);
                 string typeOfVariableContainingTask = NamesOfEntities.TypeOfTaskVariable(PathPrefix + AlternativeOrIteratedName, true, false);
-                string alternativeCases = "patternGraph.alternatives[(int)" + RulePatternClassName + "."
+                string patternGraphPath = RulePatternClassName + ".Instance." + (NegativeIndependentNamePrefix!="" ? PathPrefix.Substring(0, PathPrefix.Length-1) : "patternGraph");
+                string alternativeCases = patternGraphPath + ".alternatives[(int)" + RulePatternClassName + "."
                     + PathPrefix + "AltNums.@" + AlternativeOrIteratedName + "].alternativeCases";
                 sourceCode.AppendFrontFormat("{0} {1} = {0}.getNewTask(graph, {2}openTasks, {3});\n",
                     typeOfVariableContainingTask, variableContainingTask, NegativeIndependentNamePrefix, alternativeCases);

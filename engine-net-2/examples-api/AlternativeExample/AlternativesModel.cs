@@ -1,6 +1,6 @@
 // This file has been generated automatically by GrGen (www.grgen.net)
 // Do not modify this file! Any changes will be lost!
-// Generated from "..\..\tests\alternatives\Alternatives.grg" on Sun Apr 25 15:44:36 CEST 2010
+// Generated from "..\..\tests\alternatives\Alternatives.grg" on Mon May 03 01:42:36 CEST 2010
 
 using System;
 using System.Collections.Generic;
@@ -943,7 +943,6 @@ namespace de.unika.ipd.grGen.Model_Alternatives
 	//
 	// IGraphModel implementation
 	//
-
 	public sealed class AlternativesGraphModel : GRGEN_LIBGR.IGraphModel
 	{
 		private AlternativesNodeModel nodeModel = new AlternativesNodeModel();
@@ -960,13 +959,13 @@ namespace de.unika.ipd.grGen.Model_Alternatives
 		public IEnumerable<GRGEN_LIBGR.EnumAttributeType> EnumAttributeTypes { get { return enumAttributeTypes; } }
 		public string MD5Hash { get { return "9318fc8b892e7676373a2a9f05e2f491"; } }
 	}
+
 	//
 	// IGraph/IGraphModel implementation
 	//
-
-	public class Alternatives : GRGEN_LGSP.LGSPGraph, GRGEN_LIBGR.IGraphModel
+	public class AlternativesGraph : GRGEN_LGSP.LGSPGraph, GRGEN_LIBGR.IGraphModel
 	{
-		public Alternatives() : base(GetNextGraphName())
+		public AlternativesGraph() : base(GetNextGraphName())
 		{
 			InitializeGraph(this);
 		}

@@ -1,6 +1,6 @@
 // This file has been generated automatically by GrGen (www.grgen.net)
 // Do not modify this file! Any changes will be lost!
-// Generated from "..\..\examples\JavaProgramGraphs-GraBaTs08\JavaProgramGraphs.grg" on Sun Apr 25 15:44:56 CEST 2010
+// Generated from "..\..\examples\JavaProgramGraphs-GraBaTs08\JavaProgramGraphs.grg" on Mon May 03 01:43:14 CEST 2010
 
 using System;
 using System.Collections.Generic;
@@ -5545,7 +5545,6 @@ namespace de.unika.ipd.grGen.Model_JavaProgramGraphs
 	//
 	// IGraphModel implementation
 	//
-
 	public sealed class JavaProgramGraphsGraphModel : GRGEN_LIBGR.IGraphModel
 	{
 		private JavaProgramGraphsNodeModel nodeModel = new JavaProgramGraphsNodeModel();
@@ -5562,13 +5561,13 @@ namespace de.unika.ipd.grGen.Model_JavaProgramGraphs
 		public IEnumerable<GRGEN_LIBGR.EnumAttributeType> EnumAttributeTypes { get { return enumAttributeTypes; } }
 		public string MD5Hash { get { return "8fd694f4f8cc691f8759cb852bb0c81c"; } }
 	}
+
 	//
 	// IGraph/IGraphModel implementation
 	//
-
-	public class JavaProgramGraphs : GRGEN_LGSP.LGSPGraph, GRGEN_LIBGR.IGraphModel
+	public class JavaProgramGraphsGraph : GRGEN_LGSP.LGSPGraph, GRGEN_LIBGR.IGraphModel
 	{
-		public JavaProgramGraphs() : base(GetNextGraphName())
+		public JavaProgramGraphsGraph() : base(GetNextGraphName())
 		{
 			InitializeGraph(this);
 		}

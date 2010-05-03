@@ -1,6 +1,6 @@
 // This file has been generated automatically by GrGen (www.grgen.net)
 // Do not modify this file! Any changes will be lost!
-// Generated from "..\..\examples\Mutex\MutexPimped.grg" on Sun Apr 25 15:45:01 CEST 2010
+// Generated from "..\..\examples\Mutex\MutexPimped.grg" on Mon May 03 01:43:25 CEST 2010
 
 using System;
 using System.Collections.Generic;
@@ -34,7 +34,7 @@ namespace de.unika.ipd.grGen.Action_MutexPimped
 
 
 
-		GRGEN_LGSP.PatternGraph pat_newRule;
+		public GRGEN_LGSP.PatternGraph pat_newRule;
 
 
 		private Rule_newRule()
@@ -278,7 +278,7 @@ namespace de.unika.ipd.grGen.Action_MutexPimped
 
 
 
-		GRGEN_LGSP.PatternGraph pat_killRule;
+		public GRGEN_LGSP.PatternGraph pat_killRule;
 
 
 		private Rule_killRule()
@@ -538,7 +538,7 @@ namespace de.unika.ipd.grGen.Action_MutexPimped
 
 
 
-		GRGEN_LGSP.PatternGraph pat_mountRule;
+		public GRGEN_LGSP.PatternGraph pat_mountRule;
 
 
 		private Rule_mountRule()
@@ -740,7 +740,7 @@ namespace de.unika.ipd.grGen.Action_MutexPimped
 
 
 
-		GRGEN_LGSP.PatternGraph pat_unmountRule;
+		public GRGEN_LGSP.PatternGraph pat_unmountRule;
 
 
 		private Rule_unmountRule()
@@ -970,7 +970,7 @@ namespace de.unika.ipd.grGen.Action_MutexPimped
 
 
 
-		GRGEN_LGSP.PatternGraph pat_passRule;
+		public GRGEN_LGSP.PatternGraph pat_passRule;
 
 		public static GRGEN_LIBGR.EdgeType[] passRule_neg_0_edge_req_AllowedTypes = null;
 		public static bool[] passRule_neg_0_edge_req_IsAllowedType = null;
@@ -981,7 +981,7 @@ namespace de.unika.ipd.grGen.Action_MutexPimped
 		public enum passRule_neg_0_AltNums { };
 		public enum passRule_neg_0_IterNums { };
 
-		GRGEN_LGSP.PatternGraph passRule_neg_0;
+		public GRGEN_LGSP.PatternGraph passRule_neg_0;
 
 
 		private Rule_passRule()
@@ -1384,7 +1384,7 @@ namespace de.unika.ipd.grGen.Action_MutexPimped
 
 
 
-		GRGEN_LGSP.PatternGraph pat_requestRule;
+		public GRGEN_LGSP.PatternGraph pat_requestRule;
 
 		public static GRGEN_LIBGR.EdgeType[] requestRule_neg_0_edge_hb_AllowedTypes = null;
 		public static bool[] requestRule_neg_0_edge_hb_IsAllowedType = null;
@@ -1395,7 +1395,7 @@ namespace de.unika.ipd.grGen.Action_MutexPimped
 		public enum requestRule_neg_0_AltNums { };
 		public enum requestRule_neg_0_IterNums { };
 
-		GRGEN_LGSP.PatternGraph requestRule_neg_0;
+		public GRGEN_LGSP.PatternGraph requestRule_neg_0;
 
 		public static GRGEN_LIBGR.NodeType[] requestRule_neg_1_node_m_AllowedTypes = null;
 		public static bool[] requestRule_neg_1_node_m_IsAllowedType = null;
@@ -1408,7 +1408,7 @@ namespace de.unika.ipd.grGen.Action_MutexPimped
 		public enum requestRule_neg_1_AltNums { };
 		public enum requestRule_neg_1_IterNums { };
 
-		GRGEN_LGSP.PatternGraph requestRule_neg_1;
+		public GRGEN_LGSP.PatternGraph requestRule_neg_1;
 
 
 		private Rule_requestRule()
@@ -1924,7 +1924,7 @@ namespace de.unika.ipd.grGen.Action_MutexPimped
 
 
 
-		GRGEN_LGSP.PatternGraph pat_takeRule;
+		public GRGEN_LGSP.PatternGraph pat_takeRule;
 
 
 		private Rule_takeRule()
@@ -2164,7 +2164,7 @@ namespace de.unika.ipd.grGen.Action_MutexPimped
 
 
 
-		GRGEN_LGSP.PatternGraph pat_releaseRule;
+		public GRGEN_LGSP.PatternGraph pat_releaseRule;
 
 		public static GRGEN_LIBGR.NodeType[] releaseRule_neg_0_node_m_AllowedTypes = null;
 		public static bool[] releaseRule_neg_0_node_m_IsAllowedType = null;
@@ -2177,7 +2177,7 @@ namespace de.unika.ipd.grGen.Action_MutexPimped
 		public enum releaseRule_neg_0_AltNums { };
 		public enum releaseRule_neg_0_IterNums { };
 
-		GRGEN_LGSP.PatternGraph releaseRule_neg_0;
+		public GRGEN_LGSP.PatternGraph releaseRule_neg_0;
 
 
 		private Rule_releaseRule()
@@ -2560,7 +2560,7 @@ namespace de.unika.ipd.grGen.Action_MutexPimped
 
 
 
-		GRGEN_LGSP.PatternGraph pat_giveRule;
+		public GRGEN_LGSP.PatternGraph pat_giveRule;
 
 
 		private Rule_giveRule()
@@ -2808,7 +2808,7 @@ namespace de.unika.ipd.grGen.Action_MutexPimped
 
 
 
-		GRGEN_LGSP.PatternGraph pat_blockedRule;
+		public GRGEN_LGSP.PatternGraph pat_blockedRule;
 
 
 		private Rule_blockedRule()
@@ -3058,7 +3058,7 @@ namespace de.unika.ipd.grGen.Action_MutexPimped
 
 
 
-		GRGEN_LGSP.PatternGraph pat_waitingRule;
+		public GRGEN_LGSP.PatternGraph pat_waitingRule;
 
 
 		private Rule_waitingRule()
@@ -3344,7 +3344,7 @@ namespace de.unika.ipd.grGen.Action_MutexPimped
 
 
 
-		GRGEN_LGSP.PatternGraph pat_ignoreRule;
+		public GRGEN_LGSP.PatternGraph pat_ignoreRule;
 
 		public static GRGEN_LIBGR.NodeType[] ignoreRule_neg_0_node_m_AllowedTypes = null;
 		public static bool[] ignoreRule_neg_0_node_m_IsAllowedType = null;
@@ -3357,7 +3357,7 @@ namespace de.unika.ipd.grGen.Action_MutexPimped
 		public enum ignoreRule_neg_0_AltNums { };
 		public enum ignoreRule_neg_0_IterNums { };
 
-		GRGEN_LGSP.PatternGraph ignoreRule_neg_0;
+		public GRGEN_LGSP.PatternGraph ignoreRule_neg_0;
 
 
 		private Rule_ignoreRule()
@@ -3732,7 +3732,7 @@ namespace de.unika.ipd.grGen.Action_MutexPimped
 
 
 
-		GRGEN_LGSP.PatternGraph pat_unlockRule;
+		public GRGEN_LGSP.PatternGraph pat_unlockRule;
 
 
 		private Rule_unlockRule()
@@ -3980,7 +3980,7 @@ namespace de.unika.ipd.grGen.Action_MutexPimped
 
 
 
-		GRGEN_LGSP.PatternGraph pat_requestStarRule;
+		public GRGEN_LGSP.PatternGraph pat_requestStarRule;
 
 		public static GRGEN_LIBGR.EdgeType[] requestStarRule_neg_0_edge_req_AllowedTypes = null;
 		public static bool[] requestStarRule_neg_0_edge_req_IsAllowedType = null;
@@ -3991,7 +3991,7 @@ namespace de.unika.ipd.grGen.Action_MutexPimped
 		public enum requestStarRule_neg_0_AltNums { };
 		public enum requestStarRule_neg_0_IterNums { };
 
-		GRGEN_LGSP.PatternGraph requestStarRule_neg_0;
+		public GRGEN_LGSP.PatternGraph requestStarRule_neg_0;
 
 
 		private Rule_requestStarRule()
@@ -4408,7 +4408,7 @@ namespace de.unika.ipd.grGen.Action_MutexPimped
 
 
 
-		GRGEN_LGSP.PatternGraph pat_releaseStarRule;
+		public GRGEN_LGSP.PatternGraph pat_releaseStarRule;
 
 
 		private Rule_releaseStarRule()
@@ -4670,7 +4670,7 @@ namespace de.unika.ipd.grGen.Action_MutexPimped
 
 
 
-		GRGEN_LGSP.PatternGraph pat_requestSimpleRule;
+		public GRGEN_LGSP.PatternGraph pat_requestSimpleRule;
 
 		public static GRGEN_LIBGR.EdgeType[] requestSimpleRule_neg_0_edge_req_AllowedTypes = null;
 		public static bool[] requestSimpleRule_neg_0_edge_req_IsAllowedType = null;
@@ -4681,7 +4681,7 @@ namespace de.unika.ipd.grGen.Action_MutexPimped
 		public enum requestSimpleRule_neg_0_AltNums { };
 		public enum requestSimpleRule_neg_0_IterNums { };
 
-		GRGEN_LGSP.PatternGraph requestSimpleRule_neg_0;
+		public GRGEN_LGSP.PatternGraph requestSimpleRule_neg_0;
 
 
 		private Rule_requestSimpleRule()
@@ -5050,7 +5050,7 @@ namespace de.unika.ipd.grGen.Action_MutexPimped
 
 
 
-		GRGEN_LGSP.PatternGraph pat_aux_attachResource;
+		public GRGEN_LGSP.PatternGraph pat_aux_attachResource;
 
 		public static GRGEN_LIBGR.NodeType[] aux_attachResource_neg_0_node_r_AllowedTypes = null;
 		public static bool[] aux_attachResource_neg_0_node_r_IsAllowedType = null;
@@ -5063,7 +5063,7 @@ namespace de.unika.ipd.grGen.Action_MutexPimped
 		public enum aux_attachResource_neg_0_AltNums { };
 		public enum aux_attachResource_neg_0_IterNums { };
 
-		GRGEN_LGSP.PatternGraph aux_attachResource_neg_0;
+		public GRGEN_LGSP.PatternGraph aux_attachResource_neg_0;
 
 
 		private Rule_aux_attachResource()

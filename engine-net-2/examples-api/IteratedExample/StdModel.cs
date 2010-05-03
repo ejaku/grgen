@@ -1,6 +1,6 @@
 // This file has been generated automatically by GrGen (www.grgen.net)
 // Do not modify this file! Any changes will be lost!
-// Generated from "..\..\tests\iterated\spanningTree.grg" on Sun Apr 25 15:44:52 CEST 2010
+// Generated from "..\..\tests\iterated\spanningTree.grg" on Mon May 03 01:43:09 CEST 2010
 
 using System;
 using System.Collections.Generic;
@@ -535,7 +535,6 @@ namespace de.unika.ipd.grGen.Model_Std
 	//
 	// IGraphModel implementation
 	//
-
 	public sealed class StdGraphModel : GRGEN_LIBGR.IGraphModel
 	{
 		private StdNodeModel nodeModel = new StdNodeModel();
@@ -552,13 +551,13 @@ namespace de.unika.ipd.grGen.Model_Std
 		public IEnumerable<GRGEN_LIBGR.EnumAttributeType> EnumAttributeTypes { get { return enumAttributeTypes; } }
 		public string MD5Hash { get { return "cee2fe3026e313db20fe574ef2ea4643"; } }
 	}
+
 	//
 	// IGraph/IGraphModel implementation
 	//
-
-	public class Std : GRGEN_LGSP.LGSPGraph, GRGEN_LIBGR.IGraphModel
+	public class StdGraph : GRGEN_LGSP.LGSPGraph, GRGEN_LIBGR.IGraphModel
 	{
-		public Std() : base(GetNextGraphName())
+		public StdGraph() : base(GetNextGraphName())
 		{
 			InitializeGraph(this);
 		}

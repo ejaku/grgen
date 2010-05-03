@@ -266,7 +266,7 @@ public class ActionsGen extends CSharpBase {
 			genLocalMapsAndSets(sb, rule.getRight().getImperativeStmts(), staticInitializers,
 					pathPrefixForElements, alreadyDefinedEntityToName);
 		}
-		sb.append("\t\tGRGEN_LGSP.PatternGraph " + patGraphVarName + ";\n");
+		sb.append("\t\tpublic GRGEN_LGSP.PatternGraph " + patGraphVarName + ";\n");
 		sb.append("\n");
 
 		int i = 0;
@@ -322,7 +322,7 @@ public class ActionsGen extends CSharpBase {
 		genEnums(sb, pattern, pathPrefixForElements);
 		genLocalMapsAndSets(sb, pattern, staticInitializers,
 				pathPrefixForElements, alreadyDefinedEntityToName);
-		sb.append("\t\tGRGEN_LGSP.PatternGraph " + patGraphVarName + ";\n");
+		sb.append("\t\tpublic GRGEN_LGSP.PatternGraph " + patGraphVarName + ";\n");
 		sb.append("\n");
 
 		int i = 0;
