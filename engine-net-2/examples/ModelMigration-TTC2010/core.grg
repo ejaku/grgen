@@ -181,22 +181,6 @@ rule transform_StateVertex_outgoing {
 	}
 }
 
-rule transform_StateVertex_partition1 {
-	:uml_ActivityNode -e:minuml1_StateVertex_partition->;
-
-	modify {
-		-:uml_ActivityNode_inPartition<e>->;
-	}
-}
-
-rule transform_StateVertex_partition2 {
-	:uml_ActivityEdge -e:minuml1_StateVertex_partition->;
-
-	modify {
-		-:uml_ActivityEdge_inPartition<e>->;
-	}
-}
-
 rule transform_StateMachine_transitions {
 	-e:minuml1_StateMachine_transitions->;
 

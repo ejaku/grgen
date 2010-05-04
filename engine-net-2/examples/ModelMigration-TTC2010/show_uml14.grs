@@ -18,7 +18,6 @@ dump add edge minuml1_Transition_target exclude
 
 dump add edge minuml1_CompositeState_subvertex exclude
 dump add edge minuml1_StateMachine_top exclude
-dump add edge minuml1_StateVertex_partition exclude
 
 # Appearance
 dump set node minuml1_ActionState shape ellipse

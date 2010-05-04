@@ -17,8 +17,6 @@ xgrs transform_ActivityGraph*
 # Transform edges
 xgrs transform_StateVertex_incoming*
 xgrs transform_StateVertex_outgoing*
-xgrs transform_StateVertex_partition1*
-xgrs transform_StateVertex_partition2*
 xgrs transform_StateMachine_transitions*
 xgrs transform_Transition_source*
 xgrs transform_Transition_target*
