@@ -3,21 +3,21 @@
   <minuml1:ActivityGraph xmi:id="_rlXf4EChEd-YJrCZVUY1aQ" name="graph">
     <top xsi:type="minuml1:CompositeState" xmi:id="_rlXf4UChEd-YJrCZVUY1aQ" name="top">
       <subvertex xsi:type="minuml1:Pseudostate" xmi:id="_rlXf4kChEd-YJrCZVUY1aQ" name="pk_initial1" outgoing="_rlYuBEChEd-YJrCZVUY1aQ"/>
-      <subvertex xsi:type="minuml1:ActionState" xmi:id="_rlYG8EChEd-YJrCZVUY1aQ" name="Request service" partition="_rlZVGUChEd-YJrCZVUY1aQ" outgoing="_rlYuBUChEd-YJrCZVUY1aQ" incoming="_rlYuBEChEd-YJrCZVUY1aQ"/>
-      <subvertex xsi:type="minuml1:Pseudostate" xmi:id="_rlYG8UChEd-YJrCZVUY1aQ" name="pk_fork1" partition="_rlZVGUChEd-YJrCZVUY1aQ" outgoing="_rlYuBkChEd-YJrCZVUY1aQ _rlYuC0ChEd-YJrCZVUY1aQ" incoming="_rlYuBUChEd-YJrCZVUY1aQ" kind="fork"/>
-      <subvertex xsi:type="minuml1:ActionState" xmi:id="_rlYG8kChEd-YJrCZVUY1aQ" name="Take order" partition="_rlZVGkChEd-YJrCZVUY1aQ" outgoing="_rlYuCEChEd-YJrCZVUY1aQ" incoming="_rlYuB0ChEd-YJrCZVUY1aQ"/>
-      <subvertex xsi:type="minuml1:ObjectFlowState" xmi:id="_rlYG80ChEd-YJrCZVUY1aQ" name="Placed Order" partition="_rlZVGkChEd-YJrCZVUY1aQ" outgoing="_rlYuB0ChEd-YJrCZVUY1aQ" incoming="_rlYuBkChEd-YJrCZVUY1aQ"/>
-      <subvertex xsi:type="minuml1:ActionState" xmi:id="_rlYG9EChEd-YJrCZVUY1aQ" name="Fill order" partition="_rlZ8IEChEd-YJrCZVUY1aQ" outgoing="_rlYuCUChEd-YJrCZVUY1aQ" incoming="_rlZVFkChEd-YJrCZVUY1aQ"/>
-      <subvertex xsi:type="minuml1:ObjectFlowState" xmi:id="_rlYG9UChEd-YJrCZVUY1aQ" name="Entered Order" partition="_rlZ8IEChEd-YJrCZVUY1aQ" outgoing="_rlYuEEChEd-YJrCZVUY1aQ" incoming="_rlYuCEChEd-YJrCZVUY1aQ"/>
-      <subvertex xsi:type="minuml1:Pseudostate" xmi:id="_rlYG9kChEd-YJrCZVUY1aQ" name="pk_join1" partition="_rlZVGkChEd-YJrCZVUY1aQ" outgoing="_rlYuDUChEd-YJrCZVUY1aQ" incoming="_rlYuCkChEd-YJrCZVUY1aQ _rlYuDEChEd-YJrCZVUY1aQ" kind="join"/>
-      <subvertex xsi:type="minuml1:ObjectFlowState" xmi:id="_rlYG90ChEd-YJrCZVUY1aQ" name="Filled Order" partition="_rlZ8IEChEd-YJrCZVUY1aQ" outgoing="_rlYuCkChEd-YJrCZVUY1aQ" incoming="_rlYuCUChEd-YJrCZVUY1aQ"/>
-      <subvertex xsi:type="minuml1:ActionState" xmi:id="_rlYG-EChEd-YJrCZVUY1aQ" name="Pay" partition="_rlZVGUChEd-YJrCZVUY1aQ" outgoing="_rlYuDEChEd-YJrCZVUY1aQ" incoming="_rlYuC0ChEd-YJrCZVUY1aQ"/>
-      <subvertex xsi:type="minuml1:ActionState" xmi:id="_rlYG-UChEd-YJrCZVUY1aQ" name="Deliver order" partition="_rlZVGkChEd-YJrCZVUY1aQ" outgoing="_rlYuDkChEd-YJrCZVUY1aQ" incoming="_rlYuDUChEd-YJrCZVUY1aQ"/>
-      <subvertex xsi:type="minuml1:ActionState" xmi:id="_rlYG-kChEd-YJrCZVUY1aQ" name="Collect order" partition="_rlZVGUChEd-YJrCZVUY1aQ" outgoing="_rlZVGEChEd-YJrCZVUY1aQ" incoming="_rlYuD0ChEd-YJrCZVUY1aQ"/>
-      <subvertex xsi:type="minuml1:ObjectFlowState" xmi:id="_rlYG-0ChEd-YJrCZVUY1aQ" name="Delivered Order" partition="_rlZVGkChEd-YJrCZVUY1aQ" outgoing="_rlYuD0ChEd-YJrCZVUY1aQ" incoming="_rlYuDkChEd-YJrCZVUY1aQ"/>
-      <subvertex xsi:type="minuml1:Pseudostate" xmi:id="_rlYuAEChEd-YJrCZVUY1aQ" name="pk_junction1" partition="_rlZ8IEChEd-YJrCZVUY1aQ" outgoing="_rlZVEEChEd-YJrCZVUY1aQ _rlZVE0ChEd-YJrCZVUY1aQ" incoming="_rlYuEEChEd-YJrCZVUY1aQ" kind="junction"/>
-      <subvertex xsi:type="minuml1:ActionState" xmi:id="_rlYuAUChEd-YJrCZVUY1aQ" name="Restock" partition="_rlZ8IEChEd-YJrCZVUY1aQ" outgoing="_rlZVF0ChEd-YJrCZVUY1aQ" incoming="_rlZVE0ChEd-YJrCZVUY1aQ"/>
-      <subvertex xsi:type="minuml1:Pseudostate" xmi:id="_rlYuAkChEd-YJrCZVUY1aQ" name="pk_junction2" partition="_rlZ8IEChEd-YJrCZVUY1aQ" outgoing="_rlZVFkChEd-YJrCZVUY1aQ" incoming="_rlZVEEChEd-YJrCZVUY1aQ _rlZVF0ChEd-YJrCZVUY1aQ" kind="junction"/>
+      <subvertex xsi:type="minuml1:ActionState" xmi:id="_rlYG8EChEd-YJrCZVUY1aQ" name="Request service" outgoing="_rlYuBUChEd-YJrCZVUY1aQ" incoming="_rlYuBEChEd-YJrCZVUY1aQ"/>
+      <subvertex xsi:type="minuml1:Pseudostate" xmi:id="_rlYG8UChEd-YJrCZVUY1aQ" name="pk_fork1" outgoing="_rlYuBkChEd-YJrCZVUY1aQ _rlYuC0ChEd-YJrCZVUY1aQ" incoming="_rlYuBUChEd-YJrCZVUY1aQ" kind="fork"/>
+      <subvertex xsi:type="minuml1:ActionState" xmi:id="_rlYG8kChEd-YJrCZVUY1aQ" name="Take order" outgoing="_rlYuCEChEd-YJrCZVUY1aQ" incoming="_rlYuB0ChEd-YJrCZVUY1aQ"/>
+      <subvertex xsi:type="minuml1:ObjectFlowState" xmi:id="_rlYG80ChEd-YJrCZVUY1aQ" name="Placed Order" outgoing="_rlYuB0ChEd-YJrCZVUY1aQ" incoming="_rlYuBkChEd-YJrCZVUY1aQ"/>
+      <subvertex xsi:type="minuml1:ActionState" xmi:id="_rlYG9EChEd-YJrCZVUY1aQ" name="Fill order" outgoing="_rlYuCUChEd-YJrCZVUY1aQ" incoming="_rlZVFkChEd-YJrCZVUY1aQ"/>
+      <subvertex xsi:type="minuml1:ObjectFlowState" xmi:id="_rlYG9UChEd-YJrCZVUY1aQ" name="Entered Order" outgoing="_rlYuEEChEd-YJrCZVUY1aQ" incoming="_rlYuCEChEd-YJrCZVUY1aQ"/>
+      <subvertex xsi:type="minuml1:Pseudostate" xmi:id="_rlYG9kChEd-YJrCZVUY1aQ" name="pk_join1" outgoing="_rlYuDUChEd-YJrCZVUY1aQ" incoming="_rlYuCkChEd-YJrCZVUY1aQ _rlYuDEChEd-YJrCZVUY1aQ" kind="join"/>
+      <subvertex xsi:type="minuml1:ObjectFlowState" xmi:id="_rlYG90ChEd-YJrCZVUY1aQ" name="Filled Order" outgoing="_rlYuCkChEd-YJrCZVUY1aQ" incoming="_rlYuCUChEd-YJrCZVUY1aQ"/>
+      <subvertex xsi:type="minuml1:ActionState" xmi:id="_rlYG-EChEd-YJrCZVUY1aQ" name="Pay" outgoing="_rlYuDEChEd-YJrCZVUY1aQ" incoming="_rlYuC0ChEd-YJrCZVUY1aQ"/>
+      <subvertex xsi:type="minuml1:ActionState" xmi:id="_rlYG-UChEd-YJrCZVUY1aQ" name="Deliver order" outgoing="_rlYuDkChEd-YJrCZVUY1aQ" incoming="_rlYuDUChEd-YJrCZVUY1aQ"/>
+      <subvertex xsi:type="minuml1:ActionState" xmi:id="_rlYG-kChEd-YJrCZVUY1aQ" name="Collect order" outgoing="_rlZVGEChEd-YJrCZVUY1aQ" incoming="_rlYuD0ChEd-YJrCZVUY1aQ"/>
+      <subvertex xsi:type="minuml1:ObjectFlowState" xmi:id="_rlYG-0ChEd-YJrCZVUY1aQ" name="Delivered Order" outgoing="_rlYuD0ChEd-YJrCZVUY1aQ" incoming="_rlYuDkChEd-YJrCZVUY1aQ"/>
+      <subvertex xsi:type="minuml1:Pseudostate" xmi:id="_rlYuAEChEd-YJrCZVUY1aQ" name="pk_junction1" outgoing="_rlZVEEChEd-YJrCZVUY1aQ _rlZVE0ChEd-YJrCZVUY1aQ" incoming="_rlYuEEChEd-YJrCZVUY1aQ" kind="junction"/>
+      <subvertex xsi:type="minuml1:ActionState" xmi:id="_rlYuAUChEd-YJrCZVUY1aQ" name="Restock" outgoing="_rlZVF0ChEd-YJrCZVUY1aQ" incoming="_rlZVE0ChEd-YJrCZVUY1aQ"/>
+      <subvertex xsi:type="minuml1:Pseudostate" xmi:id="_rlYuAkChEd-YJrCZVUY1aQ" name="pk_junction2" outgoing="_rlZVFkChEd-YJrCZVUY1aQ" incoming="_rlZVEEChEd-YJrCZVUY1aQ _rlZVF0ChEd-YJrCZVUY1aQ" kind="junction"/>
       <subvertex xsi:type="minuml1:FinalState" xmi:id="_rlYuA0ChEd-YJrCZVUY1aQ" name="Finished" incoming="_rlZVGEChEd-YJrCZVUY1aQ"/>
     </top>
     <transitions xmi:id="_rlYuBEChEd-YJrCZVUY1aQ" source="_rlXf4kChEd-YJrCZVUY1aQ" target="_rlYG8EChEd-YJrCZVUY1aQ"/>
