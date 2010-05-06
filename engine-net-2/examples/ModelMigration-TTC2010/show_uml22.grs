@@ -27,6 +27,7 @@ dump set node uml_InitialNode labels off
 
 dump set node uml_Pin labels off
 dump add node uml_Pin shortinfotag _name
+dump set node uml_Pin color white
 
 dump set node uml_DecisionNode shape rhomb
 dump set node uml_DecisionNode labels off
@@ -42,10 +43,12 @@ dump set edge dump_transition labels off
 dump add edge dump_transition shortinfotag name
 
 dump set node uml_Activity labels off
-dump set node uml_Activity color white
+dump set node uml_Activity color lightgrey
 
 dump set node uml_ActivityPartition labels off
 dump add node uml_ActivityPartition shortinfotag _name
+
+dump set node uml_OpaqueAction color white
 
 # beautify and dump the graph
 xgrs dump_addActivityEdgesToActivityPartition*
