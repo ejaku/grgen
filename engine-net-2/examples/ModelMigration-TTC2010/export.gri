@@ -26,8 +26,55 @@ rule XMI_prefix {
 	}
 }
 
+rule activity_node_by_id(var id:int) : (Node, int) {
+	n:Node -:DumpEdge-> d:DumpNode;
+	
+	if { d.id == id; }
+	
+	modify {
+		return (n, id + 1);
+	}
+}
+
+rule emit_activity {
+	activity:uml_Activity;
+	activity -:DumpEdge-> d:DumpNode;
+	
+	modify {
+		emit("\t<packagedElement xmi:type=\"uml:Activity\" xmi:id=\"" + d.id + "\" name=\"" + activity._name + "\">\n");
+		exec(emit_activity_nodes(activity));
+		emit("\t</packagedElement>\n");
+	}
+}
+
+rule emit_activity_nodes(activity:uml_Activity) {
+	modify {
+		exec((id)=initial_id && ((n, id)=activity_node_by_id(id) && (true | emit_activity_node(activity, n)))*);
+	}
+}
+
+rule emit_activity_node(activity:uml_Activity, n:uml_ActivityNode<Node>) {
+	n -:DumpEdge-> d:DumpNode;
+
+	modify {
+//		exec(emit_fork_node || emit_join_node || emit_decision_node || emit_ActivityFinalNode || emit_OpaqueAction);
+	}
+}
+
 rule XMI_suffix {
 	modify {
 		emit("</uml:Package>");
 	}
+}
+
+rule finish_dump {
+	modify {
+		exec([delete_DumpNode]);
+	}
+}
+
+rule delete_DumpNode {
+	d:DumpNode;
+	
+	replace {}
 }
