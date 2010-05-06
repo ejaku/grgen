@@ -1,4 +1,4 @@
-using original_minimal_metamodel__ecore, evolved_metamodel__ecore, dump_helper;
+using original_minimal_metamodel__ecore, evolved_metamodel__ecore, dump_helper, export;
 
 // Rules for beautify the graph
 #include "dump_helper.gri"
@@ -228,3 +228,7 @@ rule transform_Partition_contents {
 		-:uml_ActivityPartition_node<e>->;
 	}
 }
+
+// Rules for exporting the graph
+#include "export.gri"
+

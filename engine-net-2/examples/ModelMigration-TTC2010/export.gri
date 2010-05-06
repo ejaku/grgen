@@ -1,0 +1,33 @@
+rule initial_id : (int) {
+	modify {
+		return (0);
+	}
+}
+
+rule number_node(var id:int) : (int) {
+	n:Node\DumpNode;
+	
+	negative {
+		n -:DumpEdge->;
+	}
+	
+	modify {
+		n -:DumpEdge-> d:DumpNode;
+		eval {
+			d.id = id;
+		}
+		return (id + 1);
+	}
+}
+
+rule XMI_prefix {
+	modify {
+		emit("<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n<uml:Package xmi:version=\"2.1\" xmlns:xmi=\"http://schema.omg.org/spec/XMI/2.1\" xmlns:uml=\"http://www.eclipse.org/uml2/3.0.0/UML\">\n");
+	}
+}
+
+rule XMI_suffix {
+	modify {
+		emit("</uml:Package>");
+	}
+}

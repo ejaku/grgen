@@ -1,0 +1,10 @@
+# This is the GrGen.NET solution to the Model Migration case of Grabats 2010.
+
+include core.grs
+
+# Export the graph
+redirect emit migrated_model.xmi
+xgrs (id) = initial_id
+xgrs (id) = number_node(id)*
+xgrs XMI_prefix
+xgrs XMI_suffix
