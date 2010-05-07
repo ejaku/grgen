@@ -204,7 +204,7 @@ rule emit_ControlFlow(n:uml_ControlFlow<uml_ActivityEdge>) {
 	modify {
 		emit("\t\t<edge xmi:type=\"uml:ControlFlow\"");
 		exec(emit_edge_attributes(n));
-		emit("/>\n");
+		exec(emit_guard(n) || emit_no_guard(n));
 	}
 }
 
@@ -225,6 +225,25 @@ rule emit_edge_attributes(n:uml_ActivityEdge) {
 	
 	modify {
 		emit(" xmi:id=\"" + d.id + "\" source=\"" + src_d.id + "\" target=\"" + tgt_d.id + "\"");
+	}
+}
+
+rule emit_guard(n:uml_ActivityEdge) {
+	n -:uml_ActivityEdge_guard-> expr:uml_OpaqueExpression;
+	expr -:DumpEdge-> expr_d:DumpNode;
+
+	modify {
+		emit(">\n");
+		emit("\t\t\t<guard xmi:type=\"uml:OpaqueExpression\" xmi:id=\"" + expr_d.id + "\" name=\"" + expr._name + "\">\n");
+		emit("\t\t\t\t<body>" + expr._body + "</body>\n");
+		emit("\t\t\t</guard>\n");
+		emit("\t\t</edge>\n");
+	}
+}
+
+rule emit_no_guard(n:uml_ActivityEdge) {
+	modify {
+		emit("/>\n");
 	}
 }
 
