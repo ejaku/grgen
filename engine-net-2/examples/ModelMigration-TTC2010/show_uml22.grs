@@ -7,6 +7,7 @@ include core.grs
 
 # Nesting
 dump add node uml_Activity group by hidden outgoing uml_Activity_group
+dump add node uml_Activity group by hidden outgoing uml_Activity_node
 dump add node uml_ActivityPartition group by hidden outgoing uml_ActivityPartition_node
 
 # Hiding
@@ -52,6 +53,7 @@ dump add node uml_ActivityPartition shortinfotag _name
 dump set node uml_OpaqueAction color white
 
 # beautify and dump the graph
+xgrs dump_nonPartitionNode*
 xgrs dump_addActivityEdgesToActivityPartition*
 xgrs dump_guarded_OpaqueExpression*
 xgrs dump_ActivityEdge*

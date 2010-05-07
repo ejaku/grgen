@@ -50,6 +50,15 @@ rule dump_transitionEdges {
 
 // Rules for beautify the UML 2.2 graph
 
+rule dump_nonPartitionNode {
+	activity:uml_ActivityNode -:uml_ActivityNode_inPartition->;
+	activity <-e:uml_Activity_node-;
+
+	modify {
+		delete(e);
+	}
+}
+
 rule dump_addActivityEdgesToActivityPartition {
 	activity1:uml_ActivityNode <-:uml_ActivityEdge_source- actEdge:uml_ActivityEdge;
 	activity2:uml_ActivityNode <-:uml_ActivityEdge_target- actEdge;
