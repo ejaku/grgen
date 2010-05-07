@@ -189,6 +189,16 @@ rule transform_StateMachine_transitions {
 	}
 }
 
+rule transform_CompositeState_subvertex {
+	state:minuml1_CompositeState;
+	activity:uml_Activity -:minuml1_StateMachine_top-> state;
+	state -e:minuml1_CompositeState_subvertex-> n:uml_ActivityNode;
+
+	modify {
+		activity -:uml_Activity_node-> n;
+	}
+}
+
 rule transform_Transition_source {
 	-e:minuml1_Transition_source->;
 
@@ -226,6 +236,14 @@ rule transform_Partition_contents {
 
 	modify {
 		-:uml_ActivityPartition_node<e>->;
+	}
+}
+
+// Rules to clean up
+
+rule clean_up {
+	modify {
+		exec(transform_CompositeState*);
 	}
 }
 
