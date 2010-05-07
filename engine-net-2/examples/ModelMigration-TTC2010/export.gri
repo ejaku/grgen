@@ -26,7 +26,7 @@ rule XMI_prefix {
 	}
 }
 
-rule activity_node_by_id(var id:int) : (Node, int) {
+rule node_by_id(var id:int) : (Node, int) {
 	n:Node -:DumpEdge-> d:DumpNode;
 	
 	if { d.id == id; }
@@ -49,15 +49,139 @@ rule emit_activity {
 
 rule emit_activity_nodes(activity:uml_Activity) {
 	modify {
-		exec((id)=initial_id && ((n, id)=activity_node_by_id(id) && (true | emit_activity_node(activity, n)))*);
+		exec((id)=initial_id && ((n, id)=node_by_id(id) && (true | emit_activity_node(activity, n)))*);
 	}
 }
 
 rule emit_activity_node(activity:uml_Activity, n:uml_ActivityNode<Node>) {
-	n -:DumpEdge-> d:DumpNode;
+	activity -:uml_Activity_node-> n;
 
 	modify {
-//		exec(emit_fork_node || emit_join_node || emit_decision_node || emit_ActivityFinalNode || emit_OpaqueAction);
+		exec(emit_InitialNode(n) || emit_ForkNode(n) || emit_JoinNode(n) || emit_DecisionNode(n) || emit_ActivityFinalNode(n) || emit_OpaqueAction(n) || emit_Pin(n));
+	}
+}
+
+rule emit_InitialNode(n:uml_InitialNode<uml_ActivityNode>) {
+	modify {
+		emit("\t\t<node xmi:type=\"uml:InitialNode\"");
+		exec(emit_node_attributes(n));
+		emit("/>\n");
+	}
+}
+
+rule emit_ForkNode(n:uml_ForkNode<uml_ActivityNode>) {
+	modify {
+		emit("\t\t<node xmi:type=\"uml:ForkNode\"");
+		exec(emit_node_attributes(n));
+		emit("/>\n");
+	}
+}
+
+rule emit_JoinNode(n:uml_JoinNode<uml_ActivityNode>) {
+	modify {
+		emit("\t\t<node xmi:type=\"uml:JoinNode\"");
+		exec(emit_node_attributes(n));
+		emit("/>\n");
+	}
+}
+
+rule emit_DecisionNode(n:uml_DecisionNode<uml_ActivityNode>) {
+	modify {
+		emit("\t\t<node xmi:type=\"uml:DecisionNode\"");
+		exec(emit_node_attributes(n));
+		emit("/>\n");
+	}
+}
+
+rule emit_ActivityFinalNode(n:uml_ActivityFinalNode<uml_ActivityNode>) {
+	modify {
+		emit("\t\t<node xmi:type=\"uml:ActivityFinalNode\"");
+		exec(emit_node_attributes(n));
+		emit("/>\n");
+	}
+}
+
+rule emit_OpaqueAction(n:uml_OpaqueAction<uml_ActivityNode>) {
+	modify {
+		emit("\t\t<node xmi:type=\"uml:OpaqueAction\"");
+		exec(emit_node_attributes(n));
+		emit("/>\n");
+	}
+}
+
+rule emit_Pin(n:uml_Pin<uml_ActivityNode>) {
+	modify {
+		emit("\t\t<node xmi:type=\"uml:Pin\"");
+		exec(emit_node_attributes(n));
+		emit("/>\n");
+	}
+}
+
+rule emit_node_attributes(n:uml_ActivityNode) {
+	n -:DumpEdge-> d:DumpNode;
+	
+	modify {
+		emit(" xmi:id=\"" + d.id + "\" name=\"" + n._name + "\"");
+		exec(emit_outgoing_attribute(n));
+		exec(emit_incoming_attribute(n));
+		exec(emit_inPartition_attribute(n));
+	}
+}
+
+rule emit_incoming_attribute(n:uml_ActivityNode) {
+	n -:uml_ActivityNode_incoming->;
+
+	modify {
+		emit(" incoming=\"");
+		exec([emit_incoming(n)]);
+		emit("\"");
+	}
+}
+
+rule emit_incoming(n:uml_ActivityNode) {
+	n -:uml_ActivityNode_incoming-> e:uml_ActivityEdge;
+	e -:DumpEdge-> d:DumpNode;
+
+	modify {
+		emit(d.id + " ");
+	}
+}
+
+rule emit_outgoing_attribute(n:uml_ActivityNode) {
+	n -:uml_ActivityNode_outgoing->;
+
+	modify {
+		emit(" outgoing=\"");
+		exec([emit_outgoing(n)]);
+		emit("\"");
+	}
+}
+
+rule emit_outgoing(n:uml_ActivityNode) {
+	n -:uml_ActivityNode_outgoing-> e:uml_ActivityEdge;
+	e -:DumpEdge-> d:DumpNode;
+
+	modify {
+		emit(d.id + " ");
+	}
+}
+
+rule emit_inPartition_attribute(n:uml_ActivityNode) {
+	n -:uml_ActivityNode_inPartition->;
+
+	modify {
+		emit(" inPartition=\"");
+		exec([emit_inPartition(n)]);
+		emit("\"");
+	}
+}
+
+rule emit_inPartition(n:uml_ActivityNode) {
+	n -:uml_ActivityNode_inPartition-> e:uml_ActivityPartition;
+	e -:DumpEdge-> d:DumpNode;
+
+	modify {
+		emit(d.id + " ");
 	}
 }
 
