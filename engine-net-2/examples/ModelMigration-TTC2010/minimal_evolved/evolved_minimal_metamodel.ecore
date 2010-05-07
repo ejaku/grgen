@@ -5,8 +5,7 @@
     nsURI="minuml2" nsPrefix="minuml2">
   <eClassifiers xsi:type="ecore:EClass" name="ModelElement">
     <eStructuralFeatures xsi:type="ecore:EAttribute" name="name" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
-    <eStructuralFeatures xsi:type="ecore:EReference" name="partition" lowerBound="1"
-        eType="#//ActivityPartition"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="partition" eType="#//ActivityPartition"/>
   </eClassifiers>
   <eClassifiers xsi:type="ecore:EClass" name="Activity" eSuperTypes="#//ModelElement">
     <eStructuralFeatures xsi:type="ecore:EReference" name="node" upperBound="-1" eType="#//ActivityNode"
@@ -18,9 +17,9 @@
   </eClassifiers>
   <eClassifiers xsi:type="ecore:EClass" name="ActivityPartition" eSuperTypes="#//ModelElement">
     <eStructuralFeatures xsi:type="ecore:EReference" name="nodes" upperBound="-1"
-        eType="#//ActivityNode" containment="true"/>
+        eType="#//ActivityNode"/>
     <eStructuralFeatures xsi:type="ecore:EReference" name="edges" upperBound="-1"
-        eType="#//ActivityEdge" containment="true"/>
+        eType="#//ActivityEdge"/>
   </eClassifiers>
   <eClassifiers xsi:type="ecore:EClass" name="ActivityNode" abstract="true" eSuperTypes="#//ModelElement">
     <eStructuralFeatures xsi:type="ecore:EReference" name="outgoing" upperBound="-1"
