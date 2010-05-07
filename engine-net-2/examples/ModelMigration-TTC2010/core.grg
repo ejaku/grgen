@@ -232,7 +232,24 @@ rule transform_ActivityGraph_partition {
 }
 
 rule transform_Partition_contents {
-	-e:minuml1_Partition_contents->;
+	p: uml_ActivityPartition -e:minuml1_Partition_contents->;
+
+	alternative {
+		ActivityNode {
+			-e-> n:uml_ActivityNode;
+
+			modify {
+				p <-:uml_ActivityNode_inPartition- n;
+			}
+		}
+		ActivityEdge {
+			-e-> n:uml_ActivityEdge;
+
+			modify {
+				p <-:uml_ActivityEdge_inPartition- n;
+			}
+		}
+	}
 
 	modify {
 		-:uml_ActivityPartition_node<e>->;
