@@ -11,6 +11,7 @@ dump add node uml_ActivityPartition group by hidden outgoing uml_ActivityPartiti
 
 # Hiding
 dump add edge uml_ActivityNode_inPartition exclude
+dump add edge uml_Activity_node exclude
 
 # Appearance
 dump set node uml_OpaqueAction shape ellipse
