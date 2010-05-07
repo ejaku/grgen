@@ -36,6 +36,7 @@ rule node_by_id(var id:int) : (Node, int) {
 	}
 }
 
+// TODO is there only one Activity per file?
 rule emit_activity {
 	activity:uml_Activity;
 	activity -:DumpEdge-> d:DumpNode;
@@ -44,6 +45,7 @@ rule emit_activity {
 		emit("\t<packagedElement xmi:type=\"uml:Activity\" xmi:id=\"" + d.id + "\" name=\"" + activity._name + "\">\n");
 		exec(emit_activity_nodes(activity));
 		exec(emit_activity_edges(activity));
+		exec(emit_activity_groups(activity));
 		emit("\t</packagedElement>\n");
 	}
 }
@@ -244,6 +246,50 @@ rule emit_guard(n:uml_ActivityEdge) {
 rule emit_no_guard(n:uml_ActivityEdge) {
 	modify {
 		emit("/>\n");
+	}
+}
+
+rule emit_activity_groups(activity:uml_Activity) {
+	modify {
+		exec((id)=initial_id && ((n, id)=node_by_id(id) && (true | emit_activity_group(activity, n)))*);
+	}
+}
+
+rule emit_activity_group(activity:uml_Activity, n:uml_ActivityPartition<Node>) {
+	activity -:uml_Activity_group-> n;
+
+	modify {
+		emit("\t\t<group xmi:type=\"uml:ActivityPartition\"");
+		exec(emit_group_attributes(n));
+		emit("/>\n");
+	}
+}
+
+rule emit_group_attributes(n:uml_ActivityPartition) {
+	n -:DumpEdge-> d:DumpNode;
+	
+	modify {
+		emit(" xmi:id=\"" + d.id + "\" name=\"" + n._name + "\"");
+		exec(emit_contained_nodes(n));
+	}
+}
+
+rule emit_contained_nodes(n:uml_ActivityPartition) {
+	n -:uml_ActivityPartition_node->;
+
+	modify {
+		emit(" node=\"");
+		exec([emit_contained_node(n)]);
+		emit("\"");
+	}
+}
+
+rule emit_contained_node(n:uml_ActivityPartition) {
+	n -:uml_ActivityPartition_node-> other:uml_ActivityNode;
+	other -:DumpEdge-> d:DumpNode;
+
+	modify {
+		emit(d.id + " ");
 	}
 }
 
