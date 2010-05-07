@@ -43,6 +43,7 @@ rule emit_activity {
 	modify {
 		emit("\t<packagedElement xmi:type=\"uml:Activity\" xmi:id=\"" + d.id + "\" name=\"" + activity._name + "\">\n");
 		exec(emit_activity_nodes(activity));
+		exec(emit_activity_edges(activity));
 		emit("\t</packagedElement>\n");
 	}
 }
@@ -182,6 +183,48 @@ rule emit_inPartition(n:uml_ActivityNode) {
 
 	modify {
 		emit(d.id + " ");
+	}
+}
+
+rule emit_activity_edges(activity:uml_Activity) {
+	modify {
+		exec((id)=initial_id && ((n, id)=node_by_id(id) && (true | emit_activity_edge(activity, n)))*);
+	}
+}
+
+rule emit_activity_edge(activity:uml_Activity, n:uml_ActivityEdge<Node>) {
+	activity -:uml_Activity_edge-> n;
+
+	modify {
+		exec(emit_ControlFlow(n) || emit_ObjectFlow(n));
+	}
+}
+
+rule emit_ControlFlow(n:uml_ControlFlow<uml_ActivityEdge>) {
+	modify {
+		emit("\t\t<edge xmi:type=\"uml:ControlFlow\"");
+		exec(emit_edge_attributes(n));
+		emit("/>\n");
+	}
+}
+
+rule emit_ObjectFlow(n:uml_ObjectFlow<uml_ActivityEdge>) {
+	modify {
+		emit("\t\t<edge xmi:type=\"uml:ObjectFlow\"");
+		exec(emit_edge_attributes(n));
+		emit("/>\n");
+	}
+}
+
+rule emit_edge_attributes(n:uml_ActivityEdge) {
+	n -:DumpEdge-> d:DumpNode;
+	n -:uml_ActivityEdge_source-> src:uml_ActivityNode;
+	n -:uml_ActivityEdge_target-> tgt:uml_ActivityNode;
+	src -:DumpEdge-> src_d:DumpNode;
+	tgt -:DumpEdge-> tgt_d:DumpNode;
+	
+	modify {
+		emit(" xmi:id=\"" + d.id + "\" source=\"" + src_d.id + "\" target=\"" + tgt_d.id + "\"");
 	}
 }
 
