@@ -1,6 +1,6 @@
 rule initial_id : (int) {
 	modify {
-		return (0);
+		return (1);
 	}
 }
 
@@ -22,7 +22,7 @@ rule number_node(var id:int) : (int) {
 
 rule XMI_prefix {
 	modify {
-		emit("<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n<uml:Package xmi:version=\"2.1\" xmlns:xmi=\"http://schema.omg.org/spec/XMI/2.1\" xmlns:uml=\"http://www.eclipse.org/uml2/3.0.0/UML\">\n");
+		emit("<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n<uml:Package xmi:version=\"2.1\" xmlns:xmi=\"http://schema.omg.org/spec/XMI/2.1\" xmlns:uml=\"http://www.eclipse.org/uml2/3.0.0/UML\" xmi:id=\"0\">\n");
 	}
 }
 
@@ -42,11 +42,11 @@ rule emit_activity {
 	activity -:DumpEdge-> d:DumpNode;
 	
 	modify {
-		emit("\t<packagedElement xmi:type=\"uml:Activity\" xmi:id=\"" + d.id + "\" name=\"" + activity._name + "\">\n");
+		emit("  <packagedElement xmi:type=\"uml:Activity\" xmi:id=\"" + d.id + "\" name=\"" + activity._name + "\">\n");
 		exec(emit_activity_nodes(activity));
 		exec(emit_activity_edges(activity));
 		exec(emit_activity_groups(activity));
-		emit("\t</packagedElement>\n");
+		emit("  </packagedElement>\n");
 	}
 }
 
@@ -66,7 +66,7 @@ rule emit_activity_node(activity:uml_Activity, n:uml_ActivityNode<Node>) {
 
 rule emit_InitialNode(n:uml_InitialNode<uml_ActivityNode>) {
 	modify {
-		emit("\t\t<node xmi:type=\"uml:InitialNode\"");
+		emit("    <node xmi:type=\"uml:InitialNode\"");
 		exec(emit_node_attributes(n));
 		emit("/>\n");
 	}
@@ -74,7 +74,7 @@ rule emit_InitialNode(n:uml_InitialNode<uml_ActivityNode>) {
 
 rule emit_ForkNode(n:uml_ForkNode<uml_ActivityNode>) {
 	modify {
-		emit("\t\t<node xmi:type=\"uml:ForkNode\"");
+		emit("    <node xmi:type=\"uml:ForkNode\"");
 		exec(emit_node_attributes(n));
 		emit("/>\n");
 	}
@@ -82,7 +82,7 @@ rule emit_ForkNode(n:uml_ForkNode<uml_ActivityNode>) {
 
 rule emit_JoinNode(n:uml_JoinNode<uml_ActivityNode>) {
 	modify {
-		emit("\t\t<node xmi:type=\"uml:JoinNode\"");
+		emit("    <node xmi:type=\"uml:JoinNode\"");
 		exec(emit_node_attributes(n));
 		emit("/>\n");
 	}
@@ -90,7 +90,7 @@ rule emit_JoinNode(n:uml_JoinNode<uml_ActivityNode>) {
 
 rule emit_DecisionNode(n:uml_DecisionNode<uml_ActivityNode>) {
 	modify {
-		emit("\t\t<node xmi:type=\"uml:DecisionNode\"");
+		emit("    <node xmi:type=\"uml:DecisionNode\"");
 		exec(emit_node_attributes(n));
 		emit("/>\n");
 	}
@@ -98,7 +98,7 @@ rule emit_DecisionNode(n:uml_DecisionNode<uml_ActivityNode>) {
 
 rule emit_ActivityFinalNode(n:uml_ActivityFinalNode<uml_ActivityNode>) {
 	modify {
-		emit("\t\t<node xmi:type=\"uml:ActivityFinalNode\"");
+		emit("    <node xmi:type=\"uml:ActivityFinalNode\"");
 		exec(emit_node_attributes(n));
 		emit("/>\n");
 	}
@@ -106,7 +106,7 @@ rule emit_ActivityFinalNode(n:uml_ActivityFinalNode<uml_ActivityNode>) {
 
 rule emit_OpaqueAction(n:uml_OpaqueAction<uml_ActivityNode>) {
 	modify {
-		emit("\t\t<node xmi:type=\"uml:OpaqueAction\"");
+		emit("    <node xmi:type=\"uml:OpaqueAction\"");
 		exec(emit_node_attributes(n));
 		emit("/>\n");
 	}
@@ -114,7 +114,7 @@ rule emit_OpaqueAction(n:uml_OpaqueAction<uml_ActivityNode>) {
 
 rule emit_Pin(n:uml_Pin<uml_ActivityNode>) {
 	modify {
-		emit("\t\t<node xmi:type=\"uml:Pin\"");
+		emit("    <node xmi:type=\"uml:Pin\"");
 		exec(emit_node_attributes(n));
 		emit("/>\n");
 	}
@@ -204,7 +204,7 @@ rule emit_activity_edge(activity:uml_Activity, n:uml_ActivityEdge<Node>) {
 
 rule emit_ControlFlow(n:uml_ControlFlow<uml_ActivityEdge>) {
 	modify {
-		emit("\t\t<edge xmi:type=\"uml:ControlFlow\"");
+		emit("    <edge xmi:type=\"uml:ControlFlow\"");
 		exec(emit_edge_attributes(n));
 		exec(emit_guard(n) || emit_no_guard(n));
 	}
@@ -212,7 +212,7 @@ rule emit_ControlFlow(n:uml_ControlFlow<uml_ActivityEdge>) {
 
 rule emit_ObjectFlow(n:uml_ObjectFlow<uml_ActivityEdge>) {
 	modify {
-		emit("\t\t<edge xmi:type=\"uml:ObjectFlow\"");
+		emit("    <edge xmi:type=\"uml:ObjectFlow\"");
 		exec(emit_edge_attributes(n));
 		emit("/>\n");
 	}
@@ -236,10 +236,10 @@ rule emit_guard(n:uml_ActivityEdge) {
 
 	modify {
 		emit(">\n");
-		emit("\t\t\t<guard xmi:type=\"uml:OpaqueExpression\" xmi:id=\"" + expr_d.id + "\" name=\"" + expr._name + "\">\n");
-		emit("\t\t\t\t<body>" + expr._body + "</body>\n");
-		emit("\t\t\t</guard>\n");
-		emit("\t\t</edge>\n");
+		emit("      <guard xmi:type=\"uml:OpaqueExpression\" xmi:id=\"" + expr_d.id + "\" name=\"" + expr._name + "\">\n");
+		emit("        <body>" + expr._body + "</body>\n");
+		emit("      </guard>\n");
+		emit("    </edge>\n");
 	}
 }
 
@@ -259,7 +259,7 @@ rule emit_activity_group(activity:uml_Activity, n:uml_ActivityPartition<Node>) {
 	activity -:uml_Activity_group-> n;
 
 	modify {
-		emit("\t\t<group xmi:type=\"uml:ActivityPartition\"");
+		emit("    <group xmi:type=\"uml:ActivityPartition\"");
 		exec(emit_group_attributes(n));
 		emit("/>\n");
 	}
