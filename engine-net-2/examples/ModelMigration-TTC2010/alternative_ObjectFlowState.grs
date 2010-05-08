@@ -1,9 +1,10 @@
 # This is the GrGen.NET solution to the Model Migration case of Grabats 2010.
 
 import original_minimal_metamodel.ecore evolved_metamodel.ecore original_model.xmi core.grg
+show graph ycomp
 
 # Transform nodes
-xgrs transform_ObjectFlowState* | transform_FinalState* | transform_ActionState* | transform_PseudoState* \
+xgrs transform_ObjectFlowState2* | transform_FinalState* | transform_ActionState* | transform_PseudoState* \
       | transform_Partition* | transform_Transition_To_ObjectFlow* | transform_Transition_To_ControlFlow* \
       | transform_Guard* | transform_ActivityGraph*
 

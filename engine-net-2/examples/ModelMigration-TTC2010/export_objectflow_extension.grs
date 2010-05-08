@@ -1,0 +1,12 @@
+# This is the GrGen.NET solution to the Model Migration case of Grabats 2010.
+
+include alternative_ObjectFlowState.grs
+
+# Export the graph
+redirect emit migrated_objectflow_model.xmi
+xgrs (id) = initial_id
+xgrs (id) = number_node(id)*
+xgrs XMI_prefix
+xgrs [emit_activity]
+xgrs XMI_suffix
+xgrs finish_dump

@@ -84,6 +84,23 @@ rule transform_ObjectFlowState {
 	}
 }
 
+// Alternative transformation
+rule transform_ObjectFlowState2 {
+	state:minuml1_ObjectFlowState;
+	s1:minuml1_StateVertex <-:minuml1_Transition_source- t1:minuml1_Transition -:minuml1_Transition_target-> state;
+	state <-:minuml1_Transition_source- t2:minuml1_Transition -:minuml1_Transition_target-> s2:minuml1_StateVertex;
+
+	modify {
+		delete(t1, t2);
+
+		flow:uml_ObjectFlow<state>;
+		s1 <-:uml_ActivityEdge_source- flow -:uml_ActivityEdge_target-> s2;
+		s1 -:uml_ActivityNode_outgoing-> flow <-:uml_ActivityNode_incoming- s2;
+
+		eval { flow._name = state._name; }
+	}
+}
+
 rule transform_CompositeState {
 	state:minuml1_CompositeState;
 
