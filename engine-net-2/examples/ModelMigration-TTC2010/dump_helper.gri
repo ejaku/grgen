@@ -59,6 +59,15 @@ rule dump_nonPartitionNode {
 	}
 }
 
+rule dump_nonPartitionEdge {
+	activity:uml_ActivityEdge -:uml_ActivityEdge_inPartition->;
+	activity <-e:uml_Activity_edge-;
+
+	modify {
+		delete(e);
+	}
+}
+
 rule dump_addActivityEdgesToActivityPartition {
 	activity1:uml_ActivityNode <-:uml_ActivityEdge_source- actEdge:uml_ActivityEdge;
 	activity2:uml_ActivityNode <-:uml_ActivityEdge_target- actEdge;
@@ -93,6 +102,21 @@ rule dump_ActivityEdge {
 	actNode2:uml_ActivityNode;
 
 	actNode1 <-:uml_ActivityEdge_source- actEdge:uml_ActivityEdge -:uml_ActivityEdge_target-> actNode2;
+
+	modify {
+		delete(actEdge);
+
+		actNode1 -e:dump_transition-> actNode2;
+
+		eval { e.name = actEdge._name; }
+	}
+}
+
+rule dump_ActivityEdge2 {
+	actNode1:uml_ActivityNode;
+	actNode2:uml_ActivityNode;
+
+	actNode1 <-:uml_ActivityEdge_source- actEdge:uml_ControlFlow -:uml_ActivityEdge_target-> actNode2;
 
 	modify {
 		delete(actEdge);

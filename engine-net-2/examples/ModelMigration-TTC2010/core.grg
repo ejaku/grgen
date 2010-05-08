@@ -89,6 +89,7 @@ rule transform_ObjectFlowState2 {
 	state:minuml1_ObjectFlowState;
 	s1:minuml1_StateVertex <-:minuml1_Transition_source- t1:minuml1_Transition -:minuml1_Transition_target-> state;
 	state <-:minuml1_Transition_source- t2:minuml1_Transition -:minuml1_Transition_target-> s2:minuml1_StateVertex;
+	state <-:minuml1_Partition_contents- p:minuml1_Partition;
 
 	modify {
 		delete(state, t2);
@@ -96,6 +97,8 @@ rule transform_ObjectFlowState2 {
 		flow:uml_ObjectFlow<t1>;
 		flow -:uml_ActivityEdge_target-> s2;
 		flow <-:uml_ActivityNode_incoming- s2;
+		flow -:uml_ActivityEdge_inPartition-> p;
+		flow <-:uml_ActivityPartition_edge- p;
 
 		eval { flow._name = state._name; }
 	}
