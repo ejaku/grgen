@@ -114,6 +114,16 @@ public abstract class InheritanceTypeNode extends CompoundTypeNode
 			}
 		}
 
+		for(BaseNode n : body.getChildren()) {
+			if(n instanceof DeclNode && !(n instanceof ConstructorDeclNode)) {
+				DeclNode directMember = (DeclNode)n;
+				if(directMember.getIdentNode().getIdent().toString().equals(getIdentNode().getIdent().toString())) {
+					error.error(getIdentNode().getCoords(),
+							"the member \"" + directMember.getIdentNode() + "\" must be named differently than its containing " + getUseStr() + " \"" + getIdentNode() + "\"");
+				}
+			}
+		}
+
 		// Check constructors for ambiguity
 		Vector<ConstructorDeclNode> constrs = new Vector<ConstructorDeclNode>();
 		for(BaseNode n : body.getChildren()) {

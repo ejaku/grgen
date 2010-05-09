@@ -1,0 +1,5 @@
+using same_attribute_as_node_edge_name;
+
+test foo {
+	// the model contains the interesting construct
+}

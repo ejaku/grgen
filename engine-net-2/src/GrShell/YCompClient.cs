@@ -775,7 +775,7 @@ namespace de.unika.ipd.grGen.grShell
             }
             else
             {
-                ChangeNodeAttribute(node, attrType, GetKindName(attrType), newValue.ToString());
+                ChangeNodeAttribute(node, attrType, GetKindName(attrType), newValue!=null ? newValue.ToString() : "");
             }
         }
 
@@ -805,7 +805,7 @@ namespace de.unika.ipd.grGen.grShell
             }
             else
             {
-                ChangeEdgeAttribute(edge, attrType, GetKindName(attrType), newValue.ToString());
+                ChangeEdgeAttribute(edge, attrType, GetKindName(attrType), newValue!=null ? newValue.ToString() : "");
             }
         }
 
