@@ -116,6 +116,7 @@
   - lazy or operator parsing priority bug
   - ResetVisitedFlag/vreset now reliably working on edge types, too
   - code generation for conditions in nested patterns
+  - code generation for alternatives nested in negatives/independents
   - further minor fixes
   
  Further changes:
@@ -139,6 +140,7 @@
 	 (dpo = dangling + identification)
   - added emit to xgrs: emit(double-quoted-text|variable)  
       example: xgrs emit("foo\n") && emit(v)
+  - the graph with model combined class is now named FooGraph instead of Foo for Foo.grg
   - set/map commands in GrShell are deprecated (succeeded by xgrs set/map operators)
   - set/map-valued attributes are now displayed in yComp, too
   - now error reported on attempt to delete and return elments allowed to be matched homomorphically
