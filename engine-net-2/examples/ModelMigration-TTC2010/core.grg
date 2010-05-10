@@ -123,37 +123,45 @@ rule transform_Partition {
 	}
 }
 
-rule transform_Transition_To_ObjectFlow {
+rule transform_Transition {
 	transition:minuml1_Transition;
 	
 	alternative {
 		incomingObjectFlow {
 			transition <-:minuml1_StateVertex_incoming- :uml_Pin;
 
-			modify {}
+			modify {
+				of:uml_ObjectFlow<transition>;
+
+				eval { of._name = transition._name; }
+			}
 		}
 		outgoingObjectFlow {
 			transition <-:minuml1_StateVertex_outgoing- :uml_Pin;
 
-			modify {}
+			modify {
+				of:uml_ObjectFlow<transition>;
+
+				eval { of._name = transition._name; }
+			}
+		}
+		controlFlow {
+			negative {
+				transition <-:minuml1_StateVertex_incoming- :uml_Pin;
+			}
+			negative {
+				transition <-:minuml1_StateVertex_outgoing- :uml_Pin;
+			}
+
+			modify {
+				cf:uml_ControlFlow<transition>;
+
+				eval { cf._name = transition._name; }
+			}
 		}
 	}
 
-	modify {
-		of:uml_ObjectFlow<transition>;
-
-		eval { of._name = transition._name; }
-	}
-}
-
-rule transform_Transition_To_ControlFlow {
-	transition:minuml1_Transition;
-
-	modify {
-		cf:uml_ControlFlow<transition>;
-
-		eval { cf._name = transition._name; }
-	}
+	modify {}
 }
 
 rule transform_Guard {

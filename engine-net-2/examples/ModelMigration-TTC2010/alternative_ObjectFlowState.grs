@@ -4,8 +4,7 @@ import original_minimal_metamodel.ecore evolved_metamodel.ecore original_model.x
 
 # Transform nodes
 xgrs transform_ObjectFlowState2* | transform_FinalState* | transform_ActionState* | transform_PseudoState* \
-      | transform_Partition* | transform_Transition_To_ObjectFlow* | transform_Transition_To_ControlFlow* \
-      | transform_Guard* | transform_ActivityGraph*
+      | transform_Partition* | transform_Transition* | transform_Guard* | transform_ActivityGraph*
 
 # Transform edges
 xgrs transform_StateVertex_incoming* | transform_StateVertex_outgoing* | transform_StateMachine_transitions* \
