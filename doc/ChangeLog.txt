@@ -1,4 +1,4 @@
-﻿v2.6RC (2010-04-25)
+﻿v2.6RC2 (2010-05-10)
  Single most important change:
   - user manual updated (including all the changes from 1.4->2.6)
  
