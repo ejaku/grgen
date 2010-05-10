@@ -108,7 +108,6 @@ rule transform_CompositeState {
 	state:minuml1_CompositeState;
 
 	modify {
-		// TODO Replace with a StructuredActivityNode or an ActivityPartition?
 		delete(state);
 	}
 }

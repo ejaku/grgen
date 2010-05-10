@@ -36,7 +36,6 @@ rule node_by_id(var id:int) : (Node, int) {
 	}
 }
 
-// TODO is there only one Activity per file?
 rule emit_activity {
 	activity:uml_Activity;
 	activity -:DumpEdge-> d:DumpNode;
