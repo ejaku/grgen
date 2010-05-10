@@ -1,3 +1,5 @@
+// This is the GrGen.NET solution to the Model Migration case of Transformation Tool Contest 2010.
+
 // Rules for beautify the UML 1.4 graph
 
 rule dump_addTransitionsToPartitions {
