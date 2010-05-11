@@ -179,7 +179,7 @@ namespace de.unika.ipd.grGen.libGr
             WriteLine("display_edge_labels: {0}", (flags & VCGFlags.EdgeLabels) != 0 ? "yes" : "no");
             WriteLine("layoutalgorithm: normal //$ \"{0}\"", layouter);
             WriteLine("port_sharing: {0}", (flags & VCGFlags.PortSharing) != 0 ? "yes" : "no");
-            WriteLine("spines: {0}", (flags & VCGFlags.Splines) != 0 ? "yes" : "no");
+            WriteLine("splines: {0}", (flags & VCGFlags.Splines) != 0 ? "yes" : "no");
             WriteLine("manhattan_edges: {0}", (flags & VCGFlags.ManhattanEdges) != 0 ? "yes" : "no");
             WriteLine("smanhattan_edges: {0}", (flags & VCGFlags.SManhattanEdges) != 0 ? "yes" : "no");
             WriteLine("orientation: {0}", orientation[(int)(flags & VCGFlags.OrientMask)]);
