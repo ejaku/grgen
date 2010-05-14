@@ -1,0 +1,3 @@
+Copy the userDefineLang.xml to %APPDATA%\Notepad++ if there is no userDefineLang.xml existing yet
+or merge the two UserLang entries to your already existing userDefineLang.xml
+Restart Notepad++

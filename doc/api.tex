@@ -226,7 +226,7 @@ Finally an intermediate representation is built from the abstract syntax tree by
 The IR classes given in the \texttt{ir} folder can be seen as more lightweight AST classes; their name is often the same as for their corresponding AST classes, but without the \texttt{Node}-suffix which is appended to all AST classes.
 The IR classes are the input to the two backends of the frontend, as given in the folders \texttt{be/C} and \texttt{be/Csharp}.
 The directory \texttt{be/C} contains the code generator for the C based backend integrated into the IPD C compiler.
-(The compiler transforms a C program into a graph and SSA based compiler intermediate representation named FIRM using libFirm (see \url{libfirm.org}, \cite{TBL:99}, \cite{Lin:02}).)
+(The compiler transforms a C program into a graph and SSA based compiler intermediate representation named FIRM using libFirm (see \url{libfirm.org}, \cite{TBL:99}, \cite{Lin:02}) and further on to x86 machine code.)
 The directory \texttt{be/Csharp} contains the code generator for the C\# based backend of \GrG. 
 It generates the model source code \texttt{FooModel.cs} with the node and edge classes for a rule file named \texttt{Foo.grg}, 
 and the intermediate rules source code \texttt{FooActions\_intermediate} with a description of the patterns to match, a description of the embedded graph rewrite sequences, and the rewriting code.

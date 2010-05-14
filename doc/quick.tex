@@ -8,12 +8,14 @@ This chapter is mostly about the \GrG\ look and feel; please take a look at the 
 
 \section{Downloading \& Installing}
 If you are reading this document, you probably did already download the \GrG\ software from our website (\url{http://www.grgen.net}).
-Make sure you have the following system requirements installed
+Make sure you have the following system requirements installed and available in the search path:
 \begin{itemize}
-	\item Java 1.5 or above \footnotesize{(ensure \texttt{java} is available in the search path)}
-	\item Mono 1.2.3 or above on Unix-like platforms / .NET 2.0 or above on Microsoft Windows 
+	\item Java 1.5 or above
+	\item Mono 1.2.3 or above / Microsoft .NET 2.0 or above 
 \end{itemize}
-Unpack the package to a directory of your choice, for example into \texttt{/opt/grgen} and \texttt{/opt/ycomp}:
+
+\noindent{\bf If you're using Linux:}
+Unpack the package to a directory of your choice, for example into \texttt{/opt/grgen}:
 \begin{bash}
 mkdir /opt/grgen
 tar xvfj GrGenNET-V1_3_1-2007-12-06.tar.bz2
@@ -26,17 +28,15 @@ export PATH=/opt/grgen/bin:$PATH
 \end{bash}
 Furthermore we create a directory for our \GrG\ data, for instance by \texttt{mkdir /home/grgen}.
 
-\begin{figure}[htbp]
-    \begin{note}
-        {\bf If you're using Microsoft Windows:}
-        On Windows make sure you have the .NET 2.0 (or above) framework installed.
-        \GrG\ does not need to be ``installed'', just copy the extracted files to a directory of your choice.
-        Add this directory to your search paths via \emph{control panel} $\rightarrow$ \emph{system properties}.
-        You might rather want to download the zip archive instead of the bz2 archive.
-        Execute the \GrG\ assemblies from a command line window (\emph{Start} $\rightarrow$ \emph{Run...} $\rightarrow$ \texttt{cmd}); On Windows / .NET the \texttt{mono} prefix is not applicable, of course.\\
-        If you are using Notepad++ you may be interested in the syntax highlighting for the model and rule language of \GrG\ provided in the syntaxhighlighting directory.
-    \end{note}
-\end{figure}
+\vspace{2mm}
+\noindent{\bf If you're using Microsoft Windows:}
+Extract the .zip archive to a directory of your choice and add the \texttt{bin} subdirectory to your search path via \emph{control panel} $\rightarrow$ \emph{system properties} / environment variables.
+Execute the \GrG\ assemblies from a command line window (\emph{Start} $\rightarrow$ \emph{Run...} $\rightarrow$ \texttt{cmd}).
+For MS .NET the \texttt{mono} prefix is neither applicable nor needed.
+
+\begin{note}
+You might be interested in the syntax highlighting specifications of the \GrG-languages supplied for the vim and Notepad++ editors in the \texttt{syntaxhighlighting} subdirectory.
+\end{note}
 
 \section{Creating a Graph Model}
 In the directory \texttt{/home/grgen} we create a text file \texttt{StateMachine.gm} that contains the graph meta model for our state machine\footnote{You'll find the source code of this quick start example shipped with the \GrG\ package in the \texttt{examples/FiniteStateMachine/} directory.}.
