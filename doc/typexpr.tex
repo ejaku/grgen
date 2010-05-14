@@ -270,7 +270,7 @@ For \texttt{n.str == "foo bar foo"} the operations yield \\
 Set expressions consist of the known mathematical set operations and size counting.
 
 \begin{rail} 
-  SetExpr: Expr 'in' SetExpr | SetExpr (MethodSelector)? | SetExpr (backslash | ampersand | '|') SetExpr;
+  SetExpr: Expr 'in' SetExpr | PrimaryExpr (MethodSelector)? | SetExpr (backslash | ampersand | '|') SetExpr;
 \end{rail}\ixnterm{SetExpr}\ixkeyw{in}
 
 \begin{table}[htbp] 
