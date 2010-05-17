@@ -71,6 +71,8 @@ public class EdgeInterfaceTypeChangeNode extends EdgeDeclNode implements EdgeCha
 			interfaceTypeUnresolved.reportError("Interface type of edge \"" + getIdentNode() + "\" must be an edge type");
 			return false;
 		}
+		if(!successfullyResolved) return false;
+
 		EdgeTypeNode interfaceEdgeTypeNode = (EdgeTypeNode)interfaceType.getDeclType();
 		EdgeTypeNode edgeTypeNode = (EdgeTypeNode)typeTypeDecl.getDeclType();
 		if(!edgeTypeNode.isA(interfaceEdgeTypeNode)) {

@@ -74,6 +74,8 @@ public class NodeInterfaceTypeChangeNode extends NodeDeclNode implements NodeCha
 			interfaceTypeUnresolved.reportError("Interface type of node \"" + getIdentNode() + "\" must be a node type");
 			return false;
 		}
+		if(!successfullyResolved) return false;
+
 		NodeTypeNode interfaceNodeTypeNode = (NodeTypeNode)interfaceType.getDeclType();
 		NodeTypeNode nodeTypeNode = (NodeTypeNode)typeTypeDecl.getDeclType();
 		if(!nodeTypeNode.isA(interfaceNodeTypeNode)) {
