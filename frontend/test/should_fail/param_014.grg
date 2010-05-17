@@ -1,0 +1,6 @@
+rule ruleWithUnknownParameterType(n:UnknownType<Node>) {
+	modify {
+	}
+}
+
+test testWithUnknownParameterType(n:UnknownType<Node>) { }
