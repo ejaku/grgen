@@ -883,6 +883,7 @@ ERROR  should_fail/rhs_003.grg
 ERROR  should_fail/rhs_004.grg
 ERROR  should_fail/rhs_007.grg
 ERROR  should_fail/rhs_008.grg
+ERROR  should_fail/same_attribute_as_node_edge_name.grg
 ERROR  should_fail/set_001.grg
 ERROR  should_fail/set_002.grg
 ERROR  should_fail/set_003.grg
