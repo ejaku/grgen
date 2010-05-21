@@ -13,8 +13,6 @@ endif
 
 let b:did_indent = 1
 
-" Disable C indenting.
-setlocal nocindent
-setlocal autoindent
+setlocal smartindent
 
 " vim: ts=8 noet
