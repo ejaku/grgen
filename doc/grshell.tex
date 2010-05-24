@@ -287,9 +287,9 @@ but not necessarily using the same commands you typed in during construction.
 Such a script can be loaded and executed by the \texttt{include} command (see Section~\ref{commcommands}).
 
 \begin{rail}
-  'export' Filename.grs (withvariables)?
+  'export' (Filename.grs | Filename.grsi) (withvariables)?
 \end{rail}\ixkeyw{export}\ixkeyw{withvariables}\indexmain{export}
-Exports an instance graph in GRS format, which is a reduced \GrShell\ script (it can get imported and exported on API level\ref{sub:imexport} without using the \GrShell).
+Exports an instance graph in GRS (.grs/.grsi) format, which is a reduced \GrShell\ script (it can get imported and exported on API level\ref{sub:imexport} without using the \GrShell).
 It contains the \texttt{new graph} command, followed by \texttt{new node} commands, followed by \texttt{new edge} commands.
 If \texttt{withvariables} is specified, the (graph global) variables are exported, too.
 The export is only complete with the model of the graph given in the \texttt{.gm} file.
@@ -305,7 +305,8 @@ Exporting fails if the graph model contains attributes of \texttt{set<S>}-,\text
 \begin{rail}
   'import' (Filename.grs | Filename.grsi)
 \end{rail}\ixkeyw{import}
-Imports the specified graph instance in GRS format (the \emph{reduced} \GrShell\ script, a saved graph can only be imported by \texttt{include} (but an exported graph can be imported by \texttt{include}, too)).
+Imports the specified graph instance in GRS (.grs/.grsi) format (the \emph{reduced} \GrShell\ script,
+a saved graph can only be imported by \texttt{include} (but an exported graph can be imported by \texttt{include}, too)).
 The referenced graph model must be available as \texttt{.gm}-file.
 
 \begin{rail}

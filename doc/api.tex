@@ -231,6 +231,7 @@ The backend is available in the \texttt{engine-net-2} subdirectory.
 It contains a VisualStudio 2005 solution file containing projects for the \texttt{libGr}, the \texttt{lgspBackend} (libGr-Search-Plan-Backend) and the \texttt{GrShell}.
 Before you can build the solution you must execute \texttt{./src/libGr/genparser.bat}, \texttt{./src/libGr/GRSImporter/genparser.bat} and \texttt{./src/GrShell/genparser.bat}
 to get the CSharpCC parsers for the rewrite sequences, the GRS importer and the shell generated.
+Under LINUX you may use \texttt{make\_linux.sh} to get a complete build.
 To get the API examples generated you must execute \texttt{./genlibs.bat}.
 The \texttt{doc} subdirectory contains the sources of the user manual, for building say \texttt{./build\_cygwin.sh grgen} on Windows in \texttt{cygwin-bash} or \texttt{./build grgen} on Linux in \texttt{bash}.
 The \texttt{syntaxhighlighting} subdirectory contains syntax highlighting specifications for the GrGen-files for \texttt{Notepad++} and \texttt{vim}.

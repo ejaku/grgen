@@ -30,7 +30,8 @@ namespace de.unika.ipd.grGen.libGr
             String first = ListGet(filenameParameters, 0);
             if(first.EndsWith(".gxl", StringComparison.InvariantCultureIgnoreCase))
                 GXLExport.Export(graph, first);
-            else if (first.EndsWith(".grs", StringComparison.InvariantCultureIgnoreCase))
+            else if (first.EndsWith(".grs", StringComparison.InvariantCultureIgnoreCase)
+                || first.EndsWith(".grsi", StringComparison.InvariantCultureIgnoreCase))
                 GRSExport.Export(graph, first, ListGet(filenameParameters, 1)=="withvariables");
             else
                 throw new NotSupportedException("File format not supported");
