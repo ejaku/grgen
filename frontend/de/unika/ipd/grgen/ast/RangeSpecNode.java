@@ -25,8 +25,8 @@ public class RangeSpecNode extends BaseNode {
 		setName(RangeSpecNode.class, "range spec");
 	}
 
-	/** Constant, signaling if one bound is bounded. */
-	public static final long UNBOUND = Long.MAX_VALUE;
+	/** Constant, signaling if upper bound is bounded. */
+	public static final long UNBOUND = Integer.MAX_VALUE;
 
 	/** The upper and lower bound. */
 	private long lower, upper;

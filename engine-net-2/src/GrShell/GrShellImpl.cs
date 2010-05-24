@@ -1356,7 +1356,7 @@ namespace de.unika.ipd.grGen.grShell
                     else
                     {
                         Console.WriteLine("Attribute {0} must be either \"true\" or \"false\"!", attribute);
-                        throw new Exception("Unknown boolean literal");
+                        throw new Exception("Unknown boolean literal" + valueString);
                     }
                     value = val;
                     break;
@@ -1364,10 +1364,21 @@ namespace de.unika.ipd.grGen.grShell
                 case AttributeKind.IntegerAttr:
                 {
                     int val;
+                    if(valueString.StartsWith("0x"))
+                    {
+                        if(!Int32.TryParse(valueString.Substring("0x".Length), System.Globalization.NumberStyles.HexNumber,
+                            System.Globalization.CultureInfo.InvariantCulture, out val))
+                        {
+                            Console.WriteLine("Attribute {0} must be an integer!", attribute);
+                            throw new Exception("Unknown integer literal" + valueString);
+                        }
+                        value = val;
+                        break;
+                    }
                     if(!Int32.TryParse(valueString, out val))
                     {
                         Console.WriteLine("Attribute {0} must be an integer!", attribute);
-                        throw new Exception("Unknown integer literal");
+                        throw new Exception("Unknown integer literal" + valueString);
                     }
                     value = val;
                     break;
@@ -1378,10 +1389,12 @@ namespace de.unika.ipd.grGen.grShell
                 case AttributeKind.FloatAttr:
                 {
                     float val;
-                    if(!Single.TryParse(valueString, out val))
+                    if(!Single.TryParse(valueString.Substring(0, valueString.Length-1), // cut f suffix
+                        System.Globalization.NumberStyles.Float,
+				        System.Globalization.CultureInfo.InvariantCulture, out val))
                     {
                         Console.WriteLine("Attribute \"{0}\" must be a (single) floating point number!", attribute);
-                        throw new Exception("Unknown float literal");
+                        throw new Exception("Unknown float literal " + valueString);
                     }
                     value = val;
                     break;
@@ -1389,18 +1402,28 @@ namespace de.unika.ipd.grGen.grShell
                 case AttributeKind.DoubleAttr:
                 {
                     double val;
-                    if(!Double.TryParse(valueString, out val))
+                    if(valueString[valueString.Length-1] == 'd') // cut d suffix if given
+                        valueString = valueString.Substring(0, valueString.Length-1);
+                    if(!Double.TryParse(valueString, System.Globalization.NumberStyles.Float,
+                        System.Globalization.CultureInfo.InvariantCulture, out val))
                     {
                         Console.WriteLine("Attribute \"{0}\" must be a (double) floating point number!", attribute);
-                        throw new Exception("Unknown double literal");
+                        throw new Exception("Unknown double literal" + valueString);
                     }
                     value = val;
                     break;
                 }
                 case AttributeKind.ObjectAttr:
-                    Console.WriteLine("Attribute \"" + attribute + "\" is an object type attribute!\n"
-                            + "It is not possible to assign a value to an object type attribute!");
-                    throw new Exception("Object attributes unsupported");
+                {
+                    if(valueString != "null")
+                    {
+                        Console.WriteLine("Attribute \"" + attribute + "\" is an object type attribute!\n"
+                                + "It is not possible to assign a value other than null to an object type attribute!");
+                        throw new Exception("Unknown object literal (only null allowed)" + valueString);
+                    }
+                    value = null;
+                    break;
+                }
             }
             return value;
         }
@@ -1412,6 +1435,11 @@ namespace de.unika.ipd.grGen.grShell
             {
                 try
                 {
+                    if(valueString.IndexOf("::") != -1)
+                    {
+                        valueString = valueString.Substring(valueString.IndexOf("::") + "::".Length);
+                    }
+
                     int val;
                     if(Int32.TryParse(valueString, out val))
                     {

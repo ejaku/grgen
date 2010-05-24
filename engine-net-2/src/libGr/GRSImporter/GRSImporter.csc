@@ -201,19 +201,29 @@ PARSER_BEGIN(GRSImporter)
                     throw new Exception("Unknown boolean literal");
                 break;
             case AttributeKind.IntegerAttr:
-				value = Int32.Parse(valueString);
+                if(valueString.StartsWith("0x"))
+                    value = Int32.Parse(valueString.Substring("0x".Length), System.Globalization.NumberStyles.HexNumber);
+				else
+					value = Int32.Parse(valueString);
                 break;
             case AttributeKind.StringAttr:
                 value = valueString;
                 break;
             case AttributeKind.FloatAttr:
-                value = Single.Parse(valueString);
+				if(valueString[valueString.Length-1]=='f') // cut f suffix (required, but be tolerant to incorrect format of pre 2.6RC3, so here optional)
+					valueString = valueString.Substring(0, valueString.Length-1);
+                value = Single.Parse(valueString, System.Globalization.CultureInfo.InvariantCulture);
                 break;
             case AttributeKind.DoubleAttr:
-                value = Double.Parse(valueString);
+				if(valueString[valueString.Length-1]=='d') // cut d suffix if given
+					valueString = valueString.Substring(0, valueString.Length-1);
+				value = Double.Parse(valueString, System.Globalization.CultureInfo.InvariantCulture);
                 break;
             case AttributeKind.ObjectAttr:
-                throw new Exception("Object attributes unsupported");
+				if(valueString!="null")
+	                throw new Exception("(Non-null) Object attributes unsupported");
+				value = null;
+				break;
             }
             return value;
         }
@@ -223,6 +233,10 @@ PARSER_BEGIN(GRSImporter)
             object value = null;
             if(attrType.Kind==AttributeKind.EnumAttr)
             {
+				if(valueString.IndexOf("::")!=-1) {
+					valueString = valueString.Substring(valueString.IndexOf("::")+"::".Length);
+				}
+
                 int val;
                 if(Int32.TryParse(valueString, out val)) {
                     value = Enum.ToObject(attrType.EnumType.EnumType, val);
@@ -330,6 +344,24 @@ TOKEN: {
 
 TOKEN: {
 	< NUMBER: (["0"-"9"])+ >
+|
+	< HEXNUMBER: "0x" (["0"-"9", "a"-"f", "A"-"F"])+ >
+}
+
+TOKEN: {
+	< NUMFLOAT:
+			("-")? (["0"-"9"])+ ("." (["0"-"9"])+)? (<EXPONENT>)? ["f", "F"]
+		|	("-")? "." (["0"-"9"])+ (<EXPONENT>)? ["f", "F"]
+	>
+|
+	< NUMDOUBLE:
+			("-")? (["0"-"9"])+ "." (["0"-"9"])+ (<EXPONENT>)? (["d", "D"])?
+		|	("-")? "." (["0"-"9"])+ (<EXPONENT>)? (["d", "D"])?
+		|	("-")? (["0"-"9"])+ <EXPONENT> (["d", "D"])?
+		|	("-")? (["0"-"9"])+ ["d", "D"]
+	>
+|
+	< #EXPONENT: ["e", "E"] (["+", "-"])? (["0"-"9"])+ >
 }
 
 TOKEN: {
@@ -362,6 +394,17 @@ SPECIAL_TOKEN: {
 |	< ERRORFILENAME: ~[] > : DEFAULT
 }
 
+String Word():
+{
+    Token tok;
+}
+{
+    tok=<WORD>
+    {
+        return tok.image;
+    }
+}
+
 String Text():
 {
 	Token tok;
@@ -373,15 +416,23 @@ String Text():
 	}
 }
 
-String TextOrNumberOrBoolLit():
+String AttributeValue():
 {
 	Token tok;
+	String enumName, enumValue;
 }
 {
-	(tok=<DOUBLEQUOTEDTEXT> | tok=<SINGLEQUOTEDTEXT> | tok=<WORD> | tok=<NUMBER> | tok=<TRUE> | tok=<FALSE>)
-	{
-		return tok.image;		
-	}
+	(
+		LOOKAHEAD(2) enumName=Word() "::" enumValue=Word()
+		{
+			return enumName + "::" + enumValue;
+		}
+	|
+		(tok=<DOUBLEQUOTEDTEXT> | tok=<SINGLEQUOTEDTEXT> | tok=<WORD> | tok=<NUMBER> | tok=<HEXNUMBER> | tok=<NUMFLOAT> | tok=<NUMDOUBLE> | tok=<TRUE> | tok=<FALSE> | tok=<NULL> )
+		{
+			return tok.image;		
+		}
+	)
 }
 
 String Filename():
@@ -514,19 +565,19 @@ void SingleAttribute(ArrayList attributes):
 }
 {
 	attribName=Text() "=" 
-		(value=TextOrNumberOrBoolLit()
+		(value=AttributeValue()
 			{
 				attributes.Add(new Param(attribName, value));
 			}
 		| <SET> <LANGLE> type=<WORD> <RANGLE> 
 			{ param = new Param(attribName, "set", type.image); }
-			<LBRACE> ( value=TextOrNumberOrBoolLit() { param.Values.Add(value); } )? 
-			    (<COMMA> value=TextOrNumberOrBoolLit() { param.Values.Add(value); })* <RBRACE>
+			<LBRACE> ( value=AttributeValue() { param.Values.Add(value); } )? 
+			    (<COMMA> value=AttributeValue() { param.Values.Add(value); })* <RBRACE>
 			{ attributes.Add(param); }
 		| <MAP> <LANGLE> type=<WORD> <COMMA> typeTgt=<WORD> <RANGLE>
 			{ param = new Param(attribName, "map", type.image, typeTgt.image); }
-			<LBRACE> ( value=TextOrNumberOrBoolLit() { param.Values.Add(value); } <ARROW> valueTgt=TextOrNumberOrBoolLit() { param.TgtValues.Add(valueTgt); } )?
-				( <COMMA> value=TextOrNumberOrBoolLit() { param.Values.Add(value); } <ARROW> valueTgt=TextOrNumberOrBoolLit() { param.TgtValues.Add(valueTgt); } )* <RBRACE>
+			<LBRACE> ( value=AttributeValue() { param.Values.Add(value); } <ARROW> valueTgt=AttributeValue() { param.TgtValues.Add(valueTgt); } )?
+				( <COMMA> value=AttributeValue() { param.Values.Add(value); } <ARROW> valueTgt=AttributeValue() { param.TgtValues.Add(valueTgt); } )* <RBRACE>
 			{ attributes.Add(param); }
 		)
 }

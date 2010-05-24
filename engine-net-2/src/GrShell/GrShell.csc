@@ -342,6 +342,8 @@ TOKEN: {
 
 TOKEN: {
 	< NUMBER: (["0"-"9"])+ >
+|
+	< HEXNUMBER: "0x" (["0"-"9", "a"-"f", "A"-"F"])+ >
 }
 
 TOKEN: {
@@ -479,21 +481,29 @@ String TextOrNumber():
 	Token tok;
 }
 {
-	(tok=<DOUBLEQUOTEDTEXT> | tok=<SINGLEQUOTEDTEXT> | tok=<WORD> | tok=<NUMBER>)
+	(tok=<DOUBLEQUOTEDTEXT> | tok=<SINGLEQUOTEDTEXT> | tok=<WORD> | tok=<NUMBER> | tok=<HEXNUMBER>)
 	{
 		return tok.image;		
 	}
 }
 
-String TextOrNumberOrBoolLit():
+String AttributeValue():
 {
 	Token tok;
+	String enumName, enumValue;
 }
 {
-	(tok=<DOUBLEQUOTEDTEXT> | tok=<SINGLEQUOTEDTEXT> | tok=<WORD> | tok=<NUMBER> | tok=<TRUE> | tok=<FALSE>)
-	{
-		return tok.image;		
-	}
+	(
+		LOOKAHEAD(2) enumName=Word() "::" enumValue=Word()
+		{
+			return enumName + "::" + enumValue;
+		}
+	|
+		(tok=<DOUBLEQUOTEDTEXT> | tok=<SINGLEQUOTEDTEXT> | tok=<WORD> | tok=<NUMBER> | tok=<HEXNUMBER> | tok=<NUMFLOAT> | tok=<NUMDOUBLE> | tok=<TRUE> | tok=<FALSE> | tok=<NULL>)
+		{
+			return tok.image;
+		}
+	)
 }
 
 int Number():
@@ -501,10 +511,17 @@ int Number():
 	Token t;
 }
 {
-	t=<NUMBER>
-	{
-		return Convert.ToInt32(t.image);
-	}
+	( 
+		t=<NUMBER> 
+		{
+			return Convert.ToInt32(t.image);
+		}
+	|
+		t=<HEXNUMBER>
+		{
+            return Int32.Parse(t.image.Substring("0x".Length), System.Globalization.NumberStyles.HexNumber);
+		}
+	)
 }
 
 float FloatNumber():
@@ -781,13 +798,11 @@ object Expr():
     { return obj; }
 }
 
-object Constant():
+object SimpleConstant():
 {
 	object constant = null;
-	long number;
+	int number;
 	string type, value;
-	string typeName, typeNameDst;
-	Type srcType, dstType;
 }
 {
 	(
@@ -819,8 +834,24 @@ object Constant():
 			if(constant==null) 
 				throw new ParseException("Invalid constant \""+type+"::"+value+"\"!");
 		}
+	)
+	{
+		return constant;
+	}
+}
+
+object Constant():
+{
+	object constant = null;
+	object src = null, dst = null;
+	string typeName, typeNameDst;
+	Type srcType, dstType;
+}
+{
+	(
+		constant=SimpleConstant()
     |
-		"set" "<" typeName=Word() ">" "{" "}"
+		"set" "<" typeName=Word() ">"
 		{
 			srcType = DictionaryHelper.GetTypeFromNameForDictionary(typeName, impl.CurrentGraph.Model);
 			dstType = typeof(de.unika.ipd.grGen.libGr.SetValueType);
@@ -829,8 +860,12 @@ object Constant():
 			if(constant==null) 
 				throw new ParseException("Invalid constant \"set<"+typeName+">\"!");
 		}
+		"{" 
+			( src=SimpleConstant() { ((IDictionary)constant).Add(src, null); } )? 
+				( "," src=SimpleConstant() { ((IDictionary)constant).Add(src, null); })*
+		"}"
 	|
-		"map" "<" typeName=Word() "," typeNameDst=Word() ">" "{" "}"
+		"map" "<" typeName=Word() "," typeNameDst=Word() ">"
 		{
 			srcType = DictionaryHelper.GetTypeFromNameForDictionary(typeName, impl.CurrentGraph.Model);
 			dstType = DictionaryHelper.GetTypeFromNameForDictionary(typeNameDst, impl.CurrentGraph.Model);
@@ -839,6 +874,10 @@ object Constant():
 			if(constant==null) 
 				throw new ParseException("Invalid constant \"map<"+typeName+","+typeNameDst+">\"!");
 		}
+		"{" 
+			( src=SimpleConstant() "->" dst=SimpleConstant() { ((IDictionary)constant).Add(src, dst); } )?
+				( "," src=SimpleConstant() "->" dst=SimpleConstant() { ((IDictionary)constant).Add(src, dst); } )*
+		"}"
 	)
 	{
 		return constant;
@@ -1271,19 +1310,19 @@ void SingleAttribute(ArrayList attributes):
 }
 {
 	attribName=Text() "=" 
-		(value=TextOrNumberOrBoolLit()
+		(value=AttributeValue()
 			{
 				attributes.Add(new Param(attribName, value));
 			}
 		| <SET> <LANGLE> type=<WORD> <RANGLE> 
 			{ param = new Param(attribName, "set", type.image); }
-			<LBRACE> ( value=TextOrNumberOrBoolLit() { param.Values.Add(value); } )? 
-			    (<COMMA> value=TextOrNumberOrBoolLit() { param.Values.Add(value); })* <RBRACE>
+			<LBRACE> ( value=AttributeValue() { param.Values.Add(value); } )? 
+			    (<COMMA> value=AttributeValue() { param.Values.Add(value); })* <RBRACE>
 			{ attributes.Add(param); }
 		| <MAP> <LANGLE> type=<WORD> <COMMA> typeTgt=<WORD> <RANGLE>
 			{ param = new Param(attribName, "map", type.image, typeTgt.image); }
-			<LBRACE> ( value=TextOrNumberOrBoolLit() { param.Values.Add(value); } <ARROW> valueTgt=TextOrNumberOrBoolLit() { param.TgtValues.Add(valueTgt); } )?
-				( <COMMA> value=TextOrNumberOrBoolLit() { param.Values.Add(value); } <ARROW> valueTgt=TextOrNumberOrBoolLit() { param.TgtValues.Add(valueTgt); } )* <RBRACE>
+			<LBRACE> ( value=AttributeValue() { param.Values.Add(value); } <ARROW> valueTgt=AttributeValue() { param.TgtValues.Add(valueTgt); } )?
+				( <COMMA> value=AttributeValue() { param.Values.Add(value); } <ARROW> valueTgt=AttributeValue() { param.TgtValues.Add(valueTgt); } )* <RBRACE>
 			{ attributes.Add(param); }
 		)
 }

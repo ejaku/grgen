@@ -276,7 +276,7 @@ namespace de.unika.ipd.grGen.libGr
         /// <param name="a">A dictionary.</param>
         /// <param name="b">Another dictionary of compatible type to <paramref name="a"/>.</param>
         /// <returns>Boolean result of set/map comparison.</returns>
-        public static bool Equal<K, V>(Dictionary<K, V> a, Dictionary<K, V> b) where V : IEquatable<V>
+        public static bool Equal<K, V>(Dictionary<K, V> a, Dictionary<K, V> b)
         {
             if(a.Count!=b.Count) return false;
             if(LessOrEqual(a, b) && LessOrEqual(b, a)) return true;
@@ -290,7 +290,7 @@ namespace de.unika.ipd.grGen.libGr
         /// <param name="a">A dictionary.</param>
         /// <param name="b">Another dictionary of compatible type to <paramref name="a"/>.</param>
         /// <returns>Boolean result of set/map comparison.</returns>
-        public static bool NotEqual<K, V>(Dictionary<K, V> a, Dictionary<K, V> b) where V : IEquatable<V>
+        public static bool NotEqual<K, V>(Dictionary<K, V> a, Dictionary<K, V> b)
         {
             if(a.Count!=b.Count) return true;
             if(LessOrEqual(a, b) && LessOrEqual(b, a)) return false;
@@ -304,7 +304,7 @@ namespace de.unika.ipd.grGen.libGr
         /// <param name="a">A dictionary.</param>
         /// <param name="b">Another dictionary of compatible type to <paramref name="a"/>.</param>
         /// <returns>Boolean result of set/map comparison.</returns>
-        public static bool GreaterThan<K, V>(Dictionary<K, V> a, Dictionary<K, V> b) where V : IEquatable<V>
+        public static bool GreaterThan<K, V>(Dictionary<K, V> a, Dictionary<K, V> b)
         {
             if(GreaterOrEqual(a, b)) return b.Count!=a.Count;
             else return false;
@@ -317,7 +317,7 @@ namespace de.unika.ipd.grGen.libGr
         /// <param name="a">A dictionary.</param>
         /// <param name="b">Another dictionary of compatible type to <paramref name="a"/>.</param>
         /// <returns>Boolean result of set/map comparison.</returns>
-        public static bool GreaterOrEqual<K, V>(Dictionary<K, V> a, Dictionary<K, V> b) where V : IEquatable<V>
+        public static bool GreaterOrEqual<K, V>(Dictionary<K, V> a, Dictionary<K, V> b)
         {
             return LessOrEqual(b, a);
         }
@@ -329,7 +329,7 @@ namespace de.unika.ipd.grGen.libGr
         /// <param name="a">A dictionary.</param>
         /// <param name="b">Another dictionary of compatible type to <paramref name="a"/>.</param>
         /// <returns>Boolean result of set/map comparison.</returns>
-        public static bool LessThan<K, V>(Dictionary<K, V> a, Dictionary<K, V> b) where V : IEquatable<V>
+        public static bool LessThan<K, V>(Dictionary<K, V> a, Dictionary<K, V> b)
         {
             if(LessOrEqual(a, b)) return a.Count!=b.Count;
             else return false;
@@ -342,7 +342,7 @@ namespace de.unika.ipd.grGen.libGr
         /// <param name="a">A dictionary.</param>
         /// <param name="b">Another dictionary of compatible type to <paramref name="a"/>.</param>
         /// <returns>Boolean result of set/map comparison.</returns>
-        public static bool LessOrEqual<K, V>(Dictionary<K, V> a, Dictionary<K, V> b) where V : IEquatable<V>
+        public static bool LessOrEqual<K, V>(Dictionary<K, V> a, Dictionary<K, V> b)
         {
             if(typeof(V)==typeof(de.unika.ipd.grGen.libGr.SetValueType))
             {

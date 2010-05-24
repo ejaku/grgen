@@ -1227,18 +1227,7 @@ xgrsNegOrIteration[ExecNode xg]
 iterSequence[ExecNode xg]
 	: simpleSequence[xg]
 		(
-			rsn=rangeSpec
-			{
-				if(rsn != null)
-				{
-					if(rsn.getLower() == rsn.getUpper())
-					{
-						if(rsn.getLower() != 1)
-							xg.append("[" + rsn.getLower() + "]");
-					}
-					else xg.append("["+rsn.getLower()+":"+rsn.getUpper()+"]");
-				}
-			}
+			rsn=rangeSpec { xg.append(rsn); }
 		|
 			STAR { xg.append("*"); }
 		|

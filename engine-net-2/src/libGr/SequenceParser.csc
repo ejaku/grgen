@@ -157,12 +157,17 @@ TOKEN: {
 |
 	< #EXPONENT: ["e", "E"] (["+", "-"])? (["0"-"9"])+ >
 |
-	< NUM: (("-")? ["0"-"9"])+ >
-|	< DOUBLEQUOTEDTEXT : "\"" (~["\"", "\n", "\r"])* "\"" >
+	< NUMBER: (("-")? ["0"-"9"])+ >
+|
+	< HEXNUMBER: "0x" (["0"-"9", "a"-"f", "A"-"F"])+ >
+|	
+	< DOUBLEQUOTEDTEXT : "\"" (~["\"", "\n", "\r"])* "\"" >
 		{ matchedToken.image = matchedToken.image.Substring(1, matchedToken.image.Length-2); }
-|	< SINGLEQUOTEDTEXT : "\'" (~["\'", "\n", "\r"])* "\'" >
+|	
+	< SINGLEQUOTEDTEXT : "\'" (~["\'", "\n", "\r"])* "\'" >
 		{ matchedToken.image = matchedToken.image.Substring(1, matchedToken.image.Length-2); }
-|	< WORD : ["A"-"Z", "a"-"z", "_"] (["A"-"Z", "a"-"z", "_", "0"-"9"])* >
+|	
+< WORD : ["A"-"Z", "a"-"z", "_"] (["A"-"Z", "a"-"z", "_", "0"-"9"])* >
 }
 
 String Word():
@@ -198,18 +203,25 @@ String Text():
 	}
 }
 
-long Number():
+int Number():
 {
 	Token t;
-	long val;
+	int val;
 }
 {
-	t=<NUM>
-	{
-		if(!long.TryParse(t.image, out val))
-			throw new ParseException("64-bit integer expected but found: \"" + t + "\" (" + t.kind + ")");
-		return val;
-	}
+	(
+		t=<NUMBER>
+		{
+			if(!Int32.TryParse(t.image, out val))
+				throw new ParseException("Integer expected but found: \"" + t + "\" (" + t.kind + ")");
+			return val;
+		}
+	|
+		t=<HEXNUMBER>
+		{
+			return Int32.Parse(t.image.Substring("0x".Length), System.Globalization.NumberStyles.HexNumber);
+		}
+	)
 }
 
 float FloatNumber():
@@ -276,13 +288,11 @@ void RuleParameter(List<SequenceVariable> paramVars, List<Object> paramConsts):
 	}
 }
 
-object Constant():
+object SimpleConstant():
 {
 	object constant = null;
-	long number;
+	int number;
 	string type, value;
-	string typeName, typeNameDst;
-	Type srcType, dstType;
 }
 {
 	(
@@ -314,8 +324,24 @@ object Constant():
 			if(constant==null) 
 				throw new ParseException("Invalid constant \""+type+"::"+value+"\"!");
 		}
+	)
+	{
+		return constant;
+	}
+}
+
+object Constant():
+{
+	object constant = null;
+	object src = null, dst = null;
+	string typeName, typeNameDst;
+	Type srcType, dstType;
+}
+{
+	(
+		constant=SimpleConstant()
     |
-		"set" "<" typeName=Word() ">" "{" "}"
+		"set" "<" typeName=Word() ">"
 		{
 			srcType = DictionaryHelper.GetTypeFromNameForDictionary(typeName, model);
 			dstType = typeof(de.unika.ipd.grGen.libGr.SetValueType);
@@ -324,8 +350,12 @@ object Constant():
 			if(constant==null) 
 				throw new ParseException("Invalid constant \"set<"+typeName+">\"!");
 		}
+		"{"
+			( src=SimpleConstant() { ((IDictionary)constant).Add(src, null); } )? 
+				( "," src=SimpleConstant() { ((IDictionary)constant).Add(src, null); })*
+		"}"
 	|
-		"map" "<" typeName=Word() "," typeNameDst=Word() ">" "{" "}"
+		"map" "<" typeName=Word() "," typeNameDst=Word() ">"
 		{
 			srcType = DictionaryHelper.GetTypeFromNameForDictionary(typeName, model);
 			dstType = DictionaryHelper.GetTypeFromNameForDictionary(typeNameDst, model);
@@ -334,6 +364,10 @@ object Constant():
 			if(constant==null) 
 				throw new ParseException("Invalid constant \"map<"+typeName+","+typeNameDst+">\"!");
 		}
+		"{"
+			( src=SimpleConstant() "->" dst=SimpleConstant() { ((IDictionary)constant).Add(src, dst); } )?
+				( "," src=SimpleConstant() "->" dst=SimpleConstant() { ((IDictionary)constant).Add(src, dst); } )*
+		"}"
 	)
 	{
 		return constant;
@@ -565,7 +599,7 @@ Sequence RewriteSequenceNeg():
 Sequence RewriteSequenceIteration():
 {
 	Sequence seq;
-	long minnum, maxnum = -1;
+	int minnum, maxnum = -1;
 	bool maxspecified = false;
 	bool maxstar = false;
 }
@@ -583,23 +617,27 @@ Sequence RewriteSequenceIteration():
 				seq = new SequenceIterationMin(seq, 1);
 			}
 		|
-		    "[" minnum=Number()
-		    (
-				":"
+		    "[" 
 				(
-					maxnum=Number() { maxspecified = true; }
+					minnum=Number()
+				    (
+						":"
+						(
+							maxnum=Number() { maxspecified = true; }
+						|
+							"*" { maxstar = true; }
+						)
+					)?
 				|
-					"*" { maxstar = true; }
+					"*" { minnum = 0; }
+				|
+					"+" { minnum = 1; }
 				)
-			)?
 			"]"
 			{
-			    if(maxstar)
-			    {
+			    if(maxstar) {
 					seq = new SequenceIterationMin(seq, minnum);
-			    }
-			    else
-			    {
+			    } else {
 					if(!maxspecified) maxnum = minnum;
 					seq = new SequenceIterationMinMax(seq, minnum, maxnum);
 				}
@@ -805,7 +843,7 @@ Sequence Rule():
 	bool special = false, test = false;
 	String str;
 	bool numChooseRandSpecified = false;
-	long numChooseRand = 1;
+	int numChooseRand = 1;
 	List<SequenceVariable> paramVars = new List<SequenceVariable>();
 	List<Object> paramConsts = new List<Object>();
 	List<SequenceVariable> returnVars = new List<SequenceVariable>();

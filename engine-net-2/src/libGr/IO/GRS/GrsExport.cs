@@ -65,7 +65,7 @@ namespace de.unika.ipd.grGen.libGr
             sw.WriteLine("# begin of graph \"{0}\" saved by GrsExport", graph.Name);
             sw.WriteLine();
 
-            sw.WriteLine("new graph " + StringToTextToken(graph.Model.ModelName) + " " + StringToTextToken(graph.Name));
+            sw.WriteLine("new graph \"" + graph.Model.ModelName + "\" \"" + graph.Name + "\"");
 
             if (!(graph is NamedGraph)) {
                 // assign arbitrary but unique names, 
@@ -76,7 +76,7 @@ namespace de.unika.ipd.grGen.libGr
             int numNodes = 0;
             foreach (INode node in graph.Nodes)
             {
-                sw.Write("new :{0}($ = {1}", node.Type.Name, StringToTextToken(graph.GetElementName(node)));
+                sw.Write("new :{0}($ = \"{1}\"", node.Type.Name, graph.GetElementName(node));
                 foreach (AttributeType attrType in node.Type.AttributeTypes)
                 {
                     object value = node.GetAttribute(attrType.Name);
@@ -93,7 +93,7 @@ namespace de.unika.ipd.grGen.libGr
                     {
                         foreach(Variable var in vars)
                         {
-                            sw.WriteLine("{0} = @({1})", var.Name, StringToTextToken(graph.GetElementName(node)));
+                            sw.WriteLine("{0} = @(\"{1}\")", var.Name, graph.GetElementName(node));
                         }
                     }
                 }
@@ -107,8 +107,8 @@ namespace de.unika.ipd.grGen.libGr
             {
                 foreach (IEdge edge in node.Outgoing)
                 {
-                    sw.Write("new @({0}) - :{1}($ = {2}", StringToTextToken(graph.GetElementName(node)),
-                        edge.Type.Name, StringToTextToken(graph.GetElementName(edge)));
+                    sw.Write("new @(\"{0}\") - :{1}($ = \"{2}\"", graph.GetElementName(node),
+                        edge.Type.Name, graph.GetElementName(edge));
                     foreach (AttributeType attrType in edge.Type.AttributeTypes)
                     {
                         object value = edge.GetAttribute(attrType.Name);
@@ -117,7 +117,7 @@ namespace de.unika.ipd.grGen.libGr
                             EmitAttributes(attrType, value, sw);
                         }
                     }
-                    sw.WriteLine(") -> @({0})", StringToTextToken(graph.GetElementName(edge.Target)));
+                    sw.WriteLine(") -> @(\"{0}\")", graph.GetElementName(edge.Target));
 
                     if(withVariables)
                     {
@@ -126,7 +126,7 @@ namespace de.unika.ipd.grGen.libGr
                         {
                             foreach(Variable var in vars)
                             {
-                                sw.WriteLine("{0} = @({1})", var.Name, StringToTextToken(graph.GetElementName(edge)));
+                                sw.WriteLine("{0} = @(\"{1}\")", var.Name, graph.GetElementName(edge));
                             }
                         }
                     }
@@ -153,8 +153,8 @@ namespace de.unika.ipd.grGen.libGr
                 bool first = true;
                 foreach(DictionaryEntry entry in set)
                 {
-                    if(first) { sw.Write(StringToTextToken(entry.Key.ToString())); first = false; }
-                    else { sw.Write("," + StringToTextToken(entry.Key.ToString())); }
+                    if(first) { sw.Write(ToString(entry.Key, attrType.ValueType)); first = false; }
+                    else { sw.Write("," + ToString(entry.Key, attrType.ValueType)); }
                 }
                 sw.Write("}");
             }
@@ -165,21 +165,43 @@ namespace de.unika.ipd.grGen.libGr
                 bool first = true;
                 foreach(DictionaryEntry entry in map)
                 {
-                    if(first) { sw.Write(StringToTextToken(entry.Key.ToString())+"->"+StringToTextToken(entry.Value.ToString())); first = false; }
-                    else { sw.Write("," + StringToTextToken(entry.Key.ToString())+"->"+StringToTextToken(entry.Value.ToString())); }
+                    if(first) { sw.Write(ToString(entry.Key, attrType.KeyType)
+                        + "->" + ToString(entry.Value, attrType.ValueType)); first = false;
+                    }
+                    else { sw.Write("," + ToString(entry.Key, attrType.KeyType)
+                        + "->" + ToString(entry.Value, attrType.ValueType)); }
                 }
                 sw.Write("}");
             }
             else
             {
-                sw.Write(", {0} = {1}", attrType.Name, StringToTextToken(value.ToString()));
+                sw.Write(", {0} = {1}", attrType.Name, ToString(value, attrType));
             }
         }
 
-        private static String StringToTextToken(String str)
+        private static String ToString(object value, AttributeType type)
         {
-            if (str.IndexOf('\"') != -1) return "\'" + str + "\'";
-            else return "\"" + str + "\"";
+            switch(type.Kind)
+            {
+            case AttributeKind.IntegerAttr:
+                return ((int)value).ToString();
+            case AttributeKind.BooleanAttr:
+                return ((bool)value).ToString();
+            case AttributeKind.StringAttr:
+                if(((string)value).IndexOf('\"') != -1) return "\'" + ((string)value) + "\'";
+                else return "\"" + ((string)value) + "\"";
+            case AttributeKind.FloatAttr:
+                return ((float)value).ToString(System.Globalization.CultureInfo.InvariantCulture)+"f";
+            case AttributeKind.DoubleAttr:
+                return ((double)value).ToString(System.Globalization.CultureInfo.InvariantCulture);
+            case AttributeKind.ObjectAttr:
+                Console.WriteLine("Warning: Exporting non-null attribute of object type to null");
+                return "null";
+            case AttributeKind.EnumAttr:
+                return type.EnumType.Name + "::" + value.ToString();
+            default:
+                throw new Exception("Unsupported attribute kind in export");
+            }
         }
     }
 }

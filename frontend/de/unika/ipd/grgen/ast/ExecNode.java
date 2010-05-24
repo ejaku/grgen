@@ -84,6 +84,26 @@ public class ExecNode extends BaseNode {
 			IdentExprNode identExpr = (IdentExprNode) n;
 			sb.append(identExpr.getIdent());
 		}
+		else if(n instanceof RangeSpecNode) {
+			RangeSpecNode rangeSpec = (RangeSpecNode) n;
+			if(rangeSpec.getUpper() == RangeSpecNode.UNBOUND) {
+				if(rangeSpec.getLower() == 0) {
+					sb.append("[*]");
+				} else if(rangeSpec.getLower() == 1) {
+					sb.append("[+]");
+				} else {
+					sb.append("["+rangeSpec.getLower()+":*]");
+				}
+			} else {
+				if(rangeSpec.getLower() == rangeSpec.getUpper()) {
+					if(rangeSpec.getLower() != 1) {
+						sb.append("["+rangeSpec.getLower()+"]");
+					}
+				} else {
+					sb.append("["+rangeSpec.getLower()+":"+rangeSpec.getUpper()+"]");
+				}
+			}
+		}
 		else sb.append(n);
 	}
 

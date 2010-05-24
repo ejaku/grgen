@@ -50,7 +50,8 @@ namespace de.unika.ipd.grGen.libGr
             String first = ListGet(filenameParameters, 0);
             if(first.EndsWith(".gxl", StringComparison.InvariantCultureIgnoreCase))
                 return GXLImport.Import(first, ListGet(filenameParameters, 1), backend);
-            else if(first.EndsWith(".grs", StringComparison.InvariantCultureIgnoreCase))
+            else if(first.EndsWith(".grs", StringComparison.InvariantCultureIgnoreCase)
+                        || first.EndsWith(".grsi", StringComparison.InvariantCultureIgnoreCase))
                 return porter.GRSImporter.Import(first, ListGet(filenameParameters, 1), backend);
             else if(first.EndsWith(".ecore", StringComparison.InvariantCultureIgnoreCase))
             {
@@ -98,7 +99,8 @@ namespace de.unika.ipd.grGen.libGr
         {
             if(importFilename.EndsWith(".gxl", StringComparison.InvariantCultureIgnoreCase))
                 return GXLImport.Import(importFilename, backend, graphModel);
-            else if (importFilename.EndsWith(".grs", StringComparison.InvariantCultureIgnoreCase))
+            else if (importFilename.EndsWith(".grs", StringComparison.InvariantCultureIgnoreCase)
+                        || importFilename.EndsWith(".grsi", StringComparison.InvariantCultureIgnoreCase))
                 return porter.GRSImporter.Import(importFilename, backend, graphModel);
             else
                 throw new NotSupportedException("File format not supported");
