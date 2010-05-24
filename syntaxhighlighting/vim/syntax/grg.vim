@@ -9,14 +9,45 @@ if !exists("main_syntax")
   let main_syntax = 'grgen rules'
 endif
 
-syn keyword gmKeyWords  alternative delete dpo emit eval exact exec false hom
-syn keyword gmKeyWords  if induced iterated modify multiple negative prio
-syn keyword gmKeyWords  replace return rule test true typeof using
-syn region gmComment    start="/\*" end="\*/"
-syn region gmComment    start="//" end="$"
+syn keyword grgKeyWords            alternative delete dpo emit eval exact false hom
+syn keyword grgKeyWords            if induced iterated modify multiple negative prio
+syn keyword grgKeyWords            replace return true typeof var
+syn keyword grgKeyWords            rule test nextgroup=grgRulePrefix
+syn keyword grgKeyWords            exec using nextgroup=grgIgnoreStatement
+syn match   grgVariable            "\h\w*"
+syn match   grgPreProc             "^#include"
+syn match   grgTypePrefix          ":\(\s\|\n\)*" nextgroup=grgTypeDecl,grgReturnTypes
+syn match   grgTypeDecl            "\h\w*\(\(\s\|\n\)*\\\(\(\s\|\n\)*\h\w*\|(\(,\=\(\s\|\n\)*\h\w*\)*)\)\)\=" contained contains=grgType
+syn match   grgType                "\h\w*" contained
+syn match   grgReturnTypes         "(\(,\=\(\s\|\n\)*\h\w*\)*)" contains=grgType contained
+syn region  grgComment             start="/\*" end="\*/"
+syn region  grgComment             start="//" end="$"
+syn match   grgString              "\"\([^\\"]\|\\\\\|\\\"\|\\n\|\\t\)*\"" contains=grgSpecialChar
+syn match   grgSpecialChar         "\\\"\|\\\\\|\\n\|\\t"
+syn match   grgRulePrefix          "\(\s\|\n\)*" nextgroup=grgRule contained
+syn match   grgRule                "\h\w*" nextgroup=grgRulePostfix contained
+syn match   grgRulePostfix         "(\(\n\|[^{]\)*" contains=grgVariable,grgTypePrefix,grgOriginalType,grgKeyWords contained
+syn match   grgOriginalType        "<\(\s\|\n\)*\h\w*\(\s\|\n\)*>" contains=grgType contained
+syn match   grgAlternativePattern  "\h\w*\(\s\|\n\)*{" contains=grgAlternative
+syn match   grgAlternative         "\h\w*" contained
+syn match   grgAttributePattern    "\.\h\w*"
+syn match   grgVariable            "\h\w*" contained
+syn match   grgEnumPattern         "\h\w*\(\s\|\n\)*::" contains=grgEnum
+syn match   grgEnum                "\h\w*" contained
+syn match   grgIgnoreStatement     "\(\n\|[^;]\)*;" contains=grgDelimiter contained
+syn match   grgDelimiter           ";"
 
-hi def link gmKeyWords       Statement
-hi def link gmComment       Comment
+hi def link grgKeyWords    Statement
+hi def link grgComment     Comment
+hi def link grgPreProc     PreProc
+hi def link grgString      String
+hi def link grgSpecialChar SpecialChar
+hi def link grgVariable    Identifier
+hi def link grgType        Type
+hi def link grgEnum        Type
+hi def link grgRule        Function
+hi def link grgAlternative Function
+hi def link grgDelimiter   Delimiter
 
 let b:current_syntax = "grg"
 
