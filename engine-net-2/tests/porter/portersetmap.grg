@@ -55,7 +55,7 @@ test checkForTestGraph : (N1,E1)
 	n:N1 -e:E1-> n;
 	return(n,e);
 	
-	/*if {
+	if {
 		n.a == set<int>{ 1,2,3 };
 		n.b == set<string>{ "n1","n2","n3" };
 		n.c == set<double>{ 3.141592654, 2.0, 1.0 };
@@ -69,7 +69,7 @@ test checkForTestGraph : (N1,E1)
 		e.d == set<boolean>{true,false};
 		e.e == set<FooBar>{FooBar::foo,FooBar::bar};
 		e.empty.size()==0;
-	}*/
+	}
 }
 
 test checkForTestGraph2 : (N2,E2)
@@ -77,19 +77,19 @@ test checkForTestGraph2 : (N2,E2)
 	n:N2 -e:E2-> n;
 	return(n,e);
 	
-	/*if {
-			n.a == map<int,string>{ 1->"n1",2->"n2",3->"n3" };
-			n.b == map<string,double>{ "n1"->3.141592654,"n2"->2.0,"n3"->1.0 };
-			n.c == map<double,boolean>{ 3.141592654->true, 2.0->false, 1.0->false };
-			n.d == map<boolean,FooBar>{true->FooBar::foo,false->FooBar::bar};
-			n.e == map<FooBar,int>{FooBar::foo->1,FooBar::bar->2};
-			n.empty.size()==0; 
+	if {
+		n.a == map<int,string>{ 1->"n1",2->"n2",3->"n3" };
+		n.b == map<string,double>{ "n1"->3.141592654,"n2"->2.0,"n3"->1.0 };
+		n.c == map<double,boolean>{ 3.141592654->true, 2.0->false, 1.0->false };
+		n.d == map<boolean,FooBar>{true->FooBar::foo,false->FooBar::bar};
+		n.e == map<FooBar,int>{FooBar::foo->1,FooBar::bar->2};
+		n.empty.size()==0; 
 
-			e.a == map<int,string>{ 1->"n1",2->"n2",3->"n3" };
-			e.b == map<string,double>{ "n1"->3.141592654,"n2"->2.0,"n3"->1.0 };
-			e.c == map<double,boolean>{ 3.141592654->true, 2.0->false, 1.0->false };
-			e.d == map<boolean,FooBar>{true->FooBar::foo,false->FooBar::bar};
-			e.e == map<FooBar,int>{FooBar::foo->1,FooBar::bar->2};
-			e.empty.size()==0; 			
-	}*/
+		e.a == map<int,string>{ 1->"n1",2->"n2",3->"n3" };
+		e.b == map<string,double>{ "n1"->3.141592654,"n2"->2.0,"n3"->1.0 };
+		e.c == map<double,boolean>{ 3.141592654->true, 2.0->false, 1.0->false };
+		e.d == map<boolean,FooBar>{true->FooBar::foo,false->FooBar::bar};
+		e.e == map<FooBar,int>{FooBar::foo->1,FooBar::bar->2};
+		e.empty.size()==0; 			
+	}
 }

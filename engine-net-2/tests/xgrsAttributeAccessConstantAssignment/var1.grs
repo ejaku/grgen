@@ -1,0 +1,23 @@
+new graph xgrsAttributeAccessConstantAssignment/map1
+
+m = map<string, int> { "Hallo" -> 42 }
+me = map<Bla, float> { Bla::foo -> 3.141593f }
+str = "Hallo Welt"
+i = 42
+j = 0x11
+d = 3.141592654
+f = 3.141593f
+b = true
+e = Bla::bar
+
+show var m
+show var me
+show var str
+show var i
+show var j
+show var d
+show var f
+show var b
+show var e
+
+exit

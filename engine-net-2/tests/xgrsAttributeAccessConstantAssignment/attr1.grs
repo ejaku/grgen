@@ -1,0 +1,15 @@
+new graph xgrsAttributeAccessConstantAssignment/map1
+
+new n:A(m = map<string, int> { "Hallo" -> 42 }, me = map<Bla, float> { Bla::foo -> 3.141593f }, str = "Hallo Welt", i = 42, j = 0x11, d = 3.141592654, f = 3.141593f, b = true, e = Bla::bar)
+
+show n.m
+show n.me
+show n.str
+show n.i
+show n.j
+show n.d
+show n.f
+show n.b
+show n.e
+
+exit

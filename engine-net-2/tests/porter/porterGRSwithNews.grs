@@ -1,0 +1,68 @@
+new graph "porter/porter"
+
+# begin of graph "DefaultGraph" saved by GrsExport
+
+new :Node($ = "$0")
+new :N2a($ = "$1", foo = 42)
+new :N2b($ = "$2", bar = "Weltherrschaft!")
+new :N3($ = "$3", bla = 42)
+new :N4($ = "$4", foo = 3, bar = "n3", bla = 2.718281828, huh = True, lal = Bla::Reh)
+new :N4($ = "$5", foo = 2, bar = "n2", bla = 4, huh = False, lal = Bla::Reh)
+new :N4($ = "$6", foo = 1, bar = "n1", bla = 3.141592654, huh = True, lal = Bla::Lamm)
+# total number of nodes: 7
+
+new @("$3") - :E2b($ = "$7", bar = "haha") -> @("$2")
+new @("$3") - :E3($ = "$8", bla = 42f) -> @("$3")
+new @("$3") - :E2a($ = "$9", foo = 42) -> @("$1")
+new @("$4") - :E4($ = "$A", foo = 31, bar = "n3->n1", bla = 3.141593f, huh = True, lal = Bla::Reh) -> @("$6")
+new @("$5") - :E4($ = "$B", foo = 23, bar = "n2->n3", bla = 23f, huh = False, lal = Bla::Reh) -> @("$4")
+new @("$6") - :E4($ = "$C", foo = 0xC, bar = "n1->n2", bla = 12f, huh = True, lal = Bla::Hurz) -> @("$5")
+new @("$6") - :Edge($ = "$D") -> @("$0")
+# total number of edges: 7
+
+# end of graph "DefaultGraph" saved by GrsExport
+
+show num nodes only Node
+show num nodes only N1
+show num nodes only N2a
+show num nodes only N2b
+show num nodes only N3
+show num nodes only N4
+
+show num edges only Edge
+show num edges only UEdge 
+show num edges only E1
+show num edges only E2a
+show num edges only E2b
+show num edges only E3
+show num edges only E4
+
+xgrs [checkForTestGraph]
+
+export porter/testgraph.grs
+
+import porter/testgraph.grs porter/porter.gm
+
+show num nodes only Node
+show num nodes only N1
+show num nodes only N2a
+show num nodes only N2b
+show num nodes only N3
+show num nodes only N4
+
+show num edges only Edge
+show num edges only UEdge 
+show num edges only E1
+show num edges only E2a
+show num edges only E2b
+show num edges only E3
+show num edges only E4
+
+select actions porter/lgsp-porterActions.dll
+
+xgrs [checkForTestGraph]
+
+# the test script tries to test all available .grs; no sense in trying to test the exported graph
+!rm porter/testgraph.grs
+
+quit

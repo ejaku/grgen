@@ -1,0 +1,15 @@
+import xgrsAttributeAccessConstantAssignment/grsimportB.grsi
+
+n = @("$0")
+
+show n.m
+show n.me
+show n.str
+show n.i
+show n.j
+show n.d
+show n.f
+show n.b
+show n.e
+
+exit

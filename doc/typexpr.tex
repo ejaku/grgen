@@ -401,7 +401,7 @@ graphs elements at the API level bear no name, the operator can only be used wit
 If no graph element is given, the name of the graph is returned.
 
 \begin{rail} 
-  CastExpr: '(' ('int' | 'float' | 'double' | 'string') ')' PrimaryExpr;
+  CastExpr: '(' PrimitiveType ')' PrimaryExpr;
   MemberAccess: (NodeOrEdge '.' Ident);
 \end{rail}\ixnterm{CastExpr}\ixnterm{MemberAccess}
 

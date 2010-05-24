@@ -84,7 +84,7 @@ you must declare it explicitly with the syntax \verb#r(x:ExactType<InexactType>)
 then the rule parameter in the exact interface will be of type \texttt{InexactType}.
 \end{note}
 
-\begin{example}
+\begin{example}\label{ex:api1}
 Normally you want to use the type-safe interface of the generated code as it is much more convenient.
 Only if your application must get along with models and actions unknown before it is compiled you have to fall back to the generic interface.
 An extensive example showing how to cope with the latter is shipped with \GrG\ in form of the GrShell.
@@ -110,8 +110,10 @@ FooActions actions = new FooActions(graph);
 Bar b = graph.CreateNodeBar();
 actions.bar.Apply(graph, b, ref b); // input of type Bar, output of type Bar
 \end{verbatim}
+\end{example}
 
-This is an example doing mostly the same in a slightly more complicated way.
+\begin{example}
+This is an example doing mostly the same as the previous example \ref{ex:api1}, in a slightly more complicated way.
 Here we create the model separate from the graph, then the graph with a model not bound at generation time.
 We create the actions to apply on the graph, and a single node of type \texttt{Bar} in the graph, which we assign again to a variable \texttt{b}.
 Then we get the action from the actions and save it to an action variable \texttt{bar};
@@ -127,7 +129,6 @@ IAction_bar bar = Action_bar.Instance;
 IMatchesExact<Rule_bar.IMatch_bar> matches = bar.Match(graph, 0, b);
 bar.Modify(graph, matches.First);
 \end{verbatim}
-
 \end{example}
 
 
@@ -135,7 +136,7 @@ bar.Modify(graph, matches.First);
 
 GrGen natively supports the following formats:
 \begin{description}
-  \item[GRS] Reduced GrShell script files (graph only, model from \texttt{.gm}; a very limited version of the normal \texttt{.grs})
+  \item[GRS/GRSI] Reduced GrShell script files (graph only, model from \texttt{.gm}; a very limited version of the normal \texttt{.grs})
   \item[GXL] Graph eXchange Language (\texttt{.gxl}-files, see \url{http://www.gupro.de/GXL/})
   \item[ECORE/XMI] Ecore(\texttt{.ecore}) model files and XMI(\texttt{.xmi}) graph file. Import only, export must be programmed with \texttt{emit}-statements. In an intermediate step, a \texttt{.gm} file is generated for the model.
 \end{description}
@@ -191,6 +192,30 @@ for(int i=0; i<myMatches.NumMatches; ++i)
 \end{csharplet}
 \end{note}
 
+\begin{note}
+While C\# allows input arguments values to be of a subtype of the declared interface parameter type (OO), 
+it requires that the argument variables for the \texttt{out} parameters are of exactly the type declared (non-OO).
+Although a variable of a supertype would be fully sufficient -- the variable is only assigned.
+So for \texttt{node class Bla extends Bar;} and action \texttt{bar(Bar x) : (Bla)} from the rules file rules \texttt{Foo.grg}
+we can't use a desired target variable of type \texttt{Bar} as \texttt{out}-argument,
+but are forced to introduce a temporary variable of type \texttt{Bla}
+and assign this variable to the desired target variable after the call.
+\begin{csharplet}
+using de.unika.ipd.grGen.libGr;
+using de.unika.ipd.grGen.lgsp;
+using de.unika.ipd.grGen.Action_Foo;
+using de.unika.ipd.grGen.Model_Foo;
+FooGraph graph = new FooGraph();
+FooActions actions = new FooActions(graph);
+Bar b = graph.CreateNodeBar();
+IMatchesExact<Rule_bar.IMatch_bar> matches = actions.bar.Match(graph, 1, b);
+//actions.bar.Modify(graph, matches.First, out b); // wont work, needed:
+Bla bla = null; 
+actions.bar.Modify(graph, matches.First, out bla);
+b = bla;
+\end{csharplet}
+\end{note}
+
 
 \section{How to build}\label{sub:building}\indexmain{building GrGen}
 
@@ -214,7 +239,7 @@ You can check the result of your build with the test suite we use to check again
 It is split into syntactic tests in \texttt{frontend/test} checking that example model and rule files can get compiled by \texttt{grgen} (or not compiled, or only compiled emitting warnings) and the resulting code can get compiled by \texttt{csc}.
 The tests get executed by calling \texttt{./test.sh} or \texttt{./testpar.sh} from \texttt{bash} or \texttt{cygwin-bash} (\texttt{testpar.sh} executes them in parallel speeding up execution on multi core systems considerably at the price of potential false positive reports); deviations from a gold standard are reported.
 And semantic tests in \texttt{engine-net-2/tests} checking that executing example shell scripts on example models and rules yields the expected results. 
-They get executed by calling \texttt{./test.sh}. You must check that all tests are reported as \texttt{SUCCESS}.
+They get executed by calling \texttt{./test.sh}. You must check that all tests are reported as \texttt{Success}.
 
 \section{A very short tour of the code}
 The frontend is spread over the directories \texttt{parser}, \texttt{ast}, \texttt{ir}, \texttt{be} and \texttt{util}, with their code being used from \texttt{Main.java}.

@@ -7,8 +7,9 @@
  - kind                     type::attribute
  - int                      N2a::foo
  - string                   N2b::bar
- - float                    N3::bla
+ - double                   N3::bla
  - boolean                  N4::huh
+ - Bla                      N4::lal
  - No attribute types found.
  - "N2a"
  - "N2b"
@@ -22,9 +23,10 @@
  - string                   N2b::bar
  - "N4"
  - kind                     type::attribute
- - float                    N3::bla
+ - double                   N3::bla
  - kind                     type::attribute
  - boolean                  N4::huh
+ - Bla                      N4::lal
  - "AEdge"
  - "Edge"
  - "UEdge"
@@ -38,6 +40,7 @@
  - string                   E2b::bar
  - float                    E3::bla
  - boolean                  E4::huh
+ - Bla                      E4::lal
  - "E1"
  - "E2a"
  - "E2b"
@@ -60,6 +63,7 @@
  - float                    E3::bla
  - kind                     type::attribute
  - boolean                  E4::huh
+ - Bla                      E4::lal
 0
 0
  - "Node"
@@ -73,6 +77,7 @@
  - string                   N2b::bar
  - float                    N3::bla
  - boolean                  N4::huh
+ - Bla                      N4::lal
  - No attribute types found.
  - "N2a"
  - "N2b"
@@ -89,6 +94,7 @@
  - float                    N3::bla
  - kind                     type::attribute
  - boolean                  N4::huh
+ - Bla                      N4::lal
  - "AEdge"
  - "Edge"
  - "UEdge"
@@ -102,6 +108,7 @@
  - string                   E2b::bar
  - float                    E3::bla
  - boolean                  E4::huh
+ - Bla                      E4::lal
  - "E1"
  - "E2a"
  - "E2b"
@@ -124,3 +131,4 @@
  - float                    E3::bla
  - kind                     type::attribute
  - boolean                  E4::huh
+ - Bla                      E4::lal

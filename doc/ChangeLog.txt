@@ -1,4 +1,4 @@
-﻿v2.6RC2 (2010-05-10)
+﻿v2.6RC3 (2010-05-24)
  Single most important change:
   - user manual updated (including all the changes from 1.4->2.6)
  
@@ -50,7 +50,7 @@
  New assignments in xgrs: (currently only interpreted xgrs of GrShell, not compiled rule embedded)
    - attribute reading in xgrs: toVar = fromVar.attributeName (value semantics)
    - attribute writing in xgrs: toVar.attributeName = fromVar (value semantics)
-   - constant value/literal assignment: toVar = int|float|double|string|boolean|enum - constants/literals
+   - constant value/literal assignment: toVar = int|float|double|string|boolean|enum|set|map - constants/literals
    
  Rewrite part handling of nested patterns:
   - modify/replace graph elements of nesting pattern
@@ -65,8 +65,8 @@
    - graph elements matched outside optional pattern now can get retyped in optional pattern
 
  Export/Import:
-  - GRS import/export (and GrShell) now support set/map attribute initialization
-    (example: new :N1($="$0", a = set<int>{"1","2","3"}, b = map<string,boolean>{"foo"->true,"bar"->false})
+  - GRS import/export (of .grs, .grsi files; and GrShell) now support set/map attribute initialization
+    (example: new :N1($="$0", a = set<int>{1,2,3}, b = map<string,boolean>{"foo"->true,"bar"->false})
   - withvariables parameter for grs export causing variables to get exported; default is nodes/edges only
   - GXL import/export now supports enum attributes (set/map not supported)
   - ecore/XMI importer extended to support a larger class of inputs (plus nopackagenameprefix parameter)
@@ -140,12 +140,17 @@
 	 (dpo = dangling + identification)
   - added emit to xgrs: emit(double-quoted-text|variable)  
       example: xgrs emit("foo\n") && emit(v)
+  - same literal/constant syntax now in assignments and attribute initializations of
+      model, rules, sequences, shell, grs (ex/)importer
+      (e.g. Foo::bar for enum, 3.141593f for float, 0x11 for hex integer, map<string,double>{"42"->42.0})
   - the graph with model combined class is now named FooGraph instead of Foo for Foo.grg
   - set/map commands in GrShell are deprecated (succeeded by xgrs set/map operators)
   - set/map-valued attributes are now displayed in yComp, too
   - now error reported on attempt to delete and return elments allowed to be matched homomorphically
   - added exitonfailure to GrShell validate command leaving GrShell on failed validation with error code
   - undirected edge creation in GrShell with -name:type- syntax and type UEdge if no type given
+  - Added GrGen syntax highlighting for vim (model, rules, shell)
+  - Extended GrGen syntax highlighting for Notepad++ to GrShell files 
   - added GrGen-solution for ModelMigration case from TTC2010
   - added GrGen-version of "Repotting the Geraniums: On Nested Graph Transformation Rules" to examples
   - further minor improvements

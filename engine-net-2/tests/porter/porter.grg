@@ -12,17 +12,19 @@ rule createTestGraph
 		eval {
 			n1.foo = 1;
 			n1.bar = "n1";
-			n1.bla = 3.141592654f;
+			n1.bla = 3.141592654;
 			n1.huh = true;
+			n1.lal = Bla::Lamm;
 
-			e1.foo = 12;
+			e1.foo = 0xC;
 			e1.bar = "n1->n2";
 			e1.bla = 12.0f;
 			e1.huh = true;
+			e1.lal = Bla::Hurz;
 			
 			n2.foo = 2;
 			n2.bar = "n2";
-			n2.bla = 4.0f;
+			n2.bla = 4.0;
 			n2.huh = false;
 
 			e2.foo = 23;
@@ -32,15 +34,15 @@ rule createTestGraph
 
 			n3.foo = 3;
 			n3.bar = "n3";
-			n3.bla = 2.718281828f;
+			n3.bla = 2.718281828;
 			n3.huh = true;
 			
 			e3.foo = 31;
 			e3.bar = "n3->n1";
-			e3.bla = 31.0f;
+			e3.bla = 3.141593f;
 			e3.huh = true;
 
-			n4.bla = 42.0f;
+			n4.bla = 42.0;
 			
 			e4.foo = 42;
 
@@ -63,17 +65,19 @@ test checkForTestGraph
 	if {
 		n1.foo == 1 &&
 		n1.bar == "n1" &&
-		n1.bla == 3.141592654f &&
+		n1.bla == 3.141592654 &&
 		n1.huh == true &&
+		n1.lal == Bla::Lamm &&
 
-		e1.foo == 12 &&
+		e1.foo == 0xC &&
 		e1.bar == "n1->n2" &&
 		e1.bla == 12.0f &&
 		e1.huh == true &&
+		e1.lal == Bla::Hurz &&
 		
 		n2.foo == 2 &&
 		n2.bar == "n2" &&
-		n2.bla == 4.0f &&
+		n2.bla == 4.0 &&
 		n2.huh == false &&
 
 		e2.foo == 23 &&
@@ -83,15 +87,15 @@ test checkForTestGraph
 
 		n3.foo == 3 &&
 		n3.bar == "n3" &&
-		n3.bla == 2.718281828f &&
+		n3.bla == 2.718281828 &&
 		n3.huh == true &&
 		
 		e3.foo == 31 &&
 		e3.bar == "n3->n1" &&
-		e3.bla == 31.0f &&
+		e3.bla == 3.141593f &&
 		e3.huh == true &&
 
-		n4.bla == 42.0f &&
+		n4.bla == 42.0 &&
 		
 		e4.foo == 42 &&
 

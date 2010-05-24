@@ -1,8 +1,16 @@
+enum Bla {
+	foo, bar
+}
+
 node class A
 {
     m:map<string, int>;
+    me:map<Bla, float>;
 	str:string;
 	i:int;
+	j:int;
 	d:double;
+	f:float;
 	b:boolean;
+	e:Bla;
 }
