@@ -10,9 +10,9 @@ if !exists("main_syntax")
 endif
 
 syn keyword grgKeyWords            alternative delete dpo emit eval exact false hom
-syn keyword grgKeyWords            if induced iterated modify multiple negative pattern
-syn keyword grgKeyWords            prio replace return true typeof var
-syn keyword grgKeyWords            rule test nextgroup=grgRulePrefix
+syn keyword grgKeyWords            if induced iterated modify multiple negative prio 
+syn keyword grgKeyWords            replace return true typeof var
+syn keyword grgKeyWords            pattern rule test nextgroup=grgRulePrefix
 syn keyword grgKeyWords            exec using nextgroup=grgIgnoreStatement
 syn match   grgVariable            "\h\w*"
 syn match   grgPreProc             "^#include"
@@ -27,7 +27,7 @@ syn match   grgString              "\"\([^\\"]\|\\\\\|\\\"\|\\n\|\\t\)*\"" conta
 syn match   grgSpecialChar         "\\\"\|\\\\\|\\n\|\\t"
 syn match   grgRulePrefix          "\(\s\|\n\)*" nextgroup=grgRule contained
 syn match   grgRule                "\h\w*" nextgroup=grgRulePostfix contained
-syn match   grgRulePostfix         "(\(\n\|[^{]\)*" contains=grgVariable,grgTypePrefix,grgOriginalType,grgKeyWords contained
+syn match   grgRulePostfix         "(\(\n\|[^{]\)*" contains=grgVariable,grgTypePrefix,grgOriginalType,grgKeyWords,grgComment contained
 syn match   grgOriginalType        "<\(\s\|\n\)*\h\w*\(\s\|\n\)*>" contains=grgType contained
 syn match   grgAlternativePattern  "\h\w*\(\s\|\n\)*{" contains=grgAlternative
 syn match   grgAlternative         "\h\w*" contained
