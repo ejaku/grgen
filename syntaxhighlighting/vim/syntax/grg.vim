@@ -16,7 +16,7 @@ syn keyword grgKeyWords            pattern rule test nextgroup=grgRulePrefix
 syn keyword grgKeyWords            exec using nextgroup=grgIgnoreStatement
 syn match   grgVariable            "\h\w*"
 syn match   grgPreProc             "^#include"
-syn match   grgTypePrefix          ":\(\s\|\n\)*" nextgroup=grgTypeDecl,grgReturnTypes,grgPatternInstance
+syn match   grgTypePrefix          ":\(\s\|\n\)*" nextgroup=grgTypeDecl,grgReturnTypes,grgPatternInstance,grgKeyWords
 syn match   grgTypeDecl            "\h\w*\(\(\s\|\n\)*\\\(\(\s\|\n\)*\h\w*\|(\(,\=\(\s\|\n\)*\h\w*\)*)\)\)\=" contained contains=grgType
 syn match   grgType                "\h\w*" contained
 syn match   grgPatternInstance     "\h\w*\(\s\|\n\)*(" contains=grgRule contained
