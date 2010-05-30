@@ -10,15 +10,16 @@ if !exists("main_syntax")
 endif
 
 syn keyword grgKeyWords            alternative delete dpo emit eval exact false hom
-syn keyword grgKeyWords            if induced iterated modify multiple negative prio
-syn keyword grgKeyWords            replace return true typeof var
+syn keyword grgKeyWords            if induced iterated modify multiple negative pattern
+syn keyword grgKeyWords            prio replace return true typeof var
 syn keyword grgKeyWords            rule test nextgroup=grgRulePrefix
 syn keyword grgKeyWords            exec using nextgroup=grgIgnoreStatement
 syn match   grgVariable            "\h\w*"
 syn match   grgPreProc             "^#include"
-syn match   grgTypePrefix          ":\(\s\|\n\)*" nextgroup=grgTypeDecl,grgReturnTypes
+syn match   grgTypePrefix          ":\(\s\|\n\)*" nextgroup=grgTypeDecl,grgReturnTypes,grgPatternInstance
 syn match   grgTypeDecl            "\h\w*\(\(\s\|\n\)*\\\(\(\s\|\n\)*\h\w*\|(\(,\=\(\s\|\n\)*\h\w*\)*)\)\)\=" contained contains=grgType
 syn match   grgType                "\h\w*" contained
+syn match   grgPatternInstance     "\h\w*\(\s\|\n\)*(" contains=grgRule contained
 syn match   grgReturnTypes         "(\(,\=\(\s\|\n\)*\h\w*\)*)" contains=grgType contained
 syn region  grgComment             start="/\*" end="\*/"
 syn region  grgComment             start="//" end="$"
