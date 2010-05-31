@@ -55,11 +55,11 @@ public class StringLastIndexOfNode extends ExprNode {
 	@Override
 	protected boolean checkLocal() {
 		if(!stringExpr.getType().isEqual(BasicTypeNode.stringType)) {
-			stringExpr.reportError("First argument to string lastIndexOf expression must be of type string");
+			stringExpr.reportError("This argument to string lastIndexOf expression must be of type string");
 			return false;
 		}
 		if(!stringToSearchForExpr.getType().isEqual(BasicTypeNode.stringType)) {
-			stringToSearchForExpr.reportError("Second argument (string to "
+			stringToSearchForExpr.reportError("Argument (string to "
 					+ "search for) to string lastIndexOf expression must be of type string");
 			return false;
 		}

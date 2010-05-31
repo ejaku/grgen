@@ -1,4 +1,4 @@
-﻿v2.6RC3 (2010-05-24)
+﻿v2.6RC4 (2010-05-31)
  Single most important change:
   - user manual updated (including all the changes from 1.4->2.6)
  
@@ -138,6 +138,10 @@
      are specified in the pattern), and identification (don't apply rule if a node to be deleted
      was matched homomorphically to a node to be kept), allowing to pick from the dpo conditions
 	 (dpo = dangling + identification)
+  - new method .peek(num:int) on set<S> and map<S,T> types, returning the element/the key of the element
+      at the position num in the sequence of enumeration
+  - new function random() returning a double random value in between 0.0 and 1.0
+      and random(sup:int) returning an integer random value in between 0 and sup, sup exclusive
   - added emit to xgrs: emit(double-quoted-text|variable)  
       example: xgrs emit("foo\n") && emit(v)
   - same literal/constant syntax now in assignments and attribute initializations of

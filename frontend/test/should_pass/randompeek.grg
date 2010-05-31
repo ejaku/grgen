@@ -1,0 +1,61 @@
+using randompeek;
+
+test getm(var i:int) : (string, int)
+{
+	a:A;
+	if { i<a.m.size(); }
+	return (a.m.peek(i), i+1);
+} 
+
+test gets(var i:int) : (int, int)
+{
+	a:A;
+	if { i<a.s.size(); }
+	return (a.s.peek(i), i+1);
+} 
+
+test geti : (int)
+{
+	a:A;
+	return (a.i);
+}
+
+test getd : (double)
+{
+	a:A;
+	return (a.d);
+}
+
+rule randomi
+{
+	a:A;
+	
+	modify {
+		eval { a.i = random(42); }
+	}
+}
+
+rule randomd
+{
+	a:A;
+	
+	modify {
+		eval { a.d = random(); }
+	}
+}
+
+test getset : (int)
+{
+	a:A;
+	if { random(1)==0; }
+	return ( a.s.peek( random(a.s.size()) ) );
+}
+
+test getmap : (string)
+{
+	a:A;
+	if { random()>=0.0 && random()<=1.0; }
+	return ( a.m.peek( (int) (random()*a.m.size()-0.5) ) );
+}
+
+

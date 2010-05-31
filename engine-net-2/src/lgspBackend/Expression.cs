@@ -742,6 +742,38 @@ namespace de.unika.ipd.grGen.expression
     }
 
     /// <summary>
+    /// Class representing random expression
+    /// </summary>
+    public class Random : Expression
+    {
+        public Random(Expression nested) // nested = expression computing maximum value for int random
+        {
+            Nested = nested;
+        }
+
+        public Random() // double random
+        {
+            Nested = null;
+        }
+
+        public override void Emit(SourceBuilder sourceCode)
+        {
+            if(Nested != null)
+            {
+                sourceCode.Append("GRGEN_LIBGR.Sequence.randomGenerator.Next(");
+                Nested.Emit(sourceCode);
+            }
+            else
+            {
+                sourceCode.Append("GRGEN_LIBGR.Sequence.randomGenerator.NextDouble(");
+            }
+            sourceCode.Append(")");
+        }
+
+        Expression Nested;
+    }
+
+    /// <summary>
     /// Class representing a string length expression.
     /// </summary>
     public class StringLength : Expression
@@ -918,6 +950,30 @@ namespace de.unika.ipd.grGen.expression
     }
 
     /// <summary>
+    /// Class representing a map peek expression.
+    /// </summary>
+    public class MapPeek : Expression
+    {
+        public MapPeek(Expression target, Expression number)
+        {
+            Target = target;
+            Number = number;
+        }
+
+        public override void Emit(SourceBuilder sourceCode)
+        {
+            sourceCode.Append("GRGEN_LIBGR.DictionaryHelper.Peek(");
+            Target.Emit(sourceCode);
+            sourceCode.Append(",");
+            Number.Emit(sourceCode);
+            sourceCode.Append(")");
+        }
+
+        Expression Target;
+        Expression Number;
+    }
+
+    /// <summary>
     /// Class representing a map domain expression.
     /// </summary>
     public class MapDomain : Expression
@@ -975,6 +1031,30 @@ namespace de.unika.ipd.grGen.expression
         }
 
         Expression Target;
+    }
+
+    /// <summary>
+    /// Class representing a set peek expression.
+    /// </summary>
+    public class SetPeek : Expression
+    {
+        public SetPeek(Expression target, Expression number)
+        {
+            Target = target;
+            Number = number;
+        }
+
+        public override void Emit(SourceBuilder sourceCode)
+        {
+            sourceCode.Append("GRGEN_LIBGR.DictionaryHelper.Peek(");
+            Target.Emit(sourceCode);
+            sourceCode.Append(",");
+            Number.Emit(sourceCode);
+            sourceCode.Append(")");
+        }
+
+        Expression Target;
+        Expression Number;
     }
 
     /// <summary>

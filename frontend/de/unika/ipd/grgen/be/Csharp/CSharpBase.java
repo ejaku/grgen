@@ -45,9 +45,11 @@ import de.unika.ipd.grgen.ir.MapItem;
 import de.unika.ipd.grgen.ir.MapDomainExpr;
 import de.unika.ipd.grgen.ir.MapRangeExpr;
 import de.unika.ipd.grgen.ir.MapSizeExpr;
+import de.unika.ipd.grgen.ir.MapPeekExpr;
 import de.unika.ipd.grgen.ir.SetInit;
 import de.unika.ipd.grgen.ir.SetItem;
 import de.unika.ipd.grgen.ir.SetSizeExpr;
+import de.unika.ipd.grgen.ir.SetPeekExpr;
 import de.unika.ipd.grgen.ir.MapType;
 import de.unika.ipd.grgen.ir.SetType;
 import de.unika.ipd.grgen.ir.MemberExpression;
@@ -58,6 +60,7 @@ import de.unika.ipd.grgen.ir.ObjectType;
 import de.unika.ipd.grgen.ir.Operator;
 import de.unika.ipd.grgen.ir.PatternGraph;
 import de.unika.ipd.grgen.ir.Qualification;
+import de.unika.ipd.grgen.ir.RandomExpr;
 import de.unika.ipd.grgen.ir.Rule;
 import de.unika.ipd.grgen.ir.StringIndexOf;
 import de.unika.ipd.grgen.ir.StringLastIndexOf;
@@ -609,6 +612,16 @@ public abstract class CSharpBase {
 			genExpression(sb, vis.getVisitorID(), modifyGenerationState);
 			sb.append(")");
 		}
+		else if(expr instanceof RandomExpr) {
+			RandomExpr re = (RandomExpr) expr;
+			if(re.getNumExpr()!=null) {
+				sb.append("GRGEN_LIBGR.Sequence.randomGenerator.Next(");
+				genExpression(sb, re.getNumExpr(), modifyGenerationState);
+			} else {
+				sb.append("GRGEN_LIBGR.Sequence.randomGenerator.NextDouble(");
+			}
+			sb.append(")");
+		}
 		else if (expr instanceof StringLength) {
 			StringLength strlen = (StringLength) expr;
 			sb.append("(");
@@ -703,6 +716,19 @@ public abstract class CSharpBase {
 				sb.append(")");
 			}
 		}
+		else if (expr instanceof MapPeekExpr) {
+			MapPeekExpr mp = (MapPeekExpr)expr;
+			if(modifyGenerationState.useVarForMapResult()) {
+				sb.append(modifyGenerationState.mapExprToTempVar().get(mp));
+			}
+			else {
+				sb.append("GRGEN_LIBGR.DictionaryHelper.Peek(");
+				genExpression(sb, mp.getTargetExpr(), modifyGenerationState);
+				sb.append(", ");
+				genExpression(sb, mp.getNumberExpr(), modifyGenerationState);
+				sb.append(")");
+			}
+		}
 		else if (expr instanceof SetSizeExpr) {
 			SetSizeExpr ss = (SetSizeExpr)expr;
 			if(modifyGenerationState.useVarForMapResult()) {
@@ -712,6 +738,19 @@ public abstract class CSharpBase {
 				sb.append("(");
 				genExpression(sb, ss.getTargetExpr(), modifyGenerationState);
 				sb.append(").Count");
+			}
+		}
+		else if (expr instanceof SetPeekExpr) {
+			SetPeekExpr sp = (SetPeekExpr)expr;
+			if(modifyGenerationState.useVarForMapResult()) {
+				sb.append(modifyGenerationState.mapExprToTempVar().get(sp));
+			}
+			else {
+				sb.append("GRGEN_LIBGR.DictionaryHelper.Peek(");
+				genExpression(sb, sp.getTargetExpr(), modifyGenerationState);
+				sb.append(", ");
+				genExpression(sb, sp.getNumberExpr(), modifyGenerationState);
+				sb.append(")");
 			}
 		}
 		else if (expr instanceof MapInit) {

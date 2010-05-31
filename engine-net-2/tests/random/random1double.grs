@@ -1,0 +1,21 @@
+new graph random/random1
+
+randomseed 0 # get deterministic random for tests
+
+new n:A
+
+n.d
+xgrs randomd
+n.d
+xgrs randomd
+n.d
+xgrs randomd
+n.d
+xgrs randomd
+n.d
+xgrs randomd
+n.d
+xgrs randomd
+n.d
+
+exit

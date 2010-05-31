@@ -1,0 +1,20 @@
+new graph random/random1
+
+randomseed 0 # get deterministic random for tests
+
+new n:A
+
+xgrs (val)=getmap
+show var val
+xgrs (val)=getmap
+show var val
+xgrs (val)=getmap
+show var val
+xgrs (val)=getmap
+show var val
+xgrs (val)=getmap
+show var val
+xgrs (val)=getmap
+show var val
+
+exit

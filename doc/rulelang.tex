@@ -867,9 +867,7 @@ The \texttt{eval} statements are executed before the execution statements, i.e.\
 \begin{description}
   \item[XGRS Execution] The \texttt{exec} statement executes a graph rewrite sequence, which is a composition of graph rewrite rules. See Chapter~\ref{cha:xgrs} for a description of graph rewrite sequences.
   \item[Text Output] The \texttt{emit} statement prints a string to the currently associated output stream (default is \texttt{stdout}). See Chapter~\ref{cha:typeexpr} for a description of string expressions.
-  With subpatterns used in the pattern, there are \texttt{emitpre} and \texttt{emitpost} statements available.
-  The \texttt{emitpre} is executed before emitting is taking place in the subpatterns. 
-  The \texttt{emitpost} is executed after emitting in the used subpatterns, is is a synonym for \texttt{emit}. 
+  For emitting in between the emits from subpatterns, there is an additional \texttt{emithere} statement available.
 \end{description}
 
 \begin{figure}[htbp]

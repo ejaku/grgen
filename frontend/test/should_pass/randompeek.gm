@@ -1,0 +1,7 @@
+node class A
+{
+    m:map<string, int> = { "foo"->1, "bar"->2, "bla"->3 };
+	s:set<int> = { 0,1,2,3 };
+	i:int = -1;
+	d:double = -1.0;
+}

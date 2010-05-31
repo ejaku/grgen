@@ -1257,6 +1257,11 @@
             Class representing visited expression
             </summary>
         </member>
+        <member name="T:de.unika.ipd.grGen.expression.Random">
+            <summary>
+            Class representing random expression
+            </summary>
+        </member>
         <member name="T:de.unika.ipd.grGen.expression.StringLength">
             <summary>
             Class representing a string length expression.
@@ -1292,6 +1297,11 @@
             Class representing a map size expression.
             </summary>
         </member>
+        <member name="T:de.unika.ipd.grGen.expression.MapPeek">
+            <summary>
+            Class representing a map peek expression.
+            </summary>
+        </member>
         <member name="T:de.unika.ipd.grGen.expression.MapDomain">
             <summary>
             Class representing a map domain expression.
@@ -1305,6 +1315,11 @@
         <member name="T:de.unika.ipd.grGen.expression.SetSize">
             <summary>
             Class representing a set size expression.
+            </summary>
+        </member>
+        <member name="T:de.unika.ipd.grGen.expression.SetPeek">
+            <summary>
+            Class representing a set peek expression.
             </summary>
         </member>
         <member name="T:de.unika.ipd.grGen.expression.StaticMap">

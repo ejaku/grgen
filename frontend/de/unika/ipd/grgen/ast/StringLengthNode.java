@@ -50,7 +50,7 @@ public class StringLengthNode extends ExprNode {
 	@Override
 	protected boolean checkLocal() {
 		if(!stringExpr.getType().isEqual(BasicTypeNode.stringType)) {
-			stringExpr.reportError("Argument to string length expression must be of type string");
+			stringExpr.reportError("This argument to string length expression must be of type string");
 			return false;
 		}
 		return true;

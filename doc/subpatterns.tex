@@ -554,6 +554,37 @@ rule methodWithTwoOrThreeParameters(m:Method)
   \end{grgen}
 \end{example}
 
+\begin{example}
+  \begin{grgen}
+rule alternativeRelabeling
+{
+  m:Method;
+  
+  alternative {
+    private {
+      if { m.access == Access::private; }
+	
+      modify {
+        pm:PrivateMethod<m>;
+      }
+	}
+	static {
+	  negative {
+        m <-- c;
+	  }
+	  
+      modify {
+        sm:StaticMethod<m>;
+      }
+	}
+  } 
+
+  modify {
+  }  
+}
+  \end{grgen}
+\end{example}
+
 
 \section{Subpattern rewriting}
 \indexmain{subrule}\label{sec:subrule}

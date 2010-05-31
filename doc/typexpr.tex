@@ -82,7 +82,7 @@ Objects of type object are not very useful for \GrG processing (and the im/expor
 
 \section{Expressions}\indexmain{expression}
 
-\GrG supports numerous operations on the entities of the types introduced above, which are organized into left associative expressions.
+\GrG~supports numerous operations on the entities of the types introduced above, which are organized into left associative expressions.
 In the following they will be explained with their semantics and relative priorities one type after another in the order of the rail diagram below.
 
 \begin{rail}
@@ -287,10 +287,11 @@ Set expressions consist of the known mathematical set operations and size counti
 
 The binary set operators require the left and right operands to be of identical type \verb#set<T>#.
 The operator \texttt{x in s} denotes set membership $x \in s$, returning whether the set contains the given element, as \texttt{boolean}.
-Furthermore there is one operations on sets available in method call notation (MethodSelector): 
+Furthermore there are two operations on sets available in method call notation (MethodSelector): 
 
 \begin{description}
 \item[\texttt{.size()}] returns the number of elements in the set, as \texttt{int}
+\item[\texttt{.peek(num)}] returns the element which comes at position \texttt{num:int} in the sequence of enumeration, as \texttt{T} for \verb#set<T>#
 \end{description}
  
 \begin{note}
@@ -334,6 +335,7 @@ There are several operations on maps available in method call notation (MethodSe
 \item[\texttt{.size()}] returns the number of elements in the map, as \texttt{int}
 \item[\texttt{.domain()}] returns the set of elements in the domain of the map, as \verb#set<S># for \verb#map<S,T>#
 \item[\texttt{.range()}] returns the set of elements in the range of the map, as \verb#set<T># for \verb#map<S,T>#
+\item[\texttt{.peek(num)}] returns the key of the element which comes at position \texttt{num:int} in the sequence of enumeration, as \texttt{S} for \verb#map<S,T>#
 \end{description}
 
 \begin{note}
@@ -387,7 +389,7 @@ The type expression \texttt{typeof(x)} stands for the type of the host graph ele
 After we've seen the all the ways to combine expressions, finally we'll have a look at the atoms the expressions are built of.
 
 \begin{rail} 
-  PrimaryExpr: CastExpr | MemberAccess | VarIdent | NodeOrEdge '.' 'visited' ('[' FlagNumber ']')? | 'nameof' '(' NodeOrEdge? ')' | '(' Expression ')';
+  PrimaryExpr: CastExpr | MemberAccess | VarIdent | NodeOrEdge '.' 'visited' ('[' FlagNumber ']')? | 'nameof' '(' NodeOrEdge? ')' | 'random' '(' ( IntExpr )? ')' | '(' Expression ')';
 \end{rail}\ixnterm{PrimaryExpr}\ixkeyw{visited}\ixkeyw{nameof}\indexmainsee{variable}{expression variable}\indexmain{expression variable}\indexmain{variable}
 
 The \texttt{visited} query returns the status of the \indexed{visited flag} of the given number for the given graph element as \texttt{boolean}.
@@ -399,6 +401,9 @@ Make sure to allocate\ref{allocvisitflag}/\ref{apiallocvisitflag} visited flags 
 The \texttt{nameof} query returns the name of the given graph element as \texttt{string}; 
 graphs elements at the API level bear no name, the operator can only be used with Shell-graphs.
 If no graph element is given, the name of the graph is returned.
+
+The \texttt{random} function returns a double random value in between 0.0 and 1.0 if called without an argument,
+or, if an integer argument value is given, an integer random value in between 0 and the value given, excluding the value itself.
 
 \begin{rail} 
   CastExpr: '(' PrimitiveType ')' PrimaryExpr;

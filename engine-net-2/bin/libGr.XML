@@ -4902,6 +4902,14 @@
             <param name="map">A dictionary representing a map.</param>
             <returns>A new set dictionary containing all values from <paramref name="map"/>.</returns>
         </member>
+        <member name="M:de.unika.ipd.grGen.libGr.DictionaryHelper.Peek``2(System.Collections.Generic.Dictionary{``0,``1},System.Int32)">
+            <summary>
+            Returns the value from the dictionary at the nth position as defined by the iterator of the dictionary.
+            </summary>
+            <param name="dict">A dictionary.</param>
+            <param name="num">The number of the element to get in the iteration sequence.</param>
+            <returns>The element at the position to get.</returns>
+        </member>
         <member name="M:de.unika.ipd.grGen.libGr.DictionaryHelper.Equal``2(System.Collections.Generic.Dictionary{``0,``1},System.Collections.Generic.Dictionary{``0,``1})">
             <summary>
             Checks if set/map <paramref name="a"/> equals set/map <paramref name="b"/>.

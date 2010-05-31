@@ -59,16 +59,16 @@ public class StringSubstringNode extends ExprNode {
 	@Override
 	protected boolean checkLocal() {
 		if(!stringExpr.getType().isEqual(BasicTypeNode.stringType)) {
-			stringExpr.reportError("First argument to substring expression must be of type string");
+			stringExpr.reportError("This argument to substring expression must be of type string");
 			return false;
 		}
 		if(!startExpr.getType().isEqual(BasicTypeNode.intType)) {
-			startExpr.reportError("Second argument (start position) to "
+			startExpr.reportError("First argument (start position) to "
 					+ "substring expression must be of type int");
 			return false;
 		}
 		if(!lengthExpr.getType().isEqual(BasicTypeNode.intType)) {
-			lengthExpr.reportError("Third argument (length) to substring "
+			lengthExpr.reportError("Second argument (length) to substring "
 					+ "expression must be of type int");
 			return false;
 		}

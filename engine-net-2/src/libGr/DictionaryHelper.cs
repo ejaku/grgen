@@ -270,6 +270,24 @@ namespace de.unika.ipd.grGen.libGr
         }
 
         /// <summary>
+        /// Returns the value from the dictionary at the nth position as defined by the iterator of the dictionary.
+        /// </summary>
+        /// <param name="dict">A dictionary.</param>
+        /// <param name="num">The number of the element to get in the iteration sequence.</param>
+        /// <returns>The element at the position to get.</returns>
+        public static K Peek<K, V>(Dictionary<K, V> dict, int num)
+        {
+            Dictionary<K,V>.Enumerator it = dict.GetEnumerator();
+            if(num >= 0) it.MoveNext();
+            for(int i = 0; i < num; ++i)
+            {
+                it.MoveNext();
+            }
+
+            return it.Current.Key;
+        }
+
+        /// <summary>
         /// Checks if set/map <paramref name="a"/> equals set/map <paramref name="b"/>.
         /// For a map, key and value must be same to be equal.
         /// </summary>

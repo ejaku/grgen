@@ -44,10 +44,12 @@ import de.unika.ipd.grgen.ir.MapItem;
 import de.unika.ipd.grgen.ir.MapDomainExpr;
 import de.unika.ipd.grgen.ir.MapRangeExpr;
 import de.unika.ipd.grgen.ir.MapSizeExpr;
+import de.unika.ipd.grgen.ir.MapPeekExpr;
 import de.unika.ipd.grgen.ir.MapType;
 import de.unika.ipd.grgen.ir.SetInit;
 import de.unika.ipd.grgen.ir.SetItem;
 import de.unika.ipd.grgen.ir.SetSizeExpr;
+import de.unika.ipd.grgen.ir.SetPeekExpr;
 import de.unika.ipd.grgen.ir.MatchingAction;
 import de.unika.ipd.grgen.ir.Model;
 import de.unika.ipd.grgen.ir.Nameof;
@@ -56,6 +58,7 @@ import de.unika.ipd.grgen.ir.Node;
 import de.unika.ipd.grgen.ir.Operator;
 import de.unika.ipd.grgen.ir.PatternGraph;
 import de.unika.ipd.grgen.ir.Qualification;
+import de.unika.ipd.grgen.ir.RandomExpr;
 import de.unika.ipd.grgen.ir.Rule;
 import de.unika.ipd.grgen.ir.SetType;
 import de.unika.ipd.grgen.ir.StringIndexOf;
@@ -1257,6 +1260,13 @@ public class ActionsGen extends CSharpBase {
 			genExpressionTree(sb, vis.getVisitorID(), className, pathPrefix, alreadyDefinedEntityToName);
 			sb.append(")");
 		}
+		else if(expr instanceof RandomExpr) {
+			RandomExpr re = (RandomExpr) expr;
+			sb.append("new GRGEN_EXPR.Random(");
+			if(re.getNumExpr()!=null)
+				genExpressionTree(sb, re.getNumExpr(), className, pathPrefix, alreadyDefinedEntityToName);
+			sb.append(")");
+		}
 		else if (expr instanceof StringLength) {
 			StringLength strlen = (StringLength) expr;
 			sb.append("new GRGEN_EXPR.StringLength(");
@@ -1327,10 +1337,26 @@ public class ActionsGen extends CSharpBase {
 			genExpressionTree(sb, mr.getTargetExpr(), className, pathPrefix, alreadyDefinedEntityToName);
 			sb.append(")");
 		}
+		else if (expr instanceof MapPeekExpr) {
+			MapPeekExpr mp = (MapPeekExpr)expr;
+			sb.append("new GRGEN_EXPR.MapPeek(");
+			genExpressionTree(sb, mp.getTargetExpr(), className, pathPrefix, alreadyDefinedEntityToName);
+			sb.append(", ");
+			genExpressionTree(sb, mp.getNumberExpr(), className, pathPrefix, alreadyDefinedEntityToName);
+			sb.append(")");
+		}
 		else if (expr instanceof SetSizeExpr) {
 			SetSizeExpr ss = (SetSizeExpr)expr;
 			sb.append("new GRGEN_EXPR.SetSize(");
 			genExpressionTree(sb, ss.getTargetExpr(), className, pathPrefix, alreadyDefinedEntityToName);
+			sb.append(")");
+		}
+		else if (expr instanceof SetPeekExpr) {
+			SetPeekExpr sp = (SetPeekExpr)expr;
+			sb.append("new GRGEN_EXPR.SetPeek(");
+			genExpressionTree(sb, sp.getTargetExpr(), className, pathPrefix, alreadyDefinedEntityToName);
+			sb.append(", ");
+			genExpressionTree(sb, sp.getNumberExpr(), className, pathPrefix, alreadyDefinedEntityToName);
 			sb.append(")");
 		}
 		else if (expr instanceof MapInit) {

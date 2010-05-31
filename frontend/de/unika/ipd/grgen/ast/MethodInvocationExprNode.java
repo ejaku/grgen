@@ -149,6 +149,14 @@ public class MethodInvocationExprNode extends ExprNode
   				else
   					result = new MapRangeNode(getCoords(), targetExpr);
   			}
+			else if(methodName.equals("peek")) {
+				if(params.size() != 1) {
+  					reportError("map<S,T>.peek(number in iteration sequence) takes one parameter.");
+					return false;
+				}
+  				else
+  					result = new MapPeekNode(getCoords(), targetExpr, params.get(0));
+			}
   			else {
   				reportError("map<S,T> does not have a method named \"" + methodName + "\"");
   				return false;
@@ -163,6 +171,14 @@ public class MethodInvocationExprNode extends ExprNode
   				else
   					result = new SetSizeNode(getCoords(), targetExpr);
   			}
+			else if(methodName.equals("peek")) {
+				if(params.size() != 1) {
+  					reportError("set<T>.peek(number in iteration sequence) takes one parameter.");
+					return false;
+				}
+  				else
+  					result = new SetPeekNode(getCoords(), targetExpr, params.get(0));
+			}
   			else {
   				reportError("set<T> does not have a method named \"" + methodName + "\"");
   				return false;

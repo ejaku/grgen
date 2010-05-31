@@ -2202,6 +2202,7 @@ unaryExpr [ boolean inEnumInit ] returns [ ExprNode res = env.initExprNode() ]
 primaryExpr [ boolean inEnumInit ] returns [ ExprNode res = env.initExprNode() ]
 options { k = 3; }
 	: e=visitedExpr { res = e; }
+	| e=randomExpr { res = e; }
 	| e=nameOf { res = e; }
 	| e=identExpr { res = e; }
 	| e=constant { res = e; }
@@ -2227,6 +2228,15 @@ visitedExpr returns [ ExprNode res = env.initExprNode() ]
 			{ res = new VisitedNode(getCoords(v), idExpr, elem); }
 		| 
 			{ res = new VisitedNode(getCoords(v), new IntConstNode(getCoords(v), 0), elem); }
+		)
+	;
+
+randomExpr returns [ ExprNode res = env.initExprNode() ]
+	: r=RANDOM LPAREN 
+		( numExpr=expr[false] RPAREN
+			{ res = new RandomNode(getCoords(r), numExpr); }
+		| RPAREN
+			{ res = new RandomNode(getCoords(r), null); }
 		)
 	;
 
@@ -2524,6 +2534,7 @@ NULL : 'null';
 OPTIONAL : 'optional';
 PATTERN : 'pattern';
 PATTERNPATH : 'patternpath';
+RANDOM : 'random';
 REPLACE : 'replace';
 RETURN : 'return';
 RULE : 'rule';

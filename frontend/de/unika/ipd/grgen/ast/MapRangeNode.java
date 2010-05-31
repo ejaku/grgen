@@ -52,7 +52,7 @@ public class MapRangeNode extends ExprNode
 	protected boolean checkLocal() {
 		TypeNode targetType = targetExpr.getType();
 		if(!(targetType instanceof MapTypeNode)) {
-			targetExpr.reportError("Argument to map size expression must be of type map<S,T>");
+			targetExpr.reportError("This argument to map range expression must be of type map<S,T>");
 			return false;
 		}
 		return true;

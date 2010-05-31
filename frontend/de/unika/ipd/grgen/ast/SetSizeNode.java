@@ -52,7 +52,7 @@ public class SetSizeNode extends ExprNode
 	protected boolean checkLocal() {
 		TypeNode targetType = targetExpr.getType();
 		if(!(targetType instanceof SetTypeNode)) {
-			targetExpr.reportError("Argument to set size expression must be of type set<T>");
+			targetExpr.reportError("This argument to set size expression must be of type set<T>");
 			return false;
 		}
 		return true;
