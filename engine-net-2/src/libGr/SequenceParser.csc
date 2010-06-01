@@ -842,8 +842,8 @@ Sequence Rule():
 {
 	bool special = false, test = false;
 	String str;
-	bool numChooseRandSpecified = false;
-	int numChooseRand = 1;
+	bool chooseRandSpecified = false;
+	SequenceVariable varChooseRand = null;
 	List<SequenceVariable> paramVars = new List<SequenceVariable>();
 	List<Object> paramConsts = new List<Object>();
 	List<SequenceVariable> returnVars = new List<SequenceVariable>();
@@ -852,14 +852,7 @@ Sequence Rule():
 	("(" VariableList(returnVars) ")" "=" )? 
 	(
 		(
-			"$" (numChooseRand=Number())?
-			{
-				numChooseRandSpecified = true;
-				if(numChooseRand <= 0)
-					throw new ParseException("The number of randomly chosen elements must be greater than zero!");
-				if(numChooseRand > Int32.MaxValue)
-					throw new ParseException("The number of randomly chosen elements must be less than 2147483648!");
-			}
+			"$" (varChooseRand=Variable())? { chooseRandSpecified = true; }
 		)?
 		"[" ("%" { special = true; } | "?" { test = true; })* str=Word()
 		("(" RuleParameters(paramVars, paramConsts) ")")?
@@ -870,7 +863,7 @@ Sequence Rule():
 				throw new SequenceParserException(str, SequenceParserError.RuleNameUsedByVariable);
 
 			return new SequenceRuleAll(CreateRuleInvocationParameterBindings(str, paramVars, paramConsts, returnVars),
-					special, test, numChooseRandSpecified ? (int) numChooseRand : 0);
+					special, test, chooseRandSpecified, varChooseRand);
 		}
 	|
 		("%" { special = true; } | "?" { test = true; })*

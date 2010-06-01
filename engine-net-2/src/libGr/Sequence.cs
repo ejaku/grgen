@@ -446,18 +446,21 @@ namespace de.unika.ipd.grGen.libGr
 
     public class SequenceRuleAll : SequenceRule
     {
-		public int NumChooseRandom;
+        public bool ChooseRandom;
+		public SequenceVariable VarChooseRandom;
 
-        public SequenceRuleAll(RuleInvocationParameterBindings paramBindings, bool special, bool test, int numChooseRandom)
+        public SequenceRuleAll(RuleInvocationParameterBindings paramBindings, bool special, bool test, 
+            bool chooseRandom, SequenceVariable varChooseRandom)
             : base(paramBindings, special, test)
         {
             SequenceType = SequenceType.RuleAll;
-			NumChooseRandom = numChooseRandom;
+            ChooseRandom = chooseRandom;
+			VarChooseRandom = varChooseRandom;
         }
 
         protected override bool ApplyImpl(IGraph graph)
         {
-			if(NumChooseRandom <= 0)
+			if(!ChooseRandom)
 				return graph.ApplyRewrite(ParamBindings, -1, -1, Special, Test) > 0;
 			else
 			{
@@ -497,8 +500,14 @@ namespace de.unika.ipd.grGen.libGr
 
 				if(graph.PerformanceInfo != null) graph.PerformanceInfo.StartLocal();
 
+                object val = VarChooseRandom!=null ? VarChooseRandom.GetVariableValue(graph) : 1;
+                if(!(val is int)) 
+                    throw new InvalidOperationException("The variable '" + VarChooseRandom + "' is not of type int!");
+                int numChooseRandom = (int)val;
+                if(matches.Count < numChooseRandom) numChooseRandom = matches.Count;
+
 				object[] retElems = null;
-				for(int i = 0; i < NumChooseRandom; i++)
+				for(int i = 0; i < numChooseRandom; i++)
 				{
 					if(i != 0) graph.RewritingNextMatch();
 					IMatch match = matches.RemoveMatch(randomGenerator.Next(matches.Count));
@@ -521,11 +530,12 @@ namespace de.unika.ipd.grGen.libGr
         { 
             get 
             {
-                String prefix;
-				if(NumChooseRandom > 0)
-					prefix = "$" + NumChooseRandom;
-				else
-					prefix = "";
+                String prefix = "";
+				if(ChooseRandom) {
+					prefix = "$";
+                    if(VarChooseRandom != null)
+                        prefix += VarChooseRandom.Name;
+                }
                 if(Special)
                 {
                     if(Test) prefix += "[%?";

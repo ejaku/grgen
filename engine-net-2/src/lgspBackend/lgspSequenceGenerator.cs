@@ -399,7 +399,7 @@ namespace de.unika.ipd.grGen.lgsp
             }
             else // seq.SequenceType == SequenceType.RuleAll
             {
-                if(((SequenceRuleAll)seqRule).NumChooseRandom <= 0)
+                if(!((SequenceRuleAll)seqRule).ChooseRandom)
                 {
                     // iterate through matches, use Modify on each, fire the next match event after the first
                     String enumeratorName = "enum_" + seqRule.Id;
@@ -419,12 +419,10 @@ namespace de.unika.ipd.grGen.lgsp
                 }
                 else
                 {
-                    // todo: bisher gibt es eine exception wenn zu wenig matches für die random-auswahl vorhanden, auch bei interpretiert
-                    // -- das so ändern, dass geclippt nach vorhandenen matches - das andere ist für die nutzer scheisse (wohl noch nie vorgekommen, weil immer nur ein match gewählt wurde)
-
                     // as long as a further rewrite has to be selected: randomly choose next match, rewrite it and remove it from available matches; fire the next match event after the first
-                    String matchesToSelect = ((SequenceRuleAll)seqRule).NumChooseRandom.ToString();
-                    source.AppendFront("for(int i = 0; i < " + matchesToSelect + "; ++i)\n");
+                    source.AppendFrontFormat("int numchooserandomvar_{0} = {1};\n", seqRule.Id, ((SequenceRuleAll)seqRule).VarChooseRandom!=null ? GetVar(((SequenceRuleAll)seqRule).VarChooseRandom) : "1");
+                    source.AppendFrontFormat("if({0}.Count < numchooserandomvar_{1}) numchooserandomvar_{1} = {0}.Count;\n", matchesName, seqRule.Id);
+                    source.AppendFrontFormat("for(int i = 0; i < numchooserandomvar_{0}; ++i)\n", seqRule.Id);
                     source.AppendFront("{\n");
                     source.Indent();
                     source.AppendFront("if(i != 0) graph.RewritingNextMatch();\n");
