@@ -420,7 +420,7 @@ namespace de.unika.ipd.grGen.lgsp
                 else
                 {
                     // as long as a further rewrite has to be selected: randomly choose next match, rewrite it and remove it from available matches; fire the next match event after the first
-                    source.AppendFrontFormat("int numchooserandomvar_{0} = {1};\n", seqRule.Id, ((SequenceRuleAll)seqRule).VarChooseRandom!=null ? GetVar(((SequenceRuleAll)seqRule).VarChooseRandom) : "1");
+                    source.AppendFrontFormat("int numchooserandomvar_{0} = (int){1};\n", seqRule.Id, ((SequenceRuleAll)seqRule).VarChooseRandom!=null ? GetVar(((SequenceRuleAll)seqRule).VarChooseRandom) : "1");
                     source.AppendFrontFormat("if({0}.Count < numchooserandomvar_{1}) numchooserandomvar_{1} = {0}.Count;\n", matchesName, seqRule.Id);
                     source.AppendFrontFormat("for(int i = 0; i < numchooserandomvar_{0}; ++i)\n", seqRule.Id);
                     source.AppendFront("{\n");

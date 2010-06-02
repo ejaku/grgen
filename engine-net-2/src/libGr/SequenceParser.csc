@@ -832,7 +832,7 @@ void RuleLookahead():
 	("(" Word() (":" (Word() | "set" "<" Word() ">" | "map" "<" Word() "," Word() ">"))?
 			("," Word() (":" (Word() | "set" "<" Word() ">" | "map" "<" Word() "," Word() ">"))?)* ")" "=")?
 	(
-	    ("$" (Number())?)? "["
+	    ("$" (Variable())?)? "["
 	|
 	    ("%" | "?")* Word()
 	)
