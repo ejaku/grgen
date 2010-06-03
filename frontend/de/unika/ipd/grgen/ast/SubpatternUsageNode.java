@@ -142,8 +142,13 @@ public class SubpatternUsageNode extends DeclNode {
 					exprTypeName = ((InheritanceTypeNode) actualParameterType).getIdentNode().toString();
 				else
 					exprTypeName = actualParameterType.toString();
+				String paramTypeName;
+				if(formalParameterType instanceof InheritanceTypeNode)
+					paramTypeName = ((InheritanceTypeNode) formalParameterType).getIdentNode().toString();
+				else
+					paramTypeName = formalParameterType.toString();
 				ident.reportError("Cannot convert " + (i + 1) + ". subpattern usage argument from \""
-						+ exprTypeName + "\" to \"" + formalParameterType.toString() + "\"");
+						+ exprTypeName + "\" to \"" + paramTypeName + "\"");
 			}
 		}
 
