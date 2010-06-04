@@ -58,6 +58,26 @@ pattern Foo(var i:int, var j:string, var k:boolean, var l:double, var m:object)
 	}
 }
 
+pattern Hoo(nint:NINT, nbool:NBOOL, nfloat:NFLOAT, ndouble:NDOUBLE, nobject:NOBJECT, nstring:NSTRING)
+{
+	nint -eint:EINT-> nint;
+	nbool -ebool:EBOOL-> nbool;
+	nfloat -efloat:EFLOAT-> nfloat;
+	ndouble -edouble:EDOUBLE-> ndouble;
+	nobject -eobject:EOBJECT-> nobject;
+	nstring -estring:ESTRING-> nstring;
+}
+
+pattern Boo(var i:int, var j:string, var k:boolean, var l:double, var m:object)
+{
+	nint:NINT -eint:EINT-> nint;
+	nbool:NBOOL -ebool:EBOOL-> nbool;
+	nfloat:NFLOAT -efloat:EFLOAT-> nfloat;
+	ndouble:NDOUBLE -edouble:EDOUBLE-> ndouble;
+	nobject:NOBJECT -eobject:EOBJECT-> nobject;
+	nstring:NSTRING -estring:ESTRING-> nstring;
+}
+
 rule r(var i:int, var j:string, var k:boolean, var l:double, var m:object)
 {
 	x:Node;
@@ -70,5 +90,35 @@ rule r(var i:int, var j:string, var k:boolean, var l:double, var m:object)
 	{
 		eval { x.visited[i] = true; }
 		foo();
+	}
+}
+
+rule s
+{
+	nint:NINT;
+	nbool:NBOOL;
+	nfloat:NFLOAT;
+	ndouble:NDOUBLE;
+	nobject:NOBJECT;
+	nstring:NSTRING;
+	
+	modify {
+		:Hoo(nint, nbool, nfloat, ndouble, nobject, nstring);
+		:Boo(42, "boo", true, 42.0, null);
+	}
+}
+
+rule t
+{
+	modify {
+		nint:NINT;
+		nbool:NBOOL;
+		nfloat:NFLOAT;
+		ndouble:NDOUBLE;
+		nobject:NOBJECT;
+		nstring:NSTRING;
+		
+		:Hoo(nint, nbool, nfloat, ndouble, nobject, nstring);
+		:Boo(42, "boo", true, 42.0, null);
 	}
 }

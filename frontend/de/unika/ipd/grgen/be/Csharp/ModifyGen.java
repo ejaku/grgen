@@ -271,7 +271,8 @@ public class ModifyGen extends CSharpBase {
 		}
 
 		if(isSubpattern) {
-			if(!hasAbstractElements(rule.getLeft())) {
+			if(!hasAbstractElements(rule.getLeft())
+					&& !hasDanglingEdges(rule.getLeft())) {
 				// create subpattern into pattern
 				ModifyGenerationTask task = new ModifyGenerationTask();
 				task.typeOfTask = TYPE_OF_TASK_CREATION;
@@ -351,6 +352,14 @@ public class ModifyGen extends CSharpBase {
 
 		for(Edge edge : left.getEdges())
 			if(edge.getEdgeType().isAbstract()) return true;
+
+		return false;
+	}
+
+	private boolean hasDanglingEdges(PatternGraph left) {
+		for(Edge edge : left.getEdges())
+			if(left.getSource(edge)==null || left.getTarget(edge)==null)
+				return true;
 
 		return false;
 	}
@@ -663,7 +672,8 @@ public class ModifyGen extends CSharpBase {
 
 		removeAgainFromNeededWhatIsNotReallyNeeded(task, stateConst,
 				state.nodesNeededAsElements, state.edgesNeededAsElements,
-				state.nodesNeededAsAttributes, state.edgesNeededAsAttributes);
+				state.nodesNeededAsAttributes, state.edgesNeededAsAttributes,
+				state.neededVariables);
 
 		////////////////////////////////////////////////////////////////////////////////
 		// Finalize method using the infos collected and the already generated code
@@ -780,7 +790,8 @@ public class ModifyGen extends CSharpBase {
 	private void removeAgainFromNeededWhatIsNotReallyNeeded(
 			ModifyGenerationTask task, ModifyGenerationStateConst state,
 			HashSet<Node> nodesNeededAsElements, HashSet<Edge> edgesNeededAsElements,
-			HashSet<Node> nodesNeededAsAttributes, HashSet<Edge> edgesNeededAsAttributes)
+			HashSet<Node> nodesNeededAsAttributes, HashSet<Edge> edgesNeededAsAttributes,
+			HashSet<Variable> neededVariables)
 	{
 		// nodes/edges needed from match, but not the new nodes
 		nodesNeededAsElements.removeAll(state.newNodes());
@@ -788,12 +799,13 @@ public class ModifyGen extends CSharpBase {
 		edgesNeededAsElements.removeAll(state.newEdges());
 		edgesNeededAsAttributes.removeAll(state.newEdges());
 
-		// nodes/edges handed in as subpattern connections to create are already available as method parameters
+		// nodes/edges/vars handed in as subpattern connections to create are already available as method parameters
 		if(task.typeOfTask==TYPE_OF_TASK_CREATION) {
 			nodesNeededAsElements.removeAll(task.parameters);
 			//nodesNeededAsAttributes.removeAll(state.newNodes);
 			edgesNeededAsElements.removeAll(task.parameters);
 			//edgesNeededAsAttributes.removeAll(state.newEdges);
+			neededVariables.removeAll(task.parameters);
 		}
 
 		// nodes handed in as replacement connections to modify are already available as method parameters
