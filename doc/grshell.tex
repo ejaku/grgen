@@ -68,7 +68,9 @@ new node "start" of type "State" has been created.
 \end{grshell}
 \end{example}
 \begin{note}
-Persistent names will be saved (\texttt{save graph\dots}, see Section~\ref{outputcmds}) and exported, and, if you visualize a graph (\texttt{dump graph\dots}, see Section~\ref{outputcmds}), graph elements will be \indexed{label}ed with their persistent names.
+Persistent names will be saved (\texttt{save graph\dots}, see Section~\ref{outputcmds}) and exported, 
+and, if you visualize a graph (\texttt{dump graph\dots}, see Section~\ref{outputcmds}), 
+graph elements will be \indexed{label}ed with their persistent names.
 Persistent names have to be unique for a graph (the graph they belong to).
 \end{note}
 
@@ -446,7 +448,7 @@ Displays the value of the specified attribute.
 Gets the information whether the first element is \indexed{type-compatible}\indexmainsee{compatible types}{type-compatible} to the second element.
 
 
-\subsection{Graph Visualization Commands}\indexmain{visualization}\indexmainsee{layout}{visualization}\indexmainsee{visualization}{group node}
+\subsection{Graph Visualization Commands}\label{sub:visual}\indexmain{visualization}\indexmainsee{layout}{visualization}\indexmainsee{visualization}{group node}
 
 \begin{rail}
   'show' 'graph' ExecutableName (() | Text)
@@ -534,7 +536,7 @@ In the following example \emph{river} and \emph{jam} are info tags:
 Resets all style options (\texttt{dump set}\dots) and (\texttt{dump add}\dots) to their default values.
 
 
-\begin{note}
+\begin{note}\label{note:visual}
 Small graphs allow for fast visual understanding, but with an increasing number of nodes and edges they quickly loose this property.
 The group commands are of outstanding importance to keep readability with increasing graph sizes
 (e.g. for program graphs it allows to lump together expressions of a method inside the method node and attributes of the class inside the class node).

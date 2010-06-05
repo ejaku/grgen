@@ -97,6 +97,18 @@ namespace de.unika.ipd.grGen.grShell
         public ShellGraph(IGraph graph, String backendFilename, String[] backendParameters, String modelFilename)
         {
             Graph = new NamedGraph(graph);
+            Debug.Assert(graph is LGSPGraph);
+            if(graph is LGSPGraph) 
+                ((LGSPGraph)graph).NamedGraph = Graph;
+            DumpInfo = new DumpInfo(Graph.GetElementName);
+            BackendFilename = backendFilename;
+            BackendParameters = backendParameters;
+            ModelFilename = modelFilename;
+        }
+
+        public ShellGraph(NamedGraph graph, String backendFilename, String[] backendParameters, String modelFilename)
+        {
+            Graph = graph;
             DumpInfo = new DumpInfo(Graph.GetElementName);
             BackendFilename = backendFilename;
             BackendParameters = backendParameters;
@@ -3541,7 +3553,13 @@ showavail:
                 System.Console.Out.WriteLine("import done after: " + (Environment.TickCount - startTime) + " ms");
                 System.Console.Out.WriteLine("graph size after import: " + System.GC.GetTotalMemory(true) + " bytes");
                 startTime = Environment.TickCount;
-                curShellGraph = new ShellGraph(graph, backendFilename, backendParameters, graph.Model.ModelName + ".gm");
+                if(graph is NamedGraph) // grs import returns already named graph
+                    curShellGraph = new ShellGraph((NamedGraph)graph, backendFilename, backendParameters, graph.Model.ModelName + ".gm");
+                else // constructor building named graph
+                    curShellGraph = new ShellGraph(graph, backendFilename, backendParameters, graph.Model.ModelName + ".gm");
+                NamedGraph importedNamedGraph = (NamedGraph)curShellGraph.Graph;
+                LGSPGraph wrappedGraph = (LGSPGraph)importedNamedGraph.WrappedGraph;
+                wrappedGraph.NamedGraph = curShellGraph.Graph; // set the named graph property of the lgsp graph to get the nameof operator working
                 System.Console.Out.WriteLine("shell import done after: " + (Environment.TickCount - startTime) + " ms");
                 System.Console.Out.WriteLine("shell graph size after import: " + System.GC.GetTotalMemory(true) + " bytes");
                 curShellGraph.Actions = graph.Actions;

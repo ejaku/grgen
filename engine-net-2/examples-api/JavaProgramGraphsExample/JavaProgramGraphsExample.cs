@@ -27,7 +27,11 @@ namespace JavaProgramGraphs
             
             // import the instance graph we created with gxl2grs, using the the .gm we created by hand
             // (can't use import gxl for the program graph, because the given .gxl is severly rotten)
-            LGSPGraph graph = (LGSPGraph)Porter.Import("InstanceGraph.grs", backend, model);
+            // we throw away the named graph cause we don't need names here and they require about the same amount of memory as the graph itself; 
+            // otherwise we would set the NamedGraph property of the lgsp graph to the named graph to get the nameof operator working
+            NamedGraph importedNamedGraph = (NamedGraph)Porter.Import("InstanceGraph.grs", backend, model);
+            LGSPGraph graph = (LGSPGraph)(importedNamedGraph.WrappedGraph);
+            importedNamedGraph = null;
             
             // get the actions object for the rules we want to use
             JavaProgramGraphsActions actions = new JavaProgramGraphsActions(graph);
@@ -83,6 +87,7 @@ namespace JavaProgramGraphs
             graph.FreeVisitedFlag(visitedFlagId);
 
             // export changed graph (alternatively you may export it as InstanceGraphAfter.gxl)
+            // if we'd use a NamedGraph we'd get the graph exported with its persistent names; so we get it exported with some hash names
             List<String> exportParameters = new List<string>();
             exportParameters.Add("InstanceGraphAfter.grs");
             Porter.Export(graph, exportParameters);

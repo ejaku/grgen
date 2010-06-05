@@ -550,17 +550,19 @@ namespace de.unika.ipd.grGen.libGr
 
         #endregion Visited flags management
 
-        #region Variables management
+        #region Names and Variables management
 
         /// <summary>
-        /// Returns the first variable name for the given element it finds (if any).
+        /// Returns the name for the given element,
+        /// i.e. the name defined by the named graph if a named graph is available,
+        /// or a hash value string if only a lgpsGraph is available.
         /// </summary>
-        /// <param name="elem">Element which name is to be found</param>
-        /// <returns>A name which can be used in GetVariableValue to get this element</returns>
+        /// <param name="elem">Element of which the name is to be found</param>
+        /// <returns>The name of the given element</returns>
         string GetElementName(IGraphElement elem);
 
         /// <summary>
-        /// Returns a linked list of variables mapped to the given graph element
+        /// Returns a linked list of variables mapping to the given graph element
         /// or null, if no variable points to this element
         /// </summary>
         LinkedList<Variable> GetElementVariables(IGraphElement elem);

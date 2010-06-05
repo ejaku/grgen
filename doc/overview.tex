@@ -613,10 +613,14 @@ which achieved a high level of sophistication, but is difficult to run by now, o
 
 \item[General Purpose Graph Transformation]
 in contrast to special purpose graph transformation.
-A lot of other graph based tools are geared towards special purpose applications, e.g. verification (GROOVE \cite{Groove}), or biology (XL \cite{xl}, or model transformation (VIATRA2\cite{viatra2}).
+A lot of other graph based tools are geared towards special purpose applications, 
+e.g. verification (GROOVE \cite{Groove}), or biology (XL \cite{xl}, or model transformation (VIATRA2\cite{viatra2}).
 This means that design decisions were taken to ease uses in this application areas at the cost of rendering uses in other domains more difficult.
-And that features were added in a way which just satisfies the needs of the domain at hand instead of striving for a more general solution (which would have caused higher costs at designing and implementing this features).
-While the old \textsc{GrGen} was built as a special purpose compiler construction tool for internal use, the new \GrG\ was built from the beginning as a general purpose graph transformation tool for external use
+And that features were added in a way which just satisfies the needs of the domain at hand instead of striving for a more general solution 
+(which would have caused higher costs at designing and implementing this features).
+While the old \textsc{GrGen} was built as a special purpose compiler construction tool for internal use 
+(optimizations on the graph based compiler intermediate representation FIRM -- see \url{www.libfirm.org}), 
+the new \GrG\ was built from the beginning as a general purpose graph transformation tool for external use
 -- to be used in areas as diverse as computer linguistics, software engineering, computational biology or sociology --
 for reasoning with semantic nets, transformation of natural language to UML models,
 model transformation, processing of program graphs, genome simulation, or pattern matching in social nets. 

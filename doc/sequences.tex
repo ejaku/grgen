@@ -129,7 +129,7 @@ Nested transactions\indexmainsee{nested transaction}{transaction} are supported.
 Forcing execution orders can be achived by parentheses, an boolean literal \texttt{true}/\texttt{false} comes in handy if a sequence is to be evaluated but its result must be a predefined value.
 
 \begin{rail}    
-  RuleExecution: (() | '(' (Variable+',') ')' '=') \\ (() | percent) (() | '?') ( (dollar ( Number | ()) | ()) '[' Rule ']' | Rule);   
+  RuleExecution: (() | '(' (Variable+',') ')' '=') \\ (() | percent) (() | '?') ( (dollar ( Variable | ()) | ()) '[' Rule ']' | Rule);   
   Rule: RuleIdent (() | '(' (Variable+',') ')');
 \end{rail}\ixnterm{RuleExecution}\ixnterm{Rule} 
 The \emph{RuleExecution} clause applies a single rule or test.
@@ -147,7 +147,7 @@ Attention: Its semantics is \textbf{not} equal to \texttt{Rule*}.
 Instead this operator collects all the matches first before starting to rewrite.
 In particular the semantics is unsafe, i.e.\ one needs to avoid deleting a graph element that is bound by another match.
 If \emph{Rule} returns values, the values of \emph{one} of the executed rules will be returned.
-The random-match-selector \texttt{\$n} searches for all matches and then randomly selects \texttt{n} of them to be rewritten, with \texttt{\$[r1]} being equivalent to \texttt{\$1[r1]}.
+The random-match-selector \texttt{\$v} searches for all matches and then randomly selects \texttt{v} of them to be rewritten (but at most as much as are available), with \texttt{\$[r1]} being equivalent to \texttt{anonymousTempVar=1 \& \$anonymousTempVar[r1]}.
 
 \begin{rail}
   VariableHandling: 

@@ -1,4 +1,4 @@
-﻿v2.6RC4 (2010-05-31)
+﻿v2.6RC5 (2010-06-05)
  Single most important change:
   - user manual updated (including all the changes from 1.4->2.6)
  
@@ -65,9 +65,11 @@
    - graph elements matched outside optional pattern now can get retyped in optional pattern
 
  Export/Import:
-  - GRS import/export (of .grs, .grsi files; and GrShell) now support set/map attribute initialization
+  - GRS(I) import/export (of .grs, .grsi files; and GrShell) now support set/map attribute initialization
     (example: new :N1($="$0", a = set<int>{1,2,3}, b = map<string,boolean>{"foo"->true,"bar"->false})
   - withvariables parameter for grs export causing variables to get exported; default is nodes/edges only
+  - GRS(I) import/export now writes and reads persistent names correctly
+       (instead of variables; only if a non named graph is given fallback to hash names)
   - GXL import/export now supports enum attributes (set/map not supported)
   - ecore/XMI importer extended to support a larger class of inputs (plus nopackagenameprefix parameter)
 
@@ -103,6 +105,8 @@
   - escaping of quotation marks in VCG files
   - escaping of quotation marks and newlines in communication with yComp
   - escaping of XML language elements in GXL export
+  - nameof(element) now working correctly, i.e. returning persistent name as announced
+      (instead of variable name; only in case of a non-named graph a hash value name is returned)
   - typeof(element of abstract type) now working
   - several cases of use before definition in rule language now working
   - Mono compiler error (MS.NET warning) when using alternatives removed
@@ -117,6 +121,7 @@
   - ResetVisitedFlag/vreset now reliably working on edge types, too
   - code generation for conditions in nested patterns
   - code generation for alternatives nested in negatives/independents
+  - subpattern creation/instantiation with parameters from rewrite part
   - further minor fixes
   
  Further changes:
@@ -134,6 +139,7 @@
   - assignment of sequence result to variable is now always true (independent of sequence result)
   - replaced emitpre by emithere, which is emitted before regular emits,
     at the position syntax-relative to the subpattern modification invocations and the other emitheres
+  - the random match selector now expects a variable instead of a number
   - new rule modifiers dangling (only apply rule if all incident edges of a node to be deleted 
      are specified in the pattern), and identification (don't apply rule if a node to be deleted
      was matched homomorphically to a node to be kept), allowing to pick from the dpo conditions

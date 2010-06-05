@@ -71,12 +71,23 @@ PARSER_BEGIN(GRSImporter)
     }
     
     class GRSImporter {
-		IGraph graph;
+		NamedGraph graph;
 		IBackend backend;
 		IGraphModel model;
 		String modelOverride;
 		
-        public static IGraph Import(String importFilename, String modelOverride, IBackend backend)
+		/// <summary>
+        /// Imports the given graph from a file with the given filename.
+        /// Any errors will be reported by exception.
+        /// </summary>
+        /// <param name="importFilename">The filename of the file to be imported.</param>
+        /// <param name="backend">The backend to use to create the graph.</param>
+        /// <param name="graphModel">The graph model to be used, 
+        ///     it must be conformant to the model used in the file to be imported.</param>
+        /// <returns>The imported graph. 
+        /// A NamedGraph is returned. If you don't need it: cast to it, get the contained (lgsp) graph, and throw the named graph away
+        /// (the naming requires about the same amount of memory the raw graph behind it requires).</returns>
+		public static IGraph Import(String importFilename, String modelOverride, IBackend backend)
         {
             TextReader reader = new StreamReader(importFilename);
             GRSImporter importer = new GRSImporter(reader);
@@ -86,12 +97,31 @@ PARSER_BEGIN(GRSImporter)
             while(importer.ParseGraphBuildingScript()) /*empty*/;
             return importer.graph;
         }
-        
+
+		/// <summary>
+        /// Imports the given graph from a file with the given filename.
+        /// Any errors will be reported by exception.
+        /// </summary>
+        /// <param name="importFilename">The filename of the file to be imported.</param>
+        /// <param name="backend">The backend to use to create the graph.</param>
+        /// <returns>The imported graph. 
+        /// A NamedGraph is returned. If you don't need it: cast to it, get the contained (lgsp) graph, and throw the named graph away
+        /// (the naming requires about the same amount of memory the raw graph behind it requires).</returns>        
         public static IGraph Import(String importFilename, IBackend backend)
         {
 			return Import(importFilename, null, backend);
         }
         
+		/// <summary>
+        /// Imports the given graph from a file with the given filename.
+        /// Any errors will be reported by exception.
+        /// </summary>
+        /// <param name="importFilename">The filename of the file to be imported.</param>
+        /// <param name="backend">The backend to use to create the graph.</param>
+        /// <param name="graphModel">The graph model to be used.</param>
+        /// <returns>The imported graph. 
+        /// A NamedGraph is returned. If you don't need it: cast to it, get the contained (lgsp) graph, and throw the named graph away
+        /// (the naming requires about the same amount of memory the raw graph behind it requires).</returns>
         public static IGraph Import(String importFilename, IBackend backend, IGraphModel graphModel)
         {
             TextReader reader = new StreamReader(importFilename);
@@ -112,12 +142,7 @@ PARSER_BEGIN(GRSImporter)
 
         public INode GetNodeByName(String elemName)
         {
-	        IGraphElement elem;
-			if(graph is NamedGraph) {
-				elem = ((NamedGraph)graph).GetGraphElement(elemName);
-			} else {
-				elem = GetNodeByVar(elemName);
-			}
+	        IGraphElement elem = graph.GetGraphElement(elemName);
 	        if(elem==null) throw new Exception("Unknown graph element "+elemName);
             return (INode)elem;
         }
@@ -131,12 +156,7 @@ PARSER_BEGIN(GRSImporter)
 
         public IEdge GetEdgeByName(String elemName)
         {
-	        IGraphElement elem;
-   			if(graph is NamedGraph) {
-   				elem = ((NamedGraph)graph).GetGraphElement(elemName);
-   			} else {
-   				elem = GetEdgeByVar(elemName);
-   			}
+	        IGraphElement elem = graph.GetGraphElement(elemName);
 	        if(elem==null) throw new Exception("Unknown graph element "+elemName);
             return (IEdge)elem;
         }
@@ -152,13 +172,7 @@ PARSER_BEGIN(GRSImporter)
             }
             else nodeType = graph.Model.NodeModel.RootType;
 
-			INode node;
-			if(graph is NamedGraph) {
-	            node = ((NamedGraph)graph).AddNode(nodeType, elemDef.VarName, elemDef.ElemName);
-			} else {
-				string varName = elemDef.VarName!=null ? elemDef.VarName : elemDef.ElemName;
-	            node = graph.AddNode(nodeType, varName);
-			}
+			INode node = graph.AddNode(nodeType, elemDef.VarName, elemDef.ElemName);
 			if(node==null) throw new Exception("Can't create node");
             
             if(elemDef.Attributes!=null) SetAttributes(node, elemDef.Attributes);
@@ -175,13 +189,7 @@ PARSER_BEGIN(GRSImporter)
             }
             else edgeType = graph.Model.EdgeModel.RootType;
 
-            IEdge edge;
-            if(graph is NamedGraph) {
-	            edge = ((NamedGraph)graph).AddEdge(edgeType, node1, node2, elemDef.VarName, elemDef.ElemName);
-			} else {
-				string varName = elemDef.VarName!=null ? elemDef.VarName : elemDef.ElemName;
-	            edge = graph.AddEdge(edgeType, node1, node2, varName);
-			}
+            IEdge edge = graph.AddEdge(edgeType, node1, node2, elemDef.VarName, elemDef.ElemName);
             if(edge==null) throw new Exception("Can't create edge");
             
             if(elemDef.Attributes!=null) SetAttributes(edge, elemDef.Attributes);
@@ -499,9 +507,9 @@ bool ParseGraphBuildingScript() :
 					modelFilename += ".gm";
 				}
 				if(model!=null) {
-					graph = backend.CreateGraph(model, graphName);
+					graph = new NamedGraph(backend.CreateGraph(model, graphName));
 				} else {
-					graph = backend.CreateGraph(modelFilename, graphName);
+					graph = new NamedGraph(backend.CreateGraph(modelFilename, graphName));
 				}
 		        return true;
 			}

@@ -1870,22 +1870,30 @@ namespace de.unika.ipd.grGen.lgsp
 
         #endregion Visited flags management
 
-        #region Variables management
+        #region Names and Variables management
+
+        /// <summary>
+        /// Set it if a named graph is available, so that the nameof operator can return the persistent name instead of a hash code
+        /// </summary>
+        public NamedGraph NamedGraph { get { return namedGraph; } set { namedGraph = value; } }
+        private NamedGraph namedGraph = null;
 
         protected Dictionary<IGraphElement, LinkedList<Variable>> ElementMap = new Dictionary<IGraphElement, LinkedList<Variable>>();
         protected Dictionary<String, Variable> VariableMap = new Dictionary<String, Variable>();
 
         /// <summary>
-        /// Returns the first variable name for the given element it finds (if any).
+        /// Returns the name for the given element,
+        /// i.e. the name defined by the named graph if a named graph is available,
+        /// or a hash value string if only a lgpsGraph is available.
         /// </summary>
-        /// <param name="elem">Element which name is to be found</param>
-        /// <returns>A name which can be used in GetVariableValue to get this element</returns>
+        /// <param name="elem">Element of which the name is to be found</param>
+        /// <returns>The name of the given element</returns>
         public override String GetElementName(IGraphElement elem)
         {
-            LinkedList<Variable> variableList;
-            if(ElementMap.TryGetValue(elem, out variableList))
-                return variableList.First.Value.Name;
-            return "$" + elem.GetHashCode();
+            if(namedGraph != null) 
+                return namedGraph.GetElementName(elem);
+            else
+                return "$" + elem.GetHashCode();
         }
 
         /// <summary>

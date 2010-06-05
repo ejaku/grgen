@@ -453,9 +453,15 @@ The same path specified in the pattern of the rule -- not in the independent -- 
 With recursive subpatterns you can altready capture neatly structures extending into depth (as iterated paths)
 and also structures extending into breadth (as forking patterns, although the cardinality statements are often better suited to this task).
 But combined with an iterated block, you may even match structures extending into breadth and depth,
-like e.g. a hierarchy of classes (i.e. match a spanning tree(todo:indexed) in the graph)
+like e.g. a hierarchy of classes (i.e. match a \indexed{spanning tree} in the graph)
 giving you a very powerful and flexible notation to capture large, complex patterns
 built up in a stuctured way from simple, connected pieces (as e.g. abstract syntax trees of programming languages).
+
+\begin{note}
+If you are working with hierarchic structures like that, 
+you might be intersted in the capablities of GrShell/yComp for nested layout
+as described and shown in \ref{sub:visual}/\ref{note:visual}).
+\end{note}
 
 \begin{example}
   \begin{grgen}
@@ -498,6 +504,7 @@ They are available for retyping though, but only in case the retyping is unambig
 So only the rewrites of alternative cases and optional patterns may contain retypings of elements not declared in the alternative case or optional pattern (in contrast to iterated and multiple pattern rewrites).
 
 \begin{example}
+%This is an example for a rewrite part nested within an iterated block. - without the comment the two examples fit on one page
   \begin{grgen}
 rule methods
 {
@@ -518,6 +525,7 @@ rule methods
 \end{example}
 
 \begin{example}
+%This is an example for a rewrite parts nested within alternative cases. - without the comment the two examples fit on one page
   \begin{grgen}
 rule methodWithTwoOrThreeParameters(m:Method)
 {
@@ -555,6 +563,8 @@ rule methodWithTwoOrThreeParameters(m:Method)
 \end{example}
 
 \begin{example}
+This is an example which shows how to decide with an alternative on the target type of a retyping depending on the context.
+
   \begin{grgen}
 rule alternativeRelabeling
 {
@@ -589,7 +599,9 @@ rule alternativeRelabeling
 \section{Subpattern rewriting}
 \indexmain{subrule}\label{sec:subrule}
 
-Alongside the separation into subpattern declaration and subpattern entity declaration, subpattern rewriting is separated into a nested rewrite specification given within the subpattern declaration defining how the rewrite looks like and a subpattern rewrite application given withing the rewrite part of the pattern containing the subpattern entity declaration requesting the rewrite to be actually applied.
+Alongside the separation into subpattern declaration and subpattern entity declaration, 
+subpattern rewriting is separated into a nested rewrite specification given within the subpattern declaration defining how the rewrite looks like 
+and a subpattern rewrite application given within the rewrite part of the pattern containing the subpattern entity declaration requesting the rewrite to be actually applied.
 
 \begin{rail}  
   SubpatternRewriting: ('replace' | 'modify') lbrace (()+ReplaceStatement) rbrace;
@@ -597,7 +609,7 @@ Alongside the separation into subpattern declaration and subpattern entity decla
 
 The subpattern rewriting specifications within the subpattern declaration looks like a nested rewriting specification,
 but additionally there may be rewrite parameters given in the subpattern header (cf. \ref{subpatterndecl}) which can be referenced in the rewrite body.
-(Most elements can be handed in with normal parametes, but elements created in the rewrite part of the user of the subpattern can only be handed in at rewrite time.) 
+(Most elements can be handed in with normal parameters, but elements created in the rewrite part of the user of the subpattern can only be handed in at rewrite time.) 
 
 \begin{rail}  
   SubpatternRewriteApplication: 
@@ -608,10 +620,14 @@ but additionally there may be rewrite parameters given in the subpattern header 
 \end{rail}\ixnterm{SubpatternRewriteApplication}\ixkeyw{emithere}
 
 The SubpatternRewriteApplication is part of a ReplaceStatement.
-The subpattern rewrite application is given within the rewrite part of the pattern containing the subpattern entity declaration, in call notation on the declared subpattern identifier.
-The \texttt{emithere}-statements are executed before the emit statements, and in the order in between the subpattern rewrite applications they are specified syntactically.
+The subpattern rewrite application is given within the rewrite part of the pattern containing the subpattern entity declaration,
+in call notation on the declared subpattern identifier.
+The \texttt{emithere}-statements are executed before the emit statements,
+and in the order in between the subpattern rewrite applications they are specified syntactically.
 
 \begin{example}
+This is an example for a subpattern rewrite application.
+
   \begin{grgen}
 pattern TwoParametersAddDelete(mp:Method)
 {
@@ -637,6 +653,9 @@ rule methodAndFurtherAddDelete
 
 
 \begin{example}
+This is another example for a subpattern rewrite application,
+reversing the direction of the edges on an iterated path.
+
   \begin{grgen}
 pattern IteratedPathReverse(prev:Node)
 {
@@ -654,7 +673,6 @@ pattern IteratedPathReverse(prev:Node)
   }
 }
   \end{grgen}
-  Reversing the direction of the edges in an iterated path.
 \end{example}
 
 \begin{example}
@@ -736,6 +754,29 @@ rule R {
 }
   \end{grgen}
 \end{example}
+
+\begin{note}
+You may even give a SubpatternEntityDeclaration within a rewrite part which causes the subpattern to be created; 
+but this employment has several issues which can only be overcome by introducing explicit creation-only subpatterns
+-- so you better only use it if you think it should obviously work 
+and you are willing to adapt your code in a later version. 
+
+  \begin{grgen}
+pattern ForCreationOnly(mp:Method)
+{
+  // some complex pattern you want to instantiate several times 
+  // connecting it to the mp handed in
+}
+rule createSubpattern
+{
+  m:Method;
+  
+  modify {
+    :ForCreationOnly(m); // instantiate pattern ForCreationOnly
+  }
+}
+  \end{grgen}
+\end{note}
 
 
 \section{Regular Expression Syntax}\indexmainsee{EBNF}{regular expression syntax}\indexmain{regular expression syntax}

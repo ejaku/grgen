@@ -38,7 +38,7 @@ namespace de.unika.ipd.grGen.libGr
         }
 
         /// <summary>
-        /// Initializes the name maps with anonymous names in the form "$" + GetHashCode()
+        /// Initializes the name maps with anonymous names in the form "$" + GetNextName()
         /// </summary>
         /// <param name="somegraph">The graph to be used named</param>
         public NamedGraph(IGraph somegraph)
@@ -106,6 +106,11 @@ namespace de.unika.ipd.grGen.libGr
         }
 
         /// <summary>
+        /// returns the (lgsp) graph this named graph is wrapping
+        /// </summary>
+        public IGraph WrappedGraph { get { return graph; } }
+
+        /// <summary>
         /// Sets the name for a graph element. Any previous name will be overwritten.
         /// </summary>
         /// <param name="elem">The graph element to be named.</param>
@@ -122,11 +127,12 @@ namespace de.unika.ipd.grGen.libGr
         }
 
         /// <summary>
-        /// Gets the name for a graph element. It automatically generates a new name, if the
-        /// element does not have a name, yet.
+        /// Returns the name for the given element,
+        /// i.e. the name defined by the named graph if a named graph is available,
+        /// or a hash value string if only a lgpsGraph is available.
         /// </summary>
-        /// <param name="elem">The graph element.</param>
-        /// <returns>The name of the graph element.</returns>
+        /// <param name="elem">Element of which the name is to be found</param>
+        /// <returns>The name of the given element</returns>
         public String GetElementName(IGraphElement elem)
         {
             String name;

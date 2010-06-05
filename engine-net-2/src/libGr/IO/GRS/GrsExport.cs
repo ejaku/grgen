@@ -39,7 +39,7 @@ namespace de.unika.ipd.grGen.libGr
         /// Exports the given graph to a GRS file with the given filename.
         /// Any errors will be reported by exception.
         /// </summary>
-        /// <param name="graph">The graph to export.</param>
+        /// <param name="graph">The graph to export. If a NamedGraph is given, it will be exported including the names.</param>
         /// <param name="exportFilename">The filename for the exported file.</param>
         /// <param name="withVariables">Export the graph variables, too?</param>
         public static void Export(IGraph graph, String exportFilename, bool withVariables)
@@ -68,8 +68,7 @@ namespace de.unika.ipd.grGen.libGr
             sw.WriteLine("new graph \"" + graph.Model.ModelName + "\" \"" + graph.Name + "\"");
 
             if (!(graph is NamedGraph)) {
-                // assign arbitrary but unique names, 
-                // so that we get a valid dump without a complete coverage of the graph elements by variables
+                // assign arbitrary but unique names
                 graph = new NamedGraph(graph);
             }
 

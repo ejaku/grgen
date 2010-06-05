@@ -450,14 +450,16 @@
         </member>
         <member name="M:de.unika.ipd.grGen.libGr.IGraph.GetElementName(de.unika.ipd.grGen.libGr.IGraphElement)">
             <summary>
-            Returns the first variable name for the given element it finds (if any).
+            Returns the name for the given element,
+            i.e. the name defined by the named graph if a named graph is available,
+            or a hash value string if only a lgpsGraph is available.
             </summary>
-            <param name="elem">Element which name is to be found</param>
-            <returns>A name which can be used in GetVariableValue to get this element</returns>
+            <param name="elem">Element of which the name is to be found</param>
+            <returns>The name of the given element</returns>
         </member>
         <member name="M:de.unika.ipd.grGen.libGr.IGraph.GetElementVariables(de.unika.ipd.grGen.libGr.IGraphElement)">
             <summary>
-            Returns a linked list of variables mapped to the given graph element
+            Returns a linked list of variables mapping to the given graph element
             or null, if no variable points to this element
             </summary>
         </member>
@@ -825,7 +827,7 @@
         </member>
         <member name="M:de.unika.ipd.grGen.libGr.NamedGraph.#ctor(de.unika.ipd.grGen.libGr.IGraph)">
             <summary>
-            Initializes the name maps with anonymous names in the form "$" + GetHashCode()
+            Initializes the name maps with anonymous names in the form "$" + GetNextName()
             </summary>
             <param name="somegraph">The graph to be used named</param>
         </member>
@@ -845,11 +847,12 @@
         </member>
         <member name="M:de.unika.ipd.grGen.libGr.NamedGraph.GetElementName(de.unika.ipd.grGen.libGr.IGraphElement)">
             <summary>
-            Gets the name for a graph element. It automatically generates a new name, if the
-            element does not have a name, yet.
+            Returns the name for the given element,
+            i.e. the name defined by the named graph if a named graph is available,
+            or a hash value string if only a lgpsGraph is available.
             </summary>
-            <param name="elem">The graph element.</param>
-            <returns>The name of the graph element.</returns>
+            <param name="elem">Element of which the name is to be found</param>
+            <returns>The name of the given element</returns>
         </member>
         <member name="M:de.unika.ipd.grGen.libGr.NamedGraph.GetGraphElement(System.String)">
             <summary>
@@ -1315,6 +1318,11 @@
             Dumps the graph with a given graph dumper and default dump style.
             </summary>
             <param name="dumper">The graph dumper to be used.</param>
+        </member>
+        <member name="P:de.unika.ipd.grGen.libGr.NamedGraph.WrappedGraph">
+            <summary>
+            returns the (lgsp) graph this named graph is wrapping
+            </summary>
         </member>
         <member name="E:de.unika.ipd.grGen.libGr.NamedGraph.OnNodeAdded">
             <summary>
@@ -2423,7 +2431,7 @@
             The format is determined by the file extension.
             Any errors will be reported by exception.
             </summary>
-            <param name="graph">The graph to export.</param>
+            <param name="graph">The graph to export. The .grs/.grsi exporter is capable of exporting a NamedGraph, i.e. including names.</param>
             <param name="filenameParameters">The names of the files to be exported.
             The first must be a filename, the following may be used for giving export parameters
             (in fact currently no exporter supports multiple files).</param>
@@ -2437,11 +2445,13 @@
             </summary>
             <param name="backend">The backend to use to create the graph.</param>
             <param name="filenameParameters">The names of the files to be imported.</param>
-            <returns>The imported graph.</returns>
+            <returns>The imported graph. 
+            The .grs/.grsi importer returns a NamedGraph. If you don't need it: cast to it, get the contained (lgsp) graph, and throw the named graph away
+            (the naming requires about the same amount of memory the raw graph behind it requires).</returns>
         </member>
         <member name="M:de.unika.ipd.grGen.libGr.Porter.Import(System.String,de.unika.ipd.grGen.libGr.IBackend,de.unika.ipd.grGen.libGr.IGraphModel)">
             <summary>
-            Imports the given graph from a file with the given filename.
+            Imports a graph from the given file.
             The format is determined by the file extension.
             Any errors will be reported by exception.
             </summary>
@@ -2450,6 +2460,9 @@
             <param name="backend">The backend to use to create the graph.</param>
             <param name="graphModel">The graph model to be used, 
                 it must be conformant to the model used in the file to be imported.</param>
+            <returns>The imported graph. 
+            The .grs/.grsi importer returns a NamedGraph. If you don't need it: cast to it, get the contained (lgsp) graph, and throw the named graph away
+            (the naming requires about the same amount of memory the raw graph behind it requires).</returns>
         </member>
         <member name="M:de.unika.ipd.grGen.libGr.Porter.ListGet(System.Collections.Generic.List{System.String},System.Int32)">
             <summary>
@@ -3680,10 +3693,12 @@
         </member>
         <member name="M:de.unika.ipd.grGen.libGr.BaseGraph.GetElementName(de.unika.ipd.grGen.libGr.IGraphElement)">
             <summary>
-            Returns the first variable name for the given element it finds (if any).
+            Returns the name for the given element,
+            i.e. the name defined by the named graph if a named graph is available,
+            or a hash value string if only a lgpsGraph is available.
             </summary>
-            <param name="elem">Element which name is to be found</param>
-            <returns>A name which can be used in GetVariableValue to get this element</returns>
+            <param name="elem">Element of which the name is to be found</param>
+            <returns>The name of the given element</returns>
         </member>
         <member name="M:de.unika.ipd.grGen.libGr.BaseGraph.GetElementVariables(de.unika.ipd.grGen.libGr.IGraphElement)">
             <summary>
@@ -4190,7 +4205,7 @@
             Exports the given graph to a GRS file with the given filename.
             Any errors will be reported by exception.
             </summary>
-            <param name="graph">The graph to export.</param>
+            <param name="graph">The graph to export. If a NamedGraph is given, it will be exported including the names.</param>
             <param name="exportFilename">The filename for the exported file.</param>
             <param name="withVariables">Export the graph variables, too?</param>
         </member>
@@ -4208,6 +4223,42 @@
             Emits the node/edge attribute initialization code in graph exporting
             for an attribute of the given type with the given value into the stream writer
             </summary>
+        </member>
+        <member name="M:de.unika.ipd.grGen.libGr.porter.GRSImporter.Import(System.String,System.String,de.unika.ipd.grGen.libGr.IBackend)">
+            <summary>
+            Imports the given graph from a file with the given filename.
+            Any errors will be reported by exception.
+            </summary>
+            <param name="importFilename">The filename of the file to be imported.</param>
+            <param name="backend">The backend to use to create the graph.</param>
+            <param name="graphModel">The graph model to be used, 
+                it must be conformant to the model used in the file to be imported.</param>
+            <returns>The imported graph. 
+            A NamedGraph is returned. If you don't need it: cast to it, get the contained (lgsp) graph, and throw the named graph away
+            (the naming requires about the same amount of memory the raw graph behind it requires).</returns>
+        </member>
+        <member name="M:de.unika.ipd.grGen.libGr.porter.GRSImporter.Import(System.String,de.unika.ipd.grGen.libGr.IBackend)">
+            <summary>
+            Imports the given graph from a file with the given filename.
+            Any errors will be reported by exception.
+            </summary>
+            <param name="importFilename">The filename of the file to be imported.</param>
+            <param name="backend">The backend to use to create the graph.</param>
+            <returns>The imported graph. 
+            A NamedGraph is returned. If you don't need it: cast to it, get the contained (lgsp) graph, and throw the named graph away
+            (the naming requires about the same amount of memory the raw graph behind it requires).</returns>        
+        </member>
+        <member name="M:de.unika.ipd.grGen.libGr.porter.GRSImporter.Import(System.String,de.unika.ipd.grGen.libGr.IBackend,de.unika.ipd.grGen.libGr.IGraphModel)">
+            <summary>
+            Imports the given graph from a file with the given filename.
+            Any errors will be reported by exception.
+            </summary>
+            <param name="importFilename">The filename of the file to be imported.</param>
+            <param name="backend">The backend to use to create the graph.</param>
+            <param name="graphModel">The graph model to be used.</param>
+            <returns>The imported graph. 
+            A NamedGraph is returned. If you don't need it: cast to it, get the contained (lgsp) graph, and throw the named graph away
+            (the naming requires about the same amount of memory the raw graph behind it requires).</returns>
         </member>
         <member name="T:de.unika.ipd.grGen.libGr.RuleInvocationParameterBindings">
             <summary>

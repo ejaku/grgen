@@ -398,8 +398,8 @@ The visited flags are written in the assignments of the eval statements (see sec
 Make sure to allocate\ref{allocvisitflag}/\ref{apiallocvisitflag} visited flags before you try to use them 
 (and deallocate them afterwards, as they are a sparse resource stored in some excess bits of the graph elements, or in some dictionary if the needed number of flags exceeds the number of available bits per graph element.)
 
-The \texttt{nameof} query returns the name of the given graph element as \texttt{string}; 
-graphs elements at the API level bear no name, the operator can only be used with Shell-graphs.
+The \texttt{nameof} query returns the name (persistent name, see example \ref{persistentex}) of the given graph element as \texttt{string}; 
+graphs elements at the API level bear no name, the operator can only (sensibly) be used with Shell-graphs (\texttt{NamedGraph}; unless you decide to use the \texttt{NamedGraph} on API level, too).
 If no graph element is given, the name of the graph is returned.
 
 The \texttt{random} function returns a double random value in between 0.0 and 1.0 if called without an argument,

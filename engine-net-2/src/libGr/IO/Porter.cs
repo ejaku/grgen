@@ -21,7 +21,7 @@ namespace de.unika.ipd.grGen.libGr
         /// The format is determined by the file extension.
         /// Any errors will be reported by exception.
         /// </summary>
-        /// <param name="graph">The graph to export.</param>
+        /// <param name="graph">The graph to export. The .grs/.grsi exporter is capable of exporting a NamedGraph, i.e. including names.</param>
         /// <param name="filenameParameters">The names of the files to be exported.
         /// The first must be a filename, the following may be used for giving export parameters
         /// (in fact currently no exporter supports multiple files).</param>
@@ -45,7 +45,9 @@ namespace de.unika.ipd.grGen.libGr
         /// </summary>
         /// <param name="backend">The backend to use to create the graph.</param>
         /// <param name="filenameParameters">The names of the files to be imported.</param>
-        /// <returns>The imported graph.</returns>
+        /// <returns>The imported graph. 
+        /// The .grs/.grsi importer returns a NamedGraph. If you don't need it: cast to it, get the contained (lgsp) graph, and throw the named graph away
+        /// (the naming requires about the same amount of memory the raw graph behind it requires).</returns>
         public static IGraph Import(IBackend backend, List<String> filenameParameters)
         {
             String first = ListGet(filenameParameters, 0);
@@ -87,7 +89,7 @@ namespace de.unika.ipd.grGen.libGr
         }
 
         /// <summary>
-        /// Imports the given graph from a file with the given filename.
+        /// Imports a graph from the given file.
         /// The format is determined by the file extension.
         /// Any errors will be reported by exception.
         /// </summary>
@@ -96,6 +98,9 @@ namespace de.unika.ipd.grGen.libGr
         /// <param name="backend">The backend to use to create the graph.</param>
         /// <param name="graphModel">The graph model to be used, 
         ///     it must be conformant to the model used in the file to be imported.</param>
+        /// <returns>The imported graph. 
+        /// The .grs/.grsi importer returns a NamedGraph. If you don't need it: cast to it, get the contained (lgsp) graph, and throw the named graph away
+        /// (the naming requires about the same amount of memory the raw graph behind it requires).</returns>
         public static IGraph Import(String importFilename, IBackend backend, IGraphModel graphModel)
         {
             if(importFilename.EndsWith(".gxl", StringComparison.InvariantCultureIgnoreCase))

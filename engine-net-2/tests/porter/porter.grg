@@ -108,3 +108,70 @@ test checkForTestGraph
 		e6.bla == 42.0f;
 	}
 }
+
+rule printNames
+{
+	. <-- n1:N4 -e1:E4-> n2:N4 -e2:E4-> n3:N4 -e3:E4-> n1;
+	n4:N3 -e4:E2a-> n5:N2a; n4 -e5:E2b-> n6:N2b; n4 -e6:E3-> n4;
+	
+	if {
+		n1.foo == 1 &&
+		n1.bar == "n1" &&
+		n1.bla == 3.141592654 &&
+		n1.huh == true &&
+		n1.lal == Bla::Lamm &&
+
+		e1.foo == 0xC &&
+		e1.bar == "n1->n2" &&
+		e1.bla == 12.0f &&
+		e1.huh == true &&
+		e1.lal == Bla::Hurz &&
+		
+		n2.foo == 2 &&
+		n2.bar == "n2" &&
+		n2.bla == 4.0 &&
+		n2.huh == false &&
+
+		e2.foo == 23 &&
+		e2.bar == "n2->n3" &&
+		e2.bla == 23.0f &&
+		e2.huh == false &&
+
+		n3.foo == 3 &&
+		n3.bar == "n3" &&
+		n3.bla == 2.718281828 &&
+		n3.huh == true &&
+		
+		e3.foo == 31 &&
+		e3.bar == "n3->n1" &&
+		e3.bla == 3.141593f &&
+		e3.huh == true &&
+
+		n4.bla == 42.0 &&
+		
+		e4.foo == 42 &&
+
+		n5.foo == 42 &&
+
+		e5.bar == "haha" &&
+
+		n6.bar == "Weltherrschaft!" &&
+		
+		e6.bla == 42.0f;
+	}
+
+	modify {
+		emit("value of variable n1 which is a node rly ", nameof(n1), "\n");
+		emit("value of variable n2 which is a node rly ", nameof(n2), "\n");
+		emit("value of variable n3 which is a node rly ", nameof(n3), "\n");
+		emit("value of variable n4 which is a node rly ", nameof(n4), "\n");
+		emit("value of variable n5 which is a node rly ", nameof(n5), "\n");
+		emit("value of variable n6 which is a node rly ", nameof(n6), "\n");
+		emit("value of variable e1 which is a edge rly ", nameof(e1), "\n");
+		emit("value of variable e2 which is a edge rly ", nameof(e2), "\n");
+		emit("value of variable e3 which is a edge rly ", nameof(e3), "\n");
+		emit("value of variable e4 which is a edge rly ", nameof(e4), "\n");
+		emit("value of variable e5 which is a edge rly ", nameof(e5), "\n");
+		emit("value of variable e6 which is a edge rly ", nameof(e6), "\n");
+	}
+}
