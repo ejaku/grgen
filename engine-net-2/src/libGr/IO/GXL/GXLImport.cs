@@ -47,6 +47,11 @@ namespace de.unika.ipd.grGen.libGr
             return valelem.InnerText;
         }
 
+        public static IGraph Import(String importFilename, String modelOverride, IBackend backend)
+        {
+            return Import(new StreamReader(importFilename), modelOverride, backend);
+        }
+
         /// <summary>
         /// Imports the first graph not being of type "gxl-1.0" from a GXL file
         /// with the given filename.
@@ -55,11 +60,11 @@ namespace de.unika.ipd.grGen.libGr
         /// <param name="importFilename">The filename of the file to be imported.</param>
         /// <param name="modelOverride">If not null, overrides the filename of the graph model to be used.</param>
         /// <param name="backend">The backend to use to create the graph.</param>
-        public static IGraph Import(String importFilename, String modelOverride, IBackend backend)
+        public static IGraph Import(TextReader inStream, String modelOverride, IBackend backend)
         {
             XmlDocument doc = new XmlDocument();
             doc.XmlResolver = null;
-            doc.Load(importFilename);
+            doc.Load(inStream);
 
             XmlElement gxlelem = doc["gxl"];
             if(gxlelem == null)
@@ -120,6 +125,11 @@ namespace de.unika.ipd.grGen.libGr
             return graph;
         }
 
+        public static IGraph Import(String importFilename, IBackend backend, IGraphModel graphModel)
+        {
+            return Import(new StreamReader(importFilename), backend, graphModel);
+        }
+
         /// <summary>
         /// Imports the first graph not being of type "gxl-1.0" from a GXL file
         /// with the given filename.
@@ -130,10 +140,10 @@ namespace de.unika.ipd.grGen.libGr
         /// <param name="backend">The backend to use to create the graph.</param>
         /// <param name="graphModel">The graph model to be used, 
         ///     it must be conformant to the model used in the file to be imported.</param>
-        public static IGraph Import(String importFilename, IBackend backend, IGraphModel graphModel)
+        public static IGraph Import(TextReader inStream, IBackend backend, IGraphModel graphModel)
         {
             XmlDocument doc = new XmlDocument();
-            doc.Load(importFilename);
+            doc.Load(inStream);
 
             XmlElement gxlelem = doc["gxl"];
             if (gxlelem == null)

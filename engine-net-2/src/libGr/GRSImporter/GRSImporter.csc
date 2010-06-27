@@ -76,7 +76,12 @@ PARSER_BEGIN(GRSImporter)
 		IGraphModel model;
 		String modelOverride;
 		
-		/// <summary>
+        public static IGraph Import(String importFilename, String modelOverride, IBackend backend)
+        {
+            return Import(new StreamReader(importFilename), modelOverride, backend);
+        }
+
+        /// <summary>
         /// Imports the given graph from a file with the given filename.
         /// Any errors will be reported by exception.
         /// </summary>
@@ -87,9 +92,8 @@ PARSER_BEGIN(GRSImporter)
         /// <returns>The imported graph. 
         /// A NamedGraph is returned. If you don't need it: cast to it, get the contained (lgsp) graph, and throw the named graph away
         /// (the naming requires about the same amount of memory the raw graph behind it requires).</returns>
-		public static IGraph Import(String importFilename, String modelOverride, IBackend backend)
+        public static IGraph Import(TextReader reader, String modelOverride, IBackend backend)
         {
-            TextReader reader = new StreamReader(importFilename);
             GRSImporter importer = new GRSImporter(reader);
             importer.backend = backend;
             importer.modelOverride = modelOverride;
@@ -98,7 +102,7 @@ PARSER_BEGIN(GRSImporter)
             return importer.graph;
         }
 
-		/// <summary>
+        /// <summary>
         /// Imports the given graph from a file with the given filename.
         /// Any errors will be reported by exception.
         /// </summary>
@@ -109,10 +113,14 @@ PARSER_BEGIN(GRSImporter)
         /// (the naming requires about the same amount of memory the raw graph behind it requires).</returns>        
         public static IGraph Import(String importFilename, IBackend backend)
         {
-			return Import(importFilename, null, backend);
+                        return Import(importFilename, null, backend);
+        }
+
+        public static IGraph Import(String importFilename, IBackend backend, IGraphModel graphModel) {
+            return Import(new StreamReader(importFilename), backend, graphModel);
         }
         
-		/// <summary>
+        /// <summary>
         /// Imports the given graph from a file with the given filename.
         /// Any errors will be reported by exception.
         /// </summary>
@@ -122,9 +130,8 @@ PARSER_BEGIN(GRSImporter)
         /// <returns>The imported graph. 
         /// A NamedGraph is returned. If you don't need it: cast to it, get the contained (lgsp) graph, and throw the named graph away
         /// (the naming requires about the same amount of memory the raw graph behind it requires).</returns>
-        public static IGraph Import(String importFilename, IBackend backend, IGraphModel graphModel)
+        public static IGraph Import(TextReader reader, IBackend backend, IGraphModel graphModel)
         {
-            TextReader reader = new StreamReader(importFilename);
             GRSImporter importer = new GRSImporter(reader);
             importer.backend = backend;
             importer.modelOverride = null;

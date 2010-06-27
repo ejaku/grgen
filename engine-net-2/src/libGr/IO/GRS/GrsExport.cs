@@ -20,9 +20,11 @@ namespace de.unika.ipd.grGen.libGr
         StreamWriter writer;
         bool withVariables;
 
-        protected GRSExport(String filename, bool withVariables)
-        {
-            writer = new StreamWriter(filename);
+        protected GRSExport(String filename, bool withVariables) : this(
+            new StreamWriter(filename), withVariables) { }
+
+        protected GRSExport(StreamWriter writer, bool withVariables) {
+            this.writer = writer;
             this.withVariables = withVariables;
         }
 
@@ -42,9 +44,15 @@ namespace de.unika.ipd.grGen.libGr
         /// <param name="graph">The graph to export. If a NamedGraph is given, it will be exported including the names.</param>
         /// <param name="exportFilename">The filename for the exported file.</param>
         /// <param name="withVariables">Export the graph variables, too?</param>
-        public static void Export(IGraph graph, String exportFilename, bool withVariables)
+        public static void ExportUncommented(IGraph graph, String exportFilename, bool withVariables)
         {
             using(GRSExport export = new GRSExport(exportFilename, withVariables))
+                export.Export(graph);
+        }
+
+        public static void ExportUncommented(IGraph graph, StreamWriter writer, bool withVariables)
+        {
+            using(GRSExport export = new GRSExport(writer, withVariables))
                 export.Export(graph);
         }
 

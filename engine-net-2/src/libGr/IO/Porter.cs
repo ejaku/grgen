@@ -7,6 +7,7 @@
 
 using System;
 using System.IO;
+using System.IO.Compression;
 using System.Collections.Generic;
 
 namespace de.unika.ipd.grGen.libGr
@@ -28,11 +29,20 @@ namespace de.unika.ipd.grGen.libGr
         public static void Export(IGraph graph, List<String> filenameParameters)
         {
             String first = ListGet(filenameParameters, 0);
-            if(first.EndsWith(".gxl", StringComparison.InvariantCultureIgnoreCase))
-                GXLExport.Export(graph, first);
-            else if (first.EndsWith(".grs", StringComparison.InvariantCultureIgnoreCase)
+            StreamWriter writer = null;
+            if (first.EndsWith(".gz", StringComparison.InvariantCultureIgnoreCase)) {
+                FileStream filewriter = new FileStream(first, FileMode.OpenOrCreate,  FileAccess.Write);
+                writer = new StreamWriter(new GZipStream(filewriter, CompressionMode.Compress));
+                first = first.Substring(0, first.Length - 3);
+            } else {
+                writer = new StreamWriter(first);
+            }
+
+            if(first.EndsWith(".gxl", StringComparison.InvariantCultureIgnoreCase)) {
+                GXLExport.Export(graph, writer);
+            } else if (first.EndsWith(".grs", StringComparison.InvariantCultureIgnoreCase)
                 || first.EndsWith(".grsi", StringComparison.InvariantCultureIgnoreCase))
-                GRSExport.Export(graph, first, ListGet(filenameParameters, 1)=="withvariables");
+                GRSExport.ExportUncommented(graph, writer, ListGet(filenameParameters, 1)=="withvariables");
             else
                 throw new NotSupportedException("File format not supported");
         }
@@ -51,11 +61,20 @@ namespace de.unika.ipd.grGen.libGr
         public static IGraph Import(IBackend backend, List<String> filenameParameters)
         {
             String first = ListGet(filenameParameters, 0);
+            StreamReader reader = null;
+            if (first.EndsWith(".gz", StringComparison.InvariantCultureIgnoreCase)) {
+                FileStream filewriter = new FileStream(first, FileMode.Open,  FileAccess.Read);
+                reader = new StreamReader(new GZipStream(filewriter, CompressionMode.Decompress));
+                first = first.Substring(0, first.Length - 3);
+            } else {
+                reader = new StreamReader(first);
+            }
+
             if(first.EndsWith(".gxl", StringComparison.InvariantCultureIgnoreCase))
-                return GXLImport.Import(first, ListGet(filenameParameters, 1), backend);
+                return GXLImport.Import(reader, ListGet(filenameParameters, 1), backend);
             else if(first.EndsWith(".grs", StringComparison.InvariantCultureIgnoreCase)
                         || first.EndsWith(".grsi", StringComparison.InvariantCultureIgnoreCase))
-                return porter.GRSImporter.Import(first, ListGet(filenameParameters, 1), backend);
+                return porter.GRSImporter.Import(reader, ListGet(filenameParameters, 1), backend);
             else if(first.EndsWith(".ecore", StringComparison.InvariantCultureIgnoreCase))
             {
                 List<String> ecores = new List<String>();

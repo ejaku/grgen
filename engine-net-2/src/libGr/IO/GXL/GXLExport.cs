@@ -29,8 +29,11 @@ namespace de.unika.ipd.grGen.libGr
             xmlwriter.WriteDocType("gxl", null, "http://www.gupro.de/GXL/gxl-1.0.dtd", null);
         }
 
+        protected GXLExport(TextWriter streamwriter) : this(
+            new XmlTextWriter(streamwriter)) { }
+
         protected GXLExport(String filename) : this(
-            new XmlTextWriter(new StreamWriter(filename))) { }
+            new StreamWriter(filename)) { }
 
         /// <summary>
         /// Exports the given graph to a GXL file with the given filename.
@@ -41,6 +44,12 @@ namespace de.unika.ipd.grGen.libGr
         public static void Export(IGraph graph, String exportFilename)
         {
             using(GXLExport export = new GXLExport(exportFilename))
+                export.Export(graph);
+        }
+
+        public static void Export(IGraph graph, TextWriter streamwriter)
+        {
+            using(GXLExport export = new GXLExport(streamwriter))
                 export.Export(graph);
         }
 

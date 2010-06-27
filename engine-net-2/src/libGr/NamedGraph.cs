@@ -117,13 +117,27 @@ namespace de.unika.ipd.grGen.libGr
         /// <param name="name">The new name for the graph element.</param>
         public void SetElementName(IGraphElement elem, String name)
         {
-            if(NameToElem.ContainsKey(name))
+            if(DifferentEltWithName(elem, name))
                 throw new Exception("The name \"" + name + "\" is already in use!");
             String oldName;
             if(ElemToName.TryGetValue(elem, out oldName))
                 NameToElem.Remove(oldName);
             NameToElem[name] = elem;
             ElemToName[elem] = name;
+        }
+
+        public void SetElementPrefixName(IGraphElement element, String prefix) {
+            Console.WriteLine("Set node prefix name {0}, {1}", element, prefix);
+            String name = prefix;
+            int curr = 0;
+            while (DifferentEltWithName(element, name)) {
+                name = prefix + (curr += 1);
+            }
+            SetElementName(element, name);
+        }
+
+        protected bool DifferentEltWithName(IGraphElement elt, String name) {
+            return (NameToElem.ContainsKey(name)) && (NameToElem[name] != elt);
         }
 
         /// <summary>
