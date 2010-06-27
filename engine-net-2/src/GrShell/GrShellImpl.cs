@@ -115,7 +115,8 @@ namespace de.unika.ipd.grGen.grShell
             ModelFilename = modelFilename;
         }
 
-        public ShellGraph Clone(string name) {
+        public ShellGraph Clone(string name)
+        {
             string realname = (name == null) ? Graph.Name + "-clone" : name;
             ShellGraph result = new ShellGraph(Graph.Clone(realname),
                 BackendFilename, BackendParameters, ModelFilename);
@@ -129,24 +130,33 @@ namespace de.unika.ipd.grGen.grShell
         }
     }
 
-    public interface IGrShellUI {
-        void ui_ok(string msg);
-        bool ui_yesno(string msg);
-        string prompt_str(string msg);
+    public interface IGrShellUI
+    {
+        void ShowMsgAskForEnter(string msg);
+        bool ShowMsgAskForYesNo(string msg);
+        string ShowMsgAskForString(string msg);
     }
 
-    public class EOFException : IOException { }
+    public class EOFException : IOException 
+    {
+    }
 
-    /// <summary>Console interface for simple user prompts (e.g. for debugging)</summary>
-    public class GrShellConsoleUI : IGrShellUI {
+    /// <summary>
+    /// Console interface for simple user prompts (e.g. for debugging)
+    /// </summary>
+    public class GrShellConsoleUI : IGrShellUI
+    {
         protected TextReader in_;
         protected TextWriter out_;
-        public GrShellConsoleUI(TextReader in_, TextWriter out_) {
+    
+        public GrShellConsoleUI(TextReader in_, TextWriter out_)
+        {
             this.in_ = in_;
             this.out_ = out_;
         }
 
-        public string read_or_eoferr() {
+        public string ReadOrEofErr()
+        {
             string result = this.in_.ReadLine();
             if (result == null) {
                 throw new EOFException();
@@ -154,15 +164,18 @@ namespace de.unika.ipd.grGen.grShell
             return result;
         }
 
-        public void ui_ok(string msg) {
+        public void ShowMsgAskForEnter(string msg)
+        {
             this.out_.Write(msg + " [enter] ");
-            read_or_eoferr();
+            ReadOrEofErr();
         }
 
-        public bool ui_yesno(string msg) {
-            while (true) {
+        public bool ShowMsgAskForYesNo(string msg)
+        {
+            while (true)
+            {
                 this.out_.Write(msg + " [y(es)/n(o)] ");
-                string result = read_or_eoferr();
+                string result = ReadOrEofErr();
                 if (result.Equals("y", StringComparison.InvariantCultureIgnoreCase) ||
                     result.Equals("yes", StringComparison.InvariantCultureIgnoreCase)) {
                     return true;
@@ -173,14 +186,58 @@ namespace de.unika.ipd.grGen.grShell
             }
         }
 
-        public string prompt_str(string msg) {
+        public string ShowMsgAskForString(string msg)
+        {
             this.out_.Write(msg);
-            return read_or_eoferr();
+            return ReadOrEofErr();
         }
     }
 
     public class GrShellImpl
     {
+        public class ClonedGraphStack : Stack<ShellGraph>
+        {
+            GrShellImpl impl;
+
+            public ClonedGraphStack(GrShellImpl impl)
+            {
+                this.impl = impl;
+                base.Push(impl.CurrentShellGraph);
+            }
+
+            public void Push(ShellGraph graph)
+            {
+                base.Push(graph);
+                this.impl.graphs.Add(graph);
+                this.SetActive();
+            }
+
+            public void PushClone()
+            {
+                Push(impl.CurrentShellGraph.Clone(null));
+            }
+
+            public ShellGraph Pop()
+            {
+                ShellGraph result = base.Pop();
+                this.impl.DestroyGraph(result, true);
+                this.SetActive();
+                return result;
+            }
+
+            /// <summary>return true if the graph is active</summary>
+            public bool IsActive()
+            {
+                return this.impl.CurrentShellGraph == this.Peek();
+            }
+
+            /// <summary>set the top graph as active</summary>
+            public void SetActive()
+            {
+                this.impl.curShellGraph = this.Peek();
+            }
+        }
+
         public static readonly String VersionString = "GrShell v2.6";
 
         IBackend curGraphBackend = new LGSPBackend();
@@ -215,9 +272,12 @@ namespace de.unika.ipd.grGen.grShell
             Console.CancelKeyPress += new ConsoleCancelEventHandler(Console_CancelKeyPress);
         }
 
-        /// <summary>get a graph stack to manage the graph list. requires a current graph</summary>
-        public ClonedGraphStack getGraphStack() {
-            if (!this.GraphExists()) { return null; }
+        /// <summary>Get a graph stack to manage the graph list. Requires a current graph.</summary>
+        public ClonedGraphStack GetGraphStack()
+        {
+            if (!this.GraphExists()) {
+                return null; 
+            }
             return new ClonedGraphStack(this);
         }
 
@@ -227,7 +287,7 @@ namespace de.unika.ipd.grGen.grShell
 
         public static void PrintVersion()
         {
-            Console.WriteLine(VersionString + " ($Revision$) (type \"help\" for a list of commands)");
+            Console.WriteLine(VersionString + " ($Revision$) (enter \"help\" for a list of commands)");
         }
 
         private bool BackendExists()
@@ -419,7 +479,8 @@ namespace de.unika.ipd.grGen.grShell
             return graphs[index];
         }
 
-        public int NumGraphs {
+        public int NumGraphs
+        {
             get { return this.graphs.Count; }
         }
 
@@ -2764,7 +2825,7 @@ namespace de.unika.ipd.grGen.grShell
 
             if(debugModeActivated && CheckDebuggerAlive())   // enabled debug mode here and didn't loose connection?
             {
-                if (UserInterface.ui_yesno("Do you want to leave debug mode?")) {
+                if (UserInterface.ShowMsgAskForYesNo("Do you want to leave debug mode?")) {
                     SetDebugMode(false);
                 }
             }
@@ -2793,7 +2854,7 @@ namespace de.unika.ipd.grGen.grShell
 
             if(debugModeActivated && CheckDebuggerAlive())   // enabled debug mode here and didn't loose connection?
             {
-                if (UserInterface.ui_yesno("Do you want to leave debug mode?")) {
+                if (UserInterface.ShowMsgAskForYesNo("Do you want to leave debug mode?")) {
                     SetDebugMode(false);
                 }
             }
@@ -2911,7 +2972,7 @@ namespace de.unika.ipd.grGen.grShell
             }
             else // else let the user type in the value
             {
-                String inputValue = UserInterface.prompt_str("Enter a value of type " + typeName + ":");
+                String inputValue = UserInterface.ShowMsgAskForString("Enter a value of type " + typeName + ":");
                 StringReader reader = new StringReader(inputValue);
                 GrShell shellForParsing = new GrShell(reader);
                 shellForParsing.SetImpl(this);
@@ -3460,7 +3521,7 @@ showavail:
 					sw.WriteLine();
 				}
 
-                GRSExport.Export(graph, sw, true);
+                GRSExport.ExportYouMustCloseStreamWriter(graph, sw, true);
 
                 foreach(KeyValuePair<NodeType, GrColor> nodeTypeColor in curShellGraph.DumpInfo.NodeTypeColors)
                     sw.WriteLine("dump set node only {0} color {1}", nodeTypeColor.Key.Name, nodeTypeColor.Value);
@@ -3600,7 +3661,8 @@ showavail:
             return true;
         }
 
-        public bool ImportDUnion(List<string> filenameParameters) {
+        public bool ImportDUnion(List<string> filenameParameters)
+        {
             IGraph graph = Porter.Import(curGraphBackend, filenameParameters);
             LGSPGraph lgspGraph;
             if (graph is NamedGraph) {
@@ -3615,7 +3677,8 @@ showavail:
 
             Dictionary<INode, INode> oldNewNodeMap = new Dictionary<INode, INode>();
 
-            foreach (INode node in lgspGraph.Nodes) {
+            foreach (INode node in lgspGraph.Nodes)
+            {
                 NodeType typ = node_model.GetType(node.Type.Name);
                 INode newNode = this.CurrentGraph.AddNode(typ);
 
@@ -3626,7 +3689,8 @@ showavail:
                 oldNewNodeMap[node] = newNode;
             }
 
-            foreach (IEdge edge in lgspGraph.Edges) {
+            foreach (IEdge edge in lgspGraph.Edges)
+            {
                 EdgeType typ = edge_model.GetType(edge.Type.Name);
                 INode newSource = oldNewNodeMap[edge.Source];
                 INode newTarget = oldNewNodeMap[edge.Target];
@@ -3849,36 +3913,6 @@ showavail:
             {
                 errOut.WriteLine(e.Message);
             }
-        }
-
-        public class ClonedGraphStack : Stack<ShellGraph>
-        {
-            GrShellImpl impl;
-            public ClonedGraphStack(GrShellImpl impl) {
-                this.impl = impl;
-                base.Push(impl.CurrentShellGraph);
-            }
-    
-            public void Push(ShellGraph graph) {
-                base.Push(graph);
-                this.impl.graphs.Add(graph);
-                this.SetActive();
-            }
-    
-            public void PushClone() { Push(impl.CurrentShellGraph.Clone(null)); }
-    
-            public ShellGraph Pop() {
-                ShellGraph result = base.Pop();
-                this.impl.DestroyGraph(result, true);
-                this.SetActive();
-                return result;
-            }
-    
-            /// <summary>return true if the graph is active</summary>
-            public bool IsActive() { return this.impl.CurrentShellGraph == this.Peek(); }
-    
-            /// <summary>set the top graph as active</summary>
-            public void SetActive() { this.impl.curShellGraph = this.Peek(); }
         }
     }
 }

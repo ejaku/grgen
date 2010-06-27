@@ -20,10 +20,13 @@ namespace de.unika.ipd.grGen.libGr
         StreamWriter writer;
         bool withVariables;
 
-        protected GRSExport(String filename, bool withVariables) : this(
-            new StreamWriter(filename), withVariables) { }
+        protected GRSExport(String filename, bool withVariables) 
+            : this(new StreamWriter(filename), withVariables)
+        {
+        }
 
-        protected GRSExport(StreamWriter writer, bool withVariables) {
+        protected GRSExport(StreamWriter writer, bool withVariables)
+        {
             this.writer = writer;
             this.withVariables = withVariables;
         }
@@ -44,13 +47,20 @@ namespace de.unika.ipd.grGen.libGr
         /// <param name="graph">The graph to export. If a NamedGraph is given, it will be exported including the names.</param>
         /// <param name="exportFilename">The filename for the exported file.</param>
         /// <param name="withVariables">Export the graph variables, too?</param>
-        public static void ExportUncommented(IGraph graph, String exportFilename, bool withVariables)
+        public static void Export(IGraph graph, String exportFilename, bool withVariables)
         {
             using(GRSExport export = new GRSExport(exportFilename, withVariables))
                 export.Export(graph);
         }
 
-        public static void ExportUncommented(IGraph graph, StreamWriter writer, bool withVariables)
+        /// <summary>
+        /// Exports the given graph to the file given by the stream writer in grs format.
+        /// Any errors will be reported by exception.
+        /// </summary>
+        /// <param name="graph">The graph to export. If a NamedGraph is given, it will be exported including the names.</param>
+        /// <param name="writer">The stream writer to export to.</param>
+        /// <param name="withVariables">Export the graph variables, too?</param>
+        public static void Export(IGraph graph, StreamWriter writer, bool withVariables)
         {
             using(GRSExport export = new GRSExport(writer, withVariables))
                 export.Export(graph);
@@ -58,17 +68,17 @@ namespace de.unika.ipd.grGen.libGr
 
         protected void Export(IGraph graph)
         {
-            Export(graph, writer, withVariables);
+            ExportYouMustCloseStreamWriter(graph, writer, withVariables);
         }
 
         /// <summary>
-        /// Exports the given graph in grs format to the file given by the stream writer.
+        /// Exports the given graph to the file given by the stream writer in grs format.
         /// Any errors will be reported by exception.
         /// </summary>
-        /// <param name="graph">The graph to export.</param>
-        /// <param name="sw">The stream writer of the file to export into.</param>
+        /// <param name="graph">The graph to export. If a NamedGraph is given, it will be exported including the names.</param>
+        /// <param name="sw">The stream writer of the file to export into. The stream writer is not closed automatically.</param>
         /// <param name="withVariables">Export the graph variables, too?</param>
-        public static void Export(IGraph graph, StreamWriter sw, bool withVariables)
+        public static void ExportYouMustCloseStreamWriter(IGraph graph, StreamWriter sw, bool withVariables)
         {
             sw.WriteLine("# begin of graph \"{0}\" saved by GrsExport", graph.Name);
             sw.WriteLine();

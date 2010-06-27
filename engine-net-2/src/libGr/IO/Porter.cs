@@ -19,7 +19,9 @@ namespace de.unika.ipd.grGen.libGr
     {
         /// <summary>
         /// Exports the given graph to a file with the given filename.
-        /// The format is determined by the file extension.
+        /// The format is determined by the file extension. 
+        /// Currently available are: .grs/.grsi or .gxl.
+        /// Optionally suffixed by .gz; in this case they are saved gzipped.
         /// Any errors will be reported by exception.
         /// </summary>
         /// <param name="graph">The graph to export. The .grs/.grsi exporter is capable of exporting a NamedGraph, i.e. including names.</param>
@@ -42,7 +44,7 @@ namespace de.unika.ipd.grGen.libGr
                 GXLExport.Export(graph, writer);
             } else if (first.EndsWith(".grs", StringComparison.InvariantCultureIgnoreCase)
                 || first.EndsWith(".grsi", StringComparison.InvariantCultureIgnoreCase))
-                GRSExport.ExportUncommented(graph, writer, ListGet(filenameParameters, 1)=="withvariables");
+                GRSExport.Export(graph, writer, ListGet(filenameParameters, 1)=="withvariables");
             else
                 throw new NotSupportedException("File format not supported");
         }
@@ -51,6 +53,8 @@ namespace de.unika.ipd.grGen.libGr
         /// Imports a graph from the given files.
         /// If the filenames only specify a model, the graph is empty.
         /// The format is determined by the file extensions.
+        /// Currently available are: .grs/.grsi or .gxl or .ecore(/.xmi).
+        /// Optionally suffixed by .gz; in this case they are expected to be gzipped.
         /// Any error will be reported by exception.
         /// </summary>
         /// <param name="backend">The backend to use to create the graph.</param>

@@ -180,12 +180,19 @@ namespace de.unika.ipd.grGen.libGr
             Kind = SequenceParserError.TypeMismatch;
         }
 
-        public override string Message {
-            get {
+        /// <summary>
+        /// The error message of the exception.
+        /// </summary>
+        public override string Message
+        {
+            get
+            {
                 if (this.Action == null && this.Kind != SequenceParserError.TypeMismatch) {
                     return "Unknown rule: \"" + this.RuleName + "\"";
                 }
-                switch (this.Kind) {
+
+                switch (this.Kind)
+                {
                 case SequenceParserError.BadNumberOfParametersOrReturnParameters:
                     if (this.Action.RulePattern.Inputs.Length != this.NumGivenInputs &&
                         this.Action.RulePattern.Outputs.Length != this.NumGivenOutputs)

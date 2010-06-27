@@ -117,7 +117,7 @@ namespace de.unika.ipd.grGen.libGr
         /// <param name="name">The new name for the graph element.</param>
         public void SetElementName(IGraphElement elem, String name)
         {
-            if(DifferentEltWithName(elem, name))
+            if(DifferentElementWithName(elem, name))
                 throw new Exception("The name \"" + name + "\" is already in use!");
             String oldName;
             if(ElemToName.TryGetValue(elem, out oldName))
@@ -126,18 +126,29 @@ namespace de.unika.ipd.grGen.libGr
             ElemToName[elem] = name;
         }
 
-        public void SetElementPrefixName(IGraphElement element, String prefix) {
+        /// <summary>
+        /// Sets a name of the form prefix + number for the graph element,
+        /// with number being the first number from 0 on yielding an element name not already available in the graph
+        /// </summary>
+        public void SetElementPrefixName(IGraphElement element, String prefix)
+        {
             Console.WriteLine("Set node prefix name {0}, {1}", element, prefix);
             String name = prefix;
             int curr = 0;
-            while (DifferentEltWithName(element, name)) {
-                name = prefix + (curr += 1);
+            while (DifferentElementWithName(element, name))
+            {
+                ++curr;
+                name = prefix + curr;
             }
             SetElementName(element, name);
         }
 
-        protected bool DifferentEltWithName(IGraphElement elt, String name) {
-            return (NameToElem.ContainsKey(name)) && (NameToElem[name] != elt);
+        /// <summary>
+        /// returns whether another element than the one given already bears the name
+        /// </summary>
+        protected bool DifferentElementWithName(IGraphElement elem, String name)
+        {
+            return (NameToElem.ContainsKey(name)) && (NameToElem[name] != elem);
         }
 
         /// <summary>

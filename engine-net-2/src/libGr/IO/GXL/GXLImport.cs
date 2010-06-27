@@ -47,17 +47,24 @@ namespace de.unika.ipd.grGen.libGr
             return valelem.InnerText;
         }
 
-        public static IGraph Import(String importFilename, String modelOverride, IBackend backend)
-        {
-            return Import(new StreamReader(importFilename), modelOverride, backend);
-        }
-
         /// <summary>
         /// Imports the first graph not being of type "gxl-1.0" from a GXL file
         /// with the given filename.
         /// Any errors will be reported by exception.
         /// </summary>
         /// <param name="importFilename">The filename of the file to be imported.</param>
+        /// <param name="modelOverride">If not null, overrides the filename of the graph model to be used.</param>
+        /// <param name="backend">The backend to use to create the graph.</param>
+        public static IGraph Import(String importFilename, String modelOverride, IBackend backend)
+        {
+            return Import(new StreamReader(importFilename), modelOverride, backend);
+        }
+
+        /// <summary>
+        /// Imports the first graph not being of type "gxl-1.0" from the given text reader input stream.
+        /// Any errors will be reported by exception.
+        /// </summary>
+        /// <param name="inStream">The text reader input stream import source.</param>
         /// <param name="modelOverride">If not null, overrides the filename of the graph model to be used.</param>
         /// <param name="backend">The backend to use to create the graph.</param>
         public static IGraph Import(TextReader inStream, String modelOverride, IBackend backend)
@@ -125,11 +132,6 @@ namespace de.unika.ipd.grGen.libGr
             return graph;
         }
 
-        public static IGraph Import(String importFilename, IBackend backend, IGraphModel graphModel)
-        {
-            return Import(new StreamReader(importFilename), backend, graphModel);
-        }
-
         /// <summary>
         /// Imports the first graph not being of type "gxl-1.0" from a GXL file
         /// with the given filename.
@@ -137,6 +139,19 @@ namespace de.unika.ipd.grGen.libGr
         /// </summary>
         /// <param name="importFilename">The filename of the file to be imported,
         ///     the model specification part will be ignored.</param>
+        /// <param name="backend">The backend to use to create the graph.</param>
+        /// <param name="graphModel">The graph model to be used, 
+        ///     it must be conformant to the model used in the file to be imported.</param>
+        public static IGraph Import(String importFilename, IBackend backend, IGraphModel graphModel)
+        {
+            return Import(new StreamReader(importFilename), backend, graphModel);
+        }
+
+        /// <summary>
+        /// Imports the first graph not being of type "gxl-1.0" from the given text reader input stream.
+        /// Any errors will be reported by exception.
+        /// </summary>
+        /// <param name="inStream">The text reader input stream import source.</param>
         /// <param name="backend">The backend to use to create the graph.</param>
         /// <param name="graphModel">The graph model to be used, 
         ///     it must be conformant to the model used in the file to be imported.</param>
