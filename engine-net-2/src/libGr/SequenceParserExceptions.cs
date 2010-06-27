@@ -179,5 +179,48 @@ namespace de.unika.ipd.grGen.libGr
             GivenType = givenType;
             Kind = SequenceParserError.TypeMismatch;
         }
+
+        public override string Message {
+            get {
+                if (this.Action == null && this.Kind != SequenceParserError.TypeMismatch) {
+                    return "Unknown rule: \"" + this.RuleName + "\"";
+                }
+                switch (this.Kind) {
+                case SequenceParserError.BadNumberOfParametersOrReturnParameters:
+                    if (this.Action.RulePattern.Inputs.Length != this.NumGivenInputs &&
+                        this.Action.RulePattern.Outputs.Length != this.NumGivenOutputs)
+                    {
+                        return "Wrong number of parameters and return values for action \"" + this.RuleName + "\"!";
+                    } else if (this.Action.RulePattern.Inputs.Length != this.NumGivenInputs) {
+                        return "Wrong number of parameters for action \"" + this.RuleName + "\"!";
+                    } else if (this.Action.RulePattern.Outputs.Length != this.NumGivenOutputs) {
+                        return "Wrong number of return values for action \"" + this.RuleName + "\"!";
+                    } else {
+                        goto default;
+                    }
+
+                case SequenceParserError.BadParameter:
+                    return "The " + (this.BadParamIndex + 1) + ". parameter is not valid for action \"" + this.RuleName + "\"!";
+
+                case SequenceParserError.BadReturnParameter:
+                    return "The " + (this.BadParamIndex + 1) + ". return parameter is not valid for action \"" + this.RuleName + "\"!";
+
+                case SequenceParserError.RuleNameUsedByVariable:
+                    return "The name of the variable conflicts with the name of action \"" + this.RuleName + "\"!";
+
+                case SequenceParserError.VariableUsedWithParametersOrReturnParameters:
+                    return "The variable \"" + this.RuleName + "\" may neither receive parameters nor return values!";
+
+                case SequenceParserError.UnknownAttribute:
+                    return "Unknown attribute \"" + this.RuleName + "\"!";
+
+                case SequenceParserError.TypeMismatch:
+                    return "The construct \"" + this.VariableOrFunctionName + "\" expects:" + this.ExpectedType + " but is /given " + this.GivenType + "!";
+
+                default:
+                    return "Invalid error kind: " + this.Kind;
+                }
+            }
+        }
     }
 }

@@ -49,7 +49,7 @@ for filename in $targets; do
       continue
     fi
   
-    $exeprefix ../bin/GrShell.exe $grs < /dev/null | awk "BEGIN { testnum = 0 }
+    $exeprefix ../bin/GrShell.exe $grs < /dev/null 2>&1 | awk "BEGIN { testnum = 0 }
       {sub(\"\\r\$\", \"\")}
       /^All attributes/ {
         do {

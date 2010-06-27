@@ -13,7 +13,7 @@ PARSER_BEGIN(GrShell)
     using de.unika.ipd.grGen.libGr.sequenceParser;
     using grIO;
 
-    class GrShell {
+    public class GrShell {
         GrShellImpl impl = null;
         bool valid;
         public bool Quit = false;
