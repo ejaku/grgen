@@ -287,8 +287,8 @@ There is no built-in conflict resolution mechanism like packages or namespaces f
 If necessary you can use prefixes as you might do in C.
 
 \begin{rail}
-  TestDeclaration: 'test' (() | 'exact' | 'induced') ActionSignature lbrace Pattern rbrace ;
-  RuleDeclaration: 'rule' (() | 'exact' | 'induced' | 'dpo' | 'dangling' | 'identification' ) ActionSignature lbrace Pattern Replace rbrace ;
+  TestDeclaration: (() | 'exact' | 'induced') 'test' ActionSignature lbrace Pattern rbrace ;
+  RuleDeclaration: (() | 'exact' | 'induced' | 'dpo' | 'dangling' | 'identification' ) 'rule' ActionSignature lbrace Pattern Replace rbrace ;
 \end{rail}\ixkeyw{test}\ixkeyw{rule}\ixkeyw{exact}\ixkeyw{induced}\ixkeyw{dpo}\ixkeyw{dangling}\ixkeyw{identification}\ixnterm{TestDeclaration}\ixnterm{RuleDeclaration}
 Declares a single \indexed{rewrite rule} such as \texttt{SomeRule}. 
 It consists of a pattern part (see Section~\ref{patternpart}) in conjunction with its rewrite/modify part (see Section~\ref{sec:replacemodify}). 
@@ -330,7 +330,7 @@ If you need more flexibility and want to call the rule with parameters not fullf
 If the input type specification type is given, but the more specific pattern element type is not satisfied, matching simply fails.
 If null is declared in the input type specification and given at runtime, the element is searched in the host graph.
 Don't use null parameters unless you need them, because every null parameter doubles the number of matcher routines which get generated.
-Non-graph element parameters must be prefixed by the \texttt{var}-keyword, VarType is one of the attribute types supported by \GrG (\ref{sec:builtintypes}).
+Non-graph element parameters must be prefixed by the \texttt{var}-keyword, VarType is one of the attribute types supported by \GrG\ (\ref{sec:builtintypes}).
 Please note that the effect of assigning to a var parameter in \texttt{eval} (see \ref{sec:replacemodify}) is undefined (concerning the parameters as well as the argument).
 
 \begin{figure}[htbp]
@@ -781,7 +781,7 @@ Remember that we have several subtypes of \texttt{street}. By the aid of the \te
 
 
 \section{Retyping} \label{sec:retype}
-In addition to graph rewriting, \GrG allows graph relabeling\cite{Relabelling}, too; we prefer to call it retyping. 
+In addition to graph rewriting, \GrG\ allows graph relabeling\cite{Relabelling}, too; we prefer to call it retyping. 
 Nodes as well as edges may be retyped to a different type; attributes common to the initial and final type are kept.
 The target type does not need to be a subtype or supertype of the original type.
 Retyping is useful for rewriting a node but keeping its incident edges; without it you'd need to remember and restore those.

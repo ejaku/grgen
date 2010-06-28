@@ -130,14 +130,14 @@ test onlyOneChildOrAllChildrenHaveExactlyOneCommonChild
     root <-:extending- c2:Class; // there is no c2 which extends root
     negative {
       c1 <-:extending- child:Class -:extending-> c2; // except c1 and c2 have a common child
-	  negative { // and c1 has no further children
-	    child;
-	    c1 <-:extending- :Class;
-	  }
-	  negative { // and c2 has no further children
-	    child;
-	    c2 <-:extending- :Class; 
-	  }
+      negative { // and c1 has no further children
+        child;
+        c1 <-:extending- :Class;
+      }
+      negative { // and c2 has no further children
+        child;
+        c2 <-:extending- :Class; 
+      }
     }
   }
 }
@@ -157,7 +157,7 @@ test onlyOneChildOrAllChildrenHaveExactlyOneCommonChild
 \end{rail}\ixkeyw{independent}\ixnterm{PositiveApplicationCondition}
 
 With positive application conditions (keyword \texttt{independent}) we can specify graph patterns which, in contrast to negative application conditions, must be present in the host graph to cause the matching of the enclosing pattern to succeed.
-Together with NACs they share the property of opening a \indexed{scope}, with elements being independent from the surrounding scope (i.e. a host graph element can easiely get matched to a pattern element and a PAC element with a different name, unless the pattern element is referenced in the PAC). 
+Together with NACs they share the property of opening a \indexed{scope}, with elements being independent from the surrounding scope (i.e. a host graph element can easily get matched to a pattern element and a PAC element with a different name, unless the pattern element is referenced in the PAC). 
 They are used to improve the logical structure of rules by separating a pure condition from the main pattern of the rule amenable to rewriting.
 They are really needed if subpatterns want to match elements which were already matched during the subpattern derivation.
 
@@ -266,7 +266,7 @@ For every pattern instance, the iterated/... yields only one match, even if in a
 \end{rail}\ixkeyw{alternative}\ixnterm{AlternativePattern}
 
 With the alternative block you can specify several nested alternative patterns. One of them must get matched for the matching of the alternative (and thus its directly nesting pattern) to succeed, and only one of them is matched per match of the alternative / overall pattern.
-The order of matching the alternative patterns is unspecified, especially it is not guaranteed that a case gets matched before the case textually following -- if you want to ensure that a case can not get matched if another case could be matched, you must explicitely prevent that from happening by adding negatives to the cases.
+The order of matching the alternative patterns is unspecified, especially it is not guaranteed that a case gets matched before the case textually following -- if you want to ensure that a case cannot get matched if another case could be matched, you must explicitely prevent that from happening by adding negatives to the cases.
 In contrast to the iterated which locally matches everything available and inserts this combined match into the current match, the alternative decides for one case match which it inserts into the current match tree, ignoring other possible matches by other cases. 
 
 \begin{example}
@@ -450,12 +450,12 @@ The same path specified in the pattern of the rule -- not in the independent -- 
 
 \end{example}
 
-With recursive subpatterns you can altready capture neatly structures extending into depth (as iterated paths)
+With recursive subpatterns you can already capture neatly structures extending into depth (as iterated paths)
 and also structures extending into breadth (as forking patterns, although the cardinality statements are often better suited to this task).
 But combined with an iterated block, you may even match structures extending into breadth and depth,
 like e.g. a hierarchy of classes (i.e. match a \indexed{spanning tree} in the graph)
 giving you a very powerful and flexible notation to capture large, complex patterns
-built up in a stuctured way from simple, connected pieces (as e.g. abstract syntax trees of programming languages).
+built up in a structured way from simple, connected pieces (as e.g. abstract syntax trees of programming languages).
 
 \begin{note}
 If you are working with hierarchic structures like that, 
@@ -682,45 +682,45 @@ It can't be simulated by subpattern parameters which get defined at matching tim
   \begin{grgen}
 pattern ChainFromToReverseToCommon(from:Node, to:Node) replace(common:Node)
 {
-  alternative {
-    rec {
-      from --> intermediate:Node;
-      cftrtc:ChainFromToReverseToCommon(intermediate, to);
+	alternative {
+		rec {
+			from --> intermediate:Node;
+			cftrtc:ChainFromToReverseToCommon(intermediate, to);
 
-      replace {
-        from <-- intermediate;
-        from --> common;
-        cftrtc(common);
-      }
-    }
-	base {
-      from --> to;
+			replace {
+				from <-- intermediate;
+				from --> common;
+				cftrtc(common);
+			}
+		}
+		base {
+			from --> to;
 
-      replace {
-        from <-- to;
-        from --> common;
-        to --> common;
-      }
-    }
-  }
+			replace {
+				from <-- to;
+				from --> common;
+				to --> common;
+			}
+		}
+	}
 
-  replace {
-    from; to;
-  }
+	replace {
+		from; to;
+	}
 }
   \end{grgen}
 
   \begin{grgen}  
-  rule chainFromToReverseToCommon()
-  {
-    from:Node; to:Node;
-	cftrtc:ChainFromToReverseToCommon();
-	
+rule chainFromToReverseToCommon()
+{
+	from:Node; to:Node;
+	cftrtc:ChainFromToReverseToCommon(from, to);
+
 	modify {
-	  common:Node;
-	  cftrtc(common);
+		common:Node;
+		cftrtc(common);
 	}
-  }
+}
   \end{grgen}
 \end{example}
 
