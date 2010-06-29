@@ -1,4 +1,4 @@
 MASTER=grgen
 FLAVORS=PDF
-DEPENDS=bench/*.tex fig/*
+DEPENDS=*.tex bench/*.tex fig/*
 include LaTeX.mk
