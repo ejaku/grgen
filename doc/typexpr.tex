@@ -260,8 +260,8 @@ For \texttt{n.str == "foo bar foo"} the operations yield \\
 \texttt{n.str.length()==11} \\
 \texttt{n.str.indexOf("foo")==0} \\
 \texttt{n.str.lastIndexOf("foo")==8} \\
-\texttt{n.str(4,3)=="bar"} \\
-\texttt{n.str(4,3,"foo")=="foo foo foo"} \\
+\texttt{n.str.substring(4,3)=="bar"} \\
+\texttt{n.str.replace(4,3,"foo")=="foo foo foo"} \\
 \end{example}
 
 
@@ -326,7 +326,7 @@ Map expressions consist of the known mathematical set operations extended to map
 \end{table}
 
 The binary map operators require the left and right operands to be of identical type \verb#map<S,T>#,
-with one exception for map difference, this operator accepts for a left operand of type \verb#map<S,T># a right operand of type \verb#set<T>#, too.
+with one exception for map difference, this operator accepts for a left operand of type \verb#map<S,T># a right operand of type \verb#set<S>#, too.
 The operator \texttt{x in s} denotes map domain membership $x \in dom(s)$, returning whether the domain of the set contains the given element, as \texttt{boolean}.
 The operator \texttt{m[x]} denotes map lookup, i.e. it returns the value \texttt{y} which is stored in the map \texttt{m} for the value \texttt{x} (domain value \texttt{x} is mapped by the mapping \texttt{m} to range value \texttt{y}). The value \texttt{x} \emph{must} be in the map, i.e. \texttt{x in m} must hold.
 There are several operations on maps available in method call notation (MethodSelector), these are:
@@ -395,7 +395,7 @@ After we've seen the all the ways to combine expressions, finally we'll have a l
 The \texttt{visited} query returns the status of the \indexed{visited flag} of the given number for the given graph element as \texttt{boolean}.
 If no flag number is given, the default number for the first visited flag of 0 is used. 
 The visited flags are written in the assignments of the eval statements (see section \ref{sec:replacemodify}).
-Make sure to allocate\ref{allocvisitflag}/\ref{apiallocvisitflag} visited flags before you try to use them 
+Make sure to allocate \ref{allocvisitflag}/\ref{apiallocvisitflag} visited flags before you try to use them 
 (and deallocate them afterwards, as they are a sparse resource stored in some excess bits of the graph elements, or in some dictionary if the needed number of flags exceeds the number of available bits per graph element.)
 
 The \texttt{nameof} query returns the name (persistent name, see example \ref{persistentex}) of the given graph element as \texttt{string}; 
@@ -476,7 +476,7 @@ The priorities of all available operators are shown in ascending order in the ta
     \begin{tabular}[c]{l} 09 \end{tabular} & \begin{tabular}[c]{l} \verb#. <,<=,>,>=,in .# \end{tabular}\\ \hline
     \begin{tabular}[c]{l} 10 \end{tabular} & \begin{tabular}[c]{l} \verb#. <<,>>,>>> .# \end{tabular}\\ \hline
     \begin{tabular}[c]{l} 11 \end{tabular} & \begin{tabular}[c]{l} \verb#. +,- .# \end{tabular}\\ \hline
-    \begin{tabular}[c]{l} 12 \end{tabular} & \begin{tabular}[c]{l} \verb#. *,\%,/ .# \end{tabular}\\ \hline
+    \begin{tabular}[c]{l} 12 \end{tabular} & \begin{tabular}[c]{l} \verb#. *,%,/ .# \end{tabular}\\ \hline
     \begin{tabular}[c]{l} 13 \end{tabular} & \begin{tabular}[c]{l} \verb#~,!,-,+ .# \end{tabular}\\ \hline
   \end{tabular}
   \caption{All operators, in ascending order of precedence}\indexmain{order of precedence}
