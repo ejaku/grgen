@@ -1291,6 +1291,62 @@ namespace de.unika.ipd.grGen.lgsp
     }
 
     /// <summary>
+    /// Class representing nesting operation which executes the body once;
+    /// needed for iterated, to prevent a return out of the matcher program
+    /// circumventing the maxMatchesIterReached code which must get called if matching fails
+    /// </summary>
+    class ReturnPreventingDummyIteration : SearchProgramOperation
+    {
+        public ReturnPreventingDummyIteration()
+        {
+        }
+
+        public override void Dump(SourceBuilder builder)
+        {
+            // first dump local content
+            builder.AppendFront("ReturnPreventingDummyIteration \n");
+
+            // then nested content
+            if (NestedOperationsList != null)
+            {
+                builder.Indent();
+                NestedOperationsList.Dump(builder);
+                builder.Unindent();
+            }
+        }
+
+        public override void Emit(SourceBuilder sourceCode)
+        {
+            if (sourceCode.CommentSourceCode)
+                sourceCode.AppendFront("// dummy iteration for iterated return prevention\n");
+
+            // open loop
+            sourceCode.AppendFront("do\n");
+            sourceCode.AppendFront("{\n");
+            sourceCode.Indent();
+
+            // emit loop body
+            NestedOperationsList.Emit(sourceCode);
+
+            // close loop
+            sourceCode.Unindent();
+            sourceCode.AppendFront("} while(false);\n");
+        }
+
+        public override bool IsSearchNestingOperation()
+        {
+            return true;
+        }
+
+        public override SearchProgramOperation GetNestedSearchOperationsList()
+        {
+            return NestedOperationsList;
+        }
+
+        public SearchProgramList NestedOperationsList;
+    }
+
+    /// <summary>
     /// Base class for search program candidate filtering operations
     /// </summary>
     abstract class CheckCandidate : CheckOperation

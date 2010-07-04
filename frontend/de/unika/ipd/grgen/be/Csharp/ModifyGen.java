@@ -1252,7 +1252,7 @@ public class ModifyGen extends CSharpBase {
 					expr.collectNeededEntities(needs);
 					sb.append(", ");
 					if(expr instanceof GraphEntityExpression) {
-						sb.append("(" + formatElementClassRef(expr.getType()) + ")(");
+						sb.append("(GRGEN_LGSP.LGSPNode)(");
 					} else {
 						sb.append("(" + formatAttributeType(expr.getType()) + ") (");
 					}

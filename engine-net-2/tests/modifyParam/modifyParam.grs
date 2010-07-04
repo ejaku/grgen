@@ -1,0 +1,21 @@
+new graph modifyParam/modifyParam
+
+xgrs init
+show num nodes
+show num edges
+show num edges "UEdge"
+show num nodes "Foo"
+show num nodes "Bar"
+xgrs ha
+show num nodes
+show num edges
+show num edges "UEdge"
+show num nodes "Foo"
+show num nodes "Bar"
+xgrs he
+show num nodes
+show num edges
+show num edges "UEdge"
+show num nodes "Foo"
+show num nodes "Bar"
+quit

@@ -340,6 +340,17 @@ namespace de.unika.ipd.grGen.lgsp
                 insertionPoint = insertionPoint.Next;
             }
 
+            // set outermost to iterated dummy iteration if iterated
+            if (outermostOperation is SearchProgramOfIterated)
+            {
+                SearchProgramOperation cur = checkOperation;
+                while (!(cur is ReturnPreventingDummyIteration))
+                {
+                    cur = cur.Previous;
+                }
+                outermostOperation = cur;
+            }
+
             SearchProgramOperation continuationPoint = MoveOutwardsAppendingRemoveIsomorphy(
                 checkOperation, ref insertionPoint, neededElementsForCheckOperation, outermostOperation);
 
@@ -385,7 +396,7 @@ namespace de.unika.ipd.grGen.lgsp
             }
 
             // otherwise -> goto label
-            GotoLabel gotoLabel;
+            string gotoLabelName;
 
             // if our continuation point is a candidate iteration
             // -> append label at the end of the loop body of the candidate iteration loop 
@@ -398,8 +409,9 @@ namespace de.unika.ipd.grGen.lgsp
                 {
                     op = op.Next;
                 }
-                gotoLabel = new GotoLabel();
+                GotoLabel gotoLabel = new GotoLabel();
                 op.Append(gotoLabel);
+                gotoLabelName = gotoLabel.LabelName;
             }
             // if our continuation point is a both directions iteration
             // -> append label at the end of the loop body of the both directions iteration loop
@@ -412,8 +424,9 @@ namespace de.unika.ipd.grGen.lgsp
                 {
                     op = op.Next;
                 }
-                gotoLabel = new GotoLabel();
+                GotoLabel gotoLabel = new GotoLabel();
                 op.Append(gotoLabel);
+                gotoLabelName = gotoLabel.LabelName;
             }
             // if our continuation point is an alternative
             // -> append label at the end of the alternative operations
@@ -426,8 +439,15 @@ namespace de.unika.ipd.grGen.lgsp
                 {
                     op = op.Next;
                 }
-                gotoLabel = new GotoLabel();
+                GotoLabel gotoLabel = new GotoLabel();
                 op.Append(gotoLabel);
+                gotoLabelName = gotoLabel.LabelName;
+            }
+            // if our continuation point is the dummy loop of an iterated operation
+            // -> we just jump to the label maxMatchesIterReached directly after the loop
+            else if (continuationPoint is ReturnPreventingDummyIteration)
+            {
+                gotoLabelName = "maxMatchesIterReached";
             }
             // otherwise our continuation point is a check negative/independent operation
             // -> insert label directly after the check negative/independent operation
@@ -435,14 +455,15 @@ namespace de.unika.ipd.grGen.lgsp
             {
                 CheckPartialMatchByNegativeOrIndependent checkNegativeIndependent =
                     continuationPoint as CheckPartialMatchByNegativeOrIndependent;
-                gotoLabel = new GotoLabel();
+                GotoLabel gotoLabel = new GotoLabel();
                 checkNegativeIndependent.Insert(gotoLabel);
+                gotoLabelName = gotoLabel.LabelName;
             }
 
             ContinueOperation continueByGoto =
                 new ContinueOperation(
                     ContinueOperationType.ByGoto,
-                    gotoLabel.LabelName); // ByGoto due to parameters
+                    gotoLabelName); // ByGoto due to parameters
             insertionPoint.Append(continueByGoto);
         }
 

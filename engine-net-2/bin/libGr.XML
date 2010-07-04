@@ -845,6 +845,17 @@
             <param name="elem">The graph element to be named.</param>
             <param name="name">The new name for the graph element.</param>
         </member>
+        <member name="M:de.unika.ipd.grGen.libGr.NamedGraph.SetElementPrefixName(de.unika.ipd.grGen.libGr.IGraphElement,System.String)">
+            <summary>
+            Sets a name of the form prefix + number for the graph element,
+            with number being the first number from 0 on yielding an element name not already available in the graph
+            </summary>
+        </member>
+        <member name="M:de.unika.ipd.grGen.libGr.NamedGraph.DifferentElementWithName(de.unika.ipd.grGen.libGr.IGraphElement,System.String)">
+            <summary>
+            returns whether another element than the one given already bears the name
+            </summary>
+        </member>
         <member name="M:de.unika.ipd.grGen.libGr.NamedGraph.GetElementName(de.unika.ipd.grGen.libGr.IGraphElement)">
             <summary>
             Returns the name for the given element,
@@ -1511,6 +1522,14 @@
             <param name="graph">The graph to export.</param>
             <param name="exportFilename">The filename for the exported file.</param>
         </member>
+        <member name="M:de.unika.ipd.grGen.libGr.GXLExport.Export(de.unika.ipd.grGen.libGr.IGraph,System.IO.TextWriter)">
+            <summary>
+            Exports the given graph in GXL format to the given text writer output stream.
+            Any errors will be reported by exception.
+            </summary>
+            <param name="graph">The graph to export.</param>
+            <param name="streamWriter">The stream writer to export to.</param>
+        </member>
         <member name="M:de.unika.ipd.grGen.libGr.GXLExport.GetDomainID(de.unika.ipd.grGen.libGr.AttributeKind,de.unika.ipd.grGen.libGr.EnumAttributeType)">
             <summary>
             Returns the domain ID for the given attribute type.
@@ -1841,7 +1860,7 @@
             </para>
             </remarks>
         </member>
-        <!-- Badly formed XML comment ignored for member "M:de.unika.ipd.grGen.libGr.porter.ParseException.#ctor(de.unika.ipd.grGen.libGr.porter.Token,System.Int32[][],System.String[])" -->
+        <!-- Ungültiger XML-Kommentar wurde für den Member "M:de.unika.ipd.grGen.libGr.porter.ParseException.#ctor(de.unika.ipd.grGen.libGr.porter.Token,System.Int32[][],System.String[])" ignoriert -->
         <member name="M:de.unika.ipd.grGen.libGr.porter.ParseException.#ctor">
             The following constructors are for use by you for whatever
             purpose you can think of.  Constructing the exception in this
@@ -2196,6 +2215,15 @@
             <param name="modelOverride">If not null, overrides the filename of the graph model to be used.</param>
             <param name="backend">The backend to use to create the graph.</param>
         </member>
+        <member name="M:de.unika.ipd.grGen.libGr.GXLImport.Import(System.IO.TextReader,System.String,de.unika.ipd.grGen.libGr.IBackend)">
+            <summary>
+            Imports the first graph not being of type "gxl-1.0" from the given text reader input stream.
+            Any errors will be reported by exception.
+            </summary>
+            <param name="inStream">The text reader input stream import source.</param>
+            <param name="modelOverride">If not null, overrides the filename of the graph model to be used.</param>
+            <param name="backend">The backend to use to create the graph.</param>
+        </member>
         <member name="M:de.unika.ipd.grGen.libGr.GXLImport.Import(System.String,de.unika.ipd.grGen.libGr.IBackend,de.unika.ipd.grGen.libGr.IGraphModel)">
             <summary>
             Imports the first graph not being of type "gxl-1.0" from a GXL file
@@ -2204,6 +2232,16 @@
             </summary>
             <param name="importFilename">The filename of the file to be imported,
                 the model specification part will be ignored.</param>
+            <param name="backend">The backend to use to create the graph.</param>
+            <param name="graphModel">The graph model to be used, 
+                it must be conformant to the model used in the file to be imported.</param>
+        </member>
+        <member name="M:de.unika.ipd.grGen.libGr.GXLImport.Import(System.IO.TextReader,de.unika.ipd.grGen.libGr.IBackend,de.unika.ipd.grGen.libGr.IGraphModel)">
+            <summary>
+            Imports the first graph not being of type "gxl-1.0" from the given text reader input stream.
+            Any errors will be reported by exception.
+            </summary>
+            <param name="inStream">The text reader input stream import source.</param>
             <param name="backend">The backend to use to create the graph.</param>
             <param name="graphModel">The graph model to be used, 
                 it must be conformant to the model used in the file to be imported.</param>
@@ -2428,7 +2466,9 @@
         <member name="M:de.unika.ipd.grGen.libGr.Porter.Export(de.unika.ipd.grGen.libGr.IGraph,System.Collections.Generic.List{System.String})">
             <summary>
             Exports the given graph to a file with the given filename.
-            The format is determined by the file extension.
+            The format is determined by the file extension. 
+            Currently available are: .grs/.grsi or .gxl.
+            Optionally suffixed by .gz; in this case they are saved gzipped.
             Any errors will be reported by exception.
             </summary>
             <param name="graph">The graph to export. The .grs/.grsi exporter is capable of exporting a NamedGraph, i.e. including names.</param>
@@ -2441,6 +2481,8 @@
             Imports a graph from the given files.
             If the filenames only specify a model, the graph is empty.
             The format is determined by the file extensions.
+            Currently available are: .grs/.grsi or .gxl or .ecore(/.xmi).
+            Optionally suffixed by .gz; in this case they are expected to be gzipped.
             Any error will be reported by exception.
             </summary>
             <param name="backend">The backend to use to create the graph.</param>
@@ -4211,11 +4253,20 @@
         </member>
         <member name="M:de.unika.ipd.grGen.libGr.GRSExport.Export(de.unika.ipd.grGen.libGr.IGraph,System.IO.StreamWriter,System.Boolean)">
             <summary>
-            Exports the given graph in grs format to the file given by the stream writer.
+            Exports the given graph to the file given by the stream writer in grs format.
             Any errors will be reported by exception.
             </summary>
-            <param name="graph">The graph to export.</param>
-            <param name="sw">The stream writer of the file to export into.</param>
+            <param name="graph">The graph to export. If a NamedGraph is given, it will be exported including the names.</param>
+            <param name="writer">The stream writer to export to.</param>
+            <param name="withVariables">Export the graph variables, too?</param>
+        </member>
+        <member name="M:de.unika.ipd.grGen.libGr.GRSExport.ExportYouMustCloseStreamWriter(de.unika.ipd.grGen.libGr.IGraph,System.IO.StreamWriter,System.Boolean)">
+            <summary>
+            Exports the given graph to the file given by the stream writer in grs format.
+            Any errors will be reported by exception.
+            </summary>
+            <param name="graph">The graph to export. If a NamedGraph is given, it will be exported including the names.</param>
+            <param name="sw">The stream writer of the file to export into. The stream writer is not closed automatically.</param>
             <param name="withVariables">Export the graph variables, too?</param>
         </member>
         <member name="M:de.unika.ipd.grGen.libGr.GRSExport.EmitAttributes(de.unika.ipd.grGen.libGr.AttributeType,System.Object,System.IO.StreamWriter)">
@@ -4230,6 +4281,19 @@
             Any errors will be reported by exception.
             </summary>
             <param name="importFilename">The filename of the file to be imported.</param>
+            <param name="backend">The backend to use to create the graph.</param>
+            <param name="graphModel">The graph model to be used, 
+                it must be conformant to the model used in the file to be imported.</param>
+            <returns>The imported graph. 
+            A NamedGraph is returned. If you don't need it: cast to it, get the contained (lgsp) graph, and throw the named graph away
+            (the naming requires about the same amount of memory the raw graph behind it requires).</returns>		
+        </member>
+        <member name="M:de.unika.ipd.grGen.libGr.porter.GRSImporter.Import(System.IO.TextReader,System.String,de.unika.ipd.grGen.libGr.IBackend)">
+            <summary>
+            Imports the given graph from the given text reader input stream.
+            Any errors will be reported by exception.
+            </summary>
+            <param name="reader">The text reader input stream import source.</param>
             <param name="backend">The backend to use to create the graph.</param>
             <param name="graphModel">The graph model to be used, 
                 it must be conformant to the model used in the file to be imported.</param>
@@ -4254,6 +4318,18 @@
             Any errors will be reported by exception.
             </summary>
             <param name="importFilename">The filename of the file to be imported.</param>
+            <param name="backend">The backend to use to create the graph.</param>
+            <param name="graphModel">The graph model to be used.</param>
+            <returns>The imported graph. 
+            A NamedGraph is returned. If you don't need it: cast to it, get the contained (lgsp) graph, and throw the named graph away
+            (the naming requires about the same amount of memory the raw graph behind it requires).</returns>
+        </member>
+        <member name="M:de.unika.ipd.grGen.libGr.porter.GRSImporter.Import(System.IO.TextReader,de.unika.ipd.grGen.libGr.IBackend,de.unika.ipd.grGen.libGr.IGraphModel)">
+            <summary>
+            Imports the given graph from the given text reader input stream.
+            Any errors will be reported by exception.
+            </summary>
+            <param name="reader">The text reader input stream import source.</param>
             <param name="backend">The backend to use to create the graph.</param>
             <param name="graphModel">The graph model to be used.</param>
             <returns>The imported graph. 
@@ -4809,7 +4885,7 @@
             </para>
             </remarks>
         </member>
-        <!-- Badly formed XML comment ignored for member "M:de.unika.ipd.grGen.libGr.sequenceParser.ParseException.#ctor(de.unika.ipd.grGen.libGr.sequenceParser.Token,System.Int32[][],System.String[])" -->
+        <!-- Ungültiger XML-Kommentar wurde für den Member "M:de.unika.ipd.grGen.libGr.sequenceParser.ParseException.#ctor(de.unika.ipd.grGen.libGr.sequenceParser.Token,System.Int32[][],System.String[])" ignoriert -->
         <member name="M:de.unika.ipd.grGen.libGr.sequenceParser.ParseException.#ctor">
             The following constructors are for use by you for whatever
             purpose you can think of.  Constructing the exception in this
@@ -4914,7 +4990,7 @@
             <returns>The newly created dictionary, containing the content of the old dictionary,
             null if unsuccessfull</returns>
         </member>
-        <!-- Badly formed XML comment ignored for member "M:de.unika.ipd.grGen.libGr.DictionaryHelper.Union``2(System.Collections.Generic.Dictionary{``0,``1},System.Collections.Generic.Dictionary{``0,``1})" -->
+        <!-- Ungültiger XML-Kommentar wurde für den Member "M:de.unika.ipd.grGen.libGr.DictionaryHelper.Union``2(System.Collections.Generic.Dictionary{``0,``1},System.Collections.Generic.Dictionary{``0,``1})" ignoriert -->
         <member name="M:de.unika.ipd.grGen.libGr.DictionaryHelper.Intersect``2(System.Collections.Generic.Dictionary{``0,``1},System.Collections.Generic.Dictionary{``0,``1})">
             <summary>
             Creates a new dictionary containing all key/value pairs from
@@ -5022,8 +5098,8 @@
             <param name="setmap">The dictionary of which to get the string representation</param>
             <returns>String representation of set/map.</returns>
         </member>
-        <!-- Badly formed XML comment ignored for member "M:de.unika.ipd.grGen.libGr.DictionaryHelper.ToString(System.Collections.IDictionary,System.String@,System.String@)" -->
-        <!-- Badly formed XML comment ignored for member "M:de.unika.ipd.grGen.libGr.DictionaryHelper.ToString(System.Collections.IDictionary,de.unika.ipd.grGen.libGr.AttributeChangeType,System.Object,System.Object,System.String@,System.String@)" -->
+        <!-- Ungültiger XML-Kommentar wurde für den Member "M:de.unika.ipd.grGen.libGr.DictionaryHelper.ToString(System.Collections.IDictionary,System.String@,System.String@)" ignoriert -->
+        <!-- Ungültiger XML-Kommentar wurde für den Member "M:de.unika.ipd.grGen.libGr.DictionaryHelper.ToString(System.Collections.IDictionary,de.unika.ipd.grGen.libGr.AttributeChangeType,System.Object,System.Object,System.String@,System.String@)" ignoriert -->
         <member name="M:de.unika.ipd.grGen.libGr.DictionaryHelper.IfAttributeOfElementIsDictionaryThenCloneDictionaryValue(de.unika.ipd.grGen.libGr.IGraphElement,System.String,System.Object,de.unika.ipd.grGen.libGr.AttributeType@)">
             <summary>
             If the attribute of the given name of the given element is a set or map attribute
@@ -5186,6 +5262,11 @@
             <summary>
             Creates an instance of a SequenceParserException used by the SequenceParser,
             when the expected type does not match the given type of the variable of function.
+            </summary>
+        </member>
+        <member name="P:de.unika.ipd.grGen.libGr.SequenceParserException.Message">
+            <summary>
+            The error message of the exception.
             </summary>
         </member>
         <member name="T:de.unika.ipd.grGen.libGr.BaseActions">

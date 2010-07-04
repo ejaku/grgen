@@ -185,8 +185,8 @@
             for the alternatives/iterateds nested within the given negative/independent pattern graph into the given source builder
             </summary>
         </member>
-        <!-- Badly formed XML comment ignored for member "M:de.unika.ipd.grGen.lgsp.LGSPMatcherGenerator.GenerateActionInterface(de.unika.ipd.grGen.lgsp.SourceBuilder,de.unika.ipd.grGen.lgsp.LGSPRulePattern)" -->
-        <!-- Badly formed XML comment ignored for member "M:de.unika.ipd.grGen.lgsp.LGSPMatcherGenerator.GenerateActionImplementation(de.unika.ipd.grGen.lgsp.SourceBuilder,de.unika.ipd.grGen.lgsp.LGSPRulePattern)" -->
+        <!-- Ungültiger XML-Kommentar wurde für den Member "M:de.unika.ipd.grGen.lgsp.LGSPMatcherGenerator.GenerateActionInterface(de.unika.ipd.grGen.lgsp.SourceBuilder,de.unika.ipd.grGen.lgsp.LGSPRulePattern)" ignoriert -->
+        <!-- Ungültiger XML-Kommentar wurde für den Member "M:de.unika.ipd.grGen.lgsp.LGSPMatcherGenerator.GenerateActionImplementation(de.unika.ipd.grGen.lgsp.SourceBuilder,de.unika.ipd.grGen.lgsp.LGSPRulePattern)" ignoriert -->
         <member name="M:de.unika.ipd.grGen.lgsp.LGSPMatcherGenerator.GenerateSearchProgram(de.unika.ipd.grGen.lgsp.LGSPMatchingPattern)">
             <summary>
             Generates the search program(s) for the pattern graph of the given rule
@@ -2681,6 +2681,13 @@
         <member name="T:de.unika.ipd.grGen.lgsp.BothDirectionsIteration">
             <summary>
             Class representing operation iterating both directions of an edge of unfixed direction 
+            </summary>
+        </member>
+        <member name="T:de.unika.ipd.grGen.lgsp.ReturnPreventingDummyIteration">
+            <summary>
+            Class representing nesting operation which executes the body once;
+            needed for iterated, to prevent a return out of the matcher program
+            circumventing the maxMatchesIterReached code which must get called if matching fails
             </summary>
         </member>
         <member name="T:de.unika.ipd.grGen.lgsp.CheckCandidate">

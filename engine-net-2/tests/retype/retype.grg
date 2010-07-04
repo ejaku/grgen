@@ -113,8 +113,8 @@ rule AcrosstoBopt
 	n:A;
 
 	optional {
-		if{ n.a == 33; }
-		
+		if{ n.a == 33; } // fails -> empty optional matches, empty rewrite gets applied
+
 		modify {
 			:B<n>;
 		}
@@ -126,9 +126,13 @@ rule AcrosstoBopt
 rule AcrosstoCopt
 {
 	n:A;
+	if{ n.a == 66; } // can't be given in optional, 
+		// cause indeterministally either the correct is chosen giving an optional which is applied once
+		// or the non-66 is chosen giving an optional which is applied zero times (still succeeding)
 
 	optional {
-		if{ n.a == 66; }
+		m:A;
+		if{ m.a == 42; }
 		
 		modify {
 			:C<n>;
@@ -191,9 +195,11 @@ rule EBcrosstoEAopt
 rule EBcrosstoECopt
 {
 	-e:EB->;
+	if{ e.b == "foo"; }
 
 	optional {
-		if{ e.b == "foo"; }
+		-f:EB->;
+		if{ f.b == "foool"; }
 		
 		modify {
 			-:EC<e>->;

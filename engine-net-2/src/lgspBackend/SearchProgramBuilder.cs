@@ -327,11 +327,18 @@ namespace de.unika.ipd.grGen.lgsp
                 new InitializeSubpatternMatching(InitializeFinalizeSubpatternMatchingType.Iteration);
             insertionPoint = insertionPoint.Append(initialize);
 
+            ReturnPreventingDummyIteration dummyIteration = new ReturnPreventingDummyIteration();
+            SearchProgramOperation continuationPointAfterDummyIteration = insertionPoint.Append(dummyIteration);
+            dummyIteration.NestedOperationsList = new SearchProgramList(dummyIteration);
+            insertionPoint = dummyIteration.NestedOperationsList;
+
             // start building with first operation in scheduled search plan
             indexOfSchedule = 0;
             insertionPoint = BuildScheduledSearchPlanOperationIntoSearchProgram(
                 0,
                 insertionPoint);
+
+            insertionPoint = continuationPointAfterDummyIteration;
 
             // check whether iteration came to an end (pattern not found (again)) and handle it
             insertionPoint = insertEndOfIterationHandling(insertionPoint);

@@ -1,0 +1,42 @@
+using modifyParam;
+
+pattern Ho(g:Foo) modify(f:Foo)
+{
+	modify {
+		f -- g;
+	}
+}
+
+rule ha
+{
+	a:Foo --> b:Foo;
+	ho:Ho(a);
+
+	modify {
+		nb:typeof(b);
+		ho(nb);
+	}
+}
+
+rule he
+{
+	-e:Edge-> b:Foo;
+	iterated {
+		a:Foo -e-> b;
+		
+		modify {
+			nb -- a;
+		}
+	}
+
+	modify {
+		nb:typeof(b);
+	}
+}
+
+rule init
+{
+	modify {
+		:Bar --> :Bar;
+	}
+}
