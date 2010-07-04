@@ -1072,6 +1072,11 @@ void ShellCommand():
 		noError = impl.Export(parameters);
 	}
 |
+	LOOKAHEAD(2) "import" "add" parameters=FilenameParameterList()
+	{
+		noError = impl.ImportDUnion(parameters);
+	}
+|
 	"import" parameters=FilenameParameterList()
 	{
 		noError = impl.Import(parameters);

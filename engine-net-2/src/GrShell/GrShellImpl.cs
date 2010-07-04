@@ -3663,47 +3663,93 @@ showavail:
 
         public bool ImportDUnion(List<string> filenameParameters)
         {
-            IGraph graph = Porter.Import(curGraphBackend, filenameParameters);
-            LGSPGraph lgspGraph;
-            if (graph is NamedGraph) {
-                lgspGraph = (LGSPGraph)((NamedGraph)graph).WrappedGraph;
-            } else {
-                lgspGraph = (LGSPGraph)graph;
+            if (!BackendExists()) return false;
+
+            bool withVariables = false;
+            if (filenameParameters[filenameParameters.Count-1]=="withvariables")
+            {
+                withVariables = true;
+                filenameParameters.RemoveAt(filenameParameters.Count-1);
+            }
+
+            IGraph graph;
+            try
+            {
+                graph = Porter.Import(curGraphBackend, filenameParameters);
+            }
+            catch (Exception e)
+            {
+                errOut.WriteLine("Unable to import graph for union: " + e.Message);
+                return false;
             }
 
             // convenience
             INodeModel node_model = this.CurrentGraph.Model.NodeModel;
             IEdgeModel edge_model = this.CurrentGraph.Model.EdgeModel;
+            NamedGraph namedGraph = graph as NamedGraph;
 
-            Dictionary<INode, INode> oldNewNodeMap = new Dictionary<INode, INode>();
+            Dictionary<INode, INode> oldToNewNodeMap = new Dictionary<INode, INode>();
 
-            foreach (INode node in lgspGraph.Nodes)
+            foreach (INode node in graph.Nodes)
             {
                 NodeType typ = node_model.GetType(node.Type.Name);
-                INode newNode = this.CurrentGraph.AddNode(typ);
+                INode newNode = CurrentGraph.AddNode(typ);
 
-                foreach (AttributeType attr in typ.AttributeTypes) {
+                String name = null;
+                if (namedGraph != null) name = namedGraph.GetElementName(node);
+                if (name != null) CurrentGraph.SetElementPrefixName(newNode, name);
+
+                foreach (AttributeType attr in typ.AttributeTypes)
+                {
                     try { newNode.SetAttribute(attr.Name, node.GetAttribute(attr.Name)); }
                     catch { errOut.WriteLine("failed to copy attribute {0}", attr.Name); }
                 }
-                oldNewNodeMap[node] = newNode;
+                oldToNewNodeMap[node] = newNode;
+
+                if (withVariables)
+                {
+                    LinkedList<Variable> variables = graph.GetElementVariables(node);
+                    if (variables != null)
+                    {
+                        foreach (Variable var in variables)
+                        {
+                            CurrentGraph.SetVariableValue(var.Name, var.Value);
+                        }
+                    }
+                }
             }
 
-            foreach (IEdge edge in lgspGraph.Edges)
+            foreach (IEdge edge in graph.Edges)
             {
                 EdgeType typ = edge_model.GetType(edge.Type.Name);
-                INode newSource = oldNewNodeMap[edge.Source];
-                INode newTarget = oldNewNodeMap[edge.Target];
+                INode newSource = oldToNewNodeMap[edge.Source];
+                INode newTarget = oldToNewNodeMap[edge.Target];
                 if ((newSource == null) || (newTarget == null)) {
                     errOut.WriteLine("failed to retrieve the new node equivalent from the dictionary!!");
                     return false;
                 }
+                IEdge newEdge = CurrentGraph.AddEdge(typ, newSource, newTarget);
 
-                IEdge newEdge = this.CurrentGraph.AddEdge(typ, newSource, newTarget);
+                String name = null;
+                if (namedGraph != null) name = namedGraph.GetElementName(edge);
+                if (name != null) CurrentGraph.SetElementPrefixName(newEdge, name);
 
-                foreach (AttributeType attr in typ.AttributeTypes) {
+                foreach (AttributeType attr in typ.AttributeTypes)
+                {
                     try { newEdge.SetAttribute(attr.Name, edge.GetAttribute(attr.Name)); }
                     catch { errOut.WriteLine("failed to copy attribute {0}", attr.Name); }
+                }
+
+                if (withVariables)
+                {
+                    LinkedList<Variable> variables = graph.GetElementVariables(edge);
+                    if (variables != null)
+                    {
+                        foreach (Variable var in variables)
+                        {
+                            CurrentGraph.SetVariableValue(var.Name, var.Value);
+                        }
+                    }
                 }
             }
 
