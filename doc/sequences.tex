@@ -65,7 +65,7 @@ a = ((b,c) = R(x,y,z))
 
 A graph rewrite sequence consists of several rewrite terms linked by operators.
 Table \ref{tbl:sequ:op} gives the priorities and semantics of the operators, priorities in ascending order.
-The modifier \texttt{\$} flags the following operator to randomly execute the left or the right operand first;
+The modifier \texttt{\$} changes the semantics of the following operator to randomly execute the left or the right operand first (i.e. flags the operator to act commutative);
 usually operands are executed / evaluated from left to right if not altered by bracketing (left-\indexed{associative}). 
 In contrast the sequences \texttt{s}, \texttt{t}, \texttt{u} in \texttt{s \$<op> t \$<op> u} are executed / evaluated in arbitrary order.
 Then-Left and Then-Right are of the same priority and their execution order can't be altered by the \$ operator prefix.
