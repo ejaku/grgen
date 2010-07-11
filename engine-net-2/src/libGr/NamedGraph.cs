@@ -8,6 +8,7 @@
 using System;
 using System.Collections.Generic;
 using System.IO;
+using System.Diagnostics;
 
 namespace de.unika.ipd.grGen.libGr
 {
@@ -819,7 +820,21 @@ namespace de.unika.ipd.grGen.libGr
         /// <returns>The result of the sequence.</returns>
         public bool ApplyGraphRewriteSequence(Sequence sequence)
         {
-            return graph.ApplyGraphRewriteSequence(sequence);
+            return graph.ApplyGraphRewriteSequence(sequence, this);
+        }
+
+        /// <summary>
+        /// Apply a graph rewrite sequence.
+        /// </summary>
+        /// <param name="sequence">The graph rewrite sequence</param>
+        /// <param name="namedGraph">The named graph giving access to the names
+        /// - null if not available (needed if you want to access the names, with e.g. the @-operator;
+        /// for this named graph it is set automatically to this)</param>
+        /// <returns>The result of the sequence.</returns>
+        public bool ApplyGraphRewriteSequence(Sequence sequence, NamedGraph namedGraph)
+        {
+            Debug.Assert(namedGraph==null || namedGraph==this);
+            return graph.ApplyGraphRewriteSequence(sequence, this);
         }
 
         /// <summary>
@@ -829,7 +844,21 @@ namespace de.unika.ipd.grGen.libGr
         /// <returns>True, iff the sequence succeeds on the cloned graph </returns>
         public bool ValidateWithSequence(Sequence seq)
         {
-            return graph.ValidateWithSequence(seq);
+            return graph.ValidateWithSequence(seq, this);
+        }
+
+        /// <summary>
+        /// Tests whether the given sequence succeeds on a clone of the associated graph.
+        /// </summary>
+        /// <param name="seq">The sequence to be executed</param>
+        /// <param name="namedGraph">The named graph giving access to the names 
+        /// - null if not available (needed if you want to access the names, with e.g. the @-operator;
+        /// for this named graph it is set automatically to this)</param>
+        /// <returns>True, iff the sequence succeeds on the cloned graph </returns>
+        public bool ValidateWithSequence(Sequence seq, NamedGraph namedGraph)
+        {
+            Debug.Assert(namedGraph == null || namedGraph == this);
+            return graph.ValidateWithSequence(seq, this);
         }
 
         /// <summary>

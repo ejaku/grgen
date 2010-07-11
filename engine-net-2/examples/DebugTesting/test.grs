@@ -26,8 +26,7 @@ debug xgrs [matchmark]
 new m:N
 
 debug xgrs true && false || x:boolean = false ;> y:boolean = x ;> y <; match
-debug xgrs x = (match ^ dontmatch) 
-# && z = @("$1") 
+debug xgrs x = (match ^ dontmatch) && z = @("$1") 
 debug xgrs m.b = x && x = m.b && def(z) <; match
 
 debug xgrs s = set<Node>{} && vreset(id) ;> (l)=matchmark ;> s.add(l) ;> si=s.size() ;> s.rem(l)

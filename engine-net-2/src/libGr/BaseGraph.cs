@@ -517,9 +517,26 @@ namespace de.unika.ipd.grGen.libGr
         {
             if(PerformanceInfo != null) PerformanceInfo.Start();
 
-            bool res = sequence.Apply(this);
+            bool res = sequence.Apply(this, null);
 
             if(PerformanceInfo != null) PerformanceInfo.Stop();
+            return res;
+        }
+
+        /// <summary>
+        /// Apply a graph rewrite sequence.
+        /// </summary>
+        /// <param name="sequence">The graph rewrite sequence</param>
+        /// <param name="namedGraph">The named graph giving access to the names
+        /// - null if not available (needed if you want to access the names, with e.g. the @-operator)</param>
+        /// <returns>The result of the sequence.</returns>
+        public bool ApplyGraphRewriteSequence(Sequence sequence, NamedGraph namedGraph)
+        {
+            if (PerformanceInfo != null) PerformanceInfo.Start();
+
+            bool res = sequence.Apply(this, namedGraph);
+
+            if (PerformanceInfo != null) PerformanceInfo.Stop();
             return res;
         }
 
@@ -530,7 +547,19 @@ namespace de.unika.ipd.grGen.libGr
         /// <returns>True, iff the sequence succeeds on the cloned graph </returns>
         public bool ValidateWithSequence(Sequence seq)
         {
-            return seq.Apply(Clone("clonedGraph"));
+            return seq.Apply(Clone("clonedGraph"), null);
+        }
+
+        /// <summary>
+        /// Tests whether the given sequence succeeds on a clone of the associated graph.
+        /// </summary>
+        /// <param name="seq">The sequence to be executed</param>
+        /// <param name="namedGraph">The named graph giving access to the names
+        /// - null if not available (needed if you want to access the names, with e.g. the @-operator)</param>
+        /// <returns>True, iff the sequence succeeds on the cloned graph </returns>
+        public bool ValidateWithSequence(Sequence seq, NamedGraph namedGraph)
+        {
+            return seq.Apply(Clone("clonedGraph"), namedGraph);
         }
 
         #endregion Graph rewriting
