@@ -1,0 +1,48 @@
+new graph "porter/porter"
+
+xgrs createTestGraph
+
+show num nodes only Node
+show num nodes only N1
+show num nodes only N2a
+show num nodes only N2b
+show num nodes only N3
+show num nodes only N4
+
+show num edges only Edge
+show num edges only UEdge 
+show num edges only E1
+show num edges only E2a
+show num edges only E2b
+show num edges only E3
+show num edges only E4
+
+xgrs [checkForTestGraph]
+
+export porter/testgraph.grs
+
+import add porter/testgraph.grs porter/porter.gm
+
+show num nodes only Node
+show num nodes only N1
+show num nodes only N2a
+show num nodes only N2b
+show num nodes only N3
+show num nodes only N4
+
+show num edges only Edge
+show num edges only UEdge 
+show num edges only E1
+show num edges only E2a
+show num edges only E2b
+show num edges only E3
+show num edges only E4
+
+select actions porter/lgsp-porterActions.dll
+
+xgrs [checkForTestGraph]
+
+# the test script tries to test all available .grs; no sense in trying to test the exported graph
+!rm porter/testgraph.grs
+
+quit

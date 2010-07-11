@@ -1,0 +1,7 @@
+// this file is for manually testing the debugger
+
+node class N
+{
+	b:boolean;
+	s:string;
+}

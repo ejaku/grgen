@@ -2474,8 +2474,8 @@ namespace de.unika.ipd.grGen.grShell
             curShellGraph.Graph.PerformanceInfo = perfInfo;
             try
             {
-                curShellGraph.Graph.ApplyGraphRewriteSequence(seq);
-                debugOut.WriteLine("Executing Graph Rewrite Sequence done after {0} ms:", perfInfo.TotalTimeMS);
+                bool result = curShellGraph.Graph.ApplyGraphRewriteSequence(seq);
+                debugOut.WriteLine("Executing Graph Rewrite Sequence done after {0} ms with result {1}:", perfInfo.TotalTimeMS, result);
 #if DEBUGACTIONS || MATCHREWRITEDETAIL
                 debugOut.WriteLine(" - {0} matches found in {1} ms", perfInfo.MatchesFound, perfInfo.TotalMatchTimeMS);
                 debugOut.WriteLine(" - {0} rewrites performed in {1} ms", perfInfo.RewritesPerformed, perfInfo.TotalRewriteTimeMS);
@@ -2520,16 +2520,6 @@ namespace de.unika.ipd.grGen.grShell
                 curShellGraph.Graph.OnExitingSequence -= new ExitSequenceHandler(DumpOnExitingSequence);
             }
             else curShellGraph.Graph.OnEntereringSequence -= new EnterSequenceHandler(NormalEnteringSequenceHandler);
-        }
-
-        public void WarnDeprecatedGrs(Sequence seq)
-        {
-            errOut.Write(
-                "-------------------------------------------------------------------------------\n"
-                + "The \"grs\"-command is deprecated and may not be supported in later versions!\n"
-                + "An equivalent \"xgrs\"-command is:\n  xgrs ");
-            Debugger.PrintSequence(seq, null, Workaround);
-            errOut.WriteLine("\n-------------------------------------------------------------------------------");
         }
 
         public void Cancel()
@@ -3627,6 +3617,12 @@ showavail:
 
         public bool Import(List<String> filenameParameters)
         {
+            if(filenameParameters[0]=="add")
+            {
+                filenameParameters.RemoveAt(0);
+                return ImportDUnion(filenameParameters);
+            }
+
             if(!BackendExists()) return false;
 
             IGraph graph;
@@ -3657,6 +3653,7 @@ showavail:
                 errOut.WriteLine("Unable to import graph: " + e.Message);
                 return false;
             }
+
             debugOut.WriteLine("Graph \"" + graph.Name + "\" imported.");
             return true;
         }
@@ -3753,6 +3750,7 @@ showavail:
                 }
             }
 
+            debugOut.WriteLine("Graph \"" + graph.Name + "\" imported and added to current graph \"" + CurrentGraph.Name + "\"");
             return true;
         }
 

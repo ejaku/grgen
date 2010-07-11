@@ -1,0 +1,44 @@
+# this file is for manually testing the debugger
+new graph test
+
+debug xgrs !match
+debug xgrs match ;> match
+debug xgrs match <; match
+debug xgrs match || match
+debug xgrs match && match
+debug xgrs match | match
+debug xgrs match ^ match
+debug xgrs match & match
+
+new n:N
+
+debug xgrs id=valloc() && matchmark+
+debug xgrs n.visited[id] && vreset(id) && matchmark* && n.visited[id] = false
+
+debug xgrs if{match; match; dontmatch}
+debug xgrs if{dontmatch; match; dontmatch}
+debug xgrs if{dontmatch; match}
+
+debug xgrs <matchmark ;> dontmatch>
+
+debug xgrs [matchmark]
+
+new m:N
+
+debug xgrs true && false || x:boolean = false ;> y:boolean = x ;> y <; match
+debug xgrs x = (match ^ dontmatch) 
+# && z = @("$1") 
+debug xgrs m.b = x && x = m.b && def(z) <; match
+
+debug xgrs s = set<Node>{} && vreset(id) ;> (l)=matchmark ;> s.add(l) ;> si=s.size() ;> s.rem(l)
+debug xgrs s.add(l) ;> l in s <; dontmatch
+debug xgrs for{i in s; setstring(i)}
+debug xgrs si=s.empty() <; s.clear() <; match
+
+debug xgrs ss = map<Node,Node>{} && (ll)=matchmark ;> ss.add(l,ll) ;> si=ss.size() ;> ss.rem(l)
+debug xgrs ss.add(l,ll) ;> l in ss <; dontmatch
+debug xgrs for{i->j in ss; setstring(j)}
+debug xgrs k = ss[l] ;> si=ss.empty() <; ss.clear() <; match 
+
+debug xgrs vreset(id) && s = set<Node>{} && s.add(n) && s.add(m) && for{i in s; unsetstring(i)} && vfree(id)
+

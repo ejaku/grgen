@@ -14,6 +14,8 @@ namespace de.unika.ipd.grGen.libGr
 {
     /// <summary>
     /// Specifies the actual subtype used for a Sequence.
+    /// A new sequence type -> you must adapt lgspSequenceChecker and lgspSequenceGenerator, 
+    /// SequenceChecker and Sequence (add the corresponding class down below), the Debugger
     /// </summary>
     public enum SequenceType
     {
@@ -631,7 +633,7 @@ namespace de.unika.ipd.grGen.libGr
         }
         public override IEnumerable<Sequence> Children { get { yield break; } }
         public override int Precedence { get { return 8; } }
-        public override string Symbol { get { return PredicateVar.Name; } }
+        public override string Symbol { get { return Special ? "%"+PredicateVar.Name : PredicateVar.Name; } }
     }
 
     public class SequenceAssignVAllocToVar : Sequence
@@ -774,7 +776,12 @@ namespace de.unika.ipd.grGen.libGr
 
         public override IEnumerable<Sequence> Children { get { yield break; } }
         public override int Precedence { get { return 8; } }
-        public override string Symbol { get { return DestVar.Name + "=" + Constant; } }
+        public override string Symbol { get { 
+            if(Constant.GetType().Name=="Dictionary`2")
+                return DestVar.Name + "={}"; // only empty set/map assignment possible as of now
+            else
+                return DestVar.Name + "=" + Constant; }
+        }
     }
 
     public class SequenceAssignVarToAttribute : Sequence
@@ -893,7 +900,7 @@ namespace de.unika.ipd.grGen.libGr
 
         public override IEnumerable<Sequence> Children { get { yield return Seq; } }
         public override int Precedence { get { return 8; } }
-        public override string Symbol { get { return DestVar.Name + "="; } }
+        public override string Symbol { get { return "(" + DestVar.Name + ")=..."; } }
     }
 
     public class SequenceTransaction : SequenceUnary
@@ -1174,7 +1181,7 @@ namespace de.unika.ipd.grGen.libGr
 
         public override IEnumerable<Sequence> Children { get { yield break; } }
         public override int Precedence { get { return 8; } }
-        public override string Symbol { get { return Setmap.Name+".add("+Var.Name+(VarDst!=null?"->"+VarDst.Name:"")+")"; } }
+        public override string Symbol { get { return Setmap.Name+".add("+Var.Name+(VarDst!=null?","+VarDst.Name:"")+")"; } }
     }
 
     public class SequenceSetmapRem : Sequence

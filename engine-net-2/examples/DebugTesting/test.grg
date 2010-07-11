@@ -1,0 +1,38 @@
+// this file is for manually testing the debugger
+
+using testmodel;
+
+test match
+{
+}
+
+test dontmatch
+{
+	negative {
+	}
+}
+
+rule matchmark : (Node)
+{
+	n:Node;
+	if { !n.visited; }
+	
+	modify {
+		eval { n.visited = true; }
+		return (n);
+	}
+}
+
+rule setstring(n:N)
+{	
+	modify {
+		eval { n.s = "S"; }
+	}
+}
+
+rule unsetstring(n:N)
+{	
+	modify {
+		eval { n.s = ""; }
+	}
+}

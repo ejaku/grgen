@@ -78,8 +78,15 @@ namespace de.unika.ipd.grGen.grShell
             }
         }
 
-        public Debugger(GrShellImpl grShellImpl) : this(grShellImpl, "Orthogonal", null) {}
-        public Debugger(GrShellImpl grShellImpl, String debugLayout) : this(grShellImpl, debugLayout, null) {}
+        public Debugger(GrShellImpl grShellImpl) 
+            : this(grShellImpl, "Orthogonal", null)
+        {
+        }
+
+        public Debugger(GrShellImpl grShellImpl, String debugLayout) 
+            : this(grShellImpl, debugLayout, null)
+        {
+        }
 
         /// <summary>
         /// Initializes a new Debugger instance using the given layout and options.
@@ -194,7 +201,9 @@ namespace de.unika.ipd.grGen.grShell
                 ycompClient.UpdateDisplay();
                 ycompClient.Sync();
             }
-            catch(OperationCanceledException) { }
+            catch(OperationCanceledException)
+            {
+            }
         }
 
         public ShellGraph CurrentShellGraph
@@ -248,93 +257,152 @@ namespace de.unika.ipd.grGen.grShell
             return errorMessage == null;
         }
 
-
-/*        private int GetPrecedence(Sequence.OperandType type)
-        {
-            switch(type)
-            {
-                case Sequence.OperandType.Concat: return 0;
-                case Sequence.OperandType.Xor: return 1;
-                case Sequence.OperandType.And: return 2;
-                case Sequence.OperandType.Star: return 3;
-                case Sequence.OperandType.Max: return 3;
-                case Sequence.OperandType.Rule: return 4;
-                case Sequence.OperandType.RuleAll: return 4;
-                case Sequence.OperandType.Def: return 4;
-            }
-            return -1;
-        }*/
-
         /// <summary>
         /// Prints the given child sequence inside the parent context adding parentheses around the child if needed.
         /// </summary>
         /// <param name="seq">The child to be printed</param>
         /// <param name="parent">The parent of the child or null if the child is a root</param>
         /// <param name="highlightSeq">A sequence to be highlighted or null</param>
-        /// <param name="bpposcounter">A counter increased for every potential breakpoint position and printed next to a potential breakpoint.
+        /// <param name="bpPosCounter">A counter increased for every potential breakpoint position and printed next to a potential breakpoint.
         ///     If bpposcounter is smaller than zero, no such counter is used or printed.</param>
-        private static void PrintChildSequence(Sequence seq, Sequence parent, Sequence highlightSeq, IWorkaround workaround, ref int bpposCounter)
+        private static void PrintChildSequence(Sequence seq, Sequence parent, Sequence highlightSeq, IWorkaround workaround, ref int bpPosCounter)
         {
             // print parentheses, if neccessary
             if(parent != null && seq.Precedence < parent.Precedence) Console.Write("(");
 
-            // TODO: needs adaption to new sequence types?
-
             switch(seq.SequenceType)
             {
+                // Binary
+                case SequenceType.ThenLeft:
+                case SequenceType.ThenRight:
                 case SequenceType.LazyOr:
                 case SequenceType.LazyAnd:
                 case SequenceType.StrictOr:
                 case SequenceType.Xor:
                 case SequenceType.StrictAnd:
                 {
-                    bool first = true;
-                    foreach(Sequence child in seq.Children)
-                    {
-                        if(!first)
-                            Console.Write(" " + seq.Symbol + " ");
-                        else
-                            first = false;
-                        PrintChildSequence(child, seq, highlightSeq, workaround, ref bpposCounter);
-                    }
+                    SequenceBinary seqBin = (SequenceBinary)seq;
+                    PrintChildSequence(seqBin.Left, seq, highlightSeq, workaround, ref bpPosCounter);
+                    Console.Write(" " + seq.Symbol + " ");
+                    PrintChildSequence(seqBin.Right, seq, highlightSeq, workaround, ref bpPosCounter);
                     break;
                 }
+                case SequenceType.IfThen:
+                {
+                    SequenceIfThen seqIfThen = (SequenceIfThen)seq;
+                    Console.Write("if{");
+                    PrintChildSequence(seqIfThen.Left, seq, highlightSeq, workaround, ref bpPosCounter);
+                    Console.Write(";");
+                    PrintChildSequence(seqIfThen.Right, seq, highlightSeq, workaround, ref bpPosCounter);
+                    Console.Write("}");
+                    break;
+                }
+
+                // Unary
                 case SequenceType.Not:
                 {
-                    foreach(Sequence child in seq.Children)
-                    {
-                        Console.Write(seq.Symbol);
-                        PrintChildSequence(child, seq, highlightSeq, workaround, ref bpposCounter);
-                    }
+                    SequenceNot seqNot = (SequenceNot)seq;
+                    Console.Write(seq.Symbol);
+                    PrintChildSequence(seqNot.Seq, seq, highlightSeq, workaround, ref bpPosCounter);
                     break;
                 }
                 case SequenceType.IterationMin:
                 {
                     SequenceIterationMin seqMin = (SequenceIterationMin)seq;
-                    PrintChildSequence(seqMin.Seq, seq, highlightSeq, workaround, ref bpposCounter);
+                    PrintChildSequence(seqMin.Seq, seq, highlightSeq, workaround, ref bpPosCounter);
                     Console.Write("[" + seqMin.Min + ":*]");
                     break;
                 }
                 case SequenceType.IterationMinMax:
                 {
                     SequenceIterationMinMax seqMinMax = (SequenceIterationMinMax)seq;
-                    PrintChildSequence(seqMinMax.Seq, seq, highlightSeq, workaround, ref bpposCounter);
+                    PrintChildSequence(seqMinMax.Seq, seq, highlightSeq, workaround, ref bpPosCounter);
                     Console.Write("[" + seqMinMax.Min + ":" + seqMinMax.Max + "]");
                     break;
                 }
+                case SequenceType.Transaction:
+                {
+                    SequenceTransaction seqTrans = (SequenceTransaction)seq;
+                    Console.Write("<");
+                    PrintSequence(seqTrans.Seq, highlightSeq, workaround);
+                    Console.Write(">");
+                    break;
+                }
+                case SequenceType.For:
+                {
+                    SequenceFor seqFor = (SequenceFor)seq;
+                    Console.Write("for{");
+                    Console.Write(seqFor.Var.Name);
+                    if(seqFor.VarDst!=null) Console.Write("->" + seqFor.VarDst.Name);
+                    Console.Write(" in " + seqFor.Setmap.Name);
+                    Console.Write("; ");
+                    PrintChildSequence(seqFor.Seq, seq, highlightSeq, workaround, ref bpPosCounter);
+                    Console.Write("}");
+                    break;
+                }
 
+                // Ternary
+                case SequenceType.IfThenElse:
+                {
+                    SequenceIfThenElse seqIf = (SequenceIfThenElse)seq;
+                    Console.Write("if{");
+                    PrintChildSequence(seqIf.Condition, seq, highlightSeq, workaround, ref bpPosCounter);
+                    Console.Write(";");
+                    PrintChildSequence(seqIf.TrueCase, seq, highlightSeq, workaround, ref bpPosCounter);
+                    Console.Write(";");
+                    PrintChildSequence(seqIf.FalseCase, seq, highlightSeq, workaround, ref bpPosCounter);
+                    Console.Write("}");
+                    break;
+                }
+
+                // Breakpointable atoms
                 case SequenceType.Rule:
                 case SequenceType.RuleAll:
                 case SequenceType.True:
                 case SequenceType.False:
+                case SequenceType.VarPredicate:
                 {
-                    if(bpposCounter >= 0)
-                        workaround.PrintHighlighted("<<" + (bpposCounter++) + ">>");
-                    goto case SequenceType.Def;                             // fall through
+                    if(bpPosCounter >= 0)
+                        workaround.PrintHighlighted("<<" + (bpPosCounter++) + ">>");
+                    if (seq == highlightSeq)
+                        workaround.PrintHighlighted(seq.Symbol);
+                    else
+                        Console.Write(seq.Symbol);
+                    break;
                 }
+
+                // Unary assignment
+                case SequenceType.AssignSequenceResultToVar:
+                {
+                    SequenceAssignSequenceResultToVar seqAss = (SequenceAssignSequenceResultToVar)seq;
+                    Console.Write("(");
+                    Console.Write(seqAss.DestVar.Name);
+                    Console.Write("=");
+                    PrintSequence(seqAss.Seq, highlightSeq, workaround);
+                    Console.Write(")");
+                    break;
+                }
+
+                // Atoms (assignments and queries)
                 case SequenceType.Def:
                 case SequenceType.AssignVarToVar:
+                case SequenceType.AssignConstToVar:
+                case SequenceType.AssignAttributeToVar:
+                case SequenceType.AssignVarToAttribute:
                 case SequenceType.AssignElemToVar:
+                case SequenceType.AssignVAllocToVar:
+                case SequenceType.AssignSetmapSizeToVar:
+                case SequenceType.AssignSetmapEmptyToVar:
+                case SequenceType.AssignMapAccessToVar:
+                case SequenceType.IsVisited:
+                case SequenceType.SetVisited:
+                case SequenceType.VFree:
+                case SequenceType.VReset:
+                case SequenceType.SetmapAdd:
+                case SequenceType.SetmapRem:
+                case SequenceType.SetmapClear:
+                case SequenceType.InSetmap:
+                case SequenceType.Emit:
                 {
                     if(seq == highlightSeq)
                         workaround.PrintHighlighted(seq.Symbol);
@@ -343,13 +411,10 @@ namespace de.unika.ipd.grGen.grShell
                     break;
                 }
 
-                case SequenceType.Transaction:
+                default:
                 {
-                    Console.Write("<");
-                    IEnumerator<Sequence> iter = seq.Children.GetEnumerator();
-                    iter.MoveNext();
-                    PrintSequence(iter.Current, highlightSeq, workaround);
-                    Console.Write(">");
+                    Debug.Assert(false);
+                    Console.Write("<UNKNOWN_SEQUENCE_TYPE>");
                     break;
                 }
             }
@@ -387,25 +452,27 @@ namespace de.unika.ipd.grGen.grShell
         /// <returns>The ConsoleKeyInfo object for the pressed key.</returns>
         ConsoleKeyInfo ReadKeyWithCancel()
         {
-            if(grShellImpl.OperationCancelled) grShellImpl.Cancel();
+            if(grShellImpl.OperationCancelled) 
+                grShellImpl.Cancel();
             Console.TreatControlCAsInput = true;
             ConsoleKeyInfo key = grShellImpl.Workaround.ReadKey(true);
             Console.TreatControlCAsInput = false;
-            if(key.Key == ConsoleKey.C && (key.Modifiers & ConsoleModifiers.Control) != 0) grShellImpl.Cancel();
+            if(key.Key == ConsoleKey.C && (key.Modifiers & ConsoleModifiers.Control) != 0) 
+                grShellImpl.Cancel();
             return key;
         }
 
-        SequenceSpecial GetSequenceAtBreakpointPosition(Sequence seq, int bppos, ref int counter)
+        SequenceSpecial GetSequenceAtBreakpointPosition(Sequence seq, int bpPos, ref int counter)
         {
             if(seq is SequenceSpecial)
             {
-                if(counter == bppos)
+                if(counter == bpPos)
                     return (SequenceSpecial) seq;
                 counter++;
             }
             foreach(Sequence child in seq.Children)
             {
-                SequenceSpecial res = GetSequenceAtBreakpointPosition(child, bppos, ref counter);
+                SequenceSpecial res = GetSequenceAtBreakpointPosition(child, bpPos, ref counter);
                 if(res != null) return res;
             }
             return null;
@@ -414,15 +481,16 @@ namespace de.unika.ipd.grGen.grShell
         void HandleToggleBreakpoints()
         {
             Console.Write("Available breakpoint positions:\n  ");
-            int numbppos = 0;
-            PrintChildSequence(debugSequence, null, null, grShellImpl.Workaround, ref numbppos);
+            int numBbPos = 0;
+            PrintChildSequence(debugSequence, null, null, grShellImpl.Workaround, ref numBbPos);
             Console.WriteLine();
 
-            if(numbppos == 0)
+            if(numBbPos == 0)
             {
                 Console.WriteLine("No breakpoint positions available!");
                 return;
             }
+
             while(true)
             {
                 Console.WriteLine("Choose the position of the breakpoint you want to toggle (-1 for no toggle): ");
@@ -430,16 +498,16 @@ namespace de.unika.ipd.grGen.grShell
                 int num;
                 if(int.TryParse(numStr, out num))
                 {
-                    if(num < -1 || num >= numbppos)
+                    if(num < -1 || num >= numBbPos)
                     {
-                        Console.WriteLine("You must specify a number between -1 and " + (numbppos - 1) + "!");
+                        Console.WriteLine("You must specify a number between -1 and " + (numBbPos - 1) + "!");
                         continue;
                     }
                     if(num != -1)
                     {
-                        int bpcounter = 0;
-                        SequenceSpecial bpseq = GetSequenceAtBreakpointPosition(debugSequence, num, ref bpcounter);
-                        bpseq.Special = !bpseq.Special;
+                        int bpCounter = 0;
+                        SequenceSpecial bpSeq = GetSequenceAtBreakpointPosition(debugSequence, num, ref bpCounter);
+                        bpSeq.Special = !bpSeq.Special;
                     }
                     break;
                 }
@@ -448,70 +516,75 @@ namespace de.unika.ipd.grGen.grShell
 
         void DebugEntereringSequence(Sequence seq)
         {
-            bool breakpointReached;
             // Entering a loop?
             if(seq.SequenceType == SequenceType.IterationMin || seq.SequenceType == SequenceType.IterationMinMax)
                 loopList.AddFirst(seq);
 
             // Breakpoint reached?
+            bool breakpointReached = false;
             if((seq.SequenceType == SequenceType.Rule || seq.SequenceType == SequenceType.RuleAll
-                || seq.SequenceType == SequenceType.True || seq.SequenceType == SequenceType.False)
+                || seq.SequenceType == SequenceType.True || seq.SequenceType == SequenceType.False
+                || seq.SequenceType == SequenceType.VarPredicate)
                     && ((SequenceSpecial)seq).Special)
             {
                 stepMode = true;
                 breakpointReached = true;
             }
-            else breakpointReached = false;
 
-            if(stepMode)
+            if(!stepMode)
             {
-                if(seq.SequenceType == SequenceType.Rule || seq.SequenceType == SequenceType.RuleAll || breakpointReached)
-                {
-                    ycompClient.UpdateDisplay();
-                    ycompClient.Sync();
-                    PrintSequence(debugSequence, seq, grShellImpl.Workaround);
-                    Console.WriteLine();
+                return;
+            }
 
-                    while(true)
+            if(seq.SequenceType == SequenceType.Rule || seq.SequenceType == SequenceType.RuleAll
+                || breakpointReached)
+            {
+                ycompClient.UpdateDisplay();
+                ycompClient.Sync();
+                PrintSequence(debugSequence, seq, grShellImpl.Workaround);
+                Console.WriteLine();
+
+                while(true)
+                {
+                    ConsoleKeyInfo key = ReadKeyWithCancel();
+                    switch(key.KeyChar)
                     {
-                        ConsoleKeyInfo key = ReadKeyWithCancel();
-                        switch(key.KeyChar)
-                        {
-                            case 's':
-                                detailedMode = false;
-                                return;
-                            case 'd':
-                                detailedMode = true;
-                                return;
-                            case 'n':
-                                detailedMode = false;
-                                stepMode = false;
-                                curStepSequence = GetParentSequence(seq, debugSequence);
-                                return;
-                            case 'o':
-                                stepMode = false;
-                                detailedMode = false;
-                                if(loopList.Count == 0) curStepSequence = null;         // execute until the end
-                                else curStepSequence = loopList.First.Value;            // execute until current loop has been exited
-                                return;
-                            case 'r':
-                                stepMode = false;
-                                detailedMode = false;
-                                curStepSequence = null;                                 // execute until the end
-                                return;
-                            case 'b':
-                                HandleToggleBreakpoints();
-                                PrintSequence(debugSequence, seq, grShellImpl.Workaround);
-                                Console.WriteLine();
-                                break;
-                            case 'a':
-                                grShellImpl.Cancel();
-                                return;                                                 // never reached
-                            default:
-                                Console.WriteLine("Illegal command (Key = " + key.Key
-                                    + ")! Only (s)tep, (n)ext, step (o)ut, (d)etailed step, (r)un, toggle (b)reakpoints and (a)bort allowed!");
-                                break;
-                        }
+                        case 's':
+                            detailedMode = false;
+                            return;
+                        case 'd':
+                            detailedMode = true;
+                            return;
+                        case 'n':
+                            detailedMode = false;
+                            stepMode = false;
+                            curStepSequence = GetParentSequence(seq, debugSequence);
+                            return;
+                        case 'o':
+                            stepMode = false;
+                            detailedMode = false;
+                            if(loopList.Count == 0)
+                                curStepSequence = null;                 // execute until the end
+                            else 
+                                curStepSequence = loopList.First.Value; // execute until current loop has been exited
+                            return;
+                        case 'r':
+                            stepMode = false;
+                            detailedMode = false;
+                            curStepSequence = null;                     // execute until the end
+                            return;
+                        case 'b':
+                            HandleToggleBreakpoints();
+                            PrintSequence(debugSequence, seq, grShellImpl.Workaround);
+                            Console.WriteLine();
+                            break;
+                        case 'a':
+                            grShellImpl.Cancel();
+                            return;                                                 // never reached
+                        default:
+                            Console.WriteLine("Illegal command (Key = " + key.Key
+                                + ")! Only (s)tep, (n)ext, step (o)ut, (d)etailed step, (r)un, toggle (b)reakpoints and (a)bort allowed!");
+                            break;
                     }
                 }
             }
@@ -857,7 +930,9 @@ namespace de.unika.ipd.grGen.grShell
                             // Someone is already listening at the current port, so try another one
                             continue;
                         }
-                        catch(SocketException) { } // Nobody there? Good...
+                        catch(SocketException)
+                        {
+                        } // Nobody there? Good...
                     }
 
                     // Unable to connect, so try to bind the current port.

@@ -1072,11 +1072,6 @@ void ShellCommand():
 		noError = impl.Export(parameters);
 	}
 |
-	LOOKAHEAD(2) "import" "add" parameters=FilenameParameterList()
-	{
-		noError = impl.ImportDUnion(parameters);
-	}
-|
 	"import" parameters=FilenameParameterList()
 	{
 		noError = impl.Import(parameters);
@@ -1165,7 +1160,7 @@ void ShellCommand():
 	            impl.ShowElementAttribute(elem, str1);
 	        }
 	    |
-	        "=" str2=TextOrNumber() LineEnd()
+	        "=" str2=AttributeValue() LineEnd()
 	        {
 		        impl.SetElementAttribute(elem, str1, str2);
 	        }
