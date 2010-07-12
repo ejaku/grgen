@@ -134,17 +134,16 @@ namespace de.unika.ipd.grGen.grShell
         /// </summary>
         public override void PrintHighlighted(String text, HighlightingMode mode)
         {
-            // currently limited to bold+underlined; todo: test how well linux works with colours
             if((mode & HighlightingMode.Focus) == HighlightingMode.Focus)
-                Console.Write("\x1b[1m" + text + "\x1b[22m"); // bold
+                Console.Write("\x1b[1m\x1b[33m\x1b[40m" + text + "\x1b[0m"); // bold, yellow fg, black bg
             else if((mode & HighlightingMode.FocusSucces) == HighlightingMode.FocusSucces)
-                Console.Write("\x1b[1m" + text + "\x1b[22m"); // bold
+                Console.Write("\x1b[1m\x1b[32m\x1b[40m" + text + "\x1b[0m"); // bold, green fg, black bg
             else if((mode & HighlightingMode.LastSuccess) == HighlightingMode.LastSuccess)
-                Console.Write("\x1b[4m" + text + "\x1b[24m"); // underlined
+                Console.Write("\x1b[42m" + text + "\x1b[0m"); // green bg
             else if((mode & HighlightingMode.LastFail) == HighlightingMode.LastFail)
-                Console.Write(text); // normal
+                Console.Write("\x1b[41m" + text + "\x1b[0m"); // red bg
             else if((mode & HighlightingMode.Breakpoint) == HighlightingMode.Breakpoint)
-                Console.Write("\x1b[1m" + text + "\x1b[22m"); // bold
+                Console.Write("\x1b[31m" + text + "\x1b[0m"); // red fg
             else
                 Console.Write(text); // normal
         }
