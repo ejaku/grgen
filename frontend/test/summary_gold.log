@@ -293,6 +293,7 @@ OK     should_pass/pattern_013.grg
 OK     should_pass/pattern_014.grg
 OK     should_pass/pattern_015.grg
 OK     should_pass/pattern_016.grg
+OK     should_pass/randompeek.grg
 OK     should_pass/ret_001.grg
 OK     should_pass/ret_002.grg
 OK     should_pass/ret_003.grg
