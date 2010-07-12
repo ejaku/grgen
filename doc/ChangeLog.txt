@@ -1,4 +1,4 @@
-﻿v2.6RC5 (2010-06-05)
+﻿v2.6RC6 (2010-07-12)
  Single most important change:
   - user manual updated (including all the changes from 1.4->2.6)
  
@@ -48,10 +48,17 @@
       e.visited[f] = b for setting whether graph element was visited
 
  New assignments in xgrs: (currently only interpreted xgrs of GrShell, not compiled rule embedded)
-   - attribute reading in xgrs: toVar = fromVar.attributeName (value semantics)
-   - attribute writing in xgrs: toVar.attributeName = fromVar (value semantics)
-   - constant value/literal assignment: toVar = int|float|double|string|boolean|enum|set|map - constants/literals
+  - attribute reading in xgrs: toVar = fromVar.attributeName (value semantics)
+  - attribute writing in xgrs: toVar.attributeName = fromVar (value semantics)
+  - constant value/literal assignment: toVar = int|float|double|string|boolean|enum|set|map - constants/literals
    
+ Improved debugging:
+  - renamed (n)ext to (u)p (going one level up in the sequence tree)
+  - added (n)ext command focusing the rule which matches next 
+     (instead of normal/other step commands focusing the rule which will be tried next)
+  - special highlighting for the rules which lastly matched and lastly failed
+  - debug support for all the new and changed xgrs constructs
+  
  Rewrite part handling of nested patterns:
   - modify/replace graph elements of nesting pattern
      are now available in modify/replace of nested alternative/iterated/multiple/optional-patterns 
@@ -61,8 +68,8 @@
      not in the subpattern body any more
 
  Retyping:
-   - graph elements matched outside alternative case now can get retyped in alternatives cases
-   - graph elements matched outside optional pattern now can get retyped in optional pattern
+  - graph elements matched outside alternative case now can get retyped in alternatives cases
+  - graph elements matched outside optional pattern now can get retyped in optional pattern
 
  Export/Import:
   - GRS(I) import/export (of .grs, .grsi files; and GrShell) now support set/map attribute initialization
@@ -71,9 +78,11 @@
   - GRS(I) import/export now writes and reads persistent names correctly
        (instead of variables; only if a non named graph is given fallback to hash names)
   - GXL import/export now supports enum attributes (set/map not supported)
+  - support for importing/exporting .gz compressed .gxl/.grs
+  - add parameter for .gxl/.grs import, adding the graph from the file to import to the current host graph
   - ecore/XMI importer extended to support a larger class of inputs (plus nopackagenameprefix parameter)
 
- Set/Map comparison in rewrite rules:
+  Set/Map comparison in rewrite rules:
   - new set/map comparison operators in rewrite rules:
      sm1 == sm2 is true iff sm1 equals sm2 (sm1<=sm2 && sm2<=sm1)
   	 sm1 != sm2 is true iff sm1 unequal sm2 (at least one entry not available/same in the other set/map)
@@ -105,6 +114,7 @@
   - escaping of quotation marks in VCG files
   - escaping of quotation marks and newlines in communication with yComp
   - escaping of XML language elements in GXL export
+  - escaping of some parameters to the call of grgen.jar containing paths
   - nameof(element) now working correctly, i.e. returning persistent name as announced
       (instead of variable name; only in case of a non-named graph a hash value name is returned)
   - typeof(element of abstract type) now working
@@ -122,6 +132,8 @@
   - code generation for conditions in nested patterns
   - code generation for alternatives nested in negatives/independents
   - subpattern creation/instantiation with parameters from rewrite part
+  - runtime cast exception when calling a subpattern modification with an argument being a subtype of the parameter type 
+  - wrong matching of iterated consisting of only a terminal pattern not requiring a candidate iteration loop
   - further minor fixes
   
  Further changes:
@@ -163,6 +175,7 @@
   - Extended GrGen syntax highlighting for Notepad++ to GrShell files 
   - added GrGen-solution for ModelMigration case from TTC2010
   - added GrGen-version of "Repotting the Geraniums: On Nested Graph Transformation Rules" to examples
+  - user manual now under Creative Commons Attribution-Share Alike 3.0 Germany license
   - further minor improvements
 
   
