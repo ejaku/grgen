@@ -19,7 +19,6 @@ mv $GRGENDIRSRC/ChangeLog.txt $GRGENDIRSRC/doc/ChangeLog.txt
 mv $GRGENDIRSRC/README.txt $GRGENDIRSRC/doc/README.txt
 
 rm $GRGENDIRSRC/make_release.sh
-rm $GRGENDIRSRC/make_betabins.sh
 rm -rf $GRGENDIRSRC/todo
 
 rm -rf $GRGENDIRSRC/engine-net-2/tools/ChangeFileHeaders
