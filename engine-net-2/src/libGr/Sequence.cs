@@ -202,7 +202,7 @@ namespace de.unika.ipd.grGen.libGr
         }
 
         public override int Precedence { get { return 0; } }
-        public override string Symbol { get { return "<;"; } }
+        public override string Symbol { get { return Randomize ? "$<;" : "<;"; } }
     }
 
     public class SequenceThenRight : SequenceBinary
@@ -226,7 +226,7 @@ namespace de.unika.ipd.grGen.libGr
         }
 
         public override int Precedence { get { return 0; } }
-        public override string Symbol { get { return ";>"; } }
+        public override string Symbol { get { return Randomize ? "$;>" : ";>"; } }
     }
 
     public class SequenceLazyOr : SequenceBinary
@@ -245,7 +245,7 @@ namespace de.unika.ipd.grGen.libGr
         }
 
         public override int Precedence { get { return 1; } }
-        public override string Symbol { get { return "||"; } }
+        public override string Symbol { get { return Randomize ? "$||" : "||"; } }
     }
 
     public class SequenceLazyAnd : SequenceBinary
@@ -264,7 +264,7 @@ namespace de.unika.ipd.grGen.libGr
         }
 
         public override int Precedence { get { return 2; } }
-        public override string Symbol { get { return "&&"; } }
+        public override string Symbol { get { return Randomize ? "$&&" : "&&"; } }
     }
 
     public class SequenceStrictOr : SequenceBinary
@@ -283,7 +283,7 @@ namespace de.unika.ipd.grGen.libGr
         }
 
         public override int Precedence { get { return 3; } }
-        public override string Symbol { get { return "|"; } }
+        public override string Symbol { get { return Randomize ? "$|" : "|"; } }
     }
 
     public class SequenceXor : SequenceBinary
@@ -302,7 +302,7 @@ namespace de.unika.ipd.grGen.libGr
         }
 
         public override int Precedence { get { return 4; } }
-        public override string Symbol { get { return "^"; } }
+        public override string Symbol { get { return Randomize ? "$^" : "^"; } }
     }
 
     public class SequenceStrictAnd : SequenceBinary
@@ -321,7 +321,7 @@ namespace de.unika.ipd.grGen.libGr
         }
 
         public override int Precedence { get { return 5; } }
-        public override string Symbol { get { return "&"; } }
+        public override string Symbol { get { return Randomize ? "$&" : "&"; } }
     }
 
     public class SequenceNot : SequenceUnary

@@ -2496,7 +2496,7 @@ namespace de.unika.ipd.grGen.grShell
                 else
                 {
                     errOut.WriteLine("Rewrite sequence aborted after:");
-                    Debugger.PrintSequence(curGRS, curRule, Workaround);
+                    Debugger.PrintSequence(curGRS, curRule, false, null, null, Workaround);
                     errOut.WriteLine();
                 }
             }

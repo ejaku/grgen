@@ -22,6 +22,17 @@ namespace de.unika.ipd.grGen.grShell
     ///  - http://bugzilla.ximian.com/show_bug.cgi?id=80330 : Console.ForegroundColor initially does not reflect console color
     /// </summary>
 
+    [Flags] 
+    public enum HighlightingMode : int
+    {
+        None = 0,
+        Focus = 1,
+        FocusSucces = 2,
+        LastSuccess = 4,
+        LastFail = 8,
+        Breakpoint = 16
+    }
+
     public interface IWorkaround
     {
         /// <summary>
@@ -39,7 +50,7 @@ namespace de.unika.ipd.grGen.grShell
         /// <summary>
         /// Prints the given text in a highlighted form.
         /// </summary>
-        void PrintHighlighted(String text);
+        void PrintHighlighted(String text, HighlightingMode mode);
     }
 
     public abstract class MonoWorkaroundConsoleIO : IWorkaround
@@ -113,17 +124,29 @@ namespace de.unika.ipd.grGen.grShell
         public TextReader In { get { return pIn; } }
 
         public abstract ConsoleKeyInfo ReadKey(bool intercept);
-        public abstract void PrintHighlighted(String text);
+        public abstract void PrintHighlighted(String text, HighlightingMode mode);
     }
 
     public class MonoLinuxWorkaroundConsoleIO : MonoWorkaroundConsoleIO
     {
         /// <summary>
-        /// Prints the given text in bold letters on the console
+        /// Prints the given text in the chosen highlighting mode on the console
         /// </summary>
-        public override void PrintHighlighted(String text)
+        public override void PrintHighlighted(String text, HighlightingMode mode)
         {
-            Console.Write("\x1b[1m" + text + "\x1b[22m");
+            // currently limited to bold+underlined; todo: test how well linux works with colours
+            if((mode & HighlightingMode.Focus) == HighlightingMode.Focus)
+                Console.Write("\x1b[1m" + text + "\x1b[22m"); // bold
+            else if((mode & HighlightingMode.FocusSucces) == HighlightingMode.FocusSucces)
+                Console.Write("\x1b[1m" + text + "\x1b[22m"); // bold
+            else if((mode & HighlightingMode.LastSuccess) == HighlightingMode.LastSuccess)
+                Console.Write("\x1b[4m" + text + "\x1b[24m"); // underlined
+            else if((mode & HighlightingMode.LastFail) == HighlightingMode.LastFail)
+                Console.Write(text); // normal
+            else if((mode & HighlightingMode.Breakpoint) == HighlightingMode.Breakpoint)
+                Console.Write("\x1b[1m" + text + "\x1b[22m"); // bold
+            else
+                Console.Write(text); // normal
         }
 
         public override ConsoleKeyInfo ReadKey(bool intercept)
@@ -135,14 +158,26 @@ namespace de.unika.ipd.grGen.grShell
     public class MonoWindowsWorkaroundConsoleIO : MonoWorkaroundConsoleIO
     {
         /// <summary>
-        /// Prints the given text in yellow letters on the console
+        /// Prints the given text in the chosen highlighting mode on the console
         /// </summary>
-        public override void PrintHighlighted(String text)
+        public override void PrintHighlighted(String text, HighlightingMode mode)
         {
-            ConsoleColor oldCol = Console.ForegroundColor;
-            Console.ForegroundColor = ConsoleColor.Yellow;
+            if(mode == HighlightingMode.None)
+            {
+                Console.Write(text);
+                return;
+            }
+
+            ConsoleColor oldForegroundColor = Console.ForegroundColor;
+            ConsoleColor oldBackgroundColor = Console.BackgroundColor;
+            if((mode & HighlightingMode.Focus) == HighlightingMode.Focus) Console.ForegroundColor = ConsoleColor.Yellow;
+            if((mode & HighlightingMode.FocusSucces) == HighlightingMode.FocusSucces) Console.ForegroundColor = ConsoleColor.Green;
+            if((mode & HighlightingMode.LastSuccess) == HighlightingMode.LastSuccess) Console.BackgroundColor = ConsoleColor.DarkGreen;
+            if((mode & HighlightingMode.LastFail) == HighlightingMode.LastFail) Console.BackgroundColor = ConsoleColor.DarkRed;
+            if((mode & HighlightingMode.Breakpoint) == HighlightingMode.Breakpoint) Console.ForegroundColor = ConsoleColor.Red;
             Console.Write(text);
-            Console.ForegroundColor = oldCol;
+            Console.ForegroundColor = oldForegroundColor;
+            Console.BackgroundColor = oldBackgroundColor;
         }
 
         /// <summary>
@@ -179,19 +214,31 @@ namespace de.unika.ipd.grGen.grShell
 
     public class NoWorkaroundConsoleIO : IWorkaround
     {
+        /// <summary>
+        /// Prints the given text in the chosen highlighting mode on the console
+        /// </summary>
+        public void PrintHighlighted(String text, HighlightingMode mode)
+        {
+            if(mode == HighlightingMode.None)
+            {
+                Console.Write(text);
+                return;
+            }
+
+            ConsoleColor oldForegroundColor = Console.ForegroundColor;
+            ConsoleColor oldBackgroundColor = Console.BackgroundColor;
+            if((mode & HighlightingMode.Focus) == HighlightingMode.Focus) Console.ForegroundColor = ConsoleColor.Yellow;
+            if((mode & HighlightingMode.FocusSucces) == HighlightingMode.FocusSucces) Console.ForegroundColor = ConsoleColor.Green;
+            if((mode & HighlightingMode.LastSuccess) == HighlightingMode.LastSuccess) Console.BackgroundColor = ConsoleColor.DarkGreen;
+            if((mode & HighlightingMode.LastFail) == HighlightingMode.LastFail) Console.BackgroundColor = ConsoleColor.DarkRed;
+            if((mode & HighlightingMode.Breakpoint) == HighlightingMode.Breakpoint) Console.ForegroundColor = ConsoleColor.Red;
+            Console.Write(text);
+            Console.ForegroundColor = oldForegroundColor;
+            Console.BackgroundColor = oldBackgroundColor;
+        }
+
         public TextReader In { get { return Console.In; } }
         public ConsoleKeyInfo ReadKey(bool intercept) { return Console.ReadKey(intercept); }
-
-        /// <summary>
-        /// Prints the given text in yellow letters on the console
-        /// </summary>
-        public void PrintHighlighted(String text)
-        {
-            ConsoleColor oldCol = Console.ForegroundColor;
-            Console.ForegroundColor = ConsoleColor.Yellow;
-            Console.Write(text);
-            Console.ForegroundColor = oldCol;
-        }
     }
 
     public class WorkaroundManager
