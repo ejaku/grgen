@@ -71,7 +71,8 @@ rule t6
 	a:Node;
 	
 	iterated {		
-	
+		.;
+		
 		modify {
 			a <-- b --> c; // b,c available?
 		}
@@ -159,7 +160,8 @@ pattern t12 modify(c:Node)
 	a:Node;
 	
 	iterated {		
-	
+		.;
+		
 		modify {
 			a <-- b --> c; // b,c available?
 		}
@@ -196,7 +198,8 @@ pattern t14 modify(var c:int)
 	a:Node;
 	
 	iterated {		
-	
+		.;
+		
 		modify {
 			a <-- b; // b available?
 			eval { b.a = c; } // c available?

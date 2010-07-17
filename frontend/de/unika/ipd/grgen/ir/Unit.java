@@ -145,6 +145,16 @@ public class Unit extends IR {
 		return digest;
 	}
 
+	public void checkForNonTerminatingIterateds()
+	{
+		for(Rule actionRule : actionRules) {
+			actionRule.checkForNonTerminatingIterateds();
+		}
+		for(Rule subpatternRule : subpatternRules) {
+			subpatternRule.checkForNonTerminatingIterateds();
+		}
+	}
+	
 	public void resolvePatternLockedModifier() {
 		for(Rule actionRule : actionRules) {
 			actionRule.pattern.resolvePatternLockedModifier();

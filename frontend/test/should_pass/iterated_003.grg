@@ -1,6 +1,7 @@
 test nested
 {
 	iterated {
+		x:Node;
 		optional {
 		}
 	}

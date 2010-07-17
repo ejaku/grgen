@@ -1,0 +1,15 @@
+test t
+{
+	x:Node;
+	multiple
+	{
+		y:Node;
+		hom(x,y);
+		
+		iterated 
+		{
+			z:Node;
+			hom(y,z);
+		}
+	}
+}

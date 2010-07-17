@@ -18,6 +18,7 @@ rule r {
 
 test t(var x:int) {
 	iterated {
+		.;
 		if { x!=42; } // x only referenced in if  -- must be propagated internally into lhs
 	}	
 }
@@ -43,6 +44,7 @@ pattern Alts(var i:int, var j:string, var k:boolean, var l:double, var m:object)
 	}
 	
 	iterated {
+		.;
 		modify {
 			nint:NINT;
 			nbool:NBOOL;
