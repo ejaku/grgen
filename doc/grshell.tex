@@ -675,22 +675,36 @@ Same as \texttt{xgrs SimpleRewriteSequence} in the previous section, but allows 
 \subsection{Using the Debugger}
 
 The debugging process follows of a series of debug situations,
-which result from a user selection of the underlying execution situations along the steps of interest.
+which result from a user selection of the underlying execution situations accoring to interest.
 During each debugging step the debugger\indexmain{debugger} -- which is a part of the \GrShell~-- 
 prints the debugged sequence with the currently focused/active rule highlighted yellow.
 What will be shown from executing this rule depends on the commands chosen by the user;
 and on the fact whether the focused rule matches or not.
 An active rule which is already known to match is highlighted green.
 The rule which matched lastly is shown on dark green background,
-the rule which failed lastly is shown on dark red background.
+the rules which failed since the last success are shown on dark red background
+(if the lastly matching rule failed since then it is shown on dark yellow background).
 During execution \yComp\footnote{Make sure, that the path to your \texttt{\indexed{yComp.jar}} package is set correctly in the \texttt{ycomp} shell script within \GrG's \texttt{/bin} directory.}\indexmain{yComp}
 will display the changes to the graph from every single step. 
 Besides deciding on what is shown from the execution of the current rule, 
 the user determines with the debug commands where to continue the execution
 (the rule focused next; but again this depends on success/failure of the currently active rule).
-Remember that the \texttt{\%} modifier before a rule works as a break point in a graph rewrite sequence, halting execution and focusing the rule once it is reached.
 The debug commands are given in Table~\ref{tabdebug}.
 A run is shown in the following example \ref{ex:debug}.
+
+In addition to the commands for actively stepping or skipping through the sequence exection,
+there are breakpoints and choicepoints available (toggled with the \texttt{b} and \texttt{c} commands)
+which are only processed when they are reached, but on the other hand are also processed if a user command would skip them.
+The \indexed{break point}s halt execution, focus the reached sequence, and cause the debugger to wait for further commands
+(e.g. \texttt{d} to inspect the rule execution en detail versus \texttt{s} for just applying it).
+The \indexed{choice point}s halt execution, focus the reached sequence in magenta, and ask for some user input; 
+after the input was received, execution continues according to the command previously issued.
+Both break points and choice points are denoted by the \texttt{\%} modifier. 
+The \texttt{\%} modifier works as a break point if it is given before: a rule, an all bracketed rule, a variable predicate, or the constants \texttt{true}/\texttt{false}.
+The \texttt{\%} modifier works as a choice point if it is appended to the \texttt{\$} randomize modifier switching a random decision into a user decision.
+This holds for the binary operators, the random match selector of all bracketed rules, or the random number assignment.
+In addition the user input commands \texttt{\$\%(type)} define choice points which can't be toggled off.
+
 \begin{table}[htbp]
   \begin{tabularx}{\linewidth}{|lX|} \hline
   \texttt{s}(tep) & Execute the current rewrite rule (match, and rewrite in case it matched; the resulting graph is shown).\\
@@ -698,7 +712,8 @@ A run is shown in the following example \ref{ex:debug}.
   (step) \texttt{o}(ut) & Continue execution until the end of the current loop. If the execution is not in a loop at this moment, the complete sequence will be executed.\\
   (step) \texttt{u}(p) & Ascend one level up within the \indexed{Kantorowitsch tree} of the current rewrite sequence (i.e. rule; see Example~\ref{ex:debug}).\\
   \texttt{n}(ext) & Go to the next rewrite rule which matches, make it current.\\
-  (toggle) \texttt{b}(reakpoint) & Toggle a breakpoint at a rewrite rule, or a variable predicate, or a true or false.\\
+  (toggle) \texttt{b}(reakpoint) & Toggle a breakpoint at one of the breakpointable locations.\\
+  (toggle) \texttt{c}(choicepoint) & Toggle a choicepoint at one of the choicepointable locations.\\
   \texttt{r}(un) & Continue execution (until the end or a breakpoint).\\
   \texttt{a}(bort) & Cancel the execution immediately.\\ \hline 
   \end{tabularx}

@@ -18,9 +18,12 @@ they determine the control flow by the evaluation order of the operands.
 Graph rewrite sequences have a boolean return value; for a single rule, \texttt{true} means the rule was successfully applied to the host graph.
 A \texttt{false} return value means that the pattern was not found in the host graph.
 
-In order to store return values of rewrite terms and to pass return values of rules to other rules, \emph{variables} can be defined.
+In order to store and reuse return values of rewrite sequences and most importantly, 
+for passing return values of rules to other rules, \emph{variables} can be defined.
 A variable is an arbitrary identifier which can hold a graph element or a value of one of the attribute or value types \GrG\ knows.
-There are two kinds of variables available in \GrG, i) graph global variables\indexmain{graph global variables}\indexmainsee{variable}{graph global variables} and ii) sequence local variables\indexmain{sequence local variables}\indexmainsee{variable}{sequence local variables}.
+There are two kinds of variables available in \GrG,
+i) graph global variables\indexmain{graph global variables}\indexmainsee{variable}{graph global variables} and 
+ii) sequence local variables\indexmain{sequence local variables}\indexmainsee{variable}{sequence local variables}.
 A variable is alive from its first declaration on: graph global variables are implicitely declared upon first assignment to their name,
 sequence local variables are explicitely declared with a typed variable declaration of the form \texttt{name:type}.
 Graph global variables are untyped; their values are typed, though, so type errors cause an exception at runtime.
@@ -34,7 +37,7 @@ They belong to the sequence they appear in, their life ends when the sequence fi
 If used in some rule, i.e. within an \texttt{exec}, named graph elements of the enclosing rule are available as read-only variables.
 
 Note that we have two kinds of return values in graph rewrite sequences.
-Every rewrite term returns a boolean value, indicating whether the rewriting could be successfully processed, i.e. denoting success or failure.
+Every rewrite sequence returns a boolean value, indicating whether the rewriting could be successfully processed, i.e. denoting success or failure.
 Additionally rules may return graph elements.
 These return values can be assigned to variables on the fly (see example \ref{ex:grsreturn}).
 \begin{figure}[htbp]
@@ -56,7 +59,7 @@ a = ((b,c) = R(x,y,z))
 
 \begin{rail}
   RewriteSequence: 
-    (RewriteNegTerm) (( (dollar)? (ampersand | xorhat | '|' | doubleampersand | '||' | ';>' | '<;') RewriteNegTerm )*)
+    (RewriteNegTerm) (( (dollar (percent)?)? (ampersand | xorhat | '|' | doubleampersand | '||' | ';>' | '<;') RewriteNegTerm )*)
 	;
   RewriteNegTerm: 
     ('!')? RewriteTerm
@@ -66,9 +69,9 @@ a = ((b,c) = R(x,y,z))
 A graph rewrite sequence consists of several rewrite terms linked by operators.
 Table \ref{tbl:sequ:op} gives the priorities and semantics of the operators, priorities in ascending order.
 The modifier \texttt{\$} changes the semantics of the following operator to randomly execute the left or the right operand first (i.e. flags the operator to act commutative);
-usually operands are executed / evaluated from left to right if not altered by bracketing (left-\indexed{associative}). 
+usually operands are executed / evaluated from left to right if not altered by bracketing.
 In contrast the sequences \texttt{s}, \texttt{t}, \texttt{u} in \texttt{s \$<op> t \$<op> u} are executed / evaluated in arbitrary order.
-Then-Left and Then-Right are of the same priority and their execution order can't be altered by the \$ operator prefix.
+The modifier \texttt{\%} appended to the \texttt{\$} overrides the random selection by a user selection (cf. see Section~\ref{sct:debugger}, \indexed{choice point}s).
 
 \begin{table}[htbp]
     \begin{tabularx}{\linewidth}{l|X}
@@ -114,7 +117,7 @@ the min-max-brackets (\texttt{[n:m]}) additionally fail if the minimum amount \e
 	'if' lbrace Condition ';' TrueCase rbrace |
     '<' RewriteSequence '>' | 
     '(' RewriteSequence ')' |
-    BoolLit;
+    (percent)? BoolLit;
 \end{rail}\ixnterm{RewriteFactor}\ixkeyw{emit}\ixkeyw{if}\indexmain{\texttt{<>}}
 
 Rewrite factors are the building blocks of graph rewrite sequences.
@@ -126,10 +129,12 @@ The sequence \verb#if{Condition;TrueCase}# is equivalent to \verb#if{Condition;T
 Graph rewrite sequences can be processed \indexed{transaction}ally by using angle brackets (\texttt{<>}), i.e.
 if the return value is \texttt{false}, all the related operations on the host graph will be rolled back.
 Nested transactions\indexmainsee{nested transaction}{transaction} are supported.
-Forcing execution orders can be achived by parentheses, an boolean literal \texttt{true}/\texttt{false} comes in handy if a sequence is to be evaluated but its result must be a predefined value.
+Forcing execution order can be achived by parentheses.
+Boolean literals \texttt{true}/\texttt{false} come in handy if a sequence is to be evaluated 
+but its result must be a predefined value; furtheron a \indexed{break point} may be attached to them.
 
 \begin{rail}    
-  RuleExecution: (() | '(' (Variable+',') ')' '=') \\ (() | percent) (() | '?') ( (dollar ( Variable | ()) | ()) '[' Rule ']' | Rule);   
+  RuleExecution: (() | '(' (Variable+',') ')' '=') \\ (() | percent) (() | '?') ( (dollar (percent)?() ( Variable | ()) | ()) '[' Rule ']' | Rule);   
   Rule: RuleIdent (() | '(' (Variable+',') ')');
 \end{rail}\ixnterm{RuleExecution}\ixnterm{Rule} 
 The \emph{RuleExecution} clause applies a single rule or test.
@@ -139,15 +144,18 @@ The returned graph elements can be assigned to variables again.
 The operator \texttt{?} switches the rule to a test, i.e.\ the rule application does not perform the rewrite part of the rule but only tests if a match exists.
 The operator \texttt{\%} is a multi-purpose flag. 
 In the \GrShell\ (see Chapter~\ref{chapgrshell}) it dumps the matched graph elements to \texttt{stdout};
-in \texttt{debug}-mode (see Section~\ref{sct:debugger}) it acts as a \indexed{break point};
+in \texttt{debug}-mode (see Section~\ref{sct:debugger}) it acts as a \indexed{break point} (which is its main use in fact);
 you are also able to use this flag for your own purposes, when using \GrG\ via its API interface (see Section~\ref{sct:API}).
 The sqare braces (\texttt{[]}) introduce a special kind of multiple rule application:
 Every pattern match produced by the will be rewritten.
-Attention: Its semantics is \textbf{not} equal to \texttt{Rule*}.
+Attention: This \indexed{all bracketing} is \textbf{not} equal to \texttt{Rule*}.
 Instead this operator collects all the matches first before starting to rewrite.
 In particular the semantics is unsafe, i.e.\ one needs to avoid deleting a graph element that is bound by another match.
 If \emph{Rule} returns values, the values of \emph{one} of the executed rules will be returned.
-The random-match-selector \texttt{\$v} searches for all matches and then randomly selects \texttt{v} of them to be rewritten (but at most as much as are available), with \texttt{\$[r1]} being equivalent to \texttt{anonymousTempVar=1 \& \$anonymousTempVar[r1]}.
+The \indexed{random match selector} \texttt{\$v} searches for all matches and then randomly selects \texttt{v} of them to be rewritten
+(but at most as much as are available), with \texttt{\$[r1]} being equivalent to \texttt{anonymousTempVar=1 \& \$anonymousTempVar[r1]}.
+An \texttt{\%} appended to the \texttt{\$} denotes a \indexed{choice point} 
+allowing the user to choose the match to be applied from the available ones in the debugger (see Section~\ref{sct:debugger}).
 
 \begin{rail}
   VariableHandling: 
@@ -156,21 +164,29 @@ The random-match-selector \texttt{\$v} searches for all matches and then randoml
       '(' RewriteSequence ')' | 
       Literal | 
 	  Variable '.' Attribute |
-	  '@' '(' NameString ')')
+	  '@' '(' NameString ')' |
+	  dollar (percent)? '(' Number ')' |
+	  dollar percent '(' Type ')')
     ) |
 	Variable '.' Attribute '=' Variable |
-    Variable |
+    (percent)? Variable |
     'def' '(' (Variable+',') ')'
   ;
 \end{rail}\ixnterm{VariableHandling}\ixkeyw{def}\makeatother
-Variables can hold graph elements, or values of value/attribute types.
+Variables can hold graph elements, or values of value/attribute types, including booleans.
 The typed explicit declaration introduces a sequence local variable, 
 if the double colon and the type are missing, a graph global variable gets implicitely declared if not existing yet.
-Graph elments are initially assigned by the element returns of the \emph{RuleExecution} statement.
-A \emph{VarAssignment} rewrite factor ist always true.
-A variable in the \emph{Variable} factor must contain a boolean value.
-A \texttt{def} term is successful iff all the the variables are defined.
-Assigning graph elements by name to variables is not supported in compiled sequences (names are not available on this level).
+Graph elments are initially assigned to the variables by the element returns of the \emph{RuleExecution} statement or by the by name access (denoted with the at operator).
+Assigning graph elements by their \indexed{persistent name} to variables is not supported in compiled sequences (names are not available on this level).
+The random number assignment \texttt{v=\$(42)} assigns a random number in between 0 and 41 to the variable \texttt{v}. 
+Appending a \texttt{\%} changes random selection to user selection (defining a \indexed{choice point}).
+The user input assignment \texttt{v=\$\%(string)} queries the user for a string value -- this only works in the GrShell.
+The user input assignment \texttt{v=\$\%(Node)} queries the user for a node from the host graph -- this only works in the GrShell in debug mode.
+Each of the \emph{VarAssignment} rewrite factors yields always true.
+The variable in the \indexed{variable predicate} (a sequence consisting of only a variable read) must contain a boolean value;
+a prepended \texttt{\%} attaches a \indexed{break point} to it.
+The variable predicate together with the sequence result assignment allow to directly transmit execution results from one part of the sequence to another one.
+A \texttt{def} term is successful iff all the variables are defined.
 
  
 \section{Visited Flags}\indexmain{visited flag}
@@ -238,9 +254,7 @@ A further difference to the sets and maps in the rewrite rules is that they only
 	;
 \end{rail}\ixnterm{RHS}\ixnterm{SetMapCreation}\makeatother
 
-In the interpreted sequences, variables can be declared to be of set/map type;
-in the compiled sequences, they must be declared to be of set/map type (all variables must be declared in the compiled sequences).
-Both types of sequences require a set/map to be created and assigned to a variable before it can be used.
+A set/map must be created and assigned to a variable before it can be used.
 
 \begin{example}
 \begin{grgen}

@@ -1,4 +1,4 @@
-﻿v2.6RC6 (2010-07-12)
+﻿v2.6RC7 (2010-07-19)
  Single most important change:
   - user manual updated (including all the changes from 1.4->2.6)
  
@@ -47,17 +47,25 @@
       e.visited[f] for query whether graph element was visited
       e.visited[f] = b for setting whether graph element was visited
 
- New assignments in xgrs: (currently only interpreted xgrs of GrShell, not compiled rule embedded)
+ New assignments in xgrs:
   - attribute reading in xgrs: toVar = fromVar.attributeName (value semantics)
   - attribute writing in xgrs: toVar.attributeName = fromVar (value semantics)
   - constant value/literal assignment: toVar = int|float|double|string|boolean|enum|set|map - constants/literals
+  - random number assignment: v = $(Number) assigning a value from 0 up to excluding Number to v
+  - user input assignment: v = $%(Type) querying the user for a value of given type and assigning it to v
+     only in interpreted xgrs, as shell input required; only in debug mode if a node/edge type is requested
    
  Improved debugging:
+  - blue > at sequence start
   - renamed (n)ext to (u)p (going one level up in the sequence tree)
-  - added (n)ext command focusing the rule which matches next 
+  - added (n)ext command focusing the rule which matches next in green
      (instead of normal/other step commands focusing the rule which will be tried next)
-  - special highlighting for the rules which lastly matched and lastly failed
+  - special highlighting for the rule which lastly matched and the rules which lastly failed
   - debug support for all the new and changed xgrs constructs
+  - choice points similar to break points added; denoted by % appended to the random operator $
+     transforming the random choice to a user choice, triggered when execution reaches the choice point
+	 applicable to the random binary operators, random match selection, random number assignment
+	 user input assignments are choice points which can't be toggled off
   
  Rewrite part handling of nested patterns:
   - modify/replace graph elements of nesting pattern
@@ -134,6 +142,8 @@
   - subpattern creation/instantiation with parameters from rewrite part
   - runtime cast exception when calling a subpattern modification with an argument being a subtype of the parameter type 
   - wrong matching of iterated consisting of only a terminal pattern not requiring a candidate iteration loop
+  - endless loop prevention by checking against unbounded pattern cardinality constructs 
+      containing no locally defined nodes or edges (not being homomorphic to enclosing elements)
   - further minor fixes
   
  Further changes:
