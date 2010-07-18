@@ -175,6 +175,8 @@ OK     should_pass/exectype_AssignMapAccessToVarUntyped.grg
 OK     should_pass/exectype_AssignMapAccessToVarUntyped2.grg
 OK     should_pass/exectype_AssignMapCreationToVar.grg
 OK     should_pass/exectype_AssignMapCreationToVarUntyped.grg
+OK     should_pass/exectype_AssignRandomToVar.grg
+OK     should_pass/exectype_AssignRandomToVarUntyped.grg
 OK     should_pass/exectype_AssignSequenceResultToVar.grg
 OK     should_pass/exectype_AssignSequenceResultToVarUntyped.grg
 OK     should_pass/exectype_AssignSetCreationToVar.grg
@@ -752,6 +754,9 @@ ERROR  should_fail/inh_attrib_015.grg
 ERROR  should_fail/inh_attrib_016.grg
 ERROR  should_fail/inh_attrib_017.grg
 ERROR  should_fail/inh_model_008.grg
+ERROR  should_fail/iterated_001.grg
+ERROR  should_fail/iterated_002.grg
+ERROR  should_fail/iterated_003.grg
 ERROR  should_fail/map_001.grg
 ERROR  should_fail/map_002.grg
 ERROR  should_fail/map_003.grg

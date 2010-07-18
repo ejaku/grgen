@@ -2919,33 +2919,13 @@ namespace de.unika.ipd.grGen.grShell
                     return null;
                 }
 
-                debugOut.WriteLine("Select an element of type " + typeName + " by double clicking in yComp (ESC for abort):");
-                debugger.YCompClient.WaitForElement(true);
+                debugOut.WriteLine("Select an element of type " + typeName + " by double clicking in yComp (ESC for abort)...");
 
-                // Allow to abort with ESC
-                while(true)
-                {
-                    if(Console.KeyAvailable && workaround.ReadKey(true).Key == ConsoleKey.Escape)
-                    {
-                        errOut.WriteLine("... aborted");
-                        debugger.YCompClient.WaitForElement(false);
-                        return null;
-                    }
-                    if(debugger.YCompClient.CommandAvailable)
-                        break;
-                    Thread.Sleep(100);
-                }
-
-                String cmd = debugger.YCompClient.ReadCommand();
-                if(cmd.Length < 7 || !cmd.StartsWith("send "))
-                {
-                    errOut.WriteLine("Unexpected yComp command: \"" + cmd + "\"");
+                String id = debugger.ChooseGraphElement();
+                if(id == null)
                     return null;
-                }
 
-                // Skip 'n' or 'e'
-                String id = cmd.Substring(6);
-                debugOut.WriteLine("@(\"" + id + "\")");
+                debugOut.WriteLine("Received @(\"" + id + "\")");
 
                 IGraphElement elem = curShellGraph.Graph.GetGraphElement(id);
                 if(elem == null)
@@ -2962,7 +2942,7 @@ namespace de.unika.ipd.grGen.grShell
             }
             else // else let the user type in the value
             {
-                String inputValue = UserInterface.ShowMsgAskForString("Enter a value of type " + typeName + ":");
+                String inputValue = UserInterface.ShowMsgAskForString("Enter a value of type " + typeName + ": ");
                 StringReader reader = new StringReader(inputValue);
                 GrShell shellForParsing = new GrShell(reader);
                 shellForParsing.SetImpl(this);

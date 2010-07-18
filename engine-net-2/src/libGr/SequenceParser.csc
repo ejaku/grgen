@@ -656,6 +656,7 @@ Sequence SimpleSequence():
 	List<SequenceVariable> defParamVars = new List<SequenceVariable>();
 	SequenceVariable toVar, fromVar, fromVar2 = null, fromVar3 = null;
 	String attrName, method, elemName;
+	int num = 0;
 	object constant;
 	String str;
 }
@@ -712,6 +713,16 @@ Sequence SimpleSequence():
         "@" "(" elemName=Text() ")"
         {
             return new SequenceAssignElemToVar(toVar, elemName);
+        }
+    |
+        LOOKAHEAD(4) "$" "%" "(" str=Text() ")"
+        {
+            return new SequenceAssignUserInputToVar(toVar, str);
+        }
+    |
+        "$" ("%" { special = true; } )? "(" num=Number() ")"
+        {
+            return new SequenceAssignRandomToVar(toVar, num, special);
         }
 	|
 		"def" "(" Parameters(defParamVars) ")" // todo: eigentliches Ziel: Zuweisung simple sequence an Variable

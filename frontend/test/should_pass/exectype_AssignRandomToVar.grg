@@ -1,0 +1,8 @@
+using exectype;
+
+rule r
+{
+	modify  {
+		exec(x:int=$(42) ^ y:int=$(1));
+	}
+}

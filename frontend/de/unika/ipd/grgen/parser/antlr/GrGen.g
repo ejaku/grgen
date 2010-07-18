@@ -1193,6 +1193,8 @@ typeUnaryExpr returns [ TypeExprNode res = null ]
 // Embedded XGRS
 //////////////////////////////////////////
 
+// todo: add more user friendly explicit error messages for % used after $ instead of implicit syntax error
+// (a user choice $% override for the random flag $ is only available in the shell/debugger)
 
 xgrs[ExecNode xg]
 	: xgrsLazyOr[xg] ( DOLLAR THENLEFT {xg.append(" $<; ");} xgrs[xg] | THENLEFT {xg.append(" <; ");} xgrs[xg]
@@ -1277,6 +1279,12 @@ simpleSequence[ExecNode xg]
 		|
 			a=AT LPAREN (IDENT | STRING_LITERAL) RPAREN
 			{ reportError(getCoords(a), "a NamedGraph is a GrShell-only construct -> no element names available at lgsp(libgr search plan backend)-level"); }
+		|
+			d=DOLLAR MOD LPAREN typeIdentUse RPAREN
+			{ reportError(getCoords(d), "user input is only requestable in the GrShell, not at lgsp(libgr search plan backend)-level"); }
+		|
+			d=DOLLAR LPAREN n=NUM_INTEGER RPAREN
+			{ xg.append("$("); xg.append(n.getText()); xg.append(")"); }
 		|
 			DEF LPAREN { xg.append("def("); } xgrsVariableList[xg, returns] RPAREN { xg.append(")"); } 
 		|

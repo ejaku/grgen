@@ -49,6 +49,24 @@ namespace de.unika.ipd.grGen.libGr
         {
             return matchToApply;
         }
+
+        /// <summary>
+        /// returns the maybe user altered random number in the range 0 - upperBound exclusive for the sequence given
+        /// the random number chosen is supplied
+        /// </summary>
+        public int ChooseRandomNumber(int randomNumber, int upperBound, Sequence seq)
+        {
+            return randomNumber;
+        }
+
+        /// <summary>
+        /// returns a user chosen/input value of the given type
+        /// no random input value is supplied, the user must give a value
+        /// </summary>
+        public object ChooseValue(string type, Sequence seq)
+        {
+            return null;
+        }
     }
 
     /// <summary>

@@ -124,6 +124,8 @@ namespace de.unika.ipd.grGen.libGr
             case SequenceType.False:
             case SequenceType.VarPredicate:
             case SequenceType.AssignVarToVar:
+            case SequenceType.AssignUserInputToVar:
+            case SequenceType.AssignRandomToVar:
             case SequenceType.AssignConstToVar:
             case SequenceType.AssignAttributeToVar:
             case SequenceType.AssignVarToAttribute:

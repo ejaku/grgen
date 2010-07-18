@@ -23,6 +23,7 @@ namespace de.unika.ipd.grGen.libGr
         Rule, RuleAll, Def, True, False, VarPredicate,
         AssignVAllocToVar, AssignSetmapSizeToVar, AssignSetmapEmptyToVar, AssignMapAccessToVar,
         AssignVarToVar, AssignElemToVar, AssignSequenceResultToVar,
+        AssignUserInputToVar, AssignRandomToVar,
         AssignConstToVar, AssignAttributeToVar, AssignVarToAttribute,
         IsVisited, SetVisited, VFree, VReset, Emit,
         SetmapAdd, SetmapRem, SetmapClear, InSetmap, 
@@ -50,6 +51,18 @@ namespace de.unika.ipd.grGen.libGr
         /// the randomly chosen match is supplied; the object with all available matches is supplied
         /// </summary>
         int ChooseMatch(int matchToApply, IMatches matches, int numFurtherMatchesToApply, Sequence seq);
+
+        /// <summary>
+        /// returns the maybe user altered random number in the range 0 - upperBound exclusive for the sequence given
+        /// the random number chosen is supplied
+        /// </summary>
+        int ChooseRandomNumber(int randomNumber, int upperBound, Sequence seq);
+
+        /// <summary>
+        /// returns a user chosen/input value of the given type
+        /// no random input value is supplied, the user must give a value
+        /// </summary>
+        object ChooseValue(string type, Sequence seq);
     }
 
     /// <summary>
@@ -832,6 +845,62 @@ namespace de.unika.ipd.grGen.libGr
         public override IEnumerable<Sequence> Children { get { yield break; } }
         public override int Precedence { get { return 8; } }
         public override string Symbol { get { return DestVar.Name + "=" + SourceVar.Name; } }
+    }
+
+    public class SequenceAssignUserInputToVar : Sequence, SequenceRandomChoice
+    {
+        public SequenceVariable DestVar;
+        public String Type;
+
+        public bool Random { get { return false; } set { throw new Exception("can't change Random on SequenceAssignUserInputToVar"); } }
+        public bool Choice { get { return true; } set { throw new Exception("can't change Choice on SequenceAssignUserInputToVar"); } }
+
+        public SequenceAssignUserInputToVar(SequenceVariable destVar, String type)
+            : base(SequenceType.AssignUserInputToVar)
+        {
+            DestVar = destVar;
+            Type = type;
+        }
+
+        protected override bool ApplyImpl(IGraph graph, SequenceExecutionEnvironment env)
+        {
+            DestVar.SetVariableValue(env.ChooseValue(Type, this), graph);
+            return true;
+        }
+
+        public override IEnumerable<Sequence> Children { get { yield break; } }
+        public override int Precedence { get { return 8; } }
+        public override string Symbol { get { return DestVar.Name + "=" + "$%(" + Type + ")"; } }
+    }
+
+    public class SequenceAssignRandomToVar : Sequence, SequenceRandomChoice
+    {
+        public SequenceVariable DestVar;
+        public int Number;
+
+        public bool Random { get { return true; } set { throw new Exception("can't change Random on SequenceAssignRandomToVar"); } }
+        public bool Choice { get { return choice; } set { choice = value; } }
+        private bool choice;
+
+        public SequenceAssignRandomToVar(SequenceVariable destVar, int number, bool choice)
+            : base(SequenceType.AssignRandomToVar)
+        {
+            DestVar = destVar;
+            Number = number;
+            this.choice = choice;
+        }
+
+        protected override bool ApplyImpl(IGraph graph, SequenceExecutionEnvironment env)
+        {
+            int randomNumber = randomGenerator.Next(Number);
+            if(Choice && env!=null) randomNumber = env.ChooseRandomNumber(randomNumber, Number, this);
+            DestVar.SetVariableValue(randomNumber, graph);
+            return true;
+        }
+
+        public override IEnumerable<Sequence> Children { get { yield break; } }
+        public override int Precedence { get { return 8; } }
+        public override string Symbol { get { return DestVar.Name + "=" + (Choice ? "$%" : "$") + "(" + Number + ")"; } }
     }
 
     public class SequenceAssignConstToVar : Sequence

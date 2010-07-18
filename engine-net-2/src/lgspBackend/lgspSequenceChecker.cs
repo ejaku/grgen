@@ -151,6 +151,26 @@ namespace de.unika.ipd.grGen.lgsp
                 break;
             }
 
+            case SequenceType.AssignUserInputToVar:
+            {
+                SequenceAssignUserInputToVar assignUI = (SequenceAssignUserInputToVar)seq;
+                if(!TypesHelper.IsSameOrSubtype(assignUI.Type, assignUI.DestVar.Type, model))
+                {
+                    throw new SequenceParserException(assignUI.DestVar.Name + "=$%("+assignUI.Type+")", assignUI.DestVar.Type, assignUI.Type);
+                }
+                break;
+            }
+
+            case SequenceType.AssignRandomToVar:
+            {
+                SequenceAssignRandomToVar assignRandom = (SequenceAssignRandomToVar)seq;
+                if(!TypesHelper.IsSameOrSubtype(assignRandom.DestVar.Type, "int", model))
+                {
+                    throw new SequenceParserException(assignRandom.DestVar.Name + "=$("+assignRandom.Number+")", "int", assignRandom.DestVar.Type);
+                }
+                break;
+            }
+
             case SequenceType.AssignConstToVar:
             {
                 SequenceAssignConstToVar assignSeq = (SequenceAssignConstToVar)seq;

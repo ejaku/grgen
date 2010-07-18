@@ -7,13 +7,14 @@
 
 using System;
 using System.Collections.Generic;
-using de.unika.ipd.grGen.libGr;
 using System.Diagnostics;
-
+using System.Threading;
 using System.Net;
 using System.Net.Sockets;
 using System.IO;
 using System.Reflection;
+
+using de.unika.ipd.grGen.libGr;
 
 namespace de.unika.ipd.grGen.grShell
 {
@@ -242,25 +243,26 @@ namespace de.unika.ipd.grGen.grShell
             PrintSequence(debugSequence, seq, context);
             Console.WriteLine();
             context.choice = false;
+
             Console.Write("Which branch to execute first? (l)eft or (r)ight or (c)ontinue with random choice?  (Random has chosen " + (direction==0 ? "(l)eft" : "(r)ight") + ") ");
             while(true)
             {
                 ConsoleKeyInfo key = ReadKeyWithCancel();
                 switch(key.KeyChar)
                 {
-                    case 'l':
-                        Console.WriteLine();
-                        return 0;
-                    case 'r':
-                        Console.WriteLine();
-                        return 1;
-                    case 'c':
-                        Console.WriteLine();
-                        return direction;
-                    default:
-                        Console.WriteLine("Illegal choice (Key = " + key.Key
-                            + ")! Only (l)eft branch, (r)ight branch, (c)ontinue allowed! ");
-                        break;
+                case 'l':
+                    Console.WriteLine();
+                    return 0;
+                case 'r':
+                    Console.WriteLine();
+                    return 1;
+                case 'c':
+                    Console.WriteLine();
+                    return direction;
+                default:
+                    Console.WriteLine("Illegal choice (Key = " + key.Key
+                        + ")! Only (l)eft branch, (r)ight branch, (c)ontinue allowed! ");
+                    break;
                 }
             }
         }
@@ -304,51 +306,144 @@ namespace de.unika.ipd.grGen.grShell
                 ConsoleKeyInfo key = ReadKeyWithCancel();
                 switch(key.KeyChar)
                 {
-                    case '0':
-                    case '1':
-                    case '2':
-                    case '3':
-                    case '4':
-                    case '5':
-                    case '6':
-                    case '7':
-                    case '8':
-                    case '9':
-                        int num = key.KeyChar - '0';
-                        if(num >= matches.Count)
+                case '0': case '1': case '2': case '3': case '4':
+                case '5': case '6': case '7': case '8': case '9':
+                    int num = key.KeyChar - '0';
+                    if(num >= matches.Count)
+                    {
+                        Console.WriteLine("You must specify a number between 0 and " + (matches.Count - 1) + "!");
+                        break;
+                    }
+                    newMatchToRewrite = num;
+                    break;
+                case 'e':
+                    Console.Write("Enter number of match to show: ");
+                    String numStr = Console.ReadLine();
+                    if(int.TryParse(numStr, out num))
+                    {
+                        if(num < 0 || num >= matches.Count)
                         {
                             Console.WriteLine("You must specify a number between 0 and " + (matches.Count - 1) + "!");
                             break;
                         }
                         newMatchToRewrite = num;
                         break;
-                    case 'e':
-                        Console.Write("Enter number of match to show: ");
-                        String numStr = Console.ReadLine();
-                        if(int.TryParse(numStr, out num))
-                        {
-                            if(num < 0 || num >= matches.Count)
-                            {
-                                Console.WriteLine("You must specify a number between 0 and " + (matches.Count - 1) + "!");
-                                break;
-                            }
-                            newMatchToRewrite = num;
-                            break;
-                        }
-                        Console.WriteLine("You must enter a valid integer number!");
-                        break;
-                    case 'c':
-                        MarkMatch(matches.GetMatch(matchToApply), null, null);
-                        AnnotateMatch(matches.GetMatch(matchToApply), false);
-                        ycompClient.UpdateDisplay();
-                        ycompClient.Sync();
-                        return matchToApply;
-                    default:
-                        Console.WriteLine("Illegal choice (Key = " + key.Key
-                            + ")! Only (0)...(9), (e)nter number, (c)ontinue/commit allowed! ");
-                        break;
+                    }
+                    Console.WriteLine("You must enter a valid integer number!");
+                    break;
+                case 'c':
+                    MarkMatch(matches.GetMatch(matchToApply), null, null);
+                    AnnotateMatch(matches.GetMatch(matchToApply), false);
+                    ycompClient.UpdateDisplay();
+                    ycompClient.Sync();
+                    return matchToApply;
+                default:
+                    Console.WriteLine("Illegal choice (Key = " + key.Key
+                        + ")! Only (0)...(9), (e)nter number, (c)ontinue/commit allowed! ");
+                    break;
                 }
             }
+        }
+
+        /// <summary>
+        /// returns the maybe user altered random number in the range 0 - upperBound exclusive for the sequence given
+        /// the random number chosen is supplied
+        /// </summary>
+        public int ChooseRandomNumber(int randomNumber, int upperBound, Sequence seq)
+        {
+            context.highlightSeq = seq;
+            context.choice = true;
+            PrintSequence(debugSequence, seq, context);
+            Console.WriteLine();
+            context.choice = false;
+
+            while(true)
+            {
+                Console.Write("Enter number in range [0.." + upperBound + "[ or press enter to use " + randomNumber + ": ");
+                String numStr = Console.ReadLine();
+                if(numStr == "")
+                    return randomNumber;
+                int num;
+                if(int.TryParse(numStr, out num))
+                {
+                    if(num < 0 || num >= upperBound)
+                    {
+                        Console.WriteLine("You must specify a number between 0 and " + (upperBound - 1) + "!");
+                        continue;
+                    }
+                    return num;
+                }
+                Console.WriteLine("You must enter a valid integer number!");
+            }
+        }
+
+        /// <summary>
+        /// returns the id/persistent name of a node/edge chosen by the user in yComp
+        /// </summary>
+        public string ChooseGraphElement()
+        {
+            ycompClient.WaitForElement(true);
+
+            // Allow to abort with ESC
+            while(true)
+            {
+                if(Console.KeyAvailable && grShellImpl.Workaround.ReadKey(true).Key == ConsoleKey.Escape)
+                {
+                    Console.WriteLine("Aborted!");
+                    ycompClient.WaitForElement(false);
+                    return null;
+                }
+                if(ycompClient.CommandAvailable)
+                    break;
+                Thread.Sleep(100);
+            }
+
+            String cmd = ycompClient.ReadCommand();
+            if(cmd.Length < 7 || !cmd.StartsWith("send "))
+            {
+                Console.WriteLine("Unexpected yComp command: \"" + cmd + "\"!");
+                return null;
+            }
+
+            // Skip 'n' or 'e'
+            return cmd.Substring(6);
+        }
+
+        /// <summary>
+        /// returns a user chosen/input value of the given type
+        /// no random input value is supplied, the user must give a value
+        /// </summary>
+        public object ChooseValue(string type, Sequence seq)
+        {
+            context.highlightSeq = seq;
+            context.choice = true;
+            PrintSequence(debugSequence, seq, context);
+            Console.WriteLine();
+            context.choice = false;
+
+            object value = grShellImpl.Askfor(type);
+
+            while(value == null)
+            {
+                Console.Write("How to proceed? (a)bort user choice (-> value null) or (r)etry:");
+                ConsoleKeyInfo key = ReadKeyWithCancel();
+                switch(key.KeyChar)
+                {
+                case 'a':
+                    Console.WriteLine();
+                    return null;
+                case 'r':
+                    Console.WriteLine();
+                    value = grShellImpl.Askfor(type);
+                    break;
+                default:
+                    Console.WriteLine("Illegal choice (Key = " + key.Key
+                        + ")! Only (a)bort user choice or (r)etry allowed! ");
+                    break;
+                }
+            }
+
+            return value;
         }
 
         /// <summary>
@@ -608,8 +703,11 @@ namespace de.unika.ipd.grGen.grShell
                     }
 
                     HighlightingMode mode = HighlightingMode.None;
-                    if(seq == context.highlightSeq && !context.success) mode |= HighlightingMode.Focus;
-                    if(seq == context.highlightSeq && context.success) mode |= HighlightingMode.FocusSucces;
+                    if(seq == context.highlightSeq) {
+                        if(context.choice) mode |= HighlightingMode.Choicepoint;
+                        else if(context.success) mode |= HighlightingMode.FocusSucces;
+                        else mode |= HighlightingMode.Focus;
+                    }
                     if(seq == context.lastSuccessSeq) mode |= HighlightingMode.LastSuccess;
                     if(context.lastFailSeq.ContainsKey(seq)) mode |= HighlightingMode.LastFail;
                     context.workaround.PrintHighlighted(seq.Symbol, mode);
@@ -625,6 +723,28 @@ namespace de.unika.ipd.grGen.grShell
                     Console.Write("=");
                     PrintSequence(seqAss.Seq, seq, context);
                     Console.Write(")");
+                    break;
+                }
+
+                // Choice highlightable user assignments
+                case SequenceType.AssignUserInputToVar:
+                case SequenceType.AssignRandomToVar:
+                {
+                    if(context.cpPosCounter >= 0 && seq is SequenceAssignRandomToVar)
+                    {
+                        if(((SequenceRandomChoice)seq).Choice)
+                            context.workaround.PrintHighlighted("[%" + context.cpPosCounter + "]:", HighlightingMode.Choicepoint);
+                        else
+                            context.workaround.PrintHighlighted("%" + context.cpPosCounter + ":", HighlightingMode.Choicepoint);
+                        Console.Write(seq.Symbol);
+                        ++context.cpPosCounter;
+                        break;
+                    }
+
+                    if(seq == context.highlightSeq && context.choice)
+                        context.workaround.PrintHighlighted(seq.Symbol, HighlightingMode.Choicepoint);
+                    else
+                        Console.Write(seq.Symbol);
                     break;
                 }
 
@@ -649,10 +769,7 @@ namespace de.unika.ipd.grGen.grShell
                 case SequenceType.InSetmap:
                 case SequenceType.Emit:
                 {
-                    if(seq == context.highlightSeq)
-                        context.workaround.PrintHighlighted(seq.Symbol, HighlightingMode.Focus);
-                    else
-                        Console.Write(seq.Symbol);
+                    Console.Write(seq.Symbol);
                     break;
                 }
 
@@ -954,63 +1071,63 @@ namespace de.unika.ipd.grGen.grShell
                 ConsoleKeyInfo key = ReadKeyWithCancel();
                 switch(key.KeyChar)
                 {
-                    case 's':
-                        stepMode = true;
-                        dynamicStepMode = false;
-                        detailedMode = false;
-                        return false;
-                    case 'd':
-                        stepMode = true;
-                        dynamicStepMode = false;
-                        detailedMode = true;
-                        return true;
-                    case 'u':
-                        stepMode = false;
-                        dynamicStepMode = false;
-                        detailedMode = false;
-                        curStepSequence = GetParentSequence(seq, debugSequence);
-                        return false;
-                    case 'o':
-                        stepMode = false;
-                        dynamicStepMode = false;
-                        detailedMode = false;
-                        if(loopList.Count == 0)
-                            curStepSequence = null;                 // execute until the end
-                        else
-                            curStepSequence = loopList.First.Value; // execute until current loop has been exited
-                        return false;
-                    case 'r':
-                        stepMode = false;
-                        dynamicStepMode = false;
-                        detailedMode = false;
-                        curStepSequence = null;                     // execute until the end
-                        return false;
-                    case 'b':
-                        HandleToggleBreakpoints();
-                        context.highlightSeq = seq;
-                        context.success = false;
-                        PrintSequence(debugSequence, null, context);
-                        Console.WriteLine();
-                        break;
-                    case 'c':
-                        HandleToggleChoicepoints();
-                        context.highlightSeq = seq;
-                        context.success = false;
-                        PrintSequence(debugSequence, null, context);
-                        Console.WriteLine();
-                        break;
-                    case 'a':
-                        grShellImpl.Cancel();
-                        return false;                               // never reached
-                    case 'n':
-                        stepMode = false;
-                        dynamicStepMode = true;
-                        detailedMode = false;
-                        return false;
-                    default:
-                        Console.WriteLine("Illegal command (Key = " + key.Key
-                            + ")! Only (n)ext match, (d)etailed step, (s)tep, step (u)p, step (o)ut, (r)un, toggle (b)reakpoints, toggle (c)hoicepoints and (a)bort allowed!");
-                        break;
+                case 's':
+                    stepMode = true;
+                    dynamicStepMode = false;
+                    detailedMode = false;
+                    return false;
+                case 'd':
+                    stepMode = true;
+                    dynamicStepMode = false;
+                    detailedMode = true;
+                    return true;
+                case 'u':
+                    stepMode = false;
+                    dynamicStepMode = false;
+                    detailedMode = false;
+                    curStepSequence = GetParentSequence(seq, debugSequence);
+                    return false;
+                case 'o':
+                    stepMode = false;
+                    dynamicStepMode = false;
+                    detailedMode = false;
+                    if(loopList.Count == 0)
+                        curStepSequence = null;                 // execute until the end
+                    else
+                        curStepSequence = loopList.First.Value; // execute until current loop has been exited
+                    return false;
+                case 'r':
+                    stepMode = false;
+                    dynamicStepMode = false;
+                    detailedMode = false;
+                    curStepSequence = null;                     // execute until the end
+                    return false;
+                case 'b':
+                    HandleToggleBreakpoints();
+                    context.highlightSeq = seq;
+                    context.success = false;
+                    PrintSequence(debugSequence, null, context);
+                    Console.WriteLine();
+                    break;
+                case 'c':
+                    HandleToggleChoicepoints();
+                    context.highlightSeq = seq;
+                    context.success = false;
+                    PrintSequence(debugSequence, null, context);
+                    Console.WriteLine();
+                    break;
+                case 'a':
+                    grShellImpl.Cancel();
+                    return false;                               // never reached
+                case 'n':
+                    stepMode = false;
+                    dynamicStepMode = true;
+                    detailedMode = false;
+                    return false;
+                default:
+                    Console.WriteLine("Illegal command (Key = " + key.Key
+                        + ")! Only (n)ext match, (d)etailed step, (s)tep, step (u)p, step (o)ut, (r)un, toggle (b)reakpoints, toggle (c)hoicepoints and (a)bort allowed!");
+                    break;
                 }
             }
         }

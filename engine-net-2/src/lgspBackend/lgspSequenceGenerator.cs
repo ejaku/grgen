@@ -221,6 +221,18 @@ namespace de.unika.ipd.grGen.lgsp
 					EmitNeededVarAndRuleEntities(seqToVar.Seq, source);
 					break;
 				}
+                case SequenceType.AssignUserInputToVar:
+                {
+                    SequenceAssignUserInputToVar userInputToVar = (SequenceAssignUserInputToVar)seq;
+                    EmitVarIfNew(userInputToVar.DestVar, source);
+                    break;
+                }
+                case SequenceType.AssignRandomToVar:
+                {
+                    SequenceAssignRandomToVar randomToVar = (SequenceAssignRandomToVar)seq;
+                    EmitVarIfNew(randomToVar.DestVar, source);
+                    break;
+                }
                 case SequenceType.AssignConstToVar:
                 {
                     SequenceAssignConstToVar constToVar = (SequenceAssignConstToVar)seq;
@@ -903,6 +915,19 @@ namespace de.unika.ipd.grGen.lgsp
                     EmitSequence(seqToVar.Seq, source);
                     source.AppendFront(SetVar(seqToVar.DestVar, GetResultVar(seqToVar.Seq)));
                     source.AppendFront(SetResultVar(seqToVar, "true"));
+                    break;
+                }
+
+                case SequenceType.AssignUserInputToVar:
+                {
+                    throw new Exception("Internal Error: the AssignUserInputToVar is interpreted only (no Debugger available at lgsp level)");
+                }
+
+                case SequenceType.AssignRandomToVar:
+                {
+                    SequenceAssignRandomToVar seqRandomToVar = (SequenceAssignRandomToVar)seq;
+                    source.AppendFront(SetVar(seqRandomToVar.DestVar, "GRGEN_LIBGR.Sequence.randomGenerator.Next(" + seqRandomToVar.Number + ")"));
+                    source.AppendFront(SetResultVar(seqRandomToVar, "true"));
                     break;
                 }
 
