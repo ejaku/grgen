@@ -38,6 +38,18 @@ namespace de.unika.ipd.grGen.libGr
         /// returns the named graph on which the sequence is to be executed, containing the names
         /// </summary>
         NamedGraph GetNamedGraph();
+
+        /// <summary>
+        /// returns the maybe user altered direction of execution for the sequence given
+        /// the randomly chosen directions is supplied; 0: execute left operand first, 1: execute right operand first
+        /// </summary>
+        int ChooseDirection(int direction, Sequence seq);
+
+        /// <summary>
+        /// returns the maybe user altered match to apply next for the sequence given
+        /// the randomly chosen match is supplied; the object with all available matches is supplied
+        /// </summary>
+        int ChooseMatch(int matchToApply, IMatches matches, int numFurtherMatchesToApply, Sequence seq);
     }
 
     /// <summary>
@@ -150,6 +162,24 @@ namespace de.unika.ipd.grGen.libGr
     }
 
     /// <summary>
+    /// A Sequence with a random decision which might be interactively overriden by a user choice.
+    /// </summary>
+    public interface SequenceRandomChoice
+    {
+        /// <summary>
+        /// The "Random" flag "$" telling whether the sequence operates in random mode.
+        /// </summary>
+        bool Random { get; set; }
+
+        /// <summary>
+        /// The "Choice" flag "%".
+        /// Only applicable to a random decision sequence.
+        /// GrShell uses this flag to indicate choicepoints when in debug mode.
+        /// </summary>
+        bool Choice { get; set; }
+    }
+
+    /// <summary>
     /// A sequence consisting of a unary operator and another sequence.
     /// </summary>
     public abstract class SequenceUnary : Sequence
@@ -169,19 +199,24 @@ namespace de.unika.ipd.grGen.libGr
 
     /// <summary>
     /// A sequence consisting of a binary operator and two sequences.
+    /// Decision on order of execution by random, by user choice possible.
     /// </summary>
-    public abstract class SequenceBinary : Sequence
+    public abstract class SequenceBinary : Sequence, SequenceRandomChoice
     {
         public Sequence Left;
         public Sequence Right;
-        public bool Randomize;
+        public bool Random { get { return random; } set { random = value; } }
+        private bool random;
+        public bool Choice { get { return choice; } set { choice = value; } }
+        private bool choice;
 
-        public SequenceBinary(Sequence left, Sequence right, bool random, SequenceType seqType)
+        public SequenceBinary(Sequence left, Sequence right, bool random, bool choice, SequenceType seqType)
             : base(seqType)
         {
             Left = left;
             Right = right;
-            Randomize = random;
+            this.random = random;
+            this.choice = choice;
         }
 
         public override IEnumerable<Sequence> Children
@@ -192,15 +227,18 @@ namespace de.unika.ipd.grGen.libGr
 
     public class SequenceThenLeft : SequenceBinary
     {
-        public SequenceThenLeft(Sequence left, Sequence right, bool random)
-            : base(left, right, random, SequenceType.ThenLeft)
+        public SequenceThenLeft(Sequence left, Sequence right, bool random, bool choice)
+            : base(left, right, random, choice, SequenceType.ThenLeft)
         {
         }
 
         protected override bool ApplyImpl(IGraph graph, SequenceExecutionEnvironment env)
         {
             bool res;
-            if (Randomize && randomGenerator.Next(2) == 1) {
+            int direction = 0;
+            if(Random) direction = randomGenerator.Next(2);
+            if(Choice && env!=null) direction = env.ChooseDirection(direction, this);
+            if(direction == 1) {
                 Right.Apply(graph, env);
                 res = Left.Apply(graph, env);
             } else {
@@ -211,20 +249,24 @@ namespace de.unika.ipd.grGen.libGr
         }
 
         public override int Precedence { get { return 0; } }
-        public override string Symbol { get { return Randomize ? "$<;" : "<;"; } }
+        public override string Symbol { get { string prefix = Random ? (Choice ? "$%" : "$") : ""; return prefix + "<;"; } }
     }
 
     public class SequenceThenRight : SequenceBinary
     {
-        public SequenceThenRight(Sequence left, Sequence right, bool random)
-            : base(left, right, random, SequenceType.ThenRight)
+        public SequenceThenRight(Sequence left, Sequence right, bool random, bool choice)
+            : base(left, right, random, choice, SequenceType.ThenRight)
         {
         }
 
         protected override bool ApplyImpl(IGraph graph, SequenceExecutionEnvironment env)
         {
             bool res;
-            if (Randomize && randomGenerator.Next(2) == 1) {
+            int direction = 0;
+            if(Random) direction = randomGenerator.Next(2);
+            if(Choice && env!=null) direction = env.ChooseDirection(direction, this);
+            if(direction == 1)
+            {
                 res = Right.Apply(graph, env);
                 Left.Apply(graph, env);
             } else {
@@ -235,102 +277,117 @@ namespace de.unika.ipd.grGen.libGr
         }
 
         public override int Precedence { get { return 0; } }
-        public override string Symbol { get { return Randomize ? "$;>" : ";>"; } }
+        public override string Symbol { get { string prefix = Random ? (Choice ? "$%" : "$") : ""; return prefix + ";>"; } }
     }
 
     public class SequenceLazyOr : SequenceBinary
     {
-        public SequenceLazyOr(Sequence left, Sequence right, bool random)
-            : base(left, right, random, SequenceType.LazyOr)
+        public SequenceLazyOr(Sequence left, Sequence right, bool random, bool choice)
+            : base(left, right, random, choice, SequenceType.LazyOr)
         {
         }
 
         protected override bool ApplyImpl(IGraph graph, SequenceExecutionEnvironment env)
         {
-            if(Randomize && randomGenerator.Next(2) == 1)
+            int direction = 0;
+            if(Random) direction = randomGenerator.Next(2);
+            if(Choice && env!=null) direction = env.ChooseDirection(direction, this);
+            if(direction == 1)
                 return Right.Apply(graph, env) || Left.Apply(graph, env);
             else
                 return Left.Apply(graph, env) || Right.Apply(graph, env);
         }
 
         public override int Precedence { get { return 1; } }
-        public override string Symbol { get { return Randomize ? "$||" : "||"; } }
+        public override string Symbol { get { string prefix = Random ? (Choice ? "$%" : "$") : ""; return prefix + "||"; } }
     }
 
     public class SequenceLazyAnd : SequenceBinary
     {
-        public SequenceLazyAnd(Sequence left, Sequence right, bool random)
-            : base(left, right, random, SequenceType.LazyAnd)
+        public SequenceLazyAnd(Sequence left, Sequence right, bool random, bool choice)
+            : base(left, right, random, choice, SequenceType.LazyAnd)
         {
         }
 
         protected override bool ApplyImpl(IGraph graph, SequenceExecutionEnvironment env)
         {
-            if(Randomize && randomGenerator.Next(2) == 1)
+            int direction = 0;
+            if(Random) direction = randomGenerator.Next(2);
+            if(Choice && env!=null) direction = env.ChooseDirection(direction, this);
+            if(direction == 1)
                 return Right.Apply(graph, env) && Left.Apply(graph, env);
             else
                 return Left.Apply(graph, env) && Right.Apply(graph, env);
         }
 
         public override int Precedence { get { return 2; } }
-        public override string Symbol { get { return Randomize ? "$&&" : "&&"; } }
+        public override string Symbol { get { string prefix = Random ? (Choice ? "$%" : "$") : ""; return prefix + "&&"; } }
     }
 
     public class SequenceStrictOr : SequenceBinary
     {
-        public SequenceStrictOr(Sequence left, Sequence right, bool random)
-            : base(left, right, random, SequenceType.StrictOr)
+        public SequenceStrictOr(Sequence left, Sequence right, bool random, bool choice)
+            : base(left, right, random, choice, SequenceType.StrictOr)
         {
         }
 
         protected override bool ApplyImpl(IGraph graph, SequenceExecutionEnvironment env)
         {
-            if(Randomize && randomGenerator.Next(2) == 1)
+            int direction = 0;
+            if(Random) direction = randomGenerator.Next(2);
+            if(Choice && env!=null) direction = env.ChooseDirection(direction, this);
+            if(direction == 1)
                 return Right.Apply(graph, env) | Left.Apply(graph, env);
             else
                 return Left.Apply(graph, env) | Right.Apply(graph, env);
         }
 
         public override int Precedence { get { return 3; } }
-        public override string Symbol { get { return Randomize ? "$|" : "|"; } }
+        public override string Symbol { get { string prefix = Random ? (Choice ? "$%" : "$") : ""; return prefix + "|"; } }
     }
 
     public class SequenceXor : SequenceBinary
     {
-        public SequenceXor(Sequence left, Sequence right, bool random)
-            : base(left, right, random, SequenceType.Xor)
+        public SequenceXor(Sequence left, Sequence right, bool random, bool choice)
+            : base(left, right, random, choice, SequenceType.Xor)
         {
         }
 
         protected override bool ApplyImpl(IGraph graph, SequenceExecutionEnvironment env)
         {
-            if(Randomize && randomGenerator.Next(2) == 1)
+            int direction = 0;
+            if(Random) direction = randomGenerator.Next(2);
+            if(Choice && env!=null) direction = env.ChooseDirection(direction, this);
+            if(direction == 1)
                 return Right.Apply(graph, env) ^ Left.Apply(graph, env);
             else
                 return Left.Apply(graph, env) ^ Right.Apply(graph, env);
         }
 
         public override int Precedence { get { return 4; } }
-        public override string Symbol { get { return Randomize ? "$^" : "^"; } }
+        public override string Symbol { get { string prefix = Random ? (Choice ? "$%" : "$") : ""; return prefix + "^"; } }
     }
 
     public class SequenceStrictAnd : SequenceBinary
     {
-        public SequenceStrictAnd(Sequence left, Sequence right, bool random)
-            : base(left, right, random, SequenceType.StrictAnd)
+        public SequenceStrictAnd(Sequence left, Sequence right, bool random, bool choice)
+            : base(left, right, random, choice, SequenceType.StrictAnd)
         {
         }
 
         protected override bool ApplyImpl(IGraph graph, SequenceExecutionEnvironment env)
         {
-            if(Randomize && randomGenerator.Next(2) == 1)
+            int direction = 0;
+            if(Random) direction = randomGenerator.Next(2);
+            if(Choice && env!=null) direction = env.ChooseDirection(direction, this);
+            if(direction == 1)
                 return Right.Apply(graph, env) & Left.Apply(graph, env);
             else
                 return Left.Apply(graph, env) & Right.Apply(graph, env);
         }
 
         public override int Precedence { get { return 5; } }
-        public override string Symbol { get { return Randomize ? "$&" : "&"; } }
+        public override string Symbol { get { string prefix = Random ? (Choice ? "$%" : "$") : ""; return prefix + "&"; } }
     }
 
     public class SequenceNot : SequenceUnary
@@ -459,19 +516,24 @@ namespace de.unika.ipd.grGen.libGr
         }
     }
 
-    public class SequenceRuleAll : SequenceRule
+    public class SequenceRuleAll : SequenceRule, SequenceRandomChoice
     {
         public bool ChooseRandom;
 		public SequenceVariable VarChooseRandom;
+        private bool choice;
 
         public SequenceRuleAll(RuleInvocationParameterBindings paramBindings, bool special, bool test, 
-            bool chooseRandom, SequenceVariable varChooseRandom)
+            bool chooseRandom, SequenceVariable varChooseRandom, bool choice)
             : base(paramBindings, special, test)
         {
             SequenceType = SequenceType.RuleAll;
             ChooseRandom = chooseRandom;
 			VarChooseRandom = varChooseRandom;
+            this.choice = choice;
         }
+
+        public bool Random { get { return ChooseRandom; } set { ChooseRandom = value; } }
+        public bool Choice { get { return choice; } set { choice = value; } }
 
         protected override bool ApplyImpl(IGraph graph, SequenceExecutionEnvironment env)
         {
@@ -525,7 +587,9 @@ namespace de.unika.ipd.grGen.libGr
 				for(int i = 0; i < numChooseRandom; i++)
 				{
 					if(i != 0) graph.RewritingNextMatch();
-					IMatch match = matches.RemoveMatch(randomGenerator.Next(matches.Count));
+                    int matchToApply = randomGenerator.Next(matches.Count);
+                    if(Choice && env!=null) matchToApply = env.ChooseMatch(matchToApply, matches, numChooseRandom-1-i, this);
+					IMatch match = matches.RemoveMatch(matchToApply);
 					retElems = matches.Producer.Modify(graph, match);
 					if(graph.PerformanceInfo != null) graph.PerformanceInfo.RewritesPerformed++;
 				}
@@ -548,6 +612,7 @@ namespace de.unika.ipd.grGen.libGr
                 String prefix = "";
 				if(ChooseRandom) {
 					prefix = "$";
+                    if(Choice) prefix += "%"; 
                     if(VarChooseRandom != null)
                         prefix += VarChooseRandom.Name;
                 }
@@ -974,7 +1039,7 @@ namespace de.unika.ipd.grGen.libGr
     public class SequenceIfThen : SequenceBinary
     {
         public SequenceIfThen(Sequence condition, Sequence trueCase)
-            : base(condition, trueCase, false, SequenceType.IfThen)
+            : base(condition, trueCase, false, false, SequenceType.IfThen)
         {
         }
 

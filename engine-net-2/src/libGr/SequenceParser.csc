@@ -461,7 +461,7 @@ Sequence XGRS():
 Sequence RewriteSequence():
 {
 	Sequence seq, seq2;
-	bool random = false;
+	bool random = false, choice = false;
 }
 {
 	seq=RewriteSequenceLazyOr()
@@ -469,14 +469,14 @@ Sequence RewriteSequence():
 		LOOKAHEAD(2)
 		(
 			LOOKAHEAD(2)
-			("$" { random = true; })? "<;" seq2=RewriteSequence()							
+			("$" { random = true; } ("%" { choice = true; })?)? "<;" seq2=RewriteSequence()							
 			{
-				seq = new SequenceThenLeft(seq, seq2, random);
+				seq = new SequenceThenLeft(seq, seq2, random, choice);
 			}
 		|
-			("$" { random = true; })? ";>" seq2=RewriteSequence()							
+			("$" { random = true; } ("%" { choice = true; })?)? ";>" seq2=RewriteSequence()							
 			{
-				seq = new SequenceThenRight(seq, seq2, random);
+				seq = new SequenceThenRight(seq, seq2, random, choice);
 			}
 		)
 	)?
@@ -488,15 +488,15 @@ Sequence RewriteSequence():
 Sequence RewriteSequenceLazyOr():
 {
 	Sequence seq, seq2;
-	bool random = false;
+	bool random = false, choice = false;
 }
 {
 	seq=RewriteSequenceLazyAnd()
 	(
 		LOOKAHEAD(2)
-		("$" { random = true; })? "||" seq2=RewriteSequenceLazyOr()							
+		("$" { random = true; } ("%" { choice = true; })?)? "||" seq2=RewriteSequenceLazyOr()							
 		{
-			seq = new SequenceLazyOr(seq, seq2, random);
+			seq = new SequenceLazyOr(seq, seq2, random, choice);
 		}
 	)?
 	{
@@ -507,15 +507,15 @@ Sequence RewriteSequenceLazyOr():
 Sequence RewriteSequenceLazyAnd():
 {
 	Sequence seq, seq2;
-	bool random = false;
+	bool random = false, choice = false;
 }
 {
 	seq=RewriteSequenceStrictOr()
 	(
 		LOOKAHEAD(2)
-		("$" { random = true; })? "&&" seq2=RewriteSequenceLazyAnd()
+		("$" { random = true; } ("%" { choice = true; })?)? "&&" seq2=RewriteSequenceLazyAnd()
 		{
-			seq = new SequenceLazyAnd(seq, seq2, random);
+			seq = new SequenceLazyAnd(seq, seq2, random, choice);
 		}
 	)?
 	{
@@ -526,15 +526,15 @@ Sequence RewriteSequenceLazyAnd():
 Sequence RewriteSequenceStrictOr():
 {
 	Sequence seq, seq2;
-	bool random = false;
+	bool random = false, choice = false;
 }
 {
 	seq=RewriteSequenceStrictXor()
 	(
 		LOOKAHEAD(2)
-		("$" { random = true; })? "|" seq2=RewriteSequenceStrictOr()
+		("$" { random = true; } ("%" { choice = true; })?)? "|" seq2=RewriteSequenceStrictOr()
 		{
-			seq = new SequenceStrictOr(seq, seq2, random);
+			seq = new SequenceStrictOr(seq, seq2, random, choice);
 		}
 	)?
 	{
@@ -545,15 +545,15 @@ Sequence RewriteSequenceStrictOr():
 Sequence RewriteSequenceStrictXor():
 {
 	Sequence seq, seq2;
-	bool random = false;
+	bool random = false, choice = false;
 }
 {
 	seq=RewriteSequenceStrictAnd()
 	(
 		LOOKAHEAD(2)
-		("$" { random = true; })? "^" seq2=RewriteSequenceStrictXor()
+		("$" { random = true; } ("%" { choice = true; })?)? "^" seq2=RewriteSequenceStrictXor()
 		{
-			seq = new SequenceXor(seq, seq2, random);
+			seq = new SequenceXor(seq, seq2, random, choice);
 		}
 	)?
 	{
@@ -564,15 +564,15 @@ Sequence RewriteSequenceStrictXor():
 Sequence RewriteSequenceStrictAnd():
 {
 	Sequence seq, seq2;
-	bool random = false;
+	bool random = false, choice = false;
 }
 {
 	seq=RewriteSequenceNeg()
 	(
 		LOOKAHEAD(2)
-		("$" { random = true; })? "&" seq2=RewriteSequenceStrictAnd()
+		("$" { random = true; } ("%" { choice = true; })?)? "&" seq2=RewriteSequenceStrictAnd()
 		{
-			seq = new SequenceStrictAnd(seq, seq2, random);
+			seq = new SequenceStrictAnd(seq, seq2, random, choice);
 		}
 	)?
 	{
@@ -832,7 +832,7 @@ void RuleLookahead():
 	("(" Word() (":" (Word() | "set" "<" Word() ">" | "map" "<" Word() "," Word() ">"))?
 			("," Word() (":" (Word() | "set" "<" Word() ">" | "map" "<" Word() "," Word() ">"))?)* ")" "=")?
 	(
-	    ("$" (Variable())?)? "["
+	    ("$" ("%")? (Variable())?)? "["
 	|
 	    ("%" | "?")* Word()
 	)
@@ -842,7 +842,7 @@ Sequence Rule():
 {
 	bool special = false, test = false;
 	String str;
-	bool chooseRandSpecified = false;
+	bool chooseRandSpecified = false, choice = false;
 	SequenceVariable varChooseRand = null;
 	List<SequenceVariable> paramVars = new List<SequenceVariable>();
 	List<Object> paramConsts = new List<Object>();
@@ -852,7 +852,7 @@ Sequence Rule():
 	("(" VariableList(returnVars) ")" "=" )? 
 	(
 		(
-			"$" (varChooseRand=Variable())? { chooseRandSpecified = true; }
+			"$" ("%" { choice = true; })? (varChooseRand=Variable())? { chooseRandSpecified = true; }
 		)?
 		"[" ("%" { special = true; } | "?" { test = true; })* str=Word()
 		("(" RuleParameters(paramVars, paramConsts) ")")?
@@ -863,7 +863,7 @@ Sequence Rule():
 				throw new SequenceParserException(str, SequenceParserError.RuleNameUsedByVariable);
 
 			return new SequenceRuleAll(CreateRuleInvocationParameterBindings(str, paramVars, paramConsts, returnVars),
-					special, test, chooseRandSpecified, varChooseRand);
+					special, test, chooseRandSpecified, varChooseRand, choice);
 		}
 	|
 		("%" { special = true; } | "?" { test = true; })*

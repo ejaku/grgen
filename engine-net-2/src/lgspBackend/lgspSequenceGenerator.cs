@@ -472,7 +472,7 @@ namespace de.unika.ipd.grGen.lgsp
                 case SequenceType.IfThen:
 				{
 					SequenceBinary seqBin = (SequenceBinary) seq;
-					if(seqBin.Randomize)
+					if(seqBin.Random)
 					{
                         Debug.Assert(seq.SequenceType != SequenceType.IfThen);
 
@@ -503,7 +503,7 @@ namespace de.unika.ipd.grGen.lgsp
 				case SequenceType.Xor:
 				{
 					SequenceBinary seqBin = (SequenceBinary) seq;
-					if(seqBin.Randomize)
+					if(seqBin.Random)
 					{
                         source.AppendFront("if(GRGEN_LIBGR.Sequence.randomGenerator.Next(2) == 1)\n");
 						source.AppendFront("{\n");

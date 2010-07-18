@@ -31,10 +31,19 @@ namespace de.unika.ipd.grGen.grShell
         /// </summary>
         public int bpPosCounter = -1;
 
+        /// <summary>
+        /// A counter increased for every potential choice position and printed next to a potential choicepoint.
+        /// If cpPosCounter is smaller than zero, no such counter is used or printed.
+        /// If cpPosCounter is greater than or equal zero, the following highlighting values are irrelvant.
+        /// </summary>
+        public int cpPosCounter = -1;
+
         /// <summary> The sequence to be highlighted or null </summary>
         public Sequence highlightSeq;
         /// <summary> The sequence to be highlighted was already successfully matched? </summary>
         public bool success;
+        /// <summary> The sequence to be highlighted requires a direction choice? </summary>
+        public bool choice;
         /// <summary> The last successfully processed rule or null </summary>
         public Sequence lastSuccessSeq;
         /// <summary> The last unsuccessfully processed rules (did not match) or null </summary>
@@ -52,8 +61,11 @@ namespace de.unika.ipd.grGen.grShell
 
             bpPosCounter = -1;
 
+            cpPosCounter = -1;
+
             highlightSeq = null;
             success = false;
+            choice = false;
             lastSuccessSeq = null;
             lastFailSeq.Clear();
         }
@@ -89,8 +101,8 @@ namespace de.unika.ipd.grGen.grShell
         String[] curAddedNodeNames = null;
         String[] curAddedEdgeNames = null;
 
-        Dictionary<INode, String> markedNodes = new Dictionary<INode, String>();
-        Dictionary<IEdge, String> markedEdges = new Dictionary<IEdge, String>();
+        Dictionary<INode, String> annotatedNodes = new Dictionary<INode, String>();
+        Dictionary<IEdge, String> annotatedEdges = new Dictionary<IEdge, String>();
 
         LinkedList<Sequence> loopList = new LinkedList<Sequence>();
 
@@ -211,9 +223,132 @@ namespace de.unika.ipd.grGen.grShell
             RegisterLibGrEvents();
         }
 
+        /// <summary>
+        /// returns the named graph on which the sequence is to be executed, containing the names
+        /// </summary>
         public NamedGraph GetNamedGraph()
         {
             return shellGraph.Graph;
+        }
+
+        /// <summary>
+        /// returns the maybe user altered direction of execution for the sequence given
+        /// the randomly chosen directions is supplied; 0: execute left operand first, 1: execute right operand first
+        /// </summary>
+        public int ChooseDirection(int direction, Sequence seq)
+        {
+            context.highlightSeq = seq;
+            context.choice = true;
+            PrintSequence(debugSequence, seq, context);
+            Console.WriteLine();
+            context.choice = false;
+            Console.Write("Which branch to execute first? (l)eft or (r)ight or (c)ontinue with random choice?  (Random has chosen " + (direction==0 ? "(l)eft" : "(r)ight") + ") ");
+            while(true)
+            {
+                ConsoleKeyInfo key = ReadKeyWithCancel();
+                switch(key.KeyChar)
+                {
+                    case 'l':
+                        Console.WriteLine();
+                        return 0;
+                    case 'r':
+                        Console.WriteLine();
+                        return 1;
+                    case 'c':
+                        Console.WriteLine();
+                        return direction;
+                    default:
+                        Console.WriteLine("Illegal choice (Key = " + key.Key
+                            + ")! Only (l)eft branch, (r)ight branch, (c)ontinue allowed! ");
+                        break;
+                }
+            }
+        }
+
+        /// <summary>
+        /// returns the maybe user altered match to apply next for the sequence given
+        /// the randomly chosen match is supplied; the object with all available matches is supplied
+        /// </summary>
+        public int ChooseMatch(int matchToApply, IMatches matches, int numFurtherMatchesToApply, Sequence seq)
+        {
+            context.highlightSeq = seq;
+            context.choice = true;
+            PrintSequence(debugSequence, seq, context);
+            Console.WriteLine();
+            context.choice = false;
+            
+            Console.WriteLine("Which match to apply? Showing the match chosen by random. (" + numFurtherMatchesToApply + " following)");
+            Console.WriteLine("Press '0'...'9' to show the corresponding match or 'e' to enter the number of the match to show. Press 'c' to commit to the currently shown match and continue.");
+            
+            if(detailedMode)
+            {
+                MarkMatches(matches, null, null);
+                AnnotateMatches(matches, false);
+                ycompClient.UpdateDisplay();
+                ycompClient.Sync();
+            }
+
+            int newMatchToRewrite = matchToApply;
+            while(true)
+            {
+                MarkMatch(matches.GetMatch(matchToApply), null, null);
+                AnnotateMatch(matches.GetMatch(matchToApply), false);
+                matchToApply = newMatchToRewrite;
+                MarkMatch(matches.GetMatch(matchToApply), ycompClient.MatchedNodeRealizer, ycompClient.MatchedEdgeRealizer);
+                AnnotateMatch(matches.GetMatch(matchToApply), true);
+                ycompClient.UpdateDisplay();
+                ycompClient.Sync();
+
+                Console.WriteLine("Showing match " + matchToApply + " (of " + matches.Count + " matches available)");
+                
+                ConsoleKeyInfo key = ReadKeyWithCancel();
+                switch(key.KeyChar)
+                {
+                    case '0':
+                    case '1':
+                    case '2':
+                    case '3':
+                    case '4':
+                    case '5':
+                    case '6':
+                    case '7':
+                    case '8':
+                    case '9':
+                        int num = key.KeyChar - '0';
+                        if(num >= matches.Count)
+                        {
+                            Console.WriteLine("You must specify a number between 0 and " + (matches.Count - 1) + "!");
+                            break;
+                        }
+                        newMatchToRewrite = num;
+                        break;
+                    case 'e':
+                        Console.Write("Enter number of match to show: ");
+                        String numStr = Console.ReadLine();
+                        if(int.TryParse(numStr, out num))
+                        {
+                            if(num < 0 || num >= matches.Count)
+                            {
+                                Console.WriteLine("You must specify a number between 0 and " + (matches.Count - 1) + "!");
+                                break;
+                            }
+                            newMatchToRewrite = num;
+                            break;
+                        }
+                        Console.WriteLine("You must enter a valid integer number!");
+                        break;
+                    case 'c':
+                        MarkMatch(matches.GetMatch(matchToApply), null, null);
+                        AnnotateMatch(matches.GetMatch(matchToApply), false);
+                        ycompClient.UpdateDisplay();
+                        ycompClient.Sync();
+                        return matchToApply;
+                    default:
+                        Console.WriteLine("Illegal choice (Key = " + key.Key
+                            + ")! Only (0)...(9), (e)nter number, (c)ontinue/commit allowed! ");
+                        break;
+                }
+            }
         }
 
         /// <summary>
@@ -327,6 +462,8 @@ namespace de.unika.ipd.grGen.grShell
         /// <param name="context">The print context</param>
         private static void PrintSequence(Sequence seq, Sequence parent, PrintSequenceContext context)
         {
+            if(parent == null) context.workaround.PrintHighlighted(">", HighlightingMode.SequenceStart);
+
             // print parentheses, if neccessary
             if(parent != null && seq.Precedence < parent.Precedence) Console.Write("(");
 
@@ -342,6 +479,31 @@ namespace de.unika.ipd.grGen.grShell
                 case SequenceType.StrictAnd:
                 {
                     SequenceBinary seqBin = (SequenceBinary)seq;
+
+                    if(context.cpPosCounter >= 0 && seqBin.Random)
+                    {
+                        int cpPosCounter = context.cpPosCounter;
+                        ++context.cpPosCounter;
+                        PrintSequence(seqBin.Left, seq, context);
+                        if(seqBin.Choice)
+                            context.workaround.PrintHighlighted(" " + "[%" + cpPosCounter + "]:", HighlightingMode.Choicepoint);
+                        else
+                            context.workaround.PrintHighlighted(" " + "%" + cpPosCounter + ":", HighlightingMode.Choicepoint);
+                        Console.Write(seq.Symbol + " ");
+                        PrintSequence(seqBin.Right, seq, context);
+                        break;
+                    }
+
+                    if(seqBin == context.highlightSeq && context.choice)
+                    {
+                        context.workaround.PrintHighlighted("(", HighlightingMode.Choicepoint);
+                        PrintSequence(seqBin.Left, seq, context);
+                        context.workaround.PrintHighlighted(" " + seq.Symbol + " ", HighlightingMode.Choicepoint);
+                        PrintSequence(seqBin.Right, seq, context);
+                        context.workaround.PrintHighlighted(")", HighlightingMode.Choicepoint);
+                        break;
+                    }
+
                     PrintSequence(seqBin.Left, seq, context);
                     Console.Write(" " + seq.Symbol + " ");
                     PrintSequence(seqBin.Right, seq, context);
@@ -424,7 +586,24 @@ namespace de.unika.ipd.grGen.grShell
                 {
                     if(context.bpPosCounter >= 0)
                     {
-                        context.workaround.PrintHighlighted("<<" + (context.bpPosCounter++) + ">>", HighlightingMode.Breakpoint);
+                        if(((SequenceSpecial)seq).Special)
+                            context.workaround.PrintHighlighted("[%" + context.bpPosCounter + "]:", HighlightingMode.Breakpoint);
+                        else
+                            context.workaround.PrintHighlighted("%" + context.bpPosCounter + ":", HighlightingMode.Breakpoint);
+                        Console.Write(seq.Symbol);
+                        ++context.bpPosCounter;
+                        break;
+                    }
+
+                    if(context.cpPosCounter >= 0 && seq is SequenceRandomChoice
+                        && ((SequenceRandomChoice)seq).Random)
+                    {
+                        if(((SequenceRandomChoice)seq).Choice)
+                            context.workaround.PrintHighlighted("[%" + context.cpPosCounter + "]:", HighlightingMode.Choicepoint);
+                        else
+                            context.workaround.PrintHighlighted("%" + context.cpPosCounter + ":", HighlightingMode.Choicepoint);
+                        Console.Write(seq.Symbol);
+                        ++context.cpPosCounter;
                         break;
                     }
 
@@ -585,6 +764,59 @@ namespace de.unika.ipd.grGen.grShell
             }
         }
 
+        SequenceRandomChoice GetSequenceAtChoicepointPosition(Sequence seq, int cpPos, ref int counter)
+        {
+            if(seq is SequenceRandomChoice && ((SequenceRandomChoice)seq).Random)
+            {
+                if(counter == cpPos)
+                    return (SequenceRandomChoice)seq;
+                counter++;
+            }
+            foreach(Sequence child in seq.Children)
+            {
+                SequenceRandomChoice res = GetSequenceAtChoicepointPosition(child, cpPos, ref counter);
+                if(res != null) return res;
+            }
+            return null;
+        }
+
+        void HandleToggleChoicepoints()
+        {
+            Console.Write("Available choicepoint positions:\n  ");
+            PrintSequenceContext contextCp = new PrintSequenceContext(grShellImpl.Workaround);
+            contextCp.cpPosCounter = 0;
+            PrintSequence(debugSequence, null, contextCp);
+            Console.WriteLine();
+
+            if(contextCp.cpPosCounter == 0)
+            {
+                Console.WriteLine("No choicepoint positions available!");
+                return;
+            }
+
+            while(true)
+            {
+                Console.WriteLine("Choose the position of the choicepoint you want to toggle (-1 for no toggle): ");
+                String numStr = Console.ReadLine();
+                int num;
+                if(int.TryParse(numStr, out num))
+                {
+                    if(num < -1 || num >= contextCp.cpPosCounter)
+                    {
+                        Console.WriteLine("You must specify a number between -1 and " + (contextCp.cpPosCounter - 1) + "!");
+                        continue;
+                    }
+                    if(num != -1)
+                    {
+                        int cpCounter = 0;
+                        SequenceRandomChoice cpSeq = GetSequenceAtChoicepointPosition(debugSequence, num, ref cpCounter);
+                        cpSeq.Choice = !cpSeq.Choice;
+                    }
+                    break;
+                }
+            }
+        }
+
         void DebugEnteringSequence(Sequence seq)
         {
             lastlyEntered = seq;
@@ -693,19 +925,20 @@ namespace de.unika.ipd.grGen.grShell
             if(matchDepth++ > 0)
                 Console.WriteLine("Matched " + matches.Producer.Name);
 
-            markedNodes.Clear();
-            markedEdges.Clear();
+            annotatedNodes.Clear();
+            annotatedEdges.Clear();
 
             curRulePattern = matches.Producer.RulePattern;
 
-            MarkMatches(matches, ycompClient.MatchedNodeRealizer, ycompClient.MatchedEdgeRealizer, true);
+            MarkMatches(matches, ycompClient.MatchedNodeRealizer, ycompClient.MatchedEdgeRealizer);
+            AnnotateMatches(matches, true);
 
             ycompClient.UpdateDisplay();
             ycompClient.Sync();
             Console.WriteLine("Press any key to apply rewrite...");
             ReadKeyWithCancel();
 
-            MarkMatches(matches, null, null, false);
+            MarkMatches(matches, null, null);
 
             recordMode = true;
             ycompClient.NodeRealizer = ycompClient.NewNodeRealizer;
@@ -759,6 +992,13 @@ namespace de.unika.ipd.grGen.grShell
                         PrintSequence(debugSequence, null, context);
                         Console.WriteLine();
                         break;
+                    case 'c':
+                        HandleToggleChoicepoints();
+                        context.highlightSeq = seq;
+                        context.success = false;
+                        PrintSequence(debugSequence, null, context);
+                        Console.WriteLine();
+                        break;
                     case 'a':
                         grShellImpl.Cancel();
                         return false;                               // never reached
@@ -769,45 +1009,77 @@ namespace de.unika.ipd.grGen.grShell
                         return false;
                     default:
                         Console.WriteLine("Illegal command (Key = " + key.Key
-                            + ")! Only (n)ext match, (d)etailed step, (s)tep, step (u)p, step (o)ut, (r)un, toggle (b)reakpoints and (a)bort allowed!");
+                            + ")! Only (n)ext match, (d)etailed step, (s)tep, step (u)p, step (o)ut, (r)un, toggle (b)reakpoints, toggle (c)hoicepoints and (a)bort allowed!");
                         break;
                 }
             }
         }
 
-        private void MarkMatches(IEnumerable<IMatch> matches, String nodeRealizerName, String edgeRealizerName, bool annotateElements)
+        private void MarkMatch(IMatch match, String nodeRealizerName, String edgeRealizerName)
+        {
+            foreach(INode node in match.Nodes)
+            {
+                ycompClient.ChangeNode(node, nodeRealizerName);
+            }
+            foreach(IEdge edge in match.Edges)
+            {
+                ycompClient.ChangeEdge(edge, edgeRealizerName);
+            }
+            MarkMatches(match.EmbeddedGraphs, nodeRealizerName, edgeRealizerName);
+            foreach(IMatches iteratedsMatches in match.Iterateds)
+                MarkMatches(iteratedsMatches, nodeRealizerName, edgeRealizerName);
+            MarkMatches(match.Alternatives, nodeRealizerName, edgeRealizerName);
+            MarkMatches(match.Independents, nodeRealizerName, edgeRealizerName);
+        }
+
+        private void MarkMatches(IEnumerable<IMatch> matches, String nodeRealizerName, String edgeRealizerName)
         {
             foreach(IMatch match in matches)
             {
-                int i = 0;
-                foreach(INode node in match.Nodes)
-                {
-                    ycompClient.ChangeNode(node, nodeRealizerName);
-                    if(annotateElements)
-                    {
-                        String name = match.Pattern.Nodes[i].UnprefixedName;
-                        ycompClient.AnnotateElement(node, name);
-                        markedNodes[node] = name;
-                    }
-                    i++;
+                MarkMatch(match, nodeRealizerName, edgeRealizerName);
+            }
+        }
+
+        private void AnnotateMatch(IMatch match, bool addAnnotation)
+        {
+            int i = 0;
+            foreach(INode node in match.Nodes)
+            {
+                if(addAnnotation) {
+                    String name = match.Pattern.Nodes[i].UnprefixedName;
+                    ycompClient.AnnotateElement(node, name);
+                    annotatedNodes[node] = name;
+                } else {
+                    ycompClient.AnnotateElement(node, null);
+                    annotatedNodes.Remove(node);
                 }
-                i = 0;
-                foreach(IEdge edge in match.Edges)
-                {
-                    ycompClient.ChangeEdge(edge, edgeRealizerName);
-                    if(annotateElements)
-                    {
-                        String name = match.Pattern.Edges[i].UnprefixedName;
-                        ycompClient.AnnotateElement(edge, name);
-                        markedEdges[edge] = name;
-                    }
-                    i++;
+                i++;
+            }
+            i = 0;
+            foreach(IEdge edge in match.Edges)
+            {
+                if(addAnnotation) {
+                    String name = match.Pattern.Edges[i].UnprefixedName;
+                    ycompClient.AnnotateElement(edge, name);
+                    annotatedEdges[edge] = name;
+                } else {
+                    ycompClient.AnnotateElement(edge, null);
+                    annotatedEdges.Remove(edge);
                 }
-                MarkMatches(match.EmbeddedGraphs, nodeRealizerName, edgeRealizerName, annotateElements);
-                foreach(IMatches iteratedsMatches in match.Iterateds)
-                    MarkMatches(iteratedsMatches, nodeRealizerName, edgeRealizerName, annotateElements);
-                MarkMatches(match.Alternatives, nodeRealizerName, edgeRealizerName, annotateElements);
-                MarkMatches(match.Independents, nodeRealizerName, edgeRealizerName, annotateElements);
+                i++;
+            }
+            AnnotateMatches(match.EmbeddedGraphs, addAnnotation);
+            foreach(IMatches iteratedsMatches in match.Iterateds)
+                AnnotateMatches(iteratedsMatches, addAnnotation);
+            AnnotateMatches(match.Alternatives, addAnnotation);
+            AnnotateMatches(match.Independents, addAnnotation);
+        }
+
+        private void AnnotateMatches(IEnumerable<IMatch> matches, bool addAnnotation)
+        {
+            foreach(IMatch match in matches)
+            {
+                AnnotateMatch(match, addAnnotation);
             }
         }
 
@@ -848,7 +1120,7 @@ namespace de.unika.ipd.grGen.grShell
             }
             else
             {
-                markedNodes.Remove(node);
+                annotatedNodes.Remove(node);
                 ycompClient.ChangeNode(node, ycompClient.DeletedNodeRealizer);
 
                 String name = ycompClient.Graph.GetElementName(node);
@@ -866,7 +1138,7 @@ namespace de.unika.ipd.grGen.grShell
             }
             else
             {
-                markedEdges.Remove(edge);
+                annotatedEdges.Remove(edge);
                 ycompClient.ChangeEdge(edge, ycompClient.DeletedEdgeRealizer);
 
                 String name = ycompClient.Graph.GetElementName(edge);
@@ -902,10 +1174,10 @@ namespace de.unika.ipd.grGen.grShell
                 INode oldNode = (INode) oldElem;
                 INode newNode = (INode) newElem;
                 String name;
-                if(markedNodes.TryGetValue(oldNode, out name))
+                if(annotatedNodes.TryGetValue(oldNode, out name))
                 {
-                    markedNodes.Remove(oldNode);
-                    markedNodes[newNode] = name;
+                    annotatedNodes.Remove(oldNode);
+                    annotatedNodes[newNode] = name;
                     ycompClient.AnnotateElement(newElem, name);
                 }
                 ycompClient.ChangeNode(newNode, ycompClient.RetypedNodeRealizer);
@@ -916,10 +1188,10 @@ namespace de.unika.ipd.grGen.grShell
                 IEdge oldEdge = (IEdge) oldElem;
                 IEdge newEdge = (IEdge) newElem;
                 String name;
-                if(markedEdges.TryGetValue(oldEdge, out name))
+                if(annotatedEdges.TryGetValue(oldEdge, out name))
                 {
-                    markedEdges.Remove(oldEdge);
-                    markedEdges[newEdge] = name;
+                    annotatedEdges.Remove(oldEdge);
+                    annotatedEdges[newEdge] = name;
                     ycompClient.AnnotateElement(newElem, name);
                 }
                 ycompClient.ChangeEdge(newEdge, ycompClient.RetypedEdgeRealizer);
@@ -957,9 +1229,9 @@ namespace de.unika.ipd.grGen.grShell
             foreach(IEdge edge in retypedEdges.Keys)
                 ycompClient.ChangeEdge(edge, null);
 
-            foreach(INode node in markedNodes.Keys)
+            foreach(INode node in annotatedNodes.Keys)
                 ycompClient.AnnotateElement(node, null);
-            foreach(IEdge edge in markedEdges.Keys)
+            foreach(IEdge edge in annotatedEdges.Keys)
                 ycompClient.AnnotateElement(edge, null);
 
             ycompClient.NodeRealizer = null;

@@ -31,6 +31,24 @@ namespace de.unika.ipd.grGen.libGr
         {
             return namedGraph;
         }
+
+        /// <summary>
+        /// returns the maybe user altered direction of execution for the sequence given
+        /// the randomly chosen direction is supplied; 0: execute left operand first, 1: execute right operand first
+        /// </summary>
+        public int ChooseDirection(int direction, Sequence seq)
+        {
+            return direction; // unaltered, no debugger=user available
+        }
+
+        /// <summary>
+        /// returns the maybe user altered match to apply next for the sequence given
+        /// the randomly chosen match is supplied; the object with all available matches is supplied
+        /// </summary>
+        public int ChooseMatch(int matchToApply, IMatches matches, int numFurtherMatchesToApply, Sequence seq)
+        {
+            return matchToApply;
+        }
     }
 
     /// <summary>
