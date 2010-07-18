@@ -67,6 +67,17 @@ namespace de.unika.ipd.grGen.libGr
         }
 
         /// <summary>
+        /// Apply a graph rewrite sequence to the currently associated graph.
+        /// </summary>
+        /// <param name="seqStr">The graph rewrite sequence in form of a string</param>
+        /// <param name="env">The execution environment giving access to the names and user interface (null if not available)</param>
+        /// <returns>The result of the sequence.</returns>
+        public bool ApplyGraphRewriteSequence(String seqStr, SequenceExecutionEnvironment env)
+        {
+            return Graph.ApplyGraphRewriteSequence(ParseSequence(seqStr), env);
+        }
+              
+        /// <summary>
         /// Tests whether the given sequence succeeds on a clone of the associated graph.
         /// </summary>
         /// <param name="seqStr">The sequence to be executed in form of a string</param>
@@ -74,6 +85,17 @@ namespace de.unika.ipd.grGen.libGr
         public bool ValidateWithSequence(String seqStr)
         {
             return Graph.ValidateWithSequence(ParseSequence(seqStr));
+        }
+
+        /// <summary>
+        /// Tests whether the given sequence succeeds on a clone of the associated graph.
+        /// </summary>
+        /// <param name="seqStr">The sequence to be executed in form of a string</param>
+        /// <param name="env">The execution environment giving access to the names and user interface (null if not available)</param>
+        /// <returns>True, iff the sequence succeeds on the cloned graph </returns>
+        public bool ValidateWithSequence(String seqStr, SequenceExecutionEnvironment env)
+        {
+            return Graph.ValidateWithSequence(ParseSequence(seqStr), env);
         }
 
         /// <summary>

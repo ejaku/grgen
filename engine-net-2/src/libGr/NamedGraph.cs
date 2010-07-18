@@ -13,6 +13,27 @@ using System.Diagnostics;
 namespace de.unika.ipd.grGen.libGr
 {
     /// <summary>
+    /// Environment for sequence exection giving access to graph element names, with null user interface
+    /// </summary>
+    public class SequenceExecutionEnvironmentNamedGraphOnly : SequenceExecutionEnvironment
+    {
+        NamedGraph namedGraph;
+
+        public SequenceExecutionEnvironmentNamedGraphOnly(NamedGraph namedGraph)
+        {
+            this.namedGraph = namedGraph;
+        }
+
+        /// <summary>
+        /// returns the named graph on which the sequence is to be executed, containing the names
+        /// </summary>
+        public NamedGraph GetNamedGraph()
+        {
+            return namedGraph;
+        }
+    }
+
+    /// <summary>
     /// An attributed, typed and directed multigraph with multiple inheritance on node and edge types
     /// and uniquely named elements. This class is a wrapper for an unnamed graph adding names.
     /// </summary>
@@ -820,21 +841,19 @@ namespace de.unika.ipd.grGen.libGr
         /// <returns>The result of the sequence.</returns>
         public bool ApplyGraphRewriteSequence(Sequence sequence)
         {
-            return graph.ApplyGraphRewriteSequence(sequence, this);
+            SequenceExecutionEnvironment env = new SequenceExecutionEnvironmentNamedGraphOnly(this);
+            return graph.ApplyGraphRewriteSequence(sequence, env);
         }
 
         /// <summary>
         /// Apply a graph rewrite sequence.
         /// </summary>
         /// <param name="sequence">The graph rewrite sequence</param>
-        /// <param name="namedGraph">The named graph giving access to the names
-        /// - null if not available (needed if you want to access the names, with e.g. the @-operator;
-        /// for this named graph it is set automatically to this)</param>
+        /// <param name="env">The execution environment giving access to the names and user interface</param>
         /// <returns>The result of the sequence.</returns>
-        public bool ApplyGraphRewriteSequence(Sequence sequence, NamedGraph namedGraph)
+        public bool ApplyGraphRewriteSequence(Sequence sequence, SequenceExecutionEnvironment env)
         {
-            Debug.Assert(namedGraph==null || namedGraph==this);
-            return graph.ApplyGraphRewriteSequence(sequence, this);
+            return graph.ApplyGraphRewriteSequence(sequence, env);
         }
 
         /// <summary>
@@ -844,21 +863,19 @@ namespace de.unika.ipd.grGen.libGr
         /// <returns>True, iff the sequence succeeds on the cloned graph </returns>
         public bool ValidateWithSequence(Sequence seq)
         {
-            return graph.ValidateWithSequence(seq, this);
+            SequenceExecutionEnvironment env = new SequenceExecutionEnvironmentNamedGraphOnly(this);
+            return graph.ValidateWithSequence(seq, env);
         }
 
         /// <summary>
         /// Tests whether the given sequence succeeds on a clone of the associated graph.
         /// </summary>
         /// <param name="seq">The sequence to be executed</param>
-        /// <param name="namedGraph">The named graph giving access to the names 
-        /// - null if not available (needed if you want to access the names, with e.g. the @-operator;
-        /// for this named graph it is set automatically to this)</param>
+        /// <param name="env">The execution environment giving access to the names and user interface</param>
         /// <returns>True, iff the sequence succeeds on the cloned graph </returns>
-        public bool ValidateWithSequence(Sequence seq, NamedGraph namedGraph)
+        public bool ValidateWithSequence(Sequence seq, SequenceExecutionEnvironment env)
         {
-            Debug.Assert(namedGraph == null || namedGraph == this);
-            return graph.ValidateWithSequence(seq, this);
+            return graph.ValidateWithSequence(seq, env);
         }
 
         /// <summary>

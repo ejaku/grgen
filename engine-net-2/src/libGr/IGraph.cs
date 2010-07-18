@@ -652,10 +652,9 @@ namespace de.unika.ipd.grGen.libGr
         /// Apply a graph rewrite sequence.
         /// </summary>
         /// <param name="sequence">The graph rewrite sequence</param>
-        /// <param name="namedGraph">The named graph giving access to the names 
-        /// - null if not available (needed if you want to access the names, with e.g. the @-operator)</param>
+        /// <param name="env">The execution environment giving access to the names and user interface (null if not available)</param>
         /// <returns>The result of the sequence.</returns>
-        bool ApplyGraphRewriteSequence(Sequence sequence, NamedGraph namedGraph);
+        bool ApplyGraphRewriteSequence(Sequence sequence, SequenceExecutionEnvironment env);
 
         /// <summary>
         /// Tests whether the given sequence succeeds on a clone of the associated graph.
@@ -668,10 +667,9 @@ namespace de.unika.ipd.grGen.libGr
         /// Tests whether the given sequence succeeds on a clone of the associated graph.
         /// </summary>
         /// <param name="seq">The sequence to be executed</param>
-        /// <param name="namedGraph">The named graph giving access to the names 
-        /// - null if not available (needed if you want to access the names, with e.g. the @-operator)</param>
+        /// <param name="env">The execution environment giving access to the names and user interface (null if not available)</param>
         /// <returns>True, iff the sequence succeeds on the cloned graph </returns>
-        bool ValidateWithSequence(Sequence seq, NamedGraph namedGraph);
+        bool ValidateWithSequence(Sequence seq, SequenceExecutionEnvironment env);
 
         #endregion Graph rewriting
 

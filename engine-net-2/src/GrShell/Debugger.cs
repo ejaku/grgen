@@ -50,15 +50,16 @@ namespace de.unika.ipd.grGen.grShell
         {
             this.workaround = workaround;
 
+            bpPosCounter = -1;
+
             highlightSeq = null;
             success = false;
             lastSuccessSeq = null;
             lastFailSeq.Clear();
-            bpPosCounter = -1;
         }
     }
 
-    class Debugger
+    class Debugger : SequenceExecutionEnvironment
     {
         GrShellImpl grShellImpl;
         ShellGraph shellGraph;
@@ -208,6 +209,11 @@ namespace de.unika.ipd.grGen.grShell
 
             NotifyOnConnectionLost = false;
             RegisterLibGrEvents();
+        }
+
+        public NamedGraph GetNamedGraph()
+        {
+            return shellGraph.Graph;
         }
 
         /// <summary>

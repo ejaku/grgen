@@ -2474,7 +2474,7 @@ namespace de.unika.ipd.grGen.grShell
             curShellGraph.Graph.PerformanceInfo = perfInfo;
             try
             {
-                bool result = curShellGraph.Graph.ApplyGraphRewriteSequence(seq);
+                bool result = curShellGraph.Graph.ApplyGraphRewriteSequence(seq, debugger);
                 debugOut.WriteLine("Executing Graph Rewrite Sequence done after {0} ms with result {1}:", perfInfo.TotalTimeMS, result);
 #if DEBUGACTIONS || MATCHREWRITEDETAIL
                 debugOut.WriteLine(" - {0} matches found in {1} ms", perfInfo.MatchesFound, perfInfo.TotalMatchTimeMS);

@@ -30,6 +30,17 @@ namespace de.unika.ipd.grGen.libGr
     }
 
     /// <summary>
+    /// Environment for sequence exection giving access to graph element names and user interface 
+    /// </summary>
+    public interface SequenceExecutionEnvironment
+    {
+        /// <summary>
+        /// returns the named graph on which the sequence is to be executed, containing the names
+        /// </summary>
+        NamedGraph GetNamedGraph();
+    }
+
+    /// <summary>
     /// A sequence object with references to child sequences.
     /// </summary>
     public abstract class Sequence
@@ -63,13 +74,12 @@ namespace de.unika.ipd.grGen.libGr
         /// <param name="graph">The graph on which this sequence is to be applied.
         ///     The rules will only be chosen during the Sequence object instantiation, so
         ///     exchanging rules will have no effect for already existing Sequence objects.</param>
-        /// <param name="namedGraph">The named graph giving access to the names 
-        /// - null if not available (needed for accessing the names, with e.g. the @-operator)</param>
+        /// <param name="env">The execution environment giving access to the names and user interface (null if not available)</param>
         /// <returns>True, iff the sequence succeeded</returns>
-        public bool Apply(IGraph graph, NamedGraph namedGraph)
+        public bool Apply(IGraph graph, SequenceExecutionEnvironment env)
         {
             graph.EnteringSequence(this);
-            bool res = ApplyImpl(graph, namedGraph);
+            bool res = ApplyImpl(graph, env);
             graph.ExitingSequence(this);
             return res;
         }
@@ -78,10 +88,9 @@ namespace de.unika.ipd.grGen.libGr
         /// Applies this sequence. This function represents the actual implementation of the sequence.
         /// </summary>
         /// <param name="graph">The graph on which this sequence is to be applied.</param>
-        /// <param name="namedGraph">The named graph giving access to the names 
-        /// - null if not available (needed for accessing the names, with e.g. the @-operator)</param>
+        /// <param name="env">The execution environment giving access to the names and user interface (null if not available)</param>
         /// <returns>True, iff the sequence succeeded</returns>
-        protected abstract bool ApplyImpl(IGraph graph, NamedGraph namedGraph);
+        protected abstract bool ApplyImpl(IGraph graph, SequenceExecutionEnvironment env);
 
         /// <summary>
         /// Enumerates all child sequence objects
@@ -188,15 +197,15 @@ namespace de.unika.ipd.grGen.libGr
         {
         }
 
-        protected override bool ApplyImpl(IGraph graph, NamedGraph namedGraph)
+        protected override bool ApplyImpl(IGraph graph, SequenceExecutionEnvironment env)
         {
             bool res;
             if (Randomize && randomGenerator.Next(2) == 1) {
-                Right.Apply(graph, namedGraph);
-                res = Left.Apply(graph, namedGraph);
+                Right.Apply(graph, env);
+                res = Left.Apply(graph, env);
             } else {
-                res = Left.Apply(graph, namedGraph);
-                Right.Apply(graph, namedGraph);
+                res = Left.Apply(graph, env);
+                Right.Apply(graph, env);
             }
             return res;
         }
@@ -212,15 +221,15 @@ namespace de.unika.ipd.grGen.libGr
         {
         }
 
-        protected override bool ApplyImpl(IGraph graph, NamedGraph namedGraph)
+        protected override bool ApplyImpl(IGraph graph, SequenceExecutionEnvironment env)
         {
             bool res;
             if (Randomize && randomGenerator.Next(2) == 1) {
-                res = Right.Apply(graph, namedGraph);
-                Left.Apply(graph, namedGraph);
+                res = Right.Apply(graph, env);
+                Left.Apply(graph, env);
             } else {
-                Left.Apply(graph, namedGraph);
-                res = Right.Apply(graph, namedGraph);
+                Left.Apply(graph, env);
+                res = Right.Apply(graph, env);
             }
             return res;
         }
@@ -236,12 +245,12 @@ namespace de.unika.ipd.grGen.libGr
         {
         }
 
-        protected override bool ApplyImpl(IGraph graph, NamedGraph namedGraph)
+        protected override bool ApplyImpl(IGraph graph, SequenceExecutionEnvironment env)
         {
             if(Randomize && randomGenerator.Next(2) == 1)
-                return Right.Apply(graph, namedGraph) || Left.Apply(graph, namedGraph);
+                return Right.Apply(graph, env) || Left.Apply(graph, env);
             else
-                return Left.Apply(graph, namedGraph) || Right.Apply(graph, namedGraph);
+                return Left.Apply(graph, env) || Right.Apply(graph, env);
         }
 
         public override int Precedence { get { return 1; } }
@@ -255,12 +264,12 @@ namespace de.unika.ipd.grGen.libGr
         {
         }
 
-        protected override bool ApplyImpl(IGraph graph, NamedGraph namedGraph)
+        protected override bool ApplyImpl(IGraph graph, SequenceExecutionEnvironment env)
         {
             if(Randomize && randomGenerator.Next(2) == 1)
-                return Right.Apply(graph, namedGraph) && Left.Apply(graph, namedGraph);
+                return Right.Apply(graph, env) && Left.Apply(graph, env);
             else
-                return Left.Apply(graph, namedGraph) && Right.Apply(graph, namedGraph);
+                return Left.Apply(graph, env) && Right.Apply(graph, env);
         }
 
         public override int Precedence { get { return 2; } }
@@ -274,12 +283,12 @@ namespace de.unika.ipd.grGen.libGr
         {
         }
 
-        protected override bool ApplyImpl(IGraph graph, NamedGraph namedGraph)
+        protected override bool ApplyImpl(IGraph graph, SequenceExecutionEnvironment env)
         {
             if(Randomize && randomGenerator.Next(2) == 1)
-                return Right.Apply(graph, namedGraph) | Left.Apply(graph, namedGraph);
+                return Right.Apply(graph, env) | Left.Apply(graph, env);
             else
-                return Left.Apply(graph, namedGraph) | Right.Apply(graph, namedGraph);
+                return Left.Apply(graph, env) | Right.Apply(graph, env);
         }
 
         public override int Precedence { get { return 3; } }
@@ -293,12 +302,12 @@ namespace de.unika.ipd.grGen.libGr
         {
         }
 
-        protected override bool ApplyImpl(IGraph graph, NamedGraph namedGraph)
+        protected override bool ApplyImpl(IGraph graph, SequenceExecutionEnvironment env)
         {
             if(Randomize && randomGenerator.Next(2) == 1)
-                return Right.Apply(graph, namedGraph) ^ Left.Apply(graph, namedGraph);
+                return Right.Apply(graph, env) ^ Left.Apply(graph, env);
             else
-                return Left.Apply(graph, namedGraph) ^ Right.Apply(graph, namedGraph);
+                return Left.Apply(graph, env) ^ Right.Apply(graph, env);
         }
 
         public override int Precedence { get { return 4; } }
@@ -312,12 +321,12 @@ namespace de.unika.ipd.grGen.libGr
         {
         }
 
-        protected override bool ApplyImpl(IGraph graph, NamedGraph namedGraph)
+        protected override bool ApplyImpl(IGraph graph, SequenceExecutionEnvironment env)
         {
             if(Randomize && randomGenerator.Next(2) == 1)
-                return Right.Apply(graph, namedGraph) & Left.Apply(graph, namedGraph);
+                return Right.Apply(graph, env) & Left.Apply(graph, env);
             else
-                return Left.Apply(graph, namedGraph) & Right.Apply(graph, namedGraph);
+                return Left.Apply(graph, env) & Right.Apply(graph, env);
         }
 
         public override int Precedence { get { return 5; } }
@@ -328,9 +337,9 @@ namespace de.unika.ipd.grGen.libGr
     {
         public SequenceNot(Sequence seq) : base(seq, SequenceType.Not) {}
 
-        protected override bool ApplyImpl(IGraph graph, NamedGraph namedGraph)
+        protected override bool ApplyImpl(IGraph graph, SequenceExecutionEnvironment env)
         {
-            return !Seq.Apply(graph, namedGraph);
+            return !Seq.Apply(graph, env);
         }
 
         public override int Precedence { get { return 6; } }
@@ -346,10 +355,10 @@ namespace de.unika.ipd.grGen.libGr
             Min = min;
         }
 
-        protected override bool ApplyImpl(IGraph graph, NamedGraph namedGraph)
+        protected override bool ApplyImpl(IGraph graph, SequenceExecutionEnvironment env)
         {
             long i = 0;
-            while (Seq.Apply(graph, namedGraph))
+            while (Seq.Apply(graph, env))
                 i++;
             return i >= Min;
         }
@@ -368,12 +377,12 @@ namespace de.unika.ipd.grGen.libGr
             Max = max;
         }
 
-        protected override bool ApplyImpl(IGraph graph, NamedGraph namedGraph)
+        protected override bool ApplyImpl(IGraph graph, SequenceExecutionEnvironment env)
         {
             long i;
             for(i = 0; i < Max; i++)
             {
-                if (!Seq.Apply(graph, namedGraph)) break;
+                if (!Seq.Apply(graph, env)) break;
             }
             return i >= Min;
         }
@@ -395,7 +404,7 @@ namespace de.unika.ipd.grGen.libGr
             Test = test;
         }
 
-        protected override bool ApplyImpl(IGraph graph, NamedGraph namedGraph)
+        protected override bool ApplyImpl(IGraph graph, SequenceExecutionEnvironment env)
         {
             return graph.ApplyRewrite(ParamBindings, 0, 1, Special, Test) > 0;
         }
@@ -464,7 +473,7 @@ namespace de.unika.ipd.grGen.libGr
 			VarChooseRandom = varChooseRandom;
         }
 
-        protected override bool ApplyImpl(IGraph graph, NamedGraph namedGraph)
+        protected override bool ApplyImpl(IGraph graph, SequenceExecutionEnvironment env)
         {
 			if(!ChooseRandom)
 				return graph.ApplyRewrite(ParamBindings, -1, -1, Special, Test) > 0;
@@ -567,7 +576,7 @@ namespace de.unika.ipd.grGen.libGr
             DefVars = defVars;
         }
 
-        protected override bool ApplyImpl(IGraph graph, NamedGraph namedGraph)
+        protected override bool ApplyImpl(IGraph graph, SequenceExecutionEnvironment env)
         {
             foreach(SequenceVariable defVar in DefVars)
             {
@@ -600,7 +609,7 @@ namespace de.unika.ipd.grGen.libGr
         {
         }
 
-        protected override bool ApplyImpl(IGraph graph, NamedGraph namedGraph) { return true; }
+        protected override bool ApplyImpl(IGraph graph, SequenceExecutionEnvironment env) { return true; }
         public override IEnumerable<Sequence> Children { get { yield break; } }
         public override int Precedence { get { return 8; } }
         public override string Symbol { get { return Special ? "%true" : "true"; } }
@@ -613,7 +622,7 @@ namespace de.unika.ipd.grGen.libGr
         {
         }
 
-        protected override bool ApplyImpl(IGraph graph, NamedGraph namedGraph) { return false; }
+        protected override bool ApplyImpl(IGraph graph, SequenceExecutionEnvironment env) { return false; }
         public override IEnumerable<Sequence> Children { get { yield break; } }
         public override int Precedence { get { return 8; } }
         public override string Symbol { get { return Special ? "%false" : "false"; } }
@@ -629,7 +638,7 @@ namespace de.unika.ipd.grGen.libGr
             PredicateVar = var;
         }
 
-        protected override bool ApplyImpl(IGraph graph, NamedGraph namedGraph)
+        protected override bool ApplyImpl(IGraph graph, SequenceExecutionEnvironment env)
         {
             object val = PredicateVar.GetVariableValue(graph);
             if(val is bool) return (bool)val;
@@ -650,7 +659,7 @@ namespace de.unika.ipd.grGen.libGr
             DestVar = destVar;
         }
 
-        protected override bool ApplyImpl(IGraph graph, NamedGraph namedGraph)
+        protected override bool ApplyImpl(IGraph graph, SequenceExecutionEnvironment env)
         {
             DestVar.SetVariableValue(graph.AllocateVisitedFlag(), graph);
             return true;
@@ -673,7 +682,7 @@ namespace de.unika.ipd.grGen.libGr
             Setmap = setmap;
         }
 
-        protected override bool ApplyImpl(IGraph graph, NamedGraph namedGraph)
+        protected override bool ApplyImpl(IGraph graph, SequenceExecutionEnvironment env)
         {
             IDictionary setmap = (IDictionary)Setmap.GetVariableValue(graph);
             DestVar.SetVariableValue(setmap.Count, graph);
@@ -697,7 +706,7 @@ namespace de.unika.ipd.grGen.libGr
             Setmap = setmap;
         }
 
-        protected override bool ApplyImpl(IGraph graph, NamedGraph namedGraph)
+        protected override bool ApplyImpl(IGraph graph, SequenceExecutionEnvironment env)
         {
             IDictionary setmap = (IDictionary)Setmap.GetVariableValue(graph);
             DestVar.SetVariableValue(setmap.Count == 0, graph);
@@ -723,7 +732,7 @@ namespace de.unika.ipd.grGen.libGr
             KeyVar = keyVar;
         }
 
-        protected override bool ApplyImpl(IGraph graph, NamedGraph namedGraph)
+        protected override bool ApplyImpl(IGraph graph, SequenceExecutionEnvironment env)
         {
             IDictionary setmap = (IDictionary)Setmap.GetVariableValue(graph);
             object keyVar = KeyVar.GetVariableValue(graph);
@@ -749,7 +758,7 @@ namespace de.unika.ipd.grGen.libGr
             SourceVar = sourceVar;
         }
 
-        protected override bool ApplyImpl(IGraph graph, NamedGraph namedGraph)
+        protected override bool ApplyImpl(IGraph graph, SequenceExecutionEnvironment env)
         {
             DestVar.SetVariableValue(SourceVar.GetVariableValue(graph), graph);
             return true;                    // Semantics changed! Now always returns true, as it is always successful!
@@ -772,7 +781,7 @@ namespace de.unika.ipd.grGen.libGr
             Constant = constant;
         }
 
-        protected override bool ApplyImpl(IGraph graph, NamedGraph namedGraph)
+        protected override bool ApplyImpl(IGraph graph, SequenceExecutionEnvironment env)
         {
             DestVar.SetVariableValue(Constant, graph);
             return true;
@@ -802,7 +811,7 @@ namespace de.unika.ipd.grGen.libGr
             SourceVar = sourceVar;
         }
 
-        protected override bool ApplyImpl(IGraph graph, NamedGraph namedGraph)
+        protected override bool ApplyImpl(IGraph graph, SequenceExecutionEnvironment env)
         {
             object value = SourceVar.GetVariableValue(graph);
             IGraphElement elem = (IGraphElement)DestVar.GetVariableValue(graph);
@@ -837,7 +846,7 @@ namespace de.unika.ipd.grGen.libGr
             AttributeName = attributeName;
         }
 
-        protected override bool ApplyImpl(IGraph graph, NamedGraph namedGraph)
+        protected override bool ApplyImpl(IGraph graph, SequenceExecutionEnvironment env)
         {
             IGraphElement elem = (IGraphElement)SourceVar.GetVariableValue(graph);
             object value = elem.GetAttribute(AttributeName);
@@ -866,11 +875,13 @@ namespace de.unika.ipd.grGen.libGr
             if(ElementName[0]=='\"') ElementName = ElementName.Substring(1, ElementName.Length-2); 
         }
 
-        protected override bool ApplyImpl(IGraph graph, NamedGraph namedGraph)
+        protected override bool ApplyImpl(IGraph graph, SequenceExecutionEnvironment env)
         {
-            if(namedGraph==null && !(graph is NamedGraph))
+            if(env==null && !(graph is NamedGraph))
                 throw new InvalidOperationException("The @-operator can only be used with NamedGraphs!");
-            if(namedGraph==null) namedGraph = (NamedGraph)graph;
+            NamedGraph namedGraph = null;
+            if(env!=null) namedGraph = env.GetNamedGraph();
+            if(env==null) namedGraph = (NamedGraph)graph;
             IGraphElement elem = namedGraph.GetGraphElement(ElementName);
             if(elem == null)
                 throw new InvalidOperationException("Graph element does not exist: \"" + ElementName + "\"!");
@@ -895,9 +906,9 @@ namespace de.unika.ipd.grGen.libGr
             Seq = sequence;
         }
 
-        protected override bool ApplyImpl(IGraph graph, NamedGraph namedGraph)
+        protected override bool ApplyImpl(IGraph graph, SequenceExecutionEnvironment env)
         {
-            bool result = Seq.Apply(graph, namedGraph);
+            bool result = Seq.Apply(graph, env);
             DestVar.SetVariableValue(result, graph);
             return true; // Semantics changed! Now always returns true, as it is always successful!
         }
@@ -911,7 +922,7 @@ namespace de.unika.ipd.grGen.libGr
     {
         public SequenceTransaction(Sequence seq) : base(seq, SequenceType.Transaction) { }
 
-        protected override bool ApplyImpl(IGraph graph, NamedGraph namedGraph)
+        protected override bool ApplyImpl(IGraph graph, SequenceExecutionEnvironment env)
         {
             int transactionID = graph.TransactionManager.StartTransaction();
             int oldRewritesPerformed;
@@ -919,7 +930,7 @@ namespace de.unika.ipd.grGen.libGr
             if(graph.PerformanceInfo != null) oldRewritesPerformed = graph.PerformanceInfo.RewritesPerformed;
             else oldRewritesPerformed = -1;
 
-            bool res = Seq.Apply(graph, namedGraph);
+            bool res = Seq.Apply(graph, env);
 
             if(res) graph.TransactionManager.Commit(transactionID);
             else
@@ -950,9 +961,9 @@ namespace de.unika.ipd.grGen.libGr
             FalseCase = falseCase;
         }
 
-        protected override bool ApplyImpl(IGraph graph, NamedGraph namedGraph)
+        protected override bool ApplyImpl(IGraph graph, SequenceExecutionEnvironment env)
         {
-            return Condition.Apply(graph, namedGraph) ? TrueCase.Apply(graph, namedGraph) : FalseCase.Apply(graph, namedGraph);
+            return Condition.Apply(graph, env) ? TrueCase.Apply(graph, env) : FalseCase.Apply(graph, env);
         }
 
         public override IEnumerable<Sequence> Children { get { yield return Condition; yield return TrueCase; yield return FalseCase; } }
@@ -967,9 +978,9 @@ namespace de.unika.ipd.grGen.libGr
         {
         }
 
-        protected override bool ApplyImpl(IGraph graph, NamedGraph namedGraph)
+        protected override bool ApplyImpl(IGraph graph, SequenceExecutionEnvironment env)
         {
-            return Left.Apply(graph, namedGraph) ? Right.Apply(graph, namedGraph) : true; // lazy implication
+            return Left.Apply(graph, env) ? Right.Apply(graph, env) : true; // lazy implication
         }
 
         public override int Precedence { get { return 8; } }
@@ -990,7 +1001,7 @@ namespace de.unika.ipd.grGen.libGr
             Setmap = setmap;
         }
 
-        protected override bool ApplyImpl(IGraph graph, NamedGraph namedGraph)
+        protected override bool ApplyImpl(IGraph graph, SequenceExecutionEnvironment env)
         {
             IDictionary setmap = (IDictionary)Setmap.GetVariableValue(graph);
             bool res = true;
@@ -1000,7 +1011,7 @@ namespace de.unika.ipd.grGen.libGr
                 if(VarDst != null) {
                     VarDst.SetVariableValue(entry.Value, graph);
                 }
-                res &= Seq.Apply(graph, namedGraph);
+                res &= Seq.Apply(graph, env);
             }
             return res;
         }
@@ -1021,7 +1032,7 @@ namespace de.unika.ipd.grGen.libGr
             VisitedFlagVar = visitedFlagVar;
         }
 
-        protected override bool ApplyImpl(IGraph graph, NamedGraph namedGraph)
+        protected override bool ApplyImpl(IGraph graph, SequenceExecutionEnvironment env)
         {
             IGraphElement elem = (IGraphElement)GraphElementVar.GetVariableValue(graph);
             int visitedFlag = (int)VisitedFlagVar.GetVariableValue(graph);
@@ -1056,7 +1067,7 @@ namespace de.unika.ipd.grGen.libGr
             Val = val;
         }
 
-        protected override bool ApplyImpl(IGraph graph, NamedGraph namedGraph)
+        protected override bool ApplyImpl(IGraph graph, SequenceExecutionEnvironment env)
         {
             IGraphElement elem = (IGraphElement)GraphElementVar.GetVariableValue(graph);
             int visitedFlag = (int)VisitedFlagVar.GetVariableValue(graph);
@@ -1085,7 +1096,7 @@ namespace de.unika.ipd.grGen.libGr
             VisitedFlagVar = visitedFlagVar;
         }
 
-        protected override bool ApplyImpl(IGraph graph, NamedGraph namedGraph)
+        protected override bool ApplyImpl(IGraph graph, SequenceExecutionEnvironment env)
         {
             int visitedFlag = (int)VisitedFlagVar.GetVariableValue(graph);
             graph.FreeVisitedFlag(visitedFlag);
@@ -1107,7 +1118,7 @@ namespace de.unika.ipd.grGen.libGr
             VisitedFlagVar = visitedFlagVar;
         }
 
-        protected override bool ApplyImpl(IGraph graph, NamedGraph namedGraph)
+        protected override bool ApplyImpl(IGraph graph, SequenceExecutionEnvironment env)
         {
             int visitedFlag = (int)VisitedFlagVar.GetVariableValue(graph);
             graph.ResetVisitedFlag(visitedFlag);
@@ -1139,7 +1150,7 @@ namespace de.unika.ipd.grGen.libGr
             Variable = var;
         }
 
-        protected override bool ApplyImpl(IGraph graph, NamedGraph namedGraph)
+        protected override bool ApplyImpl(IGraph graph, SequenceExecutionEnvironment env)
         {
             if(Variable!=null) {
                 object val = Variable.GetVariableValue(graph);
@@ -1172,7 +1183,7 @@ namespace de.unika.ipd.grGen.libGr
             VarDst = varDst;
         }
 
-        protected override bool ApplyImpl(IGraph graph, NamedGraph namedGraph)
+        protected override bool ApplyImpl(IGraph graph, SequenceExecutionEnvironment env)
         {
             IDictionary setmap = (IDictionary)Setmap.GetVariableValue(graph);
             if(setmap.Contains(Var.GetVariableValue(graph))) {
@@ -1200,7 +1211,7 @@ namespace de.unika.ipd.grGen.libGr
             Var = var;
         }
 
-        protected override bool ApplyImpl(IGraph graph, NamedGraph namedGraph)
+        protected override bool ApplyImpl(IGraph graph, SequenceExecutionEnvironment env)
         {
             IDictionary setmap = (IDictionary)Setmap.GetVariableValue(graph);
             setmap.Remove(Var.GetVariableValue(graph));
@@ -1222,7 +1233,7 @@ namespace de.unika.ipd.grGen.libGr
             Setmap = setmap;
         }
 
-        protected override bool ApplyImpl(IGraph graph, NamedGraph namedGraph)
+        protected override bool ApplyImpl(IGraph graph, SequenceExecutionEnvironment env)
         {
             IDictionary setmap = (IDictionary)Setmap.GetVariableValue(graph);
             setmap.Clear();
@@ -1246,7 +1257,7 @@ namespace de.unika.ipd.grGen.libGr
             Setmap = setmap;
         }
 
-        protected override bool ApplyImpl(IGraph graph, NamedGraph namedGraph)
+        protected override bool ApplyImpl(IGraph graph, SequenceExecutionEnvironment env)
         {
             IDictionary setmap = (IDictionary)Setmap.GetVariableValue(graph);
             return setmap.Contains(Var.GetVariableValue(graph));
