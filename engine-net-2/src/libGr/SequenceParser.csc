@@ -466,9 +466,9 @@ Sequence RewriteSequence():
 {
 	seq=RewriteSequenceLazyOr()
 	(
-		LOOKAHEAD(2)
+		LOOKAHEAD(3)
 		(
-			LOOKAHEAD(2)
+			LOOKAHEAD(3)
 			("$" { random = true; } ("%" { choice = true; })?)? "<;" seq2=RewriteSequence()							
 			{
 				seq = new SequenceThenLeft(seq, seq2, random, choice);
@@ -493,7 +493,7 @@ Sequence RewriteSequenceLazyOr():
 {
 	seq=RewriteSequenceLazyAnd()
 	(
-		LOOKAHEAD(2)
+		LOOKAHEAD(3)
 		("$" { random = true; } ("%" { choice = true; })?)? "||" seq2=RewriteSequenceLazyOr()							
 		{
 			seq = new SequenceLazyOr(seq, seq2, random, choice);
@@ -512,7 +512,7 @@ Sequence RewriteSequenceLazyAnd():
 {
 	seq=RewriteSequenceStrictOr()
 	(
-		LOOKAHEAD(2)
+		LOOKAHEAD(3)
 		("$" { random = true; } ("%" { choice = true; })?)? "&&" seq2=RewriteSequenceLazyAnd()
 		{
 			seq = new SequenceLazyAnd(seq, seq2, random, choice);
@@ -531,7 +531,7 @@ Sequence RewriteSequenceStrictOr():
 {
 	seq=RewriteSequenceStrictXor()
 	(
-		LOOKAHEAD(2)
+		LOOKAHEAD(3)
 		("$" { random = true; } ("%" { choice = true; })?)? "|" seq2=RewriteSequenceStrictOr()
 		{
 			seq = new SequenceStrictOr(seq, seq2, random, choice);
@@ -550,7 +550,7 @@ Sequence RewriteSequenceStrictXor():
 {
 	seq=RewriteSequenceStrictAnd()
 	(
-		LOOKAHEAD(2)
+		LOOKAHEAD(3)
 		("$" { random = true; } ("%" { choice = true; })?)? "^" seq2=RewriteSequenceStrictXor()
 		{
 			seq = new SequenceXor(seq, seq2, random, choice);
@@ -569,7 +569,7 @@ Sequence RewriteSequenceStrictAnd():
 {
 	seq=RewriteSequenceNeg()
 	(
-		LOOKAHEAD(2)
+		LOOKAHEAD(3)
 		("$" { random = true; } ("%" { choice = true; })?)? "&" seq2=RewriteSequenceStrictAnd()
 		{
 			seq = new SequenceStrictAnd(seq, seq2, random, choice);
@@ -651,9 +651,10 @@ Sequence RewriteSequenceIteration():
 
 Sequence SimpleSequence():
 {
-	bool special = false;
+	bool special = false, choice = false;
 	Sequence seq, seq2, seq3 = null;
 	List<SequenceVariable> defParamVars = new List<SequenceVariable>();
+	List<Sequence> sequences = new List<Sequence>();
 	SequenceVariable toVar, fromVar, fromVar2 = null, fromVar3 = null;
 	String attrName, method, elemName;
 	int num = 0;
@@ -720,9 +721,9 @@ Sequence SimpleSequence():
             return new SequenceAssignUserInputToVar(toVar, str);
         }
     |
-        "$" ("%" { special = true; } )? "(" num=Number() ")"
+        "$" ("%" { choice = true; } )? "(" num=Number() ")"
         {
-            return new SequenceAssignRandomToVar(toVar, num, special);
+            return new SequenceAssignRandomToVar(toVar, num, choice);
         }
 	|
 		"def" "(" Parameters(defParamVars) ")" // todo: eigentliches Ziel: Zuweisung simple sequence an Variable
@@ -810,6 +811,18 @@ Sequence SimpleSequence():
     {
         return new SequenceFalse(special);
     }
+|
+	LOOKAHEAD(3) "$" ("%" { choice = true; } )? 
+	"|" seq=RewriteSequence() { sequences.Add(seq); } ("," seq=RewriteSequence() { sequences.Add(seq); })* "|"
+	{
+		return new SequenceOneOf(sequences, choice);
+	}
+|
+	"$" ("%" { choice = true; } )? 
+	"&" seq=RewriteSequence() { sequences.Add(seq); } ("," seq=RewriteSequence() { sequences.Add(seq); })* "&"
+	{
+		return new SequenceAllOf(sequences, choice);
+	}
 |
 	"(" seq=RewriteSequence() ")"
 	{

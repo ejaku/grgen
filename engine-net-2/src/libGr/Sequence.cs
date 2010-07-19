@@ -26,8 +26,8 @@ namespace de.unika.ipd.grGen.libGr
         AssignUserInputToVar, AssignRandomToVar,
         AssignConstToVar, AssignAttributeToVar, AssignVarToAttribute,
         IsVisited, SetVisited, VFree, VReset, Emit,
-        SetmapAdd, SetmapRem, SetmapClear, InSetmap, 
-        Transaction, IfThenElse, IfThen, For
+        SetmapAdd, SetmapRem, SetmapClear, InSetmap,
+        OneOf, AllOf, Transaction, IfThenElse, IfThen, For
     }
 
     /// <summary>
@@ -45,6 +45,12 @@ namespace de.unika.ipd.grGen.libGr
         /// the randomly chosen directions is supplied; 0: execute left operand first, 1: execute right operand first
         /// </summary>
         int ChooseDirection(int direction, Sequence seq);
+
+        /// <summary>
+        /// returns the maybe user altered sequence to execute next for the sequence given
+        /// the randomly chosen sequence is supplied; the object with all available sequences is supplied
+        /// </summary>
+        int ChooseSequence(int seqToExecute, List<Sequence> sequences, Sequence seq);
 
         /// <summary>
         /// returns the maybe user altered match to apply next for the sequence given
@@ -235,6 +241,30 @@ namespace de.unika.ipd.grGen.libGr
         public override IEnumerable<Sequence> Children
         {
             get { yield return Left; yield return Right; }
+        }
+    }
+
+    /// <summary>
+    /// A sequence consisting of a list of subsequences. Breakpointable.
+    /// Decision on order of execution by random, by user choice possible.
+    /// </summary>
+    public abstract class SequenceNAry : Sequence, SequenceRandomChoice
+    {
+        public List<Sequence> Sequences;
+        public bool Random { get { return true; } set { throw new Exception("can't change Random on SequenceNAry"); } }
+        public bool Choice { get { return choice; } set { choice = value; } }
+        bool choice;
+
+        public SequenceNAry(List<Sequence> sequences, bool choice, SequenceType seqType)
+            : base(seqType)
+        {
+            Sequences = sequences;
+            this.choice = choice;
+        }
+
+        public override IEnumerable<Sequence> Children
+        { 
+            get { foreach(Sequence seq in Sequences) yield return seq; }
         }
     }
 
@@ -1050,6 +1080,56 @@ namespace de.unika.ipd.grGen.libGr
         public override IEnumerable<Sequence> Children { get { yield return Seq; } }
         public override int Precedence { get { return 8; } }
         public override string Symbol { get { return "(" + DestVar.Name + ")=..."; } }
+    }
+
+    public class SequenceOneOf : SequenceNAry
+    {
+        public SequenceOneOf(List<Sequence> sequences, bool choice)
+            : base(sequences, choice, SequenceType.OneOf)
+        {
+        }
+
+        protected override bool ApplyImpl(IGraph graph, SequenceExecutionEnvironment env)
+        {
+            List<Sequence> sequences = new List<Sequence>(Sequences);
+            while(sequences.Count != 0)
+            {
+                int seqToExecute = randomGenerator.Next(sequences.Count);
+                if(Choice && env != null) seqToExecute = env.ChooseSequence(seqToExecute, sequences, this);
+                bool result = sequences[seqToExecute].Apply(graph, env);
+                sequences.Remove(sequences[seqToExecute]);
+                if(result) return true;
+            }
+            return false;
+        }
+
+        public override int Precedence { get { return 8; } }
+        public override string Symbol { get { return "$|...|"; } }
+    }
+
+    public class SequenceAllOf : SequenceNAry
+    {
+        public SequenceAllOf(List<Sequence> sequences, bool choice)
+            : base(sequences, choice, SequenceType.AllOf)
+        {
+        }
+
+        protected override bool ApplyImpl(IGraph graph, SequenceExecutionEnvironment env)
+        {
+            List<Sequence> sequences = new List<Sequence>(Sequences);
+            while(sequences.Count != 0)
+            {
+                int seqToExecute = randomGenerator.Next(sequences.Count);
+                if(Choice && env != null) seqToExecute = env.ChooseSequence(seqToExecute, sequences, this);
+                bool result = sequences[seqToExecute].Apply(graph, env);
+                sequences.Remove(sequences[seqToExecute]);
+                if(!result) return false;
+            }
+            return true;
+        }
+
+        public override int Precedence { get { return 8; } }
+        public override string Symbol { get { return "$&...&"; } }
     }
 
     public class SequenceTransaction : SequenceUnary

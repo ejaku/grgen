@@ -83,6 +83,14 @@ namespace de.unika.ipd.grGen.lgsp
                 break;
             }
 
+            case SequenceType.OneOf:
+            case SequenceType.AllOf:
+            {
+                foreach(Sequence seqChild in seq.Children)
+                    Check(seqChild);
+                break;
+            }
+
             case SequenceType.RuleAll:
             case SequenceType.Rule:
             {

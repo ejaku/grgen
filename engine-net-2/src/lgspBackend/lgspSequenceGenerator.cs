@@ -1002,6 +1002,20 @@ namespace de.unika.ipd.grGen.lgsp
                     break; 
                 }
 
+                case SequenceType.OneOf:
+                {
+                    SequenceOneOf seqOneOf = (SequenceOneOf)seq;
+                    // TODO!
+                    break;
+                }
+
+                case SequenceType.AllOf:
+                {
+                    SequenceAllOf seqAllOf = (SequenceAllOf)seq;
+                    // TODO!
+                    break;
+                }
+
 				case SequenceType.Transaction:
 				{
 					SequenceTransaction seqTrans = (SequenceTransaction) seq;

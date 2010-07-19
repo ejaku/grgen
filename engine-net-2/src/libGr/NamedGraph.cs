@@ -38,7 +38,16 @@ namespace de.unika.ipd.grGen.libGr
         /// </summary>
         public int ChooseDirection(int direction, Sequence seq)
         {
-            return direction; // unaltered, no debugger=user available
+            return direction;
+        }
+
+        /// <summary>
+        /// returns the maybe user altered sequence to execute next for the sequence given
+        /// the randomly chosen sequence is supplied; the object with all available sequences is supplied
+        /// </summary>
+        public int ChooseSequence(int seqToExecute, List<Sequence> sequences, Sequence seq)
+        {
+            return seqToExecute;
         }
 
         /// <summary>

@@ -240,7 +240,7 @@ namespace de.unika.ipd.grGen.grShell
         {
             context.highlightSeq = seq;
             context.choice = true;
-            PrintSequence(debugSequence, seq, context);
+            PrintSequence(debugSequence, null, context);
             Console.WriteLine();
             context.choice = false;
 
@@ -268,6 +268,61 @@ namespace de.unika.ipd.grGen.grShell
         }
 
         /// <summary>
+        /// returns the maybe user altered sequence to execute next for the sequence given
+        /// the randomly chosen sequence is supplied; the object with all available sequences is supplied
+        /// </summary>
+        public int ChooseSequence(int seqToExecute, List<Sequence> sequences, Sequence seq)
+        {
+            Console.WriteLine("Which sequence to execute? Pre-selecting sequence " + seqToExecute + " chosen by random.");
+            Console.WriteLine("Press '0'...'9' to pre-select the corresponding sequence or 'e' to enter the number of the sequence to show. Press 'c' to commit to the pre-selected sequence and continue.");
+
+            while(true)
+            {
+                context.highlightSeq = sequences[seqToExecute];
+                context.choice = true;
+                PrintSequence(debugSequence, null, context);
+                Console.WriteLine();
+                context.choice = false;
+
+                ConsoleKeyInfo key = ReadKeyWithCancel();
+                switch(key.KeyChar)
+                {
+                case '0': case '1': case '2': case '3': case '4':
+                case '5': case '6': case '7': case '8': case '9':
+                    int num = key.KeyChar - '0';
+                    if(num >= sequences.Count)
+                    {
+                        Console.WriteLine("You must specify a number between 0 and " + (sequences.Count - 1) + "!");
+                        break;
+                    }
+                    seqToExecute = num;
+                    break;
+                case 'e':
+                    Console.Write("Enter number of sequence to show: ");
+                    String numStr = Console.ReadLine();
+                    if(int.TryParse(numStr, out num))
+                    {
+                        if(num < 0 || num >= sequences.Count)
+                        {
+                            Console.WriteLine("You must specify a number between 0 and " + (sequences.Count - 1) + "!");
+                            break;
+                        }
+                        seqToExecute = num;
+                        break;
+                    }
+                    Console.WriteLine("You must enter a valid integer number!");
+                    break;
+                case 'c':
+                    return seqToExecute;
+                default:
+                    Console.WriteLine("Illegal choice (Key = " + key.Key
+                        + ")! Only (0)...(9), (e)nter number, (c)ontinue/commit allowed! ");
+                    break;
+                }
+            }
+        }
+
+        /// <summary>
         /// returns the maybe user altered match to apply next for the sequence given
         /// the randomly chosen match is supplied; the object with all available matches is supplied
         /// </summary>
@@ -275,7 +330,7 @@ namespace de.unika.ipd.grGen.grShell
         {
             context.highlightSeq = seq;
             context.choice = true;
-            PrintSequence(debugSequence, seq, context);
+            PrintSequence(debugSequence, null, context);
             Console.WriteLine();
             context.choice = false;
             
@@ -353,7 +408,7 @@ namespace de.unika.ipd.grGen.grShell
         {
             context.highlightSeq = seq;
             context.choice = true;
-            PrintSequence(debugSequence, seq, context);
+            PrintSequence(debugSequence, null, context);
             Console.WriteLine();
             context.choice = false;
 
@@ -417,7 +472,7 @@ namespace de.unika.ipd.grGen.grShell
         {
             context.highlightSeq = seq;
             context.choice = true;
-            PrintSequence(debugSequence, seq, context);
+            PrintSequence(debugSequence, null, context);
             Console.WriteLine();
             context.choice = false;
 
@@ -669,6 +724,66 @@ namespace de.unika.ipd.grGen.grShell
                     Console.Write(";");
                     PrintSequence(seqIf.FalseCase, seq, context);
                     Console.Write("}");
+                    break;
+                }
+
+                // n-ary
+                case SequenceType.OneOf:
+                case SequenceType.AllOf:
+                {
+                    SequenceNAry seqN = (SequenceNAry)seq;
+                    String symbol = seq.SequenceType == SequenceType.OneOf ? "|" : "&";
+
+                    if(context.cpPosCounter >= 0)
+                    {
+                        if(seqN.Choice)
+                            context.workaround.PrintHighlighted(" " + "[%" + context.cpPosCounter + "]:", HighlightingMode.Choicepoint);
+                        else
+                            context.workaround.PrintHighlighted(" " + "%" + context.cpPosCounter + ":", HighlightingMode.Choicepoint);
+                        ++context.cpPosCounter;
+                        Console.Write("$" + symbol);
+                        bool first = true;
+                        foreach(Sequence seqChild in seqN.Children)
+                        {
+                            if(!first) Console.Write(", ");
+                            PrintSequence(seqChild, seqN, context);
+                            first = false;
+                        }
+                        Console.Write(symbol + " ");
+                        break;
+                    }
+
+                    bool highlight = false;
+                    foreach(Sequence seqChild in seqN.Children)
+                        if(seqChild == context.highlightSeq)
+                            highlight = true;
+                    if(highlight && context.choice)
+                    {
+                        context.workaround.PrintHighlighted("$%" + symbol, HighlightingMode.Choicepoint);
+                        bool first = true;
+                        foreach(Sequence seqChild in seqN.Children)
+                        {
+                            if(!first) Console.Write(", ");
+                            if(seqChild == context.highlightSeq)
+                                context.workaround.PrintHighlighted(">", HighlightingMode.Choicepoint);
+                            PrintSequence(seqChild, seqN, context);
+                            if(seqChild == context.highlightSeq)
+                                context.workaround.PrintHighlighted("<", HighlightingMode.Choicepoint);
+                            first = false;
+                        }
+                        context.workaround.PrintHighlighted(symbol, HighlightingMode.Choicepoint);
+                        break;
+                    }
+
+                    Console.Write("$" + (seqN.Choice?"%":"") + symbol);
+                    bool first_ffs = true;
+                    foreach(Sequence seqChild in seqN.Children)
+                    {
+                        if(!first_ffs) Console.Write(", ");
+                        PrintSequence(seqChild, seqN, context);
+                        first_ffs = false;
+                    }
+                    Console.Write(symbol);
                     break;
                 }
 
