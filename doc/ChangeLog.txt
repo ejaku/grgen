@@ -1,4 +1,4 @@
-﻿v2.6RC7 (2010-07-19)
+﻿v2.6RC8 (2010-07-21)
  Single most important change:
   - user manual updated (including all the changes from 1.4->2.6)
  
@@ -9,7 +9,13 @@
      on success truecase is executed and its result returned,
      on failure falsecase is executed and its result returned
   - if{cond; truecase} which equals if{cond;truecase;true} thus giving a lazy implication
-
+  - n-ary random all of operators (currently only available in the interpreted sequences), 
+     in function call notation with the operator symbol as function name:
+	 - the strict $|(r,s,t) and $&(r,s,t) evaluate all their subsequences in random order 
+	 returning the disjunction resp. conjunction of their truth values.
+     - the lazy versions || and && evaluate the subsequences in random order 
+	 as long as the outcome is not fixed, returning the disjunction resp. conjunction of their truth values.
+  
  Uniform variable handling in xgrs:
   - now the compiled and the interpreted sequences both always support
     i) graph global variables, untyped, i.e. type errors are only detected at runtime,
@@ -60,12 +66,14 @@
   - renamed (n)ext to (u)p (going one level up in the sequence tree)
   - added (n)ext command focusing the rule which matches next in green
      (instead of normal/other step commands focusing the rule which will be tried next)
-  - special highlighting for the rule which lastly matched and the rules which lastly failed
-  - debug support for all the new and changed xgrs constructs
+  - the rules which matched during sequence execution are shown on dark green background,
+    the rules which failed during sequence execution are shown on dark red background;
+    at the begin of a new loop iteration the highlighting state of the contained rules is reset.
   - choice points similar to break points added; denoted by % appended to the random operator $
      transforming the random choice to a user choice, triggered when execution reaches the choice point
 	 applicable to the random binary operators, random match selection, random number assignment
 	 user input assignments are choice points which can't be toggled off
+  - debug support for all the new and changed xgrs constructs
   
  Rewrite part handling of nested patterns:
   - modify/replace graph elements of nesting pattern

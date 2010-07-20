@@ -681,9 +681,9 @@ prints the debugged sequence with the currently focused/active rule highlighted 
 What will be shown from executing this rule depends on the commands chosen by the user;
 and on the fact whether the focused rule matches or not.
 An active rule which is already known to match is highlighted green.
-The rule which matched lastly is shown on dark green background,
-the rules which failed since the last success are shown on dark red background
-(if the lastly matching rule failed since then it is shown on dark yellow background).
+The rules which matched during sequence execution are shown on dark green background,
+the rules which failed during sequence execution are shown on dark red background;
+at the begin of a new loop iteration the highlighting state of the contained rules is reset.
 During execution \yComp\footnote{Make sure, that the path to your \texttt{\indexed{yComp.jar}} package is set correctly in the \texttt{ycomp} shell script within \GrG's \texttt{/bin} directory.}\indexmain{yComp}
 will display the changes to the graph from every single step. 
 Besides deciding on what is shown from the execution of the current rule, 

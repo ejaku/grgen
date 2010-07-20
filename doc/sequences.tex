@@ -117,8 +117,13 @@ the min-max-brackets (\texttt{[n:m]}) additionally fail if the minimum amount \e
 	'if' lbrace Condition ';' TrueCase rbrace |
     '<' RewriteSequence '>' | 
     '(' RewriteSequence ')' |
-    (percent)? BoolLit;
-\end{rail}\ixnterm{RewriteFactor}\ixkeyw{emit}\ixkeyw{if}\indexmain{\texttt{<>}}
+    (percent)? BoolLit |
+	dollar (percent)? (ampersand | '|' | doubleampersand | '||') '(' SequencesList ')'
+	;
+  SequencesList:
+	RewriteSequence ((',' RewriteSequence)*())
+	;
+\end{rail}\ixnterm{RewriteFactor}\ixnterm{SequencesList}\ixkeyw{emit}\ixkeyw{if}\indexmain{\texttt{<>}}
 
 Rewrite factors are the building blocks of graph rewrite sequences.
 They mainly act as a rule application or variable assignment.
@@ -132,6 +137,11 @@ Nested transactions\indexmainsee{nested transaction}{transaction} are supported.
 Forcing execution order can be achived by parentheses.
 Boolean literals \texttt{true}/\texttt{false} come in handy if a sequence is to be evaluated 
 but its result must be a predefined value; furtheron a \indexed{break point} may be attached to them.
+The random all of operators (which are currently only available in the interpreted sequences) given in function call notation with the operator symbol as name have the following semantics:
+The strict operators \verb/|/ and \verb/&/ evaluate all their subsequences in random order returning the disjunction resp. conjunction of their truth values.
+The lazy operators \verb/||/ and \verb/&&/ evaluate the subsequences in random order as long as the outcome is not fixed, 
+which holds for the disjunction as long as there was no succeeding rule and for the conjunction as long as there was no failing rule.
+A \indexed{choice point} may be used to define the subsequence to be executed next.
 
 \begin{rail}    
   RuleExecution: (() | '(' (Variable+',') ')' '=') \\ (() | percent) (() | '?') ( (dollar (percent)?() ( Variable | ()) | ()) '[' Rule ']' | Rule);   
