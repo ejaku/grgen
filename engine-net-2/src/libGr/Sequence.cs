@@ -27,7 +27,16 @@ namespace de.unika.ipd.grGen.libGr
         AssignConstToVar, AssignAttributeToVar, AssignVarToAttribute,
         IsVisited, SetVisited, VFree, VReset, Emit,
         SetmapAdd, SetmapRem, SetmapClear, InSetmap,
-        OneOf, AllOf, Transaction, IfThenElse, IfThen, For
+        LazyOrAll, LazyAndAll, StrictOrAll, StrictAndAll, 
+        Transaction, IfThenElse, IfThen, For
+    }
+
+    /// <summary>
+    /// States of executing sequences: not (yet) executed, execution underway, successful execution, fail execution
+    /// </summary>
+    public enum SequenceExecutionState
+    {
+        NotYet, Underway, Success, Fail
     }
 
     /// <summary>
@@ -50,7 +59,7 @@ namespace de.unika.ipd.grGen.libGr
         /// returns the maybe user altered sequence to execute next for the sequence given
         /// the randomly chosen sequence is supplied; the object with all available sequences is supplied
         /// </summary>
-        int ChooseSequence(int seqToExecute, List<Sequence> sequences, Sequence seq);
+        int ChooseSequence(int seqToExecute, List<Sequence> sequences, SequenceNAry seq);
 
         /// <summary>
         /// returns the maybe user altered match to apply next for the sequence given
@@ -97,6 +106,8 @@ namespace de.unika.ipd.grGen.libGr
 
             id = idSource;
             ++idSource;
+
+            executionState = SequenceExecutionState.NotYet;
         }
 
         /// <summary>
@@ -110,7 +121,9 @@ namespace de.unika.ipd.grGen.libGr
         public bool Apply(IGraph graph, SequenceExecutionEnvironment env)
         {
             graph.EnteringSequence(this);
+            executionState = SequenceExecutionState.Underway;
             bool res = ApplyImpl(graph, env);
+            executionState = res ? SequenceExecutionState.Success : SequenceExecutionState.Fail;
             graph.ExitingSequence(this);
             return res;
         }
@@ -122,6 +135,17 @@ namespace de.unika.ipd.grGen.libGr
         /// <param name="env">The execution environment giving access to the names and user interface (null if not available)</param>
         /// <returns>True, iff the sequence succeeded</returns>
         protected abstract bool ApplyImpl(IGraph graph, SequenceExecutionEnvironment env);
+
+        /// <summary>
+        /// Reset the execution state after a run (for following runs).
+        /// The sequence to be iterated gets reset before each iteration.
+        /// </summary>
+        public void ResetExecutionState()
+        {
+            executionState = SequenceExecutionState.NotYet;
+            foreach(Sequence childSeq in Children)
+                childSeq.ResetExecutionState();
+        }
 
         /// <summary>
         /// Enumerates all child sequence objects
@@ -154,6 +178,16 @@ namespace de.unika.ipd.grGen.libGr
         /// the static member used to assign the unique ids to the sequence instances
         /// </summary>
         private static int idSource = 0;
+
+        /// <summary>
+        /// the state of executing this sequence
+        /// </summary>
+        public SequenceExecutionState ExecutionState { get { return executionState; } }
+
+        /// <summary>
+        /// the state of executing this sequence, implementation
+        /// </summary>
+        private SequenceExecutionState executionState;
     }
 
     /// <summary>
@@ -254,6 +288,8 @@ namespace de.unika.ipd.grGen.libGr
         public bool Random { get { return true; } set { throw new Exception("can't change Random on SequenceNAry"); } }
         public bool Choice { get { return choice; } set { choice = value; } }
         bool choice;
+        public bool Skip { get { return skip; } set { skip = value; } }
+        bool skip;
 
         public SequenceNAry(List<Sequence> sequences, bool choice, SequenceType seqType)
             : base(seqType)
@@ -458,8 +494,11 @@ namespace de.unika.ipd.grGen.libGr
         protected override bool ApplyImpl(IGraph graph, SequenceExecutionEnvironment env)
         {
             long i = 0;
-            while (Seq.Apply(graph, env))
+            while(Seq.Apply(graph, env))
+            {
+                Seq.ResetExecutionState();
                 i++;
+            }
             return i >= Min;
         }
 
@@ -482,6 +521,7 @@ namespace de.unika.ipd.grGen.libGr
             long i;
             for(i = 0; i < Max; i++)
             {
+                Seq.ResetExecutionState();
                 if (!Seq.Apply(graph, env)) break;
             }
             return i >= Min;
@@ -1082,10 +1122,10 @@ namespace de.unika.ipd.grGen.libGr
         public override string Symbol { get { return "(" + DestVar.Name + ")=..."; } }
     }
 
-    public class SequenceOneOf : SequenceNAry
+    public class SequenceLazyOrAll : SequenceNAry
     {
-        public SequenceOneOf(List<Sequence> sequences, bool choice)
-            : base(sequences, choice, SequenceType.OneOf)
+        public SequenceLazyOrAll(List<Sequence> sequences, bool choice)
+            : base(sequences, choice, SequenceType.LazyOrAll)
         {
         }
 
@@ -1095,22 +1135,26 @@ namespace de.unika.ipd.grGen.libGr
             while(sequences.Count != 0)
             {
                 int seqToExecute = randomGenerator.Next(sequences.Count);
-                if(Choice && env != null) seqToExecute = env.ChooseSequence(seqToExecute, sequences, this);
+                if(Choice && !Skip && env != null) seqToExecute = env.ChooseSequence(seqToExecute, sequences, this);
                 bool result = sequences[seqToExecute].Apply(graph, env);
                 sequences.Remove(sequences[seqToExecute]);
-                if(result) return true;
+                if(result) {
+                    Skip = false;
+                    return true;
+                }
             }
+            Skip = false;
             return false;
         }
 
         public override int Precedence { get { return 8; } }
-        public override string Symbol { get { return "$|...|"; } }
+        public override string Symbol { get { return "||"; } }
     }
 
-    public class SequenceAllOf : SequenceNAry
+    public class SequenceLazyAndAll : SequenceNAry
     {
-        public SequenceAllOf(List<Sequence> sequences, bool choice)
-            : base(sequences, choice, SequenceType.AllOf)
+        public SequenceLazyAndAll(List<Sequence> sequences, bool choice)
+            : base(sequences, choice, SequenceType.LazyAndAll)
         {
         }
 
@@ -1120,16 +1164,72 @@ namespace de.unika.ipd.grGen.libGr
             while(sequences.Count != 0)
             {
                 int seqToExecute = randomGenerator.Next(sequences.Count);
-                if(Choice && env != null) seqToExecute = env.ChooseSequence(seqToExecute, sequences, this);
+                if(Choice && !Skip && env != null) seqToExecute = env.ChooseSequence(seqToExecute, sequences, this);
                 bool result = sequences[seqToExecute].Apply(graph, env);
                 sequences.Remove(sequences[seqToExecute]);
-                if(!result) return false;
+                if(!result) { 
+                    Skip = false; 
+                    return false; 
+                }
             }
+            Skip = false;
             return true;
         }
 
         public override int Precedence { get { return 8; } }
-        public override string Symbol { get { return "$&...&"; } }
+        public override string Symbol { get { return "&&"; } }
+    }
+
+    public class SequenceStrictOrAll : SequenceNAry
+    {
+        public SequenceStrictOrAll(List<Sequence> sequences, bool choice)
+            : base(sequences, choice, SequenceType.StrictOrAll)
+        {
+        }
+
+        protected override bool ApplyImpl(IGraph graph, SequenceExecutionEnvironment env)
+        {
+            bool result = false;
+            List<Sequence> sequences = new List<Sequence>(Sequences);
+            while(sequences.Count != 0)
+            {
+                int seqToExecute = randomGenerator.Next(sequences.Count);
+                if(Choice && !Skip && env != null) seqToExecute = env.ChooseSequence(seqToExecute, sequences, this);
+                result |= sequences[seqToExecute].Apply(graph, env);
+                sequences.Remove(sequences[seqToExecute]);
+            }
+            Skip = false;
+            return result;
+        }
+
+        public override int Precedence { get { return 8; } }
+        public override string Symbol { get { return "|"; } }
+    }
+
+    public class SequenceStrictAndAll : SequenceNAry
+    {
+        public SequenceStrictAndAll(List<Sequence> sequences, bool choice)
+            : base(sequences, choice, SequenceType.StrictAndAll)
+        {
+        }
+
+        protected override bool ApplyImpl(IGraph graph, SequenceExecutionEnvironment env)
+        {
+            bool result = true;
+            List<Sequence> sequences = new List<Sequence>(Sequences);
+            while(sequences.Count != 0)
+            {
+                int seqToExecute = randomGenerator.Next(sequences.Count);
+                if(Choice && !Skip && env != null) seqToExecute = env.ChooseSequence(seqToExecute, sequences, this);
+                result &= sequences[seqToExecute].Apply(graph, env);
+                sequences.Remove(sequences[seqToExecute]);
+            }
+            Skip = false;
+            return result;
+        }
+
+        public override int Precedence { get { return 8; } }
+        public override string Symbol { get { return "&"; } }
     }
 
     public class SequenceTransaction : SequenceUnary
@@ -1222,9 +1322,9 @@ namespace de.unika.ipd.grGen.libGr
             foreach(DictionaryEntry entry in setmap)
             {
                 Var.SetVariableValue(entry.Key, graph);
-                if(VarDst != null) {
+                if(VarDst != null)
                     VarDst.SetVariableValue(entry.Value, graph);
-                }
+                Seq.ResetExecutionState();
                 res &= Seq.Apply(graph, env);
             }
             return res;

@@ -1002,16 +1002,30 @@ namespace de.unika.ipd.grGen.lgsp
                     break; 
                 }
 
-                case SequenceType.OneOf:
+                case SequenceType.LazyOrAll:
                 {
-                    SequenceOneOf seqOneOf = (SequenceOneOf)seq;
+                    SequenceLazyOrAll seqAll = (SequenceLazyOrAll)seq;
                     // TODO!
                     break;
                 }
 
-                case SequenceType.AllOf:
+                case SequenceType.LazyAndAll:
                 {
-                    SequenceAllOf seqAllOf = (SequenceAllOf)seq;
+                    SequenceLazyAndAll seqAll = (SequenceLazyAndAll)seq;
+                    // TODO!
+                    break;
+                }
+
+                case SequenceType.StrictOrAll:
+                {
+                    SequenceStrictOrAll seqAll = (SequenceStrictOrAll)seq;
+                    // TODO!
+                    break;
+                }
+
+                case SequenceType.StrictAndAll:
+                {
+                    SequenceStrictAndAll seqAll = (SequenceStrictAndAll)seq;
                     // TODO!
                     break;
                 }

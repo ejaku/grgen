@@ -45,14 +45,9 @@ namespace de.unika.ipd.grGen.grShell
         public bool success;
         /// <summary> The sequence to be highlighted requires a direction choice? </summary>
         public bool choice;
-        /// <summary> The last successfully processed rule or null </summary>
-        public Sequence lastSuccessSeq;
-        /// <summary> The last unsuccessfully processed rules (did not match) or null </summary>
-        public Dictionary<Sequence, bool> lastFailSeq;
 
         public PrintSequenceContext(IWorkaround workaround)
         {
-            lastFailSeq = new Dictionary<Sequence, bool>();
             Init(workaround);
         }
 
@@ -67,8 +62,6 @@ namespace de.unika.ipd.grGen.grShell
             highlightSeq = null;
             success = false;
             choice = false;
-            lastSuccessSeq = null;
-            lastFailSeq.Clear();
         }
     }
 
@@ -271,10 +264,10 @@ namespace de.unika.ipd.grGen.grShell
         /// returns the maybe user altered sequence to execute next for the sequence given
         /// the randomly chosen sequence is supplied; the object with all available sequences is supplied
         /// </summary>
-        public int ChooseSequence(int seqToExecute, List<Sequence> sequences, Sequence seq)
+        public int ChooseSequence(int seqToExecute, List<Sequence> sequences, SequenceNAry seq)
         {
             Console.WriteLine("Which sequence to execute? Pre-selecting sequence " + seqToExecute + " chosen by random.");
-            Console.WriteLine("Press '0'...'9' to pre-select the corresponding sequence or 'e' to enter the number of the sequence to show. Press 'c' to commit to the pre-selected sequence and continue.");
+            Console.WriteLine("Press '0'...'9' to pre-select the corresponding sequence or 'e' to enter the number of the sequence to show. Press 'c' to commit to the pre-selected sequence and continue. Pressing 'n' works like 'c' but does not ask for the remaining contained sequences.");
 
             while(true)
             {
@@ -313,6 +306,9 @@ namespace de.unika.ipd.grGen.grShell
                     Console.WriteLine("You must enter a valid integer number!");
                     break;
                 case 'c':
+                    return seqToExecute;
+                case 'n':
+                    seq.Skip = true; // skip remaining rules (reset after exection of seq)
                     return seqToExecute;
                 default:
                     Console.WriteLine("Illegal choice (Key = " + key.Key
@@ -728,11 +724,12 @@ namespace de.unika.ipd.grGen.grShell
                 }
 
                 // n-ary
-                case SequenceType.OneOf:
-                case SequenceType.AllOf:
+                case SequenceType.LazyOrAll:
+                case SequenceType.LazyAndAll:
+                case SequenceType.StrictOrAll:
+                case SequenceType.StrictAndAll:
                 {
                     SequenceNAry seqN = (SequenceNAry)seq;
-                    String symbol = seq.SequenceType == SequenceType.OneOf ? "|" : "&";
 
                     if(context.cpPosCounter >= 0)
                     {
@@ -741,7 +738,7 @@ namespace de.unika.ipd.grGen.grShell
                         else
                             context.workaround.PrintHighlighted(" " + "%" + context.cpPosCounter + ":", HighlightingMode.Choicepoint);
                         ++context.cpPosCounter;
-                        Console.Write("$" + symbol);
+                        Console.Write("$" + seqN.Symbol + "(");
                         bool first = true;
                         foreach(Sequence seqChild in seqN.Children)
                         {
@@ -749,7 +746,7 @@ namespace de.unika.ipd.grGen.grShell
                             PrintSequence(seqChild, seqN, context);
                             first = false;
                         }
-                        Console.Write(symbol + " ");
+                        Console.Write(") ");
                         break;
                     }
 
@@ -759,7 +756,7 @@ namespace de.unika.ipd.grGen.grShell
                             highlight = true;
                     if(highlight && context.choice)
                     {
-                        context.workaround.PrintHighlighted("$%" + symbol, HighlightingMode.Choicepoint);
+                        context.workaround.PrintHighlighted("$%" + seqN.Symbol + "(", HighlightingMode.Choicepoint);
                         bool first = true;
                         foreach(Sequence seqChild in seqN.Children)
                         {
@@ -771,11 +768,11 @@ namespace de.unika.ipd.grGen.grShell
                                 context.workaround.PrintHighlighted("<", HighlightingMode.Choicepoint);
                             first = false;
                         }
-                        context.workaround.PrintHighlighted(symbol, HighlightingMode.Choicepoint);
+                        context.workaround.PrintHighlighted(")", HighlightingMode.Choicepoint);
                         break;
                     }
 
-                    Console.Write("$" + (seqN.Choice?"%":"") + symbol);
+                    Console.Write("$" + (seqN.Choice?"%":"") + seqN.Symbol + "(");
                     bool first_ffs = true;
                     foreach(Sequence seqChild in seqN.Children)
                     {
@@ -783,7 +780,7 @@ namespace de.unika.ipd.grGen.grShell
                         PrintSequence(seqChild, seqN, context);
                         first_ffs = false;
                     }
-                    Console.Write(symbol);
+                    Console.Write(")");
                     break;
                 }
 
@@ -823,8 +820,8 @@ namespace de.unika.ipd.grGen.grShell
                         else if(context.success) mode |= HighlightingMode.FocusSucces;
                         else mode |= HighlightingMode.Focus;
                     }
-                    if(seq == context.lastSuccessSeq) mode |= HighlightingMode.LastSuccess;
-                    if(context.lastFailSeq.ContainsKey(seq)) mode |= HighlightingMode.LastFail;
+                    if(seq.ExecutionState==SequenceExecutionState.Success) mode |= HighlightingMode.LastSuccess;
+                    if(seq.ExecutionState==SequenceExecutionState.Fail) mode |= HighlightingMode.LastFail;
                     context.workaround.PrintHighlighted(seq.Symbol, mode);
                     break;
                 }
@@ -1107,14 +1104,6 @@ namespace de.unika.ipd.grGen.grShell
             {
                 loopList.RemoveFirst();
             }
-
-            if(seq.SequenceType == SequenceType.Rule || seq.SequenceType == SequenceType.RuleAll
-                || seq.SequenceType == SequenceType.True || seq.SequenceType == SequenceType.False
-                || seq.SequenceType == SequenceType.VarPredicate)
-            {
-                if(context.lastSuccessSeq != seq || context.lastSuccessSeq != recentlyMatched)
-                    context.lastFailSeq.Add(seq, true);
-            }
         }
 
         void DebugMatched(IMatches matches, bool special)
@@ -1135,15 +1124,11 @@ namespace de.unika.ipd.grGen.grShell
                 if(!QueryUser(lastlyEntered))
                 {
                     recentlyMatched = lastlyEntered;
-                    context.lastSuccessSeq = recentlyMatched;
-                    context.lastFailSeq.Clear();
                     return;
                 }
             }
 
             recentlyMatched = lastlyEntered;
-            context.lastSuccessSeq = recentlyMatched;
-            context.lastFailSeq.Clear();
 
             if(!detailedMode)
                 return;

@@ -19,6 +19,11 @@
             SequenceChecker and Sequence (add the corresponding class down below), the Debugger
             </summary>
         </member>
+        <member name="T:de.unika.ipd.grGen.libGr.SequenceExecutionState">
+            <summary>
+            States of executing sequences: not (yet) executed, execution underway, successful execution, fail execution
+            </summary>
+        </member>
         <member name="T:de.unika.ipd.grGen.libGr.SequenceExecutionEnvironment">
             <summary>
             Environment for sequence exection giving access to graph element names and user interface 
@@ -35,7 +40,7 @@
             the randomly chosen directions is supplied; 0: execute left operand first, 1: execute right operand first
             </summary>
         </member>
-        <member name="M:de.unika.ipd.grGen.libGr.SequenceExecutionEnvironment.ChooseSequence(System.Int32,System.Collections.Generic.List{de.unika.ipd.grGen.libGr.Sequence},de.unika.ipd.grGen.libGr.Sequence)">
+        <member name="M:de.unika.ipd.grGen.libGr.SequenceExecutionEnvironment.ChooseSequence(System.Int32,System.Collections.Generic.List{de.unika.ipd.grGen.libGr.Sequence},de.unika.ipd.grGen.libGr.SequenceNAry)">
             <summary>
             returns the maybe user altered sequence to execute next for the sequence given
             the randomly chosen sequence is supplied; the object with all available sequences is supplied
@@ -99,6 +104,12 @@
             <param name="env">The execution environment giving access to the names and user interface (null if not available)</param>
             <returns>True, iff the sequence succeeded</returns>
         </member>
+        <member name="M:de.unika.ipd.grGen.libGr.Sequence.ResetExecutionState">
+            <summary>
+            Reset the execution state after a run (for following runs).
+            The sequence to be iterated gets reset before each iteration.
+            </summary>
+        </member>
         <member name="F:de.unika.ipd.grGen.libGr.Sequence.id">
             <summary>
             stores the sequence unique id
@@ -107,6 +118,11 @@
         <member name="F:de.unika.ipd.grGen.libGr.Sequence.idSource">
             <summary>
             the static member used to assign the unique ids to the sequence instances
+            </summary>
+        </member>
+        <member name="F:de.unika.ipd.grGen.libGr.Sequence.executionState">
+            <summary>
+            the state of executing this sequence, implementation
             </summary>
         </member>
         <member name="P:de.unika.ipd.grGen.libGr.Sequence.Children">
@@ -129,6 +145,11 @@
         <member name="P:de.unika.ipd.grGen.libGr.Sequence.Id">
             <summary>
             returns the sequence id - every sequence is assigned a unique id used in xgrs code generation
+            </summary>
+        </member>
+        <member name="P:de.unika.ipd.grGen.libGr.Sequence.ExecutionState">
+            <summary>
+            the state of executing this sequence
             </summary>
         </member>
         <member name="T:de.unika.ipd.grGen.libGr.SequenceSpecial">
@@ -302,7 +323,7 @@
             the randomly chosen direction is supplied; 0: execute left operand first, 1: execute right operand first
             </summary>
         </member>
-        <member name="M:de.unika.ipd.grGen.libGr.SequenceExecutionEnvironmentNamedGraphOnly.ChooseSequence(System.Int32,System.Collections.Generic.List{de.unika.ipd.grGen.libGr.Sequence},de.unika.ipd.grGen.libGr.Sequence)">
+        <member name="M:de.unika.ipd.grGen.libGr.SequenceExecutionEnvironmentNamedGraphOnly.ChooseSequence(System.Int32,System.Collections.Generic.List{de.unika.ipd.grGen.libGr.Sequence},de.unika.ipd.grGen.libGr.SequenceNAry)">
             <summary>
             returns the maybe user altered sequence to execute next for the sequence given
             the randomly chosen sequence is supplied; the object with all available sequences is supplied

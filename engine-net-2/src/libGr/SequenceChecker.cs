@@ -68,8 +68,10 @@ namespace de.unika.ipd.grGen.libGr
                 break;
             }
 
-            case SequenceType.OneOf:
-            case SequenceType.AllOf:
+            case SequenceType.LazyOrAll:
+            case SequenceType.LazyAndAll:
+            case SequenceType.StrictOrAll:
+            case SequenceType.StrictAndAll:
             {
                 foreach(Sequence seqChild in seq.Children)
                     Check(seqChild);
