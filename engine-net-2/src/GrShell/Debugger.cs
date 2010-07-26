@@ -46,6 +46,9 @@ namespace de.unika.ipd.grGen.grShell
         /// <summary> The sequence to be highlighted requires a direction choice? </summary>
         public bool choice;
 
+        /// <summary> If not null, gives the sequences to choose amongst </summary>
+        public List<Sequence> sequences;
+
         public PrintSequenceContext(IWorkaround workaround)
         {
             Init(workaround);
@@ -62,6 +65,8 @@ namespace de.unika.ipd.grGen.grShell
             highlightSeq = null;
             success = false;
             choice = false;
+
+            sequences = null;
         }
     }
 
@@ -231,13 +236,16 @@ namespace de.unika.ipd.grGen.grShell
         /// </summary>
         public int ChooseDirection(int direction, Sequence seq)
         {
+            ycompClient.UpdateDisplay();
+            ycompClient.Sync();
+
             context.highlightSeq = seq;
             context.choice = true;
             PrintSequence(debugSequence, null, context);
             Console.WriteLine();
             context.choice = false;
 
-            Console.Write("Which branch to execute first? (l)eft or (r)ight or (c)ontinue with random choice?  (Random has chosen " + (direction==0 ? "(l)eft" : "(r)ight") + ") ");
+            Console.Write("Which branch to execute first? (l)eft or (r)ight or (s)/(n) to continue with random choice?  (Random has chosen " + (direction==0 ? "(l)eft" : "(r)ight") + ") ");
             while(true)
             {
                 ConsoleKeyInfo key = ReadKeyWithCancel();
@@ -249,12 +257,13 @@ namespace de.unika.ipd.grGen.grShell
                 case 'r':
                     Console.WriteLine();
                     return 1;
-                case 'c':
+                case 's':
+                case 'n':
                     Console.WriteLine();
                     return direction;
                 default:
                     Console.WriteLine("Illegal choice (Key = " + key.Key
-                        + ")! Only (l)eft branch, (r)ight branch, (c)ontinue allowed! ");
+                        + ")! Only (l)eft branch, (r)ight branch, (s)/(n) to continue allowed! ");
                     break;
                 }
             }
@@ -266,16 +275,23 @@ namespace de.unika.ipd.grGen.grShell
         /// </summary>
         public int ChooseSequence(int seqToExecute, List<Sequence> sequences, SequenceNAry seq)
         {
+            ycompClient.UpdateDisplay();
+            ycompClient.Sync();
+
             Console.WriteLine("Which sequence to execute? Pre-selecting sequence " + seqToExecute + " chosen by random.");
-            Console.WriteLine("Press '0'...'9' to pre-select the corresponding sequence or 'e' to enter the number of the sequence to show. Press 'c' to commit to the pre-selected sequence and continue. Pressing 'n' works like 'c' but does not ask for the remaining contained sequences.");
+            Console.WriteLine("Press (0)...(9) to pre-select the corresponding sequence or (e) to enter the number of the sequence to show."
+                                + " Press (s) or (n) to commit to the pre-selected sequence and continue."
+                                + " Pressing (u) or (o) works like (s)/(n) but does not ask for the remaining contained sequences.");
 
             while(true)
             {
                 context.highlightSeq = sequences[seqToExecute];
                 context.choice = true;
+                context.sequences = sequences;
                 PrintSequence(debugSequence, null, context);
                 Console.WriteLine();
                 context.choice = false;
+                context.sequences = null;
 
                 ConsoleKeyInfo key = ReadKeyWithCancel();
                 switch(key.KeyChar)
@@ -305,14 +321,16 @@ namespace de.unika.ipd.grGen.grShell
                     }
                     Console.WriteLine("You must enter a valid integer number!");
                     break;
-                case 'c':
-                    return seqToExecute;
+                case 's':
                 case 'n':
+                    return seqToExecute;
+                case 'u':
+                case 'o':
                     seq.Skip = true; // skip remaining rules (reset after exection of seq)
                     return seqToExecute;
                 default:
                     Console.WriteLine("Illegal choice (Key = " + key.Key
-                        + ")! Only (0)...(9), (e)nter number, (c)ontinue/commit allowed! ");
+                        + ")! Only (0)...(9), (e)nter number, (s)/(n) to commit and continue, (u)/(o) to commit and skip remaining choices allowed! ");
                     break;
                 }
             }
@@ -331,15 +349,16 @@ namespace de.unika.ipd.grGen.grShell
             context.choice = false;
             
             Console.WriteLine("Which match to apply? Showing the match chosen by random. (" + numFurtherMatchesToApply + " following)");
-            Console.WriteLine("Press '0'...'9' to show the corresponding match or 'e' to enter the number of the match to show. Press 'c' to commit to the currently shown match and continue.");
+            Console.WriteLine("Press (0)...(9) to show the corresponding match or (e) to enter the number of the match to show."
+                                + " Press (s) or (n) to commit to the currently shown match and continue.");
             
             if(detailedMode)
             {
                 MarkMatches(matches, null, null);
                 AnnotateMatches(matches, false);
-                ycompClient.UpdateDisplay();
-                ycompClient.Sync();
             }
+            ycompClient.UpdateDisplay();
+            ycompClient.Sync();
 
             int newMatchToRewrite = matchToApply;
             while(true)
@@ -382,7 +401,8 @@ namespace de.unika.ipd.grGen.grShell
                     }
                     Console.WriteLine("You must enter a valid integer number!");
                     break;
-                case 'c':
+                case 's':
+                case 'n':
                     MarkMatch(matches.GetMatch(matchToApply), null, null);
                     AnnotateMatch(matches.GetMatch(matchToApply), false);
                     ycompClient.UpdateDisplay();
@@ -390,7 +410,7 @@ namespace de.unika.ipd.grGen.grShell
                     return matchToApply;
                 default:
                     Console.WriteLine("Illegal choice (Key = " + key.Key
-                        + ")! Only (0)...(9), (e)nter number, (c)ontinue/commit allowed! ");
+                        + ")! Only (0)...(9), (e)nter number, (s)/(n) to commit and continue allowed! ");
                     break;
                 }
             }
@@ -402,6 +422,9 @@ namespace de.unika.ipd.grGen.grShell
         /// </summary>
         public int ChooseRandomNumber(int randomNumber, int upperBound, Sequence seq)
         {
+            ycompClient.UpdateDisplay();
+            ycompClient.Sync();
+
             context.highlightSeq = seq;
             context.choice = true;
             PrintSequence(debugSequence, null, context);
@@ -433,6 +456,9 @@ namespace de.unika.ipd.grGen.grShell
         /// </summary>
         public string ChooseGraphElement()
         {
+            ycompClient.UpdateDisplay();
+            ycompClient.Sync();
+
             ycompClient.WaitForElement(true);
 
             // Allow to abort with ESC
@@ -466,6 +492,9 @@ namespace de.unika.ipd.grGen.grShell
         /// </summary>
         public object ChooseValue(string type, Sequence seq)
         {
+            ycompClient.UpdateDisplay();
+            ycompClient.Sync();
+
             context.highlightSeq = seq;
             context.choice = true;
             PrintSequence(debugSequence, null, context);
@@ -642,11 +671,11 @@ namespace de.unika.ipd.grGen.grShell
 
                     if(seqBin == context.highlightSeq && context.choice)
                     {
-                        context.workaround.PrintHighlighted("(", HighlightingMode.Choicepoint);
+                        context.workaround.PrintHighlighted("(l)", HighlightingMode.Choicepoint);
                         PrintSequence(seqBin.Left, seq, context);
-                        context.workaround.PrintHighlighted(" " + seq.Symbol + " ", HighlightingMode.Choicepoint);
+                        context.workaround.PrintHighlighted("(l) " + seq.Symbol + " (r)", HighlightingMode.Choicepoint);
                         PrintSequence(seqBin.Right, seq, context);
-                        context.workaround.PrintHighlighted(")", HighlightingMode.Choicepoint);
+                        context.workaround.PrintHighlighted("(r)", HighlightingMode.Choicepoint);
                         break;
                     }
 
@@ -763,6 +792,14 @@ namespace de.unika.ipd.grGen.grShell
                             if(!first) Console.Write(", ");
                             if(seqChild == context.highlightSeq)
                                 context.workaround.PrintHighlighted(">", HighlightingMode.Choicepoint);
+                            if(context.sequences != null)
+                            {
+                                for(int i = 0; i < context.sequences.Count; ++i)
+                                {
+                                    if(seqChild == context.sequences[i])
+                                        context.workaround.PrintHighlighted("(" + i + ")", HighlightingMode.Choicepoint);
+                                }
+                            }
                             PrintSequence(seqChild, seqN, context);
                             if(seqChild == context.highlightSeq)
                                 context.workaround.PrintHighlighted("<", HighlightingMode.Choicepoint);
