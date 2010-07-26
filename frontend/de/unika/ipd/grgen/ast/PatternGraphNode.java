@@ -117,7 +117,7 @@ public class PatternGraphNode extends GraphNode {
 			CollectNode<HomNode> homs, CollectNode<ExactNode> exact,
 			CollectNode<InducedNode> induced, int modifiers, int context) {
 		super(nameOfGraph, coords, connections, params, subpatterns, orderedReplacements,
-				returns, null, context, null);
+				returns, null, null, context, null);
 		this.alts = alts;
 		becomeParent(this.alts);
 		this.iters = iters;

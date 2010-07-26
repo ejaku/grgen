@@ -140,6 +140,7 @@ TOKEN: {
 |   < VRESET: "vreset" >
 |   < EMIT: "emit" >
 |   < NULL: "null" >
+|   < YIELD: "yield" >
 }
 
 TOKEN: {
@@ -653,7 +654,7 @@ Sequence SimpleSequence():
 {
 	bool special = false, choice = false;
 	Sequence seq, seq2, seq3 = null;
-	List<SequenceVariable> defParamVars = new List<SequenceVariable>();
+	List<SequenceVariable> paramVars = new List<SequenceVariable>();
 	List<Sequence> sequences = new List<Sequence>();
 	SequenceVariable toVar, fromVar, fromVar2 = null, fromVar3 = null;
 	String attrName, method, elemName;
@@ -726,9 +727,9 @@ Sequence SimpleSequence():
             return new SequenceAssignRandomToVar(toVar, num, choice);
         }
 	|
-		"def" "(" Parameters(defParamVars) ")" // todo: eigentliches Ziel: Zuweisung simple sequence an Variable
+		"def" "(" Parameters(paramVars) ")" // todo: eigentliches Ziel: Zuweisung simple sequence an Variable
 		{
-			return new SequenceAssignSequenceResultToVar(toVar, new SequenceDef(defParamVars.ToArray()));
+			return new SequenceAssignSequenceResultToVar(toVar, new SequenceDef(paramVars.ToArray()));
 		}
 	|
 		"(" seq=RewriteSequence() ")"
@@ -797,9 +798,9 @@ Sequence SimpleSequence():
 		return seq;
 	}
 |
-	"def" "(" Parameters(defParamVars) ")"
+	"def" "(" Parameters(paramVars) ")"
 	{
-		return new SequenceDef(defParamVars.ToArray());
+		return new SequenceDef(paramVars.ToArray());
 	}
 |
     LOOKAHEAD(2) ("%" { special = true; })? "true"
@@ -859,6 +860,11 @@ Sequence SimpleSequence():
 	{
         return new SequenceFor(fromVar, fromVar2, fromVar3, seq);
     }
+|
+	"yield" "(" Parameters(paramVars) ")"
+	{
+		return new SequenceYield(paramVars.ToArray());
+	}
 }
 
 void RuleLookahead():

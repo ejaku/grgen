@@ -27,11 +27,14 @@ namespace de.unika.ipd.grGen.lgsp
         /// </summary>
         /// <param name="parameters">The names of the needed graph elements of the containing action.</param>
         /// <param name="parameterTypes">The types of the needed graph elements of the containing action.</param>
+        /// <param name="outParameterTypes">The types of the graph elements returned to the containing action.</param>
         /// <param name="xgrs">The XGRS string.</param>
-		public LGSPXGRSInfo(String[] parameters, GrGenType[] parameterTypes, String xgrs)
+		public LGSPXGRSInfo(String[] parameters, GrGenType[] parameterTypes,
+            GrGenType[] outParameterTypes, String xgrs)
 		{
 			Parameters = parameters;
             ParameterTypes = parameterTypes;
+            OutParameterTypes = outParameterTypes;
 			XGRS = xgrs;
 		}
 
@@ -44,6 +47,11 @@ namespace de.unika.ipd.grGen.lgsp
         /// The types of the needed graph elements of the containing action.
         /// </summary>
         public GrGenType[] ParameterTypes;
+
+        /// <summary>
+        /// The types of the graph elements returned to the containing action.
+        /// </summary>
+        public GrGenType[] OutParameterTypes;
 
         /// <summary>
         /// The XGRS string.
@@ -661,6 +669,18 @@ namespace de.unika.ipd.grGen.lgsp
 					break;
 				}
 
+                case SequenceType.Yield:
+                {
+                    SequenceYield seqYield = (SequenceYield)seq;
+                    for(int i=0; i<seqYield.YieldVars.Length; ++i)
+                    {
+                        source.AppendFront("varout_" + i + " = (" + seqYield.ExpectedYieldType[i] + ")"
+                            + GetVar(seqYield.YieldVars[i]) + ";\n");
+                    }
+                    source.AppendFront(SetResultVar(seqYield, "true"));
+                    break;
+                }
+
 				case SequenceType.True:
 				case SequenceType.False:
 					source.AppendFront(SetResultVar(seq, (seq.SequenceType == SequenceType.True ? "true" : "false")));
@@ -1046,7 +1066,9 @@ namespace de.unika.ipd.grGen.lgsp
 			}
 		}
 
-		public bool GenerateXGRSCode(int xgrsID, String xgrsStr, String[] paramNames, GrGenType[] paramTypes, SourceBuilder source)
+		public bool GenerateXGRSCode(int xgrsID, String xgrsStr, 
+            String[] paramNames, GrGenType[] paramTypes, GrGenType[] outParamTypes,
+            SourceBuilder source)
 		{
 			Dictionary<String, String> varDecls = new Dictionary<String, String>();
             for (int i = 0; i < paramNames.Length; i++)
@@ -1065,7 +1087,7 @@ namespace de.unika.ipd.grGen.lgsp
             try
             {
                 seq = SequenceParser.ParseSequence(xgrsStr, ruleNames, varDecls, model);
-                LGSPSequenceChecker checker = new LGSPSequenceChecker(ruleNames, rulesToInputTypes, rulesToOutputTypes, model);
+                LGSPSequenceChecker checker = new LGSPSequenceChecker(ruleNames, rulesToInputTypes, rulesToOutputTypes, model, outParamTypes);
                 checker.Check(seq);
             }
             catch(ParseException ex)
@@ -1158,7 +1180,11 @@ namespace de.unika.ipd.grGen.lgsp
 				source.Append(", " + TypesHelper.XgrsTypeToCSharpType(TypesHelper.DotNetTypeToXgrsType(paramTypes[i]), model) + " var_");
 				source.Append(paramNames[i]);
 			}
-			source.Append(")\n");
+            for(int i = 0; i < outParamTypes.Length; i++)
+            {
+                source.Append(", out " + TypesHelper.XgrsTypeToCSharpType(TypesHelper.DotNetTypeToXgrsType(outParamTypes[i]), model) + " varout_" + i);
+            }
+            source.Append(")\n");
 			source.AppendFront("{\n");
 			source.Indent();
 

@@ -1131,13 +1131,12 @@ public class ActionsGen extends CSharpBase {
 			} else if (istmt instanceof Exec) {
 				Exec exec = (Exec) istmt;
 
-				sb.append("\t\tpublic static GRGEN_LGSP.LGSPXGRSInfo XGRSInfo_" + xgrsID
-						+ " = new GRGEN_LGSP.LGSPXGRSInfo(new string[] {");
+				sb.append("\t\tpublic static GRGEN_LGSP.LGSPXGRSInfo XGRSInfo_" + xgrsID + " = new GRGEN_LGSP.LGSPXGRSInfo(\n");
+				sb.append("\t\t\tnew string[] {");
 				for(Entity neededEntity : exec.getNeededEntities()) {
 					sb.append("\"" + neededEntity.getIdent() + "\", ");
 				}
 				sb.append("},\n");
-
 				sb.append("\t\t\tnew GRGEN_LIBGR.GrGenType[] { ");
 				for(Entity neededEntity : exec.getNeededEntities()) {
 					if(neededEntity instanceof Variable) {
@@ -1148,13 +1147,39 @@ public class ActionsGen extends CSharpBase {
 					}
 				}
 				sb.append("},\n");
+				sb.append("\t\t\tnew GRGEN_LIBGR.GrGenType[] { ");
+				if(exec.getYieldedEntities()!=null) {
+					for(Entity neededEntity : exec.getYieldedEntities().getEntities()) {
+						if(neededEntity instanceof Variable) {
+							sb.append("GRGEN_LIBGR.VarType.GetVarType(typeof(" + formatAttributeType(neededEntity) + ")), ");
+						} else {
+							GraphEntity gent = (GraphEntity)neededEntity;
+							sb.append(formatTypeClassRef(gent.getType()) + ".typeVar, ");
+						}
+					}
+				}
+				sb.append("},\n");
+				sb.append("\t\t\t\"" + exec.getXGRSString().replace("\\", "\\\\").replace("\"", "\\\"") + "\"\n");
+				sb.append("\t\t);\n");
 				
-				sb.append("\t\t\t\"" + exec.getXGRSString().replace("\\", "\\\\").replace("\"", "\\\"") + "\");\n");
 				sb.append("\t\tprivate void ApplyXGRS_" + xgrsID++ + "(GRGEN_LGSP.LGSPGraph graph");
 				for(Entity neededEntity : exec.getNeededEntities()) {
 					sb.append(", " + formatType(neededEntity.getType()) + " var_" + neededEntity.getIdent());
 				}
-				sb.append(") {}\n");
+				if(exec.getYieldedEntities()!=null) {
+					for(GraphEntity outEntity : exec.getYieldedEntities().getEntities()) {
+						// TODO: check declared against actual type
+						sb.append(", out " + formatType(outEntity.getType()) + " " + formatEntity(outEntity));
+					}
+				}
+				sb.append(") {\n");
+				if(exec.getYieldedEntities()!=null) {
+					for(GraphEntity outEntity : exec.getYieldedEntities().getEntities()) {
+						sb.append("\t\t\t" + formatEntity(outEntity));
+						sb.append(" = null;\n");
+					}
+				}
+				sb.append("\t\t}\n");
 			} else assert false : "unknown ImperativeStmt: " + istmt + " in " + rule;
 		}
 		sb.append("#endif\n");

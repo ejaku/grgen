@@ -1,0 +1,19 @@
+using deep_model_001;
+
+rule st(n:Node) : (A, B)
+{
+	modify {
+		a:A; b:B;
+		return(a,b);
+	}
+}
+
+rule r : (A, B)
+{
+	n:Node;
+
+	modify {
+		exec( (a,b)=st(n) & yield(a,b) ) -> u:A, v:B;
+		return(u,v);
+	}
+}

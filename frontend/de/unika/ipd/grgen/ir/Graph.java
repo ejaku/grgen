@@ -103,6 +103,8 @@ public abstract class Graph extends IR {
 	private Set<SubpatternUsage> subpatternUsages = new LinkedHashSet<SubpatternUsage>();
 
 	private Set<OrderedReplacement> orderedReplacement = new LinkedHashSet<OrderedReplacement>();
+	
+	private Set<YieldedEntities> yieldedEntities = new LinkedHashSet<YieldedEntities>();
 
 	PatternGraph directlyNestingLHSGraph; // either this or the left graph
 
@@ -376,5 +378,13 @@ public abstract class Graph extends IR {
 	/** @see #getLocalDumpable(Node) */
 	public GraphDumpable getLocalDumpable(Edge edge) {
 		return checkEdge(edge);
+	}
+	
+	public void addYieldedEntities(YieldedEntities yieldedEntities) {
+		this.yieldedEntities.add(yieldedEntities);
+	}
+	
+	public Collection<YieldedEntities> getYieldedEntities() {
+		return yieldedEntities;
 	}
 }

@@ -254,6 +254,8 @@ retLoop:for (int i = 0; i < Math.min(declaredNumRets, actualNumRets); i++) {
 		// add Params to the IR
 		for(DeclNode decl : pattern.getParamDecls()) {
 			ma.addParameter(decl.checkIR(Entity.class));
+			
+			// TODO: parameters were already added to the graph -> needed here again?
 			if(decl instanceof NodeCharacter) {
 				patternGraph.addSingleNode(((NodeCharacter)decl).getNode());
 			} else if (decl instanceof EdgeCharacter) {

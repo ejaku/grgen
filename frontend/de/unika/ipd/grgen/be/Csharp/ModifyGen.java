@@ -61,6 +61,7 @@ import de.unika.ipd.grgen.ir.MapType;
 import de.unika.ipd.grgen.ir.SetType;
 import de.unika.ipd.grgen.ir.Variable;
 import de.unika.ipd.grgen.ir.Visited;
+import de.unika.ipd.grgen.ir.YieldedEntities;
 
 public class ModifyGen extends CSharpBase {
 	final int TYPE_OF_TASK_NONE = 0;
@@ -100,9 +101,13 @@ public class ModifyGen extends CSharpBase {
 		Collection<Node> newNodes();
 		Collection<Edge> newEdges();
 		Collection<SubpatternUsage> newSubpatternUsages();
+
 		Collection<Node> delNodes();
 		Collection<Edge> delEdges();
 		Collection<SubpatternUsage> delSubpatternUsages();
+		
+		Collection<Node> yieldedNodes();
+		Collection<Edge> yieldedEdges();		
 
 		Collection<Node> newOrRetypedNodes();
 		Collection<Edge> newOrRetypedEdges();
@@ -132,9 +137,13 @@ public class ModifyGen extends CSharpBase {
 		public Collection<Node> newNodes() { return Collections.unmodifiableCollection(newNodes); }
 		public Collection<Edge> newEdges() { return Collections.unmodifiableCollection(newEdges); }
 		public Collection<SubpatternUsage> newSubpatternUsages() { return Collections.unmodifiableCollection(newSubpatternUsages); }
+
 		public Collection<Node> delNodes() { return Collections.unmodifiableCollection(delNodes); }
 		public Collection<Edge> delEdges() { return Collections.unmodifiableCollection(delEdges); }
 		public Collection<SubpatternUsage> delSubpatternUsages() { return Collections.unmodifiableCollection(delSubpatternUsages); }
+
+		public Collection<Node> yieldedNodes() { return Collections.unmodifiableCollection(yieldedNodes); }
+		public Collection<Edge> yieldedEdges() { return Collections.unmodifiableCollection(yieldedEdges); }
 
 		public Collection<Node> newOrRetypedNodes() { return Collections.unmodifiableCollection(newOrRetypedNodes); }
 		public Collection<Edge> newOrRetypedEdges() { return Collections.unmodifiableCollection(newOrRetypedEdges); }
@@ -167,9 +176,13 @@ public class ModifyGen extends CSharpBase {
 		public HashSet<Node> newNodes = new LinkedHashSet<Node>();
 		public HashSet<Edge> newEdges = new LinkedHashSet<Edge>();
 		public HashSet<SubpatternUsage> newSubpatternUsages = new LinkedHashSet<SubpatternUsage>();
+
 		public HashSet<Node> delNodes = new LinkedHashSet<Node>();
 		public HashSet<Edge> delEdges = new LinkedHashSet<Edge>();
 		public HashSet<SubpatternUsage> delSubpatternUsages = new LinkedHashSet<SubpatternUsage>();
+
+		public HashSet<Node> yieldedNodes = new LinkedHashSet<Node>();
+		public HashSet<Edge> yieldedEdges = new LinkedHashSet<Edge>();
 
 		public HashSet<Node> newOrRetypedNodes = new LinkedHashSet<Node>();
 		public HashSet<Edge> newOrRetypedEdges = new LinkedHashSet<Edge>();
@@ -588,12 +601,14 @@ public class ModifyGen extends CSharpBase {
 		ModifyGenerationState state = new ModifyGenerationState();
 		ModifyGenerationStateConst stateConst = state;
 
+		collectYieldedElements(task, stateConst, state.yieldedNodes, state.yieldedEdges);
+
 		collectCommonElements(task, state.commonNodes, state.commonEdges, state.commonSubpatternUsages);
 
 		collectNewElements(task, stateConst, state.newNodes, state.newEdges, state.newSubpatternUsages);
 
 		collectDeletedElements(task, stateConst, state.delNodes, state.delEdges, state.delSubpatternUsages);
-
+		
 		collectNewOrRetypedElements(task, state, state.newOrRetypedNodes, state.newOrRetypedEdges);
 
 		collectElementsAccessedByInterface(task, state.accessViaInterface);
@@ -687,6 +702,8 @@ public class ModifyGen extends CSharpBase {
 		genNeededTypes(sb, stateConst);
 
 		genCreateVariablesForUsedAttributesOfReusedElements(sb, stateConst);
+		
+		genYieldedElements(sb, stateConst);
 
 		// New nodes/edges (re-use), retype nodes/edges, call modification code
 		sb.append(sb2);
@@ -772,19 +789,23 @@ public class ModifyGen extends CSharpBase {
 		}
 	}
 
-	private void collectNewOrRetypedElements(ModifyGenerationTask task,	ModifyGenerationStateConst state,
+	private void collectNewOrRetypedElements(ModifyGenerationTask task,	ModifyGenerationStateConst stateConst,
 			HashSet<Node> newOrRetypedNodes, HashSet<Edge> newOrRetypedEdges)
 	{
-		newOrRetypedNodes.addAll(state.newNodes());
+		newOrRetypedNodes.addAll(stateConst.newNodes());
 		for(Node node : task.right.getNodes()) {
 			if(node.changesType(task.right))
 				newOrRetypedNodes.add(node.getRetypedNode(task.right));
 		}
-		newOrRetypedEdges.addAll(state.newEdges());
+		newOrRetypedEdges.addAll(stateConst.newEdges());
 		for(Edge edge : task.right.getEdges()) {
 			if(edge.changesType(task.right))
 				newOrRetypedEdges.add(edge.getRetypedEdge(task.right));
 		}
+		
+		// yielded elements are not to be created/retyped
+		newOrRetypedNodes.removeAll(stateConst.yieldedNodes());
+		newOrRetypedEdges.removeAll(stateConst.yieldedEdges());
 	}
 
 	private void removeAgainFromNeededWhatIsNotReallyNeeded(
@@ -798,6 +819,10 @@ public class ModifyGen extends CSharpBase {
 		nodesNeededAsAttributes.removeAll(state.newNodes());
 		edgesNeededAsElements.removeAll(state.newEdges());
 		edgesNeededAsAttributes.removeAll(state.newEdges());
+		
+		// yielded nodes/edges are handled separately
+		nodesNeededAsElements.removeAll(state.yieldedNodes());
+		edgesNeededAsElements.removeAll(state.yieldedEdges());
 
 		// nodes/edges/vars handed in as subpattern connections to create are already available as method parameters
 		if(task.typeOfTask==TYPE_OF_TASK_CREATION) {
@@ -815,6 +840,19 @@ public class ModifyGen extends CSharpBase {
 		}
 	}
 
+	private void collectYieldedElements(ModifyGenerationTask task,
+			ModifyGenerationStateConst stateConst, HashSet<Node> yieldedNodes, HashSet<Edge> yieldedEdges)
+	{
+		for(YieldedEntities ye : task.right.getYieldedEntities()) {
+			for(GraphEntity e : ye.getEntities()) {
+				if(e instanceof Node) 
+					yieldedNodes.add((Node)e);
+				else
+					yieldedEdges.add((Edge)e);
+			}
+		}
+	}
+	
 	private void collectDeletedElements(ModifyGenerationTask task,
 			ModifyGenerationStateConst stateConst, HashSet<Node> delNodes, HashSet<Edge> delEdges,
 			HashSet<SubpatternUsage> delSubpatternUsages)
@@ -855,6 +893,10 @@ public class ModifyGen extends CSharpBase {
 				newNodes.remove(node);
 			}
 		}
+		
+		// yielded elements are not to be created
+		newNodes.removeAll(stateConst.yieldedNodes());
+		newEdges.removeAll(stateConst.yieldedEdges());
 	}
 
 	private void collectCommonElements(ModifyGenerationTask task,
@@ -988,6 +1030,16 @@ public class ModifyGen extends CSharpBase {
 		}
 	}
 
+	private void genYieldedElements(StringBuffer sb, ModifyGenerationStateConst state)
+	{
+		for(Node node : state.yieldedNodes()) {
+			sb.append("\t\t\t" + formatType(node.getType()) + " " + formatEntity(node)+ ";\n");
+		}
+		for(Edge edge : state.yieldedEdges()) {
+			sb.append("\t\t\t" + formatType(edge.getType()) + " " + formatEntity(edge) + ";\n");
+		}
+	}
+
 	private void genCheckReturnedElementsForDeletionOrRetypingDueToHomomorphy(
 			StringBuffer sb, ModifyGenerationTask task)
 	{
@@ -1036,6 +1088,13 @@ public class ModifyGen extends CSharpBase {
 						sb.append("("+formatElementInterfaceRef(neededEntity.getType())+")");
 					}
 					sb.append(formatEntity(neededEntity));
+				}
+				if(exec.getYieldedEntities()!=null) {
+					for(GraphEntity outEntity : exec.getYieldedEntities().getEntities()) {
+						sb.append(", out ");
+						// TODO: use the declared type, check declared against actual type
+						sb.append(formatEntity(outEntity));
+					}
 				}
 /*				for(Expression arg : exec.getArguments()) {
 					if(!(arg instanceof GraphEntityExpression)) continue;
@@ -1304,21 +1363,25 @@ public class ModifyGen extends CSharpBase {
 			String pathPrefix, String patternName) {
 		for(Node node : state.nodesNeededAsElements()) {
 			if(node.isRetyped()) continue;
+			if(state.yieldedNodes().contains(node)) continue;
 			sb.append("\t\t\tGRGEN_LGSP.LGSPNode " + formatEntity(node)
 					+ " = curMatch." + formatEntity(node, "_") + ";\n");
 		}
 		for(Node node : state.nodesNeededAsAttributes()) {
 			if(node.isRetyped()) continue;
+			if(state.yieldedNodes().contains(node)) continue;
 			sb.append("\t\t\t" + formatElementInterfaceRef(node.getType()) + " i" + formatEntity(node)
 					+ " = curMatch." + formatEntity(node) + ";\n");
 		}
 		for(Edge edge : state.edgesNeededAsElements()) {
 			if(edge.isRetyped()) continue;
+			if(state.yieldedEdges().contains(edge)) continue;
 			sb.append("\t\t\tGRGEN_LGSP.LGSPEdge " + formatEntity(edge)
 					+ " = curMatch." + formatEntity(edge, "_") + ";\n");
 		}
 		for(Edge edge : state.edgesNeededAsAttributes()) {
 			if(edge.isRetyped()) continue;
+			if(state.yieldedEdges().contains(edge)) continue;
 			sb.append("\t\t\t" + formatElementInterfaceRef(edge.getType()) + " i" + formatEntity(edge)
 					+ " = curMatch." + formatEntity(edge) + ";\n");
 		}

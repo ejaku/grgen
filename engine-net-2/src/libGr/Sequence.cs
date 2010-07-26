@@ -20,7 +20,7 @@ namespace de.unika.ipd.grGen.libGr
     public enum SequenceType
     {
         ThenLeft, ThenRight, LazyOr, LazyAnd, StrictOr, Xor, StrictAnd, Not, IterationMin, IterationMinMax,
-        Rule, RuleAll, Def, True, False, VarPredicate,
+        Rule, RuleAll, Def, Yield, True, False, VarPredicate,
         AssignVAllocToVar, AssignSetmapSizeToVar, AssignSetmapEmptyToVar, AssignMapAccessToVar,
         AssignVarToVar, AssignElemToVar, AssignSequenceResultToVar,
         AssignUserInputToVar, AssignRandomToVar,
@@ -743,6 +743,46 @@ namespace de.unika.ipd.grGen.libGr
                 {
                     sb.Append(DefVars[i].Name);
                     if(i!=DefVars.Length-1) sb.Append(",");
+                }
+                sb.Append(")");
+                return sb.ToString();
+            }
+        }
+    }
+
+    public class SequenceYield : Sequence
+    {
+        public SequenceVariable[] YieldVars;
+        public String[] ExpectedYieldType;
+
+        public SequenceYield(SequenceVariable[] yieldVars)
+            : base(SequenceType.Yield)
+        {
+            YieldVars = yieldVars;
+        }
+
+        public void SetExpectedYieldType(String[] expectedYieldType)
+        {
+            ExpectedYieldType = expectedYieldType;
+        }
+
+        protected override bool ApplyImpl(IGraph graph, SequenceExecutionEnvironment env)
+        {
+            throw new Exception("yield is only available in the compiled sequences (exec)");
+        }
+
+        public override IEnumerable<Sequence> Children { get { yield break; } }
+        public override int Precedence { get { return 8; } }
+        public override string Symbol
+        {
+            get
+            {
+                StringBuilder sb = new StringBuilder();
+                sb.Append("yield(");
+                for(int i = 0; i < YieldVars.Length; ++i)
+                {
+                    sb.Append(YieldVars[i].Name);
+                    if(i != YieldVars.Length - 1) sb.Append(",");
                 }
                 sb.Append(")");
                 return sb.ToString();

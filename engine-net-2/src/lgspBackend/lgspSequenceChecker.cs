@@ -30,14 +30,22 @@ namespace de.unika.ipd.grGen.lgsp
         // the model object of the .grg to compile
         IGraphModel model;
 
+        // expected sequence yield output types
+        String[] expectedYieldTypes;
+
 
         public LGSPSequenceChecker(String[] ruleNames, Dictionary<String, List<String>> rulesToInputTypes, 
-            Dictionary<String, List<String>> rulesToOutputTypes, IGraphModel model)
+            Dictionary<String, List<String>> rulesToOutputTypes, IGraphModel model, GrGenType[] expectedYieldTypes)
         {
             this.ruleNames = ruleNames;
             this.rulesToInputTypes = rulesToInputTypes;
             this.rulesToOutputTypes = rulesToOutputTypes;
             this.model = model;
+            this.expectedYieldTypes = new String[expectedYieldTypes.Length];
+            for(int i=0; i<expectedYieldTypes.Length; ++i)
+            {
+                this.expectedYieldTypes[i] = TypesHelper.XgrsTypeToCSharpType(TypesHelper.DotNetTypeToXgrsType(expectedYieldTypes[i]), model);
+            }
         }
 
         /// <summary>
@@ -428,6 +436,14 @@ namespace de.unika.ipd.grGen.lgsp
             case SequenceType.Emit:
                 // Nothing to be done here
                 break;
+
+            case SequenceType.Yield:
+            {
+                // transmit expected yield types from xgrs interface to the contained yields where they are needed
+                SequenceYield seqYield = (SequenceYield)seq;
+                seqYield.SetExpectedYieldType(expectedYieldTypes);
+                break;
+            }
 
             default: // esp. AssignElemToVar
                 throw new Exception("Unknown sequence type: " + seq.SequenceType);
