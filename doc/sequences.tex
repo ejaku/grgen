@@ -139,8 +139,8 @@ Boolean literals \texttt{true}/\texttt{false} come in handy if a sequence is to 
 but its result must be a predefined value; furtheron a \indexed{break point} may be attached to them.
 The random all of operators (which are currently only available in the interpreted sequences) given in function call notation with the operator symbol as name have the following semantics:
 The strict operators \verb/|/ and \verb/&/ evaluate all their subsequences in random order returning the disjunction resp. conjunction of their truth values.
-The lazy operators \verb/||/ and \verb/&&/ evaluate the subsequences in random order as long as the outcome is not fixed, 
-which holds for the disjunction as long as there was no succeeding rule and for the conjunction as long as there was no failing rule.
+The lazy operators \verb/||/ and \verb/&&/ evaluate the subsequences in random order as long as the outcome is not fixed or every subsequence was executed 
+(which holds for the disjunction as long as there was no succeeding rule and for the conjunction as long as there was no failing rule).
 A \indexed{choice point} may be used to define the subsequence to be executed next.
 
 \begin{rail}    
@@ -180,7 +180,8 @@ allowing the user to choose the match to be applied from the available ones in t
     ) |
 	Variable '.' Attribute '=' Variable |
     (percent)? Variable |
-    'def' '(' (Variable+',') ')'
+    'def' '(' (Variable+',') ')' |
+	'yield' '(' (Variable+',') ')' 
   ;
 \end{rail}\ixnterm{VariableHandling}\ixkeyw{def}\makeatother
 Variables can hold graph elements, or values of value/attribute types, including booleans.
@@ -197,7 +198,9 @@ The variable in the \indexed{variable predicate} (a sequence consisting of only 
 a prepended \texttt{\%} attaches a \indexed{break point} to it.
 The variable predicate together with the sequence result assignment allow to directly transmit execution results from one part of the sequence to another one.
 A \texttt{def} term is successful iff all the variables are defined.
-
+A \texttt{yield} term yields the variable values to the containing \texttt{exec} which can include the yielded values into the RHS pattern; but as of now they are only accesible from the rule \texttt{return} statement.
+Yielding is only applicable to compiled sequences. 
+Preliminary implementation: you get internal errors if yielded and expected types are not equal or if there is not a yield on any control flow path leaving the sequence.
  
 \section{Visited Flags}\indexmain{visited flag}
 

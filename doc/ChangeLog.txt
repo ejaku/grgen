@@ -1,4 +1,4 @@
-﻿v2.6RC8 (2010-07-21)
+﻿v2.6RC9 (2010-07-26)
  Single most important change:
   - user manual updated (including all the changes from 1.4->2.6)
  
@@ -14,7 +14,8 @@
 	 - the strict $|(r,s,t) and $&(r,s,t) evaluate all their subsequences in random order 
 	 returning the disjunction resp. conjunction of their truth values.
      - the lazy versions || and && evaluate the subsequences in random order 
-	 as long as the outcome is not fixed, returning the disjunction resp. conjunction of their truth values.
+	 as long as the outcome is not fixed or every subsequence was evaluated,
+	 returning the disjunction resp. conjunction of their truth values.
   
  Uniform variable handling in xgrs:
   - now the compiled and the interpreted sequences both always support
@@ -167,6 +168,7 @@
      - if the type is a value type the user is asked to enter a value of this type on the keyboard
     the older debug apply with wildcard elements is deprecated now, succeeded by this construct
   - assignment of sequence result to variable is now always true (independent of sequence result)
+  - execs may yield elements which can be used in return statements; yield statement in compiled xgrs
   - replaced emitpre by emithere, which is emitted before regular emits,
     at the position syntax-relative to the subpattern modification invocations and the other emitheres
   - the random match selector now expects a variable instead of a number

@@ -857,7 +857,7 @@ We search the pattern \texttt{v:NodeTypeA -e:EdgeType-> w:NodeTypeB}. We have a 
 
 \begin{rail}  
   ExecStatement: 'emit' '(' StringExpr ')' ';' |
-    'exec' '(' RewriteSequence ')' ';'
+    'exec' '(' RewriteSequence ')' \\ ((NodeType | '-' IdentDecl ':' EdgeType '->') * ',') ';'
 \end{rail}\ixkeyw{emit}\ixkeyw{exec}\ixnterm{ExecStatement}
 The statements \texttt{emit} and \texttt{exec} enhance the declarative rewrite part by imperative clauses.
 That means, these statements are executed in the same order as they appear within the rule.
@@ -865,7 +865,7 @@ The execution statements take place after all the rewrite operations are done, i
 However, \emph{attribute} values of deleted graph elements are still available for reading.
 The \texttt{eval} statements are executed before the execution statements, i.e.\ the execution statements work on the recalculated attributes.
 \begin{description}
-  \item[XGRS Execution] The \texttt{exec} statement executes a graph rewrite sequence, which is a composition of graph rewrite rules. See Chapter~\ref{cha:xgrs} for a description of graph rewrite sequences.
+  \item[XGRS Execution] The \texttt{exec} statement executes a graph rewrite sequence, which is a composition of graph rewrite rules. Yielded graph elements may be included into the RHS pattern, but as of now they are only available to the \texttt{return} statement. See Chapter~\ref{cha:xgrs} for a description of graph rewrite sequences.
   \item[Text Output] The \texttt{emit} statement prints a string to the currently associated output stream (default is \texttt{stdout}). See Chapter~\ref{cha:typeexpr} for a description of string expressions.
   For emitting in between the emits from subpatterns, there is an additional \texttt{emithere} statement available.
 \end{description}
