@@ -525,6 +525,7 @@ namespace de.unika.ipd.grGen.lgsp
     /// <summary>
     /// Special head node of the lists containing all the nodes of one type
     /// </summary>
+    [DebuggerDisplay("LGSPNodeHead")]
     public class LGSPNodeHead : LGSPNode
     {
         public LGSPNodeHead() : base(null) { }
@@ -737,6 +738,7 @@ namespace de.unika.ipd.grGen.lgsp
     /// <summary>
     /// Special head edge of the lists containing all the edges of one type
     /// </summary>
+    [DebuggerDisplay("LGSPEdgeHead")]
     public class LGSPEdgeHead : LGSPEdge
     {
         public LGSPEdgeHead() : base(null, null, null) { }
