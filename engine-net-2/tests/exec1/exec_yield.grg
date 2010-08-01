@@ -1,0 +1,24 @@
+using execyield;
+
+rule s : (A, B)
+{
+	a:A;
+	
+	modify {
+		a --> b:B;
+		return(a,b);
+	}
+}
+
+rule r : (A, B)
+{
+	modify {
+		exec ( (a,b)=s & yield(a,b) ) -> u:A, v:B;
+		return(u,v);
+	}
+}
+
+test t(a:A, b:B)
+{
+	a --> b;
+}

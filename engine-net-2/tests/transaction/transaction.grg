@@ -1,12 +1,14 @@
 using transaction;
 
-rule init1 {
+rule init1
+{
 	modify {
 		a:N-->a; b:N-->b; c:N-->c;
 	}
 }
 
-rule transform1 {
+rule transform1
+{
 	a:N;
 
 	replace {
@@ -14,11 +16,13 @@ rule transform1 {
 	}
 }
 
-test fail1 {
+test fail1
+{
 	:N;
 }
 
-rule transform2 {
+rule transform2
+{
 	a:N;
 	if{ a.stringVal!="foo"; }
 	
@@ -29,7 +33,23 @@ rule transform2 {
 	}
 }
 
-test fail2 {
+test fail2
+{
 	a:N;
 	if{ a.stringVal!="foo"; }
+}
+
+rule initrecycle
+{
+	modify {
+		n1:Node --> n1;
+	}
+}
+
+rule r 
+{
+	n:Node --> n;
+	
+	replace {
+	}
 }

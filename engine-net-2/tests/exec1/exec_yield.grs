@@ -1,0 +1,13 @@
+new graph "exec1/exec_yield.grg"
+
+new a:A
+
+show num nodes A
+show num nodes B
+xgrs (a,b)=r
+show num nodes A
+show num nodes B
+
+xgrs t(a,b)
+
+quit

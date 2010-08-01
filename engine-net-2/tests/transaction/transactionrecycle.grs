@@ -1,0 +1,19 @@
+new graph "transaction/transaction"
+
+xgrs initrecycle
+show num nodes
+show num edges
+xgrs < r && fail1 > 
+show num nodes
+show num edges
+xgrs initrecycle
+show num nodes
+show num edges
+xgrs r
+show num nodes
+show num edges
+xgrs r
+show num nodes
+show num edges
+
+quit
