@@ -5,10 +5,13 @@
  * www.grgen.net
  */
 
+//#define LOG_SEQUENCE_EXECUTION
+
 using System;
 using System.Collections.Generic;
 using System.Collections;
 using System.Text;
+using System.IO;
 
 namespace de.unika.ipd.grGen.libGr
 {
@@ -122,7 +125,13 @@ namespace de.unika.ipd.grGen.libGr
         {
             graph.EnteringSequence(this);
             executionState = SequenceExecutionState.Underway;
+#if LOG_SEQUENCE_EXECUTION
+            writer.WriteLine("Before executing sequence " + Id + ": " + Symbol);
+#endif
             bool res = ApplyImpl(graph, env);
+#if LOG_SEQUENCE_EXECUTION
+            writer.WriteLine("After executing sequence " + Id + ": " + Symbol + " result " + res);
+#endif
             executionState = res ? SequenceExecutionState.Success : SequenceExecutionState.Fail;
             graph.ExitingSequence(this);
             return res;
@@ -188,6 +197,10 @@ namespace de.unika.ipd.grGen.libGr
         /// the state of executing this sequence, implementation
         /// </summary>
         private SequenceExecutionState executionState;
+
+#if LOG_SEQUENCE_EXECUTION
+        protected static StreamWriter writer = new StreamWriter("sequence_execution_log.txt");
+#endif
     }
 
     /// <summary>
@@ -546,7 +559,15 @@ namespace de.unika.ipd.grGen.libGr
 
         protected override bool ApplyImpl(IGraph graph, SequenceExecutionEnvironment env)
         {
-            return graph.ApplyRewrite(ParamBindings, 0, 1, Special, Test) > 0;
+            bool res = graph.ApplyRewrite(ParamBindings, 0, 1, Special, Test) > 0;
+#if LOG_SEQUENCE_EXECUTION
+            if(res)
+            {
+                writer.WriteLine("Matched/Applied " + Symbol);
+                writer.Flush();
+            }
+#endif
+            return res;
         }
 
         public override IEnumerable<Sequence> Children { get { yield break; } }
@@ -620,18 +641,28 @@ namespace de.unika.ipd.grGen.libGr
 
         protected override bool ApplyImpl(IGraph graph, SequenceExecutionEnvironment env)
         {
-			if(!ChooseRandom)
-				return graph.ApplyRewrite(ParamBindings, -1, -1, Special, Test) > 0;
-			else
-			{
+            if(!ChooseRandom)
+            {
+                bool res = graph.ApplyRewrite(ParamBindings, -1, -1, Special, Test) > 0;
+#if LOG_SEQUENCE_EXECUTION
+                if(res)
+                {
+                    writer.WriteLine("Matched/Applied " + Symbol);
+                    writer.Flush();
+                }
+#endif
+                return res;
+            }
+            else
+            {
                 // TODO: Code duplication! Compare with BaseGraph.ApplyRewrite.
 
-				int curMaxMatches = graph.MaxMatches;
+                int curMaxMatches = graph.MaxMatches;
 
-				object[] parameters;
-				if(ParamBindings.ParamVars.Length > 0)
-				{
-					parameters = ParamBindings.Parameters;
+                object[] parameters;
+                if(ParamBindings.ParamVars.Length > 0)
+                {
+                    parameters = ParamBindings.Parameters;
                     for(int i = 0; i < ParamBindings.ParamVars.Length; i++)
                     {
                         // If this parameter is not constant, the according ParamVars entry holds the
@@ -640,52 +671,57 @@ namespace de.unika.ipd.grGen.libGr
                         if(ParamBindings.ParamVars[i] != null)
                             parameters[i] = ParamBindings.ParamVars[i].GetVariableValue(graph);
                     }
-				}
-				else parameters = null;
+                }
+                else parameters = null;
 
-				if(graph.PerformanceInfo != null) graph.PerformanceInfo.StartLocal();
-				IMatches matches = ParamBindings.Action.Match(graph, curMaxMatches, parameters);
-				if(graph.PerformanceInfo != null)
-				{
-					graph.PerformanceInfo.StopMatch();              // total match time does NOT include listeners anymore
-					graph.PerformanceInfo.MatchesFound += matches.Count;
-				}
+                if(graph.PerformanceInfo != null) graph.PerformanceInfo.StartLocal();
+                IMatches matches = ParamBindings.Action.Match(graph, curMaxMatches, parameters);
+                if(graph.PerformanceInfo != null)
+                {
+                    graph.PerformanceInfo.StopMatch();              // total match time does NOT include listeners anymore
+                    graph.PerformanceInfo.MatchesFound += matches.Count;
+                }
 
-				graph.Matched(matches, Special);
-				if(matches.Count == 0) return false;
+                graph.Matched(matches, Special);
+                if(matches.Count == 0) return false;
 
-				if(Test) return false;
+                if(Test) return false;
 
-				graph.Finishing(matches, Special);
+                graph.Finishing(matches, Special);
 
-				if(graph.PerformanceInfo != null) graph.PerformanceInfo.StartLocal();
+                if(graph.PerformanceInfo != null) graph.PerformanceInfo.StartLocal();
 
-                object val = VarChooseRandom!=null ? VarChooseRandom.GetVariableValue(graph) : 1;
-                if(!(val is int)) 
+                object val = VarChooseRandom != null ? VarChooseRandom.GetVariableValue(graph) : 1;
+                if(!(val is int))
                     throw new InvalidOperationException("The variable '" + VarChooseRandom + "' is not of type int!");
                 int numChooseRandom = (int)val;
                 if(matches.Count < numChooseRandom) numChooseRandom = matches.Count;
 
-				object[] retElems = null;
-				for(int i = 0; i < numChooseRandom; i++)
-				{
-					if(i != 0) graph.RewritingNextMatch();
+                object[] retElems = null;
+                for(int i = 0; i < numChooseRandom; i++)
+                {
+                    if(i != 0) graph.RewritingNextMatch();
                     int matchToApply = randomGenerator.Next(matches.Count);
-                    if(Choice && env!=null) matchToApply = env.ChooseMatch(matchToApply, matches, numChooseRandom-1-i, this);
-					IMatch match = matches.RemoveMatch(matchToApply);
-					retElems = matches.Producer.Modify(graph, match);
-					if(graph.PerformanceInfo != null) graph.PerformanceInfo.RewritesPerformed++;
-				}
-				if(retElems == null) retElems = BaseGraph.NoElems;
+                    if(Choice && env != null) matchToApply = env.ChooseMatch(matchToApply, matches, numChooseRandom - 1 - i, this);
+                    IMatch match = matches.RemoveMatch(matchToApply);
+                    retElems = matches.Producer.Modify(graph, match);
+                    if(graph.PerformanceInfo != null) graph.PerformanceInfo.RewritesPerformed++;
+                }
+                if(retElems == null) retElems = BaseGraph.NoElems;
 
-				for(int i = 0; i < ParamBindings.ReturnVars.Length; i++)
+                for(int i = 0; i < ParamBindings.ReturnVars.Length; i++)
                     ParamBindings.ReturnVars[i].SetVariableValue(retElems[i], graph);
-				if(graph.PerformanceInfo != null) graph.PerformanceInfo.StopRewrite();            // total rewrite time does NOT include listeners anymore
+                if(graph.PerformanceInfo != null) graph.PerformanceInfo.StopRewrite();            // total rewrite time does NOT include listeners anymore
 
-				graph.Finished(matches, Special);
+                graph.Finished(matches, Special);
 
-				return true;
-			}
+#if LOG_SEQUENCE_EXECUTION
+                writer.WriteLine("Matched/Applied " + Symbol);
+                writer.Flush();
+#endif
+
+                return true;
+            }
         }
 
         public override string Symbol
