@@ -7,6 +7,8 @@
 
 #define MONO_MULTIDIMARRAY_WORKAROUND       // not using multidimensional arrays is about 2% faster on .NET because of fewer bound checks
 //#define OPCOST_WITH_GEO_MEAN
+//#define LOG_TRANSACTION_HANDLING
+//#define CHECK_RINGLISTS
 
 using System;
 using System.Diagnostics;
@@ -29,7 +31,7 @@ namespace de.unika.ipd.grGen.lgsp
     
     public class LGSPUndoElemAdded : IUndoItem
     {
-        private IGraphElement _elem;
+        public IGraphElement _elem;
 
         public LGSPUndoElemAdded(IGraphElement elem) { _elem = elem; }
 
@@ -47,9 +49,9 @@ namespace de.unika.ipd.grGen.lgsp
 
     public class LGSPUndoElemRemoved : IUndoItem
     {
-        private IGraphElement _elem;
-        private String _name;
-        private LinkedList<Variable> _vars;
+        public IGraphElement _elem;
+        public String _name;
+        public LinkedList<Variable> _vars;
 
         public LGSPUndoElemRemoved(IGraphElement elem, IGraph graph)
         {
@@ -96,7 +98,7 @@ namespace de.unika.ipd.grGen.lgsp
         }
     }
 
-    enum UndoOperation
+    public enum UndoOperation
     {
         None,
         Assign,
@@ -106,11 +108,11 @@ namespace de.unika.ipd.grGen.lgsp
 
     public class LGSPUndoAttributeChanged : IUndoItem
     {
-        private IGraphElement _elem;
-        private AttributeType _attrType;
-        private UndoOperation _undoOperation;
-        private Object _value;
-        private Object _keyOfValue;
+        public IGraphElement _elem;
+        public AttributeType _attrType;
+        public UndoOperation _undoOperation;
+        public Object _value;
+        public Object _keyOfValue;
 
         public LGSPUndoAttributeChanged(IGraphElement elem, AttributeType attrType,
                 AttributeChangeType changeType, Object newValue, Object keyValue)
@@ -284,8 +286,8 @@ namespace de.unika.ipd.grGen.lgsp
 
     public class LGSPUndoElemRetyped : IUndoItem
     {
-        private IGraphElement _oldElem;
-        private IGraphElement _newElem;
+        public IGraphElement _oldElem;
+        public IGraphElement _newElem;
 
         public LGSPUndoElemRetyped(IGraphElement oldElem, IGraphElement newElem)
         {
@@ -295,21 +297,21 @@ namespace de.unika.ipd.grGen.lgsp
 
         public void DoUndo(IGraph graph)
         {
-            LGSPGraph lgraph = (LGSPGraph) graph;
+            LGSPGraph lgspGraph = (LGSPGraph) graph;
 
             LGSPNode newNode = _newElem as LGSPNode;
             if(newNode != null)
             {
                 LGSPNode oldNode = (LGSPNode) _oldElem;
-                lgraph.RetypingNode(newNode, oldNode);
-                lgraph.ReplaceNode(newNode, oldNode);
+                lgspGraph.RetypingNode(newNode, oldNode);
+                lgspGraph.ReplaceNode(newNode, oldNode);
             }
             else
             {
                 LGSPEdge newEdge = (LGSPEdge) _newElem;
                 LGSPEdge oldEdge = (LGSPEdge) _oldElem;
-                lgraph.RetypingEdge(newEdge, oldEdge);
-                lgraph.ReplaceEdge(newEdge, oldEdge);
+                lgspGraph.RetypingEdge(newEdge, oldEdge);
+                lgspGraph.ReplaceEdge(newEdge, oldEdge);
             }
         }
 
@@ -330,9 +332,17 @@ namespace de.unika.ipd.grGen.lgsp
         private bool undoing = false;
         private LGSPGraph graph;
 
+#if LOG_TRANSACTION_HANDLING
+        private StreamWriter writer;
+#endif
+
         public LGSPTransactionManager(LGSPGraph lgspgraph)
         {
             graph = lgspgraph;
+
+#if LOG_TRANSACTION_HANDLING
+            writer = new StreamWriter(graph.Name + "_transaction_log.txt");
+#endif
         }
 
         private void SubscribeEvents()
@@ -365,6 +375,9 @@ namespace de.unika.ipd.grGen.lgsp
         /// <returns>A transaction ID to be used with Commit or Rollback</returns>
         public int StartTransaction()
         {
+#if LOG_TRANSACTION_HANDLING
+            writer.WriteLine("StartTransaction");
+#endif
             if(!recording)
             {
                 recording = true;
@@ -379,6 +392,13 @@ namespace de.unika.ipd.grGen.lgsp
         /// <param name="transactionID">Transaction ID returned by a StartTransaction call</param>
         public void Commit(int transactionID)
         {
+#if LOG_TRANSACTION_HANDLING
+            writer.WriteLine("Commit to " + transactionID);
+            writer.Flush();
+#endif
+#if CHECK_RINGLISTS
+            graph.CheckTypeRinglistsBroken();
+#endif
             if(transactionID == 0)
             {
                 undoItems.Clear();
@@ -397,9 +417,28 @@ namespace de.unika.ipd.grGen.lgsp
         /// <param name="transactionID">The ID of the transaction to be rollbacked</param>
         public void Rollback(int transactionID)
         {
+#if LOG_TRANSACTION_HANDLING
+            writer.WriteLine("Rollback to " + transactionID);
+#endif
             undoing = true;
             while(undoItems.Count > transactionID)
             {
+#if LOG_TRANSACTION_HANDLING
+                writer.Write("rolling back " + undoItems.Count + " - ");
+                if(undoItems.Last.Value is LGSPUndoElemAdded) {
+                    LGSPUndoElemAdded item = (LGSPUndoElemAdded)undoItems.Last.Value;
+                    writer.WriteLine("ElementAdded: " + graph.GetElementName(item._elem) + ":" + item._elem.Type.Name);
+                } else if(undoItems.Last.Value is LGSPUndoElemRemoved) {
+                    LGSPUndoElemRemoved item = (LGSPUndoElemRemoved)undoItems.Last.Value;
+                    writer.WriteLine("RemovingElement: " + graph.GetElementName(item._elem) + ":" + item._elem.Type.Name);
+                } else if(undoItems.Last.Value is LGSPUndoAttributeChanged) {
+                    LGSPUndoAttributeChanged item = (LGSPUndoAttributeChanged)undoItems.Last.Value;
+                    writer.WriteLine("ChangingElementAttribute: " + graph.GetElementName(item._elem) + ":" + item._elem.Type.Name + "." + item._attrType.Name);
+                } else if(undoItems.Last.Value is LGSPUndoElemRetyped) {
+                    LGSPUndoElemRetyped item = (LGSPUndoElemRetyped)undoItems.Last.Value;
+                    writer.WriteLine("RetypingElement: " + graph.GetElementName(item._newElem) + ":" + item._newElem.Type.Name + "<" + graph.GetElementName(item._oldElem)+ ":" + item._oldElem.Type.Name + ">");
+                }
+#endif
                 undoItems.Last.Value.DoUndo(graph);
                 undoItems.RemoveLast();
             }
@@ -409,26 +448,44 @@ namespace de.unika.ipd.grGen.lgsp
                 recording = false;
                 UnsubscribeEvents();
             }
+#if LOG_TRANSACTION_HANDLING
+            writer.Flush();
+#endif
+#if CHECK_RINGLISTS
+            graph.CheckTypeRinglistsBroken();
+#endif
         }
 
         public void ElementAdded(IGraphElement elem)
         {
             if(recording && !undoing) undoItems.AddLast(new LGSPUndoElemAdded(elem));
+#if LOG_TRANSACTION_HANDLING
+            writer.WriteLine("ElementAdded: " + graph.GetElementName(elem) + ":" + elem.Type.Name);
+#endif
         }
 
         public void RemovingElement(IGraphElement elem)
         {
+#if LOG_TRANSACTION_HANDLING
+            writer.WriteLine("RemovingElement: " + graph.GetElementName(elem) + ":" + elem.Type.Name);
+#endif
             if(recording && !undoing) undoItems.AddLast(new LGSPUndoElemRemoved(elem, graph));
         }
 
         public void ChangingElementAttribute(IGraphElement elem, AttributeType attrType,
                 AttributeChangeType changeType, Object newValue, Object keyValue)
         {
-            if (recording && !undoing) undoItems.AddLast(new LGSPUndoAttributeChanged(elem, attrType, changeType, newValue, keyValue));
+#if LOG_TRANSACTION_HANDLING
+            writer.WriteLine("ChangingElementAttribute: " + graph.GetElementName(elem) + ":" + elem.Type.Name + "." + attrType.Name);
+#endif
+            if(recording && !undoing) undoItems.AddLast(new LGSPUndoAttributeChanged(elem, attrType, changeType, newValue, keyValue));
         }
 
         public void RetypingElement(IGraphElement oldElem, IGraphElement newElem)
         {
+#if LOG_TRANSACTION_HANDLING
+            writer.WriteLine("RetypingElement: " + graph.GetElementName(newElem) + ":" + newElem.Type.Name+ "<" + graph.GetElementName(oldElem) + ":" + oldElem.Type.Name + ">");
+#endif
             if(recording && !undoing) undoItems.AddLast(new LGSPUndoElemRetyped(oldElem, newElem));
         }
 
@@ -990,13 +1047,22 @@ namespace de.unika.ipd.grGen.lgsp
         /// </summary>
         public void AddNodeWithoutEvents(LGSPNode node, int typeid)
         {
+#if CHECK_RINGLISTS
+            CheckNodeAlreadyInTypeRinglist(node);
+#endif
             LGSPNode head = nodesByTypeHeads[typeid];
+            LGSPNode oldTypeNext = head.lgspTypeNext;
+            LGSPNode oldTypePrev = head.lgspTypePrev;
             head.lgspTypeNext.lgspTypePrev = node;
             node.lgspTypeNext = head.lgspTypeNext;
             node.lgspTypePrev = head;
             head.lgspTypeNext = node;
 
             nodesByTypeCounts[typeid]++;
+
+#if CHECK_RINGLISTS
+            CheckTypeRinglistBroken(head);
+#endif
         }
 
         /// <summary>
@@ -1007,6 +1073,9 @@ namespace de.unika.ipd.grGen.lgsp
         /// </summary>
         public void AddEdgeWithoutEvents(LGSPEdge edge, int typeid)
         {
+#if CHECK_RINGLISTS
+            CheckEdgeAlreadyInTypeRinglist(edge);
+#endif
             LGSPEdge head = edgesByTypeHeads[typeid];
             head.lgspTypeNext.lgspTypePrev = edge;
             edge.lgspTypeNext = head.lgspTypeNext;
@@ -1017,6 +1086,10 @@ namespace de.unika.ipd.grGen.lgsp
             edge.lgspTarget.AddIncoming(edge);
 
             edgesByTypeCounts[typeid]++;
+
+#if CHECK_RINGLISTS
+            CheckTypeRinglistBroken(head);
+#endif
         }
 
         /// <summary>
@@ -1211,9 +1284,7 @@ namespace de.unika.ipd.grGen.lgsp
 //            LGSPEdge edge = new LGSPEdge(edgeType, source, target);
             LGSPEdge edge = (LGSPEdge) edgeType.CreateEdge(source, target);
             AddEdgeWithoutEvents(edge, edgeType.TypeID);
-            transactionManager.ElementAdded(edge);
             SetVariableValue(varName, edge);
-//            VariableAdded(edge, varName);
             EdgeAdded(edge);
             return edge;
         }
@@ -1239,8 +1310,13 @@ namespace de.unika.ipd.grGen.lgsp
             node.lgspTypePrev = null;
 
             nodesByTypeCounts[typeid]--;
-            if(reuseOptimization)
+
+            if(reuseOptimization && !TransactionManager.TransactionActive)
                 node.Recycle();
+
+#if CHECK_RINGLISTS
+            CheckTypeRinglistBroken(nodesByTypeHeads[typeid]);
+#endif
         }
 
         /// <summary>
@@ -1248,21 +1324,21 @@ namespace de.unika.ipd.grGen.lgsp
         /// </summary>
         public override void Remove(INode node)
         {
-            LGSPNode lnode = (LGSPNode) node;
-            if(lnode.HasOutgoing || lnode.HasIncoming)
+            LGSPNode lgspNode = (LGSPNode) node;
+            if(lgspNode.HasOutgoing || lgspNode.HasIncoming)
                 throw new ArgumentException("The given node still has edges left!");
-            if(!lnode.Valid) return;          // node not in graph (anymore)
+            if(!lgspNode.Valid) return;          // node not in graph (anymore)
 
             RemovingNode(node);
 
-            if((lnode.lgspFlags & (uint) LGSPElemFlags.HAS_VARIABLES) != 0)
+            if((lgspNode.lgspFlags & (uint) LGSPElemFlags.HAS_VARIABLES) != 0)
             {
-                foreach(Variable var in ElementMap[lnode])
+                foreach(Variable var in ElementMap[lgspNode])
                     VariableMap.Remove(var.Name);
-                ElementMap.Remove(lnode);
-                lnode.lgspFlags &= ~(uint) LGSPElemFlags.HAS_VARIABLES;
+                ElementMap.Remove(lgspNode);
+                lgspNode.lgspFlags &= ~(uint) LGSPElemFlags.HAS_VARIABLES;
             }
-            RemoveNodeWithoutEvents(lnode, lnode.lgspType.TypeID);
+            RemoveNodeWithoutEvents(lgspNode, lgspNode.lgspType.TypeID);
         }
 
         /// <summary>
@@ -1270,29 +1346,34 @@ namespace de.unika.ipd.grGen.lgsp
         /// </summary>
         public override void Remove(IEdge edge)
         {
-            LGSPEdge ledge = (LGSPEdge) edge;
-            if(!ledge.Valid) return;          // edge not in graph (anymore)
+            LGSPEdge lgspEdge = (LGSPEdge) edge;
+            if(!lgspEdge.Valid) return;          // edge not in graph (anymore)
 
             RemovingEdge(edge);
 
-            if((ledge.lgspFlags & (uint) LGSPElemFlags.HAS_VARIABLES) != 0)
+            if((lgspEdge.lgspFlags & (uint) LGSPElemFlags.HAS_VARIABLES) != 0)
             {
-                foreach(Variable var in ElementMap[ledge])
+                foreach(Variable var in ElementMap[lgspEdge])
                     VariableMap.Remove(var.Name);
-                ElementMap.Remove(ledge);
-                ledge.lgspFlags &= ~(uint) LGSPElemFlags.HAS_VARIABLES;
+                ElementMap.Remove(lgspEdge);
+                lgspEdge.lgspFlags &= ~(uint) LGSPElemFlags.HAS_VARIABLES;
             }
-            ledge.lgspSource.RemoveOutgoing(ledge);
-            ledge.lgspTarget.RemoveIncoming(ledge);
+            lgspEdge.lgspSource.RemoveOutgoing(lgspEdge);
+            lgspEdge.lgspTarget.RemoveIncoming(lgspEdge);
 
-            ledge.lgspTypePrev.lgspTypeNext = ledge.lgspTypeNext;
-            ledge.lgspTypeNext.lgspTypePrev = ledge.lgspTypePrev;
-            ledge.lgspTypeNext = null;
-            ledge.lgspTypePrev = null;
+            lgspEdge.lgspTypePrev.lgspTypeNext = lgspEdge.lgspTypeNext;
+            lgspEdge.lgspTypeNext.lgspTypePrev = lgspEdge.lgspTypePrev;
+            lgspEdge.lgspTypeNext = null;
+            lgspEdge.lgspTypePrev = null;
 
-            edgesByTypeCounts[ledge.lgspType.TypeID]--;
-            if(reuseOptimization)
-                ledge.Recycle();
+            edgesByTypeCounts[lgspEdge.lgspType.TypeID]--;
+
+            if(reuseOptimization && !TransactionManager.TransactionActive)
+                lgspEdge.Recycle();
+
+#if CHECK_RINGLISTS
+            CheckTypeRinglistBroken(edgesByTypeHeads[lgspEdge.lgspType.TypeID]);
+#endif
         }
 
         /// <summary>
@@ -1351,6 +1432,11 @@ namespace de.unika.ipd.grGen.lgsp
                 ElementMap.Remove(edge);
                 edge.lgspFlags &= ~(uint) LGSPElemFlags.HAS_VARIABLES;
             }
+
+#if CHECK_RINGLISTS
+            LGSPNode oldSource = edge.lgspSource;
+            LGSPNode oldTarget = edge.lgspTarget;
+#endif
 
             if(newSource != null)
             {
@@ -1415,6 +1501,14 @@ namespace de.unika.ipd.grGen.lgsp
             edge.ResetAllAttributes();
 
             EdgeAdded(edge);
+
+#if CHECK_RINGLISTS
+            CheckInOutRinglistsBroken(oldSource);
+            CheckInOutRinglistsBroken(oldTarget);
+            if(newSource!=null) CheckInOutRinglistsBroken(newSource);
+            if(newTarget!=null) CheckInOutRinglistsBroken(newTarget);
+            CheckTypeRinglistBroken(edgesByTypeHeads[edge.lgspType.TypeID]);
+#endif
         }
 
         /// <summary>
@@ -1523,7 +1617,7 @@ namespace de.unika.ipd.grGen.lgsp
                 oldNode.lgspTypeNext.lgspTypePrev = newNode;
                 oldNode.lgspTypePrev.lgspTypeNext = newNode;
             }
-			oldNode.lgspTypeNext = newNode;			// indicate replacement
+            oldNode.lgspTypeNext = newNode;			// indicate replacement (checked in rewrite for hom nodes)
 			oldNode.lgspTypePrev = null;			// indicate node is node valid anymore
 
             // Reassign all outgoing edges
@@ -1554,43 +1648,14 @@ namespace de.unika.ipd.grGen.lgsp
             }
             newNode.lgspInhead = inHead;
 
-            if(reuseOptimization)
+            if(reuseOptimization && !TransactionManager.TransactionActive)
                 oldNode.Recycle();
+
+#if CHECK_RINGLISTS
+            CheckTypeRinglistBroken(nodesByTypeHeads[newNode.lgspType.TypeID]);
+            CheckInOutRinglistsBroken(newNode);
+#endif
         }
-
-/*        /// <summary>
-        /// Checks whether the incoming or outgoing lists of the given node are broken.
-        /// Use for debugging purposes.
-        /// </summary>
-        /// <param name="node">The node to be checked.</param>
-        private void CheckLists(LGSPNode node)
-        {
-            LGSPEdge inHead = node.inhead;
-            if(inHead != null)
-            {
-                LGSPEdge inCur = inHead;
-                do
-                {
-                    if(inCur.inNext.inPrev != inCur) throw new Exception("ARGH1");
-                    if(inCur.inPrev.inNext != inCur) throw new Exception("ARGH2");
-                    inCur = inCur.inNext;
-                }
-                while(inCur != inHead);
-            }
-
-            LGSPEdge outHead = node.outhead;
-            if(outHead != null)
-            {
-                LGSPEdge outCur = outHead;
-                do
-                {
-                    if(outCur.outNext.outPrev != outCur) throw new Exception("ARGH3");
-                    if(outCur.outPrev.outNext != outCur) throw new Exception("ARGH4");
-                    outCur = outCur.outNext;
-                }
-                while(outCur != outHead);
-            }
-        }*/
 
         /// <summary>
         /// Replaces a given edge by another one.
@@ -1637,8 +1702,8 @@ namespace de.unika.ipd.grGen.lgsp
                 oldEdge.lgspTypeNext.lgspTypePrev = newEdge;
                 oldEdge.lgspTypePrev.lgspTypeNext = newEdge;
             }
-			oldEdge.lgspTypeNext = newEdge;			// indicate replacement
-			oldEdge.lgspTypePrev = null;			// indicate node is node valid anymore
+			oldEdge.lgspTypeNext = newEdge;			// indicate replacement (checked in rewrite for hom edges)
+			oldEdge.lgspTypePrev = null;			// indicate edge is node valid anymore
 
             // Reassign source node
             LGSPNode src = oldEdge.lgspSource;
@@ -1684,8 +1749,14 @@ namespace de.unika.ipd.grGen.lgsp
             oldEdge.lgspInNext = null;
             oldEdge.lgspInPrev = null;
 
-            if(reuseOptimization)
+            if(reuseOptimization && !TransactionManager.TransactionActive)
                 oldEdge.Recycle();
+
+#if CHECK_RINGLISTS
+            CheckTypeRinglistBroken(edgesByTypeHeads[newEdge.lgspType.TypeID]);
+            CheckInOutRinglistsBroken(newEdge.lgspSource);
+            CheckInOutRinglistsBroken(newEdge.lgspTarget);
+#endif
         }
 
         #region Visited flags management
@@ -2576,16 +2647,17 @@ namespace de.unika.ipd.grGen.lgsp
         }
 #endif
 
-        public void EnsureEmptyFlags()
+        /// <summary>
+        /// Checks if the matching state flags in the graph are not set, as they should be in case no matching is undereway
+        /// </summary>
+        public void CheckEmptyFlags()
         {
             foreach (NodeType nodeType in Model.NodeModel.Types)
             {
                 for (LGSPNode nodeHead = nodesByTypeHeads[nodeType.TypeID], node = nodeHead.lgspTypeNext; node != nodeHead; node = node.lgspTypeNext)
                 {
                     if (node.lgspFlags != 0 && node.lgspFlags != 1)
-                    {
-                        Debug.Assert(false); // no matching underway, but matching state still in graph
-                    }
+                        throw new Exception("Internal error: No matching underway, but matching state still in graph.");
                 }
             }
 
@@ -2594,12 +2666,203 @@ namespace de.unika.ipd.grGen.lgsp
                 for (LGSPEdge edgeHead = edgesByTypeHeads[edgeType.TypeID], edge = edgeHead.lgspTypeNext; edge != edgeHead; edge = edge.lgspTypeNext)
                 {
                     if (edge.lgspFlags != 0 && edge.lgspFlags != 1)
-                    {
-                        Debug.Assert(false); // no matching underway, but matching state still in graph
-                    }
+                        throw new Exception("Internal error: No matching underway, but matching state still in graph.");
                 }
             }
         }
+
+#if CHECK_RINGLISTS
+        /// <summary>
+        /// Checks if the given node is already available in its type ringlist
+        /// </summary>
+        public void CheckNodeAlreadyInTypeRinglist(LGSPNode node)
+        {
+            LGSPNode head = nodesByTypeHeads[node.lgspType.TypeID];
+            LGSPNode cur = head.lgspTypeNext;
+            while(cur != head)
+            {
+                if(cur == node) throw new Exception("Internal error: Node already available in ringlist");
+                cur = cur.lgspTypeNext;
+            }
+            cur = head.lgspTypePrev;
+            while(cur != head)
+            {
+                if(cur == node) throw new Exception("Internal error: Node already available in ringlist");
+                cur = cur.lgspTypePrev;
+            }
+        }
+
+        /// <summary>
+        /// Checks if the given edge is already available in its type ringlist
+        /// </summary>
+        public void CheckEdgeAlreadyInTypeRinglist(LGSPEdge edge)
+        {
+            LGSPEdge head = edgesByTypeHeads[edge.lgspType.TypeID];
+            LGSPEdge cur = head.lgspTypeNext;
+            while(cur != head)
+            {
+                if(cur == edge) throw new Exception("Internal error: Edge already available in ringlist");
+                cur = cur.lgspTypeNext;
+            }
+            cur = head.lgspTypePrev;
+            while(cur != head)
+            {
+                if(cur == edge) throw new Exception("Internal error: Edge already available in ringlist");
+                cur = cur.lgspTypePrev;
+            }
+        }
+
+        /// <summary>
+        /// Checks whether the type ringlist starting at the given head node is broken.
+        /// Use for debugging purposes.
+        /// </summary>
+        /// <param name="node">The node head to be checked.</param>
+        public void CheckTypeRinglistBroken(LGSPNode head)
+        {
+            LGSPNode headNext = head.lgspTypeNext;
+            if(headNext == null) throw new Exception("Internal error: Ringlist broken");
+            LGSPNode cur = headNext;
+            LGSPNode next;
+            while(cur != head)
+            {
+                if(cur != cur.lgspTypeNext.lgspTypePrev) throw new Exception("Internal error: Ringlist out of order");
+                next = cur.lgspTypeNext;
+                if(next == null) throw new Exception("Internal error: Ringlist broken");
+                if(next == headNext) throw new Exception("Internal error: Ringlist loops bypassing head");
+                cur = next;
+            }
+
+            LGSPNode headPrev = head.lgspTypePrev;
+            if(headPrev == null) throw new Exception("Internal error: Ringlist broken");
+            cur = headPrev;
+            LGSPNode prev;
+            while(cur != head)
+            {
+                if(cur != cur.lgspTypePrev.lgspTypeNext) throw new Exception("Internal error: Ringlist out of order");
+                prev = cur.lgspTypePrev;
+                if(prev == null) throw new Exception("Internal error: Ringlist broken");
+                if(prev == headPrev) throw new Exception("Internal error: Ringlist loops bypassing head");
+                cur = prev;
+            }
+        }
+
+        /// <summary>
+        /// Checks whether the type ringlist starting at the given head edge is broken.
+        /// Use for debugging purposes.
+        /// </summary>
+        /// <param name="node">The edge head to be checked.</param>
+        public void CheckTypeRinglistBroken(LGSPEdge head)
+        {
+            LGSPEdge headNext = head.lgspTypeNext;
+            if(headNext == null) throw new Exception("Internal error: Ringlist broken");
+            LGSPEdge cur = headNext;
+            LGSPEdge next;
+            while(cur != head)
+            {
+                if(cur != cur.lgspTypeNext.lgspTypePrev) throw new Exception("Internal error: Ringlist out of order");
+                next = cur.lgspTypeNext;
+                if(next == null) throw new Exception("Internal error: Ringlist broken");
+                if(next == headNext) throw new Exception("Internal error: Ringlist loops bypassing head");
+                cur = next;
+            }
+
+            LGSPEdge headPrev = head.lgspTypePrev;
+            if(headPrev == null) throw new Exception("Internal error: type Ringlist broken");
+            cur = headPrev;
+            LGSPEdge prev;
+            while(cur != head)
+            {
+                if(cur != cur.lgspTypePrev.lgspTypeNext) throw new Exception("Internal error: Ringlist out of order");
+                prev = cur.lgspTypePrev;
+                if(prev == null) throw new Exception("Internal error: Ringlist broken");
+                if(prev == headPrev) throw new Exception("Internal error: Ringlist loops bypassing head");
+                cur = prev;
+            }
+        }
+
+        /// <summary>
+        /// Checks whether the type ringlists are broken.
+        /// Use for debugging purposes.
+        /// </summary>
+        public void CheckTypeRinglistsBroken()
+        {
+            foreach(LGSPNode head in nodesByTypeHeads)
+                CheckTypeRinglistBroken(head);
+            foreach(LGSPEdge head in edgesByTypeHeads)
+                CheckTypeRinglistBroken(head);
+        }
+                    
+        /// <summary>
+        /// Checks whether the incoming or outgoing ringlists of the given node are broken.
+        /// Use for debugging purposes.
+        /// </summary>
+        /// <param name="node">The node to be checked.</param>
+        public void CheckInOutRinglistsBroken(LGSPNode node)
+        {
+            LGSPEdge inHead = node.lgspInhead;
+            if(inHead != null)
+            {
+                LGSPEdge headNext = inHead.lgspInNext;
+                if(headNext == null) throw new Exception("Internal error: in Ringlist broken");
+                LGSPEdge cur = headNext;
+                LGSPEdge next;
+                while(cur != inHead)
+                {
+                    if(cur != cur.lgspInNext.lgspInPrev) throw new Exception("Internal error: Ringlist out of order");
+                    next = cur.lgspInNext;
+                    if(next == null) throw new Exception("Internal error: Ringlist broken");
+                    if(next == headNext) throw new Exception("Internal error: Ringlist loops bypassing head");
+                    cur = next;
+                }
+            }
+            if(inHead != null)
+            {
+                LGSPEdge headPrev = inHead.lgspInPrev;
+                if(headPrev == null) throw new Exception("Internal error: Ringlist broken");
+                LGSPEdge cur = headPrev;
+                LGSPEdge prev;
+                while(cur != inHead)
+                {
+                    if(cur != cur.lgspInPrev.lgspInNext) throw new Exception("Internal error: Ringlist out of order");
+                    prev = cur.lgspInPrev;
+                    if(prev == null) throw new Exception("Internal error: Ringlist broken");
+                    if(prev == headPrev) throw new Exception("Internal error: Ringlist loops bypassing head");
+                    cur = prev;
+                }
+            }
+            LGSPEdge outHead = node.lgspOuthead;
+            if(outHead != null)
+            {
+                LGSPEdge headNext = outHead.lgspOutNext;
+                if(headNext == null) throw new Exception("Internal error: Ringlist broken");
+                LGSPEdge cur = headNext;
+                LGSPEdge next;
+                while(cur != outHead)
+                {
+                    if(cur != cur.lgspOutNext.lgspOutPrev) throw new Exception("Internal error: Ringlist out of order");
+                    next = cur.lgspOutNext;
+                    if(next == null) throw new Exception("Internal error: Ringlist broken");
+                    if(next == headNext) throw new Exception("Internal error: Ringlist loops bypassing head");
+                    cur = next;
+                }
+            }
+            if(outHead != null)
+            {
+                LGSPEdge headPrev = outHead.lgspOutPrev;
+                if(headPrev == null) throw new Exception("Internal error: Ringlist broken");
+                LGSPEdge cur = headPrev;
+                LGSPEdge prev;
+                while(cur != outHead)
+                {
+                    if(cur != cur.lgspOutPrev.lgspOutNext) throw new Exception("Internal error: Ringlist out of order");
+                    prev = cur.lgspOutPrev;
+                    if(prev == null) throw new Exception("Internal error: Ringlist broken");
+                    if(prev == headPrev) throw new Exception("Internal error: Ringlist loops bypassing head");
+                    cur = prev;
+                }
+            }
+        }
+#endif
 
         /// <summary>
         /// Mature a graph.
