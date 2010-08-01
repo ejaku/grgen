@@ -285,12 +285,12 @@ namespace de.unika.ipd.grGen.libGr
             if(elemName != null && NameToElem.ContainsKey(elemName))
                 throw new ArgumentException("The name \"" + elemName + "\" is already used!");
 
+            if(elemName == null)
+                elemName = GetNextName();
+
             skipNextEvent = true;
             graph.AddNode(node, varName);
             skipNextEvent = false;
-
-            if(elemName == null)
-                elemName = GetNextName();
 
             NameToElem[elemName] = node;
             ElemToName[node] = elemName;
@@ -311,12 +311,12 @@ namespace de.unika.ipd.grGen.libGr
             if(elemName != null && NameToElem.ContainsKey(elemName))
                 throw new ArgumentException("The name \"" + elemName + "\" is already used!");
 
+            if(elemName == null)
+                elemName = GetNextName();
+
             skipNextEvent = true;
             INode node = graph.AddNode(nodeType, varName);
             skipNextEvent = false;
-
-            if(elemName == null)
-                elemName = GetNextName();
 
             NameToElem[elemName] = node;
             ElemToName[node] = elemName;
@@ -383,12 +383,12 @@ namespace de.unika.ipd.grGen.libGr
             if(elemName != null && NameToElem.ContainsKey(elemName))
                 throw new ArgumentException("The name \"" + elemName + "\" is already used!");
 
+            if(elemName == null)
+                elemName = GetNextName();
+
             skipNextEvent = true;
             graph.AddEdge(edge, varName);
             skipNextEvent = false;
-
-            if(elemName == null)
-                elemName = GetNextName();
 
             NameToElem[elemName] = edge;
             ElemToName[edge] = elemName;
@@ -411,12 +411,12 @@ namespace de.unika.ipd.grGen.libGr
             if(elemName != null && NameToElem.ContainsKey(elemName))
                 throw new ArgumentException("The name \"" + elemName + "\" is already used!");
 
+            if(elemName == null)
+                elemName = GetNextName();
+
             skipNextEvent = true;
             IEdge edge = graph.AddEdge(edgeType, source, target, varName);
             skipNextEvent = false;
-
-            if(elemName == null)
-                elemName = GetNextName();
 
             NameToElem[elemName] = edge;
             ElemToName[edge] = elemName;
