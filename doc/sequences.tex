@@ -198,8 +198,9 @@ The variable in the \indexed{variable predicate} (a sequence consisting of only 
 a prepended \texttt{\%} attaches a \indexed{break point} to it.
 The variable predicate together with the sequence result assignment allow to directly transmit execution results from one part of the sequence to another one.
 A \texttt{def} term is successful iff all the variables are defined.
-A \texttt{yield} term yields the variable values to the containing \texttt{exec} which can include the yielded values into the RHS pattern; but as of now they are only accesible from the rule \texttt{return} statement.
-Yielding is only applicable to compiled sequences. 
+A \texttt{yield} term yields the variable values to the containing \texttt{exec} which can include the yielded values into the RHS pattern; but as of now they are then only accesible from the rule \texttt{return} statement.
+Yielding is only possible from compiled sequences. 
+It always succeeds, assigning the output elements (\emph{not} returning from the sequence). 
 Preliminary implementation: you get internal errors if yielded and expected types are not equal or if there is not a yield on any control flow path leaving the sequence.
  
 \section{Visited Flags}\indexmain{visited flag}

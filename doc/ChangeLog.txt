@@ -1,4 +1,4 @@
-﻿v2.6RC9 (2010-07-26)
+﻿v2.6RC10 (2010-08-01)
  Single most important change:
   - user manual updated (including all the changes from 1.4->2.6)
  
@@ -135,6 +135,7 @@
   - nameof(element) now working correctly, i.e. returning persistent name as announced
       (instead of variable name; only in case of a non-named graph a hash value name is returned)
   - typeof(element of abstract type) now working
+  - bad interference of transactions with the reuse optimization removed
   - several cases of use before definition in rule language now working
   - Mono compiler error (MS.NET warning) when using alternatives removed
   - initialization overwrite in model (on inheritance paths of depth >2; for sets/maps)

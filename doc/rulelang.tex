@@ -865,7 +865,7 @@ The execution statements take place after all the rewrite operations are done, i
 However, \emph{attribute} values of deleted graph elements are still available for reading.
 The \texttt{eval} statements are executed before the execution statements, i.e.\ the execution statements work on the recalculated attributes.
 \begin{description}
-  \item[XGRS Execution] The \texttt{exec} statement executes a graph rewrite sequence, which is a composition of graph rewrite rules. Yielded graph elements may be included into the RHS pattern, but as of now they are only available to the \texttt{return} statement. See Chapter~\ref{cha:xgrs} for a description of graph rewrite sequences.
+  \item[XGRS Execution] The \texttt{exec} statement executes a graph rewrite sequence, which is a composition of graph rewrite rules. Yielded graph elements may be included into the RHS pattern, but as of now they are only accessible from the \texttt{return} statement. See Chapter~\ref{cha:xgrs} for a description of graph rewrite sequences.
   \item[Text Output] The \texttt{emit} statement prints a string to the currently associated output stream (default is \texttt{stdout}). See Chapter~\ref{cha:typeexpr} for a description of string expressions.
   For emitting in between the emits from subpatterns, there is an additional \texttt{emithere} statement available.
 \end{description}
@@ -876,7 +876,8 @@ The \texttt{eval} statements are executed before the execution statements, i.e.\
 	We don't define all the rules nor the graph meta model.
 	It's just about the look and feel of the \texttt{exec} and \texttt{emit} statements
 	\begin{grgen}
-rule AddRedundancy {
+rule AddRedundancy
+{
   s: SourceNode;
   t: DestinationNode;	
   modify {
@@ -890,3 +891,20 @@ rule AddRedundancy {
 	\end{grgen}
 \end{example}
 \end{figure}
+
+\begin{example}
+This is an example for returning elements yielded from an \texttt{exec} statement.
+The results of the rule \texttt{bar} are written to the variables \texttt{a} and \texttt{b};
+The \texttt{yield} statement is similar to a return but does not jump out. 
+The anonymous output variables written in the yield statement are assigned in the given order to the pattern variables specified after the assign to operator \verb#->#.
+
+	\begin{grgen}
+rule foo : (A,B)
+{
+  modify {
+    exec( (a,b)=bar && yield(a,b) ) -> u:A, v:B;
+    return(u,v)
+  }
+}  
+	\end{grgen}
+\end{example}
