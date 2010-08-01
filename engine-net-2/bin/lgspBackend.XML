@@ -872,6 +872,11 @@
             The calculated data is used to generate good searchplans for the current graph.
             </summary>
         </member>
+        <member name="M:de.unika.ipd.grGen.lgsp.LGSPGraph.CheckEmptyFlags">
+            <summary>
+            Checks if the matching state flags in the graph are not set, as they should be in case no matching is undereway
+            </summary>
+        </member>
         <member name="M:de.unika.ipd.grGen.lgsp.LGSPGraph.Mature">
             <summary>
             Mature a graph.
