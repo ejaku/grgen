@@ -1,4 +1,4 @@
-﻿v2.6RC10 (2010-08-01)
+﻿v2.6RC11 (2010-08-10)
  Single most important change:
   - user manual updated (including all the changes from 1.4->2.6)
  
@@ -123,9 +123,13 @@
   - {- R } = replace { R }
   
  Connection assertions:
-  - now support "copy extends" to copy the connection assertions of the direct supertypes
-  - now support undirected edges with -- syntax
-  - now support arbitrary edges with ?--? syntax
+  - nodes without incident edges were ignored in validation, now the lower bound 0 vs. 1 is always checked
+  - the default if no multiplicity is given is now [*] instead of [1], i.e. no constraint specified
+  - support for "validate strict only specified" mode, doing a strict validation,
+    but only of edge types for which connection assertions were specified
+  - support for "copy extends" to copy the connection assertions of the direct supertypes
+  - support for undirected edges with -- syntax
+  - support for arbitrary edges with ?--? syntax
   
  Fixes:
   - escaping of quotation marks in VCG files

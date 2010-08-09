@@ -189,22 +189,27 @@ See also Section~\ref{graphcommands}, \texttt{validate}.
 
 \begin{rail}  
   ConnectionAssertions: 'connect' ((NodeConstraint ('-->' | '<--' | '--' | '?--?') NodeConstraint | 'copy' 'extends') + ',');
-  NodeConstraint: NodeType (() | '[' ('*' | '+' | Number | RangeConstraint) ']') ;
+  NodeConstraint: NodeType (MultiplicityConstraint)? ;
+  MultiplicityConstraint: '[' ('*' | '+' | Number | RangeConstraint) ']' ;
   RangeConstraint: Number ':' ('*' | Number) ;
-\end{rail}\ixkeyw{connect}\ixkeyw{copy}\ixkeyw{extends}\ixnterm{ConnectionAssertion}\ixnterm{NodeConstraint}\ixnterm{RangeConstraint}
-A \emph{\indexed{connection assertion}} is denoted as a pair of node types in conjunction with their multiplicities\indexmainsee{multiplicity}{connection assertion}. 
+\end{rail}\ixkeyw{connect}\ixkeyw{copy}\ixkeyw{extends}\ixnterm{ConnectionAssertion}\ixnterm{NodeConstraint}\ixnterm{MultiplicityConstraint}\ixnterm{RangeConstraint}\label{sct:ConnectionAssertions}
+A \emph{\indexed{connection assertion}} is denoted as a pair of node types, optionally with their multiplicities\indexmainsee{multiplicity}{connection assertion}. 
+It allows you to specify the node types an edge may connect and the multiplicities with which such edges appear on the nodes.
 It is best understood as a simple pattern of the form(cf. ~\ref{sct:graphlets}) \texttt{:SourceNodeType -:EdgeType-> :TargetNodeType}, of which every occurrence in the graph is searched.
 In contrast to a real such pattern and the node types only edges of exactly the given edge type are taken into account.
 Per node of \texttt{SourceNodeType} (or a subtype) it is counted how often it was covered by a match of the pattern starting at it,
 and per node of \texttt{TargetNodeType} (or a subtype) it is counted how often it was covered by a match of the pattern ending at it.
 The numbers must be in the range specified at the \texttt{SourceNodeType} and the \texttt{TargetNodeType} for the connection assertion to be fulfilled.
-Don't get surprised by matches of non-disjunct source/target types/subtypes in the case of undirected and especially arbitrary edges.
-Multiple connection assertions are applied by conjunction, i.\,e.\ all of them must be fulfilled. 
-It might happen that none of the connection assertion of an \texttt{EdgeType} are matching an edge of this type in the graph.
-This is accepted in the case of normal validation; but as you normally want to see \emph{only} the specified connections occuring in the graph,
+Giving no multiplicity constraint is equivalent to \verb#[*]#, i.e. $[0,\infty[$, i.e. unconstrained.
+Please take care of non-disjoint source/target types/subtypes in the case of undirected and especially arbitrary edges.
+In the case of multiple connection assertions all are checked and errors for each one reported; for strict validation to succeed at least one of them must match. 
+It might happen that none of the connection assertions of an \texttt{EdgeType} are matching an edge of this type in the graph.
+This is accepted in the case of normal validation (throwing connection assertions without multiplicities effectively back to nops); 
+but as you normally want to see \emph{only} the specified connections occuring in the graph,
 there is the additional mode of strict validation: if an edge is not covered by a single matching connection, validation fails.
+Furtheron there is the strict-only-specified mode, which only does strict validation of the edges for which connection assertions are given.
 See Section~\ref{graphcommands}, \texttt{validate}\ixkeyw{validate}, for an example.
- 
+
 The arrow syntax is based on the \GrG\ graphlet specification (see Section~\ref{sct:graphlets}).
 The different kinds of arrows distinguish between directed, undirected, and arbitrary edges.
 The \texttt{-->} arrow means a directed edge aiming towards a node of the target node type (or one of its subtypes).

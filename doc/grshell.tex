@@ -220,14 +220,21 @@ Deletes the graph \emph{Graph} from the backend storage.
 
 \subsection{Validation Commands}
 
-\GrG\ offers two different graph validation mechanisms, the first checks against the connection assertions specified in the model, the second checks against an arbitrary graph rewrite sequence containing arbitrary tests and rules.
+\GrG\ offers two different graph validation mechanisms, 
+the first checks against the connection assertions specified in the model,
+the second checks against an arbitrary graph rewrite sequence containing arbitrary tests and rules.
 
 \begin{rail}
-  'validate' ('exitonfailure')? ('strict')?
-\end{rail}\ixkeyw{validate}\ixkeyw{exitonfailure}\ixkeyw{strict}
-Validates\indexmain{validate} if the current working graph fulfills the \indexed{connection assertion}s specified in the corresponding graph model.
-The \emph{strict} mode additionally requires all the edges available in the instance graph to be specified in the model in order to be ``valid''.
-Otherwise edges between nodes without specified constraints are ignored.
+  'validate' ('exitonfailure')? ('strict' ('only' 'specified')?)?
+\end{rail}\ixkeyw{validate}\ixkeyw{exitonfailure}\ixkeyw{strict}\ixkeyw{only}\ixkeyw{specified}
+Validates\indexmain{validate} if the current working graph fulfills the \indexed{connection assertion}s specified in the corresponding graph model (cf. ~\ref{sct:ConnectionAssertions}).
+Validate without the strict modifier checks the multiplicities of the connections it finds in the host graph, 
+it ignores node-edge-node connections which are available in the host graph but have not been specified in the model.
+The \emph{strict} mode additionally requires that all the edges available in the host graph must have been specified in the model.
+This requirement is too harsh for models where only certain parts are considered critical enough to be checked
+or might be a too big step in tightening the level of structural checking in an already existing large model.
+So some form of selective strict checking is supported:
+The \emph{strict only specified} mode requires strict matching (i.e. that all edges are covered) only of the edges for which connection assertions have been specified in the model.
 
 \begin{rail}
   'validate' ('exitonfailure')? 'xgrs' GRS
@@ -249,7 +256,7 @@ node class metropolis;
 
 edge class street;
 edge class highway
-      connect metropolis [+] -> metropolis [+];
+      connect metropolis [+] --> metropolis [+];
 \end{grgen}
 The node constraint on \emph{highway} requires all the metropolises to be connected by highways. Now have a look at the following graph:
 \begin{center}
@@ -260,6 +267,9 @@ This graph is valid but not strict valid.
 \begin{grshell} 
 > validate
 The graph is valid.
+> validate strict only specified
+The graph is NOT valid:
+  CAE: city "Eppstein" -- highway "A3" --> metropolis "Frankfurt" not specified
 > validate strict
 The graph is NOT valid:
   CAE: city "Eppstein" -- highway "A3" --> metropolis "Frankfurt" not specified
@@ -392,12 +402,13 @@ This is in contrast to the rule language (Chapter~\ref{chaprulelang}), where we 
 \end{note}
 
 \begin{rail}
-  'new' Node (('-' EdgeEntityConstructor '->') | ('-' EdgeEntityConstructor '-')) Node ;
+  'new' Node (('-' EdgeEntityConstructor '->') | ('<-' EdgeEntityConstructor '-') | ('-' EdgeEntityConstructor '-')) Node ;
 EdgeEntityConstructor:
   (()|Text) (() | ':' EdgeType (() | Constructor)) ;
 \end{rail}\ixkeyw{new}
 Creates a new edge within the current graph between the specified nodes,
 directed from the first to the second \emph{Node} in the case of \texttt{-->},
+directed from the second to the first \emph{Node} in the case of \texttt{<--},
 or undirected in the case of \texttt{--}.
 Optionally a variable \emph{Text} is assigned to the new edge.
 If \emph{EdgeType} is supplied, the new edge will be of type \emph{EdgeType} and attributes can be initialized by a constructor.
@@ -764,6 +775,13 @@ The following table shows the ``break points'' of further debug commands, entere
 \end{example}   
 \end{figure}
 
+%\subsection{yComp}
+%url; yFiles; java app, socket communication with shell debugger
+%Find; goto node/edge; böbbels; 
+%relayout; zoom: mousewheel; pane by holding middle mouse
+%supported formats; vcg format
+%ref to visualization commands, again: hierarchy
+%copy some of the stuff from ycomp help?
 
 \section{Backend Commands}
 \label{backend}
