@@ -326,6 +326,7 @@ TOKEN: {
 |   < SHORTINFOTAG: "shortinfotag" >
 |   < SHOW: "show" >
 |   < SILENCE: "silence" >
+|   < SPECIFIED: "specified" >
 |   < STRICT: "strict" >
 |   < SUB: "sub" >
 |   < SUPER: "super" >
@@ -924,7 +925,7 @@ void ShellCommand():
 	ShellGraph shellGraph = null;
 	Sequence seq;
 	bool shellGraphSpecified = false, boolVal;
-	bool strict = false, exitOnFailure = false, validated = false;
+	bool strict = false, exitOnFailure = false, validated = false, onlySpecified = false;
 	int num;
 	List<String> parameters;
 }
@@ -1050,9 +1051,9 @@ void ShellCommand():
 			}
         }
     |
-	    ( "strict" { strict = true; } )? LineEnd()
+	    ( "strict" { strict = true; } ("only" "specified" { onlySpecified = true;})? )? LineEnd()
 	    {
-		    validated = impl.Validate(strict);
+		    validated = impl.Validate(strict, onlySpecified);
 			if(!validated && exitOnFailure)
 			{
 				throw new Exception("validate failed");
@@ -1252,8 +1253,14 @@ void NewCommand():
 			noError = impl.NewGraph(modelFilename, graphName);
 		}
 	|
-		LOOKAHEAD(2)
+		LOOKAHEAD(3)
 		srcNode=Node() "-" elemDef=ElementDefinition() ( "->" { directed = true; } | "-" { directed = false; } ) tgtNode=Node() LineEnd()
+		{
+			noError = impl.NewEdge(elemDef, srcNode, tgtNode, directed) != null;
+		}
+	|
+		LOOKAHEAD(2)
+		tgtNode=Node() "<-" elemDef=ElementDefinition() "-" { directed = true; } srcNode=Node() LineEnd()
 		{
 			noError = impl.NewEdge(elemDef, srcNode, tgtNode, directed) != null;
 		}

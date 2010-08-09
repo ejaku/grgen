@@ -1244,7 +1244,7 @@ xgrsNegOrIteration[ExecNode xg]
 iterSequence[ExecNode xg]
 	: simpleSequence[xg]
 		(
-			rsn=rangeSpec { xg.append(rsn); }
+			rsn=rangeSpecXgrsLoop { xg.append(rsn); }
 		|
 			STAR { xg.append("*"); }
 		|
@@ -2362,9 +2362,38 @@ paramExprs [boolean inEnumInit] returns [ CollectNode<ExprNode> params = new Col
 
 rangeSpec returns [ RangeSpecNode res = null ]
 	@init{
+		lower = 0; upper = RangeSpecNode.UNBOUND;
+		de.unika.ipd.grgen.parser.Coords coords = de.unika.ipd.grgen.parser.Coords.getInvalid();
+		// range allows [*], [+], [?], [c:*], [c], [c:d]; no range equals [*]
+	}
+
+	:
+		(
+			l=LBRACK { coords = getCoords(l); }
+			(
+				STAR { lower=0; upper=RangeSpecNode.UNBOUND; }
+			|
+				PLUS { lower=1; upper=RangeSpecNode.UNBOUND; }
+			|
+				QUESTION { lower=0; upper=1; }
+			|
+				lower=integerConst
+				(
+					COLON ( STAR { upper=RangeSpecNode.UNBOUND; } | upper=integerConst )
+				|
+					{ upper = lower; }
+				)
+			)
+			RBRACK
+		)?
+		{ res = new RangeSpecNode(coords, lower, upper); }
+	;
+
+rangeSpecXgrsLoop returns [ RangeSpecNode res = null ]
+	@init{
 		lower = 1; upper = 1;
 		de.unika.ipd.grgen.parser.Coords coords = de.unika.ipd.grgen.parser.Coords.getInvalid();
-		// range allows [*], [+], [c:*], [c], [c:d]
+		// range allows [*], [+], [c:*], [c], [c:d]; no range equals 1:1
 	}
 
 	:

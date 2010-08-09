@@ -1604,6 +1604,9 @@ namespace de.unika.ipd.grGen.lgsp
 
             if(oldNode.lgspType != newNode.lgspType)
             {
+                if(!oldNode.Valid)
+                    throw new Exception("Fatal failure at retyping: The old node is not a member of the graph (any more).");
+
 				oldNode.lgspTypePrev.lgspTypeNext = oldNode.lgspTypeNext;
 				oldNode.lgspTypeNext.lgspTypePrev = oldNode.lgspTypePrev;
 				nodesByTypeCounts[oldNode.lgspType.TypeID]--;
@@ -1682,6 +1685,9 @@ namespace de.unika.ipd.grGen.lgsp
 
             if(oldEdge.lgspType != newEdge.lgspType)
             {
+                if(!oldEdge.Valid)
+                    throw new Exception("Fatal failure at retyping: The old edge is not a member of the graph (any more).");
+
                 oldEdge.lgspTypePrev.lgspTypeNext = oldEdge.lgspTypeNext;
                 oldEdge.lgspTypeNext.lgspTypePrev = oldEdge.lgspTypePrev;
 

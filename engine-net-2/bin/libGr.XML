@@ -760,15 +760,11 @@
             </summary>
             <param name="seq">The sequence to be exited.</param>
         </member>
-        <member name="M:de.unika.ipd.grGen.libGr.IGraph.Validate(System.Boolean,System.Collections.Generic.List{de.unika.ipd.grGen.libGr.ConnectionAssertionError}@)">
+        <member name="M:de.unika.ipd.grGen.libGr.IGraph.Validate(de.unika.ipd.grGen.libGr.ValidationMode,System.Collections.Generic.List{de.unika.ipd.grGen.libGr.ConnectionAssertionError}@)">
             <summary>
             Checks whether a graph meets the connection assertions.
-            In strict mode all occuring connections must be specified
-            by a connection assertion.
             </summary>
-            <param name="strict">If false, only check for specified assertions,
-            otherwise it isn an error, if an edge connects nodes without a
-            specified connection assertion.</param>
+            <param name="mode">The validation mode to apply.</param>
             <param name="errors">If the graph is not valid, this refers to a List of ConnectionAssertionError objects, otherwise it is null.</param>
             <returns>True, if the graph is valid.</returns>
         </member>
@@ -1456,15 +1452,11 @@
             </summary>
             <param name="seq">The sequence which is exited.</param>
         </member>
-        <member name="M:de.unika.ipd.grGen.libGr.NamedGraph.Validate(System.Boolean,System.Collections.Generic.List{de.unika.ipd.grGen.libGr.ConnectionAssertionError}@)">
+        <member name="M:de.unika.ipd.grGen.libGr.NamedGraph.Validate(de.unika.ipd.grGen.libGr.ValidationMode,System.Collections.Generic.List{de.unika.ipd.grGen.libGr.ConnectionAssertionError}@)">
             <summary>
             Checks whether a graph meets the connection assertions.
-            In strict mode all occuring connections must be specified
-            by a connection assertion.
             </summary>
-            <param name="strict">If false, only check for specified assertions,
-            otherwise it isn an error, if an edge connects nodes without a
-            specified connection assertion.</param>
+            <param name="mode">The validation mode to apply.</param>
             <param name="errors">If the graph is not valid, this refers to a List of ConnectionAssertionError objects, otherwise it is null.</param>
             <returns>True, if the graph is valid.</returns>
         </member>
@@ -2292,6 +2284,11 @@
             Represents a method called before a sequence is left.
             </summary>
             <param name="seq">The current sequence object.</param>
+        </member>
+        <member name="T:de.unika.ipd.grGen.libGr.ValidationMode">
+            <summary>
+            The different graph validation modes
+            </summary>
         </member>
         <member name="T:de.unika.ipd.grGen.libGr.sequenceParser.Token">
             <summary>
@@ -4160,18 +4157,13 @@
             <param name="typeName">The name of a edge type.</param>
             <returns>The edge type with the given name or null, if it does not exist.</returns>
         </member>
-        <member name="M:de.unika.ipd.grGen.libGr.BaseGraph.Validate(System.Boolean,System.Collections.Generic.List{de.unika.ipd.grGen.libGr.ConnectionAssertionError}@)">
+        <member name="M:de.unika.ipd.grGen.libGr.BaseGraph.Validate(de.unika.ipd.grGen.libGr.ValidationMode,System.Collections.Generic.List{de.unika.ipd.grGen.libGr.ConnectionAssertionError}@)">
             <summary>
             Checks whether a graph meets the connection assertions.
-            In strict mode all edges must be specified by a connection assertion.
             </summary>
-            <param name="strict">If false, only check for specified assertions,
-            otherwise it isn an error, if an edge connects nodes without a
-            specified connection assertion.</param>
+            <param name="mode">The validation mode to apply.</param>
             <param name="errors">If the graph is not valid, this refers to a List of ConnectionAssertionError objects, otherwise it is null.</param>
             <returns>True, if the graph is valid.</returns>
-            TODO: Shouldn't strict be fulfilled, if the dictionary sizes equal the number of nodes/edges?
-                --> faster positive answer
         </member>
         <member name="M:de.unika.ipd.grGen.libGr.BaseGraph.DumpAttributes(de.unika.ipd.grGen.libGr.IGraphElement)">
             <summary>

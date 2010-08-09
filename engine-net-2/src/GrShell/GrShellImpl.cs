@@ -490,6 +490,12 @@ namespace de.unika.ipd.grGen.grShell
             errOut.WriteLine(ex.Message);
 
             debugOut.Write("Prototype: {0}", ex.RuleName);
+            if(action == null)
+            {
+                debugOut.WriteLine("");
+                return;
+            }
+
             if(action.RulePattern.Inputs.Length != 0)
             {
                 debugOut.Write("(");
@@ -3757,12 +3763,14 @@ showavail:
             return first;
         }
 
-        public bool Validate(bool strict)
+        public bool Validate(bool strict, bool onlySpecified)
         {
             if(!GraphExists()) return false;
 
+            ValidationMode mode = ValidationMode.OnlyMultiplicitiesOfMatchingTypes;
+            if(strict) mode = onlySpecified ? ValidationMode.StrictOnlySpecified : ValidationMode.Strict;
             List<ConnectionAssertionError> errors;
-            bool valid = curShellGraph.Graph.Validate(strict, out errors);
+            bool valid = curShellGraph.Graph.Validate(mode, out errors);
             if(valid)
                 debugOut.WriteLine("The graph is valid.");
             else

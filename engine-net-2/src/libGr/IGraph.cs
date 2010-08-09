@@ -252,6 +252,16 @@ namespace de.unika.ipd.grGen.libGr
     #endregion GraphDelegates
 
     /// <summary>
+    /// The different graph validation modes
+    /// </summary>
+    public enum ValidationMode
+    {
+        OnlyMultiplicitiesOfMatchingTypes, // check the multiplicities of the incoming/outgoing edges which match the types specified
+        StrictOnlySpecified, // as first and additionally check that edges with connections assertions specified are covered by at least on connection assertion
+        Strict // as first and additionally check that all edges are covered by at least one connection assertion
+    }
+
+    /// <summary>
     /// An attributed, typed and directed multigraph with multiple inheritance on node and edge types.
     /// </summary>
     public interface IGraph
@@ -855,15 +865,11 @@ namespace de.unika.ipd.grGen.libGr
 
         /// <summary>
         /// Checks whether a graph meets the connection assertions.
-        /// In strict mode all occuring connections must be specified
-        /// by a connection assertion.
         /// </summary>
-        /// <param name="strict">If false, only check for specified assertions,
-        /// otherwise it isn an error, if an edge connects nodes without a
-        /// specified connection assertion.</param>
+        /// <param name="mode">The validation mode to apply.</param>
         /// <param name="errors">If the graph is not valid, this refers to a List of ConnectionAssertionError objects, otherwise it is null.</param>
         /// <returns>True, if the graph is valid.</returns>
-        bool Validate(bool strict, out List<ConnectionAssertionError> errors);
+        bool Validate(ValidationMode mode, out List<ConnectionAssertionError> errors);
 
         /// <summary>
         /// Dumps one or more matches with a given graph dumper.

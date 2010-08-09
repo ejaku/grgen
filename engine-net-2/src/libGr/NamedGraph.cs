@@ -1129,15 +1129,11 @@ namespace de.unika.ipd.grGen.libGr
 
         /// <summary>
         /// Checks whether a graph meets the connection assertions.
-        /// In strict mode all occuring connections must be specified
-        /// by a connection assertion.
         /// </summary>
-        /// <param name="strict">If false, only check for specified assertions,
-        /// otherwise it isn an error, if an edge connects nodes without a
-        /// specified connection assertion.</param>
+        /// <param name="mode">The validation mode to apply.</param>
         /// <param name="errors">If the graph is not valid, this refers to a List of ConnectionAssertionError objects, otherwise it is null.</param>
         /// <returns>True, if the graph is valid.</returns>
-        public bool Validate(bool strict, out List<ConnectionAssertionError> errors) { return graph.Validate(strict, out errors); }
+        public bool Validate(ValidationMode mode, out List<ConnectionAssertionError> errors) { return graph.Validate(mode, out errors); }
 
         /// <summary>
         /// Dumps one or more matches with a given graph dumper.
