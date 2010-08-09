@@ -1,0 +1,5 @@
+node class N;
+node class NN;
+
+edge class to_multiple
+	connect N ?--? NN[+];

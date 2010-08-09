@@ -1,0 +1,7 @@
+node class N;
+
+edge class binTreeBase
+	connect N[0:2] --> N;
+
+edge class binTree extends binTreeBase
+	connect copy extends;

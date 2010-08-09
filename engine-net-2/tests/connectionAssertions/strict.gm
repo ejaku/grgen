@@ -1,0 +1,7 @@
+node class N;
+node class M;
+
+edge class foo
+	connect N --> M;
+
+edge class bar;

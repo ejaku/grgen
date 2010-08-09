@@ -1,0 +1,22 @@
+new graph "connectionAssertions\strict"
+
+new n0:N
+new n1:N
+validate
+validate strict only specified
+validate strict
+new n0 -e2:foo-> n1
+validate
+validate strict only specified
+validate strict
+delete node n1
+new n3:M
+new n0 -e4:foo-> n3
+validate
+validate strict only specified
+validate strict
+new n0 -e5:bar-> n0
+validate
+validate strict only specified
+validate strict
+quit

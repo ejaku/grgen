@@ -1,0 +1,5 @@
+node class N;
+node class NN;
+
+edge class one_to_one
+	connect N[1] --> NN[1];

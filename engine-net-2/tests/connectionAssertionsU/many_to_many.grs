@@ -1,0 +1,15 @@
+new graph "connectionAssertionsU\many_to_many"
+
+new n0:N
+validate
+new n1:NN
+validate
+new n0 -e2:many_to_many-> n1
+validate
+new n3:N
+new n3 -e4:many_to_many-> n1
+validate
+new n5:NN
+new n0 -e6:many_to_many-> n5
+validate
+quit

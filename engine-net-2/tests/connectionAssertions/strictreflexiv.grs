@@ -1,0 +1,20 @@
+new graph "connectionAssertions\strictreflexiv"
+
+new n0:N
+validate
+validate strict only specified
+validate strict
+new n0 -e1:lal-> n0
+validate
+validate strict only specified
+validate strict
+new n2:M
+new n0 <-e3:lol- n2
+validate
+validate strict only specified
+validate strict
+new n2 -e4:bar-> n2
+validate
+validate strict only specified
+validate strict
+quit

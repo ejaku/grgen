@@ -1,0 +1,8 @@
+node class N;
+node class M;
+
+edge class e
+	connect N[1] --> N[1];
+	
+edge class u
+	connect M[1] -- M[1];

@@ -1,0 +1,6 @@
+node class N;
+node class NN;
+
+edge class one_to
+	connect N[1] ?--? NN;
+

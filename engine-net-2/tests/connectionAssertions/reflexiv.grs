@@ -1,0 +1,11 @@
+new graph "connectionAssertions\reflexiv"
+
+new n0:N
+validate
+new n0 -e1:e-> n0
+validate
+new n2:M
+validate
+new n2 -e3:u-> n2
+validate
+quit

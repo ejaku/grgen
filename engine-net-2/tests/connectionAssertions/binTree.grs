@@ -1,0 +1,14 @@
+new graph "connectionAssertions\binTree"
+
+new n0:N
+validate
+new n1:N
+new n0 -e2:binTree-> n1
+validate
+new n3:N
+new n0 -e4:binTree-> n3
+validate
+new n5:N
+new n0 -e6:binTree-> n5
+validate
+quit

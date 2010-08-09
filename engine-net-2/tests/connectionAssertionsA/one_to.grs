@@ -1,0 +1,14 @@
+new graph "connectionAssertionsA\one_to"
+
+new n0:N
+validate
+new n1:NN
+new n0 <-e2:one_to- n1
+validate
+new n3:N
+new n3 <-e4:one_to- n1
+validate
+new n5:NN
+new n0 <-e6:one_to- n5
+validate
+quit

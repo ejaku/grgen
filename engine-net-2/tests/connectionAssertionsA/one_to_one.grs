@@ -1,0 +1,11 @@
+new graph "connectionAssertionsA\one_to_one"
+
+new n0:N
+validate
+new n1:NN
+new n0 -e2:one_to_one-> n1
+validate
+new n3:N
+new n3 -e4:one_to_one-> n1
+validate
+quit

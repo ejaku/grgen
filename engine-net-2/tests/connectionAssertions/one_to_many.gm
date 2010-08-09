@@ -1,0 +1,5 @@
+node class N;
+node class NN;
+
+edge class one_to_many
+	connect N[1] --> NN[*];

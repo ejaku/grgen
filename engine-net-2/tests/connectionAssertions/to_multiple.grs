@@ -1,0 +1,15 @@
+new graph "connectionAssertions\to_multiple"
+
+new n0:N
+validate
+new n1:NN
+validate
+new n0 -e2:to_multiple-> n1
+validate
+new n3:NN
+new n0 -e4:to_multiple-> n3
+validate
+new n5:N
+new n5 -e6:to_multiple-> n1
+validate
+quit

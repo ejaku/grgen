@@ -1,0 +1,10 @@
+node class N;
+node class M;
+
+edge class lal
+	connect N[1] --> N[1];
+
+edge class lol
+	connect M --> N;
+	
+edge class bar;
