@@ -3,7 +3,11 @@ node class NN
 	id:int;
 }
 
+node class NNN extends NN;
+
 edge class EE
 {
 	id:int;
 }
+
+edge class EEE extends EE;

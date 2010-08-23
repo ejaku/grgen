@@ -1,0 +1,95 @@
+using storages;
+
+rule addNode(ref st:set<Node>)
+{
+	nn:NN;
+	modify {
+		eval {
+			st.add(nn);
+		}
+	}
+}
+
+rule remNode(ref st:set<Node>)
+{
+	nnn:NNN;
+	modify {
+		eval {
+			st.rem(nnn);
+		}
+	}
+}
+
+rule addNodeIfOtherNotContained(ref st:set<Node>, nn:NN)
+{
+	nnn:NNN;
+	if { nn in st; }
+	
+	modify {
+		eval {
+			st.add(nnn);
+		}
+	}
+}
+
+rule remNodeGiven(ref st:set<Node>, nn:NN)
+{
+	modify {
+		eval {
+			st.rem(nn);
+		}
+	}
+}
+
+rule addNodeEdge(ref st:map<Node, Edge>)
+{
+	nn:NN -ee:EE-> nn; 
+	modify {
+		eval {
+			st.add(nn, ee);
+		}
+	}
+}
+
+rule remNodeEdge(ref st:map<Node, Edge>)
+{
+	nnn:NNN -eee:EEE-> nnn;
+	modify {
+		eval {
+			st.rem(nnn);
+		}
+	}
+}
+
+rule addNodeEdgeIfOtherNodeNotContained(ref st:map<Node,Edge>, nn:NN)
+{
+	nnn:NNN -eee:EEE-> nnn;
+	if { nn in st; }
+	
+	modify {
+		eval {
+			st.add(nnn, eee);
+		}
+	}
+}
+
+rule remNodeEdgeGiven(ref st:map<Node,Edge>, nn:NN)
+{
+	modify {
+		eval {
+			st.rem(nn);
+		}
+	}
+}
+
+rule addNodeEdgeIfOtherNodeEdgeNotContained(ref st:map<Node,Edge>, nn:NN, -ee:EE->)
+{
+	nnn:NNN -eee:EEE-> nnn;
+	if { st[nn] == ee; }
+	
+	modify {
+		eval {
+			st.add(nnn, eee);
+		}
+	}
+}

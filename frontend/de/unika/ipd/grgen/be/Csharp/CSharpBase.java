@@ -314,12 +314,12 @@ public abstract class CSharpBase {
 			return "object"; //TODO maybe we need another output type
 		else if (t instanceof MapType) {
 			MapType mapType = (MapType) t;
-			return "Dictionary<" + formatAttributeType(mapType.getKeyType())
-					+ ", " + formatAttributeType(mapType.getValueType()) + ">";
+			return "Dictionary<" + formatType(mapType.getKeyType())
+					+ ", " + formatType(mapType.getValueType()) + ">";
 		}
 		else if (t instanceof SetType) {
 			SetType setType = (SetType) t;
-			return "Dictionary<" + formatAttributeType(setType.getValueType())
+			return "Dictionary<" + formatType(setType.getValueType())
 					+ ", GRGEN_LIBGR.SetValueType>";
 		}
 		else throw new IllegalArgumentException("Illegal type: " + t);
@@ -399,7 +399,11 @@ public abstract class CSharpBase {
 						case Operator.IN:
 							genExpression(sb, op.getOperand(1), modifyGenerationState);
 							sb.append(".ContainsKey(");
+							if(op.getOperand(0) instanceof GraphEntityExpression)
+								sb.append("(" + formatElementInterfaceRef(op.getOperand(0).getType()) + ")(");
 							genExpression(sb, op.getOperand(0), modifyGenerationState);
+							if(op.getOperand(0) instanceof GraphEntityExpression)
+								sb.append(")");
 							sb.append(")");
 							break;
 
@@ -679,7 +683,11 @@ public abstract class CSharpBase {
 				sb.append("(");
 				genExpression(sb, ma.getTargetExpr(), modifyGenerationState);
 				sb.append("[");
+				if(ma.getKeyExpr() instanceof GraphEntityExpression)
+					sb.append("(" + formatElementInterfaceRef(ma.getKeyExpr().getType()) + ")(");
 				genExpression(sb, ma.getKeyExpr(), modifyGenerationState);
+				if(ma.getKeyExpr() instanceof GraphEntityExpression)
+					sb.append(")");
 				sb.append("])");
 			}
 		}

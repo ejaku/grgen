@@ -77,7 +77,7 @@ rule emitFromMap2 {
 	}
 }
 
-rule mapVarContains(var m:map<string, int>) {
+rule mapVarContains(ref m:map<string, int>) {
 	if { "yeah" in m; }
 	
 	modify {

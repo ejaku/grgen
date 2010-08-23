@@ -817,7 +817,9 @@ public class OperatorSignature extends FunctionSignature {
 			OperatorSignature op = it.next();
 			int dist = op.getDistance(opTypes);
 
-			debug.report(NOTE, "dist: " + dist + "\n signature: " + op);
+			String arguments = "";
+			for(TypeNode tn : opTypes) arguments += tn.toString() + ", ";
+			debug.report(NOTE, "dist: " + dist + " for signature: " + op + " against " + arguments);
 
 			if(dist == Integer.MAX_VALUE) continue;
 

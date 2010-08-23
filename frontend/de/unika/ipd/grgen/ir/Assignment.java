@@ -20,18 +20,18 @@ import java.util.HashSet;
 public class Assignment extends EvalStatement {
 
 	/** The lhs of the assignment. */
-	private Expression target;
+	private Qualification target;
 
 	/** The rhs of the assignment. */
 	private Expression expr;
 
-	public Assignment(Expression target, Expression expr) {
+	public Assignment(Qualification target, Expression expr) {
 		super("assignment");
 		this.target = target;
 		this.expr = expr;
 	}
 
-	public Expression getTarget() {
+	public Qualification getTarget() {
 		return target;
 	}
 
@@ -45,19 +45,7 @@ public class Assignment extends EvalStatement {
 	
 	public void collectNeededEntities(NeededEntities needs)
 	{
-		Expression target = getTarget();
-		Entity entity;
-
-		if(target instanceof Qualification)
-			entity = ((Qualification) target).getOwner();
-		else if(target instanceof Visited) {
-			Visited visTgt = (Visited) target;
-			entity = visTgt.getEntity();
-			visTgt.getVisitorID().collectNeededEntities(needs);
-		}
-		else
-			throw new UnsupportedOperationException("Unsupported assignment target (" + target + ")");
-
+		Entity entity = target.getOwner();
 		needs.add((GraphEntity) entity);
 
 		// Temporarily do not collect variables for target

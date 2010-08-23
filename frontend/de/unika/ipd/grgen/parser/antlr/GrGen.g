@@ -479,7 +479,7 @@ evalPart [ CollectNode<EvalStatementNode> n ]
 	;
 
 evalBody [ CollectNode<EvalStatementNode> n  ]
-	: ( a=assignment { n.addChild(a); } SEMI )*
+	: ( a=assignmentOrMethodCall { n.addChild(a); } SEMI )*
 	;
 
 patternBody [ Coords coords, CollectNode<BaseNode> params, int mod, int context, String nameOfGraph ] returns [ PatternGraphNode res = null ]
@@ -765,21 +765,27 @@ nodeDeclParam [ int context, PatternGraphNode directlyNestingLHSGraph ] returns 
 	;
 
 varDecl [ int context, PatternGraphNode directlyNestingLHSGraph ] returns [ BaseNode res = env.initNode() ]
-	: VAR id=entIdentDecl COLON
+	: paramModifier=IDENT id=entIdentDecl COLON
 		(
 			type=typeIdentUse
 			{
 				res = new VarDeclNode(id, type, directlyNestingLHSGraph, context);
+				if(!paramModifier.getText().equals("var")) 
+					{ reportError(getCoords(paramModifier), "var keyword needed before non set/map (and non graph element) parameter"); }
 			}
 		|
 			MAP LT keyType=typeIdentUse COMMA valueType=typeIdentUse GT
 			{ // MAP TODO: das sollte eigentlich kein Schluesselwort sein, sondern ein Typbezeichner
 				res = new VarDeclNode(id, MapTypeNode.getMapType(keyType, valueType), directlyNestingLHSGraph, context);
+				if(!paramModifier.getText().equals("ref"))
+					{ reportWarning(getCoords(paramModifier), "ref keyword needed before map typed parameter"); } // TODO: next version -> error
 			}
 		|
 			SET LT keyType=typeIdentUse GT
 			{ // MAP TODO: das sollte eigentlich kein Schluesselwort sein, sondern ein Typbezeichner
 				res = new VarDeclNode(id, SetTypeNode.getSetType(keyType), directlyNestingLHSGraph, context);
+				if(!paramModifier.getText().equals("ref")) 
+					{ reportWarning(getCoords(paramModifier), "ref keyword needed before set typed parameter"); } // TODO: next version -> error
 			}
 		)
 	;
@@ -2064,14 +2070,20 @@ memberIdentUse returns [ IdentNode res = env.getDummyIdent() ]
 // Expressions
 //////////////////////////////////////////
 
-
-assignment returns [ EvalStatementNode res = null ]
-options { k = 3; }
-	: tgt=qualIdent a=ASSIGN e=expr[false] //'false' because this rule is not used for the assignments in enum item decls
-		{ res = new AssignNode(getCoords(a), tgt, e); }
+	
+assignmentOrMethodCall returns [ EvalStatementNode res = null ]
+options { k = 4; }
+	: owner=entIdentUse	d=DOT member=entIdentUse a=ASSIGN e=expr[false] //'false' because this rule is not used for the assignments in enum item decls
+		{ res = new AssignNode(getCoords(a), new QualIdentNode(getCoords(d), owner, member), e); }
 	|
-	  tgt2=visitedExpr a=ASSIGN e=expr[false]
-		{ res = new AssignNode(getCoords(a), tgt2, e); }
+	  vis=visited a=ASSIGN e=expr[false]
+		{ res = new AssignVisitedNode(getCoords(a), vis, e); }
+	| 
+	  owner=entIdentUse d=DOT member=entIdentUse DOT method=memberIdentUse params=paramExprs[false]
+		{ res = new MethodCallNode(new QualIdentNode(getCoords(d), owner, member), method, params); }
+	|
+	  variable=entIdentUse DOT method=memberIdentUse params=paramExprs[false]
+		{ res = new MethodCallNode(new IdentExprNode(variable), method, params); }
 	;
 
 expr [ boolean inEnumInit ] returns [ ExprNode res = env.initExprNode() ]
@@ -2221,7 +2233,7 @@ unaryExpr [ boolean inEnumInit ] returns [ ExprNode res = env.initExprNode() ]
 
 primaryExpr [ boolean inEnumInit ] returns [ ExprNode res = env.initExprNode() ]
 options { k = 3; }
-	: e=visitedExpr { res = e; }
+	: e=visited { res = e; }
 	| e=randomExpr { res = e; }
 	| e=nameOf { res = e; }
 	| e=identExpr { res = e; }
@@ -2234,7 +2246,7 @@ options { k = 3; }
 	| q=MINUSMINUS { reportError(getCoords(q), "decrement operator \"--\" not supported"); }
 	;
 
-visitedExpr returns [ ExprNode res = env.initExprNode() ]
+visited returns [ VisitedNode res ]
 	: v=VISITED LPAREN elem=entIdentUse 
 		( COMMA idExpr=expr[false] RPAREN
 			{ res = new VisitedNode(getCoords(v), idExpr, elem); }
@@ -2311,15 +2323,6 @@ identExpr returns [ ExprNode res = env.initExprNode() ]
 				id = new IdentNode(env.occurs(ParserEnvironment.TYPES, i.getText(), getCoords(i)));
 			res = new IdentExprNode(id);
 		}
-	;
-
-qualIdent returns [ QualIdentNode res = null ]
-	: currentLeft=entIdentUse
-		(d=DOT id=entIdentUse
-			{
-				res = new QualIdentNode(getCoords(d), currentLeft, id);
-			}
-		)
 	;
 
 enumItemAcc returns [ EnumExprNode res = null ]
@@ -2593,7 +2596,6 @@ TRUE : 'true';
 TYPEOF : 'typeof';
 UNDIRECTED : 'undirected';
 USING : 'using';
-VAR : 'var';
 VALLOC : 'valloc';
 VFREE : 'vfree';
 VISITED : 'visited';

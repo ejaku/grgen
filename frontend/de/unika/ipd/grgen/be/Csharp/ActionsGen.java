@@ -1215,6 +1215,8 @@ public class ActionsGen extends CSharpBase {
 					genExpressionTree(sb, op.getOperand(0), className, pathPrefix, alreadyDefinedEntityToName);
 					sb.append(", ");
 					genExpressionTree(sb, op.getOperand(1), className, pathPrefix, alreadyDefinedEntityToName);
+					if(op.getOpCode()==Operator.IN && op.getOperand(0) instanceof GraphEntityExpression)
+						sb.append(", \"" + formatElementInterfaceRef(op.getOperand(0).getType()) + "\"");
 					break;
 				case 3:
 					if(op.getOpCode()==Operator.COND) {
@@ -1342,6 +1344,8 @@ public class ActionsGen extends CSharpBase {
 			genExpressionTree(sb, ma.getTargetExpr(), className, pathPrefix, alreadyDefinedEntityToName);
 			sb.append(", ");
 			genExpressionTree(sb, ma.getKeyExpr(), className, pathPrefix, alreadyDefinedEntityToName);
+			if(ma.getKeyExpr() instanceof GraphEntityExpression)
+				sb.append(", \"" + formatElementInterfaceRef(ma.getKeyExpr().getType()) + "\"");
 			sb.append(")");
 		}
 		else if (expr instanceof MapSizeExpr) {

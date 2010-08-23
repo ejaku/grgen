@@ -151,6 +151,18 @@ public class Dumper {
 				else if(e instanceof SetRemoveItem) {
 					// MAP TODO
 				}
+				else if(e instanceof MapVarAddItem) {
+					// MAP TODO
+				}
+				else if(e instanceof MapVarRemoveItem) {
+					// MAP TODO
+				}
+				else if(e instanceof SetVarAddItem) {
+					// MAP TODO
+				}
+				else if(e instanceof SetVarRemoveItem) {
+					// MAP TODO
+				}
 				else {
 					throw new UnsupportedOperationException("Unknown EvalStatement \"" + e + "\"");
 				}

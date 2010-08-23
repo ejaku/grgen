@@ -1,0 +1,39 @@
+using set_model_001;
+
+rule testSetParameter(ref s:set<Node>)
+{
+	a:A;
+	if { a in s; }
+	
+	modify {
+		aa:AA;
+		eval {
+			s.add(aa);
+			s.rem(a);
+			
+			a.val = a in s ? 0 : 1;
+			
+			a.niceSet.add("hallo");
+			a.niceSet.rem("foobar");
+		}
+	}
+}
+
+rule testSetParameter2(ref s:set<A>)
+{
+	a:A;
+	if { a in s; }
+	
+	modify {
+		aa:AA;
+		eval {
+			s.add(aa);
+			s.rem(a);
+
+			a.val = a in s ? 0 : 1;
+			
+			a.spiceSet.add(42);
+			a.spiceSet.rem(1);
+		}
+	}
+}

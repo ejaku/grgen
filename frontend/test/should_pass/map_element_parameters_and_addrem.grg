@@ -1,0 +1,43 @@
+using map_model_001;
+
+rule testMapParameter(ref m:map<Node, Edge>)
+{
+	a:A -e:E-> a;
+	if { a in m; }
+	if { m[a] == e; }
+	
+	modify {
+		aa:AA;
+		eval {
+			m.add(aa, e);
+			m.rem(a);
+			
+			a.val = a in m ? 0 : 1;
+			a.val = m[a] == e ? 0 : 1;
+			
+			a.niceMap.add(42, "foo");
+			a.niceMap.rem(1);
+		}
+	}
+}
+
+rule testMapParameter2(ref m:map<A, E>)
+{
+	a:A -e:E-> a;
+	if { a in m; }
+	if { m[a] == e; }
+	
+	modify {
+		aa:AA;
+		eval {
+			m.add(aa, e);
+			m.rem(a);
+
+			a.val = a in m ? 0 : 1;
+			a.val = m[a] == e ? 0 : 1;
+			
+			a.spiceMap.add("foo", 3.141f);
+			a.spiceMap.rem("bar");
+		}
+	}
+}

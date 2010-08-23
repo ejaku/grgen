@@ -6,25 +6,23 @@
  */
 
 /**
- * @author Moritz Kroll, Edgar Jakumeit
- * @version $Id: MapInit.java 22945 2008-10-16 16:02:13Z moritz $
+ * @author Edgar Jakumeit
+ * @version $Id: MapVarRemoveItem.java 22945 2008-10-16 16:02:13Z moritz $
  */
 
 package de.unika.ipd.grgen.ir;
 
-import java.util.HashSet;
-
-public class MapRemoveItem extends EvalStatement {
-	Qualification target;
+public class MapVarRemoveItem extends EvalStatement {
+	Variable target;
 	Expression keyExpr;
 
-	public MapRemoveItem(Qualification target, Expression keyExpr) {
-		super("map remove item");
+	public MapVarRemoveItem(Variable target, Expression keyExpr) {
+		super("map var remove item");
 		this.target = target;
 		this.keyExpr = keyExpr;
 	}
 
-	public Qualification getTarget() {
+	public Variable getTarget() {
 		return target;
 	}
 
@@ -34,14 +32,7 @@ public class MapRemoveItem extends EvalStatement {
 	
 	public void collectNeededEntities(NeededEntities needs)
 	{
-		Entity entity = target.getOwner();
-		needs.add((GraphEntity) entity);
-
-		// Temporarily do not collect variables for target
-		HashSet<Variable> varSet = needs.variables;
-		needs.variables = null;
-		target.collectNeededEntities(needs);
-		needs.variables = varSet;
+		needs.add(target);
 
 		getKeyExpr().collectNeededEntities(needs);
 

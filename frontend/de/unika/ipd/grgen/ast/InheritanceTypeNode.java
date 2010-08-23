@@ -65,7 +65,7 @@ public abstract class InheritanceTypeNode extends CompoundTypeNode
 		directSubTypes.add(type);
 	}
 
-	/** Returns all super types of this type (not including itself). */
+	/** Returns all sub types of this type (not including itself). */
 	protected Collection<InheritanceTypeNode> getAllSubTypes() {
 		assert isResolved();
 
@@ -286,4 +286,9 @@ public abstract class InheritanceTypeNode extends CompoundTypeNode
 		// to check overwriting of attributes
 		inhType.getAllMembers();
     }
+	
+	@Override
+	public String toString() {
+		return getIdentNode().toString() + "(" + super.toString() + ")";
+	}
 }

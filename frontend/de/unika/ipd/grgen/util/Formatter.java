@@ -19,6 +19,8 @@ import de.unika.ipd.grgen.ir.Edge;
 import de.unika.ipd.grgen.ir.Entity;
 import de.unika.ipd.grgen.ir.EnumExpression;
 import de.unika.ipd.grgen.ir.Expression;
+import de.unika.ipd.grgen.ir.GraphEntity;
+import de.unika.ipd.grgen.ir.GraphEntityExpression;
 import de.unika.ipd.grgen.ir.Identifiable;
 import de.unika.ipd.grgen.ir.MapAccessExpr;
 import de.unika.ipd.grgen.ir.MapInit;
@@ -174,6 +176,9 @@ public class Formatter {
 			// MAP TODO
 		}
 		else if(cond instanceof SetInit) {
+			// MAP TODO
+		}
+		else if(cond instanceof GraphEntityExpression) {
 			// MAP TODO
 		}
 		else throw new UnsupportedOperationException("Unsupported expression type (" + cond + ")");

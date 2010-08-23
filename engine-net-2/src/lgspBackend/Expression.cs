@@ -545,10 +545,21 @@ namespace de.unika.ipd.grGen.expression
         // Switch operands as "right" is the dictionary
         public IN(Expression left, Expression right) : base(right, left) { }
 
+        // Switch operands as "right" is the dictionary
+        public IN(Expression left, Expression right, String type) : base(right, left)
+        {
+            Type = type;
+        }
+
         public override string GetInfixOperator()
         {
-            return ").ContainsKey(";
+            if(Type!=null)
+                return ").ContainsKey(("+Type+")";
+            else
+                return ").ContainsKey(";
         }
+
+        String Type;
     }
 
     /// <summary>
@@ -916,17 +927,27 @@ namespace de.unika.ipd.grGen.expression
             KeyExpr = keyExpr;
         }
 
+        public MapAccess(Expression target, Expression keyExpr, String type)
+        {
+            Target = target;
+            KeyExpr = keyExpr;
+            Type = type;
+        }
+
         public override void Emit(SourceBuilder sourceCode)
         {
             sourceCode.Append("(");
             Target.Emit(sourceCode);
             sourceCode.Append("[");
+            if(Type != null)
+                sourceCode.Append("(" + Type + ")");
             KeyExpr.Emit(sourceCode);
             sourceCode.Append("])");
         }
 
         Expression Target;
         Expression KeyExpr;
+        String Type;
     }
 
     /// <summary>

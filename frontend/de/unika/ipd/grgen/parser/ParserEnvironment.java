@@ -358,6 +358,7 @@ public abstract class ParserEnvironment extends Base {
 		keywords.add("optional");
 		keywords.add("pattern");
 		keywords.add("patternpath");
+		keywords.add("random");
 		keywords.add("replace");
 		keywords.add("return");
 		keywords.add("rule");
@@ -367,11 +368,11 @@ public abstract class ParserEnvironment extends Base {
 		keywords.add("typeof");
 		keywords.add("undirected");
 		keywords.add("using");
-		keywords.add("var");
 		keywords.add("valloc");
 		keywords.add("vfree");
 		keywords.add("visited");
 		keywords.add("vreset");
+		keywords.add("yield");
 	}
 
 	public abstract UnitNode parseActions(File inputFile);

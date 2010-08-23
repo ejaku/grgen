@@ -10,7 +10,7 @@ rule getMapValue(var keyStr:string)
     }
 }
 
-rule useMapVar(var niceMap:map<string, int>)
+rule useMapVar(ref niceMap:map<string, int>)
 {
     if { "Hallo" in niceMap; }
     

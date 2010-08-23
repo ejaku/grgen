@@ -7,24 +7,22 @@
 
 /**
  * @author Edgar Jakumeit
- * @version $Id: MapInit.java 22945 2008-10-16 16:02:13Z moritz $
+ * @version $Id: SetVarRemoveItem.java 22945 2008-10-16 16:02:13Z moritz $
  */
 
 package de.unika.ipd.grgen.ir;
 
-import java.util.HashSet;
+public class SetVarRemoveItem extends EvalStatement {
+	Variable target;
+	Expression valueExpr;
 
-public class SetAddItem extends EvalStatement {
-	Qualification target;
-    Expression valueExpr;
-
-	public SetAddItem(Qualification target, Expression valueExpr) {
-		super("set add item");
+	public SetVarRemoveItem(Variable target, Expression valueExpr) {
+		super("set var remove item");
 		this.target = target;
 		this.valueExpr = valueExpr;
 	}
 
-	public Qualification getTarget() {
+	public Variable getTarget() {
 		return target;
 	}
 
@@ -34,14 +32,7 @@ public class SetAddItem extends EvalStatement {
 	
 	public void collectNeededEntities(NeededEntities needs)
 	{
-		Entity entity = target.getOwner();
-		needs.add((GraphEntity) entity);
-
-		// Temporarily do not collect variables for target
-		HashSet<Variable> varSet = needs.variables;
-		needs.variables = null;
-		target.collectNeededEntities(needs);
-		needs.variables = varSet;
+		needs.add(target);
 
 		getValueExpr().collectNeededEntities(needs);
 

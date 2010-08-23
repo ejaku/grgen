@@ -1,6 +1,6 @@
 using set_model_001;
 
-rule r(var s:set<int>, var b:int)
+rule r(ref s:set<int>, var b:int)
 {
 	a:A;
 	if {

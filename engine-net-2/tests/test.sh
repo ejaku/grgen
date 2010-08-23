@@ -26,6 +26,9 @@ if [ exeprefix ]; then
   echo "Using $exeprefix"
 fi
 
+testCount=0
+failCount=0
+
 for filename in $targets; do
   if [ $filename == "lib" -o ! -d $filename ]; then continue; fi
   echo $filename
@@ -176,7 +179,17 @@ for filename in $targets; do
         failed = 1
         exit 1
       }"
-
+    
+	if [ "$?" -ne 0 ]; then
+      let failCount++
+    fi
+    let testCount++
   done
 done
+
+if [ "$failCount" -gt 0 ]; then
+	echo "Overall result: $failCount of $testCount tests FAILED!"
+else
+	echo "Overall result: all($testCount) tests succeeded."
+fi
 ) 2>&1 | tee test-`date +%Y%m%d-%H%M%S`.log

@@ -20,4 +20,25 @@ public abstract class EvalStatementNode extends BaseNode
 	{
 		super(coords);
 	}
+	
+	protected boolean checkType(ExprNode value, TypeNode targetType, String statement, String parameter) {
+		TypeNode givenType = value.getType();
+		TypeNode expectedType = targetType;
+		if(!givenType.isCompatibleTo(expectedType)) {
+			String givenTypeName;
+			if(givenType instanceof InheritanceTypeNode)
+				givenTypeName = ((InheritanceTypeNode) givenType).getIdentNode().toString();
+			else
+				givenTypeName = givenType.toString();
+			String expectedTypeName;
+			if(expectedType instanceof InheritanceTypeNode)
+				expectedTypeName = ((InheritanceTypeNode) expectedType).getIdentNode().toString();
+			else
+				expectedTypeName = expectedType.toString();
+			reportError("Cannot convert parameter " + parameter + " of " + statement + " from \""
+					+ givenTypeName + "\" to \"" + expectedTypeName + "\"");
+			return false;
+		}
+		return true;
+	}
 }

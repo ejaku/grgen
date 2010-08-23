@@ -103,8 +103,13 @@ public class SetTypeNode extends DeclaredTypeNode {
 
 		if(valueType == null) return false;
 
-		OperatorSignature.makeBinOp(OperatorSignature.IN, BasicTypeNode.booleanType,
-				valueType, this, OperatorSignature.setEvaluator);
+		if(valueType instanceof InheritanceTypeNode) {
+			OperatorSignature.makeBinOp(OperatorSignature.IN, BasicTypeNode.booleanType,
+					BasicTypeNode.typeType, this, OperatorSignature.setEvaluator);
+		} else {
+			OperatorSignature.makeBinOp(OperatorSignature.IN, BasicTypeNode.booleanType,
+					valueType, this, OperatorSignature.setEvaluator);
+		}
 		OperatorSignature.makeBinOp(OperatorSignature.EQ, BasicTypeNode.booleanType,
 				this, this, OperatorSignature.setEvaluator);
 		OperatorSignature.makeBinOp(OperatorSignature.NE, BasicTypeNode.booleanType,

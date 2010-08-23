@@ -34,8 +34,7 @@ public class SetRemoveItem extends EvalStatement {
 	
 	public void collectNeededEntities(NeededEntities needs)
 	{
-		Qualification target = getTarget();
-		Entity entity = (target).getOwner();
+		Entity entity = target.getOwner();
 		needs.add((GraphEntity) entity);
 
 		// Temporarily do not collect variables for target

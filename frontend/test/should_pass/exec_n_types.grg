@@ -225,14 +225,14 @@ test sfoo(var v:foo)
 {
 }
 
-test ssetboolean(var v:set<boolean>)
+test ssetboolean(ref v:set<boolean>)
 {
 }
 
-test smapintstring(var v:map<int,string>)
+test smapintstring(ref v:map<int,string>)
 {
 }
 
-test smapfoodouble(var v:map<foo,double>)
+test smapfoodouble(ref v:map<foo,double>)
 {
 }

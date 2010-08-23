@@ -6,27 +6,25 @@
  */
 
 /**
- * @author Moritz Kroll, Edgar Jakumeit
- * @version $Id: MapInit.java 22945 2008-10-16 16:02:13Z moritz $
+ * @author Edgar Jakumeit
+ * @version $Id: MapVarAddItem.java 22945 2008-10-16 16:02:13Z moritz $
  */
 
 package de.unika.ipd.grgen.ir;
 
-import java.util.HashSet;
-
-public class MapAddItem extends EvalStatement {
-	Qualification target;
+public class MapVarAddItem extends EvalStatement {
+	Variable target;
 	Expression keyExpr;
     Expression valueExpr;
 
-	public MapAddItem(Qualification target, Expression keyExpr, Expression valueExpr) {
-		super("map add item");
+	public MapVarAddItem(Variable target, Expression keyExpr, Expression valueExpr) {
+		super("map var add item");
 		this.target = target;
 		this.keyExpr = keyExpr;
 		this.valueExpr = valueExpr;
 	}
 
-	public Qualification getTarget() {
+	public Variable getTarget() {
 		return target;
 	}
 
@@ -40,15 +38,8 @@ public class MapAddItem extends EvalStatement {
 	
 	public void collectNeededEntities(NeededEntities needs)
 	{
-		Entity entity = target.getOwner();
-		needs.add((GraphEntity) entity);
-
-		// Temporarily do not collect variables for target
-		HashSet<Variable> varSet = needs.variables;
-		needs.variables = null;
-		target.collectNeededEntities(needs);
-		needs.variables = varSet;
-
+		needs.add(target);
+	
 		getKeyExpr().collectNeededEntities(needs);
 		getValueExpr().collectNeededEntities(needs);
 

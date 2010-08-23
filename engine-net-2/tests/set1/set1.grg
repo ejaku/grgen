@@ -68,7 +68,7 @@ test anonymousSetNA
 	if { nb.val in { "aha","oho","uh?"}; }
 }
 
-rule useSetVar(var niceSet:set<string>)
+rule useSetVar(ref niceSet:set<string>)
 {
     if { "Hallo" in niceSet; }
     

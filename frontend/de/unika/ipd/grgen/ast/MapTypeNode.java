@@ -117,8 +117,13 @@ public class MapTypeNode extends DeclaredTypeNode {
 
 		if(keyType == null || valueType == null) return false;
 
-		OperatorSignature.makeBinOp(OperatorSignature.IN, BasicTypeNode.booleanType,
-				keyType, this, OperatorSignature.mapEvaluator);
+		if(keyType instanceof InheritanceTypeNode) {
+			OperatorSignature.makeBinOp(OperatorSignature.IN, BasicTypeNode.booleanType,
+					BasicTypeNode.typeType, this, OperatorSignature.mapEvaluator);
+		} else {
+			OperatorSignature.makeBinOp(OperatorSignature.IN, BasicTypeNode.booleanType,
+					keyType, this, OperatorSignature.mapEvaluator);
+		}
 		OperatorSignature.makeBinOp(OperatorSignature.EQ, BasicTypeNode.booleanType,
 				this, this, OperatorSignature.mapEvaluator);
 		OperatorSignature.makeBinOp(OperatorSignature.NE, BasicTypeNode.booleanType,

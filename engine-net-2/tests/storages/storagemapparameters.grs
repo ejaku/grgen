@@ -1,0 +1,45 @@
+new graph storages/storageparameters
+
+new n1:NN
+new n1 -e1:EE-> n1
+new n2:NN
+new n2 -e2:EE-> n2
+new n3:NNN
+new n3 -e3:EEE-> n3
+
+xgrs st = map<Node,Edge>{}
+
+xgrs [addNodeEdge(st)] <; s=st.size()
+show var s
+
+xgrs [remNodeEdge(st)] <; s=st.size()
+show var s
+
+xgrs st.rem(n2) <; s=st.size()
+show var s
+
+xgrs addNodeEdgeIfOtherNodeNotContained(st, n1) <; s=st.size()
+show var s
+
+xgrs addNodeEdgeIfOtherNodeNotContained(st, n1) <; s=st.size()
+show var s
+
+xgrs st.add(n2) <; s=st.size()
+show var s
+
+xgrs remNodeEdgeGiven(st, n3) <; s=st.size()
+show var s
+
+xgrs remNodeEdgeGiven(st, n3) <; s=st.size()
+show var s
+
+xgrs addNodeEdgeIfOtherNodeEdgeNotContained(st, n1, e1) <; s=st.size()
+show var s
+
+xgrs addNodeEdgeIfOtherNodeEdgeNotContained(st, n1, e1) <; s=st.size()
+show var s
+
+xgrs addNodeEdgeIfOtherNodeEdgeNotContained(st, n1, e2) <; s=st.size()
+show var s
+
+quit

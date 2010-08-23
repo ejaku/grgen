@@ -28,6 +28,7 @@ import java.util.Map;
 
 import de.unika.ipd.grgen.ir.Alternative;
 import de.unika.ipd.grgen.ir.Assignment;
+import de.unika.ipd.grgen.ir.AssignmentVisited;
 import de.unika.ipd.grgen.ir.Edge;
 import de.unika.ipd.grgen.ir.Emit;
 import de.unika.ipd.grgen.ir.Entity;
@@ -42,6 +43,8 @@ import de.unika.ipd.grgen.ir.InheritanceType;
 import de.unika.ipd.grgen.ir.MapAddItem;
 import de.unika.ipd.grgen.ir.MapInit;
 import de.unika.ipd.grgen.ir.MapRemoveItem;
+import de.unika.ipd.grgen.ir.MapVarAddItem;
+import de.unika.ipd.grgen.ir.MapVarRemoveItem;
 import de.unika.ipd.grgen.ir.Operator;
 import de.unika.ipd.grgen.ir.OrderedReplacement;
 import de.unika.ipd.grgen.ir.SetAddItem;
@@ -54,13 +57,14 @@ import de.unika.ipd.grgen.ir.Qualification;
 import de.unika.ipd.grgen.ir.RetypedEdge;
 import de.unika.ipd.grgen.ir.RetypedNode;
 import de.unika.ipd.grgen.ir.Rule;
+import de.unika.ipd.grgen.ir.SetVarAddItem;
+import de.unika.ipd.grgen.ir.SetVarRemoveItem;
 import de.unika.ipd.grgen.ir.SubpatternDependentReplacement;
 import de.unika.ipd.grgen.ir.SubpatternUsage;
 import de.unika.ipd.grgen.ir.Type;
 import de.unika.ipd.grgen.ir.MapType;
 import de.unika.ipd.grgen.ir.SetType;
 import de.unika.ipd.grgen.ir.Variable;
-import de.unika.ipd.grgen.ir.Visited;
 import de.unika.ipd.grgen.ir.YieldedEntities;
 
 public class ModifyGen extends CSharpBase {
@@ -229,8 +233,13 @@ public class ModifyGen extends CSharpBase {
 	final List<Expression> emptyReturns = new LinkedList<Expression>();
 	final Collection<EvalStatement> emptyEvals = new HashSet<EvalStatement>();
 
-	SearchPlanBackend2 be;
+	// eval statement generation state
+	boolean def_b, def_i, def_s, def_f, def_d, def_o;
+	int mapSetVarID;
 
+	SearchPlanBackend2 be;
+	
+	
 	public ModifyGen(SearchPlanBackend2 backend, String nodeTypePrefix, String edgeTypePrefix) {
 		super(nodeTypePrefix, edgeTypePrefix);
 		be = backend;
@@ -594,7 +603,7 @@ public class ModifyGen extends CSharpBase {
 		//  - Remove edges
 		//  - Remove nodes
 		//  - Remove subpatterns
-		//  - Emit
+		//  - Emit / Exec
 		//  - Check returned elements for deletion and retyping due to homomorphy
 		//  - Return
 
@@ -1684,133 +1693,145 @@ public class ModifyGen extends CSharpBase {
 	//////////////////////////
 
 	private void genEvals(StringBuffer sb, ModifyGenerationStateConst state, Collection<EvalStatement> evalStatements) {
-		boolean def_b = false, def_i = false, def_s = false, def_f = false, def_d = false, def_o = false;
-		int mapSetVarID = 0;
+		// init eval statement generation state
+		def_b = false; def_i = false; def_s = false; def_f = false; def_d = false; def_o = false;
+		mapSetVarID = 0;
+
 		for(EvalStatement evalStmt : evalStatements) {
-			if(evalStmt instanceof Assignment) {
-				Assignment ass = (Assignment) evalStmt;
-				Expression target = ass.getTarget();
-
-				if(target instanceof Qualification) {
-					Qualification qualTgt = (Qualification) target;
-
-					if(qualTgt.getType() instanceof MapType || qualTgt.getType() instanceof SetType) {
-						String typeName = formatAttributeType(qualTgt.getType());
-						String varName = "tempmapsetvar_" + mapSetVarID++;
-
-						// Check whether we have to make a copy of the right hand side of the assignment
-						boolean mustCopy = true;
-						Expression expr = ass.getExpression();
-						if(expr instanceof Operator) {
-							Operator op = (Operator) expr;
-
-							// For unions and intersections new maps/sets are already created,
-							// so we don't have to copy them again
-							if(op.getOpCode() == Operator.BIT_OR || op.getOpCode() == Operator.BIT_AND)
-								mustCopy = false;
-						}
-
-						sb.append("\t\t\t" + typeName + " " + varName + " = ");
-						if(mustCopy)
-							sb.append("new " + typeName + "(");
-						genExpression(sb, ass.getExpression(), state);
-						if(mustCopy)
-							sb.append(')');
-						sb.append(";\n");
-
-						genChangingAttribute(sb, state, qualTgt, "Assign", varName , "null");
-
-						sb.append("\t\t\t");
-						genExpression(sb, ass.getTarget(), state);
-						sb.append(" = " + varName + ";\n");
-
-						continue;
-					}
-
-					String varName, varType;
-					switch(ass.getTarget().getType().classify()) {
-						case Type.IS_BOOLEAN:
-							varName = "tempvar_b";
-							varType = def_b?"":"bool ";
-							def_b = true;
-							break;
-						case Type.IS_INTEGER:
-							varName = "tempvar_i";
-							varType = def_i?"":"int ";
-							def_i = true;
-							break;
-						case Type.IS_FLOAT:
-							varName = "tempvar_f";
-							varType = def_f?"":"float ";
-							def_f = true;
-							break;
-						case Type.IS_DOUBLE:
-							varName = "tempvar_d";
-							varType = def_d?"":"double ";
-							def_d = true;
-							break;
-						case Type.IS_STRING:
-							varName = "tempvar_s";
-							varType = def_s?"":"string ";
-							def_s = true;
-							break;
-						case Type.IS_OBJECT:
-							varName = "tempvar_o";
-							varType = def_o?"":"Object ";
-							def_o = true;
-							break;
-						default:
-							throw new IllegalArgumentException();
-					}
-
-					sb.append("\t\t\t" + varType + varName + " = ");
-					if(ass.getTarget().getType() instanceof EnumType)
-						sb.append("(int) ");
-					genExpression(sb, ass.getExpression(), state);
-					sb.append(";\n");
-
-					genChangingAttribute(sb, state, qualTgt, "Assign", varName, "null");
-
-					sb.append("\t\t\t");
-					genExpression(sb, ass.getTarget(), state);
-					sb.append(" = ");
-					if(ass.getTarget().getType() instanceof EnumType)
-						sb.append("(GRGEN_MODEL.ENUM_" + formatIdentifiable(ass.getTarget().getType()) + ") ");
-					sb.append(varName + ";\n");
-				}
-				else if(target instanceof Visited) {
-					Visited visTgt = (Visited) target;
-
-					sb.append("\t\t\tgraph.SetVisited(" + formatEntity(visTgt.getEntity()) + ", ");
-					genExpression(sb, visTgt.getVisitorID(), state);
-					sb.append(", ");
-					genExpression(sb, ass.getExpression(), state);
-					sb.append(");\n");
-				}
-			}
-			else if(evalStmt instanceof MapRemoveItem
-					|| evalStmt instanceof MapAddItem
-					|| evalStmt instanceof SetRemoveItem
-					|| evalStmt instanceof SetAddItem) {
-				genMapSetEvalStmt(sb, state, evalStmt);
-			}
-			else
-				throw new UnsupportedOperationException("Unknown eval statement \"" + evalStmt + "\"");
+			genEvalStmt(sb, state, evalStmt);
 		}
 	}
 
-	private void genMapSetEvalStmt(StringBuffer sb, ModifyGenerationStateConst state, EvalStatement evalStmt) {
-		if(evalStmt instanceof MapRemoveItem) {
+	private void genEvalStmt(StringBuffer sb, ModifyGenerationStateConst state, EvalStatement evalStmt) {
+		if(evalStmt instanceof Assignment) {
+			genAssignment(sb, state, (Assignment) evalStmt);
+		}
+		else if(evalStmt instanceof AssignmentVisited) {
+			genAssignmentVisited(sb, state, (AssignmentVisited) evalStmt);
+		}
+		else if(evalStmt instanceof MapRemoveItem) {
 			genMapRemoveItem(sb, state, (MapRemoveItem) evalStmt);
-		} else if(evalStmt instanceof MapAddItem) {
+		} 
+		else if(evalStmt instanceof MapAddItem) {
 			genMapAddItem(sb, state, (MapAddItem) evalStmt);
-		} else if(evalStmt instanceof SetRemoveItem) {
+		} 
+		else if(evalStmt instanceof SetRemoveItem) {
 			genSetRemoveItem(sb, state, (SetRemoveItem) evalStmt);
-		} else if(evalStmt instanceof SetAddItem) {
+		} 
+		else if(evalStmt instanceof SetAddItem) {
 			genSetAddItem(sb, state, (SetAddItem) evalStmt);
-		} else {
+		}
+		else if(evalStmt instanceof MapVarRemoveItem) {
+			genMapVarRemoveItem(sb, state, (MapVarRemoveItem) evalStmt);
+		} 
+		else if(evalStmt instanceof MapVarAddItem) {
+			genMapVarAddItem(sb, state, (MapVarAddItem) evalStmt);
+		}
+		else if(evalStmt instanceof SetVarRemoveItem) {
+			genSetVarRemoveItem(sb, state, (SetVarRemoveItem) evalStmt);
+		}
+		else if(evalStmt instanceof SetVarAddItem) {
+			genSetVarAddItem(sb, state, (SetVarAddItem) evalStmt);
+		}
+		else {
 			throw new UnsupportedOperationException("Unexpected eval statement \"" + evalStmt + "\"");
 		}
+	}
+
+	private void genAssignment(StringBuffer sb, ModifyGenerationStateConst state, Assignment ass) {
+		Qualification target = ass.getTarget();
+		Expression expr = ass.getExpression();
+
+		if(target.getType() instanceof MapType || target.getType() instanceof SetType) {
+			String typeName = formatAttributeType(target.getType());
+			String varName = "tempmapsetvar_" + mapSetVarID++;
+
+			// Check whether we have to make a copy of the right hand side of the assignment
+			boolean mustCopy = true;
+			if(expr instanceof Operator) {
+				Operator op = (Operator) expr;
+
+				// For unions and intersections new maps/sets are already created,
+				// so we don't have to copy them again
+				if(op.getOpCode() == Operator.BIT_OR || op.getOpCode() == Operator.BIT_AND)
+					mustCopy = false;
+			}
+
+			sb.append("\t\t\t" + typeName + " " + varName + " = ");
+			if(mustCopy)
+				sb.append("new " + typeName + "(");
+			genExpression(sb, expr, state);
+			if(mustCopy)
+				sb.append(')');
+			sb.append(";\n");
+
+			genChangingAttribute(sb, state, target, "Assign", varName , "null");
+
+			sb.append("\t\t\t");
+			genExpression(sb, target, state);
+			sb.append(" = " + varName + ";\n");
+
+			return;
+		}
+
+		String varName, varType;
+		switch(target.getType().classify()) {
+			case Type.IS_BOOLEAN:
+				varName = "tempvar_b";
+				varType = def_b?"":"bool ";
+				def_b = true;
+				break;
+			case Type.IS_INTEGER:
+				varName = "tempvar_i";
+				varType = def_i?"":"int ";
+				def_i = true;
+				break;
+			case Type.IS_FLOAT:
+				varName = "tempvar_f";
+				varType = def_f?"":"float ";
+				def_f = true;
+				break;
+			case Type.IS_DOUBLE:
+				varName = "tempvar_d";
+				varType = def_d?"":"double ";
+				def_d = true;
+				break;
+			case Type.IS_STRING:
+				varName = "tempvar_s";
+				varType = def_s?"":"string ";
+				def_s = true;
+				break;
+			case Type.IS_OBJECT:
+				varName = "tempvar_o";
+				varType = def_o?"":"Object ";
+				def_o = true;
+				break;
+			default:
+				throw new IllegalArgumentException();
+		}
+
+		sb.append("\t\t\t" + varType + varName + " = ");
+		if(target.getType() instanceof EnumType)
+			sb.append("(int) ");
+		genExpression(sb, expr, state);
+		sb.append(";\n");
+
+		genChangingAttribute(sb, state, target, "Assign", varName, "null");
+
+		sb.append("\t\t\t");
+		genExpression(sb, target, state);
+		sb.append(" = ");
+		if(target.getType() instanceof EnumType)
+			sb.append("(GRGEN_MODEL.ENUM_" + formatIdentifiable(target.getType()) + ") ");
+		sb.append(varName + ";\n");
+	}
+
+	private void genAssignmentVisited(StringBuffer sb, ModifyGenerationStateConst state, AssignmentVisited ass) {
+		sb.append("\t\t\tgraph.SetVisited(" + formatEntity(ass.getTarget().getEntity()) + ", ");
+		genExpression(sb, ass.getTarget().getVisitorID(), state);
+		sb.append(", ");
+		genExpression(sb, ass.getExpression(), state);
+		sb.append(");\n");
 	}
 
 	private void genMapRemoveItem(StringBuffer sb, ModifyGenerationStateConst state, MapRemoveItem mri) {
@@ -1829,7 +1850,7 @@ public class ModifyGen extends CSharpBase {
 		sb.append(");\n");
 
 		if(mri.getNext()!=null) {
-			genMapSetEvalStmt(sb, state, mri.getNext());
+			genEvalStmt(sb, state, mri.getNext());
 		}
 	}
 
@@ -1854,7 +1875,7 @@ public class ModifyGen extends CSharpBase {
 		sb.append(";\n");
 
 		if(mai.getNext()!=null) {
-			genMapSetEvalStmt(sb, state, mai.getNext());
+			genEvalStmt(sb, state, mai.getNext());
 		}
 	}
 
@@ -1874,7 +1895,7 @@ public class ModifyGen extends CSharpBase {
 		sb.append(");\n");
 
 		if(sri.getNext()!=null) {
-			genMapSetEvalStmt(sb, state, sri.getNext());
+			genEvalStmt(sb, state, sri.getNext());
 		}
 	}
 
@@ -1894,10 +1915,90 @@ public class ModifyGen extends CSharpBase {
 		sb.append("] = null;\n");
 
 		if(sai.getNext()!=null) {
-			genMapSetEvalStmt(sb, state, sai.getNext());
+			genEvalStmt(sb, state, sai.getNext());
 		}
 	}
 
+	private void genMapVarRemoveItem(StringBuffer sb, ModifyGenerationStateConst state, MapVarRemoveItem mvri) {
+		Variable target = mvri.getTarget();
+
+		StringBuffer sbtmp = new StringBuffer();
+		genExpression(sbtmp, mvri.getKeyExpr(), state);
+		String keyExprStr = sbtmp.toString();
+
+		sb.append("\t\t\tvar_" + target.getIdent());
+		sb.append(".Remove(");
+		if(mvri.getKeyExpr() instanceof GraphEntityExpression)
+			sb.append("(" + formatElementInterfaceRef(mvri.getKeyExpr().getType()) + ")(" + keyExprStr + ")");
+		else
+			sb.append(keyExprStr);
+		sb.append(");\n");
+		
+		assert mvri.getNext()==null;
+	}
+
+	private void genMapVarAddItem(StringBuffer sb, ModifyGenerationStateConst state, MapVarAddItem mvai) {
+		Variable target = mvai.getTarget();
+
+		StringBuffer sbtmp = new StringBuffer();
+		genExpression(sbtmp, mvai.getValueExpr(), state);
+		String valueExprStr = sbtmp.toString();
+		sbtmp.delete(0, sbtmp.length());
+		genExpression(sbtmp, mvai.getKeyExpr(), state);
+		String keyExprStr = sbtmp.toString();
+
+		sb.append("\t\t\tvar_" + target.getIdent());
+		sb.append("[");
+		if(mvai.getKeyExpr() instanceof GraphEntityExpression)
+			sb.append("(" + formatElementInterfaceRef(mvai.getKeyExpr().getType()) + ")(" + keyExprStr + ")");
+		else
+			sb.append(keyExprStr);
+		sb.append("] = ");
+		if(mvai.getValueExpr() instanceof GraphEntityExpression)
+			sb.append("(" + formatElementInterfaceRef(mvai.getValueExpr().getType()) + ")(" + valueExprStr + ")");
+		else
+			sb.append(valueExprStr);
+		sb.append(";\n");
+
+		assert mvai.getNext()==null;
+	}
+
+	private void genSetVarRemoveItem(StringBuffer sb, ModifyGenerationStateConst state, SetVarRemoveItem svri) {
+		Variable target = svri.getTarget();
+
+		StringBuffer sbtmp = new StringBuffer();
+		genExpression(sbtmp, svri.getValueExpr(), state);
+		String valueExprStr = sbtmp.toString();
+
+		sb.append("\t\t\tvar_" + target.getIdent());
+		sb.append(".Remove(");
+		if(svri.getValueExpr() instanceof GraphEntityExpression)
+			sb.append("(" + formatElementInterfaceRef(svri.getValueExpr().getType()) + ")(" + valueExprStr + ")");
+		else
+			sb.append(valueExprStr);
+		sb.append(");\n");
+		
+		assert svri.getNext()==null;
+	}
+
+	private void genSetVarAddItem(StringBuffer sb, ModifyGenerationStateConst state, SetVarAddItem svai) {
+		Variable target = svai.getTarget();
+
+		StringBuffer sbtmp = new StringBuffer();
+		genExpression(sbtmp, svai.getValueExpr(), state);
+		String valueExprStr = sbtmp.toString();
+
+		sb.append("\t\t\tvar_" + target.getIdent());
+		sb.append("[");
+		if(svai.getValueExpr() instanceof GraphEntityExpression)
+			sb.append("(" + formatElementInterfaceRef(svai.getValueExpr().getType()) + ")(" + valueExprStr + ")");
+		else
+			sb.append(valueExprStr);
+		sb.append("] = null;\n");
+		
+		assert svai.getNext()==null;
+	}
+	
 	protected void genChangingAttribute(StringBuffer sb, ModifyGenerationStateConst state,
 			Qualification target, String attributeChangeType, String newValue, String keyValue)
 	{

@@ -11,9 +11,9 @@
             <Keywords name="Folder-">}</Keywords>
             <Keywords name="Operators">- ! $ % &amp; ( ) * , . : ; \ { | } ~ + &lt; = &gt;</Keywords>
             <Keywords name="Comment">1/* 2*/ 0//</Keywords>
-            <Keywords name="Words1">#include abstract actions alternative arbitrary class copy connect const def delete directed edge emit emithere enum eval exact exec extends for hom if in independent induced iterated model modify multiple nameof negative node optional pattern patternpath replace return rule test typeof undirected using var valloc vfree visited vreset yield</Keywords>
+            <Keywords name="Words1">#include abstract actions alternative arbitrary class copy connect const def delete directed edge emit emithere enum eval exact exec extends for hom if in independent induced iterated model modify multiple nameof negative node optional pattern patternpath replace return rule test typeof undirected using valloc vfree visited vreset yield</Keywords>
             <Keywords name="Words2">false null true boolean int float double object string set map</Keywords>
-            <Keywords name="Words3"></Keywords>
+            <Keywords name="Words3">var ref dpo dangling identification add rem clear size empty length substring indexOf lastIndexOf domain range peek</Keywords>
             <Keywords name="Words4"></Keywords>
         </KeywordLists>
         <Styles>
@@ -22,7 +22,7 @@
             <WordsStyle name="FOLDERCLOSE" styleID="13" fgColor="000000" bgColor="FFFFFF" fontName="" fontStyle="0" />
             <WordsStyle name="KEYWORD1" styleID="5" fgColor="0000FF" bgColor="FFFFFF" fontName="" fontStyle="0" />
             <WordsStyle name="KEYWORD2" styleID="6" fgColor="8080FF" bgColor="FFFFFF" fontName="" fontStyle="0" />
-            <WordsStyle name="KEYWORD3" styleID="7" fgColor="000000" bgColor="FFFFFF" fontName="" fontStyle="0" />
+            <WordsStyle name="KEYWORD3" styleID="7" fgColor="000088" bgColor="FFFFFF" fontName="" fontStyle="0" />
             <WordsStyle name="KEYWORD4" styleID="8" fgColor="000000" bgColor="FFFFFF" fontName="" fontStyle="0" />
             <WordsStyle name="COMMENT" styleID="1" fgColor="008000" bgColor="FFFFFF" fontName="" fontStyle="0" />
             <WordsStyle name="COMMENT LINE" styleID="2" fgColor="008000" bgColor="FFFFFF" fontName="" fontStyle="0" />

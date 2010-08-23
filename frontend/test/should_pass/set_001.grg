@@ -65,7 +65,7 @@ rule emitFromSet {
 	}
 }
 
-rule setVarContains(var m:set<string>) {
+rule setVarContains(ref m:set<string>) {
 	if { "yeah" in m; }
 	
 	modify {

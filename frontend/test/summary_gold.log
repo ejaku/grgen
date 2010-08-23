@@ -163,6 +163,7 @@ OK     should_pass/exec_014.grg
 OK     should_pass/exec_015.grg
 OK     should_pass/exec_016.grg
 OK     should_pass/exec_n_types.grg
+OK     should_pass/exec_yield.grg
 OK     should_pass/execscope_For.grg
 OK     should_pass/execscope_If.grg
 OK     should_pass/execscope_IfThenPart.grg
@@ -256,6 +257,7 @@ OK     should_pass/iterated_004.grg
 OK     should_pass/map_001.grg
 OK     should_pass/map_002.grg
 OK     should_pass/map_003.grg
+OK     should_pass/map_element_parameters_and_addrem.grg
 OK     should_pass/mapset_001.grg
 OK     should_pass/model_init_001.grg
 OK     should_pass/model_init_002.grg
@@ -336,6 +338,7 @@ OK     should_pass/set_002.grg
 OK     should_pass/set_003.grg
 OK     should_pass/set_004.grg
 OK     should_pass/set_005.grg
+OK     should_pass/set_element_parameters_and_addrem.grg
 OK     should_pass/snowflakeAGTIVE.grg
 OK     should_pass/strfunc_001.grg
 OK     should_pass/to_001.grg

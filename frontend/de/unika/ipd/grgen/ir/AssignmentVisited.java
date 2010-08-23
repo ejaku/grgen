@@ -7,40 +7,46 @@
 
 /**
  * @author Moritz Kroll, Edgar Jakumeit
- * @version $Id: MapInit.java 22945 2008-10-16 16:02:13Z moritz $
+ * @version $Id: Assignment.java 26740 2010-01-02 11:21:07Z eja $
  */
-
 package de.unika.ipd.grgen.ir;
 
 import java.util.HashSet;
 
-public class MapAddItem extends EvalStatement {
-	Qualification target;
-	Expression keyExpr;
-    Expression valueExpr;
 
-	public MapAddItem(Qualification target, Expression keyExpr, Expression valueExpr) {
-		super("map add item");
+/**
+ * Represents an assignment statement in the IR.
+ */
+public class AssignmentVisited extends EvalStatement {
+
+	/** The lhs of the assignment. */
+	private Visited target;
+
+	/** The rhs of the assignment. */
+	private Expression expr;
+
+	public AssignmentVisited(Visited target, Expression expr) {
+		super("assignment visited");
 		this.target = target;
-		this.keyExpr = keyExpr;
-		this.valueExpr = valueExpr;
+		this.expr = expr;
 	}
 
-	public Qualification getTarget() {
+	public Visited getTarget() {
 		return target;
 	}
 
-	public Expression getKeyExpr() {
-		return keyExpr;
+	public Expression getExpression() {
+		return expr;
 	}
 
-	public Expression getValueExpr() {
-		return valueExpr;
+	public String toString() {
+		return getTarget() + " = " + getExpression();
 	}
 	
 	public void collectNeededEntities(NeededEntities needs)
 	{
-		Entity entity = target.getOwner();
+		Entity entity = target.getEntity();
+		target.getVisitorID().collectNeededEntities(needs);
 		needs.add((GraphEntity) entity);
 
 		// Temporarily do not collect variables for target
@@ -49,11 +55,6 @@ public class MapAddItem extends EvalStatement {
 		target.collectNeededEntities(needs);
 		needs.variables = varSet;
 
-		getKeyExpr().collectNeededEntities(needs);
-		getValueExpr().collectNeededEntities(needs);
-
-		if(getNext()!=null) {
-			getNext().collectNeededEntities(needs);
-		}
+		getExpression().collectNeededEntities(needs);
 	}
 }

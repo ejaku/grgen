@@ -55,22 +55,40 @@ public class MapAccessExprNode extends ExprNode
 
 	@Override
 	protected boolean checkLocal() {
-		boolean success = true;
 		TypeNode targetType = targetExpr.getType();
 		assert targetType instanceof MapTypeNode: targetExpr + " should have a map type";
 		MapTypeNode targetMapType = (MapTypeNode) targetType;
 		TypeNode keyType = targetMapType.keyType;
 		TypeNode keyExprType = keyExpr.getType();
 
-		if (!keyExprType.isEqual(keyType)) {
-			keyExpr = becomeParent(keyExpr.adjustType(keyType, getCoords()));
-
-			if (keyExpr == ConstNode.getInvalid()) {
-				success = false;
+		if (keyType instanceof InheritanceTypeNode) {
+			if(!keyExprType.isCompatibleTo(keyType)) {
+				String givenTypeName;
+				if(keyExprType instanceof InheritanceTypeNode)
+					givenTypeName = ((InheritanceTypeNode) keyExprType).getIdentNode().toString();
+				else
+					givenTypeName = keyExprType.toString();
+				String expectedTypeName;
+				if(keyType instanceof InheritanceTypeNode)
+					expectedTypeName = ((InheritanceTypeNode) keyType).getIdentNode().toString();
+				else
+					expectedTypeName = keyType.toString();
+				reportError("Cannot convert map access argument from \""
+						+ givenTypeName + "\" to \"" + expectedTypeName + "\"");
+				return false;
 			}
 		}
-
-		return success;
+		else {
+			if (!keyExprType.isEqual(keyType)) {
+				keyExpr = becomeParent(keyExpr.adjustType(keyType, getCoords()));
+	
+				if (keyExpr == ConstNode.getInvalid()) {
+					return false;
+				}
+			}
+		}
+		
+		return true;
 	}
 
 	@Override
