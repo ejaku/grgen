@@ -814,27 +814,51 @@ Sequence SimpleSequence():
     }
 |
 	LOOKAHEAD(4) "$" ("%" { choice = true; } )? 
-	"||" "(" seq=RewriteSequence() { sequences.Add(seq); } ("," seq=RewriteSequence() { sequences.Add(seq); })* ")"
+		"||" "(" seq=RewriteSequence() { sequences.Add(seq); } ("," seq=RewriteSequence() { sequences.Add(seq); })* ")"
 	{
 		return new SequenceLazyOrAll(sequences, choice);
 	}
 |
 	LOOKAHEAD(4) "$" ("%" { choice = true; } )? 
-	"&&" "(" seq=RewriteSequence() { sequences.Add(seq); } ("," seq=RewriteSequence() { sequences.Add(seq); })* ")"
+		"||" "[" seq=Rule() { sequences.Add(seq); } ("," seq=Rule() { sequences.Add(seq); })* "]"
+	{
+		return new SequenceLazyOrAllAll(sequences, choice);
+	}
+|
+	LOOKAHEAD(4) "$" ("%" { choice = true; } )? 
+		"&&" "(" seq=RewriteSequence() { sequences.Add(seq); } ("," seq=RewriteSequence() { sequences.Add(seq); })* ")"
 	{
 		return new SequenceLazyAndAll(sequences, choice);
 	}
 |
 	LOOKAHEAD(4) "$" ("%" { choice = true; } )? 
-	"|" "(" seq=RewriteSequence() { sequences.Add(seq); } ("," seq=RewriteSequence() { sequences.Add(seq); })* ")"
+		"&&" "[" seq=Rule() { sequences.Add(seq); } ("," seq=Rule() { sequences.Add(seq); })* "]"
+	{
+		return new SequenceLazyAndAllAll(sequences, choice);
+	}
+|
+	LOOKAHEAD(4) "$" ("%" { choice = true; } )? 
+		"|" "(" seq=RewriteSequence() { sequences.Add(seq); } ("," seq=RewriteSequence() { sequences.Add(seq); })* ")"
 	{
 		return new SequenceStrictOrAll(sequences, choice);
 	}
 |
-	"$" ("%" { choice = true; } )? 
-	"&" "(" seq=RewriteSequence() { sequences.Add(seq); } ("," seq=RewriteSequence() { sequences.Add(seq); })* ")"
+	LOOKAHEAD(4) "$" ("%" { choice = true; } )? 
+		"|" "[" seq=Rule() { sequences.Add(seq); } ("," seq=Rule() { sequences.Add(seq); })* "]"
+	{
+		return new SequenceStrictOrAllAll(sequences, choice);
+	}
+|
+	LOOKAHEAD(4) "$" ("%" { choice = true; } )? 
+		"&" "(" seq=RewriteSequence() { sequences.Add(seq); } ("," seq=RewriteSequence() { sequences.Add(seq); })* ")"
 	{
 		return new SequenceStrictAndAll(sequences, choice);
+	}
+|
+	"$" ("%" { choice = true; } )? 
+		"&" "[" seq=Rule() { sequences.Add(seq); } ("," seq=Rule() { sequences.Add(seq); })* "]"
+	{
+		return new SequenceStrictAndAllAll(sequences, choice);
 	}
 |
 	"(" seq=RewriteSequence() ")"

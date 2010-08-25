@@ -51,6 +51,16 @@ namespace de.unika.ipd.grGen.libGr
         }
 
         /// <summary>
+        /// returns the maybe user altered rule to execute next for the sequence given
+        /// the randomly chosen rule is supplied; the object with all available rules is supplied
+        /// a list of all found matches is supplied, too
+        /// </summary>
+        public int ChooseRule(int ruleToExecute, List<Sequence> rules, List<IMatches> matches, SequenceNAry seq)
+        {
+            return ruleToExecute;
+        }
+
+        /// <summary>
         /// returns the maybe user altered match to apply next for the sequence given
         /// the randomly chosen match is supplied; the object with all available matches is supplied
         /// </summary>

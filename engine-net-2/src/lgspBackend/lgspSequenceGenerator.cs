@@ -1025,29 +1025,49 @@ namespace de.unika.ipd.grGen.lgsp
                 case SequenceType.LazyOrAll:
                 {
                     SequenceLazyOrAll seqAll = (SequenceLazyOrAll)seq;
-                    // TODO!
+                    EmitSequenceAll(seqAll, true, true, source);
                     break;
+                }
+
+                case SequenceType.LazyOrAllAll:
+                {
+                    throw new Exception("Internal Error: the LazyOrAllAll is interpreted only (no Debugger available at lgsp level)");
                 }
 
                 case SequenceType.LazyAndAll:
                 {
                     SequenceLazyAndAll seqAll = (SequenceLazyAndAll)seq;
-                    // TODO!
+                    EmitSequenceAll(seqAll, false, true, source);
                     break;
+                }
+
+                case SequenceType.LazyAndAllAll:
+                {
+                    throw new Exception("Internal Error: the LazyAndAllAll is interpreted only (no Debugger available at lgsp level)");
                 }
 
                 case SequenceType.StrictOrAll:
                 {
                     SequenceStrictOrAll seqAll = (SequenceStrictOrAll)seq;
-                    // TODO!
+                    EmitSequenceAll(seqAll, true, false, source);
                     break;
+                }
+
+                case SequenceType.StrictOrAllAll:
+                {
+                    throw new Exception("Internal Error: the StrictOrAllAll is interpreted only (no Debugger available at lgsp level)");
                 }
 
                 case SequenceType.StrictAndAll:
                 {
                     SequenceStrictAndAll seqAll = (SequenceStrictAndAll)seq;
-                    // TODO!
+                    EmitSequenceAll(seqAll, false, false, source);
                     break;
+                }
+
+                case SequenceType.StrictAndAllAll:
+                {
+                    throw new Exception("Internal Error: the StrictAndAllAll is interpreted only (no Debugger available at lgsp level)");
                 }
 
 				case SequenceType.Transaction:
@@ -1065,6 +1085,39 @@ namespace de.unika.ipd.grGen.lgsp
 					throw new Exception("Unknown sequence type: " + seq.SequenceType);
 			}
 		}
+
+        public void EmitSequenceAll(SequenceNAry seqAll, bool disjunction, bool lazy, SourceBuilder source)
+        {
+            source.AppendFront(SetResultVar(seqAll, disjunction ? "false" : "true"));
+            source.AppendFrontFormat("bool continue_{0} = true;\n", seqAll.Id);
+            source.AppendFrontFormat("List<int> sequencestoexecutevar_{0} = new List<int>({1});\n", seqAll.Id, seqAll.Sequences.Count);
+            source.AppendFrontFormat("for(int i = 0; i < {1}; ++i) sequencestoexecutevar_{0}.Add(i);\n", seqAll.Id, seqAll.Sequences.Count);
+            source.AppendFrontFormat("while(sequencestoexecutevar_{0}.Count>0 && continue_{0})\n", seqAll.Id);
+            source.AppendFront("{\n");
+            source.Indent();
+            source.AppendFrontFormat("int positionofsequencetoexecute_{0} = GRGEN_LIBGR.Sequence.randomGenerator.Next(sequencestoexecutevar_{0}.Count);\n", seqAll.Id);
+            source.AppendFrontFormat("switch(sequencestoexecutevar_{0}[positionofsequencetoexecute_{0}])\n", seqAll.Id);
+            source.AppendFront("{\n");
+            source.Indent();
+            for(int i = 0; i < seqAll.Sequences.Count; ++i)
+            {
+                source.AppendFrontFormat("case {0}:\n", i);
+                source.AppendFront("{\n");
+                source.Indent();
+                EmitSequence(seqAll.Sequences[i], source);
+                source.AppendFrontFormat("sequencestoexecutevar_{0}.Remove({1});\n", seqAll.Id, i);
+                source.AppendFront(SetResultVar(seqAll, GetResultVar(seqAll) + (disjunction ? " || " : " && ") + GetResultVar(seqAll.Sequences[i])));
+                if(lazy)
+                    source.AppendFrontFormat("if(" + (disjunction?"":"!") + GetResultVar(seqAll) + ") continue_{0} = false;\n", seqAll.Id);
+                source.AppendFront("break;\n");
+                source.Unindent();
+                source.AppendFront("}\n");
+            }
+            source.Unindent();
+            source.AppendFront("}\n");
+            source.Unindent();
+            source.AppendFront("}\n");
+        }
 
 		public bool GenerateXGRSCode(int xgrsID, String xgrsStr, 
             String[] paramNames, GrGenType[] paramTypes, GrGenType[] outParamTypes,

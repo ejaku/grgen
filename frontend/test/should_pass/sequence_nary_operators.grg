@@ -1,0 +1,55 @@
+rule r1 : (Node)
+{
+	modify {	
+		n:Node;
+		return(n);
+	}
+}
+
+rule r2
+{
+	modify {
+	}
+}
+
+rule r3(n:Node)
+{
+	modify {
+	}
+}
+
+rule lazy_or
+{
+	n:Node;
+	
+	modify {
+		exec($||((m)=r1, [r2], r3(n), false));
+	}
+}
+
+rule lazy_and
+{
+	n:Node;
+	
+	modify {
+		exec($&&((m)=r1, [r2], r3(n), true));
+	}
+}
+
+rule strict_or
+{
+	n:Node;
+	
+	modify {
+		exec($|((m)=r1, [r2], r3(n), false));
+	}
+}
+
+rule strict_and
+{
+	n:Node;
+	
+	modify {
+		exec($&((m)=r1, [r2], r3(n), true));
+	}
+}

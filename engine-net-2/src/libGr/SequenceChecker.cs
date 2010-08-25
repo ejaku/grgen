@@ -69,9 +69,13 @@ namespace de.unika.ipd.grGen.libGr
             }
 
             case SequenceType.LazyOrAll:
+            case SequenceType.LazyOrAllAll:
             case SequenceType.LazyAndAll:
+            case SequenceType.LazyAndAllAll:
             case SequenceType.StrictOrAll:
+            case SequenceType.StrictOrAllAll:
             case SequenceType.StrictAndAll:
+            case SequenceType.StrictAndAllAll:
             {
                 foreach(Sequence seqChild in seq.Children)
                     Check(seqChild);

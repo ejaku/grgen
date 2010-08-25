@@ -48,6 +48,8 @@ namespace de.unika.ipd.grGen.grShell
 
         /// <summary> If not null, gives the sequences to choose amongst </summary>
         public List<Sequence> sequences;
+        /// <summary> If not null, gives the matches of the sequences to choose amongst </summary>
+        public List<IMatches> matches;
 
         public PrintSequenceContext(IWorkaround workaround)
         {
@@ -92,6 +94,8 @@ namespace de.unika.ipd.grGen.grShell
         PrintSequenceContext context = null;
 
         int matchDepth = 0;
+
+        bool lazyChoice = true;
 
         IRulePattern curRulePattern = null;
         int nextAddedNodeIndex = 0;
@@ -337,6 +341,76 @@ namespace de.unika.ipd.grGen.grShell
         }
 
         /// <summary>
+        /// returns the maybe user altered rule to execute next for the sequence given
+        /// the randomly chosen rule is supplied; the object with all available rules is supplied
+        /// a list of all found matches is supplied, too
+        /// </summary>
+        public int ChooseRule(int ruleToExecute, List<Sequence> rules, List<IMatches> matches, SequenceNAry seq)
+        {
+            ycompClient.UpdateDisplay();
+            ycompClient.Sync();
+
+            Console.WriteLine("Which rule to execute? Pre-selecting rule " + ruleToExecute + " chosen by random.");
+            Console.WriteLine("Press (0)...(9) to pre-select the corresponding rule or (e) to enter the number of the rule to show."
+                                + " Press (s) or (n) to commit to the pre-selected rule and continue."
+                                + " Pressing (u) or (o) works like (s)/(n) but does not ask for the remaining contained rules.");
+
+            while(true)
+            {
+                context.highlightSeq = rules[ruleToExecute];
+                context.choice = true;
+                context.sequences = rules;
+                context.matches = matches;
+                PrintSequence(debugSequence, null, context);
+                Console.WriteLine();
+                context.choice = false;
+                context.sequences = null;
+                context.matches = null;
+
+                ConsoleKeyInfo key = ReadKeyWithCancel();
+                switch(key.KeyChar)
+                {
+                case '0': case '1': case '2': case '3': case '4':
+                case '5': case '6': case '7': case '8': case '9':
+                    int num = key.KeyChar - '0';
+                    if(num >= rules.Count)
+                    {
+                        Console.WriteLine("You must specify a number between 0 and " + (rules.Count - 1) + "!");
+                        break;
+                    }
+                    ruleToExecute = num;
+                    break;
+                case 'e':
+                    Console.Write("Enter number of rule to show: ");
+                    String numStr = Console.ReadLine();
+                    if(int.TryParse(numStr, out num))
+                    {
+                        if(num < 0 || num >= rules.Count)
+                        {
+                            Console.WriteLine("You must specify a number between 0 and " + (rules.Count - 1) + "!");
+                            break;
+                        }
+                        ruleToExecute = num;
+                        break;
+                    }
+                    Console.WriteLine("You must enter a valid integer number!");
+                    break;
+                case 's':
+                case 'n':
+                    return ruleToExecute;
+                case 'u':
+                case 'o':
+                    seq.Skip = true; // skip remaining rules (reset after exection of seq)
+                    return ruleToExecute;
+                default:
+                    Console.WriteLine("Illegal choice (Key = " + key.Key
+                        + ")! Only (0)...(9), (e)nter number, (s)/(n) to commit and continue, (u)/(o) to commit and skip remaining choices allowed! ");
+                    break;
+                }
+            }
+        }
+
+        /// <summary>
         /// returns the maybe user altered match to apply next for the sequence given
         /// the randomly chosen match is supplied; the object with all available matches is supplied
         /// </summary>
@@ -347,7 +421,13 @@ namespace de.unika.ipd.grGen.grShell
             PrintSequence(debugSequence, null, context);
             Console.WriteLine();
             context.choice = false;
-            
+
+            if(matches.Count <= 1 + numFurtherMatchesToApply && lazyChoice)
+            {
+                Console.WriteLine("Skipping choicepoint as no choice needed (use the (l) command to toggle this behaviour).");
+                return matchToApply;
+            }
+
             Console.WriteLine("Which match to apply? Showing the match chosen by random. (" + numFurtherMatchesToApply + " following)");
             Console.WriteLine("Press (0)...(9) to show the corresponding match or (e) to enter the number of the match to show."
                                 + " Press (s) or (n) to commit to the currently shown match and continue.");
@@ -754,9 +834,13 @@ namespace de.unika.ipd.grGen.grShell
 
                 // n-ary
                 case SequenceType.LazyOrAll:
+                case SequenceType.LazyOrAllAll:
                 case SequenceType.LazyAndAll:
+                case SequenceType.LazyAndAllAll:
                 case SequenceType.StrictOrAll:
+                case SequenceType.StrictOrAllAll:
                 case SequenceType.StrictAndAll:
+                case SequenceType.StrictAndAllAll:
                 {
                     SequenceNAry seqN = (SequenceNAry)seq;
 
@@ -767,7 +851,7 @@ namespace de.unika.ipd.grGen.grShell
                         else
                             context.workaround.PrintHighlighted(" " + "%" + context.cpPosCounter + ":", HighlightingMode.Choicepoint);
                         ++context.cpPosCounter;
-                        Console.Write("$" + seqN.Symbol + "(");
+                        Console.Write("$" + seqN.Symbol + (seqN is SequenceNAryAll ? "[" : "("));
                         bool first = true;
                         foreach(Sequence seqChild in seqN.Children)
                         {
@@ -775,7 +859,7 @@ namespace de.unika.ipd.grGen.grShell
                             PrintSequence(seqChild, seqN, context);
                             first = false;
                         }
-                        Console.Write(") ");
+                        Console.Write(seqN is SequenceNAryAll ? "] " : ") ");
                         break;
                     }
 
@@ -791,7 +875,7 @@ namespace de.unika.ipd.grGen.grShell
                         {
                             if(!first) Console.Write(", ");
                             if(seqChild == context.highlightSeq)
-                                context.workaround.PrintHighlighted(">", HighlightingMode.Choicepoint);
+                                context.workaround.PrintHighlighted(">>", HighlightingMode.Choicepoint);
                             if(context.sequences != null)
                             {
                                 for(int i = 0; i < context.sequences.Count; ++i)
@@ -800,9 +884,14 @@ namespace de.unika.ipd.grGen.grShell
                                         context.workaround.PrintHighlighted("(" + i + ")", HighlightingMode.Choicepoint);
                                 }
                             }
+
+                            Sequence highlightSeq = context.highlightSeq;
+                            context.highlightSeq = null;
                             PrintSequence(seqChild, seqN, context);
+                            context.highlightSeq = highlightSeq;
+
                             if(seqChild == context.highlightSeq)
-                                context.workaround.PrintHighlighted("<", HighlightingMode.Choicepoint);
+                                context.workaround.PrintHighlighted("<<", HighlightingMode.Choicepoint);
                             first = false;
                         }
                         context.workaround.PrintHighlighted(")", HighlightingMode.Choicepoint);
@@ -859,6 +948,11 @@ namespace de.unika.ipd.grGen.grShell
                     }
                     if(seq.ExecutionState==SequenceExecutionState.Success) mode |= HighlightingMode.LastSuccess;
                     if(seq.ExecutionState==SequenceExecutionState.Fail) mode |= HighlightingMode.LastFail;
+                    if(context.sequences!=null && context.sequences.Contains(seq))
+                    {
+                        if(context.matches!=null && context.matches[context.sequences.IndexOf(seq)].Count > 0)
+                            mode |= HighlightingMode.FocusSucces;
+                    }
                     context.workaround.PrintHighlighted(seq.Symbol, mode);
                     break;
                 }
@@ -1083,8 +1177,34 @@ namespace de.unika.ipd.grGen.grShell
             }
         }
 
+        void HandleToggleLazyChoice()
+        {
+            if(lazyChoice)
+            {
+                Console.WriteLine("Lazy choice disabled, always requesting user choice on $%[r] / $%v[r].");
+                lazyChoice = false;
+            }
+            else
+            {
+                Console.WriteLine("Lazy choice enabled, only prompting user on $%[r] / $%v[r] if more matches available than rewrites requested.");
+                lazyChoice = true;
+            }
+        }
+
         void DebugEnteringSequence(Sequence seq)
         {
+            // root node of sequence entered and interactive debugging activated
+            if(stepMode && lastlyEntered == null)
+            {
+                ycompClient.UpdateDisplay();
+                ycompClient.Sync();
+                PrintSequence(debugSequence, null, context);
+                Console.WriteLine();
+                context.workaround.PrintHighlighted("Debug started", HighlightingMode.SequenceStart);
+                Console.WriteLine(" -- available commands are: (n)ext match, (d)etailed step, (s)tep, step (u)p, step (o)ut, (r)un, toggle (b)reakpoints, toggle (c)hoicepoints, toggle (l)azy choice and (a)bort.");
+                QueryUser(seq);
+            }
+
             lastlyEntered = seq;
             recentlyMatched = null;
 
@@ -1253,6 +1373,9 @@ namespace de.unika.ipd.grGen.grShell
                     PrintSequence(debugSequence, null, context);
                     Console.WriteLine();
                     break;
+                case 'l':
+                    HandleToggleLazyChoice();
+                    break;
                 case 'a':
                     grShellImpl.Cancel();
                     return false;                               // never reached
@@ -1263,7 +1386,7 @@ namespace de.unika.ipd.grGen.grShell
                     return false;
                 default:
                     Console.WriteLine("Illegal command (Key = " + key.Key
-                        + ")! Only (n)ext match, (d)etailed step, (s)tep, step (u)p, step (o)ut, (r)un, toggle (b)reakpoints, toggle (c)hoicepoints and (a)bort allowed!");
+                        + ")! Only (n)ext match, (d)etailed step, (s)tep, step (u)p, step (o)ut, (r)un, toggle (b)reakpoints, toggle (c)hoicepoints, toggle (l)azy choice and (a)bort allowed!");
                     break;
                 }
             }

@@ -46,6 +46,13 @@
             the randomly chosen sequence is supplied; the object with all available sequences is supplied
             </summary>
         </member>
+        <member name="M:de.unika.ipd.grGen.libGr.SequenceExecutionEnvironment.ChooseRule(System.Int32,System.Collections.Generic.List{de.unika.ipd.grGen.libGr.Sequence},System.Collections.Generic.List{de.unika.ipd.grGen.libGr.IMatches},de.unika.ipd.grGen.libGr.SequenceNAry)">
+            <summary>
+            returns the maybe user altered rule to execute next for the sequence given
+            the randomly chosen rule is supplied; the object with all available rules is supplied
+            a list of all found matches is supplied, too
+            </summary>
+        </member>
         <member name="M:de.unika.ipd.grGen.libGr.SequenceExecutionEnvironment.ChooseMatch(System.Int32,de.unika.ipd.grGen.libGr.IMatches,System.Int32,de.unika.ipd.grGen.libGr.Sequence)">
             <summary>
             returns the maybe user altered match to apply next for the sequence given
@@ -205,6 +212,13 @@
             Decision on order of execution by random, by user choice possible.
             </summary>
         </member>
+        <member name="T:de.unika.ipd.grGen.libGr.SequenceNAryAll">
+            <summary>
+            A sequence consisting of a list of subsequences. Breakpointable.
+            Decision on order of execution by random, by user choice possible.
+            First all the contained rules are matched, then they get rewritten
+            </summary>
+        </member>
         <member name="T:de.unika.ipd.grGen.libGr.sequenceParser.SequenceParser">
             <summary>
             A parser class for xgrs strings.
@@ -327,6 +341,13 @@
             <summary>
             returns the maybe user altered sequence to execute next for the sequence given
             the randomly chosen sequence is supplied; the object with all available sequences is supplied
+            </summary>
+        </member>
+        <member name="M:de.unika.ipd.grGen.libGr.SequenceExecutionEnvironmentNamedGraphOnly.ChooseRule(System.Int32,System.Collections.Generic.List{de.unika.ipd.grGen.libGr.Sequence},System.Collections.Generic.List{de.unika.ipd.grGen.libGr.IMatches},de.unika.ipd.grGen.libGr.SequenceNAry)">
+            <summary>
+            returns the maybe user altered rule to execute next for the sequence given
+            the randomly chosen rule is supplied; the object with all available rules is supplied
+            a list of all found matches is supplied, too
             </summary>
         </member>
         <member name="M:de.unika.ipd.grGen.libGr.SequenceExecutionEnvironmentNamedGraphOnly.ChooseMatch(System.Int32,de.unika.ipd.grGen.libGr.IMatches,System.Int32,de.unika.ipd.grGen.libGr.Sequence)">
