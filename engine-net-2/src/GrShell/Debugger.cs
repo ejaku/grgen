@@ -357,6 +357,11 @@ namespace de.unika.ipd.grGen.grShell
 
             while(true)
             {
+                MarkMatches(matches[ruleToExecute], ycompClient.MatchedNodeRealizer, ycompClient.MatchedEdgeRealizer);
+                AnnotateMatches(matches[ruleToExecute], true);
+                ycompClient.UpdateDisplay();
+                ycompClient.Sync(); 
+                
                 context.highlightSeq = rules[ruleToExecute];
                 context.choice = true;
                 context.sequences = rules;
@@ -378,6 +383,7 @@ namespace de.unika.ipd.grGen.grShell
                         Console.WriteLine("You must specify a number between 0 and " + (rules.Count - 1) + "!");
                         break;
                     }
+                    MarkMatches(matches[ruleToExecute], null, null);
                     ruleToExecute = num;
                     break;
                 case 'e':
@@ -390,6 +396,7 @@ namespace de.unika.ipd.grGen.grShell
                             Console.WriteLine("You must specify a number between 0 and " + (rules.Count - 1) + "!");
                             break;
                         }
+                        MarkMatches(matches[ruleToExecute], null, null);
                         ruleToExecute = num;
                         break;
                     }
@@ -397,10 +404,12 @@ namespace de.unika.ipd.grGen.grShell
                     break;
                 case 's':
                 case 'n':
+                    MarkMatches(matches[ruleToExecute], null, null);
                     return ruleToExecute;
                 case 'u':
                 case 'o':
                     seq.Skip = true; // skip remaining rules (reset after exection of seq)
+                    MarkMatches(matches[ruleToExecute], null, null);
                     return ruleToExecute;
                 default:
                     Console.WriteLine("Illegal choice (Key = " + key.Key
@@ -859,7 +868,7 @@ namespace de.unika.ipd.grGen.grShell
                             PrintSequence(seqChild, seqN, context);
                             first = false;
                         }
-                        Console.Write(seqN is SequenceNAryAll ? "] " : ") ");
+                        Console.Write(seqN is SequenceNAryAll ? "]" : ")");
                         break;
                     }
 
@@ -869,7 +878,7 @@ namespace de.unika.ipd.grGen.grShell
                             highlight = true;
                     if(highlight && context.choice)
                     {
-                        context.workaround.PrintHighlighted("$%" + seqN.Symbol + "(", HighlightingMode.Choicepoint);
+                        context.workaround.PrintHighlighted("$%" + seqN.Symbol + (seqN is SequenceNAryAll ? "[" : "("), HighlightingMode.Choicepoint);
                         bool first = true;
                         foreach(Sequence seqChild in seqN.Children)
                         {
@@ -894,11 +903,11 @@ namespace de.unika.ipd.grGen.grShell
                                 context.workaround.PrintHighlighted("<<", HighlightingMode.Choicepoint);
                             first = false;
                         }
-                        context.workaround.PrintHighlighted(")", HighlightingMode.Choicepoint);
+                        context.workaround.PrintHighlighted(seqN is SequenceNAryAll ? "]" : ")", HighlightingMode.Choicepoint);
                         break;
                     }
 
-                    Console.Write("$" + (seqN.Choice?"%":"") + seqN.Symbol + "(");
+                    Console.Write("$" + (seqN.Choice ? "%" : "") + seqN.Symbol + (seqN is SequenceNAryAll ? "[" : "("));
                     bool first_ffs = true;
                     foreach(Sequence seqChild in seqN.Children)
                     {
@@ -906,7 +915,7 @@ namespace de.unika.ipd.grGen.grShell
                         PrintSequence(seqChild, seqN, context);
                         first_ffs = false;
                     }
-                    Console.Write(")");
+                    Console.Write(seqN is SequenceNAryAll ? "]" : ")");
                     break;
                 }
 
