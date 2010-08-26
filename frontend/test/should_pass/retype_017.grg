@@ -1,0 +1,19 @@
+using attrib_model_001;
+
+rule r {	
+	iterated {
+		x:Node;
+		modify {
+			y:NINT<x>;
+		}
+	}
+
+	multiple {
+		-x:Edge->;
+		modify {
+			-y:EINT<x>->;
+		}
+	}
+	
+	modify {}
+}

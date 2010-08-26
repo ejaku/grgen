@@ -1,0 +1,14 @@
+using attrib_model_001;
+
+rule r {
+	z:Node;
+	optional {
+		x:Node;
+		hom(x,z);
+		modify {
+			y:NINT<x>;
+		}
+	}
+	
+	modify {}
+}

@@ -424,10 +424,21 @@ public class IteratedNode extends ActionDeclNode  {
     				error.error(node.getCoords(), "Instances of abstract nodes are not allowed");
     				abstr = false;
     			}
+
     			if(maxMatches!=1 && node instanceof NodeTypeChangeNode) {
-    				// todo: this must be checked for every recursively contained node
-    				error.error(node.getCoords(), "Retype of nodes only allowed in optional, not in multiple/iterated (if pattern cardinality construct can get matched more than once)");
-    				noRetype = false;
+	    			if(node.directlyNestingLHSGraph!=pattern) {
+	    				// todo: this must be checked for every recursively contained node
+	    				error.error(node.getCoords(), "Retype of nodes from outside only allowed in optional/alternative, not in multiple/iterated (if construct can get matched more than once)");
+	    				noRetype = false;
+	    			} else {
+		    			Set<NodeDeclNode> homSet = pattern.getHomomorphic(((NodeTypeChangeNode)node).getOldNode());
+						for(NodeDeclNode nodeDecl : homSet) {
+			    			if(nodeDecl.directlyNestingLHSGraph!=pattern) {
+			    				error.error(node.getCoords(), "Retype of nodes which might be hom to nodes from outside only allowed in optional/alternative, not in multiple/iterated (if construct can get matched more than once)");
+			    				noRetype = false;
+			    			}					
+						}
+	    			}
     			}
     		}
     		for(EdgeDeclNode edge : right.getEdges()) {
@@ -435,10 +446,21 @@ public class IteratedNode extends ActionDeclNode  {
     				error.error(edge.getCoords(), "Instances of abstract edges are not allowed");
     				abstr = false;
     			}
+
     			if(maxMatches!=1 && edge instanceof EdgeTypeChangeNode) {
-    				// todo: this must be checked for every recursively contained edge
-    				error.error(edge.getCoords(), "Retype of edges only allowed in optional, not in multiple/iterated (if pattern cardinality construct can get matched more than once)");
-    				noRetype = false;
+	    			if(edge.directlyNestingLHSGraph!=pattern) {
+	    				// todo: this must be checked for every recursively contained edge
+	    				error.error(edge.getCoords(), "Retype of edges from outside only allowed in optional/alternative, not in multiple/iterated (if construct can get matched more than once)");
+	    				noRetype = false;
+	    			} else {
+	    				Set<EdgeDeclNode> homSet = pattern.getHomomorphic(((EdgeTypeChangeNode)edge).getOldEdge());
+						for(EdgeDeclNode edgeDecl : homSet) {
+			    			if(edgeDecl.directlyNestingLHSGraph!=pattern) {
+			    				error.error(edge.getCoords(), "Retype of edges which might be hom to edges from outside only allowed in optional/alternative, not in multiple/iterated (if construct can get matched more than once)");
+			    				noRetype = false;
+			    			}					
+						}
+	    			}
     			}
     		}
 		}
