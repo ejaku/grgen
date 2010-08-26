@@ -478,24 +478,33 @@ public class PatternGraphNode extends GraphNode {
 		for(BaseNode n : subpatterns.getChildren()) {
 			List<Expression> connections = n.checkIR(SubpatternUsage.class).getSubpatternConnections();
 			for(Expression e : connections) {
-				if(!(e instanceof GraphEntityExpression)) continue;
-				GraphEntity connection = ((GraphEntityExpression)e).getGraphEntity();
-				if(connection instanceof Node) {
-					Node neededNode = (Node)connection;
-					if(!gr.hasNode(neededNode)) {
-						gr.addSingleNode(neededNode);
-						gr.addHomToAll(neededNode);
+				if(e instanceof GraphEntityExpression) {
+					GraphEntity connection = ((GraphEntityExpression)e).getGraphEntity();
+					if(connection instanceof Node) {
+						Node neededNode = (Node)connection;
+						if(!gr.hasNode(neededNode)) {
+							gr.addSingleNode(neededNode);
+							gr.addHomToAll(neededNode);
+						}
 					}
-				}
-				else if(connection instanceof Edge) {
-					Edge neededEdge = (Edge)connection;
-					if(!gr.hasEdge(neededEdge)) {
-						gr.addSingleEdge(neededEdge);	// TODO: maybe we lose context here
-						gr.addHomToAll(neededEdge);
+					else if(connection instanceof Edge) {
+						Edge neededEdge = (Edge)connection;
+						if(!gr.hasEdge(neededEdge)) {
+							gr.addSingleEdge(neededEdge);	// TODO: maybe we lose context here
+							gr.addHomToAll(neededEdge);
+						}
 					}
-				}
-				else {
-					assert(false);
+					else {
+						assert(false);
+					}
+				} else {
+					NeededEntities needs = new NeededEntities(false, false, true, false, false, false);
+					e.collectNeededEntities(needs);
+					for(Variable neededVariable : needs.variables) {
+						if(!gr.hasVar(neededVariable)) {
+							gr.addVariable(neededVariable);
+						}
+					}
 				}
 			}
 		}

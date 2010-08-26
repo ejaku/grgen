@@ -1,0 +1,46 @@
+rule r {
+	n:Node;
+	pp:p(n, false);
+	modify {		
+		pp();	
+	}
+}
+
+pattern p(n:Node, var b:boolean) {
+	alternative {
+		A {
+			m:Node;
+			uu:u(n, m, true);
+			optional {
+				if { !b; }
+				modify {	
+				}
+			}
+			modify {				
+				uu();
+			}			
+		}
+		B {
+			iterated {
+				m:Node;
+				uu:u(n, m, b); // check: "a non graph element variable which only occurs within subpattern connections"
+				modify {
+					uu();
+				}
+			}
+			modify {}
+		}
+	}
+	modify {}
+}
+
+pattern u(n:Node, m:Node, var b:boolean) {
+	iterated { // check: "don't generate creation patterns for nested language constructs unless they can copy with non-graph variables"
+		n-->m;
+		pp:p(m, b);
+		modify {
+			pp();
+		}
+	}
+	modify {}
+}

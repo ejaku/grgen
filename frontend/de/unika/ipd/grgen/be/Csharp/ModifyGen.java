@@ -293,7 +293,8 @@ public class ModifyGen extends CSharpBase {
 		}
 
 		if(isSubpattern) {
-			if(!hasAbstractElements(rule.getLeft())
+			if(pathPrefix.isEmpty() 
+					&& !hasAbstractElements(rule.getLeft())
 					&& !hasDanglingEdges(rule.getLeft())) {
 				// create subpattern into pattern
 				ModifyGenerationTask task = new ModifyGenerationTask();
