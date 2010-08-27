@@ -1,0 +1,8 @@
+new graph "alternatives\Alternatives"
+
+new n:Node
+new m:Node
+
+xgrs alternative_in_iterated
+
+quit

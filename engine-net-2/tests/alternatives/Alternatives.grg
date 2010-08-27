@@ -181,3 +181,30 @@ rule alternative_in_negative {
 	modify {		
 	}
 }
+
+rule alternative_in_iterated {
+	iterated {
+		.;
+		
+		alternative {
+			Foo {
+				.;
+				
+				modify {		
+				}
+			}
+			Bar {
+				.-->.;
+				
+				modify {		
+				}
+			}
+		}
+		
+		modify {		
+		}
+	}
+	
+	modify {		
+	}
+}
