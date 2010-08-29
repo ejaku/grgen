@@ -1,0 +1,14 @@
+rule r
+{
+	independent {
+        iterated {
+            n:Node;
+			
+            modify {
+            }
+        }
+	}
+	
+	replace {
+	}
+}

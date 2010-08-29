@@ -391,6 +391,43 @@ public class PatternGraphNode extends GraphNode {
 		}
 	}
 
+	boolean noRewriteInIteratedOrAlternativeNestedInNegativeOrIndependent() {
+		boolean result = true;
+		for(PatternGraphNode pattern : negs.getChildren()) {
+			for(IteratedNode iter : pattern.iters.getChildren()) {
+				if(iter.right.size()>0) {
+					iter.right.children.get(0).reportError("An iterated contained within a negative can't possess a rewrite part (the negative is a pure negative application condition)");
+					result = false;
+				}
+			}
+			for(AlternativeNode alt : pattern.alts.getChildren()) {
+				for(AlternativeCaseNode altCase : alt.getChildren()) {
+					if(altCase.right.size()>0) {
+						altCase.right.children.get(0).reportError("An alternative case contained within a negative can't possess a rewrite part (the negative is a pure negative application condition)");
+						result = false;
+					}
+				}
+			}
+		}
+		for(PatternGraphNode pattern : idpts.getChildren()) {
+			for(IteratedNode iter : pattern.iters.getChildren()) {
+				if(iter.right.size()>0) {
+					iter.right.children.get(0).reportError("An iterated contained within an independent can't possess a rewrite part (the independent is a pure positive application condition)");
+					result = false;
+				}
+			}
+			for(AlternativeNode alt : pattern.alts.getChildren()) {
+				for(AlternativeCaseNode altCase : alt.getChildren()) {
+					if(altCase.right.size()>0) {
+						altCase.right.children.get(0).reportError("An alternative case contained within an independent can't possess a rewrite part (the independent is a pure positive application condition)");
+						result = false;
+					}
+				}
+			}
+		}
+		return result;
+	}
+	
 	@Override
 	protected boolean checkLocal() {
 		boolean childs = super.checkLocal();
@@ -416,7 +453,7 @@ public class PatternGraphNode extends GraphNode {
 
 		warnOnSuperfluousHoms();
 
-		return childs && expr && noReturnInNegOrIdpt;
+		return childs && expr && noReturnInNegOrIdpt && noRewriteInIteratedOrAlternativeNestedInNegativeOrIndependent();
 	}
 
 	/**

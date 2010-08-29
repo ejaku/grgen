@@ -1474,6 +1474,12 @@
             </summary>
             <returns></returns>
         </member>
+        <member name="M:de.unika.ipd.grGen.lgsp.LGSPMatchesList`2.GetMatchExact(System.Int32)">
+            <summary>
+            Returns the match of exact type with the given index. Invalid indices cause an exception.
+            This may be slow. If you want to iterate over the elements the MatchesExact IEnumerable should be used.
+            </summary>
+        </member>
         <member name="M:de.unika.ipd.grGen.lgsp.LGSPMatchesList`2.RemoveMatchExact(System.Int32)">
             <summary>
             Removes the match of exact type at the given index and returns it.

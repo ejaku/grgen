@@ -697,7 +697,7 @@ namespace de.unika.ipd.grGen.grShell
                 IDictionary setmap = (IDictionary)node.GetAttribute(attrType.Name);
                 string attrTypeString;
                 string attrValue;
-                DictionaryHelper.ToString(setmap, changeType, newValue, keyValue, out attrTypeString, out attrValue);
+                DictionaryHelper.ToString(setmap, changeType, newValue, keyValue, out attrTypeString, out attrValue, attrType);
                 ChangeNodeAttribute(node, attrType, attrTypeString, attrValue);
             }
             else
@@ -734,7 +734,7 @@ namespace de.unika.ipd.grGen.grShell
                 IDictionary setmap = (IDictionary)edge.GetAttribute(attrType.Name);
                 string attrTypeString;
                 string attrValue;
-                DictionaryHelper.ToString(setmap, changeType, newValue, keyValue, out attrTypeString, out attrValue);
+                DictionaryHelper.ToString(setmap, changeType, newValue, keyValue, out attrTypeString, out attrValue, attrType);
                 ChangeEdgeAttribute(edge, attrType, attrTypeString, attrValue);
             }
             else

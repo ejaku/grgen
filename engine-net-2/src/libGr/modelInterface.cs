@@ -456,6 +456,31 @@ namespace de.unika.ipd.grGen.libGr
         /// Enumerates all enum members.
         /// </summary>
         public IEnumerable<EnumMember> Members { [DebuggerStepThrough] get { return members; } }
+
+        /// <summary>
+        /// Returns an enum member corresponding the given enum member integer or null if no such member exists
+        /// </summary>
+        public EnumMember this[int value]
+        {
+            get
+            {
+                int lowIndex = 0;
+                int highIndex = members.Length;
+                while (lowIndex < highIndex)
+                {
+                    int midIndex = lowIndex + ((highIndex - lowIndex) / 2);
+                    if (value > members[midIndex].Value)
+                        lowIndex = midIndex + 1;
+                    else
+                        highIndex = midIndex;
+                }
+                // high==low
+                if ((lowIndex < members.Length) && (members[lowIndex].Value == value))
+                    return members[lowIndex];
+                else
+                    return null;
+            }
+        } 
     }
 
     /// <summary>

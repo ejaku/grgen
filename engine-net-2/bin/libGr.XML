@@ -46,11 +46,10 @@
             the randomly chosen sequence is supplied; the object with all available sequences is supplied
             </summary>
         </member>
-        <member name="M:de.unika.ipd.grGen.libGr.SequenceExecutionEnvironment.ChooseRule(System.Int32,System.Collections.Generic.List{de.unika.ipd.grGen.libGr.Sequence},System.Collections.Generic.List{de.unika.ipd.grGen.libGr.IMatches},de.unika.ipd.grGen.libGr.SequenceNAry)">
+        <member name="M:de.unika.ipd.grGen.libGr.SequenceExecutionEnvironment.ChooseMatch(System.Int32,de.unika.ipd.grGen.libGr.SequenceSomeFromSet)">
             <summary>
-            returns the maybe user altered rule to execute next for the sequence given
-            the randomly chosen rule is supplied; the object with all available rules is supplied
-            a list of all found matches is supplied, too
+            returns the maybe user altered match to execute next for the sequence given
+            the randomly chosen total match is supplied; the sequence with the rules and matches is supplied
             </summary>
         </member>
         <member name="M:de.unika.ipd.grGen.libGr.SequenceExecutionEnvironment.ChooseMatch(System.Int32,de.unika.ipd.grGen.libGr.IMatches,System.Int32,de.unika.ipd.grGen.libGr.Sequence)">
@@ -69,6 +68,11 @@
             <summary>
             returns a user chosen/input value of the given type
             no random input value is supplied, the user must give a value
+            </summary>
+        </member>
+        <member name="M:de.unika.ipd.grGen.libGr.SequenceExecutionEnvironment.EndOfIteration(System.Boolean,de.unika.ipd.grGen.libGr.SequenceUnary)">
+            <summary>
+            informs debugger about the end of a loop iteration, so it can display the state at the end of the iteration
             </summary>
         </member>
         <member name="T:de.unika.ipd.grGen.libGr.Sequence">
@@ -208,13 +212,13 @@
         </member>
         <member name="T:de.unika.ipd.grGen.libGr.SequenceNAry">
             <summary>
-            A sequence consisting of a list of subsequences. Breakpointable.
-            Decision on order of execution by random, by user choice possible.
+            A sequence consisting of a list of subsequences.
+            Decision on order of execution always by random, by user choice possible.
             </summary>
         </member>
-        <member name="T:de.unika.ipd.grGen.libGr.SequenceNAryAll">
+        <member name="T:de.unika.ipd.grGen.libGr.SequenceSomeFromSet">
             <summary>
-            A sequence consisting of a list of subsequences. Breakpointable.
+            A sequence consisting of a list of subsequences.
             Decision on order of execution by random, by user choice possible.
             First all the contained rules are matched, then they get rewritten
             </summary>
@@ -343,11 +347,10 @@
             the randomly chosen sequence is supplied; the object with all available sequences is supplied
             </summary>
         </member>
-        <member name="M:de.unika.ipd.grGen.libGr.SequenceExecutionEnvironmentNamedGraphOnly.ChooseRule(System.Int32,System.Collections.Generic.List{de.unika.ipd.grGen.libGr.Sequence},System.Collections.Generic.List{de.unika.ipd.grGen.libGr.IMatches},de.unika.ipd.grGen.libGr.SequenceNAry)">
+        <member name="M:de.unika.ipd.grGen.libGr.SequenceExecutionEnvironmentNamedGraphOnly.ChooseMatch(System.Int32,de.unika.ipd.grGen.libGr.SequenceSomeFromSet)">
             <summary>
-            returns the maybe user altered rule to execute next for the sequence given
-            the randomly chosen rule is supplied; the object with all available rules is supplied
-            a list of all found matches is supplied, too
+            returns the maybe user altered match to execute next for the sequence given
+            the randomly chosen total match is supplied; the sequence with the rules and matches is supplied
             </summary>
         </member>
         <member name="M:de.unika.ipd.grGen.libGr.SequenceExecutionEnvironmentNamedGraphOnly.ChooseMatch(System.Int32,de.unika.ipd.grGen.libGr.IMatches,System.Int32,de.unika.ipd.grGen.libGr.Sequence)">
@@ -366,6 +369,11 @@
             <summary>
             returns a user chosen/input value of the given type
             no random input value is supplied, the user must give a value
+            </summary>
+        </member>
+        <member name="M:de.unika.ipd.grGen.libGr.SequenceExecutionEnvironmentNamedGraphOnly.EndOfIteration(System.Boolean,de.unika.ipd.grGen.libGr.SequenceUnary)">
+            <summary>
+            informs debugger about the end of a loop iteration, so it can display the state at the end of the iteration
             </summary>
         </member>
         <member name="T:de.unika.ipd.grGen.libGr.NamedGraph">
@@ -3068,6 +3076,11 @@
             Enumerates all enum members.
             </summary>
         </member>
+        <member name="P:de.unika.ipd.grGen.libGr.EnumAttributeType.Item(System.Int32)">
+            <summary>
+            Returns an enum member corresponding the given enum member integer or null if no such member exists
+            </summary>
+        </member>
         <member name="T:de.unika.ipd.grGen.libGr.SetValueType">
             <summary>
             A dummy type used as value type for dictionaries representing sets.
@@ -4943,6 +4956,12 @@
             Returns enumerator over matches of exact type
             </summary>
         </member>
+        <member name="M:de.unika.ipd.grGen.libGr.IMatchesExact`1.GetMatchExact(System.Int32)">
+            <summary>
+            Returns the match of exact type with the given index. Invalid indices cause an exception.
+            This may be slow. If you want to iterate over the elements the MatchesExact IEnumerable should be used.
+            </summary>
+        </member>
         <member name="M:de.unika.ipd.grGen.libGr.IMatchesExact`1.RemoveMatchExact(System.Int32)">
             <summary>
             Removes the match of exact type at the given index and returns it.
@@ -5289,13 +5308,49 @@
             <returns>String representation of set/map.</returns>
         </member>
         <!-- Ungültiger XML-Kommentar wurde für den Member "M:de.unika.ipd.grGen.libGr.DictionaryHelper.ToString(System.Collections.IDictionary,System.String@,System.String@)" ignoriert -->
-        <!-- Ungültiger XML-Kommentar wurde für den Member "M:de.unika.ipd.grGen.libGr.DictionaryHelper.ToString(System.Collections.IDictionary,de.unika.ipd.grGen.libGr.AttributeChangeType,System.Object,System.Object,System.String@,System.String@)" ignoriert -->
+        <!-- Ungültiger XML-Kommentar wurde für den Member "M:de.unika.ipd.grGen.libGr.DictionaryHelper.ToString(System.Collections.IDictionary,System.String@,System.String@,de.unika.ipd.grGen.libGr.AttributeType)" ignoriert -->
+        <!-- Ungültiger XML-Kommentar wurde für den Member "M:de.unika.ipd.grGen.libGr.DictionaryHelper.ToString(System.Collections.IDictionary,System.String@,System.String@,de.unika.ipd.grGen.libGr.IGraph)" ignoriert -->
+        <!-- Ungültiger XML-Kommentar wurde für den Member "M:de.unika.ipd.grGen.libGr.DictionaryHelper.ToString(System.Collections.IDictionary,de.unika.ipd.grGen.libGr.AttributeChangeType,System.Object,System.Object,System.String@,System.String@,de.unika.ipd.grGen.libGr.AttributeType)" ignoriert -->
+        <member name="M:de.unika.ipd.grGen.libGr.DictionaryHelper.ToString(System.Object,System.String@,System.String@,de.unika.ipd.grGen.libGr.AttributeType)">
+            <summary>
+            Returns a string representation of the given scalar value
+            </summary>
+            <param name="value">The scalar value of which to get the string representation</param>
+            <param name="type">The type as string, e.g int,string,Foo </param>
+            <param name="content">The content as string, e.g. 42,"foo",bar } </param>
+            <param name="attrType">The attribute type of the value</param>
+        </member>
+        <member name="M:de.unika.ipd.grGen.libGr.DictionaryHelper.ToString(System.Object,System.String@,System.String@,de.unika.ipd.grGen.libGr.IGraph)">
+            <summary>
+            Returns a string representation of the given scalar value
+            </summary>
+            <param name="value">The scalar value of which to get the string representation</param>
+            <param name="type">The type as string, e.g int,string,Foo </param>
+            <param name="content">The content as string, e.g. 42,"foo",bar } </param>
+            <param name="attrType">The attribute type of the value</param>
+        </member>
         <member name="M:de.unika.ipd.grGen.libGr.DictionaryHelper.IfAttributeOfElementIsDictionaryThenCloneDictionaryValue(de.unika.ipd.grGen.libGr.IGraphElement,System.String,System.Object,de.unika.ipd.grGen.libGr.AttributeType@)">
             <summary>
             If the attribute of the given name of the given element is a set or map attribute
             then return a clone of the given dictionary value, otherwise just return the original value;
             additionally returns the AttributeType of the attribute of the element.
             </summary>
+        </member>
+        <member name="M:de.unika.ipd.grGen.libGr.DictionaryHelper.ToString(System.Object,de.unika.ipd.grGen.libGr.IGraph)">
+            <summary>
+            Returns a string representation of the given scalar value
+            </summary>
+            <param name="value">The scalar of which to get the string representation</param>
+            <param name="graph">The graph with the model</param>
+            <returns>String representation of the scalar.</returns>
+        </member>
+        <member name="M:de.unika.ipd.grGen.libGr.DictionaryHelper.ToString(System.Object,de.unika.ipd.grGen.libGr.AttributeType)">
+            <summary>
+            Returns a string representation of the given scalar value
+            </summary>
+            <param name="value">The scalar of which to get the string representation</param>
+            <param name="attrType">The attribute type</param>
+            <returns>String representation of the scalar.</returns>
         </member>
         <member name="T:de.unika.ipd.grGen.libGr.sequenceParser.SimpleCharStream">
             <summary>

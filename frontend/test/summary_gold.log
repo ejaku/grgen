@@ -297,6 +297,7 @@ OK     should_pass/pattern_013.grg
 OK     should_pass/pattern_014.grg
 OK     should_pass/pattern_015.grg
 OK     should_pass/pattern_016.grg
+OK     should_pass/pieter.grg
 OK     should_pass/randompeek.grg
 OK     should_pass/ret_001.grg
 OK     should_pass/ret_002.grg
@@ -322,6 +323,8 @@ OK     should_pass/retype_013.grg
 OK     should_pass/retype_014.grg
 OK     should_pass/retype_015.grg
 OK     should_pass/retype_016.grg
+OK     should_pass/retype_017.grg
+OK     should_pass/retype_018.grg
 OK     should_pass/retype_101.grg
 OK     should_pass/retype_102.grg
 OK     should_pass/reuse_001.grg
@@ -333,6 +336,8 @@ OK     should_pass/reuse_006.grg
 OK     should_pass/reuse_007.grg
 OK     should_pass/reuse_008.grg
 OK     should_pass/same_node_name_as_model_name.grg
+OK     should_pass/sequence_nary_operators.grg
+OK     should_pass/sequence_some_from_set.grg
 OK     should_pass/set_001.grg
 OK     should_pass/set_002.grg
 OK     should_pass/set_003.grg
@@ -726,6 +731,10 @@ ERROR  should_fail/independent_001.grg
 ERROR  should_fail/independent_002.grg
 ERROR  should_fail/independent_003.grg
 ERROR  should_fail/independent_006.grg
+ERROR  should_fail/independent_007.grg
+ERROR  should_fail/independent_008.grg
+ERROR  should_fail/independent_009.grg
+ERROR  should_fail/independent_010.grg
 ERROR  should_fail/induced_001.grg
 ERROR  should_fail/induced_002.grg
 ERROR  should_fail/induced_003.grg
@@ -784,6 +793,10 @@ ERROR  should_fail/negative_001.grg
 ERROR  should_fail/negative_002.grg
 ERROR  should_fail/negative_003.grg
 ERROR  should_fail/negative_006.grg
+ERROR  should_fail/negative_007.grg
+ERROR  should_fail/negative_008.grg
+ERROR  should_fail/negative_009.grg
+ERROR  should_fail/negative_010.grg
 ERROR  should_fail/object_001.grg
 ERROR  should_fail/object_002.grg
 ERROR  should_fail/object_003.grg
@@ -872,6 +885,7 @@ ERROR  should_fail/retype_021.grg
 ERROR  should_fail/retype_022.grg
 ERROR  should_fail/retype_023.grg
 ERROR  should_fail/retype_024.grg
+ERROR  should_fail/retype_025.grg
 ERROR  should_fail/retype_101.grg
 ERROR  should_fail/retype_102.grg
 ERROR  should_fail/retype_103.grg

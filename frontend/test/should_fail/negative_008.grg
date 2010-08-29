@@ -1,0 +1,15 @@
+pattern p
+{
+    negative {
+        iterated {
+            n:Node;
+			
+            modify {
+            }
+        }
+    }
+
+    modify {
+	}
+}
+

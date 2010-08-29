@@ -2184,47 +2184,31 @@ namespace de.unika.ipd.grGen.grShell
             object val = GetVarValue(name);
             if (val != null)
             {
-                if (val.GetType() == typeof(int)) debugOut.WriteLine("The value of variable \"" + name + "\" of type int is: \"" + (int)val + "\"");
-                else if (val.GetType() == typeof(float)) debugOut.WriteLine("The value of variable \"" + name + "\" of type float is: \"" + (float)val + "\"");
-                else if (val.GetType() == typeof(double)) debugOut.WriteLine("The value of variable \"" + name + "\" of type double is: \"" + (double)val + "\"");
-                else if (val.GetType() == typeof(bool)) debugOut.WriteLine("The value of variable \"" + name + "\" of type bool is: \"" + (bool)val + "\"");
-                else if (val.GetType() == typeof(string)) debugOut.WriteLine("The value of variable \"" + name + "\" of type string is: \"" + (string)val + "\"");
-                else if (val.GetType().Name=="Dictionary`2")
+                string type;
+                string content;
+                if(val.GetType().Name=="Dictionary`2")
                 {
-                    string type;
-                    string content;
-                    DictionaryHelper.ToString((IDictionary)val, out type, out content);
+                    DictionaryHelper.ToString((IDictionary)val, out type, out content, curShellGraph!=null ? curShellGraph.Graph : null);
                     debugOut.WriteLine("The value of variable \"" + name + "\" of type " + type + " is: \"" + content + "\"");
                     return;
                 }
-                else if(GraphExists())
+                if(val is LGSPNode && GraphExists())
                 {
-                    foreach(EnumAttributeType enumAttrType in curShellGraph.Graph.Model.EnumAttributeTypes)
-                    {
-                        if(val.GetType() == enumAttrType.EnumType)
-                        {
-                            debugOut.WriteLine("The value of variable \"" + name + "\" of type " + enumAttrType.Name + " is: \"" + val.ToString() + "\"");
-                            return;
-                        }
-                    }
-                    if(val is LGSPNode)
-                    {
-                        LGSPNode node = (LGSPNode)val;
-                        debugOut.WriteLine("The value of variable \"" + name + "\" of type " + node.Type.Name + " is: \"" + curShellGraph.Graph.GetElementName((IGraphElement)val) + "\"");
-                        //ShowElementAttributes((IGraphElement)val);
-                        return;
-                    }
-                    if(val is LGSPEdge)
-                    {
-                        LGSPEdge edge = (LGSPEdge)val;
-                        debugOut.WriteLine("The value of variable \"" + name + "\" of type " + edge.Type.Name + " is: \"" + curShellGraph.Graph.GetElementName((IGraphElement)val) + "\"");
-                        //ShowElementAttributes((IGraphElement)val);
-                        return;
-                    }
-     
-                    errOut.WriteLine("Type of variable \"" + name + "\" is not known");
+                    LGSPNode node = (LGSPNode)val;
+                    debugOut.WriteLine("The value of variable \"" + name + "\" of type " + node.Type.Name + " is: \"" + curShellGraph.Graph.GetElementName((IGraphElement)val) + "\"");
+                    //ShowElementAttributes((IGraphElement)val);
+                    return;
                 }
-                else errOut.WriteLine("Type of variable \"" + name + "\" is not known");
+                if(val is LGSPEdge && GraphExists())
+                {
+                    LGSPEdge edge = (LGSPEdge)val;
+                    debugOut.WriteLine("The value of variable \"" + name + "\" of type " + edge.Type.Name + " is: \"" + curShellGraph.Graph.GetElementName((IGraphElement)val) + "\"");
+                    //ShowElementAttributes((IGraphElement)val);
+                    return;
+                }
+                DictionaryHelper.ToString(val, out type, out content, curShellGraph!=null ? curShellGraph.Graph : null);
+                debugOut.WriteLine("The value of variable \"" + name + "\" of type " + type + " is: \"" + content + "\"");
+                return;
             }
         }
 

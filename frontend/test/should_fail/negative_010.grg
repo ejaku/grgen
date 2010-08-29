@@ -1,0 +1,20 @@
+pattern p
+{
+	negative {
+        alternative {
+			One {
+				.;
+				modify {
+				}
+			}
+			Two {
+				. -- .;
+				modify {
+				}
+			}
+        }
+	}
+	
+	replace {
+	}
+}

@@ -1,0 +1,20 @@
+rule r
+{
+	independent {
+        alternative {
+			One {
+				.;
+				modify {
+				}
+			}
+			Two {
+				. -- .;
+				modify {
+				}
+			}
+        }
+	}
+	
+	replace {
+	}
+}
