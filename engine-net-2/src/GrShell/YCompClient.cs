@@ -319,97 +319,6 @@ namespace de.unika.ipd.grGen.grShell
             return ycompStream.Read();
         }
 
-        String GetNodeRealizer(GrColor nodeColor, GrColor borderColor, GrColor textColor, GrNodeShape shape)
-        {
-            NodeRealizer newNr = new NodeRealizer("nr" + nextNodeRealizerID, nodeColor, borderColor, textColor, shape);
-
-            NodeRealizer nr;
-            if (!nodeRealizers.TryGetValue(newNr, out nr))
-            {
-                ycompStream.Write("addNodeRealizer \"" + newNr.Name + "\" \""
-                    + VCGDumper.GetColor(borderColor) + "\" \""
-                    + VCGDumper.GetColor(nodeColor) + "\" \""
-                    + VCGDumper.GetColor(textColor) + "\" \""
-                    + VCGDumper.GetNodeShape(shape) + "\"\n");
-                nodeRealizers.Add(newNr, newNr);
-                nextNodeRealizerID++;
-                nr = newNr;
-            }
-            return nr.Name;
-        }
-
-        String GetNodeRealizer(NodeType type)
-        {
-            return GetNodeRealizer(dumpInfo.GetNodeTypeColor(type), dumpInfo.GetNodeTypeBorderColor(type),
-                dumpInfo.GetNodeTypeTextColor(type), dumpInfo.GetNodeTypeShape(type));
-        }
-
-        String GetEdgeRealizer(GrColor edgeColor, GrColor textColor, int lineWidth, GrLineStyle lineStyle)
-        {
-            EdgeRealizer newEr = new EdgeRealizer("er" + nextEdgeRealizerID, edgeColor, textColor, lineWidth, lineStyle);
-
-            EdgeRealizer er;
-            if(!edgeRealizers.TryGetValue(newEr, out er))
-            {
-                ycompStream.Write("addEdgeRealizer \"" + newEr.Name + "\" \""
-                    + VCGDumper.GetColor(newEr.Color) + "\" \""
-                    + VCGDumper.GetColor(newEr.TextColor) + "\" \""
-                    + lineWidth + "\" \"continuous\"\n");
-                edgeRealizers.Add(newEr, newEr);
-                nextEdgeRealizerID++;
-                er = newEr;
-            }
-            return er.Name;
-        }
-
-        String GetEdgeRealizer(EdgeType type)
-        {
-            return GetEdgeRealizer(dumpInfo.GetEdgeTypeColor(type), dumpInfo.GetEdgeTypeTextColor(type), 1, GrLineStyle.Solid);
-        }
-
-        void OnNodeTypeAppearanceChanged(NodeType type)
-        {
-            if(dumpInfo.IsExcludedNodeType(type)) return;
-
-            String nr = GetNodeRealizer(type);
-            foreach(INode node in graph.GetExactNodes(type))
-                ChangeNode(node, nr);
-            isDirty = true;
-        }
-
-        void OnEdgeTypeAppearanceChanged(EdgeType type)
-        {
-            if(dumpInfo.IsExcludedEdgeType(type)) return;
-
-            String er = GetEdgeRealizer(type);
-            foreach(IEdge edge in graph.GetExactEdges(type))
-                ChangeEdge(edge, er);
-            isDirty = true;
-        }
-
-        void OnTypeInfotagsChanged(GrGenType type)
-        {
-            if(type.IsNodeType)
-            {
-                if(dumpInfo.IsExcludedNodeType((NodeType) type)) return;
-
-                foreach(INode node in graph.GetExactNodes((NodeType) type))
-                    ycompStream.Write("setNodeLabel \"n" + dumpInfo.GetElementName(node) + "\" \"" + GetElemLabel(node) + "\"\n");
-            }
-            else
-            {
-                if(dumpInfo.IsExcludedEdgeType((EdgeType) type)) return;
-
-                foreach(IEdge edge in graph.GetExactEdges((EdgeType) type))
-                {
-                    if(IsEdgeExcluded(edge)) return; // additionally checks incident nodes 
-
-                    ycompStream.Write("setEdgeLabel \"e" + dumpInfo.GetElementName(edge) + "\" \"" + GetElemLabel(edge) + "\"\n");
-                }
-            }
-            isDirty = true;
-        }
-
         /// <summary>
         /// Sets the current layouter of yComp
         /// </summary>
@@ -500,86 +409,6 @@ namespace de.unika.ipd.grGen.grShell
             return ycompStream.Read() == "sync\n";
         }
 
-        private String Encode(String str)
-        {
-            if(str == null) return "";
-
-            StringBuilder sb = new StringBuilder(str);
-            sb.Replace("  ", " &nbsp;");
-            sb.Replace("\n", "\\n");
-            sb.Replace("\"", "&quot;");
-            return sb.ToString();
-        }
-
-        private String GetElemLabel(IGraphElement elem)
-        {
-            List<InfoTag> infoTagTypes = dumpInfo.GetTypeInfoTags(elem.Type);
-            String label = dumpInfo.GetElemTypeLabel(elem.Type);
-            bool first = true;
-
-            if(label == null)
-            {
-                label = dumpInfo.GetElementName(elem) + ":" + elem.Type.Name;
-                first = false;
-            }
-
-            if(infoTagTypes != null)
-            {
-                foreach(InfoTag infoTag in infoTagTypes)
-                {
-                    string attrTypeString;
-                    string attrValueString;
-                    EncodeAttr(infoTag.AttributeType, elem, out attrTypeString, out attrValueString);
-
-                    if(!first) label += "\\n";
-                    else first = false;
-
-                    if(!infoTag.ShortInfoTag)
-                        label += infoTag.AttributeType.Name + " = ";
-                    label += attrValueString;
-                }
-            }
-
-            return label;
-        }
-
-        private String GetElemLabelWithChangedAttr(IGraphElement elem, AttributeType changedAttrType, String newValue)
-        {
-            List<InfoTag> infoTagTypes = dumpInfo.GetTypeInfoTags(elem.Type);
-            String label = dumpInfo.GetElemTypeLabel(elem.Type);
-            bool first = true;
-
-            if(label == null)
-            {
-                label = dumpInfo.GetElementName(elem) + ":" + elem.Type.Name;
-                first = false;
-            }
-
-            if(infoTagTypes != null)
-            {
-                foreach(InfoTag infoTag in infoTagTypes)
-                {
-                    string attrValueString;
-
-                    if (infoTag.AttributeType == changedAttrType) {
-                        attrValueString = newValue;
-                    } else {
-                        string attrTypeString;
-                        EncodeAttr(infoTag.AttributeType, elem, out attrTypeString, out attrValueString);
-                    }
-
-                    if(!first) label += "\\n";
-                    else first = false;
-
-                    if(!infoTag.ShortInfoTag)
-                        label += infoTag.AttributeType.Name + " = ";
-                    label += attrValueString;
-                }
-            }
-
-            return label;
-        }
-
         public void AddNode(INode node)
         {
             if(IsNodeExcluded(node)) return;
@@ -663,30 +492,6 @@ namespace de.unika.ipd.grGen.grShell
             isLayoutDirty = true;
         }
 
-        private bool TryGroupNode(INode groupNode, IEdge edge, String srcName, String tgtName,
-            GroupNodeType srcGroupNodeType, GroupNodeType tgtGroupNodeType, ref GroupMode grpMode)
-        {
-            if(groupNode == edge.Target)
-            {
-                grpMode = tgtGroupNodeType.GetEdgeGroupMode(edge.Type, edge.Source.Type);
-                if((grpMode & GroupMode.GroupIncomingNodes) != 0)
-                {
-                    ycompStream.Write("moveNode \"n" + srcName + "\" \"n" + tgtName + "\"\n");
-                    return true;
-                }
-            }
-            else if(groupNode == edge.Source)
-            {
-                grpMode = srcGroupNodeType.GetEdgeGroupMode(edge.Type, edge.Target.Type);
-                if((grpMode & GroupMode.GroupOutgoingNodes) != 0)
-                {
-                    ycompStream.Write("moveNode \"n" + tgtName + "\" \"n" + srcName + "\"\n");
-                    return true;
-                }
-            }
-            return false;
-        }
-
         /// <summary>
         /// Annotates the given element with the given string in double angle brackets
         /// </summary>
@@ -738,35 +543,6 @@ namespace de.unika.ipd.grGen.grShell
             String name = graph.GetElementName(edge);
             ycompStream.Write("changeEdge \"e" + name + "\" \"" + realizer + "\"\n");
             isDirty = true;
-        }
-
-        void EncodeAttr(AttributeType attrType, IGraphElement elem, out String attrTypeString, out String attrValueString)
-        {
-            if (attrType.Kind == AttributeKind.SetAttr || attrType.Kind == AttributeKind.MapAttr)
-            {
-                DictionaryHelper.ToString((IDictionary)elem.GetAttribute(attrType.Name), out attrTypeString, out attrValueString, attrType);
-                attrValueString = Encode(attrValueString);
-            }
-            else
-            {
-                DictionaryHelper.ToString(elem.GetAttribute(attrType.Name), out attrTypeString, out attrValueString, attrType); 
-                attrValueString = Encode(attrValueString);
-            }
-        }
-
-        void EncodeAttr(AttributeType attrType, IGraphElement elem, AttributeChangeType changeType, Object newValue, Object keyValue,
-            out String attrTypeString, out String attrValueString)
-        {
-            if (attrType.Kind == AttributeKind.SetAttr || attrType.Kind == AttributeKind.MapAttr)
-            {
-                DictionaryHelper.ToString((IDictionary)elem.GetAttribute(attrType.Name), changeType, newValue, keyValue, out attrTypeString, out attrValueString, attrType);
-                attrValueString = Encode(attrValueString);
-            }
-            else
-            {
-                DictionaryHelper.ToString(newValue, out attrTypeString, out attrValueString, attrType);
-                attrValueString = Encode(attrValueString);
-            }
         }
 
         public void ChangeNodeAttribute(INode node, AttributeType attrType,
@@ -941,6 +717,230 @@ namespace de.unika.ipd.grGen.grShell
 
             dumpInfo.OnNodeTypeAppearanceChanged -= new NodeTypeAppearanceChangedHandler(OnNodeTypeAppearanceChanged);
             dumpInfo.OnEdgeTypeAppearanceChanged -= new EdgeTypeAppearanceChangedHandler(OnEdgeTypeAppearanceChanged);
+        }
+
+        void OnNodeTypeAppearanceChanged(NodeType type)
+        {
+            if(dumpInfo.IsExcludedNodeType(type)) return;
+
+            String nr = GetNodeRealizer(type);
+            foreach(INode node in graph.GetExactNodes(type))
+                ChangeNode(node, nr);
+            isDirty = true;
+        }
+
+        void OnEdgeTypeAppearanceChanged(EdgeType type)
+        {
+            if(dumpInfo.IsExcludedEdgeType(type)) return;
+
+            String er = GetEdgeRealizer(type);
+            foreach(IEdge edge in graph.GetExactEdges(type))
+                ChangeEdge(edge, er);
+            isDirty = true;
+        }
+
+        void OnTypeInfotagsChanged(GrGenType type)
+        {
+            if(type.IsNodeType)
+            {
+                if(dumpInfo.IsExcludedNodeType((NodeType) type)) return;
+
+                foreach(INode node in graph.GetExactNodes((NodeType) type))
+                    ycompStream.Write("setNodeLabel \"n" + dumpInfo.GetElementName(node) + "\" \"" + GetElemLabel(node) + "\"\n");
+            }
+            else
+            {
+                if(dumpInfo.IsExcludedEdgeType((EdgeType) type)) return;
+
+                foreach(IEdge edge in graph.GetExactEdges((EdgeType) type))
+                {
+                    if(IsEdgeExcluded(edge)) return; // additionally checks incident nodes 
+
+                    ycompStream.Write("setEdgeLabel \"e" + dumpInfo.GetElementName(edge) + "\" \"" + GetElemLabel(edge) + "\"\n");
+                }
+            }
+            isDirty = true;
+        }
+
+        private bool TryGroupNode(INode groupNode, IEdge edge, String srcName, String tgtName,
+            GroupNodeType srcGroupNodeType, GroupNodeType tgtGroupNodeType, ref GroupMode grpMode)
+        {
+            if(groupNode == edge.Target)
+            {
+                grpMode = tgtGroupNodeType.GetEdgeGroupMode(edge.Type, edge.Source.Type);
+                if((grpMode & GroupMode.GroupIncomingNodes) != 0)
+                {
+                    ycompStream.Write("moveNode \"n" + srcName + "\" \"n" + tgtName + "\"\n");
+                    return true;
+                }
+            }
+            else if(groupNode == edge.Source)
+            {
+                grpMode = srcGroupNodeType.GetEdgeGroupMode(edge.Type, edge.Target.Type);
+                if((grpMode & GroupMode.GroupOutgoingNodes) != 0)
+                {
+                    ycompStream.Write("moveNode \"n" + tgtName + "\" \"n" + srcName + "\"\n");
+                    return true;
+                }
+            }
+            return false;
+        }
+
+        private String GetElemLabel(IGraphElement elem)
+        {
+            List<InfoTag> infoTagTypes = dumpInfo.GetTypeInfoTags(elem.Type);
+            String label = dumpInfo.GetElemTypeLabel(elem.Type);
+            bool first = true;
+
+            if(label == null)
+            {
+                label = dumpInfo.GetElementName(elem) + ":" + elem.Type.Name;
+                first = false;
+            }
+
+            if(infoTagTypes != null)
+            {
+                foreach(InfoTag infoTag in infoTagTypes)
+                {
+                    string attrTypeString;
+                    string attrValueString;
+                    EncodeAttr(infoTag.AttributeType, elem, out attrTypeString, out attrValueString);
+
+                    if(!first) label += "\\n";
+                    else first = false;
+
+                    if(!infoTag.ShortInfoTag)
+                        label += infoTag.AttributeType.Name + " = ";
+                    label += attrValueString;
+                }
+            }
+
+            return label;
+        }
+
+        private String GetElemLabelWithChangedAttr(IGraphElement elem, AttributeType changedAttrType, String newValue)
+        {
+            List<InfoTag> infoTagTypes = dumpInfo.GetTypeInfoTags(elem.Type);
+            String label = dumpInfo.GetElemTypeLabel(elem.Type);
+            bool first = true;
+
+            if(label == null)
+            {
+                label = dumpInfo.GetElementName(elem) + ":" + elem.Type.Name;
+                first = false;
+            }
+
+            if(infoTagTypes != null)
+            {
+                foreach(InfoTag infoTag in infoTagTypes)
+                {
+                    string attrValueString;
+
+                    if (infoTag.AttributeType == changedAttrType) {
+                        attrValueString = newValue;
+                    } else {
+                        string attrTypeString;
+                        EncodeAttr(infoTag.AttributeType, elem, out attrTypeString, out attrValueString);
+                    }
+
+                    if(!first) label += "\\n";
+                    else first = false;
+
+                    if(!infoTag.ShortInfoTag)
+                        label += infoTag.AttributeType.Name + " = ";
+                    label += attrValueString;
+                }
+            }
+
+            return label;
+        }
+
+        private void EncodeAttr(AttributeType attrType, IGraphElement elem, out String attrTypeString, out String attrValueString)
+        {
+            if (attrType.Kind == AttributeKind.SetAttr || attrType.Kind == AttributeKind.MapAttr)
+            {
+                DictionaryHelper.ToString((IDictionary)elem.GetAttribute(attrType.Name), out attrTypeString, out attrValueString, attrType);
+                attrValueString = Encode(attrValueString);
+            }
+            else
+            {
+                DictionaryHelper.ToString(elem.GetAttribute(attrType.Name), out attrTypeString, out attrValueString, attrType); 
+                attrValueString = Encode(attrValueString);
+            }
+        }
+
+        private void EncodeAttr(AttributeType attrType, IGraphElement elem, AttributeChangeType changeType, Object newValue, Object keyValue,
+            out String attrTypeString, out String attrValueString)
+        {
+            if (attrType.Kind == AttributeKind.SetAttr || attrType.Kind == AttributeKind.MapAttr)
+            {
+                DictionaryHelper.ToString((IDictionary)elem.GetAttribute(attrType.Name), changeType, newValue, keyValue, out attrTypeString, out attrValueString, attrType);
+                attrValueString = Encode(attrValueString);
+            }
+            else
+            {
+                DictionaryHelper.ToString(newValue, out attrTypeString, out attrValueString, attrType);
+                attrValueString = Encode(attrValueString);
+            }
+        }
+
+        private String Encode(String str)
+        {
+            if(str == null) return "";
+
+            StringBuilder sb = new StringBuilder(str);
+            sb.Replace("  ", " &nbsp;");
+            sb.Replace("\n", "\\n");
+            sb.Replace("\"", "&quot;");
+            return sb.ToString();
+        }
+
+        private String GetNodeRealizer(NodeType type)
+        {
+            return GetNodeRealizer(dumpInfo.GetNodeTypeColor(type), dumpInfo.GetNodeTypeBorderColor(type),
+                dumpInfo.GetNodeTypeTextColor(type), dumpInfo.GetNodeTypeShape(type));
+        }
+
+        private String GetEdgeRealizer(EdgeType type)
+        {
+            return GetEdgeRealizer(dumpInfo.GetEdgeTypeColor(type), dumpInfo.GetEdgeTypeTextColor(type), 1, GrLineStyle.Solid);
+        }
+
+        private String GetNodeRealizer(GrColor nodeColor, GrColor borderColor, GrColor textColor, GrNodeShape shape)
+        {
+            NodeRealizer newNr = new NodeRealizer("nr" + nextNodeRealizerID, nodeColor, borderColor, textColor, shape);
+
+            NodeRealizer nr;
+            if (!nodeRealizers.TryGetValue(newNr, out nr))
+            {
+                ycompStream.Write("addNodeRealizer \"" + newNr.Name + "\" \""
+                    + VCGDumper.GetColor(borderColor) + "\" \""
+                    + VCGDumper.GetColor(nodeColor) + "\" \""
+                    + VCGDumper.GetColor(textColor) + "\" \""
+                    + VCGDumper.GetNodeShape(shape) + "\"\n");
+                nodeRealizers.Add(newNr, newNr);
+                nextNodeRealizerID++;
+                nr = newNr;
+            }
+            return nr.Name;
+        }
+
+        private String GetEdgeRealizer(GrColor edgeColor, GrColor textColor, int lineWidth, GrLineStyle lineStyle)
+        {
+            EdgeRealizer newEr = new EdgeRealizer("er" + nextEdgeRealizerID, edgeColor, textColor, lineWidth, lineStyle);
+
+            EdgeRealizer er;
+            if (!edgeRealizers.TryGetValue(newEr, out er))
+            {
+                ycompStream.Write("addEdgeRealizer \"" + newEr.Name + "\" \""
+                    + VCGDumper.GetColor(newEr.Color) + "\" \""
+                    + VCGDumper.GetColor(newEr.TextColor) + "\" \""
+                    + lineWidth + "\" \"continuous\"\n");
+                edgeRealizers.Add(newEr, newEr);
+                nextEdgeRealizerID++;
+                er = newEr;
+            }
+            return er.Name;
         }
 
         bool IsEdgeExcluded(IEdge edge)

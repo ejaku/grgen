@@ -398,7 +398,7 @@ namespace de.unika.ipd.grGen.libGr
     /// <summary>
     /// A description of a GrGen enum member.
     /// </summary>
-    public class EnumMember
+    public class EnumMember : IComparable<EnumMember>
     {
         /// <summary>
         /// The integer value of the enum member.
@@ -419,6 +419,16 @@ namespace de.unika.ipd.grGen.libGr
         {
             Value = value;
             Name = name;
+        }
+
+        /// <summary>
+        /// Defines order on enum members along the values (NOT the names)
+        /// </summary>
+        public int CompareTo(EnumMember other)
+        {
+            if (Value > other.Value) return 1;
+            else if (Value < other.Value) return -1;
+            else return 0;
         }
     }
 
@@ -450,6 +460,7 @@ namespace de.unika.ipd.grGen.libGr
             Name = name;
             EnumType = enumType;
             members = memberArray;
+            Array.Sort<EnumMember>(members); // ensure the ordering needed for the binary search of the [] operator
         }
 
         /// <summary>

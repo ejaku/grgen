@@ -589,6 +589,7 @@ namespace de.unika.ipd.grGen.lgsp
             {
                 compParams.GenerateInMemory = true;
                 compParams.CompilerOptions = "/optimize /d:INITIAL_WARMUP";
+                compParams.TreatWarningsAsErrors = false;
 
                 CompilerResults compResultsWarmup;
                 try
@@ -844,6 +845,7 @@ namespace de.unika.ipd.grGen.lgsp
             compParams.GenerateInMemory = false;
             compParams.IncludeDebugInformation = (flags & ProcessSpecFlags.CompileWithDebug) != 0;
             compParams.CompilerOptions = (flags & ProcessSpecFlags.CompileWithDebug) != 0 ? "/debug" : "/optimize";
+            compParams.TreatWarningsAsErrors = false;
             compParams.OutputAssembly = destDir + "lgsp-" + actionsName + ".dll";
 
             CompilerResults compResults;
