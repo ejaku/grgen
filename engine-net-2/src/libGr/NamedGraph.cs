@@ -51,13 +51,12 @@ namespace de.unika.ipd.grGen.libGr
         }
 
         /// <summary>
-        /// returns the maybe user altered rule to execute next for the sequence given
-        /// the randomly chosen rule is supplied; the object with all available rules is supplied
-        /// a list of all found matches is supplied, too
+        /// returns the maybe user altered match to execute next for the sequence given
+        /// the randomly chosen total match is supplied; the sequence with the rules and matches is supplied
         /// </summary>
-        public int ChooseRule(int ruleToExecute, List<Sequence> rules, List<IMatches> matches, SequenceNAry seq)
+        public int ChooseMatch(int totalMatchExecute, SequenceSomeFromSet seq)
         {
-            return ruleToExecute;
+            return totalMatchExecute;
         }
 
         /// <summary>
@@ -85,6 +84,13 @@ namespace de.unika.ipd.grGen.libGr
         public object ChooseValue(string type, Sequence seq)
         {
             return null;
+        }
+
+        /// <summary>
+        /// informs debugger about the end of a loop iteration, so it can display the state at the end of the iteration
+        /// </summary>
+        public void EndOfIteration(bool continueLoop, SequenceUnary seq)
+        {
         }
     }
 

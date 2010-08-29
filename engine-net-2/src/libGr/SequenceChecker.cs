@@ -69,16 +69,23 @@ namespace de.unika.ipd.grGen.libGr
             }
 
             case SequenceType.LazyOrAll:
-            case SequenceType.LazyOrAllAll:
             case SequenceType.LazyAndAll:
-            case SequenceType.LazyAndAllAll:
             case SequenceType.StrictOrAll:
-            case SequenceType.StrictOrAllAll:
             case SequenceType.StrictAndAll:
-            case SequenceType.StrictAndAllAll:
             {
                 foreach(Sequence seqChild in seq.Children)
                     Check(seqChild);
+                break;
+            }
+
+            case SequenceType.SomeFromSet:
+            {
+                foreach (Sequence seqChild in seq.Children)
+                {
+                    Check(seqChild);
+                    if (seqChild is SequenceRuleAll && ((SequenceRuleAll)seqChild).VarChooseRandom != null)
+                        throw new Exception("Sequence SomeFromSet (e.g. {r1,[r2],$[r3]}) can't contain a select with variable from all construct (e.g. $v[r4])");
+                }
                 break;
             }
 

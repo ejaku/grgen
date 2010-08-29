@@ -1348,10 +1348,9 @@ simpleSequence[ExecNode xg]
 	| FALSE { xg.append("false"); }
 	| DOLLAR { xg.append("$"); } ( MOD { xg.append("\%"); } )? 
 		(LOR { xg.append("||"); } | LAND { xg.append("&&"); } | BOR { xg.append("|"); } | BAND { xg.append("&"); }) 
-		( LPAREN { xg.append("("); } xgrs[xg] (COMMA { xg.append(","); } xgrs[xg])* RPAREN { xg.append(")"); }
-		| l=LBRACK parallelCallRule[xg, returns] (COMMA parallelCallRule[xg, returns])* RBRACK
-			{ reportError(getCoords(l), "the $||[], $&&[], $|[], $&[] constructs are only available in the interpreted sequences, not at compiled lgsp level"); }
-		)
+		LPAREN { xg.append("("); } xgrs[xg] (COMMA { xg.append(","); } xgrs[xg])* RPAREN { xg.append(")"); }
+	| ( DOLLAR { xg.append("$"); } ( MOD { xg.append("\%"); } )? )?
+		LBRACE { xg.append("{"); } parallelCallRule[xg, returns] (COMMA { xg.append(","); returns = new CollectNode<BaseNode>(); } parallelCallRule[xg, returns])* RBRACE { xg.append("}"); }
 	| LPAREN { xg.append("("); } xgrs[xg] RPAREN { xg.append(")"); }
 	| LT { xg.append("<"); } xgrs[xg] GT { xg.append(">"); }
 	| IF l=LBRACE pushScopeStr["if/exec", getCoords(l)] { xg.append("if{"); } xgrs[xg] s=SEMI 

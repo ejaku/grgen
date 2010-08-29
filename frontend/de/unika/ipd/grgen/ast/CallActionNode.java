@@ -227,7 +227,7 @@ public class CallActionNode extends BaseNode {
 	private boolean checkParams(Collection<? extends DeclNode> formalParams, Collection<? extends ExprNode> actualParams) {
 		boolean res = true;
 		if(formalParams.size() != actualParams.size()) {
-			error.error(getCoords(), "Formal and actual parameter(s) of action " + this.getUseString()
+			error.error(getCoords(), "Formal and actual parameter(s) of action " + actionUnresolved.toString()
 					+ " mismatch in number (" + formalParams.size() + " vs. " + actualParams.size() +")");
 			res = false;
 		} else if(actualParams.size() > 0) {
@@ -321,9 +321,9 @@ public class CallActionNode extends BaseNode {
 		boolean res = true;
 		// It is ok to have no actual returns, but if there are some, then they have to fit.
 		if(actualReturns.children.size() > 0 && formalReturns.children.size() != actualReturns.children.size()) {
-			error.error(getCoords(), "Formal and actual return-parameter(s) of action " + this.getUseString()
-					+ " mismatch in number (" + formalReturns.children.size()
-					+ " vs. " + actualReturns.children.size() +")");
+			error.error(getCoords(), "Formal and actual return-parameter(s) of action " + actionUnresolved.toString()
+					+ " mismatch in number (formal:" + formalReturns.children.size()
+					+ " vs. actual:" + actualReturns.children.size() +")");
 			res = false;
 		} else if(actualReturns.children.size() > 0) {
 			Iterator<ExecVarDeclNode> iterAR = actualReturns.getChildren().iterator();
@@ -351,7 +351,7 @@ public class CallActionNode extends BaseNode {
 				if(incommensurable) {
 					reportError("Actual return type \"" + actualReturnType
 							+ "\" and formal return type \"" + formalReturnType
-							+ "\" are incommensurable.");
+							+ "\" of action " + actionUnresolved.toString() + " are incommensurable.");
 					res = false;
 				}
 
@@ -360,7 +360,7 @@ public class CallActionNode extends BaseNode {
 					InheritanceType art = (InheritanceType)actualReturnType;
 					if(!frt.isCastableTo(art)) {
 						reportError("Instances of formal return type \"" + formalReturnType + "\" cannot be assigned to a variable \"" +
-										actualReturn + "\" of type \"" + actualReturnType +  "\".");
+										actualReturn + "\" of type \"" + actualReturnType +  "\" (action " + actionUnresolved.toString() + ").");
 						res = false;
 					}
 				}

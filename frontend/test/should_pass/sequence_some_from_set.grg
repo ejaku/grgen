@@ -1,0 +1,44 @@
+rule r1 : (Node)
+{
+	modify {	
+		n:Node;
+		return(n);
+	}
+}
+
+rule r2
+{
+	modify {
+	}
+}
+
+rule r3(n:Node)
+{
+	modify {
+	}
+}
+
+rule r4(n:Node, m:Node) : (Node, Node)
+{
+	modify {
+		return(m, n);
+	}
+}
+
+rule some_of
+{
+	n:Node;
+	
+	modify {
+		exec( {(m)=r1, [r2], r3(n), (l,m)=$[r4(n,m)]} );
+	}
+}
+
+rule one_of
+{
+	n:Node;
+	
+	modify {
+		exec( ${(m)=r1, [r2], r3(n), (l,m)=$[r4(n,m)]} );
+	}
+}

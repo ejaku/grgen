@@ -101,6 +101,17 @@ namespace de.unika.ipd.grGen.lgsp
                 break;
             }
 
+            case SequenceType.SomeFromSet:
+            {
+                foreach(Sequence seqChild in seq.Children)
+                {
+                    Check(seqChild);
+                    if(seqChild is SequenceRuleAll && ((SequenceRuleAll)seqChild).VarChooseRandom!=null)
+                        throw new Exception("Sequence SomeFromSet (e.g. {r1,[r2],$[r3]}) can't contain a select with variable from all construct (e.g. $v[r4])");
+                }
+                break;
+            }
+
             case SequenceType.RuleAll:
             case SequenceType.Rule:
             {

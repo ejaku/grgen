@@ -347,31 +347,7 @@ namespace de.unika.ipd.grGen.lgsp
         {
             RuleInvocationParameterBindings paramBindings = seqRule.ParamBindings;
             String specialStr = seqRule.Special ? "true" : "false";
-            int paramLen = paramBindings.ParamVars.Length;
-            String parameters = "";
-            for(int i = 0; i < paramLen; i++)
-            {
-                if(paramBindings.ParamVars[i] != null)
-                {
-                    String cast = "(" + TypesHelper.XgrsTypeToCSharpType(rulesToInputTypes[seqRule.ParamBindings.RuleName][i], model) + ")";
-                    parameters += ", " + cast + GetVar(paramBindings.ParamVars[i]);
-                }
-                else
-                {
-                    object arg = paramBindings.Parameters[i];
-                    if(arg is bool)
-                        parameters += ", " + ((bool)arg ? "true" : "false");
-                    else if(arg is string)
-                        parameters += ", \"" + (string)arg + "\"";
-                    else if(arg is float)
-                        parameters += "," + ((float)arg).ToString(System.Globalization.CultureInfo.InvariantCulture) + "f";
-                    else if(arg is double)
-                        parameters += "," + ((double)arg).ToString(System.Globalization.CultureInfo.InvariantCulture);
-                    else // e.g. int
-                        parameters += "," + arg.ToString();
-                    // TODO: abolish constants as parameters or extend to set/map?
-                }
-            }
+            String parameters = BuildParameters(seqRule, paramBindings);
             String matchingPatternClassName = "Rule_" + paramBindings.RuleName;
             String patternName = paramBindings.RuleName;
             String matchType = matchingPatternClassName + "." + NamesOfEntities.MatchInterfaceName(patternName);
@@ -393,20 +369,10 @@ namespace de.unika.ipd.grGen.lgsp
                 source.AppendFront("if(graph.PerformanceInfo!=null) graph.PerformanceInfo.MatchesFound += " + matchesName + ".Count;\n");
             if(gen.FireEvents) source.AppendFront("graph.Finishing(" + matchesName + ", " + specialStr + ");\n");
 
-            // can't use the normal xgrs variables for return value receiving as the type of an out-parameter must be invariant
-            // this is bullshit, as it is perfectly safe to assign a subtype to a variable of a supertype
-            // so we create temporary variables of exact type, which are used to receive the return values, 
-            // and finally we assign these temporary variables to the real xgrs variables
-            String returnParameterDeclarations = "";
-            String returnArguments = "";
-            String returnAssignments = "";
-            for(int i = 0; i < paramBindings.ReturnVars.Length; i++)
-            {
-                String varName = paramBindings.ReturnVars[i].Prefix + paramBindings.ReturnVars[i].Name;
-                returnParameterDeclarations += TypesHelper.XgrsTypeToCSharpType(rulesToOutputTypes[paramBindings.RuleName][i], model) + " tmpvar_" + varName + "; ";
-                returnArguments += ", out tmpvar_" + varName;
-                returnAssignments += SetVar(paramBindings.ReturnVars[i], "tmpvar_" + varName);
-            }
+            String returnParameterDeclarations;
+            String returnArguments;
+            String returnAssignments;
+            BuildReturnParameters(paramBindings, out returnParameterDeclarations, out returnArguments, out returnAssignments);
 
             if(seqRule.SequenceType == SequenceType.Rule)
             {
@@ -414,47 +380,41 @@ namespace de.unika.ipd.grGen.lgsp
                 if(returnParameterDeclarations.Length!=0) source.AppendFront(returnParameterDeclarations + "\n");
                 source.AppendFront("rule_" + paramBindings.RuleName + ".Modify(graph, " + matchName + returnArguments + ");\n");
                 if(returnAssignments.Length != 0) source.AppendFront(returnAssignments + "\n");
-                if(gen.UsePerfInfo)
-                    source.AppendFront("if(graph.PerformanceInfo != null) graph.PerformanceInfo.RewritesPerformed++;\n");
+                if(gen.UsePerfInfo) source.AppendFront("if(graph.PerformanceInfo != null) graph.PerformanceInfo.RewritesPerformed++;\n");
             }
-            else // seq.SequenceType == SequenceType.RuleAll
+            else if(!((SequenceRuleAll)seqRule).ChooseRandom) // seq.SequenceType == SequenceType.RuleAll
             {
-                if(!((SequenceRuleAll)seqRule).ChooseRandom)
-                {
-                    // iterate through matches, use Modify on each, fire the next match event after the first
-                    String enumeratorName = "enum_" + seqRule.Id;
-                    source.AppendFront("IEnumerator<" + matchType + "> " + enumeratorName + " = " + matchesName + ".GetEnumeratorExact();\n");
-                    source.AppendFront("while(" + enumeratorName + ".MoveNext())\n");
-                    source.AppendFront("{\n");
-                    source.Indent();
-                    source.AppendFront(matchType + " " + matchName + " = " + enumeratorName + ".Current;\n");
-                    if(returnParameterDeclarations.Length != 0) source.AppendFront(returnParameterDeclarations + "\n");
-                    source.AppendFront("rule_" + paramBindings.RuleName + ".Modify(graph, " + matchName + returnArguments + ");\n");
-                    if(returnAssignments.Length != 0) source.AppendFront(returnAssignments + "\n");
-                    source.AppendFront("if(" + matchName + "!=" + matchesName + ".FirstExact) graph.RewritingNextMatch();\n");
-                    if(gen.UsePerfInfo)
-                        source.AppendFront("if(graph.PerformanceInfo!=null) graph.PerformanceInfo.RewritesPerformed++;\n");
-                    source.Unindent();
-                    source.AppendFront("}\n");
-                }
-                else
-                {
-                    // as long as a further rewrite has to be selected: randomly choose next match, rewrite it and remove it from available matches; fire the next match event after the first
-                    source.AppendFrontFormat("int numchooserandomvar_{0} = (int){1};\n", seqRule.Id, ((SequenceRuleAll)seqRule).VarChooseRandom!=null ? GetVar(((SequenceRuleAll)seqRule).VarChooseRandom) : "1");
-                    source.AppendFrontFormat("if({0}.Count < numchooserandomvar_{1}) numchooserandomvar_{1} = {0}.Count;\n", matchesName, seqRule.Id);
-                    source.AppendFrontFormat("for(int i = 0; i < numchooserandomvar_{0}; ++i)\n", seqRule.Id);
-                    source.AppendFront("{\n");
-                    source.Indent();
-                    source.AppendFront("if(i != 0) graph.RewritingNextMatch();\n");
-                    source.AppendFront(matchType + " " + matchName + " = " + matchesName + ".RemoveMatchExact(GRGEN_LIBGR.Sequence.randomGenerator.Next(" + matchesName + ".Count));\n");
-                    if(returnParameterDeclarations.Length != 0) source.AppendFront(returnParameterDeclarations + "\n");
-                    source.AppendFront("rule_" + paramBindings.RuleName + ".Modify(graph, " + matchName + returnArguments + ");\n");
-                    if(returnAssignments.Length != 0) source.AppendFront(returnAssignments + "\n");
-                    if(gen.UsePerfInfo)
-                        source.AppendFront("if(graph.PerformanceInfo!=null) graph.PerformanceInfo.RewritesPerformed++;\n");
-                    source.Unindent();
-                    source.AppendFront("}\n");
-                }
+                // iterate through matches, use Modify on each, fire the next match event after the first
+                String enumeratorName = "enum_" + seqRule.Id;
+                source.AppendFront("IEnumerator<" + matchType + "> " + enumeratorName + " = " + matchesName + ".GetEnumeratorExact();\n");
+                source.AppendFront("while(" + enumeratorName + ".MoveNext())\n");
+                source.AppendFront("{\n");
+                source.Indent();
+                source.AppendFront(matchType + " " + matchName + " = " + enumeratorName + ".Current;\n");
+                source.AppendFront("if(" + matchName + "!=" + matchesName + ".FirstExact) graph.RewritingNextMatch();\n");
+                if (returnParameterDeclarations.Length != 0) source.AppendFront(returnParameterDeclarations + "\n");
+                source.AppendFront("rule_" + paramBindings.RuleName + ".Modify(graph, " + matchName + returnArguments + ");\n");
+                if(returnAssignments.Length != 0) source.AppendFront(returnAssignments + "\n");
+                if(gen.UsePerfInfo) source.AppendFront("if(graph.PerformanceInfo!=null) graph.PerformanceInfo.RewritesPerformed++;\n");
+                source.Unindent();
+                source.AppendFront("}\n");
+            }
+            else // seq.SequenceType == SequenceType.RuleAll && ((SequenceRuleAll)seqRule).ChooseRandom
+            {
+                // as long as a further rewrite has to be selected: randomly choose next match, rewrite it and remove it from available matches; fire the next match event after the first
+                source.AppendFrontFormat("int numchooserandomvar_{0} = (int){1};\n", seqRule.Id, ((SequenceRuleAll)seqRule).VarChooseRandom!=null ? GetVar(((SequenceRuleAll)seqRule).VarChooseRandom) : "1");
+                source.AppendFrontFormat("if({0}.Count < numchooserandomvar_{1}) numchooserandomvar_{1} = {0}.Count;\n", matchesName, seqRule.Id);
+                source.AppendFrontFormat("for(int i = 0; i < numchooserandomvar_{0}; ++i)\n", seqRule.Id);
+                source.AppendFront("{\n");
+                source.Indent();
+                source.AppendFront("if(i != 0) graph.RewritingNextMatch();\n");
+                source.AppendFront(matchType + " " + matchName + " = " + matchesName + ".RemoveMatchExact(GRGEN_LIBGR.Sequence.randomGenerator.Next(" + matchesName + ".Count));\n");
+                if(returnParameterDeclarations.Length != 0) source.AppendFront(returnParameterDeclarations + "\n");
+                source.AppendFront("rule_" + paramBindings.RuleName + ".Modify(graph, " + matchName + returnArguments + ");\n");
+                if(returnAssignments.Length != 0) source.AppendFront(returnAssignments + "\n");
+                if(gen.UsePerfInfo) source.AppendFront("if(graph.PerformanceInfo!=null) graph.PerformanceInfo.RewritesPerformed++;\n");
+                source.Unindent();
+                source.AppendFront("}\n");
             }
 
             if(gen.FireEvents) source.AppendFront("graph.Finished(" + matchesName + ", " + specialStr + ");\n");
@@ -1029,21 +989,11 @@ namespace de.unika.ipd.grGen.lgsp
                     break;
                 }
 
-                case SequenceType.LazyOrAllAll:
-                {
-                    throw new Exception("Internal Error: the LazyOrAllAll is interpreted only (no Debugger available at lgsp level)");
-                }
-
                 case SequenceType.LazyAndAll:
                 {
                     SequenceLazyAndAll seqAll = (SequenceLazyAndAll)seq;
                     EmitSequenceAll(seqAll, false, true, source);
                     break;
-                }
-
-                case SequenceType.LazyAndAllAll:
-                {
-                    throw new Exception("Internal Error: the LazyAndAllAll is interpreted only (no Debugger available at lgsp level)");
                 }
 
                 case SequenceType.StrictOrAll:
@@ -1053,11 +1003,6 @@ namespace de.unika.ipd.grGen.lgsp
                     break;
                 }
 
-                case SequenceType.StrictOrAllAll:
-                {
-                    throw new Exception("Internal Error: the StrictOrAllAll is interpreted only (no Debugger available at lgsp level)");
-                }
-
                 case SequenceType.StrictAndAll:
                 {
                     SequenceStrictAndAll seqAll = (SequenceStrictAndAll)seq;
@@ -1065,9 +1010,11 @@ namespace de.unika.ipd.grGen.lgsp
                     break;
                 }
 
-                case SequenceType.StrictAndAllAll:
+                case SequenceType.SomeFromSet:
                 {
-                    throw new Exception("Internal Error: the StrictAndAllAll is interpreted only (no Debugger available at lgsp level)");
+                    SequenceSomeFromSet seqSome = (SequenceSomeFromSet)seq;
+                    EmitSequenceSome(seqSome, source);
+                    break;
                 }
 
 				case SequenceType.Transaction:
@@ -1117,6 +1064,235 @@ namespace de.unika.ipd.grGen.lgsp
             source.AppendFront("}\n");
             source.Unindent();
             source.AppendFront("}\n");
+        }
+
+        void EmitSequenceSome(SequenceSomeFromSet seqSome, SourceBuilder source)
+        {
+            source.AppendFront(SetResultVar(seqSome, "false"));
+
+            // emit code for matching all the contained rules
+            for (int i = 0; i < seqSome.Sequences.Count; ++i)
+            {
+                SequenceRule seqRule = (SequenceRule)seqSome.Sequences[i];
+                RuleInvocationParameterBindings paramBindings = seqRule.ParamBindings;
+                String specialStr = seqRule.Special ? "true" : "false";
+                String parameters = BuildParameters(seqRule, paramBindings);
+                String matchingPatternClassName = "Rule_" + paramBindings.RuleName;
+                String patternName = paramBindings.RuleName;
+                String matchType = matchingPatternClassName + "." + NamesOfEntities.MatchInterfaceName(patternName);
+                String matchesType = "GRGEN_LIBGR.IMatchesExact<" + matchType + ">";
+                String matchesName = "matches_" + seqRule.Id;
+                source.AppendFront(matchesType + " " + matchesName + " = rule_" + paramBindings.RuleName
+                    + ".Match(graph, " + (seqRule.SequenceType == SequenceType.Rule ? "1" : "graph.MaxMatches")
+                    + parameters + ");\n");
+                if (gen.UsePerfInfo) source.AppendFront("if(graph.PerformanceInfo!=null) graph.PerformanceInfo.MatchesFound += " + matchesName + ".Count;\n");
+                source.AppendFront("if(" + matchesName + ".Count!=0) {\n");
+                source.Indent();
+                source.AppendFront(SetResultVar(seqSome, "true"));
+                source.Unindent();
+                source.AppendFront("}\n");
+            }
+
+            // emit code for deciding on the match to rewrite
+            String totalMatchToApply = "total_match_to_apply_" + seqSome.Id;
+            String curTotalMatch = "cur_total_match_" + seqSome.Id;
+            if (seqSome.Random)
+            {
+                source.AppendFront("int " + totalMatchToApply + " = 0;\n");
+                for (int i = 0; i < seqSome.Sequences.Count; ++i)
+                {
+                    SequenceRule seqRule = (SequenceRule)seqSome.Sequences[i];
+                    String matchesName = "matches_" + seqRule.Id;
+                    if (seqRule.SequenceType == SequenceType.Rule)
+                        source.AppendFront(totalMatchToApply + " += " + matchesName + ".Count;\n");
+                    else if (!((SequenceRuleAll)seqRule).ChooseRandom) // seq.SequenceType == SequenceType.RuleAll
+                        source.AppendFront("if(" + matchesName + ".Count>0) ++" + totalMatchToApply + ";\n");
+                    else // seq.SequenceType == SequenceType.RuleAll && ((SequenceRuleAll)seqRule).ChooseRandom
+                        source.AppendFront(totalMatchToApply + " += " + matchesName + ".Count;\n");
+                }
+                source.AppendFront(totalMatchToApply + " = GRGEN_LIBGR.Sequence.randomGenerator.Next(" + totalMatchToApply + ");\n");
+                source.AppendFront("int " + curTotalMatch + " = 0;\n");
+            }
+
+            // code to handle the rewrite next match
+            String firstRewrite = "first_rewrite_" + seqSome.Id;
+            source.AppendFront("bool " + firstRewrite + " = true;\n");
+
+            // emit code for rewriting all the contained rules which got matched
+            for (int i = 0; i < seqSome.Sequences.Count; ++i)
+            {
+                SequenceRule seqRule = (SequenceRule)seqSome.Sequences[i];
+                RuleInvocationParameterBindings paramBindings = seqRule.ParamBindings;
+                String specialStr = seqRule.Special ? "true" : "false";
+                String matchingPatternClassName = "Rule_" + paramBindings.RuleName;
+                String patternName = paramBindings.RuleName;
+                String matchType = matchingPatternClassName + "." + NamesOfEntities.MatchInterfaceName(patternName);
+                String matchName = "match_" + seqRule.Id;
+                String matchesType = "GRGEN_LIBGR.IMatchesExact<" + matchType + ">";
+                String matchesName = "matches_" + seqRule.Id;
+
+                if(seqSome.Random)
+                    source.AppendFront("if(" + matchesName + ".Count!=0 && " + curTotalMatch + "<=" + totalMatchToApply + ") {\n");
+                else
+                    source.AppendFront("if(" + matchesName + ".Count!=0) {\n");
+                source.Indent();
+                
+                String returnParameterDeclarations;
+                String returnArguments;
+                String returnAssignments;
+                BuildReturnParameters(paramBindings, out returnParameterDeclarations, out returnArguments, out returnAssignments);
+
+                if (seqRule.SequenceType == SequenceType.Rule)
+                {
+                    if (seqSome.Random) {
+                        source.AppendFront("if(" + curTotalMatch + "==" + totalMatchToApply + ") {\n");
+                        source.Indent();
+                    }
+
+                    source.AppendFront(matchType + " " + matchName + " = " + matchesName + ".FirstExact;\n");
+                    if (gen.FireEvents) source.AppendFront("graph.Matched(" + matchesName + ", " + specialStr + ");\n");
+                    if (gen.FireEvents) source.AppendFront("graph.Finishing(" + matchesName + ", " + specialStr + ");\n");
+                    source.AppendFront("if(!" + firstRewrite + ") graph.RewritingNextMatch();\n");
+                    if (returnParameterDeclarations.Length != 0) source.AppendFront(returnParameterDeclarations + "\n");
+                    source.AppendFront("rule_" + paramBindings.RuleName + ".Modify(graph, " + matchName + returnArguments + ");\n");
+                    if (returnAssignments.Length != 0) source.AppendFront(returnAssignments + "\n");
+                    if (gen.UsePerfInfo) source.AppendFront("if(graph.PerformanceInfo != null) graph.PerformanceInfo.RewritesPerformed++;\n");
+                    source.AppendFront(firstRewrite + " = false;\n");
+
+                    if (seqSome.Random) {
+                        source.Unindent();
+                        source.AppendFront("}\n");
+                        source.AppendFront("++" + curTotalMatch + ";\n");
+                    }
+                }
+                else if (!((SequenceRuleAll)seqRule).ChooseRandom) // seq.SequenceType == SequenceType.RuleAll
+                {
+                    if (seqSome.Random)
+                    {
+                        source.AppendFront("if(" + curTotalMatch + "==" + totalMatchToApply + ") {\n");
+                        source.Indent();
+                    }
+
+                    // iterate through matches, use Modify on each, fire the next match event after the first
+                    String enumeratorName = "enum_" + seqRule.Id;
+                    source.AppendFront("IEnumerator<" + matchType + "> " + enumeratorName + " = " + matchesName + ".GetEnumeratorExact();\n");
+                    source.AppendFront("while(" + enumeratorName + ".MoveNext())\n");
+                    source.AppendFront("{\n");
+                    source.Indent();
+                    source.AppendFront(matchType + " " + matchName + " = " + enumeratorName + ".Current;\n");
+                    if (gen.FireEvents) source.AppendFront("graph.Matched(" + matchesName + ", " + specialStr + ");\n");
+                    if (gen.FireEvents) source.AppendFront("graph.Finishing(" + matchesName + ", " + specialStr + ");\n");
+                    source.AppendFront("if(!" + firstRewrite + ") graph.RewritingNextMatch();\n");
+                    if (returnParameterDeclarations.Length != 0) source.AppendFront(returnParameterDeclarations + "\n");
+                    source.AppendFront("rule_" + paramBindings.RuleName + ".Modify(graph, " + matchName + returnArguments + ");\n");
+                    if (returnAssignments.Length != 0) source.AppendFront(returnAssignments + "\n");
+                    if (gen.UsePerfInfo) source.AppendFront("if(graph.PerformanceInfo!=null) graph.PerformanceInfo.RewritesPerformed++;\n");
+                    source.AppendFront(firstRewrite + " = false;\n");
+                    source.Unindent();
+                    source.AppendFront("}\n");
+
+                    if (seqSome.Random)
+                    {
+                        source.Unindent();
+                        source.AppendFront("}\n");
+                        source.AppendFront("++" + curTotalMatch + ";\n");
+                    }
+                }
+                else // seq.SequenceType == SequenceType.RuleAll && ((SequenceRuleAll)seqRule).ChooseRandom
+                {
+                    if (seqSome.Random)
+                    {
+                        // for the match selected: rewrite it
+                        String enumeratorName = "enum_" + seqRule.Id;
+                        source.AppendFront("IEnumerator<" + matchType + "> " + enumeratorName + " = " + matchesName + ".GetEnumeratorExact();\n");
+                        source.AppendFront("while(" + enumeratorName + ".MoveNext())\n");
+                        source.AppendFront("{\n");
+                        source.Indent();
+                        source.AppendFront("if(" + curTotalMatch + "==" + totalMatchToApply + ") {\n");
+                        source.Indent();
+                        source.AppendFront(matchType + " " + matchName + " = " + enumeratorName + ".Current;\n");
+                        if (gen.FireEvents) source.AppendFront("graph.Matched(" + matchesName + ", " + specialStr + ");\n");
+                        if (gen.FireEvents) source.AppendFront("graph.Finishing(" + matchesName + ", " + specialStr + ");\n");
+                        source.AppendFront("if(!" + firstRewrite + ") graph.RewritingNextMatch();\n");
+                        if (returnParameterDeclarations.Length != 0) source.AppendFront(returnParameterDeclarations + "\n");
+                        source.AppendFront("rule_" + paramBindings.RuleName + ".Modify(graph, " + matchName + returnArguments + ");\n");
+                        if (returnAssignments.Length != 0) source.AppendFront(returnAssignments + "\n");
+                        if (gen.UsePerfInfo) source.AppendFront("if(graph.PerformanceInfo!=null) graph.PerformanceInfo.RewritesPerformed++;\n");
+                        source.AppendFront(firstRewrite + " = false;\n");
+                        source.Unindent();
+                        source.AppendFront("}\n");
+                        source.AppendFront("++" + curTotalMatch + ";\n");
+                        source.Unindent();
+                        source.AppendFront("}\n");
+                    }
+                    else
+                    {
+                        // randomly choose match, rewrite it and remove it from available matches
+                        source.AppendFront(matchType + " " + matchName + " = " + matchesName + ".GetMatchExact(GRGEN_LIBGR.Sequence.randomGenerator.Next(" + matchesName + ".Count));\n");
+                        if (gen.FireEvents) source.AppendFront("graph.Matched(" + matchesName + ", " + specialStr + ");\n");
+                        if (gen.FireEvents) source.AppendFront("graph.Finishing(" + matchesName + ", " + specialStr + ");\n");
+                        source.AppendFront("if(!" + firstRewrite + ") graph.RewritingNextMatch();\n");
+                        if (returnParameterDeclarations.Length != 0) source.AppendFront(returnParameterDeclarations + "\n");
+                        source.AppendFront("rule_" + paramBindings.RuleName + ".Modify(graph, " + matchName + returnArguments + ");\n");
+                        if (returnAssignments.Length != 0) source.AppendFront(returnAssignments + "\n");
+                        if (gen.UsePerfInfo) source.AppendFront("if(graph.PerformanceInfo!=null) graph.PerformanceInfo.RewritesPerformed++;\n");
+                        source.AppendFront(firstRewrite + " = false;\n");
+                    }
+                }
+
+                if (gen.FireEvents) source.AppendFront("graph.Finished(" + matchesName + ", " + specialStr + ");\n");
+
+                source.Unindent();
+                source.AppendFront("}\n");
+            }
+        }
+
+        private String BuildParameters(SequenceRule seqRule, RuleInvocationParameterBindings paramBindings)
+        {
+            String parameters = "";
+            for (int j = 0; j < paramBindings.ParamVars.Length; j++)
+            {
+                if (paramBindings.ParamVars[j] != null)
+                {
+                    String cast = "(" + TypesHelper.XgrsTypeToCSharpType(rulesToInputTypes[seqRule.ParamBindings.RuleName][j], model) + ")";
+                    parameters += ", " + cast + GetVar(paramBindings.ParamVars[j]);
+                }
+                else
+                {
+                    object arg = paramBindings.Parameters[j];
+                    if (arg is bool)
+                        parameters += ", " + ((bool)arg ? "true" : "false");
+                    else if (arg is string)
+                        parameters += ", \"" + (string)arg + "\"";
+                    else if (arg is float)
+                        parameters += "," + ((float)arg).ToString(System.Globalization.CultureInfo.InvariantCulture) + "f";
+                    else if (arg is double)
+                        parameters += "," + ((double)arg).ToString(System.Globalization.CultureInfo.InvariantCulture);
+                    else // e.g. int
+                        parameters += "," + arg.ToString();
+                    // TODO: abolish constants as parameters or extend to set/map?
+                }
+            }
+            return parameters;
+        }
+
+        private void BuildReturnParameters(RuleInvocationParameterBindings paramBindings, out String returnParameterDeclarations, out String returnArguments, out String returnAssignments)
+        {
+            // can't use the normal xgrs variables for return value receiving as the type of an out-parameter must be invariant
+            // this is bullshit, as it is perfectly safe to assign a subtype to a variable of a supertype
+            // so we create temporary variables of exact type, which are used to receive the return values, 
+            // and finally we assign these temporary variables to the real xgrs variables
+
+            returnParameterDeclarations = "";
+            returnArguments = "";
+            returnAssignments = "";
+            for (int j = 0; j < paramBindings.ReturnVars.Length; j++)
+            {
+                String varName = paramBindings.ReturnVars[j].Prefix + paramBindings.ReturnVars[j].Name;
+                returnParameterDeclarations += TypesHelper.XgrsTypeToCSharpType(rulesToOutputTypes[paramBindings.RuleName][j], model) + " tmpvar_" + varName + "; ";
+                returnArguments += ", out tmpvar_" + varName;
+                returnAssignments += SetVar(paramBindings.ReturnVars[j], "tmpvar_" + varName);
+            }
         }
 
 		public bool GenerateXGRSCode(int xgrsID, String xgrsStr, 

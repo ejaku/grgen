@@ -261,6 +261,19 @@ namespace de.unika.ipd.grGen.lgsp
         public MatchInterface FirstExact { get { return count > 0 ? root : null; } }
 
         /// <summary>
+        /// Returns the match of exact type with the given index. Invalid indices cause an exception.
+        /// This may be slow. If you want to iterate over the elements the MatchesExact IEnumerable should be used.
+        /// </summary>
+        public MatchInterface GetMatchExact(int index)
+        {
+            if (index < 0 || index >= count)
+                throw new IndexOutOfRangeException("Index out of range: " + index);
+            Match cur = root;
+            for (int i = 0; i < index; i++, cur = cur.next) ;
+            return cur;
+        }
+
+        /// <summary>
         /// Removes the match of exact type at the given index and returns it.
         /// </summary>
         public MatchInterface RemoveMatchExact(int index)

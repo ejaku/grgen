@@ -652,7 +652,7 @@ Sequence RewriteSequenceIteration():
 
 Sequence SimpleSequence():
 {
-	bool special = false, choice = false;
+	bool special = false, choice = false, chooseRandSpecified = false;
 	Sequence seq, seq2, seq3 = null;
 	List<SequenceVariable> paramVars = new List<SequenceVariable>();
 	List<Sequence> sequences = new List<Sequence>();
@@ -820,21 +820,9 @@ Sequence SimpleSequence():
 	}
 |
 	LOOKAHEAD(4) "$" ("%" { choice = true; } )? 
-		"||" "[" seq=Rule() { sequences.Add(seq); } ("," seq=Rule() { sequences.Add(seq); })* "]"
-	{
-		return new SequenceLazyOrAllAll(sequences, choice);
-	}
-|
-	LOOKAHEAD(4) "$" ("%" { choice = true; } )? 
 		"&&" "(" seq=RewriteSequence() { sequences.Add(seq); } ("," seq=RewriteSequence() { sequences.Add(seq); })* ")"
 	{
 		return new SequenceLazyAndAll(sequences, choice);
-	}
-|
-	LOOKAHEAD(4) "$" ("%" { choice = true; } )? 
-		"&&" "[" seq=Rule() { sequences.Add(seq); } ("," seq=Rule() { sequences.Add(seq); })* "]"
-	{
-		return new SequenceLazyAndAllAll(sequences, choice);
 	}
 |
 	LOOKAHEAD(4) "$" ("%" { choice = true; } )? 
@@ -844,21 +832,15 @@ Sequence SimpleSequence():
 	}
 |
 	LOOKAHEAD(4) "$" ("%" { choice = true; } )? 
-		"|" "[" seq=Rule() { sequences.Add(seq); } ("," seq=Rule() { sequences.Add(seq); })* "]"
-	{
-		return new SequenceStrictOrAllAll(sequences, choice);
-	}
-|
-	LOOKAHEAD(4) "$" ("%" { choice = true; } )? 
 		"&" "(" seq=RewriteSequence() { sequences.Add(seq); } ("," seq=RewriteSequence() { sequences.Add(seq); })* ")"
 	{
 		return new SequenceStrictAndAll(sequences, choice);
 	}
 |
-	"$" ("%" { choice = true; } )? 
-		"&" "[" seq=Rule() { sequences.Add(seq); } ("," seq=Rule() { sequences.Add(seq); })* "]"
+	( "$" { chooseRandSpecified=true; } ("%" { choice = true; } )? )? 
+		"{" seq=Rule() { sequences.Add(seq); } ("," seq=Rule() { sequences.Add(seq); })* "}"
 	{
-		return new SequenceStrictAndAllAll(sequences, choice);
+		return new SequenceSomeFromSet(sequences, chooseRandSpecified, choice);
 	}
 |
 	"(" seq=RewriteSequence() ")"

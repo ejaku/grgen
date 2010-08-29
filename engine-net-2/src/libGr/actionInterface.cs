@@ -482,6 +482,12 @@ namespace de.unika.ipd.grGen.libGr
         MatchInterface FirstExact { get; }
 
         /// <summary>
+        /// Returns the match of exact type with the given index. Invalid indices cause an exception.
+        /// This may be slow. If you want to iterate over the elements the MatchesExact IEnumerable should be used.
+        /// </summary>
+        MatchInterface GetMatchExact(int index);
+
+        /// <summary>
         /// Removes the match of exact type at the given index and returns it.
         /// </summary>
         MatchInterface RemoveMatchExact(int index);

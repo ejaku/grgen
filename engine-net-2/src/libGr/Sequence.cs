@@ -30,8 +30,7 @@ namespace de.unika.ipd.grGen.libGr
         AssignConstToVar, AssignAttributeToVar, AssignVarToAttribute,
         IsVisited, SetVisited, VFree, VReset, Emit,
         SetmapAdd, SetmapRem, SetmapClear, InSetmap,
-        LazyOrAll, LazyAndAll, StrictOrAll, StrictAndAll,
-        LazyOrAllAll, LazyAndAllAll, StrictOrAllAll, StrictAndAllAll,
+        LazyOrAll, LazyAndAll, StrictOrAll, StrictAndAll, SomeFromSet,
         Transaction, IfThenElse, IfThen, For
     }
 
@@ -66,11 +65,10 @@ namespace de.unika.ipd.grGen.libGr
         int ChooseSequence(int seqToExecute, List<Sequence> sequences, SequenceNAry seq);
 
         /// <summary>
-        /// returns the maybe user altered rule to execute next for the sequence given
-        /// the randomly chosen rule is supplied; the object with all available rules is supplied
-        /// a list of all found matches is supplied, too
+        /// returns the maybe user altered match to execute next for the sequence given
+        /// the randomly chosen total match is supplied; the sequence with the rules and matches is supplied
         /// </summary>
-        int ChooseRule(int ruleToExecute, List<Sequence> rules, List<IMatches> matches, SequenceNAry seq);
+        int ChooseMatch(int totalMatchExecute, SequenceSomeFromSet seq);
 
         /// <summary>
         /// returns the maybe user altered match to apply next for the sequence given
@@ -89,6 +87,11 @@ namespace de.unika.ipd.grGen.libGr
         /// no random input value is supplied, the user must give a value
         /// </summary>
         object ChooseValue(string type, Sequence seq);
+
+        /// <summary>
+        /// informs debugger about the end of a loop iteration, so it can display the state at the end of the iteration
+        /// </summary>
+        void EndOfIteration(bool continueLoop, SequenceUnary seq);
     }
 
     /// <summary>
@@ -300,13 +303,13 @@ namespace de.unika.ipd.grGen.libGr
     }
 
     /// <summary>
-    /// A sequence consisting of a list of subsequences. Breakpointable.
-    /// Decision on order of execution by random, by user choice possible.
+    /// A sequence consisting of a list of subsequences.
+    /// Decision on order of execution always by random, by user choice possible.
     /// </summary>
     public abstract class SequenceNAry : Sequence, SequenceRandomChoice
     {
         public List<Sequence> Sequences;
-        public bool Random { get { return true; } set { throw new Exception("can't change Random on SequenceNAry"); } }
+        public virtual bool Random { get { return true; } set { throw new Exception("can't change Random on SequenceNAry"); } }
         public bool Choice { get { return choice; } set { choice = value; } }
         bool choice;
         public bool Skip { get { return skip; } set { skip = value; } }
@@ -322,85 +325,6 @@ namespace de.unika.ipd.grGen.libGr
         public override IEnumerable<Sequence> Children
         { 
             get { foreach(Sequence seq in Sequences) yield return seq; }
-        }
-    }
-
-    /// <summary>
-    /// A sequence consisting of a list of subsequences. Breakpointable.
-    /// Decision on order of execution by random, by user choice possible.
-    /// First all the contained rules are matched, then they get rewritten
-    /// </summary>
-    public abstract class SequenceNAryAll : SequenceNAry
-    {
-        public List<IMatches> Matches;
-
-        public SequenceNAryAll(List<Sequence> sequences, bool choice, SequenceType seqType)
-            : base(sequences, choice, seqType)
-        {
-            Matches = new List<IMatches>(Sequences.Count);
-            for(int i = 0; i < Sequences.Count; ++i)
-                Matches.Add(null);
-        }
-
-        protected void MatchAll(IGraph graph)
-        {
-            for(int i = 0; i < Sequences.Count; ++i)
-            {
-                if(!(Sequences[i] is SequenceRule))
-                    throw new InvalidOperationException("Internal error: all all construct containing non-rule sequences");
-                SequenceRule rule = (SequenceRule)Sequences[i];
-                SequenceRuleAll ruleAll = null;
-                int maxMatches = 1;
-                if(rule is SequenceRuleAll)
-                {
-                    ruleAll = (SequenceRuleAll)rule;
-                    maxMatches = graph.MaxMatches;
-                }
-
-                object[] parameters;
-                if(rule.ParamBindings.ParamVars.Length > 0)
-                {
-                    parameters = rule.ParamBindings.Parameters;
-                    for(int j = 0; j < rule.ParamBindings.ParamVars.Length; j++)
-                    {
-                        // If this parameter is not constant, the according ParamVars entry holds the
-                        // name of a variable to be used for the parameter.
-                        // Otherwise the parameters entry remains unchanged (it already contains the constant)
-                        if(rule.ParamBindings.ParamVars[j] != null)
-                            parameters[j] = rule.ParamBindings.ParamVars[j].GetVariableValue(graph);
-                    }
-                }
-                else parameters = null;
-
-                if(graph.PerformanceInfo != null) graph.PerformanceInfo.StartLocal();
-                IMatches matches = rule.ParamBindings.Action.Match(graph, maxMatches, parameters);
-                if(graph.PerformanceInfo != null)
-                {
-                    graph.PerformanceInfo.StopMatch();              // total match time does NOT include listeners anymore
-                    graph.PerformanceInfo.MatchesFound += matches.Count;
-                }
-
-                graph.Matched(matches, rule.Special);
-
-                Matches[i] = matches;
-            }
-        }
-
-        protected bool ApplyRule(SequenceRule rule, IGraph graph, IMatches matches, SequenceExecutionEnvironment env)
-        {
-            bool result;
-            graph.EnteringSequence(rule);
-            rule.executionState = SequenceExecutionState.Underway;
-#if LOG_SEQUENCE_EXECUTION
-            writer.WriteLine("Before executing sequence " + rule.Id + ": " + rule.Symbol);
-#endif
-            result = rule.Rewrite(graph, matches, env);
-#if LOG_SEQUENCE_EXECUTION
-            writer.WriteLine("After executing sequence " + rule.Id + ": " + rule.Symbol + " result " + result);
-#endif
-            rule.executionState = result ? SequenceExecutionState.Success : SequenceExecutionState.Fail;
-            graph.ExitingSequence(rule);
-            return result;
         }
     }
 
@@ -596,9 +520,11 @@ namespace de.unika.ipd.grGen.libGr
             long i = 0;
             while(Seq.Apply(graph, env))
             {
+                if(env!=null) env.EndOfIteration(true, this);
                 Seq.ResetExecutionState();
                 i++;
             }
+            if(env!=null) env.EndOfIteration(false, this);
             return i >= Min;
         }
 
@@ -619,11 +545,15 @@ namespace de.unika.ipd.grGen.libGr
         protected override bool ApplyImpl(IGraph graph, SequenceExecutionEnvironment env)
         {
             long i;
+            bool first = true;
             for(i = 0; i < Max; i++)
             {
+                if(env!=null && !first) env.EndOfIteration(true, this);
                 Seq.ResetExecutionState();
-                if (!Seq.Apply(graph, env)) break;
+                if(!Seq.Apply(graph, env)) break;
+                first = false;
             }
+            if(env!=null) env.EndOfIteration(false, this);
             return i >= Min;
         }
 
@@ -657,12 +587,12 @@ namespace de.unika.ipd.grGen.libGr
             return res;
         }
 
-        public virtual bool Rewrite(IGraph graph, IMatches matches, SequenceExecutionEnvironment env)
+        public virtual bool Rewrite(IGraph graph, IMatches matches, SequenceExecutionEnvironment env, IMatch chosenMatch)
         {
             if(matches.Count == 0) return false;
             if(Test) return false;
 
-            IMatch match = matches.First;
+            IMatch match = chosenMatch!=null ? chosenMatch : matches.First;
 
             graph.Finishing(matches, Special);
 
@@ -802,36 +732,54 @@ namespace de.unika.ipd.grGen.libGr
 
                 graph.Matched(matches, Special);
 
-                return Rewrite(graph, matches, env);
+                return Rewrite(graph, matches, env, null);
             }
         }
 
-        public override bool Rewrite(IGraph graph, IMatches matches, SequenceExecutionEnvironment env)
+        public override bool Rewrite(IGraph graph, IMatches matches, SequenceExecutionEnvironment env, IMatch chosenMatch)
         {
-            if(matches.Count == 0) return false;
-            if(Test) return false;
+            if (matches.Count == 0) return false;
+            if (Test) return false;
 
             graph.Finishing(matches, Special);
 
-            if(graph.PerformanceInfo != null) graph.PerformanceInfo.StartLocal();
-
-            object val = VarChooseRandom != null ? VarChooseRandom.GetVariableValue(graph) : 1;
-            if(!(val is int))
-                throw new InvalidOperationException("The variable '" + VarChooseRandom + "' is not of type int!");
-            int numChooseRandom = (int)val;
-            if(matches.Count < numChooseRandom) numChooseRandom = matches.Count;
+            if (graph.PerformanceInfo != null) graph.PerformanceInfo.StartLocal();
 
             object[] retElems = null;
-            for(int i = 0; i < numChooseRandom; i++)
+            if (!ChooseRandom)
             {
-                if(i != 0) graph.RewritingNextMatch();
-                int matchToApply = randomGenerator.Next(matches.Count);
-                if(Choice && env != null) matchToApply = env.ChooseMatch(matchToApply, matches, numChooseRandom - 1 - i, this);
-                IMatch match = matches.RemoveMatch(matchToApply);
-                retElems = matches.Producer.Modify(graph, match);
-                if(graph.PerformanceInfo != null) graph.PerformanceInfo.RewritesPerformed++;
+                if (chosenMatch!=null)
+                    throw new InvalidOperationException("Chosen match given although all matches should get rewritten");
+                IEnumerator<IMatch> matchesEnum = matches.GetEnumerator();
+                while (matchesEnum.MoveNext())
+                {
+                    IMatch match = matchesEnum.Current;
+                    if (match != matches.First) graph.RewritingNextMatch();
+                    retElems = matches.Producer.Modify(graph, match);
+                    if (graph.PerformanceInfo != null) graph.PerformanceInfo.RewritesPerformed++;
+                }
+                if (retElems == null) retElems = BaseGraph.NoElems;
             }
-            if(retElems == null) retElems = BaseGraph.NoElems;
+            else
+            {
+                object val = VarChooseRandom != null ? VarChooseRandom.GetVariableValue(graph) : 1;
+                if (!(val is int))
+                    throw new InvalidOperationException("The variable '" + VarChooseRandom + "' is not of type int!");
+                int numChooseRandom = (int)val;
+                if (matches.Count < numChooseRandom) numChooseRandom = matches.Count;
+
+                for (int i = 0; i < numChooseRandom; i++)
+                {
+                    if (i != 0) graph.RewritingNextMatch();
+                    int matchToApply = randomGenerator.Next(matches.Count);
+                    if (Choice && env != null) matchToApply = env.ChooseMatch(matchToApply, matches, numChooseRandom - 1 - i, this);
+                    IMatch match = matches.RemoveMatch(matchToApply);
+                    if (chosenMatch != null) match = chosenMatch;
+                    retElems = matches.Producer.Modify(graph, match);
+                    if (graph.PerformanceInfo != null) graph.PerformanceInfo.RewritesPerformed++;
+                }
+                if (retElems == null) retElems = BaseGraph.NoElems;
+            }
 
             for(int i = 0; i < ParamBindings.ReturnVars.Length; i++)
                 ParamBindings.ReturnVars[i].SetVariableValue(retElems[i], graph);
@@ -1133,6 +1081,8 @@ namespace de.unika.ipd.grGen.libGr
 
         protected override bool ApplyImpl(IGraph graph, SequenceExecutionEnvironment env)
         {
+            if (env == null)
+                throw new Exception("Can only query the user for a value if a debugger is available");
             DestVar.SetVariableValue(env.ChooseValue(Type, this), graph);
             return true;
         }
@@ -1350,40 +1300,6 @@ namespace de.unika.ipd.grGen.libGr
         public override string Symbol { get { return "||"; } }
     }
 
-    public class SequenceLazyOrAllAll : SequenceNAryAll
-    {
-        public SequenceLazyOrAllAll(List<Sequence> sequences, bool choice)
-            : base(sequences, choice, SequenceType.LazyOrAll)
-        {
-        }
-
-        protected override bool ApplyImpl(IGraph graph, SequenceExecutionEnvironment env)
-        {
-            MatchAll(graph);
-            List<Sequence> rules = new List<Sequence>(Sequences);
-            List<IMatches> matches = new List<IMatches>(Matches);
-            while(rules.Count != 0)
-            {
-                int seqToExecute = randomGenerator.Next(rules.Count);
-                if(Choice && !Skip && env != null) seqToExecute = env.ChooseRule(seqToExecute, rules, matches, this);
-                SequenceRule rule = (SequenceRule)rules[seqToExecute];
-                bool result = ApplyRule(rule, graph, matches[seqToExecute], env);
-                rules.Remove(rules[seqToExecute]);
-                matches.Remove(matches[seqToExecute]);
-                if(result)
-                {
-                    Skip = false;
-                    return true;
-                }
-            }
-            Skip = false;
-            return false;
-        }
-
-        public override int Precedence { get { return 8; } }
-        public override string Symbol { get { return "||"; } }
-    }
-
     public class SequenceLazyAndAll : SequenceNAry
     {
         public SequenceLazyAndAll(List<Sequence> sequences, bool choice)
@@ -1403,40 +1319,6 @@ namespace de.unika.ipd.grGen.libGr
                 if(!result) { 
                     Skip = false; 
                     return false; 
-                }
-            }
-            Skip = false;
-            return true;
-        }
-
-        public override int Precedence { get { return 8; } }
-        public override string Symbol { get { return "&&"; } }
-    }
-
-    public class SequenceLazyAndAllAll : SequenceNAryAll
-    {
-        public SequenceLazyAndAllAll(List<Sequence> sequences, bool choice)
-            : base(sequences, choice, SequenceType.LazyAndAll)
-        {
-        }
-
-        protected override bool ApplyImpl(IGraph graph, SequenceExecutionEnvironment env)
-        {
-            MatchAll(graph);
-            List<Sequence> rules = new List<Sequence>(Sequences);
-            List<IMatches> matches = new List<IMatches>(Matches);
-            while(rules.Count != 0)
-            {
-                int seqToExecute = randomGenerator.Next(rules.Count);
-                if(Choice && !Skip && env != null) seqToExecute = env.ChooseRule(seqToExecute, rules, matches, this);
-                SequenceRule rule = (SequenceRule)rules[seqToExecute];
-                bool result = ApplyRule(rule, graph, matches[seqToExecute], env);
-                rules.Remove(rules[seqToExecute]);
-                matches.Remove(matches[seqToExecute]);
-                if(!result)
-                {
-                    Skip = false;
-                    return false;
                 }
             }
             Skip = false;
@@ -1473,36 +1355,6 @@ namespace de.unika.ipd.grGen.libGr
         public override string Symbol { get { return "|"; } }
     }
 
-    public class SequenceStrictOrAllAll : SequenceNAryAll
-    {
-        public SequenceStrictOrAllAll(List<Sequence> sequences, bool choice)
-            : base(sequences, choice, SequenceType.StrictOrAll)
-        {
-        }
-
-        protected override bool ApplyImpl(IGraph graph, SequenceExecutionEnvironment env)
-        {
-            bool result = false;
-            MatchAll(graph);
-            List<Sequence> rules = new List<Sequence>(Sequences);
-            List<IMatches> matches = new List<IMatches>(Matches);
-            while(rules.Count != 0)
-            {
-                int seqToExecute = randomGenerator.Next(rules.Count);
-                if(Choice && !Skip && env != null) seqToExecute = env.ChooseRule(seqToExecute, rules, matches, this);
-                SequenceRule rule = (SequenceRule)rules[seqToExecute];
-                result |= ApplyRule(rule, graph, matches[seqToExecute], env);
-                rules.Remove(rules[seqToExecute]);
-                matches.Remove(matches[seqToExecute]);
-            }
-            Skip = false;
-            return result;
-        }
-
-        public override int Precedence { get { return 8; } }
-        public override string Symbol { get { return "|"; } }
-    }
-
     public class SequenceStrictAndAll : SequenceNAry
     {
         public SequenceStrictAndAll(List<Sequence> sequences, bool choice)
@@ -1529,34 +1381,189 @@ namespace de.unika.ipd.grGen.libGr
         public override string Symbol { get { return "&"; } }
     }
 
-    public class SequenceStrictAndAllAll : SequenceNAryAll
+    /// <summary>
+    /// A sequence consisting of a list of subsequences.
+    /// Decision on order of execution by random, by user choice possible.
+    /// First all the contained rules are matched, then they get rewritten
+    /// </summary>
+    public class SequenceSomeFromSet : SequenceNAry
     {
-        public SequenceStrictAndAllAll(List<Sequence> sequences, bool choice)
-            : base(sequences, choice, SequenceType.StrictAndAll)
+        public List<IMatches> Matches;
+        public override bool Random { get { return chooseRandom; } set { chooseRandom = value; } }
+        bool chooseRandom;
+
+        public SequenceSomeFromSet(List<Sequence> sequences, bool chooseRandom, bool choice)
+            : base(sequences, choice, SequenceType.SomeFromSet)
         {
+            this.chooseRandom = chooseRandom;
+            Matches = new List<IMatches>(Sequences.Count);
+            for (int i = 0; i < Sequences.Count; ++i)
+            {
+                if (Sequences[i] is SequenceRuleAll)
+                {
+                    SequenceRuleAll ruleAll = (SequenceRuleAll)Sequences[i];
+                    if (ruleAll.Choice)
+                    {
+                        Console.WriteLine("Warning: No user choice % available inside {...}, removing choice modificator from " + ruleAll.Symbol + " (user choice handled by $%{...} construct)");
+                        ruleAll.Choice = false;
+                    }
+                }
+                Matches.Add(null);
+            }
+        }
+
+        public bool NonRandomAll(int rule) 
+        {
+            return Sequences[rule] is SequenceRuleAll && !((SequenceRuleAll)Sequences[rule]).ChooseRandom;
+        }
+
+        public int NumTotalMatches { get {
+            int numTotalMatches = 0;
+            for (int i = 0; i < Sequences.Count; ++i)
+            {
+                if (NonRandomAll(i))
+                    ++numTotalMatches;
+                else
+                    numTotalMatches += Matches[i].Count;
+            }
+            return numTotalMatches;
+        } }
+        
+        public void FromTotalMatch(int totalMatch, out int rule, out int match)
+        {
+            int curMatch = 0;
+            for (int i = 0; i < Sequences.Count; ++i)
+            {
+                rule = i;
+                if (NonRandomAll(i))
+                {
+                    match = 0;
+                    if (curMatch == totalMatch) 
+                        return;
+                    ++curMatch;
+                }
+                else
+                {
+                    for (int j = 0; j < Matches[i].Count; ++j)
+                    {
+                        match = j;
+                        if (curMatch == totalMatch)
+                            return;
+                        ++curMatch;
+                    }
+                }
+            }
+            throw new Exception("Internal error: can't computer rule and match from total match");
         }
 
         protected override bool ApplyImpl(IGraph graph, SequenceExecutionEnvironment env)
         {
-            bool result = true;
             MatchAll(graph);
-            List<Sequence> rules = new List<Sequence>(Sequences);
-            List<IMatches> matches = new List<IMatches>(Matches);
-            while(rules.Count != 0)
+
+            if (NumTotalMatches == 0)
             {
-                int seqToExecute = randomGenerator.Next(rules.Count);
-                if(Choice && !Skip && env != null) seqToExecute = env.ChooseRule(seqToExecute, rules, matches, this);
-                SequenceRule rule = (SequenceRule)rules[seqToExecute];
-                result &= ApplyRule(rule, graph, matches[seqToExecute], env);
-                rules.Remove(rules[seqToExecute]);
-                matches.Remove(matches[seqToExecute]);
+                for (int i = 0; i < Sequences.Count; ++i)
+                   Sequences[i].executionState = SequenceExecutionState.Fail;
+                return false;
             }
-            Skip = false;
+
+            if (chooseRandom)
+            {
+                int totalMatchToExecute = randomGenerator.Next(NumTotalMatches);
+                if (Choice && env != null) totalMatchToExecute = env.ChooseMatch(totalMatchToExecute, this);
+                int ruleToExecute; int matchToExecute;
+                FromTotalMatch(totalMatchToExecute, out ruleToExecute, out matchToExecute);
+                SequenceRule rule = (SequenceRule)Sequences[ruleToExecute];
+                IMatch match = Matches[ruleToExecute].GetMatch(matchToExecute);
+                if (!(rule is SequenceRuleAll))
+                    ApplyRule(rule, graph, Matches[ruleToExecute], null);
+                else if (!((SequenceRuleAll)rule).ChooseRandom)
+                    ApplyRule(rule, graph, Matches[ruleToExecute], null);
+                else
+                    ApplyRule(rule, graph, Matches[ruleToExecute], Matches[ruleToExecute].GetMatch(matchToExecute));
+                for (int i = 0; i < Sequences.Count; ++i)
+                    Sequences[i].executionState = Matches[i].Count == 0 ? SequenceExecutionState.Fail : Sequences[i].executionState;
+                Sequences[ruleToExecute].executionState = SequenceExecutionState.Success; // ApplyRule removed the match from the matches
+            }
+            else
+            {
+                for (int i=0; i<Sequences.Count; ++i)
+                {
+                    if (Matches[i].Count > 0)
+                    {
+                        SequenceRule rule = (SequenceRule)Sequences[i];
+                        ApplyRule(rule, graph, Matches[i], null);
+                    }
+                    else
+                        Sequences[i].executionState = SequenceExecutionState.Fail;
+                }
+            }
+
+            return true;
+        }
+
+        protected void MatchAll(IGraph graph)
+        {
+            for (int i = 0; i < Sequences.Count; ++i)
+            {
+                if (!(Sequences[i] is SequenceRule))
+                    throw new InvalidOperationException("Internal error: some from set containing non-rule sequences");
+                SequenceRule rule = (SequenceRule)Sequences[i];
+                SequenceRuleAll ruleAll = null;
+                int maxMatches = 1;
+                if (rule is SequenceRuleAll)
+                {
+                    ruleAll = (SequenceRuleAll)rule;
+                    maxMatches = graph.MaxMatches;
+                }
+
+                object[] parameters;
+                if (rule.ParamBindings.ParamVars.Length > 0)
+                {
+                    parameters = rule.ParamBindings.Parameters;
+                    for (int j = 0; j < rule.ParamBindings.ParamVars.Length; j++)
+                    {
+                        // If this parameter is not constant, the according ParamVars entry holds the
+                        // name of a variable to be used for the parameter.
+                        // Otherwise the parameters entry remains unchanged (it already contains the constant)
+                        if (rule.ParamBindings.ParamVars[j] != null)
+                            parameters[j] = rule.ParamBindings.ParamVars[j].GetVariableValue(graph);
+                    }
+                }
+                else parameters = null;
+
+                if (graph.PerformanceInfo != null) graph.PerformanceInfo.StartLocal();
+                IMatches matches = rule.ParamBindings.Action.Match(graph, maxMatches, parameters);
+                if (graph.PerformanceInfo != null)
+                {
+                    graph.PerformanceInfo.StopMatch();              // total match time does NOT include listeners anymore
+                    graph.PerformanceInfo.MatchesFound += matches.Count;
+                }
+
+                Matches[i] = matches;
+            }
+        }
+
+        protected bool ApplyRule(SequenceRule rule, IGraph graph, IMatches matches, IMatch match)
+        {
+            bool result;
+            graph.EnteringSequence(rule);
+            rule.executionState = SequenceExecutionState.Underway;
+#if LOG_SEQUENCE_EXECUTION
+            writer.WriteLine("Before executing sequence " + rule.Id + ": " + rule.Symbol);
+#endif
+            graph.Matched(matches, rule.Special);
+            result = rule.Rewrite(graph, matches, null, match);
+#if LOG_SEQUENCE_EXECUTION
+            writer.WriteLine("After executing sequence " + rule.Id + ": " + rule.Symbol + " result " + result);
+#endif
+            rule.executionState = result ? SequenceExecutionState.Success : SequenceExecutionState.Fail;
+            graph.ExitingSequence(rule);
             return result;
         }
 
         public override int Precedence { get { return 8; } }
-        public override string Symbol { get { return "&"; } }
+        public override string Symbol { get { return "{ ... }"; } }
     }
 
     public class SequenceTransaction : SequenceUnary
@@ -1646,14 +1653,18 @@ namespace de.unika.ipd.grGen.libGr
         {
             IDictionary setmap = (IDictionary)Setmap.GetVariableValue(graph);
             bool res = true;
+            bool first = true;
             foreach(DictionaryEntry entry in setmap)
             {
+                if(env!=null && !first) env.EndOfIteration(true, this);
                 Var.SetVariableValue(entry.Key, graph);
                 if(VarDst != null)
                     VarDst.SetVariableValue(entry.Value, graph);
                 Seq.ResetExecutionState();
                 res &= Seq.Apply(graph, env);
+                first = false;
             }
+            if(env!=null) env.EndOfIteration(false, this);
             return res;
         }
 
