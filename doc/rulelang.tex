@@ -320,9 +320,9 @@ This way it is possible to specify \emph{where} a rule should be applied.
 
 \begin{rail}
   Parameters: '(' (Parameter * ',') ')' ;
-  Parameter: IdentDecl ':' NodeType (InputTypeSpecification)? | '-' IdentDecl ':' EdgeType (InputTypeSpecification)? '->' | 'var' IdentDecl ':' VarType ;
+  Parameter: IdentDecl ':' NodeType (InputTypeSpecification)? | '-' IdentDecl ':' EdgeType (InputTypeSpecification)? '->' | ('var' | 'ref') IdentDecl ':' VarType ;
   InputTypeSpecification: '<' (NodeEdgeType | 'null' | NodeEdgeType '+' 'null' | 'null' '+' NodeEdgeType ) '>' ;
-\end{rail}\ixnterm{Parameter}\ixnterm{InputTypeSpecification}\ixkeyw{null}\ixkeyw{var}
+\end{rail}\ixnterm{Parameter}\ixnterm{InputTypeSpecification}\ixkeyw{null}\ixkeyw{var}\ixkeyw{ref}
 
 Within a rule, graph element parameters are treated as graph elements of the pattern - just predefined.
 But in contrast to pervious versions it is the task of the user to ensure the elements handed in satisfy the interface, i.e. parameters must not be null and must be of the type specified or a subtype of the type specified. 
@@ -330,8 +330,12 @@ If you need more flexibility and want to call the rule with parameters not fullf
 If the input type specification type is given, but the more specific pattern element type is not satisfied, matching simply fails.
 If null is declared in the input type specification and given at runtime, the element is searched in the host graph.
 Don't use null parameters unless you need them, because every null parameter doubles the number of matcher routines which get generated.
-Non-graph element parameters must be prefixed by the \texttt{var}-keyword, VarType is one of the attribute types supported by \GrG\ (\ref{sec:builtintypes}).
-Please note that the effect of assigning to a var parameter in \texttt{eval} (see \ref{sec:replacemodify}) is undefined (concerning the parameters as well as the argument).
+Non-graph element parameters must be prefixed by the \texttt{var} or \texttt{ref}-keyword; 
+VarType is one of the attribute types supported by \GrG\ (\ref{sec:builtintypes}).
+The primitive types require the \texttt{var} prefix and are handed in \indexed{by-value}; 
+the generic types require the \texttt{ref} prefix and are handed in \indexed{by-reference}.
+Please note that the effect of assigning to a var/ref parameter in \texttt{eval} (see \ref{sec:replacemodify}) is undefined (concerning the parameters as well as the argument);
+they are only available for reading, the by-ref parameters additionally for set/map-addition and removal (cf. \ref{sct:imperative})
 
 \begin{figure}[htbp]
 \begin{example}
@@ -857,9 +861,12 @@ We search the pattern \texttt{v:NodeTypeA -e:EdgeType-> w:NodeTypeB}. We have a 
 
 \begin{rail}  
   ExecStatement: 'emit' '(' StringExpr ')' ';' |
-    'exec' '(' RewriteSequence ')' \\ ((NodeType | '-' IdentDecl ':' EdgeType '->') * ',') ';'
+    'exec' '(' RewriteSequence ')' \\ ('->' ((IdentDecl ':' NodeType | '-' IdentDecl ':' EdgeType '->') + ','))? ';' |
+	SetParameter '.' ( ( 'add' '(' Expr ')') | ( 'rem' '(' Expr ')' ) ) ';' |
+	MapParameter '.' ( ( 'add' '(' KeyExpr ',' ValueExpr ')' ) | ( 'rem' '(' KeyExpr ')' ) ) ';'
+	;
 \end{rail}\ixkeyw{emit}\ixkeyw{exec}\ixnterm{ExecStatement}
-The statements \texttt{emit} and \texttt{exec} enhance the declarative rewrite part by imperative clauses.
+The statements \texttt{emit} and \texttt{exec} as well as the set/map modification statements enhance the declarative rewrite part by imperative clauses.
 That means, these statements are executed in the same order as they appear within the rule.
 The execution statements take place after all the rewrite operations are done, i.e.\ they operate on the modified host graph.
 However, \emph{attribute} values of deleted graph elements are still available for reading.
@@ -904,6 +911,21 @@ rule foo : (A,B)
   modify {
     exec( (a,b)=bar && yield(a,b) ) -> u:A, v:B;
     return(u,v)
+  }
+}  
+	\end{grgen}
+\end{example}
+
+\begin{example}
+The importance of the \texttt{add} and \texttt{rem} methods is their capability to add graph elements to storages or remove graph elements from storages, i.e. sets or maps holding nodes and edges used for rewrite in the calling sequence (cf. \ref{sec:storages}).
+This way you can write transformations consisting of several passes with one pass operating on nodes/edges determined in a previous pass,
+without the need to mark the element in the graph by helper edges or visited flags.
+	\begin{grgen}
+rule foo(ref storage:set<Node>)
+{
+  n:Node;
+  modify {
+    storage.add(n);
   }
 }  
 	\end{grgen}

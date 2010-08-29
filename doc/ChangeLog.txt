@@ -1,4 +1,4 @@
-﻿v2.6RC11 (2010-08-10)
+﻿v2.6FRC (2010-08-29)
  Single most important change:
   - user manual updated (including all the changes from 1.4->2.6)
  
@@ -11,11 +11,15 @@
   - if{cond; truecase} which equals if{cond;truecase;true} thus giving a lazy implication
   - n-ary random all of operators (currently only available in the interpreted sequences), 
      in function call notation with the operator symbol as function name:
-	 - the strict $|(r,s,t) and $&(r,s,t) evaluate all their subsequences in random order 
+	 - the strict $|(s1,s2,s3) and $&(s1,s2,s3) evaluate all their subsequences in random order 
 	 returning the disjunction resp. conjunction of their truth values.
      - the lazy versions || and && evaluate the subsequences in random order 
 	 as long as the outcome is not fixed or every subsequence was evaluated,
 	 returning the disjunction resp. conjunction of their truth values.
+  - some-of-set braces {r,[s],$[t]} matching all contained rules
+     and then executing the ones which matched; true if one of the rules matched 
+  - one-of-set braces ${r,[s],$[t]} matching all contained rules 
+     and then executing at random one of the rules which matched; true if one of the rules matched
   
  Uniform variable handling in xgrs:
   - now the compiled and the interpreted sequences both always support
@@ -39,6 +43,12 @@
      whether set/map is empty, always succeeding
   - set/map creation st=set<T>/mp=map<S,T>, and variable declarations of explicit set/map type, 
      st:set<S>, mp:map<S,T>,  e.g. st:set<Node>=set<Node>
+
+ Handling of set<T>/map<S,T> in rules, to ease the processing of storages:
+  - ref st:set<T>, ref mp:map<S,T> parameters, call-by-reference, including S/T of node/edge type
+  - rule rewrite part extension, new statements besides emit/exec:
+   - set/map addition st.add(el)/mp.add(el,val);
+   - set/map removal st.rem(el)/mp.rem(el);
 
  Visited flags handling:
   - visited flags processing in rules in function notation deprecated
@@ -69,6 +79,7 @@
      (instead of normal/other step commands focusing the rule which will be tried next)
   - the rules which matched during sequence execution are shown on dark green background,
     the rules which failed during sequence execution are shown on dark red background;
+	at the end of a loop iteration the old highlighting state is displayed,
     at the begin of a new loop iteration the highlighting state of the contained rules is reset.
   - choice points similar to break points added; denoted by % appended to the random operator $
      transforming the random choice to a user choice, triggered when execution reaches the choice point
@@ -158,6 +169,7 @@
   - wrong matching of iterated consisting of only a terminal pattern not requiring a candidate iteration loop
   - endless loop prevention by checking against unbounded pattern cardinality constructs 
       containing no locally defined nodes or edges (not being homomorphic to enclosing elements)
+  - several bugs in code generation for iterated fixed
   - further minor fixes
   
  Further changes:

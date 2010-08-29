@@ -221,7 +221,7 @@ test methods
 \end{example}
 
 \subsubsection*{The multiple block}
-is working like the iterated block, but expects the contained subpattern to be available at least once, if it is not, matching of the multiple block and thus its enclosing pattern fails.
+is working like the iterated block, but expects the contained subpattern to be available at least once; if it is not, matching of the multiple block and thus its enclosing pattern fails.
 
 \begin{example}
   \begin{grgen}
@@ -236,7 +236,7 @@ test oneOrMoreMethods
 \end{example}
 
 \subsubsection*{The optional block}
-is working like the iterated block, but matches the contained subpattern at most once, further occurences of the subpattern are left unmatched.
+is working like the iterated block, but matches the contained subpattern at most once; further occurences of the subpattern are left unmatched.
 If the nested pattern is available, it will get matched, otherwise it won't; matching of the optional block will succeed either way.
 
 \begin{example}
@@ -253,7 +253,7 @@ test variableMaybeInitialized
 
 \begin{note}
 Pattern cardinality constructs are match/rewrite-all enumeration blockers.
-For every pattern instance, the iterated/... yields only one match, even if in all mode.
+For every pattern instance, the iterated/... yields only one match, even if in all mode (used in/from all-bracketed rules).
 \end{note} 
 
 
