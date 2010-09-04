@@ -185,4 +185,14 @@ public class Unit extends IR {
 			alreadyDefinedVariables.clear();
 		}
 	}
+	
+	public void checkForRhsElementsUsedOnLhs()
+	{
+		for(Rule actionRule : actionRules) {
+			actionRule.checkForRhsElementsUsedOnLhs();
+		}
+		for(Rule subpatternRule : subpatternRules) {
+			subpatternRule.checkForRhsElementsUsedOnLhs();
+		}
+	}
 }

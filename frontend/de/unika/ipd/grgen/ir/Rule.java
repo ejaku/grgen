@@ -16,6 +16,8 @@ import java.util.Collections;
 import java.util.HashSet;
 import java.util.LinkedList;
 
+import de.unika.ipd.grgen.ast.BaseNode;
+
 /**
  * A graph rewrite rule or subrule, with none, one, or arbitrary many (not yet) replacements.
  */
@@ -196,6 +198,21 @@ edgeHom:
 		for (PatternGraph independent : pattern.getIdpts()) {
 			for(Rule iterated : independent.getIters()) {
 				iterated.checkForNonTerminatingIterateds();
+			}
+		}
+	}
+	
+	public void checkForRhsElementsUsedOnLhs()
+	{
+		PatternGraph left = getLeft();
+		for(Node node : left.getNodes()) {
+			if((node.context&BaseNode.CONTEXT_LHS_OR_RHS)==BaseNode.CONTEXT_RHS) {
+				error.error(node.getIdent().getCoords(), "Nodes declared in rewrite part can't be accessed in pattern");
+			}
+		}
+		for(Edge edge : left.getEdges()) {
+			if((edge.context&BaseNode.CONTEXT_LHS_OR_RHS)==BaseNode.CONTEXT_RHS) {
+				error.error(edge.getIdent().getCoords(), "Edges declared in rewrite part can't be accessed in pattern");
 			}
 		}
 	}

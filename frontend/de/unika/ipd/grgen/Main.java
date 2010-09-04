@@ -596,6 +596,7 @@ public class Main extends Base implements Sys {
 		irUnit.checkForNonTerminatingIterateds();
 		irUnit.resolvePatternLockedModifier();
 		irUnit.ensureDirectlyNestingPatternContainsAllNonLocalElementsOfNestedPattern();
+		irUnit.checkForRhsElementsUsedOnLhs();
 		buildIR += System.currentTimeMillis();
 
 		GraphDumperFactory factory = new VCGDumperFactory(this);
