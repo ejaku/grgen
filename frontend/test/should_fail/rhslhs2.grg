@@ -1,0 +1,14 @@
+pattern p(n:Node)
+{
+	modify {
+	}
+}
+
+rule r
+{
+	:p(n);
+	
+	modify {
+		n:Node;
+	}
+}

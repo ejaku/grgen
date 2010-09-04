@@ -1,0 +1,8 @@
+rule r
+{
+	n-->n;
+	
+	modify {
+		n:Node;
+	}
+}
