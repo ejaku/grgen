@@ -7,7 +7,7 @@
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
     <SchemaVersion>2.0</SchemaVersion>
     <ProjectGuid>{779cbf23-0384-430d-9377-925e2305b81d}</ProjectGuid>
-    <SHFBSchemaVersion>1.8.0.0</SHFBSchemaVersion>
+    <SHFBSchemaVersion>1.9.0.0</SHFBSchemaVersion>
     <!-- AssemblyName, Name, and RootNamespace are not used by SHFB but Visual
          Studio adds them anyway -->
     <AssemblyName>Documentation</AssemblyName>
@@ -18,34 +18,59 @@
     <HtmlHelpName>Documentation</HtmlHelpName>
     <ProjectSummary>
     </ProjectSummary>
-    <MissingTags>Summary, Parameter, Returns, AutoDocumentCtors, TypeParameter</MissingTags>
+    <MissingTags>AutoDocumentCtors</MissingTags>
     <VisibleItems>InheritedMembers, Protected, SealedProtected</VisibleItems>
     <HtmlHelp1xCompilerPath>
     </HtmlHelp1xCompilerPath>
     <HtmlHelp2xCompilerPath>
     </HtmlHelp2xCompilerPath>
-    <SandcastlePath>
-    </SandcastlePath>
+    <SandcastlePath>..\..\..\Program Files\Sandcastle\</SandcastlePath>
     <WorkingPath>
     </WorkingPath>
     <HelpFileFormat>Website</HelpFileFormat>
     <FrameworkVersion>2.0.50727</FrameworkVersion>
-    <HelpTitle>The libGr class library together with the libGr search plan backend v2.5</HelpTitle>
+    <HelpTitle>GrGen.NET v2.6 API: the libGr class library %28plus the LibGr Search Plan Backend%3b the concrete classes are generated%29</HelpTitle>
     <PresentationStyle>Prototype</PresentationStyle>
     <NamingMethod>MemberName</NamingMethod>
     <SyntaxFilters>CSharp</SyntaxFilters>
     <DocumentationSources>
-      <DocumentationSource sourceFile=".\bin\lgspBackend.dll" xmlns="" />
-      <DocumentationSource sourceFile=".\bin\lgspBackend.XML" xmlns="" />
-      <DocumentationSource sourceFile=".\bin\libGr.dll" xmlns="" />
-      <DocumentationSource sourceFile=".\bin\libGr.XML" xmlns="" />
+      <DocumentationSource sourceFile="bin\lgspBackend.dll" />
+      <DocumentationSource sourceFile="bin\lgspBackend.xml" />
+      <DocumentationSource sourceFile="bin\libGr.dll" />
+      <DocumentationSource sourceFile="bin\libGr.xml" />
     </DocumentationSources>
     <NamespaceSummaries>
       <NamespaceSummaryItem name="(global)" isDocumented="False" />
       <NamespaceSummaryItem name="de.unika.ipd.grGen.libGr" isDocumented="True" />
       <NamespaceSummaryItem name="de.unika.ipd.grGen.libGr.sequenceParser" isDocumented="False" />
       <NamespaceSummaryItem name="de.unika.ipd.grGen.expression" isDocumented="False" />
+      <NamespaceSummaryItem name="de.unika.ipd.grGen.libGr.porter" isDocumented="False" />
     </NamespaceSummaries>
+    <ContentPlacement>AboveNamespaces</ContentPlacement>
+    <ComponentConfigurations>
+      <ComponentConfig id="Post-transform Component" enabled="True">
+        <component id="Post-transform Component" type="SandcastleBuilder.Components.PostTransformComponent" assembly="{@SHFBFolder}SandcastleBuilder.Components.dll">
+          <!-- Code colorizer files (required).
+                 Attributes:
+                    Stylesheet file (required)
+                    Script file (required)
+                    "Copy" image file (required) -->
+          <colorizer stylesheet="{@SHFBFolder}Colorizer\highlight.css" scriptFile="{@SHFBFolder}Colorizer\highlight.js" copyImage="{@SHFBFolder}Colorizer\CopyCode.gif" />
+          <!-- Base output paths for the files (required).  These should match
+                 the parent folder of the output path of the HTML files (see
+                 each of the SaveComponent instances below). -->
+          <outputPaths>
+{@HelpFormatOutputPaths}
+            </outputPaths>
+          <!-- Logo image file (optional).  Filename is required. The height,
+                 width, altText, placement, and alignment attributes are
+                 optional. -->
+          <logoFile filename="C:\Edgar\grgen\engine-net-2\src\GrGen\icon\grgen-48.png" height="0" width="0" altText="" placement="left" alignment="left" />
+        </component>
+      </ComponentConfig>
+    </ComponentConfigurations>
+    <PlugInConfigurations>
+    </PlugInConfigurations>
   </PropertyGroup>
   <!-- There are no properties for these two groups but they need to appear in
        order for Visual Studio to perform the build. -->
@@ -53,6 +78,12 @@
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
   </PropertyGroup>
+  <ItemGroup>
+    <ContentLayout Include="Content Layout.content" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="e632c6c0-e3db-4984-ba18-61f298292cf1.aml" />
+  </ItemGroup>
   <!-- Import the SHFB build targets -->
   <Import Project="$(SHFBROOT)\SandcastleHelpFileBuilder.targets" />
 </Project>
