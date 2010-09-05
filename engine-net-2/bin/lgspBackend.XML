@@ -710,7 +710,7 @@
         <member name="M:de.unika.ipd.grGen.lgsp.LGSPGraph.Retype(de.unika.ipd.grGen.lgsp.LGSPNode,de.unika.ipd.grGen.libGr.NodeType)">
             <summary>
             Retypes a node by creating a new node of the given type.
-            All adjacent edges as well as all attributes from common super classes are kept.
+            All incident edges as well as all attributes from common super classes are kept.
             WARNING: GetElementName will probably not return the same element name for the new node, yet! (TODO)
             </summary>
             <param name="node">The node to be retyped.</param>
@@ -720,7 +720,7 @@
         <member name="M:de.unika.ipd.grGen.lgsp.LGSPGraph.Retype(de.unika.ipd.grGen.libGr.INode,de.unika.ipd.grGen.libGr.NodeType)">
             <summary>
             Retypes a node by creating a new node of the given type.
-            All adjacent edges as well as all attributes from common super classes are kept.
+            All incident edges as well as all attributes from common super classes are kept.
             WARNING: GetElementName will probably not return the same element name for the new node, yet! (TODO)
             </summary>
             <param name="node">The node to be retyped.</param>
@@ -750,7 +750,7 @@
         <member name="M:de.unika.ipd.grGen.lgsp.LGSPGraph.ReplaceNode(de.unika.ipd.grGen.lgsp.LGSPNode,de.unika.ipd.grGen.lgsp.LGSPNode)">
             <summary>
             Replaces a given node by another one.
-            All adjacent edges and variables are transferred to the new node.
+            All incident edges and variables are transferred to the new node.
             The attributes are not touched.
             This function is used for retyping.
             </summary>
@@ -2161,9 +2161,9 @@
             Returns an IEnumerable&lt;IEdge&gt; over all incoming edges with the same type or a subtype of the given type
             </summary>
         </member>
-        <member name="M:de.unika.ipd.grGen.lgsp.LGSPNode.GetCompatibleAdjacent(de.unika.ipd.grGen.libGr.EdgeType)">
+        <member name="M:de.unika.ipd.grGen.lgsp.LGSPNode.GetCompatibleIncident(de.unika.ipd.grGen.libGr.EdgeType)">
             <summary>
-            Returns an IEnumerable&lt;IEdge&gt; over all adjacent edges with the same type or a subtype of the given type
+            Returns an IEnumerable&lt;IEdge&gt; over all incident edges with the same type or a subtype of the given type
             </summary>
         </member>
         <member name="M:de.unika.ipd.grGen.lgsp.LGSPNode.GetExactOutgoing(de.unika.ipd.grGen.libGr.EdgeType)">
@@ -2176,9 +2176,9 @@
             Returns an IEnumerable&lt;IEdge&gt; over all incoming edges with exactly the given type
             </summary>
         </member>
-        <member name="M:de.unika.ipd.grGen.lgsp.LGSPNode.GetExactAdjacent(de.unika.ipd.grGen.libGr.EdgeType)">
+        <member name="M:de.unika.ipd.grGen.lgsp.LGSPNode.GetExactIncident(de.unika.ipd.grGen.libGr.EdgeType)">
             <summary>
-            Returns an IEnumerable&lt;IEdge&gt; over all adjacent edges with exactly the given type
+            Returns an IEnumerable&lt;IEdge&gt; over all incident edges with exactly the given type
             </summary>
         </member>
         <member name="M:de.unika.ipd.grGen.lgsp.LGSPNode.MoveOutHeadAfter(de.unika.ipd.grGen.lgsp.LGSPEdge)">
@@ -2225,7 +2225,7 @@
             Creates a copy of this node.
             All attributes will be transfered to the new node.
             The node will not be associated to a graph, yet.
-            So it will not have any adjacent edges nor any assigned variables.
+            So it will not have any incident edges nor any assigned variables.
             </summary>
             <returns>A copy of this node.</returns>
         </member>
@@ -2273,9 +2273,9 @@
             Returns an IEnumerable&lt;IEdge&gt; over all incoming edges
             </summary>
         </member>
-        <member name="P:de.unika.ipd.grGen.lgsp.LGSPNode.Adjacent">
+        <member name="P:de.unika.ipd.grGen.lgsp.LGSPNode.Incident">
             <summary>
-            Returns an IEnumerable&lt;IEdge&gt; over all adjacent edges
+            Returns an IEnumerable&lt;IEdge&gt; over all incident edges
             </summary>
         </member>
         <member name="P:de.unika.ipd.grGen.lgsp.LGSPNode.Type">
@@ -2370,7 +2370,7 @@
         </member>
         <member name="M:de.unika.ipd.grGen.lgsp.LGSPEdge.GetOther(de.unika.ipd.grGen.libGr.INode)">
             <summary>
-            Retrieves the other adjacent node of this edge.
+            Retrieves the other incident node of this edge.
             </summary>
             <remarks>If the given node is not the source, the source will be returned.</remarks>
             <param name="sourceOrTarget">One node of this edge.</param>
