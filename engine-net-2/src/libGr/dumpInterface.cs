@@ -391,11 +391,11 @@ namespace de.unika.ipd.grGen.libGr
         /// <param name="exactNodeType">True, if the node type must be exact, false, if also subtypes are allowed.</param>
         /// <param name="edgeType">An edge type along which nodes are grouped.</param>
         /// <param name="exactEdgeType">True, if the edge type must be exact, false, if also subtypes are allowed.</param>
-        /// <param name="adjNodeType">The adjacent node type according to the edge.</param>
-        /// <param name="exactAdjNodeType">True, if the adjacent node type must be exact, false, if also subtypes are allowed.</param>
+        /// <param name="incNodeType">The incident node type according to the edge.</param>
+        /// <param name="exactIncNodeType">True, if the incident node type must be exact, false, if also subtypes are allowed.</param>
         /// <param name="groupMode">Specifies how the edge is used for grouping.</param>
         public void AddOrExtendGroupNodeType(NodeType nodeType, bool exactNodeType, EdgeType edgeType, bool exactEdgeType,
-                NodeType adjNodeType, bool exactAdjNodeType, GroupMode groupMode)
+                NodeType incNodeType, bool exactIncNodeType, GroupMode groupMode)
         {
             foreach(NodeType subType in nodeType.SubOrSameTypes)
             {
@@ -406,7 +406,7 @@ namespace de.unika.ipd.grGen.libGr
                     nodeTypeToGroupNodeType[subType] = groupNodeType;
                     groupNodeTypes.Add(groupNodeType);
                 }
-                groupNodeType.SetEdgeGroupMode(edgeType, exactEdgeType, adjNodeType, exactAdjNodeType, groupMode);
+                groupNodeType.SetEdgeGroupMode(edgeType, exactEdgeType, incNodeType, exactIncNodeType, groupMode);
 
                 if(exactNodeType) break;  // don't change group modes for any subtypes
             }
@@ -423,24 +423,6 @@ namespace de.unika.ipd.grGen.libGr
             nodeTypeToGroupNodeType.TryGetValue(nodeType, out groupNodeType);
             return groupNodeType;
         }
-
-/*        /// <summary>
-        /// Gets the group mode for a given edge.
-        /// Only the edge type and the types of the adjacent nodes are used to determine the group mode.
-        /// </summary>
-        /// <param name="edge">The edge to be inspected.</param>
-        /// <returns>The group mode for the given edge.</returns>
-        public GroupMode GetGroupMode(IEdge edge)
-        {
-            GroupNodeType srcGNT = GetGroupNodeType(edge.Source.Type);
-            GroupNodeType tgtGNT = GetGroupNodeType(edge.Target.Type);
-            if(srcGNT == null && tgtGNT == null) return GroupMode.None;
-
-            if(srcGNT == null || srcGNT.Priority <= tgtGNT.Priority)
-                return tgtGNT.GetEdgeGroupMode(edge.Type, edge.Source.Type);
-            else
-                return srcGNT.GetEdgeGroupMode(edge.Type, edge.Target.Type);
-        }*/
 
         public GrColor GetNodeTypeColor(NodeType nodeType)
         {

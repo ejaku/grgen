@@ -227,7 +227,7 @@ namespace de.unika.ipd.grGen.libGr
 
         /// <summary>
         /// Retypes a node by creating a new node of the given type.
-        /// All adjacent edges as well as all attributes from common super classes are kept.
+        /// All incident edges as well as all attributes from common super classes are kept.
         /// </summary>
         /// <param name="node">The node to be retyped.</param>
         /// <param name="newNodeType">The new type for the node.</param>
@@ -791,7 +791,7 @@ namespace de.unika.ipd.grGen.libGr
         /// Fires an OnRetypingNode event.
         /// </summary>
         /// <param name="oldNode">The node to be retyped.</param>
-        /// <param name="newNode">The new node with the common attributes, but without any adjacent edges assigned, yet.</param>
+        /// <param name="newNode">The new node with the common attributes, but without any incident edges assigned, yet.</param>
         public void RetypingNode(INode oldNode, INode newNode)
         {
             RetypingNodeHandler retypingNode = OnRetypingNode;
@@ -802,7 +802,7 @@ namespace de.unika.ipd.grGen.libGr
         /// Fires an OnRetypingEdge event.
         /// </summary>
         /// <param name="oldEdge">The edge to be retyped.</param>
-        /// <param name="newEdge">The new edge with the common attributes, but not fully connected with the adjacent nodes, yet.</param>
+        /// <param name="newEdge">The new edge with the common attributes, but not fully connected with the incident nodes, yet.</param>
         public void RetypingEdge(IEdge oldEdge, IEdge newEdge)
         {
             RetypingEdgeHandler retypingEdge = OnRetypingEdge;
@@ -1177,13 +1177,13 @@ namespace de.unika.ipd.grGen.libGr
             // TODO: Do we need to support this for other dumpers???
             public IEnumerable<IEdge> Outgoing { get { yield break; } }
             public IEnumerable<IEdge> Incoming { get { yield break; } }
-            public IEnumerable<IEdge> Adjacent { get { yield break; } }
+            public IEnumerable<IEdge> Incident { get { yield break; } }
             public IEnumerable<IEdge> GetCompatibleOutgoing(EdgeType edgeType) { yield break; }
             public IEnumerable<IEdge> GetCompatibleIncoming(EdgeType edgeType) { yield break; }
-            public IEnumerable<IEdge> GetCompatibleAdjacent(EdgeType edgeType) { yield break; }
+            public IEnumerable<IEdge> GetCompatibleIncident(EdgeType edgeType) { yield break; }
             public IEnumerable<IEdge> GetExactOutgoing(EdgeType edgeType) { yield break; }
             public IEnumerable<IEdge> GetExactIncoming(EdgeType edgeType) { yield break; }
-            public IEnumerable<IEdge> GetExactAdjacent(EdgeType edgeType) { yield break; }
+            public IEnumerable<IEdge> GetExactIncident(EdgeType edgeType) { yield break; }
 
             public INode Clone()
             {

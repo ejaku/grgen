@@ -194,14 +194,14 @@ namespace de.unika.ipd.grGen.libGr
     /// Represents a method called before a node is retyped.
     /// </summary>
     /// <param name="oldNode">The node to be retyped.</param>
-    /// <param name="newNode">The new node with the common attributes, but without any adjacent edges assigned, yet.</param>
+    /// <param name="newNode">The new node with the common attributes, but without any incident edges assigned, yet.</param>
     public delegate void RetypingNodeHandler(INode oldNode, INode newNode);
 
     /// <summary>
     /// Represents a method called before a edge is retyped.
     /// </summary>
     /// <param name="oldEdge">The edge to be retyped.</param>
-    /// <param name="newEdge">The new edge with the common attributes, but not fully connected with the adjacent nodes, yet.</param>
+    /// <param name="newEdge">The new edge with the common attributes, but not fully connected with the incident nodes, yet.</param>
     public delegate void RetypingEdgeHandler(IEdge oldEdge, IEdge newEdge);
 
     /// <summary>
@@ -478,7 +478,7 @@ namespace de.unika.ipd.grGen.libGr
 
         /// <summary>
         /// Retypes a node by creating a new node of the given type.
-        /// All adjacent edges as well as all attributes from common super classes are kept.
+        /// All incident edges as well as all attributes from common super classes are kept.
         /// </summary>
         /// <param name="node">The node to be retyped.</param>
         /// <param name="newNodeType">The new type for the node.</param>

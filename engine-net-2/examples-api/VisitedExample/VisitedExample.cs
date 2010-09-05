@@ -18,7 +18,7 @@ namespace VisitedExample
     {
         Outgoing,
         Incoming,
-        Adjacent
+        Incident
     }
 
     enum WalkerResult
@@ -64,7 +64,7 @@ namespace VisitedExample
             IEnumerable<IEdge> edgesToNext;
             if(Mode == WalkerMode.Outgoing) edgesToNext = node.Outgoing;
             else if(Mode == WalkerMode.Incoming) edgesToNext = node.Incoming;
-            else if(Mode == WalkerMode.Adjacent) edgesToNext = node.Adjacent;
+            else if(Mode == WalkerMode.Incident) edgesToNext = node.Incident;
             else throw new InvalidOperationException("Invalid walker mode!");
 
             foreach(IEdge edge in edgesToNext)
@@ -128,7 +128,7 @@ namespace VisitedExample
                 IEnumerable<IEdge> edgesToNext;
                 if(Mode == WalkerMode.Outgoing) edgesToNext = curNode.Outgoing;
                 else if(Mode == WalkerMode.Incoming) edgesToNext = curNode.Incoming;
-                else if(Mode == WalkerMode.Adjacent) edgesToNext = curNode.Adjacent;
+                else if(Mode == WalkerMode.Incident) edgesToNext = curNode.Incident;
                 else throw new InvalidOperationException("Invalid walker mode!");
 
                 foreach(IEdge edge in edgesToNext)
@@ -187,7 +187,7 @@ namespace VisitedExample
             graph.ResetVisitedFlag(visitorID);
             countedNodesPre = 0;
             BFSWalker bfs = new BFSWalker(graph, PreWalker, visitorID);
-            bfs.Mode = WalkerMode.Adjacent;
+            bfs.Mode = WalkerMode.Incident;
             bfs.DoBFS(nodes[0]);
 
             Console.WriteLine("Visited nodes BFS: " + countedNodesPre);

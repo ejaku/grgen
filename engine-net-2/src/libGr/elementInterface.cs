@@ -104,25 +104,25 @@ namespace de.unika.ipd.grGen.libGr
         IEnumerable<IEdge> GetExactIncoming(EdgeType edgeType);
 
         /// <summary>
-        /// Returns an IEnumerable&lt;IEdge&gt; over all adjacent edges
+        /// Returns an IEnumerable&lt;IEdge&gt; over all incident edges
         /// </summary>
-        IEnumerable<IEdge> Adjacent { get; }
+        IEnumerable<IEdge> Incident { get; }
 
         /// <summary>
-        /// Returns an IEnumerable&lt;IEdge&gt; over all adjacent edges with the same type or a subtype of the given type
+        /// Returns an IEnumerable&lt;IEdge&gt; over all incident edges with the same type or a subtype of the given type
         /// </summary>
-        IEnumerable<IEdge> GetCompatibleAdjacent(EdgeType edgeType);
+        IEnumerable<IEdge> GetCompatibleIncident(EdgeType edgeType);
 
         /// <summary>
-        /// Returns an IEnumerable&lt;IEdge&gt; over all adjacent edges with exactly the given type
+        /// Returns an IEnumerable&lt;IEdge&gt; over all incident edges with exactly the given type
         /// </summary>
-        IEnumerable<IEdge> GetExactAdjacent(EdgeType edgeType);
+        IEnumerable<IEdge> GetExactIncident(EdgeType edgeType);
 
         /// <summary>
         /// Creates a copy of this node.
         /// All attributes will be transfered to the new node.
         /// The node will not be associated to a graph, yet.
-        /// So it will not have any adjacent edges nor any assigned variables.
+        /// So it will not have any incident edges nor any assigned variables.
         /// </summary>
         /// <returns>A copy of this node.</returns>
         INode Clone();
@@ -155,7 +155,7 @@ namespace de.unika.ipd.grGen.libGr
         INode Target { get; }
 
         /// <summary>
-        /// Retrieves the other adjacent node of this edge.
+        /// Retrieves the other incident node of this edge.
         /// </summary>
         /// <remarks>If the given node is not the source, the source will be returned.</remarks>
         /// <param name="sourceOrTarget">One node of this edge.</param>

@@ -730,7 +730,7 @@ namespace de.unika.ipd.grGen.libGr
 
         /// <summary>
         /// Retypes a node by creating a new node of the given type.
-        /// All adjacent edges as well as all attributes from common super classes are kept.
+        /// All incident edges as well as all attributes from common super classes are kept.
         /// </summary>
         /// <param name="node">The node to be retyped.</param>
         /// <param name="newNodeType">The new type for the node.</param>
