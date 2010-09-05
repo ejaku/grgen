@@ -12,71 +12,252 @@
            a specific number of sub-topics when creating the outline.  Specify
            zero (0) to limit it to top-level sections only.  -->
       <!-- <autoOutline /> -->
-      <para>Required introduction</para>
+      <para>This is an introduction into the Application Programming Interface of the GrGen.NET v2.6 system,
+      	i.e. the libGr and the assemblies generated from the model and rule specifications.
+      	We'll have a look at the	
+		<list class="bullet">
+		  <listItem>interface to the graph and model</listItem>
+		  <listItem>interface to the rules and matches</listItem>
+		</list>
+    	
+      	From the input file <localUri>Foo.grg</localUri> the <application>grgen.exe</application> compiler generates the output files <localUri>FooModel.cs</localUri> for the model and <localUri>FooActions.cs</localUri> for the actions,
+		<list class="bullet">
+		  <listItem>defining the exact interface</listItem>
+		  <listItem>implementing the exact interface with generated code and code from the lgsp backend (i.e. entities from <codeInline>de.unika.ipd.grGen.lgsp</codeInline>, the <legacyUnderline>libGr Search Plan Backend documentation is included for convenience, but does not define the API</legacyUnderline>)</listItem>
+		  <listItem>and implementing the generic interface from <codeInline>de.unika.ipd.grGen.libGr</codeInline> using the entities mentioned in both points above</listItem>
+		</list>
+
+<alert class="note">
+  <para>If you work on the API level it is helpful to keep the generated source code which normally is thrown away 
+after it was compiled into the assemblies <localUri>lgsp-FooModel.dll</localUri> and <localUri>lgsp-FooActions.dll</localUri>.
+Use the <replaceable>-keep</replaceable> option when you call <application>grgen.exe</application> to do so.
+</para>
+</alert>
+
+</para>
     </introduction>
     <!-- Add one or more top-level section elements.  These are collapsible.
          If using <autoOutline />, add an address attribute to identify it
          and specify a title so that it can be jumped to with a hyperlink. -->
     <section address="Section1">
-      <title>Optional section title</title>
+      <title>Interface to the model and host graph</title>
       <content>
         <!-- Uncomment this to create a sub-section outline
         <autoOutline /> -->
-        <para>Add one or more sections with content</para>
+        <para>
+        	The generated <localUri>FooModel.cs</localUri> opens the namespace <codeInline>de.unika.ipd.grGen.Model_Foo</codeInline> containing all the generated entities.
+			It contains for every node or edge class <codeInline>Bar</codeInline> an interface <codeInline>IBar</codeInline>, which offers C# properties giving access to the attributes, and is inheriting in the same way as specified in the model file.
+			This builds the exact interface of the model, it is implemented by a sealed class <codeInline>Bar</codeInline> with generated code and with code from the lgsp backend.
+			Furtheron the namespace contains a model class <codeInline>FooGraphModel</codeInline> implementing the interface <codeInline>de.unika.ipd.grGen.libGr.IGraphModel</codeInline>,
+			which supports iteration over the entities defined in the model using further, generic(i.e. inexact) interfaces from libGr.
+			Finally, the namespace contains a class <codeInline>FooGraph</codeInline> which defines an lgsp-graph of a model equivalent to <codeInline>FooGraphModel</codeInline>; 
+			it contains convenience functions to easily create nodes and edges of exact type in the graph.
+			
+			<alert class="note">
+			  <para>
+			    If you want to use the type-safe interface, use the interface <codeInline>IBar</codeInline>, and the <codeInline>CreateNodeBar</codeInline>-methods of <codeInline>FooGraph</codeInline> or the <codeInline>CreateNode</codeInline>-method of <codeInline>Bar</codeInline>.
+			  </para>
+			  <para>
+				If you want to use the generic interface, your entry point is the <codeInline>IGraphModel</codeInline>, with <codeInline>INodeModel.GetType("Bar")</codeInline> returning a <codeInline>NodeType</codeInline>, used in <codeInline>IGraph.AddNode(NodeType)</codeInline> returning an <codeInline>INode</codeInline>.
+			  </para>
+			</alert>
+		</para>
       </content>
-      <!-- If a section contains a sections element, its content creates
-           sub-sections.  These are not collapsible.
+    </section>
+    <section address="Section2">
+      <title>Interface to the rules</title>
+      <content>
+        <!-- Uncomment this to create a sub-section outline
+        <autoOutline /> -->
+        <para>
+			The generated file <localUri>FooActions.cs</localUri> opens the <codeInline>namespace de.unika.ipd.grGen.Action_Foo</codeInline> containing all the generated entities.
+			It contains for every rule or test <codeInline>bar</codeInline>
+			<list class="bullet">
+			  <listItem>
+			    a class <codeInline>Rule_bar</codeInline> inheriting from <codeInline>de.unika.ipd.grGen.lgsp.LGSPRulePattern</codeInline>, which contains
+				the exact match interface <codeInline>IMatch_bar</codeInline> which defines how a match of the rule looks like,
+				extending the generic rule-unspecific <codeInline>IMatch</codeInline> interface.
+				Furtheron there are (but meant only for internal use): a match class <codeInline>Match_bar</codeInline> implementing the exact and inexact interface,
+				a description of the pattern to match, and the modify methods doing the rewriting.
+			  </listItem>
+			  <listItem>
+				  an exact action interface <codeInline>IAction_bar</codeInline> which contains the methods:
+ 			  	  <list class="bullet">
+				  <listItem> <codeInline>Match</codeInline>, to match the pattern in the host graph,
+				     with in-parameters corresponding to the in-parameters of the rule (name and type),
+					 returning matches of the exact type <codeInline>Rule_bar.IMatch_bar</codeInline>.
+				  </listItem>
+				  <listItem> <codeInline>Modify</codeInline>, to modify a given match according to the rewrite specification,
+				     with out-parameters corresponding to the out-parameters of the rule.
+				  </listItem>
+				  <listItem> <codeInline>Apply</codeInline>, to match and modify the found match,
+				     with in-parameters corresponding to the in-parameters of the rule,
+				     and with ref-parameters corresponding to the out-parameters of the rule.
+				  </listItem>
+				  Furtheron there is (but meant only for internal use) the class <codeInline>Action_bar</codeInline> implementing the exact action interface as well as the generic <codeInline>IAction</codeInline> interface from libGr;
+				  it contains the generated matcher code searching for the patterns.
+				  </list>
+			  </listItem>
+			</list>
+			
+			Moreover the namespace contains an action class <codeInline>FooActions</codeInline>
+			implementing the abstract class <codeInline>de.unika.ipd.grGen.libGr.BaseActions</codeInline> (in fact <codeInline>de.unika.ipd.grGen.lgsp.LGSPActions</codeInline>),
+			which supports iteration over the entities defined in the actions using further, generic(i.e. inexact) interfaces from libGr.
+			Additionally, at runtime it contains the instances of the actions singletons,
+			as member <codeInline>bar</codeInline> of the exact type <codeInline>IAction_bar</codeInline>.
+
+			<alert class="note">
+			  <para>
+				If you want to use the type-safe interface, your entry point is the member <codeInline>bar</codeInline> of type <codeInline>IAction_bar</codeInline> from <codeInline>FooActions</codeInline> (or <codeInline>Action_bar.Instance</codeInline>).
+				Actions are used with named parameters of exact types.
+			  </para>
+			  <para>
+				If you want to use the generic interface, your entry point is the method <codeInline>GetAction("bar")</codeInline> of the interface <codeInline>BaseActions</codeInline> implemented by <codeInline>FooActions</codeInline> returning an <codeInline>IAction</codeInline>.
+				Actions are used with <codeInline>object</codeInline>-arrays for parameter passing.
+			  </para>
+			</alert>
+        </para>
+      </content>
+    </section>
+    <section address="Section3">
+      <title>Examples</title>
+      <content>
+        <!-- Uncomment this to create a sub-section outline
+        <autoOutline /> -->
+        <para>
+          There are several examples available in the <localUri>examples-api</localUri> folder of the GrGen.NET-distribution:
+			<list class="bullet">
+			  <listItem>
+				How to use the graph rewrite sequences offered by the libGr on API level is shown in
+				<localUri>examples-api/BusyBeaverExample/BusyBeaverExample.cs</localUri>.
+				But normally you want to use your favourite .NET programming language for control together with the type-safe interface when working on API level.
+			  </listItem>
+			  <listItem>
+			  	How to use the visited flags on API level is shown in
+			  	<localUri>examples-api/VisitedExample/VisitedExample.cs</localUri>.
+			  </listItem>
+			  <listItem>
+			  	How to analyze the graph and generate (hopefully) better performing matchers based on this information is shown in
+				<localUri>examples-api/BusyBeaverExample/BusyBeaverExample.cs</localUri>.
+			  </listItem>
+			  <listItem>
+			  	How to compile a .grg-specification at runtime and dump a graph for visualization in .vcg format on the API level is shown in
+				<localUri>examples-api/HelloMutex/HelloMutex.cs</localUri>.
+			  </listItem>
+			  <listItem>
+			  	How to communicate with yComp on the API level (from your own code) is shown in
+				<localUri>examples-api/YCompExample/YCompExample.cs</localUri>.
+			  </listItem>
+			</list>
+			If you want to work with GrGen.NET at API level you should get <application>VisualStudio</application> or <application>MonoDevelop</application> and have a look at them (or the other GrGen.NET code delivered with the source distribution; have a look at the How to build section in the manual if you want to build GrGen.NET on your own).
+			In the following are a few further examples given as starting points.
+		</para>
+      </content>
       <sections>
           <section address="SubSection1">
-              <title>Sub-section 1</title>
+              <title>Example 1</title>
               <content>
-                  <para>Sub-section content.</para>
+                  <para>
+					Normally you want to use the type-safe interface of the generated code as it is much more convenient.
+					Only if your application must get along with models and actions unknown before it is compiled you have to fall back to the generic interface.
+					An extensive example showing how to cope with the latter is shipped with GrGen.NET in form of the GrShell.
+					Here we'll show a short example on how to use GrGen.NET with the type-safe API; 
+					further examples are given in the examples-api folder of the GrGen.NET-distribution.
+					
+					We'll start with including the namespaces of the libGr and the lgsp backend shipped with GrGen.NET,
+					plus the namespaces of our actions and models, generated from <localUri>Foo.grg</localUri>.
+					<code language="cs">
+					using de.unika.ipd.grGen.libGr;
+					using de.unika.ipd.grGen.lgsp;
+					using de.unika.ipd.grGen.Action_Foo;
+					using de.unika.ipd.grGen.Model_Foo;
+					</code>
+					
+					Then we create a graph with model bound at generation time and create actions to operate on this graph.
+					Afterwards we create a single node of type <codeInline>Bar</codeInline> in the graph and save it to the variable <codeInline>b</codeInline>.
+					Finally we apply the action <codeInline>bar(Bar x) : (Bar)</codeInline> to the graph with <codeInline>b</codeInline> as input receiving the output as well.
+					The rule is taken from the actions via the member named as the action.
+					<code language="cs">
+					FooGraph graph = new FooGraph();
+					FooActions actions = new FooActions(graph);
+					Bar b = graph.CreateNodeBar();
+					actions.bar.Apply(graph, b, ref b); // input of type Bar, output of type Bar
+					</code>
+				  </para>
               </content>
           </section>
           <section address="SubSection2">
-              <title>Sub-section 2</title>
+              <title>Example 2</title>
               <content>
-                  <para>Sub-section content.</para>
+                  <para>
+					This is an example doing mostly the same as the previous example, in a slightly more complicated way allowing for more control.
+					Here we create the model separate from the graph, then the graph with a model not bound at generation time.
+					We create the actions to apply on the graph, and a single node of type <codeInline>Bar</codeInline> in the graph, which we assign again to a variable <codeInline>b</codeInline>.
+					Then we get the action from the actions and save it to an action variable <codeInline>bar</codeInline>;
+					afterwards we use the action for finding all available matches of <codeInline>bar</codeInline> with input <codeInline>b</codeInline> -- which is different from the first version -- and remember the found matches in the matches variable with its exact type.
+					Finally we take the first match from the matches and execute the rewrite with it.
+					We could have inspected the nodes and edges of the match or their attributes before (using element names prefixed with <codeInline>node_/edge_</codeInline> or attribute names to get exactly typed entities). 
+					<code language="cs">
+					IGraphModel model = new FooGraphModel();
+					LGSPGraph graph = new LGSPGraph(model);
+					FooActions actions = new FooActions(graph);
+					Bar b = Bar.CreateNode(graph);
+					IAction_bar bar = Action_bar.Instance;
+					IMatchesExact&lt;Rule_bar.IMatch_bar matches&gt; = bar.Match(graph, 0, b);
+					bar.Modify(graph, matches.First);
+					</code>
+                  </para>
               </content>
           </section>
-      </sections> -->
+          <section address="SubSection3">
+              <title>Example 3</title>
+              <content>
+                  <para>
+					While C# allows input arguments values to be of a subtype of the declared interface parameter type (OO), 
+					it requires that the argument variables for the out parameters are of exactly the type declared (non-OO).
+					Although a variable of a supertype would be fully sufficient -- the variable is only assigned.
+					So for <codeInline>node class Bla extends Bar;</codeInline> and action <codeInline>bar(Bar x) : (Bla)</codeInline> from the rules file rules <localUri>Foo.grg</localUri>
+					we can't use a desired target variable of type <codeInline>Bar</codeInline> as out-argument,
+					but are forced to introduce a temporary variable of type <codeInline>Bla</codeInline>
+					and assign this variable to the desired target variable after the call.
+					<code>
+					using de.unika.ipd.grGen.libGr;
+					using de.unika.ipd.grGen.lgsp;
+					using de.unika.ipd.grGen.Action_Foo;
+					using de.unika.ipd.grGen.Model_Foo;
+					FooGraph graph = new FooGraph();
+					FooActions actions = new FooActions(graph);
+					Bar b = graph.CreateNodeBar();
+					IMatchesExact&lt;Rule_bar.IMatch_bar&gt; matches = actions.bar.Match(graph, 1, b);
+					//actions.bar.Modify(graph, matches.First, out b); // wont work, needed:
+					Bla bla = null; 
+					actions.bar.Modify(graph, matches.First, out bla);
+					b = bla;
+					</code>
+                  </para>
+              </content>
+          </section>
+      </sections>
     </section>
     <relatedTopics>
-      <!-- One or more of the following:
-           - A local link
-           - An external link
-           - A code entity reference
-
-      <link xlink:href="Other Topic's ID"/>
-      <link xlink:href="Other Topic's ID">Link inner text</link>
-
       <externalLink>
-          <linkText>Link text</linkText>
-          <linkAlternateText>Optional alternate link text</linkAlternateText>
-          <linkUri>URI</linkUri>
+          <linkText>GrGen.NET User Manual</linkText>
+          <linkAlternateText>Read the GrGen.NET User Manual</linkAlternateText>
+          <linkUri>http://www.info.uni-karlsruhe.de/software/grgen/GrGenNET-Manual.pdf</linkUri>
       </externalLink>
 
-      <codeEntityReference>API member ID</codeEntityReference>
+      <codeEntityReference>T:de.unika.ipd.grGen.libGr.IGraph</codeEntityReference>
+      
+      <codeEntityReference>T:de.unika.ipd.grGen.libGr.IGraphModel</codeEntityReference>
+      <codeEntityReference>T:de.unika.ipd.grGen.libGr.INode</codeEntityReference>
+      <codeEntityReference>T:de.unika.ipd.grGen.libGr.IEdge</codeEntityReference>
+      
+      <codeEntityReference>T:de.unika.ipd.grGen.libGr.BaseActions</codeEntityReference>
+      <codeEntityReference>T:de.unika.ipd.grGen.libGr.IAction</codeEntityReference>
+      <codeEntityReference>T:de.unika.ipd.grGen.libGr.IMatches</codeEntityReference>
+      <codeEntityReference>T:de.unika.ipd.grGen.libGr.IMatch</codeEntityReference>
 
-      Examples:
-
-      <link xlink:href="00e97994-e9e6-46e0-b420-5be86b2f8270" />
-      <link xlink:href="00e97994-e9e6-46e0-b420-5be86b2f8278">Some other topic</link>
-
-      <externalLink>
-          <linkText>SHFB on CodePlex</linkText>
-          <linkAlternateText>Go to CodePlex</linkAlternateText>
-          <linkUri>http://shfb.codeplex.com</linkUri>
-      </externalLink>
-
-      <codeEntityReference>T:TestDoc.TestClass</codeEntityReference>
-      <codeEntityReference>P:TestDoc.TestClass.SomeProperty</codeEntityReference>
-      <codeEntityReference>M:TestDoc.TestClass.#ctor</codeEntityReference>
-      <codeEntityReference>M:TestDoc.TestClass.#ctor(System.String,System.Int32)</codeEntityReference>
-      <codeEntityReference>M:TestDoc.TestClass.ToString</codeEntityReference>
-      <codeEntityReference>M:TestDoc.TestClass.FirstMethod</codeEntityReference>
-      <codeEntityReference>M:TestDoc.TestClass.SecondMethod(System.Int32,System.String)</codeEntityReference>
-      -->
+      <codeEntityReference>T:de.unika.ipd.grGen.libGr.Porter</codeEntityReference>
     </relatedTopics>
   </developerConceptualDocument>
 </topic>

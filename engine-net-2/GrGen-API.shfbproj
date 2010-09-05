@@ -29,16 +29,15 @@
     </WorkingPath>
     <HelpFileFormat>Website</HelpFileFormat>
     <FrameworkVersion>2.0.50727</FrameworkVersion>
-    <HelpTitle>GrGen.NET v2.6 API: the libGr class library %28plus the LibGr Search Plan Backend%3b the concrete classes are generated%29</HelpTitle>
+    <HelpTitle>GrGen.NET v2.6 API: the libGr class library %28the type exact interface gets generated%29</HelpTitle>
     <PresentationStyle>Prototype</PresentationStyle>
     <NamingMethod>MemberName</NamingMethod>
     <SyntaxFilters>CSharp</SyntaxFilters>
     <DocumentationSources>
       <DocumentationSource sourceFile="bin\lgspBackend.dll" />
-      <DocumentationSource sourceFile="bin\lgspBackend.xml" />
-      <DocumentationSource sourceFile="bin\libGr.dll" />
-      <DocumentationSource sourceFile="bin\libGr.xml" />
-    </DocumentationSources>
+<DocumentationSource sourceFile="bin\lgspBackend.xml" />
+<DocumentationSource sourceFile="bin\libGr.dll" />
+<DocumentationSource sourceFile="bin\libGr.xml" /></DocumentationSources>
     <NamespaceSummaries>
       <NamespaceSummaryItem name="(global)" isDocumented="False" />
       <NamespaceSummaryItem name="de.unika.ipd.grGen.libGr" isDocumented="True" />
