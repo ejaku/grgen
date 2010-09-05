@@ -4,8 +4,8 @@
 This chapter describes the Application Programming Interface of \GrG, i.e. of the system runtime - the LibGr - and of the assemblies generated from the model and rule specifications.
 We'll have a look at
 \begin{itemize}
-\item the interface to the model
-\item the interface to the rules
+\item the interface to the graph and model
+\item the interface to the rules and matches
 \item the porter module for importing and exporting of graphs and miscellaneous stuff
 \end{itemize}
 
@@ -13,7 +13,7 @@ From the input file \texttt{Foo.grg} \texttt{grgen.exe} generates the output fil
 \begin{itemize}
 \item defining the exact interface, 
 \item implementing the exact interface with generated code and code from the lgsp backend, i.e. entities from \texttt{de.unika.ipd.grGen.lgsp} available from lgspBackend.dll, 
-\item and implementing the generic interface from \texttt{de.unika.ipd.grGen.libGr} with the entities from both points above.
+\item and implementing the generic interface from \texttt{de.unika.ipd.grGen.libGr} using the entities mentioned in both points above.
 \end{itemize}
 
 \begin{note}
@@ -113,7 +113,7 @@ actions.bar.Apply(graph, b, ref b); // input of type Bar, output of type Bar
 \end{example}
 
 \begin{example}
-This is an example doing mostly the same as the previous example \ref{ex:api1}, in a slightly more complicated way.
+This is an example doing mostly the same as the previous example \ref{ex:api1}, in a slightly more complicated way allowing for more control.
 Here we create the model separate from the graph, then the graph with a model not bound at generation time.
 We create the actions to apply on the graph, and a single node of type \texttt{Bar} in the graph, which we assign again to a variable \texttt{b}.
 Then we get the action from the actions and save it to an action variable \texttt{bar};
@@ -291,4 +291,10 @@ The \texttt{examples} subdirectory of \texttt{engine-net-2} contains a bunch of 
 The \texttt{examples-api} subdirectory contains several examples of how to use \GrG~from the API.
 In case you want to contribute and got further questions don't hesitate to contact us 
 (via email to \texttt{grgen} at the host given by \texttt{ipd.info.uni-karlsruhe.de}).
+
+
+%\section{How the search plan backend works / How to optmize}
+%host graph sensitive search plan driven graph pattern matching, 2+n pushdown machine, code generator
+%graph data structure, type list, incidence list, pattern matcher loops iterating lists
+%-> optimize: use types eagerly;  generate search plans at runtime
 

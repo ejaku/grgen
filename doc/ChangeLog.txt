@@ -1,4 +1,4 @@
-﻿v2.6FRC (2010-08-29)
+﻿v2.6 (2010-09-05)
  Single most important change:
   - user manual updated (including all the changes from 1.4->2.6)
  
@@ -170,6 +170,7 @@
   - endless loop prevention by checking against unbounded pattern cardinality constructs 
       containing no locally defined nodes or edges (not being homomorphic to enclosing elements)
   - several bugs in code generation for iterated fixed
+  - usage of rhs elements on lhs
   - further minor fixes
   
  Further changes:

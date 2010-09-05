@@ -1,5 +1,5 @@
-GrGen.NET v2.6beta (2009-11-03)
--------------------------------
+GrGen.NET v2.6 (2010-09-05)
+---------------------------
 
 This is the GrGen.NET system for graph rewriting.
 It consists of two parts of components:
@@ -22,6 +22,9 @@ For Linux:
     Example (extracts files into GrGen.NET in your current directory):
 
       tar -xjf GrGenNET.tar.bz2
+
+  - Add the <GrGenNETPath>/bin directory to your search path,
+    otherwise you must specify it together with the executable when running mono
 
 For Windows:
   - Unpack GrGenNET.zip to a folder of your choice (referred to as
@@ -73,19 +76,9 @@ TESTS
 
 The tests subdirectory contains an automated testbench used to check the
 consistency of our GrGen.NET releases. You can run the testbench by executing
-the "test.sh" shell script (for Windows you can use Cygwin).
-
-
-KNOWN ISSUES
-------------
-
-The following issues are currently known.
-Please try to avoid them until they are fixed.
-
-  - GrShell does not handle tabs correctly.
-  - The BaseGraph.Validate function is buggy.
-  - The Mono runtime crashes on rules with very large patterns
-    (~1000 graph elements).
+the "test.sh" shell script (for Windows you must use Cygwin).
+The source distribution contains further frontend/generation only tests,
+regarding exection the same applies as for the backend/shell execution tests.
 
 
 HELP
@@ -94,7 +87,7 @@ HELP
 For further information refer to the "GrGen.NET User Manual" available
 at http://www.grgen.net.
 
-If you find any bugs or have a suggestion, please email:
+If you find any bugs or have a suggestion, please send an email to:
     grgen@ipd.info.uni-karlsruhe.de
     
     
@@ -115,12 +108,13 @@ Christoph Mallon
 Jens Mueller
 Andreas Schoesser
 Adam Szalkowski
+Nicholas Tung
 
 
 COPYING
 -------
 
-Copyright (C) 2003-2009 Universitaet Karlsruhe, Institut fuer Programmstrukturen und Datenorganisation, LS Goos
+Copyright (C) 2003-20010 Universitaet Karlsruhe, Institut fuer Programmstrukturen und Datenorganisation, LS Goos
 
 This file is part of GrGen, Version GrGen.NET 2.6
 

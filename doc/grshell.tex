@@ -131,6 +131,7 @@ The entered value is type checked against the expected type, and assigned to the
 If the type is a value type, the user is prompted to enter a value literal with the keyboard.
 If the type is a graph element type, the user is prompted to enter the graph element by double clicking in yComp.
 Note that in this case the debug mode must have been enabled before.
+(The command is equivalent to \verb#debug xgrs Variable=$%(Type)#.)
 
 \begin{example}
 \begin{grshelllet}
@@ -639,10 +640,6 @@ The desired variable identifiers have to be listed in \emph{Parameters}.
 Graph elements required by rules must be provided using \texttt{Action (Para\-meters)}, where \emph{Parameters} is a list of variable identifiers. 
 For \indexed{undefined variables} see Section~\ref{ruledecls}, \emph{Parameters}.
 
-% don't explain set/map commands, as they will be replaced by graph rewrite sequence terms
-% they are given in the changelog, so if someone needs them now they are there
-% but not fully officially documented, so that they can be dropped as soon as the sequences are extended
-
 
 \section{Graphical Debugger}
 \label{sct:debugger}
@@ -713,7 +710,7 @@ after the input was received, execution continues according to the command previ
 Both break points and choice points are denoted by the \texttt{\%} modifier. 
 The \texttt{\%} modifier works as a break point if it is given before: a rule, an all bracketed rule, a variable predicate, or the constants \texttt{true}/\texttt{false}.
 The \texttt{\%} modifier works as a choice point if it is appended to the \texttt{\$} randomize modifier switching a random decision into a user decision.
-This holds for the binary operators, the random match selector of all bracketed rules, or the random number assignment.
+This holds for the binary operators, the random match selector of all bracketed rules, the random-all-of operators and the one-of-set braces.
 The concept behind this is: you need some randomization for \indexed{simulation} purposes --- then use the randomize modifier \texttt{\$}.
 You want to force a certain decision overriding the random decision to try out another execution path while debugging the simulation flow --- then modify the randomize modifier with the user (choice) modifier \texttt{\%}.
 

@@ -53,7 +53,7 @@ a = ((b,c) = R(x,y,z))
 \end{figure}
 
 
-\section{Rewrite sequence (logical connectives)}
+\section{Logical connectives (rewrite sequence)}
 
 \makeatletter
 
@@ -90,7 +90,7 @@ The modifier \texttt{\%} appended to the \texttt{\$} overrides the random select
 \end{table}
 
 
-\section{Rewrite term (loops)}\indexmain{loop}\indexmain{regular expression syntax}
+\section{Loops (rewrite term)}\indexmain{loop}\indexmain{regular expression syntax}
 
 \begin{rail}
   RewriteTerm: 
@@ -105,49 +105,21 @@ The brackets (\texttt{[m]}) execute a sequence repeatedly as long as its executi
 the min-max-brackets (\texttt{[n:m]}) additionally fail if the minimum amount \emph{n} of iterations was not reached.
 
 
-\section{Rewrite factor (rule application and variable handling)}
+\section{Rule application (rewrite factor)}
 
 \begin{rail} 
   RewriteFactor: 
     RuleExecution |
     VariableHandling |
+	ExtendedControl |
 	VisitedFlagsManagement |
-	'emit' '(' (QuotedText | Variable ) ')' |
-	'if' lbrace Condition ';' TrueCase ';' FalseCase rbrace |
-	'if' lbrace Condition ';' TrueCase rbrace |
-    '<' RewriteSequence '>' | 
-    '(' RewriteSequence ')' |
-    (percent)? BoolLit |
-	dollar (percent)? (ampersand | '|' | doubleampersand | '||') '(' SequencesList ')' |
-	(dollar (percent)? )? lbrace ((RuleExecution)+(',')) rbrace
+	'emit' '(' (QuotedText | Variable ) ')'
 	;
-  SequencesList:
-	RewriteSequence ((',' RewriteSequence)*())
-	;
-\end{rail}\ixnterm{RewriteFactor}\ixnterm{SequencesList}\ixkeyw{emit}\ixkeyw{if}\indexmain{\texttt{<>}}
+\end{rail}\ixnterm{RewriteFactor}\ixkeyw{emit}
 
 Rewrite factors are the building blocks of graph rewrite sequences.
-They mainly act as a rule application or variable assignment; further on, there are commands for visited flags management.
-These 3 uses will be described in the following, but first let us have a look at the other rewrite factors.
-The \texttt{emit} sequence writes a double quoted string or the value of a variable to the emit target (stdout as default, or a file specified with the shell command \texttt{redirect emit}).
-In addition, they comprise the condition execution statement \texttt{if}, which executes the condition xgrs, and if it yielded true executes the true case xgrs, otherwise the false case xgrs.
-The sequence \verb#if{Condition;TrueCase}# is equivalent to \verb#if{Condition;TrueCase;true}#, thus giving a lazy implication.
-Graph rewrite sequences can be processed \indexed{transaction}ally by using angle brackets (\texttt{<>}), i.e.
-if the return value is \texttt{false}, all the related operations on the host graph will be rolled back.
-Nested transactions\indexmainsee{nested transaction}{transaction} are supported.
-Forcing execution order can be achived by parentheses.
-Boolean literals \texttt{true}/\texttt{false} come in handy if a sequence is to be evaluated 
-but its result must be a predefined value; furtheron a \indexed{break point} may be attached to them.
-The \indexed{random-all-of operators} given in function call notation with the dollar sign plus operator symbol as name have the following semantics:
-The strict operators \verb/|/ and \verb/&/ evaluate all their subsequences in random order returning the disjunction resp. conjunction of their truth values.
-The lazy operators \verb/||/ and \verb/&&/ evaluate the subsequences in random order as long as the outcome is not fixed or every subsequence was executed 
-(which holds for the disjunction as long as there was no succeeding rule and for the conjunction as long as there was no failing rule).
-A \indexed{choice point} may be used to define the subsequence to be executed next.
-The \indexed{some-of-set braces} \verb/{r,[s],$[t]}/ matches all contained rules and then executes the ones which matched.
-The \indexed{one-of-set braces} \verb/${r,[s],$[t]}/ (some-of-set with random choice applied) matches all contained rules and then executes at random one of the rules which matched
-(i.e. the one match of a rule, all matches of an all bracketed rule, or one randomly chosen match of an all bracketed rule with random choice).
-The one/some-of-set is true if at least one rule matched and false if no contained rule matched.
-A \indexed{choice point} may be used on the one-of-set; it allows you to inspect the matches available graphically before deciding on the one to apply. 
+They split into four major areas: rule application, variable assignment, extended control, and visited flags management (plus the special area of storages to be described separately).
+Further on, there's the \texttt{emit} sequence: it writes a double quoted string or the value of a variable to the emit target (stdout as default, or a file specified with the shell command \texttt{redirect emit}).
 
 \begin{rail}    
   RuleExecution: (() | '(' (Variable+',') ')' '=') \\ (() | percent) (() | '?') ( (dollar (percent)?() ( Variable | ()) | ()) '[' Rule ']' | Rule);   
@@ -166,12 +138,20 @@ The sqare braces (\texttt{[]}) introduce a special kind of multiple rule applica
 Every pattern match produced by the will be rewritten.
 Attention: This \indexed{all bracketing} is \textbf{not} equal to \texttt{Rule*}.
 Instead this operator collects all the matches first before starting to rewrite.
-In particular the semantics is unsafe, i.e.\ one needs to avoid deleting a graph element that is bound by another match.
+In particular the semantics is unsafe, i.e.\ one needs to avoid deleting or retyping a graph element that is bound by another match.
 If \emph{Rule} returns values, the values of \emph{one} of the executed rules will be returned.
 The \indexed{random match selector} \texttt{\$v} searches for all matches and then randomly selects \texttt{v} of them to be rewritten
 (but at most as much as are available), with \texttt{\$[r1]} being equivalent to \texttt{anonymousTempVar=1 \& \$anonymousTempVar[r1]}.
 An \texttt{\%} appended to the \texttt{\$} denotes a \indexed{choice point} 
 allowing the user to choose the match to be applied from the available ones in the debugger (see Section~\ref{sct:debugger}).
+
+\begin{example}
+The sequence \verb#(u,v)=r(x,y)# applies the rule \texttt{r} with input from the variables \texttt{x} and \texttt{y} on the host graph 
+and assigns the return elements from the rule to the variables \texttt{u} and \texttt{v} (the parenthesis around the out variables are always needed, even if there's only one variable assigned to).
+The sequence \verb#$[t]# determines all matches of the parameterless rule \texttt{t} on the host graph, then one of the matches is randomly chosen and executed.
+\end{example}
+
+\section{Variable handling}
 
 \begin{rail}
   VariableHandling: 
@@ -197,7 +177,7 @@ Graph elments are initially assigned to the variables by the element returns of 
 Assigning graph elements by their \indexed{persistent name} to variables is not supported in compiled sequences (names are not available on this level).
 The random number assignment \texttt{v=\$(42)} assigns a random number in between 0 and 41 to the variable \texttt{v}. 
 Appending a \texttt{\%} changes random selection to user selection (defining a \indexed{choice point}).
-The user input assignment \texttt{v=\$\%(string)} queries the user for a string value -- this only works in the GrShell.
+The \indexed {user input assignment} \texttt{v=\$\%(string)} queries the user for a string value -- this only works in the GrShell.
 The user input assignment \texttt{v=\$\%(Node)} queries the user for a node from the host graph -- this only works in the GrShell in debug mode.
 Each of the \emph{VarAssignment} rewrite factors yields always true.
 The variable in the \indexed{variable predicate} (a sequence consisting of only a variable read) must contain a boolean value;
@@ -208,6 +188,45 @@ A \texttt{yield} term yields the variable values to the containing \texttt{exec}
 Yielding is only possible from compiled sequences. 
 It always succeeds, assigning the output elements (\emph{not} returning from the sequence). 
 Preliminary implementation: you get internal errors if yielded and expected types are not equal or if there is not a yield on any control flow path leaving the sequence.
+
+
+\section{Extended control}
+
+\begin{rail} 
+  ExtendedControl: 
+	'if' lbrace Condition ';' TrueCase ';' FalseCase rbrace |
+	'if' lbrace Condition ';' TrueCase rbrace |
+    '<' RewriteSequence '>' | 
+    '(' RewriteSequence ')' |
+    (percent)? BoolLit |
+	dollar (percent)? (ampersand | '|' | doubleampersand | '||') '(' SequencesList ')' |
+	(dollar (percent)? )? lbrace ((RuleExecution)+(',')) rbrace
+	;
+  SequencesList:
+	RewriteSequence ((',' RewriteSequence)*())
+	;
+\end{rail}\ixnterm{ExtendedControl}\ixnterm{SequencesList}\ixkeyw{if}\indexmain{\texttt{<>}}
+
+The extended control constructs offer further rule application control in the form of \indexed{conditional sequence}s, \indexed{transaction}s, parenthesis, \indexed{sequence constant}s, and \indexed{indeterministic choice} from a sets of rules or sequences.
+The condition execution statement \texttt{if} executes the condition sequence, and if it yielded true executes the true case xgrs, otherwise the false case xgrs.
+The sequence \verb#if{Condition;TrueCase}# is equivalent to \verb#if{Condition;TrueCase;true}#, thus giving a lazy implication.
+Graph rewrite sequences can be processed \indexed{transaction}ally by using angle brackets (\texttt{<>}), i.e.
+if the return value is \texttt{false}, all the related operations on the host graph will be rolled back.
+Nested transactions\indexmainsee{nested transaction}{transaction} are supported.
+Forcing execution order can be achived by parentheses.
+Boolean literals \texttt{true}/\texttt{false} come in handy if a sequence is to be evaluated 
+but its result must be a predefined value; furtheron a \indexed{break point} may be attached to them.
+The \indexed{random-all-of operators} given in function call notation with the dollar sign plus operator symbol as name have the following semantics:
+The strict operators \verb/|/ and \verb/&/ evaluate all their subsequences in random order returning the disjunction resp. conjunction of their truth values.
+The lazy operators \verb/||/ and \verb/&&/ evaluate the subsequences in random order as long as the outcome is not fixed or every subsequence was executed 
+(which holds for the disjunction as long as there was no succeeding rule and for the conjunction as long as there was no failing rule).
+A \indexed{choice point} may be used to define the subsequence to be executed next.
+The \indexed{some-of-set braces} \verb/{r,[s],$[t]}/ matches all contained rules and then executes the ones which matched.
+The \indexed{one-of-set braces} \verb/${r,[s],$[t]}/ (some-of-set with random choice applied) matches all contained rules and then executes at random one of the rules which matched
+(i.e. the one match of a rule, all matches of an all bracketed rule, or one randomly chosen match of an all bracketed rule with random choice).
+The one/some-of-set is true if at least one rule matched and false if no contained rule matched.
+A \indexed{choice point} may be used on the one-of-set; it allows you to inspect the matches available graphically before deciding on the one to apply. 
+
  
 \section{Visited Flags}\indexmain{visited flag}
 
@@ -368,6 +387,7 @@ Table~\ref{ruletab} lists most of the operations of the graph rewrite expression
 \texttt{def(\emph{Parameters})} & Check if all the variables are defined.\\
 \texttt{true}	& A constant acting as a successful match.\\
 \texttt{false}	& A constant acting as a failed match.\\
+\texttt{\$\{r1,[r2],\$[r3]\}}	& Tries to match all contained rules, then rewrites one of the rules which matched. True if at least one matched.\\
 \texttt{id=valloc()} & Allocates a visited-flag, returns its id.\\
 \texttt{vfree(id)} & Frees the visited-flag given.\\
 \texttt{vreset(id)} & Resets the visited-flag given in all graph elements.\\
