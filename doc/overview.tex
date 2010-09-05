@@ -77,6 +77,7 @@ We have organized the presentation of the features of the \GrG\ languages accord
     \item Attribute re-/calculation (assigning the result of e.g. arithmetic expressions to the attributes)
     \item Retyping of nodes/edges (a more general version of casts known from common programming languages)
     \item Creation of new nodes/edges of only dynamically known types
+	\pagebreak
     \item Two modes of specification: A rule can either express changes to be made to the match or replace the whole match
     \item Embedded graph rewrite sequences capable of calling other rules (with access to the nodes/edges of the rule)
     \item Emitting user-defined text to \texttt{stdout} or files during the rewrite steps
@@ -85,11 +86,14 @@ We have organized the presentation of the features of the \GrG\ languages accord
     \item Parameter passing out of rules
   \end{itemize}
   
-  \item The rule application language (grs: graph rewrite sequences) supports:
+  \item The rule application control language (grs: graph rewrite sequences) supports:
   \begin{itemize}
-    \item Composing several rules with sequential, logical, and iterative control
-    \item Variables to store graph elements handed into rules and returned from rules
-	\item Visited flags management
+    \item Logical and sequential connectives
+    \item Loops
+    \item Rule execution
+    \item Variable handling
+    \item Extended control (e.g decisions, transactions, indeterministic choice)
+    \item Visited flags management
 	\item Storages, i.e. sets and maps capable of storing graph elements and allowing element-wise iteration
   \end{itemize}
 \end{itemize}
@@ -98,22 +102,34 @@ We have organized the presentation of the features of the \GrG\ languages accord
 the generator \texttt{grgen.exe} and its languages plus its runtime environment \texttt{libGr}.
 In addition, the \GrG\ system offers a shell application, the \GrShell, 
 which features commands for
-\begin{table}[htbp]
-    \begin{tabularx}{\linewidth}{ll}
-		\hspace{12mm}-- graph management,\hspace{3cm} & -- graph validation,\\[5pt]
-		\hspace{12mm}-- graph input and output, & -- graph manipulation,\\[5pt]
-		\hspace{12mm}-- graph and model queries, & -- graph visualisation,\\[5pt]
-		\hspace{12mm}-- action execution, & -- debugging,\\[5pt]
-		\hspace{12mm}-- backend selection and usage. 
-    \end{tabularx}    
+%\begin{table}[htbp]
+%    \begin{tabularx}{\linewidth}{ll}
+%		\hspace{12mm}-- graph management,\hspace{3cm} & -- graph validation,\\[5pt]
+%		\hspace{12mm}-- graph input and output, & -- graph manipulation,\\[5pt]
+%		\hspace{12mm}-- graph and model queries, & -- graph visualisation,\\[5pt]
+%		\hspace{12mm}-- action execution, & -- \emph{debugging},\\[5pt]
+%		\hspace{12mm}-- backend selection and usage. 
+%   \end{tabularx}    
 %    \caption{Semantics of pattern modifiers}
-    \label{tbl:overview:shellcommands}
-\end{table}
+%    \label{tbl:overview:shellcommands}
+%\end{table}
+\begin{itemize}
+	\item graph management
+	\item graph validation
+	\item graph input and output
+	\item graph manipulation
+	\item graph and model queries
+	\item graph visualisation
+	\item action execution
+	\item \emph{debugging}
+	\item backend selection and usage
+\end{itemize}
 
-The debugging and graph visualisation commands are implemented in cooperation with the graph viewer \yComp.
+\noindent The debugging and graph visualisation commands are implemented in cooperation with the graph viewer \yComp.
 Alternatively to \GrShell, you can access the match and rewrite facility through \LibGr. 
 This way you can build your own algorithmic rule applications in a .NET language of your choice. 
 
+\pagebreak
 
 \section{System Overview}\indexmain{overview, system}
 
@@ -534,7 +550,7 @@ For further information about the \GrShell\ language see Chapter~\ref{chapgrshel
 \subsection{\texttt{LibGr.dll}}
 \label{sct:API}
 The \LibGr\indexmain{libGr} is a .NET assembly implementing \GrG's \indexed{API}.
-See the extracted HTML documentation for interface descriptions at \url{http://www.grgen.net/doc/libGr/};
+See the extracted HTML documentation for interface descriptions at \url{http://www.grgen.net/doc/API_2_6/};
 a short introduction is given in chaper \ref{cha:api}. 
 
 \subsection{\texttt{yComp.jar}}

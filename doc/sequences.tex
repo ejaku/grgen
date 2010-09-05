@@ -1,4 +1,4 @@
-\chapter{Rule application language (XGRS)}\indexmain{rule application language}
+\chapter{Rule application control language (XGRS)}\indexmain{rule application language}
 \label{cha:xgrs}
 
 Graph rewrite sequences (GRS)\indexmain{graph rewrite sequence}, better extended graph rewrite sequences XGRS, to distinguish them from the older graph rewrite sequences, are a domain specific \GrG~language used for controlling the application of graph rewrite rules. 
@@ -208,7 +208,7 @@ Preliminary implementation: you get internal errors if yielded and expected type
 \end{rail}\ixnterm{ExtendedControl}\ixnterm{SequencesList}\ixkeyw{if}\indexmain{\texttt{<>}}
 
 The extended control constructs offer further rule application control in the form of \indexed{conditional sequence}s, \indexed{transaction}s, parenthesis, \indexed{sequence constant}s, and \indexed{indeterministic choice} from a sets of rules or sequences.
-The condition execution statement \texttt{if} executes the condition sequence, and if it yielded true executes the true case xgrs, otherwise the false case xgrs.
+The condition execution (/decision) statement \texttt{if} executes the condition sequence, and if it yielded true executes the true case xgrs, otherwise the false case xgrs.
 The sequence \verb#if{Condition;TrueCase}# is equivalent to \verb#if{Condition;TrueCase;true}#, thus giving a lazy implication.
 Graph rewrite sequences can be processed \indexed{transaction}ally by using angle brackets (\texttt{<>}), i.e.
 if the return value is \texttt{false}, all the related operations on the host graph will be rolled back.
