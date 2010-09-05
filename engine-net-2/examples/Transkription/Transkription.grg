@@ -1,6 +1,7 @@
 using Transkription;
 
-rule Transkription {
+rule Transkription
+{
 	pLink:P;
 	b:DNAChainBegin(pLink); 
 	c:DNAChain(pLink); 
@@ -12,7 +13,7 @@ rule Transkription {
 	}
 }
 
-pattern DNAChainBegin(pOfNext:P)
+pattern DNAChainBegin(pOfNext:P) modify(oOfNext:O)
 {
 	:H --> :O --> c3; 
 
@@ -28,14 +29,15 @@ pattern DNAChainBegin(pOfNext:P)
 	c5 --> :O --> pOfNext; 
 	pOfNext --> do:O;  pOfNext --> do;  pOfNext --> :O --> :H; 
 
-	modify(oOfNext:O) {
+	modify {
 		rep_c1:C; 
 		:RNAChainBegin(oOfNext, rep_c1); 
 		n(rep_c1); 
 	}
 }
 
-pattern DNAChain(pOfPrev:P) {
+pattern DNAChain(pOfPrev:P) modify(oOfPrev:O)
+{
 	alternative {
 		Chain {
 			e:DNAChainElement(pOfPrev, pOfNext); 
@@ -57,11 +59,11 @@ pattern DNAChain(pOfPrev:P) {
 		}
 	}
 	
-	modify(oOfPrev:O) {
+	modify {
 	}
 }
 
-pattern DNAChainElement(pOfPrev:P, pOfNext:P)
+pattern DNAChainElement(pOfPrev:P, pOfNext:P) modify(oOfPrev:O, oOfNext:O)
 {
 	pOfPrev --> :O --> c3; 
 
@@ -76,14 +78,14 @@ pattern DNAChainElement(pOfPrev:P, pOfNext:P)
 	c5 --> :O --> pOfNext; 
 	pOfNext --> do:O;  pOfNext --> do;  pOfNext --> :O --> :H; 
 
-	modify(oOfPrev:O, oOfNext:O) {
+	modify {
 		:RNAChainElement(oOfPrev, oOfNext, rep_c1); 
 		rep_c1:C;
 		n(rep_c1); 
 	}
 }
 
-pattern DNAChainEnd(pOfPrev:P)
+pattern DNAChainEnd(pOfPrev:P) modify(oOfPrev:O)
 {
 	pOfPrev --> :O --> c3;
 
@@ -99,7 +101,7 @@ pattern DNAChainEnd(pOfPrev:P)
 	p --> do:O;  p --> do;  p --> :O --> :H; 
 	p --> :O --> :H; 
 
-	modify(oOfPrev:O) {
+	modify {
 		:RNAChainEnd(oOfPrev, rep_c1); 
 		rep_c1:C;
 		n(rep_c1); 
@@ -154,7 +156,8 @@ pattern RNAChainEnd(oOfPrev:O, c1:C)
 	c3 --> :O --> :H; 
 }
 
-pattern Nukleinbase(c1:C) {
+pattern Nukleinbase(c1:C) modify(rc1:C)
+{
 	alternative {
 		A {
 			a:Adenin(c1); 
@@ -186,11 +189,12 @@ pattern Nukleinbase(c1:C) {
 		}
 	}
 	
-	modify(rc1:C) {
+	modify {
 	}
 }
 
-pattern Adenin(rc1:C) {
+pattern Adenin(rc1:C)
+{
 	rc1 --> n1:N --> c1:C --> n2:N --> c2:C --> c3:C --> n1; 
 	c1 --> n2;  c2 --> c3; 
 	c1 --> :H; 
@@ -200,7 +204,8 @@ pattern Adenin(rc1:C) {
 	c4 --> n5:N;  n5 --> :H;  n5 --> :H; 
 }
 
-pattern Cytosin(rc1:C) {
+pattern Cytosin(rc1:C)
+{
 	rc1 --> n1:N --> c1:C --> c2:C --> c3:C --> n2:N --> c4:C --> n1; 
 	c1 --> c2;  c3 --> n2; 
 	c1 --> :H; 
@@ -209,7 +214,8 @@ pattern Cytosin(rc1:C) {
 	c4 --> o:O;  c4 --> o;  
 }
 
-pattern Guanin(rc1:C) {
+pattern Guanin(rc1:C)
+{
 	rc1 --> n1:N --> c1:C --> n2:N --> c2:C --> c3:C --> n1; 
 	c1 --> n2;  c2 --> c3; 
 	c1 --> :H; 
@@ -220,7 +226,8 @@ pattern Guanin(rc1:C) {
 	c5 --> n5:N;  n5 --> :H;  n5 --> :H;  
 }
 
-pattern Thymin(rc1:C) {
+pattern Thymin(rc1:C)
+{
 	rc1 --> n1:N --> c1:C --> c2:C --> c3:C --> n2:N --> c4:C --> n1; 
 	c1 --> c2; 
 	c1 --> :H; 
@@ -230,7 +237,8 @@ pattern Thymin(rc1:C) {
 	c4 --> o2:O;  c4 --> o2; 
 }
 
-pattern Uracil(rc1:C) {
+pattern Uracil(rc1:C)
+{
 	rc1 --> n1:N --> c1:C --> c2:C --> c3:C --> n2:N --> c4:C --> n1; 
 	c1 --> c2;  
 	c1 --> :H; 

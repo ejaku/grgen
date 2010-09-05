@@ -1,6 +1,6 @@
 // This file has been generated automatically by GrGen (www.grgen.net)
 // Do not modify this file! Any changes will be lost!
-// Generated from "..\..\tests\independent\Independent.grg" on Mon May 03 01:43:02 CEST 2010
+// Generated from "..\..\tests\independent\Independent.grg" on Sun Sep 05 18:47:27 CEST 2010
 
 using System;
 using System.Collections.Generic;
@@ -232,35 +232,11 @@ namespace de.unika.ipd.grGen.Action_Independent
 			throw new ApplicationException(); //debug assert
 		}
 
-		public void iteratedPath_alt_0_base_Create(GRGEN_LGSP.LGSPGraph graph)
-		{
-			graph.SettingAddedNodeNames( create_iteratedPath_alt_0_base_addedNodeNames );
-			GRGEN_MODEL.@Node node_beg = GRGEN_MODEL.@Node.CreateNode(graph);
-			GRGEN_MODEL.@Node node_end = GRGEN_MODEL.@Node.CreateNode(graph);
-			graph.SettingAddedEdgeNames( create_iteratedPath_alt_0_base_addedEdgeNames );
-			GRGEN_MODEL.@Edge edge__edge0 = GRGEN_MODEL.@Edge.CreateEdge(graph, node_beg, node_end);
-		}
-		private static string[] create_iteratedPath_alt_0_base_addedNodeNames = new string[] { "beg", "end" };
-		private static string[] create_iteratedPath_alt_0_base_addedEdgeNames = new string[] { "_edge0" };
-
 		public void iteratedPath_alt_0_base_Delete(GRGEN_LGSP.LGSPGraph graph, Match_iteratedPath_alt_0_base curMatch)
 		{
 			GRGEN_LGSP.LGSPEdge edge__edge0 = curMatch._edge__edge0;
 			graph.Remove(edge__edge0);
 		}
-
-		public void iteratedPath_alt_0_recursive_Create(GRGEN_LGSP.LGSPGraph graph)
-		{
-			graph.SettingAddedNodeNames( create_iteratedPath_alt_0_recursive_addedNodeNames );
-			GRGEN_MODEL.@Node node_beg = GRGEN_MODEL.@Node.CreateNode(graph);
-			GRGEN_MODEL.@Node node_intermediate = GRGEN_MODEL.@Node.CreateNode(graph);
-			GRGEN_MODEL.@Node node_end = GRGEN_MODEL.@Node.CreateNode(graph);
-			graph.SettingAddedEdgeNames( create_iteratedPath_alt_0_recursive_addedEdgeNames );
-			GRGEN_MODEL.@Edge edge__edge0 = GRGEN_MODEL.@Edge.CreateEdge(graph, node_beg, node_intermediate);
-			Pattern_iteratedPath.Instance.iteratedPath_Create(graph, (GRGEN_MODEL.@Node)(node_intermediate), (GRGEN_MODEL.@Node)(node_end));
-		}
-		private static string[] create_iteratedPath_alt_0_recursive_addedNodeNames = new string[] { "beg", "intermediate", "end" };
-		private static string[] create_iteratedPath_alt_0_recursive_addedEdgeNames = new string[] { "_edge0" };
 
 		public void iteratedPath_alt_0_recursive_Delete(GRGEN_LGSP.LGSPGraph graph, Match_iteratedPath_alt_0_recursive curMatch)
 		{
@@ -838,17 +814,6 @@ namespace de.unika.ipd.grGen.Action_Independent
 			throw new ApplicationException(); //debug assert
 		}
 
-		public void iteratedPathToIntNode_alt_0_base_Create(GRGEN_LGSP.LGSPGraph graph)
-		{
-			graph.SettingAddedNodeNames( create_iteratedPathToIntNode_alt_0_base_addedNodeNames );
-			GRGEN_MODEL.@Node node_beg = GRGEN_MODEL.@Node.CreateNode(graph);
-			GRGEN_MODEL.@intNode node_end = GRGEN_MODEL.@intNode.CreateNode(graph);
-			graph.SettingAddedEdgeNames( create_iteratedPathToIntNode_alt_0_base_addedEdgeNames );
-			GRGEN_MODEL.@Edge edge__edge0 = GRGEN_MODEL.@Edge.CreateEdge(graph, node_beg, node_end);
-		}
-		private static string[] create_iteratedPathToIntNode_alt_0_base_addedNodeNames = new string[] { "beg", "end" };
-		private static string[] create_iteratedPathToIntNode_alt_0_base_addedEdgeNames = new string[] { "_edge0" };
-
 		public void iteratedPathToIntNode_alt_0_base_Delete(GRGEN_LGSP.LGSPGraph graph, Match_iteratedPathToIntNode_alt_0_base curMatch)
 		{
 			GRGEN_LGSP.LGSPNode node_end = curMatch._node_end;
@@ -857,18 +822,6 @@ namespace de.unika.ipd.grGen.Action_Independent
 			graph.RemoveEdges(node_end);
 			graph.Remove(node_end);
 		}
-
-		public void iteratedPathToIntNode_alt_0_recursive_Create(GRGEN_LGSP.LGSPGraph graph)
-		{
-			graph.SettingAddedNodeNames( create_iteratedPathToIntNode_alt_0_recursive_addedNodeNames );
-			GRGEN_MODEL.@Node node_beg = GRGEN_MODEL.@Node.CreateNode(graph);
-			GRGEN_MODEL.@Node node_intermediate = GRGEN_MODEL.@Node.CreateNode(graph);
-			graph.SettingAddedEdgeNames( create_iteratedPathToIntNode_alt_0_recursive_addedEdgeNames );
-			GRGEN_MODEL.@Edge edge__edge0 = GRGEN_MODEL.@Edge.CreateEdge(graph, node_beg, node_intermediate);
-			Pattern_iteratedPathToIntNode.Instance.iteratedPathToIntNode_Create(graph, (GRGEN_MODEL.@Node)(node_intermediate));
-		}
-		private static string[] create_iteratedPathToIntNode_alt_0_recursive_addedNodeNames = new string[] { "beg", "intermediate" };
-		private static string[] create_iteratedPathToIntNode_alt_0_recursive_addedEdgeNames = new string[] { "_edge0" };
 
 		public void iteratedPathToIntNode_alt_0_recursive_Delete(GRGEN_LGSP.LGSPGraph graph, Match_iteratedPathToIntNode_alt_0_recursive curMatch)
 		{
@@ -3388,6 +3341,8 @@ namespace de.unika.ipd.grGen.Action_Independent
 		public void Modify(GRGEN_LGSP.LGSPGraph graph, GRGEN_LIBGR.IMatch _curMatch)
 		{
 			Match_findChainPlusChainToInt curMatch = (Match_findChainPlusChainToInt)_curMatch;
+			GRGEN_LGSP.LGSPNode node_beg = curMatch._node_beg;
+			GRGEN_LGSP.LGSPNode node_end = curMatch._node_end;
 			Pattern_iteratedPath.Match_iteratedPath subpattern__subpattern0 = curMatch.@__subpattern0;
 			Pattern_iteratedPathToIntNode.Match_iteratedPathToIntNode subpattern__subpattern1 = curMatch.@__subpattern1;
 			return;
@@ -3396,6 +3351,8 @@ namespace de.unika.ipd.grGen.Action_Independent
 		public void ModifyNoReuse(GRGEN_LGSP.LGSPGraph graph, GRGEN_LIBGR.IMatch _curMatch)
 		{
 			Match_findChainPlusChainToInt curMatch = (Match_findChainPlusChainToInt)_curMatch;
+			GRGEN_LGSP.LGSPNode node_beg = curMatch._node_beg;
+			GRGEN_LGSP.LGSPNode node_end = curMatch._node_end;
 			Pattern_iteratedPath.Match_iteratedPath subpattern__subpattern0 = curMatch.@__subpattern0;
 			Pattern_iteratedPathToIntNode.Match_iteratedPathToIntNode subpattern__subpattern1 = curMatch.@__subpattern1;
 			return;
@@ -3647,6 +3604,8 @@ namespace de.unika.ipd.grGen.Action_Independent
 		public void Modify(GRGEN_LGSP.LGSPGraph graph, GRGEN_LIBGR.IMatch _curMatch)
 		{
 			Match_findChainPlusChainToIntIndependent curMatch = (Match_findChainPlusChainToIntIndependent)_curMatch;
+			GRGEN_LGSP.LGSPNode node_beg = curMatch._node_beg;
+			GRGEN_LGSP.LGSPNode node_end = curMatch._node_end;
 			Pattern_iteratedPath.Match_iteratedPath subpattern__subpattern0 = curMatch.@__subpattern0;
 			return;
 		}
@@ -3654,6 +3613,8 @@ namespace de.unika.ipd.grGen.Action_Independent
 		public void ModifyNoReuse(GRGEN_LGSP.LGSPGraph graph, GRGEN_LIBGR.IMatch _curMatch)
 		{
 			Match_findChainPlusChainToIntIndependent curMatch = (Match_findChainPlusChainToIntIndependent)_curMatch;
+			GRGEN_LGSP.LGSPNode node_beg = curMatch._node_beg;
+			GRGEN_LGSP.LGSPNode node_end = curMatch._node_end;
 			Pattern_iteratedPath.Match_iteratedPath subpattern__subpattern0 = curMatch.@__subpattern0;
 			return;
 		}

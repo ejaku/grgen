@@ -19,7 +19,7 @@ rule transcription()
 	}
 }
 
-pattern DNAChain(prev:D)
+pattern DNAChain(prev:D) modify(rprev:R)
 {
 	alternative	{
 	    Chain {
@@ -45,11 +45,11 @@ pattern DNAChain(prev:D)
 		}
 	}
 	
-	modify(rprev:R) {
+	modify {
 	}
 }
 
-pattern DNANucleotide(d:D)
+pattern DNANucleotide(d:D) modify(r:R)
 {
 	alternative	{
 		A {
@@ -82,7 +82,7 @@ pattern DNANucleotide(d:D)
 		}
 	}
 	
-	modify(r:R) {
+	modify {
 	}
 }
 

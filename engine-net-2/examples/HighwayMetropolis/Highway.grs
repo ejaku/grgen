@@ -1,0 +1,12 @@
+new graph "Highway"
+new Karlsruhe:metropolis
+new Frankfurt:metropolis
+new Eppstein:city
+new Karlsruhe -A5_north:highway-> Frankfurt
+new Frankfurt -A5_south:highway-> Karlsruhe
+new Karlsruhe -trail:street-> Frankfurt
+new Eppstein -A3:highway-> Frankfurt
+validate
+validate strict only specified
+validate strict
+debug enable

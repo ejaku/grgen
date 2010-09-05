@@ -1,6 +1,6 @@
 // This file has been generated automatically by GrGen (www.grgen.net)
 // Do not modify this file! Any changes will be lost!
-// Generated from "..\..\tests\TNT\TNT.grg" on Mon May 03 01:43:44 CEST 2010
+// Generated from "..\..\tests\TNT\TNT.grg" on Sun Sep 05 18:47:49 CEST 2010
 
 using System;
 using System.Collections.Generic;
@@ -3899,6 +3899,12 @@ namespace de.unika.ipd.grGen.Action_TNT
 		public void Modify(GRGEN_LGSP.LGSPGraph graph, GRGEN_LIBGR.IMatch _curMatch)
 		{
 			Match_TNTTotallyFolded curMatch = (Match_TNTTotallyFolded)_curMatch;
+			GRGEN_LGSP.LGSPNode node_c1 = curMatch._node_c1;
+			GRGEN_LGSP.LGSPNode node_c2 = curMatch._node_c2;
+			GRGEN_LGSP.LGSPNode node_c3 = curMatch._node_c3;
+			GRGEN_LGSP.LGSPNode node_c4 = curMatch._node_c4;
+			GRGEN_LGSP.LGSPNode node_c5 = curMatch._node_c5;
+			GRGEN_LGSP.LGSPNode node_c6 = curMatch._node_c6;
 			Pattern_BenzolRingC123456Exposed.Match_BenzolRingC123456Exposed subpattern__subpattern0 = curMatch.@__subpattern0;
 			Pattern_Methyl.Match_Methyl subpattern__subpattern1 = curMatch.@__subpattern1;
 			Pattern_Nitro.Match_Nitro subpattern__subpattern2 = curMatch.@__subpattern2;
@@ -3912,6 +3918,12 @@ namespace de.unika.ipd.grGen.Action_TNT
 		public void ModifyNoReuse(GRGEN_LGSP.LGSPGraph graph, GRGEN_LIBGR.IMatch _curMatch)
 		{
 			Match_TNTTotallyFolded curMatch = (Match_TNTTotallyFolded)_curMatch;
+			GRGEN_LGSP.LGSPNode node_c1 = curMatch._node_c1;
+			GRGEN_LGSP.LGSPNode node_c2 = curMatch._node_c2;
+			GRGEN_LGSP.LGSPNode node_c3 = curMatch._node_c3;
+			GRGEN_LGSP.LGSPNode node_c4 = curMatch._node_c4;
+			GRGEN_LGSP.LGSPNode node_c5 = curMatch._node_c5;
+			GRGEN_LGSP.LGSPNode node_c6 = curMatch._node_c6;
 			Pattern_BenzolRingC123456Exposed.Match_BenzolRingC123456Exposed subpattern__subpattern0 = curMatch.@__subpattern0;
 			Pattern_Methyl.Match_Methyl subpattern__subpattern1 = curMatch.@__subpattern1;
 			Pattern_Nitro.Match_Nitro subpattern__subpattern2 = curMatch.@__subpattern2;
@@ -4198,6 +4210,12 @@ namespace de.unika.ipd.grGen.Action_TNT
 		public void Modify(GRGEN_LGSP.LGSPGraph graph, GRGEN_LIBGR.IMatch _curMatch)
 		{
 			Match_TNTChain curMatch = (Match_TNTChain)_curMatch;
+			GRGEN_LGSP.LGSPNode node_c1 = curMatch._node_c1;
+			GRGEN_LGSP.LGSPNode node_c2 = curMatch._node_c2;
+			GRGEN_LGSP.LGSPNode node_c3 = curMatch._node_c3;
+			GRGEN_LGSP.LGSPNode node_c4 = curMatch._node_c4;
+			GRGEN_LGSP.LGSPNode node_c5 = curMatch._node_c5;
+			GRGEN_LGSP.LGSPNode node_c6 = curMatch._node_c6;
 			Pattern_BenzolRingC123456Exposed.Match_BenzolRingC123456Exposed subpattern__subpattern0 = curMatch.@__subpattern0;
 			Pattern_ToluolCoreThenTriNitro.Match_ToluolCoreThenTriNitro subpattern__subpattern1 = curMatch.@__subpattern1;
 			return;
@@ -4206,6 +4224,12 @@ namespace de.unika.ipd.grGen.Action_TNT
 		public void ModifyNoReuse(GRGEN_LGSP.LGSPGraph graph, GRGEN_LIBGR.IMatch _curMatch)
 		{
 			Match_TNTChain curMatch = (Match_TNTChain)_curMatch;
+			GRGEN_LGSP.LGSPNode node_c1 = curMatch._node_c1;
+			GRGEN_LGSP.LGSPNode node_c2 = curMatch._node_c2;
+			GRGEN_LGSP.LGSPNode node_c3 = curMatch._node_c3;
+			GRGEN_LGSP.LGSPNode node_c4 = curMatch._node_c4;
+			GRGEN_LGSP.LGSPNode node_c5 = curMatch._node_c5;
+			GRGEN_LGSP.LGSPNode node_c6 = curMatch._node_c6;
 			Pattern_BenzolRingC123456Exposed.Match_BenzolRingC123456Exposed subpattern__subpattern0 = curMatch.@__subpattern0;
 			Pattern_ToluolCoreThenTriNitro.Match_ToluolCoreThenTriNitro subpattern__subpattern1 = curMatch.@__subpattern1;
 			return;
@@ -4427,6 +4451,7 @@ namespace de.unika.ipd.grGen.Action_TNT
 		public void Modify(GRGEN_LGSP.LGSPGraph graph, GRGEN_LIBGR.IMatch _curMatch)
 		{
 			Match_ToluolCore curMatch = (Match_ToluolCore)_curMatch;
+			GRGEN_LGSP.LGSPNode node_c1 = curMatch._node_c1;
 			Pattern_BenzolRingC1Exposed.Match_BenzolRingC1Exposed subpattern__subpattern0 = curMatch.@__subpattern0;
 			Pattern_Methyl.Match_Methyl subpattern__subpattern1 = curMatch.@__subpattern1;
 			return;
@@ -4435,6 +4460,7 @@ namespace de.unika.ipd.grGen.Action_TNT
 		public void ModifyNoReuse(GRGEN_LGSP.LGSPGraph graph, GRGEN_LIBGR.IMatch _curMatch)
 		{
 			Match_ToluolCore curMatch = (Match_ToluolCore)_curMatch;
+			GRGEN_LGSP.LGSPNode node_c1 = curMatch._node_c1;
 			Pattern_BenzolRingC1Exposed.Match_BenzolRingC1Exposed subpattern__subpattern0 = curMatch.@__subpattern0;
 			Pattern_Methyl.Match_Methyl subpattern__subpattern1 = curMatch.@__subpattern1;
 			return;
@@ -4636,6 +4662,7 @@ namespace de.unika.ipd.grGen.Action_TNT
 		public void Modify(GRGEN_LGSP.LGSPGraph graph, GRGEN_LIBGR.IMatch _curMatch)
 		{
 			Match_ToluolCoreNotC6Nitro curMatch = (Match_ToluolCoreNotC6Nitro)_curMatch;
+			GRGEN_LGSP.LGSPNode node_c1 = curMatch._node_c1;
 			Pattern_BenzolRingC1ExposedNotC6Nitro.Match_BenzolRingC1ExposedNotC6Nitro subpattern__subpattern0 = curMatch.@__subpattern0;
 			Pattern_Methyl.Match_Methyl subpattern__subpattern1 = curMatch.@__subpattern1;
 			return;
@@ -4644,6 +4671,7 @@ namespace de.unika.ipd.grGen.Action_TNT
 		public void ModifyNoReuse(GRGEN_LGSP.LGSPGraph graph, GRGEN_LIBGR.IMatch _curMatch)
 		{
 			Match_ToluolCoreNotC6Nitro curMatch = (Match_ToluolCoreNotC6Nitro)_curMatch;
+			GRGEN_LGSP.LGSPNode node_c1 = curMatch._node_c1;
 			Pattern_BenzolRingC1ExposedNotC6Nitro.Match_BenzolRingC1ExposedNotC6Nitro subpattern__subpattern0 = curMatch.@__subpattern0;
 			Pattern_Methyl.Match_Methyl subpattern__subpattern1 = curMatch.@__subpattern1;
 			return;
@@ -4910,6 +4938,12 @@ namespace de.unika.ipd.grGen.Action_TNT
 		public void Modify(GRGEN_LGSP.LGSPGraph graph, GRGEN_LIBGR.IMatch _curMatch)
 		{
 			Match_Toluol curMatch = (Match_Toluol)_curMatch;
+			GRGEN_LGSP.LGSPNode node_c1 = curMatch._node_c1;
+			GRGEN_LGSP.LGSPNode node_c2 = curMatch._node_c2;
+			GRGEN_LGSP.LGSPNode node_c3 = curMatch._node_c3;
+			GRGEN_LGSP.LGSPNode node_c4 = curMatch._node_c4;
+			GRGEN_LGSP.LGSPNode node_c5 = curMatch._node_c5;
+			GRGEN_LGSP.LGSPNode node_c6 = curMatch._node_c6;
 			Pattern_BenzolRingC123456Exposed.Match_BenzolRingC123456Exposed subpattern__subpattern0 = curMatch.@__subpattern0;
 			Pattern_Methyl.Match_Methyl subpattern__subpattern1 = curMatch.@__subpattern1;
 			Pattern_Hydrogen.Match_Hydrogen subpattern__subpattern2 = curMatch.@__subpattern2;
@@ -4923,6 +4957,12 @@ namespace de.unika.ipd.grGen.Action_TNT
 		public void ModifyNoReuse(GRGEN_LGSP.LGSPGraph graph, GRGEN_LIBGR.IMatch _curMatch)
 		{
 			Match_Toluol curMatch = (Match_Toluol)_curMatch;
+			GRGEN_LGSP.LGSPNode node_c1 = curMatch._node_c1;
+			GRGEN_LGSP.LGSPNode node_c2 = curMatch._node_c2;
+			GRGEN_LGSP.LGSPNode node_c3 = curMatch._node_c3;
+			GRGEN_LGSP.LGSPNode node_c4 = curMatch._node_c4;
+			GRGEN_LGSP.LGSPNode node_c5 = curMatch._node_c5;
+			GRGEN_LGSP.LGSPNode node_c6 = curMatch._node_c6;
 			Pattern_BenzolRingC123456Exposed.Match_BenzolRingC123456Exposed subpattern__subpattern0 = curMatch.@__subpattern0;
 			Pattern_Methyl.Match_Methyl subpattern__subpattern1 = curMatch.@__subpattern1;
 			Pattern_Hydrogen.Match_Hydrogen subpattern__subpattern2 = curMatch.@__subpattern2;
@@ -5297,6 +5337,12 @@ namespace de.unika.ipd.grGen.Action_TNT
 		public void Modify(GRGEN_LGSP.LGSPGraph graph, GRGEN_LIBGR.IMatch _curMatch)
 		{
 			Match_TNT curMatch = (Match_TNT)_curMatch;
+			GRGEN_LGSP.LGSPNode node_c1 = curMatch._node_c1;
+			GRGEN_LGSP.LGSPNode node_c2 = curMatch._node_c2;
+			GRGEN_LGSP.LGSPNode node_c3 = curMatch._node_c3;
+			GRGEN_LGSP.LGSPNode node_c4 = curMatch._node_c4;
+			GRGEN_LGSP.LGSPNode node_c5 = curMatch._node_c5;
+			GRGEN_LGSP.LGSPNode node_c6 = curMatch._node_c6;
 			Pattern_Methyl.Match_Methyl subpattern__subpattern0 = curMatch.@__subpattern0;
 			Pattern_Nitro.Match_Nitro subpattern__subpattern1 = curMatch.@__subpattern1;
 			Pattern_Hydrogen.Match_Hydrogen subpattern__subpattern2 = curMatch.@__subpattern2;
@@ -5309,6 +5355,12 @@ namespace de.unika.ipd.grGen.Action_TNT
 		public void ModifyNoReuse(GRGEN_LGSP.LGSPGraph graph, GRGEN_LIBGR.IMatch _curMatch)
 		{
 			Match_TNT curMatch = (Match_TNT)_curMatch;
+			GRGEN_LGSP.LGSPNode node_c1 = curMatch._node_c1;
+			GRGEN_LGSP.LGSPNode node_c2 = curMatch._node_c2;
+			GRGEN_LGSP.LGSPNode node_c3 = curMatch._node_c3;
+			GRGEN_LGSP.LGSPNode node_c4 = curMatch._node_c4;
+			GRGEN_LGSP.LGSPNode node_c5 = curMatch._node_c5;
+			GRGEN_LGSP.LGSPNode node_c6 = curMatch._node_c6;
 			Pattern_Methyl.Match_Methyl subpattern__subpattern0 = curMatch.@__subpattern0;
 			Pattern_Nitro.Match_Nitro subpattern__subpattern1 = curMatch.@__subpattern1;
 			Pattern_Hydrogen.Match_Hydrogen subpattern__subpattern2 = curMatch.@__subpattern2;
@@ -6659,6 +6711,12 @@ namespace de.unika.ipd.grGen.Action_TNT
 		public void Modify(GRGEN_LGSP.LGSPGraph graph, GRGEN_LIBGR.IMatch _curMatch)
 		{
 			Match_DNT curMatch = (Match_DNT)_curMatch;
+			GRGEN_LGSP.LGSPNode node_c1 = curMatch._node_c1;
+			GRGEN_LGSP.LGSPNode node_c2 = curMatch._node_c2;
+			GRGEN_LGSP.LGSPNode node_c3 = curMatch._node_c3;
+			GRGEN_LGSP.LGSPNode node_c4 = curMatch._node_c4;
+			GRGEN_LGSP.LGSPNode node_c5 = curMatch._node_c5;
+			GRGEN_LGSP.LGSPNode node_c6 = curMatch._node_c6;
 			Pattern_Methyl.Match_Methyl subpattern__subpattern0 = curMatch.@__subpattern0;
 			Pattern_Nitro.Match_Nitro subpattern__subpattern1 = curMatch.@__subpattern1;
 			Pattern_Hydrogen.Match_Hydrogen subpattern__subpattern2 = curMatch.@__subpattern2;
@@ -6671,6 +6729,12 @@ namespace de.unika.ipd.grGen.Action_TNT
 		public void ModifyNoReuse(GRGEN_LGSP.LGSPGraph graph, GRGEN_LIBGR.IMatch _curMatch)
 		{
 			Match_DNT curMatch = (Match_DNT)_curMatch;
+			GRGEN_LGSP.LGSPNode node_c1 = curMatch._node_c1;
+			GRGEN_LGSP.LGSPNode node_c2 = curMatch._node_c2;
+			GRGEN_LGSP.LGSPNode node_c3 = curMatch._node_c3;
+			GRGEN_LGSP.LGSPNode node_c4 = curMatch._node_c4;
+			GRGEN_LGSP.LGSPNode node_c5 = curMatch._node_c5;
+			GRGEN_LGSP.LGSPNode node_c6 = curMatch._node_c6;
 			Pattern_Methyl.Match_Methyl subpattern__subpattern0 = curMatch.@__subpattern0;
 			Pattern_Nitro.Match_Nitro subpattern__subpattern1 = curMatch.@__subpattern1;
 			Pattern_Hydrogen.Match_Hydrogen subpattern__subpattern2 = curMatch.@__subpattern2;
@@ -7969,6 +8033,12 @@ namespace de.unika.ipd.grGen.Action_TNT
 		public void Modify(GRGEN_LGSP.LGSPGraph graph, GRGEN_LIBGR.IMatch _curMatch)
 		{
 			Match_TNB curMatch = (Match_TNB)_curMatch;
+			GRGEN_LGSP.LGSPNode node_c1 = curMatch._node_c1;
+			GRGEN_LGSP.LGSPNode node_c2 = curMatch._node_c2;
+			GRGEN_LGSP.LGSPNode node_c3 = curMatch._node_c3;
+			GRGEN_LGSP.LGSPNode node_c4 = curMatch._node_c4;
+			GRGEN_LGSP.LGSPNode node_c5 = curMatch._node_c5;
+			GRGEN_LGSP.LGSPNode node_c6 = curMatch._node_c6;
 			Pattern_Hydrogen.Match_Hydrogen subpattern__subpattern0 = curMatch.@__subpattern0;
 			Pattern_Nitro.Match_Nitro subpattern__subpattern1 = curMatch.@__subpattern1;
 			Pattern_Hydrogen.Match_Hydrogen subpattern__subpattern2 = curMatch.@__subpattern2;
@@ -7981,6 +8051,12 @@ namespace de.unika.ipd.grGen.Action_TNT
 		public void ModifyNoReuse(GRGEN_LGSP.LGSPGraph graph, GRGEN_LIBGR.IMatch _curMatch)
 		{
 			Match_TNB curMatch = (Match_TNB)_curMatch;
+			GRGEN_LGSP.LGSPNode node_c1 = curMatch._node_c1;
+			GRGEN_LGSP.LGSPNode node_c2 = curMatch._node_c2;
+			GRGEN_LGSP.LGSPNode node_c3 = curMatch._node_c3;
+			GRGEN_LGSP.LGSPNode node_c4 = curMatch._node_c4;
+			GRGEN_LGSP.LGSPNode node_c5 = curMatch._node_c5;
+			GRGEN_LGSP.LGSPNode node_c6 = curMatch._node_c6;
 			Pattern_Hydrogen.Match_Hydrogen subpattern__subpattern0 = curMatch.@__subpattern0;
 			Pattern_Nitro.Match_Nitro subpattern__subpattern1 = curMatch.@__subpattern1;
 			Pattern_Hydrogen.Match_Hydrogen subpattern__subpattern2 = curMatch.@__subpattern2;

@@ -21,6 +21,8 @@ DTree:
   DTree.grs -> 0
 DebugExec:
   debugexec.grs -> 0
+DebugTesting:
+  test.grs -> 0
 Dragon:
   Dragon.grs -> 0
   DragonDebug.grs -> 0
@@ -32,6 +34,8 @@ FloweringGeraniumInCrackedPot:
   FloweringGeraniumInCrackedPot.grs -> 0
 GrIO:
   GrIOtest.grs -> 0
+HighwayMetropolis:
+  Highway.grs -> 0
 JavaProgramGraphs-GraBaTs08:
   EncapsulateField.grs -> 0
   MoveMethod.grs -> 0
@@ -42,6 +46,14 @@ Ludo2:
   Ludo2_098754321.grs -> 0
   Ludo2_123456789.grs -> 0
   Ludo2_987654321.grs -> 0
+ModelMigration-TTC2010:
+  alternative_ObjectFlowState.grs -> 0
+  core.grs -> 0
+  export.grs -> 0
+  export_objectflow_extension.grs -> 0
+  show_uml14.grs -> 0
+  show_uml22.grs -> 0
+  show_uml22_objectflow_extension.grs -> 0
 Mutex:
   Mutex10.grs -> 0
   Mutex1000.grs -> 0

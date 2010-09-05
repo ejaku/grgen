@@ -1,0 +1,7 @@
+node class city;
+node class metropolis;
+
+edge class street;
+edge class highway
+	connect metropolis [+] --> metropolis [+];
+	

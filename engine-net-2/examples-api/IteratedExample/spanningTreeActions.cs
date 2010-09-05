@@ -1,6 +1,6 @@
 // This file has been generated automatically by GrGen (www.grgen.net)
 // Do not modify this file! Any changes will be lost!
-// Generated from "..\..\tests\iterated\spanningTree.grg" on Mon May 03 01:43:09 CEST 2010
+// Generated from "..\..\tests\iterated\spanningTree.grg" on Sun Sep 05 18:47:31 CEST 2010
 
 using System;
 using System.Collections.Generic;
@@ -228,18 +228,6 @@ namespace de.unika.ipd.grGen.Action_spanningTree
 			graph.SetVisited(edge_e, 0, true);
 			graph.SetVisited(node_next, 0, true);
 		}
-
-		public void SpanningTree_iter_0_Create(GRGEN_LGSP.LGSPGraph graph)
-		{
-			graph.SettingAddedNodeNames( create_SpanningTree_iter_0_addedNodeNames );
-			GRGEN_MODEL.@Node node_root = GRGEN_MODEL.@Node.CreateNode(graph);
-			GRGEN_MODEL.@Node node_next = GRGEN_MODEL.@Node.CreateNode(graph);
-			graph.SettingAddedEdgeNames( create_SpanningTree_iter_0_addedEdgeNames );
-			GRGEN_MODEL.@UEdge edge_e = GRGEN_MODEL.@UEdge.CreateEdge(graph, node_root, node_next);
-			Pattern_SpanningTree.Instance.SpanningTree_Create(graph, (GRGEN_MODEL.@Node)(node_next));
-		}
-		private static string[] create_SpanningTree_iter_0_addedNodeNames = new string[] { "root", "next" };
-		private static string[] create_SpanningTree_iter_0_addedEdgeNames = new string[] { "e" };
 
 		public void SpanningTree_iter_0_Delete(GRGEN_LGSP.LGSPGraph graph, Match_SpanningTree_iter_0 curMatch)
 		{
@@ -710,18 +698,6 @@ namespace de.unika.ipd.grGen.Action_spanningTree
 			graph.Remove(edge__edge0);
 		}
 
-		public void SpanningTreeReverse_iter_0_Create(GRGEN_LGSP.LGSPGraph graph)
-		{
-			graph.SettingAddedNodeNames( create_SpanningTreeReverse_iter_0_addedNodeNames );
-			GRGEN_MODEL.@Node node_root = GRGEN_MODEL.@Node.CreateNode(graph);
-			GRGEN_MODEL.@Node node_next = GRGEN_MODEL.@Node.CreateNode(graph);
-			graph.SettingAddedEdgeNames( create_SpanningTreeReverse_iter_0_addedEdgeNames );
-			GRGEN_MODEL.@Edge edge__edge0 = GRGEN_MODEL.@Edge.CreateEdge(graph, node_root, node_next);
-			Pattern_SpanningTreeReverse.Instance.SpanningTreeReverse_Create(graph, (GRGEN_MODEL.@Node)(node_next));
-		}
-		private static string[] create_SpanningTreeReverse_iter_0_addedNodeNames = new string[] { "root", "next" };
-		private static string[] create_SpanningTreeReverse_iter_0_addedEdgeNames = new string[] { "_edge0" };
-
 		public void SpanningTreeReverse_iter_0_Delete(GRGEN_LGSP.LGSPGraph graph, Match_SpanningTreeReverse_iter_0 curMatch)
 		{
 			GRGEN_LGSP.LGSPNode node_next = curMatch._node_next;
@@ -1115,18 +1091,6 @@ namespace de.unika.ipd.grGen.Action_spanningTree
 			}
 		}
 
-		public void SpanningTreeOutgoing_iter_0_Create(GRGEN_LGSP.LGSPGraph graph)
-		{
-			graph.SettingAddedNodeNames( create_SpanningTreeOutgoing_iter_0_addedNodeNames );
-			GRGEN_MODEL.@Node node_root = GRGEN_MODEL.@Node.CreateNode(graph);
-			GRGEN_MODEL.@Node node_next = GRGEN_MODEL.@Node.CreateNode(graph);
-			graph.SettingAddedEdgeNames( create_SpanningTreeOutgoing_iter_0_addedEdgeNames );
-			GRGEN_MODEL.@Edge edge__edge0 = GRGEN_MODEL.@Edge.CreateEdge(graph, node_root, node_next);
-			Pattern_SpanningTreeOutgoing.Instance.SpanningTreeOutgoing_Create(graph, (GRGEN_MODEL.@Node)(node_next));
-		}
-		private static string[] create_SpanningTreeOutgoing_iter_0_addedNodeNames = new string[] { "root", "next" };
-		private static string[] create_SpanningTreeOutgoing_iter_0_addedEdgeNames = new string[] { "_edge0" };
-
 		public void SpanningTreeOutgoing_iter_0_Delete(GRGEN_LGSP.LGSPGraph graph, Match_SpanningTreeOutgoing_iter_0 curMatch)
 		{
 			GRGEN_LGSP.LGSPNode node_next = curMatch._node_next;
@@ -1519,18 +1483,6 @@ namespace de.unika.ipd.grGen.Action_spanningTree
 				SpanningTreeIncoming_iter_0_Delete(graph, curMatch);
 			}
 		}
-
-		public void SpanningTreeIncoming_iter_0_Create(GRGEN_LGSP.LGSPGraph graph)
-		{
-			graph.SettingAddedNodeNames( create_SpanningTreeIncoming_iter_0_addedNodeNames );
-			GRGEN_MODEL.@Node node_next = GRGEN_MODEL.@Node.CreateNode(graph);
-			GRGEN_MODEL.@Node node_root = GRGEN_MODEL.@Node.CreateNode(graph);
-			graph.SettingAddedEdgeNames( create_SpanningTreeIncoming_iter_0_addedEdgeNames );
-			GRGEN_MODEL.@Edge edge__edge0 = GRGEN_MODEL.@Edge.CreateEdge(graph, node_next, node_root);
-			Pattern_SpanningTreeIncoming.Instance.SpanningTreeIncoming_Create(graph, (GRGEN_MODEL.@Node)(node_next));
-		}
-		private static string[] create_SpanningTreeIncoming_iter_0_addedNodeNames = new string[] { "next", "root" };
-		private static string[] create_SpanningTreeIncoming_iter_0_addedEdgeNames = new string[] { "_edge0" };
 
 		public void SpanningTreeIncoming_iter_0_Delete(GRGEN_LGSP.LGSPGraph graph, Match_SpanningTreeIncoming_iter_0 curMatch)
 		{
@@ -3287,6 +3239,7 @@ namespace de.unika.ipd.grGen.Action_spanningTree
 		public void Modify(GRGEN_LGSP.LGSPGraph graph, GRGEN_LIBGR.IMatch _curMatch)
 		{
 			Match_spanningTreeOutgoing curMatch = (Match_spanningTreeOutgoing)_curMatch;
+			GRGEN_LGSP.LGSPNode node_root = curMatch._node_root;
 			Pattern_SpanningTreeOutgoing.Match_SpanningTreeOutgoing subpattern__subpattern0 = curMatch.@__subpattern0;
 			return;
 		}
@@ -3294,6 +3247,7 @@ namespace de.unika.ipd.grGen.Action_spanningTree
 		public void ModifyNoReuse(GRGEN_LGSP.LGSPGraph graph, GRGEN_LIBGR.IMatch _curMatch)
 		{
 			Match_spanningTreeOutgoing curMatch = (Match_spanningTreeOutgoing)_curMatch;
+			GRGEN_LGSP.LGSPNode node_root = curMatch._node_root;
 			Pattern_SpanningTreeOutgoing.Match_SpanningTreeOutgoing subpattern__subpattern0 = curMatch.@__subpattern0;
 			return;
 		}
@@ -3484,6 +3438,7 @@ namespace de.unika.ipd.grGen.Action_spanningTree
 		public void Modify(GRGEN_LGSP.LGSPGraph graph, GRGEN_LIBGR.IMatch _curMatch)
 		{
 			Match_spanningTreeIncoming curMatch = (Match_spanningTreeIncoming)_curMatch;
+			GRGEN_LGSP.LGSPNode node_root = curMatch._node_root;
 			Pattern_SpanningTreeIncoming.Match_SpanningTreeIncoming subpattern__subpattern0 = curMatch.@__subpattern0;
 			return;
 		}
@@ -3491,6 +3446,7 @@ namespace de.unika.ipd.grGen.Action_spanningTree
 		public void ModifyNoReuse(GRGEN_LGSP.LGSPGraph graph, GRGEN_LIBGR.IMatch _curMatch)
 		{
 			Match_spanningTreeIncoming curMatch = (Match_spanningTreeIncoming)_curMatch;
+			GRGEN_LGSP.LGSPNode node_root = curMatch._node_root;
 			Pattern_SpanningTreeIncoming.Match_SpanningTreeIncoming subpattern__subpattern0 = curMatch.@__subpattern0;
 			return;
 		}
@@ -3805,102 +3761,124 @@ namespace de.unika.ipd.grGen.Action_spanningTree
             if(matchesList.Count!=0) throw new ApplicationException(); //debug assert
             // if the maximum number of matches of the iterated is reached, we complete iterated matching by building the null match object
             if(maxMatchesIter>0 && numMatchesIter>=maxMatchesIter) goto maxMatchesIterReached;
-            // SubPreset SpanningTree_node_root 
-            GRGEN_LGSP.LGSPNode candidate_SpanningTree_node_root = SpanningTree_node_root;
-            // both directions of SpanningTree_iter_0_edge_e
-            for(int directionRunCounterOf_SpanningTree_iter_0_edge_e = 0; directionRunCounterOf_SpanningTree_iter_0_edge_e < 2; ++directionRunCounterOf_SpanningTree_iter_0_edge_e)
+            // dummy iteration for iterated return prevention
+            do
             {
-                // Extend IncomingOrOutgoing SpanningTree_iter_0_edge_e from SpanningTree_node_root 
-                GRGEN_LGSP.LGSPEdge head_candidate_SpanningTree_iter_0_edge_e = directionRunCounterOf_SpanningTree_iter_0_edge_e==0 ? candidate_SpanningTree_node_root.lgspInhead : candidate_SpanningTree_node_root.lgspOuthead;
-                if(head_candidate_SpanningTree_iter_0_edge_e != null)
+                // SubPreset SpanningTree_node_root 
+                GRGEN_LGSP.LGSPNode candidate_SpanningTree_node_root = SpanningTree_node_root;
+                // both directions of SpanningTree_iter_0_edge_e
+                for(int directionRunCounterOf_SpanningTree_iter_0_edge_e = 0; directionRunCounterOf_SpanningTree_iter_0_edge_e < 2; ++directionRunCounterOf_SpanningTree_iter_0_edge_e)
                 {
-                    GRGEN_LGSP.LGSPEdge candidate_SpanningTree_iter_0_edge_e = head_candidate_SpanningTree_iter_0_edge_e;
-                    do
+                    // Extend IncomingOrOutgoing SpanningTree_iter_0_edge_e from SpanningTree_node_root 
+                    GRGEN_LGSP.LGSPEdge head_candidate_SpanningTree_iter_0_edge_e = directionRunCounterOf_SpanningTree_iter_0_edge_e==0 ? candidate_SpanningTree_node_root.lgspInhead : candidate_SpanningTree_node_root.lgspOuthead;
+                    if(head_candidate_SpanningTree_iter_0_edge_e != null)
                     {
-                        if(candidate_SpanningTree_iter_0_edge_e.lgspType.TypeID!=2) {
-                            continue;
-                        }
-                        if((negLevel <= (int) GRGEN_LGSP.LGSPElemFlags.MAX_NEG_LEVEL ? (candidate_SpanningTree_iter_0_edge_e.lgspFlags & (uint) GRGEN_LGSP.LGSPElemFlags.IS_MATCHED_BY_ENCLOSING_PATTERN << negLevel)==(uint) GRGEN_LGSP.LGSPElemFlags.IS_MATCHED_BY_ENCLOSING_PATTERN << negLevel : graph.atNegLevelMatchedElementsGlobal[negLevel-(int)GRGEN_LGSP.LGSPElemFlags.MAX_NEG_LEVEL-1].snd.ContainsKey(candidate_SpanningTree_iter_0_edge_e)))
+                        GRGEN_LGSP.LGSPEdge candidate_SpanningTree_iter_0_edge_e = head_candidate_SpanningTree_iter_0_edge_e;
+                        do
                         {
-                            continue;
-                        }
-                        if(searchPatternpath && (candidate_SpanningTree_iter_0_edge_e.lgspFlags & (uint) GRGEN_LGSP.LGSPElemFlags.IS_MATCHED_BY_SOME_ENCLOSING_PATTERN)==(uint) GRGEN_LGSP.LGSPElemFlags.IS_MATCHED_BY_SOME_ENCLOSING_PATTERN && GRGEN_LGSP.PatternpathIsomorphyChecker.IsMatched(candidate_SpanningTree_iter_0_edge_e, null))
-                        {
-                            continue;
-                        }
-                        // Implicit TheOther SpanningTree_iter_0_node_next from SpanningTree_iter_0_edge_e 
-                        GRGEN_LGSP.LGSPNode candidate_SpanningTree_iter_0_node_next = candidate_SpanningTree_node_root==candidate_SpanningTree_iter_0_edge_e.lgspSource ? candidate_SpanningTree_iter_0_edge_e.lgspTarget : candidate_SpanningTree_iter_0_edge_e.lgspSource;
-                        if((negLevel <= (int) GRGEN_LGSP.LGSPElemFlags.MAX_NEG_LEVEL ? (candidate_SpanningTree_iter_0_node_next.lgspFlags & (uint) GRGEN_LGSP.LGSPElemFlags.IS_MATCHED << negLevel) != 0 : graph.atNegLevelMatchedElements[negLevel-(int)GRGEN_LGSP.LGSPElemFlags.MAX_NEG_LEVEL-1].fst.ContainsKey(candidate_SpanningTree_iter_0_node_next)))
-                        {
-                            continue;
-                        }
-                        if((negLevel <= (int) GRGEN_LGSP.LGSPElemFlags.MAX_NEG_LEVEL ? (candidate_SpanningTree_iter_0_node_next.lgspFlags & (uint) GRGEN_LGSP.LGSPElemFlags.IS_MATCHED_BY_ENCLOSING_PATTERN << negLevel)==(uint) GRGEN_LGSP.LGSPElemFlags.IS_MATCHED_BY_ENCLOSING_PATTERN << negLevel : graph.atNegLevelMatchedElementsGlobal[negLevel-(int)GRGEN_LGSP.LGSPElemFlags.MAX_NEG_LEVEL-1].fst.ContainsKey(candidate_SpanningTree_iter_0_node_next)))
-                        {
-                            continue;
-                        }
-                        if(searchPatternpath && (candidate_SpanningTree_iter_0_node_next.lgspFlags & (uint) GRGEN_LGSP.LGSPElemFlags.IS_MATCHED_BY_SOME_ENCLOSING_PATTERN)==(uint) GRGEN_LGSP.LGSPElemFlags.IS_MATCHED_BY_SOME_ENCLOSING_PATTERN && GRGEN_LGSP.PatternpathIsomorphyChecker.IsMatched(candidate_SpanningTree_iter_0_node_next, null))
-                        {
-                            continue;
-                        }
-                        // build match of SpanningTree_iter_0 for patternpath checks
-                        if(patternpath_match_SpanningTree_iter_0==null) patternpath_match_SpanningTree_iter_0 = new Pattern_SpanningTree.Match_SpanningTree_iter_0();
-                        patternpath_match_SpanningTree_iter_0._matchOfEnclosingPattern = null;
-                        patternpath_match_SpanningTree_iter_0._node_root = candidate_SpanningTree_node_root;
-                        patternpath_match_SpanningTree_iter_0._node_next = candidate_SpanningTree_iter_0_node_next;
-                        patternpath_match_SpanningTree_iter_0._edge_e = candidate_SpanningTree_iter_0_edge_e;
-                        uint prevSomeGlobal__candidate_SpanningTree_iter_0_node_next;
-                        prevSomeGlobal__candidate_SpanningTree_iter_0_node_next = candidate_SpanningTree_iter_0_node_next.lgspFlags & (uint) GRGEN_LGSP.LGSPElemFlags.IS_MATCHED_BY_SOME_ENCLOSING_PATTERN;
-                        candidate_SpanningTree_iter_0_node_next.lgspFlags |= (uint) GRGEN_LGSP.LGSPElemFlags.IS_MATCHED_BY_SOME_ENCLOSING_PATTERN;
-                        uint prevSomeGlobal__candidate_SpanningTree_iter_0_edge_e;
-                        prevSomeGlobal__candidate_SpanningTree_iter_0_edge_e = candidate_SpanningTree_iter_0_edge_e.lgspFlags & (uint) GRGEN_LGSP.LGSPElemFlags.IS_MATCHED_BY_SOME_ENCLOSING_PATTERN;
-                        candidate_SpanningTree_iter_0_edge_e.lgspFlags |= (uint) GRGEN_LGSP.LGSPElemFlags.IS_MATCHED_BY_SOME_ENCLOSING_PATTERN;
-                        // accept iterated instance match
-                        ++numMatchesIter;
-                        // Push subpattern matching task for sptr
-                        PatternAction_SpanningTree taskFor_sptr = PatternAction_SpanningTree.getNewTask(graph, openTasks);
-                        taskFor_sptr.SpanningTree_node_root = candidate_SpanningTree_iter_0_node_next;
-                        taskFor_sptr.searchPatternpath = false;
-                        taskFor_sptr.matchOfNestingPattern = patternpath_match_SpanningTree_iter_0;
-                        taskFor_sptr.lastMatchAtPreviousNestingLevel = null;
-                        openTasks.Push(taskFor_sptr);
-                        uint prevGlobal__candidate_SpanningTree_iter_0_node_next;
-                        if(negLevel <= (int) GRGEN_LGSP.LGSPElemFlags.MAX_NEG_LEVEL) {
-                            prevGlobal__candidate_SpanningTree_iter_0_node_next = candidate_SpanningTree_iter_0_node_next.lgspFlags & (uint) GRGEN_LGSP.LGSPElemFlags.IS_MATCHED_BY_ENCLOSING_PATTERN << negLevel;
-                            candidate_SpanningTree_iter_0_node_next.lgspFlags |= (uint) GRGEN_LGSP.LGSPElemFlags.IS_MATCHED_BY_ENCLOSING_PATTERN << negLevel;
-                        } else {
-                            prevGlobal__candidate_SpanningTree_iter_0_node_next = graph.atNegLevelMatchedElementsGlobal[negLevel - (int) GRGEN_LGSP.LGSPElemFlags.MAX_NEG_LEVEL - 1].fst.ContainsKey(candidate_SpanningTree_iter_0_node_next) ? 1U : 0U;
-                            if(prevGlobal__candidate_SpanningTree_iter_0_node_next == 0) graph.atNegLevelMatchedElementsGlobal[negLevel - (int) GRGEN_LGSP.LGSPElemFlags.MAX_NEG_LEVEL - 1].fst.Add(candidate_SpanningTree_iter_0_node_next,candidate_SpanningTree_iter_0_node_next);
-                        }
-                        uint prevGlobal__candidate_SpanningTree_iter_0_edge_e;
-                        if(negLevel <= (int) GRGEN_LGSP.LGSPElemFlags.MAX_NEG_LEVEL) {
-                            prevGlobal__candidate_SpanningTree_iter_0_edge_e = candidate_SpanningTree_iter_0_edge_e.lgspFlags & (uint) GRGEN_LGSP.LGSPElemFlags.IS_MATCHED_BY_ENCLOSING_PATTERN << negLevel;
-                            candidate_SpanningTree_iter_0_edge_e.lgspFlags |= (uint) GRGEN_LGSP.LGSPElemFlags.IS_MATCHED_BY_ENCLOSING_PATTERN << negLevel;
-                        } else {
-                            prevGlobal__candidate_SpanningTree_iter_0_edge_e = graph.atNegLevelMatchedElementsGlobal[negLevel - (int) GRGEN_LGSP.LGSPElemFlags.MAX_NEG_LEVEL - 1].snd.ContainsKey(candidate_SpanningTree_iter_0_edge_e) ? 1U : 0U;
-                            if(prevGlobal__candidate_SpanningTree_iter_0_edge_e == 0) graph.atNegLevelMatchedElementsGlobal[negLevel - (int) GRGEN_LGSP.LGSPElemFlags.MAX_NEG_LEVEL - 1].snd.Add(candidate_SpanningTree_iter_0_edge_e,candidate_SpanningTree_iter_0_edge_e);
-                        }
-                        // Match subpatterns 
-                        openTasks.Peek().myMatch(matchesList, maxMatches - foundPartialMatches.Count, negLevel);
-                        // Pop subpattern matching task for sptr
-                        openTasks.Pop();
-                        PatternAction_SpanningTree.releaseTask(taskFor_sptr);
-                        // Check whether subpatterns were found 
-                        if(matchesList.Count>0) {
-                            patternFound = true;
-                            // subpatterns/alternatives were found, extend the partial matches by our local match object
-                            foreach(Stack<GRGEN_LIBGR.IMatch> currentFoundPartialMatch in matchesList)
-                            {
-                                Pattern_SpanningTree.Match_SpanningTree_iter_0 match = new Pattern_SpanningTree.Match_SpanningTree_iter_0();
-                                match._node_root = candidate_SpanningTree_node_root;
-                                match._node_next = candidate_SpanningTree_iter_0_node_next;
-                                match._edge_e = candidate_SpanningTree_iter_0_edge_e;
-                                match._sptr = (@Pattern_SpanningTree.Match_SpanningTree)currentFoundPartialMatch.Pop();
-                                match._sptr._matchOfEnclosingPattern = match;
-                                currentFoundPartialMatch.Push(match);
+                            if(candidate_SpanningTree_iter_0_edge_e.lgspType.TypeID!=2) {
+                                continue;
                             }
-                            // if enough matches were found, we leave
-                            if(true) // as soon as there's a match, it's enough for iterated
+                            if((negLevel <= (int) GRGEN_LGSP.LGSPElemFlags.MAX_NEG_LEVEL ? (candidate_SpanningTree_iter_0_edge_e.lgspFlags & (uint) GRGEN_LGSP.LGSPElemFlags.IS_MATCHED_BY_ENCLOSING_PATTERN << negLevel)==(uint) GRGEN_LGSP.LGSPElemFlags.IS_MATCHED_BY_ENCLOSING_PATTERN << negLevel : graph.atNegLevelMatchedElementsGlobal[negLevel-(int)GRGEN_LGSP.LGSPElemFlags.MAX_NEG_LEVEL-1].snd.ContainsKey(candidate_SpanningTree_iter_0_edge_e)))
                             {
+                                continue;
+                            }
+                            if(searchPatternpath && (candidate_SpanningTree_iter_0_edge_e.lgspFlags & (uint) GRGEN_LGSP.LGSPElemFlags.IS_MATCHED_BY_SOME_ENCLOSING_PATTERN)==(uint) GRGEN_LGSP.LGSPElemFlags.IS_MATCHED_BY_SOME_ENCLOSING_PATTERN && GRGEN_LGSP.PatternpathIsomorphyChecker.IsMatched(candidate_SpanningTree_iter_0_edge_e, null))
+                            {
+                                continue;
+                            }
+                            // Implicit TheOther SpanningTree_iter_0_node_next from SpanningTree_iter_0_edge_e 
+                            GRGEN_LGSP.LGSPNode candidate_SpanningTree_iter_0_node_next = candidate_SpanningTree_node_root==candidate_SpanningTree_iter_0_edge_e.lgspSource ? candidate_SpanningTree_iter_0_edge_e.lgspTarget : candidate_SpanningTree_iter_0_edge_e.lgspSource;
+                            if((negLevel <= (int) GRGEN_LGSP.LGSPElemFlags.MAX_NEG_LEVEL ? (candidate_SpanningTree_iter_0_node_next.lgspFlags & (uint) GRGEN_LGSP.LGSPElemFlags.IS_MATCHED << negLevel) != 0 : graph.atNegLevelMatchedElements[negLevel-(int)GRGEN_LGSP.LGSPElemFlags.MAX_NEG_LEVEL-1].fst.ContainsKey(candidate_SpanningTree_iter_0_node_next)))
+                            {
+                                continue;
+                            }
+                            if((negLevel <= (int) GRGEN_LGSP.LGSPElemFlags.MAX_NEG_LEVEL ? (candidate_SpanningTree_iter_0_node_next.lgspFlags & (uint) GRGEN_LGSP.LGSPElemFlags.IS_MATCHED_BY_ENCLOSING_PATTERN << negLevel)==(uint) GRGEN_LGSP.LGSPElemFlags.IS_MATCHED_BY_ENCLOSING_PATTERN << negLevel : graph.atNegLevelMatchedElementsGlobal[negLevel-(int)GRGEN_LGSP.LGSPElemFlags.MAX_NEG_LEVEL-1].fst.ContainsKey(candidate_SpanningTree_iter_0_node_next)))
+                            {
+                                continue;
+                            }
+                            if(searchPatternpath && (candidate_SpanningTree_iter_0_node_next.lgspFlags & (uint) GRGEN_LGSP.LGSPElemFlags.IS_MATCHED_BY_SOME_ENCLOSING_PATTERN)==(uint) GRGEN_LGSP.LGSPElemFlags.IS_MATCHED_BY_SOME_ENCLOSING_PATTERN && GRGEN_LGSP.PatternpathIsomorphyChecker.IsMatched(candidate_SpanningTree_iter_0_node_next, null))
+                            {
+                                continue;
+                            }
+                            // build match of SpanningTree_iter_0 for patternpath checks
+                            if(patternpath_match_SpanningTree_iter_0==null) patternpath_match_SpanningTree_iter_0 = new Pattern_SpanningTree.Match_SpanningTree_iter_0();
+                            patternpath_match_SpanningTree_iter_0._matchOfEnclosingPattern = null;
+                            patternpath_match_SpanningTree_iter_0._node_root = candidate_SpanningTree_node_root;
+                            patternpath_match_SpanningTree_iter_0._node_next = candidate_SpanningTree_iter_0_node_next;
+                            patternpath_match_SpanningTree_iter_0._edge_e = candidate_SpanningTree_iter_0_edge_e;
+                            uint prevSomeGlobal__candidate_SpanningTree_iter_0_node_next;
+                            prevSomeGlobal__candidate_SpanningTree_iter_0_node_next = candidate_SpanningTree_iter_0_node_next.lgspFlags & (uint) GRGEN_LGSP.LGSPElemFlags.IS_MATCHED_BY_SOME_ENCLOSING_PATTERN;
+                            candidate_SpanningTree_iter_0_node_next.lgspFlags |= (uint) GRGEN_LGSP.LGSPElemFlags.IS_MATCHED_BY_SOME_ENCLOSING_PATTERN;
+                            uint prevSomeGlobal__candidate_SpanningTree_iter_0_edge_e;
+                            prevSomeGlobal__candidate_SpanningTree_iter_0_edge_e = candidate_SpanningTree_iter_0_edge_e.lgspFlags & (uint) GRGEN_LGSP.LGSPElemFlags.IS_MATCHED_BY_SOME_ENCLOSING_PATTERN;
+                            candidate_SpanningTree_iter_0_edge_e.lgspFlags |= (uint) GRGEN_LGSP.LGSPElemFlags.IS_MATCHED_BY_SOME_ENCLOSING_PATTERN;
+                            // accept iterated instance match
+                            ++numMatchesIter;
+                            // Push subpattern matching task for sptr
+                            PatternAction_SpanningTree taskFor_sptr = PatternAction_SpanningTree.getNewTask(graph, openTasks);
+                            taskFor_sptr.SpanningTree_node_root = candidate_SpanningTree_iter_0_node_next;
+                            taskFor_sptr.searchPatternpath = false;
+                            taskFor_sptr.matchOfNestingPattern = patternpath_match_SpanningTree_iter_0;
+                            taskFor_sptr.lastMatchAtPreviousNestingLevel = null;
+                            openTasks.Push(taskFor_sptr);
+                            uint prevGlobal__candidate_SpanningTree_iter_0_node_next;
+                            if(negLevel <= (int) GRGEN_LGSP.LGSPElemFlags.MAX_NEG_LEVEL) {
+                                prevGlobal__candidate_SpanningTree_iter_0_node_next = candidate_SpanningTree_iter_0_node_next.lgspFlags & (uint) GRGEN_LGSP.LGSPElemFlags.IS_MATCHED_BY_ENCLOSING_PATTERN << negLevel;
+                                candidate_SpanningTree_iter_0_node_next.lgspFlags |= (uint) GRGEN_LGSP.LGSPElemFlags.IS_MATCHED_BY_ENCLOSING_PATTERN << negLevel;
+                            } else {
+                                prevGlobal__candidate_SpanningTree_iter_0_node_next = graph.atNegLevelMatchedElementsGlobal[negLevel - (int) GRGEN_LGSP.LGSPElemFlags.MAX_NEG_LEVEL - 1].fst.ContainsKey(candidate_SpanningTree_iter_0_node_next) ? 1U : 0U;
+                                if(prevGlobal__candidate_SpanningTree_iter_0_node_next == 0) graph.atNegLevelMatchedElementsGlobal[negLevel - (int) GRGEN_LGSP.LGSPElemFlags.MAX_NEG_LEVEL - 1].fst.Add(candidate_SpanningTree_iter_0_node_next,candidate_SpanningTree_iter_0_node_next);
+                            }
+                            uint prevGlobal__candidate_SpanningTree_iter_0_edge_e;
+                            if(negLevel <= (int) GRGEN_LGSP.LGSPElemFlags.MAX_NEG_LEVEL) {
+                                prevGlobal__candidate_SpanningTree_iter_0_edge_e = candidate_SpanningTree_iter_0_edge_e.lgspFlags & (uint) GRGEN_LGSP.LGSPElemFlags.IS_MATCHED_BY_ENCLOSING_PATTERN << negLevel;
+                                candidate_SpanningTree_iter_0_edge_e.lgspFlags |= (uint) GRGEN_LGSP.LGSPElemFlags.IS_MATCHED_BY_ENCLOSING_PATTERN << negLevel;
+                            } else {
+                                prevGlobal__candidate_SpanningTree_iter_0_edge_e = graph.atNegLevelMatchedElementsGlobal[negLevel - (int) GRGEN_LGSP.LGSPElemFlags.MAX_NEG_LEVEL - 1].snd.ContainsKey(candidate_SpanningTree_iter_0_edge_e) ? 1U : 0U;
+                                if(prevGlobal__candidate_SpanningTree_iter_0_edge_e == 0) graph.atNegLevelMatchedElementsGlobal[negLevel - (int) GRGEN_LGSP.LGSPElemFlags.MAX_NEG_LEVEL - 1].snd.Add(candidate_SpanningTree_iter_0_edge_e,candidate_SpanningTree_iter_0_edge_e);
+                            }
+                            // Match subpatterns 
+                            openTasks.Peek().myMatch(matchesList, maxMatches - foundPartialMatches.Count, negLevel);
+                            // Pop subpattern matching task for sptr
+                            openTasks.Pop();
+                            PatternAction_SpanningTree.releaseTask(taskFor_sptr);
+                            // Check whether subpatterns were found 
+                            if(matchesList.Count>0) {
+                                patternFound = true;
+                                // subpatterns/alternatives were found, extend the partial matches by our local match object
+                                foreach(Stack<GRGEN_LIBGR.IMatch> currentFoundPartialMatch in matchesList)
+                                {
+                                    Pattern_SpanningTree.Match_SpanningTree_iter_0 match = new Pattern_SpanningTree.Match_SpanningTree_iter_0();
+                                    match._node_root = candidate_SpanningTree_node_root;
+                                    match._node_next = candidate_SpanningTree_iter_0_node_next;
+                                    match._edge_e = candidate_SpanningTree_iter_0_edge_e;
+                                    match._sptr = (@Pattern_SpanningTree.Match_SpanningTree)currentFoundPartialMatch.Pop();
+                                    match._sptr._matchOfEnclosingPattern = match;
+                                    currentFoundPartialMatch.Push(match);
+                                }
+                                // if enough matches were found, we leave
+                                if(true) // as soon as there's a match, it's enough for iterated
+                                {
+                                    if(negLevel <= (int) GRGEN_LGSP.LGSPElemFlags.MAX_NEG_LEVEL) {
+                                        candidate_SpanningTree_iter_0_edge_e.lgspFlags = candidate_SpanningTree_iter_0_edge_e.lgspFlags & ~((uint) GRGEN_LGSP.LGSPElemFlags.IS_MATCHED_BY_ENCLOSING_PATTERN << negLevel) | prevGlobal__candidate_SpanningTree_iter_0_edge_e;
+                                    } else { 
+                                        if(prevGlobal__candidate_SpanningTree_iter_0_edge_e == 0) {
+                                            graph.atNegLevelMatchedElementsGlobal[negLevel - (int) GRGEN_LGSP.LGSPElemFlags.MAX_NEG_LEVEL - 1].snd.Remove(candidate_SpanningTree_iter_0_edge_e);
+                                        }
+                                    }
+                                    if(negLevel <= (int) GRGEN_LGSP.LGSPElemFlags.MAX_NEG_LEVEL) {
+                                        candidate_SpanningTree_iter_0_node_next.lgspFlags = candidate_SpanningTree_iter_0_node_next.lgspFlags & ~((uint) GRGEN_LGSP.LGSPElemFlags.IS_MATCHED_BY_ENCLOSING_PATTERN << negLevel) | prevGlobal__candidate_SpanningTree_iter_0_node_next;
+                                    } else { 
+                                        if(prevGlobal__candidate_SpanningTree_iter_0_node_next == 0) {
+                                            graph.atNegLevelMatchedElementsGlobal[negLevel - (int) GRGEN_LGSP.LGSPElemFlags.MAX_NEG_LEVEL - 1].fst.Remove(candidate_SpanningTree_iter_0_node_next);
+                                        }
+                                    }
+                                    --numMatchesIter;
+                                    candidate_SpanningTree_iter_0_edge_e.lgspFlags = candidate_SpanningTree_iter_0_edge_e.lgspFlags & ~((uint) GRGEN_LGSP.LGSPElemFlags.IS_MATCHED_BY_SOME_ENCLOSING_PATTERN) | prevSomeGlobal__candidate_SpanningTree_iter_0_edge_e;
+                                    candidate_SpanningTree_iter_0_node_next.lgspFlags = candidate_SpanningTree_iter_0_node_next.lgspFlags & ~((uint) GRGEN_LGSP.LGSPElemFlags.IS_MATCHED_BY_SOME_ENCLOSING_PATTERN) | prevSomeGlobal__candidate_SpanningTree_iter_0_node_next;
+                                    goto maxMatchesIterReached;
+                                }
                                 if(negLevel <= (int) GRGEN_LGSP.LGSPElemFlags.MAX_NEG_LEVEL) {
                                     candidate_SpanningTree_iter_0_edge_e.lgspFlags = candidate_SpanningTree_iter_0_edge_e.lgspFlags & ~((uint) GRGEN_LGSP.LGSPElemFlags.IS_MATCHED_BY_ENCLOSING_PATTERN << negLevel) | prevGlobal__candidate_SpanningTree_iter_0_edge_e;
                                 } else { 
@@ -3918,14 +3896,7 @@ namespace de.unika.ipd.grGen.Action_spanningTree
                                 --numMatchesIter;
                                 candidate_SpanningTree_iter_0_edge_e.lgspFlags = candidate_SpanningTree_iter_0_edge_e.lgspFlags & ~((uint) GRGEN_LGSP.LGSPElemFlags.IS_MATCHED_BY_SOME_ENCLOSING_PATTERN) | prevSomeGlobal__candidate_SpanningTree_iter_0_edge_e;
                                 candidate_SpanningTree_iter_0_node_next.lgspFlags = candidate_SpanningTree_iter_0_node_next.lgspFlags & ~((uint) GRGEN_LGSP.LGSPElemFlags.IS_MATCHED_BY_SOME_ENCLOSING_PATTERN) | prevSomeGlobal__candidate_SpanningTree_iter_0_node_next;
-                                return;
-                            }
-                            if(negLevel <= (int) GRGEN_LGSP.LGSPElemFlags.MAX_NEG_LEVEL) {
-                                candidate_SpanningTree_iter_0_edge_e.lgspFlags = candidate_SpanningTree_iter_0_edge_e.lgspFlags & ~((uint) GRGEN_LGSP.LGSPElemFlags.IS_MATCHED_BY_ENCLOSING_PATTERN << negLevel) | prevGlobal__candidate_SpanningTree_iter_0_edge_e;
-                            } else { 
-                                if(prevGlobal__candidate_SpanningTree_iter_0_edge_e == 0) {
-                                    graph.atNegLevelMatchedElementsGlobal[negLevel - (int) GRGEN_LGSP.LGSPElemFlags.MAX_NEG_LEVEL - 1].snd.Remove(candidate_SpanningTree_iter_0_edge_e);
-                                }
+                                continue;
                             }
                             if(negLevel <= (int) GRGEN_LGSP.LGSPElemFlags.MAX_NEG_LEVEL) {
                                 candidate_SpanningTree_iter_0_node_next.lgspFlags = candidate_SpanningTree_iter_0_node_next.lgspFlags & ~((uint) GRGEN_LGSP.LGSPElemFlags.IS_MATCHED_BY_ENCLOSING_PATTERN << negLevel) | prevGlobal__candidate_SpanningTree_iter_0_node_next;
@@ -3934,32 +3905,21 @@ namespace de.unika.ipd.grGen.Action_spanningTree
                                     graph.atNegLevelMatchedElementsGlobal[negLevel - (int) GRGEN_LGSP.LGSPElemFlags.MAX_NEG_LEVEL - 1].fst.Remove(candidate_SpanningTree_iter_0_node_next);
                                 }
                             }
+                            if(negLevel <= (int) GRGEN_LGSP.LGSPElemFlags.MAX_NEG_LEVEL) {
+                                candidate_SpanningTree_iter_0_edge_e.lgspFlags = candidate_SpanningTree_iter_0_edge_e.lgspFlags & ~((uint) GRGEN_LGSP.LGSPElemFlags.IS_MATCHED_BY_ENCLOSING_PATTERN << negLevel) | prevGlobal__candidate_SpanningTree_iter_0_edge_e;
+                            } else { 
+                                if(prevGlobal__candidate_SpanningTree_iter_0_edge_e == 0) {
+                                    graph.atNegLevelMatchedElementsGlobal[negLevel - (int) GRGEN_LGSP.LGSPElemFlags.MAX_NEG_LEVEL - 1].snd.Remove(candidate_SpanningTree_iter_0_edge_e);
+                                }
+                            }
                             --numMatchesIter;
-                            candidate_SpanningTree_iter_0_edge_e.lgspFlags = candidate_SpanningTree_iter_0_edge_e.lgspFlags & ~((uint) GRGEN_LGSP.LGSPElemFlags.IS_MATCHED_BY_SOME_ENCLOSING_PATTERN) | prevSomeGlobal__candidate_SpanningTree_iter_0_edge_e;
                             candidate_SpanningTree_iter_0_node_next.lgspFlags = candidate_SpanningTree_iter_0_node_next.lgspFlags & ~((uint) GRGEN_LGSP.LGSPElemFlags.IS_MATCHED_BY_SOME_ENCLOSING_PATTERN) | prevSomeGlobal__candidate_SpanningTree_iter_0_node_next;
-                            continue;
+                            candidate_SpanningTree_iter_0_edge_e.lgspFlags = candidate_SpanningTree_iter_0_edge_e.lgspFlags & ~((uint) GRGEN_LGSP.LGSPElemFlags.IS_MATCHED_BY_SOME_ENCLOSING_PATTERN) | prevSomeGlobal__candidate_SpanningTree_iter_0_edge_e;
                         }
-                        if(negLevel <= (int) GRGEN_LGSP.LGSPElemFlags.MAX_NEG_LEVEL) {
-                            candidate_SpanningTree_iter_0_node_next.lgspFlags = candidate_SpanningTree_iter_0_node_next.lgspFlags & ~((uint) GRGEN_LGSP.LGSPElemFlags.IS_MATCHED_BY_ENCLOSING_PATTERN << negLevel) | prevGlobal__candidate_SpanningTree_iter_0_node_next;
-                        } else { 
-                            if(prevGlobal__candidate_SpanningTree_iter_0_node_next == 0) {
-                                graph.atNegLevelMatchedElementsGlobal[negLevel - (int) GRGEN_LGSP.LGSPElemFlags.MAX_NEG_LEVEL - 1].fst.Remove(candidate_SpanningTree_iter_0_node_next);
-                            }
-                        }
-                        if(negLevel <= (int) GRGEN_LGSP.LGSPElemFlags.MAX_NEG_LEVEL) {
-                            candidate_SpanningTree_iter_0_edge_e.lgspFlags = candidate_SpanningTree_iter_0_edge_e.lgspFlags & ~((uint) GRGEN_LGSP.LGSPElemFlags.IS_MATCHED_BY_ENCLOSING_PATTERN << negLevel) | prevGlobal__candidate_SpanningTree_iter_0_edge_e;
-                        } else { 
-                            if(prevGlobal__candidate_SpanningTree_iter_0_edge_e == 0) {
-                                graph.atNegLevelMatchedElementsGlobal[negLevel - (int) GRGEN_LGSP.LGSPElemFlags.MAX_NEG_LEVEL - 1].snd.Remove(candidate_SpanningTree_iter_0_edge_e);
-                            }
-                        }
-                        --numMatchesIter;
-                        candidate_SpanningTree_iter_0_node_next.lgspFlags = candidate_SpanningTree_iter_0_node_next.lgspFlags & ~((uint) GRGEN_LGSP.LGSPElemFlags.IS_MATCHED_BY_SOME_ENCLOSING_PATTERN) | prevSomeGlobal__candidate_SpanningTree_iter_0_node_next;
-                        candidate_SpanningTree_iter_0_edge_e.lgspFlags = candidate_SpanningTree_iter_0_edge_e.lgspFlags & ~((uint) GRGEN_LGSP.LGSPElemFlags.IS_MATCHED_BY_SOME_ENCLOSING_PATTERN) | prevSomeGlobal__candidate_SpanningTree_iter_0_edge_e;
+                        while( (directionRunCounterOf_SpanningTree_iter_0_edge_e==0 ? candidate_SpanningTree_iter_0_edge_e = candidate_SpanningTree_iter_0_edge_e.lgspInNext : candidate_SpanningTree_iter_0_edge_e = candidate_SpanningTree_iter_0_edge_e.lgspOutNext) != head_candidate_SpanningTree_iter_0_edge_e );
                     }
-                    while( (directionRunCounterOf_SpanningTree_iter_0_edge_e==0 ? candidate_SpanningTree_iter_0_edge_e = candidate_SpanningTree_iter_0_edge_e.lgspInNext : candidate_SpanningTree_iter_0_edge_e = candidate_SpanningTree_iter_0_edge_e.lgspOutNext) != head_candidate_SpanningTree_iter_0_edge_e );
                 }
-            }
+            } while(false);
             // Check whether the iterated pattern null match was found
 maxMatchesIterReached:
             if(!patternFound && numMatchesIter>=minMatchesIter)
@@ -4150,99 +4110,121 @@ maxMatchesIterReached:
             if(matchesList.Count!=0) throw new ApplicationException(); //debug assert
             // if the maximum number of matches of the iterated is reached, we complete iterated matching by building the null match object
             if(maxMatchesIter>0 && numMatchesIter>=maxMatchesIter) goto maxMatchesIterReached;
-            // SubPreset SpanningTreeReverse_node_root 
-            GRGEN_LGSP.LGSPNode candidate_SpanningTreeReverse_node_root = SpanningTreeReverse_node_root;
-            // Extend Outgoing SpanningTreeReverse_iter_0_edge__edge0 from SpanningTreeReverse_node_root 
-            GRGEN_LGSP.LGSPEdge head_candidate_SpanningTreeReverse_iter_0_edge__edge0 = candidate_SpanningTreeReverse_node_root.lgspOuthead;
-            if(head_candidate_SpanningTreeReverse_iter_0_edge__edge0 != null)
+            // dummy iteration for iterated return prevention
+            do
             {
-                GRGEN_LGSP.LGSPEdge candidate_SpanningTreeReverse_iter_0_edge__edge0 = head_candidate_SpanningTreeReverse_iter_0_edge__edge0;
-                do
+                // SubPreset SpanningTreeReverse_node_root 
+                GRGEN_LGSP.LGSPNode candidate_SpanningTreeReverse_node_root = SpanningTreeReverse_node_root;
+                // Extend Outgoing SpanningTreeReverse_iter_0_edge__edge0 from SpanningTreeReverse_node_root 
+                GRGEN_LGSP.LGSPEdge head_candidate_SpanningTreeReverse_iter_0_edge__edge0 = candidate_SpanningTreeReverse_node_root.lgspOuthead;
+                if(head_candidate_SpanningTreeReverse_iter_0_edge__edge0 != null)
                 {
-                    if(candidate_SpanningTreeReverse_iter_0_edge__edge0.lgspType.TypeID!=1) {
-                        continue;
-                    }
-                    if((negLevel <= (int) GRGEN_LGSP.LGSPElemFlags.MAX_NEG_LEVEL ? (candidate_SpanningTreeReverse_iter_0_edge__edge0.lgspFlags & (uint) GRGEN_LGSP.LGSPElemFlags.IS_MATCHED_BY_ENCLOSING_PATTERN << negLevel)==(uint) GRGEN_LGSP.LGSPElemFlags.IS_MATCHED_BY_ENCLOSING_PATTERN << negLevel : graph.atNegLevelMatchedElementsGlobal[negLevel-(int)GRGEN_LGSP.LGSPElemFlags.MAX_NEG_LEVEL-1].snd.ContainsKey(candidate_SpanningTreeReverse_iter_0_edge__edge0)))
+                    GRGEN_LGSP.LGSPEdge candidate_SpanningTreeReverse_iter_0_edge__edge0 = head_candidate_SpanningTreeReverse_iter_0_edge__edge0;
+                    do
                     {
-                        continue;
-                    }
-                    if(searchPatternpath && (candidate_SpanningTreeReverse_iter_0_edge__edge0.lgspFlags & (uint) GRGEN_LGSP.LGSPElemFlags.IS_MATCHED_BY_SOME_ENCLOSING_PATTERN)==(uint) GRGEN_LGSP.LGSPElemFlags.IS_MATCHED_BY_SOME_ENCLOSING_PATTERN && GRGEN_LGSP.PatternpathIsomorphyChecker.IsMatched(candidate_SpanningTreeReverse_iter_0_edge__edge0, null))
-                    {
-                        continue;
-                    }
-                    // Implicit Target SpanningTreeReverse_iter_0_node_next from SpanningTreeReverse_iter_0_edge__edge0 
-                    GRGEN_LGSP.LGSPNode candidate_SpanningTreeReverse_iter_0_node_next = candidate_SpanningTreeReverse_iter_0_edge__edge0.lgspTarget;
-                    if((negLevel <= (int) GRGEN_LGSP.LGSPElemFlags.MAX_NEG_LEVEL ? (candidate_SpanningTreeReverse_iter_0_node_next.lgspFlags & (uint) GRGEN_LGSP.LGSPElemFlags.IS_MATCHED << negLevel) != 0 : graph.atNegLevelMatchedElements[negLevel-(int)GRGEN_LGSP.LGSPElemFlags.MAX_NEG_LEVEL-1].fst.ContainsKey(candidate_SpanningTreeReverse_iter_0_node_next)))
-                    {
-                        continue;
-                    }
-                    if((negLevel <= (int) GRGEN_LGSP.LGSPElemFlags.MAX_NEG_LEVEL ? (candidate_SpanningTreeReverse_iter_0_node_next.lgspFlags & (uint) GRGEN_LGSP.LGSPElemFlags.IS_MATCHED_BY_ENCLOSING_PATTERN << negLevel)==(uint) GRGEN_LGSP.LGSPElemFlags.IS_MATCHED_BY_ENCLOSING_PATTERN << negLevel : graph.atNegLevelMatchedElementsGlobal[negLevel-(int)GRGEN_LGSP.LGSPElemFlags.MAX_NEG_LEVEL-1].fst.ContainsKey(candidate_SpanningTreeReverse_iter_0_node_next)))
-                    {
-                        continue;
-                    }
-                    if(searchPatternpath && (candidate_SpanningTreeReverse_iter_0_node_next.lgspFlags & (uint) GRGEN_LGSP.LGSPElemFlags.IS_MATCHED_BY_SOME_ENCLOSING_PATTERN)==(uint) GRGEN_LGSP.LGSPElemFlags.IS_MATCHED_BY_SOME_ENCLOSING_PATTERN && GRGEN_LGSP.PatternpathIsomorphyChecker.IsMatched(candidate_SpanningTreeReverse_iter_0_node_next, null))
-                    {
-                        continue;
-                    }
-                    // build match of SpanningTreeReverse_iter_0 for patternpath checks
-                    if(patternpath_match_SpanningTreeReverse_iter_0==null) patternpath_match_SpanningTreeReverse_iter_0 = new Pattern_SpanningTreeReverse.Match_SpanningTreeReverse_iter_0();
-                    patternpath_match_SpanningTreeReverse_iter_0._matchOfEnclosingPattern = null;
-                    patternpath_match_SpanningTreeReverse_iter_0._node_root = candidate_SpanningTreeReverse_node_root;
-                    patternpath_match_SpanningTreeReverse_iter_0._node_next = candidate_SpanningTreeReverse_iter_0_node_next;
-                    patternpath_match_SpanningTreeReverse_iter_0._edge__edge0 = candidate_SpanningTreeReverse_iter_0_edge__edge0;
-                    uint prevSomeGlobal__candidate_SpanningTreeReverse_iter_0_node_next;
-                    prevSomeGlobal__candidate_SpanningTreeReverse_iter_0_node_next = candidate_SpanningTreeReverse_iter_0_node_next.lgspFlags & (uint) GRGEN_LGSP.LGSPElemFlags.IS_MATCHED_BY_SOME_ENCLOSING_PATTERN;
-                    candidate_SpanningTreeReverse_iter_0_node_next.lgspFlags |= (uint) GRGEN_LGSP.LGSPElemFlags.IS_MATCHED_BY_SOME_ENCLOSING_PATTERN;
-                    uint prevSomeGlobal__candidate_SpanningTreeReverse_iter_0_edge__edge0;
-                    prevSomeGlobal__candidate_SpanningTreeReverse_iter_0_edge__edge0 = candidate_SpanningTreeReverse_iter_0_edge__edge0.lgspFlags & (uint) GRGEN_LGSP.LGSPElemFlags.IS_MATCHED_BY_SOME_ENCLOSING_PATTERN;
-                    candidate_SpanningTreeReverse_iter_0_edge__edge0.lgspFlags |= (uint) GRGEN_LGSP.LGSPElemFlags.IS_MATCHED_BY_SOME_ENCLOSING_PATTERN;
-                    // accept iterated instance match
-                    ++numMatchesIter;
-                    // Push subpattern matching task for sptrr
-                    PatternAction_SpanningTreeReverse taskFor_sptrr = PatternAction_SpanningTreeReverse.getNewTask(graph, openTasks);
-                    taskFor_sptrr.SpanningTreeReverse_node_root = candidate_SpanningTreeReverse_iter_0_node_next;
-                    taskFor_sptrr.searchPatternpath = false;
-                    taskFor_sptrr.matchOfNestingPattern = patternpath_match_SpanningTreeReverse_iter_0;
-                    taskFor_sptrr.lastMatchAtPreviousNestingLevel = null;
-                    openTasks.Push(taskFor_sptrr);
-                    uint prevGlobal__candidate_SpanningTreeReverse_iter_0_node_next;
-                    if(negLevel <= (int) GRGEN_LGSP.LGSPElemFlags.MAX_NEG_LEVEL) {
-                        prevGlobal__candidate_SpanningTreeReverse_iter_0_node_next = candidate_SpanningTreeReverse_iter_0_node_next.lgspFlags & (uint) GRGEN_LGSP.LGSPElemFlags.IS_MATCHED_BY_ENCLOSING_PATTERN << negLevel;
-                        candidate_SpanningTreeReverse_iter_0_node_next.lgspFlags |= (uint) GRGEN_LGSP.LGSPElemFlags.IS_MATCHED_BY_ENCLOSING_PATTERN << negLevel;
-                    } else {
-                        prevGlobal__candidate_SpanningTreeReverse_iter_0_node_next = graph.atNegLevelMatchedElementsGlobal[negLevel - (int) GRGEN_LGSP.LGSPElemFlags.MAX_NEG_LEVEL - 1].fst.ContainsKey(candidate_SpanningTreeReverse_iter_0_node_next) ? 1U : 0U;
-                        if(prevGlobal__candidate_SpanningTreeReverse_iter_0_node_next == 0) graph.atNegLevelMatchedElementsGlobal[negLevel - (int) GRGEN_LGSP.LGSPElemFlags.MAX_NEG_LEVEL - 1].fst.Add(candidate_SpanningTreeReverse_iter_0_node_next,candidate_SpanningTreeReverse_iter_0_node_next);
-                    }
-                    uint prevGlobal__candidate_SpanningTreeReverse_iter_0_edge__edge0;
-                    if(negLevel <= (int) GRGEN_LGSP.LGSPElemFlags.MAX_NEG_LEVEL) {
-                        prevGlobal__candidate_SpanningTreeReverse_iter_0_edge__edge0 = candidate_SpanningTreeReverse_iter_0_edge__edge0.lgspFlags & (uint) GRGEN_LGSP.LGSPElemFlags.IS_MATCHED_BY_ENCLOSING_PATTERN << negLevel;
-                        candidate_SpanningTreeReverse_iter_0_edge__edge0.lgspFlags |= (uint) GRGEN_LGSP.LGSPElemFlags.IS_MATCHED_BY_ENCLOSING_PATTERN << negLevel;
-                    } else {
-                        prevGlobal__candidate_SpanningTreeReverse_iter_0_edge__edge0 = graph.atNegLevelMatchedElementsGlobal[negLevel - (int) GRGEN_LGSP.LGSPElemFlags.MAX_NEG_LEVEL - 1].snd.ContainsKey(candidate_SpanningTreeReverse_iter_0_edge__edge0) ? 1U : 0U;
-                        if(prevGlobal__candidate_SpanningTreeReverse_iter_0_edge__edge0 == 0) graph.atNegLevelMatchedElementsGlobal[negLevel - (int) GRGEN_LGSP.LGSPElemFlags.MAX_NEG_LEVEL - 1].snd.Add(candidate_SpanningTreeReverse_iter_0_edge__edge0,candidate_SpanningTreeReverse_iter_0_edge__edge0);
-                    }
-                    // Match subpatterns 
-                    openTasks.Peek().myMatch(matchesList, maxMatches - foundPartialMatches.Count, negLevel);
-                    // Pop subpattern matching task for sptrr
-                    openTasks.Pop();
-                    PatternAction_SpanningTreeReverse.releaseTask(taskFor_sptrr);
-                    // Check whether subpatterns were found 
-                    if(matchesList.Count>0) {
-                        patternFound = true;
-                        // subpatterns/alternatives were found, extend the partial matches by our local match object
-                        foreach(Stack<GRGEN_LIBGR.IMatch> currentFoundPartialMatch in matchesList)
-                        {
-                            Pattern_SpanningTreeReverse.Match_SpanningTreeReverse_iter_0 match = new Pattern_SpanningTreeReverse.Match_SpanningTreeReverse_iter_0();
-                            match._node_root = candidate_SpanningTreeReverse_node_root;
-                            match._node_next = candidate_SpanningTreeReverse_iter_0_node_next;
-                            match._edge__edge0 = candidate_SpanningTreeReverse_iter_0_edge__edge0;
-                            match._sptrr = (@Pattern_SpanningTreeReverse.Match_SpanningTreeReverse)currentFoundPartialMatch.Pop();
-                            match._sptrr._matchOfEnclosingPattern = match;
-                            currentFoundPartialMatch.Push(match);
+                        if(candidate_SpanningTreeReverse_iter_0_edge__edge0.lgspType.TypeID!=1) {
+                            continue;
                         }
-                        // if enough matches were found, we leave
-                        if(true) // as soon as there's a match, it's enough for iterated
+                        if((negLevel <= (int) GRGEN_LGSP.LGSPElemFlags.MAX_NEG_LEVEL ? (candidate_SpanningTreeReverse_iter_0_edge__edge0.lgspFlags & (uint) GRGEN_LGSP.LGSPElemFlags.IS_MATCHED_BY_ENCLOSING_PATTERN << negLevel)==(uint) GRGEN_LGSP.LGSPElemFlags.IS_MATCHED_BY_ENCLOSING_PATTERN << negLevel : graph.atNegLevelMatchedElementsGlobal[negLevel-(int)GRGEN_LGSP.LGSPElemFlags.MAX_NEG_LEVEL-1].snd.ContainsKey(candidate_SpanningTreeReverse_iter_0_edge__edge0)))
                         {
+                            continue;
+                        }
+                        if(searchPatternpath && (candidate_SpanningTreeReverse_iter_0_edge__edge0.lgspFlags & (uint) GRGEN_LGSP.LGSPElemFlags.IS_MATCHED_BY_SOME_ENCLOSING_PATTERN)==(uint) GRGEN_LGSP.LGSPElemFlags.IS_MATCHED_BY_SOME_ENCLOSING_PATTERN && GRGEN_LGSP.PatternpathIsomorphyChecker.IsMatched(candidate_SpanningTreeReverse_iter_0_edge__edge0, null))
+                        {
+                            continue;
+                        }
+                        // Implicit Target SpanningTreeReverse_iter_0_node_next from SpanningTreeReverse_iter_0_edge__edge0 
+                        GRGEN_LGSP.LGSPNode candidate_SpanningTreeReverse_iter_0_node_next = candidate_SpanningTreeReverse_iter_0_edge__edge0.lgspTarget;
+                        if((negLevel <= (int) GRGEN_LGSP.LGSPElemFlags.MAX_NEG_LEVEL ? (candidate_SpanningTreeReverse_iter_0_node_next.lgspFlags & (uint) GRGEN_LGSP.LGSPElemFlags.IS_MATCHED << negLevel) != 0 : graph.atNegLevelMatchedElements[negLevel-(int)GRGEN_LGSP.LGSPElemFlags.MAX_NEG_LEVEL-1].fst.ContainsKey(candidate_SpanningTreeReverse_iter_0_node_next)))
+                        {
+                            continue;
+                        }
+                        if((negLevel <= (int) GRGEN_LGSP.LGSPElemFlags.MAX_NEG_LEVEL ? (candidate_SpanningTreeReverse_iter_0_node_next.lgspFlags & (uint) GRGEN_LGSP.LGSPElemFlags.IS_MATCHED_BY_ENCLOSING_PATTERN << negLevel)==(uint) GRGEN_LGSP.LGSPElemFlags.IS_MATCHED_BY_ENCLOSING_PATTERN << negLevel : graph.atNegLevelMatchedElementsGlobal[negLevel-(int)GRGEN_LGSP.LGSPElemFlags.MAX_NEG_LEVEL-1].fst.ContainsKey(candidate_SpanningTreeReverse_iter_0_node_next)))
+                        {
+                            continue;
+                        }
+                        if(searchPatternpath && (candidate_SpanningTreeReverse_iter_0_node_next.lgspFlags & (uint) GRGEN_LGSP.LGSPElemFlags.IS_MATCHED_BY_SOME_ENCLOSING_PATTERN)==(uint) GRGEN_LGSP.LGSPElemFlags.IS_MATCHED_BY_SOME_ENCLOSING_PATTERN && GRGEN_LGSP.PatternpathIsomorphyChecker.IsMatched(candidate_SpanningTreeReverse_iter_0_node_next, null))
+                        {
+                            continue;
+                        }
+                        // build match of SpanningTreeReverse_iter_0 for patternpath checks
+                        if(patternpath_match_SpanningTreeReverse_iter_0==null) patternpath_match_SpanningTreeReverse_iter_0 = new Pattern_SpanningTreeReverse.Match_SpanningTreeReverse_iter_0();
+                        patternpath_match_SpanningTreeReverse_iter_0._matchOfEnclosingPattern = null;
+                        patternpath_match_SpanningTreeReverse_iter_0._node_root = candidate_SpanningTreeReverse_node_root;
+                        patternpath_match_SpanningTreeReverse_iter_0._node_next = candidate_SpanningTreeReverse_iter_0_node_next;
+                        patternpath_match_SpanningTreeReverse_iter_0._edge__edge0 = candidate_SpanningTreeReverse_iter_0_edge__edge0;
+                        uint prevSomeGlobal__candidate_SpanningTreeReverse_iter_0_node_next;
+                        prevSomeGlobal__candidate_SpanningTreeReverse_iter_0_node_next = candidate_SpanningTreeReverse_iter_0_node_next.lgspFlags & (uint) GRGEN_LGSP.LGSPElemFlags.IS_MATCHED_BY_SOME_ENCLOSING_PATTERN;
+                        candidate_SpanningTreeReverse_iter_0_node_next.lgspFlags |= (uint) GRGEN_LGSP.LGSPElemFlags.IS_MATCHED_BY_SOME_ENCLOSING_PATTERN;
+                        uint prevSomeGlobal__candidate_SpanningTreeReverse_iter_0_edge__edge0;
+                        prevSomeGlobal__candidate_SpanningTreeReverse_iter_0_edge__edge0 = candidate_SpanningTreeReverse_iter_0_edge__edge0.lgspFlags & (uint) GRGEN_LGSP.LGSPElemFlags.IS_MATCHED_BY_SOME_ENCLOSING_PATTERN;
+                        candidate_SpanningTreeReverse_iter_0_edge__edge0.lgspFlags |= (uint) GRGEN_LGSP.LGSPElemFlags.IS_MATCHED_BY_SOME_ENCLOSING_PATTERN;
+                        // accept iterated instance match
+                        ++numMatchesIter;
+                        // Push subpattern matching task for sptrr
+                        PatternAction_SpanningTreeReverse taskFor_sptrr = PatternAction_SpanningTreeReverse.getNewTask(graph, openTasks);
+                        taskFor_sptrr.SpanningTreeReverse_node_root = candidate_SpanningTreeReverse_iter_0_node_next;
+                        taskFor_sptrr.searchPatternpath = false;
+                        taskFor_sptrr.matchOfNestingPattern = patternpath_match_SpanningTreeReverse_iter_0;
+                        taskFor_sptrr.lastMatchAtPreviousNestingLevel = null;
+                        openTasks.Push(taskFor_sptrr);
+                        uint prevGlobal__candidate_SpanningTreeReverse_iter_0_node_next;
+                        if(negLevel <= (int) GRGEN_LGSP.LGSPElemFlags.MAX_NEG_LEVEL) {
+                            prevGlobal__candidate_SpanningTreeReverse_iter_0_node_next = candidate_SpanningTreeReverse_iter_0_node_next.lgspFlags & (uint) GRGEN_LGSP.LGSPElemFlags.IS_MATCHED_BY_ENCLOSING_PATTERN << negLevel;
+                            candidate_SpanningTreeReverse_iter_0_node_next.lgspFlags |= (uint) GRGEN_LGSP.LGSPElemFlags.IS_MATCHED_BY_ENCLOSING_PATTERN << negLevel;
+                        } else {
+                            prevGlobal__candidate_SpanningTreeReverse_iter_0_node_next = graph.atNegLevelMatchedElementsGlobal[negLevel - (int) GRGEN_LGSP.LGSPElemFlags.MAX_NEG_LEVEL - 1].fst.ContainsKey(candidate_SpanningTreeReverse_iter_0_node_next) ? 1U : 0U;
+                            if(prevGlobal__candidate_SpanningTreeReverse_iter_0_node_next == 0) graph.atNegLevelMatchedElementsGlobal[negLevel - (int) GRGEN_LGSP.LGSPElemFlags.MAX_NEG_LEVEL - 1].fst.Add(candidate_SpanningTreeReverse_iter_0_node_next,candidate_SpanningTreeReverse_iter_0_node_next);
+                        }
+                        uint prevGlobal__candidate_SpanningTreeReverse_iter_0_edge__edge0;
+                        if(negLevel <= (int) GRGEN_LGSP.LGSPElemFlags.MAX_NEG_LEVEL) {
+                            prevGlobal__candidate_SpanningTreeReverse_iter_0_edge__edge0 = candidate_SpanningTreeReverse_iter_0_edge__edge0.lgspFlags & (uint) GRGEN_LGSP.LGSPElemFlags.IS_MATCHED_BY_ENCLOSING_PATTERN << negLevel;
+                            candidate_SpanningTreeReverse_iter_0_edge__edge0.lgspFlags |= (uint) GRGEN_LGSP.LGSPElemFlags.IS_MATCHED_BY_ENCLOSING_PATTERN << negLevel;
+                        } else {
+                            prevGlobal__candidate_SpanningTreeReverse_iter_0_edge__edge0 = graph.atNegLevelMatchedElementsGlobal[negLevel - (int) GRGEN_LGSP.LGSPElemFlags.MAX_NEG_LEVEL - 1].snd.ContainsKey(candidate_SpanningTreeReverse_iter_0_edge__edge0) ? 1U : 0U;
+                            if(prevGlobal__candidate_SpanningTreeReverse_iter_0_edge__edge0 == 0) graph.atNegLevelMatchedElementsGlobal[negLevel - (int) GRGEN_LGSP.LGSPElemFlags.MAX_NEG_LEVEL - 1].snd.Add(candidate_SpanningTreeReverse_iter_0_edge__edge0,candidate_SpanningTreeReverse_iter_0_edge__edge0);
+                        }
+                        // Match subpatterns 
+                        openTasks.Peek().myMatch(matchesList, maxMatches - foundPartialMatches.Count, negLevel);
+                        // Pop subpattern matching task for sptrr
+                        openTasks.Pop();
+                        PatternAction_SpanningTreeReverse.releaseTask(taskFor_sptrr);
+                        // Check whether subpatterns were found 
+                        if(matchesList.Count>0) {
+                            patternFound = true;
+                            // subpatterns/alternatives were found, extend the partial matches by our local match object
+                            foreach(Stack<GRGEN_LIBGR.IMatch> currentFoundPartialMatch in matchesList)
+                            {
+                                Pattern_SpanningTreeReverse.Match_SpanningTreeReverse_iter_0 match = new Pattern_SpanningTreeReverse.Match_SpanningTreeReverse_iter_0();
+                                match._node_root = candidate_SpanningTreeReverse_node_root;
+                                match._node_next = candidate_SpanningTreeReverse_iter_0_node_next;
+                                match._edge__edge0 = candidate_SpanningTreeReverse_iter_0_edge__edge0;
+                                match._sptrr = (@Pattern_SpanningTreeReverse.Match_SpanningTreeReverse)currentFoundPartialMatch.Pop();
+                                match._sptrr._matchOfEnclosingPattern = match;
+                                currentFoundPartialMatch.Push(match);
+                            }
+                            // if enough matches were found, we leave
+                            if(true) // as soon as there's a match, it's enough for iterated
+                            {
+                                if(negLevel <= (int) GRGEN_LGSP.LGSPElemFlags.MAX_NEG_LEVEL) {
+                                    candidate_SpanningTreeReverse_iter_0_edge__edge0.lgspFlags = candidate_SpanningTreeReverse_iter_0_edge__edge0.lgspFlags & ~((uint) GRGEN_LGSP.LGSPElemFlags.IS_MATCHED_BY_ENCLOSING_PATTERN << negLevel) | prevGlobal__candidate_SpanningTreeReverse_iter_0_edge__edge0;
+                                } else { 
+                                    if(prevGlobal__candidate_SpanningTreeReverse_iter_0_edge__edge0 == 0) {
+                                        graph.atNegLevelMatchedElementsGlobal[negLevel - (int) GRGEN_LGSP.LGSPElemFlags.MAX_NEG_LEVEL - 1].snd.Remove(candidate_SpanningTreeReverse_iter_0_edge__edge0);
+                                    }
+                                }
+                                if(negLevel <= (int) GRGEN_LGSP.LGSPElemFlags.MAX_NEG_LEVEL) {
+                                    candidate_SpanningTreeReverse_iter_0_node_next.lgspFlags = candidate_SpanningTreeReverse_iter_0_node_next.lgspFlags & ~((uint) GRGEN_LGSP.LGSPElemFlags.IS_MATCHED_BY_ENCLOSING_PATTERN << negLevel) | prevGlobal__candidate_SpanningTreeReverse_iter_0_node_next;
+                                } else { 
+                                    if(prevGlobal__candidate_SpanningTreeReverse_iter_0_node_next == 0) {
+                                        graph.atNegLevelMatchedElementsGlobal[negLevel - (int) GRGEN_LGSP.LGSPElemFlags.MAX_NEG_LEVEL - 1].fst.Remove(candidate_SpanningTreeReverse_iter_0_node_next);
+                                    }
+                                }
+                                --numMatchesIter;
+                                candidate_SpanningTreeReverse_iter_0_edge__edge0.lgspFlags = candidate_SpanningTreeReverse_iter_0_edge__edge0.lgspFlags & ~((uint) GRGEN_LGSP.LGSPElemFlags.IS_MATCHED_BY_SOME_ENCLOSING_PATTERN) | prevSomeGlobal__candidate_SpanningTreeReverse_iter_0_edge__edge0;
+                                candidate_SpanningTreeReverse_iter_0_node_next.lgspFlags = candidate_SpanningTreeReverse_iter_0_node_next.lgspFlags & ~((uint) GRGEN_LGSP.LGSPElemFlags.IS_MATCHED_BY_SOME_ENCLOSING_PATTERN) | prevSomeGlobal__candidate_SpanningTreeReverse_iter_0_node_next;
+                                goto maxMatchesIterReached;
+                            }
                             if(negLevel <= (int) GRGEN_LGSP.LGSPElemFlags.MAX_NEG_LEVEL) {
                                 candidate_SpanningTreeReverse_iter_0_edge__edge0.lgspFlags = candidate_SpanningTreeReverse_iter_0_edge__edge0.lgspFlags & ~((uint) GRGEN_LGSP.LGSPElemFlags.IS_MATCHED_BY_ENCLOSING_PATTERN << negLevel) | prevGlobal__candidate_SpanningTreeReverse_iter_0_edge__edge0;
                             } else { 
@@ -4260,14 +4242,7 @@ maxMatchesIterReached:
                             --numMatchesIter;
                             candidate_SpanningTreeReverse_iter_0_edge__edge0.lgspFlags = candidate_SpanningTreeReverse_iter_0_edge__edge0.lgspFlags & ~((uint) GRGEN_LGSP.LGSPElemFlags.IS_MATCHED_BY_SOME_ENCLOSING_PATTERN) | prevSomeGlobal__candidate_SpanningTreeReverse_iter_0_edge__edge0;
                             candidate_SpanningTreeReverse_iter_0_node_next.lgspFlags = candidate_SpanningTreeReverse_iter_0_node_next.lgspFlags & ~((uint) GRGEN_LGSP.LGSPElemFlags.IS_MATCHED_BY_SOME_ENCLOSING_PATTERN) | prevSomeGlobal__candidate_SpanningTreeReverse_iter_0_node_next;
-                            return;
-                        }
-                        if(negLevel <= (int) GRGEN_LGSP.LGSPElemFlags.MAX_NEG_LEVEL) {
-                            candidate_SpanningTreeReverse_iter_0_edge__edge0.lgspFlags = candidate_SpanningTreeReverse_iter_0_edge__edge0.lgspFlags & ~((uint) GRGEN_LGSP.LGSPElemFlags.IS_MATCHED_BY_ENCLOSING_PATTERN << negLevel) | prevGlobal__candidate_SpanningTreeReverse_iter_0_edge__edge0;
-                        } else { 
-                            if(prevGlobal__candidate_SpanningTreeReverse_iter_0_edge__edge0 == 0) {
-                                graph.atNegLevelMatchedElementsGlobal[negLevel - (int) GRGEN_LGSP.LGSPElemFlags.MAX_NEG_LEVEL - 1].snd.Remove(candidate_SpanningTreeReverse_iter_0_edge__edge0);
-                            }
+                            continue;
                         }
                         if(negLevel <= (int) GRGEN_LGSP.LGSPElemFlags.MAX_NEG_LEVEL) {
                             candidate_SpanningTreeReverse_iter_0_node_next.lgspFlags = candidate_SpanningTreeReverse_iter_0_node_next.lgspFlags & ~((uint) GRGEN_LGSP.LGSPElemFlags.IS_MATCHED_BY_ENCLOSING_PATTERN << negLevel) | prevGlobal__candidate_SpanningTreeReverse_iter_0_node_next;
@@ -4276,31 +4251,20 @@ maxMatchesIterReached:
                                 graph.atNegLevelMatchedElementsGlobal[negLevel - (int) GRGEN_LGSP.LGSPElemFlags.MAX_NEG_LEVEL - 1].fst.Remove(candidate_SpanningTreeReverse_iter_0_node_next);
                             }
                         }
+                        if(negLevel <= (int) GRGEN_LGSP.LGSPElemFlags.MAX_NEG_LEVEL) {
+                            candidate_SpanningTreeReverse_iter_0_edge__edge0.lgspFlags = candidate_SpanningTreeReverse_iter_0_edge__edge0.lgspFlags & ~((uint) GRGEN_LGSP.LGSPElemFlags.IS_MATCHED_BY_ENCLOSING_PATTERN << negLevel) | prevGlobal__candidate_SpanningTreeReverse_iter_0_edge__edge0;
+                        } else { 
+                            if(prevGlobal__candidate_SpanningTreeReverse_iter_0_edge__edge0 == 0) {
+                                graph.atNegLevelMatchedElementsGlobal[negLevel - (int) GRGEN_LGSP.LGSPElemFlags.MAX_NEG_LEVEL - 1].snd.Remove(candidate_SpanningTreeReverse_iter_0_edge__edge0);
+                            }
+                        }
                         --numMatchesIter;
-                        candidate_SpanningTreeReverse_iter_0_edge__edge0.lgspFlags = candidate_SpanningTreeReverse_iter_0_edge__edge0.lgspFlags & ~((uint) GRGEN_LGSP.LGSPElemFlags.IS_MATCHED_BY_SOME_ENCLOSING_PATTERN) | prevSomeGlobal__candidate_SpanningTreeReverse_iter_0_edge__edge0;
                         candidate_SpanningTreeReverse_iter_0_node_next.lgspFlags = candidate_SpanningTreeReverse_iter_0_node_next.lgspFlags & ~((uint) GRGEN_LGSP.LGSPElemFlags.IS_MATCHED_BY_SOME_ENCLOSING_PATTERN) | prevSomeGlobal__candidate_SpanningTreeReverse_iter_0_node_next;
-                        continue;
+                        candidate_SpanningTreeReverse_iter_0_edge__edge0.lgspFlags = candidate_SpanningTreeReverse_iter_0_edge__edge0.lgspFlags & ~((uint) GRGEN_LGSP.LGSPElemFlags.IS_MATCHED_BY_SOME_ENCLOSING_PATTERN) | prevSomeGlobal__candidate_SpanningTreeReverse_iter_0_edge__edge0;
                     }
-                    if(negLevel <= (int) GRGEN_LGSP.LGSPElemFlags.MAX_NEG_LEVEL) {
-                        candidate_SpanningTreeReverse_iter_0_node_next.lgspFlags = candidate_SpanningTreeReverse_iter_0_node_next.lgspFlags & ~((uint) GRGEN_LGSP.LGSPElemFlags.IS_MATCHED_BY_ENCLOSING_PATTERN << negLevel) | prevGlobal__candidate_SpanningTreeReverse_iter_0_node_next;
-                    } else { 
-                        if(prevGlobal__candidate_SpanningTreeReverse_iter_0_node_next == 0) {
-                            graph.atNegLevelMatchedElementsGlobal[negLevel - (int) GRGEN_LGSP.LGSPElemFlags.MAX_NEG_LEVEL - 1].fst.Remove(candidate_SpanningTreeReverse_iter_0_node_next);
-                        }
-                    }
-                    if(negLevel <= (int) GRGEN_LGSP.LGSPElemFlags.MAX_NEG_LEVEL) {
-                        candidate_SpanningTreeReverse_iter_0_edge__edge0.lgspFlags = candidate_SpanningTreeReverse_iter_0_edge__edge0.lgspFlags & ~((uint) GRGEN_LGSP.LGSPElemFlags.IS_MATCHED_BY_ENCLOSING_PATTERN << negLevel) | prevGlobal__candidate_SpanningTreeReverse_iter_0_edge__edge0;
-                    } else { 
-                        if(prevGlobal__candidate_SpanningTreeReverse_iter_0_edge__edge0 == 0) {
-                            graph.atNegLevelMatchedElementsGlobal[negLevel - (int) GRGEN_LGSP.LGSPElemFlags.MAX_NEG_LEVEL - 1].snd.Remove(candidate_SpanningTreeReverse_iter_0_edge__edge0);
-                        }
-                    }
-                    --numMatchesIter;
-                    candidate_SpanningTreeReverse_iter_0_node_next.lgspFlags = candidate_SpanningTreeReverse_iter_0_node_next.lgspFlags & ~((uint) GRGEN_LGSP.LGSPElemFlags.IS_MATCHED_BY_SOME_ENCLOSING_PATTERN) | prevSomeGlobal__candidate_SpanningTreeReverse_iter_0_node_next;
-                    candidate_SpanningTreeReverse_iter_0_edge__edge0.lgspFlags = candidate_SpanningTreeReverse_iter_0_edge__edge0.lgspFlags & ~((uint) GRGEN_LGSP.LGSPElemFlags.IS_MATCHED_BY_SOME_ENCLOSING_PATTERN) | prevSomeGlobal__candidate_SpanningTreeReverse_iter_0_edge__edge0;
+                    while( (candidate_SpanningTreeReverse_iter_0_edge__edge0 = candidate_SpanningTreeReverse_iter_0_edge__edge0.lgspOutNext) != head_candidate_SpanningTreeReverse_iter_0_edge__edge0 );
                 }
-                while( (candidate_SpanningTreeReverse_iter_0_edge__edge0 = candidate_SpanningTreeReverse_iter_0_edge__edge0.lgspOutNext) != head_candidate_SpanningTreeReverse_iter_0_edge__edge0 );
-            }
+            } while(false);
             // Check whether the iterated pattern null match was found
 maxMatchesIterReached:
             if(!patternFound && numMatchesIter>=minMatchesIter)
@@ -4491,99 +4455,121 @@ maxMatchesIterReached:
             if(matchesList.Count!=0) throw new ApplicationException(); //debug assert
             // if the maximum number of matches of the iterated is reached, we complete iterated matching by building the null match object
             if(maxMatchesIter>0 && numMatchesIter>=maxMatchesIter) goto maxMatchesIterReached;
-            // SubPreset SpanningTreeOutgoing_node_root 
-            GRGEN_LGSP.LGSPNode candidate_SpanningTreeOutgoing_node_root = SpanningTreeOutgoing_node_root;
-            // Extend Outgoing SpanningTreeOutgoing_iter_0_edge__edge0 from SpanningTreeOutgoing_node_root 
-            GRGEN_LGSP.LGSPEdge head_candidate_SpanningTreeOutgoing_iter_0_edge__edge0 = candidate_SpanningTreeOutgoing_node_root.lgspOuthead;
-            if(head_candidate_SpanningTreeOutgoing_iter_0_edge__edge0 != null)
+            // dummy iteration for iterated return prevention
+            do
             {
-                GRGEN_LGSP.LGSPEdge candidate_SpanningTreeOutgoing_iter_0_edge__edge0 = head_candidate_SpanningTreeOutgoing_iter_0_edge__edge0;
-                do
+                // SubPreset SpanningTreeOutgoing_node_root 
+                GRGEN_LGSP.LGSPNode candidate_SpanningTreeOutgoing_node_root = SpanningTreeOutgoing_node_root;
+                // Extend Outgoing SpanningTreeOutgoing_iter_0_edge__edge0 from SpanningTreeOutgoing_node_root 
+                GRGEN_LGSP.LGSPEdge head_candidate_SpanningTreeOutgoing_iter_0_edge__edge0 = candidate_SpanningTreeOutgoing_node_root.lgspOuthead;
+                if(head_candidate_SpanningTreeOutgoing_iter_0_edge__edge0 != null)
                 {
-                    if(candidate_SpanningTreeOutgoing_iter_0_edge__edge0.lgspType.TypeID!=1) {
-                        continue;
-                    }
-                    if((negLevel <= (int) GRGEN_LGSP.LGSPElemFlags.MAX_NEG_LEVEL ? (candidate_SpanningTreeOutgoing_iter_0_edge__edge0.lgspFlags & (uint) GRGEN_LGSP.LGSPElemFlags.IS_MATCHED_BY_ENCLOSING_PATTERN << negLevel)==(uint) GRGEN_LGSP.LGSPElemFlags.IS_MATCHED_BY_ENCLOSING_PATTERN << negLevel : graph.atNegLevelMatchedElementsGlobal[negLevel-(int)GRGEN_LGSP.LGSPElemFlags.MAX_NEG_LEVEL-1].snd.ContainsKey(candidate_SpanningTreeOutgoing_iter_0_edge__edge0)))
+                    GRGEN_LGSP.LGSPEdge candidate_SpanningTreeOutgoing_iter_0_edge__edge0 = head_candidate_SpanningTreeOutgoing_iter_0_edge__edge0;
+                    do
                     {
-                        continue;
-                    }
-                    if(searchPatternpath && (candidate_SpanningTreeOutgoing_iter_0_edge__edge0.lgspFlags & (uint) GRGEN_LGSP.LGSPElemFlags.IS_MATCHED_BY_SOME_ENCLOSING_PATTERN)==(uint) GRGEN_LGSP.LGSPElemFlags.IS_MATCHED_BY_SOME_ENCLOSING_PATTERN && GRGEN_LGSP.PatternpathIsomorphyChecker.IsMatched(candidate_SpanningTreeOutgoing_iter_0_edge__edge0, null))
-                    {
-                        continue;
-                    }
-                    // Implicit Target SpanningTreeOutgoing_iter_0_node_next from SpanningTreeOutgoing_iter_0_edge__edge0 
-                    GRGEN_LGSP.LGSPNode candidate_SpanningTreeOutgoing_iter_0_node_next = candidate_SpanningTreeOutgoing_iter_0_edge__edge0.lgspTarget;
-                    if((negLevel <= (int) GRGEN_LGSP.LGSPElemFlags.MAX_NEG_LEVEL ? (candidate_SpanningTreeOutgoing_iter_0_node_next.lgspFlags & (uint) GRGEN_LGSP.LGSPElemFlags.IS_MATCHED << negLevel) != 0 : graph.atNegLevelMatchedElements[negLevel-(int)GRGEN_LGSP.LGSPElemFlags.MAX_NEG_LEVEL-1].fst.ContainsKey(candidate_SpanningTreeOutgoing_iter_0_node_next)))
-                    {
-                        continue;
-                    }
-                    if((negLevel <= (int) GRGEN_LGSP.LGSPElemFlags.MAX_NEG_LEVEL ? (candidate_SpanningTreeOutgoing_iter_0_node_next.lgspFlags & (uint) GRGEN_LGSP.LGSPElemFlags.IS_MATCHED_BY_ENCLOSING_PATTERN << negLevel)==(uint) GRGEN_LGSP.LGSPElemFlags.IS_MATCHED_BY_ENCLOSING_PATTERN << negLevel : graph.atNegLevelMatchedElementsGlobal[negLevel-(int)GRGEN_LGSP.LGSPElemFlags.MAX_NEG_LEVEL-1].fst.ContainsKey(candidate_SpanningTreeOutgoing_iter_0_node_next)))
-                    {
-                        continue;
-                    }
-                    if(searchPatternpath && (candidate_SpanningTreeOutgoing_iter_0_node_next.lgspFlags & (uint) GRGEN_LGSP.LGSPElemFlags.IS_MATCHED_BY_SOME_ENCLOSING_PATTERN)==(uint) GRGEN_LGSP.LGSPElemFlags.IS_MATCHED_BY_SOME_ENCLOSING_PATTERN && GRGEN_LGSP.PatternpathIsomorphyChecker.IsMatched(candidate_SpanningTreeOutgoing_iter_0_node_next, null))
-                    {
-                        continue;
-                    }
-                    // build match of SpanningTreeOutgoing_iter_0 for patternpath checks
-                    if(patternpath_match_SpanningTreeOutgoing_iter_0==null) patternpath_match_SpanningTreeOutgoing_iter_0 = new Pattern_SpanningTreeOutgoing.Match_SpanningTreeOutgoing_iter_0();
-                    patternpath_match_SpanningTreeOutgoing_iter_0._matchOfEnclosingPattern = null;
-                    patternpath_match_SpanningTreeOutgoing_iter_0._node_root = candidate_SpanningTreeOutgoing_node_root;
-                    patternpath_match_SpanningTreeOutgoing_iter_0._node_next = candidate_SpanningTreeOutgoing_iter_0_node_next;
-                    patternpath_match_SpanningTreeOutgoing_iter_0._edge__edge0 = candidate_SpanningTreeOutgoing_iter_0_edge__edge0;
-                    uint prevSomeGlobal__candidate_SpanningTreeOutgoing_iter_0_node_next;
-                    prevSomeGlobal__candidate_SpanningTreeOutgoing_iter_0_node_next = candidate_SpanningTreeOutgoing_iter_0_node_next.lgspFlags & (uint) GRGEN_LGSP.LGSPElemFlags.IS_MATCHED_BY_SOME_ENCLOSING_PATTERN;
-                    candidate_SpanningTreeOutgoing_iter_0_node_next.lgspFlags |= (uint) GRGEN_LGSP.LGSPElemFlags.IS_MATCHED_BY_SOME_ENCLOSING_PATTERN;
-                    uint prevSomeGlobal__candidate_SpanningTreeOutgoing_iter_0_edge__edge0;
-                    prevSomeGlobal__candidate_SpanningTreeOutgoing_iter_0_edge__edge0 = candidate_SpanningTreeOutgoing_iter_0_edge__edge0.lgspFlags & (uint) GRGEN_LGSP.LGSPElemFlags.IS_MATCHED_BY_SOME_ENCLOSING_PATTERN;
-                    candidate_SpanningTreeOutgoing_iter_0_edge__edge0.lgspFlags |= (uint) GRGEN_LGSP.LGSPElemFlags.IS_MATCHED_BY_SOME_ENCLOSING_PATTERN;
-                    // accept iterated instance match
-                    ++numMatchesIter;
-                    // Push subpattern matching task for _subpattern0
-                    PatternAction_SpanningTreeOutgoing taskFor__subpattern0 = PatternAction_SpanningTreeOutgoing.getNewTask(graph, openTasks);
-                    taskFor__subpattern0.SpanningTreeOutgoing_node_root = candidate_SpanningTreeOutgoing_iter_0_node_next;
-                    taskFor__subpattern0.searchPatternpath = false;
-                    taskFor__subpattern0.matchOfNestingPattern = patternpath_match_SpanningTreeOutgoing_iter_0;
-                    taskFor__subpattern0.lastMatchAtPreviousNestingLevel = null;
-                    openTasks.Push(taskFor__subpattern0);
-                    uint prevGlobal__candidate_SpanningTreeOutgoing_iter_0_node_next;
-                    if(negLevel <= (int) GRGEN_LGSP.LGSPElemFlags.MAX_NEG_LEVEL) {
-                        prevGlobal__candidate_SpanningTreeOutgoing_iter_0_node_next = candidate_SpanningTreeOutgoing_iter_0_node_next.lgspFlags & (uint) GRGEN_LGSP.LGSPElemFlags.IS_MATCHED_BY_ENCLOSING_PATTERN << negLevel;
-                        candidate_SpanningTreeOutgoing_iter_0_node_next.lgspFlags |= (uint) GRGEN_LGSP.LGSPElemFlags.IS_MATCHED_BY_ENCLOSING_PATTERN << negLevel;
-                    } else {
-                        prevGlobal__candidate_SpanningTreeOutgoing_iter_0_node_next = graph.atNegLevelMatchedElementsGlobal[negLevel - (int) GRGEN_LGSP.LGSPElemFlags.MAX_NEG_LEVEL - 1].fst.ContainsKey(candidate_SpanningTreeOutgoing_iter_0_node_next) ? 1U : 0U;
-                        if(prevGlobal__candidate_SpanningTreeOutgoing_iter_0_node_next == 0) graph.atNegLevelMatchedElementsGlobal[negLevel - (int) GRGEN_LGSP.LGSPElemFlags.MAX_NEG_LEVEL - 1].fst.Add(candidate_SpanningTreeOutgoing_iter_0_node_next,candidate_SpanningTreeOutgoing_iter_0_node_next);
-                    }
-                    uint prevGlobal__candidate_SpanningTreeOutgoing_iter_0_edge__edge0;
-                    if(negLevel <= (int) GRGEN_LGSP.LGSPElemFlags.MAX_NEG_LEVEL) {
-                        prevGlobal__candidate_SpanningTreeOutgoing_iter_0_edge__edge0 = candidate_SpanningTreeOutgoing_iter_0_edge__edge0.lgspFlags & (uint) GRGEN_LGSP.LGSPElemFlags.IS_MATCHED_BY_ENCLOSING_PATTERN << negLevel;
-                        candidate_SpanningTreeOutgoing_iter_0_edge__edge0.lgspFlags |= (uint) GRGEN_LGSP.LGSPElemFlags.IS_MATCHED_BY_ENCLOSING_PATTERN << negLevel;
-                    } else {
-                        prevGlobal__candidate_SpanningTreeOutgoing_iter_0_edge__edge0 = graph.atNegLevelMatchedElementsGlobal[negLevel - (int) GRGEN_LGSP.LGSPElemFlags.MAX_NEG_LEVEL - 1].snd.ContainsKey(candidate_SpanningTreeOutgoing_iter_0_edge__edge0) ? 1U : 0U;
-                        if(prevGlobal__candidate_SpanningTreeOutgoing_iter_0_edge__edge0 == 0) graph.atNegLevelMatchedElementsGlobal[negLevel - (int) GRGEN_LGSP.LGSPElemFlags.MAX_NEG_LEVEL - 1].snd.Add(candidate_SpanningTreeOutgoing_iter_0_edge__edge0,candidate_SpanningTreeOutgoing_iter_0_edge__edge0);
-                    }
-                    // Match subpatterns 
-                    openTasks.Peek().myMatch(matchesList, maxMatches - foundPartialMatches.Count, negLevel);
-                    // Pop subpattern matching task for _subpattern0
-                    openTasks.Pop();
-                    PatternAction_SpanningTreeOutgoing.releaseTask(taskFor__subpattern0);
-                    // Check whether subpatterns were found 
-                    if(matchesList.Count>0) {
-                        patternFound = true;
-                        // subpatterns/alternatives were found, extend the partial matches by our local match object
-                        foreach(Stack<GRGEN_LIBGR.IMatch> currentFoundPartialMatch in matchesList)
-                        {
-                            Pattern_SpanningTreeOutgoing.Match_SpanningTreeOutgoing_iter_0 match = new Pattern_SpanningTreeOutgoing.Match_SpanningTreeOutgoing_iter_0();
-                            match._node_root = candidate_SpanningTreeOutgoing_node_root;
-                            match._node_next = candidate_SpanningTreeOutgoing_iter_0_node_next;
-                            match._edge__edge0 = candidate_SpanningTreeOutgoing_iter_0_edge__edge0;
-                            match.__subpattern0 = (@Pattern_SpanningTreeOutgoing.Match_SpanningTreeOutgoing)currentFoundPartialMatch.Pop();
-                            match.__subpattern0._matchOfEnclosingPattern = match;
-                            currentFoundPartialMatch.Push(match);
+                        if(candidate_SpanningTreeOutgoing_iter_0_edge__edge0.lgspType.TypeID!=1) {
+                            continue;
                         }
-                        // if enough matches were found, we leave
-                        if(true) // as soon as there's a match, it's enough for iterated
+                        if((negLevel <= (int) GRGEN_LGSP.LGSPElemFlags.MAX_NEG_LEVEL ? (candidate_SpanningTreeOutgoing_iter_0_edge__edge0.lgspFlags & (uint) GRGEN_LGSP.LGSPElemFlags.IS_MATCHED_BY_ENCLOSING_PATTERN << negLevel)==(uint) GRGEN_LGSP.LGSPElemFlags.IS_MATCHED_BY_ENCLOSING_PATTERN << negLevel : graph.atNegLevelMatchedElementsGlobal[negLevel-(int)GRGEN_LGSP.LGSPElemFlags.MAX_NEG_LEVEL-1].snd.ContainsKey(candidate_SpanningTreeOutgoing_iter_0_edge__edge0)))
                         {
+                            continue;
+                        }
+                        if(searchPatternpath && (candidate_SpanningTreeOutgoing_iter_0_edge__edge0.lgspFlags & (uint) GRGEN_LGSP.LGSPElemFlags.IS_MATCHED_BY_SOME_ENCLOSING_PATTERN)==(uint) GRGEN_LGSP.LGSPElemFlags.IS_MATCHED_BY_SOME_ENCLOSING_PATTERN && GRGEN_LGSP.PatternpathIsomorphyChecker.IsMatched(candidate_SpanningTreeOutgoing_iter_0_edge__edge0, null))
+                        {
+                            continue;
+                        }
+                        // Implicit Target SpanningTreeOutgoing_iter_0_node_next from SpanningTreeOutgoing_iter_0_edge__edge0 
+                        GRGEN_LGSP.LGSPNode candidate_SpanningTreeOutgoing_iter_0_node_next = candidate_SpanningTreeOutgoing_iter_0_edge__edge0.lgspTarget;
+                        if((negLevel <= (int) GRGEN_LGSP.LGSPElemFlags.MAX_NEG_LEVEL ? (candidate_SpanningTreeOutgoing_iter_0_node_next.lgspFlags & (uint) GRGEN_LGSP.LGSPElemFlags.IS_MATCHED << negLevel) != 0 : graph.atNegLevelMatchedElements[negLevel-(int)GRGEN_LGSP.LGSPElemFlags.MAX_NEG_LEVEL-1].fst.ContainsKey(candidate_SpanningTreeOutgoing_iter_0_node_next)))
+                        {
+                            continue;
+                        }
+                        if((negLevel <= (int) GRGEN_LGSP.LGSPElemFlags.MAX_NEG_LEVEL ? (candidate_SpanningTreeOutgoing_iter_0_node_next.lgspFlags & (uint) GRGEN_LGSP.LGSPElemFlags.IS_MATCHED_BY_ENCLOSING_PATTERN << negLevel)==(uint) GRGEN_LGSP.LGSPElemFlags.IS_MATCHED_BY_ENCLOSING_PATTERN << negLevel : graph.atNegLevelMatchedElementsGlobal[negLevel-(int)GRGEN_LGSP.LGSPElemFlags.MAX_NEG_LEVEL-1].fst.ContainsKey(candidate_SpanningTreeOutgoing_iter_0_node_next)))
+                        {
+                            continue;
+                        }
+                        if(searchPatternpath && (candidate_SpanningTreeOutgoing_iter_0_node_next.lgspFlags & (uint) GRGEN_LGSP.LGSPElemFlags.IS_MATCHED_BY_SOME_ENCLOSING_PATTERN)==(uint) GRGEN_LGSP.LGSPElemFlags.IS_MATCHED_BY_SOME_ENCLOSING_PATTERN && GRGEN_LGSP.PatternpathIsomorphyChecker.IsMatched(candidate_SpanningTreeOutgoing_iter_0_node_next, null))
+                        {
+                            continue;
+                        }
+                        // build match of SpanningTreeOutgoing_iter_0 for patternpath checks
+                        if(patternpath_match_SpanningTreeOutgoing_iter_0==null) patternpath_match_SpanningTreeOutgoing_iter_0 = new Pattern_SpanningTreeOutgoing.Match_SpanningTreeOutgoing_iter_0();
+                        patternpath_match_SpanningTreeOutgoing_iter_0._matchOfEnclosingPattern = null;
+                        patternpath_match_SpanningTreeOutgoing_iter_0._node_root = candidate_SpanningTreeOutgoing_node_root;
+                        patternpath_match_SpanningTreeOutgoing_iter_0._node_next = candidate_SpanningTreeOutgoing_iter_0_node_next;
+                        patternpath_match_SpanningTreeOutgoing_iter_0._edge__edge0 = candidate_SpanningTreeOutgoing_iter_0_edge__edge0;
+                        uint prevSomeGlobal__candidate_SpanningTreeOutgoing_iter_0_node_next;
+                        prevSomeGlobal__candidate_SpanningTreeOutgoing_iter_0_node_next = candidate_SpanningTreeOutgoing_iter_0_node_next.lgspFlags & (uint) GRGEN_LGSP.LGSPElemFlags.IS_MATCHED_BY_SOME_ENCLOSING_PATTERN;
+                        candidate_SpanningTreeOutgoing_iter_0_node_next.lgspFlags |= (uint) GRGEN_LGSP.LGSPElemFlags.IS_MATCHED_BY_SOME_ENCLOSING_PATTERN;
+                        uint prevSomeGlobal__candidate_SpanningTreeOutgoing_iter_0_edge__edge0;
+                        prevSomeGlobal__candidate_SpanningTreeOutgoing_iter_0_edge__edge0 = candidate_SpanningTreeOutgoing_iter_0_edge__edge0.lgspFlags & (uint) GRGEN_LGSP.LGSPElemFlags.IS_MATCHED_BY_SOME_ENCLOSING_PATTERN;
+                        candidate_SpanningTreeOutgoing_iter_0_edge__edge0.lgspFlags |= (uint) GRGEN_LGSP.LGSPElemFlags.IS_MATCHED_BY_SOME_ENCLOSING_PATTERN;
+                        // accept iterated instance match
+                        ++numMatchesIter;
+                        // Push subpattern matching task for _subpattern0
+                        PatternAction_SpanningTreeOutgoing taskFor__subpattern0 = PatternAction_SpanningTreeOutgoing.getNewTask(graph, openTasks);
+                        taskFor__subpattern0.SpanningTreeOutgoing_node_root = candidate_SpanningTreeOutgoing_iter_0_node_next;
+                        taskFor__subpattern0.searchPatternpath = false;
+                        taskFor__subpattern0.matchOfNestingPattern = patternpath_match_SpanningTreeOutgoing_iter_0;
+                        taskFor__subpattern0.lastMatchAtPreviousNestingLevel = null;
+                        openTasks.Push(taskFor__subpattern0);
+                        uint prevGlobal__candidate_SpanningTreeOutgoing_iter_0_node_next;
+                        if(negLevel <= (int) GRGEN_LGSP.LGSPElemFlags.MAX_NEG_LEVEL) {
+                            prevGlobal__candidate_SpanningTreeOutgoing_iter_0_node_next = candidate_SpanningTreeOutgoing_iter_0_node_next.lgspFlags & (uint) GRGEN_LGSP.LGSPElemFlags.IS_MATCHED_BY_ENCLOSING_PATTERN << negLevel;
+                            candidate_SpanningTreeOutgoing_iter_0_node_next.lgspFlags |= (uint) GRGEN_LGSP.LGSPElemFlags.IS_MATCHED_BY_ENCLOSING_PATTERN << negLevel;
+                        } else {
+                            prevGlobal__candidate_SpanningTreeOutgoing_iter_0_node_next = graph.atNegLevelMatchedElementsGlobal[negLevel - (int) GRGEN_LGSP.LGSPElemFlags.MAX_NEG_LEVEL - 1].fst.ContainsKey(candidate_SpanningTreeOutgoing_iter_0_node_next) ? 1U : 0U;
+                            if(prevGlobal__candidate_SpanningTreeOutgoing_iter_0_node_next == 0) graph.atNegLevelMatchedElementsGlobal[negLevel - (int) GRGEN_LGSP.LGSPElemFlags.MAX_NEG_LEVEL - 1].fst.Add(candidate_SpanningTreeOutgoing_iter_0_node_next,candidate_SpanningTreeOutgoing_iter_0_node_next);
+                        }
+                        uint prevGlobal__candidate_SpanningTreeOutgoing_iter_0_edge__edge0;
+                        if(negLevel <= (int) GRGEN_LGSP.LGSPElemFlags.MAX_NEG_LEVEL) {
+                            prevGlobal__candidate_SpanningTreeOutgoing_iter_0_edge__edge0 = candidate_SpanningTreeOutgoing_iter_0_edge__edge0.lgspFlags & (uint) GRGEN_LGSP.LGSPElemFlags.IS_MATCHED_BY_ENCLOSING_PATTERN << negLevel;
+                            candidate_SpanningTreeOutgoing_iter_0_edge__edge0.lgspFlags |= (uint) GRGEN_LGSP.LGSPElemFlags.IS_MATCHED_BY_ENCLOSING_PATTERN << negLevel;
+                        } else {
+                            prevGlobal__candidate_SpanningTreeOutgoing_iter_0_edge__edge0 = graph.atNegLevelMatchedElementsGlobal[negLevel - (int) GRGEN_LGSP.LGSPElemFlags.MAX_NEG_LEVEL - 1].snd.ContainsKey(candidate_SpanningTreeOutgoing_iter_0_edge__edge0) ? 1U : 0U;
+                            if(prevGlobal__candidate_SpanningTreeOutgoing_iter_0_edge__edge0 == 0) graph.atNegLevelMatchedElementsGlobal[negLevel - (int) GRGEN_LGSP.LGSPElemFlags.MAX_NEG_LEVEL - 1].snd.Add(candidate_SpanningTreeOutgoing_iter_0_edge__edge0,candidate_SpanningTreeOutgoing_iter_0_edge__edge0);
+                        }
+                        // Match subpatterns 
+                        openTasks.Peek().myMatch(matchesList, maxMatches - foundPartialMatches.Count, negLevel);
+                        // Pop subpattern matching task for _subpattern0
+                        openTasks.Pop();
+                        PatternAction_SpanningTreeOutgoing.releaseTask(taskFor__subpattern0);
+                        // Check whether subpatterns were found 
+                        if(matchesList.Count>0) {
+                            patternFound = true;
+                            // subpatterns/alternatives were found, extend the partial matches by our local match object
+                            foreach(Stack<GRGEN_LIBGR.IMatch> currentFoundPartialMatch in matchesList)
+                            {
+                                Pattern_SpanningTreeOutgoing.Match_SpanningTreeOutgoing_iter_0 match = new Pattern_SpanningTreeOutgoing.Match_SpanningTreeOutgoing_iter_0();
+                                match._node_root = candidate_SpanningTreeOutgoing_node_root;
+                                match._node_next = candidate_SpanningTreeOutgoing_iter_0_node_next;
+                                match._edge__edge0 = candidate_SpanningTreeOutgoing_iter_0_edge__edge0;
+                                match.__subpattern0 = (@Pattern_SpanningTreeOutgoing.Match_SpanningTreeOutgoing)currentFoundPartialMatch.Pop();
+                                match.__subpattern0._matchOfEnclosingPattern = match;
+                                currentFoundPartialMatch.Push(match);
+                            }
+                            // if enough matches were found, we leave
+                            if(true) // as soon as there's a match, it's enough for iterated
+                            {
+                                if(negLevel <= (int) GRGEN_LGSP.LGSPElemFlags.MAX_NEG_LEVEL) {
+                                    candidate_SpanningTreeOutgoing_iter_0_edge__edge0.lgspFlags = candidate_SpanningTreeOutgoing_iter_0_edge__edge0.lgspFlags & ~((uint) GRGEN_LGSP.LGSPElemFlags.IS_MATCHED_BY_ENCLOSING_PATTERN << negLevel) | prevGlobal__candidate_SpanningTreeOutgoing_iter_0_edge__edge0;
+                                } else { 
+                                    if(prevGlobal__candidate_SpanningTreeOutgoing_iter_0_edge__edge0 == 0) {
+                                        graph.atNegLevelMatchedElementsGlobal[negLevel - (int) GRGEN_LGSP.LGSPElemFlags.MAX_NEG_LEVEL - 1].snd.Remove(candidate_SpanningTreeOutgoing_iter_0_edge__edge0);
+                                    }
+                                }
+                                if(negLevel <= (int) GRGEN_LGSP.LGSPElemFlags.MAX_NEG_LEVEL) {
+                                    candidate_SpanningTreeOutgoing_iter_0_node_next.lgspFlags = candidate_SpanningTreeOutgoing_iter_0_node_next.lgspFlags & ~((uint) GRGEN_LGSP.LGSPElemFlags.IS_MATCHED_BY_ENCLOSING_PATTERN << negLevel) | prevGlobal__candidate_SpanningTreeOutgoing_iter_0_node_next;
+                                } else { 
+                                    if(prevGlobal__candidate_SpanningTreeOutgoing_iter_0_node_next == 0) {
+                                        graph.atNegLevelMatchedElementsGlobal[negLevel - (int) GRGEN_LGSP.LGSPElemFlags.MAX_NEG_LEVEL - 1].fst.Remove(candidate_SpanningTreeOutgoing_iter_0_node_next);
+                                    }
+                                }
+                                --numMatchesIter;
+                                candidate_SpanningTreeOutgoing_iter_0_edge__edge0.lgspFlags = candidate_SpanningTreeOutgoing_iter_0_edge__edge0.lgspFlags & ~((uint) GRGEN_LGSP.LGSPElemFlags.IS_MATCHED_BY_SOME_ENCLOSING_PATTERN) | prevSomeGlobal__candidate_SpanningTreeOutgoing_iter_0_edge__edge0;
+                                candidate_SpanningTreeOutgoing_iter_0_node_next.lgspFlags = candidate_SpanningTreeOutgoing_iter_0_node_next.lgspFlags & ~((uint) GRGEN_LGSP.LGSPElemFlags.IS_MATCHED_BY_SOME_ENCLOSING_PATTERN) | prevSomeGlobal__candidate_SpanningTreeOutgoing_iter_0_node_next;
+                                goto maxMatchesIterReached;
+                            }
                             if(negLevel <= (int) GRGEN_LGSP.LGSPElemFlags.MAX_NEG_LEVEL) {
                                 candidate_SpanningTreeOutgoing_iter_0_edge__edge0.lgspFlags = candidate_SpanningTreeOutgoing_iter_0_edge__edge0.lgspFlags & ~((uint) GRGEN_LGSP.LGSPElemFlags.IS_MATCHED_BY_ENCLOSING_PATTERN << negLevel) | prevGlobal__candidate_SpanningTreeOutgoing_iter_0_edge__edge0;
                             } else { 
@@ -4601,14 +4587,7 @@ maxMatchesIterReached:
                             --numMatchesIter;
                             candidate_SpanningTreeOutgoing_iter_0_edge__edge0.lgspFlags = candidate_SpanningTreeOutgoing_iter_0_edge__edge0.lgspFlags & ~((uint) GRGEN_LGSP.LGSPElemFlags.IS_MATCHED_BY_SOME_ENCLOSING_PATTERN) | prevSomeGlobal__candidate_SpanningTreeOutgoing_iter_0_edge__edge0;
                             candidate_SpanningTreeOutgoing_iter_0_node_next.lgspFlags = candidate_SpanningTreeOutgoing_iter_0_node_next.lgspFlags & ~((uint) GRGEN_LGSP.LGSPElemFlags.IS_MATCHED_BY_SOME_ENCLOSING_PATTERN) | prevSomeGlobal__candidate_SpanningTreeOutgoing_iter_0_node_next;
-                            return;
-                        }
-                        if(negLevel <= (int) GRGEN_LGSP.LGSPElemFlags.MAX_NEG_LEVEL) {
-                            candidate_SpanningTreeOutgoing_iter_0_edge__edge0.lgspFlags = candidate_SpanningTreeOutgoing_iter_0_edge__edge0.lgspFlags & ~((uint) GRGEN_LGSP.LGSPElemFlags.IS_MATCHED_BY_ENCLOSING_PATTERN << negLevel) | prevGlobal__candidate_SpanningTreeOutgoing_iter_0_edge__edge0;
-                        } else { 
-                            if(prevGlobal__candidate_SpanningTreeOutgoing_iter_0_edge__edge0 == 0) {
-                                graph.atNegLevelMatchedElementsGlobal[negLevel - (int) GRGEN_LGSP.LGSPElemFlags.MAX_NEG_LEVEL - 1].snd.Remove(candidate_SpanningTreeOutgoing_iter_0_edge__edge0);
-                            }
+                            continue;
                         }
                         if(negLevel <= (int) GRGEN_LGSP.LGSPElemFlags.MAX_NEG_LEVEL) {
                             candidate_SpanningTreeOutgoing_iter_0_node_next.lgspFlags = candidate_SpanningTreeOutgoing_iter_0_node_next.lgspFlags & ~((uint) GRGEN_LGSP.LGSPElemFlags.IS_MATCHED_BY_ENCLOSING_PATTERN << negLevel) | prevGlobal__candidate_SpanningTreeOutgoing_iter_0_node_next;
@@ -4617,31 +4596,20 @@ maxMatchesIterReached:
                                 graph.atNegLevelMatchedElementsGlobal[negLevel - (int) GRGEN_LGSP.LGSPElemFlags.MAX_NEG_LEVEL - 1].fst.Remove(candidate_SpanningTreeOutgoing_iter_0_node_next);
                             }
                         }
+                        if(negLevel <= (int) GRGEN_LGSP.LGSPElemFlags.MAX_NEG_LEVEL) {
+                            candidate_SpanningTreeOutgoing_iter_0_edge__edge0.lgspFlags = candidate_SpanningTreeOutgoing_iter_0_edge__edge0.lgspFlags & ~((uint) GRGEN_LGSP.LGSPElemFlags.IS_MATCHED_BY_ENCLOSING_PATTERN << negLevel) | prevGlobal__candidate_SpanningTreeOutgoing_iter_0_edge__edge0;
+                        } else { 
+                            if(prevGlobal__candidate_SpanningTreeOutgoing_iter_0_edge__edge0 == 0) {
+                                graph.atNegLevelMatchedElementsGlobal[negLevel - (int) GRGEN_LGSP.LGSPElemFlags.MAX_NEG_LEVEL - 1].snd.Remove(candidate_SpanningTreeOutgoing_iter_0_edge__edge0);
+                            }
+                        }
                         --numMatchesIter;
-                        candidate_SpanningTreeOutgoing_iter_0_edge__edge0.lgspFlags = candidate_SpanningTreeOutgoing_iter_0_edge__edge0.lgspFlags & ~((uint) GRGEN_LGSP.LGSPElemFlags.IS_MATCHED_BY_SOME_ENCLOSING_PATTERN) | prevSomeGlobal__candidate_SpanningTreeOutgoing_iter_0_edge__edge0;
                         candidate_SpanningTreeOutgoing_iter_0_node_next.lgspFlags = candidate_SpanningTreeOutgoing_iter_0_node_next.lgspFlags & ~((uint) GRGEN_LGSP.LGSPElemFlags.IS_MATCHED_BY_SOME_ENCLOSING_PATTERN) | prevSomeGlobal__candidate_SpanningTreeOutgoing_iter_0_node_next;
-                        continue;
+                        candidate_SpanningTreeOutgoing_iter_0_edge__edge0.lgspFlags = candidate_SpanningTreeOutgoing_iter_0_edge__edge0.lgspFlags & ~((uint) GRGEN_LGSP.LGSPElemFlags.IS_MATCHED_BY_SOME_ENCLOSING_PATTERN) | prevSomeGlobal__candidate_SpanningTreeOutgoing_iter_0_edge__edge0;
                     }
-                    if(negLevel <= (int) GRGEN_LGSP.LGSPElemFlags.MAX_NEG_LEVEL) {
-                        candidate_SpanningTreeOutgoing_iter_0_node_next.lgspFlags = candidate_SpanningTreeOutgoing_iter_0_node_next.lgspFlags & ~((uint) GRGEN_LGSP.LGSPElemFlags.IS_MATCHED_BY_ENCLOSING_PATTERN << negLevel) | prevGlobal__candidate_SpanningTreeOutgoing_iter_0_node_next;
-                    } else { 
-                        if(prevGlobal__candidate_SpanningTreeOutgoing_iter_0_node_next == 0) {
-                            graph.atNegLevelMatchedElementsGlobal[negLevel - (int) GRGEN_LGSP.LGSPElemFlags.MAX_NEG_LEVEL - 1].fst.Remove(candidate_SpanningTreeOutgoing_iter_0_node_next);
-                        }
-                    }
-                    if(negLevel <= (int) GRGEN_LGSP.LGSPElemFlags.MAX_NEG_LEVEL) {
-                        candidate_SpanningTreeOutgoing_iter_0_edge__edge0.lgspFlags = candidate_SpanningTreeOutgoing_iter_0_edge__edge0.lgspFlags & ~((uint) GRGEN_LGSP.LGSPElemFlags.IS_MATCHED_BY_ENCLOSING_PATTERN << negLevel) | prevGlobal__candidate_SpanningTreeOutgoing_iter_0_edge__edge0;
-                    } else { 
-                        if(prevGlobal__candidate_SpanningTreeOutgoing_iter_0_edge__edge0 == 0) {
-                            graph.atNegLevelMatchedElementsGlobal[negLevel - (int) GRGEN_LGSP.LGSPElemFlags.MAX_NEG_LEVEL - 1].snd.Remove(candidate_SpanningTreeOutgoing_iter_0_edge__edge0);
-                        }
-                    }
-                    --numMatchesIter;
-                    candidate_SpanningTreeOutgoing_iter_0_node_next.lgspFlags = candidate_SpanningTreeOutgoing_iter_0_node_next.lgspFlags & ~((uint) GRGEN_LGSP.LGSPElemFlags.IS_MATCHED_BY_SOME_ENCLOSING_PATTERN) | prevSomeGlobal__candidate_SpanningTreeOutgoing_iter_0_node_next;
-                    candidate_SpanningTreeOutgoing_iter_0_edge__edge0.lgspFlags = candidate_SpanningTreeOutgoing_iter_0_edge__edge0.lgspFlags & ~((uint) GRGEN_LGSP.LGSPElemFlags.IS_MATCHED_BY_SOME_ENCLOSING_PATTERN) | prevSomeGlobal__candidate_SpanningTreeOutgoing_iter_0_edge__edge0;
+                    while( (candidate_SpanningTreeOutgoing_iter_0_edge__edge0 = candidate_SpanningTreeOutgoing_iter_0_edge__edge0.lgspOutNext) != head_candidate_SpanningTreeOutgoing_iter_0_edge__edge0 );
                 }
-                while( (candidate_SpanningTreeOutgoing_iter_0_edge__edge0 = candidate_SpanningTreeOutgoing_iter_0_edge__edge0.lgspOutNext) != head_candidate_SpanningTreeOutgoing_iter_0_edge__edge0 );
-            }
+            } while(false);
             // Check whether the iterated pattern null match was found
 maxMatchesIterReached:
             if(!patternFound && numMatchesIter>=minMatchesIter)
@@ -4832,99 +4800,121 @@ maxMatchesIterReached:
             if(matchesList.Count!=0) throw new ApplicationException(); //debug assert
             // if the maximum number of matches of the iterated is reached, we complete iterated matching by building the null match object
             if(maxMatchesIter>0 && numMatchesIter>=maxMatchesIter) goto maxMatchesIterReached;
-            // SubPreset SpanningTreeIncoming_node_root 
-            GRGEN_LGSP.LGSPNode candidate_SpanningTreeIncoming_node_root = SpanningTreeIncoming_node_root;
-            // Extend Incoming SpanningTreeIncoming_iter_0_edge__edge0 from SpanningTreeIncoming_node_root 
-            GRGEN_LGSP.LGSPEdge head_candidate_SpanningTreeIncoming_iter_0_edge__edge0 = candidate_SpanningTreeIncoming_node_root.lgspInhead;
-            if(head_candidate_SpanningTreeIncoming_iter_0_edge__edge0 != null)
+            // dummy iteration for iterated return prevention
+            do
             {
-                GRGEN_LGSP.LGSPEdge candidate_SpanningTreeIncoming_iter_0_edge__edge0 = head_candidate_SpanningTreeIncoming_iter_0_edge__edge0;
-                do
+                // SubPreset SpanningTreeIncoming_node_root 
+                GRGEN_LGSP.LGSPNode candidate_SpanningTreeIncoming_node_root = SpanningTreeIncoming_node_root;
+                // Extend Incoming SpanningTreeIncoming_iter_0_edge__edge0 from SpanningTreeIncoming_node_root 
+                GRGEN_LGSP.LGSPEdge head_candidate_SpanningTreeIncoming_iter_0_edge__edge0 = candidate_SpanningTreeIncoming_node_root.lgspInhead;
+                if(head_candidate_SpanningTreeIncoming_iter_0_edge__edge0 != null)
                 {
-                    if(candidate_SpanningTreeIncoming_iter_0_edge__edge0.lgspType.TypeID!=1) {
-                        continue;
-                    }
-                    if((negLevel <= (int) GRGEN_LGSP.LGSPElemFlags.MAX_NEG_LEVEL ? (candidate_SpanningTreeIncoming_iter_0_edge__edge0.lgspFlags & (uint) GRGEN_LGSP.LGSPElemFlags.IS_MATCHED_BY_ENCLOSING_PATTERN << negLevel)==(uint) GRGEN_LGSP.LGSPElemFlags.IS_MATCHED_BY_ENCLOSING_PATTERN << negLevel : graph.atNegLevelMatchedElementsGlobal[negLevel-(int)GRGEN_LGSP.LGSPElemFlags.MAX_NEG_LEVEL-1].snd.ContainsKey(candidate_SpanningTreeIncoming_iter_0_edge__edge0)))
+                    GRGEN_LGSP.LGSPEdge candidate_SpanningTreeIncoming_iter_0_edge__edge0 = head_candidate_SpanningTreeIncoming_iter_0_edge__edge0;
+                    do
                     {
-                        continue;
-                    }
-                    if(searchPatternpath && (candidate_SpanningTreeIncoming_iter_0_edge__edge0.lgspFlags & (uint) GRGEN_LGSP.LGSPElemFlags.IS_MATCHED_BY_SOME_ENCLOSING_PATTERN)==(uint) GRGEN_LGSP.LGSPElemFlags.IS_MATCHED_BY_SOME_ENCLOSING_PATTERN && GRGEN_LGSP.PatternpathIsomorphyChecker.IsMatched(candidate_SpanningTreeIncoming_iter_0_edge__edge0, null))
-                    {
-                        continue;
-                    }
-                    // Implicit Source SpanningTreeIncoming_iter_0_node_next from SpanningTreeIncoming_iter_0_edge__edge0 
-                    GRGEN_LGSP.LGSPNode candidate_SpanningTreeIncoming_iter_0_node_next = candidate_SpanningTreeIncoming_iter_0_edge__edge0.lgspSource;
-                    if((negLevel <= (int) GRGEN_LGSP.LGSPElemFlags.MAX_NEG_LEVEL ? (candidate_SpanningTreeIncoming_iter_0_node_next.lgspFlags & (uint) GRGEN_LGSP.LGSPElemFlags.IS_MATCHED << negLevel) != 0 : graph.atNegLevelMatchedElements[negLevel-(int)GRGEN_LGSP.LGSPElemFlags.MAX_NEG_LEVEL-1].fst.ContainsKey(candidate_SpanningTreeIncoming_iter_0_node_next)))
-                    {
-                        continue;
-                    }
-                    if((negLevel <= (int) GRGEN_LGSP.LGSPElemFlags.MAX_NEG_LEVEL ? (candidate_SpanningTreeIncoming_iter_0_node_next.lgspFlags & (uint) GRGEN_LGSP.LGSPElemFlags.IS_MATCHED_BY_ENCLOSING_PATTERN << negLevel)==(uint) GRGEN_LGSP.LGSPElemFlags.IS_MATCHED_BY_ENCLOSING_PATTERN << negLevel : graph.atNegLevelMatchedElementsGlobal[negLevel-(int)GRGEN_LGSP.LGSPElemFlags.MAX_NEG_LEVEL-1].fst.ContainsKey(candidate_SpanningTreeIncoming_iter_0_node_next)))
-                    {
-                        continue;
-                    }
-                    if(searchPatternpath && (candidate_SpanningTreeIncoming_iter_0_node_next.lgspFlags & (uint) GRGEN_LGSP.LGSPElemFlags.IS_MATCHED_BY_SOME_ENCLOSING_PATTERN)==(uint) GRGEN_LGSP.LGSPElemFlags.IS_MATCHED_BY_SOME_ENCLOSING_PATTERN && GRGEN_LGSP.PatternpathIsomorphyChecker.IsMatched(candidate_SpanningTreeIncoming_iter_0_node_next, null))
-                    {
-                        continue;
-                    }
-                    // build match of SpanningTreeIncoming_iter_0 for patternpath checks
-                    if(patternpath_match_SpanningTreeIncoming_iter_0==null) patternpath_match_SpanningTreeIncoming_iter_0 = new Pattern_SpanningTreeIncoming.Match_SpanningTreeIncoming_iter_0();
-                    patternpath_match_SpanningTreeIncoming_iter_0._matchOfEnclosingPattern = null;
-                    patternpath_match_SpanningTreeIncoming_iter_0._node_next = candidate_SpanningTreeIncoming_iter_0_node_next;
-                    patternpath_match_SpanningTreeIncoming_iter_0._node_root = candidate_SpanningTreeIncoming_node_root;
-                    patternpath_match_SpanningTreeIncoming_iter_0._edge__edge0 = candidate_SpanningTreeIncoming_iter_0_edge__edge0;
-                    uint prevSomeGlobal__candidate_SpanningTreeIncoming_iter_0_node_next;
-                    prevSomeGlobal__candidate_SpanningTreeIncoming_iter_0_node_next = candidate_SpanningTreeIncoming_iter_0_node_next.lgspFlags & (uint) GRGEN_LGSP.LGSPElemFlags.IS_MATCHED_BY_SOME_ENCLOSING_PATTERN;
-                    candidate_SpanningTreeIncoming_iter_0_node_next.lgspFlags |= (uint) GRGEN_LGSP.LGSPElemFlags.IS_MATCHED_BY_SOME_ENCLOSING_PATTERN;
-                    uint prevSomeGlobal__candidate_SpanningTreeIncoming_iter_0_edge__edge0;
-                    prevSomeGlobal__candidate_SpanningTreeIncoming_iter_0_edge__edge0 = candidate_SpanningTreeIncoming_iter_0_edge__edge0.lgspFlags & (uint) GRGEN_LGSP.LGSPElemFlags.IS_MATCHED_BY_SOME_ENCLOSING_PATTERN;
-                    candidate_SpanningTreeIncoming_iter_0_edge__edge0.lgspFlags |= (uint) GRGEN_LGSP.LGSPElemFlags.IS_MATCHED_BY_SOME_ENCLOSING_PATTERN;
-                    // accept iterated instance match
-                    ++numMatchesIter;
-                    // Push subpattern matching task for _subpattern0
-                    PatternAction_SpanningTreeIncoming taskFor__subpattern0 = PatternAction_SpanningTreeIncoming.getNewTask(graph, openTasks);
-                    taskFor__subpattern0.SpanningTreeIncoming_node_root = candidate_SpanningTreeIncoming_iter_0_node_next;
-                    taskFor__subpattern0.searchPatternpath = false;
-                    taskFor__subpattern0.matchOfNestingPattern = patternpath_match_SpanningTreeIncoming_iter_0;
-                    taskFor__subpattern0.lastMatchAtPreviousNestingLevel = null;
-                    openTasks.Push(taskFor__subpattern0);
-                    uint prevGlobal__candidate_SpanningTreeIncoming_iter_0_node_next;
-                    if(negLevel <= (int) GRGEN_LGSP.LGSPElemFlags.MAX_NEG_LEVEL) {
-                        prevGlobal__candidate_SpanningTreeIncoming_iter_0_node_next = candidate_SpanningTreeIncoming_iter_0_node_next.lgspFlags & (uint) GRGEN_LGSP.LGSPElemFlags.IS_MATCHED_BY_ENCLOSING_PATTERN << negLevel;
-                        candidate_SpanningTreeIncoming_iter_0_node_next.lgspFlags |= (uint) GRGEN_LGSP.LGSPElemFlags.IS_MATCHED_BY_ENCLOSING_PATTERN << negLevel;
-                    } else {
-                        prevGlobal__candidate_SpanningTreeIncoming_iter_0_node_next = graph.atNegLevelMatchedElementsGlobal[negLevel - (int) GRGEN_LGSP.LGSPElemFlags.MAX_NEG_LEVEL - 1].fst.ContainsKey(candidate_SpanningTreeIncoming_iter_0_node_next) ? 1U : 0U;
-                        if(prevGlobal__candidate_SpanningTreeIncoming_iter_0_node_next == 0) graph.atNegLevelMatchedElementsGlobal[negLevel - (int) GRGEN_LGSP.LGSPElemFlags.MAX_NEG_LEVEL - 1].fst.Add(candidate_SpanningTreeIncoming_iter_0_node_next,candidate_SpanningTreeIncoming_iter_0_node_next);
-                    }
-                    uint prevGlobal__candidate_SpanningTreeIncoming_iter_0_edge__edge0;
-                    if(negLevel <= (int) GRGEN_LGSP.LGSPElemFlags.MAX_NEG_LEVEL) {
-                        prevGlobal__candidate_SpanningTreeIncoming_iter_0_edge__edge0 = candidate_SpanningTreeIncoming_iter_0_edge__edge0.lgspFlags & (uint) GRGEN_LGSP.LGSPElemFlags.IS_MATCHED_BY_ENCLOSING_PATTERN << negLevel;
-                        candidate_SpanningTreeIncoming_iter_0_edge__edge0.lgspFlags |= (uint) GRGEN_LGSP.LGSPElemFlags.IS_MATCHED_BY_ENCLOSING_PATTERN << negLevel;
-                    } else {
-                        prevGlobal__candidate_SpanningTreeIncoming_iter_0_edge__edge0 = graph.atNegLevelMatchedElementsGlobal[negLevel - (int) GRGEN_LGSP.LGSPElemFlags.MAX_NEG_LEVEL - 1].snd.ContainsKey(candidate_SpanningTreeIncoming_iter_0_edge__edge0) ? 1U : 0U;
-                        if(prevGlobal__candidate_SpanningTreeIncoming_iter_0_edge__edge0 == 0) graph.atNegLevelMatchedElementsGlobal[negLevel - (int) GRGEN_LGSP.LGSPElemFlags.MAX_NEG_LEVEL - 1].snd.Add(candidate_SpanningTreeIncoming_iter_0_edge__edge0,candidate_SpanningTreeIncoming_iter_0_edge__edge0);
-                    }
-                    // Match subpatterns 
-                    openTasks.Peek().myMatch(matchesList, maxMatches - foundPartialMatches.Count, negLevel);
-                    // Pop subpattern matching task for _subpattern0
-                    openTasks.Pop();
-                    PatternAction_SpanningTreeIncoming.releaseTask(taskFor__subpattern0);
-                    // Check whether subpatterns were found 
-                    if(matchesList.Count>0) {
-                        patternFound = true;
-                        // subpatterns/alternatives were found, extend the partial matches by our local match object
-                        foreach(Stack<GRGEN_LIBGR.IMatch> currentFoundPartialMatch in matchesList)
-                        {
-                            Pattern_SpanningTreeIncoming.Match_SpanningTreeIncoming_iter_0 match = new Pattern_SpanningTreeIncoming.Match_SpanningTreeIncoming_iter_0();
-                            match._node_next = candidate_SpanningTreeIncoming_iter_0_node_next;
-                            match._node_root = candidate_SpanningTreeIncoming_node_root;
-                            match._edge__edge0 = candidate_SpanningTreeIncoming_iter_0_edge__edge0;
-                            match.__subpattern0 = (@Pattern_SpanningTreeIncoming.Match_SpanningTreeIncoming)currentFoundPartialMatch.Pop();
-                            match.__subpattern0._matchOfEnclosingPattern = match;
-                            currentFoundPartialMatch.Push(match);
+                        if(candidate_SpanningTreeIncoming_iter_0_edge__edge0.lgspType.TypeID!=1) {
+                            continue;
                         }
-                        // if enough matches were found, we leave
-                        if(true) // as soon as there's a match, it's enough for iterated
+                        if((negLevel <= (int) GRGEN_LGSP.LGSPElemFlags.MAX_NEG_LEVEL ? (candidate_SpanningTreeIncoming_iter_0_edge__edge0.lgspFlags & (uint) GRGEN_LGSP.LGSPElemFlags.IS_MATCHED_BY_ENCLOSING_PATTERN << negLevel)==(uint) GRGEN_LGSP.LGSPElemFlags.IS_MATCHED_BY_ENCLOSING_PATTERN << negLevel : graph.atNegLevelMatchedElementsGlobal[negLevel-(int)GRGEN_LGSP.LGSPElemFlags.MAX_NEG_LEVEL-1].snd.ContainsKey(candidate_SpanningTreeIncoming_iter_0_edge__edge0)))
                         {
+                            continue;
+                        }
+                        if(searchPatternpath && (candidate_SpanningTreeIncoming_iter_0_edge__edge0.lgspFlags & (uint) GRGEN_LGSP.LGSPElemFlags.IS_MATCHED_BY_SOME_ENCLOSING_PATTERN)==(uint) GRGEN_LGSP.LGSPElemFlags.IS_MATCHED_BY_SOME_ENCLOSING_PATTERN && GRGEN_LGSP.PatternpathIsomorphyChecker.IsMatched(candidate_SpanningTreeIncoming_iter_0_edge__edge0, null))
+                        {
+                            continue;
+                        }
+                        // Implicit Source SpanningTreeIncoming_iter_0_node_next from SpanningTreeIncoming_iter_0_edge__edge0 
+                        GRGEN_LGSP.LGSPNode candidate_SpanningTreeIncoming_iter_0_node_next = candidate_SpanningTreeIncoming_iter_0_edge__edge0.lgspSource;
+                        if((negLevel <= (int) GRGEN_LGSP.LGSPElemFlags.MAX_NEG_LEVEL ? (candidate_SpanningTreeIncoming_iter_0_node_next.lgspFlags & (uint) GRGEN_LGSP.LGSPElemFlags.IS_MATCHED << negLevel) != 0 : graph.atNegLevelMatchedElements[negLevel-(int)GRGEN_LGSP.LGSPElemFlags.MAX_NEG_LEVEL-1].fst.ContainsKey(candidate_SpanningTreeIncoming_iter_0_node_next)))
+                        {
+                            continue;
+                        }
+                        if((negLevel <= (int) GRGEN_LGSP.LGSPElemFlags.MAX_NEG_LEVEL ? (candidate_SpanningTreeIncoming_iter_0_node_next.lgspFlags & (uint) GRGEN_LGSP.LGSPElemFlags.IS_MATCHED_BY_ENCLOSING_PATTERN << negLevel)==(uint) GRGEN_LGSP.LGSPElemFlags.IS_MATCHED_BY_ENCLOSING_PATTERN << negLevel : graph.atNegLevelMatchedElementsGlobal[negLevel-(int)GRGEN_LGSP.LGSPElemFlags.MAX_NEG_LEVEL-1].fst.ContainsKey(candidate_SpanningTreeIncoming_iter_0_node_next)))
+                        {
+                            continue;
+                        }
+                        if(searchPatternpath && (candidate_SpanningTreeIncoming_iter_0_node_next.lgspFlags & (uint) GRGEN_LGSP.LGSPElemFlags.IS_MATCHED_BY_SOME_ENCLOSING_PATTERN)==(uint) GRGEN_LGSP.LGSPElemFlags.IS_MATCHED_BY_SOME_ENCLOSING_PATTERN && GRGEN_LGSP.PatternpathIsomorphyChecker.IsMatched(candidate_SpanningTreeIncoming_iter_0_node_next, null))
+                        {
+                            continue;
+                        }
+                        // build match of SpanningTreeIncoming_iter_0 for patternpath checks
+                        if(patternpath_match_SpanningTreeIncoming_iter_0==null) patternpath_match_SpanningTreeIncoming_iter_0 = new Pattern_SpanningTreeIncoming.Match_SpanningTreeIncoming_iter_0();
+                        patternpath_match_SpanningTreeIncoming_iter_0._matchOfEnclosingPattern = null;
+                        patternpath_match_SpanningTreeIncoming_iter_0._node_next = candidate_SpanningTreeIncoming_iter_0_node_next;
+                        patternpath_match_SpanningTreeIncoming_iter_0._node_root = candidate_SpanningTreeIncoming_node_root;
+                        patternpath_match_SpanningTreeIncoming_iter_0._edge__edge0 = candidate_SpanningTreeIncoming_iter_0_edge__edge0;
+                        uint prevSomeGlobal__candidate_SpanningTreeIncoming_iter_0_node_next;
+                        prevSomeGlobal__candidate_SpanningTreeIncoming_iter_0_node_next = candidate_SpanningTreeIncoming_iter_0_node_next.lgspFlags & (uint) GRGEN_LGSP.LGSPElemFlags.IS_MATCHED_BY_SOME_ENCLOSING_PATTERN;
+                        candidate_SpanningTreeIncoming_iter_0_node_next.lgspFlags |= (uint) GRGEN_LGSP.LGSPElemFlags.IS_MATCHED_BY_SOME_ENCLOSING_PATTERN;
+                        uint prevSomeGlobal__candidate_SpanningTreeIncoming_iter_0_edge__edge0;
+                        prevSomeGlobal__candidate_SpanningTreeIncoming_iter_0_edge__edge0 = candidate_SpanningTreeIncoming_iter_0_edge__edge0.lgspFlags & (uint) GRGEN_LGSP.LGSPElemFlags.IS_MATCHED_BY_SOME_ENCLOSING_PATTERN;
+                        candidate_SpanningTreeIncoming_iter_0_edge__edge0.lgspFlags |= (uint) GRGEN_LGSP.LGSPElemFlags.IS_MATCHED_BY_SOME_ENCLOSING_PATTERN;
+                        // accept iterated instance match
+                        ++numMatchesIter;
+                        // Push subpattern matching task for _subpattern0
+                        PatternAction_SpanningTreeIncoming taskFor__subpattern0 = PatternAction_SpanningTreeIncoming.getNewTask(graph, openTasks);
+                        taskFor__subpattern0.SpanningTreeIncoming_node_root = candidate_SpanningTreeIncoming_iter_0_node_next;
+                        taskFor__subpattern0.searchPatternpath = false;
+                        taskFor__subpattern0.matchOfNestingPattern = patternpath_match_SpanningTreeIncoming_iter_0;
+                        taskFor__subpattern0.lastMatchAtPreviousNestingLevel = null;
+                        openTasks.Push(taskFor__subpattern0);
+                        uint prevGlobal__candidate_SpanningTreeIncoming_iter_0_node_next;
+                        if(negLevel <= (int) GRGEN_LGSP.LGSPElemFlags.MAX_NEG_LEVEL) {
+                            prevGlobal__candidate_SpanningTreeIncoming_iter_0_node_next = candidate_SpanningTreeIncoming_iter_0_node_next.lgspFlags & (uint) GRGEN_LGSP.LGSPElemFlags.IS_MATCHED_BY_ENCLOSING_PATTERN << negLevel;
+                            candidate_SpanningTreeIncoming_iter_0_node_next.lgspFlags |= (uint) GRGEN_LGSP.LGSPElemFlags.IS_MATCHED_BY_ENCLOSING_PATTERN << negLevel;
+                        } else {
+                            prevGlobal__candidate_SpanningTreeIncoming_iter_0_node_next = graph.atNegLevelMatchedElementsGlobal[negLevel - (int) GRGEN_LGSP.LGSPElemFlags.MAX_NEG_LEVEL - 1].fst.ContainsKey(candidate_SpanningTreeIncoming_iter_0_node_next) ? 1U : 0U;
+                            if(prevGlobal__candidate_SpanningTreeIncoming_iter_0_node_next == 0) graph.atNegLevelMatchedElementsGlobal[negLevel - (int) GRGEN_LGSP.LGSPElemFlags.MAX_NEG_LEVEL - 1].fst.Add(candidate_SpanningTreeIncoming_iter_0_node_next,candidate_SpanningTreeIncoming_iter_0_node_next);
+                        }
+                        uint prevGlobal__candidate_SpanningTreeIncoming_iter_0_edge__edge0;
+                        if(negLevel <= (int) GRGEN_LGSP.LGSPElemFlags.MAX_NEG_LEVEL) {
+                            prevGlobal__candidate_SpanningTreeIncoming_iter_0_edge__edge0 = candidate_SpanningTreeIncoming_iter_0_edge__edge0.lgspFlags & (uint) GRGEN_LGSP.LGSPElemFlags.IS_MATCHED_BY_ENCLOSING_PATTERN << negLevel;
+                            candidate_SpanningTreeIncoming_iter_0_edge__edge0.lgspFlags |= (uint) GRGEN_LGSP.LGSPElemFlags.IS_MATCHED_BY_ENCLOSING_PATTERN << negLevel;
+                        } else {
+                            prevGlobal__candidate_SpanningTreeIncoming_iter_0_edge__edge0 = graph.atNegLevelMatchedElementsGlobal[negLevel - (int) GRGEN_LGSP.LGSPElemFlags.MAX_NEG_LEVEL - 1].snd.ContainsKey(candidate_SpanningTreeIncoming_iter_0_edge__edge0) ? 1U : 0U;
+                            if(prevGlobal__candidate_SpanningTreeIncoming_iter_0_edge__edge0 == 0) graph.atNegLevelMatchedElementsGlobal[negLevel - (int) GRGEN_LGSP.LGSPElemFlags.MAX_NEG_LEVEL - 1].snd.Add(candidate_SpanningTreeIncoming_iter_0_edge__edge0,candidate_SpanningTreeIncoming_iter_0_edge__edge0);
+                        }
+                        // Match subpatterns 
+                        openTasks.Peek().myMatch(matchesList, maxMatches - foundPartialMatches.Count, negLevel);
+                        // Pop subpattern matching task for _subpattern0
+                        openTasks.Pop();
+                        PatternAction_SpanningTreeIncoming.releaseTask(taskFor__subpattern0);
+                        // Check whether subpatterns were found 
+                        if(matchesList.Count>0) {
+                            patternFound = true;
+                            // subpatterns/alternatives were found, extend the partial matches by our local match object
+                            foreach(Stack<GRGEN_LIBGR.IMatch> currentFoundPartialMatch in matchesList)
+                            {
+                                Pattern_SpanningTreeIncoming.Match_SpanningTreeIncoming_iter_0 match = new Pattern_SpanningTreeIncoming.Match_SpanningTreeIncoming_iter_0();
+                                match._node_next = candidate_SpanningTreeIncoming_iter_0_node_next;
+                                match._node_root = candidate_SpanningTreeIncoming_node_root;
+                                match._edge__edge0 = candidate_SpanningTreeIncoming_iter_0_edge__edge0;
+                                match.__subpattern0 = (@Pattern_SpanningTreeIncoming.Match_SpanningTreeIncoming)currentFoundPartialMatch.Pop();
+                                match.__subpattern0._matchOfEnclosingPattern = match;
+                                currentFoundPartialMatch.Push(match);
+                            }
+                            // if enough matches were found, we leave
+                            if(true) // as soon as there's a match, it's enough for iterated
+                            {
+                                if(negLevel <= (int) GRGEN_LGSP.LGSPElemFlags.MAX_NEG_LEVEL) {
+                                    candidate_SpanningTreeIncoming_iter_0_edge__edge0.lgspFlags = candidate_SpanningTreeIncoming_iter_0_edge__edge0.lgspFlags & ~((uint) GRGEN_LGSP.LGSPElemFlags.IS_MATCHED_BY_ENCLOSING_PATTERN << negLevel) | prevGlobal__candidate_SpanningTreeIncoming_iter_0_edge__edge0;
+                                } else { 
+                                    if(prevGlobal__candidate_SpanningTreeIncoming_iter_0_edge__edge0 == 0) {
+                                        graph.atNegLevelMatchedElementsGlobal[negLevel - (int) GRGEN_LGSP.LGSPElemFlags.MAX_NEG_LEVEL - 1].snd.Remove(candidate_SpanningTreeIncoming_iter_0_edge__edge0);
+                                    }
+                                }
+                                if(negLevel <= (int) GRGEN_LGSP.LGSPElemFlags.MAX_NEG_LEVEL) {
+                                    candidate_SpanningTreeIncoming_iter_0_node_next.lgspFlags = candidate_SpanningTreeIncoming_iter_0_node_next.lgspFlags & ~((uint) GRGEN_LGSP.LGSPElemFlags.IS_MATCHED_BY_ENCLOSING_PATTERN << negLevel) | prevGlobal__candidate_SpanningTreeIncoming_iter_0_node_next;
+                                } else { 
+                                    if(prevGlobal__candidate_SpanningTreeIncoming_iter_0_node_next == 0) {
+                                        graph.atNegLevelMatchedElementsGlobal[negLevel - (int) GRGEN_LGSP.LGSPElemFlags.MAX_NEG_LEVEL - 1].fst.Remove(candidate_SpanningTreeIncoming_iter_0_node_next);
+                                    }
+                                }
+                                --numMatchesIter;
+                                candidate_SpanningTreeIncoming_iter_0_edge__edge0.lgspFlags = candidate_SpanningTreeIncoming_iter_0_edge__edge0.lgspFlags & ~((uint) GRGEN_LGSP.LGSPElemFlags.IS_MATCHED_BY_SOME_ENCLOSING_PATTERN) | prevSomeGlobal__candidate_SpanningTreeIncoming_iter_0_edge__edge0;
+                                candidate_SpanningTreeIncoming_iter_0_node_next.lgspFlags = candidate_SpanningTreeIncoming_iter_0_node_next.lgspFlags & ~((uint) GRGEN_LGSP.LGSPElemFlags.IS_MATCHED_BY_SOME_ENCLOSING_PATTERN) | prevSomeGlobal__candidate_SpanningTreeIncoming_iter_0_node_next;
+                                goto maxMatchesIterReached;
+                            }
                             if(negLevel <= (int) GRGEN_LGSP.LGSPElemFlags.MAX_NEG_LEVEL) {
                                 candidate_SpanningTreeIncoming_iter_0_edge__edge0.lgspFlags = candidate_SpanningTreeIncoming_iter_0_edge__edge0.lgspFlags & ~((uint) GRGEN_LGSP.LGSPElemFlags.IS_MATCHED_BY_ENCLOSING_PATTERN << negLevel) | prevGlobal__candidate_SpanningTreeIncoming_iter_0_edge__edge0;
                             } else { 
@@ -4942,14 +4932,7 @@ maxMatchesIterReached:
                             --numMatchesIter;
                             candidate_SpanningTreeIncoming_iter_0_edge__edge0.lgspFlags = candidate_SpanningTreeIncoming_iter_0_edge__edge0.lgspFlags & ~((uint) GRGEN_LGSP.LGSPElemFlags.IS_MATCHED_BY_SOME_ENCLOSING_PATTERN) | prevSomeGlobal__candidate_SpanningTreeIncoming_iter_0_edge__edge0;
                             candidate_SpanningTreeIncoming_iter_0_node_next.lgspFlags = candidate_SpanningTreeIncoming_iter_0_node_next.lgspFlags & ~((uint) GRGEN_LGSP.LGSPElemFlags.IS_MATCHED_BY_SOME_ENCLOSING_PATTERN) | prevSomeGlobal__candidate_SpanningTreeIncoming_iter_0_node_next;
-                            return;
-                        }
-                        if(negLevel <= (int) GRGEN_LGSP.LGSPElemFlags.MAX_NEG_LEVEL) {
-                            candidate_SpanningTreeIncoming_iter_0_edge__edge0.lgspFlags = candidate_SpanningTreeIncoming_iter_0_edge__edge0.lgspFlags & ~((uint) GRGEN_LGSP.LGSPElemFlags.IS_MATCHED_BY_ENCLOSING_PATTERN << negLevel) | prevGlobal__candidate_SpanningTreeIncoming_iter_0_edge__edge0;
-                        } else { 
-                            if(prevGlobal__candidate_SpanningTreeIncoming_iter_0_edge__edge0 == 0) {
-                                graph.atNegLevelMatchedElementsGlobal[negLevel - (int) GRGEN_LGSP.LGSPElemFlags.MAX_NEG_LEVEL - 1].snd.Remove(candidate_SpanningTreeIncoming_iter_0_edge__edge0);
-                            }
+                            continue;
                         }
                         if(negLevel <= (int) GRGEN_LGSP.LGSPElemFlags.MAX_NEG_LEVEL) {
                             candidate_SpanningTreeIncoming_iter_0_node_next.lgspFlags = candidate_SpanningTreeIncoming_iter_0_node_next.lgspFlags & ~((uint) GRGEN_LGSP.LGSPElemFlags.IS_MATCHED_BY_ENCLOSING_PATTERN << negLevel) | prevGlobal__candidate_SpanningTreeIncoming_iter_0_node_next;
@@ -4958,31 +4941,20 @@ maxMatchesIterReached:
                                 graph.atNegLevelMatchedElementsGlobal[negLevel - (int) GRGEN_LGSP.LGSPElemFlags.MAX_NEG_LEVEL - 1].fst.Remove(candidate_SpanningTreeIncoming_iter_0_node_next);
                             }
                         }
+                        if(negLevel <= (int) GRGEN_LGSP.LGSPElemFlags.MAX_NEG_LEVEL) {
+                            candidate_SpanningTreeIncoming_iter_0_edge__edge0.lgspFlags = candidate_SpanningTreeIncoming_iter_0_edge__edge0.lgspFlags & ~((uint) GRGEN_LGSP.LGSPElemFlags.IS_MATCHED_BY_ENCLOSING_PATTERN << negLevel) | prevGlobal__candidate_SpanningTreeIncoming_iter_0_edge__edge0;
+                        } else { 
+                            if(prevGlobal__candidate_SpanningTreeIncoming_iter_0_edge__edge0 == 0) {
+                                graph.atNegLevelMatchedElementsGlobal[negLevel - (int) GRGEN_LGSP.LGSPElemFlags.MAX_NEG_LEVEL - 1].snd.Remove(candidate_SpanningTreeIncoming_iter_0_edge__edge0);
+                            }
+                        }
                         --numMatchesIter;
-                        candidate_SpanningTreeIncoming_iter_0_edge__edge0.lgspFlags = candidate_SpanningTreeIncoming_iter_0_edge__edge0.lgspFlags & ~((uint) GRGEN_LGSP.LGSPElemFlags.IS_MATCHED_BY_SOME_ENCLOSING_PATTERN) | prevSomeGlobal__candidate_SpanningTreeIncoming_iter_0_edge__edge0;
                         candidate_SpanningTreeIncoming_iter_0_node_next.lgspFlags = candidate_SpanningTreeIncoming_iter_0_node_next.lgspFlags & ~((uint) GRGEN_LGSP.LGSPElemFlags.IS_MATCHED_BY_SOME_ENCLOSING_PATTERN) | prevSomeGlobal__candidate_SpanningTreeIncoming_iter_0_node_next;
-                        continue;
+                        candidate_SpanningTreeIncoming_iter_0_edge__edge0.lgspFlags = candidate_SpanningTreeIncoming_iter_0_edge__edge0.lgspFlags & ~((uint) GRGEN_LGSP.LGSPElemFlags.IS_MATCHED_BY_SOME_ENCLOSING_PATTERN) | prevSomeGlobal__candidate_SpanningTreeIncoming_iter_0_edge__edge0;
                     }
-                    if(negLevel <= (int) GRGEN_LGSP.LGSPElemFlags.MAX_NEG_LEVEL) {
-                        candidate_SpanningTreeIncoming_iter_0_node_next.lgspFlags = candidate_SpanningTreeIncoming_iter_0_node_next.lgspFlags & ~((uint) GRGEN_LGSP.LGSPElemFlags.IS_MATCHED_BY_ENCLOSING_PATTERN << negLevel) | prevGlobal__candidate_SpanningTreeIncoming_iter_0_node_next;
-                    } else { 
-                        if(prevGlobal__candidate_SpanningTreeIncoming_iter_0_node_next == 0) {
-                            graph.atNegLevelMatchedElementsGlobal[negLevel - (int) GRGEN_LGSP.LGSPElemFlags.MAX_NEG_LEVEL - 1].fst.Remove(candidate_SpanningTreeIncoming_iter_0_node_next);
-                        }
-                    }
-                    if(negLevel <= (int) GRGEN_LGSP.LGSPElemFlags.MAX_NEG_LEVEL) {
-                        candidate_SpanningTreeIncoming_iter_0_edge__edge0.lgspFlags = candidate_SpanningTreeIncoming_iter_0_edge__edge0.lgspFlags & ~((uint) GRGEN_LGSP.LGSPElemFlags.IS_MATCHED_BY_ENCLOSING_PATTERN << negLevel) | prevGlobal__candidate_SpanningTreeIncoming_iter_0_edge__edge0;
-                    } else { 
-                        if(prevGlobal__candidate_SpanningTreeIncoming_iter_0_edge__edge0 == 0) {
-                            graph.atNegLevelMatchedElementsGlobal[negLevel - (int) GRGEN_LGSP.LGSPElemFlags.MAX_NEG_LEVEL - 1].snd.Remove(candidate_SpanningTreeIncoming_iter_0_edge__edge0);
-                        }
-                    }
-                    --numMatchesIter;
-                    candidate_SpanningTreeIncoming_iter_0_node_next.lgspFlags = candidate_SpanningTreeIncoming_iter_0_node_next.lgspFlags & ~((uint) GRGEN_LGSP.LGSPElemFlags.IS_MATCHED_BY_SOME_ENCLOSING_PATTERN) | prevSomeGlobal__candidate_SpanningTreeIncoming_iter_0_node_next;
-                    candidate_SpanningTreeIncoming_iter_0_edge__edge0.lgspFlags = candidate_SpanningTreeIncoming_iter_0_edge__edge0.lgspFlags & ~((uint) GRGEN_LGSP.LGSPElemFlags.IS_MATCHED_BY_SOME_ENCLOSING_PATTERN) | prevSomeGlobal__candidate_SpanningTreeIncoming_iter_0_edge__edge0;
+                    while( (candidate_SpanningTreeIncoming_iter_0_edge__edge0 = candidate_SpanningTreeIncoming_iter_0_edge__edge0.lgspInNext) != head_candidate_SpanningTreeIncoming_iter_0_edge__edge0 );
                 }
-                while( (candidate_SpanningTreeIncoming_iter_0_edge__edge0 = candidate_SpanningTreeIncoming_iter_0_edge__edge0.lgspInNext) != head_candidate_SpanningTreeIncoming_iter_0_edge__edge0 );
-            }
+            } while(false);
             // Check whether the iterated pattern null match was found
 maxMatchesIterReached:
             if(!patternFound && numMatchesIter>=minMatchesIter)

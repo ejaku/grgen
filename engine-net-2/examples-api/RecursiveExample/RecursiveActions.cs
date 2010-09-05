@@ -1,6 +1,6 @@
 // This file has been generated automatically by GrGen (www.grgen.net)
 // Do not modify this file! Any changes will be lost!
-// Generated from "..\..\tests\Recursive\Recursive.grg" on Mon May 03 01:43:37 CEST 2010
+// Generated from "..\..\tests\Recursive\Recursive.grg" on Sun Sep 05 18:47:46 CEST 2010
 
 using System;
 using System.Collections.Generic;
@@ -232,35 +232,11 @@ namespace de.unika.ipd.grGen.Action_Recursive
 			throw new ApplicationException(); //debug assert
 		}
 
-		public void ChainFromTo_alt_0_base_Create(GRGEN_LGSP.LGSPGraph graph)
-		{
-			graph.SettingAddedNodeNames( create_ChainFromTo_alt_0_base_addedNodeNames );
-			GRGEN_MODEL.@Node node_from = GRGEN_MODEL.@Node.CreateNode(graph);
-			GRGEN_MODEL.@Node node_to = GRGEN_MODEL.@Node.CreateNode(graph);
-			graph.SettingAddedEdgeNames( create_ChainFromTo_alt_0_base_addedEdgeNames );
-			GRGEN_MODEL.@Edge edge__edge0 = GRGEN_MODEL.@Edge.CreateEdge(graph, node_from, node_to);
-		}
-		private static string[] create_ChainFromTo_alt_0_base_addedNodeNames = new string[] { "from", "to" };
-		private static string[] create_ChainFromTo_alt_0_base_addedEdgeNames = new string[] { "_edge0" };
-
 		public void ChainFromTo_alt_0_base_Delete(GRGEN_LGSP.LGSPGraph graph, Match_ChainFromTo_alt_0_base curMatch)
 		{
 			GRGEN_LGSP.LGSPEdge edge__edge0 = curMatch._edge__edge0;
 			graph.Remove(edge__edge0);
 		}
-
-		public void ChainFromTo_alt_0_rec_Create(GRGEN_LGSP.LGSPGraph graph)
-		{
-			graph.SettingAddedNodeNames( create_ChainFromTo_alt_0_rec_addedNodeNames );
-			GRGEN_MODEL.@Node node_from = GRGEN_MODEL.@Node.CreateNode(graph);
-			GRGEN_MODEL.@Node node_intermediate = GRGEN_MODEL.@Node.CreateNode(graph);
-			GRGEN_MODEL.@Node node_to = GRGEN_MODEL.@Node.CreateNode(graph);
-			graph.SettingAddedEdgeNames( create_ChainFromTo_alt_0_rec_addedEdgeNames );
-			GRGEN_MODEL.@Edge edge__edge0 = GRGEN_MODEL.@Edge.CreateEdge(graph, node_from, node_intermediate);
-			Pattern_ChainFromTo.Instance.ChainFromTo_Create(graph, (GRGEN_MODEL.@Node)(node_intermediate), (GRGEN_MODEL.@Node)(node_to));
-		}
-		private static string[] create_ChainFromTo_alt_0_rec_addedNodeNames = new string[] { "from", "intermediate", "to" };
-		private static string[] create_ChainFromTo_alt_0_rec_addedEdgeNames = new string[] { "_edge0" };
 
 		public void ChainFromTo_alt_0_rec_Delete(GRGEN_LGSP.LGSPGraph graph, Match_ChainFromTo_alt_0_rec curMatch)
 		{
@@ -818,29 +794,9 @@ namespace de.unika.ipd.grGen.Action_Recursive
 			throw new ApplicationException(); //debug assert
 		}
 
-		public void ChainFrom_alt_0_base_Create(GRGEN_LGSP.LGSPGraph graph)
-		{
-			graph.SettingAddedNodeNames( create_ChainFrom_alt_0_base_addedNodeNames );
-			graph.SettingAddedEdgeNames( create_ChainFrom_alt_0_base_addedEdgeNames );
-		}
-		private static string[] create_ChainFrom_alt_0_base_addedNodeNames = new string[] {  };
-		private static string[] create_ChainFrom_alt_0_base_addedEdgeNames = new string[] {  };
-
 		public void ChainFrom_alt_0_base_Delete(GRGEN_LGSP.LGSPGraph graph, Match_ChainFrom_alt_0_base curMatch)
 		{
 		}
-
-		public void ChainFrom_alt_0_rec_Create(GRGEN_LGSP.LGSPGraph graph)
-		{
-			graph.SettingAddedNodeNames( create_ChainFrom_alt_0_rec_addedNodeNames );
-			GRGEN_MODEL.@Node node_from = GRGEN_MODEL.@Node.CreateNode(graph);
-			GRGEN_MODEL.@Node node_to = GRGEN_MODEL.@Node.CreateNode(graph);
-			graph.SettingAddedEdgeNames( create_ChainFrom_alt_0_rec_addedEdgeNames );
-			GRGEN_MODEL.@Edge edge__edge0 = GRGEN_MODEL.@Edge.CreateEdge(graph, node_from, node_to);
-			Pattern_ChainFrom.Instance.ChainFrom_Create(graph, (GRGEN_MODEL.@Node)(node_to));
-		}
-		private static string[] create_ChainFrom_alt_0_rec_addedNodeNames = new string[] { "from", "to" };
-		private static string[] create_ChainFrom_alt_0_rec_addedEdgeNames = new string[] { "_edge0" };
 
 		public void ChainFrom_alt_0_rec_Delete(GRGEN_LGSP.LGSPGraph graph, Match_ChainFrom_alt_0_rec curMatch)
 		{
@@ -1437,30 +1393,9 @@ namespace de.unika.ipd.grGen.Action_Recursive
 			throw new ApplicationException(); //debug assert
 		}
 
-		public void ChainFromComplete_alt_0_base_Create(GRGEN_LGSP.LGSPGraph graph)
-		{
-			graph.SettingAddedNodeNames( create_ChainFromComplete_alt_0_base_addedNodeNames );
-			GRGEN_MODEL.@Node node_from = GRGEN_MODEL.@Node.CreateNode(graph);
-			graph.SettingAddedEdgeNames( create_ChainFromComplete_alt_0_base_addedEdgeNames );
-		}
-		private static string[] create_ChainFromComplete_alt_0_base_addedNodeNames = new string[] { "from" };
-		private static string[] create_ChainFromComplete_alt_0_base_addedEdgeNames = new string[] {  };
-
 		public void ChainFromComplete_alt_0_base_Delete(GRGEN_LGSP.LGSPGraph graph, Match_ChainFromComplete_alt_0_base curMatch)
 		{
 		}
-
-		public void ChainFromComplete_alt_0_rec_Create(GRGEN_LGSP.LGSPGraph graph)
-		{
-			graph.SettingAddedNodeNames( create_ChainFromComplete_alt_0_rec_addedNodeNames );
-			GRGEN_MODEL.@Node node_from = GRGEN_MODEL.@Node.CreateNode(graph);
-			GRGEN_MODEL.@Node node_to = GRGEN_MODEL.@Node.CreateNode(graph);
-			graph.SettingAddedEdgeNames( create_ChainFromComplete_alt_0_rec_addedEdgeNames );
-			GRGEN_MODEL.@Edge edge__edge0 = GRGEN_MODEL.@Edge.CreateEdge(graph, node_from, node_to);
-			Pattern_ChainFromComplete.Instance.ChainFromComplete_Create(graph, (GRGEN_MODEL.@Node)(node_to));
-		}
-		private static string[] create_ChainFromComplete_alt_0_rec_addedNodeNames = new string[] { "from", "to" };
-		private static string[] create_ChainFromComplete_alt_0_rec_addedEdgeNames = new string[] { "_edge0" };
 
 		public void ChainFromComplete_alt_0_rec_Delete(GRGEN_LGSP.LGSPGraph graph, Match_ChainFromComplete_alt_0_rec curMatch)
 		{
@@ -2172,30 +2107,9 @@ namespace de.unika.ipd.grGen.Action_Recursive
 			throw new ApplicationException(); //debug assert
 		}
 
-		public void ChainFromCompleteArbitraryPatternpathLocked_alt_0_base_Create(GRGEN_LGSP.LGSPGraph graph)
-		{
-			graph.SettingAddedNodeNames( create_ChainFromCompleteArbitraryPatternpathLocked_alt_0_base_addedNodeNames );
-			GRGEN_MODEL.@Node node_from = GRGEN_MODEL.@Node.CreateNode(graph);
-			graph.SettingAddedEdgeNames( create_ChainFromCompleteArbitraryPatternpathLocked_alt_0_base_addedEdgeNames );
-		}
-		private static string[] create_ChainFromCompleteArbitraryPatternpathLocked_alt_0_base_addedNodeNames = new string[] { "from" };
-		private static string[] create_ChainFromCompleteArbitraryPatternpathLocked_alt_0_base_addedEdgeNames = new string[] {  };
-
 		public void ChainFromCompleteArbitraryPatternpathLocked_alt_0_base_Delete(GRGEN_LGSP.LGSPGraph graph, Match_ChainFromCompleteArbitraryPatternpathLocked_alt_0_base curMatch)
 		{
 		}
-
-		public void ChainFromCompleteArbitraryPatternpathLocked_alt_0_rec_Create(GRGEN_LGSP.LGSPGraph graph)
-		{
-			graph.SettingAddedNodeNames( create_ChainFromCompleteArbitraryPatternpathLocked_alt_0_rec_addedNodeNames );
-			GRGEN_MODEL.@Node node_from = GRGEN_MODEL.@Node.CreateNode(graph);
-			GRGEN_MODEL.@Node node_to = GRGEN_MODEL.@Node.CreateNode(graph);
-			graph.SettingAddedEdgeNames( create_ChainFromCompleteArbitraryPatternpathLocked_alt_0_rec_addedEdgeNames );
-			GRGEN_MODEL.@Edge edge__edge0 = GRGEN_MODEL.@Edge.CreateEdge(graph, node_from, node_to);
-			Pattern_ChainFromCompleteArbitraryPatternpathLocked.Instance.ChainFromCompleteArbitraryPatternpathLocked_Create(graph, (GRGEN_MODEL.@Node)(node_to));
-		}
-		private static string[] create_ChainFromCompleteArbitraryPatternpathLocked_alt_0_rec_addedNodeNames = new string[] { "from", "to" };
-		private static string[] create_ChainFromCompleteArbitraryPatternpathLocked_alt_0_rec_addedEdgeNames = new string[] { "_edge0" };
 
 		public void ChainFromCompleteArbitraryPatternpathLocked_alt_0_rec_Delete(GRGEN_LGSP.LGSPGraph graph, Match_ChainFromCompleteArbitraryPatternpathLocked_alt_0_rec curMatch)
 		{
@@ -2907,30 +2821,9 @@ namespace de.unika.ipd.grGen.Action_Recursive
 			throw new ApplicationException(); //debug assert
 		}
 
-		public void ChainFromCompleteArbitraryBaseAlwaysFailesByGoingBackwards_alt_0_base_Create(GRGEN_LGSP.LGSPGraph graph)
-		{
-			graph.SettingAddedNodeNames( create_ChainFromCompleteArbitraryBaseAlwaysFailesByGoingBackwards_alt_0_base_addedNodeNames );
-			GRGEN_MODEL.@Node node_from = GRGEN_MODEL.@Node.CreateNode(graph);
-			graph.SettingAddedEdgeNames( create_ChainFromCompleteArbitraryBaseAlwaysFailesByGoingBackwards_alt_0_base_addedEdgeNames );
-		}
-		private static string[] create_ChainFromCompleteArbitraryBaseAlwaysFailesByGoingBackwards_alt_0_base_addedNodeNames = new string[] { "from" };
-		private static string[] create_ChainFromCompleteArbitraryBaseAlwaysFailesByGoingBackwards_alt_0_base_addedEdgeNames = new string[] {  };
-
 		public void ChainFromCompleteArbitraryBaseAlwaysFailesByGoingBackwards_alt_0_base_Delete(GRGEN_LGSP.LGSPGraph graph, Match_ChainFromCompleteArbitraryBaseAlwaysFailesByGoingBackwards_alt_0_base curMatch)
 		{
 		}
-
-		public void ChainFromCompleteArbitraryBaseAlwaysFailesByGoingBackwards_alt_0_rec_Create(GRGEN_LGSP.LGSPGraph graph)
-		{
-			graph.SettingAddedNodeNames( create_ChainFromCompleteArbitraryBaseAlwaysFailesByGoingBackwards_alt_0_rec_addedNodeNames );
-			GRGEN_MODEL.@Node node_from = GRGEN_MODEL.@Node.CreateNode(graph);
-			GRGEN_MODEL.@Node node_to = GRGEN_MODEL.@Node.CreateNode(graph);
-			graph.SettingAddedEdgeNames( create_ChainFromCompleteArbitraryBaseAlwaysFailesByGoingBackwards_alt_0_rec_addedEdgeNames );
-			GRGEN_MODEL.@Edge edge__edge0 = GRGEN_MODEL.@Edge.CreateEdge(graph, node_from, node_to);
-			Pattern_ChainFromCompleteArbitraryBaseAlwaysFailesByGoingBackwards.Instance.ChainFromCompleteArbitraryBaseAlwaysFailesByGoingBackwards_Create(graph, (GRGEN_MODEL.@Node)(node_to));
-		}
-		private static string[] create_ChainFromCompleteArbitraryBaseAlwaysFailesByGoingBackwards_alt_0_rec_addedNodeNames = new string[] { "from", "to" };
-		private static string[] create_ChainFromCompleteArbitraryBaseAlwaysFailesByGoingBackwards_alt_0_rec_addedEdgeNames = new string[] { "_edge0" };
 
 		public void ChainFromCompleteArbitraryBaseAlwaysFailesByGoingBackwards_alt_0_rec_Delete(GRGEN_LGSP.LGSPGraph graph, Match_ChainFromCompleteArbitraryBaseAlwaysFailesByGoingBackwards_alt_0_rec curMatch)
 		{
@@ -3642,30 +3535,9 @@ namespace de.unika.ipd.grGen.Action_Recursive
 			throw new ApplicationException(); //debug assert
 		}
 
-		public void Blowball_alt_0_end_Create(GRGEN_LGSP.LGSPGraph graph)
-		{
-			graph.SettingAddedNodeNames( create_Blowball_alt_0_end_addedNodeNames );
-			GRGEN_MODEL.@Node node_head = GRGEN_MODEL.@Node.CreateNode(graph);
-			graph.SettingAddedEdgeNames( create_Blowball_alt_0_end_addedEdgeNames );
-		}
-		private static string[] create_Blowball_alt_0_end_addedNodeNames = new string[] { "head" };
-		private static string[] create_Blowball_alt_0_end_addedEdgeNames = new string[] {  };
-
 		public void Blowball_alt_0_end_Delete(GRGEN_LGSP.LGSPGraph graph, Match_Blowball_alt_0_end curMatch)
 		{
 		}
-
-		public void Blowball_alt_0_further_Create(GRGEN_LGSP.LGSPGraph graph)
-		{
-			graph.SettingAddedNodeNames( create_Blowball_alt_0_further_addedNodeNames );
-			GRGEN_MODEL.@Node node_head = GRGEN_MODEL.@Node.CreateNode(graph);
-			GRGEN_MODEL.@Node node__node0 = GRGEN_MODEL.@Node.CreateNode(graph);
-			graph.SettingAddedEdgeNames( create_Blowball_alt_0_further_addedEdgeNames );
-			GRGEN_MODEL.@Edge edge__edge0 = GRGEN_MODEL.@Edge.CreateEdge(graph, node_head, node__node0);
-			Pattern_Blowball.Instance.Blowball_Create(graph, (GRGEN_MODEL.@Node)(node_head));
-		}
-		private static string[] create_Blowball_alt_0_further_addedNodeNames = new string[] { "head", "_node0" };
-		private static string[] create_Blowball_alt_0_further_addedEdgeNames = new string[] { "_edge0" };
 
 		public void Blowball_alt_0_further_Delete(GRGEN_LGSP.LGSPGraph graph, Match_Blowball_alt_0_further curMatch)
 		{
@@ -4343,35 +4215,11 @@ namespace de.unika.ipd.grGen.Action_Recursive
 			throw new ApplicationException(); //debug assert
 		}
 
-		public void ReverseChainFromTo_alt_0_base_Create(GRGEN_LGSP.LGSPGraph graph)
-		{
-			graph.SettingAddedNodeNames( create_ReverseChainFromTo_alt_0_base_addedNodeNames );
-			GRGEN_MODEL.@Node node_to = GRGEN_MODEL.@Node.CreateNode(graph);
-			GRGEN_MODEL.@Node node_from = GRGEN_MODEL.@Node.CreateNode(graph);
-			graph.SettingAddedEdgeNames( create_ReverseChainFromTo_alt_0_base_addedEdgeNames );
-			GRGEN_MODEL.@Edge edge__edge0 = GRGEN_MODEL.@Edge.CreateEdge(graph, node_to, node_from);
-		}
-		private static string[] create_ReverseChainFromTo_alt_0_base_addedNodeNames = new string[] { "to", "from" };
-		private static string[] create_ReverseChainFromTo_alt_0_base_addedEdgeNames = new string[] { "_edge0" };
-
 		public void ReverseChainFromTo_alt_0_base_Delete(GRGEN_LGSP.LGSPGraph graph, Match_ReverseChainFromTo_alt_0_base curMatch)
 		{
 			GRGEN_LGSP.LGSPEdge edge__edge0 = curMatch._edge__edge0;
 			graph.Remove(edge__edge0);
 		}
-
-		public void ReverseChainFromTo_alt_0_rec_Create(GRGEN_LGSP.LGSPGraph graph)
-		{
-			graph.SettingAddedNodeNames( create_ReverseChainFromTo_alt_0_rec_addedNodeNames );
-			GRGEN_MODEL.@Node node_intermediate = GRGEN_MODEL.@Node.CreateNode(graph);
-			GRGEN_MODEL.@Node node_from = GRGEN_MODEL.@Node.CreateNode(graph);
-			GRGEN_MODEL.@Node node_to = GRGEN_MODEL.@Node.CreateNode(graph);
-			graph.SettingAddedEdgeNames( create_ReverseChainFromTo_alt_0_rec_addedEdgeNames );
-			GRGEN_MODEL.@Edge edge__edge0 = GRGEN_MODEL.@Edge.CreateEdge(graph, node_intermediate, node_from);
-			Pattern_ReverseChainFromTo.Instance.ReverseChainFromTo_Create(graph, (GRGEN_MODEL.@Node)(node_intermediate), (GRGEN_MODEL.@Node)(node_to));
-		}
-		private static string[] create_ReverseChainFromTo_alt_0_rec_addedNodeNames = new string[] { "intermediate", "from", "to" };
-		private static string[] create_ReverseChainFromTo_alt_0_rec_addedEdgeNames = new string[] { "_edge0" };
 
 		public void ReverseChainFromTo_alt_0_rec_Delete(GRGEN_LGSP.LGSPGraph graph, Match_ReverseChainFromTo_alt_0_rec curMatch)
 		{
@@ -5039,17 +4887,6 @@ namespace de.unika.ipd.grGen.Action_Recursive
 			graph.Remove(edge__edge0);
 		}
 
-		public void ChainFromToReverse_alt_0_base_Create(GRGEN_LGSP.LGSPGraph graph)
-		{
-			graph.SettingAddedNodeNames( create_ChainFromToReverse_alt_0_base_addedNodeNames );
-			GRGEN_MODEL.@Node node_from = GRGEN_MODEL.@Node.CreateNode(graph);
-			GRGEN_MODEL.@Node node_to = GRGEN_MODEL.@Node.CreateNode(graph);
-			graph.SettingAddedEdgeNames( create_ChainFromToReverse_alt_0_base_addedEdgeNames );
-			GRGEN_MODEL.@Edge edge__edge0 = GRGEN_MODEL.@Edge.CreateEdge(graph, node_from, node_to);
-		}
-		private static string[] create_ChainFromToReverse_alt_0_base_addedNodeNames = new string[] { "from", "to" };
-		private static string[] create_ChainFromToReverse_alt_0_base_addedEdgeNames = new string[] { "_edge0" };
-
 		public void ChainFromToReverse_alt_0_base_Delete(GRGEN_LGSP.LGSPGraph graph, Match_ChainFromToReverse_alt_0_base curMatch)
 		{
 			GRGEN_LGSP.LGSPEdge edge__edge0 = curMatch._edge__edge0;
@@ -5095,19 +4932,6 @@ namespace de.unika.ipd.grGen.Action_Recursive
 			GRGEN_MODEL.@Edge edge__edge1 = GRGEN_MODEL.@Edge.CreateEdge(graph, node_intermediate, node_from);
 			graph.Remove(edge__edge0);
 		}
-
-		public void ChainFromToReverse_alt_0_rec_Create(GRGEN_LGSP.LGSPGraph graph)
-		{
-			graph.SettingAddedNodeNames( create_ChainFromToReverse_alt_0_rec_addedNodeNames );
-			GRGEN_MODEL.@Node node_from = GRGEN_MODEL.@Node.CreateNode(graph);
-			GRGEN_MODEL.@Node node_intermediate = GRGEN_MODEL.@Node.CreateNode(graph);
-			GRGEN_MODEL.@Node node_to = GRGEN_MODEL.@Node.CreateNode(graph);
-			graph.SettingAddedEdgeNames( create_ChainFromToReverse_alt_0_rec_addedEdgeNames );
-			GRGEN_MODEL.@Edge edge__edge0 = GRGEN_MODEL.@Edge.CreateEdge(graph, node_from, node_intermediate);
-			Pattern_ChainFromToReverse.Instance.ChainFromToReverse_Create(graph, (GRGEN_MODEL.@Node)(node_intermediate), (GRGEN_MODEL.@Node)(node_to));
-		}
-		private static string[] create_ChainFromToReverse_alt_0_rec_addedNodeNames = new string[] { "from", "intermediate", "to" };
-		private static string[] create_ChainFromToReverse_alt_0_rec_addedEdgeNames = new string[] { "_edge0" };
 
 		public void ChainFromToReverse_alt_0_rec_Delete(GRGEN_LGSP.LGSPGraph graph, Match_ChainFromToReverse_alt_0_rec curMatch)
 		{
@@ -5779,17 +5603,6 @@ namespace de.unika.ipd.grGen.Action_Recursive
 			graph.Remove(edge__edge0);
 		}
 
-		public void ChainFromToReverseToCommon_alt_0_base_Create(GRGEN_LGSP.LGSPGraph graph)
-		{
-			graph.SettingAddedNodeNames( create_ChainFromToReverseToCommon_alt_0_base_addedNodeNames );
-			GRGEN_MODEL.@Node node_from = GRGEN_MODEL.@Node.CreateNode(graph);
-			GRGEN_MODEL.@Node node_to = GRGEN_MODEL.@Node.CreateNode(graph);
-			graph.SettingAddedEdgeNames( create_ChainFromToReverseToCommon_alt_0_base_addedEdgeNames );
-			GRGEN_MODEL.@Edge edge__edge0 = GRGEN_MODEL.@Edge.CreateEdge(graph, node_from, node_to);
-		}
-		private static string[] create_ChainFromToReverseToCommon_alt_0_base_addedNodeNames = new string[] { "from", "to" };
-		private static string[] create_ChainFromToReverseToCommon_alt_0_base_addedEdgeNames = new string[] { "_edge0" };
-
 		public void ChainFromToReverseToCommon_alt_0_base_Delete(GRGEN_LGSP.LGSPGraph graph, Match_ChainFromToReverseToCommon_alt_0_base curMatch)
 		{
 			GRGEN_LGSP.LGSPEdge edge__edge0 = curMatch._edge__edge0;
@@ -5804,7 +5617,7 @@ namespace de.unika.ipd.grGen.Action_Recursive
 			GRGEN_LGSP.LGSPEdge edge__edge0 = curMatch._edge__edge0;
 			Pattern_ChainFromToReverseToCommon.Match_ChainFromToReverseToCommon subpattern_cftrtc = curMatch.@_cftrtc;
 			graph.SettingAddedNodeNames( ChainFromToReverseToCommon_alt_0_rec_addedNodeNames );
-			Pattern_ChainFromToReverseToCommon.Instance.ChainFromToReverseToCommon_Modify(graph, subpattern_cftrtc, (GRGEN_MODEL.@Node)(node_common));
+			Pattern_ChainFromToReverseToCommon.Instance.ChainFromToReverseToCommon_Modify(graph, subpattern_cftrtc, (GRGEN_LGSP.LGSPNode)(node_common));
 			graph.SettingAddedEdgeNames( ChainFromToReverseToCommon_alt_0_rec_addedEdgeNames );
 			GRGEN_MODEL.@Edge edge__edge1;
 			if(edge__edge0.lgspType == GRGEN_MODEL.EdgeType_Edge.typeVar)
@@ -5831,25 +5644,12 @@ namespace de.unika.ipd.grGen.Action_Recursive
 			GRGEN_LGSP.LGSPEdge edge__edge0 = curMatch._edge__edge0;
 			Pattern_ChainFromToReverseToCommon.Match_ChainFromToReverseToCommon subpattern_cftrtc = curMatch.@_cftrtc;
 			graph.SettingAddedNodeNames( ChainFromToReverseToCommon_alt_0_rec_addedNodeNames );
-			Pattern_ChainFromToReverseToCommon.Instance.ChainFromToReverseToCommon_Modify(graph, subpattern_cftrtc, (GRGEN_MODEL.@Node)(node_common));
+			Pattern_ChainFromToReverseToCommon.Instance.ChainFromToReverseToCommon_Modify(graph, subpattern_cftrtc, (GRGEN_LGSP.LGSPNode)(node_common));
 			graph.SettingAddedEdgeNames( ChainFromToReverseToCommon_alt_0_rec_addedEdgeNames );
 			GRGEN_MODEL.@Edge edge__edge1 = GRGEN_MODEL.@Edge.CreateEdge(graph, node_intermediate, node_from);
 			GRGEN_MODEL.@Edge edge__edge2 = GRGEN_MODEL.@Edge.CreateEdge(graph, node_from, node_common);
 			graph.Remove(edge__edge0);
 		}
-
-		public void ChainFromToReverseToCommon_alt_0_rec_Create(GRGEN_LGSP.LGSPGraph graph)
-		{
-			graph.SettingAddedNodeNames( create_ChainFromToReverseToCommon_alt_0_rec_addedNodeNames );
-			GRGEN_MODEL.@Node node_from = GRGEN_MODEL.@Node.CreateNode(graph);
-			GRGEN_MODEL.@Node node_intermediate = GRGEN_MODEL.@Node.CreateNode(graph);
-			GRGEN_MODEL.@Node node_to = GRGEN_MODEL.@Node.CreateNode(graph);
-			graph.SettingAddedEdgeNames( create_ChainFromToReverseToCommon_alt_0_rec_addedEdgeNames );
-			GRGEN_MODEL.@Edge edge__edge0 = GRGEN_MODEL.@Edge.CreateEdge(graph, node_from, node_intermediate);
-			Pattern_ChainFromToReverseToCommon.Instance.ChainFromToReverseToCommon_Create(graph, (GRGEN_MODEL.@Node)(node_intermediate), (GRGEN_MODEL.@Node)(node_to));
-		}
-		private static string[] create_ChainFromToReverseToCommon_alt_0_rec_addedNodeNames = new string[] { "from", "intermediate", "to" };
-		private static string[] create_ChainFromToReverseToCommon_alt_0_rec_addedEdgeNames = new string[] { "_edge0" };
 
 		public void ChainFromToReverseToCommon_alt_0_rec_Delete(GRGEN_LGSP.LGSPGraph graph, Match_ChainFromToReverseToCommon_alt_0_rec curMatch)
 		{
@@ -6459,19 +6259,6 @@ namespace de.unika.ipd.grGen.Action_Recursive
 			throw new ApplicationException(); //debug assert
 		}
 
-		public void ReverseChainFromToToCommon_alt_0_base_Create(GRGEN_LGSP.LGSPGraph graph)
-		{
-			graph.SettingAddedNodeNames( create_ReverseChainFromToToCommon_alt_0_base_addedNodeNames );
-			GRGEN_MODEL.@Node node_to = GRGEN_MODEL.@Node.CreateNode(graph);
-			GRGEN_MODEL.@Node node_from = GRGEN_MODEL.@Node.CreateNode(graph);
-			GRGEN_MODEL.@Node node_common = GRGEN_MODEL.@Node.CreateNode(graph);
-			graph.SettingAddedEdgeNames( create_ReverseChainFromToToCommon_alt_0_base_addedEdgeNames );
-			GRGEN_MODEL.@Edge edge__edge0 = GRGEN_MODEL.@Edge.CreateEdge(graph, node_to, node_from);
-			GRGEN_MODEL.@Edge edge__edge1 = GRGEN_MODEL.@Edge.CreateEdge(graph, node_from, node_common);
-		}
-		private static string[] create_ReverseChainFromToToCommon_alt_0_base_addedNodeNames = new string[] { "to", "from", "common" };
-		private static string[] create_ReverseChainFromToToCommon_alt_0_base_addedEdgeNames = new string[] { "_edge0", "_edge1" };
-
 		public void ReverseChainFromToToCommon_alt_0_base_Delete(GRGEN_LGSP.LGSPGraph graph, Match_ReverseChainFromToToCommon_alt_0_base curMatch)
 		{
 			GRGEN_LGSP.LGSPEdge edge__edge0 = curMatch._edge__edge0;
@@ -6479,21 +6266,6 @@ namespace de.unika.ipd.grGen.Action_Recursive
 			graph.Remove(edge__edge0);
 			graph.Remove(edge__edge1);
 		}
-
-		public void ReverseChainFromToToCommon_alt_0_rec_Create(GRGEN_LGSP.LGSPGraph graph)
-		{
-			graph.SettingAddedNodeNames( create_ReverseChainFromToToCommon_alt_0_rec_addedNodeNames );
-			GRGEN_MODEL.@Node node_intermediate = GRGEN_MODEL.@Node.CreateNode(graph);
-			GRGEN_MODEL.@Node node_from = GRGEN_MODEL.@Node.CreateNode(graph);
-			GRGEN_MODEL.@Node node_common = GRGEN_MODEL.@Node.CreateNode(graph);
-			GRGEN_MODEL.@Node node_to = GRGEN_MODEL.@Node.CreateNode(graph);
-			graph.SettingAddedEdgeNames( create_ReverseChainFromToToCommon_alt_0_rec_addedEdgeNames );
-			GRGEN_MODEL.@Edge edge__edge0 = GRGEN_MODEL.@Edge.CreateEdge(graph, node_intermediate, node_from);
-			GRGEN_MODEL.@Edge edge__edge1 = GRGEN_MODEL.@Edge.CreateEdge(graph, node_from, node_common);
-			Pattern_ReverseChainFromToToCommon.Instance.ReverseChainFromToToCommon_Create(graph, (GRGEN_MODEL.@Node)(node_intermediate), (GRGEN_MODEL.@Node)(node_to), (GRGEN_MODEL.@Node)(node_common));
-		}
-		private static string[] create_ReverseChainFromToToCommon_alt_0_rec_addedNodeNames = new string[] { "intermediate", "from", "common", "to" };
-		private static string[] create_ReverseChainFromToToCommon_alt_0_rec_addedEdgeNames = new string[] { "_edge0", "_edge1" };
 
 		public void ReverseChainFromToToCommon_alt_0_rec_Delete(GRGEN_LGSP.LGSPGraph graph, Match_ReverseChainFromToToCommon_alt_0_rec curMatch)
 		{
@@ -7158,6 +6930,8 @@ namespace de.unika.ipd.grGen.Action_Recursive
 		public void Modify(GRGEN_LGSP.LGSPGraph graph, GRGEN_LIBGR.IMatch _curMatch)
 		{
 			Match_chainFromTo curMatch = (Match_chainFromTo)_curMatch;
+			GRGEN_LGSP.LGSPNode node_beg = curMatch._node_beg;
+			GRGEN_LGSP.LGSPNode node_end = curMatch._node_end;
 			Pattern_ChainFromTo.Match_ChainFromTo subpattern__subpattern0 = curMatch.@__subpattern0;
 			return;
 		}
@@ -7165,6 +6939,8 @@ namespace de.unika.ipd.grGen.Action_Recursive
 		public void ModifyNoReuse(GRGEN_LGSP.LGSPGraph graph, GRGEN_LIBGR.IMatch _curMatch)
 		{
 			Match_chainFromTo curMatch = (Match_chainFromTo)_curMatch;
+			GRGEN_LGSP.LGSPNode node_beg = curMatch._node_beg;
+			GRGEN_LGSP.LGSPNode node_end = curMatch._node_end;
 			Pattern_ChainFromTo.Match_ChainFromTo subpattern__subpattern0 = curMatch.@__subpattern0;
 			return;
 		}
@@ -7359,6 +7135,7 @@ namespace de.unika.ipd.grGen.Action_Recursive
 		public void Modify(GRGEN_LGSP.LGSPGraph graph, GRGEN_LIBGR.IMatch _curMatch)
 		{
 			Match_chainFrom curMatch = (Match_chainFrom)_curMatch;
+			GRGEN_LGSP.LGSPNode node_beg = curMatch._node_beg;
 			Pattern_ChainFrom.Match_ChainFrom subpattern__subpattern0 = curMatch.@__subpattern0;
 			return;
 		}
@@ -7366,6 +7143,7 @@ namespace de.unika.ipd.grGen.Action_Recursive
 		public void ModifyNoReuse(GRGEN_LGSP.LGSPGraph graph, GRGEN_LIBGR.IMatch _curMatch)
 		{
 			Match_chainFrom curMatch = (Match_chainFrom)_curMatch;
+			GRGEN_LGSP.LGSPNode node_beg = curMatch._node_beg;
 			Pattern_ChainFrom.Match_ChainFrom subpattern__subpattern0 = curMatch.@__subpattern0;
 			return;
 		}
@@ -7556,6 +7334,7 @@ namespace de.unika.ipd.grGen.Action_Recursive
 		public void Modify(GRGEN_LGSP.LGSPGraph graph, GRGEN_LIBGR.IMatch _curMatch)
 		{
 			Match_chainFromComplete curMatch = (Match_chainFromComplete)_curMatch;
+			GRGEN_LGSP.LGSPNode node_beg = curMatch._node_beg;
 			Pattern_ChainFromComplete.Match_ChainFromComplete subpattern__subpattern0 = curMatch.@__subpattern0;
 			return;
 		}
@@ -7563,6 +7342,7 @@ namespace de.unika.ipd.grGen.Action_Recursive
 		public void ModifyNoReuse(GRGEN_LGSP.LGSPGraph graph, GRGEN_LIBGR.IMatch _curMatch)
 		{
 			Match_chainFromComplete curMatch = (Match_chainFromComplete)_curMatch;
+			GRGEN_LGSP.LGSPNode node_beg = curMatch._node_beg;
 			Pattern_ChainFromComplete.Match_ChainFromComplete subpattern__subpattern0 = curMatch.@__subpattern0;
 			return;
 		}
@@ -7753,6 +7533,7 @@ namespace de.unika.ipd.grGen.Action_Recursive
 		public void Modify(GRGEN_LGSP.LGSPGraph graph, GRGEN_LIBGR.IMatch _curMatch)
 		{
 			Match_chainFromCompleteArbitraryPatternpathLocked curMatch = (Match_chainFromCompleteArbitraryPatternpathLocked)_curMatch;
+			GRGEN_LGSP.LGSPNode node_beg = curMatch._node_beg;
 			Pattern_ChainFromCompleteArbitraryPatternpathLocked.Match_ChainFromCompleteArbitraryPatternpathLocked subpattern__subpattern0 = curMatch.@__subpattern0;
 			return;
 		}
@@ -7760,6 +7541,7 @@ namespace de.unika.ipd.grGen.Action_Recursive
 		public void ModifyNoReuse(GRGEN_LGSP.LGSPGraph graph, GRGEN_LIBGR.IMatch _curMatch)
 		{
 			Match_chainFromCompleteArbitraryPatternpathLocked curMatch = (Match_chainFromCompleteArbitraryPatternpathLocked)_curMatch;
+			GRGEN_LGSP.LGSPNode node_beg = curMatch._node_beg;
 			Pattern_ChainFromCompleteArbitraryPatternpathLocked.Match_ChainFromCompleteArbitraryPatternpathLocked subpattern__subpattern0 = curMatch.@__subpattern0;
 			return;
 		}
@@ -7950,6 +7732,7 @@ namespace de.unika.ipd.grGen.Action_Recursive
 		public void Modify(GRGEN_LGSP.LGSPGraph graph, GRGEN_LIBGR.IMatch _curMatch)
 		{
 			Match_chainFromCompleteArbitraryBaseAlwaysFailesByGoingBackwards curMatch = (Match_chainFromCompleteArbitraryBaseAlwaysFailesByGoingBackwards)_curMatch;
+			GRGEN_LGSP.LGSPNode node_beg = curMatch._node_beg;
 			Pattern_ChainFromCompleteArbitraryBaseAlwaysFailesByGoingBackwards.Match_ChainFromCompleteArbitraryBaseAlwaysFailesByGoingBackwards subpattern__subpattern0 = curMatch.@__subpattern0;
 			return;
 		}
@@ -7957,6 +7740,7 @@ namespace de.unika.ipd.grGen.Action_Recursive
 		public void ModifyNoReuse(GRGEN_LGSP.LGSPGraph graph, GRGEN_LIBGR.IMatch _curMatch)
 		{
 			Match_chainFromCompleteArbitraryBaseAlwaysFailesByGoingBackwards curMatch = (Match_chainFromCompleteArbitraryBaseAlwaysFailesByGoingBackwards)_curMatch;
+			GRGEN_LGSP.LGSPNode node_beg = curMatch._node_beg;
 			Pattern_ChainFromCompleteArbitraryBaseAlwaysFailesByGoingBackwards.Match_ChainFromCompleteArbitraryBaseAlwaysFailesByGoingBackwards subpattern__subpattern0 = curMatch.@__subpattern0;
 			return;
 		}
@@ -8347,6 +8131,7 @@ namespace de.unika.ipd.grGen.Action_Recursive
 		public void Modify(GRGEN_LGSP.LGSPGraph graph, GRGEN_LIBGR.IMatch _curMatch)
 		{
 			Match_blowball curMatch = (Match_blowball)_curMatch;
+			GRGEN_LGSP.LGSPNode node_head = curMatch._node_head;
 			Pattern_Blowball.Match_Blowball subpattern__subpattern0 = curMatch.@__subpattern0;
 			return;
 		}
@@ -8354,6 +8139,7 @@ namespace de.unika.ipd.grGen.Action_Recursive
 		public void ModifyNoReuse(GRGEN_LGSP.LGSPGraph graph, GRGEN_LIBGR.IMatch _curMatch)
 		{
 			Match_blowball curMatch = (Match_blowball)_curMatch;
+			GRGEN_LGSP.LGSPNode node_head = curMatch._node_head;
 			Pattern_Blowball.Match_Blowball subpattern__subpattern0 = curMatch.@__subpattern0;
 			return;
 		}
@@ -8551,6 +8337,8 @@ namespace de.unika.ipd.grGen.Action_Recursive
 		public void Modify(GRGEN_LGSP.LGSPGraph graph, GRGEN_LIBGR.IMatch _curMatch)
 		{
 			Match_reverseChainFromTo curMatch = (Match_reverseChainFromTo)_curMatch;
+			GRGEN_LGSP.LGSPNode node_beg = curMatch._node_beg;
+			GRGEN_LGSP.LGSPNode node_end = curMatch._node_end;
 			Pattern_ReverseChainFromTo.Match_ReverseChainFromTo subpattern__subpattern0 = curMatch.@__subpattern0;
 			return;
 		}
@@ -8558,6 +8346,8 @@ namespace de.unika.ipd.grGen.Action_Recursive
 		public void ModifyNoReuse(GRGEN_LGSP.LGSPGraph graph, GRGEN_LIBGR.IMatch _curMatch)
 		{
 			Match_reverseChainFromTo curMatch = (Match_reverseChainFromTo)_curMatch;
+			GRGEN_LGSP.LGSPNode node_beg = curMatch._node_beg;
+			GRGEN_LGSP.LGSPNode node_end = curMatch._node_end;
 			Pattern_ReverseChainFromTo.Match_ReverseChainFromTo subpattern__subpattern0 = curMatch.@__subpattern0;
 			return;
 		}
@@ -9178,7 +8968,7 @@ namespace de.unika.ipd.grGen.Action_Recursive
 			Pattern_ChainFromToReverseToCommon.Match_ChainFromToReverseToCommon subpattern_cftrtc = curMatch.@_cftrtc;
 			graph.SettingAddedNodeNames( chainFromToReverseToCommon_addedNodeNames );
 			GRGEN_MODEL.@Node node_common = GRGEN_MODEL.@Node.CreateNode(graph);
-			Pattern_ChainFromToReverseToCommon.Instance.ChainFromToReverseToCommon_Modify(graph, subpattern_cftrtc, (GRGEN_MODEL.@Node)(node_common));
+			Pattern_ChainFromToReverseToCommon.Instance.ChainFromToReverseToCommon_Modify(graph, subpattern_cftrtc, (GRGEN_LGSP.LGSPNode)(node_common));
 			graph.SettingAddedEdgeNames( chainFromToReverseToCommon_addedEdgeNames );
 			output_0 = (GRGEN_LIBGR.INode)(node_common);
 			return;
@@ -9192,7 +8982,7 @@ namespace de.unika.ipd.grGen.Action_Recursive
 			Pattern_ChainFromToReverseToCommon.Match_ChainFromToReverseToCommon subpattern_cftrtc = curMatch.@_cftrtc;
 			graph.SettingAddedNodeNames( chainFromToReverseToCommon_addedNodeNames );
 			GRGEN_MODEL.@Node node_common = GRGEN_MODEL.@Node.CreateNode(graph);
-			Pattern_ChainFromToReverseToCommon.Instance.ChainFromToReverseToCommon_Modify(graph, subpattern_cftrtc, (GRGEN_MODEL.@Node)(node_common));
+			Pattern_ChainFromToReverseToCommon.Instance.ChainFromToReverseToCommon_Modify(graph, subpattern_cftrtc, (GRGEN_LGSP.LGSPNode)(node_common));
 			graph.SettingAddedEdgeNames( chainFromToReverseToCommon_addedEdgeNames );
 			output_0 = (GRGEN_LIBGR.INode)(node_common);
 			return;
@@ -9402,6 +9192,9 @@ namespace de.unika.ipd.grGen.Action_Recursive
 		public void Modify(GRGEN_LGSP.LGSPGraph graph, GRGEN_LIBGR.IMatch _curMatch)
 		{
 			Match_reverseChainFromToToCommon curMatch = (Match_reverseChainFromToToCommon)_curMatch;
+			GRGEN_LGSP.LGSPNode node_beg = curMatch._node_beg;
+			GRGEN_LGSP.LGSPNode node_end = curMatch._node_end;
+			GRGEN_LGSP.LGSPNode node_common = curMatch._node_common;
 			Pattern_ReverseChainFromToToCommon.Match_ReverseChainFromToToCommon subpattern__subpattern0 = curMatch.@__subpattern0;
 			return;
 		}
@@ -9409,6 +9202,9 @@ namespace de.unika.ipd.grGen.Action_Recursive
 		public void ModifyNoReuse(GRGEN_LGSP.LGSPGraph graph, GRGEN_LIBGR.IMatch _curMatch)
 		{
 			Match_reverseChainFromToToCommon curMatch = (Match_reverseChainFromToToCommon)_curMatch;
+			GRGEN_LGSP.LGSPNode node_beg = curMatch._node_beg;
+			GRGEN_LGSP.LGSPNode node_end = curMatch._node_end;
+			GRGEN_LGSP.LGSPNode node_common = curMatch._node_common;
 			Pattern_ReverseChainFromToToCommon.Match_ReverseChainFromToToCommon subpattern__subpattern0 = curMatch.@__subpattern0;
 			return;
 		}
