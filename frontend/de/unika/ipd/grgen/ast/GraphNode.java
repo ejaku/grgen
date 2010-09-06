@@ -17,18 +17,27 @@ import de.unika.ipd.grgen.ast.util.CollectTripleResolver;
 import de.unika.ipd.grgen.ast.util.DeclarationTripleResolver;
 import de.unika.ipd.grgen.ast.util.SimpleChecker;
 import de.unika.ipd.grgen.ast.util.Triple;
+import de.unika.ipd.grgen.ir.Edge;
 import de.unika.ipd.grgen.ir.Exec;
+import de.unika.ipd.grgen.ir.Expression;
+import de.unika.ipd.grgen.ir.GraphEntity;
+import de.unika.ipd.grgen.ir.GraphEntityExpression;
 import de.unika.ipd.grgen.ir.IR;
 import de.unika.ipd.grgen.ir.ImperativeStmt;
+import de.unika.ipd.grgen.ir.NeededEntities;
+import de.unika.ipd.grgen.ir.Node;
 import de.unika.ipd.grgen.ir.PatternGraph;
 import de.unika.ipd.grgen.ir.OrderedReplacement;
+import de.unika.ipd.grgen.ir.SubpatternDependentReplacement;
 import de.unika.ipd.grgen.ir.SubpatternUsage;
+import de.unika.ipd.grgen.ir.Variable;
 import de.unika.ipd.grgen.ir.YieldedEntities;
 import de.unika.ipd.grgen.parser.Coords;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.HashSet;
 import java.util.LinkedHashSet;
+import java.util.List;
 import java.util.Set;
 import java.util.Vector;
 
@@ -337,6 +346,45 @@ public class GraphNode extends BaseNode {
 			gr.addOrderedReplacement((OrderedReplacement)n.getIR());
 		}
 
+		// add subpattern usage connection elements only mentioned there to the IR
+		// (they're declared in an enclosing graph and locally only show up in the subpattern usage connection)
+		for(OrderedReplacementNode n : orderedReplacements.getChildren()) {
+			if(!(n instanceof SubpatternReplNode))
+				continue;
+			SubpatternReplNode r = (SubpatternReplNode)n;
+			List<Expression> connections = r.checkIR(SubpatternDependentReplacement.class).getReplConnections();
+			for(Expression e : connections) {
+				if(e instanceof GraphEntityExpression) {
+					GraphEntity connection = ((GraphEntityExpression)e).getGraphEntity();
+					if(connection instanceof Node) {
+						Node neededNode = (Node)connection;
+						if(!gr.hasNode(neededNode)) {
+							gr.addSingleNode(neededNode);
+							gr.addHomToAll(neededNode);
+						}
+					}
+					else if(connection instanceof Edge) {
+						Edge neededEdge = (Edge)connection;
+						if(!gr.hasEdge(neededEdge)) {
+							gr.addSingleEdge(neededEdge);	// TODO: maybe we lose context here
+							gr.addHomToAll(neededEdge);
+						}
+					}
+					else {
+						assert(false);
+					}
+				} else {
+					NeededEntities needs = new NeededEntities(false, false, true, false, false, false);
+					e.collectNeededEntities(needs);
+					for(Variable neededVariable : needs.variables) {
+						if(!gr.hasVar(neededVariable)) {
+							gr.addVariable(neededVariable);
+						}
+					}
+				}
+			}
+		}
+		
 		for(BaseNode imp : imperativeStmts.getChildren()) {
 			gr.addImperativeStmt((ImperativeStmt)imp.getIR());
 		}

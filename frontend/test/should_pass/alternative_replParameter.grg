@@ -1,0 +1,71 @@
+rule r {
+	alternative {
+		case1 {
+			y:Node;
+			modify {
+				x --> y;
+			}
+		}
+		case2 {
+			modify {
+				x --> x;
+			}
+		}
+	}
+	
+	modify {
+		x:Node;
+	}
+}
+
+rule r2 {
+	alternative {
+		case1 {
+		y:Node;
+		p:pat();
+			modify {
+				z:Node;
+				p(x,y,z);
+			}
+		}
+		case2 {
+			modify {
+				x --> x;
+			}
+		}
+	}
+	
+	modify {
+		x:Node;
+	}
+}
+
+rule r3 {
+	alternative {
+		case1 {
+		y:Node;
+		p:pat();
+			modify {
+				z:Node;
+				x;
+				p(x,y,z);
+			}
+		}
+		case2 {
+			modify {
+				x --> x;
+			}
+		}
+	}
+	
+	modify {
+		x:Node;
+	}
+}
+
+pattern pat modify(x:Node, y:Node, z:Node)
+{
+	modify {
+		x --> y <-- z;
+	}
+}

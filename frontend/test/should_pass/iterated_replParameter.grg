@@ -1,0 +1,50 @@
+rule r {
+	iterated {
+		y:Node;
+		modify {
+			x --> y;
+		}
+	}
+	
+	modify {
+		x:Node;
+	}
+}
+
+rule r2 {
+	iterated {
+		y:Node;
+		p:pat();
+		modify {
+			z:Node;
+			p(x,y,z);
+		}
+	}
+	
+	modify {
+		x:Node;
+	}
+}
+
+rule r3 {
+	iterated {
+		y:Node;
+		p:pat();
+		modify {
+			z:Node;
+			x;
+			p(x,y,z);
+		}
+	}
+	
+	modify {
+		x:Node;
+	}
+}
+
+pattern pat modify(x:Node, y:Node, z:Node)
+{
+	modify {
+		x --> y <-- z;
+	}
+}
