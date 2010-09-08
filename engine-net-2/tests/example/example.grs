@@ -1,0 +1,53 @@
+new graph "example/example"
+
+dump add node N infotag a
+
+new n1:N($="n1")
+new ch1a:Node
+new n1 -:Edge-> ch1a
+new ch1b:Node
+new n1 -:Edge-> ch1b
+
+new n2:N($="n2", a=true)
+new ch2a:Node
+new n2 -:Edge-> ch2a
+new ch2b:Node
+new n2 -:Edge-> ch2b
+
+new nomatch:N($="XXX1")
+new nm1a:Node
+new nomatch -:Edge-> nm1a
+new nm1b:Node
+new nomatch <-:Edge- nm1b
+
+new n3:N($="n3", a=true)
+new ch3a:Node
+new n3 -:Edge-> ch3a
+new ch3b:Node
+new n3 -:Edge-> ch3b
+
+new nomatch2:N($="XXX2")
+new nm2a:Node
+new nomatch2 -:Edge-> nm2a
+new nm2b:Node
+new nomatch2 <-:Edge- nm2b
+
+new n4:N($="n4")
+new ch4a:Node
+new n4 -:Edge-> ch4a
+new ch4b:Node
+new n4 -:Edge-> ch4b
+
+show num nodes
+show num nodes N
+show num edges
+show num edges E
+
+xgrs st=set<N>{} && success=false ;> [fooMatchOnly(st)] && for{n in st; !success && <foo(n) && fits(n)> && success=true } ;> success
+
+show num nodes
+show num nodes N
+show num edges
+show num edges E
+
+quit

@@ -1,6 +1,7 @@
 OK     should_pass/MaybeNull.grg
 OK     should_pass/alternative_001.grg
 OK     should_pass/alternative_002.grg
+OK     should_pass/alternative_replParameter.grg
 OK     should_pass/alterror.grg
 OK     should_pass/annot_001.grg
 OK     should_pass/annot_002.grg
@@ -254,6 +255,7 @@ OK     should_pass/iterated_001.grg
 OK     should_pass/iterated_002.grg
 OK     should_pass/iterated_003.grg
 OK     should_pass/iterated_004.grg
+OK     should_pass/iterated_replParameter.grg
 OK     should_pass/map_001.grg
 OK     should_pass/map_002.grg
 OK     should_pass/map_003.grg

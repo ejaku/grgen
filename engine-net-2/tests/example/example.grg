@@ -1,0 +1,29 @@
+using example;
+
+rule fooMatchOnly(ref st:set<N>)
+{
+	n:N --> ch1:Node;
+	n   --> ch2:Node;
+
+	modify {
+		eval {
+			st.add(n);
+		}
+	}
+}
+
+rule foo(n:N)
+{
+	n --> ch1:Node;
+	n --> ch2:Node;
+	
+	replace {
+		n <-:E- ch1;
+		n <-:E- ch2;
+	}
+}
+
+test fits(n:N)
+{
+	if { n.a; }
+}

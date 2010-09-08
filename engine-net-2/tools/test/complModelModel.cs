@@ -1,6 +1,6 @@
-// This file has been generated automatically by GrGen.
+// This file has been generated automatically by GrGen (www.grgen.net)
 // Do not modify this file! Any changes will be lost!
-// Generated from "test.grg" on Sun Nov 22 13:12:22 CET 2009
+// Generated from "test.grg" on Wed Sep 08 23:33:14 CEST 2010
 
 using System;
 using System.Collections.Generic;
@@ -5196,7 +5196,6 @@ namespace de.unika.ipd.grGen.Model_complModel
 	//
 	// IGraphModel implementation
 	//
-
 	public sealed class complModelGraphModel : GRGEN_LIBGR.IGraphModel
 	{
 		private complModelNodeModel nodeModel = new complModelNodeModel();
@@ -5213,13 +5212,13 @@ namespace de.unika.ipd.grGen.Model_complModel
 		public IEnumerable<GRGEN_LIBGR.EnumAttributeType> EnumAttributeTypes { get { return enumAttributeTypes; } }
 		public string MD5Hash { get { return "6a630d39ca3371b697e3fb227fb1f51a"; } }
 	}
+
 	//
 	// IGraph/IGraphModel implementation
 	//
-
-	public class complModel : GRGEN_LGSP.LGSPGraph, GRGEN_LIBGR.IGraphModel
+	public class complModelGraph : GRGEN_LGSP.LGSPGraph, GRGEN_LIBGR.IGraphModel
 	{
-		public complModel() : base(GetNextGraphName())
+		public complModelGraph() : base(GetNextGraphName())
 		{
 			InitializeGraph(this);
 		}

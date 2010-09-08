@@ -1,0 +1,6 @@
+node class N
+{
+	a:boolean = false;
+}
+
+edge class E;

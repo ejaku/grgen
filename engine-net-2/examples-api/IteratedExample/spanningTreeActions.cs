@@ -1,6 +1,6 @@
 // This file has been generated automatically by GrGen (www.grgen.net)
 // Do not modify this file! Any changes will be lost!
-// Generated from "..\..\tests\iterated\spanningTree.grg" on Sun Sep 05 18:47:31 CEST 2010
+// Generated from "..\..\tests\iterated\spanningTree.grg" on Wed Sep 08 23:33:39 CEST 2010
 
 using System;
 using System.Collections.Generic;
@@ -157,15 +157,6 @@ namespace de.unika.ipd.grGen.Action_spanningTree
 		private static string[] SpanningTree_addedNodeNames = new string[] {  };
 		private static string[] SpanningTree_addedEdgeNames = new string[] {  };
 
-		public void SpanningTree_ModifyNoReuse(GRGEN_LGSP.LGSPGraph graph, GRGEN_LIBGR.IMatch _curMatch)
-		{
-			Match_SpanningTree curMatch = (Match_SpanningTree)_curMatch;
-			GRGEN_LGSP.LGSPMatchesList<Match_SpanningTree_iter_0, IMatch_SpanningTree_iter_0> iterated_iter_0 = curMatch._iter_0;
-			graph.SettingAddedNodeNames( SpanningTree_addedNodeNames );
-			SpanningTree_iter_0_ModifyNoReuse(graph, iterated_iter_0);
-			graph.SettingAddedEdgeNames( SpanningTree_addedEdgeNames );
-		}
-
 		public void SpanningTree_Create(GRGEN_LGSP.LGSPGraph graph, GRGEN_LGSP.LGSPNode node_root)
 		{
 			graph.SettingAddedNodeNames( create_SpanningTree_addedNodeNames );
@@ -184,13 +175,6 @@ namespace de.unika.ipd.grGen.Action_spanningTree
 		{
 			for(Match_SpanningTree_iter_0 curMatch=curMatches.Root; curMatch!=null; curMatch=curMatch.next) {
 				SpanningTree_iter_0_Modify(graph, curMatch);
-			}
-		}
-
-		public void SpanningTree_iter_0_ModifyNoReuse(GRGEN_LGSP.LGSPGraph graph, GRGEN_LGSP.LGSPMatchesList<Match_SpanningTree_iter_0, IMatch_SpanningTree_iter_0> curMatches)
-		{
-			for(Match_SpanningTree_iter_0 curMatch=curMatches.Root; curMatch!=null; curMatch=curMatch.next) {
-				SpanningTree_iter_0_ModifyNoReuse(graph, curMatch);
 			}
 		}
 
@@ -215,19 +199,6 @@ namespace de.unika.ipd.grGen.Action_spanningTree
 		}
 		private static string[] SpanningTree_iter_0_addedNodeNames = new string[] {  };
 		private static string[] SpanningTree_iter_0_addedEdgeNames = new string[] {  };
-
-		public void SpanningTree_iter_0_ModifyNoReuse(GRGEN_LGSP.LGSPGraph graph, GRGEN_LIBGR.IMatch _curMatch)
-		{
-			Match_SpanningTree_iter_0 curMatch = (Match_SpanningTree_iter_0)_curMatch;
-			GRGEN_LGSP.LGSPNode node_next = curMatch._node_next;
-			GRGEN_LGSP.LGSPEdge edge_e = curMatch._edge_e;
-			Pattern_SpanningTree.Match_SpanningTree subpattern_sptr = curMatch.@_sptr;
-			graph.SettingAddedNodeNames( SpanningTree_iter_0_addedNodeNames );
-			Pattern_SpanningTree.Instance.SpanningTree_Modify(graph, subpattern_sptr);
-			graph.SettingAddedEdgeNames( SpanningTree_iter_0_addedEdgeNames );
-			graph.SetVisited(edge_e, 0, true);
-			graph.SetVisited(node_next, 0, true);
-		}
 
 		public void SpanningTree_iter_0_Delete(GRGEN_LGSP.LGSPGraph graph, Match_SpanningTree_iter_0 curMatch)
 		{
@@ -614,15 +585,6 @@ namespace de.unika.ipd.grGen.Action_spanningTree
 		private static string[] SpanningTreeReverse_addedNodeNames = new string[] {  };
 		private static string[] SpanningTreeReverse_addedEdgeNames = new string[] {  };
 
-		public void SpanningTreeReverse_ModifyNoReuse(GRGEN_LGSP.LGSPGraph graph, GRGEN_LIBGR.IMatch _curMatch)
-		{
-			Match_SpanningTreeReverse curMatch = (Match_SpanningTreeReverse)_curMatch;
-			GRGEN_LGSP.LGSPMatchesList<Match_SpanningTreeReverse_iter_0, IMatch_SpanningTreeReverse_iter_0> iterated_iter_0 = curMatch._iter_0;
-			graph.SettingAddedNodeNames( SpanningTreeReverse_addedNodeNames );
-			SpanningTreeReverse_iter_0_ModifyNoReuse(graph, iterated_iter_0);
-			graph.SettingAddedEdgeNames( SpanningTreeReverse_addedEdgeNames );
-		}
-
 		public void SpanningTreeReverse_Create(GRGEN_LGSP.LGSPGraph graph, GRGEN_LGSP.LGSPNode node_root)
 		{
 			graph.SettingAddedNodeNames( create_SpanningTreeReverse_addedNodeNames );
@@ -644,13 +606,6 @@ namespace de.unika.ipd.grGen.Action_spanningTree
 			}
 		}
 
-		public void SpanningTreeReverse_iter_0_ModifyNoReuse(GRGEN_LGSP.LGSPGraph graph, GRGEN_LGSP.LGSPMatchesList<Match_SpanningTreeReverse_iter_0, IMatch_SpanningTreeReverse_iter_0> curMatches)
-		{
-			for(Match_SpanningTreeReverse_iter_0 curMatch=curMatches.Root; curMatch!=null; curMatch=curMatch.next) {
-				SpanningTreeReverse_iter_0_ModifyNoReuse(graph, curMatch);
-			}
-		}
-
 		public void SpanningTreeReverse_iter_0_Delete(GRGEN_LGSP.LGSPGraph graph, GRGEN_LGSP.LGSPMatchesList<Match_SpanningTreeReverse_iter_0, IMatch_SpanningTreeReverse_iter_0> curMatches)
 		{
 			for(Match_SpanningTreeReverse_iter_0 curMatch=curMatches.Root; curMatch!=null; curMatch=curMatch.next) {
@@ -668,35 +623,11 @@ namespace de.unika.ipd.grGen.Action_spanningTree
 			graph.SettingAddedNodeNames( SpanningTreeReverse_iter_0_addedNodeNames );
 			Pattern_SpanningTreeReverse.Instance.SpanningTreeReverse_Modify(graph, subpattern_sptrr);
 			graph.SettingAddedEdgeNames( SpanningTreeReverse_iter_0_addedEdgeNames );
-			GRGEN_MODEL.@Edge edge__edge1;
-			if(edge__edge0.lgspType == GRGEN_MODEL.EdgeType_Edge.typeVar)
-			{
-				// re-using edge__edge0 as edge__edge1
-				edge__edge1 = (GRGEN_MODEL.@Edge) edge__edge0;
-				graph.ReuseEdge(edge__edge0, node_next, node_root);
-			}
-			else
-			{
-				graph.Remove(edge__edge0);
-				edge__edge1 = GRGEN_MODEL.@Edge.CreateEdge(graph, node_next, node_root);
-			}
-		}
-		private static string[] SpanningTreeReverse_iter_0_addedNodeNames = new string[] {  };
-		private static string[] SpanningTreeReverse_iter_0_addedEdgeNames = new string[] { "_edge1" };
-
-		public void SpanningTreeReverse_iter_0_ModifyNoReuse(GRGEN_LGSP.LGSPGraph graph, GRGEN_LIBGR.IMatch _curMatch)
-		{
-			Match_SpanningTreeReverse_iter_0 curMatch = (Match_SpanningTreeReverse_iter_0)_curMatch;
-			GRGEN_LGSP.LGSPNode node_next = curMatch._node_next;
-			GRGEN_LGSP.LGSPNode node_root = curMatch._node_root;
-			GRGEN_LGSP.LGSPEdge edge__edge0 = curMatch._edge__edge0;
-			Pattern_SpanningTreeReverse.Match_SpanningTreeReverse subpattern_sptrr = curMatch.@_sptrr;
-			graph.SettingAddedNodeNames( SpanningTreeReverse_iter_0_addedNodeNames );
-			Pattern_SpanningTreeReverse.Instance.SpanningTreeReverse_Modify(graph, subpattern_sptrr);
-			graph.SettingAddedEdgeNames( SpanningTreeReverse_iter_0_addedEdgeNames );
 			GRGEN_MODEL.@Edge edge__edge1 = GRGEN_MODEL.@Edge.CreateEdge(graph, node_next, node_root);
 			graph.Remove(edge__edge0);
 		}
+		private static string[] SpanningTreeReverse_iter_0_addedNodeNames = new string[] {  };
+		private static string[] SpanningTreeReverse_iter_0_addedEdgeNames = new string[] { "_edge1" };
 
 		public void SpanningTreeReverse_iter_0_Delete(GRGEN_LGSP.LGSPGraph graph, Match_SpanningTreeReverse_iter_0 curMatch)
 		{
@@ -1815,36 +1746,6 @@ namespace de.unika.ipd.grGen.Action_spanningTree
 		private static string[] initTree_addedNodeNames = new string[] { "root", "left", "_node0", "_node1", "_node2", "right", "rightleft", "_node3", "_node4", "_node5", "_node6" };
 		private static string[] initTree_addedEdgeNames = new string[] { "_edge0", "_edge1", "_edge2", "_edge3", "_edge4", "_edge5", "_edge6", "_edge7", "_edge8", "_edge9" };
 
-		public void ModifyNoReuse(GRGEN_LGSP.LGSPGraph graph, GRGEN_LIBGR.IMatch _curMatch, out GRGEN_LIBGR.INode output_0)
-		{
-			Match_initTree curMatch = (Match_initTree)_curMatch;
-			graph.SettingAddedNodeNames( initTree_addedNodeNames );
-			GRGEN_MODEL.@Node node_root = GRGEN_MODEL.@Node.CreateNode(graph);
-			GRGEN_MODEL.@Node node_left = GRGEN_MODEL.@Node.CreateNode(graph);
-			GRGEN_MODEL.@Node node__node0 = GRGEN_MODEL.@Node.CreateNode(graph);
-			GRGEN_MODEL.@Node node__node1 = GRGEN_MODEL.@Node.CreateNode(graph);
-			GRGEN_MODEL.@Node node__node2 = GRGEN_MODEL.@Node.CreateNode(graph);
-			GRGEN_MODEL.@Node node_right = GRGEN_MODEL.@Node.CreateNode(graph);
-			GRGEN_MODEL.@Node node_rightleft = GRGEN_MODEL.@Node.CreateNode(graph);
-			GRGEN_MODEL.@Node node__node3 = GRGEN_MODEL.@Node.CreateNode(graph);
-			GRGEN_MODEL.@Node node__node4 = GRGEN_MODEL.@Node.CreateNode(graph);
-			GRGEN_MODEL.@Node node__node5 = GRGEN_MODEL.@Node.CreateNode(graph);
-			GRGEN_MODEL.@Node node__node6 = GRGEN_MODEL.@Node.CreateNode(graph);
-			graph.SettingAddedEdgeNames( initTree_addedEdgeNames );
-			GRGEN_MODEL.@UEdge edge__edge0 = GRGEN_MODEL.@UEdge.CreateEdge(graph, node_root, node_left);
-			GRGEN_MODEL.@UEdge edge__edge1 = GRGEN_MODEL.@UEdge.CreateEdge(graph, node_left, node__node0);
-			GRGEN_MODEL.@UEdge edge__edge2 = GRGEN_MODEL.@UEdge.CreateEdge(graph, node_left, node__node1);
-			GRGEN_MODEL.@UEdge edge__edge3 = GRGEN_MODEL.@UEdge.CreateEdge(graph, node_left, node__node2);
-			GRGEN_MODEL.@UEdge edge__edge4 = GRGEN_MODEL.@UEdge.CreateEdge(graph, node_root, node_right);
-			GRGEN_MODEL.@UEdge edge__edge5 = GRGEN_MODEL.@UEdge.CreateEdge(graph, node_right, node_rightleft);
-			GRGEN_MODEL.@UEdge edge__edge6 = GRGEN_MODEL.@UEdge.CreateEdge(graph, node_rightleft, node__node3);
-			GRGEN_MODEL.@UEdge edge__edge7 = GRGEN_MODEL.@UEdge.CreateEdge(graph, node_rightleft, node__node4);
-			GRGEN_MODEL.@UEdge edge__edge8 = GRGEN_MODEL.@UEdge.CreateEdge(graph, node_rightleft, node__node5);
-			GRGEN_MODEL.@UEdge edge__edge9 = GRGEN_MODEL.@UEdge.CreateEdge(graph, node_right, node__node6);
-			output_0 = (GRGEN_LIBGR.INode)(node_root);
-			return;
-		}
-
 		static Rule_initTree() {
 		}
 
@@ -2033,30 +1934,6 @@ namespace de.unika.ipd.grGen.Action_spanningTree
 		private static string[] initUndirected_addedNodeNames = new string[] { "root", "_node0", "_node1", "_node2", "n", "_node3", "_node4" };
 		private static string[] initUndirected_addedEdgeNames = new string[] { "_edge0", "_edge1", "_edge2", "_edge3", "_edge4", "_edge5", "_edge6", "_edge7" };
 
-		public void ModifyNoReuse(GRGEN_LGSP.LGSPGraph graph, GRGEN_LIBGR.IMatch _curMatch, out GRGEN_LIBGR.INode output_0)
-		{
-			Match_initUndirected curMatch = (Match_initUndirected)_curMatch;
-			graph.SettingAddedNodeNames( initUndirected_addedNodeNames );
-			GRGEN_MODEL.@Node node_root = GRGEN_MODEL.@Node.CreateNode(graph);
-			GRGEN_MODEL.@Node node__node0 = GRGEN_MODEL.@Node.CreateNode(graph);
-			GRGEN_MODEL.@Node node__node1 = GRGEN_MODEL.@Node.CreateNode(graph);
-			GRGEN_MODEL.@Node node__node2 = GRGEN_MODEL.@Node.CreateNode(graph);
-			GRGEN_MODEL.@Node node_n = GRGEN_MODEL.@Node.CreateNode(graph);
-			GRGEN_MODEL.@Node node__node3 = GRGEN_MODEL.@Node.CreateNode(graph);
-			GRGEN_MODEL.@Node node__node4 = GRGEN_MODEL.@Node.CreateNode(graph);
-			graph.SettingAddedEdgeNames( initUndirected_addedEdgeNames );
-			GRGEN_MODEL.@UEdge edge__edge0 = GRGEN_MODEL.@UEdge.CreateEdge(graph, node_root, node__node0);
-			GRGEN_MODEL.@UEdge edge__edge1 = GRGEN_MODEL.@UEdge.CreateEdge(graph, node_root, node__node1);
-			GRGEN_MODEL.@UEdge edge__edge2 = GRGEN_MODEL.@UEdge.CreateEdge(graph, node__node1, node__node2);
-			GRGEN_MODEL.@UEdge edge__edge3 = GRGEN_MODEL.@UEdge.CreateEdge(graph, node_root, node_n);
-			GRGEN_MODEL.@UEdge edge__edge4 = GRGEN_MODEL.@UEdge.CreateEdge(graph, node_n, node_root);
-			GRGEN_MODEL.@UEdge edge__edge5 = GRGEN_MODEL.@UEdge.CreateEdge(graph, node_n, node__node3);
-			GRGEN_MODEL.@UEdge edge__edge6 = GRGEN_MODEL.@UEdge.CreateEdge(graph, node__node3, node__node4);
-			GRGEN_MODEL.@UEdge edge__edge7 = GRGEN_MODEL.@UEdge.CreateEdge(graph, node__node4, node_n);
-			output_0 = (GRGEN_LIBGR.INode)(node_root);
-			return;
-		}
-
 		static Rule_initUndirected() {
 		}
 
@@ -2244,30 +2121,6 @@ namespace de.unika.ipd.grGen.Action_spanningTree
 		}
 		private static string[] initDirected_addedNodeNames = new string[] { "root", "_node0", "_node1", "_node2", "n", "_node3", "_node4" };
 		private static string[] initDirected_addedEdgeNames = new string[] { "_edge0", "_edge1", "_edge2", "_edge3", "_edge4", "_edge5", "_edge6", "_edge7" };
-
-		public void ModifyNoReuse(GRGEN_LGSP.LGSPGraph graph, GRGEN_LIBGR.IMatch _curMatch, out GRGEN_LIBGR.INode output_0)
-		{
-			Match_initDirected curMatch = (Match_initDirected)_curMatch;
-			graph.SettingAddedNodeNames( initDirected_addedNodeNames );
-			GRGEN_MODEL.@Node node_root = GRGEN_MODEL.@Node.CreateNode(graph);
-			GRGEN_MODEL.@Node node__node0 = GRGEN_MODEL.@Node.CreateNode(graph);
-			GRGEN_MODEL.@Node node__node1 = GRGEN_MODEL.@Node.CreateNode(graph);
-			GRGEN_MODEL.@Node node__node2 = GRGEN_MODEL.@Node.CreateNode(graph);
-			GRGEN_MODEL.@Node node_n = GRGEN_MODEL.@Node.CreateNode(graph);
-			GRGEN_MODEL.@Node node__node3 = GRGEN_MODEL.@Node.CreateNode(graph);
-			GRGEN_MODEL.@Node node__node4 = GRGEN_MODEL.@Node.CreateNode(graph);
-			graph.SettingAddedEdgeNames( initDirected_addedEdgeNames );
-			GRGEN_MODEL.@Edge edge__edge0 = GRGEN_MODEL.@Edge.CreateEdge(graph, node_root, node__node0);
-			GRGEN_MODEL.@Edge edge__edge1 = GRGEN_MODEL.@Edge.CreateEdge(graph, node_root, node__node1);
-			GRGEN_MODEL.@Edge edge__edge2 = GRGEN_MODEL.@Edge.CreateEdge(graph, node__node1, node__node2);
-			GRGEN_MODEL.@Edge edge__edge3 = GRGEN_MODEL.@Edge.CreateEdge(graph, node_root, node_n);
-			GRGEN_MODEL.@Edge edge__edge4 = GRGEN_MODEL.@Edge.CreateEdge(graph, node_root, node_n);
-			GRGEN_MODEL.@Edge edge__edge5 = GRGEN_MODEL.@Edge.CreateEdge(graph, node_n, node__node3);
-			GRGEN_MODEL.@Edge edge__edge6 = GRGEN_MODEL.@Edge.CreateEdge(graph, node__node3, node__node4);
-			GRGEN_MODEL.@Edge edge__edge7 = GRGEN_MODEL.@Edge.CreateEdge(graph, node__node4, node_n);
-			output_0 = (GRGEN_LIBGR.INode)(node_root);
-			return;
-		}
 
 		static Rule_initDirected() {
 		}
@@ -2459,18 +2312,6 @@ namespace de.unika.ipd.grGen.Action_spanningTree
 		private static string[] spanningTree_addedNodeNames = new string[] {  };
 		private static string[] spanningTree_addedEdgeNames = new string[] {  };
 
-		public void ModifyNoReuse(GRGEN_LGSP.LGSPGraph graph, GRGEN_LIBGR.IMatch _curMatch)
-		{
-			Match_spanningTree curMatch = (Match_spanningTree)_curMatch;
-			GRGEN_LGSP.LGSPNode node_root = curMatch._node_root;
-			Pattern_SpanningTree.Match_SpanningTree subpattern_sptr = curMatch.@_sptr;
-			graph.SettingAddedNodeNames( spanningTree_addedNodeNames );
-			Pattern_SpanningTree.Instance.SpanningTree_Modify(graph, subpattern_sptr);
-			graph.SettingAddedEdgeNames( spanningTree_addedEdgeNames );
-			graph.SetVisited(node_root, 0, true);
-			return;
-		}
-
 		static Rule_spanningTree() {
 		}
 
@@ -2657,12 +2498,6 @@ namespace de.unika.ipd.grGen.Action_spanningTree
 			return;
 		}
 
-		public void ModifyNoReuse(GRGEN_LGSP.LGSPGraph graph, GRGEN_LIBGR.IMatch _curMatch)
-		{
-			Match_edgesVisited curMatch = (Match_edgesVisited)_curMatch;
-			return;
-		}
-
 		static Rule_edgesVisited() {
 		}
 
@@ -2840,12 +2675,6 @@ namespace de.unika.ipd.grGen.Action_spanningTree
 
 
 		public void Modify(GRGEN_LGSP.LGSPGraph graph, GRGEN_LIBGR.IMatch _curMatch)
-		{
-			Match_nodesVisited curMatch = (Match_nodesVisited)_curMatch;
-			return;
-		}
-
-		public void ModifyNoReuse(GRGEN_LGSP.LGSPGraph graph, GRGEN_LIBGR.IMatch _curMatch)
 		{
 			Match_nodesVisited curMatch = (Match_nodesVisited)_curMatch;
 			return;
@@ -3043,16 +2872,6 @@ namespace de.unika.ipd.grGen.Action_spanningTree
 		private static string[] spanningTreeReverse_addedNodeNames = new string[] {  };
 		private static string[] spanningTreeReverse_addedEdgeNames = new string[] {  };
 
-		public void ModifyNoReuse(GRGEN_LGSP.LGSPGraph graph, GRGEN_LIBGR.IMatch _curMatch)
-		{
-			Match_spanningTreeReverse curMatch = (Match_spanningTreeReverse)_curMatch;
-			Pattern_SpanningTreeReverse.Match_SpanningTreeReverse subpattern_sptrr = curMatch.@_sptrr;
-			graph.SettingAddedNodeNames( spanningTreeReverse_addedNodeNames );
-			Pattern_SpanningTreeReverse.Instance.SpanningTreeReverse_Modify(graph, subpattern_sptrr);
-			graph.SettingAddedEdgeNames( spanningTreeReverse_addedEdgeNames );
-			return;
-		}
-
 		static Rule_spanningTreeReverse() {
 		}
 
@@ -3244,14 +3063,6 @@ namespace de.unika.ipd.grGen.Action_spanningTree
 			return;
 		}
 
-		public void ModifyNoReuse(GRGEN_LGSP.LGSPGraph graph, GRGEN_LIBGR.IMatch _curMatch)
-		{
-			Match_spanningTreeOutgoing curMatch = (Match_spanningTreeOutgoing)_curMatch;
-			GRGEN_LGSP.LGSPNode node_root = curMatch._node_root;
-			Pattern_SpanningTreeOutgoing.Match_SpanningTreeOutgoing subpattern__subpattern0 = curMatch.@__subpattern0;
-			return;
-		}
-
 		static Rule_spanningTreeOutgoing() {
 		}
 
@@ -3436,14 +3247,6 @@ namespace de.unika.ipd.grGen.Action_spanningTree
 
 
 		public void Modify(GRGEN_LGSP.LGSPGraph graph, GRGEN_LIBGR.IMatch _curMatch)
-		{
-			Match_spanningTreeIncoming curMatch = (Match_spanningTreeIncoming)_curMatch;
-			GRGEN_LGSP.LGSPNode node_root = curMatch._node_root;
-			Pattern_SpanningTreeIncoming.Match_SpanningTreeIncoming subpattern__subpattern0 = curMatch.@__subpattern0;
-			return;
-		}
-
-		public void ModifyNoReuse(GRGEN_LGSP.LGSPGraph graph, GRGEN_LIBGR.IMatch _curMatch)
 		{
 			Match_spanningTreeIncoming curMatch = (Match_spanningTreeIncoming)_curMatch;
 			GRGEN_LGSP.LGSPNode node_root = curMatch._node_root;
@@ -5056,35 +4859,25 @@ maxMatchesIterReached:
         }
         public void Modify(GRGEN_LIBGR.IGraph graph, Rule_initTree.IMatch_initTree match, out GRGEN_LIBGR.INode output_0)
         {
-            if(!graph.TransactionManager.TransactionActive && graph.ReuseOptimization) _rulePattern.Modify((GRGEN_LGSP.LGSPGraph)graph, match, out output_0);
-            else _rulePattern.ModifyNoReuse((GRGEN_LGSP.LGSPGraph)graph, match, out output_0);
+            _rulePattern.Modify((GRGEN_LGSP.LGSPGraph)graph, match, out output_0);
         }
         public void ModifyAll(GRGEN_LIBGR.IGraph graph, GRGEN_LIBGR.IMatchesExact<Rule_initTree.IMatch_initTree> matches, out GRGEN_LIBGR.INode output_0)
         {
             output_0 = null;
-            if(!graph.TransactionManager.TransactionActive && graph.ReuseOptimization) {
-                foreach(Rule_initTree.IMatch_initTree match in matches) _rulePattern.Modify((GRGEN_LGSP.LGSPGraph)graph, match, out output_0);
-            } else {
-                foreach(Rule_initTree.IMatch_initTree match in matches) _rulePattern.ModifyNoReuse((GRGEN_LGSP.LGSPGraph)graph, match, out output_0);
-            }
+            foreach(Rule_initTree.IMatch_initTree match in matches) _rulePattern.Modify((GRGEN_LGSP.LGSPGraph)graph, match, out output_0);
         }
         public bool Apply(GRGEN_LIBGR.IGraph graph, ref GRGEN_LIBGR.INode output_0)
         {
             GRGEN_LIBGR.IMatchesExact<Rule_initTree.IMatch_initTree> matches = DynamicMatch((GRGEN_LGSP.LGSPGraph)graph, 1);
             if(matches.Count <= 0) return false;
-            if(!graph.TransactionManager.TransactionActive && graph.ReuseOptimization) _rulePattern.Modify((GRGEN_LGSP.LGSPGraph)graph, matches.First, out output_0);
-            else _rulePattern.ModifyNoReuse((GRGEN_LGSP.LGSPGraph)graph, matches.First, out output_0);
+            _rulePattern.Modify((GRGEN_LGSP.LGSPGraph)graph, matches.First, out output_0);
             return true;
         }
         public bool ApplyAll(int maxMatches, GRGEN_LIBGR.IGraph graph, ref GRGEN_LIBGR.INode output_0)
         {
             GRGEN_LIBGR.IMatchesExact<Rule_initTree.IMatch_initTree> matches = DynamicMatch((GRGEN_LGSP.LGSPGraph)graph, maxMatches);
             if(matches.Count <= 0) return false;
-            if(!graph.TransactionManager.TransactionActive && graph.ReuseOptimization) {
-                foreach(Rule_initTree.IMatch_initTree match in matches) _rulePattern.Modify((GRGEN_LGSP.LGSPGraph)graph, match, out output_0);
-            } else {
-                foreach(Rule_initTree.IMatch_initTree match in matches) _rulePattern.ModifyNoReuse((GRGEN_LGSP.LGSPGraph)graph, match, out output_0);
-            }
+            foreach(Rule_initTree.IMatch_initTree match in matches) _rulePattern.Modify((GRGEN_LGSP.LGSPGraph)graph, match, out output_0);
             return true;
         }
         public bool ApplyStar(GRGEN_LIBGR.IGraph graph)
@@ -5095,8 +4888,7 @@ maxMatchesIterReached:
             {
                 matches = DynamicMatch((GRGEN_LGSP.LGSPGraph)graph, 1);
                 if(matches.Count <= 0) return true;
-                if(!graph.TransactionManager.TransactionActive && graph.ReuseOptimization) _rulePattern.Modify((GRGEN_LGSP.LGSPGraph)graph, matches.First, out output_0);
-                else _rulePattern.ModifyNoReuse((GRGEN_LGSP.LGSPGraph)graph, matches.First, out output_0);
+                _rulePattern.Modify((GRGEN_LGSP.LGSPGraph)graph, matches.First, out output_0);
             }
         }
         public bool ApplyPlus(GRGEN_LIBGR.IGraph graph)
@@ -5106,8 +4898,7 @@ maxMatchesIterReached:
             GRGEN_LIBGR.INode output_0; 
             do
             {
-                if(!graph.TransactionManager.TransactionActive && graph.ReuseOptimization) _rulePattern.Modify((GRGEN_LGSP.LGSPGraph)graph, matches.First, out output_0);
-                else _rulePattern.ModifyNoReuse((GRGEN_LGSP.LGSPGraph)graph, matches.First, out output_0);
+                _rulePattern.Modify((GRGEN_LGSP.LGSPGraph)graph, matches.First, out output_0);
                 matches = DynamicMatch((GRGEN_LGSP.LGSPGraph)graph, 1);
             }
             while(matches.Count > 0) ;
@@ -5121,8 +4912,7 @@ maxMatchesIterReached:
             {
                 matches = DynamicMatch((GRGEN_LGSP.LGSPGraph)graph, 1);
                 if(matches.Count <= 0) return i >= min;
-                if(!graph.TransactionManager.TransactionActive && graph.ReuseOptimization) _rulePattern.Modify((GRGEN_LGSP.LGSPGraph)graph, matches.First, out output_0);
-                else _rulePattern.ModifyNoReuse((GRGEN_LGSP.LGSPGraph)graph, matches.First, out output_0);
+                _rulePattern.Modify((GRGEN_LGSP.LGSPGraph)graph, matches.First, out output_0);
             }
             return true;
         }
@@ -5273,35 +5063,25 @@ maxMatchesIterReached:
         }
         public void Modify(GRGEN_LIBGR.IGraph graph, Rule_initUndirected.IMatch_initUndirected match, out GRGEN_LIBGR.INode output_0)
         {
-            if(!graph.TransactionManager.TransactionActive && graph.ReuseOptimization) _rulePattern.Modify((GRGEN_LGSP.LGSPGraph)graph, match, out output_0);
-            else _rulePattern.ModifyNoReuse((GRGEN_LGSP.LGSPGraph)graph, match, out output_0);
+            _rulePattern.Modify((GRGEN_LGSP.LGSPGraph)graph, match, out output_0);
         }
         public void ModifyAll(GRGEN_LIBGR.IGraph graph, GRGEN_LIBGR.IMatchesExact<Rule_initUndirected.IMatch_initUndirected> matches, out GRGEN_LIBGR.INode output_0)
         {
             output_0 = null;
-            if(!graph.TransactionManager.TransactionActive && graph.ReuseOptimization) {
-                foreach(Rule_initUndirected.IMatch_initUndirected match in matches) _rulePattern.Modify((GRGEN_LGSP.LGSPGraph)graph, match, out output_0);
-            } else {
-                foreach(Rule_initUndirected.IMatch_initUndirected match in matches) _rulePattern.ModifyNoReuse((GRGEN_LGSP.LGSPGraph)graph, match, out output_0);
-            }
+            foreach(Rule_initUndirected.IMatch_initUndirected match in matches) _rulePattern.Modify((GRGEN_LGSP.LGSPGraph)graph, match, out output_0);
         }
         public bool Apply(GRGEN_LIBGR.IGraph graph, ref GRGEN_LIBGR.INode output_0)
         {
             GRGEN_LIBGR.IMatchesExact<Rule_initUndirected.IMatch_initUndirected> matches = DynamicMatch((GRGEN_LGSP.LGSPGraph)graph, 1);
             if(matches.Count <= 0) return false;
-            if(!graph.TransactionManager.TransactionActive && graph.ReuseOptimization) _rulePattern.Modify((GRGEN_LGSP.LGSPGraph)graph, matches.First, out output_0);
-            else _rulePattern.ModifyNoReuse((GRGEN_LGSP.LGSPGraph)graph, matches.First, out output_0);
+            _rulePattern.Modify((GRGEN_LGSP.LGSPGraph)graph, matches.First, out output_0);
             return true;
         }
         public bool ApplyAll(int maxMatches, GRGEN_LIBGR.IGraph graph, ref GRGEN_LIBGR.INode output_0)
         {
             GRGEN_LIBGR.IMatchesExact<Rule_initUndirected.IMatch_initUndirected> matches = DynamicMatch((GRGEN_LGSP.LGSPGraph)graph, maxMatches);
             if(matches.Count <= 0) return false;
-            if(!graph.TransactionManager.TransactionActive && graph.ReuseOptimization) {
-                foreach(Rule_initUndirected.IMatch_initUndirected match in matches) _rulePattern.Modify((GRGEN_LGSP.LGSPGraph)graph, match, out output_0);
-            } else {
-                foreach(Rule_initUndirected.IMatch_initUndirected match in matches) _rulePattern.ModifyNoReuse((GRGEN_LGSP.LGSPGraph)graph, match, out output_0);
-            }
+            foreach(Rule_initUndirected.IMatch_initUndirected match in matches) _rulePattern.Modify((GRGEN_LGSP.LGSPGraph)graph, match, out output_0);
             return true;
         }
         public bool ApplyStar(GRGEN_LIBGR.IGraph graph)
@@ -5312,8 +5092,7 @@ maxMatchesIterReached:
             {
                 matches = DynamicMatch((GRGEN_LGSP.LGSPGraph)graph, 1);
                 if(matches.Count <= 0) return true;
-                if(!graph.TransactionManager.TransactionActive && graph.ReuseOptimization) _rulePattern.Modify((GRGEN_LGSP.LGSPGraph)graph, matches.First, out output_0);
-                else _rulePattern.ModifyNoReuse((GRGEN_LGSP.LGSPGraph)graph, matches.First, out output_0);
+                _rulePattern.Modify((GRGEN_LGSP.LGSPGraph)graph, matches.First, out output_0);
             }
         }
         public bool ApplyPlus(GRGEN_LIBGR.IGraph graph)
@@ -5323,8 +5102,7 @@ maxMatchesIterReached:
             GRGEN_LIBGR.INode output_0; 
             do
             {
-                if(!graph.TransactionManager.TransactionActive && graph.ReuseOptimization) _rulePattern.Modify((GRGEN_LGSP.LGSPGraph)graph, matches.First, out output_0);
-                else _rulePattern.ModifyNoReuse((GRGEN_LGSP.LGSPGraph)graph, matches.First, out output_0);
+                _rulePattern.Modify((GRGEN_LGSP.LGSPGraph)graph, matches.First, out output_0);
                 matches = DynamicMatch((GRGEN_LGSP.LGSPGraph)graph, 1);
             }
             while(matches.Count > 0) ;
@@ -5338,8 +5116,7 @@ maxMatchesIterReached:
             {
                 matches = DynamicMatch((GRGEN_LGSP.LGSPGraph)graph, 1);
                 if(matches.Count <= 0) return i >= min;
-                if(!graph.TransactionManager.TransactionActive && graph.ReuseOptimization) _rulePattern.Modify((GRGEN_LGSP.LGSPGraph)graph, matches.First, out output_0);
-                else _rulePattern.ModifyNoReuse((GRGEN_LGSP.LGSPGraph)graph, matches.First, out output_0);
+                _rulePattern.Modify((GRGEN_LGSP.LGSPGraph)graph, matches.First, out output_0);
             }
             return true;
         }
@@ -5490,35 +5267,25 @@ maxMatchesIterReached:
         }
         public void Modify(GRGEN_LIBGR.IGraph graph, Rule_initDirected.IMatch_initDirected match, out GRGEN_LIBGR.INode output_0)
         {
-            if(!graph.TransactionManager.TransactionActive && graph.ReuseOptimization) _rulePattern.Modify((GRGEN_LGSP.LGSPGraph)graph, match, out output_0);
-            else _rulePattern.ModifyNoReuse((GRGEN_LGSP.LGSPGraph)graph, match, out output_0);
+            _rulePattern.Modify((GRGEN_LGSP.LGSPGraph)graph, match, out output_0);
         }
         public void ModifyAll(GRGEN_LIBGR.IGraph graph, GRGEN_LIBGR.IMatchesExact<Rule_initDirected.IMatch_initDirected> matches, out GRGEN_LIBGR.INode output_0)
         {
             output_0 = null;
-            if(!graph.TransactionManager.TransactionActive && graph.ReuseOptimization) {
-                foreach(Rule_initDirected.IMatch_initDirected match in matches) _rulePattern.Modify((GRGEN_LGSP.LGSPGraph)graph, match, out output_0);
-            } else {
-                foreach(Rule_initDirected.IMatch_initDirected match in matches) _rulePattern.ModifyNoReuse((GRGEN_LGSP.LGSPGraph)graph, match, out output_0);
-            }
+            foreach(Rule_initDirected.IMatch_initDirected match in matches) _rulePattern.Modify((GRGEN_LGSP.LGSPGraph)graph, match, out output_0);
         }
         public bool Apply(GRGEN_LIBGR.IGraph graph, ref GRGEN_LIBGR.INode output_0)
         {
             GRGEN_LIBGR.IMatchesExact<Rule_initDirected.IMatch_initDirected> matches = DynamicMatch((GRGEN_LGSP.LGSPGraph)graph, 1);
             if(matches.Count <= 0) return false;
-            if(!graph.TransactionManager.TransactionActive && graph.ReuseOptimization) _rulePattern.Modify((GRGEN_LGSP.LGSPGraph)graph, matches.First, out output_0);
-            else _rulePattern.ModifyNoReuse((GRGEN_LGSP.LGSPGraph)graph, matches.First, out output_0);
+            _rulePattern.Modify((GRGEN_LGSP.LGSPGraph)graph, matches.First, out output_0);
             return true;
         }
         public bool ApplyAll(int maxMatches, GRGEN_LIBGR.IGraph graph, ref GRGEN_LIBGR.INode output_0)
         {
             GRGEN_LIBGR.IMatchesExact<Rule_initDirected.IMatch_initDirected> matches = DynamicMatch((GRGEN_LGSP.LGSPGraph)graph, maxMatches);
             if(matches.Count <= 0) return false;
-            if(!graph.TransactionManager.TransactionActive && graph.ReuseOptimization) {
-                foreach(Rule_initDirected.IMatch_initDirected match in matches) _rulePattern.Modify((GRGEN_LGSP.LGSPGraph)graph, match, out output_0);
-            } else {
-                foreach(Rule_initDirected.IMatch_initDirected match in matches) _rulePattern.ModifyNoReuse((GRGEN_LGSP.LGSPGraph)graph, match, out output_0);
-            }
+            foreach(Rule_initDirected.IMatch_initDirected match in matches) _rulePattern.Modify((GRGEN_LGSP.LGSPGraph)graph, match, out output_0);
             return true;
         }
         public bool ApplyStar(GRGEN_LIBGR.IGraph graph)
@@ -5529,8 +5296,7 @@ maxMatchesIterReached:
             {
                 matches = DynamicMatch((GRGEN_LGSP.LGSPGraph)graph, 1);
                 if(matches.Count <= 0) return true;
-                if(!graph.TransactionManager.TransactionActive && graph.ReuseOptimization) _rulePattern.Modify((GRGEN_LGSP.LGSPGraph)graph, matches.First, out output_0);
-                else _rulePattern.ModifyNoReuse((GRGEN_LGSP.LGSPGraph)graph, matches.First, out output_0);
+                _rulePattern.Modify((GRGEN_LGSP.LGSPGraph)graph, matches.First, out output_0);
             }
         }
         public bool ApplyPlus(GRGEN_LIBGR.IGraph graph)
@@ -5540,8 +5306,7 @@ maxMatchesIterReached:
             GRGEN_LIBGR.INode output_0; 
             do
             {
-                if(!graph.TransactionManager.TransactionActive && graph.ReuseOptimization) _rulePattern.Modify((GRGEN_LGSP.LGSPGraph)graph, matches.First, out output_0);
-                else _rulePattern.ModifyNoReuse((GRGEN_LGSP.LGSPGraph)graph, matches.First, out output_0);
+                _rulePattern.Modify((GRGEN_LGSP.LGSPGraph)graph, matches.First, out output_0);
                 matches = DynamicMatch((GRGEN_LGSP.LGSPGraph)graph, 1);
             }
             while(matches.Count > 0) ;
@@ -5555,8 +5320,7 @@ maxMatchesIterReached:
             {
                 matches = DynamicMatch((GRGEN_LGSP.LGSPGraph)graph, 1);
                 if(matches.Count <= 0) return i >= min;
-                if(!graph.TransactionManager.TransactionActive && graph.ReuseOptimization) _rulePattern.Modify((GRGEN_LGSP.LGSPGraph)graph, matches.First, out output_0);
-                else _rulePattern.ModifyNoReuse((GRGEN_LGSP.LGSPGraph)graph, matches.First, out output_0);
+                _rulePattern.Modify((GRGEN_LGSP.LGSPGraph)graph, matches.First, out output_0);
             }
             return true;
         }
@@ -5776,34 +5540,24 @@ maxMatchesIterReached:
         }
         public void Modify(GRGEN_LIBGR.IGraph graph, Rule_spanningTree.IMatch_spanningTree match)
         {
-            if(!graph.TransactionManager.TransactionActive && graph.ReuseOptimization) _rulePattern.Modify((GRGEN_LGSP.LGSPGraph)graph, match);
-            else _rulePattern.ModifyNoReuse((GRGEN_LGSP.LGSPGraph)graph, match);
+            _rulePattern.Modify((GRGEN_LGSP.LGSPGraph)graph, match);
         }
         public void ModifyAll(GRGEN_LIBGR.IGraph graph, GRGEN_LIBGR.IMatchesExact<Rule_spanningTree.IMatch_spanningTree> matches)
         {
-            if(!graph.TransactionManager.TransactionActive && graph.ReuseOptimization) {
-                foreach(Rule_spanningTree.IMatch_spanningTree match in matches) _rulePattern.Modify((GRGEN_LGSP.LGSPGraph)graph, match);
-            } else {
-                foreach(Rule_spanningTree.IMatch_spanningTree match in matches) _rulePattern.ModifyNoReuse((GRGEN_LGSP.LGSPGraph)graph, match);
-            }
+            foreach(Rule_spanningTree.IMatch_spanningTree match in matches) _rulePattern.Modify((GRGEN_LGSP.LGSPGraph)graph, match);
         }
         public bool Apply(GRGEN_LIBGR.IGraph graph, GRGEN_LIBGR.INode spanningTree_node_root)
         {
             GRGEN_LIBGR.IMatchesExact<Rule_spanningTree.IMatch_spanningTree> matches = DynamicMatch((GRGEN_LGSP.LGSPGraph)graph, 1, spanningTree_node_root);
             if(matches.Count <= 0) return false;
-            if(!graph.TransactionManager.TransactionActive && graph.ReuseOptimization) _rulePattern.Modify((GRGEN_LGSP.LGSPGraph)graph, matches.First);
-            else _rulePattern.ModifyNoReuse((GRGEN_LGSP.LGSPGraph)graph, matches.First);
+            _rulePattern.Modify((GRGEN_LGSP.LGSPGraph)graph, matches.First);
             return true;
         }
         public bool ApplyAll(int maxMatches, GRGEN_LIBGR.IGraph graph, GRGEN_LIBGR.INode spanningTree_node_root)
         {
             GRGEN_LIBGR.IMatchesExact<Rule_spanningTree.IMatch_spanningTree> matches = DynamicMatch((GRGEN_LGSP.LGSPGraph)graph, maxMatches, spanningTree_node_root);
             if(matches.Count <= 0) return false;
-            if(!graph.TransactionManager.TransactionActive && graph.ReuseOptimization) {
-                foreach(Rule_spanningTree.IMatch_spanningTree match in matches) _rulePattern.Modify((GRGEN_LGSP.LGSPGraph)graph, match);
-            } else {
-                foreach(Rule_spanningTree.IMatch_spanningTree match in matches) _rulePattern.ModifyNoReuse((GRGEN_LGSP.LGSPGraph)graph, match);
-            }
+            foreach(Rule_spanningTree.IMatch_spanningTree match in matches) _rulePattern.Modify((GRGEN_LGSP.LGSPGraph)graph, match);
             return true;
         }
         public bool ApplyStar(GRGEN_LIBGR.IGraph graph, GRGEN_LIBGR.INode spanningTree_node_root)
@@ -5814,8 +5568,7 @@ maxMatchesIterReached:
             {
                 matches = DynamicMatch((GRGEN_LGSP.LGSPGraph)graph, 1, spanningTree_node_root);
                 if(matches.Count <= 0) return true;
-                if(!graph.TransactionManager.TransactionActive && graph.ReuseOptimization) _rulePattern.Modify((GRGEN_LGSP.LGSPGraph)graph, matches.First);
-                else _rulePattern.ModifyNoReuse((GRGEN_LGSP.LGSPGraph)graph, matches.First);
+                _rulePattern.Modify((GRGEN_LGSP.LGSPGraph)graph, matches.First);
             }
         }
         public bool ApplyPlus(GRGEN_LIBGR.IGraph graph, GRGEN_LIBGR.INode spanningTree_node_root)
@@ -5825,8 +5578,7 @@ maxMatchesIterReached:
             
             do
             {
-                if(!graph.TransactionManager.TransactionActive && graph.ReuseOptimization) _rulePattern.Modify((GRGEN_LGSP.LGSPGraph)graph, matches.First);
-                else _rulePattern.ModifyNoReuse((GRGEN_LGSP.LGSPGraph)graph, matches.First);
+                _rulePattern.Modify((GRGEN_LGSP.LGSPGraph)graph, matches.First);
                 matches = DynamicMatch((GRGEN_LGSP.LGSPGraph)graph, 1, spanningTree_node_root);
             }
             while(matches.Count > 0) ;
@@ -5840,8 +5592,7 @@ maxMatchesIterReached:
             {
                 matches = DynamicMatch((GRGEN_LGSP.LGSPGraph)graph, 1, spanningTree_node_root);
                 if(matches.Count <= 0) return i >= min;
-                if(!graph.TransactionManager.TransactionActive && graph.ReuseOptimization) _rulePattern.Modify((GRGEN_LGSP.LGSPGraph)graph, matches.First);
-                else _rulePattern.ModifyNoReuse((GRGEN_LGSP.LGSPGraph)graph, matches.First);
+                _rulePattern.Modify((GRGEN_LGSP.LGSPGraph)graph, matches.First);
             }
             return true;
         }
@@ -5989,34 +5740,24 @@ maxMatchesIterReached:
         }
         public void Modify(GRGEN_LIBGR.IGraph graph, Rule_edgesVisited.IMatch_edgesVisited match)
         {
-            if(!graph.TransactionManager.TransactionActive && graph.ReuseOptimization) _rulePattern.Modify((GRGEN_LGSP.LGSPGraph)graph, match);
-            else _rulePattern.ModifyNoReuse((GRGEN_LGSP.LGSPGraph)graph, match);
+            _rulePattern.Modify((GRGEN_LGSP.LGSPGraph)graph, match);
         }
         public void ModifyAll(GRGEN_LIBGR.IGraph graph, GRGEN_LIBGR.IMatchesExact<Rule_edgesVisited.IMatch_edgesVisited> matches)
         {
-            if(!graph.TransactionManager.TransactionActive && graph.ReuseOptimization) {
-                foreach(Rule_edgesVisited.IMatch_edgesVisited match in matches) _rulePattern.Modify((GRGEN_LGSP.LGSPGraph)graph, match);
-            } else {
-                foreach(Rule_edgesVisited.IMatch_edgesVisited match in matches) _rulePattern.ModifyNoReuse((GRGEN_LGSP.LGSPGraph)graph, match);
-            }
+            foreach(Rule_edgesVisited.IMatch_edgesVisited match in matches) _rulePattern.Modify((GRGEN_LGSP.LGSPGraph)graph, match);
         }
         public bool Apply(GRGEN_LIBGR.IGraph graph)
         {
             GRGEN_LIBGR.IMatchesExact<Rule_edgesVisited.IMatch_edgesVisited> matches = DynamicMatch((GRGEN_LGSP.LGSPGraph)graph, 1);
             if(matches.Count <= 0) return false;
-            if(!graph.TransactionManager.TransactionActive && graph.ReuseOptimization) _rulePattern.Modify((GRGEN_LGSP.LGSPGraph)graph, matches.First);
-            else _rulePattern.ModifyNoReuse((GRGEN_LGSP.LGSPGraph)graph, matches.First);
+            _rulePattern.Modify((GRGEN_LGSP.LGSPGraph)graph, matches.First);
             return true;
         }
         public bool ApplyAll(int maxMatches, GRGEN_LIBGR.IGraph graph)
         {
             GRGEN_LIBGR.IMatchesExact<Rule_edgesVisited.IMatch_edgesVisited> matches = DynamicMatch((GRGEN_LGSP.LGSPGraph)graph, maxMatches);
             if(matches.Count <= 0) return false;
-            if(!graph.TransactionManager.TransactionActive && graph.ReuseOptimization) {
-                foreach(Rule_edgesVisited.IMatch_edgesVisited match in matches) _rulePattern.Modify((GRGEN_LGSP.LGSPGraph)graph, match);
-            } else {
-                foreach(Rule_edgesVisited.IMatch_edgesVisited match in matches) _rulePattern.ModifyNoReuse((GRGEN_LGSP.LGSPGraph)graph, match);
-            }
+            foreach(Rule_edgesVisited.IMatch_edgesVisited match in matches) _rulePattern.Modify((GRGEN_LGSP.LGSPGraph)graph, match);
             return true;
         }
         public bool ApplyStar(GRGEN_LIBGR.IGraph graph)
@@ -6027,8 +5768,7 @@ maxMatchesIterReached:
             {
                 matches = DynamicMatch((GRGEN_LGSP.LGSPGraph)graph, 1);
                 if(matches.Count <= 0) return true;
-                if(!graph.TransactionManager.TransactionActive && graph.ReuseOptimization) _rulePattern.Modify((GRGEN_LGSP.LGSPGraph)graph, matches.First);
-                else _rulePattern.ModifyNoReuse((GRGEN_LGSP.LGSPGraph)graph, matches.First);
+                _rulePattern.Modify((GRGEN_LGSP.LGSPGraph)graph, matches.First);
             }
         }
         public bool ApplyPlus(GRGEN_LIBGR.IGraph graph)
@@ -6038,8 +5778,7 @@ maxMatchesIterReached:
             
             do
             {
-                if(!graph.TransactionManager.TransactionActive && graph.ReuseOptimization) _rulePattern.Modify((GRGEN_LGSP.LGSPGraph)graph, matches.First);
-                else _rulePattern.ModifyNoReuse((GRGEN_LGSP.LGSPGraph)graph, matches.First);
+                _rulePattern.Modify((GRGEN_LGSP.LGSPGraph)graph, matches.First);
                 matches = DynamicMatch((GRGEN_LGSP.LGSPGraph)graph, 1);
             }
             while(matches.Count > 0) ;
@@ -6053,8 +5792,7 @@ maxMatchesIterReached:
             {
                 matches = DynamicMatch((GRGEN_LGSP.LGSPGraph)graph, 1);
                 if(matches.Count <= 0) return i >= min;
-                if(!graph.TransactionManager.TransactionActive && graph.ReuseOptimization) _rulePattern.Modify((GRGEN_LGSP.LGSPGraph)graph, matches.First);
-                else _rulePattern.ModifyNoReuse((GRGEN_LGSP.LGSPGraph)graph, matches.First);
+                _rulePattern.Modify((GRGEN_LGSP.LGSPGraph)graph, matches.First);
             }
             return true;
         }
@@ -6210,34 +5948,24 @@ maxMatchesIterReached:
         }
         public void Modify(GRGEN_LIBGR.IGraph graph, Rule_nodesVisited.IMatch_nodesVisited match)
         {
-            if(!graph.TransactionManager.TransactionActive && graph.ReuseOptimization) _rulePattern.Modify((GRGEN_LGSP.LGSPGraph)graph, match);
-            else _rulePattern.ModifyNoReuse((GRGEN_LGSP.LGSPGraph)graph, match);
+            _rulePattern.Modify((GRGEN_LGSP.LGSPGraph)graph, match);
         }
         public void ModifyAll(GRGEN_LIBGR.IGraph graph, GRGEN_LIBGR.IMatchesExact<Rule_nodesVisited.IMatch_nodesVisited> matches)
         {
-            if(!graph.TransactionManager.TransactionActive && graph.ReuseOptimization) {
-                foreach(Rule_nodesVisited.IMatch_nodesVisited match in matches) _rulePattern.Modify((GRGEN_LGSP.LGSPGraph)graph, match);
-            } else {
-                foreach(Rule_nodesVisited.IMatch_nodesVisited match in matches) _rulePattern.ModifyNoReuse((GRGEN_LGSP.LGSPGraph)graph, match);
-            }
+            foreach(Rule_nodesVisited.IMatch_nodesVisited match in matches) _rulePattern.Modify((GRGEN_LGSP.LGSPGraph)graph, match);
         }
         public bool Apply(GRGEN_LIBGR.IGraph graph)
         {
             GRGEN_LIBGR.IMatchesExact<Rule_nodesVisited.IMatch_nodesVisited> matches = DynamicMatch((GRGEN_LGSP.LGSPGraph)graph, 1);
             if(matches.Count <= 0) return false;
-            if(!graph.TransactionManager.TransactionActive && graph.ReuseOptimization) _rulePattern.Modify((GRGEN_LGSP.LGSPGraph)graph, matches.First);
-            else _rulePattern.ModifyNoReuse((GRGEN_LGSP.LGSPGraph)graph, matches.First);
+            _rulePattern.Modify((GRGEN_LGSP.LGSPGraph)graph, matches.First);
             return true;
         }
         public bool ApplyAll(int maxMatches, GRGEN_LIBGR.IGraph graph)
         {
             GRGEN_LIBGR.IMatchesExact<Rule_nodesVisited.IMatch_nodesVisited> matches = DynamicMatch((GRGEN_LGSP.LGSPGraph)graph, maxMatches);
             if(matches.Count <= 0) return false;
-            if(!graph.TransactionManager.TransactionActive && graph.ReuseOptimization) {
-                foreach(Rule_nodesVisited.IMatch_nodesVisited match in matches) _rulePattern.Modify((GRGEN_LGSP.LGSPGraph)graph, match);
-            } else {
-                foreach(Rule_nodesVisited.IMatch_nodesVisited match in matches) _rulePattern.ModifyNoReuse((GRGEN_LGSP.LGSPGraph)graph, match);
-            }
+            foreach(Rule_nodesVisited.IMatch_nodesVisited match in matches) _rulePattern.Modify((GRGEN_LGSP.LGSPGraph)graph, match);
             return true;
         }
         public bool ApplyStar(GRGEN_LIBGR.IGraph graph)
@@ -6248,8 +5976,7 @@ maxMatchesIterReached:
             {
                 matches = DynamicMatch((GRGEN_LGSP.LGSPGraph)graph, 1);
                 if(matches.Count <= 0) return true;
-                if(!graph.TransactionManager.TransactionActive && graph.ReuseOptimization) _rulePattern.Modify((GRGEN_LGSP.LGSPGraph)graph, matches.First);
-                else _rulePattern.ModifyNoReuse((GRGEN_LGSP.LGSPGraph)graph, matches.First);
+                _rulePattern.Modify((GRGEN_LGSP.LGSPGraph)graph, matches.First);
             }
         }
         public bool ApplyPlus(GRGEN_LIBGR.IGraph graph)
@@ -6259,8 +5986,7 @@ maxMatchesIterReached:
             
             do
             {
-                if(!graph.TransactionManager.TransactionActive && graph.ReuseOptimization) _rulePattern.Modify((GRGEN_LGSP.LGSPGraph)graph, matches.First);
-                else _rulePattern.ModifyNoReuse((GRGEN_LGSP.LGSPGraph)graph, matches.First);
+                _rulePattern.Modify((GRGEN_LGSP.LGSPGraph)graph, matches.First);
                 matches = DynamicMatch((GRGEN_LGSP.LGSPGraph)graph, 1);
             }
             while(matches.Count > 0) ;
@@ -6274,8 +6000,7 @@ maxMatchesIterReached:
             {
                 matches = DynamicMatch((GRGEN_LGSP.LGSPGraph)graph, 1);
                 if(matches.Count <= 0) return i >= min;
-                if(!graph.TransactionManager.TransactionActive && graph.ReuseOptimization) _rulePattern.Modify((GRGEN_LGSP.LGSPGraph)graph, matches.First);
-                else _rulePattern.ModifyNoReuse((GRGEN_LGSP.LGSPGraph)graph, matches.First);
+                _rulePattern.Modify((GRGEN_LGSP.LGSPGraph)graph, matches.First);
             }
             return true;
         }
@@ -6489,34 +6214,24 @@ maxMatchesIterReached:
         }
         public void Modify(GRGEN_LIBGR.IGraph graph, Rule_spanningTreeReverse.IMatch_spanningTreeReverse match)
         {
-            if(!graph.TransactionManager.TransactionActive && graph.ReuseOptimization) _rulePattern.Modify((GRGEN_LGSP.LGSPGraph)graph, match);
-            else _rulePattern.ModifyNoReuse((GRGEN_LGSP.LGSPGraph)graph, match);
+            _rulePattern.Modify((GRGEN_LGSP.LGSPGraph)graph, match);
         }
         public void ModifyAll(GRGEN_LIBGR.IGraph graph, GRGEN_LIBGR.IMatchesExact<Rule_spanningTreeReverse.IMatch_spanningTreeReverse> matches)
         {
-            if(!graph.TransactionManager.TransactionActive && graph.ReuseOptimization) {
-                foreach(Rule_spanningTreeReverse.IMatch_spanningTreeReverse match in matches) _rulePattern.Modify((GRGEN_LGSP.LGSPGraph)graph, match);
-            } else {
-                foreach(Rule_spanningTreeReverse.IMatch_spanningTreeReverse match in matches) _rulePattern.ModifyNoReuse((GRGEN_LGSP.LGSPGraph)graph, match);
-            }
+            foreach(Rule_spanningTreeReverse.IMatch_spanningTreeReverse match in matches) _rulePattern.Modify((GRGEN_LGSP.LGSPGraph)graph, match);
         }
         public bool Apply(GRGEN_LIBGR.IGraph graph, GRGEN_LIBGR.INode spanningTreeReverse_node_root)
         {
             GRGEN_LIBGR.IMatchesExact<Rule_spanningTreeReverse.IMatch_spanningTreeReverse> matches = DynamicMatch((GRGEN_LGSP.LGSPGraph)graph, 1, spanningTreeReverse_node_root);
             if(matches.Count <= 0) return false;
-            if(!graph.TransactionManager.TransactionActive && graph.ReuseOptimization) _rulePattern.Modify((GRGEN_LGSP.LGSPGraph)graph, matches.First);
-            else _rulePattern.ModifyNoReuse((GRGEN_LGSP.LGSPGraph)graph, matches.First);
+            _rulePattern.Modify((GRGEN_LGSP.LGSPGraph)graph, matches.First);
             return true;
         }
         public bool ApplyAll(int maxMatches, GRGEN_LIBGR.IGraph graph, GRGEN_LIBGR.INode spanningTreeReverse_node_root)
         {
             GRGEN_LIBGR.IMatchesExact<Rule_spanningTreeReverse.IMatch_spanningTreeReverse> matches = DynamicMatch((GRGEN_LGSP.LGSPGraph)graph, maxMatches, spanningTreeReverse_node_root);
             if(matches.Count <= 0) return false;
-            if(!graph.TransactionManager.TransactionActive && graph.ReuseOptimization) {
-                foreach(Rule_spanningTreeReverse.IMatch_spanningTreeReverse match in matches) _rulePattern.Modify((GRGEN_LGSP.LGSPGraph)graph, match);
-            } else {
-                foreach(Rule_spanningTreeReverse.IMatch_spanningTreeReverse match in matches) _rulePattern.ModifyNoReuse((GRGEN_LGSP.LGSPGraph)graph, match);
-            }
+            foreach(Rule_spanningTreeReverse.IMatch_spanningTreeReverse match in matches) _rulePattern.Modify((GRGEN_LGSP.LGSPGraph)graph, match);
             return true;
         }
         public bool ApplyStar(GRGEN_LIBGR.IGraph graph, GRGEN_LIBGR.INode spanningTreeReverse_node_root)
@@ -6527,8 +6242,7 @@ maxMatchesIterReached:
             {
                 matches = DynamicMatch((GRGEN_LGSP.LGSPGraph)graph, 1, spanningTreeReverse_node_root);
                 if(matches.Count <= 0) return true;
-                if(!graph.TransactionManager.TransactionActive && graph.ReuseOptimization) _rulePattern.Modify((GRGEN_LGSP.LGSPGraph)graph, matches.First);
-                else _rulePattern.ModifyNoReuse((GRGEN_LGSP.LGSPGraph)graph, matches.First);
+                _rulePattern.Modify((GRGEN_LGSP.LGSPGraph)graph, matches.First);
             }
         }
         public bool ApplyPlus(GRGEN_LIBGR.IGraph graph, GRGEN_LIBGR.INode spanningTreeReverse_node_root)
@@ -6538,8 +6252,7 @@ maxMatchesIterReached:
             
             do
             {
-                if(!graph.TransactionManager.TransactionActive && graph.ReuseOptimization) _rulePattern.Modify((GRGEN_LGSP.LGSPGraph)graph, matches.First);
-                else _rulePattern.ModifyNoReuse((GRGEN_LGSP.LGSPGraph)graph, matches.First);
+                _rulePattern.Modify((GRGEN_LGSP.LGSPGraph)graph, matches.First);
                 matches = DynamicMatch((GRGEN_LGSP.LGSPGraph)graph, 1, spanningTreeReverse_node_root);
             }
             while(matches.Count > 0) ;
@@ -6553,8 +6266,7 @@ maxMatchesIterReached:
             {
                 matches = DynamicMatch((GRGEN_LGSP.LGSPGraph)graph, 1, spanningTreeReverse_node_root);
                 if(matches.Count <= 0) return i >= min;
-                if(!graph.TransactionManager.TransactionActive && graph.ReuseOptimization) _rulePattern.Modify((GRGEN_LGSP.LGSPGraph)graph, matches.First);
-                else _rulePattern.ModifyNoReuse((GRGEN_LGSP.LGSPGraph)graph, matches.First);
+                _rulePattern.Modify((GRGEN_LGSP.LGSPGraph)graph, matches.First);
             }
             return true;
         }
@@ -6760,34 +6472,24 @@ maxMatchesIterReached:
         }
         public void Modify(GRGEN_LIBGR.IGraph graph, Rule_spanningTreeOutgoing.IMatch_spanningTreeOutgoing match)
         {
-            if(!graph.TransactionManager.TransactionActive && graph.ReuseOptimization) _rulePattern.Modify((GRGEN_LGSP.LGSPGraph)graph, match);
-            else _rulePattern.ModifyNoReuse((GRGEN_LGSP.LGSPGraph)graph, match);
+            _rulePattern.Modify((GRGEN_LGSP.LGSPGraph)graph, match);
         }
         public void ModifyAll(GRGEN_LIBGR.IGraph graph, GRGEN_LIBGR.IMatchesExact<Rule_spanningTreeOutgoing.IMatch_spanningTreeOutgoing> matches)
         {
-            if(!graph.TransactionManager.TransactionActive && graph.ReuseOptimization) {
-                foreach(Rule_spanningTreeOutgoing.IMatch_spanningTreeOutgoing match in matches) _rulePattern.Modify((GRGEN_LGSP.LGSPGraph)graph, match);
-            } else {
-                foreach(Rule_spanningTreeOutgoing.IMatch_spanningTreeOutgoing match in matches) _rulePattern.ModifyNoReuse((GRGEN_LGSP.LGSPGraph)graph, match);
-            }
+            foreach(Rule_spanningTreeOutgoing.IMatch_spanningTreeOutgoing match in matches) _rulePattern.Modify((GRGEN_LGSP.LGSPGraph)graph, match);
         }
         public bool Apply(GRGEN_LIBGR.IGraph graph, GRGEN_LIBGR.INode spanningTreeOutgoing_node_root)
         {
             GRGEN_LIBGR.IMatchesExact<Rule_spanningTreeOutgoing.IMatch_spanningTreeOutgoing> matches = DynamicMatch((GRGEN_LGSP.LGSPGraph)graph, 1, spanningTreeOutgoing_node_root);
             if(matches.Count <= 0) return false;
-            if(!graph.TransactionManager.TransactionActive && graph.ReuseOptimization) _rulePattern.Modify((GRGEN_LGSP.LGSPGraph)graph, matches.First);
-            else _rulePattern.ModifyNoReuse((GRGEN_LGSP.LGSPGraph)graph, matches.First);
+            _rulePattern.Modify((GRGEN_LGSP.LGSPGraph)graph, matches.First);
             return true;
         }
         public bool ApplyAll(int maxMatches, GRGEN_LIBGR.IGraph graph, GRGEN_LIBGR.INode spanningTreeOutgoing_node_root)
         {
             GRGEN_LIBGR.IMatchesExact<Rule_spanningTreeOutgoing.IMatch_spanningTreeOutgoing> matches = DynamicMatch((GRGEN_LGSP.LGSPGraph)graph, maxMatches, spanningTreeOutgoing_node_root);
             if(matches.Count <= 0) return false;
-            if(!graph.TransactionManager.TransactionActive && graph.ReuseOptimization) {
-                foreach(Rule_spanningTreeOutgoing.IMatch_spanningTreeOutgoing match in matches) _rulePattern.Modify((GRGEN_LGSP.LGSPGraph)graph, match);
-            } else {
-                foreach(Rule_spanningTreeOutgoing.IMatch_spanningTreeOutgoing match in matches) _rulePattern.ModifyNoReuse((GRGEN_LGSP.LGSPGraph)graph, match);
-            }
+            foreach(Rule_spanningTreeOutgoing.IMatch_spanningTreeOutgoing match in matches) _rulePattern.Modify((GRGEN_LGSP.LGSPGraph)graph, match);
             return true;
         }
         public bool ApplyStar(GRGEN_LIBGR.IGraph graph, GRGEN_LIBGR.INode spanningTreeOutgoing_node_root)
@@ -6798,8 +6500,7 @@ maxMatchesIterReached:
             {
                 matches = DynamicMatch((GRGEN_LGSP.LGSPGraph)graph, 1, spanningTreeOutgoing_node_root);
                 if(matches.Count <= 0) return true;
-                if(!graph.TransactionManager.TransactionActive && graph.ReuseOptimization) _rulePattern.Modify((GRGEN_LGSP.LGSPGraph)graph, matches.First);
-                else _rulePattern.ModifyNoReuse((GRGEN_LGSP.LGSPGraph)graph, matches.First);
+                _rulePattern.Modify((GRGEN_LGSP.LGSPGraph)graph, matches.First);
             }
         }
         public bool ApplyPlus(GRGEN_LIBGR.IGraph graph, GRGEN_LIBGR.INode spanningTreeOutgoing_node_root)
@@ -6809,8 +6510,7 @@ maxMatchesIterReached:
             
             do
             {
-                if(!graph.TransactionManager.TransactionActive && graph.ReuseOptimization) _rulePattern.Modify((GRGEN_LGSP.LGSPGraph)graph, matches.First);
-                else _rulePattern.ModifyNoReuse((GRGEN_LGSP.LGSPGraph)graph, matches.First);
+                _rulePattern.Modify((GRGEN_LGSP.LGSPGraph)graph, matches.First);
                 matches = DynamicMatch((GRGEN_LGSP.LGSPGraph)graph, 1, spanningTreeOutgoing_node_root);
             }
             while(matches.Count > 0) ;
@@ -6824,8 +6524,7 @@ maxMatchesIterReached:
             {
                 matches = DynamicMatch((GRGEN_LGSP.LGSPGraph)graph, 1, spanningTreeOutgoing_node_root);
                 if(matches.Count <= 0) return i >= min;
-                if(!graph.TransactionManager.TransactionActive && graph.ReuseOptimization) _rulePattern.Modify((GRGEN_LGSP.LGSPGraph)graph, matches.First);
-                else _rulePattern.ModifyNoReuse((GRGEN_LGSP.LGSPGraph)graph, matches.First);
+                _rulePattern.Modify((GRGEN_LGSP.LGSPGraph)graph, matches.First);
             }
             return true;
         }
@@ -7031,34 +6730,24 @@ maxMatchesIterReached:
         }
         public void Modify(GRGEN_LIBGR.IGraph graph, Rule_spanningTreeIncoming.IMatch_spanningTreeIncoming match)
         {
-            if(!graph.TransactionManager.TransactionActive && graph.ReuseOptimization) _rulePattern.Modify((GRGEN_LGSP.LGSPGraph)graph, match);
-            else _rulePattern.ModifyNoReuse((GRGEN_LGSP.LGSPGraph)graph, match);
+            _rulePattern.Modify((GRGEN_LGSP.LGSPGraph)graph, match);
         }
         public void ModifyAll(GRGEN_LIBGR.IGraph graph, GRGEN_LIBGR.IMatchesExact<Rule_spanningTreeIncoming.IMatch_spanningTreeIncoming> matches)
         {
-            if(!graph.TransactionManager.TransactionActive && graph.ReuseOptimization) {
-                foreach(Rule_spanningTreeIncoming.IMatch_spanningTreeIncoming match in matches) _rulePattern.Modify((GRGEN_LGSP.LGSPGraph)graph, match);
-            } else {
-                foreach(Rule_spanningTreeIncoming.IMatch_spanningTreeIncoming match in matches) _rulePattern.ModifyNoReuse((GRGEN_LGSP.LGSPGraph)graph, match);
-            }
+            foreach(Rule_spanningTreeIncoming.IMatch_spanningTreeIncoming match in matches) _rulePattern.Modify((GRGEN_LGSP.LGSPGraph)graph, match);
         }
         public bool Apply(GRGEN_LIBGR.IGraph graph, GRGEN_LIBGR.INode spanningTreeIncoming_node_root)
         {
             GRGEN_LIBGR.IMatchesExact<Rule_spanningTreeIncoming.IMatch_spanningTreeIncoming> matches = DynamicMatch((GRGEN_LGSP.LGSPGraph)graph, 1, spanningTreeIncoming_node_root);
             if(matches.Count <= 0) return false;
-            if(!graph.TransactionManager.TransactionActive && graph.ReuseOptimization) _rulePattern.Modify((GRGEN_LGSP.LGSPGraph)graph, matches.First);
-            else _rulePattern.ModifyNoReuse((GRGEN_LGSP.LGSPGraph)graph, matches.First);
+            _rulePattern.Modify((GRGEN_LGSP.LGSPGraph)graph, matches.First);
             return true;
         }
         public bool ApplyAll(int maxMatches, GRGEN_LIBGR.IGraph graph, GRGEN_LIBGR.INode spanningTreeIncoming_node_root)
         {
             GRGEN_LIBGR.IMatchesExact<Rule_spanningTreeIncoming.IMatch_spanningTreeIncoming> matches = DynamicMatch((GRGEN_LGSP.LGSPGraph)graph, maxMatches, spanningTreeIncoming_node_root);
             if(matches.Count <= 0) return false;
-            if(!graph.TransactionManager.TransactionActive && graph.ReuseOptimization) {
-                foreach(Rule_spanningTreeIncoming.IMatch_spanningTreeIncoming match in matches) _rulePattern.Modify((GRGEN_LGSP.LGSPGraph)graph, match);
-            } else {
-                foreach(Rule_spanningTreeIncoming.IMatch_spanningTreeIncoming match in matches) _rulePattern.ModifyNoReuse((GRGEN_LGSP.LGSPGraph)graph, match);
-            }
+            foreach(Rule_spanningTreeIncoming.IMatch_spanningTreeIncoming match in matches) _rulePattern.Modify((GRGEN_LGSP.LGSPGraph)graph, match);
             return true;
         }
         public bool ApplyStar(GRGEN_LIBGR.IGraph graph, GRGEN_LIBGR.INode spanningTreeIncoming_node_root)
@@ -7069,8 +6758,7 @@ maxMatchesIterReached:
             {
                 matches = DynamicMatch((GRGEN_LGSP.LGSPGraph)graph, 1, spanningTreeIncoming_node_root);
                 if(matches.Count <= 0) return true;
-                if(!graph.TransactionManager.TransactionActive && graph.ReuseOptimization) _rulePattern.Modify((GRGEN_LGSP.LGSPGraph)graph, matches.First);
-                else _rulePattern.ModifyNoReuse((GRGEN_LGSP.LGSPGraph)graph, matches.First);
+                _rulePattern.Modify((GRGEN_LGSP.LGSPGraph)graph, matches.First);
             }
         }
         public bool ApplyPlus(GRGEN_LIBGR.IGraph graph, GRGEN_LIBGR.INode spanningTreeIncoming_node_root)
@@ -7080,8 +6768,7 @@ maxMatchesIterReached:
             
             do
             {
-                if(!graph.TransactionManager.TransactionActive && graph.ReuseOptimization) _rulePattern.Modify((GRGEN_LGSP.LGSPGraph)graph, matches.First);
-                else _rulePattern.ModifyNoReuse((GRGEN_LGSP.LGSPGraph)graph, matches.First);
+                _rulePattern.Modify((GRGEN_LGSP.LGSPGraph)graph, matches.First);
                 matches = DynamicMatch((GRGEN_LGSP.LGSPGraph)graph, 1, spanningTreeIncoming_node_root);
             }
             while(matches.Count > 0) ;
@@ -7095,8 +6782,7 @@ maxMatchesIterReached:
             {
                 matches = DynamicMatch((GRGEN_LGSP.LGSPGraph)graph, 1, spanningTreeIncoming_node_root);
                 if(matches.Count <= 0) return i >= min;
-                if(!graph.TransactionManager.TransactionActive && graph.ReuseOptimization) _rulePattern.Modify((GRGEN_LGSP.LGSPGraph)graph, matches.First);
-                else _rulePattern.ModifyNoReuse((GRGEN_LGSP.LGSPGraph)graph, matches.First);
+                _rulePattern.Modify((GRGEN_LGSP.LGSPGraph)graph, matches.First);
             }
             return true;
         }

@@ -17,7 +17,7 @@ namespace test
     {
         static void Main(string[] args)
         {
-            complModel graph = new complModel();
+            complModelGraph graph = new complModelGraph();
             graph.ReuseOptimization = false;
             LGSPActions actions = new testActions(graph);
 
