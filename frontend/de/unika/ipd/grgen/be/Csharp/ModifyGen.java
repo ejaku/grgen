@@ -82,7 +82,6 @@ public class ModifyGen extends CSharpBase {
 		List<Entity> replParameters;
 		List<Expression> returns;
 		boolean isSubpattern;
-		boolean reuseNodesAndEdges;
 
 		public ModifyGenerationTask() {
 			typeOfTask = TYPE_OF_TASK_NONE;
@@ -93,7 +92,6 @@ public class ModifyGen extends CSharpBase {
 			replParameters = null;
 			returns = null;
 			isSubpattern = false;
-			reuseNodesAndEdges = false;
 		}
 	}
 
@@ -115,7 +113,6 @@ public class ModifyGen extends CSharpBase {
 
 		Collection<Node> newOrRetypedNodes();
 		Collection<Edge> newOrRetypedEdges();
-		Collection<GraphEntity> reusedElements();
 		Collection<GraphEntity> accessViaInterface();
 
 		Map<GraphEntity, HashSet<Entity>> neededAttributes();
@@ -151,7 +148,6 @@ public class ModifyGen extends CSharpBase {
 
 		public Collection<Node> newOrRetypedNodes() { return Collections.unmodifiableCollection(newOrRetypedNodes); }
 		public Collection<Edge> newOrRetypedEdges() { return Collections.unmodifiableCollection(newOrRetypedEdges); }
-		public Collection<GraphEntity> reusedElements() { return Collections.unmodifiableCollection(reusedElements); }
 		public Collection<GraphEntity> accessViaInterface() { return Collections.unmodifiableCollection(accessViaInterface); }
 
 		public Map<GraphEntity, HashSet<Entity>> neededAttributes() { return Collections.unmodifiableMap(neededAttributes); }
@@ -190,7 +186,6 @@ public class ModifyGen extends CSharpBase {
 
 		public HashSet<Node> newOrRetypedNodes = new LinkedHashSet<Node>();
 		public HashSet<Edge> newOrRetypedEdges = new LinkedHashSet<Edge>();
-		public HashSet<GraphEntity> reusedElements = new LinkedHashSet<GraphEntity>();
 		public HashSet<GraphEntity> accessViaInterface = new LinkedHashSet<GraphEntity>();
 
 		public HashMap<GraphEntity, HashSet<Entity>> neededAttributes;
@@ -266,11 +261,6 @@ public class ModifyGen extends CSharpBase {
 			task.replParameters = rule.getRight().getReplParameters();
 			task.returns = rule.getReturns();
 			task.isSubpattern = isSubpattern;
-			task.reuseNodesAndEdges = true;
-			genModifyRuleOrSubrule(sb, task, pathPrefix);
-
-			// version without reuse deleted elements for new elements optimization
-			task.reuseNodesAndEdges = false;
 			genModifyRuleOrSubrule(sb, task, pathPrefix);
 		} else if(!isSubpattern){ // test
 			// keep left unchanged, normal version
@@ -283,12 +273,6 @@ public class ModifyGen extends CSharpBase {
 			task.replParameters = emptyParameters;
 			task.returns = rule.getReturns();
 			task.isSubpattern = false;
-			task.reuseNodesAndEdges = true;
-			genModifyRuleOrSubrule(sb, task, pathPrefix);
-
-			// version without reuse deleted elements for new elements optimization
-			// that's nonsense but the interface requires it
-			task.reuseNodesAndEdges = false;
 			genModifyRuleOrSubrule(sb, task, pathPrefix);
 		}
 
@@ -390,8 +374,7 @@ public class ModifyGen extends CSharpBase {
 	private void genModifyAlternative(StringBuffer sb, Rule rule, Alternative alt,
 			String pathPrefix, String altName, boolean isSubpattern) {
 		if(rule.getRight()!=null) { // generate code for dependent modify dispatcher
-			genModifyAlternativeModify(sb, alt, pathPrefix, altName, isSubpattern, true);
-			genModifyAlternativeModify(sb, alt, pathPrefix, altName, isSubpattern, false);
+			genModifyAlternativeModify(sb, alt, pathPrefix, altName, isSubpattern);
 		}
 
 		if(isSubpattern) { // generate for delete alternative dispatcher
@@ -400,11 +383,11 @@ public class ModifyGen extends CSharpBase {
 	}
 
 	private void genModifyAlternativeModify(StringBuffer sb, Alternative alt, String pathPrefix, String altName,
-			boolean isSubpattern, boolean reuseNodesAndEdges) {
+			boolean isSubpattern) {
 		// Emit function header
 		sb.append("\n");
 		sb.append("\t\tpublic void "
-					  + pathPrefix+altName+"_" + (reuseNodesAndEdges ? "Modify" : "ModifyNoReuse")
+					  + pathPrefix+altName+"_Modify"
 					  + "(GRGEN_LGSP.LGSPGraph graph, IMatch_"+pathPrefix+altName+" curMatch");
 		List<Entity> replParameters = new LinkedList<Entity>();
 		getUnionOfReplaceParametersOfAlternativeCases(alt, replParameters);
@@ -433,8 +416,7 @@ public class ModifyGen extends CSharpBase {
 				sb.append("\t\t\telse if(curMatch.Pattern == "
 						+ pathPrefix+altName+"_" + altCase.getPattern().getNameOfGraph() + ") {\n");
 			}
-			sb.append("\t\t\t\t" + pathPrefix+altName+"_"+altCase.getPattern().getNameOfGraph()+"_"
-					+ (reuseNodesAndEdges ? "Modify" : "ModifyNoReuse")
+			sb.append("\t\t\t\t" + pathPrefix+altName+"_"+altCase.getPattern().getNameOfGraph()+"_Modify"
 					+ "(graph, (Match_"+pathPrefix+altName+"_"+altCase.getPattern().getNameOfGraph()+")curMatch");
 			replParameters = altCase.getRight().getReplParameters();
 			for(Entity entity : replParameters) {
@@ -495,8 +477,7 @@ public class ModifyGen extends CSharpBase {
 
 	private void genModifyIterated(StringBuffer sb, Rule rule, String pathPrefix, String iterName, boolean isSubpattern) {
 		if(rule.getRight()!=null) { // generate code for dependent modify dispatcher
-			genModifyIteratedModify(sb, rule, pathPrefix, iterName, isSubpattern, true);
-			genModifyIteratedModify(sb, rule, pathPrefix, iterName, isSubpattern, false);
+			genModifyIteratedModify(sb, rule, pathPrefix, iterName, isSubpattern);
 		}
 
 		if(isSubpattern) { // generate for delete iterated dispatcher
@@ -505,10 +486,10 @@ public class ModifyGen extends CSharpBase {
 	}
 
 	private void genModifyIteratedModify(StringBuffer sb, Rule iter, String pathPrefix, String iterName,
-			boolean isSubpattern, boolean reuseNodesAndEdges) {
+			boolean isSubpattern) {
 		// Emit function header
 		sb.append("\n");
-		sb.append("\t\tpublic void "+pathPrefix+iterName+"_"+(reuseNodesAndEdges ? "Modify" : "ModifyNoReuse")
+		sb.append("\t\tpublic void "+pathPrefix+iterName+"_Modify"
 					  + "(GRGEN_LGSP.LGSPGraph graph, "
 					  + "GRGEN_LGSP.LGSPMatchesList<Match_"+pathPrefix+iterName
 					  + ", IMatch_"+pathPrefix+iterName+"> curMatches");
@@ -528,8 +509,7 @@ public class ModifyGen extends CSharpBase {
 		// Emit dispatcher calling the modify-method of the iterated pattern which was matched
 		sb.append("\t\t\tfor(Match_"+pathPrefix+iterName+" curMatch=curMatches.Root;"
 				+" curMatch!=null; curMatch=curMatch.next) {\n");
-		sb.append("\t\t\t\t" + pathPrefix+iterName+"_"
-				+ (reuseNodesAndEdges ? "Modify" : "ModifyNoReuse")
+		sb.append("\t\t\t\t" + pathPrefix+iterName+"_Modify"
 				+ "(graph, curMatch");
 		for(Entity entity : replParameters) {
 			sb.append(", " + formatEntity(entity));
@@ -570,7 +550,7 @@ public class ModifyGen extends CSharpBase {
 			&& (task.typeOfTask==TYPE_OF_TASK_CREATION
 				|| (task.typeOfTask==TYPE_OF_TASK_MODIFY && task.left!=task.right));
 		boolean createAddedElementNames = task.typeOfTask==TYPE_OF_TASK_CREATION ||
-			(task.typeOfTask==TYPE_OF_TASK_MODIFY && task.left!=task.right && task.reuseNodesAndEdges);
+			(task.typeOfTask==TYPE_OF_TASK_MODIFY && task.left!=task.right);
 		String prefix = (task.typeOfTask==TYPE_OF_TASK_CREATION ? "create_" : "")
 			+ pathPrefix+task.left.getNameOfGraph()+"_";
 
@@ -589,17 +569,16 @@ public class ModifyGen extends CSharpBase {
 		//  - Extract alternative submatches from match
 		//  - Extract node types
 		//  - Extract edge types
-		//  - Create variables for used attributes of reusee
-		//  - Create new nodes or reuse nodes
+		//  - Create new nodes
 		//  - Call modification code of nested subpatterns
 		//  - Call modification code of nested iterateds
 		//  - Call modification code of nested alternatives
 		//  - Retype nodes
-		//  - Create new edges or reuse edges
+		//  - Create new edges
 		//  - Retype edges
 		//  - Create subpatterns
 		//  - Attribute reevaluation
-		//  - Create variables for used attributes of non-reusees needed for imperative statements and returns
+		//  - Create variables for used attributes needed for imperative statements and returns
 		//  - Check deleted elements for retyping due to homomorphy
 		//  - Remove edges
 		//  - Remove nodes
@@ -647,7 +626,7 @@ public class ModifyGen extends CSharpBase {
 		// Fill state with information gathered in needs
 		state.InitNeeds(needs);
 
-		genNewNodes(sb2, task.reuseNodesAndEdges, stateConst, useAddedElementNames, prefix,
+		genNewNodes(sb2, stateConst, useAddedElementNames, prefix,
 				state.nodesNeededAsElements, state.nodesNeededAsTypes);
 
 		genSubpatternModificationCalls(sb2, task, pathPrefix, stateConst,
@@ -662,7 +641,7 @@ public class ModifyGen extends CSharpBase {
 
 		genNewEdges(sb2, stateConst, task, useAddedElementNames, prefix,
 				state.nodesNeededAsElements, state.edgesNeededAsElements,
-				state.edgesNeededAsTypes, state.reusedElements);
+				state.edgesNeededAsTypes);
 
 		genTypeChangesEdges(sb2, task, stateConst, state.edgesNeededAsElements, state.edgesNeededAsTypes);
 
@@ -710,9 +689,7 @@ public class ModifyGen extends CSharpBase {
 		genExtractSubmatchesFromMatch(sb, pathPrefix, task.left);
 
 		genNeededTypes(sb, stateConst);
-
-		genCreateVariablesForUsedAttributesOfReusedElements(sb, stateConst);
-		
+	
 		genYieldedElements(sb, stateConst);
 
 		// New nodes/edges (re-use), retype nodes/edges, call modification code
@@ -730,7 +707,6 @@ public class ModifyGen extends CSharpBase {
 
 	private void emitMethodHeadAndBegin(StringBuffer sb, ModifyGenerationTask task, String pathPrefix)
 	{
-		String noReuse = task.reuseNodesAndEdges ? "" : "NoReuse";
 		String matchType = "Match_"+pathPrefix+task.left.getNameOfGraph();
 		StringBuffer outParameters = new StringBuffer();
 		int i=0;
@@ -748,14 +724,14 @@ public class ModifyGen extends CSharpBase {
 		case TYPE_OF_TASK_MODIFY:
 			if(pathPrefix=="" && !task.isSubpattern) {
 				sb.append("\t\tpublic void "
-						+ "Modify"+noReuse
+						+ "Modify"
 						+ "(GRGEN_LGSP.LGSPGraph graph, GRGEN_LIBGR.IMatch _curMatch"
 						+ outParameters + ")\n");
 				sb.append("\t\t{\n");
 				sb.append("\t\t\t"+matchType+" curMatch = ("+matchType+")_curMatch;\n");
 			} else {
 				sb.append("\t\tpublic void "
-						+ pathPrefix+task.left.getNameOfGraph() + "_Modify"+noReuse
+						+ pathPrefix+task.left.getNameOfGraph() + "_Modify"
 						+ "(GRGEN_LGSP.LGSPGraph graph, GRGEN_LIBGR.IMatch _curMatch");
 				for(Entity entity : task.replParameters) {
 					if(entity instanceof Node) {
@@ -1014,20 +990,6 @@ public class ModifyGen extends CSharpBase {
 				expr.collectNeededEntities(needs);
 	}
 
-	private void genCreateVariablesForUsedAttributesOfReusedElements(StringBuffer sb, ModifyGenerationStateConst state)
-	{
-		for(Map.Entry<GraphEntity, HashSet<Entity>> entry : state.neededAttributes().entrySet()) {
-			if(!state.reusedElements().contains(entry.getKey())) continue;
-
-			String grEntName = formatEntity(entry.getKey());
-			for(Entity entity : entry.getValue()) {
-				String attrName = formatIdentifiable(entity);
-				genVariable(sb, grEntName, entity);
-				sb.append(" = i" + grEntName + ".@" + attrName + ";\n");
-			}
-		}
-	}
-
 	private void genNeededTypes(StringBuffer sb, ModifyGenerationStateConst state)
 	{
 		for(Node node : state.nodesNeededAsTypes()) {
@@ -1121,7 +1083,6 @@ public class ModifyGen extends CSharpBase {
 	{
 		for(Map.Entry<GraphEntity, HashSet<Entity>> entry : state.attributesStoredBeforeDelete().entrySet()) {
 			GraphEntity owner = entry.getKey();
-			if(state.reusedElements().contains(owner)) continue;
 
 			String grEntName = formatEntity(owner);
 			for(Entity entity : entry.getValue()) {
@@ -1170,7 +1131,6 @@ public class ModifyGen extends CSharpBase {
 	private void genDelEdges(StringBuffer sb, ModifyGenerationStateConst state, HashSet<Edge> edgesNeededAsElements)
 	{
 		for(Edge edge : state.delEdges()) {
-			if(state.reusedElements().contains(edge)) continue;
 			edgesNeededAsElements.add(edge);
 			sb.append("\t\t\tgraph.Remove(" + formatEntity(edge) + ");\n");
 		}
@@ -1251,7 +1211,7 @@ public class ModifyGen extends CSharpBase {
 			for(Alternative alt : alts) {
 				String altName = "alt_" + i;
 				sb.append("\t\t\t" + pathPrefix+task.left.getNameOfGraph()+"_"+altName+"_" +
-						(task.reuseNodesAndEdges ? "Modify" : "ModifyNoReuse") + "(graph, alternative_" + altName);
+						"Modify(graph, alternative_" + altName);
 				List<Entity> replParameters = new LinkedList<Entity>();
 				getUnionOfReplaceParametersOfAlternativeCases(alt, replParameters);
 				for(Entity entity : replParameters) {
@@ -1283,7 +1243,7 @@ public class ModifyGen extends CSharpBase {
 			for(Rule iter : iters) {
 				String iterName = "iter_" + i;
 				sb.append("\t\t\t" + pathPrefix+task.left.getNameOfGraph()+"_"+iterName+"_" +
-						(task.reuseNodesAndEdges ? "Modify" : "ModifyNoReuse") + "(graph, iterated_" + iterName);
+						"Modify(graph, iterated_" + iterName);
 				List<Entity> replParameters = iter.getRight().getReplParameters();
 				for(Entity entity : replParameters) {
 					sb.append(", " + formatEntity(entity));
@@ -1434,68 +1394,15 @@ public class ModifyGen extends CSharpBase {
 	// New element generation //
 	////////////////////////////
 
-	private void genNewNodes(StringBuffer sb2, boolean reuseNodeAndEdges, ModifyGenerationStateConst state,
+	private void genNewNodes(StringBuffer sb2, ModifyGenerationStateConst state,
 			boolean useAddedElementNames, String pathPrefix,
 			HashSet<Node> nodesNeededAsElements, HashSet<Node> nodesNeededAsTypes) {
 		// call nodes added delegate
 		if(useAddedElementNames) sb2.append("\t\t\tgraph.SettingAddedNodeNames( " + pathPrefix + "addedNodeNames );\n");
 
-		//reuseNodeAndEdges = false;							// TODO: reimplement this!!
-
 		LinkedList<Node> tmpNewNodes = new LinkedList<Node>(state.newNodes());
 
-		/* LinkedList<Node> tmpDelNodes = new LinkedList<Node>(delNodes);
-		 if(reuseNodeAndEdges) {
-		 NN: for(Iterator<Node> i = tmpNewNodes.iterator(); i.hasNext();) {
-		 Node node = i.next();
-		 // Can we reuse the node
-		 for(Iterator<Node> j = tmpDelNodes.iterator(); j.hasNext();) {
-		 Node delNode = j.next();
-		 if(delNode.getNodeType() == node.getNodeType()) {
-		 sb2.append("\t\t\tLGSPNode " + formatEntity(node) + " = " + formatEntity(delNode) + ";\n");
-		 sb2.append("\t\t\tgraph.ReuseNode(" + formatEntity(delNode) + ", null);\n");
-		 delNodes.remove(delNode);
-		 j.remove();
-		 i.remove();
-		 nodesNeededAsElements.add(delNode);
-		 reusedElements.add(delNode);
-		 continue NN;
-		 }
-		 }
-		 }
-		 NN: for(Iterator<Node> i = tmpNewNodes.iterator(); i.hasNext();) {
-		 Node node = i.next();
-		 // Can we reuse the node
-		 for(Iterator<Node> j = tmpDelNodes.iterator(); j.hasNext();) {
-		 Node delNode = j.next();
-		 if(!delNode.getNodeType().getAllMembers().isEmpty()) {
-		 String type = computeGraphEntityType(node);
-		 sb2.append("\t\t\tLGSPNode " + formatEntity(node) + " = " + formatEntity(delNode) + ";\n");
-		 sb2.append("\t\t\tgraph.ReuseNode(" + formatEntity(delNode) + ", " + type + ");\n");
-		 delNodes.remove(delNode);
-		 j.remove();
-		 i.remove();
-		 nodesNeededAsElements.add(delNode);
-		 reusedElements.add(delNode);
-		 continue NN;
-		 }
-		 }
-		 }
-		 }
-		 NN:*/ for(Node node : tmpNewNodes) {
-			/*String type = computeGraphEntityType(node);
-			 // Can we reuse the node
-			 if(reuseNodeAndEdges && !tmpDelNodes.isEmpty()) {
-			 Node delNode = tmpDelNodes.getFirst();
-			 sb2.append("\t\t\tLGSPNode " + formatEntity(node) + " = " + formatEntity(delNode) + ";\n");
-			 sb2.append("\t\t\tgraph.ReuseNode(" + formatEntity(delNode) + ", " + type + ");\n");
-			 delNodes.remove(delNode);
-			 tmpDelNodes.removeFirst();
-			 i.remove();
-			 nodesNeededAsElements.add(delNode);
-			 reusedElements.add(delNode);
-			 continue NN;
-			 }*/
+		for(Node node : tmpNewNodes) {
 			if(node.inheritsType()) {
 				Node typeofElem = (Node) getConcreteTypeofElem(node);
 				nodesNeededAsElements.add(typeofElem);
@@ -1528,29 +1435,15 @@ public class ModifyGen extends CSharpBase {
 		return typeofElem == elem ? null : typeofElem;
 	}
 
-	// TODO use or remove it
-	/*private String computeGraphEntityType(Node node) {
-	 String type;
-	 if(node.inheritsType()) {
-	 Node typeofElem = (Node) getConcreteTypeof(node);
-	 type = formatEntity(typeofElem) + "_type";
-	 nodesNeededAsElements.add(typeofElem);
-	 nodesNeededAsTypes.add(typeofElem);
-	 } else {
-	 type = formatTypeClass(node.getType()) + ".typeVar";
-	 }
-	 return type;
-	 }*/
-
 	private void genNewEdges(StringBuffer sb2, ModifyGenerationStateConst state, ModifyGenerationTask task,
 			boolean useAddedElementNames, String pathPrefix,
 			HashSet<Node> nodesNeededAsElements, HashSet<Edge> edgesNeededAsElements,
-			HashSet<Edge> edgesNeededAsTypes, HashSet<GraphEntity> reusedElements)
+			HashSet<Edge> edgesNeededAsTypes)
 	{
 		// call edges added delegate
 		if(useAddedElementNames) sb2.append("\t\t\tgraph.SettingAddedEdgeNames( " + pathPrefix + "addedEdgeNames );\n");
 
-		NE:	for(Edge edge : state.newEdges()) {
+		for(Edge edge : state.newEdges()) {
 			String elemref = formatElementClassRef(edge.getType());
 
 			Node src_node = task.right.getSource(edge);
@@ -1585,71 +1478,7 @@ public class ModifyGen extends CSharpBase {
 				}
 				continue;
 			}
-			else if(task.reuseNodesAndEdges) {
-				Edge bestDelEdge = null;
-				int bestPoints = -1;
-
-				// Can we reuse a deleted edge of the same type?
-				for(Edge delEdge : state.delEdges()) {
-					if(reusedElements.contains(delEdge)) continue;
-					if(delEdge.getType() != edge.getType()) continue;
-
-					int curPoints = 0;
-					if(task.left.getSource(delEdge) == src_node)
-						curPoints++;
-					if(task.left.getTarget(delEdge) == tgt_node)
-						curPoints++;
-					if(curPoints > bestPoints) {
-						bestPoints = curPoints;
-						bestDelEdge = delEdge;
-						if(curPoints == 2) break;
-					}
-				}
-
-				if(bestDelEdge != null) {
-					// We may be able to reuse the edge instead of deleting it,
-					// if the runtime type of the reused edge has the exact type.
-					// This is a veritable performance optimization, as object creation is costly.
-
-					String newEdgeName = formatEntity(edge);
-					String reusedEdgeName = formatEntity(bestDelEdge);
-					String src = formatEntity(src_node);
-					String tgt = formatEntity(tgt_node);
-
-					sb2.append("\t\t\t" + elemref + " " + newEdgeName + ";\n"
-								   + "\t\t\tif(" + reusedEdgeName + ".lgspType == "
-								   + formatTypeClassRef(edge.getType()) + ".typeVar)\n"
-								   + "\t\t\t{\n"
-								   + "\t\t\t\t// re-using " + reusedEdgeName + " as " + newEdgeName + "\n"
-								   + "\t\t\t\t" + newEdgeName + " = (" + elemref + ") " + reusedEdgeName + ";\n"
-								   + "\t\t\t\tgraph.ReuseEdge(" + reusedEdgeName + ", ");
-
-					if(task.left.getSource(bestDelEdge) != src_node)
-						sb2.append(src + ", ");
-					else
-						sb2.append("null, ");
-
-					if(task.left.getTarget(bestDelEdge) != tgt_node)
-						sb2.append(tgt + "");
-					else
-						sb2.append("null");
-
-					// If the runtime type does not match, delete the edge and create a new one
-					sb2.append(");\n"
-								   + "\t\t\t}\n"
-								   + "\t\t\telse\n"
-								   + "\t\t\t{\n"
-								   + "\t\t\t\tgraph.Remove(" + reusedEdgeName + ");\n"
-								   + "\t\t\t\t" + newEdgeName + " = " + elemref
-								   + ".CreateEdge(graph, " + src + ", " + tgt + ");\n"
-								   + "\t\t\t}\n");
-
-					edgesNeededAsElements.add(bestDelEdge);
-					reusedElements.add(bestDelEdge);
-					continue NE;
-				}
-			}
-
+			
 			// Create the edge
 			sb2.append("\t\t\t" + elemref + " " + formatEntity(edge) + " = " + elemref
 						   + ".CreateEdge(graph, " + formatEntity(src_node)
@@ -2066,12 +1895,8 @@ public class ModifyGen extends CSharpBase {
 	}
 
 	private boolean accessViaVariable(ModifyGenerationStateConst state, GraphEntity elem, Entity attr) {
-		if(!state.reusedElements().contains(elem)) {
-			HashSet<Entity> forcedAttrs = state.forceAttributeToVar().get(elem);
-			return forcedAttrs != null && forcedAttrs.contains(attr);
-		}
-		HashSet<Entity> neededAttrs = state.neededAttributes().get(elem);
-		return neededAttrs != null && neededAttrs.contains(attr);
+		HashSet<Entity> forcedAttrs = state.forceAttributeToVar().get(elem);
+		return forcedAttrs != null && forcedAttrs.contains(attr);
 	}
 
 	private void genVariable(StringBuffer sb, String ownerName, Entity entity) {

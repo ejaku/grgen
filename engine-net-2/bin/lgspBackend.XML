@@ -685,23 +685,6 @@
             Removes all edges from the given node.
             </summary>
         </member>
-        <member name="M:de.unika.ipd.grGen.lgsp.LGSPGraph.ReuseNode(de.unika.ipd.grGen.lgsp.LGSPNode)">
-            <summary>
-            Reuses an LGSPNode object for a new node of the same type.
-            This causes a RemovingEdges, a RemovingNode and a NodeAdded event and removes all edges
-            and variables pointing to the old element.
-            </summary>
-            <param name="node">The LGSPNode object to be reused.</param>
-        </member>
-        <member name="M:de.unika.ipd.grGen.lgsp.LGSPGraph.ReuseEdge(de.unika.ipd.grGen.lgsp.LGSPEdge,de.unika.ipd.grGen.lgsp.LGSPNode,de.unika.ipd.grGen.lgsp.LGSPNode)">
-            <summary>
-            Reuses an LGSPEdge object for a new edge of the same type and optionally changes the source and/or target.
-            This causes a RemovingEdge and an EdgeAdded event and removes all variables pointing to the old element.
-            </summary>
-            <param name="edge">The LGSPEdge object to be reused.</param>
-            <param name="newSource">The new source of the edge, or null if it is not to be changed.</param>
-            <param name="newTarget">The new target of the edge, or null if it is not to be changed.</param>
-        </member>
         <member name="M:de.unika.ipd.grGen.lgsp.LGSPGraph.Clear">
             <summary>
             Removes all nodes and edges (including any variables pointing to them) from the graph.

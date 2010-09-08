@@ -716,7 +716,6 @@ namespace de.unika.ipd.grGen.libGr
             {
                 Debug.Assert(attrType.Kind != AttributeKind.SetAttr && attrType.Kind != AttributeKind.MapAttr);
                 EnumAttributeType enumAttrType = attrType.EnumType;
-                Debug.Assert(value.GetType() == enumAttrType.EnumType);
                 EnumMember member = enumAttrType[(int)value];
                 if (member != null) return member.Name;
             }

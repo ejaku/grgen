@@ -329,6 +329,7 @@ namespace de.unika.ipd.grGen.lgsp
     {
         private LinkedList<IUndoItem> undoItems = new LinkedList<IUndoItem>();
         private bool recording = false;
+        private bool reuseOptimizationBackup = false;
         private bool undoing = false;
         private LGSPGraph graph;
 
@@ -355,6 +356,10 @@ namespace de.unika.ipd.grGen.lgsp
             graph.OnChangingEdgeAttribute += new ChangingEdgeAttributeHandler(ChangingElementAttribute);
             graph.OnRetypingNode += new RetypingNodeHandler(RetypingElement);
             graph.OnRetypingEdge += new RetypingEdgeHandler(RetypingElement);
+
+            recording = true;
+            reuseOptimizationBackup = graph.ReuseOptimization;
+            graph.ReuseOptimization = false; // reusing destroys the graph on rollback, so disable it when handling transactions
         }
 
         private void UnsubscribeEvents()
@@ -367,6 +372,9 @@ namespace de.unika.ipd.grGen.lgsp
             graph.OnChangingEdgeAttribute -= new ChangingEdgeAttributeHandler(ChangingElementAttribute);
             graph.OnRetypingNode -= new RetypingNodeHandler(RetypingElement);
             graph.OnRetypingEdge -= new RetypingEdgeHandler(RetypingElement);
+
+            recording = false;
+            graph.ReuseOptimization = reuseOptimizationBackup;
         }
 
         /// <summary>
@@ -380,7 +388,6 @@ namespace de.unika.ipd.grGen.lgsp
 #endif
             if(!recording)
             {
-                recording = true;
                 SubscribeEvents();
             }
             return undoItems.Count;
@@ -402,7 +409,6 @@ namespace de.unika.ipd.grGen.lgsp
             if(transactionID == 0)
             {
                 undoItems.Clear();
-                recording = false;
                 UnsubscribeEvents();
             }
             else
@@ -427,11 +433,25 @@ namespace de.unika.ipd.grGen.lgsp
                 writer.Write("rolling back " + undoItems.Count + " - ");
                 if(undoItems.Last.Value is LGSPUndoElemAdded) {
                     LGSPUndoElemAdded item = (LGSPUndoElemAdded)undoItems.Last.Value;
-                    writer.WriteLine("ElementAdded: " + graph.GetElementName(item._elem) + ":" + item._elem.Type.Name);
+                    if(item._elem is INode) {
+                        INode node = (INode)item._elem;
+                        writer.WriteLine("ElementAdded: " + graph.GetElementName(node) + ":" + node.Type.Name);
+                    } else {
+                        IEdge edge = (IEdge)item._elem;
+                        writer.WriteLine("ElementAdded: " + graph.GetElementName(edge.Source) + " -" + graph.GetElementName(edge) + ":" + edge.Type.Name + " ->" + graph.GetElementName(edge.Target));
+                    }
                 } else if(undoItems.Last.Value is LGSPUndoElemRemoved) {
                     LGSPUndoElemRemoved item = (LGSPUndoElemRemoved)undoItems.Last.Value;
-                    writer.WriteLine("RemovingElement: " + graph.GetElementName(item._elem) + ":" + item._elem.Type.Name);
-                } else if(undoItems.Last.Value is LGSPUndoAttributeChanged) {
+                    if(item._elem is INode) {
+                        INode node = (INode)item._elem;
+                        writer.WriteLine("RemovingElement: " + graph.GetElementName(node) + ":" + node.Type.Name);
+                    } else {
+                        IEdge edge = (IEdge)item._elem;
+                        writer.WriteLine("RemovingElement: " + graph.GetElementName(edge.Source) + " -"+ graph.GetElementName(edge) + ":" + edge.Type.Name + "-> " + graph.GetElementName(edge.Target));
+                    }
+                }
+                else if(undoItems.Last.Value is LGSPUndoAttributeChanged)
+                {
                     LGSPUndoAttributeChanged item = (LGSPUndoAttributeChanged)undoItems.Last.Value;
                     writer.WriteLine("ChangingElementAttribute: " + graph.GetElementName(item._elem) + ":" + item._elem.Type.Name + "." + item._attrType.Name);
                 } else if(undoItems.Last.Value is LGSPUndoElemRetyped) {
@@ -445,7 +465,6 @@ namespace de.unika.ipd.grGen.lgsp
             undoing = false;
             if(transactionID == 0)
             {
-                recording = false;
                 UnsubscribeEvents();
             }
 #if LOG_TRANSACTION_HANDLING
@@ -460,14 +479,26 @@ namespace de.unika.ipd.grGen.lgsp
         {
             if(recording && !undoing) undoItems.AddLast(new LGSPUndoElemAdded(elem));
 #if LOG_TRANSACTION_HANDLING
-            writer.WriteLine("ElementAdded: " + graph.GetElementName(elem) + ":" + elem.Type.Name);
+            if(elem is INode) {
+                INode node = (INode)elem;
+                writer.WriteLine("ElementAdded: " + graph.GetElementName(node) + ":" + node.Type.Name);
+            } else {
+                IEdge edge = (IEdge)elem;
+                writer.WriteLine("ElementAdded: " + graph.GetElementName(edge.Source) + " -" + graph.GetElementName(edge) + ":" + edge.Type.Name + "-> " + graph.GetElementName(edge.Target));
+            }
 #endif
         }
 
         public void RemovingElement(IGraphElement elem)
         {
 #if LOG_TRANSACTION_HANDLING
-            writer.WriteLine("RemovingElement: " + graph.GetElementName(elem) + ":" + elem.Type.Name);
+            if(elem is INode) {
+                INode node = (INode)elem;
+                writer.WriteLine("RemovingElement: " + graph.GetElementName(node) + ":" + node.Type.Name);
+            } else {
+                IEdge edge = (IEdge)elem;
+                writer.WriteLine("RemovingElement: " + graph.GetElementName(edge.Source) + " -" + graph.GetElementName(edge) + ":" + edge.Type.Name + "-> " + graph.GetElementName(edge.Target));
+            }
 #endif
             if(recording && !undoing) undoItems.AddLast(new LGSPUndoElemRemoved(elem, graph));
         }
@@ -1311,7 +1342,7 @@ namespace de.unika.ipd.grGen.lgsp
 
             nodesByTypeCounts[typeid]--;
 
-            if(reuseOptimization && !TransactionManager.TransactionActive)
+            if(reuseOptimization)
                 node.Recycle();
 
 #if CHECK_RINGLISTS
@@ -1368,7 +1399,7 @@ namespace de.unika.ipd.grGen.lgsp
 
             edgesByTypeCounts[lgspEdge.lgspType.TypeID]--;
 
-            if(reuseOptimization && !TransactionManager.TransactionActive)
+            if(reuseOptimization)
                 lgspEdge.Recycle();
 
 #if CHECK_RINGLISTS
@@ -1388,127 +1419,6 @@ namespace de.unika.ipd.grGen.lgsp
                 Remove(edge);
             foreach(LGSPEdge edge in lnode.Incoming)
                 Remove(edge);
-        }
-
-        /// <summary>
-        /// Reuses an LGSPNode object for a new node of the same type.
-        /// This causes a RemovingEdges, a RemovingNode and a NodeAdded event and removes all edges
-        /// and variables pointing to the old element.
-        /// </summary>
-        /// <param name="node">The LGSPNode object to be reused.</param>
-        public void ReuseNode(LGSPNode node)
-        {
-            RemoveEdges(node);
-            RemovingNode(node);
-
-            if((node.lgspFlags & (uint) LGSPElemFlags.HAS_VARIABLES) != 0)
-            {
-                foreach(Variable var in ElementMap[node])
-                    VariableMap.Remove(var.Name);
-                ElementMap.Remove(node);
-                node.lgspFlags &= ~(uint) LGSPElemFlags.HAS_VARIABLES;
-            }
-
-            node.ResetAllAttributes();
-
-            NodeAdded(node);
-        }
-
-        /// <summary>
-        /// Reuses an LGSPEdge object for a new edge of the same type and optionally changes the source and/or target.
-        /// This causes a RemovingEdge and an EdgeAdded event and removes all variables pointing to the old element.
-        /// </summary>
-        /// <param name="edge">The LGSPEdge object to be reused.</param>
-        /// <param name="newSource">The new source of the edge, or null if it is not to be changed.</param>
-        /// <param name="newTarget">The new target of the edge, or null if it is not to be changed.</param>
-        public void ReuseEdge(LGSPEdge edge, LGSPNode newSource, LGSPNode newTarget)
-        {
-            RemovingEdge(edge);
-
-            if((edge.lgspFlags & (uint) LGSPElemFlags.HAS_VARIABLES) != 0)
-            {
-                foreach(Variable var in ElementMap[edge])
-                    VariableMap.Remove(var.Name);
-                ElementMap.Remove(edge);
-                edge.lgspFlags &= ~(uint) LGSPElemFlags.HAS_VARIABLES;
-            }
-
-#if CHECK_RINGLISTS
-            LGSPNode oldSource = edge.lgspSource;
-            LGSPNode oldTarget = edge.lgspTarget;
-#endif
-
-            if(newSource != null)
-            {
-                // removeOutgoing
-                if(edge == edge.lgspSource.lgspOuthead)
-                {
-                    edge.lgspSource.lgspOuthead = edge.lgspOutNext;
-                    if(edge.lgspSource.lgspOuthead == edge)
-                        edge.lgspSource.lgspOuthead = null;
-                }
-                edge.lgspOutPrev.lgspOutNext = edge.lgspOutNext;
-                edge.lgspOutNext.lgspOutPrev = edge.lgspOutPrev;
-                edge.lgspSource = newSource;
-
-                // addOutgoing
-                LGSPEdge outhead = newSource.lgspOuthead;
-                if(outhead == null)
-                {
-                    newSource.lgspOuthead = edge;
-                    edge.lgspOutNext = edge;
-                    edge.lgspOutPrev = edge;
-                }
-                else
-                {
-                    outhead.lgspOutPrev.lgspOutNext = edge;
-                    edge.lgspOutPrev = outhead.lgspOutPrev;
-                    edge.lgspOutNext = outhead;
-                    outhead.lgspOutPrev = edge;
-                }
-            }
-
-            if(newTarget != null)
-            {
-                // removeIncoming
-                if(edge == edge.lgspTarget.lgspInhead)
-                {
-                    edge.lgspTarget.lgspInhead = edge.lgspInNext;
-                    if(edge.lgspTarget.lgspInhead == edge)
-                        edge.lgspTarget.lgspInhead = null;
-                }
-                edge.lgspInPrev.lgspInNext = edge.lgspInNext;
-                edge.lgspInNext.lgspInPrev = edge.lgspInPrev;
-                edge.lgspTarget = newTarget;
-
-                // addIncoming
-                LGSPEdge inhead = newTarget.lgspInhead;
-                if(inhead == null)
-                {
-                    newTarget.lgspInhead = edge;
-                    edge.lgspInNext = edge;
-                    edge.lgspInPrev = edge;
-                }
-                else
-                {
-                    inhead.lgspInPrev.lgspInNext = edge;
-                    edge.lgspInPrev = inhead.lgspInPrev;
-                    edge.lgspInNext = inhead;
-                    inhead.lgspInPrev = edge;
-                }
-            }
-
-            edge.ResetAllAttributes();
-
-            EdgeAdded(edge);
-
-#if CHECK_RINGLISTS
-            CheckInOutRinglistsBroken(oldSource);
-            CheckInOutRinglistsBroken(oldTarget);
-            if(newSource!=null) CheckInOutRinglistsBroken(newSource);
-            if(newTarget!=null) CheckInOutRinglistsBroken(newTarget);
-            CheckTypeRinglistBroken(edgesByTypeHeads[edge.lgspType.TypeID]);
-#endif
         }
 
         /// <summary>
@@ -1651,7 +1561,7 @@ namespace de.unika.ipd.grGen.lgsp
             }
             newNode.lgspInhead = inHead;
 
-            if(reuseOptimization && !TransactionManager.TransactionActive)
+            if(reuseOptimization)
                 oldNode.Recycle();
 
 #if CHECK_RINGLISTS
@@ -1755,7 +1665,7 @@ namespace de.unika.ipd.grGen.lgsp
             oldEdge.lgspInNext = null;
             oldEdge.lgspInPrev = null;
 
-            if(reuseOptimization && !TransactionManager.TransactionActive)
+            if(reuseOptimization)
                 oldEdge.Recycle();
 
 #if CHECK_RINGLISTS
