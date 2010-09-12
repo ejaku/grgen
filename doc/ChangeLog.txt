@@ -1,4 +1,14 @@
-﻿v2.6 (2010-09-05)
+﻿v2.6.1 (2010-09-12)
+ Changes:
+ - debugger detail mode now annotates in yComp all the pattern elements matching on a host graph node
+ - debugger detail mode annotations now show in addition to the pattern element name the path to the name 
+   (with symbols from the regular expression syntax, and the subpattern entity names, 
+    clipped from nesting level 3 on, only showing nesting depth due to display size constraints)
+ - removed the rule rewrite part reuse optimization (reuse optimization still there on graph level),
+    was source of too many errors over time, esp. when used with transactions
+ - some smaller fixes (regarding independents and subpattern rewrite parameters)
+
+v2.6 (2010-09-05)
  Single most important change:
   - user manual updated (including all the changes from 1.4->2.6)
  
