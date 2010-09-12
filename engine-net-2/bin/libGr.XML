@@ -5787,6 +5787,11 @@
             The pure name of the pattern element as specified in the .grg without any prefixes.
             </summary>
         </member>
+        <member name="P:de.unika.ipd.grGen.libGr.IPatternElement.PointOfDefinition">
+            <summary>
+            The pattern where this element gets matched (null if rule parameter).
+            </summary>
+        </member>
         <member name="T:de.unika.ipd.grGen.libGr.IPatternNode">
             <summary>
             A pattern node of a rule pattern.
@@ -5872,6 +5877,16 @@
         <member name="P:de.unika.ipd.grGen.libGr.IPatternGraph.Iterateds">
             <summary>
             An array of iterated patterns, each iterated is matched as often as possible.
+            </summary>
+        </member>
+        <member name="P:de.unika.ipd.grGen.libGr.IPatternGraph.IteratedsMinMatches">
+            <summary>
+            An array with the lower bounds the iterated patterns have to be matched to be valid.
+            </summary>
+        </member>
+        <member name="P:de.unika.ipd.grGen.libGr.IPatternGraph.IteratedsMaxMatches">
+            <summary>
+            An array with the upper bounds the iterated patterns have to be matched to be valid.
             </summary>
         </member>
         <member name="P:de.unika.ipd.grGen.libGr.IPatternGraph.NegativePatternGraphs">

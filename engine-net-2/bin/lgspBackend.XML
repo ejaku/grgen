@@ -3027,11 +3027,6 @@
             An element of a rule pattern.
             </summary>
         </member>
-        <member name="F:de.unika.ipd.grGen.lgsp.PatternElement.PointOfDefinition">
-            <summary>
-            The pattern where this element gets matched (null if rule parameter).
-            </summary>
-        </member>
         <member name="F:de.unika.ipd.grGen.lgsp.PatternElement.TypeID">
             <summary>
             The type ID of the pattern element.
@@ -3050,6 +3045,11 @@
         <member name="F:de.unika.ipd.grGen.lgsp.PatternElement.unprefixedName">
             <summary>
             Pure name of the pattern element as specified in the .grg file without any prefixes.
+            </summary>
+        </member>
+        <member name="F:de.unika.ipd.grGen.lgsp.PatternElement.pointOfDefinition">
+            <summary>
+            The pattern where this element gets matched (null if rule parameter).
             </summary>
         </member>
         <member name="F:de.unika.ipd.grGen.lgsp.PatternElement.AllowedTypes">
@@ -3115,6 +3115,11 @@
         <member name="P:de.unika.ipd.grGen.lgsp.PatternElement.UnprefixedName">
             <summary>
             The pure name of the pattern element as specified in the .grg without any prefixes.
+            </summary>
+        </member>
+        <member name="P:de.unika.ipd.grGen.lgsp.PatternElement.PointOfDefinition">
+            <summary>
+            The pattern where this element gets matched (null if rule parameter).
             </summary>
         </member>
         <member name="T:de.unika.ipd.grGen.lgsp.PatternNode">
@@ -3191,11 +3196,6 @@
             A pattern variable of a rule pattern.
             </summary>
         </member>
-        <member name="F:de.unika.ipd.grGen.lgsp.PatternVariable.PointOfDefinition">
-            <summary>
-            The pattern where this element gets matched (null if rule parameter).
-            </summary>
-        </member>
         <member name="F:de.unika.ipd.grGen.lgsp.PatternVariable.Type">
             <summary>
             The GrGen type of the variable.
@@ -3209,6 +3209,11 @@
         <member name="F:de.unika.ipd.grGen.lgsp.PatternVariable.unprefixedName">
             <summary>
             Pure name of the variable as specified in the .grg without any prefixes.
+            </summary>
+        </member>
+        <member name="F:de.unika.ipd.grGen.lgsp.PatternVariable.pointOfDefinition">
+            <summary>
+            The pattern where this element gets matched (null if rule parameter).
             </summary>
         </member>
         <member name="F:de.unika.ipd.grGen.lgsp.PatternVariable.ParameterIndex">
@@ -3233,6 +3238,11 @@
         <member name="P:de.unika.ipd.grGen.lgsp.PatternVariable.UnprefixedName">
             <summary>
             The pure name of the pattern element as specified in the .grg without any prefixes.
+            </summary>
+        </member>
+        <member name="P:de.unika.ipd.grGen.lgsp.PatternVariable.PointOfDefinition">
+            <summary>
+            The pattern where this element gets matched (null if rule parameter).
             </summary>
         </member>
         <member name="T:de.unika.ipd.grGen.lgsp.PatternCondition">
@@ -3564,6 +3574,16 @@
         <member name="P:de.unika.ipd.grGen.lgsp.PatternGraph.Iterateds">
             <summary>
             An array of iterateds, each iterated is matched as often as possible.
+            </summary>
+        </member>
+        <member name="P:de.unika.ipd.grGen.lgsp.PatternGraph.IteratedsMinMatches">
+            <summary>
+            An array with the lower bounds the iterated patterns have to be matched to be valid.
+            </summary>
+        </member>
+        <member name="P:de.unika.ipd.grGen.lgsp.PatternGraph.IteratedsMaxMatches">
+            <summary>
+            An array with the upper bounds the iterated patterns have to be matched to be valid.
             </summary>
         </member>
         <member name="P:de.unika.ipd.grGen.lgsp.PatternGraph.NegativePatternGraphs">

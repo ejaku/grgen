@@ -2970,7 +2970,7 @@ namespace de.unika.ipd.grGen.lgsp
             {
                 sourceCode.AppendFrontFormat("{0}._{1} = {2};\n",
                     MatchObjectName, matchName, NamesOfEntities.MatchedIndependentVariable(PatternElementName));
-                sourceCode.AppendFrontFormat("{0} = new {1}();\n",
+                sourceCode.AppendFrontFormat("{0} = new {1}({0});\n",
                     NamesOfEntities.MatchedIndependentVariable(PatternElementName),
                     RulePatternClassName + "." + NamesOfEntities.MatchClassName(PatternElementName));
                 sourceCode.AppendFrontFormat("{0}._{1}.SetMatchOfEnclosingPattern({0});\n",

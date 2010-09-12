@@ -24,10 +24,10 @@ namespace de.unika.ipd.grGen.libGr
         /// </summary>
         String UnprefixedName { get; }
 
-/*        /// <summary>
-        /// The GrGen type of the element.
+        /// <summary>
+        /// The pattern where this element gets matched (null if rule parameter).
         /// </summary>
-        IType Type { get; }*/
+        IPatternGraph PointOfDefinition { get; }
     }
 
     /// <summary>
@@ -125,6 +125,16 @@ namespace de.unika.ipd.grGen.libGr
         /// An array of iterated patterns, each iterated is matched as often as possible.
         /// </summary>
         IPatternGraph[] Iterateds { get; }
+
+        /// <summary>
+        /// An array with the lower bounds the iterated patterns have to be matched to be valid.
+        /// </summary>
+        int[] IteratedsMinMatches { get; }
+
+        /// <summary>
+        /// An array with the upper bounds the iterated patterns have to be matched to be valid.
+        /// </summary>
+        int[] IteratedsMaxMatches { get; }
 
         /// <summary>
         /// An array of negative pattern graphs which make the search fail if they get matched

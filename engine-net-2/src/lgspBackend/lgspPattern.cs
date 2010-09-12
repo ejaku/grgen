@@ -33,7 +33,7 @@ namespace de.unika.ipd.grGen.lgsp
         /// <summary>
         /// The pattern where this element gets matched (null if rule parameter).
         /// </summary>
-        public PatternGraph PointOfDefinition;
+        public IPatternGraph PointOfDefinition { get { return pointOfDefinition; } }
 
         /// <summary>
         /// The type ID of the pattern element.
@@ -54,6 +54,11 @@ namespace de.unika.ipd.grGen.lgsp
         /// Pure name of the pattern element as specified in the .grg file without any prefixes.
         /// </summary>
         public String unprefixedName;
+
+        /// <summary>
+        /// The pattern where this element gets matched (null if rule parameter).
+        /// </summary>
+        public PatternGraph pointOfDefinition;
 
         /// <summary>
         /// An array of allowed types for this pattern element.
@@ -240,7 +245,7 @@ namespace de.unika.ipd.grGen.lgsp
         /// <summary>
         /// The pattern where this element gets matched (null if rule parameter).
         /// </summary>
-        public PatternGraph PointOfDefinition;
+        public IPatternGraph PointOfDefinition { get { return pointOfDefinition; } }
 
         /// <summary>
         /// The GrGen type of the variable.
@@ -256,6 +261,11 @@ namespace de.unika.ipd.grGen.lgsp
         /// Pure name of the variable as specified in the .grg without any prefixes.
         /// </summary>
         public String unprefixedName;
+
+        /// <summary>
+        /// The pattern where this element gets matched (null if rule parameter).
+        /// </summary>
+        public PatternGraph pointOfDefinition;
 
         /// <summary>
         /// Specifies to which rule parameter this variable corresponds.
@@ -409,6 +419,16 @@ namespace de.unika.ipd.grGen.lgsp
         /// An array of iterateds, each iterated is matched as often as possible.
         /// </summary>
         public IPatternGraph[] Iterateds { get { return iterateds; } }
+
+        /// <summary>
+        /// An array with the lower bounds the iterated patterns have to be matched to be valid.
+        /// </summary>
+        public int[] IteratedsMinMatches { get { return minMatches; } }
+
+        /// <summary>
+        /// An array with the upper bounds the iterated patterns have to be matched to be valid.
+        /// </summary>
+        public int[] IteratedsMaxMatches { get { return maxMatches; } }
 
         /// <summary>
         /// An array of negative pattern graphs which make the search fail if they get matched
@@ -694,8 +714,8 @@ namespace de.unika.ipd.grGen.lgsp
                         continue;
                     }
 
-                    Debug.Assert(node.PointOfDefinition==null);
-                    node.PointOfDefinition = this;
+                    Debug.Assert(node.pointOfDefinition==null);
+                    node.pointOfDefinition = this;
                 }
 
                 foreach(PatternEdge edge in edges)
@@ -704,8 +724,8 @@ namespace de.unika.ipd.grGen.lgsp
                         continue;
                     }
 
-                    Debug.Assert(edge.PointOfDefinition==null);
-                    edge.PointOfDefinition = this;
+                    Debug.Assert(edge.pointOfDefinition==null);
+                    edge.pointOfDefinition = this;
                 }
             }
         }
@@ -725,8 +745,8 @@ namespace de.unika.ipd.grGen.lgsp
                         continue;
                     }
 
-                    Debug.Assert(node.PointOfDefinition==this);
-                    node.PointOfDefinition = null;
+                    Debug.Assert(node.pointOfDefinition==this);
+                    node.pointOfDefinition = null;
                 }
 
                 foreach(PatternEdge edge in edges)
@@ -735,8 +755,8 @@ namespace de.unika.ipd.grGen.lgsp
                         continue;
                     }
 
-                    Debug.Assert(edge.PointOfDefinition==this);
-                    edge.PointOfDefinition = null;
+                    Debug.Assert(edge.pointOfDefinition==this);
+                    edge.pointOfDefinition = null;
                 }
             }
         }

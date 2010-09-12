@@ -1592,44 +1592,180 @@ namespace de.unika.ipd.grGen.grShell
 
         private void AnnotateMatch(IMatch match, bool addAnnotation)
         {
-            int i = 0;
-            foreach(INode node in match.Nodes)
+            AnnotateMatch(match, addAnnotation, "", 0, true);
+            if(addAnnotation)
             {
-                if(addAnnotation) {
-                    String name = match.Pattern.Nodes[i].UnprefixedName;
-                    ycompClient.AnnotateElement(node, name);
-                    annotatedNodes[node] = name;
-                } else {
-                    ycompClient.AnnotateElement(node, null);
-                    annotatedNodes.Remove(node);
-                }
-                i++;
+                foreach(KeyValuePair<INode, string> nodeToName in annotatedNodes)
+                    ycompClient.AnnotateElement(nodeToName.Key, nodeToName.Value);
+                foreach(KeyValuePair<IEdge, string> edgeToName in annotatedEdges)
+                    ycompClient.AnnotateElement(edgeToName.Key, edgeToName.Value);
             }
-            i = 0;
-            foreach(IEdge edge in match.Edges)
-            {
-                if(addAnnotation) {
-                    String name = match.Pattern.Edges[i].UnprefixedName;
-                    ycompClient.AnnotateElement(edge, name);
-                    annotatedEdges[edge] = name;
-                } else {
-                    ycompClient.AnnotateElement(edge, null);
-                    annotatedEdges.Remove(edge);
-                }
-                i++;
-            }
-            AnnotateMatches(match.EmbeddedGraphs, addAnnotation);
-            foreach(IMatches iteratedsMatches in match.Iterateds)
-                AnnotateMatches(iteratedsMatches, addAnnotation);
-            AnnotateMatches(match.Alternatives, addAnnotation);
-            AnnotateMatches(match.Independents, addAnnotation);
         }
 
         private void AnnotateMatches(IEnumerable<IMatch> matches, bool addAnnotation)
         {
+            AnnotateMatches(matches, addAnnotation, "", 0, true);
+            if(addAnnotation)
+            {
+                foreach(KeyValuePair<INode, string> nodeToName in annotatedNodes)
+                    ycompClient.AnnotateElement(nodeToName.Key, nodeToName.Value);
+                foreach(KeyValuePair<IEdge, string> edgeToName in annotatedEdges)
+                    ycompClient.AnnotateElement(edgeToName.Key, edgeToName.Value);
+            }
+        }
+        
+        private void AnnotateMatches(IEnumerable<IMatch> matches, bool addAnnotation, string prefix, int nestingLevel, bool topLevel)
+        {
             foreach(IMatch match in matches)
             {
-                AnnotateMatch(match, addAnnotation);
+                AnnotateMatch(match, addAnnotation, prefix, nestingLevel, topLevel);
+            }
+        }
+
+        private void AnnotateMatch(IMatch match, bool addAnnotation, string prefix, int nestingLevel, bool topLevel)
+        {
+            const int PATTERN_NESTING_DEPTH_FROM_WHICH_ON_TO_CLIP_PREFIX = 3;
+
+            for(int i = 0; i < match.NumberOfNodes; ++i)
+            {
+                INode node = match.getNodeAt(i);
+                IPatternNode patternNode = match.Pattern.Nodes[i];
+                if(addAnnotation && (patternNode.PointOfDefinition==match.Pattern
+                                        || patternNode.PointOfDefinition==null && topLevel))
+                {
+                    String name = match.Pattern.Nodes[i].UnprefixedName;
+                    if(nestingLevel > 0)
+                    {
+                        if(nestingLevel < PATTERN_NESTING_DEPTH_FROM_WHICH_ON_TO_CLIP_PREFIX) name = prefix + "/" + name;
+                        else name = "/|...|=" + nestingLevel + "/" + name;
+                    }
+                    if(annotatedNodes.ContainsKey(node))
+                        annotatedNodes[node] += ", " + name;
+                    else
+                        annotatedNodes[node] = name;
+                }
+                else
+                {
+                    ycompClient.AnnotateElement(node, null);
+                    annotatedNodes.Remove(node);
+                }
+            }
+            for(int i = 0; i < match.NumberOfEdges; ++i)
+            {
+                IEdge edge = match.getEdgeAt(i);
+                IPatternEdge patternEdge = match.Pattern.Edges[i];
+                if(addAnnotation && (patternEdge.PointOfDefinition==match.Pattern 
+                                        || patternEdge.PointOfDefinition==null && topLevel))
+                {
+                    String name = match.Pattern.Edges[i].UnprefixedName;
+                    if(nestingLevel > 0)
+                    {
+                        if(nestingLevel < PATTERN_NESTING_DEPTH_FROM_WHICH_ON_TO_CLIP_PREFIX) name = prefix + "/" + name;
+                        else name = "/|...|=" + nestingLevel + "/" + name;
+                    }
+                    if(annotatedEdges.ContainsKey(edge))
+                        annotatedEdges[edge] += ", " + name;
+                    else
+                        annotatedEdges[edge] = name;
+                }
+                else
+                {
+                    ycompClient.AnnotateElement(edge, null);
+                    annotatedEdges.Remove(edge);
+                }
+            }
+            AnnotateSubpatternMatches(match, addAnnotation, prefix, nestingLevel);
+            AnnotateIteratedsMatches(match, addAnnotation, prefix, nestingLevel);
+            AnnotateAlternativesMatches(match, addAnnotation, prefix, nestingLevel);
+            AnnotateIndependentsMatches(match, addAnnotation, prefix, nestingLevel);
+        }
+
+        private void AnnotateSubpatternMatches(IMatch parentMatch, bool addAnnotation, string prefix, int nestingLevel)
+        {
+            IPatternGraph pattern = parentMatch.Pattern;
+            IEnumerable<IMatch> matches = parentMatch.EmbeddedGraphs;
+            int i = 0;
+            foreach(IMatch match in matches)
+            {
+                AnnotateMatch(match, addAnnotation, prefix + "/" + pattern.EmbeddedGraphs[i].Name, nestingLevel + 1, true);
+                ++i;
+            }
+        }
+
+        private void AnnotateIteratedsMatches(IMatch parentMatch, bool addAnnotation, string prefix, int nestingLevel)
+        {
+            IPatternGraph pattern = parentMatch.Pattern;
+            IEnumerable<IMatches> iteratedsMatches = parentMatch.Iterateds;
+            int numIterated, numOptional, numMultiple, numOther;
+            classifyIterateds(pattern, out numIterated, out numOptional, out numMultiple, out numOther);
+            
+            int i = 0;
+            foreach(IMatches matches in iteratedsMatches)
+            {
+                String name;
+                if(pattern.IteratedsMinMatches[i] == 0 && pattern.IteratedsMaxMatches[i] == 0) {
+                    name = "*";
+                    if(numIterated > 1) name += "'" + i;
+                } else if(pattern.IteratedsMinMatches[i] == 0 && pattern.IteratedsMaxMatches[i] == 1) {
+                    name = "?";
+                    if(numOptional > 1) name += "'" + i;
+                } else if(pattern.IteratedsMinMatches[i] == 1 && pattern.IteratedsMaxMatches[i] == 0) {
+                    name = "+";
+                    if(numMultiple > 1) name += "'" + i;
+                } else {
+                    name = "[" + pattern.IteratedsMinMatches[i] + ":" + pattern.IteratedsMaxMatches[i] + "]";
+                    if(numOther > 1) name += "'" + i;
+                }
+                
+                int j = 0;
+                foreach(IMatch match in matches)
+                {
+                    AnnotateMatch(match, addAnnotation, prefix + "/" + name + "/" + j, nestingLevel + 1, false);
+                    ++j;
+                }
+
+                ++i;
+            }
+        }
+
+        private void AnnotateAlternativesMatches(IMatch parentMatch, bool addAnnotation, string prefix, int nestingLevel)
+        {
+            IPatternGraph pattern = parentMatch.Pattern;
+            IEnumerable<IMatch> matches = parentMatch.Alternatives;
+            int i = 0;
+            foreach(IMatch match in matches)
+            {
+                String name = "|";
+                if(pattern.Alternatives.Length>1) name += "'" + i;
+                String caseName = pattern.Name;
+                AnnotateMatch(match, addAnnotation, prefix + "/" + name + "/" + caseName, nestingLevel + 1, false);
+                ++i;
+            }
+        }
+
+        private void AnnotateIndependentsMatches(IMatch parentMatch, bool addAnnotation, string prefix, int nestingLevel)
+        {
+            IPatternGraph pattern = parentMatch.Pattern;
+            IEnumerable<IMatch> matches = parentMatch.Independents;
+            int i = 0;
+            foreach(IMatch match in matches)
+            {
+                String name = "&";
+                if(pattern.IndependentPatternGraphs.Length>1) name += "'" + i;
+                AnnotateMatch(match, addAnnotation, prefix + "/" + name, nestingLevel + 1, false);
+                ++i;
+            }
+        }
+
+        private void classifyIterateds(IPatternGraph pattern, out int numIterated, out int numOptional, out int numMultiple, out int numOther)
+        {
+            numIterated = numOptional = numMultiple = numOther = 0;
+            for(int i = 0; i < pattern.Iterateds.Length; ++i)
+            {
+                if(pattern.IteratedsMinMatches[i] == 0 && pattern.IteratedsMaxMatches[i] == 0) ++numIterated;
+                else if(pattern.IteratedsMinMatches[i] == 0 && pattern.IteratedsMaxMatches[i] == 1) ++numOptional;
+                else if(pattern.IteratedsMinMatches[i] == 1 && pattern.IteratedsMaxMatches[i] == 0) ++numMultiple;
+                else ++numOther;
             }
         }
 
