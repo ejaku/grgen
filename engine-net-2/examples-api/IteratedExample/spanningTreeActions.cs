@@ -1,6 +1,6 @@
 // This file has been generated automatically by GrGen (www.grgen.net)
 // Do not modify this file! Any changes will be lost!
-// Generated from "..\..\tests\iterated\spanningTree.grg" on Wed Sep 08 23:33:39 CEST 2010
+// Generated from "..\..\tests\iterated\spanningTree.grg" on Sun Sep 12 20:12:27 CEST 2010
 
 using System;
 using System.Collections.Generic;
@@ -137,9 +137,9 @@ namespace de.unika.ipd.grGen.Action_spanningTree
 			);
 			SpanningTree_iter_0.embeddingGraph = pat_SpanningTree;
 
-			SpanningTree_node_root.PointOfDefinition = null;
-			SpanningTree_iter_0_node_next.PointOfDefinition = SpanningTree_iter_0;
-			SpanningTree_iter_0_edge_e.PointOfDefinition = SpanningTree_iter_0;
+			SpanningTree_node_root.pointOfDefinition = null;
+			SpanningTree_iter_0_node_next.pointOfDefinition = SpanningTree_iter_0;
+			SpanningTree_iter_0_edge_e.pointOfDefinition = SpanningTree_iter_0;
 			SpanningTree_iter_0_sptr.PointOfDefinition = SpanningTree_iter_0;
 
 			patternGraph = pat_SpanningTree;
@@ -565,9 +565,9 @@ namespace de.unika.ipd.grGen.Action_spanningTree
 			);
 			SpanningTreeReverse_iter_0.embeddingGraph = pat_SpanningTreeReverse;
 
-			SpanningTreeReverse_node_root.PointOfDefinition = null;
-			SpanningTreeReverse_iter_0_node_next.PointOfDefinition = SpanningTreeReverse_iter_0;
-			SpanningTreeReverse_iter_0_edge__edge0.PointOfDefinition = SpanningTreeReverse_iter_0;
+			SpanningTreeReverse_node_root.pointOfDefinition = null;
+			SpanningTreeReverse_iter_0_node_next.pointOfDefinition = SpanningTreeReverse_iter_0;
+			SpanningTreeReverse_iter_0_edge__edge0.pointOfDefinition = SpanningTreeReverse_iter_0;
 			SpanningTreeReverse_iter_0_sptrr.PointOfDefinition = SpanningTreeReverse_iter_0;
 
 			patternGraph = pat_SpanningTreeReverse;
@@ -992,9 +992,9 @@ namespace de.unika.ipd.grGen.Action_spanningTree
 			);
 			SpanningTreeOutgoing_iter_0.embeddingGraph = pat_SpanningTreeOutgoing;
 
-			SpanningTreeOutgoing_node_root.PointOfDefinition = null;
-			SpanningTreeOutgoing_iter_0_node_next.PointOfDefinition = SpanningTreeOutgoing_iter_0;
-			SpanningTreeOutgoing_iter_0_edge__edge0.PointOfDefinition = SpanningTreeOutgoing_iter_0;
+			SpanningTreeOutgoing_node_root.pointOfDefinition = null;
+			SpanningTreeOutgoing_iter_0_node_next.pointOfDefinition = SpanningTreeOutgoing_iter_0;
+			SpanningTreeOutgoing_iter_0_edge__edge0.pointOfDefinition = SpanningTreeOutgoing_iter_0;
 			SpanningTreeOutgoing_iter_0__subpattern0.PointOfDefinition = SpanningTreeOutgoing_iter_0;
 
 			patternGraph = pat_SpanningTreeOutgoing;
@@ -1385,9 +1385,9 @@ namespace de.unika.ipd.grGen.Action_spanningTree
 			);
 			SpanningTreeIncoming_iter_0.embeddingGraph = pat_SpanningTreeIncoming;
 
-			SpanningTreeIncoming_node_root.PointOfDefinition = null;
-			SpanningTreeIncoming_iter_0_node_next.PointOfDefinition = SpanningTreeIncoming_iter_0;
-			SpanningTreeIncoming_iter_0_edge__edge0.PointOfDefinition = SpanningTreeIncoming_iter_0;
+			SpanningTreeIncoming_node_root.pointOfDefinition = null;
+			SpanningTreeIncoming_iter_0_node_next.pointOfDefinition = SpanningTreeIncoming_iter_0;
+			SpanningTreeIncoming_iter_0_edge__edge0.pointOfDefinition = SpanningTreeIncoming_iter_0;
 			SpanningTreeIncoming_iter_0__subpattern0.PointOfDefinition = SpanningTreeIncoming_iter_0;
 
 			patternGraph = pat_SpanningTreeIncoming;
@@ -2291,7 +2291,7 @@ namespace de.unika.ipd.grGen.Action_spanningTree
 				spanningTree_isEdgeHomomorphicGlobal
 			);
 
-			spanningTree_node_root.PointOfDefinition = null;
+			spanningTree_node_root.pointOfDefinition = null;
 			spanningTree_sptr.PointOfDefinition = pat_spanningTree;
 
 			patternGraph = pat_spanningTree;
@@ -2486,7 +2486,7 @@ namespace de.unika.ipd.grGen.Action_spanningTree
 				edgesVisited_isEdgeHomomorphicGlobal
 			);
 
-			edgesVisited_edge_e.PointOfDefinition = pat_edgesVisited;
+			edgesVisited_edge_e.pointOfDefinition = pat_edgesVisited;
 
 			patternGraph = pat_edgesVisited;
 		}
@@ -2668,7 +2668,7 @@ namespace de.unika.ipd.grGen.Action_spanningTree
 				nodesVisited_isEdgeHomomorphicGlobal
 			);
 
-			nodesVisited_node_n.PointOfDefinition = pat_nodesVisited;
+			nodesVisited_node_n.pointOfDefinition = pat_nodesVisited;
 
 			patternGraph = pat_nodesVisited;
 		}
@@ -2853,7 +2853,7 @@ namespace de.unika.ipd.grGen.Action_spanningTree
 				spanningTreeReverse_isEdgeHomomorphicGlobal
 			);
 
-			spanningTreeReverse_node_root.PointOfDefinition = null;
+			spanningTreeReverse_node_root.pointOfDefinition = null;
 			spanningTreeReverse_sptrr.PointOfDefinition = pat_spanningTreeReverse;
 
 			patternGraph = pat_spanningTreeReverse;
@@ -3048,7 +3048,7 @@ namespace de.unika.ipd.grGen.Action_spanningTree
 				spanningTreeOutgoing_isEdgeHomomorphicGlobal
 			);
 
-			spanningTreeOutgoing_node_root.PointOfDefinition = null;
+			spanningTreeOutgoing_node_root.pointOfDefinition = null;
 			spanningTreeOutgoing__subpattern0.PointOfDefinition = pat_spanningTreeOutgoing;
 
 			patternGraph = pat_spanningTreeOutgoing;
@@ -3239,7 +3239,7 @@ namespace de.unika.ipd.grGen.Action_spanningTree
 				spanningTreeIncoming_isEdgeHomomorphicGlobal
 			);
 
-			spanningTreeIncoming_node_root.PointOfDefinition = null;
+			spanningTreeIncoming_node_root.pointOfDefinition = null;
 			spanningTreeIncoming__subpattern0.PointOfDefinition = pat_spanningTreeIncoming;
 
 			patternGraph = pat_spanningTreeIncoming;

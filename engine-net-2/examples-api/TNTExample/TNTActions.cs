@@ -1,6 +1,6 @@
 // This file has been generated automatically by GrGen (www.grgen.net)
 // Do not modify this file! Any changes will be lost!
-// Generated from "..\..\tests\TNT\TNT.grg" on Wed Sep 08 23:33:57 CEST 2010
+// Generated from "..\..\tests\TNT\TNT.grg" on Sun Sep 12 20:12:43 CEST 2010
 
 using System;
 using System.Collections.Generic;
@@ -161,21 +161,21 @@ namespace de.unika.ipd.grGen.Action_TNT
 			pat_BenzolRing.edgeToSourceNode.Add(BenzolRing_edge__edge8, BenzolRing_node_c5);
 			pat_BenzolRing.edgeToTargetNode.Add(BenzolRing_edge__edge8, BenzolRing_node_c6);
 
-			BenzolRing_node_c1.PointOfDefinition = pat_BenzolRing;
-			BenzolRing_node_c2.PointOfDefinition = pat_BenzolRing;
-			BenzolRing_node_c3.PointOfDefinition = pat_BenzolRing;
-			BenzolRing_node_c4.PointOfDefinition = pat_BenzolRing;
-			BenzolRing_node_c5.PointOfDefinition = pat_BenzolRing;
-			BenzolRing_node_c6.PointOfDefinition = pat_BenzolRing;
-			BenzolRing_edge__edge0.PointOfDefinition = pat_BenzolRing;
-			BenzolRing_edge__edge1.PointOfDefinition = pat_BenzolRing;
-			BenzolRing_edge__edge2.PointOfDefinition = pat_BenzolRing;
-			BenzolRing_edge__edge3.PointOfDefinition = pat_BenzolRing;
-			BenzolRing_edge__edge4.PointOfDefinition = pat_BenzolRing;
-			BenzolRing_edge__edge5.PointOfDefinition = pat_BenzolRing;
-			BenzolRing_edge__edge6.PointOfDefinition = pat_BenzolRing;
-			BenzolRing_edge__edge7.PointOfDefinition = pat_BenzolRing;
-			BenzolRing_edge__edge8.PointOfDefinition = pat_BenzolRing;
+			BenzolRing_node_c1.pointOfDefinition = pat_BenzolRing;
+			BenzolRing_node_c2.pointOfDefinition = pat_BenzolRing;
+			BenzolRing_node_c3.pointOfDefinition = pat_BenzolRing;
+			BenzolRing_node_c4.pointOfDefinition = pat_BenzolRing;
+			BenzolRing_node_c5.pointOfDefinition = pat_BenzolRing;
+			BenzolRing_node_c6.pointOfDefinition = pat_BenzolRing;
+			BenzolRing_edge__edge0.pointOfDefinition = pat_BenzolRing;
+			BenzolRing_edge__edge1.pointOfDefinition = pat_BenzolRing;
+			BenzolRing_edge__edge2.pointOfDefinition = pat_BenzolRing;
+			BenzolRing_edge__edge3.pointOfDefinition = pat_BenzolRing;
+			BenzolRing_edge__edge4.pointOfDefinition = pat_BenzolRing;
+			BenzolRing_edge__edge5.pointOfDefinition = pat_BenzolRing;
+			BenzolRing_edge__edge6.pointOfDefinition = pat_BenzolRing;
+			BenzolRing_edge__edge7.pointOfDefinition = pat_BenzolRing;
+			BenzolRing_edge__edge8.pointOfDefinition = pat_BenzolRing;
 
 			patternGraph = pat_BenzolRing;
 		}
@@ -556,21 +556,21 @@ namespace de.unika.ipd.grGen.Action_TNT
 			pat_BenzolRingC123456Exposed.edgeToSourceNode.Add(BenzolRingC123456Exposed_edge__edge8, BenzolRingC123456Exposed_node_c5);
 			pat_BenzolRingC123456Exposed.edgeToTargetNode.Add(BenzolRingC123456Exposed_edge__edge8, BenzolRingC123456Exposed_node_c6);
 
-			BenzolRingC123456Exposed_node_c1.PointOfDefinition = null;
-			BenzolRingC123456Exposed_node_c2.PointOfDefinition = null;
-			BenzolRingC123456Exposed_node_c3.PointOfDefinition = null;
-			BenzolRingC123456Exposed_node_c4.PointOfDefinition = null;
-			BenzolRingC123456Exposed_node_c5.PointOfDefinition = null;
-			BenzolRingC123456Exposed_node_c6.PointOfDefinition = null;
-			BenzolRingC123456Exposed_edge__edge0.PointOfDefinition = pat_BenzolRingC123456Exposed;
-			BenzolRingC123456Exposed_edge__edge1.PointOfDefinition = pat_BenzolRingC123456Exposed;
-			BenzolRingC123456Exposed_edge__edge2.PointOfDefinition = pat_BenzolRingC123456Exposed;
-			BenzolRingC123456Exposed_edge__edge3.PointOfDefinition = pat_BenzolRingC123456Exposed;
-			BenzolRingC123456Exposed_edge__edge4.PointOfDefinition = pat_BenzolRingC123456Exposed;
-			BenzolRingC123456Exposed_edge__edge5.PointOfDefinition = pat_BenzolRingC123456Exposed;
-			BenzolRingC123456Exposed_edge__edge6.PointOfDefinition = pat_BenzolRingC123456Exposed;
-			BenzolRingC123456Exposed_edge__edge7.PointOfDefinition = pat_BenzolRingC123456Exposed;
-			BenzolRingC123456Exposed_edge__edge8.PointOfDefinition = pat_BenzolRingC123456Exposed;
+			BenzolRingC123456Exposed_node_c1.pointOfDefinition = null;
+			BenzolRingC123456Exposed_node_c2.pointOfDefinition = null;
+			BenzolRingC123456Exposed_node_c3.pointOfDefinition = null;
+			BenzolRingC123456Exposed_node_c4.pointOfDefinition = null;
+			BenzolRingC123456Exposed_node_c5.pointOfDefinition = null;
+			BenzolRingC123456Exposed_node_c6.pointOfDefinition = null;
+			BenzolRingC123456Exposed_edge__edge0.pointOfDefinition = pat_BenzolRingC123456Exposed;
+			BenzolRingC123456Exposed_edge__edge1.pointOfDefinition = pat_BenzolRingC123456Exposed;
+			BenzolRingC123456Exposed_edge__edge2.pointOfDefinition = pat_BenzolRingC123456Exposed;
+			BenzolRingC123456Exposed_edge__edge3.pointOfDefinition = pat_BenzolRingC123456Exposed;
+			BenzolRingC123456Exposed_edge__edge4.pointOfDefinition = pat_BenzolRingC123456Exposed;
+			BenzolRingC123456Exposed_edge__edge5.pointOfDefinition = pat_BenzolRingC123456Exposed;
+			BenzolRingC123456Exposed_edge__edge6.pointOfDefinition = pat_BenzolRingC123456Exposed;
+			BenzolRingC123456Exposed_edge__edge7.pointOfDefinition = pat_BenzolRingC123456Exposed;
+			BenzolRingC123456Exposed_edge__edge8.pointOfDefinition = pat_BenzolRingC123456Exposed;
 
 			patternGraph = pat_BenzolRingC123456Exposed;
 		}
@@ -927,21 +927,21 @@ namespace de.unika.ipd.grGen.Action_TNT
 			pat_BenzolRingC1Exposed.edgeToSourceNode.Add(BenzolRingC1Exposed_edge__edge8, BenzolRingC1Exposed_node_c5);
 			pat_BenzolRingC1Exposed.edgeToTargetNode.Add(BenzolRingC1Exposed_edge__edge8, BenzolRingC1Exposed_node_c6);
 
-			BenzolRingC1Exposed_node_c1.PointOfDefinition = null;
-			BenzolRingC1Exposed_node_c2.PointOfDefinition = pat_BenzolRingC1Exposed;
-			BenzolRingC1Exposed_node_c3.PointOfDefinition = pat_BenzolRingC1Exposed;
-			BenzolRingC1Exposed_node_c4.PointOfDefinition = pat_BenzolRingC1Exposed;
-			BenzolRingC1Exposed_node_c5.PointOfDefinition = pat_BenzolRingC1Exposed;
-			BenzolRingC1Exposed_node_c6.PointOfDefinition = pat_BenzolRingC1Exposed;
-			BenzolRingC1Exposed_edge__edge0.PointOfDefinition = pat_BenzolRingC1Exposed;
-			BenzolRingC1Exposed_edge__edge1.PointOfDefinition = pat_BenzolRingC1Exposed;
-			BenzolRingC1Exposed_edge__edge2.PointOfDefinition = pat_BenzolRingC1Exposed;
-			BenzolRingC1Exposed_edge__edge3.PointOfDefinition = pat_BenzolRingC1Exposed;
-			BenzolRingC1Exposed_edge__edge4.PointOfDefinition = pat_BenzolRingC1Exposed;
-			BenzolRingC1Exposed_edge__edge5.PointOfDefinition = pat_BenzolRingC1Exposed;
-			BenzolRingC1Exposed_edge__edge6.PointOfDefinition = pat_BenzolRingC1Exposed;
-			BenzolRingC1Exposed_edge__edge7.PointOfDefinition = pat_BenzolRingC1Exposed;
-			BenzolRingC1Exposed_edge__edge8.PointOfDefinition = pat_BenzolRingC1Exposed;
+			BenzolRingC1Exposed_node_c1.pointOfDefinition = null;
+			BenzolRingC1Exposed_node_c2.pointOfDefinition = pat_BenzolRingC1Exposed;
+			BenzolRingC1Exposed_node_c3.pointOfDefinition = pat_BenzolRingC1Exposed;
+			BenzolRingC1Exposed_node_c4.pointOfDefinition = pat_BenzolRingC1Exposed;
+			BenzolRingC1Exposed_node_c5.pointOfDefinition = pat_BenzolRingC1Exposed;
+			BenzolRingC1Exposed_node_c6.pointOfDefinition = pat_BenzolRingC1Exposed;
+			BenzolRingC1Exposed_edge__edge0.pointOfDefinition = pat_BenzolRingC1Exposed;
+			BenzolRingC1Exposed_edge__edge1.pointOfDefinition = pat_BenzolRingC1Exposed;
+			BenzolRingC1Exposed_edge__edge2.pointOfDefinition = pat_BenzolRingC1Exposed;
+			BenzolRingC1Exposed_edge__edge3.pointOfDefinition = pat_BenzolRingC1Exposed;
+			BenzolRingC1Exposed_edge__edge4.pointOfDefinition = pat_BenzolRingC1Exposed;
+			BenzolRingC1Exposed_edge__edge5.pointOfDefinition = pat_BenzolRingC1Exposed;
+			BenzolRingC1Exposed_edge__edge6.pointOfDefinition = pat_BenzolRingC1Exposed;
+			BenzolRingC1Exposed_edge__edge7.pointOfDefinition = pat_BenzolRingC1Exposed;
+			BenzolRingC1Exposed_edge__edge8.pointOfDefinition = pat_BenzolRingC1Exposed;
 
 			patternGraph = pat_BenzolRingC1Exposed;
 		}
@@ -1395,27 +1395,27 @@ namespace de.unika.ipd.grGen.Action_TNT
 			pat_BenzolRingC1ExposedNotC6Nitro.edgeToTargetNode.Add(BenzolRingC1ExposedNotC6Nitro_edge__edge8, BenzolRingC1ExposedNotC6Nitro_node_c6);
 			BenzolRingC1ExposedNotC6Nitro_neg_0.embeddingGraph = pat_BenzolRingC1ExposedNotC6Nitro;
 
-			BenzolRingC1ExposedNotC6Nitro_node_c1.PointOfDefinition = null;
-			BenzolRingC1ExposedNotC6Nitro_node_c2.PointOfDefinition = pat_BenzolRingC1ExposedNotC6Nitro;
-			BenzolRingC1ExposedNotC6Nitro_node_c3.PointOfDefinition = pat_BenzolRingC1ExposedNotC6Nitro;
-			BenzolRingC1ExposedNotC6Nitro_node_c4.PointOfDefinition = pat_BenzolRingC1ExposedNotC6Nitro;
-			BenzolRingC1ExposedNotC6Nitro_node_c5.PointOfDefinition = pat_BenzolRingC1ExposedNotC6Nitro;
-			BenzolRingC1ExposedNotC6Nitro_node_c6.PointOfDefinition = pat_BenzolRingC1ExposedNotC6Nitro;
-			BenzolRingC1ExposedNotC6Nitro_edge__edge0.PointOfDefinition = pat_BenzolRingC1ExposedNotC6Nitro;
-			BenzolRingC1ExposedNotC6Nitro_edge__edge1.PointOfDefinition = pat_BenzolRingC1ExposedNotC6Nitro;
-			BenzolRingC1ExposedNotC6Nitro_edge__edge2.PointOfDefinition = pat_BenzolRingC1ExposedNotC6Nitro;
-			BenzolRingC1ExposedNotC6Nitro_edge__edge3.PointOfDefinition = pat_BenzolRingC1ExposedNotC6Nitro;
-			BenzolRingC1ExposedNotC6Nitro_edge__edge4.PointOfDefinition = pat_BenzolRingC1ExposedNotC6Nitro;
-			BenzolRingC1ExposedNotC6Nitro_edge__edge5.PointOfDefinition = pat_BenzolRingC1ExposedNotC6Nitro;
-			BenzolRingC1ExposedNotC6Nitro_edge__edge6.PointOfDefinition = pat_BenzolRingC1ExposedNotC6Nitro;
-			BenzolRingC1ExposedNotC6Nitro_edge__edge7.PointOfDefinition = pat_BenzolRingC1ExposedNotC6Nitro;
-			BenzolRingC1ExposedNotC6Nitro_edge__edge8.PointOfDefinition = pat_BenzolRingC1ExposedNotC6Nitro;
-			BenzolRingC1ExposedNotC6Nitro_neg_0_node_n.PointOfDefinition = BenzolRingC1ExposedNotC6Nitro_neg_0;
-			BenzolRingC1ExposedNotC6Nitro_neg_0_node__node0.PointOfDefinition = BenzolRingC1ExposedNotC6Nitro_neg_0;
-			BenzolRingC1ExposedNotC6Nitro_neg_0_node__node1.PointOfDefinition = BenzolRingC1ExposedNotC6Nitro_neg_0;
-			BenzolRingC1ExposedNotC6Nitro_neg_0_edge__edge0.PointOfDefinition = BenzolRingC1ExposedNotC6Nitro_neg_0;
-			BenzolRingC1ExposedNotC6Nitro_neg_0_edge__edge1.PointOfDefinition = BenzolRingC1ExposedNotC6Nitro_neg_0;
-			BenzolRingC1ExposedNotC6Nitro_neg_0_edge__edge2.PointOfDefinition = BenzolRingC1ExposedNotC6Nitro_neg_0;
+			BenzolRingC1ExposedNotC6Nitro_node_c1.pointOfDefinition = null;
+			BenzolRingC1ExposedNotC6Nitro_node_c2.pointOfDefinition = pat_BenzolRingC1ExposedNotC6Nitro;
+			BenzolRingC1ExposedNotC6Nitro_node_c3.pointOfDefinition = pat_BenzolRingC1ExposedNotC6Nitro;
+			BenzolRingC1ExposedNotC6Nitro_node_c4.pointOfDefinition = pat_BenzolRingC1ExposedNotC6Nitro;
+			BenzolRingC1ExposedNotC6Nitro_node_c5.pointOfDefinition = pat_BenzolRingC1ExposedNotC6Nitro;
+			BenzolRingC1ExposedNotC6Nitro_node_c6.pointOfDefinition = pat_BenzolRingC1ExposedNotC6Nitro;
+			BenzolRingC1ExposedNotC6Nitro_edge__edge0.pointOfDefinition = pat_BenzolRingC1ExposedNotC6Nitro;
+			BenzolRingC1ExposedNotC6Nitro_edge__edge1.pointOfDefinition = pat_BenzolRingC1ExposedNotC6Nitro;
+			BenzolRingC1ExposedNotC6Nitro_edge__edge2.pointOfDefinition = pat_BenzolRingC1ExposedNotC6Nitro;
+			BenzolRingC1ExposedNotC6Nitro_edge__edge3.pointOfDefinition = pat_BenzolRingC1ExposedNotC6Nitro;
+			BenzolRingC1ExposedNotC6Nitro_edge__edge4.pointOfDefinition = pat_BenzolRingC1ExposedNotC6Nitro;
+			BenzolRingC1ExposedNotC6Nitro_edge__edge5.pointOfDefinition = pat_BenzolRingC1ExposedNotC6Nitro;
+			BenzolRingC1ExposedNotC6Nitro_edge__edge6.pointOfDefinition = pat_BenzolRingC1ExposedNotC6Nitro;
+			BenzolRingC1ExposedNotC6Nitro_edge__edge7.pointOfDefinition = pat_BenzolRingC1ExposedNotC6Nitro;
+			BenzolRingC1ExposedNotC6Nitro_edge__edge8.pointOfDefinition = pat_BenzolRingC1ExposedNotC6Nitro;
+			BenzolRingC1ExposedNotC6Nitro_neg_0_node_n.pointOfDefinition = BenzolRingC1ExposedNotC6Nitro_neg_0;
+			BenzolRingC1ExposedNotC6Nitro_neg_0_node__node0.pointOfDefinition = BenzolRingC1ExposedNotC6Nitro_neg_0;
+			BenzolRingC1ExposedNotC6Nitro_neg_0_node__node1.pointOfDefinition = BenzolRingC1ExposedNotC6Nitro_neg_0;
+			BenzolRingC1ExposedNotC6Nitro_neg_0_edge__edge0.pointOfDefinition = BenzolRingC1ExposedNotC6Nitro_neg_0;
+			BenzolRingC1ExposedNotC6Nitro_neg_0_edge__edge1.pointOfDefinition = BenzolRingC1ExposedNotC6Nitro_neg_0;
+			BenzolRingC1ExposedNotC6Nitro_neg_0_edge__edge2.pointOfDefinition = BenzolRingC1ExposedNotC6Nitro_neg_0;
 
 			patternGraph = pat_BenzolRingC1ExposedNotC6Nitro;
 		}
@@ -1850,10 +1850,10 @@ namespace de.unika.ipd.grGen.Action_TNT
 			pat_Oxygen.edgeToSourceNode.Add(Oxygen_edge__edge1, Oxygen_node_o2);
 			pat_Oxygen.edgeToTargetNode.Add(Oxygen_edge__edge1, Oxygen_node_o1);
 
-			Oxygen_node_o1.PointOfDefinition = pat_Oxygen;
-			Oxygen_node_o2.PointOfDefinition = pat_Oxygen;
-			Oxygen_edge__edge0.PointOfDefinition = pat_Oxygen;
-			Oxygen_edge__edge1.PointOfDefinition = pat_Oxygen;
+			Oxygen_node_o1.pointOfDefinition = pat_Oxygen;
+			Oxygen_node_o2.pointOfDefinition = pat_Oxygen;
+			Oxygen_edge__edge0.pointOfDefinition = pat_Oxygen;
+			Oxygen_edge__edge1.pointOfDefinition = pat_Oxygen;
 
 			patternGraph = pat_Oxygen;
 		}
@@ -2077,9 +2077,9 @@ namespace de.unika.ipd.grGen.Action_TNT
 			pat_Hydrogen.edgeToSourceNode.Add(Hydrogen_edge__edge0, Hydrogen_node_anchor);
 			pat_Hydrogen.edgeToTargetNode.Add(Hydrogen_edge__edge0, Hydrogen_node__node0);
 
-			Hydrogen_node_anchor.PointOfDefinition = null;
-			Hydrogen_node__node0.PointOfDefinition = pat_Hydrogen;
-			Hydrogen_edge__edge0.PointOfDefinition = pat_Hydrogen;
+			Hydrogen_node_anchor.pointOfDefinition = null;
+			Hydrogen_node__node0.pointOfDefinition = pat_Hydrogen;
+			Hydrogen_edge__edge0.pointOfDefinition = pat_Hydrogen;
 
 			patternGraph = pat_Hydrogen;
 		}
@@ -2304,11 +2304,11 @@ namespace de.unika.ipd.grGen.Action_TNT
 			pat_Hydroxyl.edgeToSourceNode.Add(Hydroxyl_edge__edge1, Hydroxyl_node__node0);
 			pat_Hydroxyl.edgeToTargetNode.Add(Hydroxyl_edge__edge1, Hydroxyl_node__node1);
 
-			Hydroxyl_node_anchor.PointOfDefinition = null;
-			Hydroxyl_node__node0.PointOfDefinition = pat_Hydroxyl;
-			Hydroxyl_node__node1.PointOfDefinition = pat_Hydroxyl;
-			Hydroxyl_edge__edge0.PointOfDefinition = pat_Hydroxyl;
-			Hydroxyl_edge__edge1.PointOfDefinition = pat_Hydroxyl;
+			Hydroxyl_node_anchor.pointOfDefinition = null;
+			Hydroxyl_node__node0.pointOfDefinition = pat_Hydroxyl;
+			Hydroxyl_node__node1.pointOfDefinition = pat_Hydroxyl;
+			Hydroxyl_edge__edge0.pointOfDefinition = pat_Hydroxyl;
+			Hydroxyl_edge__edge1.pointOfDefinition = pat_Hydroxyl;
 
 			patternGraph = pat_Hydroxyl;
 		}
@@ -2572,15 +2572,15 @@ namespace de.unika.ipd.grGen.Action_TNT
 			pat_Methyl.edgeToSourceNode.Add(Methyl_edge__edge3, Methyl_node_c);
 			pat_Methyl.edgeToTargetNode.Add(Methyl_edge__edge3, Methyl_node__node2);
 
-			Methyl_node_anchor.PointOfDefinition = null;
-			Methyl_node_c.PointOfDefinition = pat_Methyl;
-			Methyl_node__node0.PointOfDefinition = pat_Methyl;
-			Methyl_node__node1.PointOfDefinition = pat_Methyl;
-			Methyl_node__node2.PointOfDefinition = pat_Methyl;
-			Methyl_edge__edge0.PointOfDefinition = pat_Methyl;
-			Methyl_edge__edge1.PointOfDefinition = pat_Methyl;
-			Methyl_edge__edge2.PointOfDefinition = pat_Methyl;
-			Methyl_edge__edge3.PointOfDefinition = pat_Methyl;
+			Methyl_node_anchor.pointOfDefinition = null;
+			Methyl_node_c.pointOfDefinition = pat_Methyl;
+			Methyl_node__node0.pointOfDefinition = pat_Methyl;
+			Methyl_node__node1.pointOfDefinition = pat_Methyl;
+			Methyl_node__node2.pointOfDefinition = pat_Methyl;
+			Methyl_edge__edge0.pointOfDefinition = pat_Methyl;
+			Methyl_edge__edge1.pointOfDefinition = pat_Methyl;
+			Methyl_edge__edge2.pointOfDefinition = pat_Methyl;
+			Methyl_edge__edge3.pointOfDefinition = pat_Methyl;
 
 			patternGraph = pat_Methyl;
 		}
@@ -2862,13 +2862,13 @@ namespace de.unika.ipd.grGen.Action_TNT
 			pat_Nitro.edgeToSourceNode.Add(Nitro_edge__edge2, Nitro_node_n);
 			pat_Nitro.edgeToTargetNode.Add(Nitro_edge__edge2, Nitro_node__node1);
 
-			Nitro_node_anchor.PointOfDefinition = null;
-			Nitro_node_n.PointOfDefinition = pat_Nitro;
-			Nitro_node__node0.PointOfDefinition = pat_Nitro;
-			Nitro_node__node1.PointOfDefinition = pat_Nitro;
-			Nitro_edge__edge0.PointOfDefinition = pat_Nitro;
-			Nitro_edge__edge1.PointOfDefinition = pat_Nitro;
-			Nitro_edge__edge2.PointOfDefinition = pat_Nitro;
+			Nitro_node_anchor.pointOfDefinition = null;
+			Nitro_node_n.pointOfDefinition = pat_Nitro;
+			Nitro_node__node0.pointOfDefinition = pat_Nitro;
+			Nitro_node__node1.pointOfDefinition = pat_Nitro;
+			Nitro_edge__edge0.pointOfDefinition = pat_Nitro;
+			Nitro_edge__edge1.pointOfDefinition = pat_Nitro;
+			Nitro_edge__edge2.pointOfDefinition = pat_Nitro;
 
 			patternGraph = pat_Nitro;
 		}
@@ -3122,9 +3122,9 @@ namespace de.unika.ipd.grGen.Action_TNT
 				TriNitro_isEdgeHomomorphicGlobal
 			);
 
-			TriNitro_node_c2.PointOfDefinition = null;
-			TriNitro_node_c4.PointOfDefinition = null;
-			TriNitro_node_c6.PointOfDefinition = null;
+			TriNitro_node_c2.pointOfDefinition = null;
+			TriNitro_node_c4.pointOfDefinition = null;
+			TriNitro_node_c6.pointOfDefinition = null;
 			TriNitro__subpattern0.PointOfDefinition = pat_TriNitro;
 			TriNitro__subpattern1.PointOfDefinition = pat_TriNitro;
 			TriNitro__subpattern2.PointOfDefinition = pat_TriNitro;
@@ -3387,12 +3387,12 @@ namespace de.unika.ipd.grGen.Action_TNT
 				ToluolCoreThenTriNitro_isEdgeHomomorphicGlobal
 			);
 
-			ToluolCoreThenTriNitro_node_c1.PointOfDefinition = null;
-			ToluolCoreThenTriNitro_node_c2.PointOfDefinition = null;
-			ToluolCoreThenTriNitro_node_c3.PointOfDefinition = null;
-			ToluolCoreThenTriNitro_node_c4.PointOfDefinition = null;
-			ToluolCoreThenTriNitro_node_c5.PointOfDefinition = null;
-			ToluolCoreThenTriNitro_node_c6.PointOfDefinition = null;
+			ToluolCoreThenTriNitro_node_c1.pointOfDefinition = null;
+			ToluolCoreThenTriNitro_node_c2.pointOfDefinition = null;
+			ToluolCoreThenTriNitro_node_c3.pointOfDefinition = null;
+			ToluolCoreThenTriNitro_node_c4.pointOfDefinition = null;
+			ToluolCoreThenTriNitro_node_c5.pointOfDefinition = null;
+			ToluolCoreThenTriNitro_node_c6.pointOfDefinition = null;
 			ToluolCoreThenTriNitro__subpattern0.PointOfDefinition = pat_ToluolCoreThenTriNitro;
 			ToluolCoreThenTriNitro__subpattern1.PointOfDefinition = pat_ToluolCoreThenTriNitro;
 			ToluolCoreThenTriNitro__subpattern2.PointOfDefinition = pat_ToluolCoreThenTriNitro;
@@ -3871,12 +3871,12 @@ namespace de.unika.ipd.grGen.Action_TNT
 				TNTTotallyFolded_isEdgeHomomorphicGlobal
 			);
 
-			TNTTotallyFolded_node_c1.PointOfDefinition = pat_TNTTotallyFolded;
-			TNTTotallyFolded_node_c2.PointOfDefinition = pat_TNTTotallyFolded;
-			TNTTotallyFolded_node_c3.PointOfDefinition = pat_TNTTotallyFolded;
-			TNTTotallyFolded_node_c4.PointOfDefinition = pat_TNTTotallyFolded;
-			TNTTotallyFolded_node_c5.PointOfDefinition = pat_TNTTotallyFolded;
-			TNTTotallyFolded_node_c6.PointOfDefinition = pat_TNTTotallyFolded;
+			TNTTotallyFolded_node_c1.pointOfDefinition = pat_TNTTotallyFolded;
+			TNTTotallyFolded_node_c2.pointOfDefinition = pat_TNTTotallyFolded;
+			TNTTotallyFolded_node_c3.pointOfDefinition = pat_TNTTotallyFolded;
+			TNTTotallyFolded_node_c4.pointOfDefinition = pat_TNTTotallyFolded;
+			TNTTotallyFolded_node_c5.pointOfDefinition = pat_TNTTotallyFolded;
+			TNTTotallyFolded_node_c6.pointOfDefinition = pat_TNTTotallyFolded;
 			TNTTotallyFolded__subpattern0.PointOfDefinition = pat_TNTTotallyFolded;
 			TNTTotallyFolded__subpattern1.PointOfDefinition = pat_TNTTotallyFolded;
 			TNTTotallyFolded__subpattern2.PointOfDefinition = pat_TNTTotallyFolded;
@@ -4168,12 +4168,12 @@ namespace de.unika.ipd.grGen.Action_TNT
 				TNTChain_isEdgeHomomorphicGlobal
 			);
 
-			TNTChain_node_c1.PointOfDefinition = pat_TNTChain;
-			TNTChain_node_c2.PointOfDefinition = pat_TNTChain;
-			TNTChain_node_c3.PointOfDefinition = pat_TNTChain;
-			TNTChain_node_c4.PointOfDefinition = pat_TNTChain;
-			TNTChain_node_c5.PointOfDefinition = pat_TNTChain;
-			TNTChain_node_c6.PointOfDefinition = pat_TNTChain;
+			TNTChain_node_c1.pointOfDefinition = pat_TNTChain;
+			TNTChain_node_c2.pointOfDefinition = pat_TNTChain;
+			TNTChain_node_c3.pointOfDefinition = pat_TNTChain;
+			TNTChain_node_c4.pointOfDefinition = pat_TNTChain;
+			TNTChain_node_c5.pointOfDefinition = pat_TNTChain;
+			TNTChain_node_c6.pointOfDefinition = pat_TNTChain;
 			TNTChain__subpattern0.PointOfDefinition = pat_TNTChain;
 			TNTChain__subpattern1.PointOfDefinition = pat_TNTChain;
 
@@ -4400,7 +4400,7 @@ namespace de.unika.ipd.grGen.Action_TNT
 				ToluolCore_isEdgeHomomorphicGlobal
 			);
 
-			ToluolCore_node_c1.PointOfDefinition = pat_ToluolCore;
+			ToluolCore_node_c1.pointOfDefinition = pat_ToluolCore;
 			ToluolCore__subpattern0.PointOfDefinition = pat_ToluolCore;
 			ToluolCore__subpattern1.PointOfDefinition = pat_ToluolCore;
 
@@ -4602,7 +4602,7 @@ namespace de.unika.ipd.grGen.Action_TNT
 				ToluolCoreNotC6Nitro_isEdgeHomomorphicGlobal
 			);
 
-			ToluolCoreNotC6Nitro_node_c1.PointOfDefinition = pat_ToluolCoreNotC6Nitro;
+			ToluolCoreNotC6Nitro_node_c1.pointOfDefinition = pat_ToluolCoreNotC6Nitro;
 			ToluolCoreNotC6Nitro__subpattern0.PointOfDefinition = pat_ToluolCoreNotC6Nitro;
 			ToluolCoreNotC6Nitro__subpattern1.PointOfDefinition = pat_ToluolCoreNotC6Nitro;
 
@@ -4859,12 +4859,12 @@ namespace de.unika.ipd.grGen.Action_TNT
 				Toluol_isEdgeHomomorphicGlobal
 			);
 
-			Toluol_node_c1.PointOfDefinition = pat_Toluol;
-			Toluol_node_c2.PointOfDefinition = pat_Toluol;
-			Toluol_node_c3.PointOfDefinition = pat_Toluol;
-			Toluol_node_c4.PointOfDefinition = pat_Toluol;
-			Toluol_node_c5.PointOfDefinition = pat_Toluol;
-			Toluol_node_c6.PointOfDefinition = pat_Toluol;
+			Toluol_node_c1.pointOfDefinition = pat_Toluol;
+			Toluol_node_c2.pointOfDefinition = pat_Toluol;
+			Toluol_node_c3.pointOfDefinition = pat_Toluol;
+			Toluol_node_c4.pointOfDefinition = pat_Toluol;
+			Toluol_node_c5.pointOfDefinition = pat_Toluol;
+			Toluol_node_c6.pointOfDefinition = pat_Toluol;
 			Toluol__subpattern0.PointOfDefinition = pat_Toluol;
 			Toluol__subpattern1.PointOfDefinition = pat_Toluol;
 			Toluol__subpattern2.PointOfDefinition = pat_Toluol;
@@ -5231,21 +5231,21 @@ namespace de.unika.ipd.grGen.Action_TNT
 			pat_TNT.edgeToSourceNode.Add(TNT_edge__edge8, TNT_node_c5);
 			pat_TNT.edgeToTargetNode.Add(TNT_edge__edge8, TNT_node_c6);
 
-			TNT_node_c1.PointOfDefinition = pat_TNT;
-			TNT_node_c2.PointOfDefinition = pat_TNT;
-			TNT_node_c3.PointOfDefinition = pat_TNT;
-			TNT_node_c4.PointOfDefinition = pat_TNT;
-			TNT_node_c5.PointOfDefinition = pat_TNT;
-			TNT_node_c6.PointOfDefinition = pat_TNT;
-			TNT_edge__edge0.PointOfDefinition = pat_TNT;
-			TNT_edge__edge1.PointOfDefinition = pat_TNT;
-			TNT_edge__edge2.PointOfDefinition = pat_TNT;
-			TNT_edge__edge3.PointOfDefinition = pat_TNT;
-			TNT_edge__edge4.PointOfDefinition = pat_TNT;
-			TNT_edge__edge5.PointOfDefinition = pat_TNT;
-			TNT_edge__edge6.PointOfDefinition = pat_TNT;
-			TNT_edge__edge7.PointOfDefinition = pat_TNT;
-			TNT_edge__edge8.PointOfDefinition = pat_TNT;
+			TNT_node_c1.pointOfDefinition = pat_TNT;
+			TNT_node_c2.pointOfDefinition = pat_TNT;
+			TNT_node_c3.pointOfDefinition = pat_TNT;
+			TNT_node_c4.pointOfDefinition = pat_TNT;
+			TNT_node_c5.pointOfDefinition = pat_TNT;
+			TNT_node_c6.pointOfDefinition = pat_TNT;
+			TNT_edge__edge0.pointOfDefinition = pat_TNT;
+			TNT_edge__edge1.pointOfDefinition = pat_TNT;
+			TNT_edge__edge2.pointOfDefinition = pat_TNT;
+			TNT_edge__edge3.pointOfDefinition = pat_TNT;
+			TNT_edge__edge4.pointOfDefinition = pat_TNT;
+			TNT_edge__edge5.pointOfDefinition = pat_TNT;
+			TNT_edge__edge6.pointOfDefinition = pat_TNT;
+			TNT_edge__edge7.pointOfDefinition = pat_TNT;
+			TNT_edge__edge8.pointOfDefinition = pat_TNT;
 			TNT__subpattern0.PointOfDefinition = pat_TNT;
 			TNT__subpattern1.PointOfDefinition = pat_TNT;
 			TNT__subpattern2.PointOfDefinition = pat_TNT;
@@ -5792,51 +5792,51 @@ namespace de.unika.ipd.grGen.Action_TNT
 			pat_TNTUnfolded.edgeToSourceNode.Add(TNTUnfolded_edge__edge23, TNTUnfolded_node_n6);
 			pat_TNTUnfolded.edgeToTargetNode.Add(TNTUnfolded_edge__edge23, TNTUnfolded_node__node10);
 
-			TNTUnfolded_node_c1.PointOfDefinition = pat_TNTUnfolded;
-			TNTUnfolded_node_c2.PointOfDefinition = pat_TNTUnfolded;
-			TNTUnfolded_node_c3.PointOfDefinition = pat_TNTUnfolded;
-			TNTUnfolded_node_c4.PointOfDefinition = pat_TNTUnfolded;
-			TNTUnfolded_node_c5.PointOfDefinition = pat_TNTUnfolded;
-			TNTUnfolded_node_c6.PointOfDefinition = pat_TNTUnfolded;
-			TNTUnfolded_node_c.PointOfDefinition = pat_TNTUnfolded;
-			TNTUnfolded_node__node0.PointOfDefinition = pat_TNTUnfolded;
-			TNTUnfolded_node__node1.PointOfDefinition = pat_TNTUnfolded;
-			TNTUnfolded_node__node2.PointOfDefinition = pat_TNTUnfolded;
-			TNTUnfolded_node_n2.PointOfDefinition = pat_TNTUnfolded;
-			TNTUnfolded_node__node3.PointOfDefinition = pat_TNTUnfolded;
-			TNTUnfolded_node__node4.PointOfDefinition = pat_TNTUnfolded;
-			TNTUnfolded_node__node5.PointOfDefinition = pat_TNTUnfolded;
-			TNTUnfolded_node_n4.PointOfDefinition = pat_TNTUnfolded;
-			TNTUnfolded_node__node6.PointOfDefinition = pat_TNTUnfolded;
-			TNTUnfolded_node__node7.PointOfDefinition = pat_TNTUnfolded;
-			TNTUnfolded_node__node8.PointOfDefinition = pat_TNTUnfolded;
-			TNTUnfolded_node_n6.PointOfDefinition = pat_TNTUnfolded;
-			TNTUnfolded_node__node9.PointOfDefinition = pat_TNTUnfolded;
-			TNTUnfolded_node__node10.PointOfDefinition = pat_TNTUnfolded;
-			TNTUnfolded_edge__edge0.PointOfDefinition = pat_TNTUnfolded;
-			TNTUnfolded_edge__edge1.PointOfDefinition = pat_TNTUnfolded;
-			TNTUnfolded_edge__edge2.PointOfDefinition = pat_TNTUnfolded;
-			TNTUnfolded_edge__edge3.PointOfDefinition = pat_TNTUnfolded;
-			TNTUnfolded_edge__edge4.PointOfDefinition = pat_TNTUnfolded;
-			TNTUnfolded_edge__edge5.PointOfDefinition = pat_TNTUnfolded;
-			TNTUnfolded_edge__edge6.PointOfDefinition = pat_TNTUnfolded;
-			TNTUnfolded_edge__edge7.PointOfDefinition = pat_TNTUnfolded;
-			TNTUnfolded_edge__edge8.PointOfDefinition = pat_TNTUnfolded;
-			TNTUnfolded_edge__edge9.PointOfDefinition = pat_TNTUnfolded;
-			TNTUnfolded_edge__edge10.PointOfDefinition = pat_TNTUnfolded;
-			TNTUnfolded_edge__edge11.PointOfDefinition = pat_TNTUnfolded;
-			TNTUnfolded_edge__edge12.PointOfDefinition = pat_TNTUnfolded;
-			TNTUnfolded_edge__edge13.PointOfDefinition = pat_TNTUnfolded;
-			TNTUnfolded_edge__edge14.PointOfDefinition = pat_TNTUnfolded;
-			TNTUnfolded_edge__edge15.PointOfDefinition = pat_TNTUnfolded;
-			TNTUnfolded_edge__edge16.PointOfDefinition = pat_TNTUnfolded;
-			TNTUnfolded_edge__edge17.PointOfDefinition = pat_TNTUnfolded;
-			TNTUnfolded_edge__edge18.PointOfDefinition = pat_TNTUnfolded;
-			TNTUnfolded_edge__edge19.PointOfDefinition = pat_TNTUnfolded;
-			TNTUnfolded_edge__edge20.PointOfDefinition = pat_TNTUnfolded;
-			TNTUnfolded_edge__edge21.PointOfDefinition = pat_TNTUnfolded;
-			TNTUnfolded_edge__edge22.PointOfDefinition = pat_TNTUnfolded;
-			TNTUnfolded_edge__edge23.PointOfDefinition = pat_TNTUnfolded;
+			TNTUnfolded_node_c1.pointOfDefinition = pat_TNTUnfolded;
+			TNTUnfolded_node_c2.pointOfDefinition = pat_TNTUnfolded;
+			TNTUnfolded_node_c3.pointOfDefinition = pat_TNTUnfolded;
+			TNTUnfolded_node_c4.pointOfDefinition = pat_TNTUnfolded;
+			TNTUnfolded_node_c5.pointOfDefinition = pat_TNTUnfolded;
+			TNTUnfolded_node_c6.pointOfDefinition = pat_TNTUnfolded;
+			TNTUnfolded_node_c.pointOfDefinition = pat_TNTUnfolded;
+			TNTUnfolded_node__node0.pointOfDefinition = pat_TNTUnfolded;
+			TNTUnfolded_node__node1.pointOfDefinition = pat_TNTUnfolded;
+			TNTUnfolded_node__node2.pointOfDefinition = pat_TNTUnfolded;
+			TNTUnfolded_node_n2.pointOfDefinition = pat_TNTUnfolded;
+			TNTUnfolded_node__node3.pointOfDefinition = pat_TNTUnfolded;
+			TNTUnfolded_node__node4.pointOfDefinition = pat_TNTUnfolded;
+			TNTUnfolded_node__node5.pointOfDefinition = pat_TNTUnfolded;
+			TNTUnfolded_node_n4.pointOfDefinition = pat_TNTUnfolded;
+			TNTUnfolded_node__node6.pointOfDefinition = pat_TNTUnfolded;
+			TNTUnfolded_node__node7.pointOfDefinition = pat_TNTUnfolded;
+			TNTUnfolded_node__node8.pointOfDefinition = pat_TNTUnfolded;
+			TNTUnfolded_node_n6.pointOfDefinition = pat_TNTUnfolded;
+			TNTUnfolded_node__node9.pointOfDefinition = pat_TNTUnfolded;
+			TNTUnfolded_node__node10.pointOfDefinition = pat_TNTUnfolded;
+			TNTUnfolded_edge__edge0.pointOfDefinition = pat_TNTUnfolded;
+			TNTUnfolded_edge__edge1.pointOfDefinition = pat_TNTUnfolded;
+			TNTUnfolded_edge__edge2.pointOfDefinition = pat_TNTUnfolded;
+			TNTUnfolded_edge__edge3.pointOfDefinition = pat_TNTUnfolded;
+			TNTUnfolded_edge__edge4.pointOfDefinition = pat_TNTUnfolded;
+			TNTUnfolded_edge__edge5.pointOfDefinition = pat_TNTUnfolded;
+			TNTUnfolded_edge__edge6.pointOfDefinition = pat_TNTUnfolded;
+			TNTUnfolded_edge__edge7.pointOfDefinition = pat_TNTUnfolded;
+			TNTUnfolded_edge__edge8.pointOfDefinition = pat_TNTUnfolded;
+			TNTUnfolded_edge__edge9.pointOfDefinition = pat_TNTUnfolded;
+			TNTUnfolded_edge__edge10.pointOfDefinition = pat_TNTUnfolded;
+			TNTUnfolded_edge__edge11.pointOfDefinition = pat_TNTUnfolded;
+			TNTUnfolded_edge__edge12.pointOfDefinition = pat_TNTUnfolded;
+			TNTUnfolded_edge__edge13.pointOfDefinition = pat_TNTUnfolded;
+			TNTUnfolded_edge__edge14.pointOfDefinition = pat_TNTUnfolded;
+			TNTUnfolded_edge__edge15.pointOfDefinition = pat_TNTUnfolded;
+			TNTUnfolded_edge__edge16.pointOfDefinition = pat_TNTUnfolded;
+			TNTUnfolded_edge__edge17.pointOfDefinition = pat_TNTUnfolded;
+			TNTUnfolded_edge__edge18.pointOfDefinition = pat_TNTUnfolded;
+			TNTUnfolded_edge__edge19.pointOfDefinition = pat_TNTUnfolded;
+			TNTUnfolded_edge__edge20.pointOfDefinition = pat_TNTUnfolded;
+			TNTUnfolded_edge__edge21.pointOfDefinition = pat_TNTUnfolded;
+			TNTUnfolded_edge__edge22.pointOfDefinition = pat_TNTUnfolded;
+			TNTUnfolded_edge__edge23.pointOfDefinition = pat_TNTUnfolded;
 
 			patternGraph = pat_TNTUnfolded;
 		}
@@ -6528,21 +6528,21 @@ namespace de.unika.ipd.grGen.Action_TNT
 			pat_DNT.edgeToSourceNode.Add(DNT_edge__edge8, DNT_node_c5);
 			pat_DNT.edgeToTargetNode.Add(DNT_edge__edge8, DNT_node_c6);
 
-			DNT_node_c1.PointOfDefinition = pat_DNT;
-			DNT_node_c2.PointOfDefinition = pat_DNT;
-			DNT_node_c3.PointOfDefinition = pat_DNT;
-			DNT_node_c4.PointOfDefinition = pat_DNT;
-			DNT_node_c5.PointOfDefinition = pat_DNT;
-			DNT_node_c6.PointOfDefinition = pat_DNT;
-			DNT_edge__edge0.PointOfDefinition = pat_DNT;
-			DNT_edge__edge1.PointOfDefinition = pat_DNT;
-			DNT_edge__edge2.PointOfDefinition = pat_DNT;
-			DNT_edge__edge3.PointOfDefinition = pat_DNT;
-			DNT_edge__edge4.PointOfDefinition = pat_DNT;
-			DNT_edge__edge5.PointOfDefinition = pat_DNT;
-			DNT_edge__edge6.PointOfDefinition = pat_DNT;
-			DNT_edge__edge7.PointOfDefinition = pat_DNT;
-			DNT_edge__edge8.PointOfDefinition = pat_DNT;
+			DNT_node_c1.pointOfDefinition = pat_DNT;
+			DNT_node_c2.pointOfDefinition = pat_DNT;
+			DNT_node_c3.pointOfDefinition = pat_DNT;
+			DNT_node_c4.pointOfDefinition = pat_DNT;
+			DNT_node_c5.pointOfDefinition = pat_DNT;
+			DNT_node_c6.pointOfDefinition = pat_DNT;
+			DNT_edge__edge0.pointOfDefinition = pat_DNT;
+			DNT_edge__edge1.pointOfDefinition = pat_DNT;
+			DNT_edge__edge2.pointOfDefinition = pat_DNT;
+			DNT_edge__edge3.pointOfDefinition = pat_DNT;
+			DNT_edge__edge4.pointOfDefinition = pat_DNT;
+			DNT_edge__edge5.pointOfDefinition = pat_DNT;
+			DNT_edge__edge6.pointOfDefinition = pat_DNT;
+			DNT_edge__edge7.pointOfDefinition = pat_DNT;
+			DNT_edge__edge8.pointOfDefinition = pat_DNT;
 			DNT__subpattern0.PointOfDefinition = pat_DNT;
 			DNT__subpattern1.PointOfDefinition = pat_DNT;
 			DNT__subpattern2.PointOfDefinition = pat_DNT;
@@ -7065,47 +7065,47 @@ namespace de.unika.ipd.grGen.Action_TNT
 			pat_DNTUnfolded.edgeToSourceNode.Add(DNTUnfolded_edge__edge21, DNTUnfolded_node_c6);
 			pat_DNTUnfolded.edgeToTargetNode.Add(DNTUnfolded_edge__edge21, DNTUnfolded_node__node9);
 
-			DNTUnfolded_node_c1.PointOfDefinition = pat_DNTUnfolded;
-			DNTUnfolded_node_c2.PointOfDefinition = pat_DNTUnfolded;
-			DNTUnfolded_node_c3.PointOfDefinition = pat_DNTUnfolded;
-			DNTUnfolded_node_c4.PointOfDefinition = pat_DNTUnfolded;
-			DNTUnfolded_node_c5.PointOfDefinition = pat_DNTUnfolded;
-			DNTUnfolded_node_c6.PointOfDefinition = pat_DNTUnfolded;
-			DNTUnfolded_node_c.PointOfDefinition = pat_DNTUnfolded;
-			DNTUnfolded_node__node0.PointOfDefinition = pat_DNTUnfolded;
-			DNTUnfolded_node__node1.PointOfDefinition = pat_DNTUnfolded;
-			DNTUnfolded_node__node2.PointOfDefinition = pat_DNTUnfolded;
-			DNTUnfolded_node_n2.PointOfDefinition = pat_DNTUnfolded;
-			DNTUnfolded_node__node3.PointOfDefinition = pat_DNTUnfolded;
-			DNTUnfolded_node__node4.PointOfDefinition = pat_DNTUnfolded;
-			DNTUnfolded_node__node5.PointOfDefinition = pat_DNTUnfolded;
-			DNTUnfolded_node_n4.PointOfDefinition = pat_DNTUnfolded;
-			DNTUnfolded_node__node6.PointOfDefinition = pat_DNTUnfolded;
-			DNTUnfolded_node__node7.PointOfDefinition = pat_DNTUnfolded;
-			DNTUnfolded_node__node8.PointOfDefinition = pat_DNTUnfolded;
-			DNTUnfolded_node__node9.PointOfDefinition = pat_DNTUnfolded;
-			DNTUnfolded_edge__edge0.PointOfDefinition = pat_DNTUnfolded;
-			DNTUnfolded_edge__edge1.PointOfDefinition = pat_DNTUnfolded;
-			DNTUnfolded_edge__edge2.PointOfDefinition = pat_DNTUnfolded;
-			DNTUnfolded_edge__edge3.PointOfDefinition = pat_DNTUnfolded;
-			DNTUnfolded_edge__edge4.PointOfDefinition = pat_DNTUnfolded;
-			DNTUnfolded_edge__edge5.PointOfDefinition = pat_DNTUnfolded;
-			DNTUnfolded_edge__edge6.PointOfDefinition = pat_DNTUnfolded;
-			DNTUnfolded_edge__edge7.PointOfDefinition = pat_DNTUnfolded;
-			DNTUnfolded_edge__edge8.PointOfDefinition = pat_DNTUnfolded;
-			DNTUnfolded_edge__edge9.PointOfDefinition = pat_DNTUnfolded;
-			DNTUnfolded_edge__edge10.PointOfDefinition = pat_DNTUnfolded;
-			DNTUnfolded_edge__edge11.PointOfDefinition = pat_DNTUnfolded;
-			DNTUnfolded_edge__edge12.PointOfDefinition = pat_DNTUnfolded;
-			DNTUnfolded_edge__edge13.PointOfDefinition = pat_DNTUnfolded;
-			DNTUnfolded_edge__edge14.PointOfDefinition = pat_DNTUnfolded;
-			DNTUnfolded_edge__edge15.PointOfDefinition = pat_DNTUnfolded;
-			DNTUnfolded_edge__edge16.PointOfDefinition = pat_DNTUnfolded;
-			DNTUnfolded_edge__edge17.PointOfDefinition = pat_DNTUnfolded;
-			DNTUnfolded_edge__edge18.PointOfDefinition = pat_DNTUnfolded;
-			DNTUnfolded_edge__edge19.PointOfDefinition = pat_DNTUnfolded;
-			DNTUnfolded_edge__edge20.PointOfDefinition = pat_DNTUnfolded;
-			DNTUnfolded_edge__edge21.PointOfDefinition = pat_DNTUnfolded;
+			DNTUnfolded_node_c1.pointOfDefinition = pat_DNTUnfolded;
+			DNTUnfolded_node_c2.pointOfDefinition = pat_DNTUnfolded;
+			DNTUnfolded_node_c3.pointOfDefinition = pat_DNTUnfolded;
+			DNTUnfolded_node_c4.pointOfDefinition = pat_DNTUnfolded;
+			DNTUnfolded_node_c5.pointOfDefinition = pat_DNTUnfolded;
+			DNTUnfolded_node_c6.pointOfDefinition = pat_DNTUnfolded;
+			DNTUnfolded_node_c.pointOfDefinition = pat_DNTUnfolded;
+			DNTUnfolded_node__node0.pointOfDefinition = pat_DNTUnfolded;
+			DNTUnfolded_node__node1.pointOfDefinition = pat_DNTUnfolded;
+			DNTUnfolded_node__node2.pointOfDefinition = pat_DNTUnfolded;
+			DNTUnfolded_node_n2.pointOfDefinition = pat_DNTUnfolded;
+			DNTUnfolded_node__node3.pointOfDefinition = pat_DNTUnfolded;
+			DNTUnfolded_node__node4.pointOfDefinition = pat_DNTUnfolded;
+			DNTUnfolded_node__node5.pointOfDefinition = pat_DNTUnfolded;
+			DNTUnfolded_node_n4.pointOfDefinition = pat_DNTUnfolded;
+			DNTUnfolded_node__node6.pointOfDefinition = pat_DNTUnfolded;
+			DNTUnfolded_node__node7.pointOfDefinition = pat_DNTUnfolded;
+			DNTUnfolded_node__node8.pointOfDefinition = pat_DNTUnfolded;
+			DNTUnfolded_node__node9.pointOfDefinition = pat_DNTUnfolded;
+			DNTUnfolded_edge__edge0.pointOfDefinition = pat_DNTUnfolded;
+			DNTUnfolded_edge__edge1.pointOfDefinition = pat_DNTUnfolded;
+			DNTUnfolded_edge__edge2.pointOfDefinition = pat_DNTUnfolded;
+			DNTUnfolded_edge__edge3.pointOfDefinition = pat_DNTUnfolded;
+			DNTUnfolded_edge__edge4.pointOfDefinition = pat_DNTUnfolded;
+			DNTUnfolded_edge__edge5.pointOfDefinition = pat_DNTUnfolded;
+			DNTUnfolded_edge__edge6.pointOfDefinition = pat_DNTUnfolded;
+			DNTUnfolded_edge__edge7.pointOfDefinition = pat_DNTUnfolded;
+			DNTUnfolded_edge__edge8.pointOfDefinition = pat_DNTUnfolded;
+			DNTUnfolded_edge__edge9.pointOfDefinition = pat_DNTUnfolded;
+			DNTUnfolded_edge__edge10.pointOfDefinition = pat_DNTUnfolded;
+			DNTUnfolded_edge__edge11.pointOfDefinition = pat_DNTUnfolded;
+			DNTUnfolded_edge__edge12.pointOfDefinition = pat_DNTUnfolded;
+			DNTUnfolded_edge__edge13.pointOfDefinition = pat_DNTUnfolded;
+			DNTUnfolded_edge__edge14.pointOfDefinition = pat_DNTUnfolded;
+			DNTUnfolded_edge__edge15.pointOfDefinition = pat_DNTUnfolded;
+			DNTUnfolded_edge__edge16.pointOfDefinition = pat_DNTUnfolded;
+			DNTUnfolded_edge__edge17.pointOfDefinition = pat_DNTUnfolded;
+			DNTUnfolded_edge__edge18.pointOfDefinition = pat_DNTUnfolded;
+			DNTUnfolded_edge__edge19.pointOfDefinition = pat_DNTUnfolded;
+			DNTUnfolded_edge__edge20.pointOfDefinition = pat_DNTUnfolded;
+			DNTUnfolded_edge__edge21.pointOfDefinition = pat_DNTUnfolded;
 
 			patternGraph = pat_DNTUnfolded;
 		}
@@ -7777,21 +7777,21 @@ namespace de.unika.ipd.grGen.Action_TNT
 			pat_TNB.edgeToSourceNode.Add(TNB_edge__edge8, TNB_node_c5);
 			pat_TNB.edgeToTargetNode.Add(TNB_edge__edge8, TNB_node_c6);
 
-			TNB_node_c1.PointOfDefinition = pat_TNB;
-			TNB_node_c2.PointOfDefinition = pat_TNB;
-			TNB_node_c3.PointOfDefinition = pat_TNB;
-			TNB_node_c4.PointOfDefinition = pat_TNB;
-			TNB_node_c5.PointOfDefinition = pat_TNB;
-			TNB_node_c6.PointOfDefinition = pat_TNB;
-			TNB_edge__edge0.PointOfDefinition = pat_TNB;
-			TNB_edge__edge1.PointOfDefinition = pat_TNB;
-			TNB_edge__edge2.PointOfDefinition = pat_TNB;
-			TNB_edge__edge3.PointOfDefinition = pat_TNB;
-			TNB_edge__edge4.PointOfDefinition = pat_TNB;
-			TNB_edge__edge5.PointOfDefinition = pat_TNB;
-			TNB_edge__edge6.PointOfDefinition = pat_TNB;
-			TNB_edge__edge7.PointOfDefinition = pat_TNB;
-			TNB_edge__edge8.PointOfDefinition = pat_TNB;
+			TNB_node_c1.pointOfDefinition = pat_TNB;
+			TNB_node_c2.pointOfDefinition = pat_TNB;
+			TNB_node_c3.pointOfDefinition = pat_TNB;
+			TNB_node_c4.pointOfDefinition = pat_TNB;
+			TNB_node_c5.pointOfDefinition = pat_TNB;
+			TNB_node_c6.pointOfDefinition = pat_TNB;
+			TNB_edge__edge0.pointOfDefinition = pat_TNB;
+			TNB_edge__edge1.pointOfDefinition = pat_TNB;
+			TNB_edge__edge2.pointOfDefinition = pat_TNB;
+			TNB_edge__edge3.pointOfDefinition = pat_TNB;
+			TNB_edge__edge4.pointOfDefinition = pat_TNB;
+			TNB_edge__edge5.pointOfDefinition = pat_TNB;
+			TNB_edge__edge6.pointOfDefinition = pat_TNB;
+			TNB_edge__edge7.pointOfDefinition = pat_TNB;
+			TNB_edge__edge8.pointOfDefinition = pat_TNB;
 			TNB__subpattern0.PointOfDefinition = pat_TNB;
 			TNB__subpattern1.PointOfDefinition = pat_TNB;
 			TNB__subpattern2.PointOfDefinition = pat_TNB;
@@ -8302,45 +8302,45 @@ namespace de.unika.ipd.grGen.Action_TNT
 			pat_TNBUnfolded.edgeToSourceNode.Add(TNBUnfolded_edge__edge20, TNBUnfolded_node_n6);
 			pat_TNBUnfolded.edgeToTargetNode.Add(TNBUnfolded_edge__edge20, TNBUnfolded_node__node8);
 
-			TNBUnfolded_node_c1.PointOfDefinition = pat_TNBUnfolded;
-			TNBUnfolded_node_c2.PointOfDefinition = pat_TNBUnfolded;
-			TNBUnfolded_node_c3.PointOfDefinition = pat_TNBUnfolded;
-			TNBUnfolded_node_c4.PointOfDefinition = pat_TNBUnfolded;
-			TNBUnfolded_node_c5.PointOfDefinition = pat_TNBUnfolded;
-			TNBUnfolded_node_c6.PointOfDefinition = pat_TNBUnfolded;
-			TNBUnfolded_node__node0.PointOfDefinition = pat_TNBUnfolded;
-			TNBUnfolded_node_n2.PointOfDefinition = pat_TNBUnfolded;
-			TNBUnfolded_node__node1.PointOfDefinition = pat_TNBUnfolded;
-			TNBUnfolded_node__node2.PointOfDefinition = pat_TNBUnfolded;
-			TNBUnfolded_node__node3.PointOfDefinition = pat_TNBUnfolded;
-			TNBUnfolded_node_n4.PointOfDefinition = pat_TNBUnfolded;
-			TNBUnfolded_node__node4.PointOfDefinition = pat_TNBUnfolded;
-			TNBUnfolded_node__node5.PointOfDefinition = pat_TNBUnfolded;
-			TNBUnfolded_node__node6.PointOfDefinition = pat_TNBUnfolded;
-			TNBUnfolded_node_n6.PointOfDefinition = pat_TNBUnfolded;
-			TNBUnfolded_node__node7.PointOfDefinition = pat_TNBUnfolded;
-			TNBUnfolded_node__node8.PointOfDefinition = pat_TNBUnfolded;
-			TNBUnfolded_edge__edge0.PointOfDefinition = pat_TNBUnfolded;
-			TNBUnfolded_edge__edge1.PointOfDefinition = pat_TNBUnfolded;
-			TNBUnfolded_edge__edge2.PointOfDefinition = pat_TNBUnfolded;
-			TNBUnfolded_edge__edge3.PointOfDefinition = pat_TNBUnfolded;
-			TNBUnfolded_edge__edge4.PointOfDefinition = pat_TNBUnfolded;
-			TNBUnfolded_edge__edge5.PointOfDefinition = pat_TNBUnfolded;
-			TNBUnfolded_edge__edge6.PointOfDefinition = pat_TNBUnfolded;
-			TNBUnfolded_edge__edge7.PointOfDefinition = pat_TNBUnfolded;
-			TNBUnfolded_edge__edge8.PointOfDefinition = pat_TNBUnfolded;
-			TNBUnfolded_edge__edge9.PointOfDefinition = pat_TNBUnfolded;
-			TNBUnfolded_edge__edge10.PointOfDefinition = pat_TNBUnfolded;
-			TNBUnfolded_edge__edge11.PointOfDefinition = pat_TNBUnfolded;
-			TNBUnfolded_edge__edge12.PointOfDefinition = pat_TNBUnfolded;
-			TNBUnfolded_edge__edge13.PointOfDefinition = pat_TNBUnfolded;
-			TNBUnfolded_edge__edge14.PointOfDefinition = pat_TNBUnfolded;
-			TNBUnfolded_edge__edge15.PointOfDefinition = pat_TNBUnfolded;
-			TNBUnfolded_edge__edge16.PointOfDefinition = pat_TNBUnfolded;
-			TNBUnfolded_edge__edge17.PointOfDefinition = pat_TNBUnfolded;
-			TNBUnfolded_edge__edge18.PointOfDefinition = pat_TNBUnfolded;
-			TNBUnfolded_edge__edge19.PointOfDefinition = pat_TNBUnfolded;
-			TNBUnfolded_edge__edge20.PointOfDefinition = pat_TNBUnfolded;
+			TNBUnfolded_node_c1.pointOfDefinition = pat_TNBUnfolded;
+			TNBUnfolded_node_c2.pointOfDefinition = pat_TNBUnfolded;
+			TNBUnfolded_node_c3.pointOfDefinition = pat_TNBUnfolded;
+			TNBUnfolded_node_c4.pointOfDefinition = pat_TNBUnfolded;
+			TNBUnfolded_node_c5.pointOfDefinition = pat_TNBUnfolded;
+			TNBUnfolded_node_c6.pointOfDefinition = pat_TNBUnfolded;
+			TNBUnfolded_node__node0.pointOfDefinition = pat_TNBUnfolded;
+			TNBUnfolded_node_n2.pointOfDefinition = pat_TNBUnfolded;
+			TNBUnfolded_node__node1.pointOfDefinition = pat_TNBUnfolded;
+			TNBUnfolded_node__node2.pointOfDefinition = pat_TNBUnfolded;
+			TNBUnfolded_node__node3.pointOfDefinition = pat_TNBUnfolded;
+			TNBUnfolded_node_n4.pointOfDefinition = pat_TNBUnfolded;
+			TNBUnfolded_node__node4.pointOfDefinition = pat_TNBUnfolded;
+			TNBUnfolded_node__node5.pointOfDefinition = pat_TNBUnfolded;
+			TNBUnfolded_node__node6.pointOfDefinition = pat_TNBUnfolded;
+			TNBUnfolded_node_n6.pointOfDefinition = pat_TNBUnfolded;
+			TNBUnfolded_node__node7.pointOfDefinition = pat_TNBUnfolded;
+			TNBUnfolded_node__node8.pointOfDefinition = pat_TNBUnfolded;
+			TNBUnfolded_edge__edge0.pointOfDefinition = pat_TNBUnfolded;
+			TNBUnfolded_edge__edge1.pointOfDefinition = pat_TNBUnfolded;
+			TNBUnfolded_edge__edge2.pointOfDefinition = pat_TNBUnfolded;
+			TNBUnfolded_edge__edge3.pointOfDefinition = pat_TNBUnfolded;
+			TNBUnfolded_edge__edge4.pointOfDefinition = pat_TNBUnfolded;
+			TNBUnfolded_edge__edge5.pointOfDefinition = pat_TNBUnfolded;
+			TNBUnfolded_edge__edge6.pointOfDefinition = pat_TNBUnfolded;
+			TNBUnfolded_edge__edge7.pointOfDefinition = pat_TNBUnfolded;
+			TNBUnfolded_edge__edge8.pointOfDefinition = pat_TNBUnfolded;
+			TNBUnfolded_edge__edge9.pointOfDefinition = pat_TNBUnfolded;
+			TNBUnfolded_edge__edge10.pointOfDefinition = pat_TNBUnfolded;
+			TNBUnfolded_edge__edge11.pointOfDefinition = pat_TNBUnfolded;
+			TNBUnfolded_edge__edge12.pointOfDefinition = pat_TNBUnfolded;
+			TNBUnfolded_edge__edge13.pointOfDefinition = pat_TNBUnfolded;
+			TNBUnfolded_edge__edge14.pointOfDefinition = pat_TNBUnfolded;
+			TNBUnfolded_edge__edge15.pointOfDefinition = pat_TNBUnfolded;
+			TNBUnfolded_edge__edge16.pointOfDefinition = pat_TNBUnfolded;
+			TNBUnfolded_edge__edge17.pointOfDefinition = pat_TNBUnfolded;
+			TNBUnfolded_edge__edge18.pointOfDefinition = pat_TNBUnfolded;
+			TNBUnfolded_edge__edge19.pointOfDefinition = pat_TNBUnfolded;
+			TNBUnfolded_edge__edge20.pointOfDefinition = pat_TNBUnfolded;
 
 			patternGraph = pat_TNBUnfolded;
 		}

@@ -1,6 +1,6 @@
 // This file has been generated automatically by GrGen (www.grgen.net)
 // Do not modify this file! Any changes will be lost!
-// Generated from "..\..\examples\Turing3\Turing3.grg" on Wed Sep 08 23:33:30 CEST 2010
+// Generated from "..\..\examples\Turing3\Turing3.grg" on Sun Sep 12 20:12:19 CEST 2010
 
 using System;
 using System.Collections.Generic;
@@ -95,10 +95,10 @@ namespace de.unika.ipd.grGen.Action_Turing3
 			pat_readZeroRule.edgeToSourceNode.Add(readZeroRule_edge_rv, readZeroRule_node_s);
 			pat_readZeroRule.edgeToTargetNode.Add(readZeroRule_edge_rv, readZeroRule_node_wv);
 
-			readZeroRule_node_s.PointOfDefinition = null;
-			readZeroRule_node_wv.PointOfDefinition = pat_readZeroRule;
-			readZeroRule_node_bp.PointOfDefinition = null;
-			readZeroRule_edge_rv.PointOfDefinition = pat_readZeroRule;
+			readZeroRule_node_s.pointOfDefinition = null;
+			readZeroRule_node_wv.pointOfDefinition = pat_readZeroRule;
+			readZeroRule_node_bp.pointOfDefinition = null;
+			readZeroRule_edge_rv.pointOfDefinition = pat_readZeroRule;
 
 			patternGraph = pat_readZeroRule;
 		}
@@ -324,10 +324,10 @@ namespace de.unika.ipd.grGen.Action_Turing3
 			pat_readOneRule.edgeToSourceNode.Add(readOneRule_edge_rv, readOneRule_node_s);
 			pat_readOneRule.edgeToTargetNode.Add(readOneRule_edge_rv, readOneRule_node_wv);
 
-			readOneRule_node_s.PointOfDefinition = null;
-			readOneRule_node_wv.PointOfDefinition = pat_readOneRule;
-			readOneRule_node_bp.PointOfDefinition = null;
-			readOneRule_edge_rv.PointOfDefinition = pat_readOneRule;
+			readOneRule_node_s.pointOfDefinition = null;
+			readOneRule_node_wv.pointOfDefinition = pat_readOneRule;
+			readOneRule_node_bp.pointOfDefinition = null;
+			readOneRule_edge_rv.pointOfDefinition = pat_readOneRule;
 
 			patternGraph = pat_readOneRule;
 		}
@@ -603,12 +603,12 @@ namespace de.unika.ipd.grGen.Action_Turing3
 			pat_ensureMoveLeftValidRule.edgeToTargetNode.Add(ensureMoveLeftValidRule_edge__edge0, ensureMoveLeftValidRule_node__node0);
 			ensureMoveLeftValidRule_neg_0.embeddingGraph = pat_ensureMoveLeftValidRule;
 
-			ensureMoveLeftValidRule_node_wv.PointOfDefinition = null;
-			ensureMoveLeftValidRule_node__node0.PointOfDefinition = pat_ensureMoveLeftValidRule;
-			ensureMoveLeftValidRule_node_bp.PointOfDefinition = null;
-			ensureMoveLeftValidRule_edge__edge0.PointOfDefinition = pat_ensureMoveLeftValidRule;
-			ensureMoveLeftValidRule_neg_0_node__node0.PointOfDefinition = ensureMoveLeftValidRule_neg_0;
-			ensureMoveLeftValidRule_neg_0_edge__edge0.PointOfDefinition = ensureMoveLeftValidRule_neg_0;
+			ensureMoveLeftValidRule_node_wv.pointOfDefinition = null;
+			ensureMoveLeftValidRule_node__node0.pointOfDefinition = pat_ensureMoveLeftValidRule;
+			ensureMoveLeftValidRule_node_bp.pointOfDefinition = null;
+			ensureMoveLeftValidRule_edge__edge0.pointOfDefinition = pat_ensureMoveLeftValidRule;
+			ensureMoveLeftValidRule_neg_0_node__node0.pointOfDefinition = ensureMoveLeftValidRule_neg_0;
+			ensureMoveLeftValidRule_neg_0_edge__edge0.pointOfDefinition = ensureMoveLeftValidRule_neg_0;
 
 			patternGraph = pat_ensureMoveLeftValidRule;
 		}
@@ -990,12 +990,12 @@ namespace de.unika.ipd.grGen.Action_Turing3
 			pat_ensureMoveRightValidRule.edgeToTargetNode.Add(ensureMoveRightValidRule_edge__edge0, ensureMoveRightValidRule_node__node0);
 			ensureMoveRightValidRule_neg_0.embeddingGraph = pat_ensureMoveRightValidRule;
 
-			ensureMoveRightValidRule_node_wv.PointOfDefinition = null;
-			ensureMoveRightValidRule_node__node0.PointOfDefinition = pat_ensureMoveRightValidRule;
-			ensureMoveRightValidRule_node_bp.PointOfDefinition = null;
-			ensureMoveRightValidRule_edge__edge0.PointOfDefinition = pat_ensureMoveRightValidRule;
-			ensureMoveRightValidRule_neg_0_node__node0.PointOfDefinition = ensureMoveRightValidRule_neg_0;
-			ensureMoveRightValidRule_neg_0_edge__edge0.PointOfDefinition = ensureMoveRightValidRule_neg_0;
+			ensureMoveRightValidRule_node_wv.pointOfDefinition = null;
+			ensureMoveRightValidRule_node__node0.pointOfDefinition = pat_ensureMoveRightValidRule;
+			ensureMoveRightValidRule_node_bp.pointOfDefinition = null;
+			ensureMoveRightValidRule_edge__edge0.pointOfDefinition = pat_ensureMoveRightValidRule;
+			ensureMoveRightValidRule_neg_0_node__node0.pointOfDefinition = ensureMoveRightValidRule_neg_0;
+			ensureMoveRightValidRule_neg_0_edge__edge0.pointOfDefinition = ensureMoveRightValidRule_neg_0;
 
 			patternGraph = pat_ensureMoveRightValidRule;
 		}
@@ -1336,12 +1336,12 @@ namespace de.unika.ipd.grGen.Action_Turing3
 			pat_moveLeftRule.edgeToSourceNode.Add(moveLeftRule_edge__edge1, moveLeftRule_node_lbp);
 			pat_moveLeftRule.edgeToTargetNode.Add(moveLeftRule_edge__edge1, moveLeftRule_node_bp);
 
-			moveLeftRule_node_wv.PointOfDefinition = null;
-			moveLeftRule_node_s.PointOfDefinition = pat_moveLeftRule;
-			moveLeftRule_node_lbp.PointOfDefinition = pat_moveLeftRule;
-			moveLeftRule_node_bp.PointOfDefinition = null;
-			moveLeftRule_edge__edge0.PointOfDefinition = pat_moveLeftRule;
-			moveLeftRule_edge__edge1.PointOfDefinition = pat_moveLeftRule;
+			moveLeftRule_node_wv.pointOfDefinition = null;
+			moveLeftRule_node_s.pointOfDefinition = pat_moveLeftRule;
+			moveLeftRule_node_lbp.pointOfDefinition = pat_moveLeftRule;
+			moveLeftRule_node_bp.pointOfDefinition = null;
+			moveLeftRule_edge__edge0.pointOfDefinition = pat_moveLeftRule;
+			moveLeftRule_edge__edge1.pointOfDefinition = pat_moveLeftRule;
 
 			patternGraph = pat_moveLeftRule;
 		}
@@ -1580,12 +1580,12 @@ namespace de.unika.ipd.grGen.Action_Turing3
 			pat_moveRightRule.edgeToSourceNode.Add(moveRightRule_edge__edge1, moveRightRule_node_bp);
 			pat_moveRightRule.edgeToTargetNode.Add(moveRightRule_edge__edge1, moveRightRule_node_rbp);
 
-			moveRightRule_node_wv.PointOfDefinition = null;
-			moveRightRule_node_s.PointOfDefinition = pat_moveRightRule;
-			moveRightRule_node_bp.PointOfDefinition = null;
-			moveRightRule_node_rbp.PointOfDefinition = pat_moveRightRule;
-			moveRightRule_edge__edge0.PointOfDefinition = pat_moveRightRule;
-			moveRightRule_edge__edge1.PointOfDefinition = pat_moveRightRule;
+			moveRightRule_node_wv.pointOfDefinition = null;
+			moveRightRule_node_s.pointOfDefinition = pat_moveRightRule;
+			moveRightRule_node_bp.pointOfDefinition = null;
+			moveRightRule_node_rbp.pointOfDefinition = pat_moveRightRule;
+			moveRightRule_edge__edge0.pointOfDefinition = pat_moveRightRule;
+			moveRightRule_edge__edge1.pointOfDefinition = pat_moveRightRule;
 
 			patternGraph = pat_moveRightRule;
 		}
@@ -1796,7 +1796,7 @@ namespace de.unika.ipd.grGen.Action_Turing3
 				countZeros_isEdgeHomomorphicGlobal
 			);
 
-			countZeros_node_bp.PointOfDefinition = pat_countZeros;
+			countZeros_node_bp.pointOfDefinition = pat_countZeros;
 
 			patternGraph = pat_countZeros;
 		}
@@ -1983,7 +1983,7 @@ namespace de.unika.ipd.grGen.Action_Turing3
 				countOnes_isEdgeHomomorphicGlobal
 			);
 
-			countOnes_node_bp.PointOfDefinition = pat_countOnes;
+			countOnes_node_bp.pointOfDefinition = pat_countOnes;
 
 			patternGraph = pat_countOnes;
 		}

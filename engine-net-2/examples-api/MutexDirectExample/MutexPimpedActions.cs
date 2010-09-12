@@ -1,6 +1,6 @@
 // This file has been generated automatically by GrGen (www.grgen.net)
 // Do not modify this file! Any changes will be lost!
-// Generated from "..\..\examples\Mutex\MutexPimped.grg" on Wed Sep 08 23:33:47 CEST 2010
+// Generated from "..\..\examples\Mutex\MutexPimped.grg" on Sun Sep 12 20:12:34 CEST 2010
 
 using System;
 using System.Collections.Generic;
@@ -87,9 +87,9 @@ namespace de.unika.ipd.grGen.Action_MutexPimped
 			pat_newRule.edgeToSourceNode.Add(newRule_edge_n, newRule_node_p1);
 			pat_newRule.edgeToTargetNode.Add(newRule_edge_n, newRule_node_p2);
 
-			newRule_node_p1.PointOfDefinition = pat_newRule;
-			newRule_node_p2.PointOfDefinition = pat_newRule;
-			newRule_edge_n.PointOfDefinition = pat_newRule;
+			newRule_node_p1.pointOfDefinition = pat_newRule;
+			newRule_node_p2.pointOfDefinition = pat_newRule;
+			newRule_edge_n.pointOfDefinition = pat_newRule;
 
 			patternGraph = pat_newRule;
 		}
@@ -314,11 +314,11 @@ namespace de.unika.ipd.grGen.Action_MutexPimped
 			pat_killRule.edgeToSourceNode.Add(killRule_edge_n2, killRule_node_p);
 			pat_killRule.edgeToTargetNode.Add(killRule_edge_n2, killRule_node_p2);
 
-			killRule_node_p1.PointOfDefinition = pat_killRule;
-			killRule_node_p.PointOfDefinition = pat_killRule;
-			killRule_node_p2.PointOfDefinition = pat_killRule;
-			killRule_edge_n1.PointOfDefinition = pat_killRule;
-			killRule_edge_n2.PointOfDefinition = pat_killRule;
+			killRule_node_p1.pointOfDefinition = pat_killRule;
+			killRule_node_p.pointOfDefinition = pat_killRule;
+			killRule_node_p2.pointOfDefinition = pat_killRule;
+			killRule_edge_n1.pointOfDefinition = pat_killRule;
+			killRule_edge_n2.pointOfDefinition = pat_killRule;
 
 			patternGraph = pat_killRule;
 		}
@@ -528,7 +528,7 @@ namespace de.unika.ipd.grGen.Action_MutexPimped
 				mountRule_isEdgeHomomorphicGlobal
 			);
 
-			mountRule_node_p.PointOfDefinition = pat_mountRule;
+			mountRule_node_p.pointOfDefinition = pat_mountRule;
 
 			patternGraph = pat_mountRule;
 		}
@@ -729,9 +729,9 @@ namespace de.unika.ipd.grGen.Action_MutexPimped
 			pat_unmountRule.edgeToSourceNode.Add(unmountRule_edge_t, unmountRule_node_r);
 			pat_unmountRule.edgeToTargetNode.Add(unmountRule_edge_t, unmountRule_node_p);
 
-			unmountRule_node_r.PointOfDefinition = pat_unmountRule;
-			unmountRule_node_p.PointOfDefinition = pat_unmountRule;
-			unmountRule_edge_t.PointOfDefinition = pat_unmountRule;
+			unmountRule_node_r.pointOfDefinition = pat_unmountRule;
+			unmountRule_node_p.pointOfDefinition = pat_unmountRule;
+			unmountRule_edge_t.pointOfDefinition = pat_unmountRule;
 
 			patternGraph = pat_unmountRule;
 		}
@@ -1004,12 +1004,12 @@ namespace de.unika.ipd.grGen.Action_MutexPimped
 			pat_passRule.edgeToTargetNode.Add(passRule_edge_n, passRule_node_p2);
 			passRule_neg_0.embeddingGraph = pat_passRule;
 
-			passRule_node_r.PointOfDefinition = pat_passRule;
-			passRule_node_p1.PointOfDefinition = pat_passRule;
-			passRule_node_p2.PointOfDefinition = pat_passRule;
-			passRule_edge__edge0.PointOfDefinition = pat_passRule;
-			passRule_edge_n.PointOfDefinition = pat_passRule;
-			passRule_neg_0_edge_req.PointOfDefinition = passRule_neg_0;
+			passRule_node_r.pointOfDefinition = pat_passRule;
+			passRule_node_p1.pointOfDefinition = pat_passRule;
+			passRule_node_p2.pointOfDefinition = pat_passRule;
+			passRule_edge__edge0.pointOfDefinition = pat_passRule;
+			passRule_edge_n.pointOfDefinition = pat_passRule;
+			passRule_neg_0_edge_req.pointOfDefinition = passRule_neg_0;
 
 			patternGraph = pat_passRule;
 		}
@@ -1433,11 +1433,11 @@ namespace de.unika.ipd.grGen.Action_MutexPimped
 			requestRule_neg_0.embeddingGraph = pat_requestRule;
 			requestRule_neg_1.embeddingGraph = pat_requestRule;
 
-			requestRule_node_p.PointOfDefinition = pat_requestRule;
-			requestRule_node_r.PointOfDefinition = pat_requestRule;
-			requestRule_neg_0_edge_hb.PointOfDefinition = requestRule_neg_0;
-			requestRule_neg_1_node_m.PointOfDefinition = requestRule_neg_1;
-			requestRule_neg_1_edge_req.PointOfDefinition = requestRule_neg_1;
+			requestRule_node_p.pointOfDefinition = pat_requestRule;
+			requestRule_node_r.pointOfDefinition = pat_requestRule;
+			requestRule_neg_0_edge_hb.pointOfDefinition = requestRule_neg_0;
+			requestRule_neg_1_node_m.pointOfDefinition = requestRule_neg_1;
+			requestRule_neg_1_edge_req.pointOfDefinition = requestRule_neg_1;
 
 			patternGraph = pat_requestRule;
 		}
@@ -1871,10 +1871,10 @@ namespace de.unika.ipd.grGen.Action_MutexPimped
 			pat_takeRule.edgeToSourceNode.Add(takeRule_edge_req, takeRule_node_p);
 			pat_takeRule.edgeToTargetNode.Add(takeRule_edge_req, takeRule_node_r);
 
-			takeRule_node_r.PointOfDefinition = pat_takeRule;
-			takeRule_node_p.PointOfDefinition = pat_takeRule;
-			takeRule_edge_t.PointOfDefinition = pat_takeRule;
-			takeRule_edge_req.PointOfDefinition = pat_takeRule;
+			takeRule_node_r.pointOfDefinition = pat_takeRule;
+			takeRule_node_p.pointOfDefinition = pat_takeRule;
+			takeRule_edge_t.pointOfDefinition = pat_takeRule;
+			takeRule_edge_req.pointOfDefinition = pat_takeRule;
 
 			patternGraph = pat_takeRule;
 		}
@@ -2144,11 +2144,11 @@ namespace de.unika.ipd.grGen.Action_MutexPimped
 			pat_releaseRule.edgeToTargetNode.Add(releaseRule_edge_hb, releaseRule_node_p);
 			releaseRule_neg_0.embeddingGraph = pat_releaseRule;
 
-			releaseRule_node_r.PointOfDefinition = pat_releaseRule;
-			releaseRule_node_p.PointOfDefinition = pat_releaseRule;
-			releaseRule_edge_hb.PointOfDefinition = pat_releaseRule;
-			releaseRule_neg_0_node_m.PointOfDefinition = releaseRule_neg_0;
-			releaseRule_neg_0_edge_req.PointOfDefinition = releaseRule_neg_0;
+			releaseRule_node_r.pointOfDefinition = pat_releaseRule;
+			releaseRule_node_p.pointOfDefinition = pat_releaseRule;
+			releaseRule_edge_hb.pointOfDefinition = pat_releaseRule;
+			releaseRule_neg_0_node_m.pointOfDefinition = releaseRule_neg_0;
+			releaseRule_neg_0_edge_req.pointOfDefinition = releaseRule_neg_0;
 
 			patternGraph = pat_releaseRule;
 		}
@@ -2482,11 +2482,11 @@ namespace de.unika.ipd.grGen.Action_MutexPimped
 			pat_giveRule.edgeToSourceNode.Add(giveRule_edge_n, giveRule_node_p1);
 			pat_giveRule.edgeToTargetNode.Add(giveRule_edge_n, giveRule_node_p2);
 
-			giveRule_node_r.PointOfDefinition = pat_giveRule;
-			giveRule_node_p1.PointOfDefinition = pat_giveRule;
-			giveRule_node_p2.PointOfDefinition = pat_giveRule;
-			giveRule_edge_rel.PointOfDefinition = pat_giveRule;
-			giveRule_edge_n.PointOfDefinition = pat_giveRule;
+			giveRule_node_r.pointOfDefinition = pat_giveRule;
+			giveRule_node_p1.pointOfDefinition = pat_giveRule;
+			giveRule_node_p2.pointOfDefinition = pat_giveRule;
+			giveRule_edge_rel.pointOfDefinition = pat_giveRule;
+			giveRule_edge_n.pointOfDefinition = pat_giveRule;
 
 			patternGraph = pat_giveRule;
 		}
@@ -2717,11 +2717,11 @@ namespace de.unika.ipd.grGen.Action_MutexPimped
 			pat_blockedRule.edgeToSourceNode.Add(blockedRule_edge_hb, blockedRule_node_r);
 			pat_blockedRule.edgeToTargetNode.Add(blockedRule_edge_hb, blockedRule_node_p2);
 
-			blockedRule_node_p1.PointOfDefinition = pat_blockedRule;
-			blockedRule_node_r.PointOfDefinition = pat_blockedRule;
-			blockedRule_node_p2.PointOfDefinition = pat_blockedRule;
-			blockedRule_edge_req.PointOfDefinition = pat_blockedRule;
-			blockedRule_edge_hb.PointOfDefinition = pat_blockedRule;
+			blockedRule_node_p1.pointOfDefinition = pat_blockedRule;
+			blockedRule_node_r.pointOfDefinition = pat_blockedRule;
+			blockedRule_node_p2.pointOfDefinition = pat_blockedRule;
+			blockedRule_edge_req.pointOfDefinition = pat_blockedRule;
+			blockedRule_edge_hb.pointOfDefinition = pat_blockedRule;
 
 			patternGraph = pat_blockedRule;
 		}
@@ -2967,14 +2967,14 @@ namespace de.unika.ipd.grGen.Action_MutexPimped
 			pat_waitingRule.edgeToSourceNode.Add(waitingRule_edge_req, waitingRule_node_p2);
 			pat_waitingRule.edgeToTargetNode.Add(waitingRule_edge_req, waitingRule_node_r1);
 
-			waitingRule_node_r2.PointOfDefinition = pat_waitingRule;
-			waitingRule_node_p1.PointOfDefinition = pat_waitingRule;
-			waitingRule_node_r1.PointOfDefinition = pat_waitingRule;
-			waitingRule_node_p2.PointOfDefinition = pat_waitingRule;
-			waitingRule_node_r.PointOfDefinition = pat_waitingRule;
-			waitingRule_edge_b.PointOfDefinition = pat_waitingRule;
-			waitingRule_edge_hb.PointOfDefinition = pat_waitingRule;
-			waitingRule_edge_req.PointOfDefinition = pat_waitingRule;
+			waitingRule_node_r2.pointOfDefinition = pat_waitingRule;
+			waitingRule_node_p1.pointOfDefinition = pat_waitingRule;
+			waitingRule_node_r1.pointOfDefinition = pat_waitingRule;
+			waitingRule_node_p2.pointOfDefinition = pat_waitingRule;
+			waitingRule_node_r.pointOfDefinition = pat_waitingRule;
+			waitingRule_edge_b.pointOfDefinition = pat_waitingRule;
+			waitingRule_edge_hb.pointOfDefinition = pat_waitingRule;
+			waitingRule_edge_req.pointOfDefinition = pat_waitingRule;
 
 			patternGraph = pat_waitingRule;
 		}
@@ -3261,11 +3261,11 @@ namespace de.unika.ipd.grGen.Action_MutexPimped
 			pat_ignoreRule.edgeToTargetNode.Add(ignoreRule_edge_b, ignoreRule_node_p);
 			ignoreRule_neg_0.embeddingGraph = pat_ignoreRule;
 
-			ignoreRule_node_r.PointOfDefinition = pat_ignoreRule;
-			ignoreRule_node_p.PointOfDefinition = pat_ignoreRule;
-			ignoreRule_edge_b.PointOfDefinition = pat_ignoreRule;
-			ignoreRule_neg_0_node_m.PointOfDefinition = ignoreRule_neg_0;
-			ignoreRule_neg_0_edge_hb.PointOfDefinition = ignoreRule_neg_0;
+			ignoreRule_node_r.pointOfDefinition = pat_ignoreRule;
+			ignoreRule_node_p.pointOfDefinition = pat_ignoreRule;
+			ignoreRule_edge_b.pointOfDefinition = pat_ignoreRule;
+			ignoreRule_neg_0_node_m.pointOfDefinition = ignoreRule_neg_0;
+			ignoreRule_neg_0_edge_hb.pointOfDefinition = ignoreRule_neg_0;
 
 			patternGraph = pat_ignoreRule;
 		}
@@ -3591,10 +3591,10 @@ namespace de.unika.ipd.grGen.Action_MutexPimped
 			pat_unlockRule.edgeToSourceNode.Add(unlockRule_edge_hb, unlockRule_node_r);
 			pat_unlockRule.edgeToTargetNode.Add(unlockRule_edge_hb, unlockRule_node_p);
 
-			unlockRule_node_r.PointOfDefinition = pat_unlockRule;
-			unlockRule_node_p.PointOfDefinition = pat_unlockRule;
-			unlockRule_edge_b.PointOfDefinition = pat_unlockRule;
-			unlockRule_edge_hb.PointOfDefinition = pat_unlockRule;
+			unlockRule_node_r.pointOfDefinition = pat_unlockRule;
+			unlockRule_node_p.pointOfDefinition = pat_unlockRule;
+			unlockRule_edge_b.pointOfDefinition = pat_unlockRule;
+			unlockRule_edge_hb.pointOfDefinition = pat_unlockRule;
 
 			patternGraph = pat_unlockRule;
 		}
@@ -3885,14 +3885,14 @@ namespace de.unika.ipd.grGen.Action_MutexPimped
 			pat_requestStarRule.edgeToTargetNode.Add(requestStarRule_edge_h2, requestStarRule_node_p2);
 			requestStarRule_neg_0.embeddingGraph = pat_requestStarRule;
 
-			requestStarRule_node_r1.PointOfDefinition = pat_requestStarRule;
-			requestStarRule_node_p1.PointOfDefinition = pat_requestStarRule;
-			requestStarRule_node_p2.PointOfDefinition = pat_requestStarRule;
-			requestStarRule_node_r2.PointOfDefinition = pat_requestStarRule;
-			requestStarRule_edge_h1.PointOfDefinition = pat_requestStarRule;
-			requestStarRule_edge_n.PointOfDefinition = pat_requestStarRule;
-			requestStarRule_edge_h2.PointOfDefinition = pat_requestStarRule;
-			requestStarRule_neg_0_edge_req.PointOfDefinition = requestStarRule_neg_0;
+			requestStarRule_node_r1.pointOfDefinition = pat_requestStarRule;
+			requestStarRule_node_p1.pointOfDefinition = pat_requestStarRule;
+			requestStarRule_node_p2.pointOfDefinition = pat_requestStarRule;
+			requestStarRule_node_r2.pointOfDefinition = pat_requestStarRule;
+			requestStarRule_edge_h1.pointOfDefinition = pat_requestStarRule;
+			requestStarRule_edge_n.pointOfDefinition = pat_requestStarRule;
+			requestStarRule_edge_h2.pointOfDefinition = pat_requestStarRule;
+			requestStarRule_neg_0_edge_req.pointOfDefinition = requestStarRule_neg_0;
 
 			patternGraph = pat_requestStarRule;
 		}
@@ -4252,13 +4252,13 @@ namespace de.unika.ipd.grGen.Action_MutexPimped
 			pat_releaseStarRule.edgeToSourceNode.Add(releaseStarRule_edge_h2, releaseStarRule_node_r2);
 			pat_releaseStarRule.edgeToTargetNode.Add(releaseStarRule_edge_h2, releaseStarRule_node_p2);
 
-			releaseStarRule_node_p1.PointOfDefinition = pat_releaseStarRule;
-			releaseStarRule_node_r1.PointOfDefinition = pat_releaseStarRule;
-			releaseStarRule_node_p2.PointOfDefinition = pat_releaseStarRule;
-			releaseStarRule_node_r2.PointOfDefinition = pat_releaseStarRule;
-			releaseStarRule_edge_rq.PointOfDefinition = pat_releaseStarRule;
-			releaseStarRule_edge_h1.PointOfDefinition = pat_releaseStarRule;
-			releaseStarRule_edge_h2.PointOfDefinition = pat_releaseStarRule;
+			releaseStarRule_node_p1.pointOfDefinition = pat_releaseStarRule;
+			releaseStarRule_node_r1.pointOfDefinition = pat_releaseStarRule;
+			releaseStarRule_node_p2.pointOfDefinition = pat_releaseStarRule;
+			releaseStarRule_node_r2.pointOfDefinition = pat_releaseStarRule;
+			releaseStarRule_edge_rq.pointOfDefinition = pat_releaseStarRule;
+			releaseStarRule_edge_h1.pointOfDefinition = pat_releaseStarRule;
+			releaseStarRule_edge_h2.pointOfDefinition = pat_releaseStarRule;
 
 			patternGraph = pat_releaseStarRule;
 		}
@@ -4535,10 +4535,10 @@ namespace de.unika.ipd.grGen.Action_MutexPimped
 			pat_requestSimpleRule.edgeToTargetNode.Add(requestSimpleRule_edge_t, requestSimpleRule_node_p);
 			requestSimpleRule_neg_0.embeddingGraph = pat_requestSimpleRule;
 
-			requestSimpleRule_node_r.PointOfDefinition = pat_requestSimpleRule;
-			requestSimpleRule_node_p.PointOfDefinition = pat_requestSimpleRule;
-			requestSimpleRule_edge_t.PointOfDefinition = pat_requestSimpleRule;
-			requestSimpleRule_neg_0_edge_req.PointOfDefinition = requestSimpleRule_neg_0;
+			requestSimpleRule_node_r.pointOfDefinition = pat_requestSimpleRule;
+			requestSimpleRule_node_p.pointOfDefinition = pat_requestSimpleRule;
+			requestSimpleRule_edge_t.pointOfDefinition = pat_requestSimpleRule;
+			requestSimpleRule_neg_0_edge_req.pointOfDefinition = requestSimpleRule_neg_0;
 
 			patternGraph = pat_requestSimpleRule;
 		}
@@ -4897,9 +4897,9 @@ namespace de.unika.ipd.grGen.Action_MutexPimped
 			);
 			aux_attachResource_neg_0.embeddingGraph = pat_aux_attachResource;
 
-			aux_attachResource_node_p.PointOfDefinition = pat_aux_attachResource;
-			aux_attachResource_neg_0_node_r.PointOfDefinition = aux_attachResource_neg_0;
-			aux_attachResource_neg_0_edge__edge0.PointOfDefinition = aux_attachResource_neg_0;
+			aux_attachResource_node_p.pointOfDefinition = pat_aux_attachResource;
+			aux_attachResource_neg_0_node_r.pointOfDefinition = aux_attachResource_neg_0;
+			aux_attachResource_neg_0_edge__edge0.pointOfDefinition = aux_attachResource_neg_0;
 
 			patternGraph = pat_aux_attachResource;
 		}

@@ -1,6 +1,6 @@
 // This file has been generated automatically by GrGen (www.grgen.net)
 // Do not modify this file! Any changes will be lost!
-// Generated from "..\..\tests\iterated\spanningTree.grg" on Wed Sep 08 23:33:39 CEST 2010
+// Generated from "..\..\tests\iterated\spanningTree.grg" on Sun Sep 12 20:12:27 CEST 2010
 
 using System;
 using System.Collections.Generic;

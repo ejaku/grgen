@@ -1,6 +1,6 @@
 // This file has been generated automatically by GrGen (www.grgen.net)
 // Do not modify this file! Any changes will be lost!
-// Generated from "test.grg" on Wed Sep 08 23:33:14 CEST 2010
+// Generated from "test.grg" on Sun Sep 12 20:12:06 CEST 2010
 
 using System;
 using System.Collections.Generic;
@@ -99,11 +99,11 @@ namespace de.unika.ipd.grGen.Action_test
 			pat_testRule.edgeToSourceNode.Add(testRule_edge__edge1, testRule_node_f);
 			pat_testRule.edgeToTargetNode.Add(testRule_edge__edge1, testRule_node_m);
 
-			testRule_node_a.PointOfDefinition = pat_testRule;
-			testRule_node_f.PointOfDefinition = pat_testRule;
-			testRule_node_m.PointOfDefinition = pat_testRule;
-			testRule_edge__edge0.PointOfDefinition = pat_testRule;
-			testRule_edge__edge1.PointOfDefinition = pat_testRule;
+			testRule_node_a.pointOfDefinition = pat_testRule;
+			testRule_node_f.pointOfDefinition = pat_testRule;
+			testRule_node_m.pointOfDefinition = pat_testRule;
+			testRule_edge__edge0.pointOfDefinition = pat_testRule;
+			testRule_edge__edge1.pointOfDefinition = pat_testRule;
 
 			patternGraph = pat_testRule;
 		}

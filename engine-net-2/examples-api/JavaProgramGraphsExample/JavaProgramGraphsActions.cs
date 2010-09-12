@@ -1,6 +1,6 @@
 // This file has been generated automatically by GrGen (www.grgen.net)
 // Do not modify this file! Any changes will be lost!
-// Generated from "..\..\examples\JavaProgramGraphs-GraBaTs08\JavaProgramGraphs.grg" on Wed Sep 08 23:33:42 CEST 2010
+// Generated from "..\..\examples\JavaProgramGraphs-GraBaTs08\JavaProgramGraphs.grg" on Sun Sep 12 20:12:30 CEST 2010
 
 using System;
 using System.Collections.Generic;
@@ -203,12 +203,12 @@ namespace de.unika.ipd.grGen.Action_JavaProgramGraphs
 			MultipleContainedPackagesOrClasses_iter_0.embeddingGraph = pat_MultipleContainedPackagesOrClasses;
 			MultipleContainedPackagesOrClasses_iter_1.embeddingGraph = pat_MultipleContainedPackagesOrClasses;
 
-			MultipleContainedPackagesOrClasses_node_p.PointOfDefinition = null;
-			MultipleContainedPackagesOrClasses_iter_0_node_sub.PointOfDefinition = MultipleContainedPackagesOrClasses_iter_0;
-			MultipleContainedPackagesOrClasses_iter_0_edge__edge0.PointOfDefinition = MultipleContainedPackagesOrClasses_iter_0;
+			MultipleContainedPackagesOrClasses_node_p.pointOfDefinition = null;
+			MultipleContainedPackagesOrClasses_iter_0_node_sub.pointOfDefinition = MultipleContainedPackagesOrClasses_iter_0;
+			MultipleContainedPackagesOrClasses_iter_0_edge__edge0.pointOfDefinition = MultipleContainedPackagesOrClasses_iter_0;
 			MultipleContainedPackagesOrClasses_iter_0_mpc.PointOfDefinition = MultipleContainedPackagesOrClasses_iter_0;
-			MultipleContainedPackagesOrClasses_iter_1_node_c.PointOfDefinition = MultipleContainedPackagesOrClasses_iter_1;
-			MultipleContainedPackagesOrClasses_iter_1_edge__edge0.PointOfDefinition = MultipleContainedPackagesOrClasses_iter_1;
+			MultipleContainedPackagesOrClasses_iter_1_node_c.pointOfDefinition = MultipleContainedPackagesOrClasses_iter_1;
+			MultipleContainedPackagesOrClasses_iter_1_edge__edge0.pointOfDefinition = MultipleContainedPackagesOrClasses_iter_1;
 			MultipleContainedPackagesOrClasses_iter_1_mm.PointOfDefinition = MultipleContainedPackagesOrClasses_iter_1;
 			MultipleContainedPackagesOrClasses_iter_1_mv.PointOfDefinition = MultipleContainedPackagesOrClasses_iter_1;
 
@@ -808,9 +808,9 @@ namespace de.unika.ipd.grGen.Action_JavaProgramGraphs
 			);
 			MultipleVariables_iter_0.embeddingGraph = pat_MultipleVariables;
 
-			MultipleVariables_node_c.PointOfDefinition = null;
-			MultipleVariables_iter_0_node_v.PointOfDefinition = MultipleVariables_iter_0;
-			MultipleVariables_iter_0_edge__edge0.PointOfDefinition = MultipleVariables_iter_0;
+			MultipleVariables_node_c.pointOfDefinition = null;
+			MultipleVariables_iter_0_node_v.pointOfDefinition = MultipleVariables_iter_0;
+			MultipleVariables_iter_0_edge__edge0.pointOfDefinition = MultipleVariables_iter_0;
 
 			patternGraph = pat_MultipleVariables;
 		}
@@ -1228,9 +1228,9 @@ namespace de.unika.ipd.grGen.Action_JavaProgramGraphs
 			);
 			MultipleMethodBodies_iter_0.embeddingGraph = pat_MultipleMethodBodies;
 
-			MultipleMethodBodies_node_c.PointOfDefinition = null;
-			MultipleMethodBodies_iter_0_node_mb.PointOfDefinition = MultipleMethodBodies_iter_0;
-			MultipleMethodBodies_iter_0_edge__edge0.PointOfDefinition = MultipleMethodBodies_iter_0;
+			MultipleMethodBodies_node_c.pointOfDefinition = null;
+			MultipleMethodBodies_iter_0_node_mb.pointOfDefinition = MultipleMethodBodies_iter_0;
+			MultipleMethodBodies_iter_0_edge__edge0.pointOfDefinition = MultipleMethodBodies_iter_0;
 			MultipleMethodBodies_iter_0_bi.PointOfDefinition = MultipleMethodBodies_iter_0;
 
 			patternGraph = pat_MultipleMethodBodies;
@@ -1715,12 +1715,12 @@ namespace de.unika.ipd.grGen.Action_JavaProgramGraphs
 			MethodBodyAndImplementation_iter_0.embeddingGraph = pat_MethodBodyAndImplementation;
 			MethodBodyAndImplementation_iter_1.embeddingGraph = pat_MethodBodyAndImplementation;
 
-			MethodBodyAndImplementation_node_mb.PointOfDefinition = null;
-			MethodBodyAndImplementation_iter_0_node_op.PointOfDefinition = MethodBodyAndImplementation_iter_0;
-			MethodBodyAndImplementation_iter_0_edge__edge0.PointOfDefinition = MethodBodyAndImplementation_iter_0;
+			MethodBodyAndImplementation_node_mb.pointOfDefinition = null;
+			MethodBodyAndImplementation_iter_0_node_op.pointOfDefinition = MethodBodyAndImplementation_iter_0;
+			MethodBodyAndImplementation_iter_0_edge__edge0.pointOfDefinition = MethodBodyAndImplementation_iter_0;
 			MethodBodyAndImplementation_iter_0__subpattern0.PointOfDefinition = MethodBodyAndImplementation_iter_0;
-			MethodBodyAndImplementation_iter_1_node_b.PointOfDefinition = MethodBodyAndImplementation_iter_1;
-			MethodBodyAndImplementation_iter_1_edge__edge0.PointOfDefinition = MethodBodyAndImplementation_iter_1;
+			MethodBodyAndImplementation_iter_1_node_b.pointOfDefinition = MethodBodyAndImplementation_iter_1;
+			MethodBodyAndImplementation_iter_1_edge__edge0.pointOfDefinition = MethodBodyAndImplementation_iter_1;
 			MethodBodyAndImplementation_iter_1_me.PointOfDefinition = MethodBodyAndImplementation_iter_1;
 
 			patternGraph = pat_MethodBodyAndImplementation;
@@ -2301,9 +2301,9 @@ namespace de.unika.ipd.grGen.Action_JavaProgramGraphs
 			);
 			MultipleParameters_iter_0.embeddingGraph = pat_MultipleParameters;
 
-			MultipleParameters_node_op.PointOfDefinition = null;
-			MultipleParameters_iter_0_node__node0.PointOfDefinition = MultipleParameters_iter_0;
-			MultipleParameters_iter_0_edge__edge0.PointOfDefinition = MultipleParameters_iter_0;
+			MultipleParameters_node_op.pointOfDefinition = null;
+			MultipleParameters_iter_0_node__node0.pointOfDefinition = MultipleParameters_iter_0;
+			MultipleParameters_iter_0_edge__edge0.pointOfDefinition = MultipleParameters_iter_0;
 
 			patternGraph = pat_MultipleParameters;
 		}
@@ -2782,12 +2782,12 @@ namespace de.unika.ipd.grGen.Action_JavaProgramGraphs
 			MultipleExpressions_iter_0.embeddingGraph = pat_MultipleExpressions;
 			MultipleExpressions_iter_1.embeddingGraph = pat_MultipleExpressions;
 
-			MultipleExpressions_node_b.PointOfDefinition = null;
-			MultipleExpressions_iter_0_node_next.PointOfDefinition = MultipleExpressions_iter_0;
-			MultipleExpressions_iter_0_edge__edge0.PointOfDefinition = MultipleExpressions_iter_0;
+			MultipleExpressions_node_b.pointOfDefinition = null;
+			MultipleExpressions_iter_0_node_next.pointOfDefinition = MultipleExpressions_iter_0;
+			MultipleExpressions_iter_0_edge__edge0.pointOfDefinition = MultipleExpressions_iter_0;
 			MultipleExpressions_iter_0_ec.PointOfDefinition = MultipleExpressions_iter_0;
-			MultipleExpressions_iter_1_node_call.PointOfDefinition = MultipleExpressions_iter_1;
-			MultipleExpressions_iter_1_edge__edge0.PointOfDefinition = MultipleExpressions_iter_1;
+			MultipleExpressions_iter_1_node_call.pointOfDefinition = MultipleExpressions_iter_1;
+			MultipleExpressions_iter_1_edge__edge0.pointOfDefinition = MultipleExpressions_iter_1;
 			MultipleExpressions_iter_1_ec.PointOfDefinition = MultipleExpressions_iter_1;
 			MultipleExpressions_iter_1__subpattern0.PointOfDefinition = MultipleExpressions_iter_1;
 
@@ -3538,15 +3538,15 @@ namespace de.unika.ipd.grGen.Action_JavaProgramGraphs
 			ExpressionChain_alt_0_CallAndAgain.embeddingGraph = pat_ExpressionChain;
 			ExpressionChain_alt_0_End.embeddingGraph = pat_ExpressionChain;
 
-			ExpressionChain_node_e.PointOfDefinition = null;
-			ExpressionChain_alt_0_ExprAndAgain_node_next.PointOfDefinition = ExpressionChain_alt_0_ExprAndAgain;
-			ExpressionChain_alt_0_ExprAndAgain_edge__edge0.PointOfDefinition = ExpressionChain_alt_0_ExprAndAgain;
+			ExpressionChain_node_e.pointOfDefinition = null;
+			ExpressionChain_alt_0_ExprAndAgain_node_next.pointOfDefinition = ExpressionChain_alt_0_ExprAndAgain;
+			ExpressionChain_alt_0_ExprAndAgain_edge__edge0.pointOfDefinition = ExpressionChain_alt_0_ExprAndAgain;
 			ExpressionChain_alt_0_ExprAndAgain_ec.PointOfDefinition = ExpressionChain_alt_0_ExprAndAgain;
-			ExpressionChain_alt_0_CallAndAgain_node_call.PointOfDefinition = ExpressionChain_alt_0_CallAndAgain;
-			ExpressionChain_alt_0_CallAndAgain_edge__edge0.PointOfDefinition = ExpressionChain_alt_0_CallAndAgain;
+			ExpressionChain_alt_0_CallAndAgain_node_call.pointOfDefinition = ExpressionChain_alt_0_CallAndAgain;
+			ExpressionChain_alt_0_CallAndAgain_edge__edge0.pointOfDefinition = ExpressionChain_alt_0_CallAndAgain;
 			ExpressionChain_alt_0_CallAndAgain_ec.PointOfDefinition = ExpressionChain_alt_0_CallAndAgain;
 			ExpressionChain_alt_0_CallAndAgain__subpattern0.PointOfDefinition = ExpressionChain_alt_0_CallAndAgain;
-			ExpressionChain_alt_0_End_neg_0_edge__edge0.PointOfDefinition = ExpressionChain_alt_0_End_neg_0;
+			ExpressionChain_alt_0_End_neg_0_edge__edge0.pointOfDefinition = ExpressionChain_alt_0_End_neg_0;
 
 			patternGraph = pat_ExpressionChain;
 		}
@@ -4426,12 +4426,12 @@ namespace de.unika.ipd.grGen.Action_JavaProgramGraphs
 			MultipleActualParameters_iter_0.embeddingGraph = pat_MultipleActualParameters;
 			MultipleActualParameters_iter_1.embeddingGraph = pat_MultipleActualParameters;
 
-			MultipleActualParameters_node_c.PointOfDefinition = null;
-			MultipleActualParameters_iter_0_node_next.PointOfDefinition = MultipleActualParameters_iter_0;
-			MultipleActualParameters_iter_0_edge__edge0.PointOfDefinition = MultipleActualParameters_iter_0;
+			MultipleActualParameters_node_c.pointOfDefinition = null;
+			MultipleActualParameters_iter_0_node_next.pointOfDefinition = MultipleActualParameters_iter_0;
+			MultipleActualParameters_iter_0_edge__edge0.pointOfDefinition = MultipleActualParameters_iter_0;
 			MultipleActualParameters_iter_0__subpattern0.PointOfDefinition = MultipleActualParameters_iter_0;
-			MultipleActualParameters_iter_1_node_call.PointOfDefinition = MultipleActualParameters_iter_1;
-			MultipleActualParameters_iter_1_edge__edge0.PointOfDefinition = MultipleActualParameters_iter_1;
+			MultipleActualParameters_iter_1_node_call.pointOfDefinition = MultipleActualParameters_iter_1;
+			MultipleActualParameters_iter_1_edge__edge0.pointOfDefinition = MultipleActualParameters_iter_1;
 			MultipleActualParameters_iter_1__subpattern0.PointOfDefinition = MultipleActualParameters_iter_1;
 			MultipleActualParameters_iter_1__subpattern1.PointOfDefinition = MultipleActualParameters_iter_1;
 
@@ -5023,9 +5023,9 @@ namespace de.unika.ipd.grGen.Action_JavaProgramGraphs
 			);
 			MultipleExtendingClasses_iter_0.embeddingGraph = pat_MultipleExtendingClasses;
 
-			MultipleExtendingClasses_node_c.PointOfDefinition = null;
-			MultipleExtendingClasses_iter_0_node_sub.PointOfDefinition = MultipleExtendingClasses_iter_0;
-			MultipleExtendingClasses_iter_0_edge__edge0.PointOfDefinition = MultipleExtendingClasses_iter_0;
+			MultipleExtendingClasses_node_c.pointOfDefinition = null;
+			MultipleExtendingClasses_iter_0_node_sub.pointOfDefinition = MultipleExtendingClasses_iter_0;
+			MultipleExtendingClasses_iter_0_edge__edge0.pointOfDefinition = MultipleExtendingClasses_iter_0;
 			MultipleExtendingClasses_iter_0__subpattern0.PointOfDefinition = MultipleExtendingClasses_iter_0;
 
 			patternGraph = pat_MultipleExtendingClasses;
@@ -5533,17 +5533,17 @@ namespace de.unika.ipd.grGen.Action_JavaProgramGraphs
 			InClass_alt_0_Previous.embeddingGraph = pat_InClass;
 			InClass_alt_0_End.embeddingGraph = pat_InClass;
 
-			InClass_node_e.PointOfDefinition = null;
-			InClass_node_c.PointOfDefinition = null;
-			InClass_alt_0_Previous_node_prev.PointOfDefinition = InClass_alt_0_Previous;
-			InClass_alt_0_Previous_edge__edge0.PointOfDefinition = InClass_alt_0_Previous;
+			InClass_node_e.pointOfDefinition = null;
+			InClass_node_c.pointOfDefinition = null;
+			InClass_alt_0_Previous_node_prev.pointOfDefinition = InClass_alt_0_Previous;
+			InClass_alt_0_Previous_edge__edge0.pointOfDefinition = InClass_alt_0_Previous;
 			InClass_alt_0_Previous__subpattern0.PointOfDefinition = InClass_alt_0_Previous;
-			InClass_alt_0_End_node_prev.PointOfDefinition = InClass_alt_0_End;
-			InClass_alt_0_End_node_b.PointOfDefinition = InClass_alt_0_End;
-			InClass_alt_0_End_node_mb.PointOfDefinition = InClass_alt_0_End;
-			InClass_alt_0_End_edge__edge0.PointOfDefinition = InClass_alt_0_End;
-			InClass_alt_0_End_edge__edge1.PointOfDefinition = InClass_alt_0_End;
-			InClass_alt_0_End_edge__edge2.PointOfDefinition = InClass_alt_0_End;
+			InClass_alt_0_End_node_prev.pointOfDefinition = InClass_alt_0_End;
+			InClass_alt_0_End_node_b.pointOfDefinition = InClass_alt_0_End;
+			InClass_alt_0_End_node_mb.pointOfDefinition = InClass_alt_0_End;
+			InClass_alt_0_End_edge__edge0.pointOfDefinition = InClass_alt_0_End;
+			InClass_alt_0_End_edge__edge1.pointOfDefinition = InClass_alt_0_End;
+			InClass_alt_0_End_edge__edge2.pointOfDefinition = InClass_alt_0_End;
 
 			patternGraph = pat_InClass;
 		}
@@ -6166,12 +6166,12 @@ namespace de.unika.ipd.grGen.Action_JavaProgramGraphs
 			methodNameExistsSuper_alt_0_here.embeddingGraph = pat_methodNameExistsSuper;
 			methodNameExistsSuper_alt_0_super.embeddingGraph = pat_methodNameExistsSuper;
 
-			methodNameExistsSuper_node_op.PointOfDefinition = pat_methodNameExistsSuper;
-			methodNameExistsSuper_node_cls.PointOfDefinition = null;
-			methodNameExistsSuper_node_opForName.PointOfDefinition = null;
-			methodNameExistsSuper_edge__edge0.PointOfDefinition = pat_methodNameExistsSuper;
-			methodNameExistsSuper_alt_0_super_node_super.PointOfDefinition = methodNameExistsSuper_alt_0_super;
-			methodNameExistsSuper_alt_0_super_edge__edge0.PointOfDefinition = methodNameExistsSuper_alt_0_super;
+			methodNameExistsSuper_node_op.pointOfDefinition = pat_methodNameExistsSuper;
+			methodNameExistsSuper_node_cls.pointOfDefinition = null;
+			methodNameExistsSuper_node_opForName.pointOfDefinition = null;
+			methodNameExistsSuper_edge__edge0.pointOfDefinition = pat_methodNameExistsSuper;
+			methodNameExistsSuper_alt_0_super_node_super.pointOfDefinition = methodNameExistsSuper_alt_0_super;
+			methodNameExistsSuper_alt_0_super_edge__edge0.pointOfDefinition = methodNameExistsSuper_alt_0_super;
 			methodNameExistsSuper_alt_0_super__subpattern0.PointOfDefinition = methodNameExistsSuper_alt_0_super;
 
 			patternGraph = pat_methodNameExistsSuper;
@@ -7391,7 +7391,7 @@ namespace de.unika.ipd.grGen.Action_JavaProgramGraphs
 				dumpNodePackage_isEdgeHomomorphicGlobal
 			);
 
-			dumpNodePackage_node_n.PointOfDefinition = pat_dumpNodePackage;
+			dumpNodePackage_node_n.pointOfDefinition = pat_dumpNodePackage;
 
 			patternGraph = pat_dumpNodePackage;
 		}
@@ -7590,7 +7590,7 @@ namespace de.unika.ipd.grGen.Action_JavaProgramGraphs
 				dumpNodeClass_isEdgeHomomorphicGlobal
 			);
 
-			dumpNodeClass_node_n.PointOfDefinition = pat_dumpNodeClass;
+			dumpNodeClass_node_n.pointOfDefinition = pat_dumpNodeClass;
 
 			patternGraph = pat_dumpNodeClass;
 		}
@@ -7801,7 +7801,7 @@ namespace de.unika.ipd.grGen.Action_JavaProgramGraphs
 				dumpNodeInterface_isEdgeHomomorphicGlobal
 			);
 
-			dumpNodeInterface_node_n.PointOfDefinition = pat_dumpNodeInterface;
+			dumpNodeInterface_node_n.pointOfDefinition = pat_dumpNodeInterface;
 
 			patternGraph = pat_dumpNodeInterface;
 		}
@@ -8008,7 +8008,7 @@ namespace de.unika.ipd.grGen.Action_JavaProgramGraphs
 				dumpNodeVariable_isEdgeHomomorphicGlobal
 			);
 
-			dumpNodeVariable_node_n.PointOfDefinition = pat_dumpNodeVariable;
+			dumpNodeVariable_node_n.pointOfDefinition = pat_dumpNodeVariable;
 
 			patternGraph = pat_dumpNodeVariable;
 		}
@@ -8219,7 +8219,7 @@ namespace de.unika.ipd.grGen.Action_JavaProgramGraphs
 				dumpNodeOperation_isEdgeHomomorphicGlobal
 			);
 
-			dumpNodeOperation_node_n.PointOfDefinition = pat_dumpNodeOperation;
+			dumpNodeOperation_node_n.pointOfDefinition = pat_dumpNodeOperation;
 
 			patternGraph = pat_dumpNodeOperation;
 		}
@@ -8434,7 +8434,7 @@ namespace de.unika.ipd.grGen.Action_JavaProgramGraphs
 				dumpNodeMethodBody_isEdgeHomomorphicGlobal
 			);
 
-			dumpNodeMethodBody_node_n.PointOfDefinition = pat_dumpNodeMethodBody;
+			dumpNodeMethodBody_node_n.pointOfDefinition = pat_dumpNodeMethodBody;
 
 			patternGraph = pat_dumpNodeMethodBody;
 		}
@@ -8628,7 +8628,7 @@ namespace de.unika.ipd.grGen.Action_JavaProgramGraphs
 				dumpNodeAccess_isEdgeHomomorphicGlobal
 			);
 
-			dumpNodeAccess_node_n.PointOfDefinition = pat_dumpNodeAccess;
+			dumpNodeAccess_node_n.pointOfDefinition = pat_dumpNodeAccess;
 
 			patternGraph = pat_dumpNodeAccess;
 		}
@@ -8827,7 +8827,7 @@ namespace de.unika.ipd.grGen.Action_JavaProgramGraphs
 				dumpNodeUpdate_isEdgeHomomorphicGlobal
 			);
 
-			dumpNodeUpdate_node_n.PointOfDefinition = pat_dumpNodeUpdate;
+			dumpNodeUpdate_node_n.pointOfDefinition = pat_dumpNodeUpdate;
 
 			patternGraph = pat_dumpNodeUpdate;
 		}
@@ -9026,7 +9026,7 @@ namespace de.unika.ipd.grGen.Action_JavaProgramGraphs
 				dumpNodeCall_isEdgeHomomorphicGlobal
 			);
 
-			dumpNodeCall_node_n.PointOfDefinition = pat_dumpNodeCall;
+			dumpNodeCall_node_n.pointOfDefinition = pat_dumpNodeCall;
 
 			patternGraph = pat_dumpNodeCall;
 		}
@@ -9229,7 +9229,7 @@ namespace de.unika.ipd.grGen.Action_JavaProgramGraphs
 				dumpNodeIstantiation_isEdgeHomomorphicGlobal
 			);
 
-			dumpNodeIstantiation_node_n.PointOfDefinition = pat_dumpNodeIstantiation;
+			dumpNodeIstantiation_node_n.pointOfDefinition = pat_dumpNodeIstantiation;
 
 			patternGraph = pat_dumpNodeIstantiation;
 		}
@@ -9423,7 +9423,7 @@ namespace de.unika.ipd.grGen.Action_JavaProgramGraphs
 				dumpNodeOperator_isEdgeHomomorphicGlobal
 			);
 
-			dumpNodeOperator_node_n.PointOfDefinition = pat_dumpNodeOperator;
+			dumpNodeOperator_node_n.pointOfDefinition = pat_dumpNodeOperator;
 
 			patternGraph = pat_dumpNodeOperator;
 		}
@@ -9622,7 +9622,7 @@ namespace de.unika.ipd.grGen.Action_JavaProgramGraphs
 				dumpNodeReturn_isEdgeHomomorphicGlobal
 			);
 
-			dumpNodeReturn_node_n.PointOfDefinition = pat_dumpNodeReturn;
+			dumpNodeReturn_node_n.pointOfDefinition = pat_dumpNodeReturn;
 
 			patternGraph = pat_dumpNodeReturn;
 		}
@@ -9816,7 +9816,7 @@ namespace de.unika.ipd.grGen.Action_JavaProgramGraphs
 				dumpNodeBlock_isEdgeHomomorphicGlobal
 			);
 
-			dumpNodeBlock_node_n.PointOfDefinition = pat_dumpNodeBlock;
+			dumpNodeBlock_node_n.pointOfDefinition = pat_dumpNodeBlock;
 
 			patternGraph = pat_dumpNodeBlock;
 		}
@@ -10010,7 +10010,7 @@ namespace de.unika.ipd.grGen.Action_JavaProgramGraphs
 				dumpNodeLiteral_isEdgeHomomorphicGlobal
 			);
 
-			dumpNodeLiteral_node_n.PointOfDefinition = pat_dumpNodeLiteral;
+			dumpNodeLiteral_node_n.pointOfDefinition = pat_dumpNodeLiteral;
 
 			patternGraph = pat_dumpNodeLiteral;
 		}
@@ -10209,7 +10209,7 @@ namespace de.unika.ipd.grGen.Action_JavaProgramGraphs
 				dumpNodeParameter_isEdgeHomomorphicGlobal
 			);
 
-			dumpNodeParameter_node_n.PointOfDefinition = pat_dumpNodeParameter;
+			dumpNodeParameter_node_n.pointOfDefinition = pat_dumpNodeParameter;
 
 			patternGraph = pat_dumpNodeParameter;
 		}
@@ -10417,9 +10417,9 @@ namespace de.unika.ipd.grGen.Action_JavaProgramGraphs
 			pat_dumpEdgeBelongsTo.edgeToSourceNode.Add(dumpEdgeBelongsTo_edge_e, dumpEdgeBelongsTo_node_src);
 			pat_dumpEdgeBelongsTo.edgeToTargetNode.Add(dumpEdgeBelongsTo_edge_e, dumpEdgeBelongsTo_node_tgt);
 
-			dumpEdgeBelongsTo_node_src.PointOfDefinition = pat_dumpEdgeBelongsTo;
-			dumpEdgeBelongsTo_node_tgt.PointOfDefinition = pat_dumpEdgeBelongsTo;
-			dumpEdgeBelongsTo_edge_e.PointOfDefinition = pat_dumpEdgeBelongsTo;
+			dumpEdgeBelongsTo_node_src.pointOfDefinition = pat_dumpEdgeBelongsTo;
+			dumpEdgeBelongsTo_node_tgt.pointOfDefinition = pat_dumpEdgeBelongsTo;
+			dumpEdgeBelongsTo_edge_e.pointOfDefinition = pat_dumpEdgeBelongsTo;
 
 			patternGraph = pat_dumpEdgeBelongsTo;
 		}
@@ -10641,9 +10641,9 @@ namespace de.unika.ipd.grGen.Action_JavaProgramGraphs
 			pat_dumpEdgeType.edgeToSourceNode.Add(dumpEdgeType_edge_e, dumpEdgeType_node_src);
 			pat_dumpEdgeType.edgeToTargetNode.Add(dumpEdgeType_edge_e, dumpEdgeType_node_tgt);
 
-			dumpEdgeType_node_src.PointOfDefinition = pat_dumpEdgeType;
-			dumpEdgeType_node_tgt.PointOfDefinition = pat_dumpEdgeType;
-			dumpEdgeType_edge_e.PointOfDefinition = pat_dumpEdgeType;
+			dumpEdgeType_node_src.pointOfDefinition = pat_dumpEdgeType;
+			dumpEdgeType_node_tgt.pointOfDefinition = pat_dumpEdgeType;
+			dumpEdgeType_edge_e.pointOfDefinition = pat_dumpEdgeType;
 
 			patternGraph = pat_dumpEdgeType;
 		}
@@ -10865,9 +10865,9 @@ namespace de.unika.ipd.grGen.Action_JavaProgramGraphs
 			pat_dumpEdgeExtends.edgeToSourceNode.Add(dumpEdgeExtends_edge_e, dumpEdgeExtends_node_src);
 			pat_dumpEdgeExtends.edgeToTargetNode.Add(dumpEdgeExtends_edge_e, dumpEdgeExtends_node_tgt);
 
-			dumpEdgeExtends_node_src.PointOfDefinition = pat_dumpEdgeExtends;
-			dumpEdgeExtends_node_tgt.PointOfDefinition = pat_dumpEdgeExtends;
-			dumpEdgeExtends_edge_e.PointOfDefinition = pat_dumpEdgeExtends;
+			dumpEdgeExtends_node_src.pointOfDefinition = pat_dumpEdgeExtends;
+			dumpEdgeExtends_node_tgt.pointOfDefinition = pat_dumpEdgeExtends;
+			dumpEdgeExtends_edge_e.pointOfDefinition = pat_dumpEdgeExtends;
 
 			patternGraph = pat_dumpEdgeExtends;
 		}
@@ -11089,9 +11089,9 @@ namespace de.unika.ipd.grGen.Action_JavaProgramGraphs
 			pat_dumpEdgeImports.edgeToSourceNode.Add(dumpEdgeImports_edge_e, dumpEdgeImports_node_src);
 			pat_dumpEdgeImports.edgeToTargetNode.Add(dumpEdgeImports_edge_e, dumpEdgeImports_node_tgt);
 
-			dumpEdgeImports_node_src.PointOfDefinition = pat_dumpEdgeImports;
-			dumpEdgeImports_node_tgt.PointOfDefinition = pat_dumpEdgeImports;
-			dumpEdgeImports_edge_e.PointOfDefinition = pat_dumpEdgeImports;
+			dumpEdgeImports_node_src.pointOfDefinition = pat_dumpEdgeImports;
+			dumpEdgeImports_node_tgt.pointOfDefinition = pat_dumpEdgeImports;
+			dumpEdgeImports_edge_e.pointOfDefinition = pat_dumpEdgeImports;
 
 			patternGraph = pat_dumpEdgeImports;
 		}
@@ -11313,9 +11313,9 @@ namespace de.unika.ipd.grGen.Action_JavaProgramGraphs
 			pat_dumpEdgeImplements.edgeToSourceNode.Add(dumpEdgeImplements_edge_e, dumpEdgeImplements_node_src);
 			pat_dumpEdgeImplements.edgeToTargetNode.Add(dumpEdgeImplements_edge_e, dumpEdgeImplements_node_tgt);
 
-			dumpEdgeImplements_node_src.PointOfDefinition = pat_dumpEdgeImplements;
-			dumpEdgeImplements_node_tgt.PointOfDefinition = pat_dumpEdgeImplements;
-			dumpEdgeImplements_edge_e.PointOfDefinition = pat_dumpEdgeImplements;
+			dumpEdgeImplements_node_src.pointOfDefinition = pat_dumpEdgeImplements;
+			dumpEdgeImplements_node_tgt.pointOfDefinition = pat_dumpEdgeImplements;
+			dumpEdgeImplements_edge_e.pointOfDefinition = pat_dumpEdgeImplements;
 
 			patternGraph = pat_dumpEdgeImplements;
 		}
@@ -11537,9 +11537,9 @@ namespace de.unika.ipd.grGen.Action_JavaProgramGraphs
 			pat_dumpEdgeParameter.edgeToSourceNode.Add(dumpEdgeParameter_edge_e, dumpEdgeParameter_node_src);
 			pat_dumpEdgeParameter.edgeToTargetNode.Add(dumpEdgeParameter_edge_e, dumpEdgeParameter_node_tgt);
 
-			dumpEdgeParameter_node_src.PointOfDefinition = pat_dumpEdgeParameter;
-			dumpEdgeParameter_node_tgt.PointOfDefinition = pat_dumpEdgeParameter;
-			dumpEdgeParameter_edge_e.PointOfDefinition = pat_dumpEdgeParameter;
+			dumpEdgeParameter_node_src.pointOfDefinition = pat_dumpEdgeParameter;
+			dumpEdgeParameter_node_tgt.pointOfDefinition = pat_dumpEdgeParameter;
+			dumpEdgeParameter_edge_e.pointOfDefinition = pat_dumpEdgeParameter;
 
 			patternGraph = pat_dumpEdgeParameter;
 		}
@@ -11761,9 +11761,9 @@ namespace de.unika.ipd.grGen.Action_JavaProgramGraphs
 			pat_dumpEdgeBinding.edgeToSourceNode.Add(dumpEdgeBinding_edge_e, dumpEdgeBinding_node_src);
 			pat_dumpEdgeBinding.edgeToTargetNode.Add(dumpEdgeBinding_edge_e, dumpEdgeBinding_node_tgt);
 
-			dumpEdgeBinding_node_src.PointOfDefinition = pat_dumpEdgeBinding;
-			dumpEdgeBinding_node_tgt.PointOfDefinition = pat_dumpEdgeBinding;
-			dumpEdgeBinding_edge_e.PointOfDefinition = pat_dumpEdgeBinding;
+			dumpEdgeBinding_node_src.pointOfDefinition = pat_dumpEdgeBinding;
+			dumpEdgeBinding_node_tgt.pointOfDefinition = pat_dumpEdgeBinding;
+			dumpEdgeBinding_edge_e.pointOfDefinition = pat_dumpEdgeBinding;
 
 			patternGraph = pat_dumpEdgeBinding;
 		}
@@ -11985,9 +11985,9 @@ namespace de.unika.ipd.grGen.Action_JavaProgramGraphs
 			pat_dumpEdgeLink.edgeToSourceNode.Add(dumpEdgeLink_edge_e, dumpEdgeLink_node_src);
 			pat_dumpEdgeLink.edgeToTargetNode.Add(dumpEdgeLink_edge_e, dumpEdgeLink_node_tgt);
 
-			dumpEdgeLink_node_src.PointOfDefinition = pat_dumpEdgeLink;
-			dumpEdgeLink_node_tgt.PointOfDefinition = pat_dumpEdgeLink;
-			dumpEdgeLink_edge_e.PointOfDefinition = pat_dumpEdgeLink;
+			dumpEdgeLink_node_src.pointOfDefinition = pat_dumpEdgeLink;
+			dumpEdgeLink_node_tgt.pointOfDefinition = pat_dumpEdgeLink;
+			dumpEdgeLink_edge_e.pointOfDefinition = pat_dumpEdgeLink;
 
 			patternGraph = pat_dumpEdgeLink;
 		}
@@ -12209,9 +12209,9 @@ namespace de.unika.ipd.grGen.Action_JavaProgramGraphs
 			pat_dumpEdgeExpression.edgeToSourceNode.Add(dumpEdgeExpression_edge_e, dumpEdgeExpression_node_src);
 			pat_dumpEdgeExpression.edgeToTargetNode.Add(dumpEdgeExpression_edge_e, dumpEdgeExpression_node_tgt);
 
-			dumpEdgeExpression_node_src.PointOfDefinition = pat_dumpEdgeExpression;
-			dumpEdgeExpression_node_tgt.PointOfDefinition = pat_dumpEdgeExpression;
-			dumpEdgeExpression_edge_e.PointOfDefinition = pat_dumpEdgeExpression;
+			dumpEdgeExpression_node_src.pointOfDefinition = pat_dumpEdgeExpression;
+			dumpEdgeExpression_node_tgt.pointOfDefinition = pat_dumpEdgeExpression;
+			dumpEdgeExpression_edge_e.pointOfDefinition = pat_dumpEdgeExpression;
 
 			patternGraph = pat_dumpEdgeExpression;
 		}
@@ -12433,9 +12433,9 @@ namespace de.unika.ipd.grGen.Action_JavaProgramGraphs
 			pat_dumpEdgeActualParameter.edgeToSourceNode.Add(dumpEdgeActualParameter_edge_e, dumpEdgeActualParameter_node_src);
 			pat_dumpEdgeActualParameter.edgeToTargetNode.Add(dumpEdgeActualParameter_edge_e, dumpEdgeActualParameter_node_tgt);
 
-			dumpEdgeActualParameter_node_src.PointOfDefinition = pat_dumpEdgeActualParameter;
-			dumpEdgeActualParameter_node_tgt.PointOfDefinition = pat_dumpEdgeActualParameter;
-			dumpEdgeActualParameter_edge_e.PointOfDefinition = pat_dumpEdgeActualParameter;
+			dumpEdgeActualParameter_node_src.pointOfDefinition = pat_dumpEdgeActualParameter;
+			dumpEdgeActualParameter_node_tgt.pointOfDefinition = pat_dumpEdgeActualParameter;
+			dumpEdgeActualParameter_edge_e.pointOfDefinition = pat_dumpEdgeActualParameter;
 
 			patternGraph = pat_dumpEdgeActualParameter;
 		}
@@ -12734,9 +12734,9 @@ namespace de.unika.ipd.grGen.Action_JavaProgramGraphs
 			);
 			emitSpanningTree_iter_0.embeddingGraph = pat_emitSpanningTree;
 
-			emitSpanningTree_iter_0_node_p.PointOfDefinition = emitSpanningTree_iter_0;
+			emitSpanningTree_iter_0_node_p.pointOfDefinition = emitSpanningTree_iter_0;
 			emitSpanningTree_iter_0_mpc.PointOfDefinition = emitSpanningTree_iter_0;
-			emitSpanningTree_iter_0_neg_0_edge__edge0.PointOfDefinition = emitSpanningTree_iter_0_neg_0;
+			emitSpanningTree_iter_0_neg_0_edge__edge0.pointOfDefinition = emitSpanningTree_iter_0_neg_0;
 
 			patternGraph = pat_emitSpanningTree;
 		}
@@ -13755,17 +13755,17 @@ namespace de.unika.ipd.grGen.Action_JavaProgramGraphs
 			BindOperations_neg_4.embeddingGraph = pat_BindOperations;
 			BindOperations_neg_5.embeddingGraph = pat_BindOperations;
 
-			BindOperations_node_op.PointOfDefinition = pat_BindOperations;
-			BindOperations_node_body.PointOfDefinition = pat_BindOperations;
-			BindOperations_node_cl.PointOfDefinition = pat_BindOperations;
-			BindOperations_edge__edge0.PointOfDefinition = pat_BindOperations;
-			BindOperations_edge__edge1.PointOfDefinition = pat_BindOperations;
-			BindOperations_neg_0_edge__edge3.PointOfDefinition = BindOperations_neg_0;
-			BindOperations_neg_1_edge__edge4.PointOfDefinition = BindOperations_neg_1;
-			BindOperations_neg_2_edge__edge5.PointOfDefinition = BindOperations_neg_2;
-			BindOperations_neg_3_edge__edge6.PointOfDefinition = BindOperations_neg_3;
-			BindOperations_neg_4_edge__edge7.PointOfDefinition = BindOperations_neg_4;
-			BindOperations_neg_5_edge__edge8.PointOfDefinition = BindOperations_neg_5;
+			BindOperations_node_op.pointOfDefinition = pat_BindOperations;
+			BindOperations_node_body.pointOfDefinition = pat_BindOperations;
+			BindOperations_node_cl.pointOfDefinition = pat_BindOperations;
+			BindOperations_edge__edge0.pointOfDefinition = pat_BindOperations;
+			BindOperations_edge__edge1.pointOfDefinition = pat_BindOperations;
+			BindOperations_neg_0_edge__edge3.pointOfDefinition = BindOperations_neg_0;
+			BindOperations_neg_1_edge__edge4.pointOfDefinition = BindOperations_neg_1;
+			BindOperations_neg_2_edge__edge5.pointOfDefinition = BindOperations_neg_2;
+			BindOperations_neg_3_edge__edge6.pointOfDefinition = BindOperations_neg_3;
+			BindOperations_neg_4_edge__edge7.pointOfDefinition = BindOperations_neg_4;
+			BindOperations_neg_5_edge__edge8.pointOfDefinition = BindOperations_neg_5;
 
 			patternGraph = pat_BindOperations;
 		}
@@ -14694,10 +14694,10 @@ namespace de.unika.ipd.grGen.Action_JavaProgramGraphs
 			pat_InitMoveIntoBlocks.edgeToTargetNode.Add(InitMoveIntoBlocks_edge__edge0, InitMoveIntoBlocks_node_exp);
 			InitMoveIntoBlocks_neg_0.embeddingGraph = pat_InitMoveIntoBlocks;
 
-			InitMoveIntoBlocks_node_b.PointOfDefinition = pat_InitMoveIntoBlocks;
-			InitMoveIntoBlocks_node_exp.PointOfDefinition = pat_InitMoveIntoBlocks;
-			InitMoveIntoBlocks_edge__edge0.PointOfDefinition = pat_InitMoveIntoBlocks;
-			InitMoveIntoBlocks_neg_0_edge__edge0.PointOfDefinition = InitMoveIntoBlocks_neg_0;
+			InitMoveIntoBlocks_node_b.pointOfDefinition = pat_InitMoveIntoBlocks;
+			InitMoveIntoBlocks_node_exp.pointOfDefinition = pat_InitMoveIntoBlocks;
+			InitMoveIntoBlocks_edge__edge0.pointOfDefinition = pat_InitMoveIntoBlocks;
+			InitMoveIntoBlocks_neg_0_edge__edge0.pointOfDefinition = InitMoveIntoBlocks_neg_0;
 
 			patternGraph = pat_InitMoveIntoBlocks;
 		}
@@ -15082,12 +15082,12 @@ namespace de.unika.ipd.grGen.Action_JavaProgramGraphs
 			pat_MoveIntoBlocks.edgeToTargetNode.Add(MoveIntoBlocks_edge_e, MoveIntoBlocks_node_exp);
 			MoveIntoBlocks_neg_0.embeddingGraph = pat_MoveIntoBlocks;
 
-			MoveIntoBlocks_node__node0.PointOfDefinition = pat_MoveIntoBlocks;
-			MoveIntoBlocks_node_b.PointOfDefinition = pat_MoveIntoBlocks;
-			MoveIntoBlocks_node_exp.PointOfDefinition = pat_MoveIntoBlocks;
-			MoveIntoBlocks_edge__edge0.PointOfDefinition = pat_MoveIntoBlocks;
-			MoveIntoBlocks_edge_e.PointOfDefinition = pat_MoveIntoBlocks;
-			MoveIntoBlocks_neg_0_edge__edge0.PointOfDefinition = MoveIntoBlocks_neg_0;
+			MoveIntoBlocks_node__node0.pointOfDefinition = pat_MoveIntoBlocks;
+			MoveIntoBlocks_node_b.pointOfDefinition = pat_MoveIntoBlocks;
+			MoveIntoBlocks_node_exp.pointOfDefinition = pat_MoveIntoBlocks;
+			MoveIntoBlocks_edge__edge0.pointOfDefinition = pat_MoveIntoBlocks;
+			MoveIntoBlocks_edge_e.pointOfDefinition = pat_MoveIntoBlocks;
+			MoveIntoBlocks_neg_0_edge__edge0.pointOfDefinition = MoveIntoBlocks_neg_0;
 
 			patternGraph = pat_MoveIntoBlocks;
 		}
@@ -15405,8 +15405,8 @@ namespace de.unika.ipd.grGen.Action_JavaProgramGraphs
 				getClassAndVariable_isEdgeHomomorphicGlobal
 			);
 
-			getClassAndVariable_node_c.PointOfDefinition = null;
-			getClassAndVariable_node_v.PointOfDefinition = null;
+			getClassAndVariable_node_c.pointOfDefinition = null;
+			getClassAndVariable_node_v.pointOfDefinition = null;
 
 			patternGraph = pat_getClassAndVariable;
 		}
@@ -15619,11 +15619,11 @@ namespace de.unika.ipd.grGen.Action_JavaProgramGraphs
 			pat_variableInClass.edgeToSourceNode.Add(variableInClass_edge__edge1, variableInClass_node_v);
 			pat_variableInClass.edgeToTargetNode.Add(variableInClass_edge__edge1, variableInClass_node__node0);
 
-			variableInClass_node_v.PointOfDefinition = null;
-			variableInClass_node_c.PointOfDefinition = null;
-			variableInClass_node__node0.PointOfDefinition = pat_variableInClass;
-			variableInClass_edge__edge0.PointOfDefinition = pat_variableInClass;
-			variableInClass_edge__edge1.PointOfDefinition = pat_variableInClass;
+			variableInClass_node_v.pointOfDefinition = null;
+			variableInClass_node_c.pointOfDefinition = null;
+			variableInClass_node__node0.pointOfDefinition = pat_variableInClass;
+			variableInClass_edge__edge0.pointOfDefinition = pat_variableInClass;
+			variableInClass_edge__edge1.pointOfDefinition = pat_variableInClass;
 
 			patternGraph = pat_variableInClass;
 		}
@@ -15851,11 +15851,11 @@ namespace de.unika.ipd.grGen.Action_JavaProgramGraphs
 			pat_methodExists.edgeToSourceNode.Add(methodExists_edge__edge1, methodExists_node_op);
 			pat_methodExists.edgeToTargetNode.Add(methodExists_edge__edge1, methodExists_node_mb);
 
-			methodExists_node_mb.PointOfDefinition = pat_methodExists;
-			methodExists_node_c.PointOfDefinition = null;
-			methodExists_node_op.PointOfDefinition = pat_methodExists;
-			methodExists_edge__edge0.PointOfDefinition = pat_methodExists;
-			methodExists_edge__edge1.PointOfDefinition = pat_methodExists;
+			methodExists_node_mb.pointOfDefinition = pat_methodExists;
+			methodExists_node_c.pointOfDefinition = null;
+			methodExists_node_op.pointOfDefinition = pat_methodExists;
+			methodExists_edge__edge0.pointOfDefinition = pat_methodExists;
+			methodExists_edge__edge1.pointOfDefinition = pat_methodExists;
 
 			patternGraph = pat_methodExists;
 		}
@@ -16064,8 +16064,8 @@ namespace de.unika.ipd.grGen.Action_JavaProgramGraphs
 				sameStaticness_isEdgeHomomorphicGlobal
 			);
 
-			sameStaticness_node_v.PointOfDefinition = null;
-			sameStaticness_node_op.PointOfDefinition = null;
+			sameStaticness_node_v.pointOfDefinition = null;
+			sameStaticness_node_op.pointOfDefinition = null;
 
 			patternGraph = pat_sameStaticness;
 		}
@@ -16256,8 +16256,8 @@ namespace de.unika.ipd.grGen.Action_JavaProgramGraphs
 				insertMethodGetter_isEdgeHomomorphicGlobal
 			);
 
-			insertMethodGetter_node_c.PointOfDefinition = null;
-			insertMethodGetter_node_v.PointOfDefinition = null;
+			insertMethodGetter_node_c.pointOfDefinition = null;
+			insertMethodGetter_node_v.pointOfDefinition = null;
 
 			patternGraph = pat_insertMethodGetter;
 		}
@@ -16505,10 +16505,10 @@ namespace de.unika.ipd.grGen.Action_JavaProgramGraphs
 			pat_insertMethodSetter.edgeToSourceNode.Add(insertMethodSetter_edge__edge0, insertMethodSetter_node_v);
 			pat_insertMethodSetter.edgeToTargetNode.Add(insertMethodSetter_edge__edge0, insertMethodSetter_node_type);
 
-			insertMethodSetter_node_v.PointOfDefinition = null;
-			insertMethodSetter_node_type.PointOfDefinition = pat_insertMethodSetter;
-			insertMethodSetter_node_c.PointOfDefinition = null;
-			insertMethodSetter_edge__edge0.PointOfDefinition = pat_insertMethodSetter;
+			insertMethodSetter_node_v.pointOfDefinition = null;
+			insertMethodSetter_node_type.pointOfDefinition = pat_insertMethodSetter;
+			insertMethodSetter_node_c.pointOfDefinition = null;
+			insertMethodSetter_edge__edge0.pointOfDefinition = pat_insertMethodSetter;
 
 			patternGraph = pat_insertMethodSetter;
 		}
@@ -16748,7 +16748,7 @@ namespace de.unika.ipd.grGen.Action_JavaProgramGraphs
 				changeVisibility_isEdgeHomomorphicGlobal
 			);
 
-			changeVisibility_node_v.PointOfDefinition = null;
+			changeVisibility_node_v.pointOfDefinition = null;
 
 			patternGraph = pat_changeVisibility;
 		}
@@ -17008,11 +17008,11 @@ namespace de.unika.ipd.grGen.Action_JavaProgramGraphs
 			pat_adaptAccess.edgeToTargetNode.Add(adaptAccess_edge_l, adaptAccess_node_v);
 			adaptAccess_neg_0.embeddingGraph = pat_adaptAccess;
 
-			adaptAccess_node_a.PointOfDefinition = pat_adaptAccess;
-			adaptAccess_node_v.PointOfDefinition = null;
-			adaptAccess_node_c.PointOfDefinition = null;
-			adaptAccess_node_getter.PointOfDefinition = null;
-			adaptAccess_edge_l.PointOfDefinition = pat_adaptAccess;
+			adaptAccess_node_a.pointOfDefinition = pat_adaptAccess;
+			adaptAccess_node_v.pointOfDefinition = null;
+			adaptAccess_node_c.pointOfDefinition = null;
+			adaptAccess_node_getter.pointOfDefinition = null;
+			adaptAccess_edge_l.pointOfDefinition = pat_adaptAccess;
 			adaptAccess_neg_0__subpattern0.PointOfDefinition = adaptAccess_neg_0;
 
 			patternGraph = pat_adaptAccess;
@@ -17413,13 +17413,13 @@ namespace de.unika.ipd.grGen.Action_JavaProgramGraphs
 			pat_adaptUpdate.edgeToTargetNode.Add(adaptUpdate_edge_e, adaptUpdate_node_exp);
 			adaptUpdate_neg_0.embeddingGraph = pat_adaptUpdate;
 
-			adaptUpdate_node_u.PointOfDefinition = pat_adaptUpdate;
-			adaptUpdate_node_v.PointOfDefinition = null;
-			adaptUpdate_node_exp.PointOfDefinition = pat_adaptUpdate;
-			adaptUpdate_node_c.PointOfDefinition = null;
-			adaptUpdate_node_setter.PointOfDefinition = null;
-			adaptUpdate_edge_l.PointOfDefinition = pat_adaptUpdate;
-			adaptUpdate_edge_e.PointOfDefinition = pat_adaptUpdate;
+			adaptUpdate_node_u.pointOfDefinition = pat_adaptUpdate;
+			adaptUpdate_node_v.pointOfDefinition = null;
+			adaptUpdate_node_exp.pointOfDefinition = pat_adaptUpdate;
+			adaptUpdate_node_c.pointOfDefinition = null;
+			adaptUpdate_node_setter.pointOfDefinition = null;
+			adaptUpdate_edge_l.pointOfDefinition = pat_adaptUpdate;
+			adaptUpdate_edge_e.pointOfDefinition = pat_adaptUpdate;
 			adaptUpdate_neg_0__subpattern0.PointOfDefinition = adaptUpdate_neg_0;
 
 			patternGraph = pat_adaptUpdate;
@@ -17773,11 +17773,11 @@ namespace de.unika.ipd.grGen.Action_JavaProgramGraphs
 			pat_adaptAccessUseAccessorsAlways.edgeToSourceNode.Add(adaptAccessUseAccessorsAlways_edge_l, adaptAccessUseAccessorsAlways_node_a);
 			pat_adaptAccessUseAccessorsAlways.edgeToTargetNode.Add(adaptAccessUseAccessorsAlways_edge_l, adaptAccessUseAccessorsAlways_node_v);
 
-			adaptAccessUseAccessorsAlways_node_a.PointOfDefinition = pat_adaptAccessUseAccessorsAlways;
-			adaptAccessUseAccessorsAlways_node_v.PointOfDefinition = null;
-			adaptAccessUseAccessorsAlways_node_c.PointOfDefinition = null;
-			adaptAccessUseAccessorsAlways_node_getter.PointOfDefinition = null;
-			adaptAccessUseAccessorsAlways_edge_l.PointOfDefinition = pat_adaptAccessUseAccessorsAlways;
+			adaptAccessUseAccessorsAlways_node_a.pointOfDefinition = pat_adaptAccessUseAccessorsAlways;
+			adaptAccessUseAccessorsAlways_node_v.pointOfDefinition = null;
+			adaptAccessUseAccessorsAlways_node_c.pointOfDefinition = null;
+			adaptAccessUseAccessorsAlways_node_getter.pointOfDefinition = null;
+			adaptAccessUseAccessorsAlways_edge_l.pointOfDefinition = pat_adaptAccessUseAccessorsAlways;
 
 			patternGraph = pat_adaptAccessUseAccessorsAlways;
 		}
@@ -18019,13 +18019,13 @@ namespace de.unika.ipd.grGen.Action_JavaProgramGraphs
 			pat_adaptUpdateUseAccessorsAlways.edgeToSourceNode.Add(adaptUpdateUseAccessorsAlways_edge_e, adaptUpdateUseAccessorsAlways_node_u);
 			pat_adaptUpdateUseAccessorsAlways.edgeToTargetNode.Add(adaptUpdateUseAccessorsAlways_edge_e, adaptUpdateUseAccessorsAlways_node_exp);
 
-			adaptUpdateUseAccessorsAlways_node_u.PointOfDefinition = pat_adaptUpdateUseAccessorsAlways;
-			adaptUpdateUseAccessorsAlways_node_v.PointOfDefinition = null;
-			adaptUpdateUseAccessorsAlways_node_exp.PointOfDefinition = pat_adaptUpdateUseAccessorsAlways;
-			adaptUpdateUseAccessorsAlways_node_c.PointOfDefinition = null;
-			adaptUpdateUseAccessorsAlways_node_setter.PointOfDefinition = null;
-			adaptUpdateUseAccessorsAlways_edge_l.PointOfDefinition = pat_adaptUpdateUseAccessorsAlways;
-			adaptUpdateUseAccessorsAlways_edge_e.PointOfDefinition = pat_adaptUpdateUseAccessorsAlways;
+			adaptUpdateUseAccessorsAlways_node_u.pointOfDefinition = pat_adaptUpdateUseAccessorsAlways;
+			adaptUpdateUseAccessorsAlways_node_v.pointOfDefinition = null;
+			adaptUpdateUseAccessorsAlways_node_exp.pointOfDefinition = pat_adaptUpdateUseAccessorsAlways;
+			adaptUpdateUseAccessorsAlways_node_c.pointOfDefinition = null;
+			adaptUpdateUseAccessorsAlways_node_setter.pointOfDefinition = null;
+			adaptUpdateUseAccessorsAlways_edge_l.pointOfDefinition = pat_adaptUpdateUseAccessorsAlways;
+			adaptUpdateUseAccessorsAlways_edge_e.pointOfDefinition = pat_adaptUpdateUseAccessorsAlways;
 
 			patternGraph = pat_adaptUpdateUseAccessorsAlways;
 		}
@@ -18252,9 +18252,9 @@ namespace de.unika.ipd.grGen.Action_JavaProgramGraphs
 				getSourceAndTargetAndMethodBody_isEdgeHomomorphicGlobal
 			);
 
-			getSourceAndTargetAndMethodBody_node_src.PointOfDefinition = null;
-			getSourceAndTargetAndMethodBody_node_tgt.PointOfDefinition = null;
-			getSourceAndTargetAndMethodBody_node_mb.PointOfDefinition = null;
+			getSourceAndTargetAndMethodBody_node_src.pointOfDefinition = null;
+			getSourceAndTargetAndMethodBody_node_tgt.pointOfDefinition = null;
+			getSourceAndTargetAndMethodBody_node_mb.pointOfDefinition = null;
 
 			patternGraph = pat_getSourceAndTargetAndMethodBody;
 		}
@@ -18461,9 +18461,9 @@ namespace de.unika.ipd.grGen.Action_JavaProgramGraphs
 			pat_getOperation.edgeToSourceNode.Add(getOperation_edge__edge0, getOperation_node_op);
 			pat_getOperation.edgeToTargetNode.Add(getOperation_edge__edge0, getOperation_node_mb);
 
-			getOperation_node_op.PointOfDefinition = pat_getOperation;
-			getOperation_node_mb.PointOfDefinition = null;
-			getOperation_edge__edge0.PointOfDefinition = pat_getOperation;
+			getOperation_node_op.pointOfDefinition = pat_getOperation;
+			getOperation_node_mb.pointOfDefinition = null;
+			getOperation_edge__edge0.pointOfDefinition = pat_getOperation;
 
 			patternGraph = pat_getOperation;
 		}
@@ -18690,13 +18690,13 @@ namespace de.unika.ipd.grGen.Action_JavaProgramGraphs
 			pat_someInstanceVariableOfTargetType.edgeToSourceNode.Add(someInstanceVariableOfTargetType_edge__edge2, someInstanceVariableOfTargetType_node_v);
 			pat_someInstanceVariableOfTargetType.edgeToTargetNode.Add(someInstanceVariableOfTargetType_edge__edge2, someInstanceVariableOfTargetType_node_tgt);
 
-			someInstanceVariableOfTargetType_node_mb.PointOfDefinition = null;
-			someInstanceVariableOfTargetType_node_src.PointOfDefinition = pat_someInstanceVariableOfTargetType;
-			someInstanceVariableOfTargetType_node_v.PointOfDefinition = pat_someInstanceVariableOfTargetType;
-			someInstanceVariableOfTargetType_node_tgt.PointOfDefinition = null;
-			someInstanceVariableOfTargetType_edge__edge0.PointOfDefinition = pat_someInstanceVariableOfTargetType;
-			someInstanceVariableOfTargetType_edge__edge1.PointOfDefinition = pat_someInstanceVariableOfTargetType;
-			someInstanceVariableOfTargetType_edge__edge2.PointOfDefinition = pat_someInstanceVariableOfTargetType;
+			someInstanceVariableOfTargetType_node_mb.pointOfDefinition = null;
+			someInstanceVariableOfTargetType_node_src.pointOfDefinition = pat_someInstanceVariableOfTargetType;
+			someInstanceVariableOfTargetType_node_v.pointOfDefinition = pat_someInstanceVariableOfTargetType;
+			someInstanceVariableOfTargetType_node_tgt.pointOfDefinition = null;
+			someInstanceVariableOfTargetType_edge__edge0.pointOfDefinition = pat_someInstanceVariableOfTargetType;
+			someInstanceVariableOfTargetType_edge__edge1.pointOfDefinition = pat_someInstanceVariableOfTargetType;
+			someInstanceVariableOfTargetType_edge__edge2.pointOfDefinition = pat_someInstanceVariableOfTargetType;
 
 			patternGraph = pat_someInstanceVariableOfTargetType;
 		}
@@ -18939,13 +18939,13 @@ namespace de.unika.ipd.grGen.Action_JavaProgramGraphs
 			pat_someParameterOfTargetType.edgeToSourceNode.Add(someParameterOfTargetType_edge__edge2, someParameterOfTargetType_node_p);
 			pat_someParameterOfTargetType.edgeToTargetNode.Add(someParameterOfTargetType_edge__edge2, someParameterOfTargetType_node_tgt);
 
-			someParameterOfTargetType_node_op.PointOfDefinition = pat_someParameterOfTargetType;
-			someParameterOfTargetType_node_mb.PointOfDefinition = null;
-			someParameterOfTargetType_node_p.PointOfDefinition = pat_someParameterOfTargetType;
-			someParameterOfTargetType_node_tgt.PointOfDefinition = null;
-			someParameterOfTargetType_edge__edge0.PointOfDefinition = pat_someParameterOfTargetType;
-			someParameterOfTargetType_edge__edge1.PointOfDefinition = pat_someParameterOfTargetType;
-			someParameterOfTargetType_edge__edge2.PointOfDefinition = pat_someParameterOfTargetType;
+			someParameterOfTargetType_node_op.pointOfDefinition = pat_someParameterOfTargetType;
+			someParameterOfTargetType_node_mb.pointOfDefinition = null;
+			someParameterOfTargetType_node_p.pointOfDefinition = pat_someParameterOfTargetType;
+			someParameterOfTargetType_node_tgt.pointOfDefinition = null;
+			someParameterOfTargetType_edge__edge0.pointOfDefinition = pat_someParameterOfTargetType;
+			someParameterOfTargetType_edge__edge1.pointOfDefinition = pat_someParameterOfTargetType;
+			someParameterOfTargetType_edge__edge2.pointOfDefinition = pat_someParameterOfTargetType;
 
 			patternGraph = pat_someParameterOfTargetType;
 		}
@@ -19180,11 +19180,11 @@ namespace de.unika.ipd.grGen.Action_JavaProgramGraphs
 			pat_markExpressionOfBody.edgeToSourceNode.Add(markExpressionOfBody_edge__edge1, markExpressionOfBody_node__node0);
 			pat_markExpressionOfBody.edgeToTargetNode.Add(markExpressionOfBody_edge__edge1, markExpressionOfBody_node_exp);
 
-			markExpressionOfBody_node__node0.PointOfDefinition = pat_markExpressionOfBody;
-			markExpressionOfBody_node_mb.PointOfDefinition = null;
-			markExpressionOfBody_node_exp.PointOfDefinition = pat_markExpressionOfBody;
-			markExpressionOfBody_edge__edge0.PointOfDefinition = pat_markExpressionOfBody;
-			markExpressionOfBody_edge__edge1.PointOfDefinition = pat_markExpressionOfBody;
+			markExpressionOfBody_node__node0.pointOfDefinition = pat_markExpressionOfBody;
+			markExpressionOfBody_node_mb.pointOfDefinition = null;
+			markExpressionOfBody_node_exp.pointOfDefinition = pat_markExpressionOfBody;
+			markExpressionOfBody_edge__edge0.pointOfDefinition = pat_markExpressionOfBody;
+			markExpressionOfBody_edge__edge1.pointOfDefinition = pat_markExpressionOfBody;
 
 			patternGraph = pat_markExpressionOfBody;
 		}
@@ -19454,9 +19454,9 @@ namespace de.unika.ipd.grGen.Action_JavaProgramGraphs
 			pat_markExpressionFollowingExpression.edgeToSourceNode.Add(markExpressionFollowingExpression_edge__edge0, markExpressionFollowingExpression_node_root);
 			pat_markExpressionFollowingExpression.edgeToTargetNode.Add(markExpressionFollowingExpression_edge__edge0, markExpressionFollowingExpression_node_exp);
 
-			markExpressionFollowingExpression_node_root.PointOfDefinition = null;
-			markExpressionFollowingExpression_node_exp.PointOfDefinition = pat_markExpressionFollowingExpression;
-			markExpressionFollowingExpression_edge__edge0.PointOfDefinition = pat_markExpressionFollowingExpression;
+			markExpressionFollowingExpression_node_root.pointOfDefinition = null;
+			markExpressionFollowingExpression_node_exp.pointOfDefinition = pat_markExpressionFollowingExpression;
+			markExpressionFollowingExpression_edge__edge0.pointOfDefinition = pat_markExpressionFollowingExpression;
 
 			patternGraph = pat_markExpressionFollowingExpression;
 		}
@@ -19718,9 +19718,9 @@ namespace de.unika.ipd.grGen.Action_JavaProgramGraphs
 			pat_markExpressionFollowingActualParameter.edgeToSourceNode.Add(markExpressionFollowingActualParameter_edge__edge0, markExpressionFollowingActualParameter_node_root);
 			pat_markExpressionFollowingActualParameter.edgeToTargetNode.Add(markExpressionFollowingActualParameter_edge__edge0, markExpressionFollowingActualParameter_node_exp);
 
-			markExpressionFollowingActualParameter_node_root.PointOfDefinition = null;
-			markExpressionFollowingActualParameter_node_exp.PointOfDefinition = pat_markExpressionFollowingActualParameter;
-			markExpressionFollowingActualParameter_edge__edge0.PointOfDefinition = pat_markExpressionFollowingActualParameter;
+			markExpressionFollowingActualParameter_node_root.pointOfDefinition = null;
+			markExpressionFollowingActualParameter_node_exp.pointOfDefinition = pat_markExpressionFollowingActualParameter;
+			markExpressionFollowingActualParameter_edge__edge0.pointOfDefinition = pat_markExpressionFollowingActualParameter;
 
 			patternGraph = pat_markExpressionFollowingActualParameter;
 		}
@@ -19968,7 +19968,7 @@ namespace de.unika.ipd.grGen.Action_JavaProgramGraphs
 				unmarkExpression_isEdgeHomomorphicGlobal
 			);
 
-			unmarkExpression_node_exp.PointOfDefinition = pat_unmarkExpression;
+			unmarkExpression_node_exp.pointOfDefinition = pat_unmarkExpression;
 
 			patternGraph = pat_unmarkExpression;
 		}
@@ -20156,7 +20156,7 @@ namespace de.unika.ipd.grGen.Action_JavaProgramGraphs
 				callToSuperExists_isEdgeHomomorphicGlobal
 			);
 
-			callToSuperExists_node_call.PointOfDefinition = pat_callToSuperExists;
+			callToSuperExists_node_call.pointOfDefinition = pat_callToSuperExists;
 
 			patternGraph = pat_callToSuperExists;
 		}
@@ -20352,9 +20352,9 @@ namespace de.unika.ipd.grGen.Action_JavaProgramGraphs
 			pat_isStatic.edgeToSourceNode.Add(isStatic_edge__edge0, isStatic_node_op);
 			pat_isStatic.edgeToTargetNode.Add(isStatic_edge__edge0, isStatic_node_mb);
 
-			isStatic_node_op.PointOfDefinition = pat_isStatic;
-			isStatic_node_mb.PointOfDefinition = null;
-			isStatic_edge__edge0.PointOfDefinition = pat_isStatic;
+			isStatic_node_op.pointOfDefinition = pat_isStatic;
+			isStatic_node_mb.pointOfDefinition = null;
+			isStatic_edge__edge0.pointOfDefinition = pat_isStatic;
 
 			patternGraph = pat_isStatic;
 		}
@@ -20566,10 +20566,10 @@ namespace de.unika.ipd.grGen.Action_JavaProgramGraphs
 			pat_methodNameExists.edgeToSourceNode.Add(methodNameExists_edge__edge0, methodNameExists_node_op);
 			pat_methodNameExists.edgeToTargetNode.Add(methodNameExists_edge__edge0, methodNameExists_node_mb);
 
-			methodNameExists_node_op.PointOfDefinition = pat_methodNameExists;
-			methodNameExists_node_mb.PointOfDefinition = null;
-			methodNameExists_node_tgt.PointOfDefinition = null;
-			methodNameExists_edge__edge0.PointOfDefinition = pat_methodNameExists;
+			methodNameExists_node_op.pointOfDefinition = pat_methodNameExists;
+			methodNameExists_node_mb.pointOfDefinition = null;
+			methodNameExists_node_tgt.pointOfDefinition = null;
+			methodNameExists_edge__edge0.pointOfDefinition = pat_methodNameExists;
 			methodNameExists__subpattern0.PointOfDefinition = pat_methodNameExists;
 
 			patternGraph = pat_methodNameExists;
@@ -20818,8 +20818,8 @@ namespace de.unika.ipd.grGen.Action_JavaProgramGraphs
 			);
 			thisIsAccessed_neg_0.embeddingGraph = pat_thisIsAccessed;
 
-			thisIsAccessed_node_access.PointOfDefinition = pat_thisIsAccessed;
-			thisIsAccessed_neg_0_edge__edge0.PointOfDefinition = thisIsAccessed_neg_0;
+			thisIsAccessed_node_access.pointOfDefinition = pat_thisIsAccessed;
+			thisIsAccessed_neg_0_edge__edge0.pointOfDefinition = thisIsAccessed_neg_0;
 
 			patternGraph = pat_thisIsAccessed;
 		}
@@ -21111,8 +21111,8 @@ namespace de.unika.ipd.grGen.Action_JavaProgramGraphs
 				addSourceParameter_isEdgeHomomorphicGlobal
 			);
 
-			addSourceParameter_node_op.PointOfDefinition = null;
-			addSourceParameter_node_src.PointOfDefinition = null;
+			addSourceParameter_node_op.pointOfDefinition = null;
+			addSourceParameter_node_src.pointOfDefinition = null;
 
 			patternGraph = pat_addSourceParameter;
 		}
@@ -21361,9 +21361,9 @@ namespace de.unika.ipd.grGen.Action_JavaProgramGraphs
 			);
 			useSourceParameter_neg_0.embeddingGraph = pat_useSourceParameter;
 
-			useSourceParameter_node_srcparam.PointOfDefinition = null;
-			useSourceParameter_node_access.PointOfDefinition = pat_useSourceParameter;
-			useSourceParameter_neg_0_edge__edge0.PointOfDefinition = useSourceParameter_neg_0;
+			useSourceParameter_node_srcparam.pointOfDefinition = null;
+			useSourceParameter_node_access.pointOfDefinition = pat_useSourceParameter;
+			useSourceParameter_neg_0_edge__edge0.pointOfDefinition = useSourceParameter_neg_0;
 
 			patternGraph = pat_useSourceParameter;
 		}
@@ -21666,8 +21666,8 @@ namespace de.unika.ipd.grGen.Action_JavaProgramGraphs
 				copyOperation_isEdgeHomomorphicGlobal
 			);
 
-			copyOperation_node_op.PointOfDefinition = null;
-			copyOperation_node_tgt.PointOfDefinition = null;
+			copyOperation_node_op.pointOfDefinition = null;
+			copyOperation_node_tgt.pointOfDefinition = null;
 
 			patternGraph = pat_copyOperation;
 		}
@@ -21878,10 +21878,10 @@ namespace de.unika.ipd.grGen.Action_JavaProgramGraphs
 			pat_copyOperationParameter.edgeToSourceNode.Add(copyOperationParameter_edge__edge0, copyOperationParameter_node_op);
 			pat_copyOperationParameter.edgeToTargetNode.Add(copyOperationParameter_edge__edge0, copyOperationParameter_node_p);
 
-			copyOperationParameter_node_op.PointOfDefinition = null;
-			copyOperationParameter_node_p.PointOfDefinition = pat_copyOperationParameter;
-			copyOperationParameter_node_newop.PointOfDefinition = null;
-			copyOperationParameter_edge__edge0.PointOfDefinition = pat_copyOperationParameter;
+			copyOperationParameter_node_op.pointOfDefinition = null;
+			copyOperationParameter_node_p.pointOfDefinition = pat_copyOperationParameter;
+			copyOperationParameter_node_newop.pointOfDefinition = null;
+			copyOperationParameter_edge__edge0.pointOfDefinition = pat_copyOperationParameter;
 
 			patternGraph = pat_copyOperationParameter;
 		}
@@ -22116,13 +22116,13 @@ namespace de.unika.ipd.grGen.Action_JavaProgramGraphs
 			pat_relinkMethodBody.edgeToSourceNode.Add(relinkMethodBody_edge_b, relinkMethodBody_node_op);
 			pat_relinkMethodBody.edgeToTargetNode.Add(relinkMethodBody_edge_b, relinkMethodBody_node_mb);
 
-			relinkMethodBody_node_mb.PointOfDefinition = null;
-			relinkMethodBody_node_src.PointOfDefinition = null;
-			relinkMethodBody_node_op.PointOfDefinition = null;
-			relinkMethodBody_node_tgt.PointOfDefinition = null;
-			relinkMethodBody_node_newop.PointOfDefinition = null;
-			relinkMethodBody_edge_b1.PointOfDefinition = pat_relinkMethodBody;
-			relinkMethodBody_edge_b.PointOfDefinition = pat_relinkMethodBody;
+			relinkMethodBody_node_mb.pointOfDefinition = null;
+			relinkMethodBody_node_src.pointOfDefinition = null;
+			relinkMethodBody_node_op.pointOfDefinition = null;
+			relinkMethodBody_node_tgt.pointOfDefinition = null;
+			relinkMethodBody_node_newop.pointOfDefinition = null;
+			relinkMethodBody_edge_b1.pointOfDefinition = pat_relinkMethodBody;
+			relinkMethodBody_edge_b.pointOfDefinition = pat_relinkMethodBody;
 
 			patternGraph = pat_relinkMethodBody;
 		}
@@ -22387,15 +22387,15 @@ namespace de.unika.ipd.grGen.Action_JavaProgramGraphs
 			pat_relinkParameter.edgeToSourceNode.Add(relinkParameter_edge__edge1, relinkParameter_node_newop);
 			pat_relinkParameter.edgeToTargetNode.Add(relinkParameter_edge__edge1, relinkParameter_node_newp);
 
-			relinkParameter_node_exp.PointOfDefinition = pat_relinkParameter;
-			relinkParameter_node_p.PointOfDefinition = pat_relinkParameter;
-			relinkParameter_node_op.PointOfDefinition = null;
-			relinkParameter_node_newop.PointOfDefinition = null;
-			relinkParameter_node_newp.PointOfDefinition = pat_relinkParameter;
-			relinkParameter_node_mb.PointOfDefinition = null;
-			relinkParameter_edge_l.PointOfDefinition = pat_relinkParameter;
-			relinkParameter_edge__edge0.PointOfDefinition = pat_relinkParameter;
-			relinkParameter_edge__edge1.PointOfDefinition = pat_relinkParameter;
+			relinkParameter_node_exp.pointOfDefinition = pat_relinkParameter;
+			relinkParameter_node_p.pointOfDefinition = pat_relinkParameter;
+			relinkParameter_node_op.pointOfDefinition = null;
+			relinkParameter_node_newop.pointOfDefinition = null;
+			relinkParameter_node_newp.pointOfDefinition = pat_relinkParameter;
+			relinkParameter_node_mb.pointOfDefinition = null;
+			relinkParameter_edge_l.pointOfDefinition = pat_relinkParameter;
+			relinkParameter_edge__edge0.pointOfDefinition = pat_relinkParameter;
+			relinkParameter_edge__edge1.pointOfDefinition = pat_relinkParameter;
 
 			patternGraph = pat_relinkParameter;
 		}
@@ -22647,12 +22647,12 @@ namespace de.unika.ipd.grGen.Action_JavaProgramGraphs
 			pat_relinkOperationAndMethodBody.edgeToSourceNode.Add(relinkOperationAndMethodBody_edge_b, relinkOperationAndMethodBody_node_op);
 			pat_relinkOperationAndMethodBody.edgeToTargetNode.Add(relinkOperationAndMethodBody_edge_b, relinkOperationAndMethodBody_node_mb);
 
-			relinkOperationAndMethodBody_node_mb.PointOfDefinition = null;
-			relinkOperationAndMethodBody_node_src.PointOfDefinition = null;
-			relinkOperationAndMethodBody_node_op.PointOfDefinition = null;
-			relinkOperationAndMethodBody_node_tgt.PointOfDefinition = null;
-			relinkOperationAndMethodBody_edge_bc.PointOfDefinition = pat_relinkOperationAndMethodBody;
-			relinkOperationAndMethodBody_edge_b.PointOfDefinition = pat_relinkOperationAndMethodBody;
+			relinkOperationAndMethodBody_node_mb.pointOfDefinition = null;
+			relinkOperationAndMethodBody_node_src.pointOfDefinition = null;
+			relinkOperationAndMethodBody_node_op.pointOfDefinition = null;
+			relinkOperationAndMethodBody_node_tgt.pointOfDefinition = null;
+			relinkOperationAndMethodBody_edge_bc.pointOfDefinition = pat_relinkOperationAndMethodBody;
+			relinkOperationAndMethodBody_edge_b.pointOfDefinition = pat_relinkOperationAndMethodBody;
 
 			patternGraph = pat_relinkOperationAndMethodBody;
 		}
@@ -22878,10 +22878,10 @@ namespace de.unika.ipd.grGen.Action_JavaProgramGraphs
 				addDelegateBody_isEdgeHomomorphicGlobal
 			);
 
-			addDelegateBody_node_src.PointOfDefinition = null;
-			addDelegateBody_node_own.PointOfDefinition = null;
-			addDelegateBody_node_orig.PointOfDefinition = null;
-			addDelegateBody_node_vp.PointOfDefinition = null;
+			addDelegateBody_node_src.pointOfDefinition = null;
+			addDelegateBody_node_own.pointOfDefinition = null;
+			addDelegateBody_node_orig.pointOfDefinition = null;
+			addDelegateBody_node_vp.pointOfDefinition = null;
 
 			patternGraph = pat_addDelegateBody;
 		}
@@ -23114,10 +23114,10 @@ namespace de.unika.ipd.grGen.Action_JavaProgramGraphs
 			pat_linkDelegateBodyToOperation.edgeToSourceNode.Add(linkDelegateBodyToOperation_edge__edge0, linkDelegateBodyToOperation_node_op);
 			pat_linkDelegateBodyToOperation.edgeToTargetNode.Add(linkDelegateBodyToOperation_edge__edge0, linkDelegateBodyToOperation_node_param);
 
-			linkDelegateBodyToOperation_node_op.PointOfDefinition = null;
-			linkDelegateBodyToOperation_node_param.PointOfDefinition = pat_linkDelegateBodyToOperation;
-			linkDelegateBodyToOperation_node_call.PointOfDefinition = null;
-			linkDelegateBodyToOperation_edge__edge0.PointOfDefinition = pat_linkDelegateBodyToOperation;
+			linkDelegateBodyToOperation_node_op.pointOfDefinition = null;
+			linkDelegateBodyToOperation_node_param.pointOfDefinition = pat_linkDelegateBodyToOperation;
+			linkDelegateBodyToOperation_node_call.pointOfDefinition = null;
+			linkDelegateBodyToOperation_edge__edge0.pointOfDefinition = pat_linkDelegateBodyToOperation;
 
 			patternGraph = pat_linkDelegateBodyToOperation;
 		}
@@ -23361,14 +23361,14 @@ namespace de.unika.ipd.grGen.Action_JavaProgramGraphs
 			pat_replaceAccess_Variable.edgeToSourceNode.Add(replaceAccess_Variable_edge__edge0, replaceAccess_Variable_node_call);
 			pat_replaceAccess_Variable.edgeToTargetNode.Add(replaceAccess_Variable_edge__edge0, replaceAccess_Variable_node_b);
 
-			replaceAccess_Variable_node_a.PointOfDefinition = pat_replaceAccess_Variable;
-			replaceAccess_Variable_node_call.PointOfDefinition = pat_replaceAccess_Variable;
-			replaceAccess_Variable_node_movedOperation.PointOfDefinition = null;
-			replaceAccess_Variable_node_b.PointOfDefinition = pat_replaceAccess_Variable;
-			replaceAccess_Variable_node_v.PointOfDefinition = null;
-			replaceAccess_Variable_edge_e.PointOfDefinition = pat_replaceAccess_Variable;
-			replaceAccess_Variable_edge_l.PointOfDefinition = pat_replaceAccess_Variable;
-			replaceAccess_Variable_edge__edge0.PointOfDefinition = pat_replaceAccess_Variable;
+			replaceAccess_Variable_node_a.pointOfDefinition = pat_replaceAccess_Variable;
+			replaceAccess_Variable_node_call.pointOfDefinition = pat_replaceAccess_Variable;
+			replaceAccess_Variable_node_movedOperation.pointOfDefinition = null;
+			replaceAccess_Variable_node_b.pointOfDefinition = pat_replaceAccess_Variable;
+			replaceAccess_Variable_node_v.pointOfDefinition = null;
+			replaceAccess_Variable_edge_e.pointOfDefinition = pat_replaceAccess_Variable;
+			replaceAccess_Variable_edge_l.pointOfDefinition = pat_replaceAccess_Variable;
+			replaceAccess_Variable_edge__edge0.pointOfDefinition = pat_replaceAccess_Variable;
 
 			patternGraph = pat_replaceAccess_Variable;
 		}
@@ -23639,15 +23639,15 @@ namespace de.unika.ipd.grGen.Action_JavaProgramGraphs
 			pat_replaceAccess_Variable_WithSource.edgeToSourceNode.Add(replaceAccess_Variable_WithSource_edge__edge0, replaceAccess_Variable_WithSource_node_call);
 			pat_replaceAccess_Variable_WithSource.edgeToTargetNode.Add(replaceAccess_Variable_WithSource_edge__edge0, replaceAccess_Variable_WithSource_node_b);
 
-			replaceAccess_Variable_WithSource_node_a.PointOfDefinition = pat_replaceAccess_Variable_WithSource;
-			replaceAccess_Variable_WithSource_node_call.PointOfDefinition = pat_replaceAccess_Variable_WithSource;
-			replaceAccess_Variable_WithSource_node_movedOperation.PointOfDefinition = null;
-			replaceAccess_Variable_WithSource_node_b.PointOfDefinition = pat_replaceAccess_Variable_WithSource;
-			replaceAccess_Variable_WithSource_node_v.PointOfDefinition = null;
-			replaceAccess_Variable_WithSource_node_srcparam.PointOfDefinition = null;
-			replaceAccess_Variable_WithSource_edge_e.PointOfDefinition = pat_replaceAccess_Variable_WithSource;
-			replaceAccess_Variable_WithSource_edge_l.PointOfDefinition = pat_replaceAccess_Variable_WithSource;
-			replaceAccess_Variable_WithSource_edge__edge0.PointOfDefinition = pat_replaceAccess_Variable_WithSource;
+			replaceAccess_Variable_WithSource_node_a.pointOfDefinition = pat_replaceAccess_Variable_WithSource;
+			replaceAccess_Variable_WithSource_node_call.pointOfDefinition = pat_replaceAccess_Variable_WithSource;
+			replaceAccess_Variable_WithSource_node_movedOperation.pointOfDefinition = null;
+			replaceAccess_Variable_WithSource_node_b.pointOfDefinition = pat_replaceAccess_Variable_WithSource;
+			replaceAccess_Variable_WithSource_node_v.pointOfDefinition = null;
+			replaceAccess_Variable_WithSource_node_srcparam.pointOfDefinition = null;
+			replaceAccess_Variable_WithSource_edge_e.pointOfDefinition = pat_replaceAccess_Variable_WithSource;
+			replaceAccess_Variable_WithSource_edge_l.pointOfDefinition = pat_replaceAccess_Variable_WithSource;
+			replaceAccess_Variable_WithSource_edge__edge0.pointOfDefinition = pat_replaceAccess_Variable_WithSource;
 
 			patternGraph = pat_replaceAccess_Variable_WithSource;
 		}
@@ -23881,8 +23881,8 @@ namespace de.unika.ipd.grGen.Action_JavaProgramGraphs
 				addSourceToCall_isEdgeHomomorphicGlobal
 			);
 
-			addSourceToCall_node_call.PointOfDefinition = null;
-			addSourceToCall_node_srcparam.PointOfDefinition = null;
+			addSourceToCall_node_call.pointOfDefinition = null;
+			addSourceToCall_node_srcparam.pointOfDefinition = null;
 
 			patternGraph = pat_addSourceToCall;
 		}
@@ -24172,16 +24172,16 @@ namespace de.unika.ipd.grGen.Action_JavaProgramGraphs
 			pat_getUnprocessedCallWithActualParameter.edgeToTargetNode.Add(getUnprocessedCallWithActualParameter_edge__edge2, getUnprocessedCallWithActualParameter_node_pe);
 			getUnprocessedCallWithActualParameter_neg_0.embeddingGraph = pat_getUnprocessedCallWithActualParameter;
 
-			getUnprocessedCallWithActualParameter_node_a.PointOfDefinition = pat_getUnprocessedCallWithActualParameter;
-			getUnprocessedCallWithActualParameter_node_c.PointOfDefinition = pat_getUnprocessedCallWithActualParameter;
-			getUnprocessedCallWithActualParameter_node_movedOperation.PointOfDefinition = null;
-			getUnprocessedCallWithActualParameter_node_p.PointOfDefinition = null;
-			getUnprocessedCallWithActualParameter_node_pe.PointOfDefinition = pat_getUnprocessedCallWithActualParameter;
-			getUnprocessedCallWithActualParameter_edge_e.PointOfDefinition = pat_getUnprocessedCallWithActualParameter;
-			getUnprocessedCallWithActualParameter_edge__edge0.PointOfDefinition = pat_getUnprocessedCallWithActualParameter;
-			getUnprocessedCallWithActualParameter_edge__edge1.PointOfDefinition = pat_getUnprocessedCallWithActualParameter;
-			getUnprocessedCallWithActualParameter_edge__edge2.PointOfDefinition = pat_getUnprocessedCallWithActualParameter;
-			getUnprocessedCallWithActualParameter_neg_0_edge__edge0.PointOfDefinition = getUnprocessedCallWithActualParameter_neg_0;
+			getUnprocessedCallWithActualParameter_node_a.pointOfDefinition = pat_getUnprocessedCallWithActualParameter;
+			getUnprocessedCallWithActualParameter_node_c.pointOfDefinition = pat_getUnprocessedCallWithActualParameter;
+			getUnprocessedCallWithActualParameter_node_movedOperation.pointOfDefinition = null;
+			getUnprocessedCallWithActualParameter_node_p.pointOfDefinition = null;
+			getUnprocessedCallWithActualParameter_node_pe.pointOfDefinition = pat_getUnprocessedCallWithActualParameter;
+			getUnprocessedCallWithActualParameter_edge_e.pointOfDefinition = pat_getUnprocessedCallWithActualParameter;
+			getUnprocessedCallWithActualParameter_edge__edge0.pointOfDefinition = pat_getUnprocessedCallWithActualParameter;
+			getUnprocessedCallWithActualParameter_edge__edge1.pointOfDefinition = pat_getUnprocessedCallWithActualParameter;
+			getUnprocessedCallWithActualParameter_edge__edge2.pointOfDefinition = pat_getUnprocessedCallWithActualParameter;
+			getUnprocessedCallWithActualParameter_neg_0_edge__edge0.pointOfDefinition = getUnprocessedCallWithActualParameter_neg_0;
 
 			patternGraph = pat_getUnprocessedCallWithActualParameter;
 		}
@@ -24587,13 +24587,13 @@ namespace de.unika.ipd.grGen.Action_JavaProgramGraphs
 			pat_replaceAccess_Parameter_AccessWithoutLink.edgeToTargetNode.Add(replaceAccess_Parameter_AccessWithoutLink_edge__edge0, replaceAccess_Parameter_AccessWithoutLink_node_pe);
 			replaceAccess_Parameter_AccessWithoutLink_neg_0.embeddingGraph = pat_replaceAccess_Parameter_AccessWithoutLink;
 
-			replaceAccess_Parameter_AccessWithoutLink_node_a.PointOfDefinition = pat_replaceAccess_Parameter_AccessWithoutLink;
-			replaceAccess_Parameter_AccessWithoutLink_node_c.PointOfDefinition = null;
-			replaceAccess_Parameter_AccessWithoutLink_node_pe.PointOfDefinition = null;
-			replaceAccess_Parameter_AccessWithoutLink_edge_e.PointOfDefinition = pat_replaceAccess_Parameter_AccessWithoutLink;
-			replaceAccess_Parameter_AccessWithoutLink_edge__edge0.PointOfDefinition = pat_replaceAccess_Parameter_AccessWithoutLink;
-			replaceAccess_Parameter_AccessWithoutLink_neg_0_node__node0.PointOfDefinition = replaceAccess_Parameter_AccessWithoutLink_neg_0;
-			replaceAccess_Parameter_AccessWithoutLink_neg_0_edge__edge0.PointOfDefinition = replaceAccess_Parameter_AccessWithoutLink_neg_0;
+			replaceAccess_Parameter_AccessWithoutLink_node_a.pointOfDefinition = pat_replaceAccess_Parameter_AccessWithoutLink;
+			replaceAccess_Parameter_AccessWithoutLink_node_c.pointOfDefinition = null;
+			replaceAccess_Parameter_AccessWithoutLink_node_pe.pointOfDefinition = null;
+			replaceAccess_Parameter_AccessWithoutLink_edge_e.pointOfDefinition = pat_replaceAccess_Parameter_AccessWithoutLink;
+			replaceAccess_Parameter_AccessWithoutLink_edge__edge0.pointOfDefinition = pat_replaceAccess_Parameter_AccessWithoutLink;
+			replaceAccess_Parameter_AccessWithoutLink_neg_0_node__node0.pointOfDefinition = replaceAccess_Parameter_AccessWithoutLink_neg_0;
+			replaceAccess_Parameter_AccessWithoutLink_neg_0_edge__edge0.pointOfDefinition = replaceAccess_Parameter_AccessWithoutLink_neg_0;
 
 			patternGraph = pat_replaceAccess_Parameter_AccessWithoutLink;
 		}
@@ -24945,13 +24945,13 @@ namespace de.unika.ipd.grGen.Action_JavaProgramGraphs
 			pat_replaceAccess_Parameter_AccessWithLinkToExpression.edgeToSourceNode.Add(replaceAccess_Parameter_AccessWithLinkToExpression_edge_old, replaceAccess_Parameter_AccessWithLinkToExpression_node_a);
 			pat_replaceAccess_Parameter_AccessWithLinkToExpression.edgeToTargetNode.Add(replaceAccess_Parameter_AccessWithLinkToExpression_edge_old, replaceAccess_Parameter_AccessWithLinkToExpression_node_le);
 
-			replaceAccess_Parameter_AccessWithLinkToExpression_node_a.PointOfDefinition = pat_replaceAccess_Parameter_AccessWithLinkToExpression;
-			replaceAccess_Parameter_AccessWithLinkToExpression_node_c.PointOfDefinition = null;
-			replaceAccess_Parameter_AccessWithLinkToExpression_node_pe.PointOfDefinition = null;
-			replaceAccess_Parameter_AccessWithLinkToExpression_node_le.PointOfDefinition = pat_replaceAccess_Parameter_AccessWithLinkToExpression;
-			replaceAccess_Parameter_AccessWithLinkToExpression_edge_e.PointOfDefinition = pat_replaceAccess_Parameter_AccessWithLinkToExpression;
-			replaceAccess_Parameter_AccessWithLinkToExpression_edge__edge0.PointOfDefinition = pat_replaceAccess_Parameter_AccessWithLinkToExpression;
-			replaceAccess_Parameter_AccessWithLinkToExpression_edge_old.PointOfDefinition = pat_replaceAccess_Parameter_AccessWithLinkToExpression;
+			replaceAccess_Parameter_AccessWithLinkToExpression_node_a.pointOfDefinition = pat_replaceAccess_Parameter_AccessWithLinkToExpression;
+			replaceAccess_Parameter_AccessWithLinkToExpression_node_c.pointOfDefinition = null;
+			replaceAccess_Parameter_AccessWithLinkToExpression_node_pe.pointOfDefinition = null;
+			replaceAccess_Parameter_AccessWithLinkToExpression_node_le.pointOfDefinition = pat_replaceAccess_Parameter_AccessWithLinkToExpression;
+			replaceAccess_Parameter_AccessWithLinkToExpression_edge_e.pointOfDefinition = pat_replaceAccess_Parameter_AccessWithLinkToExpression;
+			replaceAccess_Parameter_AccessWithLinkToExpression_edge__edge0.pointOfDefinition = pat_replaceAccess_Parameter_AccessWithLinkToExpression;
+			replaceAccess_Parameter_AccessWithLinkToExpression_edge_old.pointOfDefinition = pat_replaceAccess_Parameter_AccessWithLinkToExpression;
 
 			patternGraph = pat_replaceAccess_Parameter_AccessWithLinkToExpression;
 		}

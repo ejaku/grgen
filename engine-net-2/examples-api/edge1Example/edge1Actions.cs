@@ -1,6 +1,6 @@
 // This file has been generated automatically by GrGen (www.grgen.net)
 // Do not modify this file! Any changes will be lost!
-// Generated from "..\..\tests\edge1\edge1.grg" on Wed Sep 08 23:33:33 CEST 2010
+// Generated from "..\..\tests\edge1\edge1.grg" on Sun Sep 12 20:12:22 CEST 2010
 
 using System;
 using System.Collections.Generic;
@@ -619,9 +619,9 @@ namespace de.unika.ipd.grGen.Action_edge1
 			pat_findUndirectedEdge.edgeToSourceNode.Add(findUndirectedEdge_edge__edge0, findUndirectedEdge_node_x);
 			pat_findUndirectedEdge.edgeToTargetNode.Add(findUndirectedEdge_edge__edge0, findUndirectedEdge_node_y);
 
-			findUndirectedEdge_node_x.PointOfDefinition = pat_findUndirectedEdge;
-			findUndirectedEdge_node_y.PointOfDefinition = pat_findUndirectedEdge;
-			findUndirectedEdge_edge__edge0.PointOfDefinition = pat_findUndirectedEdge;
+			findUndirectedEdge_node_x.pointOfDefinition = pat_findUndirectedEdge;
+			findUndirectedEdge_node_y.pointOfDefinition = pat_findUndirectedEdge;
+			findUndirectedEdge_edge__edge0.pointOfDefinition = pat_findUndirectedEdge;
 
 			patternGraph = pat_findUndirectedEdge;
 		}
@@ -822,9 +822,9 @@ namespace de.unika.ipd.grGen.Action_edge1
 			pat_findArbitraryEdge.edgeToSourceNode.Add(findArbitraryEdge_edge__edge0, findArbitraryEdge_node_x);
 			pat_findArbitraryEdge.edgeToTargetNode.Add(findArbitraryEdge_edge__edge0, findArbitraryEdge_node_y);
 
-			findArbitraryEdge_node_x.PointOfDefinition = pat_findArbitraryEdge;
-			findArbitraryEdge_node_y.PointOfDefinition = pat_findArbitraryEdge;
-			findArbitraryEdge_edge__edge0.PointOfDefinition = pat_findArbitraryEdge;
+			findArbitraryEdge_node_x.pointOfDefinition = pat_findArbitraryEdge;
+			findArbitraryEdge_node_y.pointOfDefinition = pat_findArbitraryEdge;
+			findArbitraryEdge_edge__edge0.pointOfDefinition = pat_findArbitraryEdge;
 
 			patternGraph = pat_findArbitraryEdge;
 		}
@@ -1025,9 +1025,9 @@ namespace de.unika.ipd.grGen.Action_edge1
 			pat_findArbitraryDirectedEdge.edgeToSourceNode.Add(findArbitraryDirectedEdge_edge__edge0, findArbitraryDirectedEdge_node_x);
 			pat_findArbitraryDirectedEdge.edgeToTargetNode.Add(findArbitraryDirectedEdge_edge__edge0, findArbitraryDirectedEdge_node_y);
 
-			findArbitraryDirectedEdge_node_x.PointOfDefinition = pat_findArbitraryDirectedEdge;
-			findArbitraryDirectedEdge_node_y.PointOfDefinition = pat_findArbitraryDirectedEdge;
-			findArbitraryDirectedEdge_edge__edge0.PointOfDefinition = pat_findArbitraryDirectedEdge;
+			findArbitraryDirectedEdge_node_x.pointOfDefinition = pat_findArbitraryDirectedEdge;
+			findArbitraryDirectedEdge_node_y.pointOfDefinition = pat_findArbitraryDirectedEdge;
+			findArbitraryDirectedEdge_edge__edge0.pointOfDefinition = pat_findArbitraryDirectedEdge;
 
 			patternGraph = pat_findArbitraryDirectedEdge;
 		}
@@ -1223,8 +1223,8 @@ namespace de.unika.ipd.grGen.Action_edge1
 			pat_findArbitraryDirectedReflexiveEdge.edgeToSourceNode.Add(findArbitraryDirectedReflexiveEdge_edge__edge0, findArbitraryDirectedReflexiveEdge_node_x);
 			pat_findArbitraryDirectedReflexiveEdge.edgeToTargetNode.Add(findArbitraryDirectedReflexiveEdge_edge__edge0, findArbitraryDirectedReflexiveEdge_node_x);
 
-			findArbitraryDirectedReflexiveEdge_node_x.PointOfDefinition = pat_findArbitraryDirectedReflexiveEdge;
-			findArbitraryDirectedReflexiveEdge_edge__edge0.PointOfDefinition = pat_findArbitraryDirectedReflexiveEdge;
+			findArbitraryDirectedReflexiveEdge_node_x.pointOfDefinition = pat_findArbitraryDirectedReflexiveEdge;
+			findArbitraryDirectedReflexiveEdge_edge__edge0.pointOfDefinition = pat_findArbitraryDirectedReflexiveEdge;
 
 			patternGraph = pat_findArbitraryDirectedReflexiveEdge;
 		}
@@ -1428,10 +1428,10 @@ namespace de.unika.ipd.grGen.Action_edge1
 			pat_findArbitraryDirectedReflexiveEdgeAfterUndirectedOne.edgeToSourceNode.Add(findArbitraryDirectedReflexiveEdgeAfterUndirectedOne_edge__edge1, findArbitraryDirectedReflexiveEdgeAfterUndirectedOne_node_y);
 			pat_findArbitraryDirectedReflexiveEdgeAfterUndirectedOne.edgeToTargetNode.Add(findArbitraryDirectedReflexiveEdgeAfterUndirectedOne_edge__edge1, findArbitraryDirectedReflexiveEdgeAfterUndirectedOne_node_y);
 
-			findArbitraryDirectedReflexiveEdgeAfterUndirectedOne_node_x.PointOfDefinition = pat_findArbitraryDirectedReflexiveEdgeAfterUndirectedOne;
-			findArbitraryDirectedReflexiveEdgeAfterUndirectedOne_node_y.PointOfDefinition = pat_findArbitraryDirectedReflexiveEdgeAfterUndirectedOne;
-			findArbitraryDirectedReflexiveEdgeAfterUndirectedOne_edge__edge0.PointOfDefinition = pat_findArbitraryDirectedReflexiveEdgeAfterUndirectedOne;
-			findArbitraryDirectedReflexiveEdgeAfterUndirectedOne_edge__edge1.PointOfDefinition = pat_findArbitraryDirectedReflexiveEdgeAfterUndirectedOne;
+			findArbitraryDirectedReflexiveEdgeAfterUndirectedOne_node_x.pointOfDefinition = pat_findArbitraryDirectedReflexiveEdgeAfterUndirectedOne;
+			findArbitraryDirectedReflexiveEdgeAfterUndirectedOne_node_y.pointOfDefinition = pat_findArbitraryDirectedReflexiveEdgeAfterUndirectedOne;
+			findArbitraryDirectedReflexiveEdgeAfterUndirectedOne_edge__edge0.pointOfDefinition = pat_findArbitraryDirectedReflexiveEdgeAfterUndirectedOne;
+			findArbitraryDirectedReflexiveEdgeAfterUndirectedOne_edge__edge1.pointOfDefinition = pat_findArbitraryDirectedReflexiveEdgeAfterUndirectedOne;
 
 			patternGraph = pat_findArbitraryDirectedReflexiveEdgeAfterUndirectedOne;
 		}
@@ -1648,11 +1648,11 @@ namespace de.unika.ipd.grGen.Action_edge1
 			pat_findArbitraryDirectedTriple.edgeToSourceNode.Add(findArbitraryDirectedTriple_edge__edge1, findArbitraryDirectedTriple_node__node1);
 			pat_findArbitraryDirectedTriple.edgeToTargetNode.Add(findArbitraryDirectedTriple_edge__edge1, findArbitraryDirectedTriple_node__node2);
 
-			findArbitraryDirectedTriple_node__node0.PointOfDefinition = pat_findArbitraryDirectedTriple;
-			findArbitraryDirectedTriple_node__node1.PointOfDefinition = pat_findArbitraryDirectedTriple;
-			findArbitraryDirectedTriple_node__node2.PointOfDefinition = pat_findArbitraryDirectedTriple;
-			findArbitraryDirectedTriple_edge__edge0.PointOfDefinition = pat_findArbitraryDirectedTriple;
-			findArbitraryDirectedTriple_edge__edge1.PointOfDefinition = pat_findArbitraryDirectedTriple;
+			findArbitraryDirectedTriple_node__node0.pointOfDefinition = pat_findArbitraryDirectedTriple;
+			findArbitraryDirectedTriple_node__node1.pointOfDefinition = pat_findArbitraryDirectedTriple;
+			findArbitraryDirectedTriple_node__node2.pointOfDefinition = pat_findArbitraryDirectedTriple;
+			findArbitraryDirectedTriple_edge__edge0.pointOfDefinition = pat_findArbitraryDirectedTriple;
+			findArbitraryDirectedTriple_edge__edge1.pointOfDefinition = pat_findArbitraryDirectedTriple;
 
 			patternGraph = pat_findArbitraryDirectedTriple;
 		}
@@ -1861,9 +1861,9 @@ namespace de.unika.ipd.grGen.Action_edge1
 			pat_findDirectedEdge.edgeToSourceNode.Add(findDirectedEdge_edge__edge0, findDirectedEdge_node_x);
 			pat_findDirectedEdge.edgeToTargetNode.Add(findDirectedEdge_edge__edge0, findDirectedEdge_node_y);
 
-			findDirectedEdge_node_x.PointOfDefinition = pat_findDirectedEdge;
-			findDirectedEdge_node_y.PointOfDefinition = pat_findDirectedEdge;
-			findDirectedEdge_edge__edge0.PointOfDefinition = pat_findDirectedEdge;
+			findDirectedEdge_node_x.pointOfDefinition = pat_findDirectedEdge;
+			findDirectedEdge_node_y.pointOfDefinition = pat_findDirectedEdge;
+			findDirectedEdge_edge__edge0.pointOfDefinition = pat_findDirectedEdge;
 
 			patternGraph = pat_findDirectedEdge;
 		}
@@ -2083,12 +2083,12 @@ namespace de.unika.ipd.grGen.Action_edge1
 			pat_findTripleCircle.edgeToSourceNode.Add(findTripleCircle_edge__edge2, findTripleCircle_node_z);
 			pat_findTripleCircle.edgeToTargetNode.Add(findTripleCircle_edge__edge2, findTripleCircle_node_x);
 
-			findTripleCircle_node_x.PointOfDefinition = pat_findTripleCircle;
-			findTripleCircle_node_y.PointOfDefinition = pat_findTripleCircle;
-			findTripleCircle_node_z.PointOfDefinition = pat_findTripleCircle;
-			findTripleCircle_edge__edge0.PointOfDefinition = pat_findTripleCircle;
-			findTripleCircle_edge__edge1.PointOfDefinition = pat_findTripleCircle;
-			findTripleCircle_edge__edge2.PointOfDefinition = pat_findTripleCircle;
+			findTripleCircle_node_x.pointOfDefinition = pat_findTripleCircle;
+			findTripleCircle_node_y.pointOfDefinition = pat_findTripleCircle;
+			findTripleCircle_node_z.pointOfDefinition = pat_findTripleCircle;
+			findTripleCircle_edge__edge0.pointOfDefinition = pat_findTripleCircle;
+			findTripleCircle_edge__edge1.pointOfDefinition = pat_findTripleCircle;
+			findTripleCircle_edge__edge2.pointOfDefinition = pat_findTripleCircle;
 
 			patternGraph = pat_findTripleCircle;
 		}

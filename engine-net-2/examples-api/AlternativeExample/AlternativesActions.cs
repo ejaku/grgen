@@ -1,6 +1,6 @@
 // This file has been generated automatically by GrGen (www.grgen.net)
 // Do not modify this file! Any changes will be lost!
-// Generated from "..\..\tests\alternatives\Alternatives.grg" on Wed Sep 08 23:33:22 CEST 2010
+// Generated from "..\..\tests\alternatives\Alternatives.grg" on Sun Sep 12 20:12:14 CEST 2010
 
 using System;
 using System.Collections.Generic;
@@ -180,10 +180,10 @@ namespace de.unika.ipd.grGen.Action_Alternatives
 			toAorB_alt_0_toA.embeddingGraph = pat_toAorB;
 			toAorB_alt_0_toB.embeddingGraph = pat_toAorB;
 
-			toAorB_node_x.PointOfDefinition = null;
-			toAorB_edge_y.PointOfDefinition = pat_toAorB;
-			toAorB_alt_0_toA_node_a.PointOfDefinition = toAorB_alt_0_toA;
-			toAorB_alt_0_toB_node_b.PointOfDefinition = toAorB_alt_0_toB;
+			toAorB_node_x.pointOfDefinition = null;
+			toAorB_edge_y.pointOfDefinition = pat_toAorB;
+			toAorB_alt_0_toA_node_a.pointOfDefinition = toAorB_alt_0_toA;
+			toAorB_alt_0_toB_node_b.pointOfDefinition = toAorB_alt_0_toB;
 
 			patternGraph = pat_toAorB;
 		}
@@ -1717,8 +1717,8 @@ namespace de.unika.ipd.grGen.Action_Alternatives
 			AorB_alt_0_A.embeddingGraph = pat_AorB;
 			AorB_alt_0_B.embeddingGraph = pat_AorB;
 
-			AorB_alt_0_A_node__node0.PointOfDefinition = AorB_alt_0_A;
-			AorB_alt_0_B_node__node0.PointOfDefinition = AorB_alt_0_B;
+			AorB_alt_0_A_node__node0.pointOfDefinition = AorB_alt_0_A;
+			AorB_alt_0_B_node__node0.pointOfDefinition = AorB_alt_0_B;
 
 			patternGraph = pat_AorB;
 		}
@@ -2245,9 +2245,9 @@ namespace de.unika.ipd.grGen.Action_Alternatives
 			AandnotCorB_alt_0_A.embeddingGraph = pat_AandnotCorB;
 			AandnotCorB_alt_0_B.embeddingGraph = pat_AandnotCorB;
 
-			AandnotCorB_alt_0_A_node__node0.PointOfDefinition = AandnotCorB_alt_0_A;
-			AandnotCorB_alt_0_A_neg_0_node__node0.PointOfDefinition = AandnotCorB_alt_0_A_neg_0;
-			AandnotCorB_alt_0_B_node__node0.PointOfDefinition = AandnotCorB_alt_0_B;
+			AandnotCorB_alt_0_A_node__node0.pointOfDefinition = AandnotCorB_alt_0_A;
+			AandnotCorB_alt_0_A_neg_0_node__node0.pointOfDefinition = AandnotCorB_alt_0_A_neg_0;
+			AandnotCorB_alt_0_B_node__node0.pointOfDefinition = AandnotCorB_alt_0_B;
 
 			patternGraph = pat_AandnotCorB;
 		}
@@ -2879,9 +2879,9 @@ namespace de.unika.ipd.grGen.Action_Alternatives
 			AorBorC_alt_0_B.embeddingGraph = pat_AorBorC;
 			AorBorC_alt_0_C.embeddingGraph = pat_AorBorC;
 
-			AorBorC_alt_0_A_node__node0.PointOfDefinition = AorBorC_alt_0_A;
-			AorBorC_alt_0_B_node__node0.PointOfDefinition = AorBorC_alt_0_B;
-			AorBorC_alt_0_C_node__node0.PointOfDefinition = AorBorC_alt_0_C;
+			AorBorC_alt_0_A_node__node0.pointOfDefinition = AorBorC_alt_0_A;
+			AorBorC_alt_0_B_node__node0.pointOfDefinition = AorBorC_alt_0_B;
+			AorBorC_alt_0_C_node__node0.pointOfDefinition = AorBorC_alt_0_C;
 
 			patternGraph = pat_AorBorC;
 		}
@@ -3503,11 +3503,11 @@ namespace de.unika.ipd.grGen.Action_Alternatives
 			AtoAorB_alt_0_toA.embeddingGraph = pat_AtoAorB;
 			AtoAorB_alt_0_toB.embeddingGraph = pat_AtoAorB;
 
-			AtoAorB_node_a.PointOfDefinition = pat_AtoAorB;
-			AtoAorB_alt_0_toA_node__node0.PointOfDefinition = AtoAorB_alt_0_toA;
-			AtoAorB_alt_0_toA_edge__edge0.PointOfDefinition = AtoAorB_alt_0_toA;
-			AtoAorB_alt_0_toB_node__node0.PointOfDefinition = AtoAorB_alt_0_toB;
-			AtoAorB_alt_0_toB_edge__edge0.PointOfDefinition = AtoAorB_alt_0_toB;
+			AtoAorB_node_a.pointOfDefinition = pat_AtoAorB;
+			AtoAorB_alt_0_toA_node__node0.pointOfDefinition = AtoAorB_alt_0_toA;
+			AtoAorB_alt_0_toA_edge__edge0.pointOfDefinition = AtoAorB_alt_0_toA;
+			AtoAorB_alt_0_toB_node__node0.pointOfDefinition = AtoAorB_alt_0_toB;
+			AtoAorB_alt_0_toB_edge__edge0.pointOfDefinition = AtoAorB_alt_0_toB;
 
 			patternGraph = pat_AtoAorB;
 		}
@@ -4413,33 +4413,33 @@ namespace de.unika.ipd.grGen.Action_Alternatives
 			Complex_alt_0_ExtendAv2.embeddingGraph = pat_Complex;
 			Complex_alt_0_ExtendNA2.embeddingGraph = pat_Complex;
 
-			Complex_node_a.PointOfDefinition = pat_Complex;
-			Complex_node_b.PointOfDefinition = pat_Complex;
-			Complex_edge__edge0.PointOfDefinition = pat_Complex;
-			Complex_edge__edge1.PointOfDefinition = pat_Complex;
-			Complex_alt_0_ExtendAv_node_b2.PointOfDefinition = Complex_alt_0_ExtendAv;
-			Complex_alt_0_ExtendAv_node__node0.PointOfDefinition = Complex_alt_0_ExtendAv;
-			Complex_alt_0_ExtendAv_node__node1.PointOfDefinition = Complex_alt_0_ExtendAv;
-			Complex_alt_0_ExtendAv_edge__edge0.PointOfDefinition = Complex_alt_0_ExtendAv;
-			Complex_alt_0_ExtendAv_edge__edge1.PointOfDefinition = Complex_alt_0_ExtendAv;
-			Complex_alt_0_ExtendAv_edge__edge2.PointOfDefinition = Complex_alt_0_ExtendAv;
-			Complex_alt_0_ExtendAv_edge__edge3.PointOfDefinition = Complex_alt_0_ExtendAv;
-			Complex_alt_0_ExtendAv2_node_b2.PointOfDefinition = Complex_alt_0_ExtendAv2;
-			Complex_alt_0_ExtendAv2_node__node0.PointOfDefinition = Complex_alt_0_ExtendAv2;
-			Complex_alt_0_ExtendAv2_node__node1.PointOfDefinition = Complex_alt_0_ExtendAv2;
-			Complex_alt_0_ExtendAv2_node__node2.PointOfDefinition = Complex_alt_0_ExtendAv2;
-			Complex_alt_0_ExtendAv2_edge__edge0.PointOfDefinition = Complex_alt_0_ExtendAv2;
-			Complex_alt_0_ExtendAv2_edge__edge1.PointOfDefinition = Complex_alt_0_ExtendAv2;
-			Complex_alt_0_ExtendAv2_edge__edge2.PointOfDefinition = Complex_alt_0_ExtendAv2;
-			Complex_alt_0_ExtendAv2_edge__edge3.PointOfDefinition = Complex_alt_0_ExtendAv2;
-			Complex_alt_0_ExtendAv2_edge__edge4.PointOfDefinition = Complex_alt_0_ExtendAv2;
-			Complex_alt_0_ExtendNA2_node__node0.PointOfDefinition = Complex_alt_0_ExtendNA2;
-			Complex_alt_0_ExtendNA2_node__node1.PointOfDefinition = Complex_alt_0_ExtendNA2;
-			Complex_alt_0_ExtendNA2_node_b2.PointOfDefinition = Complex_alt_0_ExtendNA2;
-			Complex_alt_0_ExtendNA2_edge__edge0.PointOfDefinition = Complex_alt_0_ExtendNA2;
-			Complex_alt_0_ExtendNA2_edge__edge1.PointOfDefinition = Complex_alt_0_ExtendNA2;
-			Complex_alt_0_ExtendNA2_edge__edge2.PointOfDefinition = Complex_alt_0_ExtendNA2;
-			Complex_alt_0_ExtendNA2_edge__edge3.PointOfDefinition = Complex_alt_0_ExtendNA2;
+			Complex_node_a.pointOfDefinition = pat_Complex;
+			Complex_node_b.pointOfDefinition = pat_Complex;
+			Complex_edge__edge0.pointOfDefinition = pat_Complex;
+			Complex_edge__edge1.pointOfDefinition = pat_Complex;
+			Complex_alt_0_ExtendAv_node_b2.pointOfDefinition = Complex_alt_0_ExtendAv;
+			Complex_alt_0_ExtendAv_node__node0.pointOfDefinition = Complex_alt_0_ExtendAv;
+			Complex_alt_0_ExtendAv_node__node1.pointOfDefinition = Complex_alt_0_ExtendAv;
+			Complex_alt_0_ExtendAv_edge__edge0.pointOfDefinition = Complex_alt_0_ExtendAv;
+			Complex_alt_0_ExtendAv_edge__edge1.pointOfDefinition = Complex_alt_0_ExtendAv;
+			Complex_alt_0_ExtendAv_edge__edge2.pointOfDefinition = Complex_alt_0_ExtendAv;
+			Complex_alt_0_ExtendAv_edge__edge3.pointOfDefinition = Complex_alt_0_ExtendAv;
+			Complex_alt_0_ExtendAv2_node_b2.pointOfDefinition = Complex_alt_0_ExtendAv2;
+			Complex_alt_0_ExtendAv2_node__node0.pointOfDefinition = Complex_alt_0_ExtendAv2;
+			Complex_alt_0_ExtendAv2_node__node1.pointOfDefinition = Complex_alt_0_ExtendAv2;
+			Complex_alt_0_ExtendAv2_node__node2.pointOfDefinition = Complex_alt_0_ExtendAv2;
+			Complex_alt_0_ExtendAv2_edge__edge0.pointOfDefinition = Complex_alt_0_ExtendAv2;
+			Complex_alt_0_ExtendAv2_edge__edge1.pointOfDefinition = Complex_alt_0_ExtendAv2;
+			Complex_alt_0_ExtendAv2_edge__edge2.pointOfDefinition = Complex_alt_0_ExtendAv2;
+			Complex_alt_0_ExtendAv2_edge__edge3.pointOfDefinition = Complex_alt_0_ExtendAv2;
+			Complex_alt_0_ExtendAv2_edge__edge4.pointOfDefinition = Complex_alt_0_ExtendAv2;
+			Complex_alt_0_ExtendNA2_node__node0.pointOfDefinition = Complex_alt_0_ExtendNA2;
+			Complex_alt_0_ExtendNA2_node__node1.pointOfDefinition = Complex_alt_0_ExtendNA2;
+			Complex_alt_0_ExtendNA2_node_b2.pointOfDefinition = Complex_alt_0_ExtendNA2;
+			Complex_alt_0_ExtendNA2_edge__edge0.pointOfDefinition = Complex_alt_0_ExtendNA2;
+			Complex_alt_0_ExtendNA2_edge__edge1.pointOfDefinition = Complex_alt_0_ExtendNA2;
+			Complex_alt_0_ExtendNA2_edge__edge2.pointOfDefinition = Complex_alt_0_ExtendNA2;
+			Complex_alt_0_ExtendNA2_edge__edge3.pointOfDefinition = Complex_alt_0_ExtendNA2;
 
 			patternGraph = pat_Complex;
 		}
@@ -5421,35 +5421,35 @@ namespace de.unika.ipd.grGen.Action_Alternatives
 			ComplexMax_alt_0_ExtendAv2.embeddingGraph = pat_ComplexMax;
 			ComplexMax_alt_0_ExtendNA2.embeddingGraph = pat_ComplexMax;
 
-			ComplexMax_node_a.PointOfDefinition = pat_ComplexMax;
-			ComplexMax_node_b.PointOfDefinition = pat_ComplexMax;
-			ComplexMax_edge__edge0.PointOfDefinition = pat_ComplexMax;
-			ComplexMax_edge__edge1.PointOfDefinition = pat_ComplexMax;
-			ComplexMax_alt_0_ExtendAv_node_b2.PointOfDefinition = ComplexMax_alt_0_ExtendAv;
-			ComplexMax_alt_0_ExtendAv_node__node0.PointOfDefinition = ComplexMax_alt_0_ExtendAv;
-			ComplexMax_alt_0_ExtendAv_node_c.PointOfDefinition = ComplexMax_alt_0_ExtendAv;
-			ComplexMax_alt_0_ExtendAv_edge__edge0.PointOfDefinition = ComplexMax_alt_0_ExtendAv;
-			ComplexMax_alt_0_ExtendAv_edge__edge1.PointOfDefinition = ComplexMax_alt_0_ExtendAv;
-			ComplexMax_alt_0_ExtendAv_edge__edge2.PointOfDefinition = ComplexMax_alt_0_ExtendAv;
-			ComplexMax_alt_0_ExtendAv_edge__edge3.PointOfDefinition = ComplexMax_alt_0_ExtendAv;
-			ComplexMax_alt_0_ExtendAv_neg_0_node__node0.PointOfDefinition = ComplexMax_alt_0_ExtendAv_neg_0;
-			ComplexMax_alt_0_ExtendAv_neg_0_edge__edge0.PointOfDefinition = ComplexMax_alt_0_ExtendAv_neg_0;
-			ComplexMax_alt_0_ExtendAv2_node_b2.PointOfDefinition = ComplexMax_alt_0_ExtendAv2;
-			ComplexMax_alt_0_ExtendAv2_node__node0.PointOfDefinition = ComplexMax_alt_0_ExtendAv2;
-			ComplexMax_alt_0_ExtendAv2_node__node1.PointOfDefinition = ComplexMax_alt_0_ExtendAv2;
-			ComplexMax_alt_0_ExtendAv2_node__node2.PointOfDefinition = ComplexMax_alt_0_ExtendAv2;
-			ComplexMax_alt_0_ExtendAv2_edge__edge0.PointOfDefinition = ComplexMax_alt_0_ExtendAv2;
-			ComplexMax_alt_0_ExtendAv2_edge__edge1.PointOfDefinition = ComplexMax_alt_0_ExtendAv2;
-			ComplexMax_alt_0_ExtendAv2_edge__edge2.PointOfDefinition = ComplexMax_alt_0_ExtendAv2;
-			ComplexMax_alt_0_ExtendAv2_edge__edge3.PointOfDefinition = ComplexMax_alt_0_ExtendAv2;
-			ComplexMax_alt_0_ExtendAv2_edge__edge4.PointOfDefinition = ComplexMax_alt_0_ExtendAv2;
-			ComplexMax_alt_0_ExtendNA2_node__node0.PointOfDefinition = ComplexMax_alt_0_ExtendNA2;
-			ComplexMax_alt_0_ExtendNA2_node__node1.PointOfDefinition = ComplexMax_alt_0_ExtendNA2;
-			ComplexMax_alt_0_ExtendNA2_node_b2.PointOfDefinition = ComplexMax_alt_0_ExtendNA2;
-			ComplexMax_alt_0_ExtendNA2_edge__edge0.PointOfDefinition = ComplexMax_alt_0_ExtendNA2;
-			ComplexMax_alt_0_ExtendNA2_edge__edge1.PointOfDefinition = ComplexMax_alt_0_ExtendNA2;
-			ComplexMax_alt_0_ExtendNA2_edge__edge2.PointOfDefinition = ComplexMax_alt_0_ExtendNA2;
-			ComplexMax_alt_0_ExtendNA2_edge__edge3.PointOfDefinition = ComplexMax_alt_0_ExtendNA2;
+			ComplexMax_node_a.pointOfDefinition = pat_ComplexMax;
+			ComplexMax_node_b.pointOfDefinition = pat_ComplexMax;
+			ComplexMax_edge__edge0.pointOfDefinition = pat_ComplexMax;
+			ComplexMax_edge__edge1.pointOfDefinition = pat_ComplexMax;
+			ComplexMax_alt_0_ExtendAv_node_b2.pointOfDefinition = ComplexMax_alt_0_ExtendAv;
+			ComplexMax_alt_0_ExtendAv_node__node0.pointOfDefinition = ComplexMax_alt_0_ExtendAv;
+			ComplexMax_alt_0_ExtendAv_node_c.pointOfDefinition = ComplexMax_alt_0_ExtendAv;
+			ComplexMax_alt_0_ExtendAv_edge__edge0.pointOfDefinition = ComplexMax_alt_0_ExtendAv;
+			ComplexMax_alt_0_ExtendAv_edge__edge1.pointOfDefinition = ComplexMax_alt_0_ExtendAv;
+			ComplexMax_alt_0_ExtendAv_edge__edge2.pointOfDefinition = ComplexMax_alt_0_ExtendAv;
+			ComplexMax_alt_0_ExtendAv_edge__edge3.pointOfDefinition = ComplexMax_alt_0_ExtendAv;
+			ComplexMax_alt_0_ExtendAv_neg_0_node__node0.pointOfDefinition = ComplexMax_alt_0_ExtendAv_neg_0;
+			ComplexMax_alt_0_ExtendAv_neg_0_edge__edge0.pointOfDefinition = ComplexMax_alt_0_ExtendAv_neg_0;
+			ComplexMax_alt_0_ExtendAv2_node_b2.pointOfDefinition = ComplexMax_alt_0_ExtendAv2;
+			ComplexMax_alt_0_ExtendAv2_node__node0.pointOfDefinition = ComplexMax_alt_0_ExtendAv2;
+			ComplexMax_alt_0_ExtendAv2_node__node1.pointOfDefinition = ComplexMax_alt_0_ExtendAv2;
+			ComplexMax_alt_0_ExtendAv2_node__node2.pointOfDefinition = ComplexMax_alt_0_ExtendAv2;
+			ComplexMax_alt_0_ExtendAv2_edge__edge0.pointOfDefinition = ComplexMax_alt_0_ExtendAv2;
+			ComplexMax_alt_0_ExtendAv2_edge__edge1.pointOfDefinition = ComplexMax_alt_0_ExtendAv2;
+			ComplexMax_alt_0_ExtendAv2_edge__edge2.pointOfDefinition = ComplexMax_alt_0_ExtendAv2;
+			ComplexMax_alt_0_ExtendAv2_edge__edge3.pointOfDefinition = ComplexMax_alt_0_ExtendAv2;
+			ComplexMax_alt_0_ExtendAv2_edge__edge4.pointOfDefinition = ComplexMax_alt_0_ExtendAv2;
+			ComplexMax_alt_0_ExtendNA2_node__node0.pointOfDefinition = ComplexMax_alt_0_ExtendNA2;
+			ComplexMax_alt_0_ExtendNA2_node__node1.pointOfDefinition = ComplexMax_alt_0_ExtendNA2;
+			ComplexMax_alt_0_ExtendNA2_node_b2.pointOfDefinition = ComplexMax_alt_0_ExtendNA2;
+			ComplexMax_alt_0_ExtendNA2_edge__edge0.pointOfDefinition = ComplexMax_alt_0_ExtendNA2;
+			ComplexMax_alt_0_ExtendNA2_edge__edge1.pointOfDefinition = ComplexMax_alt_0_ExtendNA2;
+			ComplexMax_alt_0_ExtendNA2_edge__edge2.pointOfDefinition = ComplexMax_alt_0_ExtendNA2;
+			ComplexMax_alt_0_ExtendNA2_edge__edge3.pointOfDefinition = ComplexMax_alt_0_ExtendNA2;
 
 			patternGraph = pat_ComplexMax;
 		}
@@ -6517,16 +6517,16 @@ namespace de.unika.ipd.grGen.Action_Alternatives
 			homm_alt_0_case1.embeddingGraph = pat_homm;
 			homm_alt_0_case2.embeddingGraph = pat_homm;
 
-			homm_node_a.PointOfDefinition = pat_homm;
-			homm_node_b.PointOfDefinition = pat_homm;
-			homm_edge__edge0.PointOfDefinition = pat_homm;
-			homm_edge__edge1.PointOfDefinition = pat_homm;
-			homm_alt_0_case1_node_b2.PointOfDefinition = homm_alt_0_case1;
-			homm_alt_0_case1_edge__edge0.PointOfDefinition = homm_alt_0_case1;
-			homm_alt_0_case1_edge__edge1.PointOfDefinition = homm_alt_0_case1;
-			homm_alt_0_case2_node_b2.PointOfDefinition = homm_alt_0_case2;
-			homm_alt_0_case2_edge__edge0.PointOfDefinition = homm_alt_0_case2;
-			homm_alt_0_case2_edge__edge1.PointOfDefinition = homm_alt_0_case2;
+			homm_node_a.pointOfDefinition = pat_homm;
+			homm_node_b.pointOfDefinition = pat_homm;
+			homm_edge__edge0.pointOfDefinition = pat_homm;
+			homm_edge__edge1.pointOfDefinition = pat_homm;
+			homm_alt_0_case1_node_b2.pointOfDefinition = homm_alt_0_case1;
+			homm_alt_0_case1_edge__edge0.pointOfDefinition = homm_alt_0_case1;
+			homm_alt_0_case1_edge__edge1.pointOfDefinition = homm_alt_0_case1;
+			homm_alt_0_case2_node_b2.pointOfDefinition = homm_alt_0_case2;
+			homm_alt_0_case2_edge__edge0.pointOfDefinition = homm_alt_0_case2;
+			homm_alt_0_case2_edge__edge1.pointOfDefinition = homm_alt_0_case2;
 
 			patternGraph = pat_homm;
 		}
@@ -6976,7 +6976,7 @@ namespace de.unika.ipd.grGen.Action_Alternatives
 				XtoAorB_isEdgeHomomorphicGlobal
 			);
 
-			XtoAorB_node_x.PointOfDefinition = pat_XtoAorB;
+			XtoAorB_node_x.pointOfDefinition = pat_XtoAorB;
 			XtoAorB__subpattern0.PointOfDefinition = pat_XtoAorB;
 
 			patternGraph = pat_XtoAorB;
@@ -7296,10 +7296,10 @@ namespace de.unika.ipd.grGen.Action_Alternatives
 			);
 			alternative_in_negative_neg_0.embeddingGraph = pat_alternative_in_negative;
 
-			alternative_in_negative_neg_0_alt_0_Foo_node__node0.PointOfDefinition = alternative_in_negative_neg_0_alt_0_Foo;
-			alternative_in_negative_neg_0_alt_0_Bar_node__node0.PointOfDefinition = alternative_in_negative_neg_0_alt_0_Bar;
-			alternative_in_negative_neg_0_alt_0_Bar_node__node1.PointOfDefinition = alternative_in_negative_neg_0_alt_0_Bar;
-			alternative_in_negative_neg_0_alt_0_Bar_edge__edge0.PointOfDefinition = alternative_in_negative_neg_0_alt_0_Bar;
+			alternative_in_negative_neg_0_alt_0_Foo_node__node0.pointOfDefinition = alternative_in_negative_neg_0_alt_0_Foo;
+			alternative_in_negative_neg_0_alt_0_Bar_node__node0.pointOfDefinition = alternative_in_negative_neg_0_alt_0_Bar;
+			alternative_in_negative_neg_0_alt_0_Bar_node__node1.pointOfDefinition = alternative_in_negative_neg_0_alt_0_Bar;
+			alternative_in_negative_neg_0_alt_0_Bar_edge__edge0.pointOfDefinition = alternative_in_negative_neg_0_alt_0_Bar;
 
 			patternGraph = pat_alternative_in_negative;
 		}
@@ -7950,11 +7950,11 @@ namespace de.unika.ipd.grGen.Action_Alternatives
 			);
 			alternative_in_iterated_iter_0.embeddingGraph = pat_alternative_in_iterated;
 
-			alternative_in_iterated_iter_0_node__node0.PointOfDefinition = alternative_in_iterated_iter_0;
-			alternative_in_iterated_iter_0_alt_0_Foo_node__node0.PointOfDefinition = alternative_in_iterated_iter_0_alt_0_Foo;
-			alternative_in_iterated_iter_0_alt_0_Bar_node__node0.PointOfDefinition = alternative_in_iterated_iter_0_alt_0_Bar;
-			alternative_in_iterated_iter_0_alt_0_Bar_node__node1.PointOfDefinition = alternative_in_iterated_iter_0_alt_0_Bar;
-			alternative_in_iterated_iter_0_alt_0_Bar_edge__edge0.PointOfDefinition = alternative_in_iterated_iter_0_alt_0_Bar;
+			alternative_in_iterated_iter_0_node__node0.pointOfDefinition = alternative_in_iterated_iter_0;
+			alternative_in_iterated_iter_0_alt_0_Foo_node__node0.pointOfDefinition = alternative_in_iterated_iter_0_alt_0_Foo;
+			alternative_in_iterated_iter_0_alt_0_Bar_node__node0.pointOfDefinition = alternative_in_iterated_iter_0_alt_0_Bar;
+			alternative_in_iterated_iter_0_alt_0_Bar_node__node1.pointOfDefinition = alternative_in_iterated_iter_0_alt_0_Bar;
+			alternative_in_iterated_iter_0_alt_0_Bar_edge__edge0.pointOfDefinition = alternative_in_iterated_iter_0_alt_0_Bar;
 
 			patternGraph = pat_alternative_in_iterated;
 		}

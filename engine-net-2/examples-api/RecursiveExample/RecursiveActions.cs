@@ -1,6 +1,6 @@
 // This file has been generated automatically by GrGen (www.grgen.net)
 // Do not modify this file! Any changes will be lost!
-// Generated from "..\..\tests\Recursive\Recursive.grg" on Wed Sep 08 23:33:54 CEST 2010
+// Generated from "..\..\tests\Recursive\Recursive.grg" on Sun Sep 12 20:12:40 CEST 2010
 
 using System;
 using System.Collections.Generic;
@@ -194,11 +194,11 @@ namespace de.unika.ipd.grGen.Action_Recursive
 			ChainFromTo_alt_0_base.embeddingGraph = pat_ChainFromTo;
 			ChainFromTo_alt_0_rec.embeddingGraph = pat_ChainFromTo;
 
-			ChainFromTo_node_from.PointOfDefinition = null;
-			ChainFromTo_node_to.PointOfDefinition = null;
-			ChainFromTo_alt_0_base_edge__edge0.PointOfDefinition = ChainFromTo_alt_0_base;
-			ChainFromTo_alt_0_rec_node_intermediate.PointOfDefinition = ChainFromTo_alt_0_rec;
-			ChainFromTo_alt_0_rec_edge__edge0.PointOfDefinition = ChainFromTo_alt_0_rec;
+			ChainFromTo_node_from.pointOfDefinition = null;
+			ChainFromTo_node_to.pointOfDefinition = null;
+			ChainFromTo_alt_0_base_edge__edge0.pointOfDefinition = ChainFromTo_alt_0_base;
+			ChainFromTo_alt_0_rec_node_intermediate.pointOfDefinition = ChainFromTo_alt_0_rec;
+			ChainFromTo_alt_0_rec_edge__edge0.pointOfDefinition = ChainFromTo_alt_0_rec;
 			ChainFromTo_alt_0_rec__subpattern0.PointOfDefinition = ChainFromTo_alt_0_rec;
 
 			patternGraph = pat_ChainFromTo;
@@ -758,9 +758,9 @@ namespace de.unika.ipd.grGen.Action_Recursive
 			ChainFrom_alt_0_base.embeddingGraph = pat_ChainFrom;
 			ChainFrom_alt_0_rec.embeddingGraph = pat_ChainFrom;
 
-			ChainFrom_node_from.PointOfDefinition = null;
-			ChainFrom_alt_0_rec_node_to.PointOfDefinition = ChainFrom_alt_0_rec;
-			ChainFrom_alt_0_rec_edge__edge0.PointOfDefinition = ChainFrom_alt_0_rec;
+			ChainFrom_node_from.pointOfDefinition = null;
+			ChainFrom_alt_0_rec_node_to.pointOfDefinition = ChainFrom_alt_0_rec;
+			ChainFrom_alt_0_rec_edge__edge0.pointOfDefinition = ChainFrom_alt_0_rec;
 			ChainFrom_alt_0_rec__subpattern0.PointOfDefinition = ChainFrom_alt_0_rec;
 
 			patternGraph = pat_ChainFrom;
@@ -1355,11 +1355,11 @@ namespace de.unika.ipd.grGen.Action_Recursive
 			ChainFromComplete_alt_0_base.embeddingGraph = pat_ChainFromComplete;
 			ChainFromComplete_alt_0_rec.embeddingGraph = pat_ChainFromComplete;
 
-			ChainFromComplete_node_from.PointOfDefinition = null;
-			ChainFromComplete_alt_0_base_neg_0_node__node0.PointOfDefinition = ChainFromComplete_alt_0_base_neg_0;
-			ChainFromComplete_alt_0_base_neg_0_edge__edge0.PointOfDefinition = ChainFromComplete_alt_0_base_neg_0;
-			ChainFromComplete_alt_0_rec_node_to.PointOfDefinition = ChainFromComplete_alt_0_rec;
-			ChainFromComplete_alt_0_rec_edge__edge0.PointOfDefinition = ChainFromComplete_alt_0_rec;
+			ChainFromComplete_node_from.pointOfDefinition = null;
+			ChainFromComplete_alt_0_base_neg_0_node__node0.pointOfDefinition = ChainFromComplete_alt_0_base_neg_0;
+			ChainFromComplete_alt_0_base_neg_0_edge__edge0.pointOfDefinition = ChainFromComplete_alt_0_base_neg_0;
+			ChainFromComplete_alt_0_rec_node_to.pointOfDefinition = ChainFromComplete_alt_0_rec;
+			ChainFromComplete_alt_0_rec_edge__edge0.pointOfDefinition = ChainFromComplete_alt_0_rec;
 			ChainFromComplete_alt_0_rec__subpattern0.PointOfDefinition = ChainFromComplete_alt_0_rec;
 
 			patternGraph = pat_ChainFromComplete;
@@ -2069,11 +2069,11 @@ namespace de.unika.ipd.grGen.Action_Recursive
 			ChainFromCompleteArbitraryPatternpathLocked_alt_0_base.embeddingGraph = pat_ChainFromCompleteArbitraryPatternpathLocked;
 			ChainFromCompleteArbitraryPatternpathLocked_alt_0_rec.embeddingGraph = pat_ChainFromCompleteArbitraryPatternpathLocked;
 
-			ChainFromCompleteArbitraryPatternpathLocked_node_from.PointOfDefinition = null;
-			ChainFromCompleteArbitraryPatternpathLocked_alt_0_base_neg_0_node__node0.PointOfDefinition = ChainFromCompleteArbitraryPatternpathLocked_alt_0_base_neg_0;
-			ChainFromCompleteArbitraryPatternpathLocked_alt_0_base_neg_0_edge__edge0.PointOfDefinition = ChainFromCompleteArbitraryPatternpathLocked_alt_0_base_neg_0;
-			ChainFromCompleteArbitraryPatternpathLocked_alt_0_rec_node_to.PointOfDefinition = ChainFromCompleteArbitraryPatternpathLocked_alt_0_rec;
-			ChainFromCompleteArbitraryPatternpathLocked_alt_0_rec_edge__edge0.PointOfDefinition = ChainFromCompleteArbitraryPatternpathLocked_alt_0_rec;
+			ChainFromCompleteArbitraryPatternpathLocked_node_from.pointOfDefinition = null;
+			ChainFromCompleteArbitraryPatternpathLocked_alt_0_base_neg_0_node__node0.pointOfDefinition = ChainFromCompleteArbitraryPatternpathLocked_alt_0_base_neg_0;
+			ChainFromCompleteArbitraryPatternpathLocked_alt_0_base_neg_0_edge__edge0.pointOfDefinition = ChainFromCompleteArbitraryPatternpathLocked_alt_0_base_neg_0;
+			ChainFromCompleteArbitraryPatternpathLocked_alt_0_rec_node_to.pointOfDefinition = ChainFromCompleteArbitraryPatternpathLocked_alt_0_rec;
+			ChainFromCompleteArbitraryPatternpathLocked_alt_0_rec_edge__edge0.pointOfDefinition = ChainFromCompleteArbitraryPatternpathLocked_alt_0_rec;
 			ChainFromCompleteArbitraryPatternpathLocked_alt_0_rec__subpattern0.PointOfDefinition = ChainFromCompleteArbitraryPatternpathLocked_alt_0_rec;
 
 			patternGraph = pat_ChainFromCompleteArbitraryPatternpathLocked;
@@ -2783,11 +2783,11 @@ namespace de.unika.ipd.grGen.Action_Recursive
 			ChainFromCompleteArbitraryBaseAlwaysFailesByGoingBackwards_alt_0_base.embeddingGraph = pat_ChainFromCompleteArbitraryBaseAlwaysFailesByGoingBackwards;
 			ChainFromCompleteArbitraryBaseAlwaysFailesByGoingBackwards_alt_0_rec.embeddingGraph = pat_ChainFromCompleteArbitraryBaseAlwaysFailesByGoingBackwards;
 
-			ChainFromCompleteArbitraryBaseAlwaysFailesByGoingBackwards_node_from.PointOfDefinition = null;
-			ChainFromCompleteArbitraryBaseAlwaysFailesByGoingBackwards_alt_0_base_neg_0_node__node0.PointOfDefinition = ChainFromCompleteArbitraryBaseAlwaysFailesByGoingBackwards_alt_0_base_neg_0;
-			ChainFromCompleteArbitraryBaseAlwaysFailesByGoingBackwards_alt_0_base_neg_0_edge__edge0.PointOfDefinition = ChainFromCompleteArbitraryBaseAlwaysFailesByGoingBackwards_alt_0_base_neg_0;
-			ChainFromCompleteArbitraryBaseAlwaysFailesByGoingBackwards_alt_0_rec_node_to.PointOfDefinition = ChainFromCompleteArbitraryBaseAlwaysFailesByGoingBackwards_alt_0_rec;
-			ChainFromCompleteArbitraryBaseAlwaysFailesByGoingBackwards_alt_0_rec_edge__edge0.PointOfDefinition = ChainFromCompleteArbitraryBaseAlwaysFailesByGoingBackwards_alt_0_rec;
+			ChainFromCompleteArbitraryBaseAlwaysFailesByGoingBackwards_node_from.pointOfDefinition = null;
+			ChainFromCompleteArbitraryBaseAlwaysFailesByGoingBackwards_alt_0_base_neg_0_node__node0.pointOfDefinition = ChainFromCompleteArbitraryBaseAlwaysFailesByGoingBackwards_alt_0_base_neg_0;
+			ChainFromCompleteArbitraryBaseAlwaysFailesByGoingBackwards_alt_0_base_neg_0_edge__edge0.pointOfDefinition = ChainFromCompleteArbitraryBaseAlwaysFailesByGoingBackwards_alt_0_base_neg_0;
+			ChainFromCompleteArbitraryBaseAlwaysFailesByGoingBackwards_alt_0_rec_node_to.pointOfDefinition = ChainFromCompleteArbitraryBaseAlwaysFailesByGoingBackwards_alt_0_rec;
+			ChainFromCompleteArbitraryBaseAlwaysFailesByGoingBackwards_alt_0_rec_edge__edge0.pointOfDefinition = ChainFromCompleteArbitraryBaseAlwaysFailesByGoingBackwards_alt_0_rec;
 			ChainFromCompleteArbitraryBaseAlwaysFailesByGoingBackwards_alt_0_rec__subpattern0.PointOfDefinition = ChainFromCompleteArbitraryBaseAlwaysFailesByGoingBackwards_alt_0_rec;
 
 			patternGraph = pat_ChainFromCompleteArbitraryBaseAlwaysFailesByGoingBackwards;
@@ -3497,11 +3497,11 @@ namespace de.unika.ipd.grGen.Action_Recursive
 			Blowball_alt_0_end.embeddingGraph = pat_Blowball;
 			Blowball_alt_0_further.embeddingGraph = pat_Blowball;
 
-			Blowball_node_head.PointOfDefinition = null;
-			Blowball_alt_0_end_neg_0_node__node0.PointOfDefinition = Blowball_alt_0_end_neg_0;
-			Blowball_alt_0_end_neg_0_edge__edge0.PointOfDefinition = Blowball_alt_0_end_neg_0;
-			Blowball_alt_0_further_node__node0.PointOfDefinition = Blowball_alt_0_further;
-			Blowball_alt_0_further_edge__edge0.PointOfDefinition = Blowball_alt_0_further;
+			Blowball_node_head.pointOfDefinition = null;
+			Blowball_alt_0_end_neg_0_node__node0.pointOfDefinition = Blowball_alt_0_end_neg_0;
+			Blowball_alt_0_end_neg_0_edge__edge0.pointOfDefinition = Blowball_alt_0_end_neg_0;
+			Blowball_alt_0_further_node__node0.pointOfDefinition = Blowball_alt_0_further;
+			Blowball_alt_0_further_edge__edge0.pointOfDefinition = Blowball_alt_0_further;
 			Blowball_alt_0_further__subpattern0.PointOfDefinition = Blowball_alt_0_further;
 
 			patternGraph = pat_Blowball;
@@ -4177,11 +4177,11 @@ namespace de.unika.ipd.grGen.Action_Recursive
 			ReverseChainFromTo_alt_0_base.embeddingGraph = pat_ReverseChainFromTo;
 			ReverseChainFromTo_alt_0_rec.embeddingGraph = pat_ReverseChainFromTo;
 
-			ReverseChainFromTo_node_from.PointOfDefinition = null;
-			ReverseChainFromTo_node_to.PointOfDefinition = null;
-			ReverseChainFromTo_alt_0_base_edge__edge0.PointOfDefinition = ReverseChainFromTo_alt_0_base;
-			ReverseChainFromTo_alt_0_rec_node_intermediate.PointOfDefinition = ReverseChainFromTo_alt_0_rec;
-			ReverseChainFromTo_alt_0_rec_edge__edge0.PointOfDefinition = ReverseChainFromTo_alt_0_rec;
+			ReverseChainFromTo_node_from.pointOfDefinition = null;
+			ReverseChainFromTo_node_to.pointOfDefinition = null;
+			ReverseChainFromTo_alt_0_base_edge__edge0.pointOfDefinition = ReverseChainFromTo_alt_0_base;
+			ReverseChainFromTo_alt_0_rec_node_intermediate.pointOfDefinition = ReverseChainFromTo_alt_0_rec;
+			ReverseChainFromTo_alt_0_rec_edge__edge0.pointOfDefinition = ReverseChainFromTo_alt_0_rec;
 			ReverseChainFromTo_alt_0_rec__subpattern0.PointOfDefinition = ReverseChainFromTo_alt_0_rec;
 
 			patternGraph = pat_ReverseChainFromTo;
@@ -4767,11 +4767,11 @@ namespace de.unika.ipd.grGen.Action_Recursive
 			ChainFromToReverse_alt_0_base.embeddingGraph = pat_ChainFromToReverse;
 			ChainFromToReverse_alt_0_rec.embeddingGraph = pat_ChainFromToReverse;
 
-			ChainFromToReverse_node_from.PointOfDefinition = null;
-			ChainFromToReverse_node_to.PointOfDefinition = null;
-			ChainFromToReverse_alt_0_base_edge__edge0.PointOfDefinition = ChainFromToReverse_alt_0_base;
-			ChainFromToReverse_alt_0_rec_node_intermediate.PointOfDefinition = ChainFromToReverse_alt_0_rec;
-			ChainFromToReverse_alt_0_rec_edge__edge0.PointOfDefinition = ChainFromToReverse_alt_0_rec;
+			ChainFromToReverse_node_from.pointOfDefinition = null;
+			ChainFromToReverse_node_to.pointOfDefinition = null;
+			ChainFromToReverse_alt_0_base_edge__edge0.pointOfDefinition = ChainFromToReverse_alt_0_base;
+			ChainFromToReverse_alt_0_rec_node_intermediate.pointOfDefinition = ChainFromToReverse_alt_0_rec;
+			ChainFromToReverse_alt_0_rec_edge__edge0.pointOfDefinition = ChainFromToReverse_alt_0_rec;
 			ChainFromToReverse_alt_0_rec_cftr.PointOfDefinition = ChainFromToReverse_alt_0_rec;
 
 			patternGraph = pat_ChainFromToReverse;
@@ -5411,11 +5411,11 @@ namespace de.unika.ipd.grGen.Action_Recursive
 			ChainFromToReverseToCommon_alt_0_base.embeddingGraph = pat_ChainFromToReverseToCommon;
 			ChainFromToReverseToCommon_alt_0_rec.embeddingGraph = pat_ChainFromToReverseToCommon;
 
-			ChainFromToReverseToCommon_node_from.PointOfDefinition = null;
-			ChainFromToReverseToCommon_node_to.PointOfDefinition = null;
-			ChainFromToReverseToCommon_alt_0_base_edge__edge0.PointOfDefinition = ChainFromToReverseToCommon_alt_0_base;
-			ChainFromToReverseToCommon_alt_0_rec_node_intermediate.PointOfDefinition = ChainFromToReverseToCommon_alt_0_rec;
-			ChainFromToReverseToCommon_alt_0_rec_edge__edge0.PointOfDefinition = ChainFromToReverseToCommon_alt_0_rec;
+			ChainFromToReverseToCommon_node_from.pointOfDefinition = null;
+			ChainFromToReverseToCommon_node_to.pointOfDefinition = null;
+			ChainFromToReverseToCommon_alt_0_base_edge__edge0.pointOfDefinition = ChainFromToReverseToCommon_alt_0_base;
+			ChainFromToReverseToCommon_alt_0_rec_node_intermediate.pointOfDefinition = ChainFromToReverseToCommon_alt_0_rec;
+			ChainFromToReverseToCommon_alt_0_rec_edge__edge0.pointOfDefinition = ChainFromToReverseToCommon_alt_0_rec;
 			ChainFromToReverseToCommon_alt_0_rec_cftrtc.PointOfDefinition = ChainFromToReverseToCommon_alt_0_rec;
 
 			patternGraph = pat_ChainFromToReverseToCommon;
@@ -6079,14 +6079,14 @@ namespace de.unika.ipd.grGen.Action_Recursive
 			ReverseChainFromToToCommon_alt_0_base.embeddingGraph = pat_ReverseChainFromToToCommon;
 			ReverseChainFromToToCommon_alt_0_rec.embeddingGraph = pat_ReverseChainFromToToCommon;
 
-			ReverseChainFromToToCommon_node_from.PointOfDefinition = null;
-			ReverseChainFromToToCommon_node_to.PointOfDefinition = null;
-			ReverseChainFromToToCommon_node_common.PointOfDefinition = null;
-			ReverseChainFromToToCommon_alt_0_base_edge__edge0.PointOfDefinition = ReverseChainFromToToCommon_alt_0_base;
-			ReverseChainFromToToCommon_alt_0_base_edge__edge1.PointOfDefinition = ReverseChainFromToToCommon_alt_0_base;
-			ReverseChainFromToToCommon_alt_0_rec_node_intermediate.PointOfDefinition = ReverseChainFromToToCommon_alt_0_rec;
-			ReverseChainFromToToCommon_alt_0_rec_edge__edge0.PointOfDefinition = ReverseChainFromToToCommon_alt_0_rec;
-			ReverseChainFromToToCommon_alt_0_rec_edge__edge1.PointOfDefinition = ReverseChainFromToToCommon_alt_0_rec;
+			ReverseChainFromToToCommon_node_from.pointOfDefinition = null;
+			ReverseChainFromToToCommon_node_to.pointOfDefinition = null;
+			ReverseChainFromToToCommon_node_common.pointOfDefinition = null;
+			ReverseChainFromToToCommon_alt_0_base_edge__edge0.pointOfDefinition = ReverseChainFromToToCommon_alt_0_base;
+			ReverseChainFromToToCommon_alt_0_base_edge__edge1.pointOfDefinition = ReverseChainFromToToCommon_alt_0_base;
+			ReverseChainFromToToCommon_alt_0_rec_node_intermediate.pointOfDefinition = ReverseChainFromToToCommon_alt_0_rec;
+			ReverseChainFromToToCommon_alt_0_rec_edge__edge0.pointOfDefinition = ReverseChainFromToToCommon_alt_0_rec;
+			ReverseChainFromToToCommon_alt_0_rec_edge__edge1.pointOfDefinition = ReverseChainFromToToCommon_alt_0_rec;
 			ReverseChainFromToToCommon_alt_0_rec__subpattern0.PointOfDefinition = ReverseChainFromToToCommon_alt_0_rec;
 
 			patternGraph = pat_ReverseChainFromToToCommon;
@@ -6763,8 +6763,8 @@ namespace de.unika.ipd.grGen.Action_Recursive
 				chainFromTo_isEdgeHomomorphicGlobal
 			);
 
-			chainFromTo_node_beg.PointOfDefinition = null;
-			chainFromTo_node_end.PointOfDefinition = null;
+			chainFromTo_node_beg.pointOfDefinition = null;
+			chainFromTo_node_end.pointOfDefinition = null;
 			chainFromTo__subpattern0.PointOfDefinition = pat_chainFromTo;
 
 			patternGraph = pat_chainFromTo;
@@ -6960,7 +6960,7 @@ namespace de.unika.ipd.grGen.Action_Recursive
 				chainFrom_isEdgeHomomorphicGlobal
 			);
 
-			chainFrom_node_beg.PointOfDefinition = null;
+			chainFrom_node_beg.pointOfDefinition = null;
 			chainFrom__subpattern0.PointOfDefinition = pat_chainFrom;
 
 			patternGraph = pat_chainFrom;
@@ -7151,7 +7151,7 @@ namespace de.unika.ipd.grGen.Action_Recursive
 				chainFromComplete_isEdgeHomomorphicGlobal
 			);
 
-			chainFromComplete_node_beg.PointOfDefinition = null;
+			chainFromComplete_node_beg.pointOfDefinition = null;
 			chainFromComplete__subpattern0.PointOfDefinition = pat_chainFromComplete;
 
 			patternGraph = pat_chainFromComplete;
@@ -7342,7 +7342,7 @@ namespace de.unika.ipd.grGen.Action_Recursive
 				chainFromCompleteArbitraryPatternpathLocked_isEdgeHomomorphicGlobal
 			);
 
-			chainFromCompleteArbitraryPatternpathLocked_node_beg.PointOfDefinition = null;
+			chainFromCompleteArbitraryPatternpathLocked_node_beg.pointOfDefinition = null;
 			chainFromCompleteArbitraryPatternpathLocked__subpattern0.PointOfDefinition = pat_chainFromCompleteArbitraryPatternpathLocked;
 
 			patternGraph = pat_chainFromCompleteArbitraryPatternpathLocked;
@@ -7533,7 +7533,7 @@ namespace de.unika.ipd.grGen.Action_Recursive
 				chainFromCompleteArbitraryBaseAlwaysFailesByGoingBackwards_isEdgeHomomorphicGlobal
 			);
 
-			chainFromCompleteArbitraryBaseAlwaysFailesByGoingBackwards_node_beg.PointOfDefinition = null;
+			chainFromCompleteArbitraryBaseAlwaysFailesByGoingBackwards_node_beg.pointOfDefinition = null;
 			chainFromCompleteArbitraryBaseAlwaysFailesByGoingBackwards__subpattern0.PointOfDefinition = pat_chainFromCompleteArbitraryBaseAlwaysFailesByGoingBackwards;
 
 			patternGraph = pat_chainFromCompleteArbitraryBaseAlwaysFailesByGoingBackwards;
@@ -7906,7 +7906,7 @@ namespace de.unika.ipd.grGen.Action_Recursive
 				blowball_isEdgeHomomorphicGlobal
 			);
 
-			blowball_node_head.PointOfDefinition = null;
+			blowball_node_head.pointOfDefinition = null;
 			blowball__subpattern0.PointOfDefinition = pat_blowball;
 
 			patternGraph = pat_blowball;
@@ -8103,8 +8103,8 @@ namespace de.unika.ipd.grGen.Action_Recursive
 				reverseChainFromTo_isEdgeHomomorphicGlobal
 			);
 
-			reverseChainFromTo_node_beg.PointOfDefinition = null;
-			reverseChainFromTo_node_end.PointOfDefinition = null;
+			reverseChainFromTo_node_beg.pointOfDefinition = null;
+			reverseChainFromTo_node_end.pointOfDefinition = null;
 			reverseChainFromTo__subpattern0.PointOfDefinition = pat_reverseChainFromTo;
 
 			patternGraph = pat_reverseChainFromTo;
@@ -8488,8 +8488,8 @@ namespace de.unika.ipd.grGen.Action_Recursive
 				chainFromToReverse_isEdgeHomomorphicGlobal
 			);
 
-			chainFromToReverse_node_beg.PointOfDefinition = null;
-			chainFromToReverse_node_end.PointOfDefinition = null;
+			chainFromToReverse_node_beg.pointOfDefinition = null;
+			chainFromToReverse_node_end.pointOfDefinition = null;
 			chainFromToReverse_cftr.PointOfDefinition = pat_chainFromToReverse;
 
 			patternGraph = pat_chainFromToReverse;
@@ -8695,8 +8695,8 @@ namespace de.unika.ipd.grGen.Action_Recursive
 				chainFromToReverseToCommon_isEdgeHomomorphicGlobal
 			);
 
-			chainFromToReverseToCommon_node_beg.PointOfDefinition = null;
-			chainFromToReverseToCommon_node_end.PointOfDefinition = null;
+			chainFromToReverseToCommon_node_beg.pointOfDefinition = null;
+			chainFromToReverseToCommon_node_end.pointOfDefinition = null;
 			chainFromToReverseToCommon_cftrtc.PointOfDefinition = pat_chainFromToReverseToCommon;
 
 			patternGraph = pat_chainFromToReverseToCommon;
@@ -8909,9 +8909,9 @@ namespace de.unika.ipd.grGen.Action_Recursive
 				reverseChainFromToToCommon_isEdgeHomomorphicGlobal
 			);
 
-			reverseChainFromToToCommon_node_beg.PointOfDefinition = null;
-			reverseChainFromToToCommon_node_end.PointOfDefinition = null;
-			reverseChainFromToToCommon_node_common.PointOfDefinition = null;
+			reverseChainFromToToCommon_node_beg.pointOfDefinition = null;
+			reverseChainFromToToCommon_node_end.pointOfDefinition = null;
+			reverseChainFromToToCommon_node_common.pointOfDefinition = null;
 			reverseChainFromToToCommon__subpattern0.PointOfDefinition = pat_reverseChainFromToToCommon;
 
 			patternGraph = pat_reverseChainFromToToCommon;
