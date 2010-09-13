@@ -1142,8 +1142,10 @@ namespace de.unika.ipd.grGen.libGr
 
         public override IEnumerable<Sequence> Children { get { yield break; } }
         public override int Precedence { get { return 8; } }
-        public override string Symbol { get { 
-            if(Constant.GetType().Name=="Dictionary`2")
+        public override string Symbol { get {
+            if(Constant==null)
+                return DestVar.Name + "=null";
+            else if(Constant.GetType().Name == "Dictionary`2")
                 return DestVar.Name + "={}"; // only empty set/map assignment possible as of now
             else
                 return DestVar.Name + "=" + Constant; }
