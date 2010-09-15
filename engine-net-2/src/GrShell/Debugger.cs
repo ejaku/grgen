@@ -1624,25 +1624,28 @@ namespace de.unika.ipd.grGen.grShell
 
         private void AnnotateMatch(IMatch match, bool addAnnotation, string prefix, int nestingLevel, bool topLevel)
         {
-            const int PATTERN_NESTING_DEPTH_FROM_WHICH_ON_TO_CLIP_PREFIX = 3;
+            const int PATTERN_NESTING_DEPTH_FROM_WHICH_ON_TO_CLIP_PREFIX = 7;
 
             for(int i = 0; i < match.NumberOfNodes; ++i)
             {
                 INode node = match.getNodeAt(i);
                 IPatternNode patternNode = match.Pattern.Nodes[i];
-                if(addAnnotation && (patternNode.PointOfDefinition==match.Pattern
-                                        || patternNode.PointOfDefinition==null && topLevel))
+                if(addAnnotation)
                 {
-                    String name = match.Pattern.Nodes[i].UnprefixedName;
-                    if(nestingLevel > 0)
+                    if(patternNode.PointOfDefinition == match.Pattern
+                        || patternNode.PointOfDefinition == null && topLevel)
                     {
-                        if(nestingLevel < PATTERN_NESTING_DEPTH_FROM_WHICH_ON_TO_CLIP_PREFIX) name = prefix + "/" + name;
-                        else name = "/|...|=" + nestingLevel + "/" + name;
+                        String name = match.Pattern.Nodes[i].UnprefixedName;
+                        if(nestingLevel > 0)
+                        {
+                            if(nestingLevel < PATTERN_NESTING_DEPTH_FROM_WHICH_ON_TO_CLIP_PREFIX) name = prefix + "/" + name;
+                            else name = "/|...|=" + nestingLevel + "/" + name;
+                        }
+                        if(annotatedNodes.ContainsKey(node))
+                            annotatedNodes[node] += ", " + name;
+                        else
+                            annotatedNodes[node] = name;
                     }
-                    if(annotatedNodes.ContainsKey(node))
-                        annotatedNodes[node] += ", " + name;
-                    else
-                        annotatedNodes[node] = name;
                 }
                 else
                 {
@@ -1654,19 +1657,22 @@ namespace de.unika.ipd.grGen.grShell
             {
                 IEdge edge = match.getEdgeAt(i);
                 IPatternEdge patternEdge = match.Pattern.Edges[i];
-                if(addAnnotation && (patternEdge.PointOfDefinition==match.Pattern 
-                                        || patternEdge.PointOfDefinition==null && topLevel))
+                if(addAnnotation)
                 {
-                    String name = match.Pattern.Edges[i].UnprefixedName;
-                    if(nestingLevel > 0)
+                    if(patternEdge.PointOfDefinition == match.Pattern
+                        || patternEdge.PointOfDefinition == null && topLevel)
                     {
-                        if(nestingLevel < PATTERN_NESTING_DEPTH_FROM_WHICH_ON_TO_CLIP_PREFIX) name = prefix + "/" + name;
-                        else name = "/|...|=" + nestingLevel + "/" + name;
+                        String name = match.Pattern.Edges[i].UnprefixedName;
+                        if(nestingLevel > 0)
+                        {
+                            if(nestingLevel < PATTERN_NESTING_DEPTH_FROM_WHICH_ON_TO_CLIP_PREFIX) name = prefix + "/" + name;
+                            else name = "/|...|=" + nestingLevel + "/" + name;
+                        }
+                        if(annotatedEdges.ContainsKey(edge))
+                            annotatedEdges[edge] += ", " + name;
+                        else
+                            annotatedEdges[edge] = name;
                     }
-                    if(annotatedEdges.ContainsKey(edge))
-                        annotatedEdges[edge] += ", " + name;
-                    else
-                        annotatedEdges[edge] = name;
                 }
                 else
                 {
@@ -1704,16 +1710,16 @@ namespace de.unika.ipd.grGen.grShell
             {
                 String name;
                 if(pattern.IteratedsMinMatches[i] == 0 && pattern.IteratedsMaxMatches[i] == 0) {
-                    name = "*";
+                    name = "(.)*";
                     if(numIterated > 1) name += "'" + i;
                 } else if(pattern.IteratedsMinMatches[i] == 0 && pattern.IteratedsMaxMatches[i] == 1) {
-                    name = "?";
+                    name = "(.)?";
                     if(numOptional > 1) name += "'" + i;
                 } else if(pattern.IteratedsMinMatches[i] == 1 && pattern.IteratedsMaxMatches[i] == 0) {
-                    name = "+";
+                    name = "(.)+";
                     if(numMultiple > 1) name += "'" + i;
                 } else {
-                    name = "[" + pattern.IteratedsMinMatches[i] + ":" + pattern.IteratedsMaxMatches[i] + "]";
+                    name = "(.)[" + pattern.IteratedsMinMatches[i] + ":" + pattern.IteratedsMaxMatches[i] + "]";
                     if(numOther > 1) name += "'" + i;
                 }
                 
@@ -1735,7 +1741,7 @@ namespace de.unika.ipd.grGen.grShell
             int i = 0;
             foreach(IMatch match in matches)
             {
-                String name = "|";
+                String name = "(.|.)";
                 if(pattern.Alternatives.Length>1) name += "'" + i;
                 String caseName = pattern.Name;
                 AnnotateMatch(match, addAnnotation, prefix + "/" + name + "/" + caseName, nestingLevel + 1, false);
@@ -1750,7 +1756,7 @@ namespace de.unika.ipd.grGen.grShell
             int i = 0;
             foreach(IMatch match in matches)
             {
-                String name = "&";
+                String name = "&(.)";
                 if(pattern.IndependentPatternGraphs.Length>1) name += "'" + i;
                 AnnotateMatch(match, addAnnotation, prefix + "/" + name, nestingLevel + 1, false);
                 ++i;
