@@ -593,7 +593,10 @@ public class Main extends Base implements Sys {
 		buildIR = -System.currentTimeMillis();
 		buildIR();
 		root = null; // throw away AST not needed any more -> reduce memory requirements
-		irUnit.checkForNonTerminatingIterateds();
+		irUnit.checkForEmptyPatternsInIterateds();
+		irUnit.checkForEmptySubpatternRecursions();
+		irUnit.checkForNeverSucceedingSubpatternRecursions();
+		irUnit.checkForMultipleRetypes();
 		irUnit.resolvePatternLockedModifier();
 		irUnit.ensureDirectlyNestingPatternContainsAllNonLocalElementsOfNestedPattern();
 		irUnit.checkForRhsElementsUsedOnLhs();
@@ -695,6 +698,5 @@ public class Main extends Base implements Sys {
 		Main main = new Main(args);
 		main.run();
 	}
-
 }
 

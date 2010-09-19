@@ -96,7 +96,10 @@ public class Edge extends GraphEntity {
 	 * @return The retyped version or <code>null</code>
 	 */
 	public RetypedEdge getRetypedEdge(Graph graph) {
-		return (RetypedEdge)super.getRetypedEntity(graph);
+		if(super.getRetypedEntity(graph)!=null)
+			return (RetypedEdge)super.getRetypedEntity(graph);
+		else
+			return null;
 	}
 
 	/**

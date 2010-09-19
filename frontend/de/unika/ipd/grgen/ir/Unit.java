@@ -145,16 +145,72 @@ public class Unit extends IR {
 		return digest;
 	}
 
-	public void checkForNonTerminatingIterateds()
+	public void checkForEmptyPatternsInIterateds()
 	{
+		// iterateds don't terminate if they match an empty pattern again and again
+		// so we compute maybe empty/epsilon patterns and emit error messages if they occur inside an iterated
 		for(Rule actionRule : actionRules) {
-			actionRule.checkForNonTerminatingIterateds();
+			actionRule.pattern.checkForEmptyPatternsInIterateds();
 		}
 		for(Rule subpatternRule : subpatternRules) {
-			subpatternRule.checkForNonTerminatingIterateds();
+			subpatternRule.pattern.checkForEmptyPatternsInIterateds();
+		}
+	}
+
+	public void checkForEmptySubpatternRecursions()
+	{
+		// subpatterns may not terminate if there is a recursion only involving empty terminal graphs
+		// so we compute the subpattern derivation paths containing only empty graphs
+		// and emit error messages if they contain a subpattern calling itself
+		HashSet<PatternGraph> subpatternsAlreadyVisited = new HashSet<PatternGraph>();
+		for(Rule subpatternRule : subpatternRules) {
+			subpatternsAlreadyVisited.add(subpatternRule.pattern);
+			subpatternRule.pattern.checkForEmptySubpatternRecursions(subpatternsAlreadyVisited);
+			subpatternsAlreadyVisited.clear();
 		}
 	}
 	
+	public void checkForNeverSucceedingSubpatternRecursions()
+	{
+		// matching a subpattern never terminates successfully 
+		// if there is no terminal pattern on any of its alternative branches/bodies
+		// emit an error message in this case (it might be the case more often, this is what we can tell for sure)
+		HashSet<PatternGraph> subpatternsAlreadyVisited = new HashSet<PatternGraph>();
+		for(Rule subpatternRule : subpatternRules) {
+			subpatternsAlreadyVisited.add(subpatternRule.pattern);
+			if(subpatternRule.pattern.isNeverTerminatingSuccessfully(subpatternsAlreadyVisited))
+			{
+				error.warning(subpatternRule.getIdent().getCoords(), "Matching the subpattern " +subpatternRule.getIdent() + " will never terminate successfully (endless recursion on any path, only (potentially) terminated by failing matching)");
+			}
+			subpatternsAlreadyVisited.clear();
+		}
+	}
+
+	public void checkForMultipleRetypes()
+	{
+		// an iterated may cause an element matched once to be retyped multiple times
+		// check for this situation (collect elements on descending over nesting structure, 
+		// spark checker on visiting an iterated to check its local and nested content)
+		HashSet<Node> alreadyDefinedNodes = new HashSet<Node>();
+		HashSet<Edge> alreadyDefinedEdges = new HashSet<Edge>();
+		for(Rule actionRule : actionRules) {
+			if(actionRule.getRight()!=null) {
+				actionRule.pattern.checkForMultipleRetypes(
+						alreadyDefinedNodes, alreadyDefinedEdges, actionRule.getRight());
+				alreadyDefinedNodes.clear();
+				alreadyDefinedEdges.clear();
+			}
+		}
+		for(Rule subpatternRule : subpatternRules) {
+			if(subpatternRule.getRight()!=null) {
+				subpatternRule.pattern.checkForMultipleRetypes(
+						alreadyDefinedNodes, alreadyDefinedEdges, subpatternRule.getRight());
+				alreadyDefinedNodes.clear();
+				alreadyDefinedEdges.clear();
+			}
+		}
+	}
+
 	public void resolvePatternLockedModifier() {
 		for(Rule actionRule : actionRules) {
 			actionRule.pattern.resolvePatternLockedModifier();

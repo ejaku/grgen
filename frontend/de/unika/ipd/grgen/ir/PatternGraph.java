@@ -65,6 +65,11 @@ public class PatternGraph extends Graph {
 	/** modifiers of pattern as defined in PatternGraphNode, only pattern locked, pattern path locked relevant */
 	int modifiers;
 
+	final int PATTERN_NOT_YET_VISITED = 0;
+	final int PATTERN_MAYBE_EMPTY = 1;
+	final int PATTERN_NOT_EMPTY = 2;
+	int mayPatternBeEmptyComputationState = PATTERN_NOT_YET_VISITED;
+
 	/**
 	 * A list of the replacement parameters 
 	 */
@@ -604,5 +609,262 @@ public class PatternGraph extends Graph {
 			}
 		}
 	}
-}
+	
+	public void checkForEmptyPatternsInIterateds()
+	{
+		if(mayPatternBeEmptyComputationState != PATTERN_NOT_YET_VISITED)
+			return;
+		
+		mayPatternBeEmptyComputationState = PATTERN_MAYBE_EMPTY;
 
+		///////////////////////////////////////////////////
+		// have a look at the local pattern
+		
+nodeHom:
+		for(Node node : getNodes()) {
+			if(node.directlyNestingLHSGraph!=this)
+				continue nodeHom;
+			for(Node homNode : getHomomorphic(node))
+				if(homNode.directlyNestingLHSGraph!=this)
+					continue nodeHom;
+			mayPatternBeEmptyComputationState = PATTERN_NOT_EMPTY;
+			break;
+		}
+		if(mayPatternBeEmptyComputationState != PATTERN_NOT_EMPTY)
+		{
+edgeHom:
+			for(Edge edge : getEdges()) {
+				if(edge.directlyNestingLHSGraph!=this)
+					continue edgeHom;
+				for(Edge homEdge : getHomomorphic(edge))
+					if(homEdge.directlyNestingLHSGraph!=this)
+						continue edgeHom;
+				mayPatternBeEmptyComputationState = PATTERN_NOT_EMPTY;
+				break;
+			}
+		}
+		
+		///////////////////////////////////////////////////
+		// go through the nested patterns, check the iterateds
+		
+		for(Alternative alternative : getAlts()) {
+			boolean allCasesNonEmpty = true;
+			for(Rule altCase : alternative.getAlternativeCases()) {
+				altCase.pattern.checkForEmptyPatternsInIterateds();
+				if(altCase.pattern.mayPatternBeEmptyComputationState == PATTERN_MAYBE_EMPTY) {
+					allCasesNonEmpty = false;
+				}
+			}
+			if(allCasesNonEmpty) {
+				mayPatternBeEmptyComputationState = PATTERN_NOT_EMPTY;
+			}
+		}
+
+		for(Rule iterated : getIters()) {
+			iterated.pattern.checkForEmptyPatternsInIterateds();
+			if(iterated.pattern.mayPatternBeEmptyComputationState == PATTERN_MAYBE_EMPTY) {
+				// emit error if the iterated pattern might be empty
+				if(iterated.getMaxMatches()==0) {
+					error.error(iterated.getIdent().getCoords(), "An unbounded pattern cardinality construct (iterated, multiple, [*])"
+							+ " must contain at least one locally defined node or edge (not being homomorphic to an enclosing element)"
+							+ " or a nested subpattern or alternative not being empty");
+				} else if(iterated.getMaxMatches()>1) {
+					error.warning(iterated.getIdent().getCoords(), "Maybe empty pattern in pattern cardinality construct (you must expect empty matches)");
+				}
+			} else {
+				if(iterated.getMinMatches()>0) {
+					mayPatternBeEmptyComputationState = PATTERN_NOT_EMPTY;
+				}
+			}
+		}
+		
+		for(SubpatternUsage sub : getSubpatternUsages()) {
+			sub.subpatternAction.pattern.checkForEmptyPatternsInIterateds();
+			if(sub.subpatternAction.pattern.mayPatternBeEmptyComputationState == PATTERN_NOT_EMPTY) {
+				mayPatternBeEmptyComputationState = PATTERN_NOT_EMPTY;
+			}
+		}
+
+		for (PatternGraph negative : getNegs()) {
+			negative.checkForEmptyPatternsInIterateds();
+		}
+
+		for (PatternGraph independent : getIdpts()) {
+			independent.checkForEmptyPatternsInIterateds();
+		}
+	}
+	
+	public void checkForEmptySubpatternRecursions(HashSet<PatternGraph> subpatternsAlreadyVisited)
+	{
+nodeHom:
+		for(Node node : getNodes()) {
+			if(node.directlyNestingLHSGraph!=this)
+				continue nodeHom;
+			for(Node homNode : getHomomorphic(node))
+				if(homNode.directlyNestingLHSGraph!=this)
+					continue nodeHom;
+			return; // node which must get matched found -> can't build empty path
+		}
+edgeHom:
+		for(Edge edge : getEdges()) {
+			if(edge.directlyNestingLHSGraph!=this)
+				continue edgeHom;
+			for(Edge homEdge : getHomomorphic(edge))
+				if(homEdge.directlyNestingLHSGraph!=this)
+					continue edgeHom;
+			return; // edge which must get matched found -> can't build empty path
+		}
+		
+		for(Alternative alternative : getAlts()) {
+			for(Rule altCase : alternative.getAlternativeCases()) {
+				HashSet<PatternGraph> subpatternsAlreadyVisitedClone = new HashSet<PatternGraph>(subpatternsAlreadyVisited);
+				altCase.pattern.checkForEmptySubpatternRecursions(subpatternsAlreadyVisitedClone);
+			}
+		}
+
+		for(Rule iterated : getIters()) {
+			HashSet<PatternGraph> subpatternsAlreadyVisitedClone = new HashSet<PatternGraph>(subpatternsAlreadyVisited);
+			iterated.pattern.checkForEmptySubpatternRecursions(subpatternsAlreadyVisitedClone);
+		}
+				
+		for (PatternGraph negative : getNegs()) {
+			HashSet<PatternGraph> subpatternsAlreadyVisitedClone = new HashSet<PatternGraph>(subpatternsAlreadyVisited);
+			negative.checkForEmptySubpatternRecursions(subpatternsAlreadyVisitedClone);
+		}
+
+		for (PatternGraph independent : getIdpts()) {
+			HashSet<PatternGraph> subpatternsAlreadyVisitedClone = new HashSet<PatternGraph>(subpatternsAlreadyVisited);
+			independent.checkForEmptySubpatternRecursions(subpatternsAlreadyVisitedClone);
+		}
+		
+		for(SubpatternUsage sub : getSubpatternUsages()) {
+			if(!subpatternsAlreadyVisited.contains(sub.subpatternAction.pattern)) {
+				HashSet<PatternGraph> subpatternsAlreadyVisitedClone = new HashSet<PatternGraph>(subpatternsAlreadyVisited);
+				subpatternsAlreadyVisitedClone.add(sub.subpatternAction.pattern);
+				sub.subpatternAction.pattern.checkForEmptySubpatternRecursions(subpatternsAlreadyVisitedClone);
+			} else {
+				// we're on path of only (maybe) empty patterns and see a subpattern already on it again
+				// -> endless loop of this subpattern matching only empty patterns until it gets matched again 
+				error.error(sub.subpatternAction.getIdent().getCoords(), "The subpattern "+ sub.subpatternAction.getIdent()+" (potentially) calls itself again with only empty patterns in between yielding an endless loop");
+			}
+		}
+	}
+
+	public boolean isNeverTerminatingSuccessfully(HashSet<PatternGraph> subpatternsAlreadyVisited)
+	{
+		boolean neverTerminatingSuccessfully = false;
+		
+		for(Alternative alternative : getAlts()) {
+			boolean allCasesNotTerminating = true;
+			for(Rule altCase : alternative.getAlternativeCases()) {
+				HashSet<PatternGraph> subpatternsAlreadyVisitedClone = new HashSet<PatternGraph>(subpatternsAlreadyVisited);
+				allCasesNotTerminating &= altCase.pattern.isNeverTerminatingSuccessfully(subpatternsAlreadyVisitedClone);
+			}
+			neverTerminatingSuccessfully |= allCasesNotTerminating;
+		}
+
+		for(Rule iterated : getIters()) {
+			HashSet<PatternGraph> subpatternsAlreadyVisitedClone = new HashSet<PatternGraph>(subpatternsAlreadyVisited);
+			if(iterated.getMinMatches()>0)
+				neverTerminatingSuccessfully |= iterated.pattern.isNeverTerminatingSuccessfully(subpatternsAlreadyVisitedClone);
+		}
+
+		for (PatternGraph negative : getNegs()) {
+			HashSet<PatternGraph> subpatternsAlreadyVisitedClone = new HashSet<PatternGraph>(subpatternsAlreadyVisited);
+			neverTerminatingSuccessfully |= negative.isNeverTerminatingSuccessfully(subpatternsAlreadyVisitedClone);
+		}
+
+		for (PatternGraph independent : getIdpts()) {
+			HashSet<PatternGraph> subpatternsAlreadyVisitedClone = new HashSet<PatternGraph>(subpatternsAlreadyVisited);
+			neverTerminatingSuccessfully |= independent.isNeverTerminatingSuccessfully(subpatternsAlreadyVisitedClone);
+		}
+		
+		for(SubpatternUsage sub : getSubpatternUsages()) {
+			if(!subpatternsAlreadyVisited.contains(sub.subpatternAction.pattern)) {
+				HashSet<PatternGraph> subpatternsAlreadyVisitedClone = new HashSet<PatternGraph>(subpatternsAlreadyVisited);
+				subpatternsAlreadyVisitedClone.add(sub.subpatternAction.pattern);
+				neverTerminatingSuccessfully |= sub.subpatternAction.pattern.isNeverTerminatingSuccessfully(subpatternsAlreadyVisitedClone);
+			} else {
+				return true;
+			}
+		}
+		
+		return neverTerminatingSuccessfully;
+	}
+
+	public void checkForMultipleRetypes(HashSet<Node> alreadyDefinedNodes, HashSet<Edge> alreadyDefinedEdges, PatternGraph right)
+	{
+		for(Node node : getNodes()) {
+			alreadyDefinedNodes.add(node);
+		}
+		for(Edge edge : getEdges()) {
+			alreadyDefinedEdges.add(edge);
+		}
+
+		for(Alternative alternative : getAlts()) {
+			for(Rule altCase : alternative.getAlternativeCases()) {
+				PatternGraph altCasePattern = altCase.getLeft();
+				HashSet<Node> alreadyDefinedNodesClone = new HashSet<Node>(alreadyDefinedNodes);
+				HashSet<Edge> alreadyDefinedEdgesClone = new HashSet<Edge>(alreadyDefinedEdges);
+				altCasePattern.checkForMultipleRetypes(
+						alreadyDefinedNodesClone, alreadyDefinedEdgesClone, altCase.getRight());
+			}
+		}
+
+		for(Rule iterated : getIters()) {
+			PatternGraph iteratedPattern = iterated.getLeft();
+			HashSet<Node> alreadyDefinedNodesClone = new HashSet<Node>(alreadyDefinedNodes);
+			HashSet<Edge> alreadyDefinedEdgesClone = new HashSet<Edge>(alreadyDefinedEdges);
+			iteratedPattern.checkForMultipleRetypes(
+					alreadyDefinedNodesClone, alreadyDefinedEdgesClone, iterated.getRight());
+			
+			if(iterated.getMaxMatches()!=1) {
+				iteratedPattern.checkForMultipleRetypesDoCheck(alreadyDefinedNodes, alreadyDefinedEdges, iterated.getRight());
+			}
+		}
+	}
+
+	public void checkForMultipleRetypesDoCheck(HashSet<Node> alreadyDefinedNodes, HashSet<Edge> alreadyDefinedEdges, PatternGraph right)
+	{
+		for(Node node : right.getNodes()) {
+			if(node.getRetypedNode(right)==null)
+				continue;
+			if(alreadyDefinedNodes.contains(node)) {
+				error.error(node.getIdent().getCoords(), "Retype of nodes from outside is forbidden if contained in construct which can get matched more than once (due to some kind of iterated)");
+			} else {
+				for(Node homToRetypedNode : getHomomorphic(node)) {
+					if(alreadyDefinedNodes.contains(homToRetypedNode)) {
+						error.error(node.getIdent().getCoords(), "Retype of nodes which might be hom to nodes from outside is forbidden if contained in construct which can get matched more than once (due to some kind of iterated)");
+					}
+				}
+			}
+		}
+		for(Edge edge : right.getEdges()) {
+			if(edge.getRetypedEdge(right)==null)
+				continue;
+			if(alreadyDefinedEdges.contains(edge)) {
+				error.error(edge.getIdent().getCoords(), "Retype of edges from outside is forbidden if contained in construct which can get matched more than once (due to some kind of iterated)");
+			} else {
+				for(Edge homToRetypedEdge : getHomomorphic(edge)) {
+					if(alreadyDefinedEdges.contains(homToRetypedEdge)) {
+						error.error(edge.getIdent().getCoords(), "Retype of edges which might be hom to edges from outside is forbidden if contained in construct which can get matched more than once (due to some kind of iterated)");
+					}
+				}
+			}
+		}
+
+		for(Alternative alternative : getAlts()) {
+			for(Rule altCase : alternative.getAlternativeCases()) {
+				PatternGraph altCasePattern = altCase.getLeft();
+				altCasePattern.checkForMultipleRetypesDoCheck(
+						alreadyDefinedNodes, alreadyDefinedEdges, altCase.getRight());
+			}
+		}
+
+		for(Rule iterated : getIters()) {
+			PatternGraph iteratedPattern = iterated.getLeft();
+			iteratedPattern.checkForMultipleRetypesDoCheck(
+					alreadyDefinedNodes, alreadyDefinedEdges, iterated.getRight());
+		}
+	}
+}
