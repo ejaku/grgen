@@ -1,0 +1,16 @@
+test t
+{
+	:P();
+}
+
+pattern P
+{
+	:Q();
+}
+
+pattern Q
+{
+	optional {
+		:P();
+	}
+}

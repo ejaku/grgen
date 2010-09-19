@@ -1,0 +1,25 @@
+rule r
+{
+	x:Node;
+	(
+		:P();
+		
+		{+ }
+	)[1:*]
+	
+	{+ }
+}
+
+pattern P
+{
+	alternative {
+		Emtpy {
+		}
+		Recursive {
+			:P();
+		}
+	}
+	
+	modify {
+	}
+}

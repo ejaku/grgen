@@ -1,0 +1,17 @@
+rule r
+{
+	x:Node;
+	(
+		:P();
+		
+		{+ }
+	)[1:*]
+	
+	{+ }
+}
+
+pattern P
+{
+	modify {
+	}
+}

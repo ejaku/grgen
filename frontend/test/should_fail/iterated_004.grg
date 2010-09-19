@@ -1,0 +1,14 @@
+test t
+{
+	x:Node;
+	multiple
+	{
+		alternative {
+			Empty {
+			}
+			Something {
+				.;
+			}
+		}
+	}
+}

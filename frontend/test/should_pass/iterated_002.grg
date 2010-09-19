@@ -2,7 +2,9 @@ pattern SpanningTreeMinOne(root:Node)
 {
 	multiple {
 		root -- next:Node;
-		:SpanningTreeMinOne(next);
+		optional {
+			:SpanningTreeMinOne(next);
+		}
 	}
 }
 
@@ -10,11 +12,16 @@ pattern SpanningTreeReverseMinOne(root:Node)
 {
 	multiple {
 		root --> next:Node;
-		str:SpanningTreeReverseMinOne(next);
+		optional {
+			str:SpanningTreeReverseMinOne(next);
+			
+			modify {
+				str();
+			}
+		}
 		
 		replace {
 			root <-- next;
-			str();
 		}
 	}
 	

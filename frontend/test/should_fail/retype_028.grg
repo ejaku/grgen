@@ -1,0 +1,30 @@
+using attrib_model_001;
+
+rule r {
+	z:Node;
+	iterated {
+		x:Node;
+		alternative {
+			Foo {
+				u:Node;
+				
+				modify {
+					y:NINT<z>;
+				}
+			}
+			Bar {
+				u:Node;
+				
+				modify {
+					y:NINT<x>;
+				}
+			}
+		}
+		
+		modify {
+		}
+	}
+	
+	modify {}
+}
+

@@ -1,0 +1,15 @@
+test t
+{
+	x:Node;
+	multiple
+	{
+		alternative {
+			Something {
+				.;
+			}
+			SomethingElse {
+				. -->;
+			}
+		}
+	}
+}

@@ -1,0 +1,17 @@
+test t
+{	
+	:P();
+}
+
+pattern P
+{
+	.;
+	alternative {
+		foo {
+			:P();
+		}
+		bar {
+			:P();
+		}
+	}
+}

@@ -1,0 +1,11 @@
+test t
+{
+	:P();
+}
+
+pattern P
+{
+	optional {
+		:P();
+	}
+}

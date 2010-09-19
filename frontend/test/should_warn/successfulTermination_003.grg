@@ -1,0 +1,12 @@
+test t
+{	
+	:P();
+}
+
+pattern P
+{	
+	.;
+	multiple {
+		:P();
+	}
+}

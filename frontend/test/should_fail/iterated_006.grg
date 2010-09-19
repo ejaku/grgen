@@ -1,0 +1,10 @@
+test t
+{
+	x:Node;
+	iterated
+	{
+		iterated {
+			.;
+		}
+	}
+}

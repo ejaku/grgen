@@ -1,0 +1,27 @@
+test t
+{	
+	:P();
+}
+
+pattern P
+{
+	.;
+	:Q();
+}
+
+pattern Q
+{
+	.;
+	alternative {
+		recursive {
+			:P();
+		}
+		base {
+			:R();
+		}
+	}
+}
+
+pattern R
+{
+}

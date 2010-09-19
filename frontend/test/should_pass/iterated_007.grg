@@ -1,0 +1,33 @@
+rule r
+{
+	x:Node;
+	(
+		:P();
+		
+		{+ }
+	)[1:*]
+	
+	{+ }
+}
+
+pattern P
+{
+	alternative {
+		Empty {
+			.;
+
+			modify {
+			}
+		}
+		Recursive {
+			:P();
+			.;
+
+			modify {
+			}
+		}
+	}
+	
+	modify {
+	}
+}
