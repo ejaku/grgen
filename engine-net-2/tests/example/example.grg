@@ -27,3 +27,28 @@ test fits(n:N)
 {
 	if { n.a; }
 }
+
+rule r
+{
+	n:N;
+	iterated {
+		n --> m:Node;
+		p:P(m);
+		
+		modify {
+			p();
+		}
+	}
+	
+	modify {
+	}
+}
+
+pattern P(m:Node)
+{
+	m --> l:Node;
+	
+	replace {
+		m <-:E- l;
+	}
+}

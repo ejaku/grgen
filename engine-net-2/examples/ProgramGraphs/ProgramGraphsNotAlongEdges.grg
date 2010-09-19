@@ -1,0 +1,277 @@
+using ProgramGraphs;
+
+pattern Subclasses(c:Class)
+{
+	iterated
+	{
+		c -:contains-> sub:Class;
+		:Subclass(sub);
+	}
+}
+
+pattern Subclass(sub:Class)
+{
+	:Features(sub);
+	:Subclasses(sub);	
+}
+
+pattern Features(c:Class)
+{
+	iterated
+	{
+		:FeaturePattern(c);
+	}
+}
+
+pattern FeaturePattern(c:Class)
+{
+	alternative
+	{
+		MethodBody {
+			c -:contains-> b:MethodBody;
+			:Parameters(b);
+			:Statements(b);
+		}
+		MethodSignature {
+			c -:contains-> :MethodSignature;
+		}
+		Variable {
+			c -:contains-> :Variabel;
+		}
+		Konstante {
+			c -:contains-> :Constant;
+		}
+	}
+}
+
+pattern Parameters(b:MethodBody)
+{
+	iterated
+	{
+		:Parameter(b);
+	}
+}
+
+pattern Parameter(b:MethodBody)
+{
+	alternative
+	{
+		Variable {
+			b -:contains-> v:Variabel;
+		}
+		Konstante {
+			b -:contains-> c:Constant;
+		}
+	}
+}
+
+pattern Statements(b:MethodBody)
+{
+	iterated
+	{
+		:Statement(b);
+	}
+}
+
+pattern Statement(b:MethodBody)
+{
+	alternative
+	{
+		Assignment {
+			b -:contains-> e:Expression;
+			e -:writesTo->;
+			:ExpressionPattern(e);
+		}
+		Call {
+			b -:contains-> e:Expression;
+			e -:calls->;
+			:Expressions(e);
+		}
+		Return {
+			b -:contains-> e:Expression;
+			e -:uses->;
+		}
+	}
+}
+
+pattern Expressions(e:Expression)
+{
+	iterated
+	{
+		:ExpressionPattern(e);
+	}
+}
+
+pattern ExpressionPattern(e:Expression)
+{
+	e -:contains-> sub:Expression;
+	alternative
+	{
+		Call {
+			sub -:calls->;
+			:Expressions(sub);
+		}
+		Use {
+			sub -:uses->;
+		}
+	}
+}
+
+rule createProgramGraphExample
+{
+	modify {
+		any:Class -:contains-> cell:Class -:contains-> recell:Class;
+		cell -:contains-> getS:MethodSignature;
+		cell -:contains-> getB:MethodBody -:bindsTo-> getS;
+		cell -:contains-> cts:Variabel -:hasType-> any;
+		getB -:contains-> ex1:Expression -:uses-> cts;
+		cell -:contains-> setS:MethodSignature;
+		cell -:contains-> setB:MethodBody -:bindsTo-> setS;
+		setB -:contains-> n:Constant -:hasType-> any;
+		setB -:contains-> ex2:Expression -:writesTo-> cts;
+		ex2 -:contains-> ex3:Expression -:uses-> n;
+		recell -:contains-> setB2:MethodBody -:bindsTo-> setS;
+		setB2 -:contains-> n2:Constant -:hasType-> any;
+		setB2 -:contains-> ex4:Expression -:calls-> setS;
+		ex4 -:contains-> ex5:Expression -:uses-> n2;
+		recell -:contains-> backup:Variabel -:hasType-> any;
+		setB2 -:contains-> ex6:Expression -:writesTo-> backup;
+		ex6 -:contains-> ex7:Expression -:uses-> cts;
+		recell -:contains-> restoreS:MethodSignature;
+		recell -:contains-> restoreB:MethodBody -:bindsTo-> restoreS;
+		restoreB -:contains-> ex8:Expression -:writesTo-> cts;
+		ex8 -:contains-> ex9:Expression -:uses-> backup;
+	}
+}
+
+rule createProgramGraphPullUp : (Class, MethodBody)
+{
+	modify {
+		// class hierarchy
+		c1:Class;
+		c1 -:contains-> c2:Class;
+		c1 -:contains-> c3:Class;
+		c1 -:contains-> c4:Class;
+		// method, it's body nodes and formal parameters
+		c1 -:contains-> m5:MethodSignature;
+		c2 -:contains-> b2:MethodBody -:contains-> v7a:Variabel;
+		c3 -:contains-> b3:MethodBody -:contains-> v7b:Variabel;
+		c4 -:contains-> b4:MethodBody;
+		b2 -:bindsTo-> m5;
+		b3 -:bindsTo-> m5;
+		b4 -:bindsTo-> m5;
+		// further methods and variables
+		c1 -:contains-> m8:MethodSignature;
+		c2 -:contains-> v9:Variabel;
+		// body of m in c2, corrected
+		b2 -:contains-> ex1:Expression;
+		ex1 -:writesTo-> v9;
+		ex1 -:contains-> ex:Expression -:uses-> v7a;
+		b2 -:contains-> ex2:Expression;
+		ex2 -:calls-> m8;
+		ex2 -:contains-> ex3:Expression;
+		ex3 -:uses-> v9;
+		// body of m in c3
+		b3 -:contains-> ex4:Expression;	
+		ex4 -:calls-> m8;
+		ex4 -:contains-> ex5:Expression;
+		ex5 -:uses-> v7b;
+		
+		return(c1, b4);
+	}
+}
+
+rule pullUpMethod(c1:Class, b4:MethodBody)
+{
+	c1 -:contains-> c3:Class -m:contains-> b4 -:bindsTo-> m5:MethodSignature;
+	bs:Bodies(m5, c1);
+
+	modify {
+		delete(m);
+		c1 -:contains-> b4;
+		bs();
+	}
+}
+
+pattern Bodies(m5:MethodSignature, c1:Class)
+{
+	iterated
+	{
+		b:Body(m5, c1);
+
+		modify {
+			b();
+		}
+	}
+	
+	modify {
+	}
+}
+
+pattern Body(m5:MethodSignature, c1:Class)
+{
+	c1 -:contains-> c2:Class -:contains-> b:MethodBody -:bindsTo-> m5;
+	p:Parameters(b);
+	s:Statements(b);
+	
+	modify {
+		delete(b);
+		delete(p);
+		delete(s);
+	}
+}
+
+test matchAll(c1:Class)
+{
+	:Subclass(c1);
+}
+
+
+// helper rules for nested layout //
+
+rule InsertHelperEdgesForNestedLayout
+{
+	modify {
+		exec(LinkMethodBodyToContainedEntity* && LinkMethodBodyToContainedExpressionTransitive* && LinkClassToFeature*);
+	}
+}
+
+rule LinkMethodBodyToContainedEntity
+{
+	mb:MethodBody -:contains-> e:Entity;
+	
+	negative {
+		mb -:containedInMethodBody-> e;
+	}
+	
+	modify {
+		mb -:containedInMethodBody-> e;
+	}
+}
+
+rule LinkMethodBodyToContainedExpressionTransitive
+{
+	mb:MethodBody -:containedInMethodBody-> e1:Expression -:contains-> e2:Expression;
+	
+	negative {
+		e1 -:containedInMethodBody-> e2;
+	}
+	
+	modify {
+		e1 -:containedInMethodBody-> e2;
+		mb -:containedInMethodBody-> e2;
+	}
+}
+
+rule LinkClassToFeature
+{
+	c:Class -:contains-> e:Entity\Class;
+	
+	negative {
+		c -:containedInClass-> e;
+	}
+	
+	modify {
+		c -:containedInClass-> e;
+	}
+}

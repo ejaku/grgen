@@ -1,4 +1,11 @@
-﻿v2.6.1 (2010-09-12)
+﻿v2.6.2 (2010-09-19)
+ Changes:
+ - bugfixes/improvements for debugger detail mode annotations
+ - improved compiler checks, esp. against non-terminating subpattern recursions 
+    and iterated empty graph matching
+ - fixed crash on printing the <var>=null assignment to console in debugger
+
+v2.6.1 (2010-09-12)
  Changes:
  - debugger detail mode now annotates in yComp all the pattern elements matching on a host graph node
  - debugger detail mode annotations now show in addition to the pattern element name the path to the name 

@@ -29,10 +29,12 @@ sequence local variables are explicitely declared with a typed variable declarat
 Graph global variables are untyped; their values are typed, though, so type errors cause an exception at runtime.
 They belong to and are stored in the graph -- if you save the graph in \GrShell\ (or export to \texttt{.grs} using the \texttt{withvariables} option)
 then the variables are saved, too, and restored next time you load the saved graph.
+Further on, they are nulled if the graph element assigned to them gets deleted (even if this happens due to a transaction rollback),
+thus saving one from debugging problems due to zombie elements (you may use the \texttt{def()} operator to check during execution if this happened).
 Sequence local variables are typed, so type errors are caught at compile time (parsing time for the interpreted sequences); 
 an assignment of an untyped variable to a typed variable is checked at runtime.
 They belong to the sequence they appear in, their life ends when the sequence finishes execution 
-(so there is no persistency available for them as for the graph global variables). 
+(so there is no persistency available for them as for the graph global variables; neither do they get nulled on element deletion as the graph does not know about them). 
 
 If used in some rule, i.e. within an \texttt{exec}, named graph elements of the enclosing rule are available as read-only variables.
 

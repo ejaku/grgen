@@ -1,0 +1,26 @@
+new graph "ProgramGraphsNotAlongEdges"
+
+debug set layout Hierarchic
+dump set node MethodSignature color pink
+dump set node MethodBody color orchid
+dump set node Attribute color cyan
+dump set node Expression color green
+dump set node Class color yellow
+
+dump add node Class group by hidden outgoing containedInClass
+dump add node MethodBody group by hidden outgoing containedInMethodBody
+dump add node MethodBody group by hidden outgoing contains
+
+#xgrs createProgramGraphExample
+xgrs (c1,b4) = createProgramGraphPullUp
+
+xgrs InsertHelperEdgesForNestedLayout
+
+debug enable
+
+#custom graph analyze
+#custom actions gen_searchplan pullUpMethod
+
+debug xgrs pullUpMethod(c1,b4)
+
+xgrs InsertHelperEdgesForNestedLayout
