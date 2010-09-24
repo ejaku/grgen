@@ -14,6 +14,8 @@ dump add node MethodBody group by hidden outgoing contains
 #xgrs createProgramGraphExample
 xgrs (c1,b4) = createProgramGraphPullUp
 
+validate strict
+
 xgrs InsertHelperEdgesForNestedLayout
 
 debug enable
@@ -23,4 +25,5 @@ debug enable
 
 debug xgrs pullUpMethod(c1,b4)
 
+validate strict
 xgrs InsertHelperEdgesForNestedLayout

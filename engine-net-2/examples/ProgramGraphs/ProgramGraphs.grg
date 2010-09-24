@@ -19,28 +19,27 @@ pattern Features(c:Class)
 {
 	iterated
 	{
-		c -ct:contains->;
-		:FeaturePattern(ct);
+		:FeaturePattern(c);
 	}
 }
 
-pattern FeaturePattern(-ct:contains->)
+pattern FeaturePattern(c:Class)
 {
 	alternative
 	{
 		MethodBody {
-			-ct-> b:MethodBody;
+			c -:contains-> b:MethodBody;
 			:Parameters(b);
 			:Statements(b);
 		}
 		MethodSignature {
-			-ct-> :MethodSignature;
+			c -:contains-> :MethodSignature;
 		}
 		Variable {
-			-ct-> :Variabel;
+			c -:contains-> :Variabel;
 		}
 		Konstante {
-			-ct-> :Constant;
+			c -:contains-> :Constant;
 		}
 	}
 }
@@ -49,20 +48,19 @@ pattern Parameters(b:MethodBody)
 {
 	iterated
 	{
-		b -ct:contains->;
-		:Parameter(ct);
+		:Parameter(b);
 	}
 }
 
-pattern Parameter(-ct:contains->)
+pattern Parameter(b:MethodBody)
 {
 	alternative
 	{
 		Variable {
-			-ct-> v:Variabel;
+			b -:contains-> v:Variabel;
 		}
 		Konstante {
-			-ct-> c:Constant;
+			b -:contains-> c:Constant;
 		}
 	}
 }
@@ -71,27 +69,26 @@ pattern Statements(b:MethodBody)
 {
 	iterated
 	{
-		b -ct:contains->;
-		:Statement(ct);
+		:Statement(b);
 	}
 }
 
-pattern Statement(-ct:contains->)
+pattern Statement(b:MethodBody)
 {
 	alternative
 	{
 		Assignment {
-			-ct-> e:Expression;
+			b -:contains-> e:Expression;
 			e -:writesTo->;
-			:ExpressionPattern(ct);
+			:ExpressionPattern(e);
 		}
 		Call {
-			-ct-> e:Expression;
+			b -:contains-> e:Expression;
 			e -:calls->;
 			:Expressions(e);
 		}
 		Return {
-			-ct-> e:Expression;
+			b -:contains-> e:Expression;
 			e -:uses->;
 		}
 	}
@@ -101,14 +98,13 @@ pattern Expressions(e:Expression)
 {
 	iterated
 	{
-		e -ct:contains->;
-		:ExpressionPattern(ct);
+		:ExpressionPattern(e);
 	}
 }
 
-pattern ExpressionPattern(-ct:contains->)
+pattern ExpressionPattern(e:Expression)
 {
-	-ct-> sub:Expression;
+	e -:contains-> sub:Expression;
 	alternative
 	{
 		Call {
@@ -201,8 +197,7 @@ pattern Bodies(m5:MethodSignature, c1:Class)
 {
 	iterated
 	{
-		c1 -ct:contains->;
-		b:Body(m5, ct);
+		b:Body(m5, c1);
 
 		modify {
 			b();
@@ -213,9 +208,9 @@ pattern Bodies(m5:MethodSignature, c1:Class)
 	}
 }
 
-pattern Body(m5:MethodSignature, -ct:contains->)
+pattern Body(m5:MethodSignature, c1:Class)
 {
-	-ct-> c2:Class -:contains-> b:MethodBody -:bindsTo-> m5;
+	c1 -:contains-> c2:Class -:contains-> b:MethodBody -:bindsTo-> m5;
 	p:Parameters(b);
 	s:Statements(b);
 	
