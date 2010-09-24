@@ -640,7 +640,10 @@ namespace de.unika.ipd.grGen.libGr
                 sb.Append("(");
                 for(int i = 0; i < ParamBindings.ParamVars.Length; ++i)
                 {
-                    sb.Append(ParamBindings.ParamVars[i].Name);
+                    if(ParamBindings.ParamVars[i] != null)
+                        sb.Append(ParamBindings.ParamVars[i].Name);
+                    else
+                        sb.Append(ParamBindings.Parameters[i]!=null ? ParamBindings.Parameters[i] : "null");
                     if(i != ParamBindings.ParamVars.Length - 1) sb.Append(",");
                 }
                 sb.Append(")");
