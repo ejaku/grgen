@@ -1,0 +1,18 @@
+debug set layout Hierarchic
+
+dump set node State labels off
+dump add node State shortinfotag id
+
+dump set node StartState shape circle
+dump set node StartState color green
+
+dump set node FinalState shape circle
+dump set node FinalState color red
+
+dump set node StartFinalState color green
+dump set node StartFinalState bordercolor red
+
+dump set edge Transition labels off
+dump add edge Transition shortinfotag Trigger
+
+dump set edge EpsilonTransition color lightgrey

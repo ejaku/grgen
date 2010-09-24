@@ -1,4 +1,5 @@
-node class State {
+node class State
+{
     id: int;
 }
 
@@ -7,7 +8,8 @@ node class StartState extends SpecialState;
 node class FinalState extends SpecialState;
 node class StartFinalState extends StartState, FinalState;
 
-edge class Transition {
+edge class Transition
+{
     Trigger: string;
 }
 

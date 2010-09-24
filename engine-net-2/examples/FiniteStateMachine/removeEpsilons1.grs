@@ -1,0 +1,5 @@
+new graph removeEpsilons1.grg "StateMachine"
+
+include NFA.grsi
+
+debug xgrs forwardTransition

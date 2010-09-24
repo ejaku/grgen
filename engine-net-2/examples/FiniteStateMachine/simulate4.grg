@@ -1,0 +1,23 @@
+using NFAModel;
+
+#include "removeEpsilons3WithoutUsing.grg"
+
+test getStartState : (StartState)
+{
+	start:StartState;
+	return(start);
+}
+
+dpo rule accept(state:State, var input:string) : (State, string)
+{
+	state -t:Transition\EpsilonTransition-> successor:State;
+	if { input.length()>0 && t.Trigger==input.substring(0, 1); }
+	
+	modify {
+		return(successor, input.substring(1,input.length()-1));
+	}
+}
+
+test isFinalState(state:FinalState<State>)
+{
+}

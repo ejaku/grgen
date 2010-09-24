@@ -1,0 +1,12 @@
+new graph removeEpsilons3.grg "StateMachine"
+
+include NFA.grsi
+include NFALayout.grsi
+
+debug xgrs checkStartState && !checkDoublettes \
+&& (forwardTransition* ;> addStartFinalState ;> addFinalState* ;> removeEpsilonTransition* ;> removeLonelyStates* ;> true) \
+&& !epsilonTransition
+
+export reduced.grs
+import reduced.grs
+show graph yComp

@@ -1,0 +1,32 @@
+using NFAModel;
+
+test checkStartState {
+    x:StartState;
+    negative {
+        x;
+        y:StartState;
+    }
+}
+
+test checkDoublettes {
+    x:State -e:Transition-> y:State;
+    hom(x,y);
+    x -doublette:Transition-> y;
+    if {typeof(doublette) == typeof(e);}
+    if { ((typeof(e) == EpsilonTransition) || (e.Trigger == doublette.Trigger)); }
+}
+
+rule forwardTransition {
+    x:State -:EpsilonTransition-> y:State -e:Transition-> z:State;
+    hom(y,z);
+    negative {
+        x -exists:Transition-> z;
+        if {typeof(exists) == typeof(e);}
+        if { ((typeof(e) == EpsilonTransition) || (e.Trigger == exists.Trigger)); }
+    }
+
+    modify {
+        x -forward:typeof(e)-> z;
+        eval {forward.Trigger = e.Trigger;}
+    }    
+}
