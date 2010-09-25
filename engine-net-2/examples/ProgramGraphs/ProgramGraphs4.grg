@@ -1,0 +1,165 @@
+using ProgramGraphs;
+
+#include "ProgramGraphs0WithoutUsing.grg"
+
+pattern Subclasses(c:Class)
+{
+	iterated
+	{
+		c -:contains-> sub:Class;
+		:Subclass(sub);
+	}
+}
+
+pattern Subclass(sub:Class)
+{
+	:Features(sub);
+	:Subclasses(sub);	
+}
+
+pattern Features(c:Class)
+{
+	iterated
+	{
+		:FeaturePattern(c);
+	}
+}
+
+pattern FeaturePattern(c:Class)
+{
+	alternative
+	{
+		MethodBody {
+			c -:contains-> b:MethodBody;
+			:Parameters(b);
+			:Statements(b);
+		}
+		MethodSignature {
+			c -:contains-> :MethodSignature;
+		}
+		Variable {
+			c -:contains-> :Variabel;
+		}
+		Konstante {
+			c -:contains-> :Constant;
+		}
+	}
+}
+
+pattern Parameters(b:MethodBody)
+{
+	iterated
+	{
+		:Parameter(b);
+	}
+}
+
+pattern Parameter(b:MethodBody)
+{
+	alternative
+	{
+		Variable {
+			b -:contains-> v:Variabel;
+		}
+		Konstante {
+			b -:contains-> c:Constant;
+		}
+	}
+}
+
+pattern Statements(exOrMb:Entity)
+{
+	alternative
+	{
+		Assignment {
+			exOrMb -:next-> e:Expression;
+			e -:writesTo->;
+			:ExpressionPattern(e);
+			:Statements(e);
+		}
+		Call {
+			exOrMb -:next-> e:Expression;
+			e -:calls->;
+			:Expressions(e);
+			:Statements(e);
+		}
+		Return {
+			exOrMb -:next-> e:Expression;
+			e -:uses->;
+			:Statements(e);
+		}
+		EndOfList {
+			negative {
+				exOrMb -:next->;
+			}
+		}
+	}
+}
+
+pattern Expressions(e:Expression)
+{
+	iterated
+	{
+		:ExpressionPattern(e);
+	}
+}
+
+pattern ExpressionPattern(e:Expression)
+{
+	e -:contains\next-> sub:Expression;
+	alternative
+	{
+		Call {
+			sub -:calls->;
+			:Expressions(sub);
+		}
+		Use {
+			sub -:uses->;
+		}
+	}
+}
+
+rule pullUpMethod(c1:Class, b4:MethodBody)
+{
+	c1 -:contains-> c3:Class -m:contains-> b4 -:bindsTo-> m5:MethodSignature;
+	bs:Bodies(m5, c1);
+
+	modify {
+		delete(m);
+		c1 -:contains-> b4;
+		bs();
+	}
+}
+
+pattern Bodies(m5:MethodSignature, c1:Class)
+{
+	iterated
+	{
+		b:Body(m5, c1);
+
+		modify {
+			b();
+		}
+	}
+	
+	modify {
+	}
+}
+
+pattern Body(m5:MethodSignature, c1:Class)
+{
+	c1 -:contains-> c2:Class -:contains-> b:MethodBody -:bindsTo-> m5;
+	p:Parameters(b);
+	s:Statements(b);
+	
+	modify {
+		delete(b);
+		delete(p);
+		delete(s);
+	}
+}
+
+test matchAll(c1:Class)
+{
+	:Subclass(c1);
+}

@@ -1,0 +1,17 @@
+new graph "ProgramGraphs3b"
+
+include ProgramGraphsLayout.grsi
+
+xgrs createProgramGraphExample
+
+validate strict
+
+xgrs InsertHelperEdgesForNestedLayout
+
+debug enable
+
+debug xgrs $%[MatchStatements]
+
+validate strict
+
+xgrs InsertHelperEdgesForNestedLayout

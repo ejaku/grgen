@@ -1,0 +1,19 @@
+new graph "ProgramGraphs3d"
+
+include ProgramGraphsLayout.grsi
+
+xgrs createProgramGraphExample
+
+validate strict
+
+xgrs InsertHelperEdgesForNestedLayout
+
+debug enable
+
+from = askfor MethodBody
+to = askfor MethodBody
+debug xgrs CopyStatements(from, to)
+
+validate strict
+
+xgrs InsertHelperEdgesForNestedLayout

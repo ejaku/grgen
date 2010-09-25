@@ -1,0 +1,20 @@
+new graph "ProgramGraphs4"
+
+include ProgramGraphsLayout.grsi
+
+xgrs createProgramGraphPullUp
+
+validate strict
+
+xgrs InsertHelperEdgesForNestedLayout
+
+validate strict
+
+debug enable
+
+c = askfor Class
+debug xgrs matchAll(c)
+
+validate strict
+
+xgrs InsertHelperEdgesForNestedLayout

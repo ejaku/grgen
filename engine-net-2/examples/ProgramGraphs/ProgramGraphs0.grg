@@ -24,6 +24,8 @@ rule createProgramGraphExample
 		recell -:contains-> backup:Variabel -:hasType-> any;
 		ex4 -:next-> ex6:Expression -:writesTo-> backup;
 		ex6 -:contains-> ex7:Expression -:uses-> cts;
+		ex6 -:next-> ex6b:Expression -:writesTo-> backup;
+		ex6b -:contains-> ex7b:Expression -:uses-> cts;
 		recell -:contains-> restoreS:MethodSignature;
 		recell -:contains-> restoreB:MethodBody -:bindsTo-> restoreS;
 		restoreB -:next-> ex8:Expression -:writesTo-> cts;

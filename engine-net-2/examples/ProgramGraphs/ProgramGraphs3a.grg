@@ -1,0 +1,84 @@
+using ProgramGraphs;
+
+#include "ProgramGraphs0WithoutUsing.grg"
+
+rule FirstStatementEx(mb:MethodBody)
+{
+	alternative
+	{
+		Assignment {
+			mb -:next-> e:Expression;
+			e -:writesTo->;
+			e -:contains\next-> sub:Expression;
+			cou:CallOrUse(sub, mb);
+			
+			modify {
+				cou();
+			}
+		}
+		Call {
+			mb -:next-> e:Expression;
+			e -ca:calls->;
+			iterated
+			{
+				e -:contains\next-> arg:Expression;
+				
+				modify { 
+					delete(arg);
+				}
+			}
+			
+			modify {
+				delete(ca);
+				e -:uses-> :Constant <-:contains- mb;
+			}
+		}
+		Return {
+			mb -:next-> e:Expression;
+			e -:uses->;
+			
+			modify { }
+		}
+		EndOfList {
+			negative {
+				mb -:next->;
+			}
+			
+			modify { }
+		}
+	}
+	
+	modify {
+	}
+}
+
+pattern CallOrUse(sub:Expression, mb:MethodBody)
+{
+	alternative
+	{
+		Call {
+			sub -ca:calls->;
+			iterated
+			{
+				sub -:contains\next-> arg:Expression;
+				
+				modify { 
+					delete(arg);
+				}
+			}
+			
+			modify {
+				delete(ca);
+				sub -:uses-> :Constant <-:contains- mb;
+			}
+		}
+		Use {
+			sub -:uses->;
+			
+			modify { }
+		}
+	}
+	
+	modify {
+	}
+}

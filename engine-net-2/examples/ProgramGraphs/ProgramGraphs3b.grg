@@ -1,0 +1,36 @@
+using ProgramGraphs;
+
+#include "ProgramGraphs0WithoutUsing.grg"
+
+test MatchStatements
+{
+	mb:MethodBody;
+	st:Statements(mb);
+}
+
+pattern Statements(exOrMb:Entity)
+{
+	alternative
+	{
+		Assignment {
+			exOrMb -:next-> e:Expression;
+			e -:writesTo->;
+			st:Statements(e);
+		}
+		Call {
+			exOrMb -:next-> e:Expression;
+			e -:calls->;
+			st:Statements(e);
+		}
+		Return {
+			exOrMb -:next-> e:Expression;
+			e -:uses->;
+			st:Statements(e);
+		}
+		EndOfList {
+			negative {
+				exOrMb -:next->;
+			}
+		}
+	}	
+}

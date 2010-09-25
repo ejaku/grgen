@@ -1,0 +1,66 @@
+using ProgramGraphsN;
+
+#include "ProgramGraphs0WithoutUsing.grg"
+
+rule CopyStatements(from:MethodBody, to:MethodBody)
+{
+	st:Statements(from);
+	
+	modify {
+		st(to);
+	}
+}
+
+pattern Statements(exOrMb:Entity) modify(to:Entity)
+{
+	alternative
+	{
+		Assignment {
+			exOrMb -n:next-> e:Expression;
+			e -:writesTo->;
+			st:Statements(e);
+			
+			modify {
+				delete(n);
+				exOrMb <-:next- e;
+				to -:next-> ne:Expression;
+				st(ne);
+			}
+		}
+		Call {
+			exOrMb -n:next-> e:Expression;
+			e -:calls->;
+			st:Statements(e);
+			
+			modify {
+				delete(n);
+				exOrMb <-:next- e;
+				to -:next-> ne:Expression;
+				st(ne);
+			}
+		}
+		Return {
+			exOrMb -n:next-> e:Expression;
+			e -:uses->;
+			st:Statements(e);
+			
+			modify {
+				delete(n);
+				exOrMb <-:next- e;
+				to -:next-> ne:Expression;
+				st(ne);
+			}
+		}
+		EndOfList {
+			negative {
+				exOrMb -:next->;
+			}
+			
+			modify {
+			}
+		}
+	}
+
+	modify {
+	}
+}
