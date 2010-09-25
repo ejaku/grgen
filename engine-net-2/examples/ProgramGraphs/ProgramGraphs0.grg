@@ -1,0 +1,123 @@
+using ProgramGraphs;
+
+
+// rules to create the example graphs //
+
+rule createProgramGraphExample
+{
+	modify {
+		any:Class -:contains-> cell:Class -:contains-> recell:Class;
+		cell -:contains-> getS:MethodSignature;
+		cell -:contains-> getB:MethodBody -:bindsTo-> getS;
+		cell -:contains-> cts:Variabel -:hasType-> any;
+		getB -:contains-> ex1:Expression -:uses-> cts;
+		cell -:contains-> setS:MethodSignature;
+		cell -:contains-> setB:MethodBody -:bindsTo-> setS;
+		setB -:contains-> n:Constant -:hasType-> any;
+		setB -:contains-> ex2:Expression -:writesTo-> cts;
+		ex2 -:contains-> ex3:Expression -:uses-> n;
+		recell -:contains-> setB2:MethodBody -:bindsTo-> setS;
+		setB2 -:contains-> n2:Constant -:hasType-> any;
+		setB2 -:contains-> ex4:Expression -:calls-> setS;
+		ex4 -:contains-> ex5:Expression -:uses-> n2;
+		recell -:contains-> backup:Variabel -:hasType-> any;
+		ex4 -:next-> ex6:Expression -:writesTo-> backup;
+		ex6 -:contains-> ex7:Expression -:uses-> cts;
+		recell -:contains-> restoreS:MethodSignature;
+		recell -:contains-> restoreB:MethodBody -:bindsTo-> restoreS;
+		restoreB -:contains-> ex8:Expression -:writesTo-> cts;
+		ex8 -:contains-> ex9:Expression -:uses-> backup;
+	}
+}
+
+rule createProgramGraphPullUp : (Class, MethodBody)
+{
+	modify {
+		// class hierarchy
+		c1:Class;
+		c1 -:contains-> c2:Class;
+		c1 -:contains-> c3:Class;
+		c1 -:contains-> c4:Class;
+		// method, it's body nodes and formal parameters
+		c1 -:contains-> m5:MethodSignature;
+		c2 -:contains-> b2:MethodBody -:contains-> v7a:Variabel; v7a -:hasType-> c4;
+		c3 -:contains-> b3:MethodBody -:contains-> v7b:Variabel; v7b -:hasType-> c4;
+		c4 -:contains-> b4:MethodBody;
+		b2 -:bindsTo-> m5;
+		b3 -:bindsTo-> m5;
+		b4 -:bindsTo-> m5;
+		// further methods and variables
+		c1 -:contains-> m8:MethodSignature;
+		c2 -:contains-> v9:Variabel; v9 -:hasType-> c4;
+		// body of m in c2, corrected
+		b2 -:next-> ex1:Expression;
+		ex1 -:writesTo-> v9;
+		ex1 -:contains-> ex:Expression -:uses-> v7a;
+		ex1 -:next-> ex2:Expression;
+		ex2 -:calls-> m8;
+		ex2 -:contains-> ex3:Expression;
+		ex3 -:uses-> v9;
+		// body of m in c3
+		b3 -:next-> ex4:Expression;	
+		ex4 -:calls-> m8;
+		ex4 -:contains-> ex5:Expression;
+		ex5 -:uses-> v7b;
+		
+		return(c1, b4);
+	}
+}
+
+
+// helper rules for nested layout //
+
+rule InsertHelperEdgesForNestedLayout
+{
+	modify {
+		exec(LinkMethodBodyToContainedEntity* && LinkMethodBodyToContainedExpressionTransitive* && [RemoveMethodBodyContainsBetweenExpressions] && RetypeClassContainment*);
+	}
+}
+
+rule LinkMethodBodyToContainedEntity
+{
+	mb:MethodBody -:contains-> e:Entity;
+	
+	negative {
+		mb -:methodBodyContains-> e;
+	}
+	
+	modify {
+		mb -:methodBodyContains-> e;
+	}
+}
+
+rule LinkMethodBodyToContainedExpressionTransitive
+{
+	mb:MethodBody -:methodBodyContains-> e1:Expression -:contains-> e2:Expression;
+	
+	negative {
+		e1 -:methodBodyContains-> e2;
+	}
+	
+	modify {
+		e1 -:methodBodyContains-> e2;
+		mb -:methodBodyContains-> e2;
+	}
+}
+
+rule RemoveMethodBodyContainsBetweenExpressions
+{
+	e1:Expression -mbc:methodBodyContains-> e2:Expression;
+	
+	modify {
+		delete(mbc);
+	}
+}
+
+rule RetypeClassContainment
+{
+	c1:Class -c:contains\classContainsClass-> c2:Class;
+	
+	modify {
+		-:classContainsClass<c>->;
+	}
+}

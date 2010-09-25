@@ -1,4 +1,4 @@
-using ProgramGraphs;
+using ProgramGraphsOriginal;
 
 pattern Subclasses(c:Class)
 {
@@ -232,7 +232,7 @@ test matchAll(c1:Class)
 rule InsertHelperEdgesForNestedLayout
 {
 	modify {
-		exec(LinkMethodBodyToContainedEntity* && LinkMethodBodyToContainedExpressionTransitive* && LinkClassToFeature*);
+		exec(LinkMethodBodyToContainedEntity* && LinkMethodBodyToContainedExpressionTransitive* && [RemoveMethodBodyContainsBetweenExpressions] && RetypeClassContainment*);
 	}
 }
 
@@ -241,37 +241,42 @@ rule LinkMethodBodyToContainedEntity
 	mb:MethodBody -:contains-> e:Entity;
 	
 	negative {
-		mb -:containedInMethodBody-> e;
+		mb -:methodBodyContains-> e;
 	}
 	
 	modify {
-		mb -:containedInMethodBody-> e;
+		mb -:methodBodyContains-> e;
 	}
 }
 
 rule LinkMethodBodyToContainedExpressionTransitive
 {
-	mb:MethodBody -:containedInMethodBody-> e1:Expression -:contains-> e2:Expression;
+	mb:MethodBody -:methodBodyContains-> e1:Expression -:contains-> e2:Expression;
 	
 	negative {
-		e1 -:containedInMethodBody-> e2;
+		e1 -:methodBodyContains-> e2;
 	}
 	
 	modify {
-		e1 -:containedInMethodBody-> e2;
-		mb -:containedInMethodBody-> e2;
+		e1 -:methodBodyContains-> e2;
+		mb -:methodBodyContains-> e2;
 	}
 }
 
-rule LinkClassToFeature
+rule RemoveMethodBodyContainsBetweenExpressions
 {
-	c:Class -:contains-> e:Entity\Class;
-	
-	negative {
-		c -:containedInClass-> e;
-	}
+	e1:Expression -mbc:methodBodyContains-> e2:Expression;
 	
 	modify {
-		c -:containedInClass-> e;
+		delete(mbc);
+	}
+}
+
+rule RetypeClassContainment
+{
+	c1:Class -c:contains\classContainsClass-> c2:Class;
+	
+	modify {
+		-:classContainsClass<c>->;
 	}
 }

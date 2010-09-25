@@ -1,0 +1,18 @@
+new graph "ProgramGraphs0"
+
+debug set layout Hierarchic
+
+dump set node MethodSignature color pink
+dump set node MethodBody color orchid
+dump set node Attribute color cyan
+dump set node Expression color green
+dump set node Class color yellow
+
+dump add node Entity group by hidden outgoing contains
+
+xgrs createProgramGraphExample
+#xgrs createProgramGraphPullUp
+
+validate strict
+
+debug enable

@@ -1,0 +1,10 @@
+new graph "ProgramGraphs0"
+
+debug set layout Organic
+
+xgrs createProgramGraphExample
+#xgrs createProgramGraphPullUp
+
+validate strict
+
+debug enable
