@@ -8,8 +8,11 @@ dump set node Attribute color cyan
 dump set node Expression color green
 dump set node Class color yellow
 
+dump set edge uses color blue
+dump set edge writesTo color red
+dump set edge calls color black
+
 xgrs createProgramGraphExample
-#xgrs createProgramGraphPullUp
 
 validate strict
 

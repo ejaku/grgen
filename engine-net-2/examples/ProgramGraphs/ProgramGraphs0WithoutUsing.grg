@@ -1,6 +1,3 @@
-using ProgramGraphs;
-
-
 // rules to create the example graphs //
 
 rule createProgramGraphExample

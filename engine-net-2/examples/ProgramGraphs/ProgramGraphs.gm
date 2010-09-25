@@ -35,6 +35,7 @@ edge class calls extends references
 	connect Expression[0:1] --> MethodSignature;
 
 // helper edge for nested layout //
+
 edge class methodBodyContains
 	connect MethodBody --> Entity[0:1];
 edge class classContainsClass extends contains

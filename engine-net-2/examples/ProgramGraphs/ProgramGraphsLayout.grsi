@@ -1,5 +1,3 @@
-new graph "ProgramGraphs0"
-
 debug set layout Hierarchic
 
 dump set node MethodSignature color pink
@@ -12,10 +10,5 @@ dump set edge uses color blue
 dump set edge writesTo color red
 dump set edge calls color black
 
-dump add node Entity group by hidden outgoing contains
-
-xgrs createProgramGraphExample
-
-validate strict
-
-debug enable
+dump add node Class group by hidden outgoing only contains
+dump add node MethodBody group by hidden outgoing methodBodyContains
