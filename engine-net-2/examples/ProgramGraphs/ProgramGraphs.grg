@@ -154,15 +154,15 @@ rule createProgramGraphPullUp : (Class, MethodBody)
 		c1 -:contains-> c4:Class;
 		// method, it's body nodes and formal parameters
 		c1 -:contains-> m5:MethodSignature;
-		c2 -:contains-> b2:MethodBody -:contains-> v7a:Variabel;
-		c3 -:contains-> b3:MethodBody -:contains-> v7b:Variabel;
+		c2 -:contains-> b2:MethodBody -:contains-> v7a:Variabel; v7a -:hasType-> c4;
+		c3 -:contains-> b3:MethodBody -:contains-> v7b:Variabel; v7b -:hasType-> c4;
 		c4 -:contains-> b4:MethodBody;
 		b2 -:bindsTo-> m5;
 		b3 -:bindsTo-> m5;
 		b4 -:bindsTo-> m5;
 		// further methods and variables
 		c1 -:contains-> m8:MethodSignature;
-		c2 -:contains-> v9:Variabel;
+		c2 -:contains-> v9:Variabel; v9 -:hasType-> c4;
 		// body of m in c2, corrected
 		b2 -:contains-> ex1:Expression;
 		ex1 -:writesTo-> v9;

@@ -16,19 +16,20 @@ node class Variabel extends Attribute;
 // edges //
 
 edge class contains
-	connect Entity[0:1] --> Entity[+];
+	connect Entity --> Entity[0:1];
 edge class references
-	connect Entity[0:1] --> Declaration[+];
+	connect Entity --> Declaration;
 edge class hasType extends references
-	connect Feature --> Class[+];
+	connect Feature[0:1] --> Class,
+			Attribute[1] --> Class;
 edge class bindsTo extends references
-	connect MethodBody[0:1] --> MethodSignature[+];
+	connect MethodBody[0:1] --> MethodSignature;
 edge class uses extends references
-	connect Expression[0:1] --> Attribute[+];
+	connect Expression[0:1] --> Attribute;
 edge class writesTo extends references
-	connect Expression[0:1] --> Variabel[+];
+	connect Expression[0:1] --> Variabel;
 edge class calls extends references
-	connect Expression[0:1] --> MethodSignature[+];
+	connect Expression[0:1] --> MethodSignature;
 
 // helper edge for nested layout //
 edge class containedInClass;
