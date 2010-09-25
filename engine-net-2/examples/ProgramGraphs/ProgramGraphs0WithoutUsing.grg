@@ -7,7 +7,9 @@ rule createProgramGraphExample
 		cell -:contains-> getS:MethodSignature;
 		cell -:contains-> getB:MethodBody -:bindsTo-> getS;
 		cell -:contains-> cts:Variabel -:hasType-> any;
-		getB -:next-> ex1:Expression -:uses-> cts;
+		getB -:next-> ex1:Expression -:writesTo-> cts;
+		ex1 -:contains-> ex1b:Expression -:calls-> setS;
+		ex1b -:contains-> :Expression -:uses-> cts;
 		cell -:contains-> setS:MethodSignature;
 		cell -:contains-> setB:MethodBody -:bindsTo-> setS;
 		setB -:contains-> n:Constant -:hasType-> any;
