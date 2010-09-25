@@ -1743,7 +1743,7 @@ namespace de.unika.ipd.grGen.grShell
             {
                 String name = "(.|.)";
                 if(pattern.Alternatives.Length>1) name += "'" + i;
-                String caseName = pattern.Name;
+                String caseName = match.Pattern.Name;
                 AnnotateMatch(match, addAnnotation, prefix + "/" + name + "/" + caseName, nestingLevel + 1, false);
                 ++i;
             }
