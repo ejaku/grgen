@@ -6,6 +6,5 @@ rule forwardTransition {
 
     modify {
         x -forward:typeof(e)-> z;
-        eval {forward.Trigger = e.Trigger;}
     }    
 }
