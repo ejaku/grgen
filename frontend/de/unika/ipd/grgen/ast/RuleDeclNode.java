@@ -487,13 +487,13 @@ public class RuleDeclNode extends TestDeclNode {
 
 		boolean abstr = true;
 		for(NodeDeclNode node : right.getNodes()) {
-			if(!node.inheritsType() && node.getDeclType().isAbstract() && !left.getNodes().contains(node)) {
+			if(!node.inheritsType() && node.getDeclType().isAbstract() && !left.getNodes().contains(node) && (node.context&CONTEXT_PARAMETER)!=CONTEXT_PARAMETER) {
 				error.error(node.getCoords(), "Instances of abstract nodes are not allowed");
 				abstr = false;
 			}
 		}
 		for(EdgeDeclNode edge : right.getEdges()) {
-			if(!edge.inheritsType() && edge.getDeclType().isAbstract() && !left.getEdges().contains(edge)) {
+			if(!edge.inheritsType() && edge.getDeclType().isAbstract() && !left.getEdges().contains(edge) && (edge.context&CONTEXT_PARAMETER)!=CONTEXT_PARAMETER) {
 				error.error(edge.getCoords(), "Instances of abstract edges are not allowed");
 				abstr = false;
 			}

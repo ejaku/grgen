@@ -387,13 +387,13 @@ public class IteratedNode extends ActionDeclNode  {
     		GraphNode right = this.right.children.get(i).graph;
 
     		for(NodeDeclNode node : right.getNodes()) {
-    			if(!node.inheritsType() && node.getDeclType().isAbstract() && !pattern.getNodes().contains(node)) {
+    			if(!node.inheritsType() && node.getDeclType().isAbstract() && !pattern.getNodes().contains(node) && (node.context&CONTEXT_PARAMETER)!=CONTEXT_PARAMETER) {
     				error.error(node.getCoords(), "Instances of abstract nodes are not allowed");
     				abstr = false;
     			}
     		}
     		for(EdgeDeclNode edge : right.getEdges()) {
-    			if(!edge.inheritsType() && edge.getDeclType().isAbstract() && !pattern.getEdges().contains(edge)) {
+    			if(!edge.inheritsType() && edge.getDeclType().isAbstract() && !pattern.getEdges().contains(edge) && (edge.context&CONTEXT_PARAMETER)!=CONTEXT_PARAMETER) {
     				error.error(edge.getCoords(), "Instances of abstract edges are not allowed");
     				abstr = false;
     			}

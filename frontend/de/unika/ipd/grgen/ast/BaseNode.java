@@ -51,6 +51,7 @@ public abstract class BaseNode extends Base
 	public static final int CONTEXT_RULE = 1<<2;
 	public static final int CONTEXT_NEGATIVE = 1<<3;
 	public static final int CONTEXT_INDEPENDENT = 1<<4;
+	public static final int CONTEXT_PARAMETER = 1<<5;
 
 	/**
 	 * AST global name map, that maps from Class to String.

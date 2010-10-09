@@ -1,0 +1,38 @@
+using abstract_replace_parameter;
+
+rule r
+{
+	start:AbstractNode;
+	l:List(start);
+	
+	modify {
+		newstart:NonAbstractNode;
+		l(newstart);
+	}
+}
+
+pattern List(x:AbstractNode) modify(y:AbstractNode)
+{
+	alternative {
+		Further {
+			x --> next:AbstractNode;
+			l:List(next);
+			
+			modify {
+				y --> newnext:NonAbstractNode;
+				l(newnext);
+			}
+		}
+		End {
+			negative {
+				x -->;
+			}
+			
+			modify {
+			}
+		}
+	}
+	
+	modify {
+	}
+}

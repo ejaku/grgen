@@ -16,6 +16,9 @@ import de.unika.ipd.grgen.ir.Rule;
 /**
  * Base class for all action type ast nodes
  */
+// TODO: a lot of code duplication among the subtypes of ActionDeclNode,
+// fix the copy'n'paste programming by extracting the common stuff to action node,
+// with parameters giving access to the left/right patterns.
 public abstract class ActionDeclNode extends DeclNode
 {
 	public ActionDeclNode(IdentNode id, TypeNode type) {

@@ -314,7 +314,7 @@ patternOrActionDecl [ CollectNode<IdentNode> patternChilds, CollectNode<IdentNod
 		CollectNode<BaseNode> modifyParams = new CollectNode<BaseNode>();
 	}
 
-	: t=TEST id=actionIdentDecl pushScope[id] params=parameters[BaseNode.CONTEXT_TEST|BaseNode.CONTEXT_ACTION|BaseNode.CONTEXT_LHS, null] ret=returnTypes LBRACE
+	: t=TEST id=actionIdentDecl pushScope[id] params=parameters[BaseNode.CONTEXT_TEST|BaseNode.CONTEXT_ACTION|BaseNode.CONTEXT_LHS|BaseNode.CONTEXT_PARAMETER, null] ret=returnTypes LBRACE
 		left=patternPart[getCoords(t), params, mod, BaseNode.CONTEXT_TEST|BaseNode.CONTEXT_ACTION|BaseNode.CONTEXT_LHS, id.toString()]
 			{
 				id.setDecl(new TestDeclNode(id, left, ret));
@@ -326,7 +326,7 @@ patternOrActionDecl [ CollectNode<IdentNode> patternChilds, CollectNode<IdentNod
 				reportError(getCoords(t), "no \"dpo\" or \"dangling\" or \"identification\" modifier allowed for test");
 			}
 		}
-	| r=RULE id=actionIdentDecl pushScope[id] params=parameters[BaseNode.CONTEXT_RULE|BaseNode.CONTEXT_ACTION|BaseNode.CONTEXT_LHS, null] ret=returnTypes LBRACE
+	| r=RULE id=actionIdentDecl pushScope[id] params=parameters[BaseNode.CONTEXT_RULE|BaseNode.CONTEXT_ACTION|BaseNode.CONTEXT_LHS|BaseNode.CONTEXT_PARAMETER, null] ret=returnTypes LBRACE
 		left=patternPart[getCoords(r), params, mod, BaseNode.CONTEXT_RULE|BaseNode.CONTEXT_ACTION|BaseNode.CONTEXT_LHS, id.toString()]
 		( rightReplace=replacePart[eval, new CollectNode<BaseNode>(), BaseNode.CONTEXT_RULE|BaseNode.CONTEXT_ACTION|BaseNode.CONTEXT_RHS, id, left]
 			{
@@ -340,8 +340,8 @@ patternOrActionDecl [ CollectNode<IdentNode> patternChilds, CollectNode<IdentNod
 			}
 		)
 		RBRACE popScope
-	| p=PATTERN id=patIdentDecl pushScope[id] params=parameters[BaseNode.CONTEXT_PATTERN|BaseNode.CONTEXT_LHS, null] 
-		((MODIFY|REPLACE) mp=parameters[BaseNode.CONTEXT_PATTERN|BaseNode.CONTEXT_RHS, null] { modifyParams = mp; })? LBRACE
+	| p=PATTERN id=patIdentDecl pushScope[id] params=parameters[BaseNode.CONTEXT_PATTERN|BaseNode.CONTEXT_LHS|BaseNode.CONTEXT_PARAMETER, null] 
+		((MODIFY|REPLACE) mp=parameters[BaseNode.CONTEXT_PATTERN|BaseNode.CONTEXT_RHS|BaseNode.CONTEXT_PARAMETER, null] { modifyParams = mp; })? LBRACE
 		left=patternPart[getCoords(p), params, mod, BaseNode.CONTEXT_PATTERN|BaseNode.CONTEXT_LHS, id.toString()]
 		( rightReplace=replacePart[eval, modifyParams, BaseNode.CONTEXT_PATTERN|BaseNode.CONTEXT_RHS, id, left]
 			{
