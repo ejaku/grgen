@@ -1,5 +1,0 @@
-pattern Foo(x:Node)
-{
-	x;
-	replace {}
-}

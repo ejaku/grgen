@@ -1,0 +1,16 @@
+rule r
+{
+	n:Node;
+	p:P(n);
+	
+	modify {
+		p();
+	}
+}
+
+pattern P(n:Node)
+{
+	modify {
+		delete(n);
+	}
+}

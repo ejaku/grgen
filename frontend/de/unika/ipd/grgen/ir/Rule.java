@@ -11,10 +11,14 @@
  */
 package de.unika.ipd.grgen.ir;
 
+import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
+import java.util.HashMap;
 import java.util.HashSet;
+import java.util.Iterator;
 import java.util.LinkedList;
+import java.util.List;
 
 import de.unika.ipd.grgen.ast.BaseNode;
 
@@ -150,5 +154,147 @@ public class Rule extends MatchingAction {
 				error.error(edge.getIdent().getCoords(), "Edges declared in rewrite part can't be accessed in pattern");
 			}
 		}
+	}
+	
+	public void computeUsageDependencies(HashMap<Rule, HashSet<Rule>> subpatternsDefToUse, Rule subpattern)
+	{
+		for(SubpatternUsage sub : pattern.getSubpatternUsages()) {
+			subpatternsDefToUse.get(sub.subpatternAction).add(subpattern);
+		}
+
+		for(Alternative alternative : pattern.getAlts()) {
+			for(Rule altCase : alternative.getAlternativeCases()) {
+				altCase.computeUsageDependencies(subpatternsDefToUse, subpattern);
+			}
+		}
+
+		for(Rule iterated : pattern.getIters()) {
+			iterated.computeUsageDependencies(subpatternsDefToUse, subpattern);
+		}
+	}
+		
+	public boolean checkForMultipleDeletesOrRetypes(HashMap<Entity, Rule> entitiesToTheirDeletingOrRetypingPattern,
+						HashMap<Rule, HashMap<Entity, Rule>> subpatternsToParametersToTheirDeletingOrRetypingPattern)
+	{		
+		if(right==null) {
+			return false;
+		}
+		
+		for(Node node : pattern.getNodes()) {
+			for(Node homNode : pattern.getHomomorphic(node)) {
+				if(!right.hasNode(homNode)) {
+					if(entitiesToTheirDeletingOrRetypingPattern.containsKey(node) && entitiesToTheirDeletingOrRetypingPattern.get(node)!=this) {
+						reportMultipleDeleteOrRetype(node, entitiesToTheirDeletingOrRetypingPattern.get(node), this);
+					} else {
+						entitiesToTheirDeletingOrRetypingPattern.put(node, this);
+					}
+				}
+				if(homNode.changesType(right)) {
+					if(entitiesToTheirDeletingOrRetypingPattern.containsKey(node)) {
+						reportMultipleDeleteOrRetype(node, entitiesToTheirDeletingOrRetypingPattern.get(node), this);
+					} else {
+						entitiesToTheirDeletingOrRetypingPattern.put(node, this);
+					}
+				}
+			}
+		}
+		for(Edge edge : pattern.getEdges()) {
+			for(Edge homEdge : pattern.getHomomorphic(edge)) {
+				if(!right.hasEdge(homEdge)) {
+					if(entitiesToTheirDeletingOrRetypingPattern.containsKey(edge) && entitiesToTheirDeletingOrRetypingPattern.get(edge)!=this) {
+						reportMultipleDeleteOrRetype(edge, entitiesToTheirDeletingOrRetypingPattern.get(edge), this);
+					} else {
+						entitiesToTheirDeletingOrRetypingPattern.put(edge, this);
+					}
+				}
+				if(homEdge.changesType(right)) {
+					if(entitiesToTheirDeletingOrRetypingPattern.containsKey(edge)) {
+						reportMultipleDeleteOrRetype(edge, entitiesToTheirDeletingOrRetypingPattern.get(edge), this);
+					} else {
+						entitiesToTheirDeletingOrRetypingPattern.put(edge, this);
+					}
+				}
+			}
+		}
+
+		for(SubpatternUsage sub : pattern.getSubpatternUsages()) {
+			boolean isDependentReplacementUsed = false;
+			for(OrderedReplacement or : right.getOrderedReplacements()) {
+				if(!(or instanceof SubpatternDependentReplacement))
+					continue;
+				if(((SubpatternDependentReplacement)or).getSubpatternUsage()==sub) {
+					isDependentReplacementUsed = true;
+				}
+			}
+			if(!isDependentReplacementUsed)
+				continue;
+			
+			List<Entity> parameters = sub.subpatternAction.getParameters();
+			Iterator<Entity> parametersIt = parameters.iterator();
+			List<Expression> arguments = sub.subpatternConnections;
+			Iterator<Expression> argumentsIt = arguments.iterator();
+			while(argumentsIt.hasNext()) {
+				assert parametersIt.hasNext();
+				Expression argument = argumentsIt.next();
+				Entity parameter = parametersIt.next();
+				if(argument instanceof GraphEntityExpression) {
+					GraphEntity argumentEntity = ((GraphEntityExpression)argument).getGraphEntity();
+					HashMap<Entity, Rule> parametersToTheirDeletingOrRetypingPattern = 
+						subpatternsToParametersToTheirDeletingOrRetypingPattern.get(sub.subpatternAction);
+					Rule deletingOrRetypingPattern = parametersToTheirDeletingOrRetypingPattern.get(parameter);
+					if(deletingOrRetypingPattern!=null) {
+						if(entitiesToTheirDeletingOrRetypingPattern.containsKey(argumentEntity)) {
+							reportMultipleDeleteOrRetype(argumentEntity, entitiesToTheirDeletingOrRetypingPattern.get(argumentEntity), deletingOrRetypingPattern);
+						} else {
+							entitiesToTheirDeletingOrRetypingPattern.put(argumentEntity, deletingOrRetypingPattern);
+						}
+					}
+				}
+			}
+		}
+
+		for(Alternative alternative : pattern.getAlts()) {
+			ArrayList<HashMap<Entity, Rule>> entitiesToTheirDeletingOrRetypingPatternOfAlternativCases = new ArrayList<HashMap<Entity, Rule>>();
+			for(Rule altCase : alternative.getAlternativeCases()) {
+				HashMap<Entity, Rule> entitiesToTheirDeletingOrRetypingPatternClone = new HashMap<Entity, Rule>(entitiesToTheirDeletingOrRetypingPattern);
+				altCase.checkForMultipleDeletesOrRetypes(entitiesToTheirDeletingOrRetypingPatternClone,
+						subpatternsToParametersToTheirDeletingOrRetypingPattern);
+				entitiesToTheirDeletingOrRetypingPatternOfAlternativCases.add(entitiesToTheirDeletingOrRetypingPatternClone);
+			}
+			for(HashMap<Entity, Rule> entitiesToTheirDeletingOrRetypingPatternOfAlternativCase : entitiesToTheirDeletingOrRetypingPatternOfAlternativCases) {
+				for(Entity entityOfAlternativeCase : entitiesToTheirDeletingOrRetypingPatternOfAlternativCase.keySet()) {
+					Rule deletingOrRetypingPatternOld = entitiesToTheirDeletingOrRetypingPattern.get(entityOfAlternativeCase);
+					Rule deletingOrRetypingPatternNew = entitiesToTheirDeletingOrRetypingPatternOfAlternativCase.get(entityOfAlternativeCase);
+					if(deletingOrRetypingPatternOld==null && deletingOrRetypingPatternNew!=null) {
+						entitiesToTheirDeletingOrRetypingPattern.put(entityOfAlternativeCase, deletingOrRetypingPatternNew);
+					}
+				}
+			}
+		}
+
+		for(Rule iterated : pattern.getIters()) {
+			iterated.checkForMultipleDeletesOrRetypes(entitiesToTheirDeletingOrRetypingPattern,
+					subpatternsToParametersToTheirDeletingOrRetypingPattern);
+		}
+
+		boolean changed = false;
+		if(subpatternsToParametersToTheirDeletingOrRetypingPattern.containsKey(this)) {
+			HashMap<Entity, Rule> parametersToTheirDeletingOrRetypingPattern = subpatternsToParametersToTheirDeletingOrRetypingPattern.get(this);
+			for(Entity parameter : parametersToTheirDeletingOrRetypingPattern.keySet()) {
+				Rule deletingOrRetypingPatternOld = parametersToTheirDeletingOrRetypingPattern.get(parameter);
+				Rule deletingOrRetypingPatternNew = entitiesToTheirDeletingOrRetypingPattern.get(parameter);
+				if(deletingOrRetypingPatternOld==null && deletingOrRetypingPatternNew!=null) {
+					parametersToTheirDeletingOrRetypingPattern.put(parameter, deletingOrRetypingPatternNew);
+					changed = true;
+				}
+			}
+		}
+		return changed;
+	}
+	
+	void reportMultipleDeleteOrRetype(Entity entity, Rule first, Rule second) {
+		error.error(entity.getIdent().getCoords(), "The entity " + entity.getIdent() + " (or a hom entity)"
+				+ " may get deleted or retyped in pattern " + first.getIdent() + " starting at " + first.getIdent().getCoords()
+				+ " and in pattern " + second.getIdent() + " starting at " + second.getIdent().getCoords() + " (only one such place allowed, provable at compile time)");
 	}
 }

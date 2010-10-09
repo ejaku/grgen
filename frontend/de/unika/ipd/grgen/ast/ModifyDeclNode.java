@@ -124,8 +124,22 @@ public class ModifyDeclNode extends RhsDeclNode {
 
 		Collection<Entity> deleteSet = new HashSet<Entity>();
 		for(BaseNode n : delete.getChildren()) {
-			if(!(n instanceof SubpatternUsageNode))
+			if(!(n instanceof SubpatternUsageNode)) {
 				deleteSet.add(n.checkIR(Entity.class));
+				if(n.checkIR(Entity.class) instanceof Node) {
+					Node node = n.checkIR(Node.class);
+					if(!left.hasNode(node) && node.directlyNestingLHSGraph!=left) {
+						left.addSingleNode(node);
+						left.addHomToAll(node);
+					}
+				} else {
+					Edge edge = n.checkIR(Edge.class);
+					if(!left.hasEdge(edge) && edge.directlyNestingLHSGraph!=left) {
+						left.addSingleEdge(edge);
+						left.addHomToAll(edge);
+					}
+				}
+			}
 		}
 
 		for(Node n : left.getNodes()) {

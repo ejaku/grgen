@@ -1448,6 +1448,10 @@ public class ActionsGen extends CSharpBase {
 				max = computePriosMax(max, altCasePattern);
 			}
 		}
+		for(Rule iter : pattern.getIters()) {
+			PatternGraph iterPattern = iter.getLeft();
+			max = computePriosMax(max, iterPattern);
+		}
 		return max;
 	}
 

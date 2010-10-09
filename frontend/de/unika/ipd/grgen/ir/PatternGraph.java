@@ -194,6 +194,7 @@ public class PatternGraph extends Graph {
 	public Collection<Node> getHomomorphic(Node n) {
 		for(Collection<Node> c : homNodes) {
 			if (c.contains(n)) {
+				// TODO: we got non-transitive homomorphy, why is this sufficient? A hom-merge pass before?
 				return c;
 			}
 		}
@@ -206,6 +207,7 @@ public class PatternGraph extends Graph {
 	public Collection<Edge> getHomomorphic(Edge e) {
 		for(Collection<Edge> c : homEdges) {
 			if (c.contains(e)) {
+				// TODO: we got non-transitive homomorphy, why is this sufficient? A hom-merge pass before?
 				return c;
 			}
 		}

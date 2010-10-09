@@ -1,0 +1,15 @@
+rule r
+{
+	n:Node;
+
+	alternative {
+		L {
+			modify {
+				delete(n);
+			}
+		}
+	}
+	
+	modify {
+	}
+}

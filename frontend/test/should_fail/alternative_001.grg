@@ -8,7 +8,7 @@ rule Test1
             a --> c:Node;
             modify {
                 delete(c);
-                delete(b);      // Modifying elements from outer context not allowed, yet
+                delete(b);      // Deleting elements non-locally twice is forbidden
             }
         }
         alt2
@@ -19,5 +19,8 @@ rule Test1
             }
         }
     }
-    modify {}
+	
+    modify {
+		delete(b);
+	}
 }

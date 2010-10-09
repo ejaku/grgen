@@ -14,7 +14,6 @@ package de.unika.ipd.grgen.ast;
 import java.util.Collection;
 import java.util.HashSet;
 import java.util.LinkedList;
-import java.util.Set;
 import java.util.Vector;
 
 import de.unika.ipd.grgen.ast.util.DeclarationTypeResolver;
@@ -89,10 +88,6 @@ public class AlternativeCaseNode extends ActionDeclNode  {
 		type = typeResolver.resolve(typeUnresolved, this);
 
 		return type != null;
-	}
-
-	private Set<DeclNode> getDelete(int index) {
-		return right.children.get(index).getDelete(pattern);
 	}
 
 	/** Checks, whether the reused nodes and edges of the RHS are consistent with the LHS.
@@ -340,23 +335,6 @@ public class AlternativeCaseNode extends ActionDeclNode  {
 		return res;
 	}
 
-	private boolean noDeletionOfElementsFromNestingPattern()
-	{
-		if(right.children.size()>0) {
-			Collection<DeclNode> declNodes = right.children.get(0).getDelete(pattern);
-			for(DeclNode declNode : declNodes) {
-				if(declNode instanceof ConstraintDeclNode) {
-					ConstraintDeclNode cdn = (ConstraintDeclNode)declNode;
-					if(cdn.directlyNestingLHSGraph!=pattern) {
-						cdn.reportError("Can only delete elements from left hand side pattern of right hand side, not from some nesting left hand side pattern as with " + cdn.toString());
-						return false;
-					}
-				}
-			}
-		}
-		return true;
-	}
-
 	private boolean noExecNoEmit()
 	{
 		if(right.children.size()>0) {
@@ -399,20 +377,10 @@ public class AlternativeCaseNode extends ActionDeclNode  {
 			}
 		}
 
-		boolean noDeleteOfPatternParameters = true;
 		boolean abstr = true;
 
 		for (int i = 0; i < right.getChildren().size(); i++) {
     		GraphNode right = this.right.children.get(i).graph;
-
-    		// check if parameters of patterns are deleted
-    		Collection<DeclNode> deletedEnities = getDelete(i);
-    		for (DeclNode p : pattern.getParamDecls()) {
-    			if (deletedEnities.contains(p)) {
-    				error.error(getCoords(), "Deletion of parameters in patterns are not allowed");
-    				noDeleteOfPatternParameters = false;
-    			}
-            }
 
     		for(NodeDeclNode node : right.getNodes()) {
     			if(!node.inheritsType() && node.getDeclType().isAbstract() && !pattern.getNodes().contains(node)) {
@@ -428,9 +396,9 @@ public class AlternativeCaseNode extends ActionDeclNode  {
     		}
 		}
 
-		return leftHandGraphsOk & noDeleteOfPatternParameters & SameNumberOfRewritePartsAndNoNestedRewriteParameters()
+		return leftHandGraphsOk & SameNumberOfRewritePartsAndNoNestedRewriteParameters()
 			& checkRhsReuse() & noReturnInPatternOk & noReturnInAlterntiveCaseReplacement & abstr
-			& noDeletionOfElementsFromNestingPattern() && noExecNoEmit();
+			& noExecNoEmit();
 	}
 
 	private void constructIRaux(Rule rule) {

@@ -400,37 +400,26 @@ public class SubpatternDeclNode extends ActionDeclNode  {
 			noReturnInPatternOk = false;
 		}
 
-		boolean noDeleteOfPatternParameters = true;
 		boolean abstr = true;
 
 		for (int i = 0; i < right.getChildren().size(); i++) {
     		GraphNode right = this.right.children.get(i).graph;
 
-    		// check if parameters of patterns are deleted
-    		Collection<DeclNode> deletedEnities = getDelete(i);
-    		for (DeclNode p : pattern.getParamDecls()) {
-    			if (deletedEnities.contains(p)) {
-    				error.error(getCoords(), "Deletion of parameters in patterns are not allowed");
-    				noDeleteOfPatternParameters = false;
-    			}
-            }
-
     		for(NodeDeclNode node : right.getNodes()) {
-    			if(!node.inheritsType() && node.getDeclType().isAbstract() && !pattern.getNodes().contains(node)) {
+    			if(!node.inheritsType() && node.getDeclType().isAbstract() && !pattern.getNodes().contains(node) && !right.params.children.contains(node)) {
     				error.error(node.getCoords(), "Instances of abstract nodes are not allowed");
     				abstr = false;
     			}
     		}
     		for(EdgeDeclNode edge : right.getEdges()) {
-    			if(!edge.inheritsType() && edge.getDeclType().isAbstract() && !pattern.getEdges().contains(edge)) {
+    			if(!edge.inheritsType() && edge.getDeclType().isAbstract() && !pattern.getEdges().contains(edge) && !right.params.children.contains(edge)) {
     				error.error(edge.getCoords(), "Instances of abstract edges are not allowed");
     				abstr = false;
     			}
     		}
 		}
 
-		return leftHandGraphsOk & noDeleteOfPatternParameters
-			& SameNumberOfRewritePartsAndNoNestedRewriteParameters()
+		return leftHandGraphsOk & SameNumberOfRewritePartsAndNoNestedRewriteParameters()
 			& checkRhsReuse() & noReturnInPatternOk & abstr
 			& checkExecParamsNotDeleted() & noExecNoEmit();
 	}
@@ -514,6 +503,33 @@ public class SubpatternDeclNode extends ActionDeclNode  {
 			}
 		}
 	}
+	
+	private void ensureSubpatternParametersAreNotDeleted(Rule rule)
+	{
+		// TODO choose the right one
+		if(right.children.size()==0) {
+			return;
+		}
+		
+		// only in replace we must ensure the parameters are not deleted cause they are not referenced on the RHS
+		if(right.children.get(0) instanceof ModifyDeclNode) {
+			return;
+		}
+		
+		for(Entity entity : rule.getParameters()) {
+			if(entity instanceof Node) {
+				Node node = (Node)entity;
+				if(!rule.getRight().hasNode(node)) {
+					rule.getRight().getNodes().add(node);
+				}
+			} else if(entity instanceof Edge) {
+				Edge edge = (Edge)entity;
+				if(!rule.getRight().hasEdge(edge)) {
+					rule.getRight().getEdges().add(edge);
+				}
+			}
+		}
+	}
 
 	/**
 	 * @see de.unika.ipd.grgen.ast.BaseNode#constructIR()
@@ -544,6 +560,8 @@ public class SubpatternDeclNode extends ActionDeclNode  {
 		}
 
 		Rule rule = new Rule(getIdentNode().getIdent(), left, right);
+		
+		ensureSubpatternParametersAreNotDeleted(rule);
 
 		constructImplicitNegs(left);
 		constructIRaux(rule);

@@ -27,6 +27,7 @@ import java.util.Vector;
 /**
  * AST node for a replacement rule.
  */
+// TODO: a rule is not a test, factor the common stuff out into a base class
 public class RuleDeclNode extends TestDeclNode {
 	static {
 		setName(RuleDeclNode.class, "rule declaration");

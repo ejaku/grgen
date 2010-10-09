@@ -1,0 +1,1 @@
+rule r{	n:Node;	p:P1(n);		modify {		delete(n);		p();	}}pattern P1(n:Node){	p:P2(n);		modify {		p();	}}pattern P2(n:Node){	modify {		m:Node<n>;	}}

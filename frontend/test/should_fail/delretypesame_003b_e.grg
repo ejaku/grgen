@@ -1,0 +1,1 @@
+rule r{	-e:Edge->;	p:P1(e);		modify {		-f:Edge<e>->;		p();	}}pattern P1(-e:Edge->){	p:P2(e);		modify {		p();	}}pattern P2(-e:Edge->){	modify {		delete(e);	}}

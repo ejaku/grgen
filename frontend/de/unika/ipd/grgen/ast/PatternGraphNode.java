@@ -46,6 +46,7 @@ import de.unika.ipd.grgen.parser.SymbolTable;
  * AST node that represents a graph pattern as it appears within the pattern
  * part of some rule Extension of the graph pattern of the rewrite part
  */
+// TODO: a pattern graph is not a graph, factor the common stuff out into a base class
 public class PatternGraphNode extends GraphNode {
 	static {
 		setName(PatternGraphNode.class, "pattern_graph");

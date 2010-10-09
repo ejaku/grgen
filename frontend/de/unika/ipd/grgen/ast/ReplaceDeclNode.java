@@ -13,6 +13,8 @@ package de.unika.ipd.grgen.ast;
 
 
 import de.unika.ipd.grgen.ir.PatternGraph;
+import de.unika.ipd.grgen.ir.Node;
+import de.unika.ipd.grgen.ir.Edge;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.LinkedHashSet;
@@ -66,6 +68,7 @@ public class ReplaceDeclNode extends RhsDeclNode {
 	protected PatternGraph getPatternGraph(PatternGraph left) {
 		PatternGraph right = graph.getGraph();
 		insertElementsFromEvalIntoRhs(left, right);
+		insertElementsFromLeftToRightIfTheyAreFromNestingPattern(left, right);
 		return right;
 	}
 
@@ -170,5 +173,19 @@ public class ReplaceDeclNode extends RhsDeclNode {
         }
 	    return res;
     }
+	
+	private void insertElementsFromLeftToRightIfTheyAreFromNestingPattern(PatternGraph left, PatternGraph right)
+	{
+		for(Node node : left.getNodes()) {
+			if(node.directlyNestingLHSGraph!=left && !right.hasNode(node)) {
+				right.addSingleNode(node);
+			}
+		}
+		for(Edge edge : left.getEdges()) {
+			if(edge.directlyNestingLHSGraph!=left && !right.hasEdge(edge)) {
+				right.addSingleEdge(edge);
+			}
+		}
+	}
 }
 

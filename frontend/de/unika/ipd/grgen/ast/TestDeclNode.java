@@ -160,6 +160,32 @@ retLoop:for (int i = 0; i < Math.min(declaredNumRets, actualNumRets); i++) {
 		return res;
 	}
 
+	private boolean SameNumberOfRewriteParts() {
+		boolean res = true;
+
+		for(AlternativeNode alt : pattern.alts.getChildren()) {
+			for(AlternativeCaseNode altCase : alt.getChildren()) {
+				if(altCase.right.getChildren().size() != 0) {
+					error.error(getCoords(), "Different number of replacement patterns/rewrite parts in test " + ident.toString()
+							+ " and nested alternative case " + altCase.ident.toString());
+					res = false;
+					continue;
+				}
+			}
+		}
+		
+		for(IteratedNode iter : pattern.iters.getChildren()) {
+			if(iter.right.getChildren().size() != 0) {
+				error.error(getCoords(), "Different number of replacement patterns/rewrite parts in test " + ident.toString()
+						+ " and nested iterated/multiple/optional " + iter.ident.toString());
+				res = false;
+				continue;
+			}
+		}
+
+		return res;
+	}
+
 	@Override
 	protected boolean checkLocal() {
 		boolean childs = true;
@@ -244,8 +270,12 @@ retLoop:for (int i = 0; i < Math.min(declaredNumRets, actualNumRets); i++) {
 		boolean returnParams = true;
 		if(!(this instanceof RuleDeclNode))
 			returnParams = checkReturns(pattern.returns);
+		
+		boolean noRewriteParts = true;
+		if(!(this instanceof RuleDeclNode))
+			noRewriteParts = SameNumberOfRewriteParts();
 
-		return childs && edgeReUse && returnParams;
+		return noRewriteParts && childs && edgeReUse && returnParams;
 	}
 
 	protected void constructIRaux(MatchingAction ma, CollectNode<ExprNode> aReturns) {

@@ -1,0 +1,19 @@
+node class A
+{
+	a:int = 42;
+}
+
+node class B
+{
+	b:string = "foo";
+}
+
+edge class EA
+{
+	a:int = 42;
+}
+
+edge class EB
+{
+	b:string = "foo";
+}

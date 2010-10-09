@@ -14,16 +14,16 @@ package de.unika.ipd.grgen.ir;
 import java.util.List;
 
 public class SubpatternUsage extends Identifiable {
-	MatchingAction subpatternAction;
+	Rule subpatternAction;
 	List<Expression> subpatternConnections;
 
-	public SubpatternUsage(String name, Ident ident, MatchingAction subpatternAction, List<Expression> connections) {
+	public SubpatternUsage(String name, Ident ident, Rule subpatternAction, List<Expression> connections) {
 		super(name, ident);
 		this.subpatternAction = subpatternAction;
 		this.subpatternConnections = connections;
 	}
 
-	public MatchingAction getSubpatternAction() {
+	public Rule getSubpatternAction() {
 		return subpatternAction;
 	}
 

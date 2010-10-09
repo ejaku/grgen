@@ -1,0 +1,281 @@
+using nestedDeleteRetype;
+
+rule deleteInAlternative 
+{
+	a:A;
+	
+	alternative {
+		case {
+		
+			modify {
+				delete(a);
+			}
+		}
+	}
+	
+	modify {
+	}
+}
+
+rule deleteInOptional 
+{
+	a:A;
+
+	optional {
+	
+		modify {
+			delete(a);
+		}
+	}
+	
+	modify {
+	}
+}
+
+rule deleteInSubpattern 
+{
+	a:A;
+	d:DeleteInSubpattern(a);
+	
+	modify {
+		d();
+	}
+}
+
+pattern DeleteInSubpattern(a:A)
+{
+	modify {
+		delete(a);
+	}
+}
+
+rule retypeInAlternative 
+{
+	a:A;
+	
+	alternative {
+		case {
+		
+			modify {
+				b:B<a>;
+			}
+		}
+	}
+	
+	modify {
+	}
+}
+
+rule retypeInOptional 
+{
+	a:A;
+
+	optional {
+	
+		modify {
+			b:B<a>;
+		}
+	}
+	
+	modify {
+	}
+}
+
+rule retypeInSubpattern 
+{
+	a:A;
+	d:RetypeInSubpattern(a);
+	
+	modify {
+		d();
+	}
+}
+
+pattern RetypeInSubpattern(a:A)
+{
+	modify {
+		b:B<a>;
+	}
+}
+
+rule deleteOrRetypeInSubpattern
+{
+	a:A;
+	p:DeleteOrRetypeInSubpatternTransmit(a);
+	
+	modify {
+		p();
+	}
+}
+
+pattern DeleteOrRetypeInSubpatternTransmit(a:A)
+{
+	p:DeleteOrRetypeInSubpattern(a);
+	
+	modify {
+		p();
+	}
+}
+
+pattern DeleteOrRetypeInSubpattern(a:A)
+{
+	alternative {
+		LonelyNode {
+			negative {
+				a <-->;
+			}
+			
+			modify {
+				delete(a);
+			}
+		}
+		WithEdge {
+			modify {
+				b:B<a>;
+			}
+		}
+	}
+	
+	modify {
+	}
+}
+
+rule deleteInAlternativeEdge 
+{
+	-a:EA->;
+	
+	alternative {
+		case {
+		
+			modify {
+				delete(a);
+			}
+		}
+	}
+	
+	modify {
+	}
+}
+
+rule deleteInOptionalEdge 
+{
+	-a:EA->;
+
+	optional {
+	
+		modify {
+			delete(a);
+		}
+	}
+	
+	modify {
+	}
+}
+
+rule deleteInSubpatternEdge 
+{
+	-a:EA->;
+	d:DeleteInSubpatternEdge(a);
+	
+	modify {
+		d();
+	}
+}
+
+pattern DeleteInSubpatternEdge(-a:EA->)
+{
+	modify {
+		delete(a);
+	}
+}
+
+rule retypeInAlternativeEdge 
+{
+	-a:EA->;
+	
+	alternative {
+		case {
+		
+			modify {
+				-b:EB<a>->;
+			}
+		}
+	}
+	
+	modify {
+	}
+}
+
+rule retypeInOptionalEdge 
+{
+	-a:EA->;
+
+	optional {
+	
+		modify {
+			-b:EB<a>->;
+		}
+	}
+	
+	modify {
+	}
+}
+
+rule retypeInSubpatternEdge 
+{
+	-a:EA->;
+	d:RetypeInSubpatternEdge(a);
+	
+	modify {
+		d();
+	}
+}
+
+pattern RetypeInSubpatternEdge(-a:EA->)
+{
+	modify {
+		-b:EB<a>->;
+	}
+}
+
+rule deleteOrRetypeInSubpatternEdge
+{
+	-a:EA->;
+	p:DeleteOrRetypeInSubpatternTransmitEdge(a);
+	
+	modify {
+		p();
+	}
+}
+
+pattern DeleteOrRetypeInSubpatternTransmitEdge(-a:EA->)
+{
+	p:DeleteOrRetypeInSubpatternEdge(a);
+	
+	modify {
+		p();
+	}
+}
+
+pattern DeleteOrRetypeInSubpatternEdge(-a:EA->)
+{
+	alternative {
+		NodeA {
+			na:A -a-> na;
+			
+			modify {
+				delete(a);
+			}
+		}
+		NodeB {
+			nb:B -a-> nb;
+			
+			modify {
+				-b:EB<a>->;
+			}
+		}
+	}
+	
+	modify {
+	}
+}

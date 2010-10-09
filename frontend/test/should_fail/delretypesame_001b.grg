@@ -1,0 +1,1 @@
+rule r{	n:Node;		alternative {		case {						modify {				m:Node<n>;			}		}	}		modify {		delete(n);	}}

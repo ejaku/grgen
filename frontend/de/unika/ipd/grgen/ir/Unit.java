@@ -12,8 +12,10 @@
 package de.unika.ipd.grgen.ir;
 
 import java.security.MessageDigest;
+import java.util.ArrayDeque;
 import java.util.Collection;
 import java.util.Collections;
+import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Iterator;
 import java.util.LinkedList;
@@ -208,6 +210,56 @@ public class Unit extends IR {
 				alreadyDefinedNodes.clear();
 				alreadyDefinedEdges.clear();
 			}
+		}
+	}
+
+	public void checkForMultipleDeletesOrRetypes()
+	{
+		// an element may be deleted/retyped several times at different nesting levels
+		// or even in a subpattern called and outside of this subpattern
+		// so we check that on all nesting paths there is only one delete/retype occuring
+		// and emit error messages if this is not the case
+		
+		// initial step: compute the subpatterns where a subpattern is used
+		HashMap<Rule, HashSet<Rule>> subpatternsDefToUse = 
+			new HashMap<Rule, HashSet<Rule>>();
+		for(Rule subpatternRule : subpatternRules) {
+			subpatternsDefToUse.put(subpatternRule, new HashSet<Rule>());
+		}
+		for(Rule subpatternRule : subpatternRules) {
+			subpatternRule.computeUsageDependencies(subpatternsDefToUse, subpatternRule);
+		}
+		// then: compute which parameters may get deleted/retyped, 
+		// if this information changed from before, the used subpatterns are added to a worklist
+		// which is processed step by step until it gets empty due to a fixpoint being reached
+		HashMap<Rule, HashMap<Entity, Rule>> subpatternsToParametersToTheirDeletingOrRetypingPattern = 
+			new HashMap<Rule, HashMap<Entity, Rule>>();
+		for(Rule subpatternRule : subpatternRules) {
+			subpatternsToParametersToTheirDeletingOrRetypingPattern.put(subpatternRule, new HashMap<Entity, Rule>());
+			for(Entity param : subpatternRule.getParameters()) {
+				subpatternsToParametersToTheirDeletingOrRetypingPattern.get(subpatternRule).put(param, null);
+			}
+		}
+		ArrayDeque<Rule> subpatternsToProcess = new ArrayDeque<Rule>();
+		for(Rule subpatternRule : subpatternRules) {
+			subpatternsToProcess.add(subpatternRule);
+		}
+		while(subpatternsToProcess.size()>0) {
+			Rule subpattern = subpatternsToProcess.remove();
+			boolean changed = subpattern.checkForMultipleDeletesOrRetypes(new HashMap<Entity, Rule>(),
+					subpatternsToParametersToTheirDeletingOrRetypingPattern);
+			if(changed) {
+				for(Rule needsRecomputation : subpatternsDefToUse.get(subpattern)) {
+					if(!subpatternsToProcess.contains(needsRecomputation)) {
+						subpatternsToProcess.add(needsRecomputation);
+					}
+				}
+			}
+		}
+		// finally: do the computation on the (non-callable) rules
+		for(Rule actionRule : actionRules) {
+			actionRule.checkForMultipleDeletesOrRetypes(new HashMap<Entity, Rule>(), 
+					subpatternsToParametersToTheirDeletingOrRetypingPattern);
 		}
 	}
 

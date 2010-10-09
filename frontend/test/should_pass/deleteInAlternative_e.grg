@@ -1,0 +1,15 @@
+rule r
+{
+	-e:Edge->;
+
+	alternative {
+		L {
+			modify {
+				delete(e);
+			}
+		}
+	}
+	
+	modify {
+	}
+}

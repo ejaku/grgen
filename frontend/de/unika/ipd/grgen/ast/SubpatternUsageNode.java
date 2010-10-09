@@ -19,7 +19,7 @@ import java.util.Vector;
 import de.unika.ipd.grgen.ast.util.DeclarationResolver;
 import de.unika.ipd.grgen.ir.Expression;
 import de.unika.ipd.grgen.ir.IR;
-import de.unika.ipd.grgen.ir.MatchingAction;
+import de.unika.ipd.grgen.ir.Rule;
 import de.unika.ipd.grgen.ir.SubpatternUsage;
 import de.unika.ipd.grgen.parser.Scope;
 import de.unika.ipd.grgen.parser.Symbol;
@@ -163,7 +163,7 @@ public class SubpatternUsageNode extends DeclNode {
 			subpatternConnections.add(e.checkIR(Expression.class));
 		}
 		return new SubpatternUsage("subpattern", getIdentNode().getIdent(),
-				type.checkIR(MatchingAction.class), subpatternConnections);
+				type.checkIR(Rule.class), subpatternConnections);
 	}
 }
 

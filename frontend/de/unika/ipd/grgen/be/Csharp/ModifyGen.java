@@ -895,30 +895,6 @@ public class ModifyGen extends CSharpBase {
 		commonEdges.retainAll(task.right.getEdges());
 		commonSubpatternUsages.addAll(task.left.getSubpatternUsages());
 		commonSubpatternUsages.retainAll(task.right.getSubpatternUsages());
-
-		// Elements from outer pattern are not allowed to be modified by inner alternative case pattern
-		for(Node node : task.left.getNodes()) {
-			if(node.getPointOfDefinition()!=task.left) {
-				commonNodes.add(node);
-			}
-		}
-		for(Edge edge : task.left.getEdges()) {
-			if(edge.getPointOfDefinition()!=task.left) {
-				commonEdges.add(edge);
-			}
-		}
-
-		// Parameters/connections are not allowed to be modified by subpatterns
-		if(task.isSubpattern) {
-			for(Entity entity : task.parameters) {
-				if(entity instanceof Node) {
-					commonNodes.add((Node)entity);
-				}
-				else if(entity instanceof Edge) {
-					commonEdges.add((Edge)entity);
-				}
-			}
-		}
 	}
 
 	private void collectElementsAccessedByInterface(ModifyGenerationTask task,

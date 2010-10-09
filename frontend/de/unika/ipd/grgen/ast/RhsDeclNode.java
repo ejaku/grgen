@@ -119,6 +119,7 @@ public abstract class RhsDeclNode extends DeclNode {
 		return ret;
 	}
 
+	/** only used in checks against usage of deleted elements */
 	protected abstract Collection<ConnectionNode> getResultingConnections(PatternGraphNode pattern);
 
 	/** returns children of this node */
@@ -246,6 +247,7 @@ public abstract class RhsDeclNode extends DeclNode {
 		return type;
 	}
 
+	/** only used in checks against usage of deleted elements */
 	protected abstract Set<DeclNode> getDelete(PatternGraphNode pattern);
 
 	/**

@@ -1,0 +1,28 @@
+rule r
+{
+	-e:Edge->;
+	p:P(e);
+	q:Q();
+	
+	modify {
+		p();
+		q();
+	}
+}
+
+pattern P(-e:Edge->)
+{
+
+	modify {
+		-f:Edge<e>->;
+	}
+}
+
+pattern Q
+{
+	-e:Edge->;
+	
+	modify {
+		-f:Edge<e>->;
+	}
+}

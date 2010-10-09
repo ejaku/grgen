@@ -1,0 +1,18 @@
+new graph nestedDeleteRetype/nestedDeleteRetype
+
+new a:A
+new b:B
+
+show num nodes "A"
+show num nodes "B"
+show num edges "EA"
+show num edges "EB"
+
+xgrs deleteInSubpattern
+
+show num nodes "A"
+show num nodes "B"
+show num edges "EA"
+show num edges "EB"
+
+quit
