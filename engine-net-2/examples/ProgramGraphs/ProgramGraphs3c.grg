@@ -1,4 +1,11 @@
-using ProgramGraphsN;
+// rule file containing rules and subpatterns, with the subpattern using itself recursively
+// and, in contrast to the previous example containing a modify part to change the structure (reversing the edges just for the sake of example)
+// plus creating another list being equivalent in structure
+// to achive this goal a subpattern modify parameter is used to hand in the newly created previous point of the list duplicate 
+//  (which is not/can't be available in the pattern); rewriting/creation part by part
+// before was ProgramGraphs3b.grg, next is ProgramGraphs3d.grg
+
+using ProgramGraphs;
 
 #include "ProgramGraphs0WithoutUsing.grg"
 

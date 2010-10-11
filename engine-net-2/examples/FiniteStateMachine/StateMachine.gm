@@ -1,0 +1,16 @@
+// this is the version presented in the quick introduction to the user manual
+
+node class State {
+    id: int;
+}
+
+abstract node class SpecialState extends State;
+node class StartState extends SpecialState;
+node class FinalState extends SpecialState;
+node class StartFinalState extends StartState, FinalState;
+
+edge class Transition {
+    Trigger: string;
+}
+
+const edge class EpsilonTransition extends Transition;

@@ -1,3 +1,7 @@
+# graph rewrite shell script file, shows nothing new, interesting part is the rule file
+# same as previous example plus matching of the targets of crossing edges
+# before was ProgramGraphs3c.grs, next is ProgramGraphs4a.grs
+
 new graph "ProgramGraphs3d"
 
 include ProgramGraphsLayout.grsi

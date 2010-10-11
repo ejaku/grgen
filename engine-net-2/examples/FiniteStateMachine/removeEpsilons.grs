@@ -1,0 +1,19 @@
+# this is the version presented in the quick introduction to the user manual
+
+#new graph lgsp-removeEpsilonsModel.dll "StateMachine"
+#select actions lgsp-removeEpsilonsActions.dll
+
+new graph removeEpsilons.grg "StateMachine"
+
+new :StartState($=S, id=0)
+new :FinalState($=F, id=3)
+new :State($="1", id=1)
+new :State($="2", id=2)
+new @(S)-:Transition(Trigger="a")-> @("1")
+new @("1")-:Transition(Trigger="b")-> @("2")
+new @("2")-:Transition(Trigger="c")-> @(F)
+new @(S)-:EpsilonTransition-> @("2")
+new @("1")-:EpsilonTransition(Trigger="d")-> @(F)
+new @(S)-:EpsilonTransition(Trigger="e")-> @(F)
+
+debug xgrs checkStartState && !checkDoublettes && (forwardTransition* | addStartFinalState | addFinalState* | removeEpsilonTransition* | true)

@@ -1,3 +1,6 @@
+// graph rewrite rule file, shows how attribute conditions look like, and how attribute evaluations look like
+// before was removeEpsilons2.grg, next is removeEpsilons3.grg
+
 using NFAModel;
 
 test checkStartState {

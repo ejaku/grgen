@@ -1,3 +1,10 @@
+// rule file containing rules and new: subpatterns, which allow to factor a common pattern/transformation
+//  out into an entity, to prevent excessive nesting or allow re-using a pattern several times, 
+// to be distinguished: the subpattern type declaration defining the structure and the parameters/attachement points
+//  from the subpattern entity declaration in the pattern using the subpattern, i.e. requesting it to match, from the nodes/edges given on
+//  from the subpattern replacement usage by using call syntax on the subpattern entity in the rewrite part of the pattern containing the entity declaration
+// before was ProgramGraphs2.grg, next is ProgramGraphs3b.grg
+
 using ProgramGraphs;
 
 #include "ProgramGraphs0WithoutUsing.grg"

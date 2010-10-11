@@ -1,4 +1,5 @@
 // GrGen graph model for Program Graphs as defined in the paper "Adaptive Star Grammars for Graph Models"
+// original version of the program graphs, you may be more interested in the step-by-step introduction
 
 // nodes //
 

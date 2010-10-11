@@ -1,3 +1,6 @@
+# graph rewrite shell script file, used for simulating the run of a nfa, the interesting changes are in the rule file
+# before was simulate4.grs
+
 new graph simulate5.grg "StateMachine"
 
 include NFA.grsi
@@ -8,4 +11,4 @@ xgrs checkStartState && !checkDoublettes \
 && !epsilonTransition
 
 input="abc"
-debug xgrs (state)=getStartState && (state)=accept(state, input)* && isFinalState(state) 
+debug xgrs (state)=getStartState && (state)=accept(state, input) && isFinalState(state) 

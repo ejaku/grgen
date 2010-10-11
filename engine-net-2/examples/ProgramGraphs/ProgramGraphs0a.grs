@@ -1,3 +1,9 @@
+# graph rewrite shell script file, shows how to create an empty graph from a rule file giving the rewrite rules (using the model),
+# filling it with an initialization rule, validating it along the connectiong assertions 
+#  (strict validation - requires that every edge was covered)
+# the intersting part is the layout, graph displayed in the debugger, which is a haystack even for this small example 
+# next is ProgramGraphs0b.grs
+
 new graph "ProgramGraphs0"
 
 debug set layout Organic

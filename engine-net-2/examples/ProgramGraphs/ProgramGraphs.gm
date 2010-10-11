@@ -1,4 +1,6 @@
 // GrGen graph model for Program Graphs similar to the ones in "Adaptive Star Grammars for Graph Models"
+// features shown: node classes, edge classes, abstract classes, connection assertions 
+//  constraining the types and multiplicities of the nodes allowed to be incident to the edges
 
 // nodes //
 

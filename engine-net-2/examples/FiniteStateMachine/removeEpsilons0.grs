@@ -1,3 +1,8 @@
+# graph rewrite shell script file, shows how to create an empty graph from a model describing it's buildup,
+# how to create an instance graph (by including a further script with "new"-operations), and displaying it in yComp
+# hint: press the play button to get it layouted
+# next is removeEpsilons1.grs
+
 new graph NFAModel.gm "StateMachine"
 
 include NFA.grsi

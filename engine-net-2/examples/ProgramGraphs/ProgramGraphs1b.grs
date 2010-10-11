@@ -1,3 +1,8 @@
+# graph rewrite shell script file, shows how to ask the user to select a node 
+#  defining a location for further processing
+# example shows how to match and rewrite the first statement of a method body
+# before was ProgramGraphs1a.grs, next is ProgramGraphs2.grs
+
 new graph "ProgramGraphs1"
 
 include ProgramGraphsLayout.grsi

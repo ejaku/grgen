@@ -1,3 +1,5 @@
+// shows how to achieve the same as with ProgramGraphsOriginal.grg, but following dangling edges instead of using empty iterated patterns
+
 using ProgramGraphs;
 
 pattern Subclasses(c:Class)

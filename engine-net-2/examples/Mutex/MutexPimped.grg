@@ -1,7 +1,7 @@
 using Mutex;
 
 rule newRule {
-	p1:Process -n[prio=10000]:next-> p2:Process;
+	p1:Process -n[prio=10000]:next-> p2:Process; // prio causes search to start with this element
 
 	replace {
 		p1 -n1:next-> p:Process -n2:next-> p2;
@@ -182,5 +182,15 @@ rule aux_attachResource {
 
 	replace {
 		p <-:held_by- r:Resource;
+	}
+}
+
+// annotations example
+
+rule annotationTestRule[specialRule=true] // annotation has no meaning besides showing up on API level
+{
+	n1[foo="bar", bar="foo"]:AnnotationTestNode -e1:annotationTestEdge-> n1;  // the annotations have no meaning besides showing up on API level
+
+	modify {
 	}
 }

@@ -22,3 +22,11 @@ edge class release
 edge class request
 	connect Process [*] --> Resource [*];
 
+// annotations example:
+
+node class AnnotationTestNode[bla="blubb"]; // node is not needed, only annotation test; annotation has no meaning besides showing up on API level
+
+edge class annotationTestEdge // edge is not needed, only annotation test
+{
+	attrib[special=42]:int=0; // annotation has no meaning besides showing up on API level
+}

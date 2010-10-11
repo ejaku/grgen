@@ -1,14 +1,11 @@
-#solution to move method of RefactoringCase "the scruffy challenge" of Grabats
+# solution to move method of RefactoringCase of Grabats
 
 include InstanceGraph.grsi
 include InstanceGraphLayout.grsi
 
-redirect emit program.txt
-xgrs visID = valloc()
-# HACK: The visID variable should be given to the emitSpanningTree rule, but subpatterns don't support value variables yet
-#       so use constant 0 inside the rules, correct as the first allocated visited flag is always 0
-xgrs emitSpanningTree
-xgrs vfree(visID)
+# programmed gxl dumper, not needed any more, shell can export to .gxl as of no
+redirect emit program.gxl
+xgrs visId = valloc() && dumpGxl(visId) && vfree(visId)
 
 xgrs InsertHelperEdgesForNestedLayout
 
@@ -40,12 +37,12 @@ xgrs InsertHelperEdgesForNestedLayout
 #      and rewrite body to use parameter instead of "this"
 #   -add delegating body, forwarding operation parameters in call 
 
-#ask user for source class, target class and method to move
-#debug apply (src,tgt,mb)=getSourceAndTargetAndMethodBody(?,?,?)
-#or in order to move the one large method to packet (same parameter) or string (same instance variable)
+# ask user for source class, target class and method to move
+# debug apply (src,tgt,mb)=getSourceAndTargetAndMethodBody(?,?,?)
+# or in order to move the one large method to packet (same parameter) or string (same instance variable)
 src = I176 # class Node
 tgt = I194 # class Packet - use if parameter is used in moving method
-#tgt = I617 # class String - use if instance variable is used in moving method
+# tgt = I617 # class String - use if instance variable is used in moving method
 mb = I409 # method body of send
 
 xgrs (op)=getOperation(mb)
@@ -61,26 +58,23 @@ debug xgrs (p)=someParameterOfTargetType(mb,tgt) \
 				&& (replaceAccess_Parameter_AccessWithoutLink(call,pe) || replaceAccess_Parameter_AccessWithLinkToExpression(call,pe)) \
 		   )*
 
-#debug xgrs (v)=someInstanceVariableOfTargetType(mb,tgt) \
+# debug xgrs (v)=someInstanceVariableOfTargetType(mb,tgt) \
 #		&& !callToSuperExists && !isStatic(mb) && !methodNameExists(mb,tgt) \
 #		&& (!thisIsAccessed || thisIsAccessed && (srcparam)=addSourceParameter(op,src) && useSourceParameter(srcparam)*) \
 #		&& relinkOperationAndMethodBody(op,mb,src,tgt) \
 #		&& ((def(srcparam) && [replaceAccess_Variable_WithSource(op,v,srcparam)]) || [replaceAccess_Variable(op,v)])
 
-#debug set layout Hierarchic # use hierarchic with delegate, there are problems with compilergraph
-#debug xgrs ((vp)=someInstanceVariableOfTargetType(mb,tgt) || (vp)=someParameterOfTargetType(mb,tgt)) \
+# debug set layout Hierarchic # use hierarchic with delegate, there are problems with compilergraph
+# debug xgrs ((vp)=someInstanceVariableOfTargetType(mb,tgt) || (vp)=someParameterOfTargetType(mb,tgt)) \
 #		&& !callToSuperExists && !isStatic(mb) && !methodNameExists(mb,tgt) \
 #		&& (newop)=copyOperation(op,tgt) && [copyOperationParameter(op,newop)] \
 #		&& relinkMethodBody(mb,src,tgt,op,newop) && relinkParameter(mb,op,newop)* \
 #		&& (!thisIsAccessed || thisIsAccessed && (srcparam)=addSourceParameter(newop,src) && useSourceParameter(srcparam)*) \
 #		&& (call)=addDelegateBody(src,op,newop,vp) && [linkDelegateBodyToOperation(call,newop)]
 
-#unmark all marked expressions
+# unmark all marked expressions
 xgrs unmarkExpression*
 
-redirect emit programafter.txt
-xgrs visID = valloc()
-# HACK: The visID variable should be given to the emitSpanningTree rule, but subpatterns don't support value variables yet
-#       so use constant 0 inside the rules, correct as the first allocated visited flag is always 0
-xgrs emitSpanningTree
-xgrs vfree(visID)
+# programmed gxl dumper, not needed any more, shell can export to .gxl as of no
+redirect emit programafter.gxl
+xgrs visId = valloc() && dumpGxl(visId) && vfree(visId)

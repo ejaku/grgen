@@ -1,3 +1,5 @@
+# shows how to achieve the same as with ProgramGraphsOriginal.grs, but following dangling edges instead of using empty iterated patterns
+
 new graph "ProgramGraphsAlongEdges"
 
 debug set layout Hierarchic

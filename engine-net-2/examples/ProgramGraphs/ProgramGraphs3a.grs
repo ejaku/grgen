@@ -1,3 +1,7 @@
+# graph rewrite shell script file, shows nothing new, interesting part is the rule file
+# shows how a subpattern/subtransformation can get factored out into a "pattern" and reused
+# before was ProgramGraphs2.grs, next is ProgramGraphs3b.grs
+
 new graph "ProgramGraphs3a"
 
 include ProgramGraphsLayout.grsi

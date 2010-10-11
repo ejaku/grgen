@@ -1,3 +1,7 @@
+# graph rewrite shell script file, shows nothing new, interesting part is the rule file
+# shows how a pull up method refactoring can get applied on a syntax graph
+# before was ProgramGraphs4b.grs
+
 new graph "ProgramGraphs4"
 
 include ProgramGraphsLayout.grsi

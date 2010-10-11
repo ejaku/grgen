@@ -1,25 +1,21 @@
-#solution to encapsulate field of RefactoringCase "the scruffy challenge" of Grabats
+# solution to encapsulate field of RefactoringCase of Grabats
 
 include InstanceGraph.grsi
 include InstanceGraphLayout.grsi
 
 redirect emit program.txt
-xgrs visID = valloc()
-# HACK: The visID variable should be given to the emitSpanningTree rule, but subpatterns don't support value variables yet
-#       so use constant 0 inside the rules, correct as the first allocated visited flag is always 0
 xgrs emitSpanningTree
-xgrs vfree(visID)
 
 xgrs InsertHelperEdgesForNestedLayout
 
 debug enable
 
-#encapsulate field - create getters/setters for variable in class, use it only with getters/setters
+# encapsulate field - create getters/setters for variable in class, use it only with getters/setters
 # option: replace getters/setters in class itself - yes/no
 
-#ask for class and variable to refactor
-#debug apply (c,v)=getClassAndVariable(?,?)
-#or use this one / set them in shell
+# ask for class and variable to refactor
+# debug apply (c,v)=getClassAndVariable(?,?)
+# or use this one / set them in shell
 c = I176 # class Node
 v = I350 # variable _name
 getterName = "getName"
@@ -35,9 +31,5 @@ xgrs (isStatic) = variableInClass(c, v) \
 	&& adaptUpdate(c, v, setter)*
 
 redirect emit programafter.txt
-xgrs visID = valloc()
-# HACK: The visID variable should be given to the emitSpanningTree rule, but subpatterns don't support value variables yet
-#       so use constant 0 inside the rules, correct as the first allocated visited flag is always 0
 xgrs emitSpanningTree
-xgrs vfree(visID)
 

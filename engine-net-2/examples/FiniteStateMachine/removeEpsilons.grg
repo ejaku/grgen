@@ -1,9 +1,6 @@
-// graph rewrite rule file, shows how node retypings look like, keeping the incident edges while changing the type,
-// how type constraints look like, and shows edges matching in both directions
-// the rules needed for freeing the nfa from epsilon transitions are now complete
-// before was removeEpsilons2b.grg, next is simulate4.grg
+// this is the version presented in the quick introduction to the user manual
 
-using NFAModel;
+using StateMachine;
 
 test checkStartState {
     x:StartState;
@@ -16,13 +13,14 @@ test checkStartState {
 test checkDoublettes {
     x:State -e:Transition-> y:State;
     hom(x,y);
-    x -doublette:typeof(e)-> y;
+    x -doublette:Transition-> y;
+    if {typeof(doublette) == typeof(e);}
     if { ((typeof(e) == EpsilonTransition) || (e.Trigger == doublette.Trigger)); }
 }
 
 rule forwardTransition {
     x:State -:EpsilonTransition-> y:State -e:Transition-> z:State;
-    hom(y,z);
+    hom(x,y,z);
     negative {
         x -exists:Transition-> z;
         if {typeof(exists) == typeof(e);}
@@ -43,7 +41,6 @@ rule addStartFinalState {
     }
 }
 
-// a state with an epsilon transition into a final state becomes a final state itself
 rule addFinalState {
     x:State -:EpsilonTransition-> :FinalState;
     if {typeof(x) < SpecialState;}
@@ -54,23 +51,7 @@ rule addFinalState {
 }
 
 rule removeEpsilonTransition {
-    -e:EpsilonTransition->;
+    -:EpsilonTransition->;
 
-    replace {
-	}   
-}
-
-rule removeLonelyStates {
-	x:State\StartFinalState;
-	negative {
-		x<-->;
-	}
-	
-    modify {
-		delete(x);
-	}
-}
-
-test epsilonTransition {
-	-:EpsilonTransition->;
+    replace {}   
 }

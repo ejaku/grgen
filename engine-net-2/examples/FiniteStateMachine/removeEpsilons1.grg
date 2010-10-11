@@ -1,5 +1,15 @@
+// graph rewrite rule file, shows how to define a model to use, and how a rule looks like,
+// with the pattern to match and the rewrite to apply, with lhs and rhs elements being indentified by their name
+// additional: constructs allowing pattern elements to match the same graph element by the hom operator,
+// creation of elements of statically unknown exact dynamical type by the typeof operator
+// next is removeEpsilons2.grg
+
 using NFAModel;
 
+// if there is an epsilon transition between x and y and a transition between y and z
+// then the rule adds the transition between y and z directly in between x and z
+// this is the major step of freeing an nfa from epsilon transitions
+// note: the rule is not complete yet, and further steps/rules are needed to achieve the goal
 rule forwardTransition {
     x:State -:EpsilonTransition-> y:State -e:Transition-> z:State;
     hom(y,z);

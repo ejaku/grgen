@@ -1,3 +1,13 @@
+// rule file containing rules to create the inital graph(s) to work on in the examples
+// and helper rules to allow for a nice/well understandable nested layout
+// using the right hand side of a rule for building a graph is possible, 
+// but using a shell script for this purpose is the recommended way
+// special feature: the all-brackets in the exec for the nested layout,
+//  which applies all matches of the rule found at once 
+//  - very efficient, does not need negatives or other means to end an loop, 
+//    but it's your responsability to ensure the rewrites don't conflict (e.g. retyping of a node already deleted)
+// next is ProgramGraphs1.grg
+
 using ProgramGraphs;
 
 

@@ -1,6 +1,10 @@
+# graph rewrite shell script file, same as before, the changes are in the rule file
+# before was removeEpsilons2.grs next is removeEpsilons3.grs
+
 new graph removeEpsilons2b.grg "StateMachine"
 
-include NFADublette.grsi
-# include NFA.grsi
+# exchange the comment on the following two lines to see the duplicate test fail
+#include NFADublette.grsi
+include NFA.grsi
 
 debug xgrs checkStartState && !checkDoublettes && forwardTransition*

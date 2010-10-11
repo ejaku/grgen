@@ -1,4 +1,6 @@
-# nfa to free of epsilon transitions
+# this is a graph rewrite shell file to include, with instructions to build the nfa to free of epsilon transitions
+# version with a duplicate transition
+
 new :StartState($=S, id=0)
 new :FinalState($=F, id=4)
 new :State($="1", id=1)

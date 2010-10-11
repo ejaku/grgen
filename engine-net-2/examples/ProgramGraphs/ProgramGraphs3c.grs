@@ -1,3 +1,7 @@
+# graph rewrite shell script file, shows nothing new, interesting part is the rule file
+# shows matching and rewriting of a depth structure (statement list in a syntax graph, to reversed plus copied list)
+# before was ProgramGraphs3b.grs, next is ProgramGraphs3d.grs
+
 new graph "ProgramGraphs3c"
 
 include ProgramGraphsLayout.grsi

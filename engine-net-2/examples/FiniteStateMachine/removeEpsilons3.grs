@@ -1,3 +1,9 @@
+# graph rewrite shell script file, shows how a user defined layout is configured,
+# how a sequence is broken up into multiple lines, the then-right operator,
+# and how a transformed graph is exported and imported again
+# the process of freeing a nfa from epsilon transitions is completely described with the sequence
+# before was removeEpsilons2b.grs, next is simulate4.grs
+
 new graph removeEpsilons3.grg "StateMachine"
 
 include NFA.grsi
@@ -9,4 +15,6 @@ debug xgrs checkStartState && !checkDoublettes \
 
 export reduced.grs
 import reduced.grs
+include NFALayout.grsi
 show graph yComp
+debug layout

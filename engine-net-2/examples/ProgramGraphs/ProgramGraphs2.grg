@@ -1,3 +1,7 @@
+// rule file containing rules containing iterated patterns showing how to match a pattern several times
+//  this allows to match and transform structures extending into breadth, e.g. all incident edges of an node
+// before was ProgramGraphs1.grg, next is ProgramGraphs3a.grg
+
 using ProgramGraphs;
 
 #include "ProgramGraphs0WithoutUsing.grg"

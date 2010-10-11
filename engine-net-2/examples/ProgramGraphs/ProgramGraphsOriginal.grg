@@ -1,3 +1,5 @@
+// original version of the program graphs, you may be more interested in the step-by-step introduction
+
 using ProgramGraphsOriginal;
 
 pattern Subclasses(c:Class)

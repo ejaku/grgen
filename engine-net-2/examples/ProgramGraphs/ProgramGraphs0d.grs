@@ -1,3 +1,10 @@
+# graph rewrite shell script file, shows how to improve the readability of the original graph 
+#  by using nesting along edges which are retyped or computed solely for the purpose of layout
+# the result is clearly worth the effort, now exactly the things which should be nested are nested,
+#  yielding together with the colors an readably abstract syntax graph
+# for really large graphs you may choose layout Compilergraph to get some crossing edges transformed into "dynamic" edges (you should disable loop tree creation)
+# before was ProgramGraphs0c.grs, next is ProgramGraphs1a.grs
+
 new graph "ProgramGraphs0"
 
 debug set layout Hierarchic

@@ -1,3 +1,11 @@
+// rule file containing rules/tests containing alternative patterns showing how to match patterns 
+//  with a common part and different alternative parts
+// showing how alternatives can be nested, and that an alternative case may need a negative to prevent a match,
+//  esp. of the empty pattern, as the order of trying the alternative cases is undefined
+// showing that alternatives may contain a nested rewrite part,
+//  i.e. they allow you to specify a change, not only a pattern
+// before was ProgramGraphs0.grg, next is ProgramGraphs2.grg
+
 using ProgramGraphs;
 
 #include "ProgramGraphs0WithoutUsing.grg"

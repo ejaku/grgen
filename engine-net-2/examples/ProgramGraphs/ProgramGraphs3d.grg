@@ -1,4 +1,11 @@
-using ProgramGraphsN;
+// rule file containing rules and subpatterns, with the subpattern using itself recursively
+// and, in contrast to the previous example containing independent patterns (which behave like negatives which must be available)
+// the independents allow to match graph elements multiple times in several subpatterns (hom over subpatterns),
+// which is normally prevented by the isomorphy constraint; the price is that they can't contain a rewrite part, 
+//  i.e. can only be used to formulate positive conditions
+// before was ProgramGraphs3c.grg, next is ProgramGraphs4.grg
+
+using ProgramGraphs;
 
 #include "ProgramGraphs0WithoutUsing.grg"
 

@@ -1,3 +1,6 @@
+// this is the same removeEpsilons3.grg, but without the using statement
+// it is included in the simulate rule files, and there can only be one using statement
+
 test checkStartState {
     x:StartState;
     negative {

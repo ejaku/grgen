@@ -1,3 +1,8 @@
+// graph rewrite rule file, shows how a rule can emit text to stdout (or a file),
+// how rules can execute rewrite sequences once they matched, here used for self recursion
+// and how such embedded xgrs can yield values to the rule, to be returned out of the rule
+// before was simulate4.grg
+
 using NFAModel;
 
 #include "removeEpsilons3WithoutUsing.grg"
@@ -15,7 +20,8 @@ dpo rule accept(state:State, var input:string) : (State)
 	
 	modify {
 		emit( "from " + state.id + " to " + successor.id + " with " + t.Trigger + " of " + input + "\n" );
-		exec( (reduced)=eatChar(input) | (lastSuccess)=accept(successor, reduced) | if{ def(lastSuccess); yield(lastSuccess); yield(successor) } ) -> last:State;
+		exec( (reduced)=eatChar(input) | (lastSuccess)=accept(successor, reduced) |
+				if{ def(lastSuccess); yield(lastSuccess); yield(successor) } ) -> last:State;
 		return(last);
 	}
 }

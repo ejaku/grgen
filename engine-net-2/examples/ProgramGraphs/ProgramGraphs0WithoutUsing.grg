@@ -1,3 +1,7 @@
+// this is the same as ProgramGraphs0.grg, but without the using statement,
+// so it can be included in another .grg
+// next is ProgramGraphs1.grg
+
 // rules to create the example graphs //
 
 rule createProgramGraphExample
