@@ -124,7 +124,7 @@ Also note the inplace-arrow notation for edges (\texttt{-Edge->} resp.\ \texttt{
 As you can see, attributes of graph elements can be set during creation with a call-like syntax.
 \makeatletter
 The \texttt{\$} and \texttt{@} notation is due to the fact that we have two kinds of ``names'' in the \GrShell.
-Namely we have \emph{shell variables}---which we did not use, no shell variable is explicitly defined in this script---and \emph{persistent names} that denote a specific graph element.
+Namely we have \emph{graph variables}---which we did not use, no graph variable is explicitly defined in this script---and \emph{persistent names} that denote a specific graph element.
 Persistent names are set by \texttt{\$=Identifier} on creation and they are accessed by \texttt{@(Identifier)}.
 \makeatother
 The quote chars around \texttt{"1"} and \texttt{"2"} are used to type these characters as (identifier) strings rather than numbers.
@@ -214,7 +214,7 @@ However, the modify part allows for \emph{explicit} deletion of graph elements b
 
 What else can we do? 
 We have negative application conditions (NACs), expressed by \texttt{negative \{\dots\}}; they prevent rules to be applied if the negative pattern is found.
-We also have boolean conditions, expressed by \texttt{if \{\dots\}}; a rule is only applicable if all such conditions hold true.
+We also have attribute conditions, expressed by \texttt{if \{\dots\}}; a rule is only applicable if all such conditions yield true.
 Note, the dot notation to access attributes (as in \texttt{e.Trigger}).
 The \texttt{emit} statement prints a string to \texttt{stdout}.
 The \texttt{hom(x,y)} and \texttt{hom(x,y,z)} statements mean ``match the embraced nodes homomorphically'', i.e.\ they can (but they don't have to) actually be matched to the same node within the host graph.
@@ -257,8 +257,10 @@ Finally you should get a graph like the one in figure \ref{fig:quick:final}
 \end{figure}
 
 If everything is working fine you can delete the \texttt{debug} keyword in front of \texttt{xgrs}.
-Maybe you want to save the resulting graph.
-This is possible by typing \texttt{dump graph mygraph.vcg} in the \GrShell.
-\GrShell\ writes the graph in \texttt{mygraph.vcg} into the current directory.
-Files in VCG format are readable by \yComp.
-Feel free to browse the \texttt{examples} folder shiped with \GrG\ and have a look at further capabilities of the software.
+Maybe you want to save a visualization of the resulting graph.
+This is possible by typing \texttt{dump graph mygraph.vcg} in \GrShell,
+writing \texttt{mygraph.vcg} into the current directory in VCG format readable by \yComp.
+Feel free to browse the \texttt{examples} folder shiped with \GrG\ ;
+esp. the succession of examples in \texttt{FiniteStateMachine} and \texttt{ProgramGraphs}
+is recommended to have a look at, giving a nice overview of the capabilities of the software.
+

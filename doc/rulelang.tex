@@ -866,7 +866,8 @@ Identifier \indexed{definition}s can be annotated by \indexedsee{pragma}{annotat
 \begin{rail}
   IdentDecl: Ident (() | '[' (Ident '=' Constant + ',') ']');
 \end{rail}\ixnterm{IdentDecl}
-Although you can use any key-value pairs between the brackets, only the identifier \ixkeyw{prio} has an effect so far.
+Although you can use any key-value pairs between the brackets, only the identifier \indexed{prio} has an effect so far.
+You may use the annotations to transmit information from the specification files to API level where they can be enumerated.
 \begin{table}[htbp]
 \begin{tabularx}{\linewidth}{|lllX|} \hline
   \textbf{Key} & \textbf{Value Type} & \textbf{Applies to} & \textbf{Meaning} \\ \hline

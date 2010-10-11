@@ -1,4 +1,22 @@
-﻿v2.6.2 (2010-09-19)
+﻿v2.6.3 (2010-10-11)
+ Changes:
+ - allowed pattern elements to get deleted(/retyped) in nested alternative/iterated blocks or even in subpatterns
+    compiler checks that only one delete/retype is ever happening for any pattern element
+    this behaviour is only specifiable in modify mode with explicit delete
+ - added backtracking brackets: <<r;s>> computes all matches of the rule r (for given inputs), then
+    foreach match: apply rewrite (assigning outputs), then execute s
+                   if s failed: rollback effects of r and s, continue with next match, fail if exhausted
+                   if s succeeded: commit effects, succeed
+ - annotations are now available on API level (transmitted from .gm/.grg to code)
+ - semantic change: the parameters/attachment points of a subpattern now get deleted 
+    if not mentioned in the _replace_ part of the subpattern, as was always the case with rules
+ - bugfix: allow abstract node types as replacement parameters
+ - fixed crash in debugger on printing a rule call with a constant argument (instead of a variable)
+ - improved FiniteStateMachine and ProgramGraphs examples,
+    split into a succession of examples building on each other, giving a nice overview of the capabilities of GrGen
+ - further minor fixes/improvements
+
+v2.6.2 (2010-09-19)
  Changes:
  - bugfixes/improvements for debugger detail mode annotations
  - improved compiler checks, esp. against non-terminating subpattern recursions 
