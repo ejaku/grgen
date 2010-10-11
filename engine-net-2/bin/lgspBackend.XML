@@ -3052,6 +3052,11 @@
             The pattern where this element gets matched (null if rule parameter).
             </summary>
         </member>
+        <member name="F:de.unika.ipd.grGen.lgsp.PatternElement.annotations">
+            <summary>
+            The annotations of the pattern element
+            </summary>
+        </member>
         <member name="F:de.unika.ipd.grGen.lgsp.PatternElement.AllowedTypes">
             <summary>
             An array of allowed types for this pattern element.
@@ -3120,6 +3125,11 @@
         <member name="P:de.unika.ipd.grGen.lgsp.PatternElement.PointOfDefinition">
             <summary>
             The pattern where this element gets matched (null if rule parameter).
+            </summary>
+        </member>
+        <member name="P:de.unika.ipd.grGen.lgsp.PatternElement.Annotations">
+            <summary>
+            The annotations of the pattern element
             </summary>
         </member>
         <member name="T:de.unika.ipd.grGen.lgsp.PatternNode">
@@ -3216,6 +3226,11 @@
             The pattern where this element gets matched (null if rule parameter).
             </summary>
         </member>
+        <member name="F:de.unika.ipd.grGen.lgsp.PatternVariable.annotations">
+            <summary>
+            The annotations of the pattern element
+            </summary>
+        </member>
         <member name="F:de.unika.ipd.grGen.lgsp.PatternVariable.ParameterIndex">
             <summary>
             Specifies to which rule parameter this variable corresponds.
@@ -3243,6 +3258,11 @@
         <member name="P:de.unika.ipd.grGen.lgsp.PatternVariable.PointOfDefinition">
             <summary>
             The pattern where this element gets matched (null if rule parameter).
+            </summary>
+        </member>
+        <member name="P:de.unika.ipd.grGen.lgsp.PatternVariable.Annotations">
+            <summary>
+            The annotations of the pattern element
             </summary>
         </member>
         <member name="T:de.unika.ipd.grGen.lgsp.PatternCondition">
@@ -3623,6 +3643,11 @@
             The embedded subpattern.
             </summary>
         </member>
+        <member name="F:de.unika.ipd.grGen.lgsp.PatternGraphEmbedding.annotations">
+            <summary>
+            The annotations of the pattern element
+            </summary>
+        </member>
         <member name="F:de.unika.ipd.grGen.lgsp.PatternGraphEmbedding.connections">
             <summary>
             An array with the expressions giving the arguments to the subpattern,
@@ -3667,6 +3692,11 @@
         <member name="P:de.unika.ipd.grGen.lgsp.PatternGraphEmbedding.EmbeddedGraph">
             <summary>
             The embedded subpattern.
+            </summary>
+        </member>
+        <member name="P:de.unika.ipd.grGen.lgsp.PatternGraphEmbedding.Annotations">
+            <summary>
+            The annotations of the pattern element
             </summary>
         </member>
         <member name="T:de.unika.ipd.grGen.lgsp.Alternative">
@@ -3723,6 +3753,11 @@
             Names of the rule parameter elements
             </summary>
         </member>
+        <member name="F:de.unika.ipd.grGen.lgsp.LGSPMatchingPattern.annotations">
+            <summary>
+            The annotations of the matching pattern (test/rule/subpattern)
+            </summary>
+        </member>
         <member name="F:de.unika.ipd.grGen.lgsp.LGSPMatchingPattern.name">
             <summary>
             Our name
@@ -3741,6 +3776,11 @@
         <member name="P:de.unika.ipd.grGen.lgsp.LGSPMatchingPattern.InputNames">
             <summary>
             An array of the names corresponding to rule parameters;
+            </summary>
+        </member>
+        <member name="P:de.unika.ipd.grGen.lgsp.LGSPMatchingPattern.Annotations">
+            <summary>
+            The annotations of the matching pattern (test/rule/subpattern)
             </summary>
         </member>
         <member name="T:de.unika.ipd.grGen.lgsp.LGSPRulePattern">

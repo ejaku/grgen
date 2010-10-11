@@ -1352,7 +1352,7 @@ simpleSequence[ExecNode xg]
 	| ( DOLLAR { xg.append("$"); } ( MOD { xg.append("\%"); } )? )?
 		LBRACE { xg.append("{"); } parallelCallRule[xg, returns] (COMMA { xg.append(","); returns = new CollectNode<BaseNode>(); } parallelCallRule[xg, returns])* RBRACE { xg.append("}"); }
 	| LPAREN { xg.append("("); } xgrs[xg] RPAREN { xg.append(")"); }
-	| LT { xg.append("<"); } xgrs[xg] GT { xg.append(">"); }
+	| LT { xg.append(" <"); } xgrs[xg] GT { xg.append("> "); }
 	| IF l=LBRACE pushScopeStr["if/exec", getCoords(l)] { xg.append("if{"); } xgrs[xg] s=SEMI 
 		pushScopeStr["if/then-part", getCoords(s)] { xg.append("; "); } xgrs[xg] popScope
 		(SEMI { xg.append("; "); } xgrs[xg])? popScope RBRACE { xg.append("}"); }

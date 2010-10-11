@@ -879,6 +879,22 @@ public abstract class CSharpBase {
 	protected abstract void genQualAccess(StringBuffer sb, Qualification qual, Object modifyGenerationState);
 	protected abstract void genMemberAccess(StringBuffer sb, Entity member);
 
+	protected void addAnnotations(StringBuilder sb, Identifiable ident, String targetName)
+	{
+		for(String annotationKey : ident.getAnnotations().keySet()) {
+			String annotationValue = ident.getAnnotations().get(annotationKey).toString();
+			sb.append("\t\t\t" + targetName+ ".Add(\"" +annotationKey + "\", \"" + annotationValue + "\");\n");
+		}
+	}
+
+	protected void addAnnotations(StringBuffer sb, Identifiable ident, String targetName)
+	{
+		for(String annotationKey : ident.getAnnotations().keySet()) {
+			String annotationValue = ident.getAnnotations().get(annotationKey).toString();
+			sb.append("\t\t\t" + targetName+ ".Add(\"" +annotationKey + "\", \"" + annotationValue + "\");\n");
+		}
+	}
+
 	///////////////////////
 	// Private variables //
 	///////////////////////

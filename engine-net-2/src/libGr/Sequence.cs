@@ -22,7 +22,8 @@ namespace de.unika.ipd.grGen.libGr
     /// </summary>
     public enum SequenceType
     {
-        ThenLeft, ThenRight, LazyOr, LazyAnd, StrictOr, Xor, StrictAnd, Not, IterationMin, IterationMinMax,
+        ThenLeft, ThenRight, LazyOr, LazyAnd, StrictOr, Xor, StrictAnd, Not, 
+        IterationMin, IterationMinMax,
         Rule, RuleAll, Def, Yield, True, False, VarPredicate,
         AssignVAllocToVar, AssignSetmapSizeToVar, AssignSetmapEmptyToVar, AssignMapAccessToVar,
         AssignVarToVar, AssignElemToVar, AssignSequenceResultToVar,
@@ -31,7 +32,7 @@ namespace de.unika.ipd.grGen.libGr
         IsVisited, SetVisited, VFree, VReset, Emit,
         SetmapAdd, SetmapRem, SetmapClear, InSetmap,
         LazyOrAll, LazyAndAll, StrictOrAll, StrictAndAll, SomeFromSet,
-        Transaction, IfThenElse, IfThen, For
+        Transaction, Backtrack, IfThenElse, IfThen, For
     }
 
     /// <summary>
@@ -91,7 +92,7 @@ namespace de.unika.ipd.grGen.libGr
         /// <summary>
         /// informs debugger about the end of a loop iteration, so it can display the state at the end of the iteration
         /// </summary>
-        void EndOfIteration(bool continueLoop, SequenceUnary seq);
+        void EndOfIteration(bool continueLoop, Sequence seq);
     }
 
     /// <summary>
@@ -1598,6 +1599,120 @@ namespace de.unika.ipd.grGen.libGr
 
         public override int Precedence { get { return 8; } }
         public override string Symbol { get { return "< ... >"; } }
+    }
+
+    // TODO: complete implementation of this quick hack, esp. add the compiled version
+    public class SequenceBacktrack : Sequence
+    {
+        public SequenceRule Rule;
+        public Sequence Seq;
+
+        public SequenceBacktrack(Sequence seqRule, Sequence seq) : base(SequenceType.Backtrack)
+        {
+            Rule = (SequenceRule)seqRule;
+            Seq = seq;
+        }
+
+        protected override bool ApplyImpl(IGraph graph, SequenceExecutionEnvironment env)
+        {
+            // first get all matches of the rule
+            object[] parameters;
+            if(Rule.ParamBindings.ParamVars.Length > 0)
+            {
+                parameters = Rule.ParamBindings.Parameters;
+                for(int j = 0; j < Rule.ParamBindings.ParamVars.Length; j++)
+                {
+                    // If this parameter is not constant, the according ParamVars entry holds the
+                    // name of a variable to be used for the parameter.
+                    // Otherwise the parameters entry remains unchanged (it already contains the constant)
+                    if(Rule.ParamBindings.ParamVars[j] != null)
+                        parameters[j] = Rule.ParamBindings.ParamVars[j].GetVariableValue(graph);
+                }
+            }
+            else parameters = null;
+
+            if(graph.PerformanceInfo != null) graph.PerformanceInfo.StartLocal();
+            IMatches matches = Rule.ParamBindings.Action.Match(graph, graph.MaxMatches, parameters);
+            if(graph.PerformanceInfo != null)
+            {
+                graph.PerformanceInfo.StopMatch();              // total match time does NOT include listeners anymore
+                graph.PerformanceInfo.MatchesFound += matches.Count;
+            }
+
+            if(matches.Count == 0)
+            {
+                Rule.executionState = SequenceExecutionState.Fail;
+                return false;
+            }
+
+            // apply the rule and the following sequence for every match found, 
+            // until the first rule and sequence execution succeeded
+            // rolling back the changes of failing executions until then
+            int matchesTried = 0;
+            foreach(IMatch match in matches)
+            {
+                ++matchesTried;
+
+                // start a transaction
+                int transactionID = graph.TransactionManager.StartTransaction();
+                int oldRewritesPerformed;
+
+                if(graph.PerformanceInfo != null) oldRewritesPerformed = graph.PerformanceInfo.RewritesPerformed;
+                else oldRewritesPerformed = -1;
+
+                graph.EnteringSequence(Rule);
+                Rule.executionState = SequenceExecutionState.Underway;
+#if LOG_SEQUENCE_EXECUTION
+                writer.WriteLine("Before executing sequence " + Rule.Id + ": " + rule.Symbol);
+#endif
+                graph.Matched(matches, Rule.Special);
+                bool result = Rule.Rewrite(graph, matches, null, match);
+#if LOG_SEQUENCE_EXECUTION
+                writer.WriteLine("After executing sequence " + Rule.Id + ": " + rule.Symbol + " result " + result);
+#endif
+                Rule.executionState = result ? SequenceExecutionState.Success : SequenceExecutionState.Fail;
+                graph.ExitingSequence(Rule);
+
+                // rule applied, now execute the sequence
+                result = Seq.Apply(graph, env);
+
+                // if sequence execution failed, roll the changes back and try the next match of the rule
+                if(!result)
+                {
+                    graph.TransactionManager.Rollback(transactionID);
+                    if(graph.PerformanceInfo != null)
+                        graph.PerformanceInfo.RewritesPerformed = oldRewritesPerformed;
+                    if(matchesTried < matches.Count)
+                    {
+                        if(env != null) env.EndOfIteration(true, this);
+                        Rule.ResetExecutionState();
+                        Seq.ResetExecutionState();
+                        continue;
+                    }
+                    else
+                    {
+                        // all matches tried, all failed later on -> end in fail
+                        if(env != null) env.EndOfIteration(false, this);
+                        return false;
+                    }
+                }
+
+                // if sequence execution succeeded, commit the changes so far and succeed
+                graph.TransactionManager.Commit(transactionID);
+                if(env != null) env.EndOfIteration(false, this);
+                return true;
+            }
+
+            return false; // to satisfy the compiler, we return from inside the loop
+        }
+
+        public override IEnumerable<Sequence> Children
+        {
+            get { yield return Rule; yield return Seq; }
+        }
+
+        public override int Precedence { get { return 8; } }
+        public override string Symbol { get { return "<< " + Rule.Symbol + " ; ... >>"; } }
     }
 
     public class SequenceIfThenElse : Sequence

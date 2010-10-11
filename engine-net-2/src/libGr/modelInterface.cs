@@ -341,6 +341,16 @@ namespace de.unika.ipd.grGen.libGr
         public readonly AttributeType KeyType;
 
         /// <summary>
+        /// The annotations of the attribute
+        /// </summary>
+        public IEnumerable<KeyValuePair<string, string>> Annotations { get { return annotations; } }
+
+        /// <summary>
+        /// The annotations of the attribute
+        /// </summary>
+        public IDictionary<string, string> annotations = new Dictionary<string, string>();
+
+        /// <summary>
         /// Initializes an AttributeType instance.
         /// </summary>
         /// <param name="name">The name for the attribute.</param>
@@ -804,6 +814,11 @@ namespace de.unika.ipd.grGen.libGr
         /// Array containing all direct super types of this type.
         /// </summary>
         public new NodeType[] DirectSuperTypes { [DebuggerStepThrough] get { return directSuperTypes; } }
+
+        /// <summary>
+        /// The annotations of the node type
+        /// </summary>
+        public abstract IEnumerable<KeyValuePair<string, string>> Annotations { get; }
     }
 
     /// <summary>
@@ -905,6 +920,11 @@ namespace de.unika.ipd.grGen.libGr
         /// Array containing all direct super types of this type.
         /// </summary>
         public new EdgeType[] DirectSuperTypes { [DebuggerStepThrough] get { return directSuperTypes; } }
+
+        /// <summary>
+        /// The annotations of the edge type
+        /// </summary>
+        public abstract IEnumerable<KeyValuePair<string, string>> Annotations { get; }
     }
 
     /// <summary>

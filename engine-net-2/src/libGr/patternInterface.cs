@@ -6,6 +6,7 @@
  */
 
 using System;
+using System.Collections.Generic;
 
 namespace de.unika.ipd.grGen.libGr
 {
@@ -28,6 +29,11 @@ namespace de.unika.ipd.grGen.libGr
         /// The pattern where this element gets matched (null if rule parameter).
         /// </summary>
         IPatternGraph PointOfDefinition { get; }
+
+        /// <summary>
+        /// The annotations of the pattern element
+        /// </summary>
+        IEnumerable<KeyValuePair<string, string>> Annotations { get; }
     }
 
     /// <summary>
@@ -168,6 +174,11 @@ namespace de.unika.ipd.grGen.libGr
         /// The embedded subpattern
         /// </summary>
         IPatternGraph EmbeddedGraph { get; }
+
+        /// <summary>
+        /// The annotations of the pattern element
+        /// </summary>
+        IEnumerable<KeyValuePair<string, string>> Annotations { get; }
     }
 
     /// <summary>
@@ -201,6 +212,11 @@ namespace de.unika.ipd.grGen.libGr
         /// An array of the names corresponding to rule parameters;
         /// </summary>
         String[] InputNames { get; }
+
+        /// <summary>
+        /// The annotations of the matching pattern (test/rule/subpattern)
+        /// </summary>
+        IEnumerable<KeyValuePair<string, string>> Annotations { get; }
     }
 
     /// <summary>

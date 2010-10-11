@@ -969,14 +969,18 @@ set_init_loop:
 		sb.append("\n");
 		sb.append("\tpublic sealed class " + typename + " : GRGEN_LIBGR." + kindStr + "Type\n");
 		sb.append("\t{\n");
+		
 		sb.append("\t\tpublic static " + typeref + " typeVar = new " + typeref + "();\n");
 		genIsA(types, type);
 		genIsMyType(types, type);
 		genAttributeAttributes(type);
+		
 		sb.append("\t\tpublic " + typename + "() : base((int) " + formatNodeOrEdge(type) + "Types.@" + typeident + ")\n");
 		sb.append("\t\t{\n");
 		genAttributeInit(type);
+		addAnnotations(sb, type, "annotations");
 		sb.append("\t\t}\n");
+
 		sb.append("\t\tpublic override string Name { get { return \"" + typeident + "\"; } }\n");
 		if(type.getIdent().toString()=="Node") {
 				sb.append("\t\tpublic override string "+formatNodeOrEdge(type)+"InterfaceName { get { return "
@@ -1038,6 +1042,9 @@ set_init_loop:
 
 		sb.append("\t\tpublic override bool IsAbstract { get { return " + (type.isAbstract() ? "true" : "false") + "; } }\n");
 		sb.append("\t\tpublic override bool IsConst { get { return " + (type.isConst() ? "true" : "false") + "; } }\n");
+		
+		sb.append("\t\tpublic override IEnumerable<KeyValuePair<string, string>> Annotations { get { return annotations; } }\n");
+		sb.append("\t\tpublic IDictionary<string, string> annotations = new Dictionary<string, string>();\n");
 
 		sb.append("\t\tpublic override int NumAttributes { get { return " + type.getAllMembers().size() + "; } }\n");
 		genAttributeTypesEnumerator(type);
@@ -1091,19 +1098,20 @@ set_init_loop:
 
 	private void genAttributeInit(InheritanceType type) {
 		for(Entity e : type.getMembers()) {
+			String attributeTypeName = formatAttributeTypeName(e);
 			Type t = e.getType();
 
 			if (t instanceof MapType) {
 				MapType mt = (MapType)t;
 
 				// attribute types T of map<T,S> 
-				sb.append("\t\t\t" + formatAttributeTypeName(e) + "_map_domain_type = new GRGEN_LIBGR.AttributeType(");
+				sb.append("\t\t\t" + attributeTypeName + "_map_domain_type = new GRGEN_LIBGR.AttributeType(");
 				sb.append("\"" + formatIdentifiable(e) + "_map_domain_type\", this, ");
 				genAttributeInitTypeDependentStuff(mt.getKeyType(), e);
 				sb.append(");\n");
 				
 				// attribute types S of map<T,S> 
-				sb.append("\t\t\t" + formatAttributeTypeName(e) + "_map_range_type = new GRGEN_LIBGR.AttributeType(");
+				sb.append("\t\t\t" + attributeTypeName + "_map_range_type = new GRGEN_LIBGR.AttributeType(");
 				sb.append("\"" + formatIdentifiable(e) + "_map_range_type\", this, ");
 				genAttributeInitTypeDependentStuff(mt.getValueType(), e);
 				sb.append(");\n");
@@ -1112,16 +1120,18 @@ set_init_loop:
 				SetType st = (SetType)t;
 
 				// attribute type T of set<T>
-				sb.append("\t\t\t" + formatAttributeTypeName(e) + "_set_member_type = new GRGEN_LIBGR.AttributeType(");
+				sb.append("\t\t\t" + attributeTypeName + "_set_member_type = new GRGEN_LIBGR.AttributeType(");
 				sb.append("\"" + formatIdentifiable(e) + "_set_member_type\", this, ");
 				genAttributeInitTypeDependentStuff(st.getValueType(), e);
 				sb.append(");\n");
 			}
 			
-			sb.append("\t\t\t" + formatAttributeTypeName(e) + " = new GRGEN_LIBGR.AttributeType(");
+			sb.append("\t\t\t" + attributeTypeName + " = new GRGEN_LIBGR.AttributeType(");
 			sb.append("\"" + formatIdentifiable(e) + "\", this, ");
 			genAttributeInitTypeDependentStuff(t, e);
 			sb.append(");\n");
+			
+			addAnnotations(sb, e, attributeTypeName+".annotations");
 		}
 	}
 

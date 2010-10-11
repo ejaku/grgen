@@ -653,14 +653,33 @@ namespace de.unika.ipd.grGen.grShell
         /// <summary>
         /// informs debugger about the end of a loop iteration, so it can display the state at the end of the iteration
         /// </summary>
-        public void EndOfIteration(bool continueLoop, SequenceUnary seq)
+        public void EndOfIteration(bool continueLoop, Sequence seq)
         {
             if (stepMode || dynamicStepMode)
             {
-                context.workaround.PrintHighlighted("State at end of iteration step ", HighlightingMode.SequenceStart);
-                context.highlightSeq = seq;
-                PrintSequence(seq, null, context);
-                context.workaround.PrintHighlighted(continueLoop ? "< next step" : "< leaving loop", HighlightingMode.SequenceStart);
+                if(seq is SequenceBacktrack)
+                {
+                    SequenceBacktrack seqBack = (SequenceBacktrack)seq;
+                    String text;
+                    if(seqBack.Seq.ExecutionState == SequenceExecutionState.Success)
+                        text = "Success ";
+                    else
+                        if(continueLoop) text = "Backtracking ";
+                        else text = "Backtracking possibilities exhausted, fail ";
+                    context.workaround.PrintHighlighted(text, HighlightingMode.SequenceStart);
+                    context.highlightSeq = seq;
+                    PrintSequence(seq, null, context);
+                    if(!continueLoop)
+                        context.workaround.PrintHighlighted("< leaving backtracking brackets", HighlightingMode.SequenceStart);
+                }
+                else
+                {
+                    context.workaround.PrintHighlighted("State at end of iteration step ", HighlightingMode.SequenceStart);
+                    context.highlightSeq = seq;
+                    PrintSequence(seq, null, context);
+                    if(!continueLoop)
+                        context.workaround.PrintHighlighted("< leaving loop", HighlightingMode.SequenceStart);
+                }
                 Console.WriteLine(" (updating, please wait...)");
             }
         }
@@ -859,6 +878,16 @@ namespace de.unika.ipd.grGen.grShell
                     Console.Write("<");
                     PrintSequence(seqTrans.Seq, seq, context);
                     Console.Write(">");
+                    break;
+                }
+                case SequenceType.Backtrack:
+                {
+                    SequenceBacktrack seqBack = (SequenceBacktrack)seq;
+                    Console.Write("<<");
+                    PrintSequence(seqBack.Rule, seq, context);
+                    Console.Write(";");
+                    PrintSequence(seqBack.Seq, seq, context);
+                    Console.Write(">>");
                     break;
                 }
                 case SequenceType.For:
@@ -1384,7 +1413,8 @@ namespace de.unika.ipd.grGen.grShell
             // Entering a loop?
             if(seq.SequenceType == SequenceType.IterationMin
                 || seq.SequenceType == SequenceType.IterationMinMax
-                || seq.SequenceType == SequenceType.For)
+                || seq.SequenceType == SequenceType.For
+                || seq.SequenceType == SequenceType.Backtrack)
             {
                 loopList.AddFirst(seq);
             }
@@ -1430,7 +1460,8 @@ namespace de.unika.ipd.grGen.grShell
 
             if(seq.SequenceType == SequenceType.IterationMin 
                 || seq.SequenceType == SequenceType.IterationMinMax
-                || seq.SequenceType == SequenceType.For)
+                || seq.SequenceType == SequenceType.For
+                || seq.SequenceType == SequenceType.Backtrack)
             {
                 loopList.RemoveFirst();
             }

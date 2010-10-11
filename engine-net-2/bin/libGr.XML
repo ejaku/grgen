@@ -70,7 +70,7 @@
             no random input value is supplied, the user must give a value
             </summary>
         </member>
-        <member name="M:de.unika.ipd.grGen.libGr.SequenceExecutionEnvironment.EndOfIteration(System.Boolean,de.unika.ipd.grGen.libGr.SequenceUnary)">
+        <member name="M:de.unika.ipd.grGen.libGr.SequenceExecutionEnvironment.EndOfIteration(System.Boolean,de.unika.ipd.grGen.libGr.Sequence)">
             <summary>
             informs debugger about the end of a loop iteration, so it can display the state at the end of the iteration
             </summary>
@@ -371,7 +371,7 @@
             no random input value is supplied, the user must give a value
             </summary>
         </member>
-        <member name="M:de.unika.ipd.grGen.libGr.SequenceExecutionEnvironmentNamedGraphOnly.EndOfIteration(System.Boolean,de.unika.ipd.grGen.libGr.SequenceUnary)">
+        <member name="M:de.unika.ipd.grGen.libGr.SequenceExecutionEnvironmentNamedGraphOnly.EndOfIteration(System.Boolean,de.unika.ipd.grGen.libGr.Sequence)">
             <summary>
             informs debugger about the end of a loop iteration, so it can display the state at the end of the iteration
             </summary>
@@ -3002,6 +3002,11 @@
             Undefined otherwise.
             </summary>
         </member>
+        <member name="F:de.unika.ipd.grGen.libGr.AttributeType.annotations">
+            <summary>
+            The annotations of the attribute
+            </summary>
+        </member>
         <member name="M:de.unika.ipd.grGen.libGr.AttributeType.#ctor(System.String,de.unika.ipd.grGen.libGr.GrGenType,de.unika.ipd.grGen.libGr.AttributeKind,de.unika.ipd.grGen.libGr.EnumAttributeType,de.unika.ipd.grGen.libGr.AttributeType,de.unika.ipd.grGen.libGr.AttributeType)">
             <summary>
             Initializes an AttributeType instance.
@@ -3025,6 +3030,11 @@
             Returns the name of the kind
             </summary>
             <returns>The name of the kind of the attribute</returns>
+        </member>
+        <member name="P:de.unika.ipd.grGen.libGr.AttributeType.Annotations">
+            <summary>
+            The annotations of the attribute
+            </summary>
         </member>
         <member name="T:de.unika.ipd.grGen.libGr.EnumMember">
             <summary>
@@ -3364,6 +3374,11 @@
             Array containing all direct super types of this type.
             </summary>
         </member>
+        <member name="P:de.unika.ipd.grGen.libGr.NodeType.Annotations">
+            <summary>
+            The annotations of the node type
+            </summary>
+        </member>
         <member name="T:de.unika.ipd.grGen.libGr.Directedness">
             <summary>
             Specifies the kind of directedness for an EdgeType
@@ -3466,6 +3481,11 @@
         <member name="P:de.unika.ipd.grGen.libGr.EdgeType.DirectSuperTypes">
             <summary>
             Array containing all direct super types of this type.
+            </summary>
+        </member>
+        <member name="P:de.unika.ipd.grGen.libGr.EdgeType.Annotations">
+            <summary>
+            The annotations of the edge type
             </summary>
         </member>
         <member name="T:de.unika.ipd.grGen.libGr.VarType">
@@ -5792,6 +5812,11 @@
             The pattern where this element gets matched (null if rule parameter).
             </summary>
         </member>
+        <member name="P:de.unika.ipd.grGen.libGr.IPatternElement.Annotations">
+            <summary>
+            The annotations of the pattern element
+            </summary>
+        </member>
         <member name="T:de.unika.ipd.grGen.libGr.IPatternNode">
             <summary>
             A pattern node of a rule pattern.
@@ -5921,6 +5946,11 @@
             The embedded subpattern
             </summary>
         </member>
+        <member name="P:de.unika.ipd.grGen.libGr.IPatternGraphEmbedding.Annotations">
+            <summary>
+            The annotations of the pattern element
+            </summary>
+        </member>
         <member name="T:de.unika.ipd.grGen.libGr.IAlternative">
             <summary>
             An alternative is a pattern graph element containing subpatterns
@@ -5950,6 +5980,11 @@
         <member name="P:de.unika.ipd.grGen.libGr.IMatchingPattern.InputNames">
             <summary>
             An array of the names corresponding to rule parameters;
+            </summary>
+        </member>
+        <member name="P:de.unika.ipd.grGen.libGr.IMatchingPattern.Annotations">
+            <summary>
+            The annotations of the matching pattern (test/rule/subpattern)
             </summary>
         </member>
         <member name="T:de.unika.ipd.grGen.libGr.IRulePattern">

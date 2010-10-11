@@ -676,6 +676,8 @@ public class ActionsGen extends CSharpBase {
 		sb.append("\t\t\tname = \"" + formatIdentifiable(action) + "\";\n");
 		sb.append("\n");
 		genRuleParamResult(sb, action, isSubpattern);
+		sb.append("\n");
+		addAnnotations(sb, action, "annotations");
 		sb.append("\t\t}\n");
 
 		HashMap<Entity, String> alreadyDefinedEntityToName = new HashMap<Entity, String>();
@@ -929,6 +931,7 @@ public class ActionsGen extends CSharpBase {
 			sb.append(node.getMaybeNull()?"true);\n":"false);\n");
 			alreadyDefinedEntityToName.put(node, nodeName);
 			aux.append("\t\t\t" + nodeName + ".pointOfDefinition = " + (parameters.indexOf(node)==-1 ? patGraphVarName : "null") + ";\n");
+			addAnnotations(aux, node, nodeName+".annotations");
 
 			node.setPointOfDefinition(pattern);
 		}
@@ -949,6 +952,7 @@ public class ActionsGen extends CSharpBase {
 			sb.append(edge.getMaybeNull()?"true);\n":"false);\n");
 			alreadyDefinedEntityToName.put(edge, edgeName);
 			aux.append("\t\t\t" + edgeName + ".pointOfDefinition = " + (parameters.indexOf(edge)==-1 ? patGraphVarName : "null") + ";\n");
+			addAnnotations(aux, edge, edgeName+".annotations");
 
 			edge.setPointOfDefinition(pattern);
 		}
@@ -964,6 +968,7 @@ public class ActionsGen extends CSharpBase {
 					+ ")), \"" + varName + "\", \"" + formatIdentifiable(var) + "\", ");
 			sb.append(parameters.indexOf(var)+");\n");
 			alreadyDefinedEntityToName.put(var, varName);
+			addAnnotations(aux, var, varName+".annotations");
 		}
 
 		for(SubpatternUsage sub : pattern.getSubpatternUsages()) {
@@ -995,6 +1000,7 @@ public class ActionsGen extends CSharpBase {
 			sb.append(");\n");
 			alreadyDefinedIdentifiableToName.put(sub, subName);
 			aux.append("\t\t\t" + subName + ".PointOfDefinition = " + patGraphVarName + ";\n");
+			addAnnotations(aux, sub, subName+".annotations");
 		}
 
 		int i = 0;

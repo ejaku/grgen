@@ -140,6 +140,14 @@ namespace de.unika.ipd.grGen.libGr
                 break;
             }
 
+            case SequenceType.Backtrack:
+            {
+                SequenceBacktrack backSeq = (SequenceBacktrack)seq;
+                Check(backSeq.Rule);
+                Check(backSeq.Seq);
+                break;
+            }
+
             case SequenceType.Def:
             case SequenceType.True:
             case SequenceType.False:

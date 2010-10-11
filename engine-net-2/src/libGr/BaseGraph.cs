@@ -1150,6 +1150,8 @@ namespace de.unika.ipd.grGen.libGr
             {
                 throw new Exception("The method or operation is not implemented.");
             }
+
+            public override IEnumerable<KeyValuePair<string, string>> Annotations { get { return new Dictionary<string, string>(); } }
         }
 
         /// <summary>

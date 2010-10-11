@@ -504,33 +504,6 @@ public class SubpatternDeclNode extends ActionDeclNode  {
 		}
 	}
 	
-	private void ensureSubpatternParametersAreNotDeleted(Rule rule)
-	{
-		// TODO choose the right one
-		if(right.children.size()==0) {
-			return;
-		}
-		
-		// only in replace we must ensure the parameters are not deleted cause they are not referenced on the RHS
-		if(right.children.get(0) instanceof ModifyDeclNode) {
-			return;
-		}
-		
-		for(Entity entity : rule.getParameters()) {
-			if(entity instanceof Node) {
-				Node node = (Node)entity;
-				if(!rule.getRight().hasNode(node)) {
-					rule.getRight().getNodes().add(node);
-				}
-			} else if(entity instanceof Edge) {
-				Edge edge = (Edge)entity;
-				if(!rule.getRight().hasEdge(edge)) {
-					rule.getRight().getEdges().add(edge);
-				}
-			}
-		}
-	}
-
 	/**
 	 * @see de.unika.ipd.grgen.ast.BaseNode#constructIR()
 	 */
@@ -561,8 +534,6 @@ public class SubpatternDeclNode extends ActionDeclNode  {
 
 		Rule rule = new Rule(getIdentNode().getIdent(), left, right);
 		
-		ensureSubpatternParametersAreNotDeleted(rule);
-
 		constructImplicitNegs(left);
 		constructIRaux(rule);
 

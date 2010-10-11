@@ -13,6 +13,8 @@
  */
 package de.unika.ipd.grgen.util;
 
+import java.util.Set;
+
 /**
  * A collection of annotations.
  */
@@ -31,4 +33,6 @@ public interface Annotations {
 	boolean isFlagSet(String key);
 
 	void put(String key, Object value);
+	
+	Set<String> keySet();
 }

@@ -113,6 +113,8 @@ TOKEN: {
 |	< RBOXBRACKET: "]" >
 |   < LANGLE: "<" >
 |   < RANGLE: ">" >
+|   < LLANGLE: "<<" >
+|   < RRANGLE: ">>" >
 |   < LBRACE: "{" >
 |   < RBRACE: "}" >
 |	< COLON: ":" >
@@ -851,6 +853,11 @@ Sequence SimpleSequence():
     "<" seq=RewriteSequence() ">"
     {
         return new SequenceTransaction(seq);
+    }
+|
+    "<<" seq=Rule() ";" seq2=RewriteSequence() ">>"
+    {
+        return new SequenceBacktrack(seq, seq2);
     }
 |
     "if" "{" { varDecls.PushScope(ScopeType.If); } seq=RewriteSequence() ";"

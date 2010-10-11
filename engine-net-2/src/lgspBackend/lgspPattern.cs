@@ -36,6 +36,11 @@ namespace de.unika.ipd.grGen.lgsp
         public IPatternGraph PointOfDefinition { get { return pointOfDefinition; } }
 
         /// <summary>
+        /// The annotations of the pattern element
+        /// </summary>
+        public IEnumerable<KeyValuePair<string, string>> Annotations { get { return annotations; } }
+
+        /// <summary>
         /// The type ID of the pattern element.
         /// </summary>
         public int TypeID;
@@ -59,6 +64,11 @@ namespace de.unika.ipd.grGen.lgsp
         /// The pattern where this element gets matched (null if rule parameter).
         /// </summary>
         public PatternGraph pointOfDefinition;
+
+        /// <summary>
+        /// The annotations of the pattern element
+        /// </summary>
+        public IDictionary<string, string> annotations = new Dictionary<string, string>();
 
         /// <summary>
         /// An array of allowed types for this pattern element.
@@ -248,6 +258,11 @@ namespace de.unika.ipd.grGen.lgsp
         public IPatternGraph PointOfDefinition { get { return pointOfDefinition; } }
 
         /// <summary>
+        /// The annotations of the pattern element
+        /// </summary>
+        public IEnumerable<KeyValuePair<string, string>> Annotations { get { return annotations; } }
+
+        /// <summary>
         /// The GrGen type of the variable.
         /// </summary>
         public VarType Type;
@@ -266,6 +281,11 @@ namespace de.unika.ipd.grGen.lgsp
         /// The pattern where this element gets matched (null if rule parameter).
         /// </summary>
         public PatternGraph pointOfDefinition;
+
+        /// <summary>
+        /// The annotations of the pattern element
+        /// </summary>
+        public IDictionary<string, string> annotations = new Dictionary<string, string>();
 
         /// <summary>
         /// Specifies to which rule parameter this variable corresponds.
@@ -845,6 +865,10 @@ namespace de.unika.ipd.grGen.lgsp
         /// </summary>
         public IPatternGraph EmbeddedGraph { get { return matchingPatternOfEmbeddedGraph.patternGraph; } }
 
+        /// <summary>
+        /// The annotations of the pattern element
+        /// </summary>
+        public IEnumerable<KeyValuePair<string, string>> Annotations { get { return annotations; } }
 
         /// <summary>
         /// The pattern where this complex subpattern element gets matched.
@@ -860,6 +884,11 @@ namespace de.unika.ipd.grGen.lgsp
         /// The embedded subpattern.
         /// </summary>
         public LGSPMatchingPattern matchingPatternOfEmbeddedGraph;
+
+        /// <summary>
+        /// The annotations of the pattern element
+        /// </summary>
+        public IDictionary<string, string> annotations = new Dictionary<string, string>();
 
         /// <summary>
         /// An array with the expressions giving the arguments to the subpattern,
@@ -970,6 +999,11 @@ namespace de.unika.ipd.grGen.lgsp
         public String[] InputNames { get { return inputNames; } }
 
         /// <summary>
+        /// The annotations of the matching pattern (test/rule/subpattern)
+        /// </summary>
+        public IEnumerable<KeyValuePair<string, string>> Annotations { get { return annotations; } }
+
+        /// <summary>
         /// The main pattern graph.
         /// </summary>
         public PatternGraph patternGraph;
@@ -983,6 +1017,11 @@ namespace de.unika.ipd.grGen.lgsp
         /// Names of the rule parameter elements
         /// </summary>
         public string[] inputNames;
+
+        /// <summary>
+        /// The annotations of the matching pattern (test/rule/subpattern)
+        /// </summary>
+        public IDictionary<string, string> annotations = new Dictionary<string, string>();
 
         /// <summary>
         /// Our name

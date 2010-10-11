@@ -89,7 +89,7 @@ namespace de.unika.ipd.grGen.libGr
         /// <summary>
         /// informs debugger about the end of a loop iteration, so it can display the state at the end of the iteration
         /// </summary>
-        public void EndOfIteration(bool continueLoop, SequenceUnary seq)
+        public void EndOfIteration(bool continueLoop, Sequence seq)
         {
         }
     }
