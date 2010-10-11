@@ -1,6 +1,6 @@
 // This file has been generated automatically by GrGen (www.grgen.net)
 // Do not modify this file! Any changes will be lost!
-// Generated from "..\..\examples\Mutex\MutexPimped.grg" on Sun Sep 12 20:12:34 CEST 2010
+// Generated from "..\..\examples\Mutex\MutexPimped.grg" on Sun Oct 10 18:44:23 CEST 2010
 
 using System;
 using System.Collections.Generic;
@@ -22,7 +22,7 @@ namespace de.unika.ipd.grGen.Model_Mutex
 	// Node types
 	//
 
-	public enum NodeTypes { @Node, @Process, @Resource };
+	public enum NodeTypes { @Node, @Process, @Resource, @AnnotationTestNode };
 
 	// *** Node Node ***
 
@@ -106,8 +106,8 @@ namespace de.unika.ipd.grGen.Model_Mutex
 	public sealed class NodeType_Node : GRGEN_LIBGR.NodeType
 	{
 		public static GRGEN_MODEL.NodeType_Node typeVar = new GRGEN_MODEL.NodeType_Node();
-		public static bool[] isA = new bool[] { true, false, false, };
-		public static bool[] isMyType = new bool[] { true, true, true, };
+		public static bool[] isA = new bool[] { true, false, false, false, };
+		public static bool[] isMyType = new bool[] { true, true, true, true, };
 		public NodeType_Node() : base((int) NodeTypes.@Node)
 		{
 		}
@@ -120,6 +120,8 @@ namespace de.unika.ipd.grGen.Model_Mutex
 		}
 		public override bool IsAbstract { get { return false; } }
 		public override bool IsConst { get { return false; } }
+		public override IEnumerable<KeyValuePair<string, string>> Annotations { get { return annotations; } }
+		public IDictionary<string, string> annotations = new Dictionary<string, string>();
 		public override int NumAttributes { get { return 0; } }
 		public override IEnumerable<GRGEN_LIBGR.AttributeType> AttributeTypes { get { yield break; } }
 		public override GRGEN_LIBGR.AttributeType GetAttributeType(string name) { return null; }
@@ -225,8 +227,8 @@ namespace de.unika.ipd.grGen.Model_Mutex
 	public sealed class NodeType_Process : GRGEN_LIBGR.NodeType
 	{
 		public static GRGEN_MODEL.NodeType_Process typeVar = new GRGEN_MODEL.NodeType_Process();
-		public static bool[] isA = new bool[] { true, true, false, };
-		public static bool[] isMyType = new bool[] { false, true, false, };
+		public static bool[] isA = new bool[] { true, true, false, false, };
+		public static bool[] isMyType = new bool[] { false, true, false, false, };
 		public NodeType_Process() : base((int) NodeTypes.@Process)
 		{
 		}
@@ -239,6 +241,8 @@ namespace de.unika.ipd.grGen.Model_Mutex
 		}
 		public override bool IsAbstract { get { return false; } }
 		public override bool IsConst { get { return false; } }
+		public override IEnumerable<KeyValuePair<string, string>> Annotations { get { return annotations; } }
+		public IDictionary<string, string> annotations = new Dictionary<string, string>();
 		public override int NumAttributes { get { return 0; } }
 		public override IEnumerable<GRGEN_LIBGR.AttributeType> AttributeTypes { get { yield break; } }
 		public override GRGEN_LIBGR.AttributeType GetAttributeType(string name) { return null; }
@@ -344,8 +348,8 @@ namespace de.unika.ipd.grGen.Model_Mutex
 	public sealed class NodeType_Resource : GRGEN_LIBGR.NodeType
 	{
 		public static GRGEN_MODEL.NodeType_Resource typeVar = new GRGEN_MODEL.NodeType_Resource();
-		public static bool[] isA = new bool[] { true, false, true, };
-		public static bool[] isMyType = new bool[] { false, false, true, };
+		public static bool[] isA = new bool[] { true, false, true, false, };
+		public static bool[] isMyType = new bool[] { false, false, true, false, };
 		public NodeType_Resource() : base((int) NodeTypes.@Resource)
 		{
 		}
@@ -358,6 +362,8 @@ namespace de.unika.ipd.grGen.Model_Mutex
 		}
 		public override bool IsAbstract { get { return false; } }
 		public override bool IsConst { get { return false; } }
+		public override IEnumerable<KeyValuePair<string, string>> Annotations { get { return annotations; } }
+		public IDictionary<string, string> annotations = new Dictionary<string, string>();
 		public override int NumAttributes { get { return 0; } }
 		public override IEnumerable<GRGEN_LIBGR.AttributeType> AttributeTypes { get { yield break; } }
 		public override GRGEN_LIBGR.AttributeType GetAttributeType(string name) { return null; }
@@ -368,6 +374,128 @@ namespace de.unika.ipd.grGen.Model_Mutex
 		public override GRGEN_LIBGR.INode CreateNodeWithCopyCommons(GRGEN_LIBGR.INode oldINode)
 		{
 			return new GRGEN_MODEL.@Resource();
+		}
+
+	}
+
+	// *** Node AnnotationTestNode ***
+
+	public interface IAnnotationTestNode : GRGEN_LIBGR.INode
+	{
+	}
+
+	public sealed class @AnnotationTestNode : GRGEN_LGSP.LGSPNode, GRGEN_MODEL.IAnnotationTestNode
+	{
+		private static int poolLevel = 0;
+		private static GRGEN_MODEL.@AnnotationTestNode[] pool = new GRGEN_MODEL.@AnnotationTestNode[10];
+		
+		// explicit initializations of AnnotationTestNode for target AnnotationTestNode
+		// implicit initializations of AnnotationTestNode for target AnnotationTestNode
+		static @AnnotationTestNode() {
+		}
+		
+		public @AnnotationTestNode() : base(GRGEN_MODEL.NodeType_AnnotationTestNode.typeVar)
+		{
+			// implicit initialization, map/set creation of AnnotationTestNode
+			// explicit initializations of AnnotationTestNode for target AnnotationTestNode
+		}
+
+		public static GRGEN_MODEL.NodeType_AnnotationTestNode TypeInstance { get { return GRGEN_MODEL.NodeType_AnnotationTestNode.typeVar; } }
+
+		public override GRGEN_LIBGR.INode Clone() { return new GRGEN_MODEL.@AnnotationTestNode(this); }
+
+		private @AnnotationTestNode(GRGEN_MODEL.@AnnotationTestNode oldElem) : base(GRGEN_MODEL.NodeType_AnnotationTestNode.typeVar)
+		{
+		}
+		public static GRGEN_MODEL.@AnnotationTestNode CreateNode(GRGEN_LGSP.LGSPGraph graph)
+		{
+			GRGEN_MODEL.@AnnotationTestNode node;
+			if(poolLevel == 0)
+				node = new GRGEN_MODEL.@AnnotationTestNode();
+			else
+			{
+				node = pool[--poolLevel];
+				node.lgspInhead = null;
+				node.lgspOuthead = null;
+				node.lgspFlags &= ~(uint) GRGEN_LGSP.LGSPElemFlags.HAS_VARIABLES;
+				// implicit initialization, map/set creation of AnnotationTestNode
+				// explicit initializations of AnnotationTestNode for target AnnotationTestNode
+			}
+			graph.AddNode(node);
+			return node;
+		}
+
+		public static GRGEN_MODEL.@AnnotationTestNode CreateNode(GRGEN_LGSP.LGSPGraph graph, string varName)
+		{
+			GRGEN_MODEL.@AnnotationTestNode node;
+			if(poolLevel == 0)
+				node = new GRGEN_MODEL.@AnnotationTestNode();
+			else
+			{
+				node = pool[--poolLevel];
+				node.lgspInhead = null;
+				node.lgspOuthead = null;
+				node.lgspFlags &= ~(uint) GRGEN_LGSP.LGSPElemFlags.HAS_VARIABLES;
+				// implicit initialization, map/set creation of AnnotationTestNode
+				// explicit initializations of AnnotationTestNode for target AnnotationTestNode
+			}
+			graph.AddNode(node, varName);
+			return node;
+		}
+
+		public override void Recycle()
+		{
+			if(poolLevel < 10)
+				pool[poolLevel++] = this;
+		}
+
+		public override object GetAttribute(string attrName)
+		{
+			throw new NullReferenceException(
+				"The node type \"AnnotationTestNode\" does not have the attribute \" + attrName + \"\"!");
+		}
+		public override void SetAttribute(string attrName, object value)
+		{
+			throw new NullReferenceException(
+				"The node type \"AnnotationTestNode\" does not have the attribute \" + attrName + \"\"!");
+		}
+		public override void ResetAllAttributes()
+		{
+			// implicit initialization, map/set creation of AnnotationTestNode
+			// explicit initializations of AnnotationTestNode for target AnnotationTestNode
+		}
+	}
+
+	public sealed class NodeType_AnnotationTestNode : GRGEN_LIBGR.NodeType
+	{
+		public static GRGEN_MODEL.NodeType_AnnotationTestNode typeVar = new GRGEN_MODEL.NodeType_AnnotationTestNode();
+		public static bool[] isA = new bool[] { true, false, false, true, };
+		public static bool[] isMyType = new bool[] { false, false, false, true, };
+		public NodeType_AnnotationTestNode() : base((int) NodeTypes.@AnnotationTestNode)
+		{
+			annotations.Add("bla", "blubb");
+		}
+		public override string Name { get { return "AnnotationTestNode"; } }
+		public override string NodeInterfaceName { get { return "de.unika.ipd.grGen.Model_Mutex.IAnnotationTestNode"; } }
+		public override string NodeClassName { get { return "de.unika.ipd.grGen.Model_Mutex.@AnnotationTestNode"; } }
+		public override GRGEN_LIBGR.INode CreateNode()
+		{
+			return new GRGEN_MODEL.@AnnotationTestNode();
+		}
+		public override bool IsAbstract { get { return false; } }
+		public override bool IsConst { get { return false; } }
+		public override IEnumerable<KeyValuePair<string, string>> Annotations { get { return annotations; } }
+		public IDictionary<string, string> annotations = new Dictionary<string, string>();
+		public override int NumAttributes { get { return 0; } }
+		public override IEnumerable<GRGEN_LIBGR.AttributeType> AttributeTypes { get { yield break; } }
+		public override GRGEN_LIBGR.AttributeType GetAttributeType(string name) { return null; }
+		public override bool IsA(GRGEN_LIBGR.GrGenType other)
+		{
+			return (this == other) || isA[other.TypeID];
+		}
+		public override GRGEN_LIBGR.INode CreateNodeWithCopyCommons(GRGEN_LIBGR.INode oldINode)
+		{
+			return new GRGEN_MODEL.@AnnotationTestNode();
 		}
 
 	}
@@ -384,10 +512,12 @@ namespace de.unika.ipd.grGen.Model_Mutex
 				GRGEN_MODEL.NodeType_Node.typeVar,
 				GRGEN_MODEL.NodeType_Process.typeVar,
 				GRGEN_MODEL.NodeType_Resource.typeVar,
+				GRGEN_MODEL.NodeType_AnnotationTestNode.typeVar,
 			};
 			GRGEN_MODEL.NodeType_Node.typeVar.directSubGrGenTypes = GRGEN_MODEL.NodeType_Node.typeVar.directSubTypes = new GRGEN_LIBGR.NodeType[] {
 				GRGEN_MODEL.NodeType_Process.typeVar,
 				GRGEN_MODEL.NodeType_Resource.typeVar,
+				GRGEN_MODEL.NodeType_AnnotationTestNode.typeVar,
 			};
 			GRGEN_MODEL.NodeType_Node.typeVar.superOrSameGrGenTypes = GRGEN_MODEL.NodeType_Node.typeVar.superOrSameTypes = new GRGEN_LIBGR.NodeType[] {
 				GRGEN_MODEL.NodeType_Node.typeVar,
@@ -418,6 +548,18 @@ namespace de.unika.ipd.grGen.Model_Mutex
 			GRGEN_MODEL.NodeType_Resource.typeVar.directSuperGrGenTypes = GRGEN_MODEL.NodeType_Resource.typeVar.directSuperTypes = new GRGEN_LIBGR.NodeType[] {
 				GRGEN_MODEL.NodeType_Node.typeVar,
 			};
+			GRGEN_MODEL.NodeType_AnnotationTestNode.typeVar.subOrSameGrGenTypes = GRGEN_MODEL.NodeType_AnnotationTestNode.typeVar.subOrSameTypes = new GRGEN_LIBGR.NodeType[] {
+				GRGEN_MODEL.NodeType_AnnotationTestNode.typeVar,
+			};
+			GRGEN_MODEL.NodeType_AnnotationTestNode.typeVar.directSubGrGenTypes = GRGEN_MODEL.NodeType_AnnotationTestNode.typeVar.directSubTypes = new GRGEN_LIBGR.NodeType[] {
+			};
+			GRGEN_MODEL.NodeType_AnnotationTestNode.typeVar.superOrSameGrGenTypes = GRGEN_MODEL.NodeType_AnnotationTestNode.typeVar.superOrSameTypes = new GRGEN_LIBGR.NodeType[] {
+				GRGEN_MODEL.NodeType_AnnotationTestNode.typeVar,
+				GRGEN_MODEL.NodeType_Node.typeVar,
+			};
+			GRGEN_MODEL.NodeType_AnnotationTestNode.typeVar.directSuperGrGenTypes = GRGEN_MODEL.NodeType_AnnotationTestNode.typeVar.directSuperTypes = new GRGEN_LIBGR.NodeType[] {
+				GRGEN_MODEL.NodeType_Node.typeVar,
+			};
 		}
 		public bool IsNodeModel { get { return true; } }
 		public GRGEN_LIBGR.NodeType RootType { get { return GRGEN_MODEL.NodeType_Node.typeVar; } }
@@ -429,6 +571,7 @@ namespace de.unika.ipd.grGen.Model_Mutex
 				case "Node" : return GRGEN_MODEL.NodeType_Node.typeVar;
 				case "Process" : return GRGEN_MODEL.NodeType_Process.typeVar;
 				case "Resource" : return GRGEN_MODEL.NodeType_Resource.typeVar;
+				case "AnnotationTestNode" : return GRGEN_MODEL.NodeType_AnnotationTestNode.typeVar;
 			}
 			return null;
 		}
@@ -440,6 +583,7 @@ namespace de.unika.ipd.grGen.Model_Mutex
 			GRGEN_MODEL.NodeType_Node.typeVar,
 			GRGEN_MODEL.NodeType_Process.typeVar,
 			GRGEN_MODEL.NodeType_Resource.typeVar,
+			GRGEN_MODEL.NodeType_AnnotationTestNode.typeVar,
 		};
 		public GRGEN_LIBGR.NodeType[] Types { get { return types; } }
 		GRGEN_LIBGR.GrGenType[] GRGEN_LIBGR.ITypeModel.Types { get { return types; } }
@@ -447,6 +591,7 @@ namespace de.unika.ipd.grGen.Model_Mutex
 			typeof(GRGEN_MODEL.NodeType_Node),
 			typeof(GRGEN_MODEL.NodeType_Process),
 			typeof(GRGEN_MODEL.NodeType_Resource),
+			typeof(GRGEN_MODEL.NodeType_AnnotationTestNode),
 		};
 		public System.Type[] TypeTypes { get { return typeTypes; } }
 		private GRGEN_LIBGR.AttributeType[] attributeTypes = {
@@ -458,7 +603,7 @@ namespace de.unika.ipd.grGen.Model_Mutex
 	// Edge types
 	//
 
-	public enum EdgeTypes { @AEdge, @Edge, @UEdge, @next, @blocked, @held_by, @token, @release, @request };
+	public enum EdgeTypes { @AEdge, @Edge, @UEdge, @next, @blocked, @held_by, @token, @release, @request, @annotationTestEdge };
 
 	// *** Edge AEdge ***
 
@@ -466,8 +611,8 @@ namespace de.unika.ipd.grGen.Model_Mutex
 	public sealed class EdgeType_AEdge : GRGEN_LIBGR.EdgeType
 	{
 		public static GRGEN_MODEL.EdgeType_AEdge typeVar = new GRGEN_MODEL.EdgeType_AEdge();
-		public static bool[] isA = new bool[] { true, false, false, false, false, false, false, false, false, };
-		public static bool[] isMyType = new bool[] { true, true, true, true, true, true, true, true, true, };
+		public static bool[] isA = new bool[] { true, false, false, false, false, false, false, false, false, false, };
+		public static bool[] isMyType = new bool[] { true, true, true, true, true, true, true, true, true, true, };
 		public EdgeType_AEdge() : base((int) EdgeTypes.@AEdge)
 		{
 		}
@@ -481,6 +626,8 @@ namespace de.unika.ipd.grGen.Model_Mutex
 		}
 		public override bool IsAbstract { get { return true; } }
 		public override bool IsConst { get { return false; } }
+		public override IEnumerable<KeyValuePair<string, string>> Annotations { get { return annotations; } }
+		public IDictionary<string, string> annotations = new Dictionary<string, string>();
 		public override int NumAttributes { get { return 0; } }
 		public override IEnumerable<GRGEN_LIBGR.AttributeType> AttributeTypes { get { yield break; } }
 		public override GRGEN_LIBGR.AttributeType GetAttributeType(string name) { return null; }
@@ -579,8 +726,8 @@ namespace de.unika.ipd.grGen.Model_Mutex
 	public sealed class EdgeType_Edge : GRGEN_LIBGR.EdgeType
 	{
 		public static GRGEN_MODEL.EdgeType_Edge typeVar = new GRGEN_MODEL.EdgeType_Edge();
-		public static bool[] isA = new bool[] { true, true, false, false, false, false, false, false, false, };
-		public static bool[] isMyType = new bool[] { false, true, false, true, true, true, true, true, true, };
+		public static bool[] isA = new bool[] { true, true, false, false, false, false, false, false, false, false, };
+		public static bool[] isMyType = new bool[] { false, true, false, true, true, true, true, true, true, true, };
 		public EdgeType_Edge() : base((int) EdgeTypes.@Edge)
 		{
 		}
@@ -594,6 +741,8 @@ namespace de.unika.ipd.grGen.Model_Mutex
 		}
 		public override bool IsAbstract { get { return false; } }
 		public override bool IsConst { get { return false; } }
+		public override IEnumerable<KeyValuePair<string, string>> Annotations { get { return annotations; } }
+		public IDictionary<string, string> annotations = new Dictionary<string, string>();
 		public override int NumAttributes { get { return 0; } }
 		public override IEnumerable<GRGEN_LIBGR.AttributeType> AttributeTypes { get { yield break; } }
 		public override GRGEN_LIBGR.AttributeType GetAttributeType(string name) { return null; }
@@ -693,8 +842,8 @@ namespace de.unika.ipd.grGen.Model_Mutex
 	public sealed class EdgeType_UEdge : GRGEN_LIBGR.EdgeType
 	{
 		public static GRGEN_MODEL.EdgeType_UEdge typeVar = new GRGEN_MODEL.EdgeType_UEdge();
-		public static bool[] isA = new bool[] { true, false, true, false, false, false, false, false, false, };
-		public static bool[] isMyType = new bool[] { false, false, true, false, false, false, false, false, false, };
+		public static bool[] isA = new bool[] { true, false, true, false, false, false, false, false, false, false, };
+		public static bool[] isMyType = new bool[] { false, false, true, false, false, false, false, false, false, false, };
 		public EdgeType_UEdge() : base((int) EdgeTypes.@UEdge)
 		{
 		}
@@ -708,6 +857,8 @@ namespace de.unika.ipd.grGen.Model_Mutex
 		}
 		public override bool IsAbstract { get { return false; } }
 		public override bool IsConst { get { return false; } }
+		public override IEnumerable<KeyValuePair<string, string>> Annotations { get { return annotations; } }
+		public IDictionary<string, string> annotations = new Dictionary<string, string>();
 		public override int NumAttributes { get { return 0; } }
 		public override IEnumerable<GRGEN_LIBGR.AttributeType> AttributeTypes { get { yield break; } }
 		public override GRGEN_LIBGR.AttributeType GetAttributeType(string name) { return null; }
@@ -816,8 +967,8 @@ namespace de.unika.ipd.grGen.Model_Mutex
 	public sealed class EdgeType_next : GRGEN_LIBGR.EdgeType
 	{
 		public static GRGEN_MODEL.EdgeType_next typeVar = new GRGEN_MODEL.EdgeType_next();
-		public static bool[] isA = new bool[] { true, true, false, true, false, false, false, false, false, };
-		public static bool[] isMyType = new bool[] { false, false, false, true, false, false, false, false, false, };
+		public static bool[] isA = new bool[] { true, true, false, true, false, false, false, false, false, false, };
+		public static bool[] isMyType = new bool[] { false, false, false, true, false, false, false, false, false, false, };
 		public EdgeType_next() : base((int) EdgeTypes.@next)
 		{
 		}
@@ -831,6 +982,8 @@ namespace de.unika.ipd.grGen.Model_Mutex
 		}
 		public override bool IsAbstract { get { return false; } }
 		public override bool IsConst { get { return false; } }
+		public override IEnumerable<KeyValuePair<string, string>> Annotations { get { return annotations; } }
+		public IDictionary<string, string> annotations = new Dictionary<string, string>();
 		public override int NumAttributes { get { return 0; } }
 		public override IEnumerable<GRGEN_LIBGR.AttributeType> AttributeTypes { get { yield break; } }
 		public override GRGEN_LIBGR.AttributeType GetAttributeType(string name) { return null; }
@@ -939,8 +1092,8 @@ namespace de.unika.ipd.grGen.Model_Mutex
 	public sealed class EdgeType_blocked : GRGEN_LIBGR.EdgeType
 	{
 		public static GRGEN_MODEL.EdgeType_blocked typeVar = new GRGEN_MODEL.EdgeType_blocked();
-		public static bool[] isA = new bool[] { true, true, false, false, true, false, false, false, false, };
-		public static bool[] isMyType = new bool[] { false, false, false, false, true, false, false, false, false, };
+		public static bool[] isA = new bool[] { true, true, false, false, true, false, false, false, false, false, };
+		public static bool[] isMyType = new bool[] { false, false, false, false, true, false, false, false, false, false, };
 		public EdgeType_blocked() : base((int) EdgeTypes.@blocked)
 		{
 		}
@@ -954,6 +1107,8 @@ namespace de.unika.ipd.grGen.Model_Mutex
 		}
 		public override bool IsAbstract { get { return false; } }
 		public override bool IsConst { get { return false; } }
+		public override IEnumerable<KeyValuePair<string, string>> Annotations { get { return annotations; } }
+		public IDictionary<string, string> annotations = new Dictionary<string, string>();
 		public override int NumAttributes { get { return 0; } }
 		public override IEnumerable<GRGEN_LIBGR.AttributeType> AttributeTypes { get { yield break; } }
 		public override GRGEN_LIBGR.AttributeType GetAttributeType(string name) { return null; }
@@ -1062,8 +1217,8 @@ namespace de.unika.ipd.grGen.Model_Mutex
 	public sealed class EdgeType_held_by : GRGEN_LIBGR.EdgeType
 	{
 		public static GRGEN_MODEL.EdgeType_held_by typeVar = new GRGEN_MODEL.EdgeType_held_by();
-		public static bool[] isA = new bool[] { true, true, false, false, false, true, false, false, false, };
-		public static bool[] isMyType = new bool[] { false, false, false, false, false, true, false, false, false, };
+		public static bool[] isA = new bool[] { true, true, false, false, false, true, false, false, false, false, };
+		public static bool[] isMyType = new bool[] { false, false, false, false, false, true, false, false, false, false, };
 		public EdgeType_held_by() : base((int) EdgeTypes.@held_by)
 		{
 		}
@@ -1077,6 +1232,8 @@ namespace de.unika.ipd.grGen.Model_Mutex
 		}
 		public override bool IsAbstract { get { return false; } }
 		public override bool IsConst { get { return false; } }
+		public override IEnumerable<KeyValuePair<string, string>> Annotations { get { return annotations; } }
+		public IDictionary<string, string> annotations = new Dictionary<string, string>();
 		public override int NumAttributes { get { return 0; } }
 		public override IEnumerable<GRGEN_LIBGR.AttributeType> AttributeTypes { get { yield break; } }
 		public override GRGEN_LIBGR.AttributeType GetAttributeType(string name) { return null; }
@@ -1185,8 +1342,8 @@ namespace de.unika.ipd.grGen.Model_Mutex
 	public sealed class EdgeType_token : GRGEN_LIBGR.EdgeType
 	{
 		public static GRGEN_MODEL.EdgeType_token typeVar = new GRGEN_MODEL.EdgeType_token();
-		public static bool[] isA = new bool[] { true, true, false, false, false, false, true, false, false, };
-		public static bool[] isMyType = new bool[] { false, false, false, false, false, false, true, false, false, };
+		public static bool[] isA = new bool[] { true, true, false, false, false, false, true, false, false, false, };
+		public static bool[] isMyType = new bool[] { false, false, false, false, false, false, true, false, false, false, };
 		public EdgeType_token() : base((int) EdgeTypes.@token)
 		{
 		}
@@ -1200,6 +1357,8 @@ namespace de.unika.ipd.grGen.Model_Mutex
 		}
 		public override bool IsAbstract { get { return false; } }
 		public override bool IsConst { get { return false; } }
+		public override IEnumerable<KeyValuePair<string, string>> Annotations { get { return annotations; } }
+		public IDictionary<string, string> annotations = new Dictionary<string, string>();
 		public override int NumAttributes { get { return 0; } }
 		public override IEnumerable<GRGEN_LIBGR.AttributeType> AttributeTypes { get { yield break; } }
 		public override GRGEN_LIBGR.AttributeType GetAttributeType(string name) { return null; }
@@ -1308,8 +1467,8 @@ namespace de.unika.ipd.grGen.Model_Mutex
 	public sealed class EdgeType_release : GRGEN_LIBGR.EdgeType
 	{
 		public static GRGEN_MODEL.EdgeType_release typeVar = new GRGEN_MODEL.EdgeType_release();
-		public static bool[] isA = new bool[] { true, true, false, false, false, false, false, true, false, };
-		public static bool[] isMyType = new bool[] { false, false, false, false, false, false, false, true, false, };
+		public static bool[] isA = new bool[] { true, true, false, false, false, false, false, true, false, false, };
+		public static bool[] isMyType = new bool[] { false, false, false, false, false, false, false, true, false, false, };
 		public EdgeType_release() : base((int) EdgeTypes.@release)
 		{
 		}
@@ -1323,6 +1482,8 @@ namespace de.unika.ipd.grGen.Model_Mutex
 		}
 		public override bool IsAbstract { get { return false; } }
 		public override bool IsConst { get { return false; } }
+		public override IEnumerable<KeyValuePair<string, string>> Annotations { get { return annotations; } }
+		public IDictionary<string, string> annotations = new Dictionary<string, string>();
 		public override int NumAttributes { get { return 0; } }
 		public override IEnumerable<GRGEN_LIBGR.AttributeType> AttributeTypes { get { yield break; } }
 		public override GRGEN_LIBGR.AttributeType GetAttributeType(string name) { return null; }
@@ -1431,8 +1592,8 @@ namespace de.unika.ipd.grGen.Model_Mutex
 	public sealed class EdgeType_request : GRGEN_LIBGR.EdgeType
 	{
 		public static GRGEN_MODEL.EdgeType_request typeVar = new GRGEN_MODEL.EdgeType_request();
-		public static bool[] isA = new bool[] { true, true, false, false, false, false, false, false, true, };
-		public static bool[] isMyType = new bool[] { false, false, false, false, false, false, false, false, true, };
+		public static bool[] isA = new bool[] { true, true, false, false, false, false, false, false, true, false, };
+		public static bool[] isMyType = new bool[] { false, false, false, false, false, false, false, false, true, false, };
 		public EdgeType_request() : base((int) EdgeTypes.@request)
 		{
 		}
@@ -1446,6 +1607,8 @@ namespace de.unika.ipd.grGen.Model_Mutex
 		}
 		public override bool IsAbstract { get { return false; } }
 		public override bool IsConst { get { return false; } }
+		public override IEnumerable<KeyValuePair<string, string>> Annotations { get { return annotations; } }
+		public IDictionary<string, string> annotations = new Dictionary<string, string>();
 		public override int NumAttributes { get { return 0; } }
 		public override IEnumerable<GRGEN_LIBGR.AttributeType> AttributeTypes { get { yield break; } }
 		public override GRGEN_LIBGR.AttributeType GetAttributeType(string name) { return null; }
@@ -1456,6 +1619,183 @@ namespace de.unika.ipd.grGen.Model_Mutex
 		public override GRGEN_LIBGR.IEdge CreateEdgeWithCopyCommons(GRGEN_LIBGR.INode source, GRGEN_LIBGR.INode target, GRGEN_LIBGR.IEdge oldIEdge)
 		{
 			return new GRGEN_MODEL.@request((GRGEN_LGSP.LGSPNode) source, (GRGEN_LGSP.LGSPNode) target);
+		}
+
+	}
+
+	// *** Edge annotationTestEdge ***
+
+	public interface IannotationTestEdge : GRGEN_LIBGR.IEdge
+	{
+		int @attrib { get; set; }
+	}
+
+	public sealed class @annotationTestEdge : GRGEN_LGSP.LGSPEdge, GRGEN_MODEL.IannotationTestEdge
+	{
+		private static int poolLevel = 0;
+		private static GRGEN_MODEL.@annotationTestEdge[] pool = new GRGEN_MODEL.@annotationTestEdge[10];
+		
+		// explicit initializations of annotationTestEdge for target annotationTestEdge
+		// implicit initializations of annotationTestEdge for target annotationTestEdge
+		static @annotationTestEdge() {
+		}
+		
+		public @annotationTestEdge(GRGEN_LGSP.LGSPNode source, GRGEN_LGSP.LGSPNode target)
+			: base(GRGEN_MODEL.EdgeType_annotationTestEdge.typeVar, source, target)
+		{
+			// implicit initialization, map/set creation of annotationTestEdge
+			// explicit initializations of annotationTestEdge for target annotationTestEdge
+			this.@attrib = 0;
+		}
+
+		public static GRGEN_MODEL.EdgeType_annotationTestEdge TypeInstance { get { return GRGEN_MODEL.EdgeType_annotationTestEdge.typeVar; } }
+
+		public override GRGEN_LIBGR.IEdge Clone(GRGEN_LIBGR.INode newSource, GRGEN_LIBGR.INode newTarget)
+		{ return new GRGEN_MODEL.@annotationTestEdge(this, (GRGEN_LGSP.LGSPNode) newSource, (GRGEN_LGSP.LGSPNode) newTarget); }
+
+		private @annotationTestEdge(GRGEN_MODEL.@annotationTestEdge oldElem, GRGEN_LGSP.LGSPNode newSource, GRGEN_LGSP.LGSPNode newTarget)
+			: base(GRGEN_MODEL.EdgeType_annotationTestEdge.typeVar, newSource, newTarget)
+		{
+			_attrib = oldElem._attrib;
+		}
+		public static GRGEN_MODEL.@annotationTestEdge CreateEdge(GRGEN_LGSP.LGSPGraph graph, GRGEN_LGSP.LGSPNode source, GRGEN_LGSP.LGSPNode target)
+		{
+			GRGEN_MODEL.@annotationTestEdge edge;
+			if(poolLevel == 0)
+				edge = new GRGEN_MODEL.@annotationTestEdge(source, target);
+			else
+			{
+				edge = pool[--poolLevel];
+				edge.lgspFlags &= ~(uint) GRGEN_LGSP.LGSPElemFlags.HAS_VARIABLES;
+				edge.lgspSource = source;
+				edge.lgspTarget = target;
+				// implicit initialization, map/set creation of annotationTestEdge
+				edge.@attrib = 0;
+				// explicit initializations of annotationTestEdge for target annotationTestEdge
+				edge.@attrib = 0;
+			}
+			graph.AddEdge(edge);
+			return edge;
+		}
+
+		public static GRGEN_MODEL.@annotationTestEdge CreateEdge(GRGEN_LGSP.LGSPGraph graph, GRGEN_LGSP.LGSPNode source, GRGEN_LGSP.LGSPNode target, string varName)
+		{
+			GRGEN_MODEL.@annotationTestEdge edge;
+			if(poolLevel == 0)
+				edge = new GRGEN_MODEL.@annotationTestEdge(source, target);
+			else
+			{
+				edge = pool[--poolLevel];
+				edge.lgspFlags &= ~(uint) GRGEN_LGSP.LGSPElemFlags.HAS_VARIABLES;
+				edge.lgspSource = source;
+				edge.lgspTarget = target;
+				// implicit initialization, map/set creation of annotationTestEdge
+				edge.@attrib = 0;
+				// explicit initializations of annotationTestEdge for target annotationTestEdge
+				edge.@attrib = 0;
+			}
+			graph.AddEdge(edge, varName);
+			return edge;
+		}
+
+		public override void Recycle()
+		{
+			if(poolLevel < 10)
+				pool[poolLevel++] = this;
+		}
+
+
+		private int _attrib;
+		public int @attrib
+		{
+			get { return _attrib; }
+			set { _attrib = value; }
+		}
+		public override object GetAttribute(string attrName)
+		{
+			switch(attrName)
+			{
+				case "attrib": return this.@attrib;
+			}
+			throw new NullReferenceException(
+				"The edge type \"annotationTestEdge\" does not have the attribute \" + attrName + \"\"!");
+		}
+		public override void SetAttribute(string attrName, object value)
+		{
+			switch(attrName)
+			{
+				case "attrib": this.@attrib = (int) value; return;
+			}
+			throw new NullReferenceException(
+				"The edge type \"annotationTestEdge\" does not have the attribute \" + attrName + \"\"!");
+		}
+		public override void ResetAllAttributes()
+		{
+			// implicit initialization, map/set creation of annotationTestEdge
+			this.@attrib = 0;
+			// explicit initializations of annotationTestEdge for target annotationTestEdge
+			this.@attrib = 0;
+		}
+	}
+
+	public sealed class EdgeType_annotationTestEdge : GRGEN_LIBGR.EdgeType
+	{
+		public static GRGEN_MODEL.EdgeType_annotationTestEdge typeVar = new GRGEN_MODEL.EdgeType_annotationTestEdge();
+		public static bool[] isA = new bool[] { true, true, false, false, false, false, false, false, false, true, };
+		public static bool[] isMyType = new bool[] { false, false, false, false, false, false, false, false, false, true, };
+		public static GRGEN_LIBGR.AttributeType AttributeType_attrib;
+		public EdgeType_annotationTestEdge() : base((int) EdgeTypes.@annotationTestEdge)
+		{
+			AttributeType_attrib = new GRGEN_LIBGR.AttributeType("attrib", this, GRGEN_LIBGR.AttributeKind.IntegerAttr, null, null, null);
+			AttributeType_attrib.annotations.Add("special", "42");
+		}
+		public override string Name { get { return "annotationTestEdge"; } }
+		public override string EdgeInterfaceName { get { return "de.unika.ipd.grGen.Model_Mutex.IannotationTestEdge"; } }
+		public override string EdgeClassName { get { return "de.unika.ipd.grGen.Model_Mutex.@annotationTestEdge"; } }
+		public override GRGEN_LIBGR.Directedness Directedness { get { return GRGEN_LIBGR.Directedness.Directed; } }
+		public override GRGEN_LIBGR.IEdge CreateEdge(GRGEN_LIBGR.INode source, GRGEN_LIBGR.INode target)
+		{
+			return new GRGEN_MODEL.@annotationTestEdge((GRGEN_LGSP.LGSPNode) source, (GRGEN_LGSP.LGSPNode) target);
+		}
+		public override bool IsAbstract { get { return false; } }
+		public override bool IsConst { get { return false; } }
+		public override IEnumerable<KeyValuePair<string, string>> Annotations { get { return annotations; } }
+		public IDictionary<string, string> annotations = new Dictionary<string, string>();
+		public override int NumAttributes { get { return 1; } }
+		public override IEnumerable<GRGEN_LIBGR.AttributeType> AttributeTypes
+		{
+			get
+			{
+				yield return AttributeType_attrib;
+			}
+		}
+		public override GRGEN_LIBGR.AttributeType GetAttributeType(string name)
+		{
+			switch(name)
+			{
+				case "attrib" : return AttributeType_attrib;
+			}
+			return null;
+		}
+		public override bool IsA(GRGEN_LIBGR.GrGenType other)
+		{
+			return (this == other) || isA[other.TypeID];
+		}
+		public override GRGEN_LIBGR.IEdge CreateEdgeWithCopyCommons(GRGEN_LIBGR.INode source, GRGEN_LIBGR.INode target, GRGEN_LIBGR.IEdge oldIEdge)
+		{
+			GRGEN_LGSP.LGSPEdge oldEdge = (GRGEN_LGSP.LGSPEdge) oldIEdge;
+			GRGEN_MODEL.@annotationTestEdge newEdge = new GRGEN_MODEL.@annotationTestEdge((GRGEN_LGSP.LGSPNode) source, (GRGEN_LGSP.LGSPNode) target);
+			switch(oldEdge.Type.TypeID)
+			{
+				case (int) EdgeTypes.@annotationTestEdge:
+					// copy attributes for: annotationTestEdge
+					{
+						GRGEN_MODEL.IannotationTestEdge old = (GRGEN_MODEL.IannotationTestEdge) oldEdge;
+						newEdge.@attrib = old.@attrib;
+					}
+					break;
+			}
+			return newEdge;
 		}
 
 	}
@@ -1478,6 +1818,7 @@ namespace de.unika.ipd.grGen.Model_Mutex
 				GRGEN_MODEL.EdgeType_token.typeVar,
 				GRGEN_MODEL.EdgeType_release.typeVar,
 				GRGEN_MODEL.EdgeType_request.typeVar,
+				GRGEN_MODEL.EdgeType_annotationTestEdge.typeVar,
 			};
 			GRGEN_MODEL.EdgeType_AEdge.typeVar.directSubGrGenTypes = GRGEN_MODEL.EdgeType_AEdge.typeVar.directSubTypes = new GRGEN_LIBGR.EdgeType[] {
 				GRGEN_MODEL.EdgeType_Edge.typeVar,
@@ -1496,6 +1837,7 @@ namespace de.unika.ipd.grGen.Model_Mutex
 				GRGEN_MODEL.EdgeType_token.typeVar,
 				GRGEN_MODEL.EdgeType_release.typeVar,
 				GRGEN_MODEL.EdgeType_request.typeVar,
+				GRGEN_MODEL.EdgeType_annotationTestEdge.typeVar,
 			};
 			GRGEN_MODEL.EdgeType_Edge.typeVar.directSubGrGenTypes = GRGEN_MODEL.EdgeType_Edge.typeVar.directSubTypes = new GRGEN_LIBGR.EdgeType[] {
 				GRGEN_MODEL.EdgeType_next.typeVar,
@@ -1504,6 +1846,7 @@ namespace de.unika.ipd.grGen.Model_Mutex
 				GRGEN_MODEL.EdgeType_token.typeVar,
 				GRGEN_MODEL.EdgeType_release.typeVar,
 				GRGEN_MODEL.EdgeType_request.typeVar,
+				GRGEN_MODEL.EdgeType_annotationTestEdge.typeVar,
 			};
 			GRGEN_MODEL.EdgeType_Edge.typeVar.superOrSameGrGenTypes = GRGEN_MODEL.EdgeType_Edge.typeVar.superOrSameTypes = new GRGEN_LIBGR.EdgeType[] {
 				GRGEN_MODEL.EdgeType_Edge.typeVar,
@@ -1602,6 +1945,19 @@ namespace de.unika.ipd.grGen.Model_Mutex
 			GRGEN_MODEL.EdgeType_request.typeVar.directSuperGrGenTypes = GRGEN_MODEL.EdgeType_request.typeVar.directSuperTypes = new GRGEN_LIBGR.EdgeType[] {
 				GRGEN_MODEL.EdgeType_Edge.typeVar,
 			};
+			GRGEN_MODEL.EdgeType_annotationTestEdge.typeVar.subOrSameGrGenTypes = GRGEN_MODEL.EdgeType_annotationTestEdge.typeVar.subOrSameTypes = new GRGEN_LIBGR.EdgeType[] {
+				GRGEN_MODEL.EdgeType_annotationTestEdge.typeVar,
+			};
+			GRGEN_MODEL.EdgeType_annotationTestEdge.typeVar.directSubGrGenTypes = GRGEN_MODEL.EdgeType_annotationTestEdge.typeVar.directSubTypes = new GRGEN_LIBGR.EdgeType[] {
+			};
+			GRGEN_MODEL.EdgeType_annotationTestEdge.typeVar.superOrSameGrGenTypes = GRGEN_MODEL.EdgeType_annotationTestEdge.typeVar.superOrSameTypes = new GRGEN_LIBGR.EdgeType[] {
+				GRGEN_MODEL.EdgeType_annotationTestEdge.typeVar,
+				GRGEN_MODEL.EdgeType_AEdge.typeVar,
+				GRGEN_MODEL.EdgeType_Edge.typeVar,
+			};
+			GRGEN_MODEL.EdgeType_annotationTestEdge.typeVar.directSuperGrGenTypes = GRGEN_MODEL.EdgeType_annotationTestEdge.typeVar.directSuperTypes = new GRGEN_LIBGR.EdgeType[] {
+				GRGEN_MODEL.EdgeType_Edge.typeVar,
+			};
 		}
 		public bool IsNodeModel { get { return false; } }
 		public GRGEN_LIBGR.EdgeType RootType { get { return GRGEN_MODEL.EdgeType_AEdge.typeVar; } }
@@ -1619,6 +1975,7 @@ namespace de.unika.ipd.grGen.Model_Mutex
 				case "token" : return GRGEN_MODEL.EdgeType_token.typeVar;
 				case "release" : return GRGEN_MODEL.EdgeType_release.typeVar;
 				case "request" : return GRGEN_MODEL.EdgeType_request.typeVar;
+				case "annotationTestEdge" : return GRGEN_MODEL.EdgeType_annotationTestEdge.typeVar;
 			}
 			return null;
 		}
@@ -1636,6 +1993,7 @@ namespace de.unika.ipd.grGen.Model_Mutex
 			GRGEN_MODEL.EdgeType_token.typeVar,
 			GRGEN_MODEL.EdgeType_release.typeVar,
 			GRGEN_MODEL.EdgeType_request.typeVar,
+			GRGEN_MODEL.EdgeType_annotationTestEdge.typeVar,
 		};
 		public GRGEN_LIBGR.EdgeType[] Types { get { return types; } }
 		GRGEN_LIBGR.GrGenType[] GRGEN_LIBGR.ITypeModel.Types { get { return types; } }
@@ -1649,9 +2007,11 @@ namespace de.unika.ipd.grGen.Model_Mutex
 			typeof(GRGEN_MODEL.EdgeType_token),
 			typeof(GRGEN_MODEL.EdgeType_release),
 			typeof(GRGEN_MODEL.EdgeType_request),
+			typeof(GRGEN_MODEL.EdgeType_annotationTestEdge),
 		};
 		public System.Type[] TypeTypes { get { return typeTypes; } }
 		private GRGEN_LIBGR.AttributeType[] attributeTypes = {
+			GRGEN_MODEL.EdgeType_annotationTestEdge.AttributeType_attrib,
 		};
 		public IEnumerable<GRGEN_LIBGR.AttributeType> AttributeTypes { get { return attributeTypes; } }
 	}
@@ -1679,7 +2039,7 @@ namespace de.unika.ipd.grGen.Model_Mutex
 		public GRGEN_LIBGR.IEdgeModel EdgeModel { get { return edgeModel; } }
 		public IEnumerable<GRGEN_LIBGR.ValidateInfo> ValidateInfo { get { return validateInfos; } }
 		public IEnumerable<GRGEN_LIBGR.EnumAttributeType> EnumAttributeTypes { get { return enumAttributeTypes; } }
-		public string MD5Hash { get { return "e0f6366a053bc32a0af0fbc6d2bd0c9a"; } }
+		public string MD5Hash { get { return "b75cc12d5d56ba550bb415bb40c4947f"; } }
 	}
 
 	//
@@ -1720,6 +2080,16 @@ namespace de.unika.ipd.grGen.Model_Mutex
 		public GRGEN_MODEL.@Resource CreateNodeResource(string varName)
 		{
 			return GRGEN_MODEL.@Resource.CreateNode(this, varName);
+		}
+
+		public GRGEN_MODEL.@AnnotationTestNode CreateNodeAnnotationTestNode()
+		{
+			return GRGEN_MODEL.@AnnotationTestNode.CreateNode(this);
+		}
+
+		public GRGEN_MODEL.@AnnotationTestNode CreateNodeAnnotationTestNode(string varName)
+		{
+			return GRGEN_MODEL.@AnnotationTestNode.CreateNode(this, varName);
 		}
 
 		public @GRGEN_MODEL.@Edge CreateEdgeEdge(GRGEN_LGSP.LGSPNode source, GRGEN_LGSP.LGSPNode target)
@@ -1802,6 +2172,16 @@ namespace de.unika.ipd.grGen.Model_Mutex
 			return @GRGEN_MODEL.@request.CreateEdge(this, source, target, varName);
 		}
 
+		public @GRGEN_MODEL.@annotationTestEdge CreateEdgeannotationTestEdge(GRGEN_LGSP.LGSPNode source, GRGEN_LGSP.LGSPNode target)
+		{
+			return @GRGEN_MODEL.@annotationTestEdge.CreateEdge(this, source, target);
+		}
+
+		public @GRGEN_MODEL.@annotationTestEdge CreateEdgeannotationTestEdge(GRGEN_LGSP.LGSPNode source, GRGEN_LGSP.LGSPNode target, string varName)
+		{
+			return @GRGEN_MODEL.@annotationTestEdge.CreateEdge(this, source, target, varName);
+		}
+
 		private MutexNodeModel nodeModel = new MutexNodeModel();
 		private MutexEdgeModel edgeModel = new MutexEdgeModel();
 		private GRGEN_LIBGR.ValidateInfo[] validateInfos = {
@@ -1820,6 +2200,6 @@ namespace de.unika.ipd.grGen.Model_Mutex
 		public GRGEN_LIBGR.IEdgeModel EdgeModel { get { return edgeModel; } }
 		public IEnumerable<GRGEN_LIBGR.ValidateInfo> ValidateInfo { get { return validateInfos; } }
 		public IEnumerable<GRGEN_LIBGR.EnumAttributeType> EnumAttributeTypes { get { return enumAttributeTypes; } }
-		public string MD5Hash { get { return "e0f6366a053bc32a0af0fbc6d2bd0c9a"; } }
+		public string MD5Hash { get { return "b75cc12d5d56ba550bb415bb40c4947f"; } }
 	}
 }

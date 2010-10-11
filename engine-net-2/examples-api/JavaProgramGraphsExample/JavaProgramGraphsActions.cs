@@ -1,6 +1,6 @@
 // This file has been generated automatically by GrGen (www.grgen.net)
 // Do not modify this file! Any changes will be lost!
-// Generated from "..\..\examples\JavaProgramGraphs-GraBaTs08\JavaProgramGraphs.grg" on Sun Sep 12 20:12:30 CEST 2010
+// Generated from "..\..\examples\JavaProgramGraphs-GraBaTs08\JavaProgramGraphs.grg" on Sun Oct 10 18:44:18 CEST 2010
 
 using System;
 using System.Collections.Generic;
@@ -71,6 +71,7 @@ namespace de.unika.ipd.grGen.Action_JavaProgramGraphs
 
 			inputs = new GRGEN_LIBGR.GrGenType[] { GRGEN_MODEL.NodeType_Package.typeVar, };
 			inputNames = new string[] { "MultipleContainedPackagesOrClasses_node_p", };
+
 		}
 		private void initialize()
 		{
@@ -279,11 +280,14 @@ namespace de.unika.ipd.grGen.Action_JavaProgramGraphs
 		public void MultipleContainedPackagesOrClasses_iter_0_Delete(GRGEN_LGSP.LGSPGraph graph, Match_MultipleContainedPackagesOrClasses_iter_0 curMatch)
 		{
 			GRGEN_LGSP.LGSPNode node_sub = curMatch._node_sub;
+			GRGEN_LGSP.LGSPNode node_p = curMatch._node_p;
 			GRGEN_LGSP.LGSPEdge edge__edge0 = curMatch._edge__edge0;
 			Pattern_MultipleContainedPackagesOrClasses.Match_MultipleContainedPackagesOrClasses subpattern_mpc = curMatch.@_mpc;
 			graph.Remove(edge__edge0);
 			graph.RemoveEdges(node_sub);
 			graph.Remove(node_sub);
+			graph.RemoveEdges(node_p);
+			graph.Remove(node_p);
 			Pattern_MultipleContainedPackagesOrClasses.Instance.MultipleContainedPackagesOrClasses_Delete(graph, subpattern_mpc);
 		}
 
@@ -323,12 +327,15 @@ namespace de.unika.ipd.grGen.Action_JavaProgramGraphs
 		public void MultipleContainedPackagesOrClasses_iter_1_Delete(GRGEN_LGSP.LGSPGraph graph, Match_MultipleContainedPackagesOrClasses_iter_1 curMatch)
 		{
 			GRGEN_LGSP.LGSPNode node_c = curMatch._node_c;
+			GRGEN_LGSP.LGSPNode node_p = curMatch._node_p;
 			GRGEN_LGSP.LGSPEdge edge__edge0 = curMatch._edge__edge0;
 			Pattern_MultipleMethodBodies.Match_MultipleMethodBodies subpattern_mm = curMatch.@_mm;
 			Pattern_MultipleVariables.Match_MultipleVariables subpattern_mv = curMatch.@_mv;
 			graph.Remove(edge__edge0);
 			graph.RemoveEdges(node_c);
 			graph.Remove(node_c);
+			graph.RemoveEdges(node_p);
+			graph.Remove(node_p);
 			Pattern_MultipleMethodBodies.Instance.MultipleMethodBodies_Delete(graph, subpattern_mm);
 			Pattern_MultipleVariables.Instance.MultipleVariables_Delete(graph, subpattern_mv);
 		}
@@ -731,6 +738,7 @@ namespace de.unika.ipd.grGen.Action_JavaProgramGraphs
 
 			inputs = new GRGEN_LIBGR.GrGenType[] { GRGEN_MODEL.NodeType_Class.typeVar, };
 			inputNames = new string[] { "MultipleVariables_node_c", };
+
 		}
 		private void initialize()
 		{
@@ -872,10 +880,13 @@ namespace de.unika.ipd.grGen.Action_JavaProgramGraphs
 		public void MultipleVariables_iter_0_Delete(GRGEN_LGSP.LGSPGraph graph, Match_MultipleVariables_iter_0 curMatch)
 		{
 			GRGEN_LGSP.LGSPNode node_v = curMatch._node_v;
+			GRGEN_LGSP.LGSPNode node_c = curMatch._node_c;
 			GRGEN_LGSP.LGSPEdge edge__edge0 = curMatch._edge__edge0;
 			graph.Remove(edge__edge0);
 			graph.RemoveEdges(node_v);
 			graph.Remove(node_v);
+			graph.RemoveEdges(node_c);
+			graph.Remove(node_c);
 		}
 
 		static Pattern_MultipleVariables() {
@@ -1146,6 +1157,7 @@ namespace de.unika.ipd.grGen.Action_JavaProgramGraphs
 
 			inputs = new GRGEN_LIBGR.GrGenType[] { GRGEN_MODEL.NodeType_Class.typeVar, };
 			inputNames = new string[] { "MultipleMethodBodies_node_c", };
+
 		}
 		private void initialize()
 		{
@@ -1292,11 +1304,14 @@ namespace de.unika.ipd.grGen.Action_JavaProgramGraphs
 		public void MultipleMethodBodies_iter_0_Delete(GRGEN_LGSP.LGSPGraph graph, Match_MultipleMethodBodies_iter_0 curMatch)
 		{
 			GRGEN_LGSP.LGSPNode node_mb = curMatch._node_mb;
+			GRGEN_LGSP.LGSPNode node_c = curMatch._node_c;
 			GRGEN_LGSP.LGSPEdge edge__edge0 = curMatch._edge__edge0;
 			Pattern_MethodBodyAndImplementation.Match_MethodBodyAndImplementation subpattern_bi = curMatch.@_bi;
 			graph.Remove(edge__edge0);
 			graph.RemoveEdges(node_mb);
 			graph.Remove(node_mb);
+			graph.RemoveEdges(node_c);
+			graph.Remove(node_c);
 			Pattern_MethodBodyAndImplementation.Instance.MethodBodyAndImplementation_Delete(graph, subpattern_bi);
 		}
 
@@ -1588,6 +1603,7 @@ namespace de.unika.ipd.grGen.Action_JavaProgramGraphs
 
 			inputs = new GRGEN_LIBGR.GrGenType[] { GRGEN_MODEL.NodeType_MethodBody.typeVar, };
 			inputNames = new string[] { "MethodBodyAndImplementation_node_mb", };
+
 		}
 		private void initialize()
 		{
@@ -1784,11 +1800,14 @@ namespace de.unika.ipd.grGen.Action_JavaProgramGraphs
 		public void MethodBodyAndImplementation_iter_0_Delete(GRGEN_LGSP.LGSPGraph graph, Match_MethodBodyAndImplementation_iter_0 curMatch)
 		{
 			GRGEN_LGSP.LGSPNode node_op = curMatch._node_op;
+			GRGEN_LGSP.LGSPNode node_mb = curMatch._node_mb;
 			GRGEN_LGSP.LGSPEdge edge__edge0 = curMatch._edge__edge0;
 			Pattern_MultipleParameters.Match_MultipleParameters subpattern__subpattern0 = curMatch.@__subpattern0;
 			graph.Remove(edge__edge0);
 			graph.RemoveEdges(node_op);
 			graph.Remove(node_op);
+			graph.RemoveEdges(node_mb);
+			graph.Remove(node_mb);
 			Pattern_MultipleParameters.Instance.MultipleParameters_Delete(graph, subpattern__subpattern0);
 		}
 
@@ -1822,11 +1841,14 @@ namespace de.unika.ipd.grGen.Action_JavaProgramGraphs
 		public void MethodBodyAndImplementation_iter_1_Delete(GRGEN_LGSP.LGSPGraph graph, Match_MethodBodyAndImplementation_iter_1 curMatch)
 		{
 			GRGEN_LGSP.LGSPNode node_b = curMatch._node_b;
+			GRGEN_LGSP.LGSPNode node_mb = curMatch._node_mb;
 			GRGEN_LGSP.LGSPEdge edge__edge0 = curMatch._edge__edge0;
 			Pattern_MultipleExpressions.Match_MultipleExpressions subpattern_me = curMatch.@_me;
 			graph.Remove(edge__edge0);
 			graph.RemoveEdges(node_b);
 			graph.Remove(node_b);
+			graph.RemoveEdges(node_mb);
+			graph.Remove(node_mb);
 			Pattern_MultipleExpressions.Instance.MultipleExpressions_Delete(graph, subpattern_me);
 		}
 
@@ -2224,6 +2246,7 @@ namespace de.unika.ipd.grGen.Action_JavaProgramGraphs
 
 			inputs = new GRGEN_LIBGR.GrGenType[] { GRGEN_MODEL.NodeType_Operation.typeVar, };
 			inputNames = new string[] { "MultipleParameters_node_op", };
+
 		}
 		private void initialize()
 		{
@@ -2359,9 +2382,12 @@ namespace de.unika.ipd.grGen.Action_JavaProgramGraphs
 
 		public void MultipleParameters_iter_0_Delete(GRGEN_LGSP.LGSPGraph graph, Match_MultipleParameters_iter_0 curMatch)
 		{
+			GRGEN_LGSP.LGSPNode node_op = curMatch._node_op;
 			GRGEN_LGSP.LGSPNode node__node0 = curMatch._node__node0;
 			GRGEN_LGSP.LGSPEdge edge__edge0 = curMatch._edge__edge0;
 			graph.Remove(edge__edge0);
+			graph.RemoveEdges(node_op);
+			graph.Remove(node_op);
 			graph.RemoveEdges(node__node0);
 			graph.Remove(node__node0);
 		}
@@ -2650,6 +2676,7 @@ namespace de.unika.ipd.grGen.Action_JavaProgramGraphs
 
 			inputs = new GRGEN_LIBGR.GrGenType[] { GRGEN_MODEL.NodeType_Block.typeVar, };
 			inputNames = new string[] { "MultipleExpressions_node_b", };
+
 		}
 		private void initialize()
 		{
@@ -2853,10 +2880,13 @@ namespace de.unika.ipd.grGen.Action_JavaProgramGraphs
 
 		public void MultipleExpressions_iter_0_Delete(GRGEN_LGSP.LGSPGraph graph, Match_MultipleExpressions_iter_0 curMatch)
 		{
+			GRGEN_LGSP.LGSPNode node_b = curMatch._node_b;
 			GRGEN_LGSP.LGSPNode node_next = curMatch._node_next;
 			GRGEN_LGSP.LGSPEdge edge__edge0 = curMatch._edge__edge0;
 			Pattern_ExpressionChain.Match_ExpressionChain subpattern_ec = curMatch.@_ec;
 			graph.Remove(edge__edge0);
+			graph.RemoveEdges(node_b);
+			graph.Remove(node_b);
 			graph.RemoveEdges(node_next);
 			graph.Remove(node_next);
 			Pattern_ExpressionChain.Instance.ExpressionChain_Delete(graph, subpattern_ec);
@@ -2893,11 +2923,14 @@ namespace de.unika.ipd.grGen.Action_JavaProgramGraphs
 
 		public void MultipleExpressions_iter_1_Delete(GRGEN_LGSP.LGSPGraph graph, Match_MultipleExpressions_iter_1 curMatch)
 		{
+			GRGEN_LGSP.LGSPNode node_b = curMatch._node_b;
 			GRGEN_LGSP.LGSPNode node_call = curMatch._node_call;
 			GRGEN_LGSP.LGSPEdge edge__edge0 = curMatch._edge__edge0;
 			Pattern_ExpressionChain.Match_ExpressionChain subpattern_ec = curMatch.@_ec;
 			Pattern_MultipleActualParameters.Match_MultipleActualParameters subpattern__subpattern0 = curMatch.@__subpattern0;
 			graph.Remove(edge__edge0);
+			graph.RemoveEdges(node_b);
+			graph.Remove(node_b);
 			graph.RemoveEdges(node_call);
 			graph.Remove(node_call);
 			Pattern_ExpressionChain.Instance.ExpressionChain_Delete(graph, subpattern_ec);
@@ -3342,6 +3375,7 @@ namespace de.unika.ipd.grGen.Action_JavaProgramGraphs
 
 			inputs = new GRGEN_LIBGR.GrGenType[] { GRGEN_MODEL.NodeType_Expression.typeVar, };
 			inputNames = new string[] { "ExpressionChain_node_e", };
+
 		}
 		private void initialize()
 		{
@@ -3625,10 +3659,13 @@ namespace de.unika.ipd.grGen.Action_JavaProgramGraphs
 
 		public void ExpressionChain_alt_0_ExprAndAgain_Delete(GRGEN_LGSP.LGSPGraph graph, Match_ExpressionChain_alt_0_ExprAndAgain curMatch)
 		{
+			GRGEN_LGSP.LGSPNode node_e = curMatch._node_e;
 			GRGEN_LGSP.LGSPNode node_next = curMatch._node_next;
 			GRGEN_LGSP.LGSPEdge edge__edge0 = curMatch._edge__edge0;
 			Pattern_ExpressionChain.Match_ExpressionChain subpattern_ec = curMatch.@_ec;
 			graph.Remove(edge__edge0);
+			graph.RemoveEdges(node_e);
+			graph.Remove(node_e);
 			graph.RemoveEdges(node_next);
 			graph.Remove(node_next);
 			Pattern_ExpressionChain.Instance.ExpressionChain_Delete(graph, subpattern_ec);
@@ -3650,11 +3687,14 @@ namespace de.unika.ipd.grGen.Action_JavaProgramGraphs
 
 		public void ExpressionChain_alt_0_CallAndAgain_Delete(GRGEN_LGSP.LGSPGraph graph, Match_ExpressionChain_alt_0_CallAndAgain curMatch)
 		{
+			GRGEN_LGSP.LGSPNode node_e = curMatch._node_e;
 			GRGEN_LGSP.LGSPNode node_call = curMatch._node_call;
 			GRGEN_LGSP.LGSPEdge edge__edge0 = curMatch._edge__edge0;
 			Pattern_ExpressionChain.Match_ExpressionChain subpattern_ec = curMatch.@_ec;
 			Pattern_MultipleActualParameters.Match_MultipleActualParameters subpattern__subpattern0 = curMatch.@__subpattern0;
 			graph.Remove(edge__edge0);
+			graph.RemoveEdges(node_e);
+			graph.Remove(node_e);
 			graph.RemoveEdges(node_call);
 			graph.Remove(node_call);
 			Pattern_ExpressionChain.Instance.ExpressionChain_Delete(graph, subpattern_ec);
@@ -3664,8 +3704,11 @@ namespace de.unika.ipd.grGen.Action_JavaProgramGraphs
 		public void ExpressionChain_alt_0_End_Modify(GRGEN_LGSP.LGSPGraph graph, GRGEN_LIBGR.IMatch _curMatch)
 		{
 			Match_ExpressionChain_alt_0_End curMatch = (Match_ExpressionChain_alt_0_End)_curMatch;
+			GRGEN_LGSP.LGSPNode node_e = curMatch._node_e;
 			graph.SettingAddedNodeNames( ExpressionChain_alt_0_End_addedNodeNames );
 			graph.SettingAddedEdgeNames( ExpressionChain_alt_0_End_addedEdgeNames );
+			graph.RemoveEdges(node_e);
+			graph.Remove(node_e);
 			graph.EmitWriter.Write(";");
 		}
 		private static string[] ExpressionChain_alt_0_End_addedNodeNames = new string[] {  };
@@ -3673,6 +3716,9 @@ namespace de.unika.ipd.grGen.Action_JavaProgramGraphs
 
 		public void ExpressionChain_alt_0_End_Delete(GRGEN_LGSP.LGSPGraph graph, Match_ExpressionChain_alt_0_End curMatch)
 		{
+			GRGEN_LGSP.LGSPNode node_e = curMatch._node_e;
+			graph.RemoveEdges(node_e);
+			graph.Remove(node_e);
 		}
 
 		static Pattern_ExpressionChain() {
@@ -4294,6 +4340,7 @@ namespace de.unika.ipd.grGen.Action_JavaProgramGraphs
 
 			inputs = new GRGEN_LIBGR.GrGenType[] { GRGEN_MODEL.NodeType_Call.typeVar, };
 			inputNames = new string[] { "MultipleActualParameters_node_c", };
+
 		}
 		private void initialize()
 		{
@@ -4495,10 +4542,13 @@ namespace de.unika.ipd.grGen.Action_JavaProgramGraphs
 
 		public void MultipleActualParameters_iter_0_Delete(GRGEN_LGSP.LGSPGraph graph, Match_MultipleActualParameters_iter_0 curMatch)
 		{
+			GRGEN_LGSP.LGSPNode node_c = curMatch._node_c;
 			GRGEN_LGSP.LGSPNode node_next = curMatch._node_next;
 			GRGEN_LGSP.LGSPEdge edge__edge0 = curMatch._edge__edge0;
 			Pattern_ExpressionChain.Match_ExpressionChain subpattern__subpattern0 = curMatch.@__subpattern0;
 			graph.Remove(edge__edge0);
+			graph.RemoveEdges(node_c);
+			graph.Remove(node_c);
 			graph.RemoveEdges(node_next);
 			graph.Remove(node_next);
 			Pattern_ExpressionChain.Instance.ExpressionChain_Delete(graph, subpattern__subpattern0);
@@ -4532,11 +4582,14 @@ namespace de.unika.ipd.grGen.Action_JavaProgramGraphs
 
 		public void MultipleActualParameters_iter_1_Delete(GRGEN_LGSP.LGSPGraph graph, Match_MultipleActualParameters_iter_1 curMatch)
 		{
+			GRGEN_LGSP.LGSPNode node_c = curMatch._node_c;
 			GRGEN_LGSP.LGSPNode node_call = curMatch._node_call;
 			GRGEN_LGSP.LGSPEdge edge__edge0 = curMatch._edge__edge0;
 			Pattern_ExpressionChain.Match_ExpressionChain subpattern__subpattern0 = curMatch.@__subpattern0;
 			Pattern_MultipleActualParameters.Match_MultipleActualParameters subpattern__subpattern1 = curMatch.@__subpattern1;
 			graph.Remove(edge__edge0);
+			graph.RemoveEdges(node_c);
+			graph.Remove(node_c);
 			graph.RemoveEdges(node_call);
 			graph.Remove(node_call);
 			Pattern_ExpressionChain.Instance.ExpressionChain_Delete(graph, subpattern__subpattern0);
@@ -4941,6 +4994,7 @@ namespace de.unika.ipd.grGen.Action_JavaProgramGraphs
 
 			inputs = new GRGEN_LIBGR.GrGenType[] { GRGEN_MODEL.NodeType_Class.typeVar, };
 			inputNames = new string[] { "MultipleExtendingClasses_node_c", };
+
 		}
 		private void initialize()
 		{
@@ -5085,11 +5139,14 @@ namespace de.unika.ipd.grGen.Action_JavaProgramGraphs
 		public void MultipleExtendingClasses_iter_0_Delete(GRGEN_LGSP.LGSPGraph graph, Match_MultipleExtendingClasses_iter_0 curMatch)
 		{
 			GRGEN_LGSP.LGSPNode node_sub = curMatch._node_sub;
+			GRGEN_LGSP.LGSPNode node_c = curMatch._node_c;
 			GRGEN_LGSP.LGSPEdge edge__edge0 = curMatch._edge__edge0;
 			Pattern_MultipleExtendingClasses.Match_MultipleExtendingClasses subpattern__subpattern0 = curMatch.@__subpattern0;
 			graph.Remove(edge__edge0);
 			graph.RemoveEdges(node_sub);
 			graph.Remove(node_sub);
+			graph.RemoveEdges(node_c);
+			graph.Remove(node_c);
 			Pattern_MultipleExtendingClasses.Instance.MultipleExtendingClasses_Delete(graph, subpattern__subpattern0);
 		}
 
@@ -5389,6 +5446,7 @@ namespace de.unika.ipd.grGen.Action_JavaProgramGraphs
 
 			inputs = new GRGEN_LIBGR.GrGenType[] { GRGEN_MODEL.NodeType_Expression.typeVar, GRGEN_MODEL.NodeType_Class.typeVar, };
 			inputNames = new string[] { "InClass_node_e", "InClass_node_c", };
+
 		}
 		private void initialize()
 		{
@@ -5579,19 +5637,27 @@ namespace de.unika.ipd.grGen.Action_JavaProgramGraphs
 		public void InClass_alt_0_Previous_Delete(GRGEN_LGSP.LGSPGraph graph, Match_InClass_alt_0_Previous curMatch)
 		{
 			GRGEN_LGSP.LGSPNode node_prev = curMatch._node_prev;
+			GRGEN_LGSP.LGSPNode node_e = curMatch._node_e;
+			GRGEN_LGSP.LGSPNode node_c = curMatch._node_c;
 			GRGEN_LGSP.LGSPEdge edge__edge0 = curMatch._edge__edge0;
 			Pattern_InClass.Match_InClass subpattern__subpattern0 = curMatch.@__subpattern0;
 			graph.Remove(edge__edge0);
 			graph.RemoveEdges(node_prev);
 			graph.Remove(node_prev);
+			graph.RemoveEdges(node_e);
+			graph.Remove(node_e);
+			graph.RemoveEdges(node_c);
+			graph.Remove(node_c);
 			Pattern_InClass.Instance.InClass_Delete(graph, subpattern__subpattern0);
 		}
 
 		public void InClass_alt_0_End_Delete(GRGEN_LGSP.LGSPGraph graph, Match_InClass_alt_0_End curMatch)
 		{
 			GRGEN_LGSP.LGSPNode node_prev = curMatch._node_prev;
+			GRGEN_LGSP.LGSPNode node_e = curMatch._node_e;
 			GRGEN_LGSP.LGSPNode node_b = curMatch._node_b;
 			GRGEN_LGSP.LGSPNode node_mb = curMatch._node_mb;
+			GRGEN_LGSP.LGSPNode node_c = curMatch._node_c;
 			GRGEN_LGSP.LGSPEdge edge__edge0 = curMatch._edge__edge0;
 			GRGEN_LGSP.LGSPEdge edge__edge1 = curMatch._edge__edge1;
 			GRGEN_LGSP.LGSPEdge edge__edge2 = curMatch._edge__edge2;
@@ -5600,10 +5666,14 @@ namespace de.unika.ipd.grGen.Action_JavaProgramGraphs
 			graph.Remove(edge__edge2);
 			graph.RemoveEdges(node_prev);
 			graph.Remove(node_prev);
+			graph.RemoveEdges(node_e);
+			graph.Remove(node_e);
 			graph.RemoveEdges(node_b);
 			graph.Remove(node_b);
 			graph.RemoveEdges(node_mb);
 			graph.Remove(node_mb);
+			graph.RemoveEdges(node_c);
+			graph.Remove(node_c);
 		}
 
 		static Pattern_InClass() {
@@ -6035,6 +6105,7 @@ namespace de.unika.ipd.grGen.Action_JavaProgramGraphs
 
 			inputs = new GRGEN_LIBGR.GrGenType[] { GRGEN_MODEL.NodeType_Operation.typeVar, GRGEN_MODEL.NodeType_Class.typeVar, };
 			inputNames = new string[] { "methodNameExistsSuper_node_opForName", "methodNameExistsSuper_node_cls", };
+
 		}
 		private void initialize()
 		{
@@ -6214,16 +6285,28 @@ namespace de.unika.ipd.grGen.Action_JavaProgramGraphs
 
 		public void methodNameExistsSuper_alt_0_here_Delete(GRGEN_LGSP.LGSPGraph graph, Match_methodNameExistsSuper_alt_0_here curMatch)
 		{
+			GRGEN_LGSP.LGSPNode node_op = curMatch._node_op;
+			GRGEN_LGSP.LGSPNode node_opForName = curMatch._node_opForName;
+			graph.RemoveEdges(node_op);
+			graph.Remove(node_op);
+			graph.RemoveEdges(node_opForName);
+			graph.Remove(node_opForName);
 		}
 
 		public void methodNameExistsSuper_alt_0_super_Delete(GRGEN_LGSP.LGSPGraph graph, Match_methodNameExistsSuper_alt_0_super curMatch)
 		{
+			GRGEN_LGSP.LGSPNode node_cls = curMatch._node_cls;
 			GRGEN_LGSP.LGSPNode node_super = curMatch._node_super;
+			GRGEN_LGSP.LGSPNode node_opForName = curMatch._node_opForName;
 			GRGEN_LGSP.LGSPEdge edge__edge0 = curMatch._edge__edge0;
 			Pattern_methodNameExistsSuper.Match_methodNameExistsSuper subpattern__subpattern0 = curMatch.@__subpattern0;
 			graph.Remove(edge__edge0);
+			graph.RemoveEdges(node_cls);
+			graph.Remove(node_cls);
 			graph.RemoveEdges(node_super);
 			graph.Remove(node_super);
+			graph.RemoveEdges(node_opForName);
+			graph.Remove(node_opForName);
 			Pattern_methodNameExistsSuper.Instance.methodNameExistsSuper_Delete(graph, subpattern__subpattern0);
 		}
 
@@ -6589,7 +6672,7 @@ namespace de.unika.ipd.grGen.Action_JavaProgramGraphs
 
 		public enum dumpGxl_NodeNums { };
 		public enum dumpGxl_EdgeNums { };
-		public enum dumpGxl_VariableNums { };
+		public enum dumpGxl_VariableNums { @v, };
 		public enum dumpGxl_SubNums { };
 		public enum dumpGxl_AltNums { };
 		public enum dumpGxl_IterNums { };
@@ -6604,9 +6687,10 @@ namespace de.unika.ipd.grGen.Action_JavaProgramGraphs
 		{
 			name = "dumpGxl";
 
-			inputs = new GRGEN_LIBGR.GrGenType[] { };
-			inputNames = new string[] { };
+			inputs = new GRGEN_LIBGR.GrGenType[] { GRGEN_LIBGR.VarType.GetVarType(typeof(int)), };
+			inputNames = new string[] { "dumpGxl_var_v", };
 			outputs = new GRGEN_LIBGR.GrGenType[] { };
+
 		}
 		private void initialize()
 		{
@@ -6614,13 +6698,14 @@ namespace de.unika.ipd.grGen.Action_JavaProgramGraphs
 			bool[,] dumpGxl_isEdgeHomomorphicGlobal = new bool[0, 0] ;
 			int[] dumpGxl_minMatches = new int[0] ;
 			int[] dumpGxl_maxMatches = new int[0] ;
+			GRGEN_LGSP.PatternVariable dumpGxl_var_v = new GRGEN_LGSP.PatternVariable(GRGEN_LIBGR.VarType.GetVarType(typeof(int)), "dumpGxl_var_v", "v", 0);
 			pat_dumpGxl = new GRGEN_LGSP.PatternGraph(
 				"dumpGxl",
 				"",
 				false,
 				new GRGEN_LGSP.PatternNode[] {  }, 
 				new GRGEN_LGSP.PatternEdge[] {  }, 
-				new GRGEN_LGSP.PatternVariable[] {  }, 
+				new GRGEN_LGSP.PatternVariable[] { dumpGxl_var_v }, 
 				new GRGEN_LGSP.PatternGraphEmbedding[] {  }, 
 				new GRGEN_LGSP.Alternative[] {  }, 
 				new GRGEN_LGSP.PatternGraph[] {  }, 
@@ -6643,6 +6728,7 @@ namespace de.unika.ipd.grGen.Action_JavaProgramGraphs
 		public void Modify(GRGEN_LGSP.LGSPGraph graph, GRGEN_LIBGR.IMatch _curMatch)
 		{
 			Match_dumpGxl curMatch = (Match_dumpGxl)_curMatch;
+			int var_v = curMatch._var_v;
 			graph.SettingAddedNodeNames( dumpGxl_addedNodeNames );
 			graph.SettingAddedEdgeNames( dumpGxl_addedEdgeNames );
 			graph.EmitWriter.Write("<?xml version=\"1.0\" encoding=\"UTF-8\"?>");
@@ -6652,14 +6738,14 @@ namespace de.unika.ipd.grGen.Action_JavaProgramGraphs
 			graph.EmitWriter.Write(graph.Name);
 			graph.EmitWriter.Write("\" edgeids=\"true\">");
 			graph.EmitWriter.Write("<type xlink:href=\"javaProgramGraphsSchema\"/>");
-			ApplyXGRS_0(graph);
+			ApplyXGRS_0(graph, var_v);
 			graph.EmitWriter.Write("</graph>");
 			graph.EmitWriter.Write("</gxl>");
 			return;
 		}
 		private static string[] dumpGxl_addedNodeNames = new string[] {  };
 		private static string[] dumpGxl_addedEdgeNames = new string[] {  };
-        public static bool ApplyXGRS_0(GRGEN_LGSP.LGSPGraph graph)
+        public static bool ApplyXGRS_0(GRGEN_LGSP.LGSPGraph graph, int var_v)
         {
             GRGEN_LGSP.LGSPActions actions = graph.curActions;
             bool res_50;
@@ -6741,7 +6827,7 @@ namespace de.unika.ipd.grGen.Action_JavaProgramGraphs
             long i_29 = 0;
             while(true)
             {
-                GRGEN_LIBGR.IMatchesExact<Rule_dumpNodePackage.IMatch_dumpNodePackage> matches_0 = rule_dumpNodePackage.Match(graph, 1);
+                GRGEN_LIBGR.IMatchesExact<Rule_dumpNodePackage.IMatch_dumpNodePackage> matches_0 = rule_dumpNodePackage.Match(graph, 1, (int)var_v);
                 graph.Matched(matches_0, false);
                 if(matches_0.Count==0) {
                     res_0 = (bool)(false);
@@ -6758,7 +6844,7 @@ namespace de.unika.ipd.grGen.Action_JavaProgramGraphs
                     res_28 = (bool)(true);
                 else
                 {
-                    GRGEN_LIBGR.IMatchesExact<Rule_dumpNodeClass.IMatch_dumpNodeClass> matches_1 = rule_dumpNodeClass.Match(graph, 1);
+                    GRGEN_LIBGR.IMatchesExact<Rule_dumpNodeClass.IMatch_dumpNodeClass> matches_1 = rule_dumpNodeClass.Match(graph, 1, (int)var_v);
                     graph.Matched(matches_1, false);
                     if(matches_1.Count==0) {
                         res_1 = (bool)(false);
@@ -6775,7 +6861,7 @@ namespace de.unika.ipd.grGen.Action_JavaProgramGraphs
                         res_27 = (bool)(true);
                     else
                     {
-                        GRGEN_LIBGR.IMatchesExact<Rule_dumpNodeInterface.IMatch_dumpNodeInterface> matches_2 = rule_dumpNodeInterface.Match(graph, 1);
+                        GRGEN_LIBGR.IMatchesExact<Rule_dumpNodeInterface.IMatch_dumpNodeInterface> matches_2 = rule_dumpNodeInterface.Match(graph, 1, (int)var_v);
                         graph.Matched(matches_2, false);
                         if(matches_2.Count==0) {
                             res_2 = (bool)(false);
@@ -6792,7 +6878,7 @@ namespace de.unika.ipd.grGen.Action_JavaProgramGraphs
                             res_26 = (bool)(true);
                         else
                         {
-                            GRGEN_LIBGR.IMatchesExact<Rule_dumpNodeVariable.IMatch_dumpNodeVariable> matches_3 = rule_dumpNodeVariable.Match(graph, 1);
+                            GRGEN_LIBGR.IMatchesExact<Rule_dumpNodeVariable.IMatch_dumpNodeVariable> matches_3 = rule_dumpNodeVariable.Match(graph, 1, (int)var_v);
                             graph.Matched(matches_3, false);
                             if(matches_3.Count==0) {
                                 res_3 = (bool)(false);
@@ -6809,7 +6895,7 @@ namespace de.unika.ipd.grGen.Action_JavaProgramGraphs
                                 res_25 = (bool)(true);
                             else
                             {
-                                GRGEN_LIBGR.IMatchesExact<Rule_dumpNodeOperation.IMatch_dumpNodeOperation> matches_4 = rule_dumpNodeOperation.Match(graph, 1);
+                                GRGEN_LIBGR.IMatchesExact<Rule_dumpNodeOperation.IMatch_dumpNodeOperation> matches_4 = rule_dumpNodeOperation.Match(graph, 1, (int)var_v);
                                 graph.Matched(matches_4, false);
                                 if(matches_4.Count==0) {
                                     res_4 = (bool)(false);
@@ -6826,7 +6912,7 @@ namespace de.unika.ipd.grGen.Action_JavaProgramGraphs
                                     res_24 = (bool)(true);
                                 else
                                 {
-                                    GRGEN_LIBGR.IMatchesExact<Rule_dumpNodeMethodBody.IMatch_dumpNodeMethodBody> matches_5 = rule_dumpNodeMethodBody.Match(graph, 1);
+                                    GRGEN_LIBGR.IMatchesExact<Rule_dumpNodeMethodBody.IMatch_dumpNodeMethodBody> matches_5 = rule_dumpNodeMethodBody.Match(graph, 1, (int)var_v);
                                     graph.Matched(matches_5, false);
                                     if(matches_5.Count==0) {
                                         res_5 = (bool)(false);
@@ -6843,7 +6929,7 @@ namespace de.unika.ipd.grGen.Action_JavaProgramGraphs
                                         res_23 = (bool)(true);
                                     else
                                     {
-                                        GRGEN_LIBGR.IMatchesExact<Rule_dumpNodeAccess.IMatch_dumpNodeAccess> matches_6 = rule_dumpNodeAccess.Match(graph, 1);
+                                        GRGEN_LIBGR.IMatchesExact<Rule_dumpNodeAccess.IMatch_dumpNodeAccess> matches_6 = rule_dumpNodeAccess.Match(graph, 1, (int)var_v);
                                         graph.Matched(matches_6, false);
                                         if(matches_6.Count==0) {
                                             res_6 = (bool)(false);
@@ -6860,7 +6946,7 @@ namespace de.unika.ipd.grGen.Action_JavaProgramGraphs
                                             res_22 = (bool)(true);
                                         else
                                         {
-                                            GRGEN_LIBGR.IMatchesExact<Rule_dumpNodeUpdate.IMatch_dumpNodeUpdate> matches_7 = rule_dumpNodeUpdate.Match(graph, 1);
+                                            GRGEN_LIBGR.IMatchesExact<Rule_dumpNodeUpdate.IMatch_dumpNodeUpdate> matches_7 = rule_dumpNodeUpdate.Match(graph, 1, (int)var_v);
                                             graph.Matched(matches_7, false);
                                             if(matches_7.Count==0) {
                                                 res_7 = (bool)(false);
@@ -6877,7 +6963,7 @@ namespace de.unika.ipd.grGen.Action_JavaProgramGraphs
                                                 res_21 = (bool)(true);
                                             else
                                             {
-                                                GRGEN_LIBGR.IMatchesExact<Rule_dumpNodeCall.IMatch_dumpNodeCall> matches_8 = rule_dumpNodeCall.Match(graph, 1);
+                                                GRGEN_LIBGR.IMatchesExact<Rule_dumpNodeCall.IMatch_dumpNodeCall> matches_8 = rule_dumpNodeCall.Match(graph, 1, (int)var_v);
                                                 graph.Matched(matches_8, false);
                                                 if(matches_8.Count==0) {
                                                     res_8 = (bool)(false);
@@ -6894,7 +6980,7 @@ namespace de.unika.ipd.grGen.Action_JavaProgramGraphs
                                                     res_20 = (bool)(true);
                                                 else
                                                 {
-                                                    GRGEN_LIBGR.IMatchesExact<Rule_dumpNodeIstantiation.IMatch_dumpNodeIstantiation> matches_9 = rule_dumpNodeIstantiation.Match(graph, 1);
+                                                    GRGEN_LIBGR.IMatchesExact<Rule_dumpNodeIstantiation.IMatch_dumpNodeIstantiation> matches_9 = rule_dumpNodeIstantiation.Match(graph, 1, (int)var_v);
                                                     graph.Matched(matches_9, false);
                                                     if(matches_9.Count==0) {
                                                         res_9 = (bool)(false);
@@ -6911,7 +6997,7 @@ namespace de.unika.ipd.grGen.Action_JavaProgramGraphs
                                                         res_19 = (bool)(true);
                                                     else
                                                     {
-                                                        GRGEN_LIBGR.IMatchesExact<Rule_dumpNodeOperator.IMatch_dumpNodeOperator> matches_10 = rule_dumpNodeOperator.Match(graph, 1);
+                                                        GRGEN_LIBGR.IMatchesExact<Rule_dumpNodeOperator.IMatch_dumpNodeOperator> matches_10 = rule_dumpNodeOperator.Match(graph, 1, (int)var_v);
                                                         graph.Matched(matches_10, false);
                                                         if(matches_10.Count==0) {
                                                             res_10 = (bool)(false);
@@ -6928,7 +7014,7 @@ namespace de.unika.ipd.grGen.Action_JavaProgramGraphs
                                                             res_18 = (bool)(true);
                                                         else
                                                         {
-                                                            GRGEN_LIBGR.IMatchesExact<Rule_dumpNodeReturn.IMatch_dumpNodeReturn> matches_11 = rule_dumpNodeReturn.Match(graph, 1);
+                                                            GRGEN_LIBGR.IMatchesExact<Rule_dumpNodeReturn.IMatch_dumpNodeReturn> matches_11 = rule_dumpNodeReturn.Match(graph, 1, (int)var_v);
                                                             graph.Matched(matches_11, false);
                                                             if(matches_11.Count==0) {
                                                                 res_11 = (bool)(false);
@@ -6945,7 +7031,7 @@ namespace de.unika.ipd.grGen.Action_JavaProgramGraphs
                                                                 res_17 = (bool)(true);
                                                             else
                                                             {
-                                                                GRGEN_LIBGR.IMatchesExact<Rule_dumpNodeBlock.IMatch_dumpNodeBlock> matches_12 = rule_dumpNodeBlock.Match(graph, 1);
+                                                                GRGEN_LIBGR.IMatchesExact<Rule_dumpNodeBlock.IMatch_dumpNodeBlock> matches_12 = rule_dumpNodeBlock.Match(graph, 1, (int)var_v);
                                                                 graph.Matched(matches_12, false);
                                                                 if(matches_12.Count==0) {
                                                                     res_12 = (bool)(false);
@@ -6962,7 +7048,7 @@ namespace de.unika.ipd.grGen.Action_JavaProgramGraphs
                                                                     res_16 = (bool)(true);
                                                                 else
                                                                 {
-                                                                    GRGEN_LIBGR.IMatchesExact<Rule_dumpNodeLiteral.IMatch_dumpNodeLiteral> matches_13 = rule_dumpNodeLiteral.Match(graph, 1);
+                                                                    GRGEN_LIBGR.IMatchesExact<Rule_dumpNodeLiteral.IMatch_dumpNodeLiteral> matches_13 = rule_dumpNodeLiteral.Match(graph, 1, (int)var_v);
                                                                     graph.Matched(matches_13, false);
                                                                     if(matches_13.Count==0) {
                                                                         res_13 = (bool)(false);
@@ -6979,7 +7065,7 @@ namespace de.unika.ipd.grGen.Action_JavaProgramGraphs
                                                                         res_15 = (bool)(true);
                                                                     else
                                                                     {
-                                                                        GRGEN_LIBGR.IMatchesExact<Rule_dumpNodeParameter.IMatch_dumpNodeParameter> matches_14 = rule_dumpNodeParameter.Match(graph, 1);
+                                                                        GRGEN_LIBGR.IMatchesExact<Rule_dumpNodeParameter.IMatch_dumpNodeParameter> matches_14 = rule_dumpNodeParameter.Match(graph, 1, (int)var_v);
                                                                         graph.Matched(matches_14, false);
                                                                         if(matches_14.Count==0) {
                                                                             res_14 = (bool)(false);
@@ -7031,7 +7117,7 @@ namespace de.unika.ipd.grGen.Action_JavaProgramGraphs
                 long i_49 = 0;
                 while(true)
                 {
-                    GRGEN_LIBGR.IMatchesExact<Rule_dumpEdgeBelongsTo.IMatch_dumpEdgeBelongsTo> matches_30 = rule_dumpEdgeBelongsTo.Match(graph, 1);
+                    GRGEN_LIBGR.IMatchesExact<Rule_dumpEdgeBelongsTo.IMatch_dumpEdgeBelongsTo> matches_30 = rule_dumpEdgeBelongsTo.Match(graph, 1, (int)var_v);
                     graph.Matched(matches_30, false);
                     if(matches_30.Count==0) {
                         res_30 = (bool)(false);
@@ -7048,7 +7134,7 @@ namespace de.unika.ipd.grGen.Action_JavaProgramGraphs
                         res_48 = (bool)(true);
                     else
                     {
-                        GRGEN_LIBGR.IMatchesExact<Rule_dumpEdgeType.IMatch_dumpEdgeType> matches_31 = rule_dumpEdgeType.Match(graph, 1);
+                        GRGEN_LIBGR.IMatchesExact<Rule_dumpEdgeType.IMatch_dumpEdgeType> matches_31 = rule_dumpEdgeType.Match(graph, 1, (int)var_v);
                         graph.Matched(matches_31, false);
                         if(matches_31.Count==0) {
                             res_31 = (bool)(false);
@@ -7065,7 +7151,7 @@ namespace de.unika.ipd.grGen.Action_JavaProgramGraphs
                             res_47 = (bool)(true);
                         else
                         {
-                            GRGEN_LIBGR.IMatchesExact<Rule_dumpEdgeExtends.IMatch_dumpEdgeExtends> matches_32 = rule_dumpEdgeExtends.Match(graph, 1);
+                            GRGEN_LIBGR.IMatchesExact<Rule_dumpEdgeExtends.IMatch_dumpEdgeExtends> matches_32 = rule_dumpEdgeExtends.Match(graph, 1, (int)var_v);
                             graph.Matched(matches_32, false);
                             if(matches_32.Count==0) {
                                 res_32 = (bool)(false);
@@ -7082,7 +7168,7 @@ namespace de.unika.ipd.grGen.Action_JavaProgramGraphs
                                 res_46 = (bool)(true);
                             else
                             {
-                                GRGEN_LIBGR.IMatchesExact<Rule_dumpEdgeImports.IMatch_dumpEdgeImports> matches_33 = rule_dumpEdgeImports.Match(graph, 1);
+                                GRGEN_LIBGR.IMatchesExact<Rule_dumpEdgeImports.IMatch_dumpEdgeImports> matches_33 = rule_dumpEdgeImports.Match(graph, 1, (int)var_v);
                                 graph.Matched(matches_33, false);
                                 if(matches_33.Count==0) {
                                     res_33 = (bool)(false);
@@ -7099,7 +7185,7 @@ namespace de.unika.ipd.grGen.Action_JavaProgramGraphs
                                     res_45 = (bool)(true);
                                 else
                                 {
-                                    GRGEN_LIBGR.IMatchesExact<Rule_dumpEdgeImplements.IMatch_dumpEdgeImplements> matches_34 = rule_dumpEdgeImplements.Match(graph, 1);
+                                    GRGEN_LIBGR.IMatchesExact<Rule_dumpEdgeImplements.IMatch_dumpEdgeImplements> matches_34 = rule_dumpEdgeImplements.Match(graph, 1, (int)var_v);
                                     graph.Matched(matches_34, false);
                                     if(matches_34.Count==0) {
                                         res_34 = (bool)(false);
@@ -7116,7 +7202,7 @@ namespace de.unika.ipd.grGen.Action_JavaProgramGraphs
                                         res_44 = (bool)(true);
                                     else
                                     {
-                                        GRGEN_LIBGR.IMatchesExact<Rule_dumpEdgeParameter.IMatch_dumpEdgeParameter> matches_35 = rule_dumpEdgeParameter.Match(graph, 1);
+                                        GRGEN_LIBGR.IMatchesExact<Rule_dumpEdgeParameter.IMatch_dumpEdgeParameter> matches_35 = rule_dumpEdgeParameter.Match(graph, 1, (int)var_v);
                                         graph.Matched(matches_35, false);
                                         if(matches_35.Count==0) {
                                             res_35 = (bool)(false);
@@ -7133,7 +7219,7 @@ namespace de.unika.ipd.grGen.Action_JavaProgramGraphs
                                             res_43 = (bool)(true);
                                         else
                                         {
-                                            GRGEN_LIBGR.IMatchesExact<Rule_dumpEdgeBinding.IMatch_dumpEdgeBinding> matches_36 = rule_dumpEdgeBinding.Match(graph, 1);
+                                            GRGEN_LIBGR.IMatchesExact<Rule_dumpEdgeBinding.IMatch_dumpEdgeBinding> matches_36 = rule_dumpEdgeBinding.Match(graph, 1, (int)var_v);
                                             graph.Matched(matches_36, false);
                                             if(matches_36.Count==0) {
                                                 res_36 = (bool)(false);
@@ -7150,7 +7236,7 @@ namespace de.unika.ipd.grGen.Action_JavaProgramGraphs
                                                 res_42 = (bool)(true);
                                             else
                                             {
-                                                GRGEN_LIBGR.IMatchesExact<Rule_dumpEdgeLink.IMatch_dumpEdgeLink> matches_37 = rule_dumpEdgeLink.Match(graph, 1);
+                                                GRGEN_LIBGR.IMatchesExact<Rule_dumpEdgeLink.IMatch_dumpEdgeLink> matches_37 = rule_dumpEdgeLink.Match(graph, 1, (int)var_v);
                                                 graph.Matched(matches_37, false);
                                                 if(matches_37.Count==0) {
                                                     res_37 = (bool)(false);
@@ -7167,7 +7253,7 @@ namespace de.unika.ipd.grGen.Action_JavaProgramGraphs
                                                     res_41 = (bool)(true);
                                                 else
                                                 {
-                                                    GRGEN_LIBGR.IMatchesExact<Rule_dumpEdgeExpression.IMatch_dumpEdgeExpression> matches_38 = rule_dumpEdgeExpression.Match(graph, 1);
+                                                    GRGEN_LIBGR.IMatchesExact<Rule_dumpEdgeExpression.IMatch_dumpEdgeExpression> matches_38 = rule_dumpEdgeExpression.Match(graph, 1, (int)var_v);
                                                     graph.Matched(matches_38, false);
                                                     if(matches_38.Count==0) {
                                                         res_38 = (bool)(false);
@@ -7184,7 +7270,7 @@ namespace de.unika.ipd.grGen.Action_JavaProgramGraphs
                                                         res_40 = (bool)(true);
                                                     else
                                                     {
-                                                        GRGEN_LIBGR.IMatchesExact<Rule_dumpEdgeActualParameter.IMatch_dumpEdgeActualParameter> matches_39 = rule_dumpEdgeActualParameter.Match(graph, 1);
+                                                        GRGEN_LIBGR.IMatchesExact<Rule_dumpEdgeActualParameter.IMatch_dumpEdgeActualParameter> matches_39 = rule_dumpEdgeActualParameter.Match(graph, 1, (int)var_v);
                                                         graph.Matched(matches_39, false);
                                                         if(matches_39.Count==0) {
                                                             res_39 = (bool)(false);
@@ -7232,6 +7318,7 @@ namespace de.unika.ipd.grGen.Action_JavaProgramGraphs
 			//Nodes
 			//Edges
 			//Variables
+			int @var_v { get; }
 			//EmbeddedGraphs
 			//Alternatives
 			//Iterateds
@@ -7264,13 +7351,16 @@ namespace de.unika.ipd.grGen.Action_JavaProgramGraphs
 				}
 			}
 			
-			public enum dumpGxl_VariableNums { END_OF_ENUM };
+			public int var_v { get { return _var_v; } }
+			public int _var_v;
+			public enum dumpGxl_VariableNums { @v, END_OF_ENUM };
 			public IEnumerable<object> Variables { get { return new GRGEN_LGSP.Variables_Enumerable(this); } }
 			public IEnumerator<object> VariablesEnumerator { get { return new GRGEN_LGSP.Variables_Enumerator(this); } }
-			public int NumberOfVariables { get { return 0;} }
+			public int NumberOfVariables { get { return 1;} }
 			public object getVariableAt(int index)
 			{
 				switch(index) {
+				case (int)dumpGxl_VariableNums.@v: return _var_v;
 				default: return null;
 				}
 			}
@@ -7337,7 +7427,7 @@ namespace de.unika.ipd.grGen.Action_JavaProgramGraphs
 		public static bool[] dumpNodePackage_node_n_IsAllowedType = null;
 		public enum dumpNodePackage_NodeNums { @n, };
 		public enum dumpNodePackage_EdgeNums { };
-		public enum dumpNodePackage_VariableNums { };
+		public enum dumpNodePackage_VariableNums { @v, };
 		public enum dumpNodePackage_SubNums { };
 		public enum dumpNodePackage_AltNums { };
 		public enum dumpNodePackage_IterNums { };
@@ -7352,9 +7442,10 @@ namespace de.unika.ipd.grGen.Action_JavaProgramGraphs
 		{
 			name = "dumpNodePackage";
 
-			inputs = new GRGEN_LIBGR.GrGenType[] { };
-			inputNames = new string[] { };
+			inputs = new GRGEN_LIBGR.GrGenType[] { GRGEN_LIBGR.VarType.GetVarType(typeof(int)), };
+			inputNames = new string[] { "dumpNodePackage_var_v", };
 			outputs = new GRGEN_LIBGR.GrGenType[] { };
+
 		}
 		private void initialize()
 		{
@@ -7365,16 +7456,17 @@ namespace de.unika.ipd.grGen.Action_JavaProgramGraphs
 			int[] dumpNodePackage_minMatches = new int[0] ;
 			int[] dumpNodePackage_maxMatches = new int[0] ;
 			GRGEN_LGSP.PatternNode dumpNodePackage_node_n = new GRGEN_LGSP.PatternNode((int) GRGEN_MODEL.NodeTypes.@Package, "GRGEN_MODEL.IPackage", "dumpNodePackage_node_n", "n", dumpNodePackage_node_n_AllowedTypes, dumpNodePackage_node_n_IsAllowedType, 5.5F, -1, false);
+			GRGEN_LGSP.PatternVariable dumpNodePackage_var_v = new GRGEN_LGSP.PatternVariable(GRGEN_LIBGR.VarType.GetVarType(typeof(int)), "dumpNodePackage_var_v", "v", 0);
 			GRGEN_LGSP.PatternCondition dumpNodePackage_cond_0 = new GRGEN_LGSP.PatternCondition(
-				new GRGEN_EXPR.LOG_NOT(new GRGEN_EXPR.Visited("dumpNodePackage_node_n", new GRGEN_EXPR.Constant("0"))),
-				new string[] { "dumpNodePackage_node_n" }, new string[] {  }, new string[] {  }, new GRGEN_LIBGR.VarType[] {  });
+				new GRGEN_EXPR.LOG_NOT(new GRGEN_EXPR.Visited("dumpNodePackage_node_n", new GRGEN_EXPR.VariableExpression("dumpNodePackage_var_v"))),
+				new string[] { "dumpNodePackage_node_n" }, new string[] {  }, new string[] { "dumpNodePackage_var_v" }, new GRGEN_LIBGR.VarType[] { GRGEN_LIBGR.VarType.GetVarType(typeof(int)) });
 			pat_dumpNodePackage = new GRGEN_LGSP.PatternGraph(
 				"dumpNodePackage",
 				"",
 				false,
 				new GRGEN_LGSP.PatternNode[] { dumpNodePackage_node_n }, 
 				new GRGEN_LGSP.PatternEdge[] {  }, 
-				new GRGEN_LGSP.PatternVariable[] {  }, 
+				new GRGEN_LGSP.PatternVariable[] { dumpNodePackage_var_v }, 
 				new GRGEN_LGSP.PatternGraphEmbedding[] {  }, 
 				new GRGEN_LGSP.Alternative[] {  }, 
 				new GRGEN_LGSP.PatternGraph[] {  }, 
@@ -7402,9 +7494,10 @@ namespace de.unika.ipd.grGen.Action_JavaProgramGraphs
 			Match_dumpNodePackage curMatch = (Match_dumpNodePackage)_curMatch;
 			GRGEN_LGSP.LGSPNode node_n = curMatch._node_n;
 			GRGEN_MODEL.IPackage inode_n = curMatch.node_n;
+			int var_v = curMatch._var_v;
 			graph.SettingAddedNodeNames( dumpNodePackage_addedNodeNames );
 			graph.SettingAddedEdgeNames( dumpNodePackage_addedEdgeNames );
-			graph.SetVisited(node_n, 0, true);
+			graph.SetVisited(node_n, var_v, true);
 			string tempvar_node_n_name = inode_n.@name;
 			graph.EmitWriter.Write("<node id=\"");
 			graph.EmitWriter.Write(graph.GetElementName(node_n));
@@ -7428,6 +7521,7 @@ namespace de.unika.ipd.grGen.Action_JavaProgramGraphs
 			GRGEN_MODEL.IPackage node_n { get; }
 			//Edges
 			//Variables
+			int @var_v { get; }
 			//EmbeddedGraphs
 			//Alternatives
 			//Iterateds
@@ -7463,13 +7557,16 @@ namespace de.unika.ipd.grGen.Action_JavaProgramGraphs
 				}
 			}
 			
-			public enum dumpNodePackage_VariableNums { END_OF_ENUM };
+			public int var_v { get { return _var_v; } }
+			public int _var_v;
+			public enum dumpNodePackage_VariableNums { @v, END_OF_ENUM };
 			public IEnumerable<object> Variables { get { return new GRGEN_LGSP.Variables_Enumerable(this); } }
 			public IEnumerator<object> VariablesEnumerator { get { return new GRGEN_LGSP.Variables_Enumerator(this); } }
-			public int NumberOfVariables { get { return 0;} }
+			public int NumberOfVariables { get { return 1;} }
 			public object getVariableAt(int index)
 			{
 				switch(index) {
+				case (int)dumpNodePackage_VariableNums.@v: return _var_v;
 				default: return null;
 				}
 			}
@@ -7536,7 +7633,7 @@ namespace de.unika.ipd.grGen.Action_JavaProgramGraphs
 		public static bool[] dumpNodeClass_node_n_IsAllowedType = null;
 		public enum dumpNodeClass_NodeNums { @n, };
 		public enum dumpNodeClass_EdgeNums { };
-		public enum dumpNodeClass_VariableNums { };
+		public enum dumpNodeClass_VariableNums { @v, };
 		public enum dumpNodeClass_SubNums { };
 		public enum dumpNodeClass_AltNums { };
 		public enum dumpNodeClass_IterNums { };
@@ -7551,9 +7648,10 @@ namespace de.unika.ipd.grGen.Action_JavaProgramGraphs
 		{
 			name = "dumpNodeClass";
 
-			inputs = new GRGEN_LIBGR.GrGenType[] { };
-			inputNames = new string[] { };
+			inputs = new GRGEN_LIBGR.GrGenType[] { GRGEN_LIBGR.VarType.GetVarType(typeof(int)), };
+			inputNames = new string[] { "dumpNodeClass_var_v", };
 			outputs = new GRGEN_LIBGR.GrGenType[] { };
+
 		}
 		private void initialize()
 		{
@@ -7564,16 +7662,17 @@ namespace de.unika.ipd.grGen.Action_JavaProgramGraphs
 			int[] dumpNodeClass_minMatches = new int[0] ;
 			int[] dumpNodeClass_maxMatches = new int[0] ;
 			GRGEN_LGSP.PatternNode dumpNodeClass_node_n = new GRGEN_LGSP.PatternNode((int) GRGEN_MODEL.NodeTypes.@Class, "GRGEN_MODEL.IClass", "dumpNodeClass_node_n", "n", dumpNodeClass_node_n_AllowedTypes, dumpNodeClass_node_n_IsAllowedType, 5.5F, -1, false);
+			GRGEN_LGSP.PatternVariable dumpNodeClass_var_v = new GRGEN_LGSP.PatternVariable(GRGEN_LIBGR.VarType.GetVarType(typeof(int)), "dumpNodeClass_var_v", "v", 0);
 			GRGEN_LGSP.PatternCondition dumpNodeClass_cond_0 = new GRGEN_LGSP.PatternCondition(
-				new GRGEN_EXPR.LOG_NOT(new GRGEN_EXPR.Visited("dumpNodeClass_node_n", new GRGEN_EXPR.Constant("0"))),
-				new string[] { "dumpNodeClass_node_n" }, new string[] {  }, new string[] {  }, new GRGEN_LIBGR.VarType[] {  });
+				new GRGEN_EXPR.LOG_NOT(new GRGEN_EXPR.Visited("dumpNodeClass_node_n", new GRGEN_EXPR.VariableExpression("dumpNodeClass_var_v"))),
+				new string[] { "dumpNodeClass_node_n" }, new string[] {  }, new string[] { "dumpNodeClass_var_v" }, new GRGEN_LIBGR.VarType[] { GRGEN_LIBGR.VarType.GetVarType(typeof(int)) });
 			pat_dumpNodeClass = new GRGEN_LGSP.PatternGraph(
 				"dumpNodeClass",
 				"",
 				false,
 				new GRGEN_LGSP.PatternNode[] { dumpNodeClass_node_n }, 
 				new GRGEN_LGSP.PatternEdge[] {  }, 
-				new GRGEN_LGSP.PatternVariable[] {  }, 
+				new GRGEN_LGSP.PatternVariable[] { dumpNodeClass_var_v }, 
 				new GRGEN_LGSP.PatternGraphEmbedding[] {  }, 
 				new GRGEN_LGSP.Alternative[] {  }, 
 				new GRGEN_LGSP.PatternGraph[] {  }, 
@@ -7601,9 +7700,10 @@ namespace de.unika.ipd.grGen.Action_JavaProgramGraphs
 			Match_dumpNodeClass curMatch = (Match_dumpNodeClass)_curMatch;
 			GRGEN_LGSP.LGSPNode node_n = curMatch._node_n;
 			GRGEN_MODEL.IClass inode_n = curMatch.node_n;
+			int var_v = curMatch._var_v;
 			graph.SettingAddedNodeNames( dumpNodeClass_addedNodeNames );
 			graph.SettingAddedEdgeNames( dumpNodeClass_addedEdgeNames );
-			graph.SetVisited(node_n, 0, true);
+			graph.SetVisited(node_n, var_v, true);
 			string tempvar_node_n_name = inode_n.@name;
 			string tempvar_node_n_visibility = inode_n.@visibility;
 			bool tempvar_node_n_isAbstract = inode_n.@isAbstract;
@@ -7639,6 +7739,7 @@ namespace de.unika.ipd.grGen.Action_JavaProgramGraphs
 			GRGEN_MODEL.IClass node_n { get; }
 			//Edges
 			//Variables
+			int @var_v { get; }
 			//EmbeddedGraphs
 			//Alternatives
 			//Iterateds
@@ -7674,13 +7775,16 @@ namespace de.unika.ipd.grGen.Action_JavaProgramGraphs
 				}
 			}
 			
-			public enum dumpNodeClass_VariableNums { END_OF_ENUM };
+			public int var_v { get { return _var_v; } }
+			public int _var_v;
+			public enum dumpNodeClass_VariableNums { @v, END_OF_ENUM };
 			public IEnumerable<object> Variables { get { return new GRGEN_LGSP.Variables_Enumerable(this); } }
 			public IEnumerator<object> VariablesEnumerator { get { return new GRGEN_LGSP.Variables_Enumerator(this); } }
-			public int NumberOfVariables { get { return 0;} }
+			public int NumberOfVariables { get { return 1;} }
 			public object getVariableAt(int index)
 			{
 				switch(index) {
+				case (int)dumpNodeClass_VariableNums.@v: return _var_v;
 				default: return null;
 				}
 			}
@@ -7747,7 +7851,7 @@ namespace de.unika.ipd.grGen.Action_JavaProgramGraphs
 		public static bool[] dumpNodeInterface_node_n_IsAllowedType = null;
 		public enum dumpNodeInterface_NodeNums { @n, };
 		public enum dumpNodeInterface_EdgeNums { };
-		public enum dumpNodeInterface_VariableNums { };
+		public enum dumpNodeInterface_VariableNums { @v, };
 		public enum dumpNodeInterface_SubNums { };
 		public enum dumpNodeInterface_AltNums { };
 		public enum dumpNodeInterface_IterNums { };
@@ -7762,9 +7866,10 @@ namespace de.unika.ipd.grGen.Action_JavaProgramGraphs
 		{
 			name = "dumpNodeInterface";
 
-			inputs = new GRGEN_LIBGR.GrGenType[] { };
-			inputNames = new string[] { };
+			inputs = new GRGEN_LIBGR.GrGenType[] { GRGEN_LIBGR.VarType.GetVarType(typeof(int)), };
+			inputNames = new string[] { "dumpNodeInterface_var_v", };
 			outputs = new GRGEN_LIBGR.GrGenType[] { };
+
 		}
 		private void initialize()
 		{
@@ -7775,16 +7880,17 @@ namespace de.unika.ipd.grGen.Action_JavaProgramGraphs
 			int[] dumpNodeInterface_minMatches = new int[0] ;
 			int[] dumpNodeInterface_maxMatches = new int[0] ;
 			GRGEN_LGSP.PatternNode dumpNodeInterface_node_n = new GRGEN_LGSP.PatternNode((int) GRGEN_MODEL.NodeTypes.@Interface, "GRGEN_MODEL.IInterface", "dumpNodeInterface_node_n", "n", dumpNodeInterface_node_n_AllowedTypes, dumpNodeInterface_node_n_IsAllowedType, 5.5F, -1, false);
+			GRGEN_LGSP.PatternVariable dumpNodeInterface_var_v = new GRGEN_LGSP.PatternVariable(GRGEN_LIBGR.VarType.GetVarType(typeof(int)), "dumpNodeInterface_var_v", "v", 0);
 			GRGEN_LGSP.PatternCondition dumpNodeInterface_cond_0 = new GRGEN_LGSP.PatternCondition(
-				new GRGEN_EXPR.LOG_NOT(new GRGEN_EXPR.Visited("dumpNodeInterface_node_n", new GRGEN_EXPR.Constant("0"))),
-				new string[] { "dumpNodeInterface_node_n" }, new string[] {  }, new string[] {  }, new GRGEN_LIBGR.VarType[] {  });
+				new GRGEN_EXPR.LOG_NOT(new GRGEN_EXPR.Visited("dumpNodeInterface_node_n", new GRGEN_EXPR.VariableExpression("dumpNodeInterface_var_v"))),
+				new string[] { "dumpNodeInterface_node_n" }, new string[] {  }, new string[] { "dumpNodeInterface_var_v" }, new GRGEN_LIBGR.VarType[] { GRGEN_LIBGR.VarType.GetVarType(typeof(int)) });
 			pat_dumpNodeInterface = new GRGEN_LGSP.PatternGraph(
 				"dumpNodeInterface",
 				"",
 				false,
 				new GRGEN_LGSP.PatternNode[] { dumpNodeInterface_node_n }, 
 				new GRGEN_LGSP.PatternEdge[] {  }, 
-				new GRGEN_LGSP.PatternVariable[] {  }, 
+				new GRGEN_LGSP.PatternVariable[] { dumpNodeInterface_var_v }, 
 				new GRGEN_LGSP.PatternGraphEmbedding[] {  }, 
 				new GRGEN_LGSP.Alternative[] {  }, 
 				new GRGEN_LGSP.PatternGraph[] {  }, 
@@ -7812,9 +7918,10 @@ namespace de.unika.ipd.grGen.Action_JavaProgramGraphs
 			Match_dumpNodeInterface curMatch = (Match_dumpNodeInterface)_curMatch;
 			GRGEN_LGSP.LGSPNode node_n = curMatch._node_n;
 			GRGEN_MODEL.IInterface inode_n = curMatch.node_n;
+			int var_v = curMatch._var_v;
 			graph.SettingAddedNodeNames( dumpNodeInterface_addedNodeNames );
 			graph.SettingAddedEdgeNames( dumpNodeInterface_addedEdgeNames );
-			graph.SetVisited(node_n, 0, true);
+			graph.SetVisited(node_n, var_v, true);
 			string tempvar_node_n_name = inode_n.@name;
 			string tempvar_node_n_visibility = inode_n.@visibility;
 			bool tempvar_node_n_isAbstract = inode_n.@isAbstract;
@@ -7846,6 +7953,7 @@ namespace de.unika.ipd.grGen.Action_JavaProgramGraphs
 			GRGEN_MODEL.IInterface node_n { get; }
 			//Edges
 			//Variables
+			int @var_v { get; }
 			//EmbeddedGraphs
 			//Alternatives
 			//Iterateds
@@ -7881,13 +7989,16 @@ namespace de.unika.ipd.grGen.Action_JavaProgramGraphs
 				}
 			}
 			
-			public enum dumpNodeInterface_VariableNums { END_OF_ENUM };
+			public int var_v { get { return _var_v; } }
+			public int _var_v;
+			public enum dumpNodeInterface_VariableNums { @v, END_OF_ENUM };
 			public IEnumerable<object> Variables { get { return new GRGEN_LGSP.Variables_Enumerable(this); } }
 			public IEnumerator<object> VariablesEnumerator { get { return new GRGEN_LGSP.Variables_Enumerator(this); } }
-			public int NumberOfVariables { get { return 0;} }
+			public int NumberOfVariables { get { return 1;} }
 			public object getVariableAt(int index)
 			{
 				switch(index) {
+				case (int)dumpNodeInterface_VariableNums.@v: return _var_v;
 				default: return null;
 				}
 			}
@@ -7954,7 +8065,7 @@ namespace de.unika.ipd.grGen.Action_JavaProgramGraphs
 		public static bool[] dumpNodeVariable_node_n_IsAllowedType = null;
 		public enum dumpNodeVariable_NodeNums { @n, };
 		public enum dumpNodeVariable_EdgeNums { };
-		public enum dumpNodeVariable_VariableNums { };
+		public enum dumpNodeVariable_VariableNums { @v, };
 		public enum dumpNodeVariable_SubNums { };
 		public enum dumpNodeVariable_AltNums { };
 		public enum dumpNodeVariable_IterNums { };
@@ -7969,9 +8080,10 @@ namespace de.unika.ipd.grGen.Action_JavaProgramGraphs
 		{
 			name = "dumpNodeVariable";
 
-			inputs = new GRGEN_LIBGR.GrGenType[] { };
-			inputNames = new string[] { };
+			inputs = new GRGEN_LIBGR.GrGenType[] { GRGEN_LIBGR.VarType.GetVarType(typeof(int)), };
+			inputNames = new string[] { "dumpNodeVariable_var_v", };
 			outputs = new GRGEN_LIBGR.GrGenType[] { };
+
 		}
 		private void initialize()
 		{
@@ -7982,16 +8094,17 @@ namespace de.unika.ipd.grGen.Action_JavaProgramGraphs
 			int[] dumpNodeVariable_minMatches = new int[0] ;
 			int[] dumpNodeVariable_maxMatches = new int[0] ;
 			GRGEN_LGSP.PatternNode dumpNodeVariable_node_n = new GRGEN_LGSP.PatternNode((int) GRGEN_MODEL.NodeTypes.@Variable, "GRGEN_MODEL.IVariable", "dumpNodeVariable_node_n", "n", dumpNodeVariable_node_n_AllowedTypes, dumpNodeVariable_node_n_IsAllowedType, 5.5F, -1, false);
+			GRGEN_LGSP.PatternVariable dumpNodeVariable_var_v = new GRGEN_LGSP.PatternVariable(GRGEN_LIBGR.VarType.GetVarType(typeof(int)), "dumpNodeVariable_var_v", "v", 0);
 			GRGEN_LGSP.PatternCondition dumpNodeVariable_cond_0 = new GRGEN_LGSP.PatternCondition(
-				new GRGEN_EXPR.LOG_NOT(new GRGEN_EXPR.Visited("dumpNodeVariable_node_n", new GRGEN_EXPR.Constant("0"))),
-				new string[] { "dumpNodeVariable_node_n" }, new string[] {  }, new string[] {  }, new GRGEN_LIBGR.VarType[] {  });
+				new GRGEN_EXPR.LOG_NOT(new GRGEN_EXPR.Visited("dumpNodeVariable_node_n", new GRGEN_EXPR.VariableExpression("dumpNodeVariable_var_v"))),
+				new string[] { "dumpNodeVariable_node_n" }, new string[] {  }, new string[] { "dumpNodeVariable_var_v" }, new GRGEN_LIBGR.VarType[] { GRGEN_LIBGR.VarType.GetVarType(typeof(int)) });
 			pat_dumpNodeVariable = new GRGEN_LGSP.PatternGraph(
 				"dumpNodeVariable",
 				"",
 				false,
 				new GRGEN_LGSP.PatternNode[] { dumpNodeVariable_node_n }, 
 				new GRGEN_LGSP.PatternEdge[] {  }, 
-				new GRGEN_LGSP.PatternVariable[] {  }, 
+				new GRGEN_LGSP.PatternVariable[] { dumpNodeVariable_var_v }, 
 				new GRGEN_LGSP.PatternGraphEmbedding[] {  }, 
 				new GRGEN_LGSP.Alternative[] {  }, 
 				new GRGEN_LGSP.PatternGraph[] {  }, 
@@ -8019,9 +8132,10 @@ namespace de.unika.ipd.grGen.Action_JavaProgramGraphs
 			Match_dumpNodeVariable curMatch = (Match_dumpNodeVariable)_curMatch;
 			GRGEN_LGSP.LGSPNode node_n = curMatch._node_n;
 			GRGEN_MODEL.IVariable inode_n = curMatch.node_n;
+			int var_v = curMatch._var_v;
 			graph.SettingAddedNodeNames( dumpNodeVariable_addedNodeNames );
 			graph.SettingAddedEdgeNames( dumpNodeVariable_addedEdgeNames );
-			graph.SetVisited(node_n, 0, true);
+			graph.SetVisited(node_n, var_v, true);
 			string tempvar_node_n_name = inode_n.@name;
 			string tempvar_node_n_visibility = inode_n.@visibility;
 			bool tempvar_node_n_isStatic = inode_n.@isStatic;
@@ -8057,6 +8171,7 @@ namespace de.unika.ipd.grGen.Action_JavaProgramGraphs
 			GRGEN_MODEL.IVariable node_n { get; }
 			//Edges
 			//Variables
+			int @var_v { get; }
 			//EmbeddedGraphs
 			//Alternatives
 			//Iterateds
@@ -8092,13 +8207,16 @@ namespace de.unika.ipd.grGen.Action_JavaProgramGraphs
 				}
 			}
 			
-			public enum dumpNodeVariable_VariableNums { END_OF_ENUM };
+			public int var_v { get { return _var_v; } }
+			public int _var_v;
+			public enum dumpNodeVariable_VariableNums { @v, END_OF_ENUM };
 			public IEnumerable<object> Variables { get { return new GRGEN_LGSP.Variables_Enumerable(this); } }
 			public IEnumerator<object> VariablesEnumerator { get { return new GRGEN_LGSP.Variables_Enumerator(this); } }
-			public int NumberOfVariables { get { return 0;} }
+			public int NumberOfVariables { get { return 1;} }
 			public object getVariableAt(int index)
 			{
 				switch(index) {
+				case (int)dumpNodeVariable_VariableNums.@v: return _var_v;
 				default: return null;
 				}
 			}
@@ -8165,7 +8283,7 @@ namespace de.unika.ipd.grGen.Action_JavaProgramGraphs
 		public static bool[] dumpNodeOperation_node_n_IsAllowedType = null;
 		public enum dumpNodeOperation_NodeNums { @n, };
 		public enum dumpNodeOperation_EdgeNums { };
-		public enum dumpNodeOperation_VariableNums { };
+		public enum dumpNodeOperation_VariableNums { @v, };
 		public enum dumpNodeOperation_SubNums { };
 		public enum dumpNodeOperation_AltNums { };
 		public enum dumpNodeOperation_IterNums { };
@@ -8180,9 +8298,10 @@ namespace de.unika.ipd.grGen.Action_JavaProgramGraphs
 		{
 			name = "dumpNodeOperation";
 
-			inputs = new GRGEN_LIBGR.GrGenType[] { };
-			inputNames = new string[] { };
+			inputs = new GRGEN_LIBGR.GrGenType[] { GRGEN_LIBGR.VarType.GetVarType(typeof(int)), };
+			inputNames = new string[] { "dumpNodeOperation_var_v", };
 			outputs = new GRGEN_LIBGR.GrGenType[] { };
+
 		}
 		private void initialize()
 		{
@@ -8193,16 +8312,17 @@ namespace de.unika.ipd.grGen.Action_JavaProgramGraphs
 			int[] dumpNodeOperation_minMatches = new int[0] ;
 			int[] dumpNodeOperation_maxMatches = new int[0] ;
 			GRGEN_LGSP.PatternNode dumpNodeOperation_node_n = new GRGEN_LGSP.PatternNode((int) GRGEN_MODEL.NodeTypes.@Operation, "GRGEN_MODEL.IOperation", "dumpNodeOperation_node_n", "n", dumpNodeOperation_node_n_AllowedTypes, dumpNodeOperation_node_n_IsAllowedType, 5.5F, -1, false);
+			GRGEN_LGSP.PatternVariable dumpNodeOperation_var_v = new GRGEN_LGSP.PatternVariable(GRGEN_LIBGR.VarType.GetVarType(typeof(int)), "dumpNodeOperation_var_v", "v", 0);
 			GRGEN_LGSP.PatternCondition dumpNodeOperation_cond_0 = new GRGEN_LGSP.PatternCondition(
-				new GRGEN_EXPR.LOG_NOT(new GRGEN_EXPR.Visited("dumpNodeOperation_node_n", new GRGEN_EXPR.Constant("0"))),
-				new string[] { "dumpNodeOperation_node_n" }, new string[] {  }, new string[] {  }, new GRGEN_LIBGR.VarType[] {  });
+				new GRGEN_EXPR.LOG_NOT(new GRGEN_EXPR.Visited("dumpNodeOperation_node_n", new GRGEN_EXPR.VariableExpression("dumpNodeOperation_var_v"))),
+				new string[] { "dumpNodeOperation_node_n" }, new string[] {  }, new string[] { "dumpNodeOperation_var_v" }, new GRGEN_LIBGR.VarType[] { GRGEN_LIBGR.VarType.GetVarType(typeof(int)) });
 			pat_dumpNodeOperation = new GRGEN_LGSP.PatternGraph(
 				"dumpNodeOperation",
 				"",
 				false,
 				new GRGEN_LGSP.PatternNode[] { dumpNodeOperation_node_n }, 
 				new GRGEN_LGSP.PatternEdge[] {  }, 
-				new GRGEN_LGSP.PatternVariable[] {  }, 
+				new GRGEN_LGSP.PatternVariable[] { dumpNodeOperation_var_v }, 
 				new GRGEN_LGSP.PatternGraphEmbedding[] {  }, 
 				new GRGEN_LGSP.Alternative[] {  }, 
 				new GRGEN_LGSP.PatternGraph[] {  }, 
@@ -8230,9 +8350,10 @@ namespace de.unika.ipd.grGen.Action_JavaProgramGraphs
 			Match_dumpNodeOperation curMatch = (Match_dumpNodeOperation)_curMatch;
 			GRGEN_LGSP.LGSPNode node_n = curMatch._node_n;
 			GRGEN_MODEL.IOperation inode_n = curMatch.node_n;
+			int var_v = curMatch._var_v;
 			graph.SettingAddedNodeNames( dumpNodeOperation_addedNodeNames );
 			graph.SettingAddedEdgeNames( dumpNodeOperation_addedEdgeNames );
-			graph.SetVisited(node_n, 0, true);
+			graph.SetVisited(node_n, var_v, true);
 			string tempvar_node_n_name = inode_n.@name;
 			string tempvar_node_n_visibility = inode_n.@visibility;
 			bool tempvar_node_n_isAbstract = inode_n.@isAbstract;
@@ -8272,6 +8393,7 @@ namespace de.unika.ipd.grGen.Action_JavaProgramGraphs
 			GRGEN_MODEL.IOperation node_n { get; }
 			//Edges
 			//Variables
+			int @var_v { get; }
 			//EmbeddedGraphs
 			//Alternatives
 			//Iterateds
@@ -8307,13 +8429,16 @@ namespace de.unika.ipd.grGen.Action_JavaProgramGraphs
 				}
 			}
 			
-			public enum dumpNodeOperation_VariableNums { END_OF_ENUM };
+			public int var_v { get { return _var_v; } }
+			public int _var_v;
+			public enum dumpNodeOperation_VariableNums { @v, END_OF_ENUM };
 			public IEnumerable<object> Variables { get { return new GRGEN_LGSP.Variables_Enumerable(this); } }
 			public IEnumerator<object> VariablesEnumerator { get { return new GRGEN_LGSP.Variables_Enumerator(this); } }
-			public int NumberOfVariables { get { return 0;} }
+			public int NumberOfVariables { get { return 1;} }
 			public object getVariableAt(int index)
 			{
 				switch(index) {
+				case (int)dumpNodeOperation_VariableNums.@v: return _var_v;
 				default: return null;
 				}
 			}
@@ -8380,7 +8505,7 @@ namespace de.unika.ipd.grGen.Action_JavaProgramGraphs
 		public static bool[] dumpNodeMethodBody_node_n_IsAllowedType = null;
 		public enum dumpNodeMethodBody_NodeNums { @n, };
 		public enum dumpNodeMethodBody_EdgeNums { };
-		public enum dumpNodeMethodBody_VariableNums { };
+		public enum dumpNodeMethodBody_VariableNums { @v, };
 		public enum dumpNodeMethodBody_SubNums { };
 		public enum dumpNodeMethodBody_AltNums { };
 		public enum dumpNodeMethodBody_IterNums { };
@@ -8395,9 +8520,10 @@ namespace de.unika.ipd.grGen.Action_JavaProgramGraphs
 		{
 			name = "dumpNodeMethodBody";
 
-			inputs = new GRGEN_LIBGR.GrGenType[] { };
-			inputNames = new string[] { };
+			inputs = new GRGEN_LIBGR.GrGenType[] { GRGEN_LIBGR.VarType.GetVarType(typeof(int)), };
+			inputNames = new string[] { "dumpNodeMethodBody_var_v", };
 			outputs = new GRGEN_LIBGR.GrGenType[] { };
+
 		}
 		private void initialize()
 		{
@@ -8408,16 +8534,17 @@ namespace de.unika.ipd.grGen.Action_JavaProgramGraphs
 			int[] dumpNodeMethodBody_minMatches = new int[0] ;
 			int[] dumpNodeMethodBody_maxMatches = new int[0] ;
 			GRGEN_LGSP.PatternNode dumpNodeMethodBody_node_n = new GRGEN_LGSP.PatternNode((int) GRGEN_MODEL.NodeTypes.@MethodBody, "GRGEN_MODEL.IMethodBody", "dumpNodeMethodBody_node_n", "n", dumpNodeMethodBody_node_n_AllowedTypes, dumpNodeMethodBody_node_n_IsAllowedType, 5.5F, -1, false);
+			GRGEN_LGSP.PatternVariable dumpNodeMethodBody_var_v = new GRGEN_LGSP.PatternVariable(GRGEN_LIBGR.VarType.GetVarType(typeof(int)), "dumpNodeMethodBody_var_v", "v", 0);
 			GRGEN_LGSP.PatternCondition dumpNodeMethodBody_cond_0 = new GRGEN_LGSP.PatternCondition(
-				new GRGEN_EXPR.LOG_NOT(new GRGEN_EXPR.Visited("dumpNodeMethodBody_node_n", new GRGEN_EXPR.Constant("0"))),
-				new string[] { "dumpNodeMethodBody_node_n" }, new string[] {  }, new string[] {  }, new GRGEN_LIBGR.VarType[] {  });
+				new GRGEN_EXPR.LOG_NOT(new GRGEN_EXPR.Visited("dumpNodeMethodBody_node_n", new GRGEN_EXPR.VariableExpression("dumpNodeMethodBody_var_v"))),
+				new string[] { "dumpNodeMethodBody_node_n" }, new string[] {  }, new string[] { "dumpNodeMethodBody_var_v" }, new GRGEN_LIBGR.VarType[] { GRGEN_LIBGR.VarType.GetVarType(typeof(int)) });
 			pat_dumpNodeMethodBody = new GRGEN_LGSP.PatternGraph(
 				"dumpNodeMethodBody",
 				"",
 				false,
 				new GRGEN_LGSP.PatternNode[] { dumpNodeMethodBody_node_n }, 
 				new GRGEN_LGSP.PatternEdge[] {  }, 
-				new GRGEN_LGSP.PatternVariable[] {  }, 
+				new GRGEN_LGSP.PatternVariable[] { dumpNodeMethodBody_var_v }, 
 				new GRGEN_LGSP.PatternGraphEmbedding[] {  }, 
 				new GRGEN_LGSP.Alternative[] {  }, 
 				new GRGEN_LGSP.PatternGraph[] {  }, 
@@ -8444,9 +8571,10 @@ namespace de.unika.ipd.grGen.Action_JavaProgramGraphs
 		{
 			Match_dumpNodeMethodBody curMatch = (Match_dumpNodeMethodBody)_curMatch;
 			GRGEN_LGSP.LGSPNode node_n = curMatch._node_n;
+			int var_v = curMatch._var_v;
 			graph.SettingAddedNodeNames( dumpNodeMethodBody_addedNodeNames );
 			graph.SettingAddedEdgeNames( dumpNodeMethodBody_addedEdgeNames );
-			graph.SetVisited(node_n, 0, true);
+			graph.SetVisited(node_n, var_v, true);
 			graph.EmitWriter.Write("<node id=\"");
 			graph.EmitWriter.Write(graph.GetElementName(node_n));
 			graph.EmitWriter.Write("\">");
@@ -8466,6 +8594,7 @@ namespace de.unika.ipd.grGen.Action_JavaProgramGraphs
 			GRGEN_MODEL.IMethodBody node_n { get; }
 			//Edges
 			//Variables
+			int @var_v { get; }
 			//EmbeddedGraphs
 			//Alternatives
 			//Iterateds
@@ -8501,13 +8630,16 @@ namespace de.unika.ipd.grGen.Action_JavaProgramGraphs
 				}
 			}
 			
-			public enum dumpNodeMethodBody_VariableNums { END_OF_ENUM };
+			public int var_v { get { return _var_v; } }
+			public int _var_v;
+			public enum dumpNodeMethodBody_VariableNums { @v, END_OF_ENUM };
 			public IEnumerable<object> Variables { get { return new GRGEN_LGSP.Variables_Enumerable(this); } }
 			public IEnumerator<object> VariablesEnumerator { get { return new GRGEN_LGSP.Variables_Enumerator(this); } }
-			public int NumberOfVariables { get { return 0;} }
+			public int NumberOfVariables { get { return 1;} }
 			public object getVariableAt(int index)
 			{
 				switch(index) {
+				case (int)dumpNodeMethodBody_VariableNums.@v: return _var_v;
 				default: return null;
 				}
 			}
@@ -8574,7 +8706,7 @@ namespace de.unika.ipd.grGen.Action_JavaProgramGraphs
 		public static bool[] dumpNodeAccess_node_n_IsAllowedType = null;
 		public enum dumpNodeAccess_NodeNums { @n, };
 		public enum dumpNodeAccess_EdgeNums { };
-		public enum dumpNodeAccess_VariableNums { };
+		public enum dumpNodeAccess_VariableNums { @v, };
 		public enum dumpNodeAccess_SubNums { };
 		public enum dumpNodeAccess_AltNums { };
 		public enum dumpNodeAccess_IterNums { };
@@ -8589,9 +8721,10 @@ namespace de.unika.ipd.grGen.Action_JavaProgramGraphs
 		{
 			name = "dumpNodeAccess";
 
-			inputs = new GRGEN_LIBGR.GrGenType[] { };
-			inputNames = new string[] { };
+			inputs = new GRGEN_LIBGR.GrGenType[] { GRGEN_LIBGR.VarType.GetVarType(typeof(int)), };
+			inputNames = new string[] { "dumpNodeAccess_var_v", };
 			outputs = new GRGEN_LIBGR.GrGenType[] { };
+
 		}
 		private void initialize()
 		{
@@ -8602,16 +8735,17 @@ namespace de.unika.ipd.grGen.Action_JavaProgramGraphs
 			int[] dumpNodeAccess_minMatches = new int[0] ;
 			int[] dumpNodeAccess_maxMatches = new int[0] ;
 			GRGEN_LGSP.PatternNode dumpNodeAccess_node_n = new GRGEN_LGSP.PatternNode((int) GRGEN_MODEL.NodeTypes.@Access, "GRGEN_MODEL.IAccess", "dumpNodeAccess_node_n", "n", dumpNodeAccess_node_n_AllowedTypes, dumpNodeAccess_node_n_IsAllowedType, 5.5F, -1, false);
+			GRGEN_LGSP.PatternVariable dumpNodeAccess_var_v = new GRGEN_LGSP.PatternVariable(GRGEN_LIBGR.VarType.GetVarType(typeof(int)), "dumpNodeAccess_var_v", "v", 0);
 			GRGEN_LGSP.PatternCondition dumpNodeAccess_cond_0 = new GRGEN_LGSP.PatternCondition(
-				new GRGEN_EXPR.LOG_NOT(new GRGEN_EXPR.Visited("dumpNodeAccess_node_n", new GRGEN_EXPR.Constant("0"))),
-				new string[] { "dumpNodeAccess_node_n" }, new string[] {  }, new string[] {  }, new GRGEN_LIBGR.VarType[] {  });
+				new GRGEN_EXPR.LOG_NOT(new GRGEN_EXPR.Visited("dumpNodeAccess_node_n", new GRGEN_EXPR.VariableExpression("dumpNodeAccess_var_v"))),
+				new string[] { "dumpNodeAccess_node_n" }, new string[] {  }, new string[] { "dumpNodeAccess_var_v" }, new GRGEN_LIBGR.VarType[] { GRGEN_LIBGR.VarType.GetVarType(typeof(int)) });
 			pat_dumpNodeAccess = new GRGEN_LGSP.PatternGraph(
 				"dumpNodeAccess",
 				"",
 				false,
 				new GRGEN_LGSP.PatternNode[] { dumpNodeAccess_node_n }, 
 				new GRGEN_LGSP.PatternEdge[] {  }, 
-				new GRGEN_LGSP.PatternVariable[] {  }, 
+				new GRGEN_LGSP.PatternVariable[] { dumpNodeAccess_var_v }, 
 				new GRGEN_LGSP.PatternGraphEmbedding[] {  }, 
 				new GRGEN_LGSP.Alternative[] {  }, 
 				new GRGEN_LGSP.PatternGraph[] {  }, 
@@ -8639,9 +8773,10 @@ namespace de.unika.ipd.grGen.Action_JavaProgramGraphs
 			Match_dumpNodeAccess curMatch = (Match_dumpNodeAccess)_curMatch;
 			GRGEN_LGSP.LGSPNode node_n = curMatch._node_n;
 			GRGEN_MODEL.IAccess inode_n = curMatch.node_n;
+			int var_v = curMatch._var_v;
 			graph.SettingAddedNodeNames( dumpNodeAccess_addedNodeNames );
 			graph.SettingAddedEdgeNames( dumpNodeAccess_addedEdgeNames );
-			graph.SetVisited(node_n, 0, true);
+			graph.SetVisited(node_n, var_v, true);
 			bool tempvar_node_n_this = inode_n.@this;
 			graph.EmitWriter.Write("<node id=\"");
 			graph.EmitWriter.Write(graph.GetElementName(node_n));
@@ -8665,6 +8800,7 @@ namespace de.unika.ipd.grGen.Action_JavaProgramGraphs
 			GRGEN_MODEL.IAccess node_n { get; }
 			//Edges
 			//Variables
+			int @var_v { get; }
 			//EmbeddedGraphs
 			//Alternatives
 			//Iterateds
@@ -8700,13 +8836,16 @@ namespace de.unika.ipd.grGen.Action_JavaProgramGraphs
 				}
 			}
 			
-			public enum dumpNodeAccess_VariableNums { END_OF_ENUM };
+			public int var_v { get { return _var_v; } }
+			public int _var_v;
+			public enum dumpNodeAccess_VariableNums { @v, END_OF_ENUM };
 			public IEnumerable<object> Variables { get { return new GRGEN_LGSP.Variables_Enumerable(this); } }
 			public IEnumerator<object> VariablesEnumerator { get { return new GRGEN_LGSP.Variables_Enumerator(this); } }
-			public int NumberOfVariables { get { return 0;} }
+			public int NumberOfVariables { get { return 1;} }
 			public object getVariableAt(int index)
 			{
 				switch(index) {
+				case (int)dumpNodeAccess_VariableNums.@v: return _var_v;
 				default: return null;
 				}
 			}
@@ -8773,7 +8912,7 @@ namespace de.unika.ipd.grGen.Action_JavaProgramGraphs
 		public static bool[] dumpNodeUpdate_node_n_IsAllowedType = null;
 		public enum dumpNodeUpdate_NodeNums { @n, };
 		public enum dumpNodeUpdate_EdgeNums { };
-		public enum dumpNodeUpdate_VariableNums { };
+		public enum dumpNodeUpdate_VariableNums { @v, };
 		public enum dumpNodeUpdate_SubNums { };
 		public enum dumpNodeUpdate_AltNums { };
 		public enum dumpNodeUpdate_IterNums { };
@@ -8788,9 +8927,10 @@ namespace de.unika.ipd.grGen.Action_JavaProgramGraphs
 		{
 			name = "dumpNodeUpdate";
 
-			inputs = new GRGEN_LIBGR.GrGenType[] { };
-			inputNames = new string[] { };
+			inputs = new GRGEN_LIBGR.GrGenType[] { GRGEN_LIBGR.VarType.GetVarType(typeof(int)), };
+			inputNames = new string[] { "dumpNodeUpdate_var_v", };
 			outputs = new GRGEN_LIBGR.GrGenType[] { };
+
 		}
 		private void initialize()
 		{
@@ -8801,16 +8941,17 @@ namespace de.unika.ipd.grGen.Action_JavaProgramGraphs
 			int[] dumpNodeUpdate_minMatches = new int[0] ;
 			int[] dumpNodeUpdate_maxMatches = new int[0] ;
 			GRGEN_LGSP.PatternNode dumpNodeUpdate_node_n = new GRGEN_LGSP.PatternNode((int) GRGEN_MODEL.NodeTypes.@Update, "GRGEN_MODEL.IUpdate", "dumpNodeUpdate_node_n", "n", dumpNodeUpdate_node_n_AllowedTypes, dumpNodeUpdate_node_n_IsAllowedType, 5.5F, -1, false);
+			GRGEN_LGSP.PatternVariable dumpNodeUpdate_var_v = new GRGEN_LGSP.PatternVariable(GRGEN_LIBGR.VarType.GetVarType(typeof(int)), "dumpNodeUpdate_var_v", "v", 0);
 			GRGEN_LGSP.PatternCondition dumpNodeUpdate_cond_0 = new GRGEN_LGSP.PatternCondition(
-				new GRGEN_EXPR.LOG_NOT(new GRGEN_EXPR.Visited("dumpNodeUpdate_node_n", new GRGEN_EXPR.Constant("0"))),
-				new string[] { "dumpNodeUpdate_node_n" }, new string[] {  }, new string[] {  }, new GRGEN_LIBGR.VarType[] {  });
+				new GRGEN_EXPR.LOG_NOT(new GRGEN_EXPR.Visited("dumpNodeUpdate_node_n", new GRGEN_EXPR.VariableExpression("dumpNodeUpdate_var_v"))),
+				new string[] { "dumpNodeUpdate_node_n" }, new string[] {  }, new string[] { "dumpNodeUpdate_var_v" }, new GRGEN_LIBGR.VarType[] { GRGEN_LIBGR.VarType.GetVarType(typeof(int)) });
 			pat_dumpNodeUpdate = new GRGEN_LGSP.PatternGraph(
 				"dumpNodeUpdate",
 				"",
 				false,
 				new GRGEN_LGSP.PatternNode[] { dumpNodeUpdate_node_n }, 
 				new GRGEN_LGSP.PatternEdge[] {  }, 
-				new GRGEN_LGSP.PatternVariable[] {  }, 
+				new GRGEN_LGSP.PatternVariable[] { dumpNodeUpdate_var_v }, 
 				new GRGEN_LGSP.PatternGraphEmbedding[] {  }, 
 				new GRGEN_LGSP.Alternative[] {  }, 
 				new GRGEN_LGSP.PatternGraph[] {  }, 
@@ -8838,9 +8979,10 @@ namespace de.unika.ipd.grGen.Action_JavaProgramGraphs
 			Match_dumpNodeUpdate curMatch = (Match_dumpNodeUpdate)_curMatch;
 			GRGEN_LGSP.LGSPNode node_n = curMatch._node_n;
 			GRGEN_MODEL.IUpdate inode_n = curMatch.node_n;
+			int var_v = curMatch._var_v;
 			graph.SettingAddedNodeNames( dumpNodeUpdate_addedNodeNames );
 			graph.SettingAddedEdgeNames( dumpNodeUpdate_addedEdgeNames );
-			graph.SetVisited(node_n, 0, true);
+			graph.SetVisited(node_n, var_v, true);
 			bool tempvar_node_n_this = inode_n.@this;
 			graph.EmitWriter.Write("<node id=\"");
 			graph.EmitWriter.Write(graph.GetElementName(node_n));
@@ -8864,6 +9006,7 @@ namespace de.unika.ipd.grGen.Action_JavaProgramGraphs
 			GRGEN_MODEL.IUpdate node_n { get; }
 			//Edges
 			//Variables
+			int @var_v { get; }
 			//EmbeddedGraphs
 			//Alternatives
 			//Iterateds
@@ -8899,13 +9042,16 @@ namespace de.unika.ipd.grGen.Action_JavaProgramGraphs
 				}
 			}
 			
-			public enum dumpNodeUpdate_VariableNums { END_OF_ENUM };
+			public int var_v { get { return _var_v; } }
+			public int _var_v;
+			public enum dumpNodeUpdate_VariableNums { @v, END_OF_ENUM };
 			public IEnumerable<object> Variables { get { return new GRGEN_LGSP.Variables_Enumerable(this); } }
 			public IEnumerator<object> VariablesEnumerator { get { return new GRGEN_LGSP.Variables_Enumerator(this); } }
-			public int NumberOfVariables { get { return 0;} }
+			public int NumberOfVariables { get { return 1;} }
 			public object getVariableAt(int index)
 			{
 				switch(index) {
+				case (int)dumpNodeUpdate_VariableNums.@v: return _var_v;
 				default: return null;
 				}
 			}
@@ -8972,7 +9118,7 @@ namespace de.unika.ipd.grGen.Action_JavaProgramGraphs
 		public static bool[] dumpNodeCall_node_n_IsAllowedType = null;
 		public enum dumpNodeCall_NodeNums { @n, };
 		public enum dumpNodeCall_EdgeNums { };
-		public enum dumpNodeCall_VariableNums { };
+		public enum dumpNodeCall_VariableNums { @v, };
 		public enum dumpNodeCall_SubNums { };
 		public enum dumpNodeCall_AltNums { };
 		public enum dumpNodeCall_IterNums { };
@@ -8987,9 +9133,10 @@ namespace de.unika.ipd.grGen.Action_JavaProgramGraphs
 		{
 			name = "dumpNodeCall";
 
-			inputs = new GRGEN_LIBGR.GrGenType[] { };
-			inputNames = new string[] { };
+			inputs = new GRGEN_LIBGR.GrGenType[] { GRGEN_LIBGR.VarType.GetVarType(typeof(int)), };
+			inputNames = new string[] { "dumpNodeCall_var_v", };
 			outputs = new GRGEN_LIBGR.GrGenType[] { };
+
 		}
 		private void initialize()
 		{
@@ -9000,16 +9147,17 @@ namespace de.unika.ipd.grGen.Action_JavaProgramGraphs
 			int[] dumpNodeCall_minMatches = new int[0] ;
 			int[] dumpNodeCall_maxMatches = new int[0] ;
 			GRGEN_LGSP.PatternNode dumpNodeCall_node_n = new GRGEN_LGSP.PatternNode((int) GRGEN_MODEL.NodeTypes.@Call, "GRGEN_MODEL.ICall", "dumpNodeCall_node_n", "n", dumpNodeCall_node_n_AllowedTypes, dumpNodeCall_node_n_IsAllowedType, 5.5F, -1, false);
+			GRGEN_LGSP.PatternVariable dumpNodeCall_var_v = new GRGEN_LGSP.PatternVariable(GRGEN_LIBGR.VarType.GetVarType(typeof(int)), "dumpNodeCall_var_v", "v", 0);
 			GRGEN_LGSP.PatternCondition dumpNodeCall_cond_0 = new GRGEN_LGSP.PatternCondition(
-				new GRGEN_EXPR.LOG_NOT(new GRGEN_EXPR.Visited("dumpNodeCall_node_n", new GRGEN_EXPR.Constant("0"))),
-				new string[] { "dumpNodeCall_node_n" }, new string[] {  }, new string[] {  }, new GRGEN_LIBGR.VarType[] {  });
+				new GRGEN_EXPR.LOG_NOT(new GRGEN_EXPR.Visited("dumpNodeCall_node_n", new GRGEN_EXPR.VariableExpression("dumpNodeCall_var_v"))),
+				new string[] { "dumpNodeCall_node_n" }, new string[] {  }, new string[] { "dumpNodeCall_var_v" }, new GRGEN_LIBGR.VarType[] { GRGEN_LIBGR.VarType.GetVarType(typeof(int)) });
 			pat_dumpNodeCall = new GRGEN_LGSP.PatternGraph(
 				"dumpNodeCall",
 				"",
 				false,
 				new GRGEN_LGSP.PatternNode[] { dumpNodeCall_node_n }, 
 				new GRGEN_LGSP.PatternEdge[] {  }, 
-				new GRGEN_LGSP.PatternVariable[] {  }, 
+				new GRGEN_LGSP.PatternVariable[] { dumpNodeCall_var_v }, 
 				new GRGEN_LGSP.PatternGraphEmbedding[] {  }, 
 				new GRGEN_LGSP.Alternative[] {  }, 
 				new GRGEN_LGSP.PatternGraph[] {  }, 
@@ -9037,9 +9185,10 @@ namespace de.unika.ipd.grGen.Action_JavaProgramGraphs
 			Match_dumpNodeCall curMatch = (Match_dumpNodeCall)_curMatch;
 			GRGEN_LGSP.LGSPNode node_n = curMatch._node_n;
 			GRGEN_MODEL.ICall inode_n = curMatch.node_n;
+			int var_v = curMatch._var_v;
 			graph.SettingAddedNodeNames( dumpNodeCall_addedNodeNames );
 			graph.SettingAddedEdgeNames( dumpNodeCall_addedEdgeNames );
-			graph.SetVisited(node_n, 0, true);
+			graph.SetVisited(node_n, var_v, true);
 			bool tempvar_node_n_this = inode_n.@this;
 			bool tempvar_node_n_super = inode_n.@super;
 			graph.EmitWriter.Write("<node id=\"");
@@ -9067,6 +9216,7 @@ namespace de.unika.ipd.grGen.Action_JavaProgramGraphs
 			GRGEN_MODEL.ICall node_n { get; }
 			//Edges
 			//Variables
+			int @var_v { get; }
 			//EmbeddedGraphs
 			//Alternatives
 			//Iterateds
@@ -9102,13 +9252,16 @@ namespace de.unika.ipd.grGen.Action_JavaProgramGraphs
 				}
 			}
 			
-			public enum dumpNodeCall_VariableNums { END_OF_ENUM };
+			public int var_v { get { return _var_v; } }
+			public int _var_v;
+			public enum dumpNodeCall_VariableNums { @v, END_OF_ENUM };
 			public IEnumerable<object> Variables { get { return new GRGEN_LGSP.Variables_Enumerable(this); } }
 			public IEnumerator<object> VariablesEnumerator { get { return new GRGEN_LGSP.Variables_Enumerator(this); } }
-			public int NumberOfVariables { get { return 0;} }
+			public int NumberOfVariables { get { return 1;} }
 			public object getVariableAt(int index)
 			{
 				switch(index) {
+				case (int)dumpNodeCall_VariableNums.@v: return _var_v;
 				default: return null;
 				}
 			}
@@ -9175,7 +9328,7 @@ namespace de.unika.ipd.grGen.Action_JavaProgramGraphs
 		public static bool[] dumpNodeIstantiation_node_n_IsAllowedType = null;
 		public enum dumpNodeIstantiation_NodeNums { @n, };
 		public enum dumpNodeIstantiation_EdgeNums { };
-		public enum dumpNodeIstantiation_VariableNums { };
+		public enum dumpNodeIstantiation_VariableNums { @v, };
 		public enum dumpNodeIstantiation_SubNums { };
 		public enum dumpNodeIstantiation_AltNums { };
 		public enum dumpNodeIstantiation_IterNums { };
@@ -9190,9 +9343,10 @@ namespace de.unika.ipd.grGen.Action_JavaProgramGraphs
 		{
 			name = "dumpNodeIstantiation";
 
-			inputs = new GRGEN_LIBGR.GrGenType[] { };
-			inputNames = new string[] { };
+			inputs = new GRGEN_LIBGR.GrGenType[] { GRGEN_LIBGR.VarType.GetVarType(typeof(int)), };
+			inputNames = new string[] { "dumpNodeIstantiation_var_v", };
 			outputs = new GRGEN_LIBGR.GrGenType[] { };
+
 		}
 		private void initialize()
 		{
@@ -9203,16 +9357,17 @@ namespace de.unika.ipd.grGen.Action_JavaProgramGraphs
 			int[] dumpNodeIstantiation_minMatches = new int[0] ;
 			int[] dumpNodeIstantiation_maxMatches = new int[0] ;
 			GRGEN_LGSP.PatternNode dumpNodeIstantiation_node_n = new GRGEN_LGSP.PatternNode((int) GRGEN_MODEL.NodeTypes.@Instantiation, "GRGEN_MODEL.IInstantiation", "dumpNodeIstantiation_node_n", "n", dumpNodeIstantiation_node_n_AllowedTypes, dumpNodeIstantiation_node_n_IsAllowedType, 5.5F, -1, false);
+			GRGEN_LGSP.PatternVariable dumpNodeIstantiation_var_v = new GRGEN_LGSP.PatternVariable(GRGEN_LIBGR.VarType.GetVarType(typeof(int)), "dumpNodeIstantiation_var_v", "v", 0);
 			GRGEN_LGSP.PatternCondition dumpNodeIstantiation_cond_0 = new GRGEN_LGSP.PatternCondition(
-				new GRGEN_EXPR.LOG_NOT(new GRGEN_EXPR.Visited("dumpNodeIstantiation_node_n", new GRGEN_EXPR.Constant("0"))),
-				new string[] { "dumpNodeIstantiation_node_n" }, new string[] {  }, new string[] {  }, new GRGEN_LIBGR.VarType[] {  });
+				new GRGEN_EXPR.LOG_NOT(new GRGEN_EXPR.Visited("dumpNodeIstantiation_node_n", new GRGEN_EXPR.VariableExpression("dumpNodeIstantiation_var_v"))),
+				new string[] { "dumpNodeIstantiation_node_n" }, new string[] {  }, new string[] { "dumpNodeIstantiation_var_v" }, new GRGEN_LIBGR.VarType[] { GRGEN_LIBGR.VarType.GetVarType(typeof(int)) });
 			pat_dumpNodeIstantiation = new GRGEN_LGSP.PatternGraph(
 				"dumpNodeIstantiation",
 				"",
 				false,
 				new GRGEN_LGSP.PatternNode[] { dumpNodeIstantiation_node_n }, 
 				new GRGEN_LGSP.PatternEdge[] {  }, 
-				new GRGEN_LGSP.PatternVariable[] {  }, 
+				new GRGEN_LGSP.PatternVariable[] { dumpNodeIstantiation_var_v }, 
 				new GRGEN_LGSP.PatternGraphEmbedding[] {  }, 
 				new GRGEN_LGSP.Alternative[] {  }, 
 				new GRGEN_LGSP.PatternGraph[] {  }, 
@@ -9239,9 +9394,10 @@ namespace de.unika.ipd.grGen.Action_JavaProgramGraphs
 		{
 			Match_dumpNodeIstantiation curMatch = (Match_dumpNodeIstantiation)_curMatch;
 			GRGEN_LGSP.LGSPNode node_n = curMatch._node_n;
+			int var_v = curMatch._var_v;
 			graph.SettingAddedNodeNames( dumpNodeIstantiation_addedNodeNames );
 			graph.SettingAddedEdgeNames( dumpNodeIstantiation_addedEdgeNames );
-			graph.SetVisited(node_n, 0, true);
+			graph.SetVisited(node_n, var_v, true);
 			graph.EmitWriter.Write("<node id=\"");
 			graph.EmitWriter.Write(graph.GetElementName(node_n));
 			graph.EmitWriter.Write("\">");
@@ -9261,6 +9417,7 @@ namespace de.unika.ipd.grGen.Action_JavaProgramGraphs
 			GRGEN_MODEL.IInstantiation node_n { get; }
 			//Edges
 			//Variables
+			int @var_v { get; }
 			//EmbeddedGraphs
 			//Alternatives
 			//Iterateds
@@ -9296,13 +9453,16 @@ namespace de.unika.ipd.grGen.Action_JavaProgramGraphs
 				}
 			}
 			
-			public enum dumpNodeIstantiation_VariableNums { END_OF_ENUM };
+			public int var_v { get { return _var_v; } }
+			public int _var_v;
+			public enum dumpNodeIstantiation_VariableNums { @v, END_OF_ENUM };
 			public IEnumerable<object> Variables { get { return new GRGEN_LGSP.Variables_Enumerable(this); } }
 			public IEnumerator<object> VariablesEnumerator { get { return new GRGEN_LGSP.Variables_Enumerator(this); } }
-			public int NumberOfVariables { get { return 0;} }
+			public int NumberOfVariables { get { return 1;} }
 			public object getVariableAt(int index)
 			{
 				switch(index) {
+				case (int)dumpNodeIstantiation_VariableNums.@v: return _var_v;
 				default: return null;
 				}
 			}
@@ -9369,7 +9529,7 @@ namespace de.unika.ipd.grGen.Action_JavaProgramGraphs
 		public static bool[] dumpNodeOperator_node_n_IsAllowedType = null;
 		public enum dumpNodeOperator_NodeNums { @n, };
 		public enum dumpNodeOperator_EdgeNums { };
-		public enum dumpNodeOperator_VariableNums { };
+		public enum dumpNodeOperator_VariableNums { @v, };
 		public enum dumpNodeOperator_SubNums { };
 		public enum dumpNodeOperator_AltNums { };
 		public enum dumpNodeOperator_IterNums { };
@@ -9384,9 +9544,10 @@ namespace de.unika.ipd.grGen.Action_JavaProgramGraphs
 		{
 			name = "dumpNodeOperator";
 
-			inputs = new GRGEN_LIBGR.GrGenType[] { };
-			inputNames = new string[] { };
+			inputs = new GRGEN_LIBGR.GrGenType[] { GRGEN_LIBGR.VarType.GetVarType(typeof(int)), };
+			inputNames = new string[] { "dumpNodeOperator_var_v", };
 			outputs = new GRGEN_LIBGR.GrGenType[] { };
+
 		}
 		private void initialize()
 		{
@@ -9397,16 +9558,17 @@ namespace de.unika.ipd.grGen.Action_JavaProgramGraphs
 			int[] dumpNodeOperator_minMatches = new int[0] ;
 			int[] dumpNodeOperator_maxMatches = new int[0] ;
 			GRGEN_LGSP.PatternNode dumpNodeOperator_node_n = new GRGEN_LGSP.PatternNode((int) GRGEN_MODEL.NodeTypes.@Operator, "GRGEN_MODEL.IOperator", "dumpNodeOperator_node_n", "n", dumpNodeOperator_node_n_AllowedTypes, dumpNodeOperator_node_n_IsAllowedType, 5.5F, -1, false);
+			GRGEN_LGSP.PatternVariable dumpNodeOperator_var_v = new GRGEN_LGSP.PatternVariable(GRGEN_LIBGR.VarType.GetVarType(typeof(int)), "dumpNodeOperator_var_v", "v", 0);
 			GRGEN_LGSP.PatternCondition dumpNodeOperator_cond_0 = new GRGEN_LGSP.PatternCondition(
-				new GRGEN_EXPR.LOG_NOT(new GRGEN_EXPR.Visited("dumpNodeOperator_node_n", new GRGEN_EXPR.Constant("0"))),
-				new string[] { "dumpNodeOperator_node_n" }, new string[] {  }, new string[] {  }, new GRGEN_LIBGR.VarType[] {  });
+				new GRGEN_EXPR.LOG_NOT(new GRGEN_EXPR.Visited("dumpNodeOperator_node_n", new GRGEN_EXPR.VariableExpression("dumpNodeOperator_var_v"))),
+				new string[] { "dumpNodeOperator_node_n" }, new string[] {  }, new string[] { "dumpNodeOperator_var_v" }, new GRGEN_LIBGR.VarType[] { GRGEN_LIBGR.VarType.GetVarType(typeof(int)) });
 			pat_dumpNodeOperator = new GRGEN_LGSP.PatternGraph(
 				"dumpNodeOperator",
 				"",
 				false,
 				new GRGEN_LGSP.PatternNode[] { dumpNodeOperator_node_n }, 
 				new GRGEN_LGSP.PatternEdge[] {  }, 
-				new GRGEN_LGSP.PatternVariable[] {  }, 
+				new GRGEN_LGSP.PatternVariable[] { dumpNodeOperator_var_v }, 
 				new GRGEN_LGSP.PatternGraphEmbedding[] {  }, 
 				new GRGEN_LGSP.Alternative[] {  }, 
 				new GRGEN_LGSP.PatternGraph[] {  }, 
@@ -9434,9 +9596,10 @@ namespace de.unika.ipd.grGen.Action_JavaProgramGraphs
 			Match_dumpNodeOperator curMatch = (Match_dumpNodeOperator)_curMatch;
 			GRGEN_LGSP.LGSPNode node_n = curMatch._node_n;
 			GRGEN_MODEL.IOperator inode_n = curMatch.node_n;
+			int var_v = curMatch._var_v;
 			graph.SettingAddedNodeNames( dumpNodeOperator_addedNodeNames );
 			graph.SettingAddedEdgeNames( dumpNodeOperator_addedEdgeNames );
-			graph.SetVisited(node_n, 0, true);
+			graph.SetVisited(node_n, var_v, true);
 			string tempvar_node_n_name = inode_n.@name;
 			graph.EmitWriter.Write("<node id=\"");
 			graph.EmitWriter.Write(graph.GetElementName(node_n));
@@ -9460,6 +9623,7 @@ namespace de.unika.ipd.grGen.Action_JavaProgramGraphs
 			GRGEN_MODEL.IOperator node_n { get; }
 			//Edges
 			//Variables
+			int @var_v { get; }
 			//EmbeddedGraphs
 			//Alternatives
 			//Iterateds
@@ -9495,13 +9659,16 @@ namespace de.unika.ipd.grGen.Action_JavaProgramGraphs
 				}
 			}
 			
-			public enum dumpNodeOperator_VariableNums { END_OF_ENUM };
+			public int var_v { get { return _var_v; } }
+			public int _var_v;
+			public enum dumpNodeOperator_VariableNums { @v, END_OF_ENUM };
 			public IEnumerable<object> Variables { get { return new GRGEN_LGSP.Variables_Enumerable(this); } }
 			public IEnumerator<object> VariablesEnumerator { get { return new GRGEN_LGSP.Variables_Enumerator(this); } }
-			public int NumberOfVariables { get { return 0;} }
+			public int NumberOfVariables { get { return 1;} }
 			public object getVariableAt(int index)
 			{
 				switch(index) {
+				case (int)dumpNodeOperator_VariableNums.@v: return _var_v;
 				default: return null;
 				}
 			}
@@ -9568,7 +9735,7 @@ namespace de.unika.ipd.grGen.Action_JavaProgramGraphs
 		public static bool[] dumpNodeReturn_node_n_IsAllowedType = null;
 		public enum dumpNodeReturn_NodeNums { @n, };
 		public enum dumpNodeReturn_EdgeNums { };
-		public enum dumpNodeReturn_VariableNums { };
+		public enum dumpNodeReturn_VariableNums { @v, };
 		public enum dumpNodeReturn_SubNums { };
 		public enum dumpNodeReturn_AltNums { };
 		public enum dumpNodeReturn_IterNums { };
@@ -9583,9 +9750,10 @@ namespace de.unika.ipd.grGen.Action_JavaProgramGraphs
 		{
 			name = "dumpNodeReturn";
 
-			inputs = new GRGEN_LIBGR.GrGenType[] { };
-			inputNames = new string[] { };
+			inputs = new GRGEN_LIBGR.GrGenType[] { GRGEN_LIBGR.VarType.GetVarType(typeof(int)), };
+			inputNames = new string[] { "dumpNodeReturn_var_v", };
 			outputs = new GRGEN_LIBGR.GrGenType[] { };
+
 		}
 		private void initialize()
 		{
@@ -9596,16 +9764,17 @@ namespace de.unika.ipd.grGen.Action_JavaProgramGraphs
 			int[] dumpNodeReturn_minMatches = new int[0] ;
 			int[] dumpNodeReturn_maxMatches = new int[0] ;
 			GRGEN_LGSP.PatternNode dumpNodeReturn_node_n = new GRGEN_LGSP.PatternNode((int) GRGEN_MODEL.NodeTypes.@Return, "GRGEN_MODEL.IReturn", "dumpNodeReturn_node_n", "n", dumpNodeReturn_node_n_AllowedTypes, dumpNodeReturn_node_n_IsAllowedType, 5.5F, -1, false);
+			GRGEN_LGSP.PatternVariable dumpNodeReturn_var_v = new GRGEN_LGSP.PatternVariable(GRGEN_LIBGR.VarType.GetVarType(typeof(int)), "dumpNodeReturn_var_v", "v", 0);
 			GRGEN_LGSP.PatternCondition dumpNodeReturn_cond_0 = new GRGEN_LGSP.PatternCondition(
-				new GRGEN_EXPR.LOG_NOT(new GRGEN_EXPR.Visited("dumpNodeReturn_node_n", new GRGEN_EXPR.Constant("0"))),
-				new string[] { "dumpNodeReturn_node_n" }, new string[] {  }, new string[] {  }, new GRGEN_LIBGR.VarType[] {  });
+				new GRGEN_EXPR.LOG_NOT(new GRGEN_EXPR.Visited("dumpNodeReturn_node_n", new GRGEN_EXPR.VariableExpression("dumpNodeReturn_var_v"))),
+				new string[] { "dumpNodeReturn_node_n" }, new string[] {  }, new string[] { "dumpNodeReturn_var_v" }, new GRGEN_LIBGR.VarType[] { GRGEN_LIBGR.VarType.GetVarType(typeof(int)) });
 			pat_dumpNodeReturn = new GRGEN_LGSP.PatternGraph(
 				"dumpNodeReturn",
 				"",
 				false,
 				new GRGEN_LGSP.PatternNode[] { dumpNodeReturn_node_n }, 
 				new GRGEN_LGSP.PatternEdge[] {  }, 
-				new GRGEN_LGSP.PatternVariable[] {  }, 
+				new GRGEN_LGSP.PatternVariable[] { dumpNodeReturn_var_v }, 
 				new GRGEN_LGSP.PatternGraphEmbedding[] {  }, 
 				new GRGEN_LGSP.Alternative[] {  }, 
 				new GRGEN_LGSP.PatternGraph[] {  }, 
@@ -9632,9 +9801,10 @@ namespace de.unika.ipd.grGen.Action_JavaProgramGraphs
 		{
 			Match_dumpNodeReturn curMatch = (Match_dumpNodeReturn)_curMatch;
 			GRGEN_LGSP.LGSPNode node_n = curMatch._node_n;
+			int var_v = curMatch._var_v;
 			graph.SettingAddedNodeNames( dumpNodeReturn_addedNodeNames );
 			graph.SettingAddedEdgeNames( dumpNodeReturn_addedEdgeNames );
-			graph.SetVisited(node_n, 0, true);
+			graph.SetVisited(node_n, var_v, true);
 			graph.EmitWriter.Write("<node id=\"");
 			graph.EmitWriter.Write(graph.GetElementName(node_n));
 			graph.EmitWriter.Write("\">");
@@ -9654,6 +9824,7 @@ namespace de.unika.ipd.grGen.Action_JavaProgramGraphs
 			GRGEN_MODEL.IReturn node_n { get; }
 			//Edges
 			//Variables
+			int @var_v { get; }
 			//EmbeddedGraphs
 			//Alternatives
 			//Iterateds
@@ -9689,13 +9860,16 @@ namespace de.unika.ipd.grGen.Action_JavaProgramGraphs
 				}
 			}
 			
-			public enum dumpNodeReturn_VariableNums { END_OF_ENUM };
+			public int var_v { get { return _var_v; } }
+			public int _var_v;
+			public enum dumpNodeReturn_VariableNums { @v, END_OF_ENUM };
 			public IEnumerable<object> Variables { get { return new GRGEN_LGSP.Variables_Enumerable(this); } }
 			public IEnumerator<object> VariablesEnumerator { get { return new GRGEN_LGSP.Variables_Enumerator(this); } }
-			public int NumberOfVariables { get { return 0;} }
+			public int NumberOfVariables { get { return 1;} }
 			public object getVariableAt(int index)
 			{
 				switch(index) {
+				case (int)dumpNodeReturn_VariableNums.@v: return _var_v;
 				default: return null;
 				}
 			}
@@ -9762,7 +9936,7 @@ namespace de.unika.ipd.grGen.Action_JavaProgramGraphs
 		public static bool[] dumpNodeBlock_node_n_IsAllowedType = null;
 		public enum dumpNodeBlock_NodeNums { @n, };
 		public enum dumpNodeBlock_EdgeNums { };
-		public enum dumpNodeBlock_VariableNums { };
+		public enum dumpNodeBlock_VariableNums { @v, };
 		public enum dumpNodeBlock_SubNums { };
 		public enum dumpNodeBlock_AltNums { };
 		public enum dumpNodeBlock_IterNums { };
@@ -9777,9 +9951,10 @@ namespace de.unika.ipd.grGen.Action_JavaProgramGraphs
 		{
 			name = "dumpNodeBlock";
 
-			inputs = new GRGEN_LIBGR.GrGenType[] { };
-			inputNames = new string[] { };
+			inputs = new GRGEN_LIBGR.GrGenType[] { GRGEN_LIBGR.VarType.GetVarType(typeof(int)), };
+			inputNames = new string[] { "dumpNodeBlock_var_v", };
 			outputs = new GRGEN_LIBGR.GrGenType[] { };
+
 		}
 		private void initialize()
 		{
@@ -9790,16 +9965,17 @@ namespace de.unika.ipd.grGen.Action_JavaProgramGraphs
 			int[] dumpNodeBlock_minMatches = new int[0] ;
 			int[] dumpNodeBlock_maxMatches = new int[0] ;
 			GRGEN_LGSP.PatternNode dumpNodeBlock_node_n = new GRGEN_LGSP.PatternNode((int) GRGEN_MODEL.NodeTypes.@Block, "GRGEN_MODEL.IBlock", "dumpNodeBlock_node_n", "n", dumpNodeBlock_node_n_AllowedTypes, dumpNodeBlock_node_n_IsAllowedType, 5.5F, -1, false);
+			GRGEN_LGSP.PatternVariable dumpNodeBlock_var_v = new GRGEN_LGSP.PatternVariable(GRGEN_LIBGR.VarType.GetVarType(typeof(int)), "dumpNodeBlock_var_v", "v", 0);
 			GRGEN_LGSP.PatternCondition dumpNodeBlock_cond_0 = new GRGEN_LGSP.PatternCondition(
-				new GRGEN_EXPR.LOG_NOT(new GRGEN_EXPR.Visited("dumpNodeBlock_node_n", new GRGEN_EXPR.Constant("0"))),
-				new string[] { "dumpNodeBlock_node_n" }, new string[] {  }, new string[] {  }, new GRGEN_LIBGR.VarType[] {  });
+				new GRGEN_EXPR.LOG_NOT(new GRGEN_EXPR.Visited("dumpNodeBlock_node_n", new GRGEN_EXPR.VariableExpression("dumpNodeBlock_var_v"))),
+				new string[] { "dumpNodeBlock_node_n" }, new string[] {  }, new string[] { "dumpNodeBlock_var_v" }, new GRGEN_LIBGR.VarType[] { GRGEN_LIBGR.VarType.GetVarType(typeof(int)) });
 			pat_dumpNodeBlock = new GRGEN_LGSP.PatternGraph(
 				"dumpNodeBlock",
 				"",
 				false,
 				new GRGEN_LGSP.PatternNode[] { dumpNodeBlock_node_n }, 
 				new GRGEN_LGSP.PatternEdge[] {  }, 
-				new GRGEN_LGSP.PatternVariable[] {  }, 
+				new GRGEN_LGSP.PatternVariable[] { dumpNodeBlock_var_v }, 
 				new GRGEN_LGSP.PatternGraphEmbedding[] {  }, 
 				new GRGEN_LGSP.Alternative[] {  }, 
 				new GRGEN_LGSP.PatternGraph[] {  }, 
@@ -9826,9 +10002,10 @@ namespace de.unika.ipd.grGen.Action_JavaProgramGraphs
 		{
 			Match_dumpNodeBlock curMatch = (Match_dumpNodeBlock)_curMatch;
 			GRGEN_LGSP.LGSPNode node_n = curMatch._node_n;
+			int var_v = curMatch._var_v;
 			graph.SettingAddedNodeNames( dumpNodeBlock_addedNodeNames );
 			graph.SettingAddedEdgeNames( dumpNodeBlock_addedEdgeNames );
-			graph.SetVisited(node_n, 0, true);
+			graph.SetVisited(node_n, var_v, true);
 			graph.EmitWriter.Write("<node id=\"");
 			graph.EmitWriter.Write(graph.GetElementName(node_n));
 			graph.EmitWriter.Write("\">");
@@ -9848,6 +10025,7 @@ namespace de.unika.ipd.grGen.Action_JavaProgramGraphs
 			GRGEN_MODEL.IBlock node_n { get; }
 			//Edges
 			//Variables
+			int @var_v { get; }
 			//EmbeddedGraphs
 			//Alternatives
 			//Iterateds
@@ -9883,13 +10061,16 @@ namespace de.unika.ipd.grGen.Action_JavaProgramGraphs
 				}
 			}
 			
-			public enum dumpNodeBlock_VariableNums { END_OF_ENUM };
+			public int var_v { get { return _var_v; } }
+			public int _var_v;
+			public enum dumpNodeBlock_VariableNums { @v, END_OF_ENUM };
 			public IEnumerable<object> Variables { get { return new GRGEN_LGSP.Variables_Enumerable(this); } }
 			public IEnumerator<object> VariablesEnumerator { get { return new GRGEN_LGSP.Variables_Enumerator(this); } }
-			public int NumberOfVariables { get { return 0;} }
+			public int NumberOfVariables { get { return 1;} }
 			public object getVariableAt(int index)
 			{
 				switch(index) {
+				case (int)dumpNodeBlock_VariableNums.@v: return _var_v;
 				default: return null;
 				}
 			}
@@ -9956,7 +10137,7 @@ namespace de.unika.ipd.grGen.Action_JavaProgramGraphs
 		public static bool[] dumpNodeLiteral_node_n_IsAllowedType = null;
 		public enum dumpNodeLiteral_NodeNums { @n, };
 		public enum dumpNodeLiteral_EdgeNums { };
-		public enum dumpNodeLiteral_VariableNums { };
+		public enum dumpNodeLiteral_VariableNums { @v, };
 		public enum dumpNodeLiteral_SubNums { };
 		public enum dumpNodeLiteral_AltNums { };
 		public enum dumpNodeLiteral_IterNums { };
@@ -9971,9 +10152,10 @@ namespace de.unika.ipd.grGen.Action_JavaProgramGraphs
 		{
 			name = "dumpNodeLiteral";
 
-			inputs = new GRGEN_LIBGR.GrGenType[] { };
-			inputNames = new string[] { };
+			inputs = new GRGEN_LIBGR.GrGenType[] { GRGEN_LIBGR.VarType.GetVarType(typeof(int)), };
+			inputNames = new string[] { "dumpNodeLiteral_var_v", };
 			outputs = new GRGEN_LIBGR.GrGenType[] { };
+
 		}
 		private void initialize()
 		{
@@ -9984,16 +10166,17 @@ namespace de.unika.ipd.grGen.Action_JavaProgramGraphs
 			int[] dumpNodeLiteral_minMatches = new int[0] ;
 			int[] dumpNodeLiteral_maxMatches = new int[0] ;
 			GRGEN_LGSP.PatternNode dumpNodeLiteral_node_n = new GRGEN_LGSP.PatternNode((int) GRGEN_MODEL.NodeTypes.@Literal, "GRGEN_MODEL.ILiteral", "dumpNodeLiteral_node_n", "n", dumpNodeLiteral_node_n_AllowedTypes, dumpNodeLiteral_node_n_IsAllowedType, 5.5F, -1, false);
+			GRGEN_LGSP.PatternVariable dumpNodeLiteral_var_v = new GRGEN_LGSP.PatternVariable(GRGEN_LIBGR.VarType.GetVarType(typeof(int)), "dumpNodeLiteral_var_v", "v", 0);
 			GRGEN_LGSP.PatternCondition dumpNodeLiteral_cond_0 = new GRGEN_LGSP.PatternCondition(
-				new GRGEN_EXPR.LOG_NOT(new GRGEN_EXPR.Visited("dumpNodeLiteral_node_n", new GRGEN_EXPR.Constant("0"))),
-				new string[] { "dumpNodeLiteral_node_n" }, new string[] {  }, new string[] {  }, new GRGEN_LIBGR.VarType[] {  });
+				new GRGEN_EXPR.LOG_NOT(new GRGEN_EXPR.Visited("dumpNodeLiteral_node_n", new GRGEN_EXPR.VariableExpression("dumpNodeLiteral_var_v"))),
+				new string[] { "dumpNodeLiteral_node_n" }, new string[] {  }, new string[] { "dumpNodeLiteral_var_v" }, new GRGEN_LIBGR.VarType[] { GRGEN_LIBGR.VarType.GetVarType(typeof(int)) });
 			pat_dumpNodeLiteral = new GRGEN_LGSP.PatternGraph(
 				"dumpNodeLiteral",
 				"",
 				false,
 				new GRGEN_LGSP.PatternNode[] { dumpNodeLiteral_node_n }, 
 				new GRGEN_LGSP.PatternEdge[] {  }, 
-				new GRGEN_LGSP.PatternVariable[] {  }, 
+				new GRGEN_LGSP.PatternVariable[] { dumpNodeLiteral_var_v }, 
 				new GRGEN_LGSP.PatternGraphEmbedding[] {  }, 
 				new GRGEN_LGSP.Alternative[] {  }, 
 				new GRGEN_LGSP.PatternGraph[] {  }, 
@@ -10021,9 +10204,10 @@ namespace de.unika.ipd.grGen.Action_JavaProgramGraphs
 			Match_dumpNodeLiteral curMatch = (Match_dumpNodeLiteral)_curMatch;
 			GRGEN_LGSP.LGSPNode node_n = curMatch._node_n;
 			GRGEN_MODEL.ILiteral inode_n = curMatch.node_n;
+			int var_v = curMatch._var_v;
 			graph.SettingAddedNodeNames( dumpNodeLiteral_addedNodeNames );
 			graph.SettingAddedEdgeNames( dumpNodeLiteral_addedEdgeNames );
-			graph.SetVisited(node_n, 0, true);
+			graph.SetVisited(node_n, var_v, true);
 			string tempvar_node_n_value = inode_n.@value;
 			graph.EmitWriter.Write("<node id=\"");
 			graph.EmitWriter.Write(graph.GetElementName(node_n));
@@ -10047,6 +10231,7 @@ namespace de.unika.ipd.grGen.Action_JavaProgramGraphs
 			GRGEN_MODEL.ILiteral node_n { get; }
 			//Edges
 			//Variables
+			int @var_v { get; }
 			//EmbeddedGraphs
 			//Alternatives
 			//Iterateds
@@ -10082,13 +10267,16 @@ namespace de.unika.ipd.grGen.Action_JavaProgramGraphs
 				}
 			}
 			
-			public enum dumpNodeLiteral_VariableNums { END_OF_ENUM };
+			public int var_v { get { return _var_v; } }
+			public int _var_v;
+			public enum dumpNodeLiteral_VariableNums { @v, END_OF_ENUM };
 			public IEnumerable<object> Variables { get { return new GRGEN_LGSP.Variables_Enumerable(this); } }
 			public IEnumerator<object> VariablesEnumerator { get { return new GRGEN_LGSP.Variables_Enumerator(this); } }
-			public int NumberOfVariables { get { return 0;} }
+			public int NumberOfVariables { get { return 1;} }
 			public object getVariableAt(int index)
 			{
 				switch(index) {
+				case (int)dumpNodeLiteral_VariableNums.@v: return _var_v;
 				default: return null;
 				}
 			}
@@ -10155,7 +10343,7 @@ namespace de.unika.ipd.grGen.Action_JavaProgramGraphs
 		public static bool[] dumpNodeParameter_node_n_IsAllowedType = null;
 		public enum dumpNodeParameter_NodeNums { @n, };
 		public enum dumpNodeParameter_EdgeNums { };
-		public enum dumpNodeParameter_VariableNums { };
+		public enum dumpNodeParameter_VariableNums { @v, };
 		public enum dumpNodeParameter_SubNums { };
 		public enum dumpNodeParameter_AltNums { };
 		public enum dumpNodeParameter_IterNums { };
@@ -10170,9 +10358,10 @@ namespace de.unika.ipd.grGen.Action_JavaProgramGraphs
 		{
 			name = "dumpNodeParameter";
 
-			inputs = new GRGEN_LIBGR.GrGenType[] { };
-			inputNames = new string[] { };
+			inputs = new GRGEN_LIBGR.GrGenType[] { GRGEN_LIBGR.VarType.GetVarType(typeof(int)), };
+			inputNames = new string[] { "dumpNodeParameter_var_v", };
 			outputs = new GRGEN_LIBGR.GrGenType[] { };
+
 		}
 		private void initialize()
 		{
@@ -10183,16 +10372,17 @@ namespace de.unika.ipd.grGen.Action_JavaProgramGraphs
 			int[] dumpNodeParameter_minMatches = new int[0] ;
 			int[] dumpNodeParameter_maxMatches = new int[0] ;
 			GRGEN_LGSP.PatternNode dumpNodeParameter_node_n = new GRGEN_LGSP.PatternNode((int) GRGEN_MODEL.NodeTypes.@Parameter, "GRGEN_MODEL.IParameter", "dumpNodeParameter_node_n", "n", dumpNodeParameter_node_n_AllowedTypes, dumpNodeParameter_node_n_IsAllowedType, 5.5F, -1, false);
+			GRGEN_LGSP.PatternVariable dumpNodeParameter_var_v = new GRGEN_LGSP.PatternVariable(GRGEN_LIBGR.VarType.GetVarType(typeof(int)), "dumpNodeParameter_var_v", "v", 0);
 			GRGEN_LGSP.PatternCondition dumpNodeParameter_cond_0 = new GRGEN_LGSP.PatternCondition(
-				new GRGEN_EXPR.LOG_NOT(new GRGEN_EXPR.Visited("dumpNodeParameter_node_n", new GRGEN_EXPR.Constant("0"))),
-				new string[] { "dumpNodeParameter_node_n" }, new string[] {  }, new string[] {  }, new GRGEN_LIBGR.VarType[] {  });
+				new GRGEN_EXPR.LOG_NOT(new GRGEN_EXPR.Visited("dumpNodeParameter_node_n", new GRGEN_EXPR.VariableExpression("dumpNodeParameter_var_v"))),
+				new string[] { "dumpNodeParameter_node_n" }, new string[] {  }, new string[] { "dumpNodeParameter_var_v" }, new GRGEN_LIBGR.VarType[] { GRGEN_LIBGR.VarType.GetVarType(typeof(int)) });
 			pat_dumpNodeParameter = new GRGEN_LGSP.PatternGraph(
 				"dumpNodeParameter",
 				"",
 				false,
 				new GRGEN_LGSP.PatternNode[] { dumpNodeParameter_node_n }, 
 				new GRGEN_LGSP.PatternEdge[] {  }, 
-				new GRGEN_LGSP.PatternVariable[] {  }, 
+				new GRGEN_LGSP.PatternVariable[] { dumpNodeParameter_var_v }, 
 				new GRGEN_LGSP.PatternGraphEmbedding[] {  }, 
 				new GRGEN_LGSP.Alternative[] {  }, 
 				new GRGEN_LGSP.PatternGraph[] {  }, 
@@ -10219,9 +10409,10 @@ namespace de.unika.ipd.grGen.Action_JavaProgramGraphs
 		{
 			Match_dumpNodeParameter curMatch = (Match_dumpNodeParameter)_curMatch;
 			GRGEN_LGSP.LGSPNode node_n = curMatch._node_n;
+			int var_v = curMatch._var_v;
 			graph.SettingAddedNodeNames( dumpNodeParameter_addedNodeNames );
 			graph.SettingAddedEdgeNames( dumpNodeParameter_addedEdgeNames );
-			graph.SetVisited(node_n, 0, true);
+			graph.SetVisited(node_n, var_v, true);
 			graph.EmitWriter.Write("<node id=\"");
 			graph.EmitWriter.Write(graph.GetElementName(node_n));
 			graph.EmitWriter.Write("\">");
@@ -10241,6 +10432,7 @@ namespace de.unika.ipd.grGen.Action_JavaProgramGraphs
 			GRGEN_MODEL.IParameter node_n { get; }
 			//Edges
 			//Variables
+			int @var_v { get; }
 			//EmbeddedGraphs
 			//Alternatives
 			//Iterateds
@@ -10276,13 +10468,16 @@ namespace de.unika.ipd.grGen.Action_JavaProgramGraphs
 				}
 			}
 			
-			public enum dumpNodeParameter_VariableNums { END_OF_ENUM };
+			public int var_v { get { return _var_v; } }
+			public int _var_v;
+			public enum dumpNodeParameter_VariableNums { @v, END_OF_ENUM };
 			public IEnumerable<object> Variables { get { return new GRGEN_LGSP.Variables_Enumerable(this); } }
 			public IEnumerator<object> VariablesEnumerator { get { return new GRGEN_LGSP.Variables_Enumerator(this); } }
-			public int NumberOfVariables { get { return 0;} }
+			public int NumberOfVariables { get { return 1;} }
 			public object getVariableAt(int index)
 			{
 				switch(index) {
+				case (int)dumpNodeParameter_VariableNums.@v: return _var_v;
 				default: return null;
 				}
 			}
@@ -10353,7 +10548,7 @@ namespace de.unika.ipd.grGen.Action_JavaProgramGraphs
 		public static bool[] dumpEdgeBelongsTo_edge_e_IsAllowedType = null;
 		public enum dumpEdgeBelongsTo_NodeNums { @src, @tgt, };
 		public enum dumpEdgeBelongsTo_EdgeNums { @e, };
-		public enum dumpEdgeBelongsTo_VariableNums { };
+		public enum dumpEdgeBelongsTo_VariableNums { @v, };
 		public enum dumpEdgeBelongsTo_SubNums { };
 		public enum dumpEdgeBelongsTo_AltNums { };
 		public enum dumpEdgeBelongsTo_IterNums { };
@@ -10368,9 +10563,10 @@ namespace de.unika.ipd.grGen.Action_JavaProgramGraphs
 		{
 			name = "dumpEdgeBelongsTo";
 
-			inputs = new GRGEN_LIBGR.GrGenType[] { };
-			inputNames = new string[] { };
+			inputs = new GRGEN_LIBGR.GrGenType[] { GRGEN_LIBGR.VarType.GetVarType(typeof(int)), };
+			inputNames = new string[] { "dumpEdgeBelongsTo_var_v", };
 			outputs = new GRGEN_LIBGR.GrGenType[] { };
+
 		}
 		private void initialize()
 		{
@@ -10386,16 +10582,17 @@ namespace de.unika.ipd.grGen.Action_JavaProgramGraphs
 			GRGEN_LGSP.PatternNode dumpEdgeBelongsTo_node_src = new GRGEN_LGSP.PatternNode((int) GRGEN_MODEL.NodeTypes.@Node, "GRGEN_LIBGR.INode", "dumpEdgeBelongsTo_node_src", "src", dumpEdgeBelongsTo_node_src_AllowedTypes, dumpEdgeBelongsTo_node_src_IsAllowedType, 5.5F, -1, false);
 			GRGEN_LGSP.PatternNode dumpEdgeBelongsTo_node_tgt = new GRGEN_LGSP.PatternNode((int) GRGEN_MODEL.NodeTypes.@Node, "GRGEN_LIBGR.INode", "dumpEdgeBelongsTo_node_tgt", "tgt", dumpEdgeBelongsTo_node_tgt_AllowedTypes, dumpEdgeBelongsTo_node_tgt_IsAllowedType, 5.5F, -1, false);
 			GRGEN_LGSP.PatternEdge dumpEdgeBelongsTo_edge_e = new GRGEN_LGSP.PatternEdge(true, (int) GRGEN_MODEL.EdgeTypes.@belongsTo, "GRGEN_MODEL.IbelongsTo", "dumpEdgeBelongsTo_edge_e", "e", dumpEdgeBelongsTo_edge_e_AllowedTypes, dumpEdgeBelongsTo_edge_e_IsAllowedType, 5.5F, -1, false);
+			GRGEN_LGSP.PatternVariable dumpEdgeBelongsTo_var_v = new GRGEN_LGSP.PatternVariable(GRGEN_LIBGR.VarType.GetVarType(typeof(int)), "dumpEdgeBelongsTo_var_v", "v", 0);
 			GRGEN_LGSP.PatternCondition dumpEdgeBelongsTo_cond_0 = new GRGEN_LGSP.PatternCondition(
-				new GRGEN_EXPR.LOG_NOT(new GRGEN_EXPR.Visited("dumpEdgeBelongsTo_edge_e", new GRGEN_EXPR.Constant("0"))),
-				new string[] {  }, new string[] { "dumpEdgeBelongsTo_edge_e" }, new string[] {  }, new GRGEN_LIBGR.VarType[] {  });
+				new GRGEN_EXPR.LOG_NOT(new GRGEN_EXPR.Visited("dumpEdgeBelongsTo_edge_e", new GRGEN_EXPR.VariableExpression("dumpEdgeBelongsTo_var_v"))),
+				new string[] {  }, new string[] { "dumpEdgeBelongsTo_edge_e" }, new string[] { "dumpEdgeBelongsTo_var_v" }, new GRGEN_LIBGR.VarType[] { GRGEN_LIBGR.VarType.GetVarType(typeof(int)) });
 			pat_dumpEdgeBelongsTo = new GRGEN_LGSP.PatternGraph(
 				"dumpEdgeBelongsTo",
 				"",
 				false,
 				new GRGEN_LGSP.PatternNode[] { dumpEdgeBelongsTo_node_src, dumpEdgeBelongsTo_node_tgt }, 
 				new GRGEN_LGSP.PatternEdge[] { dumpEdgeBelongsTo_edge_e }, 
-				new GRGEN_LGSP.PatternVariable[] {  }, 
+				new GRGEN_LGSP.PatternVariable[] { dumpEdgeBelongsTo_var_v }, 
 				new GRGEN_LGSP.PatternGraphEmbedding[] {  }, 
 				new GRGEN_LGSP.Alternative[] {  }, 
 				new GRGEN_LGSP.PatternGraph[] {  }, 
@@ -10431,9 +10628,10 @@ namespace de.unika.ipd.grGen.Action_JavaProgramGraphs
 			GRGEN_LGSP.LGSPNode node_src = curMatch._node_src;
 			GRGEN_LGSP.LGSPNode node_tgt = curMatch._node_tgt;
 			GRGEN_LGSP.LGSPEdge edge_e = curMatch._edge_e;
+			int var_v = curMatch._var_v;
 			graph.SettingAddedNodeNames( dumpEdgeBelongsTo_addedNodeNames );
 			graph.SettingAddedEdgeNames( dumpEdgeBelongsTo_addedEdgeNames );
-			graph.SetVisited(edge_e, 0, true);
+			graph.SetVisited(edge_e, var_v, true);
 			graph.EmitWriter.Write("<edge id=\"");
 			graph.EmitWriter.Write(graph.GetElementName(edge_e));
 			graph.EmitWriter.Write("\" from=\"");
@@ -10459,6 +10657,7 @@ namespace de.unika.ipd.grGen.Action_JavaProgramGraphs
 			//Edges
 			GRGEN_MODEL.IbelongsTo edge_e { get; }
 			//Variables
+			int @var_v { get; }
 			//EmbeddedGraphs
 			//Alternatives
 			//Iterateds
@@ -10500,13 +10699,16 @@ namespace de.unika.ipd.grGen.Action_JavaProgramGraphs
 				}
 			}
 			
-			public enum dumpEdgeBelongsTo_VariableNums { END_OF_ENUM };
+			public int var_v { get { return _var_v; } }
+			public int _var_v;
+			public enum dumpEdgeBelongsTo_VariableNums { @v, END_OF_ENUM };
 			public IEnumerable<object> Variables { get { return new GRGEN_LGSP.Variables_Enumerable(this); } }
 			public IEnumerator<object> VariablesEnumerator { get { return new GRGEN_LGSP.Variables_Enumerator(this); } }
-			public int NumberOfVariables { get { return 0;} }
+			public int NumberOfVariables { get { return 1;} }
 			public object getVariableAt(int index)
 			{
 				switch(index) {
+				case (int)dumpEdgeBelongsTo_VariableNums.@v: return _var_v;
 				default: return null;
 				}
 			}
@@ -10577,7 +10779,7 @@ namespace de.unika.ipd.grGen.Action_JavaProgramGraphs
 		public static bool[] dumpEdgeType_edge_e_IsAllowedType = null;
 		public enum dumpEdgeType_NodeNums { @src, @tgt, };
 		public enum dumpEdgeType_EdgeNums { @e, };
-		public enum dumpEdgeType_VariableNums { };
+		public enum dumpEdgeType_VariableNums { @v, };
 		public enum dumpEdgeType_SubNums { };
 		public enum dumpEdgeType_AltNums { };
 		public enum dumpEdgeType_IterNums { };
@@ -10592,9 +10794,10 @@ namespace de.unika.ipd.grGen.Action_JavaProgramGraphs
 		{
 			name = "dumpEdgeType";
 
-			inputs = new GRGEN_LIBGR.GrGenType[] { };
-			inputNames = new string[] { };
+			inputs = new GRGEN_LIBGR.GrGenType[] { GRGEN_LIBGR.VarType.GetVarType(typeof(int)), };
+			inputNames = new string[] { "dumpEdgeType_var_v", };
 			outputs = new GRGEN_LIBGR.GrGenType[] { };
+
 		}
 		private void initialize()
 		{
@@ -10610,16 +10813,17 @@ namespace de.unika.ipd.grGen.Action_JavaProgramGraphs
 			GRGEN_LGSP.PatternNode dumpEdgeType_node_src = new GRGEN_LGSP.PatternNode((int) GRGEN_MODEL.NodeTypes.@Node, "GRGEN_LIBGR.INode", "dumpEdgeType_node_src", "src", dumpEdgeType_node_src_AllowedTypes, dumpEdgeType_node_src_IsAllowedType, 5.5F, -1, false);
 			GRGEN_LGSP.PatternNode dumpEdgeType_node_tgt = new GRGEN_LGSP.PatternNode((int) GRGEN_MODEL.NodeTypes.@Node, "GRGEN_LIBGR.INode", "dumpEdgeType_node_tgt", "tgt", dumpEdgeType_node_tgt_AllowedTypes, dumpEdgeType_node_tgt_IsAllowedType, 5.5F, -1, false);
 			GRGEN_LGSP.PatternEdge dumpEdgeType_edge_e = new GRGEN_LGSP.PatternEdge(true, (int) GRGEN_MODEL.EdgeTypes.@type_, "GRGEN_MODEL.Itype_", "dumpEdgeType_edge_e", "e", dumpEdgeType_edge_e_AllowedTypes, dumpEdgeType_edge_e_IsAllowedType, 5.5F, -1, false);
+			GRGEN_LGSP.PatternVariable dumpEdgeType_var_v = new GRGEN_LGSP.PatternVariable(GRGEN_LIBGR.VarType.GetVarType(typeof(int)), "dumpEdgeType_var_v", "v", 0);
 			GRGEN_LGSP.PatternCondition dumpEdgeType_cond_0 = new GRGEN_LGSP.PatternCondition(
-				new GRGEN_EXPR.LOG_NOT(new GRGEN_EXPR.Visited("dumpEdgeType_edge_e", new GRGEN_EXPR.Constant("0"))),
-				new string[] {  }, new string[] { "dumpEdgeType_edge_e" }, new string[] {  }, new GRGEN_LIBGR.VarType[] {  });
+				new GRGEN_EXPR.LOG_NOT(new GRGEN_EXPR.Visited("dumpEdgeType_edge_e", new GRGEN_EXPR.VariableExpression("dumpEdgeType_var_v"))),
+				new string[] {  }, new string[] { "dumpEdgeType_edge_e" }, new string[] { "dumpEdgeType_var_v" }, new GRGEN_LIBGR.VarType[] { GRGEN_LIBGR.VarType.GetVarType(typeof(int)) });
 			pat_dumpEdgeType = new GRGEN_LGSP.PatternGraph(
 				"dumpEdgeType",
 				"",
 				false,
 				new GRGEN_LGSP.PatternNode[] { dumpEdgeType_node_src, dumpEdgeType_node_tgt }, 
 				new GRGEN_LGSP.PatternEdge[] { dumpEdgeType_edge_e }, 
-				new GRGEN_LGSP.PatternVariable[] {  }, 
+				new GRGEN_LGSP.PatternVariable[] { dumpEdgeType_var_v }, 
 				new GRGEN_LGSP.PatternGraphEmbedding[] {  }, 
 				new GRGEN_LGSP.Alternative[] {  }, 
 				new GRGEN_LGSP.PatternGraph[] {  }, 
@@ -10655,9 +10859,10 @@ namespace de.unika.ipd.grGen.Action_JavaProgramGraphs
 			GRGEN_LGSP.LGSPNode node_src = curMatch._node_src;
 			GRGEN_LGSP.LGSPNode node_tgt = curMatch._node_tgt;
 			GRGEN_LGSP.LGSPEdge edge_e = curMatch._edge_e;
+			int var_v = curMatch._var_v;
 			graph.SettingAddedNodeNames( dumpEdgeType_addedNodeNames );
 			graph.SettingAddedEdgeNames( dumpEdgeType_addedEdgeNames );
-			graph.SetVisited(edge_e, 0, true);
+			graph.SetVisited(edge_e, var_v, true);
 			graph.EmitWriter.Write("<edge id=\"");
 			graph.EmitWriter.Write(graph.GetElementName(edge_e));
 			graph.EmitWriter.Write("\" from=\"");
@@ -10683,6 +10888,7 @@ namespace de.unika.ipd.grGen.Action_JavaProgramGraphs
 			//Edges
 			GRGEN_MODEL.Itype_ edge_e { get; }
 			//Variables
+			int @var_v { get; }
 			//EmbeddedGraphs
 			//Alternatives
 			//Iterateds
@@ -10724,13 +10930,16 @@ namespace de.unika.ipd.grGen.Action_JavaProgramGraphs
 				}
 			}
 			
-			public enum dumpEdgeType_VariableNums { END_OF_ENUM };
+			public int var_v { get { return _var_v; } }
+			public int _var_v;
+			public enum dumpEdgeType_VariableNums { @v, END_OF_ENUM };
 			public IEnumerable<object> Variables { get { return new GRGEN_LGSP.Variables_Enumerable(this); } }
 			public IEnumerator<object> VariablesEnumerator { get { return new GRGEN_LGSP.Variables_Enumerator(this); } }
-			public int NumberOfVariables { get { return 0;} }
+			public int NumberOfVariables { get { return 1;} }
 			public object getVariableAt(int index)
 			{
 				switch(index) {
+				case (int)dumpEdgeType_VariableNums.@v: return _var_v;
 				default: return null;
 				}
 			}
@@ -10801,7 +11010,7 @@ namespace de.unika.ipd.grGen.Action_JavaProgramGraphs
 		public static bool[] dumpEdgeExtends_edge_e_IsAllowedType = null;
 		public enum dumpEdgeExtends_NodeNums { @src, @tgt, };
 		public enum dumpEdgeExtends_EdgeNums { @e, };
-		public enum dumpEdgeExtends_VariableNums { };
+		public enum dumpEdgeExtends_VariableNums { @v, };
 		public enum dumpEdgeExtends_SubNums { };
 		public enum dumpEdgeExtends_AltNums { };
 		public enum dumpEdgeExtends_IterNums { };
@@ -10816,9 +11025,10 @@ namespace de.unika.ipd.grGen.Action_JavaProgramGraphs
 		{
 			name = "dumpEdgeExtends";
 
-			inputs = new GRGEN_LIBGR.GrGenType[] { };
-			inputNames = new string[] { };
+			inputs = new GRGEN_LIBGR.GrGenType[] { GRGEN_LIBGR.VarType.GetVarType(typeof(int)), };
+			inputNames = new string[] { "dumpEdgeExtends_var_v", };
 			outputs = new GRGEN_LIBGR.GrGenType[] { };
+
 		}
 		private void initialize()
 		{
@@ -10834,16 +11044,17 @@ namespace de.unika.ipd.grGen.Action_JavaProgramGraphs
 			GRGEN_LGSP.PatternNode dumpEdgeExtends_node_src = new GRGEN_LGSP.PatternNode((int) GRGEN_MODEL.NodeTypes.@Node, "GRGEN_LIBGR.INode", "dumpEdgeExtends_node_src", "src", dumpEdgeExtends_node_src_AllowedTypes, dumpEdgeExtends_node_src_IsAllowedType, 5.5F, -1, false);
 			GRGEN_LGSP.PatternNode dumpEdgeExtends_node_tgt = new GRGEN_LGSP.PatternNode((int) GRGEN_MODEL.NodeTypes.@Node, "GRGEN_LIBGR.INode", "dumpEdgeExtends_node_tgt", "tgt", dumpEdgeExtends_node_tgt_AllowedTypes, dumpEdgeExtends_node_tgt_IsAllowedType, 5.5F, -1, false);
 			GRGEN_LGSP.PatternEdge dumpEdgeExtends_edge_e = new GRGEN_LGSP.PatternEdge(true, (int) GRGEN_MODEL.EdgeTypes.@extends_, "GRGEN_MODEL.Iextends_", "dumpEdgeExtends_edge_e", "e", dumpEdgeExtends_edge_e_AllowedTypes, dumpEdgeExtends_edge_e_IsAllowedType, 5.5F, -1, false);
+			GRGEN_LGSP.PatternVariable dumpEdgeExtends_var_v = new GRGEN_LGSP.PatternVariable(GRGEN_LIBGR.VarType.GetVarType(typeof(int)), "dumpEdgeExtends_var_v", "v", 0);
 			GRGEN_LGSP.PatternCondition dumpEdgeExtends_cond_0 = new GRGEN_LGSP.PatternCondition(
-				new GRGEN_EXPR.LOG_NOT(new GRGEN_EXPR.Visited("dumpEdgeExtends_edge_e", new GRGEN_EXPR.Constant("0"))),
-				new string[] {  }, new string[] { "dumpEdgeExtends_edge_e" }, new string[] {  }, new GRGEN_LIBGR.VarType[] {  });
+				new GRGEN_EXPR.LOG_NOT(new GRGEN_EXPR.Visited("dumpEdgeExtends_edge_e", new GRGEN_EXPR.VariableExpression("dumpEdgeExtends_var_v"))),
+				new string[] {  }, new string[] { "dumpEdgeExtends_edge_e" }, new string[] { "dumpEdgeExtends_var_v" }, new GRGEN_LIBGR.VarType[] { GRGEN_LIBGR.VarType.GetVarType(typeof(int)) });
 			pat_dumpEdgeExtends = new GRGEN_LGSP.PatternGraph(
 				"dumpEdgeExtends",
 				"",
 				false,
 				new GRGEN_LGSP.PatternNode[] { dumpEdgeExtends_node_src, dumpEdgeExtends_node_tgt }, 
 				new GRGEN_LGSP.PatternEdge[] { dumpEdgeExtends_edge_e }, 
-				new GRGEN_LGSP.PatternVariable[] {  }, 
+				new GRGEN_LGSP.PatternVariable[] { dumpEdgeExtends_var_v }, 
 				new GRGEN_LGSP.PatternGraphEmbedding[] {  }, 
 				new GRGEN_LGSP.Alternative[] {  }, 
 				new GRGEN_LGSP.PatternGraph[] {  }, 
@@ -10879,9 +11090,10 @@ namespace de.unika.ipd.grGen.Action_JavaProgramGraphs
 			GRGEN_LGSP.LGSPNode node_src = curMatch._node_src;
 			GRGEN_LGSP.LGSPNode node_tgt = curMatch._node_tgt;
 			GRGEN_LGSP.LGSPEdge edge_e = curMatch._edge_e;
+			int var_v = curMatch._var_v;
 			graph.SettingAddedNodeNames( dumpEdgeExtends_addedNodeNames );
 			graph.SettingAddedEdgeNames( dumpEdgeExtends_addedEdgeNames );
-			graph.SetVisited(edge_e, 0, true);
+			graph.SetVisited(edge_e, var_v, true);
 			graph.EmitWriter.Write("<edge id=\"");
 			graph.EmitWriter.Write(graph.GetElementName(edge_e));
 			graph.EmitWriter.Write("\" from=\"");
@@ -10907,6 +11119,7 @@ namespace de.unika.ipd.grGen.Action_JavaProgramGraphs
 			//Edges
 			GRGEN_MODEL.Iextends_ edge_e { get; }
 			//Variables
+			int @var_v { get; }
 			//EmbeddedGraphs
 			//Alternatives
 			//Iterateds
@@ -10948,13 +11161,16 @@ namespace de.unika.ipd.grGen.Action_JavaProgramGraphs
 				}
 			}
 			
-			public enum dumpEdgeExtends_VariableNums { END_OF_ENUM };
+			public int var_v { get { return _var_v; } }
+			public int _var_v;
+			public enum dumpEdgeExtends_VariableNums { @v, END_OF_ENUM };
 			public IEnumerable<object> Variables { get { return new GRGEN_LGSP.Variables_Enumerable(this); } }
 			public IEnumerator<object> VariablesEnumerator { get { return new GRGEN_LGSP.Variables_Enumerator(this); } }
-			public int NumberOfVariables { get { return 0;} }
+			public int NumberOfVariables { get { return 1;} }
 			public object getVariableAt(int index)
 			{
 				switch(index) {
+				case (int)dumpEdgeExtends_VariableNums.@v: return _var_v;
 				default: return null;
 				}
 			}
@@ -11025,7 +11241,7 @@ namespace de.unika.ipd.grGen.Action_JavaProgramGraphs
 		public static bool[] dumpEdgeImports_edge_e_IsAllowedType = null;
 		public enum dumpEdgeImports_NodeNums { @src, @tgt, };
 		public enum dumpEdgeImports_EdgeNums { @e, };
-		public enum dumpEdgeImports_VariableNums { };
+		public enum dumpEdgeImports_VariableNums { @v, };
 		public enum dumpEdgeImports_SubNums { };
 		public enum dumpEdgeImports_AltNums { };
 		public enum dumpEdgeImports_IterNums { };
@@ -11040,9 +11256,10 @@ namespace de.unika.ipd.grGen.Action_JavaProgramGraphs
 		{
 			name = "dumpEdgeImports";
 
-			inputs = new GRGEN_LIBGR.GrGenType[] { };
-			inputNames = new string[] { };
+			inputs = new GRGEN_LIBGR.GrGenType[] { GRGEN_LIBGR.VarType.GetVarType(typeof(int)), };
+			inputNames = new string[] { "dumpEdgeImports_var_v", };
 			outputs = new GRGEN_LIBGR.GrGenType[] { };
+
 		}
 		private void initialize()
 		{
@@ -11058,16 +11275,17 @@ namespace de.unika.ipd.grGen.Action_JavaProgramGraphs
 			GRGEN_LGSP.PatternNode dumpEdgeImports_node_src = new GRGEN_LGSP.PatternNode((int) GRGEN_MODEL.NodeTypes.@Node, "GRGEN_LIBGR.INode", "dumpEdgeImports_node_src", "src", dumpEdgeImports_node_src_AllowedTypes, dumpEdgeImports_node_src_IsAllowedType, 5.5F, -1, false);
 			GRGEN_LGSP.PatternNode dumpEdgeImports_node_tgt = new GRGEN_LGSP.PatternNode((int) GRGEN_MODEL.NodeTypes.@Node, "GRGEN_LIBGR.INode", "dumpEdgeImports_node_tgt", "tgt", dumpEdgeImports_node_tgt_AllowedTypes, dumpEdgeImports_node_tgt_IsAllowedType, 5.5F, -1, false);
 			GRGEN_LGSP.PatternEdge dumpEdgeImports_edge_e = new GRGEN_LGSP.PatternEdge(true, (int) GRGEN_MODEL.EdgeTypes.@imports, "GRGEN_MODEL.Iimports", "dumpEdgeImports_edge_e", "e", dumpEdgeImports_edge_e_AllowedTypes, dumpEdgeImports_edge_e_IsAllowedType, 5.5F, -1, false);
+			GRGEN_LGSP.PatternVariable dumpEdgeImports_var_v = new GRGEN_LGSP.PatternVariable(GRGEN_LIBGR.VarType.GetVarType(typeof(int)), "dumpEdgeImports_var_v", "v", 0);
 			GRGEN_LGSP.PatternCondition dumpEdgeImports_cond_0 = new GRGEN_LGSP.PatternCondition(
-				new GRGEN_EXPR.LOG_NOT(new GRGEN_EXPR.Visited("dumpEdgeImports_edge_e", new GRGEN_EXPR.Constant("0"))),
-				new string[] {  }, new string[] { "dumpEdgeImports_edge_e" }, new string[] {  }, new GRGEN_LIBGR.VarType[] {  });
+				new GRGEN_EXPR.LOG_NOT(new GRGEN_EXPR.Visited("dumpEdgeImports_edge_e", new GRGEN_EXPR.VariableExpression("dumpEdgeImports_var_v"))),
+				new string[] {  }, new string[] { "dumpEdgeImports_edge_e" }, new string[] { "dumpEdgeImports_var_v" }, new GRGEN_LIBGR.VarType[] { GRGEN_LIBGR.VarType.GetVarType(typeof(int)) });
 			pat_dumpEdgeImports = new GRGEN_LGSP.PatternGraph(
 				"dumpEdgeImports",
 				"",
 				false,
 				new GRGEN_LGSP.PatternNode[] { dumpEdgeImports_node_src, dumpEdgeImports_node_tgt }, 
 				new GRGEN_LGSP.PatternEdge[] { dumpEdgeImports_edge_e }, 
-				new GRGEN_LGSP.PatternVariable[] {  }, 
+				new GRGEN_LGSP.PatternVariable[] { dumpEdgeImports_var_v }, 
 				new GRGEN_LGSP.PatternGraphEmbedding[] {  }, 
 				new GRGEN_LGSP.Alternative[] {  }, 
 				new GRGEN_LGSP.PatternGraph[] {  }, 
@@ -11103,9 +11321,10 @@ namespace de.unika.ipd.grGen.Action_JavaProgramGraphs
 			GRGEN_LGSP.LGSPNode node_src = curMatch._node_src;
 			GRGEN_LGSP.LGSPNode node_tgt = curMatch._node_tgt;
 			GRGEN_LGSP.LGSPEdge edge_e = curMatch._edge_e;
+			int var_v = curMatch._var_v;
 			graph.SettingAddedNodeNames( dumpEdgeImports_addedNodeNames );
 			graph.SettingAddedEdgeNames( dumpEdgeImports_addedEdgeNames );
-			graph.SetVisited(edge_e, 0, true);
+			graph.SetVisited(edge_e, var_v, true);
 			graph.EmitWriter.Write("<edge id=\"");
 			graph.EmitWriter.Write(graph.GetElementName(edge_e));
 			graph.EmitWriter.Write("\" from=\"");
@@ -11131,6 +11350,7 @@ namespace de.unika.ipd.grGen.Action_JavaProgramGraphs
 			//Edges
 			GRGEN_MODEL.Iimports edge_e { get; }
 			//Variables
+			int @var_v { get; }
 			//EmbeddedGraphs
 			//Alternatives
 			//Iterateds
@@ -11172,13 +11392,16 @@ namespace de.unika.ipd.grGen.Action_JavaProgramGraphs
 				}
 			}
 			
-			public enum dumpEdgeImports_VariableNums { END_OF_ENUM };
+			public int var_v { get { return _var_v; } }
+			public int _var_v;
+			public enum dumpEdgeImports_VariableNums { @v, END_OF_ENUM };
 			public IEnumerable<object> Variables { get { return new GRGEN_LGSP.Variables_Enumerable(this); } }
 			public IEnumerator<object> VariablesEnumerator { get { return new GRGEN_LGSP.Variables_Enumerator(this); } }
-			public int NumberOfVariables { get { return 0;} }
+			public int NumberOfVariables { get { return 1;} }
 			public object getVariableAt(int index)
 			{
 				switch(index) {
+				case (int)dumpEdgeImports_VariableNums.@v: return _var_v;
 				default: return null;
 				}
 			}
@@ -11249,7 +11472,7 @@ namespace de.unika.ipd.grGen.Action_JavaProgramGraphs
 		public static bool[] dumpEdgeImplements_edge_e_IsAllowedType = null;
 		public enum dumpEdgeImplements_NodeNums { @src, @tgt, };
 		public enum dumpEdgeImplements_EdgeNums { @e, };
-		public enum dumpEdgeImplements_VariableNums { };
+		public enum dumpEdgeImplements_VariableNums { @v, };
 		public enum dumpEdgeImplements_SubNums { };
 		public enum dumpEdgeImplements_AltNums { };
 		public enum dumpEdgeImplements_IterNums { };
@@ -11264,9 +11487,10 @@ namespace de.unika.ipd.grGen.Action_JavaProgramGraphs
 		{
 			name = "dumpEdgeImplements";
 
-			inputs = new GRGEN_LIBGR.GrGenType[] { };
-			inputNames = new string[] { };
+			inputs = new GRGEN_LIBGR.GrGenType[] { GRGEN_LIBGR.VarType.GetVarType(typeof(int)), };
+			inputNames = new string[] { "dumpEdgeImplements_var_v", };
 			outputs = new GRGEN_LIBGR.GrGenType[] { };
+
 		}
 		private void initialize()
 		{
@@ -11282,16 +11506,17 @@ namespace de.unika.ipd.grGen.Action_JavaProgramGraphs
 			GRGEN_LGSP.PatternNode dumpEdgeImplements_node_src = new GRGEN_LGSP.PatternNode((int) GRGEN_MODEL.NodeTypes.@Node, "GRGEN_LIBGR.INode", "dumpEdgeImplements_node_src", "src", dumpEdgeImplements_node_src_AllowedTypes, dumpEdgeImplements_node_src_IsAllowedType, 5.5F, -1, false);
 			GRGEN_LGSP.PatternNode dumpEdgeImplements_node_tgt = new GRGEN_LGSP.PatternNode((int) GRGEN_MODEL.NodeTypes.@Node, "GRGEN_LIBGR.INode", "dumpEdgeImplements_node_tgt", "tgt", dumpEdgeImplements_node_tgt_AllowedTypes, dumpEdgeImplements_node_tgt_IsAllowedType, 5.5F, -1, false);
 			GRGEN_LGSP.PatternEdge dumpEdgeImplements_edge_e = new GRGEN_LGSP.PatternEdge(true, (int) GRGEN_MODEL.EdgeTypes.@implements, "GRGEN_MODEL.Iimplements", "dumpEdgeImplements_edge_e", "e", dumpEdgeImplements_edge_e_AllowedTypes, dumpEdgeImplements_edge_e_IsAllowedType, 5.5F, -1, false);
+			GRGEN_LGSP.PatternVariable dumpEdgeImplements_var_v = new GRGEN_LGSP.PatternVariable(GRGEN_LIBGR.VarType.GetVarType(typeof(int)), "dumpEdgeImplements_var_v", "v", 0);
 			GRGEN_LGSP.PatternCondition dumpEdgeImplements_cond_0 = new GRGEN_LGSP.PatternCondition(
-				new GRGEN_EXPR.LOG_NOT(new GRGEN_EXPR.Visited("dumpEdgeImplements_edge_e", new GRGEN_EXPR.Constant("0"))),
-				new string[] {  }, new string[] { "dumpEdgeImplements_edge_e" }, new string[] {  }, new GRGEN_LIBGR.VarType[] {  });
+				new GRGEN_EXPR.LOG_NOT(new GRGEN_EXPR.Visited("dumpEdgeImplements_edge_e", new GRGEN_EXPR.VariableExpression("dumpEdgeImplements_var_v"))),
+				new string[] {  }, new string[] { "dumpEdgeImplements_edge_e" }, new string[] { "dumpEdgeImplements_var_v" }, new GRGEN_LIBGR.VarType[] { GRGEN_LIBGR.VarType.GetVarType(typeof(int)) });
 			pat_dumpEdgeImplements = new GRGEN_LGSP.PatternGraph(
 				"dumpEdgeImplements",
 				"",
 				false,
 				new GRGEN_LGSP.PatternNode[] { dumpEdgeImplements_node_src, dumpEdgeImplements_node_tgt }, 
 				new GRGEN_LGSP.PatternEdge[] { dumpEdgeImplements_edge_e }, 
-				new GRGEN_LGSP.PatternVariable[] {  }, 
+				new GRGEN_LGSP.PatternVariable[] { dumpEdgeImplements_var_v }, 
 				new GRGEN_LGSP.PatternGraphEmbedding[] {  }, 
 				new GRGEN_LGSP.Alternative[] {  }, 
 				new GRGEN_LGSP.PatternGraph[] {  }, 
@@ -11327,9 +11552,10 @@ namespace de.unika.ipd.grGen.Action_JavaProgramGraphs
 			GRGEN_LGSP.LGSPNode node_src = curMatch._node_src;
 			GRGEN_LGSP.LGSPNode node_tgt = curMatch._node_tgt;
 			GRGEN_LGSP.LGSPEdge edge_e = curMatch._edge_e;
+			int var_v = curMatch._var_v;
 			graph.SettingAddedNodeNames( dumpEdgeImplements_addedNodeNames );
 			graph.SettingAddedEdgeNames( dumpEdgeImplements_addedEdgeNames );
-			graph.SetVisited(edge_e, 0, true);
+			graph.SetVisited(edge_e, var_v, true);
 			graph.EmitWriter.Write("<edge id=\"");
 			graph.EmitWriter.Write(graph.GetElementName(edge_e));
 			graph.EmitWriter.Write("\" from=\"");
@@ -11355,6 +11581,7 @@ namespace de.unika.ipd.grGen.Action_JavaProgramGraphs
 			//Edges
 			GRGEN_MODEL.Iimplements edge_e { get; }
 			//Variables
+			int @var_v { get; }
 			//EmbeddedGraphs
 			//Alternatives
 			//Iterateds
@@ -11396,13 +11623,16 @@ namespace de.unika.ipd.grGen.Action_JavaProgramGraphs
 				}
 			}
 			
-			public enum dumpEdgeImplements_VariableNums { END_OF_ENUM };
+			public int var_v { get { return _var_v; } }
+			public int _var_v;
+			public enum dumpEdgeImplements_VariableNums { @v, END_OF_ENUM };
 			public IEnumerable<object> Variables { get { return new GRGEN_LGSP.Variables_Enumerable(this); } }
 			public IEnumerator<object> VariablesEnumerator { get { return new GRGEN_LGSP.Variables_Enumerator(this); } }
-			public int NumberOfVariables { get { return 0;} }
+			public int NumberOfVariables { get { return 1;} }
 			public object getVariableAt(int index)
 			{
 				switch(index) {
+				case (int)dumpEdgeImplements_VariableNums.@v: return _var_v;
 				default: return null;
 				}
 			}
@@ -11473,7 +11703,7 @@ namespace de.unika.ipd.grGen.Action_JavaProgramGraphs
 		public static bool[] dumpEdgeParameter_edge_e_IsAllowedType = null;
 		public enum dumpEdgeParameter_NodeNums { @src, @tgt, };
 		public enum dumpEdgeParameter_EdgeNums { @e, };
-		public enum dumpEdgeParameter_VariableNums { };
+		public enum dumpEdgeParameter_VariableNums { @v, };
 		public enum dumpEdgeParameter_SubNums { };
 		public enum dumpEdgeParameter_AltNums { };
 		public enum dumpEdgeParameter_IterNums { };
@@ -11488,9 +11718,10 @@ namespace de.unika.ipd.grGen.Action_JavaProgramGraphs
 		{
 			name = "dumpEdgeParameter";
 
-			inputs = new GRGEN_LIBGR.GrGenType[] { };
-			inputNames = new string[] { };
+			inputs = new GRGEN_LIBGR.GrGenType[] { GRGEN_LIBGR.VarType.GetVarType(typeof(int)), };
+			inputNames = new string[] { "dumpEdgeParameter_var_v", };
 			outputs = new GRGEN_LIBGR.GrGenType[] { };
+
 		}
 		private void initialize()
 		{
@@ -11506,16 +11737,17 @@ namespace de.unika.ipd.grGen.Action_JavaProgramGraphs
 			GRGEN_LGSP.PatternNode dumpEdgeParameter_node_src = new GRGEN_LGSP.PatternNode((int) GRGEN_MODEL.NodeTypes.@Node, "GRGEN_LIBGR.INode", "dumpEdgeParameter_node_src", "src", dumpEdgeParameter_node_src_AllowedTypes, dumpEdgeParameter_node_src_IsAllowedType, 5.5F, -1, false);
 			GRGEN_LGSP.PatternNode dumpEdgeParameter_node_tgt = new GRGEN_LGSP.PatternNode((int) GRGEN_MODEL.NodeTypes.@Node, "GRGEN_LIBGR.INode", "dumpEdgeParameter_node_tgt", "tgt", dumpEdgeParameter_node_tgt_AllowedTypes, dumpEdgeParameter_node_tgt_IsAllowedType, 5.5F, -1, false);
 			GRGEN_LGSP.PatternEdge dumpEdgeParameter_edge_e = new GRGEN_LGSP.PatternEdge(true, (int) GRGEN_MODEL.EdgeTypes.@parameter, "GRGEN_MODEL.Iparameter", "dumpEdgeParameter_edge_e", "e", dumpEdgeParameter_edge_e_AllowedTypes, dumpEdgeParameter_edge_e_IsAllowedType, 5.5F, -1, false);
+			GRGEN_LGSP.PatternVariable dumpEdgeParameter_var_v = new GRGEN_LGSP.PatternVariable(GRGEN_LIBGR.VarType.GetVarType(typeof(int)), "dumpEdgeParameter_var_v", "v", 0);
 			GRGEN_LGSP.PatternCondition dumpEdgeParameter_cond_0 = new GRGEN_LGSP.PatternCondition(
-				new GRGEN_EXPR.LOG_NOT(new GRGEN_EXPR.Visited("dumpEdgeParameter_edge_e", new GRGEN_EXPR.Constant("0"))),
-				new string[] {  }, new string[] { "dumpEdgeParameter_edge_e" }, new string[] {  }, new GRGEN_LIBGR.VarType[] {  });
+				new GRGEN_EXPR.LOG_NOT(new GRGEN_EXPR.Visited("dumpEdgeParameter_edge_e", new GRGEN_EXPR.VariableExpression("dumpEdgeParameter_var_v"))),
+				new string[] {  }, new string[] { "dumpEdgeParameter_edge_e" }, new string[] { "dumpEdgeParameter_var_v" }, new GRGEN_LIBGR.VarType[] { GRGEN_LIBGR.VarType.GetVarType(typeof(int)) });
 			pat_dumpEdgeParameter = new GRGEN_LGSP.PatternGraph(
 				"dumpEdgeParameter",
 				"",
 				false,
 				new GRGEN_LGSP.PatternNode[] { dumpEdgeParameter_node_src, dumpEdgeParameter_node_tgt }, 
 				new GRGEN_LGSP.PatternEdge[] { dumpEdgeParameter_edge_e }, 
-				new GRGEN_LGSP.PatternVariable[] {  }, 
+				new GRGEN_LGSP.PatternVariable[] { dumpEdgeParameter_var_v }, 
 				new GRGEN_LGSP.PatternGraphEmbedding[] {  }, 
 				new GRGEN_LGSP.Alternative[] {  }, 
 				new GRGEN_LGSP.PatternGraph[] {  }, 
@@ -11551,9 +11783,10 @@ namespace de.unika.ipd.grGen.Action_JavaProgramGraphs
 			GRGEN_LGSP.LGSPNode node_src = curMatch._node_src;
 			GRGEN_LGSP.LGSPNode node_tgt = curMatch._node_tgt;
 			GRGEN_LGSP.LGSPEdge edge_e = curMatch._edge_e;
+			int var_v = curMatch._var_v;
 			graph.SettingAddedNodeNames( dumpEdgeParameter_addedNodeNames );
 			graph.SettingAddedEdgeNames( dumpEdgeParameter_addedEdgeNames );
-			graph.SetVisited(edge_e, 0, true);
+			graph.SetVisited(edge_e, var_v, true);
 			graph.EmitWriter.Write("<edge id=\"");
 			graph.EmitWriter.Write(graph.GetElementName(edge_e));
 			graph.EmitWriter.Write("\" from=\"");
@@ -11579,6 +11812,7 @@ namespace de.unika.ipd.grGen.Action_JavaProgramGraphs
 			//Edges
 			GRGEN_MODEL.Iparameter edge_e { get; }
 			//Variables
+			int @var_v { get; }
 			//EmbeddedGraphs
 			//Alternatives
 			//Iterateds
@@ -11620,13 +11854,16 @@ namespace de.unika.ipd.grGen.Action_JavaProgramGraphs
 				}
 			}
 			
-			public enum dumpEdgeParameter_VariableNums { END_OF_ENUM };
+			public int var_v { get { return _var_v; } }
+			public int _var_v;
+			public enum dumpEdgeParameter_VariableNums { @v, END_OF_ENUM };
 			public IEnumerable<object> Variables { get { return new GRGEN_LGSP.Variables_Enumerable(this); } }
 			public IEnumerator<object> VariablesEnumerator { get { return new GRGEN_LGSP.Variables_Enumerator(this); } }
-			public int NumberOfVariables { get { return 0;} }
+			public int NumberOfVariables { get { return 1;} }
 			public object getVariableAt(int index)
 			{
 				switch(index) {
+				case (int)dumpEdgeParameter_VariableNums.@v: return _var_v;
 				default: return null;
 				}
 			}
@@ -11697,7 +11934,7 @@ namespace de.unika.ipd.grGen.Action_JavaProgramGraphs
 		public static bool[] dumpEdgeBinding_edge_e_IsAllowedType = null;
 		public enum dumpEdgeBinding_NodeNums { @src, @tgt, };
 		public enum dumpEdgeBinding_EdgeNums { @e, };
-		public enum dumpEdgeBinding_VariableNums { };
+		public enum dumpEdgeBinding_VariableNums { @v, };
 		public enum dumpEdgeBinding_SubNums { };
 		public enum dumpEdgeBinding_AltNums { };
 		public enum dumpEdgeBinding_IterNums { };
@@ -11712,9 +11949,10 @@ namespace de.unika.ipd.grGen.Action_JavaProgramGraphs
 		{
 			name = "dumpEdgeBinding";
 
-			inputs = new GRGEN_LIBGR.GrGenType[] { };
-			inputNames = new string[] { };
+			inputs = new GRGEN_LIBGR.GrGenType[] { GRGEN_LIBGR.VarType.GetVarType(typeof(int)), };
+			inputNames = new string[] { "dumpEdgeBinding_var_v", };
 			outputs = new GRGEN_LIBGR.GrGenType[] { };
+
 		}
 		private void initialize()
 		{
@@ -11730,16 +11968,17 @@ namespace de.unika.ipd.grGen.Action_JavaProgramGraphs
 			GRGEN_LGSP.PatternNode dumpEdgeBinding_node_src = new GRGEN_LGSP.PatternNode((int) GRGEN_MODEL.NodeTypes.@Node, "GRGEN_LIBGR.INode", "dumpEdgeBinding_node_src", "src", dumpEdgeBinding_node_src_AllowedTypes, dumpEdgeBinding_node_src_IsAllowedType, 5.5F, -1, false);
 			GRGEN_LGSP.PatternNode dumpEdgeBinding_node_tgt = new GRGEN_LGSP.PatternNode((int) GRGEN_MODEL.NodeTypes.@Node, "GRGEN_LIBGR.INode", "dumpEdgeBinding_node_tgt", "tgt", dumpEdgeBinding_node_tgt_AllowedTypes, dumpEdgeBinding_node_tgt_IsAllowedType, 5.5F, -1, false);
 			GRGEN_LGSP.PatternEdge dumpEdgeBinding_edge_e = new GRGEN_LGSP.PatternEdge(true, (int) GRGEN_MODEL.EdgeTypes.@binding, "GRGEN_MODEL.Ibinding", "dumpEdgeBinding_edge_e", "e", dumpEdgeBinding_edge_e_AllowedTypes, dumpEdgeBinding_edge_e_IsAllowedType, 5.5F, -1, false);
+			GRGEN_LGSP.PatternVariable dumpEdgeBinding_var_v = new GRGEN_LGSP.PatternVariable(GRGEN_LIBGR.VarType.GetVarType(typeof(int)), "dumpEdgeBinding_var_v", "v", 0);
 			GRGEN_LGSP.PatternCondition dumpEdgeBinding_cond_0 = new GRGEN_LGSP.PatternCondition(
-				new GRGEN_EXPR.LOG_NOT(new GRGEN_EXPR.Visited("dumpEdgeBinding_edge_e", new GRGEN_EXPR.Constant("0"))),
-				new string[] {  }, new string[] { "dumpEdgeBinding_edge_e" }, new string[] {  }, new GRGEN_LIBGR.VarType[] {  });
+				new GRGEN_EXPR.LOG_NOT(new GRGEN_EXPR.Visited("dumpEdgeBinding_edge_e", new GRGEN_EXPR.VariableExpression("dumpEdgeBinding_var_v"))),
+				new string[] {  }, new string[] { "dumpEdgeBinding_edge_e" }, new string[] { "dumpEdgeBinding_var_v" }, new GRGEN_LIBGR.VarType[] { GRGEN_LIBGR.VarType.GetVarType(typeof(int)) });
 			pat_dumpEdgeBinding = new GRGEN_LGSP.PatternGraph(
 				"dumpEdgeBinding",
 				"",
 				false,
 				new GRGEN_LGSP.PatternNode[] { dumpEdgeBinding_node_src, dumpEdgeBinding_node_tgt }, 
 				new GRGEN_LGSP.PatternEdge[] { dumpEdgeBinding_edge_e }, 
-				new GRGEN_LGSP.PatternVariable[] {  }, 
+				new GRGEN_LGSP.PatternVariable[] { dumpEdgeBinding_var_v }, 
 				new GRGEN_LGSP.PatternGraphEmbedding[] {  }, 
 				new GRGEN_LGSP.Alternative[] {  }, 
 				new GRGEN_LGSP.PatternGraph[] {  }, 
@@ -11775,9 +12014,10 @@ namespace de.unika.ipd.grGen.Action_JavaProgramGraphs
 			GRGEN_LGSP.LGSPNode node_src = curMatch._node_src;
 			GRGEN_LGSP.LGSPNode node_tgt = curMatch._node_tgt;
 			GRGEN_LGSP.LGSPEdge edge_e = curMatch._edge_e;
+			int var_v = curMatch._var_v;
 			graph.SettingAddedNodeNames( dumpEdgeBinding_addedNodeNames );
 			graph.SettingAddedEdgeNames( dumpEdgeBinding_addedEdgeNames );
-			graph.SetVisited(edge_e, 0, true);
+			graph.SetVisited(edge_e, var_v, true);
 			graph.EmitWriter.Write("<edge id=\"");
 			graph.EmitWriter.Write(graph.GetElementName(edge_e));
 			graph.EmitWriter.Write("\" from=\"");
@@ -11803,6 +12043,7 @@ namespace de.unika.ipd.grGen.Action_JavaProgramGraphs
 			//Edges
 			GRGEN_MODEL.Ibinding edge_e { get; }
 			//Variables
+			int @var_v { get; }
 			//EmbeddedGraphs
 			//Alternatives
 			//Iterateds
@@ -11844,13 +12085,16 @@ namespace de.unika.ipd.grGen.Action_JavaProgramGraphs
 				}
 			}
 			
-			public enum dumpEdgeBinding_VariableNums { END_OF_ENUM };
+			public int var_v { get { return _var_v; } }
+			public int _var_v;
+			public enum dumpEdgeBinding_VariableNums { @v, END_OF_ENUM };
 			public IEnumerable<object> Variables { get { return new GRGEN_LGSP.Variables_Enumerable(this); } }
 			public IEnumerator<object> VariablesEnumerator { get { return new GRGEN_LGSP.Variables_Enumerator(this); } }
-			public int NumberOfVariables { get { return 0;} }
+			public int NumberOfVariables { get { return 1;} }
 			public object getVariableAt(int index)
 			{
 				switch(index) {
+				case (int)dumpEdgeBinding_VariableNums.@v: return _var_v;
 				default: return null;
 				}
 			}
@@ -11921,7 +12165,7 @@ namespace de.unika.ipd.grGen.Action_JavaProgramGraphs
 		public static bool[] dumpEdgeLink_edge_e_IsAllowedType = null;
 		public enum dumpEdgeLink_NodeNums { @src, @tgt, };
 		public enum dumpEdgeLink_EdgeNums { @e, };
-		public enum dumpEdgeLink_VariableNums { };
+		public enum dumpEdgeLink_VariableNums { @v, };
 		public enum dumpEdgeLink_SubNums { };
 		public enum dumpEdgeLink_AltNums { };
 		public enum dumpEdgeLink_IterNums { };
@@ -11936,9 +12180,10 @@ namespace de.unika.ipd.grGen.Action_JavaProgramGraphs
 		{
 			name = "dumpEdgeLink";
 
-			inputs = new GRGEN_LIBGR.GrGenType[] { };
-			inputNames = new string[] { };
+			inputs = new GRGEN_LIBGR.GrGenType[] { GRGEN_LIBGR.VarType.GetVarType(typeof(int)), };
+			inputNames = new string[] { "dumpEdgeLink_var_v", };
 			outputs = new GRGEN_LIBGR.GrGenType[] { };
+
 		}
 		private void initialize()
 		{
@@ -11954,16 +12199,17 @@ namespace de.unika.ipd.grGen.Action_JavaProgramGraphs
 			GRGEN_LGSP.PatternNode dumpEdgeLink_node_src = new GRGEN_LGSP.PatternNode((int) GRGEN_MODEL.NodeTypes.@Node, "GRGEN_LIBGR.INode", "dumpEdgeLink_node_src", "src", dumpEdgeLink_node_src_AllowedTypes, dumpEdgeLink_node_src_IsAllowedType, 5.5F, -1, false);
 			GRGEN_LGSP.PatternNode dumpEdgeLink_node_tgt = new GRGEN_LGSP.PatternNode((int) GRGEN_MODEL.NodeTypes.@Node, "GRGEN_LIBGR.INode", "dumpEdgeLink_node_tgt", "tgt", dumpEdgeLink_node_tgt_AllowedTypes, dumpEdgeLink_node_tgt_IsAllowedType, 5.5F, -1, false);
 			GRGEN_LGSP.PatternEdge dumpEdgeLink_edge_e = new GRGEN_LGSP.PatternEdge(true, (int) GRGEN_MODEL.EdgeTypes.@link, "GRGEN_MODEL.Ilink", "dumpEdgeLink_edge_e", "e", dumpEdgeLink_edge_e_AllowedTypes, dumpEdgeLink_edge_e_IsAllowedType, 5.5F, -1, false);
+			GRGEN_LGSP.PatternVariable dumpEdgeLink_var_v = new GRGEN_LGSP.PatternVariable(GRGEN_LIBGR.VarType.GetVarType(typeof(int)), "dumpEdgeLink_var_v", "v", 0);
 			GRGEN_LGSP.PatternCondition dumpEdgeLink_cond_0 = new GRGEN_LGSP.PatternCondition(
-				new GRGEN_EXPR.LOG_NOT(new GRGEN_EXPR.Visited("dumpEdgeLink_edge_e", new GRGEN_EXPR.Constant("0"))),
-				new string[] {  }, new string[] { "dumpEdgeLink_edge_e" }, new string[] {  }, new GRGEN_LIBGR.VarType[] {  });
+				new GRGEN_EXPR.LOG_NOT(new GRGEN_EXPR.Visited("dumpEdgeLink_edge_e", new GRGEN_EXPR.VariableExpression("dumpEdgeLink_var_v"))),
+				new string[] {  }, new string[] { "dumpEdgeLink_edge_e" }, new string[] { "dumpEdgeLink_var_v" }, new GRGEN_LIBGR.VarType[] { GRGEN_LIBGR.VarType.GetVarType(typeof(int)) });
 			pat_dumpEdgeLink = new GRGEN_LGSP.PatternGraph(
 				"dumpEdgeLink",
 				"",
 				false,
 				new GRGEN_LGSP.PatternNode[] { dumpEdgeLink_node_src, dumpEdgeLink_node_tgt }, 
 				new GRGEN_LGSP.PatternEdge[] { dumpEdgeLink_edge_e }, 
-				new GRGEN_LGSP.PatternVariable[] {  }, 
+				new GRGEN_LGSP.PatternVariable[] { dumpEdgeLink_var_v }, 
 				new GRGEN_LGSP.PatternGraphEmbedding[] {  }, 
 				new GRGEN_LGSP.Alternative[] {  }, 
 				new GRGEN_LGSP.PatternGraph[] {  }, 
@@ -11999,9 +12245,10 @@ namespace de.unika.ipd.grGen.Action_JavaProgramGraphs
 			GRGEN_LGSP.LGSPNode node_src = curMatch._node_src;
 			GRGEN_LGSP.LGSPNode node_tgt = curMatch._node_tgt;
 			GRGEN_LGSP.LGSPEdge edge_e = curMatch._edge_e;
+			int var_v = curMatch._var_v;
 			graph.SettingAddedNodeNames( dumpEdgeLink_addedNodeNames );
 			graph.SettingAddedEdgeNames( dumpEdgeLink_addedEdgeNames );
-			graph.SetVisited(edge_e, 0, true);
+			graph.SetVisited(edge_e, var_v, true);
 			graph.EmitWriter.Write("<edge id=\"");
 			graph.EmitWriter.Write(graph.GetElementName(edge_e));
 			graph.EmitWriter.Write("\" from=\"");
@@ -12027,6 +12274,7 @@ namespace de.unika.ipd.grGen.Action_JavaProgramGraphs
 			//Edges
 			GRGEN_MODEL.Ilink edge_e { get; }
 			//Variables
+			int @var_v { get; }
 			//EmbeddedGraphs
 			//Alternatives
 			//Iterateds
@@ -12068,13 +12316,16 @@ namespace de.unika.ipd.grGen.Action_JavaProgramGraphs
 				}
 			}
 			
-			public enum dumpEdgeLink_VariableNums { END_OF_ENUM };
+			public int var_v { get { return _var_v; } }
+			public int _var_v;
+			public enum dumpEdgeLink_VariableNums { @v, END_OF_ENUM };
 			public IEnumerable<object> Variables { get { return new GRGEN_LGSP.Variables_Enumerable(this); } }
 			public IEnumerator<object> VariablesEnumerator { get { return new GRGEN_LGSP.Variables_Enumerator(this); } }
-			public int NumberOfVariables { get { return 0;} }
+			public int NumberOfVariables { get { return 1;} }
 			public object getVariableAt(int index)
 			{
 				switch(index) {
+				case (int)dumpEdgeLink_VariableNums.@v: return _var_v;
 				default: return null;
 				}
 			}
@@ -12145,7 +12396,7 @@ namespace de.unika.ipd.grGen.Action_JavaProgramGraphs
 		public static bool[] dumpEdgeExpression_edge_e_IsAllowedType = null;
 		public enum dumpEdgeExpression_NodeNums { @src, @tgt, };
 		public enum dumpEdgeExpression_EdgeNums { @e, };
-		public enum dumpEdgeExpression_VariableNums { };
+		public enum dumpEdgeExpression_VariableNums { @v, };
 		public enum dumpEdgeExpression_SubNums { };
 		public enum dumpEdgeExpression_AltNums { };
 		public enum dumpEdgeExpression_IterNums { };
@@ -12160,9 +12411,10 @@ namespace de.unika.ipd.grGen.Action_JavaProgramGraphs
 		{
 			name = "dumpEdgeExpression";
 
-			inputs = new GRGEN_LIBGR.GrGenType[] { };
-			inputNames = new string[] { };
+			inputs = new GRGEN_LIBGR.GrGenType[] { GRGEN_LIBGR.VarType.GetVarType(typeof(int)), };
+			inputNames = new string[] { "dumpEdgeExpression_var_v", };
 			outputs = new GRGEN_LIBGR.GrGenType[] { };
+
 		}
 		private void initialize()
 		{
@@ -12178,16 +12430,17 @@ namespace de.unika.ipd.grGen.Action_JavaProgramGraphs
 			GRGEN_LGSP.PatternNode dumpEdgeExpression_node_src = new GRGEN_LGSP.PatternNode((int) GRGEN_MODEL.NodeTypes.@Node, "GRGEN_LIBGR.INode", "dumpEdgeExpression_node_src", "src", dumpEdgeExpression_node_src_AllowedTypes, dumpEdgeExpression_node_src_IsAllowedType, 5.5F, -1, false);
 			GRGEN_LGSP.PatternNode dumpEdgeExpression_node_tgt = new GRGEN_LGSP.PatternNode((int) GRGEN_MODEL.NodeTypes.@Node, "GRGEN_LIBGR.INode", "dumpEdgeExpression_node_tgt", "tgt", dumpEdgeExpression_node_tgt_AllowedTypes, dumpEdgeExpression_node_tgt_IsAllowedType, 5.5F, -1, false);
 			GRGEN_LGSP.PatternEdge dumpEdgeExpression_edge_e = new GRGEN_LGSP.PatternEdge(true, (int) GRGEN_MODEL.EdgeTypes.@expression, "GRGEN_MODEL.Iexpression", "dumpEdgeExpression_edge_e", "e", dumpEdgeExpression_edge_e_AllowedTypes, dumpEdgeExpression_edge_e_IsAllowedType, 5.5F, -1, false);
+			GRGEN_LGSP.PatternVariable dumpEdgeExpression_var_v = new GRGEN_LGSP.PatternVariable(GRGEN_LIBGR.VarType.GetVarType(typeof(int)), "dumpEdgeExpression_var_v", "v", 0);
 			GRGEN_LGSP.PatternCondition dumpEdgeExpression_cond_0 = new GRGEN_LGSP.PatternCondition(
-				new GRGEN_EXPR.LOG_NOT(new GRGEN_EXPR.Visited("dumpEdgeExpression_edge_e", new GRGEN_EXPR.Constant("0"))),
-				new string[] {  }, new string[] { "dumpEdgeExpression_edge_e" }, new string[] {  }, new GRGEN_LIBGR.VarType[] {  });
+				new GRGEN_EXPR.LOG_NOT(new GRGEN_EXPR.Visited("dumpEdgeExpression_edge_e", new GRGEN_EXPR.VariableExpression("dumpEdgeExpression_var_v"))),
+				new string[] {  }, new string[] { "dumpEdgeExpression_edge_e" }, new string[] { "dumpEdgeExpression_var_v" }, new GRGEN_LIBGR.VarType[] { GRGEN_LIBGR.VarType.GetVarType(typeof(int)) });
 			pat_dumpEdgeExpression = new GRGEN_LGSP.PatternGraph(
 				"dumpEdgeExpression",
 				"",
 				false,
 				new GRGEN_LGSP.PatternNode[] { dumpEdgeExpression_node_src, dumpEdgeExpression_node_tgt }, 
 				new GRGEN_LGSP.PatternEdge[] { dumpEdgeExpression_edge_e }, 
-				new GRGEN_LGSP.PatternVariable[] {  }, 
+				new GRGEN_LGSP.PatternVariable[] { dumpEdgeExpression_var_v }, 
 				new GRGEN_LGSP.PatternGraphEmbedding[] {  }, 
 				new GRGEN_LGSP.Alternative[] {  }, 
 				new GRGEN_LGSP.PatternGraph[] {  }, 
@@ -12223,9 +12476,10 @@ namespace de.unika.ipd.grGen.Action_JavaProgramGraphs
 			GRGEN_LGSP.LGSPNode node_src = curMatch._node_src;
 			GRGEN_LGSP.LGSPNode node_tgt = curMatch._node_tgt;
 			GRGEN_LGSP.LGSPEdge edge_e = curMatch._edge_e;
+			int var_v = curMatch._var_v;
 			graph.SettingAddedNodeNames( dumpEdgeExpression_addedNodeNames );
 			graph.SettingAddedEdgeNames( dumpEdgeExpression_addedEdgeNames );
-			graph.SetVisited(edge_e, 0, true);
+			graph.SetVisited(edge_e, var_v, true);
 			graph.EmitWriter.Write("<edge id=\"");
 			graph.EmitWriter.Write(graph.GetElementName(edge_e));
 			graph.EmitWriter.Write("\" from=\"");
@@ -12251,6 +12505,7 @@ namespace de.unika.ipd.grGen.Action_JavaProgramGraphs
 			//Edges
 			GRGEN_MODEL.Iexpression edge_e { get; }
 			//Variables
+			int @var_v { get; }
 			//EmbeddedGraphs
 			//Alternatives
 			//Iterateds
@@ -12292,13 +12547,16 @@ namespace de.unika.ipd.grGen.Action_JavaProgramGraphs
 				}
 			}
 			
-			public enum dumpEdgeExpression_VariableNums { END_OF_ENUM };
+			public int var_v { get { return _var_v; } }
+			public int _var_v;
+			public enum dumpEdgeExpression_VariableNums { @v, END_OF_ENUM };
 			public IEnumerable<object> Variables { get { return new GRGEN_LGSP.Variables_Enumerable(this); } }
 			public IEnumerator<object> VariablesEnumerator { get { return new GRGEN_LGSP.Variables_Enumerator(this); } }
-			public int NumberOfVariables { get { return 0;} }
+			public int NumberOfVariables { get { return 1;} }
 			public object getVariableAt(int index)
 			{
 				switch(index) {
+				case (int)dumpEdgeExpression_VariableNums.@v: return _var_v;
 				default: return null;
 				}
 			}
@@ -12369,7 +12627,7 @@ namespace de.unika.ipd.grGen.Action_JavaProgramGraphs
 		public static bool[] dumpEdgeActualParameter_edge_e_IsAllowedType = null;
 		public enum dumpEdgeActualParameter_NodeNums { @src, @tgt, };
 		public enum dumpEdgeActualParameter_EdgeNums { @e, };
-		public enum dumpEdgeActualParameter_VariableNums { };
+		public enum dumpEdgeActualParameter_VariableNums { @v, };
 		public enum dumpEdgeActualParameter_SubNums { };
 		public enum dumpEdgeActualParameter_AltNums { };
 		public enum dumpEdgeActualParameter_IterNums { };
@@ -12384,9 +12642,10 @@ namespace de.unika.ipd.grGen.Action_JavaProgramGraphs
 		{
 			name = "dumpEdgeActualParameter";
 
-			inputs = new GRGEN_LIBGR.GrGenType[] { };
-			inputNames = new string[] { };
+			inputs = new GRGEN_LIBGR.GrGenType[] { GRGEN_LIBGR.VarType.GetVarType(typeof(int)), };
+			inputNames = new string[] { "dumpEdgeActualParameter_var_v", };
 			outputs = new GRGEN_LIBGR.GrGenType[] { };
+
 		}
 		private void initialize()
 		{
@@ -12402,16 +12661,17 @@ namespace de.unika.ipd.grGen.Action_JavaProgramGraphs
 			GRGEN_LGSP.PatternNode dumpEdgeActualParameter_node_src = new GRGEN_LGSP.PatternNode((int) GRGEN_MODEL.NodeTypes.@Node, "GRGEN_LIBGR.INode", "dumpEdgeActualParameter_node_src", "src", dumpEdgeActualParameter_node_src_AllowedTypes, dumpEdgeActualParameter_node_src_IsAllowedType, 5.5F, -1, false);
 			GRGEN_LGSP.PatternNode dumpEdgeActualParameter_node_tgt = new GRGEN_LGSP.PatternNode((int) GRGEN_MODEL.NodeTypes.@Node, "GRGEN_LIBGR.INode", "dumpEdgeActualParameter_node_tgt", "tgt", dumpEdgeActualParameter_node_tgt_AllowedTypes, dumpEdgeActualParameter_node_tgt_IsAllowedType, 5.5F, -1, false);
 			GRGEN_LGSP.PatternEdge dumpEdgeActualParameter_edge_e = new GRGEN_LGSP.PatternEdge(true, (int) GRGEN_MODEL.EdgeTypes.@actualParameter, "GRGEN_MODEL.IactualParameter", "dumpEdgeActualParameter_edge_e", "e", dumpEdgeActualParameter_edge_e_AllowedTypes, dumpEdgeActualParameter_edge_e_IsAllowedType, 5.5F, -1, false);
+			GRGEN_LGSP.PatternVariable dumpEdgeActualParameter_var_v = new GRGEN_LGSP.PatternVariable(GRGEN_LIBGR.VarType.GetVarType(typeof(int)), "dumpEdgeActualParameter_var_v", "v", 0);
 			GRGEN_LGSP.PatternCondition dumpEdgeActualParameter_cond_0 = new GRGEN_LGSP.PatternCondition(
-				new GRGEN_EXPR.LOG_NOT(new GRGEN_EXPR.Visited("dumpEdgeActualParameter_edge_e", new GRGEN_EXPR.Constant("0"))),
-				new string[] {  }, new string[] { "dumpEdgeActualParameter_edge_e" }, new string[] {  }, new GRGEN_LIBGR.VarType[] {  });
+				new GRGEN_EXPR.LOG_NOT(new GRGEN_EXPR.Visited("dumpEdgeActualParameter_edge_e", new GRGEN_EXPR.VariableExpression("dumpEdgeActualParameter_var_v"))),
+				new string[] {  }, new string[] { "dumpEdgeActualParameter_edge_e" }, new string[] { "dumpEdgeActualParameter_var_v" }, new GRGEN_LIBGR.VarType[] { GRGEN_LIBGR.VarType.GetVarType(typeof(int)) });
 			pat_dumpEdgeActualParameter = new GRGEN_LGSP.PatternGraph(
 				"dumpEdgeActualParameter",
 				"",
 				false,
 				new GRGEN_LGSP.PatternNode[] { dumpEdgeActualParameter_node_src, dumpEdgeActualParameter_node_tgt }, 
 				new GRGEN_LGSP.PatternEdge[] { dumpEdgeActualParameter_edge_e }, 
-				new GRGEN_LGSP.PatternVariable[] {  }, 
+				new GRGEN_LGSP.PatternVariable[] { dumpEdgeActualParameter_var_v }, 
 				new GRGEN_LGSP.PatternGraphEmbedding[] {  }, 
 				new GRGEN_LGSP.Alternative[] {  }, 
 				new GRGEN_LGSP.PatternGraph[] {  }, 
@@ -12447,9 +12707,10 @@ namespace de.unika.ipd.grGen.Action_JavaProgramGraphs
 			GRGEN_LGSP.LGSPNode node_src = curMatch._node_src;
 			GRGEN_LGSP.LGSPNode node_tgt = curMatch._node_tgt;
 			GRGEN_LGSP.LGSPEdge edge_e = curMatch._edge_e;
+			int var_v = curMatch._var_v;
 			graph.SettingAddedNodeNames( dumpEdgeActualParameter_addedNodeNames );
 			graph.SettingAddedEdgeNames( dumpEdgeActualParameter_addedEdgeNames );
-			graph.SetVisited(edge_e, 0, true);
+			graph.SetVisited(edge_e, var_v, true);
 			graph.EmitWriter.Write("<edge id=\"");
 			graph.EmitWriter.Write(graph.GetElementName(edge_e));
 			graph.EmitWriter.Write("\" from=\"");
@@ -12475,6 +12736,7 @@ namespace de.unika.ipd.grGen.Action_JavaProgramGraphs
 			//Edges
 			GRGEN_MODEL.IactualParameter edge_e { get; }
 			//Variables
+			int @var_v { get; }
 			//EmbeddedGraphs
 			//Alternatives
 			//Iterateds
@@ -12516,13 +12778,16 @@ namespace de.unika.ipd.grGen.Action_JavaProgramGraphs
 				}
 			}
 			
-			public enum dumpEdgeActualParameter_VariableNums { END_OF_ENUM };
+			public int var_v { get { return _var_v; } }
+			public int _var_v;
+			public enum dumpEdgeActualParameter_VariableNums { @v, END_OF_ENUM };
 			public IEnumerable<object> Variables { get { return new GRGEN_LGSP.Variables_Enumerable(this); } }
 			public IEnumerator<object> VariablesEnumerator { get { return new GRGEN_LGSP.Variables_Enumerator(this); } }
-			public int NumberOfVariables { get { return 0;} }
+			public int NumberOfVariables { get { return 1;} }
 			public object getVariableAt(int index)
 			{
 				switch(index) {
+				case (int)dumpEdgeActualParameter_VariableNums.@v: return _var_v;
 				default: return null;
 				}
 			}
@@ -12630,6 +12895,7 @@ namespace de.unika.ipd.grGen.Action_JavaProgramGraphs
 			inputs = new GRGEN_LIBGR.GrGenType[] { };
 			inputNames = new string[] { };
 			outputs = new GRGEN_LIBGR.GrGenType[] { };
+
 		}
 		private void initialize()
 		{
@@ -13131,6 +13397,7 @@ namespace de.unika.ipd.grGen.Action_JavaProgramGraphs
 			inputs = new GRGEN_LIBGR.GrGenType[] { };
 			inputNames = new string[] { };
 			outputs = new GRGEN_LIBGR.GrGenType[] { };
+
 		}
 		private void initialize()
 		{
@@ -13468,6 +13735,7 @@ namespace de.unika.ipd.grGen.Action_JavaProgramGraphs
 			inputs = new GRGEN_LIBGR.GrGenType[] { };
 			inputNames = new string[] { };
 			outputs = new GRGEN_LIBGR.GrGenType[] { };
+
 		}
 		private void initialize()
 		{
@@ -14612,6 +14880,7 @@ namespace de.unika.ipd.grGen.Action_JavaProgramGraphs
 			inputs = new GRGEN_LIBGR.GrGenType[] { };
 			inputNames = new string[] { };
 			outputs = new GRGEN_LIBGR.GrGenType[] { };
+
 		}
 		private void initialize()
 		{
@@ -14989,6 +15258,7 @@ namespace de.unika.ipd.grGen.Action_JavaProgramGraphs
 			inputs = new GRGEN_LIBGR.GrGenType[] { };
 			inputNames = new string[] { };
 			outputs = new GRGEN_LIBGR.GrGenType[] { };
+
 		}
 		private void initialize()
 		{
@@ -15369,6 +15639,7 @@ namespace de.unika.ipd.grGen.Action_JavaProgramGraphs
 			inputs = new GRGEN_LIBGR.GrGenType[] { GRGEN_MODEL.NodeType_Class.typeVar, GRGEN_MODEL.NodeType_Variable.typeVar, };
 			inputNames = new string[] { "getClassAndVariable_node_c", "getClassAndVariable_node_v", };
 			outputs = new GRGEN_LIBGR.GrGenType[] { GRGEN_MODEL.NodeType_Class.typeVar, GRGEN_MODEL.NodeType_Variable.typeVar, };
+
 		}
 		private void initialize()
 		{
@@ -15568,6 +15839,7 @@ namespace de.unika.ipd.grGen.Action_JavaProgramGraphs
 			inputs = new GRGEN_LIBGR.GrGenType[] { GRGEN_MODEL.NodeType_Class.typeVar, GRGEN_MODEL.NodeType_Variable.typeVar, };
 			inputNames = new string[] { "variableInClass_node_c", "variableInClass_node_v", };
 			outputs = new GRGEN_LIBGR.GrGenType[] { GRGEN_LIBGR.VarType.GetVarType(typeof(bool)), };
+
 		}
 		private void initialize()
 		{
@@ -15796,6 +16068,7 @@ namespace de.unika.ipd.grGen.Action_JavaProgramGraphs
 			inputs = new GRGEN_LIBGR.GrGenType[] { GRGEN_MODEL.NodeType_Class.typeVar, GRGEN_LIBGR.VarType.GetVarType(typeof(string)), };
 			inputNames = new string[] { "methodExists_node_c", "methodExists_var_name", };
 			outputs = new GRGEN_LIBGR.GrGenType[] { GRGEN_MODEL.NodeType_Operation.typeVar, };
+
 		}
 		private void initialize()
 		{
@@ -16025,6 +16298,7 @@ namespace de.unika.ipd.grGen.Action_JavaProgramGraphs
 			inputs = new GRGEN_LIBGR.GrGenType[] { GRGEN_MODEL.NodeType_Variable.typeVar, GRGEN_MODEL.NodeType_Operation.typeVar, };
 			inputNames = new string[] { "sameStaticness_node_v", "sameStaticness_node_op", };
 			outputs = new GRGEN_LIBGR.GrGenType[] { };
+
 		}
 		private void initialize()
 		{
@@ -16218,6 +16492,7 @@ namespace de.unika.ipd.grGen.Action_JavaProgramGraphs
 			inputs = new GRGEN_LIBGR.GrGenType[] { GRGEN_MODEL.NodeType_Class.typeVar, GRGEN_MODEL.NodeType_Variable.typeVar, GRGEN_LIBGR.VarType.GetVarType(typeof(string)), GRGEN_LIBGR.VarType.GetVarType(typeof(bool)), };
 			inputNames = new string[] { "insertMethodGetter_node_c", "insertMethodGetter_node_v", "insertMethodGetter_var_name", "insertMethodGetter_var_isStatic", };
 			outputs = new GRGEN_LIBGR.GrGenType[] { GRGEN_MODEL.NodeType_Operation.typeVar, };
+
 		}
 		private void initialize()
 		{
@@ -16457,6 +16732,7 @@ namespace de.unika.ipd.grGen.Action_JavaProgramGraphs
 			inputs = new GRGEN_LIBGR.GrGenType[] { GRGEN_MODEL.NodeType_Class.typeVar, GRGEN_MODEL.NodeType_Variable.typeVar, GRGEN_LIBGR.VarType.GetVarType(typeof(string)), GRGEN_LIBGR.VarType.GetVarType(typeof(bool)), };
 			inputNames = new string[] { "insertMethodSetter_node_c", "insertMethodSetter_node_v", "insertMethodSetter_var_name", "insertMethodSetter_var_isStatic", };
 			outputs = new GRGEN_LIBGR.GrGenType[] { GRGEN_MODEL.NodeType_Operation.typeVar, };
+
 		}
 		private void initialize()
 		{
@@ -16715,6 +16991,7 @@ namespace de.unika.ipd.grGen.Action_JavaProgramGraphs
 			inputs = new GRGEN_LIBGR.GrGenType[] { GRGEN_MODEL.NodeType_Variable.typeVar, };
 			inputNames = new string[] { "changeVisibility_node_v", };
 			outputs = new GRGEN_LIBGR.GrGenType[] { };
+
 		}
 		private void initialize()
 		{
@@ -16921,6 +17198,7 @@ namespace de.unika.ipd.grGen.Action_JavaProgramGraphs
 			inputs = new GRGEN_LIBGR.GrGenType[] { GRGEN_MODEL.NodeType_Class.typeVar, GRGEN_MODEL.NodeType_Variable.typeVar, GRGEN_MODEL.NodeType_Operation.typeVar, };
 			inputNames = new string[] { "adaptAccess_node_c", "adaptAccess_node_v", "adaptAccess_node_getter", };
 			outputs = new GRGEN_LIBGR.GrGenType[] { };
+
 		}
 		private void initialize()
 		{
@@ -17318,6 +17596,7 @@ namespace de.unika.ipd.grGen.Action_JavaProgramGraphs
 			inputs = new GRGEN_LIBGR.GrGenType[] { GRGEN_MODEL.NodeType_Class.typeVar, GRGEN_MODEL.NodeType_Variable.typeVar, GRGEN_MODEL.NodeType_Operation.typeVar, };
 			inputNames = new string[] { "adaptUpdate_node_c", "adaptUpdate_node_v", "adaptUpdate_node_setter", };
 			outputs = new GRGEN_LIBGR.GrGenType[] { };
+
 		}
 		private void initialize()
 		{
@@ -17724,6 +18003,7 @@ namespace de.unika.ipd.grGen.Action_JavaProgramGraphs
 			inputs = new GRGEN_LIBGR.GrGenType[] { GRGEN_MODEL.NodeType_Class.typeVar, GRGEN_MODEL.NodeType_Variable.typeVar, GRGEN_MODEL.NodeType_Operation.typeVar, };
 			inputNames = new string[] { "adaptAccessUseAccessorsAlways_node_c", "adaptAccessUseAccessorsAlways_node_v", "adaptAccessUseAccessorsAlways_node_getter", };
 			outputs = new GRGEN_LIBGR.GrGenType[] { };
+
 		}
 		private void initialize()
 		{
@@ -17962,6 +18242,7 @@ namespace de.unika.ipd.grGen.Action_JavaProgramGraphs
 			inputs = new GRGEN_LIBGR.GrGenType[] { GRGEN_MODEL.NodeType_Class.typeVar, GRGEN_MODEL.NodeType_Variable.typeVar, GRGEN_MODEL.NodeType_Operation.typeVar, };
 			inputNames = new string[] { "adaptUpdateUseAccessorsAlways_node_c", "adaptUpdateUseAccessorsAlways_node_v", "adaptUpdateUseAccessorsAlways_node_setter", };
 			outputs = new GRGEN_LIBGR.GrGenType[] { };
+
 		}
 		private void initialize()
 		{
@@ -18213,6 +18494,7 @@ namespace de.unika.ipd.grGen.Action_JavaProgramGraphs
 			inputs = new GRGEN_LIBGR.GrGenType[] { GRGEN_MODEL.NodeType_Class.typeVar, GRGEN_MODEL.NodeType_Class.typeVar, GRGEN_MODEL.NodeType_MethodBody.typeVar, };
 			inputNames = new string[] { "getSourceAndTargetAndMethodBody_node_src", "getSourceAndTargetAndMethodBody_node_tgt", "getSourceAndTargetAndMethodBody_node_mb", };
 			outputs = new GRGEN_LIBGR.GrGenType[] { GRGEN_MODEL.NodeType_Class.typeVar, GRGEN_MODEL.NodeType_Class.typeVar, GRGEN_MODEL.NodeType_MethodBody.typeVar, };
+
 		}
 		private void initialize()
 		{
@@ -18418,6 +18700,7 @@ namespace de.unika.ipd.grGen.Action_JavaProgramGraphs
 			inputs = new GRGEN_LIBGR.GrGenType[] { GRGEN_MODEL.NodeType_MethodBody.typeVar, };
 			inputNames = new string[] { "getOperation_node_mb", };
 			outputs = new GRGEN_LIBGR.GrGenType[] { GRGEN_MODEL.NodeType_Operation.typeVar, };
+
 		}
 		private void initialize()
 		{
@@ -18631,6 +18914,7 @@ namespace de.unika.ipd.grGen.Action_JavaProgramGraphs
 			inputs = new GRGEN_LIBGR.GrGenType[] { GRGEN_MODEL.NodeType_MethodBody.typeVar, GRGEN_MODEL.NodeType_Class.typeVar, };
 			inputNames = new string[] { "someInstanceVariableOfTargetType_node_mb", "someInstanceVariableOfTargetType_node_tgt", };
 			outputs = new GRGEN_LIBGR.GrGenType[] { GRGEN_MODEL.NodeType_Variable.typeVar, };
+
 		}
 		private void initialize()
 		{
@@ -18880,6 +19164,7 @@ namespace de.unika.ipd.grGen.Action_JavaProgramGraphs
 			inputs = new GRGEN_LIBGR.GrGenType[] { GRGEN_MODEL.NodeType_MethodBody.typeVar, GRGEN_MODEL.NodeType_Class.typeVar, };
 			inputNames = new string[] { "someParameterOfTargetType_node_mb", "someParameterOfTargetType_node_tgt", };
 			outputs = new GRGEN_LIBGR.GrGenType[] { GRGEN_MODEL.NodeType_Parameter.typeVar, };
+
 		}
 		private void initialize()
 		{
@@ -19126,6 +19411,7 @@ namespace de.unika.ipd.grGen.Action_JavaProgramGraphs
 			inputs = new GRGEN_LIBGR.GrGenType[] { GRGEN_MODEL.NodeType_MethodBody.typeVar, };
 			inputNames = new string[] { "markExpressionOfBody_node_mb", };
 			outputs = new GRGEN_LIBGR.GrGenType[] { };
+
 		}
 		private void initialize()
 		{
@@ -19408,6 +19694,7 @@ namespace de.unika.ipd.grGen.Action_JavaProgramGraphs
 			inputs = new GRGEN_LIBGR.GrGenType[] { GRGEN_MODEL.NodeType_Expression.typeVar, };
 			inputNames = new string[] { "markExpressionFollowingExpression_node_root", };
 			outputs = new GRGEN_LIBGR.GrGenType[] { };
+
 		}
 		private void initialize()
 		{
@@ -19672,6 +19959,7 @@ namespace de.unika.ipd.grGen.Action_JavaProgramGraphs
 			inputs = new GRGEN_LIBGR.GrGenType[] { GRGEN_MODEL.NodeType_Expression.typeVar, };
 			inputNames = new string[] { "markExpressionFollowingActualParameter_node_root", };
 			outputs = new GRGEN_LIBGR.GrGenType[] { };
+
 		}
 		private void initialize()
 		{
@@ -19932,6 +20220,7 @@ namespace de.unika.ipd.grGen.Action_JavaProgramGraphs
 			inputs = new GRGEN_LIBGR.GrGenType[] { };
 			inputNames = new string[] { };
 			outputs = new GRGEN_LIBGR.GrGenType[] { };
+
 		}
 		private void initialize()
 		{
@@ -20120,6 +20409,7 @@ namespace de.unika.ipd.grGen.Action_JavaProgramGraphs
 			inputs = new GRGEN_LIBGR.GrGenType[] { };
 			inputNames = new string[] { };
 			outputs = new GRGEN_LIBGR.GrGenType[] { };
+
 		}
 		private void initialize()
 		{
@@ -20306,6 +20596,7 @@ namespace de.unika.ipd.grGen.Action_JavaProgramGraphs
 			inputs = new GRGEN_LIBGR.GrGenType[] { GRGEN_MODEL.NodeType_MethodBody.typeVar, };
 			inputNames = new string[] { "isStatic_node_mb", };
 			outputs = new GRGEN_LIBGR.GrGenType[] { };
+
 		}
 		private void initialize()
 		{
@@ -20514,6 +20805,7 @@ namespace de.unika.ipd.grGen.Action_JavaProgramGraphs
 			inputs = new GRGEN_LIBGR.GrGenType[] { GRGEN_MODEL.NodeType_MethodBody.typeVar, GRGEN_MODEL.NodeType_Class.typeVar, };
 			inputNames = new string[] { "methodNameExists_node_mb", "methodNameExists_node_tgt", };
 			outputs = new GRGEN_LIBGR.GrGenType[] { };
+
 		}
 		private void initialize()
 		{
@@ -20746,6 +21038,7 @@ namespace de.unika.ipd.grGen.Action_JavaProgramGraphs
 			inputs = new GRGEN_LIBGR.GrGenType[] { };
 			inputNames = new string[] { };
 			outputs = new GRGEN_LIBGR.GrGenType[] { };
+
 		}
 		private void initialize()
 		{
@@ -21075,6 +21368,7 @@ namespace de.unika.ipd.grGen.Action_JavaProgramGraphs
 			inputs = new GRGEN_LIBGR.GrGenType[] { GRGEN_MODEL.NodeType_Operation.typeVar, GRGEN_MODEL.NodeType_Class.typeVar, };
 			inputNames = new string[] { "addSourceParameter_node_op", "addSourceParameter_node_src", };
 			outputs = new GRGEN_LIBGR.GrGenType[] { GRGEN_MODEL.NodeType_Parameter.typeVar, };
+
 		}
 		private void initialize()
 		{
@@ -21286,6 +21580,7 @@ namespace de.unika.ipd.grGen.Action_JavaProgramGraphs
 			inputs = new GRGEN_LIBGR.GrGenType[] { GRGEN_MODEL.NodeType_Parameter.typeVar, };
 			inputNames = new string[] { "useSourceParameter_node_srcparam", };
 			outputs = new GRGEN_LIBGR.GrGenType[] { };
+
 		}
 		private void initialize()
 		{
@@ -21630,6 +21925,7 @@ namespace de.unika.ipd.grGen.Action_JavaProgramGraphs
 			inputs = new GRGEN_LIBGR.GrGenType[] { GRGEN_MODEL.NodeType_Operation.typeVar, GRGEN_MODEL.NodeType_Class.typeVar, };
 			inputNames = new string[] { "copyOperation_node_op", "copyOperation_node_tgt", };
 			outputs = new GRGEN_LIBGR.GrGenType[] { GRGEN_MODEL.NodeType_Operation.typeVar, };
+
 		}
 		private void initialize()
 		{
@@ -21832,6 +22128,7 @@ namespace de.unika.ipd.grGen.Action_JavaProgramGraphs
 			inputs = new GRGEN_LIBGR.GrGenType[] { GRGEN_MODEL.NodeType_Operation.typeVar, GRGEN_MODEL.NodeType_Operation.typeVar, };
 			inputNames = new string[] { "copyOperationParameter_node_op", "copyOperationParameter_node_newop", };
 			outputs = new GRGEN_LIBGR.GrGenType[] { };
+
 		}
 		private void initialize()
 		{
@@ -22059,6 +22356,7 @@ namespace de.unika.ipd.grGen.Action_JavaProgramGraphs
 			inputs = new GRGEN_LIBGR.GrGenType[] { GRGEN_MODEL.NodeType_MethodBody.typeVar, GRGEN_MODEL.NodeType_Class.typeVar, GRGEN_MODEL.NodeType_Class.typeVar, GRGEN_MODEL.NodeType_Operation.typeVar, GRGEN_MODEL.NodeType_Operation.typeVar, };
 			inputNames = new string[] { "relinkMethodBody_node_mb", "relinkMethodBody_node_src", "relinkMethodBody_node_tgt", "relinkMethodBody_node_op", "relinkMethodBody_node_newop", };
 			outputs = new GRGEN_LIBGR.GrGenType[] { };
+
 		}
 		private void initialize()
 		{
@@ -22322,6 +22620,7 @@ namespace de.unika.ipd.grGen.Action_JavaProgramGraphs
 			inputs = new GRGEN_LIBGR.GrGenType[] { GRGEN_MODEL.NodeType_MethodBody.typeVar, GRGEN_MODEL.NodeType_Operation.typeVar, GRGEN_MODEL.NodeType_Operation.typeVar, };
 			inputNames = new string[] { "relinkParameter_node_mb", "relinkParameter_node_op", "relinkParameter_node_newop", };
 			outputs = new GRGEN_LIBGR.GrGenType[] { };
+
 		}
 		private void initialize()
 		{
@@ -22593,6 +22892,7 @@ namespace de.unika.ipd.grGen.Action_JavaProgramGraphs
 			inputs = new GRGEN_LIBGR.GrGenType[] { GRGEN_MODEL.NodeType_Operation.typeVar, GRGEN_MODEL.NodeType_MethodBody.typeVar, GRGEN_MODEL.NodeType_Class.typeVar, GRGEN_MODEL.NodeType_Class.typeVar, };
 			inputNames = new string[] { "relinkOperationAndMethodBody_node_op", "relinkOperationAndMethodBody_node_mb", "relinkOperationAndMethodBody_node_src", "relinkOperationAndMethodBody_node_tgt", };
 			outputs = new GRGEN_LIBGR.GrGenType[] { };
+
 		}
 		private void initialize()
 		{
@@ -22836,6 +23136,7 @@ namespace de.unika.ipd.grGen.Action_JavaProgramGraphs
 			inputs = new GRGEN_LIBGR.GrGenType[] { GRGEN_MODEL.NodeType_Class.typeVar, GRGEN_MODEL.NodeType_Operation.typeVar, GRGEN_MODEL.NodeType_Operation.typeVar, GRGEN_MODEL.NodeType_Node.typeVar, };
 			inputNames = new string[] { "addDelegateBody_node_src", "addDelegateBody_node_own", "addDelegateBody_node_orig", "addDelegateBody_node_vp", };
 			outputs = new GRGEN_LIBGR.GrGenType[] { GRGEN_MODEL.NodeType_Call.typeVar, };
+
 		}
 		private void initialize()
 		{
@@ -23068,6 +23369,7 @@ namespace de.unika.ipd.grGen.Action_JavaProgramGraphs
 			inputs = new GRGEN_LIBGR.GrGenType[] { GRGEN_MODEL.NodeType_Call.typeVar, GRGEN_MODEL.NodeType_Operation.typeVar, };
 			inputNames = new string[] { "linkDelegateBodyToOperation_node_call", "linkDelegateBodyToOperation_node_op", };
 			outputs = new GRGEN_LIBGR.GrGenType[] { };
+
 		}
 		private void initialize()
 		{
@@ -23299,6 +23601,7 @@ namespace de.unika.ipd.grGen.Action_JavaProgramGraphs
 			inputs = new GRGEN_LIBGR.GrGenType[] { GRGEN_MODEL.NodeType_Operation.typeVar, GRGEN_MODEL.NodeType_Variable.typeVar, };
 			inputNames = new string[] { "replaceAccess_Variable_node_movedOperation", "replaceAccess_Variable_node_v", };
 			outputs = new GRGEN_LIBGR.GrGenType[] { };
+
 		}
 		private void initialize()
 		{
@@ -23574,6 +23877,7 @@ namespace de.unika.ipd.grGen.Action_JavaProgramGraphs
 			inputs = new GRGEN_LIBGR.GrGenType[] { GRGEN_MODEL.NodeType_Operation.typeVar, GRGEN_MODEL.NodeType_Variable.typeVar, GRGEN_MODEL.NodeType_Parameter.typeVar, };
 			inputNames = new string[] { "replaceAccess_Variable_WithSource_node_movedOperation", "replaceAccess_Variable_WithSource_node_v", "replaceAccess_Variable_WithSource_node_srcparam", };
 			outputs = new GRGEN_LIBGR.GrGenType[] { };
+
 		}
 		private void initialize()
 		{
@@ -23845,6 +24149,7 @@ namespace de.unika.ipd.grGen.Action_JavaProgramGraphs
 			inputs = new GRGEN_LIBGR.GrGenType[] { GRGEN_MODEL.NodeType_Call.typeVar, GRGEN_MODEL.NodeType_Parameter.typeVar, };
 			inputNames = new string[] { "addSourceToCall_node_call", "addSourceToCall_node_srcparam", };
 			outputs = new GRGEN_LIBGR.GrGenType[] { };
+
 		}
 		private void initialize()
 		{
@@ -24066,6 +24371,7 @@ namespace de.unika.ipd.grGen.Action_JavaProgramGraphs
 			inputs = new GRGEN_LIBGR.GrGenType[] { GRGEN_MODEL.NodeType_Operation.typeVar, GRGEN_MODEL.NodeType_Parameter.typeVar, };
 			inputNames = new string[] { "getUnprocessedCallWithActualParameter_node_movedOperation", "getUnprocessedCallWithActualParameter_node_p", };
 			outputs = new GRGEN_LIBGR.GrGenType[] { GRGEN_MODEL.NodeType_Call.typeVar, GRGEN_MODEL.NodeType_Expression.typeVar, };
+
 		}
 		private void initialize()
 		{
@@ -24496,6 +24802,7 @@ namespace de.unika.ipd.grGen.Action_JavaProgramGraphs
 			inputs = new GRGEN_LIBGR.GrGenType[] { GRGEN_MODEL.NodeType_Call.typeVar, GRGEN_MODEL.NodeType_Expression.typeVar, };
 			inputNames = new string[] { "replaceAccess_Parameter_AccessWithoutLink_node_c", "replaceAccess_Parameter_AccessWithoutLink_node_pe", };
 			outputs = new GRGEN_LIBGR.GrGenType[] { };
+
 		}
 		private void initialize()
 		{
@@ -24886,6 +25193,7 @@ namespace de.unika.ipd.grGen.Action_JavaProgramGraphs
 			inputs = new GRGEN_LIBGR.GrGenType[] { GRGEN_MODEL.NodeType_Call.typeVar, GRGEN_MODEL.NodeType_Expression.typeVar, };
 			inputNames = new string[] { "replaceAccess_Parameter_AccessWithLinkToExpression_node_c", "replaceAccess_Parameter_AccessWithLinkToExpression_node_pe", };
 			outputs = new GRGEN_LIBGR.GrGenType[] { };
+
 		}
 		private void initialize()
 		{
@@ -30935,21 +31243,21 @@ maxMatchesIterReached:
     public interface IAction_dumpGxl
     {
         /// <summary> same as IAction.Match, but with exact types and distinct parameters. </summary>
-        GRGEN_LIBGR.IMatchesExact<Rule_dumpGxl.IMatch_dumpGxl> Match(GRGEN_LIBGR.IGraph graph, int maxMatches);
+        GRGEN_LIBGR.IMatchesExact<Rule_dumpGxl.IMatch_dumpGxl> Match(GRGEN_LIBGR.IGraph graph, int maxMatches, System.Int32 dumpGxl_var_v);
         /// <summary> same as IAction.Modify, but with exact types and distinct parameters. </summary>
         void Modify(GRGEN_LIBGR.IGraph graph, Rule_dumpGxl.IMatch_dumpGxl match);
         /// <summary> same as IAction.ModifyAll, but with exact types and distinct parameters. </summary>
         void ModifyAll(GRGEN_LIBGR.IGraph graph, GRGEN_LIBGR.IMatchesExact<Rule_dumpGxl.IMatch_dumpGxl> matches);
         /// <summary> same as IAction.Apply, but with exact types and distinct parameters; returns true if applied </summary>
-        bool Apply(GRGEN_LIBGR.IGraph graph);
+        bool Apply(GRGEN_LIBGR.IGraph graph, System.Int32 dumpGxl_var_v);
         /// <summary> same as IAction.ApplyAll, but with exact types and distinct parameters; returns true if applied at least once. </summary>
-        bool ApplyAll(int maxMatches, GRGEN_LIBGR.IGraph graph);
+        bool ApplyAll(int maxMatches, GRGEN_LIBGR.IGraph graph, System.Int32 dumpGxl_var_v);
         /// <summary> same as IAction.ApplyStar, but with exact types and distinct parameters. </summary>
-        bool ApplyStar(GRGEN_LIBGR.IGraph graph);
+        bool ApplyStar(GRGEN_LIBGR.IGraph graph, System.Int32 dumpGxl_var_v);
         /// <summary> same as IAction.ApplyPlus, but with exact types and distinct parameters. </summary>
-        bool ApplyPlus(GRGEN_LIBGR.IGraph graph);
+        bool ApplyPlus(GRGEN_LIBGR.IGraph graph, System.Int32 dumpGxl_var_v);
         /// <summary> same as IAction.ApplyMinMax, but with exact types and distinct parameters. </summary>
-        bool ApplyMinMax(GRGEN_LIBGR.IGraph graph, int min, int max);
+        bool ApplyMinMax(GRGEN_LIBGR.IGraph graph, int min, int max, System.Int32 dumpGxl_var_v);
     }
     
     public class Action_dumpGxl : GRGEN_LGSP.LGSPAction, GRGEN_LIBGR.IAction, IAction_dumpGxl
@@ -30970,11 +31278,13 @@ maxMatchesIterReached:
         public static Action_dumpGxl Instance { get { return instance; } }
         private static Action_dumpGxl instance = new Action_dumpGxl();
         
-        public GRGEN_LIBGR.IMatchesExact<Rule_dumpGxl.IMatch_dumpGxl> myMatch(GRGEN_LGSP.LGSPGraph graph, int maxMatches)
+        public GRGEN_LIBGR.IMatchesExact<Rule_dumpGxl.IMatch_dumpGxl> myMatch(GRGEN_LGSP.LGSPGraph graph, int maxMatches, System.Int32 dumpGxl_var_v)
         {
             matches.Clear();
             int negLevel = 0;
+            System.Int32 var_dumpGxl_var_v = (System.Int32)dumpGxl_var_v;
             Rule_dumpGxl.Match_dumpGxl match = matches.GetNextUnfilledPosition();
+            match._var_v = var_dumpGxl_var_v;
             matches.PositionWasFilledFixIt();
             // if enough matches were found, we leave
             if(maxMatches > 0 && matches.Count >= maxMatches)
@@ -30984,14 +31294,14 @@ maxMatchesIterReached:
             return matches;
         }
         /// <summary> Type of the matcher method (with parameters host graph, maximum number of matches to search for (zero=unlimited), and rule parameters; returning found matches). </summary>
-        public delegate GRGEN_LIBGR.IMatchesExact<Rule_dumpGxl.IMatch_dumpGxl> MatchInvoker(GRGEN_LGSP.LGSPGraph graph, int maxMatches);
+        public delegate GRGEN_LIBGR.IMatchesExact<Rule_dumpGxl.IMatch_dumpGxl> MatchInvoker(GRGEN_LGSP.LGSPGraph graph, int maxMatches, System.Int32 dumpGxl_var_v);
         /// <summary> A delegate pointing to the current matcher program for this rule. </summary>
         public MatchInvoker DynamicMatch;
         /// <summary> The RulePattern object from which this LGSPAction object has been created. </summary>
         public GRGEN_LIBGR.IRulePattern RulePattern { get { return _rulePattern; } }
-        public GRGEN_LIBGR.IMatchesExact<Rule_dumpGxl.IMatch_dumpGxl> Match(GRGEN_LIBGR.IGraph graph, int maxMatches)
+        public GRGEN_LIBGR.IMatchesExact<Rule_dumpGxl.IMatch_dumpGxl> Match(GRGEN_LIBGR.IGraph graph, int maxMatches, System.Int32 dumpGxl_var_v)
         {
-            return DynamicMatch((GRGEN_LGSP.LGSPGraph)graph, maxMatches);
+            return DynamicMatch((GRGEN_LGSP.LGSPGraph)graph, maxMatches, dumpGxl_var_v);
         }
         public void Modify(GRGEN_LIBGR.IGraph graph, Rule_dumpGxl.IMatch_dumpGxl match)
         {
@@ -31001,51 +31311,51 @@ maxMatchesIterReached:
         {
             foreach(Rule_dumpGxl.IMatch_dumpGxl match in matches) _rulePattern.Modify((GRGEN_LGSP.LGSPGraph)graph, match);
         }
-        public bool Apply(GRGEN_LIBGR.IGraph graph)
+        public bool Apply(GRGEN_LIBGR.IGraph graph, System.Int32 dumpGxl_var_v)
         {
-            GRGEN_LIBGR.IMatchesExact<Rule_dumpGxl.IMatch_dumpGxl> matches = DynamicMatch((GRGEN_LGSP.LGSPGraph)graph, 1);
+            GRGEN_LIBGR.IMatchesExact<Rule_dumpGxl.IMatch_dumpGxl> matches = DynamicMatch((GRGEN_LGSP.LGSPGraph)graph, 1, dumpGxl_var_v);
             if(matches.Count <= 0) return false;
             _rulePattern.Modify((GRGEN_LGSP.LGSPGraph)graph, matches.First);
             return true;
         }
-        public bool ApplyAll(int maxMatches, GRGEN_LIBGR.IGraph graph)
+        public bool ApplyAll(int maxMatches, GRGEN_LIBGR.IGraph graph, System.Int32 dumpGxl_var_v)
         {
-            GRGEN_LIBGR.IMatchesExact<Rule_dumpGxl.IMatch_dumpGxl> matches = DynamicMatch((GRGEN_LGSP.LGSPGraph)graph, maxMatches);
+            GRGEN_LIBGR.IMatchesExact<Rule_dumpGxl.IMatch_dumpGxl> matches = DynamicMatch((GRGEN_LGSP.LGSPGraph)graph, maxMatches, dumpGxl_var_v);
             if(matches.Count <= 0) return false;
             foreach(Rule_dumpGxl.IMatch_dumpGxl match in matches) _rulePattern.Modify((GRGEN_LGSP.LGSPGraph)graph, match);
             return true;
         }
-        public bool ApplyStar(GRGEN_LIBGR.IGraph graph)
+        public bool ApplyStar(GRGEN_LIBGR.IGraph graph, System.Int32 dumpGxl_var_v)
         {
             GRGEN_LIBGR.IMatchesExact<Rule_dumpGxl.IMatch_dumpGxl> matches;
             
             while(true)
             {
-                matches = DynamicMatch((GRGEN_LGSP.LGSPGraph)graph, 1);
+                matches = DynamicMatch((GRGEN_LGSP.LGSPGraph)graph, 1, dumpGxl_var_v);
                 if(matches.Count <= 0) return true;
                 _rulePattern.Modify((GRGEN_LGSP.LGSPGraph)graph, matches.First);
             }
         }
-        public bool ApplyPlus(GRGEN_LIBGR.IGraph graph)
+        public bool ApplyPlus(GRGEN_LIBGR.IGraph graph, System.Int32 dumpGxl_var_v)
         {
-            GRGEN_LIBGR.IMatchesExact<Rule_dumpGxl.IMatch_dumpGxl> matches = DynamicMatch((GRGEN_LGSP.LGSPGraph)graph, 1);
+            GRGEN_LIBGR.IMatchesExact<Rule_dumpGxl.IMatch_dumpGxl> matches = DynamicMatch((GRGEN_LGSP.LGSPGraph)graph, 1, dumpGxl_var_v);
             if(matches.Count <= 0) return false;
             
             do
             {
                 _rulePattern.Modify((GRGEN_LGSP.LGSPGraph)graph, matches.First);
-                matches = DynamicMatch((GRGEN_LGSP.LGSPGraph)graph, 1);
+                matches = DynamicMatch((GRGEN_LGSP.LGSPGraph)graph, 1, dumpGxl_var_v);
             }
             while(matches.Count > 0) ;
             return true;
         }
-        public bool ApplyMinMax(GRGEN_LIBGR.IGraph graph, int min, int max)
+        public bool ApplyMinMax(GRGEN_LIBGR.IGraph graph, int min, int max, System.Int32 dumpGxl_var_v)
         {
             GRGEN_LIBGR.IMatchesExact<Rule_dumpGxl.IMatch_dumpGxl> matches;
             
             for(int i = 0; i < max; i++)
             {
-                matches = DynamicMatch((GRGEN_LGSP.LGSPGraph)graph, 1);
+                matches = DynamicMatch((GRGEN_LGSP.LGSPGraph)graph, 1, dumpGxl_var_v);
                 if(matches.Count <= 0) return i >= min;
                 _rulePattern.Modify((GRGEN_LGSP.LGSPGraph)graph, matches.First);
             }
@@ -31054,7 +31364,7 @@ maxMatchesIterReached:
         // implementation of inexact action interface by delegation to exact action interface
         public GRGEN_LIBGR.IMatches Match(GRGEN_LIBGR.IGraph graph, int maxMatches, object[] parameters)
         {
-            return Match(graph, maxMatches);
+            return Match(graph, maxMatches, (System.Int32) parameters[0]);
         }
         public object[] Modify(GRGEN_LIBGR.IGraph graph, GRGEN_LIBGR.IMatch match)
         {
@@ -31070,59 +31380,51 @@ maxMatchesIterReached:
         }
         object[] GRGEN_LIBGR.IAction.Apply(GRGEN_LIBGR.IGraph graph)
         {
-            
-            if(Apply(graph)) {
-                return ReturnArray;
-            }
-            else return null;
+            throw new Exception();
         }
         object[] GRGEN_LIBGR.IAction.Apply(GRGEN_LIBGR.IGraph graph, params object[] parameters)
         {
             
-            if(Apply(graph)) {
+            if(Apply(graph, (System.Int32) parameters[0])) {
                 return ReturnArray;
             }
             else return null;
         }
         object[] GRGEN_LIBGR.IAction.ApplyAll(int maxMatches, GRGEN_LIBGR.IGraph graph)
         {
-            
-            if(ApplyAll(maxMatches, graph)) {
-                return ReturnArray;
-            }
-            else return null;
+            throw new Exception();
         }
         object[] GRGEN_LIBGR.IAction.ApplyAll(int maxMatches, GRGEN_LIBGR.IGraph graph, params object[] parameters)
         {
             
-            if(ApplyAll(maxMatches, graph)) {
+            if(ApplyAll(maxMatches, graph, (System.Int32) parameters[0])) {
                 return ReturnArray;
             }
             else return null;
         }
         bool GRGEN_LIBGR.IAction.ApplyStar(GRGEN_LIBGR.IGraph graph)
         {
-            return ApplyStar(graph);
+            throw new Exception(); return false;
         }
         bool GRGEN_LIBGR.IAction.ApplyStar(GRGEN_LIBGR.IGraph graph, params object[] parameters)
         {
-            return ApplyStar(graph);
+            return ApplyStar(graph, (System.Int32) parameters[0]);
         }
         bool GRGEN_LIBGR.IAction.ApplyPlus(GRGEN_LIBGR.IGraph graph)
         {
-            return ApplyPlus(graph);
+            throw new Exception(); return false;
         }
         bool GRGEN_LIBGR.IAction.ApplyPlus(GRGEN_LIBGR.IGraph graph, params object[] parameters)
         {
-            return ApplyPlus(graph);
+            return ApplyPlus(graph, (System.Int32) parameters[0]);
         }
         bool GRGEN_LIBGR.IAction.ApplyMinMax(GRGEN_LIBGR.IGraph graph, int min, int max)
         {
-            return ApplyMinMax(graph, min, max);
+            throw new Exception(); return false;
         }
         bool GRGEN_LIBGR.IAction.ApplyMinMax(GRGEN_LIBGR.IGraph graph, int min, int max, params object[] parameters)
         {
-            return ApplyMinMax(graph, min, max);
+            return ApplyMinMax(graph, min, max, (System.Int32) parameters[0]);
         }
     }
 
@@ -31132,21 +31434,21 @@ maxMatchesIterReached:
     public interface IAction_dumpNodePackage
     {
         /// <summary> same as IAction.Match, but with exact types and distinct parameters. </summary>
-        GRGEN_LIBGR.IMatchesExact<Rule_dumpNodePackage.IMatch_dumpNodePackage> Match(GRGEN_LIBGR.IGraph graph, int maxMatches);
+        GRGEN_LIBGR.IMatchesExact<Rule_dumpNodePackage.IMatch_dumpNodePackage> Match(GRGEN_LIBGR.IGraph graph, int maxMatches, System.Int32 dumpNodePackage_var_v);
         /// <summary> same as IAction.Modify, but with exact types and distinct parameters. </summary>
         void Modify(GRGEN_LIBGR.IGraph graph, Rule_dumpNodePackage.IMatch_dumpNodePackage match);
         /// <summary> same as IAction.ModifyAll, but with exact types and distinct parameters. </summary>
         void ModifyAll(GRGEN_LIBGR.IGraph graph, GRGEN_LIBGR.IMatchesExact<Rule_dumpNodePackage.IMatch_dumpNodePackage> matches);
         /// <summary> same as IAction.Apply, but with exact types and distinct parameters; returns true if applied </summary>
-        bool Apply(GRGEN_LIBGR.IGraph graph);
+        bool Apply(GRGEN_LIBGR.IGraph graph, System.Int32 dumpNodePackage_var_v);
         /// <summary> same as IAction.ApplyAll, but with exact types and distinct parameters; returns true if applied at least once. </summary>
-        bool ApplyAll(int maxMatches, GRGEN_LIBGR.IGraph graph);
+        bool ApplyAll(int maxMatches, GRGEN_LIBGR.IGraph graph, System.Int32 dumpNodePackage_var_v);
         /// <summary> same as IAction.ApplyStar, but with exact types and distinct parameters. </summary>
-        bool ApplyStar(GRGEN_LIBGR.IGraph graph);
+        bool ApplyStar(GRGEN_LIBGR.IGraph graph, System.Int32 dumpNodePackage_var_v);
         /// <summary> same as IAction.ApplyPlus, but with exact types and distinct parameters. </summary>
-        bool ApplyPlus(GRGEN_LIBGR.IGraph graph);
+        bool ApplyPlus(GRGEN_LIBGR.IGraph graph, System.Int32 dumpNodePackage_var_v);
         /// <summary> same as IAction.ApplyMinMax, but with exact types and distinct parameters. </summary>
-        bool ApplyMinMax(GRGEN_LIBGR.IGraph graph, int min, int max);
+        bool ApplyMinMax(GRGEN_LIBGR.IGraph graph, int min, int max, System.Int32 dumpNodePackage_var_v);
     }
     
     public class Action_dumpNodePackage : GRGEN_LGSP.LGSPAction, GRGEN_LIBGR.IAction, IAction_dumpNodePackage
@@ -31167,20 +31469,22 @@ maxMatchesIterReached:
         public static Action_dumpNodePackage Instance { get { return instance; } }
         private static Action_dumpNodePackage instance = new Action_dumpNodePackage();
         
-        public GRGEN_LIBGR.IMatchesExact<Rule_dumpNodePackage.IMatch_dumpNodePackage> myMatch(GRGEN_LGSP.LGSPGraph graph, int maxMatches)
+        public GRGEN_LIBGR.IMatchesExact<Rule_dumpNodePackage.IMatch_dumpNodePackage> myMatch(GRGEN_LGSP.LGSPGraph graph, int maxMatches, System.Int32 dumpNodePackage_var_v)
         {
             matches.Clear();
             int negLevel = 0;
+            System.Int32 var_dumpNodePackage_var_v = (System.Int32)dumpNodePackage_var_v;
             // Lookup dumpNodePackage_node_n 
             int type_id_candidate_dumpNodePackage_node_n = 1;
             for(GRGEN_LGSP.LGSPNode head_candidate_dumpNodePackage_node_n = graph.nodesByTypeHeads[type_id_candidate_dumpNodePackage_node_n], candidate_dumpNodePackage_node_n = head_candidate_dumpNodePackage_node_n.lgspTypeNext; candidate_dumpNodePackage_node_n != head_candidate_dumpNodePackage_node_n; candidate_dumpNodePackage_node_n = candidate_dumpNodePackage_node_n.lgspTypeNext)
             {
                 // Condition 
-                if(!(!graph.IsVisited(candidate_dumpNodePackage_node_n, 0))) {
+                if(!(!graph.IsVisited(candidate_dumpNodePackage_node_n, var_dumpNodePackage_var_v))) {
                     continue;
                 }
                 Rule_dumpNodePackage.Match_dumpNodePackage match = matches.GetNextUnfilledPosition();
                 match._node_n = candidate_dumpNodePackage_node_n;
+                match._var_v = var_dumpNodePackage_var_v;
                 matches.PositionWasFilledFixIt();
                 // if enough matches were found, we leave
                 if(maxMatches > 0 && matches.Count >= maxMatches)
@@ -31192,14 +31496,14 @@ maxMatchesIterReached:
             return matches;
         }
         /// <summary> Type of the matcher method (with parameters host graph, maximum number of matches to search for (zero=unlimited), and rule parameters; returning found matches). </summary>
-        public delegate GRGEN_LIBGR.IMatchesExact<Rule_dumpNodePackage.IMatch_dumpNodePackage> MatchInvoker(GRGEN_LGSP.LGSPGraph graph, int maxMatches);
+        public delegate GRGEN_LIBGR.IMatchesExact<Rule_dumpNodePackage.IMatch_dumpNodePackage> MatchInvoker(GRGEN_LGSP.LGSPGraph graph, int maxMatches, System.Int32 dumpNodePackage_var_v);
         /// <summary> A delegate pointing to the current matcher program for this rule. </summary>
         public MatchInvoker DynamicMatch;
         /// <summary> The RulePattern object from which this LGSPAction object has been created. </summary>
         public GRGEN_LIBGR.IRulePattern RulePattern { get { return _rulePattern; } }
-        public GRGEN_LIBGR.IMatchesExact<Rule_dumpNodePackage.IMatch_dumpNodePackage> Match(GRGEN_LIBGR.IGraph graph, int maxMatches)
+        public GRGEN_LIBGR.IMatchesExact<Rule_dumpNodePackage.IMatch_dumpNodePackage> Match(GRGEN_LIBGR.IGraph graph, int maxMatches, System.Int32 dumpNodePackage_var_v)
         {
-            return DynamicMatch((GRGEN_LGSP.LGSPGraph)graph, maxMatches);
+            return DynamicMatch((GRGEN_LGSP.LGSPGraph)graph, maxMatches, dumpNodePackage_var_v);
         }
         public void Modify(GRGEN_LIBGR.IGraph graph, Rule_dumpNodePackage.IMatch_dumpNodePackage match)
         {
@@ -31209,51 +31513,51 @@ maxMatchesIterReached:
         {
             foreach(Rule_dumpNodePackage.IMatch_dumpNodePackage match in matches) _rulePattern.Modify((GRGEN_LGSP.LGSPGraph)graph, match);
         }
-        public bool Apply(GRGEN_LIBGR.IGraph graph)
+        public bool Apply(GRGEN_LIBGR.IGraph graph, System.Int32 dumpNodePackage_var_v)
         {
-            GRGEN_LIBGR.IMatchesExact<Rule_dumpNodePackage.IMatch_dumpNodePackage> matches = DynamicMatch((GRGEN_LGSP.LGSPGraph)graph, 1);
+            GRGEN_LIBGR.IMatchesExact<Rule_dumpNodePackage.IMatch_dumpNodePackage> matches = DynamicMatch((GRGEN_LGSP.LGSPGraph)graph, 1, dumpNodePackage_var_v);
             if(matches.Count <= 0) return false;
             _rulePattern.Modify((GRGEN_LGSP.LGSPGraph)graph, matches.First);
             return true;
         }
-        public bool ApplyAll(int maxMatches, GRGEN_LIBGR.IGraph graph)
+        public bool ApplyAll(int maxMatches, GRGEN_LIBGR.IGraph graph, System.Int32 dumpNodePackage_var_v)
         {
-            GRGEN_LIBGR.IMatchesExact<Rule_dumpNodePackage.IMatch_dumpNodePackage> matches = DynamicMatch((GRGEN_LGSP.LGSPGraph)graph, maxMatches);
+            GRGEN_LIBGR.IMatchesExact<Rule_dumpNodePackage.IMatch_dumpNodePackage> matches = DynamicMatch((GRGEN_LGSP.LGSPGraph)graph, maxMatches, dumpNodePackage_var_v);
             if(matches.Count <= 0) return false;
             foreach(Rule_dumpNodePackage.IMatch_dumpNodePackage match in matches) _rulePattern.Modify((GRGEN_LGSP.LGSPGraph)graph, match);
             return true;
         }
-        public bool ApplyStar(GRGEN_LIBGR.IGraph graph)
+        public bool ApplyStar(GRGEN_LIBGR.IGraph graph, System.Int32 dumpNodePackage_var_v)
         {
             GRGEN_LIBGR.IMatchesExact<Rule_dumpNodePackage.IMatch_dumpNodePackage> matches;
             
             while(true)
             {
-                matches = DynamicMatch((GRGEN_LGSP.LGSPGraph)graph, 1);
+                matches = DynamicMatch((GRGEN_LGSP.LGSPGraph)graph, 1, dumpNodePackage_var_v);
                 if(matches.Count <= 0) return true;
                 _rulePattern.Modify((GRGEN_LGSP.LGSPGraph)graph, matches.First);
             }
         }
-        public bool ApplyPlus(GRGEN_LIBGR.IGraph graph)
+        public bool ApplyPlus(GRGEN_LIBGR.IGraph graph, System.Int32 dumpNodePackage_var_v)
         {
-            GRGEN_LIBGR.IMatchesExact<Rule_dumpNodePackage.IMatch_dumpNodePackage> matches = DynamicMatch((GRGEN_LGSP.LGSPGraph)graph, 1);
+            GRGEN_LIBGR.IMatchesExact<Rule_dumpNodePackage.IMatch_dumpNodePackage> matches = DynamicMatch((GRGEN_LGSP.LGSPGraph)graph, 1, dumpNodePackage_var_v);
             if(matches.Count <= 0) return false;
             
             do
             {
                 _rulePattern.Modify((GRGEN_LGSP.LGSPGraph)graph, matches.First);
-                matches = DynamicMatch((GRGEN_LGSP.LGSPGraph)graph, 1);
+                matches = DynamicMatch((GRGEN_LGSP.LGSPGraph)graph, 1, dumpNodePackage_var_v);
             }
             while(matches.Count > 0) ;
             return true;
         }
-        public bool ApplyMinMax(GRGEN_LIBGR.IGraph graph, int min, int max)
+        public bool ApplyMinMax(GRGEN_LIBGR.IGraph graph, int min, int max, System.Int32 dumpNodePackage_var_v)
         {
             GRGEN_LIBGR.IMatchesExact<Rule_dumpNodePackage.IMatch_dumpNodePackage> matches;
             
             for(int i = 0; i < max; i++)
             {
-                matches = DynamicMatch((GRGEN_LGSP.LGSPGraph)graph, 1);
+                matches = DynamicMatch((GRGEN_LGSP.LGSPGraph)graph, 1, dumpNodePackage_var_v);
                 if(matches.Count <= 0) return i >= min;
                 _rulePattern.Modify((GRGEN_LGSP.LGSPGraph)graph, matches.First);
             }
@@ -31262,7 +31566,7 @@ maxMatchesIterReached:
         // implementation of inexact action interface by delegation to exact action interface
         public GRGEN_LIBGR.IMatches Match(GRGEN_LIBGR.IGraph graph, int maxMatches, object[] parameters)
         {
-            return Match(graph, maxMatches);
+            return Match(graph, maxMatches, (System.Int32) parameters[0]);
         }
         public object[] Modify(GRGEN_LIBGR.IGraph graph, GRGEN_LIBGR.IMatch match)
         {
@@ -31278,59 +31582,51 @@ maxMatchesIterReached:
         }
         object[] GRGEN_LIBGR.IAction.Apply(GRGEN_LIBGR.IGraph graph)
         {
-            
-            if(Apply(graph)) {
-                return ReturnArray;
-            }
-            else return null;
+            throw new Exception();
         }
         object[] GRGEN_LIBGR.IAction.Apply(GRGEN_LIBGR.IGraph graph, params object[] parameters)
         {
             
-            if(Apply(graph)) {
+            if(Apply(graph, (System.Int32) parameters[0])) {
                 return ReturnArray;
             }
             else return null;
         }
         object[] GRGEN_LIBGR.IAction.ApplyAll(int maxMatches, GRGEN_LIBGR.IGraph graph)
         {
-            
-            if(ApplyAll(maxMatches, graph)) {
-                return ReturnArray;
-            }
-            else return null;
+            throw new Exception();
         }
         object[] GRGEN_LIBGR.IAction.ApplyAll(int maxMatches, GRGEN_LIBGR.IGraph graph, params object[] parameters)
         {
             
-            if(ApplyAll(maxMatches, graph)) {
+            if(ApplyAll(maxMatches, graph, (System.Int32) parameters[0])) {
                 return ReturnArray;
             }
             else return null;
         }
         bool GRGEN_LIBGR.IAction.ApplyStar(GRGEN_LIBGR.IGraph graph)
         {
-            return ApplyStar(graph);
+            throw new Exception(); return false;
         }
         bool GRGEN_LIBGR.IAction.ApplyStar(GRGEN_LIBGR.IGraph graph, params object[] parameters)
         {
-            return ApplyStar(graph);
+            return ApplyStar(graph, (System.Int32) parameters[0]);
         }
         bool GRGEN_LIBGR.IAction.ApplyPlus(GRGEN_LIBGR.IGraph graph)
         {
-            return ApplyPlus(graph);
+            throw new Exception(); return false;
         }
         bool GRGEN_LIBGR.IAction.ApplyPlus(GRGEN_LIBGR.IGraph graph, params object[] parameters)
         {
-            return ApplyPlus(graph);
+            return ApplyPlus(graph, (System.Int32) parameters[0]);
         }
         bool GRGEN_LIBGR.IAction.ApplyMinMax(GRGEN_LIBGR.IGraph graph, int min, int max)
         {
-            return ApplyMinMax(graph, min, max);
+            throw new Exception(); return false;
         }
         bool GRGEN_LIBGR.IAction.ApplyMinMax(GRGEN_LIBGR.IGraph graph, int min, int max, params object[] parameters)
         {
-            return ApplyMinMax(graph, min, max);
+            return ApplyMinMax(graph, min, max, (System.Int32) parameters[0]);
         }
     }
 
@@ -31340,21 +31636,21 @@ maxMatchesIterReached:
     public interface IAction_dumpNodeClass
     {
         /// <summary> same as IAction.Match, but with exact types and distinct parameters. </summary>
-        GRGEN_LIBGR.IMatchesExact<Rule_dumpNodeClass.IMatch_dumpNodeClass> Match(GRGEN_LIBGR.IGraph graph, int maxMatches);
+        GRGEN_LIBGR.IMatchesExact<Rule_dumpNodeClass.IMatch_dumpNodeClass> Match(GRGEN_LIBGR.IGraph graph, int maxMatches, System.Int32 dumpNodeClass_var_v);
         /// <summary> same as IAction.Modify, but with exact types and distinct parameters. </summary>
         void Modify(GRGEN_LIBGR.IGraph graph, Rule_dumpNodeClass.IMatch_dumpNodeClass match);
         /// <summary> same as IAction.ModifyAll, but with exact types and distinct parameters. </summary>
         void ModifyAll(GRGEN_LIBGR.IGraph graph, GRGEN_LIBGR.IMatchesExact<Rule_dumpNodeClass.IMatch_dumpNodeClass> matches);
         /// <summary> same as IAction.Apply, but with exact types and distinct parameters; returns true if applied </summary>
-        bool Apply(GRGEN_LIBGR.IGraph graph);
+        bool Apply(GRGEN_LIBGR.IGraph graph, System.Int32 dumpNodeClass_var_v);
         /// <summary> same as IAction.ApplyAll, but with exact types and distinct parameters; returns true if applied at least once. </summary>
-        bool ApplyAll(int maxMatches, GRGEN_LIBGR.IGraph graph);
+        bool ApplyAll(int maxMatches, GRGEN_LIBGR.IGraph graph, System.Int32 dumpNodeClass_var_v);
         /// <summary> same as IAction.ApplyStar, but with exact types and distinct parameters. </summary>
-        bool ApplyStar(GRGEN_LIBGR.IGraph graph);
+        bool ApplyStar(GRGEN_LIBGR.IGraph graph, System.Int32 dumpNodeClass_var_v);
         /// <summary> same as IAction.ApplyPlus, but with exact types and distinct parameters. </summary>
-        bool ApplyPlus(GRGEN_LIBGR.IGraph graph);
+        bool ApplyPlus(GRGEN_LIBGR.IGraph graph, System.Int32 dumpNodeClass_var_v);
         /// <summary> same as IAction.ApplyMinMax, but with exact types and distinct parameters. </summary>
-        bool ApplyMinMax(GRGEN_LIBGR.IGraph graph, int min, int max);
+        bool ApplyMinMax(GRGEN_LIBGR.IGraph graph, int min, int max, System.Int32 dumpNodeClass_var_v);
     }
     
     public class Action_dumpNodeClass : GRGEN_LGSP.LGSPAction, GRGEN_LIBGR.IAction, IAction_dumpNodeClass
@@ -31375,20 +31671,22 @@ maxMatchesIterReached:
         public static Action_dumpNodeClass Instance { get { return instance; } }
         private static Action_dumpNodeClass instance = new Action_dumpNodeClass();
         
-        public GRGEN_LIBGR.IMatchesExact<Rule_dumpNodeClass.IMatch_dumpNodeClass> myMatch(GRGEN_LGSP.LGSPGraph graph, int maxMatches)
+        public GRGEN_LIBGR.IMatchesExact<Rule_dumpNodeClass.IMatch_dumpNodeClass> myMatch(GRGEN_LGSP.LGSPGraph graph, int maxMatches, System.Int32 dumpNodeClass_var_v)
         {
             matches.Clear();
             int negLevel = 0;
+            System.Int32 var_dumpNodeClass_var_v = (System.Int32)dumpNodeClass_var_v;
             // Lookup dumpNodeClass_node_n 
             int type_id_candidate_dumpNodeClass_node_n = 3;
             for(GRGEN_LGSP.LGSPNode head_candidate_dumpNodeClass_node_n = graph.nodesByTypeHeads[type_id_candidate_dumpNodeClass_node_n], candidate_dumpNodeClass_node_n = head_candidate_dumpNodeClass_node_n.lgspTypeNext; candidate_dumpNodeClass_node_n != head_candidate_dumpNodeClass_node_n; candidate_dumpNodeClass_node_n = candidate_dumpNodeClass_node_n.lgspTypeNext)
             {
                 // Condition 
-                if(!(!graph.IsVisited(candidate_dumpNodeClass_node_n, 0))) {
+                if(!(!graph.IsVisited(candidate_dumpNodeClass_node_n, var_dumpNodeClass_var_v))) {
                     continue;
                 }
                 Rule_dumpNodeClass.Match_dumpNodeClass match = matches.GetNextUnfilledPosition();
                 match._node_n = candidate_dumpNodeClass_node_n;
+                match._var_v = var_dumpNodeClass_var_v;
                 matches.PositionWasFilledFixIt();
                 // if enough matches were found, we leave
                 if(maxMatches > 0 && matches.Count >= maxMatches)
@@ -31400,14 +31698,14 @@ maxMatchesIterReached:
             return matches;
         }
         /// <summary> Type of the matcher method (with parameters host graph, maximum number of matches to search for (zero=unlimited), and rule parameters; returning found matches). </summary>
-        public delegate GRGEN_LIBGR.IMatchesExact<Rule_dumpNodeClass.IMatch_dumpNodeClass> MatchInvoker(GRGEN_LGSP.LGSPGraph graph, int maxMatches);
+        public delegate GRGEN_LIBGR.IMatchesExact<Rule_dumpNodeClass.IMatch_dumpNodeClass> MatchInvoker(GRGEN_LGSP.LGSPGraph graph, int maxMatches, System.Int32 dumpNodeClass_var_v);
         /// <summary> A delegate pointing to the current matcher program for this rule. </summary>
         public MatchInvoker DynamicMatch;
         /// <summary> The RulePattern object from which this LGSPAction object has been created. </summary>
         public GRGEN_LIBGR.IRulePattern RulePattern { get { return _rulePattern; } }
-        public GRGEN_LIBGR.IMatchesExact<Rule_dumpNodeClass.IMatch_dumpNodeClass> Match(GRGEN_LIBGR.IGraph graph, int maxMatches)
+        public GRGEN_LIBGR.IMatchesExact<Rule_dumpNodeClass.IMatch_dumpNodeClass> Match(GRGEN_LIBGR.IGraph graph, int maxMatches, System.Int32 dumpNodeClass_var_v)
         {
-            return DynamicMatch((GRGEN_LGSP.LGSPGraph)graph, maxMatches);
+            return DynamicMatch((GRGEN_LGSP.LGSPGraph)graph, maxMatches, dumpNodeClass_var_v);
         }
         public void Modify(GRGEN_LIBGR.IGraph graph, Rule_dumpNodeClass.IMatch_dumpNodeClass match)
         {
@@ -31417,51 +31715,51 @@ maxMatchesIterReached:
         {
             foreach(Rule_dumpNodeClass.IMatch_dumpNodeClass match in matches) _rulePattern.Modify((GRGEN_LGSP.LGSPGraph)graph, match);
         }
-        public bool Apply(GRGEN_LIBGR.IGraph graph)
+        public bool Apply(GRGEN_LIBGR.IGraph graph, System.Int32 dumpNodeClass_var_v)
         {
-            GRGEN_LIBGR.IMatchesExact<Rule_dumpNodeClass.IMatch_dumpNodeClass> matches = DynamicMatch((GRGEN_LGSP.LGSPGraph)graph, 1);
+            GRGEN_LIBGR.IMatchesExact<Rule_dumpNodeClass.IMatch_dumpNodeClass> matches = DynamicMatch((GRGEN_LGSP.LGSPGraph)graph, 1, dumpNodeClass_var_v);
             if(matches.Count <= 0) return false;
             _rulePattern.Modify((GRGEN_LGSP.LGSPGraph)graph, matches.First);
             return true;
         }
-        public bool ApplyAll(int maxMatches, GRGEN_LIBGR.IGraph graph)
+        public bool ApplyAll(int maxMatches, GRGEN_LIBGR.IGraph graph, System.Int32 dumpNodeClass_var_v)
         {
-            GRGEN_LIBGR.IMatchesExact<Rule_dumpNodeClass.IMatch_dumpNodeClass> matches = DynamicMatch((GRGEN_LGSP.LGSPGraph)graph, maxMatches);
+            GRGEN_LIBGR.IMatchesExact<Rule_dumpNodeClass.IMatch_dumpNodeClass> matches = DynamicMatch((GRGEN_LGSP.LGSPGraph)graph, maxMatches, dumpNodeClass_var_v);
             if(matches.Count <= 0) return false;
             foreach(Rule_dumpNodeClass.IMatch_dumpNodeClass match in matches) _rulePattern.Modify((GRGEN_LGSP.LGSPGraph)graph, match);
             return true;
         }
-        public bool ApplyStar(GRGEN_LIBGR.IGraph graph)
+        public bool ApplyStar(GRGEN_LIBGR.IGraph graph, System.Int32 dumpNodeClass_var_v)
         {
             GRGEN_LIBGR.IMatchesExact<Rule_dumpNodeClass.IMatch_dumpNodeClass> matches;
             
             while(true)
             {
-                matches = DynamicMatch((GRGEN_LGSP.LGSPGraph)graph, 1);
+                matches = DynamicMatch((GRGEN_LGSP.LGSPGraph)graph, 1, dumpNodeClass_var_v);
                 if(matches.Count <= 0) return true;
                 _rulePattern.Modify((GRGEN_LGSP.LGSPGraph)graph, matches.First);
             }
         }
-        public bool ApplyPlus(GRGEN_LIBGR.IGraph graph)
+        public bool ApplyPlus(GRGEN_LIBGR.IGraph graph, System.Int32 dumpNodeClass_var_v)
         {
-            GRGEN_LIBGR.IMatchesExact<Rule_dumpNodeClass.IMatch_dumpNodeClass> matches = DynamicMatch((GRGEN_LGSP.LGSPGraph)graph, 1);
+            GRGEN_LIBGR.IMatchesExact<Rule_dumpNodeClass.IMatch_dumpNodeClass> matches = DynamicMatch((GRGEN_LGSP.LGSPGraph)graph, 1, dumpNodeClass_var_v);
             if(matches.Count <= 0) return false;
             
             do
             {
                 _rulePattern.Modify((GRGEN_LGSP.LGSPGraph)graph, matches.First);
-                matches = DynamicMatch((GRGEN_LGSP.LGSPGraph)graph, 1);
+                matches = DynamicMatch((GRGEN_LGSP.LGSPGraph)graph, 1, dumpNodeClass_var_v);
             }
             while(matches.Count > 0) ;
             return true;
         }
-        public bool ApplyMinMax(GRGEN_LIBGR.IGraph graph, int min, int max)
+        public bool ApplyMinMax(GRGEN_LIBGR.IGraph graph, int min, int max, System.Int32 dumpNodeClass_var_v)
         {
             GRGEN_LIBGR.IMatchesExact<Rule_dumpNodeClass.IMatch_dumpNodeClass> matches;
             
             for(int i = 0; i < max; i++)
             {
-                matches = DynamicMatch((GRGEN_LGSP.LGSPGraph)graph, 1);
+                matches = DynamicMatch((GRGEN_LGSP.LGSPGraph)graph, 1, dumpNodeClass_var_v);
                 if(matches.Count <= 0) return i >= min;
                 _rulePattern.Modify((GRGEN_LGSP.LGSPGraph)graph, matches.First);
             }
@@ -31470,7 +31768,7 @@ maxMatchesIterReached:
         // implementation of inexact action interface by delegation to exact action interface
         public GRGEN_LIBGR.IMatches Match(GRGEN_LIBGR.IGraph graph, int maxMatches, object[] parameters)
         {
-            return Match(graph, maxMatches);
+            return Match(graph, maxMatches, (System.Int32) parameters[0]);
         }
         public object[] Modify(GRGEN_LIBGR.IGraph graph, GRGEN_LIBGR.IMatch match)
         {
@@ -31486,59 +31784,51 @@ maxMatchesIterReached:
         }
         object[] GRGEN_LIBGR.IAction.Apply(GRGEN_LIBGR.IGraph graph)
         {
-            
-            if(Apply(graph)) {
-                return ReturnArray;
-            }
-            else return null;
+            throw new Exception();
         }
         object[] GRGEN_LIBGR.IAction.Apply(GRGEN_LIBGR.IGraph graph, params object[] parameters)
         {
             
-            if(Apply(graph)) {
+            if(Apply(graph, (System.Int32) parameters[0])) {
                 return ReturnArray;
             }
             else return null;
         }
         object[] GRGEN_LIBGR.IAction.ApplyAll(int maxMatches, GRGEN_LIBGR.IGraph graph)
         {
-            
-            if(ApplyAll(maxMatches, graph)) {
-                return ReturnArray;
-            }
-            else return null;
+            throw new Exception();
         }
         object[] GRGEN_LIBGR.IAction.ApplyAll(int maxMatches, GRGEN_LIBGR.IGraph graph, params object[] parameters)
         {
             
-            if(ApplyAll(maxMatches, graph)) {
+            if(ApplyAll(maxMatches, graph, (System.Int32) parameters[0])) {
                 return ReturnArray;
             }
             else return null;
         }
         bool GRGEN_LIBGR.IAction.ApplyStar(GRGEN_LIBGR.IGraph graph)
         {
-            return ApplyStar(graph);
+            throw new Exception(); return false;
         }
         bool GRGEN_LIBGR.IAction.ApplyStar(GRGEN_LIBGR.IGraph graph, params object[] parameters)
         {
-            return ApplyStar(graph);
+            return ApplyStar(graph, (System.Int32) parameters[0]);
         }
         bool GRGEN_LIBGR.IAction.ApplyPlus(GRGEN_LIBGR.IGraph graph)
         {
-            return ApplyPlus(graph);
+            throw new Exception(); return false;
         }
         bool GRGEN_LIBGR.IAction.ApplyPlus(GRGEN_LIBGR.IGraph graph, params object[] parameters)
         {
-            return ApplyPlus(graph);
+            return ApplyPlus(graph, (System.Int32) parameters[0]);
         }
         bool GRGEN_LIBGR.IAction.ApplyMinMax(GRGEN_LIBGR.IGraph graph, int min, int max)
         {
-            return ApplyMinMax(graph, min, max);
+            throw new Exception(); return false;
         }
         bool GRGEN_LIBGR.IAction.ApplyMinMax(GRGEN_LIBGR.IGraph graph, int min, int max, params object[] parameters)
         {
-            return ApplyMinMax(graph, min, max);
+            return ApplyMinMax(graph, min, max, (System.Int32) parameters[0]);
         }
     }
 
@@ -31548,21 +31838,21 @@ maxMatchesIterReached:
     public interface IAction_dumpNodeInterface
     {
         /// <summary> same as IAction.Match, but with exact types and distinct parameters. </summary>
-        GRGEN_LIBGR.IMatchesExact<Rule_dumpNodeInterface.IMatch_dumpNodeInterface> Match(GRGEN_LIBGR.IGraph graph, int maxMatches);
+        GRGEN_LIBGR.IMatchesExact<Rule_dumpNodeInterface.IMatch_dumpNodeInterface> Match(GRGEN_LIBGR.IGraph graph, int maxMatches, System.Int32 dumpNodeInterface_var_v);
         /// <summary> same as IAction.Modify, but with exact types and distinct parameters. </summary>
         void Modify(GRGEN_LIBGR.IGraph graph, Rule_dumpNodeInterface.IMatch_dumpNodeInterface match);
         /// <summary> same as IAction.ModifyAll, but with exact types and distinct parameters. </summary>
         void ModifyAll(GRGEN_LIBGR.IGraph graph, GRGEN_LIBGR.IMatchesExact<Rule_dumpNodeInterface.IMatch_dumpNodeInterface> matches);
         /// <summary> same as IAction.Apply, but with exact types and distinct parameters; returns true if applied </summary>
-        bool Apply(GRGEN_LIBGR.IGraph graph);
+        bool Apply(GRGEN_LIBGR.IGraph graph, System.Int32 dumpNodeInterface_var_v);
         /// <summary> same as IAction.ApplyAll, but with exact types and distinct parameters; returns true if applied at least once. </summary>
-        bool ApplyAll(int maxMatches, GRGEN_LIBGR.IGraph graph);
+        bool ApplyAll(int maxMatches, GRGEN_LIBGR.IGraph graph, System.Int32 dumpNodeInterface_var_v);
         /// <summary> same as IAction.ApplyStar, but with exact types and distinct parameters. </summary>
-        bool ApplyStar(GRGEN_LIBGR.IGraph graph);
+        bool ApplyStar(GRGEN_LIBGR.IGraph graph, System.Int32 dumpNodeInterface_var_v);
         /// <summary> same as IAction.ApplyPlus, but with exact types and distinct parameters. </summary>
-        bool ApplyPlus(GRGEN_LIBGR.IGraph graph);
+        bool ApplyPlus(GRGEN_LIBGR.IGraph graph, System.Int32 dumpNodeInterface_var_v);
         /// <summary> same as IAction.ApplyMinMax, but with exact types and distinct parameters. </summary>
-        bool ApplyMinMax(GRGEN_LIBGR.IGraph graph, int min, int max);
+        bool ApplyMinMax(GRGEN_LIBGR.IGraph graph, int min, int max, System.Int32 dumpNodeInterface_var_v);
     }
     
     public class Action_dumpNodeInterface : GRGEN_LGSP.LGSPAction, GRGEN_LIBGR.IAction, IAction_dumpNodeInterface
@@ -31583,20 +31873,22 @@ maxMatchesIterReached:
         public static Action_dumpNodeInterface Instance { get { return instance; } }
         private static Action_dumpNodeInterface instance = new Action_dumpNodeInterface();
         
-        public GRGEN_LIBGR.IMatchesExact<Rule_dumpNodeInterface.IMatch_dumpNodeInterface> myMatch(GRGEN_LGSP.LGSPGraph graph, int maxMatches)
+        public GRGEN_LIBGR.IMatchesExact<Rule_dumpNodeInterface.IMatch_dumpNodeInterface> myMatch(GRGEN_LGSP.LGSPGraph graph, int maxMatches, System.Int32 dumpNodeInterface_var_v)
         {
             matches.Clear();
             int negLevel = 0;
+            System.Int32 var_dumpNodeInterface_var_v = (System.Int32)dumpNodeInterface_var_v;
             // Lookup dumpNodeInterface_node_n 
             int type_id_candidate_dumpNodeInterface_node_n = 4;
             for(GRGEN_LGSP.LGSPNode head_candidate_dumpNodeInterface_node_n = graph.nodesByTypeHeads[type_id_candidate_dumpNodeInterface_node_n], candidate_dumpNodeInterface_node_n = head_candidate_dumpNodeInterface_node_n.lgspTypeNext; candidate_dumpNodeInterface_node_n != head_candidate_dumpNodeInterface_node_n; candidate_dumpNodeInterface_node_n = candidate_dumpNodeInterface_node_n.lgspTypeNext)
             {
                 // Condition 
-                if(!(!graph.IsVisited(candidate_dumpNodeInterface_node_n, 0))) {
+                if(!(!graph.IsVisited(candidate_dumpNodeInterface_node_n, var_dumpNodeInterface_var_v))) {
                     continue;
                 }
                 Rule_dumpNodeInterface.Match_dumpNodeInterface match = matches.GetNextUnfilledPosition();
                 match._node_n = candidate_dumpNodeInterface_node_n;
+                match._var_v = var_dumpNodeInterface_var_v;
                 matches.PositionWasFilledFixIt();
                 // if enough matches were found, we leave
                 if(maxMatches > 0 && matches.Count >= maxMatches)
@@ -31608,14 +31900,14 @@ maxMatchesIterReached:
             return matches;
         }
         /// <summary> Type of the matcher method (with parameters host graph, maximum number of matches to search for (zero=unlimited), and rule parameters; returning found matches). </summary>
-        public delegate GRGEN_LIBGR.IMatchesExact<Rule_dumpNodeInterface.IMatch_dumpNodeInterface> MatchInvoker(GRGEN_LGSP.LGSPGraph graph, int maxMatches);
+        public delegate GRGEN_LIBGR.IMatchesExact<Rule_dumpNodeInterface.IMatch_dumpNodeInterface> MatchInvoker(GRGEN_LGSP.LGSPGraph graph, int maxMatches, System.Int32 dumpNodeInterface_var_v);
         /// <summary> A delegate pointing to the current matcher program for this rule. </summary>
         public MatchInvoker DynamicMatch;
         /// <summary> The RulePattern object from which this LGSPAction object has been created. </summary>
         public GRGEN_LIBGR.IRulePattern RulePattern { get { return _rulePattern; } }
-        public GRGEN_LIBGR.IMatchesExact<Rule_dumpNodeInterface.IMatch_dumpNodeInterface> Match(GRGEN_LIBGR.IGraph graph, int maxMatches)
+        public GRGEN_LIBGR.IMatchesExact<Rule_dumpNodeInterface.IMatch_dumpNodeInterface> Match(GRGEN_LIBGR.IGraph graph, int maxMatches, System.Int32 dumpNodeInterface_var_v)
         {
-            return DynamicMatch((GRGEN_LGSP.LGSPGraph)graph, maxMatches);
+            return DynamicMatch((GRGEN_LGSP.LGSPGraph)graph, maxMatches, dumpNodeInterface_var_v);
         }
         public void Modify(GRGEN_LIBGR.IGraph graph, Rule_dumpNodeInterface.IMatch_dumpNodeInterface match)
         {
@@ -31625,51 +31917,51 @@ maxMatchesIterReached:
         {
             foreach(Rule_dumpNodeInterface.IMatch_dumpNodeInterface match in matches) _rulePattern.Modify((GRGEN_LGSP.LGSPGraph)graph, match);
         }
-        public bool Apply(GRGEN_LIBGR.IGraph graph)
+        public bool Apply(GRGEN_LIBGR.IGraph graph, System.Int32 dumpNodeInterface_var_v)
         {
-            GRGEN_LIBGR.IMatchesExact<Rule_dumpNodeInterface.IMatch_dumpNodeInterface> matches = DynamicMatch((GRGEN_LGSP.LGSPGraph)graph, 1);
+            GRGEN_LIBGR.IMatchesExact<Rule_dumpNodeInterface.IMatch_dumpNodeInterface> matches = DynamicMatch((GRGEN_LGSP.LGSPGraph)graph, 1, dumpNodeInterface_var_v);
             if(matches.Count <= 0) return false;
             _rulePattern.Modify((GRGEN_LGSP.LGSPGraph)graph, matches.First);
             return true;
         }
-        public bool ApplyAll(int maxMatches, GRGEN_LIBGR.IGraph graph)
+        public bool ApplyAll(int maxMatches, GRGEN_LIBGR.IGraph graph, System.Int32 dumpNodeInterface_var_v)
         {
-            GRGEN_LIBGR.IMatchesExact<Rule_dumpNodeInterface.IMatch_dumpNodeInterface> matches = DynamicMatch((GRGEN_LGSP.LGSPGraph)graph, maxMatches);
+            GRGEN_LIBGR.IMatchesExact<Rule_dumpNodeInterface.IMatch_dumpNodeInterface> matches = DynamicMatch((GRGEN_LGSP.LGSPGraph)graph, maxMatches, dumpNodeInterface_var_v);
             if(matches.Count <= 0) return false;
             foreach(Rule_dumpNodeInterface.IMatch_dumpNodeInterface match in matches) _rulePattern.Modify((GRGEN_LGSP.LGSPGraph)graph, match);
             return true;
         }
-        public bool ApplyStar(GRGEN_LIBGR.IGraph graph)
+        public bool ApplyStar(GRGEN_LIBGR.IGraph graph, System.Int32 dumpNodeInterface_var_v)
         {
             GRGEN_LIBGR.IMatchesExact<Rule_dumpNodeInterface.IMatch_dumpNodeInterface> matches;
             
             while(true)
             {
-                matches = DynamicMatch((GRGEN_LGSP.LGSPGraph)graph, 1);
+                matches = DynamicMatch((GRGEN_LGSP.LGSPGraph)graph, 1, dumpNodeInterface_var_v);
                 if(matches.Count <= 0) return true;
                 _rulePattern.Modify((GRGEN_LGSP.LGSPGraph)graph, matches.First);
             }
         }
-        public bool ApplyPlus(GRGEN_LIBGR.IGraph graph)
+        public bool ApplyPlus(GRGEN_LIBGR.IGraph graph, System.Int32 dumpNodeInterface_var_v)
         {
-            GRGEN_LIBGR.IMatchesExact<Rule_dumpNodeInterface.IMatch_dumpNodeInterface> matches = DynamicMatch((GRGEN_LGSP.LGSPGraph)graph, 1);
+            GRGEN_LIBGR.IMatchesExact<Rule_dumpNodeInterface.IMatch_dumpNodeInterface> matches = DynamicMatch((GRGEN_LGSP.LGSPGraph)graph, 1, dumpNodeInterface_var_v);
             if(matches.Count <= 0) return false;
             
             do
             {
                 _rulePattern.Modify((GRGEN_LGSP.LGSPGraph)graph, matches.First);
-                matches = DynamicMatch((GRGEN_LGSP.LGSPGraph)graph, 1);
+                matches = DynamicMatch((GRGEN_LGSP.LGSPGraph)graph, 1, dumpNodeInterface_var_v);
             }
             while(matches.Count > 0) ;
             return true;
         }
-        public bool ApplyMinMax(GRGEN_LIBGR.IGraph graph, int min, int max)
+        public bool ApplyMinMax(GRGEN_LIBGR.IGraph graph, int min, int max, System.Int32 dumpNodeInterface_var_v)
         {
             GRGEN_LIBGR.IMatchesExact<Rule_dumpNodeInterface.IMatch_dumpNodeInterface> matches;
             
             for(int i = 0; i < max; i++)
             {
-                matches = DynamicMatch((GRGEN_LGSP.LGSPGraph)graph, 1);
+                matches = DynamicMatch((GRGEN_LGSP.LGSPGraph)graph, 1, dumpNodeInterface_var_v);
                 if(matches.Count <= 0) return i >= min;
                 _rulePattern.Modify((GRGEN_LGSP.LGSPGraph)graph, matches.First);
             }
@@ -31678,7 +31970,7 @@ maxMatchesIterReached:
         // implementation of inexact action interface by delegation to exact action interface
         public GRGEN_LIBGR.IMatches Match(GRGEN_LIBGR.IGraph graph, int maxMatches, object[] parameters)
         {
-            return Match(graph, maxMatches);
+            return Match(graph, maxMatches, (System.Int32) parameters[0]);
         }
         public object[] Modify(GRGEN_LIBGR.IGraph graph, GRGEN_LIBGR.IMatch match)
         {
@@ -31694,59 +31986,51 @@ maxMatchesIterReached:
         }
         object[] GRGEN_LIBGR.IAction.Apply(GRGEN_LIBGR.IGraph graph)
         {
-            
-            if(Apply(graph)) {
-                return ReturnArray;
-            }
-            else return null;
+            throw new Exception();
         }
         object[] GRGEN_LIBGR.IAction.Apply(GRGEN_LIBGR.IGraph graph, params object[] parameters)
         {
             
-            if(Apply(graph)) {
+            if(Apply(graph, (System.Int32) parameters[0])) {
                 return ReturnArray;
             }
             else return null;
         }
         object[] GRGEN_LIBGR.IAction.ApplyAll(int maxMatches, GRGEN_LIBGR.IGraph graph)
         {
-            
-            if(ApplyAll(maxMatches, graph)) {
-                return ReturnArray;
-            }
-            else return null;
+            throw new Exception();
         }
         object[] GRGEN_LIBGR.IAction.ApplyAll(int maxMatches, GRGEN_LIBGR.IGraph graph, params object[] parameters)
         {
             
-            if(ApplyAll(maxMatches, graph)) {
+            if(ApplyAll(maxMatches, graph, (System.Int32) parameters[0])) {
                 return ReturnArray;
             }
             else return null;
         }
         bool GRGEN_LIBGR.IAction.ApplyStar(GRGEN_LIBGR.IGraph graph)
         {
-            return ApplyStar(graph);
+            throw new Exception(); return false;
         }
         bool GRGEN_LIBGR.IAction.ApplyStar(GRGEN_LIBGR.IGraph graph, params object[] parameters)
         {
-            return ApplyStar(graph);
+            return ApplyStar(graph, (System.Int32) parameters[0]);
         }
         bool GRGEN_LIBGR.IAction.ApplyPlus(GRGEN_LIBGR.IGraph graph)
         {
-            return ApplyPlus(graph);
+            throw new Exception(); return false;
         }
         bool GRGEN_LIBGR.IAction.ApplyPlus(GRGEN_LIBGR.IGraph graph, params object[] parameters)
         {
-            return ApplyPlus(graph);
+            return ApplyPlus(graph, (System.Int32) parameters[0]);
         }
         bool GRGEN_LIBGR.IAction.ApplyMinMax(GRGEN_LIBGR.IGraph graph, int min, int max)
         {
-            return ApplyMinMax(graph, min, max);
+            throw new Exception(); return false;
         }
         bool GRGEN_LIBGR.IAction.ApplyMinMax(GRGEN_LIBGR.IGraph graph, int min, int max, params object[] parameters)
         {
-            return ApplyMinMax(graph, min, max);
+            return ApplyMinMax(graph, min, max, (System.Int32) parameters[0]);
         }
     }
 
@@ -31756,21 +32040,21 @@ maxMatchesIterReached:
     public interface IAction_dumpNodeVariable
     {
         /// <summary> same as IAction.Match, but with exact types and distinct parameters. </summary>
-        GRGEN_LIBGR.IMatchesExact<Rule_dumpNodeVariable.IMatch_dumpNodeVariable> Match(GRGEN_LIBGR.IGraph graph, int maxMatches);
+        GRGEN_LIBGR.IMatchesExact<Rule_dumpNodeVariable.IMatch_dumpNodeVariable> Match(GRGEN_LIBGR.IGraph graph, int maxMatches, System.Int32 dumpNodeVariable_var_v);
         /// <summary> same as IAction.Modify, but with exact types and distinct parameters. </summary>
         void Modify(GRGEN_LIBGR.IGraph graph, Rule_dumpNodeVariable.IMatch_dumpNodeVariable match);
         /// <summary> same as IAction.ModifyAll, but with exact types and distinct parameters. </summary>
         void ModifyAll(GRGEN_LIBGR.IGraph graph, GRGEN_LIBGR.IMatchesExact<Rule_dumpNodeVariable.IMatch_dumpNodeVariable> matches);
         /// <summary> same as IAction.Apply, but with exact types and distinct parameters; returns true if applied </summary>
-        bool Apply(GRGEN_LIBGR.IGraph graph);
+        bool Apply(GRGEN_LIBGR.IGraph graph, System.Int32 dumpNodeVariable_var_v);
         /// <summary> same as IAction.ApplyAll, but with exact types and distinct parameters; returns true if applied at least once. </summary>
-        bool ApplyAll(int maxMatches, GRGEN_LIBGR.IGraph graph);
+        bool ApplyAll(int maxMatches, GRGEN_LIBGR.IGraph graph, System.Int32 dumpNodeVariable_var_v);
         /// <summary> same as IAction.ApplyStar, but with exact types and distinct parameters. </summary>
-        bool ApplyStar(GRGEN_LIBGR.IGraph graph);
+        bool ApplyStar(GRGEN_LIBGR.IGraph graph, System.Int32 dumpNodeVariable_var_v);
         /// <summary> same as IAction.ApplyPlus, but with exact types and distinct parameters. </summary>
-        bool ApplyPlus(GRGEN_LIBGR.IGraph graph);
+        bool ApplyPlus(GRGEN_LIBGR.IGraph graph, System.Int32 dumpNodeVariable_var_v);
         /// <summary> same as IAction.ApplyMinMax, but with exact types and distinct parameters. </summary>
-        bool ApplyMinMax(GRGEN_LIBGR.IGraph graph, int min, int max);
+        bool ApplyMinMax(GRGEN_LIBGR.IGraph graph, int min, int max, System.Int32 dumpNodeVariable_var_v);
     }
     
     public class Action_dumpNodeVariable : GRGEN_LGSP.LGSPAction, GRGEN_LIBGR.IAction, IAction_dumpNodeVariable
@@ -31791,20 +32075,22 @@ maxMatchesIterReached:
         public static Action_dumpNodeVariable Instance { get { return instance; } }
         private static Action_dumpNodeVariable instance = new Action_dumpNodeVariable();
         
-        public GRGEN_LIBGR.IMatchesExact<Rule_dumpNodeVariable.IMatch_dumpNodeVariable> myMatch(GRGEN_LGSP.LGSPGraph graph, int maxMatches)
+        public GRGEN_LIBGR.IMatchesExact<Rule_dumpNodeVariable.IMatch_dumpNodeVariable> myMatch(GRGEN_LGSP.LGSPGraph graph, int maxMatches, System.Int32 dumpNodeVariable_var_v)
         {
             matches.Clear();
             int negLevel = 0;
+            System.Int32 var_dumpNodeVariable_var_v = (System.Int32)dumpNodeVariable_var_v;
             // Lookup dumpNodeVariable_node_n 
             int type_id_candidate_dumpNodeVariable_node_n = 5;
             for(GRGEN_LGSP.LGSPNode head_candidate_dumpNodeVariable_node_n = graph.nodesByTypeHeads[type_id_candidate_dumpNodeVariable_node_n], candidate_dumpNodeVariable_node_n = head_candidate_dumpNodeVariable_node_n.lgspTypeNext; candidate_dumpNodeVariable_node_n != head_candidate_dumpNodeVariable_node_n; candidate_dumpNodeVariable_node_n = candidate_dumpNodeVariable_node_n.lgspTypeNext)
             {
                 // Condition 
-                if(!(!graph.IsVisited(candidate_dumpNodeVariable_node_n, 0))) {
+                if(!(!graph.IsVisited(candidate_dumpNodeVariable_node_n, var_dumpNodeVariable_var_v))) {
                     continue;
                 }
                 Rule_dumpNodeVariable.Match_dumpNodeVariable match = matches.GetNextUnfilledPosition();
                 match._node_n = candidate_dumpNodeVariable_node_n;
+                match._var_v = var_dumpNodeVariable_var_v;
                 matches.PositionWasFilledFixIt();
                 // if enough matches were found, we leave
                 if(maxMatches > 0 && matches.Count >= maxMatches)
@@ -31816,14 +32102,14 @@ maxMatchesIterReached:
             return matches;
         }
         /// <summary> Type of the matcher method (with parameters host graph, maximum number of matches to search for (zero=unlimited), and rule parameters; returning found matches). </summary>
-        public delegate GRGEN_LIBGR.IMatchesExact<Rule_dumpNodeVariable.IMatch_dumpNodeVariable> MatchInvoker(GRGEN_LGSP.LGSPGraph graph, int maxMatches);
+        public delegate GRGEN_LIBGR.IMatchesExact<Rule_dumpNodeVariable.IMatch_dumpNodeVariable> MatchInvoker(GRGEN_LGSP.LGSPGraph graph, int maxMatches, System.Int32 dumpNodeVariable_var_v);
         /// <summary> A delegate pointing to the current matcher program for this rule. </summary>
         public MatchInvoker DynamicMatch;
         /// <summary> The RulePattern object from which this LGSPAction object has been created. </summary>
         public GRGEN_LIBGR.IRulePattern RulePattern { get { return _rulePattern; } }
-        public GRGEN_LIBGR.IMatchesExact<Rule_dumpNodeVariable.IMatch_dumpNodeVariable> Match(GRGEN_LIBGR.IGraph graph, int maxMatches)
+        public GRGEN_LIBGR.IMatchesExact<Rule_dumpNodeVariable.IMatch_dumpNodeVariable> Match(GRGEN_LIBGR.IGraph graph, int maxMatches, System.Int32 dumpNodeVariable_var_v)
         {
-            return DynamicMatch((GRGEN_LGSP.LGSPGraph)graph, maxMatches);
+            return DynamicMatch((GRGEN_LGSP.LGSPGraph)graph, maxMatches, dumpNodeVariable_var_v);
         }
         public void Modify(GRGEN_LIBGR.IGraph graph, Rule_dumpNodeVariable.IMatch_dumpNodeVariable match)
         {
@@ -31833,51 +32119,51 @@ maxMatchesIterReached:
         {
             foreach(Rule_dumpNodeVariable.IMatch_dumpNodeVariable match in matches) _rulePattern.Modify((GRGEN_LGSP.LGSPGraph)graph, match);
         }
-        public bool Apply(GRGEN_LIBGR.IGraph graph)
+        public bool Apply(GRGEN_LIBGR.IGraph graph, System.Int32 dumpNodeVariable_var_v)
         {
-            GRGEN_LIBGR.IMatchesExact<Rule_dumpNodeVariable.IMatch_dumpNodeVariable> matches = DynamicMatch((GRGEN_LGSP.LGSPGraph)graph, 1);
+            GRGEN_LIBGR.IMatchesExact<Rule_dumpNodeVariable.IMatch_dumpNodeVariable> matches = DynamicMatch((GRGEN_LGSP.LGSPGraph)graph, 1, dumpNodeVariable_var_v);
             if(matches.Count <= 0) return false;
             _rulePattern.Modify((GRGEN_LGSP.LGSPGraph)graph, matches.First);
             return true;
         }
-        public bool ApplyAll(int maxMatches, GRGEN_LIBGR.IGraph graph)
+        public bool ApplyAll(int maxMatches, GRGEN_LIBGR.IGraph graph, System.Int32 dumpNodeVariable_var_v)
         {
-            GRGEN_LIBGR.IMatchesExact<Rule_dumpNodeVariable.IMatch_dumpNodeVariable> matches = DynamicMatch((GRGEN_LGSP.LGSPGraph)graph, maxMatches);
+            GRGEN_LIBGR.IMatchesExact<Rule_dumpNodeVariable.IMatch_dumpNodeVariable> matches = DynamicMatch((GRGEN_LGSP.LGSPGraph)graph, maxMatches, dumpNodeVariable_var_v);
             if(matches.Count <= 0) return false;
             foreach(Rule_dumpNodeVariable.IMatch_dumpNodeVariable match in matches) _rulePattern.Modify((GRGEN_LGSP.LGSPGraph)graph, match);
             return true;
         }
-        public bool ApplyStar(GRGEN_LIBGR.IGraph graph)
+        public bool ApplyStar(GRGEN_LIBGR.IGraph graph, System.Int32 dumpNodeVariable_var_v)
         {
             GRGEN_LIBGR.IMatchesExact<Rule_dumpNodeVariable.IMatch_dumpNodeVariable> matches;
             
             while(true)
             {
-                matches = DynamicMatch((GRGEN_LGSP.LGSPGraph)graph, 1);
+                matches = DynamicMatch((GRGEN_LGSP.LGSPGraph)graph, 1, dumpNodeVariable_var_v);
                 if(matches.Count <= 0) return true;
                 _rulePattern.Modify((GRGEN_LGSP.LGSPGraph)graph, matches.First);
             }
         }
-        public bool ApplyPlus(GRGEN_LIBGR.IGraph graph)
+        public bool ApplyPlus(GRGEN_LIBGR.IGraph graph, System.Int32 dumpNodeVariable_var_v)
         {
-            GRGEN_LIBGR.IMatchesExact<Rule_dumpNodeVariable.IMatch_dumpNodeVariable> matches = DynamicMatch((GRGEN_LGSP.LGSPGraph)graph, 1);
+            GRGEN_LIBGR.IMatchesExact<Rule_dumpNodeVariable.IMatch_dumpNodeVariable> matches = DynamicMatch((GRGEN_LGSP.LGSPGraph)graph, 1, dumpNodeVariable_var_v);
             if(matches.Count <= 0) return false;
             
             do
             {
                 _rulePattern.Modify((GRGEN_LGSP.LGSPGraph)graph, matches.First);
-                matches = DynamicMatch((GRGEN_LGSP.LGSPGraph)graph, 1);
+                matches = DynamicMatch((GRGEN_LGSP.LGSPGraph)graph, 1, dumpNodeVariable_var_v);
             }
             while(matches.Count > 0) ;
             return true;
         }
-        public bool ApplyMinMax(GRGEN_LIBGR.IGraph graph, int min, int max)
+        public bool ApplyMinMax(GRGEN_LIBGR.IGraph graph, int min, int max, System.Int32 dumpNodeVariable_var_v)
         {
             GRGEN_LIBGR.IMatchesExact<Rule_dumpNodeVariable.IMatch_dumpNodeVariable> matches;
             
             for(int i = 0; i < max; i++)
             {
-                matches = DynamicMatch((GRGEN_LGSP.LGSPGraph)graph, 1);
+                matches = DynamicMatch((GRGEN_LGSP.LGSPGraph)graph, 1, dumpNodeVariable_var_v);
                 if(matches.Count <= 0) return i >= min;
                 _rulePattern.Modify((GRGEN_LGSP.LGSPGraph)graph, matches.First);
             }
@@ -31886,7 +32172,7 @@ maxMatchesIterReached:
         // implementation of inexact action interface by delegation to exact action interface
         public GRGEN_LIBGR.IMatches Match(GRGEN_LIBGR.IGraph graph, int maxMatches, object[] parameters)
         {
-            return Match(graph, maxMatches);
+            return Match(graph, maxMatches, (System.Int32) parameters[0]);
         }
         public object[] Modify(GRGEN_LIBGR.IGraph graph, GRGEN_LIBGR.IMatch match)
         {
@@ -31902,59 +32188,51 @@ maxMatchesIterReached:
         }
         object[] GRGEN_LIBGR.IAction.Apply(GRGEN_LIBGR.IGraph graph)
         {
-            
-            if(Apply(graph)) {
-                return ReturnArray;
-            }
-            else return null;
+            throw new Exception();
         }
         object[] GRGEN_LIBGR.IAction.Apply(GRGEN_LIBGR.IGraph graph, params object[] parameters)
         {
             
-            if(Apply(graph)) {
+            if(Apply(graph, (System.Int32) parameters[0])) {
                 return ReturnArray;
             }
             else return null;
         }
         object[] GRGEN_LIBGR.IAction.ApplyAll(int maxMatches, GRGEN_LIBGR.IGraph graph)
         {
-            
-            if(ApplyAll(maxMatches, graph)) {
-                return ReturnArray;
-            }
-            else return null;
+            throw new Exception();
         }
         object[] GRGEN_LIBGR.IAction.ApplyAll(int maxMatches, GRGEN_LIBGR.IGraph graph, params object[] parameters)
         {
             
-            if(ApplyAll(maxMatches, graph)) {
+            if(ApplyAll(maxMatches, graph, (System.Int32) parameters[0])) {
                 return ReturnArray;
             }
             else return null;
         }
         bool GRGEN_LIBGR.IAction.ApplyStar(GRGEN_LIBGR.IGraph graph)
         {
-            return ApplyStar(graph);
+            throw new Exception(); return false;
         }
         bool GRGEN_LIBGR.IAction.ApplyStar(GRGEN_LIBGR.IGraph graph, params object[] parameters)
         {
-            return ApplyStar(graph);
+            return ApplyStar(graph, (System.Int32) parameters[0]);
         }
         bool GRGEN_LIBGR.IAction.ApplyPlus(GRGEN_LIBGR.IGraph graph)
         {
-            return ApplyPlus(graph);
+            throw new Exception(); return false;
         }
         bool GRGEN_LIBGR.IAction.ApplyPlus(GRGEN_LIBGR.IGraph graph, params object[] parameters)
         {
-            return ApplyPlus(graph);
+            return ApplyPlus(graph, (System.Int32) parameters[0]);
         }
         bool GRGEN_LIBGR.IAction.ApplyMinMax(GRGEN_LIBGR.IGraph graph, int min, int max)
         {
-            return ApplyMinMax(graph, min, max);
+            throw new Exception(); return false;
         }
         bool GRGEN_LIBGR.IAction.ApplyMinMax(GRGEN_LIBGR.IGraph graph, int min, int max, params object[] parameters)
         {
-            return ApplyMinMax(graph, min, max);
+            return ApplyMinMax(graph, min, max, (System.Int32) parameters[0]);
         }
     }
 
@@ -31964,21 +32242,21 @@ maxMatchesIterReached:
     public interface IAction_dumpNodeOperation
     {
         /// <summary> same as IAction.Match, but with exact types and distinct parameters. </summary>
-        GRGEN_LIBGR.IMatchesExact<Rule_dumpNodeOperation.IMatch_dumpNodeOperation> Match(GRGEN_LIBGR.IGraph graph, int maxMatches);
+        GRGEN_LIBGR.IMatchesExact<Rule_dumpNodeOperation.IMatch_dumpNodeOperation> Match(GRGEN_LIBGR.IGraph graph, int maxMatches, System.Int32 dumpNodeOperation_var_v);
         /// <summary> same as IAction.Modify, but with exact types and distinct parameters. </summary>
         void Modify(GRGEN_LIBGR.IGraph graph, Rule_dumpNodeOperation.IMatch_dumpNodeOperation match);
         /// <summary> same as IAction.ModifyAll, but with exact types and distinct parameters. </summary>
         void ModifyAll(GRGEN_LIBGR.IGraph graph, GRGEN_LIBGR.IMatchesExact<Rule_dumpNodeOperation.IMatch_dumpNodeOperation> matches);
         /// <summary> same as IAction.Apply, but with exact types and distinct parameters; returns true if applied </summary>
-        bool Apply(GRGEN_LIBGR.IGraph graph);
+        bool Apply(GRGEN_LIBGR.IGraph graph, System.Int32 dumpNodeOperation_var_v);
         /// <summary> same as IAction.ApplyAll, but with exact types and distinct parameters; returns true if applied at least once. </summary>
-        bool ApplyAll(int maxMatches, GRGEN_LIBGR.IGraph graph);
+        bool ApplyAll(int maxMatches, GRGEN_LIBGR.IGraph graph, System.Int32 dumpNodeOperation_var_v);
         /// <summary> same as IAction.ApplyStar, but with exact types and distinct parameters. </summary>
-        bool ApplyStar(GRGEN_LIBGR.IGraph graph);
+        bool ApplyStar(GRGEN_LIBGR.IGraph graph, System.Int32 dumpNodeOperation_var_v);
         /// <summary> same as IAction.ApplyPlus, but with exact types and distinct parameters. </summary>
-        bool ApplyPlus(GRGEN_LIBGR.IGraph graph);
+        bool ApplyPlus(GRGEN_LIBGR.IGraph graph, System.Int32 dumpNodeOperation_var_v);
         /// <summary> same as IAction.ApplyMinMax, but with exact types and distinct parameters. </summary>
-        bool ApplyMinMax(GRGEN_LIBGR.IGraph graph, int min, int max);
+        bool ApplyMinMax(GRGEN_LIBGR.IGraph graph, int min, int max, System.Int32 dumpNodeOperation_var_v);
     }
     
     public class Action_dumpNodeOperation : GRGEN_LGSP.LGSPAction, GRGEN_LIBGR.IAction, IAction_dumpNodeOperation
@@ -31999,20 +32277,22 @@ maxMatchesIterReached:
         public static Action_dumpNodeOperation Instance { get { return instance; } }
         private static Action_dumpNodeOperation instance = new Action_dumpNodeOperation();
         
-        public GRGEN_LIBGR.IMatchesExact<Rule_dumpNodeOperation.IMatch_dumpNodeOperation> myMatch(GRGEN_LGSP.LGSPGraph graph, int maxMatches)
+        public GRGEN_LIBGR.IMatchesExact<Rule_dumpNodeOperation.IMatch_dumpNodeOperation> myMatch(GRGEN_LGSP.LGSPGraph graph, int maxMatches, System.Int32 dumpNodeOperation_var_v)
         {
             matches.Clear();
             int negLevel = 0;
+            System.Int32 var_dumpNodeOperation_var_v = (System.Int32)dumpNodeOperation_var_v;
             // Lookup dumpNodeOperation_node_n 
             int type_id_candidate_dumpNodeOperation_node_n = 6;
             for(GRGEN_LGSP.LGSPNode head_candidate_dumpNodeOperation_node_n = graph.nodesByTypeHeads[type_id_candidate_dumpNodeOperation_node_n], candidate_dumpNodeOperation_node_n = head_candidate_dumpNodeOperation_node_n.lgspTypeNext; candidate_dumpNodeOperation_node_n != head_candidate_dumpNodeOperation_node_n; candidate_dumpNodeOperation_node_n = candidate_dumpNodeOperation_node_n.lgspTypeNext)
             {
                 // Condition 
-                if(!(!graph.IsVisited(candidate_dumpNodeOperation_node_n, 0))) {
+                if(!(!graph.IsVisited(candidate_dumpNodeOperation_node_n, var_dumpNodeOperation_var_v))) {
                     continue;
                 }
                 Rule_dumpNodeOperation.Match_dumpNodeOperation match = matches.GetNextUnfilledPosition();
                 match._node_n = candidate_dumpNodeOperation_node_n;
+                match._var_v = var_dumpNodeOperation_var_v;
                 matches.PositionWasFilledFixIt();
                 // if enough matches were found, we leave
                 if(maxMatches > 0 && matches.Count >= maxMatches)
@@ -32024,14 +32304,14 @@ maxMatchesIterReached:
             return matches;
         }
         /// <summary> Type of the matcher method (with parameters host graph, maximum number of matches to search for (zero=unlimited), and rule parameters; returning found matches). </summary>
-        public delegate GRGEN_LIBGR.IMatchesExact<Rule_dumpNodeOperation.IMatch_dumpNodeOperation> MatchInvoker(GRGEN_LGSP.LGSPGraph graph, int maxMatches);
+        public delegate GRGEN_LIBGR.IMatchesExact<Rule_dumpNodeOperation.IMatch_dumpNodeOperation> MatchInvoker(GRGEN_LGSP.LGSPGraph graph, int maxMatches, System.Int32 dumpNodeOperation_var_v);
         /// <summary> A delegate pointing to the current matcher program for this rule. </summary>
         public MatchInvoker DynamicMatch;
         /// <summary> The RulePattern object from which this LGSPAction object has been created. </summary>
         public GRGEN_LIBGR.IRulePattern RulePattern { get { return _rulePattern; } }
-        public GRGEN_LIBGR.IMatchesExact<Rule_dumpNodeOperation.IMatch_dumpNodeOperation> Match(GRGEN_LIBGR.IGraph graph, int maxMatches)
+        public GRGEN_LIBGR.IMatchesExact<Rule_dumpNodeOperation.IMatch_dumpNodeOperation> Match(GRGEN_LIBGR.IGraph graph, int maxMatches, System.Int32 dumpNodeOperation_var_v)
         {
-            return DynamicMatch((GRGEN_LGSP.LGSPGraph)graph, maxMatches);
+            return DynamicMatch((GRGEN_LGSP.LGSPGraph)graph, maxMatches, dumpNodeOperation_var_v);
         }
         public void Modify(GRGEN_LIBGR.IGraph graph, Rule_dumpNodeOperation.IMatch_dumpNodeOperation match)
         {
@@ -32041,51 +32321,51 @@ maxMatchesIterReached:
         {
             foreach(Rule_dumpNodeOperation.IMatch_dumpNodeOperation match in matches) _rulePattern.Modify((GRGEN_LGSP.LGSPGraph)graph, match);
         }
-        public bool Apply(GRGEN_LIBGR.IGraph graph)
+        public bool Apply(GRGEN_LIBGR.IGraph graph, System.Int32 dumpNodeOperation_var_v)
         {
-            GRGEN_LIBGR.IMatchesExact<Rule_dumpNodeOperation.IMatch_dumpNodeOperation> matches = DynamicMatch((GRGEN_LGSP.LGSPGraph)graph, 1);
+            GRGEN_LIBGR.IMatchesExact<Rule_dumpNodeOperation.IMatch_dumpNodeOperation> matches = DynamicMatch((GRGEN_LGSP.LGSPGraph)graph, 1, dumpNodeOperation_var_v);
             if(matches.Count <= 0) return false;
             _rulePattern.Modify((GRGEN_LGSP.LGSPGraph)graph, matches.First);
             return true;
         }
-        public bool ApplyAll(int maxMatches, GRGEN_LIBGR.IGraph graph)
+        public bool ApplyAll(int maxMatches, GRGEN_LIBGR.IGraph graph, System.Int32 dumpNodeOperation_var_v)
         {
-            GRGEN_LIBGR.IMatchesExact<Rule_dumpNodeOperation.IMatch_dumpNodeOperation> matches = DynamicMatch((GRGEN_LGSP.LGSPGraph)graph, maxMatches);
+            GRGEN_LIBGR.IMatchesExact<Rule_dumpNodeOperation.IMatch_dumpNodeOperation> matches = DynamicMatch((GRGEN_LGSP.LGSPGraph)graph, maxMatches, dumpNodeOperation_var_v);
             if(matches.Count <= 0) return false;
             foreach(Rule_dumpNodeOperation.IMatch_dumpNodeOperation match in matches) _rulePattern.Modify((GRGEN_LGSP.LGSPGraph)graph, match);
             return true;
         }
-        public bool ApplyStar(GRGEN_LIBGR.IGraph graph)
+        public bool ApplyStar(GRGEN_LIBGR.IGraph graph, System.Int32 dumpNodeOperation_var_v)
         {
             GRGEN_LIBGR.IMatchesExact<Rule_dumpNodeOperation.IMatch_dumpNodeOperation> matches;
             
             while(true)
             {
-                matches = DynamicMatch((GRGEN_LGSP.LGSPGraph)graph, 1);
+                matches = DynamicMatch((GRGEN_LGSP.LGSPGraph)graph, 1, dumpNodeOperation_var_v);
                 if(matches.Count <= 0) return true;
                 _rulePattern.Modify((GRGEN_LGSP.LGSPGraph)graph, matches.First);
             }
         }
-        public bool ApplyPlus(GRGEN_LIBGR.IGraph graph)
+        public bool ApplyPlus(GRGEN_LIBGR.IGraph graph, System.Int32 dumpNodeOperation_var_v)
         {
-            GRGEN_LIBGR.IMatchesExact<Rule_dumpNodeOperation.IMatch_dumpNodeOperation> matches = DynamicMatch((GRGEN_LGSP.LGSPGraph)graph, 1);
+            GRGEN_LIBGR.IMatchesExact<Rule_dumpNodeOperation.IMatch_dumpNodeOperation> matches = DynamicMatch((GRGEN_LGSP.LGSPGraph)graph, 1, dumpNodeOperation_var_v);
             if(matches.Count <= 0) return false;
             
             do
             {
                 _rulePattern.Modify((GRGEN_LGSP.LGSPGraph)graph, matches.First);
-                matches = DynamicMatch((GRGEN_LGSP.LGSPGraph)graph, 1);
+                matches = DynamicMatch((GRGEN_LGSP.LGSPGraph)graph, 1, dumpNodeOperation_var_v);
             }
             while(matches.Count > 0) ;
             return true;
         }
-        public bool ApplyMinMax(GRGEN_LIBGR.IGraph graph, int min, int max)
+        public bool ApplyMinMax(GRGEN_LIBGR.IGraph graph, int min, int max, System.Int32 dumpNodeOperation_var_v)
         {
             GRGEN_LIBGR.IMatchesExact<Rule_dumpNodeOperation.IMatch_dumpNodeOperation> matches;
             
             for(int i = 0; i < max; i++)
             {
-                matches = DynamicMatch((GRGEN_LGSP.LGSPGraph)graph, 1);
+                matches = DynamicMatch((GRGEN_LGSP.LGSPGraph)graph, 1, dumpNodeOperation_var_v);
                 if(matches.Count <= 0) return i >= min;
                 _rulePattern.Modify((GRGEN_LGSP.LGSPGraph)graph, matches.First);
             }
@@ -32094,7 +32374,7 @@ maxMatchesIterReached:
         // implementation of inexact action interface by delegation to exact action interface
         public GRGEN_LIBGR.IMatches Match(GRGEN_LIBGR.IGraph graph, int maxMatches, object[] parameters)
         {
-            return Match(graph, maxMatches);
+            return Match(graph, maxMatches, (System.Int32) parameters[0]);
         }
         public object[] Modify(GRGEN_LIBGR.IGraph graph, GRGEN_LIBGR.IMatch match)
         {
@@ -32110,59 +32390,51 @@ maxMatchesIterReached:
         }
         object[] GRGEN_LIBGR.IAction.Apply(GRGEN_LIBGR.IGraph graph)
         {
-            
-            if(Apply(graph)) {
-                return ReturnArray;
-            }
-            else return null;
+            throw new Exception();
         }
         object[] GRGEN_LIBGR.IAction.Apply(GRGEN_LIBGR.IGraph graph, params object[] parameters)
         {
             
-            if(Apply(graph)) {
+            if(Apply(graph, (System.Int32) parameters[0])) {
                 return ReturnArray;
             }
             else return null;
         }
         object[] GRGEN_LIBGR.IAction.ApplyAll(int maxMatches, GRGEN_LIBGR.IGraph graph)
         {
-            
-            if(ApplyAll(maxMatches, graph)) {
-                return ReturnArray;
-            }
-            else return null;
+            throw new Exception();
         }
         object[] GRGEN_LIBGR.IAction.ApplyAll(int maxMatches, GRGEN_LIBGR.IGraph graph, params object[] parameters)
         {
             
-            if(ApplyAll(maxMatches, graph)) {
+            if(ApplyAll(maxMatches, graph, (System.Int32) parameters[0])) {
                 return ReturnArray;
             }
             else return null;
         }
         bool GRGEN_LIBGR.IAction.ApplyStar(GRGEN_LIBGR.IGraph graph)
         {
-            return ApplyStar(graph);
+            throw new Exception(); return false;
         }
         bool GRGEN_LIBGR.IAction.ApplyStar(GRGEN_LIBGR.IGraph graph, params object[] parameters)
         {
-            return ApplyStar(graph);
+            return ApplyStar(graph, (System.Int32) parameters[0]);
         }
         bool GRGEN_LIBGR.IAction.ApplyPlus(GRGEN_LIBGR.IGraph graph)
         {
-            return ApplyPlus(graph);
+            throw new Exception(); return false;
         }
         bool GRGEN_LIBGR.IAction.ApplyPlus(GRGEN_LIBGR.IGraph graph, params object[] parameters)
         {
-            return ApplyPlus(graph);
+            return ApplyPlus(graph, (System.Int32) parameters[0]);
         }
         bool GRGEN_LIBGR.IAction.ApplyMinMax(GRGEN_LIBGR.IGraph graph, int min, int max)
         {
-            return ApplyMinMax(graph, min, max);
+            throw new Exception(); return false;
         }
         bool GRGEN_LIBGR.IAction.ApplyMinMax(GRGEN_LIBGR.IGraph graph, int min, int max, params object[] parameters)
         {
-            return ApplyMinMax(graph, min, max);
+            return ApplyMinMax(graph, min, max, (System.Int32) parameters[0]);
         }
     }
 
@@ -32172,21 +32444,21 @@ maxMatchesIterReached:
     public interface IAction_dumpNodeMethodBody
     {
         /// <summary> same as IAction.Match, but with exact types and distinct parameters. </summary>
-        GRGEN_LIBGR.IMatchesExact<Rule_dumpNodeMethodBody.IMatch_dumpNodeMethodBody> Match(GRGEN_LIBGR.IGraph graph, int maxMatches);
+        GRGEN_LIBGR.IMatchesExact<Rule_dumpNodeMethodBody.IMatch_dumpNodeMethodBody> Match(GRGEN_LIBGR.IGraph graph, int maxMatches, System.Int32 dumpNodeMethodBody_var_v);
         /// <summary> same as IAction.Modify, but with exact types and distinct parameters. </summary>
         void Modify(GRGEN_LIBGR.IGraph graph, Rule_dumpNodeMethodBody.IMatch_dumpNodeMethodBody match);
         /// <summary> same as IAction.ModifyAll, but with exact types and distinct parameters. </summary>
         void ModifyAll(GRGEN_LIBGR.IGraph graph, GRGEN_LIBGR.IMatchesExact<Rule_dumpNodeMethodBody.IMatch_dumpNodeMethodBody> matches);
         /// <summary> same as IAction.Apply, but with exact types and distinct parameters; returns true if applied </summary>
-        bool Apply(GRGEN_LIBGR.IGraph graph);
+        bool Apply(GRGEN_LIBGR.IGraph graph, System.Int32 dumpNodeMethodBody_var_v);
         /// <summary> same as IAction.ApplyAll, but with exact types and distinct parameters; returns true if applied at least once. </summary>
-        bool ApplyAll(int maxMatches, GRGEN_LIBGR.IGraph graph);
+        bool ApplyAll(int maxMatches, GRGEN_LIBGR.IGraph graph, System.Int32 dumpNodeMethodBody_var_v);
         /// <summary> same as IAction.ApplyStar, but with exact types and distinct parameters. </summary>
-        bool ApplyStar(GRGEN_LIBGR.IGraph graph);
+        bool ApplyStar(GRGEN_LIBGR.IGraph graph, System.Int32 dumpNodeMethodBody_var_v);
         /// <summary> same as IAction.ApplyPlus, but with exact types and distinct parameters. </summary>
-        bool ApplyPlus(GRGEN_LIBGR.IGraph graph);
+        bool ApplyPlus(GRGEN_LIBGR.IGraph graph, System.Int32 dumpNodeMethodBody_var_v);
         /// <summary> same as IAction.ApplyMinMax, but with exact types and distinct parameters. </summary>
-        bool ApplyMinMax(GRGEN_LIBGR.IGraph graph, int min, int max);
+        bool ApplyMinMax(GRGEN_LIBGR.IGraph graph, int min, int max, System.Int32 dumpNodeMethodBody_var_v);
     }
     
     public class Action_dumpNodeMethodBody : GRGEN_LGSP.LGSPAction, GRGEN_LIBGR.IAction, IAction_dumpNodeMethodBody
@@ -32207,20 +32479,22 @@ maxMatchesIterReached:
         public static Action_dumpNodeMethodBody Instance { get { return instance; } }
         private static Action_dumpNodeMethodBody instance = new Action_dumpNodeMethodBody();
         
-        public GRGEN_LIBGR.IMatchesExact<Rule_dumpNodeMethodBody.IMatch_dumpNodeMethodBody> myMatch(GRGEN_LGSP.LGSPGraph graph, int maxMatches)
+        public GRGEN_LIBGR.IMatchesExact<Rule_dumpNodeMethodBody.IMatch_dumpNodeMethodBody> myMatch(GRGEN_LGSP.LGSPGraph graph, int maxMatches, System.Int32 dumpNodeMethodBody_var_v)
         {
             matches.Clear();
             int negLevel = 0;
+            System.Int32 var_dumpNodeMethodBody_var_v = (System.Int32)dumpNodeMethodBody_var_v;
             // Lookup dumpNodeMethodBody_node_n 
             int type_id_candidate_dumpNodeMethodBody_node_n = 7;
             for(GRGEN_LGSP.LGSPNode head_candidate_dumpNodeMethodBody_node_n = graph.nodesByTypeHeads[type_id_candidate_dumpNodeMethodBody_node_n], candidate_dumpNodeMethodBody_node_n = head_candidate_dumpNodeMethodBody_node_n.lgspTypeNext; candidate_dumpNodeMethodBody_node_n != head_candidate_dumpNodeMethodBody_node_n; candidate_dumpNodeMethodBody_node_n = candidate_dumpNodeMethodBody_node_n.lgspTypeNext)
             {
                 // Condition 
-                if(!(!graph.IsVisited(candidate_dumpNodeMethodBody_node_n, 0))) {
+                if(!(!graph.IsVisited(candidate_dumpNodeMethodBody_node_n, var_dumpNodeMethodBody_var_v))) {
                     continue;
                 }
                 Rule_dumpNodeMethodBody.Match_dumpNodeMethodBody match = matches.GetNextUnfilledPosition();
                 match._node_n = candidate_dumpNodeMethodBody_node_n;
+                match._var_v = var_dumpNodeMethodBody_var_v;
                 matches.PositionWasFilledFixIt();
                 // if enough matches were found, we leave
                 if(maxMatches > 0 && matches.Count >= maxMatches)
@@ -32232,14 +32506,14 @@ maxMatchesIterReached:
             return matches;
         }
         /// <summary> Type of the matcher method (with parameters host graph, maximum number of matches to search for (zero=unlimited), and rule parameters; returning found matches). </summary>
-        public delegate GRGEN_LIBGR.IMatchesExact<Rule_dumpNodeMethodBody.IMatch_dumpNodeMethodBody> MatchInvoker(GRGEN_LGSP.LGSPGraph graph, int maxMatches);
+        public delegate GRGEN_LIBGR.IMatchesExact<Rule_dumpNodeMethodBody.IMatch_dumpNodeMethodBody> MatchInvoker(GRGEN_LGSP.LGSPGraph graph, int maxMatches, System.Int32 dumpNodeMethodBody_var_v);
         /// <summary> A delegate pointing to the current matcher program for this rule. </summary>
         public MatchInvoker DynamicMatch;
         /// <summary> The RulePattern object from which this LGSPAction object has been created. </summary>
         public GRGEN_LIBGR.IRulePattern RulePattern { get { return _rulePattern; } }
-        public GRGEN_LIBGR.IMatchesExact<Rule_dumpNodeMethodBody.IMatch_dumpNodeMethodBody> Match(GRGEN_LIBGR.IGraph graph, int maxMatches)
+        public GRGEN_LIBGR.IMatchesExact<Rule_dumpNodeMethodBody.IMatch_dumpNodeMethodBody> Match(GRGEN_LIBGR.IGraph graph, int maxMatches, System.Int32 dumpNodeMethodBody_var_v)
         {
-            return DynamicMatch((GRGEN_LGSP.LGSPGraph)graph, maxMatches);
+            return DynamicMatch((GRGEN_LGSP.LGSPGraph)graph, maxMatches, dumpNodeMethodBody_var_v);
         }
         public void Modify(GRGEN_LIBGR.IGraph graph, Rule_dumpNodeMethodBody.IMatch_dumpNodeMethodBody match)
         {
@@ -32249,51 +32523,51 @@ maxMatchesIterReached:
         {
             foreach(Rule_dumpNodeMethodBody.IMatch_dumpNodeMethodBody match in matches) _rulePattern.Modify((GRGEN_LGSP.LGSPGraph)graph, match);
         }
-        public bool Apply(GRGEN_LIBGR.IGraph graph)
+        public bool Apply(GRGEN_LIBGR.IGraph graph, System.Int32 dumpNodeMethodBody_var_v)
         {
-            GRGEN_LIBGR.IMatchesExact<Rule_dumpNodeMethodBody.IMatch_dumpNodeMethodBody> matches = DynamicMatch((GRGEN_LGSP.LGSPGraph)graph, 1);
+            GRGEN_LIBGR.IMatchesExact<Rule_dumpNodeMethodBody.IMatch_dumpNodeMethodBody> matches = DynamicMatch((GRGEN_LGSP.LGSPGraph)graph, 1, dumpNodeMethodBody_var_v);
             if(matches.Count <= 0) return false;
             _rulePattern.Modify((GRGEN_LGSP.LGSPGraph)graph, matches.First);
             return true;
         }
-        public bool ApplyAll(int maxMatches, GRGEN_LIBGR.IGraph graph)
+        public bool ApplyAll(int maxMatches, GRGEN_LIBGR.IGraph graph, System.Int32 dumpNodeMethodBody_var_v)
         {
-            GRGEN_LIBGR.IMatchesExact<Rule_dumpNodeMethodBody.IMatch_dumpNodeMethodBody> matches = DynamicMatch((GRGEN_LGSP.LGSPGraph)graph, maxMatches);
+            GRGEN_LIBGR.IMatchesExact<Rule_dumpNodeMethodBody.IMatch_dumpNodeMethodBody> matches = DynamicMatch((GRGEN_LGSP.LGSPGraph)graph, maxMatches, dumpNodeMethodBody_var_v);
             if(matches.Count <= 0) return false;
             foreach(Rule_dumpNodeMethodBody.IMatch_dumpNodeMethodBody match in matches) _rulePattern.Modify((GRGEN_LGSP.LGSPGraph)graph, match);
             return true;
         }
-        public bool ApplyStar(GRGEN_LIBGR.IGraph graph)
+        public bool ApplyStar(GRGEN_LIBGR.IGraph graph, System.Int32 dumpNodeMethodBody_var_v)
         {
             GRGEN_LIBGR.IMatchesExact<Rule_dumpNodeMethodBody.IMatch_dumpNodeMethodBody> matches;
             
             while(true)
             {
-                matches = DynamicMatch((GRGEN_LGSP.LGSPGraph)graph, 1);
+                matches = DynamicMatch((GRGEN_LGSP.LGSPGraph)graph, 1, dumpNodeMethodBody_var_v);
                 if(matches.Count <= 0) return true;
                 _rulePattern.Modify((GRGEN_LGSP.LGSPGraph)graph, matches.First);
             }
         }
-        public bool ApplyPlus(GRGEN_LIBGR.IGraph graph)
+        public bool ApplyPlus(GRGEN_LIBGR.IGraph graph, System.Int32 dumpNodeMethodBody_var_v)
         {
-            GRGEN_LIBGR.IMatchesExact<Rule_dumpNodeMethodBody.IMatch_dumpNodeMethodBody> matches = DynamicMatch((GRGEN_LGSP.LGSPGraph)graph, 1);
+            GRGEN_LIBGR.IMatchesExact<Rule_dumpNodeMethodBody.IMatch_dumpNodeMethodBody> matches = DynamicMatch((GRGEN_LGSP.LGSPGraph)graph, 1, dumpNodeMethodBody_var_v);
             if(matches.Count <= 0) return false;
             
             do
             {
                 _rulePattern.Modify((GRGEN_LGSP.LGSPGraph)graph, matches.First);
-                matches = DynamicMatch((GRGEN_LGSP.LGSPGraph)graph, 1);
+                matches = DynamicMatch((GRGEN_LGSP.LGSPGraph)graph, 1, dumpNodeMethodBody_var_v);
             }
             while(matches.Count > 0) ;
             return true;
         }
-        public bool ApplyMinMax(GRGEN_LIBGR.IGraph graph, int min, int max)
+        public bool ApplyMinMax(GRGEN_LIBGR.IGraph graph, int min, int max, System.Int32 dumpNodeMethodBody_var_v)
         {
             GRGEN_LIBGR.IMatchesExact<Rule_dumpNodeMethodBody.IMatch_dumpNodeMethodBody> matches;
             
             for(int i = 0; i < max; i++)
             {
-                matches = DynamicMatch((GRGEN_LGSP.LGSPGraph)graph, 1);
+                matches = DynamicMatch((GRGEN_LGSP.LGSPGraph)graph, 1, dumpNodeMethodBody_var_v);
                 if(matches.Count <= 0) return i >= min;
                 _rulePattern.Modify((GRGEN_LGSP.LGSPGraph)graph, matches.First);
             }
@@ -32302,7 +32576,7 @@ maxMatchesIterReached:
         // implementation of inexact action interface by delegation to exact action interface
         public GRGEN_LIBGR.IMatches Match(GRGEN_LIBGR.IGraph graph, int maxMatches, object[] parameters)
         {
-            return Match(graph, maxMatches);
+            return Match(graph, maxMatches, (System.Int32) parameters[0]);
         }
         public object[] Modify(GRGEN_LIBGR.IGraph graph, GRGEN_LIBGR.IMatch match)
         {
@@ -32318,59 +32592,51 @@ maxMatchesIterReached:
         }
         object[] GRGEN_LIBGR.IAction.Apply(GRGEN_LIBGR.IGraph graph)
         {
-            
-            if(Apply(graph)) {
-                return ReturnArray;
-            }
-            else return null;
+            throw new Exception();
         }
         object[] GRGEN_LIBGR.IAction.Apply(GRGEN_LIBGR.IGraph graph, params object[] parameters)
         {
             
-            if(Apply(graph)) {
+            if(Apply(graph, (System.Int32) parameters[0])) {
                 return ReturnArray;
             }
             else return null;
         }
         object[] GRGEN_LIBGR.IAction.ApplyAll(int maxMatches, GRGEN_LIBGR.IGraph graph)
         {
-            
-            if(ApplyAll(maxMatches, graph)) {
-                return ReturnArray;
-            }
-            else return null;
+            throw new Exception();
         }
         object[] GRGEN_LIBGR.IAction.ApplyAll(int maxMatches, GRGEN_LIBGR.IGraph graph, params object[] parameters)
         {
             
-            if(ApplyAll(maxMatches, graph)) {
+            if(ApplyAll(maxMatches, graph, (System.Int32) parameters[0])) {
                 return ReturnArray;
             }
             else return null;
         }
         bool GRGEN_LIBGR.IAction.ApplyStar(GRGEN_LIBGR.IGraph graph)
         {
-            return ApplyStar(graph);
+            throw new Exception(); return false;
         }
         bool GRGEN_LIBGR.IAction.ApplyStar(GRGEN_LIBGR.IGraph graph, params object[] parameters)
         {
-            return ApplyStar(graph);
+            return ApplyStar(graph, (System.Int32) parameters[0]);
         }
         bool GRGEN_LIBGR.IAction.ApplyPlus(GRGEN_LIBGR.IGraph graph)
         {
-            return ApplyPlus(graph);
+            throw new Exception(); return false;
         }
         bool GRGEN_LIBGR.IAction.ApplyPlus(GRGEN_LIBGR.IGraph graph, params object[] parameters)
         {
-            return ApplyPlus(graph);
+            return ApplyPlus(graph, (System.Int32) parameters[0]);
         }
         bool GRGEN_LIBGR.IAction.ApplyMinMax(GRGEN_LIBGR.IGraph graph, int min, int max)
         {
-            return ApplyMinMax(graph, min, max);
+            throw new Exception(); return false;
         }
         bool GRGEN_LIBGR.IAction.ApplyMinMax(GRGEN_LIBGR.IGraph graph, int min, int max, params object[] parameters)
         {
-            return ApplyMinMax(graph, min, max);
+            return ApplyMinMax(graph, min, max, (System.Int32) parameters[0]);
         }
     }
 
@@ -32380,21 +32646,21 @@ maxMatchesIterReached:
     public interface IAction_dumpNodeAccess
     {
         /// <summary> same as IAction.Match, but with exact types and distinct parameters. </summary>
-        GRGEN_LIBGR.IMatchesExact<Rule_dumpNodeAccess.IMatch_dumpNodeAccess> Match(GRGEN_LIBGR.IGraph graph, int maxMatches);
+        GRGEN_LIBGR.IMatchesExact<Rule_dumpNodeAccess.IMatch_dumpNodeAccess> Match(GRGEN_LIBGR.IGraph graph, int maxMatches, System.Int32 dumpNodeAccess_var_v);
         /// <summary> same as IAction.Modify, but with exact types and distinct parameters. </summary>
         void Modify(GRGEN_LIBGR.IGraph graph, Rule_dumpNodeAccess.IMatch_dumpNodeAccess match);
         /// <summary> same as IAction.ModifyAll, but with exact types and distinct parameters. </summary>
         void ModifyAll(GRGEN_LIBGR.IGraph graph, GRGEN_LIBGR.IMatchesExact<Rule_dumpNodeAccess.IMatch_dumpNodeAccess> matches);
         /// <summary> same as IAction.Apply, but with exact types and distinct parameters; returns true if applied </summary>
-        bool Apply(GRGEN_LIBGR.IGraph graph);
+        bool Apply(GRGEN_LIBGR.IGraph graph, System.Int32 dumpNodeAccess_var_v);
         /// <summary> same as IAction.ApplyAll, but with exact types and distinct parameters; returns true if applied at least once. </summary>
-        bool ApplyAll(int maxMatches, GRGEN_LIBGR.IGraph graph);
+        bool ApplyAll(int maxMatches, GRGEN_LIBGR.IGraph graph, System.Int32 dumpNodeAccess_var_v);
         /// <summary> same as IAction.ApplyStar, but with exact types and distinct parameters. </summary>
-        bool ApplyStar(GRGEN_LIBGR.IGraph graph);
+        bool ApplyStar(GRGEN_LIBGR.IGraph graph, System.Int32 dumpNodeAccess_var_v);
         /// <summary> same as IAction.ApplyPlus, but with exact types and distinct parameters. </summary>
-        bool ApplyPlus(GRGEN_LIBGR.IGraph graph);
+        bool ApplyPlus(GRGEN_LIBGR.IGraph graph, System.Int32 dumpNodeAccess_var_v);
         /// <summary> same as IAction.ApplyMinMax, but with exact types and distinct parameters. </summary>
-        bool ApplyMinMax(GRGEN_LIBGR.IGraph graph, int min, int max);
+        bool ApplyMinMax(GRGEN_LIBGR.IGraph graph, int min, int max, System.Int32 dumpNodeAccess_var_v);
     }
     
     public class Action_dumpNodeAccess : GRGEN_LGSP.LGSPAction, GRGEN_LIBGR.IAction, IAction_dumpNodeAccess
@@ -32415,20 +32681,22 @@ maxMatchesIterReached:
         public static Action_dumpNodeAccess Instance { get { return instance; } }
         private static Action_dumpNodeAccess instance = new Action_dumpNodeAccess();
         
-        public GRGEN_LIBGR.IMatchesExact<Rule_dumpNodeAccess.IMatch_dumpNodeAccess> myMatch(GRGEN_LGSP.LGSPGraph graph, int maxMatches)
+        public GRGEN_LIBGR.IMatchesExact<Rule_dumpNodeAccess.IMatch_dumpNodeAccess> myMatch(GRGEN_LGSP.LGSPGraph graph, int maxMatches, System.Int32 dumpNodeAccess_var_v)
         {
             matches.Clear();
             int negLevel = 0;
+            System.Int32 var_dumpNodeAccess_var_v = (System.Int32)dumpNodeAccess_var_v;
             // Lookup dumpNodeAccess_node_n 
             int type_id_candidate_dumpNodeAccess_node_n = 9;
             for(GRGEN_LGSP.LGSPNode head_candidate_dumpNodeAccess_node_n = graph.nodesByTypeHeads[type_id_candidate_dumpNodeAccess_node_n], candidate_dumpNodeAccess_node_n = head_candidate_dumpNodeAccess_node_n.lgspTypeNext; candidate_dumpNodeAccess_node_n != head_candidate_dumpNodeAccess_node_n; candidate_dumpNodeAccess_node_n = candidate_dumpNodeAccess_node_n.lgspTypeNext)
             {
                 // Condition 
-                if(!(!graph.IsVisited(candidate_dumpNodeAccess_node_n, 0))) {
+                if(!(!graph.IsVisited(candidate_dumpNodeAccess_node_n, var_dumpNodeAccess_var_v))) {
                     continue;
                 }
                 Rule_dumpNodeAccess.Match_dumpNodeAccess match = matches.GetNextUnfilledPosition();
                 match._node_n = candidate_dumpNodeAccess_node_n;
+                match._var_v = var_dumpNodeAccess_var_v;
                 matches.PositionWasFilledFixIt();
                 // if enough matches were found, we leave
                 if(maxMatches > 0 && matches.Count >= maxMatches)
@@ -32440,14 +32708,14 @@ maxMatchesIterReached:
             return matches;
         }
         /// <summary> Type of the matcher method (with parameters host graph, maximum number of matches to search for (zero=unlimited), and rule parameters; returning found matches). </summary>
-        public delegate GRGEN_LIBGR.IMatchesExact<Rule_dumpNodeAccess.IMatch_dumpNodeAccess> MatchInvoker(GRGEN_LGSP.LGSPGraph graph, int maxMatches);
+        public delegate GRGEN_LIBGR.IMatchesExact<Rule_dumpNodeAccess.IMatch_dumpNodeAccess> MatchInvoker(GRGEN_LGSP.LGSPGraph graph, int maxMatches, System.Int32 dumpNodeAccess_var_v);
         /// <summary> A delegate pointing to the current matcher program for this rule. </summary>
         public MatchInvoker DynamicMatch;
         /// <summary> The RulePattern object from which this LGSPAction object has been created. </summary>
         public GRGEN_LIBGR.IRulePattern RulePattern { get { return _rulePattern; } }
-        public GRGEN_LIBGR.IMatchesExact<Rule_dumpNodeAccess.IMatch_dumpNodeAccess> Match(GRGEN_LIBGR.IGraph graph, int maxMatches)
+        public GRGEN_LIBGR.IMatchesExact<Rule_dumpNodeAccess.IMatch_dumpNodeAccess> Match(GRGEN_LIBGR.IGraph graph, int maxMatches, System.Int32 dumpNodeAccess_var_v)
         {
-            return DynamicMatch((GRGEN_LGSP.LGSPGraph)graph, maxMatches);
+            return DynamicMatch((GRGEN_LGSP.LGSPGraph)graph, maxMatches, dumpNodeAccess_var_v);
         }
         public void Modify(GRGEN_LIBGR.IGraph graph, Rule_dumpNodeAccess.IMatch_dumpNodeAccess match)
         {
@@ -32457,51 +32725,51 @@ maxMatchesIterReached:
         {
             foreach(Rule_dumpNodeAccess.IMatch_dumpNodeAccess match in matches) _rulePattern.Modify((GRGEN_LGSP.LGSPGraph)graph, match);
         }
-        public bool Apply(GRGEN_LIBGR.IGraph graph)
+        public bool Apply(GRGEN_LIBGR.IGraph graph, System.Int32 dumpNodeAccess_var_v)
         {
-            GRGEN_LIBGR.IMatchesExact<Rule_dumpNodeAccess.IMatch_dumpNodeAccess> matches = DynamicMatch((GRGEN_LGSP.LGSPGraph)graph, 1);
+            GRGEN_LIBGR.IMatchesExact<Rule_dumpNodeAccess.IMatch_dumpNodeAccess> matches = DynamicMatch((GRGEN_LGSP.LGSPGraph)graph, 1, dumpNodeAccess_var_v);
             if(matches.Count <= 0) return false;
             _rulePattern.Modify((GRGEN_LGSP.LGSPGraph)graph, matches.First);
             return true;
         }
-        public bool ApplyAll(int maxMatches, GRGEN_LIBGR.IGraph graph)
+        public bool ApplyAll(int maxMatches, GRGEN_LIBGR.IGraph graph, System.Int32 dumpNodeAccess_var_v)
         {
-            GRGEN_LIBGR.IMatchesExact<Rule_dumpNodeAccess.IMatch_dumpNodeAccess> matches = DynamicMatch((GRGEN_LGSP.LGSPGraph)graph, maxMatches);
+            GRGEN_LIBGR.IMatchesExact<Rule_dumpNodeAccess.IMatch_dumpNodeAccess> matches = DynamicMatch((GRGEN_LGSP.LGSPGraph)graph, maxMatches, dumpNodeAccess_var_v);
             if(matches.Count <= 0) return false;
             foreach(Rule_dumpNodeAccess.IMatch_dumpNodeAccess match in matches) _rulePattern.Modify((GRGEN_LGSP.LGSPGraph)graph, match);
             return true;
         }
-        public bool ApplyStar(GRGEN_LIBGR.IGraph graph)
+        public bool ApplyStar(GRGEN_LIBGR.IGraph graph, System.Int32 dumpNodeAccess_var_v)
         {
             GRGEN_LIBGR.IMatchesExact<Rule_dumpNodeAccess.IMatch_dumpNodeAccess> matches;
             
             while(true)
             {
-                matches = DynamicMatch((GRGEN_LGSP.LGSPGraph)graph, 1);
+                matches = DynamicMatch((GRGEN_LGSP.LGSPGraph)graph, 1, dumpNodeAccess_var_v);
                 if(matches.Count <= 0) return true;
                 _rulePattern.Modify((GRGEN_LGSP.LGSPGraph)graph, matches.First);
             }
         }
-        public bool ApplyPlus(GRGEN_LIBGR.IGraph graph)
+        public bool ApplyPlus(GRGEN_LIBGR.IGraph graph, System.Int32 dumpNodeAccess_var_v)
         {
-            GRGEN_LIBGR.IMatchesExact<Rule_dumpNodeAccess.IMatch_dumpNodeAccess> matches = DynamicMatch((GRGEN_LGSP.LGSPGraph)graph, 1);
+            GRGEN_LIBGR.IMatchesExact<Rule_dumpNodeAccess.IMatch_dumpNodeAccess> matches = DynamicMatch((GRGEN_LGSP.LGSPGraph)graph, 1, dumpNodeAccess_var_v);
             if(matches.Count <= 0) return false;
             
             do
             {
                 _rulePattern.Modify((GRGEN_LGSP.LGSPGraph)graph, matches.First);
-                matches = DynamicMatch((GRGEN_LGSP.LGSPGraph)graph, 1);
+                matches = DynamicMatch((GRGEN_LGSP.LGSPGraph)graph, 1, dumpNodeAccess_var_v);
             }
             while(matches.Count > 0) ;
             return true;
         }
-        public bool ApplyMinMax(GRGEN_LIBGR.IGraph graph, int min, int max)
+        public bool ApplyMinMax(GRGEN_LIBGR.IGraph graph, int min, int max, System.Int32 dumpNodeAccess_var_v)
         {
             GRGEN_LIBGR.IMatchesExact<Rule_dumpNodeAccess.IMatch_dumpNodeAccess> matches;
             
             for(int i = 0; i < max; i++)
             {
-                matches = DynamicMatch((GRGEN_LGSP.LGSPGraph)graph, 1);
+                matches = DynamicMatch((GRGEN_LGSP.LGSPGraph)graph, 1, dumpNodeAccess_var_v);
                 if(matches.Count <= 0) return i >= min;
                 _rulePattern.Modify((GRGEN_LGSP.LGSPGraph)graph, matches.First);
             }
@@ -32510,7 +32778,7 @@ maxMatchesIterReached:
         // implementation of inexact action interface by delegation to exact action interface
         public GRGEN_LIBGR.IMatches Match(GRGEN_LIBGR.IGraph graph, int maxMatches, object[] parameters)
         {
-            return Match(graph, maxMatches);
+            return Match(graph, maxMatches, (System.Int32) parameters[0]);
         }
         public object[] Modify(GRGEN_LIBGR.IGraph graph, GRGEN_LIBGR.IMatch match)
         {
@@ -32526,59 +32794,51 @@ maxMatchesIterReached:
         }
         object[] GRGEN_LIBGR.IAction.Apply(GRGEN_LIBGR.IGraph graph)
         {
-            
-            if(Apply(graph)) {
-                return ReturnArray;
-            }
-            else return null;
+            throw new Exception();
         }
         object[] GRGEN_LIBGR.IAction.Apply(GRGEN_LIBGR.IGraph graph, params object[] parameters)
         {
             
-            if(Apply(graph)) {
+            if(Apply(graph, (System.Int32) parameters[0])) {
                 return ReturnArray;
             }
             else return null;
         }
         object[] GRGEN_LIBGR.IAction.ApplyAll(int maxMatches, GRGEN_LIBGR.IGraph graph)
         {
-            
-            if(ApplyAll(maxMatches, graph)) {
-                return ReturnArray;
-            }
-            else return null;
+            throw new Exception();
         }
         object[] GRGEN_LIBGR.IAction.ApplyAll(int maxMatches, GRGEN_LIBGR.IGraph graph, params object[] parameters)
         {
             
-            if(ApplyAll(maxMatches, graph)) {
+            if(ApplyAll(maxMatches, graph, (System.Int32) parameters[0])) {
                 return ReturnArray;
             }
             else return null;
         }
         bool GRGEN_LIBGR.IAction.ApplyStar(GRGEN_LIBGR.IGraph graph)
         {
-            return ApplyStar(graph);
+            throw new Exception(); return false;
         }
         bool GRGEN_LIBGR.IAction.ApplyStar(GRGEN_LIBGR.IGraph graph, params object[] parameters)
         {
-            return ApplyStar(graph);
+            return ApplyStar(graph, (System.Int32) parameters[0]);
         }
         bool GRGEN_LIBGR.IAction.ApplyPlus(GRGEN_LIBGR.IGraph graph)
         {
-            return ApplyPlus(graph);
+            throw new Exception(); return false;
         }
         bool GRGEN_LIBGR.IAction.ApplyPlus(GRGEN_LIBGR.IGraph graph, params object[] parameters)
         {
-            return ApplyPlus(graph);
+            return ApplyPlus(graph, (System.Int32) parameters[0]);
         }
         bool GRGEN_LIBGR.IAction.ApplyMinMax(GRGEN_LIBGR.IGraph graph, int min, int max)
         {
-            return ApplyMinMax(graph, min, max);
+            throw new Exception(); return false;
         }
         bool GRGEN_LIBGR.IAction.ApplyMinMax(GRGEN_LIBGR.IGraph graph, int min, int max, params object[] parameters)
         {
-            return ApplyMinMax(graph, min, max);
+            return ApplyMinMax(graph, min, max, (System.Int32) parameters[0]);
         }
     }
 
@@ -32588,21 +32848,21 @@ maxMatchesIterReached:
     public interface IAction_dumpNodeUpdate
     {
         /// <summary> same as IAction.Match, but with exact types and distinct parameters. </summary>
-        GRGEN_LIBGR.IMatchesExact<Rule_dumpNodeUpdate.IMatch_dumpNodeUpdate> Match(GRGEN_LIBGR.IGraph graph, int maxMatches);
+        GRGEN_LIBGR.IMatchesExact<Rule_dumpNodeUpdate.IMatch_dumpNodeUpdate> Match(GRGEN_LIBGR.IGraph graph, int maxMatches, System.Int32 dumpNodeUpdate_var_v);
         /// <summary> same as IAction.Modify, but with exact types and distinct parameters. </summary>
         void Modify(GRGEN_LIBGR.IGraph graph, Rule_dumpNodeUpdate.IMatch_dumpNodeUpdate match);
         /// <summary> same as IAction.ModifyAll, but with exact types and distinct parameters. </summary>
         void ModifyAll(GRGEN_LIBGR.IGraph graph, GRGEN_LIBGR.IMatchesExact<Rule_dumpNodeUpdate.IMatch_dumpNodeUpdate> matches);
         /// <summary> same as IAction.Apply, but with exact types and distinct parameters; returns true if applied </summary>
-        bool Apply(GRGEN_LIBGR.IGraph graph);
+        bool Apply(GRGEN_LIBGR.IGraph graph, System.Int32 dumpNodeUpdate_var_v);
         /// <summary> same as IAction.ApplyAll, but with exact types and distinct parameters; returns true if applied at least once. </summary>
-        bool ApplyAll(int maxMatches, GRGEN_LIBGR.IGraph graph);
+        bool ApplyAll(int maxMatches, GRGEN_LIBGR.IGraph graph, System.Int32 dumpNodeUpdate_var_v);
         /// <summary> same as IAction.ApplyStar, but with exact types and distinct parameters. </summary>
-        bool ApplyStar(GRGEN_LIBGR.IGraph graph);
+        bool ApplyStar(GRGEN_LIBGR.IGraph graph, System.Int32 dumpNodeUpdate_var_v);
         /// <summary> same as IAction.ApplyPlus, but with exact types and distinct parameters. </summary>
-        bool ApplyPlus(GRGEN_LIBGR.IGraph graph);
+        bool ApplyPlus(GRGEN_LIBGR.IGraph graph, System.Int32 dumpNodeUpdate_var_v);
         /// <summary> same as IAction.ApplyMinMax, but with exact types and distinct parameters. </summary>
-        bool ApplyMinMax(GRGEN_LIBGR.IGraph graph, int min, int max);
+        bool ApplyMinMax(GRGEN_LIBGR.IGraph graph, int min, int max, System.Int32 dumpNodeUpdate_var_v);
     }
     
     public class Action_dumpNodeUpdate : GRGEN_LGSP.LGSPAction, GRGEN_LIBGR.IAction, IAction_dumpNodeUpdate
@@ -32623,20 +32883,22 @@ maxMatchesIterReached:
         public static Action_dumpNodeUpdate Instance { get { return instance; } }
         private static Action_dumpNodeUpdate instance = new Action_dumpNodeUpdate();
         
-        public GRGEN_LIBGR.IMatchesExact<Rule_dumpNodeUpdate.IMatch_dumpNodeUpdate> myMatch(GRGEN_LGSP.LGSPGraph graph, int maxMatches)
+        public GRGEN_LIBGR.IMatchesExact<Rule_dumpNodeUpdate.IMatch_dumpNodeUpdate> myMatch(GRGEN_LGSP.LGSPGraph graph, int maxMatches, System.Int32 dumpNodeUpdate_var_v)
         {
             matches.Clear();
             int negLevel = 0;
+            System.Int32 var_dumpNodeUpdate_var_v = (System.Int32)dumpNodeUpdate_var_v;
             // Lookup dumpNodeUpdate_node_n 
             int type_id_candidate_dumpNodeUpdate_node_n = 10;
             for(GRGEN_LGSP.LGSPNode head_candidate_dumpNodeUpdate_node_n = graph.nodesByTypeHeads[type_id_candidate_dumpNodeUpdate_node_n], candidate_dumpNodeUpdate_node_n = head_candidate_dumpNodeUpdate_node_n.lgspTypeNext; candidate_dumpNodeUpdate_node_n != head_candidate_dumpNodeUpdate_node_n; candidate_dumpNodeUpdate_node_n = candidate_dumpNodeUpdate_node_n.lgspTypeNext)
             {
                 // Condition 
-                if(!(!graph.IsVisited(candidate_dumpNodeUpdate_node_n, 0))) {
+                if(!(!graph.IsVisited(candidate_dumpNodeUpdate_node_n, var_dumpNodeUpdate_var_v))) {
                     continue;
                 }
                 Rule_dumpNodeUpdate.Match_dumpNodeUpdate match = matches.GetNextUnfilledPosition();
                 match._node_n = candidate_dumpNodeUpdate_node_n;
+                match._var_v = var_dumpNodeUpdate_var_v;
                 matches.PositionWasFilledFixIt();
                 // if enough matches were found, we leave
                 if(maxMatches > 0 && matches.Count >= maxMatches)
@@ -32648,14 +32910,14 @@ maxMatchesIterReached:
             return matches;
         }
         /// <summary> Type of the matcher method (with parameters host graph, maximum number of matches to search for (zero=unlimited), and rule parameters; returning found matches). </summary>
-        public delegate GRGEN_LIBGR.IMatchesExact<Rule_dumpNodeUpdate.IMatch_dumpNodeUpdate> MatchInvoker(GRGEN_LGSP.LGSPGraph graph, int maxMatches);
+        public delegate GRGEN_LIBGR.IMatchesExact<Rule_dumpNodeUpdate.IMatch_dumpNodeUpdate> MatchInvoker(GRGEN_LGSP.LGSPGraph graph, int maxMatches, System.Int32 dumpNodeUpdate_var_v);
         /// <summary> A delegate pointing to the current matcher program for this rule. </summary>
         public MatchInvoker DynamicMatch;
         /// <summary> The RulePattern object from which this LGSPAction object has been created. </summary>
         public GRGEN_LIBGR.IRulePattern RulePattern { get { return _rulePattern; } }
-        public GRGEN_LIBGR.IMatchesExact<Rule_dumpNodeUpdate.IMatch_dumpNodeUpdate> Match(GRGEN_LIBGR.IGraph graph, int maxMatches)
+        public GRGEN_LIBGR.IMatchesExact<Rule_dumpNodeUpdate.IMatch_dumpNodeUpdate> Match(GRGEN_LIBGR.IGraph graph, int maxMatches, System.Int32 dumpNodeUpdate_var_v)
         {
-            return DynamicMatch((GRGEN_LGSP.LGSPGraph)graph, maxMatches);
+            return DynamicMatch((GRGEN_LGSP.LGSPGraph)graph, maxMatches, dumpNodeUpdate_var_v);
         }
         public void Modify(GRGEN_LIBGR.IGraph graph, Rule_dumpNodeUpdate.IMatch_dumpNodeUpdate match)
         {
@@ -32665,51 +32927,51 @@ maxMatchesIterReached:
         {
             foreach(Rule_dumpNodeUpdate.IMatch_dumpNodeUpdate match in matches) _rulePattern.Modify((GRGEN_LGSP.LGSPGraph)graph, match);
         }
-        public bool Apply(GRGEN_LIBGR.IGraph graph)
+        public bool Apply(GRGEN_LIBGR.IGraph graph, System.Int32 dumpNodeUpdate_var_v)
         {
-            GRGEN_LIBGR.IMatchesExact<Rule_dumpNodeUpdate.IMatch_dumpNodeUpdate> matches = DynamicMatch((GRGEN_LGSP.LGSPGraph)graph, 1);
+            GRGEN_LIBGR.IMatchesExact<Rule_dumpNodeUpdate.IMatch_dumpNodeUpdate> matches = DynamicMatch((GRGEN_LGSP.LGSPGraph)graph, 1, dumpNodeUpdate_var_v);
             if(matches.Count <= 0) return false;
             _rulePattern.Modify((GRGEN_LGSP.LGSPGraph)graph, matches.First);
             return true;
         }
-        public bool ApplyAll(int maxMatches, GRGEN_LIBGR.IGraph graph)
+        public bool ApplyAll(int maxMatches, GRGEN_LIBGR.IGraph graph, System.Int32 dumpNodeUpdate_var_v)
         {
-            GRGEN_LIBGR.IMatchesExact<Rule_dumpNodeUpdate.IMatch_dumpNodeUpdate> matches = DynamicMatch((GRGEN_LGSP.LGSPGraph)graph, maxMatches);
+            GRGEN_LIBGR.IMatchesExact<Rule_dumpNodeUpdate.IMatch_dumpNodeUpdate> matches = DynamicMatch((GRGEN_LGSP.LGSPGraph)graph, maxMatches, dumpNodeUpdate_var_v);
             if(matches.Count <= 0) return false;
             foreach(Rule_dumpNodeUpdate.IMatch_dumpNodeUpdate match in matches) _rulePattern.Modify((GRGEN_LGSP.LGSPGraph)graph, match);
             return true;
         }
-        public bool ApplyStar(GRGEN_LIBGR.IGraph graph)
+        public bool ApplyStar(GRGEN_LIBGR.IGraph graph, System.Int32 dumpNodeUpdate_var_v)
         {
             GRGEN_LIBGR.IMatchesExact<Rule_dumpNodeUpdate.IMatch_dumpNodeUpdate> matches;
             
             while(true)
             {
-                matches = DynamicMatch((GRGEN_LGSP.LGSPGraph)graph, 1);
+                matches = DynamicMatch((GRGEN_LGSP.LGSPGraph)graph, 1, dumpNodeUpdate_var_v);
                 if(matches.Count <= 0) return true;
                 _rulePattern.Modify((GRGEN_LGSP.LGSPGraph)graph, matches.First);
             }
         }
-        public bool ApplyPlus(GRGEN_LIBGR.IGraph graph)
+        public bool ApplyPlus(GRGEN_LIBGR.IGraph graph, System.Int32 dumpNodeUpdate_var_v)
         {
-            GRGEN_LIBGR.IMatchesExact<Rule_dumpNodeUpdate.IMatch_dumpNodeUpdate> matches = DynamicMatch((GRGEN_LGSP.LGSPGraph)graph, 1);
+            GRGEN_LIBGR.IMatchesExact<Rule_dumpNodeUpdate.IMatch_dumpNodeUpdate> matches = DynamicMatch((GRGEN_LGSP.LGSPGraph)graph, 1, dumpNodeUpdate_var_v);
             if(matches.Count <= 0) return false;
             
             do
             {
                 _rulePattern.Modify((GRGEN_LGSP.LGSPGraph)graph, matches.First);
-                matches = DynamicMatch((GRGEN_LGSP.LGSPGraph)graph, 1);
+                matches = DynamicMatch((GRGEN_LGSP.LGSPGraph)graph, 1, dumpNodeUpdate_var_v);
             }
             while(matches.Count > 0) ;
             return true;
         }
-        public bool ApplyMinMax(GRGEN_LIBGR.IGraph graph, int min, int max)
+        public bool ApplyMinMax(GRGEN_LIBGR.IGraph graph, int min, int max, System.Int32 dumpNodeUpdate_var_v)
         {
             GRGEN_LIBGR.IMatchesExact<Rule_dumpNodeUpdate.IMatch_dumpNodeUpdate> matches;
             
             for(int i = 0; i < max; i++)
             {
-                matches = DynamicMatch((GRGEN_LGSP.LGSPGraph)graph, 1);
+                matches = DynamicMatch((GRGEN_LGSP.LGSPGraph)graph, 1, dumpNodeUpdate_var_v);
                 if(matches.Count <= 0) return i >= min;
                 _rulePattern.Modify((GRGEN_LGSP.LGSPGraph)graph, matches.First);
             }
@@ -32718,7 +32980,7 @@ maxMatchesIterReached:
         // implementation of inexact action interface by delegation to exact action interface
         public GRGEN_LIBGR.IMatches Match(GRGEN_LIBGR.IGraph graph, int maxMatches, object[] parameters)
         {
-            return Match(graph, maxMatches);
+            return Match(graph, maxMatches, (System.Int32) parameters[0]);
         }
         public object[] Modify(GRGEN_LIBGR.IGraph graph, GRGEN_LIBGR.IMatch match)
         {
@@ -32734,59 +32996,51 @@ maxMatchesIterReached:
         }
         object[] GRGEN_LIBGR.IAction.Apply(GRGEN_LIBGR.IGraph graph)
         {
-            
-            if(Apply(graph)) {
-                return ReturnArray;
-            }
-            else return null;
+            throw new Exception();
         }
         object[] GRGEN_LIBGR.IAction.Apply(GRGEN_LIBGR.IGraph graph, params object[] parameters)
         {
             
-            if(Apply(graph)) {
+            if(Apply(graph, (System.Int32) parameters[0])) {
                 return ReturnArray;
             }
             else return null;
         }
         object[] GRGEN_LIBGR.IAction.ApplyAll(int maxMatches, GRGEN_LIBGR.IGraph graph)
         {
-            
-            if(ApplyAll(maxMatches, graph)) {
-                return ReturnArray;
-            }
-            else return null;
+            throw new Exception();
         }
         object[] GRGEN_LIBGR.IAction.ApplyAll(int maxMatches, GRGEN_LIBGR.IGraph graph, params object[] parameters)
         {
             
-            if(ApplyAll(maxMatches, graph)) {
+            if(ApplyAll(maxMatches, graph, (System.Int32) parameters[0])) {
                 return ReturnArray;
             }
             else return null;
         }
         bool GRGEN_LIBGR.IAction.ApplyStar(GRGEN_LIBGR.IGraph graph)
         {
-            return ApplyStar(graph);
+            throw new Exception(); return false;
         }
         bool GRGEN_LIBGR.IAction.ApplyStar(GRGEN_LIBGR.IGraph graph, params object[] parameters)
         {
-            return ApplyStar(graph);
+            return ApplyStar(graph, (System.Int32) parameters[0]);
         }
         bool GRGEN_LIBGR.IAction.ApplyPlus(GRGEN_LIBGR.IGraph graph)
         {
-            return ApplyPlus(graph);
+            throw new Exception(); return false;
         }
         bool GRGEN_LIBGR.IAction.ApplyPlus(GRGEN_LIBGR.IGraph graph, params object[] parameters)
         {
-            return ApplyPlus(graph);
+            return ApplyPlus(graph, (System.Int32) parameters[0]);
         }
         bool GRGEN_LIBGR.IAction.ApplyMinMax(GRGEN_LIBGR.IGraph graph, int min, int max)
         {
-            return ApplyMinMax(graph, min, max);
+            throw new Exception(); return false;
         }
         bool GRGEN_LIBGR.IAction.ApplyMinMax(GRGEN_LIBGR.IGraph graph, int min, int max, params object[] parameters)
         {
-            return ApplyMinMax(graph, min, max);
+            return ApplyMinMax(graph, min, max, (System.Int32) parameters[0]);
         }
     }
 
@@ -32796,21 +33050,21 @@ maxMatchesIterReached:
     public interface IAction_dumpNodeCall
     {
         /// <summary> same as IAction.Match, but with exact types and distinct parameters. </summary>
-        GRGEN_LIBGR.IMatchesExact<Rule_dumpNodeCall.IMatch_dumpNodeCall> Match(GRGEN_LIBGR.IGraph graph, int maxMatches);
+        GRGEN_LIBGR.IMatchesExact<Rule_dumpNodeCall.IMatch_dumpNodeCall> Match(GRGEN_LIBGR.IGraph graph, int maxMatches, System.Int32 dumpNodeCall_var_v);
         /// <summary> same as IAction.Modify, but with exact types and distinct parameters. </summary>
         void Modify(GRGEN_LIBGR.IGraph graph, Rule_dumpNodeCall.IMatch_dumpNodeCall match);
         /// <summary> same as IAction.ModifyAll, but with exact types and distinct parameters. </summary>
         void ModifyAll(GRGEN_LIBGR.IGraph graph, GRGEN_LIBGR.IMatchesExact<Rule_dumpNodeCall.IMatch_dumpNodeCall> matches);
         /// <summary> same as IAction.Apply, but with exact types and distinct parameters; returns true if applied </summary>
-        bool Apply(GRGEN_LIBGR.IGraph graph);
+        bool Apply(GRGEN_LIBGR.IGraph graph, System.Int32 dumpNodeCall_var_v);
         /// <summary> same as IAction.ApplyAll, but with exact types and distinct parameters; returns true if applied at least once. </summary>
-        bool ApplyAll(int maxMatches, GRGEN_LIBGR.IGraph graph);
+        bool ApplyAll(int maxMatches, GRGEN_LIBGR.IGraph graph, System.Int32 dumpNodeCall_var_v);
         /// <summary> same as IAction.ApplyStar, but with exact types and distinct parameters. </summary>
-        bool ApplyStar(GRGEN_LIBGR.IGraph graph);
+        bool ApplyStar(GRGEN_LIBGR.IGraph graph, System.Int32 dumpNodeCall_var_v);
         /// <summary> same as IAction.ApplyPlus, but with exact types and distinct parameters. </summary>
-        bool ApplyPlus(GRGEN_LIBGR.IGraph graph);
+        bool ApplyPlus(GRGEN_LIBGR.IGraph graph, System.Int32 dumpNodeCall_var_v);
         /// <summary> same as IAction.ApplyMinMax, but with exact types and distinct parameters. </summary>
-        bool ApplyMinMax(GRGEN_LIBGR.IGraph graph, int min, int max);
+        bool ApplyMinMax(GRGEN_LIBGR.IGraph graph, int min, int max, System.Int32 dumpNodeCall_var_v);
     }
     
     public class Action_dumpNodeCall : GRGEN_LGSP.LGSPAction, GRGEN_LIBGR.IAction, IAction_dumpNodeCall
@@ -32831,20 +33085,22 @@ maxMatchesIterReached:
         public static Action_dumpNodeCall Instance { get { return instance; } }
         private static Action_dumpNodeCall instance = new Action_dumpNodeCall();
         
-        public GRGEN_LIBGR.IMatchesExact<Rule_dumpNodeCall.IMatch_dumpNodeCall> myMatch(GRGEN_LGSP.LGSPGraph graph, int maxMatches)
+        public GRGEN_LIBGR.IMatchesExact<Rule_dumpNodeCall.IMatch_dumpNodeCall> myMatch(GRGEN_LGSP.LGSPGraph graph, int maxMatches, System.Int32 dumpNodeCall_var_v)
         {
             matches.Clear();
             int negLevel = 0;
+            System.Int32 var_dumpNodeCall_var_v = (System.Int32)dumpNodeCall_var_v;
             // Lookup dumpNodeCall_node_n 
             int type_id_candidate_dumpNodeCall_node_n = 11;
             for(GRGEN_LGSP.LGSPNode head_candidate_dumpNodeCall_node_n = graph.nodesByTypeHeads[type_id_candidate_dumpNodeCall_node_n], candidate_dumpNodeCall_node_n = head_candidate_dumpNodeCall_node_n.lgspTypeNext; candidate_dumpNodeCall_node_n != head_candidate_dumpNodeCall_node_n; candidate_dumpNodeCall_node_n = candidate_dumpNodeCall_node_n.lgspTypeNext)
             {
                 // Condition 
-                if(!(!graph.IsVisited(candidate_dumpNodeCall_node_n, 0))) {
+                if(!(!graph.IsVisited(candidate_dumpNodeCall_node_n, var_dumpNodeCall_var_v))) {
                     continue;
                 }
                 Rule_dumpNodeCall.Match_dumpNodeCall match = matches.GetNextUnfilledPosition();
                 match._node_n = candidate_dumpNodeCall_node_n;
+                match._var_v = var_dumpNodeCall_var_v;
                 matches.PositionWasFilledFixIt();
                 // if enough matches were found, we leave
                 if(maxMatches > 0 && matches.Count >= maxMatches)
@@ -32856,14 +33112,14 @@ maxMatchesIterReached:
             return matches;
         }
         /// <summary> Type of the matcher method (with parameters host graph, maximum number of matches to search for (zero=unlimited), and rule parameters; returning found matches). </summary>
-        public delegate GRGEN_LIBGR.IMatchesExact<Rule_dumpNodeCall.IMatch_dumpNodeCall> MatchInvoker(GRGEN_LGSP.LGSPGraph graph, int maxMatches);
+        public delegate GRGEN_LIBGR.IMatchesExact<Rule_dumpNodeCall.IMatch_dumpNodeCall> MatchInvoker(GRGEN_LGSP.LGSPGraph graph, int maxMatches, System.Int32 dumpNodeCall_var_v);
         /// <summary> A delegate pointing to the current matcher program for this rule. </summary>
         public MatchInvoker DynamicMatch;
         /// <summary> The RulePattern object from which this LGSPAction object has been created. </summary>
         public GRGEN_LIBGR.IRulePattern RulePattern { get { return _rulePattern; } }
-        public GRGEN_LIBGR.IMatchesExact<Rule_dumpNodeCall.IMatch_dumpNodeCall> Match(GRGEN_LIBGR.IGraph graph, int maxMatches)
+        public GRGEN_LIBGR.IMatchesExact<Rule_dumpNodeCall.IMatch_dumpNodeCall> Match(GRGEN_LIBGR.IGraph graph, int maxMatches, System.Int32 dumpNodeCall_var_v)
         {
-            return DynamicMatch((GRGEN_LGSP.LGSPGraph)graph, maxMatches);
+            return DynamicMatch((GRGEN_LGSP.LGSPGraph)graph, maxMatches, dumpNodeCall_var_v);
         }
         public void Modify(GRGEN_LIBGR.IGraph graph, Rule_dumpNodeCall.IMatch_dumpNodeCall match)
         {
@@ -32873,51 +33129,51 @@ maxMatchesIterReached:
         {
             foreach(Rule_dumpNodeCall.IMatch_dumpNodeCall match in matches) _rulePattern.Modify((GRGEN_LGSP.LGSPGraph)graph, match);
         }
-        public bool Apply(GRGEN_LIBGR.IGraph graph)
+        public bool Apply(GRGEN_LIBGR.IGraph graph, System.Int32 dumpNodeCall_var_v)
         {
-            GRGEN_LIBGR.IMatchesExact<Rule_dumpNodeCall.IMatch_dumpNodeCall> matches = DynamicMatch((GRGEN_LGSP.LGSPGraph)graph, 1);
+            GRGEN_LIBGR.IMatchesExact<Rule_dumpNodeCall.IMatch_dumpNodeCall> matches = DynamicMatch((GRGEN_LGSP.LGSPGraph)graph, 1, dumpNodeCall_var_v);
             if(matches.Count <= 0) return false;
             _rulePattern.Modify((GRGEN_LGSP.LGSPGraph)graph, matches.First);
             return true;
         }
-        public bool ApplyAll(int maxMatches, GRGEN_LIBGR.IGraph graph)
+        public bool ApplyAll(int maxMatches, GRGEN_LIBGR.IGraph graph, System.Int32 dumpNodeCall_var_v)
         {
-            GRGEN_LIBGR.IMatchesExact<Rule_dumpNodeCall.IMatch_dumpNodeCall> matches = DynamicMatch((GRGEN_LGSP.LGSPGraph)graph, maxMatches);
+            GRGEN_LIBGR.IMatchesExact<Rule_dumpNodeCall.IMatch_dumpNodeCall> matches = DynamicMatch((GRGEN_LGSP.LGSPGraph)graph, maxMatches, dumpNodeCall_var_v);
             if(matches.Count <= 0) return false;
             foreach(Rule_dumpNodeCall.IMatch_dumpNodeCall match in matches) _rulePattern.Modify((GRGEN_LGSP.LGSPGraph)graph, match);
             return true;
         }
-        public bool ApplyStar(GRGEN_LIBGR.IGraph graph)
+        public bool ApplyStar(GRGEN_LIBGR.IGraph graph, System.Int32 dumpNodeCall_var_v)
         {
             GRGEN_LIBGR.IMatchesExact<Rule_dumpNodeCall.IMatch_dumpNodeCall> matches;
             
             while(true)
             {
-                matches = DynamicMatch((GRGEN_LGSP.LGSPGraph)graph, 1);
+                matches = DynamicMatch((GRGEN_LGSP.LGSPGraph)graph, 1, dumpNodeCall_var_v);
                 if(matches.Count <= 0) return true;
                 _rulePattern.Modify((GRGEN_LGSP.LGSPGraph)graph, matches.First);
             }
         }
-        public bool ApplyPlus(GRGEN_LIBGR.IGraph graph)
+        public bool ApplyPlus(GRGEN_LIBGR.IGraph graph, System.Int32 dumpNodeCall_var_v)
         {
-            GRGEN_LIBGR.IMatchesExact<Rule_dumpNodeCall.IMatch_dumpNodeCall> matches = DynamicMatch((GRGEN_LGSP.LGSPGraph)graph, 1);
+            GRGEN_LIBGR.IMatchesExact<Rule_dumpNodeCall.IMatch_dumpNodeCall> matches = DynamicMatch((GRGEN_LGSP.LGSPGraph)graph, 1, dumpNodeCall_var_v);
             if(matches.Count <= 0) return false;
             
             do
             {
                 _rulePattern.Modify((GRGEN_LGSP.LGSPGraph)graph, matches.First);
-                matches = DynamicMatch((GRGEN_LGSP.LGSPGraph)graph, 1);
+                matches = DynamicMatch((GRGEN_LGSP.LGSPGraph)graph, 1, dumpNodeCall_var_v);
             }
             while(matches.Count > 0) ;
             return true;
         }
-        public bool ApplyMinMax(GRGEN_LIBGR.IGraph graph, int min, int max)
+        public bool ApplyMinMax(GRGEN_LIBGR.IGraph graph, int min, int max, System.Int32 dumpNodeCall_var_v)
         {
             GRGEN_LIBGR.IMatchesExact<Rule_dumpNodeCall.IMatch_dumpNodeCall> matches;
             
             for(int i = 0; i < max; i++)
             {
-                matches = DynamicMatch((GRGEN_LGSP.LGSPGraph)graph, 1);
+                matches = DynamicMatch((GRGEN_LGSP.LGSPGraph)graph, 1, dumpNodeCall_var_v);
                 if(matches.Count <= 0) return i >= min;
                 _rulePattern.Modify((GRGEN_LGSP.LGSPGraph)graph, matches.First);
             }
@@ -32926,7 +33182,7 @@ maxMatchesIterReached:
         // implementation of inexact action interface by delegation to exact action interface
         public GRGEN_LIBGR.IMatches Match(GRGEN_LIBGR.IGraph graph, int maxMatches, object[] parameters)
         {
-            return Match(graph, maxMatches);
+            return Match(graph, maxMatches, (System.Int32) parameters[0]);
         }
         public object[] Modify(GRGEN_LIBGR.IGraph graph, GRGEN_LIBGR.IMatch match)
         {
@@ -32942,59 +33198,51 @@ maxMatchesIterReached:
         }
         object[] GRGEN_LIBGR.IAction.Apply(GRGEN_LIBGR.IGraph graph)
         {
-            
-            if(Apply(graph)) {
-                return ReturnArray;
-            }
-            else return null;
+            throw new Exception();
         }
         object[] GRGEN_LIBGR.IAction.Apply(GRGEN_LIBGR.IGraph graph, params object[] parameters)
         {
             
-            if(Apply(graph)) {
+            if(Apply(graph, (System.Int32) parameters[0])) {
                 return ReturnArray;
             }
             else return null;
         }
         object[] GRGEN_LIBGR.IAction.ApplyAll(int maxMatches, GRGEN_LIBGR.IGraph graph)
         {
-            
-            if(ApplyAll(maxMatches, graph)) {
-                return ReturnArray;
-            }
-            else return null;
+            throw new Exception();
         }
         object[] GRGEN_LIBGR.IAction.ApplyAll(int maxMatches, GRGEN_LIBGR.IGraph graph, params object[] parameters)
         {
             
-            if(ApplyAll(maxMatches, graph)) {
+            if(ApplyAll(maxMatches, graph, (System.Int32) parameters[0])) {
                 return ReturnArray;
             }
             else return null;
         }
         bool GRGEN_LIBGR.IAction.ApplyStar(GRGEN_LIBGR.IGraph graph)
         {
-            return ApplyStar(graph);
+            throw new Exception(); return false;
         }
         bool GRGEN_LIBGR.IAction.ApplyStar(GRGEN_LIBGR.IGraph graph, params object[] parameters)
         {
-            return ApplyStar(graph);
+            return ApplyStar(graph, (System.Int32) parameters[0]);
         }
         bool GRGEN_LIBGR.IAction.ApplyPlus(GRGEN_LIBGR.IGraph graph)
         {
-            return ApplyPlus(graph);
+            throw new Exception(); return false;
         }
         bool GRGEN_LIBGR.IAction.ApplyPlus(GRGEN_LIBGR.IGraph graph, params object[] parameters)
         {
-            return ApplyPlus(graph);
+            return ApplyPlus(graph, (System.Int32) parameters[0]);
         }
         bool GRGEN_LIBGR.IAction.ApplyMinMax(GRGEN_LIBGR.IGraph graph, int min, int max)
         {
-            return ApplyMinMax(graph, min, max);
+            throw new Exception(); return false;
         }
         bool GRGEN_LIBGR.IAction.ApplyMinMax(GRGEN_LIBGR.IGraph graph, int min, int max, params object[] parameters)
         {
-            return ApplyMinMax(graph, min, max);
+            return ApplyMinMax(graph, min, max, (System.Int32) parameters[0]);
         }
     }
 
@@ -33004,21 +33252,21 @@ maxMatchesIterReached:
     public interface IAction_dumpNodeIstantiation
     {
         /// <summary> same as IAction.Match, but with exact types and distinct parameters. </summary>
-        GRGEN_LIBGR.IMatchesExact<Rule_dumpNodeIstantiation.IMatch_dumpNodeIstantiation> Match(GRGEN_LIBGR.IGraph graph, int maxMatches);
+        GRGEN_LIBGR.IMatchesExact<Rule_dumpNodeIstantiation.IMatch_dumpNodeIstantiation> Match(GRGEN_LIBGR.IGraph graph, int maxMatches, System.Int32 dumpNodeIstantiation_var_v);
         /// <summary> same as IAction.Modify, but with exact types and distinct parameters. </summary>
         void Modify(GRGEN_LIBGR.IGraph graph, Rule_dumpNodeIstantiation.IMatch_dumpNodeIstantiation match);
         /// <summary> same as IAction.ModifyAll, but with exact types and distinct parameters. </summary>
         void ModifyAll(GRGEN_LIBGR.IGraph graph, GRGEN_LIBGR.IMatchesExact<Rule_dumpNodeIstantiation.IMatch_dumpNodeIstantiation> matches);
         /// <summary> same as IAction.Apply, but with exact types and distinct parameters; returns true if applied </summary>
-        bool Apply(GRGEN_LIBGR.IGraph graph);
+        bool Apply(GRGEN_LIBGR.IGraph graph, System.Int32 dumpNodeIstantiation_var_v);
         /// <summary> same as IAction.ApplyAll, but with exact types and distinct parameters; returns true if applied at least once. </summary>
-        bool ApplyAll(int maxMatches, GRGEN_LIBGR.IGraph graph);
+        bool ApplyAll(int maxMatches, GRGEN_LIBGR.IGraph graph, System.Int32 dumpNodeIstantiation_var_v);
         /// <summary> same as IAction.ApplyStar, but with exact types and distinct parameters. </summary>
-        bool ApplyStar(GRGEN_LIBGR.IGraph graph);
+        bool ApplyStar(GRGEN_LIBGR.IGraph graph, System.Int32 dumpNodeIstantiation_var_v);
         /// <summary> same as IAction.ApplyPlus, but with exact types and distinct parameters. </summary>
-        bool ApplyPlus(GRGEN_LIBGR.IGraph graph);
+        bool ApplyPlus(GRGEN_LIBGR.IGraph graph, System.Int32 dumpNodeIstantiation_var_v);
         /// <summary> same as IAction.ApplyMinMax, but with exact types and distinct parameters. </summary>
-        bool ApplyMinMax(GRGEN_LIBGR.IGraph graph, int min, int max);
+        bool ApplyMinMax(GRGEN_LIBGR.IGraph graph, int min, int max, System.Int32 dumpNodeIstantiation_var_v);
     }
     
     public class Action_dumpNodeIstantiation : GRGEN_LGSP.LGSPAction, GRGEN_LIBGR.IAction, IAction_dumpNodeIstantiation
@@ -33039,20 +33287,22 @@ maxMatchesIterReached:
         public static Action_dumpNodeIstantiation Instance { get { return instance; } }
         private static Action_dumpNodeIstantiation instance = new Action_dumpNodeIstantiation();
         
-        public GRGEN_LIBGR.IMatchesExact<Rule_dumpNodeIstantiation.IMatch_dumpNodeIstantiation> myMatch(GRGEN_LGSP.LGSPGraph graph, int maxMatches)
+        public GRGEN_LIBGR.IMatchesExact<Rule_dumpNodeIstantiation.IMatch_dumpNodeIstantiation> myMatch(GRGEN_LGSP.LGSPGraph graph, int maxMatches, System.Int32 dumpNodeIstantiation_var_v)
         {
             matches.Clear();
             int negLevel = 0;
+            System.Int32 var_dumpNodeIstantiation_var_v = (System.Int32)dumpNodeIstantiation_var_v;
             // Lookup dumpNodeIstantiation_node_n 
             int type_id_candidate_dumpNodeIstantiation_node_n = 12;
             for(GRGEN_LGSP.LGSPNode head_candidate_dumpNodeIstantiation_node_n = graph.nodesByTypeHeads[type_id_candidate_dumpNodeIstantiation_node_n], candidate_dumpNodeIstantiation_node_n = head_candidate_dumpNodeIstantiation_node_n.lgspTypeNext; candidate_dumpNodeIstantiation_node_n != head_candidate_dumpNodeIstantiation_node_n; candidate_dumpNodeIstantiation_node_n = candidate_dumpNodeIstantiation_node_n.lgspTypeNext)
             {
                 // Condition 
-                if(!(!graph.IsVisited(candidate_dumpNodeIstantiation_node_n, 0))) {
+                if(!(!graph.IsVisited(candidate_dumpNodeIstantiation_node_n, var_dumpNodeIstantiation_var_v))) {
                     continue;
                 }
                 Rule_dumpNodeIstantiation.Match_dumpNodeIstantiation match = matches.GetNextUnfilledPosition();
                 match._node_n = candidate_dumpNodeIstantiation_node_n;
+                match._var_v = var_dumpNodeIstantiation_var_v;
                 matches.PositionWasFilledFixIt();
                 // if enough matches were found, we leave
                 if(maxMatches > 0 && matches.Count >= maxMatches)
@@ -33064,14 +33314,14 @@ maxMatchesIterReached:
             return matches;
         }
         /// <summary> Type of the matcher method (with parameters host graph, maximum number of matches to search for (zero=unlimited), and rule parameters; returning found matches). </summary>
-        public delegate GRGEN_LIBGR.IMatchesExact<Rule_dumpNodeIstantiation.IMatch_dumpNodeIstantiation> MatchInvoker(GRGEN_LGSP.LGSPGraph graph, int maxMatches);
+        public delegate GRGEN_LIBGR.IMatchesExact<Rule_dumpNodeIstantiation.IMatch_dumpNodeIstantiation> MatchInvoker(GRGEN_LGSP.LGSPGraph graph, int maxMatches, System.Int32 dumpNodeIstantiation_var_v);
         /// <summary> A delegate pointing to the current matcher program for this rule. </summary>
         public MatchInvoker DynamicMatch;
         /// <summary> The RulePattern object from which this LGSPAction object has been created. </summary>
         public GRGEN_LIBGR.IRulePattern RulePattern { get { return _rulePattern; } }
-        public GRGEN_LIBGR.IMatchesExact<Rule_dumpNodeIstantiation.IMatch_dumpNodeIstantiation> Match(GRGEN_LIBGR.IGraph graph, int maxMatches)
+        public GRGEN_LIBGR.IMatchesExact<Rule_dumpNodeIstantiation.IMatch_dumpNodeIstantiation> Match(GRGEN_LIBGR.IGraph graph, int maxMatches, System.Int32 dumpNodeIstantiation_var_v)
         {
-            return DynamicMatch((GRGEN_LGSP.LGSPGraph)graph, maxMatches);
+            return DynamicMatch((GRGEN_LGSP.LGSPGraph)graph, maxMatches, dumpNodeIstantiation_var_v);
         }
         public void Modify(GRGEN_LIBGR.IGraph graph, Rule_dumpNodeIstantiation.IMatch_dumpNodeIstantiation match)
         {
@@ -33081,51 +33331,51 @@ maxMatchesIterReached:
         {
             foreach(Rule_dumpNodeIstantiation.IMatch_dumpNodeIstantiation match in matches) _rulePattern.Modify((GRGEN_LGSP.LGSPGraph)graph, match);
         }
-        public bool Apply(GRGEN_LIBGR.IGraph graph)
+        public bool Apply(GRGEN_LIBGR.IGraph graph, System.Int32 dumpNodeIstantiation_var_v)
         {
-            GRGEN_LIBGR.IMatchesExact<Rule_dumpNodeIstantiation.IMatch_dumpNodeIstantiation> matches = DynamicMatch((GRGEN_LGSP.LGSPGraph)graph, 1);
+            GRGEN_LIBGR.IMatchesExact<Rule_dumpNodeIstantiation.IMatch_dumpNodeIstantiation> matches = DynamicMatch((GRGEN_LGSP.LGSPGraph)graph, 1, dumpNodeIstantiation_var_v);
             if(matches.Count <= 0) return false;
             _rulePattern.Modify((GRGEN_LGSP.LGSPGraph)graph, matches.First);
             return true;
         }
-        public bool ApplyAll(int maxMatches, GRGEN_LIBGR.IGraph graph)
+        public bool ApplyAll(int maxMatches, GRGEN_LIBGR.IGraph graph, System.Int32 dumpNodeIstantiation_var_v)
         {
-            GRGEN_LIBGR.IMatchesExact<Rule_dumpNodeIstantiation.IMatch_dumpNodeIstantiation> matches = DynamicMatch((GRGEN_LGSP.LGSPGraph)graph, maxMatches);
+            GRGEN_LIBGR.IMatchesExact<Rule_dumpNodeIstantiation.IMatch_dumpNodeIstantiation> matches = DynamicMatch((GRGEN_LGSP.LGSPGraph)graph, maxMatches, dumpNodeIstantiation_var_v);
             if(matches.Count <= 0) return false;
             foreach(Rule_dumpNodeIstantiation.IMatch_dumpNodeIstantiation match in matches) _rulePattern.Modify((GRGEN_LGSP.LGSPGraph)graph, match);
             return true;
         }
-        public bool ApplyStar(GRGEN_LIBGR.IGraph graph)
+        public bool ApplyStar(GRGEN_LIBGR.IGraph graph, System.Int32 dumpNodeIstantiation_var_v)
         {
             GRGEN_LIBGR.IMatchesExact<Rule_dumpNodeIstantiation.IMatch_dumpNodeIstantiation> matches;
             
             while(true)
             {
-                matches = DynamicMatch((GRGEN_LGSP.LGSPGraph)graph, 1);
+                matches = DynamicMatch((GRGEN_LGSP.LGSPGraph)graph, 1, dumpNodeIstantiation_var_v);
                 if(matches.Count <= 0) return true;
                 _rulePattern.Modify((GRGEN_LGSP.LGSPGraph)graph, matches.First);
             }
         }
-        public bool ApplyPlus(GRGEN_LIBGR.IGraph graph)
+        public bool ApplyPlus(GRGEN_LIBGR.IGraph graph, System.Int32 dumpNodeIstantiation_var_v)
         {
-            GRGEN_LIBGR.IMatchesExact<Rule_dumpNodeIstantiation.IMatch_dumpNodeIstantiation> matches = DynamicMatch((GRGEN_LGSP.LGSPGraph)graph, 1);
+            GRGEN_LIBGR.IMatchesExact<Rule_dumpNodeIstantiation.IMatch_dumpNodeIstantiation> matches = DynamicMatch((GRGEN_LGSP.LGSPGraph)graph, 1, dumpNodeIstantiation_var_v);
             if(matches.Count <= 0) return false;
             
             do
             {
                 _rulePattern.Modify((GRGEN_LGSP.LGSPGraph)graph, matches.First);
-                matches = DynamicMatch((GRGEN_LGSP.LGSPGraph)graph, 1);
+                matches = DynamicMatch((GRGEN_LGSP.LGSPGraph)graph, 1, dumpNodeIstantiation_var_v);
             }
             while(matches.Count > 0) ;
             return true;
         }
-        public bool ApplyMinMax(GRGEN_LIBGR.IGraph graph, int min, int max)
+        public bool ApplyMinMax(GRGEN_LIBGR.IGraph graph, int min, int max, System.Int32 dumpNodeIstantiation_var_v)
         {
             GRGEN_LIBGR.IMatchesExact<Rule_dumpNodeIstantiation.IMatch_dumpNodeIstantiation> matches;
             
             for(int i = 0; i < max; i++)
             {
-                matches = DynamicMatch((GRGEN_LGSP.LGSPGraph)graph, 1);
+                matches = DynamicMatch((GRGEN_LGSP.LGSPGraph)graph, 1, dumpNodeIstantiation_var_v);
                 if(matches.Count <= 0) return i >= min;
                 _rulePattern.Modify((GRGEN_LGSP.LGSPGraph)graph, matches.First);
             }
@@ -33134,7 +33384,7 @@ maxMatchesIterReached:
         // implementation of inexact action interface by delegation to exact action interface
         public GRGEN_LIBGR.IMatches Match(GRGEN_LIBGR.IGraph graph, int maxMatches, object[] parameters)
         {
-            return Match(graph, maxMatches);
+            return Match(graph, maxMatches, (System.Int32) parameters[0]);
         }
         public object[] Modify(GRGEN_LIBGR.IGraph graph, GRGEN_LIBGR.IMatch match)
         {
@@ -33150,59 +33400,51 @@ maxMatchesIterReached:
         }
         object[] GRGEN_LIBGR.IAction.Apply(GRGEN_LIBGR.IGraph graph)
         {
-            
-            if(Apply(graph)) {
-                return ReturnArray;
-            }
-            else return null;
+            throw new Exception();
         }
         object[] GRGEN_LIBGR.IAction.Apply(GRGEN_LIBGR.IGraph graph, params object[] parameters)
         {
             
-            if(Apply(graph)) {
+            if(Apply(graph, (System.Int32) parameters[0])) {
                 return ReturnArray;
             }
             else return null;
         }
         object[] GRGEN_LIBGR.IAction.ApplyAll(int maxMatches, GRGEN_LIBGR.IGraph graph)
         {
-            
-            if(ApplyAll(maxMatches, graph)) {
-                return ReturnArray;
-            }
-            else return null;
+            throw new Exception();
         }
         object[] GRGEN_LIBGR.IAction.ApplyAll(int maxMatches, GRGEN_LIBGR.IGraph graph, params object[] parameters)
         {
             
-            if(ApplyAll(maxMatches, graph)) {
+            if(ApplyAll(maxMatches, graph, (System.Int32) parameters[0])) {
                 return ReturnArray;
             }
             else return null;
         }
         bool GRGEN_LIBGR.IAction.ApplyStar(GRGEN_LIBGR.IGraph graph)
         {
-            return ApplyStar(graph);
+            throw new Exception(); return false;
         }
         bool GRGEN_LIBGR.IAction.ApplyStar(GRGEN_LIBGR.IGraph graph, params object[] parameters)
         {
-            return ApplyStar(graph);
+            return ApplyStar(graph, (System.Int32) parameters[0]);
         }
         bool GRGEN_LIBGR.IAction.ApplyPlus(GRGEN_LIBGR.IGraph graph)
         {
-            return ApplyPlus(graph);
+            throw new Exception(); return false;
         }
         bool GRGEN_LIBGR.IAction.ApplyPlus(GRGEN_LIBGR.IGraph graph, params object[] parameters)
         {
-            return ApplyPlus(graph);
+            return ApplyPlus(graph, (System.Int32) parameters[0]);
         }
         bool GRGEN_LIBGR.IAction.ApplyMinMax(GRGEN_LIBGR.IGraph graph, int min, int max)
         {
-            return ApplyMinMax(graph, min, max);
+            throw new Exception(); return false;
         }
         bool GRGEN_LIBGR.IAction.ApplyMinMax(GRGEN_LIBGR.IGraph graph, int min, int max, params object[] parameters)
         {
-            return ApplyMinMax(graph, min, max);
+            return ApplyMinMax(graph, min, max, (System.Int32) parameters[0]);
         }
     }
 
@@ -33212,21 +33454,21 @@ maxMatchesIterReached:
     public interface IAction_dumpNodeOperator
     {
         /// <summary> same as IAction.Match, but with exact types and distinct parameters. </summary>
-        GRGEN_LIBGR.IMatchesExact<Rule_dumpNodeOperator.IMatch_dumpNodeOperator> Match(GRGEN_LIBGR.IGraph graph, int maxMatches);
+        GRGEN_LIBGR.IMatchesExact<Rule_dumpNodeOperator.IMatch_dumpNodeOperator> Match(GRGEN_LIBGR.IGraph graph, int maxMatches, System.Int32 dumpNodeOperator_var_v);
         /// <summary> same as IAction.Modify, but with exact types and distinct parameters. </summary>
         void Modify(GRGEN_LIBGR.IGraph graph, Rule_dumpNodeOperator.IMatch_dumpNodeOperator match);
         /// <summary> same as IAction.ModifyAll, but with exact types and distinct parameters. </summary>
         void ModifyAll(GRGEN_LIBGR.IGraph graph, GRGEN_LIBGR.IMatchesExact<Rule_dumpNodeOperator.IMatch_dumpNodeOperator> matches);
         /// <summary> same as IAction.Apply, but with exact types and distinct parameters; returns true if applied </summary>
-        bool Apply(GRGEN_LIBGR.IGraph graph);
+        bool Apply(GRGEN_LIBGR.IGraph graph, System.Int32 dumpNodeOperator_var_v);
         /// <summary> same as IAction.ApplyAll, but with exact types and distinct parameters; returns true if applied at least once. </summary>
-        bool ApplyAll(int maxMatches, GRGEN_LIBGR.IGraph graph);
+        bool ApplyAll(int maxMatches, GRGEN_LIBGR.IGraph graph, System.Int32 dumpNodeOperator_var_v);
         /// <summary> same as IAction.ApplyStar, but with exact types and distinct parameters. </summary>
-        bool ApplyStar(GRGEN_LIBGR.IGraph graph);
+        bool ApplyStar(GRGEN_LIBGR.IGraph graph, System.Int32 dumpNodeOperator_var_v);
         /// <summary> same as IAction.ApplyPlus, but with exact types and distinct parameters. </summary>
-        bool ApplyPlus(GRGEN_LIBGR.IGraph graph);
+        bool ApplyPlus(GRGEN_LIBGR.IGraph graph, System.Int32 dumpNodeOperator_var_v);
         /// <summary> same as IAction.ApplyMinMax, but with exact types and distinct parameters. </summary>
-        bool ApplyMinMax(GRGEN_LIBGR.IGraph graph, int min, int max);
+        bool ApplyMinMax(GRGEN_LIBGR.IGraph graph, int min, int max, System.Int32 dumpNodeOperator_var_v);
     }
     
     public class Action_dumpNodeOperator : GRGEN_LGSP.LGSPAction, GRGEN_LIBGR.IAction, IAction_dumpNodeOperator
@@ -33247,20 +33489,22 @@ maxMatchesIterReached:
         public static Action_dumpNodeOperator Instance { get { return instance; } }
         private static Action_dumpNodeOperator instance = new Action_dumpNodeOperator();
         
-        public GRGEN_LIBGR.IMatchesExact<Rule_dumpNodeOperator.IMatch_dumpNodeOperator> myMatch(GRGEN_LGSP.LGSPGraph graph, int maxMatches)
+        public GRGEN_LIBGR.IMatchesExact<Rule_dumpNodeOperator.IMatch_dumpNodeOperator> myMatch(GRGEN_LGSP.LGSPGraph graph, int maxMatches, System.Int32 dumpNodeOperator_var_v)
         {
             matches.Clear();
             int negLevel = 0;
+            System.Int32 var_dumpNodeOperator_var_v = (System.Int32)dumpNodeOperator_var_v;
             // Lookup dumpNodeOperator_node_n 
             int type_id_candidate_dumpNodeOperator_node_n = 13;
             for(GRGEN_LGSP.LGSPNode head_candidate_dumpNodeOperator_node_n = graph.nodesByTypeHeads[type_id_candidate_dumpNodeOperator_node_n], candidate_dumpNodeOperator_node_n = head_candidate_dumpNodeOperator_node_n.lgspTypeNext; candidate_dumpNodeOperator_node_n != head_candidate_dumpNodeOperator_node_n; candidate_dumpNodeOperator_node_n = candidate_dumpNodeOperator_node_n.lgspTypeNext)
             {
                 // Condition 
-                if(!(!graph.IsVisited(candidate_dumpNodeOperator_node_n, 0))) {
+                if(!(!graph.IsVisited(candidate_dumpNodeOperator_node_n, var_dumpNodeOperator_var_v))) {
                     continue;
                 }
                 Rule_dumpNodeOperator.Match_dumpNodeOperator match = matches.GetNextUnfilledPosition();
                 match._node_n = candidate_dumpNodeOperator_node_n;
+                match._var_v = var_dumpNodeOperator_var_v;
                 matches.PositionWasFilledFixIt();
                 // if enough matches were found, we leave
                 if(maxMatches > 0 && matches.Count >= maxMatches)
@@ -33272,14 +33516,14 @@ maxMatchesIterReached:
             return matches;
         }
         /// <summary> Type of the matcher method (with parameters host graph, maximum number of matches to search for (zero=unlimited), and rule parameters; returning found matches). </summary>
-        public delegate GRGEN_LIBGR.IMatchesExact<Rule_dumpNodeOperator.IMatch_dumpNodeOperator> MatchInvoker(GRGEN_LGSP.LGSPGraph graph, int maxMatches);
+        public delegate GRGEN_LIBGR.IMatchesExact<Rule_dumpNodeOperator.IMatch_dumpNodeOperator> MatchInvoker(GRGEN_LGSP.LGSPGraph graph, int maxMatches, System.Int32 dumpNodeOperator_var_v);
         /// <summary> A delegate pointing to the current matcher program for this rule. </summary>
         public MatchInvoker DynamicMatch;
         /// <summary> The RulePattern object from which this LGSPAction object has been created. </summary>
         public GRGEN_LIBGR.IRulePattern RulePattern { get { return _rulePattern; } }
-        public GRGEN_LIBGR.IMatchesExact<Rule_dumpNodeOperator.IMatch_dumpNodeOperator> Match(GRGEN_LIBGR.IGraph graph, int maxMatches)
+        public GRGEN_LIBGR.IMatchesExact<Rule_dumpNodeOperator.IMatch_dumpNodeOperator> Match(GRGEN_LIBGR.IGraph graph, int maxMatches, System.Int32 dumpNodeOperator_var_v)
         {
-            return DynamicMatch((GRGEN_LGSP.LGSPGraph)graph, maxMatches);
+            return DynamicMatch((GRGEN_LGSP.LGSPGraph)graph, maxMatches, dumpNodeOperator_var_v);
         }
         public void Modify(GRGEN_LIBGR.IGraph graph, Rule_dumpNodeOperator.IMatch_dumpNodeOperator match)
         {
@@ -33289,51 +33533,51 @@ maxMatchesIterReached:
         {
             foreach(Rule_dumpNodeOperator.IMatch_dumpNodeOperator match in matches) _rulePattern.Modify((GRGEN_LGSP.LGSPGraph)graph, match);
         }
-        public bool Apply(GRGEN_LIBGR.IGraph graph)
+        public bool Apply(GRGEN_LIBGR.IGraph graph, System.Int32 dumpNodeOperator_var_v)
         {
-            GRGEN_LIBGR.IMatchesExact<Rule_dumpNodeOperator.IMatch_dumpNodeOperator> matches = DynamicMatch((GRGEN_LGSP.LGSPGraph)graph, 1);
+            GRGEN_LIBGR.IMatchesExact<Rule_dumpNodeOperator.IMatch_dumpNodeOperator> matches = DynamicMatch((GRGEN_LGSP.LGSPGraph)graph, 1, dumpNodeOperator_var_v);
             if(matches.Count <= 0) return false;
             _rulePattern.Modify((GRGEN_LGSP.LGSPGraph)graph, matches.First);
             return true;
         }
-        public bool ApplyAll(int maxMatches, GRGEN_LIBGR.IGraph graph)
+        public bool ApplyAll(int maxMatches, GRGEN_LIBGR.IGraph graph, System.Int32 dumpNodeOperator_var_v)
         {
-            GRGEN_LIBGR.IMatchesExact<Rule_dumpNodeOperator.IMatch_dumpNodeOperator> matches = DynamicMatch((GRGEN_LGSP.LGSPGraph)graph, maxMatches);
+            GRGEN_LIBGR.IMatchesExact<Rule_dumpNodeOperator.IMatch_dumpNodeOperator> matches = DynamicMatch((GRGEN_LGSP.LGSPGraph)graph, maxMatches, dumpNodeOperator_var_v);
             if(matches.Count <= 0) return false;
             foreach(Rule_dumpNodeOperator.IMatch_dumpNodeOperator match in matches) _rulePattern.Modify((GRGEN_LGSP.LGSPGraph)graph, match);
             return true;
         }
-        public bool ApplyStar(GRGEN_LIBGR.IGraph graph)
+        public bool ApplyStar(GRGEN_LIBGR.IGraph graph, System.Int32 dumpNodeOperator_var_v)
         {
             GRGEN_LIBGR.IMatchesExact<Rule_dumpNodeOperator.IMatch_dumpNodeOperator> matches;
             
             while(true)
             {
-                matches = DynamicMatch((GRGEN_LGSP.LGSPGraph)graph, 1);
+                matches = DynamicMatch((GRGEN_LGSP.LGSPGraph)graph, 1, dumpNodeOperator_var_v);
                 if(matches.Count <= 0) return true;
                 _rulePattern.Modify((GRGEN_LGSP.LGSPGraph)graph, matches.First);
             }
         }
-        public bool ApplyPlus(GRGEN_LIBGR.IGraph graph)
+        public bool ApplyPlus(GRGEN_LIBGR.IGraph graph, System.Int32 dumpNodeOperator_var_v)
         {
-            GRGEN_LIBGR.IMatchesExact<Rule_dumpNodeOperator.IMatch_dumpNodeOperator> matches = DynamicMatch((GRGEN_LGSP.LGSPGraph)graph, 1);
+            GRGEN_LIBGR.IMatchesExact<Rule_dumpNodeOperator.IMatch_dumpNodeOperator> matches = DynamicMatch((GRGEN_LGSP.LGSPGraph)graph, 1, dumpNodeOperator_var_v);
             if(matches.Count <= 0) return false;
             
             do
             {
                 _rulePattern.Modify((GRGEN_LGSP.LGSPGraph)graph, matches.First);
-                matches = DynamicMatch((GRGEN_LGSP.LGSPGraph)graph, 1);
+                matches = DynamicMatch((GRGEN_LGSP.LGSPGraph)graph, 1, dumpNodeOperator_var_v);
             }
             while(matches.Count > 0) ;
             return true;
         }
-        public bool ApplyMinMax(GRGEN_LIBGR.IGraph graph, int min, int max)
+        public bool ApplyMinMax(GRGEN_LIBGR.IGraph graph, int min, int max, System.Int32 dumpNodeOperator_var_v)
         {
             GRGEN_LIBGR.IMatchesExact<Rule_dumpNodeOperator.IMatch_dumpNodeOperator> matches;
             
             for(int i = 0; i < max; i++)
             {
-                matches = DynamicMatch((GRGEN_LGSP.LGSPGraph)graph, 1);
+                matches = DynamicMatch((GRGEN_LGSP.LGSPGraph)graph, 1, dumpNodeOperator_var_v);
                 if(matches.Count <= 0) return i >= min;
                 _rulePattern.Modify((GRGEN_LGSP.LGSPGraph)graph, matches.First);
             }
@@ -33342,7 +33586,7 @@ maxMatchesIterReached:
         // implementation of inexact action interface by delegation to exact action interface
         public GRGEN_LIBGR.IMatches Match(GRGEN_LIBGR.IGraph graph, int maxMatches, object[] parameters)
         {
-            return Match(graph, maxMatches);
+            return Match(graph, maxMatches, (System.Int32) parameters[0]);
         }
         public object[] Modify(GRGEN_LIBGR.IGraph graph, GRGEN_LIBGR.IMatch match)
         {
@@ -33358,59 +33602,51 @@ maxMatchesIterReached:
         }
         object[] GRGEN_LIBGR.IAction.Apply(GRGEN_LIBGR.IGraph graph)
         {
-            
-            if(Apply(graph)) {
-                return ReturnArray;
-            }
-            else return null;
+            throw new Exception();
         }
         object[] GRGEN_LIBGR.IAction.Apply(GRGEN_LIBGR.IGraph graph, params object[] parameters)
         {
             
-            if(Apply(graph)) {
+            if(Apply(graph, (System.Int32) parameters[0])) {
                 return ReturnArray;
             }
             else return null;
         }
         object[] GRGEN_LIBGR.IAction.ApplyAll(int maxMatches, GRGEN_LIBGR.IGraph graph)
         {
-            
-            if(ApplyAll(maxMatches, graph)) {
-                return ReturnArray;
-            }
-            else return null;
+            throw new Exception();
         }
         object[] GRGEN_LIBGR.IAction.ApplyAll(int maxMatches, GRGEN_LIBGR.IGraph graph, params object[] parameters)
         {
             
-            if(ApplyAll(maxMatches, graph)) {
+            if(ApplyAll(maxMatches, graph, (System.Int32) parameters[0])) {
                 return ReturnArray;
             }
             else return null;
         }
         bool GRGEN_LIBGR.IAction.ApplyStar(GRGEN_LIBGR.IGraph graph)
         {
-            return ApplyStar(graph);
+            throw new Exception(); return false;
         }
         bool GRGEN_LIBGR.IAction.ApplyStar(GRGEN_LIBGR.IGraph graph, params object[] parameters)
         {
-            return ApplyStar(graph);
+            return ApplyStar(graph, (System.Int32) parameters[0]);
         }
         bool GRGEN_LIBGR.IAction.ApplyPlus(GRGEN_LIBGR.IGraph graph)
         {
-            return ApplyPlus(graph);
+            throw new Exception(); return false;
         }
         bool GRGEN_LIBGR.IAction.ApplyPlus(GRGEN_LIBGR.IGraph graph, params object[] parameters)
         {
-            return ApplyPlus(graph);
+            return ApplyPlus(graph, (System.Int32) parameters[0]);
         }
         bool GRGEN_LIBGR.IAction.ApplyMinMax(GRGEN_LIBGR.IGraph graph, int min, int max)
         {
-            return ApplyMinMax(graph, min, max);
+            throw new Exception(); return false;
         }
         bool GRGEN_LIBGR.IAction.ApplyMinMax(GRGEN_LIBGR.IGraph graph, int min, int max, params object[] parameters)
         {
-            return ApplyMinMax(graph, min, max);
+            return ApplyMinMax(graph, min, max, (System.Int32) parameters[0]);
         }
     }
 
@@ -33420,21 +33656,21 @@ maxMatchesIterReached:
     public interface IAction_dumpNodeReturn
     {
         /// <summary> same as IAction.Match, but with exact types and distinct parameters. </summary>
-        GRGEN_LIBGR.IMatchesExact<Rule_dumpNodeReturn.IMatch_dumpNodeReturn> Match(GRGEN_LIBGR.IGraph graph, int maxMatches);
+        GRGEN_LIBGR.IMatchesExact<Rule_dumpNodeReturn.IMatch_dumpNodeReturn> Match(GRGEN_LIBGR.IGraph graph, int maxMatches, System.Int32 dumpNodeReturn_var_v);
         /// <summary> same as IAction.Modify, but with exact types and distinct parameters. </summary>
         void Modify(GRGEN_LIBGR.IGraph graph, Rule_dumpNodeReturn.IMatch_dumpNodeReturn match);
         /// <summary> same as IAction.ModifyAll, but with exact types and distinct parameters. </summary>
         void ModifyAll(GRGEN_LIBGR.IGraph graph, GRGEN_LIBGR.IMatchesExact<Rule_dumpNodeReturn.IMatch_dumpNodeReturn> matches);
         /// <summary> same as IAction.Apply, but with exact types and distinct parameters; returns true if applied </summary>
-        bool Apply(GRGEN_LIBGR.IGraph graph);
+        bool Apply(GRGEN_LIBGR.IGraph graph, System.Int32 dumpNodeReturn_var_v);
         /// <summary> same as IAction.ApplyAll, but with exact types and distinct parameters; returns true if applied at least once. </summary>
-        bool ApplyAll(int maxMatches, GRGEN_LIBGR.IGraph graph);
+        bool ApplyAll(int maxMatches, GRGEN_LIBGR.IGraph graph, System.Int32 dumpNodeReturn_var_v);
         /// <summary> same as IAction.ApplyStar, but with exact types and distinct parameters. </summary>
-        bool ApplyStar(GRGEN_LIBGR.IGraph graph);
+        bool ApplyStar(GRGEN_LIBGR.IGraph graph, System.Int32 dumpNodeReturn_var_v);
         /// <summary> same as IAction.ApplyPlus, but with exact types and distinct parameters. </summary>
-        bool ApplyPlus(GRGEN_LIBGR.IGraph graph);
+        bool ApplyPlus(GRGEN_LIBGR.IGraph graph, System.Int32 dumpNodeReturn_var_v);
         /// <summary> same as IAction.ApplyMinMax, but with exact types and distinct parameters. </summary>
-        bool ApplyMinMax(GRGEN_LIBGR.IGraph graph, int min, int max);
+        bool ApplyMinMax(GRGEN_LIBGR.IGraph graph, int min, int max, System.Int32 dumpNodeReturn_var_v);
     }
     
     public class Action_dumpNodeReturn : GRGEN_LGSP.LGSPAction, GRGEN_LIBGR.IAction, IAction_dumpNodeReturn
@@ -33455,20 +33691,22 @@ maxMatchesIterReached:
         public static Action_dumpNodeReturn Instance { get { return instance; } }
         private static Action_dumpNodeReturn instance = new Action_dumpNodeReturn();
         
-        public GRGEN_LIBGR.IMatchesExact<Rule_dumpNodeReturn.IMatch_dumpNodeReturn> myMatch(GRGEN_LGSP.LGSPGraph graph, int maxMatches)
+        public GRGEN_LIBGR.IMatchesExact<Rule_dumpNodeReturn.IMatch_dumpNodeReturn> myMatch(GRGEN_LGSP.LGSPGraph graph, int maxMatches, System.Int32 dumpNodeReturn_var_v)
         {
             matches.Clear();
             int negLevel = 0;
+            System.Int32 var_dumpNodeReturn_var_v = (System.Int32)dumpNodeReturn_var_v;
             // Lookup dumpNodeReturn_node_n 
             int type_id_candidate_dumpNodeReturn_node_n = 14;
             for(GRGEN_LGSP.LGSPNode head_candidate_dumpNodeReturn_node_n = graph.nodesByTypeHeads[type_id_candidate_dumpNodeReturn_node_n], candidate_dumpNodeReturn_node_n = head_candidate_dumpNodeReturn_node_n.lgspTypeNext; candidate_dumpNodeReturn_node_n != head_candidate_dumpNodeReturn_node_n; candidate_dumpNodeReturn_node_n = candidate_dumpNodeReturn_node_n.lgspTypeNext)
             {
                 // Condition 
-                if(!(!graph.IsVisited(candidate_dumpNodeReturn_node_n, 0))) {
+                if(!(!graph.IsVisited(candidate_dumpNodeReturn_node_n, var_dumpNodeReturn_var_v))) {
                     continue;
                 }
                 Rule_dumpNodeReturn.Match_dumpNodeReturn match = matches.GetNextUnfilledPosition();
                 match._node_n = candidate_dumpNodeReturn_node_n;
+                match._var_v = var_dumpNodeReturn_var_v;
                 matches.PositionWasFilledFixIt();
                 // if enough matches were found, we leave
                 if(maxMatches > 0 && matches.Count >= maxMatches)
@@ -33480,14 +33718,14 @@ maxMatchesIterReached:
             return matches;
         }
         /// <summary> Type of the matcher method (with parameters host graph, maximum number of matches to search for (zero=unlimited), and rule parameters; returning found matches). </summary>
-        public delegate GRGEN_LIBGR.IMatchesExact<Rule_dumpNodeReturn.IMatch_dumpNodeReturn> MatchInvoker(GRGEN_LGSP.LGSPGraph graph, int maxMatches);
+        public delegate GRGEN_LIBGR.IMatchesExact<Rule_dumpNodeReturn.IMatch_dumpNodeReturn> MatchInvoker(GRGEN_LGSP.LGSPGraph graph, int maxMatches, System.Int32 dumpNodeReturn_var_v);
         /// <summary> A delegate pointing to the current matcher program for this rule. </summary>
         public MatchInvoker DynamicMatch;
         /// <summary> The RulePattern object from which this LGSPAction object has been created. </summary>
         public GRGEN_LIBGR.IRulePattern RulePattern { get { return _rulePattern; } }
-        public GRGEN_LIBGR.IMatchesExact<Rule_dumpNodeReturn.IMatch_dumpNodeReturn> Match(GRGEN_LIBGR.IGraph graph, int maxMatches)
+        public GRGEN_LIBGR.IMatchesExact<Rule_dumpNodeReturn.IMatch_dumpNodeReturn> Match(GRGEN_LIBGR.IGraph graph, int maxMatches, System.Int32 dumpNodeReturn_var_v)
         {
-            return DynamicMatch((GRGEN_LGSP.LGSPGraph)graph, maxMatches);
+            return DynamicMatch((GRGEN_LGSP.LGSPGraph)graph, maxMatches, dumpNodeReturn_var_v);
         }
         public void Modify(GRGEN_LIBGR.IGraph graph, Rule_dumpNodeReturn.IMatch_dumpNodeReturn match)
         {
@@ -33497,51 +33735,51 @@ maxMatchesIterReached:
         {
             foreach(Rule_dumpNodeReturn.IMatch_dumpNodeReturn match in matches) _rulePattern.Modify((GRGEN_LGSP.LGSPGraph)graph, match);
         }
-        public bool Apply(GRGEN_LIBGR.IGraph graph)
+        public bool Apply(GRGEN_LIBGR.IGraph graph, System.Int32 dumpNodeReturn_var_v)
         {
-            GRGEN_LIBGR.IMatchesExact<Rule_dumpNodeReturn.IMatch_dumpNodeReturn> matches = DynamicMatch((GRGEN_LGSP.LGSPGraph)graph, 1);
+            GRGEN_LIBGR.IMatchesExact<Rule_dumpNodeReturn.IMatch_dumpNodeReturn> matches = DynamicMatch((GRGEN_LGSP.LGSPGraph)graph, 1, dumpNodeReturn_var_v);
             if(matches.Count <= 0) return false;
             _rulePattern.Modify((GRGEN_LGSP.LGSPGraph)graph, matches.First);
             return true;
         }
-        public bool ApplyAll(int maxMatches, GRGEN_LIBGR.IGraph graph)
+        public bool ApplyAll(int maxMatches, GRGEN_LIBGR.IGraph graph, System.Int32 dumpNodeReturn_var_v)
         {
-            GRGEN_LIBGR.IMatchesExact<Rule_dumpNodeReturn.IMatch_dumpNodeReturn> matches = DynamicMatch((GRGEN_LGSP.LGSPGraph)graph, maxMatches);
+            GRGEN_LIBGR.IMatchesExact<Rule_dumpNodeReturn.IMatch_dumpNodeReturn> matches = DynamicMatch((GRGEN_LGSP.LGSPGraph)graph, maxMatches, dumpNodeReturn_var_v);
             if(matches.Count <= 0) return false;
             foreach(Rule_dumpNodeReturn.IMatch_dumpNodeReturn match in matches) _rulePattern.Modify((GRGEN_LGSP.LGSPGraph)graph, match);
             return true;
         }
-        public bool ApplyStar(GRGEN_LIBGR.IGraph graph)
+        public bool ApplyStar(GRGEN_LIBGR.IGraph graph, System.Int32 dumpNodeReturn_var_v)
         {
             GRGEN_LIBGR.IMatchesExact<Rule_dumpNodeReturn.IMatch_dumpNodeReturn> matches;
             
             while(true)
             {
-                matches = DynamicMatch((GRGEN_LGSP.LGSPGraph)graph, 1);
+                matches = DynamicMatch((GRGEN_LGSP.LGSPGraph)graph, 1, dumpNodeReturn_var_v);
                 if(matches.Count <= 0) return true;
                 _rulePattern.Modify((GRGEN_LGSP.LGSPGraph)graph, matches.First);
             }
         }
-        public bool ApplyPlus(GRGEN_LIBGR.IGraph graph)
+        public bool ApplyPlus(GRGEN_LIBGR.IGraph graph, System.Int32 dumpNodeReturn_var_v)
         {
-            GRGEN_LIBGR.IMatchesExact<Rule_dumpNodeReturn.IMatch_dumpNodeReturn> matches = DynamicMatch((GRGEN_LGSP.LGSPGraph)graph, 1);
+            GRGEN_LIBGR.IMatchesExact<Rule_dumpNodeReturn.IMatch_dumpNodeReturn> matches = DynamicMatch((GRGEN_LGSP.LGSPGraph)graph, 1, dumpNodeReturn_var_v);
             if(matches.Count <= 0) return false;
             
             do
             {
                 _rulePattern.Modify((GRGEN_LGSP.LGSPGraph)graph, matches.First);
-                matches = DynamicMatch((GRGEN_LGSP.LGSPGraph)graph, 1);
+                matches = DynamicMatch((GRGEN_LGSP.LGSPGraph)graph, 1, dumpNodeReturn_var_v);
             }
             while(matches.Count > 0) ;
             return true;
         }
-        public bool ApplyMinMax(GRGEN_LIBGR.IGraph graph, int min, int max)
+        public bool ApplyMinMax(GRGEN_LIBGR.IGraph graph, int min, int max, System.Int32 dumpNodeReturn_var_v)
         {
             GRGEN_LIBGR.IMatchesExact<Rule_dumpNodeReturn.IMatch_dumpNodeReturn> matches;
             
             for(int i = 0; i < max; i++)
             {
-                matches = DynamicMatch((GRGEN_LGSP.LGSPGraph)graph, 1);
+                matches = DynamicMatch((GRGEN_LGSP.LGSPGraph)graph, 1, dumpNodeReturn_var_v);
                 if(matches.Count <= 0) return i >= min;
                 _rulePattern.Modify((GRGEN_LGSP.LGSPGraph)graph, matches.First);
             }
@@ -33550,7 +33788,7 @@ maxMatchesIterReached:
         // implementation of inexact action interface by delegation to exact action interface
         public GRGEN_LIBGR.IMatches Match(GRGEN_LIBGR.IGraph graph, int maxMatches, object[] parameters)
         {
-            return Match(graph, maxMatches);
+            return Match(graph, maxMatches, (System.Int32) parameters[0]);
         }
         public object[] Modify(GRGEN_LIBGR.IGraph graph, GRGEN_LIBGR.IMatch match)
         {
@@ -33566,59 +33804,51 @@ maxMatchesIterReached:
         }
         object[] GRGEN_LIBGR.IAction.Apply(GRGEN_LIBGR.IGraph graph)
         {
-            
-            if(Apply(graph)) {
-                return ReturnArray;
-            }
-            else return null;
+            throw new Exception();
         }
         object[] GRGEN_LIBGR.IAction.Apply(GRGEN_LIBGR.IGraph graph, params object[] parameters)
         {
             
-            if(Apply(graph)) {
+            if(Apply(graph, (System.Int32) parameters[0])) {
                 return ReturnArray;
             }
             else return null;
         }
         object[] GRGEN_LIBGR.IAction.ApplyAll(int maxMatches, GRGEN_LIBGR.IGraph graph)
         {
-            
-            if(ApplyAll(maxMatches, graph)) {
-                return ReturnArray;
-            }
-            else return null;
+            throw new Exception();
         }
         object[] GRGEN_LIBGR.IAction.ApplyAll(int maxMatches, GRGEN_LIBGR.IGraph graph, params object[] parameters)
         {
             
-            if(ApplyAll(maxMatches, graph)) {
+            if(ApplyAll(maxMatches, graph, (System.Int32) parameters[0])) {
                 return ReturnArray;
             }
             else return null;
         }
         bool GRGEN_LIBGR.IAction.ApplyStar(GRGEN_LIBGR.IGraph graph)
         {
-            return ApplyStar(graph);
+            throw new Exception(); return false;
         }
         bool GRGEN_LIBGR.IAction.ApplyStar(GRGEN_LIBGR.IGraph graph, params object[] parameters)
         {
-            return ApplyStar(graph);
+            return ApplyStar(graph, (System.Int32) parameters[0]);
         }
         bool GRGEN_LIBGR.IAction.ApplyPlus(GRGEN_LIBGR.IGraph graph)
         {
-            return ApplyPlus(graph);
+            throw new Exception(); return false;
         }
         bool GRGEN_LIBGR.IAction.ApplyPlus(GRGEN_LIBGR.IGraph graph, params object[] parameters)
         {
-            return ApplyPlus(graph);
+            return ApplyPlus(graph, (System.Int32) parameters[0]);
         }
         bool GRGEN_LIBGR.IAction.ApplyMinMax(GRGEN_LIBGR.IGraph graph, int min, int max)
         {
-            return ApplyMinMax(graph, min, max);
+            throw new Exception(); return false;
         }
         bool GRGEN_LIBGR.IAction.ApplyMinMax(GRGEN_LIBGR.IGraph graph, int min, int max, params object[] parameters)
         {
-            return ApplyMinMax(graph, min, max);
+            return ApplyMinMax(graph, min, max, (System.Int32) parameters[0]);
         }
     }
 
@@ -33628,21 +33858,21 @@ maxMatchesIterReached:
     public interface IAction_dumpNodeBlock
     {
         /// <summary> same as IAction.Match, but with exact types and distinct parameters. </summary>
-        GRGEN_LIBGR.IMatchesExact<Rule_dumpNodeBlock.IMatch_dumpNodeBlock> Match(GRGEN_LIBGR.IGraph graph, int maxMatches);
+        GRGEN_LIBGR.IMatchesExact<Rule_dumpNodeBlock.IMatch_dumpNodeBlock> Match(GRGEN_LIBGR.IGraph graph, int maxMatches, System.Int32 dumpNodeBlock_var_v);
         /// <summary> same as IAction.Modify, but with exact types and distinct parameters. </summary>
         void Modify(GRGEN_LIBGR.IGraph graph, Rule_dumpNodeBlock.IMatch_dumpNodeBlock match);
         /// <summary> same as IAction.ModifyAll, but with exact types and distinct parameters. </summary>
         void ModifyAll(GRGEN_LIBGR.IGraph graph, GRGEN_LIBGR.IMatchesExact<Rule_dumpNodeBlock.IMatch_dumpNodeBlock> matches);
         /// <summary> same as IAction.Apply, but with exact types and distinct parameters; returns true if applied </summary>
-        bool Apply(GRGEN_LIBGR.IGraph graph);
+        bool Apply(GRGEN_LIBGR.IGraph graph, System.Int32 dumpNodeBlock_var_v);
         /// <summary> same as IAction.ApplyAll, but with exact types and distinct parameters; returns true if applied at least once. </summary>
-        bool ApplyAll(int maxMatches, GRGEN_LIBGR.IGraph graph);
+        bool ApplyAll(int maxMatches, GRGEN_LIBGR.IGraph graph, System.Int32 dumpNodeBlock_var_v);
         /// <summary> same as IAction.ApplyStar, but with exact types and distinct parameters. </summary>
-        bool ApplyStar(GRGEN_LIBGR.IGraph graph);
+        bool ApplyStar(GRGEN_LIBGR.IGraph graph, System.Int32 dumpNodeBlock_var_v);
         /// <summary> same as IAction.ApplyPlus, but with exact types and distinct parameters. </summary>
-        bool ApplyPlus(GRGEN_LIBGR.IGraph graph);
+        bool ApplyPlus(GRGEN_LIBGR.IGraph graph, System.Int32 dumpNodeBlock_var_v);
         /// <summary> same as IAction.ApplyMinMax, but with exact types and distinct parameters. </summary>
-        bool ApplyMinMax(GRGEN_LIBGR.IGraph graph, int min, int max);
+        bool ApplyMinMax(GRGEN_LIBGR.IGraph graph, int min, int max, System.Int32 dumpNodeBlock_var_v);
     }
     
     public class Action_dumpNodeBlock : GRGEN_LGSP.LGSPAction, GRGEN_LIBGR.IAction, IAction_dumpNodeBlock
@@ -33663,20 +33893,22 @@ maxMatchesIterReached:
         public static Action_dumpNodeBlock Instance { get { return instance; } }
         private static Action_dumpNodeBlock instance = new Action_dumpNodeBlock();
         
-        public GRGEN_LIBGR.IMatchesExact<Rule_dumpNodeBlock.IMatch_dumpNodeBlock> myMatch(GRGEN_LGSP.LGSPGraph graph, int maxMatches)
+        public GRGEN_LIBGR.IMatchesExact<Rule_dumpNodeBlock.IMatch_dumpNodeBlock> myMatch(GRGEN_LGSP.LGSPGraph graph, int maxMatches, System.Int32 dumpNodeBlock_var_v)
         {
             matches.Clear();
             int negLevel = 0;
+            System.Int32 var_dumpNodeBlock_var_v = (System.Int32)dumpNodeBlock_var_v;
             // Lookup dumpNodeBlock_node_n 
             int type_id_candidate_dumpNodeBlock_node_n = 15;
             for(GRGEN_LGSP.LGSPNode head_candidate_dumpNodeBlock_node_n = graph.nodesByTypeHeads[type_id_candidate_dumpNodeBlock_node_n], candidate_dumpNodeBlock_node_n = head_candidate_dumpNodeBlock_node_n.lgspTypeNext; candidate_dumpNodeBlock_node_n != head_candidate_dumpNodeBlock_node_n; candidate_dumpNodeBlock_node_n = candidate_dumpNodeBlock_node_n.lgspTypeNext)
             {
                 // Condition 
-                if(!(!graph.IsVisited(candidate_dumpNodeBlock_node_n, 0))) {
+                if(!(!graph.IsVisited(candidate_dumpNodeBlock_node_n, var_dumpNodeBlock_var_v))) {
                     continue;
                 }
                 Rule_dumpNodeBlock.Match_dumpNodeBlock match = matches.GetNextUnfilledPosition();
                 match._node_n = candidate_dumpNodeBlock_node_n;
+                match._var_v = var_dumpNodeBlock_var_v;
                 matches.PositionWasFilledFixIt();
                 // if enough matches were found, we leave
                 if(maxMatches > 0 && matches.Count >= maxMatches)
@@ -33688,14 +33920,14 @@ maxMatchesIterReached:
             return matches;
         }
         /// <summary> Type of the matcher method (with parameters host graph, maximum number of matches to search for (zero=unlimited), and rule parameters; returning found matches). </summary>
-        public delegate GRGEN_LIBGR.IMatchesExact<Rule_dumpNodeBlock.IMatch_dumpNodeBlock> MatchInvoker(GRGEN_LGSP.LGSPGraph graph, int maxMatches);
+        public delegate GRGEN_LIBGR.IMatchesExact<Rule_dumpNodeBlock.IMatch_dumpNodeBlock> MatchInvoker(GRGEN_LGSP.LGSPGraph graph, int maxMatches, System.Int32 dumpNodeBlock_var_v);
         /// <summary> A delegate pointing to the current matcher program for this rule. </summary>
         public MatchInvoker DynamicMatch;
         /// <summary> The RulePattern object from which this LGSPAction object has been created. </summary>
         public GRGEN_LIBGR.IRulePattern RulePattern { get { return _rulePattern; } }
-        public GRGEN_LIBGR.IMatchesExact<Rule_dumpNodeBlock.IMatch_dumpNodeBlock> Match(GRGEN_LIBGR.IGraph graph, int maxMatches)
+        public GRGEN_LIBGR.IMatchesExact<Rule_dumpNodeBlock.IMatch_dumpNodeBlock> Match(GRGEN_LIBGR.IGraph graph, int maxMatches, System.Int32 dumpNodeBlock_var_v)
         {
-            return DynamicMatch((GRGEN_LGSP.LGSPGraph)graph, maxMatches);
+            return DynamicMatch((GRGEN_LGSP.LGSPGraph)graph, maxMatches, dumpNodeBlock_var_v);
         }
         public void Modify(GRGEN_LIBGR.IGraph graph, Rule_dumpNodeBlock.IMatch_dumpNodeBlock match)
         {
@@ -33705,51 +33937,51 @@ maxMatchesIterReached:
         {
             foreach(Rule_dumpNodeBlock.IMatch_dumpNodeBlock match in matches) _rulePattern.Modify((GRGEN_LGSP.LGSPGraph)graph, match);
         }
-        public bool Apply(GRGEN_LIBGR.IGraph graph)
+        public bool Apply(GRGEN_LIBGR.IGraph graph, System.Int32 dumpNodeBlock_var_v)
         {
-            GRGEN_LIBGR.IMatchesExact<Rule_dumpNodeBlock.IMatch_dumpNodeBlock> matches = DynamicMatch((GRGEN_LGSP.LGSPGraph)graph, 1);
+            GRGEN_LIBGR.IMatchesExact<Rule_dumpNodeBlock.IMatch_dumpNodeBlock> matches = DynamicMatch((GRGEN_LGSP.LGSPGraph)graph, 1, dumpNodeBlock_var_v);
             if(matches.Count <= 0) return false;
             _rulePattern.Modify((GRGEN_LGSP.LGSPGraph)graph, matches.First);
             return true;
         }
-        public bool ApplyAll(int maxMatches, GRGEN_LIBGR.IGraph graph)
+        public bool ApplyAll(int maxMatches, GRGEN_LIBGR.IGraph graph, System.Int32 dumpNodeBlock_var_v)
         {
-            GRGEN_LIBGR.IMatchesExact<Rule_dumpNodeBlock.IMatch_dumpNodeBlock> matches = DynamicMatch((GRGEN_LGSP.LGSPGraph)graph, maxMatches);
+            GRGEN_LIBGR.IMatchesExact<Rule_dumpNodeBlock.IMatch_dumpNodeBlock> matches = DynamicMatch((GRGEN_LGSP.LGSPGraph)graph, maxMatches, dumpNodeBlock_var_v);
             if(matches.Count <= 0) return false;
             foreach(Rule_dumpNodeBlock.IMatch_dumpNodeBlock match in matches) _rulePattern.Modify((GRGEN_LGSP.LGSPGraph)graph, match);
             return true;
         }
-        public bool ApplyStar(GRGEN_LIBGR.IGraph graph)
+        public bool ApplyStar(GRGEN_LIBGR.IGraph graph, System.Int32 dumpNodeBlock_var_v)
         {
             GRGEN_LIBGR.IMatchesExact<Rule_dumpNodeBlock.IMatch_dumpNodeBlock> matches;
             
             while(true)
             {
-                matches = DynamicMatch((GRGEN_LGSP.LGSPGraph)graph, 1);
+                matches = DynamicMatch((GRGEN_LGSP.LGSPGraph)graph, 1, dumpNodeBlock_var_v);
                 if(matches.Count <= 0) return true;
                 _rulePattern.Modify((GRGEN_LGSP.LGSPGraph)graph, matches.First);
             }
         }
-        public bool ApplyPlus(GRGEN_LIBGR.IGraph graph)
+        public bool ApplyPlus(GRGEN_LIBGR.IGraph graph, System.Int32 dumpNodeBlock_var_v)
         {
-            GRGEN_LIBGR.IMatchesExact<Rule_dumpNodeBlock.IMatch_dumpNodeBlock> matches = DynamicMatch((GRGEN_LGSP.LGSPGraph)graph, 1);
+            GRGEN_LIBGR.IMatchesExact<Rule_dumpNodeBlock.IMatch_dumpNodeBlock> matches = DynamicMatch((GRGEN_LGSP.LGSPGraph)graph, 1, dumpNodeBlock_var_v);
             if(matches.Count <= 0) return false;
             
             do
             {
                 _rulePattern.Modify((GRGEN_LGSP.LGSPGraph)graph, matches.First);
-                matches = DynamicMatch((GRGEN_LGSP.LGSPGraph)graph, 1);
+                matches = DynamicMatch((GRGEN_LGSP.LGSPGraph)graph, 1, dumpNodeBlock_var_v);
             }
             while(matches.Count > 0) ;
             return true;
         }
-        public bool ApplyMinMax(GRGEN_LIBGR.IGraph graph, int min, int max)
+        public bool ApplyMinMax(GRGEN_LIBGR.IGraph graph, int min, int max, System.Int32 dumpNodeBlock_var_v)
         {
             GRGEN_LIBGR.IMatchesExact<Rule_dumpNodeBlock.IMatch_dumpNodeBlock> matches;
             
             for(int i = 0; i < max; i++)
             {
-                matches = DynamicMatch((GRGEN_LGSP.LGSPGraph)graph, 1);
+                matches = DynamicMatch((GRGEN_LGSP.LGSPGraph)graph, 1, dumpNodeBlock_var_v);
                 if(matches.Count <= 0) return i >= min;
                 _rulePattern.Modify((GRGEN_LGSP.LGSPGraph)graph, matches.First);
             }
@@ -33758,7 +33990,7 @@ maxMatchesIterReached:
         // implementation of inexact action interface by delegation to exact action interface
         public GRGEN_LIBGR.IMatches Match(GRGEN_LIBGR.IGraph graph, int maxMatches, object[] parameters)
         {
-            return Match(graph, maxMatches);
+            return Match(graph, maxMatches, (System.Int32) parameters[0]);
         }
         public object[] Modify(GRGEN_LIBGR.IGraph graph, GRGEN_LIBGR.IMatch match)
         {
@@ -33774,59 +34006,51 @@ maxMatchesIterReached:
         }
         object[] GRGEN_LIBGR.IAction.Apply(GRGEN_LIBGR.IGraph graph)
         {
-            
-            if(Apply(graph)) {
-                return ReturnArray;
-            }
-            else return null;
+            throw new Exception();
         }
         object[] GRGEN_LIBGR.IAction.Apply(GRGEN_LIBGR.IGraph graph, params object[] parameters)
         {
             
-            if(Apply(graph)) {
+            if(Apply(graph, (System.Int32) parameters[0])) {
                 return ReturnArray;
             }
             else return null;
         }
         object[] GRGEN_LIBGR.IAction.ApplyAll(int maxMatches, GRGEN_LIBGR.IGraph graph)
         {
-            
-            if(ApplyAll(maxMatches, graph)) {
-                return ReturnArray;
-            }
-            else return null;
+            throw new Exception();
         }
         object[] GRGEN_LIBGR.IAction.ApplyAll(int maxMatches, GRGEN_LIBGR.IGraph graph, params object[] parameters)
         {
             
-            if(ApplyAll(maxMatches, graph)) {
+            if(ApplyAll(maxMatches, graph, (System.Int32) parameters[0])) {
                 return ReturnArray;
             }
             else return null;
         }
         bool GRGEN_LIBGR.IAction.ApplyStar(GRGEN_LIBGR.IGraph graph)
         {
-            return ApplyStar(graph);
+            throw new Exception(); return false;
         }
         bool GRGEN_LIBGR.IAction.ApplyStar(GRGEN_LIBGR.IGraph graph, params object[] parameters)
         {
-            return ApplyStar(graph);
+            return ApplyStar(graph, (System.Int32) parameters[0]);
         }
         bool GRGEN_LIBGR.IAction.ApplyPlus(GRGEN_LIBGR.IGraph graph)
         {
-            return ApplyPlus(graph);
+            throw new Exception(); return false;
         }
         bool GRGEN_LIBGR.IAction.ApplyPlus(GRGEN_LIBGR.IGraph graph, params object[] parameters)
         {
-            return ApplyPlus(graph);
+            return ApplyPlus(graph, (System.Int32) parameters[0]);
         }
         bool GRGEN_LIBGR.IAction.ApplyMinMax(GRGEN_LIBGR.IGraph graph, int min, int max)
         {
-            return ApplyMinMax(graph, min, max);
+            throw new Exception(); return false;
         }
         bool GRGEN_LIBGR.IAction.ApplyMinMax(GRGEN_LIBGR.IGraph graph, int min, int max, params object[] parameters)
         {
-            return ApplyMinMax(graph, min, max);
+            return ApplyMinMax(graph, min, max, (System.Int32) parameters[0]);
         }
     }
 
@@ -33836,21 +34060,21 @@ maxMatchesIterReached:
     public interface IAction_dumpNodeLiteral
     {
         /// <summary> same as IAction.Match, but with exact types and distinct parameters. </summary>
-        GRGEN_LIBGR.IMatchesExact<Rule_dumpNodeLiteral.IMatch_dumpNodeLiteral> Match(GRGEN_LIBGR.IGraph graph, int maxMatches);
+        GRGEN_LIBGR.IMatchesExact<Rule_dumpNodeLiteral.IMatch_dumpNodeLiteral> Match(GRGEN_LIBGR.IGraph graph, int maxMatches, System.Int32 dumpNodeLiteral_var_v);
         /// <summary> same as IAction.Modify, but with exact types and distinct parameters. </summary>
         void Modify(GRGEN_LIBGR.IGraph graph, Rule_dumpNodeLiteral.IMatch_dumpNodeLiteral match);
         /// <summary> same as IAction.ModifyAll, but with exact types and distinct parameters. </summary>
         void ModifyAll(GRGEN_LIBGR.IGraph graph, GRGEN_LIBGR.IMatchesExact<Rule_dumpNodeLiteral.IMatch_dumpNodeLiteral> matches);
         /// <summary> same as IAction.Apply, but with exact types and distinct parameters; returns true if applied </summary>
-        bool Apply(GRGEN_LIBGR.IGraph graph);
+        bool Apply(GRGEN_LIBGR.IGraph graph, System.Int32 dumpNodeLiteral_var_v);
         /// <summary> same as IAction.ApplyAll, but with exact types and distinct parameters; returns true if applied at least once. </summary>
-        bool ApplyAll(int maxMatches, GRGEN_LIBGR.IGraph graph);
+        bool ApplyAll(int maxMatches, GRGEN_LIBGR.IGraph graph, System.Int32 dumpNodeLiteral_var_v);
         /// <summary> same as IAction.ApplyStar, but with exact types and distinct parameters. </summary>
-        bool ApplyStar(GRGEN_LIBGR.IGraph graph);
+        bool ApplyStar(GRGEN_LIBGR.IGraph graph, System.Int32 dumpNodeLiteral_var_v);
         /// <summary> same as IAction.ApplyPlus, but with exact types and distinct parameters. </summary>
-        bool ApplyPlus(GRGEN_LIBGR.IGraph graph);
+        bool ApplyPlus(GRGEN_LIBGR.IGraph graph, System.Int32 dumpNodeLiteral_var_v);
         /// <summary> same as IAction.ApplyMinMax, but with exact types and distinct parameters. </summary>
-        bool ApplyMinMax(GRGEN_LIBGR.IGraph graph, int min, int max);
+        bool ApplyMinMax(GRGEN_LIBGR.IGraph graph, int min, int max, System.Int32 dumpNodeLiteral_var_v);
     }
     
     public class Action_dumpNodeLiteral : GRGEN_LGSP.LGSPAction, GRGEN_LIBGR.IAction, IAction_dumpNodeLiteral
@@ -33871,20 +34095,22 @@ maxMatchesIterReached:
         public static Action_dumpNodeLiteral Instance { get { return instance; } }
         private static Action_dumpNodeLiteral instance = new Action_dumpNodeLiteral();
         
-        public GRGEN_LIBGR.IMatchesExact<Rule_dumpNodeLiteral.IMatch_dumpNodeLiteral> myMatch(GRGEN_LGSP.LGSPGraph graph, int maxMatches)
+        public GRGEN_LIBGR.IMatchesExact<Rule_dumpNodeLiteral.IMatch_dumpNodeLiteral> myMatch(GRGEN_LGSP.LGSPGraph graph, int maxMatches, System.Int32 dumpNodeLiteral_var_v)
         {
             matches.Clear();
             int negLevel = 0;
+            System.Int32 var_dumpNodeLiteral_var_v = (System.Int32)dumpNodeLiteral_var_v;
             // Lookup dumpNodeLiteral_node_n 
             int type_id_candidate_dumpNodeLiteral_node_n = 16;
             for(GRGEN_LGSP.LGSPNode head_candidate_dumpNodeLiteral_node_n = graph.nodesByTypeHeads[type_id_candidate_dumpNodeLiteral_node_n], candidate_dumpNodeLiteral_node_n = head_candidate_dumpNodeLiteral_node_n.lgspTypeNext; candidate_dumpNodeLiteral_node_n != head_candidate_dumpNodeLiteral_node_n; candidate_dumpNodeLiteral_node_n = candidate_dumpNodeLiteral_node_n.lgspTypeNext)
             {
                 // Condition 
-                if(!(!graph.IsVisited(candidate_dumpNodeLiteral_node_n, 0))) {
+                if(!(!graph.IsVisited(candidate_dumpNodeLiteral_node_n, var_dumpNodeLiteral_var_v))) {
                     continue;
                 }
                 Rule_dumpNodeLiteral.Match_dumpNodeLiteral match = matches.GetNextUnfilledPosition();
                 match._node_n = candidate_dumpNodeLiteral_node_n;
+                match._var_v = var_dumpNodeLiteral_var_v;
                 matches.PositionWasFilledFixIt();
                 // if enough matches were found, we leave
                 if(maxMatches > 0 && matches.Count >= maxMatches)
@@ -33896,14 +34122,14 @@ maxMatchesIterReached:
             return matches;
         }
         /// <summary> Type of the matcher method (with parameters host graph, maximum number of matches to search for (zero=unlimited), and rule parameters; returning found matches). </summary>
-        public delegate GRGEN_LIBGR.IMatchesExact<Rule_dumpNodeLiteral.IMatch_dumpNodeLiteral> MatchInvoker(GRGEN_LGSP.LGSPGraph graph, int maxMatches);
+        public delegate GRGEN_LIBGR.IMatchesExact<Rule_dumpNodeLiteral.IMatch_dumpNodeLiteral> MatchInvoker(GRGEN_LGSP.LGSPGraph graph, int maxMatches, System.Int32 dumpNodeLiteral_var_v);
         /// <summary> A delegate pointing to the current matcher program for this rule. </summary>
         public MatchInvoker DynamicMatch;
         /// <summary> The RulePattern object from which this LGSPAction object has been created. </summary>
         public GRGEN_LIBGR.IRulePattern RulePattern { get { return _rulePattern; } }
-        public GRGEN_LIBGR.IMatchesExact<Rule_dumpNodeLiteral.IMatch_dumpNodeLiteral> Match(GRGEN_LIBGR.IGraph graph, int maxMatches)
+        public GRGEN_LIBGR.IMatchesExact<Rule_dumpNodeLiteral.IMatch_dumpNodeLiteral> Match(GRGEN_LIBGR.IGraph graph, int maxMatches, System.Int32 dumpNodeLiteral_var_v)
         {
-            return DynamicMatch((GRGEN_LGSP.LGSPGraph)graph, maxMatches);
+            return DynamicMatch((GRGEN_LGSP.LGSPGraph)graph, maxMatches, dumpNodeLiteral_var_v);
         }
         public void Modify(GRGEN_LIBGR.IGraph graph, Rule_dumpNodeLiteral.IMatch_dumpNodeLiteral match)
         {
@@ -33913,51 +34139,51 @@ maxMatchesIterReached:
         {
             foreach(Rule_dumpNodeLiteral.IMatch_dumpNodeLiteral match in matches) _rulePattern.Modify((GRGEN_LGSP.LGSPGraph)graph, match);
         }
-        public bool Apply(GRGEN_LIBGR.IGraph graph)
+        public bool Apply(GRGEN_LIBGR.IGraph graph, System.Int32 dumpNodeLiteral_var_v)
         {
-            GRGEN_LIBGR.IMatchesExact<Rule_dumpNodeLiteral.IMatch_dumpNodeLiteral> matches = DynamicMatch((GRGEN_LGSP.LGSPGraph)graph, 1);
+            GRGEN_LIBGR.IMatchesExact<Rule_dumpNodeLiteral.IMatch_dumpNodeLiteral> matches = DynamicMatch((GRGEN_LGSP.LGSPGraph)graph, 1, dumpNodeLiteral_var_v);
             if(matches.Count <= 0) return false;
             _rulePattern.Modify((GRGEN_LGSP.LGSPGraph)graph, matches.First);
             return true;
         }
-        public bool ApplyAll(int maxMatches, GRGEN_LIBGR.IGraph graph)
+        public bool ApplyAll(int maxMatches, GRGEN_LIBGR.IGraph graph, System.Int32 dumpNodeLiteral_var_v)
         {
-            GRGEN_LIBGR.IMatchesExact<Rule_dumpNodeLiteral.IMatch_dumpNodeLiteral> matches = DynamicMatch((GRGEN_LGSP.LGSPGraph)graph, maxMatches);
+            GRGEN_LIBGR.IMatchesExact<Rule_dumpNodeLiteral.IMatch_dumpNodeLiteral> matches = DynamicMatch((GRGEN_LGSP.LGSPGraph)graph, maxMatches, dumpNodeLiteral_var_v);
             if(matches.Count <= 0) return false;
             foreach(Rule_dumpNodeLiteral.IMatch_dumpNodeLiteral match in matches) _rulePattern.Modify((GRGEN_LGSP.LGSPGraph)graph, match);
             return true;
         }
-        public bool ApplyStar(GRGEN_LIBGR.IGraph graph)
+        public bool ApplyStar(GRGEN_LIBGR.IGraph graph, System.Int32 dumpNodeLiteral_var_v)
         {
             GRGEN_LIBGR.IMatchesExact<Rule_dumpNodeLiteral.IMatch_dumpNodeLiteral> matches;
             
             while(true)
             {
-                matches = DynamicMatch((GRGEN_LGSP.LGSPGraph)graph, 1);
+                matches = DynamicMatch((GRGEN_LGSP.LGSPGraph)graph, 1, dumpNodeLiteral_var_v);
                 if(matches.Count <= 0) return true;
                 _rulePattern.Modify((GRGEN_LGSP.LGSPGraph)graph, matches.First);
             }
         }
-        public bool ApplyPlus(GRGEN_LIBGR.IGraph graph)
+        public bool ApplyPlus(GRGEN_LIBGR.IGraph graph, System.Int32 dumpNodeLiteral_var_v)
         {
-            GRGEN_LIBGR.IMatchesExact<Rule_dumpNodeLiteral.IMatch_dumpNodeLiteral> matches = DynamicMatch((GRGEN_LGSP.LGSPGraph)graph, 1);
+            GRGEN_LIBGR.IMatchesExact<Rule_dumpNodeLiteral.IMatch_dumpNodeLiteral> matches = DynamicMatch((GRGEN_LGSP.LGSPGraph)graph, 1, dumpNodeLiteral_var_v);
             if(matches.Count <= 0) return false;
             
             do
             {
                 _rulePattern.Modify((GRGEN_LGSP.LGSPGraph)graph, matches.First);
-                matches = DynamicMatch((GRGEN_LGSP.LGSPGraph)graph, 1);
+                matches = DynamicMatch((GRGEN_LGSP.LGSPGraph)graph, 1, dumpNodeLiteral_var_v);
             }
             while(matches.Count > 0) ;
             return true;
         }
-        public bool ApplyMinMax(GRGEN_LIBGR.IGraph graph, int min, int max)
+        public bool ApplyMinMax(GRGEN_LIBGR.IGraph graph, int min, int max, System.Int32 dumpNodeLiteral_var_v)
         {
             GRGEN_LIBGR.IMatchesExact<Rule_dumpNodeLiteral.IMatch_dumpNodeLiteral> matches;
             
             for(int i = 0; i < max; i++)
             {
-                matches = DynamicMatch((GRGEN_LGSP.LGSPGraph)graph, 1);
+                matches = DynamicMatch((GRGEN_LGSP.LGSPGraph)graph, 1, dumpNodeLiteral_var_v);
                 if(matches.Count <= 0) return i >= min;
                 _rulePattern.Modify((GRGEN_LGSP.LGSPGraph)graph, matches.First);
             }
@@ -33966,7 +34192,7 @@ maxMatchesIterReached:
         // implementation of inexact action interface by delegation to exact action interface
         public GRGEN_LIBGR.IMatches Match(GRGEN_LIBGR.IGraph graph, int maxMatches, object[] parameters)
         {
-            return Match(graph, maxMatches);
+            return Match(graph, maxMatches, (System.Int32) parameters[0]);
         }
         public object[] Modify(GRGEN_LIBGR.IGraph graph, GRGEN_LIBGR.IMatch match)
         {
@@ -33982,59 +34208,51 @@ maxMatchesIterReached:
         }
         object[] GRGEN_LIBGR.IAction.Apply(GRGEN_LIBGR.IGraph graph)
         {
-            
-            if(Apply(graph)) {
-                return ReturnArray;
-            }
-            else return null;
+            throw new Exception();
         }
         object[] GRGEN_LIBGR.IAction.Apply(GRGEN_LIBGR.IGraph graph, params object[] parameters)
         {
             
-            if(Apply(graph)) {
+            if(Apply(graph, (System.Int32) parameters[0])) {
                 return ReturnArray;
             }
             else return null;
         }
         object[] GRGEN_LIBGR.IAction.ApplyAll(int maxMatches, GRGEN_LIBGR.IGraph graph)
         {
-            
-            if(ApplyAll(maxMatches, graph)) {
-                return ReturnArray;
-            }
-            else return null;
+            throw new Exception();
         }
         object[] GRGEN_LIBGR.IAction.ApplyAll(int maxMatches, GRGEN_LIBGR.IGraph graph, params object[] parameters)
         {
             
-            if(ApplyAll(maxMatches, graph)) {
+            if(ApplyAll(maxMatches, graph, (System.Int32) parameters[0])) {
                 return ReturnArray;
             }
             else return null;
         }
         bool GRGEN_LIBGR.IAction.ApplyStar(GRGEN_LIBGR.IGraph graph)
         {
-            return ApplyStar(graph);
+            throw new Exception(); return false;
         }
         bool GRGEN_LIBGR.IAction.ApplyStar(GRGEN_LIBGR.IGraph graph, params object[] parameters)
         {
-            return ApplyStar(graph);
+            return ApplyStar(graph, (System.Int32) parameters[0]);
         }
         bool GRGEN_LIBGR.IAction.ApplyPlus(GRGEN_LIBGR.IGraph graph)
         {
-            return ApplyPlus(graph);
+            throw new Exception(); return false;
         }
         bool GRGEN_LIBGR.IAction.ApplyPlus(GRGEN_LIBGR.IGraph graph, params object[] parameters)
         {
-            return ApplyPlus(graph);
+            return ApplyPlus(graph, (System.Int32) parameters[0]);
         }
         bool GRGEN_LIBGR.IAction.ApplyMinMax(GRGEN_LIBGR.IGraph graph, int min, int max)
         {
-            return ApplyMinMax(graph, min, max);
+            throw new Exception(); return false;
         }
         bool GRGEN_LIBGR.IAction.ApplyMinMax(GRGEN_LIBGR.IGraph graph, int min, int max, params object[] parameters)
         {
-            return ApplyMinMax(graph, min, max);
+            return ApplyMinMax(graph, min, max, (System.Int32) parameters[0]);
         }
     }
 
@@ -34044,21 +34262,21 @@ maxMatchesIterReached:
     public interface IAction_dumpNodeParameter
     {
         /// <summary> same as IAction.Match, but with exact types and distinct parameters. </summary>
-        GRGEN_LIBGR.IMatchesExact<Rule_dumpNodeParameter.IMatch_dumpNodeParameter> Match(GRGEN_LIBGR.IGraph graph, int maxMatches);
+        GRGEN_LIBGR.IMatchesExact<Rule_dumpNodeParameter.IMatch_dumpNodeParameter> Match(GRGEN_LIBGR.IGraph graph, int maxMatches, System.Int32 dumpNodeParameter_var_v);
         /// <summary> same as IAction.Modify, but with exact types and distinct parameters. </summary>
         void Modify(GRGEN_LIBGR.IGraph graph, Rule_dumpNodeParameter.IMatch_dumpNodeParameter match);
         /// <summary> same as IAction.ModifyAll, but with exact types and distinct parameters. </summary>
         void ModifyAll(GRGEN_LIBGR.IGraph graph, GRGEN_LIBGR.IMatchesExact<Rule_dumpNodeParameter.IMatch_dumpNodeParameter> matches);
         /// <summary> same as IAction.Apply, but with exact types and distinct parameters; returns true if applied </summary>
-        bool Apply(GRGEN_LIBGR.IGraph graph);
+        bool Apply(GRGEN_LIBGR.IGraph graph, System.Int32 dumpNodeParameter_var_v);
         /// <summary> same as IAction.ApplyAll, but with exact types and distinct parameters; returns true if applied at least once. </summary>
-        bool ApplyAll(int maxMatches, GRGEN_LIBGR.IGraph graph);
+        bool ApplyAll(int maxMatches, GRGEN_LIBGR.IGraph graph, System.Int32 dumpNodeParameter_var_v);
         /// <summary> same as IAction.ApplyStar, but with exact types and distinct parameters. </summary>
-        bool ApplyStar(GRGEN_LIBGR.IGraph graph);
+        bool ApplyStar(GRGEN_LIBGR.IGraph graph, System.Int32 dumpNodeParameter_var_v);
         /// <summary> same as IAction.ApplyPlus, but with exact types and distinct parameters. </summary>
-        bool ApplyPlus(GRGEN_LIBGR.IGraph graph);
+        bool ApplyPlus(GRGEN_LIBGR.IGraph graph, System.Int32 dumpNodeParameter_var_v);
         /// <summary> same as IAction.ApplyMinMax, but with exact types and distinct parameters. </summary>
-        bool ApplyMinMax(GRGEN_LIBGR.IGraph graph, int min, int max);
+        bool ApplyMinMax(GRGEN_LIBGR.IGraph graph, int min, int max, System.Int32 dumpNodeParameter_var_v);
     }
     
     public class Action_dumpNodeParameter : GRGEN_LGSP.LGSPAction, GRGEN_LIBGR.IAction, IAction_dumpNodeParameter
@@ -34079,20 +34297,22 @@ maxMatchesIterReached:
         public static Action_dumpNodeParameter Instance { get { return instance; } }
         private static Action_dumpNodeParameter instance = new Action_dumpNodeParameter();
         
-        public GRGEN_LIBGR.IMatchesExact<Rule_dumpNodeParameter.IMatch_dumpNodeParameter> myMatch(GRGEN_LGSP.LGSPGraph graph, int maxMatches)
+        public GRGEN_LIBGR.IMatchesExact<Rule_dumpNodeParameter.IMatch_dumpNodeParameter> myMatch(GRGEN_LGSP.LGSPGraph graph, int maxMatches, System.Int32 dumpNodeParameter_var_v)
         {
             matches.Clear();
             int negLevel = 0;
+            System.Int32 var_dumpNodeParameter_var_v = (System.Int32)dumpNodeParameter_var_v;
             // Lookup dumpNodeParameter_node_n 
             int type_id_candidate_dumpNodeParameter_node_n = 17;
             for(GRGEN_LGSP.LGSPNode head_candidate_dumpNodeParameter_node_n = graph.nodesByTypeHeads[type_id_candidate_dumpNodeParameter_node_n], candidate_dumpNodeParameter_node_n = head_candidate_dumpNodeParameter_node_n.lgspTypeNext; candidate_dumpNodeParameter_node_n != head_candidate_dumpNodeParameter_node_n; candidate_dumpNodeParameter_node_n = candidate_dumpNodeParameter_node_n.lgspTypeNext)
             {
                 // Condition 
-                if(!(!graph.IsVisited(candidate_dumpNodeParameter_node_n, 0))) {
+                if(!(!graph.IsVisited(candidate_dumpNodeParameter_node_n, var_dumpNodeParameter_var_v))) {
                     continue;
                 }
                 Rule_dumpNodeParameter.Match_dumpNodeParameter match = matches.GetNextUnfilledPosition();
                 match._node_n = candidate_dumpNodeParameter_node_n;
+                match._var_v = var_dumpNodeParameter_var_v;
                 matches.PositionWasFilledFixIt();
                 // if enough matches were found, we leave
                 if(maxMatches > 0 && matches.Count >= maxMatches)
@@ -34104,14 +34324,14 @@ maxMatchesIterReached:
             return matches;
         }
         /// <summary> Type of the matcher method (with parameters host graph, maximum number of matches to search for (zero=unlimited), and rule parameters; returning found matches). </summary>
-        public delegate GRGEN_LIBGR.IMatchesExact<Rule_dumpNodeParameter.IMatch_dumpNodeParameter> MatchInvoker(GRGEN_LGSP.LGSPGraph graph, int maxMatches);
+        public delegate GRGEN_LIBGR.IMatchesExact<Rule_dumpNodeParameter.IMatch_dumpNodeParameter> MatchInvoker(GRGEN_LGSP.LGSPGraph graph, int maxMatches, System.Int32 dumpNodeParameter_var_v);
         /// <summary> A delegate pointing to the current matcher program for this rule. </summary>
         public MatchInvoker DynamicMatch;
         /// <summary> The RulePattern object from which this LGSPAction object has been created. </summary>
         public GRGEN_LIBGR.IRulePattern RulePattern { get { return _rulePattern; } }
-        public GRGEN_LIBGR.IMatchesExact<Rule_dumpNodeParameter.IMatch_dumpNodeParameter> Match(GRGEN_LIBGR.IGraph graph, int maxMatches)
+        public GRGEN_LIBGR.IMatchesExact<Rule_dumpNodeParameter.IMatch_dumpNodeParameter> Match(GRGEN_LIBGR.IGraph graph, int maxMatches, System.Int32 dumpNodeParameter_var_v)
         {
-            return DynamicMatch((GRGEN_LGSP.LGSPGraph)graph, maxMatches);
+            return DynamicMatch((GRGEN_LGSP.LGSPGraph)graph, maxMatches, dumpNodeParameter_var_v);
         }
         public void Modify(GRGEN_LIBGR.IGraph graph, Rule_dumpNodeParameter.IMatch_dumpNodeParameter match)
         {
@@ -34121,51 +34341,51 @@ maxMatchesIterReached:
         {
             foreach(Rule_dumpNodeParameter.IMatch_dumpNodeParameter match in matches) _rulePattern.Modify((GRGEN_LGSP.LGSPGraph)graph, match);
         }
-        public bool Apply(GRGEN_LIBGR.IGraph graph)
+        public bool Apply(GRGEN_LIBGR.IGraph graph, System.Int32 dumpNodeParameter_var_v)
         {
-            GRGEN_LIBGR.IMatchesExact<Rule_dumpNodeParameter.IMatch_dumpNodeParameter> matches = DynamicMatch((GRGEN_LGSP.LGSPGraph)graph, 1);
+            GRGEN_LIBGR.IMatchesExact<Rule_dumpNodeParameter.IMatch_dumpNodeParameter> matches = DynamicMatch((GRGEN_LGSP.LGSPGraph)graph, 1, dumpNodeParameter_var_v);
             if(matches.Count <= 0) return false;
             _rulePattern.Modify((GRGEN_LGSP.LGSPGraph)graph, matches.First);
             return true;
         }
-        public bool ApplyAll(int maxMatches, GRGEN_LIBGR.IGraph graph)
+        public bool ApplyAll(int maxMatches, GRGEN_LIBGR.IGraph graph, System.Int32 dumpNodeParameter_var_v)
         {
-            GRGEN_LIBGR.IMatchesExact<Rule_dumpNodeParameter.IMatch_dumpNodeParameter> matches = DynamicMatch((GRGEN_LGSP.LGSPGraph)graph, maxMatches);
+            GRGEN_LIBGR.IMatchesExact<Rule_dumpNodeParameter.IMatch_dumpNodeParameter> matches = DynamicMatch((GRGEN_LGSP.LGSPGraph)graph, maxMatches, dumpNodeParameter_var_v);
             if(matches.Count <= 0) return false;
             foreach(Rule_dumpNodeParameter.IMatch_dumpNodeParameter match in matches) _rulePattern.Modify((GRGEN_LGSP.LGSPGraph)graph, match);
             return true;
         }
-        public bool ApplyStar(GRGEN_LIBGR.IGraph graph)
+        public bool ApplyStar(GRGEN_LIBGR.IGraph graph, System.Int32 dumpNodeParameter_var_v)
         {
             GRGEN_LIBGR.IMatchesExact<Rule_dumpNodeParameter.IMatch_dumpNodeParameter> matches;
             
             while(true)
             {
-                matches = DynamicMatch((GRGEN_LGSP.LGSPGraph)graph, 1);
+                matches = DynamicMatch((GRGEN_LGSP.LGSPGraph)graph, 1, dumpNodeParameter_var_v);
                 if(matches.Count <= 0) return true;
                 _rulePattern.Modify((GRGEN_LGSP.LGSPGraph)graph, matches.First);
             }
         }
-        public bool ApplyPlus(GRGEN_LIBGR.IGraph graph)
+        public bool ApplyPlus(GRGEN_LIBGR.IGraph graph, System.Int32 dumpNodeParameter_var_v)
         {
-            GRGEN_LIBGR.IMatchesExact<Rule_dumpNodeParameter.IMatch_dumpNodeParameter> matches = DynamicMatch((GRGEN_LGSP.LGSPGraph)graph, 1);
+            GRGEN_LIBGR.IMatchesExact<Rule_dumpNodeParameter.IMatch_dumpNodeParameter> matches = DynamicMatch((GRGEN_LGSP.LGSPGraph)graph, 1, dumpNodeParameter_var_v);
             if(matches.Count <= 0) return false;
             
             do
             {
                 _rulePattern.Modify((GRGEN_LGSP.LGSPGraph)graph, matches.First);
-                matches = DynamicMatch((GRGEN_LGSP.LGSPGraph)graph, 1);
+                matches = DynamicMatch((GRGEN_LGSP.LGSPGraph)graph, 1, dumpNodeParameter_var_v);
             }
             while(matches.Count > 0) ;
             return true;
         }
-        public bool ApplyMinMax(GRGEN_LIBGR.IGraph graph, int min, int max)
+        public bool ApplyMinMax(GRGEN_LIBGR.IGraph graph, int min, int max, System.Int32 dumpNodeParameter_var_v)
         {
             GRGEN_LIBGR.IMatchesExact<Rule_dumpNodeParameter.IMatch_dumpNodeParameter> matches;
             
             for(int i = 0; i < max; i++)
             {
-                matches = DynamicMatch((GRGEN_LGSP.LGSPGraph)graph, 1);
+                matches = DynamicMatch((GRGEN_LGSP.LGSPGraph)graph, 1, dumpNodeParameter_var_v);
                 if(matches.Count <= 0) return i >= min;
                 _rulePattern.Modify((GRGEN_LGSP.LGSPGraph)graph, matches.First);
             }
@@ -34174,7 +34394,7 @@ maxMatchesIterReached:
         // implementation of inexact action interface by delegation to exact action interface
         public GRGEN_LIBGR.IMatches Match(GRGEN_LIBGR.IGraph graph, int maxMatches, object[] parameters)
         {
-            return Match(graph, maxMatches);
+            return Match(graph, maxMatches, (System.Int32) parameters[0]);
         }
         public object[] Modify(GRGEN_LIBGR.IGraph graph, GRGEN_LIBGR.IMatch match)
         {
@@ -34190,59 +34410,51 @@ maxMatchesIterReached:
         }
         object[] GRGEN_LIBGR.IAction.Apply(GRGEN_LIBGR.IGraph graph)
         {
-            
-            if(Apply(graph)) {
-                return ReturnArray;
-            }
-            else return null;
+            throw new Exception();
         }
         object[] GRGEN_LIBGR.IAction.Apply(GRGEN_LIBGR.IGraph graph, params object[] parameters)
         {
             
-            if(Apply(graph)) {
+            if(Apply(graph, (System.Int32) parameters[0])) {
                 return ReturnArray;
             }
             else return null;
         }
         object[] GRGEN_LIBGR.IAction.ApplyAll(int maxMatches, GRGEN_LIBGR.IGraph graph)
         {
-            
-            if(ApplyAll(maxMatches, graph)) {
-                return ReturnArray;
-            }
-            else return null;
+            throw new Exception();
         }
         object[] GRGEN_LIBGR.IAction.ApplyAll(int maxMatches, GRGEN_LIBGR.IGraph graph, params object[] parameters)
         {
             
-            if(ApplyAll(maxMatches, graph)) {
+            if(ApplyAll(maxMatches, graph, (System.Int32) parameters[0])) {
                 return ReturnArray;
             }
             else return null;
         }
         bool GRGEN_LIBGR.IAction.ApplyStar(GRGEN_LIBGR.IGraph graph)
         {
-            return ApplyStar(graph);
+            throw new Exception(); return false;
         }
         bool GRGEN_LIBGR.IAction.ApplyStar(GRGEN_LIBGR.IGraph graph, params object[] parameters)
         {
-            return ApplyStar(graph);
+            return ApplyStar(graph, (System.Int32) parameters[0]);
         }
         bool GRGEN_LIBGR.IAction.ApplyPlus(GRGEN_LIBGR.IGraph graph)
         {
-            return ApplyPlus(graph);
+            throw new Exception(); return false;
         }
         bool GRGEN_LIBGR.IAction.ApplyPlus(GRGEN_LIBGR.IGraph graph, params object[] parameters)
         {
-            return ApplyPlus(graph);
+            return ApplyPlus(graph, (System.Int32) parameters[0]);
         }
         bool GRGEN_LIBGR.IAction.ApplyMinMax(GRGEN_LIBGR.IGraph graph, int min, int max)
         {
-            return ApplyMinMax(graph, min, max);
+            throw new Exception(); return false;
         }
         bool GRGEN_LIBGR.IAction.ApplyMinMax(GRGEN_LIBGR.IGraph graph, int min, int max, params object[] parameters)
         {
-            return ApplyMinMax(graph, min, max);
+            return ApplyMinMax(graph, min, max, (System.Int32) parameters[0]);
         }
     }
 
@@ -34252,21 +34464,21 @@ maxMatchesIterReached:
     public interface IAction_dumpEdgeBelongsTo
     {
         /// <summary> same as IAction.Match, but with exact types and distinct parameters. </summary>
-        GRGEN_LIBGR.IMatchesExact<Rule_dumpEdgeBelongsTo.IMatch_dumpEdgeBelongsTo> Match(GRGEN_LIBGR.IGraph graph, int maxMatches);
+        GRGEN_LIBGR.IMatchesExact<Rule_dumpEdgeBelongsTo.IMatch_dumpEdgeBelongsTo> Match(GRGEN_LIBGR.IGraph graph, int maxMatches, System.Int32 dumpEdgeBelongsTo_var_v);
         /// <summary> same as IAction.Modify, but with exact types and distinct parameters. </summary>
         void Modify(GRGEN_LIBGR.IGraph graph, Rule_dumpEdgeBelongsTo.IMatch_dumpEdgeBelongsTo match);
         /// <summary> same as IAction.ModifyAll, but with exact types and distinct parameters. </summary>
         void ModifyAll(GRGEN_LIBGR.IGraph graph, GRGEN_LIBGR.IMatchesExact<Rule_dumpEdgeBelongsTo.IMatch_dumpEdgeBelongsTo> matches);
         /// <summary> same as IAction.Apply, but with exact types and distinct parameters; returns true if applied </summary>
-        bool Apply(GRGEN_LIBGR.IGraph graph);
+        bool Apply(GRGEN_LIBGR.IGraph graph, System.Int32 dumpEdgeBelongsTo_var_v);
         /// <summary> same as IAction.ApplyAll, but with exact types and distinct parameters; returns true if applied at least once. </summary>
-        bool ApplyAll(int maxMatches, GRGEN_LIBGR.IGraph graph);
+        bool ApplyAll(int maxMatches, GRGEN_LIBGR.IGraph graph, System.Int32 dumpEdgeBelongsTo_var_v);
         /// <summary> same as IAction.ApplyStar, but with exact types and distinct parameters. </summary>
-        bool ApplyStar(GRGEN_LIBGR.IGraph graph);
+        bool ApplyStar(GRGEN_LIBGR.IGraph graph, System.Int32 dumpEdgeBelongsTo_var_v);
         /// <summary> same as IAction.ApplyPlus, but with exact types and distinct parameters. </summary>
-        bool ApplyPlus(GRGEN_LIBGR.IGraph graph);
+        bool ApplyPlus(GRGEN_LIBGR.IGraph graph, System.Int32 dumpEdgeBelongsTo_var_v);
         /// <summary> same as IAction.ApplyMinMax, but with exact types and distinct parameters. </summary>
-        bool ApplyMinMax(GRGEN_LIBGR.IGraph graph, int min, int max);
+        bool ApplyMinMax(GRGEN_LIBGR.IGraph graph, int min, int max, System.Int32 dumpEdgeBelongsTo_var_v);
     }
     
     public class Action_dumpEdgeBelongsTo : GRGEN_LGSP.LGSPAction, GRGEN_LIBGR.IAction, IAction_dumpEdgeBelongsTo
@@ -34287,16 +34499,17 @@ maxMatchesIterReached:
         public static Action_dumpEdgeBelongsTo Instance { get { return instance; } }
         private static Action_dumpEdgeBelongsTo instance = new Action_dumpEdgeBelongsTo();
         
-        public GRGEN_LIBGR.IMatchesExact<Rule_dumpEdgeBelongsTo.IMatch_dumpEdgeBelongsTo> myMatch(GRGEN_LGSP.LGSPGraph graph, int maxMatches)
+        public GRGEN_LIBGR.IMatchesExact<Rule_dumpEdgeBelongsTo.IMatch_dumpEdgeBelongsTo> myMatch(GRGEN_LGSP.LGSPGraph graph, int maxMatches, System.Int32 dumpEdgeBelongsTo_var_v)
         {
             matches.Clear();
             int negLevel = 0;
+            System.Int32 var_dumpEdgeBelongsTo_var_v = (System.Int32)dumpEdgeBelongsTo_var_v;
             // Lookup dumpEdgeBelongsTo_edge_e 
             int type_id_candidate_dumpEdgeBelongsTo_edge_e = 3;
             for(GRGEN_LGSP.LGSPEdge head_candidate_dumpEdgeBelongsTo_edge_e = graph.edgesByTypeHeads[type_id_candidate_dumpEdgeBelongsTo_edge_e], candidate_dumpEdgeBelongsTo_edge_e = head_candidate_dumpEdgeBelongsTo_edge_e.lgspTypeNext; candidate_dumpEdgeBelongsTo_edge_e != head_candidate_dumpEdgeBelongsTo_edge_e; candidate_dumpEdgeBelongsTo_edge_e = candidate_dumpEdgeBelongsTo_edge_e.lgspTypeNext)
             {
                 // Condition 
-                if(!(!graph.IsVisited(candidate_dumpEdgeBelongsTo_edge_e, 0))) {
+                if(!(!graph.IsVisited(candidate_dumpEdgeBelongsTo_edge_e, var_dumpEdgeBelongsTo_var_v))) {
                     continue;
                 }
                 // Implicit Source dumpEdgeBelongsTo_node_src from dumpEdgeBelongsTo_edge_e 
@@ -34315,6 +34528,7 @@ maxMatchesIterReached:
                 match._node_src = candidate_dumpEdgeBelongsTo_node_src;
                 match._node_tgt = candidate_dumpEdgeBelongsTo_node_tgt;
                 match._edge_e = candidate_dumpEdgeBelongsTo_edge_e;
+                match._var_v = var_dumpEdgeBelongsTo_var_v;
                 matches.PositionWasFilledFixIt();
                 // if enough matches were found, we leave
                 if(maxMatches > 0 && matches.Count >= maxMatches)
@@ -34328,14 +34542,14 @@ maxMatchesIterReached:
             return matches;
         }
         /// <summary> Type of the matcher method (with parameters host graph, maximum number of matches to search for (zero=unlimited), and rule parameters; returning found matches). </summary>
-        public delegate GRGEN_LIBGR.IMatchesExact<Rule_dumpEdgeBelongsTo.IMatch_dumpEdgeBelongsTo> MatchInvoker(GRGEN_LGSP.LGSPGraph graph, int maxMatches);
+        public delegate GRGEN_LIBGR.IMatchesExact<Rule_dumpEdgeBelongsTo.IMatch_dumpEdgeBelongsTo> MatchInvoker(GRGEN_LGSP.LGSPGraph graph, int maxMatches, System.Int32 dumpEdgeBelongsTo_var_v);
         /// <summary> A delegate pointing to the current matcher program for this rule. </summary>
         public MatchInvoker DynamicMatch;
         /// <summary> The RulePattern object from which this LGSPAction object has been created. </summary>
         public GRGEN_LIBGR.IRulePattern RulePattern { get { return _rulePattern; } }
-        public GRGEN_LIBGR.IMatchesExact<Rule_dumpEdgeBelongsTo.IMatch_dumpEdgeBelongsTo> Match(GRGEN_LIBGR.IGraph graph, int maxMatches)
+        public GRGEN_LIBGR.IMatchesExact<Rule_dumpEdgeBelongsTo.IMatch_dumpEdgeBelongsTo> Match(GRGEN_LIBGR.IGraph graph, int maxMatches, System.Int32 dumpEdgeBelongsTo_var_v)
         {
-            return DynamicMatch((GRGEN_LGSP.LGSPGraph)graph, maxMatches);
+            return DynamicMatch((GRGEN_LGSP.LGSPGraph)graph, maxMatches, dumpEdgeBelongsTo_var_v);
         }
         public void Modify(GRGEN_LIBGR.IGraph graph, Rule_dumpEdgeBelongsTo.IMatch_dumpEdgeBelongsTo match)
         {
@@ -34345,51 +34559,51 @@ maxMatchesIterReached:
         {
             foreach(Rule_dumpEdgeBelongsTo.IMatch_dumpEdgeBelongsTo match in matches) _rulePattern.Modify((GRGEN_LGSP.LGSPGraph)graph, match);
         }
-        public bool Apply(GRGEN_LIBGR.IGraph graph)
+        public bool Apply(GRGEN_LIBGR.IGraph graph, System.Int32 dumpEdgeBelongsTo_var_v)
         {
-            GRGEN_LIBGR.IMatchesExact<Rule_dumpEdgeBelongsTo.IMatch_dumpEdgeBelongsTo> matches = DynamicMatch((GRGEN_LGSP.LGSPGraph)graph, 1);
+            GRGEN_LIBGR.IMatchesExact<Rule_dumpEdgeBelongsTo.IMatch_dumpEdgeBelongsTo> matches = DynamicMatch((GRGEN_LGSP.LGSPGraph)graph, 1, dumpEdgeBelongsTo_var_v);
             if(matches.Count <= 0) return false;
             _rulePattern.Modify((GRGEN_LGSP.LGSPGraph)graph, matches.First);
             return true;
         }
-        public bool ApplyAll(int maxMatches, GRGEN_LIBGR.IGraph graph)
+        public bool ApplyAll(int maxMatches, GRGEN_LIBGR.IGraph graph, System.Int32 dumpEdgeBelongsTo_var_v)
         {
-            GRGEN_LIBGR.IMatchesExact<Rule_dumpEdgeBelongsTo.IMatch_dumpEdgeBelongsTo> matches = DynamicMatch((GRGEN_LGSP.LGSPGraph)graph, maxMatches);
+            GRGEN_LIBGR.IMatchesExact<Rule_dumpEdgeBelongsTo.IMatch_dumpEdgeBelongsTo> matches = DynamicMatch((GRGEN_LGSP.LGSPGraph)graph, maxMatches, dumpEdgeBelongsTo_var_v);
             if(matches.Count <= 0) return false;
             foreach(Rule_dumpEdgeBelongsTo.IMatch_dumpEdgeBelongsTo match in matches) _rulePattern.Modify((GRGEN_LGSP.LGSPGraph)graph, match);
             return true;
         }
-        public bool ApplyStar(GRGEN_LIBGR.IGraph graph)
+        public bool ApplyStar(GRGEN_LIBGR.IGraph graph, System.Int32 dumpEdgeBelongsTo_var_v)
         {
             GRGEN_LIBGR.IMatchesExact<Rule_dumpEdgeBelongsTo.IMatch_dumpEdgeBelongsTo> matches;
             
             while(true)
             {
-                matches = DynamicMatch((GRGEN_LGSP.LGSPGraph)graph, 1);
+                matches = DynamicMatch((GRGEN_LGSP.LGSPGraph)graph, 1, dumpEdgeBelongsTo_var_v);
                 if(matches.Count <= 0) return true;
                 _rulePattern.Modify((GRGEN_LGSP.LGSPGraph)graph, matches.First);
             }
         }
-        public bool ApplyPlus(GRGEN_LIBGR.IGraph graph)
+        public bool ApplyPlus(GRGEN_LIBGR.IGraph graph, System.Int32 dumpEdgeBelongsTo_var_v)
         {
-            GRGEN_LIBGR.IMatchesExact<Rule_dumpEdgeBelongsTo.IMatch_dumpEdgeBelongsTo> matches = DynamicMatch((GRGEN_LGSP.LGSPGraph)graph, 1);
+            GRGEN_LIBGR.IMatchesExact<Rule_dumpEdgeBelongsTo.IMatch_dumpEdgeBelongsTo> matches = DynamicMatch((GRGEN_LGSP.LGSPGraph)graph, 1, dumpEdgeBelongsTo_var_v);
             if(matches.Count <= 0) return false;
             
             do
             {
                 _rulePattern.Modify((GRGEN_LGSP.LGSPGraph)graph, matches.First);
-                matches = DynamicMatch((GRGEN_LGSP.LGSPGraph)graph, 1);
+                matches = DynamicMatch((GRGEN_LGSP.LGSPGraph)graph, 1, dumpEdgeBelongsTo_var_v);
             }
             while(matches.Count > 0) ;
             return true;
         }
-        public bool ApplyMinMax(GRGEN_LIBGR.IGraph graph, int min, int max)
+        public bool ApplyMinMax(GRGEN_LIBGR.IGraph graph, int min, int max, System.Int32 dumpEdgeBelongsTo_var_v)
         {
             GRGEN_LIBGR.IMatchesExact<Rule_dumpEdgeBelongsTo.IMatch_dumpEdgeBelongsTo> matches;
             
             for(int i = 0; i < max; i++)
             {
-                matches = DynamicMatch((GRGEN_LGSP.LGSPGraph)graph, 1);
+                matches = DynamicMatch((GRGEN_LGSP.LGSPGraph)graph, 1, dumpEdgeBelongsTo_var_v);
                 if(matches.Count <= 0) return i >= min;
                 _rulePattern.Modify((GRGEN_LGSP.LGSPGraph)graph, matches.First);
             }
@@ -34398,7 +34612,7 @@ maxMatchesIterReached:
         // implementation of inexact action interface by delegation to exact action interface
         public GRGEN_LIBGR.IMatches Match(GRGEN_LIBGR.IGraph graph, int maxMatches, object[] parameters)
         {
-            return Match(graph, maxMatches);
+            return Match(graph, maxMatches, (System.Int32) parameters[0]);
         }
         public object[] Modify(GRGEN_LIBGR.IGraph graph, GRGEN_LIBGR.IMatch match)
         {
@@ -34414,59 +34628,51 @@ maxMatchesIterReached:
         }
         object[] GRGEN_LIBGR.IAction.Apply(GRGEN_LIBGR.IGraph graph)
         {
-            
-            if(Apply(graph)) {
-                return ReturnArray;
-            }
-            else return null;
+            throw new Exception();
         }
         object[] GRGEN_LIBGR.IAction.Apply(GRGEN_LIBGR.IGraph graph, params object[] parameters)
         {
             
-            if(Apply(graph)) {
+            if(Apply(graph, (System.Int32) parameters[0])) {
                 return ReturnArray;
             }
             else return null;
         }
         object[] GRGEN_LIBGR.IAction.ApplyAll(int maxMatches, GRGEN_LIBGR.IGraph graph)
         {
-            
-            if(ApplyAll(maxMatches, graph)) {
-                return ReturnArray;
-            }
-            else return null;
+            throw new Exception();
         }
         object[] GRGEN_LIBGR.IAction.ApplyAll(int maxMatches, GRGEN_LIBGR.IGraph graph, params object[] parameters)
         {
             
-            if(ApplyAll(maxMatches, graph)) {
+            if(ApplyAll(maxMatches, graph, (System.Int32) parameters[0])) {
                 return ReturnArray;
             }
             else return null;
         }
         bool GRGEN_LIBGR.IAction.ApplyStar(GRGEN_LIBGR.IGraph graph)
         {
-            return ApplyStar(graph);
+            throw new Exception(); return false;
         }
         bool GRGEN_LIBGR.IAction.ApplyStar(GRGEN_LIBGR.IGraph graph, params object[] parameters)
         {
-            return ApplyStar(graph);
+            return ApplyStar(graph, (System.Int32) parameters[0]);
         }
         bool GRGEN_LIBGR.IAction.ApplyPlus(GRGEN_LIBGR.IGraph graph)
         {
-            return ApplyPlus(graph);
+            throw new Exception(); return false;
         }
         bool GRGEN_LIBGR.IAction.ApplyPlus(GRGEN_LIBGR.IGraph graph, params object[] parameters)
         {
-            return ApplyPlus(graph);
+            return ApplyPlus(graph, (System.Int32) parameters[0]);
         }
         bool GRGEN_LIBGR.IAction.ApplyMinMax(GRGEN_LIBGR.IGraph graph, int min, int max)
         {
-            return ApplyMinMax(graph, min, max);
+            throw new Exception(); return false;
         }
         bool GRGEN_LIBGR.IAction.ApplyMinMax(GRGEN_LIBGR.IGraph graph, int min, int max, params object[] parameters)
         {
-            return ApplyMinMax(graph, min, max);
+            return ApplyMinMax(graph, min, max, (System.Int32) parameters[0]);
         }
     }
 
@@ -34476,21 +34682,21 @@ maxMatchesIterReached:
     public interface IAction_dumpEdgeType
     {
         /// <summary> same as IAction.Match, but with exact types and distinct parameters. </summary>
-        GRGEN_LIBGR.IMatchesExact<Rule_dumpEdgeType.IMatch_dumpEdgeType> Match(GRGEN_LIBGR.IGraph graph, int maxMatches);
+        GRGEN_LIBGR.IMatchesExact<Rule_dumpEdgeType.IMatch_dumpEdgeType> Match(GRGEN_LIBGR.IGraph graph, int maxMatches, System.Int32 dumpEdgeType_var_v);
         /// <summary> same as IAction.Modify, but with exact types and distinct parameters. </summary>
         void Modify(GRGEN_LIBGR.IGraph graph, Rule_dumpEdgeType.IMatch_dumpEdgeType match);
         /// <summary> same as IAction.ModifyAll, but with exact types and distinct parameters. </summary>
         void ModifyAll(GRGEN_LIBGR.IGraph graph, GRGEN_LIBGR.IMatchesExact<Rule_dumpEdgeType.IMatch_dumpEdgeType> matches);
         /// <summary> same as IAction.Apply, but with exact types and distinct parameters; returns true if applied </summary>
-        bool Apply(GRGEN_LIBGR.IGraph graph);
+        bool Apply(GRGEN_LIBGR.IGraph graph, System.Int32 dumpEdgeType_var_v);
         /// <summary> same as IAction.ApplyAll, but with exact types and distinct parameters; returns true if applied at least once. </summary>
-        bool ApplyAll(int maxMatches, GRGEN_LIBGR.IGraph graph);
+        bool ApplyAll(int maxMatches, GRGEN_LIBGR.IGraph graph, System.Int32 dumpEdgeType_var_v);
         /// <summary> same as IAction.ApplyStar, but with exact types and distinct parameters. </summary>
-        bool ApplyStar(GRGEN_LIBGR.IGraph graph);
+        bool ApplyStar(GRGEN_LIBGR.IGraph graph, System.Int32 dumpEdgeType_var_v);
         /// <summary> same as IAction.ApplyPlus, but with exact types and distinct parameters. </summary>
-        bool ApplyPlus(GRGEN_LIBGR.IGraph graph);
+        bool ApplyPlus(GRGEN_LIBGR.IGraph graph, System.Int32 dumpEdgeType_var_v);
         /// <summary> same as IAction.ApplyMinMax, but with exact types and distinct parameters. </summary>
-        bool ApplyMinMax(GRGEN_LIBGR.IGraph graph, int min, int max);
+        bool ApplyMinMax(GRGEN_LIBGR.IGraph graph, int min, int max, System.Int32 dumpEdgeType_var_v);
     }
     
     public class Action_dumpEdgeType : GRGEN_LGSP.LGSPAction, GRGEN_LIBGR.IAction, IAction_dumpEdgeType
@@ -34511,16 +34717,17 @@ maxMatchesIterReached:
         public static Action_dumpEdgeType Instance { get { return instance; } }
         private static Action_dumpEdgeType instance = new Action_dumpEdgeType();
         
-        public GRGEN_LIBGR.IMatchesExact<Rule_dumpEdgeType.IMatch_dumpEdgeType> myMatch(GRGEN_LGSP.LGSPGraph graph, int maxMatches)
+        public GRGEN_LIBGR.IMatchesExact<Rule_dumpEdgeType.IMatch_dumpEdgeType> myMatch(GRGEN_LGSP.LGSPGraph graph, int maxMatches, System.Int32 dumpEdgeType_var_v)
         {
             matches.Clear();
             int negLevel = 0;
+            System.Int32 var_dumpEdgeType_var_v = (System.Int32)dumpEdgeType_var_v;
             // Lookup dumpEdgeType_edge_e 
             int type_id_candidate_dumpEdgeType_edge_e = 4;
             for(GRGEN_LGSP.LGSPEdge head_candidate_dumpEdgeType_edge_e = graph.edgesByTypeHeads[type_id_candidate_dumpEdgeType_edge_e], candidate_dumpEdgeType_edge_e = head_candidate_dumpEdgeType_edge_e.lgspTypeNext; candidate_dumpEdgeType_edge_e != head_candidate_dumpEdgeType_edge_e; candidate_dumpEdgeType_edge_e = candidate_dumpEdgeType_edge_e.lgspTypeNext)
             {
                 // Condition 
-                if(!(!graph.IsVisited(candidate_dumpEdgeType_edge_e, 0))) {
+                if(!(!graph.IsVisited(candidate_dumpEdgeType_edge_e, var_dumpEdgeType_var_v))) {
                     continue;
                 }
                 // Implicit Source dumpEdgeType_node_src from dumpEdgeType_edge_e 
@@ -34539,6 +34746,7 @@ maxMatchesIterReached:
                 match._node_src = candidate_dumpEdgeType_node_src;
                 match._node_tgt = candidate_dumpEdgeType_node_tgt;
                 match._edge_e = candidate_dumpEdgeType_edge_e;
+                match._var_v = var_dumpEdgeType_var_v;
                 matches.PositionWasFilledFixIt();
                 // if enough matches were found, we leave
                 if(maxMatches > 0 && matches.Count >= maxMatches)
@@ -34552,14 +34760,14 @@ maxMatchesIterReached:
             return matches;
         }
         /// <summary> Type of the matcher method (with parameters host graph, maximum number of matches to search for (zero=unlimited), and rule parameters; returning found matches). </summary>
-        public delegate GRGEN_LIBGR.IMatchesExact<Rule_dumpEdgeType.IMatch_dumpEdgeType> MatchInvoker(GRGEN_LGSP.LGSPGraph graph, int maxMatches);
+        public delegate GRGEN_LIBGR.IMatchesExact<Rule_dumpEdgeType.IMatch_dumpEdgeType> MatchInvoker(GRGEN_LGSP.LGSPGraph graph, int maxMatches, System.Int32 dumpEdgeType_var_v);
         /// <summary> A delegate pointing to the current matcher program for this rule. </summary>
         public MatchInvoker DynamicMatch;
         /// <summary> The RulePattern object from which this LGSPAction object has been created. </summary>
         public GRGEN_LIBGR.IRulePattern RulePattern { get { return _rulePattern; } }
-        public GRGEN_LIBGR.IMatchesExact<Rule_dumpEdgeType.IMatch_dumpEdgeType> Match(GRGEN_LIBGR.IGraph graph, int maxMatches)
+        public GRGEN_LIBGR.IMatchesExact<Rule_dumpEdgeType.IMatch_dumpEdgeType> Match(GRGEN_LIBGR.IGraph graph, int maxMatches, System.Int32 dumpEdgeType_var_v)
         {
-            return DynamicMatch((GRGEN_LGSP.LGSPGraph)graph, maxMatches);
+            return DynamicMatch((GRGEN_LGSP.LGSPGraph)graph, maxMatches, dumpEdgeType_var_v);
         }
         public void Modify(GRGEN_LIBGR.IGraph graph, Rule_dumpEdgeType.IMatch_dumpEdgeType match)
         {
@@ -34569,51 +34777,51 @@ maxMatchesIterReached:
         {
             foreach(Rule_dumpEdgeType.IMatch_dumpEdgeType match in matches) _rulePattern.Modify((GRGEN_LGSP.LGSPGraph)graph, match);
         }
-        public bool Apply(GRGEN_LIBGR.IGraph graph)
+        public bool Apply(GRGEN_LIBGR.IGraph graph, System.Int32 dumpEdgeType_var_v)
         {
-            GRGEN_LIBGR.IMatchesExact<Rule_dumpEdgeType.IMatch_dumpEdgeType> matches = DynamicMatch((GRGEN_LGSP.LGSPGraph)graph, 1);
+            GRGEN_LIBGR.IMatchesExact<Rule_dumpEdgeType.IMatch_dumpEdgeType> matches = DynamicMatch((GRGEN_LGSP.LGSPGraph)graph, 1, dumpEdgeType_var_v);
             if(matches.Count <= 0) return false;
             _rulePattern.Modify((GRGEN_LGSP.LGSPGraph)graph, matches.First);
             return true;
         }
-        public bool ApplyAll(int maxMatches, GRGEN_LIBGR.IGraph graph)
+        public bool ApplyAll(int maxMatches, GRGEN_LIBGR.IGraph graph, System.Int32 dumpEdgeType_var_v)
         {
-            GRGEN_LIBGR.IMatchesExact<Rule_dumpEdgeType.IMatch_dumpEdgeType> matches = DynamicMatch((GRGEN_LGSP.LGSPGraph)graph, maxMatches);
+            GRGEN_LIBGR.IMatchesExact<Rule_dumpEdgeType.IMatch_dumpEdgeType> matches = DynamicMatch((GRGEN_LGSP.LGSPGraph)graph, maxMatches, dumpEdgeType_var_v);
             if(matches.Count <= 0) return false;
             foreach(Rule_dumpEdgeType.IMatch_dumpEdgeType match in matches) _rulePattern.Modify((GRGEN_LGSP.LGSPGraph)graph, match);
             return true;
         }
-        public bool ApplyStar(GRGEN_LIBGR.IGraph graph)
+        public bool ApplyStar(GRGEN_LIBGR.IGraph graph, System.Int32 dumpEdgeType_var_v)
         {
             GRGEN_LIBGR.IMatchesExact<Rule_dumpEdgeType.IMatch_dumpEdgeType> matches;
             
             while(true)
             {
-                matches = DynamicMatch((GRGEN_LGSP.LGSPGraph)graph, 1);
+                matches = DynamicMatch((GRGEN_LGSP.LGSPGraph)graph, 1, dumpEdgeType_var_v);
                 if(matches.Count <= 0) return true;
                 _rulePattern.Modify((GRGEN_LGSP.LGSPGraph)graph, matches.First);
             }
         }
-        public bool ApplyPlus(GRGEN_LIBGR.IGraph graph)
+        public bool ApplyPlus(GRGEN_LIBGR.IGraph graph, System.Int32 dumpEdgeType_var_v)
         {
-            GRGEN_LIBGR.IMatchesExact<Rule_dumpEdgeType.IMatch_dumpEdgeType> matches = DynamicMatch((GRGEN_LGSP.LGSPGraph)graph, 1);
+            GRGEN_LIBGR.IMatchesExact<Rule_dumpEdgeType.IMatch_dumpEdgeType> matches = DynamicMatch((GRGEN_LGSP.LGSPGraph)graph, 1, dumpEdgeType_var_v);
             if(matches.Count <= 0) return false;
             
             do
             {
                 _rulePattern.Modify((GRGEN_LGSP.LGSPGraph)graph, matches.First);
-                matches = DynamicMatch((GRGEN_LGSP.LGSPGraph)graph, 1);
+                matches = DynamicMatch((GRGEN_LGSP.LGSPGraph)graph, 1, dumpEdgeType_var_v);
             }
             while(matches.Count > 0) ;
             return true;
         }
-        public bool ApplyMinMax(GRGEN_LIBGR.IGraph graph, int min, int max)
+        public bool ApplyMinMax(GRGEN_LIBGR.IGraph graph, int min, int max, System.Int32 dumpEdgeType_var_v)
         {
             GRGEN_LIBGR.IMatchesExact<Rule_dumpEdgeType.IMatch_dumpEdgeType> matches;
             
             for(int i = 0; i < max; i++)
             {
-                matches = DynamicMatch((GRGEN_LGSP.LGSPGraph)graph, 1);
+                matches = DynamicMatch((GRGEN_LGSP.LGSPGraph)graph, 1, dumpEdgeType_var_v);
                 if(matches.Count <= 0) return i >= min;
                 _rulePattern.Modify((GRGEN_LGSP.LGSPGraph)graph, matches.First);
             }
@@ -34622,7 +34830,7 @@ maxMatchesIterReached:
         // implementation of inexact action interface by delegation to exact action interface
         public GRGEN_LIBGR.IMatches Match(GRGEN_LIBGR.IGraph graph, int maxMatches, object[] parameters)
         {
-            return Match(graph, maxMatches);
+            return Match(graph, maxMatches, (System.Int32) parameters[0]);
         }
         public object[] Modify(GRGEN_LIBGR.IGraph graph, GRGEN_LIBGR.IMatch match)
         {
@@ -34638,59 +34846,51 @@ maxMatchesIterReached:
         }
         object[] GRGEN_LIBGR.IAction.Apply(GRGEN_LIBGR.IGraph graph)
         {
-            
-            if(Apply(graph)) {
-                return ReturnArray;
-            }
-            else return null;
+            throw new Exception();
         }
         object[] GRGEN_LIBGR.IAction.Apply(GRGEN_LIBGR.IGraph graph, params object[] parameters)
         {
             
-            if(Apply(graph)) {
+            if(Apply(graph, (System.Int32) parameters[0])) {
                 return ReturnArray;
             }
             else return null;
         }
         object[] GRGEN_LIBGR.IAction.ApplyAll(int maxMatches, GRGEN_LIBGR.IGraph graph)
         {
-            
-            if(ApplyAll(maxMatches, graph)) {
-                return ReturnArray;
-            }
-            else return null;
+            throw new Exception();
         }
         object[] GRGEN_LIBGR.IAction.ApplyAll(int maxMatches, GRGEN_LIBGR.IGraph graph, params object[] parameters)
         {
             
-            if(ApplyAll(maxMatches, graph)) {
+            if(ApplyAll(maxMatches, graph, (System.Int32) parameters[0])) {
                 return ReturnArray;
             }
             else return null;
         }
         bool GRGEN_LIBGR.IAction.ApplyStar(GRGEN_LIBGR.IGraph graph)
         {
-            return ApplyStar(graph);
+            throw new Exception(); return false;
         }
         bool GRGEN_LIBGR.IAction.ApplyStar(GRGEN_LIBGR.IGraph graph, params object[] parameters)
         {
-            return ApplyStar(graph);
+            return ApplyStar(graph, (System.Int32) parameters[0]);
         }
         bool GRGEN_LIBGR.IAction.ApplyPlus(GRGEN_LIBGR.IGraph graph)
         {
-            return ApplyPlus(graph);
+            throw new Exception(); return false;
         }
         bool GRGEN_LIBGR.IAction.ApplyPlus(GRGEN_LIBGR.IGraph graph, params object[] parameters)
         {
-            return ApplyPlus(graph);
+            return ApplyPlus(graph, (System.Int32) parameters[0]);
         }
         bool GRGEN_LIBGR.IAction.ApplyMinMax(GRGEN_LIBGR.IGraph graph, int min, int max)
         {
-            return ApplyMinMax(graph, min, max);
+            throw new Exception(); return false;
         }
         bool GRGEN_LIBGR.IAction.ApplyMinMax(GRGEN_LIBGR.IGraph graph, int min, int max, params object[] parameters)
         {
-            return ApplyMinMax(graph, min, max);
+            return ApplyMinMax(graph, min, max, (System.Int32) parameters[0]);
         }
     }
 
@@ -34700,21 +34900,21 @@ maxMatchesIterReached:
     public interface IAction_dumpEdgeExtends
     {
         /// <summary> same as IAction.Match, but with exact types and distinct parameters. </summary>
-        GRGEN_LIBGR.IMatchesExact<Rule_dumpEdgeExtends.IMatch_dumpEdgeExtends> Match(GRGEN_LIBGR.IGraph graph, int maxMatches);
+        GRGEN_LIBGR.IMatchesExact<Rule_dumpEdgeExtends.IMatch_dumpEdgeExtends> Match(GRGEN_LIBGR.IGraph graph, int maxMatches, System.Int32 dumpEdgeExtends_var_v);
         /// <summary> same as IAction.Modify, but with exact types and distinct parameters. </summary>
         void Modify(GRGEN_LIBGR.IGraph graph, Rule_dumpEdgeExtends.IMatch_dumpEdgeExtends match);
         /// <summary> same as IAction.ModifyAll, but with exact types and distinct parameters. </summary>
         void ModifyAll(GRGEN_LIBGR.IGraph graph, GRGEN_LIBGR.IMatchesExact<Rule_dumpEdgeExtends.IMatch_dumpEdgeExtends> matches);
         /// <summary> same as IAction.Apply, but with exact types and distinct parameters; returns true if applied </summary>
-        bool Apply(GRGEN_LIBGR.IGraph graph);
+        bool Apply(GRGEN_LIBGR.IGraph graph, System.Int32 dumpEdgeExtends_var_v);
         /// <summary> same as IAction.ApplyAll, but with exact types and distinct parameters; returns true if applied at least once. </summary>
-        bool ApplyAll(int maxMatches, GRGEN_LIBGR.IGraph graph);
+        bool ApplyAll(int maxMatches, GRGEN_LIBGR.IGraph graph, System.Int32 dumpEdgeExtends_var_v);
         /// <summary> same as IAction.ApplyStar, but with exact types and distinct parameters. </summary>
-        bool ApplyStar(GRGEN_LIBGR.IGraph graph);
+        bool ApplyStar(GRGEN_LIBGR.IGraph graph, System.Int32 dumpEdgeExtends_var_v);
         /// <summary> same as IAction.ApplyPlus, but with exact types and distinct parameters. </summary>
-        bool ApplyPlus(GRGEN_LIBGR.IGraph graph);
+        bool ApplyPlus(GRGEN_LIBGR.IGraph graph, System.Int32 dumpEdgeExtends_var_v);
         /// <summary> same as IAction.ApplyMinMax, but with exact types and distinct parameters. </summary>
-        bool ApplyMinMax(GRGEN_LIBGR.IGraph graph, int min, int max);
+        bool ApplyMinMax(GRGEN_LIBGR.IGraph graph, int min, int max, System.Int32 dumpEdgeExtends_var_v);
     }
     
     public class Action_dumpEdgeExtends : GRGEN_LGSP.LGSPAction, GRGEN_LIBGR.IAction, IAction_dumpEdgeExtends
@@ -34735,16 +34935,17 @@ maxMatchesIterReached:
         public static Action_dumpEdgeExtends Instance { get { return instance; } }
         private static Action_dumpEdgeExtends instance = new Action_dumpEdgeExtends();
         
-        public GRGEN_LIBGR.IMatchesExact<Rule_dumpEdgeExtends.IMatch_dumpEdgeExtends> myMatch(GRGEN_LGSP.LGSPGraph graph, int maxMatches)
+        public GRGEN_LIBGR.IMatchesExact<Rule_dumpEdgeExtends.IMatch_dumpEdgeExtends> myMatch(GRGEN_LGSP.LGSPGraph graph, int maxMatches, System.Int32 dumpEdgeExtends_var_v)
         {
             matches.Clear();
             int negLevel = 0;
+            System.Int32 var_dumpEdgeExtends_var_v = (System.Int32)dumpEdgeExtends_var_v;
             // Lookup dumpEdgeExtends_edge_e 
             int type_id_candidate_dumpEdgeExtends_edge_e = 5;
             for(GRGEN_LGSP.LGSPEdge head_candidate_dumpEdgeExtends_edge_e = graph.edgesByTypeHeads[type_id_candidate_dumpEdgeExtends_edge_e], candidate_dumpEdgeExtends_edge_e = head_candidate_dumpEdgeExtends_edge_e.lgspTypeNext; candidate_dumpEdgeExtends_edge_e != head_candidate_dumpEdgeExtends_edge_e; candidate_dumpEdgeExtends_edge_e = candidate_dumpEdgeExtends_edge_e.lgspTypeNext)
             {
                 // Condition 
-                if(!(!graph.IsVisited(candidate_dumpEdgeExtends_edge_e, 0))) {
+                if(!(!graph.IsVisited(candidate_dumpEdgeExtends_edge_e, var_dumpEdgeExtends_var_v))) {
                     continue;
                 }
                 // Implicit Source dumpEdgeExtends_node_src from dumpEdgeExtends_edge_e 
@@ -34763,6 +34964,7 @@ maxMatchesIterReached:
                 match._node_src = candidate_dumpEdgeExtends_node_src;
                 match._node_tgt = candidate_dumpEdgeExtends_node_tgt;
                 match._edge_e = candidate_dumpEdgeExtends_edge_e;
+                match._var_v = var_dumpEdgeExtends_var_v;
                 matches.PositionWasFilledFixIt();
                 // if enough matches were found, we leave
                 if(maxMatches > 0 && matches.Count >= maxMatches)
@@ -34776,14 +34978,14 @@ maxMatchesIterReached:
             return matches;
         }
         /// <summary> Type of the matcher method (with parameters host graph, maximum number of matches to search for (zero=unlimited), and rule parameters; returning found matches). </summary>
-        public delegate GRGEN_LIBGR.IMatchesExact<Rule_dumpEdgeExtends.IMatch_dumpEdgeExtends> MatchInvoker(GRGEN_LGSP.LGSPGraph graph, int maxMatches);
+        public delegate GRGEN_LIBGR.IMatchesExact<Rule_dumpEdgeExtends.IMatch_dumpEdgeExtends> MatchInvoker(GRGEN_LGSP.LGSPGraph graph, int maxMatches, System.Int32 dumpEdgeExtends_var_v);
         /// <summary> A delegate pointing to the current matcher program for this rule. </summary>
         public MatchInvoker DynamicMatch;
         /// <summary> The RulePattern object from which this LGSPAction object has been created. </summary>
         public GRGEN_LIBGR.IRulePattern RulePattern { get { return _rulePattern; } }
-        public GRGEN_LIBGR.IMatchesExact<Rule_dumpEdgeExtends.IMatch_dumpEdgeExtends> Match(GRGEN_LIBGR.IGraph graph, int maxMatches)
+        public GRGEN_LIBGR.IMatchesExact<Rule_dumpEdgeExtends.IMatch_dumpEdgeExtends> Match(GRGEN_LIBGR.IGraph graph, int maxMatches, System.Int32 dumpEdgeExtends_var_v)
         {
-            return DynamicMatch((GRGEN_LGSP.LGSPGraph)graph, maxMatches);
+            return DynamicMatch((GRGEN_LGSP.LGSPGraph)graph, maxMatches, dumpEdgeExtends_var_v);
         }
         public void Modify(GRGEN_LIBGR.IGraph graph, Rule_dumpEdgeExtends.IMatch_dumpEdgeExtends match)
         {
@@ -34793,51 +34995,51 @@ maxMatchesIterReached:
         {
             foreach(Rule_dumpEdgeExtends.IMatch_dumpEdgeExtends match in matches) _rulePattern.Modify((GRGEN_LGSP.LGSPGraph)graph, match);
         }
-        public bool Apply(GRGEN_LIBGR.IGraph graph)
+        public bool Apply(GRGEN_LIBGR.IGraph graph, System.Int32 dumpEdgeExtends_var_v)
         {
-            GRGEN_LIBGR.IMatchesExact<Rule_dumpEdgeExtends.IMatch_dumpEdgeExtends> matches = DynamicMatch((GRGEN_LGSP.LGSPGraph)graph, 1);
+            GRGEN_LIBGR.IMatchesExact<Rule_dumpEdgeExtends.IMatch_dumpEdgeExtends> matches = DynamicMatch((GRGEN_LGSP.LGSPGraph)graph, 1, dumpEdgeExtends_var_v);
             if(matches.Count <= 0) return false;
             _rulePattern.Modify((GRGEN_LGSP.LGSPGraph)graph, matches.First);
             return true;
         }
-        public bool ApplyAll(int maxMatches, GRGEN_LIBGR.IGraph graph)
+        public bool ApplyAll(int maxMatches, GRGEN_LIBGR.IGraph graph, System.Int32 dumpEdgeExtends_var_v)
         {
-            GRGEN_LIBGR.IMatchesExact<Rule_dumpEdgeExtends.IMatch_dumpEdgeExtends> matches = DynamicMatch((GRGEN_LGSP.LGSPGraph)graph, maxMatches);
+            GRGEN_LIBGR.IMatchesExact<Rule_dumpEdgeExtends.IMatch_dumpEdgeExtends> matches = DynamicMatch((GRGEN_LGSP.LGSPGraph)graph, maxMatches, dumpEdgeExtends_var_v);
             if(matches.Count <= 0) return false;
             foreach(Rule_dumpEdgeExtends.IMatch_dumpEdgeExtends match in matches) _rulePattern.Modify((GRGEN_LGSP.LGSPGraph)graph, match);
             return true;
         }
-        public bool ApplyStar(GRGEN_LIBGR.IGraph graph)
+        public bool ApplyStar(GRGEN_LIBGR.IGraph graph, System.Int32 dumpEdgeExtends_var_v)
         {
             GRGEN_LIBGR.IMatchesExact<Rule_dumpEdgeExtends.IMatch_dumpEdgeExtends> matches;
             
             while(true)
             {
-                matches = DynamicMatch((GRGEN_LGSP.LGSPGraph)graph, 1);
+                matches = DynamicMatch((GRGEN_LGSP.LGSPGraph)graph, 1, dumpEdgeExtends_var_v);
                 if(matches.Count <= 0) return true;
                 _rulePattern.Modify((GRGEN_LGSP.LGSPGraph)graph, matches.First);
             }
         }
-        public bool ApplyPlus(GRGEN_LIBGR.IGraph graph)
+        public bool ApplyPlus(GRGEN_LIBGR.IGraph graph, System.Int32 dumpEdgeExtends_var_v)
         {
-            GRGEN_LIBGR.IMatchesExact<Rule_dumpEdgeExtends.IMatch_dumpEdgeExtends> matches = DynamicMatch((GRGEN_LGSP.LGSPGraph)graph, 1);
+            GRGEN_LIBGR.IMatchesExact<Rule_dumpEdgeExtends.IMatch_dumpEdgeExtends> matches = DynamicMatch((GRGEN_LGSP.LGSPGraph)graph, 1, dumpEdgeExtends_var_v);
             if(matches.Count <= 0) return false;
             
             do
             {
                 _rulePattern.Modify((GRGEN_LGSP.LGSPGraph)graph, matches.First);
-                matches = DynamicMatch((GRGEN_LGSP.LGSPGraph)graph, 1);
+                matches = DynamicMatch((GRGEN_LGSP.LGSPGraph)graph, 1, dumpEdgeExtends_var_v);
             }
             while(matches.Count > 0) ;
             return true;
         }
-        public bool ApplyMinMax(GRGEN_LIBGR.IGraph graph, int min, int max)
+        public bool ApplyMinMax(GRGEN_LIBGR.IGraph graph, int min, int max, System.Int32 dumpEdgeExtends_var_v)
         {
             GRGEN_LIBGR.IMatchesExact<Rule_dumpEdgeExtends.IMatch_dumpEdgeExtends> matches;
             
             for(int i = 0; i < max; i++)
             {
-                matches = DynamicMatch((GRGEN_LGSP.LGSPGraph)graph, 1);
+                matches = DynamicMatch((GRGEN_LGSP.LGSPGraph)graph, 1, dumpEdgeExtends_var_v);
                 if(matches.Count <= 0) return i >= min;
                 _rulePattern.Modify((GRGEN_LGSP.LGSPGraph)graph, matches.First);
             }
@@ -34846,7 +35048,7 @@ maxMatchesIterReached:
         // implementation of inexact action interface by delegation to exact action interface
         public GRGEN_LIBGR.IMatches Match(GRGEN_LIBGR.IGraph graph, int maxMatches, object[] parameters)
         {
-            return Match(graph, maxMatches);
+            return Match(graph, maxMatches, (System.Int32) parameters[0]);
         }
         public object[] Modify(GRGEN_LIBGR.IGraph graph, GRGEN_LIBGR.IMatch match)
         {
@@ -34862,59 +35064,51 @@ maxMatchesIterReached:
         }
         object[] GRGEN_LIBGR.IAction.Apply(GRGEN_LIBGR.IGraph graph)
         {
-            
-            if(Apply(graph)) {
-                return ReturnArray;
-            }
-            else return null;
+            throw new Exception();
         }
         object[] GRGEN_LIBGR.IAction.Apply(GRGEN_LIBGR.IGraph graph, params object[] parameters)
         {
             
-            if(Apply(graph)) {
+            if(Apply(graph, (System.Int32) parameters[0])) {
                 return ReturnArray;
             }
             else return null;
         }
         object[] GRGEN_LIBGR.IAction.ApplyAll(int maxMatches, GRGEN_LIBGR.IGraph graph)
         {
-            
-            if(ApplyAll(maxMatches, graph)) {
-                return ReturnArray;
-            }
-            else return null;
+            throw new Exception();
         }
         object[] GRGEN_LIBGR.IAction.ApplyAll(int maxMatches, GRGEN_LIBGR.IGraph graph, params object[] parameters)
         {
             
-            if(ApplyAll(maxMatches, graph)) {
+            if(ApplyAll(maxMatches, graph, (System.Int32) parameters[0])) {
                 return ReturnArray;
             }
             else return null;
         }
         bool GRGEN_LIBGR.IAction.ApplyStar(GRGEN_LIBGR.IGraph graph)
         {
-            return ApplyStar(graph);
+            throw new Exception(); return false;
         }
         bool GRGEN_LIBGR.IAction.ApplyStar(GRGEN_LIBGR.IGraph graph, params object[] parameters)
         {
-            return ApplyStar(graph);
+            return ApplyStar(graph, (System.Int32) parameters[0]);
         }
         bool GRGEN_LIBGR.IAction.ApplyPlus(GRGEN_LIBGR.IGraph graph)
         {
-            return ApplyPlus(graph);
+            throw new Exception(); return false;
         }
         bool GRGEN_LIBGR.IAction.ApplyPlus(GRGEN_LIBGR.IGraph graph, params object[] parameters)
         {
-            return ApplyPlus(graph);
+            return ApplyPlus(graph, (System.Int32) parameters[0]);
         }
         bool GRGEN_LIBGR.IAction.ApplyMinMax(GRGEN_LIBGR.IGraph graph, int min, int max)
         {
-            return ApplyMinMax(graph, min, max);
+            throw new Exception(); return false;
         }
         bool GRGEN_LIBGR.IAction.ApplyMinMax(GRGEN_LIBGR.IGraph graph, int min, int max, params object[] parameters)
         {
-            return ApplyMinMax(graph, min, max);
+            return ApplyMinMax(graph, min, max, (System.Int32) parameters[0]);
         }
     }
 
@@ -34924,21 +35118,21 @@ maxMatchesIterReached:
     public interface IAction_dumpEdgeImports
     {
         /// <summary> same as IAction.Match, but with exact types and distinct parameters. </summary>
-        GRGEN_LIBGR.IMatchesExact<Rule_dumpEdgeImports.IMatch_dumpEdgeImports> Match(GRGEN_LIBGR.IGraph graph, int maxMatches);
+        GRGEN_LIBGR.IMatchesExact<Rule_dumpEdgeImports.IMatch_dumpEdgeImports> Match(GRGEN_LIBGR.IGraph graph, int maxMatches, System.Int32 dumpEdgeImports_var_v);
         /// <summary> same as IAction.Modify, but with exact types and distinct parameters. </summary>
         void Modify(GRGEN_LIBGR.IGraph graph, Rule_dumpEdgeImports.IMatch_dumpEdgeImports match);
         /// <summary> same as IAction.ModifyAll, but with exact types and distinct parameters. </summary>
         void ModifyAll(GRGEN_LIBGR.IGraph graph, GRGEN_LIBGR.IMatchesExact<Rule_dumpEdgeImports.IMatch_dumpEdgeImports> matches);
         /// <summary> same as IAction.Apply, but with exact types and distinct parameters; returns true if applied </summary>
-        bool Apply(GRGEN_LIBGR.IGraph graph);
+        bool Apply(GRGEN_LIBGR.IGraph graph, System.Int32 dumpEdgeImports_var_v);
         /// <summary> same as IAction.ApplyAll, but with exact types and distinct parameters; returns true if applied at least once. </summary>
-        bool ApplyAll(int maxMatches, GRGEN_LIBGR.IGraph graph);
+        bool ApplyAll(int maxMatches, GRGEN_LIBGR.IGraph graph, System.Int32 dumpEdgeImports_var_v);
         /// <summary> same as IAction.ApplyStar, but with exact types and distinct parameters. </summary>
-        bool ApplyStar(GRGEN_LIBGR.IGraph graph);
+        bool ApplyStar(GRGEN_LIBGR.IGraph graph, System.Int32 dumpEdgeImports_var_v);
         /// <summary> same as IAction.ApplyPlus, but with exact types and distinct parameters. </summary>
-        bool ApplyPlus(GRGEN_LIBGR.IGraph graph);
+        bool ApplyPlus(GRGEN_LIBGR.IGraph graph, System.Int32 dumpEdgeImports_var_v);
         /// <summary> same as IAction.ApplyMinMax, but with exact types and distinct parameters. </summary>
-        bool ApplyMinMax(GRGEN_LIBGR.IGraph graph, int min, int max);
+        bool ApplyMinMax(GRGEN_LIBGR.IGraph graph, int min, int max, System.Int32 dumpEdgeImports_var_v);
     }
     
     public class Action_dumpEdgeImports : GRGEN_LGSP.LGSPAction, GRGEN_LIBGR.IAction, IAction_dumpEdgeImports
@@ -34959,16 +35153,17 @@ maxMatchesIterReached:
         public static Action_dumpEdgeImports Instance { get { return instance; } }
         private static Action_dumpEdgeImports instance = new Action_dumpEdgeImports();
         
-        public GRGEN_LIBGR.IMatchesExact<Rule_dumpEdgeImports.IMatch_dumpEdgeImports> myMatch(GRGEN_LGSP.LGSPGraph graph, int maxMatches)
+        public GRGEN_LIBGR.IMatchesExact<Rule_dumpEdgeImports.IMatch_dumpEdgeImports> myMatch(GRGEN_LGSP.LGSPGraph graph, int maxMatches, System.Int32 dumpEdgeImports_var_v)
         {
             matches.Clear();
             int negLevel = 0;
+            System.Int32 var_dumpEdgeImports_var_v = (System.Int32)dumpEdgeImports_var_v;
             // Lookup dumpEdgeImports_edge_e 
             int type_id_candidate_dumpEdgeImports_edge_e = 6;
             for(GRGEN_LGSP.LGSPEdge head_candidate_dumpEdgeImports_edge_e = graph.edgesByTypeHeads[type_id_candidate_dumpEdgeImports_edge_e], candidate_dumpEdgeImports_edge_e = head_candidate_dumpEdgeImports_edge_e.lgspTypeNext; candidate_dumpEdgeImports_edge_e != head_candidate_dumpEdgeImports_edge_e; candidate_dumpEdgeImports_edge_e = candidate_dumpEdgeImports_edge_e.lgspTypeNext)
             {
                 // Condition 
-                if(!(!graph.IsVisited(candidate_dumpEdgeImports_edge_e, 0))) {
+                if(!(!graph.IsVisited(candidate_dumpEdgeImports_edge_e, var_dumpEdgeImports_var_v))) {
                     continue;
                 }
                 // Implicit Source dumpEdgeImports_node_src from dumpEdgeImports_edge_e 
@@ -34987,6 +35182,7 @@ maxMatchesIterReached:
                 match._node_src = candidate_dumpEdgeImports_node_src;
                 match._node_tgt = candidate_dumpEdgeImports_node_tgt;
                 match._edge_e = candidate_dumpEdgeImports_edge_e;
+                match._var_v = var_dumpEdgeImports_var_v;
                 matches.PositionWasFilledFixIt();
                 // if enough matches were found, we leave
                 if(maxMatches > 0 && matches.Count >= maxMatches)
@@ -35000,14 +35196,14 @@ maxMatchesIterReached:
             return matches;
         }
         /// <summary> Type of the matcher method (with parameters host graph, maximum number of matches to search for (zero=unlimited), and rule parameters; returning found matches). </summary>
-        public delegate GRGEN_LIBGR.IMatchesExact<Rule_dumpEdgeImports.IMatch_dumpEdgeImports> MatchInvoker(GRGEN_LGSP.LGSPGraph graph, int maxMatches);
+        public delegate GRGEN_LIBGR.IMatchesExact<Rule_dumpEdgeImports.IMatch_dumpEdgeImports> MatchInvoker(GRGEN_LGSP.LGSPGraph graph, int maxMatches, System.Int32 dumpEdgeImports_var_v);
         /// <summary> A delegate pointing to the current matcher program for this rule. </summary>
         public MatchInvoker DynamicMatch;
         /// <summary> The RulePattern object from which this LGSPAction object has been created. </summary>
         public GRGEN_LIBGR.IRulePattern RulePattern { get { return _rulePattern; } }
-        public GRGEN_LIBGR.IMatchesExact<Rule_dumpEdgeImports.IMatch_dumpEdgeImports> Match(GRGEN_LIBGR.IGraph graph, int maxMatches)
+        public GRGEN_LIBGR.IMatchesExact<Rule_dumpEdgeImports.IMatch_dumpEdgeImports> Match(GRGEN_LIBGR.IGraph graph, int maxMatches, System.Int32 dumpEdgeImports_var_v)
         {
-            return DynamicMatch((GRGEN_LGSP.LGSPGraph)graph, maxMatches);
+            return DynamicMatch((GRGEN_LGSP.LGSPGraph)graph, maxMatches, dumpEdgeImports_var_v);
         }
         public void Modify(GRGEN_LIBGR.IGraph graph, Rule_dumpEdgeImports.IMatch_dumpEdgeImports match)
         {
@@ -35017,51 +35213,51 @@ maxMatchesIterReached:
         {
             foreach(Rule_dumpEdgeImports.IMatch_dumpEdgeImports match in matches) _rulePattern.Modify((GRGEN_LGSP.LGSPGraph)graph, match);
         }
-        public bool Apply(GRGEN_LIBGR.IGraph graph)
+        public bool Apply(GRGEN_LIBGR.IGraph graph, System.Int32 dumpEdgeImports_var_v)
         {
-            GRGEN_LIBGR.IMatchesExact<Rule_dumpEdgeImports.IMatch_dumpEdgeImports> matches = DynamicMatch((GRGEN_LGSP.LGSPGraph)graph, 1);
+            GRGEN_LIBGR.IMatchesExact<Rule_dumpEdgeImports.IMatch_dumpEdgeImports> matches = DynamicMatch((GRGEN_LGSP.LGSPGraph)graph, 1, dumpEdgeImports_var_v);
             if(matches.Count <= 0) return false;
             _rulePattern.Modify((GRGEN_LGSP.LGSPGraph)graph, matches.First);
             return true;
         }
-        public bool ApplyAll(int maxMatches, GRGEN_LIBGR.IGraph graph)
+        public bool ApplyAll(int maxMatches, GRGEN_LIBGR.IGraph graph, System.Int32 dumpEdgeImports_var_v)
         {
-            GRGEN_LIBGR.IMatchesExact<Rule_dumpEdgeImports.IMatch_dumpEdgeImports> matches = DynamicMatch((GRGEN_LGSP.LGSPGraph)graph, maxMatches);
+            GRGEN_LIBGR.IMatchesExact<Rule_dumpEdgeImports.IMatch_dumpEdgeImports> matches = DynamicMatch((GRGEN_LGSP.LGSPGraph)graph, maxMatches, dumpEdgeImports_var_v);
             if(matches.Count <= 0) return false;
             foreach(Rule_dumpEdgeImports.IMatch_dumpEdgeImports match in matches) _rulePattern.Modify((GRGEN_LGSP.LGSPGraph)graph, match);
             return true;
         }
-        public bool ApplyStar(GRGEN_LIBGR.IGraph graph)
+        public bool ApplyStar(GRGEN_LIBGR.IGraph graph, System.Int32 dumpEdgeImports_var_v)
         {
             GRGEN_LIBGR.IMatchesExact<Rule_dumpEdgeImports.IMatch_dumpEdgeImports> matches;
             
             while(true)
             {
-                matches = DynamicMatch((GRGEN_LGSP.LGSPGraph)graph, 1);
+                matches = DynamicMatch((GRGEN_LGSP.LGSPGraph)graph, 1, dumpEdgeImports_var_v);
                 if(matches.Count <= 0) return true;
                 _rulePattern.Modify((GRGEN_LGSP.LGSPGraph)graph, matches.First);
             }
         }
-        public bool ApplyPlus(GRGEN_LIBGR.IGraph graph)
+        public bool ApplyPlus(GRGEN_LIBGR.IGraph graph, System.Int32 dumpEdgeImports_var_v)
         {
-            GRGEN_LIBGR.IMatchesExact<Rule_dumpEdgeImports.IMatch_dumpEdgeImports> matches = DynamicMatch((GRGEN_LGSP.LGSPGraph)graph, 1);
+            GRGEN_LIBGR.IMatchesExact<Rule_dumpEdgeImports.IMatch_dumpEdgeImports> matches = DynamicMatch((GRGEN_LGSP.LGSPGraph)graph, 1, dumpEdgeImports_var_v);
             if(matches.Count <= 0) return false;
             
             do
             {
                 _rulePattern.Modify((GRGEN_LGSP.LGSPGraph)graph, matches.First);
-                matches = DynamicMatch((GRGEN_LGSP.LGSPGraph)graph, 1);
+                matches = DynamicMatch((GRGEN_LGSP.LGSPGraph)graph, 1, dumpEdgeImports_var_v);
             }
             while(matches.Count > 0) ;
             return true;
         }
-        public bool ApplyMinMax(GRGEN_LIBGR.IGraph graph, int min, int max)
+        public bool ApplyMinMax(GRGEN_LIBGR.IGraph graph, int min, int max, System.Int32 dumpEdgeImports_var_v)
         {
             GRGEN_LIBGR.IMatchesExact<Rule_dumpEdgeImports.IMatch_dumpEdgeImports> matches;
             
             for(int i = 0; i < max; i++)
             {
-                matches = DynamicMatch((GRGEN_LGSP.LGSPGraph)graph, 1);
+                matches = DynamicMatch((GRGEN_LGSP.LGSPGraph)graph, 1, dumpEdgeImports_var_v);
                 if(matches.Count <= 0) return i >= min;
                 _rulePattern.Modify((GRGEN_LGSP.LGSPGraph)graph, matches.First);
             }
@@ -35070,7 +35266,7 @@ maxMatchesIterReached:
         // implementation of inexact action interface by delegation to exact action interface
         public GRGEN_LIBGR.IMatches Match(GRGEN_LIBGR.IGraph graph, int maxMatches, object[] parameters)
         {
-            return Match(graph, maxMatches);
+            return Match(graph, maxMatches, (System.Int32) parameters[0]);
         }
         public object[] Modify(GRGEN_LIBGR.IGraph graph, GRGEN_LIBGR.IMatch match)
         {
@@ -35086,59 +35282,51 @@ maxMatchesIterReached:
         }
         object[] GRGEN_LIBGR.IAction.Apply(GRGEN_LIBGR.IGraph graph)
         {
-            
-            if(Apply(graph)) {
-                return ReturnArray;
-            }
-            else return null;
+            throw new Exception();
         }
         object[] GRGEN_LIBGR.IAction.Apply(GRGEN_LIBGR.IGraph graph, params object[] parameters)
         {
             
-            if(Apply(graph)) {
+            if(Apply(graph, (System.Int32) parameters[0])) {
                 return ReturnArray;
             }
             else return null;
         }
         object[] GRGEN_LIBGR.IAction.ApplyAll(int maxMatches, GRGEN_LIBGR.IGraph graph)
         {
-            
-            if(ApplyAll(maxMatches, graph)) {
-                return ReturnArray;
-            }
-            else return null;
+            throw new Exception();
         }
         object[] GRGEN_LIBGR.IAction.ApplyAll(int maxMatches, GRGEN_LIBGR.IGraph graph, params object[] parameters)
         {
             
-            if(ApplyAll(maxMatches, graph)) {
+            if(ApplyAll(maxMatches, graph, (System.Int32) parameters[0])) {
                 return ReturnArray;
             }
             else return null;
         }
         bool GRGEN_LIBGR.IAction.ApplyStar(GRGEN_LIBGR.IGraph graph)
         {
-            return ApplyStar(graph);
+            throw new Exception(); return false;
         }
         bool GRGEN_LIBGR.IAction.ApplyStar(GRGEN_LIBGR.IGraph graph, params object[] parameters)
         {
-            return ApplyStar(graph);
+            return ApplyStar(graph, (System.Int32) parameters[0]);
         }
         bool GRGEN_LIBGR.IAction.ApplyPlus(GRGEN_LIBGR.IGraph graph)
         {
-            return ApplyPlus(graph);
+            throw new Exception(); return false;
         }
         bool GRGEN_LIBGR.IAction.ApplyPlus(GRGEN_LIBGR.IGraph graph, params object[] parameters)
         {
-            return ApplyPlus(graph);
+            return ApplyPlus(graph, (System.Int32) parameters[0]);
         }
         bool GRGEN_LIBGR.IAction.ApplyMinMax(GRGEN_LIBGR.IGraph graph, int min, int max)
         {
-            return ApplyMinMax(graph, min, max);
+            throw new Exception(); return false;
         }
         bool GRGEN_LIBGR.IAction.ApplyMinMax(GRGEN_LIBGR.IGraph graph, int min, int max, params object[] parameters)
         {
-            return ApplyMinMax(graph, min, max);
+            return ApplyMinMax(graph, min, max, (System.Int32) parameters[0]);
         }
     }
 
@@ -35148,21 +35336,21 @@ maxMatchesIterReached:
     public interface IAction_dumpEdgeImplements
     {
         /// <summary> same as IAction.Match, but with exact types and distinct parameters. </summary>
-        GRGEN_LIBGR.IMatchesExact<Rule_dumpEdgeImplements.IMatch_dumpEdgeImplements> Match(GRGEN_LIBGR.IGraph graph, int maxMatches);
+        GRGEN_LIBGR.IMatchesExact<Rule_dumpEdgeImplements.IMatch_dumpEdgeImplements> Match(GRGEN_LIBGR.IGraph graph, int maxMatches, System.Int32 dumpEdgeImplements_var_v);
         /// <summary> same as IAction.Modify, but with exact types and distinct parameters. </summary>
         void Modify(GRGEN_LIBGR.IGraph graph, Rule_dumpEdgeImplements.IMatch_dumpEdgeImplements match);
         /// <summary> same as IAction.ModifyAll, but with exact types and distinct parameters. </summary>
         void ModifyAll(GRGEN_LIBGR.IGraph graph, GRGEN_LIBGR.IMatchesExact<Rule_dumpEdgeImplements.IMatch_dumpEdgeImplements> matches);
         /// <summary> same as IAction.Apply, but with exact types and distinct parameters; returns true if applied </summary>
-        bool Apply(GRGEN_LIBGR.IGraph graph);
+        bool Apply(GRGEN_LIBGR.IGraph graph, System.Int32 dumpEdgeImplements_var_v);
         /// <summary> same as IAction.ApplyAll, but with exact types and distinct parameters; returns true if applied at least once. </summary>
-        bool ApplyAll(int maxMatches, GRGEN_LIBGR.IGraph graph);
+        bool ApplyAll(int maxMatches, GRGEN_LIBGR.IGraph graph, System.Int32 dumpEdgeImplements_var_v);
         /// <summary> same as IAction.ApplyStar, but with exact types and distinct parameters. </summary>
-        bool ApplyStar(GRGEN_LIBGR.IGraph graph);
+        bool ApplyStar(GRGEN_LIBGR.IGraph graph, System.Int32 dumpEdgeImplements_var_v);
         /// <summary> same as IAction.ApplyPlus, but with exact types and distinct parameters. </summary>
-        bool ApplyPlus(GRGEN_LIBGR.IGraph graph);
+        bool ApplyPlus(GRGEN_LIBGR.IGraph graph, System.Int32 dumpEdgeImplements_var_v);
         /// <summary> same as IAction.ApplyMinMax, but with exact types and distinct parameters. </summary>
-        bool ApplyMinMax(GRGEN_LIBGR.IGraph graph, int min, int max);
+        bool ApplyMinMax(GRGEN_LIBGR.IGraph graph, int min, int max, System.Int32 dumpEdgeImplements_var_v);
     }
     
     public class Action_dumpEdgeImplements : GRGEN_LGSP.LGSPAction, GRGEN_LIBGR.IAction, IAction_dumpEdgeImplements
@@ -35183,16 +35371,17 @@ maxMatchesIterReached:
         public static Action_dumpEdgeImplements Instance { get { return instance; } }
         private static Action_dumpEdgeImplements instance = new Action_dumpEdgeImplements();
         
-        public GRGEN_LIBGR.IMatchesExact<Rule_dumpEdgeImplements.IMatch_dumpEdgeImplements> myMatch(GRGEN_LGSP.LGSPGraph graph, int maxMatches)
+        public GRGEN_LIBGR.IMatchesExact<Rule_dumpEdgeImplements.IMatch_dumpEdgeImplements> myMatch(GRGEN_LGSP.LGSPGraph graph, int maxMatches, System.Int32 dumpEdgeImplements_var_v)
         {
             matches.Clear();
             int negLevel = 0;
+            System.Int32 var_dumpEdgeImplements_var_v = (System.Int32)dumpEdgeImplements_var_v;
             // Lookup dumpEdgeImplements_edge_e 
             int type_id_candidate_dumpEdgeImplements_edge_e = 7;
             for(GRGEN_LGSP.LGSPEdge head_candidate_dumpEdgeImplements_edge_e = graph.edgesByTypeHeads[type_id_candidate_dumpEdgeImplements_edge_e], candidate_dumpEdgeImplements_edge_e = head_candidate_dumpEdgeImplements_edge_e.lgspTypeNext; candidate_dumpEdgeImplements_edge_e != head_candidate_dumpEdgeImplements_edge_e; candidate_dumpEdgeImplements_edge_e = candidate_dumpEdgeImplements_edge_e.lgspTypeNext)
             {
                 // Condition 
-                if(!(!graph.IsVisited(candidate_dumpEdgeImplements_edge_e, 0))) {
+                if(!(!graph.IsVisited(candidate_dumpEdgeImplements_edge_e, var_dumpEdgeImplements_var_v))) {
                     continue;
                 }
                 // Implicit Source dumpEdgeImplements_node_src from dumpEdgeImplements_edge_e 
@@ -35211,6 +35400,7 @@ maxMatchesIterReached:
                 match._node_src = candidate_dumpEdgeImplements_node_src;
                 match._node_tgt = candidate_dumpEdgeImplements_node_tgt;
                 match._edge_e = candidate_dumpEdgeImplements_edge_e;
+                match._var_v = var_dumpEdgeImplements_var_v;
                 matches.PositionWasFilledFixIt();
                 // if enough matches were found, we leave
                 if(maxMatches > 0 && matches.Count >= maxMatches)
@@ -35224,14 +35414,14 @@ maxMatchesIterReached:
             return matches;
         }
         /// <summary> Type of the matcher method (with parameters host graph, maximum number of matches to search for (zero=unlimited), and rule parameters; returning found matches). </summary>
-        public delegate GRGEN_LIBGR.IMatchesExact<Rule_dumpEdgeImplements.IMatch_dumpEdgeImplements> MatchInvoker(GRGEN_LGSP.LGSPGraph graph, int maxMatches);
+        public delegate GRGEN_LIBGR.IMatchesExact<Rule_dumpEdgeImplements.IMatch_dumpEdgeImplements> MatchInvoker(GRGEN_LGSP.LGSPGraph graph, int maxMatches, System.Int32 dumpEdgeImplements_var_v);
         /// <summary> A delegate pointing to the current matcher program for this rule. </summary>
         public MatchInvoker DynamicMatch;
         /// <summary> The RulePattern object from which this LGSPAction object has been created. </summary>
         public GRGEN_LIBGR.IRulePattern RulePattern { get { return _rulePattern; } }
-        public GRGEN_LIBGR.IMatchesExact<Rule_dumpEdgeImplements.IMatch_dumpEdgeImplements> Match(GRGEN_LIBGR.IGraph graph, int maxMatches)
+        public GRGEN_LIBGR.IMatchesExact<Rule_dumpEdgeImplements.IMatch_dumpEdgeImplements> Match(GRGEN_LIBGR.IGraph graph, int maxMatches, System.Int32 dumpEdgeImplements_var_v)
         {
-            return DynamicMatch((GRGEN_LGSP.LGSPGraph)graph, maxMatches);
+            return DynamicMatch((GRGEN_LGSP.LGSPGraph)graph, maxMatches, dumpEdgeImplements_var_v);
         }
         public void Modify(GRGEN_LIBGR.IGraph graph, Rule_dumpEdgeImplements.IMatch_dumpEdgeImplements match)
         {
@@ -35241,51 +35431,51 @@ maxMatchesIterReached:
         {
             foreach(Rule_dumpEdgeImplements.IMatch_dumpEdgeImplements match in matches) _rulePattern.Modify((GRGEN_LGSP.LGSPGraph)graph, match);
         }
-        public bool Apply(GRGEN_LIBGR.IGraph graph)
+        public bool Apply(GRGEN_LIBGR.IGraph graph, System.Int32 dumpEdgeImplements_var_v)
         {
-            GRGEN_LIBGR.IMatchesExact<Rule_dumpEdgeImplements.IMatch_dumpEdgeImplements> matches = DynamicMatch((GRGEN_LGSP.LGSPGraph)graph, 1);
+            GRGEN_LIBGR.IMatchesExact<Rule_dumpEdgeImplements.IMatch_dumpEdgeImplements> matches = DynamicMatch((GRGEN_LGSP.LGSPGraph)graph, 1, dumpEdgeImplements_var_v);
             if(matches.Count <= 0) return false;
             _rulePattern.Modify((GRGEN_LGSP.LGSPGraph)graph, matches.First);
             return true;
         }
-        public bool ApplyAll(int maxMatches, GRGEN_LIBGR.IGraph graph)
+        public bool ApplyAll(int maxMatches, GRGEN_LIBGR.IGraph graph, System.Int32 dumpEdgeImplements_var_v)
         {
-            GRGEN_LIBGR.IMatchesExact<Rule_dumpEdgeImplements.IMatch_dumpEdgeImplements> matches = DynamicMatch((GRGEN_LGSP.LGSPGraph)graph, maxMatches);
+            GRGEN_LIBGR.IMatchesExact<Rule_dumpEdgeImplements.IMatch_dumpEdgeImplements> matches = DynamicMatch((GRGEN_LGSP.LGSPGraph)graph, maxMatches, dumpEdgeImplements_var_v);
             if(matches.Count <= 0) return false;
             foreach(Rule_dumpEdgeImplements.IMatch_dumpEdgeImplements match in matches) _rulePattern.Modify((GRGEN_LGSP.LGSPGraph)graph, match);
             return true;
         }
-        public bool ApplyStar(GRGEN_LIBGR.IGraph graph)
+        public bool ApplyStar(GRGEN_LIBGR.IGraph graph, System.Int32 dumpEdgeImplements_var_v)
         {
             GRGEN_LIBGR.IMatchesExact<Rule_dumpEdgeImplements.IMatch_dumpEdgeImplements> matches;
             
             while(true)
             {
-                matches = DynamicMatch((GRGEN_LGSP.LGSPGraph)graph, 1);
+                matches = DynamicMatch((GRGEN_LGSP.LGSPGraph)graph, 1, dumpEdgeImplements_var_v);
                 if(matches.Count <= 0) return true;
                 _rulePattern.Modify((GRGEN_LGSP.LGSPGraph)graph, matches.First);
             }
         }
-        public bool ApplyPlus(GRGEN_LIBGR.IGraph graph)
+        public bool ApplyPlus(GRGEN_LIBGR.IGraph graph, System.Int32 dumpEdgeImplements_var_v)
         {
-            GRGEN_LIBGR.IMatchesExact<Rule_dumpEdgeImplements.IMatch_dumpEdgeImplements> matches = DynamicMatch((GRGEN_LGSP.LGSPGraph)graph, 1);
+            GRGEN_LIBGR.IMatchesExact<Rule_dumpEdgeImplements.IMatch_dumpEdgeImplements> matches = DynamicMatch((GRGEN_LGSP.LGSPGraph)graph, 1, dumpEdgeImplements_var_v);
             if(matches.Count <= 0) return false;
             
             do
             {
                 _rulePattern.Modify((GRGEN_LGSP.LGSPGraph)graph, matches.First);
-                matches = DynamicMatch((GRGEN_LGSP.LGSPGraph)graph, 1);
+                matches = DynamicMatch((GRGEN_LGSP.LGSPGraph)graph, 1, dumpEdgeImplements_var_v);
             }
             while(matches.Count > 0) ;
             return true;
         }
-        public bool ApplyMinMax(GRGEN_LIBGR.IGraph graph, int min, int max)
+        public bool ApplyMinMax(GRGEN_LIBGR.IGraph graph, int min, int max, System.Int32 dumpEdgeImplements_var_v)
         {
             GRGEN_LIBGR.IMatchesExact<Rule_dumpEdgeImplements.IMatch_dumpEdgeImplements> matches;
             
             for(int i = 0; i < max; i++)
             {
-                matches = DynamicMatch((GRGEN_LGSP.LGSPGraph)graph, 1);
+                matches = DynamicMatch((GRGEN_LGSP.LGSPGraph)graph, 1, dumpEdgeImplements_var_v);
                 if(matches.Count <= 0) return i >= min;
                 _rulePattern.Modify((GRGEN_LGSP.LGSPGraph)graph, matches.First);
             }
@@ -35294,7 +35484,7 @@ maxMatchesIterReached:
         // implementation of inexact action interface by delegation to exact action interface
         public GRGEN_LIBGR.IMatches Match(GRGEN_LIBGR.IGraph graph, int maxMatches, object[] parameters)
         {
-            return Match(graph, maxMatches);
+            return Match(graph, maxMatches, (System.Int32) parameters[0]);
         }
         public object[] Modify(GRGEN_LIBGR.IGraph graph, GRGEN_LIBGR.IMatch match)
         {
@@ -35310,59 +35500,51 @@ maxMatchesIterReached:
         }
         object[] GRGEN_LIBGR.IAction.Apply(GRGEN_LIBGR.IGraph graph)
         {
-            
-            if(Apply(graph)) {
-                return ReturnArray;
-            }
-            else return null;
+            throw new Exception();
         }
         object[] GRGEN_LIBGR.IAction.Apply(GRGEN_LIBGR.IGraph graph, params object[] parameters)
         {
             
-            if(Apply(graph)) {
+            if(Apply(graph, (System.Int32) parameters[0])) {
                 return ReturnArray;
             }
             else return null;
         }
         object[] GRGEN_LIBGR.IAction.ApplyAll(int maxMatches, GRGEN_LIBGR.IGraph graph)
         {
-            
-            if(ApplyAll(maxMatches, graph)) {
-                return ReturnArray;
-            }
-            else return null;
+            throw new Exception();
         }
         object[] GRGEN_LIBGR.IAction.ApplyAll(int maxMatches, GRGEN_LIBGR.IGraph graph, params object[] parameters)
         {
             
-            if(ApplyAll(maxMatches, graph)) {
+            if(ApplyAll(maxMatches, graph, (System.Int32) parameters[0])) {
                 return ReturnArray;
             }
             else return null;
         }
         bool GRGEN_LIBGR.IAction.ApplyStar(GRGEN_LIBGR.IGraph graph)
         {
-            return ApplyStar(graph);
+            throw new Exception(); return false;
         }
         bool GRGEN_LIBGR.IAction.ApplyStar(GRGEN_LIBGR.IGraph graph, params object[] parameters)
         {
-            return ApplyStar(graph);
+            return ApplyStar(graph, (System.Int32) parameters[0]);
         }
         bool GRGEN_LIBGR.IAction.ApplyPlus(GRGEN_LIBGR.IGraph graph)
         {
-            return ApplyPlus(graph);
+            throw new Exception(); return false;
         }
         bool GRGEN_LIBGR.IAction.ApplyPlus(GRGEN_LIBGR.IGraph graph, params object[] parameters)
         {
-            return ApplyPlus(graph);
+            return ApplyPlus(graph, (System.Int32) parameters[0]);
         }
         bool GRGEN_LIBGR.IAction.ApplyMinMax(GRGEN_LIBGR.IGraph graph, int min, int max)
         {
-            return ApplyMinMax(graph, min, max);
+            throw new Exception(); return false;
         }
         bool GRGEN_LIBGR.IAction.ApplyMinMax(GRGEN_LIBGR.IGraph graph, int min, int max, params object[] parameters)
         {
-            return ApplyMinMax(graph, min, max);
+            return ApplyMinMax(graph, min, max, (System.Int32) parameters[0]);
         }
     }
 
@@ -35372,21 +35554,21 @@ maxMatchesIterReached:
     public interface IAction_dumpEdgeParameter
     {
         /// <summary> same as IAction.Match, but with exact types and distinct parameters. </summary>
-        GRGEN_LIBGR.IMatchesExact<Rule_dumpEdgeParameter.IMatch_dumpEdgeParameter> Match(GRGEN_LIBGR.IGraph graph, int maxMatches);
+        GRGEN_LIBGR.IMatchesExact<Rule_dumpEdgeParameter.IMatch_dumpEdgeParameter> Match(GRGEN_LIBGR.IGraph graph, int maxMatches, System.Int32 dumpEdgeParameter_var_v);
         /// <summary> same as IAction.Modify, but with exact types and distinct parameters. </summary>
         void Modify(GRGEN_LIBGR.IGraph graph, Rule_dumpEdgeParameter.IMatch_dumpEdgeParameter match);
         /// <summary> same as IAction.ModifyAll, but with exact types and distinct parameters. </summary>
         void ModifyAll(GRGEN_LIBGR.IGraph graph, GRGEN_LIBGR.IMatchesExact<Rule_dumpEdgeParameter.IMatch_dumpEdgeParameter> matches);
         /// <summary> same as IAction.Apply, but with exact types and distinct parameters; returns true if applied </summary>
-        bool Apply(GRGEN_LIBGR.IGraph graph);
+        bool Apply(GRGEN_LIBGR.IGraph graph, System.Int32 dumpEdgeParameter_var_v);
         /// <summary> same as IAction.ApplyAll, but with exact types and distinct parameters; returns true if applied at least once. </summary>
-        bool ApplyAll(int maxMatches, GRGEN_LIBGR.IGraph graph);
+        bool ApplyAll(int maxMatches, GRGEN_LIBGR.IGraph graph, System.Int32 dumpEdgeParameter_var_v);
         /// <summary> same as IAction.ApplyStar, but with exact types and distinct parameters. </summary>
-        bool ApplyStar(GRGEN_LIBGR.IGraph graph);
+        bool ApplyStar(GRGEN_LIBGR.IGraph graph, System.Int32 dumpEdgeParameter_var_v);
         /// <summary> same as IAction.ApplyPlus, but with exact types and distinct parameters. </summary>
-        bool ApplyPlus(GRGEN_LIBGR.IGraph graph);
+        bool ApplyPlus(GRGEN_LIBGR.IGraph graph, System.Int32 dumpEdgeParameter_var_v);
         /// <summary> same as IAction.ApplyMinMax, but with exact types and distinct parameters. </summary>
-        bool ApplyMinMax(GRGEN_LIBGR.IGraph graph, int min, int max);
+        bool ApplyMinMax(GRGEN_LIBGR.IGraph graph, int min, int max, System.Int32 dumpEdgeParameter_var_v);
     }
     
     public class Action_dumpEdgeParameter : GRGEN_LGSP.LGSPAction, GRGEN_LIBGR.IAction, IAction_dumpEdgeParameter
@@ -35407,16 +35589,17 @@ maxMatchesIterReached:
         public static Action_dumpEdgeParameter Instance { get { return instance; } }
         private static Action_dumpEdgeParameter instance = new Action_dumpEdgeParameter();
         
-        public GRGEN_LIBGR.IMatchesExact<Rule_dumpEdgeParameter.IMatch_dumpEdgeParameter> myMatch(GRGEN_LGSP.LGSPGraph graph, int maxMatches)
+        public GRGEN_LIBGR.IMatchesExact<Rule_dumpEdgeParameter.IMatch_dumpEdgeParameter> myMatch(GRGEN_LGSP.LGSPGraph graph, int maxMatches, System.Int32 dumpEdgeParameter_var_v)
         {
             matches.Clear();
             int negLevel = 0;
+            System.Int32 var_dumpEdgeParameter_var_v = (System.Int32)dumpEdgeParameter_var_v;
             // Lookup dumpEdgeParameter_edge_e 
             int type_id_candidate_dumpEdgeParameter_edge_e = 8;
             for(GRGEN_LGSP.LGSPEdge head_candidate_dumpEdgeParameter_edge_e = graph.edgesByTypeHeads[type_id_candidate_dumpEdgeParameter_edge_e], candidate_dumpEdgeParameter_edge_e = head_candidate_dumpEdgeParameter_edge_e.lgspTypeNext; candidate_dumpEdgeParameter_edge_e != head_candidate_dumpEdgeParameter_edge_e; candidate_dumpEdgeParameter_edge_e = candidate_dumpEdgeParameter_edge_e.lgspTypeNext)
             {
                 // Condition 
-                if(!(!graph.IsVisited(candidate_dumpEdgeParameter_edge_e, 0))) {
+                if(!(!graph.IsVisited(candidate_dumpEdgeParameter_edge_e, var_dumpEdgeParameter_var_v))) {
                     continue;
                 }
                 // Implicit Source dumpEdgeParameter_node_src from dumpEdgeParameter_edge_e 
@@ -35435,6 +35618,7 @@ maxMatchesIterReached:
                 match._node_src = candidate_dumpEdgeParameter_node_src;
                 match._node_tgt = candidate_dumpEdgeParameter_node_tgt;
                 match._edge_e = candidate_dumpEdgeParameter_edge_e;
+                match._var_v = var_dumpEdgeParameter_var_v;
                 matches.PositionWasFilledFixIt();
                 // if enough matches were found, we leave
                 if(maxMatches > 0 && matches.Count >= maxMatches)
@@ -35448,14 +35632,14 @@ maxMatchesIterReached:
             return matches;
         }
         /// <summary> Type of the matcher method (with parameters host graph, maximum number of matches to search for (zero=unlimited), and rule parameters; returning found matches). </summary>
-        public delegate GRGEN_LIBGR.IMatchesExact<Rule_dumpEdgeParameter.IMatch_dumpEdgeParameter> MatchInvoker(GRGEN_LGSP.LGSPGraph graph, int maxMatches);
+        public delegate GRGEN_LIBGR.IMatchesExact<Rule_dumpEdgeParameter.IMatch_dumpEdgeParameter> MatchInvoker(GRGEN_LGSP.LGSPGraph graph, int maxMatches, System.Int32 dumpEdgeParameter_var_v);
         /// <summary> A delegate pointing to the current matcher program for this rule. </summary>
         public MatchInvoker DynamicMatch;
         /// <summary> The RulePattern object from which this LGSPAction object has been created. </summary>
         public GRGEN_LIBGR.IRulePattern RulePattern { get { return _rulePattern; } }
-        public GRGEN_LIBGR.IMatchesExact<Rule_dumpEdgeParameter.IMatch_dumpEdgeParameter> Match(GRGEN_LIBGR.IGraph graph, int maxMatches)
+        public GRGEN_LIBGR.IMatchesExact<Rule_dumpEdgeParameter.IMatch_dumpEdgeParameter> Match(GRGEN_LIBGR.IGraph graph, int maxMatches, System.Int32 dumpEdgeParameter_var_v)
         {
-            return DynamicMatch((GRGEN_LGSP.LGSPGraph)graph, maxMatches);
+            return DynamicMatch((GRGEN_LGSP.LGSPGraph)graph, maxMatches, dumpEdgeParameter_var_v);
         }
         public void Modify(GRGEN_LIBGR.IGraph graph, Rule_dumpEdgeParameter.IMatch_dumpEdgeParameter match)
         {
@@ -35465,51 +35649,51 @@ maxMatchesIterReached:
         {
             foreach(Rule_dumpEdgeParameter.IMatch_dumpEdgeParameter match in matches) _rulePattern.Modify((GRGEN_LGSP.LGSPGraph)graph, match);
         }
-        public bool Apply(GRGEN_LIBGR.IGraph graph)
+        public bool Apply(GRGEN_LIBGR.IGraph graph, System.Int32 dumpEdgeParameter_var_v)
         {
-            GRGEN_LIBGR.IMatchesExact<Rule_dumpEdgeParameter.IMatch_dumpEdgeParameter> matches = DynamicMatch((GRGEN_LGSP.LGSPGraph)graph, 1);
+            GRGEN_LIBGR.IMatchesExact<Rule_dumpEdgeParameter.IMatch_dumpEdgeParameter> matches = DynamicMatch((GRGEN_LGSP.LGSPGraph)graph, 1, dumpEdgeParameter_var_v);
             if(matches.Count <= 0) return false;
             _rulePattern.Modify((GRGEN_LGSP.LGSPGraph)graph, matches.First);
             return true;
         }
-        public bool ApplyAll(int maxMatches, GRGEN_LIBGR.IGraph graph)
+        public bool ApplyAll(int maxMatches, GRGEN_LIBGR.IGraph graph, System.Int32 dumpEdgeParameter_var_v)
         {
-            GRGEN_LIBGR.IMatchesExact<Rule_dumpEdgeParameter.IMatch_dumpEdgeParameter> matches = DynamicMatch((GRGEN_LGSP.LGSPGraph)graph, maxMatches);
+            GRGEN_LIBGR.IMatchesExact<Rule_dumpEdgeParameter.IMatch_dumpEdgeParameter> matches = DynamicMatch((GRGEN_LGSP.LGSPGraph)graph, maxMatches, dumpEdgeParameter_var_v);
             if(matches.Count <= 0) return false;
             foreach(Rule_dumpEdgeParameter.IMatch_dumpEdgeParameter match in matches) _rulePattern.Modify((GRGEN_LGSP.LGSPGraph)graph, match);
             return true;
         }
-        public bool ApplyStar(GRGEN_LIBGR.IGraph graph)
+        public bool ApplyStar(GRGEN_LIBGR.IGraph graph, System.Int32 dumpEdgeParameter_var_v)
         {
             GRGEN_LIBGR.IMatchesExact<Rule_dumpEdgeParameter.IMatch_dumpEdgeParameter> matches;
             
             while(true)
             {
-                matches = DynamicMatch((GRGEN_LGSP.LGSPGraph)graph, 1);
+                matches = DynamicMatch((GRGEN_LGSP.LGSPGraph)graph, 1, dumpEdgeParameter_var_v);
                 if(matches.Count <= 0) return true;
                 _rulePattern.Modify((GRGEN_LGSP.LGSPGraph)graph, matches.First);
             }
         }
-        public bool ApplyPlus(GRGEN_LIBGR.IGraph graph)
+        public bool ApplyPlus(GRGEN_LIBGR.IGraph graph, System.Int32 dumpEdgeParameter_var_v)
         {
-            GRGEN_LIBGR.IMatchesExact<Rule_dumpEdgeParameter.IMatch_dumpEdgeParameter> matches = DynamicMatch((GRGEN_LGSP.LGSPGraph)graph, 1);
+            GRGEN_LIBGR.IMatchesExact<Rule_dumpEdgeParameter.IMatch_dumpEdgeParameter> matches = DynamicMatch((GRGEN_LGSP.LGSPGraph)graph, 1, dumpEdgeParameter_var_v);
             if(matches.Count <= 0) return false;
             
             do
             {
                 _rulePattern.Modify((GRGEN_LGSP.LGSPGraph)graph, matches.First);
-                matches = DynamicMatch((GRGEN_LGSP.LGSPGraph)graph, 1);
+                matches = DynamicMatch((GRGEN_LGSP.LGSPGraph)graph, 1, dumpEdgeParameter_var_v);
             }
             while(matches.Count > 0) ;
             return true;
         }
-        public bool ApplyMinMax(GRGEN_LIBGR.IGraph graph, int min, int max)
+        public bool ApplyMinMax(GRGEN_LIBGR.IGraph graph, int min, int max, System.Int32 dumpEdgeParameter_var_v)
         {
             GRGEN_LIBGR.IMatchesExact<Rule_dumpEdgeParameter.IMatch_dumpEdgeParameter> matches;
             
             for(int i = 0; i < max; i++)
             {
-                matches = DynamicMatch((GRGEN_LGSP.LGSPGraph)graph, 1);
+                matches = DynamicMatch((GRGEN_LGSP.LGSPGraph)graph, 1, dumpEdgeParameter_var_v);
                 if(matches.Count <= 0) return i >= min;
                 _rulePattern.Modify((GRGEN_LGSP.LGSPGraph)graph, matches.First);
             }
@@ -35518,7 +35702,7 @@ maxMatchesIterReached:
         // implementation of inexact action interface by delegation to exact action interface
         public GRGEN_LIBGR.IMatches Match(GRGEN_LIBGR.IGraph graph, int maxMatches, object[] parameters)
         {
-            return Match(graph, maxMatches);
+            return Match(graph, maxMatches, (System.Int32) parameters[0]);
         }
         public object[] Modify(GRGEN_LIBGR.IGraph graph, GRGEN_LIBGR.IMatch match)
         {
@@ -35534,59 +35718,51 @@ maxMatchesIterReached:
         }
         object[] GRGEN_LIBGR.IAction.Apply(GRGEN_LIBGR.IGraph graph)
         {
-            
-            if(Apply(graph)) {
-                return ReturnArray;
-            }
-            else return null;
+            throw new Exception();
         }
         object[] GRGEN_LIBGR.IAction.Apply(GRGEN_LIBGR.IGraph graph, params object[] parameters)
         {
             
-            if(Apply(graph)) {
+            if(Apply(graph, (System.Int32) parameters[0])) {
                 return ReturnArray;
             }
             else return null;
         }
         object[] GRGEN_LIBGR.IAction.ApplyAll(int maxMatches, GRGEN_LIBGR.IGraph graph)
         {
-            
-            if(ApplyAll(maxMatches, graph)) {
-                return ReturnArray;
-            }
-            else return null;
+            throw new Exception();
         }
         object[] GRGEN_LIBGR.IAction.ApplyAll(int maxMatches, GRGEN_LIBGR.IGraph graph, params object[] parameters)
         {
             
-            if(ApplyAll(maxMatches, graph)) {
+            if(ApplyAll(maxMatches, graph, (System.Int32) parameters[0])) {
                 return ReturnArray;
             }
             else return null;
         }
         bool GRGEN_LIBGR.IAction.ApplyStar(GRGEN_LIBGR.IGraph graph)
         {
-            return ApplyStar(graph);
+            throw new Exception(); return false;
         }
         bool GRGEN_LIBGR.IAction.ApplyStar(GRGEN_LIBGR.IGraph graph, params object[] parameters)
         {
-            return ApplyStar(graph);
+            return ApplyStar(graph, (System.Int32) parameters[0]);
         }
         bool GRGEN_LIBGR.IAction.ApplyPlus(GRGEN_LIBGR.IGraph graph)
         {
-            return ApplyPlus(graph);
+            throw new Exception(); return false;
         }
         bool GRGEN_LIBGR.IAction.ApplyPlus(GRGEN_LIBGR.IGraph graph, params object[] parameters)
         {
-            return ApplyPlus(graph);
+            return ApplyPlus(graph, (System.Int32) parameters[0]);
         }
         bool GRGEN_LIBGR.IAction.ApplyMinMax(GRGEN_LIBGR.IGraph graph, int min, int max)
         {
-            return ApplyMinMax(graph, min, max);
+            throw new Exception(); return false;
         }
         bool GRGEN_LIBGR.IAction.ApplyMinMax(GRGEN_LIBGR.IGraph graph, int min, int max, params object[] parameters)
         {
-            return ApplyMinMax(graph, min, max);
+            return ApplyMinMax(graph, min, max, (System.Int32) parameters[0]);
         }
     }
 
@@ -35596,21 +35772,21 @@ maxMatchesIterReached:
     public interface IAction_dumpEdgeBinding
     {
         /// <summary> same as IAction.Match, but with exact types and distinct parameters. </summary>
-        GRGEN_LIBGR.IMatchesExact<Rule_dumpEdgeBinding.IMatch_dumpEdgeBinding> Match(GRGEN_LIBGR.IGraph graph, int maxMatches);
+        GRGEN_LIBGR.IMatchesExact<Rule_dumpEdgeBinding.IMatch_dumpEdgeBinding> Match(GRGEN_LIBGR.IGraph graph, int maxMatches, System.Int32 dumpEdgeBinding_var_v);
         /// <summary> same as IAction.Modify, but with exact types and distinct parameters. </summary>
         void Modify(GRGEN_LIBGR.IGraph graph, Rule_dumpEdgeBinding.IMatch_dumpEdgeBinding match);
         /// <summary> same as IAction.ModifyAll, but with exact types and distinct parameters. </summary>
         void ModifyAll(GRGEN_LIBGR.IGraph graph, GRGEN_LIBGR.IMatchesExact<Rule_dumpEdgeBinding.IMatch_dumpEdgeBinding> matches);
         /// <summary> same as IAction.Apply, but with exact types and distinct parameters; returns true if applied </summary>
-        bool Apply(GRGEN_LIBGR.IGraph graph);
+        bool Apply(GRGEN_LIBGR.IGraph graph, System.Int32 dumpEdgeBinding_var_v);
         /// <summary> same as IAction.ApplyAll, but with exact types and distinct parameters; returns true if applied at least once. </summary>
-        bool ApplyAll(int maxMatches, GRGEN_LIBGR.IGraph graph);
+        bool ApplyAll(int maxMatches, GRGEN_LIBGR.IGraph graph, System.Int32 dumpEdgeBinding_var_v);
         /// <summary> same as IAction.ApplyStar, but with exact types and distinct parameters. </summary>
-        bool ApplyStar(GRGEN_LIBGR.IGraph graph);
+        bool ApplyStar(GRGEN_LIBGR.IGraph graph, System.Int32 dumpEdgeBinding_var_v);
         /// <summary> same as IAction.ApplyPlus, but with exact types and distinct parameters. </summary>
-        bool ApplyPlus(GRGEN_LIBGR.IGraph graph);
+        bool ApplyPlus(GRGEN_LIBGR.IGraph graph, System.Int32 dumpEdgeBinding_var_v);
         /// <summary> same as IAction.ApplyMinMax, but with exact types and distinct parameters. </summary>
-        bool ApplyMinMax(GRGEN_LIBGR.IGraph graph, int min, int max);
+        bool ApplyMinMax(GRGEN_LIBGR.IGraph graph, int min, int max, System.Int32 dumpEdgeBinding_var_v);
     }
     
     public class Action_dumpEdgeBinding : GRGEN_LGSP.LGSPAction, GRGEN_LIBGR.IAction, IAction_dumpEdgeBinding
@@ -35631,16 +35807,17 @@ maxMatchesIterReached:
         public static Action_dumpEdgeBinding Instance { get { return instance; } }
         private static Action_dumpEdgeBinding instance = new Action_dumpEdgeBinding();
         
-        public GRGEN_LIBGR.IMatchesExact<Rule_dumpEdgeBinding.IMatch_dumpEdgeBinding> myMatch(GRGEN_LGSP.LGSPGraph graph, int maxMatches)
+        public GRGEN_LIBGR.IMatchesExact<Rule_dumpEdgeBinding.IMatch_dumpEdgeBinding> myMatch(GRGEN_LGSP.LGSPGraph graph, int maxMatches, System.Int32 dumpEdgeBinding_var_v)
         {
             matches.Clear();
             int negLevel = 0;
+            System.Int32 var_dumpEdgeBinding_var_v = (System.Int32)dumpEdgeBinding_var_v;
             // Lookup dumpEdgeBinding_edge_e 
             int type_id_candidate_dumpEdgeBinding_edge_e = 10;
             for(GRGEN_LGSP.LGSPEdge head_candidate_dumpEdgeBinding_edge_e = graph.edgesByTypeHeads[type_id_candidate_dumpEdgeBinding_edge_e], candidate_dumpEdgeBinding_edge_e = head_candidate_dumpEdgeBinding_edge_e.lgspTypeNext; candidate_dumpEdgeBinding_edge_e != head_candidate_dumpEdgeBinding_edge_e; candidate_dumpEdgeBinding_edge_e = candidate_dumpEdgeBinding_edge_e.lgspTypeNext)
             {
                 // Condition 
-                if(!(!graph.IsVisited(candidate_dumpEdgeBinding_edge_e, 0))) {
+                if(!(!graph.IsVisited(candidate_dumpEdgeBinding_edge_e, var_dumpEdgeBinding_var_v))) {
                     continue;
                 }
                 // Implicit Source dumpEdgeBinding_node_src from dumpEdgeBinding_edge_e 
@@ -35659,6 +35836,7 @@ maxMatchesIterReached:
                 match._node_src = candidate_dumpEdgeBinding_node_src;
                 match._node_tgt = candidate_dumpEdgeBinding_node_tgt;
                 match._edge_e = candidate_dumpEdgeBinding_edge_e;
+                match._var_v = var_dumpEdgeBinding_var_v;
                 matches.PositionWasFilledFixIt();
                 // if enough matches were found, we leave
                 if(maxMatches > 0 && matches.Count >= maxMatches)
@@ -35672,14 +35850,14 @@ maxMatchesIterReached:
             return matches;
         }
         /// <summary> Type of the matcher method (with parameters host graph, maximum number of matches to search for (zero=unlimited), and rule parameters; returning found matches). </summary>
-        public delegate GRGEN_LIBGR.IMatchesExact<Rule_dumpEdgeBinding.IMatch_dumpEdgeBinding> MatchInvoker(GRGEN_LGSP.LGSPGraph graph, int maxMatches);
+        public delegate GRGEN_LIBGR.IMatchesExact<Rule_dumpEdgeBinding.IMatch_dumpEdgeBinding> MatchInvoker(GRGEN_LGSP.LGSPGraph graph, int maxMatches, System.Int32 dumpEdgeBinding_var_v);
         /// <summary> A delegate pointing to the current matcher program for this rule. </summary>
         public MatchInvoker DynamicMatch;
         /// <summary> The RulePattern object from which this LGSPAction object has been created. </summary>
         public GRGEN_LIBGR.IRulePattern RulePattern { get { return _rulePattern; } }
-        public GRGEN_LIBGR.IMatchesExact<Rule_dumpEdgeBinding.IMatch_dumpEdgeBinding> Match(GRGEN_LIBGR.IGraph graph, int maxMatches)
+        public GRGEN_LIBGR.IMatchesExact<Rule_dumpEdgeBinding.IMatch_dumpEdgeBinding> Match(GRGEN_LIBGR.IGraph graph, int maxMatches, System.Int32 dumpEdgeBinding_var_v)
         {
-            return DynamicMatch((GRGEN_LGSP.LGSPGraph)graph, maxMatches);
+            return DynamicMatch((GRGEN_LGSP.LGSPGraph)graph, maxMatches, dumpEdgeBinding_var_v);
         }
         public void Modify(GRGEN_LIBGR.IGraph graph, Rule_dumpEdgeBinding.IMatch_dumpEdgeBinding match)
         {
@@ -35689,51 +35867,51 @@ maxMatchesIterReached:
         {
             foreach(Rule_dumpEdgeBinding.IMatch_dumpEdgeBinding match in matches) _rulePattern.Modify((GRGEN_LGSP.LGSPGraph)graph, match);
         }
-        public bool Apply(GRGEN_LIBGR.IGraph graph)
+        public bool Apply(GRGEN_LIBGR.IGraph graph, System.Int32 dumpEdgeBinding_var_v)
         {
-            GRGEN_LIBGR.IMatchesExact<Rule_dumpEdgeBinding.IMatch_dumpEdgeBinding> matches = DynamicMatch((GRGEN_LGSP.LGSPGraph)graph, 1);
+            GRGEN_LIBGR.IMatchesExact<Rule_dumpEdgeBinding.IMatch_dumpEdgeBinding> matches = DynamicMatch((GRGEN_LGSP.LGSPGraph)graph, 1, dumpEdgeBinding_var_v);
             if(matches.Count <= 0) return false;
             _rulePattern.Modify((GRGEN_LGSP.LGSPGraph)graph, matches.First);
             return true;
         }
-        public bool ApplyAll(int maxMatches, GRGEN_LIBGR.IGraph graph)
+        public bool ApplyAll(int maxMatches, GRGEN_LIBGR.IGraph graph, System.Int32 dumpEdgeBinding_var_v)
         {
-            GRGEN_LIBGR.IMatchesExact<Rule_dumpEdgeBinding.IMatch_dumpEdgeBinding> matches = DynamicMatch((GRGEN_LGSP.LGSPGraph)graph, maxMatches);
+            GRGEN_LIBGR.IMatchesExact<Rule_dumpEdgeBinding.IMatch_dumpEdgeBinding> matches = DynamicMatch((GRGEN_LGSP.LGSPGraph)graph, maxMatches, dumpEdgeBinding_var_v);
             if(matches.Count <= 0) return false;
             foreach(Rule_dumpEdgeBinding.IMatch_dumpEdgeBinding match in matches) _rulePattern.Modify((GRGEN_LGSP.LGSPGraph)graph, match);
             return true;
         }
-        public bool ApplyStar(GRGEN_LIBGR.IGraph graph)
+        public bool ApplyStar(GRGEN_LIBGR.IGraph graph, System.Int32 dumpEdgeBinding_var_v)
         {
             GRGEN_LIBGR.IMatchesExact<Rule_dumpEdgeBinding.IMatch_dumpEdgeBinding> matches;
             
             while(true)
             {
-                matches = DynamicMatch((GRGEN_LGSP.LGSPGraph)graph, 1);
+                matches = DynamicMatch((GRGEN_LGSP.LGSPGraph)graph, 1, dumpEdgeBinding_var_v);
                 if(matches.Count <= 0) return true;
                 _rulePattern.Modify((GRGEN_LGSP.LGSPGraph)graph, matches.First);
             }
         }
-        public bool ApplyPlus(GRGEN_LIBGR.IGraph graph)
+        public bool ApplyPlus(GRGEN_LIBGR.IGraph graph, System.Int32 dumpEdgeBinding_var_v)
         {
-            GRGEN_LIBGR.IMatchesExact<Rule_dumpEdgeBinding.IMatch_dumpEdgeBinding> matches = DynamicMatch((GRGEN_LGSP.LGSPGraph)graph, 1);
+            GRGEN_LIBGR.IMatchesExact<Rule_dumpEdgeBinding.IMatch_dumpEdgeBinding> matches = DynamicMatch((GRGEN_LGSP.LGSPGraph)graph, 1, dumpEdgeBinding_var_v);
             if(matches.Count <= 0) return false;
             
             do
             {
                 _rulePattern.Modify((GRGEN_LGSP.LGSPGraph)graph, matches.First);
-                matches = DynamicMatch((GRGEN_LGSP.LGSPGraph)graph, 1);
+                matches = DynamicMatch((GRGEN_LGSP.LGSPGraph)graph, 1, dumpEdgeBinding_var_v);
             }
             while(matches.Count > 0) ;
             return true;
         }
-        public bool ApplyMinMax(GRGEN_LIBGR.IGraph graph, int min, int max)
+        public bool ApplyMinMax(GRGEN_LIBGR.IGraph graph, int min, int max, System.Int32 dumpEdgeBinding_var_v)
         {
             GRGEN_LIBGR.IMatchesExact<Rule_dumpEdgeBinding.IMatch_dumpEdgeBinding> matches;
             
             for(int i = 0; i < max; i++)
             {
-                matches = DynamicMatch((GRGEN_LGSP.LGSPGraph)graph, 1);
+                matches = DynamicMatch((GRGEN_LGSP.LGSPGraph)graph, 1, dumpEdgeBinding_var_v);
                 if(matches.Count <= 0) return i >= min;
                 _rulePattern.Modify((GRGEN_LGSP.LGSPGraph)graph, matches.First);
             }
@@ -35742,7 +35920,7 @@ maxMatchesIterReached:
         // implementation of inexact action interface by delegation to exact action interface
         public GRGEN_LIBGR.IMatches Match(GRGEN_LIBGR.IGraph graph, int maxMatches, object[] parameters)
         {
-            return Match(graph, maxMatches);
+            return Match(graph, maxMatches, (System.Int32) parameters[0]);
         }
         public object[] Modify(GRGEN_LIBGR.IGraph graph, GRGEN_LIBGR.IMatch match)
         {
@@ -35758,59 +35936,51 @@ maxMatchesIterReached:
         }
         object[] GRGEN_LIBGR.IAction.Apply(GRGEN_LIBGR.IGraph graph)
         {
-            
-            if(Apply(graph)) {
-                return ReturnArray;
-            }
-            else return null;
+            throw new Exception();
         }
         object[] GRGEN_LIBGR.IAction.Apply(GRGEN_LIBGR.IGraph graph, params object[] parameters)
         {
             
-            if(Apply(graph)) {
+            if(Apply(graph, (System.Int32) parameters[0])) {
                 return ReturnArray;
             }
             else return null;
         }
         object[] GRGEN_LIBGR.IAction.ApplyAll(int maxMatches, GRGEN_LIBGR.IGraph graph)
         {
-            
-            if(ApplyAll(maxMatches, graph)) {
-                return ReturnArray;
-            }
-            else return null;
+            throw new Exception();
         }
         object[] GRGEN_LIBGR.IAction.ApplyAll(int maxMatches, GRGEN_LIBGR.IGraph graph, params object[] parameters)
         {
             
-            if(ApplyAll(maxMatches, graph)) {
+            if(ApplyAll(maxMatches, graph, (System.Int32) parameters[0])) {
                 return ReturnArray;
             }
             else return null;
         }
         bool GRGEN_LIBGR.IAction.ApplyStar(GRGEN_LIBGR.IGraph graph)
         {
-            return ApplyStar(graph);
+            throw new Exception(); return false;
         }
         bool GRGEN_LIBGR.IAction.ApplyStar(GRGEN_LIBGR.IGraph graph, params object[] parameters)
         {
-            return ApplyStar(graph);
+            return ApplyStar(graph, (System.Int32) parameters[0]);
         }
         bool GRGEN_LIBGR.IAction.ApplyPlus(GRGEN_LIBGR.IGraph graph)
         {
-            return ApplyPlus(graph);
+            throw new Exception(); return false;
         }
         bool GRGEN_LIBGR.IAction.ApplyPlus(GRGEN_LIBGR.IGraph graph, params object[] parameters)
         {
-            return ApplyPlus(graph);
+            return ApplyPlus(graph, (System.Int32) parameters[0]);
         }
         bool GRGEN_LIBGR.IAction.ApplyMinMax(GRGEN_LIBGR.IGraph graph, int min, int max)
         {
-            return ApplyMinMax(graph, min, max);
+            throw new Exception(); return false;
         }
         bool GRGEN_LIBGR.IAction.ApplyMinMax(GRGEN_LIBGR.IGraph graph, int min, int max, params object[] parameters)
         {
-            return ApplyMinMax(graph, min, max);
+            return ApplyMinMax(graph, min, max, (System.Int32) parameters[0]);
         }
     }
 
@@ -35820,21 +35990,21 @@ maxMatchesIterReached:
     public interface IAction_dumpEdgeLink
     {
         /// <summary> same as IAction.Match, but with exact types and distinct parameters. </summary>
-        GRGEN_LIBGR.IMatchesExact<Rule_dumpEdgeLink.IMatch_dumpEdgeLink> Match(GRGEN_LIBGR.IGraph graph, int maxMatches);
+        GRGEN_LIBGR.IMatchesExact<Rule_dumpEdgeLink.IMatch_dumpEdgeLink> Match(GRGEN_LIBGR.IGraph graph, int maxMatches, System.Int32 dumpEdgeLink_var_v);
         /// <summary> same as IAction.Modify, but with exact types and distinct parameters. </summary>
         void Modify(GRGEN_LIBGR.IGraph graph, Rule_dumpEdgeLink.IMatch_dumpEdgeLink match);
         /// <summary> same as IAction.ModifyAll, but with exact types and distinct parameters. </summary>
         void ModifyAll(GRGEN_LIBGR.IGraph graph, GRGEN_LIBGR.IMatchesExact<Rule_dumpEdgeLink.IMatch_dumpEdgeLink> matches);
         /// <summary> same as IAction.Apply, but with exact types and distinct parameters; returns true if applied </summary>
-        bool Apply(GRGEN_LIBGR.IGraph graph);
+        bool Apply(GRGEN_LIBGR.IGraph graph, System.Int32 dumpEdgeLink_var_v);
         /// <summary> same as IAction.ApplyAll, but with exact types and distinct parameters; returns true if applied at least once. </summary>
-        bool ApplyAll(int maxMatches, GRGEN_LIBGR.IGraph graph);
+        bool ApplyAll(int maxMatches, GRGEN_LIBGR.IGraph graph, System.Int32 dumpEdgeLink_var_v);
         /// <summary> same as IAction.ApplyStar, but with exact types and distinct parameters. </summary>
-        bool ApplyStar(GRGEN_LIBGR.IGraph graph);
+        bool ApplyStar(GRGEN_LIBGR.IGraph graph, System.Int32 dumpEdgeLink_var_v);
         /// <summary> same as IAction.ApplyPlus, but with exact types and distinct parameters. </summary>
-        bool ApplyPlus(GRGEN_LIBGR.IGraph graph);
+        bool ApplyPlus(GRGEN_LIBGR.IGraph graph, System.Int32 dumpEdgeLink_var_v);
         /// <summary> same as IAction.ApplyMinMax, but with exact types and distinct parameters. </summary>
-        bool ApplyMinMax(GRGEN_LIBGR.IGraph graph, int min, int max);
+        bool ApplyMinMax(GRGEN_LIBGR.IGraph graph, int min, int max, System.Int32 dumpEdgeLink_var_v);
     }
     
     public class Action_dumpEdgeLink : GRGEN_LGSP.LGSPAction, GRGEN_LIBGR.IAction, IAction_dumpEdgeLink
@@ -35855,16 +36025,17 @@ maxMatchesIterReached:
         public static Action_dumpEdgeLink Instance { get { return instance; } }
         private static Action_dumpEdgeLink instance = new Action_dumpEdgeLink();
         
-        public GRGEN_LIBGR.IMatchesExact<Rule_dumpEdgeLink.IMatch_dumpEdgeLink> myMatch(GRGEN_LGSP.LGSPGraph graph, int maxMatches)
+        public GRGEN_LIBGR.IMatchesExact<Rule_dumpEdgeLink.IMatch_dumpEdgeLink> myMatch(GRGEN_LGSP.LGSPGraph graph, int maxMatches, System.Int32 dumpEdgeLink_var_v)
         {
             matches.Clear();
             int negLevel = 0;
+            System.Int32 var_dumpEdgeLink_var_v = (System.Int32)dumpEdgeLink_var_v;
             // Lookup dumpEdgeLink_edge_e 
             int type_id_candidate_dumpEdgeLink_edge_e = 11;
             for(GRGEN_LGSP.LGSPEdge head_candidate_dumpEdgeLink_edge_e = graph.edgesByTypeHeads[type_id_candidate_dumpEdgeLink_edge_e], candidate_dumpEdgeLink_edge_e = head_candidate_dumpEdgeLink_edge_e.lgspTypeNext; candidate_dumpEdgeLink_edge_e != head_candidate_dumpEdgeLink_edge_e; candidate_dumpEdgeLink_edge_e = candidate_dumpEdgeLink_edge_e.lgspTypeNext)
             {
                 // Condition 
-                if(!(!graph.IsVisited(candidate_dumpEdgeLink_edge_e, 0))) {
+                if(!(!graph.IsVisited(candidate_dumpEdgeLink_edge_e, var_dumpEdgeLink_var_v))) {
                     continue;
                 }
                 // Implicit Source dumpEdgeLink_node_src from dumpEdgeLink_edge_e 
@@ -35883,6 +36054,7 @@ maxMatchesIterReached:
                 match._node_src = candidate_dumpEdgeLink_node_src;
                 match._node_tgt = candidate_dumpEdgeLink_node_tgt;
                 match._edge_e = candidate_dumpEdgeLink_edge_e;
+                match._var_v = var_dumpEdgeLink_var_v;
                 matches.PositionWasFilledFixIt();
                 // if enough matches were found, we leave
                 if(maxMatches > 0 && matches.Count >= maxMatches)
@@ -35896,14 +36068,14 @@ maxMatchesIterReached:
             return matches;
         }
         /// <summary> Type of the matcher method (with parameters host graph, maximum number of matches to search for (zero=unlimited), and rule parameters; returning found matches). </summary>
-        public delegate GRGEN_LIBGR.IMatchesExact<Rule_dumpEdgeLink.IMatch_dumpEdgeLink> MatchInvoker(GRGEN_LGSP.LGSPGraph graph, int maxMatches);
+        public delegate GRGEN_LIBGR.IMatchesExact<Rule_dumpEdgeLink.IMatch_dumpEdgeLink> MatchInvoker(GRGEN_LGSP.LGSPGraph graph, int maxMatches, System.Int32 dumpEdgeLink_var_v);
         /// <summary> A delegate pointing to the current matcher program for this rule. </summary>
         public MatchInvoker DynamicMatch;
         /// <summary> The RulePattern object from which this LGSPAction object has been created. </summary>
         public GRGEN_LIBGR.IRulePattern RulePattern { get { return _rulePattern; } }
-        public GRGEN_LIBGR.IMatchesExact<Rule_dumpEdgeLink.IMatch_dumpEdgeLink> Match(GRGEN_LIBGR.IGraph graph, int maxMatches)
+        public GRGEN_LIBGR.IMatchesExact<Rule_dumpEdgeLink.IMatch_dumpEdgeLink> Match(GRGEN_LIBGR.IGraph graph, int maxMatches, System.Int32 dumpEdgeLink_var_v)
         {
-            return DynamicMatch((GRGEN_LGSP.LGSPGraph)graph, maxMatches);
+            return DynamicMatch((GRGEN_LGSP.LGSPGraph)graph, maxMatches, dumpEdgeLink_var_v);
         }
         public void Modify(GRGEN_LIBGR.IGraph graph, Rule_dumpEdgeLink.IMatch_dumpEdgeLink match)
         {
@@ -35913,51 +36085,51 @@ maxMatchesIterReached:
         {
             foreach(Rule_dumpEdgeLink.IMatch_dumpEdgeLink match in matches) _rulePattern.Modify((GRGEN_LGSP.LGSPGraph)graph, match);
         }
-        public bool Apply(GRGEN_LIBGR.IGraph graph)
+        public bool Apply(GRGEN_LIBGR.IGraph graph, System.Int32 dumpEdgeLink_var_v)
         {
-            GRGEN_LIBGR.IMatchesExact<Rule_dumpEdgeLink.IMatch_dumpEdgeLink> matches = DynamicMatch((GRGEN_LGSP.LGSPGraph)graph, 1);
+            GRGEN_LIBGR.IMatchesExact<Rule_dumpEdgeLink.IMatch_dumpEdgeLink> matches = DynamicMatch((GRGEN_LGSP.LGSPGraph)graph, 1, dumpEdgeLink_var_v);
             if(matches.Count <= 0) return false;
             _rulePattern.Modify((GRGEN_LGSP.LGSPGraph)graph, matches.First);
             return true;
         }
-        public bool ApplyAll(int maxMatches, GRGEN_LIBGR.IGraph graph)
+        public bool ApplyAll(int maxMatches, GRGEN_LIBGR.IGraph graph, System.Int32 dumpEdgeLink_var_v)
         {
-            GRGEN_LIBGR.IMatchesExact<Rule_dumpEdgeLink.IMatch_dumpEdgeLink> matches = DynamicMatch((GRGEN_LGSP.LGSPGraph)graph, maxMatches);
+            GRGEN_LIBGR.IMatchesExact<Rule_dumpEdgeLink.IMatch_dumpEdgeLink> matches = DynamicMatch((GRGEN_LGSP.LGSPGraph)graph, maxMatches, dumpEdgeLink_var_v);
             if(matches.Count <= 0) return false;
             foreach(Rule_dumpEdgeLink.IMatch_dumpEdgeLink match in matches) _rulePattern.Modify((GRGEN_LGSP.LGSPGraph)graph, match);
             return true;
         }
-        public bool ApplyStar(GRGEN_LIBGR.IGraph graph)
+        public bool ApplyStar(GRGEN_LIBGR.IGraph graph, System.Int32 dumpEdgeLink_var_v)
         {
             GRGEN_LIBGR.IMatchesExact<Rule_dumpEdgeLink.IMatch_dumpEdgeLink> matches;
             
             while(true)
             {
-                matches = DynamicMatch((GRGEN_LGSP.LGSPGraph)graph, 1);
+                matches = DynamicMatch((GRGEN_LGSP.LGSPGraph)graph, 1, dumpEdgeLink_var_v);
                 if(matches.Count <= 0) return true;
                 _rulePattern.Modify((GRGEN_LGSP.LGSPGraph)graph, matches.First);
             }
         }
-        public bool ApplyPlus(GRGEN_LIBGR.IGraph graph)
+        public bool ApplyPlus(GRGEN_LIBGR.IGraph graph, System.Int32 dumpEdgeLink_var_v)
         {
-            GRGEN_LIBGR.IMatchesExact<Rule_dumpEdgeLink.IMatch_dumpEdgeLink> matches = DynamicMatch((GRGEN_LGSP.LGSPGraph)graph, 1);
+            GRGEN_LIBGR.IMatchesExact<Rule_dumpEdgeLink.IMatch_dumpEdgeLink> matches = DynamicMatch((GRGEN_LGSP.LGSPGraph)graph, 1, dumpEdgeLink_var_v);
             if(matches.Count <= 0) return false;
             
             do
             {
                 _rulePattern.Modify((GRGEN_LGSP.LGSPGraph)graph, matches.First);
-                matches = DynamicMatch((GRGEN_LGSP.LGSPGraph)graph, 1);
+                matches = DynamicMatch((GRGEN_LGSP.LGSPGraph)graph, 1, dumpEdgeLink_var_v);
             }
             while(matches.Count > 0) ;
             return true;
         }
-        public bool ApplyMinMax(GRGEN_LIBGR.IGraph graph, int min, int max)
+        public bool ApplyMinMax(GRGEN_LIBGR.IGraph graph, int min, int max, System.Int32 dumpEdgeLink_var_v)
         {
             GRGEN_LIBGR.IMatchesExact<Rule_dumpEdgeLink.IMatch_dumpEdgeLink> matches;
             
             for(int i = 0; i < max; i++)
             {
-                matches = DynamicMatch((GRGEN_LGSP.LGSPGraph)graph, 1);
+                matches = DynamicMatch((GRGEN_LGSP.LGSPGraph)graph, 1, dumpEdgeLink_var_v);
                 if(matches.Count <= 0) return i >= min;
                 _rulePattern.Modify((GRGEN_LGSP.LGSPGraph)graph, matches.First);
             }
@@ -35966,7 +36138,7 @@ maxMatchesIterReached:
         // implementation of inexact action interface by delegation to exact action interface
         public GRGEN_LIBGR.IMatches Match(GRGEN_LIBGR.IGraph graph, int maxMatches, object[] parameters)
         {
-            return Match(graph, maxMatches);
+            return Match(graph, maxMatches, (System.Int32) parameters[0]);
         }
         public object[] Modify(GRGEN_LIBGR.IGraph graph, GRGEN_LIBGR.IMatch match)
         {
@@ -35982,59 +36154,51 @@ maxMatchesIterReached:
         }
         object[] GRGEN_LIBGR.IAction.Apply(GRGEN_LIBGR.IGraph graph)
         {
-            
-            if(Apply(graph)) {
-                return ReturnArray;
-            }
-            else return null;
+            throw new Exception();
         }
         object[] GRGEN_LIBGR.IAction.Apply(GRGEN_LIBGR.IGraph graph, params object[] parameters)
         {
             
-            if(Apply(graph)) {
+            if(Apply(graph, (System.Int32) parameters[0])) {
                 return ReturnArray;
             }
             else return null;
         }
         object[] GRGEN_LIBGR.IAction.ApplyAll(int maxMatches, GRGEN_LIBGR.IGraph graph)
         {
-            
-            if(ApplyAll(maxMatches, graph)) {
-                return ReturnArray;
-            }
-            else return null;
+            throw new Exception();
         }
         object[] GRGEN_LIBGR.IAction.ApplyAll(int maxMatches, GRGEN_LIBGR.IGraph graph, params object[] parameters)
         {
             
-            if(ApplyAll(maxMatches, graph)) {
+            if(ApplyAll(maxMatches, graph, (System.Int32) parameters[0])) {
                 return ReturnArray;
             }
             else return null;
         }
         bool GRGEN_LIBGR.IAction.ApplyStar(GRGEN_LIBGR.IGraph graph)
         {
-            return ApplyStar(graph);
+            throw new Exception(); return false;
         }
         bool GRGEN_LIBGR.IAction.ApplyStar(GRGEN_LIBGR.IGraph graph, params object[] parameters)
         {
-            return ApplyStar(graph);
+            return ApplyStar(graph, (System.Int32) parameters[0]);
         }
         bool GRGEN_LIBGR.IAction.ApplyPlus(GRGEN_LIBGR.IGraph graph)
         {
-            return ApplyPlus(graph);
+            throw new Exception(); return false;
         }
         bool GRGEN_LIBGR.IAction.ApplyPlus(GRGEN_LIBGR.IGraph graph, params object[] parameters)
         {
-            return ApplyPlus(graph);
+            return ApplyPlus(graph, (System.Int32) parameters[0]);
         }
         bool GRGEN_LIBGR.IAction.ApplyMinMax(GRGEN_LIBGR.IGraph graph, int min, int max)
         {
-            return ApplyMinMax(graph, min, max);
+            throw new Exception(); return false;
         }
         bool GRGEN_LIBGR.IAction.ApplyMinMax(GRGEN_LIBGR.IGraph graph, int min, int max, params object[] parameters)
         {
-            return ApplyMinMax(graph, min, max);
+            return ApplyMinMax(graph, min, max, (System.Int32) parameters[0]);
         }
     }
 
@@ -36044,21 +36208,21 @@ maxMatchesIterReached:
     public interface IAction_dumpEdgeExpression
     {
         /// <summary> same as IAction.Match, but with exact types and distinct parameters. </summary>
-        GRGEN_LIBGR.IMatchesExact<Rule_dumpEdgeExpression.IMatch_dumpEdgeExpression> Match(GRGEN_LIBGR.IGraph graph, int maxMatches);
+        GRGEN_LIBGR.IMatchesExact<Rule_dumpEdgeExpression.IMatch_dumpEdgeExpression> Match(GRGEN_LIBGR.IGraph graph, int maxMatches, System.Int32 dumpEdgeExpression_var_v);
         /// <summary> same as IAction.Modify, but with exact types and distinct parameters. </summary>
         void Modify(GRGEN_LIBGR.IGraph graph, Rule_dumpEdgeExpression.IMatch_dumpEdgeExpression match);
         /// <summary> same as IAction.ModifyAll, but with exact types and distinct parameters. </summary>
         void ModifyAll(GRGEN_LIBGR.IGraph graph, GRGEN_LIBGR.IMatchesExact<Rule_dumpEdgeExpression.IMatch_dumpEdgeExpression> matches);
         /// <summary> same as IAction.Apply, but with exact types and distinct parameters; returns true if applied </summary>
-        bool Apply(GRGEN_LIBGR.IGraph graph);
+        bool Apply(GRGEN_LIBGR.IGraph graph, System.Int32 dumpEdgeExpression_var_v);
         /// <summary> same as IAction.ApplyAll, but with exact types and distinct parameters; returns true if applied at least once. </summary>
-        bool ApplyAll(int maxMatches, GRGEN_LIBGR.IGraph graph);
+        bool ApplyAll(int maxMatches, GRGEN_LIBGR.IGraph graph, System.Int32 dumpEdgeExpression_var_v);
         /// <summary> same as IAction.ApplyStar, but with exact types and distinct parameters. </summary>
-        bool ApplyStar(GRGEN_LIBGR.IGraph graph);
+        bool ApplyStar(GRGEN_LIBGR.IGraph graph, System.Int32 dumpEdgeExpression_var_v);
         /// <summary> same as IAction.ApplyPlus, but with exact types and distinct parameters. </summary>
-        bool ApplyPlus(GRGEN_LIBGR.IGraph graph);
+        bool ApplyPlus(GRGEN_LIBGR.IGraph graph, System.Int32 dumpEdgeExpression_var_v);
         /// <summary> same as IAction.ApplyMinMax, but with exact types and distinct parameters. </summary>
-        bool ApplyMinMax(GRGEN_LIBGR.IGraph graph, int min, int max);
+        bool ApplyMinMax(GRGEN_LIBGR.IGraph graph, int min, int max, System.Int32 dumpEdgeExpression_var_v);
     }
     
     public class Action_dumpEdgeExpression : GRGEN_LGSP.LGSPAction, GRGEN_LIBGR.IAction, IAction_dumpEdgeExpression
@@ -36079,16 +36243,17 @@ maxMatchesIterReached:
         public static Action_dumpEdgeExpression Instance { get { return instance; } }
         private static Action_dumpEdgeExpression instance = new Action_dumpEdgeExpression();
         
-        public GRGEN_LIBGR.IMatchesExact<Rule_dumpEdgeExpression.IMatch_dumpEdgeExpression> myMatch(GRGEN_LGSP.LGSPGraph graph, int maxMatches)
+        public GRGEN_LIBGR.IMatchesExact<Rule_dumpEdgeExpression.IMatch_dumpEdgeExpression> myMatch(GRGEN_LGSP.LGSPGraph graph, int maxMatches, System.Int32 dumpEdgeExpression_var_v)
         {
             matches.Clear();
             int negLevel = 0;
+            System.Int32 var_dumpEdgeExpression_var_v = (System.Int32)dumpEdgeExpression_var_v;
             // Lookup dumpEdgeExpression_edge_e 
             int type_id_candidate_dumpEdgeExpression_edge_e = 12;
             for(GRGEN_LGSP.LGSPEdge head_candidate_dumpEdgeExpression_edge_e = graph.edgesByTypeHeads[type_id_candidate_dumpEdgeExpression_edge_e], candidate_dumpEdgeExpression_edge_e = head_candidate_dumpEdgeExpression_edge_e.lgspTypeNext; candidate_dumpEdgeExpression_edge_e != head_candidate_dumpEdgeExpression_edge_e; candidate_dumpEdgeExpression_edge_e = candidate_dumpEdgeExpression_edge_e.lgspTypeNext)
             {
                 // Condition 
-                if(!(!graph.IsVisited(candidate_dumpEdgeExpression_edge_e, 0))) {
+                if(!(!graph.IsVisited(candidate_dumpEdgeExpression_edge_e, var_dumpEdgeExpression_var_v))) {
                     continue;
                 }
                 // Implicit Source dumpEdgeExpression_node_src from dumpEdgeExpression_edge_e 
@@ -36107,6 +36272,7 @@ maxMatchesIterReached:
                 match._node_src = candidate_dumpEdgeExpression_node_src;
                 match._node_tgt = candidate_dumpEdgeExpression_node_tgt;
                 match._edge_e = candidate_dumpEdgeExpression_edge_e;
+                match._var_v = var_dumpEdgeExpression_var_v;
                 matches.PositionWasFilledFixIt();
                 // if enough matches were found, we leave
                 if(maxMatches > 0 && matches.Count >= maxMatches)
@@ -36120,14 +36286,14 @@ maxMatchesIterReached:
             return matches;
         }
         /// <summary> Type of the matcher method (with parameters host graph, maximum number of matches to search for (zero=unlimited), and rule parameters; returning found matches). </summary>
-        public delegate GRGEN_LIBGR.IMatchesExact<Rule_dumpEdgeExpression.IMatch_dumpEdgeExpression> MatchInvoker(GRGEN_LGSP.LGSPGraph graph, int maxMatches);
+        public delegate GRGEN_LIBGR.IMatchesExact<Rule_dumpEdgeExpression.IMatch_dumpEdgeExpression> MatchInvoker(GRGEN_LGSP.LGSPGraph graph, int maxMatches, System.Int32 dumpEdgeExpression_var_v);
         /// <summary> A delegate pointing to the current matcher program for this rule. </summary>
         public MatchInvoker DynamicMatch;
         /// <summary> The RulePattern object from which this LGSPAction object has been created. </summary>
         public GRGEN_LIBGR.IRulePattern RulePattern { get { return _rulePattern; } }
-        public GRGEN_LIBGR.IMatchesExact<Rule_dumpEdgeExpression.IMatch_dumpEdgeExpression> Match(GRGEN_LIBGR.IGraph graph, int maxMatches)
+        public GRGEN_LIBGR.IMatchesExact<Rule_dumpEdgeExpression.IMatch_dumpEdgeExpression> Match(GRGEN_LIBGR.IGraph graph, int maxMatches, System.Int32 dumpEdgeExpression_var_v)
         {
-            return DynamicMatch((GRGEN_LGSP.LGSPGraph)graph, maxMatches);
+            return DynamicMatch((GRGEN_LGSP.LGSPGraph)graph, maxMatches, dumpEdgeExpression_var_v);
         }
         public void Modify(GRGEN_LIBGR.IGraph graph, Rule_dumpEdgeExpression.IMatch_dumpEdgeExpression match)
         {
@@ -36137,51 +36303,51 @@ maxMatchesIterReached:
         {
             foreach(Rule_dumpEdgeExpression.IMatch_dumpEdgeExpression match in matches) _rulePattern.Modify((GRGEN_LGSP.LGSPGraph)graph, match);
         }
-        public bool Apply(GRGEN_LIBGR.IGraph graph)
+        public bool Apply(GRGEN_LIBGR.IGraph graph, System.Int32 dumpEdgeExpression_var_v)
         {
-            GRGEN_LIBGR.IMatchesExact<Rule_dumpEdgeExpression.IMatch_dumpEdgeExpression> matches = DynamicMatch((GRGEN_LGSP.LGSPGraph)graph, 1);
+            GRGEN_LIBGR.IMatchesExact<Rule_dumpEdgeExpression.IMatch_dumpEdgeExpression> matches = DynamicMatch((GRGEN_LGSP.LGSPGraph)graph, 1, dumpEdgeExpression_var_v);
             if(matches.Count <= 0) return false;
             _rulePattern.Modify((GRGEN_LGSP.LGSPGraph)graph, matches.First);
             return true;
         }
-        public bool ApplyAll(int maxMatches, GRGEN_LIBGR.IGraph graph)
+        public bool ApplyAll(int maxMatches, GRGEN_LIBGR.IGraph graph, System.Int32 dumpEdgeExpression_var_v)
         {
-            GRGEN_LIBGR.IMatchesExact<Rule_dumpEdgeExpression.IMatch_dumpEdgeExpression> matches = DynamicMatch((GRGEN_LGSP.LGSPGraph)graph, maxMatches);
+            GRGEN_LIBGR.IMatchesExact<Rule_dumpEdgeExpression.IMatch_dumpEdgeExpression> matches = DynamicMatch((GRGEN_LGSP.LGSPGraph)graph, maxMatches, dumpEdgeExpression_var_v);
             if(matches.Count <= 0) return false;
             foreach(Rule_dumpEdgeExpression.IMatch_dumpEdgeExpression match in matches) _rulePattern.Modify((GRGEN_LGSP.LGSPGraph)graph, match);
             return true;
         }
-        public bool ApplyStar(GRGEN_LIBGR.IGraph graph)
+        public bool ApplyStar(GRGEN_LIBGR.IGraph graph, System.Int32 dumpEdgeExpression_var_v)
         {
             GRGEN_LIBGR.IMatchesExact<Rule_dumpEdgeExpression.IMatch_dumpEdgeExpression> matches;
             
             while(true)
             {
-                matches = DynamicMatch((GRGEN_LGSP.LGSPGraph)graph, 1);
+                matches = DynamicMatch((GRGEN_LGSP.LGSPGraph)graph, 1, dumpEdgeExpression_var_v);
                 if(matches.Count <= 0) return true;
                 _rulePattern.Modify((GRGEN_LGSP.LGSPGraph)graph, matches.First);
             }
         }
-        public bool ApplyPlus(GRGEN_LIBGR.IGraph graph)
+        public bool ApplyPlus(GRGEN_LIBGR.IGraph graph, System.Int32 dumpEdgeExpression_var_v)
         {
-            GRGEN_LIBGR.IMatchesExact<Rule_dumpEdgeExpression.IMatch_dumpEdgeExpression> matches = DynamicMatch((GRGEN_LGSP.LGSPGraph)graph, 1);
+            GRGEN_LIBGR.IMatchesExact<Rule_dumpEdgeExpression.IMatch_dumpEdgeExpression> matches = DynamicMatch((GRGEN_LGSP.LGSPGraph)graph, 1, dumpEdgeExpression_var_v);
             if(matches.Count <= 0) return false;
             
             do
             {
                 _rulePattern.Modify((GRGEN_LGSP.LGSPGraph)graph, matches.First);
-                matches = DynamicMatch((GRGEN_LGSP.LGSPGraph)graph, 1);
+                matches = DynamicMatch((GRGEN_LGSP.LGSPGraph)graph, 1, dumpEdgeExpression_var_v);
             }
             while(matches.Count > 0) ;
             return true;
         }
-        public bool ApplyMinMax(GRGEN_LIBGR.IGraph graph, int min, int max)
+        public bool ApplyMinMax(GRGEN_LIBGR.IGraph graph, int min, int max, System.Int32 dumpEdgeExpression_var_v)
         {
             GRGEN_LIBGR.IMatchesExact<Rule_dumpEdgeExpression.IMatch_dumpEdgeExpression> matches;
             
             for(int i = 0; i < max; i++)
             {
-                matches = DynamicMatch((GRGEN_LGSP.LGSPGraph)graph, 1);
+                matches = DynamicMatch((GRGEN_LGSP.LGSPGraph)graph, 1, dumpEdgeExpression_var_v);
                 if(matches.Count <= 0) return i >= min;
                 _rulePattern.Modify((GRGEN_LGSP.LGSPGraph)graph, matches.First);
             }
@@ -36190,7 +36356,7 @@ maxMatchesIterReached:
         // implementation of inexact action interface by delegation to exact action interface
         public GRGEN_LIBGR.IMatches Match(GRGEN_LIBGR.IGraph graph, int maxMatches, object[] parameters)
         {
-            return Match(graph, maxMatches);
+            return Match(graph, maxMatches, (System.Int32) parameters[0]);
         }
         public object[] Modify(GRGEN_LIBGR.IGraph graph, GRGEN_LIBGR.IMatch match)
         {
@@ -36206,59 +36372,51 @@ maxMatchesIterReached:
         }
         object[] GRGEN_LIBGR.IAction.Apply(GRGEN_LIBGR.IGraph graph)
         {
-            
-            if(Apply(graph)) {
-                return ReturnArray;
-            }
-            else return null;
+            throw new Exception();
         }
         object[] GRGEN_LIBGR.IAction.Apply(GRGEN_LIBGR.IGraph graph, params object[] parameters)
         {
             
-            if(Apply(graph)) {
+            if(Apply(graph, (System.Int32) parameters[0])) {
                 return ReturnArray;
             }
             else return null;
         }
         object[] GRGEN_LIBGR.IAction.ApplyAll(int maxMatches, GRGEN_LIBGR.IGraph graph)
         {
-            
-            if(ApplyAll(maxMatches, graph)) {
-                return ReturnArray;
-            }
-            else return null;
+            throw new Exception();
         }
         object[] GRGEN_LIBGR.IAction.ApplyAll(int maxMatches, GRGEN_LIBGR.IGraph graph, params object[] parameters)
         {
             
-            if(ApplyAll(maxMatches, graph)) {
+            if(ApplyAll(maxMatches, graph, (System.Int32) parameters[0])) {
                 return ReturnArray;
             }
             else return null;
         }
         bool GRGEN_LIBGR.IAction.ApplyStar(GRGEN_LIBGR.IGraph graph)
         {
-            return ApplyStar(graph);
+            throw new Exception(); return false;
         }
         bool GRGEN_LIBGR.IAction.ApplyStar(GRGEN_LIBGR.IGraph graph, params object[] parameters)
         {
-            return ApplyStar(graph);
+            return ApplyStar(graph, (System.Int32) parameters[0]);
         }
         bool GRGEN_LIBGR.IAction.ApplyPlus(GRGEN_LIBGR.IGraph graph)
         {
-            return ApplyPlus(graph);
+            throw new Exception(); return false;
         }
         bool GRGEN_LIBGR.IAction.ApplyPlus(GRGEN_LIBGR.IGraph graph, params object[] parameters)
         {
-            return ApplyPlus(graph);
+            return ApplyPlus(graph, (System.Int32) parameters[0]);
         }
         bool GRGEN_LIBGR.IAction.ApplyMinMax(GRGEN_LIBGR.IGraph graph, int min, int max)
         {
-            return ApplyMinMax(graph, min, max);
+            throw new Exception(); return false;
         }
         bool GRGEN_LIBGR.IAction.ApplyMinMax(GRGEN_LIBGR.IGraph graph, int min, int max, params object[] parameters)
         {
-            return ApplyMinMax(graph, min, max);
+            return ApplyMinMax(graph, min, max, (System.Int32) parameters[0]);
         }
     }
 
@@ -36268,21 +36426,21 @@ maxMatchesIterReached:
     public interface IAction_dumpEdgeActualParameter
     {
         /// <summary> same as IAction.Match, but with exact types and distinct parameters. </summary>
-        GRGEN_LIBGR.IMatchesExact<Rule_dumpEdgeActualParameter.IMatch_dumpEdgeActualParameter> Match(GRGEN_LIBGR.IGraph graph, int maxMatches);
+        GRGEN_LIBGR.IMatchesExact<Rule_dumpEdgeActualParameter.IMatch_dumpEdgeActualParameter> Match(GRGEN_LIBGR.IGraph graph, int maxMatches, System.Int32 dumpEdgeActualParameter_var_v);
         /// <summary> same as IAction.Modify, but with exact types and distinct parameters. </summary>
         void Modify(GRGEN_LIBGR.IGraph graph, Rule_dumpEdgeActualParameter.IMatch_dumpEdgeActualParameter match);
         /// <summary> same as IAction.ModifyAll, but with exact types and distinct parameters. </summary>
         void ModifyAll(GRGEN_LIBGR.IGraph graph, GRGEN_LIBGR.IMatchesExact<Rule_dumpEdgeActualParameter.IMatch_dumpEdgeActualParameter> matches);
         /// <summary> same as IAction.Apply, but with exact types and distinct parameters; returns true if applied </summary>
-        bool Apply(GRGEN_LIBGR.IGraph graph);
+        bool Apply(GRGEN_LIBGR.IGraph graph, System.Int32 dumpEdgeActualParameter_var_v);
         /// <summary> same as IAction.ApplyAll, but with exact types and distinct parameters; returns true if applied at least once. </summary>
-        bool ApplyAll(int maxMatches, GRGEN_LIBGR.IGraph graph);
+        bool ApplyAll(int maxMatches, GRGEN_LIBGR.IGraph graph, System.Int32 dumpEdgeActualParameter_var_v);
         /// <summary> same as IAction.ApplyStar, but with exact types and distinct parameters. </summary>
-        bool ApplyStar(GRGEN_LIBGR.IGraph graph);
+        bool ApplyStar(GRGEN_LIBGR.IGraph graph, System.Int32 dumpEdgeActualParameter_var_v);
         /// <summary> same as IAction.ApplyPlus, but with exact types and distinct parameters. </summary>
-        bool ApplyPlus(GRGEN_LIBGR.IGraph graph);
+        bool ApplyPlus(GRGEN_LIBGR.IGraph graph, System.Int32 dumpEdgeActualParameter_var_v);
         /// <summary> same as IAction.ApplyMinMax, but with exact types and distinct parameters. </summary>
-        bool ApplyMinMax(GRGEN_LIBGR.IGraph graph, int min, int max);
+        bool ApplyMinMax(GRGEN_LIBGR.IGraph graph, int min, int max, System.Int32 dumpEdgeActualParameter_var_v);
     }
     
     public class Action_dumpEdgeActualParameter : GRGEN_LGSP.LGSPAction, GRGEN_LIBGR.IAction, IAction_dumpEdgeActualParameter
@@ -36303,16 +36461,17 @@ maxMatchesIterReached:
         public static Action_dumpEdgeActualParameter Instance { get { return instance; } }
         private static Action_dumpEdgeActualParameter instance = new Action_dumpEdgeActualParameter();
         
-        public GRGEN_LIBGR.IMatchesExact<Rule_dumpEdgeActualParameter.IMatch_dumpEdgeActualParameter> myMatch(GRGEN_LGSP.LGSPGraph graph, int maxMatches)
+        public GRGEN_LIBGR.IMatchesExact<Rule_dumpEdgeActualParameter.IMatch_dumpEdgeActualParameter> myMatch(GRGEN_LGSP.LGSPGraph graph, int maxMatches, System.Int32 dumpEdgeActualParameter_var_v)
         {
             matches.Clear();
             int negLevel = 0;
+            System.Int32 var_dumpEdgeActualParameter_var_v = (System.Int32)dumpEdgeActualParameter_var_v;
             // Lookup dumpEdgeActualParameter_edge_e 
             int type_id_candidate_dumpEdgeActualParameter_edge_e = 9;
             for(GRGEN_LGSP.LGSPEdge head_candidate_dumpEdgeActualParameter_edge_e = graph.edgesByTypeHeads[type_id_candidate_dumpEdgeActualParameter_edge_e], candidate_dumpEdgeActualParameter_edge_e = head_candidate_dumpEdgeActualParameter_edge_e.lgspTypeNext; candidate_dumpEdgeActualParameter_edge_e != head_candidate_dumpEdgeActualParameter_edge_e; candidate_dumpEdgeActualParameter_edge_e = candidate_dumpEdgeActualParameter_edge_e.lgspTypeNext)
             {
                 // Condition 
-                if(!(!graph.IsVisited(candidate_dumpEdgeActualParameter_edge_e, 0))) {
+                if(!(!graph.IsVisited(candidate_dumpEdgeActualParameter_edge_e, var_dumpEdgeActualParameter_var_v))) {
                     continue;
                 }
                 // Implicit Source dumpEdgeActualParameter_node_src from dumpEdgeActualParameter_edge_e 
@@ -36331,6 +36490,7 @@ maxMatchesIterReached:
                 match._node_src = candidate_dumpEdgeActualParameter_node_src;
                 match._node_tgt = candidate_dumpEdgeActualParameter_node_tgt;
                 match._edge_e = candidate_dumpEdgeActualParameter_edge_e;
+                match._var_v = var_dumpEdgeActualParameter_var_v;
                 matches.PositionWasFilledFixIt();
                 // if enough matches were found, we leave
                 if(maxMatches > 0 && matches.Count >= maxMatches)
@@ -36344,14 +36504,14 @@ maxMatchesIterReached:
             return matches;
         }
         /// <summary> Type of the matcher method (with parameters host graph, maximum number of matches to search for (zero=unlimited), and rule parameters; returning found matches). </summary>
-        public delegate GRGEN_LIBGR.IMatchesExact<Rule_dumpEdgeActualParameter.IMatch_dumpEdgeActualParameter> MatchInvoker(GRGEN_LGSP.LGSPGraph graph, int maxMatches);
+        public delegate GRGEN_LIBGR.IMatchesExact<Rule_dumpEdgeActualParameter.IMatch_dumpEdgeActualParameter> MatchInvoker(GRGEN_LGSP.LGSPGraph graph, int maxMatches, System.Int32 dumpEdgeActualParameter_var_v);
         /// <summary> A delegate pointing to the current matcher program for this rule. </summary>
         public MatchInvoker DynamicMatch;
         /// <summary> The RulePattern object from which this LGSPAction object has been created. </summary>
         public GRGEN_LIBGR.IRulePattern RulePattern { get { return _rulePattern; } }
-        public GRGEN_LIBGR.IMatchesExact<Rule_dumpEdgeActualParameter.IMatch_dumpEdgeActualParameter> Match(GRGEN_LIBGR.IGraph graph, int maxMatches)
+        public GRGEN_LIBGR.IMatchesExact<Rule_dumpEdgeActualParameter.IMatch_dumpEdgeActualParameter> Match(GRGEN_LIBGR.IGraph graph, int maxMatches, System.Int32 dumpEdgeActualParameter_var_v)
         {
-            return DynamicMatch((GRGEN_LGSP.LGSPGraph)graph, maxMatches);
+            return DynamicMatch((GRGEN_LGSP.LGSPGraph)graph, maxMatches, dumpEdgeActualParameter_var_v);
         }
         public void Modify(GRGEN_LIBGR.IGraph graph, Rule_dumpEdgeActualParameter.IMatch_dumpEdgeActualParameter match)
         {
@@ -36361,51 +36521,51 @@ maxMatchesIterReached:
         {
             foreach(Rule_dumpEdgeActualParameter.IMatch_dumpEdgeActualParameter match in matches) _rulePattern.Modify((GRGEN_LGSP.LGSPGraph)graph, match);
         }
-        public bool Apply(GRGEN_LIBGR.IGraph graph)
+        public bool Apply(GRGEN_LIBGR.IGraph graph, System.Int32 dumpEdgeActualParameter_var_v)
         {
-            GRGEN_LIBGR.IMatchesExact<Rule_dumpEdgeActualParameter.IMatch_dumpEdgeActualParameter> matches = DynamicMatch((GRGEN_LGSP.LGSPGraph)graph, 1);
+            GRGEN_LIBGR.IMatchesExact<Rule_dumpEdgeActualParameter.IMatch_dumpEdgeActualParameter> matches = DynamicMatch((GRGEN_LGSP.LGSPGraph)graph, 1, dumpEdgeActualParameter_var_v);
             if(matches.Count <= 0) return false;
             _rulePattern.Modify((GRGEN_LGSP.LGSPGraph)graph, matches.First);
             return true;
         }
-        public bool ApplyAll(int maxMatches, GRGEN_LIBGR.IGraph graph)
+        public bool ApplyAll(int maxMatches, GRGEN_LIBGR.IGraph graph, System.Int32 dumpEdgeActualParameter_var_v)
         {
-            GRGEN_LIBGR.IMatchesExact<Rule_dumpEdgeActualParameter.IMatch_dumpEdgeActualParameter> matches = DynamicMatch((GRGEN_LGSP.LGSPGraph)graph, maxMatches);
+            GRGEN_LIBGR.IMatchesExact<Rule_dumpEdgeActualParameter.IMatch_dumpEdgeActualParameter> matches = DynamicMatch((GRGEN_LGSP.LGSPGraph)graph, maxMatches, dumpEdgeActualParameter_var_v);
             if(matches.Count <= 0) return false;
             foreach(Rule_dumpEdgeActualParameter.IMatch_dumpEdgeActualParameter match in matches) _rulePattern.Modify((GRGEN_LGSP.LGSPGraph)graph, match);
             return true;
         }
-        public bool ApplyStar(GRGEN_LIBGR.IGraph graph)
+        public bool ApplyStar(GRGEN_LIBGR.IGraph graph, System.Int32 dumpEdgeActualParameter_var_v)
         {
             GRGEN_LIBGR.IMatchesExact<Rule_dumpEdgeActualParameter.IMatch_dumpEdgeActualParameter> matches;
             
             while(true)
             {
-                matches = DynamicMatch((GRGEN_LGSP.LGSPGraph)graph, 1);
+                matches = DynamicMatch((GRGEN_LGSP.LGSPGraph)graph, 1, dumpEdgeActualParameter_var_v);
                 if(matches.Count <= 0) return true;
                 _rulePattern.Modify((GRGEN_LGSP.LGSPGraph)graph, matches.First);
             }
         }
-        public bool ApplyPlus(GRGEN_LIBGR.IGraph graph)
+        public bool ApplyPlus(GRGEN_LIBGR.IGraph graph, System.Int32 dumpEdgeActualParameter_var_v)
         {
-            GRGEN_LIBGR.IMatchesExact<Rule_dumpEdgeActualParameter.IMatch_dumpEdgeActualParameter> matches = DynamicMatch((GRGEN_LGSP.LGSPGraph)graph, 1);
+            GRGEN_LIBGR.IMatchesExact<Rule_dumpEdgeActualParameter.IMatch_dumpEdgeActualParameter> matches = DynamicMatch((GRGEN_LGSP.LGSPGraph)graph, 1, dumpEdgeActualParameter_var_v);
             if(matches.Count <= 0) return false;
             
             do
             {
                 _rulePattern.Modify((GRGEN_LGSP.LGSPGraph)graph, matches.First);
-                matches = DynamicMatch((GRGEN_LGSP.LGSPGraph)graph, 1);
+                matches = DynamicMatch((GRGEN_LGSP.LGSPGraph)graph, 1, dumpEdgeActualParameter_var_v);
             }
             while(matches.Count > 0) ;
             return true;
         }
-        public bool ApplyMinMax(GRGEN_LIBGR.IGraph graph, int min, int max)
+        public bool ApplyMinMax(GRGEN_LIBGR.IGraph graph, int min, int max, System.Int32 dumpEdgeActualParameter_var_v)
         {
             GRGEN_LIBGR.IMatchesExact<Rule_dumpEdgeActualParameter.IMatch_dumpEdgeActualParameter> matches;
             
             for(int i = 0; i < max; i++)
             {
-                matches = DynamicMatch((GRGEN_LGSP.LGSPGraph)graph, 1);
+                matches = DynamicMatch((GRGEN_LGSP.LGSPGraph)graph, 1, dumpEdgeActualParameter_var_v);
                 if(matches.Count <= 0) return i >= min;
                 _rulePattern.Modify((GRGEN_LGSP.LGSPGraph)graph, matches.First);
             }
@@ -36414,7 +36574,7 @@ maxMatchesIterReached:
         // implementation of inexact action interface by delegation to exact action interface
         public GRGEN_LIBGR.IMatches Match(GRGEN_LIBGR.IGraph graph, int maxMatches, object[] parameters)
         {
-            return Match(graph, maxMatches);
+            return Match(graph, maxMatches, (System.Int32) parameters[0]);
         }
         public object[] Modify(GRGEN_LIBGR.IGraph graph, GRGEN_LIBGR.IMatch match)
         {
@@ -36430,59 +36590,51 @@ maxMatchesIterReached:
         }
         object[] GRGEN_LIBGR.IAction.Apply(GRGEN_LIBGR.IGraph graph)
         {
-            
-            if(Apply(graph)) {
-                return ReturnArray;
-            }
-            else return null;
+            throw new Exception();
         }
         object[] GRGEN_LIBGR.IAction.Apply(GRGEN_LIBGR.IGraph graph, params object[] parameters)
         {
             
-            if(Apply(graph)) {
+            if(Apply(graph, (System.Int32) parameters[0])) {
                 return ReturnArray;
             }
             else return null;
         }
         object[] GRGEN_LIBGR.IAction.ApplyAll(int maxMatches, GRGEN_LIBGR.IGraph graph)
         {
-            
-            if(ApplyAll(maxMatches, graph)) {
-                return ReturnArray;
-            }
-            else return null;
+            throw new Exception();
         }
         object[] GRGEN_LIBGR.IAction.ApplyAll(int maxMatches, GRGEN_LIBGR.IGraph graph, params object[] parameters)
         {
             
-            if(ApplyAll(maxMatches, graph)) {
+            if(ApplyAll(maxMatches, graph, (System.Int32) parameters[0])) {
                 return ReturnArray;
             }
             else return null;
         }
         bool GRGEN_LIBGR.IAction.ApplyStar(GRGEN_LIBGR.IGraph graph)
         {
-            return ApplyStar(graph);
+            throw new Exception(); return false;
         }
         bool GRGEN_LIBGR.IAction.ApplyStar(GRGEN_LIBGR.IGraph graph, params object[] parameters)
         {
-            return ApplyStar(graph);
+            return ApplyStar(graph, (System.Int32) parameters[0]);
         }
         bool GRGEN_LIBGR.IAction.ApplyPlus(GRGEN_LIBGR.IGraph graph)
         {
-            return ApplyPlus(graph);
+            throw new Exception(); return false;
         }
         bool GRGEN_LIBGR.IAction.ApplyPlus(GRGEN_LIBGR.IGraph graph, params object[] parameters)
         {
-            return ApplyPlus(graph);
+            return ApplyPlus(graph, (System.Int32) parameters[0]);
         }
         bool GRGEN_LIBGR.IAction.ApplyMinMax(GRGEN_LIBGR.IGraph graph, int min, int max)
         {
-            return ApplyMinMax(graph, min, max);
+            throw new Exception(); return false;
         }
         bool GRGEN_LIBGR.IAction.ApplyMinMax(GRGEN_LIBGR.IGraph graph, int min, int max, params object[] parameters)
         {
-            return ApplyMinMax(graph, min, max);
+            return ApplyMinMax(graph, min, max, (System.Int32) parameters[0]);
         }
     }
 

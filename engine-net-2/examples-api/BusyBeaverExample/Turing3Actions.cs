@@ -1,6 +1,6 @@
 // This file has been generated automatically by GrGen (www.grgen.net)
 // Do not modify this file! Any changes will be lost!
-// Generated from "..\..\examples\Turing3\Turing3.grg" on Sun Sep 12 20:12:19 CEST 2010
+// Generated from "..\..\examples\Turing3\Turing3.grg" on Sun Oct 10 18:44:08 CEST 2010
 
 using System;
 using System.Collections.Generic;
@@ -46,6 +46,7 @@ namespace de.unika.ipd.grGen.Action_Turing3
 			inputs = new GRGEN_LIBGR.GrGenType[] { GRGEN_MODEL.NodeType_State.typeVar, GRGEN_MODEL.NodeType_BandPosition.typeVar, };
 			inputNames = new string[] { "readZeroRule_node_s", "readZeroRule_node_bp", };
 			outputs = new GRGEN_LIBGR.GrGenType[] { GRGEN_MODEL.NodeType_WriteValue.typeVar, };
+
 		}
 		private void initialize()
 		{
@@ -275,6 +276,7 @@ namespace de.unika.ipd.grGen.Action_Turing3
 			inputs = new GRGEN_LIBGR.GrGenType[] { GRGEN_MODEL.NodeType_State.typeVar, GRGEN_MODEL.NodeType_BandPosition.typeVar, };
 			inputNames = new string[] { "readOneRule_node_s", "readOneRule_node_bp", };
 			outputs = new GRGEN_LIBGR.GrGenType[] { GRGEN_MODEL.NodeType_WriteValue.typeVar, };
+
 		}
 		private void initialize()
 		{
@@ -517,6 +519,7 @@ namespace de.unika.ipd.grGen.Action_Turing3
 			inputs = new GRGEN_LIBGR.GrGenType[] { GRGEN_MODEL.NodeType_WriteValue.typeVar, GRGEN_MODEL.NodeType_BandPosition.typeVar, };
 			inputNames = new string[] { "ensureMoveLeftValidRule_node_wv", "ensureMoveLeftValidRule_node_bp", };
 			outputs = new GRGEN_LIBGR.GrGenType[] { };
+
 		}
 		private void initialize()
 		{
@@ -904,6 +907,7 @@ namespace de.unika.ipd.grGen.Action_Turing3
 			inputs = new GRGEN_LIBGR.GrGenType[] { GRGEN_MODEL.NodeType_WriteValue.typeVar, GRGEN_MODEL.NodeType_BandPosition.typeVar, };
 			inputNames = new string[] { "ensureMoveRightValidRule_node_wv", "ensureMoveRightValidRule_node_bp", };
 			outputs = new GRGEN_LIBGR.GrGenType[] { };
+
 		}
 		private void initialize()
 		{
@@ -1282,6 +1286,7 @@ namespace de.unika.ipd.grGen.Action_Turing3
 			inputs = new GRGEN_LIBGR.GrGenType[] { GRGEN_MODEL.NodeType_WriteValue.typeVar, GRGEN_MODEL.NodeType_BandPosition.typeVar, };
 			inputNames = new string[] { "moveLeftRule_node_wv", "moveLeftRule_node_bp", };
 			outputs = new GRGEN_LIBGR.GrGenType[] { GRGEN_MODEL.NodeType_State.typeVar, GRGEN_MODEL.NodeType_BandPosition.typeVar, };
+
 		}
 		private void initialize()
 		{
@@ -1526,6 +1531,7 @@ namespace de.unika.ipd.grGen.Action_Turing3
 			inputs = new GRGEN_LIBGR.GrGenType[] { GRGEN_MODEL.NodeType_WriteValue.typeVar, GRGEN_MODEL.NodeType_BandPosition.typeVar, };
 			inputNames = new string[] { "moveRightRule_node_wv", "moveRightRule_node_bp", };
 			outputs = new GRGEN_LIBGR.GrGenType[] { GRGEN_MODEL.NodeType_State.typeVar, GRGEN_MODEL.NodeType_BandPosition.typeVar, };
+
 		}
 		private void initialize()
 		{
@@ -1760,6 +1766,7 @@ namespace de.unika.ipd.grGen.Action_Turing3
 			inputs = new GRGEN_LIBGR.GrGenType[] { };
 			inputNames = new string[] { };
 			outputs = new GRGEN_LIBGR.GrGenType[] { };
+
 		}
 		private void initialize()
 		{
@@ -1947,6 +1954,7 @@ namespace de.unika.ipd.grGen.Action_Turing3
 			inputs = new GRGEN_LIBGR.GrGenType[] { };
 			inputNames = new string[] { };
 			outputs = new GRGEN_LIBGR.GrGenType[] { };
+
 		}
 		private void initialize()
 		{

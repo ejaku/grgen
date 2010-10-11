@@ -8,20 +8,20 @@
 using System;
 using de.unika.ipd.grGen.lgsp;
 using de.unika.ipd.grGen.libGr;
-using de.unika.ipd.grGen.Action_ProgramGraphs;
-using de.unika.ipd.grGen.Model_ProgramGraphs;
+using de.unika.ipd.grGen.Action_ProgramGraphsOriginal;
+using de.unika.ipd.grGen.Model_ProgramGraphsOriginal;
 
 namespace ProgramGraphs
 {
     class ProgramGraphsExample
     {
         LGSPGraph graph;
-        ProgramGraphsActions actions;
+        ProgramGraphsOriginalActions actions;
 
         void DoIt()
         {
-            graph = new LGSPGraph(new ProgramGraphsGraphModel());
-            actions = new ProgramGraphsActions(graph);
+            graph = new LGSPGraph(new ProgramGraphsOriginalGraphModel());
+            actions = new ProgramGraphsOriginalActions(graph);
 
             graph.PerformanceInfo = new PerformanceInfo();
 

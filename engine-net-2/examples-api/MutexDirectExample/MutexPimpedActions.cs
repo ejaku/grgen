@@ -1,6 +1,6 @@
 // This file has been generated automatically by GrGen (www.grgen.net)
 // Do not modify this file! Any changes will be lost!
-// Generated from "..\..\examples\Mutex\MutexPimped.grg" on Sun Sep 12 20:12:34 CEST 2010
+// Generated from "..\..\examples\Mutex\MutexPimped.grg" on Sun Oct 10 18:44:23 CEST 2010
 
 using System;
 using System.Collections.Generic;
@@ -44,6 +44,7 @@ namespace de.unika.ipd.grGen.Action_MutexPimped
 			inputs = new GRGEN_LIBGR.GrGenType[] { };
 			inputNames = new string[] { };
 			outputs = new GRGEN_LIBGR.GrGenType[] { };
+
 		}
 		private void initialize()
 		{
@@ -90,6 +91,7 @@ namespace de.unika.ipd.grGen.Action_MutexPimped
 			newRule_node_p1.pointOfDefinition = pat_newRule;
 			newRule_node_p2.pointOfDefinition = pat_newRule;
 			newRule_edge_n.pointOfDefinition = pat_newRule;
+			newRule_edge_n.annotations.Add("prio", "10000");
 
 			patternGraph = pat_newRule;
 		}
@@ -263,6 +265,7 @@ namespace de.unika.ipd.grGen.Action_MutexPimped
 			inputs = new GRGEN_LIBGR.GrGenType[] { };
 			inputNames = new string[] { };
 			outputs = new GRGEN_LIBGR.GrGenType[] { };
+
 		}
 		private void initialize()
 		{
@@ -495,6 +498,7 @@ namespace de.unika.ipd.grGen.Action_MutexPimped
 			inputs = new GRGEN_LIBGR.GrGenType[] { };
 			inputNames = new string[] { };
 			outputs = new GRGEN_LIBGR.GrGenType[] { };
+
 		}
 		private void initialize()
 		{
@@ -686,6 +690,7 @@ namespace de.unika.ipd.grGen.Action_MutexPimped
 			inputs = new GRGEN_LIBGR.GrGenType[] { };
 			inputNames = new string[] { };
 			outputs = new GRGEN_LIBGR.GrGenType[] { };
+
 		}
 		private void initialize()
 		{
@@ -730,6 +735,7 @@ namespace de.unika.ipd.grGen.Action_MutexPimped
 			pat_unmountRule.edgeToTargetNode.Add(unmountRule_edge_t, unmountRule_node_p);
 
 			unmountRule_node_r.pointOfDefinition = pat_unmountRule;
+			unmountRule_node_r.annotations.Add("prio", "5000");
 			unmountRule_node_p.pointOfDefinition = pat_unmountRule;
 			unmountRule_edge_t.pointOfDefinition = pat_unmountRule;
 
@@ -914,6 +920,7 @@ namespace de.unika.ipd.grGen.Action_MutexPimped
 			inputs = new GRGEN_LIBGR.GrGenType[] { };
 			inputNames = new string[] { };
 			outputs = new GRGEN_LIBGR.GrGenType[] { };
+
 		}
 		private void initialize()
 		{
@@ -1005,6 +1012,7 @@ namespace de.unika.ipd.grGen.Action_MutexPimped
 			passRule_neg_0.embeddingGraph = pat_passRule;
 
 			passRule_node_r.pointOfDefinition = pat_passRule;
+			passRule_node_r.annotations.Add("prio", "5000");
 			passRule_node_p1.pointOfDefinition = pat_passRule;
 			passRule_node_p2.pointOfDefinition = pat_passRule;
 			passRule_edge__edge0.pointOfDefinition = pat_passRule;
@@ -1318,6 +1326,7 @@ namespace de.unika.ipd.grGen.Action_MutexPimped
 			inputs = new GRGEN_LIBGR.GrGenType[] { };
 			inputNames = new string[] { };
 			outputs = new GRGEN_LIBGR.GrGenType[] { };
+
 		}
 		private void initialize()
 		{
@@ -1435,6 +1444,7 @@ namespace de.unika.ipd.grGen.Action_MutexPimped
 
 			requestRule_node_p.pointOfDefinition = pat_requestRule;
 			requestRule_node_r.pointOfDefinition = pat_requestRule;
+			requestRule_node_r.annotations.Add("prio", "10000");
 			requestRule_neg_0_edge_hb.pointOfDefinition = requestRule_neg_0;
 			requestRule_neg_1_node_m.pointOfDefinition = requestRule_neg_1;
 			requestRule_neg_1_edge_req.pointOfDefinition = requestRule_neg_1;
@@ -1823,6 +1833,7 @@ namespace de.unika.ipd.grGen.Action_MutexPimped
 			inputs = new GRGEN_LIBGR.GrGenType[] { };
 			inputNames = new string[] { };
 			outputs = new GRGEN_LIBGR.GrGenType[] { };
+
 		}
 		private void initialize()
 		{
@@ -1874,6 +1885,7 @@ namespace de.unika.ipd.grGen.Action_MutexPimped
 			takeRule_node_r.pointOfDefinition = pat_takeRule;
 			takeRule_node_p.pointOfDefinition = pat_takeRule;
 			takeRule_edge_t.pointOfDefinition = pat_takeRule;
+			takeRule_edge_t.annotations.Add("prio", "10000");
 			takeRule_edge_req.pointOfDefinition = pat_takeRule;
 
 			patternGraph = pat_takeRule;
@@ -2061,6 +2073,7 @@ namespace de.unika.ipd.grGen.Action_MutexPimped
 			inputs = new GRGEN_LIBGR.GrGenType[] { };
 			inputNames = new string[] { };
 			outputs = new GRGEN_LIBGR.GrGenType[] { };
+
 		}
 		private void initialize()
 		{
@@ -2147,6 +2160,7 @@ namespace de.unika.ipd.grGen.Action_MutexPimped
 			releaseRule_node_r.pointOfDefinition = pat_releaseRule;
 			releaseRule_node_p.pointOfDefinition = pat_releaseRule;
 			releaseRule_edge_hb.pointOfDefinition = pat_releaseRule;
+			releaseRule_edge_hb.annotations.Add("prio", "10000");
 			releaseRule_neg_0_node_m.pointOfDefinition = releaseRule_neg_0;
 			releaseRule_neg_0_edge_req.pointOfDefinition = releaseRule_neg_0;
 
@@ -2431,6 +2445,7 @@ namespace de.unika.ipd.grGen.Action_MutexPimped
 			inputs = new GRGEN_LIBGR.GrGenType[] { };
 			inputNames = new string[] { };
 			outputs = new GRGEN_LIBGR.GrGenType[] { };
+
 		}
 		private void initialize()
 		{
@@ -2486,6 +2501,7 @@ namespace de.unika.ipd.grGen.Action_MutexPimped
 			giveRule_node_p1.pointOfDefinition = pat_giveRule;
 			giveRule_node_p2.pointOfDefinition = pat_giveRule;
 			giveRule_edge_rel.pointOfDefinition = pat_giveRule;
+			giveRule_edge_rel.annotations.Add("prio", "10000");
 			giveRule_edge_n.pointOfDefinition = pat_giveRule;
 
 			patternGraph = pat_giveRule;
@@ -2666,6 +2682,7 @@ namespace de.unika.ipd.grGen.Action_MutexPimped
 			inputs = new GRGEN_LIBGR.GrGenType[] { };
 			inputNames = new string[] { };
 			outputs = new GRGEN_LIBGR.GrGenType[] { };
+
 		}
 		private void initialize()
 		{
@@ -2719,6 +2736,7 @@ namespace de.unika.ipd.grGen.Action_MutexPimped
 
 			blockedRule_node_p1.pointOfDefinition = pat_blockedRule;
 			blockedRule_node_r.pointOfDefinition = pat_blockedRule;
+			blockedRule_node_r.annotations.Add("prio", "5000");
 			blockedRule_node_p2.pointOfDefinition = pat_blockedRule;
 			blockedRule_edge_req.pointOfDefinition = pat_blockedRule;
 			blockedRule_edge_hb.pointOfDefinition = pat_blockedRule;
@@ -2905,6 +2923,7 @@ namespace de.unika.ipd.grGen.Action_MutexPimped
 			inputs = new GRGEN_LIBGR.GrGenType[] { };
 			inputNames = new string[] { };
 			outputs = new GRGEN_LIBGR.GrGenType[] { };
+
 		}
 		private void initialize()
 		{
@@ -2972,6 +2991,7 @@ namespace de.unika.ipd.grGen.Action_MutexPimped
 			waitingRule_node_r1.pointOfDefinition = pat_waitingRule;
 			waitingRule_node_p2.pointOfDefinition = pat_waitingRule;
 			waitingRule_node_r.pointOfDefinition = pat_waitingRule;
+			waitingRule_node_r.annotations.Add("prio", "5000");
 			waitingRule_edge_b.pointOfDefinition = pat_waitingRule;
 			waitingRule_edge_hb.pointOfDefinition = pat_waitingRule;
 			waitingRule_edge_req.pointOfDefinition = pat_waitingRule;
@@ -3178,6 +3198,7 @@ namespace de.unika.ipd.grGen.Action_MutexPimped
 			inputs = new GRGEN_LIBGR.GrGenType[] { };
 			inputNames = new string[] { };
 			outputs = new GRGEN_LIBGR.GrGenType[] { };
+
 		}
 		private void initialize()
 		{
@@ -3262,6 +3283,7 @@ namespace de.unika.ipd.grGen.Action_MutexPimped
 			ignoreRule_neg_0.embeddingGraph = pat_ignoreRule;
 
 			ignoreRule_node_r.pointOfDefinition = pat_ignoreRule;
+			ignoreRule_node_r.annotations.Add("prio", "5000");
 			ignoreRule_node_p.pointOfDefinition = pat_ignoreRule;
 			ignoreRule_edge_b.pointOfDefinition = pat_ignoreRule;
 			ignoreRule_neg_0_node_m.pointOfDefinition = ignoreRule_neg_0;
@@ -3543,6 +3565,7 @@ namespace de.unika.ipd.grGen.Action_MutexPimped
 			inputs = new GRGEN_LIBGR.GrGenType[] { };
 			inputNames = new string[] { };
 			outputs = new GRGEN_LIBGR.GrGenType[] { };
+
 		}
 		private void initialize()
 		{
@@ -3592,6 +3615,7 @@ namespace de.unika.ipd.grGen.Action_MutexPimped
 			pat_unlockRule.edgeToTargetNode.Add(unlockRule_edge_hb, unlockRule_node_p);
 
 			unlockRule_node_r.pointOfDefinition = pat_unlockRule;
+			unlockRule_node_r.annotations.Add("prio", "5000");
 			unlockRule_node_p.pointOfDefinition = pat_unlockRule;
 			unlockRule_edge_b.pointOfDefinition = pat_unlockRule;
 			unlockRule_edge_hb.pointOfDefinition = pat_unlockRule;
@@ -3787,6 +3811,7 @@ namespace de.unika.ipd.grGen.Action_MutexPimped
 			inputs = new GRGEN_LIBGR.GrGenType[] { };
 			inputNames = new string[] { };
 			outputs = new GRGEN_LIBGR.GrGenType[] { };
+
 		}
 		private void initialize()
 		{
@@ -4193,6 +4218,7 @@ namespace de.unika.ipd.grGen.Action_MutexPimped
 			inputs = new GRGEN_LIBGR.GrGenType[] { };
 			inputNames = new string[] { };
 			outputs = new GRGEN_LIBGR.GrGenType[] { };
+
 		}
 		private void initialize()
 		{
@@ -4453,6 +4479,7 @@ namespace de.unika.ipd.grGen.Action_MutexPimped
 			inputs = new GRGEN_LIBGR.GrGenType[] { };
 			inputNames = new string[] { };
 			outputs = new GRGEN_LIBGR.GrGenType[] { };
+
 		}
 		private void initialize()
 		{
@@ -4536,6 +4563,7 @@ namespace de.unika.ipd.grGen.Action_MutexPimped
 			requestSimpleRule_neg_0.embeddingGraph = pat_requestSimpleRule;
 
 			requestSimpleRule_node_r.pointOfDefinition = pat_requestSimpleRule;
+			requestSimpleRule_node_r.annotations.Add("prio", "5000");
 			requestSimpleRule_node_p.pointOfDefinition = pat_requestSimpleRule;
 			requestSimpleRule_edge_t.pointOfDefinition = pat_requestSimpleRule;
 			requestSimpleRule_neg_0_edge_req.pointOfDefinition = requestSimpleRule_neg_0;
@@ -4824,6 +4852,7 @@ namespace de.unika.ipd.grGen.Action_MutexPimped
 			inputs = new GRGEN_LIBGR.GrGenType[] { };
 			inputNames = new string[] { };
 			outputs = new GRGEN_LIBGR.GrGenType[] { };
+
 		}
 		private void initialize()
 		{
@@ -5137,13 +5166,215 @@ namespace de.unika.ipd.grGen.Action_MutexPimped
 
 	}
 
+	public class Rule_annotationTestRule : GRGEN_LGSP.LGSPRulePattern
+	{
+		private static Rule_annotationTestRule instance = null;
+		public static Rule_annotationTestRule Instance { get { if (instance==null) { instance = new Rule_annotationTestRule(); instance.initialize(); } return instance; } }
+
+		public static GRGEN_LIBGR.NodeType[] annotationTestRule_node_n1_AllowedTypes = null;
+		public static bool[] annotationTestRule_node_n1_IsAllowedType = null;
+		public static GRGEN_LIBGR.EdgeType[] annotationTestRule_edge_e1_AllowedTypes = null;
+		public static bool[] annotationTestRule_edge_e1_IsAllowedType = null;
+		public enum annotationTestRule_NodeNums { @n1, };
+		public enum annotationTestRule_EdgeNums { @e1, };
+		public enum annotationTestRule_VariableNums { };
+		public enum annotationTestRule_SubNums { };
+		public enum annotationTestRule_AltNums { };
+		public enum annotationTestRule_IterNums { };
+
+
+
+
+		public GRGEN_LGSP.PatternGraph pat_annotationTestRule;
+
+
+		private Rule_annotationTestRule()
+		{
+			name = "annotationTestRule";
+
+			inputs = new GRGEN_LIBGR.GrGenType[] { };
+			inputNames = new string[] { };
+			outputs = new GRGEN_LIBGR.GrGenType[] { };
+
+			annotations.Add("specialRule", "true");
+		}
+		private void initialize()
+		{
+			bool[,] annotationTestRule_isNodeHomomorphicGlobal = new bool[1, 1] {
+				{ false, },
+			};
+			bool[,] annotationTestRule_isEdgeHomomorphicGlobal = new bool[1, 1] {
+				{ false, },
+			};
+			int[] annotationTestRule_minMatches = new int[0] ;
+			int[] annotationTestRule_maxMatches = new int[0] ;
+			GRGEN_LGSP.PatternNode annotationTestRule_node_n1 = new GRGEN_LGSP.PatternNode((int) GRGEN_MODEL.NodeTypes.@AnnotationTestNode, "GRGEN_MODEL.IAnnotationTestNode", "annotationTestRule_node_n1", "n1", annotationTestRule_node_n1_AllowedTypes, annotationTestRule_node_n1_IsAllowedType, 5.5F, -1, false);
+			GRGEN_LGSP.PatternEdge annotationTestRule_edge_e1 = new GRGEN_LGSP.PatternEdge(true, (int) GRGEN_MODEL.EdgeTypes.@annotationTestEdge, "GRGEN_MODEL.IannotationTestEdge", "annotationTestRule_edge_e1", "e1", annotationTestRule_edge_e1_AllowedTypes, annotationTestRule_edge_e1_IsAllowedType, 5.5F, -1, false);
+			pat_annotationTestRule = new GRGEN_LGSP.PatternGraph(
+				"annotationTestRule",
+				"",
+				false,
+				new GRGEN_LGSP.PatternNode[] { annotationTestRule_node_n1 }, 
+				new GRGEN_LGSP.PatternEdge[] { annotationTestRule_edge_e1 }, 
+				new GRGEN_LGSP.PatternVariable[] {  }, 
+				new GRGEN_LGSP.PatternGraphEmbedding[] {  }, 
+				new GRGEN_LGSP.Alternative[] {  }, 
+				new GRGEN_LGSP.PatternGraph[] {  }, 
+				annotationTestRule_minMatches,
+				annotationTestRule_maxMatches,
+				new GRGEN_LGSP.PatternGraph[] {  }, 
+				new GRGEN_LGSP.PatternGraph[] {  }, 
+				new GRGEN_LGSP.PatternCondition[] {  }, 
+				new bool[1, 1] {
+					{ true, },
+				},
+				new bool[1, 1] {
+					{ true, },
+				},
+				annotationTestRule_isNodeHomomorphicGlobal,
+				annotationTestRule_isEdgeHomomorphicGlobal
+			);
+			pat_annotationTestRule.edgeToSourceNode.Add(annotationTestRule_edge_e1, annotationTestRule_node_n1);
+			pat_annotationTestRule.edgeToTargetNode.Add(annotationTestRule_edge_e1, annotationTestRule_node_n1);
+
+			annotationTestRule_node_n1.pointOfDefinition = pat_annotationTestRule;
+			annotationTestRule_node_n1.annotations.Add("foo", "bar");
+			annotationTestRule_node_n1.annotations.Add("bar", "foo");
+			annotationTestRule_edge_e1.pointOfDefinition = pat_annotationTestRule;
+
+			patternGraph = pat_annotationTestRule;
+		}
+
+
+		public void Modify(GRGEN_LGSP.LGSPGraph graph, GRGEN_LIBGR.IMatch _curMatch)
+		{
+			Match_annotationTestRule curMatch = (Match_annotationTestRule)_curMatch;
+			graph.SettingAddedNodeNames( annotationTestRule_addedNodeNames );
+			graph.SettingAddedEdgeNames( annotationTestRule_addedEdgeNames );
+			return;
+		}
+		private static string[] annotationTestRule_addedNodeNames = new string[] {  };
+		private static string[] annotationTestRule_addedEdgeNames = new string[] {  };
+
+		static Rule_annotationTestRule() {
+		}
+
+		public interface IMatch_annotationTestRule : GRGEN_LIBGR.IMatch
+		{
+			//Nodes
+			GRGEN_MODEL.IAnnotationTestNode node_n1 { get; }
+			//Edges
+			GRGEN_MODEL.IannotationTestEdge edge_e1 { get; }
+			//Variables
+			//EmbeddedGraphs
+			//Alternatives
+			//Iterateds
+			//Independents
+			// further match object stuff
+			void SetMatchOfEnclosingPattern(GRGEN_LIBGR.IMatch matchOfEnclosingPattern);
+		}
+
+		public class Match_annotationTestRule : GRGEN_LGSP.ListElement<Match_annotationTestRule>, IMatch_annotationTestRule
+		{
+			public GRGEN_MODEL.IAnnotationTestNode node_n1 { get { return (GRGEN_MODEL.IAnnotationTestNode)_node_n1; } }
+			public GRGEN_LGSP.LGSPNode _node_n1;
+			public enum annotationTestRule_NodeNums { @n1, END_OF_ENUM };
+			public IEnumerable<GRGEN_LIBGR.INode> Nodes { get { return new GRGEN_LGSP.Nodes_Enumerable(this); } }
+			public IEnumerator<GRGEN_LIBGR.INode> NodesEnumerator { get { return new GRGEN_LGSP.Nodes_Enumerator(this); } }
+			public int NumberOfNodes { get { return 1;} }
+			public GRGEN_LIBGR.INode getNodeAt(int index)
+			{
+				switch(index) {
+				case (int)annotationTestRule_NodeNums.@n1: return _node_n1;
+				default: return null;
+				}
+			}
+			
+			public GRGEN_MODEL.IannotationTestEdge edge_e1 { get { return (GRGEN_MODEL.IannotationTestEdge)_edge_e1; } }
+			public GRGEN_LGSP.LGSPEdge _edge_e1;
+			public enum annotationTestRule_EdgeNums { @e1, END_OF_ENUM };
+			public IEnumerable<GRGEN_LIBGR.IEdge> Edges { get { return new GRGEN_LGSP.Edges_Enumerable(this); } }
+			public IEnumerator<GRGEN_LIBGR.IEdge> EdgesEnumerator { get { return new GRGEN_LGSP.Edges_Enumerator(this); } }
+			public int NumberOfEdges { get { return 1;} }
+			public GRGEN_LIBGR.IEdge getEdgeAt(int index)
+			{
+				switch(index) {
+				case (int)annotationTestRule_EdgeNums.@e1: return _edge_e1;
+				default: return null;
+				}
+			}
+			
+			public enum annotationTestRule_VariableNums { END_OF_ENUM };
+			public IEnumerable<object> Variables { get { return new GRGEN_LGSP.Variables_Enumerable(this); } }
+			public IEnumerator<object> VariablesEnumerator { get { return new GRGEN_LGSP.Variables_Enumerator(this); } }
+			public int NumberOfVariables { get { return 0;} }
+			public object getVariableAt(int index)
+			{
+				switch(index) {
+				default: return null;
+				}
+			}
+			
+			public enum annotationTestRule_SubNums { END_OF_ENUM };
+			public IEnumerable<GRGEN_LIBGR.IMatch> EmbeddedGraphs { get { return new GRGEN_LGSP.EmbeddedGraphs_Enumerable(this); } }
+			public IEnumerator<GRGEN_LIBGR.IMatch> EmbeddedGraphsEnumerator { get { return new GRGEN_LGSP.EmbeddedGraphs_Enumerator(this); } }
+			public int NumberOfEmbeddedGraphs { get { return 0;} }
+			public GRGEN_LIBGR.IMatch getEmbeddedGraphAt(int index)
+			{
+				switch(index) {
+				default: return null;
+				}
+			}
+			
+			public enum annotationTestRule_AltNums { END_OF_ENUM };
+			public IEnumerable<GRGEN_LIBGR.IMatch> Alternatives { get { return new GRGEN_LGSP.Alternatives_Enumerable(this); } }
+			public IEnumerator<GRGEN_LIBGR.IMatch> AlternativesEnumerator { get { return new GRGEN_LGSP.Alternatives_Enumerator(this); } }
+			public int NumberOfAlternatives { get { return 0;} }
+			public GRGEN_LIBGR.IMatch getAlternativeAt(int index)
+			{
+				switch(index) {
+				default: return null;
+				}
+			}
+			
+			public enum annotationTestRule_IterNums { END_OF_ENUM };
+			public IEnumerable<GRGEN_LIBGR.IMatches> Iterateds { get { return new GRGEN_LGSP.Iterateds_Enumerable(this); } }
+			public IEnumerator<GRGEN_LIBGR.IMatches> IteratedsEnumerator { get { return new GRGEN_LGSP.Iterateds_Enumerator(this); } }
+			public int NumberOfIterateds { get { return 0;} }
+			public GRGEN_LIBGR.IMatches getIteratedAt(int index)
+			{
+				switch(index) {
+				default: return null;
+				}
+			}
+			
+			public enum annotationTestRule_IdptNums { END_OF_ENUM };
+			public IEnumerable<GRGEN_LIBGR.IMatch> Independents { get { return new GRGEN_LGSP.Independents_Enumerable(this); } }
+			public IEnumerator<GRGEN_LIBGR.IMatch> IndependentsEnumerator { get { return new GRGEN_LGSP.Independents_Enumerator(this); } }
+			public int NumberOfIndependents { get { return 0;} }
+			public GRGEN_LIBGR.IMatch getIndependentAt(int index)
+			{
+				switch(index) {
+				default: return null;
+				}
+			}
+			
+			public GRGEN_LIBGR.IPatternGraph Pattern { get { return Rule_annotationTestRule.instance.pat_annotationTestRule; } }
+			public GRGEN_LIBGR.IMatch MatchOfEnclosingPattern { get { return _matchOfEnclosingPattern; } }
+			public GRGEN_LIBGR.IMatch _matchOfEnclosingPattern;
+			public void SetMatchOfEnclosingPattern(GRGEN_LIBGR.IMatch matchOfEnclosingPattern) { _matchOfEnclosingPattern = matchOfEnclosingPattern; }
+			public override string ToString() { return "Match of " + Pattern.Name; }
+		}
+
+	}
+
 	public class MutexPimped_RuleAndMatchingPatterns : GRGEN_LGSP.LGSPRuleAndMatchingPatterns
 	{
 		public MutexPimped_RuleAndMatchingPatterns()
 		{
 			subpatterns = new GRGEN_LGSP.LGSPMatchingPattern[0];
-			rules = new GRGEN_LGSP.LGSPRulePattern[17];
-			rulesAndSubpatterns = new GRGEN_LGSP.LGSPMatchingPattern[0+17];
+			rules = new GRGEN_LGSP.LGSPRulePattern[18];
+			rulesAndSubpatterns = new GRGEN_LGSP.LGSPMatchingPattern[0+18];
 			rules[0] = Rule_newRule.Instance;
 			rulesAndSubpatterns[0+0] = Rule_newRule.Instance;
 			rules[1] = Rule_killRule.Instance;
@@ -5178,6 +5409,8 @@ namespace de.unika.ipd.grGen.Action_MutexPimped
 			rulesAndSubpatterns[0+15] = Rule_requestSimpleRule.Instance;
 			rules[16] = Rule_aux_attachResource.Instance;
 			rulesAndSubpatterns[0+16] = Rule_aux_attachResource.Instance;
+			rules[17] = Rule_annotationTestRule.Instance;
+			rulesAndSubpatterns[0+17] = Rule_annotationTestRule.Instance;
 		}
 		public override GRGEN_LGSP.LGSPRulePattern[] Rules { get { return rules; } }
 		private GRGEN_LGSP.LGSPRulePattern[] rules;
@@ -9454,6 +9687,222 @@ label7: ;
         }
     }
 
+    /// <summary>
+    /// An object representing an executable rule - same as IAction, but with exact types and distinct parameters.
+    /// </summary>
+    public interface IAction_annotationTestRule
+    {
+        /// <summary> same as IAction.Match, but with exact types and distinct parameters. </summary>
+        GRGEN_LIBGR.IMatchesExact<Rule_annotationTestRule.IMatch_annotationTestRule> Match(GRGEN_LIBGR.IGraph graph, int maxMatches);
+        /// <summary> same as IAction.Modify, but with exact types and distinct parameters. </summary>
+        void Modify(GRGEN_LIBGR.IGraph graph, Rule_annotationTestRule.IMatch_annotationTestRule match);
+        /// <summary> same as IAction.ModifyAll, but with exact types and distinct parameters. </summary>
+        void ModifyAll(GRGEN_LIBGR.IGraph graph, GRGEN_LIBGR.IMatchesExact<Rule_annotationTestRule.IMatch_annotationTestRule> matches);
+        /// <summary> same as IAction.Apply, but with exact types and distinct parameters; returns true if applied </summary>
+        bool Apply(GRGEN_LIBGR.IGraph graph);
+        /// <summary> same as IAction.ApplyAll, but with exact types and distinct parameters; returns true if applied at least once. </summary>
+        bool ApplyAll(int maxMatches, GRGEN_LIBGR.IGraph graph);
+        /// <summary> same as IAction.ApplyStar, but with exact types and distinct parameters. </summary>
+        bool ApplyStar(GRGEN_LIBGR.IGraph graph);
+        /// <summary> same as IAction.ApplyPlus, but with exact types and distinct parameters. </summary>
+        bool ApplyPlus(GRGEN_LIBGR.IGraph graph);
+        /// <summary> same as IAction.ApplyMinMax, but with exact types and distinct parameters. </summary>
+        bool ApplyMinMax(GRGEN_LIBGR.IGraph graph, int min, int max);
+    }
+    
+    public class Action_annotationTestRule : GRGEN_LGSP.LGSPAction, GRGEN_LIBGR.IAction, IAction_annotationTestRule
+    {
+        public Action_annotationTestRule() {
+            _rulePattern = Rule_annotationTestRule.Instance;
+            patternGraph = _rulePattern.patternGraph;
+            DynamicMatch = myMatch;
+            ReturnArray = new object[0];
+            matches = new GRGEN_LGSP.LGSPMatchesList<Rule_annotationTestRule.Match_annotationTestRule, Rule_annotationTestRule.IMatch_annotationTestRule>(this);
+        }
+
+        public Rule_annotationTestRule _rulePattern;
+        public override GRGEN_LGSP.LGSPRulePattern rulePattern { get { return _rulePattern; } }
+        public override string Name { get { return "annotationTestRule"; } }
+        private GRGEN_LGSP.LGSPMatchesList<Rule_annotationTestRule.Match_annotationTestRule, Rule_annotationTestRule.IMatch_annotationTestRule> matches;
+
+        public static Action_annotationTestRule Instance { get { return instance; } }
+        private static Action_annotationTestRule instance = new Action_annotationTestRule();
+        
+        public GRGEN_LIBGR.IMatchesExact<Rule_annotationTestRule.IMatch_annotationTestRule> myMatch(GRGEN_LGSP.LGSPGraph graph, int maxMatches)
+        {
+            matches.Clear();
+            int negLevel = 0;
+            // Lookup annotationTestRule_edge_e1 
+            int type_id_candidate_annotationTestRule_edge_e1 = 9;
+            for(GRGEN_LGSP.LGSPEdge head_candidate_annotationTestRule_edge_e1 = graph.edgesByTypeHeads[type_id_candidate_annotationTestRule_edge_e1], candidate_annotationTestRule_edge_e1 = head_candidate_annotationTestRule_edge_e1.lgspTypeNext; candidate_annotationTestRule_edge_e1 != head_candidate_annotationTestRule_edge_e1; candidate_annotationTestRule_edge_e1 = candidate_annotationTestRule_edge_e1.lgspTypeNext)
+            {
+                // Implicit Source annotationTestRule_node_n1 from annotationTestRule_edge_e1 
+                GRGEN_LGSP.LGSPNode candidate_annotationTestRule_node_n1 = candidate_annotationTestRule_edge_e1.lgspSource;
+                if(candidate_annotationTestRule_node_n1.lgspType.TypeID!=3) {
+                    continue;
+                }
+                if(candidate_annotationTestRule_edge_e1.lgspSource != candidate_annotationTestRule_node_n1) {
+                    continue;
+                }
+                if(candidate_annotationTestRule_edge_e1.lgspTarget != candidate_annotationTestRule_node_n1) {
+                    continue;
+                }
+                Rule_annotationTestRule.Match_annotationTestRule match = matches.GetNextUnfilledPosition();
+                match._node_n1 = candidate_annotationTestRule_node_n1;
+                match._edge_e1 = candidate_annotationTestRule_edge_e1;
+                matches.PositionWasFilledFixIt();
+                // if enough matches were found, we leave
+                if(maxMatches > 0 && matches.Count >= maxMatches)
+                {
+                    graph.MoveHeadAfter(candidate_annotationTestRule_edge_e1);
+                    return matches;
+                }
+            }
+            return matches;
+        }
+        /// <summary> Type of the matcher method (with parameters host graph, maximum number of matches to search for (zero=unlimited), and rule parameters; returning found matches). </summary>
+        public delegate GRGEN_LIBGR.IMatchesExact<Rule_annotationTestRule.IMatch_annotationTestRule> MatchInvoker(GRGEN_LGSP.LGSPGraph graph, int maxMatches);
+        /// <summary> A delegate pointing to the current matcher program for this rule. </summary>
+        public MatchInvoker DynamicMatch;
+        /// <summary> The RulePattern object from which this LGSPAction object has been created. </summary>
+        public GRGEN_LIBGR.IRulePattern RulePattern { get { return _rulePattern; } }
+        public GRGEN_LIBGR.IMatchesExact<Rule_annotationTestRule.IMatch_annotationTestRule> Match(GRGEN_LIBGR.IGraph graph, int maxMatches)
+        {
+            return DynamicMatch((GRGEN_LGSP.LGSPGraph)graph, maxMatches);
+        }
+        public void Modify(GRGEN_LIBGR.IGraph graph, Rule_annotationTestRule.IMatch_annotationTestRule match)
+        {
+            _rulePattern.Modify((GRGEN_LGSP.LGSPGraph)graph, match);
+        }
+        public void ModifyAll(GRGEN_LIBGR.IGraph graph, GRGEN_LIBGR.IMatchesExact<Rule_annotationTestRule.IMatch_annotationTestRule> matches)
+        {
+            foreach(Rule_annotationTestRule.IMatch_annotationTestRule match in matches) _rulePattern.Modify((GRGEN_LGSP.LGSPGraph)graph, match);
+        }
+        public bool Apply(GRGEN_LIBGR.IGraph graph)
+        {
+            GRGEN_LIBGR.IMatchesExact<Rule_annotationTestRule.IMatch_annotationTestRule> matches = DynamicMatch((GRGEN_LGSP.LGSPGraph)graph, 1);
+            if(matches.Count <= 0) return false;
+            _rulePattern.Modify((GRGEN_LGSP.LGSPGraph)graph, matches.First);
+            return true;
+        }
+        public bool ApplyAll(int maxMatches, GRGEN_LIBGR.IGraph graph)
+        {
+            GRGEN_LIBGR.IMatchesExact<Rule_annotationTestRule.IMatch_annotationTestRule> matches = DynamicMatch((GRGEN_LGSP.LGSPGraph)graph, maxMatches);
+            if(matches.Count <= 0) return false;
+            foreach(Rule_annotationTestRule.IMatch_annotationTestRule match in matches) _rulePattern.Modify((GRGEN_LGSP.LGSPGraph)graph, match);
+            return true;
+        }
+        public bool ApplyStar(GRGEN_LIBGR.IGraph graph)
+        {
+            GRGEN_LIBGR.IMatchesExact<Rule_annotationTestRule.IMatch_annotationTestRule> matches;
+            
+            while(true)
+            {
+                matches = DynamicMatch((GRGEN_LGSP.LGSPGraph)graph, 1);
+                if(matches.Count <= 0) return true;
+                _rulePattern.Modify((GRGEN_LGSP.LGSPGraph)graph, matches.First);
+            }
+        }
+        public bool ApplyPlus(GRGEN_LIBGR.IGraph graph)
+        {
+            GRGEN_LIBGR.IMatchesExact<Rule_annotationTestRule.IMatch_annotationTestRule> matches = DynamicMatch((GRGEN_LGSP.LGSPGraph)graph, 1);
+            if(matches.Count <= 0) return false;
+            
+            do
+            {
+                _rulePattern.Modify((GRGEN_LGSP.LGSPGraph)graph, matches.First);
+                matches = DynamicMatch((GRGEN_LGSP.LGSPGraph)graph, 1);
+            }
+            while(matches.Count > 0) ;
+            return true;
+        }
+        public bool ApplyMinMax(GRGEN_LIBGR.IGraph graph, int min, int max)
+        {
+            GRGEN_LIBGR.IMatchesExact<Rule_annotationTestRule.IMatch_annotationTestRule> matches;
+            
+            for(int i = 0; i < max; i++)
+            {
+                matches = DynamicMatch((GRGEN_LGSP.LGSPGraph)graph, 1);
+                if(matches.Count <= 0) return i >= min;
+                _rulePattern.Modify((GRGEN_LGSP.LGSPGraph)graph, matches.First);
+            }
+            return true;
+        }
+        // implementation of inexact action interface by delegation to exact action interface
+        public GRGEN_LIBGR.IMatches Match(GRGEN_LIBGR.IGraph graph, int maxMatches, object[] parameters)
+        {
+            return Match(graph, maxMatches);
+        }
+        public object[] Modify(GRGEN_LIBGR.IGraph graph, GRGEN_LIBGR.IMatch match)
+        {
+            
+            Modify(graph, (Rule_annotationTestRule.IMatch_annotationTestRule)match);
+            return ReturnArray;
+        }
+        public object[] ModifyAll(GRGEN_LIBGR.IGraph graph, GRGEN_LIBGR.IMatches matches)
+        {
+            
+            ModifyAll(graph, (GRGEN_LIBGR.IMatchesExact<Rule_annotationTestRule.IMatch_annotationTestRule>)matches);
+            return ReturnArray;
+        }
+        object[] GRGEN_LIBGR.IAction.Apply(GRGEN_LIBGR.IGraph graph)
+        {
+            
+            if(Apply(graph)) {
+                return ReturnArray;
+            }
+            else return null;
+        }
+        object[] GRGEN_LIBGR.IAction.Apply(GRGEN_LIBGR.IGraph graph, params object[] parameters)
+        {
+            
+            if(Apply(graph)) {
+                return ReturnArray;
+            }
+            else return null;
+        }
+        object[] GRGEN_LIBGR.IAction.ApplyAll(int maxMatches, GRGEN_LIBGR.IGraph graph)
+        {
+            
+            if(ApplyAll(maxMatches, graph)) {
+                return ReturnArray;
+            }
+            else return null;
+        }
+        object[] GRGEN_LIBGR.IAction.ApplyAll(int maxMatches, GRGEN_LIBGR.IGraph graph, params object[] parameters)
+        {
+            
+            if(ApplyAll(maxMatches, graph)) {
+                return ReturnArray;
+            }
+            else return null;
+        }
+        bool GRGEN_LIBGR.IAction.ApplyStar(GRGEN_LIBGR.IGraph graph)
+        {
+            return ApplyStar(graph);
+        }
+        bool GRGEN_LIBGR.IAction.ApplyStar(GRGEN_LIBGR.IGraph graph, params object[] parameters)
+        {
+            return ApplyStar(graph);
+        }
+        bool GRGEN_LIBGR.IAction.ApplyPlus(GRGEN_LIBGR.IGraph graph)
+        {
+            return ApplyPlus(graph);
+        }
+        bool GRGEN_LIBGR.IAction.ApplyPlus(GRGEN_LIBGR.IGraph graph, params object[] parameters)
+        {
+            return ApplyPlus(graph);
+        }
+        bool GRGEN_LIBGR.IAction.ApplyMinMax(GRGEN_LIBGR.IGraph graph, int min, int max)
+        {
+            return ApplyMinMax(graph, min, max);
+        }
+        bool GRGEN_LIBGR.IAction.ApplyMinMax(GRGEN_LIBGR.IGraph graph, int min, int max, params object[] parameters)
+        {
+            return ApplyMinMax(graph, min, max);
+        }
+    }
+
 
     // class which instantiates and stores all the compiled actions of the module,
     // dynamic regeneration and compilation causes the old action to be overwritten by the new one
@@ -9526,6 +9975,9 @@ label7: ;
             analyzer.AnalyzeNestingOfAndRemember(Rule_aux_attachResource.Instance);
             actions.Add("aux_attachResource", (GRGEN_LGSP.LGSPAction) Action_aux_attachResource.Instance);
             @aux_attachResource = Action_aux_attachResource.Instance;
+            analyzer.AnalyzeNestingOfAndRemember(Rule_annotationTestRule.Instance);
+            actions.Add("annotationTestRule", (GRGEN_LGSP.LGSPAction) Action_annotationTestRule.Instance);
+            @annotationTestRule = Action_annotationTestRule.Instance;
             analyzer.ComputeInterPatternRelations();
         }
         
@@ -9546,8 +9998,9 @@ label7: ;
         public IAction_releaseStarRule @releaseStarRule;
         public IAction_requestSimpleRule @requestSimpleRule;
         public IAction_aux_attachResource @aux_attachResource;
+        public IAction_annotationTestRule @annotationTestRule;
         
         public override string Name { get { return "MutexPimpedActions"; } }
-        public override string ModelMD5Hash { get { return "e0f6366a053bc32a0af0fbc6d2bd0c9a"; } }
+        public override string ModelMD5Hash { get { return "b75cc12d5d56ba550bb415bb40c4947f"; } }
     }
 }

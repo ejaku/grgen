@@ -1,6 +1,6 @@
 // This file has been generated automatically by GrGen (www.grgen.net)
 // Do not modify this file! Any changes will be lost!
-// Generated from "..\..\tests\TNT\TNT.grg" on Sun Sep 12 20:12:43 CEST 2010
+// Generated from "..\..\tests\TNT\TNT.grg" on Sun Oct 10 18:44:33 CEST 2010
 
 using System;
 using System.Collections.Generic;
@@ -66,6 +66,7 @@ namespace de.unika.ipd.grGen.Action_TNT
 
 			inputs = new GRGEN_LIBGR.GrGenType[] { };
 			inputNames = new string[] { };
+
 		}
 		private void initialize()
 		{
@@ -461,6 +462,7 @@ namespace de.unika.ipd.grGen.Action_TNT
 
 			inputs = new GRGEN_LIBGR.GrGenType[] { GRGEN_MODEL.NodeType_C.typeVar, GRGEN_MODEL.NodeType_C.typeVar, GRGEN_MODEL.NodeType_C.typeVar, GRGEN_MODEL.NodeType_C.typeVar, GRGEN_MODEL.NodeType_C.typeVar, GRGEN_MODEL.NodeType_C.typeVar, };
 			inputNames = new string[] { "BenzolRingC123456Exposed_node_c1", "BenzolRingC123456Exposed_node_c2", "BenzolRingC123456Exposed_node_c3", "BenzolRingC123456Exposed_node_c4", "BenzolRingC123456Exposed_node_c5", "BenzolRingC123456Exposed_node_c6", };
+
 		}
 		private void initialize()
 		{
@@ -832,6 +834,7 @@ namespace de.unika.ipd.grGen.Action_TNT
 
 			inputs = new GRGEN_LIBGR.GrGenType[] { GRGEN_MODEL.NodeType_C.typeVar, };
 			inputNames = new string[] { "BenzolRingC1Exposed_node_c1", };
+
 		}
 		private void initialize()
 		{
@@ -1244,6 +1247,7 @@ namespace de.unika.ipd.grGen.Action_TNT
 
 			inputs = new GRGEN_LIBGR.GrGenType[] { GRGEN_MODEL.NodeType_C.typeVar, };
 			inputNames = new string[] { "BenzolRingC1ExposedNotC6Nitro_node_c1", };
+
 		}
 		private void initialize()
 		{
@@ -1802,6 +1806,7 @@ namespace de.unika.ipd.grGen.Action_TNT
 
 			inputs = new GRGEN_LIBGR.GrGenType[] { };
 			inputNames = new string[] { };
+
 		}
 		private void initialize()
 		{
@@ -2034,6 +2039,7 @@ namespace de.unika.ipd.grGen.Action_TNT
 
 			inputs = new GRGEN_LIBGR.GrGenType[] { GRGEN_MODEL.NodeType_C.typeVar, };
 			inputNames = new string[] { "Hydrogen_node_anchor", };
+
 		}
 		private void initialize()
 		{
@@ -2253,6 +2259,7 @@ namespace de.unika.ipd.grGen.Action_TNT
 
 			inputs = new GRGEN_LIBGR.GrGenType[] { GRGEN_MODEL.NodeType_C.typeVar, };
 			inputNames = new string[] { "Hydroxyl_node_anchor", };
+
 		}
 		private void initialize()
 		{
@@ -2505,6 +2512,7 @@ namespace de.unika.ipd.grGen.Action_TNT
 
 			inputs = new GRGEN_LIBGR.GrGenType[] { GRGEN_MODEL.NodeType_C.typeVar, };
 			inputNames = new string[] { "Methyl_node_anchor", };
+
 		}
 		private void initialize()
 		{
@@ -2803,6 +2811,7 @@ namespace de.unika.ipd.grGen.Action_TNT
 
 			inputs = new GRGEN_LIBGR.GrGenType[] { GRGEN_MODEL.NodeType_C.typeVar, };
 			inputNames = new string[] { "Nitro_node_anchor", };
+
 		}
 		private void initialize()
 		{
@@ -3068,6 +3077,7 @@ namespace de.unika.ipd.grGen.Action_TNT
 
 			inputs = new GRGEN_LIBGR.GrGenType[] { GRGEN_MODEL.NodeType_C.typeVar, GRGEN_MODEL.NodeType_C.typeVar, GRGEN_MODEL.NodeType_C.typeVar, };
 			inputNames = new string[] { "TriNitro_node_c2", "TriNitro_node_c4", "TriNitro_node_c6", };
+
 		}
 		private void initialize()
 		{
@@ -3317,6 +3327,7 @@ namespace de.unika.ipd.grGen.Action_TNT
 
 			inputs = new GRGEN_LIBGR.GrGenType[] { GRGEN_MODEL.NodeType_C.typeVar, GRGEN_MODEL.NodeType_C.typeVar, GRGEN_MODEL.NodeType_C.typeVar, GRGEN_MODEL.NodeType_C.typeVar, GRGEN_MODEL.NodeType_C.typeVar, GRGEN_MODEL.NodeType_C.typeVar, };
 			inputNames = new string[] { "ToluolCoreThenTriNitro_node_c1", "ToluolCoreThenTriNitro_node_c2", "ToluolCoreThenTriNitro_node_c3", "ToluolCoreThenTriNitro_node_c4", "ToluolCoreThenTriNitro_node_c5", "ToluolCoreThenTriNitro_node_c6", };
+
 		}
 		private void initialize()
 		{
@@ -3594,6 +3605,7 @@ namespace de.unika.ipd.grGen.Action_TNT
 			inputs = new GRGEN_LIBGR.GrGenType[] { };
 			inputNames = new string[] { };
 			outputs = new GRGEN_LIBGR.GrGenType[] { };
+
 		}
 		private void initialize()
 		{
@@ -3783,6 +3795,7 @@ namespace de.unika.ipd.grGen.Action_TNT
 			inputs = new GRGEN_LIBGR.GrGenType[] { };
 			inputNames = new string[] { };
 			outputs = new GRGEN_LIBGR.GrGenType[] { };
+
 		}
 		private void initialize()
 		{
@@ -4100,6 +4113,7 @@ namespace de.unika.ipd.grGen.Action_TNT
 			inputs = new GRGEN_LIBGR.GrGenType[] { };
 			inputNames = new string[] { };
 			outputs = new GRGEN_LIBGR.GrGenType[] { };
+
 		}
 		private void initialize()
 		{
@@ -4357,6 +4371,7 @@ namespace de.unika.ipd.grGen.Action_TNT
 			inputs = new GRGEN_LIBGR.GrGenType[] { };
 			inputNames = new string[] { };
 			outputs = new GRGEN_LIBGR.GrGenType[] { };
+
 		}
 		private void initialize()
 		{
@@ -4559,6 +4574,7 @@ namespace de.unika.ipd.grGen.Action_TNT
 			inputs = new GRGEN_LIBGR.GrGenType[] { };
 			inputNames = new string[] { };
 			outputs = new GRGEN_LIBGR.GrGenType[] { };
+
 		}
 		private void initialize()
 		{
@@ -4771,6 +4787,7 @@ namespace de.unika.ipd.grGen.Action_TNT
 			inputs = new GRGEN_LIBGR.GrGenType[] { };
 			inputNames = new string[] { };
 			outputs = new GRGEN_LIBGR.GrGenType[] { };
+
 		}
 		private void initialize()
 		{
@@ -5106,6 +5123,7 @@ namespace de.unika.ipd.grGen.Action_TNT
 			inputs = new GRGEN_LIBGR.GrGenType[] { };
 			inputNames = new string[] { };
 			outputs = new GRGEN_LIBGR.GrGenType[] { };
+
 		}
 		private void initialize()
 		{
@@ -5577,6 +5595,7 @@ namespace de.unika.ipd.grGen.Action_TNT
 			inputs = new GRGEN_LIBGR.GrGenType[] { };
 			inputNames = new string[] { };
 			outputs = new GRGEN_LIBGR.GrGenType[] { };
+
 		}
 		private void initialize()
 		{
@@ -6157,6 +6176,7 @@ namespace de.unika.ipd.grGen.Action_TNT
 			inputs = new GRGEN_LIBGR.GrGenType[] { };
 			inputNames = new string[] { };
 			outputs = new GRGEN_LIBGR.GrGenType[] { };
+
 		}
 		private void initialize()
 		{
@@ -6403,6 +6423,7 @@ namespace de.unika.ipd.grGen.Action_TNT
 			inputs = new GRGEN_LIBGR.GrGenType[] { };
 			inputNames = new string[] { };
 			outputs = new GRGEN_LIBGR.GrGenType[] { };
+
 		}
 		private void initialize()
 		{
@@ -6866,6 +6887,7 @@ namespace de.unika.ipd.grGen.Action_TNT
 			inputs = new GRGEN_LIBGR.GrGenType[] { };
 			inputNames = new string[] { };
 			outputs = new GRGEN_LIBGR.GrGenType[] { };
+
 		}
 		private void initialize()
 		{
@@ -7410,6 +7432,7 @@ namespace de.unika.ipd.grGen.Action_TNT
 			inputs = new GRGEN_LIBGR.GrGenType[] { };
 			inputNames = new string[] { };
 			outputs = new GRGEN_LIBGR.GrGenType[] { };
+
 		}
 		private void initialize()
 		{
@@ -7652,6 +7675,7 @@ namespace de.unika.ipd.grGen.Action_TNT
 			inputs = new GRGEN_LIBGR.GrGenType[] { };
 			inputNames = new string[] { };
 			outputs = new GRGEN_LIBGR.GrGenType[] { };
+
 		}
 		private void initialize()
 		{
@@ -8111,6 +8135,7 @@ namespace de.unika.ipd.grGen.Action_TNT
 			inputs = new GRGEN_LIBGR.GrGenType[] { };
 			inputNames = new string[] { };
 			outputs = new GRGEN_LIBGR.GrGenType[] { };
+
 		}
 		private void initialize()
 		{
@@ -8637,6 +8662,7 @@ namespace de.unika.ipd.grGen.Action_TNT
 			inputs = new GRGEN_LIBGR.GrGenType[] { };
 			inputNames = new string[] { };
 			outputs = new GRGEN_LIBGR.GrGenType[] { };
+
 		}
 		private void initialize()
 		{
@@ -8848,6 +8874,7 @@ namespace de.unika.ipd.grGen.Action_TNT
 			inputs = new GRGEN_LIBGR.GrGenType[] { };
 			inputNames = new string[] { };
 			outputs = new GRGEN_LIBGR.GrGenType[] { };
+
 		}
 		private void initialize()
 		{
@@ -9030,6 +9057,7 @@ namespace de.unika.ipd.grGen.Action_TNT
 			inputs = new GRGEN_LIBGR.GrGenType[] { };
 			inputNames = new string[] { };
 			outputs = new GRGEN_LIBGR.GrGenType[] { };
+
 		}
 		private void initialize()
 		{
@@ -9203,6 +9231,7 @@ namespace de.unika.ipd.grGen.Action_TNT
 			inputs = new GRGEN_LIBGR.GrGenType[] { };
 			inputNames = new string[] { };
 			outputs = new GRGEN_LIBGR.GrGenType[] { };
+
 		}
 		private void initialize()
 		{
@@ -9386,6 +9415,7 @@ namespace de.unika.ipd.grGen.Action_TNT
 			inputs = new GRGEN_LIBGR.GrGenType[] { };
 			inputNames = new string[] { };
 			outputs = new GRGEN_LIBGR.GrGenType[] { };
+
 		}
 		private void initialize()
 		{

@@ -6,6 +6,7 @@
  */
 
 using System;
+using System.Collections.Generic;
 using de.unika.ipd.grGen.lgsp;
 using de.unika.ipd.grGen.Model_Mutex;
 using de.unika.ipd.grGen.Action_MutexPimped;
@@ -100,6 +101,25 @@ namespace MutexExample
             int endTime = Environment.TickCount;
 
             PrintResults(endTime - startTime, graph);
+
+            // example for reading annotations at API level
+            Action_annotationTestRule annotationTestRule = Action_annotationTestRule.Instance;
+            foreach(KeyValuePair<string, string> annotation in annotationTestRule.rulePattern.Annotations)
+            {
+                Console.WriteLine("The rule " + annotationTestRule.Name + " is decorated with an annotation " + annotation.Key + " -> " + annotation.Value);
+            }
+            foreach(IPatternNode node in annotationTestRule.RulePattern.PatternGraph.Nodes)
+            {
+                foreach(KeyValuePair<string, string> annotation in node.Annotations)
+                {
+                    Console.WriteLine("The pattern node " + node.Name + " of rule " + annotationTestRule.Name + " is decorated with an annotation " + annotation.Key + " -> " + annotation.Value);
+                }
+            }
+            IAnnotationTestNode testNode = graph.CreateNodeAnnotationTestNode();
+            foreach(KeyValuePair<string, string> annotation in testNode.Type.Annotations)
+            {
+                Console.WriteLine("The node type " + testNode.Type.Name + " is decorated with an annotation " + annotation.Key + " -> " + annotation.Value);
+            }
         }
 
         /// <summary>
@@ -215,6 +235,8 @@ namespace MutexExample
                     AlternativeThree(n);
                     break;
             }
+
+            Console.ReadKey();
         }
     }
 }

@@ -1,6 +1,6 @@
 // This file has been generated automatically by GrGen (www.grgen.net)
 // Do not modify this file! Any changes will be lost!
-// Generated from "..\..\tests\iterated\spanningTree.grg" on Sun Sep 12 20:12:27 CEST 2010
+// Generated from "..\..\tests\iterated\spanningTree.grg" on Sun Oct 10 18:44:15 CEST 2010
 
 using System;
 using System.Collections.Generic;
@@ -55,6 +55,7 @@ namespace de.unika.ipd.grGen.Action_spanningTree
 
 			inputs = new GRGEN_LIBGR.GrGenType[] { GRGEN_MODEL.NodeType_Node.typeVar, };
 			inputNames = new string[] { "SpanningTree_node_root", };
+
 		}
 		private void initialize()
 		{
@@ -202,10 +203,13 @@ namespace de.unika.ipd.grGen.Action_spanningTree
 
 		public void SpanningTree_iter_0_Delete(GRGEN_LGSP.LGSPGraph graph, Match_SpanningTree_iter_0 curMatch)
 		{
+			GRGEN_LGSP.LGSPNode node_root = curMatch._node_root;
 			GRGEN_LGSP.LGSPNode node_next = curMatch._node_next;
 			GRGEN_LGSP.LGSPEdge edge_e = curMatch._edge_e;
 			Pattern_SpanningTree.Match_SpanningTree subpattern_sptr = curMatch.@_sptr;
 			graph.Remove(edge_e);
+			graph.RemoveEdges(node_root);
+			graph.Remove(node_root);
 			graph.RemoveEdges(node_next);
 			graph.Remove(node_next);
 			Pattern_SpanningTree.Instance.SpanningTree_Delete(graph, subpattern_sptr);
@@ -483,6 +487,7 @@ namespace de.unika.ipd.grGen.Action_spanningTree
 
 			inputs = new GRGEN_LIBGR.GrGenType[] { GRGEN_MODEL.NodeType_Node.typeVar, };
 			inputNames = new string[] { "SpanningTreeReverse_node_root", };
+
 		}
 		private void initialize()
 		{
@@ -631,10 +636,13 @@ namespace de.unika.ipd.grGen.Action_spanningTree
 
 		public void SpanningTreeReverse_iter_0_Delete(GRGEN_LGSP.LGSPGraph graph, Match_SpanningTreeReverse_iter_0 curMatch)
 		{
+			GRGEN_LGSP.LGSPNode node_root = curMatch._node_root;
 			GRGEN_LGSP.LGSPNode node_next = curMatch._node_next;
 			GRGEN_LGSP.LGSPEdge edge__edge0 = curMatch._edge__edge0;
 			Pattern_SpanningTreeReverse.Match_SpanningTreeReverse subpattern_sptrr = curMatch.@_sptrr;
 			graph.Remove(edge__edge0);
+			graph.RemoveEdges(node_root);
+			graph.Remove(node_root);
 			graph.RemoveEdges(node_next);
 			graph.Remove(node_next);
 			Pattern_SpanningTreeReverse.Instance.SpanningTreeReverse_Delete(graph, subpattern_sptrr);
@@ -910,6 +918,7 @@ namespace de.unika.ipd.grGen.Action_spanningTree
 
 			inputs = new GRGEN_LIBGR.GrGenType[] { GRGEN_MODEL.NodeType_Node.typeVar, };
 			inputNames = new string[] { "SpanningTreeOutgoing_node_root", };
+
 		}
 		private void initialize()
 		{
@@ -1024,10 +1033,13 @@ namespace de.unika.ipd.grGen.Action_spanningTree
 
 		public void SpanningTreeOutgoing_iter_0_Delete(GRGEN_LGSP.LGSPGraph graph, Match_SpanningTreeOutgoing_iter_0 curMatch)
 		{
+			GRGEN_LGSP.LGSPNode node_root = curMatch._node_root;
 			GRGEN_LGSP.LGSPNode node_next = curMatch._node_next;
 			GRGEN_LGSP.LGSPEdge edge__edge0 = curMatch._edge__edge0;
 			Pattern_SpanningTreeOutgoing.Match_SpanningTreeOutgoing subpattern__subpattern0 = curMatch.@__subpattern0;
 			graph.Remove(edge__edge0);
+			graph.RemoveEdges(node_root);
+			graph.Remove(node_root);
 			graph.RemoveEdges(node_next);
 			graph.Remove(node_next);
 			Pattern_SpanningTreeOutgoing.Instance.SpanningTreeOutgoing_Delete(graph, subpattern__subpattern0);
@@ -1303,6 +1315,7 @@ namespace de.unika.ipd.grGen.Action_spanningTree
 
 			inputs = new GRGEN_LIBGR.GrGenType[] { GRGEN_MODEL.NodeType_Node.typeVar, };
 			inputNames = new string[] { "SpanningTreeIncoming_node_root", };
+
 		}
 		private void initialize()
 		{
@@ -1418,11 +1431,14 @@ namespace de.unika.ipd.grGen.Action_spanningTree
 		public void SpanningTreeIncoming_iter_0_Delete(GRGEN_LGSP.LGSPGraph graph, Match_SpanningTreeIncoming_iter_0 curMatch)
 		{
 			GRGEN_LGSP.LGSPNode node_next = curMatch._node_next;
+			GRGEN_LGSP.LGSPNode node_root = curMatch._node_root;
 			GRGEN_LGSP.LGSPEdge edge__edge0 = curMatch._edge__edge0;
 			Pattern_SpanningTreeIncoming.Match_SpanningTreeIncoming subpattern__subpattern0 = curMatch.@__subpattern0;
 			graph.Remove(edge__edge0);
 			graph.RemoveEdges(node_next);
 			graph.Remove(node_next);
+			graph.RemoveEdges(node_root);
+			graph.Remove(node_root);
 			Pattern_SpanningTreeIncoming.Instance.SpanningTreeIncoming_Delete(graph, subpattern__subpattern0);
 		}
 
@@ -1681,6 +1697,7 @@ namespace de.unika.ipd.grGen.Action_spanningTree
 			inputs = new GRGEN_LIBGR.GrGenType[] { };
 			inputNames = new string[] { };
 			outputs = new GRGEN_LIBGR.GrGenType[] { GRGEN_MODEL.NodeType_Node.typeVar, };
+
 		}
 		private void initialize()
 		{
@@ -1875,6 +1892,7 @@ namespace de.unika.ipd.grGen.Action_spanningTree
 			inputs = new GRGEN_LIBGR.GrGenType[] { };
 			inputNames = new string[] { };
 			outputs = new GRGEN_LIBGR.GrGenType[] { GRGEN_MODEL.NodeType_Node.typeVar, };
+
 		}
 		private void initialize()
 		{
@@ -2063,6 +2081,7 @@ namespace de.unika.ipd.grGen.Action_spanningTree
 			inputs = new GRGEN_LIBGR.GrGenType[] { };
 			inputNames = new string[] { };
 			outputs = new GRGEN_LIBGR.GrGenType[] { GRGEN_MODEL.NodeType_Node.typeVar, };
+
 		}
 		private void initialize()
 		{
@@ -2253,6 +2272,7 @@ namespace de.unika.ipd.grGen.Action_spanningTree
 			inputs = new GRGEN_LIBGR.GrGenType[] { GRGEN_MODEL.NodeType_Node.typeVar, };
 			inputNames = new string[] { "spanningTree_node_root", };
 			outputs = new GRGEN_LIBGR.GrGenType[] { };
+
 		}
 		private void initialize()
 		{
@@ -2450,6 +2470,7 @@ namespace de.unika.ipd.grGen.Action_spanningTree
 			inputs = new GRGEN_LIBGR.GrGenType[] { };
 			inputNames = new string[] { };
 			outputs = new GRGEN_LIBGR.GrGenType[] { };
+
 		}
 		private void initialize()
 		{
@@ -2632,6 +2653,7 @@ namespace de.unika.ipd.grGen.Action_spanningTree
 			inputs = new GRGEN_LIBGR.GrGenType[] { };
 			inputNames = new string[] { };
 			outputs = new GRGEN_LIBGR.GrGenType[] { };
+
 		}
 		private void initialize()
 		{
@@ -2815,6 +2837,7 @@ namespace de.unika.ipd.grGen.Action_spanningTree
 			inputs = new GRGEN_LIBGR.GrGenType[] { GRGEN_MODEL.NodeType_Node.typeVar, };
 			inputNames = new string[] { "spanningTreeReverse_node_root", };
 			outputs = new GRGEN_LIBGR.GrGenType[] { };
+
 		}
 		private void initialize()
 		{
@@ -3010,6 +3033,7 @@ namespace de.unika.ipd.grGen.Action_spanningTree
 			inputs = new GRGEN_LIBGR.GrGenType[] { GRGEN_MODEL.NodeType_Node.typeVar, };
 			inputNames = new string[] { "spanningTreeOutgoing_node_root", };
 			outputs = new GRGEN_LIBGR.GrGenType[] { };
+
 		}
 		private void initialize()
 		{
@@ -3201,6 +3225,7 @@ namespace de.unika.ipd.grGen.Action_spanningTree
 			inputs = new GRGEN_LIBGR.GrGenType[] { GRGEN_MODEL.NodeType_Node.typeVar, };
 			inputNames = new string[] { "spanningTreeIncoming_node_root", };
 			outputs = new GRGEN_LIBGR.GrGenType[] { };
+
 		}
 		private void initialize()
 		{

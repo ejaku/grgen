@@ -1,6 +1,6 @@
 // This file has been generated automatically by GrGen (www.grgen.net)
 // Do not modify this file! Any changes will be lost!
-// Generated from "..\..\tests\alternatives\Alternatives.grg" on Sun Sep 12 20:12:14 CEST 2010
+// Generated from "..\..\tests\alternatives\Alternatives.grg" on Sun Oct 10 18:44:02 CEST 2010
 
 using System;
 using System.Collections.Generic;
@@ -67,6 +67,7 @@ namespace de.unika.ipd.grGen.Action_Alternatives
 
 			inputs = new GRGEN_LIBGR.GrGenType[] { GRGEN_MODEL.NodeType_Node.typeVar, };
 			inputNames = new string[] { "toAorB_node_x", };
+
 		}
 		private void initialize()
 		{
@@ -213,6 +214,8 @@ namespace de.unika.ipd.grGen.Action_Alternatives
 		public void toAorB_alt_0_toA_Delete(GRGEN_LGSP.LGSPGraph graph, Match_toAorB_alt_0_toA curMatch)
 		{
 			GRGEN_LGSP.LGSPNode node_a = curMatch._node_a;
+			GRGEN_LGSP.LGSPEdge edge_y = curMatch._edge_y;
+			graph.Remove(edge_y);
 			graph.RemoveEdges(node_a);
 			graph.Remove(node_a);
 		}
@@ -220,6 +223,8 @@ namespace de.unika.ipd.grGen.Action_Alternatives
 		public void toAorB_alt_0_toB_Delete(GRGEN_LGSP.LGSPGraph graph, Match_toAorB_alt_0_toB curMatch)
 		{
 			GRGEN_LGSP.LGSPNode node_b = curMatch._node_b;
+			GRGEN_LGSP.LGSPEdge edge_y = curMatch._edge_y;
+			graph.Remove(edge_y);
 			graph.RemoveEdges(node_b);
 			graph.Remove(node_b);
 		}
@@ -584,6 +589,7 @@ namespace de.unika.ipd.grGen.Action_Alternatives
 			inputs = new GRGEN_LIBGR.GrGenType[] { };
 			inputNames = new string[] { };
 			outputs = new GRGEN_LIBGR.GrGenType[] { };
+
 		}
 		private void initialize()
 		{
@@ -757,6 +763,7 @@ namespace de.unika.ipd.grGen.Action_Alternatives
 			inputs = new GRGEN_LIBGR.GrGenType[] { };
 			inputNames = new string[] { };
 			outputs = new GRGEN_LIBGR.GrGenType[] { };
+
 		}
 		private void initialize()
 		{
@@ -930,6 +937,7 @@ namespace de.unika.ipd.grGen.Action_Alternatives
 			inputs = new GRGEN_LIBGR.GrGenType[] { };
 			inputNames = new string[] { };
 			outputs = new GRGEN_LIBGR.GrGenType[] { };
+
 		}
 		private void initialize()
 		{
@@ -1103,6 +1111,7 @@ namespace de.unika.ipd.grGen.Action_Alternatives
 			inputs = new GRGEN_LIBGR.GrGenType[] { };
 			inputNames = new string[] { };
 			outputs = new GRGEN_LIBGR.GrGenType[] { };
+
 		}
 		private void initialize()
 		{
@@ -1289,6 +1298,7 @@ namespace de.unika.ipd.grGen.Action_Alternatives
 			inputs = new GRGEN_LIBGR.GrGenType[] { };
 			inputNames = new string[] { };
 			outputs = new GRGEN_LIBGR.GrGenType[] { };
+
 		}
 		private void initialize()
 		{
@@ -1625,6 +1635,7 @@ namespace de.unika.ipd.grGen.Action_Alternatives
 			inputs = new GRGEN_LIBGR.GrGenType[] { };
 			inputNames = new string[] { };
 			outputs = new GRGEN_LIBGR.GrGenType[] { };
+
 		}
 		private void initialize()
 		{
@@ -2122,6 +2133,7 @@ namespace de.unika.ipd.grGen.Action_Alternatives
 			inputs = new GRGEN_LIBGR.GrGenType[] { };
 			inputNames = new string[] { };
 			outputs = new GRGEN_LIBGR.GrGenType[] { };
+
 		}
 		private void initialize()
 		{
@@ -2756,6 +2768,7 @@ namespace de.unika.ipd.grGen.Action_Alternatives
 			inputs = new GRGEN_LIBGR.GrGenType[] { };
 			inputNames = new string[] { };
 			outputs = new GRGEN_LIBGR.GrGenType[] { };
+
 		}
 		private void initialize()
 		{
@@ -3388,6 +3401,7 @@ namespace de.unika.ipd.grGen.Action_Alternatives
 			inputs = new GRGEN_LIBGR.GrGenType[] { };
 			inputNames = new string[] { };
 			outputs = new GRGEN_LIBGR.GrGenType[] { };
+
 		}
 		private void initialize()
 		{
@@ -3894,6 +3908,7 @@ namespace de.unika.ipd.grGen.Action_Alternatives
 			inputs = new GRGEN_LIBGR.GrGenType[] { };
 			inputNames = new string[] { };
 			outputs = new GRGEN_LIBGR.GrGenType[] { };
+
 		}
 		private void initialize()
 		{
@@ -4166,6 +4181,7 @@ namespace de.unika.ipd.grGen.Action_Alternatives
 			inputs = new GRGEN_LIBGR.GrGenType[] { };
 			inputNames = new string[] { };
 			outputs = new GRGEN_LIBGR.GrGenType[] { };
+
 		}
 		private void initialize()
 		{
@@ -5134,6 +5150,7 @@ namespace de.unika.ipd.grGen.Action_Alternatives
 			inputs = new GRGEN_LIBGR.GrGenType[] { };
 			inputNames = new string[] { };
 			outputs = new GRGEN_LIBGR.GrGenType[] { };
+
 		}
 		private void initialize()
 		{
@@ -6155,6 +6172,7 @@ namespace de.unika.ipd.grGen.Action_Alternatives
 			inputs = new GRGEN_LIBGR.GrGenType[] { };
 			inputNames = new string[] { };
 			outputs = new GRGEN_LIBGR.GrGenType[] { };
+
 		}
 		private void initialize()
 		{
@@ -6375,6 +6393,7 @@ namespace de.unika.ipd.grGen.Action_Alternatives
 			inputs = new GRGEN_LIBGR.GrGenType[] { };
 			inputNames = new string[] { };
 			outputs = new GRGEN_LIBGR.GrGenType[] { };
+
 		}
 		private void initialize()
 		{
@@ -6938,6 +6957,7 @@ namespace de.unika.ipd.grGen.Action_Alternatives
 			inputs = new GRGEN_LIBGR.GrGenType[] { };
 			inputNames = new string[] { };
 			outputs = new GRGEN_LIBGR.GrGenType[] { };
+
 		}
 		private void initialize()
 		{
@@ -7168,6 +7188,7 @@ namespace de.unika.ipd.grGen.Action_Alternatives
 			inputs = new GRGEN_LIBGR.GrGenType[] { };
 			inputNames = new string[] { };
 			outputs = new GRGEN_LIBGR.GrGenType[] { };
+
 		}
 		private void initialize()
 		{
@@ -7813,6 +7834,7 @@ namespace de.unika.ipd.grGen.Action_Alternatives
 			inputs = new GRGEN_LIBGR.GrGenType[] { };
 			inputNames = new string[] { };
 			outputs = new GRGEN_LIBGR.GrGenType[] { };
+
 		}
 		private void initialize()
 		{

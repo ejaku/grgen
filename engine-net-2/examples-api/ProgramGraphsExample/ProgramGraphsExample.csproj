@@ -46,9 +46,9 @@
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="ProgramGraphsActions.cs" />
     <Compile Include="ProgramGraphsExample.cs" />
-    <Compile Include="ProgramGraphsModel.cs" />
+    <Compile Include="ProgramGraphsOriginalActions.cs" />
+    <Compile Include="ProgramGraphsOriginalModel.cs" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Properties\" />

@@ -1,15 +1,15 @@
 // This file has been generated automatically by GrGen (www.grgen.net)
 // Do not modify this file! Any changes will be lost!
-// Generated from "..\..\examples\ProgramGraphs\ProgramGraphs.grg" on Sun Sep 12 20:12:37 CEST 2010
+// Generated from "..\..\examples\ProgramGraphs\ProgramGraphsOriginal.grg" on Sun Oct 10 18:44:25 CEST 2010
 
 using System;
 using System.Collections.Generic;
 using GRGEN_LIBGR = de.unika.ipd.grGen.libGr;
 using GRGEN_LGSP = de.unika.ipd.grGen.lgsp;
 
-namespace de.unika.ipd.grGen.Model_ProgramGraphs
+namespace de.unika.ipd.grGen.Model_ProgramGraphsOriginal
 {
-	using GRGEN_MODEL = de.unika.ipd.grGen.Model_ProgramGraphs;
+	using GRGEN_MODEL = de.unika.ipd.grGen.Model_ProgramGraphsOriginal;
 	//
 	// Enums
 	//
@@ -113,13 +113,15 @@ namespace de.unika.ipd.grGen.Model_ProgramGraphs
 		}
 		public override string Name { get { return "Node"; } }
 		public override string NodeInterfaceName { get { return "de.unika.ipd.grGen.libGr.INode"; } }
-		public override string NodeClassName { get { return "de.unika.ipd.grGen.Model_ProgramGraphs.@Node"; } }
+		public override string NodeClassName { get { return "de.unika.ipd.grGen.Model_ProgramGraphsOriginal.@Node"; } }
 		public override GRGEN_LIBGR.INode CreateNode()
 		{
 			return new GRGEN_MODEL.@Node();
 		}
 		public override bool IsAbstract { get { return false; } }
 		public override bool IsConst { get { return false; } }
+		public override IEnumerable<KeyValuePair<string, string>> Annotations { get { return annotations; } }
+		public IDictionary<string, string> annotations = new Dictionary<string, string>();
 		public override int NumAttributes { get { return 0; } }
 		public override IEnumerable<GRGEN_LIBGR.AttributeType> AttributeTypes { get { yield break; } }
 		public override GRGEN_LIBGR.AttributeType GetAttributeType(string name) { return null; }
@@ -149,7 +151,7 @@ namespace de.unika.ipd.grGen.Model_ProgramGraphs
 		{
 		}
 		public override string Name { get { return "Entity"; } }
-		public override string NodeInterfaceName { get { return "de.unika.ipd.grGen.Model_ProgramGraphs.IEntity"; } }
+		public override string NodeInterfaceName { get { return "de.unika.ipd.grGen.Model_ProgramGraphsOriginal.IEntity"; } }
 		public override string NodeClassName { get { return null; } }
 		public override GRGEN_LIBGR.INode CreateNode()
 		{
@@ -157,6 +159,8 @@ namespace de.unika.ipd.grGen.Model_ProgramGraphs
 		}
 		public override bool IsAbstract { get { return true; } }
 		public override bool IsConst { get { return false; } }
+		public override IEnumerable<KeyValuePair<string, string>> Annotations { get { return annotations; } }
+		public IDictionary<string, string> annotations = new Dictionary<string, string>();
 		public override int NumAttributes { get { return 0; } }
 		public override IEnumerable<GRGEN_LIBGR.AttributeType> AttributeTypes { get { yield break; } }
 		public override GRGEN_LIBGR.AttributeType GetAttributeType(string name) { return null; }
@@ -273,14 +277,16 @@ namespace de.unika.ipd.grGen.Model_ProgramGraphs
 		{
 		}
 		public override string Name { get { return "MethodBody"; } }
-		public override string NodeInterfaceName { get { return "de.unika.ipd.grGen.Model_ProgramGraphs.IMethodBody"; } }
-		public override string NodeClassName { get { return "de.unika.ipd.grGen.Model_ProgramGraphs.@MethodBody"; } }
+		public override string NodeInterfaceName { get { return "de.unika.ipd.grGen.Model_ProgramGraphsOriginal.IMethodBody"; } }
+		public override string NodeClassName { get { return "de.unika.ipd.grGen.Model_ProgramGraphsOriginal.@MethodBody"; } }
 		public override GRGEN_LIBGR.INode CreateNode()
 		{
 			return new GRGEN_MODEL.@MethodBody();
 		}
 		public override bool IsAbstract { get { return false; } }
 		public override bool IsConst { get { return false; } }
+		public override IEnumerable<KeyValuePair<string, string>> Annotations { get { return annotations; } }
+		public IDictionary<string, string> annotations = new Dictionary<string, string>();
 		public override int NumAttributes { get { return 0; } }
 		public override IEnumerable<GRGEN_LIBGR.AttributeType> AttributeTypes { get { yield break; } }
 		public override GRGEN_LIBGR.AttributeType GetAttributeType(string name) { return null; }
@@ -398,14 +404,16 @@ namespace de.unika.ipd.grGen.Model_ProgramGraphs
 		{
 		}
 		public override string Name { get { return "Expression"; } }
-		public override string NodeInterfaceName { get { return "de.unika.ipd.grGen.Model_ProgramGraphs.IExpression"; } }
-		public override string NodeClassName { get { return "de.unika.ipd.grGen.Model_ProgramGraphs.@Expression"; } }
+		public override string NodeInterfaceName { get { return "de.unika.ipd.grGen.Model_ProgramGraphsOriginal.IExpression"; } }
+		public override string NodeClassName { get { return "de.unika.ipd.grGen.Model_ProgramGraphsOriginal.@Expression"; } }
 		public override GRGEN_LIBGR.INode CreateNode()
 		{
 			return new GRGEN_MODEL.@Expression();
 		}
 		public override bool IsAbstract { get { return false; } }
 		public override bool IsConst { get { return false; } }
+		public override IEnumerable<KeyValuePair<string, string>> Annotations { get { return annotations; } }
+		public IDictionary<string, string> annotations = new Dictionary<string, string>();
 		public override int NumAttributes { get { return 0; } }
 		public override IEnumerable<GRGEN_LIBGR.AttributeType> AttributeTypes { get { yield break; } }
 		public override GRGEN_LIBGR.AttributeType GetAttributeType(string name) { return null; }
@@ -435,7 +443,7 @@ namespace de.unika.ipd.grGen.Model_ProgramGraphs
 		{
 		}
 		public override string Name { get { return "Declaration"; } }
-		public override string NodeInterfaceName { get { return "de.unika.ipd.grGen.Model_ProgramGraphs.IDeclaration"; } }
+		public override string NodeInterfaceName { get { return "de.unika.ipd.grGen.Model_ProgramGraphsOriginal.IDeclaration"; } }
 		public override string NodeClassName { get { return null; } }
 		public override GRGEN_LIBGR.INode CreateNode()
 		{
@@ -443,6 +451,8 @@ namespace de.unika.ipd.grGen.Model_ProgramGraphs
 		}
 		public override bool IsAbstract { get { return true; } }
 		public override bool IsConst { get { return false; } }
+		public override IEnumerable<KeyValuePair<string, string>> Annotations { get { return annotations; } }
+		public IDictionary<string, string> annotations = new Dictionary<string, string>();
 		public override int NumAttributes { get { return 0; } }
 		public override IEnumerable<GRGEN_LIBGR.AttributeType> AttributeTypes { get { yield break; } }
 		public override GRGEN_LIBGR.AttributeType GetAttributeType(string name) { return null; }
@@ -565,14 +575,16 @@ namespace de.unika.ipd.grGen.Model_ProgramGraphs
 		{
 		}
 		public override string Name { get { return "Class"; } }
-		public override string NodeInterfaceName { get { return "de.unika.ipd.grGen.Model_ProgramGraphs.IClass"; } }
-		public override string NodeClassName { get { return "de.unika.ipd.grGen.Model_ProgramGraphs.@Class"; } }
+		public override string NodeInterfaceName { get { return "de.unika.ipd.grGen.Model_ProgramGraphsOriginal.IClass"; } }
+		public override string NodeClassName { get { return "de.unika.ipd.grGen.Model_ProgramGraphsOriginal.@Class"; } }
 		public override GRGEN_LIBGR.INode CreateNode()
 		{
 			return new GRGEN_MODEL.@Class();
 		}
 		public override bool IsAbstract { get { return false; } }
 		public override bool IsConst { get { return false; } }
+		public override IEnumerable<KeyValuePair<string, string>> Annotations { get { return annotations; } }
+		public IDictionary<string, string> annotations = new Dictionary<string, string>();
 		public override int NumAttributes { get { return 0; } }
 		public override IEnumerable<GRGEN_LIBGR.AttributeType> AttributeTypes { get { yield break; } }
 		public override GRGEN_LIBGR.AttributeType GetAttributeType(string name) { return null; }
@@ -602,7 +614,7 @@ namespace de.unika.ipd.grGen.Model_ProgramGraphs
 		{
 		}
 		public override string Name { get { return "Feature"; } }
-		public override string NodeInterfaceName { get { return "de.unika.ipd.grGen.Model_ProgramGraphs.IFeature"; } }
+		public override string NodeInterfaceName { get { return "de.unika.ipd.grGen.Model_ProgramGraphsOriginal.IFeature"; } }
 		public override string NodeClassName { get { return null; } }
 		public override GRGEN_LIBGR.INode CreateNode()
 		{
@@ -610,6 +622,8 @@ namespace de.unika.ipd.grGen.Model_ProgramGraphs
 		}
 		public override bool IsAbstract { get { return true; } }
 		public override bool IsConst { get { return false; } }
+		public override IEnumerable<KeyValuePair<string, string>> Annotations { get { return annotations; } }
+		public IDictionary<string, string> annotations = new Dictionary<string, string>();
 		public override int NumAttributes { get { return 0; } }
 		public override IEnumerable<GRGEN_LIBGR.AttributeType> AttributeTypes { get { yield break; } }
 		public override GRGEN_LIBGR.AttributeType GetAttributeType(string name) { return null; }
@@ -738,14 +752,16 @@ namespace de.unika.ipd.grGen.Model_ProgramGraphs
 		{
 		}
 		public override string Name { get { return "MethodSignature"; } }
-		public override string NodeInterfaceName { get { return "de.unika.ipd.grGen.Model_ProgramGraphs.IMethodSignature"; } }
-		public override string NodeClassName { get { return "de.unika.ipd.grGen.Model_ProgramGraphs.@MethodSignature"; } }
+		public override string NodeInterfaceName { get { return "de.unika.ipd.grGen.Model_ProgramGraphsOriginal.IMethodSignature"; } }
+		public override string NodeClassName { get { return "de.unika.ipd.grGen.Model_ProgramGraphsOriginal.@MethodSignature"; } }
 		public override GRGEN_LIBGR.INode CreateNode()
 		{
 			return new GRGEN_MODEL.@MethodSignature();
 		}
 		public override bool IsAbstract { get { return false; } }
 		public override bool IsConst { get { return false; } }
+		public override IEnumerable<KeyValuePair<string, string>> Annotations { get { return annotations; } }
+		public IDictionary<string, string> annotations = new Dictionary<string, string>();
 		public override int NumAttributes { get { return 0; } }
 		public override IEnumerable<GRGEN_LIBGR.AttributeType> AttributeTypes { get { yield break; } }
 		public override GRGEN_LIBGR.AttributeType GetAttributeType(string name) { return null; }
@@ -775,7 +791,7 @@ namespace de.unika.ipd.grGen.Model_ProgramGraphs
 		{
 		}
 		public override string Name { get { return "Attribute"; } }
-		public override string NodeInterfaceName { get { return "de.unika.ipd.grGen.Model_ProgramGraphs.IAttribute"; } }
+		public override string NodeInterfaceName { get { return "de.unika.ipd.grGen.Model_ProgramGraphsOriginal.IAttribute"; } }
 		public override string NodeClassName { get { return null; } }
 		public override GRGEN_LIBGR.INode CreateNode()
 		{
@@ -783,6 +799,8 @@ namespace de.unika.ipd.grGen.Model_ProgramGraphs
 		}
 		public override bool IsAbstract { get { return true; } }
 		public override bool IsConst { get { return false; } }
+		public override IEnumerable<KeyValuePair<string, string>> Annotations { get { return annotations; } }
+		public IDictionary<string, string> annotations = new Dictionary<string, string>();
 		public override int NumAttributes { get { return 0; } }
 		public override IEnumerable<GRGEN_LIBGR.AttributeType> AttributeTypes { get { yield break; } }
 		public override GRGEN_LIBGR.AttributeType GetAttributeType(string name) { return null; }
@@ -917,14 +935,16 @@ namespace de.unika.ipd.grGen.Model_ProgramGraphs
 		{
 		}
 		public override string Name { get { return "Constant"; } }
-		public override string NodeInterfaceName { get { return "de.unika.ipd.grGen.Model_ProgramGraphs.IConstant"; } }
-		public override string NodeClassName { get { return "de.unika.ipd.grGen.Model_ProgramGraphs.@Constant"; } }
+		public override string NodeInterfaceName { get { return "de.unika.ipd.grGen.Model_ProgramGraphsOriginal.IConstant"; } }
+		public override string NodeClassName { get { return "de.unika.ipd.grGen.Model_ProgramGraphsOriginal.@Constant"; } }
 		public override GRGEN_LIBGR.INode CreateNode()
 		{
 			return new GRGEN_MODEL.@Constant();
 		}
 		public override bool IsAbstract { get { return false; } }
 		public override bool IsConst { get { return false; } }
+		public override IEnumerable<KeyValuePair<string, string>> Annotations { get { return annotations; } }
+		public IDictionary<string, string> annotations = new Dictionary<string, string>();
 		public override int NumAttributes { get { return 0; } }
 		public override IEnumerable<GRGEN_LIBGR.AttributeType> AttributeTypes { get { yield break; } }
 		public override GRGEN_LIBGR.AttributeType GetAttributeType(string name) { return null; }
@@ -1060,14 +1080,16 @@ namespace de.unika.ipd.grGen.Model_ProgramGraphs
 		{
 		}
 		public override string Name { get { return "Variabel"; } }
-		public override string NodeInterfaceName { get { return "de.unika.ipd.grGen.Model_ProgramGraphs.IVariabel"; } }
-		public override string NodeClassName { get { return "de.unika.ipd.grGen.Model_ProgramGraphs.@Variabel"; } }
+		public override string NodeInterfaceName { get { return "de.unika.ipd.grGen.Model_ProgramGraphsOriginal.IVariabel"; } }
+		public override string NodeClassName { get { return "de.unika.ipd.grGen.Model_ProgramGraphsOriginal.@Variabel"; } }
 		public override GRGEN_LIBGR.INode CreateNode()
 		{
 			return new GRGEN_MODEL.@Variabel();
 		}
 		public override bool IsAbstract { get { return false; } }
 		public override bool IsConst { get { return false; } }
+		public override IEnumerable<KeyValuePair<string, string>> Annotations { get { return annotations; } }
+		public IDictionary<string, string> annotations = new Dictionary<string, string>();
 		public override int NumAttributes { get { return 0; } }
 		public override IEnumerable<GRGEN_LIBGR.AttributeType> AttributeTypes { get { yield break; } }
 		public override GRGEN_LIBGR.AttributeType GetAttributeType(string name) { return null; }
@@ -1086,9 +1108,9 @@ namespace de.unika.ipd.grGen.Model_ProgramGraphs
 	// Node model
 	//
 
-	public sealed class ProgramGraphsNodeModel : GRGEN_LIBGR.INodeModel
+	public sealed class ProgramGraphsOriginalNodeModel : GRGEN_LIBGR.INodeModel
 	{
-		public ProgramGraphsNodeModel()
+		public ProgramGraphsOriginalNodeModel()
 		{
 			GRGEN_MODEL.NodeType_Node.typeVar.subOrSameGrGenTypes = GRGEN_MODEL.NodeType_Node.typeVar.subOrSameTypes = new GRGEN_LIBGR.NodeType[] {
 				GRGEN_MODEL.NodeType_Node.typeVar,
@@ -1346,7 +1368,7 @@ namespace de.unika.ipd.grGen.Model_ProgramGraphs
 	// Edge types
 	//
 
-	public enum EdgeTypes { @AEdge, @Edge, @UEdge, @contains, @references, @hasType, @bindsTo, @uses, @writesTo, @calls, @containedInClass, @containedInMethodBody };
+	public enum EdgeTypes { @AEdge, @Edge, @UEdge, @contains, @references, @hasType, @bindsTo, @uses, @writesTo, @calls, @methodBodyContains, @classContainsClass };
 
 	// *** Edge AEdge ***
 
@@ -1369,6 +1391,8 @@ namespace de.unika.ipd.grGen.Model_ProgramGraphs
 		}
 		public override bool IsAbstract { get { return true; } }
 		public override bool IsConst { get { return false; } }
+		public override IEnumerable<KeyValuePair<string, string>> Annotations { get { return annotations; } }
+		public IDictionary<string, string> annotations = new Dictionary<string, string>();
 		public override int NumAttributes { get { return 0; } }
 		public override IEnumerable<GRGEN_LIBGR.AttributeType> AttributeTypes { get { yield break; } }
 		public override GRGEN_LIBGR.AttributeType GetAttributeType(string name) { return null; }
@@ -1474,7 +1498,7 @@ namespace de.unika.ipd.grGen.Model_ProgramGraphs
 		}
 		public override string Name { get { return "Edge"; } }
 		public override string EdgeInterfaceName { get { return "de.unika.ipd.grGen.libGr.IEdge"; } }
-		public override string EdgeClassName { get { return "de.unika.ipd.grGen.Model_ProgramGraphs.@Edge"; } }
+		public override string EdgeClassName { get { return "de.unika.ipd.grGen.Model_ProgramGraphsOriginal.@Edge"; } }
 		public override GRGEN_LIBGR.Directedness Directedness { get { return GRGEN_LIBGR.Directedness.Directed; } }
 		public override GRGEN_LIBGR.IEdge CreateEdge(GRGEN_LIBGR.INode source, GRGEN_LIBGR.INode target)
 		{
@@ -1482,6 +1506,8 @@ namespace de.unika.ipd.grGen.Model_ProgramGraphs
 		}
 		public override bool IsAbstract { get { return false; } }
 		public override bool IsConst { get { return false; } }
+		public override IEnumerable<KeyValuePair<string, string>> Annotations { get { return annotations; } }
+		public IDictionary<string, string> annotations = new Dictionary<string, string>();
 		public override int NumAttributes { get { return 0; } }
 		public override IEnumerable<GRGEN_LIBGR.AttributeType> AttributeTypes { get { yield break; } }
 		public override GRGEN_LIBGR.AttributeType GetAttributeType(string name) { return null; }
@@ -1588,7 +1614,7 @@ namespace de.unika.ipd.grGen.Model_ProgramGraphs
 		}
 		public override string Name { get { return "UEdge"; } }
 		public override string EdgeInterfaceName { get { return "de.unika.ipd.grGen.libGr.IEdge"; } }
-		public override string EdgeClassName { get { return "de.unika.ipd.grGen.Model_ProgramGraphs.@UEdge"; } }
+		public override string EdgeClassName { get { return "de.unika.ipd.grGen.Model_ProgramGraphsOriginal.@UEdge"; } }
 		public override GRGEN_LIBGR.Directedness Directedness { get { return GRGEN_LIBGR.Directedness.Undirected; } }
 		public override GRGEN_LIBGR.IEdge CreateEdge(GRGEN_LIBGR.INode source, GRGEN_LIBGR.INode target)
 		{
@@ -1596,6 +1622,8 @@ namespace de.unika.ipd.grGen.Model_ProgramGraphs
 		}
 		public override bool IsAbstract { get { return false; } }
 		public override bool IsConst { get { return false; } }
+		public override IEnumerable<KeyValuePair<string, string>> Annotations { get { return annotations; } }
+		public IDictionary<string, string> annotations = new Dictionary<string, string>();
 		public override int NumAttributes { get { return 0; } }
 		public override IEnumerable<GRGEN_LIBGR.AttributeType> AttributeTypes { get { yield break; } }
 		public override GRGEN_LIBGR.AttributeType GetAttributeType(string name) { return null; }
@@ -1705,13 +1733,13 @@ namespace de.unika.ipd.grGen.Model_ProgramGraphs
 	{
 		public static GRGEN_MODEL.EdgeType_contains typeVar = new GRGEN_MODEL.EdgeType_contains();
 		public static bool[] isA = new bool[] { true, true, false, true, false, false, false, false, false, false, false, false, };
-		public static bool[] isMyType = new bool[] { false, false, false, true, false, false, false, false, false, false, false, false, };
+		public static bool[] isMyType = new bool[] { false, false, false, true, false, false, false, false, false, false, false, true, };
 		public EdgeType_contains() : base((int) EdgeTypes.@contains)
 		{
 		}
 		public override string Name { get { return "contains"; } }
-		public override string EdgeInterfaceName { get { return "de.unika.ipd.grGen.Model_ProgramGraphs.Icontains"; } }
-		public override string EdgeClassName { get { return "de.unika.ipd.grGen.Model_ProgramGraphs.@contains"; } }
+		public override string EdgeInterfaceName { get { return "de.unika.ipd.grGen.Model_ProgramGraphsOriginal.Icontains"; } }
+		public override string EdgeClassName { get { return "de.unika.ipd.grGen.Model_ProgramGraphsOriginal.@contains"; } }
 		public override GRGEN_LIBGR.Directedness Directedness { get { return GRGEN_LIBGR.Directedness.Directed; } }
 		public override GRGEN_LIBGR.IEdge CreateEdge(GRGEN_LIBGR.INode source, GRGEN_LIBGR.INode target)
 		{
@@ -1719,6 +1747,8 @@ namespace de.unika.ipd.grGen.Model_ProgramGraphs
 		}
 		public override bool IsAbstract { get { return false; } }
 		public override bool IsConst { get { return false; } }
+		public override IEnumerable<KeyValuePair<string, string>> Annotations { get { return annotations; } }
+		public IDictionary<string, string> annotations = new Dictionary<string, string>();
 		public override int NumAttributes { get { return 0; } }
 		public override IEnumerable<GRGEN_LIBGR.AttributeType> AttributeTypes { get { yield break; } }
 		public override GRGEN_LIBGR.AttributeType GetAttributeType(string name) { return null; }
@@ -1833,8 +1863,8 @@ namespace de.unika.ipd.grGen.Model_ProgramGraphs
 		{
 		}
 		public override string Name { get { return "references"; } }
-		public override string EdgeInterfaceName { get { return "de.unika.ipd.grGen.Model_ProgramGraphs.Ireferences"; } }
-		public override string EdgeClassName { get { return "de.unika.ipd.grGen.Model_ProgramGraphs.@references"; } }
+		public override string EdgeInterfaceName { get { return "de.unika.ipd.grGen.Model_ProgramGraphsOriginal.Ireferences"; } }
+		public override string EdgeClassName { get { return "de.unika.ipd.grGen.Model_ProgramGraphsOriginal.@references"; } }
 		public override GRGEN_LIBGR.Directedness Directedness { get { return GRGEN_LIBGR.Directedness.Directed; } }
 		public override GRGEN_LIBGR.IEdge CreateEdge(GRGEN_LIBGR.INode source, GRGEN_LIBGR.INode target)
 		{
@@ -1842,6 +1872,8 @@ namespace de.unika.ipd.grGen.Model_ProgramGraphs
 		}
 		public override bool IsAbstract { get { return false; } }
 		public override bool IsConst { get { return false; } }
+		public override IEnumerable<KeyValuePair<string, string>> Annotations { get { return annotations; } }
+		public IDictionary<string, string> annotations = new Dictionary<string, string>();
 		public override int NumAttributes { get { return 0; } }
 		public override IEnumerable<GRGEN_LIBGR.AttributeType> AttributeTypes { get { yield break; } }
 		public override GRGEN_LIBGR.AttributeType GetAttributeType(string name) { return null; }
@@ -1962,8 +1994,8 @@ namespace de.unika.ipd.grGen.Model_ProgramGraphs
 		{
 		}
 		public override string Name { get { return "hasType"; } }
-		public override string EdgeInterfaceName { get { return "de.unika.ipd.grGen.Model_ProgramGraphs.IhasType"; } }
-		public override string EdgeClassName { get { return "de.unika.ipd.grGen.Model_ProgramGraphs.@hasType"; } }
+		public override string EdgeInterfaceName { get { return "de.unika.ipd.grGen.Model_ProgramGraphsOriginal.IhasType"; } }
+		public override string EdgeClassName { get { return "de.unika.ipd.grGen.Model_ProgramGraphsOriginal.@hasType"; } }
 		public override GRGEN_LIBGR.Directedness Directedness { get { return GRGEN_LIBGR.Directedness.Directed; } }
 		public override GRGEN_LIBGR.IEdge CreateEdge(GRGEN_LIBGR.INode source, GRGEN_LIBGR.INode target)
 		{
@@ -1971,6 +2003,8 @@ namespace de.unika.ipd.grGen.Model_ProgramGraphs
 		}
 		public override bool IsAbstract { get { return false; } }
 		public override bool IsConst { get { return false; } }
+		public override IEnumerable<KeyValuePair<string, string>> Annotations { get { return annotations; } }
+		public IDictionary<string, string> annotations = new Dictionary<string, string>();
 		public override int NumAttributes { get { return 0; } }
 		public override IEnumerable<GRGEN_LIBGR.AttributeType> AttributeTypes { get { yield break; } }
 		public override GRGEN_LIBGR.AttributeType GetAttributeType(string name) { return null; }
@@ -2091,8 +2125,8 @@ namespace de.unika.ipd.grGen.Model_ProgramGraphs
 		{
 		}
 		public override string Name { get { return "bindsTo"; } }
-		public override string EdgeInterfaceName { get { return "de.unika.ipd.grGen.Model_ProgramGraphs.IbindsTo"; } }
-		public override string EdgeClassName { get { return "de.unika.ipd.grGen.Model_ProgramGraphs.@bindsTo"; } }
+		public override string EdgeInterfaceName { get { return "de.unika.ipd.grGen.Model_ProgramGraphsOriginal.IbindsTo"; } }
+		public override string EdgeClassName { get { return "de.unika.ipd.grGen.Model_ProgramGraphsOriginal.@bindsTo"; } }
 		public override GRGEN_LIBGR.Directedness Directedness { get { return GRGEN_LIBGR.Directedness.Directed; } }
 		public override GRGEN_LIBGR.IEdge CreateEdge(GRGEN_LIBGR.INode source, GRGEN_LIBGR.INode target)
 		{
@@ -2100,6 +2134,8 @@ namespace de.unika.ipd.grGen.Model_ProgramGraphs
 		}
 		public override bool IsAbstract { get { return false; } }
 		public override bool IsConst { get { return false; } }
+		public override IEnumerable<KeyValuePair<string, string>> Annotations { get { return annotations; } }
+		public IDictionary<string, string> annotations = new Dictionary<string, string>();
 		public override int NumAttributes { get { return 0; } }
 		public override IEnumerable<GRGEN_LIBGR.AttributeType> AttributeTypes { get { yield break; } }
 		public override GRGEN_LIBGR.AttributeType GetAttributeType(string name) { return null; }
@@ -2220,8 +2256,8 @@ namespace de.unika.ipd.grGen.Model_ProgramGraphs
 		{
 		}
 		public override string Name { get { return "uses"; } }
-		public override string EdgeInterfaceName { get { return "de.unika.ipd.grGen.Model_ProgramGraphs.Iuses"; } }
-		public override string EdgeClassName { get { return "de.unika.ipd.grGen.Model_ProgramGraphs.@uses"; } }
+		public override string EdgeInterfaceName { get { return "de.unika.ipd.grGen.Model_ProgramGraphsOriginal.Iuses"; } }
+		public override string EdgeClassName { get { return "de.unika.ipd.grGen.Model_ProgramGraphsOriginal.@uses"; } }
 		public override GRGEN_LIBGR.Directedness Directedness { get { return GRGEN_LIBGR.Directedness.Directed; } }
 		public override GRGEN_LIBGR.IEdge CreateEdge(GRGEN_LIBGR.INode source, GRGEN_LIBGR.INode target)
 		{
@@ -2229,6 +2265,8 @@ namespace de.unika.ipd.grGen.Model_ProgramGraphs
 		}
 		public override bool IsAbstract { get { return false; } }
 		public override bool IsConst { get { return false; } }
+		public override IEnumerable<KeyValuePair<string, string>> Annotations { get { return annotations; } }
+		public IDictionary<string, string> annotations = new Dictionary<string, string>();
 		public override int NumAttributes { get { return 0; } }
 		public override IEnumerable<GRGEN_LIBGR.AttributeType> AttributeTypes { get { yield break; } }
 		public override GRGEN_LIBGR.AttributeType GetAttributeType(string name) { return null; }
@@ -2349,8 +2387,8 @@ namespace de.unika.ipd.grGen.Model_ProgramGraphs
 		{
 		}
 		public override string Name { get { return "writesTo"; } }
-		public override string EdgeInterfaceName { get { return "de.unika.ipd.grGen.Model_ProgramGraphs.IwritesTo"; } }
-		public override string EdgeClassName { get { return "de.unika.ipd.grGen.Model_ProgramGraphs.@writesTo"; } }
+		public override string EdgeInterfaceName { get { return "de.unika.ipd.grGen.Model_ProgramGraphsOriginal.IwritesTo"; } }
+		public override string EdgeClassName { get { return "de.unika.ipd.grGen.Model_ProgramGraphsOriginal.@writesTo"; } }
 		public override GRGEN_LIBGR.Directedness Directedness { get { return GRGEN_LIBGR.Directedness.Directed; } }
 		public override GRGEN_LIBGR.IEdge CreateEdge(GRGEN_LIBGR.INode source, GRGEN_LIBGR.INode target)
 		{
@@ -2358,6 +2396,8 @@ namespace de.unika.ipd.grGen.Model_ProgramGraphs
 		}
 		public override bool IsAbstract { get { return false; } }
 		public override bool IsConst { get { return false; } }
+		public override IEnumerable<KeyValuePair<string, string>> Annotations { get { return annotations; } }
+		public IDictionary<string, string> annotations = new Dictionary<string, string>();
 		public override int NumAttributes { get { return 0; } }
 		public override IEnumerable<GRGEN_LIBGR.AttributeType> AttributeTypes { get { yield break; } }
 		public override GRGEN_LIBGR.AttributeType GetAttributeType(string name) { return null; }
@@ -2478,8 +2518,8 @@ namespace de.unika.ipd.grGen.Model_ProgramGraphs
 		{
 		}
 		public override string Name { get { return "calls"; } }
-		public override string EdgeInterfaceName { get { return "de.unika.ipd.grGen.Model_ProgramGraphs.Icalls"; } }
-		public override string EdgeClassName { get { return "de.unika.ipd.grGen.Model_ProgramGraphs.@calls"; } }
+		public override string EdgeInterfaceName { get { return "de.unika.ipd.grGen.Model_ProgramGraphsOriginal.Icalls"; } }
+		public override string EdgeClassName { get { return "de.unika.ipd.grGen.Model_ProgramGraphsOriginal.@calls"; } }
 		public override GRGEN_LIBGR.Directedness Directedness { get { return GRGEN_LIBGR.Directedness.Directed; } }
 		public override GRGEN_LIBGR.IEdge CreateEdge(GRGEN_LIBGR.INode source, GRGEN_LIBGR.INode target)
 		{
@@ -2487,6 +2527,8 @@ namespace de.unika.ipd.grGen.Model_ProgramGraphs
 		}
 		public override bool IsAbstract { get { return false; } }
 		public override bool IsConst { get { return false; } }
+		public override IEnumerable<KeyValuePair<string, string>> Annotations { get { return annotations; } }
+		public IDictionary<string, string> annotations = new Dictionary<string, string>();
 		public override int NumAttributes { get { return 0; } }
 		public override IEnumerable<GRGEN_LIBGR.AttributeType> AttributeTypes { get { yield break; } }
 		public override GRGEN_LIBGR.AttributeType GetAttributeType(string name) { return null; }
@@ -2501,69 +2543,69 @@ namespace de.unika.ipd.grGen.Model_ProgramGraphs
 
 	}
 
-	// *** Edge containedInClass ***
+	// *** Edge methodBodyContains ***
 
-	public interface IcontainedInClass : GRGEN_LIBGR.IEdge
+	public interface ImethodBodyContains : GRGEN_LIBGR.IEdge
 	{
 	}
 
-	public sealed class @containedInClass : GRGEN_LGSP.LGSPEdge, GRGEN_MODEL.IcontainedInClass
+	public sealed class @methodBodyContains : GRGEN_LGSP.LGSPEdge, GRGEN_MODEL.ImethodBodyContains
 	{
 		private static int poolLevel = 0;
-		private static GRGEN_MODEL.@containedInClass[] pool = new GRGEN_MODEL.@containedInClass[10];
+		private static GRGEN_MODEL.@methodBodyContains[] pool = new GRGEN_MODEL.@methodBodyContains[10];
 		
-		// explicit initializations of containedInClass for target containedInClass
-		// implicit initializations of containedInClass for target containedInClass
-		static @containedInClass() {
+		// explicit initializations of methodBodyContains for target methodBodyContains
+		// implicit initializations of methodBodyContains for target methodBodyContains
+		static @methodBodyContains() {
 		}
 		
-		public @containedInClass(GRGEN_LGSP.LGSPNode source, GRGEN_LGSP.LGSPNode target)
-			: base(GRGEN_MODEL.EdgeType_containedInClass.typeVar, source, target)
+		public @methodBodyContains(GRGEN_LGSP.LGSPNode source, GRGEN_LGSP.LGSPNode target)
+			: base(GRGEN_MODEL.EdgeType_methodBodyContains.typeVar, source, target)
 		{
-			// implicit initialization, map/set creation of containedInClass
-			// explicit initializations of containedInClass for target containedInClass
+			// implicit initialization, map/set creation of methodBodyContains
+			// explicit initializations of methodBodyContains for target methodBodyContains
 		}
 
-		public static GRGEN_MODEL.EdgeType_containedInClass TypeInstance { get { return GRGEN_MODEL.EdgeType_containedInClass.typeVar; } }
+		public static GRGEN_MODEL.EdgeType_methodBodyContains TypeInstance { get { return GRGEN_MODEL.EdgeType_methodBodyContains.typeVar; } }
 
 		public override GRGEN_LIBGR.IEdge Clone(GRGEN_LIBGR.INode newSource, GRGEN_LIBGR.INode newTarget)
-		{ return new GRGEN_MODEL.@containedInClass(this, (GRGEN_LGSP.LGSPNode) newSource, (GRGEN_LGSP.LGSPNode) newTarget); }
+		{ return new GRGEN_MODEL.@methodBodyContains(this, (GRGEN_LGSP.LGSPNode) newSource, (GRGEN_LGSP.LGSPNode) newTarget); }
 
-		private @containedInClass(GRGEN_MODEL.@containedInClass oldElem, GRGEN_LGSP.LGSPNode newSource, GRGEN_LGSP.LGSPNode newTarget)
-			: base(GRGEN_MODEL.EdgeType_containedInClass.typeVar, newSource, newTarget)
+		private @methodBodyContains(GRGEN_MODEL.@methodBodyContains oldElem, GRGEN_LGSP.LGSPNode newSource, GRGEN_LGSP.LGSPNode newTarget)
+			: base(GRGEN_MODEL.EdgeType_methodBodyContains.typeVar, newSource, newTarget)
 		{
 		}
-		public static GRGEN_MODEL.@containedInClass CreateEdge(GRGEN_LGSP.LGSPGraph graph, GRGEN_LGSP.LGSPNode source, GRGEN_LGSP.LGSPNode target)
+		public static GRGEN_MODEL.@methodBodyContains CreateEdge(GRGEN_LGSP.LGSPGraph graph, GRGEN_LGSP.LGSPNode source, GRGEN_LGSP.LGSPNode target)
 		{
-			GRGEN_MODEL.@containedInClass edge;
+			GRGEN_MODEL.@methodBodyContains edge;
 			if(poolLevel == 0)
-				edge = new GRGEN_MODEL.@containedInClass(source, target);
+				edge = new GRGEN_MODEL.@methodBodyContains(source, target);
 			else
 			{
 				edge = pool[--poolLevel];
 				edge.lgspFlags &= ~(uint) GRGEN_LGSP.LGSPElemFlags.HAS_VARIABLES;
 				edge.lgspSource = source;
 				edge.lgspTarget = target;
-				// implicit initialization, map/set creation of containedInClass
-				// explicit initializations of containedInClass for target containedInClass
+				// implicit initialization, map/set creation of methodBodyContains
+				// explicit initializations of methodBodyContains for target methodBodyContains
 			}
 			graph.AddEdge(edge);
 			return edge;
 		}
 
-		public static GRGEN_MODEL.@containedInClass CreateEdge(GRGEN_LGSP.LGSPGraph graph, GRGEN_LGSP.LGSPNode source, GRGEN_LGSP.LGSPNode target, string varName)
+		public static GRGEN_MODEL.@methodBodyContains CreateEdge(GRGEN_LGSP.LGSPGraph graph, GRGEN_LGSP.LGSPNode source, GRGEN_LGSP.LGSPNode target, string varName)
 		{
-			GRGEN_MODEL.@containedInClass edge;
+			GRGEN_MODEL.@methodBodyContains edge;
 			if(poolLevel == 0)
-				edge = new GRGEN_MODEL.@containedInClass(source, target);
+				edge = new GRGEN_MODEL.@methodBodyContains(source, target);
 			else
 			{
 				edge = pool[--poolLevel];
 				edge.lgspFlags &= ~(uint) GRGEN_LGSP.LGSPElemFlags.HAS_VARIABLES;
 				edge.lgspSource = source;
 				edge.lgspTarget = target;
-				// implicit initialization, map/set creation of containedInClass
-				// explicit initializations of containedInClass for target containedInClass
+				// implicit initialization, map/set creation of methodBodyContains
+				// explicit initializations of methodBodyContains for target methodBodyContains
 			}
 			graph.AddEdge(edge, varName);
 			return edge;
@@ -2578,38 +2620,40 @@ namespace de.unika.ipd.grGen.Model_ProgramGraphs
 		public override object GetAttribute(string attrName)
 		{
 			throw new NullReferenceException(
-				"The edge type \"containedInClass\" does not have the attribute \" + attrName + \"\"!");
+				"The edge type \"methodBodyContains\" does not have the attribute \" + attrName + \"\"!");
 		}
 		public override void SetAttribute(string attrName, object value)
 		{
 			throw new NullReferenceException(
-				"The edge type \"containedInClass\" does not have the attribute \" + attrName + \"\"!");
+				"The edge type \"methodBodyContains\" does not have the attribute \" + attrName + \"\"!");
 		}
 		public override void ResetAllAttributes()
 		{
-			// implicit initialization, map/set creation of containedInClass
-			// explicit initializations of containedInClass for target containedInClass
+			// implicit initialization, map/set creation of methodBodyContains
+			// explicit initializations of methodBodyContains for target methodBodyContains
 		}
 	}
 
-	public sealed class EdgeType_containedInClass : GRGEN_LIBGR.EdgeType
+	public sealed class EdgeType_methodBodyContains : GRGEN_LIBGR.EdgeType
 	{
-		public static GRGEN_MODEL.EdgeType_containedInClass typeVar = new GRGEN_MODEL.EdgeType_containedInClass();
+		public static GRGEN_MODEL.EdgeType_methodBodyContains typeVar = new GRGEN_MODEL.EdgeType_methodBodyContains();
 		public static bool[] isA = new bool[] { true, true, false, false, false, false, false, false, false, false, true, false, };
 		public static bool[] isMyType = new bool[] { false, false, false, false, false, false, false, false, false, false, true, false, };
-		public EdgeType_containedInClass() : base((int) EdgeTypes.@containedInClass)
+		public EdgeType_methodBodyContains() : base((int) EdgeTypes.@methodBodyContains)
 		{
 		}
-		public override string Name { get { return "containedInClass"; } }
-		public override string EdgeInterfaceName { get { return "de.unika.ipd.grGen.Model_ProgramGraphs.IcontainedInClass"; } }
-		public override string EdgeClassName { get { return "de.unika.ipd.grGen.Model_ProgramGraphs.@containedInClass"; } }
+		public override string Name { get { return "methodBodyContains"; } }
+		public override string EdgeInterfaceName { get { return "de.unika.ipd.grGen.Model_ProgramGraphsOriginal.ImethodBodyContains"; } }
+		public override string EdgeClassName { get { return "de.unika.ipd.grGen.Model_ProgramGraphsOriginal.@methodBodyContains"; } }
 		public override GRGEN_LIBGR.Directedness Directedness { get { return GRGEN_LIBGR.Directedness.Directed; } }
 		public override GRGEN_LIBGR.IEdge CreateEdge(GRGEN_LIBGR.INode source, GRGEN_LIBGR.INode target)
 		{
-			return new GRGEN_MODEL.@containedInClass((GRGEN_LGSP.LGSPNode) source, (GRGEN_LGSP.LGSPNode) target);
+			return new GRGEN_MODEL.@methodBodyContains((GRGEN_LGSP.LGSPNode) source, (GRGEN_LGSP.LGSPNode) target);
 		}
 		public override bool IsAbstract { get { return false; } }
 		public override bool IsConst { get { return false; } }
+		public override IEnumerable<KeyValuePair<string, string>> Annotations { get { return annotations; } }
+		public IDictionary<string, string> annotations = new Dictionary<string, string>();
 		public override int NumAttributes { get { return 0; } }
 		public override IEnumerable<GRGEN_LIBGR.AttributeType> AttributeTypes { get { yield break; } }
 		public override GRGEN_LIBGR.AttributeType GetAttributeType(string name) { return null; }
@@ -2619,74 +2663,79 @@ namespace de.unika.ipd.grGen.Model_ProgramGraphs
 		}
 		public override GRGEN_LIBGR.IEdge CreateEdgeWithCopyCommons(GRGEN_LIBGR.INode source, GRGEN_LIBGR.INode target, GRGEN_LIBGR.IEdge oldIEdge)
 		{
-			return new GRGEN_MODEL.@containedInClass((GRGEN_LGSP.LGSPNode) source, (GRGEN_LGSP.LGSPNode) target);
+			return new GRGEN_MODEL.@methodBodyContains((GRGEN_LGSP.LGSPNode) source, (GRGEN_LGSP.LGSPNode) target);
 		}
 
 	}
 
-	// *** Edge containedInMethodBody ***
+	// *** Edge classContainsClass ***
 
-	public interface IcontainedInMethodBody : GRGEN_LIBGR.IEdge
+	public interface IclassContainsClass : Icontains
 	{
 	}
 
-	public sealed class @containedInMethodBody : GRGEN_LGSP.LGSPEdge, GRGEN_MODEL.IcontainedInMethodBody
+	public sealed class @classContainsClass : GRGEN_LGSP.LGSPEdge, GRGEN_MODEL.IclassContainsClass
 	{
 		private static int poolLevel = 0;
-		private static GRGEN_MODEL.@containedInMethodBody[] pool = new GRGEN_MODEL.@containedInMethodBody[10];
+		private static GRGEN_MODEL.@classContainsClass[] pool = new GRGEN_MODEL.@classContainsClass[10];
 		
-		// explicit initializations of containedInMethodBody for target containedInMethodBody
-		// implicit initializations of containedInMethodBody for target containedInMethodBody
-		static @containedInMethodBody() {
+		// explicit initializations of contains for target classContainsClass
+		// implicit initializations of contains for target classContainsClass
+		// explicit initializations of classContainsClass for target classContainsClass
+		// implicit initializations of classContainsClass for target classContainsClass
+		static @classContainsClass() {
 		}
 		
-		public @containedInMethodBody(GRGEN_LGSP.LGSPNode source, GRGEN_LGSP.LGSPNode target)
-			: base(GRGEN_MODEL.EdgeType_containedInMethodBody.typeVar, source, target)
+		public @classContainsClass(GRGEN_LGSP.LGSPNode source, GRGEN_LGSP.LGSPNode target)
+			: base(GRGEN_MODEL.EdgeType_classContainsClass.typeVar, source, target)
 		{
-			// implicit initialization, map/set creation of containedInMethodBody
-			// explicit initializations of containedInMethodBody for target containedInMethodBody
+			// implicit initialization, map/set creation of classContainsClass
+			// explicit initializations of contains for target classContainsClass
+			// explicit initializations of classContainsClass for target classContainsClass
 		}
 
-		public static GRGEN_MODEL.EdgeType_containedInMethodBody TypeInstance { get { return GRGEN_MODEL.EdgeType_containedInMethodBody.typeVar; } }
+		public static GRGEN_MODEL.EdgeType_classContainsClass TypeInstance { get { return GRGEN_MODEL.EdgeType_classContainsClass.typeVar; } }
 
 		public override GRGEN_LIBGR.IEdge Clone(GRGEN_LIBGR.INode newSource, GRGEN_LIBGR.INode newTarget)
-		{ return new GRGEN_MODEL.@containedInMethodBody(this, (GRGEN_LGSP.LGSPNode) newSource, (GRGEN_LGSP.LGSPNode) newTarget); }
+		{ return new GRGEN_MODEL.@classContainsClass(this, (GRGEN_LGSP.LGSPNode) newSource, (GRGEN_LGSP.LGSPNode) newTarget); }
 
-		private @containedInMethodBody(GRGEN_MODEL.@containedInMethodBody oldElem, GRGEN_LGSP.LGSPNode newSource, GRGEN_LGSP.LGSPNode newTarget)
-			: base(GRGEN_MODEL.EdgeType_containedInMethodBody.typeVar, newSource, newTarget)
+		private @classContainsClass(GRGEN_MODEL.@classContainsClass oldElem, GRGEN_LGSP.LGSPNode newSource, GRGEN_LGSP.LGSPNode newTarget)
+			: base(GRGEN_MODEL.EdgeType_classContainsClass.typeVar, newSource, newTarget)
 		{
 		}
-		public static GRGEN_MODEL.@containedInMethodBody CreateEdge(GRGEN_LGSP.LGSPGraph graph, GRGEN_LGSP.LGSPNode source, GRGEN_LGSP.LGSPNode target)
+		public static GRGEN_MODEL.@classContainsClass CreateEdge(GRGEN_LGSP.LGSPGraph graph, GRGEN_LGSP.LGSPNode source, GRGEN_LGSP.LGSPNode target)
 		{
-			GRGEN_MODEL.@containedInMethodBody edge;
+			GRGEN_MODEL.@classContainsClass edge;
 			if(poolLevel == 0)
-				edge = new GRGEN_MODEL.@containedInMethodBody(source, target);
+				edge = new GRGEN_MODEL.@classContainsClass(source, target);
 			else
 			{
 				edge = pool[--poolLevel];
 				edge.lgspFlags &= ~(uint) GRGEN_LGSP.LGSPElemFlags.HAS_VARIABLES;
 				edge.lgspSource = source;
 				edge.lgspTarget = target;
-				// implicit initialization, map/set creation of containedInMethodBody
-				// explicit initializations of containedInMethodBody for target containedInMethodBody
+				// implicit initialization, map/set creation of classContainsClass
+				// explicit initializations of contains for target classContainsClass
+				// explicit initializations of classContainsClass for target classContainsClass
 			}
 			graph.AddEdge(edge);
 			return edge;
 		}
 
-		public static GRGEN_MODEL.@containedInMethodBody CreateEdge(GRGEN_LGSP.LGSPGraph graph, GRGEN_LGSP.LGSPNode source, GRGEN_LGSP.LGSPNode target, string varName)
+		public static GRGEN_MODEL.@classContainsClass CreateEdge(GRGEN_LGSP.LGSPGraph graph, GRGEN_LGSP.LGSPNode source, GRGEN_LGSP.LGSPNode target, string varName)
 		{
-			GRGEN_MODEL.@containedInMethodBody edge;
+			GRGEN_MODEL.@classContainsClass edge;
 			if(poolLevel == 0)
-				edge = new GRGEN_MODEL.@containedInMethodBody(source, target);
+				edge = new GRGEN_MODEL.@classContainsClass(source, target);
 			else
 			{
 				edge = pool[--poolLevel];
 				edge.lgspFlags &= ~(uint) GRGEN_LGSP.LGSPElemFlags.HAS_VARIABLES;
 				edge.lgspSource = source;
 				edge.lgspTarget = target;
-				// implicit initialization, map/set creation of containedInMethodBody
-				// explicit initializations of containedInMethodBody for target containedInMethodBody
+				// implicit initialization, map/set creation of classContainsClass
+				// explicit initializations of contains for target classContainsClass
+				// explicit initializations of classContainsClass for target classContainsClass
 			}
 			graph.AddEdge(edge, varName);
 			return edge;
@@ -2701,38 +2750,41 @@ namespace de.unika.ipd.grGen.Model_ProgramGraphs
 		public override object GetAttribute(string attrName)
 		{
 			throw new NullReferenceException(
-				"The edge type \"containedInMethodBody\" does not have the attribute \" + attrName + \"\"!");
+				"The edge type \"classContainsClass\" does not have the attribute \" + attrName + \"\"!");
 		}
 		public override void SetAttribute(string attrName, object value)
 		{
 			throw new NullReferenceException(
-				"The edge type \"containedInMethodBody\" does not have the attribute \" + attrName + \"\"!");
+				"The edge type \"classContainsClass\" does not have the attribute \" + attrName + \"\"!");
 		}
 		public override void ResetAllAttributes()
 		{
-			// implicit initialization, map/set creation of containedInMethodBody
-			// explicit initializations of containedInMethodBody for target containedInMethodBody
+			// implicit initialization, map/set creation of classContainsClass
+			// explicit initializations of contains for target classContainsClass
+			// explicit initializations of classContainsClass for target classContainsClass
 		}
 	}
 
-	public sealed class EdgeType_containedInMethodBody : GRGEN_LIBGR.EdgeType
+	public sealed class EdgeType_classContainsClass : GRGEN_LIBGR.EdgeType
 	{
-		public static GRGEN_MODEL.EdgeType_containedInMethodBody typeVar = new GRGEN_MODEL.EdgeType_containedInMethodBody();
-		public static bool[] isA = new bool[] { true, true, false, false, false, false, false, false, false, false, false, true, };
+		public static GRGEN_MODEL.EdgeType_classContainsClass typeVar = new GRGEN_MODEL.EdgeType_classContainsClass();
+		public static bool[] isA = new bool[] { true, true, false, true, false, false, false, false, false, false, false, true, };
 		public static bool[] isMyType = new bool[] { false, false, false, false, false, false, false, false, false, false, false, true, };
-		public EdgeType_containedInMethodBody() : base((int) EdgeTypes.@containedInMethodBody)
+		public EdgeType_classContainsClass() : base((int) EdgeTypes.@classContainsClass)
 		{
 		}
-		public override string Name { get { return "containedInMethodBody"; } }
-		public override string EdgeInterfaceName { get { return "de.unika.ipd.grGen.Model_ProgramGraphs.IcontainedInMethodBody"; } }
-		public override string EdgeClassName { get { return "de.unika.ipd.grGen.Model_ProgramGraphs.@containedInMethodBody"; } }
+		public override string Name { get { return "classContainsClass"; } }
+		public override string EdgeInterfaceName { get { return "de.unika.ipd.grGen.Model_ProgramGraphsOriginal.IclassContainsClass"; } }
+		public override string EdgeClassName { get { return "de.unika.ipd.grGen.Model_ProgramGraphsOriginal.@classContainsClass"; } }
 		public override GRGEN_LIBGR.Directedness Directedness { get { return GRGEN_LIBGR.Directedness.Directed; } }
 		public override GRGEN_LIBGR.IEdge CreateEdge(GRGEN_LIBGR.INode source, GRGEN_LIBGR.INode target)
 		{
-			return new GRGEN_MODEL.@containedInMethodBody((GRGEN_LGSP.LGSPNode) source, (GRGEN_LGSP.LGSPNode) target);
+			return new GRGEN_MODEL.@classContainsClass((GRGEN_LGSP.LGSPNode) source, (GRGEN_LGSP.LGSPNode) target);
 		}
 		public override bool IsAbstract { get { return false; } }
 		public override bool IsConst { get { return false; } }
+		public override IEnumerable<KeyValuePair<string, string>> Annotations { get { return annotations; } }
+		public IDictionary<string, string> annotations = new Dictionary<string, string>();
 		public override int NumAttributes { get { return 0; } }
 		public override IEnumerable<GRGEN_LIBGR.AttributeType> AttributeTypes { get { yield break; } }
 		public override GRGEN_LIBGR.AttributeType GetAttributeType(string name) { return null; }
@@ -2742,7 +2794,7 @@ namespace de.unika.ipd.grGen.Model_ProgramGraphs
 		}
 		public override GRGEN_LIBGR.IEdge CreateEdgeWithCopyCommons(GRGEN_LIBGR.INode source, GRGEN_LIBGR.INode target, GRGEN_LIBGR.IEdge oldIEdge)
 		{
-			return new GRGEN_MODEL.@containedInMethodBody((GRGEN_LGSP.LGSPNode) source, (GRGEN_LGSP.LGSPNode) target);
+			return new GRGEN_MODEL.@classContainsClass((GRGEN_LGSP.LGSPNode) source, (GRGEN_LGSP.LGSPNode) target);
 		}
 
 	}
@@ -2751,9 +2803,9 @@ namespace de.unika.ipd.grGen.Model_ProgramGraphs
 	// Edge model
 	//
 
-	public sealed class ProgramGraphsEdgeModel : GRGEN_LIBGR.IEdgeModel
+	public sealed class ProgramGraphsOriginalEdgeModel : GRGEN_LIBGR.IEdgeModel
 	{
-		public ProgramGraphsEdgeModel()
+		public ProgramGraphsOriginalEdgeModel()
 		{
 			GRGEN_MODEL.EdgeType_AEdge.typeVar.subOrSameGrGenTypes = GRGEN_MODEL.EdgeType_AEdge.typeVar.subOrSameTypes = new GRGEN_LIBGR.EdgeType[] {
 				GRGEN_MODEL.EdgeType_AEdge.typeVar,
@@ -2766,8 +2818,8 @@ namespace de.unika.ipd.grGen.Model_ProgramGraphs
 				GRGEN_MODEL.EdgeType_uses.typeVar,
 				GRGEN_MODEL.EdgeType_writesTo.typeVar,
 				GRGEN_MODEL.EdgeType_calls.typeVar,
-				GRGEN_MODEL.EdgeType_containedInClass.typeVar,
-				GRGEN_MODEL.EdgeType_containedInMethodBody.typeVar,
+				GRGEN_MODEL.EdgeType_methodBodyContains.typeVar,
+				GRGEN_MODEL.EdgeType_classContainsClass.typeVar,
 			};
 			GRGEN_MODEL.EdgeType_AEdge.typeVar.directSubGrGenTypes = GRGEN_MODEL.EdgeType_AEdge.typeVar.directSubTypes = new GRGEN_LIBGR.EdgeType[] {
 				GRGEN_MODEL.EdgeType_Edge.typeVar,
@@ -2787,14 +2839,13 @@ namespace de.unika.ipd.grGen.Model_ProgramGraphs
 				GRGEN_MODEL.EdgeType_uses.typeVar,
 				GRGEN_MODEL.EdgeType_writesTo.typeVar,
 				GRGEN_MODEL.EdgeType_calls.typeVar,
-				GRGEN_MODEL.EdgeType_containedInClass.typeVar,
-				GRGEN_MODEL.EdgeType_containedInMethodBody.typeVar,
+				GRGEN_MODEL.EdgeType_methodBodyContains.typeVar,
+				GRGEN_MODEL.EdgeType_classContainsClass.typeVar,
 			};
 			GRGEN_MODEL.EdgeType_Edge.typeVar.directSubGrGenTypes = GRGEN_MODEL.EdgeType_Edge.typeVar.directSubTypes = new GRGEN_LIBGR.EdgeType[] {
 				GRGEN_MODEL.EdgeType_contains.typeVar,
 				GRGEN_MODEL.EdgeType_references.typeVar,
-				GRGEN_MODEL.EdgeType_containedInClass.typeVar,
-				GRGEN_MODEL.EdgeType_containedInMethodBody.typeVar,
+				GRGEN_MODEL.EdgeType_methodBodyContains.typeVar,
 			};
 			GRGEN_MODEL.EdgeType_Edge.typeVar.superOrSameGrGenTypes = GRGEN_MODEL.EdgeType_Edge.typeVar.superOrSameTypes = new GRGEN_LIBGR.EdgeType[] {
 				GRGEN_MODEL.EdgeType_Edge.typeVar,
@@ -2817,8 +2868,10 @@ namespace de.unika.ipd.grGen.Model_ProgramGraphs
 			};
 			GRGEN_MODEL.EdgeType_contains.typeVar.subOrSameGrGenTypes = GRGEN_MODEL.EdgeType_contains.typeVar.subOrSameTypes = new GRGEN_LIBGR.EdgeType[] {
 				GRGEN_MODEL.EdgeType_contains.typeVar,
+				GRGEN_MODEL.EdgeType_classContainsClass.typeVar,
 			};
 			GRGEN_MODEL.EdgeType_contains.typeVar.directSubGrGenTypes = GRGEN_MODEL.EdgeType_contains.typeVar.directSubTypes = new GRGEN_LIBGR.EdgeType[] {
+				GRGEN_MODEL.EdgeType_classContainsClass.typeVar,
 			};
 			GRGEN_MODEL.EdgeType_contains.typeVar.superOrSameGrGenTypes = GRGEN_MODEL.EdgeType_contains.typeVar.superOrSameTypes = new GRGEN_LIBGR.EdgeType[] {
 				GRGEN_MODEL.EdgeType_contains.typeVar,
@@ -2921,31 +2974,32 @@ namespace de.unika.ipd.grGen.Model_ProgramGraphs
 			GRGEN_MODEL.EdgeType_calls.typeVar.directSuperGrGenTypes = GRGEN_MODEL.EdgeType_calls.typeVar.directSuperTypes = new GRGEN_LIBGR.EdgeType[] {
 				GRGEN_MODEL.EdgeType_references.typeVar,
 			};
-			GRGEN_MODEL.EdgeType_containedInClass.typeVar.subOrSameGrGenTypes = GRGEN_MODEL.EdgeType_containedInClass.typeVar.subOrSameTypes = new GRGEN_LIBGR.EdgeType[] {
-				GRGEN_MODEL.EdgeType_containedInClass.typeVar,
+			GRGEN_MODEL.EdgeType_methodBodyContains.typeVar.subOrSameGrGenTypes = GRGEN_MODEL.EdgeType_methodBodyContains.typeVar.subOrSameTypes = new GRGEN_LIBGR.EdgeType[] {
+				GRGEN_MODEL.EdgeType_methodBodyContains.typeVar,
 			};
-			GRGEN_MODEL.EdgeType_containedInClass.typeVar.directSubGrGenTypes = GRGEN_MODEL.EdgeType_containedInClass.typeVar.directSubTypes = new GRGEN_LIBGR.EdgeType[] {
+			GRGEN_MODEL.EdgeType_methodBodyContains.typeVar.directSubGrGenTypes = GRGEN_MODEL.EdgeType_methodBodyContains.typeVar.directSubTypes = new GRGEN_LIBGR.EdgeType[] {
 			};
-			GRGEN_MODEL.EdgeType_containedInClass.typeVar.superOrSameGrGenTypes = GRGEN_MODEL.EdgeType_containedInClass.typeVar.superOrSameTypes = new GRGEN_LIBGR.EdgeType[] {
-				GRGEN_MODEL.EdgeType_containedInClass.typeVar,
+			GRGEN_MODEL.EdgeType_methodBodyContains.typeVar.superOrSameGrGenTypes = GRGEN_MODEL.EdgeType_methodBodyContains.typeVar.superOrSameTypes = new GRGEN_LIBGR.EdgeType[] {
+				GRGEN_MODEL.EdgeType_methodBodyContains.typeVar,
 				GRGEN_MODEL.EdgeType_AEdge.typeVar,
 				GRGEN_MODEL.EdgeType_Edge.typeVar,
 			};
-			GRGEN_MODEL.EdgeType_containedInClass.typeVar.directSuperGrGenTypes = GRGEN_MODEL.EdgeType_containedInClass.typeVar.directSuperTypes = new GRGEN_LIBGR.EdgeType[] {
+			GRGEN_MODEL.EdgeType_methodBodyContains.typeVar.directSuperGrGenTypes = GRGEN_MODEL.EdgeType_methodBodyContains.typeVar.directSuperTypes = new GRGEN_LIBGR.EdgeType[] {
 				GRGEN_MODEL.EdgeType_Edge.typeVar,
 			};
-			GRGEN_MODEL.EdgeType_containedInMethodBody.typeVar.subOrSameGrGenTypes = GRGEN_MODEL.EdgeType_containedInMethodBody.typeVar.subOrSameTypes = new GRGEN_LIBGR.EdgeType[] {
-				GRGEN_MODEL.EdgeType_containedInMethodBody.typeVar,
+			GRGEN_MODEL.EdgeType_classContainsClass.typeVar.subOrSameGrGenTypes = GRGEN_MODEL.EdgeType_classContainsClass.typeVar.subOrSameTypes = new GRGEN_LIBGR.EdgeType[] {
+				GRGEN_MODEL.EdgeType_classContainsClass.typeVar,
 			};
-			GRGEN_MODEL.EdgeType_containedInMethodBody.typeVar.directSubGrGenTypes = GRGEN_MODEL.EdgeType_containedInMethodBody.typeVar.directSubTypes = new GRGEN_LIBGR.EdgeType[] {
+			GRGEN_MODEL.EdgeType_classContainsClass.typeVar.directSubGrGenTypes = GRGEN_MODEL.EdgeType_classContainsClass.typeVar.directSubTypes = new GRGEN_LIBGR.EdgeType[] {
 			};
-			GRGEN_MODEL.EdgeType_containedInMethodBody.typeVar.superOrSameGrGenTypes = GRGEN_MODEL.EdgeType_containedInMethodBody.typeVar.superOrSameTypes = new GRGEN_LIBGR.EdgeType[] {
-				GRGEN_MODEL.EdgeType_containedInMethodBody.typeVar,
+			GRGEN_MODEL.EdgeType_classContainsClass.typeVar.superOrSameGrGenTypes = GRGEN_MODEL.EdgeType_classContainsClass.typeVar.superOrSameTypes = new GRGEN_LIBGR.EdgeType[] {
+				GRGEN_MODEL.EdgeType_classContainsClass.typeVar,
 				GRGEN_MODEL.EdgeType_AEdge.typeVar,
 				GRGEN_MODEL.EdgeType_Edge.typeVar,
+				GRGEN_MODEL.EdgeType_contains.typeVar,
 			};
-			GRGEN_MODEL.EdgeType_containedInMethodBody.typeVar.directSuperGrGenTypes = GRGEN_MODEL.EdgeType_containedInMethodBody.typeVar.directSuperTypes = new GRGEN_LIBGR.EdgeType[] {
-				GRGEN_MODEL.EdgeType_Edge.typeVar,
+			GRGEN_MODEL.EdgeType_classContainsClass.typeVar.directSuperGrGenTypes = GRGEN_MODEL.EdgeType_classContainsClass.typeVar.directSuperTypes = new GRGEN_LIBGR.EdgeType[] {
+				GRGEN_MODEL.EdgeType_contains.typeVar,
 			};
 		}
 		public bool IsNodeModel { get { return false; } }
@@ -2965,8 +3019,8 @@ namespace de.unika.ipd.grGen.Model_ProgramGraphs
 				case "uses" : return GRGEN_MODEL.EdgeType_uses.typeVar;
 				case "writesTo" : return GRGEN_MODEL.EdgeType_writesTo.typeVar;
 				case "calls" : return GRGEN_MODEL.EdgeType_calls.typeVar;
-				case "containedInClass" : return GRGEN_MODEL.EdgeType_containedInClass.typeVar;
-				case "containedInMethodBody" : return GRGEN_MODEL.EdgeType_containedInMethodBody.typeVar;
+				case "methodBodyContains" : return GRGEN_MODEL.EdgeType_methodBodyContains.typeVar;
+				case "classContainsClass" : return GRGEN_MODEL.EdgeType_classContainsClass.typeVar;
 			}
 			return null;
 		}
@@ -2985,8 +3039,8 @@ namespace de.unika.ipd.grGen.Model_ProgramGraphs
 			GRGEN_MODEL.EdgeType_uses.typeVar,
 			GRGEN_MODEL.EdgeType_writesTo.typeVar,
 			GRGEN_MODEL.EdgeType_calls.typeVar,
-			GRGEN_MODEL.EdgeType_containedInClass.typeVar,
-			GRGEN_MODEL.EdgeType_containedInMethodBody.typeVar,
+			GRGEN_MODEL.EdgeType_methodBodyContains.typeVar,
+			GRGEN_MODEL.EdgeType_classContainsClass.typeVar,
 		};
 		public GRGEN_LIBGR.EdgeType[] Types { get { return types; } }
 		GRGEN_LIBGR.GrGenType[] GRGEN_LIBGR.ITypeModel.Types { get { return types; } }
@@ -3001,8 +3055,8 @@ namespace de.unika.ipd.grGen.Model_ProgramGraphs
 			typeof(GRGEN_MODEL.EdgeType_uses),
 			typeof(GRGEN_MODEL.EdgeType_writesTo),
 			typeof(GRGEN_MODEL.EdgeType_calls),
-			typeof(GRGEN_MODEL.EdgeType_containedInClass),
-			typeof(GRGEN_MODEL.EdgeType_containedInMethodBody),
+			typeof(GRGEN_MODEL.EdgeType_methodBodyContains),
+			typeof(GRGEN_MODEL.EdgeType_classContainsClass),
 		};
 		public System.Type[] TypeTypes { get { return typeTypes; } }
 		private GRGEN_LIBGR.AttributeType[] attributeTypes = {
@@ -3013,36 +3067,39 @@ namespace de.unika.ipd.grGen.Model_ProgramGraphs
 	//
 	// IGraphModel implementation
 	//
-	public sealed class ProgramGraphsGraphModel : GRGEN_LIBGR.IGraphModel
+	public sealed class ProgramGraphsOriginalGraphModel : GRGEN_LIBGR.IGraphModel
 	{
-		private ProgramGraphsNodeModel nodeModel = new ProgramGraphsNodeModel();
-		private ProgramGraphsEdgeModel edgeModel = new ProgramGraphsEdgeModel();
+		private ProgramGraphsOriginalNodeModel nodeModel = new ProgramGraphsOriginalNodeModel();
+		private ProgramGraphsOriginalEdgeModel edgeModel = new ProgramGraphsOriginalEdgeModel();
 		private GRGEN_LIBGR.ValidateInfo[] validateInfos = {
-			new GRGEN_LIBGR.ValidateInfo(GRGEN_MODEL.EdgeType_contains.typeVar, GRGEN_MODEL.NodeType_Entity.typeVar, GRGEN_MODEL.NodeType_Entity.typeVar, 0, 1, 1, 2147483647, false),
-			new GRGEN_LIBGR.ValidateInfo(GRGEN_MODEL.EdgeType_references.typeVar, GRGEN_MODEL.NodeType_Entity.typeVar, GRGEN_MODEL.NodeType_Declaration.typeVar, 0, 1, 1, 2147483647, false),
-			new GRGEN_LIBGR.ValidateInfo(GRGEN_MODEL.EdgeType_hasType.typeVar, GRGEN_MODEL.NodeType_Feature.typeVar, GRGEN_MODEL.NodeType_Class.typeVar, 0, 2147483647, 1, 2147483647, false),
-			new GRGEN_LIBGR.ValidateInfo(GRGEN_MODEL.EdgeType_bindsTo.typeVar, GRGEN_MODEL.NodeType_MethodBody.typeVar, GRGEN_MODEL.NodeType_MethodSignature.typeVar, 0, 1, 1, 2147483647, false),
-			new GRGEN_LIBGR.ValidateInfo(GRGEN_MODEL.EdgeType_uses.typeVar, GRGEN_MODEL.NodeType_Expression.typeVar, GRGEN_MODEL.NodeType_Attribute.typeVar, 0, 1, 1, 2147483647, false),
-			new GRGEN_LIBGR.ValidateInfo(GRGEN_MODEL.EdgeType_writesTo.typeVar, GRGEN_MODEL.NodeType_Expression.typeVar, GRGEN_MODEL.NodeType_Variabel.typeVar, 0, 1, 1, 2147483647, false),
-			new GRGEN_LIBGR.ValidateInfo(GRGEN_MODEL.EdgeType_calls.typeVar, GRGEN_MODEL.NodeType_Expression.typeVar, GRGEN_MODEL.NodeType_MethodSignature.typeVar, 0, 1, 1, 2147483647, false),
+			new GRGEN_LIBGR.ValidateInfo(GRGEN_MODEL.EdgeType_contains.typeVar, GRGEN_MODEL.NodeType_Entity.typeVar, GRGEN_MODEL.NodeType_Entity.typeVar, 0, 2147483647, 0, 1, false),
+			new GRGEN_LIBGR.ValidateInfo(GRGEN_MODEL.EdgeType_references.typeVar, GRGEN_MODEL.NodeType_Entity.typeVar, GRGEN_MODEL.NodeType_Declaration.typeVar, 0, 2147483647, 0, 2147483647, false),
+			new GRGEN_LIBGR.ValidateInfo(GRGEN_MODEL.EdgeType_hasType.typeVar, GRGEN_MODEL.NodeType_Feature.typeVar, GRGEN_MODEL.NodeType_Class.typeVar, 0, 1, 0, 2147483647, false),
+			new GRGEN_LIBGR.ValidateInfo(GRGEN_MODEL.EdgeType_hasType.typeVar, GRGEN_MODEL.NodeType_Attribute.typeVar, GRGEN_MODEL.NodeType_Class.typeVar, 1, 1, 0, 2147483647, false),
+			new GRGEN_LIBGR.ValidateInfo(GRGEN_MODEL.EdgeType_bindsTo.typeVar, GRGEN_MODEL.NodeType_MethodBody.typeVar, GRGEN_MODEL.NodeType_MethodSignature.typeVar, 0, 1, 0, 2147483647, false),
+			new GRGEN_LIBGR.ValidateInfo(GRGEN_MODEL.EdgeType_uses.typeVar, GRGEN_MODEL.NodeType_Expression.typeVar, GRGEN_MODEL.NodeType_Attribute.typeVar, 0, 1, 0, 2147483647, false),
+			new GRGEN_LIBGR.ValidateInfo(GRGEN_MODEL.EdgeType_writesTo.typeVar, GRGEN_MODEL.NodeType_Expression.typeVar, GRGEN_MODEL.NodeType_Variabel.typeVar, 0, 1, 0, 2147483647, false),
+			new GRGEN_LIBGR.ValidateInfo(GRGEN_MODEL.EdgeType_calls.typeVar, GRGEN_MODEL.NodeType_Expression.typeVar, GRGEN_MODEL.NodeType_MethodSignature.typeVar, 0, 1, 0, 2147483647, false),
+			new GRGEN_LIBGR.ValidateInfo(GRGEN_MODEL.EdgeType_methodBodyContains.typeVar, GRGEN_MODEL.NodeType_MethodBody.typeVar, GRGEN_MODEL.NodeType_Entity.typeVar, 0, 2147483647, 0, 1, false),
+			new GRGEN_LIBGR.ValidateInfo(GRGEN_MODEL.EdgeType_classContainsClass.typeVar, GRGEN_MODEL.NodeType_Class.typeVar, GRGEN_MODEL.NodeType_Class.typeVar, 0, 2147483647, 0, 1, false),
 		};
 		private GRGEN_LIBGR.EnumAttributeType[] enumAttributeTypes = {
 		};
 
-		public string ModelName { get { return "ProgramGraphs"; } }
+		public string ModelName { get { return "ProgramGraphsOriginal"; } }
 		public GRGEN_LIBGR.INodeModel NodeModel { get { return nodeModel; } }
 		public GRGEN_LIBGR.IEdgeModel EdgeModel { get { return edgeModel; } }
 		public IEnumerable<GRGEN_LIBGR.ValidateInfo> ValidateInfo { get { return validateInfos; } }
 		public IEnumerable<GRGEN_LIBGR.EnumAttributeType> EnumAttributeTypes { get { return enumAttributeTypes; } }
-		public string MD5Hash { get { return "8324e77cfaf219d10e3090c2e3dc81db"; } }
+		public string MD5Hash { get { return "367e59eecca3afadcdac0347954e2ede"; } }
 	}
 
 	//
 	// IGraph/IGraphModel implementation
 	//
-	public class ProgramGraphsGraph : GRGEN_LGSP.LGSPGraph, GRGEN_LIBGR.IGraphModel
+	public class ProgramGraphsOriginalGraph : GRGEN_LGSP.LGSPGraph, GRGEN_LIBGR.IGraphModel
 	{
-		public ProgramGraphsGraph() : base(GetNextGraphName())
+		public ProgramGraphsOriginalGraph() : base(GetNextGraphName())
 		{
 			InitializeGraph(this);
 		}
@@ -3207,45 +3264,48 @@ namespace de.unika.ipd.grGen.Model_ProgramGraphs
 			return @GRGEN_MODEL.@calls.CreateEdge(this, source, target, varName);
 		}
 
-		public @GRGEN_MODEL.@containedInClass CreateEdgecontainedInClass(GRGEN_LGSP.LGSPNode source, GRGEN_LGSP.LGSPNode target)
+		public @GRGEN_MODEL.@methodBodyContains CreateEdgemethodBodyContains(GRGEN_LGSP.LGSPNode source, GRGEN_LGSP.LGSPNode target)
 		{
-			return @GRGEN_MODEL.@containedInClass.CreateEdge(this, source, target);
+			return @GRGEN_MODEL.@methodBodyContains.CreateEdge(this, source, target);
 		}
 
-		public @GRGEN_MODEL.@containedInClass CreateEdgecontainedInClass(GRGEN_LGSP.LGSPNode source, GRGEN_LGSP.LGSPNode target, string varName)
+		public @GRGEN_MODEL.@methodBodyContains CreateEdgemethodBodyContains(GRGEN_LGSP.LGSPNode source, GRGEN_LGSP.LGSPNode target, string varName)
 		{
-			return @GRGEN_MODEL.@containedInClass.CreateEdge(this, source, target, varName);
+			return @GRGEN_MODEL.@methodBodyContains.CreateEdge(this, source, target, varName);
 		}
 
-		public @GRGEN_MODEL.@containedInMethodBody CreateEdgecontainedInMethodBody(GRGEN_LGSP.LGSPNode source, GRGEN_LGSP.LGSPNode target)
+		public @GRGEN_MODEL.@classContainsClass CreateEdgeclassContainsClass(GRGEN_LGSP.LGSPNode source, GRGEN_LGSP.LGSPNode target)
 		{
-			return @GRGEN_MODEL.@containedInMethodBody.CreateEdge(this, source, target);
+			return @GRGEN_MODEL.@classContainsClass.CreateEdge(this, source, target);
 		}
 
-		public @GRGEN_MODEL.@containedInMethodBody CreateEdgecontainedInMethodBody(GRGEN_LGSP.LGSPNode source, GRGEN_LGSP.LGSPNode target, string varName)
+		public @GRGEN_MODEL.@classContainsClass CreateEdgeclassContainsClass(GRGEN_LGSP.LGSPNode source, GRGEN_LGSP.LGSPNode target, string varName)
 		{
-			return @GRGEN_MODEL.@containedInMethodBody.CreateEdge(this, source, target, varName);
+			return @GRGEN_MODEL.@classContainsClass.CreateEdge(this, source, target, varName);
 		}
 
-		private ProgramGraphsNodeModel nodeModel = new ProgramGraphsNodeModel();
-		private ProgramGraphsEdgeModel edgeModel = new ProgramGraphsEdgeModel();
+		private ProgramGraphsOriginalNodeModel nodeModel = new ProgramGraphsOriginalNodeModel();
+		private ProgramGraphsOriginalEdgeModel edgeModel = new ProgramGraphsOriginalEdgeModel();
 		private GRGEN_LIBGR.ValidateInfo[] validateInfos = {
-			new GRGEN_LIBGR.ValidateInfo(GRGEN_MODEL.EdgeType_contains.typeVar, GRGEN_MODEL.NodeType_Entity.typeVar, GRGEN_MODEL.NodeType_Entity.typeVar, 0, 1, 1, 2147483647, false),
-			new GRGEN_LIBGR.ValidateInfo(GRGEN_MODEL.EdgeType_references.typeVar, GRGEN_MODEL.NodeType_Entity.typeVar, GRGEN_MODEL.NodeType_Declaration.typeVar, 0, 1, 1, 2147483647, false),
-			new GRGEN_LIBGR.ValidateInfo(GRGEN_MODEL.EdgeType_hasType.typeVar, GRGEN_MODEL.NodeType_Feature.typeVar, GRGEN_MODEL.NodeType_Class.typeVar, 0, 2147483647, 1, 2147483647, false),
-			new GRGEN_LIBGR.ValidateInfo(GRGEN_MODEL.EdgeType_bindsTo.typeVar, GRGEN_MODEL.NodeType_MethodBody.typeVar, GRGEN_MODEL.NodeType_MethodSignature.typeVar, 0, 1, 1, 2147483647, false),
-			new GRGEN_LIBGR.ValidateInfo(GRGEN_MODEL.EdgeType_uses.typeVar, GRGEN_MODEL.NodeType_Expression.typeVar, GRGEN_MODEL.NodeType_Attribute.typeVar, 0, 1, 1, 2147483647, false),
-			new GRGEN_LIBGR.ValidateInfo(GRGEN_MODEL.EdgeType_writesTo.typeVar, GRGEN_MODEL.NodeType_Expression.typeVar, GRGEN_MODEL.NodeType_Variabel.typeVar, 0, 1, 1, 2147483647, false),
-			new GRGEN_LIBGR.ValidateInfo(GRGEN_MODEL.EdgeType_calls.typeVar, GRGEN_MODEL.NodeType_Expression.typeVar, GRGEN_MODEL.NodeType_MethodSignature.typeVar, 0, 1, 1, 2147483647, false),
+			new GRGEN_LIBGR.ValidateInfo(GRGEN_MODEL.EdgeType_contains.typeVar, GRGEN_MODEL.NodeType_Entity.typeVar, GRGEN_MODEL.NodeType_Entity.typeVar, 0, 2147483647, 0, 1, false),
+			new GRGEN_LIBGR.ValidateInfo(GRGEN_MODEL.EdgeType_references.typeVar, GRGEN_MODEL.NodeType_Entity.typeVar, GRGEN_MODEL.NodeType_Declaration.typeVar, 0, 2147483647, 0, 2147483647, false),
+			new GRGEN_LIBGR.ValidateInfo(GRGEN_MODEL.EdgeType_hasType.typeVar, GRGEN_MODEL.NodeType_Feature.typeVar, GRGEN_MODEL.NodeType_Class.typeVar, 0, 1, 0, 2147483647, false),
+			new GRGEN_LIBGR.ValidateInfo(GRGEN_MODEL.EdgeType_hasType.typeVar, GRGEN_MODEL.NodeType_Attribute.typeVar, GRGEN_MODEL.NodeType_Class.typeVar, 1, 1, 0, 2147483647, false),
+			new GRGEN_LIBGR.ValidateInfo(GRGEN_MODEL.EdgeType_bindsTo.typeVar, GRGEN_MODEL.NodeType_MethodBody.typeVar, GRGEN_MODEL.NodeType_MethodSignature.typeVar, 0, 1, 0, 2147483647, false),
+			new GRGEN_LIBGR.ValidateInfo(GRGEN_MODEL.EdgeType_uses.typeVar, GRGEN_MODEL.NodeType_Expression.typeVar, GRGEN_MODEL.NodeType_Attribute.typeVar, 0, 1, 0, 2147483647, false),
+			new GRGEN_LIBGR.ValidateInfo(GRGEN_MODEL.EdgeType_writesTo.typeVar, GRGEN_MODEL.NodeType_Expression.typeVar, GRGEN_MODEL.NodeType_Variabel.typeVar, 0, 1, 0, 2147483647, false),
+			new GRGEN_LIBGR.ValidateInfo(GRGEN_MODEL.EdgeType_calls.typeVar, GRGEN_MODEL.NodeType_Expression.typeVar, GRGEN_MODEL.NodeType_MethodSignature.typeVar, 0, 1, 0, 2147483647, false),
+			new GRGEN_LIBGR.ValidateInfo(GRGEN_MODEL.EdgeType_methodBodyContains.typeVar, GRGEN_MODEL.NodeType_MethodBody.typeVar, GRGEN_MODEL.NodeType_Entity.typeVar, 0, 2147483647, 0, 1, false),
+			new GRGEN_LIBGR.ValidateInfo(GRGEN_MODEL.EdgeType_classContainsClass.typeVar, GRGEN_MODEL.NodeType_Class.typeVar, GRGEN_MODEL.NodeType_Class.typeVar, 0, 2147483647, 0, 1, false),
 		};
 		private GRGEN_LIBGR.EnumAttributeType[] enumAttributeTypes = {
 		};
 
-		public string ModelName { get { return "ProgramGraphs"; } }
+		public string ModelName { get { return "ProgramGraphsOriginal"; } }
 		public GRGEN_LIBGR.INodeModel NodeModel { get { return nodeModel; } }
 		public GRGEN_LIBGR.IEdgeModel EdgeModel { get { return edgeModel; } }
 		public IEnumerable<GRGEN_LIBGR.ValidateInfo> ValidateInfo { get { return validateInfos; } }
 		public IEnumerable<GRGEN_LIBGR.EnumAttributeType> EnumAttributeTypes { get { return enumAttributeTypes; } }
-		public string MD5Hash { get { return "8324e77cfaf219d10e3090c2e3dc81db"; } }
+		public string MD5Hash { get { return "367e59eecca3afadcdac0347954e2ede"; } }
 	}
 }

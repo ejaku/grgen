@@ -1,2 +1,2 @@
-..\..\bin\grgen -keep . ..\..\examples\ProgramGraphs\ProgramGraphs.grg
+..\..\bin\grgen -keep . ..\..\examples\ProgramGraphs\ProgramGraphsOriginal.grg
 @if ERRORLEVEL 1 PAUSE
