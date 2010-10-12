@@ -1,0 +1,36 @@
+// GrGen graph model for Program Graphs as defined in the paper "Adaptive Star Grammars for Graph Models"
+
+// nodes //
+
+abstract node class Entity;
+node class MethodBody extends Entity;
+node class Expression extends Entity;
+abstract node class Declaration extends Entity;
+node class Class extends Declaration;
+abstract node class Feature extends Declaration;
+node class MethodSignature extends Feature;
+abstract node class Attribute extends Feature;
+node class Constant extends Attribute;
+node class Variabel extends Attribute;
+
+// edges //
+
+edge class contains
+	connect Entity --> Entity[0:1];
+edge class references
+	connect Entity --> Declaration;
+edge class hasType extends references
+	connect Feature[0:1] --> Class,
+			Attribute[1] --> Class;
+edge class bindsTo extends references
+	connect MethodBody[0:1] --> MethodSignature;
+edge class uses extends references
+	connect Expression[0:1] --> Attribute;
+edge class writesTo extends references
+	connect Expression[0:1] --> Variabel;
+edge class calls extends references
+	connect Expression[0:1] --> MethodSignature;
+
+// helper edge for nested layout //
+edge class containedInClass;
+edge class containedInMethodBody;

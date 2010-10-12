@@ -1,5 +1,5 @@
 Agri:
-  Agri.grs -> 127
+  Agri.grs -> 255
 AntWorld-GraBaTs08:
   AntWorld_BorderNodes.grs -> 0
   AntWorld_ExtendAtAimless.grs -> 0
@@ -27,7 +27,15 @@ Dragon:
   Dragon.grs -> 0
   DragonDebug.grs -> 0
 FiniteStateMachine:
+  reduced.grs -> 0
   removeEpsilons.grs -> 0
+  removeEpsilons0.grs -> 0
+  removeEpsilons1.grs -> 0
+  removeEpsilons2.grs -> 0
+  removeEpsilons2b.grs -> 0
+  removeEpsilons3.grs -> 0
+  simulate4.grs -> 0
+  simulate5.grs -> 0
 Firm-IFConv:
   IFConv.grs -> 0
 FloweringGeraniumInCrackedPot:
@@ -75,7 +83,21 @@ ProgramComprehension-GraBaTs09:
   task1.grs -> 0
   task2.grs -> 0
 ProgramGraphs:
-  ProgramGraphs.grs -> 0
+  ProgramGraphs0a.grs -> 0
+  ProgramGraphs0b.grs -> 0
+  ProgramGraphs0c.grs -> 0
+  ProgramGraphs0d.grs -> 0
+  ProgramGraphs1a.grs -> 0
+  ProgramGraphs1b.grs -> 255
+  ProgramGraphs2.grs -> 255
+  ProgramGraphs3a.grs -> 255
+  ProgramGraphs3b.grs -> 0
+  ProgramGraphs3c.grs -> 255
+  ProgramGraphs3d.grs -> 255
+  ProgramGraphs4a.grs -> 255
+  ProgramGraphs4b.grs -> 0
+  ProgramGraphsAlongEdges.grs -> 0
+  ProgramGraphsOriginal.grs -> 0
 Recursive:
   Recursive.grs -> 0
   RecursiveReverse.grs -> 0
@@ -106,10 +128,10 @@ Turing3:
 TuringRubino:
   TuringRubino_BB3.grs -> 0
 UML:
-  StateMachine_001.grs -> 127
-  demo_sm.grs -> 127
-  g2x.grs -> 127
-  test.grs -> 127
+  StateMachine_001.grs -> 255
+  demo_sm.grs -> 255
+  g2x.grs -> 255
+  test.grs -> 255
 UML2CSP-GraBaTs09:
   UML2CSP.grs -> 0
 UML2CSP2-GraBaTs08:

@@ -1,6 +1,6 @@
 // shows how to achieve the same as with ProgramGraphsOriginal.grg, but following dangling edges instead of using empty iterated patterns
 
-using ProgramGraphs;
+using ProgramGraphsAlongEdges;
 
 pattern Subclasses(c:Class)
 {
