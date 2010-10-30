@@ -1,0 +1,33 @@
+new graph nestedDeleteRetype/nestedDeleteRetype
+
+new a:A
+
+show num nodes "A"
+
+xgrs dontDeleteInAlternative
+
+show num nodes "A"
+
+xgrs dontDeleteInOptional
+
+show num nodes "A"
+
+xgrs dontDeleteInSubpatternAlternative
+
+show num nodes "A"
+
+xgrs dontDeleteInSubpatternOptional
+
+show num nodes "A"
+
+new b:B
+new a --> b
+show num nodes "A"
+show num nodes "B"
+
+xgrs dontDeleteParameters
+
+show num nodes "A"
+show num nodes "B"
+
+quit

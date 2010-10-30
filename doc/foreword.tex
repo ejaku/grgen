@@ -1,3 +1,38 @@
+\chapter*{Foreword for Release 1.4}
+First of all a word about the term ``graph rewriting''.
+Some would rather say ``graph transformation''; some even think there is a difference between these two.
+We don't see such differences and use graph rewriting for consistency.
+
+The \textsc{GrGen} project started in spring 2003 with the diploma thesis of Sebastian Hack under supervision of Rubino Gei\ss.
+At that time we needed a tool to find patterns in graph based intermediate representations used in compiler construction.
+We imagined a tool that is fast, expressive, and easy to integrate into our compiler infrastructure.
+So far Optimix\cite{assmann00graph} was the only tool that brought together the areas of compiler construction and graph rewriting.
+However its approach is to feature many provable properties of the system per se, such as termination, confluence of derivations, and complete coverage of graphs.
+This is achieved by restricting the expressiveness of the whole formalism below Turing-completeness.
+Our tool \textsc{GrGen} in contrast should be Turing-complete.
+Thus \GrG\ provides the user with strong expressiveness but leaves the task of proving such properties to the user.
+
+To get a prototype quickly, we delegated the costly task of subgraph matching to a relational database system~\cite{Hac:03}.
+Albeit the performance of this implementation could be improved substantially over the years, we believed that there was more to come.
+Inspired by the PhD thesis of Heiko D\"orr~\cite{doerr} we reimplemented our tool to use search plan driven graph pattern matching of its own.
+This matching algorithm evolved over time~\cite{adam,Bat:05:SA,Bat:05:DA,Bat:06,BKG:07} and has been ported from C to C\#~\cite{KG:07,Kro:07}. 
+In the year 2005 Varr\'o~\cite{gramot2005_adapt} independently proposed a similar search plan based approach.
+
+Though we started four years ago to facilitate some compiler construction problems, in the meantime \GrG\ has grown into a general purpose tool for graph rewriting.\\[3ex]
+
+We want to thank all co-workers and students that helped during the design and implementation of \GrG\ as well as the writing of this manual.
+Especially we want to thank Dr.~Sebastian Hack, G.~Veit Batz, Michael Beck, Tom Gelhausen, Moritz Kroll, Dr.~Andreas Ludwig, and Dr.~Markus Noga.
+Finally, all this would not happened without the productive atmosphere and the generous support that Prof.~Goos provides at his chair.\\[3ex]
+
+We wish all readers of the manual---and especially all users of \GrG---a pleasant graph rewrite experience.
+We hope you enjoy using \GrG\ as much as we enjoy developing it.\\[3ex]
+
+Thank you for using \GrG.\\[6ex]
+
+\noindent Karlsruhe in July 2007, Rubino Gei\ss~on behalf of the \GrG-Team
+
+\pagebreak
+
 \chapter*{Foreword}
 
 Since the last version of this manual which was written for \GrG\ v1.4 a lot has happened, 
@@ -42,40 +77,3 @@ via email to \texttt{grgen} at the host given by \texttt{ipd.info.uni-karlsruhe.
 Thank you for using \GrG.\\[2ex]
 
 \noindent Karlsruhe in October 2010, Edgar Jakumeit on behalf of the \GrG-Team
-
-\pagebreak
-
-\chapter*{Foreword for Release 1.4}
-First of all a word about the term ``graph rewriting''.
-Some would rather say ``graph transformation''; some even think there is a difference between these two.
-We don't see such differences and use graph rewriting for consistency.
-
-The \textsc{GrGen} project started in spring 2003 with the diploma thesis of Sebastian Hack under supervision of Rubino Gei\ss.
-At that time we needed a tool to find patterns in graph based intermediate representations used in compiler construction.
-We imagined a tool that is fast, expressive, and easy to integrate into our compiler infrastructure.
-So far Optimix\cite{assmann00graph} was the only tool that brought together the areas of compiler construction and graph rewriting.
-However its approach is to feature many provable properties of the system per se, such as termination, confluence of derivations, and complete coverage of graphs.
-This is achieved by restricting the expressiveness of the whole formalism below Turing-completeness.
-Our tool \textsc{GrGen} in contrast should be Turing-complete.
-Thus \GrG\ provides the user with strong expressiveness but leaves the task of proving such properties to the user.
-
-To get a prototype quickly, we delegated the costly task of subgraph matching to a relational database system~\cite{Hac:03}.
-Albeit the performance of this implementation could be improved substantially over the years, we believed that there was more to come.
-Inspired by the PhD thesis of Heiko D\"orr~\cite{doerr} we reimplemented our tool to use search plan driven graph pattern matching of its own.
-This matching algorithm evolved over time~\cite{adam,Bat:05:SA,Bat:05:DA,Bat:06,BKG:07} and has been ported from C to C\#~\cite{KG:07,Kro:07}. 
-In the year 2005 Varr\'o~\cite{gramot2005_adapt} independently proposed a similar search plan based approach.
-
-Though we started four years ago to facilitate some compiler construction problems, in the meantime \GrG\ has grown into a general purpose tool for graph rewriting.\\[3ex]
-
-We want to thank all co-workers and students that helped during the design and implementation of \GrG\ as well as the writing of this manual.
-Especially we want to thank Dr.~Sebastian Hack, G.~Veit Batz, Michael Beck, Tom Gelhausen, Moritz Kroll, Dr.~Andreas Ludwig, and Dr.~Markus Noga.
-Finally, all this would not happened without the productive atmosphere and the generous support that Prof.~Goos provides at his chair.\\[3ex]
-
-We wish all readers of the manual---and especially all users of \GrG---a pleasant graph rewrite experience.
-We hope you enjoy using \GrG\ as much as we enjoy developing it.\\[3ex]
-
-Thank you for using \GrG.\\[6ex]
-
-\noindent Karlsruhe in July 2007, Rubino Gei\ss~on behalf of the \GrG-Team
-
-

@@ -59,6 +59,9 @@ public class PatternGraph extends Graph {
     /** A set of edges which will be matched homomorphically to any other edge in the pattern.
      *  they appear if they're not referenced within the pattern, but some nested component uses them  */
 	private final HashSet<Edge> homToAllEdges = new HashSet<Edge>();
+	
+	/** A set of the graph elements clearly deleted (in contrast to not mentioned ones) */
+	private final HashSet<GraphEntity> deletedElements = new HashSet<GraphEntity>();
 
 	private List<ImperativeStmt> imperativeStmts = new ArrayList<ImperativeStmt>();
 
@@ -161,6 +164,10 @@ public class PatternGraph extends Graph {
 
 	public void addHomToAll(Edge edge) {
 		homToAllEdges.add(edge);
+	}
+	
+	public void addDeletedElement(GraphEntity entity) {
+		deletedElements.add(entity);
 	}
 
 	/** Add a replacement parameter to the rule. */
@@ -371,6 +378,9 @@ public class PatternGraph extends Graph {
 							// prevent deletion of elements inserted for pattern completion
 							altCaseReplacement.addSingleNode(node);
 						}
+						if(right!=null && !right.hasNode(node) && !right.deletedElements.contains(node)) {
+							right.addSingleNode(node);
+						}
 					}
 				}
 				for(Edge edge : altCasePattern.getEdges()) {
@@ -381,6 +391,9 @@ public class PatternGraph extends Graph {
 						if(altCaseReplacement!=null && !altCaseReplacement.hasEdge(edge)) {
 							// prevent deletion of elements inserted for pattern completion
 							altCaseReplacement.addSingleEdge(edge);
+						}
+						if(right!=null && !right.hasEdge(edge) && !right.deletedElements.contains(edge)) {
+							right.addSingleEdge(edge);
 						}
 					}
 				}
@@ -440,6 +453,9 @@ public class PatternGraph extends Graph {
 						// prevent deletion of elements inserted for pattern completion
 						allReplacement.addSingleNode(node);
 					}
+					if(right!=null && !right.hasNode(node) && !right.deletedElements.contains(node)) {
+						right.addSingleNode(node);
+					}
 				}
 			}
 			for(Edge edge : iteratedPattern.getEdges()) {
@@ -450,6 +466,9 @@ public class PatternGraph extends Graph {
 					if(iterated!=null && !allReplacement.hasEdge(edge)) {
 						// prevent deletion of elements inserted for pattern completion
 						allReplacement.addSingleEdge(edge);
+					}
+					if(right!=null && !right.hasEdge(edge) && !right.deletedElements.contains(edge)) {
+						right.addSingleEdge(edge);
 					}
 				}
 			}
@@ -502,12 +521,18 @@ public class PatternGraph extends Graph {
 				if(!hasNode(node) && alreadyDefinedNodes.contains(node)) {
 					addSingleNode(node);
 					addHomToAll(node);
+					if(right!=null && !right.hasNode(node) && !right.deletedElements.contains(node)) {
+						right.addSingleNode(node);
+					}
 				}
 			}
 			for(Edge edge : negative.getEdges()) {
 				if(!hasEdge(edge) && alreadyDefinedEdges.contains(edge)) {
 					addSingleEdge(edge); // TODO: maybe we loose context here
 					addHomToAll(edge);
+					if(right!=null && !right.hasEdge(edge) && !right.deletedElements.contains(edge)) {
+						right.addSingleEdge(edge);
+					}
 				}
 			}
 			for(Variable var : negative.getVars()) {
@@ -524,12 +549,18 @@ public class PatternGraph extends Graph {
 				if(!hasNode(node) && alreadyDefinedNodes.contains(node)) {
 					addSingleNode(node);
 					addHomToAll(node);
+					if(right!=null && !right.hasNode(node) && !right.deletedElements.contains(node)) {
+						right.addSingleNode(node);
+					}
 				}
 			}
 			for(Edge edge : independent.getEdges()) {
 				if(!hasEdge(edge) && alreadyDefinedEdges.contains(edge)) {
 					addSingleEdge(edge); // TODO: maybe we loose context here
 					addHomToAll(edge);
+					if(right!=null && !right.hasEdge(edge) && !right.deletedElements.contains(edge)) {
+						right.addSingleEdge(edge);
+					}
 				}
 			}
 			for(Variable var : independent.getVars()) {

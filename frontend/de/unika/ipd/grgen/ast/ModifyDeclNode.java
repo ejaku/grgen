@@ -145,6 +145,8 @@ public class ModifyDeclNode extends RhsDeclNode {
 		for(Node n : left.getNodes()) {
 			if(!deleteSet.contains(n)) {
 				right.addSingleNode(n);
+			} else {
+				right.addDeletedElement(n);
 			}
 		}
 		for(Edge e : left.getEdges()) {
@@ -152,9 +154,11 @@ public class ModifyDeclNode extends RhsDeclNode {
 			   		&& !deleteSet.contains(left.getSource(e))
 			   		&& !deleteSet.contains(left.getTarget(e))) {
 				right.addConnection(left.getSource(e), e, left.getTarget(e), e.hasFixedDirection());
+			} else {
+				right.addDeletedElement(e);
 			}
 		}
-
+		
 		for(SubpatternUsage sub : left.getSubpatternUsages()) {
 			boolean subHasDepModify = false;
 			for(OrderedReplacement orderedRepl: right.getOrderedReplacements()) {

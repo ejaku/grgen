@@ -279,3 +279,114 @@ pattern DeleteOrRetypeInSubpatternEdge(-a:EA->)
 	modify {
 	}
 }
+
+rule dontDeleteInAlternative 
+{
+	a:A;
+	
+	alternative {
+		case {
+			independent {
+				a;
+			}
+		
+			modify {
+			}
+		}
+	}
+	
+	modify {
+	}
+}
+
+rule dontDeleteInOptional 
+{
+	a:A;
+
+	optional {
+
+		optional {
+
+			modify {
+				eval { a.a = a.a+1; }
+			}
+		}
+	
+		modify {
+		}
+	}
+	
+	modify {
+	}
+}
+
+rule dontDeleteInSubpatternAlternative 
+{
+	a:A;
+	d:DontDeleteInSubpatternAlternative(a);
+	
+	modify {
+		d();
+	}
+}
+
+pattern DontDeleteInSubpatternAlternative(a:A)
+{
+	alternative {
+		case {
+			negative {
+				a --> a;
+			}
+			
+			modify {
+			}
+		}
+	}
+	
+	modify {
+	}
+}
+
+rule dontDeleteInSubpatternOptional 
+{
+	a:A;
+	d:DontDeleteInSubpatternOptional(a);
+	
+	modify {
+		d();
+	}
+}
+
+pattern DontDeleteInSubpatternOptional(a:A)
+{
+	optional {
+
+		optional {
+			if { a.a==42+1; }
+
+			modify {
+			}
+		}
+	
+		modify {
+		}
+	}
+
+	modify {
+	}
+}
+
+rule dontDeleteParameters()
+{
+	a:A;
+	d:DontDeleteParameters(a);
+	
+	modify {
+		delete(d);
+	}
+}
+
+pattern DontDeleteParameters(a:A)
+{
+	a --> b:B;
+}

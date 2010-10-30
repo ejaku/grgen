@@ -1,4 +1,9 @@
-﻿v2.6.3 (2010-10-11)
+﻿v2.6.4 (2010-10-30)
+ Fixes for bugs introduced in 2.6.3:
+ - certain pattern elements were deleted when using patterns with more than 2 nesting levels; fixed
+ - subpattern deletion erased the subpattern parameters; fixed
+
+v2.6.3 (2010-10-11)
  Changes:
  - allowed pattern elements to get deleted(/retyped) in nested alternative/iterated blocks or even in subpatterns
     compiler checks that only one delete/retype is ever happening for any pattern element

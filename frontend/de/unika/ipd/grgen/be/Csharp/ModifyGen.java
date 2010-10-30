@@ -895,6 +895,20 @@ public class ModifyGen extends CSharpBase {
 		commonEdges.retainAll(task.right.getEdges());
 		commonSubpatternUsages.addAll(task.left.getSubpatternUsages());
 		commonSubpatternUsages.retainAll(task.right.getSubpatternUsages());
+		
+		if(task.typeOfTask==TYPE_OF_TASK_DELETION) {
+			// Elements from outer pattern/Parameters are deleted there, not here
+			for(Node node : task.left.getNodes()) {
+				if(node.getPointOfDefinition()!=task.left) {
+					commonNodes.add(node);
+				}
+			}
+			for(Edge edge : task.left.getEdges()) {
+				if(edge.getPointOfDefinition()!=task.left) {
+					commonEdges.add(edge);
+				}
+			}
+		}
 	}
 
 	private void collectElementsAccessedByInterface(ModifyGenerationTask task,
