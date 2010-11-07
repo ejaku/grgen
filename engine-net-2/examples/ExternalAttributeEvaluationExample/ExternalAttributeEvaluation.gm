@@ -1,0 +1,36 @@
+// we declare two external classes we want to use in our external attribute computation functions
+// signature only, external implmentation!
+class Own;
+class OwnPown extends Own;
+
+enum Enu
+{
+	reh, lamm, hurz
+}
+
+node class N
+{
+	i:int;
+	s:string;
+	o:object;
+	b:boolean = true;
+	f:float;
+	d:double;
+	enu:Enu;
+	si:set<int>;
+	mso:map<string,object>;
+	ow:Own; // attributes of type externally defined
+	op:OwnPown; // attributes of type externally defined
+}
+
+edge class E;
+
+// we declare the external attribute computation functions
+// signature only, external implementation!
+foo(int, double, Enu, string) : boolean;
+bar(object, object) : object;
+isnull(object) : boolean;
+bla(N, E) : boolean;
+blo(Node, Edge) : N;
+har(Own, OwnPown) : OwnPown;
+hur(OwnPown) : boolean;

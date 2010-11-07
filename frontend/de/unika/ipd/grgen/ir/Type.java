@@ -7,7 +7,7 @@
 
 /**
  * @author shack
- * @version $Id$
+ * @version $Id: Type.java 26765 2010-03-07 13:11:33Z eja $
  */
 package de.unika.ipd.grgen.ir;
 
@@ -51,6 +51,7 @@ public abstract class Type extends Identifiable {
 	public static final int IS_SET = 8;
 	public static final int IS_MAP = 9;
 	public static final int IS_UNTYPED_EXEC_VAR_TYPE = 10;
+	public static final int IS_EXTERNAL_TYPE = 11;
 
 	/**
 	 * Make a new type.

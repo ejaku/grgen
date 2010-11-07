@@ -22,6 +22,7 @@ import de.unika.ipd.grgen.ast.util.DeclarationResolver;
 import de.unika.ipd.grgen.ast.util.DeclarationTypeResolver;
 import de.unika.ipd.grgen.ir.Ident;
 import de.unika.ipd.grgen.ir.Model;
+import de.unika.ipd.grgen.ir.ExternalFunction;
 
 
 public class ModelNode extends DeclNode {
@@ -35,13 +36,17 @@ public class ModelNode extends DeclNode {
 
 	protected CollectNode<TypeDeclNode> decls;
 	private CollectNode<IdentNode> declsUnresolved;
+	protected CollectNode<ExternalFunctionDeclNode> externalFuncDecls;
+	private CollectNode<IdentNode> externalFuncDeclsUnresolved;
 	private ModelTypeNode type;
 
-	public ModelNode(IdentNode id, CollectNode<IdentNode> decls, CollectNode<ModelNode> usedModels) {
+	public ModelNode(IdentNode id, CollectNode<IdentNode> decls, CollectNode<IdentNode> externalFuncs, CollectNode<ModelNode> usedModels) {
 		super(id, modelType);
 
 		this.declsUnresolved = decls;
 		becomeParent(this.declsUnresolved);
+		this.externalFuncDeclsUnresolved = externalFuncs;
+		becomeParent(this.externalFuncDeclsUnresolved);
 		this.usedModels = usedModels;
 		becomeParent(this.usedModels);
 	}
@@ -53,6 +58,7 @@ public class ModelNode extends DeclNode {
 		children.add(ident);
 		children.add(getValidVersion(typeUnresolved, type));
 		children.add(getValidVersion(declsUnresolved, decls));
+		children.add(getValidVersion(externalFuncDeclsUnresolved, externalFuncDecls));
 		children.add(usedModels);
 		return children;
 	}
@@ -64,12 +70,15 @@ public class ModelNode extends DeclNode {
 		childrenNames.add("ident");
 		childrenNames.add("type");
 		childrenNames.add("decls");
+		childrenNames.add("externalFuncDecls");
 		childrenNames.add("usedModels");
 		return childrenNames;
 	}
 
 	private static CollectResolver<TypeDeclNode> declsResolver = new CollectResolver<TypeDeclNode>(
 		new DeclarationResolver<TypeDeclNode>(TypeDeclNode.class));
+	private static CollectResolver<ExternalFunctionDeclNode> externalFunctionsResolver = new CollectResolver<ExternalFunctionDeclNode>(
+			new DeclarationResolver<ExternalFunctionDeclNode>(ExternalFunctionDeclNode.class));
 
 	private static DeclarationTypeResolver<ModelTypeNode> typeResolver = new DeclarationTypeResolver<ModelTypeNode>(ModelTypeNode.class);
 
@@ -77,9 +86,10 @@ public class ModelNode extends DeclNode {
 	@Override
 	protected boolean resolveLocal() {
 		decls = declsResolver.resolve(declsUnresolved, this);
+		externalFuncDecls = externalFunctionsResolver.resolve(externalFuncDeclsUnresolved, this);
 		type = typeResolver.resolve(typeUnresolved, this);
 
-		return decls != null && type != null;
+		return decls != null && externalFuncDecls!=null && type != null;
 	}
 
 	/**
@@ -117,6 +127,9 @@ public class ModelNode extends DeclNode {
 		for(TypeDeclNode typeDecl : decls.getChildren()) {
 			res.addType(typeDecl.getDeclType().getType());
 		}
+		for(ExternalFunctionDeclNode externalFunctionDecl : externalFuncDecls.getChildren()) {
+			res.addExternalFunction(externalFunctionDecl.checkIR(ExternalFunction.class));
+		}
 		return res;
 	}
 
@@ -130,8 +143,9 @@ public class ModelNode extends DeclNode {
 			}
 
 			assert (
-					   ((inhType instanceof NodeTypeNode) && (t instanceof NodeTypeNode)) ||
-				((inhType instanceof EdgeTypeNode) && (t instanceof EdgeTypeNode))
+			   ((inhType instanceof NodeTypeNode) && (t instanceof NodeTypeNode)) ||
+			   ((inhType instanceof EdgeTypeNode) && (t instanceof EdgeTypeNode)) ||
+			   ((inhType instanceof ExternalTypeNode) && (t instanceof ExternalTypeNode))
 			): "nodes should extend nodes and edges should extend edges";
 
 			InheritanceTypeNode superType = (InheritanceTypeNode) t;

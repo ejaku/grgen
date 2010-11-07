@@ -11,7 +11,7 @@
  * Auxiliary routines used for the CSharp backends.
  *
  * @author Moritz Kroll
- * @version $Id$
+ * @version $Id: CSharpBase.java 26976 2010-10-11 00:11:23Z eja $
  */
 
 package de.unika.ipd.grgen.be.Csharp;
@@ -33,7 +33,9 @@ import de.unika.ipd.grgen.ir.Entity;
 import de.unika.ipd.grgen.ir.EnumExpression;
 import de.unika.ipd.grgen.ir.EnumType;
 import de.unika.ipd.grgen.ir.Expression;
+import de.unika.ipd.grgen.ir.ExternalType;
 import de.unika.ipd.grgen.ir.FloatType;
+import de.unika.ipd.grgen.ir.ExternalFunctionInvocationExpr;
 import de.unika.ipd.grgen.ir.GraphEntity;
 import de.unika.ipd.grgen.ir.GraphEntityExpression;
 import de.unika.ipd.grgen.ir.Identifiable;
@@ -98,6 +100,10 @@ public abstract class CSharpBase {
 	 */
 	public void writeFile(File path, String filename, CharSequence cs) {
 		Util.writeFile(new File(path, filename), cs, Base.error);
+	}
+	
+	public boolean existsFile(File path, String filename) {
+		return new File(path, filename).exists();
 	}
 
 	/**
@@ -268,6 +274,10 @@ public abstract class CSharpBase {
 			return getNodeOrEdgeTypePrefix(type) + formatIdentifiable(type);
 		}
 
+		if(type instanceof ExternalType) {
+			return "GRGEN_MODEL." + type.getIdent().toString();
+		}
+		
 		InheritanceType nodeEdgeType = (InheritanceType)type;
 		String ident = formatIdentifiable(type);
 		if(nodeEdgeType.isAbstract()) {
@@ -321,6 +331,10 @@ public abstract class CSharpBase {
 			SetType setType = (SetType) t;
 			return "Dictionary<" + formatType(setType.getValueType())
 					+ ", GRGEN_LIBGR.SetValueType>";
+		}
+		else if (t instanceof ExternalType) {
+			ExternalType extType = (ExternalType) t;
+			return "GRGEN_MODEL." + extType.getIdent();
 		}
 		else throw new IllegalArgumentException("Illegal type: " + t);
 	}
@@ -802,6 +816,19 @@ public abstract class CSharpBase {
 				}
 				sb.append(")");
 			}
+		}
+		else if (expr instanceof ExternalFunctionInvocationExpr) {
+			ExternalFunctionInvocationExpr efi = (ExternalFunctionInvocationExpr)expr;
+			sb.append("GRGEN_EXPR.ExternalFunctions." + efi.getExternalFunc().getIdent() + "(");
+			for(int i=0; i<efi.arity(); ++i) {
+				Expression argument = efi.getArgument(i);
+				if(argument.getType() instanceof InheritanceType) {
+					sb.append("(" + formatElementInterfaceRef(argument.getType()) + ")");
+				}
+				genExpression(sb, argument, modifyGenerationState);
+				if(i+1 < efi.arity()) sb.append(", ");
+			}
+			sb.append(")");
 		}
 		else throw new UnsupportedOperationException("Unsupported expression type (" + expr + ")");
 	}

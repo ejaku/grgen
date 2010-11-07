@@ -229,7 +229,7 @@ textActions returns [ UnitNode main = null ]
 				//
 				IdentNode id = new IdentNode(env.define(ParserEnvironment.ENTITIES, actionsName,
 					modelChilds.getCoords()));
-				ModelNode model = new ModelNode(id, new CollectNode<IdentNode>(), modelChilds);
+				ModelNode model = new ModelNode(id, new CollectNode<IdentNode>(), new CollectNode<IdentNode>(), modelChilds);
 				modelChilds = new CollectNode<ModelNode>();
 				modelChilds.addChild(model);
 			}
@@ -1491,7 +1491,7 @@ options { k = *; }
 
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-// Types
+// Types / Model
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
 
@@ -1500,6 +1500,7 @@ textTypes returns [ ModelNode model = null ]
 	@init{
 		CollectNode<ModelNode> modelChilds = new CollectNode<ModelNode>();
 		CollectNode<IdentNode> types = new CollectNode<IdentNode>();
+		CollectNode<IdentNode> externalFuncs = new CollectNode<IdentNode>();
 		IdentNode id = env.getDummyIdent();
 
 		String modelName = Util.removeFileSuffix(Util.removePathPrefix(getFilename()), "gm");
@@ -1513,21 +1514,35 @@ textTypes returns [ ModelNode model = null ]
 			{ reportWarning(getCoords(m), "keyword \"model\" is deprecated"); }
 		)?
 		( usingDecl[modelChilds] )?
-		typeDecls[types] EOF
+		typeDecls[types, externalFuncs] EOF
 		{
 			if(modelChilds.getChildren().size() == 0)
 				modelChilds.addChild(env.getStdModel());
-			model = new ModelNode(id, types, modelChilds);
+			model = new ModelNode(id, types, externalFuncs, modelChilds);
 		}
 	;
 
-typeDecls [ CollectNode<IdentNode> types ]
-	: (type=typeDecl { types.addChild(type); } )*
+typeDecls [ CollectNode<IdentNode> types,  CollectNode<IdentNode> externalFuncs ]
+	: ( type=typeDecl { types.addChild(type); } |
+		externalFunc=externalFunctionDecl { externalFuncs.addChild(externalFunc); })*
+	;
+
+externalFunctionDecl returns [ IdentNode res = env.getDummyIdent() ]
+	: id=extFuncIdentDecl params=paramTypes COLON ret=returnType SEMI
+		{
+			id.setDecl(new ExternalFunctionDeclNode(id, params, ret));
+			res = id;
+		}
+	;
+
+paramTypes returns [ CollectNode<BaseNode> res = new CollectNode<BaseNode>() ]
+	: LPAREN (returnTypeList[res])? RPAREN // we reuse the return type list cause it's of format we need
 	;
 
 typeDecl returns [ IdentNode res = env.getDummyIdent() ]
 	: d=classDecl { res = d; } 
 	| d=enumDecl { res = d; } 
+	| d=extClassDecl { res = d; }
 	;
 
 classDecl returns [ IdentNode res = env.getDummyIdent() ]
@@ -1770,6 +1785,37 @@ enumItemDecl [ IdentNode type, CollectNode<EnumItemNode> coll, ExprNode defInit,
 		}
 	;
 
+extClassDecl returns [ IdentNode res = env.getDummyIdent() ]
+	: CLASS id=typeIdentDecl ext=extExtends[id] SEMI
+		{
+			ExternalTypeNode et = new ExternalTypeNode(ext);
+			id.setDecl(new TypeDeclNode(id, et));
+			res = id;
+		}
+	;
+
+extExtends [ IdentNode clsId ] returns [ CollectNode<IdentNode> c = new CollectNode<IdentNode>() ]
+	: (EXTENDS extExtendsCont[clsId, c])?
+	;
+
+extExtendsCont [IdentNode clsId, CollectNode<IdentNode> c ]
+	: n=typeIdentUse
+		{
+			if ( ! ((IdentNode)n).toString().equals(clsId.toString()) )
+				c.addChild(n);
+			else
+				reportError(n.getCoords(), "A class must not extend itself");
+		}
+	(COMMA n=typeIdentUse
+		{
+			if ( ! ((IdentNode)n).toString().equals(clsId.toString()) )
+				c.addChild(n);
+			else
+				reportError(n.getCoords(), "A class must not extend itself");
+		}
+	)*
+	;
+	
 basicAndContainerDecl [ CollectNode<BaseNode> c ]
 	@init{
 		id = env.getDummyIdent();
@@ -1981,6 +2027,12 @@ patIdentDecl returns [ IdentNode res = env.getDummyIdent() ]
 		( annots=annotations { res.setAnnotations(annots); } )?
 	;
 
+extFuncIdentDecl returns [ IdentNode res = env.getDummyIdent() ]
+	: i=IDENT 
+		{ if(i!=null) res = new IdentNode(env.define(ParserEnvironment.EXTERNAL_FUNCTIONS, i.getText(), getCoords(i))); }
+		( annots=annotations { res.setAnnotations(annots); } )?
+	;
+
 /////////////////////////////////////////////////////////
 // Identifier usages, it is checked, whether the identifier is declared.
 // The IdentNode created by the definition is returned.
@@ -2029,6 +2081,11 @@ idptIdentUse returns [ IdentNode res = env.getDummyIdent() ]
 patIdentUse returns [ IdentNode res = env.getDummyIdent() ]
 	: i=IDENT 
 	{ if(i!=null) res = new IdentNode(env.occurs(ParserEnvironment.PATTERNS, i.getText(), getCoords(i))); }
+	;
+
+extFuncIdentUse returns [ IdentNode res = env.getDummyIdent() ]
+	: i=IDENT 
+	{ if(i!=null) res = new IdentNode(env.occurs(ParserEnvironment.EXTERNAL_FUNCTIONS, i.getText(), getCoords(i))); }
 	;
 
 	
@@ -2246,6 +2303,7 @@ options { k = 3; }
 	| e=enumItemExpr { res = e; }
 	| e=typeOf { res = e; }
 	| e=initMapOrSetExpr { res = e; }
+	| e=externalFunctionInvocationExpr[inEnumInit] { res = e; }
 	| LPAREN e=expr[inEnumInit] { res = e; } RPAREN
 	| p=PLUSPLUS { reportError(getCoords(p), "increment operator \"++\" not supported"); }
 	| q=MINUSMINUS { reportError(getCoords(q), "decrement operator \"--\" not supported"); }
@@ -2339,6 +2397,13 @@ enumItemExpr returns [ ExprNode res = env.initExprNode() ]
 	: n=enumItemAcc { res = new DeclExprNode(n); }
 	;
 
+externalFunctionInvocationExpr [ boolean inEnumInit ] returns [ ExprNode res = env.initExprNode() ]
+	: id=extFuncIdentUse params=paramExprs[inEnumInit]
+		{
+			res = new ExternalFunctionInvocationExprNode(id, params);
+		}
+	;
+	
 selectorExpr [ ExprNode target, boolean inEnumInit ] returns [ ExprNode res = env.initExprNode() ]
 	:	l=LBRACK key=expr[inEnumInit] RBRACK { res = new MapAccessExprNode(getCoords(l), target, key); }
 	|	d=DOT id=memberIdentUse

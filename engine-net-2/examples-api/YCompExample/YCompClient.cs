@@ -5,6 +5,8 @@
  * www.grgen.net
  */
 
+// this client might be outdated, only the yCompClient of GrShell is guaranteed to be up to date
+
 using System;
 using System.Collections;
 using System.Collections.Generic;

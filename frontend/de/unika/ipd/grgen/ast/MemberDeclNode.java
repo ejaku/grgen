@@ -7,7 +7,7 @@
 
 /**
  * @author Sebastian Hack
- * @version $Id$
+ * @version $Id: MemberDeclNode.java 26740 2010-01-02 11:21:07Z eja $
  */
 package de.unika.ipd.grgen.ast;
 
@@ -123,7 +123,7 @@ public class MemberDeclNode extends DeclNode {
 	}
 
 	private static final Checker typeChecker = new SimpleChecker(
-			new Class[] { BasicTypeNode.class, EnumTypeNode.class, MapTypeNode.class, SetTypeNode.class});
+			new Class[] { BasicTypeNode.class, EnumTypeNode.class, MapTypeNode.class, SetTypeNode.class, ExternalTypeNode.class });
 
 	/** @see de.unika.ipd.grgen.ast.BaseNode#checkLocal() */
 	@Override

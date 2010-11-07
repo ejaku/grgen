@@ -229,7 +229,7 @@ public class ModifyGen extends CSharpBase {
 	final Collection<EvalStatement> emptyEvals = new HashSet<EvalStatement>();
 
 	// eval statement generation state
-	boolean def_b, def_i, def_s, def_f, def_d, def_o;
+	HashSet<String> defined = new HashSet<String>();
 	int mapSetVarID;
 
 	SearchPlanBackend2 be;
@@ -895,20 +895,6 @@ public class ModifyGen extends CSharpBase {
 		commonEdges.retainAll(task.right.getEdges());
 		commonSubpatternUsages.addAll(task.left.getSubpatternUsages());
 		commonSubpatternUsages.retainAll(task.right.getSubpatternUsages());
-		
-		if(task.typeOfTask==TYPE_OF_TASK_DELETION) {
-			// Elements from outer pattern/Parameters are deleted there, not here
-			for(Node node : task.left.getNodes()) {
-				if(node.getPointOfDefinition()!=task.left) {
-					commonNodes.add(node);
-				}
-			}
-			for(Edge edge : task.left.getEdges()) {
-				if(edge.getPointOfDefinition()!=task.left) {
-					commonEdges.add(edge);
-				}
-			}
-		}
 	}
 
 	private void collectElementsAccessedByInterface(ModifyGenerationTask task,
@@ -1514,7 +1500,7 @@ public class ModifyGen extends CSharpBase {
 
 	private void genEvals(StringBuffer sb, ModifyGenerationStateConst state, Collection<EvalStatement> evalStatements) {
 		// init eval statement generation state
-		def_b = false; def_i = false; def_s = false; def_f = false; def_d = false; def_o = false;
+		defined.clear();
 		mapSetVarID = 0;
 
 		for(EvalStatement evalStmt : evalStatements) {
@@ -1597,34 +1583,39 @@ public class ModifyGen extends CSharpBase {
 		String varName, varType;
 		switch(target.getType().classify()) {
 			case Type.IS_BOOLEAN:
-				varName = "tempvar_b";
-				varType = def_b?"":"bool ";
-				def_b = true;
+				varName = "tempvar_bool";
+				varType = defined.contains("bool") ? "" : "bool ";
+				defined.add("bool");
 				break;
 			case Type.IS_INTEGER:
-				varName = "tempvar_i";
-				varType = def_i?"":"int ";
-				def_i = true;
+				varName = "tempvar_int";
+				varType = defined.contains("int") ? "" : "int ";
+				defined.add("int");
 				break;
 			case Type.IS_FLOAT:
-				varName = "tempvar_f";
-				varType = def_f?"":"float ";
-				def_f = true;
+				varName = "tempvar_float";
+				varType = defined.contains("float") ? "" : "float ";
+				defined.add("float");
 				break;
 			case Type.IS_DOUBLE:
-				varName = "tempvar_d";
-				varType = def_d?"":"double ";
-				def_d = true;
+				varName = "tempvar_double";
+				varType = defined.contains("double") ? "" : "double ";
+				defined.add("double");
 				break;
 			case Type.IS_STRING:
-				varName = "tempvar_s";
-				varType = def_s?"":"string ";
-				def_s = true;
+				varName = "tempvar_string";
+				varType = defined.contains("string") ? "" : "string ";
+				defined.add("string");
 				break;
 			case Type.IS_OBJECT:
-				varName = "tempvar_o";
-				varType = def_o?"":"Object ";
-				def_o = true;
+				varName = "tempvar_object";
+				varType = defined.contains("object") ? "" : "Object ";
+				defined.add("object");
+				break;
+			case Type.IS_EXTERNAL_TYPE:
+				varName = "tempvar_" + target.getType().getIdent();
+				varType = defined.contains(target.getType().getIdent().toString()) ? "" : "GRGEN_MODEL."+target.getType().getIdent()+" ";
+				defined.add(target.getType().getIdent().toString());
 				break;
 			default:
 				throw new IllegalArgumentException();

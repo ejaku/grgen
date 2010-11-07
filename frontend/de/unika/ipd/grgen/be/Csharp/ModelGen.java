@@ -11,11 +11,12 @@
  * Generates the model files for the SearchPlanBackend2 backend.
  *
  * @author Moritz Kroll
- * @version $Id$
+ * @version $Id: ModelGen.java 26976 2010-10-11 00:11:23Z eja $
  */
 
 package de.unika.ipd.grgen.be.Csharp;
 
+import java.io.File;
 import java.util.BitSet;
 import java.util.Collection;
 import java.util.Comparator;
@@ -37,6 +38,8 @@ import de.unika.ipd.grgen.ir.EdgeType;
 import de.unika.ipd.grgen.ir.Entity;
 import de.unika.ipd.grgen.ir.EnumItem;
 import de.unika.ipd.grgen.ir.EnumType;
+import de.unika.ipd.grgen.ir.ExternalFunction;
+import de.unika.ipd.grgen.ir.ExternalType;
 import de.unika.ipd.grgen.ir.FloatType;
 import de.unika.ipd.grgen.ir.InheritanceType;
 import de.unika.ipd.grgen.ir.IntType;
@@ -124,6 +127,52 @@ public class ModelGen extends CSharpBase {
 			System.out.println("  writing the " + stubFilename + " stub file...");
 			writeFile(be.path, stubFilename, stubsb);
 		}
+		
+		// generate the external functions stub file
+		// only if there are external functions required
+		if(model.getExternalFunctions().isEmpty())
+			return;
+
+		filename = model.getIdent() + "ModelExternalFunctions.cs";
+
+		System.out.println("  generating the " + filename + " file...");
+
+		sb = new StringBuffer();
+
+		sb.append("// This file has been generated automatically by GrGen (www.grgen.net)\n"
+				+ "// Do not modify this file! Any changes will be lost!\n"
+				+ "// Generated from \"" + be.unit.getFilename() + "\" on " + new Date() + "\n"
+				+ "\n"
+				+ "using System;\n"
+				+ "using System.Collections.Generic;\n"
+                + "using GRGEN_LIBGR = de.unika.ipd.grGen.libGr;\n"
+                + "using GRGEN_LGSP = de.unika.ipd.grGen.lgsp;\n");
+
+		sb.append("\n");
+		sb.append("namespace de.unika.ipd.grGen.Model_" + model.getIdent() + "\n"
+				+ "{\n");
+
+		genExternalClasses();
+
+		sb.append("}\n\n");
+		
+		sb.append("namespace de.unika.ipd.grGen.expression\n"
+				+ "{\n"
+				+ "\tusing GRGEN_MODEL = de.unika.ipd.grGen.Model_" + model.getIdent() + ";\n"
+				+ "\n");
+
+		sb.append("\tpublic partial class ExternalFunctions\n");
+		sb.append("\t{\n");
+		sb.append("\t\t// You must implement the following functions in the same partial class in ./" + model.getIdent() + "ModelExternalFunctionsImpl.cs:\n"
+				+ "\n");
+		
+		genExternalFunctionHeaders();
+		
+		sb.append("\t}\n");
+
+		sb.append("}\n");
+
+		writeFile(new File("."), filename, sb);
 	}
 
 	private StringBuffer getStubBuffer() {
@@ -509,7 +558,7 @@ public class ModelGen extends CSharpBase {
 					sb.append("0f;\n");
 				} else if(t instanceof BooleanType) {
 					sb.append("false;\n");
-				} else if(t instanceof StringType || t instanceof ObjectType || t instanceof VoidType) {
+				} else if(t instanceof StringType || t instanceof ObjectType || t instanceof VoidType || t instanceof ExternalType) {
 					sb.append("null;\n");
 				} else {
 					throw new IllegalArgumentException("Unknown Entity: " + member + "(" + t + ")");
@@ -1165,7 +1214,7 @@ set_init_loop:
 			return "GRGEN_LIBGR.AttributeKind.StringAttr";
 		else if (t instanceof EnumType)
 			return "GRGEN_LIBGR.AttributeKind.EnumAttr";
-		else if (t instanceof ObjectType || t instanceof VoidType)
+		else if (t instanceof ObjectType || t instanceof VoidType || t instanceof ExternalType)
 			return "GRGEN_LIBGR.AttributeKind.ObjectAttr";
 		else if (t instanceof MapType)
 			return "GRGEN_LIBGR.AttributeKind.MapAttr";
@@ -1626,6 +1675,44 @@ commonLoop:	for(InheritanceType commonType : firstCommonAncestors) {
 		sb.append("\t\t};\n");
 	}
 
+	///////////////////////////////
+	// External stuff generation //
+	///////////////////////////////
+
+	private void genExternalClasses() {
+		for(ExternalType et : model.getExternalTypes()) {
+			sb.append("\tpublic partial class " + et.getIdent());
+			boolean first = true;
+			for(InheritanceType superType : et.getAllSuperTypes()) {
+				if(first) {
+					sb.append(" : ");
+				} else {
+					sb.append(", ");
+				}
+				sb.append(superType.getIdent());
+				first = false;
+			}
+			sb.append("\n");
+			sb.append("\t{\n");
+			sb.append("\t\t// You must implement this class in the same partial class in ./" + model.getIdent() + "ModelExternalFunctionsImpl.cs:\n");
+			sb.append("\t}\n");
+		}
+	}
+
+	private void genExternalFunctionHeaders() {
+		for(ExternalFunction ef : model.getExternalFunctions()) {
+			Type returnType = ef.getReturnType();
+			sb.append("\t\t//public static " + formatType(returnType) + " " + ef.getName() + "(");
+			boolean first = true;
+			for(Type paramType : ef.getParameterTypes()) {
+				if(!first) sb.append(", ");
+				sb.append(formatType(paramType));
+				first = false;
+			}
+			sb.append(");\n");
+		}
+	}
+	
 	///////////////////////
 	// Private variables //
 	///////////////////////

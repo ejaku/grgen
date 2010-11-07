@@ -1,0 +1,29 @@
+using ExternalAttributeEvaluation;
+
+rule init
+{
+	replace {
+		n:N -:E-> n;
+	}
+}
+
+rule r
+{
+	n:N -e:E-> n;
+	if { foo(42, 3.141, Enu::hurz, "S21-heiteitei") && foo(n.i, n.d, n.enu, n.s); }
+	if { isnull( bar(null, n.o) ); }
+	if { bla(n, e); }
+	if { hur(har(n.ow, har(n.ow, n.op))); }
+	
+	modify {
+		m:N;
+		
+		eval {
+			m.b = foo(42, 3.141, Enu::hurz, "S21-heiteitei") && foo(n.i, n.d, n.enu, n.s);
+			m.o = bar(null, n.o);
+			n.b = bla(m, e);
+			n.op = har(n.ow, n.op);
+		}
+	}
+}
+

@@ -28,6 +28,8 @@ public class Model extends Identifiable {
 	private Set<NodeType> nodeTypes = new LinkedHashSet<NodeType>();
 	private Set<EdgeType> edgeTypes = new LinkedHashSet<EdgeType>();
 	private Set<EnumType> enumTypes = new LinkedHashSet<EnumType>();
+	private Set<ExternalType> externalTypes = new LinkedHashSet<ExternalType>();
+	private Set<ExternalFunction> externalFuncs = new LinkedHashSet<ExternalFunction>();
 
 
 	public Model(Ident ident) {
@@ -46,10 +48,19 @@ public class Model extends Identifiable {
 		if(type instanceof NodeType) nodeTypes.add((NodeType) type);
 		else if(type instanceof EdgeType) edgeTypes.add((EdgeType) type);
 		else if(type instanceof EnumType) enumTypes.add((EnumType) type);
+		else if(type instanceof ExternalType) externalTypes.add((ExternalType) type);
 		else if(!(type instanceof PrimitiveType))
 			assert false : "Unexpected type added to model: " + type;
 	}
 
+	public void addExternalFunction(ExternalFunction externalFunc) {
+		externalFuncs.add(externalFunc);
+	}
+	
+	public Collection<ExternalFunction> getExternalFunctions() {
+		return Collections.unmodifiableCollection(externalFuncs);
+	}
+	
 	/** @return The types in the type model. */
 	public Collection<Type> getTypes() {
 		return Collections.unmodifiableCollection(types);
@@ -65,6 +76,10 @@ public class Model extends Identifiable {
 
 	public Collection<EnumType> getEnumTypes() {
 		return Collections.unmodifiableCollection(enumTypes);
+	}
+
+	public Collection<ExternalType> getExternalTypes() {
+		return Collections.unmodifiableCollection(externalTypes);
 	}
 
 	public Collection<Model> getUsedModels() {

@@ -9,7 +9,7 @@
  * ParserEnvironment.java
  *
  * @author Sebastian Hack
- * @version $Id$
+ * @version $Id: ParserEnvironment.java 26931 2010-08-23 13:40:43Z eja $
  */
 
 package de.unika.ipd.grgen.parser;
@@ -54,6 +54,7 @@ public abstract class ParserEnvironment extends Base {
 	public static final int INDEPENDENTS = 5;
 	public static final int REPLACES = 6;
 	public static final int MODELS = 7;
+	public static final int EXTERNAL_FUNCTIONS = 8;
 
 	private final SymbolTable[] symTabs = new SymbolTable[] {
 		new SymbolTable("types", TYPES),        // types and patterns
@@ -64,6 +65,7 @@ public abstract class ParserEnvironment extends Base {
 		new SymbolTable("independents", INDEPENDENTS),
 		new SymbolTable("replaces", REPLACES),
 		new SymbolTable("models", MODELS),
+		new SymbolTable("external functions", EXTERNAL_FUNCTIONS),
 	};
 
 	private final IntConstNode one = new IntConstNode(Coords.getBuiltin(), 1);
@@ -113,7 +115,8 @@ public abstract class ParserEnvironment extends Base {
 
 		// The standard model
 		CollectNode<IdentNode> stdModelChilds = new CollectNode<IdentNode>();
-		stdModel = new ModelNode(predefine(ENTITIES, "Std"), stdModelChilds, new CollectNode<ModelNode>());
+		CollectNode<IdentNode> stdModelAttrEvalFuncChilds = new CollectNode<IdentNode>();
+		stdModel = new ModelNode(predefine(ENTITIES, "Std"), stdModelChilds, stdModelAttrEvalFuncChilds, new CollectNode<ModelNode>());
 
 		// The node type root
 		nodeRoot = predefineType("Node",

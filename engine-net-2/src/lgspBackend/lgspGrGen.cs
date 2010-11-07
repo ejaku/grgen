@@ -95,10 +95,22 @@ namespace de.unika.ipd.grGen.lgsp
             CompilerResults compResults;
             try
             {
-                if(modelStubFilename != null)
-                    compResults = compiler.CompileAssemblyFromFile(compParams, modelFilename, modelStubFilename);
-                else                   
-                    compResults = compiler.CompileAssemblyFromFile(compParams, modelFilename);
+                if(File.Exists(modelName + "ExternalFunctions.cs"))
+                {
+                    String externalFunctionsFile = modelName + "ExternalFunctions.cs";
+                    String externalFunctionsImplFile = modelName + "ExternalFunctionsImpl.cs";
+                    if(modelStubFilename != null)
+                        compResults = compiler.CompileAssemblyFromFile(compParams, modelFilename, modelStubFilename, externalFunctionsFile, externalFunctionsImplFile);
+                    else
+                        compResults = compiler.CompileAssemblyFromFile(compParams, modelFilename, externalFunctionsFile, externalFunctionsImplFile);
+                }
+                else
+                {
+                    if(modelStubFilename != null)
+                        compResults = compiler.CompileAssemblyFromFile(compParams, modelFilename, modelStubFilename);
+                    else
+                        compResults = compiler.CompileAssemblyFromFile(compParams, modelFilename);
+                }
                 if(compResults.Errors.HasErrors)
                 {
                     Console.Error.WriteLine("Illegal model C# source code: " + compResults.Errors.Count + " Errors:");

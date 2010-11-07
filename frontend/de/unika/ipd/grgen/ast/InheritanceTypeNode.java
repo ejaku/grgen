@@ -7,7 +7,7 @@
 
 /**
  * @author Sebastian Hack
- * @version $Id$
+ * @version $Id: InheritanceTypeNode.java 26931 2010-08-23 13:40:43Z eja $
  */
 package de.unika.ipd.grgen.ast;
 
@@ -46,6 +46,7 @@ public abstract class InheritanceTypeNode extends CompoundTypeNode
 
 	/**
 	 * The name of the external implementation of this type or null.
+	 * This is for the (unsupported) "Embedding GrGen into C#" prototype.
 	 */
 	private String externalName = null;
 

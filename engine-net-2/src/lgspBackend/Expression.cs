@@ -1219,4 +1219,34 @@ namespace de.unika.ipd.grGen.expression
         Expression Value;
         SetItem Next;
     }
+
+    /// <summary>
+    /// Class representing a function invocation of an external attribute evaluation function.
+    /// </summary>
+    public class ExternalFunctionInvocation : Expression
+    {
+        public ExternalFunctionInvocation(String functionName, Expression[] arguments, String[] argumentTypes)
+        {
+            FunctionName = functionName;
+            Arguments = arguments;
+            ArgumentTypes = argumentTypes;
+        }
+
+        public override void Emit(SourceBuilder sourceCode)
+        {
+            sourceCode.Append("GRGEN_EXPR.ExternalFunctions." + FunctionName + "(");
+            for(int i=0; i<Arguments.Length; ++i)
+            {
+                Expression argument = Arguments[i];
+                if(ArgumentTypes[i]!=null) sourceCode.Append("("+ArgumentTypes[i]+")");
+                argument.Emit(sourceCode);
+                if(i+1<Arguments.Length) sourceCode.Append(", ");
+            }
+            sourceCode.Append(")");
+        }
+
+        String FunctionName;
+        Expression[] Arguments;
+        String[] ArgumentTypes; // for each argument: if node/edge: the interface type, otherwise: null
+    }
 }

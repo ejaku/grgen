@@ -11,7 +11,7 @@
  * Generates the actions file for the SearchPlanBackend2 backend.
  *
  * @author Moritz Kroll, Edgar Jakumeit
- * @version $Id$
+ * @version $Id: ActionsGen.java 26976 2010-10-11 00:11:23Z eja $
  */
 
 package de.unika.ipd.grgen.be.Csharp;
@@ -34,10 +34,12 @@ import de.unika.ipd.grgen.ir.EnumExpression;
 import de.unika.ipd.grgen.ir.Exec;
 import de.unika.ipd.grgen.ir.Expression;
 import de.unika.ipd.grgen.ir.EvalStatement;
+import de.unika.ipd.grgen.ir.ExternalFunctionInvocationExpr;
 import de.unika.ipd.grgen.ir.GraphEntity;
 import de.unika.ipd.grgen.ir.GraphEntityExpression;
 import de.unika.ipd.grgen.ir.Identifiable;
 import de.unika.ipd.grgen.ir.ImperativeStmt;
+import de.unika.ipd.grgen.ir.InheritanceType;
 import de.unika.ipd.grgen.ir.MapAccessExpr;
 import de.unika.ipd.grgen.ir.MapInit;
 import de.unika.ipd.grgen.ir.MapItem;
@@ -1431,6 +1433,28 @@ public class ActionsGen extends CSharpBase {
 				for(int i=0; i<openParenthesis; ++i) sb.append(")");
 				sb.append(")");
 			}
+		}
+		else if (expr instanceof ExternalFunctionInvocationExpr) {
+			ExternalFunctionInvocationExpr efi = (ExternalFunctionInvocationExpr)expr;
+			sb.append("new GRGEN_EXPR.ExternalFunctionInvocation(\"" + efi.getExternalFunc().getIdent() + "\", new GRGEN_EXPR.Expression[] {");
+			for(int i=0; i<efi.arity(); ++i) {
+				Expression argument = efi.getArgument(i);
+				genExpressionTree(sb, argument, className, pathPrefix, alreadyDefinedEntityToName);
+				sb.append(", ");
+			}
+			sb.append("}, ");
+			sb.append("new String[] {");
+			for(int i=0; i<efi.arity(); ++i) {
+				Expression argument = efi.getArgument(i);
+				if(argument.getType() instanceof InheritanceType) {
+					sb.append("\"" + formatElementInterfaceRef(argument.getType()) + "\"");
+				} else {
+					sb.append("null");
+				}
+				sb.append(", ");
+			}
+			sb.append("}");
+			sb.append(")");
 		}
 		else throw new UnsupportedOperationException("Unsupported expression type (" + expr + ")");
 	}
