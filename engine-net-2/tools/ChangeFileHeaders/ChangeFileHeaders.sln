@@ -1,6 +1,6 @@
 ﻿
-Microsoft Visual Studio Solution File, Format Version 9.00
-# Visual Studio 2005
+Microsoft Visual Studio Solution File, Format Version 10.00
+# Visual Studio 2008
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ChangeFileHeaders", "ChangeFileHeaders\ChangeFileHeaders.csproj", "{ED658298-7CE9-45E9-BDF2-8E448087A049}"
 EndProject
 Global

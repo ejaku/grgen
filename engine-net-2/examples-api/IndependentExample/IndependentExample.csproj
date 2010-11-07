@@ -2,7 +2,7 @@
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <ProductVersion>8.0.50727</ProductVersion>
+    <ProductVersion>9.0.21022</ProductVersion>
     <SchemaVersion>2.0</SchemaVersion>
     <ProjectGuid>{70246EDB-B613-4D8C-9A4E-870FB5DAE1D5}</ProjectGuid>
     <OutputType>Exe</OutputType>
@@ -33,22 +33,20 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="lgspBackend, Version=2.6.26740.0, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\bin\lgspBackend.dll</HintPath>
+    </Reference>
+    <Reference Include="libGr, Version=2.6.26740.0, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\bin\libGr.dll</HintPath>
+    </Reference>
     <Reference Include="System" />
   </ItemGroup>
   <ItemGroup>
     <Compile Include="IndependentActions.cs" />
     <Compile Include="IndependentExample.cs" />
     <Compile Include="IndependentModel.cs" />
-  </ItemGroup>
-  <ItemGroup>
-    <ProjectReference Include="..\..\src\lgspBackend\lgspBackend.csproj">
-      <Project>{28747063-D1D2-4626-B1F1-84CC201B2063}</Project>
-      <Name>lgspBackend</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\..\src\libGr\libGr.csproj">
-      <Project>{57A2E7A1-058E-4EBD-85E9-A65C3304FA49}</Project>
-      <Name>libGr</Name>
-    </ProjectReference>
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Properties\" />
