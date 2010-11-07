@@ -3,49 +3,35 @@
 GRGENDIR=GrGenNET-V$1-`date +"%F"`
 GRGENDIRSRC=$GRGENDIR-src
 
-#make source distribution - contains nearly everthing; some temporary/internal stuff missing
-#contains binaries, examples, documentation, source code
-#excluded internal stuff
+#make release distribution 
+#contains binaries, examples, documentation
+#excluded internal stuff, source code
 
-svn export https://pp.info.uni-karlsruhe.de/svn/grgen-public/trunk/grgen $GRGENDIRSRC
+hg pull
+hg update
+hg archive $GRGENDIRSRC
 
-mv $GRGENDIRSRC/doc/grgen.pdf $GRGENDIRSRC/
-mv $GRGENDIRSRC/doc/ChangeLog.txt $GRGENDIRSRC/
-mv $GRGENDIRSRC/doc/README.txt $GRGENDIRSRC/
-rm -rf $GRGENDIRSRC/doc
-mkdir $GRGENDIRSRC/doc
-mv $GRGENDIRSRC/grgen.pdf $GRGENDIRSRC/doc/grgen.pdf
-mv $GRGENDIRSRC/ChangeLog.txt $GRGENDIRSRC/doc/ChangeLog.txt
-mv $GRGENDIRSRC/README.txt $GRGENDIRSRC/doc/README.txt
+mkdir $GRGENDIR
+mkdir $GRGENDIR/doc
+cp $GRGENDIRSRC/doc/grgen.pdf $GRGENDIR/doc/GrGenNET-Manual.pdf
+cp $GRGENDIRSRC/doc/ChangeLog.txt $GRGENDIR/doc
+cp $GRGENDIRSRC/doc/README.txt $GRGENDIR/doc
 
-rm $GRGENDIRSRC/make_release.sh
-rm -rf $GRGENDIRSRC/todo
-
-rm -rf $GRGENDIRSRC/engine-net-2/tools/ChangeFileHeaders
-rm -rf $GRGENDIRSRC/engine-net-2/tools/test
+rm $GRGENDIRSRC/engine-net-2/*
+rm -rf $GRGENDIRSRC/engine-net-2/src
+rm -rf $GRGENDIRSRC/engine-net-2/tools
 rm -rf $GRGENDIRSRC/engine-net-2/examples/UML
 rm -rf $GRGENDIRSRC/engine-net-2/examples/Firm-IFConv
+cp -rf $GRGENDIRSRC/engine-net-2/* $GRGENDIR
 
-tar cjf $GRGENDIRSRC.tar.bz2 $GRGENDIRSRC
-zip -r $GRGENDIRSRC.zip $GRGENDIRSRC
+cp -rf $GRGENDIRSRC/frontend/test $GRGENDIR
 
+cp -rf $GRGENDIRSRC/syntaxhighlighting $GRGENDIR
 
-#make binary distribution
-#contains binaries, examples, documentation
-#excluded internal stuff,  source code
-
-svn export https://pp.info.uni-karlsruhe.de/svn/grgen-public/trunk/grgen/engine-net-2 $GRGENDIR
-rm -rf $GRGENDIR/src
-rm -rf $GRGENDIR/tools
-rm $GRGENDIR/*
-
-rm -rf $GRGENDIR/examples/UML
-rm -rf $GRGENDIR/examples/Firm-IFConv
-
-svn cat https://pp.info.uni-karlsruhe.de/svn/grgen-public/trunk/grgen/LICENSE.txt > $GRGENDIR/LICENSE.txt
-
-cp -r $GRGENDIRSRC/doc $GRGENDIR/doc
-cp -r $GRGENDIRSRC/syntaxhighlighting $GRGENDIR/syntaxhighlighting
+cp $GRGENDIRSRC/LICENSE.txt $GRGENDIR
 
 tar cjf $GRGENDIR.tar.bz2 $GRGENDIR
 zip -r $GRGENDIR.zip $GRGENDIR
+
+rm -rf $GRGENDIRSRC
+rm -rf $GRGENDIR
