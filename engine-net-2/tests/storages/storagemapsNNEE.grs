@@ -1,12 +1,14 @@
 new graph storages/storages
 
-st1 = new map NN EE
-map st1 size
+xgrs st1=map<NN,EE>{}
+xgrs sz=st1.size()
+show var sz
 show num nodes
 show num edges
 
 xgrs ( (n)=addNodeNN ;> (e)=addReflexiveEdgeEE(n) ;> st1.add(n,e) )[5]
-map st1 size
+xgrs sz=st1.size()
+show var sz
 show num nodes
 show num edges
 
@@ -19,20 +21,24 @@ xgrs (e)=getReflexiveEdge(n)
 e.id
 
 xgrs for{n->e in st1; e=st1[n] ;> remEdge(e)}
-map st1 size
+xgrs sz=st1.size()
+show var sz
 show num nodes
 show num edges
 
 xgrs for{n->e in st1; remNode(n)}
-map st1 size
+xgrs sz=st1.size()
+show var sz
 show num nodes
 show num edges
 
 xgrs st1.clear()
-map st1 size
+xgrs sz=st1.size()
+show var sz
 
 xgrs ( (n)=addNodeNN ;> (e)=addReflexiveEdgeEE(n) ;> st1.add(n,e) )[5]
-map st1 size
+xgrs sz=st1.size()
+show var sz
 show num nodes
 show num edges
 
@@ -45,26 +51,29 @@ xgrs (e)=getReflexiveEdge(n)
 e.id
 
 xgrs for{n->e in st1; remEdge(e)}
-map st1 size
+xgrs sz=st1.size()
+show var sz
 show num nodes
 show num edges
 
-st2 = new map NN EE
+xgrs st2=map<NN,EE>{}
 xgrs for{n->e in st1; st2.add(n,e)}
-map st1 size
-map st2 size
+xgrs sz=st1.size()
+show var sz
+xgrs sz=st2.size()
+show var sz
 
 xgrs for{n in st2; st1.rem(n)}
-map st1 size
+xgrs sz=st1.size() ;> emit("value of variable 4 5 6 7 8 9 ") ;> emit(sz) ;> emit("\n")
 xgrs s=st1.size()
 show var s
-map st2 size
+xgrs sz=st2.size() ;> emit("value of variable 4 5 6 7 8 9 ") ;> emit(sz) ;> emit("\n")
 xgrs s=st2.size()
 show var s
 xgrs s=st2.empty()
 show var s
 xgrs st2.clear()
-map st2 size
+xgrs sz=st2.size() ;> emit("value of variable 4 5 6 7 8 9 ") ;> emit(sz) ;> emit("\n")
 xgrs s=st2.size()
 show var s
 xgrs s=st2.empty()

@@ -313,6 +313,7 @@ TOKEN: {
 |   < REDIRECT: "redirect" >
 |   < REM: "rem" >
 |   < RESET: "reset" >
+|   < RETYPE: "retype" >
 |   < SAVE: "save" >
 |   < SELECT: "select" >
 |   < SET: "set" >
@@ -402,7 +403,7 @@ SPECIAL_TOKEN: {
         { matchedToken.image = matchedToken.image.Substring(1, matchedToken.image.Length-2); } : DEFAULT
 |   < SINGLEQUOTEDANYSTRING: "\'" (~["\'", "\n", "\r"])* "\'" >
         { matchedToken.image = matchedToken.image.Substring(1, matchedToken.image.Length-2); } : DEFAULT
-|   < ANYSTRING: (~[" ", "\t", "\n", "\r", "#", "\"", "\'", "="])+ > : DEFAULT
+|   < ANYSTRING: (~[" ", "\t", "\n", "\r", "#", "\"", "\'", "=", "."])+ > : DEFAULT
 |   < ERRORANYSTRING: ~[] > : DEFAULT
 }
 
@@ -421,7 +422,7 @@ SPECIAL_TOKEN: {
         { matchedToken.image = matchedToken.image.Substring(1, matchedToken.image.Length-2); }
 |   < SINGLEQUOTEDANYSTRINGS: "\'" (~["\'", "\n", "\r"])* "\'" >
         { matchedToken.image = matchedToken.image.Substring(1, matchedToken.image.Length-2); }
-|   < ANYSTRINGS: (~[" ", "\t", "\n", "\r", "#", "\"", "\'", "="])+ >
+|   < ANYSTRINGS: (~[" ", "\t", "\n", "\r", "#", "\"", "\'", "=", "."])+ >
 |   < NLINANYSTRINGS: "\n" > : DEFAULT
 |   < ERRORANYSTRINGS: ~[] > : DEFAULT
 }
@@ -907,16 +908,50 @@ void ShellCommand():
     {
         impl.ExecuteCommandLine(str1);
     }
+|
+	"clear" "graph" (shellGraph=Graph() { shellGraphSpecified = true; })? LineEnd()
+	{
+	    if(shellGraphSpecified && shellGraph == null) noError = false;
+	    else impl.ClearGraph(shellGraph, shellGraphSpecified);
+	}
+|
+	"custom" CustomCommand()
+|
+    "debug" DebugCommand()
+|
+	"delete" DeleteCommand()
+|
+	"dump" DumpCommand()
+|
+	"echo" str1=Text() LineEnd()
+	{
+        Console.WriteLine(Regex.Unescape(str1));
+	}
+|
+	"edge" "type" edge1=Edge() "is" edge2=Edge() LineEnd()
+	{
+		impl.EdgeTypeIsA(edge1, edge2);
+	}
+|
+	"export" parameters=FilenameParameterList()
+	{
+		noError = impl.Export(parameters);
+	}
+|
+	"grs" str1=CommandLine()
+	{
+        Console.WriteLine("The old grs are not supported any longer. Please use the extended graph rewrite sequences xgrs.");
+        noError = false;
+	}
 |    
 	"help" parameters=SpacedParametersAndLineEnd()
 	{
 		impl.Help(parameters);
 	}
 |
-	("quit" | "exit") LineEnd()
+	"import" parameters=FilenameParameterList()
 	{
-		impl.Quit();
-		Quit = true;
+		noError = impl.Import(parameters);
 	}
 |
     "include" str1=Filename() LineEnd()
@@ -926,12 +961,68 @@ void ShellCommand():
 |
 	"new" NewCommand()
 |
+	"node" "type" node1=Node() "is" node2=Node() LineEnd()
+	{
+		impl.NodeTypeIsA(node1, node2);
+	}
+|
 	"open" "graph" str1=Filename() str2=Text() LineEnd()
 	{
 		noError = impl.OpenGraph(str1, str2);
 	}
 |
+	"parse"
+	(
+	    "file" str1=Filename() LineEnd()
+	    {
+		    noError = impl.ParseFile(str1);
+	    }
+    |
+	    str1=Text() LineEnd()
+	    {
+		    noError = impl.ParseString(str1);
+	    }
+	)
+|
+	("quit" | "exit") LineEnd()
+	{
+		impl.Quit();
+		Quit = true;
+	}
+|
+	"randomseed"
+	(
+		num=Number()
+		{
+			impl.SetRandomSeed(num);
+		}
+	|
+		str1=Word()
+		{
+			if(str1 != "time")
+			{
+				Console.WriteLine("The new seed as integer or the word \"time\" for setting the current time as seed expected!");
+				noError = false;
+			}
+			else impl.SetRandomSeed(Environment.TickCount);
+		}		
+	)	
+|
+    "redirect" "emit" str1=Filename() LineEnd()
+    {
+        noError = impl.RedirectEmit(str1);
+    }
+|
+    "retype" RetypeCommand()
+|
+	"save" "graph" str1=Filename() LineEnd()
+	{
+		impl.SaveGraph(str1);
+	}
+|
 	"select" SelectCommand()
+|
+	"show" ShowCommand()
 |
 	"silence"
 	(
@@ -940,58 +1031,10 @@ void ShellCommand():
 		"off" { impl.Silence = false; }
 	)
 |
-	"delete" DeleteCommand()
-|
-	"clear" "graph" (shellGraph=Graph() { shellGraphSpecified = true; })? LineEnd()
+	"sync" "io" LineEnd()
 	{
-	    if(shellGraphSpecified && shellGraph == null) noError = false;
-	    else impl.ClearGraph(shellGraph, shellGraphSpecified);
+		impl.SyncIO();
 	}
-|
-	"show" ShowCommand()
-|
-	"node" "type" node1=Node() "is" node2=Node() LineEnd()
-	{
-		impl.NodeTypeIsA(node1, node2);
-	}
-|
-	"edge" "type" edge1=Edge() "is" edge2=Edge() LineEnd()
-	{
-		impl.EdgeTypeIsA(edge1, edge2);
-	}
-|
-    "debug" DebugCommand()
-|
-	"grs" str1=CommandLine()
-	{
-        Console.WriteLine("The old grs are not supported any longer. Please use the extended graph rewrite sequences xgrs.");
-        noError = false;
-	}
-|
-    "xgrs" str1=CommandLine()
-    {
-        try
-        {
-            seq = SequenceParser.ParseSequence(str1, impl.CurrentActions);
-            impl.ApplyRewriteSequence(seq, false);
-            noError = !impl.OperationCancelled;
-        }
-        catch(SequenceParserException ex)
-        {
-            impl.HandleSequenceParserException(ex);
-            noError = false;
-        }
-        catch(de.unika.ipd.grGen.libGr.sequenceParser.ParseException ex)
-        {
-            Console.WriteLine("Unable to execute xgrs: " + ex.Message);
-            noError = false;
-        }
-        catch(Exception ex)
-        {
-            Console.WriteLine("Unable to execute xgrs: " + ex);
-            noError = false;
-        }
-    }
 |
 	"validate" ("exitonfailure" {exitOnFailure = true;})?
 	(
@@ -1034,70 +1077,30 @@ void ShellCommand():
 	    }
 	)
 |
-	"dump" DumpCommand()
-|
-	"save" "graph" str1=Filename() LineEnd()
-	{
-		impl.SaveGraph(str1);
-	}
-|
-	"export" parameters=FilenameParameterList()
-	{
-		noError = impl.Export(parameters);
-	}
-|
-	"import" parameters=FilenameParameterList()
-	{
-		noError = impl.Import(parameters);
-	}
-|
-	"echo" str1=Text() LineEnd()
-	{
-        Console.WriteLine(Regex.Unescape(str1));
-	}
-|
-	"custom" CustomCommand()
-|
-    "redirect" "emit" str1=Filename() LineEnd()
+    "xgrs" str1=CommandLine()
     {
-        noError = impl.RedirectEmit(str1);
+        try
+        {
+            seq = SequenceParser.ParseSequence(str1, impl.CurrentActions);
+            impl.ApplyRewriteSequence(seq, false);
+            noError = !impl.OperationCancelled;
+        }
+        catch(SequenceParserException ex)
+        {
+            impl.HandleSequenceParserException(ex);
+            noError = false;
+        }
+        catch(de.unika.ipd.grGen.libGr.sequenceParser.ParseException ex)
+        {
+            Console.WriteLine("Unable to execute xgrs: " + ex.Message);
+            noError = false;
+        }
+        catch(Exception ex)
+        {
+            Console.WriteLine("Unable to execute xgrs: " + ex);
+            noError = false;
+        }
     }
-|
-	"sync" "io" LineEnd()
-	{
-		impl.SyncIO();
-	}
-|
-	"parse"
-	(
-	    "file" str1=Filename() LineEnd()
-	    {
-		    noError = impl.ParseFile(str1);
-	    }
-    |
-	    str1=Text() LineEnd()
-	    {
-		    noError = impl.ParseString(str1);
-	    }
-	)
-|
-	"randomseed"
-	(
-		num=Number()
-		{
-			impl.SetRandomSeed(num);
-		}
-	|
-		str1=Word()
-		{
-			if(str1 != "time")
-			{
-				Console.WriteLine("The new seed as integer or the word \"time\" for setting the current time as seed expected!");
-				noError = false;
-			}
-			else impl.SetRandomSeed(Environment.TickCount);
-		}		
-	)	
 |
     // TODO: Introduce prefix for the following commands to allow useful error handling!
     
@@ -1273,6 +1276,7 @@ void AttributeParamValue(ref Param param):
 		{
 			param.Value = "set";
 			param.Type = type.image;
+			param.Values = new ArrayList();
 		}
 		"{" ( value=AttributeValue() { param.Values.Add(value); } )? 
 			(<COMMA> value=AttributeValue() { param.Values.Add(value); })* "}"
@@ -1281,6 +1285,8 @@ void AttributeParamValue(ref Param param):
 			param.Value = "map";
 			param.Type = type.image;
 			param.TgtType = typeTgt.image;
+			param.Values = new ArrayList();
+			param.TgtValues = new ArrayList();
 		}
 		"{" ( value=AttributeValue() { param.Values.Add(value); } <ARROW> valueTgt=AttributeValue() { param.TgtValues.Add(valueTgt); } )?
 			( <COMMA> value=AttributeValue() { param.Values.Add(value); } <ARROW> valueTgt=AttributeValue() { param.TgtValues.Add(valueTgt); } )* "}"
@@ -1337,9 +1343,9 @@ void Parameters(ArrayList parameters):
 	str=Text() { parameters.Add(str); } ("," str=Text() { parameters.Add(str); })*
 }
 
-//////////////////////
-// "delete" command //
-//////////////////////
+///////////////////////////////////
+// "delete" and "retype" command //
+///////////////////////////////////
 
 void DeleteCommand():
 {
@@ -1370,6 +1376,34 @@ void DeleteCommand():
 	{
 		Console.WriteLine("Invalid command!");
 		impl.HelpDelete(new List<String>());
+		errorSkipSilent();
+		noError = false;
+	}
+}
+
+void RetypeCommand():
+{
+	INode node;
+	IEdge edge;
+	String typeName;
+}
+{
+	try
+	{
+		"-" edge=Edge() "<" typeName=Text() ">" ( "->" | "-" ) LineEnd()
+		{
+			noError = impl.Retype(edge, typeName) != null;
+		}
+	|
+		node=Node() "<" typeName=Text() ">" LineEnd()
+		{
+			noError = impl.Retype(node, typeName) != null;
+		}
+	}
+	catch(ParseException ex)
+	{
+		Console.WriteLine("Invalid command!");
+		impl.HelpRetype(new List<String>());
 		errorSkipSilent();
 		noError = false;
 	}

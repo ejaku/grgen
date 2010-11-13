@@ -218,3 +218,7 @@ rule ebtobar
 	}
 }
 
+test matchShellGraph
+{
+	a:A -:EB-> b:A -:EA-> b;
+}

@@ -596,6 +596,10 @@ namespace de.unika.ipd.grGen.grShell
                         HelpDelete(commands);
                         return;
 
+                    case "retype":
+                        HelpRetype(commands);
+                        return;
+
                     case "show":
                         HelpShow(commands);
                         return;
@@ -638,6 +642,7 @@ namespace de.unika.ipd.grGen.grShell
                 + " - include <filename>        Includes and executes the given .grs-script\n"
                 + " - silence (on | off)        Switches \"new ... created\" messages on/off\n"
                 + " - delete ...                Deletes something\n"
+                + " - retype ...                Retype commands\n"
                 + " - clear graph [<graph>]     Clears the current or the given graph\n"
                 + " - show ...                  Shows something\n"
                 + " - node type <n1> is <n2>    Tells whether the node n1 has a type compatible\n"
@@ -663,16 +668,13 @@ namespace de.unika.ipd.grGen.grShell
                 + "                             to the current time or the given integer\n"
                 + " - <elem>.<member>           Shows the given graph element member\n"
                 + " - <elem>.<member> = <val>   Sets the value of the given element member\n"
-                + " - <var> = <expr>            Assigns the given expression to <var>.\n"
-                + "                             Currently the expression may be:\n"
-                + "                               - null\n"
+                + " - <elem>.<memb>.add(<val>)  Adds the value to the given set member\n"
+                + " - <elem>.<memb>.add(<k>,<v>)Adds values k->v to the given map member\n"
+                + " - <elem>.rem(<val>)         Removes value from the given set/map member\n"
+                + " - <var> = <exp>             Assigns the given expression to <var>, <exp>:\n"
                 + "                               - <elem>\n"
                 + "                               - <elem>.<member>\n"
-                + "                               - <text>\n"
-                + "                               - <number> (integer or floating point)\n"
-                + "                               - true or false\n"
-                + "                               - Enum::Value\n" 
-                + "                               - set<S>{ elems } / map<S,T>{ elems }\n"
+                + "                               - <val>, a value literal (see user manual)\n"
                 + " - <var> = askfor <type>     Asks the user to input a value of given type\n"
                 + "                             a node/edge is to be entered in yComp (debug\n"
                 + "                             mode must be enabled); other values are to be\n"
@@ -744,6 +746,20 @@ namespace de.unika.ipd.grGen.grShell
                 + "   Deletes the given edge from the current graph.\n\n"
                 + " - delete graph [<graph>]\n"
                 + "   Deletes the current or the given graph.\n");
+        }
+
+        public void HelpRetype(List<String> commands)
+        {
+            if(commands.Count > 1)
+            {
+                debugOut.WriteLine("\nNo further help available.");
+            }
+
+            debugOut.WriteLine("\nList of available commands for \"retype\":\n"
+                + " - retype node<type>\n"
+                + "   Retypes the given node from the current graph to the given type.\n\n"
+                + " - retype -edge<type>-> or -edge<type>-\n"
+                + "   Retypes the given edge from the current graph to the given type.\n");
         }
 
         public void HelpShow(List<String> commands)
@@ -1332,10 +1348,7 @@ namespace de.unika.ipd.grGen.grShell
 
             if (!silence)
             {
-                if (elemDef.ElemName == null)
-                    debugOut.WriteLine("New node \"{0}\" of type \"{1}\" has been created.", curShellGraph.Graph.GetElementName(node), node.Type.Name);
-                else
-                    debugOut.WriteLine("New node \"{0}\" of type \"{1}\" has been created.", elemDef.ElemName, node.Type.Name);
+                debugOut.WriteLine("New node \"{0}\" of type \"{1}\" has been created.", curShellGraph.Graph.GetElementName(node), node.Type.Name);
             }
 
             return node;
@@ -1396,10 +1409,10 @@ namespace de.unika.ipd.grGen.grShell
 
             if (!silence)
             {
-                if (elemDef.ElemName == null)
-                    debugOut.WriteLine("New edge \"{0}\" of type \"{1}\" has been created.", curShellGraph.Graph.GetElementName(edge), edge.Type.Name);
+                if(directed)
+                    debugOut.WriteLine("New edge \"{0}\" of type \"{1}\" has been created from \"{2}\" to \"{3}\".", curShellGraph.Graph.GetElementName(edge), edge.Type.Name, curShellGraph.Graph.GetElementName(node1), curShellGraph.Graph.GetElementName(node2));
                 else
-                    debugOut.WriteLine("New edge \"{0}\" of type \"{1}\" has been created.", elemDef.ElemName, edge.Type.Name);
+                    debugOut.WriteLine("New edge \"{0}\" of type \"{1}\" has been created between \"{2}\" and \"{3}\".", curShellGraph.Graph.GetElementName(edge), edge.Type.Name, curShellGraph.Graph.GetElementName(node1), curShellGraph.Graph.GetElementName(node2));
             }
             
             return edge;
@@ -1660,10 +1673,11 @@ namespace de.unika.ipd.grGen.grShell
         }
         #endregion "new" graph element commands
 
-        #region "remove" / "destroy" commands
+        #region "remove" / "destroy" / "retype" commands
         public bool Remove(INode node)
         {
             if(node == null) return false;
+            
             try
             {
                 curShellGraph.Graph.RemoveEdges(node);
@@ -1674,14 +1688,92 @@ namespace de.unika.ipd.grGen.grShell
                 errOut.WriteLine("Unable to remove node: " + e.Message);
                 return false;
             }
+
+            if(!silence)
+            {
+                debugOut.WriteLine("Node \"{0}\" of type \"{1}\" has been deleted.", curShellGraph.Graph.GetElementName(node), node.Type.Name);
+            }
+
             return true;
         }
 
         public bool Remove(IEdge edge)
         {
             if(edge == null) return false;
+            
             curShellGraph.Graph.Remove(edge);
+
+            if(!silence)
+            {
+                debugOut.WriteLine("Edge \"{0}\" of type \"{1}\" has been deleted.", curShellGraph.Graph.GetElementName(edge), edge.Type.Name);
+            }
+
             return true;
+        }
+
+        public INode Retype(INode node, String newType)
+        {
+            if(node == null || newType == null) return null;
+
+            try
+            {
+                NodeType nodeType = curShellGraph.Graph.Model.NodeModel.GetType(newType);
+                if(nodeType == null)
+                {
+                    errOut.WriteLine("Unknown node type: \"" + newType + "\"");
+                    return null;
+                }
+                if(nodeType.IsAbstract)
+                {
+                    errOut.WriteLine("Abstract node type \"" + newType + "\" may not be instantiated!");
+                    return null;
+                }
+
+                String oldType = node.Type.Name;
+                node = curShellGraph.Graph.Retype(node, nodeType);
+                if(!silence)
+                {
+                    debugOut.WriteLine("Node \"{0}\" has been retyped from \"{1}\" to \"{2}\".", curShellGraph.Graph.GetElementName(node), oldType, node.Type.Name);
+                }
+                return node;
+            }
+            catch(ArgumentException e)
+            {
+                errOut.WriteLine("Unable to retype node: " + e.Message);
+                return null;
+            }
+        }
+
+        public IEdge Retype(IEdge edge, String newType)
+        {
+            if(edge == null || newType == null) return null;
+            try
+            {
+                EdgeType edgeType = curShellGraph.Graph.Model.EdgeModel.GetType(newType);
+                if(edgeType == null)
+                {
+                    errOut.WriteLine("Unknown edge type: \"" + newType + "\"");
+                    return null;
+                }
+                if(edgeType.IsAbstract)
+                {
+                    errOut.WriteLine("Abstract edge type \"" + newType + "\" may not be instantiated!");
+                    return null;
+                }
+
+                String oldType = edge.Type.Name;
+                edge = curShellGraph.Graph.Retype(edge, edgeType);
+                if(!silence)
+                {
+                    debugOut.WriteLine("Edge \"{0}\" has been retyped from \"{1}\" to \"{2}\".", curShellGraph.Graph.GetElementName(edge), oldType, edge.Type.Name);
+                }
+                return edge;
+            }
+            catch(ArgumentException e)
+            {
+                errOut.WriteLine("Unable to retype edge: " + e.Message);
+                return null;
+            }
         }
 
         public void ClearGraph(ShellGraph shellGraph, bool shellGraphSpecified)
@@ -1714,7 +1806,7 @@ namespace de.unika.ipd.grGen.grShell
 
             return true;
         }
-        #endregion "remove" commands
+        #endregion "remove" / "destroy" / "retype" commands
 
         #region "show" commands
         private bool ShowElements<T>(IEnumerable<T> elements) where T : IGraphElement

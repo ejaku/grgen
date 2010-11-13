@@ -48,20 +48,20 @@ xgrs [anonymousSet]
 xgrs anonymousSetNA
 
 new n:A
-set n.m add "Hallo"
-set n.m add "Handtuch"
+n.m.add("Hallo")
+n.m.add("Handtuch")
 v=n.m
 n.m
 
 xgrs useSetVar(v)
 
-set n.m remove "Hallo"
+n.m.rem("Hallo")
 n.m
 
 xgrs useSetVar(v)
 
-m=new set string
-set m add "Hallo"
+xgrs m=set<string>{}
+xgrs tmp="Hallo" ;> m.add(tmp)
 xgrs useSetVar(m)
 
 quit

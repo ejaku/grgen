@@ -42,8 +42,8 @@
         <KeywordLists>
             <Keywords name="Delimiters">&quot;&apos;0&quot;&apos;0</Keywords>
             <Keywords name="Comment">0#</Keywords>
-            <Keywords name="Words1">askfor clear custom debug delete dump echo exit export help import include new open quit randomseed redirect save select show silence validate xgrs</Keywords>
-            <Keywords name="Words2">actions add any attributes backend bordercolor by color disable edge edges emit enable exitonfailure exclude get graph graphs group hidden incoming infotag is labels layout map no node nodes num off on only option options outgoing reset set shape shortinfotag specified strict sub super textcolor time types var with withvariables</Keywords>
+            <Keywords name="Words1">askfor clear custom debug delete dump echo exit export help import include new open quit randomseed redirect retype save select show silence validate xgrs</Keywords>
+            <Keywords name="Words2">actions add any attributes backend bordercolor by color disable edge edges emit enable exitonfailure exclude get graph graphs group hidden incoming infotag is labels layout map no node nodes num off on only option options outgoing rem reset set shape shortinfotag specified strict sub super textcolor time types var with withvariables</Keywords>
             <Keywords name="Words3">black blue green cyan red purple brown grey lightgrey lightblue lightgreen lightcyan lightred lightpurple yellow white darkblue darkred darkgreen darkyellow darkmagenta darkcyan gold lilac turquoise aquamarine khaki pink orange orchid box triangle
 circle ellipse rhomb hexagon trapeze uptrapeze lparallelogram rparallelogram.</Keywords>
             <Keywords name="Words4"></Keywords>

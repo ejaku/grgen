@@ -1,18 +1,18 @@
 new graph map1/map1
 
 new n:A
-map n.m add "Hallo" 9
-map n.m add "Handtuch" 534
+n.m.add("Hallo", 9)
+n.m.add("Handtuch", 534)
 v=n.m
 
 xgrs getMapValue("Hallo") & getMapValue("Handtuch") & useMapVar(v)
 
-map n.m remove "Hallo"
+n.m.rem("Hallo")
 
 xgrs getMapValue("Hallo") & getMapValue("Handtuch") & useMapVar(v)
 
-m=new map string int
-map m add "Hallo" 80
+xgrs m=map<string,int>{}
+xgrs tmp1="Hallo" ;> tmp2=80 ;> m.add(tmp1, tmp2)
 xgrs useMapVar(m)
 
 exit

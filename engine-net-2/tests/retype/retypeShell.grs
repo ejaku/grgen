@@ -1,0 +1,63 @@
+new graph retype/retype
+
+show num nodes only "A"
+show num nodes only "B"
+show num edges only "EA"
+show num edges only "EB"
+
+new a:A($="nr1")
+
+show num nodes only "A"
+show num nodes only "B"
+show num edges only "EA"
+show num edges only "EB"
+
+retype @("nr1")<B>
+
+show num nodes only "A"
+show num nodes only "B"
+show num edges only "EA"
+show num edges only "EB"
+
+retype a<A>
+
+show num nodes only "A"
+show num nodes only "B"
+show num edges only "EA"
+show num edges only "EB"
+
+new b:B($="nr2")
+new a -ea:EA-> b
+new b -:EB($="eledge")-> b
+
+xgrs matchShellGraph
+
+show num nodes only "A"
+show num nodes only "B"
+show num edges only "EA"
+show num edges only "EB"
+
+retype b<A>
+
+show num nodes only "A"
+show num nodes only "B"
+show num edges only "EA"
+show num edges only "EB"
+
+retype -ea<EB>->
+
+show num nodes only "A"
+show num nodes only "B"
+show num edges only "EA"
+show num edges only "EB"
+
+retype -@(eledge)<EA>->
+
+show num nodes only "A"
+show num nodes only "B"
+show num edges only "EA"
+show num edges only "EB"
+
+xgrs matchShellGraph
+
+quit
