@@ -20,7 +20,7 @@ PARSER_BEGIN(GrShell)
         public bool Eof = false;
         public bool ShowPrompt = true;
         bool readFromConsole = false;
-        public IWorkaround workaround; 
+        public IWorkaround workaround;
         bool noError;
         bool exitOnError = false;
 
@@ -255,7 +255,6 @@ TOKEN: {
 TOKEN: {
     < ACTIONS: "actions" >
 |   < ADD: "add" >
-|   < ALLOCVISITFLAG: "allocvisitflag" >
 |   < APPLY: "apply" >
 |   < ASKFOR: "askfor" >
 |   < ATTRIBUTES: "attributes" >
@@ -281,7 +280,6 @@ TOKEN: {
 |   < EXITONFAILURE: "exitonfailure" >
 |   < FALSE: "false" >
 |   < FILE: "file" >
-|   < FREEVISITFLAG: "freevisitflag" >
 |   < GET: "get" >
 |   < GRAPH: "graph" >
 |   < GRAPHS: "graphs" >
@@ -294,7 +292,6 @@ TOKEN: {
 |   < INFOTAG: "infotag" >
 |   < IO: "io" >
 |   < IS: "is" >
-|   < ISVISITED: "isvisited" >
 |   < LABELS: "labels" >
 |   < LAYOUT: "layout" >
 |   < MAP: "map" >
@@ -314,14 +311,11 @@ TOKEN: {
 |   < QUIT: "quit" >
 |   < RANDOMSEED: "randomseed" >
 |   < REDIRECT: "redirect" >
-|   < REMOVE: "remove" >
+|   < REM: "rem" >
 |   < RESET: "reset" >
-|   < RESETVISITFLAG: "resetvisitflag" >
 |   < SAVE: "save" >
 |   < SELECT: "select" >
 |   < SET: "set" >
-|   < SETVISITED: "setvisited" >
-|   < SIZE: "size" >
 |   < SHAPE: "shape" >
 |   < SHORTINFOTAG: "shortinfotag" >
 |   < SHOW: "show" >
@@ -777,28 +771,6 @@ ShellGraph Graph():
 	)
 }
 
-// TODO: remove this in 2.7 and the set/map functions using it
-object Expr():
-{
-	Object obj;
-	String str;
-}
-{
-    (
-		"null" { obj = null; }
-	|
-        obj=GraphElementOrVar()
-        ( "." str=AnyString() { obj = impl.GetElementAttribute((IGraphElement) obj, str); } )?
-    |
-        obj=QuotedText()
-    |
-        obj=Number()
-    |
-		obj=Bool()
-    )
-    { return obj; }
-}
-
 object SimpleConstant():
 {
 	object constant = null;
@@ -928,6 +900,7 @@ void ShellCommand():
 	bool strict = false, exitOnFailure = false, validated = false, onlySpecified = false;
 	int num;
 	List<String> parameters;
+	Param param;
 }
 {
     "!" str1=CommandLine()
@@ -1126,30 +1099,6 @@ void ShellCommand():
 		}		
 	)	
 |
-	"isvisited" elem=GraphElement() obj=NumberOrVar() LineEnd()
-	{
-		noError = impl.IsVisited(elem, obj, true, out boolVal);
-	}
-|
-	"setvisited" elem=GraphElement() obj=NumberOrVar() obj2=BoolOrVar() LineEnd()
-	{
-		noError = impl.SetVisited(elem, obj, obj2);
-	}
-|
-	"freevisitflag" obj=NumberOrVar() LineEnd()
-	{
-		noError = impl.FreeVisitFlag(obj);
-	}
-|
-	"resetvisitflag" obj=NumberOrVar() LineEnd()
-	{
-		noError = impl.ResetVisitFlag(obj);
-	}
-|
-	"map" MapCommand()
-|
-	"set" SetCommand()
-|
     // TODO: Introduce prefix for the following commands to allow useful error handling!
     
     try
@@ -1161,43 +1110,32 @@ void ShellCommand():
 	            impl.ShowElementAttribute(elem, str1);
 	        }
 	    |
-	        "=" str2=AttributeValue() LineEnd()
+	        "=" { param = new Param(str1); } AttributeParamValue(param) LineEnd()
 	        {
-		        impl.SetElementAttribute(elem, str1, str2);
+		        impl.SetElementAttribute(elem, param);
 	        }
-	    )
-    |
-        str1=Word() "="
-        (
-			"allocvisitflag" LineEnd()
-			{
-				obj = impl.AllocVisitFlag();
-				if((int) obj < 0) noError = false;
-			}
 		|
-			"isvisited" elem=GraphElement() obj=NumberOrVar() LineEnd()
-			{
-				noError = impl.IsVisited(elem, obj, false, out boolVal);
-				obj = boolVal;
-			}
-		|
-			"new"
+			LOOKAHEAD(2) "." "add" "(" obj=SimpleConstant() 
 			(
-				"map" str2=Word() str3=Word()
+				"," obj2=SimpleConstant() ")" LineEnd()
 				{
-					Console.WriteLine(str1+"="+"new map "+str2+" "+str3+" is deprecated, use xgrs "+str1+" = map<"+str2+","+str3+"> instead");
-					obj = impl.MapNew(str2, str3);
-					if(obj == null) noError = false;
+					impl.MapAdd(elem, str1, obj, obj2);
 				}
 			|
-				"set" str2=Word() 
+				")" LineEnd()
 				{
-					Console.WriteLine(str1+"="+"new set "+str2+" is deprecated, use xgrs "+str1+" = set<"+str2+"> instead");
-					obj = impl.SetNew(str2);
-					if(obj == null) noError = false;
+					impl.SetAdd(elem, str1, obj);
 				}
-			) LineEnd()
+			)
 		|
+			"." "rem" "(" obj=SimpleConstant() ")" LineEnd()
+			{
+				impl.SetMapRemove(elem, str1, obj);
+			}
+	    )
+	|
+        str1=Word() "="
+        (
 			"askfor" 
 			(
 				str2=Word()
@@ -1311,27 +1249,41 @@ void Attributes(ArrayList attributes):
 
 void SingleAttribute(ArrayList attributes):
 {
-	String attribName, value, valueTgt;
-	Token type, typeTgt;
+	String attribName;
 	Param param;
 }
 {
 	attribName=Text() "=" 
-		(value=AttributeValue()
-			{
-				attributes.Add(new Param(attribName, value));
-			}
-		| <SET> <LANGLE> type=<WORD> <RANGLE> 
-			{ param = new Param(attribName, "set", type.image); }
-			<LBRACE> ( value=AttributeValue() { param.Values.Add(value); } )? 
-			    (<COMMA> value=AttributeValue() { param.Values.Add(value); })* <RBRACE>
+		{ param = new Param(attribName); }
+		AttributeParamValue(param)
 			{ attributes.Add(param); }
-		| <MAP> <LANGLE> type=<WORD> <COMMA> typeTgt=<WORD> <RANGLE>
-			{ param = new Param(attribName, "map", type.image, typeTgt.image); }
-			<LBRACE> ( value=AttributeValue() { param.Values.Add(value); } <ARROW> valueTgt=AttributeValue() { param.TgtValues.Add(valueTgt); } )?
-				( <COMMA> value=AttributeValue() { param.Values.Add(value); } <ARROW> valueTgt=AttributeValue() { param.TgtValues.Add(valueTgt); } )* <RBRACE>
-			{ attributes.Add(param); }
-		)
+}
+
+void AttributeParamValue(Param param):
+{
+	String value, valueTgt;
+	Token type, typeTgt;
+}
+{
+	value=AttributeValue()
+		{
+			param.Value = value;
+		}
+	| "set" "<" type=<WORD> ">" 
+		{
+			param.Value = "set";
+			param.Type = type.image;
+		}
+		"{" ( value=AttributeValue() { param.Values.Add(value); } )? 
+			(<COMMA> value=AttributeValue() { param.Values.Add(value); })* "}"
+	| "map" "<" type=<WORD> "," typeTgt=<WORD> ">"
+		{
+			param.Value = "map";
+			param.Type = type.image;
+			param.TgtType = typeTgt.image;
+		}
+		"{" ( value=AttributeValue() { param.Values.Add(value); } <ARROW> valueTgt=AttributeValue() { param.TgtValues.Add(valueTgt); } )?
+			( <COMMA> value=AttributeValue() { param.Values.Add(value); } <ARROW> valueTgt=AttributeValue() { param.TgtValues.Add(valueTgt); } )* "}"
 }
 
 //////////////////////
@@ -1595,16 +1547,6 @@ void DebugCommand():
 {
 	try
 	{
-		"apply" paramBindings=Rule() LineEnd()
-		{
-			Console.WriteLine("debug apply is deprecated, use <var> = askfor <type> instead");
-			if(paramBindings != null)
-			{
-				noError = impl.DebugApply(paramBindings);
-			}
-			else noError = false;
-		}
-	|
 		"grs" str=CommandLine()
 		{
 			Console.WriteLine("The old grs are not supported any longer. Please use the extended graph rewrite sequences xgrs.");
@@ -1676,67 +1618,6 @@ void DebugCommand():
 		errorSkipSilent();
 		noError = false;
 	}
-}
-
-
-///////////////////////
-// debug apply stuff //
-///////////////////////
-
-RuleInvocationParameterBindings Rule():
-{
-	String str;
-	IAction action;
-	bool retSpecified = false;
-	ArrayList paramVarNames = new ArrayList();
-	ArrayList returnVarNames = new ArrayList();
-}
-{
-	("(" Parameters(returnVarNames) ")" "=" { retSpecified = true; })? str=Text() ("(" RuleParameters(paramVarNames) ")")?
-	{
-		action = impl.GetAction(str, paramVarNames.Count, returnVarNames.Count, retSpecified);
-		if(action == null)
-		{
-			valid = false;
-			return null;
-		}
-		if(!retSpecified && action.RulePattern.Outputs.Length > 0)
-		{
-			returnVarNames = ArrayList.Repeat(null, action.RulePattern.Outputs.Length);
-		}
-		SequenceVariable[] paramVars = new SequenceVariable[paramVarNames.Count];
-		for(int i=0; i<paramVarNames.Count; ++i) {
-			String paramVarName = (String)paramVarNames[i];
-			paramVars[i] = new SequenceVariable(paramVarName, "", "");
-		}
-		SequenceVariable[] returnVars = new SequenceVariable[returnVarNames.Count];
-		for(int i=0; i<returnVarNames.Count; ++i) {
-			String returnVarName = (String)returnVarNames[i];
-			returnVars[i] = new SequenceVariable(returnVarName, "", "");
-		}
-
-		return new RuleInvocationParameterBindings(action, paramVars, new object[paramVars.Length], returnVars);
-	}
-}
-
-void RuleParameters(ArrayList parameters):
-{
-	String str;
-}
-{
-	(
-		str=Text() { parameters.Add(str); }
-	|
-		"?" { parameters.Add("?"); }
-	)
-	(
-		","
-		(
-			str=Text() { parameters.Add(str); }
-		|
-			"?" { parameters.Add("?"); }
-		)
-	)*
 }
 
 
@@ -1910,95 +1791,6 @@ void DumpAdd():
 	)
 }
 
-////////////////////
-// "map" commands //
-////////////////////
-
-void MapCommand():
-{
-	bool usedGraphElement = false;
-	IGraphElement elem = null;
-	String str;
-	object keyExpr, valueExpr;
-}
-{
-	try
-	{
-		(
-			LOOKAHEAD(2) elem=GraphElement() "." str=AnyString() { usedGraphElement = true; }
-		|
-			str=Word()
-		)
-		(
-			"add" keyExpr=Expr() valueExpr=Expr() LineEnd()
-			{
-				impl.MapAdd(usedGraphElement, elem, str, keyExpr, valueExpr);
-			}
-		|
-			"remove" keyExpr=Expr() LineEnd()
-			{
-				impl.MapRemove(usedGraphElement, elem, str, keyExpr);
-			}
-		|
-			"size" LineEnd()
-			{
-				impl.MapSize(usedGraphElement, elem, str);
-			}
-		)
-	}
-	catch(ParseException ex)
-	{
-		Console.WriteLine("Invalid command!");
-		impl.HelpMap(new List<String>());
-		errorSkipSilent();
-		noError = false;
-	}
-}
-
-////////////////////
-// "set" commands //
-////////////////////
-
-void SetCommand():
-{
-	bool usedGraphElement = false;
-	IGraphElement elem = null;
-	String str;
-	object keyExpr;
-}
-{
-	try
-	{
-		(
-			LOOKAHEAD(2) elem=GraphElement() "." str=Text() { usedGraphElement = true; }
-		|
-			str=Word()
-		)
-		(
-			"add" keyExpr=Expr() LineEnd()
-			{
-				impl.SetAdd(usedGraphElement, elem, str, keyExpr);
-			}
-		|
-			"remove" keyExpr=Expr() LineEnd()
-			{
-				impl.SetRemove(usedGraphElement, elem, str, keyExpr);
-			}
-		|
-			"size" LineEnd()
-			{
-				impl.SetSize(usedGraphElement, elem, str);
-			}
-		)
-	}
-	catch(ParseException ex)
-	{
-		Console.WriteLine("Invalid command!");
-		impl.HelpSet(new List<String>());
-		errorSkipSilent();
-		noError = false;
-	}
-}
 
 ///////////////////////
 // "custom" commands //

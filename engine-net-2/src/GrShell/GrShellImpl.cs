@@ -21,7 +21,7 @@ using de.unika.ipd.grGen.lgsp;
 
 namespace de.unika.ipd.grGen.grShell
 {
-    struct Param
+    public struct Param
     {
         public String Key; // the attribute name
 
@@ -33,6 +33,16 @@ namespace de.unika.ipd.grGen.grShell
         public String TgtType; // map target type
         public ArrayList Values; // set/map(domain) values 
         public ArrayList TgtValues; // map target values
+
+        public Param(String key)
+        {
+            Key = key;
+            Value = null;
+            Type = null;
+            TgtType = null;
+            Values = null;
+            TgtValues = null;
+        }
 
         public Param(String key, String value)
         {
@@ -597,14 +607,6 @@ namespace de.unika.ipd.grGen.grShell
                         HelpDump(commands);
                         return;
 
-                    case "map":
-                        HelpMap(commands);
-                        return;
-
-                    case "set":
-                        HelpSet(commands);
-                        return;
-
                     case "custom":
                         HelpCustom(commands);
                         return;
@@ -658,24 +660,8 @@ namespace de.unika.ipd.grGen.grShell
                 + " - parse <text>              Parses the given string (ASTdapter framework)\n"
                 + " - randomseed (time|<seed>)  Sets the seed of the random number generator\n"
                 + "                             to the current time or the given integer\n"
-                + " - <var> = allocvisitflag    Allocates a visitor flag and assigns it to var\n"
-                + "                             deprecated - use xgrs <var> = valloc()\n"
-                + " - [<var>=]isvisited <elem> <id>  Tells whether the given element is marked as\n"
-                + "        visited for the given visitor id and optionally assigns the result to var\n"
-                + "        deprecated - use xgrs [<var> =] <elem>.visited[<id>]\n"
-                + " - setvisited <elem> <id> <vis>  Marks the given element according to vis\n"
-                + "        for the given visitor id. vis may be true, false, or a boolean variable\n"
-                + "        deprecated - use xgrs <elem>.visited[<id>] = <vis>\n"
-                + " - freevisitflag <id>        Frees the given visitor flag\n"
-                + "                             deprecated - use xgrs vfree(<id>)\n"
-                + " - resetvisitflag <id>       Resets the visitor flag in all graph elements\n"
-                + "                             deprecated - use xgrs vreset(<id>)\n"
-                + " - map ...                   Map related commands - deprecated\n"
-                + " - set ...                   Set related commands - deprecated\n"
                 + " - <elem>.<member>           Shows the given graph element member\n"
                 + " - <elem>.<member> = <val>   Sets the value of the given element member\n"
-                + " - <var> = new map <t1> <t2> Creates a new map<t1, t2> variable - deprecated\n"
-                + " - <var> = new set <t1>      Creates a new set<t1> variable - deprecated\n"
                 + " - <var> = <expr>            Assigns the given expression to <var>.\n"
                 + "                             Currently the expression may be:\n"
                 + "                               - null\n"
@@ -685,7 +671,7 @@ namespace de.unika.ipd.grGen.grShell
                 + "                               - <number> (integer or floating point)\n"
                 + "                               - true or false\n"
                 + "                               - Enum::Value\n" 
-                + "                               - set<S>{} / map<S,T>{}\n"
+                + "                               - set<S>{ elems } / map<S,T>{ elems }\n"
                 + " - <var> = askfor <type>     Asks the user to input a value of given type\n"
                 + "                             a node/edge is to be entered in yComp (debug\n"
                 + "                             mode must be enabled); other values are to be\n"
@@ -807,11 +793,6 @@ namespace de.unika.ipd.grGen.grShell
             // Not mentioned: debug grs
 
             debugOut.WriteLine("\nList of available commands for \"debug\":\n"
-                + " - debug apply ['(' <retvars> ')' = ] <rule> ['(' <params> ')']\n"
-                + "   deprecated - use <var> = askfor <type> instead to get user inputs.\n"
-                + "   Applies the given rule using the parameters and assigning results.\n"
-                + "   For all '?'s used as parameters you will be asked to select the\n"
-                + "   according element in yComp.\n\n"
                 + " - debug xgrs <xgrs>\n"
                 + "   Debugs the given XGRS.\n\n"
                 + " - debug (enable | disable)\n"
@@ -871,38 +852,6 @@ namespace de.unika.ipd.grGen.grShell
                 + " - dump add (node | edge) [only] <type> shortinfotag <member>\n"
                 + "   Adds an info tag to the given or compatible node types, which is displayed\n"
                 + "   as \"<value>\" under the label of the graph element.\n");
-        }
-
-        public void HelpMap(List<String> commands)
-        {
-            if(commands.Count > 1)
-            {
-                debugOut.WriteLine("\nNo further help available.");
-            }
-
-            debugOut.WriteLine("\nList of available commands for \"map\" - deprecated:\n"
-                + " - map (<elem>.<member> | <var>) add <keyExpr> <valExpr>\n"
-                + "   Sets the value of the map for the given key.\n\n"
-                + " - map (<elem>.<member> | <var>) remove <keyExpr>\n"
-                + "   Removes the given key from the map.\n\n"
-                + " - map (<elem>.<member> | <var>) size\n"
-                + "   Prints the size of the map.\n");
-        }
-
-        public void HelpSet(List<String> commands)
-        {
-            if(commands.Count > 1)
-            {
-                debugOut.WriteLine("\nNo further help available.");
-            }
-
-            debugOut.WriteLine("\nList of available commands for \"set\" - deprecated:\n"
-                + " - set (<elem>.<member> | <var>) add <keyExpr>\n"
-                + "   Marks the given key as part of the set.\n\n"
-                + " - set (<elem>.<member> | <var>) remove <keyExpr>\n"
-                + "   Removes the given key from the set.\n\n"
-                + " - set (<elem>.<member> | <var>) size\n"
-                + "   Prints the size of the set.\n");
         }
 
         public void HelpCustom(List<String> commands)
@@ -2224,11 +2173,11 @@ namespace de.unika.ipd.grGen.grShell
             return elem.GetAttribute(attributeName);
         }
 
-        public void SetElementAttribute(IGraphElement elem, String attributeName, String attributeValue)
+        public void SetElementAttribute(IGraphElement elem, Param param)
         {
             if(elem == null) return;
             ArrayList attributes = new ArrayList();
-            attributes.Add(new Param(attributeName, attributeValue));
+            attributes.Add(param);
             if(!CheckAttributes(elem.Type, attributes)) return;
             SetAttributes(elem, attributes);
         }
@@ -2249,79 +2198,6 @@ namespace de.unika.ipd.grGen.grShell
         {
             if(!GraphExists()) return;
             curShellGraph.Graph.SetVariableValue(varName, elem);
-        }
-
-        public int AllocVisitFlag()
-        {
-            errOut.WriteLine("<var> = allocvisitflag is deprecated, use xgrs <var> = valloc() instead");
-
-            if(!GraphExists()) return -1;
-            return curShellGraph.Graph.AllocateVisitedFlag();
-        }
-
-        public bool IsVisited(IGraphElement elem, object idObj, bool printResult, out bool val)
-        {
-            val = false;    // make compiler happy
-            errOut.WriteLine("[<var>=]isvisited <elem> <id> is deprecated, use xgrs [<var> =] <elem>.visited[<id>] instead");
-
-            if(!GraphExists()) return false;
-            if(!(idObj is int))
-            {
-                errOut.WriteLine("Value of variable must be integer!");
-                return false;
-            }
-            val = curShellGraph.Graph.IsVisited(elem, (int) idObj);
-            if(printResult)
-                debugOut.WriteLine("\"" + curShellGraph.Graph.GetElementName(elem)
-                    + (val ? "\" has already been visited." : "\" has not been visited yet."));
-            return true;
-        }
-
-        public bool SetVisited(IGraphElement elem, object idObj, object val)
-        {
-            errOut.WriteLine("setvisited <elem> <id> <vis> is deprecated, use xgrs <elem>.visited[<id>] = <vis> instead");
-
-            if(!GraphExists()) return false;
-            if(!(idObj is int))
-            {
-                errOut.WriteLine("Value of the visitor ID variable must be integer!");
-                return false;
-            }
-            if(!(val is bool))
-            {
-                errOut.WriteLine("Value of variable for new flag value must be boolean!");
-                return false;
-            }
-            curShellGraph.Graph.SetVisited(elem, (int) idObj, (bool) val);
-            return true;
-        }
-
-        public bool FreeVisitFlag(object idObj)
-        {
-            errOut.WriteLine("freevisitflag <id> is deprecated, use xgrs vfree(<id>) instead");
-
-            if(!GraphExists()) return false;
-            if(!(idObj is int))
-            {
-                errOut.WriteLine("Value of variable must be integer!");
-                return false;
-            }
-            curShellGraph.Graph.FreeVisitedFlag((int) idObj);
-            return true;
-        }
-
-        public bool ResetVisitFlag(object idObj)
-        {
-            errOut.WriteLine("resetvisitflag <id> is deprecated, use xgrs vreset(<id>) instead");
-
-            if(!GraphExists()) return false;
-            if(!(idObj is int))
-            {
-                errOut.WriteLine("Value of variable must be integer!");
-                return false;
-            }
-            curShellGraph.Graph.ResetVisitedFlag((int) idObj);
-            return true;
         }
 
         public void SetRandomSeed(int seed)
@@ -2676,142 +2552,6 @@ namespace de.unika.ipd.grGen.grShell
                 return false;
             }
             return true;
-        }
-
-        bool ApplyRule(RuleInvocationParameterBindings paramBindings)
-        {
-            IRulePattern pattern = paramBindings.Action.RulePattern;
-
-            bool askForElems = false;
-            for(int i = 0; i < paramBindings.ParamVars.Length; i++)
-            {
-                String param = paramBindings.ParamVars[i].Name;
-                if(param == "?")
-                {
-                    askForElems = true;
-                    break;
-                }
-            }
-
-            debugger.NotifyOnConnectionLost = true;
-            try
-            {
-                if(askForElems)
-                {
-                    debugOut.WriteLine("Select the wildcarded elements via double clicking in yComp (ESC for abort):");
-                    for(int i = 0; i < paramBindings.ParamVars.Length; i++)
-                    {
-                        String param = paramBindings.ParamVars[i].Name;
-                        if(param == "?")
-                        {
-                            GrGenType paramType = pattern.Inputs[i];
-                            if(paramType is VarType)
-                            {
-                                errOut.WriteLine("Values not supported as placeholder inputs.");
-                                return false;
-                            }
-
-                            // skip prefixes ("<rulename>_<kind>_" with <kind> in {"node", "edge"}
-                            String name = pattern.InputNames[i].Substring(paramBindings.RuleName.Length + 6);
-                            while(true)
-                            {
-                                debugOut.Write("  " + (paramType.IsNodeType ? "Node" : "Edge")
-                                    + " " + name + ":" + paramType.Name + ": ");
-
-                                debugger.YCompClient.WaitForElement(true);
-
-                                // Allow to aborting with ESC
-                                while(true)
-                                {
-                                    if(Console.KeyAvailable && workaround.ReadKey(true).Key == ConsoleKey.Escape)
-                                    {
-                                        errOut.WriteLine("... aborted");
-                                        debugger.YCompClient.WaitForElement(false);
-                                        return false;
-                                    }
-                                    if(debugger.YCompClient.CommandAvailable)
-                                        break;
-                                    Thread.Sleep(100);
-                                }
-
-                                String cmd = debugger.YCompClient.ReadCommand();
-                                if(cmd.Length < 7 || !cmd.StartsWith("send "))
-                                {
-                                    errOut.WriteLine("Unexpected yComp command: \"" + cmd + "\"");
-                                    continue;
-                                }
-
-                                // Skip 'n' or 'e'
-                                String id = cmd.Substring(6);
-                                debugOut.WriteLine("@(\"" + id + "\")");
-
-                                IGraphElement elem = curShellGraph.Graph.GetGraphElement(id);
-                                if(elem == null)
-                                {
-                                    errOut.WriteLine("Graph element does not exist (anymore?).");
-                                    continue;
-                                }
-                                if(elem.Type.IsNodeType != paramType.IsNodeType)
-                                {
-                                    debugOut.WriteLine("The graph element is a" + (elem.Type.IsNodeType ? " node" : "n edge")
-                                        + " but a" + (paramType.IsNodeType ? " node" : "n edge") + " is expected.");
-                                    continue;
-                                }
-                                if(!elem.Type.IsA(paramType))
-                                {
-                                    errOut.WriteLine(elem.Type.Name + " is not compatible with " + paramType.Name + ".");
-                                    continue;
-                                }
-                                paramBindings.Parameters[i] = elem;
-                                paramBindings.ParamVars[i] = null;
-                                break;
-                            }
-                        }
-                    }
-                }
-
-                debugOut.WriteLine("\nExecuting graph rewrite action...");
-                int numFound = curShellGraph.Graph.ApplyRewrite(paramBindings, 0, 1, false, false);
-                if(numFound == 0)
-                    debugOut.WriteLine("  No matches found");
-                else
-                    debugOut.WriteLine("  One match found and rewritten");
-            }
-            catch(OperationCanceledException)
-            {
-                return false;
-            }
-            debugger.NotifyOnConnectionLost = false;
-
-            return true;
-        }
-
-        public bool DebugApply(RuleInvocationParameterBindings paramBindings)
-        {
-            bool debugModeActivated;
-
-            if(!ActionsExists()) return false;
-
-            if(!CheckDebuggerAlive())
-            {
-                if(!SetDebugMode(true)) return false;
-                debugModeActivated = true;
-            }
-            else
-            {
-                debugModeActivated = false;
-            }
-
-            bool noerror = ApplyRule(paramBindings);
-
-            if(debugModeActivated && CheckDebuggerAlive())   // enabled debug mode here and didn't loose connection?
-            {
-                if (UserInterface.ShowMsgAskForYesNo("Do you want to leave debug mode?")) {
-                    SetDebugMode(false);
-                }
-            }
-
-            return noerror;
         }
 
         public void DebugRewriteSequence(Sequence seq)
@@ -3198,251 +2938,80 @@ showavail:
         }
         #endregion "dump" commands
 
-        #region "map" commands
+        #region "setmap" commands
 
-        public object MapNew(String keyTypeName, String valueTypeName)
+        public object GetSetMap(IGraphElement elem, String attrName)
         {
-            Type keyType = DictionaryHelper.GetTypeFromNameForDictionary(keyTypeName, curShellGraph.Graph);
-            if (keyType == null) errOut.WriteLine("\"" + keyTypeName + "\" is not a valid type for a map.");
-            Type valueType = DictionaryHelper.GetTypeFromNameForDictionary(valueTypeName, curShellGraph.Graph);
-            if (valueType == null) errOut.WriteLine("\"" + valueTypeName + "\" is not a valid type for a map.");
-            return DictionaryHelper.NewDictionary(keyType, valueType);
+            if(elem == null) return null;
+            AttributeType attrType = GetElementAttributeType(elem, attrName);
+            if(attrType == null) return null;
+            return elem.GetAttribute(attrName);
         }
 
-        public String GetMapIdentifier(bool usedGraphElement, IGraphElement elem, String attrOrVarName)
+        public void SetAdd(IGraphElement elem, String attrName, object keyObj)
         {
-            if(usedGraphElement) return curShellGraph.Graph.GetElementName(elem) + "." + attrOrVarName;
-            else return attrOrVarName;
-        }
-
-        public void MapAdd(bool usedGraphElement, IGraphElement elem, String attrOrVarName, object keyExpr, object valueExpr)
-        {
-            errOut.WriteLine("map m add key value is deprecated, use xgrs m.add(key,value) instead");
-
-            object map;
-
-            if(usedGraphElement)
-            {
-                if(elem == null) return;
-                AttributeType attrType = GetElementAttributeType(elem, attrOrVarName);
-                if(attrType == null) return;
-                map = elem.GetAttribute(attrOrVarName);
-            }
-            else
-            {
-                map = GetVarValue(attrOrVarName);
-                if(map == null) return;
-            }
-
-            Type keyType, valueType;
-            IDictionary dict = DictionaryHelper.GetDictionaryTypes(map, out keyType, out valueType);
-            if(dict == null)
-            {
-                errOut.WriteLine(GetMapIdentifier(usedGraphElement, elem, attrOrVarName) + " is not a map.");
+            object set = GetSetMap(elem, attrName);
+            if(set == null)
                 return;
-            }
-            if(keyType != keyExpr.GetType())
-            {
-                errOut.WriteLine("Key type must be " + keyType + ", but is " + keyExpr.GetType() + ".");
-                return;
-            }
-            if(valueType != valueExpr.GetType())
-            {
-                errOut.WriteLine("Value type must be " + valueType + ", but is " + valueExpr.GetType() + ".");
-                return;
-            }
-            dict[keyExpr] = valueExpr;
-        }
-
-        public void MapRemove(bool usedGraphElement, IGraphElement elem, String attrOrVarName, object keyExpr)
-        {
-            errOut.WriteLine("map m remove key value is deprecated, use xgrs m.rem(key) instead");
-
-            object map;
-
-            if(usedGraphElement)
-            {
-                if(elem == null) return;
-                AttributeType attrType = GetElementAttributeType(elem, attrOrVarName);
-                if(attrType == null) return;
-                map = elem.GetAttribute(attrOrVarName);
-            }
-            else
-            {
-                map = GetVarValue(attrOrVarName);
-                if(map == null) return;
-            }
-
-            Type keyType, valueType;
-            IDictionary dict = DictionaryHelper.GetDictionaryTypes(map, out keyType, out valueType);
-            if (dict == null)
-            {
-                errOut.WriteLine(GetMapIdentifier(usedGraphElement, elem, attrOrVarName) + " is not a map.");
-                return;
-            }
-            if(keyType != keyExpr.GetType())
-            {
-                errOut.WriteLine("Key type must be " + keyType + ", but is " + keyExpr.GetType() + ".");
-                return;
-            }
-            dict.Remove(keyExpr);
-        }
-
-        public void MapSize(bool usedGraphElement, IGraphElement elem, String attrOrVarName)
-        {
-            errOut.WriteLine("map m size is deprecated, use xgrs ms=m.size() instead");
-
-            object map;
-
-            if(usedGraphElement)
-            {
-                if(elem == null) return;
-                AttributeType attrType = GetElementAttributeType(elem, attrOrVarName);
-                if(attrType == null) return;
-                map = elem.GetAttribute(attrOrVarName);
-            }
-            else
-            {
-                map = GetVarValue(attrOrVarName);
-                if(map == null) return;
-            }
-
-            Type keyType, valueType;
-            IDictionary dict = DictionaryHelper.GetDictionaryTypes(map, out keyType, out valueType);
-            if(dict == null)
-            {
-                errOut.WriteLine(GetMapIdentifier(usedGraphElement, elem, attrOrVarName) + " is not a map.");
-                return;
-            }
-            debugOut.WriteLine(GetMapIdentifier(usedGraphElement, elem, attrOrVarName) + " contains " + dict.Count + " entries.");
-        }
-
-        #endregion "map" commands
-
-
-        #region "set" commands
-
-        public object SetNew(String keyTypeName)
-        {
-            Type keyType = DictionaryHelper.GetTypeFromNameForDictionary(keyTypeName, curShellGraph.Graph);
-            if (keyType == null) errOut.WriteLine("\"" + keyTypeName + "\" is not a valid type for a set.");
-            return DictionaryHelper.NewDictionary(keyType, typeof(SetValueType));
-        }
-
-        public String GetSetIdentifier(bool usedGraphElement, IGraphElement elem, String attrOrVarName)
-        {
-            if (usedGraphElement) return curShellGraph.Graph.GetElementName(elem) + "." + attrOrVarName;
-            else return attrOrVarName;
-        }
-
-        public void SetAdd(bool usedGraphElement, IGraphElement elem, String attrOrVarName, object keyExpr)
-        {
-            errOut.WriteLine("set s add value is deprecated, use xgrs s.add(value) instead");
-
-            object set;
-
-            if (usedGraphElement)
-            {
-                if (elem == null) return;
-                AttributeType attrType = GetElementAttributeType(elem, attrOrVarName);
-                if (attrType == null) return;
-                set = elem.GetAttribute(attrOrVarName);
-            }
-            else
-            {
-                set = GetVarValue(attrOrVarName);
-                if (set == null) return;
-            }
 
             Type keyType, valueType;
             IDictionary dict = DictionaryHelper.GetDictionaryTypes(set, out keyType, out valueType);
-            if (dict == null)
-            {
-                errOut.WriteLine(GetSetIdentifier(usedGraphElement, elem, attrOrVarName) + " is not a set.");
+            if(dict == null) {
+                errOut.WriteLine(curShellGraph.Graph.GetElementName(elem)+"."+attrName + " is not a set.");
                 return;
-            }
-            if (keyType != keyExpr.GetType())
-            {
-                errOut.WriteLine("Set type must be " + keyType + ", but is " + keyExpr.GetType() + ".");
+            } if(keyType != keyObj.GetType()) {
+                errOut.WriteLine("Set type must be " + keyType + ", but is " + keyObj.GetType() + ".");
                 return;
-            }
-            if (valueType != typeof(SetValueType))
-            {
+            } if(valueType != typeof(SetValueType)) {
                 errOut.WriteLine("Not a set.");
                 return;
             }
-            dict[keyExpr] = null;
+            
+            dict[keyObj] = null;
         }
 
-        public void SetRemove(bool usedGraphElement, IGraphElement elem, String attrOrVarName, object keyExpr)
+        public void MapAdd(IGraphElement elem, String attrName, object keyObj, object valueObj)
         {
-            errOut.WriteLine("set s remove value is deprecated, use xgrs s.rem(value) instead");
-
-            object set;
-
-            if (usedGraphElement)
-            {
-                if (elem == null) return;
-                AttributeType attrType = GetElementAttributeType(elem, attrOrVarName);
-                if (attrType == null) return;
-                set = elem.GetAttribute(attrOrVarName);
-            }
-            else
-            {
-                set = GetVarValue(attrOrVarName);
-                if (set == null) return;
-            }
+            object map = GetSetMap(elem, attrName);
+            if(map == null)
+                return;
 
             Type keyType, valueType;
-            IDictionary dict = DictionaryHelper.GetDictionaryTypes(set, out keyType, out valueType);
-            if (dict == null)
-            {
-                errOut.WriteLine(GetSetIdentifier(usedGraphElement, elem, attrOrVarName) + " is not a set.");
+            IDictionary dict = DictionaryHelper.GetDictionaryTypes(map, out keyType, out valueType);
+            if(dict == null) {
+                errOut.WriteLine(curShellGraph.Graph.GetElementName(elem) + "." + attrName + " is not a map.");
+                return;
+            } if(keyType != keyObj.GetType()) {
+                errOut.WriteLine("Key type must be " + keyType + ", but is " + keyObj.GetType() + ".");
+                return;
+            } if(valueType != valueObj.GetType()) {
+                errOut.WriteLine("Value type must be " + valueType + ", but is " + valueObj.GetType() + ".");
                 return;
             }
-            if (keyType != keyExpr.GetType())
-            {
-                errOut.WriteLine("Set type must be " + keyType + ", but is " + keyExpr.GetType() + ".");
-                return;
-            }
-            if (valueType != typeof(SetValueType))
-            {
-                errOut.WriteLine("Not a set.");
-                return;
-            }
-            dict.Remove(keyExpr);
+
+            dict[keyObj] = valueObj;
         }
 
-        public void SetSize(bool usedGraphElement, IGraphElement elem, String attrOrVarName)
+        public void SetMapRemove(IGraphElement elem, String attrName, object keyObj)
         {
-            errOut.WriteLine("set s size is deprecated, use xgrs ss=s.size() instead");
-
-            object set;
-
-            if (usedGraphElement)
-            {
-                if (elem == null) return;
-                AttributeType attrType = GetElementAttributeType(elem, attrOrVarName);
-                if (attrType == null) return;
-                set = elem.GetAttribute(attrOrVarName);
-            }
-            else
-            {
-                set = GetVarValue(attrOrVarName);
-                if (set == null) return;
-            }
+            object setOrMap = GetSetMap(elem, attrName);
+            if(setOrMap == null)
+                return;
 
             Type keyType, valueType;
-            IDictionary dict = DictionaryHelper.GetDictionaryTypes(set, out keyType, out valueType);
-            if (dict == null)
-            {
-                errOut.WriteLine(GetSetIdentifier(usedGraphElement, elem, attrOrVarName) + " is not a set.");
+            IDictionary dict = DictionaryHelper.GetDictionaryTypes(setOrMap, out keyType, out valueType);
+            if (dict == null) {
+                errOut.WriteLine(curShellGraph.Graph.GetElementName(elem) + "." + attrName + " is not a set/map.");
+                return;
+            } if(keyType != keyObj.GetType()) {
+                errOut.WriteLine("Key type must be " + keyType + ", but is " + keyObj.GetType() + ".");
                 return;
             }
-            debugOut.WriteLine(GetSetIdentifier(usedGraphElement, elem, attrOrVarName) + " contains " + dict.Count + " entries.");
+
+            dict.Remove(keyObj);
         }
 
-        #endregion "set" commands
+        #endregion "setmap" commands
 
         private String StringToTextToken(String str)
         {
