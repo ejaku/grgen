@@ -1110,7 +1110,7 @@ void ShellCommand():
 	            impl.ShowElementAttribute(elem, str1);
 	        }
 	    |
-	        "=" { param = new Param(str1); } AttributeParamValue(param) LineEnd()
+	        "=" { param = new Param(str1); } AttributeParamValue(ref param) LineEnd()
 	        {
 		        impl.SetElementAttribute(elem, param);
 	        }
@@ -1255,11 +1255,11 @@ void SingleAttribute(ArrayList attributes):
 {
 	attribName=Text() "=" 
 		{ param = new Param(attribName); }
-		AttributeParamValue(param)
+		AttributeParamValue(ref param)
 			{ attributes.Add(param); }
 }
 
-void AttributeParamValue(Param param):
+void AttributeParamValue(ref Param param):
 {
 	String value, valueTgt;
 	Token type, typeTgt;

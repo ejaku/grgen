@@ -21,6 +21,7 @@ using de.unika.ipd.grGen.lgsp;
 
 namespace de.unika.ipd.grGen.grShell
 {
+    // TODO: the classification as struct is dubious - change to class?
     public struct Param
     {
         public String Key; // the attribute name
