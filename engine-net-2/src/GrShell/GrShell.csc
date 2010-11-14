@@ -310,8 +310,10 @@ TOKEN: {
 |   < PARSER: "parser" >
 |   < QUIT: "quit" >
 |   < RANDOMSEED: "randomseed" >
+|   < RECORD: "record" >
 |   < REDIRECT: "redirect" >
 |   < REM: "rem" >
+|   < REPLAY: "replay" >
 |   < RESET: "reset" >
 |   < RETYPE: "retype" >
 |   < SAVE: "save" >
@@ -322,7 +324,9 @@ TOKEN: {
 |   < SHOW: "show" >
 |   < SILENCE: "silence" >
 |   < SPECIFIED: "specified" >
+|   < START: "start" >
 |   < STRICT: "strict" >
+|   < STOP: "stop" >
 |   < SUB: "sub" >
 |   < SUPER: "super" >
 |   < SYNC: "sync" >
@@ -1008,10 +1012,20 @@ void ShellCommand():
 		}		
 	)	
 |
+	"record" str1=Filename() { boolVal=true; } ("start" | "stop" { boolVal=false; })? LineEnd()
+	{
+		noError = impl.Record(str1, boolVal);
+	}
+|
     "redirect" "emit" str1=Filename() LineEnd()
     {
         noError = impl.RedirectEmit(str1);
     }
+|
+	"replay" str1=Filename() LineEnd()
+	{
+		noError = impl.Replay(str1, this);
+	}
 |
     "retype" RetypeCommand()
 |

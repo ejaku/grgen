@@ -84,43 +84,39 @@ namespace de.unika.ipd.grGen.libGr
         void Rollback(int transactionID);
 
         /// <summary>
-        /// Event handler for IGraph.OnNodeAdded and IGraph.OnEdgeAdded.
-        /// </summary>
-        /// <param name="elem">The added element.</param>
-        void ElementAdded(IGraphElement elem);
-
-        /// <summary>
-        /// Event handler for IGraph.OnRemovingNode and IGraph.OnRemovingEdge.
-        /// </summary>
-        /// <param name="elem">The element to be deleted.</param>
-        void RemovingElement(IGraphElement elem);
-
-        /// <summary>
-        /// Event handler for IGraph.OnChangingNodeAttribute and IGraph.OnChangingEdgeAttribute.
-        /// </summary>
-        /// <param name="elem">The element whose attribute is changed.</param>
-        /// <param name="attrType">The type of the attribute to be changed.</param>
-        /// <param name="changeType">The type of the change which will be made.</param>
-        /// <param name="newValue">The new value of the attribute, if changeType==Assign.
-        ///                        Or the value to be inserted/removed if changeType==PutElement/RemoveElement on set.
-        ///                        Or the new map pair value to be inserted if changeType==PutElement on map.</param>
-        /// <param name="keyValue">The map pair key to be inserted/removed if changeType==PutElement/RemoveElement on map.</param>
-        void ChangingElementAttribute(IGraphElement elem, AttributeType attrType,
-                AttributeChangeType changeType, Object newValue, Object keyValue);
-
-        /// <summary>
-        /// Event handler for IGraph.OnRetypingNode and IGraph.OnRetypingEdge.
-        /// </summary>
-        /// <param name="oldElem">The element to be retyped.</param>
-        /// <param name="newElem">The new element with the common attributes, but without the correct connections, yet.</param>
-        void RetypingElement(IGraphElement oldElem, IGraphElement newElem);
-
-        /// <summary>
         /// Indicates, whether a transaction is currently active.
         /// </summary>
         bool TransactionActive { get; }
 
 //        ITransactionManager Clone(Dictionary<IGraphElement, IGraphElement> oldToNewMap);
+    }
+
+    /// <summary>
+    /// An interface for recording changes (and their causes) applied to a graph into a file,
+    /// so that they can get replayed.
+    /// </summary>
+    public interface IRecorder
+    {
+        /// <summary>
+        /// Creates a file which initially gets filled with a .grs export of the graph.
+        /// Afterwards the changes applied to the graph are recorded into the file,
+        /// in the order they occur.
+        /// You can start multiple recordings into differently named files.
+        /// </summary>
+        /// <param name="filename">The name of the file to record to</param>
+        void StartRecording(string filename);
+
+        /// <summary>
+        /// Stops recording of the changes applied to the graph to the given file.
+        /// </summary>
+        /// <param name="filename">The name of the file to stop recording to</param>
+        void StopRecording(string filename);
+
+        /// <summary>
+        /// Writes a comment line to the currently ongoing recordings
+        /// </summary>
+        /// <param name="comment">The commentary to write to the recordings</param>
+        void WriteComment(string comment);
     }
 
     #region GraphDelegates
@@ -282,11 +278,17 @@ namespace de.unika.ipd.grGen.libGr
         BaseActions Actions { get; set; }
 
         /// <summary>
-        /// Returns the graph's transaction manager.
+        /// Returns the transaction manager of the graph.
         /// For attribute changes using the transaction manager is the only way to include such changes in the transaction history!
         /// Don't forget to call Commit after a transaction is finished!
         /// </summary>
         ITransactionManager TransactionManager { get; }
+
+        /// <summary>
+        /// The recorder of the graph. 
+        /// Might be null (is set if a named graph is available, then the persistent names are taken from the named graph).
+        /// </summary>
+        IRecorder Recorder { get; set; }
 
         /// <summary>
         /// If PerformanceInfo is non-null, this object is used to accumulate information about time, found matches and applied rewrites.

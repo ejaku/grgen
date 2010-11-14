@@ -3144,7 +3144,7 @@ showavail:
 					sw.WriteLine();
 				}
 
-                GRSExport.ExportYouMustCloseStreamWriter(graph, sw, true);
+                GRSExport.ExportYouMustCloseStreamWriter(graph, sw, true, "");
 
                 foreach(KeyValuePair<NodeType, GrColor> nodeTypeColor in curShellGraph.DumpInfo.NodeTypeColors)
                     sw.WriteLine("dump set node only {0} color {1}", nodeTypeColor.Key.Name, nodeTypeColor.Value);
@@ -3385,6 +3385,49 @@ showavail:
 
             debugOut.WriteLine("Graph \"" + graph.Name + "\" imported and added to current graph \"" + CurrentGraph.Name + "\"");
             return true;
+        }
+
+        public bool Record(String filename, bool start)
+        {
+            if(!GraphExists()) return false;
+
+            try
+            {
+                if(start)
+                    curShellGraph.Graph.Recorder.StartRecording(filename);
+                else
+                    curShellGraph.Graph.Recorder.StopRecording(filename);
+            }
+            catch(Exception e)
+            {
+                if(start)
+                    errOut.WriteLine("Unable to start recording: " + e.Message);
+                else
+                    errOut.WriteLine("Unable to stop recording: " + e.Message);
+                return false;
+            }
+
+            if(start)
+                debugOut.WriteLine("Started recording to \"" + filename + "\"");
+            else
+                debugOut.WriteLine("Stopped recording to \"" + filename + "\"");
+            return true;
+        }
+
+        public bool Replay(String filename, GrShell grShell)
+        {
+            if(!GraphExists()) return false;
+
+            if(Include(grShell, filename))
+            {
+                debugOut.WriteLine("Replayed \"" + filename + "\"");
+                return true;
+            }
+            else
+            {
+                errOut.WriteLine("Error in replaying \"" + filename + "\"");
+                return false;
+            }
         }
 
 /*        private String FormatName(IGraphElement elem)

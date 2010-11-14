@@ -127,6 +127,7 @@ namespace de.unika.ipd.grGen.libGr
         public NamedGraph(IGraph somegraph)
         {
             graph = somegraph;
+            graph.Recorder = new Recorder(this);
 
             foreach(INode node in graph.Nodes)
             {
@@ -151,6 +152,7 @@ namespace de.unika.ipd.grGen.libGr
         public NamedGraph(IGraph somegraph, String nameAttributeName)
         {
             graph = somegraph;
+            graph.Recorder = new Recorder(this);
 
             foreach(INode node in graph.Nodes)
             {
@@ -599,6 +601,7 @@ namespace de.unika.ipd.grGen.libGr
         }
 
         #region Simply wrapped functions
+        
         /// <summary>
         /// A name associated with the graph.
         /// </summary>
@@ -615,21 +618,22 @@ namespace de.unika.ipd.grGen.libGr
         public BaseActions Actions { get { return graph.Actions; } set { graph.Actions = value; } }
 
         /// <summary>
-        /// Returns the graph's transaction manager.
+        /// Returns the transaction manager of the graph.
         /// For attribute changes using the transaction manager is the only way to include such changes in the transaction history!
         /// Don't forget to call Commit after a transaction is finished!
         /// </summary>
         public ITransactionManager TransactionManager { get { return graph.TransactionManager; } }
 
         /// <summary>
+        /// The recorder writing the changes applied to the graph to a file
+        /// </summary>
+        public IRecorder Recorder { get { return graph.Recorder; } set { graph.Recorder = value; } }
+
+        /// <summary>
         /// If PerformanceInfo is non-null, this object is used to accumulate information about time, found matches and applied rewrites.
         /// The user is responsible for resetting the PerformanceInfo object.
         /// </summary>
-        public PerformanceInfo PerformanceInfo
-        {
-            get { return graph.PerformanceInfo; }
-            set { graph.PerformanceInfo = value; }
-        }
+        public PerformanceInfo PerformanceInfo { get { return graph.PerformanceInfo; } set { graph.PerformanceInfo = value; } }
 
         /// <summary>
         /// The writer used by emit statements. By default this is Console.Out.
@@ -649,11 +653,7 @@ namespace de.unika.ipd.grGen.libGr
         /// already deleted elements using object equality, hash maps, etc.
         /// In cases where this is needed this optimization should be disabled.
         /// </summary>
-        public bool ReuseOptimization
-        {
-            get { return graph.ReuseOptimization; }
-            set { graph.ReuseOptimization = value; }
-        }
+        public bool ReuseOptimization { get { return graph.ReuseOptimization; } set { graph.ReuseOptimization = value; } }
 
         /// <summary>
         /// For persistent backends permanently destroys the graph

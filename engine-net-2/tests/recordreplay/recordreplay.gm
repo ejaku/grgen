@@ -1,0 +1,35 @@
+enum Bla {
+	Reh,
+	Lamm,
+	Hurz
+}
+
+node class NA
+{
+	foo : int;
+	bar : string;
+	bleeh : set<int>;
+}
+
+node class NB
+{
+	bla : double;
+	huh : boolean;
+	lal : Bla;
+}
+
+///////////////////////////////////////////
+
+edge class EA
+{
+	foo : int;
+	bar : string;
+	bleeh : map<int,string>;
+}
+
+edge class EB 
+{
+	bla : float;
+	huh : boolean;
+	lal : Bla;
+}

@@ -1,0 +1,32 @@
+new graph "recordreplay/recordreplay"
+
+#show num nodes only NA
+#show num nodes only NB
+#show num edges only EA
+#show num edges only EB
+
+# record the graph changes
+record recordreplay/testgraph.grs start
+
+# do graph changes
+new :NA($=n1, foo=42, bar="foo", bleeh=set<int>{1,2,3})
+new :NB($=n2, bla=3.141592, huh=true, lal=Bla::Hurz)
+new @("n1")-:EA($=e1, foo=1337, bar="fool", bleeh=map<int,string>{2->"3",3->"2"})->@("n2")
+new @("n2")-:EB($=e2, bla=2f, huh=false, lal=Bla::Lamm)->@("n2")
+
+# stop recording
+record recordreplay/testgraph.grs stop
+
+# check the result graph, printing the names found
+xgrs checkTestGraphAndPrintNames1
+
+# replay the changes
+replay recordreplay/testgraph.grs
+
+# check the result graph, printing the names found
+xgrs checkTestGraphAndPrintNames1
+
+# the test script tries to test all available .grs; no sense in trying to test the recorded graph
+!rm recordreplay/testgraph.grs
+
+quit

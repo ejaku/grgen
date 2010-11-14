@@ -826,7 +826,7 @@ namespace de.unika.ipd.grGen.lgsp
         public override IGraphModel Model { get { return model; } }
 
 		/// <summary>
-		/// Returns the graph's transaction manager.
+		/// Returns the transaction manager of the graph.
 		/// For attribute changes using the transaction manager is the only way to include such changes in the transaction history!
 		/// Don't forget to call Commit after a transaction is finished!
 		/// </summary>

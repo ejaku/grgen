@@ -1,0 +1,28 @@
+using recordreplay;
+
+rule checkTestGraphAndPrintNames1
+{	
+	n1:NA -e1:EA-> n2:NB -e2:EB-> n2;
+	
+	if {
+		n1.foo==42;
+		n1.bar=="foo";
+		n1.bleeh==set<int>{1,2,3};
+		n2.bla==3.141592;
+		n2.huh==true;
+		n2.lal==Bla::Hurz;
+		e1.foo==1337;
+		e1.bar=="fool";
+		e1.bleeh==map<int,string>{2->"3",3->"2"};
+		e2.bla==2.0f;
+		e2.huh==false;
+		e2.lal==Bla::Lamm;
+	}
+	
+	modify {
+		emit("value of variable n1 which is a node rly ", nameof(n1), "\n");
+		emit("value of variable n2 which is a node rly ", nameof(n2), "\n");
+		emit("value of variable e1 which is a edge rly ", nameof(e1), "\n");
+		emit("value of variable e2 which is a edge rly ", nameof(e2), "\n");
+	}
+}

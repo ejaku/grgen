@@ -68,7 +68,7 @@ namespace de.unika.ipd.grGen.libGr
 
         protected void Export(IGraph graph)
         {
-            ExportYouMustCloseStreamWriter(graph, writer, withVariables);
+            ExportYouMustCloseStreamWriter(graph, writer, withVariables, "");
         }
 
         /// <summary>
@@ -78,12 +78,12 @@ namespace de.unika.ipd.grGen.libGr
         /// <param name="graph">The graph to export. If a NamedGraph is given, it will be exported including the names.</param>
         /// <param name="sw">The stream writer of the file to export into. The stream writer is not closed automatically.</param>
         /// <param name="withVariables">Export the graph variables, too?</param>
-        public static void ExportYouMustCloseStreamWriter(IGraph graph, StreamWriter sw, bool withVariables)
+        public static void ExportYouMustCloseStreamWriter(IGraph graph, StreamWriter sw, bool withVariables, string modelPathPrefix)
         {
             sw.WriteLine("# begin of graph \"{0}\" saved by GrsExport", graph.Name);
             sw.WriteLine();
 
-            sw.WriteLine("new graph \"" + graph.Model.ModelName + "\" \"" + graph.Name + "\"");
+            sw.WriteLine("new graph \"" + modelPathPrefix + graph.Model.ModelName + "\" \"" + graph.Name + "\"");
 
             if (!(graph is NamedGraph)) {
                 // assign arbitrary but unique names
@@ -99,7 +99,7 @@ namespace de.unika.ipd.grGen.libGr
                     object value = node.GetAttribute(attrType.Name);
                     // TODO: Add support for null values, as the default initializers could assign non-null values!
                     if(value != null) {
-                        EmitAttributes(attrType, value, sw);
+                        EmitAttributeInitialization(attrType, value, sw);
                     }
                 }
                 sw.WriteLine(")");
@@ -131,7 +131,7 @@ namespace de.unika.ipd.grGen.libGr
                         object value = edge.GetAttribute(attrType.Name);
                         // TODO: Add support for null values, as the default initializers could assign non-null values!
                         if(value != null) {
-                            EmitAttributes(attrType, value, sw);
+                            EmitAttributeInitialization(attrType, value, sw);
                         }
                     }
                     sw.WriteLine(") -> @(\"{0}\")", graph.GetElementName(edge.Target));
@@ -161,12 +161,22 @@ namespace de.unika.ipd.grGen.libGr
         /// Emits the node/edge attribute initialization code in graph exporting
         /// for an attribute of the given type with the given value into the stream writer
         /// </summary>
-        private static void EmitAttributes(AttributeType attrType, object value, StreamWriter sw)
+        private static void EmitAttributeInitialization(AttributeType attrType, object value, StreamWriter sw)
+        {
+            sw.Write(", {0} = ", attrType.Name);
+            EmitAttribute(attrType, value, sw);
+        }
+
+        /// <summary>
+        /// Emits the attribute value as code
+        /// for an attribute of the given type with the given value into the stream writer
+        /// </summary>
+        public static void EmitAttribute(AttributeType attrType, object value, StreamWriter sw)
         {
             if(attrType.Kind==AttributeKind.SetAttr)
             {
                 IDictionary set=(IDictionary)value;
-                sw.Write(", {0} = {1}{{", attrType.Name, attrType.GetKindName());
+                sw.Write("{0}{{", attrType.GetKindName());
                 bool first = true;
                 foreach(DictionaryEntry entry in set)
                 {
@@ -178,7 +188,7 @@ namespace de.unika.ipd.grGen.libGr
             else if(attrType.Kind==AttributeKind.MapAttr)
             {
                 IDictionary map=(IDictionary)value;
-                sw.Write(", {0} = {1}{{", attrType.Name, attrType.GetKindName());
+                sw.Write("{0}{{", attrType.GetKindName());
                 bool first = true;
                 foreach(DictionaryEntry entry in map)
                 {
@@ -192,11 +202,11 @@ namespace de.unika.ipd.grGen.libGr
             }
             else
             {
-                sw.Write(", {0} = {1}", attrType.Name, ToString(value, attrType));
+                sw.Write("{0}", ToString(value, attrType));
             }
         }
 
-        private static String ToString(object value, AttributeType type)
+        public static String ToString(object value, AttributeType type)
         {
             switch(type.Kind)
             {
