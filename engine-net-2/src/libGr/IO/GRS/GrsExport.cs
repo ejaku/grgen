@@ -225,7 +225,7 @@ namespace de.unika.ipd.grGen.libGr
                 Console.WriteLine("Warning: Exporting non-null attribute of object type to null");
                 return "null";
             case AttributeKind.EnumAttr:
-                return type.EnumType.Name + "::" + value.ToString();
+                return type.EnumType.Name + "::" + type.EnumType[(int)value].Name;
             default:
                 throw new Exception("Unsupported attribute kind in export");
             }

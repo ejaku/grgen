@@ -26,3 +26,42 @@ rule checkTestGraphAndPrintNames1
 		emit("value of variable e2 which is a edge rly ", nameof(e2), "\n");
 	}
 }
+
+rule createTestGraphWithRules
+{	
+	modify {
+		n1:NA -e1:EA-> n2:NB -e2:EB-> n2;
+		
+		eval {
+			n1.foo = 42;
+			n1.bar = "foo";
+			n1.bleeh = set<int>{1,2,3};
+			n2.bla = 3.141592;
+			n2.huh = true;
+			n2.lal = Bla::Hurz;
+			e1.foo = 1337;
+			e1.bar = "fool";
+			e1.bleeh = map<int,string>{2->"3",3->"2"};
+			e2.bla = 2.0f;
+			e2.huh = false;
+			e2.lal = Bla::Lamm;
+		}
+	}
+}
+
+rule deleteNA
+{
+	:NA;
+	
+	replace {
+	}
+}
+
+rule retypeNA
+{
+	n:NA;
+	
+	modify {
+		:NB<n>;
+	}
+}
