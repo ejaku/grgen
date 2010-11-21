@@ -737,12 +737,22 @@ namespace de.unika.ipd.grGen.libGr
         /// <returns>The new node object representing the retyped node.</returns>
         public INode Retype(INode node, NodeType newNodeType)
         {
-            INode newNode = graph.Retype(node, newNodeType);
-            String name = ElemToName[node];
-            ElemToName.Remove(node);
-            ElemToName[newNode] = name;
-            NameToElem[name] = newNode;
-            return newNode;
+            return graph.Retype(node, newNodeType);
+        }
+
+        /// <summary>
+        /// An element was retyped, i.e. a new element created from an old element,
+        /// give the new element the name of the old element.
+        /// (high level retyping is low level delete and create, reconnecting incident stuff and copying attributes)
+        /// </summary>
+        /// <param name="oldElem">The old element, which was retyped.</param>
+        /// <param name="newElem">The new element, the result of retyping.</param>
+        public void Retyped(IGraphElement oldElem, IGraphElement newElem)
+        {
+            String name = ElemToName[oldElem];
+            ElemToName.Remove(oldElem);
+            ElemToName[newElem] = name;
+            NameToElem[name] = newElem;
         }
 
         /// <summary>
@@ -754,12 +764,7 @@ namespace de.unika.ipd.grGen.libGr
         /// <returns>The new edge object representing the retyped edge.</returns>
         public IEdge Retype(IEdge edge, EdgeType newEdgeType)
         {
-            IEdge newEdge = graph.Retype(edge, newEdgeType);
-            String name = ElemToName[edge];
-            ElemToName.Remove(edge);
-            ElemToName[newEdge] = name;
-            NameToElem[name] = newEdge;
-            return newEdge;
+            return graph.Retype(edge, newEdgeType);
         }
 
         /// <summary>

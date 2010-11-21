@@ -1693,6 +1693,8 @@ namespace de.unika.ipd.grGen.grShell
         {
             if(node == null) return false;
             
+            string name = curShellGraph.Graph.GetElementName(node); // get name before remove
+            
             try
             {
                 curShellGraph.Graph.RemoveEdges(node);
@@ -1706,7 +1708,7 @@ namespace de.unika.ipd.grGen.grShell
 
             if(!silence)
             {
-                debugOut.WriteLine("Node \"{0}\" of type \"{1}\" has been deleted.", curShellGraph.Graph.GetElementName(node), node.Type.Name);
+                debugOut.WriteLine("Node \"{0}\" of type \"{1}\" has been deleted.", name, node.Type.Name);
             }
 
             return true;
@@ -1715,12 +1717,14 @@ namespace de.unika.ipd.grGen.grShell
         public bool Remove(IEdge edge)
         {
             if(edge == null) return false;
-            
+
+            string name = curShellGraph.Graph.GetElementName(edge); // get name before remove
+
             curShellGraph.Graph.Remove(edge);
 
             if(!silence)
             {
-                debugOut.WriteLine("Edge \"{0}\" of type \"{1}\" has been deleted.", curShellGraph.Graph.GetElementName(edge), edge.Type.Name);
+                debugOut.WriteLine("Edge \"{0}\" of type \"{1}\" has been deleted.", name, edge.Type.Name);
             }
 
             return true;

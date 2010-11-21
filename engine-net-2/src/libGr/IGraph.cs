@@ -124,6 +124,27 @@ namespace de.unika.ipd.grGen.libGr
         /// </summary>
         /// <param name="value">The string to write to the recordings</param>
         void Write(string value);
+
+        ////////////////////////////////////////////////////////////////////////
+
+        /// <summary>
+        /// Called by the transaction manager when a transaction is started
+        /// </summary>
+        /// <param name="transactionID">The id of the transaction</param>
+        void TransactionStart(int transactionID);
+
+        /// <summary>
+        /// Called by the transaction manager when a transaction is committed
+        /// </summary>
+        /// <param name="transactionID">The id of the transaction</param>
+        void TransactionCommit(int transactionID);
+        
+        /// <summary>
+        /// Called by the transaction manager when a transaction is rolled back
+        /// </summary>
+        /// <param name="transactionID">The id of the transaction</param>
+        /// <param name="start">true when called at rollback start, false when called at rollback end</param>
+        void TransactionRollback(int transactionID, bool start);
     }
 
     #region GraphDelegates

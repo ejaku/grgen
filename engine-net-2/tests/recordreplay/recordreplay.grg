@@ -101,3 +101,25 @@ rule changeAttributesOverwritingOverwritingWithSamePartial
 		}
 	}
 }
+
+rule deleteEdge
+{
+	-->;
+	
+	replace {
+	}
+}
+
+rule createNodePerNode
+{
+	.;
+	
+	modify {
+		.;
+	}
+}
+
+test invert(var input:boolean) : (boolean)
+{
+	return (!input);
+}

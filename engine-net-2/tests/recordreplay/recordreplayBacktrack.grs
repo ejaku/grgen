@@ -1,0 +1,35 @@
+new graph "recordreplay/recordreplay"
+
+# initialize graph
+new :NA($=n1)
+new :NB($=n2)
+new @("n1")-:EA($=e1)->@("n2")
+new @("n2")-:EB($=e2)->@("n2")
+
+record recordreplay/testgraph.grs
+
+xgrs toggle=true ;> <<deleteEdge; (toggle)=invert(toggle) && [createNodePerNode] && toggle>>
+
+record recordreplay/testgraph.grs
+
+# check the result graph
+show num nodes only Node
+show num nodes only NA
+show num nodes only NB
+show num edges only EA
+show num edges only EB
+
+# replay the changes
+replay recordreplay/testgraph.grs
+
+# check the result graph
+show num nodes only Node
+show num nodes only NA
+show num nodes only NB
+show num edges only EA
+show num edges only EB
+
+# the test script tries to test all available .grs; no sense in trying to test the recorded graph
+!rm recordreplay/testgraph.grs
+
+quit

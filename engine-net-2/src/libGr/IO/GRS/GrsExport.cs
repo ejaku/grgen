@@ -215,6 +215,7 @@ namespace de.unika.ipd.grGen.libGr
             case AttributeKind.BooleanAttr:
                 return ((bool)value).ToString();
             case AttributeKind.StringAttr:
+                if(value == null) return "\"\"";
                 if(((string)value).IndexOf('\"') != -1) return "\'" + ((string)value) + "\'";
                 else return "\"" + ((string)value) + "\"";
             case AttributeKind.FloatAttr:

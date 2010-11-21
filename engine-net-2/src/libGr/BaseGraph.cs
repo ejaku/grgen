@@ -128,6 +128,9 @@ namespace de.unika.ipd.grGen.libGr
             graph.OnChangingEdgeAttribute += new ChangingEdgeAttributeHandler(ChangingAttribute);
             graph.OnRetypingNode += new RetypingNodeHandler(RetypingNode);
             graph.OnRetypingEdge += new RetypingEdgeHandler(RetypingEdge);
+            graph.OnFinishing += new BeforeFinishHandler(BeforeFinish);
+            graph.OnRewritingNextMatch += new RewriteNextMatchHandler(RewriteNextMatch);
+            graph.OnFinished += new AfterFinishHandler(AfterFinish);
         }
 
         private void UnsubscribeEvents()
@@ -140,6 +143,9 @@ namespace de.unika.ipd.grGen.libGr
             graph.OnChangingEdgeAttribute -= new ChangingEdgeAttributeHandler(ChangingAttribute);
             graph.OnRetypingNode -= new RetypingNodeHandler(RetypingNode);
             graph.OnRetypingEdge -= new RetypingEdgeHandler(RetypingEdge);
+            graph.OnFinishing -= new BeforeFinishHandler(BeforeFinish);
+            graph.OnRewritingNextMatch += new RewriteNextMatchHandler(RewriteNextMatch);
+            graph.OnFinished -= new AfterFinishHandler(AfterFinish);
         }
 
         ////////////////////////////////////////////////////////////////////////
@@ -274,21 +280,47 @@ namespace de.unika.ipd.grGen.libGr
 
         ////////////////////////////////////////////////////////////////////////
 
-        /*
-        void DebugSettingAddedNodeNames(string[] namesOfNodesAdded);
-        void DebugSettingAddedEdgeNames(string[] namesOfEdgesAdded);
-        void DebugEnteringSequence(Sequence seq);
-        void DebugExitingSequence(Sequence seq);
-        void DebugMatched(IMatches matches, bool special);
-        void DebugNextMatch();
-        void DebugFinished(IMatches matches, bool special);
-        */
+        void BeforeFinish(IMatches matches, bool special)
+        {
+            foreach(StreamWriter writer in recordings.Values)
+                writer.WriteLine("# rewriting " + matches.Producer.Name + "..");
+        }
 
-        /*
-        void TransactionStarted(int transactionID);
-        void TransactionCommitted(int transactionID);
-        void TransactionRolledBack(int transactionID);
-        */
+        void RewriteNextMatch()
+        {
+            foreach(StreamWriter writer in recordings.Values)
+                writer.WriteLine("# rewriting next match");
+        }
+
+        void AfterFinish(IMatches matches, bool special)
+        {
+            foreach(StreamWriter writer in recordings.Values)
+                writer.WriteLine("# ..rewritten " + matches.Producer.Name);
+        }
+
+        ////////////////////////////////////////////////////////////////////////
+
+        public void TransactionStart(int transactionID)
+        {
+            foreach(StreamWriter writer in recordings.Values)
+                writer.WriteLine("# begin transaction " + transactionID);
+        }
+
+        public void TransactionCommit(int transactionID)
+        {
+            foreach(StreamWriter writer in recordings.Values)
+                writer.WriteLine("# commit transaction " + transactionID);
+        }
+
+        public void TransactionRollback(int transactionID, bool start)
+        {
+            if(start)
+                foreach(StreamWriter writer in recordings.Values)
+                    writer.WriteLine("# rolling back transaction " + transactionID + "..");
+            else
+                foreach(StreamWriter writer in recordings.Values)
+                    writer.WriteLine("# ..rolled back transaction " + transactionID);
+        }
     }
 
     /// <summary>

@@ -305,6 +305,8 @@ namespace de.unika.ipd.grGen.lgsp
                 LGSPNode oldNode = (LGSPNode) _oldElem;
                 lgspGraph.RetypingNode(newNode, oldNode);
                 lgspGraph.ReplaceNode(newNode, oldNode);
+                if(lgspGraph.NamedGraph != null)
+                    lgspGraph.NamedGraph.Retyped(newNode, oldNode);
             }
             else
             {
@@ -312,6 +314,8 @@ namespace de.unika.ipd.grGen.lgsp
                 LGSPEdge oldEdge = (LGSPEdge) _oldElem;
                 lgspGraph.RetypingEdge(newEdge, oldEdge);
                 lgspGraph.ReplaceEdge(newEdge, oldEdge);
+                if(lgspGraph.NamedGraph != null)
+                    lgspGraph.NamedGraph.Retyped(newEdge, oldEdge);
             }
         }
 
@@ -386,10 +390,12 @@ namespace de.unika.ipd.grGen.lgsp
 #if LOG_TRANSACTION_HANDLING
             writer.WriteLine("StartTransaction");
 #endif
+            if(graph.Recorder != null)
+                graph.Recorder.TransactionStart(undoItems.Count);
+
             if(!recording)
-            {
                 SubscribeEvents();
-            }
+
             return undoItems.Count;
         }
 
@@ -406,6 +412,9 @@ namespace de.unika.ipd.grGen.lgsp
 #if CHECK_RINGLISTS
             graph.CheckTypeRinglistsBroken();
 #endif
+            if(graph.Recorder != null)
+                graph.Recorder.TransactionCommit(transactionID);
+
             if(transactionID == 0)
             {
                 undoItems.Clear();
@@ -426,6 +435,9 @@ namespace de.unika.ipd.grGen.lgsp
 #if LOG_TRANSACTION_HANDLING
             writer.WriteLine("Rollback to " + transactionID);
 #endif
+            if(graph.Recorder != null)
+                graph.Recorder.TransactionRollback(transactionID, true);
+
             undoing = true;
             while(undoItems.Count > transactionID)
             {
@@ -463,10 +475,13 @@ namespace de.unika.ipd.grGen.lgsp
                 undoItems.RemoveLast();
             }
             undoing = false;
+      
             if(transactionID == 0)
-            {
                 UnsubscribeEvents();
-            }
+
+            if(graph.Recorder != null)
+                graph.Recorder.TransactionRollback(transactionID, true);
+
 #if LOG_TRANSACTION_HANDLING
             writer.Flush();
 #endif
@@ -1445,6 +1460,10 @@ namespace de.unika.ipd.grGen.lgsp
             RetypingNode(node, newNode);
 
             ReplaceNode(node, newNode);
+
+            if(namedGraph != null)
+                namedGraph.Retyped(node, newNode);
+
             return newNode;
         }
 
@@ -1476,6 +1495,10 @@ namespace de.unika.ipd.grGen.lgsp
             RetypingEdge(edge, newEdge);
 
             ReplaceEdge(edge, newEdge);
+
+            if(namedGraph != null)
+                namedGraph.Retyped(edge, newEdge);
+
             return newEdge;
         }
 
@@ -1860,7 +1883,9 @@ namespace de.unika.ipd.grGen.lgsp
         #region Names and Variables management
 
         /// <summary>
-        /// Set it if a named graph is available, so that the nameof operator can return the persistent name instead of a hash code
+        /// Set it if a named graph is available, so that 
+        /// - the nameof operator can return the persistent name instead of a hash code
+        /// - a retyped element can keep its name
         /// </summary>
         public NamedGraph NamedGraph { get { return namedGraph; } set { namedGraph = value; } }
         private NamedGraph namedGraph = null;
