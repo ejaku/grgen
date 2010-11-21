@@ -144,6 +144,9 @@ public abstract class ParserEnvironment extends Base {
 		stdModelChilds.addChild(predefineType("float", BasicTypeNode.floatType));
 		stdModelChilds.addChild(predefineType("double", BasicTypeNode.doubleType));
 		stdModelChilds.addChild(predefineType("object", BasicTypeNode.objectType));
+		
+		predefine(EXTERNAL_FUNCTIONS, "min");
+		predefine(EXTERNAL_FUNCTIONS, "max");
 	}
 
 	public ModelNode getStdModel() {
@@ -362,6 +365,7 @@ public abstract class ParserEnvironment extends Base {
 		keywords.add("pattern");
 		keywords.add("patternpath");
 		keywords.add("random");
+		keywords.add("record");
 		keywords.add("replace");
 		keywords.add("return");
 		keywords.add("rule");

@@ -1249,4 +1249,30 @@ namespace de.unika.ipd.grGen.expression
         Expression[] Arguments;
         String[] ArgumentTypes; // for each argument: if node/edge: the interface type, otherwise: null
     }
+
+    /// <summary>
+    /// Class representing the max operator.
+    /// </summary>
+    public class Max : BinFuncOperator
+    {
+        public Max(Expression left, Expression right) : base(left, right) { }
+
+        public override string GetFuncOperatorAndLParen()
+        {
+            return "Math.Max(";
+        }
+    }
+
+    /// <summary>
+    /// Class representing the min operator.
+    /// </summary>
+    public class Min : BinFuncOperator
+    {
+        public Min(Expression left, Expression right) : base(left, right) { }
+
+        public override string GetFuncOperatorAndLParen()
+        {
+            return "Math.Min(";
+        }
+    }
 }

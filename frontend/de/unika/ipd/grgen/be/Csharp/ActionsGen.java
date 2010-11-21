@@ -48,6 +48,8 @@ import de.unika.ipd.grgen.ir.MapRangeExpr;
 import de.unika.ipd.grgen.ir.MapSizeExpr;
 import de.unika.ipd.grgen.ir.MapPeekExpr;
 import de.unika.ipd.grgen.ir.MapType;
+import de.unika.ipd.grgen.ir.MaxExpr;
+import de.unika.ipd.grgen.ir.MinExpr;
 import de.unika.ipd.grgen.ir.SetInit;
 import de.unika.ipd.grgen.ir.SetItem;
 import de.unika.ipd.grgen.ir.SetSizeExpr;
@@ -1454,6 +1456,22 @@ public class ActionsGen extends CSharpBase {
 				sb.append(", ");
 			}
 			sb.append("}");
+			sb.append(")");
+		}
+		else if (expr instanceof MaxExpr) {
+			MaxExpr m = (MaxExpr) expr;
+			sb.append("new GRGEN_EXPR.Max(");
+			genExpressionTree(sb, m.getLeftExpr(), className, pathPrefix, alreadyDefinedEntityToName);
+			sb.append(", ");
+			genExpressionTree(sb, m.getRightExpr(), className, pathPrefix, alreadyDefinedEntityToName);
+			sb.append(")");
+		}
+		else if (expr instanceof MinExpr) {
+			MinExpr m = (MinExpr) expr;
+			sb.append("new GRGEN_EXPR.Min(");
+			genExpressionTree(sb, m.getLeftExpr(), className, pathPrefix, alreadyDefinedEntityToName);
+			sb.append(", ");
+			genExpressionTree(sb, m.getRightExpr(), className, pathPrefix, alreadyDefinedEntityToName);
 			sb.append(")");
 		}
 		else throw new UnsupportedOperationException("Unsupported expression type (" + expr + ")");

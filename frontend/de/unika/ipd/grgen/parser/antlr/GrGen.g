@@ -2402,7 +2402,11 @@ enumItemExpr returns [ ExprNode res = env.initExprNode() ]
 externalFunctionInvocationExpr [ boolean inEnumInit ] returns [ ExprNode res = env.initExprNode() ]
 	: id=extFuncIdentUse params=paramExprs[inEnumInit]
 		{
-			res = new ExternalFunctionInvocationExprNode(id, params);
+			if((id.toString()=="min" || id.toString()=="max") && params.getChildren().size()==2) {
+				res = new FunctionInvocationExprNode(id, params);
+			} else {
+				res = new ExternalFunctionInvocationExprNode(id, params);
+			}
 		}
 	;
 	

@@ -1,0 +1,15 @@
+using attrib_model_001;
+
+rule r {
+	ns : NSTRING;
+	-es:ESTRING->;
+
+	if {
+		ns.a == min(ns.a, es.a);
+		ns.a == max(ns.a, es.a);
+	}
+	
+	modify {
+	}
+}
+

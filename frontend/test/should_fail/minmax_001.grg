@@ -1,0 +1,15 @@
+using attrib_model_001;
+
+rule r {
+	nb : NBOOL;
+	-eb:EBOOL->;
+
+	if {
+		nb.a == min(nb.a, eb.a);
+		nb.a == max(nb.a, eb.a);
+	}
+	
+	modify {
+	}
+}
+
