@@ -1066,10 +1066,106 @@ namespace de.unika.ipd.grGen.lgsp
 					break;
 				}
 
+                case SequenceType.Backtrack:
+                {
+                    SequenceBacktrack seqBack = (SequenceBacktrack)seq;
+                    EmitSequenceBacktrack(seqBack, source);
+                    break;
+                }
+
 				default:
 					throw new Exception("Unknown sequence type: " + seq.SequenceType);
 			}
 		}
+
+        public void EmitSequenceBacktrack(SequenceBacktrack seq, SourceBuilder source)
+        {
+            RuleInvocationParameterBindings paramBindings = seq.Rule.ParamBindings;
+            String specialStr = seq.Rule.Special ? "true" : "false";
+            String parameters = BuildParameters(seq.Rule, paramBindings);
+            String matchingPatternClassName = "Rule_" + paramBindings.RuleName;
+            String patternName = paramBindings.RuleName;
+            String matchType = matchingPatternClassName + "." + NamesOfEntities.MatchInterfaceName(patternName);
+            String matchName = "match_" + seq.Id;
+            String matchesType = "GRGEN_LIBGR.IMatchesExact<" + matchType + ">";
+            String matchesName = "matches_" + seq.Id;
+            source.AppendFront(matchesType + " " + matchesName + " = rule_" + paramBindings.RuleName
+                + ".Match(graph, graph.MaxMatches" + parameters + ");\n");
+            
+            source.AppendFront("if(" + matchesName + ".Count==0) {\n");
+            source.Indent();
+            source.AppendFront(SetResultVar(seq, "false"));
+            source.Unindent();
+            source.AppendFront("} else {\n");
+            source.Indent();
+            source.AppendFront(SetResultVar(seq, "true")); // shut up compiler
+            if(gen.UsePerfInfo) source.AppendFront("if(graph.PerformanceInfo!=null) graph.PerformanceInfo.MatchesFound += " + matchesName + ".Count;\n");
+            if(gen.FireEvents) source.AppendFront("graph.Finishing(" + matchesName + ", " + specialStr + ");\n");
+
+            String returnParameterDeclarations;
+            String returnArguments;
+            String returnAssignments;
+            BuildReturnParameters(paramBindings, out returnParameterDeclarations, out returnArguments, out returnAssignments);
+
+            // apply the rule and the following sequence for every match found, 
+            // until the first rule and sequence execution succeeded
+            // rolling back the changes of failing executions until then
+            String enumeratorName = "enum_" + seq.Id;
+            String matchesTriedName = "matchesTried_" + seq.Id;
+            source.AppendFront("int " + matchesTriedName + " = 0;\n");
+            source.AppendFront("IEnumerator<" + matchType + "> " + enumeratorName + " = " + matchesName + ".GetEnumeratorExact();\n");
+            source.AppendFront("while(" + enumeratorName + ".MoveNext())\n");
+            source.AppendFront("{\n");
+            source.Indent();
+            source.AppendFront(matchType + " " + matchName + " = " + enumeratorName + ".Current;\n");
+            source.AppendFront("++" + matchesTriedName + ";\n");
+
+            // start a transaction
+            source.AppendFront("int transID_" + seq.Id + " = graph.TransactionManager.StartTransaction();\n");
+            source.AppendFront("int oldRewritesPerformed_" + seq.Id + " = -1;\n");
+            source.AppendFront("if(graph.PerformanceInfo!=null) oldRewritesPerformed_"+seq.Id+" = graph.PerformanceInfo.RewritesPerformed;\n");
+            if(gen.FireEvents) source.AppendFront("graph.Matched(" + matchesName + ", " + specialStr + ");\n");
+            if(returnParameterDeclarations.Length!=0) source.AppendFront(returnParameterDeclarations + "\n");
+
+            source.AppendFront("rule_" + paramBindings.RuleName + ".Modify(graph, " + matchName + returnArguments + ");\n");
+            if(returnAssignments.Length != 0) source.AppendFront(returnAssignments + "\n");
+            if(gen.UsePerfInfo) source.AppendFront("if(graph.PerformanceInfo!=null) graph.PerformanceInfo.RewritesPerformed++;\n");
+            if(gen.FireEvents) source.AppendFront("graph.Finished(" + matchesName + ", " + specialStr + ");\n");
+
+            // rule applied, now execute the sequence
+            EmitSequence(seq.Seq, source);
+
+            // if sequence execution failed, roll the changes back and try the next match of the rule
+            source.AppendFront("if(!" + GetResultVar(seq.Seq) + ") {\n");
+            source.Indent();
+            source.AppendFront("graph.TransactionManager.Rollback(transID_" + seq.Id + ");\n");
+            if(gen.UsePerfInfo) source.AppendFront("if(graph.PerformanceInfo!=null) graph.PerformanceInfo.RewritesPerformed = oldRewritesPerformed_"+seq.Id+";\n");
+
+            source.AppendFront("if(" + matchesTriedName + " < " + matchesName + ".Count) {\n"); // further match available -> try it
+            source.Indent();
+            source.AppendFront("continue;\n");
+            source.Unindent();
+            source.AppendFront("} else {\n"); // all matches tried, all failed later on -> end in fail
+            source.Indent();
+            source.AppendFront(SetResultVar(seq, "false"));
+            source.AppendFront("break;\n");
+            source.Unindent();
+            source.AppendFront("}\n");
+
+            source.Unindent();
+            source.AppendFront("}\n");
+
+            // if sequence execution succeeded, commit the changes so far and succeed
+            source.AppendFront("graph.TransactionManager.Commit(transID_" + seq.Id + ");\n");
+            source.AppendFront(SetResultVar(seq, "true"));
+            source.AppendFront("break;\n");
+
+            source.Unindent();
+            source.AppendFront("}\n");
+
+            source.Unindent();
+            source.AppendFront("}\n");
+        }
 
         public void EmitSequenceAll(SequenceNAry seqAll, bool disjunction, bool lazy, SourceBuilder source)
         {

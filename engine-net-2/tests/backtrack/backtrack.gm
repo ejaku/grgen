@@ -1,0 +1,4 @@
+node class N
+{
+	stringVal:string;
+}

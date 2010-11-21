@@ -1,0 +1,25 @@
+using deep_model_001;
+
+rule s(a:A, b:B)
+{
+	modify {
+	}
+}
+
+rule t(n:Node) : (Node)
+{
+	modify {
+		return(n);
+	}
+}
+
+rule r(y : Acc) {
+  hom(a,b);
+  a : A;
+  b : B;
+  n : Node;
+  modify{
+    exec(<<r(y) ; s(a,b)&&(m:Node)=t(n)&&t(m) >>);
+    exec(<s(a,b)&&(m:Node)=t(n)&&t(m)>);
+  }
+}

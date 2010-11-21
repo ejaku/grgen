@@ -1,0 +1,42 @@
+using backtrack;
+
+rule find : (Node)
+{
+	root:Node --> child:Node;
+
+	modify {
+		:N<root>;
+		return(child);
+	}
+}
+
+rule reflexive(n:Node)
+{
+	n --> n;
+	
+	modify {
+		:N<n>;
+	}
+}
+
+rule retypeAgain
+{
+	n:N;
+	modify {
+		:Node<n>;
+	}
+}
+
+rule execBacktrackFail
+{
+	modify {
+		exec(<<find ; false>>);
+	}
+}
+
+rule execBacktrack
+{
+	modify {
+		exec(<<(n:Node)=find ; reflexive(n)>>);
+	}
+}

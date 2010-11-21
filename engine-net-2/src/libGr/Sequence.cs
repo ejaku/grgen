@@ -606,8 +606,10 @@ namespace de.unika.ipd.grGen.libGr
             if(retElems == null) retElems = BaseGraph.NoElems;
 
             for(int i = 0; i < ParamBindings.ReturnVars.Length; i++)
-                ParamBindings.ReturnVars[i].SetVariableValue(retElems[i], graph);
-            if(graph.PerformanceInfo != null) graph.PerformanceInfo.StopRewrite();            // total rewrite time does NOT include listeners anymore
+                if(ParamBindings.ReturnVars[i]!=null)
+                    ParamBindings.ReturnVars[i].SetVariableValue(retElems[i], graph);
+
+            if(graph.PerformanceInfo != null) graph.PerformanceInfo.StopRewrite(); // total rewrite time does NOT include listeners anymore
 
             graph.Finished(matches, Special);
 
@@ -1601,7 +1603,6 @@ namespace de.unika.ipd.grGen.libGr
         public override string Symbol { get { return "< ... >"; } }
     }
 
-    // TODO: complete implementation of this quick hack, esp. add the compiled version
     public class SequenceBacktrack : Sequence
     {
         public SequenceRule Rule;
@@ -1655,10 +1656,9 @@ namespace de.unika.ipd.grGen.libGr
 
                 // start a transaction
                 int transactionID = graph.TransactionManager.StartTransaction();
-                int oldRewritesPerformed;
+                int oldRewritesPerformed = -1;
 
                 if(graph.PerformanceInfo != null) oldRewritesPerformed = graph.PerformanceInfo.RewritesPerformed;
-                else oldRewritesPerformed = -1;
 
                 graph.EnteringSequence(Rule);
                 Rule.executionState = SequenceExecutionState.Underway;

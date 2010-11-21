@@ -158,6 +158,14 @@ namespace de.unika.ipd.grGen.lgsp
                 break;
             }
 
+            case SequenceType.Backtrack:
+            {
+                SequenceBacktrack backSeq = (SequenceBacktrack)seq;
+                Check(backSeq.Rule);
+                Check(backSeq.Seq);
+                break;
+            }
+
             case SequenceType.VarPredicate:
             {
                 SequenceVarPredicate varPredSeq = (SequenceVarPredicate)seq;

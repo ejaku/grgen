@@ -1,0 +1,59 @@
+new graph "backtrack/backtrack"
+
+new n0:Node
+
+new n1:Node
+new n0 -e1:Edge-> n1
+new n2:Node
+new n0 -e2:Edge-> n2
+new n3:Node
+new n0 -e3:Edge-> n3
+new n4:Node
+new n0 -e4:Edge-> n4
+new n5:Node
+new n0 -e5:Edge-> n5
+
+show num nodes Node
+show num nodes N
+show num edges
+
+xgrs <<find ; false>>
+
+show num nodes Node
+show num nodes N
+show num edges
+
+xgrs <<(n)=find ; reflexive(n)>>
+
+show num nodes Node
+show num nodes N
+show num edges
+
+new n3 -re:Edge-> n3
+
+show num nodes Node
+show num nodes N
+show num edges
+
+xgrs <<(n)=find ; reflexive(n)>>
+
+show num nodes Node
+show num nodes N
+show num edges
+
+xgrs [retypeAgain]
+
+show num nodes Node
+show num nodes N
+show num edges
+
+new n4 -:Edge-> n4
+new n5 -:Edge-> n5
+
+xgrs <<(n)=find ; reflexive(n)>>
+
+show num nodes Node
+show num nodes N
+show num edges
+
+quit
