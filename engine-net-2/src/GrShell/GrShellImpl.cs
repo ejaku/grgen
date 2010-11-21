@@ -998,11 +998,14 @@ namespace de.unika.ipd.grGen.grShell
             }
         }
 
-        public bool Include(GrShell grShell, String filename)
+        public bool Include(GrShell grShell, String filename, String from, String to)
         {
             try
             {
-                using(TextReader reader = new StreamReader(filename))
+                TextReader reader = new StreamReader(filename);
+                if(from != null || to != null)
+                    reader = new FromToReader(reader, from, to);
+                using(reader)
                 {
                     SimpleCharStream charStream = new SimpleCharStream(reader);
                     GrShellTokenManager tokenSource = new GrShellTokenManager(charStream);
@@ -1209,8 +1212,14 @@ namespace de.unika.ipd.grGen.grShell
                 }
             }
 
+            if(InDebugMode) { // switch to new graph from old graph
+                SetDebugMode(false);
+                pendingDebugEnable = true;
+            }
+
             if(pendingDebugEnable)
                 SetDebugMode(true);
+
             return true;
         }
 
@@ -1243,8 +1252,14 @@ namespace de.unika.ipd.grGen.grShell
             }
             graphs.Add(curShellGraph);
 
+            if(InDebugMode) { // switch to new graph from old graph
+                SetDebugMode(false);
+                pendingDebugEnable = true;
+            }
+
             if(pendingDebugEnable)
                 SetDebugMode(true);
+            
             return true;
         }
 
@@ -2735,6 +2750,12 @@ namespace de.unika.ipd.grGen.grShell
 
         public object Askfor(String typeName)
         {
+            if(typeName == null)
+            {
+                UserInterface.ShowMsgAskForEnter("Pause..");
+                return null;
+            }
+
             if(TypesHelper.GetNodeOrEdgeType(typeName, curShellGraph.Graph.Model)!=null) // if type is node/edge type let the user select the element in yComp
             {
                 if(!CheckDebuggerAlive())
@@ -3059,7 +3080,13 @@ showavail:
                 errOut.WriteLine("Not a set.");
                 return;
             }
-            
+
+            AttributeType attrType = elem.Type.GetAttributeType(attrName);
+            AttributeChangeType changeType = AttributeChangeType.PutElement;
+            if(elem is INode)
+                curShellGraph.Graph.ChangingNodeAttribute((INode)elem, attrType, changeType, keyObj, null);
+            else
+                curShellGraph.Graph.ChangingEdgeAttribute((IEdge)elem, attrType, changeType, keyObj, null);
             dict[keyObj] = null;
         }
 
@@ -3082,6 +3109,12 @@ showavail:
                 return;
             }
 
+            AttributeType attrType = elem.Type.GetAttributeType(attrName);
+            AttributeChangeType changeType = AttributeChangeType.PutElement;
+            if(elem is INode)
+                curShellGraph.Graph.ChangingNodeAttribute((INode)elem, attrType, changeType, valueObj, keyObj);
+            else
+                curShellGraph.Graph.ChangingEdgeAttribute((IEdge)elem, attrType, changeType, valueObj, keyObj);
             dict[keyObj] = valueObj;
         }
 
@@ -3101,6 +3134,13 @@ showavail:
                 return;
             }
 
+            AttributeType attrType = elem.Type.GetAttributeType(attrName);
+            bool isSet = attrType.Kind == AttributeKind.SetAttr; // otherwise map
+            AttributeChangeType changeType = AttributeChangeType.RemoveElement;
+            if(elem is INode)
+                curShellGraph.Graph.ChangingNodeAttribute((INode)elem, attrType, changeType, isSet ? keyObj : null, isSet ? null : keyObj);
+            else
+                curShellGraph.Graph.ChangingEdgeAttribute((IEdge)elem, attrType, changeType, isSet ? keyObj : null, isSet ? null : keyObj);
             dict.Remove(keyObj);
         }
 
@@ -3387,40 +3427,55 @@ showavail:
             return true;
         }
 
-        public bool Record(String filename, bool start)
+        public bool Record(String filename, bool actionSpecified, bool start)
         {
             if(!GraphExists()) return false;
 
             try
             {
-                if(start)
-                    curShellGraph.Graph.Recorder.StartRecording(filename);
+                if(actionSpecified)
+                {
+                    if(start)
+                        curShellGraph.Graph.Recorder.StartRecording(filename);
+                    else
+                        curShellGraph.Graph.Recorder.StopRecording(filename);
+                }
                 else
-                    curShellGraph.Graph.Recorder.StopRecording(filename);
+                {
+                    if(curShellGraph.Graph.Recorder.IsRecording(filename))
+                        curShellGraph.Graph.Recorder.StopRecording(filename);
+                    else
+                        curShellGraph.Graph.Recorder.StartRecording(filename);
+                }
             }
             catch(Exception e)
             {
-                if(start)
-                    errOut.WriteLine("Unable to start recording: " + e.Message);
-                else
-                    errOut.WriteLine("Unable to stop recording: " + e.Message);
+                errOut.WriteLine("Unable to change recording status: " + e.Message);
                 return false;
             }
 
-            if(start)
+            if(curShellGraph.Graph.Recorder.IsRecording(filename))
                 debugOut.WriteLine("Started recording to \"" + filename + "\"");
             else
                 debugOut.WriteLine("Stopped recording to \"" + filename + "\"");
             return true;
         }
 
-        public bool Replay(String filename, GrShell grShell)
+        public bool Replay(String filename, GrShell grShell, String from, String to)
         {
             if(!GraphExists()) return false;
 
-            if(Include(grShell, filename))
+            debugOut.Write("Replaying \"" + filename + "\"");
+            if(from != null) debugOut.Write(" from \"" + from + "\"");
+            if(to != null) debugOut.Write(" to \"" + to + "\"");
+            debugOut.WriteLine("..");
+
+            if(Include(grShell, filename, from, to))
             {
-                debugOut.WriteLine("Replayed \"" + filename + "\"");
+                debugOut.Write("..replaying \"" + filename + "\"");
+                if(from != null) debugOut.Write(" from \"" + from + "\"");
+                if(to != null) debugOut.Write(" to \"" + to + "\"");
+                debugOut.WriteLine(" ended");
                 return true;
             }
             else

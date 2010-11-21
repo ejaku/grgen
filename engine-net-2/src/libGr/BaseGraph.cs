@@ -96,13 +96,23 @@ namespace de.unika.ipd.grGen.libGr
         }
 
         /// <summary>
-        /// Writes a comment line to the currently ongoing recordings
+        /// Returns whether the graph changes get currently recorded into the given file.
         /// </summary>
-        /// <param name="comment">The commentary to write to the recordings</param>
-        public void WriteComment(string comment)
+        /// <param name="filename">The name of the file whose recording status gets queried</param>
+        /// <returns>The recording status of the file queried</returns>
+        public bool IsRecording(string filename)
+        {
+            return recordings.ContainsKey(filename);
+        }
+
+        /// <summary>
+        /// Writes the given string to the currently ongoing recordings
+        /// </summary>
+        /// <param name="value">The string to write to the recordings</param>
+        public void Write(string value)
         {
             foreach(StreamWriter writer in recordings.Values)
-                writer.WriteLine("# " + comment);
+                writer.Write(value);
         }
 
         IGraph graph = null;
@@ -218,7 +228,7 @@ namespace de.unika.ipd.grGen.libGr
                     }
                     break;
                 case AttributeChangeType.RemoveElement:
-                    writer.WriteLine("@(\"" + graph.GetElementName(element) + "\")." + attrType.Name);
+                    writer.Write("@(\"" + graph.GetElementName(element) + "\")." + attrType.Name);
                     switch(attrType.Kind)
                     {
                     case AttributeKind.SetAttr:
@@ -228,7 +238,7 @@ namespace de.unika.ipd.grGen.libGr
                         break;
                     case AttributeKind.MapAttr:
                         writer.Write(".rem(");
-                        writer.Write(GRSExport.ToString(newValue, attrType.ValueType));
+                        writer.Write(GRSExport.ToString(keyValue, attrType.KeyType));
                         writer.WriteLine(")");
                         break;
                     default:

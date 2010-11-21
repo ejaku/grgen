@@ -814,6 +814,44 @@ namespace de.unika.ipd.grGen.lgsp
                     break;
                 }
 
+                case SequenceType.Record:
+                {
+                    SequenceRecord seqRec = (SequenceRecord)seq;
+                    if(seqRec.Variable != null)
+                    {
+                        if(seqRec.Variable.Type == "string" || seqRec.Variable.Type == ""
+                            || seqRec.Variable.Type.StartsWith("set<") || seqRec.Variable.Type.StartsWith("map<"))
+                        {
+                            source.AppendFront("if(" + GetVar(seqRec.Variable) + "!=null) {\n");
+                            source.Indent();
+                            if(seqRec.Variable.Type == "string")
+                            {
+                                source.AppendFront("graph.Recorder.Write(" + GetVar(seqRec.Variable) + ".ToString());\n");
+                            }
+                            else
+                            {
+                                source.AppendFront("if(" + GetVar(seqRec.Variable) + " is IDictionary) graph.Recorder.Write(GRGEN_LIBGR.DictionaryHelper.ToString((IDictionary)" + GetVar(seqRec.Variable) + "));\n");
+                                source.AppendFront("else graph.Recorder.Write(" + GetVar(seqRec.Variable) + ".ToString());\n");
+                            }
+                            source.Unindent();
+                            source.AppendFront("}\n");
+                        }
+                        else
+                        {
+                            source.AppendFront("graph.Recorder.Write(" + GetVar(seqRec.Variable) + ".ToString());\n");
+                        }
+                    }
+                    else
+                    {
+                        String text = seqRec.Text.Replace("\n", "\\n");
+                        text = text.Replace("\r", "\\r");
+                        text = text.Replace("\t", "\\t");
+                        source.AppendFront("graph.Recorder.Write(\"" + text + "\");\n");
+                    }
+                    source.AppendFront(SetResultVar(seqRec, "true"));
+                    break;
+                }
+
                 case SequenceType.AssignVAllocToVar:
                 {
                     SequenceAssignVAllocToVar seqVAllocToVar = (SequenceAssignVAllocToVar)seq;

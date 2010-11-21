@@ -113,10 +113,17 @@ namespace de.unika.ipd.grGen.libGr
         void StopRecording(string filename);
 
         /// <summary>
-        /// Writes a comment line to the currently ongoing recordings
+        /// Returns whether the graph changes get currently recorded into the given file.
         /// </summary>
-        /// <param name="comment">The commentary to write to the recordings</param>
-        void WriteComment(string comment);
+        /// <param name="filename">The name of the file whose recording status gets queried</param>
+        /// <returns>The recording status of the file queried</returns>
+        bool IsRecording(string filename);
+
+        /// <summary>
+        /// Writes the given string to the currently ongoing recordings
+        /// </summary>
+        /// <param name="value">The string to write to the recordings</param>
+        void Write(string value);
     }
 
     #region GraphDelegates

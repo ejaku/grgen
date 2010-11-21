@@ -168,6 +168,7 @@ namespace de.unika.ipd.grGen.libGr
             case SequenceType.VFree:
             case SequenceType.VReset:
             case SequenceType.Emit:
+            case SequenceType.Record:
             case SequenceType.SetmapAdd:
             case SequenceType.SetmapRem:
             case SequenceType.SetmapClear:

@@ -445,7 +445,8 @@ namespace de.unika.ipd.grGen.lgsp
             case SequenceType.True:
             case SequenceType.False:
             case SequenceType.Emit:
-                // Nothing to be done here
+            case SequenceType.Record:
+            // Nothing to be done here
                 break;
 
             case SequenceType.Yield:

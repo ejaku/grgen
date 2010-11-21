@@ -141,6 +141,7 @@ TOKEN: {
 |   < VISITED: "visited" >
 |   < VRESET: "vreset" >
 |   < EMIT: "emit" >
+|   < record: "record" >
 |   < NULL: "null" >
 |   < YIELD: "yield" >
 }
@@ -767,6 +768,11 @@ Sequence SimpleSequence():
 	"emit" "("
 		( str=TextString() { seq = new SequenceEmit(str); }
 		| fromVar=VariableUse() { seq = new SequenceEmit(fromVar);} )
+	")" { return seq; } 
+|
+	"record" "("
+		( str=TextString() { seq = new SequenceRecord(str); }
+		| fromVar=VariableUse() { seq = new SequenceRecord(fromVar);} )
 	")" { return seq; } 
 |
 	LOOKAHEAD(4) toVar=VariableUse() "." attrName=Word() "=" fromVar=VariableUse()

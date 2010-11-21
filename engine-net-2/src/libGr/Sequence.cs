@@ -29,7 +29,7 @@ namespace de.unika.ipd.grGen.libGr
         AssignVarToVar, AssignElemToVar, AssignSequenceResultToVar,
         AssignUserInputToVar, AssignRandomToVar,
         AssignConstToVar, AssignAttributeToVar, AssignVarToAttribute,
-        IsVisited, SetVisited, VFree, VReset, Emit,
+        IsVisited, SetVisited, VFree, VReset, Emit, Record,
         SetmapAdd, SetmapRem, SetmapClear, InSetmap,
         LazyOrAll, LazyAndAll, StrictOrAll, StrictAndAll, SomeFromSet,
         Transaction, Backtrack, IfThenElse, IfThen, For
@@ -1914,6 +1914,7 @@ namespace de.unika.ipd.grGen.libGr
             Text = Text.Replace("\\n", "\n");
             Text = Text.Replace("\\r", "\r");
             Text = Text.Replace("\\t", "\t");
+            Text = Text.Replace("\\#", "#");
         }
 
         public SequenceEmit(SequenceVariable var)
@@ -1939,6 +1940,50 @@ namespace de.unika.ipd.grGen.libGr
         public override IEnumerable<Sequence> Children { get { yield break; } }
         public override int Precedence { get { return 8; } }
         public override string Symbol { get { return Variable!=null ? "emit("+Variable.Name+")" : "emit("+Text+")"; } }
+    }
+
+    public class SequenceRecord : Sequence
+    {
+        public String Text;
+        public SequenceVariable Variable;
+
+        public SequenceRecord(String text)
+            : base(SequenceType.Record)
+        {
+            Text = text;
+            Text = Text.Replace("\\n", "\n");
+            Text = Text.Replace("\\r", "\r");
+            Text = Text.Replace("\\t", "\t");
+            Text = Text.Replace("\\#", "#");
+        }
+
+        public SequenceRecord(SequenceVariable var)
+            : base(SequenceType.Record)
+        {
+            Variable = var;
+        }
+
+        protected override bool ApplyImpl(IGraph graph, SequenceExecutionEnvironment env)
+        {
+            if(Variable != null)
+            {
+                object val = Variable.GetVariableValue(graph);
+                if(val != null)
+                {
+                    if(val is IDictionary) graph.Recorder.Write(DictionaryHelper.ToString((IDictionary)val));
+                    else graph.Recorder.Write(val.ToString());
+                }
+            }
+            else
+            {
+                graph.Recorder.Write(Text);
+            }
+            return true;
+        }
+
+        public override IEnumerable<Sequence> Children { get { yield break; } }
+        public override int Precedence { get { return 8; } }
+        public override string Symbol { get { return Variable != null ? "record(" + Variable.Name + ")" : "record(" + Text + ")"; } }
     }
 
     public class SequenceSetmapAdd : Sequence

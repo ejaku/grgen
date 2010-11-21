@@ -65,3 +65,39 @@ rule retypeNA
 		:NB<n>;
 	}
 }
+
+rule changeAttributesPrimary
+{
+	-e:EA-> n:NB;
+	
+	modify {
+
+		eval { 
+			n.bla = 123.456;
+			n.huh = false;
+			n.lal = Bla::Lamm;
+		
+			e.foo = 7331;
+			e.bar = "lool";
+			e.bleeh = map<int, string>{ 4->"1",1->"4" };
+		}
+	}
+}
+
+rule changeAttributesOverwritingOverwritingWithSamePartial
+{
+	-e:EA-> n:NB;
+
+	modify {
+
+		eval { 
+			n.huh = false;
+			n.lal = Bla::Reh;
+		
+			e.bar = e.bar + e.bar;
+			e.bleeh.add(4,"1");
+			e.bleeh.add(5,"0");
+			e.bleeh.rem(1);
+		}
+	}
+}

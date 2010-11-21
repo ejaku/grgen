@@ -1325,6 +1325,8 @@ simpleSequence[ExecNode xg]
 		{ xg.append("vreset("+var+")"); xg.addUsage(var); }
 	| EMIT LPAREN (str=STRING_LITERAL { xg.append("emit("+str.getText()+")"); }
 					| id=entIdentUse { xg.append("emit("+id.toString()+")"); xg.addUsage(id); } ) RPAREN
+	| RECORD LPAREN (str=STRING_LITERAL { xg.append("record("+str.getText()+")"); }
+					| id=entIdentUse { xg.append("record("+id.toString()+")"); xg.addUsage(id); } ) RPAREN
 	| id=entIdentUse d=DOT attr=IDENT ASSIGN var=entIdentUse
 		{ xg.append(id+"."+attr.getText()+" = "+var); xg.addUsage(id); xg.addUsage(var); }
 	| setmap=entIdentUse d=DOT method=IDENT { xg.addUsage(setmap); } 
@@ -2657,6 +2659,7 @@ OPTIONAL : 'optional';
 PATTERN : 'pattern';
 PATTERNPATH : 'patternpath';
 RANDOM : 'random';
+RECORD : 'record';
 REPLACE : 'replace';
 RETURN : 'return';
 RULE : 'rule';

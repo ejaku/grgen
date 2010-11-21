@@ -280,6 +280,7 @@ TOKEN: {
 |   < EXITONFAILURE: "exitonfailure" >
 |   < FALSE: "false" >
 |   < FILE: "file" >
+|   < FROM: "from" >
 |   < GET: "get" >
 |   < GRAPH: "graph" >
 |   < GRAPHS: "graphs" >
@@ -331,6 +332,7 @@ TOKEN: {
 |   < SUPER: "super" >
 |   < SYNC: "sync" >
 |   < TEXTCOLOR: "textcolor" >
+|   < TO: "to" >
 |   < TRUE: "true" >
 |   < TYPE: "type" >
 |   < TYPES: "types" >
@@ -393,7 +395,7 @@ SPECIAL_TOKEN: {
 }
 
 <WithinCommand> TOKEN: {
-    < COMMANDLINE: ("\\\r\n" | "\\\n" | "\\\r" | ~["\n","\r","#"])* ("\n" | "\r" | "\r\n")? > : DEFAULT
+    < COMMANDLINE: ("\\\r\n" | "\\\n" | "\\\r" | "\\#" | ~["\n","\r","#"])* ("\n" | "\r" | "\r\n")? > : DEFAULT
 }
 
 <WithinAnyString> SKIP: {
@@ -894,14 +896,14 @@ bool ParseShellCommand():
 
 void ShellCommand():
 {
-	String str1, str2 = null, str3;
+	String str1, str2 = null, str3 = null;
 	IGraphElement elem;
 	object obj, obj2;
 	INode node1, node2;
 	IEdge edge1, edge2;
 	ShellGraph shellGraph = null;
 	Sequence seq;
-	bool shellGraphSpecified = false, boolVal;
+	bool shellGraphSpecified = false, boolVal, boolVal2;
 	bool strict = false, exitOnFailure = false, validated = false, onlySpecified = false;
 	int num;
 	List<String> parameters;
@@ -912,6 +914,11 @@ void ShellCommand():
     {
         impl.ExecuteCommandLine(str1);
     }
+|
+	"askfor" 
+	{
+		impl.Askfor(null);
+	}
 |
 	"clear" "graph" (shellGraph=Graph() { shellGraphSpecified = true; })? LineEnd()
 	{
@@ -960,7 +967,7 @@ void ShellCommand():
 |
     "include" str1=Filename() LineEnd()
     {
-        noError = impl.Include(this, str1);
+        noError = impl.Include(this, str1, null, null);
     }
 |
 	"new" NewCommand()
@@ -1012,9 +1019,9 @@ void ShellCommand():
 		}		
 	)	
 |
-	"record" str1=Filename() { boolVal=true; } ("start" | "stop" { boolVal=false; })? LineEnd()
+	"record" str1=Filename() { boolVal=false; boolVal2=false; } ("start" { boolVal=true; boolVal2=true; } | "stop" { boolVal=true; boolVal2=false; })? LineEnd()
 	{
-		noError = impl.Record(str1, boolVal);
+		noError = impl.Record(str1, boolVal, boolVal2);
 	}
 |
     "redirect" "emit" str1=Filename() LineEnd()
@@ -1022,9 +1029,9 @@ void ShellCommand():
         noError = impl.RedirectEmit(str1);
     }
 |
-	"replay" str1=Filename() LineEnd()
+	"replay" str1=Filename() ("from" str2=QuotedText())? ("to" str3=QuotedText())? LineEnd()
 	{
-		noError = impl.Replay(str1, this);
+		noError = impl.Replay(str1, this, str2, str3);
 	}
 |
     "retype" RetypeCommand()

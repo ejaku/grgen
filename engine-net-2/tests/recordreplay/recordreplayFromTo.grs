@@ -1,0 +1,61 @@
+new graph "recordreplay/recordreplay"
+
+# record the graph changes
+record recordreplay/testgraph.grs start
+
+# do graph changes
+xgrs record("\# label1\n")
+new :NA($=n1)
+new :NB($=n2)
+xgrs record("\# label2\n")
+new @("n1")-:EA($=e1)->@("n2")
+xgrs record("\# label3\n")
+new :NA($=n3)
+new :NB($=n4)
+xgrs record("\# label4\n")
+new @("n2")-:EA($=e2)->@("n1")
+xgrs record("\# label5\n")
+new @("n1")-:EB($=e3)->@("n1")
+new @("n4")-:EB($=e4)->@("n4")
+xgrs record("\# label6\n")
+
+# stop recording
+record recordreplay/testgraph.grs stop
+
+# check the result graph
+show num nodes only NA
+show num nodes only NB
+show num edges only EA
+show num edges only EB
+
+# replay the changes to label2
+replay recordreplay/testgraph.grs to "# label2"
+
+# check the result graph
+show num nodes only NA
+show num nodes only NB
+show num edges only EA
+show num edges only EB
+
+# replay the changes from label3 to label4
+replay recordreplay/testgraph.grs from "# label3" to "# label4"
+
+# check the result graph
+show num nodes only NA
+show num nodes only NB
+show num edges only EA
+show num edges only EB
+
+# replay the changes from label5 on
+replay recordreplay/testgraph.grs from "# label5"
+
+# check the result graph
+show num nodes only NA
+show num nodes only NB
+show num edges only EA
+show num edges only EB
+
+# the test script tries to test all available .grs; no sense in trying to test the recorded graph
+!rm recordreplay/testgraph.grs
+
+quit

@@ -1,0 +1,74 @@
+new graph "recordreplay/recordreplay"
+
+# initialize graph
+new :NA($=n1, foo=42, bar="foo", bleeh=set<int>{1,2,3})
+new :NB($=n2, bla=3.141592, huh=true, lal=Bla::Hurz)
+new @("n1")-:EA($=e1, foo=1337, bar="fool", bleeh=map<int,string>{2->"3",3->"2"})->@("n2")
+new @("n2")-:EB($=e2, bla=2f, huh=false, lal=Bla::Lamm)->@("n2")
+
+# record the graph changes
+record recordreplay/testgraph.grs start
+
+# do graph changes
+xgrs changeAttributesPrimary ;> changeAttributesOverwritingOverwritingWithSamePartial # changes n2 and e1
+
+# primary changes
+@("n1").foo = 13
+@("n1").bar = "fool"
+@("n1").bleeh = set<int>{5,6,7}
+
+@("e2").bla = 3f
+@("e2").huh = true
+@("e2").lal = Bla::Hurz
+
+# overwriting, overwriting with same, and adaptive changes
+@("n1").foo = 14
+@("n1").bleeh.add(5)
+
+@("n1").bleeh.rem(7)
+@("n1").bleeh.add(4)
+
+# stop recording
+record recordreplay/testgraph.grs stop
+
+# check the result graph
+@("n1").foo
+@("n1").bar
+@("n1").bleeh
+
+@("n2").bla
+@("n2").huh
+@("n2").lal
+
+@("e1").foo
+@("e1").bar
+@("e1").bleeh
+
+@("e2").bla
+@("e2").huh
+@("e2").lal
+	
+# replay the changes
+replay recordreplay/testgraph.grs
+
+# check the result graph
+@("n1").foo
+@("n1").bar
+@("n1").bleeh
+
+@("n2").bla
+@("n2").huh
+@("n2").lal
+
+@("e1").foo
+@("e1").bar
+@("e1").bleeh
+
+@("e2").bla
+@("e2").huh
+@("e2").lal
+
+# the test script tries to test all available .grs; no sense in trying to test the recorded graph
+!rm recordreplay/testgraph.grs
+
+quit

@@ -1146,6 +1146,7 @@ namespace de.unika.ipd.grGen.grShell
                 case SequenceType.SetmapClear:
                 case SequenceType.InSetmap:
                 case SequenceType.Emit:
+                case SequenceType.Record:
                 {
                     Console.Write(seq.Symbol);
                     break;
