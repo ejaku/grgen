@@ -749,10 +749,13 @@ namespace de.unika.ipd.grGen.libGr
         /// <param name="newElem">The new element, the result of retyping.</param>
         public void Retyped(IGraphElement oldElem, IGraphElement newElem)
         {
-            String name = ElemToName[oldElem];
-            ElemToName.Remove(oldElem);
-            ElemToName[newElem] = name;
-            NameToElem[name] = newElem;
+            String name;
+            if(ElemToName.TryGetValue(oldElem, out name))  // has a name been assigned to the element?
+            {
+                ElemToName.Remove(oldElem);
+                ElemToName[newElem] = name;
+                NameToElem[name] = newElem;
+            }
         }
 
         /// <summary>
