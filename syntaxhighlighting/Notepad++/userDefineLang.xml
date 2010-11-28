@@ -13,7 +13,7 @@
             <Keywords name="Comment">1/* 2*/ 0//</Keywords>
             <Keywords name="Words1">#include abstract actions alternative arbitrary class copy connect const def delete directed edge emit emithere enum eval exact exec extends for hom if in independent induced iterated model modify multiple nameof negative node optional pattern patternpath replace return rule test typeof undirected using valloc vfree visited vreset yield</Keywords>
             <Keywords name="Words2">false null true boolean int float double object string set map</Keywords>
-            <Keywords name="Words3">var ref dpo dangling identification add rem clear size empty length substring indexOf lastIndexOf domain range peek</Keywords>
+            <Keywords name="Words3">add clear dangling domain dpo empty identification indexOf lastIndexOf length max min peek range ref rem size substring var</Keywords>
             <Keywords name="Words4"></Keywords>
         </KeywordLists>
         <Styles>
@@ -43,7 +43,7 @@
             <Keywords name="Delimiters">&quot;&apos;0&quot;&apos;0</Keywords>
             <Keywords name="Comment">0#</Keywords>
             <Keywords name="Words1">askfor clear custom debug delete dump echo exit export help import include new open quit randomseed record redirect replay retype save select show silence validate xgrs</Keywords>
-            <Keywords name="Words2">actions add any attributes backend bordercolor by color disable edge edges emit enable exitonfailure exclude get graph graphs group hidden incoming infotag is labels layout map no node nodes num off on only option options outgoing rem reset set shape shortinfotag specified start stop strict sub super textcolor time types var with withvariables</Keywords>
+            <Keywords name="Words2">actions add any attributes backend bordercolor by color disable edge edges emit enable exitonfailure exclude from get graph graphs group hidden incoming infotag is labels layout map no node nodes num off on only option options outgoing rem reset set shape shortinfotag specified start stop strict sub super textcolor time to types var with withvariables</Keywords>
             <Keywords name="Words3">black blue green cyan red purple brown grey lightgrey lightblue lightgreen lightcyan lightred lightpurple yellow white darkblue darkred darkgreen darkyellow darkmagenta darkcyan gold lilac turquoise aquamarine khaki pink orange orchid box triangle
 circle ellipse rhomb hexagon trapeze uptrapeze lparallelogram rparallelogram.</Keywords>
             <Keywords name="Words4"></Keywords>
