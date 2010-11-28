@@ -7,9 +7,10 @@ We'll have a look at
 \item the interface to the graph and model
 \item the interface to the rules and matches
 \item the porter module for importing and exporting of graphs and miscellaneous stuff
+\item implementing external class and function declarations
 \end{itemize}
 
-From the input file \texttt{Foo.grg} \texttt{grgen.exe} generates the output files \texttt{FooModel.cs} for the model and \texttt{FooActions.cs} for the actions,
+\noindent From the input file \texttt{Foo.grg} \texttt{grgen.exe} generates the output files \texttt{FooModel.cs} for the model and \texttt{FooActions.cs} for the actions,
 \begin{itemize}
 \item defining the exact interface, 
 \item implementing the exact interface with generated code and code from the lgsp backend, i.e. entities from \texttt{de.unika.ipd.grGen.lgsp} available from lgspBackend.dll, 
@@ -228,6 +229,25 @@ b = bla;
 \end{csharplet}
 \end{note}
 
+
+\section{External Class and Function Implementation}\label{sub:extclsfctimpl}\indexmain{external class implementation}\indexmain{external function implementation}
+
+For a model \texttt{Foo} which contains external functions and/or classes (cf. \ref{sub:extfct} and \ref{sub:extcls}), \GrG~generates a file \texttt{FooModelExternalFunctions.cs} located besides the model and rule files, which contains
+\begin{itemize}
+	\item within the model namespace public partial classes named as given in the external class declaration,
+inherting from each other as stated in the external class declarations.
+	\item within the \texttt{de.unika.ipd.grGen.expression} namespace a public partial class named \texttt{ExternalFunctions} with a body of comments giving the expected function prototypes.
+\end{itemize}
+
+\noindent The partial classes are empty, you must implement them in a file named \texttt{FooModelExternal\-FunctionsImpl.cs} located in the folder of the \texttt{FooModelExternalFunctions.cs} file by
+\begin{itemize}
+	\item fleshing out the partial classes skeletons with attributes containing data of interest and maybe helper methods
+	\item fleshing out the \texttt{ExternalFunctions} partial class skeleton with the functions you declared in the external function declarations, obeying the function signatures as specified; here you can access the now know attributes or methods of the external classes, or do complicated custom computations with the values you receive from a function call.
+\end{itemize}
+
+\noindent Don't forget that the source code file \texttt{FooModelExternalFunctionsImpl.cs} is an integral part of your \GrG~graph transformation project, in contrast to the other C\# files generated (and overwritten) for you.
+In \texttt{examples/ExternalAttributeEvaluationExample} and \texttt{examples-api/ExternalAttributeEvaluationExample}
+you find a fabricated example showing how to use the external classes and functions.
 
 \section{How to build}\label{sub:building}\indexmain{building GrGen}
 

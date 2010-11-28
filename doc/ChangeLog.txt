@@ -1,4 +1,30 @@
-﻿v2.6.4 (2010-10-30)
+﻿v2.7.ms1 (2010-11-28)
+ Added record and replay feature (plus supporting instructions):
+ - record shell command for writing the current graph and then the changes applied to it into a .grs 
+    for replaying later on, with comments telling about the events causing them as debugging help
+ - replay shell command for replaying previously recorded changes
+    with capability to define begin and end lines to replay only certain change sets/states
+ - record operator in sequences for emitting to the currently ongoing recordings 
+    e.g. record("\# label1\n") for labeling a state (2 such labels can be used to mark a changeset)
+ - retype shell command, e.g. retype (@"$1")<NT> for a node and retype -e<ET>-> for an edge
+ - commands to add/remove elements to/from graph element attributes of set/map type, e.g. (@"$4").m1.rem(42)
+
+ Added capability for using external, user defined functions and types in attribute computations (if/eval):
+ - added external function declarations, with the GrGen compiler type checking them
+ - added external type declarations(with inheritance relationsships but without attributes),
+    which can be used from the external attribute computation functions (only)
+ - the user must implement the external functions and types in a <X>ModelExternalFunctionsImpl.cs file
+    where <X> stands for the model/rule files name, by supplying further parts of partial classes
+
+ Other changes:
+ - min(.,.)/max(.,.) functions added to the expressions
+ - compiled version of backtracking brackets <<r;s>> now available
+ - added askfor shell command just waiting for enter to be pressed
+ - further smaller fixes and improvements
+ - purged deprecated shell constructs for set handling, map handling, visited flags handling
+
+ 
+v2.6.4 (2010-10-30)
  Fixes for bugs introduced in 2.6.3:
  - certain pattern elements were deleted when using patterns with more than 2 nesting levels; fixed
  - subpattern deletion erased the subpattern parameters; fixed

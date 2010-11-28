@@ -80,7 +80,7 @@ Objects of type object are not very useful for \GrG\ processing (and the im/expo
 \end{note}
 
 
-\section{Expressions}\indexmain{expression}
+\section{Expressions}\indexmain{expression}\label{sub:expr}
 
 \GrG~supports numerous operations on the entities of the types introduced above, which are organized into left associative expressions.
 In the following they will be explained with their semantics and relative priorities one type after another in the order of the rail diagram below.
@@ -389,7 +389,14 @@ The type expression \texttt{typeof(x)} stands for the type of the host graph ele
 After we've seen the all the ways to combine expressions, finally we'll have a look at the atoms the expressions are built of.
 
 \begin{rail} 
-  PrimaryExpr: CastExpr | MemberAccess | VarIdent | NodeOrEdge '.' 'visited' ('[' FlagNumber ']')? | 'nameof' '(' NodeOrEdge? ')' | 'random' '(' ( IntExpr )? ')' | '(' Expression ')';
+  PrimaryExpr: CastExpr 
+  		| MemberAccess
+  		| FunctionCall
+  		| VarIdent
+  		| NodeOrEdge '.' 'visited' ('[' FlagNumber ']')?
+  		| 'nameof' '(' NodeOrEdge? ')'
+  		| 'random' '(' ( IntExpr )? ')'
+  		| '(' Expression ')';
 \end{rail}\ixnterm{PrimaryExpr}\ixkeyw{visited}\ixkeyw{nameof}\indexmainsee{variable}{expression variable}\indexmain{expression variable}\indexmain{variable}
 
 The \texttt{visited} query returns the status of the \indexed{visited flag} of the given number for the given graph element as \texttt{boolean}.
@@ -408,10 +415,17 @@ or, if an integer argument value is given, an integer random value in between 0 
 \begin{rail} 
   CastExpr: '(' PrimitiveType ')' PrimaryExpr;
   MemberAccess: (NodeOrEdge '.' Ident);
-\end{rail}\ixnterm{CastExpr}\ixnterm{MemberAccess}
+  FunctionCall: FunctionName '(' (() | Expr + ',') ')';
+\end{rail}\ixnterm{CastExpr}\ixnterm{MemberAccess}\ixnterm{FunctionCall}
 
 The cast expression returns the original value casted to the new prefixed type.
 The member access \texttt{n.a} returns the value of the attribute \texttt{a} of the graph element \texttt{n}.
+A function call employs an external (attribute evaluation) function (cf. \ref{sub:extfct}) or one of the following built-in functions:
+
+\begin{description}
+\item[\texttt{min(.,.)}] returns the smaller of the two argument values, which must be of the same numeric type (i.e. both either \texttt{int} or \texttt{float} or \texttt{double})
+\item[\texttt{max(.,.)}] returns the greater of the two argument values, which must be of the same numeric type (i.e. both either \texttt{int} or \texttt{float} or \texttt{double})
+\end{description}
 
 \begin{rail} 
   Literal: Constant | SetConstructor | MapConstructor;

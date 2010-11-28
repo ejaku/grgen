@@ -97,12 +97,17 @@ Figure~\ref{fig:basetypes} shows the edge \indexed{type hierarchy}.
 \label{typedecl}
 
 \begin{rail}
-  GraphModel: () + (ClassDeclaration | EnumDeclaration);
+  GraphModel: () + (ClassDeclaration
+  									 | EnumDeclaration
+  									 | ExternalClassDeclaration
+  									 | ExternalFunctionDeclaration);
 \end{rail}\ixnterm{GraphModel}
 The \indexed{graph model} consists of zero or multiple type declarations. 
 Whereas \emph{ClassDeclaration} defines a node type or an edge type, \emph{EnumDeclaration} defines an enum type to be used as a type for a attributes of nodes or edges.
 Like all identifier definitions, types do not need to be declared\indexmain{declaration} before they are used.
+The \emph{ExternalClassDeclaration} registers an \indexed{external class}, including its subtype hierarchy, exluding any attributes with \GrG~which can subsequently be used in attribute computations with \indexed{external function} calls.
 
+\subsection{Enumeration Types}
 \begin{rail}
   EnumDeclaration: 'enum' IdentDecl lbrace ((IdentDecl (() | '=' IntExpr)) + ',') rbrace ;
 \end{rail}\ixkeyw{enum}\ixnterm{EnumDeclaration}
@@ -135,6 +140,7 @@ Moreover, the semantics is as in C~\cite{Sch:1990:ANSIC}. So, the following hold
 	This also holds for items of other enum types, meaning that the items of another enum type can only be used in the definition of an enum item, when the other enum type is defined \emph{before} the enum type currently defined.
 \end{note}
 
+\subsection{Node and Edge Types}
 \begin{rail}  
   ClassDeclaration: (() | 'abstract') (() | 'const') \\
     (NodeClass | (() | ('arbitrary' | 'directed' | 'undirected')) EdgeClass);
@@ -245,7 +251,22 @@ This is a purely syntactical simplification, i.\,e.\ the effect of using \texttt
 %	The \GrG\ compiler will warn you, if you're using inconsistent connection assertions.
 %\end{note}
 
-\subsection{Attribute Types}
+\subsection{External Attribute Types}\label{sub:extcls}
+\begin{rail}  
+  ExternalClassDeclaration: 'class' IdentDecl (() | 'extends' (NodeType+',')) ';';
+\end{rail}\ixnterm{ExternalClassDeclaration}\ixkeyw{class}\ixkeyw{extends}
+Registers a new attribute type with \GrG. You may declare the base types of the type, but not give attributes. The attribute type must be implemented externally, see \ref{sub:extclsfctimpl}; for \GrG~the type is opaque, only external functions can do computations with it. You may extend \GrG~with external attribute types if the built-in attribute types (cf. \ref{sec:builtintypes}) are insufficient for your needs.
+
+\subsection{External Function Types}\label{sub:extfct}
+\begin{rail}
+  ExternalFunctionDeclaration: IdentDecl '(' ( () | (Type + ',') ) ')' ':' Type ';';
+\end{rail}\ixnterm{ExternalFunctionDeclaration}
+Registers an \indexed{external function} with \GrG~to be used in attribue computation.
+An external function declaration specifies the expected input types and the output type. The function must be implemented externally, see \ref{sub:extclsfctimpl}.
+An external function call (cf. \ref{sec:primexpr}) may receive and return values of the built-in (attribute) types as well as of the external attribute types; the real arguments on the call sites are type-checked against the declared signature following the subtyping hierarchy of the built-in as well as of the external attribute types.
+You may extend \GrG~with external functions if the built-in attribute computation capabilities (cf. \ref{sub:expr}) are insufficient for your needs.
+
+\subsection{Attributes and Attribute Types}
 \label{sct:attrtypes}
 
 \begin{rail}    

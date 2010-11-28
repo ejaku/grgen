@@ -110,23 +110,23 @@ the min-max-brackets (\texttt{[n:m]}) additionally fail if the minimum amount \e
 \section{Rule application (rewrite factor)}
 
 \begin{rail} 
-  RewriteFactor: 
-    RuleExecution |
-    VariableHandling |
-	ExtendedControl |
-	VisitedFlagsManagement |
-	'emit' '(' (QuotedText | Variable ) ')'
-	;
-\end{rail}\ixnterm{RewriteFactor}\ixkeyw{emit}
+  RewriteFactor: RuleExecution
+     | VariableHandling
+     | ExtendedControl
+     | VisitedFlagsManagement
+     | 'emit' '(' (QuotedText | Variable ) ')'
+     | 'record' '(' (QuotedText | Variable ) ')'
+	; 
+\end{rail}\ixnterm{RewriteFactor}\ixkeyw{emit}\ixkeyw{record}\label{recstmt}\indexmain{record}\indexmain{emit}
 
 Rewrite factors are the building blocks of graph rewrite sequences.
 They split into four major areas: rule application, variable assignment, extended control, and visited flags management (plus the special area of storages to be described separately).
-Further on, there's the \texttt{emit} sequence: it writes a double quoted string or the value of a variable to the emit target (stdout as default, or a file specified with the shell command \texttt{redirect emit}).
+Further on, there are the \texttt{emit} and \texttt{record} statements: the emit statement writes a double quoted string or the value of a variable to the emit target (stdout as default, or a file specified with the shell command \texttt{redirect emit}). The record statement writes a double quoted string or the value of a variable to the currently ongoing recordings (see \ref{recordnreplay}). This feature allows to mark states reached during the transformation process in order to replay only interesting parts of an recording. It is recommended to write only comment label lines, i.e. \verb/"#"/, some label, and \verb/"\n"/.
 
 \begin{rail}    
   RuleExecution: (() | '(' (Variable+',') ')' '=') \\ (() | percent) (() | '?') ( (dollar (percent)?() ( Variable | ()) | ()) '[' Rule ']' | Rule);   
   Rule: RuleIdent (() | '(' (Variable+',') ')');
-\end{rail}\ixnterm{RuleExecution}\ixnterm{Rule} 
+\end{rail}\ixnterm{RuleExecution}\ixnterm{Rule}
 The \emph{RuleExecution} clause applies a single rule or test.
 In case of a rule, the first found pattern match will be rewritten.
 Variables and named graph elements from the enclosing rule can be passed.
@@ -199,6 +199,7 @@ Preliminary implementation: you get internal errors if yielded and expected type
 	'if' lbrace Condition ';' TrueCase ';' FalseCase rbrace |
 	'if' lbrace Condition ';' TrueCase rbrace |
     '<' RewriteSequence '>' | 
+    '<<' RuleExecution ';' RewriteSequence '>>' | 
     '(' RewriteSequence ')' |
     (percent)? BoolLit |
 	dollar (percent)? (ampersand | '|' | doubleampersand | '||') '(' SequencesList ')' |
@@ -207,17 +208,27 @@ Preliminary implementation: you get internal errors if yielded and expected type
   SequencesList:
 	RewriteSequence ((',' RewriteSequence)*())
 	;
-\end{rail}\ixnterm{ExtendedControl}\ixnterm{SequencesList}\ixkeyw{if}\indexmain{\texttt{<>}}
+\end{rail}\ixnterm{ExtendedControl}\ixnterm{SequencesList}\ixkeyw{if}
 
-The extended control constructs offer further rule application control in the form of \indexed{conditional sequence}s, \indexed{transaction}s, parenthesis, \indexed{sequence constant}s, and \indexed{indeterministic choice} from a sets of rules or sequences.
+The extended control constructs offer further rule application control in the form of \indexed{conditional sequence}s, \indexed{transaction}s and \indexed{backtracking}, parenthesis, \indexed{sequence constant}s, and \indexed{indeterministic choice} from a sets of rules or sequences.
+
 The condition execution (/decision) statement \texttt{if} executes the condition sequence, and if it yielded true executes the true case xgrs, otherwise the false case xgrs.
 The sequence \verb#if{Condition;TrueCase}# is equivalent to \verb#if{Condition;TrueCase;true}#, thus giving a lazy implication.
+
 Graph rewrite sequences can be processed \indexed{transaction}ally by using angle brackets (\texttt{<>}), i.e.
 if the return value is \texttt{false}, all the related operations on the host graph will be rolled back.
 Nested transactions\indexmainsee{nested transaction}{transaction} are supported.
+Transactions are a key ingredient for backtracking, which is syntactically specified by double angle brackets (\texttt{<<r;s>>}.
+The semantics of the construct are:
+First compute all matches for rule \texttt{r}, then start a transaction.
+For each match: execute the rewrite of the match, then execute \texttt{s}.
+If \texttt{s} failed then rollback and continue with the loop.
+If \texttt{s} succeeded then commit and break from the loop.
+
 Forcing execution order can be achived by parentheses.
 Boolean literals \texttt{true}/\texttt{false} come in handy if a sequence is to be evaluated 
 but its result must be a predefined value; furtheron a \indexed{break point} may be attached to them.
+
 The \indexed{random-all-of operators} given in function call notation with the dollar sign plus operator symbol as name have the following semantics:
 The strict operators \verb/|/ and \verb/&/ evaluate all their subsequences in random order returning the disjunction resp. conjunction of their truth values.
 The lazy operators \verb/||/ and \verb/&&/ evaluate the subsequences in random order as long as the outcome is not fixed or every subsequence was executed 
@@ -369,13 +380,14 @@ Table~\ref{ruletab} lists most of the operations of the graph rewrite expression
 \texttt{s ;> t}		& Execute \texttt{s} then \texttt{t}. Success if \texttt{t} succeeded.\\
 \texttt{s <; t}		& Execute \texttt{s} then \texttt{t}. Success if \texttt{s} succeeded.\\
 \texttt{s | t}		& Execute \texttt{s} then \texttt{t}. Success if \texttt{s} or \texttt{t} succeeded.\\
-\texttt{s || t}	& The same as \texttt{s | t} but with lazy evaluation, i.e. if \texttt{s} is successful, \texttt{t} will not be executed,\\
+\texttt{s || t}	& The same as \texttt{s | t} but with lazy evaluation, i.e. if \texttt{s} is successful, \texttt{t} will not be executed.\\
 \texttt{s \& t}	& Execute \texttt{s} then \texttt{t}. Success if \texttt{s} and \texttt{t} succeeded.\\
 \texttt{s \&\& t}	& The same as \texttt{s \& t} but with lazy evaluation, i.e. if \texttt{s} fails, \texttt{t} will not be executed.\\
 \texttt{s \^\ t}	& Execute \texttt{s} then \texttt{t}. Success if \texttt{s} or \texttt{t} succeeded, but not both.\\
 \texttt{if\{r;s;t\}}	& Execute \texttt{r}. If \texttt{r} succeeded, execute \texttt{s} and return the result of \texttt{s}. Otherwise execute \texttt{t} and return the result of \texttt{t}.\\
 \texttt{if\{r;s\}}	& Same as \texttt{if\{r;s;true\}}\\
 \texttt{<s>}	& Execute \texttt{s} transactionally (rollback on failure).\\
+\texttt{<<r;s>>}	& Backtracking: try the matches of rule \texttt{r} until \texttt{s} succeeds.\\
 \texttt{!s}		& Switch the result of \texttt{s} from successful to fail and vice versa.\\
 \texttt{\$<op>}	& Use random instead of left-associative execution order for \texttt{<op>}. \\
 \texttt{s*}		& Execute \texttt{s} repeatedly as long as its execution does not fail.\\
@@ -389,7 +401,7 @@ Table~\ref{ruletab} lists most of the operations of the graph rewrite expression
 \texttt{def(\emph{Parameters})} & Check if all the variables are defined.\\
 \texttt{true}	& A constant acting as a successful match.\\
 \texttt{false}	& A constant acting as a failed match.\\
-\texttt{\$\{r1,[r2],\$[r3]\}}	& Tries to match all contained rules, then rewrites one of the rules which matched. True if at least one matched.\\
+\texttt{\$\{r1,[r2],\$[r3]\}}	& Tries to match all contained rules, then rewrites indeterministically one of the rules which matched. True if at least one matched.\\
 \texttt{id=valloc()} & Allocates a visited-flag, returns its id.\\
 \texttt{vfree(id)} & Frees the visited-flag given.\\
 \texttt{vreset(id)} & Resets the visited-flag given in all graph elements.\\
@@ -402,8 +414,8 @@ Table~\ref{ruletab} lists most of the operations of the graph rewrite expression
 \texttt{u=map<N,Edge>\{\}}	& Create storage map and assign to \texttt{u}. Operations are the same or similar to the operations of storage sets.\\
 \texttt{v=u[w]}	& Assign target value of \texttt{w} in \texttt{u} to \texttt{v}. Fails if \texttt{!(w in u)}.\\
 \hline
-\end{tabularx}\indexmain{\texttt{\textasciicircum}}\indexmain{\texttt{\&\&}@\texttt{"|}}
-\indexmain{\texttt{\&}}\indexmain{\texttt{\$<op>}}\indexmain{\texttt{*}}\indexmain{\texttt{"!}}\indexmain{\texttt{;>}}\indexmain{\texttt{<;}}\indexmain{\texttt{+}}
+\end{tabularx}\indexmain{\texttt{\textasciicircum}}\indexmain{\texttt{\&\&}}\indexmain{\texttt{"|}}
+\indexmain{\texttt{\&}}\indexmain{\texttt{"|"|}}\indexmain{\texttt{\$<op>}}\indexmain{\texttt{*}}\indexmain{\texttt{"!}}\indexmain{\texttt{;>}}\indexmain{\texttt{<;}}\indexmain{\texttt{+}}\indexmain{\texttt{[]}}\indexmain{\texttt{<>}}\indexmain{\texttt{<<;>>}}\indexmain{\texttt{()}}
 \end{minipage}\\
 \\ 
 {\small Let \texttt{r}, \texttt{s}, \texttt{t} be sequences, \texttt{u}, \texttt{v}, \texttt{w} variable identifiers, \texttt{<op>} $\in \{\texttt{|}, \texttt{\textasciicircum}, \texttt{\&}, \texttt{||}, \texttt{\&\&}\}$ }%and \texttt{n}, \texttt{m} $\in \N_0$.}

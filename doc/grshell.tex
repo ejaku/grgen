@@ -111,11 +111,11 @@ A command \texttt{Command} displayed with \texttt{...} has further help availabl
 Quits \GrShell. If \GrShell\ is opened in debug mode, a currently active graph viewer (such as \yComp) will be closed as well.
 
 \begin{rail}
-  'include' Filename
+  'include' Filename ('.gz')?
 \end{rail}\ixkeyw{include}
-Executes the \GrShell\ script\indexmain{graph rewrite script} \emph{Filename}.
+Executes the \GrShell\ script\indexmain{graph rewrite script} \emph{Filename} (which might be zipped).
 A \GrShell\ script is just a plain text file containing \GrShell\ commands.
-They are treated as they would be entered interactively, except for parser error
+They are treated as they would be entered interactively, except for parser errors.
 If a parser error occurs, execution of the script will stop immediately.
 
 \begin{rail}
@@ -124,9 +124,11 @@ If a parser error occurs, execution of the script will stop immediately.
 Prints \emph{Text} onto the \GrShell\ command prompt.
 
 \begin{rail}
+  'askfor';
   Variable '=' 'askfor' Type
 \end{rail}\ixkeyw{askfor}
-The \texttt{askfor} command interactively asks the user for a value of the specified type.
+The \texttt{askfor} command just waits until the user presses enter.
+The \texttt{askfor} assignment interactively asks the user for a value of the specified type.
 The entered value is type checked against the expected type, and assigned to the given variable in case it matches.
 If the type is a value type, the user is prompted to enter a value literal with the keyboard.
 If the type is a graph element type, the user is prompted to enter the graph element by double clicking in yComp.
@@ -385,10 +387,34 @@ The \texttt{FileSpec} is of the same format as the file specification in the oth
 The \texttt{withvariables} argument only yields an effect if the file to import contains variable specifications (the content of old variables of the same name is overwritten).
 
 
+\subsection{Graph Change Recording and Replaying}
+\label{recordnreplay}
+
+\begin{rail}
+  'record' Filename ('.gz')? ('start' | 'stop')?
+\end{rail}\ixkeyw{record}\ixkeyw{start}\ixkeyw{stop}\indexmain{record}
+The record command starts or stops recording of graph changes to the specified file. If neither start nor stop are given, recording to the specified file is toggled (i.e. started if no recording to the file is underway or stopped if the file is already recorded to).
+Recording starts with an export (cf. \ref{outputcmds}) of the instance graph in GRS (.grs/.grsi) format, afterwards the command returns but all changes to the instance graph are recorded to the file until the recording stop command is issued.
+Furthermore the values given in the \texttt{record} statements (cf. \ref{recstmt}) from the sequences are written to the recording (this allows you to mark states).
+If the \texttt{.gz} suffix is given the recording is saved zipped.
+You may start and stop recordings to different files at different times, every file receives the graph changes and records statements occuring during the time of the recording.
+Note: As a debugging help a recording does not only contain graph manipulation commands (cf. \ref{mani}) but also comments telling about the rewrites and transaction events which occured (whose effects were recorded).
+
+\begin{rail}
+  'replay' Filename ('.gz')? ('from' Text)? ('to' Text)?
+\end{rail}\ixkeyw{replay}\ixkeyw{from}\ixkeyw{to}\indexmain{replay}
+The replay command plays a recording back: the graph at the time the recording was started is recreated, then the changes which occured are carried out again, so you end up with the graph at the time the recording was stopped. Instead of replaying the entire GRS file you may restrict replaying to parts of the file by giving the line to start at and/or the line to stop at. Lines are specified by their textual content which is searched in the file.
+If a \emph{from} line is given, all lines from file begin on including this line are skipped, then replay starts. If a \emph{to} line is given, only the lines from the starting point on, until-excluding this one are executed (i.e. all lines from-including this one until file end are skipped).
+Normally you reference with \texttt{from} and \texttt{to} comment lines you write with the \texttt{record} statement (cf. \ref{recstmt}) in the sequences, marking relevant states during a transformation process.
+An example for record and replay is given in \texttt{tests/recordreplay}.
+
+
 \subsection{Graph Manipulation Commands}
 \label{mani}
-Graph manipulation commands alter existing graphs; they allow to create and delete graph elements and change attributes. 
-These are tasks which should be carried by the rules of the rule language -- the commands are mainly used as elementary instructions in graph input and output.
+Graph manipulation commands alter existing graphs;
+they allow to create, retype and delete graph elements and change attributes. 
+These are tasks which are or at least should be carried out by the rules of the rule language in the first place.
+On shell level they are available and mainly used as elementary instructions in creating an initial graph, in exporting and importing a graph, as well as in change recording and replaying.
 
 \begin{rail}
   'new' (() | Text) (() | ':' NodeType (() | Constructor))
@@ -433,6 +459,16 @@ This identifier is also called \newterm{persistent name} (see Example~\ref{persi
 This name can be specified by a constructor only.
 
 \begin{rail}
+  'retype' Node '<' Type '>'
+\end{rail}\ixkeyw{retype}
+Retypes the node \emph{Node} from its current type to the new type \emph{Type}. Attributes common to initial and final type are kept. Incident edges are kept as well. \indexmain{retype}
+
+\begin{rail}
+  'retype' ('-' Edge '<' Type '>' '->' | '-' Edge '<' Type '>' '-')
+\end{rail}\ixkeyw{retype}
+Retypes the edge \emph{Edge} from its current type to the new type \emph{Type}. Attributes common to initial and final type are kept. Incident nodes are kept as well.
+
+\begin{rail}
   'delete' 'node' Node
 \end{rail}\ixkeyw{delete}\ixkeyw{node}
 Deletes the node \emph{Node} from the current graph.
@@ -444,11 +480,22 @@ Incident edges will be deleted as well.
 Deletes the edge \emph{Edge} from the current graph.
 
 \begin{rail}
-  GraphElement '.' AttributeName '=' (Text | Number) ;
+  GraphElement '.' AttributeName '=' AttributeValue ;
 \end{rail}
-Set the \indexed{attribute} \emph{AttributeName} of the graph element \emph{GraphElement} to the value of \emph{Text} or \emph{Number}.
+Set the \indexed{attribute} \emph{AttributeName} of the graph element \emph{GraphElement} to the value \emph{AttributeValue} (for the different possible attribute values see above).
 
+\begin{rail}
+  GraphElement '.' AttributeName '.' 'add' '(' \\
+  	PrimitiveAttributeValue (',' PrimitiveAttributeValue)? ')' ;
+\end{rail}
+Add the value \emph{PrimitiveAttributeValue} (for the different possible primitive attribute values see above) to the set valued attribute \emph{AttributeName} of the graph element \emph{GraphElement} or add the key-value pair consisting of the two \emph{PrimitiveAttributeValue}s to the map valued attribute \emph{AttributeName} of the graph element \emph{GraphElement} in the two parameter case.
+
+\begin{rail}
+  GraphElement '.' AttributeName '.' 'rem' '(' PrimitiveAttributeValue ')' ;
+\end{rail}
+Remove the value (/key) \emph{PrimitiveAttributeValue} from the set (/map) valued attribute \emph{AttributeName} of the graph element \emph{GraphElement}.
   
+
 \subsection{Graph and Model Query Commands}
 
 \begin{rail}
@@ -496,7 +543,7 @@ Displays the value of the specified attribute.
 Gets the information whether the first element is \indexed{type-compatible}\indexmainsee{compatible types}{type-compatible} to the second element.
 
 
-\subsection{Graph Visualization Commands}\label{sub:visual}\indexmain{visualization}\indexmainsee{layout}{visualization}\indexmainsee{visualization}{group node}
+\subsection{Graph Visualization Commands (Nested Layout)}\label{sub:visual}\indexmain{visualization}\indexmainsee{layout}{visualization}\indexmainsee{visualization}{group node}\indexmain{nested layout}\indexmainsee{nested layout}{group node}\indexmain{nested graph}\indexmainsee{nested graph}{group node}
 
 \begin{rail}
   'show' 'graph' ExecutableName (() | Text)
@@ -547,7 +594,7 @@ IncAdjTypeConstraints:
 \end{rail}\ixkeyw{dump}\ixkeyw{add}\ixkeyw{node}\ixkeyw{only}\ixkeyw{group}\ixkeyw{by}\ixkeyw{hidden}\ixkeyw{with}\ixnterm{GroupConstraints}\ixnterm{IncAdjTypeConstraints}
 Declares \emph{NodeType} and subtypes of \emph{NodeType} as \indexed{group node}\indexmainsee{hierarchic}{group node} type.
 All the differently typed nodes that point to a node of type \emph{NodeType} 
-(i.e.\ there is a directed edge between such nodes) will be grouped and visibly enclosed by the \emph{NodeType}-node.
+(i.e.\ there is a directed edge between such nodes) will be grouped and visibly enclosed by the \emph{NodeType}-node (nested graph).
 \texttt{GroupMode} is one of \texttt{no},\texttt{incoming},\texttt{outgoing},\texttt{any}; \texttt{hidden} causes hiding of the edges by which grouping happens.
 The \texttt{EdgeType} constrains the type of the edges which cause grouping, the \texttt{with} clause additionally constrains the type of the adjacent node; 
 \texttt{only} excludes subtypes.
