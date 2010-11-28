@@ -12,6 +12,7 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.IO;
+using System.IO.Compression;
 using System.Reflection;
 using System.Threading;
 using ASTdapter;
@@ -628,6 +629,14 @@ namespace de.unika.ipd.grGen.grShell
                         HelpExport(commands);
                         return;
 
+                    case "record":
+                        HelpRecord(commands);
+                        return;
+
+                    case "replay":
+                        HelpReplay(commands);
+                        return;
+
                     default:
                         debugOut.WriteLine("No further help available.\n");
                         break;
@@ -656,6 +665,8 @@ namespace de.unika.ipd.grGen.grShell
                 + " - save graph <filename>     Saves the current graph as a GrShell script\n"
                 + " - export ...                Exports the current graph.\n"
                 + " - import ...                Imports a graph instance and/or a graph model\n"
+                + " - record ...                Records the changes of the current graph\n"
+                + " - replay ...                Replays the recorded changes to a graph\n"
                 + " - echo <text>               Writes the given text to the console\n"
                 + " - custom graph ...          Graph backend specific commands\n"
                 + " - custom actions ...        Action backend specific commands\n"
@@ -675,6 +686,7 @@ namespace de.unika.ipd.grGen.grShell
                 + "                               - <elem>\n"
                 + "                               - <elem>.<member>\n"
                 + "                               - <val>, a value literal (see user manual)\n"
+                + " - askfor                    Waits until the user presses enter\n"
                 + " - <var> = askfor <type>     Asks the user to input a value of given type\n"
                 + "                             a node/edge is to be entered in yComp (debug\n"
                 + "                             mode must be enabled); other values are to be\n"
@@ -960,6 +972,42 @@ namespace de.unika.ipd.grGen.grShell
                 + "   in addition to nodes and edges the variables get exported, too.\n");
         }
 
+        public void HelpRecord(List<String> commands)
+        {
+            if(commands.Count > 1)
+            {
+                debugOut.WriteLine("\nNo further help available.");
+            }
+
+            debugOut.WriteLine("List of available commands for \"record\":\n"
+                + " - record <filename> [start|stop]\n"
+                + "   Starts or stops recording of graph changes to the file <filename>,\n"
+                + "   if neither start nor stop are given, recording to the file is toggled.\n"
+                + "   Recording starts with an export of the instance graph in GRS format,\n"
+                + "   afterwards the command returns but all changes to the instance graph \n"
+                + "   are recorded to the file until the recording stop command is issued.\n"
+                + "   If a .gz suffix is given the recording is saved zipped.\n");
+        }
+
+        public void HelpReplay(List<String> commands)
+        {
+            if(commands.Count > 1)
+            {
+                debugOut.WriteLine("\nNo further help available.");
+            }
+
+            debugOut.WriteLine("List of available commands for \"replay\":\n"
+                + " - replay <filename> [from <linetext>] [to <linetext>]\n"
+                + "   Plays a recording back: the graph at the time the recording was started\n" 
+                + "   is recreated, then the changes which occured are carried out again,\n"
+                + "   so you end up with the graph at the time the recording was stopped.\n"
+                + "   Instead of replaying the entire GRS file you may restrict replaying\n"
+                + "   to parts of the file by giving the line to start at (exclusive) and/or\n"
+                + "   the line to stop at (exclusive). Lines are specified by their\n"
+                + "   textual content which is searched in the file.\n"
+                + "   If a .gz suffix is given a zipped recording is read.\n");
+        }
+
         #endregion Help text methods
 
         public void SyncIO()
@@ -1002,7 +1050,13 @@ namespace de.unika.ipd.grGen.grShell
         {
             try
             {
-                TextReader reader = new StreamReader(filename);
+                TextReader reader = null;
+                if (filename.EndsWith(".gz", StringComparison.InvariantCultureIgnoreCase)) {
+                    FileStream filereader = new FileStream(filename, FileMode.Open,  FileAccess.Read);
+                    reader = new StreamReader(new GZipStream(filereader, CompressionMode.Decompress));
+                } else {
+                    reader = new StreamReader(filename);
+                }
                 if(from != null || to != null)
                     reader = new FromToReader(reader, from, to);
                 using(reader)

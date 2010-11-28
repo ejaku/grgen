@@ -67,8 +67,8 @@ namespace de.unika.ipd.grGen.libGr
             String first = ListGet(filenameParameters, 0);
             StreamReader reader = null;
             if (first.EndsWith(".gz", StringComparison.InvariantCultureIgnoreCase)) {
-                FileStream filewriter = new FileStream(first, FileMode.Open,  FileAccess.Read);
-                reader = new StreamReader(new GZipStream(filewriter, CompressionMode.Decompress));
+                FileStream filereader = new FileStream(first, FileMode.Open,  FileAccess.Read);
+                reader = new StreamReader(new GZipStream(filereader, CompressionMode.Decompress));
                 first = first.Substring(0, first.Length - 3);
             } else {
                 reader = new StreamReader(first);
