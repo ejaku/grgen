@@ -8,7 +8,7 @@ show num edges
 redirect emit set0-output-grgen.xmi
 xgrs xmlPrefix
 xgrs (counter)=initXMLCounter
-visID = allocvisitflag
+xgrs visID = valloc()
 xgrs ((counter)=filter(visID, counter))*
-freevisitflag visID
+xgrs vfree(visID)
 xgrs xmlSuffix

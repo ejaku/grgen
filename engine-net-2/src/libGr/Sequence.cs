@@ -577,7 +577,17 @@ namespace de.unika.ipd.grGen.libGr
 
         protected override bool ApplyImpl(IGraph graph, SequenceExecutionEnvironment env)
         {
-            bool res = graph.ApplyRewrite(ParamBindings, 0, 1, Special, Test) > 0;
+            bool res;
+            try
+            {
+                res = graph.ApplyRewrite(ParamBindings, 0, 1, Special, Test) > 0;
+            }
+            catch (NullReferenceException)
+            {
+                System.Console.Error.WriteLine("Null reference exception during rule execution (null parameter?): " + Symbol); 
+                throw;
+            }
+
 #if LOG_SEQUENCE_EXECUTION
             if(res)
             {
@@ -697,7 +707,16 @@ namespace de.unika.ipd.grGen.libGr
         {
             if(!ChooseRandom)
             {
-                bool res = graph.ApplyRewrite(ParamBindings, -1, -1, Special, Test) > 0;
+                bool res;
+                try
+                {
+                    res = graph.ApplyRewrite(ParamBindings, -1, -1, Special, Test) > 0;
+                }
+                catch (NullReferenceException)
+                {
+                    System.Console.Error.WriteLine("Null reference exception during rule execution (null parameter?): " + Symbol);
+                    throw;
+                }
 #if LOG_SEQUENCE_EXECUTION
                 if(res)
                 {
@@ -729,7 +748,16 @@ namespace de.unika.ipd.grGen.libGr
                 else parameters = null;
 
                 if(graph.PerformanceInfo != null) graph.PerformanceInfo.StartLocal();
-                IMatches matches = ParamBindings.Action.Match(graph, curMaxMatches, parameters);
+                IMatches matches;
+                try
+                {
+                    matches = ParamBindings.Action.Match(graph, curMaxMatches, parameters);
+                }
+                catch (NullReferenceException)
+                {
+                    System.Console.Error.WriteLine("Null reference exception during rule execution (null parameter?): " + Symbol);
+                    throw;
+                }
                 if(graph.PerformanceInfo != null)
                 {
                     graph.PerformanceInfo.StopMatch();              // total match time does NOT include listeners anymore

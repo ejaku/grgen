@@ -1,5 +1,5 @@
 Agri:
-  Agri.grs -> 255
+  Agri.grs -> 0
 AntWorld-GraBaTs08:
   AntWorld_BorderNodes.grs -> 0
   AntWorld_ExtendAtAimless.grs -> 0
@@ -26,6 +26,8 @@ DebugTesting:
 Dragon:
   Dragon.grs -> 0
   DragonDebug.grs -> 0
+ExternalAttributeEvaluationExample:
+  ExternalAttributeEvaluation.grs -> 0
 FiniteStateMachine:
   reduced.grs -> 0
   removeEpsilons.grs -> 0
