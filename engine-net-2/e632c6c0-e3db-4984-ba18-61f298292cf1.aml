@@ -12,7 +12,7 @@
            a specific number of sub-topics when creating the outline.  Specify
            zero (0) to limit it to top-level sections only.  -->
       <!-- <autoOutline /> -->
-      <para>This is an introduction into the Application Programming Interface of the GrGen.NET v2.6 system,
+      <para>This is an introduction into the Application Programming Interface of the GrGen.NET v2.7 system,
       	i.e. the libGr and the assemblies generated from the model and rule specifications.
       	We'll have a look at the	
 		<list class="bullet">
