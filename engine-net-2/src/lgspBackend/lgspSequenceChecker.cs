@@ -106,8 +106,10 @@ namespace de.unika.ipd.grGen.lgsp
                 foreach(Sequence seqChild in seq.Children)
                 {
                     Check(seqChild);
-                    if(seqChild is SequenceRuleAll && ((SequenceRuleAll)seqChild).VarChooseRandom!=null)
-                        throw new Exception("Sequence SomeFromSet (e.g. {r1,[r2],$[r3]}) can't contain a select with variable from all construct (e.g. $v[r4])");
+                    if(seqChild is SequenceRuleAll 
+                        && ((SequenceRuleAll)seqChild).MinVarChooseRandom!=null
+                        && ((SequenceRuleAll)seqChild).MaxVarChooseRandom!=null)
+                        throw new Exception("Sequence SomeFromSet (e.g. {r1,[r2],$[r3]}) can't contain a select with variable from all construct (e.g. $v[r4], e.g. $v1,v2[r4])");
                 }
                 break;
             }

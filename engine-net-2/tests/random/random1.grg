@@ -58,4 +58,16 @@ test getmap : (string)
 	return ( a.m.peek( (int) (random()*a.m.size()-0.5) ) );
 }
 
+test match
+{
+	n:A;
+}
 
+rule changetype
+{
+	n:A;
+	
+	modify {
+		m:B<n>;
+	}
+}

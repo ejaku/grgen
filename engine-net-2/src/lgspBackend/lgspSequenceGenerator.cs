@@ -358,7 +358,18 @@ namespace de.unika.ipd.grGen.lgsp
                 + ".Match(graph, " + (seqRule.SequenceType == SequenceType.Rule ? "1" : "graph.MaxMatches")
                 + parameters + ");\n");
             if(gen.FireEvents) source.AppendFront("graph.Matched(" + matchesName + ", " + specialStr + ");\n");
-            source.AppendFront("if(" + matchesName + ".Count==0) {\n");
+            if(seqRule is SequenceRuleAll
+                && ((SequenceRuleAll)seqRule).ChooseRandom
+                && ((SequenceRuleAll)seqRule).MinSpecified)
+            {
+                SequenceRuleAll seqRuleAll = (SequenceRuleAll)seqRule;
+                source.AppendFrontFormat("int minmatchesvar_{0} = (int){1};\n", seqRuleAll.Id, GetVar(seqRuleAll.MinVarChooseRandom));
+                source.AppendFrontFormat("if({0}.Count < minmatchesvar_{1}) {{\n", matchesName, seqRuleAll.Id);
+            }
+            else
+            {
+                source.AppendFront("if(" + matchesName + ".Count==0) {\n");
+            }
             source.Indent();
             source.AppendFront(SetResultVar(seqRule, "false"));
             source.Unindent();
@@ -402,7 +413,8 @@ namespace de.unika.ipd.grGen.lgsp
             else // seq.SequenceType == SequenceType.RuleAll && ((SequenceRuleAll)seqRule).ChooseRandom
             {
                 // as long as a further rewrite has to be selected: randomly choose next match, rewrite it and remove it from available matches; fire the next match event after the first
-                source.AppendFrontFormat("int numchooserandomvar_{0} = (int){1};\n", seqRule.Id, ((SequenceRuleAll)seqRule).VarChooseRandom!=null ? GetVar(((SequenceRuleAll)seqRule).VarChooseRandom) : "1");
+                SequenceRuleAll seqRuleAll = (SequenceRuleAll)seqRule;
+                source.AppendFrontFormat("int numchooserandomvar_{0} = (int){1};\n", seqRuleAll.Id, seqRuleAll.MaxVarChooseRandom != null ? GetVar(seqRuleAll.MaxVarChooseRandom) : (seqRuleAll.MinSpecified ? "2147483647" : "1"));
                 source.AppendFrontFormat("if({0}.Count < numchooserandomvar_{1}) numchooserandomvar_{1} = {0}.Count;\n", matchesName, seqRule.Id);
                 source.AppendFrontFormat("for(int i = 0; i < numchooserandomvar_{0}; ++i)\n", seqRule.Id);
                 source.AppendFront("{\n");

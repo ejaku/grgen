@@ -687,16 +687,29 @@ namespace de.unika.ipd.grGen.libGr
     public class SequenceRuleAll : SequenceRule, SequenceRandomChoice
     {
         public bool ChooseRandom;
-		public SequenceVariable VarChooseRandom;
+        public bool MinSpecified;
+        public SequenceVariable MinVarChooseRandom;
+        public SequenceVariable MaxVarChooseRandom;
         private bool choice;
 
         public SequenceRuleAll(RuleInvocationParameterBindings paramBindings, bool special, bool test, 
-            bool chooseRandom, SequenceVariable varChooseRandom, bool choice)
+            bool chooseRandom, SequenceVariable varChooseRandom,
+            bool chooseRandom2, SequenceVariable varChooseRandom2, bool choice)
             : base(paramBindings, special, test)
         {
             SequenceType = SequenceType.RuleAll;
             ChooseRandom = chooseRandom;
-			VarChooseRandom = varChooseRandom;
+            if(chooseRandom)
+            {
+                MinSpecified = chooseRandom2;
+                if(chooseRandom2)
+                {
+                    MinVarChooseRandom = varChooseRandom;
+                    MaxVarChooseRandom = varChooseRandom2;
+                }
+                else
+                    MaxVarChooseRandom = varChooseRandom;
+            }
             this.choice = choice;
         }
 
@@ -775,6 +788,14 @@ namespace de.unika.ipd.grGen.libGr
             if (matches.Count == 0) return false;
             if (Test) return false;
 
+            if (MinSpecified)
+            {
+                if (!(MinVarChooseRandom.GetVariableValue(graph) is int))
+                    throw new InvalidOperationException("The variable '" + MinVarChooseRandom + "' is not of type int!");
+                if(matches.Count < (int)MinVarChooseRandom.GetVariableValue(graph))
+                    return false;
+            }
+
             graph.Finishing(matches, Special);
 
             if (graph.PerformanceInfo != null) graph.PerformanceInfo.StartLocal();
@@ -796,9 +817,9 @@ namespace de.unika.ipd.grGen.libGr
             }
             else
             {
-                object val = VarChooseRandom != null ? VarChooseRandom.GetVariableValue(graph) : 1;
+                object val = MaxVarChooseRandom != null ? MaxVarChooseRandom.GetVariableValue(graph) : (MinSpecified ? 2147483647 : 1);
                 if (!(val is int))
-                    throw new InvalidOperationException("The variable '" + VarChooseRandom + "' is not of type int!");
+                    throw new InvalidOperationException("The variable '" + MaxVarChooseRandom.Name + "' is not of type int!");
                 int numChooseRandom = (int)val;
                 if (matches.Count < numChooseRandom) numChooseRandom = matches.Count;
 
@@ -836,9 +857,20 @@ namespace de.unika.ipd.grGen.libGr
                 String prefix = "";
 				if(ChooseRandom) {
 					prefix = "$";
-                    if(Choice) prefix += "%"; 
-                    if(VarChooseRandom != null)
-                        prefix += VarChooseRandom.Name;
+                    if(Choice) prefix += "%";
+                    if(MinSpecified)
+                    {
+                        prefix += MinVarChooseRandom.Name + ",";
+                        if(MaxVarChooseRandom != null)
+                            prefix += MaxVarChooseRandom.Name;
+                        else
+                            prefix += "*";
+                    }
+                    else
+                    {
+                        if(MaxVarChooseRandom != null)
+                            prefix += MaxVarChooseRandom.Name;
+                    }
                 }
                 if(Special)
                 {

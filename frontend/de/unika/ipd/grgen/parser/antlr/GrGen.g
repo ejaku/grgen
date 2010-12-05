@@ -1379,7 +1379,8 @@ xgrsConstant[ExecNode xg]
 	
 parallelCallRule[ExecNode xg, CollectNode<BaseNode> returns]
 	: ( LPAREN {xg.append("(");} xgrsVariableList[xg, returns] RPAREN ASSIGN {xg.append(")=");} )?
-		(	( DOLLAR {xg.append("$");} ( varRndChoose=entIdentUse {xg.append(varRndChoose);} )? )?
+		(	( DOLLAR {xg.append("$");} ( varRndChoose=entIdentUse {xg.append(varRndChoose);} 
+						(COMMA {xg.append(",");} (varRndChoose2=entIdentUse {xg.append(varRndChoose2);} | STAR {xg.append("*");}))? )? )?
 				LBRACK {xg.append("[");} 
 				callRule[xg, returns]
 				RBRACK {xg.append("]");}

@@ -893,9 +893,9 @@ void RuleLookahead():
 	("(" Word() (":" (Word() | "set" "<" Word() ">" | "map" "<" Word() "," Word() ">"))?
 			("," Word() (":" (Word() | "set" "<" Word() ">" | "map" "<" Word() "," Word() ">"))?)* ")" "=")?
 	(
-	    ("$" ("%")? (Variable())?)? "["
+	    ( "$" ("%")? ( Variable() ("," (Variable() | "*"))? )? )? "["
 	|
-	    ("%" | "?")* Word()
+	    ( "%" | "?" )* Word()
 	)
 }
 
@@ -903,8 +903,8 @@ Sequence Rule():
 {
 	bool special = false, test = false;
 	String str;
-	bool chooseRandSpecified = false, choice = false;
-	SequenceVariable varChooseRand = null;
+	bool chooseRandSpecified = false, chooseRandSpecified2 = false, choice = false;
+	SequenceVariable varChooseRand = null, varChooseRand2 = null;
 	List<SequenceVariable> paramVars = new List<SequenceVariable>();
 	List<Object> paramConsts = new List<Object>();
 	List<SequenceVariable> returnVars = new List<SequenceVariable>();
@@ -913,7 +913,7 @@ Sequence Rule():
 	("(" VariableList(returnVars) ")" "=" )? 
 	(
 		(
-			"$" ("%" { choice = true; })? (varChooseRand=Variable())? { chooseRandSpecified = true; }
+			"$" ("%" { choice = true; })? ( varChooseRand=Variable() ("," (varChooseRand2=Variable() | "*") { chooseRandSpecified2 = true; })? )? { chooseRandSpecified = true; }
 		)?
 		"[" ("%" { special = true; } | "?" { test = true; })* str=Word()
 		("(" RuleParameters(paramVars, paramConsts) ")")?
@@ -924,7 +924,7 @@ Sequence Rule():
 				throw new SequenceParserException(str, SequenceParserError.RuleNameUsedByVariable);
 
 			return new SequenceRuleAll(CreateRuleInvocationParameterBindings(str, paramVars, paramConsts, returnVars),
-					special, test, chooseRandSpecified, varChooseRand, choice);
+					special, test, chooseRandSpecified, varChooseRand, chooseRandSpecified2, varChooseRand2, choice);
 		}
 	|
 		("%" { special = true; } | "?" { test = true; })*

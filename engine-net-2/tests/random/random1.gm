@@ -5,3 +5,7 @@ node class A
 	i:int = -1;
 	d:double = -1.0;
 }
+
+node class B
+{
+}
