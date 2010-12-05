@@ -124,12 +124,13 @@ They split into four major areas: rule application, variable assignment, extende
 Further on, there are the \texttt{emit} and \texttt{record} statements: the emit statement writes a double quoted string or the value of a variable to the emit target (stdout as default, or a file specified with the shell command \texttt{redirect emit}). The record statement writes a double quoted string or the value of a variable to the currently ongoing recordings (see \ref{recordnreplay}). This feature allows to mark states reached during the transformation process in order to replay only interesting parts of an recording. It is recommended to write only comment label lines, i.e. \verb/"#"/, some label, and \verb/"\n"/.
 
 \begin{rail}    
-  RuleExecution: (() | '(' (Variable+',') ')' '=') \\ (() | percent) (() | '?') ( (dollar (percent)?() ( Variable | ()) | ()) '[' Rule ']' | Rule);   
+  RuleExecution: (() | '(' (Variable+',') ')' '=') \\ (() | percent) (() | '?') (Rule | (RandomSelection)? '[' Rule ']');
+  RandomSelection: dollar (percent)? ( Variable | (Variable ',' (Variable | '*')) )?;
   Rule: RuleIdent (() | '(' (Variable+',') ')');
-\end{rail}\ixnterm{RuleExecution}\ixnterm{Rule}
+\end{rail}\ixnterm{RuleExecution}\ixnterm{RandomSelection}\ixnterm{Rule}
 The \emph{RuleExecution} clause applies a single rule or test.
 In case of a rule, the first found pattern match will be rewritten.
-Variables and named graph elements from the enclosing rule can be passed.
+Variables and named graph elements can be passed into the rule.
 The returned graph elements can be assigned to variables again.
 The operator \texttt{?} switches the rule to a test, i.e.\ the rule application does not perform the rewrite part of the rule but only tests if a match exists.
 The operator \texttt{\%} is a multi-purpose flag. 
@@ -137,13 +138,15 @@ In the \GrShell\ (see Chapter~\ref{chapgrshell}) it dumps the matched graph elem
 in \texttt{debug}-mode (see Section~\ref{sct:debugger}) it acts as a \indexed{break point} (which is its main use in fact);
 you are also able to use this flag for your own purposes, when using \GrG\ via its API interface (see Section~\ref{sct:API}).
 The sqare braces (\texttt{[]}) introduce a special kind of multiple rule application:
-Every pattern match produced by the will be rewritten.
+Every pattern match produced by the rule will be rewritten.
 Attention: This \indexed{all bracketing} is \textbf{not} equal to \texttt{Rule*}.
 Instead this operator collects all the matches first before starting to rewrite.
-In particular the semantics is unsafe, i.e.\ one needs to avoid deleting or retyping a graph element that is bound by another match.
+In particular the semantics is unsafe, i.e.\ one needs to avoid deleting or retyping a graph element that is bound by another match. On the other hand this version is more efficient and allows one to get along without marking already handled situations (to prevent a rule matching again and again).
 If \emph{Rule} returns values, the values of \emph{one} of the executed rules will be returned.
-The \indexed{random match selector} \texttt{\$v} searches for all matches and then randomly selects \texttt{v} of them to be rewritten
-(but at most as much as are available), with \texttt{\$[r1]} being equivalent to \texttt{anonymousTempVar=1 \& \$anonymousTempVar[r1]}.
+The \indexed{random match selector} \texttt{\$v} searches for all matches and then randomly selects \texttt{v} of them to be rewritten (but at most as much as are available), with \texttt{\$[r1]} being equivalent to \texttt{anonymousTempVar=1 \& \$anonymousTempVar[r1]}.
+Rule application will fail in case no match was found and succeed otherwise. 
+You may change the lower bound for success by giving a variable containing the value to apply before the comma-separated upper bound variable.
+In case a lower bound is given the upper bound may be set to unlimited with the \texttt{*}.
 An \texttt{\%} appended to the \texttt{\$} denotes a \indexed{choice point} 
 allowing the user to choose the match to be applied from the available ones in the debugger (see Section~\ref{sct:debugger}).
 

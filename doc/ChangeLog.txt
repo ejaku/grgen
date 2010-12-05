@@ -1,4 +1,4 @@
-﻿v2.7.ms1 (2010-11-28)
+﻿v2.7.ms1 (2010-12-05)
  Added record and replay feature (plus supporting instructions):
  - record shell command for writing the current graph and then the changes applied to it into a .grs 
     for replaying later on, with comments telling about the events causing them as debugging help
@@ -19,6 +19,8 @@
  Other changes:
  - min(.,.)/max(.,.) functions added to the expressions
  - compiled version of backtracking brackets <<r;s>> now available
+ - ability to specify lower bound for random match selection, e.g. $v1,v2[r], $v1,*[r];
+     otherwise (when only an upper bound is given as e.g. in $v2[r]) fixed to value 1
  - added askfor shell command just waiting for enter to be pressed
  - further smaller fixes and improvements
  - purged deprecated shell constructs for set handling, map handling, visited flags handling
