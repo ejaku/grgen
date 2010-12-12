@@ -60,6 +60,7 @@ import de.unika.ipd.grgen.ir.VoidType;
 
 public class ModelGen extends CSharpBase {
 	private final int MAX_OPERATIONS_FOR_ATTRIBUTE_INITIALIZATION_INLINING = 20;
+	private final static String ATTR_IMPL_SUFFIX = "\\u0303";
 
 	public ModelGen(SearchPlanBackend2 backend, String nodeTypePrefix, String edgeTypePrefix) {
 		super(nodeTypePrefix, edgeTypePrefix);
@@ -424,10 +425,10 @@ public class ModelGen extends CSharpBase {
 
 			String attrName = formatIdentifiable(member);
 			if(member.getType() instanceof MapType || member.getType() instanceof SetType) {
-				routedSB.append("\t\t\t_" + attrName + " = new " + formatAttributeType(member.getType())
-						+ "(oldElem._" + attrName + ");\n");
+				routedSB.append("\t\t\t" + attrName + ModelGen.ATTR_IMPL_SUFFIX + " = new " + formatAttributeType(member.getType())
+						+ "(oldElem." + attrName + ModelGen.ATTR_IMPL_SUFFIX + ");\n");
 			} else {
-				routedSB.append("\t\t\t_" + attrName + " = oldElem._" + attrName + ";\n");
+				routedSB.append("\t\t\t" + attrName + ModelGen.ATTR_IMPL_SUFFIX + " = oldElem." + attrName + ModelGen.ATTR_IMPL_SUFFIX + ";\n");
 			}
 		}
 		routedSB.append("\t\t}\n");
@@ -752,7 +753,7 @@ set_init_loop:
 			
 			String attrType = formatAttributeType(member);
 			String attrName = formatIdentifiable(member);
-			sb.append("\t\tprivate static readonly " + attrType + " _" + attrName + " = ");
+			sb.append("\t\tprivate static readonly " + attrType + " " + attrName + ModelGen.ATTR_IMPL_SUFFIX + " = ");
 			genExpression(sb, memberInit.getExpression(), null);
 			sb.append(";\n");
 
@@ -769,13 +770,13 @@ set_init_loop:
 
 			String attrType = formatAttributeType(member);
 			String attrName = formatIdentifiable(member);
-			sb.append("\t\tprivate static readonly " + attrType + " _" + attrName + " = " +
+			sb.append("\t\tprivate static readonly " + attrType + " " + attrName + ModelGen.ATTR_IMPL_SUFFIX + " = " +
 					"new " + attrType + "();\n");
 			staticInitializers.add("init_" + attrName);
 			sb.append("\t\tstatic void init_" + attrName + "() {\n");
 			for(MapItem item : mapInit.getMapItems()) {
 				sb.append("\t\t\t");
-				sb.append("_" + attrName);
+				sb.append(attrName + ModelGen.ATTR_IMPL_SUFFIX);
 				sb.append("[");
 				genExpression(sb, item.getKeyExpr(), null);
 				sb.append("] = ");
@@ -797,13 +798,13 @@ set_init_loop:
 
 			String attrType = formatAttributeType(member);
 			String attrName = formatIdentifiable(member);
-			sb.append("\t\tprivate static readonly " + attrType + " _" + attrName + " = " +
+			sb.append("\t\tprivate static readonly " + attrType + " " + attrName + ModelGen.ATTR_IMPL_SUFFIX + " = " +
 					"new " + attrType + "();\n");
 			staticInitializers.add("init_" + attrName);
 			sb.append("\t\tstatic void init_" + attrName + "() {\n");
 			for(SetItem item : setInit.getSetItems()) {
 				sb.append("\t\t\t");
-				sb.append("_" + attrName);
+				sb.append(attrName + ModelGen.ATTR_IMPL_SUFFIX);
 				sb.append("[");
 				genExpression(sb, item.getValueExpr(), null);
 				sb.append("] = null;\n");
@@ -828,10 +829,10 @@ set_init_loop:
 			String attrName = formatIdentifiable(member);
 
 			if(memberType instanceof MapType || memberType instanceof SetType)
-				sb.append("\t\tprivate static readonly " + attrType + " _" + attrName + " = " +
+				sb.append("\t\tprivate static readonly " + attrType + " " + attrName + ModelGen.ATTR_IMPL_SUFFIX + " = " +
 						"new " + attrType + "();\n");
 			else
-				sb.append("\t\tprivate static readonly " + attrType + " _" + attrName + ";\n");
+				sb.append("\t\tprivate static readonly " + attrType + " " + attrName + ModelGen.ATTR_IMPL_SUFFIX + ";\n");
 		}
 	}
 
@@ -921,15 +922,15 @@ set_init_loop:
 				// they are class static, the member is created at the point of initialization
 				routedSB.append("\t\tpublic " + extModifier + attrType + " @" + attrName + "\n");
 				routedSB.append("\t\t{\n");
-				routedSB.append("\t\t\tget { return _" + attrName + "; }\n");
+				routedSB.append("\t\t\tget { return " + attrName + ModelGen.ATTR_IMPL_SUFFIX + "; }\n");
 				routedSB.append("\t\t}\n");
 			} else {
 				// member, getter, setter for non-const attributes
-				routedSB.append("\n\t\tprivate " + attrType + " _" + attrName + ";\n");
+				routedSB.append("\n\t\tprivate " + attrType + " " + attrName + ModelGen.ATTR_IMPL_SUFFIX + ";\n");
 				routedSB.append("\t\tpublic " + extModifier + attrType + " @" + attrName + "\n");
 				routedSB.append("\t\t{\n");
-				routedSB.append("\t\t\tget { return _" + attrName + "; }\n");
-				routedSB.append("\t\t\tset { _" + attrName + " = value; }\n");
+				routedSB.append("\t\t\tget { return " + attrName + ModelGen.ATTR_IMPL_SUFFIX + "; }\n");
+				routedSB.append("\t\t\tset { " + attrName + ModelGen.ATTR_IMPL_SUFFIX + " = value; }\n");
 				routedSB.append("\t\t}\n");
 			}
 
@@ -940,8 +941,8 @@ set_init_loop:
 						+ formatElementInterfaceRef(overriddenMember.getOwner())
 						+ ".@" + attrName + "\n"
 						+ "\t\t{\n"
-						+ "\t\t\tget { return _" + attrName + "; }\n"
-						+ "\t\t\tset { _" + attrName + " = (" + attrType + ") value; }\n"
+						+ "\t\t\tget { return " + attrName + ModelGen.ATTR_IMPL_SUFFIX + "; }\n"
+						+ "\t\t\tset { " + attrName + ModelGen.ATTR_IMPL_SUFFIX + " = (" + attrType + ") value; }\n"
 						+ "\t\t}\n");
 			}
 		}
