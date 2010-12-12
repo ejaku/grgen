@@ -2502,6 +2502,7 @@ namespace de.unika.ipd.grGen.grShell
 
             debugOut.WriteLine("Executing Graph Rewrite Sequence... (CTRL+C for abort)");
             cancelSequence = false;
+            workaround.PreventComputerGoingIntoSleepMode(true);
             PerformanceInfo perfInfo = new PerformanceInfo();
             curShellGraph.Graph.PerformanceInfo = perfInfo;
             try
@@ -2534,6 +2535,7 @@ namespace de.unika.ipd.grGen.grShell
                 }
             }
             curShellGraph.Graph.PerformanceInfo = null;
+            workaround.PreventComputerGoingIntoSleepMode(false);
             curRule = null;
             curGRS = null;
 

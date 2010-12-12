@@ -12,6 +12,7 @@ using System;
 using System.Collections.Generic;
 using System.Text;
 using System.IO;
+using System.Runtime.InteropServices;
 
 namespace de.unika.ipd.grGen.grShell
 {
@@ -35,6 +36,16 @@ namespace de.unika.ipd.grGen.grShell
         SequenceStart = 64
     }
 
+    [FlagsAttribute]
+    public enum EXECUTION_STATE : uint
+    {
+        ES_SYSTEM_REQUIRED = 0x00000001,
+        ES_DISPLAY_REQUIRED = 0x00000002,
+        // Legacy flag, should not be used.
+        // ES_USER_PRESENT   = 0x00000004,
+        ES_CONTINUOUS = 0x80000000,
+    }
+
     public interface IWorkaround
     {
         /// <summary>
@@ -53,6 +64,17 @@ namespace de.unika.ipd.grGen.grShell
         /// Prints the given text in a highlighted form.
         /// </summary>
         void PrintHighlighted(String text, HighlightingMode mode);
+
+        /// <summary>
+        /// Prevents the computer from going into sleep mode or allows it again.
+        /// To be set when you start a long running computation without user interaction or network I/O,
+        /// to be reset afterwards (so the computer can fall asleep again in case there's nothing going on).
+        /// Not calling this function the computer would fall asleep after a while even at 100% CPU usage and disk usage,
+        /// as might happen if you are executing some graph rewrite sequences for an excessive simulation.
+        /// TODO: LINUX version. Currently Windows only.
+        /// </summary>
+        /// <param name="prevent">prevent if true, allow if false</param>
+        void PreventComputerGoingIntoSleepMode(bool prevent);
     }
 
     public abstract class MonoWorkaroundConsoleIO : IWorkaround
@@ -127,6 +149,7 @@ namespace de.unika.ipd.grGen.grShell
 
         public abstract ConsoleKeyInfo ReadKey(bool intercept);
         public abstract void PrintHighlighted(String text, HighlightingMode mode);
+        public abstract void PreventComputerGoingIntoSleepMode(bool prevent);
     }
 
     public class MonoLinuxWorkaroundConsoleIO : MonoWorkaroundConsoleIO
@@ -157,6 +180,11 @@ namespace de.unika.ipd.grGen.grShell
         public override ConsoleKeyInfo ReadKey(bool intercept)
         {
             return Console.ReadKey(intercept);
+        }
+
+        public override void PreventComputerGoingIntoSleepMode(bool prevent)
+        {
+            // TODO - NIY
         }
     }
 
@@ -218,6 +246,17 @@ namespace de.unika.ipd.grGen.grShell
                 }
             }
         }
+
+        [DllImport("kernel32.dll", CharSet = CharSet.Auto, SetLastError = true)]
+        static extern EXECUTION_STATE SetThreadExecutionState(EXECUTION_STATE esFlags);
+
+        public override void PreventComputerGoingIntoSleepMode(bool prevent)
+        {
+            if(prevent)
+                SetThreadExecutionState(EXECUTION_STATE.ES_SYSTEM_REQUIRED | EXECUTION_STATE.ES_CONTINUOUS);
+            else
+                SetThreadExecutionState(EXECUTION_STATE.ES_CONTINUOUS);
+        }
     }
 
     public class NoWorkaroundConsoleIO : IWorkaround
@@ -250,6 +289,17 @@ namespace de.unika.ipd.grGen.grShell
 
         public TextReader In { get { return Console.In; } }
         public ConsoleKeyInfo ReadKey(bool intercept) { return Console.ReadKey(intercept); }
+
+        [DllImport("kernel32.dll", CharSet = CharSet.Auto, SetLastError = true)]
+        static extern EXECUTION_STATE SetThreadExecutionState(EXECUTION_STATE esFlags);
+
+        public void PreventComputerGoingIntoSleepMode(bool prevent)
+        {
+            if(prevent)
+                SetThreadExecutionState(EXECUTION_STATE.ES_SYSTEM_REQUIRED | EXECUTION_STATE.ES_CONTINUOUS);
+            else
+                SetThreadExecutionState(EXECUTION_STATE.ES_CONTINUOUS);
+        }
     }
 
     public class WorkaroundManager
