@@ -682,7 +682,7 @@ public class ModifyGen extends CSharpBase {
 		////////////////////////////////////////////////////////////////////////////////
 		// Finalize method using the infos collected and the already generated code
 
-		genExtractElementsFromMatch(sb, stateConst, pathPrefix, task.left.getNameOfGraph());
+		genExtractElementsFromMatch(sb, task, stateConst, pathPrefix, task.left.getNameOfGraph());
 
 		genExtractVariablesFromMatch(sb, task, stateConst, pathPrefix, task.left.getNameOfGraph());
 
@@ -902,6 +902,10 @@ public class ModifyGen extends CSharpBase {
 	{
 		accessViaInterface.addAll(task.left.getNodes());
 		accessViaInterface.addAll(task.left.getEdges());
+		for(Entity replParam : task.replParameters) {
+			if(replParam instanceof GraphEntity)
+				accessViaInterface.add((GraphEntity)replParam);
+		}
 		for(Node node : task.right.getNodes()) {
 			if(node.inheritsType())
 				accessViaInterface.add(node);
@@ -1305,8 +1309,8 @@ public class ModifyGen extends CSharpBase {
 		sb.append("\t\t\treturn;\n");
 	}
 
-	private void genExtractElementsFromMatch(StringBuffer sb, ModifyGenerationStateConst state,
-			String pathPrefix, String patternName) {
+	private void genExtractElementsFromMatch(StringBuffer sb, ModifyGenerationTask task,
+			ModifyGenerationStateConst state, String pathPrefix, String patternName) {
 		for(Node node : state.nodesNeededAsElements()) {
 			if(node.isRetyped()) continue;
 			if(state.yieldedNodes().contains(node)) continue;
@@ -1316,6 +1320,11 @@ public class ModifyGen extends CSharpBase {
 		for(Node node : state.nodesNeededAsAttributes()) {
 			if(node.isRetyped()) continue;
 			if(state.yieldedNodes().contains(node)) continue;
+			if(task.replParameters.contains(node)) {
+				sb.append("\t\t\t" + formatElementInterfaceRef(node.getType()) + " i" + formatEntity(node)
+						+ " = (" + formatElementInterfaceRef(node.getType()) + ")" + formatEntity(node) + ";\n");
+				continue; // replacement parameters are handed in as parameters
+			}
 			sb.append("\t\t\t" + formatElementInterfaceRef(node.getType()) + " i" + formatEntity(node)
 					+ " = curMatch." + formatEntity(node) + ";\n");
 		}
@@ -1328,6 +1337,11 @@ public class ModifyGen extends CSharpBase {
 		for(Edge edge : state.edgesNeededAsAttributes()) {
 			if(edge.isRetyped()) continue;
 			if(state.yieldedEdges().contains(edge)) continue;
+			if(task.replParameters.contains(edge)) {
+				sb.append("\t\t\t" + formatElementInterfaceRef(edge.getType()) + " i" + formatEntity(edge)
+						+ " = (" + formatElementInterfaceRef(edge.getType()) + ")" + formatEntity(edge) + ";\n");
+				continue; // replacement parameters are handed in as parameters
+			}
 			sb.append("\t\t\t" + formatElementInterfaceRef(edge.getType()) + " i" + formatEntity(edge)
 					+ " = curMatch." + formatEntity(edge) + ";\n");
 		}

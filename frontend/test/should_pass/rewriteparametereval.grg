@@ -1,0 +1,13 @@
+using rewriteparametereval;
+
+pattern setX() modify (p:X) {
+  modify {
+    p -- p;             // compiles
+    eval { p.x = "x"; } // does not compile
+  }
+}
+
+rule foo {
+  sa:setX();
+  modify { p:X; sa(p); }
+}
