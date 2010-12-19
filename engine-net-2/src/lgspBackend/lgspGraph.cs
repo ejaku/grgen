@@ -303,6 +303,8 @@ namespace de.unika.ipd.grGen.lgsp
             if(newNode != null)
             {
                 LGSPNode oldNode = (LGSPNode) _oldElem;
+                if(lgspGraph.NamedGraph != null)
+                    lgspGraph.NamedGraph.Retyping(newNode, oldNode);
                 lgspGraph.RetypingNode(newNode, oldNode);
                 lgspGraph.ReplaceNode(newNode, oldNode);
                 if(lgspGraph.NamedGraph != null)
@@ -312,6 +314,8 @@ namespace de.unika.ipd.grGen.lgsp
             {
                 LGSPEdge newEdge = (LGSPEdge) _newElem;
                 LGSPEdge oldEdge = (LGSPEdge) _oldElem;
+                if(lgspGraph.NamedGraph != null)
+                    lgspGraph.NamedGraph.Retyping(newEdge, oldEdge);
                 lgspGraph.RetypingEdge(newEdge, oldEdge);
                 lgspGraph.ReplaceEdge(newEdge, oldEdge);
                 if(lgspGraph.NamedGraph != null)
@@ -480,7 +484,7 @@ namespace de.unika.ipd.grGen.lgsp
                 UnsubscribeEvents();
 
             if(graph.Recorder != null)
-                graph.Recorder.TransactionRollback(transactionID, true);
+                graph.Recorder.TransactionRollback(transactionID, false);
 
 #if LOG_TRANSACTION_HANDLING
             writer.Flush();
@@ -1457,6 +1461,9 @@ namespace de.unika.ipd.grGen.lgsp
         {
             LGSPNode newNode = (LGSPNode) newNodeType.CreateNodeWithCopyCommons(node);
 
+            if(namedGraph != null)
+                namedGraph.Retyping(node, newNode);
+
             RetypingNode(node, newNode);
 
             ReplaceNode(node, newNode);
@@ -1491,6 +1498,9 @@ namespace de.unika.ipd.grGen.lgsp
         public LGSPEdge Retype(LGSPEdge edge, EdgeType newEdgeType)
         {
             LGSPEdge newEdge = (LGSPEdge) newEdgeType.CreateEdgeWithCopyCommons(edge.lgspSource, edge.lgspTarget, edge);
+
+            if(namedGraph != null)
+                namedGraph.Retyping(edge, newEdge);
 
             RetypingEdge(edge, newEdge);
 

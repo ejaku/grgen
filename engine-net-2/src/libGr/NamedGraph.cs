@@ -741,8 +741,24 @@ namespace de.unika.ipd.grGen.libGr
         }
 
         /// <summary>
-        /// An element was retyped, i.e. a new element created from an old element,
-        /// give the new element the name of the old element.
+        /// An element gets retyped, i.e. a new element created from an old element;
+        /// give the new element the name of the old element, step 1.
+        /// (high level retyping is low level delete and create, reconnecting incident stuff and copying attributes)
+        /// </summary>
+        /// <param name="oldElem">The old element, which gets retyped.</param>
+        /// <param name="newElem">The new element, the result of retyping.</param>
+        public void Retyping(IGraphElement oldElem, IGraphElement newElem)
+        {
+            String name;
+            if(ElemToName.TryGetValue(oldElem, out name))  // has a name been assigned to the element?
+            {
+                ElemToName[newElem] = name;
+            }
+        }
+
+        /// <summary>
+        /// An element was retyped, i.e. a new element created from an old element;
+        /// give the new element the name of the old element, step 2.
         /// (high level retyping is low level delete and create, reconnecting incident stuff and copying attributes)
         /// </summary>
         /// <param name="oldElem">The old element, which was retyped.</param>
@@ -753,7 +769,6 @@ namespace de.unika.ipd.grGen.libGr
             if(ElemToName.TryGetValue(oldElem, out name))  // has a name been assigned to the element?
             {
                 ElemToName.Remove(oldElem);
-                ElemToName[newElem] = name;
                 NameToElem[name] = newElem;
             }
         }
