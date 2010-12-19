@@ -394,6 +394,7 @@ SPECIAL_TOKEN: {
 |	< ERRORFILENAME: ~[] > : DEFAULT
 }
 
+// external shell command or graph rewrite sequence
 <WithinCommand> TOKEN: {
     < COMMANDLINE: ("\\\r\n" | "\\\n" | "\\\r" | "\\#" | ~["\n","\r","#"])* ("\n" | "\r" | "\r\n")? > : DEFAULT
 }
@@ -413,6 +414,26 @@ SPECIAL_TOKEN: {
 |   < ERRORANYSTRING: ~[] > : DEFAULT
 }
 
+// this -- anystring, filename, ... -- this only works if triggered 
+// a) from another lexical state, another lexical rule (not possible for any but the simplest tasks) or
+// b) from the parser BUT ONLY in the case no lookahead had to be applied
+// if lookahead was needed and reached a token to be handled by a non-default-state,
+// it was tokenized with the default rules, not with the rules of this state 
+// -> be very careful with this rules and the switches to them, 
+// ensure that every switch to such a state from the parser is not in reach of a lookahead decision to be made
+// it would make a lot of sense to use this token at a lot of more places, to get type and attribute names not colliding with shell keywords,
+// but unfortunately they are used to take parsing decisions via lookahead, so this lexer state won't be used 
+// sigh, maybe it's improper, but parser directed lexing is a must in the real world...
+  // can't use this e.g. for type names cause in a lot of places lookahead touches them -> shell keyword typename -> use ""
+  // quoted versions here only for consistency with other places, types, where quotes are allowed (needed to prevent keyword clashes), so user can blindly always use them
+<WithinAttributeName> TOKEN: {
+    < DOUBLEQUOTEDATTRIBUTENAME: "\"" (~["\"", "\n", "\r"])* "\"" >
+        { matchedToken.image = matchedToken.image.Substring(1, matchedToken.image.Length-2); } : DEFAULT
+|   < SINGLEQUOTEDATTRIBUTENAME: "\'" (~["\'", "\n", "\r"])* "\'" >
+        { matchedToken.image = matchedToken.image.Substring(1, matchedToken.image.Length-2); } : DEFAULT
+|   < ATTRIBUTENAME: (["0"-"9", "a"-"z", "A"-"Z", "_"])+ > : DEFAULT
+|   < ERRORATTRIBUTENAME: ~[] > : DEFAULT
+}
 
 <WithinAnyStrings> SKIP: {
 	" " |
@@ -445,18 +466,19 @@ String AnyString():
     }
 }
 
-String Word():
+String AttributeName():
 {
     Token tok;
 }
 {
-    tok=<WORD>
+    {token_source.SwitchTo(WithinAttributeName);}
+    (tok=<DOUBLEQUOTEDATTRIBUTENAME> | tok=<SINGLEQUOTEDATTRIBUTENAME> | tok=<ATTRIBUTENAME>)
     {
         return tok.image;
     }
 }
 
-String Text():
+String WordOrText():
 {
 	Token tok;
 }
@@ -496,7 +518,7 @@ String AttributeValue():
 }
 {
 	(
-		LOOKAHEAD(2) enumName=Word() "::" enumValue=Word()
+		LOOKAHEAD(2) enumName=WordOrText() "::" enumValue=AttributeName()
 		{
 			return enumName + "::" + enumValue;
 		}
@@ -575,7 +597,7 @@ object NumberOrVar():
 		return Convert.ToInt32(t.image);
 	}
 |
-	str=Word() { val = impl.GetVarValue(str); return val; }
+	str=WordOrText() { val = impl.GetVarValue(str); return val; }
 }
 
 bool Bool():
@@ -596,7 +618,7 @@ object BoolOrVar():
 |
 	"false" { return false; }
 |
-	str=Word() { val = impl.GetVarValue(str); return val; }
+	str=WordOrText() { val = impl.GetVarValue(str); return val; }
 }
 
 String Filename():
@@ -683,9 +705,9 @@ IGraphElement GraphElement():
 }
 {
 	(
-		"@" "(" str=Text() ")" { elem = impl.GetElemByName(str); }
+		"@" "(" str=WordOrText() ")" { elem = impl.GetElemByName(str); }
 	|
-		str=Word() { elem = impl.GetElemByVar(str); }
+		str=WordOrText() { elem = impl.GetElemByVar(str); }
 	)
 	{ return elem; }
 }
@@ -697,13 +719,27 @@ object GraphElementOrVar():
 }
 {
 	(
-		"@" "(" str=Text() ")" { val = impl.GetElemByName(str); }
+		"@" "(" str=WordOrText() ")" { val = impl.GetElemByName(str); }
 	|
-		str=Word() { val = impl.GetVarValue(str); }
+		str=WordOrText() { val = impl.GetVarValue(str); }
 	)
 	{ return val; }
 }
 
+object GraphElementOrUnquotedVar():
+{
+	object val;
+	String str;
+	Token tok;
+}
+{
+	(
+		"@" "(" str=WordOrText() ")" { val = impl.GetElemByName(str); }
+	|
+		tok=<WORD> { val = impl.GetVarValue(tok.image); }
+	)
+	{ return val; }
+}
 
 object GraphElementOrVarOrNull():
 {
@@ -712,11 +748,11 @@ object GraphElementOrVarOrNull():
 }
 {
 	(
-		"@" "(" str=Text() ")" { val = impl.GetElemByName(str); }
+		"@" "(" str=WordOrText() ")" { val = impl.GetElemByName(str); }
     |
         "null" { val = null; }
 	|
-		str=Word() { val = impl.GetVarValue(str); }
+		str=WordOrText() { val = impl.GetVarValue(str); }
 	)
 	{ return val; }
 }
@@ -728,9 +764,9 @@ INode Node():
 }
 {
 	(
-		"@" "(" str=Text() ")" { node = impl.GetNodeByName(str); }
+		"@" "(" str=WordOrText() ")" { node = impl.GetNodeByName(str); }
 	|
-		str=Text() { node = impl.GetNodeByVar(str); }
+		str=WordOrText() { node = impl.GetNodeByVar(str); }
 	)
 	{ return node; }
 }
@@ -742,9 +778,9 @@ IEdge Edge():
 }
 {
 	(
-		"@" "(" str=Text() ")" { edge = impl.GetEdgeByName(str); }
+		"@" "(" str=WordOrText() ")" { edge = impl.GetEdgeByName(str); }
 	|
-		str=Text() { edge = impl.GetEdgeByVar(str); }
+		str=WordOrText() { edge = impl.GetEdgeByVar(str); }
 	)
 	{ return edge; }
 }
@@ -754,7 +790,7 @@ NodeType NodeType():
 	String str;
 }
 {
-	str=Text() { return impl.GetNodeType(str); }
+	str=WordOrText() { return impl.GetNodeType(str); }
 }
 
 EdgeType EdgeType():
@@ -762,7 +798,7 @@ EdgeType EdgeType():
 	String str;
 }
 {
-	str=Text() { return impl.GetEdgeType(str); }
+	str=WordOrText() { return impl.GetEdgeType(str); }
 }
 
 ShellGraph Graph():
@@ -774,7 +810,7 @@ ShellGraph Graph():
     (
         index=Number() { return impl.GetShellGraph(index); }
     |
-	    str=Text() { return impl.GetShellGraph(str); }
+	    str=WordOrText() { return impl.GetShellGraph(str); }
 	)
 }
 
@@ -792,7 +828,7 @@ object SimpleConstant():
 	|
 		constant=DoubleNumber()
 	|
-		constant=QuotedText()
+		LOOKAHEAD(2) constant=QuotedText()
 	|
 		<TRUE> { constant = true; }
 	|
@@ -800,7 +836,7 @@ object SimpleConstant():
 	|
 		<NULL> { constant = null; }
 	| 
-		type=Word() "::" value=Word() 
+		type=WordOrText() "::" value=AttributeName() 
 		{ 
 			foreach(EnumAttributeType attrType in impl.CurrentGraph.Model.EnumAttributeTypes)
 			{
@@ -831,7 +867,7 @@ object Constant():
 	(
 		constant=SimpleConstant()
     |
-		"set" "<" typeName=Word() ">"
+		"set" "<" typeName=WordOrText() ">"
 		{
 			srcType = DictionaryHelper.GetTypeFromNameForDictionary(typeName, impl.CurrentGraph.Model);
 			dstType = typeof(de.unika.ipd.grGen.libGr.SetValueType);
@@ -845,7 +881,7 @@ object Constant():
 				( "," src=SimpleConstant() { ((IDictionary)constant).Add(src, null); })*
 		"}"
 	|
-		"map" "<" typeName=Word() "," typeNameDst=Word() ">"
+		"map" "<" typeName=WordOrText() "," typeNameDst=WordOrText() ">"
 		{
 			srcType = DictionaryHelper.GetTypeFromNameForDictionary(typeName, impl.CurrentGraph.Model);
 			dstType = DictionaryHelper.GetTypeFromNameForDictionary(typeNameDst, impl.CurrentGraph.Model);
@@ -934,7 +970,7 @@ void ShellCommand():
 |
 	"dump" DumpCommand()
 |
-	"echo" str1=Text() LineEnd()
+	"echo" str1=QuotedText() LineEnd()
 	{
         Console.WriteLine(Regex.Unescape(str1));
 	}
@@ -977,7 +1013,7 @@ void ShellCommand():
 		impl.NodeTypeIsA(node1, node2);
 	}
 |
-	"open" "graph" str1=Filename() str2=Text() LineEnd()
+	"open" "graph" str1=Filename() str2=WordOrText() LineEnd()
 	{
 		noError = impl.OpenGraph(str1, str2);
 	}
@@ -989,7 +1025,7 @@ void ShellCommand():
 		    noError = impl.ParseFile(str1);
 	    }
     |
-	    str1=Text() LineEnd()
+	    str1=WordOrText() LineEnd()
 	    {
 		    noError = impl.ParseString(str1);
 	    }
@@ -1008,7 +1044,7 @@ void ShellCommand():
 			impl.SetRandomSeed(num);
 		}
 	|
-		str1=Word()
+		str1=WordOrText()
 		{
 			if(str1 != "time")
 			{
@@ -1127,7 +1163,7 @@ void ShellCommand():
     
     try
     {
-	    LOOKAHEAD(2) elem=GraphElement() "." str1=AnyString()
+	    LOOKAHEAD(2) elem=GraphElement() "." str1=AttributeName()
 	    (
 	        LineEnd()
 	        {
@@ -1158,30 +1194,30 @@ void ShellCommand():
 			}
 	    )
 	|
-        str1=Word() "="
+        str1=WordOrText() "="
         (
 			"askfor" 
 			(
-				str2=Word()
+				str2=WordOrText()
 				{
 					obj = impl.Askfor(str2);
 					if(obj == null) noError = false;
 				}
 			|
-				"set" "<" str2=Word() ">" 
+				"set" "<" str2=WordOrText() ">" 
 				{
 					obj = impl.Askfor("set<"+str2+">");
 					if(obj == null) noError = false;
 				}
 			|
-				"map" "<" str2=Word() "," str3=Word() ">"
+				"map" "<" str2=WordOrText() "," str3=WordOrText() ">"
 				{
 					obj = impl.Askfor("map<"+str2+","+str3+">");
 					if(obj == null) noError = false;
 				}
 			) LineEnd()
 		|
-		    LOOKAHEAD(2) obj=GraphElementOrVar()
+		    LOOKAHEAD(2) obj=GraphElementOrUnquotedVar()
 			( "." str2=AnyString() { obj = impl.GetElementAttribute((IGraphElement) obj, str2); } )? LineEnd()
 		|
 			obj=Constant() LineEnd()
@@ -1210,7 +1246,7 @@ void NewCommand():
 {
 	try
 	{
-		"graph" modelFilename=Filename() (graphName=Text())? LineEnd()
+		"graph" modelFilename=Filename() (graphName=WordOrText())? LineEnd()
 		{
 			noError = impl.NewGraph(modelFilename, graphName);
 		}
@@ -1247,13 +1283,13 @@ ElementDef ElementDefinition():
 	ArrayList attributes = new ArrayList();
 }
 {
-	(varName=Text())?
+	(varName=WordOrText())?
 	(
-		":" typeName=Text()
+		":" typeName=WordOrText()
 		(
 			"("
 			(
-				"$" "=" elemName=Text() ("," Attributes(attributes))?
+				"$" "=" elemName=WordOrText() ("," Attributes(attributes))?
 			|
 				Attributes(attributes)
 			)?
@@ -1268,7 +1304,7 @@ ElementDef ElementDefinition():
 void Attributes(ArrayList attributes):
 {}
 {
-	SingleAttribute(attributes) (LOOKAHEAD(2) "," SingleAttribute(attributes) )*
+	SingleAttribute(attributes) ("," SingleAttribute(attributes) )*
 }
 
 void SingleAttribute(ArrayList attributes):
@@ -1277,7 +1313,7 @@ void SingleAttribute(ArrayList attributes):
 	Param param;
 }
 {
-	attribName=Text() "=" 
+	attribName=WordOrText() "=" 
 		{ param = new Param(attribName); }
 		AttributeParamValue(ref param)
 			{ attributes.Add(param); }
@@ -1286,26 +1322,26 @@ void SingleAttribute(ArrayList attributes):
 void AttributeParamValue(ref Param param):
 {
 	String value, valueTgt;
-	Token type, typeTgt;
+	String type, typeTgt;
 }
 {
 	value=AttributeValue()
 		{
 			param.Value = value;
 		}
-	| "set" "<" type=<WORD> ">" 
+	| "set" "<" type=WordOrText() ">" 
 		{
 			param.Value = "set";
-			param.Type = type.image;
+			param.Type = type;
 			param.Values = new ArrayList();
 		}
 		"{" ( value=AttributeValue() { param.Values.Add(value); } )? 
 			(<COMMA> value=AttributeValue() { param.Values.Add(value); })* "}"
-	| "map" "<" type=<WORD> "," typeTgt=<WORD> ">"
+	| "map" "<" type=WordOrText() "," typeTgt=WordOrText() ">"
 		{
 			param.Value = "map";
-			param.Type = type.image;
-			param.TgtType = typeTgt.image;
+			param.Type = type;
+			param.TgtType = typeTgt;
 			param.Values = new ArrayList();
 			param.TgtValues = new ArrayList();
 		}
@@ -1342,7 +1378,7 @@ void SelectCommand():
 			noError = impl.SelectActions(str);
 		}
 	|
-		"parser" str=Filename() mainname=Text() LineEnd()
+		"parser" str=Filename() mainname=WordOrText() LineEnd()
 		{
 			noError = impl.SelectParser(str, mainname);
 		}
@@ -1361,7 +1397,7 @@ void Parameters(ArrayList parameters):
 	String str;
 }
 {
-	str=Text() { parameters.Add(str); } ("," str=Text() { parameters.Add(str); })*
+	str=WordOrText() { parameters.Add(str); } ("," str=WordOrText() { parameters.Add(str); })*
 }
 
 ///////////////////////////////////
@@ -1411,12 +1447,12 @@ void RetypeCommand():
 {
 	try
 	{
-		"-" edge=Edge() "<" typeName=Text() ">" ( "->" | "-" ) LineEnd()
+		"-" edge=Edge() "<" typeName=WordOrText() ">" ( "->" | "-" ) LineEnd()
 		{
 			noError = impl.Retype(edge, typeName) != null;
 		}
 	|
-		node=Node() "<" typeName=Text() ">" LineEnd()
+		node=Node() "<" typeName=WordOrText() ">" LineEnd()
 		{
 			noError = impl.Retype(node, typeName) != null;
 		}
@@ -1478,7 +1514,7 @@ void ShowCommand():
 	|
 		"var" ShowVar()
 	|
-		"graph" str=Filename() (args=Text())? LineEnd()
+		"graph" str=Filename() (args=WordOrText())? LineEnd()
 		{
 			impl.ShowGraphWith(str, args);
 		}
@@ -1498,7 +1534,7 @@ void ShowCommand():
 			impl.ShowBackend();
 		}
 	|
-		elem=GraphElement() "." str=AnyString() LineEnd()
+		elem=GraphElement() "." str=AttributeName() LineEnd()
         {
             impl.ShowElementAttribute(elem, str);
         }
@@ -1583,7 +1619,7 @@ void ShowVar():
 	String str;
 }
 {
-	str=Word() LineEnd()
+	str=WordOrText() LineEnd()
 	{
 		impl.ShowVar(str);
 	}
@@ -1650,12 +1686,12 @@ void DebugCommand():
 	|
 		"set" "layout"
 		(
-			"option" str=Text() str2=AnyString() LineEnd()
+			"option" str=WordOrText() str2=AnyString() LineEnd()
 			{
 				impl.SetDebugLayoutOption(str, str2);
 			}
 		|
-			(str=Text())? LineEnd()
+			(str=WordOrText())? LineEnd()
 			{
 				impl.SetDebugLayout(str);
 			}
@@ -1720,27 +1756,27 @@ void DumpSet():
 {
 	"node" ("only" { only=true; })? nodeType=NodeType()
 	(
-		"color" (colorName=Text())? LineEnd()
+		"color" (colorName=WordOrText())? LineEnd()
 		{
 			noError = impl.SetDumpNodeTypeColor(nodeType, colorName, only);
 		}
 	|
-		"bordercolor" (colorName=Text())? LineEnd()
+		"bordercolor" (colorName=WordOrText())? LineEnd()
 		{
 			noError = impl.SetDumpNodeTypeBorderColor(nodeType, colorName, only);
 		}
 	|
-		"shape" (shapeName=Text())? LineEnd()
+		"shape" (shapeName=WordOrText())? LineEnd()
 		{
 			noError = impl.SetDumpNodeTypeShape(nodeType, shapeName, only);
 		}
 	|
-		"textcolor" (colorName=Text())? LineEnd()
+		"textcolor" (colorName=WordOrText())? LineEnd()
 		{
 			noError = impl.SetDumpNodeTypeTextColor(nodeType, colorName, only);
 		}
 	|
-		"labels" ("on" | "off" { labelStr = ""; } | labelStr=Text()) LineEnd()
+		"labels" ("on" | "off" { labelStr = ""; } | labelStr=WordOrText()) LineEnd()
 		{
 			noError = impl.SetDumpLabel(nodeType, labelStr, only);
 		}
@@ -1748,17 +1784,17 @@ void DumpSet():
 |
 	"edge" ("only" { only=true; })? edgeType=EdgeType()
 	(
-		"color" (colorName=Text())? LineEnd()
+		"color" (colorName=WordOrText())? LineEnd()
 		{
 			noError = impl.SetDumpEdgeTypeColor(edgeType, colorName, only);
 		}
 	| 
-		"textcolor" (colorName=Text())? LineEnd()
+		"textcolor" (colorName=WordOrText())? LineEnd()
 		{
 			noError = impl.SetDumpEdgeTypeTextColor(edgeType, colorName, only);
 		}
 	|
-		"labels" ("on" | "off" { labelStr = ""; } | labelStr=Text()) LineEnd()
+		"labels" ("on" | "off" { labelStr = ""; } | labelStr=WordOrText()) LineEnd()
 		{
 			noError = impl.SetDumpLabel(edgeType, labelStr, only);
 		}
@@ -1783,7 +1819,7 @@ void DumpAdd():
 	|
 		"group" 
 		(
-		    "by" ("hidden" { hidden = true; })? groupModeStr=Word()
+		    "by" ("hidden" { hidden = true; })? groupModeStr=WordOrText()
 		    (
 	            ("only" { onlyEdge=true; })? edgeType=EdgeType()
 	            (
@@ -1816,12 +1852,12 @@ void DumpAdd():
             noError = impl.AddDumpGroupNodesBy(nodeType, only, edgeType, onlyEdge, adjNodeType, onlyAdjNode, groupMode);
 	    }
 	|
-		"infotag" attrName=Text() LineEnd()
+		"infotag" attrName=WordOrText() LineEnd()
 		{
 		    noError = impl.AddDumpInfoTag(nodeType, attrName, only, false);
 	    }
 	|
-		"shortinfotag" attrName=Text() LineEnd()
+		"shortinfotag" attrName=WordOrText() LineEnd()
 		{
 		    noError = impl.AddDumpInfoTag(nodeType, attrName, only, true);
 	    }
@@ -1834,12 +1870,12 @@ void DumpAdd():
 	        noError = impl.AddDumpExcludeEdgeType(edgeType, only);
 	    }
 	|
-	    "infotag" attrName=Text() LineEnd()
+	    "infotag" attrName=WordOrText() LineEnd()
 	    {
             noError = impl.AddDumpInfoTag(edgeType, attrName, only, false);
         }
 	|
-	    "shortinfotag" attrName=Text() LineEnd()
+	    "shortinfotag" attrName=WordOrText() LineEnd()
 	    {
             noError = impl.AddDumpInfoTag(edgeType, attrName, only, true);
         }
