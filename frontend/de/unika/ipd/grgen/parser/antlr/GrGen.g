@@ -584,7 +584,7 @@ firstNodeOrSubpattern [ CollectNode<BaseNode> conn, CollectNode<SubpatternUsageN
 			firstEdgeContinuation[n, conn, context, directlyNestingLHSGraph] // and continue looking for first edge
 		| // subpattern declaration
 			type=patIdentUse LPAREN arguments[subpatternConn] RPAREN
-			{ subpatterns.addChild(new SubpatternUsageNode(id, type, subpatternConn)); }
+			{ subpatterns.addChild(new SubpatternUsageNode(id, type, context, subpatternConn)); }
 		)
 	| ( annots=annotations { hasAnnots = true; } )?
 		c=COLON // anonymous node or subpattern declaration
@@ -617,7 +617,7 @@ firstNodeOrSubpattern [ CollectNode<BaseNode> conn, CollectNode<SubpatternUsageN
 			| // subpattern declaration
 				{ id = env.defineAnonymousEntity("subpattern", getCoords(c)); }
 				type=patIdentUse LPAREN arguments[subpatternConn] RPAREN
-				{ subpatterns.addChild(new SubpatternUsageNode(id, type, subpatternConn)); }
+				{ subpatterns.addChild(new SubpatternUsageNode(id, type, context, subpatternConn)); }
 			)
 			{ if (hasAnnots) { id.setAnnotations(annots); } }
 	| d=DOT // anonymous node declaration of type node

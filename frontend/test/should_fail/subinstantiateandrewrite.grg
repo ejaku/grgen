@@ -1,0 +1,14 @@
+pattern Foo
+{
+	modify {
+	}
+}
+
+rule memberToPerson 
+{
+	
+	modify {
+		foo:Foo();
+		foo();
+	}
+}

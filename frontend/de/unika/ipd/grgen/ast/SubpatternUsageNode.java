@@ -32,10 +32,12 @@ public class SubpatternUsageNode extends DeclNode {
 	private CollectNode<ExprNode> connections;
 
 	protected SubpatternDeclNode type = null;
+	protected int context;
 
 
-	public SubpatternUsageNode(IdentNode n, BaseNode t, CollectNode<ExprNode> c) {
+	public SubpatternUsageNode(IdentNode n, BaseNode t, int context, CollectNode<ExprNode> c) {
 		super(n, t);
+		this.context = context;
 		this.connections = c;
 		becomeParent(this.connections);
 	}
@@ -51,6 +53,10 @@ public class SubpatternUsageNode extends DeclNode {
 		assert isResolved();
 
 		return type;
+	}
+	
+	public int getContext() {
+		return context;
 	}
 
 	@Override

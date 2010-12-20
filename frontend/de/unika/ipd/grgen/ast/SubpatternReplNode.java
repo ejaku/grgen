@@ -70,6 +70,11 @@ public class SubpatternReplNode extends OrderedReplacementNode {
 		Collection<RhsDeclNode> right = subpattern.type.right.getChildren();
 		String patternName = subpattern.type.pattern.nameOfGraph;
 
+		if((subpattern.context & CONTEXT_LHS_OR_RHS) != CONTEXT_LHS) {
+			error.error("A dependent replacement can only be invoked for a lhs subpattern usage; a rhs subpattern usage gets instantiated and can't be rewritten");
+			return false;
+		}
+		
 		// check whether the used pattern contains one rhs
 		if(right.size()!=1) {
 			error.error(getCoords(), "No dependent replacement specified in \"" + patternName + "\" ");
