@@ -1,0 +1,10 @@
+node class type
+{
+	validate:int = 42;
+}
+
+node class attributes
+{
+	show:string = "foo";
+}
+
