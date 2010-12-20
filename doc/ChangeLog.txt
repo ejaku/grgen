@@ -1,4 +1,16 @@
-﻿v2.7.ms1 (2010-12-05)
+﻿v2.7.ms1b (2010-12-20)
+ Bugfixes:
+  Compiler:
+  - generation error when attribute named A had a sibling attribute named _A (i.e. "_" prefix) fixed
+  - rewrite parameters not being available for attribute assignment fixed
+  - emit error on attempt to rewrite a rhs declared subpattern usage, i.e. a subpattern which gets instantiated
+  Shell/Debugger:
+  - fixed debugger/named graph mismatch on retyping (retyped elements stayed in debugger)
+  - allowed every place which expects a word (e.g. a type name) to contain a single or double quoted text, 
+     so user can reference shell keyword named entities by escaping
+  - prevent computer from going into sleep mode while a sequence gets executed (windows only)
+  
+v2.7.ms1 (2010-12-05)
  Added record and replay feature (plus supporting instructions):
  - record shell command for writing the current graph and then the changes applied to it into a .grs 
     for replaying later on, with comments telling about the events causing them as debugging help
