@@ -615,7 +615,7 @@ firstNodeOrSubpattern [ CollectNode<BaseNode> conn, CollectNode<SubpatternUsageN
 				}
 				firstEdgeContinuation[n, conn, context, directlyNestingLHSGraph] // and continue looking for first edge
 			| // subpattern declaration
-				{ id = env.defineAnonymousEntity("subpattern", getCoords(c)); }
+				{ id = env.defineAnonymousEntity("sub", getCoords(c)); }
 				type=patIdentUse LPAREN arguments[subpatternConn] RPAREN
 				{ subpatterns.addChild(new SubpatternUsageNode(id, type, context, subpatternConn)); }
 			)
