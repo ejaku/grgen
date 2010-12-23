@@ -1,0 +1,10 @@
+node class N {
+	a : int = 42;
+	b : boolean = true;
+	c : float = 3.141f;
+	d : double = 3.141592654;
+	e : object = null;
+	f : string = "foo";
+	g : set<string> = { "foo", "bar" };
+	h : map<int, boolean> = { 42->true, 0->false, 1->false };
+}

@@ -1,0 +1,38 @@
+using copymodel;
+
+rule r {
+	x:N;
+	
+	modify {
+		y:copy<x>;
+	}
+}
+
+rule s {
+	x:N;
+	if {x.a==42; }
+	
+	modify {
+		y:copy<x>;
+		eval { y.a = y.a + 1; }
+	}
+}
+
+rule t {
+	x:N;
+	
+	modify {
+		y:copy<x>;
+		z:copy<x>;
+	}
+}
+
+rule v {
+	x:Node;
+	
+	modify {
+		y:copy<x>;
+		z:copy<x>;
+	}
+}
+

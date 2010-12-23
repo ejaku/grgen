@@ -1125,6 +1125,7 @@ public class ModifyGen extends CSharpBase {
 			RetypedEdge redge = edge.getRetypedEdge(task.right);
 
 			if(redge.inheritsType()) {
+				assert !redge.isCopy();
 				Edge typeofElem = (Edge) getConcreteTypeofElem(redge);
 				new_type = formatEntity(typeofElem) + "_type";
 				edgesNeededAsElements.add(typeofElem);
@@ -1153,6 +1154,7 @@ public class ModifyGen extends CSharpBase {
 			RetypedNode rnode = node.getRetypedNode(task.right);
 
 			if(rnode.inheritsType()) {
+				assert !rnode.isCopy();
 				Node typeofElem = (Node) getConcreteTypeofElem(rnode);
 				new_type = formatEntity(typeofElem) + "_type";
 				nodesNeededAsElements.add(typeofElem);
@@ -1393,21 +1395,29 @@ public class ModifyGen extends CSharpBase {
 		LinkedList<Node> tmpNewNodes = new LinkedList<Node>(state.newNodes());
 
 		for(Node node : tmpNewNodes) {
-			if(node.inheritsType()) {
+			if(node.inheritsType()) { // typeof or copy
 				Node typeofElem = (Node) getConcreteTypeofElem(node);
 				nodesNeededAsElements.add(typeofElem);
-				nodesNeededAsTypes.add(typeofElem);
-				sb2.append("\t\t\tGRGEN_LGSP.LGSPNode " + formatEntity(node)
+				
+				if(node.isCopy()) { // node:copy<typeofElem>
+					sb2.append("\t\t\tGRGEN_LGSP.LGSPNode " + formatEntity(node)
 							+ " = (GRGEN_LGSP.LGSPNode) "
-							+ formatEntity(typeofElem) + "_type.CreateNode();\n"
-						+ "\t\t\tgraph.AddNode(" + formatEntity(node) + ");\n");
+							+ formatEntity(typeofElem) + ".Clone();\n"
+						+ "\t\t\tgraph.AddNode(" + formatEntity(node) + ");\n");					
+				} else { // node:typeof(typeofElem)
+					nodesNeededAsTypes.add(typeofElem);
+					sb2.append("\t\t\tGRGEN_LGSP.LGSPNode " + formatEntity(node)
+								+ " = (GRGEN_LGSP.LGSPNode) "
+								+ formatEntity(typeofElem) + "_type.CreateNode();\n"
+							+ "\t\t\tgraph.AddNode(" + formatEntity(node) + ");\n");
+				}
+				
 				if(state.nodesNeededAsAttributes().contains(node) && state.accessViaInterface().contains(node)) {
 					sb2.append("\t\t\t"
 							+ formatVarDeclWithCast(formatElementInterfaceRef(node.getType()), "i" + formatEntity(node))
 							+ formatEntity(node) + ";\n");
 				}
-			}
-			else {
+			} else { // node:type
 				String elemref = formatElementClassRef(node.getType());
 				sb2.append("\t\t\t" + elemref + " " + formatEntity(node) + " = " + elemref + ".CreateNode(graph);\n");
 			}
@@ -1451,28 +1461,35 @@ public class ModifyGen extends CSharpBase {
 			if(state.commonNodes().contains(tgt_node))
 				nodesNeededAsElements.add(tgt_node);
 
-			if(edge.inheritsType()) {
+			if(edge.inheritsType()) { // typeof or copy
 				Edge typeofElem = (Edge) getConcreteTypeofElem(edge);
 				edgesNeededAsElements.add(typeofElem);
-				edgesNeededAsTypes.add(typeofElem);
 
-				sb2.append("\t\t\tGRGEN_LGSP.LGSPEdge " + formatEntity(edge)
+				if(edge.isCopy()) { // -edge:copy<typeofElem>->
+					sb2.append("\t\t\tGRGEN_LGSP.LGSPEdge " + formatEntity(edge)
 							+ " = (GRGEN_LGSP.LGSPEdge) "
-							+ formatEntity(typeofElem) + "_type.CreateEdge("
+							+ formatEntity(typeofElem) + ".Clone("
 							+ formatEntity(src_node) + ", " + formatEntity(tgt_node) + ");\n"
 						+ "\t\t\tgraph.AddEdge(" + formatEntity(edge) + ");\n");
+				} else { // -edge:typeof(typeofElem)->
+					edgesNeededAsTypes.add(typeofElem);
+					sb2.append("\t\t\tGRGEN_LGSP.LGSPEdge " + formatEntity(edge)
+								+ " = (GRGEN_LGSP.LGSPEdge) "
+								+ formatEntity(typeofElem) + "_type.CreateEdge("
+								+ formatEntity(src_node) + ", " + formatEntity(tgt_node) + ");\n"
+							+ "\t\t\tgraph.AddEdge(" + formatEntity(edge) + ");\n");
+				}
+
 				if(state.edgesNeededAsAttributes().contains(edge) && state.accessViaInterface().contains(edge)) {
 					sb2.append("\t\t\t"
 							+ formatVarDeclWithCast(formatElementInterfaceRef(edge.getType()), "i" + formatEntity(edge))
 							+ formatEntity(edge) + ";\n");
 				}
-				continue;
+			} else { // -edge:type->
+				sb2.append("\t\t\t" + elemref + " " + formatEntity(edge) + " = " + elemref
+					   + ".CreateEdge(graph, " + formatEntity(src_node)
+					   + ", " + formatEntity(tgt_node) + ");\n");
 			}
-			
-			// Create the edge
-			sb2.append("\t\t\t" + elemref + " " + formatEntity(edge) + " = " + elemref
-						   + ".CreateEdge(graph, " + formatEntity(src_node)
-						   + ", " + formatEntity(tgt_node) + ");\n");
 		}
 	}
 

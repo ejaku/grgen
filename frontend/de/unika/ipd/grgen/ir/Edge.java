@@ -76,11 +76,6 @@ public class Edge extends GraphEntity {
 		return type;
 	}
 
-	/** Get the edge from which this edge inherits its dynamic type */
-	public Edge getTypeof() {
-		return (Edge)typeof;
-	}
-
 	/**
 	 * Sets the corresponding retyped version of this edge
 	 * @param retyped The retyped edge

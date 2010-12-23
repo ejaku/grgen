@@ -34,22 +34,26 @@ public class NodeDeclNode extends ConstraintDeclNode implements NodeCharacter {
 
 	protected NodeDeclNode typeNodeDecl = null;
 	protected TypeDeclNode typeTypeDecl = null;
-
+	boolean isCopy;
+	
 	private static DeclarationPairResolver<NodeDeclNode, TypeDeclNode> typeResolver =
 		new DeclarationPairResolver<NodeDeclNode, TypeDeclNode>(NodeDeclNode.class, TypeDeclNode.class);
 
 	
-	public NodeDeclNode(IdentNode id, BaseNode type, int context, TypeExprNode constr, 
-			PatternGraphNode directlyNestingLHSGraph, boolean maybeNull) {
+	public NodeDeclNode(IdentNode id, BaseNode type, boolean isCopy,
+			int context, TypeExprNode constr, PatternGraphNode directlyNestingLHSGraph,
+			boolean maybeNull) {
 		super(id, type, context, constr, directlyNestingLHSGraph, maybeNull);
+		this.isCopy = isCopy;
 	}
 
-	public NodeDeclNode(IdentNode id, BaseNode type, int context, TypeExprNode constr, PatternGraphNode directlyNestingLHSGraph) {
-		super(id, type, context, constr, directlyNestingLHSGraph, false);
+	public NodeDeclNode(IdentNode id, BaseNode type, boolean isCopy,
+			int context, TypeExprNode constr, PatternGraphNode directlyNestingLHSGraph) {
+		this(id, type, isCopy, context, constr, directlyNestingLHSGraph, false);
 	}
 
 	/** The TYPE child could be a node in case the type is
-	 *  inherited dynamically via the typeof operator */
+	 *  inherited dynamically via the typeof/copy operator */
 	@Override
 	public NodeTypeNode getDeclType() {
 		assert isResolved() : "not resolved";
@@ -96,7 +100,7 @@ public class NodeDeclNode extends ConstraintDeclNode implements NodeCharacter {
 
 			while(cur != null) {
 				if(visited.contains(cur)) {
-					reportError("Circular typeofs are not allowed");
+					reportError("Circular typeof/copy not allowed");
 					return false;
 				}
 				visited.add(cur);
@@ -146,8 +150,17 @@ public class NodeDeclNode extends ConstraintDeclNode implements NodeCharacter {
 	protected boolean checkLocal() {
 		warnOnTypeofOfRhsNodes();
 
+		boolean noLhsCopy = true;
+		if((context & CONTEXT_LHS_OR_RHS)==CONTEXT_LHS) {
+			if(isCopy) {
+				reportError("LHS copy<> not allowed");
+				noLhsCopy = false;
+			}
+		}
+
 		return super.checkLocal()
-			& typeChecker.check(getValidResolvedVersion(typeNodeDecl, typeTypeDecl), error);
+			& typeChecker.check(getValidResolvedVersion(typeNodeDecl, typeTypeDecl), error)
+			& noLhsCopy;
 	}
 
 	/**
@@ -198,7 +211,7 @@ public class NodeDeclNode extends ConstraintDeclNode implements NodeCharacter {
 		}
 
 		if(inheritsType()) {
-			res.setTypeof(typeNodeDecl.checkIR(Node.class));
+			res.setTypeof(typeNodeDecl.checkIR(Node.class), isCopy);
 		}
 		
 		res.setMaybeNull(maybeNull);

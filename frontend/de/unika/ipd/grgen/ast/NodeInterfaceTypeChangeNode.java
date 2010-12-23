@@ -34,7 +34,7 @@ public class NodeInterfaceTypeChangeNode extends NodeDeclNode implements NodeCha
 	
 	public NodeInterfaceTypeChangeNode(IdentNode id, BaseNode type, int context, IdentNode interfaceType,
 			PatternGraphNode directlyNestingLHSGraph, boolean maybeNull) {
-		super(id, type, context, TypeExprNode.getEmpty(), directlyNestingLHSGraph, maybeNull);
+		super(id, type, false, context, TypeExprNode.getEmpty(), directlyNestingLHSGraph, maybeNull);
 		this.interfaceTypeUnresolved = interfaceType;
 		becomeParent(this.interfaceTypeUnresolved);
 	}

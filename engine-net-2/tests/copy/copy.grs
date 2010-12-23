@@ -1,0 +1,93 @@
+new graph copy/copy
+
+xgrs init
+
+show num nodes
+show num edges
+show num nodes only "N"
+show num nodes only "NN"
+show num edges only "E"
+
+xgrs (x,e,y,xn1,xn2,yn,en)=doCopy
+
+show num nodes
+show num edges
+show num nodes only "N"
+show num nodes only "NN"
+show num edges only "E"
+
+xgrs verify
+
+x.a
+x.b
+x.c
+x.d
+x.e
+x.f
+x.g
+x.h
+x.i
+
+e.a
+e.b
+e.c
+e.d
+e.e
+e.f
+e.g
+e.h
+e.i
+
+y.a
+y.b
+y.c
+y.d
+y.e
+y.f
+y.g
+y.h
+y.i
+y.j
+
+xn1.a
+xn1.b
+xn1.c
+xn1.d
+xn1.e
+xn1.f
+xn1.g
+xn1.h
+xn1.i
+
+xn2.a
+xn2.b
+xn2.c
+xn2.d
+xn2.e
+xn2.f
+xn2.g
+xn2.h
+xn2.i
+
+en.a
+en.b
+en.c
+en.d
+en.e
+en.f
+en.g
+en.h
+en.i
+
+yn.a
+yn.b
+yn.c
+yn.d
+yn.e
+yn.f
+yn.g
+yn.h
+yn.i
+yn.j
+
+quit

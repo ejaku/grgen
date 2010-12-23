@@ -33,6 +33,7 @@ public abstract class GraphEntity extends Entity {
 
 	/** The entity from which this one will inherit its dynamic type */
 	protected GraphEntity typeof = null;
+	protected boolean isCopy = false;
 
 	/** The interface type of the parameter if any. */
 	protected InheritanceType parameterInterfaceType = null;
@@ -67,8 +68,9 @@ public abstract class GraphEntity extends Entity {
 	}
 
 	/** Sets the entity this one inherits its dynamic type from */
-	public void setTypeof(GraphEntity typeof) {
+	public void setTypeof(GraphEntity typeof, boolean isCopy) {
 		this.typeof = typeof;
+		this.isCopy = isCopy;
 	}
 
 	/** Sets the type constraints for this entity */
@@ -138,6 +140,12 @@ public abstract class GraphEntity extends Entity {
 	/** Get the entity from which this entity inherits its dynamic type */
 	public GraphEntity getTypeof() {
 		return typeof;
+	}
+	
+	/** returns whether the inherited type / typeof is the extended version in fact,
+	 * named copy, copying the attributes too  */
+	public boolean isCopy() {
+		return isCopy;
 	}
 
 	/** @return true, if this entity inherits its type from some other entitiy */

@@ -35,7 +35,7 @@ public class EdgeTypeChangeNode extends EdgeDeclNode implements EdgeCharacter {
 	private EdgeDeclNode old = null;
 
 	public EdgeTypeChangeNode(IdentNode id, BaseNode newType, int context, BaseNode oldid, PatternGraphNode directlyNestingLHSGraph) {
-		super(id, newType, context, TypeExprNode.getEmpty(), directlyNestingLHSGraph);
+		super(id, newType, false, context, TypeExprNode.getEmpty(), directlyNestingLHSGraph);
 		this.oldUnresolved = oldid;
 		becomeParent(this.oldUnresolved);
 	}
@@ -175,7 +175,8 @@ public class EdgeTypeChangeNode extends EdgeDeclNode implements EdgeCharacter {
 		res.setOldEdge(oldEdge);
 
 		if (inheritsType()) {
-			res.setTypeof(typeEdgeDecl.checkIR(Edge.class));
+			assert !isCopy;
+			res.setTypeof(typeEdgeDecl.checkIR(Edge.class), false);
 		}
 
 		return res;

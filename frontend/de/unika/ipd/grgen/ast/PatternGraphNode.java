@@ -483,6 +483,8 @@ public class PatternGraphNode extends GraphNode {
 	 */
 	private void genTypeCondsFromTypeof(PatternGraph gr, GraphEntity elem) {
 		if (elem.inheritsType()) {
+			assert !elem.isCopy(); // must extend this function and lgsp nodes if left hand side copy/copyof are wanted meaning compare attributes of exact dynamic types
+
 			Expression e1 = new Typeof(elem);
 			Expression e2 = new Typeof(elem.getTypeof());
 

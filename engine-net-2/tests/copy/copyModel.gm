@@ -1,0 +1,41 @@
+enum Lied { Reh, Lamm, Hurz }
+
+node class N
+{
+	a:int = 42;
+	b:boolean = true;
+	c:string = "fool";
+	d:float = 3.141f;
+	e:double = 3.141502654;
+	f:object = null;
+	g:Lied = Lied::Lamm;
+	h:set<string> = {"foo"};
+	i:map<int, string> = {42->"bar"};
+}
+
+node class NN extends N
+{
+	a = 42;
+	b = true;
+	c = ":D";
+	d = 3.141f;
+	e = 3.141502654;
+	f = null;
+	g = Lied::Lamm;
+	h = {"foo"};
+	i = {42->"bar"};
+	j:int = 0x4eadbeef;
+}
+
+edge class E
+{
+	a:int = 42;
+	b:boolean = true;
+	c:string = "fool";
+	d:float = 3.141f;
+	e:double = 3.141502654;
+	f:object = null;
+	g:Lied = Lied::Lamm;
+	h:set<string> = {"foo"};
+	i:map<int, string> = {42->"bar"};
+}

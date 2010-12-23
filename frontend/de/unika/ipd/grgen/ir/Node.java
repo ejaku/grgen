@@ -74,11 +74,6 @@ public class Node extends GraphEntity {
 		return type;
 	}
 
-	/** Get the node from which this node inherits its dynamic type */
-	public Node getTypeof() {
-		return (Node)typeof;
-	}
-
 	/**
 	 * Sets the corresponding retyped version of this node
 	 * @param retyped The retyped node

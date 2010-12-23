@@ -1,0 +1,5 @@
+test t {
+	x:Node;
+	y:copy<x>; // not implemented as of now, tell user; maybe it's worth to get implemented
+}
+

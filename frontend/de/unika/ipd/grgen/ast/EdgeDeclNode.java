@@ -31,24 +31,23 @@ public class EdgeDeclNode extends ConstraintDeclNode implements EdgeCharacter {
 
 	protected EdgeDeclNode typeEdgeDecl = null;
 	protected TypeDeclNode typeTypeDecl = null;
+	boolean isCopy;
 
 	protected static final DeclarationPairResolver<EdgeDeclNode,TypeDeclNode> typeResolver =
 		new DeclarationPairResolver<EdgeDeclNode,TypeDeclNode>(EdgeDeclNode.class, TypeDeclNode.class);
 
 	
-	public EdgeDeclNode(IdentNode id, BaseNode type, int context, TypeExprNode constraints, 
-			PatternGraphNode directlyNestingLHSGraph, boolean maybeNull) {
+	public EdgeDeclNode(IdentNode id, BaseNode type, boolean isCopy, 
+			int context, TypeExprNode constraints, PatternGraphNode directlyNestingLHSGraph,
+			boolean maybeNull) {
 		super(id, type, context, constraints, directlyNestingLHSGraph, maybeNull);
 		setName("edge");
+		this.isCopy = isCopy;
 	}
 
-	public EdgeDeclNode(IdentNode id, BaseNode type, int context, TypeExprNode constraints, PatternGraphNode directlyNestingLHSGraph) {
-		super(id, type, context, constraints, directlyNestingLHSGraph, false);
-		setName("edge");
-	}
-
-	public EdgeDeclNode(IdentNode id, BaseNode type, int declLocation, PatternGraphNode directlyNestingLHSGraph) {
-		this(id, type, declLocation, TypeExprNode.getEmpty(), directlyNestingLHSGraph);
+	public EdgeDeclNode(IdentNode id, BaseNode type, boolean isCopy, 
+			int context, TypeExprNode constraints, PatternGraphNode directlyNestingLHSGraph) {
+		this(id, type, isCopy, context, constraints, directlyNestingLHSGraph, false);
 	}
 
 	/**
@@ -58,7 +57,7 @@ public class EdgeDeclNode extends ConstraintDeclNode implements EdgeCharacter {
 	 * TODO Change type of type iff CollectNode support generics
 	 */
 	public EdgeDeclNode(IdentNode id, BaseNode type, int declLocation, BaseNode parent, PatternGraphNode directlyNestingLHSGraph) {
-		this(id, type, declLocation, TypeExprNode.getEmpty(), directlyNestingLHSGraph);
+		this(id, type, false, declLocation, TypeExprNode.getEmpty(), directlyNestingLHSGraph);
 		parent.becomeParent(this);
 
 		resolve();
@@ -66,7 +65,7 @@ public class EdgeDeclNode extends ConstraintDeclNode implements EdgeCharacter {
 	}
 
 	/** The TYPE child could be an edge in case the type is
-	 *  inherited dynamically via the typeof operator */
+	 *  inherited dynamically via the typeof/copy operator */
 	@Override
 	public EdgeTypeNode getDeclType() {
 		assert isResolved();
@@ -112,7 +111,7 @@ public class EdgeDeclNode extends ConstraintDeclNode implements EdgeCharacter {
 			EdgeDeclNode cur = typeEdgeDecl.typeEdgeDecl;
 			while(cur != null) {
 				if(visited.contains(cur)) {
-					reportError("Circular typeofs are not allowed");
+					reportError("Circular typeof/copy not allowed");
 					return false;
 				}
 				visited.add(cur);
@@ -160,8 +159,17 @@ public class EdgeDeclNode extends ConstraintDeclNode implements EdgeCharacter {
 	protected boolean checkLocal() {
 		warnOnTypeofOfRhsEdges();
 
+		boolean noLhsCopy = true;
+		if((context & CONTEXT_LHS_OR_RHS)==CONTEXT_LHS) {
+			if(isCopy) {
+				reportError("LHS copy<> not allowed");
+				noLhsCopy = false;
+			}
+		}
+
 		return super.checkLocal()
-			& typeChecker.check(getValidResolvedVersion(typeEdgeDecl, typeTypeDecl), error);
+			& typeChecker.check(getValidResolvedVersion(typeEdgeDecl, typeTypeDecl), error)
+			& noLhsCopy;
 	}
 
 	/**
@@ -207,7 +215,7 @@ public class EdgeDeclNode extends ConstraintDeclNode implements EdgeCharacter {
 		edge.setConstraints(getConstraints());
 
 		if(inheritsType()) {
-			edge.setTypeof(typeEdgeDecl.checkIR(Edge.class));
+			edge.setTypeof(typeEdgeDecl.checkIR(Edge.class), isCopy);
 		}
 
 		edge.setMaybeNull(maybeNull);

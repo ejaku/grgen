@@ -1,0 +1,110 @@
+using copyModel;
+
+rule init
+{
+	modify {
+		x:N -e:E-> y:NN --> .;
+		
+		eval {
+			x.c = x.c + "ish";
+			y.a = 1337;
+			e.g = Lied::Hurz;
+		}
+	}
+}
+
+rule doCopy : (N,E,N,N,N,N,E)
+{
+	x:N -e:E-> y:N -f:Edge-> z:Node;
+	
+	modify {
+		xn1:copy<x>;
+		xn2:copy<x>;
+		yn:copy<y>;
+		zn:copy<z>;
+		y -en:copy<e>-> zn;
+		zn -fn:copy<f>-> zn;
+		return(x,e,y,xn1,xn2,yn,en);
+	}
+}
+
+test verify
+{
+	x:N -e:E-> y:NN -f:Edge-> z:Node;
+	y -en:E-> zn:Node -fn:Edge-> zn;
+	xn1:N; xn2:N; yn:NN;
+	
+	if {
+		x.a == 42;
+		x.b == true;
+		x.c == "foolish";
+		x.d == 3.141f;
+		x.e == 3.141502654;
+		x.f == null;
+		x.g == Lied::Lamm;
+		x.h == set<string>{"foo"};
+		x.i == map<int, string>{42->"bar"};
+		
+		xn1.a == 42;
+		xn1.b == true;
+		xn1.c == "foolish";
+		xn1.d == 3.141f;
+		xn1.e == 3.141502654;
+		xn1.f == null;
+		xn1.g == Lied::Lamm;
+		xn1.h == set<string>{"foo"};
+		xn1.i == map<int, string>{42->"bar"};
+
+		xn2.a == 42;
+		xn2.b == true;
+		xn2.c == "foolish";
+		xn2.d == 3.141f;
+		xn2.e == 3.141502654;
+		xn2.f == null;
+		xn2.g == Lied::Lamm;
+		xn2.h == set<string>{"foo"};
+		xn2.i == map<int, string>{42->"bar"};
+		
+		y.a == 1337;
+		y.b == true;
+		y.c == ":D";
+		y.d == 3.141f;
+		y.e == 3.141502654;
+		y.f == null;
+		y.g == Lied::Lamm;
+		y.h == set<string>{"foo"};
+		y.i == map<int, string>{42->"bar"};
+		y.j == 0x4eadbeef;
+
+		yn.a == 1337;
+		yn.b == true;
+		yn.c == ":D";
+		yn.d == 3.141f;
+		yn.e == 3.141502654;
+		yn.f == null;
+		yn.g == Lied::Lamm;
+		yn.h == set<string>{"foo"};
+		yn.i == map<int, string>{42->"bar"};
+		yn.j == 0x4eadbeef;
+
+		e.a == 42;
+		e.b == true;
+		e.c == "fool";
+		e.d == 3.141f;
+		e.e == 3.141502654;
+		e.f == null;
+		e.g == Lied::Hurz;
+		e.h == set<string>{"foo"};
+		e.i == map<int, string>{42->"bar"};
+
+		en.a == 42;
+		en.b == true;
+		en.c == "fool";
+		en.d == 3.141f;
+		en.e == 3.141502654;
+		en.f == null;
+		en.g == Lied::Hurz;
+		en.h == set<string>{"foo"};
+		en.i == map<int, string>{42->"bar"};
+	}
+}
