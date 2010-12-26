@@ -598,6 +598,7 @@ public class Main extends Base implements Sys {
 		irUnit.checkForNeverSucceedingSubpatternRecursions();
 		irUnit.checkForMultipleRetypes();
 		irUnit.checkForMultipleDeletesOrRetypes();
+		irUnit.transmitExecUsageToRules();
 		irUnit.resolvePatternLockedModifier();
 		irUnit.ensureDirectlyNestingPatternContainsAllNonLocalElementsOfNestedPattern();
 		irUnit.checkForRhsElementsUsedOnLhs();

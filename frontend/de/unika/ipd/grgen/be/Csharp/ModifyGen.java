@@ -82,6 +82,7 @@ public class ModifyGen extends CSharpBase {
 		List<Entity> replParameters;
 		List<Expression> returns;
 		boolean isSubpattern;
+		boolean mightThereBeDeferredExecs;
 
 		public ModifyGenerationTask() {
 			typeOfTask = TYPE_OF_TASK_NONE;
@@ -92,6 +93,7 @@ public class ModifyGen extends CSharpBase {
 			replParameters = null;
 			returns = null;
 			isSubpattern = false;
+			mightThereBeDeferredExecs = false;
 		}
 	}
 
@@ -261,6 +263,7 @@ public class ModifyGen extends CSharpBase {
 			task.replParameters = rule.getRight().getReplParameters();
 			task.returns = rule.getReturns();
 			task.isSubpattern = isSubpattern;
+			task.mightThereBeDeferredExecs = rule.mightThereBeDeferredExecs;
 			genModifyRuleOrSubrule(sb, task, pathPrefix);
 		} else if(!isSubpattern){ // test
 			// keep left unchanged, normal version
@@ -273,6 +276,7 @@ public class ModifyGen extends CSharpBase {
 			task.replParameters = emptyParameters;
 			task.returns = rule.getReturns();
 			task.isSubpattern = false;
+			task.mightThereBeDeferredExecs = rule.mightThereBeDeferredExecs;
 			genModifyRuleOrSubrule(sb, task, pathPrefix);
 		}
 
@@ -291,6 +295,7 @@ public class ModifyGen extends CSharpBase {
 				task.replParameters = emptyParameters;
 				task.returns = emptyReturns;
 				task.isSubpattern = true;
+				task.mightThereBeDeferredExecs = rule.mightThereBeDeferredExecs;
 				for(Entity entity : task.parameters) { // add connections to empty graph so that they stay unchanged
 					if(entity instanceof Node) {
 						Node node = (Node)entity;
@@ -314,6 +319,7 @@ public class ModifyGen extends CSharpBase {
 			task.replParameters = emptyParameters;
 			task.returns = emptyReturns;
 			task.isSubpattern = true;
+			task.mightThereBeDeferredExecs = rule.mightThereBeDeferredExecs;
 			for(Entity entity : task.parameters) { // add connections to empty graph so that they stay unchanged
 				if(entity instanceof Node) {
 					Node node = (Node)entity;
@@ -662,7 +668,7 @@ public class ModifyGen extends CSharpBase {
 		genMapAndSetVariablesBeforeImperativeStatements(sb3, stateConst);
 
 		state.useVarForMapResult = true;
-		genImperativeStatements(sb3, stateConst, task);
+		genImperativeStatements(sb3, stateConst, task, pathPrefix);
 		state.useVarForMapResult = false;
 
 		genCheckReturnedElementsForDeletionOrRetypingDueToHomomorphy(sb3, task);
@@ -1020,7 +1026,8 @@ public class ModifyGen extends CSharpBase {
 		}
 	}
 
-	private void genImperativeStatements(StringBuffer sb, ModifyGenerationStateConst state, ModifyGenerationTask task)
+	private void genImperativeStatements(StringBuffer sb, ModifyGenerationStateConst state, 
+			ModifyGenerationTask task, String pathPrefix)
 	{
 		int xgrsID = 0;
 		for(ImperativeStmt istmt : task.right.getImperativeStmts()) {
@@ -1033,19 +1040,40 @@ public class ModifyGen extends CSharpBase {
 				}
 			} else if (istmt instanceof Exec) {
 				Exec exec = (Exec) istmt;
-				sb.append("\t\t\tApplyXGRS_" + xgrsID++ + "(graph");
-				for(Entity neededEntity : exec.getNeededEntities()) {
-					sb.append(", ");
-					if(neededEntity.getType() instanceof InheritanceType) {
-						sb.append("("+formatElementInterfaceRef(neededEntity.getType())+")");
+
+				if(task.isSubpattern || pathPrefix!="") {
+					String closureName = "XGRSClosure_" + pathPrefix + task.left.getNameOfGraph() + "_" + xgrsID;
+					sb.append("\t\t\t" + closureName + " xgrs"+xgrsID + " = "
+							+"new "+ closureName + "(");
+					boolean first = true;
+					for(Entity neededEntity : exec.getNeededEntities()) {
+						if(first) {
+							first = false;
+						} else {
+							sb.append(", ");
+						}
+						if(neededEntity.getType() instanceof InheritanceType) {
+							sb.append("("+formatElementInterfaceRef(neededEntity.getType())+")");
+						}
+						sb.append(formatEntity(neededEntity));
 					}
-					sb.append(formatEntity(neededEntity));
-				}
-				if(exec.getYieldedEntities()!=null) {
-					for(GraphEntity outEntity : exec.getYieldedEntities().getEntities()) {
-						sb.append(", out ");
-						// TODO: use the declared type, check declared against actual type
-						sb.append(formatEntity(outEntity));
+					sb.append(");\n");
+					sb.append("\t\t\ttoBeExecuted.Enqueue(xgrs"+xgrsID);
+				} else {
+					sb.append("\t\t\tApplyXGRS_" + task.left.getNameOfGraph() + "_" + xgrsID + "(graph");
+					for(Entity neededEntity : exec.getNeededEntities()) {
+						sb.append(", ");
+						if(neededEntity.getType() instanceof InheritanceType) {
+							sb.append("("+formatElementInterfaceRef(neededEntity.getType())+")");
+						}
+						sb.append(formatEntity(neededEntity));
+					}
+					if(exec.getYieldedEntities()!=null) {
+						for(GraphEntity outEntity : exec.getYieldedEntities().getEntities()) {
+							sb.append(", out ");
+							// TODO: use the declared type, check declared against actual type
+							sb.append(formatEntity(outEntity));
+						}
 					}
 				}
 /*				for(Expression arg : exec.getArguments()) {
@@ -1054,7 +1082,13 @@ public class ModifyGen extends CSharpBase {
 					genExpression(sb, arg, state);
 				}*/
 				sb.append(");\n");
+				
+				++xgrsID;
 			} else assert false : "unknown ImperativeStmt: " + istmt + " in " + task.left.getNameOfGraph();
+		}
+		
+		if(task.mightThereBeDeferredExecs) {
+			sb.append("\t\t\twhile(toBeExecuted.Count>0) toBeExecuted.Dequeue().exec(graph);\n");
 		}
 	}
 

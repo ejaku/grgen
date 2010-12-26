@@ -1,0 +1,107 @@
+using execModel;
+
+rule Init
+{
+    replace {
+        c:Center --> :A --> :B;
+        c --> :B --> :A;
+        c --> :B --> :A;
+    }
+}
+
+rule R1a {
+	alternative {
+		toA {
+			:Center --> a:A;
+			
+			modify {
+				exec(R2(a));
+				exec(R4);
+			}
+		}
+		toB {
+			:Center --> b:B;
+			
+			modify {
+				exec(R3(b));
+				exec(R4);
+			}
+		}
+	}
+    
+	modify {
+    }
+}
+
+rule R1b {
+	c:Center;
+	iterated {
+		c --> b:B;
+		
+		modify {
+			exec(R3(b));
+			exec(R5(c,b));
+		}
+	}
+	
+    modify {
+    }
+}
+
+rule R2(a:A) {
+    a --> b:B;
+	
+	modify {
+		a <-- b;
+	}
+}
+
+rule R3(b:B) {
+	b --> a:A;
+    
+	modify {
+        delete(a);
+    }
+}
+
+rule R4 {
+	modify {
+	}
+}
+
+rule R5(c:Center, b:B) {
+	modify {
+	}
+}
+
+rule RP1a {
+	p:P1a();
+	
+	modify {
+		p();
+	}
+}
+
+pattern P1a {
+	alternative {
+		toA {
+			:Center --> a:A;
+			
+			modify {
+				exec(R2(a));
+				exec(R4);
+			}
+		}
+		toB {
+			c:Center --> b:B;
+			
+			modify {
+				exec(R3(b));
+				exec(R4);
+			}
+		}
+	}
+    
+	modify {
+    }
+}

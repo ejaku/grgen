@@ -189,9 +189,8 @@ public class ActionsGen extends CSharpBase {
 
 		mg.genModify(sb, subpatternRule, true);
 
-		if(subpatternRule.getRight()!=null) {
-			genImperativeStatements(sb, subpatternRule, true);
-		}
+		genImperativeStatements(sb, subpatternRule, formatIdentifiable(subpatternRule) + "_", true, true);
+		genImperativeStatementClosures(sb, subpatternRule, formatIdentifiable(subpatternRule) + "_", false);
 
 		genStaticConstructor(sb, className, staticInitializers);
 
@@ -225,9 +224,8 @@ public class ActionsGen extends CSharpBase {
 
 		mg.genModify(sb, actionRule, false);
 
-		if(actionRule.getRight()!=null) {
-			genImperativeStatements(sb, actionRule, false);
-		}
+		genImperativeStatements(sb, actionRule, formatIdentifiable(actionRule) + "_", true, false);
+		genImperativeStatementClosures(sb, actionRule, formatIdentifiable(actionRule) + "_", true);
 
 		genStaticConstructor(sb, className, staticInitializers);
 
@@ -1131,17 +1129,58 @@ public class ActionsGen extends CSharpBase {
 		}
 	}
 
-	private void genImperativeStatements(StringBuffer sb, Rule rule, boolean isSubpattern) {
-		String actionName = formatIdentifiable(rule);
-		sb.append("#if INITIAL_WARMUP\t\t// GrGen imperative statement section: " + (isSubpattern ? "Pattern_" : "Rule_") + actionName + "\n");
+	//////////////////////////////////////////
+	// Imperative statement/exec generation //
+	//////////////////////////////////////////
+
+	private void genImperativeStatements(StringBuffer sb, Rule rule, String pathPrefix,
+			boolean isTopLevel, boolean isSubpattern) {
+		if(rule.getRight()==null) {
+			return;
+		}
+		
+		if(isTopLevel) {
+			sb.append("#if INITIAL_WARMUP\t\t// GrGen imperative statement section: "  + (isSubpattern ? "Pattern_" : "Rule_") + formatIdentifiable(rule) + "\n");
+		}
+		
+		genImperativeStatements(sb, rule, pathPrefix);
+				
+		PatternGraph pattern = rule.getPattern();
+		int i = 0;
+		for(Alternative alt : pattern.getAlts()) {
+			String altName = "alt_" + i;
+			for(Rule altCase : alt.getAlternativeCases()) {
+				PatternGraph altCasePattern = altCase.getLeft();
+				genImperativeStatements(sb, altCase,
+						pathPrefix + altName + "_" + altCasePattern.getNameOfGraph() + "_",
+						false, isSubpattern);
+			}
+			++i;
+		}
+		
+		i = 0;
+		for(Rule iter : pattern.getIters()) {
+			String iterName = "iter_" + i;
+			genImperativeStatements(sb, iter,
+					pathPrefix + iterName + "_",
+					false, isSubpattern);
+			++i;
+		}
+		
+		if(isTopLevel) {
+			sb.append("#endif\n");
+		}
+	}
+
+	private void genImperativeStatements(StringBuffer sb, Rule rule, String pathPrefix) {
 		int xgrsID = 0;
 		for(ImperativeStmt istmt : rule.getRight().getImperativeStmts()) {
 			if(istmt instanceof Emit) {
 				// nothing to do
 			} else if (istmt instanceof Exec) {
 				Exec exec = (Exec) istmt;
-
-				sb.append("\t\tpublic static GRGEN_LGSP.LGSPXGRSInfo XGRSInfo_" + xgrsID + " = new GRGEN_LGSP.LGSPXGRSInfo(\n");
+				sb.append("\t\tpublic static GRGEN_LGSP.LGSPEmbeddedSequenceInfo XGRSInfo_" + pathPrefix + xgrsID
+						+ " = new GRGEN_LGSP.LGSPEmbeddedSequenceInfo(\n");
 				sb.append("\t\t\tnew string[] {");
 				for(Entity neededEntity : exec.getNeededEntities()) {
 					sb.append("\"" + neededEntity.getIdent() + "\", ");
@@ -1172,7 +1211,7 @@ public class ActionsGen extends CSharpBase {
 				sb.append("\t\t\t\"" + exec.getXGRSString().replace("\\", "\\\\").replace("\"", "\\\"") + "\"\n");
 				sb.append("\t\t);\n");
 				
-				sb.append("\t\tprivate void ApplyXGRS_" + xgrsID++ + "(GRGEN_LGSP.LGSPGraph graph");
+				sb.append("\t\tprivate static bool ApplyXGRS_" + pathPrefix + xgrsID + "(GRGEN_LGSP.LGSPGraph graph");
 				for(Entity neededEntity : exec.getNeededEntities()) {
 					sb.append(", " + formatType(neededEntity.getType()) + " var_" + neededEntity.getIdent());
 				}
@@ -1189,10 +1228,90 @@ public class ActionsGen extends CSharpBase {
 						sb.append(" = null;\n");
 					}
 				}
+				sb.append("\t\t\treturn true;\n");
 				sb.append("\t\t}\n");
+				
+				++xgrsID;
 			} else assert false : "unknown ImperativeStmt: " + istmt + " in " + rule;
 		}
-		sb.append("#endif\n");
+	}
+
+	private void genImperativeStatementClosures(StringBuffer sb, Rule rule, String pathPrefix,
+			boolean isTopLevelRule) {
+		if(rule.getRight()==null) {
+			return;
+		}
+
+		if(!isTopLevelRule) {
+			genImperativeStatementClosures(sb, rule, pathPrefix);
+		}
+						
+		PatternGraph pattern = rule.getPattern();
+		int i = 0;
+		for(Alternative alt : pattern.getAlts()) {
+			String altName = "alt_" + i;
+			for(Rule altCase : alt.getAlternativeCases()) {
+				PatternGraph altCasePattern = altCase.getLeft();
+				genImperativeStatementClosures(sb, altCase,
+						pathPrefix + altName + "_" + altCasePattern.getNameOfGraph() + "_",
+						false);
+			}
+			++i;
+		}
+		
+		i = 0;
+		for(Rule iter : pattern.getIters()) {
+			String iterName = "iter_" + i;
+			genImperativeStatementClosures(sb, iter,
+					pathPrefix + iterName + "_",
+					false);
+			++i;
+		}
+		
+	}
+
+	private void genImperativeStatementClosures(StringBuffer sb, Rule rule, String pathPrefix) {
+		int xgrsID = 0;
+		for(ImperativeStmt istmt : rule.getRight().getImperativeStmts()) {
+			if (!(istmt instanceof Exec)) {
+				continue;
+			}
+			
+			Exec exec = (Exec) istmt;
+			sb.append("\n"
+					+ "\t\tpublic class XGRSClosure_" + pathPrefix + xgrsID + " : GRGEN_LGSP.LGSPEmbeddedSequenceClosure\n" 
+					+ "\t\t{\n");
+			sb.append("\t\t\tpublic XGRSClosure_" + pathPrefix + xgrsID + "(");
+			boolean first = true;
+			for(Entity neededEntity : exec.getNeededEntities()) {
+				if(first) {
+					first = false;
+				} else {
+					sb.append(", ");
+				}
+				sb.append(formatType(neededEntity.getType()) + " " + formatEntity(neededEntity));
+			}
+			sb.append(") {\n");
+			for(Entity neededEntity : exec.getNeededEntities()) {
+				sb.append("\t\t\t\tthis." + formatEntity(neededEntity) + " = " + formatEntity(neededEntity) + ";\n");
+			}
+			sb.append("\t\t\t}\n");
+			
+			sb.append("\t\t\tpublic bool exec(GRGEN_LGSP.LGSPGraph graph) {\n");
+			sb.append("\t\t\t\treturn ApplyXGRS_" + pathPrefix + xgrsID + "(graph");
+			for(Entity neededEntity : exec.getNeededEntities()) {
+				sb.append(", " + formatEntity(neededEntity));
+			}
+			sb.append(");\n"); 
+			sb.append("\t\t\t}\n");
+			
+			for(Entity neededEntity : exec.getNeededEntities()) {
+				sb.append("\t\t\t" + formatType(neededEntity.getType()) + " " + formatEntity(neededEntity) + ";\n");
+			}
+			sb.append("\t\t}\n");
+			
+			++xgrsID;
+		}
 	}
 
 	//////////////////////////////////////////

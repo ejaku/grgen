@@ -40,6 +40,9 @@ public class Rule extends MatchingAction {
 	/** How often the pattern is to be matched in case this is an iterated. */
 	private int minMatches;
 	private int maxMatches;
+	
+	/** Have deferred execs been added by using this top level rule, so we have to execute the exec queue? */
+	public boolean mightThereBeDeferredExecs;
 
 	/**
 	 * Make a new rule.
@@ -60,6 +63,7 @@ public class Rule extends MatchingAction {
 		}
 		this.minMatches = -1;
 		this.maxMatches = -1;
+		mightThereBeDeferredExecs = false;
 	}
 
 	/**
@@ -82,6 +86,7 @@ public class Rule extends MatchingAction {
 		}
 		this.minMatches = minMatches;
 		this.maxMatches = maxMatches;
+		mightThereBeDeferredExecs = false;
 	}
 
 	/** @return A collection containing all eval assignments of this rule. */
@@ -296,5 +301,35 @@ public class Rule extends MatchingAction {
 		error.error(entity.getIdent().getCoords(), "The entity " + entity.getIdent() + " (or a hom entity)"
 				+ " may get deleted or retyped in pattern " + first.getIdent() + " starting at " + first.getIdent().getCoords()
 				+ " and in pattern " + second.getIdent() + " starting at " + second.getIdent().getCoords() + " (only one such place allowed, provable at compile time)");
+	}
+	
+	boolean isUsingNonDirectExec(boolean isTopLevelRule) {
+		if(right==null) {
+			return false;
+		}
+		
+		if(!isTopLevelRule) {
+			for(ImperativeStmt is : right.getImperativeStmts()) {
+				if(is instanceof Exec) {
+					return true;
+				}
+			}
+		}
+		
+		for(Alternative alternative : pattern.getAlts()) {
+			for(Rule altCase : alternative.getAlternativeCases()) {
+				if(altCase.isUsingNonDirectExec(false)) {
+					return true;
+				}
+			}
+		}
+
+		for(Rule iterated : pattern.getIters()) {
+			if(iterated.isUsingNonDirectExec(false)) {
+				return true;
+			}
+		}
+
+		return false;
 	}
 }

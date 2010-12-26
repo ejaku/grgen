@@ -263,6 +263,53 @@ public class Unit extends IR {
 		}
 	}
 
+	public void transmitExecUsageToRules()
+	{
+		// if an alternative, iterated, or subpattern used from a rule employs an exec,
+		// the execs are not executed directly but added to a to-be-executed-queue;
+		// at the end the root rule must execute this queue.
+		// determine for which root rules this is the case, 
+		// so we generate the queue-executing code only for them
+		
+		// step 1a: compute the subpatterns and rules where a subpattern is used
+		HashMap<Rule, HashSet<Rule>> defToUse = new HashMap<Rule, HashSet<Rule>>();
+		for(Rule subpatternRule : subpatternRules) {
+			defToUse.put(subpatternRule, new HashSet<Rule>());
+		}
+		for(Rule actionRule : actionRules) {
+			defToUse.put(actionRule, new HashSet<Rule>());
+		}
+		for(Rule subpatternRule : subpatternRules) {
+			subpatternRule.computeUsageDependencies(defToUse, subpatternRule);
+		}
+		for(Rule actionRule : actionRules) {
+			actionRule.computeUsageDependencies(defToUse, actionRule);
+		}
+		// step 1b: compute which subpatterns and rules use non-direct execs (alternative,iterated,usage of subpattern with exec)
+		for(Rule subpatternRule : subpatternRules) {
+			subpatternRule.mightThereBeDeferredExecs = subpatternRule.isUsingNonDirectExec(false);
+		}
+		for(Rule actionRule : actionRules) {
+			actionRule.mightThereBeDeferredExecs = actionRule.isUsingNonDirectExec(true);
+		}
+		// step 2: propagate the exec-using to the subpatterns and rules containing the exec-using-subpatterns
+		// until nothing changes, i.e. a fixpoint was reached
+		boolean changed;
+		do {
+			changed = false;
+			for(Rule subpatternRule : subpatternRules) {
+				if(subpatternRule.mightThereBeDeferredExecs) {
+					for(Rule toBeMarkedAsNonDirectExecUser : defToUse.get(subpatternRule)) {
+						if(!toBeMarkedAsNonDirectExecUser.mightThereBeDeferredExecs) {
+							toBeMarkedAsNonDirectExecUser.mightThereBeDeferredExecs = true;
+							changed = true;
+						}
+					}
+				}
+			}
+		} while(changed);
+	}
+	
 	public void resolvePatternLockedModifier() {
 		for(Rule actionRule : actionRules) {
 			actionRule.pattern.resolvePatternLockedModifier();

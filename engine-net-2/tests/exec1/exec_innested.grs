@@ -1,0 +1,38 @@
+new graph "exec1/exec_innested.grg"
+
+xgrs Init
+show num nodes "A"
+show num nodes "B"
+show num edges
+xgrs [R1a]
+show num nodes "A"
+show num nodes "B"
+show num edges
+
+clear graph
+show num nodes "A"
+show num nodes "B"
+show num edges
+xgrs Init
+show num nodes "A"
+show num nodes "B"
+show num edges
+xgrs [RP1a]
+show num nodes "A"
+show num nodes "B"
+show num edges
+
+clear graph
+show num nodes "A"
+show num nodes "B"
+show num edges
+xgrs Init
+show num nodes "A"
+show num nodes "B"
+show num edges
+xgrs R1b
+show num nodes "A"
+show num nodes "B"
+show num edges
+
+quit

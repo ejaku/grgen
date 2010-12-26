@@ -689,15 +689,19 @@ namespace de.unika.ipd.grGen.lgsp
                             int lastSpace = line.LastIndexOf(' ');
                             String ruleName = line.Substring(lastSpace + 1);
                             Type ruleType = actionTypes[ruleName];
-                            int xgrsID = 0;
-                            while(true)
+                            FieldInfo[] ruleFields = ruleType.GetFields();
+                            for(int i = 0; i < ruleFields.Length; ++i)
                             {
-                                FieldInfo fieldInfo = ruleType.GetField("XGRSInfo_" + xgrsID);
-                                if(fieldInfo == null) break;
-                                LGSPXGRSInfo xgrsInfo = (LGSPXGRSInfo) fieldInfo.GetValue(null);
-                                if(!seqGen.GenerateXGRSCode(xgrsID, xgrsInfo.XGRS, xgrsInfo.Parameters, xgrsInfo.ParameterTypes, xgrsInfo.OutParameterTypes, source))
-                                    return ErrorType.GrGenNetError;
-                                xgrsID++;
+                                if(ruleFields[i].Name.StartsWith("XGRSInfo_") && ruleFields[i].FieldType == typeof(LGSPEmbeddedSequenceInfo))
+                                {
+                                    LGSPEmbeddedSequenceInfo xgrsInfo = (LGSPEmbeddedSequenceInfo)ruleFields[i].GetValue(null);
+                                    if(!seqGen.GenerateXGRSCode(ruleFields[i].Name.Substring("XGRSInfo_".Length),
+                                        xgrsInfo.XGRS, xgrsInfo.Parameters, xgrsInfo.ParameterTypes, 
+                                        xgrsInfo.OutParameterTypes, source))
+                                    {
+                                        return ErrorType.GrGenNetError;
+                                    }
+                                }
                             }
                             while((line = sr.ReadLine()) != null)
                             {

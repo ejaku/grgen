@@ -20,16 +20,16 @@ namespace de.unika.ipd.grGen.lgsp
     /// <summary>
     /// Represents an XGRS used in an exec statement.
     /// </summary>
-	public class LGSPXGRSInfo
+	public class LGSPEmbeddedSequenceInfo
 	{
         /// <summary>
-        /// Constructs an LGSPXGRSInfo object.
+        /// Constructs an LGSPEmbeddedSequenceInfo object.
         /// </summary>
         /// <param name="parameters">The names of the needed graph elements of the containing action.</param>
         /// <param name="parameterTypes">The types of the needed graph elements of the containing action.</param>
         /// <param name="outParameterTypes">The types of the graph elements returned to the containing action.</param>
         /// <param name="xgrs">The XGRS string.</param>
-		public LGSPXGRSInfo(String[] parameters, GrGenType[] parameterTypes,
+		public LGSPEmbeddedSequenceInfo(String[] parameters, GrGenType[] parameterTypes,
             GrGenType[] outParameterTypes, String xgrs)
 		{
 			Parameters = parameters;
@@ -58,6 +58,23 @@ namespace de.unika.ipd.grGen.lgsp
         /// </summary>
 		public String XGRS;
 	}
+
+    /// <summary>
+    /// A closure for an exec statement in an alternative, iterated or subpattern,
+    /// containing the entities needed for the exec execution.
+    /// These exec are executed at the end of the rule which directly or indirectly used them,
+    /// long after the alternative/iterated/subpattern modification containing them has been applied.
+    /// The real stuff depends on the xgrs and is generated, obeying this interface.
+    /// </summary>
+    public interface LGSPEmbeddedSequenceClosure
+    {
+        /// <summary>
+        /// Executes the embedded sequence closure
+        /// </summary>
+        /// <param name="graph">the graph on which to apply the sequence</param>
+        /// <returns>the result of sequence execution</returns>
+        bool exec(LGSPGraph graph);
+    }
 
     /// <summary>
     /// The C#-part responsible for compiling the XGRSs of the exec statements.
@@ -1441,7 +1458,7 @@ namespace de.unika.ipd.grGen.lgsp
             }
         }
 
-		public bool GenerateXGRSCode(int xgrsID, String xgrsStr, 
+		public bool GenerateXGRSCode(string xgrsName, String xgrsStr, 
             String[] paramNames, GrGenType[] paramTypes, GrGenType[] outParamTypes,
             SourceBuilder source)
 		{
@@ -1549,7 +1566,8 @@ namespace de.unika.ipd.grGen.lgsp
                 return false;
             }
 
-            source.AppendFront("public static bool ApplyXGRS_" + xgrsID + "(GRGEN_LGSP.LGSPGraph graph");
+            source.Append("\n");
+            source.AppendFront("public static bool ApplyXGRS_" + xgrsName + "(GRGEN_LGSP.LGSPGraph graph");
 			for(int i = 0; i < paramNames.Length; i++)
 			{
 				source.Append(", " + TypesHelper.XgrsTypeToCSharpType(TypesHelper.DotNetTypeToXgrsType(paramTypes[i]), model) + " var_");

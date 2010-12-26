@@ -13,7 +13,6 @@ package de.unika.ipd.grgen.ast;
 
 
 import java.util.Collection;
-import java.util.Collections;
 import java.util.HashSet;
 import java.util.LinkedList;
 import java.util.Set;
@@ -93,34 +92,62 @@ public class SubpatternDeclNode extends ActionDeclNode  {
 		return type != null;
 	}
 
-	private Set<DeclNode> getDelete(int index) {
-		return right.children.get(index).getDelete(pattern);
-	}
-
-	/** Check that only graph elements are returned, that are not deleted. */
+	/**
+	 * Check that exec parameters are not deleted.
+	 *
+	 * The check consider the case that parameters are deleted due to
+	 * homomorphic matching.
+	 */
 	private boolean checkExecParamsNotDeleted() {
-		boolean res = true;
+		assert isResolved();
 
-		for (int i = 0; i < right.getChildren().size(); i++) {
-    		Set<DeclNode> dels = getDelete(i);
-    		for (BaseNode x : right.children.get(i).graph.imperativeStmts.getChildren()) {
-    			if(x instanceof ExecNode) {
-    				ExecNode exec = (ExecNode)x;
-    				for(CallActionNode callAction : exec.callActions.getChildren())
-    					if(!Collections.disjoint(callAction.params.getChildren(), dels)) {
-    						// FIXME error message
-    						callAction.reportError("Parameter of call \"" + callAction.getName() + "\"");
-    						// TODO ...
-    						res = false;
-    					}
+		boolean valid = true;
+		
+		if(right.getChildren().size()==0)
+			return valid;
+		
+		Set<DeclNode> delete = right.children.get(0).getDelete(pattern);
+		Collection<DeclNode> maybeDeleted = right.children.get(0).getMaybeDeleted(pattern);
 
+		for (BaseNode x : right.children.get(0).graph.imperativeStmts.getChildren()) {
+			if(!(x instanceof ExecNode)) continue;
 
-    			}
-    		}
+			ExecNode exec = (ExecNode) x;
+			for(CallActionNode callAction : exec.callActions.getChildren()) {
+				for(ExprNode arg : callAction.params.getChildren()) {
+					if(!(arg instanceof DeclExprNode)) continue;
+
+					ConstraintDeclNode declNode = ((DeclExprNode) arg).getConstraintDeclNode();
+					if(declNode != null) {
+						if(delete.contains(declNode)) {
+							arg.reportError("The deleted " + declNode.getUseString()
+									+ " \"" + declNode.ident + "\" must not be passed to an exec statement");
+							valid = false;
+						}
+						else if (maybeDeleted.contains(declNode)) {
+							declNode.maybeDeleted = true;
+
+							if(!declNode.getIdentNode().getAnnotations().isFlagSet("maybeDeleted")) {
+								valid = false;
+
+								String errorMessage = "Parameter \"" + declNode.ident + "\" of exec statement may be deleted"
+										+ ", possibly it's homomorphic with a deleted " + declNode.getUseString();
+								errorMessage += " (use a [maybeDeleted] annotation if you think that this does not cause problems)";
+
+								if(declNode instanceof EdgeDeclNode) {
+									errorMessage += " or \"" + declNode.ident + "\" is a dangling " + declNode.getUseString()
+											+ " and a deleted node exists";
+								}
+								arg.reportError(errorMessage);
+							}
+						}
+					}
+				}
+			}
 		}
-		return res;
+		return valid;
 	}
-
+	
 	/* Checks, whether the reused nodes and edges of the RHS are consistent with the LHS.
 	 * If consistent, replace the dummy nodes with the nodes the pattern edge is
 	 * incident to (if these aren't dummy nodes themselves, of course). */
@@ -366,19 +393,6 @@ public class SubpatternDeclNode extends ActionDeclNode  {
 		return res;
 	}
 	
-	private boolean noExecNoEmit()
-	{
-		if(right.children.size()>0) {
-			for (BaseNode x : right.children.get(0).graph.imperativeStmts.getChildren()) {
-    			if(x instanceof ExecNode) {
-    				reportError("Subpattern can't possess exec statements");
-    				return false;
-    			}
-			}
-		}
-		return true;
-	}
-
 	/**
 	 * Check, if the rule type node is right.
 	 * The children of a rule type are
@@ -421,7 +435,7 @@ public class SubpatternDeclNode extends ActionDeclNode  {
 
 		return leftHandGraphsOk & SameNumberOfRewritePartsAndNoNestedRewriteParameters()
 			& checkRhsReuse() & noReturnInPatternOk & abstr
-			& checkExecParamsNotDeleted() & noExecNoEmit();
+			& checkExecParamsNotDeleted();
 	}
 
 	private void constructIRaux(Rule rule) {

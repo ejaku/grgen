@@ -14,6 +14,7 @@ package de.unika.ipd.grgen.ast;
 import java.util.Collection;
 import java.util.HashSet;
 import java.util.LinkedList;
+import java.util.Set;
 import java.util.Vector;
 
 import de.unika.ipd.grgen.ast.util.DeclarationTypeResolver;
@@ -338,20 +339,63 @@ public class IteratedNode extends ActionDeclNode  {
 
 		return res;
 	}
+	
+	/**
+	 * Check that exec parameters are not deleted.
+	 *
+	 * The check consider the case that parameters are deleted due to
+	 * homomorphic matching.
+	 */
+	private boolean checkExecParamsNotDeleted() {
+		assert isResolved();
 
-	private boolean noExecNoEmit()
-	{
-		if(right.children.size()>0) {
-			for (BaseNode x : right.children.get(0).graph.imperativeStmts.getChildren()) {
-    			if(x instanceof ExecNode) {
-    				reportError("Iterateds can't possess exec statements");
-    				return false;
-    			}
+		boolean valid = true;
+		
+		if(right.getChildren().size()==0)
+			return valid;
+		
+		Set<DeclNode> delete = right.children.get(0).getDelete(pattern);
+		Collection<DeclNode> maybeDeleted = right.children.get(0).getMaybeDeleted(pattern);
+
+		for (BaseNode x : right.children.get(0).graph.imperativeStmts.getChildren()) {
+			if(!(x instanceof ExecNode)) continue;
+
+			ExecNode exec = (ExecNode) x;
+			for(CallActionNode callAction : exec.callActions.getChildren()) {
+				for(ExprNode arg : callAction.params.getChildren()) {
+					if(!(arg instanceof DeclExprNode)) continue;
+
+					ConstraintDeclNode declNode = ((DeclExprNode) arg).getConstraintDeclNode();
+					if(declNode != null) {
+						if(delete.contains(declNode)) {
+							arg.reportError("The deleted " + declNode.getUseString()
+									+ " \"" + declNode.ident + "\" must not be passed to an exec statement");
+							valid = false;
+						}
+						else if (maybeDeleted.contains(declNode)) {
+							declNode.maybeDeleted = true;
+
+							if(!declNode.getIdentNode().getAnnotations().isFlagSet("maybeDeleted")) {
+								valid = false;
+
+								String errorMessage = "Parameter \"" + declNode.ident + "\" of exec statement may be deleted"
+										+ ", possibly it's homomorphic with a deleted " + declNode.getUseString();
+								errorMessage += " (use a [maybeDeleted] annotation if you think that this does not cause problems)";
+
+								if(declNode instanceof EdgeDeclNode) {
+									errorMessage += " or \"" + declNode.ident + "\" is a dangling " + declNode.getUseString()
+											+ " and a deleted node exists";
+								}
+								arg.reportError(errorMessage);
+							}
+						}
+					}
+				}
 			}
 		}
-		return true;
+		return valid;
 	}
-	
+
 	/**
 	 * Check, if the rule type node is right.
 	 * The children of a rule type are
@@ -401,8 +445,8 @@ public class IteratedNode extends ActionDeclNode  {
 		}
 
 		return leftHandGraphsOk & SameNumberOfRewritePartsAndNoNestedRewriteParameters()
-			& checkRhsReuse() & noReturnInPatternOk & noReturnInAlterntiveCaseReplacement & abstr
-			& noExecNoEmit();
+			& checkRhsReuse() & noReturnInPatternOk & noReturnInAlterntiveCaseReplacement
+			& checkExecParamsNotDeleted() & abstr;
 	}
 
 	private void constructIRaux(Rule rule) {
