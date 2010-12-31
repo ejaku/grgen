@@ -561,12 +561,19 @@ firstNodeOrSubpattern [ CollectNode<BaseNode> conn, CollectNode<SubpatternUsageN
 		( // node declaration
 			type=typeIdentUse
 			( constr=typeConstraint )?
-			( LT oldid=entIdentUse GT )?
+			( LT oldid=entIdentUse (LBRACK mapAccess=entIdentUse RBRACK)? GT )?
 			{
 				if(oldid==null) {
 					n = new NodeDeclNode(id, type, false, context, constr, directlyNestingLHSGraph);
 				} else {
-					n = new NodeTypeChangeNode(id, type, context, oldid, directlyNestingLHSGraph);
+					if((context&BaseNode.CONTEXT_LHS_OR_RHS)==BaseNode.CONTEXT_LHS) {
+						if(mapAccess==null)
+							n = new MatchNodeFromStorageNode(id, type, context, new IdentExprNode(oldid), directlyNestingLHSGraph);
+						else
+							n = new MatchNodeByStorageAccessNode(id, type, context, new IdentExprNode(oldid), new IdentExprNode(mapAccess), directlyNestingLHSGraph);
+					} else {
+						n = new NodeTypeChangeNode(id, type, context, oldid, directlyNestingLHSGraph);
+					}
 				}
 			}
 			firstEdgeContinuation[n, conn, context, directlyNestingLHSGraph] // and continue looking for first edge
@@ -598,12 +605,19 @@ firstNodeOrSubpattern [ CollectNode<BaseNode> conn, CollectNode<SubpatternUsageN
 				{ id = env.defineAnonymousEntity("node", getCoords(c)); }
 				type=typeIdentUse
 				( constr=typeConstraint )?
-				( LT oldid=entIdentUse GT )?
+				( LT oldid=entIdentUse (LBRACK mapAccess=entIdentUse RBRACK)? GT )?
 				{
 					if(oldid==null) {
 						n = new NodeDeclNode(id, type, false, context, constr, directlyNestingLHSGraph);
 					} else {
-						n = new NodeTypeChangeNode(id, type, context, oldid, directlyNestingLHSGraph);
+						if((context&BaseNode.CONTEXT_LHS_OR_RHS)==BaseNode.CONTEXT_LHS) {
+							if(mapAccess==null)
+								n = new MatchNodeFromStorageNode(id, type, context, new IdentExprNode(oldid), directlyNestingLHSGraph);
+							else
+								n = new MatchNodeByStorageAccessNode(id, type, context, new IdentExprNode(oldid), new IdentExprNode(mapAccess), directlyNestingLHSGraph);
+						} else {
+							n = new NodeTypeChangeNode(id, type, context, oldid, directlyNestingLHSGraph);
+						}
 					}
 				}
 				firstEdgeContinuation[n, conn, context, directlyNestingLHSGraph] // and continue looking for first edge
@@ -727,12 +741,19 @@ nodeTypeContinuation [ IdentNode id, int context, PatternGraphNode directlyNesti
 		| TYPEOF LPAREN type=entIdentUse RPAREN
 		)
 		( constr=typeConstraint )?
-		( LT oldid=entIdentUse GT )?
+		( LT oldid=entIdentUse (LBRACK mapAccess=entIdentUse RBRACK)? GT )?
 			{
 				if(oldid==null) {
 					res = new NodeDeclNode(id, type, false, context, constr, directlyNestingLHSGraph);
 				} else {
-					res = new NodeTypeChangeNode(id, type, context, oldid, directlyNestingLHSGraph);
+					if((context&BaseNode.CONTEXT_LHS_OR_RHS)==BaseNode.CONTEXT_LHS) {
+						if(mapAccess==null)
+							res = new MatchNodeFromStorageNode(id, type, context, new IdentExprNode(oldid), directlyNestingLHSGraph);
+						else
+							res = new MatchNodeByStorageAccessNode(id, type, context, new IdentExprNode(oldid), new IdentExprNode(mapAccess), directlyNestingLHSGraph);
+					} else {
+						res = new NodeTypeChangeNode(id, type, context, oldid, directlyNestingLHSGraph);
+					}
 				}
 			}
 	| COPY LT type=entIdentUse GT
@@ -751,12 +772,19 @@ nodeDecl [ int context, PatternGraphNode directlyNestingLHSGraph ] returns [ Bas
 		| TYPEOF LPAREN type=entIdentUse RPAREN
 		)
 		( constr=typeConstraint )?
-		( LT oldid=entIdentUse GT )?
+		( LT oldid=entIdentUse (LBRACK mapAccess=entIdentUse RBRACK)? GT )?
 			{
 				if(oldid==null) {
 					res = new NodeDeclNode(id, type, false, context, constr, directlyNestingLHSGraph);
 				} else {
-					res = new NodeTypeChangeNode(id, type, context, oldid, directlyNestingLHSGraph);
+					if((context&BaseNode.CONTEXT_LHS_OR_RHS)==BaseNode.CONTEXT_LHS) {
+						if(mapAccess==null)
+							res = new MatchNodeFromStorageNode(id, type, context, new IdentExprNode(oldid), directlyNestingLHSGraph);
+						else
+							res = new MatchNodeByStorageAccessNode(id, type, context, new IdentExprNode(oldid), new IdentExprNode(mapAccess), directlyNestingLHSGraph);
+					} else {
+						res = new NodeTypeChangeNode(id, type, context, oldid, directlyNestingLHSGraph);
+					}
 				}
 			}
 	| COPY LT type=entIdentUse GT
@@ -913,12 +941,19 @@ edgeTypeContinuation [ IdentNode id, int context, PatternGraphNode directlyNesti
 		| TYPEOF LPAREN type=entIdentUse RPAREN
 		)
 		( constr=typeConstraint )?
-		( LT oldid=entIdentUse GT )?
+		( LT oldid=entIdentUse (LBRACK mapAccess=entIdentUse RBRACK)? GT )?
 			{
-				if( oldid == null ) {
+				if(oldid==null) {
 					res = new EdgeDeclNode(id, type, false, context, constr, directlyNestingLHSGraph);
 				} else {
-					res = new EdgeTypeChangeNode(id, type, context, oldid, directlyNestingLHSGraph);
+					if((context&BaseNode.CONTEXT_LHS_OR_RHS)==BaseNode.CONTEXT_LHS) {
+						if(mapAccess==null)
+							res = new MatchEdgeFromStorageNode(id, type, context, new IdentExprNode(oldid), directlyNestingLHSGraph);
+						else
+							res = new MatchEdgeByStorageAccessNode(id, type, context, new IdentExprNode(oldid), new IdentExprNode(mapAccess), directlyNestingLHSGraph);
+					} else {
+						res = new EdgeTypeChangeNode(id, type, context, oldid, directlyNestingLHSGraph);
+					}
 				}
 			}
 	| COPY LT type=entIdentUse GT

@@ -918,47 +918,6 @@ public class ActionsGen extends CSharpBase {
 		}
 		sb.append(";\n");
 
-		for(Node node : pattern.getNodes()) {
-			if(alreadyDefinedEntityToName.get(node)!=null) {
-				continue;
-			}
-			String nodeName = formatEntity(node, pathPrefixForElements);
-			sb.append("\t\t\tGRGEN_LGSP.PatternNode " + nodeName + " = new GRGEN_LGSP.PatternNode(");
-			sb.append("(int) GRGEN_MODEL.NodeTypes.@" + formatIdentifiable(node.getType()) + ", \"" + formatElementInterfaceRef(node.getType()) + "\", ");
-			sb.append("\"" + nodeName + "\", \"" + formatIdentifiable(node) + "\", ");
-			sb.append(nodeName + "_AllowedTypes, ");
-			sb.append(nodeName + "_IsAllowedType, ");
-			appendPrio(sb, node, max);
-			sb.append(parameters.indexOf(node)+", ");
-			sb.append(node.getMaybeNull()?"true);\n":"false);\n");
-			alreadyDefinedEntityToName.put(node, nodeName);
-			aux.append("\t\t\t" + nodeName + ".pointOfDefinition = " + (parameters.indexOf(node)==-1 ? patGraphVarName : "null") + ";\n");
-			addAnnotations(aux, node, nodeName+".annotations");
-
-			node.setPointOfDefinition(pattern);
-		}
-
-		for(Edge edge : pattern.getEdges()) {
-			if(alreadyDefinedEntityToName.get(edge)!=null) {
-				continue;
-			}
-			String edgeName = formatEntity(edge, pathPrefixForElements);
-			sb.append("\t\t\tGRGEN_LGSP.PatternEdge " + edgeName + " = new GRGEN_LGSP.PatternEdge(");
-			sb.append((edge.hasFixedDirection() ? "true" : "false") + ", ");
-			sb.append("(int) GRGEN_MODEL.EdgeTypes.@" + formatIdentifiable(edge.getType()) + ", \"" + formatElementInterfaceRef(edge.getType()) + "\", ");
-			sb.append("\"" + edgeName + "\", \"" + formatIdentifiable(edge) + "\", ");
-			sb.append(edgeName + "_AllowedTypes, ");
-			sb.append(edgeName + "_IsAllowedType, ");
-			appendPrio(sb, edge, max);
-			sb.append(parameters.indexOf(edge)+", ");
-			sb.append(edge.getMaybeNull()?"true);\n":"false);\n");
-			alreadyDefinedEntityToName.put(edge, edgeName);
-			aux.append("\t\t\t" + edgeName + ".pointOfDefinition = " + (parameters.indexOf(edge)==-1 ? patGraphVarName : "null") + ";\n");
-			addAnnotations(aux, edge, edgeName+".annotations");
-
-			edge.setPointOfDefinition(pattern);
-		}
-
 		for(Variable var : pattern.getVars()) {
 			if(alreadyDefinedEntityToName.get(var)!=null) {
 				continue;
@@ -973,6 +932,70 @@ public class ActionsGen extends CSharpBase {
 			addAnnotations(aux, var, varName+".annotations");
 		}
 
+		// Dependencies because of match by storage access (element must be matched before storage map access with it)
+		int dependencyLevel = 0;
+		boolean somethingSkipped;
+		do {
+			somethingSkipped = false;
+
+			for(Node node : pattern.getNodes()) {
+				if(alreadyDefinedEntityToName.get(node)!=null) {
+					continue;
+				}
+				if(node.getDependencyLevel()>dependencyLevel) {
+					somethingSkipped = true;
+					continue;
+				}
+				
+				String nodeName = formatEntity(node, pathPrefixForElements);
+				sb.append("\t\t\tGRGEN_LGSP.PatternNode " + nodeName + " = new GRGEN_LGSP.PatternNode(");
+				sb.append("(int) GRGEN_MODEL.NodeTypes.@" + formatIdentifiable(node.getType()) + ", \"" + formatElementInterfaceRef(node.getType()) + "\", ");
+				sb.append("\"" + nodeName + "\", \"" + formatIdentifiable(node) + "\", ");
+				sb.append(nodeName + "_AllowedTypes, ");
+				sb.append(nodeName + "_IsAllowedType, ");
+				appendPrio(sb, node, max);
+				sb.append(parameters.indexOf(node)+", ");
+				sb.append(node.getMaybeNull() ? "true, " : "false, ");
+				sb.append((node.getStorage()!=null ? formatEntity(node.getStorage(), pathPrefixForElements): "null")+", ");
+				sb.append((node.getAccessor()!=null ? formatEntity(node.getAccessor(), pathPrefixForElements): "null")+");\n");
+				alreadyDefinedEntityToName.put(node, nodeName);
+				aux.append("\t\t\t" + nodeName + ".pointOfDefinition = " + (parameters.indexOf(node)==-1 ? patGraphVarName : "null") + ";\n");
+				addAnnotations(aux, node, nodeName+".annotations");
+	
+				node.setPointOfDefinition(pattern);
+			}
+	
+			for(Edge edge : pattern.getEdges()) {
+				if(alreadyDefinedEntityToName.get(edge)!=null) {
+					continue;
+				}
+				if(edge.getDependencyLevel()>dependencyLevel) {
+					somethingSkipped = true;
+					continue;
+				}
+
+				String edgeName = formatEntity(edge, pathPrefixForElements);
+				sb.append("\t\t\tGRGEN_LGSP.PatternEdge " + edgeName + " = new GRGEN_LGSP.PatternEdge(");
+				sb.append((edge.hasFixedDirection() ? "true" : "false") + ", ");
+				sb.append("(int) GRGEN_MODEL.EdgeTypes.@" + formatIdentifiable(edge.getType()) + ", \"" + formatElementInterfaceRef(edge.getType()) + "\", ");
+				sb.append("\"" + edgeName + "\", \"" + formatIdentifiable(edge) + "\", ");
+				sb.append(edgeName + "_AllowedTypes, ");
+				sb.append(edgeName + "_IsAllowedType, ");
+				appendPrio(sb, edge, max);
+				sb.append(parameters.indexOf(edge)+", ");
+				sb.append(edge.getMaybeNull()?"true, ":"false, ");
+				sb.append((edge.getStorage()!=null ? formatEntity(edge.getStorage(), pathPrefixForElements): "null")+", ");
+				sb.append((edge.getAccessor()!=null ? formatEntity(edge.getAccessor(), pathPrefixForElements): "null")+");\n");
+				alreadyDefinedEntityToName.put(edge, edgeName);
+				aux.append("\t\t\t" + edgeName + ".pointOfDefinition = " + (parameters.indexOf(edge)==-1 ? patGraphVarName : "null") + ";\n");
+				addAnnotations(aux, edge, edgeName+".annotations");
+	
+				edge.setPointOfDefinition(pattern);
+			}
+			
+			++dependencyLevel;
+		} while(somethingSkipped);
+		
 		for(SubpatternUsage sub : pattern.getSubpatternUsages()) {
 			if(alreadyDefinedIdentifiableToName.get(sub)!=null) {
 				continue;

@@ -350,4 +350,13 @@ public class Unit extends IR {
 			subpatternRule.checkForRhsElementsUsedOnLhs();
 		}
 	}
+
+	public void setDependencyLevelByStorageMapAccess() {
+		for(Rule actionRule : actionRules) {
+			actionRule.setDependencyLevelByStorageMapAccess();
+		}
+		for(Rule subpatternRule : subpatternRules) {
+			subpatternRule.setDependencyLevelByStorageMapAccess();
+		}
+	}
 }

@@ -1,0 +1,37 @@
+using from_storage;
+
+rule r1(ref s:set<Node>)
+{
+	n:Node<s> --> l:Node;
+	
+	modify {
+		delete(l);
+	}
+}
+
+rule r2(ref s:set<Node>)
+{
+	l:Node --> n:Node<s> --> .;
+	
+	modify {
+		delete(l);
+	}
+}
+
+rule r3(ref s:set<N>)
+{
+	n:NN<s> --> l:Node;
+	
+	modify {
+		delete(l);
+	}
+}
+
+rule r6(ref m:map<N,Node>)
+{
+	n:NN<m> --> l:Node;
+	
+	modify {
+		delete(l);
+	}
+}

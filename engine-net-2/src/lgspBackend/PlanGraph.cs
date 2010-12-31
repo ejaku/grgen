@@ -116,7 +116,7 @@ namespace de.unika.ipd.grGen.lgsp
         public PlanNode(String rootName)
         {
             NodeType = PlanNodeType.Root;
-            PatternElement = new PatternNode(-1, "", rootName, rootName, null, null, 0.0f, -1, false);
+            PatternElement = new PatternNode(-1, "", rootName, rootName, null, null, 0.0f, -1, false, null, null);
         }
 
         /// <summary>
@@ -302,9 +302,9 @@ namespace de.unika.ipd.grGen.lgsp
     [DebuggerDisplay("PlanEdge ({Source} -{Type}-> {Target} = {Cost})")]
     public class PlanEdge
     {
-        public PlanNode Source;
         public PlanNode Target;
         public float Cost;
+        public PlanNode Source;
 
         /// <summary>
         /// Cost used by the operation selection.

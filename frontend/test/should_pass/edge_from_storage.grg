@@ -1,0 +1,76 @@
+using from_storage;
+
+rule r1(ref s:set<Edge>)
+{
+	-e:Edge<s>-> . --> l:Node;
+	
+	modify {
+		delete(l);
+	}
+}
+
+rule r2(ref s:set<Edge>)
+{
+	-e:E<s>-> . --> l:Node;
+	
+	modify {
+		delete(l);
+	}
+}
+
+
+rule r3(ref s:set<E>)
+{
+	-e:EE<s>-> . --> l:Node;
+	
+	modify {
+		delete(l);
+	}
+}
+
+
+rule r4(ref m:map<Edge,Edge>)
+{
+	-e:Edge<m>-> . --> l:Node;
+	
+	modify {
+		delete(l);
+	}
+}
+
+rule r5(ref m:map<Edge,Edge>)
+{
+	<-e:E<m>- . --> l:Node;
+	
+	modify {
+		delete(l);
+	}
+}
+
+rule r6(ref m:map<E,Edge>)
+{
+	<-e:EE<m>-> . --> l:Node;
+	
+	modify {
+		delete(l);
+	}
+}
+
+
+rule r7(ref m:map<UEdge,Edge>)
+{
+	-e:UEdge<m>- . --> l:Node;
+	
+	modify {
+		delete(l);
+	}
+}
+
+rule r8(ref m:map<UEdge,Edge>)
+{
+	-e:G<m>- . --> l:Node;
+	
+	modify {
+		delete(l);
+	}
+}

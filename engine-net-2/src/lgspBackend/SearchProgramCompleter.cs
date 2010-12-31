@@ -305,7 +305,7 @@ namespace de.unika.ipd.grGen.lgsp
                                 candidateByIteration.IsNode);
                         insertionPoint = insertionPoint.Append(adjustElements);
                     }
-                    else //candidateByIteration.Type==GetCandidateByIterationType.IncidentEdges
+                    else if(candidateByIteration.Type==GetCandidateByIterationType.IncidentEdges)
                     {
                         AdjustListHeads adjustIncident =
                             new AdjustListHeads(

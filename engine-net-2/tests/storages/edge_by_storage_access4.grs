@@ -1,0 +1,33 @@
+new graph storages/edge_by_storage_access
+
+new n1:N
+new n2:N
+new n3:Node
+new n1 <-e1:Edge- n2
+new n2 -e2:Edge-> n3
+
+xgrs m=map<Edge,Edge>{}
+xgrs r8(m, e2)
+show num nodes
+show num edges
+show num nodes only "N"
+
+xgrs m.add(e2,e2)
+xgrs m.add(e1,e1)
+xgrs r8(m, e2)
+show num nodes
+show num edges
+show num nodes only "N"
+
+xgrs m.add(e2,e1)
+xgrs r8(m, e2)
+show num nodes
+show num edges
+show num nodes only "N"
+
+xgrs r8b(m, e2)
+show num nodes
+show num edges
+show num nodes only "N"
+
+quit

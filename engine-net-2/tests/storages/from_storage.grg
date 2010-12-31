@@ -1,0 +1,24 @@
+using from_storage;
+
+rule t1(ref s:set<Node>, ref t:set<Edge>)
+{
+	n:Node<s> -e:Edge<t>-> m:N<s>;
+	
+	modify {
+		delete(n, m);
+		eval { t.rem(e); s.rem(n); s.rem(m); }
+	}
+}
+
+test t2(ref s:set<Node>, ref t:set<Edge>)
+{
+	n:Node<s> -e:Edge<t>-> m:Node<s>;
+	hom(n,m);
+}
+
+test t3(ref m:map<Node, Node>)
+{
+	x:Node;
+	y:Node<m[x]>;
+	z:Node<m[y]>;
+}

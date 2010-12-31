@@ -37,6 +37,14 @@ namespace de.unika.ipd.grGen.lgsp
         /// </summary>
         Lookup,
         /// <summary>
+        /// Pick element from storage.
+        /// </summary>
+        PickFromStorage,
+        /// <summary>
+        /// Map some given input element to an output graph element.
+        /// </summary>
+        MapWithStorage,
+        /// <summary>
         /// Follow outgoing edges of given node.
         /// </summary>
         Outgoing,

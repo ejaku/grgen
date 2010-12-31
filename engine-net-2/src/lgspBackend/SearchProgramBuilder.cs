@@ -474,6 +474,21 @@ namespace de.unika.ipd.grGen.lgsp
                         (SearchPlanNode)op.Element,
                         op.Isomorphy);
 
+                case SearchOperationType.PickFromStorage:
+                    return buildPickFromStorage(insertionPointWithinSearchProgram,
+                        indexOfScheduledSearchPlanOperationToBuild,
+                        (SearchPlanNode)op.Element,
+                        op.Storage,
+                        op.Isomorphy);
+
+                case SearchOperationType.MapWithStorage:
+                    return buildMapWithStorage(insertionPointWithinSearchProgram,
+                        indexOfScheduledSearchPlanOperationToBuild,
+                        op.SourceSPNode,
+                        (SearchPlanNode)op.Element,
+                        op.Storage,
+                        op.Isomorphy);
+
                 case SearchOperationType.ImplicitSource:
                     return buildImplicit(insertionPointWithinSearchProgram,
                         indexOfScheduledSearchPlanOperationToBuild,
@@ -783,12 +798,12 @@ namespace de.unika.ipd.grGen.lgsp
             SearchProgramOperation continuationPointAfterConnectednessCheck;
             if (isNode)
             {
-                insertionPoint = decideOnAndInsertCheckConnectednessOfNodeFromLookup(
+                insertionPoint = decideOnAndInsertCheckConnectednessOfNodeFromLookupOrPickOrMap(
                     insertionPoint, (SearchPlanNodeNode)target, out continuationPointAfterConnectednessCheck);
             }
             else
             {
-                insertionPoint = decideOnAndInsertCheckConnectednessOfEdgeFromLookup(
+                insertionPoint = decideOnAndInsertCheckConnectednessOfEdgeFromLookupOrPickOrMap(
                     insertionPoint, (SearchPlanEdgeNode)target, out continuationPointAfterConnectednessCheck);
             }
 
@@ -886,6 +901,282 @@ namespace de.unika.ipd.grGen.lgsp
                 // we continue at the continuation point of the type iteration
                 insertionPoint = continuationPointAfterTypeIteration;
             }
+
+            return insertionPoint;
+        }
+
+        /// <summary>
+        /// Search program operations implementing the
+        /// PickFromStorage search plan operation
+        /// are created and inserted into search program
+        /// </summary>
+        private SearchProgramOperation buildPickFromStorage(
+            SearchProgramOperation insertionPoint,
+            int currentOperationIndex,
+            SearchPlanNode target,
+            PatternVariable storage,
+            IsomorphyInformation isomorphy)
+        {
+            bool isNode = target.NodeType == PlanNodeType.Node;
+            string negativeIndependentNamePrefix = NegativeIndependentNamePrefix(patternGraphWithNestingPatterns.Peek());
+
+            // iterate available storage elements
+            string keyValuePairName = "System.Collections.Generic.KeyValuePair<" 
+                + TypesHelper.GetStorageKeyTypeName(storage.Type) + ","
+                + TypesHelper.GetStorageValueTypeName(storage.Type) + ">";
+            GetCandidateByIteration elementsIteration =
+                new GetCandidateByIteration(
+                    GetCandidateByIterationType.StorageElements,
+                    target.PatternElement.Name,
+                    storage.Name,
+                    keyValuePairName,
+                    isNode);
+            SearchProgramOperation continuationPoint =
+                insertionPoint.Append(elementsIteration);
+            elementsIteration.NestedOperationsList =
+                new SearchProgramList(elementsIteration);
+            insertionPoint = elementsIteration.NestedOperationsList;
+
+            // check type of candidate
+            insertionPoint = decideOnAndInsertCheckType(insertionPoint, target);
+
+            // check connectedness of candidate
+            SearchProgramOperation continuationPointAfterConnectednessCheck;
+            if(isNode)
+            {
+                insertionPoint = decideOnAndInsertCheckConnectednessOfNodeFromLookupOrPickOrMap(
+                    insertionPoint, (SearchPlanNodeNode)target, out continuationPointAfterConnectednessCheck);
+            }
+            else
+            {
+                insertionPoint = decideOnAndInsertCheckConnectednessOfEdgeFromLookupOrPickOrMap(
+                    insertionPoint, (SearchPlanEdgeNode)target, out continuationPointAfterConnectednessCheck);
+            }
+
+            // check candidate for isomorphy 
+            if(isomorphy.CheckIsMatchedBit)
+            {
+                CheckCandidateForIsomorphy checkIsomorphy =
+                    new CheckCandidateForIsomorphy(
+                        target.PatternElement.Name,
+                        isomorphy.PatternElementsToCheckAgainstAsListOfStrings(),
+                        negativeIndependentNamePrefix,
+                        isNode,
+                        negLevelNeverAboveMaxNegLevel);
+                insertionPoint = insertionPoint.Append(checkIsomorphy);
+            }
+
+            // check candidate for global isomorphy 
+            if(programType == SearchProgramType.Subpattern
+                || programType == SearchProgramType.AlternativeCase
+                || programType == SearchProgramType.Iterated)
+            {
+                CheckCandidateForIsomorphyGlobal checkIsomorphy =
+                    new CheckCandidateForIsomorphyGlobal(
+                        target.PatternElement.Name,
+                        isomorphy.GloballyHomomorphPatternElementsAsListOfStrings(),
+                        isNode,
+                        negLevelNeverAboveMaxNegLevel);
+                insertionPoint = insertionPoint.Append(checkIsomorphy);
+            }
+
+            // check candidate for pattern path isomorphy
+            if(patternGraphWithNestingPatterns.Count == 1
+                && (programType == SearchProgramType.Subpattern
+                    || programType == SearchProgramType.AlternativeCase
+                    || programType == SearchProgramType.Iterated)
+                || patternGraphWithNestingPatterns.Peek().isPatternpathLocked)
+            {
+                CheckCandidateForIsomorphyPatternPath checkIsomorphy =
+                    new CheckCandidateForIsomorphyPatternPath(
+                        target.PatternElement.Name,
+                        isNode,
+                        patternGraphWithNestingPatterns.Peek().isPatternpathLocked,
+                        getCurrentLastMatchAtPreviousNestingLevel());
+                insertionPoint = insertionPoint.Append(checkIsomorphy);
+            }
+
+            // accept candidate (write isomorphy information)
+            if(isomorphy.SetIsMatchedBit)
+            {
+                AcceptCandidate acceptCandidate =
+                    new AcceptCandidate(
+                        target.PatternElement.Name,
+                        negativeIndependentNamePrefix,
+                        isNode,
+                        negLevelNeverAboveMaxNegLevel);
+                insertionPoint = insertionPoint.Append(acceptCandidate);
+            }
+
+            // mark element as visited
+            target.Visited = true;
+
+            //---------------------------------------------------------------------------
+            // build next operation
+            insertionPoint = BuildScheduledSearchPlanOperationIntoSearchProgram(
+                currentOperationIndex + 1,
+                insertionPoint);
+            //---------------------------------------------------------------------------
+
+            // unmark element for possibly following run
+            target.Visited = false;
+
+            // abandon candidate (restore isomorphy information)
+            if(isomorphy.SetIsMatchedBit)
+            { // only if isomorphy information was previously written
+                AbandonCandidate abandonCandidate =
+                    new AbandonCandidate(
+                        target.PatternElement.Name,
+                        negativeIndependentNamePrefix,
+                        isNode,
+                        negLevelNeverAboveMaxNegLevel);
+                insertionPoint = insertionPoint.Append(abandonCandidate);
+            }
+
+            // everything nested within candidate iteration built by now -
+            // continue at the end of the list at type iteration nesting level
+            insertionPoint = continuationPoint;
+
+            return insertionPoint;
+        }
+
+        /// <summary>
+        /// Search program operations implementing the
+        /// MapWithStorage search plan operation
+        /// are created and inserted into search program
+        /// </summary>
+        private SearchProgramOperation buildMapWithStorage(
+            SearchProgramOperation insertionPoint,
+            int currentOperationIndex,
+            SearchPlanNode source,
+            SearchPlanNode target,
+            PatternVariable storage,
+            IsomorphyInformation isomorphy)
+        {
+            bool isNode = target.NodeType == PlanNodeType.Node;
+            string negativeIndependentNamePrefix = NegativeIndependentNamePrefix(patternGraphWithNestingPatterns.Peek());
+
+            // get candidate from storage-map, only creates variable to hold it, get is fused with check for map membership
+            GetCandidateByDrawing elementFromStorage = 
+                new GetCandidateByDrawing(
+                    GetCandidateByDrawingType.MapWithStorage,
+                    target.PatternElement.Name,
+                    source.PatternElement.Name,
+                    storage.Name,
+                    TypesHelper.GetStorageValueTypeName(storage.Type),
+                    isNode);
+            insertionPoint = insertionPoint.Append(elementFromStorage);
+
+            // check existence of candidate in storage map 
+            CheckCandidateMapWithStorage checkElementInStorage =
+                new CheckCandidateMapWithStorage(
+                    target.PatternElement.Name,
+                    source.PatternElement.Name,
+                    storage.Name,
+                    TypesHelper.GetStorageKeyTypeName(storage.Type),
+                    isNode);
+            insertionPoint = insertionPoint.Append(checkElementInStorage);
+
+            // check type of candidate
+            insertionPoint = decideOnAndInsertCheckType(insertionPoint, target);
+
+            // check connectedness of candidate
+            SearchProgramOperation continuationPointAfterConnectednessCheck;
+            if(isNode)
+            {
+                insertionPoint = decideOnAndInsertCheckConnectednessOfNodeFromLookupOrPickOrMap(
+                    insertionPoint, (SearchPlanNodeNode)target, out continuationPointAfterConnectednessCheck);
+            }
+            else
+            {
+                insertionPoint = decideOnAndInsertCheckConnectednessOfEdgeFromLookupOrPickOrMap(
+                    insertionPoint, (SearchPlanEdgeNode)target, out continuationPointAfterConnectednessCheck);
+            }
+            if(continuationPointAfterConnectednessCheck == insertionPoint)
+                continuationPointAfterConnectednessCheck = null;
+
+            // check candidate for isomorphy 
+            if(isomorphy.CheckIsMatchedBit)
+            {
+                CheckCandidateForIsomorphy checkIsomorphy =
+                    new CheckCandidateForIsomorphy(
+                        target.PatternElement.Name,
+                        isomorphy.PatternElementsToCheckAgainstAsListOfStrings(),
+                        negativeIndependentNamePrefix,
+                        isNode,
+                        negLevelNeverAboveMaxNegLevel);
+                insertionPoint = insertionPoint.Append(checkIsomorphy);
+            }
+
+            // check candidate for global isomorphy 
+            if(programType == SearchProgramType.Subpattern
+                || programType == SearchProgramType.AlternativeCase
+                || programType == SearchProgramType.Iterated)
+            {
+                CheckCandidateForIsomorphyGlobal checkIsomorphy =
+                    new CheckCandidateForIsomorphyGlobal(
+                        target.PatternElement.Name,
+                        isomorphy.GloballyHomomorphPatternElementsAsListOfStrings(),
+                        isNode,
+                        negLevelNeverAboveMaxNegLevel);
+                insertionPoint = insertionPoint.Append(checkIsomorphy);
+            }
+
+            // check candidate for pattern path isomorphy
+            if(patternGraphWithNestingPatterns.Count == 1
+                && (programType == SearchProgramType.Subpattern
+                    || programType == SearchProgramType.AlternativeCase
+                    || programType == SearchProgramType.Iterated)
+                || patternGraphWithNestingPatterns.Peek().isPatternpathLocked)
+            {
+                CheckCandidateForIsomorphyPatternPath checkIsomorphy =
+                    new CheckCandidateForIsomorphyPatternPath(
+                        target.PatternElement.Name,
+                        isNode,
+                        patternGraphWithNestingPatterns.Peek().isPatternpathLocked,
+                        getCurrentLastMatchAtPreviousNestingLevel());
+                insertionPoint = insertionPoint.Append(checkIsomorphy);
+            }
+
+            // accept candidate (write isomorphy information)
+            if(isomorphy.SetIsMatchedBit)
+            {
+                AcceptCandidate acceptCandidate =
+                    new AcceptCandidate(
+                        target.PatternElement.Name,
+                        negativeIndependentNamePrefix,
+                        isNode,
+                        negLevelNeverAboveMaxNegLevel);
+                insertionPoint = insertionPoint.Append(acceptCandidate);
+            }
+
+            // mark element as visited
+            target.Visited = true;
+
+            //---------------------------------------------------------------------------
+            // build next operation
+            insertionPoint = BuildScheduledSearchPlanOperationIntoSearchProgram(
+                currentOperationIndex + 1,
+                insertionPoint);
+            //---------------------------------------------------------------------------
+
+            // unmark element for possibly following run
+            target.Visited = false;
+
+            // abandon candidate (restore isomorphy information)
+            if(isomorphy.SetIsMatchedBit)
+            { // only if isomorphy information was previously written
+                AbandonCandidate abandonCandidate =
+                    new AbandonCandidate(
+                        target.PatternElement.Name,
+                        negativeIndependentNamePrefix,
+                        isNode,
+                        negLevelNeverAboveMaxNegLevel);
+                insertionPoint = insertionPoint.Append(abandonCandidate);
+            }
+
+            if(continuationPointAfterConnectednessCheck != null)
+                insertionPoint = continuationPointAfterConnectednessCheck;
 
             return insertionPoint;
         }
@@ -2608,7 +2899,7 @@ namespace de.unika.ipd.grGen.lgsp
         ///  for continuing buildup after the stuff nested within both directions iteration was built
         /// if no direction iteration was needed, insertion point == continuation point
         /// </summary>
-        private SearchProgramOperation decideOnAndInsertCheckConnectednessOfNodeFromLookup(
+        private SearchProgramOperation decideOnAndInsertCheckConnectednessOfNodeFromLookupOrPickOrMap(
             SearchProgramOperation insertionPoint,
             SearchPlanNodeNode node,
             out SearchProgramOperation continuationPoint)
@@ -2816,7 +3107,7 @@ namespace de.unika.ipd.grGen.lgsp
         ///  for continuing buildup after the stuff nested within both directions iteration was built
         /// if no direction iteration was needed, insertion point == continuation point
         /// </summary>
-        private SearchProgramOperation decideOnAndInsertCheckConnectednessOfEdgeFromLookup(
+        private SearchProgramOperation decideOnAndInsertCheckConnectednessOfEdgeFromLookupOrPickOrMap(
             SearchProgramOperation insertionPoint,
             SearchPlanEdgeNode edge,
             out SearchProgramOperation continuationPoint)

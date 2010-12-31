@@ -1,0 +1,35 @@
+new graph storages/edge_from_storage
+
+new n1a:Node
+new n1b:Node
+new n1c:Node
+new n2a:Node
+new n2b:Node
+new n2c:Node
+new n3a:Node
+new n3b:NN
+new n3c:N
+new n1a -e1a:EE-> n2a
+new n1b -e1b:EE-> n2b
+new n1c -e1c:E-> n2c
+new n2a -e2a:Edge-> n3a
+new n2b -e2b:Edge-> n3b
+new n2c -e2c:Edge-> n3c
+show num nodes
+show num edges
+show num nodes only "N"
+show num nodes only "NN"
+show num edges only "E"
+show num edges only "EE"
+
+xgrs m=map<E,Edge>{}
+xgrs m.add(e1a,e2a) & m.add(e1b,e2b) & m.add(e1c,e2c) 
+xgrs [r6(m)]
+show num nodes
+show num edges
+show num nodes only "N"
+show num nodes only "NN"
+show num edges only "E"
+show num edges only "EE"
+
+quit

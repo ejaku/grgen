@@ -316,5 +316,15 @@ namespace de.unika.ipd.grGen.lgsp
 
             return false;
         }
+
+        public static string GetStorageKeyTypeName(VarType storage)
+        {
+            return storage.Type.GetGenericArguments()[0].FullName;
+        }
+
+        public static string GetStorageValueTypeName(VarType storage)
+        {
+            return storage.Type.GetGenericArguments()[1].FullName;
+        }
     }
 }

@@ -1,0 +1,85 @@
+using from_storage;
+
+rule r1(ref m:map<Edge,Edge>)
+{
+	-e:Edge<m[f]>-> . -f:Edge-> l:Node;
+	
+	modify {
+		delete(l);
+	}
+}
+
+rule r2(ref m:map<Edge,Edge>)
+{
+	-e:E<m[f]>-> . -f:E-> l:N;
+	
+	modify {
+		delete(l);
+	}
+}
+
+rule r3(ref m:map<E,E>)
+{
+	-e:EE<m[f]>-> . -f:EE-> l:NN;
+	
+	modify {
+		delete(l);
+	}
+}
+
+
+rule r4(ref m:map<Node,Edge>)
+{
+	-n:Edge<m[l]>-> . -f:Edge-> l:Node;
+	
+	modify {
+		delete(l);
+	}
+}
+
+rule r5(ref m:map<Node,Edge>)
+{
+	-n:E<m[l]>-> . -f:E-> l:N;
+	
+	modify {
+		delete(l);
+	}
+}
+
+rule r6(ref m:map<N,E>)
+{
+	-n:EE<m[l]>-> . -f:EE-> l:NN;
+	
+	modify {
+		delete(l);
+	}
+}
+
+
+rule r7(ref m:map<Node,Edge>, x:Node)
+{
+	-e:Edge<m[x]>-> . --> l:Node;
+	
+	modify {
+		delete(l);
+	}
+}
+
+rule r8(ref m:map<Edge,Edge>, -x:Edge->)
+{
+	<-e:Edge<m[x]>- . --> l:Node;
+	
+	modify {
+		delete(l);
+	}
+}
+
+
+rule r10(ref m:map<E,UEdge>)
+{
+	-e:G<m[f]>- . -f:EE-> l:NN;
+	
+	modify {
+		delete(l);
+	}
+}

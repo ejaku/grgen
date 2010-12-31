@@ -28,7 +28,7 @@ namespace de.unika.ipd.grGen.lgsp
         public SearchPlanNode(String rootName)
         {
             NodeType = PlanNodeType.Root;
-            PatternElement = new PatternNode(-1, "", rootName, rootName, null, null, 0.0f, -1, false);
+            PatternElement = new PatternNode(-1, "", rootName, rootName, null, null, 0.0f, -1, false, null, null);
         }
 
         protected SearchPlanNode(PlanNode planNode)
@@ -108,18 +108,18 @@ namespace de.unika.ipd.grGen.lgsp
     /// </summary>
     public class SearchPlanEdge : IComparable<SearchPlanEdge>
     {
-        public SearchPlanNode Source;
         public SearchPlanNode Target;
         public float Cost;
+        public SearchPlanNode Source;
         public SearchOperationType Type;
 
         public float LocalCost;
 
         public SearchPlanEdge(SearchOperationType type, SearchPlanNode source, SearchPlanNode target, float cost)
         {
-            Source = source;
             Target = target;
             Cost = cost;
+            Source = source;
             Type = type;
         }
 
@@ -159,7 +159,8 @@ namespace de.unika.ipd.grGen.lgsp
         public SearchPlanNode Root;
         public SearchPlanNode[] Nodes;
         public SearchPlanEdge[] Edges;
-        public int NumPresetElements;
+        public int NumPresetElements = 0;
+        public int NumPickedElements = 0;
 
         public SearchPlanGraph(SearchPlanNode root, SearchPlanNode[] nodes, SearchPlanEdge[] edges)
         {
@@ -169,7 +170,10 @@ namespace de.unika.ipd.grGen.lgsp
             NumPresetElements = 0;
             foreach (SearchPlanNode node in nodes)
                 if (node.IsPreset)
-                    NumPresetElements++;
+                    ++NumPresetElements;
+            foreach (SearchPlanEdge edge in edges)
+                if (edge.Type == SearchOperationType.PickFromStorage)
+                    ++NumPickedElements;
         }
     }
 }

@@ -1,0 +1,39 @@
+new graph storages/node_by_storage_access
+
+new n1:N
+new n2:NN
+new n1 -e1:EE-> n2
+new n3:NN
+new n4:NN
+new n3 -e2:E-> n4
+new n5:NN
+new n6:Node
+new n5 -e3:EE-> n6
+new n7:NN
+new n8:Node
+new n7 -e4:EE-> n8
+new n9:NN
+new n10:NN
+new n10 -e5:EE-> n9
+show num nodes
+show num edges
+show num edges only "E"
+show num edges only "EE"
+show num nodes only "N"
+show num nodes only "NN"
+
+xgrs m=map<E,N>{}
+xgrs m.add(e1,n1)
+xgrs m.add(e2,n3)
+xgrs m.add(e3,n5)
+xgrs m.add(e4,n7)
+xgrs m.add(e5,n9)
+xgrs [r6(m)]
+show num nodes
+show num edges
+show num edges only "E"
+show num edges only "EE"
+show num nodes only "N"
+show num nodes only "NN"
+
+quit

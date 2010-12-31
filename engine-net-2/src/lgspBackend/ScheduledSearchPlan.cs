@@ -106,6 +106,7 @@ namespace de.unika.ipd.grGen.lgsp
         /// </summary>
         public object Element;
         public SearchPlanNode SourceSPNode;
+        public PatternVariable Storage;
         public float CostToEnd;
 
         // used in check for isomorphic elements
@@ -124,81 +125,8 @@ namespace de.unika.ipd.grGen.lgsp
         {
             SearchOperation so = new SearchOperation(Type, Element, SourceSPNode, CostToEnd);
             so.Isomorphy = (IsomorphyInformation)Isomorphy.Clone();
+            so.Storage = Storage;
             return so;
-        }
-
-        public static SearchOperation CreateMaybePreset(SearchPlanNode element)
-        {
-            return new SearchOperation(SearchOperationType.ActionPreset,
-                element, null, 0);
-        }
-
-        public static SearchOperation CreateNegIdptPreset(SearchPlanNode element)
-        {
-            return new SearchOperation(SearchOperationType.NegIdptPreset,
-                element, null, 0);
-        }
-
-        public static SearchOperation CreateLookup(
-            SearchPlanNode element, float costToEnd)
-        {
-            return new SearchOperation(SearchOperationType.Lookup,
-                element, null, costToEnd);
-        }
-
-        public static SearchOperation CreateOutgoing(
-            SearchPlanNodeNode source, SearchPlanEdgeNode outgoingEdge, float costToEnd)
-        {
-            return new SearchOperation(SearchOperationType.Outgoing,
-                outgoingEdge, source, costToEnd);
-        }
-
-        public static SearchOperation CreateIncoming(
-            SearchPlanNodeNode source, SearchPlanEdgeNode outgoingEdge, float costToEnd)
-        {
-            return new SearchOperation(SearchOperationType.Incoming,
-                outgoingEdge, source, costToEnd);
-        }
-
-        public static SearchOperation CreateImplicitSource(
-            SearchPlanEdgeNode edge, SearchPlanNodeNode sourceNode, float costToEnd)
-        {
-            return new SearchOperation(SearchOperationType.ImplicitSource,
-                sourceNode, edge, costToEnd);
-        }
-
-        public static SearchOperation CreateImplicitTarget(
-            SearchPlanEdgeNode edge, SearchPlanNodeNode targetNode, float costToEnd)
-        {
-            return new SearchOperation(SearchOperationType.ImplicitTarget,
-                targetNode, edge, costToEnd);
-        }
-
-        public static SearchOperation CreateNegativePattern(
-            ScheduledSearchPlan schedSP, float costToEnd)
-        {
-            return new SearchOperation(SearchOperationType.NegativePattern,
-                schedSP, null, costToEnd);
-        }
-
-        public static SearchOperation CreateIndependentPattern(
-            ScheduledSearchPlan schedSP, float costToEnd)
-        {
-            return new SearchOperation(SearchOperationType.IndependentPattern,
-                schedSP, null, costToEnd);
-        }
-
-        public static SearchOperation CreateCondition(
-            PatternCondition condition, float costToEnd)
-        {
-            return new SearchOperation(SearchOperationType.Condition,
-                condition, null, costToEnd);
-        }
-
-        public static SearchOperation CreateLockLocalElementsForPatternpath(float costToEnd)
-        {
-            return new SearchOperation(SearchOperationType.LockLocalElementsForPatternpath,
-                null, null, costToEnd);
         }
 
         public int CompareTo(SearchOperation other)

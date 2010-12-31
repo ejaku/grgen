@@ -37,11 +37,20 @@ public abstract class GraphEntity extends Entity {
 
 	/** The interface type of the parameter if any. */
 	protected InheritanceType parameterInterfaceType = null;
+	
+	/** The storage from which to get the node or edge, if any */
+	protected Variable storage = null;
+
+	/** The accessor for the storagemap from which to get the node or edge, if any */
+	protected GraphEntity accessor = null;
 
 	protected Collection<? extends InheritanceType> constraints = Collections.emptySet();
 
 	private boolean maybeDeleted;
 	private boolean maybeRetyped;
+	
+	/** Dependencies because of match by storage access (element must be matched before storage map access with it)*/
+	protected int dependencyLevel = 0;
 
 	/**
 	 * Make a new graph entity of a given type.
@@ -159,6 +168,30 @@ public abstract class GraphEntity extends Entity {
 
 	public InheritanceType getParameterInterfaceType() {
 		return parameterInterfaceType;
+	}
+	
+	public void setStorage(Variable storage) {
+		this.storage = storage;
+	}
+
+	public Variable getStorage() {
+		return storage;
+	}
+	
+	public void setAccessor(GraphEntity accessor) {
+		this.accessor = accessor;
+	}
+
+	public GraphEntity getAccessor() {
+		return accessor;
+	}
+	
+	public void incrementDependencyLevel() {
+		++dependencyLevel;
+	}
+	
+	public int getDependencyLevel() {
+		return dependencyLevel;
 	}
 
 	public final Collection<InheritanceType> getConstraints() {

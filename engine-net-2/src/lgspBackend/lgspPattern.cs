@@ -102,6 +102,26 @@ namespace de.unika.ipd.grGen.lgsp
         public bool MaybeNull;
 
         /// <summary>
+        /// If not null this pattern element is to be bound by iterating the given storage.
+        /// </summary>
+        public PatternVariable Storage;
+
+        /// <summary>
+        /// If not null this pattern element is to be determined by map lookup,
+        /// with the accessor given here applied as index into the storage map given in the Storage field.
+        /// </summary>
+        public PatternElement Accessor;
+
+        ////////////////////////////////////////////////////////////////////////////
+
+        /// <summary>
+        /// plan graph node corresponding to this pattern element, used in plan graph generation, just hacked into this place
+        /// </summary>
+        public PlanNode TempPlanMapping;
+
+        ////////////////////////////////////////////////////////////////////////////
+
+        /// <summary>
         /// Instantiates a new PatternElement object.
         /// </summary>
         /// <param name="typeID">The type ID of the pattern element.</param>
@@ -117,10 +137,14 @@ namespace de.unika.ipd.grGen.lgsp
         /// <param name="cost">Default cost/priority from frontend, user priority if given.</param>
         /// <param name="parameterIndex">Specifies to which rule parameter this pattern element corresponds.</param>
         /// <param name="maybeNull">Tells whether this pattern element may be null (is a parameter if true).</param>
+        /// <param name="storage">If not null this pattern element is to be bound by iterating the given storage.</param>
+        /// <param name="accessor">If not null this pattern element is to be determined by map lookup,
+        ///     with the accessor given here applied as index into the storage map given in the storage parameter.</param>
         public PatternElement(int typeID, String typeName, 
             String name, String unprefixedName, 
             GrGenType[] allowedTypes, bool[] isAllowedType, 
-            float cost, int parameterIndex, bool maybeNull)
+            float cost, int parameterIndex, bool maybeNull,
+            PatternVariable storage, PatternElement accessor)
         {
             this.TypeID = typeID;
             this.typeName = typeName;
@@ -131,6 +155,8 @@ namespace de.unika.ipd.grGen.lgsp
             this.Cost = cost;
             this.ParameterIndex = parameterIndex;
             this.MaybeNull = maybeNull;
+            this.Storage = storage;
+            this.Accessor = accessor;
         }
 
         /// <summary>
@@ -149,11 +175,6 @@ namespace de.unika.ipd.grGen.lgsp
     public class PatternNode : PatternElement, IPatternNode
     {
         /// <summary>
-        /// plan graph node corresponding to this pattern node, used in plan graph generation, just hacked into this place
-        /// </summary>
-        public PlanNode TempPlanMapping;
-
-        /// <summary>
         /// Instantiates a new PatternNode object
         /// </summary>
         /// <param name="typeID">The type ID of the pattern node</param>
@@ -169,11 +190,15 @@ namespace de.unika.ipd.grGen.lgsp
         /// <param name="cost"> default cost/priority from frontend, user priority if given</param>
         /// <param name="parameterIndex">Specifies to which rule parameter this pattern element corresponds</param>
         /// <param name="maybeNull">Tells whether this pattern node may be null (is a parameter if true).</param>
+        /// <param name="storage">If not null this pattern node is to be bound by iterating the given storage.</param>
+        /// <param name="accessor">If not null this pattern node is to be determined by map lookup,
+        ///     with the accessor given here applied as index into the storage map given in the storage parameter.</param>
         public PatternNode(int typeID, String typeName,
             String name, String unprefixedName,
             GrGenType[] allowedTypes, bool[] isAllowedType, 
-            float cost, int parameterIndex, bool maybeNull)
-            : base(typeID, typeName, name, unprefixedName, allowedTypes, isAllowedType, cost, parameterIndex, maybeNull)
+            float cost, int parameterIndex, bool maybeNull,
+            PatternVariable storage, PatternElement accessor)
+            : base(typeID, typeName, name, unprefixedName, allowedTypes, isAllowedType, cost, parameterIndex, maybeNull, storage, accessor)
         {
         }
 
@@ -214,12 +239,16 @@ namespace de.unika.ipd.grGen.lgsp
         /// <param name="cost"> default cost/priority from frontend, user priority if given</param>
         /// <param name="parameterIndex">Specifies to which rule parameter this pattern element corresponds</param>
         /// <param name="maybeNull">Tells whether this pattern edge may be null (is a parameter if true).</param>
+        /// <param name="storage">If not null this pattern edge is to be bound by iterating the given storage.</param>
+        /// <param name="accessor">If not null this pattern edge is to be determined by map lookup,
+        ///     with the accessor given here applied as index into the storage map given in the storage parameter.</param>
         public PatternEdge(bool fixedDirection,
             int typeID, String typeName, 
             String name, String unprefixedName,
             GrGenType[] allowedTypes, bool[] isAllowedType,
-            float cost, int parameterIndex, bool maybeNull)
-            : base(typeID, typeName, name, unprefixedName, allowedTypes, isAllowedType, cost, parameterIndex, maybeNull)
+            float cost, int parameterIndex, bool maybeNull,
+            PatternVariable storage, PatternElement accessor)
+            : base(typeID, typeName, name, unprefixedName, allowedTypes, isAllowedType, cost, parameterIndex, maybeNull, storage, accessor)
         {
             this.fixedDirection = fixedDirection;
         }

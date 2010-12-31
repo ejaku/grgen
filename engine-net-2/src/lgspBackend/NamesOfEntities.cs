@@ -71,6 +71,24 @@ namespace de.unika.ipd.grGen.lgsp
         }
 
         /// <summary>
+        /// Returns name of the dictionary entry variable which will be created within the search program
+        /// holding the dictionary entry (key-value-pair) of the storage to pick an element from
+        /// </summary>
+        public static string CandidateIterationDictionaryEntry(string patternElementName)
+        {
+            return "storage_candidate_" + patternElementName;
+        }
+
+        /// <summary>
+        /// Returns name of the temporary variable which will be created within the search program
+        /// for retrieving the element via TryGet from the storage map; must be casted to the needed type afterwards
+        /// </summary>
+        public static string MapWithStorageTemporary(string patternElementName)
+        {
+            return "map_with_storage_temporary_" + patternElementName;
+        }
+
+        /// <summary>
         /// Returns name of the method called when a maybe preset element is not set
         /// </summary>
         public static string MissingPresetHandlingMethod(string patternElementName)

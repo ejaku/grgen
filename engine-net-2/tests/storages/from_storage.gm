@@ -1,0 +1,17 @@
+node class N;
+node class NN extends N;
+node class M
+{
+	x:int;
+}
+
+edge class E;
+edge class EE extends E;
+edge class F
+{
+	x:string;
+}
+undirected edge class G
+{
+	x:boolean;
+}

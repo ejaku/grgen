@@ -1,0 +1,55 @@
+new graph storages/edge_by_storage_access
+
+new n1:N
+new n2:Node
+new n2b:NN
+new n1 -e1:E-> n2
+new n2 -e1b:EE-> n2b
+new n3:NN
+new n4:Node
+new n4b:N
+new n3 -e2:EE-> n4
+new n4 -e2b:EE-> n4b
+new n5:NN
+new n6:Node
+new n6b:NN
+new n5 -e3:EE-> n6
+new n6 -e3b:EE-> n6b
+new n7:NN
+new n8:Node
+new n8b:NN
+new n7 -e4:EE-> n8
+new n8 -e4b:EE-> n8b
+new n9:NN
+new n10:Node
+new n10b:NN
+new n10b -e5b:EE-> n10
+new n10 -e5:EE-> n9
+new n11:NN
+new n12:Node
+new n12b:NN
+new n11 -e6:EE-> n12
+new n12 -e6b:E-> n12b
+show num nodes
+show num edges
+show num edges only "E"
+show num edges only "EE"
+show num nodes only "N"
+show num nodes only "NN"
+
+xgrs m=map<E,E>{}
+xgrs m.add(e1b,e1)
+xgrs m.add(e2b,e2)
+xgrs m.add(e3b,e3)
+xgrs m.add(e4b,e4)
+xgrs m.add(e5b,e5)
+xgrs m.add(e6b,e6)
+xgrs [r3(m)]
+show num nodes
+show num edges
+show num edges only "E"
+show num edges only "EE"
+show num nodes only "N"
+show num nodes only "NN"
+
+quit

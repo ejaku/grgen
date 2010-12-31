@@ -332,4 +332,47 @@ public class Rule extends MatchingAction {
 
 		return false;
 	}
+
+	public void setDependencyLevelByStorageMapAccess() {
+		PatternGraph left = getLeft();
+		final int MAX_CHAINING_FOR_STORAGE_MAP_ACCESS = 1000;
+		int dependencyLevel=0;
+		boolean somethingChanged;
+		do {
+			somethingChanged = false;
+			
+			for(Node node : left.getNodes()) {
+				if(node.getStorage()!=null && node.getAccessor()!=null) {
+					if(node.getDependencyLevel()<=node.getAccessor().getDependencyLevel()) {
+						node.incrementDependencyLevel();
+						dependencyLevel = Math.max(node.getDependencyLevel(), dependencyLevel);
+						somethingChanged = true;
+					}
+				}
+			}
+			for(Edge edge : left.getEdges()) {
+				if(edge.getStorage()!=null && edge.getAccessor()!=null) {
+					if(edge.getDependencyLevel()<=edge.getAccessor().getDependencyLevel()) {
+						edge.incrementDependencyLevel();
+						dependencyLevel = Math.max(edge.getDependencyLevel(), dependencyLevel);
+						somethingChanged = true;
+					}
+				}
+			}
+			if(dependencyLevel>=MAX_CHAINING_FOR_STORAGE_MAP_ACCESS) {
+				error.error("Cycle in match node/edge by storage map access.");
+				break;
+			}
+		} while(somethingChanged);
+		
+		for(Alternative alternative : pattern.getAlts()) {
+			for(Rule altCase : alternative.getAlternativeCases()) {
+				altCase.setDependencyLevelByStorageMapAccess();
+			}
+		}
+
+		for(Rule iterated : pattern.getIters()) {
+			iterated.setDependencyLevelByStorageMapAccess();
+		}
+	}
 }

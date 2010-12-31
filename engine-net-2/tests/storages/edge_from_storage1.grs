@@ -1,0 +1,49 @@
+new graph storages/edge_from_storage
+
+new n1:N
+new n2:Node
+new n3:Node
+new n1 -e1:Edge-> n2
+new n2 -e2:Edge-> n3
+
+xgrs s=set<Edge>{}
+xgrs r1(s)
+show num nodes
+show num edges
+show num nodes only "N"
+
+xgrs s.add(e1)
+xgrs r1(s)
+show num nodes
+show num edges
+show num nodes only "N"
+
+new n3:Node
+new n2 -e2:Edge-> n3
+
+xgrs s.rem(e1)
+xgrs s.add(e2)
+xgrs r1(s)
+show num nodes
+show num edges
+show num nodes only "N"
+
+new n1b:NN
+new n2b:Node
+new n3b:NN
+new n1b -e1b:Edge-> n2b
+new n2b -e2b:Edge-> n3b
+show num nodes
+show num edges
+show num nodes only "N"
+show num nodes only "NN"
+
+xgrs s.add(e2b)
+xgrs s.add(e1)
+xgrs [r1(s)]
+show num nodes
+show num edges
+show num nodes only "N"
+show num nodes only "NN"
+
+quit

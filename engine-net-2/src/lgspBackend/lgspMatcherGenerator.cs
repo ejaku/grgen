@@ -95,7 +95,10 @@ namespace de.unika.ipd.grGen.lgsp
             //     to a plan graph node created by one of the outgoing edges of the pattern node
             // Ensured: there's no plan graph edge with a preset element as target besides the lookup,
             //     so presets are only search operation sources
-
+            // Create "pick" from storage plan graph edge for plan graph nodes which are to picked from a storage,
+            //     from root node on, no lookup here, no other plan graph edge having this node as target
+            // Create "map" by storage plan graph edge from accessor to storage mapping result
+            //     no lookup, no other plan graph edge having this node as target
 
             PlanNode[] planNodes = new PlanNode[patternGraph.Nodes.Length + patternGraph.Edges.Length];
             // upper bound for num of edges (lookup nodes + lookup edges + impl. tgt + impl. src + incoming + outgoing)
@@ -133,6 +136,29 @@ namespace de.unika.ipd.grGen.lgsp
                     isPreset = true;
                     searchOperationType = isNegativeOrIndependent ? SearchOperationType.NegIdptPreset : SearchOperationType.SubPreset;
                 }
+                else if(node.Storage != null)
+                {
+                    if(node.Accessor != null)
+                    {
+#if OPCOST_WITH_GEO_MEAN 
+                        cost = 0;
+#else
+                        cost = 1;
+#endif
+                        isPreset = false;
+                        searchOperationType = SearchOperationType.Void; // the accessor is needed, so there is no lookup like operation
+                    }
+                    else
+                    {
+#if OPCOST_WITH_GEO_MEAN 
+                        cost = 0;
+#else
+                        cost = 1;
+#endif
+                        isPreset = false;
+                        searchOperationType = SearchOperationType.PickFromStorage; // pick from storage instead of lookup from graph
+                    }
+                }
                 else
                 {
 #if OPCOST_WITH_GEO_MEAN
@@ -144,10 +170,12 @@ namespace de.unika.ipd.grGen.lgsp
                     searchOperationType = SearchOperationType.Lookup;
                 }
                 planNodes[nodesIndex] = new PlanNode(node, i + 1, isPreset);
-                PlanEdge rootToNodePlanEdge = new PlanEdge(searchOperationType, planRoot, planNodes[nodesIndex], cost);
-                planEdges.Add(rootToNodePlanEdge);
-                planNodes[nodesIndex].IncomingEdges.Add(rootToNodePlanEdge);
-
+                if(searchOperationType != SearchOperationType.Void)
+                {
+                    PlanEdge rootToNodePlanEdge = new PlanEdge(searchOperationType, planRoot, planNodes[nodesIndex], cost);
+                    planEdges.Add(rootToNodePlanEdge);
+                    planNodes[nodesIndex].IncomingEdges.Add(rootToNodePlanEdge);
+                }
                 node.TempPlanMapping = planNodes[nodesIndex];
 
                 ++nodesIndex;
@@ -169,7 +197,6 @@ namespace de.unika.ipd.grGen.lgsp
 #else
                     cost = 1;
 #endif
-
                     isPreset = true;
                     searchOperationType = isSubpattern ? SearchOperationType.SubPreset : SearchOperationType.ActionPreset;
                 }
@@ -180,9 +207,31 @@ namespace de.unika.ipd.grGen.lgsp
 #else
                     cost = 1;
 #endif
-
                     isPreset = true;
                     searchOperationType = isNegativeOrIndependent ? SearchOperationType.NegIdptPreset : SearchOperationType.SubPreset;
+                }
+                else if(edge.Storage != null)
+                {
+                    if(edge.Accessor != null)
+                    {
+#if OPCOST_WITH_GEO_MEAN 
+                        cost = 0;
+#else
+                        cost = 1;
+#endif
+                        isPreset = false;
+                        searchOperationType = SearchOperationType.Void; // the accessor is needed, so there is no lookup like operation
+                    }
+                    else
+                    {
+#if OPCOST_WITH_GEO_MEAN 
+                        cost = 0;
+#else
+                        cost = 1;
+#endif
+                        isPreset = false;
+                        searchOperationType = SearchOperationType.PickFromStorage; // pick from storage instead of lookup from graph
+                    }
                 }
                 else
                 {
@@ -211,10 +260,12 @@ namespace de.unika.ipd.grGen.lgsp
                 planNodes[nodesIndex] = new PlanNode(edge, i + 1, isPreset,
                     patternGraph.GetSource(edge)!=null ? patternGraph.GetSource(edge).TempPlanMapping : null,
                     patternGraph.GetTarget(edge)!=null ? patternGraph.GetTarget(edge).TempPlanMapping : null);
-
-                PlanEdge rootToNodePlanEdge = new PlanEdge(searchOperationType, planRoot, planNodes[nodesIndex], cost);
-                planEdges.Add(rootToNodePlanEdge);
-                planNodes[nodesIndex].IncomingEdges.Add(rootToNodePlanEdge);
+                if(searchOperationType != SearchOperationType.Void)
+                {
+                    PlanEdge rootToNodePlanEdge = new PlanEdge(searchOperationType, planRoot, planNodes[nodesIndex], cost);
+                    planEdges.Add(rootToNodePlanEdge);
+                    planNodes[nodesIndex].IncomingEdges.Add(rootToNodePlanEdge);
+                }
 #else
                 SearchOperationType searchOperationType = SearchOperationType.Lookup; // lookup as dummy
                 if(edge.PatternElementType == PatternElementType.Preset)
@@ -241,8 +292,11 @@ namespace de.unika.ipd.grGen.lgsp
                     planNodes[nodesIndex].IncomingEdges.Add(rootToNodePlanEdge);
                 }
 #endif
-                // only add implicit source operation if edge source is needed and the edge source is not a preset node
-                if(patternGraph.GetSource(edge) != null && !patternGraph.GetSource(edge).TempPlanMapping.IsPreset)
+
+                // only add implicit source operation if edge source is needed and the edge source is not a preset node and not a storage node
+                if(patternGraph.GetSource(edge) != null 
+                    && !patternGraph.GetSource(edge).TempPlanMapping.IsPreset
+                    && patternGraph.GetSource(edge).Storage == null)
                 {
                     SearchOperationType operation = edge.fixedDirection ?
                         SearchOperationType.ImplicitSource : SearchOperationType.Implicit;
@@ -257,8 +311,10 @@ namespace de.unika.ipd.grGen.lgsp
                     planEdges.Add(implSrcPlanEdge);
                     patternGraph.GetSource(edge).TempPlanMapping.IncomingEdges.Add(implSrcPlanEdge);
                 }
-                // only add implicit target operation if edge target is needed and the edge target is not a preset node
-                if(patternGraph.GetTarget(edge) != null && !patternGraph.GetTarget(edge).TempPlanMapping.IsPreset)
+                // only add implicit target operation if edge target is needed and the edge target is not a preset node and not a storage node
+                if(patternGraph.GetTarget(edge) != null 
+                    && !patternGraph.GetTarget(edge).TempPlanMapping.IsPreset
+                    && patternGraph.GetTarget(edge).Storage == null)
                 {
                     SearchOperationType operation = edge.fixedDirection ?
                         SearchOperationType.ImplicitTarget : SearchOperationType.Implicit;
@@ -273,10 +329,10 @@ namespace de.unika.ipd.grGen.lgsp
                     patternGraph.GetTarget(edge).TempPlanMapping.IncomingEdges.Add(implTgtPlanEdge);
                 }
 
-                // edge must only be reachable from other nodes if it's not a preset
-                if(!isPreset)
+                // edge must only be reachable from other nodes if it's not a preset and not storage determined
+                if(!isPreset && edge.Storage == null)
                 {
-                    // no outgoing if no source
+                    // no outgoing on source node if no source
                     if(patternGraph.GetSource(edge) != null)
                     {
                         int targetTypeID;
@@ -306,7 +362,7 @@ namespace de.unika.ipd.grGen.lgsp
                         planNodes[nodesIndex].IncomingEdges.Add(outPlanEdge);
                     }
 
-                    // no incoming if no target
+                    // no incoming on target node if no target
                     if(patternGraph.GetTarget(edge) != null)
                     {
                         int sourceTypeID;
@@ -338,6 +394,51 @@ namespace de.unika.ipd.grGen.lgsp
                 }
 
                 ++nodesIndex;
+            }
+
+            ////////////////////////////////////////////////////////////////////////////
+            // second run handling storage mapping (dependencies between elements)
+
+            // create map with storage plan edges for all pattern graph nodes which are the result of a mapping operation
+            for(int i = 0; i < patternGraph.Nodes.Length; ++i)
+            {
+                PatternNode node = patternGraph.nodes[i];
+                if(node.PointOfDefinition == patternGraph)
+                {
+                    if(node.Storage != null && node.Accessor != null)
+                    {
+#if OPCOST_WITH_GEO_MEAN 
+                        PlanEdge storAccessPlanEdge = new PlanEdge(SearchOperationType.MapWithStorage,
+                            node.Accessor.TempPlanMapping, node.TempPlanMapping, 0);
+#else
+                        PlanEdge storAccessPlanEdge = new PlanEdge(SearchOperationType.MapWithStorage,
+                            node.Accessor.TempPlanMapping, node.TempPlanMapping, 1);
+#endif
+                        planEdges.Add(storAccessPlanEdge);
+                        node.TempPlanMapping.IncomingEdges.Add(storAccessPlanEdge);
+                    }
+                }
+            }
+
+            // create map with storage plan edges for all pattern graph edges which are the result of a mapping operation
+            for(int i = 0; i < patternGraph.Edges.Length; ++i)
+            {
+                PatternEdge edge = patternGraph.edges[i];
+                if(edge.PointOfDefinition == patternGraph)
+                {
+                    if(edge.Storage != null && edge.Accessor != null)
+                    {
+#if OPCOST_WITH_GEO_MEAN 
+                        PlanEdge storAccessPlanEdge = new PlanEdge(SearchOperationType.MapWithStorage,
+                            edge.Accessor.TempPlanMapping, edge.TempPlanMapping, 0);
+#else
+                        PlanEdge storAccessPlanEdge = new PlanEdge(SearchOperationType.MapWithStorage,
+                            edge.Accessor.TempPlanMapping, edge.TempPlanMapping, 1);
+#endif
+                        planEdges.Add(storAccessPlanEdge);
+                        edge.TempPlanMapping.IncomingEdges.Add(storAccessPlanEdge);
+                    }
+                }
             }
 
             return new PlanGraph(planRoot, planNodes, planEdges.ToArray());
@@ -790,7 +891,21 @@ exitSecondLoop: ;
                     SearchOperation newOp = new SearchOperation(
                         isNegativeOrIndependent ? SearchOperationType.NegIdptPreset : edge.Type,
                         edge.Target, spGraph.Root, 0);
+                    operations.Add(newOp);
+                }
+            }
 
+            // then schedule all pick from storage elements
+            foreach(SearchPlanEdge edge in spGraph.Root.OutgoingEdges)
+            {
+                if(edge.Type==SearchOperationType.PickFromStorage)
+                {
+                    foreach(SearchPlanEdge edgeOutgoingFromPickedElement in edge.Target.OutgoingEdges)
+                        activeEdges.Add(edgeOutgoingFromPickedElement);
+
+                    SearchOperation newOp = new SearchOperation(edge.Type,
+                        edge.Target, spGraph.Root, 0);
+                    newOp.Storage = edge.Target.PatternElement.Storage;
                     operations.Add(newOp);
                 }
             }
@@ -798,16 +913,18 @@ exitSecondLoop: ;
             // iterate over all reachable elements until the whole graph has been scheduled(/visited),
             // choose next cheapest operation, update the reachable elements and the search plan costs
             SearchPlanNode lastNode = spGraph.Root;
-            for(int i = 0; i < spGraph.Nodes.Length - spGraph.NumPresetElements; ++i)
+            for(int i = 0; i < spGraph.Nodes.Length - spGraph.NumPresetElements - spGraph.NumPickedElements; ++i)
             {
                 foreach (SearchPlanEdge edge in lastNode.OutgoingEdges)
-                    if (!edge.Target.IsPreset) activeEdges.Add(edge);
+                    if (!edge.Target.IsPreset && (edge.Target.PatternElement.Storage==null || edge.Target.PatternElement.Accessor!=null))
+                        activeEdges.Add(edge);
 
                 SearchPlanEdge minEdge = activeEdges.DequeueFirst();
                 lastNode = minEdge.Target;
 
                 SearchOperation newOp = new SearchOperation(minEdge.Type,
                     lastNode, minEdge.Source, minEdge.Cost);
+                newOp.Storage = minEdge.Target.PatternElement.Storage;
 
                 foreach(SearchOperation op in operations)
                     op.CostToEnd += minEdge.Cost;
