@@ -77,17 +77,17 @@ namespace de.unika.ipd.grGen.lgsp
                     Type valueType;
                     DictionaryHelper.GetDictionaryTypes(typeOfVar, out keyType, out valueType);
                     if (valueType.Name == "SetValueType")
-                        return "set<" + DotNetTypeToXgrsType(keyType.Name, false) + ">";
+                        return "set<" + DotNetTypeToXgrsType(keyType.Name) + ">";
                     else
-                        return "map<" + DotNetTypeToXgrsType(keyType.Name, false) + "," + DotNetTypeToXgrsType(valueType.Name, false) + ">";
+                        return "map<" + DotNetTypeToXgrsType(keyType.Name) + "," + DotNetTypeToXgrsType(valueType.Name) + ">";
                 }
-                return DotNetTypeToXgrsType(type.Name, false);
+                return DotNetTypeToXgrsType(type.Name);
             }
 
             return type.Name;
         }
 
-        private static String DotNetTypeToXgrsType(String typeName, bool withIPrefix)
+        private static String DotNetTypeToXgrsType(String typeName)
         {
             switch (typeName)
             {
@@ -101,7 +101,7 @@ namespace de.unika.ipd.grGen.lgsp
 
             if (typeName.StartsWith("ENUM_")) return typeName.Substring(5);
 
-            return withIPrefix ? typeName.Substring(1) : typeName;
+            return typeName.Substring(1);
         }
 
         public static String AttributeTypeToXgrsType(AttributeType attributeType)
@@ -172,13 +172,13 @@ namespace de.unika.ipd.grGen.lgsp
                 Type valueType;
                 DictionaryHelper.GetDictionaryTypes(constant, out keyType, out valueType);
                 if(valueType == typeof(de.unika.ipd.grGen.libGr.SetValueType)) {
-                    return "set<" + DotNetTypeToXgrsType(keyType.Name, true) + ">";
+                    return "set<" + DotNetTypeToXgrsType(keyType.Name) + ">";
                 } else {
-                    return "map<" + DotNetTypeToXgrsType(keyType.Name, true) + "," + DotNetTypeToXgrsType(valueType.Name, true) + ">";
+                    return "map<" + DotNetTypeToXgrsType(keyType.Name) + "," + DotNetTypeToXgrsType(valueType.Name) + ">";
                 }
             }
 
-            return DotNetTypeToXgrsType(constant.GetType().Name, true);
+            return DotNetTypeToXgrsType(constant.GetType().Name);
         }
 
         public static String ExtractSrc(String setmapType)

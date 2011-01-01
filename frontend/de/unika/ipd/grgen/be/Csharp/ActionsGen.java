@@ -956,8 +956,8 @@ public class ActionsGen extends CSharpBase {
 				appendPrio(sb, node, max);
 				sb.append(parameters.indexOf(node)+", ");
 				sb.append(node.getMaybeNull() ? "true, " : "false, ");
-				sb.append((node.getStorage()!=null ? formatEntity(node.getStorage(), pathPrefixForElements): "null")+", ");
-				sb.append((node.getAccessor()!=null ? formatEntity(node.getAccessor(), pathPrefixForElements): "null")+");\n");
+				sb.append((node.getStorage()!=null ? formatEntity(node.getStorage(), pathPrefixForElements, alreadyDefinedEntityToName): "null")+", ");
+				sb.append((node.getAccessor()!=null ? formatEntity(node.getAccessor(), pathPrefixForElements, alreadyDefinedEntityToName): "null")+");\n");
 				alreadyDefinedEntityToName.put(node, nodeName);
 				aux.append("\t\t\t" + nodeName + ".pointOfDefinition = " + (parameters.indexOf(node)==-1 ? patGraphVarName : "null") + ";\n");
 				addAnnotations(aux, node, nodeName+".annotations");
@@ -984,8 +984,8 @@ public class ActionsGen extends CSharpBase {
 				appendPrio(sb, edge, max);
 				sb.append(parameters.indexOf(edge)+", ");
 				sb.append(edge.getMaybeNull()?"true, ":"false, ");
-				sb.append((edge.getStorage()!=null ? formatEntity(edge.getStorage(), pathPrefixForElements): "null")+", ");
-				sb.append((edge.getAccessor()!=null ? formatEntity(edge.getAccessor(), pathPrefixForElements): "null")+");\n");
+				sb.append((edge.getStorage()!=null ? formatEntity(edge.getStorage(), pathPrefixForElements, alreadyDefinedEntityToName): "null")+", ");
+				sb.append((edge.getAccessor()!=null ? formatEntity(edge.getAccessor(), pathPrefixForElements, alreadyDefinedEntityToName): "null")+");\n");
 				alreadyDefinedEntityToName.put(edge, edgeName);
 				aux.append("\t\t\t" + edgeName + ".pointOfDefinition = " + (parameters.indexOf(edge)==-1 ? patGraphVarName : "null") + ";\n");
 				addAnnotations(aux, edge, edgeName+".annotations");

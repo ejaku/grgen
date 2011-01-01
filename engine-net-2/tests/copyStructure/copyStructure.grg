@@ -1,0 +1,82 @@
+using copyStructure;
+
+rule copySubgraph(root:Node, ref oldToNew:map<Node, Node>, ref alreadyCopied:set<Edge>)
+{
+  cs:CopySubgraph(root, oldToNew, alreadyCopied);
+
+  modify {
+    cs();
+  }
+}
+
+pattern CopySubgraph(root:Node, ref oldToNew:map<Node, Node>, ref alreadyCopied:set<Edge>)
+{
+  iterated { // copy nodes found along spanning tree of graph from root on, then copy edges with exec
+    root <--> ch:Node;   	
+    cs:CopySubgraph(ch, oldToNew, alreadyCopied);
+    
+    modify {
+      cs();
+    }
+  }
+  
+  modify {
+    newroot:copy<root>;
+    eval { oldToNew.add(root, newroot); }
+    exec( [CopyOutgoingEdge(root, oldToNew, alreadyCopied)] );
+  }
+}
+
+rule CopyOutgoingEdge(n:Node, ref oldToNew:map<Node, Node>, ref alreadyCopied:set<Edge>)
+{
+  n -e:Edge-> m:Node; hom(n,m);
+  if { !(e in alreadyCopied); }
+  nn:Node<oldToNew[n]>; nm:Node<oldToNew[m]>; hom(nn,nm);
+    
+  modify {
+    nn -ee:copy<e>-> nm;
+    eval { alreadyCopied.add(e); }
+  }
+}
+
+rule init1 : (Node, Node)
+{
+  modify {
+    n1:Node -:E-> n2a:NN --> n3:NNN;
+    n1 -:E-> n2b:N --> n3;
+    n3 -:EE-> n4:NN -:EE-> n1;
+    n1 -e:E-> n4 --> n4;
+    eval {
+      e.a = 1337;
+	  n4.c = "DEADBEEF";
+    }
+	return(n1,n3);
+  }
+}
+
+rule init2 : (Node)
+{
+  modify {
+    n1:Node -:E-> n2:NN -:E-> n1;
+    n2 --> n1; n2 --> n2;
+	return(n1);
+  }
+}
+
+test check1
+{
+  n1:Node -:E-> n2a:NN --> n3:NNN;
+  n1 -:E-> n2b:N --> n3;
+  n3 -:EE-> n4:NN -:EE-> n1;
+  n1 -e:E-> n4 --> n4;
+  if {
+      e.a == 1337;
+	  n4.c == "DEADBEEF";
+  }
+}
+
+test check2(n1:Node<null>)
+{
+    n1 -:E-> n2:NN -:E-> n1;
+    n2 --> n1; n2 --> n2;
+}

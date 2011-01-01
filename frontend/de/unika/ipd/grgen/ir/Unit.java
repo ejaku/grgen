@@ -308,6 +308,11 @@ public class Unit extends IR {
 				}
 			}
 		} while(changed);
+		
+		// final step: remove the information again from the subpatterns to prevent the exec-dequeing code being called from there
+		for(Rule subpatternRule : subpatternRules) {
+			subpatternRule.mightThereBeDeferredExecs = false;
+		}
 	}
 	
 	public void resolvePatternLockedModifier() {

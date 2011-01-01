@@ -645,6 +645,51 @@ public class PatternGraphNode extends GraphNode {
 			}
 		}
 
+		// add elements only mentioned in "map by / draw from storage" entities to the IR
+		// (they're declared in an enclosing graph and locally only show up in the "map by / draw from storage" node)
+		for(Node node : gr.getNodes()) {
+			if(node.getStorage()!=null) {
+				if(!gr.hasVar(node.getStorage())) {
+					gr.addVariable(node.getStorage());
+				}
+
+				if(node.getAccessor()!=null && node.getAccessor() instanceof Node) {
+					Node neededNode = (Node)node.getAccessor();
+					if(!gr.hasNode(neededNode)) {
+						gr.addSingleNode(neededNode);
+						gr.addHomToAll(neededNode);
+					}					
+				} else if(node.getAccessor()!=null && node.getAccessor() instanceof Edge) {
+					Edge neededEdge = (Edge)node.getAccessor();
+					if(!gr.hasEdge(neededEdge)) {
+						gr.addSingleEdge(neededEdge);	// TODO: maybe we lose context here
+						gr.addHomToAll(neededEdge);
+					}					
+				}
+			}
+		}
+		for(Edge edge : gr.getEdges()) {
+			if(edge.getStorage()!=null) {
+				if(!gr.hasVar(edge.getStorage())) {
+					gr.addVariable(edge.getStorage());
+				}
+
+				if(edge.getAccessor()!=null && edge.getAccessor() instanceof Node) {
+					Node neededNode = (Node)edge.getAccessor();
+					if(!gr.hasNode(neededNode)) {
+						gr.addSingleNode(neededNode);
+						gr.addHomToAll(neededNode);
+					}					
+				} else if(edge.getAccessor()!=null && edge.getAccessor() instanceof Edge) {
+					Edge neededEdge = (Edge)edge.getAccessor();
+					if(!gr.hasEdge(neededEdge)) {
+						gr.addSingleEdge(neededEdge);	// TODO: maybe we lose context here
+						gr.addHomToAll(neededEdge);
+					}					
+				}
+			}
+		}
+		
 		// add negative parts to the IR
 		for (PatternGraphNode pgn : negs.getChildren()) {
 			PatternGraph neg = pgn.getPatternGraph();

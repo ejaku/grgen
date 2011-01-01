@@ -1,0 +1,29 @@
+node class N
+{
+	a:int = 42;
+	c:string = "foo";
+}
+
+node class NN extends N
+{
+	a = 0;
+	c = "fool";
+}
+
+node class NNN extends NN
+{
+	a = 1;
+	c = "foolish";
+}
+
+edge class E
+{
+	a:int = 42;
+	c:string = "eeh";
+}
+
+edge class EE
+{
+	a:int = 1;
+	c:string = "bleeh";
+}

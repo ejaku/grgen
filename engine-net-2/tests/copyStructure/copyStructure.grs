@@ -1,0 +1,77 @@
+new graph copyStructure/copyStructure
+
+xgrs [check1]
+show num nodes
+show num edges
+show num nodes only "N"
+show num nodes only "NN"
+show num nodes only "NNN"
+show num edges only "E"
+show num edges only "EE"
+
+xgrs (n1,n3)=init1
+xgrs [check1]
+show num nodes
+show num edges
+show num nodes only "N"
+show num nodes only "NN"
+show num nodes only "NNN"
+show num edges only "E"
+show num edges only "EE"
+
+xgrs oldToNew=map<Node, Node>{} | alreadyCopied=set<Edge>{}
+xgrs copySubgraph(n1, oldToNew, alreadyCopied)
+xgrs [check1]
+show num nodes
+show num edges
+show num nodes only "N"
+show num nodes only "NN"
+show num nodes only "NNN"
+show num edges only "E"
+show num edges only "EE"
+
+xgrs oldToNew.clear() | alreadyCopied.clear()
+xgrs copySubgraph(n3, oldToNew, alreadyCopied)
+xgrs [check1]
+show num nodes
+show num edges
+show num nodes only "N"
+show num nodes only "NN"
+show num nodes only "NNN"
+show num edges only "E"
+show num edges only "EE"
+
+xgrs m=null ;> (n)=init2
+xgrs [check2(n)]
+xgrs [check2(m)]
+show num nodes
+show num edges
+show num nodes only "N"
+show num nodes only "NN"
+show num nodes only "NNN"
+show num edges only "E"
+show num edges only "EE"
+
+xgrs oldToNew.clear() | alreadyCopied.clear()
+xgrs copySubgraph(n, oldToNew, alreadyCopied)
+xgrs [check2(n)]
+xgrs [check2(m)]
+show num nodes
+show num edges
+show num nodes only "N"
+show num nodes only "NN"
+show num nodes only "NNN"
+show num edges only "E"
+show num edges only "EE"
+
+xgrs [check1]
+
+show num nodes
+show num edges
+show num nodes only "N"
+show num nodes only "NN"
+show num nodes only "NNN"
+show num edges only "E"
+show num edges only "EE"
+
+quit

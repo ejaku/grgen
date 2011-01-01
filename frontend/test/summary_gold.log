@@ -89,6 +89,7 @@ OK     should_pass/cast_002.grg
 OK     should_pass/cast_003.grg
 OK     should_pass/conn_001.grg
 OK     should_pass/constr_001.grg
+OK     should_pass/copy.grg
 OK     should_pass/dangle_001.grg
 OK     should_pass/dangle_002.grg
 OK     should_pass/dangle_003.grg
@@ -127,6 +128,8 @@ OK     should_pass/edge_015.grg
 OK     should_pass/edge_016.grg
 OK     should_pass/edge_017.grg
 OK     should_pass/edge_018.grg
+OK     should_pass/edge_by_storage_access.grg
+OK     should_pass/edge_from_storage.grg
 OK     should_pass/emit_001.grg
 OK     should_pass/emit_002.grg
 OK     should_pass/emit_003.grg
@@ -222,6 +225,7 @@ OK     should_pass/exectype_VResetUntyped.grg
 OK     should_pass/exectype_VarPredicate.grg
 OK     should_pass/exectype_VarPredicateUntyped.grg
 OK     should_pass/external_001.grg
+OK     should_pass/from_storage.grg
 OK     should_pass/hom_001.grg
 OK     should_pass/hom_002.grg
 OK     should_pass/hom_003.grg
@@ -281,6 +285,8 @@ OK     should_pass/negative_002.grg
 OK     should_pass/negative_003.grg
 OK     should_pass/negative_004.grg
 OK     should_pass/nested_pattern_001.grg
+OK     should_pass/node_by_storage_access.grg
+OK     should_pass/node_from_storage.grg
 OK     should_pass/object_001.grg
 OK     should_pass/object_002.grg
 OK     should_pass/param_001.grg
@@ -313,6 +319,7 @@ OK     should_pass/pattern_015.grg
 OK     should_pass/pattern_016.grg
 OK     should_pass/pieter.grg
 OK     should_pass/randompeek.grg
+OK     should_pass/randomrule.grg
 OK     should_pass/record_001.grg
 OK     should_pass/ret_001.grg
 OK     should_pass/ret_002.grg
@@ -354,6 +361,7 @@ OK     should_pass/reuse_005.grg
 OK     should_pass/reuse_006.grg
 OK     should_pass/reuse_007.grg
 OK     should_pass/reuse_008.grg
+OK     should_pass/rewriteparametereval.grg
 OK     should_pass/same_node_name_as_model_name.grg
 OK     should_pass/sequence_nary_operators.grg
 OK     should_pass/sequence_some_from_set.grg
@@ -583,6 +591,8 @@ ERROR  should_fail/constr_001.grg
 ERROR  should_fail/constr_002.grg
 ERROR  should_fail/constr_003.grg
 ERROR  should_fail/constraint_in_replacement.grg
+ERROR  should_fail/copy.grg
+ERROR  should_fail/copyEdgeDangling.grg
 ERROR  should_fail/dangle_001.grg
 ERROR  should_fail/dangle_002.grg
 ERROR  should_fail/dangle_003.grg
@@ -692,9 +702,6 @@ ERROR  should_fail/exec_031.grg
 ERROR  should_fail/exec_032.grg
 ERROR  should_fail/exec_033.grg
 ERROR  should_fail/exec_034.grg
-ERROR  should_fail/exec_035a.grg
-ERROR  should_fail/exec_035b.grg
-ERROR  should_fail/exec_035c.grg
 ERROR  should_fail/exec_defined_twice.grg
 ERROR  should_fail/exec_disjoint_type_as_argument.grg
 ERROR  should_fail/exec_disjoint_type_returned.grg
@@ -764,6 +771,14 @@ ERROR  should_fail/exectype_SetmapRem3.grg
 FAILED should_fail/exectype_VFree.grg
 FAILED should_fail/exectype_VReset.grg
 FAILED should_fail/exectype_VarPredicate.grg
+ERROR  should_fail/from_storage_001.grg
+ERROR  should_fail/from_storage_002.grg
+ERROR  should_fail/from_storage_003a.grg
+ERROR  should_fail/from_storage_003b.grg
+ERROR  should_fail/from_storage_004a.grg
+ERROR  should_fail/from_storage_004b.grg
+ERROR  should_fail/from_storage_005.grg
+ERROR  should_fail/from_storage_006.grg
 ERROR  should_fail/hom_002.grg
 ERROR  should_fail/hom_003.grg
 ERROR  should_fail/hom_004.grg
@@ -980,6 +995,7 @@ ERROR  should_fail/set_008.grg
 ERROR  should_fail/strfunc_001.grg
 ERROR  should_fail/strfunc_002.grg
 ERROR  should_fail/strfunc_003.grg
+ERROR  should_fail/subinstantiateandrewrite.grg
 ERROR  should_fail/typeof_001.grg
 ERROR  should_fail/typeof_002.grg
 ERROR  should_fail/typeof_003.grg

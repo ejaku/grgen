@@ -17,3 +17,11 @@ test t3(ref m:map<Node, Node>)
 	y:Node<m[x]>;
 	z:Node<m[y]>;
 }
+
+test t4(ref m:map<Node, Node>)
+{
+	x:Node;
+	iterated {
+		y:Node<m[x]>;
+	}
+}

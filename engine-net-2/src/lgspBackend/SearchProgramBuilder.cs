@@ -2056,15 +2056,18 @@ namespace de.unika.ipd.grGen.lgsp
 
                 Dictionary<string, bool> neededNodes = new Dictionary<string, bool>();
                 Dictionary<string, bool> neededEdges = new Dictionary<string, bool>();
-                foreach (PatternGraph altCase in alternative.alternativeCases)
+                Dictionary<string, GrGenType> neededVariables = new Dictionary<string, GrGenType>();
+                foreach(PatternGraph altCase in alternative.alternativeCases)
                 {
                     foreach (KeyValuePair<string, bool> neededNode in altCase.neededNodes)
                         neededNodes[neededNode.Key] = neededNode.Value;
                     foreach (KeyValuePair<string, bool> neededEdge in altCase.neededEdges)
                         neededEdges[neededEdge.Key] = neededEdge.Value;
+                    foreach(KeyValuePair<string, GrGenType> neededVariable in altCase.neededVariables)
+                        neededVariables[neededVariable.Key] = neededVariable.Value;
                 }
 
-                int numElements = neededNodes.Count + neededEdges.Count;
+                int numElements = neededNodes.Count + neededEdges.Count + neededVariables.Count;
                 string[] connectionName = new string[numElements];
                 string[] argumentExpressions = new string[numElements];
                 int j = 0;
@@ -2084,7 +2087,14 @@ namespace de.unika.ipd.grGen.lgsp
                     argumentExpressions[j] = argumentExpression.ToString();
                     ++j;
                 }
-                // todo: needed VariableExpression
+                foreach(KeyValuePair<string, GrGenType> variable in neededVariables)
+                {
+                    connectionName[j] = variable.Key;
+                    SourceBuilder argumentExpression = new SourceBuilder();
+                    (new de.unika.ipd.grGen.expression.VariableExpression(variable.Key)).Emit(argumentExpression);
+                    argumentExpressions[j] = argumentExpression.ToString();
+                    ++j;
+                }
 
                 PushSubpatternTask pushTask =
                     new PushSubpatternTask(
@@ -2108,7 +2118,7 @@ namespace de.unika.ipd.grGen.lgsp
             {
                 PatternGraph iter = patternGraph.iterateds[i];
 
-                int numElements = iter.neededNodes.Count + iter.neededEdges.Count;
+                int numElements = iter.neededNodes.Count + iter.neededEdges.Count + iter.neededVariables.Count;
                 string[] connectionName = new string[numElements];
                 string[] argumentExpressions = new string[numElements]; 
                 int j = 0;
@@ -2128,7 +2138,14 @@ namespace de.unika.ipd.grGen.lgsp
                     argumentExpressions[j] = argumentExpression.ToString();
                     ++j;
                 }
-                // todo: needed VariableExpression
+                foreach(KeyValuePair<string, GrGenType> variable in iter.neededVariables)
+                {
+                    connectionName[j] = variable.Key;
+                    SourceBuilder argumentExpression = new SourceBuilder();
+                    (new de.unika.ipd.grGen.expression.VariableExpression(variable.Key)).Emit(argumentExpression);
+                    argumentExpressions[j] = argumentExpression.ToString();
+                    ++j;
+                }
 
                 PushSubpatternTask pushTask =
                     new PushSubpatternTask(
