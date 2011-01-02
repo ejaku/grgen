@@ -1,0 +1,24 @@
+new graph nodeReplacementGrammar/nodeReplacement
+
+dump set node NT color red
+dump set node T shape circle
+dump set edge E1 color blue
+dump set edge E2 color green
+
+xgrs init
+show num nodes
+show num edges
+show num nodes only NT
+show num nodes only T
+show num edges only E1
+show num edges only E2
+
+xgrs example
+show num nodes
+show num edges
+show num nodes only NT
+show num nodes only T
+show num edges only E1
+show num edges only E2
+
+quit

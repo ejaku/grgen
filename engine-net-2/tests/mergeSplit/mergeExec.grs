@@ -1,0 +1,23 @@
+new graph mergeSplit/mergeSplit
+
+debug set layout Hierarchic
+
+include mergeSplit/reducible.grsi
+
+show num nodes
+show num edges
+xgrs (T1+ | T2exec+ | T3+)*
+show num nodes
+show num edges
+
+clear graph
+
+include mergeSplit/irreducible.grsi
+
+show num nodes
+show num edges
+xgrs (T1+ | T2exec+ | T3+)*
+show num nodes
+show num edges
+
+quit

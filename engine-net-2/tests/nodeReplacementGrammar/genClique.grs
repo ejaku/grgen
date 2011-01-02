@@ -1,0 +1,25 @@
+new graph nodeReplacementGrammar/nodeReplacement
+
+debug set layout Circular
+dump set node NT color red
+dump set node T shape circle
+
+new :NT # one nonterminal node as seed
+show num nodes
+show num edges
+show num nodes only NT
+show num nodes only T
+
+xgrs cliqueStep[5]
+show num nodes
+show num edges
+show num nodes only NT
+show num nodes only T
+
+xgrs cliqueTerminal
+show num nodes
+show num edges
+show num nodes only NT
+show num nodes only T
+
+quit

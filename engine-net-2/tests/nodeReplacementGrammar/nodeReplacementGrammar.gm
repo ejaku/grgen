@@ -1,0 +1,9 @@
+// the nonterminal nodes
+node class NT;
+
+// the terminal nodes
+node class T;
+
+// the edge types
+edge class E1;
+edge class E2;

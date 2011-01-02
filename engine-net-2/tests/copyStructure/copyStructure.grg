@@ -1,19 +1,19 @@
 using copyStructure;
 
-rule copySubgraph(root:Node, ref oldToNew:map<Node, Node>, ref alreadyCopied:set<Edge>)
+rule copySubgraph(root:Node, ref oldToNew:map<Node, Node>)
 {
-  cs:CopySubgraph(root, oldToNew, alreadyCopied);
+  cs:CopySubgraph(root, oldToNew);
 
   modify {
     cs();
   }
 }
 
-pattern CopySubgraph(root:Node, ref oldToNew:map<Node, Node>, ref alreadyCopied:set<Edge>)
+pattern CopySubgraph(root:Node, ref oldToNew:map<Node, Node>)
 {
   iterated { // copy nodes found along spanning tree of graph from root on, then copy edges with exec
-    root <--> ch:Node;   	
-    cs:CopySubgraph(ch, oldToNew, alreadyCopied);
+    root <--> ch:Node;
+    cs:CopySubgraph(ch, oldToNew);
     
     modify {
       cs();
@@ -23,19 +23,19 @@ pattern CopySubgraph(root:Node, ref oldToNew:map<Node, Node>, ref alreadyCopied:
   modify {
     newroot:copy<root>;
     eval { oldToNew.add(root, newroot); }
-    exec( [CopyOutgoingEdge(root, oldToNew, alreadyCopied)] );
+    exec( [CopyOutgoingEdge(root, oldToNew)] );
   }
 }
 
-rule CopyOutgoingEdge(n:Node, ref oldToNew:map<Node, Node>, ref alreadyCopied:set<Edge>)
+rule CopyOutgoingEdge(n:Node, ref oldToNew:map<Node, Node>)
 {
-  n -e:Edge-> m:Node; hom(n,m);
-  if { !(e in alreadyCopied); }
-  nn:Node<oldToNew[n]>; nm:Node<oldToNew[m]>; hom(nn,nm);
+  n -e:Edge-> m:Node;
+  hom(n,m); // reflexive edges
+  nn:Node<oldToNew[n]>; nm:Node<oldToNew[m]>;
+  hom(nn,nm); // reflexive edges
     
   modify {
     nn -ee:copy<e>-> nm;
-    eval { alreadyCopied.add(e); }
   }
 }
 
@@ -48,9 +48,9 @@ rule init1 : (Node, Node)
     n1 -e:E-> n4 --> n4;
     eval {
       e.a = 1337;
-	  n4.c = "DEADBEEF";
+      n4.c = "DEADBEEF";
     }
-	return(n1,n3);
+    return(n1,n3);
   }
 }
 
@@ -59,7 +59,7 @@ rule init2 : (Node)
   modify {
     n1:Node -:E-> n2:NN -:E-> n1;
     n2 --> n1; n2 --> n2;
-	return(n1);
+    return(n1);
   }
 }
 
@@ -71,7 +71,7 @@ test check1
   n1 -e:E-> n4 --> n4;
   if {
       e.a == 1337;
-	  n4.c == "DEADBEEF";
+      n4.c == "DEADBEEF";
   }
 }
 

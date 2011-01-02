@@ -1,0 +1,110 @@
+using mergeSplit;
+
+///////////////////////////////////////////////////////////////
+// merging with iterated and copy
+
+rule T1
+{
+  n:BB -:cf-> n;
+  
+  replace {
+    n; // delete relexive edges
+  }
+}
+
+rule T2
+{
+  pred:BB -e:cf-> succ:BB;
+  negative {
+    -e->;
+    -:cf-> succ; // if succ has only one predecessor
+  }
+  iterated {
+    succ -ee:cf-> n:BB;
+    
+    modify { // then merge succ into this predecessor
+      pred -:copy<ee>-> n;
+    }
+  }
+  
+  modify { // then merge succ into this predecessor
+    delete(succ);
+  }
+}
+
+rule T3
+{
+  pred:BB -first:cf-> succ:BB;
+  pred    -other:cf-> succ;
+  
+  modify {
+    delete(other);
+  }
+}
+
+///////////////////////////////////////////////////////////////
+// merging with exec and copy
+
+rule T2exec
+{
+  pred:BB -e:cf-> succ:BB;
+  negative {
+    -e->;
+    -:cf-> succ; // if succ has only one predecessor
+  }
+  
+  modify { // then merge succ into this predecessor; this version is able to handle multiedges
+    exec([copyToPred(pred, succ)] ;> delSucc(succ));
+  }
+}
+
+rule copyToPred(pred:BB, succ:BB)
+{
+  succ -e:cf-> n:BB;
+  
+  modify {
+    pred -:copy<e>-> n;
+  }
+}
+
+rule delSucc(succ:BB)
+{
+  modify {
+   delete(succ);
+  }
+}
+
+///////////////////////////////////////////////////////////////
+// splitting with iterated, exec and copy
+
+rule split(succ:BB)
+{
+  pred:BB -first:cf-> succ;
+  multiple {
+    otherpred:BB -other:cf-> succ;
+    
+    modify {
+      otherpred -newe:cf-> newsucc:copy<succ>;
+      delete(other);
+      exec(copyCfSuccFromTo(succ, newsucc));
+    }
+  }
+  
+  modify {
+  }
+}
+
+rule copyCfSuccFromTo(pred:BB, newpred:BB)
+{
+  iterated {
+    pred -e:cf-> succ:BB;
+    
+    modify {
+      newpred -:copy<e>-> succ;
+    }
+  }
+  
+  modify {
+  }
+}
+

@@ -1,0 +1,18 @@
+new graph mergeSplit/mergeSplit
+
+debug set layout Organic
+
+include mergeSplit/irreducible.grsi
+show num nodes
+show num edges
+
+n=@(b)
+xgrs split(n)
+show num nodes
+show num edges
+
+xgrs (T1+ | T2+ | T3+)*
+show num nodes
+show num edges
+
+quit

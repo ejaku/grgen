@@ -1,0 +1,68 @@
+using nodeReplacementGrammar;
+
+rule init
+{
+  modify {
+    n:NT -:E1-> :T;
+    n <-:E1- :T;
+    n <-:E2- :T;
+    n <-:E2- :T;
+  }
+}
+
+rule example
+{
+  n:NT;
+
+  iterated {
+    n -:E1-> m:T;
+
+    modify {
+      x <-:E2- m;
+    }
+  }
+
+  iterated {
+    n <-e2:E2- m:T;   	
+
+    modify {
+      y -:E2-> m;
+      z <-:copy<e2>- m;      
+    }
+  }
+  
+  modify {
+    delete(n);
+    x:T -- y:T -- z:T -- x; 
+  }
+}
+
+///////////////////////////////////////////////////////////
+
+rule cliqueStep
+{
+  nt:NT;
+  
+  iterated {
+    nt -- neighbour:T;
+
+    modify {
+      t -- neighbour;
+      nnt -- neighbour;
+    }
+  }
+  
+  modify {
+    delete(nt);
+    t:T -- nnt:NT;
+  }
+}
+
+rule cliqueTerminal
+{
+  nt:NT;
+  
+  modify {
+    :T<nt>;
+  }
+}
