@@ -41,6 +41,8 @@ edge class Highway extends Street
 \end{figure}
 In this chapter as well as in Chapter~\ref{chapgrshell} (\GrShell) we use excerpts of Example~\ref{ex:model:map} (the \texttt{Map} model) for illustration purposes.
 
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \section{Building Blocks}
 \label{modelbb}
 
@@ -74,6 +76,7 @@ Using an identifier before defining it is allowed. Every used identifier has to 
 \emph{NodeType}, \emph{EdgeType}, \emph{EnumType}\\ \nopagebreak
 These are (semantic) specializations of \emph{Ident} to restrict an identifier to denote a node type, an edge type, or an enum type, respectively.
 
+%-----------------------------------------------------------------------------------------------
 \subsection{Base Types}
 \label{sct:basetypes}
 The \GrG\ model language has built-in types for nodes and edges.
@@ -93,6 +96,8 @@ Figure~\ref{fig:basetypes} shows the edge \indexed{type hierarchy}.
 	\label{fig:basetypes}
 \end{figure}
 
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \section{Type Declarations}
 \label{typedecl}
 
@@ -107,6 +112,7 @@ Whereas \emph{ClassDeclaration} defines a node type or an edge type, \emph{EnumD
 Like all identifier definitions, types do not need to be declared\indexmain{declaration} before they are used.
 The \emph{ExternalClassDeclaration} registers an \indexed{external class}, including its subtype hierarchy, exluding any attributes with \GrG~which can subsequently be used in attribute computations with \indexed{external function} calls.
 
+%-----------------------------------------------------------------------------------------------
 \subsection{Enumeration Types}
 \begin{rail}
   EnumDeclaration: 'enum' IdentDecl lbrace ((IdentDecl (() | '=' IntExpr)) + ',') rbrace ;
@@ -140,6 +146,7 @@ Moreover, the semantics is as in C~\cite{Sch:1990:ANSIC}. So, the following hold
 	This also holds for items of other enum types, meaning that the items of another enum type can only be used in the definition of an enum item, when the other enum type is defined \emph{before} the enum type currently defined.
 \end{note}
 
+%-----------------------------------------------------------------------------------------------
 \subsection{Node and Edge Types}
 \begin{rail}  
   ClassDeclaration: (() | 'abstract') (() | 'const') \\
@@ -251,12 +258,27 @@ This is a purely syntactical simplification, i.\,e.\ the effect of using \texttt
 %	The \GrG\ compiler will warn you, if you're using inconsistent connection assertions.
 %\end{note}
 
+\begin{note}
+\GrG~supports multiple inheritance on nodes and edges -- use it!
+
+$\bullet$ Your nodes have something in common?
+Then factor it out into some base class.
+This works very well because of the support for multiple inheritance; you don't have to decide what is the primary hierarchy, forcing you to fall back to alternative patterns in the situations you need a different classification. 
+Fine grain type hierarchies not only allow for concise matching patterns and rules, 
+but deliver good matching performance, too (the search space is reduced early).
+
+$\bullet$ Your edges have something in common?
+Then just do the same, edges are first class citizens.
+\end{note}
+
+%-----------------------------------------------------------------------------------------------
 \subsection{External Attribute Types}\label{sub:extcls}
 \begin{rail}  
   ExternalClassDeclaration: 'class' IdentDecl (() | 'extends' (NodeType+',')) ';';
 \end{rail}\ixnterm{ExternalClassDeclaration}\ixkeyw{class}\ixkeyw{extends}
 Registers a new attribute type with \GrG. You may declare the base types of the type, but not give attributes. The attribute type must be implemented externally, see \ref{sub:extclsfctimpl}; for \GrG~the type is opaque, only external functions can do computations with it. You may extend \GrG~with external attribute types if the built-in attribute types (cf. \ref{sec:builtintypes}) are insufficient for your needs.
 
+%-----------------------------------------------------------------------------------------------
 \subsection{External Function Types}\label{sub:extfct}
 \begin{rail}
   ExternalFunctionDeclaration: IdentDecl '(' ( () | (Type + ',') ) ')' ':' Type ';';
@@ -266,6 +288,7 @@ An external function declaration specifies the expected input types and the outp
 An external function call (cf. \ref{sec:primexpr}) may receive and return values of the built-in (attribute) types as well as of the external attribute types; the real arguments on the call sites are type-checked against the declared signature following the subtyping hierarchy of the built-in as well as of the external attribute types.
 You may extend \GrG~with external functions if the built-in attribute computation capabilities (cf. \ref{sub:expr}) are insufficient for your needs.
 
+%-----------------------------------------------------------------------------------------------
 \subsection{Attributes and Attribute Types}
 \label{sct:attrtypes}
 
@@ -287,4 +310,8 @@ The initialization values are evaluated in the order as they appear in the rule 
 x:int = y;
 y:int = 42;	
 	\end{grgen}
+\end{note}
+
+\begin{note}
+If you need to mark nodes in the graph, but only very few of them at the same time, think of reflexive edges of a special type. If the marking is sparse, they are the most efficient solution, before attributes, even before visited flags.
 \end{note}

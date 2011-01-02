@@ -55,6 +55,7 @@ a = ((b,c) = R(x,y,z))
 \end{figure}
 
 
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \section{Logical connectives (rewrite sequence)}
 
 \makeatletter
@@ -92,6 +93,7 @@ The modifier \texttt{\%} appended to the \texttt{\$} overrides the random select
 \end{table}
 
 
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \section{Loops (rewrite term)}\indexmain{loop}\indexmain{regular expression syntax}
 
 \begin{rail}
@@ -106,7 +108,11 @@ A sequence \verb#s+# is equivalent to \verb#s && s*#.
 The brackets (\texttt{[m]}) execute a sequence repeatedly as long as its execution does not fail but \emph{m} times at most;
 the min-max-brackets (\texttt{[n:m]}) additionally fail if the minimum amount \emph{n} of iterations was not reached.
 
+\begin{note}
+Consider all-bracketing introduced in the next section for rewriting all matches of a rule instead of iteration if they are independent.
+\end{note}
 
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \section{Rule application (rewrite factor)}
 
 \begin{rail} 
@@ -130,6 +136,7 @@ Further on, there are the \texttt{emit} and \texttt{record} statements: the emit
 \end{rail}\ixnterm{RuleExecution}\ixnterm{RandomSelection}\ixnterm{Rule}
 The \emph{RuleExecution} clause applies a single rule or test.
 In case of a rule, the first found pattern match will be rewritten.
+Application will fail in case no match was found and succeed otherwise. 
 Variables and named graph elements can be passed into the rule.
 The returned graph elements can be assigned to variables again.
 The operator \texttt{?} switches the rule to a test, i.e.\ the rule application does not perform the rewrite part of the rule but only tests if a match exists.
@@ -137,12 +144,16 @@ The operator \texttt{\%} is a multi-purpose flag.
 In the \GrShell\ (see Chapter~\ref{chapgrshell}) it dumps the matched graph elements to \texttt{stdout};
 in \texttt{debug}-mode (see Section~\ref{sct:debugger}) it acts as a \indexed{break point} (which is its main use in fact);
 you are also able to use this flag for your own purposes, when using \GrG\ via its API interface (see Section~\ref{sct:API}).
+
 The sqare braces (\texttt{[]}) introduce a special kind of multiple rule application:
-Every pattern match produced by the rule will be rewritten.
+Every pattern match produced by the rule will be rewritten;
+if at least one was found, rule application will succeed, otherwise it will fail. 
 Attention: This \indexed{all bracketing} is \textbf{not} equal to \texttt{Rule*}.
 Instead this operator collects all the matches first before starting to rewrite.
-In particular the semantics is unsafe, i.e.\ one needs to avoid deleting or retyping a graph element that is bound by another match. On the other hand this version is more efficient and allows one to get along without marking already handled situations (to prevent a rule matching again and again).
+So if one rewrite destroys other matches or creates new match opportunities the semantics differ;
+in particular the semantics is unsafe, i.e.\ one needs to avoid deleting or retyping a graph element that is bound by another match (will be deleted/retyped there). On the other hand this version is more efficient and allows one to get along without marking already handled situations (to prevent a rule matching again and again because the match situation is still there after the rewrite; normally you would need some match preventing device like a negative or visited flags to handle such a situation).
 If \emph{Rule} returns values, the values of \emph{one} of the executed rules will be returned.
+
 The \indexed{random match selector} \texttt{\$v} searches for all matches and then randomly selects \texttt{v} of them to be rewritten (but at most as much as are available), with \texttt{\$[r1]} being equivalent to \texttt{anonymousTempVar=1 \& \$anonymousTempVar[r1]}.
 Rule application will fail in case no match was found and succeed otherwise. 
 You may change the lower bound for success by giving a variable containing the value to apply before the comma-separated upper bound variable.
@@ -156,6 +167,8 @@ and assigns the return elements from the rule to the variables \texttt{u} and \t
 The sequence \verb#$[t]# determines all matches of the parameterless rule \texttt{t} on the host graph, then one of the matches is randomly chosen and executed.
 \end{example}
 
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \section{Variable handling}
 
 \begin{rail}
@@ -195,6 +208,7 @@ It always succeeds, assigning the output elements (\emph{not} returning from the
 Preliminary implementation: you get internal errors if yielded and expected types are not equal or if there is not a yield on any control flow path leaving the sequence.
 
 
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \section{Extended control}
 
 \begin{rail} 
@@ -243,7 +257,8 @@ The \indexed{one-of-set braces} \verb/${r,[s],$[t]}/ (some-of-set with random ch
 The one/some-of-set is true if at least one rule matched and false if no contained rule matched.
 A \indexed{choice point} may be used on the one-of-set; it allows you to inspect the matches available graphically before deciding on the one to apply. 
 
- 
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% 
 \section{Visited Flags}\indexmain{visited flag}
 
 \begin{rail}
@@ -273,13 +288,15 @@ The value stored in the variable must be of integer type, stemming from a previo
 \end{description}
 
 
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \section{Storages}\indexmain{storage}\label{sec:storages}
 
-Storages are variables of set or map type used in the sequences;
-in contrast to the sets in the graph model and rewrite rules, their elements can be of node or edge type. 
+Storages are variables of set or map type used in the sequences or rules handed in via parameters;
+in contrast to the sets or maps in the graph model, their elements can be of node or edge type. 
 Storing nodes and edges is in fact their primary usage. 
 They allow to decouple processing phases: the first run collects all graph elements relevant for the second run which consists of a sequence executed for each graph element in the set.
 A further difference to the sets and maps in the rewrite rules is that they only offer imperative addition and removal instead of union, intersection, difference and construction.
+The splitting of transformations into passes mediated by set/map valued global variables allows for subgraph copying without model pollution, cf. \ref{subsub:copystructure}; please have a look at \ref{sub:copymergesplit} regarding a discussion on when to use which transformation combinators.
  
 \begin{rail}
   VariableHandling: 
@@ -371,6 +388,7 @@ The set/map over which the for loop iterates must stay untouched during iteratio
 \end{note}
 
 
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \section{Quick reference table}
 
 Table~\ref{ruletab} lists most of the operations of the graph rewrite expressions at a glance.

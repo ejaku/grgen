@@ -24,6 +24,7 @@ Use the \texttt{-keep} option when you call \texttt{grgen.exe} to do so.
 \end{note}
 
 
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \section{Interface to the host graph}
 
 The generated file \texttt{FooModel.cs} opens the namespace \texttt{de.unika.ipd.grGen.Model\_Foo} containing all the generated entities.
@@ -40,6 +41,7 @@ If you want to use the generic interface, your entry point is the \texttt{IGraph
 \end{note}
 
 
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \section{Interface to rules}
 
 The generated file \texttt{FooActions.cs} opens the \texttt{namespace de.unika.ipd.grGen.Action\_Foo} containing all the generated entities.
@@ -133,6 +135,7 @@ bar.Modify(graph, matches.First);
 \end{example}
 
 
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \section{Import/Export and miscellaneous stuff}\label{sub:imexport}\indexmain{import}\indexmain{export}
 
 GrGen natively supports the following formats:
@@ -230,6 +233,7 @@ b = bla;
 \end{note}
 
 
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \section{External Class and Function Implementation}\label{sub:extclsfctimpl}\indexmain{external class implementation}\indexmain{external function implementation}
 
 For a model \texttt{Foo} which contains external functions and/or classes (cf. \ref{sub:extfct} and \ref{sub:extcls}), \GrG~generates a file \texttt{FooModelExternalFunctions.cs} located besides the model and rule files, which contains
@@ -249,6 +253,8 @@ inherting from each other as stated in the external class declarations.
 In \texttt{examples/ExternalAttributeEvaluationExample} and \texttt{examples-api/ExternalAttributeEvaluationExample}
 you find a fabricated example showing how to use the external classes and functions.
 
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \section{How to build}\label{sub:building}\indexmain{building GrGen}
 
 In case you want to build \GrG~on your own you should recall the system layout \ref{figsys}. 
@@ -274,6 +280,8 @@ The tests get executed by calling \texttt{./test.sh} or \texttt{./testpar.sh} fr
 And semantic tests in \texttt{engine-net-2/tests} checking that executing example shell scripts on example models and rules yields the expected results. 
 They get executed by calling \texttt{./test.sh}. You must check that all tests are reported as \texttt{Success}.
 
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \section{A very short tour of the code}
 The frontend is spread over the directories \texttt{parser}, \texttt{ast}, \texttt{ir}, \texttt{be} and \texttt{util}, with their code being used from \texttt{Main.java}.
 The directory \texttt{parser} contains parser helpers like the symbol table and scopes and within the \texttt{antlr} subdirectory the ANTLR parser grammar of \GrG~in the file \texttt{Grgen.g}.

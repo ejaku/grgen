@@ -8,6 +8,8 @@ The \GrShell\ provides a line oriented scripting language.
 
 %rewrite stuff to be command based instead of splitting commands over several sections?
 
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \section{Building Blocks}
 
 \GrShell\ is \indexed{case sensitive}. 
@@ -22,6 +24,8 @@ May be one of the following:
   \item Arbitrary text enclosed by double quotes (\texttt{""}).
   \item Arbitrary text enclosed by single quotes (\texttt{''}).
 \end{itemize}
+Due to the chosen parser generator shell keywords are not allowed for type names, attribute values and other entities (even if they are legal in the rule language). If this hits you, you can enclose the identifier by single or double quotes, i.e. Text can be used everywhere an identifier is required.
+
 \mbox{ }\\
 \emph{Number}\\
 Is an \texttt{int} or \texttt{float} constant in decimal notation (see also Section~\ref{sec:builtintypes}).
@@ -88,6 +92,7 @@ The variables known to \GrShell\ are the graph global variables (see \ref{cha:xg
 Prints the content of the specified variable.
 
 
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \section{\GrShell\ Commands}
 This section describes the \GrShell\ commands\ixnterm{Command}. Commands are assembled from basic elements. 
 As stated before commands are terminated by line breaks. Alternatively commands can be terminated by the \indexed{\texttt{;;}} symbol.
@@ -96,7 +101,7 @@ Like an operating system shell, the \GrShell\ allows you to span a single comman
   Script: ((Command ('<line break>' | ';;'))+) '<end of file>' ;
 \end{rail}\ixnterm{Script}
 
-
+%-----------------------------------------------------------------------------------------------
 \subsection{Common Commands}
 \label{commcommands}
 \begin{rail}
@@ -178,7 +183,7 @@ Redirects the output of the emit-statements in the rules from stdout to the give
 \end{rail}\ixkeyw{redirect}\ixkeyw{emit}
 Redirects the output of the emit-statements in the rules to stdout (again).
 
-
+%-----------------------------------------------------------------------------------------------
 \subsection{Graph Commands}
 \label{graphcommands}
 
@@ -220,7 +225,7 @@ Deletes all graph elements of the current working graph resp.\ the graph \emph{G
 \end{rail}\ixkeyw{delete}\ixkeyw{graph}
 Deletes the graph \emph{Graph} from the backend storage.
 
-
+%-----------------------------------------------------------------------------------------------
 \subsection{Validation Commands}
 
 \GrG\ offers two different graph validation mechanisms, 
@@ -284,6 +289,7 @@ The graph is NOT valid:
 
 \pagebreak
 
+%-----------------------------------------------------------------------------------------------
 \subsection{Graph Input and Output Commands}
 \label{outputcmds}
 
@@ -386,7 +392,7 @@ Imports the graph in the specified file and adds it to the current graph
 The \texttt{FileSpec} is of the same format as the file specification in the other two imports.
 The \texttt{withvariables} argument only yields an effect if the file to import contains variable specifications (the content of old variables of the same name is overwritten).
 
-
+%-----------------------------------------------------------------------------------------------
 \subsection{Graph Change Recording and Replaying}
 \label{recordnreplay}
 
@@ -408,7 +414,7 @@ If a \emph{from} line is given, all lines from file begin on including this line
 Normally you reference with \texttt{from} and \texttt{to} comment lines you write with the \texttt{record} statement (cf. \ref{recstmt}) in the sequences, marking relevant states during a transformation process.
 An example for record and replay is given in \texttt{tests/recordreplay}.
 
-
+%-----------------------------------------------------------------------------------------------
 \subsection{Graph Manipulation Commands}
 \label{mani}
 Graph manipulation commands alter existing graphs;
@@ -495,7 +501,7 @@ Add the value \emph{PrimitiveAttributeValue} (for the different possible primiti
 \end{rail}
 Remove the value (/key) \emph{PrimitiveAttributeValue} from the set (/map) valued attribute \emph{AttributeName} of the graph element \emph{GraphElement}.
   
-
+%-----------------------------------------------------------------------------------------------
 \subsection{Graph and Model Query Commands}
 
 \begin{rail}
@@ -542,7 +548,7 @@ Displays the value of the specified attribute.
 \end{rail}\ixkeyw{node}\ixkeyw{edge}\ixkeyw{type}\ixkeyw{is}
 Gets the information whether the first element is \indexed{type-compatible}\indexmainsee{compatible types}{type-compatible} to the second element.
 
-
+%-----------------------------------------------------------------------------------------------
 \subsection{Graph Visualization Commands (Nested Layout)}\label{sub:visual}\indexmain{visualization}\indexmainsee{layout}{visualization}\indexmainsee{visualization}{group node}\indexmain{nested layout}\indexmainsee{nested layout}{group node}\indexmain{nested graph}\indexmainsee{nested graph}{group node}
 
 \begin{rail}
@@ -650,7 +656,7 @@ The following example shows several of the layout options employed to considerab
   {\small Overview of the initial program graph and some details of the ``Node'' class}
 \end{center}
 
-
+%-----------------------------------------------------------------------------------------------
 \subsection{Action Commands (XGRS)}\indexmain{action command}\indexmainsee{action}{graph rewrite sequence}
 \label{grsthings}
 An \emph{action} denotes a graph rewrite rule.
@@ -688,10 +694,12 @@ Graph elements required by rules must be provided using \texttt{Action (Para\-me
 For \indexed{undefined variables} see Section~\ref{ruledecls}, \emph{Parameters}.
 
 
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \section{Graphical Debugger}
 \label{sct:debugger}
 The \GrShell\ together with \yComp\ build \GrG's graphical debugger.
 
+%-----------------------------------------------------------------------------------------------
 \subsection{Debugging Related Commands}
 
 \begin{rail}
@@ -726,7 +734,7 @@ Forces re-layout of the graph shown in yComp (same as pressing the play button w
 This executes the graph rewrite sequence \emph{SimpleRewriteSequence} in the debugger\indexmain{debugger}.
 Same as \texttt{xgrs SimpleRewriteSequence} in the previous section, but allows tracing the rewriting process step-by-step. 
 
-
+%-----------------------------------------------------------------------------------------------
 \subsection{Using the Debugger}
 
 The debugging process follows of a series of debug situations,
@@ -827,6 +835,8 @@ The following table shows the ``break points'' of further debug commands, entere
 %ref to visualization commands, again: hierarchy
 %copy some of the stuff from ycomp help?
 
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \section{Backend Commands}
 \label{backend}
 

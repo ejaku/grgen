@@ -3,6 +3,8 @@
 %In the following sections \emph{Ident} refers to an identifier of the graph model language (see Section~\ref{modelbb}) or the rule set language (see Section~\ref{rulebb}).
 %\emph{TypeIdent} is an identifier of a node type or an edge type, \emph{NodeOrEdge} is an identifier of a node or an edge.
 
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \section{Built-In Types}
 \label{sec:builtintypes}
 Besides user-defined node types, edge types, and enumeration types (as introduced in Chapter~\ref{chapmodellang}), \GrG\ supports the built-in \indexed{primitive types}\indexmainsee{built-in types}{primitive types} in Table~\ref{builtintypes} and the built-in \indexed{generic types}\indexmainsee{built-in generic types}{generic types} in Table~\ref{builtingenerictypes}.
@@ -80,6 +82,7 @@ Objects of type object are not very useful for \GrG\ processing (and the im/expo
 \end{note}
 
 
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \section{Expressions}\indexmain{expression}\label{sub:expr}
 
 \GrG~supports numerous operations on the entities of the types introduced above, which are organized into left associative expressions.
@@ -90,6 +93,7 @@ In the following they will be explained with their semantics and relative priori
 \end{rail}\ixnterm{Expression}
 
 
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \section{Boolean Expressions}
 
 The boolean expressions combine boolean values with logical operations.
@@ -114,6 +118,7 @@ The binary \emph{BinBoolOperator} is one of the operators in Table~\ref{tabboolo
 The ternary \texttt{?}\ operator is a simple if-then-else: If the first \emph{BoolExpr} is evaluated to \texttt{true}, the operator returns the second \emph{BoolExpr}, otherwise it returns the third \emph{BoolExpr}.
 
 
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \section{Relational Expressions}
 
 The relational expressions compare enitites of different kinds, mapping them to the type boolean.
@@ -192,6 +197,7 @@ the rule to remember is: types grow larger with extension/refinement. An example
 \end{note}
 
 
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \section{Arithmetic and Bitwise Expressions}
 
 The arithmetic and bitwise expressions combinde integer and floating point values with the arithmetic operations usually available in programming languages
@@ -237,6 +243,8 @@ The \texttt{\%} operator on float values works analogous to the integer modulo o
 For instance \texttt{4.5 \% 2.3 == 2.2}.
 \end{note}
 
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \section{String Expressions}
 
 String expressions combine string values by string operations, with integer numbers used as helpers to denote positions in the strings (and giving the result of length counting).
@@ -265,6 +273,7 @@ For \texttt{n.str == "foo bar foo"} the operations yield \\
 \end{example}
 
 
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \section{Set Expression}\label{sec:setexpr}
 
 Set expressions consist of the known mathematical set operations and size counting.
@@ -305,6 +314,8 @@ s \ { n.a }
 Used in this way they get internally optimized to set addition and removal.
 \end{note}
 
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \section{Map Expression} \label{sec:mapexpr}
 
 Map expressions consist of the known mathematical set operations extended to maps, plus map value lookup and size counting.
@@ -351,6 +362,7 @@ Used in this way they get internally optimized to map addition and removal.
 \end{note}
 
 
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \section{Type Expressions}\indexmain{type expression}
 \label{typeexpressions}
 
@@ -383,7 +395,7 @@ The type expression \texttt{typeof(x)} stands for the type of the host graph ele
 \end{example}
 
 
-
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \section{Primary expressions}\label{sec:primexpr}
 
 After we've seen the all the ways to combine expressions, finally we'll have a look at the atoms the expressions are built of.
@@ -472,6 +484,7 @@ map<string,int>{ (n.strVal+m.strVal)->(m.intVal+n.intVal), intVal->strVal, "fool
 \end{example}
 
 
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \section{Operator Priorities}
 
 The priorities of all available operators are shown in ascending order in the table below, the dots mark the positions of the operands, the commas separate the operators available on the respective priority level.

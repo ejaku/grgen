@@ -1,6 +1,7 @@
 \chapter{Examples}
 \label{anexample}
 
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \section{Fractals}\indexmain{example}
 \label{fractals}
 The \GrG\ package ships with samples for fractal generation. We will construct the \indexed{Sierpinski triangle} and the \indexed{Koch snowflake}. They are created by consecutive rule applications starting with the initial host graphs
@@ -42,11 +43,14 @@ respectively. Because both of the scripts are using the debug mode, we complete 
 \end{figure}
 \vfill\pagebreak
 
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \section{Busy Beaver}\indexmain{example}
 We want \GrG\ to work as hard as a \indexed{busy beaver}~\cite{Kro:07,Dew:84}. Our busy beaver is a Turing machine that has got five states plus a ``halt''-state; it writes 1,471 bars onto the tape and terminates~\cite{MB:00}. So first of all we design a Turing machine as graph model. Besides, this example shows that \GrG\ is \indexed{Turing complete}.
 
 We use the graph model and the rewrite rules to define a general Turing machine. Our approach is to basically draw the machine as a graph. The busy beaver logic is implemented by rule applications in \GrShell.
 
+%-----------------------------------------------------------------------------------------------
 \subsection{Graph Model}
 The tape will be a chain of \texttt{TapePosition} nodes connected by right edges. A cell value is modeled by a reflexive \texttt{value} edge, attached to a \texttt{TapePosition} node. The leftmost and the rightmost cells (\texttt{TapePosition}) do not have an incoming and outgoing edge respectively. Therefore we have the node constraint $[0:1]$.
 \begin{grgen}[firstnumber=last]
@@ -79,6 +83,7 @@ edge class moveRight;
 edge class dontMove;
 \end{grgen}
 
+%-----------------------------------------------------------------------------------------------
 \subsection{Rule Set}
 Now the rule set: We begin the rule set file \texttt{Turing.grg} with
 \begin{grgen}[firstnumber=1] 
@@ -195,6 +200,7 @@ rule ensureMoveRightValidRule {
 \end{grgen}
 Have a look at the negative conditions within the \texttt{ensureMove\dots} rules. They ensure that the current cell is indeed at the end of the tape: An edge to a right/left neighboring cell must not exist. Now don't forget to compile your model and the rule set with \texttt{GrGen.exe} (see Section~\ref{fractals}).
 
+%-----------------------------------------------------------------------------------------------
 \subsection{Rule Execution with \GrShell}
 
 Finally we construct the busy beaver and let it work with \GrShell. The following script starts with building the Turing machine that is modeling the six states with their transitions in our Turing machine model:

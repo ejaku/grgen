@@ -3,6 +3,7 @@
 \pagenumbering{arabic}
 
 
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \section{What is \GrG?}
 
 {\scshape GrGen} (\textsc{G}raph \textsc{R}ewrite \textsc{Gen}erator) is a generative programming system for graph rewriting,
@@ -23,6 +24,7 @@ Starting as a compiler construction helper tool it has grown into a software dev
 which offers the highest combined speed of development and execution for graph based algorithms through its declarative languages with automatic optimization.
 
 
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \section{When to use \GrG~and when not}
 You may be interested in using \GrG\ if you have to tackle the task of transforming meshes of massively linked objects, i.e. graph-like data structures,
 as is the case in e.g. model transformation, computer linguistics, or modern compiler construction 
@@ -39,6 +41,7 @@ The graph rewrite generator is not the right tool for you if you're searching fo
 Neither is it what you need if your graph structured data is to be interactively edited by an end user instead of being automatically transformed by rules (the editor generator DiaGen\cite{diagen} may be of interest in this case).
 
 
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \section{Features of \GrG}\indexmain{features}
 
 The process of graph rewriting can be divided into four steps:
@@ -120,7 +123,7 @@ which features commands for
 	\item graph change recording and replaying
 	\item graph manipulation
 	\item graph and model queries
-	\item graph visualisation (including \emph{nested} graphs)
+	\item graph visualisation (including \emph{nested} graphs keeping large graphs understandable)
 	\item action execution
 	\item \emph{debugging}
 	\item backend selection and usage
@@ -132,6 +135,8 @@ This way you can build your own algorithmic rule applications in a .NET language
 
 \pagebreak
 
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \section{System Overview}\indexmain{overview, system}
 
 Figure~\ref{figsys} gives an overview of the \GrG\ system components. 
@@ -245,6 +250,7 @@ For most issues---in particular for experimental purposes---you might rather wan
 However, \GrShell\ does not provide the full power of the \LibGr; see also note~\ref{note:indeterminism} on page~\pageref{note:indeterminism}.
 
 
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \section{What is Graph Rewriting?}\indexmain{graph rewriting}
 \label{ov:whatsallabout}
 
@@ -293,6 +299,7 @@ Elements of $R$ not in the image of $r$ are inserted into $H$, all others (eleme
 The outcome of these steps is the resulting graph $H'$. In symbolic language: $H \xRightarrow{m, p} H'$.
 
 
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \section{An Example}\indexmain{example}
 \label{ov:example}
 
@@ -474,6 +481,7 @@ If we apply $p_2$ to the modified $H_1$ this leads to
 %Benefits. When to use graph rewriting. When not. TODO!
 
 
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \section{The Tools}
 
 All the programs and libraries of \GrG\ are licensed under \indexed{LGPL}. 
@@ -483,6 +491,7 @@ You'll find the tools in the \texttt{bin} subdirectory of your \GrG\ installatio
 
 %\pagebreak
 
+%-----------------------------------------------------------------------------------------------
 \subsection{\texttt{\indexed{GrGen.exe}}}
 
 \parpic[l] {
@@ -526,7 +535,7 @@ in the form of a dump of the compiler IR as a .vcg file:\\
 \texttt{java -jar grgen.jar -i yourfile.grg}
 \end{note}
 
-
+%-----------------------------------------------------------------------------------------------
 \subsection{\texttt{\indexed{GrShell.exe}}}
 
 \parpic[l] {
@@ -548,12 +557,14 @@ For further information about the \GrShell\ language see Chapter~\ref{chapgrshel
   \item[Requires] .NET 2.0 (or above) or Mono 1.2.3 (or above).
 \end{description}
 
+%-----------------------------------------------------------------------------------------------
 \subsection{\texttt{LibGr.dll}}
 \label{sct:API}
 The \LibGr\indexmain{libGr} is a .NET assembly implementing \GrG's \indexed{API}.
 See the extracted HTML documentation for interface descriptions at \url{http://www.grgen.net/doc/API_2_6/};
 a short introduction is given in chaper \ref{cha:api}. 
 
+%-----------------------------------------------------------------------------------------------
 \subsection{\texttt{yComp.jar}}
 \label{tools:ycomp}
 \yComp\indexmain{yComp} \cite{ycomp} is a graph visualization tool based on \yFiles\ \cite{yfiles}. 
@@ -575,6 +586,7 @@ It is well integrated and shipped with \GrG, but it's not a part of \GrG.
 \end{description}
 
 
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \section{Development goals}
 
 The development goals of \GrG\ were

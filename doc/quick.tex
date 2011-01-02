@@ -6,6 +6,8 @@ We will use \GrG\ to construct non-deterministic state machines.
 We further show some actual graph rewriting by removing $\varepsilon$-transitions from our state machines.
 This chapter is mostly about the \GrG\ look and feel; please take a look at the succeeding chapters for comprehensive specifications.
 
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \section{Downloading \& Installing}
 If you are reading this document, you probably did already download the \GrG\ software from our website (\url{http://www.grgen.net}).
 Make sure you have the following system requirements installed and available in the search path:
@@ -38,6 +40,8 @@ For MS .NET the \texttt{mono} prefix is neither applicable nor needed.
 You might be interested in the syntax highlighting specifications of the \GrG-languages supplied for the vim and Notepad++ editors in the \texttt{syntaxhighlighting} subdirectory.
 \end{note}
 
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \section{Creating a Graph Model}
 In the directory \texttt{/home/grgen} we create a text file \texttt{StateMachine.gm} that contains the graph meta model for our state machine\footnote{You'll find the source code of this quick start example shipped with the \GrG\ package in the \texttt{examples/FiniteStateMachine/} directory.}.
 By graph meta model we mean a set of node types and edge types which are available for building state machine graphs (see Chapter~\ref{chapmodellang}).
@@ -70,6 +74,8 @@ For the rest of the types we use inheritance (keyword \texttt{extends}) which wo
 Accordingly the \texttt{abstract} modifier for \texttt{SpecialState} means that you cannot create a node of that precise type, but you might create nodes of non-abstract subtypes.
 As you can see \GrG\ supports multiple inheritance, and with \texttt{StartFinalState} we have constructed a ``diamond'' type hierarchy.
 
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \section{Creating Graphs}
 \label{sct:quick:create}
 Let's test our graph meta model by creating a state machine graph.
@@ -129,6 +135,8 @@ Persistent names are set by \texttt{\$=Identifier} on creation and they are acce
 \makeatother
 The quote chars around \texttt{"1"} and \texttt{"2"} are used to type these characters as (identifier) strings rather than numbers.
 
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \section{The Rewrite Rules}
 We will now add the real rewrite rules to the rule set file \texttt{removeEpsilons.grg}.
 The idea is to ``forward'' the $\varepsilon$-transitions one after another, i.e.\ if we have a pattern like \texttt{a:State -EpsilonTransition-> b:State -e:Transition-> c:State} we forward to \texttt{a -e-> c}.
@@ -244,6 +252,8 @@ The \texttt{*} is used to apply the rule repeatedly as long as a match can be fo
 This includes applying the rule zero times.
 Even in this case \texttt{Rule*} is still successful.
 
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \section{Debugging and Output}
 If you execute the modified \GrShell\ script, \GrG\ starts its debugger.
 This way you can follow the evaluation of the graph rewrite sequence step by step in \yComp.
