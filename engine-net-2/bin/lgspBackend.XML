@@ -304,6 +304,11 @@
               to some other pattern element on the pattern derivation path, to ensure required isomorphy" operation
             </summary>
         </member>
+        <member name="T:de.unika.ipd.grGen.lgsp.CheckCandidateMapWithStorage">
+            <summary>
+            Class representing "check whether candidate is contained in the storage map" operation
+            </summary>
+        </member>
         <member name="T:de.unika.ipd.grGen.lgsp.CheckPartialMatch">
             <summary>
             Base class for search program operations
@@ -616,6 +621,16 @@
             Draw element from graph.
             </summary>
         </member>
+        <member name="F:de.unika.ipd.grGen.lgsp.SearchOperationType.PickFromStorage">
+            <summary>
+            Pick element from storage.
+            </summary>
+        </member>
+        <member name="F:de.unika.ipd.grGen.lgsp.SearchOperationType.MapWithStorage">
+            <summary>
+            Map some given input element to an output graph element.
+            </summary>
+        </member>
         <member name="F:de.unika.ipd.grGen.lgsp.SearchOperationType.Outgoing">
             <summary>
             Follow outgoing edges of given node.
@@ -667,39 +682,55 @@
             Try to match independent pattern.
             </summary>
         </member>
-        <member name="T:de.unika.ipd.grGen.lgsp.LGSPXGRSInfo">
+        <member name="T:de.unika.ipd.grGen.lgsp.LGSPEmbeddedSequenceInfo">
             <summary>
             Represents an XGRS used in an exec statement.
             </summary>
         </member>
-        <member name="M:de.unika.ipd.grGen.lgsp.LGSPXGRSInfo.#ctor(System.String[],de.unika.ipd.grGen.libGr.GrGenType[],de.unika.ipd.grGen.libGr.GrGenType[],System.String)">
+        <member name="M:de.unika.ipd.grGen.lgsp.LGSPEmbeddedSequenceInfo.#ctor(System.String[],de.unika.ipd.grGen.libGr.GrGenType[],de.unika.ipd.grGen.libGr.GrGenType[],System.String)">
             <summary>
-            Constructs an LGSPXGRSInfo object.
+            Constructs an LGSPEmbeddedSequenceInfo object.
             </summary>
             <param name="parameters">The names of the needed graph elements of the containing action.</param>
             <param name="parameterTypes">The types of the needed graph elements of the containing action.</param>
             <param name="outParameterTypes">The types of the graph elements returned to the containing action.</param>
             <param name="xgrs">The XGRS string.</param>
         </member>
-        <member name="F:de.unika.ipd.grGen.lgsp.LGSPXGRSInfo.Parameters">
+        <member name="F:de.unika.ipd.grGen.lgsp.LGSPEmbeddedSequenceInfo.Parameters">
             <summary>
             The names of the needed graph elements of the containing action.
             </summary>
         </member>
-        <member name="F:de.unika.ipd.grGen.lgsp.LGSPXGRSInfo.ParameterTypes">
+        <member name="F:de.unika.ipd.grGen.lgsp.LGSPEmbeddedSequenceInfo.ParameterTypes">
             <summary>
             The types of the needed graph elements of the containing action.
             </summary>
         </member>
-        <member name="F:de.unika.ipd.grGen.lgsp.LGSPXGRSInfo.OutParameterTypes">
+        <member name="F:de.unika.ipd.grGen.lgsp.LGSPEmbeddedSequenceInfo.OutParameterTypes">
             <summary>
             The types of the graph elements returned to the containing action.
             </summary>
         </member>
-        <member name="F:de.unika.ipd.grGen.lgsp.LGSPXGRSInfo.XGRS">
+        <member name="F:de.unika.ipd.grGen.lgsp.LGSPEmbeddedSequenceInfo.XGRS">
             <summary>
             The XGRS string.
             </summary>
+        </member>
+        <member name="T:de.unika.ipd.grGen.lgsp.LGSPEmbeddedSequenceClosure">
+            <summary>
+            A closure for an exec statement in an alternative, iterated or subpattern,
+            containing the entities needed for the exec execution.
+            These exec are executed at the end of the rule which directly or indirectly used them,
+            long after the alternative/iterated/subpattern modification containing them has been applied.
+            The real stuff depends on the xgrs and is generated, obeying this interface.
+            </summary>
+        </member>
+        <member name="M:de.unika.ipd.grGen.lgsp.LGSPEmbeddedSequenceClosure.exec(de.unika.ipd.grGen.lgsp.LGSPGraph)">
+            <summary>
+            Executes the embedded sequence closure
+            </summary>
+            <param name="graph">the graph on which to apply the sequence</param>
+            <returns>the result of sequence execution</returns>
         </member>
         <member name="T:de.unika.ipd.grGen.lgsp.LGSPSequenceGenerator">
             <summary>
@@ -2560,6 +2591,18 @@
             for finding out when iteration of the candidates for the given pattern element has finished
             </summary>
         </member>
+        <member name="M:de.unika.ipd.grGen.lgsp.NamesOfEntities.CandidateIterationDictionaryEntry(System.String)">
+            <summary>
+            Returns name of the dictionary entry variable which will be created within the search program
+            holding the dictionary entry (key-value-pair) of the storage to pick an element from
+            </summary>
+        </member>
+        <member name="M:de.unika.ipd.grGen.lgsp.NamesOfEntities.MapWithStorageTemporary(System.String)">
+            <summary>
+            Returns name of the temporary variable which will be created within the search program
+            for retrieving the element via TryGet from the storage map; must be casted to the needed type afterwards
+            </summary>
+        </member>
         <member name="M:de.unika.ipd.grGen.lgsp.NamesOfEntities.MissingPresetHandlingMethod(System.String)">
             <summary>
             Returns name of the method called when a maybe preset element is not set
@@ -2955,7 +2998,23 @@
             May only be true if pattern element is handed in as rule parameter.
             </summary>
         </member>
-        <member name="M:de.unika.ipd.grGen.lgsp.PatternElement.#ctor(System.Int32,System.String,System.String,System.String,de.unika.ipd.grGen.libGr.GrGenType[],System.Boolean[],System.Single,System.Int32,System.Boolean)">
+        <member name="F:de.unika.ipd.grGen.lgsp.PatternElement.Storage">
+            <summary>
+            If not null this pattern element is to be bound by iterating the given storage.
+            </summary>
+        </member>
+        <member name="F:de.unika.ipd.grGen.lgsp.PatternElement.Accessor">
+            <summary>
+            If not null this pattern element is to be determined by map lookup,
+            with the accessor given here applied as index into the storage map given in the Storage field.
+            </summary>
+        </member>
+        <member name="F:de.unika.ipd.grGen.lgsp.PatternElement.TempPlanMapping">
+            <summary>
+            plan graph node corresponding to this pattern element, used in plan graph generation, just hacked into this place
+            </summary>
+        </member>
+        <member name="M:de.unika.ipd.grGen.lgsp.PatternElement.#ctor(System.Int32,System.String,System.String,System.String,de.unika.ipd.grGen.libGr.GrGenType[],System.Boolean[],System.Single,System.Int32,System.Boolean,de.unika.ipd.grGen.lgsp.PatternVariable,de.unika.ipd.grGen.lgsp.PatternElement)">
             <summary>
             Instantiates a new PatternElement object.
             </summary>
@@ -2972,6 +3031,9 @@
             <param name="cost">Default cost/priority from frontend, user priority if given.</param>
             <param name="parameterIndex">Specifies to which rule parameter this pattern element corresponds.</param>
             <param name="maybeNull">Tells whether this pattern element may be null (is a parameter if true).</param>
+            <param name="storage">If not null this pattern element is to be bound by iterating the given storage.</param>
+            <param name="accessor">If not null this pattern element is to be determined by map lookup,
+                with the accessor given here applied as index into the storage map given in the storage parameter.</param>
         </member>
         <member name="M:de.unika.ipd.grGen.lgsp.PatternElement.ToString">
             <summary>
@@ -3004,12 +3066,7 @@
             A pattern node of a rule pattern.
             </summary>
         </member>
-        <member name="F:de.unika.ipd.grGen.lgsp.PatternNode.TempPlanMapping">
-            <summary>
-            plan graph node corresponding to this pattern node, used in plan graph generation, just hacked into this place
-            </summary>
-        </member>
-        <member name="M:de.unika.ipd.grGen.lgsp.PatternNode.#ctor(System.Int32,System.String,System.String,System.String,de.unika.ipd.grGen.libGr.GrGenType[],System.Boolean[],System.Single,System.Int32,System.Boolean)">
+        <member name="M:de.unika.ipd.grGen.lgsp.PatternNode.#ctor(System.Int32,System.String,System.String,System.String,de.unika.ipd.grGen.libGr.GrGenType[],System.Boolean[],System.Single,System.Int32,System.Boolean,de.unika.ipd.grGen.lgsp.PatternVariable,de.unika.ipd.grGen.lgsp.PatternElement)">
             <summary>
             Instantiates a new PatternNode object
             </summary>
@@ -3026,6 +3083,9 @@
             <param name="cost"> default cost/priority from frontend, user priority if given</param>
             <param name="parameterIndex">Specifies to which rule parameter this pattern element corresponds</param>
             <param name="maybeNull">Tells whether this pattern node may be null (is a parameter if true).</param>
+            <param name="storage">If not null this pattern node is to be bound by iterating the given storage.</param>
+            <param name="accessor">If not null this pattern node is to be determined by map lookup,
+                with the accessor given here applied as index into the storage map given in the storage parameter.</param>
         </member>
         <member name="M:de.unika.ipd.grGen.lgsp.PatternNode.ToString">
             <summary>
@@ -3043,7 +3103,7 @@
             Indicates, whether this pattern edge should be matched with a fixed direction or not.
             </summary>
         </member>
-        <member name="M:de.unika.ipd.grGen.lgsp.PatternEdge.#ctor(System.Boolean,System.Int32,System.String,System.String,System.String,de.unika.ipd.grGen.libGr.GrGenType[],System.Boolean[],System.Single,System.Int32,System.Boolean)">
+        <member name="M:de.unika.ipd.grGen.lgsp.PatternEdge.#ctor(System.Boolean,System.Int32,System.String,System.String,System.String,de.unika.ipd.grGen.libGr.GrGenType[],System.Boolean[],System.Single,System.Int32,System.Boolean,de.unika.ipd.grGen.lgsp.PatternVariable,de.unika.ipd.grGen.lgsp.PatternElement)">
             <summary>
             Instantiates a new PatternEdge object
             </summary>
@@ -3061,6 +3121,9 @@
             <param name="cost"> default cost/priority from frontend, user priority if given</param>
             <param name="parameterIndex">Specifies to which rule parameter this pattern element corresponds</param>
             <param name="maybeNull">Tells whether this pattern edge may be null (is a parameter if true).</param>
+            <param name="storage">If not null this pattern edge is to be bound by iterating the given storage.</param>
+            <param name="accessor">If not null this pattern edge is to be determined by map lookup,
+                with the accessor given here applied as index into the storage map given in the storage parameter.</param>
         </member>
         <member name="M:de.unika.ipd.grGen.lgsp.PatternEdge.ToString">
             <summary>
@@ -3630,6 +3693,12 @@
             Our name
             </summary>
         </member>
+        <member name="F:de.unika.ipd.grGen.lgsp.LGSPMatchingPattern.toBeExecuted">
+            <summary>
+            A global queue with the sequences to be executed after execution of the current rule/test.
+            These are sequences with their needed environment, used from within subpatterns/alternatives/iterateds.
+            </summary>
+        </member>
         <member name="P:de.unika.ipd.grGen.lgsp.LGSPMatchingPattern.PatternGraph">
             <summary>
             The main pattern graph.
@@ -3814,6 +3883,20 @@
             are created and inserted into search program
             </summary>
         </member>
+        <member name="M:de.unika.ipd.grGen.lgsp.SearchProgramBuilder.buildPickFromStorage(de.unika.ipd.grGen.lgsp.SearchProgramOperation,System.Int32,de.unika.ipd.grGen.lgsp.SearchPlanNode,de.unika.ipd.grGen.lgsp.PatternVariable,de.unika.ipd.grGen.lgsp.IsomorphyInformation)">
+            <summary>
+            Search program operations implementing the
+            PickFromStorage search plan operation
+            are created and inserted into search program
+            </summary>
+        </member>
+        <member name="M:de.unika.ipd.grGen.lgsp.SearchProgramBuilder.buildMapWithStorage(de.unika.ipd.grGen.lgsp.SearchProgramOperation,System.Int32,de.unika.ipd.grGen.lgsp.SearchPlanNode,de.unika.ipd.grGen.lgsp.SearchPlanNode,de.unika.ipd.grGen.lgsp.PatternVariable,de.unika.ipd.grGen.lgsp.IsomorphyInformation)">
+            <summary>
+            Search program operations implementing the
+            MapWithStorage search plan operation
+            are created and inserted into search program
+            </summary>
+        </member>
         <member name="M:de.unika.ipd.grGen.lgsp.SearchProgramBuilder.buildImplicit(de.unika.ipd.grGen.lgsp.SearchProgramOperation,System.Int32,de.unika.ipd.grGen.lgsp.SearchPlanEdgeNode,de.unika.ipd.grGen.lgsp.SearchPlanNodeNode,de.unika.ipd.grGen.lgsp.IsomorphyInformation,de.unika.ipd.grGen.lgsp.ImplicitNodeType)">
             <summary>
             Search program operations implementing the
@@ -3963,7 +4046,7 @@
             Decides which check type operation to build and inserts it into search program
             </summary>
         </member>
-        <member name="M:de.unika.ipd.grGen.lgsp.SearchProgramBuilder.decideOnAndInsertCheckConnectednessOfNodeFromLookup(de.unika.ipd.grGen.lgsp.SearchProgramOperation,de.unika.ipd.grGen.lgsp.SearchPlanNodeNode,de.unika.ipd.grGen.lgsp.SearchProgramOperation@)">
+        <member name="M:de.unika.ipd.grGen.lgsp.SearchProgramBuilder.decideOnAndInsertCheckConnectednessOfNodeFromLookupOrPickOrMap(de.unika.ipd.grGen.lgsp.SearchProgramOperation,de.unika.ipd.grGen.lgsp.SearchPlanNodeNode,de.unika.ipd.grGen.lgsp.SearchProgramOperation@)">
             <summary>
             Decides which check connectedness operations are needed for the given node just determined by lookup
             and inserts them into the search program
@@ -3996,7 +4079,7 @@
             if no direction iteration was needed, insertion point == continuation point
             </summary>
         </member>
-        <member name="M:de.unika.ipd.grGen.lgsp.SearchProgramBuilder.decideOnAndInsertCheckConnectednessOfEdgeFromLookup(de.unika.ipd.grGen.lgsp.SearchProgramOperation,de.unika.ipd.grGen.lgsp.SearchPlanEdgeNode,de.unika.ipd.grGen.lgsp.SearchProgramOperation@)">
+        <member name="M:de.unika.ipd.grGen.lgsp.SearchProgramBuilder.decideOnAndInsertCheckConnectednessOfEdgeFromLookupOrPickOrMap(de.unika.ipd.grGen.lgsp.SearchProgramOperation,de.unika.ipd.grGen.lgsp.SearchPlanEdgeNode,de.unika.ipd.grGen.lgsp.SearchProgramOperation@)">
             <summary>
             Decides which check connectedness operations are needed for the given edge determined by lookup
             and inserts them into the search program
