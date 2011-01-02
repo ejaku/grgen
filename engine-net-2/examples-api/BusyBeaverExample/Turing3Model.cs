@@ -1,6 +1,6 @@
 // This file has been generated automatically by GrGen (www.grgen.net)
 // Do not modify this file! Any changes will be lost!
-// Generated from "..\..\examples\Turing3\Turing3.grg" on Sun Oct 10 18:44:08 CEST 2010
+// Generated from "..\..\examples\Turing3\Turing3.grg" on Mon Jan 03 00:10:23 CET 2011
 
 using System;
 using System.Collections.Generic;
@@ -165,7 +165,7 @@ namespace de.unika.ipd.grGen.Model_Turing3
 
 		private @BandPosition(GRGEN_MODEL.@BandPosition oldElem) : base(GRGEN_MODEL.NodeType_BandPosition.typeVar)
 		{
-			_value = oldElem._value;
+			value\u0303 = oldElem.value\u0303;
 		}
 		public static GRGEN_MODEL.@BandPosition CreateNode(GRGEN_LGSP.LGSPGraph graph)
 		{
@@ -212,11 +212,11 @@ namespace de.unika.ipd.grGen.Model_Turing3
 		}
 
 
-		private int _value;
+		private int value\u0303;
 		public int @value
 		{
-			get { return _value; }
-			set { _value = value; }
+			get { return value\u0303; }
+			set { value\u0303 = value; }
 		}
 		public override object GetAttribute(string attrName)
 		{
@@ -454,7 +454,7 @@ namespace de.unika.ipd.grGen.Model_Turing3
 
 		private @WriteValue(GRGEN_MODEL.@WriteValue oldElem) : base(GRGEN_MODEL.NodeType_WriteValue.typeVar)
 		{
-			_value = oldElem._value;
+			value\u0303 = oldElem.value\u0303;
 		}
 		public static GRGEN_MODEL.@WriteValue CreateNode(GRGEN_LGSP.LGSPGraph graph)
 		{
@@ -501,11 +501,11 @@ namespace de.unika.ipd.grGen.Model_Turing3
 		}
 
 
-		private int _value;
+		private int value\u0303;
 		public int @value
 		{
-			get { return _value; }
-			set { _value = value; }
+			get { return value\u0303; }
+			set { value\u0303 = value; }
 		}
 		public override object GetAttribute(string attrName)
 		{

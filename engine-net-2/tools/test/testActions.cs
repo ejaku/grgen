@@ -1,6 +1,6 @@
 // This file has been generated automatically by GrGen (www.grgen.net)
 // Do not modify this file! Any changes will be lost!
-// Generated from "test.grg" on Sun Oct 10 18:44:39 CEST 2010
+// Generated from "test.grg" on Mon Jan 03 00:11:09 CET 2011
 
 using System;
 using System.Collections.Generic;
@@ -63,11 +63,11 @@ namespace de.unika.ipd.grGen.Action_test
 			};
 			int[] testRule_minMatches = new int[0] ;
 			int[] testRule_maxMatches = new int[0] ;
-			GRGEN_LGSP.PatternNode testRule_node_a = new GRGEN_LGSP.PatternNode((int) GRGEN_MODEL.NodeTypes.@D231_4121, "GRGEN_MODEL.ID231_4121", "testRule_node_a", "a", testRule_node_a_AllowedTypes, testRule_node_a_IsAllowedType, 5.5F, -1, false);
-			GRGEN_LGSP.PatternNode testRule_node_f = new GRGEN_LGSP.PatternNode((int) GRGEN_MODEL.NodeTypes.@B21, "GRGEN_MODEL.IB21", "testRule_node_f", "f", testRule_node_f_AllowedTypes, testRule_node_f_IsAllowedType, 5.5F, -1, false);
-			GRGEN_LGSP.PatternNode testRule_node_m = new GRGEN_LGSP.PatternNode((int) GRGEN_MODEL.NodeTypes.@D2211_2222_31, "GRGEN_MODEL.ID2211_2222_31", "testRule_node_m", "m", testRule_node_m_AllowedTypes, testRule_node_m_IsAllowedType, 5.5F, -1, false);
-			GRGEN_LGSP.PatternEdge testRule_edge__edge0 = new GRGEN_LGSP.PatternEdge(true, (int) GRGEN_MODEL.EdgeTypes.@Edge, "GRGEN_LIBGR.IEdge", "testRule_edge__edge0", "_edge0", testRule_edge__edge0_AllowedTypes, testRule_edge__edge0_IsAllowedType, 5.5F, -1, false);
-			GRGEN_LGSP.PatternEdge testRule_edge__edge1 = new GRGEN_LGSP.PatternEdge(true, (int) GRGEN_MODEL.EdgeTypes.@Edge, "GRGEN_LIBGR.IEdge", "testRule_edge__edge1", "_edge1", testRule_edge__edge1_AllowedTypes, testRule_edge__edge1_IsAllowedType, 5.5F, -1, false);
+			GRGEN_LGSP.PatternNode testRule_node_a = new GRGEN_LGSP.PatternNode((int) GRGEN_MODEL.NodeTypes.@D231_4121, "GRGEN_MODEL.ID231_4121", "testRule_node_a", "a", testRule_node_a_AllowedTypes, testRule_node_a_IsAllowedType, 5.5F, -1, false, null, null);
+			GRGEN_LGSP.PatternNode testRule_node_f = new GRGEN_LGSP.PatternNode((int) GRGEN_MODEL.NodeTypes.@B21, "GRGEN_MODEL.IB21", "testRule_node_f", "f", testRule_node_f_AllowedTypes, testRule_node_f_IsAllowedType, 5.5F, -1, false, null, null);
+			GRGEN_LGSP.PatternNode testRule_node_m = new GRGEN_LGSP.PatternNode((int) GRGEN_MODEL.NodeTypes.@D2211_2222_31, "GRGEN_MODEL.ID2211_2222_31", "testRule_node_m", "m", testRule_node_m_AllowedTypes, testRule_node_m_IsAllowedType, 5.5F, -1, false, null, null);
+			GRGEN_LGSP.PatternEdge testRule_edge__edge0 = new GRGEN_LGSP.PatternEdge(true, (int) GRGEN_MODEL.EdgeTypes.@Edge, "GRGEN_LIBGR.IEdge", "testRule_edge__edge0", "_edge0", testRule_edge__edge0_AllowedTypes, testRule_edge__edge0_IsAllowedType, 5.5F, -1, false, null, null);
+			GRGEN_LGSP.PatternEdge testRule_edge__edge1 = new GRGEN_LGSP.PatternEdge(true, (int) GRGEN_MODEL.EdgeTypes.@Edge, "GRGEN_LIBGR.IEdge", "testRule_edge__edge1", "_edge1", testRule_edge__edge1_AllowedTypes, testRule_edge__edge1_IsAllowedType, 5.5F, -1, false, null, null);
 			pat_testRule = new GRGEN_LGSP.PatternGraph(
 				"testRule",
 				"",
@@ -124,15 +124,15 @@ namespace de.unika.ipd.grGen.Action_test
 			GRGEN_LGSP.LGSPNode node_mre = graph.Retype(node_m, GRGEN_MODEL.NodeType_D11_2221.typeVar);
 			GRGEN_MODEL.ID11_2221 inode_mre = (GRGEN_MODEL.ID11_2221) node_mre;
 			graph.SettingAddedEdgeNames( testRule_addedEdgeNames );
-			int tempvar_i = 1234;
-			graph.ChangingNodeAttribute(node_are, GRGEN_MODEL.NodeType_D2211_2222_31.AttributeType_d2211_2222_31, GRGEN_LIBGR.AttributeChangeType.Assign, tempvar_i, null);
-			inode_are.@d2211_2222_31 = tempvar_i;
-			tempvar_i = 5678;
-			graph.ChangingNodeAttribute(node_fre, GRGEN_MODEL.NodeType_D231_4121.AttributeType_d231_4121, GRGEN_LIBGR.AttributeChangeType.Assign, tempvar_i, null);
-			inode_fre.@d231_4121 = tempvar_i;
-			tempvar_i = 9012;
-			graph.ChangingNodeAttribute(node_mre, GRGEN_MODEL.NodeType_D11_2221.AttributeType_d11_2221, GRGEN_LIBGR.AttributeChangeType.Assign, tempvar_i, null);
-			inode_mre.@d11_2221 = tempvar_i;
+			int tempvar_int = 1234;
+			graph.ChangingNodeAttribute(node_are, GRGEN_MODEL.NodeType_D2211_2222_31.AttributeType_d2211_2222_31, GRGEN_LIBGR.AttributeChangeType.Assign, tempvar_int, null);
+			inode_are.@d2211_2222_31 = tempvar_int;
+			tempvar_int = 5678;
+			graph.ChangingNodeAttribute(node_fre, GRGEN_MODEL.NodeType_D231_4121.AttributeType_d231_4121, GRGEN_LIBGR.AttributeChangeType.Assign, tempvar_int, null);
+			inode_fre.@d231_4121 = tempvar_int;
+			tempvar_int = 9012;
+			graph.ChangingNodeAttribute(node_mre, GRGEN_MODEL.NodeType_D11_2221.AttributeType_d11_2221, GRGEN_LIBGR.AttributeChangeType.Assign, tempvar_int, null);
+			inode_mre.@d11_2221 = tempvar_int;
 			return;
 		}
 		private static string[] testRule_addedNodeNames = new string[] {  };

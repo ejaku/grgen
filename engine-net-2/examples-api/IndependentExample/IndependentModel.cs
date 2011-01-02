@@ -1,6 +1,6 @@
 // This file has been generated automatically by GrGen (www.grgen.net)
 // Do not modify this file! Any changes will be lost!
-// Generated from "..\..\tests\independent\Independent.grg" on Sun Oct 10 18:44:12 CEST 2010
+// Generated from "..\..\tests\independent\Independent.grg" on Mon Jan 03 00:10:32 CET 2011
 
 using System;
 using System.Collections.Generic;
@@ -165,7 +165,7 @@ namespace de.unika.ipd.grGen.Model_Independent
 
 		private @intNode(GRGEN_MODEL.@intNode oldElem) : base(GRGEN_MODEL.NodeType_intNode.typeVar)
 		{
-			_val = oldElem._val;
+			val\u0303 = oldElem.val\u0303;
 		}
 		public static GRGEN_MODEL.@intNode CreateNode(GRGEN_LGSP.LGSPGraph graph)
 		{
@@ -212,11 +212,11 @@ namespace de.unika.ipd.grGen.Model_Independent
 		}
 
 
-		private int _val;
+		private int val\u0303;
 		public int @val
 		{
-			get { return _val; }
-			set { _val = value; }
+			get { return val\u0303; }
+			set { val\u0303 = value; }
 		}
 		public override object GetAttribute(string attrName)
 		{

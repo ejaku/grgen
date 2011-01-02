@@ -1,6 +1,6 @@
 // This file has been generated automatically by GrGen (www.grgen.net)
 // Do not modify this file! Any changes will be lost!
-// Generated from "..\..\tests\antWorld\AntWorld_ExtendAtEndOfRound_NoGammel.grg" on Sat Mar 27 15:04:21 CET 2010
+// Generated from "..\..\tests\antWorld\AntWorld_ExtendAtEndOfRound_NoGammel.grg" on Mon Jan 03 00:10:19 CET 2011
 
 using System;
 using System.Collections.Generic;
@@ -28,7 +28,7 @@ namespace de.unika.ipd.grGen.Action_AntWorld_ExtendAtEndOfRound_NoGammel
 
 
 
-		GRGEN_LGSP.PatternGraph pat_InitWorld;
+		public GRGEN_LGSP.PatternGraph pat_InitWorld;
 
 
 		private Rule_InitWorld()
@@ -38,6 +38,7 @@ namespace de.unika.ipd.grGen.Action_AntWorld_ExtendAtEndOfRound_NoGammel
 			inputs = new GRGEN_LIBGR.GrGenType[] { };
 			inputNames = new string[] { };
 			outputs = new GRGEN_LIBGR.GrGenType[] { GRGEN_MODEL.NodeType_Ant.typeVar, };
+
 		}
 		private void initialize()
 		{
@@ -153,87 +154,6 @@ namespace de.unika.ipd.grGen.Action_AntWorld_ExtendAtEndOfRound_NoGammel
 		}
 		private static string[] InitWorld_addedNodeNames = new string[] { "b2", "hill", "b3", "c3", "c2", "b1", "a1", "a2", "a3", "a4", "b4", "c4", "d4", "d3", "d2", "d1", "c1", "queen", "atta", "flick", "dot", "fred", "slim", "chewap", "cici" };
 		private static string[] InitWorld_addedEdgeNames = new string[] { "_edge0", "_edge1", "_edge2", "_edge3", "_edge4", "_edge5", "_edge6", "_edge7", "_edge8", "_edge9", "_edge10", "_edge11", "_edge12", "_edge13", "_edge14", "_edge15", "_edge16", "_edge17", "_edge18", "_edge19", "_edge20", "_edge21", "_edge22", "_edge23", "_edge24", "_edge25", "_edge26", "_edge27", "_edge28", "_edge29", "_edge30", "_edge31", "_edge32", "_edge33", "_edge34", "_edge35", "_edge36", "_edge37", "_edge38", "_edge39", "_edge40", "_edge41", "_edge42", "_edge43", "_edge44", "_edge45", "_edge46" };
-
-		public void ModifyNoReuse(GRGEN_LGSP.LGSPGraph graph, GRGEN_LIBGR.IMatch _curMatch, out GRGEN_MODEL.IAnt output_0)
-		{
-			Match_InitWorld curMatch = (Match_InitWorld)_curMatch;
-			graph.SettingAddedNodeNames( InitWorld_addedNodeNames );
-			GRGEN_MODEL.@GridCornerNode node_b2 = GRGEN_MODEL.@GridCornerNode.CreateNode(graph);
-			GRGEN_MODEL.@AntHill node_hill = GRGEN_MODEL.@AntHill.CreateNode(graph);
-			GRGEN_MODEL.@GridCornerNode node_b3 = GRGEN_MODEL.@GridCornerNode.CreateNode(graph);
-			GRGEN_MODEL.@GridCornerNode node_c3 = GRGEN_MODEL.@GridCornerNode.CreateNode(graph);
-			GRGEN_MODEL.@GridCornerNode node_c2 = GRGEN_MODEL.@GridCornerNode.CreateNode(graph);
-			GRGEN_MODEL.@GridNode node_b1 = GRGEN_MODEL.@GridNode.CreateNode(graph);
-			GRGEN_MODEL.@GridCornerNode node_a1 = GRGEN_MODEL.@GridCornerNode.CreateNode(graph);
-			GRGEN_MODEL.@GridNode node_a2 = GRGEN_MODEL.@GridNode.CreateNode(graph);
-			GRGEN_MODEL.@GridNode node_a3 = GRGEN_MODEL.@GridNode.CreateNode(graph);
-			GRGEN_MODEL.@GridCornerNode node_a4 = GRGEN_MODEL.@GridCornerNode.CreateNode(graph);
-			GRGEN_MODEL.@GridNode node_b4 = GRGEN_MODEL.@GridNode.CreateNode(graph);
-			GRGEN_MODEL.@GridNode node_c4 = GRGEN_MODEL.@GridNode.CreateNode(graph);
-			GRGEN_MODEL.@GridCornerNode node_d4 = GRGEN_MODEL.@GridCornerNode.CreateNode(graph);
-			GRGEN_MODEL.@GridNode node_d3 = GRGEN_MODEL.@GridNode.CreateNode(graph);
-			GRGEN_MODEL.@GridNode node_d2 = GRGEN_MODEL.@GridNode.CreateNode(graph);
-			GRGEN_MODEL.@GridCornerNode node_d1 = GRGEN_MODEL.@GridCornerNode.CreateNode(graph);
-			GRGEN_MODEL.@GridNode node_c1 = GRGEN_MODEL.@GridNode.CreateNode(graph);
-			GRGEN_MODEL.@Ant node_queen = GRGEN_MODEL.@Ant.CreateNode(graph);
-			GRGEN_MODEL.@Ant node_atta = GRGEN_MODEL.@Ant.CreateNode(graph);
-			GRGEN_MODEL.@Ant node_flick = GRGEN_MODEL.@Ant.CreateNode(graph);
-			GRGEN_MODEL.@Ant node_dot = GRGEN_MODEL.@Ant.CreateNode(graph);
-			GRGEN_MODEL.@Ant node_fred = GRGEN_MODEL.@Ant.CreateNode(graph);
-			GRGEN_MODEL.@Ant node_slim = GRGEN_MODEL.@Ant.CreateNode(graph);
-			GRGEN_MODEL.@Ant node_chewap = GRGEN_MODEL.@Ant.CreateNode(graph);
-			GRGEN_MODEL.@Ant node_cici = GRGEN_MODEL.@Ant.CreateNode(graph);
-			graph.SettingAddedEdgeNames( InitWorld_addedEdgeNames );
-			GRGEN_MODEL.@PathToHill edge__edge0 = GRGEN_MODEL.@PathToHill.CreateEdge(graph, node_b2, node_hill);
-			GRGEN_MODEL.@PathToHill edge__edge1 = GRGEN_MODEL.@PathToHill.CreateEdge(graph, node_b3, node_hill);
-			GRGEN_MODEL.@PathToHill edge__edge2 = GRGEN_MODEL.@PathToHill.CreateEdge(graph, node_c3, node_hill);
-			GRGEN_MODEL.@PathToHill edge__edge3 = GRGEN_MODEL.@PathToHill.CreateEdge(graph, node_c2, node_hill);
-			GRGEN_MODEL.@GridEdge edge__edge4 = GRGEN_MODEL.@GridEdge.CreateEdge(graph, node_b2, node_b3);
-			GRGEN_MODEL.@GridEdge edge__edge5 = GRGEN_MODEL.@GridEdge.CreateEdge(graph, node_b3, node_c3);
-			GRGEN_MODEL.@GridEdge edge__edge6 = GRGEN_MODEL.@GridEdge.CreateEdge(graph, node_c3, node_c2);
-			GRGEN_MODEL.@GridEdge edge__edge7 = GRGEN_MODEL.@GridEdge.CreateEdge(graph, node_c2, node_b2);
-			GRGEN_MODEL.@PathToHill edge__edge8 = GRGEN_MODEL.@PathToHill.CreateEdge(graph, node_b1, node_b2);
-			GRGEN_MODEL.@PathToHill edge__edge9 = GRGEN_MODEL.@PathToHill.CreateEdge(graph, node_a1, node_b2);
-			GRGEN_MODEL.@PathToHill edge__edge10 = GRGEN_MODEL.@PathToHill.CreateEdge(graph, node_a2, node_b2);
-			GRGEN_MODEL.@PathToHill edge__edge11 = GRGEN_MODEL.@PathToHill.CreateEdge(graph, node_a3, node_b3);
-			GRGEN_MODEL.@PathToHill edge__edge12 = GRGEN_MODEL.@PathToHill.CreateEdge(graph, node_a4, node_b3);
-			GRGEN_MODEL.@PathToHill edge__edge13 = GRGEN_MODEL.@PathToHill.CreateEdge(graph, node_b4, node_b3);
-			GRGEN_MODEL.@PathToHill edge__edge14 = GRGEN_MODEL.@PathToHill.CreateEdge(graph, node_c4, node_c3);
-			GRGEN_MODEL.@PathToHill edge__edge15 = GRGEN_MODEL.@PathToHill.CreateEdge(graph, node_d4, node_c3);
-			GRGEN_MODEL.@PathToHill edge__edge16 = GRGEN_MODEL.@PathToHill.CreateEdge(graph, node_d3, node_c3);
-			GRGEN_MODEL.@PathToHill edge__edge17 = GRGEN_MODEL.@PathToHill.CreateEdge(graph, node_d2, node_c2);
-			GRGEN_MODEL.@PathToHill edge__edge18 = GRGEN_MODEL.@PathToHill.CreateEdge(graph, node_d1, node_c2);
-			GRGEN_MODEL.@PathToHill edge__edge19 = GRGEN_MODEL.@PathToHill.CreateEdge(graph, node_c1, node_c2);
-			GRGEN_MODEL.@GridEdge edge__edge20 = GRGEN_MODEL.@GridEdge.CreateEdge(graph, node_a1, node_a2);
-			GRGEN_MODEL.@GridEdge edge__edge21 = GRGEN_MODEL.@GridEdge.CreateEdge(graph, node_a2, node_a3);
-			GRGEN_MODEL.@GridEdge edge__edge22 = GRGEN_MODEL.@GridEdge.CreateEdge(graph, node_a3, node_a4);
-			GRGEN_MODEL.@GridEdge edge__edge23 = GRGEN_MODEL.@GridEdge.CreateEdge(graph, node_a4, node_b4);
-			GRGEN_MODEL.@GridEdge edge__edge24 = GRGEN_MODEL.@GridEdge.CreateEdge(graph, node_b4, node_c4);
-			GRGEN_MODEL.@GridEdge edge__edge25 = GRGEN_MODEL.@GridEdge.CreateEdge(graph, node_c4, node_d4);
-			GRGEN_MODEL.@GridEdge edge__edge26 = GRGEN_MODEL.@GridEdge.CreateEdge(graph, node_d4, node_d3);
-			GRGEN_MODEL.@GridEdge edge__edge27 = GRGEN_MODEL.@GridEdge.CreateEdge(graph, node_d3, node_d2);
-			GRGEN_MODEL.@GridEdge edge__edge28 = GRGEN_MODEL.@GridEdge.CreateEdge(graph, node_d2, node_d1);
-			GRGEN_MODEL.@GridEdge edge__edge29 = GRGEN_MODEL.@GridEdge.CreateEdge(graph, node_d1, node_c1);
-			GRGEN_MODEL.@GridEdge edge__edge30 = GRGEN_MODEL.@GridEdge.CreateEdge(graph, node_c1, node_b1);
-			GRGEN_MODEL.@GridEdge edge__edge31 = GRGEN_MODEL.@GridEdge.CreateEdge(graph, node_b1, node_a1);
-			GRGEN_MODEL.@AntPosition edge__edge32 = GRGEN_MODEL.@AntPosition.CreateEdge(graph, node_queen, node_hill);
-			GRGEN_MODEL.@AntPosition edge__edge33 = GRGEN_MODEL.@AntPosition.CreateEdge(graph, node_atta, node_hill);
-			GRGEN_MODEL.@AntPosition edge__edge34 = GRGEN_MODEL.@AntPosition.CreateEdge(graph, node_flick, node_hill);
-			GRGEN_MODEL.@AntPosition edge__edge35 = GRGEN_MODEL.@AntPosition.CreateEdge(graph, node_dot, node_hill);
-			GRGEN_MODEL.@AntPosition edge__edge36 = GRGEN_MODEL.@AntPosition.CreateEdge(graph, node_fred, node_hill);
-			GRGEN_MODEL.@AntPosition edge__edge37 = GRGEN_MODEL.@AntPosition.CreateEdge(graph, node_slim, node_hill);
-			GRGEN_MODEL.@AntPosition edge__edge38 = GRGEN_MODEL.@AntPosition.CreateEdge(graph, node_chewap, node_hill);
-			GRGEN_MODEL.@AntPosition edge__edge39 = GRGEN_MODEL.@AntPosition.CreateEdge(graph, node_cici, node_hill);
-			GRGEN_MODEL.@NextAnt edge__edge40 = GRGEN_MODEL.@NextAnt.CreateEdge(graph, node_queen, node_atta);
-			GRGEN_MODEL.@NextAnt edge__edge41 = GRGEN_MODEL.@NextAnt.CreateEdge(graph, node_atta, node_flick);
-			GRGEN_MODEL.@NextAnt edge__edge42 = GRGEN_MODEL.@NextAnt.CreateEdge(graph, node_flick, node_dot);
-			GRGEN_MODEL.@NextAnt edge__edge43 = GRGEN_MODEL.@NextAnt.CreateEdge(graph, node_dot, node_fred);
-			GRGEN_MODEL.@NextAnt edge__edge44 = GRGEN_MODEL.@NextAnt.CreateEdge(graph, node_fred, node_slim);
-			GRGEN_MODEL.@NextAnt edge__edge45 = GRGEN_MODEL.@NextAnt.CreateEdge(graph, node_slim, node_chewap);
-			GRGEN_MODEL.@NextAnt edge__edge46 = GRGEN_MODEL.@NextAnt.CreateEdge(graph, node_chewap, node_cici);
-			output_0 = (GRGEN_MODEL.IAnt)(node_queen);
-			return;
-		}
 
 		static Rule_InitWorld() {
 		}
@@ -360,7 +280,7 @@ namespace de.unika.ipd.grGen.Action_AntWorld_ExtendAtEndOfRound_NoGammel
 
 
 
-		GRGEN_LGSP.PatternGraph pat_TakeFood;
+		public GRGEN_LGSP.PatternGraph pat_TakeFood;
 
 
 		private Rule_TakeFood()
@@ -370,6 +290,7 @@ namespace de.unika.ipd.grGen.Action_AntWorld_ExtendAtEndOfRound_NoGammel
 			inputs = new GRGEN_LIBGR.GrGenType[] { GRGEN_MODEL.NodeType_Ant.typeVar, };
 			inputNames = new string[] { "TakeFood_node_curAnt", };
 			outputs = new GRGEN_LIBGR.GrGenType[] { };
+
 		}
 		private void initialize()
 		{
@@ -382,10 +303,10 @@ namespace de.unika.ipd.grGen.Action_AntWorld_ExtendAtEndOfRound_NoGammel
 			};
 			int[] TakeFood_minMatches = new int[0] ;
 			int[] TakeFood_maxMatches = new int[0] ;
-			GRGEN_LGSP.PatternNode TakeFood_node_curAnt = new GRGEN_LGSP.PatternNode((int) GRGEN_MODEL.NodeTypes.@Ant, "GRGEN_MODEL.IAnt", "TakeFood_node_curAnt", "curAnt", TakeFood_node_curAnt_AllowedTypes, TakeFood_node_curAnt_IsAllowedType, 5.5F, 0, false);
-			GRGEN_LGSP.PatternNode TakeFood_node_n = new GRGEN_LGSP.PatternNode((int) GRGEN_MODEL.NodeTypes.@GridNode, "GRGEN_MODEL.IGridNode", "TakeFood_node_n", "n", TakeFood_node_n_AllowedTypes, TakeFood_node_n_IsAllowedType, 5.5F, -1, false);
-			GRGEN_LGSP.PatternEdge TakeFood_edge__edge0 = new GRGEN_LGSP.PatternEdge(true, (int) GRGEN_MODEL.EdgeTypes.@AntPosition, "GRGEN_MODEL.IAntPosition", "TakeFood_edge__edge0", "_edge0", TakeFood_edge__edge0_AllowedTypes, TakeFood_edge__edge0_IsAllowedType, 5.5F, -1, false);
-			GRGEN_LGSP.PatternCondition cond_0 = new GRGEN_LGSP.PatternCondition(
+			GRGEN_LGSP.PatternNode TakeFood_node_curAnt = new GRGEN_LGSP.PatternNode((int) GRGEN_MODEL.NodeTypes.@Ant, "GRGEN_MODEL.IAnt", "TakeFood_node_curAnt", "curAnt", TakeFood_node_curAnt_AllowedTypes, TakeFood_node_curAnt_IsAllowedType, 5.5F, 0, false, null, null);
+			GRGEN_LGSP.PatternNode TakeFood_node_n = new GRGEN_LGSP.PatternNode((int) GRGEN_MODEL.NodeTypes.@GridNode, "GRGEN_MODEL.IGridNode", "TakeFood_node_n", "n", TakeFood_node_n_AllowedTypes, TakeFood_node_n_IsAllowedType, 5.5F, -1, false, null, null);
+			GRGEN_LGSP.PatternEdge TakeFood_edge__edge0 = new GRGEN_LGSP.PatternEdge(true, (int) GRGEN_MODEL.EdgeTypes.@AntPosition, "GRGEN_MODEL.IAntPosition", "TakeFood_edge__edge0", "_edge0", TakeFood_edge__edge0_AllowedTypes, TakeFood_edge__edge0_IsAllowedType, 5.5F, -1, false, null, null);
+			GRGEN_LGSP.PatternCondition TakeFood_cond_0 = new GRGEN_LGSP.PatternCondition(
 				new GRGEN_EXPR.LOG_AND(new GRGEN_EXPR.LOG_NOT(new GRGEN_EXPR.Qualification("GRGEN_MODEL.IAnt", "TakeFood_node_curAnt", "hasFood")), new GRGEN_EXPR.GT(new GRGEN_EXPR.Qualification("GRGEN_MODEL.IGridNode", "TakeFood_node_n", "food"), new GRGEN_EXPR.Constant("0"))),
 				new string[] { "TakeFood_node_curAnt", "TakeFood_node_n" }, new string[] {  }, new string[] {  }, new GRGEN_LIBGR.VarType[] {  });
 			pat_TakeFood = new GRGEN_LGSP.PatternGraph(
@@ -402,7 +323,7 @@ namespace de.unika.ipd.grGen.Action_AntWorld_ExtendAtEndOfRound_NoGammel
 				TakeFood_maxMatches,
 				new GRGEN_LGSP.PatternGraph[] {  }, 
 				new GRGEN_LGSP.PatternGraph[] {  }, 
-				new GRGEN_LGSP.PatternCondition[] { cond_0,  }, 
+				new GRGEN_LGSP.PatternCondition[] { TakeFood_cond_0,  }, 
 				new bool[2, 2] {
 					{ true, false, },
 					{ false, true, },
@@ -416,9 +337,9 @@ namespace de.unika.ipd.grGen.Action_AntWorld_ExtendAtEndOfRound_NoGammel
 			pat_TakeFood.edgeToSourceNode.Add(TakeFood_edge__edge0, TakeFood_node_curAnt);
 			pat_TakeFood.edgeToTargetNode.Add(TakeFood_edge__edge0, TakeFood_node_n);
 
-			TakeFood_node_curAnt.PointOfDefinition = null;
-			TakeFood_node_n.PointOfDefinition = pat_TakeFood;
-			TakeFood_edge__edge0.PointOfDefinition = pat_TakeFood;
+			TakeFood_node_curAnt.pointOfDefinition = null;
+			TakeFood_node_n.pointOfDefinition = pat_TakeFood;
+			TakeFood_edge__edge0.pointOfDefinition = pat_TakeFood;
 
 			patternGraph = pat_TakeFood;
 		}
@@ -433,34 +354,16 @@ namespace de.unika.ipd.grGen.Action_AntWorld_ExtendAtEndOfRound_NoGammel
 			GRGEN_MODEL.IGridNode inode_n = curMatch.node_n;
 			graph.SettingAddedNodeNames( TakeFood_addedNodeNames );
 			graph.SettingAddedEdgeNames( TakeFood_addedEdgeNames );
-			bool tempvar_b = true;
-			graph.ChangingNodeAttribute(node_curAnt, GRGEN_MODEL.NodeType_Ant.AttributeType_hasFood, GRGEN_LIBGR.AttributeChangeType.Assign, tempvar_b, null);
-			inode_curAnt.@hasFood = tempvar_b;
-			int tempvar_i = (inode_n.@food - 1);
-			graph.ChangingNodeAttribute(node_n, GRGEN_MODEL.NodeType_GridNode.AttributeType_food, GRGEN_LIBGR.AttributeChangeType.Assign, tempvar_i, null);
-			inode_n.@food = tempvar_i;
+			bool tempvar_bool = true;
+			graph.ChangingNodeAttribute(node_curAnt, GRGEN_MODEL.NodeType_Ant.AttributeType_hasFood, GRGEN_LIBGR.AttributeChangeType.Assign, tempvar_bool, null);
+			inode_curAnt.@hasFood = tempvar_bool;
+			int tempvar_int = (inode_n.@food - 1);
+			graph.ChangingNodeAttribute(node_n, GRGEN_MODEL.NodeType_GridNode.AttributeType_food, GRGEN_LIBGR.AttributeChangeType.Assign, tempvar_int, null);
+			inode_n.@food = tempvar_int;
 			return;
 		}
 		private static string[] TakeFood_addedNodeNames = new string[] {  };
 		private static string[] TakeFood_addedEdgeNames = new string[] {  };
-
-		public void ModifyNoReuse(GRGEN_LGSP.LGSPGraph graph, GRGEN_LIBGR.IMatch _curMatch)
-		{
-			Match_TakeFood curMatch = (Match_TakeFood)_curMatch;
-			GRGEN_LGSP.LGSPNode node_curAnt = curMatch._node_curAnt;
-			GRGEN_LGSP.LGSPNode node_n = curMatch._node_n;
-			GRGEN_MODEL.IAnt inode_curAnt = curMatch.node_curAnt;
-			GRGEN_MODEL.IGridNode inode_n = curMatch.node_n;
-			graph.SettingAddedNodeNames( TakeFood_addedNodeNames );
-			graph.SettingAddedEdgeNames( TakeFood_addedEdgeNames );
-			bool tempvar_b = true;
-			graph.ChangingNodeAttribute(node_curAnt, GRGEN_MODEL.NodeType_Ant.AttributeType_hasFood, GRGEN_LIBGR.AttributeChangeType.Assign, tempvar_b, null);
-			inode_curAnt.@hasFood = tempvar_b;
-			int tempvar_i = (inode_n.@food - 1);
-			graph.ChangingNodeAttribute(node_n, GRGEN_MODEL.NodeType_GridNode.AttributeType_food, GRGEN_LIBGR.AttributeChangeType.Assign, tempvar_i, null);
-			inode_n.@food = tempvar_i;
-			return;
-		}
 
 		static Rule_TakeFood() {
 		}
@@ -603,7 +506,7 @@ namespace de.unika.ipd.grGen.Action_AntWorld_ExtendAtEndOfRound_NoGammel
 
 
 
-		GRGEN_LGSP.PatternGraph pat_GoHome;
+		public GRGEN_LGSP.PatternGraph pat_GoHome;
 
 
 		private Rule_GoHome()
@@ -613,6 +516,7 @@ namespace de.unika.ipd.grGen.Action_AntWorld_ExtendAtEndOfRound_NoGammel
 			inputs = new GRGEN_LIBGR.GrGenType[] { GRGEN_MODEL.NodeType_Ant.typeVar, };
 			inputNames = new string[] { "GoHome_node_curAnt", };
 			outputs = new GRGEN_LIBGR.GrGenType[] { };
+
 		}
 		private void initialize()
 		{
@@ -627,12 +531,12 @@ namespace de.unika.ipd.grGen.Action_AntWorld_ExtendAtEndOfRound_NoGammel
 			};
 			int[] GoHome_minMatches = new int[0] ;
 			int[] GoHome_maxMatches = new int[0] ;
-			GRGEN_LGSP.PatternNode GoHome_node_curAnt = new GRGEN_LGSP.PatternNode((int) GRGEN_MODEL.NodeTypes.@Ant, "GRGEN_MODEL.IAnt", "GoHome_node_curAnt", "curAnt", GoHome_node_curAnt_AllowedTypes, GoHome_node_curAnt_IsAllowedType, 5.5F, 0, false);
-			GRGEN_LGSP.PatternNode GoHome_node_old = new GRGEN_LGSP.PatternNode((int) GRGEN_MODEL.NodeTypes.@GridNode, "GRGEN_MODEL.IGridNode", "GoHome_node_old", "old", GoHome_node_old_AllowedTypes, GoHome_node_old_IsAllowedType, 5.5F, -1, false);
-			GRGEN_LGSP.PatternNode GoHome_node_new = new GRGEN_LGSP.PatternNode((int) GRGEN_MODEL.NodeTypes.@GridNode, "GRGEN_MODEL.IGridNode", "GoHome_node_new", "new", GoHome_node_new_AllowedTypes, GoHome_node_new_IsAllowedType, 5.5F, -1, false);
-			GRGEN_LGSP.PatternEdge GoHome_edge_oldPos = new GRGEN_LGSP.PatternEdge(true, (int) GRGEN_MODEL.EdgeTypes.@AntPosition, "GRGEN_MODEL.IAntPosition", "GoHome_edge_oldPos", "oldPos", GoHome_edge_oldPos_AllowedTypes, GoHome_edge_oldPos_IsAllowedType, 5.5F, -1, false);
-			GRGEN_LGSP.PatternEdge GoHome_edge__edge0 = new GRGEN_LGSP.PatternEdge(true, (int) GRGEN_MODEL.EdgeTypes.@PathToHill, "GRGEN_MODEL.IPathToHill", "GoHome_edge__edge0", "_edge0", GoHome_edge__edge0_AllowedTypes, GoHome_edge__edge0_IsAllowedType, 5.5F, -1, false);
-			GRGEN_LGSP.PatternCondition cond_0 = new GRGEN_LGSP.PatternCondition(
+			GRGEN_LGSP.PatternNode GoHome_node_curAnt = new GRGEN_LGSP.PatternNode((int) GRGEN_MODEL.NodeTypes.@Ant, "GRGEN_MODEL.IAnt", "GoHome_node_curAnt", "curAnt", GoHome_node_curAnt_AllowedTypes, GoHome_node_curAnt_IsAllowedType, 5.5F, 0, false, null, null);
+			GRGEN_LGSP.PatternNode GoHome_node_old = new GRGEN_LGSP.PatternNode((int) GRGEN_MODEL.NodeTypes.@GridNode, "GRGEN_MODEL.IGridNode", "GoHome_node_old", "old", GoHome_node_old_AllowedTypes, GoHome_node_old_IsAllowedType, 5.5F, -1, false, null, null);
+			GRGEN_LGSP.PatternNode GoHome_node_new = new GRGEN_LGSP.PatternNode((int) GRGEN_MODEL.NodeTypes.@GridNode, "GRGEN_MODEL.IGridNode", "GoHome_node_new", "new", GoHome_node_new_AllowedTypes, GoHome_node_new_IsAllowedType, 5.5F, -1, false, null, null);
+			GRGEN_LGSP.PatternEdge GoHome_edge_oldPos = new GRGEN_LGSP.PatternEdge(true, (int) GRGEN_MODEL.EdgeTypes.@AntPosition, "GRGEN_MODEL.IAntPosition", "GoHome_edge_oldPos", "oldPos", GoHome_edge_oldPos_AllowedTypes, GoHome_edge_oldPos_IsAllowedType, 5.5F, -1, false, null, null);
+			GRGEN_LGSP.PatternEdge GoHome_edge__edge0 = new GRGEN_LGSP.PatternEdge(true, (int) GRGEN_MODEL.EdgeTypes.@PathToHill, "GRGEN_MODEL.IPathToHill", "GoHome_edge__edge0", "_edge0", GoHome_edge__edge0_AllowedTypes, GoHome_edge__edge0_IsAllowedType, 5.5F, -1, false, null, null);
+			GRGEN_LGSP.PatternCondition GoHome_cond_0 = new GRGEN_LGSP.PatternCondition(
 				new GRGEN_EXPR.Qualification("GRGEN_MODEL.IAnt", "GoHome_node_curAnt", "hasFood"),
 				new string[] { "GoHome_node_curAnt" }, new string[] {  }, new string[] {  }, new GRGEN_LIBGR.VarType[] {  });
 			pat_GoHome = new GRGEN_LGSP.PatternGraph(
@@ -649,7 +553,7 @@ namespace de.unika.ipd.grGen.Action_AntWorld_ExtendAtEndOfRound_NoGammel
 				GoHome_maxMatches,
 				new GRGEN_LGSP.PatternGraph[] {  }, 
 				new GRGEN_LGSP.PatternGraph[] {  }, 
-				new GRGEN_LGSP.PatternCondition[] { cond_0,  }, 
+				new GRGEN_LGSP.PatternCondition[] { GoHome_cond_0,  }, 
 				new bool[3, 3] {
 					{ true, false, false, },
 					{ false, true, false, },
@@ -667,11 +571,11 @@ namespace de.unika.ipd.grGen.Action_AntWorld_ExtendAtEndOfRound_NoGammel
 			pat_GoHome.edgeToSourceNode.Add(GoHome_edge__edge0, GoHome_node_old);
 			pat_GoHome.edgeToTargetNode.Add(GoHome_edge__edge0, GoHome_node_new);
 
-			GoHome_node_curAnt.PointOfDefinition = null;
-			GoHome_node_old.PointOfDefinition = pat_GoHome;
-			GoHome_node_new.PointOfDefinition = pat_GoHome;
-			GoHome_edge_oldPos.PointOfDefinition = pat_GoHome;
-			GoHome_edge__edge0.PointOfDefinition = pat_GoHome;
+			GoHome_node_curAnt.pointOfDefinition = null;
+			GoHome_node_old.pointOfDefinition = pat_GoHome;
+			GoHome_node_new.pointOfDefinition = pat_GoHome;
+			GoHome_edge_oldPos.pointOfDefinition = pat_GoHome;
+			GoHome_edge__edge0.pointOfDefinition = pat_GoHome;
 
 			patternGraph = pat_GoHome;
 		}
@@ -687,43 +591,15 @@ namespace de.unika.ipd.grGen.Action_AntWorld_ExtendAtEndOfRound_NoGammel
 			GRGEN_LGSP.LGSPEdge edge_oldPos = curMatch._edge_oldPos;
 			graph.SettingAddedNodeNames( GoHome_addedNodeNames );
 			graph.SettingAddedEdgeNames( GoHome_addedEdgeNames );
-			GRGEN_MODEL.@AntPosition edge__edge1;
-			if(edge_oldPos.lgspType == GRGEN_MODEL.EdgeType_AntPosition.typeVar)
-			{
-				// re-using edge_oldPos as edge__edge1
-				edge__edge1 = (GRGEN_MODEL.@AntPosition) edge_oldPos;
-				graph.ReuseEdge(edge_oldPos, null, node_new);
-			}
-			else
-			{
-				graph.Remove(edge_oldPos);
-				edge__edge1 = GRGEN_MODEL.@AntPosition.CreateEdge(graph, node_curAnt, node_new);
-			}
-			int tempvar_i = (inode_old.@pheromones + 1024);
-			graph.ChangingNodeAttribute(node_old, GRGEN_MODEL.NodeType_GridNode.AttributeType_pheromones, GRGEN_LIBGR.AttributeChangeType.Assign, tempvar_i, null);
-			inode_old.@pheromones = tempvar_i;
+			GRGEN_MODEL.@AntPosition edge__edge1 = GRGEN_MODEL.@AntPosition.CreateEdge(graph, node_curAnt, node_new);
+			int tempvar_int = (inode_old.@pheromones + 1024);
+			graph.ChangingNodeAttribute(node_old, GRGEN_MODEL.NodeType_GridNode.AttributeType_pheromones, GRGEN_LIBGR.AttributeChangeType.Assign, tempvar_int, null);
+			inode_old.@pheromones = tempvar_int;
+			graph.Remove(edge_oldPos);
 			return;
 		}
 		private static string[] GoHome_addedNodeNames = new string[] {  };
 		private static string[] GoHome_addedEdgeNames = new string[] { "_edge1" };
-
-		public void ModifyNoReuse(GRGEN_LGSP.LGSPGraph graph, GRGEN_LIBGR.IMatch _curMatch)
-		{
-			Match_GoHome curMatch = (Match_GoHome)_curMatch;
-			GRGEN_LGSP.LGSPNode node_old = curMatch._node_old;
-			GRGEN_LGSP.LGSPNode node_curAnt = curMatch._node_curAnt;
-			GRGEN_LGSP.LGSPNode node_new = curMatch._node_new;
-			GRGEN_MODEL.IGridNode inode_old = curMatch.node_old;
-			GRGEN_LGSP.LGSPEdge edge_oldPos = curMatch._edge_oldPos;
-			graph.SettingAddedNodeNames( GoHome_addedNodeNames );
-			graph.SettingAddedEdgeNames( GoHome_addedEdgeNames );
-			GRGEN_MODEL.@AntPosition edge__edge1 = GRGEN_MODEL.@AntPosition.CreateEdge(graph, node_curAnt, node_new);
-			int tempvar_i = (inode_old.@pheromones + 1024);
-			graph.ChangingNodeAttribute(node_old, GRGEN_MODEL.NodeType_GridNode.AttributeType_pheromones, GRGEN_LIBGR.AttributeChangeType.Assign, tempvar_i, null);
-			inode_old.@pheromones = tempvar_i;
-			graph.Remove(edge_oldPos);
-			return;
-		}
 
 		static Rule_GoHome() {
 		}
@@ -870,7 +746,7 @@ namespace de.unika.ipd.grGen.Action_AntWorld_ExtendAtEndOfRound_NoGammel
 
 
 
-		GRGEN_LGSP.PatternGraph pat_DropFood;
+		public GRGEN_LGSP.PatternGraph pat_DropFood;
 
 
 		private Rule_DropFood()
@@ -880,6 +756,7 @@ namespace de.unika.ipd.grGen.Action_AntWorld_ExtendAtEndOfRound_NoGammel
 			inputs = new GRGEN_LIBGR.GrGenType[] { GRGEN_MODEL.NodeType_Ant.typeVar, };
 			inputNames = new string[] { "DropFood_node_curAnt", };
 			outputs = new GRGEN_LIBGR.GrGenType[] { };
+
 		}
 		private void initialize()
 		{
@@ -892,10 +769,10 @@ namespace de.unika.ipd.grGen.Action_AntWorld_ExtendAtEndOfRound_NoGammel
 			};
 			int[] DropFood_minMatches = new int[0] ;
 			int[] DropFood_maxMatches = new int[0] ;
-			GRGEN_LGSP.PatternNode DropFood_node_curAnt = new GRGEN_LGSP.PatternNode((int) GRGEN_MODEL.NodeTypes.@Ant, "GRGEN_MODEL.IAnt", "DropFood_node_curAnt", "curAnt", DropFood_node_curAnt_AllowedTypes, DropFood_node_curAnt_IsAllowedType, 5.5F, 0, false);
-			GRGEN_LGSP.PatternNode DropFood_node_hill = new GRGEN_LGSP.PatternNode((int) GRGEN_MODEL.NodeTypes.@AntHill, "GRGEN_MODEL.IAntHill", "DropFood_node_hill", "hill", DropFood_node_hill_AllowedTypes, DropFood_node_hill_IsAllowedType, 5.5F, -1, false);
-			GRGEN_LGSP.PatternEdge DropFood_edge__edge0 = new GRGEN_LGSP.PatternEdge(true, (int) GRGEN_MODEL.EdgeTypes.@AntPosition, "GRGEN_MODEL.IAntPosition", "DropFood_edge__edge0", "_edge0", DropFood_edge__edge0_AllowedTypes, DropFood_edge__edge0_IsAllowedType, 5.5F, -1, false);
-			GRGEN_LGSP.PatternCondition cond_0 = new GRGEN_LGSP.PatternCondition(
+			GRGEN_LGSP.PatternNode DropFood_node_curAnt = new GRGEN_LGSP.PatternNode((int) GRGEN_MODEL.NodeTypes.@Ant, "GRGEN_MODEL.IAnt", "DropFood_node_curAnt", "curAnt", DropFood_node_curAnt_AllowedTypes, DropFood_node_curAnt_IsAllowedType, 5.5F, 0, false, null, null);
+			GRGEN_LGSP.PatternNode DropFood_node_hill = new GRGEN_LGSP.PatternNode((int) GRGEN_MODEL.NodeTypes.@AntHill, "GRGEN_MODEL.IAntHill", "DropFood_node_hill", "hill", DropFood_node_hill_AllowedTypes, DropFood_node_hill_IsAllowedType, 5.5F, -1, false, null, null);
+			GRGEN_LGSP.PatternEdge DropFood_edge__edge0 = new GRGEN_LGSP.PatternEdge(true, (int) GRGEN_MODEL.EdgeTypes.@AntPosition, "GRGEN_MODEL.IAntPosition", "DropFood_edge__edge0", "_edge0", DropFood_edge__edge0_AllowedTypes, DropFood_edge__edge0_IsAllowedType, 5.5F, -1, false, null, null);
+			GRGEN_LGSP.PatternCondition DropFood_cond_0 = new GRGEN_LGSP.PatternCondition(
 				new GRGEN_EXPR.Qualification("GRGEN_MODEL.IAnt", "DropFood_node_curAnt", "hasFood"),
 				new string[] { "DropFood_node_curAnt" }, new string[] {  }, new string[] {  }, new GRGEN_LIBGR.VarType[] {  });
 			pat_DropFood = new GRGEN_LGSP.PatternGraph(
@@ -912,7 +789,7 @@ namespace de.unika.ipd.grGen.Action_AntWorld_ExtendAtEndOfRound_NoGammel
 				DropFood_maxMatches,
 				new GRGEN_LGSP.PatternGraph[] {  }, 
 				new GRGEN_LGSP.PatternGraph[] {  }, 
-				new GRGEN_LGSP.PatternCondition[] { cond_0,  }, 
+				new GRGEN_LGSP.PatternCondition[] { DropFood_cond_0,  }, 
 				new bool[2, 2] {
 					{ true, false, },
 					{ false, true, },
@@ -926,9 +803,9 @@ namespace de.unika.ipd.grGen.Action_AntWorld_ExtendAtEndOfRound_NoGammel
 			pat_DropFood.edgeToSourceNode.Add(DropFood_edge__edge0, DropFood_node_curAnt);
 			pat_DropFood.edgeToTargetNode.Add(DropFood_edge__edge0, DropFood_node_hill);
 
-			DropFood_node_curAnt.PointOfDefinition = null;
-			DropFood_node_hill.PointOfDefinition = pat_DropFood;
-			DropFood_edge__edge0.PointOfDefinition = pat_DropFood;
+			DropFood_node_curAnt.pointOfDefinition = null;
+			DropFood_node_hill.pointOfDefinition = pat_DropFood;
+			DropFood_edge__edge0.pointOfDefinition = pat_DropFood;
 
 			patternGraph = pat_DropFood;
 		}
@@ -943,34 +820,16 @@ namespace de.unika.ipd.grGen.Action_AntWorld_ExtendAtEndOfRound_NoGammel
 			GRGEN_MODEL.IAntHill inode_hill = curMatch.node_hill;
 			graph.SettingAddedNodeNames( DropFood_addedNodeNames );
 			graph.SettingAddedEdgeNames( DropFood_addedEdgeNames );
-			bool tempvar_b = false;
-			graph.ChangingNodeAttribute(node_curAnt, GRGEN_MODEL.NodeType_Ant.AttributeType_hasFood, GRGEN_LIBGR.AttributeChangeType.Assign, tempvar_b, null);
-			inode_curAnt.@hasFood = tempvar_b;
-			int tempvar_i = (inode_hill.@food + 1);
-			graph.ChangingNodeAttribute(node_hill, GRGEN_MODEL.NodeType_GridNode.AttributeType_food, GRGEN_LIBGR.AttributeChangeType.Assign, tempvar_i, null);
-			inode_hill.@food = tempvar_i;
+			bool tempvar_bool = false;
+			graph.ChangingNodeAttribute(node_curAnt, GRGEN_MODEL.NodeType_Ant.AttributeType_hasFood, GRGEN_LIBGR.AttributeChangeType.Assign, tempvar_bool, null);
+			inode_curAnt.@hasFood = tempvar_bool;
+			int tempvar_int = (inode_hill.@food + 1);
+			graph.ChangingNodeAttribute(node_hill, GRGEN_MODEL.NodeType_GridNode.AttributeType_food, GRGEN_LIBGR.AttributeChangeType.Assign, tempvar_int, null);
+			inode_hill.@food = tempvar_int;
 			return;
 		}
 		private static string[] DropFood_addedNodeNames = new string[] {  };
 		private static string[] DropFood_addedEdgeNames = new string[] {  };
-
-		public void ModifyNoReuse(GRGEN_LGSP.LGSPGraph graph, GRGEN_LIBGR.IMatch _curMatch)
-		{
-			Match_DropFood curMatch = (Match_DropFood)_curMatch;
-			GRGEN_LGSP.LGSPNode node_curAnt = curMatch._node_curAnt;
-			GRGEN_LGSP.LGSPNode node_hill = curMatch._node_hill;
-			GRGEN_MODEL.IAnt inode_curAnt = curMatch.node_curAnt;
-			GRGEN_MODEL.IAntHill inode_hill = curMatch.node_hill;
-			graph.SettingAddedNodeNames( DropFood_addedNodeNames );
-			graph.SettingAddedEdgeNames( DropFood_addedEdgeNames );
-			bool tempvar_b = false;
-			graph.ChangingNodeAttribute(node_curAnt, GRGEN_MODEL.NodeType_Ant.AttributeType_hasFood, GRGEN_LIBGR.AttributeChangeType.Assign, tempvar_b, null);
-			inode_curAnt.@hasFood = tempvar_b;
-			int tempvar_i = (inode_hill.@food + 1);
-			graph.ChangingNodeAttribute(node_hill, GRGEN_MODEL.NodeType_GridNode.AttributeType_food, GRGEN_LIBGR.AttributeChangeType.Assign, tempvar_i, null);
-			inode_hill.@food = tempvar_i;
-			return;
-		}
 
 		static Rule_DropFood() {
 		}
@@ -1113,7 +972,7 @@ namespace de.unika.ipd.grGen.Action_AntWorld_ExtendAtEndOfRound_NoGammel
 
 
 
-		GRGEN_LGSP.PatternGraph pat_SearchAlongPheromones;
+		public GRGEN_LGSP.PatternGraph pat_SearchAlongPheromones;
 
 
 		private Rule_SearchAlongPheromones()
@@ -1123,6 +982,7 @@ namespace de.unika.ipd.grGen.Action_AntWorld_ExtendAtEndOfRound_NoGammel
 			inputs = new GRGEN_LIBGR.GrGenType[] { GRGEN_MODEL.NodeType_Ant.typeVar, };
 			inputNames = new string[] { "SearchAlongPheromones_node_curAnt", };
 			outputs = new GRGEN_LIBGR.GrGenType[] { };
+
 		}
 		private void initialize()
 		{
@@ -1137,12 +997,12 @@ namespace de.unika.ipd.grGen.Action_AntWorld_ExtendAtEndOfRound_NoGammel
 			};
 			int[] SearchAlongPheromones_minMatches = new int[0] ;
 			int[] SearchAlongPheromones_maxMatches = new int[0] ;
-			GRGEN_LGSP.PatternNode SearchAlongPheromones_node_curAnt = new GRGEN_LGSP.PatternNode((int) GRGEN_MODEL.NodeTypes.@Ant, "GRGEN_MODEL.IAnt", "SearchAlongPheromones_node_curAnt", "curAnt", SearchAlongPheromones_node_curAnt_AllowedTypes, SearchAlongPheromones_node_curAnt_IsAllowedType, 5.5F, 0, false);
-			GRGEN_LGSP.PatternNode SearchAlongPheromones_node_old = new GRGEN_LGSP.PatternNode((int) GRGEN_MODEL.NodeTypes.@GridNode, "GRGEN_MODEL.IGridNode", "SearchAlongPheromones_node_old", "old", SearchAlongPheromones_node_old_AllowedTypes, SearchAlongPheromones_node_old_IsAllowedType, 5.5F, -1, false);
-			GRGEN_LGSP.PatternNode SearchAlongPheromones_node_new = new GRGEN_LGSP.PatternNode((int) GRGEN_MODEL.NodeTypes.@GridNode, "GRGEN_MODEL.IGridNode", "SearchAlongPheromones_node_new", "new", SearchAlongPheromones_node_new_AllowedTypes, SearchAlongPheromones_node_new_IsAllowedType, 5.5F, -1, false);
-			GRGEN_LGSP.PatternEdge SearchAlongPheromones_edge_oldPos = new GRGEN_LGSP.PatternEdge(true, (int) GRGEN_MODEL.EdgeTypes.@AntPosition, "GRGEN_MODEL.IAntPosition", "SearchAlongPheromones_edge_oldPos", "oldPos", SearchAlongPheromones_edge_oldPos_AllowedTypes, SearchAlongPheromones_edge_oldPos_IsAllowedType, 5.5F, -1, false);
-			GRGEN_LGSP.PatternEdge SearchAlongPheromones_edge__edge0 = new GRGEN_LGSP.PatternEdge(true, (int) GRGEN_MODEL.EdgeTypes.@PathToHill, "GRGEN_MODEL.IPathToHill", "SearchAlongPheromones_edge__edge0", "_edge0", SearchAlongPheromones_edge__edge0_AllowedTypes, SearchAlongPheromones_edge__edge0_IsAllowedType, 5.5F, -1, false);
-			GRGEN_LGSP.PatternCondition cond_0 = new GRGEN_LGSP.PatternCondition(
+			GRGEN_LGSP.PatternNode SearchAlongPheromones_node_curAnt = new GRGEN_LGSP.PatternNode((int) GRGEN_MODEL.NodeTypes.@Ant, "GRGEN_MODEL.IAnt", "SearchAlongPheromones_node_curAnt", "curAnt", SearchAlongPheromones_node_curAnt_AllowedTypes, SearchAlongPheromones_node_curAnt_IsAllowedType, 5.5F, 0, false, null, null);
+			GRGEN_LGSP.PatternNode SearchAlongPheromones_node_old = new GRGEN_LGSP.PatternNode((int) GRGEN_MODEL.NodeTypes.@GridNode, "GRGEN_MODEL.IGridNode", "SearchAlongPheromones_node_old", "old", SearchAlongPheromones_node_old_AllowedTypes, SearchAlongPheromones_node_old_IsAllowedType, 5.5F, -1, false, null, null);
+			GRGEN_LGSP.PatternNode SearchAlongPheromones_node_new = new GRGEN_LGSP.PatternNode((int) GRGEN_MODEL.NodeTypes.@GridNode, "GRGEN_MODEL.IGridNode", "SearchAlongPheromones_node_new", "new", SearchAlongPheromones_node_new_AllowedTypes, SearchAlongPheromones_node_new_IsAllowedType, 5.5F, -1, false, null, null);
+			GRGEN_LGSP.PatternEdge SearchAlongPheromones_edge_oldPos = new GRGEN_LGSP.PatternEdge(true, (int) GRGEN_MODEL.EdgeTypes.@AntPosition, "GRGEN_MODEL.IAntPosition", "SearchAlongPheromones_edge_oldPos", "oldPos", SearchAlongPheromones_edge_oldPos_AllowedTypes, SearchAlongPheromones_edge_oldPos_IsAllowedType, 5.5F, -1, false, null, null);
+			GRGEN_LGSP.PatternEdge SearchAlongPheromones_edge__edge0 = new GRGEN_LGSP.PatternEdge(true, (int) GRGEN_MODEL.EdgeTypes.@PathToHill, "GRGEN_MODEL.IPathToHill", "SearchAlongPheromones_edge__edge0", "_edge0", SearchAlongPheromones_edge__edge0_AllowedTypes, SearchAlongPheromones_edge__edge0_IsAllowedType, 5.5F, -1, false, null, null);
+			GRGEN_LGSP.PatternCondition SearchAlongPheromones_cond_0 = new GRGEN_LGSP.PatternCondition(
 				new GRGEN_EXPR.GT(new GRGEN_EXPR.Qualification("GRGEN_MODEL.IGridNode", "SearchAlongPheromones_node_new", "pheromones"), new GRGEN_EXPR.Constant("9")),
 				new string[] { "SearchAlongPheromones_node_new" }, new string[] {  }, new string[] {  }, new GRGEN_LIBGR.VarType[] {  });
 			pat_SearchAlongPheromones = new GRGEN_LGSP.PatternGraph(
@@ -1159,7 +1019,7 @@ namespace de.unika.ipd.grGen.Action_AntWorld_ExtendAtEndOfRound_NoGammel
 				SearchAlongPheromones_maxMatches,
 				new GRGEN_LGSP.PatternGraph[] {  }, 
 				new GRGEN_LGSP.PatternGraph[] {  }, 
-				new GRGEN_LGSP.PatternCondition[] { cond_0,  }, 
+				new GRGEN_LGSP.PatternCondition[] { SearchAlongPheromones_cond_0,  }, 
 				new bool[3, 3] {
 					{ true, false, false, },
 					{ false, true, false, },
@@ -1177,11 +1037,11 @@ namespace de.unika.ipd.grGen.Action_AntWorld_ExtendAtEndOfRound_NoGammel
 			pat_SearchAlongPheromones.edgeToSourceNode.Add(SearchAlongPheromones_edge__edge0, SearchAlongPheromones_node_new);
 			pat_SearchAlongPheromones.edgeToTargetNode.Add(SearchAlongPheromones_edge__edge0, SearchAlongPheromones_node_old);
 
-			SearchAlongPheromones_node_curAnt.PointOfDefinition = null;
-			SearchAlongPheromones_node_old.PointOfDefinition = pat_SearchAlongPheromones;
-			SearchAlongPheromones_node_new.PointOfDefinition = pat_SearchAlongPheromones;
-			SearchAlongPheromones_edge_oldPos.PointOfDefinition = pat_SearchAlongPheromones;
-			SearchAlongPheromones_edge__edge0.PointOfDefinition = pat_SearchAlongPheromones;
+			SearchAlongPheromones_node_curAnt.pointOfDefinition = null;
+			SearchAlongPheromones_node_old.pointOfDefinition = pat_SearchAlongPheromones;
+			SearchAlongPheromones_node_new.pointOfDefinition = pat_SearchAlongPheromones;
+			SearchAlongPheromones_edge_oldPos.pointOfDefinition = pat_SearchAlongPheromones;
+			SearchAlongPheromones_edge__edge0.pointOfDefinition = pat_SearchAlongPheromones;
 
 			patternGraph = pat_SearchAlongPheromones;
 		}
@@ -1195,35 +1055,12 @@ namespace de.unika.ipd.grGen.Action_AntWorld_ExtendAtEndOfRound_NoGammel
 			GRGEN_LGSP.LGSPEdge edge_oldPos = curMatch._edge_oldPos;
 			graph.SettingAddedNodeNames( SearchAlongPheromones_addedNodeNames );
 			graph.SettingAddedEdgeNames( SearchAlongPheromones_addedEdgeNames );
-			GRGEN_MODEL.@AntPosition edge__edge1;
-			if(edge_oldPos.lgspType == GRGEN_MODEL.EdgeType_AntPosition.typeVar)
-			{
-				// re-using edge_oldPos as edge__edge1
-				edge__edge1 = (GRGEN_MODEL.@AntPosition) edge_oldPos;
-				graph.ReuseEdge(edge_oldPos, null, node_new);
-			}
-			else
-			{
-				graph.Remove(edge_oldPos);
-				edge__edge1 = GRGEN_MODEL.@AntPosition.CreateEdge(graph, node_curAnt, node_new);
-			}
-			return;
-		}
-		private static string[] SearchAlongPheromones_addedNodeNames = new string[] {  };
-		private static string[] SearchAlongPheromones_addedEdgeNames = new string[] { "_edge1" };
-
-		public void ModifyNoReuse(GRGEN_LGSP.LGSPGraph graph, GRGEN_LIBGR.IMatch _curMatch)
-		{
-			Match_SearchAlongPheromones curMatch = (Match_SearchAlongPheromones)_curMatch;
-			GRGEN_LGSP.LGSPNode node_curAnt = curMatch._node_curAnt;
-			GRGEN_LGSP.LGSPNode node_new = curMatch._node_new;
-			GRGEN_LGSP.LGSPEdge edge_oldPos = curMatch._edge_oldPos;
-			graph.SettingAddedNodeNames( SearchAlongPheromones_addedNodeNames );
-			graph.SettingAddedEdgeNames( SearchAlongPheromones_addedEdgeNames );
 			GRGEN_MODEL.@AntPosition edge__edge1 = GRGEN_MODEL.@AntPosition.CreateEdge(graph, node_curAnt, node_new);
 			graph.Remove(edge_oldPos);
 			return;
 		}
+		private static string[] SearchAlongPheromones_addedNodeNames = new string[] {  };
+		private static string[] SearchAlongPheromones_addedEdgeNames = new string[] { "_edge1" };
 
 		static Rule_SearchAlongPheromones() {
 		}
@@ -1374,7 +1211,7 @@ namespace de.unika.ipd.grGen.Action_AntWorld_ExtendAtEndOfRound_NoGammel
 
 
 
-		GRGEN_LGSP.PatternGraph pat_SearchAimless;
+		public GRGEN_LGSP.PatternGraph pat_SearchAimless;
 
 
 		private Rule_SearchAimless()
@@ -1384,6 +1221,7 @@ namespace de.unika.ipd.grGen.Action_AntWorld_ExtendAtEndOfRound_NoGammel
 			inputs = new GRGEN_LIBGR.GrGenType[] { GRGEN_MODEL.NodeType_Ant.typeVar, };
 			inputNames = new string[] { "SearchAimless_node_curAnt", };
 			outputs = new GRGEN_LIBGR.GrGenType[] { };
+
 		}
 		private void initialize()
 		{
@@ -1398,11 +1236,11 @@ namespace de.unika.ipd.grGen.Action_AntWorld_ExtendAtEndOfRound_NoGammel
 			};
 			int[] SearchAimless_minMatches = new int[0] ;
 			int[] SearchAimless_maxMatches = new int[0] ;
-			GRGEN_LGSP.PatternNode SearchAimless_node_curAnt = new GRGEN_LGSP.PatternNode((int) GRGEN_MODEL.NodeTypes.@Ant, "GRGEN_MODEL.IAnt", "SearchAimless_node_curAnt", "curAnt", SearchAimless_node_curAnt_AllowedTypes, SearchAimless_node_curAnt_IsAllowedType, 5.5F, 0, false);
-			GRGEN_LGSP.PatternNode SearchAimless_node_old = new GRGEN_LGSP.PatternNode((int) GRGEN_MODEL.NodeTypes.@GridNode, "GRGEN_MODEL.IGridNode", "SearchAimless_node_old", "old", SearchAimless_node_old_AllowedTypes, SearchAimless_node_old_IsAllowedType, 5.5F, -1, false);
-			GRGEN_LGSP.PatternNode SearchAimless_node_new = new GRGEN_LGSP.PatternNode((int) GRGEN_MODEL.NodeTypes.@GridNode, "GRGEN_MODEL.IGridNode", "SearchAimless_node_new", "new", SearchAimless_node_new_AllowedTypes, SearchAimless_node_new_IsAllowedType, 5.5F, -1, false);
-			GRGEN_LGSP.PatternEdge SearchAimless_edge_oldPos = new GRGEN_LGSP.PatternEdge(true, (int) GRGEN_MODEL.EdgeTypes.@AntPosition, "GRGEN_MODEL.IAntPosition", "SearchAimless_edge_oldPos", "oldPos", SearchAimless_edge_oldPos_AllowedTypes, SearchAimless_edge_oldPos_IsAllowedType, 5.5F, -1, false);
-			GRGEN_LGSP.PatternEdge SearchAimless_edge__edge0 = new GRGEN_LGSP.PatternEdge(false, (int) GRGEN_MODEL.EdgeTypes.@GridEdge, "GRGEN_MODEL.IGridEdge", "SearchAimless_edge__edge0", "_edge0", SearchAimless_edge__edge0_AllowedTypes, SearchAimless_edge__edge0_IsAllowedType, 5.5F, -1, false);
+			GRGEN_LGSP.PatternNode SearchAimless_node_curAnt = new GRGEN_LGSP.PatternNode((int) GRGEN_MODEL.NodeTypes.@Ant, "GRGEN_MODEL.IAnt", "SearchAimless_node_curAnt", "curAnt", SearchAimless_node_curAnt_AllowedTypes, SearchAimless_node_curAnt_IsAllowedType, 5.5F, 0, false, null, null);
+			GRGEN_LGSP.PatternNode SearchAimless_node_old = new GRGEN_LGSP.PatternNode((int) GRGEN_MODEL.NodeTypes.@GridNode, "GRGEN_MODEL.IGridNode", "SearchAimless_node_old", "old", SearchAimless_node_old_AllowedTypes, SearchAimless_node_old_IsAllowedType, 5.5F, -1, false, null, null);
+			GRGEN_LGSP.PatternNode SearchAimless_node_new = new GRGEN_LGSP.PatternNode((int) GRGEN_MODEL.NodeTypes.@GridNode, "GRGEN_MODEL.IGridNode", "SearchAimless_node_new", "new", SearchAimless_node_new_AllowedTypes, SearchAimless_node_new_IsAllowedType, 5.5F, -1, false, null, null);
+			GRGEN_LGSP.PatternEdge SearchAimless_edge_oldPos = new GRGEN_LGSP.PatternEdge(true, (int) GRGEN_MODEL.EdgeTypes.@AntPosition, "GRGEN_MODEL.IAntPosition", "SearchAimless_edge_oldPos", "oldPos", SearchAimless_edge_oldPos_AllowedTypes, SearchAimless_edge_oldPos_IsAllowedType, 5.5F, -1, false, null, null);
+			GRGEN_LGSP.PatternEdge SearchAimless_edge__edge0 = new GRGEN_LGSP.PatternEdge(false, (int) GRGEN_MODEL.EdgeTypes.@GridEdge, "GRGEN_MODEL.IGridEdge", "SearchAimless_edge__edge0", "_edge0", SearchAimless_edge__edge0_AllowedTypes, SearchAimless_edge__edge0_IsAllowedType, 5.5F, -1, false, null, null);
 			pat_SearchAimless = new GRGEN_LGSP.PatternGraph(
 				"SearchAimless",
 				"",
@@ -1435,11 +1273,11 @@ namespace de.unika.ipd.grGen.Action_AntWorld_ExtendAtEndOfRound_NoGammel
 			pat_SearchAimless.edgeToSourceNode.Add(SearchAimless_edge__edge0, SearchAimless_node_old);
 			pat_SearchAimless.edgeToTargetNode.Add(SearchAimless_edge__edge0, SearchAimless_node_new);
 
-			SearchAimless_node_curAnt.PointOfDefinition = null;
-			SearchAimless_node_old.PointOfDefinition = pat_SearchAimless;
-			SearchAimless_node_new.PointOfDefinition = pat_SearchAimless;
-			SearchAimless_edge_oldPos.PointOfDefinition = pat_SearchAimless;
-			SearchAimless_edge__edge0.PointOfDefinition = pat_SearchAimless;
+			SearchAimless_node_curAnt.pointOfDefinition = null;
+			SearchAimless_node_old.pointOfDefinition = pat_SearchAimless;
+			SearchAimless_node_new.pointOfDefinition = pat_SearchAimless;
+			SearchAimless_edge_oldPos.pointOfDefinition = pat_SearchAimless;
+			SearchAimless_edge__edge0.pointOfDefinition = pat_SearchAimless;
 
 			patternGraph = pat_SearchAimless;
 		}
@@ -1453,35 +1291,12 @@ namespace de.unika.ipd.grGen.Action_AntWorld_ExtendAtEndOfRound_NoGammel
 			GRGEN_LGSP.LGSPEdge edge_oldPos = curMatch._edge_oldPos;
 			graph.SettingAddedNodeNames( SearchAimless_addedNodeNames );
 			graph.SettingAddedEdgeNames( SearchAimless_addedEdgeNames );
-			GRGEN_MODEL.@AntPosition edge__edge1;
-			if(edge_oldPos.lgspType == GRGEN_MODEL.EdgeType_AntPosition.typeVar)
-			{
-				// re-using edge_oldPos as edge__edge1
-				edge__edge1 = (GRGEN_MODEL.@AntPosition) edge_oldPos;
-				graph.ReuseEdge(edge_oldPos, null, node_new);
-			}
-			else
-			{
-				graph.Remove(edge_oldPos);
-				edge__edge1 = GRGEN_MODEL.@AntPosition.CreateEdge(graph, node_curAnt, node_new);
-			}
-			return;
-		}
-		private static string[] SearchAimless_addedNodeNames = new string[] {  };
-		private static string[] SearchAimless_addedEdgeNames = new string[] { "_edge1" };
-
-		public void ModifyNoReuse(GRGEN_LGSP.LGSPGraph graph, GRGEN_LIBGR.IMatch _curMatch)
-		{
-			Match_SearchAimless curMatch = (Match_SearchAimless)_curMatch;
-			GRGEN_LGSP.LGSPNode node_curAnt = curMatch._node_curAnt;
-			GRGEN_LGSP.LGSPNode node_new = curMatch._node_new;
-			GRGEN_LGSP.LGSPEdge edge_oldPos = curMatch._edge_oldPos;
-			graph.SettingAddedNodeNames( SearchAimless_addedNodeNames );
-			graph.SettingAddedEdgeNames( SearchAimless_addedEdgeNames );
 			GRGEN_MODEL.@AntPosition edge__edge1 = GRGEN_MODEL.@AntPosition.CreateEdge(graph, node_curAnt, node_new);
 			graph.Remove(edge_oldPos);
 			return;
 		}
+		private static string[] SearchAimless_addedNodeNames = new string[] {  };
+		private static string[] SearchAimless_addedEdgeNames = new string[] { "_edge1" };
 
 		static Rule_SearchAimless() {
 		}
@@ -1627,7 +1442,7 @@ namespace de.unika.ipd.grGen.Action_AntWorld_ExtendAtEndOfRound_NoGammel
 
 
 
-		GRGEN_LGSP.PatternGraph pat_ReachedEndOfWorld;
+		public GRGEN_LGSP.PatternGraph pat_ReachedEndOfWorld;
 
 		public static GRGEN_LIBGR.EdgeType[] ReachedEndOfWorld_neg_0_edge__edge0_AllowedTypes = null;
 		public static bool[] ReachedEndOfWorld_neg_0_edge__edge0_IsAllowedType = null;
@@ -1638,7 +1453,7 @@ namespace de.unika.ipd.grGen.Action_AntWorld_ExtendAtEndOfRound_NoGammel
 		public enum ReachedEndOfWorld_neg_0_AltNums { };
 		public enum ReachedEndOfWorld_neg_0_IterNums { };
 
-		GRGEN_LGSP.PatternGraph ReachedEndOfWorld_neg_0;
+		public GRGEN_LGSP.PatternGraph ReachedEndOfWorld_neg_0;
 
 
 		private Rule_ReachedEndOfWorld()
@@ -1648,6 +1463,7 @@ namespace de.unika.ipd.grGen.Action_AntWorld_ExtendAtEndOfRound_NoGammel
 			inputs = new GRGEN_LIBGR.GrGenType[] { GRGEN_MODEL.NodeType_Ant.typeVar, };
 			inputNames = new string[] { "ReachedEndOfWorld_node_curAnt", };
 			outputs = new GRGEN_LIBGR.GrGenType[] { GRGEN_MODEL.NodeType_GridNode.typeVar, };
+
 		}
 		private void initialize()
 		{
@@ -1660,9 +1476,9 @@ namespace de.unika.ipd.grGen.Action_AntWorld_ExtendAtEndOfRound_NoGammel
 			};
 			int[] ReachedEndOfWorld_minMatches = new int[0] ;
 			int[] ReachedEndOfWorld_maxMatches = new int[0] ;
-			GRGEN_LGSP.PatternNode ReachedEndOfWorld_node_curAnt = new GRGEN_LGSP.PatternNode((int) GRGEN_MODEL.NodeTypes.@Ant, "GRGEN_MODEL.IAnt", "ReachedEndOfWorld_node_curAnt", "curAnt", ReachedEndOfWorld_node_curAnt_AllowedTypes, ReachedEndOfWorld_node_curAnt_IsAllowedType, 5.5F, 0, false);
-			GRGEN_LGSP.PatternNode ReachedEndOfWorld_node_n = new GRGEN_LGSP.PatternNode((int) GRGEN_MODEL.NodeTypes.@GridNode, "GRGEN_MODEL.IGridNode", "ReachedEndOfWorld_node_n", "n", ReachedEndOfWorld_node_n_AllowedTypes, ReachedEndOfWorld_node_n_IsAllowedType, 5.5F, -1, false);
-			GRGEN_LGSP.PatternEdge ReachedEndOfWorld_edge__edge0 = new GRGEN_LGSP.PatternEdge(true, (int) GRGEN_MODEL.EdgeTypes.@AntPosition, "GRGEN_MODEL.IAntPosition", "ReachedEndOfWorld_edge__edge0", "_edge0", ReachedEndOfWorld_edge__edge0_AllowedTypes, ReachedEndOfWorld_edge__edge0_IsAllowedType, 5.5F, -1, false);
+			GRGEN_LGSP.PatternNode ReachedEndOfWorld_node_curAnt = new GRGEN_LGSP.PatternNode((int) GRGEN_MODEL.NodeTypes.@Ant, "GRGEN_MODEL.IAnt", "ReachedEndOfWorld_node_curAnt", "curAnt", ReachedEndOfWorld_node_curAnt_AllowedTypes, ReachedEndOfWorld_node_curAnt_IsAllowedType, 5.5F, 0, false, null, null);
+			GRGEN_LGSP.PatternNode ReachedEndOfWorld_node_n = new GRGEN_LGSP.PatternNode((int) GRGEN_MODEL.NodeTypes.@GridNode, "GRGEN_MODEL.IGridNode", "ReachedEndOfWorld_node_n", "n", ReachedEndOfWorld_node_n_AllowedTypes, ReachedEndOfWorld_node_n_IsAllowedType, 5.5F, -1, false, null, null);
+			GRGEN_LGSP.PatternEdge ReachedEndOfWorld_edge__edge0 = new GRGEN_LGSP.PatternEdge(true, (int) GRGEN_MODEL.EdgeTypes.@AntPosition, "GRGEN_MODEL.IAntPosition", "ReachedEndOfWorld_edge__edge0", "_edge0", ReachedEndOfWorld_edge__edge0_AllowedTypes, ReachedEndOfWorld_edge__edge0_IsAllowedType, 5.5F, -1, false, null, null);
 			bool[,] ReachedEndOfWorld_neg_0_isNodeHomomorphicGlobal = new bool[1, 1] {
 				{ false, },
 			};
@@ -1671,7 +1487,7 @@ namespace de.unika.ipd.grGen.Action_AntWorld_ExtendAtEndOfRound_NoGammel
 			};
 			int[] ReachedEndOfWorld_neg_0_minMatches = new int[0] ;
 			int[] ReachedEndOfWorld_neg_0_maxMatches = new int[0] ;
-			GRGEN_LGSP.PatternEdge ReachedEndOfWorld_neg_0_edge__edge0 = new GRGEN_LGSP.PatternEdge(true, (int) GRGEN_MODEL.EdgeTypes.@PathToHill, "GRGEN_MODEL.IPathToHill", "ReachedEndOfWorld_neg_0_edge__edge0", "_edge0", ReachedEndOfWorld_neg_0_edge__edge0_AllowedTypes, ReachedEndOfWorld_neg_0_edge__edge0_IsAllowedType, 5.5F, -1, false);
+			GRGEN_LGSP.PatternEdge ReachedEndOfWorld_neg_0_edge__edge0 = new GRGEN_LGSP.PatternEdge(true, (int) GRGEN_MODEL.EdgeTypes.@PathToHill, "GRGEN_MODEL.IPathToHill", "ReachedEndOfWorld_neg_0_edge__edge0", "_edge0", ReachedEndOfWorld_neg_0_edge__edge0_AllowedTypes, ReachedEndOfWorld_neg_0_edge__edge0_IsAllowedType, 5.5F, -1, false, null, null);
 			ReachedEndOfWorld_neg_0 = new GRGEN_LGSP.PatternGraph(
 				"neg_0",
 				"ReachedEndOfWorld_",
@@ -1727,24 +1543,16 @@ namespace de.unika.ipd.grGen.Action_AntWorld_ExtendAtEndOfRound_NoGammel
 			pat_ReachedEndOfWorld.edgeToTargetNode.Add(ReachedEndOfWorld_edge__edge0, ReachedEndOfWorld_node_n);
 			ReachedEndOfWorld_neg_0.embeddingGraph = pat_ReachedEndOfWorld;
 
-			ReachedEndOfWorld_node_curAnt.PointOfDefinition = null;
-			ReachedEndOfWorld_node_n.PointOfDefinition = pat_ReachedEndOfWorld;
-			ReachedEndOfWorld_edge__edge0.PointOfDefinition = pat_ReachedEndOfWorld;
-			ReachedEndOfWorld_neg_0_edge__edge0.PointOfDefinition = ReachedEndOfWorld_neg_0;
+			ReachedEndOfWorld_node_curAnt.pointOfDefinition = null;
+			ReachedEndOfWorld_node_n.pointOfDefinition = pat_ReachedEndOfWorld;
+			ReachedEndOfWorld_edge__edge0.pointOfDefinition = pat_ReachedEndOfWorld;
+			ReachedEndOfWorld_neg_0_edge__edge0.pointOfDefinition = ReachedEndOfWorld_neg_0;
 
 			patternGraph = pat_ReachedEndOfWorld;
 		}
 
 
 		public void Modify(GRGEN_LGSP.LGSPGraph graph, GRGEN_LIBGR.IMatch _curMatch, out GRGEN_MODEL.IGridNode output_0)
-		{
-			Match_ReachedEndOfWorld curMatch = (Match_ReachedEndOfWorld)_curMatch;
-			GRGEN_LGSP.LGSPNode node_n = curMatch._node_n;
-			output_0 = (GRGEN_MODEL.IGridNode)(node_n);
-			return;
-		}
-
-		public void ModifyNoReuse(GRGEN_LGSP.LGSPGraph graph, GRGEN_LIBGR.IMatch _curMatch, out GRGEN_MODEL.IGridNode output_0)
 		{
 			Match_ReachedEndOfWorld curMatch = (Match_ReachedEndOfWorld)_curMatch;
 			GRGEN_LGSP.LGSPNode node_n = curMatch._node_n;
@@ -1995,7 +1803,7 @@ namespace de.unika.ipd.grGen.Action_AntWorld_ExtendAtEndOfRound_NoGammel
 
 
 
-		GRGEN_LGSP.PatternGraph pat_ReachedEndOfWorldAnywhere;
+		public GRGEN_LGSP.PatternGraph pat_ReachedEndOfWorldAnywhere;
 
 		public static GRGEN_LIBGR.EdgeType[] ReachedEndOfWorldAnywhere_neg_0_edge__edge0_AllowedTypes = null;
 		public static bool[] ReachedEndOfWorldAnywhere_neg_0_edge__edge0_IsAllowedType = null;
@@ -2006,7 +1814,7 @@ namespace de.unika.ipd.grGen.Action_AntWorld_ExtendAtEndOfRound_NoGammel
 		public enum ReachedEndOfWorldAnywhere_neg_0_AltNums { };
 		public enum ReachedEndOfWorldAnywhere_neg_0_IterNums { };
 
-		GRGEN_LGSP.PatternGraph ReachedEndOfWorldAnywhere_neg_0;
+		public GRGEN_LGSP.PatternGraph ReachedEndOfWorldAnywhere_neg_0;
 
 
 		private Rule_ReachedEndOfWorldAnywhere()
@@ -2016,6 +1824,7 @@ namespace de.unika.ipd.grGen.Action_AntWorld_ExtendAtEndOfRound_NoGammel
 			inputs = new GRGEN_LIBGR.GrGenType[] { };
 			inputNames = new string[] { };
 			outputs = new GRGEN_LIBGR.GrGenType[] { GRGEN_MODEL.NodeType_GridNode.typeVar, };
+
 		}
 		private void initialize()
 		{
@@ -2028,9 +1837,9 @@ namespace de.unika.ipd.grGen.Action_AntWorld_ExtendAtEndOfRound_NoGammel
 			};
 			int[] ReachedEndOfWorldAnywhere_minMatches = new int[0] ;
 			int[] ReachedEndOfWorldAnywhere_maxMatches = new int[0] ;
-			GRGEN_LGSP.PatternNode ReachedEndOfWorldAnywhere_node__node0 = new GRGEN_LGSP.PatternNode((int) GRGEN_MODEL.NodeTypes.@Ant, "GRGEN_MODEL.IAnt", "ReachedEndOfWorldAnywhere_node__node0", "_node0", ReachedEndOfWorldAnywhere_node__node0_AllowedTypes, ReachedEndOfWorldAnywhere_node__node0_IsAllowedType, 5.5F, -1, false);
-			GRGEN_LGSP.PatternNode ReachedEndOfWorldAnywhere_node_n = new GRGEN_LGSP.PatternNode((int) GRGEN_MODEL.NodeTypes.@GridNode, "GRGEN_MODEL.IGridNode", "ReachedEndOfWorldAnywhere_node_n", "n", ReachedEndOfWorldAnywhere_node_n_AllowedTypes, ReachedEndOfWorldAnywhere_node_n_IsAllowedType, 1.0F, -1, false);
-			GRGEN_LGSP.PatternEdge ReachedEndOfWorldAnywhere_edge__edge0 = new GRGEN_LGSP.PatternEdge(true, (int) GRGEN_MODEL.EdgeTypes.@AntPosition, "GRGEN_MODEL.IAntPosition", "ReachedEndOfWorldAnywhere_edge__edge0", "_edge0", ReachedEndOfWorldAnywhere_edge__edge0_AllowedTypes, ReachedEndOfWorldAnywhere_edge__edge0_IsAllowedType, 5.5F, -1, false);
+			GRGEN_LGSP.PatternNode ReachedEndOfWorldAnywhere_node__node0 = new GRGEN_LGSP.PatternNode((int) GRGEN_MODEL.NodeTypes.@Ant, "GRGEN_MODEL.IAnt", "ReachedEndOfWorldAnywhere_node__node0", "_node0", ReachedEndOfWorldAnywhere_node__node0_AllowedTypes, ReachedEndOfWorldAnywhere_node__node0_IsAllowedType, 5.5F, -1, false, null, null);
+			GRGEN_LGSP.PatternNode ReachedEndOfWorldAnywhere_node_n = new GRGEN_LGSP.PatternNode((int) GRGEN_MODEL.NodeTypes.@GridNode, "GRGEN_MODEL.IGridNode", "ReachedEndOfWorldAnywhere_node_n", "n", ReachedEndOfWorldAnywhere_node_n_AllowedTypes, ReachedEndOfWorldAnywhere_node_n_IsAllowedType, 1.0F, -1, false, null, null);
+			GRGEN_LGSP.PatternEdge ReachedEndOfWorldAnywhere_edge__edge0 = new GRGEN_LGSP.PatternEdge(true, (int) GRGEN_MODEL.EdgeTypes.@AntPosition, "GRGEN_MODEL.IAntPosition", "ReachedEndOfWorldAnywhere_edge__edge0", "_edge0", ReachedEndOfWorldAnywhere_edge__edge0_AllowedTypes, ReachedEndOfWorldAnywhere_edge__edge0_IsAllowedType, 5.5F, -1, false, null, null);
 			bool[,] ReachedEndOfWorldAnywhere_neg_0_isNodeHomomorphicGlobal = new bool[1, 1] {
 				{ false, },
 			};
@@ -2039,7 +1848,7 @@ namespace de.unika.ipd.grGen.Action_AntWorld_ExtendAtEndOfRound_NoGammel
 			};
 			int[] ReachedEndOfWorldAnywhere_neg_0_minMatches = new int[0] ;
 			int[] ReachedEndOfWorldAnywhere_neg_0_maxMatches = new int[0] ;
-			GRGEN_LGSP.PatternEdge ReachedEndOfWorldAnywhere_neg_0_edge__edge0 = new GRGEN_LGSP.PatternEdge(true, (int) GRGEN_MODEL.EdgeTypes.@PathToHill, "GRGEN_MODEL.IPathToHill", "ReachedEndOfWorldAnywhere_neg_0_edge__edge0", "_edge0", ReachedEndOfWorldAnywhere_neg_0_edge__edge0_AllowedTypes, ReachedEndOfWorldAnywhere_neg_0_edge__edge0_IsAllowedType, 5.5F, -1, false);
+			GRGEN_LGSP.PatternEdge ReachedEndOfWorldAnywhere_neg_0_edge__edge0 = new GRGEN_LGSP.PatternEdge(true, (int) GRGEN_MODEL.EdgeTypes.@PathToHill, "GRGEN_MODEL.IPathToHill", "ReachedEndOfWorldAnywhere_neg_0_edge__edge0", "_edge0", ReachedEndOfWorldAnywhere_neg_0_edge__edge0_AllowedTypes, ReachedEndOfWorldAnywhere_neg_0_edge__edge0_IsAllowedType, 5.5F, -1, false, null, null);
 			ReachedEndOfWorldAnywhere_neg_0 = new GRGEN_LGSP.PatternGraph(
 				"neg_0",
 				"ReachedEndOfWorldAnywhere_",
@@ -2095,24 +1904,17 @@ namespace de.unika.ipd.grGen.Action_AntWorld_ExtendAtEndOfRound_NoGammel
 			pat_ReachedEndOfWorldAnywhere.edgeToTargetNode.Add(ReachedEndOfWorldAnywhere_edge__edge0, ReachedEndOfWorldAnywhere_node_n);
 			ReachedEndOfWorldAnywhere_neg_0.embeddingGraph = pat_ReachedEndOfWorldAnywhere;
 
-			ReachedEndOfWorldAnywhere_node__node0.PointOfDefinition = pat_ReachedEndOfWorldAnywhere;
-			ReachedEndOfWorldAnywhere_node_n.PointOfDefinition = pat_ReachedEndOfWorldAnywhere;
-			ReachedEndOfWorldAnywhere_edge__edge0.PointOfDefinition = pat_ReachedEndOfWorldAnywhere;
-			ReachedEndOfWorldAnywhere_neg_0_edge__edge0.PointOfDefinition = ReachedEndOfWorldAnywhere_neg_0;
+			ReachedEndOfWorldAnywhere_node__node0.pointOfDefinition = pat_ReachedEndOfWorldAnywhere;
+			ReachedEndOfWorldAnywhere_node_n.pointOfDefinition = pat_ReachedEndOfWorldAnywhere;
+			ReachedEndOfWorldAnywhere_node_n.annotations.Add("prio", "10000");
+			ReachedEndOfWorldAnywhere_edge__edge0.pointOfDefinition = pat_ReachedEndOfWorldAnywhere;
+			ReachedEndOfWorldAnywhere_neg_0_edge__edge0.pointOfDefinition = ReachedEndOfWorldAnywhere_neg_0;
 
 			patternGraph = pat_ReachedEndOfWorldAnywhere;
 		}
 
 
 		public void Modify(GRGEN_LGSP.LGSPGraph graph, GRGEN_LIBGR.IMatch _curMatch, out GRGEN_MODEL.IGridNode output_0)
-		{
-			Match_ReachedEndOfWorldAnywhere curMatch = (Match_ReachedEndOfWorldAnywhere)_curMatch;
-			GRGEN_LGSP.LGSPNode node_n = curMatch._node_n;
-			output_0 = (GRGEN_MODEL.IGridNode)(node_n);
-			return;
-		}
-
-		public void ModifyNoReuse(GRGEN_LGSP.LGSPGraph graph, GRGEN_LIBGR.IMatch _curMatch, out GRGEN_MODEL.IGridNode output_0)
 		{
 			Match_ReachedEndOfWorldAnywhere curMatch = (Match_ReachedEndOfWorldAnywhere)_curMatch;
 			GRGEN_LGSP.LGSPNode node_n = curMatch._node_n;
@@ -2362,7 +2164,7 @@ namespace de.unika.ipd.grGen.Action_AntWorld_ExtendAtEndOfRound_NoGammel
 
 
 
-		GRGEN_LGSP.PatternGraph pat_GrowFoodIfEqual;
+		public GRGEN_LGSP.PatternGraph pat_GrowFoodIfEqual;
 
 
 		private Rule_GrowFoodIfEqual()
@@ -2372,6 +2174,7 @@ namespace de.unika.ipd.grGen.Action_AntWorld_ExtendAtEndOfRound_NoGammel
 			inputs = new GRGEN_LIBGR.GrGenType[] { GRGEN_MODEL.NodeType_GridNode.typeVar, GRGEN_LIBGR.VarType.GetVarType(typeof(int)), };
 			inputNames = new string[] { "GrowFoodIfEqual_node_n", "GrowFoodIfEqual_var_val", };
 			outputs = new GRGEN_LIBGR.GrGenType[] { };
+
 		}
 		private void initialize()
 		{
@@ -2382,10 +2185,10 @@ namespace de.unika.ipd.grGen.Action_AntWorld_ExtendAtEndOfRound_NoGammel
 			bool[,] GrowFoodIfEqual_isEdgeHomomorphicGlobal = new bool[0, 0] ;
 			int[] GrowFoodIfEqual_minMatches = new int[0] ;
 			int[] GrowFoodIfEqual_maxMatches = new int[0] ;
-			GRGEN_LGSP.PatternNode GrowFoodIfEqual_node_n = new GRGEN_LGSP.PatternNode((int) GRGEN_MODEL.NodeTypes.@GridNode, "GRGEN_MODEL.IGridNode", "GrowFoodIfEqual_node_n", "n", GrowFoodIfEqual_node_n_AllowedTypes, GrowFoodIfEqual_node_n_IsAllowedType, 5.5F, 0, false);
-			GRGEN_LGSP.PatternNode GrowFoodIfEqual_node_hill = new GRGEN_LGSP.PatternNode((int) GRGEN_MODEL.NodeTypes.@AntHill, "GRGEN_MODEL.IAntHill", "GrowFoodIfEqual_node_hill", "hill", GrowFoodIfEqual_node_hill_AllowedTypes, GrowFoodIfEqual_node_hill_IsAllowedType, 5.5F, -1, false);
 			GRGEN_LGSP.PatternVariable GrowFoodIfEqual_var_val = new GRGEN_LGSP.PatternVariable(GRGEN_LIBGR.VarType.GetVarType(typeof(int)), "GrowFoodIfEqual_var_val", "val", 1);
-			GRGEN_LGSP.PatternCondition cond_0 = new GRGEN_LGSP.PatternCondition(
+			GRGEN_LGSP.PatternNode GrowFoodIfEqual_node_n = new GRGEN_LGSP.PatternNode((int) GRGEN_MODEL.NodeTypes.@GridNode, "GRGEN_MODEL.IGridNode", "GrowFoodIfEqual_node_n", "n", GrowFoodIfEqual_node_n_AllowedTypes, GrowFoodIfEqual_node_n_IsAllowedType, 5.5F, 0, false, null, null);
+			GRGEN_LGSP.PatternNode GrowFoodIfEqual_node_hill = new GRGEN_LGSP.PatternNode((int) GRGEN_MODEL.NodeTypes.@AntHill, "GRGEN_MODEL.IAntHill", "GrowFoodIfEqual_node_hill", "hill", GrowFoodIfEqual_node_hill_AllowedTypes, GrowFoodIfEqual_node_hill_IsAllowedType, 5.5F, -1, false, null, null);
+			GRGEN_LGSP.PatternCondition GrowFoodIfEqual_cond_0 = new GRGEN_LGSP.PatternCondition(
 				new GRGEN_EXPR.EQ(new GRGEN_EXPR.Qualification("GRGEN_MODEL.IAntHill", "GrowFoodIfEqual_node_hill", "foodCountdown"), new GRGEN_EXPR.VariableExpression("GrowFoodIfEqual_var_val")),
 				new string[] { "GrowFoodIfEqual_node_hill" }, new string[] {  }, new string[] { "GrowFoodIfEqual_var_val" }, new GRGEN_LIBGR.VarType[] { GRGEN_LIBGR.VarType.GetVarType(typeof(int)) });
 			pat_GrowFoodIfEqual = new GRGEN_LGSP.PatternGraph(
@@ -2402,7 +2205,7 @@ namespace de.unika.ipd.grGen.Action_AntWorld_ExtendAtEndOfRound_NoGammel
 				GrowFoodIfEqual_maxMatches,
 				new GRGEN_LGSP.PatternGraph[] {  }, 
 				new GRGEN_LGSP.PatternGraph[] {  }, 
-				new GRGEN_LGSP.PatternCondition[] { cond_0,  }, 
+				new GRGEN_LGSP.PatternCondition[] { GrowFoodIfEqual_cond_0,  }, 
 				new bool[2, 2] {
 					{ true, false, },
 					{ false, true, },
@@ -2412,8 +2215,8 @@ namespace de.unika.ipd.grGen.Action_AntWorld_ExtendAtEndOfRound_NoGammel
 				GrowFoodIfEqual_isEdgeHomomorphicGlobal
 			);
 
-			GrowFoodIfEqual_node_n.PointOfDefinition = null;
-			GrowFoodIfEqual_node_hill.PointOfDefinition = pat_GrowFoodIfEqual;
+			GrowFoodIfEqual_node_n.pointOfDefinition = null;
+			GrowFoodIfEqual_node_hill.pointOfDefinition = pat_GrowFoodIfEqual;
 
 			patternGraph = pat_GrowFoodIfEqual;
 		}
@@ -2428,34 +2231,16 @@ namespace de.unika.ipd.grGen.Action_AntWorld_ExtendAtEndOfRound_NoGammel
 			GRGEN_MODEL.IAntHill inode_hill = curMatch.node_hill;
 			graph.SettingAddedNodeNames( GrowFoodIfEqual_addedNodeNames );
 			graph.SettingAddedEdgeNames( GrowFoodIfEqual_addedEdgeNames );
-			int tempvar_i = (inode_n.@food + 100);
-			graph.ChangingNodeAttribute(node_n, GRGEN_MODEL.NodeType_GridNode.AttributeType_food, GRGEN_LIBGR.AttributeChangeType.Assign, tempvar_i, null);
-			inode_n.@food = tempvar_i;
-			tempvar_i = (inode_hill.@foodCountdown + 10);
-			graph.ChangingNodeAttribute(node_hill, GRGEN_MODEL.NodeType_AntHill.AttributeType_foodCountdown, GRGEN_LIBGR.AttributeChangeType.Assign, tempvar_i, null);
-			inode_hill.@foodCountdown = tempvar_i;
+			int tempvar_int = (inode_n.@food + 100);
+			graph.ChangingNodeAttribute(node_n, GRGEN_MODEL.NodeType_GridNode.AttributeType_food, GRGEN_LIBGR.AttributeChangeType.Assign, tempvar_int, null);
+			inode_n.@food = tempvar_int;
+			tempvar_int = (inode_hill.@foodCountdown + 10);
+			graph.ChangingNodeAttribute(node_hill, GRGEN_MODEL.NodeType_AntHill.AttributeType_foodCountdown, GRGEN_LIBGR.AttributeChangeType.Assign, tempvar_int, null);
+			inode_hill.@foodCountdown = tempvar_int;
 			return;
 		}
 		private static string[] GrowFoodIfEqual_addedNodeNames = new string[] {  };
 		private static string[] GrowFoodIfEqual_addedEdgeNames = new string[] {  };
-
-		public void ModifyNoReuse(GRGEN_LGSP.LGSPGraph graph, GRGEN_LIBGR.IMatch _curMatch)
-		{
-			Match_GrowFoodIfEqual curMatch = (Match_GrowFoodIfEqual)_curMatch;
-			GRGEN_LGSP.LGSPNode node_n = curMatch._node_n;
-			GRGEN_LGSP.LGSPNode node_hill = curMatch._node_hill;
-			GRGEN_MODEL.IGridNode inode_n = curMatch.node_n;
-			GRGEN_MODEL.IAntHill inode_hill = curMatch.node_hill;
-			graph.SettingAddedNodeNames( GrowFoodIfEqual_addedNodeNames );
-			graph.SettingAddedEdgeNames( GrowFoodIfEqual_addedEdgeNames );
-			int tempvar_i = (inode_n.@food + 100);
-			graph.ChangingNodeAttribute(node_n, GRGEN_MODEL.NodeType_GridNode.AttributeType_food, GRGEN_LIBGR.AttributeChangeType.Assign, tempvar_i, null);
-			inode_n.@food = tempvar_i;
-			tempvar_i = (inode_hill.@foodCountdown + 10);
-			graph.ChangingNodeAttribute(node_hill, GRGEN_MODEL.NodeType_AntHill.AttributeType_foodCountdown, GRGEN_LIBGR.AttributeChangeType.Assign, tempvar_i, null);
-			inode_hill.@foodCountdown = tempvar_i;
-			return;
-		}
 
 		static Rule_GrowFoodIfEqual() {
 		}
@@ -2596,7 +2381,7 @@ namespace de.unika.ipd.grGen.Action_AntWorld_ExtendAtEndOfRound_NoGammel
 
 
 
-		GRGEN_LGSP.PatternGraph pat_GrowWorldFirstAtCorner;
+		public GRGEN_LGSP.PatternGraph pat_GrowWorldFirstAtCorner;
 
 
 		private Rule_GrowWorldFirstAtCorner()
@@ -2606,6 +2391,7 @@ namespace de.unika.ipd.grGen.Action_AntWorld_ExtendAtEndOfRound_NoGammel
 			inputs = new GRGEN_LIBGR.GrGenType[] { GRGEN_MODEL.NodeType_GridNode.typeVar, };
 			inputNames = new string[] { "GrowWorldFirstAtCorner_node_cur", };
 			outputs = new GRGEN_LIBGR.GrGenType[] { GRGEN_MODEL.NodeType_GridNode.typeVar, GRGEN_MODEL.NodeType_GridNode.typeVar, };
+
 		}
 		private void initialize()
 		{
@@ -2619,10 +2405,10 @@ namespace de.unika.ipd.grGen.Action_AntWorld_ExtendAtEndOfRound_NoGammel
 			};
 			int[] GrowWorldFirstAtCorner_minMatches = new int[0] ;
 			int[] GrowWorldFirstAtCorner_maxMatches = new int[0] ;
-			GRGEN_LGSP.PatternNode GrowWorldFirstAtCorner_node_cur = new GRGEN_LGSP.PatternNode((int) GRGEN_MODEL.NodeTypes.@GridCornerNode, "GRGEN_MODEL.IGridCornerNode", "GrowWorldFirstAtCorner_node_cur", "cur", GrowWorldFirstAtCorner_node_cur_AllowedTypes, GrowWorldFirstAtCorner_node_cur_IsAllowedType, 5.5F, 0, false);
-			GRGEN_LGSP.PatternNode GrowWorldFirstAtCorner_node_next = new GRGEN_LGSP.PatternNode((int) GRGEN_MODEL.NodeTypes.@GridNode, "GRGEN_MODEL.IGridNode", "GrowWorldFirstAtCorner_node_next", "next", GrowWorldFirstAtCorner_node_next_AllowedTypes, GrowWorldFirstAtCorner_node_next_IsAllowedType, 5.5F, -1, false);
-			GRGEN_LGSP.PatternNode GrowWorldFirstAtCorner_node_hill = new GRGEN_LGSP.PatternNode((int) GRGEN_MODEL.NodeTypes.@AntHill, "GRGEN_MODEL.IAntHill", "GrowWorldFirstAtCorner_node_hill", "hill", GrowWorldFirstAtCorner_node_hill_AllowedTypes, GrowWorldFirstAtCorner_node_hill_IsAllowedType, 5.5F, -1, false);
-			GRGEN_LGSP.PatternEdge GrowWorldFirstAtCorner_edge__edge0 = new GRGEN_LGSP.PatternEdge(true, (int) GRGEN_MODEL.EdgeTypes.@GridEdge, "GRGEN_MODEL.IGridEdge", "GrowWorldFirstAtCorner_edge__edge0", "_edge0", GrowWorldFirstAtCorner_edge__edge0_AllowedTypes, GrowWorldFirstAtCorner_edge__edge0_IsAllowedType, 5.5F, -1, false);
+			GRGEN_LGSP.PatternNode GrowWorldFirstAtCorner_node_cur = new GRGEN_LGSP.PatternNode((int) GRGEN_MODEL.NodeTypes.@GridCornerNode, "GRGEN_MODEL.IGridCornerNode", "GrowWorldFirstAtCorner_node_cur", "cur", GrowWorldFirstAtCorner_node_cur_AllowedTypes, GrowWorldFirstAtCorner_node_cur_IsAllowedType, 5.5F, 0, false, null, null);
+			GRGEN_LGSP.PatternNode GrowWorldFirstAtCorner_node_next = new GRGEN_LGSP.PatternNode((int) GRGEN_MODEL.NodeTypes.@GridNode, "GRGEN_MODEL.IGridNode", "GrowWorldFirstAtCorner_node_next", "next", GrowWorldFirstAtCorner_node_next_AllowedTypes, GrowWorldFirstAtCorner_node_next_IsAllowedType, 5.5F, -1, false, null, null);
+			GRGEN_LGSP.PatternNode GrowWorldFirstAtCorner_node_hill = new GRGEN_LGSP.PatternNode((int) GRGEN_MODEL.NodeTypes.@AntHill, "GRGEN_MODEL.IAntHill", "GrowWorldFirstAtCorner_node_hill", "hill", GrowWorldFirstAtCorner_node_hill_AllowedTypes, GrowWorldFirstAtCorner_node_hill_IsAllowedType, 5.5F, -1, false, null, null);
+			GRGEN_LGSP.PatternEdge GrowWorldFirstAtCorner_edge__edge0 = new GRGEN_LGSP.PatternEdge(true, (int) GRGEN_MODEL.EdgeTypes.@GridEdge, "GRGEN_MODEL.IGridEdge", "GrowWorldFirstAtCorner_edge__edge0", "_edge0", GrowWorldFirstAtCorner_edge__edge0_AllowedTypes, GrowWorldFirstAtCorner_edge__edge0_IsAllowedType, 5.5F, -1, false, null, null);
 			pat_GrowWorldFirstAtCorner = new GRGEN_LGSP.PatternGraph(
 				"GrowWorldFirstAtCorner",
 				"",
@@ -2652,10 +2438,10 @@ namespace de.unika.ipd.grGen.Action_AntWorld_ExtendAtEndOfRound_NoGammel
 			pat_GrowWorldFirstAtCorner.edgeToSourceNode.Add(GrowWorldFirstAtCorner_edge__edge0, GrowWorldFirstAtCorner_node_cur);
 			pat_GrowWorldFirstAtCorner.edgeToTargetNode.Add(GrowWorldFirstAtCorner_edge__edge0, GrowWorldFirstAtCorner_node_next);
 
-			GrowWorldFirstAtCorner_node_cur.PointOfDefinition = null;
-			GrowWorldFirstAtCorner_node_next.PointOfDefinition = pat_GrowWorldFirstAtCorner;
-			GrowWorldFirstAtCorner_node_hill.PointOfDefinition = pat_GrowWorldFirstAtCorner;
-			GrowWorldFirstAtCorner_edge__edge0.PointOfDefinition = pat_GrowWorldFirstAtCorner;
+			GrowWorldFirstAtCorner_node_cur.pointOfDefinition = null;
+			GrowWorldFirstAtCorner_node_next.pointOfDefinition = pat_GrowWorldFirstAtCorner;
+			GrowWorldFirstAtCorner_node_hill.pointOfDefinition = pat_GrowWorldFirstAtCorner;
+			GrowWorldFirstAtCorner_edge__edge0.pointOfDefinition = pat_GrowWorldFirstAtCorner;
 
 			patternGraph = pat_GrowWorldFirstAtCorner;
 		}
@@ -2678,10 +2464,10 @@ namespace de.unika.ipd.grGen.Action_AntWorld_ExtendAtEndOfRound_NoGammel
 			GRGEN_MODEL.@PathToHill edge__edge3 = GRGEN_MODEL.@PathToHill.CreateEdge(graph, node_outer3, node_cur);
 			GRGEN_MODEL.@GridEdge edge__edge4 = GRGEN_MODEL.@GridEdge.CreateEdge(graph, node_outer1, node_outer2);
 			GRGEN_MODEL.@GridEdge edge__edge5 = GRGEN_MODEL.@GridEdge.CreateEdge(graph, node_outer2, node_outer3);
-			int tempvar_i = (inode_hill.@foodCountdown - 3);
-			graph.ChangingNodeAttribute(node_hill, GRGEN_MODEL.NodeType_AntHill.AttributeType_foodCountdown, GRGEN_LIBGR.AttributeChangeType.Assign, tempvar_i, null);
-			inode_hill.@foodCountdown = tempvar_i;
-			ApplyXGRS_0(graph, (GRGEN_MODEL.IGridNode)node_outer1, (GRGEN_MODEL.IGridCornerNode)node_outer2, (GRGEN_MODEL.IGridNode)node_outer3);
+			int tempvar_int = (inode_hill.@foodCountdown - 3);
+			graph.ChangingNodeAttribute(node_hill, GRGEN_MODEL.NodeType_AntHill.AttributeType_foodCountdown, GRGEN_LIBGR.AttributeChangeType.Assign, tempvar_int, null);
+			inode_hill.@foodCountdown = tempvar_int;
+			ApplyXGRS_GrowWorldFirstAtCorner_0(graph, (GRGEN_MODEL.IGridNode)node_outer1, (GRGEN_MODEL.IGridCornerNode)node_outer2, (GRGEN_MODEL.IGridNode)node_outer3);
 			output_0 = (GRGEN_MODEL.IGridNode)(node_next);
 			output_1 = (GRGEN_MODEL.IGridNode)(node_outer3);
 			return;
@@ -2689,32 +2475,7 @@ namespace de.unika.ipd.grGen.Action_AntWorld_ExtendAtEndOfRound_NoGammel
 		private static string[] GrowWorldFirstAtCorner_addedNodeNames = new string[] { "outer1", "outer2", "outer3" };
 		private static string[] GrowWorldFirstAtCorner_addedEdgeNames = new string[] { "_edge1", "_edge2", "_edge3", "_edge4", "_edge5" };
 
-		public void ModifyNoReuse(GRGEN_LGSP.LGSPGraph graph, GRGEN_LIBGR.IMatch _curMatch, out GRGEN_MODEL.IGridNode output_0, out GRGEN_MODEL.IGridNode output_1)
-		{
-			Match_GrowWorldFirstAtCorner curMatch = (Match_GrowWorldFirstAtCorner)_curMatch;
-			GRGEN_LGSP.LGSPNode node_next = curMatch._node_next;
-			GRGEN_LGSP.LGSPNode node_hill = curMatch._node_hill;
-			GRGEN_LGSP.LGSPNode node_cur = curMatch._node_cur;
-			GRGEN_MODEL.IAntHill inode_hill = curMatch.node_hill;
-			graph.SettingAddedNodeNames( GrowWorldFirstAtCorner_addedNodeNames );
-			GRGEN_MODEL.@GridNode node_outer1 = GRGEN_MODEL.@GridNode.CreateNode(graph);
-			GRGEN_MODEL.@GridCornerNode node_outer2 = GRGEN_MODEL.@GridCornerNode.CreateNode(graph);
-			GRGEN_MODEL.@GridNode node_outer3 = GRGEN_MODEL.@GridNode.CreateNode(graph);
-			graph.SettingAddedEdgeNames( GrowWorldFirstAtCorner_addedEdgeNames );
-			GRGEN_MODEL.@PathToHill edge__edge1 = GRGEN_MODEL.@PathToHill.CreateEdge(graph, node_outer1, node_cur);
-			GRGEN_MODEL.@PathToHill edge__edge2 = GRGEN_MODEL.@PathToHill.CreateEdge(graph, node_outer2, node_cur);
-			GRGEN_MODEL.@PathToHill edge__edge3 = GRGEN_MODEL.@PathToHill.CreateEdge(graph, node_outer3, node_cur);
-			GRGEN_MODEL.@GridEdge edge__edge4 = GRGEN_MODEL.@GridEdge.CreateEdge(graph, node_outer1, node_outer2);
-			GRGEN_MODEL.@GridEdge edge__edge5 = GRGEN_MODEL.@GridEdge.CreateEdge(graph, node_outer2, node_outer3);
-			int tempvar_i = (inode_hill.@foodCountdown - 3);
-			graph.ChangingNodeAttribute(node_hill, GRGEN_MODEL.NodeType_AntHill.AttributeType_foodCountdown, GRGEN_LIBGR.AttributeChangeType.Assign, tempvar_i, null);
-			inode_hill.@foodCountdown = tempvar_i;
-			ApplyXGRS_0(graph, (GRGEN_MODEL.IGridNode)node_outer1, (GRGEN_MODEL.IGridCornerNode)node_outer2, (GRGEN_MODEL.IGridNode)node_outer3);
-			output_0 = (GRGEN_MODEL.IGridNode)(node_next);
-			output_1 = (GRGEN_MODEL.IGridNode)(node_outer3);
-			return;
-		}
-        public static bool ApplyXGRS_0(GRGEN_LGSP.LGSPGraph graph, GRGEN_MODEL.IGridNode var_outer1, GRGEN_MODEL.IGridCornerNode var_outer2, GRGEN_MODEL.IGridNode var_outer3)
+        public static bool ApplyXGRS_GrowWorldFirstAtCorner_0(GRGEN_LGSP.LGSPGraph graph, GRGEN_MODEL.IGridNode var_outer1, GRGEN_MODEL.IGridCornerNode var_outer2, GRGEN_MODEL.IGridNode var_outer3)
         {
             GRGEN_LGSP.LGSPActions actions = graph.curActions;
             bool res_4;
@@ -2920,7 +2681,7 @@ namespace de.unika.ipd.grGen.Action_AntWorld_ExtendAtEndOfRound_NoGammel
 
 
 
-		GRGEN_LGSP.PatternGraph pat_GrowWorldFirstNotAtCorner;
+		public GRGEN_LGSP.PatternGraph pat_GrowWorldFirstNotAtCorner;
 
 
 		private Rule_GrowWorldFirstNotAtCorner()
@@ -2930,6 +2691,7 @@ namespace de.unika.ipd.grGen.Action_AntWorld_ExtendAtEndOfRound_NoGammel
 			inputs = new GRGEN_LIBGR.GrGenType[] { GRGEN_MODEL.NodeType_GridNode.typeVar, };
 			inputNames = new string[] { "GrowWorldFirstNotAtCorner_node_cur", };
 			outputs = new GRGEN_LIBGR.GrGenType[] { GRGEN_MODEL.NodeType_GridNode.typeVar, GRGEN_MODEL.NodeType_GridNode.typeVar, };
+
 		}
 		private void initialize()
 		{
@@ -2943,10 +2705,10 @@ namespace de.unika.ipd.grGen.Action_AntWorld_ExtendAtEndOfRound_NoGammel
 			};
 			int[] GrowWorldFirstNotAtCorner_minMatches = new int[0] ;
 			int[] GrowWorldFirstNotAtCorner_maxMatches = new int[0] ;
-			GRGEN_LGSP.PatternNode GrowWorldFirstNotAtCorner_node_cur = new GRGEN_LGSP.PatternNode((int) GRGEN_MODEL.NodeTypes.@GridNode, "GRGEN_MODEL.IGridNode", "GrowWorldFirstNotAtCorner_node_cur", "cur", GrowWorldFirstNotAtCorner_node_cur_AllowedTypes, GrowWorldFirstNotAtCorner_node_cur_IsAllowedType, 5.5F, 0, false);
-			GRGEN_LGSP.PatternNode GrowWorldFirstNotAtCorner_node_next = new GRGEN_LGSP.PatternNode((int) GRGEN_MODEL.NodeTypes.@GridNode, "GRGEN_MODEL.IGridNode", "GrowWorldFirstNotAtCorner_node_next", "next", GrowWorldFirstNotAtCorner_node_next_AllowedTypes, GrowWorldFirstNotAtCorner_node_next_IsAllowedType, 5.5F, -1, false);
-			GRGEN_LGSP.PatternNode GrowWorldFirstNotAtCorner_node_hill = new GRGEN_LGSP.PatternNode((int) GRGEN_MODEL.NodeTypes.@AntHill, "GRGEN_MODEL.IAntHill", "GrowWorldFirstNotAtCorner_node_hill", "hill", GrowWorldFirstNotAtCorner_node_hill_AllowedTypes, GrowWorldFirstNotAtCorner_node_hill_IsAllowedType, 5.5F, -1, false);
-			GRGEN_LGSP.PatternEdge GrowWorldFirstNotAtCorner_edge__edge0 = new GRGEN_LGSP.PatternEdge(true, (int) GRGEN_MODEL.EdgeTypes.@GridEdge, "GRGEN_MODEL.IGridEdge", "GrowWorldFirstNotAtCorner_edge__edge0", "_edge0", GrowWorldFirstNotAtCorner_edge__edge0_AllowedTypes, GrowWorldFirstNotAtCorner_edge__edge0_IsAllowedType, 5.5F, -1, false);
+			GRGEN_LGSP.PatternNode GrowWorldFirstNotAtCorner_node_cur = new GRGEN_LGSP.PatternNode((int) GRGEN_MODEL.NodeTypes.@GridNode, "GRGEN_MODEL.IGridNode", "GrowWorldFirstNotAtCorner_node_cur", "cur", GrowWorldFirstNotAtCorner_node_cur_AllowedTypes, GrowWorldFirstNotAtCorner_node_cur_IsAllowedType, 5.5F, 0, false, null, null);
+			GRGEN_LGSP.PatternNode GrowWorldFirstNotAtCorner_node_next = new GRGEN_LGSP.PatternNode((int) GRGEN_MODEL.NodeTypes.@GridNode, "GRGEN_MODEL.IGridNode", "GrowWorldFirstNotAtCorner_node_next", "next", GrowWorldFirstNotAtCorner_node_next_AllowedTypes, GrowWorldFirstNotAtCorner_node_next_IsAllowedType, 5.5F, -1, false, null, null);
+			GRGEN_LGSP.PatternNode GrowWorldFirstNotAtCorner_node_hill = new GRGEN_LGSP.PatternNode((int) GRGEN_MODEL.NodeTypes.@AntHill, "GRGEN_MODEL.IAntHill", "GrowWorldFirstNotAtCorner_node_hill", "hill", GrowWorldFirstNotAtCorner_node_hill_AllowedTypes, GrowWorldFirstNotAtCorner_node_hill_IsAllowedType, 5.5F, -1, false, null, null);
+			GRGEN_LGSP.PatternEdge GrowWorldFirstNotAtCorner_edge__edge0 = new GRGEN_LGSP.PatternEdge(true, (int) GRGEN_MODEL.EdgeTypes.@GridEdge, "GRGEN_MODEL.IGridEdge", "GrowWorldFirstNotAtCorner_edge__edge0", "_edge0", GrowWorldFirstNotAtCorner_edge__edge0_AllowedTypes, GrowWorldFirstNotAtCorner_edge__edge0_IsAllowedType, 5.5F, -1, false, null, null);
 			pat_GrowWorldFirstNotAtCorner = new GRGEN_LGSP.PatternGraph(
 				"GrowWorldFirstNotAtCorner",
 				"",
@@ -2976,10 +2738,10 @@ namespace de.unika.ipd.grGen.Action_AntWorld_ExtendAtEndOfRound_NoGammel
 			pat_GrowWorldFirstNotAtCorner.edgeToSourceNode.Add(GrowWorldFirstNotAtCorner_edge__edge0, GrowWorldFirstNotAtCorner_node_cur);
 			pat_GrowWorldFirstNotAtCorner.edgeToTargetNode.Add(GrowWorldFirstNotAtCorner_edge__edge0, GrowWorldFirstNotAtCorner_node_next);
 
-			GrowWorldFirstNotAtCorner_node_cur.PointOfDefinition = null;
-			GrowWorldFirstNotAtCorner_node_next.PointOfDefinition = pat_GrowWorldFirstNotAtCorner;
-			GrowWorldFirstNotAtCorner_node_hill.PointOfDefinition = pat_GrowWorldFirstNotAtCorner;
-			GrowWorldFirstNotAtCorner_edge__edge0.PointOfDefinition = pat_GrowWorldFirstNotAtCorner;
+			GrowWorldFirstNotAtCorner_node_cur.pointOfDefinition = null;
+			GrowWorldFirstNotAtCorner_node_next.pointOfDefinition = pat_GrowWorldFirstNotAtCorner;
+			GrowWorldFirstNotAtCorner_node_hill.pointOfDefinition = pat_GrowWorldFirstNotAtCorner;
+			GrowWorldFirstNotAtCorner_edge__edge0.pointOfDefinition = pat_GrowWorldFirstNotAtCorner;
 
 			patternGraph = pat_GrowWorldFirstNotAtCorner;
 		}
@@ -2996,10 +2758,10 @@ namespace de.unika.ipd.grGen.Action_AntWorld_ExtendAtEndOfRound_NoGammel
 			GRGEN_MODEL.@GridNode node_outer = GRGEN_MODEL.@GridNode.CreateNode(graph);
 			graph.SettingAddedEdgeNames( GrowWorldFirstNotAtCorner_addedEdgeNames );
 			GRGEN_MODEL.@PathToHill edge__edge1 = GRGEN_MODEL.@PathToHill.CreateEdge(graph, node_outer, node_cur);
-			int tempvar_i = (inode_hill.@foodCountdown - 1);
-			graph.ChangingNodeAttribute(node_hill, GRGEN_MODEL.NodeType_AntHill.AttributeType_foodCountdown, GRGEN_LIBGR.AttributeChangeType.Assign, tempvar_i, null);
-			inode_hill.@foodCountdown = tempvar_i;
-			ApplyXGRS_0(graph, (GRGEN_MODEL.IGridNode)node_outer);
+			int tempvar_int = (inode_hill.@foodCountdown - 1);
+			graph.ChangingNodeAttribute(node_hill, GRGEN_MODEL.NodeType_AntHill.AttributeType_foodCountdown, GRGEN_LIBGR.AttributeChangeType.Assign, tempvar_int, null);
+			inode_hill.@foodCountdown = tempvar_int;
+			ApplyXGRS_GrowWorldFirstNotAtCorner_0(graph, (GRGEN_MODEL.IGridNode)node_outer);
 			output_0 = (GRGEN_MODEL.IGridNode)(node_next);
 			output_1 = (GRGEN_MODEL.IGridNode)(node_outer);
 			return;
@@ -3007,26 +2769,7 @@ namespace de.unika.ipd.grGen.Action_AntWorld_ExtendAtEndOfRound_NoGammel
 		private static string[] GrowWorldFirstNotAtCorner_addedNodeNames = new string[] { "outer" };
 		private static string[] GrowWorldFirstNotAtCorner_addedEdgeNames = new string[] { "_edge1" };
 
-		public void ModifyNoReuse(GRGEN_LGSP.LGSPGraph graph, GRGEN_LIBGR.IMatch _curMatch, out GRGEN_MODEL.IGridNode output_0, out GRGEN_MODEL.IGridNode output_1)
-		{
-			Match_GrowWorldFirstNotAtCorner curMatch = (Match_GrowWorldFirstNotAtCorner)_curMatch;
-			GRGEN_LGSP.LGSPNode node_next = curMatch._node_next;
-			GRGEN_LGSP.LGSPNode node_hill = curMatch._node_hill;
-			GRGEN_LGSP.LGSPNode node_cur = curMatch._node_cur;
-			GRGEN_MODEL.IAntHill inode_hill = curMatch.node_hill;
-			graph.SettingAddedNodeNames( GrowWorldFirstNotAtCorner_addedNodeNames );
-			GRGEN_MODEL.@GridNode node_outer = GRGEN_MODEL.@GridNode.CreateNode(graph);
-			graph.SettingAddedEdgeNames( GrowWorldFirstNotAtCorner_addedEdgeNames );
-			GRGEN_MODEL.@PathToHill edge__edge1 = GRGEN_MODEL.@PathToHill.CreateEdge(graph, node_outer, node_cur);
-			int tempvar_i = (inode_hill.@foodCountdown - 1);
-			graph.ChangingNodeAttribute(node_hill, GRGEN_MODEL.NodeType_AntHill.AttributeType_foodCountdown, GRGEN_LIBGR.AttributeChangeType.Assign, tempvar_i, null);
-			inode_hill.@foodCountdown = tempvar_i;
-			ApplyXGRS_0(graph, (GRGEN_MODEL.IGridNode)node_outer);
-			output_0 = (GRGEN_MODEL.IGridNode)(node_next);
-			output_1 = (GRGEN_MODEL.IGridNode)(node_outer);
-			return;
-		}
-        public static bool ApplyXGRS_0(GRGEN_LGSP.LGSPGraph graph, GRGEN_MODEL.IGridNode var_outer)
+        public static bool ApplyXGRS_GrowWorldFirstNotAtCorner_0(GRGEN_LGSP.LGSPGraph graph, GRGEN_MODEL.IGridNode var_outer)
         {
             GRGEN_LGSP.LGSPActions actions = graph.curActions;
             bool res_5;
@@ -3192,7 +2935,7 @@ namespace de.unika.ipd.grGen.Action_AntWorld_ExtendAtEndOfRound_NoGammel
 
 
 
-		GRGEN_LGSP.PatternGraph pat_GrowWorldNextAtCorner;
+		public GRGEN_LGSP.PatternGraph pat_GrowWorldNextAtCorner;
 
 		public static GRGEN_LIBGR.EdgeType[] GrowWorldNextAtCorner_neg_0_edge__edge0_AllowedTypes = null;
 		public static bool[] GrowWorldNextAtCorner_neg_0_edge__edge0_IsAllowedType = null;
@@ -3203,7 +2946,7 @@ namespace de.unika.ipd.grGen.Action_AntWorld_ExtendAtEndOfRound_NoGammel
 		public enum GrowWorldNextAtCorner_neg_0_AltNums { };
 		public enum GrowWorldNextAtCorner_neg_0_IterNums { };
 
-		GRGEN_LGSP.PatternGraph GrowWorldNextAtCorner_neg_0;
+		public GRGEN_LGSP.PatternGraph GrowWorldNextAtCorner_neg_0;
 
 
 		private Rule_GrowWorldNextAtCorner()
@@ -3213,6 +2956,7 @@ namespace de.unika.ipd.grGen.Action_AntWorld_ExtendAtEndOfRound_NoGammel
 			inputs = new GRGEN_LIBGR.GrGenType[] { GRGEN_MODEL.NodeType_GridNode.typeVar, GRGEN_MODEL.NodeType_GridNode.typeVar, };
 			inputNames = new string[] { "GrowWorldNextAtCorner_node_cur", "GrowWorldNextAtCorner_node_curOuter", };
 			outputs = new GRGEN_LIBGR.GrGenType[] { GRGEN_MODEL.NodeType_GridNode.typeVar, GRGEN_MODEL.NodeType_GridNode.typeVar, };
+
 		}
 		private void initialize()
 		{
@@ -3227,11 +2971,11 @@ namespace de.unika.ipd.grGen.Action_AntWorld_ExtendAtEndOfRound_NoGammel
 			};
 			int[] GrowWorldNextAtCorner_minMatches = new int[0] ;
 			int[] GrowWorldNextAtCorner_maxMatches = new int[0] ;
-			GRGEN_LGSP.PatternNode GrowWorldNextAtCorner_node_cur = new GRGEN_LGSP.PatternNode((int) GRGEN_MODEL.NodeTypes.@GridCornerNode, "GRGEN_MODEL.IGridCornerNode", "GrowWorldNextAtCorner_node_cur", "cur", GrowWorldNextAtCorner_node_cur_AllowedTypes, GrowWorldNextAtCorner_node_cur_IsAllowedType, 5.5F, 0, false);
-			GRGEN_LGSP.PatternNode GrowWorldNextAtCorner_node_next = new GRGEN_LGSP.PatternNode((int) GRGEN_MODEL.NodeTypes.@GridNode, "GRGEN_MODEL.IGridNode", "GrowWorldNextAtCorner_node_next", "next", GrowWorldNextAtCorner_node_next_AllowedTypes, GrowWorldNextAtCorner_node_next_IsAllowedType, 5.5F, -1, false);
-			GRGEN_LGSP.PatternNode GrowWorldNextAtCorner_node_curOuter = new GRGEN_LGSP.PatternNode((int) GRGEN_MODEL.NodeTypes.@GridNode, "GRGEN_MODEL.IGridNode", "GrowWorldNextAtCorner_node_curOuter", "curOuter", GrowWorldNextAtCorner_node_curOuter_AllowedTypes, GrowWorldNextAtCorner_node_curOuter_IsAllowedType, 5.5F, 1, false);
-			GRGEN_LGSP.PatternNode GrowWorldNextAtCorner_node_hill = new GRGEN_LGSP.PatternNode((int) GRGEN_MODEL.NodeTypes.@AntHill, "GRGEN_MODEL.IAntHill", "GrowWorldNextAtCorner_node_hill", "hill", GrowWorldNextAtCorner_node_hill_AllowedTypes, GrowWorldNextAtCorner_node_hill_IsAllowedType, 5.5F, -1, false);
-			GRGEN_LGSP.PatternEdge GrowWorldNextAtCorner_edge__edge0 = new GRGEN_LGSP.PatternEdge(true, (int) GRGEN_MODEL.EdgeTypes.@GridEdge, "GRGEN_MODEL.IGridEdge", "GrowWorldNextAtCorner_edge__edge0", "_edge0", GrowWorldNextAtCorner_edge__edge0_AllowedTypes, GrowWorldNextAtCorner_edge__edge0_IsAllowedType, 5.5F, -1, false);
+			GRGEN_LGSP.PatternNode GrowWorldNextAtCorner_node_cur = new GRGEN_LGSP.PatternNode((int) GRGEN_MODEL.NodeTypes.@GridCornerNode, "GRGEN_MODEL.IGridCornerNode", "GrowWorldNextAtCorner_node_cur", "cur", GrowWorldNextAtCorner_node_cur_AllowedTypes, GrowWorldNextAtCorner_node_cur_IsAllowedType, 5.5F, 0, false, null, null);
+			GRGEN_LGSP.PatternNode GrowWorldNextAtCorner_node_next = new GRGEN_LGSP.PatternNode((int) GRGEN_MODEL.NodeTypes.@GridNode, "GRGEN_MODEL.IGridNode", "GrowWorldNextAtCorner_node_next", "next", GrowWorldNextAtCorner_node_next_AllowedTypes, GrowWorldNextAtCorner_node_next_IsAllowedType, 5.5F, -1, false, null, null);
+			GRGEN_LGSP.PatternNode GrowWorldNextAtCorner_node_curOuter = new GRGEN_LGSP.PatternNode((int) GRGEN_MODEL.NodeTypes.@GridNode, "GRGEN_MODEL.IGridNode", "GrowWorldNextAtCorner_node_curOuter", "curOuter", GrowWorldNextAtCorner_node_curOuter_AllowedTypes, GrowWorldNextAtCorner_node_curOuter_IsAllowedType, 5.5F, 1, false, null, null);
+			GRGEN_LGSP.PatternNode GrowWorldNextAtCorner_node_hill = new GRGEN_LGSP.PatternNode((int) GRGEN_MODEL.NodeTypes.@AntHill, "GRGEN_MODEL.IAntHill", "GrowWorldNextAtCorner_node_hill", "hill", GrowWorldNextAtCorner_node_hill_AllowedTypes, GrowWorldNextAtCorner_node_hill_IsAllowedType, 5.5F, -1, false, null, null);
+			GRGEN_LGSP.PatternEdge GrowWorldNextAtCorner_edge__edge0 = new GRGEN_LGSP.PatternEdge(true, (int) GRGEN_MODEL.EdgeTypes.@GridEdge, "GRGEN_MODEL.IGridEdge", "GrowWorldNextAtCorner_edge__edge0", "_edge0", GrowWorldNextAtCorner_edge__edge0_AllowedTypes, GrowWorldNextAtCorner_edge__edge0_IsAllowedType, 5.5F, -1, false, null, null);
 			bool[,] GrowWorldNextAtCorner_neg_0_isNodeHomomorphicGlobal = new bool[1, 1] {
 				{ false, },
 			};
@@ -3240,7 +2984,7 @@ namespace de.unika.ipd.grGen.Action_AntWorld_ExtendAtEndOfRound_NoGammel
 			};
 			int[] GrowWorldNextAtCorner_neg_0_minMatches = new int[0] ;
 			int[] GrowWorldNextAtCorner_neg_0_maxMatches = new int[0] ;
-			GRGEN_LGSP.PatternEdge GrowWorldNextAtCorner_neg_0_edge__edge0 = new GRGEN_LGSP.PatternEdge(true, (int) GRGEN_MODEL.EdgeTypes.@PathToHill, "GRGEN_MODEL.IPathToHill", "GrowWorldNextAtCorner_neg_0_edge__edge0", "_edge0", GrowWorldNextAtCorner_neg_0_edge__edge0_AllowedTypes, GrowWorldNextAtCorner_neg_0_edge__edge0_IsAllowedType, 5.5F, -1, false);
+			GRGEN_LGSP.PatternEdge GrowWorldNextAtCorner_neg_0_edge__edge0 = new GRGEN_LGSP.PatternEdge(true, (int) GRGEN_MODEL.EdgeTypes.@PathToHill, "GRGEN_MODEL.IPathToHill", "GrowWorldNextAtCorner_neg_0_edge__edge0", "_edge0", GrowWorldNextAtCorner_neg_0_edge__edge0_AllowedTypes, GrowWorldNextAtCorner_neg_0_edge__edge0_IsAllowedType, 5.5F, -1, false, null, null);
 			GrowWorldNextAtCorner_neg_0 = new GRGEN_LGSP.PatternGraph(
 				"neg_0",
 				"GrowWorldNextAtCorner_",
@@ -3298,12 +3042,12 @@ namespace de.unika.ipd.grGen.Action_AntWorld_ExtendAtEndOfRound_NoGammel
 			pat_GrowWorldNextAtCorner.edgeToTargetNode.Add(GrowWorldNextAtCorner_edge__edge0, GrowWorldNextAtCorner_node_next);
 			GrowWorldNextAtCorner_neg_0.embeddingGraph = pat_GrowWorldNextAtCorner;
 
-			GrowWorldNextAtCorner_node_cur.PointOfDefinition = null;
-			GrowWorldNextAtCorner_node_next.PointOfDefinition = pat_GrowWorldNextAtCorner;
-			GrowWorldNextAtCorner_node_curOuter.PointOfDefinition = null;
-			GrowWorldNextAtCorner_node_hill.PointOfDefinition = pat_GrowWorldNextAtCorner;
-			GrowWorldNextAtCorner_edge__edge0.PointOfDefinition = pat_GrowWorldNextAtCorner;
-			GrowWorldNextAtCorner_neg_0_edge__edge0.PointOfDefinition = GrowWorldNextAtCorner_neg_0;
+			GrowWorldNextAtCorner_node_cur.pointOfDefinition = null;
+			GrowWorldNextAtCorner_node_next.pointOfDefinition = pat_GrowWorldNextAtCorner;
+			GrowWorldNextAtCorner_node_curOuter.pointOfDefinition = null;
+			GrowWorldNextAtCorner_node_hill.pointOfDefinition = pat_GrowWorldNextAtCorner;
+			GrowWorldNextAtCorner_edge__edge0.pointOfDefinition = pat_GrowWorldNextAtCorner;
+			GrowWorldNextAtCorner_neg_0_edge__edge0.pointOfDefinition = GrowWorldNextAtCorner_neg_0;
 
 			patternGraph = pat_GrowWorldNextAtCorner;
 		}
@@ -3328,10 +3072,10 @@ namespace de.unika.ipd.grGen.Action_AntWorld_ExtendAtEndOfRound_NoGammel
 			GRGEN_MODEL.@GridEdge edge__edge4 = GRGEN_MODEL.@GridEdge.CreateEdge(graph, node_curOuter, node_outer1);
 			GRGEN_MODEL.@GridEdge edge__edge5 = GRGEN_MODEL.@GridEdge.CreateEdge(graph, node_outer1, node_outer2);
 			GRGEN_MODEL.@GridEdge edge__edge6 = GRGEN_MODEL.@GridEdge.CreateEdge(graph, node_outer2, node_outer3);
-			int tempvar_i = (inode_hill.@foodCountdown - 3);
-			graph.ChangingNodeAttribute(node_hill, GRGEN_MODEL.NodeType_AntHill.AttributeType_foodCountdown, GRGEN_LIBGR.AttributeChangeType.Assign, tempvar_i, null);
-			inode_hill.@foodCountdown = tempvar_i;
-			ApplyXGRS_0(graph, (GRGEN_MODEL.IGridNode)node_outer1, (GRGEN_MODEL.IGridCornerNode)node_outer2, (GRGEN_MODEL.IGridNode)node_outer3);
+			int tempvar_int = (inode_hill.@foodCountdown - 3);
+			graph.ChangingNodeAttribute(node_hill, GRGEN_MODEL.NodeType_AntHill.AttributeType_foodCountdown, GRGEN_LIBGR.AttributeChangeType.Assign, tempvar_int, null);
+			inode_hill.@foodCountdown = tempvar_int;
+			ApplyXGRS_GrowWorldNextAtCorner_0(graph, (GRGEN_MODEL.IGridNode)node_outer1, (GRGEN_MODEL.IGridCornerNode)node_outer2, (GRGEN_MODEL.IGridNode)node_outer3);
 			output_0 = (GRGEN_MODEL.IGridNode)(node_next);
 			output_1 = (GRGEN_MODEL.IGridNode)(node_outer3);
 			return;
@@ -3339,34 +3083,7 @@ namespace de.unika.ipd.grGen.Action_AntWorld_ExtendAtEndOfRound_NoGammel
 		private static string[] GrowWorldNextAtCorner_addedNodeNames = new string[] { "outer1", "outer2", "outer3" };
 		private static string[] GrowWorldNextAtCorner_addedEdgeNames = new string[] { "_edge1", "_edge2", "_edge3", "_edge4", "_edge5", "_edge6" };
 
-		public void ModifyNoReuse(GRGEN_LGSP.LGSPGraph graph, GRGEN_LIBGR.IMatch _curMatch, out GRGEN_MODEL.IGridNode output_0, out GRGEN_MODEL.IGridNode output_1)
-		{
-			Match_GrowWorldNextAtCorner curMatch = (Match_GrowWorldNextAtCorner)_curMatch;
-			GRGEN_LGSP.LGSPNode node_next = curMatch._node_next;
-			GRGEN_LGSP.LGSPNode node_hill = curMatch._node_hill;
-			GRGEN_LGSP.LGSPNode node_cur = curMatch._node_cur;
-			GRGEN_LGSP.LGSPNode node_curOuter = curMatch._node_curOuter;
-			GRGEN_MODEL.IAntHill inode_hill = curMatch.node_hill;
-			graph.SettingAddedNodeNames( GrowWorldNextAtCorner_addedNodeNames );
-			GRGEN_MODEL.@GridNode node_outer1 = GRGEN_MODEL.@GridNode.CreateNode(graph);
-			GRGEN_MODEL.@GridCornerNode node_outer2 = GRGEN_MODEL.@GridCornerNode.CreateNode(graph);
-			GRGEN_MODEL.@GridNode node_outer3 = GRGEN_MODEL.@GridNode.CreateNode(graph);
-			graph.SettingAddedEdgeNames( GrowWorldNextAtCorner_addedEdgeNames );
-			GRGEN_MODEL.@PathToHill edge__edge1 = GRGEN_MODEL.@PathToHill.CreateEdge(graph, node_outer1, node_cur);
-			GRGEN_MODEL.@PathToHill edge__edge2 = GRGEN_MODEL.@PathToHill.CreateEdge(graph, node_outer2, node_cur);
-			GRGEN_MODEL.@PathToHill edge__edge3 = GRGEN_MODEL.@PathToHill.CreateEdge(graph, node_outer3, node_cur);
-			GRGEN_MODEL.@GridEdge edge__edge4 = GRGEN_MODEL.@GridEdge.CreateEdge(graph, node_curOuter, node_outer1);
-			GRGEN_MODEL.@GridEdge edge__edge5 = GRGEN_MODEL.@GridEdge.CreateEdge(graph, node_outer1, node_outer2);
-			GRGEN_MODEL.@GridEdge edge__edge6 = GRGEN_MODEL.@GridEdge.CreateEdge(graph, node_outer2, node_outer3);
-			int tempvar_i = (inode_hill.@foodCountdown - 3);
-			graph.ChangingNodeAttribute(node_hill, GRGEN_MODEL.NodeType_AntHill.AttributeType_foodCountdown, GRGEN_LIBGR.AttributeChangeType.Assign, tempvar_i, null);
-			inode_hill.@foodCountdown = tempvar_i;
-			ApplyXGRS_0(graph, (GRGEN_MODEL.IGridNode)node_outer1, (GRGEN_MODEL.IGridCornerNode)node_outer2, (GRGEN_MODEL.IGridNode)node_outer3);
-			output_0 = (GRGEN_MODEL.IGridNode)(node_next);
-			output_1 = (GRGEN_MODEL.IGridNode)(node_outer3);
-			return;
-		}
-        public static bool ApplyXGRS_0(GRGEN_LGSP.LGSPGraph graph, GRGEN_MODEL.IGridNode var_outer1, GRGEN_MODEL.IGridCornerNode var_outer2, GRGEN_MODEL.IGridNode var_outer3)
+        public static bool ApplyXGRS_GrowWorldNextAtCorner_0(GRGEN_LGSP.LGSPGraph graph, GRGEN_MODEL.IGridNode var_outer1, GRGEN_MODEL.IGridCornerNode var_outer2, GRGEN_MODEL.IGridNode var_outer3)
         {
             GRGEN_LGSP.LGSPActions actions = graph.curActions;
             bool res_10;
@@ -3685,7 +3402,7 @@ namespace de.unika.ipd.grGen.Action_AntWorld_ExtendAtEndOfRound_NoGammel
 
 
 
-		GRGEN_LGSP.PatternGraph pat_GrowWorldNextNotAtCorner;
+		public GRGEN_LGSP.PatternGraph pat_GrowWorldNextNotAtCorner;
 
 		public static GRGEN_LIBGR.EdgeType[] GrowWorldNextNotAtCorner_neg_0_edge__edge0_AllowedTypes = null;
 		public static bool[] GrowWorldNextNotAtCorner_neg_0_edge__edge0_IsAllowedType = null;
@@ -3696,7 +3413,7 @@ namespace de.unika.ipd.grGen.Action_AntWorld_ExtendAtEndOfRound_NoGammel
 		public enum GrowWorldNextNotAtCorner_neg_0_AltNums { };
 		public enum GrowWorldNextNotAtCorner_neg_0_IterNums { };
 
-		GRGEN_LGSP.PatternGraph GrowWorldNextNotAtCorner_neg_0;
+		public GRGEN_LGSP.PatternGraph GrowWorldNextNotAtCorner_neg_0;
 
 
 		private Rule_GrowWorldNextNotAtCorner()
@@ -3706,6 +3423,7 @@ namespace de.unika.ipd.grGen.Action_AntWorld_ExtendAtEndOfRound_NoGammel
 			inputs = new GRGEN_LIBGR.GrGenType[] { GRGEN_MODEL.NodeType_GridNode.typeVar, GRGEN_MODEL.NodeType_GridNode.typeVar, };
 			inputNames = new string[] { "GrowWorldNextNotAtCorner_node_cur", "GrowWorldNextNotAtCorner_node_curOuter", };
 			outputs = new GRGEN_LIBGR.GrGenType[] { GRGEN_MODEL.NodeType_GridNode.typeVar, GRGEN_MODEL.NodeType_GridNode.typeVar, };
+
 		}
 		private void initialize()
 		{
@@ -3720,11 +3438,11 @@ namespace de.unika.ipd.grGen.Action_AntWorld_ExtendAtEndOfRound_NoGammel
 			};
 			int[] GrowWorldNextNotAtCorner_minMatches = new int[0] ;
 			int[] GrowWorldNextNotAtCorner_maxMatches = new int[0] ;
-			GRGEN_LGSP.PatternNode GrowWorldNextNotAtCorner_node_cur = new GRGEN_LGSP.PatternNode((int) GRGEN_MODEL.NodeTypes.@GridNode, "GRGEN_MODEL.IGridNode", "GrowWorldNextNotAtCorner_node_cur", "cur", GrowWorldNextNotAtCorner_node_cur_AllowedTypes, GrowWorldNextNotAtCorner_node_cur_IsAllowedType, 5.5F, 0, false);
-			GRGEN_LGSP.PatternNode GrowWorldNextNotAtCorner_node_next = new GRGEN_LGSP.PatternNode((int) GRGEN_MODEL.NodeTypes.@GridNode, "GRGEN_MODEL.IGridNode", "GrowWorldNextNotAtCorner_node_next", "next", GrowWorldNextNotAtCorner_node_next_AllowedTypes, GrowWorldNextNotAtCorner_node_next_IsAllowedType, 5.5F, -1, false);
-			GRGEN_LGSP.PatternNode GrowWorldNextNotAtCorner_node_curOuter = new GRGEN_LGSP.PatternNode((int) GRGEN_MODEL.NodeTypes.@GridNode, "GRGEN_MODEL.IGridNode", "GrowWorldNextNotAtCorner_node_curOuter", "curOuter", GrowWorldNextNotAtCorner_node_curOuter_AllowedTypes, GrowWorldNextNotAtCorner_node_curOuter_IsAllowedType, 5.5F, 1, false);
-			GRGEN_LGSP.PatternNode GrowWorldNextNotAtCorner_node_hill = new GRGEN_LGSP.PatternNode((int) GRGEN_MODEL.NodeTypes.@AntHill, "GRGEN_MODEL.IAntHill", "GrowWorldNextNotAtCorner_node_hill", "hill", GrowWorldNextNotAtCorner_node_hill_AllowedTypes, GrowWorldNextNotAtCorner_node_hill_IsAllowedType, 5.5F, -1, false);
-			GRGEN_LGSP.PatternEdge GrowWorldNextNotAtCorner_edge__edge0 = new GRGEN_LGSP.PatternEdge(true, (int) GRGEN_MODEL.EdgeTypes.@GridEdge, "GRGEN_MODEL.IGridEdge", "GrowWorldNextNotAtCorner_edge__edge0", "_edge0", GrowWorldNextNotAtCorner_edge__edge0_AllowedTypes, GrowWorldNextNotAtCorner_edge__edge0_IsAllowedType, 5.5F, -1, false);
+			GRGEN_LGSP.PatternNode GrowWorldNextNotAtCorner_node_cur = new GRGEN_LGSP.PatternNode((int) GRGEN_MODEL.NodeTypes.@GridNode, "GRGEN_MODEL.IGridNode", "GrowWorldNextNotAtCorner_node_cur", "cur", GrowWorldNextNotAtCorner_node_cur_AllowedTypes, GrowWorldNextNotAtCorner_node_cur_IsAllowedType, 5.5F, 0, false, null, null);
+			GRGEN_LGSP.PatternNode GrowWorldNextNotAtCorner_node_next = new GRGEN_LGSP.PatternNode((int) GRGEN_MODEL.NodeTypes.@GridNode, "GRGEN_MODEL.IGridNode", "GrowWorldNextNotAtCorner_node_next", "next", GrowWorldNextNotAtCorner_node_next_AllowedTypes, GrowWorldNextNotAtCorner_node_next_IsAllowedType, 5.5F, -1, false, null, null);
+			GRGEN_LGSP.PatternNode GrowWorldNextNotAtCorner_node_curOuter = new GRGEN_LGSP.PatternNode((int) GRGEN_MODEL.NodeTypes.@GridNode, "GRGEN_MODEL.IGridNode", "GrowWorldNextNotAtCorner_node_curOuter", "curOuter", GrowWorldNextNotAtCorner_node_curOuter_AllowedTypes, GrowWorldNextNotAtCorner_node_curOuter_IsAllowedType, 5.5F, 1, false, null, null);
+			GRGEN_LGSP.PatternNode GrowWorldNextNotAtCorner_node_hill = new GRGEN_LGSP.PatternNode((int) GRGEN_MODEL.NodeTypes.@AntHill, "GRGEN_MODEL.IAntHill", "GrowWorldNextNotAtCorner_node_hill", "hill", GrowWorldNextNotAtCorner_node_hill_AllowedTypes, GrowWorldNextNotAtCorner_node_hill_IsAllowedType, 5.5F, -1, false, null, null);
+			GRGEN_LGSP.PatternEdge GrowWorldNextNotAtCorner_edge__edge0 = new GRGEN_LGSP.PatternEdge(true, (int) GRGEN_MODEL.EdgeTypes.@GridEdge, "GRGEN_MODEL.IGridEdge", "GrowWorldNextNotAtCorner_edge__edge0", "_edge0", GrowWorldNextNotAtCorner_edge__edge0_AllowedTypes, GrowWorldNextNotAtCorner_edge__edge0_IsAllowedType, 5.5F, -1, false, null, null);
 			bool[,] GrowWorldNextNotAtCorner_neg_0_isNodeHomomorphicGlobal = new bool[1, 1] {
 				{ false, },
 			};
@@ -3733,7 +3451,7 @@ namespace de.unika.ipd.grGen.Action_AntWorld_ExtendAtEndOfRound_NoGammel
 			};
 			int[] GrowWorldNextNotAtCorner_neg_0_minMatches = new int[0] ;
 			int[] GrowWorldNextNotAtCorner_neg_0_maxMatches = new int[0] ;
-			GRGEN_LGSP.PatternEdge GrowWorldNextNotAtCorner_neg_0_edge__edge0 = new GRGEN_LGSP.PatternEdge(true, (int) GRGEN_MODEL.EdgeTypes.@PathToHill, "GRGEN_MODEL.IPathToHill", "GrowWorldNextNotAtCorner_neg_0_edge__edge0", "_edge0", GrowWorldNextNotAtCorner_neg_0_edge__edge0_AllowedTypes, GrowWorldNextNotAtCorner_neg_0_edge__edge0_IsAllowedType, 5.5F, -1, false);
+			GRGEN_LGSP.PatternEdge GrowWorldNextNotAtCorner_neg_0_edge__edge0 = new GRGEN_LGSP.PatternEdge(true, (int) GRGEN_MODEL.EdgeTypes.@PathToHill, "GRGEN_MODEL.IPathToHill", "GrowWorldNextNotAtCorner_neg_0_edge__edge0", "_edge0", GrowWorldNextNotAtCorner_neg_0_edge__edge0_AllowedTypes, GrowWorldNextNotAtCorner_neg_0_edge__edge0_IsAllowedType, 5.5F, -1, false, null, null);
 			GrowWorldNextNotAtCorner_neg_0 = new GRGEN_LGSP.PatternGraph(
 				"neg_0",
 				"GrowWorldNextNotAtCorner_",
@@ -3791,12 +3509,12 @@ namespace de.unika.ipd.grGen.Action_AntWorld_ExtendAtEndOfRound_NoGammel
 			pat_GrowWorldNextNotAtCorner.edgeToTargetNode.Add(GrowWorldNextNotAtCorner_edge__edge0, GrowWorldNextNotAtCorner_node_next);
 			GrowWorldNextNotAtCorner_neg_0.embeddingGraph = pat_GrowWorldNextNotAtCorner;
 
-			GrowWorldNextNotAtCorner_node_cur.PointOfDefinition = null;
-			GrowWorldNextNotAtCorner_node_next.PointOfDefinition = pat_GrowWorldNextNotAtCorner;
-			GrowWorldNextNotAtCorner_node_curOuter.PointOfDefinition = null;
-			GrowWorldNextNotAtCorner_node_hill.PointOfDefinition = pat_GrowWorldNextNotAtCorner;
-			GrowWorldNextNotAtCorner_edge__edge0.PointOfDefinition = pat_GrowWorldNextNotAtCorner;
-			GrowWorldNextNotAtCorner_neg_0_edge__edge0.PointOfDefinition = GrowWorldNextNotAtCorner_neg_0;
+			GrowWorldNextNotAtCorner_node_cur.pointOfDefinition = null;
+			GrowWorldNextNotAtCorner_node_next.pointOfDefinition = pat_GrowWorldNextNotAtCorner;
+			GrowWorldNextNotAtCorner_node_curOuter.pointOfDefinition = null;
+			GrowWorldNextNotAtCorner_node_hill.pointOfDefinition = pat_GrowWorldNextNotAtCorner;
+			GrowWorldNextNotAtCorner_edge__edge0.pointOfDefinition = pat_GrowWorldNextNotAtCorner;
+			GrowWorldNextNotAtCorner_neg_0_edge__edge0.pointOfDefinition = GrowWorldNextNotAtCorner_neg_0;
 
 			patternGraph = pat_GrowWorldNextNotAtCorner;
 		}
@@ -3815,10 +3533,10 @@ namespace de.unika.ipd.grGen.Action_AntWorld_ExtendAtEndOfRound_NoGammel
 			graph.SettingAddedEdgeNames( GrowWorldNextNotAtCorner_addedEdgeNames );
 			GRGEN_MODEL.@PathToHill edge__edge1 = GRGEN_MODEL.@PathToHill.CreateEdge(graph, node_outer, node_cur);
 			GRGEN_MODEL.@GridEdge edge__edge2 = GRGEN_MODEL.@GridEdge.CreateEdge(graph, node_curOuter, node_outer);
-			int tempvar_i = (inode_hill.@foodCountdown - 1);
-			graph.ChangingNodeAttribute(node_hill, GRGEN_MODEL.NodeType_AntHill.AttributeType_foodCountdown, GRGEN_LIBGR.AttributeChangeType.Assign, tempvar_i, null);
-			inode_hill.@foodCountdown = tempvar_i;
-			ApplyXGRS_0(graph, (GRGEN_MODEL.IGridNode)node_outer);
+			int tempvar_int = (inode_hill.@foodCountdown - 1);
+			graph.ChangingNodeAttribute(node_hill, GRGEN_MODEL.NodeType_AntHill.AttributeType_foodCountdown, GRGEN_LIBGR.AttributeChangeType.Assign, tempvar_int, null);
+			inode_hill.@foodCountdown = tempvar_int;
+			ApplyXGRS_GrowWorldNextNotAtCorner_0(graph, (GRGEN_MODEL.IGridNode)node_outer);
 			output_0 = (GRGEN_MODEL.IGridNode)(node_next);
 			output_1 = (GRGEN_MODEL.IGridNode)(node_outer);
 			return;
@@ -3826,28 +3544,7 @@ namespace de.unika.ipd.grGen.Action_AntWorld_ExtendAtEndOfRound_NoGammel
 		private static string[] GrowWorldNextNotAtCorner_addedNodeNames = new string[] { "outer" };
 		private static string[] GrowWorldNextNotAtCorner_addedEdgeNames = new string[] { "_edge1", "_edge2" };
 
-		public void ModifyNoReuse(GRGEN_LGSP.LGSPGraph graph, GRGEN_LIBGR.IMatch _curMatch, out GRGEN_MODEL.IGridNode output_0, out GRGEN_MODEL.IGridNode output_1)
-		{
-			Match_GrowWorldNextNotAtCorner curMatch = (Match_GrowWorldNextNotAtCorner)_curMatch;
-			GRGEN_LGSP.LGSPNode node_next = curMatch._node_next;
-			GRGEN_LGSP.LGSPNode node_hill = curMatch._node_hill;
-			GRGEN_LGSP.LGSPNode node_cur = curMatch._node_cur;
-			GRGEN_LGSP.LGSPNode node_curOuter = curMatch._node_curOuter;
-			GRGEN_MODEL.IAntHill inode_hill = curMatch.node_hill;
-			graph.SettingAddedNodeNames( GrowWorldNextNotAtCorner_addedNodeNames );
-			GRGEN_MODEL.@GridNode node_outer = GRGEN_MODEL.@GridNode.CreateNode(graph);
-			graph.SettingAddedEdgeNames( GrowWorldNextNotAtCorner_addedEdgeNames );
-			GRGEN_MODEL.@PathToHill edge__edge1 = GRGEN_MODEL.@PathToHill.CreateEdge(graph, node_outer, node_cur);
-			GRGEN_MODEL.@GridEdge edge__edge2 = GRGEN_MODEL.@GridEdge.CreateEdge(graph, node_curOuter, node_outer);
-			int tempvar_i = (inode_hill.@foodCountdown - 1);
-			graph.ChangingNodeAttribute(node_hill, GRGEN_MODEL.NodeType_AntHill.AttributeType_foodCountdown, GRGEN_LIBGR.AttributeChangeType.Assign, tempvar_i, null);
-			inode_hill.@foodCountdown = tempvar_i;
-			ApplyXGRS_0(graph, (GRGEN_MODEL.IGridNode)node_outer);
-			output_0 = (GRGEN_MODEL.IGridNode)(node_next);
-			output_1 = (GRGEN_MODEL.IGridNode)(node_outer);
-			return;
-		}
-        public static bool ApplyXGRS_0(GRGEN_LGSP.LGSPGraph graph, GRGEN_MODEL.IGridNode var_outer)
+        public static bool ApplyXGRS_GrowWorldNextNotAtCorner_0(GRGEN_LGSP.LGSPGraph graph, GRGEN_MODEL.IGridNode var_outer)
         {
             GRGEN_LGSP.LGSPActions actions = graph.curActions;
             bool res_11;
@@ -4122,7 +3819,7 @@ namespace de.unika.ipd.grGen.Action_AntWorld_ExtendAtEndOfRound_NoGammel
 
 
 
-		GRGEN_LGSP.PatternGraph pat_GrowWorldEnd;
+		public GRGEN_LGSP.PatternGraph pat_GrowWorldEnd;
 
 
 		private Rule_GrowWorldEnd()
@@ -4132,6 +3829,7 @@ namespace de.unika.ipd.grGen.Action_AntWorld_ExtendAtEndOfRound_NoGammel
 			inputs = new GRGEN_LIBGR.GrGenType[] { GRGEN_MODEL.NodeType_GridNode.typeVar, GRGEN_MODEL.NodeType_GridNode.typeVar, };
 			inputNames = new string[] { "GrowWorldEnd_node_cur", "GrowWorldEnd_node_curOuter", };
 			outputs = new GRGEN_LIBGR.GrGenType[] { };
+
 		}
 		private void initialize()
 		{
@@ -4145,10 +3843,10 @@ namespace de.unika.ipd.grGen.Action_AntWorld_ExtendAtEndOfRound_NoGammel
 			};
 			int[] GrowWorldEnd_minMatches = new int[0] ;
 			int[] GrowWorldEnd_maxMatches = new int[0] ;
-			GRGEN_LGSP.PatternNode GrowWorldEnd_node_nextOuter = new GRGEN_LGSP.PatternNode((int) GRGEN_MODEL.NodeTypes.@GridNode, "GRGEN_MODEL.IGridNode", "GrowWorldEnd_node_nextOuter", "nextOuter", GrowWorldEnd_node_nextOuter_AllowedTypes, GrowWorldEnd_node_nextOuter_IsAllowedType, 5.5F, -1, false);
-			GRGEN_LGSP.PatternNode GrowWorldEnd_node_cur = new GRGEN_LGSP.PatternNode((int) GRGEN_MODEL.NodeTypes.@GridNode, "GRGEN_MODEL.IGridNode", "GrowWorldEnd_node_cur", "cur", GrowWorldEnd_node_cur_AllowedTypes, GrowWorldEnd_node_cur_IsAllowedType, 5.5F, 0, false);
-			GRGEN_LGSP.PatternNode GrowWorldEnd_node_curOuter = new GRGEN_LGSP.PatternNode((int) GRGEN_MODEL.NodeTypes.@GridNode, "GRGEN_MODEL.IGridNode", "GrowWorldEnd_node_curOuter", "curOuter", GrowWorldEnd_node_curOuter_AllowedTypes, GrowWorldEnd_node_curOuter_IsAllowedType, 5.5F, 1, false);
-			GRGEN_LGSP.PatternEdge GrowWorldEnd_edge__edge0 = new GRGEN_LGSP.PatternEdge(true, (int) GRGEN_MODEL.EdgeTypes.@PathToHill, "GRGEN_MODEL.IPathToHill", "GrowWorldEnd_edge__edge0", "_edge0", GrowWorldEnd_edge__edge0_AllowedTypes, GrowWorldEnd_edge__edge0_IsAllowedType, 5.5F, -1, false);
+			GRGEN_LGSP.PatternNode GrowWorldEnd_node_nextOuter = new GRGEN_LGSP.PatternNode((int) GRGEN_MODEL.NodeTypes.@GridNode, "GRGEN_MODEL.IGridNode", "GrowWorldEnd_node_nextOuter", "nextOuter", GrowWorldEnd_node_nextOuter_AllowedTypes, GrowWorldEnd_node_nextOuter_IsAllowedType, 5.5F, -1, false, null, null);
+			GRGEN_LGSP.PatternNode GrowWorldEnd_node_cur = new GRGEN_LGSP.PatternNode((int) GRGEN_MODEL.NodeTypes.@GridNode, "GRGEN_MODEL.IGridNode", "GrowWorldEnd_node_cur", "cur", GrowWorldEnd_node_cur_AllowedTypes, GrowWorldEnd_node_cur_IsAllowedType, 5.5F, 0, false, null, null);
+			GRGEN_LGSP.PatternNode GrowWorldEnd_node_curOuter = new GRGEN_LGSP.PatternNode((int) GRGEN_MODEL.NodeTypes.@GridNode, "GRGEN_MODEL.IGridNode", "GrowWorldEnd_node_curOuter", "curOuter", GrowWorldEnd_node_curOuter_AllowedTypes, GrowWorldEnd_node_curOuter_IsAllowedType, 5.5F, 1, false, null, null);
+			GRGEN_LGSP.PatternEdge GrowWorldEnd_edge__edge0 = new GRGEN_LGSP.PatternEdge(true, (int) GRGEN_MODEL.EdgeTypes.@PathToHill, "GRGEN_MODEL.IPathToHill", "GrowWorldEnd_edge__edge0", "_edge0", GrowWorldEnd_edge__edge0_AllowedTypes, GrowWorldEnd_edge__edge0_IsAllowedType, 5.5F, -1, false, null, null);
 			pat_GrowWorldEnd = new GRGEN_LGSP.PatternGraph(
 				"GrowWorldEnd",
 				"",
@@ -4178,10 +3876,10 @@ namespace de.unika.ipd.grGen.Action_AntWorld_ExtendAtEndOfRound_NoGammel
 			pat_GrowWorldEnd.edgeToSourceNode.Add(GrowWorldEnd_edge__edge0, GrowWorldEnd_node_nextOuter);
 			pat_GrowWorldEnd.edgeToTargetNode.Add(GrowWorldEnd_edge__edge0, GrowWorldEnd_node_cur);
 
-			GrowWorldEnd_node_nextOuter.PointOfDefinition = pat_GrowWorldEnd;
-			GrowWorldEnd_node_cur.PointOfDefinition = null;
-			GrowWorldEnd_node_curOuter.PointOfDefinition = null;
-			GrowWorldEnd_edge__edge0.PointOfDefinition = pat_GrowWorldEnd;
+			GrowWorldEnd_node_nextOuter.pointOfDefinition = pat_GrowWorldEnd;
+			GrowWorldEnd_node_cur.pointOfDefinition = null;
+			GrowWorldEnd_node_curOuter.pointOfDefinition = null;
+			GrowWorldEnd_edge__edge0.pointOfDefinition = pat_GrowWorldEnd;
 
 			patternGraph = pat_GrowWorldEnd;
 		}
@@ -4199,17 +3897,6 @@ namespace de.unika.ipd.grGen.Action_AntWorld_ExtendAtEndOfRound_NoGammel
 		}
 		private static string[] GrowWorldEnd_addedNodeNames = new string[] {  };
 		private static string[] GrowWorldEnd_addedEdgeNames = new string[] { "_edge1" };
-
-		public void ModifyNoReuse(GRGEN_LGSP.LGSPGraph graph, GRGEN_LIBGR.IMatch _curMatch)
-		{
-			Match_GrowWorldEnd curMatch = (Match_GrowWorldEnd)_curMatch;
-			GRGEN_LGSP.LGSPNode node_curOuter = curMatch._node_curOuter;
-			GRGEN_LGSP.LGSPNode node_nextOuter = curMatch._node_nextOuter;
-			graph.SettingAddedNodeNames( GrowWorldEnd_addedNodeNames );
-			graph.SettingAddedEdgeNames( GrowWorldEnd_addedEdgeNames );
-			GRGEN_MODEL.@GridEdge edge__edge1 = GRGEN_MODEL.@GridEdge.CreateEdge(graph, node_curOuter, node_nextOuter);
-			return;
-		}
 
 		static Rule_GrowWorldEnd() {
 		}
@@ -4351,7 +4038,7 @@ namespace de.unika.ipd.grGen.Action_AntWorld_ExtendAtEndOfRound_NoGammel
 
 
 
-		GRGEN_LGSP.PatternGraph pat_GetNextAnt;
+		public GRGEN_LGSP.PatternGraph pat_GetNextAnt;
 
 
 		private Rule_GetNextAnt()
@@ -4361,6 +4048,7 @@ namespace de.unika.ipd.grGen.Action_AntWorld_ExtendAtEndOfRound_NoGammel
 			inputs = new GRGEN_LIBGR.GrGenType[] { GRGEN_MODEL.NodeType_Ant.typeVar, };
 			inputNames = new string[] { "GetNextAnt_node_curAnt", };
 			outputs = new GRGEN_LIBGR.GrGenType[] { GRGEN_MODEL.NodeType_Ant.typeVar, };
+
 		}
 		private void initialize()
 		{
@@ -4373,9 +4061,9 @@ namespace de.unika.ipd.grGen.Action_AntWorld_ExtendAtEndOfRound_NoGammel
 			};
 			int[] GetNextAnt_minMatches = new int[0] ;
 			int[] GetNextAnt_maxMatches = new int[0] ;
-			GRGEN_LGSP.PatternNode GetNextAnt_node_curAnt = new GRGEN_LGSP.PatternNode((int) GRGEN_MODEL.NodeTypes.@Ant, "GRGEN_MODEL.IAnt", "GetNextAnt_node_curAnt", "curAnt", GetNextAnt_node_curAnt_AllowedTypes, GetNextAnt_node_curAnt_IsAllowedType, 5.5F, 0, false);
-			GRGEN_LGSP.PatternNode GetNextAnt_node_next = new GRGEN_LGSP.PatternNode((int) GRGEN_MODEL.NodeTypes.@Ant, "GRGEN_MODEL.IAnt", "GetNextAnt_node_next", "next", GetNextAnt_node_next_AllowedTypes, GetNextAnt_node_next_IsAllowedType, 5.5F, -1, false);
-			GRGEN_LGSP.PatternEdge GetNextAnt_edge__edge0 = new GRGEN_LGSP.PatternEdge(true, (int) GRGEN_MODEL.EdgeTypes.@NextAnt, "GRGEN_MODEL.INextAnt", "GetNextAnt_edge__edge0", "_edge0", GetNextAnt_edge__edge0_AllowedTypes, GetNextAnt_edge__edge0_IsAllowedType, 5.5F, -1, false);
+			GRGEN_LGSP.PatternNode GetNextAnt_node_curAnt = new GRGEN_LGSP.PatternNode((int) GRGEN_MODEL.NodeTypes.@Ant, "GRGEN_MODEL.IAnt", "GetNextAnt_node_curAnt", "curAnt", GetNextAnt_node_curAnt_AllowedTypes, GetNextAnt_node_curAnt_IsAllowedType, 5.5F, 0, false, null, null);
+			GRGEN_LGSP.PatternNode GetNextAnt_node_next = new GRGEN_LGSP.PatternNode((int) GRGEN_MODEL.NodeTypes.@Ant, "GRGEN_MODEL.IAnt", "GetNextAnt_node_next", "next", GetNextAnt_node_next_AllowedTypes, GetNextAnt_node_next_IsAllowedType, 5.5F, -1, false, null, null);
+			GRGEN_LGSP.PatternEdge GetNextAnt_edge__edge0 = new GRGEN_LGSP.PatternEdge(true, (int) GRGEN_MODEL.EdgeTypes.@NextAnt, "GRGEN_MODEL.INextAnt", "GetNextAnt_edge__edge0", "_edge0", GetNextAnt_edge__edge0_AllowedTypes, GetNextAnt_edge__edge0_IsAllowedType, 5.5F, -1, false, null, null);
 			pat_GetNextAnt = new GRGEN_LGSP.PatternGraph(
 				"GetNextAnt",
 				"",
@@ -4404,23 +4092,15 @@ namespace de.unika.ipd.grGen.Action_AntWorld_ExtendAtEndOfRound_NoGammel
 			pat_GetNextAnt.edgeToSourceNode.Add(GetNextAnt_edge__edge0, GetNextAnt_node_curAnt);
 			pat_GetNextAnt.edgeToTargetNode.Add(GetNextAnt_edge__edge0, GetNextAnt_node_next);
 
-			GetNextAnt_node_curAnt.PointOfDefinition = null;
-			GetNextAnt_node_next.PointOfDefinition = pat_GetNextAnt;
-			GetNextAnt_edge__edge0.PointOfDefinition = pat_GetNextAnt;
+			GetNextAnt_node_curAnt.pointOfDefinition = null;
+			GetNextAnt_node_next.pointOfDefinition = pat_GetNextAnt;
+			GetNextAnt_edge__edge0.pointOfDefinition = pat_GetNextAnt;
 
 			patternGraph = pat_GetNextAnt;
 		}
 
 
 		public void Modify(GRGEN_LGSP.LGSPGraph graph, GRGEN_LIBGR.IMatch _curMatch, out GRGEN_MODEL.IAnt output_0)
-		{
-			Match_GetNextAnt curMatch = (Match_GetNextAnt)_curMatch;
-			GRGEN_LGSP.LGSPNode node_next = curMatch._node_next;
-			output_0 = (GRGEN_MODEL.IAnt)(node_next);
-			return;
-		}
-
-		public void ModifyNoReuse(GRGEN_LGSP.LGSPGraph graph, GRGEN_LIBGR.IMatch _curMatch, out GRGEN_MODEL.IAnt output_0)
 		{
 			Match_GetNextAnt curMatch = (Match_GetNextAnt)_curMatch;
 			GRGEN_LGSP.LGSPNode node_next = curMatch._node_next;
@@ -4563,7 +4243,7 @@ namespace de.unika.ipd.grGen.Action_AntWorld_ExtendAtEndOfRound_NoGammel
 
 
 
-		GRGEN_LGSP.PatternGraph pat_Food2Ant;
+		public GRGEN_LGSP.PatternGraph pat_Food2Ant;
 
 
 		private Rule_Food2Ant()
@@ -4573,6 +4253,7 @@ namespace de.unika.ipd.grGen.Action_AntWorld_ExtendAtEndOfRound_NoGammel
 			inputs = new GRGEN_LIBGR.GrGenType[] { GRGEN_MODEL.NodeType_Ant.typeVar, };
 			inputNames = new string[] { "Food2Ant_node_lastAnt", };
 			outputs = new GRGEN_LIBGR.GrGenType[] { GRGEN_MODEL.NodeType_Ant.typeVar, };
+
 		}
 		private void initialize()
 		{
@@ -4583,9 +4264,9 @@ namespace de.unika.ipd.grGen.Action_AntWorld_ExtendAtEndOfRound_NoGammel
 			bool[,] Food2Ant_isEdgeHomomorphicGlobal = new bool[0, 0] ;
 			int[] Food2Ant_minMatches = new int[0] ;
 			int[] Food2Ant_maxMatches = new int[0] ;
-			GRGEN_LGSP.PatternNode Food2Ant_node_lastAnt = new GRGEN_LGSP.PatternNode((int) GRGEN_MODEL.NodeTypes.@Ant, "GRGEN_MODEL.IAnt", "Food2Ant_node_lastAnt", "lastAnt", Food2Ant_node_lastAnt_AllowedTypes, Food2Ant_node_lastAnt_IsAllowedType, 5.5F, 0, false);
-			GRGEN_LGSP.PatternNode Food2Ant_node_hill = new GRGEN_LGSP.PatternNode((int) GRGEN_MODEL.NodeTypes.@AntHill, "GRGEN_MODEL.IAntHill", "Food2Ant_node_hill", "hill", Food2Ant_node_hill_AllowedTypes, Food2Ant_node_hill_IsAllowedType, 5.5F, -1, false);
-			GRGEN_LGSP.PatternCondition cond_0 = new GRGEN_LGSP.PatternCondition(
+			GRGEN_LGSP.PatternNode Food2Ant_node_lastAnt = new GRGEN_LGSP.PatternNode((int) GRGEN_MODEL.NodeTypes.@Ant, "GRGEN_MODEL.IAnt", "Food2Ant_node_lastAnt", "lastAnt", Food2Ant_node_lastAnt_AllowedTypes, Food2Ant_node_lastAnt_IsAllowedType, 5.5F, 0, false, null, null);
+			GRGEN_LGSP.PatternNode Food2Ant_node_hill = new GRGEN_LGSP.PatternNode((int) GRGEN_MODEL.NodeTypes.@AntHill, "GRGEN_MODEL.IAntHill", "Food2Ant_node_hill", "hill", Food2Ant_node_hill_AllowedTypes, Food2Ant_node_hill_IsAllowedType, 5.5F, -1, false, null, null);
+			GRGEN_LGSP.PatternCondition Food2Ant_cond_0 = new GRGEN_LGSP.PatternCondition(
 				new GRGEN_EXPR.GT(new GRGEN_EXPR.Qualification("GRGEN_MODEL.IAntHill", "Food2Ant_node_hill", "food"), new GRGEN_EXPR.Constant("0")),
 				new string[] { "Food2Ant_node_hill" }, new string[] {  }, new string[] {  }, new GRGEN_LIBGR.VarType[] {  });
 			pat_Food2Ant = new GRGEN_LGSP.PatternGraph(
@@ -4602,7 +4283,7 @@ namespace de.unika.ipd.grGen.Action_AntWorld_ExtendAtEndOfRound_NoGammel
 				Food2Ant_maxMatches,
 				new GRGEN_LGSP.PatternGraph[] {  }, 
 				new GRGEN_LGSP.PatternGraph[] {  }, 
-				new GRGEN_LGSP.PatternCondition[] { cond_0,  }, 
+				new GRGEN_LGSP.PatternCondition[] { Food2Ant_cond_0,  }, 
 				new bool[2, 2] {
 					{ true, false, },
 					{ false, true, },
@@ -4612,8 +4293,8 @@ namespace de.unika.ipd.grGen.Action_AntWorld_ExtendAtEndOfRound_NoGammel
 				Food2Ant_isEdgeHomomorphicGlobal
 			);
 
-			Food2Ant_node_lastAnt.PointOfDefinition = null;
-			Food2Ant_node_hill.PointOfDefinition = pat_Food2Ant;
+			Food2Ant_node_lastAnt.pointOfDefinition = null;
+			Food2Ant_node_hill.pointOfDefinition = pat_Food2Ant;
 
 			patternGraph = pat_Food2Ant;
 		}
@@ -4630,32 +4311,14 @@ namespace de.unika.ipd.grGen.Action_AntWorld_ExtendAtEndOfRound_NoGammel
 			graph.SettingAddedEdgeNames( Food2Ant_addedEdgeNames );
 			GRGEN_MODEL.@NextAnt edge__edge0 = GRGEN_MODEL.@NextAnt.CreateEdge(graph, node_lastAnt, node_newAnt);
 			GRGEN_MODEL.@AntPosition edge__edge1 = GRGEN_MODEL.@AntPosition.CreateEdge(graph, node_newAnt, node_hill);
-			int tempvar_i = (inode_hill.@food - 1);
-			graph.ChangingNodeAttribute(node_hill, GRGEN_MODEL.NodeType_GridNode.AttributeType_food, GRGEN_LIBGR.AttributeChangeType.Assign, tempvar_i, null);
-			inode_hill.@food = tempvar_i;
+			int tempvar_int = (inode_hill.@food - 1);
+			graph.ChangingNodeAttribute(node_hill, GRGEN_MODEL.NodeType_GridNode.AttributeType_food, GRGEN_LIBGR.AttributeChangeType.Assign, tempvar_int, null);
+			inode_hill.@food = tempvar_int;
 			output_0 = (GRGEN_MODEL.IAnt)(node_newAnt);
 			return;
 		}
 		private static string[] Food2Ant_addedNodeNames = new string[] { "newAnt" };
 		private static string[] Food2Ant_addedEdgeNames = new string[] { "_edge0", "_edge1" };
-
-		public void ModifyNoReuse(GRGEN_LGSP.LGSPGraph graph, GRGEN_LIBGR.IMatch _curMatch, out GRGEN_MODEL.IAnt output_0)
-		{
-			Match_Food2Ant curMatch = (Match_Food2Ant)_curMatch;
-			GRGEN_LGSP.LGSPNode node_hill = curMatch._node_hill;
-			GRGEN_LGSP.LGSPNode node_lastAnt = curMatch._node_lastAnt;
-			GRGEN_MODEL.IAntHill inode_hill = curMatch.node_hill;
-			graph.SettingAddedNodeNames( Food2Ant_addedNodeNames );
-			GRGEN_MODEL.@Ant node_newAnt = GRGEN_MODEL.@Ant.CreateNode(graph);
-			graph.SettingAddedEdgeNames( Food2Ant_addedEdgeNames );
-			GRGEN_MODEL.@NextAnt edge__edge0 = GRGEN_MODEL.@NextAnt.CreateEdge(graph, node_lastAnt, node_newAnt);
-			GRGEN_MODEL.@AntPosition edge__edge1 = GRGEN_MODEL.@AntPosition.CreateEdge(graph, node_newAnt, node_hill);
-			int tempvar_i = (inode_hill.@food - 1);
-			graph.ChangingNodeAttribute(node_hill, GRGEN_MODEL.NodeType_GridNode.AttributeType_food, GRGEN_LIBGR.AttributeChangeType.Assign, tempvar_i, null);
-			inode_hill.@food = tempvar_i;
-			output_0 = (GRGEN_MODEL.IAnt)(node_newAnt);
-			return;
-		}
 
 		static Rule_Food2Ant() {
 		}
@@ -4786,7 +4449,7 @@ namespace de.unika.ipd.grGen.Action_AntWorld_ExtendAtEndOfRound_NoGammel
 
 
 
-		GRGEN_LGSP.PatternGraph pat_EvaporateWorld;
+		public GRGEN_LGSP.PatternGraph pat_EvaporateWorld;
 
 
 		private Rule_EvaporateWorld()
@@ -4796,6 +4459,7 @@ namespace de.unika.ipd.grGen.Action_AntWorld_ExtendAtEndOfRound_NoGammel
 			inputs = new GRGEN_LIBGR.GrGenType[] { };
 			inputNames = new string[] { };
 			outputs = new GRGEN_LIBGR.GrGenType[] { };
+
 		}
 		private void initialize()
 		{
@@ -4805,7 +4469,7 @@ namespace de.unika.ipd.grGen.Action_AntWorld_ExtendAtEndOfRound_NoGammel
 			bool[,] EvaporateWorld_isEdgeHomomorphicGlobal = new bool[0, 0] ;
 			int[] EvaporateWorld_minMatches = new int[0] ;
 			int[] EvaporateWorld_maxMatches = new int[0] ;
-			GRGEN_LGSP.PatternNode EvaporateWorld_node_n = new GRGEN_LGSP.PatternNode((int) GRGEN_MODEL.NodeTypes.@GridNode, "GRGEN_MODEL.IGridNode", "EvaporateWorld_node_n", "n", EvaporateWorld_node_n_AllowedTypes, EvaporateWorld_node_n_IsAllowedType, 5.5F, -1, false);
+			GRGEN_LGSP.PatternNode EvaporateWorld_node_n = new GRGEN_LGSP.PatternNode((int) GRGEN_MODEL.NodeTypes.@GridNode, "GRGEN_MODEL.IGridNode", "EvaporateWorld_node_n", "n", EvaporateWorld_node_n_AllowedTypes, EvaporateWorld_node_n_IsAllowedType, 5.5F, -1, false, null, null);
 			pat_EvaporateWorld = new GRGEN_LGSP.PatternGraph(
 				"EvaporateWorld",
 				"",
@@ -4829,7 +4493,7 @@ namespace de.unika.ipd.grGen.Action_AntWorld_ExtendAtEndOfRound_NoGammel
 				EvaporateWorld_isEdgeHomomorphicGlobal
 			);
 
-			EvaporateWorld_node_n.PointOfDefinition = pat_EvaporateWorld;
+			EvaporateWorld_node_n.pointOfDefinition = pat_EvaporateWorld;
 
 			patternGraph = pat_EvaporateWorld;
 		}
@@ -4842,26 +4506,13 @@ namespace de.unika.ipd.grGen.Action_AntWorld_ExtendAtEndOfRound_NoGammel
 			GRGEN_MODEL.IGridNode inode_n = curMatch.node_n;
 			graph.SettingAddedNodeNames( EvaporateWorld_addedNodeNames );
 			graph.SettingAddedEdgeNames( EvaporateWorld_addedEdgeNames );
-			int tempvar_i = ((int) (((double) inode_n.@pheromones) * 0.95));
-			graph.ChangingNodeAttribute(node_n, GRGEN_MODEL.NodeType_GridNode.AttributeType_pheromones, GRGEN_LIBGR.AttributeChangeType.Assign, tempvar_i, null);
-			inode_n.@pheromones = tempvar_i;
+			int tempvar_int = ((int) (((double) inode_n.@pheromones) * 0.95));
+			graph.ChangingNodeAttribute(node_n, GRGEN_MODEL.NodeType_GridNode.AttributeType_pheromones, GRGEN_LIBGR.AttributeChangeType.Assign, tempvar_int, null);
+			inode_n.@pheromones = tempvar_int;
 			return;
 		}
 		private static string[] EvaporateWorld_addedNodeNames = new string[] {  };
 		private static string[] EvaporateWorld_addedEdgeNames = new string[] {  };
-
-		public void ModifyNoReuse(GRGEN_LGSP.LGSPGraph graph, GRGEN_LIBGR.IMatch _curMatch)
-		{
-			Match_EvaporateWorld curMatch = (Match_EvaporateWorld)_curMatch;
-			GRGEN_LGSP.LGSPNode node_n = curMatch._node_n;
-			GRGEN_MODEL.IGridNode inode_n = curMatch.node_n;
-			graph.SettingAddedNodeNames( EvaporateWorld_addedNodeNames );
-			graph.SettingAddedEdgeNames( EvaporateWorld_addedEdgeNames );
-			int tempvar_i = ((int) (((double) inode_n.@pheromones) * 0.95));
-			graph.ChangingNodeAttribute(node_n, GRGEN_MODEL.NodeType_GridNode.AttributeType_pheromones, GRGEN_LIBGR.AttributeChangeType.Assign, tempvar_i, null);
-			inode_n.@pheromones = tempvar_i;
-			return;
-		}
 
 		static Rule_EvaporateWorld() {
 		}
@@ -4988,7 +4639,7 @@ namespace de.unika.ipd.grGen.Action_AntWorld_ExtendAtEndOfRound_NoGammel
 
 
 
-		GRGEN_LGSP.PatternGraph pat_doAntWorld;
+		public GRGEN_LGSP.PatternGraph pat_doAntWorld;
 
 
 		private Rule_doAntWorld()
@@ -4998,6 +4649,7 @@ namespace de.unika.ipd.grGen.Action_AntWorld_ExtendAtEndOfRound_NoGammel
 			inputs = new GRGEN_LIBGR.GrGenType[] { GRGEN_MODEL.NodeType_Ant.typeVar, };
 			inputNames = new string[] { "doAntWorld_node_firstAnt", };
 			outputs = new GRGEN_LIBGR.GrGenType[] { };
+
 		}
 		private void initialize()
 		{
@@ -5007,7 +4659,7 @@ namespace de.unika.ipd.grGen.Action_AntWorld_ExtendAtEndOfRound_NoGammel
 			bool[,] doAntWorld_isEdgeHomomorphicGlobal = new bool[0, 0] ;
 			int[] doAntWorld_minMatches = new int[0] ;
 			int[] doAntWorld_maxMatches = new int[0] ;
-			GRGEN_LGSP.PatternNode doAntWorld_node_firstAnt = new GRGEN_LGSP.PatternNode((int) GRGEN_MODEL.NodeTypes.@Ant, "GRGEN_MODEL.IAnt", "doAntWorld_node_firstAnt", "firstAnt", doAntWorld_node_firstAnt_AllowedTypes, doAntWorld_node_firstAnt_IsAllowedType, 5.5F, 0, false);
+			GRGEN_LGSP.PatternNode doAntWorld_node_firstAnt = new GRGEN_LGSP.PatternNode((int) GRGEN_MODEL.NodeTypes.@Ant, "GRGEN_MODEL.IAnt", "doAntWorld_node_firstAnt", "firstAnt", doAntWorld_node_firstAnt_AllowedTypes, doAntWorld_node_firstAnt_IsAllowedType, 5.5F, 0, false, null, null);
 			pat_doAntWorld = new GRGEN_LGSP.PatternGraph(
 				"doAntWorld",
 				"",
@@ -5031,7 +4683,7 @@ namespace de.unika.ipd.grGen.Action_AntWorld_ExtendAtEndOfRound_NoGammel
 				doAntWorld_isEdgeHomomorphicGlobal
 			);
 
-			doAntWorld_node_firstAnt.PointOfDefinition = null;
+			doAntWorld_node_firstAnt.pointOfDefinition = null;
 
 			patternGraph = pat_doAntWorld;
 		}
@@ -5043,22 +4695,13 @@ namespace de.unika.ipd.grGen.Action_AntWorld_ExtendAtEndOfRound_NoGammel
 			GRGEN_LGSP.LGSPNode node_firstAnt = curMatch._node_firstAnt;
 			graph.SettingAddedNodeNames( doAntWorld_addedNodeNames );
 			graph.SettingAddedEdgeNames( doAntWorld_addedEdgeNames );
-			ApplyXGRS_0(graph, (GRGEN_MODEL.IAnt)node_firstAnt);
+			ApplyXGRS_doAntWorld_0(graph, (GRGEN_MODEL.IAnt)node_firstAnt);
 			return;
 		}
 		private static string[] doAntWorld_addedNodeNames = new string[] {  };
 		private static string[] doAntWorld_addedEdgeNames = new string[] {  };
 
-		public void ModifyNoReuse(GRGEN_LGSP.LGSPGraph graph, GRGEN_LIBGR.IMatch _curMatch)
-		{
-			Match_doAntWorld curMatch = (Match_doAntWorld)_curMatch;
-			GRGEN_LGSP.LGSPNode node_firstAnt = curMatch._node_firstAnt;
-			graph.SettingAddedNodeNames( doAntWorld_addedNodeNames );
-			graph.SettingAddedEdgeNames( doAntWorld_addedEdgeNames );
-			ApplyXGRS_0(graph, (GRGEN_MODEL.IAnt)node_firstAnt);
-			return;
-		}
-        public static bool ApplyXGRS_0(GRGEN_LGSP.LGSPGraph graph, GRGEN_MODEL.IAnt var_firstAnt)
+        public static bool ApplyXGRS_doAntWorld_0(GRGEN_LGSP.LGSPGraph graph, GRGEN_MODEL.IAnt var_firstAnt)
         {
             GRGEN_LGSP.LGSPActions actions = graph.curActions;
             bool res_44;
@@ -5175,7 +4818,9 @@ namespace de.unika.ipd.grGen.Action_AntWorld_ExtendAtEndOfRound_NoGammel
                                 res_17 = (bool)(true);
                                 if(graph.PerformanceInfo!=null) graph.PerformanceInfo.MatchesFound += matches_17.Count;
                                 graph.Finishing(matches_17, false);
-                                for(int i = 0; i < 1; ++i)
+                                int numchooserandomvar_17 = (int)1;
+                                if(matches_17.Count < numchooserandomvar_17) numchooserandomvar_17 = matches_17.Count;
+                                for(int i = 0; i < numchooserandomvar_17; ++i)
                                 {
                                     if(i != 0) graph.RewritingNextMatch();
                                     Rule_SearchAlongPheromones.IMatch_SearchAlongPheromones match_17 = matches_17.RemoveMatchExact(GRGEN_LIBGR.Sequence.randomGenerator.Next(matches_17.Count));
@@ -5196,7 +4841,9 @@ namespace de.unika.ipd.grGen.Action_AntWorld_ExtendAtEndOfRound_NoGammel
                                     res_18 = (bool)(true);
                                     if(graph.PerformanceInfo!=null) graph.PerformanceInfo.MatchesFound += matches_18.Count;
                                     graph.Finishing(matches_18, false);
-                                    for(int i = 0; i < 1; ++i)
+                                    int numchooserandomvar_18 = (int)1;
+                                    if(matches_18.Count < numchooserandomvar_18) numchooserandomvar_18 = matches_18.Count;
+                                    for(int i = 0; i < numchooserandomvar_18; ++i)
                                     {
                                         if(i != 0) graph.RewritingNextMatch();
                                         Rule_SearchAimless.IMatch_SearchAimless match_18 = matches_18.RemoveMatchExact(GRGEN_LIBGR.Sequence.randomGenerator.Next(matches_18.Count));
@@ -5405,8 +5052,8 @@ var_curOuter = (GRGEN_MODEL.IGridNode)(tmpvar_curOuter);
                         while(enum_39.MoveNext())
                         {
                             Rule_EvaporateWorld.IMatch_EvaporateWorld match_39 = enum_39.Current;
-                            rule_EvaporateWorld.Modify(graph, match_39);
                             if(match_39!=matches_39.FirstExact) graph.RewritingNextMatch();
+                            rule_EvaporateWorld.Modify(graph, match_39);
                             if(graph.PerformanceInfo!=null) graph.PerformanceInfo.RewritesPerformed++;
                         }
                         graph.Finished(matches_39, false);
@@ -5649,35 +5296,25 @@ var_curOuter = (GRGEN_MODEL.IGridNode)(tmpvar_curOuter);
         }
         public void Modify(GRGEN_LIBGR.IGraph graph, Rule_InitWorld.IMatch_InitWorld match, out GRGEN_MODEL.IAnt output_0)
         {
-            if(!graph.TransactionManager.TransactionActive && graph.ReuseOptimization) _rulePattern.Modify((GRGEN_LGSP.LGSPGraph)graph, match, out output_0);
-            else _rulePattern.ModifyNoReuse((GRGEN_LGSP.LGSPGraph)graph, match, out output_0);
+            _rulePattern.Modify((GRGEN_LGSP.LGSPGraph)graph, match, out output_0);
         }
         public void ModifyAll(GRGEN_LIBGR.IGraph graph, GRGEN_LIBGR.IMatchesExact<Rule_InitWorld.IMatch_InitWorld> matches, out GRGEN_MODEL.IAnt output_0)
         {
             output_0 = null;
-            if(!graph.TransactionManager.TransactionActive && graph.ReuseOptimization) {
-                foreach(Rule_InitWorld.IMatch_InitWorld match in matches) _rulePattern.Modify((GRGEN_LGSP.LGSPGraph)graph, match, out output_0);
-            } else {
-                foreach(Rule_InitWorld.IMatch_InitWorld match in matches) _rulePattern.ModifyNoReuse((GRGEN_LGSP.LGSPGraph)graph, match, out output_0);
-            }
+            foreach(Rule_InitWorld.IMatch_InitWorld match in matches) _rulePattern.Modify((GRGEN_LGSP.LGSPGraph)graph, match, out output_0);
         }
         public bool Apply(GRGEN_LIBGR.IGraph graph, ref GRGEN_MODEL.IAnt output_0)
         {
             GRGEN_LIBGR.IMatchesExact<Rule_InitWorld.IMatch_InitWorld> matches = DynamicMatch((GRGEN_LGSP.LGSPGraph)graph, 1);
             if(matches.Count <= 0) return false;
-            if(!graph.TransactionManager.TransactionActive && graph.ReuseOptimization) _rulePattern.Modify((GRGEN_LGSP.LGSPGraph)graph, matches.First, out output_0);
-            else _rulePattern.ModifyNoReuse((GRGEN_LGSP.LGSPGraph)graph, matches.First, out output_0);
+            _rulePattern.Modify((GRGEN_LGSP.LGSPGraph)graph, matches.First, out output_0);
             return true;
         }
         public bool ApplyAll(int maxMatches, GRGEN_LIBGR.IGraph graph, ref GRGEN_MODEL.IAnt output_0)
         {
             GRGEN_LIBGR.IMatchesExact<Rule_InitWorld.IMatch_InitWorld> matches = DynamicMatch((GRGEN_LGSP.LGSPGraph)graph, maxMatches);
             if(matches.Count <= 0) return false;
-            if(!graph.TransactionManager.TransactionActive && graph.ReuseOptimization) {
-                foreach(Rule_InitWorld.IMatch_InitWorld match in matches) _rulePattern.Modify((GRGEN_LGSP.LGSPGraph)graph, match, out output_0);
-            } else {
-                foreach(Rule_InitWorld.IMatch_InitWorld match in matches) _rulePattern.ModifyNoReuse((GRGEN_LGSP.LGSPGraph)graph, match, out output_0);
-            }
+            foreach(Rule_InitWorld.IMatch_InitWorld match in matches) _rulePattern.Modify((GRGEN_LGSP.LGSPGraph)graph, match, out output_0);
             return true;
         }
         public bool ApplyStar(GRGEN_LIBGR.IGraph graph)
@@ -5688,8 +5325,7 @@ var_curOuter = (GRGEN_MODEL.IGridNode)(tmpvar_curOuter);
             {
                 matches = DynamicMatch((GRGEN_LGSP.LGSPGraph)graph, 1);
                 if(matches.Count <= 0) return true;
-                if(!graph.TransactionManager.TransactionActive && graph.ReuseOptimization) _rulePattern.Modify((GRGEN_LGSP.LGSPGraph)graph, matches.First, out output_0);
-                else _rulePattern.ModifyNoReuse((GRGEN_LGSP.LGSPGraph)graph, matches.First, out output_0);
+                _rulePattern.Modify((GRGEN_LGSP.LGSPGraph)graph, matches.First, out output_0);
             }
         }
         public bool ApplyPlus(GRGEN_LIBGR.IGraph graph)
@@ -5699,8 +5335,7 @@ var_curOuter = (GRGEN_MODEL.IGridNode)(tmpvar_curOuter);
             GRGEN_MODEL.IAnt output_0; 
             do
             {
-                if(!graph.TransactionManager.TransactionActive && graph.ReuseOptimization) _rulePattern.Modify((GRGEN_LGSP.LGSPGraph)graph, matches.First, out output_0);
-                else _rulePattern.ModifyNoReuse((GRGEN_LGSP.LGSPGraph)graph, matches.First, out output_0);
+                _rulePattern.Modify((GRGEN_LGSP.LGSPGraph)graph, matches.First, out output_0);
                 matches = DynamicMatch((GRGEN_LGSP.LGSPGraph)graph, 1);
             }
             while(matches.Count > 0) ;
@@ -5714,8 +5349,7 @@ var_curOuter = (GRGEN_MODEL.IGridNode)(tmpvar_curOuter);
             {
                 matches = DynamicMatch((GRGEN_LGSP.LGSPGraph)graph, 1);
                 if(matches.Count <= 0) return i >= min;
-                if(!graph.TransactionManager.TransactionActive && graph.ReuseOptimization) _rulePattern.Modify((GRGEN_LGSP.LGSPGraph)graph, matches.First, out output_0);
-                else _rulePattern.ModifyNoReuse((GRGEN_LGSP.LGSPGraph)graph, matches.First, out output_0);
+                _rulePattern.Modify((GRGEN_LGSP.LGSPGraph)graph, matches.First, out output_0);
             }
             return true;
         }
@@ -5897,34 +5531,24 @@ var_curOuter = (GRGEN_MODEL.IGridNode)(tmpvar_curOuter);
         }
         public void Modify(GRGEN_LIBGR.IGraph graph, Rule_TakeFood.IMatch_TakeFood match)
         {
-            if(!graph.TransactionManager.TransactionActive && graph.ReuseOptimization) _rulePattern.Modify((GRGEN_LGSP.LGSPGraph)graph, match);
-            else _rulePattern.ModifyNoReuse((GRGEN_LGSP.LGSPGraph)graph, match);
+            _rulePattern.Modify((GRGEN_LGSP.LGSPGraph)graph, match);
         }
         public void ModifyAll(GRGEN_LIBGR.IGraph graph, GRGEN_LIBGR.IMatchesExact<Rule_TakeFood.IMatch_TakeFood> matches)
         {
-            if(!graph.TransactionManager.TransactionActive && graph.ReuseOptimization) {
-                foreach(Rule_TakeFood.IMatch_TakeFood match in matches) _rulePattern.Modify((GRGEN_LGSP.LGSPGraph)graph, match);
-            } else {
-                foreach(Rule_TakeFood.IMatch_TakeFood match in matches) _rulePattern.ModifyNoReuse((GRGEN_LGSP.LGSPGraph)graph, match);
-            }
+            foreach(Rule_TakeFood.IMatch_TakeFood match in matches) _rulePattern.Modify((GRGEN_LGSP.LGSPGraph)graph, match);
         }
         public bool Apply(GRGEN_LIBGR.IGraph graph, GRGEN_MODEL.IAnt TakeFood_node_curAnt)
         {
             GRGEN_LIBGR.IMatchesExact<Rule_TakeFood.IMatch_TakeFood> matches = DynamicMatch((GRGEN_LGSP.LGSPGraph)graph, 1, TakeFood_node_curAnt);
             if(matches.Count <= 0) return false;
-            if(!graph.TransactionManager.TransactionActive && graph.ReuseOptimization) _rulePattern.Modify((GRGEN_LGSP.LGSPGraph)graph, matches.First);
-            else _rulePattern.ModifyNoReuse((GRGEN_LGSP.LGSPGraph)graph, matches.First);
+            _rulePattern.Modify((GRGEN_LGSP.LGSPGraph)graph, matches.First);
             return true;
         }
         public bool ApplyAll(int maxMatches, GRGEN_LIBGR.IGraph graph, GRGEN_MODEL.IAnt TakeFood_node_curAnt)
         {
             GRGEN_LIBGR.IMatchesExact<Rule_TakeFood.IMatch_TakeFood> matches = DynamicMatch((GRGEN_LGSP.LGSPGraph)graph, maxMatches, TakeFood_node_curAnt);
             if(matches.Count <= 0) return false;
-            if(!graph.TransactionManager.TransactionActive && graph.ReuseOptimization) {
-                foreach(Rule_TakeFood.IMatch_TakeFood match in matches) _rulePattern.Modify((GRGEN_LGSP.LGSPGraph)graph, match);
-            } else {
-                foreach(Rule_TakeFood.IMatch_TakeFood match in matches) _rulePattern.ModifyNoReuse((GRGEN_LGSP.LGSPGraph)graph, match);
-            }
+            foreach(Rule_TakeFood.IMatch_TakeFood match in matches) _rulePattern.Modify((GRGEN_LGSP.LGSPGraph)graph, match);
             return true;
         }
         public bool ApplyStar(GRGEN_LIBGR.IGraph graph, GRGEN_MODEL.IAnt TakeFood_node_curAnt)
@@ -5935,8 +5559,7 @@ var_curOuter = (GRGEN_MODEL.IGridNode)(tmpvar_curOuter);
             {
                 matches = DynamicMatch((GRGEN_LGSP.LGSPGraph)graph, 1, TakeFood_node_curAnt);
                 if(matches.Count <= 0) return true;
-                if(!graph.TransactionManager.TransactionActive && graph.ReuseOptimization) _rulePattern.Modify((GRGEN_LGSP.LGSPGraph)graph, matches.First);
-                else _rulePattern.ModifyNoReuse((GRGEN_LGSP.LGSPGraph)graph, matches.First);
+                _rulePattern.Modify((GRGEN_LGSP.LGSPGraph)graph, matches.First);
             }
         }
         public bool ApplyPlus(GRGEN_LIBGR.IGraph graph, GRGEN_MODEL.IAnt TakeFood_node_curAnt)
@@ -5946,8 +5569,7 @@ var_curOuter = (GRGEN_MODEL.IGridNode)(tmpvar_curOuter);
             
             do
             {
-                if(!graph.TransactionManager.TransactionActive && graph.ReuseOptimization) _rulePattern.Modify((GRGEN_LGSP.LGSPGraph)graph, matches.First);
-                else _rulePattern.ModifyNoReuse((GRGEN_LGSP.LGSPGraph)graph, matches.First);
+                _rulePattern.Modify((GRGEN_LGSP.LGSPGraph)graph, matches.First);
                 matches = DynamicMatch((GRGEN_LGSP.LGSPGraph)graph, 1, TakeFood_node_curAnt);
             }
             while(matches.Count > 0) ;
@@ -5961,8 +5583,7 @@ var_curOuter = (GRGEN_MODEL.IGridNode)(tmpvar_curOuter);
             {
                 matches = DynamicMatch((GRGEN_LGSP.LGSPGraph)graph, 1, TakeFood_node_curAnt);
                 if(matches.Count <= 0) return i >= min;
-                if(!graph.TransactionManager.TransactionActive && graph.ReuseOptimization) _rulePattern.Modify((GRGEN_LGSP.LGSPGraph)graph, matches.First);
-                else _rulePattern.ModifyNoReuse((GRGEN_LGSP.LGSPGraph)graph, matches.First);
+                _rulePattern.Modify((GRGEN_LGSP.LGSPGraph)graph, matches.First);
             }
             return true;
         }
@@ -6160,34 +5781,24 @@ var_curOuter = (GRGEN_MODEL.IGridNode)(tmpvar_curOuter);
         }
         public void Modify(GRGEN_LIBGR.IGraph graph, Rule_GoHome.IMatch_GoHome match)
         {
-            if(!graph.TransactionManager.TransactionActive && graph.ReuseOptimization) _rulePattern.Modify((GRGEN_LGSP.LGSPGraph)graph, match);
-            else _rulePattern.ModifyNoReuse((GRGEN_LGSP.LGSPGraph)graph, match);
+            _rulePattern.Modify((GRGEN_LGSP.LGSPGraph)graph, match);
         }
         public void ModifyAll(GRGEN_LIBGR.IGraph graph, GRGEN_LIBGR.IMatchesExact<Rule_GoHome.IMatch_GoHome> matches)
         {
-            if(!graph.TransactionManager.TransactionActive && graph.ReuseOptimization) {
-                foreach(Rule_GoHome.IMatch_GoHome match in matches) _rulePattern.Modify((GRGEN_LGSP.LGSPGraph)graph, match);
-            } else {
-                foreach(Rule_GoHome.IMatch_GoHome match in matches) _rulePattern.ModifyNoReuse((GRGEN_LGSP.LGSPGraph)graph, match);
-            }
+            foreach(Rule_GoHome.IMatch_GoHome match in matches) _rulePattern.Modify((GRGEN_LGSP.LGSPGraph)graph, match);
         }
         public bool Apply(GRGEN_LIBGR.IGraph graph, GRGEN_MODEL.IAnt GoHome_node_curAnt)
         {
             GRGEN_LIBGR.IMatchesExact<Rule_GoHome.IMatch_GoHome> matches = DynamicMatch((GRGEN_LGSP.LGSPGraph)graph, 1, GoHome_node_curAnt);
             if(matches.Count <= 0) return false;
-            if(!graph.TransactionManager.TransactionActive && graph.ReuseOptimization) _rulePattern.Modify((GRGEN_LGSP.LGSPGraph)graph, matches.First);
-            else _rulePattern.ModifyNoReuse((GRGEN_LGSP.LGSPGraph)graph, matches.First);
+            _rulePattern.Modify((GRGEN_LGSP.LGSPGraph)graph, matches.First);
             return true;
         }
         public bool ApplyAll(int maxMatches, GRGEN_LIBGR.IGraph graph, GRGEN_MODEL.IAnt GoHome_node_curAnt)
         {
             GRGEN_LIBGR.IMatchesExact<Rule_GoHome.IMatch_GoHome> matches = DynamicMatch((GRGEN_LGSP.LGSPGraph)graph, maxMatches, GoHome_node_curAnt);
             if(matches.Count <= 0) return false;
-            if(!graph.TransactionManager.TransactionActive && graph.ReuseOptimization) {
-                foreach(Rule_GoHome.IMatch_GoHome match in matches) _rulePattern.Modify((GRGEN_LGSP.LGSPGraph)graph, match);
-            } else {
-                foreach(Rule_GoHome.IMatch_GoHome match in matches) _rulePattern.ModifyNoReuse((GRGEN_LGSP.LGSPGraph)graph, match);
-            }
+            foreach(Rule_GoHome.IMatch_GoHome match in matches) _rulePattern.Modify((GRGEN_LGSP.LGSPGraph)graph, match);
             return true;
         }
         public bool ApplyStar(GRGEN_LIBGR.IGraph graph, GRGEN_MODEL.IAnt GoHome_node_curAnt)
@@ -6198,8 +5809,7 @@ var_curOuter = (GRGEN_MODEL.IGridNode)(tmpvar_curOuter);
             {
                 matches = DynamicMatch((GRGEN_LGSP.LGSPGraph)graph, 1, GoHome_node_curAnt);
                 if(matches.Count <= 0) return true;
-                if(!graph.TransactionManager.TransactionActive && graph.ReuseOptimization) _rulePattern.Modify((GRGEN_LGSP.LGSPGraph)graph, matches.First);
-                else _rulePattern.ModifyNoReuse((GRGEN_LGSP.LGSPGraph)graph, matches.First);
+                _rulePattern.Modify((GRGEN_LGSP.LGSPGraph)graph, matches.First);
             }
         }
         public bool ApplyPlus(GRGEN_LIBGR.IGraph graph, GRGEN_MODEL.IAnt GoHome_node_curAnt)
@@ -6209,8 +5819,7 @@ var_curOuter = (GRGEN_MODEL.IGridNode)(tmpvar_curOuter);
             
             do
             {
-                if(!graph.TransactionManager.TransactionActive && graph.ReuseOptimization) _rulePattern.Modify((GRGEN_LGSP.LGSPGraph)graph, matches.First);
-                else _rulePattern.ModifyNoReuse((GRGEN_LGSP.LGSPGraph)graph, matches.First);
+                _rulePattern.Modify((GRGEN_LGSP.LGSPGraph)graph, matches.First);
                 matches = DynamicMatch((GRGEN_LGSP.LGSPGraph)graph, 1, GoHome_node_curAnt);
             }
             while(matches.Count > 0) ;
@@ -6224,8 +5833,7 @@ var_curOuter = (GRGEN_MODEL.IGridNode)(tmpvar_curOuter);
             {
                 matches = DynamicMatch((GRGEN_LGSP.LGSPGraph)graph, 1, GoHome_node_curAnt);
                 if(matches.Count <= 0) return i >= min;
-                if(!graph.TransactionManager.TransactionActive && graph.ReuseOptimization) _rulePattern.Modify((GRGEN_LGSP.LGSPGraph)graph, matches.First);
-                else _rulePattern.ModifyNoReuse((GRGEN_LGSP.LGSPGraph)graph, matches.First);
+                _rulePattern.Modify((GRGEN_LGSP.LGSPGraph)graph, matches.First);
             }
             return true;
         }
@@ -6393,34 +6001,24 @@ var_curOuter = (GRGEN_MODEL.IGridNode)(tmpvar_curOuter);
         }
         public void Modify(GRGEN_LIBGR.IGraph graph, Rule_DropFood.IMatch_DropFood match)
         {
-            if(!graph.TransactionManager.TransactionActive && graph.ReuseOptimization) _rulePattern.Modify((GRGEN_LGSP.LGSPGraph)graph, match);
-            else _rulePattern.ModifyNoReuse((GRGEN_LGSP.LGSPGraph)graph, match);
+            _rulePattern.Modify((GRGEN_LGSP.LGSPGraph)graph, match);
         }
         public void ModifyAll(GRGEN_LIBGR.IGraph graph, GRGEN_LIBGR.IMatchesExact<Rule_DropFood.IMatch_DropFood> matches)
         {
-            if(!graph.TransactionManager.TransactionActive && graph.ReuseOptimization) {
-                foreach(Rule_DropFood.IMatch_DropFood match in matches) _rulePattern.Modify((GRGEN_LGSP.LGSPGraph)graph, match);
-            } else {
-                foreach(Rule_DropFood.IMatch_DropFood match in matches) _rulePattern.ModifyNoReuse((GRGEN_LGSP.LGSPGraph)graph, match);
-            }
+            foreach(Rule_DropFood.IMatch_DropFood match in matches) _rulePattern.Modify((GRGEN_LGSP.LGSPGraph)graph, match);
         }
         public bool Apply(GRGEN_LIBGR.IGraph graph, GRGEN_MODEL.IAnt DropFood_node_curAnt)
         {
             GRGEN_LIBGR.IMatchesExact<Rule_DropFood.IMatch_DropFood> matches = DynamicMatch((GRGEN_LGSP.LGSPGraph)graph, 1, DropFood_node_curAnt);
             if(matches.Count <= 0) return false;
-            if(!graph.TransactionManager.TransactionActive && graph.ReuseOptimization) _rulePattern.Modify((GRGEN_LGSP.LGSPGraph)graph, matches.First);
-            else _rulePattern.ModifyNoReuse((GRGEN_LGSP.LGSPGraph)graph, matches.First);
+            _rulePattern.Modify((GRGEN_LGSP.LGSPGraph)graph, matches.First);
             return true;
         }
         public bool ApplyAll(int maxMatches, GRGEN_LIBGR.IGraph graph, GRGEN_MODEL.IAnt DropFood_node_curAnt)
         {
             GRGEN_LIBGR.IMatchesExact<Rule_DropFood.IMatch_DropFood> matches = DynamicMatch((GRGEN_LGSP.LGSPGraph)graph, maxMatches, DropFood_node_curAnt);
             if(matches.Count <= 0) return false;
-            if(!graph.TransactionManager.TransactionActive && graph.ReuseOptimization) {
-                foreach(Rule_DropFood.IMatch_DropFood match in matches) _rulePattern.Modify((GRGEN_LGSP.LGSPGraph)graph, match);
-            } else {
-                foreach(Rule_DropFood.IMatch_DropFood match in matches) _rulePattern.ModifyNoReuse((GRGEN_LGSP.LGSPGraph)graph, match);
-            }
+            foreach(Rule_DropFood.IMatch_DropFood match in matches) _rulePattern.Modify((GRGEN_LGSP.LGSPGraph)graph, match);
             return true;
         }
         public bool ApplyStar(GRGEN_LIBGR.IGraph graph, GRGEN_MODEL.IAnt DropFood_node_curAnt)
@@ -6431,8 +6029,7 @@ var_curOuter = (GRGEN_MODEL.IGridNode)(tmpvar_curOuter);
             {
                 matches = DynamicMatch((GRGEN_LGSP.LGSPGraph)graph, 1, DropFood_node_curAnt);
                 if(matches.Count <= 0) return true;
-                if(!graph.TransactionManager.TransactionActive && graph.ReuseOptimization) _rulePattern.Modify((GRGEN_LGSP.LGSPGraph)graph, matches.First);
-                else _rulePattern.ModifyNoReuse((GRGEN_LGSP.LGSPGraph)graph, matches.First);
+                _rulePattern.Modify((GRGEN_LGSP.LGSPGraph)graph, matches.First);
             }
         }
         public bool ApplyPlus(GRGEN_LIBGR.IGraph graph, GRGEN_MODEL.IAnt DropFood_node_curAnt)
@@ -6442,8 +6039,7 @@ var_curOuter = (GRGEN_MODEL.IGridNode)(tmpvar_curOuter);
             
             do
             {
-                if(!graph.TransactionManager.TransactionActive && graph.ReuseOptimization) _rulePattern.Modify((GRGEN_LGSP.LGSPGraph)graph, matches.First);
-                else _rulePattern.ModifyNoReuse((GRGEN_LGSP.LGSPGraph)graph, matches.First);
+                _rulePattern.Modify((GRGEN_LGSP.LGSPGraph)graph, matches.First);
                 matches = DynamicMatch((GRGEN_LGSP.LGSPGraph)graph, 1, DropFood_node_curAnt);
             }
             while(matches.Count > 0) ;
@@ -6457,8 +6053,7 @@ var_curOuter = (GRGEN_MODEL.IGridNode)(tmpvar_curOuter);
             {
                 matches = DynamicMatch((GRGEN_LGSP.LGSPGraph)graph, 1, DropFood_node_curAnt);
                 if(matches.Count <= 0) return i >= min;
-                if(!graph.TransactionManager.TransactionActive && graph.ReuseOptimization) _rulePattern.Modify((GRGEN_LGSP.LGSPGraph)graph, matches.First);
-                else _rulePattern.ModifyNoReuse((GRGEN_LGSP.LGSPGraph)graph, matches.First);
+                _rulePattern.Modify((GRGEN_LGSP.LGSPGraph)graph, matches.First);
             }
             return true;
         }
@@ -6656,34 +6251,24 @@ var_curOuter = (GRGEN_MODEL.IGridNode)(tmpvar_curOuter);
         }
         public void Modify(GRGEN_LIBGR.IGraph graph, Rule_SearchAlongPheromones.IMatch_SearchAlongPheromones match)
         {
-            if(!graph.TransactionManager.TransactionActive && graph.ReuseOptimization) _rulePattern.Modify((GRGEN_LGSP.LGSPGraph)graph, match);
-            else _rulePattern.ModifyNoReuse((GRGEN_LGSP.LGSPGraph)graph, match);
+            _rulePattern.Modify((GRGEN_LGSP.LGSPGraph)graph, match);
         }
         public void ModifyAll(GRGEN_LIBGR.IGraph graph, GRGEN_LIBGR.IMatchesExact<Rule_SearchAlongPheromones.IMatch_SearchAlongPheromones> matches)
         {
-            if(!graph.TransactionManager.TransactionActive && graph.ReuseOptimization) {
-                foreach(Rule_SearchAlongPheromones.IMatch_SearchAlongPheromones match in matches) _rulePattern.Modify((GRGEN_LGSP.LGSPGraph)graph, match);
-            } else {
-                foreach(Rule_SearchAlongPheromones.IMatch_SearchAlongPheromones match in matches) _rulePattern.ModifyNoReuse((GRGEN_LGSP.LGSPGraph)graph, match);
-            }
+            foreach(Rule_SearchAlongPheromones.IMatch_SearchAlongPheromones match in matches) _rulePattern.Modify((GRGEN_LGSP.LGSPGraph)graph, match);
         }
         public bool Apply(GRGEN_LIBGR.IGraph graph, GRGEN_MODEL.IAnt SearchAlongPheromones_node_curAnt)
         {
             GRGEN_LIBGR.IMatchesExact<Rule_SearchAlongPheromones.IMatch_SearchAlongPheromones> matches = DynamicMatch((GRGEN_LGSP.LGSPGraph)graph, 1, SearchAlongPheromones_node_curAnt);
             if(matches.Count <= 0) return false;
-            if(!graph.TransactionManager.TransactionActive && graph.ReuseOptimization) _rulePattern.Modify((GRGEN_LGSP.LGSPGraph)graph, matches.First);
-            else _rulePattern.ModifyNoReuse((GRGEN_LGSP.LGSPGraph)graph, matches.First);
+            _rulePattern.Modify((GRGEN_LGSP.LGSPGraph)graph, matches.First);
             return true;
         }
         public bool ApplyAll(int maxMatches, GRGEN_LIBGR.IGraph graph, GRGEN_MODEL.IAnt SearchAlongPheromones_node_curAnt)
         {
             GRGEN_LIBGR.IMatchesExact<Rule_SearchAlongPheromones.IMatch_SearchAlongPheromones> matches = DynamicMatch((GRGEN_LGSP.LGSPGraph)graph, maxMatches, SearchAlongPheromones_node_curAnt);
             if(matches.Count <= 0) return false;
-            if(!graph.TransactionManager.TransactionActive && graph.ReuseOptimization) {
-                foreach(Rule_SearchAlongPheromones.IMatch_SearchAlongPheromones match in matches) _rulePattern.Modify((GRGEN_LGSP.LGSPGraph)graph, match);
-            } else {
-                foreach(Rule_SearchAlongPheromones.IMatch_SearchAlongPheromones match in matches) _rulePattern.ModifyNoReuse((GRGEN_LGSP.LGSPGraph)graph, match);
-            }
+            foreach(Rule_SearchAlongPheromones.IMatch_SearchAlongPheromones match in matches) _rulePattern.Modify((GRGEN_LGSP.LGSPGraph)graph, match);
             return true;
         }
         public bool ApplyStar(GRGEN_LIBGR.IGraph graph, GRGEN_MODEL.IAnt SearchAlongPheromones_node_curAnt)
@@ -6694,8 +6279,7 @@ var_curOuter = (GRGEN_MODEL.IGridNode)(tmpvar_curOuter);
             {
                 matches = DynamicMatch((GRGEN_LGSP.LGSPGraph)graph, 1, SearchAlongPheromones_node_curAnt);
                 if(matches.Count <= 0) return true;
-                if(!graph.TransactionManager.TransactionActive && graph.ReuseOptimization) _rulePattern.Modify((GRGEN_LGSP.LGSPGraph)graph, matches.First);
-                else _rulePattern.ModifyNoReuse((GRGEN_LGSP.LGSPGraph)graph, matches.First);
+                _rulePattern.Modify((GRGEN_LGSP.LGSPGraph)graph, matches.First);
             }
         }
         public bool ApplyPlus(GRGEN_LIBGR.IGraph graph, GRGEN_MODEL.IAnt SearchAlongPheromones_node_curAnt)
@@ -6705,8 +6289,7 @@ var_curOuter = (GRGEN_MODEL.IGridNode)(tmpvar_curOuter);
             
             do
             {
-                if(!graph.TransactionManager.TransactionActive && graph.ReuseOptimization) _rulePattern.Modify((GRGEN_LGSP.LGSPGraph)graph, matches.First);
-                else _rulePattern.ModifyNoReuse((GRGEN_LGSP.LGSPGraph)graph, matches.First);
+                _rulePattern.Modify((GRGEN_LGSP.LGSPGraph)graph, matches.First);
                 matches = DynamicMatch((GRGEN_LGSP.LGSPGraph)graph, 1, SearchAlongPheromones_node_curAnt);
             }
             while(matches.Count > 0) ;
@@ -6720,8 +6303,7 @@ var_curOuter = (GRGEN_MODEL.IGridNode)(tmpvar_curOuter);
             {
                 matches = DynamicMatch((GRGEN_LGSP.LGSPGraph)graph, 1, SearchAlongPheromones_node_curAnt);
                 if(matches.Count <= 0) return i >= min;
-                if(!graph.TransactionManager.TransactionActive && graph.ReuseOptimization) _rulePattern.Modify((GRGEN_LGSP.LGSPGraph)graph, matches.First);
-                else _rulePattern.ModifyNoReuse((GRGEN_LGSP.LGSPGraph)graph, matches.First);
+                _rulePattern.Modify((GRGEN_LGSP.LGSPGraph)graph, matches.First);
             }
             return true;
         }
@@ -6923,34 +6505,24 @@ var_curOuter = (GRGEN_MODEL.IGridNode)(tmpvar_curOuter);
         }
         public void Modify(GRGEN_LIBGR.IGraph graph, Rule_SearchAimless.IMatch_SearchAimless match)
         {
-            if(!graph.TransactionManager.TransactionActive && graph.ReuseOptimization) _rulePattern.Modify((GRGEN_LGSP.LGSPGraph)graph, match);
-            else _rulePattern.ModifyNoReuse((GRGEN_LGSP.LGSPGraph)graph, match);
+            _rulePattern.Modify((GRGEN_LGSP.LGSPGraph)graph, match);
         }
         public void ModifyAll(GRGEN_LIBGR.IGraph graph, GRGEN_LIBGR.IMatchesExact<Rule_SearchAimless.IMatch_SearchAimless> matches)
         {
-            if(!graph.TransactionManager.TransactionActive && graph.ReuseOptimization) {
-                foreach(Rule_SearchAimless.IMatch_SearchAimless match in matches) _rulePattern.Modify((GRGEN_LGSP.LGSPGraph)graph, match);
-            } else {
-                foreach(Rule_SearchAimless.IMatch_SearchAimless match in matches) _rulePattern.ModifyNoReuse((GRGEN_LGSP.LGSPGraph)graph, match);
-            }
+            foreach(Rule_SearchAimless.IMatch_SearchAimless match in matches) _rulePattern.Modify((GRGEN_LGSP.LGSPGraph)graph, match);
         }
         public bool Apply(GRGEN_LIBGR.IGraph graph, GRGEN_MODEL.IAnt SearchAimless_node_curAnt)
         {
             GRGEN_LIBGR.IMatchesExact<Rule_SearchAimless.IMatch_SearchAimless> matches = DynamicMatch((GRGEN_LGSP.LGSPGraph)graph, 1, SearchAimless_node_curAnt);
             if(matches.Count <= 0) return false;
-            if(!graph.TransactionManager.TransactionActive && graph.ReuseOptimization) _rulePattern.Modify((GRGEN_LGSP.LGSPGraph)graph, matches.First);
-            else _rulePattern.ModifyNoReuse((GRGEN_LGSP.LGSPGraph)graph, matches.First);
+            _rulePattern.Modify((GRGEN_LGSP.LGSPGraph)graph, matches.First);
             return true;
         }
         public bool ApplyAll(int maxMatches, GRGEN_LIBGR.IGraph graph, GRGEN_MODEL.IAnt SearchAimless_node_curAnt)
         {
             GRGEN_LIBGR.IMatchesExact<Rule_SearchAimless.IMatch_SearchAimless> matches = DynamicMatch((GRGEN_LGSP.LGSPGraph)graph, maxMatches, SearchAimless_node_curAnt);
             if(matches.Count <= 0) return false;
-            if(!graph.TransactionManager.TransactionActive && graph.ReuseOptimization) {
-                foreach(Rule_SearchAimless.IMatch_SearchAimless match in matches) _rulePattern.Modify((GRGEN_LGSP.LGSPGraph)graph, match);
-            } else {
-                foreach(Rule_SearchAimless.IMatch_SearchAimless match in matches) _rulePattern.ModifyNoReuse((GRGEN_LGSP.LGSPGraph)graph, match);
-            }
+            foreach(Rule_SearchAimless.IMatch_SearchAimless match in matches) _rulePattern.Modify((GRGEN_LGSP.LGSPGraph)graph, match);
             return true;
         }
         public bool ApplyStar(GRGEN_LIBGR.IGraph graph, GRGEN_MODEL.IAnt SearchAimless_node_curAnt)
@@ -6961,8 +6533,7 @@ var_curOuter = (GRGEN_MODEL.IGridNode)(tmpvar_curOuter);
             {
                 matches = DynamicMatch((GRGEN_LGSP.LGSPGraph)graph, 1, SearchAimless_node_curAnt);
                 if(matches.Count <= 0) return true;
-                if(!graph.TransactionManager.TransactionActive && graph.ReuseOptimization) _rulePattern.Modify((GRGEN_LGSP.LGSPGraph)graph, matches.First);
-                else _rulePattern.ModifyNoReuse((GRGEN_LGSP.LGSPGraph)graph, matches.First);
+                _rulePattern.Modify((GRGEN_LGSP.LGSPGraph)graph, matches.First);
             }
         }
         public bool ApplyPlus(GRGEN_LIBGR.IGraph graph, GRGEN_MODEL.IAnt SearchAimless_node_curAnt)
@@ -6972,8 +6543,7 @@ var_curOuter = (GRGEN_MODEL.IGridNode)(tmpvar_curOuter);
             
             do
             {
-                if(!graph.TransactionManager.TransactionActive && graph.ReuseOptimization) _rulePattern.Modify((GRGEN_LGSP.LGSPGraph)graph, matches.First);
-                else _rulePattern.ModifyNoReuse((GRGEN_LGSP.LGSPGraph)graph, matches.First);
+                _rulePattern.Modify((GRGEN_LGSP.LGSPGraph)graph, matches.First);
                 matches = DynamicMatch((GRGEN_LGSP.LGSPGraph)graph, 1, SearchAimless_node_curAnt);
             }
             while(matches.Count > 0) ;
@@ -6987,8 +6557,7 @@ var_curOuter = (GRGEN_MODEL.IGridNode)(tmpvar_curOuter);
             {
                 matches = DynamicMatch((GRGEN_LGSP.LGSPGraph)graph, 1, SearchAimless_node_curAnt);
                 if(matches.Count <= 0) return i >= min;
-                if(!graph.TransactionManager.TransactionActive && graph.ReuseOptimization) _rulePattern.Modify((GRGEN_LGSP.LGSPGraph)graph, matches.First);
-                else _rulePattern.ModifyNoReuse((GRGEN_LGSP.LGSPGraph)graph, matches.First);
+                _rulePattern.Modify((GRGEN_LGSP.LGSPGraph)graph, matches.First);
             }
             return true;
         }
@@ -7174,35 +6743,25 @@ label0: ;
         }
         public void Modify(GRGEN_LIBGR.IGraph graph, Rule_ReachedEndOfWorld.IMatch_ReachedEndOfWorld match, out GRGEN_MODEL.IGridNode output_0)
         {
-            if(!graph.TransactionManager.TransactionActive && graph.ReuseOptimization) _rulePattern.Modify((GRGEN_LGSP.LGSPGraph)graph, match, out output_0);
-            else _rulePattern.ModifyNoReuse((GRGEN_LGSP.LGSPGraph)graph, match, out output_0);
+            _rulePattern.Modify((GRGEN_LGSP.LGSPGraph)graph, match, out output_0);
         }
         public void ModifyAll(GRGEN_LIBGR.IGraph graph, GRGEN_LIBGR.IMatchesExact<Rule_ReachedEndOfWorld.IMatch_ReachedEndOfWorld> matches, out GRGEN_MODEL.IGridNode output_0)
         {
             output_0 = null;
-            if(!graph.TransactionManager.TransactionActive && graph.ReuseOptimization) {
-                foreach(Rule_ReachedEndOfWorld.IMatch_ReachedEndOfWorld match in matches) _rulePattern.Modify((GRGEN_LGSP.LGSPGraph)graph, match, out output_0);
-            } else {
-                foreach(Rule_ReachedEndOfWorld.IMatch_ReachedEndOfWorld match in matches) _rulePattern.ModifyNoReuse((GRGEN_LGSP.LGSPGraph)graph, match, out output_0);
-            }
+            foreach(Rule_ReachedEndOfWorld.IMatch_ReachedEndOfWorld match in matches) _rulePattern.Modify((GRGEN_LGSP.LGSPGraph)graph, match, out output_0);
         }
         public bool Apply(GRGEN_LIBGR.IGraph graph, GRGEN_MODEL.IAnt ReachedEndOfWorld_node_curAnt, ref GRGEN_MODEL.IGridNode output_0)
         {
             GRGEN_LIBGR.IMatchesExact<Rule_ReachedEndOfWorld.IMatch_ReachedEndOfWorld> matches = DynamicMatch((GRGEN_LGSP.LGSPGraph)graph, 1, ReachedEndOfWorld_node_curAnt);
             if(matches.Count <= 0) return false;
-            if(!graph.TransactionManager.TransactionActive && graph.ReuseOptimization) _rulePattern.Modify((GRGEN_LGSP.LGSPGraph)graph, matches.First, out output_0);
-            else _rulePattern.ModifyNoReuse((GRGEN_LGSP.LGSPGraph)graph, matches.First, out output_0);
+            _rulePattern.Modify((GRGEN_LGSP.LGSPGraph)graph, matches.First, out output_0);
             return true;
         }
         public bool ApplyAll(int maxMatches, GRGEN_LIBGR.IGraph graph, GRGEN_MODEL.IAnt ReachedEndOfWorld_node_curAnt, ref GRGEN_MODEL.IGridNode output_0)
         {
             GRGEN_LIBGR.IMatchesExact<Rule_ReachedEndOfWorld.IMatch_ReachedEndOfWorld> matches = DynamicMatch((GRGEN_LGSP.LGSPGraph)graph, maxMatches, ReachedEndOfWorld_node_curAnt);
             if(matches.Count <= 0) return false;
-            if(!graph.TransactionManager.TransactionActive && graph.ReuseOptimization) {
-                foreach(Rule_ReachedEndOfWorld.IMatch_ReachedEndOfWorld match in matches) _rulePattern.Modify((GRGEN_LGSP.LGSPGraph)graph, match, out output_0);
-            } else {
-                foreach(Rule_ReachedEndOfWorld.IMatch_ReachedEndOfWorld match in matches) _rulePattern.ModifyNoReuse((GRGEN_LGSP.LGSPGraph)graph, match, out output_0);
-            }
+            foreach(Rule_ReachedEndOfWorld.IMatch_ReachedEndOfWorld match in matches) _rulePattern.Modify((GRGEN_LGSP.LGSPGraph)graph, match, out output_0);
             return true;
         }
         public bool ApplyStar(GRGEN_LIBGR.IGraph graph, GRGEN_MODEL.IAnt ReachedEndOfWorld_node_curAnt)
@@ -7213,8 +6772,7 @@ label0: ;
             {
                 matches = DynamicMatch((GRGEN_LGSP.LGSPGraph)graph, 1, ReachedEndOfWorld_node_curAnt);
                 if(matches.Count <= 0) return true;
-                if(!graph.TransactionManager.TransactionActive && graph.ReuseOptimization) _rulePattern.Modify((GRGEN_LGSP.LGSPGraph)graph, matches.First, out output_0);
-                else _rulePattern.ModifyNoReuse((GRGEN_LGSP.LGSPGraph)graph, matches.First, out output_0);
+                _rulePattern.Modify((GRGEN_LGSP.LGSPGraph)graph, matches.First, out output_0);
             }
         }
         public bool ApplyPlus(GRGEN_LIBGR.IGraph graph, GRGEN_MODEL.IAnt ReachedEndOfWorld_node_curAnt)
@@ -7224,8 +6782,7 @@ label0: ;
             GRGEN_MODEL.IGridNode output_0; 
             do
             {
-                if(!graph.TransactionManager.TransactionActive && graph.ReuseOptimization) _rulePattern.Modify((GRGEN_LGSP.LGSPGraph)graph, matches.First, out output_0);
-                else _rulePattern.ModifyNoReuse((GRGEN_LGSP.LGSPGraph)graph, matches.First, out output_0);
+                _rulePattern.Modify((GRGEN_LGSP.LGSPGraph)graph, matches.First, out output_0);
                 matches = DynamicMatch((GRGEN_LGSP.LGSPGraph)graph, 1, ReachedEndOfWorld_node_curAnt);
             }
             while(matches.Count > 0) ;
@@ -7239,8 +6796,7 @@ label0: ;
             {
                 matches = DynamicMatch((GRGEN_LGSP.LGSPGraph)graph, 1, ReachedEndOfWorld_node_curAnt);
                 if(matches.Count <= 0) return i >= min;
-                if(!graph.TransactionManager.TransactionActive && graph.ReuseOptimization) _rulePattern.Modify((GRGEN_LGSP.LGSPGraph)graph, matches.First, out output_0);
-                else _rulePattern.ModifyNoReuse((GRGEN_LGSP.LGSPGraph)graph, matches.First, out output_0);
+                _rulePattern.Modify((GRGEN_LGSP.LGSPGraph)graph, matches.First, out output_0);
             }
             return true;
         }
@@ -7422,35 +6978,25 @@ label1: ;
         }
         public void Modify(GRGEN_LIBGR.IGraph graph, Rule_ReachedEndOfWorldAnywhere.IMatch_ReachedEndOfWorldAnywhere match, out GRGEN_MODEL.IGridNode output_0)
         {
-            if(!graph.TransactionManager.TransactionActive && graph.ReuseOptimization) _rulePattern.Modify((GRGEN_LGSP.LGSPGraph)graph, match, out output_0);
-            else _rulePattern.ModifyNoReuse((GRGEN_LGSP.LGSPGraph)graph, match, out output_0);
+            _rulePattern.Modify((GRGEN_LGSP.LGSPGraph)graph, match, out output_0);
         }
         public void ModifyAll(GRGEN_LIBGR.IGraph graph, GRGEN_LIBGR.IMatchesExact<Rule_ReachedEndOfWorldAnywhere.IMatch_ReachedEndOfWorldAnywhere> matches, out GRGEN_MODEL.IGridNode output_0)
         {
             output_0 = null;
-            if(!graph.TransactionManager.TransactionActive && graph.ReuseOptimization) {
-                foreach(Rule_ReachedEndOfWorldAnywhere.IMatch_ReachedEndOfWorldAnywhere match in matches) _rulePattern.Modify((GRGEN_LGSP.LGSPGraph)graph, match, out output_0);
-            } else {
-                foreach(Rule_ReachedEndOfWorldAnywhere.IMatch_ReachedEndOfWorldAnywhere match in matches) _rulePattern.ModifyNoReuse((GRGEN_LGSP.LGSPGraph)graph, match, out output_0);
-            }
+            foreach(Rule_ReachedEndOfWorldAnywhere.IMatch_ReachedEndOfWorldAnywhere match in matches) _rulePattern.Modify((GRGEN_LGSP.LGSPGraph)graph, match, out output_0);
         }
         public bool Apply(GRGEN_LIBGR.IGraph graph, ref GRGEN_MODEL.IGridNode output_0)
         {
             GRGEN_LIBGR.IMatchesExact<Rule_ReachedEndOfWorldAnywhere.IMatch_ReachedEndOfWorldAnywhere> matches = DynamicMatch((GRGEN_LGSP.LGSPGraph)graph, 1);
             if(matches.Count <= 0) return false;
-            if(!graph.TransactionManager.TransactionActive && graph.ReuseOptimization) _rulePattern.Modify((GRGEN_LGSP.LGSPGraph)graph, matches.First, out output_0);
-            else _rulePattern.ModifyNoReuse((GRGEN_LGSP.LGSPGraph)graph, matches.First, out output_0);
+            _rulePattern.Modify((GRGEN_LGSP.LGSPGraph)graph, matches.First, out output_0);
             return true;
         }
         public bool ApplyAll(int maxMatches, GRGEN_LIBGR.IGraph graph, ref GRGEN_MODEL.IGridNode output_0)
         {
             GRGEN_LIBGR.IMatchesExact<Rule_ReachedEndOfWorldAnywhere.IMatch_ReachedEndOfWorldAnywhere> matches = DynamicMatch((GRGEN_LGSP.LGSPGraph)graph, maxMatches);
             if(matches.Count <= 0) return false;
-            if(!graph.TransactionManager.TransactionActive && graph.ReuseOptimization) {
-                foreach(Rule_ReachedEndOfWorldAnywhere.IMatch_ReachedEndOfWorldAnywhere match in matches) _rulePattern.Modify((GRGEN_LGSP.LGSPGraph)graph, match, out output_0);
-            } else {
-                foreach(Rule_ReachedEndOfWorldAnywhere.IMatch_ReachedEndOfWorldAnywhere match in matches) _rulePattern.ModifyNoReuse((GRGEN_LGSP.LGSPGraph)graph, match, out output_0);
-            }
+            foreach(Rule_ReachedEndOfWorldAnywhere.IMatch_ReachedEndOfWorldAnywhere match in matches) _rulePattern.Modify((GRGEN_LGSP.LGSPGraph)graph, match, out output_0);
             return true;
         }
         public bool ApplyStar(GRGEN_LIBGR.IGraph graph)
@@ -7461,8 +7007,7 @@ label1: ;
             {
                 matches = DynamicMatch((GRGEN_LGSP.LGSPGraph)graph, 1);
                 if(matches.Count <= 0) return true;
-                if(!graph.TransactionManager.TransactionActive && graph.ReuseOptimization) _rulePattern.Modify((GRGEN_LGSP.LGSPGraph)graph, matches.First, out output_0);
-                else _rulePattern.ModifyNoReuse((GRGEN_LGSP.LGSPGraph)graph, matches.First, out output_0);
+                _rulePattern.Modify((GRGEN_LGSP.LGSPGraph)graph, matches.First, out output_0);
             }
         }
         public bool ApplyPlus(GRGEN_LIBGR.IGraph graph)
@@ -7472,8 +7017,7 @@ label1: ;
             GRGEN_MODEL.IGridNode output_0; 
             do
             {
-                if(!graph.TransactionManager.TransactionActive && graph.ReuseOptimization) _rulePattern.Modify((GRGEN_LGSP.LGSPGraph)graph, matches.First, out output_0);
-                else _rulePattern.ModifyNoReuse((GRGEN_LGSP.LGSPGraph)graph, matches.First, out output_0);
+                _rulePattern.Modify((GRGEN_LGSP.LGSPGraph)graph, matches.First, out output_0);
                 matches = DynamicMatch((GRGEN_LGSP.LGSPGraph)graph, 1);
             }
             while(matches.Count > 0) ;
@@ -7487,8 +7031,7 @@ label1: ;
             {
                 matches = DynamicMatch((GRGEN_LGSP.LGSPGraph)graph, 1);
                 if(matches.Count <= 0) return i >= min;
-                if(!graph.TransactionManager.TransactionActive && graph.ReuseOptimization) _rulePattern.Modify((GRGEN_LGSP.LGSPGraph)graph, matches.First, out output_0);
-                else _rulePattern.ModifyNoReuse((GRGEN_LGSP.LGSPGraph)graph, matches.First, out output_0);
+                _rulePattern.Modify((GRGEN_LGSP.LGSPGraph)graph, matches.First, out output_0);
             }
             return true;
         }
@@ -7667,34 +7210,24 @@ label1: ;
         }
         public void Modify(GRGEN_LIBGR.IGraph graph, Rule_GrowFoodIfEqual.IMatch_GrowFoodIfEqual match)
         {
-            if(!graph.TransactionManager.TransactionActive && graph.ReuseOptimization) _rulePattern.Modify((GRGEN_LGSP.LGSPGraph)graph, match);
-            else _rulePattern.ModifyNoReuse((GRGEN_LGSP.LGSPGraph)graph, match);
+            _rulePattern.Modify((GRGEN_LGSP.LGSPGraph)graph, match);
         }
         public void ModifyAll(GRGEN_LIBGR.IGraph graph, GRGEN_LIBGR.IMatchesExact<Rule_GrowFoodIfEqual.IMatch_GrowFoodIfEqual> matches)
         {
-            if(!graph.TransactionManager.TransactionActive && graph.ReuseOptimization) {
-                foreach(Rule_GrowFoodIfEqual.IMatch_GrowFoodIfEqual match in matches) _rulePattern.Modify((GRGEN_LGSP.LGSPGraph)graph, match);
-            } else {
-                foreach(Rule_GrowFoodIfEqual.IMatch_GrowFoodIfEqual match in matches) _rulePattern.ModifyNoReuse((GRGEN_LGSP.LGSPGraph)graph, match);
-            }
+            foreach(Rule_GrowFoodIfEqual.IMatch_GrowFoodIfEqual match in matches) _rulePattern.Modify((GRGEN_LGSP.LGSPGraph)graph, match);
         }
         public bool Apply(GRGEN_LIBGR.IGraph graph, GRGEN_MODEL.IGridNode GrowFoodIfEqual_node_n, System.Int32 GrowFoodIfEqual_var_val)
         {
             GRGEN_LIBGR.IMatchesExact<Rule_GrowFoodIfEqual.IMatch_GrowFoodIfEqual> matches = DynamicMatch((GRGEN_LGSP.LGSPGraph)graph, 1, GrowFoodIfEqual_node_n, GrowFoodIfEqual_var_val);
             if(matches.Count <= 0) return false;
-            if(!graph.TransactionManager.TransactionActive && graph.ReuseOptimization) _rulePattern.Modify((GRGEN_LGSP.LGSPGraph)graph, matches.First);
-            else _rulePattern.ModifyNoReuse((GRGEN_LGSP.LGSPGraph)graph, matches.First);
+            _rulePattern.Modify((GRGEN_LGSP.LGSPGraph)graph, matches.First);
             return true;
         }
         public bool ApplyAll(int maxMatches, GRGEN_LIBGR.IGraph graph, GRGEN_MODEL.IGridNode GrowFoodIfEqual_node_n, System.Int32 GrowFoodIfEqual_var_val)
         {
             GRGEN_LIBGR.IMatchesExact<Rule_GrowFoodIfEqual.IMatch_GrowFoodIfEqual> matches = DynamicMatch((GRGEN_LGSP.LGSPGraph)graph, maxMatches, GrowFoodIfEqual_node_n, GrowFoodIfEqual_var_val);
             if(matches.Count <= 0) return false;
-            if(!graph.TransactionManager.TransactionActive && graph.ReuseOptimization) {
-                foreach(Rule_GrowFoodIfEqual.IMatch_GrowFoodIfEqual match in matches) _rulePattern.Modify((GRGEN_LGSP.LGSPGraph)graph, match);
-            } else {
-                foreach(Rule_GrowFoodIfEqual.IMatch_GrowFoodIfEqual match in matches) _rulePattern.ModifyNoReuse((GRGEN_LGSP.LGSPGraph)graph, match);
-            }
+            foreach(Rule_GrowFoodIfEqual.IMatch_GrowFoodIfEqual match in matches) _rulePattern.Modify((GRGEN_LGSP.LGSPGraph)graph, match);
             return true;
         }
         public bool ApplyStar(GRGEN_LIBGR.IGraph graph, GRGEN_MODEL.IGridNode GrowFoodIfEqual_node_n, System.Int32 GrowFoodIfEqual_var_val)
@@ -7705,8 +7238,7 @@ label1: ;
             {
                 matches = DynamicMatch((GRGEN_LGSP.LGSPGraph)graph, 1, GrowFoodIfEqual_node_n, GrowFoodIfEqual_var_val);
                 if(matches.Count <= 0) return true;
-                if(!graph.TransactionManager.TransactionActive && graph.ReuseOptimization) _rulePattern.Modify((GRGEN_LGSP.LGSPGraph)graph, matches.First);
-                else _rulePattern.ModifyNoReuse((GRGEN_LGSP.LGSPGraph)graph, matches.First);
+                _rulePattern.Modify((GRGEN_LGSP.LGSPGraph)graph, matches.First);
             }
         }
         public bool ApplyPlus(GRGEN_LIBGR.IGraph graph, GRGEN_MODEL.IGridNode GrowFoodIfEqual_node_n, System.Int32 GrowFoodIfEqual_var_val)
@@ -7716,8 +7248,7 @@ label1: ;
             
             do
             {
-                if(!graph.TransactionManager.TransactionActive && graph.ReuseOptimization) _rulePattern.Modify((GRGEN_LGSP.LGSPGraph)graph, matches.First);
-                else _rulePattern.ModifyNoReuse((GRGEN_LGSP.LGSPGraph)graph, matches.First);
+                _rulePattern.Modify((GRGEN_LGSP.LGSPGraph)graph, matches.First);
                 matches = DynamicMatch((GRGEN_LGSP.LGSPGraph)graph, 1, GrowFoodIfEqual_node_n, GrowFoodIfEqual_var_val);
             }
             while(matches.Count > 0) ;
@@ -7731,8 +7262,7 @@ label1: ;
             {
                 matches = DynamicMatch((GRGEN_LGSP.LGSPGraph)graph, 1, GrowFoodIfEqual_node_n, GrowFoodIfEqual_var_val);
                 if(matches.Count <= 0) return i >= min;
-                if(!graph.TransactionManager.TransactionActive && graph.ReuseOptimization) _rulePattern.Modify((GRGEN_LGSP.LGSPGraph)graph, matches.First);
-                else _rulePattern.ModifyNoReuse((GRGEN_LGSP.LGSPGraph)graph, matches.First);
+                _rulePattern.Modify((GRGEN_LGSP.LGSPGraph)graph, matches.First);
             }
             return true;
         }
@@ -7921,36 +7451,26 @@ label1: ;
         }
         public void Modify(GRGEN_LIBGR.IGraph graph, Rule_GrowWorldFirstAtCorner.IMatch_GrowWorldFirstAtCorner match, out GRGEN_MODEL.IGridNode output_0, out GRGEN_MODEL.IGridNode output_1)
         {
-            if(!graph.TransactionManager.TransactionActive && graph.ReuseOptimization) _rulePattern.Modify((GRGEN_LGSP.LGSPGraph)graph, match, out output_0, out output_1);
-            else _rulePattern.ModifyNoReuse((GRGEN_LGSP.LGSPGraph)graph, match, out output_0, out output_1);
+            _rulePattern.Modify((GRGEN_LGSP.LGSPGraph)graph, match, out output_0, out output_1);
         }
         public void ModifyAll(GRGEN_LIBGR.IGraph graph, GRGEN_LIBGR.IMatchesExact<Rule_GrowWorldFirstAtCorner.IMatch_GrowWorldFirstAtCorner> matches, out GRGEN_MODEL.IGridNode output_0, out GRGEN_MODEL.IGridNode output_1)
         {
             output_0 = null;
             output_1 = null;
-            if(!graph.TransactionManager.TransactionActive && graph.ReuseOptimization) {
-                foreach(Rule_GrowWorldFirstAtCorner.IMatch_GrowWorldFirstAtCorner match in matches) _rulePattern.Modify((GRGEN_LGSP.LGSPGraph)graph, match, out output_0, out output_1);
-            } else {
-                foreach(Rule_GrowWorldFirstAtCorner.IMatch_GrowWorldFirstAtCorner match in matches) _rulePattern.ModifyNoReuse((GRGEN_LGSP.LGSPGraph)graph, match, out output_0, out output_1);
-            }
+            foreach(Rule_GrowWorldFirstAtCorner.IMatch_GrowWorldFirstAtCorner match in matches) _rulePattern.Modify((GRGEN_LGSP.LGSPGraph)graph, match, out output_0, out output_1);
         }
         public bool Apply(GRGEN_LIBGR.IGraph graph, GRGEN_MODEL.IGridNode GrowWorldFirstAtCorner_node_cur, ref GRGEN_MODEL.IGridNode output_0, ref GRGEN_MODEL.IGridNode output_1)
         {
             GRGEN_LIBGR.IMatchesExact<Rule_GrowWorldFirstAtCorner.IMatch_GrowWorldFirstAtCorner> matches = DynamicMatch((GRGEN_LGSP.LGSPGraph)graph, 1, GrowWorldFirstAtCorner_node_cur);
             if(matches.Count <= 0) return false;
-            if(!graph.TransactionManager.TransactionActive && graph.ReuseOptimization) _rulePattern.Modify((GRGEN_LGSP.LGSPGraph)graph, matches.First, out output_0, out output_1);
-            else _rulePattern.ModifyNoReuse((GRGEN_LGSP.LGSPGraph)graph, matches.First, out output_0, out output_1);
+            _rulePattern.Modify((GRGEN_LGSP.LGSPGraph)graph, matches.First, out output_0, out output_1);
             return true;
         }
         public bool ApplyAll(int maxMatches, GRGEN_LIBGR.IGraph graph, GRGEN_MODEL.IGridNode GrowWorldFirstAtCorner_node_cur, ref GRGEN_MODEL.IGridNode output_0, ref GRGEN_MODEL.IGridNode output_1)
         {
             GRGEN_LIBGR.IMatchesExact<Rule_GrowWorldFirstAtCorner.IMatch_GrowWorldFirstAtCorner> matches = DynamicMatch((GRGEN_LGSP.LGSPGraph)graph, maxMatches, GrowWorldFirstAtCorner_node_cur);
             if(matches.Count <= 0) return false;
-            if(!graph.TransactionManager.TransactionActive && graph.ReuseOptimization) {
-                foreach(Rule_GrowWorldFirstAtCorner.IMatch_GrowWorldFirstAtCorner match in matches) _rulePattern.Modify((GRGEN_LGSP.LGSPGraph)graph, match, out output_0, out output_1);
-            } else {
-                foreach(Rule_GrowWorldFirstAtCorner.IMatch_GrowWorldFirstAtCorner match in matches) _rulePattern.ModifyNoReuse((GRGEN_LGSP.LGSPGraph)graph, match, out output_0, out output_1);
-            }
+            foreach(Rule_GrowWorldFirstAtCorner.IMatch_GrowWorldFirstAtCorner match in matches) _rulePattern.Modify((GRGEN_LGSP.LGSPGraph)graph, match, out output_0, out output_1);
             return true;
         }
         public bool ApplyStar(GRGEN_LIBGR.IGraph graph, GRGEN_MODEL.IGridNode GrowWorldFirstAtCorner_node_cur)
@@ -7961,8 +7481,7 @@ label1: ;
             {
                 matches = DynamicMatch((GRGEN_LGSP.LGSPGraph)graph, 1, GrowWorldFirstAtCorner_node_cur);
                 if(matches.Count <= 0) return true;
-                if(!graph.TransactionManager.TransactionActive && graph.ReuseOptimization) _rulePattern.Modify((GRGEN_LGSP.LGSPGraph)graph, matches.First, out output_0, out output_1);
-                else _rulePattern.ModifyNoReuse((GRGEN_LGSP.LGSPGraph)graph, matches.First, out output_0, out output_1);
+                _rulePattern.Modify((GRGEN_LGSP.LGSPGraph)graph, matches.First, out output_0, out output_1);
             }
         }
         public bool ApplyPlus(GRGEN_LIBGR.IGraph graph, GRGEN_MODEL.IGridNode GrowWorldFirstAtCorner_node_cur)
@@ -7972,8 +7491,7 @@ label1: ;
             GRGEN_MODEL.IGridNode output_0; GRGEN_MODEL.IGridNode output_1; 
             do
             {
-                if(!graph.TransactionManager.TransactionActive && graph.ReuseOptimization) _rulePattern.Modify((GRGEN_LGSP.LGSPGraph)graph, matches.First, out output_0, out output_1);
-                else _rulePattern.ModifyNoReuse((GRGEN_LGSP.LGSPGraph)graph, matches.First, out output_0, out output_1);
+                _rulePattern.Modify((GRGEN_LGSP.LGSPGraph)graph, matches.First, out output_0, out output_1);
                 matches = DynamicMatch((GRGEN_LGSP.LGSPGraph)graph, 1, GrowWorldFirstAtCorner_node_cur);
             }
             while(matches.Count > 0) ;
@@ -7987,8 +7505,7 @@ label1: ;
             {
                 matches = DynamicMatch((GRGEN_LGSP.LGSPGraph)graph, 1, GrowWorldFirstAtCorner_node_cur);
                 if(matches.Count <= 0) return i >= min;
-                if(!graph.TransactionManager.TransactionActive && graph.ReuseOptimization) _rulePattern.Modify((GRGEN_LGSP.LGSPGraph)graph, matches.First, out output_0, out output_1);
-                else _rulePattern.ModifyNoReuse((GRGEN_LGSP.LGSPGraph)graph, matches.First, out output_0, out output_1);
+                _rulePattern.Modify((GRGEN_LGSP.LGSPGraph)graph, matches.First, out output_0, out output_1);
             }
             return true;
         }
@@ -8185,36 +7702,26 @@ label1: ;
         }
         public void Modify(GRGEN_LIBGR.IGraph graph, Rule_GrowWorldFirstNotAtCorner.IMatch_GrowWorldFirstNotAtCorner match, out GRGEN_MODEL.IGridNode output_0, out GRGEN_MODEL.IGridNode output_1)
         {
-            if(!graph.TransactionManager.TransactionActive && graph.ReuseOptimization) _rulePattern.Modify((GRGEN_LGSP.LGSPGraph)graph, match, out output_0, out output_1);
-            else _rulePattern.ModifyNoReuse((GRGEN_LGSP.LGSPGraph)graph, match, out output_0, out output_1);
+            _rulePattern.Modify((GRGEN_LGSP.LGSPGraph)graph, match, out output_0, out output_1);
         }
         public void ModifyAll(GRGEN_LIBGR.IGraph graph, GRGEN_LIBGR.IMatchesExact<Rule_GrowWorldFirstNotAtCorner.IMatch_GrowWorldFirstNotAtCorner> matches, out GRGEN_MODEL.IGridNode output_0, out GRGEN_MODEL.IGridNode output_1)
         {
             output_0 = null;
             output_1 = null;
-            if(!graph.TransactionManager.TransactionActive && graph.ReuseOptimization) {
-                foreach(Rule_GrowWorldFirstNotAtCorner.IMatch_GrowWorldFirstNotAtCorner match in matches) _rulePattern.Modify((GRGEN_LGSP.LGSPGraph)graph, match, out output_0, out output_1);
-            } else {
-                foreach(Rule_GrowWorldFirstNotAtCorner.IMatch_GrowWorldFirstNotAtCorner match in matches) _rulePattern.ModifyNoReuse((GRGEN_LGSP.LGSPGraph)graph, match, out output_0, out output_1);
-            }
+            foreach(Rule_GrowWorldFirstNotAtCorner.IMatch_GrowWorldFirstNotAtCorner match in matches) _rulePattern.Modify((GRGEN_LGSP.LGSPGraph)graph, match, out output_0, out output_1);
         }
         public bool Apply(GRGEN_LIBGR.IGraph graph, GRGEN_MODEL.IGridNode GrowWorldFirstNotAtCorner_node_cur, ref GRGEN_MODEL.IGridNode output_0, ref GRGEN_MODEL.IGridNode output_1)
         {
             GRGEN_LIBGR.IMatchesExact<Rule_GrowWorldFirstNotAtCorner.IMatch_GrowWorldFirstNotAtCorner> matches = DynamicMatch((GRGEN_LGSP.LGSPGraph)graph, 1, GrowWorldFirstNotAtCorner_node_cur);
             if(matches.Count <= 0) return false;
-            if(!graph.TransactionManager.TransactionActive && graph.ReuseOptimization) _rulePattern.Modify((GRGEN_LGSP.LGSPGraph)graph, matches.First, out output_0, out output_1);
-            else _rulePattern.ModifyNoReuse((GRGEN_LGSP.LGSPGraph)graph, matches.First, out output_0, out output_1);
+            _rulePattern.Modify((GRGEN_LGSP.LGSPGraph)graph, matches.First, out output_0, out output_1);
             return true;
         }
         public bool ApplyAll(int maxMatches, GRGEN_LIBGR.IGraph graph, GRGEN_MODEL.IGridNode GrowWorldFirstNotAtCorner_node_cur, ref GRGEN_MODEL.IGridNode output_0, ref GRGEN_MODEL.IGridNode output_1)
         {
             GRGEN_LIBGR.IMatchesExact<Rule_GrowWorldFirstNotAtCorner.IMatch_GrowWorldFirstNotAtCorner> matches = DynamicMatch((GRGEN_LGSP.LGSPGraph)graph, maxMatches, GrowWorldFirstNotAtCorner_node_cur);
             if(matches.Count <= 0) return false;
-            if(!graph.TransactionManager.TransactionActive && graph.ReuseOptimization) {
-                foreach(Rule_GrowWorldFirstNotAtCorner.IMatch_GrowWorldFirstNotAtCorner match in matches) _rulePattern.Modify((GRGEN_LGSP.LGSPGraph)graph, match, out output_0, out output_1);
-            } else {
-                foreach(Rule_GrowWorldFirstNotAtCorner.IMatch_GrowWorldFirstNotAtCorner match in matches) _rulePattern.ModifyNoReuse((GRGEN_LGSP.LGSPGraph)graph, match, out output_0, out output_1);
-            }
+            foreach(Rule_GrowWorldFirstNotAtCorner.IMatch_GrowWorldFirstNotAtCorner match in matches) _rulePattern.Modify((GRGEN_LGSP.LGSPGraph)graph, match, out output_0, out output_1);
             return true;
         }
         public bool ApplyStar(GRGEN_LIBGR.IGraph graph, GRGEN_MODEL.IGridNode GrowWorldFirstNotAtCorner_node_cur)
@@ -8225,8 +7732,7 @@ label1: ;
             {
                 matches = DynamicMatch((GRGEN_LGSP.LGSPGraph)graph, 1, GrowWorldFirstNotAtCorner_node_cur);
                 if(matches.Count <= 0) return true;
-                if(!graph.TransactionManager.TransactionActive && graph.ReuseOptimization) _rulePattern.Modify((GRGEN_LGSP.LGSPGraph)graph, matches.First, out output_0, out output_1);
-                else _rulePattern.ModifyNoReuse((GRGEN_LGSP.LGSPGraph)graph, matches.First, out output_0, out output_1);
+                _rulePattern.Modify((GRGEN_LGSP.LGSPGraph)graph, matches.First, out output_0, out output_1);
             }
         }
         public bool ApplyPlus(GRGEN_LIBGR.IGraph graph, GRGEN_MODEL.IGridNode GrowWorldFirstNotAtCorner_node_cur)
@@ -8236,8 +7742,7 @@ label1: ;
             GRGEN_MODEL.IGridNode output_0; GRGEN_MODEL.IGridNode output_1; 
             do
             {
-                if(!graph.TransactionManager.TransactionActive && graph.ReuseOptimization) _rulePattern.Modify((GRGEN_LGSP.LGSPGraph)graph, matches.First, out output_0, out output_1);
-                else _rulePattern.ModifyNoReuse((GRGEN_LGSP.LGSPGraph)graph, matches.First, out output_0, out output_1);
+                _rulePattern.Modify((GRGEN_LGSP.LGSPGraph)graph, matches.First, out output_0, out output_1);
                 matches = DynamicMatch((GRGEN_LGSP.LGSPGraph)graph, 1, GrowWorldFirstNotAtCorner_node_cur);
             }
             while(matches.Count > 0) ;
@@ -8251,8 +7756,7 @@ label1: ;
             {
                 matches = DynamicMatch((GRGEN_LGSP.LGSPGraph)graph, 1, GrowWorldFirstNotAtCorner_node_cur);
                 if(matches.Count <= 0) return i >= min;
-                if(!graph.TransactionManager.TransactionActive && graph.ReuseOptimization) _rulePattern.Modify((GRGEN_LGSP.LGSPGraph)graph, matches.First, out output_0, out output_1);
-                else _rulePattern.ModifyNoReuse((GRGEN_LGSP.LGSPGraph)graph, matches.First, out output_0, out output_1);
+                _rulePattern.Modify((GRGEN_LGSP.LGSPGraph)graph, matches.First, out output_0, out output_1);
             }
             return true;
         }
@@ -8488,36 +7992,26 @@ label1: ;
         }
         public void Modify(GRGEN_LIBGR.IGraph graph, Rule_GrowWorldNextAtCorner.IMatch_GrowWorldNextAtCorner match, out GRGEN_MODEL.IGridNode output_0, out GRGEN_MODEL.IGridNode output_1)
         {
-            if(!graph.TransactionManager.TransactionActive && graph.ReuseOptimization) _rulePattern.Modify((GRGEN_LGSP.LGSPGraph)graph, match, out output_0, out output_1);
-            else _rulePattern.ModifyNoReuse((GRGEN_LGSP.LGSPGraph)graph, match, out output_0, out output_1);
+            _rulePattern.Modify((GRGEN_LGSP.LGSPGraph)graph, match, out output_0, out output_1);
         }
         public void ModifyAll(GRGEN_LIBGR.IGraph graph, GRGEN_LIBGR.IMatchesExact<Rule_GrowWorldNextAtCorner.IMatch_GrowWorldNextAtCorner> matches, out GRGEN_MODEL.IGridNode output_0, out GRGEN_MODEL.IGridNode output_1)
         {
             output_0 = null;
             output_1 = null;
-            if(!graph.TransactionManager.TransactionActive && graph.ReuseOptimization) {
-                foreach(Rule_GrowWorldNextAtCorner.IMatch_GrowWorldNextAtCorner match in matches) _rulePattern.Modify((GRGEN_LGSP.LGSPGraph)graph, match, out output_0, out output_1);
-            } else {
-                foreach(Rule_GrowWorldNextAtCorner.IMatch_GrowWorldNextAtCorner match in matches) _rulePattern.ModifyNoReuse((GRGEN_LGSP.LGSPGraph)graph, match, out output_0, out output_1);
-            }
+            foreach(Rule_GrowWorldNextAtCorner.IMatch_GrowWorldNextAtCorner match in matches) _rulePattern.Modify((GRGEN_LGSP.LGSPGraph)graph, match, out output_0, out output_1);
         }
         public bool Apply(GRGEN_LIBGR.IGraph graph, GRGEN_MODEL.IGridNode GrowWorldNextAtCorner_node_cur, GRGEN_MODEL.IGridNode GrowWorldNextAtCorner_node_curOuter, ref GRGEN_MODEL.IGridNode output_0, ref GRGEN_MODEL.IGridNode output_1)
         {
             GRGEN_LIBGR.IMatchesExact<Rule_GrowWorldNextAtCorner.IMatch_GrowWorldNextAtCorner> matches = DynamicMatch((GRGEN_LGSP.LGSPGraph)graph, 1, GrowWorldNextAtCorner_node_cur, GrowWorldNextAtCorner_node_curOuter);
             if(matches.Count <= 0) return false;
-            if(!graph.TransactionManager.TransactionActive && graph.ReuseOptimization) _rulePattern.Modify((GRGEN_LGSP.LGSPGraph)graph, matches.First, out output_0, out output_1);
-            else _rulePattern.ModifyNoReuse((GRGEN_LGSP.LGSPGraph)graph, matches.First, out output_0, out output_1);
+            _rulePattern.Modify((GRGEN_LGSP.LGSPGraph)graph, matches.First, out output_0, out output_1);
             return true;
         }
         public bool ApplyAll(int maxMatches, GRGEN_LIBGR.IGraph graph, GRGEN_MODEL.IGridNode GrowWorldNextAtCorner_node_cur, GRGEN_MODEL.IGridNode GrowWorldNextAtCorner_node_curOuter, ref GRGEN_MODEL.IGridNode output_0, ref GRGEN_MODEL.IGridNode output_1)
         {
             GRGEN_LIBGR.IMatchesExact<Rule_GrowWorldNextAtCorner.IMatch_GrowWorldNextAtCorner> matches = DynamicMatch((GRGEN_LGSP.LGSPGraph)graph, maxMatches, GrowWorldNextAtCorner_node_cur, GrowWorldNextAtCorner_node_curOuter);
             if(matches.Count <= 0) return false;
-            if(!graph.TransactionManager.TransactionActive && graph.ReuseOptimization) {
-                foreach(Rule_GrowWorldNextAtCorner.IMatch_GrowWorldNextAtCorner match in matches) _rulePattern.Modify((GRGEN_LGSP.LGSPGraph)graph, match, out output_0, out output_1);
-            } else {
-                foreach(Rule_GrowWorldNextAtCorner.IMatch_GrowWorldNextAtCorner match in matches) _rulePattern.ModifyNoReuse((GRGEN_LGSP.LGSPGraph)graph, match, out output_0, out output_1);
-            }
+            foreach(Rule_GrowWorldNextAtCorner.IMatch_GrowWorldNextAtCorner match in matches) _rulePattern.Modify((GRGEN_LGSP.LGSPGraph)graph, match, out output_0, out output_1);
             return true;
         }
         public bool ApplyStar(GRGEN_LIBGR.IGraph graph, GRGEN_MODEL.IGridNode GrowWorldNextAtCorner_node_cur, GRGEN_MODEL.IGridNode GrowWorldNextAtCorner_node_curOuter)
@@ -8528,8 +8022,7 @@ label1: ;
             {
                 matches = DynamicMatch((GRGEN_LGSP.LGSPGraph)graph, 1, GrowWorldNextAtCorner_node_cur, GrowWorldNextAtCorner_node_curOuter);
                 if(matches.Count <= 0) return true;
-                if(!graph.TransactionManager.TransactionActive && graph.ReuseOptimization) _rulePattern.Modify((GRGEN_LGSP.LGSPGraph)graph, matches.First, out output_0, out output_1);
-                else _rulePattern.ModifyNoReuse((GRGEN_LGSP.LGSPGraph)graph, matches.First, out output_0, out output_1);
+                _rulePattern.Modify((GRGEN_LGSP.LGSPGraph)graph, matches.First, out output_0, out output_1);
             }
         }
         public bool ApplyPlus(GRGEN_LIBGR.IGraph graph, GRGEN_MODEL.IGridNode GrowWorldNextAtCorner_node_cur, GRGEN_MODEL.IGridNode GrowWorldNextAtCorner_node_curOuter)
@@ -8539,8 +8032,7 @@ label1: ;
             GRGEN_MODEL.IGridNode output_0; GRGEN_MODEL.IGridNode output_1; 
             do
             {
-                if(!graph.TransactionManager.TransactionActive && graph.ReuseOptimization) _rulePattern.Modify((GRGEN_LGSP.LGSPGraph)graph, matches.First, out output_0, out output_1);
-                else _rulePattern.ModifyNoReuse((GRGEN_LGSP.LGSPGraph)graph, matches.First, out output_0, out output_1);
+                _rulePattern.Modify((GRGEN_LGSP.LGSPGraph)graph, matches.First, out output_0, out output_1);
                 matches = DynamicMatch((GRGEN_LGSP.LGSPGraph)graph, 1, GrowWorldNextAtCorner_node_cur, GrowWorldNextAtCorner_node_curOuter);
             }
             while(matches.Count > 0) ;
@@ -8554,8 +8046,7 @@ label1: ;
             {
                 matches = DynamicMatch((GRGEN_LGSP.LGSPGraph)graph, 1, GrowWorldNextAtCorner_node_cur, GrowWorldNextAtCorner_node_curOuter);
                 if(matches.Count <= 0) return i >= min;
-                if(!graph.TransactionManager.TransactionActive && graph.ReuseOptimization) _rulePattern.Modify((GRGEN_LGSP.LGSPGraph)graph, matches.First, out output_0, out output_1);
-                else _rulePattern.ModifyNoReuse((GRGEN_LGSP.LGSPGraph)graph, matches.First, out output_0, out output_1);
+                _rulePattern.Modify((GRGEN_LGSP.LGSPGraph)graph, matches.First, out output_0, out output_1);
             }
             return true;
         }
@@ -8791,36 +8282,26 @@ label1: ;
         }
         public void Modify(GRGEN_LIBGR.IGraph graph, Rule_GrowWorldNextNotAtCorner.IMatch_GrowWorldNextNotAtCorner match, out GRGEN_MODEL.IGridNode output_0, out GRGEN_MODEL.IGridNode output_1)
         {
-            if(!graph.TransactionManager.TransactionActive && graph.ReuseOptimization) _rulePattern.Modify((GRGEN_LGSP.LGSPGraph)graph, match, out output_0, out output_1);
-            else _rulePattern.ModifyNoReuse((GRGEN_LGSP.LGSPGraph)graph, match, out output_0, out output_1);
+            _rulePattern.Modify((GRGEN_LGSP.LGSPGraph)graph, match, out output_0, out output_1);
         }
         public void ModifyAll(GRGEN_LIBGR.IGraph graph, GRGEN_LIBGR.IMatchesExact<Rule_GrowWorldNextNotAtCorner.IMatch_GrowWorldNextNotAtCorner> matches, out GRGEN_MODEL.IGridNode output_0, out GRGEN_MODEL.IGridNode output_1)
         {
             output_0 = null;
             output_1 = null;
-            if(!graph.TransactionManager.TransactionActive && graph.ReuseOptimization) {
-                foreach(Rule_GrowWorldNextNotAtCorner.IMatch_GrowWorldNextNotAtCorner match in matches) _rulePattern.Modify((GRGEN_LGSP.LGSPGraph)graph, match, out output_0, out output_1);
-            } else {
-                foreach(Rule_GrowWorldNextNotAtCorner.IMatch_GrowWorldNextNotAtCorner match in matches) _rulePattern.ModifyNoReuse((GRGEN_LGSP.LGSPGraph)graph, match, out output_0, out output_1);
-            }
+            foreach(Rule_GrowWorldNextNotAtCorner.IMatch_GrowWorldNextNotAtCorner match in matches) _rulePattern.Modify((GRGEN_LGSP.LGSPGraph)graph, match, out output_0, out output_1);
         }
         public bool Apply(GRGEN_LIBGR.IGraph graph, GRGEN_MODEL.IGridNode GrowWorldNextNotAtCorner_node_cur, GRGEN_MODEL.IGridNode GrowWorldNextNotAtCorner_node_curOuter, ref GRGEN_MODEL.IGridNode output_0, ref GRGEN_MODEL.IGridNode output_1)
         {
             GRGEN_LIBGR.IMatchesExact<Rule_GrowWorldNextNotAtCorner.IMatch_GrowWorldNextNotAtCorner> matches = DynamicMatch((GRGEN_LGSP.LGSPGraph)graph, 1, GrowWorldNextNotAtCorner_node_cur, GrowWorldNextNotAtCorner_node_curOuter);
             if(matches.Count <= 0) return false;
-            if(!graph.TransactionManager.TransactionActive && graph.ReuseOptimization) _rulePattern.Modify((GRGEN_LGSP.LGSPGraph)graph, matches.First, out output_0, out output_1);
-            else _rulePattern.ModifyNoReuse((GRGEN_LGSP.LGSPGraph)graph, matches.First, out output_0, out output_1);
+            _rulePattern.Modify((GRGEN_LGSP.LGSPGraph)graph, matches.First, out output_0, out output_1);
             return true;
         }
         public bool ApplyAll(int maxMatches, GRGEN_LIBGR.IGraph graph, GRGEN_MODEL.IGridNode GrowWorldNextNotAtCorner_node_cur, GRGEN_MODEL.IGridNode GrowWorldNextNotAtCorner_node_curOuter, ref GRGEN_MODEL.IGridNode output_0, ref GRGEN_MODEL.IGridNode output_1)
         {
             GRGEN_LIBGR.IMatchesExact<Rule_GrowWorldNextNotAtCorner.IMatch_GrowWorldNextNotAtCorner> matches = DynamicMatch((GRGEN_LGSP.LGSPGraph)graph, maxMatches, GrowWorldNextNotAtCorner_node_cur, GrowWorldNextNotAtCorner_node_curOuter);
             if(matches.Count <= 0) return false;
-            if(!graph.TransactionManager.TransactionActive && graph.ReuseOptimization) {
-                foreach(Rule_GrowWorldNextNotAtCorner.IMatch_GrowWorldNextNotAtCorner match in matches) _rulePattern.Modify((GRGEN_LGSP.LGSPGraph)graph, match, out output_0, out output_1);
-            } else {
-                foreach(Rule_GrowWorldNextNotAtCorner.IMatch_GrowWorldNextNotAtCorner match in matches) _rulePattern.ModifyNoReuse((GRGEN_LGSP.LGSPGraph)graph, match, out output_0, out output_1);
-            }
+            foreach(Rule_GrowWorldNextNotAtCorner.IMatch_GrowWorldNextNotAtCorner match in matches) _rulePattern.Modify((GRGEN_LGSP.LGSPGraph)graph, match, out output_0, out output_1);
             return true;
         }
         public bool ApplyStar(GRGEN_LIBGR.IGraph graph, GRGEN_MODEL.IGridNode GrowWorldNextNotAtCorner_node_cur, GRGEN_MODEL.IGridNode GrowWorldNextNotAtCorner_node_curOuter)
@@ -8831,8 +8312,7 @@ label1: ;
             {
                 matches = DynamicMatch((GRGEN_LGSP.LGSPGraph)graph, 1, GrowWorldNextNotAtCorner_node_cur, GrowWorldNextNotAtCorner_node_curOuter);
                 if(matches.Count <= 0) return true;
-                if(!graph.TransactionManager.TransactionActive && graph.ReuseOptimization) _rulePattern.Modify((GRGEN_LGSP.LGSPGraph)graph, matches.First, out output_0, out output_1);
-                else _rulePattern.ModifyNoReuse((GRGEN_LGSP.LGSPGraph)graph, matches.First, out output_0, out output_1);
+                _rulePattern.Modify((GRGEN_LGSP.LGSPGraph)graph, matches.First, out output_0, out output_1);
             }
         }
         public bool ApplyPlus(GRGEN_LIBGR.IGraph graph, GRGEN_MODEL.IGridNode GrowWorldNextNotAtCorner_node_cur, GRGEN_MODEL.IGridNode GrowWorldNextNotAtCorner_node_curOuter)
@@ -8842,8 +8322,7 @@ label1: ;
             GRGEN_MODEL.IGridNode output_0; GRGEN_MODEL.IGridNode output_1; 
             do
             {
-                if(!graph.TransactionManager.TransactionActive && graph.ReuseOptimization) _rulePattern.Modify((GRGEN_LGSP.LGSPGraph)graph, matches.First, out output_0, out output_1);
-                else _rulePattern.ModifyNoReuse((GRGEN_LGSP.LGSPGraph)graph, matches.First, out output_0, out output_1);
+                _rulePattern.Modify((GRGEN_LGSP.LGSPGraph)graph, matches.First, out output_0, out output_1);
                 matches = DynamicMatch((GRGEN_LGSP.LGSPGraph)graph, 1, GrowWorldNextNotAtCorner_node_cur, GrowWorldNextNotAtCorner_node_curOuter);
             }
             while(matches.Count > 0) ;
@@ -8857,8 +8336,7 @@ label1: ;
             {
                 matches = DynamicMatch((GRGEN_LGSP.LGSPGraph)graph, 1, GrowWorldNextNotAtCorner_node_cur, GrowWorldNextNotAtCorner_node_curOuter);
                 if(matches.Count <= 0) return i >= min;
-                if(!graph.TransactionManager.TransactionActive && graph.ReuseOptimization) _rulePattern.Modify((GRGEN_LGSP.LGSPGraph)graph, matches.First, out output_0, out output_1);
-                else _rulePattern.ModifyNoReuse((GRGEN_LGSP.LGSPGraph)graph, matches.First, out output_0, out output_1);
+                _rulePattern.Modify((GRGEN_LGSP.LGSPGraph)graph, matches.First, out output_0, out output_1);
             }
             return true;
         }
@@ -9056,34 +8534,24 @@ label1: ;
         }
         public void Modify(GRGEN_LIBGR.IGraph graph, Rule_GrowWorldEnd.IMatch_GrowWorldEnd match)
         {
-            if(!graph.TransactionManager.TransactionActive && graph.ReuseOptimization) _rulePattern.Modify((GRGEN_LGSP.LGSPGraph)graph, match);
-            else _rulePattern.ModifyNoReuse((GRGEN_LGSP.LGSPGraph)graph, match);
+            _rulePattern.Modify((GRGEN_LGSP.LGSPGraph)graph, match);
         }
         public void ModifyAll(GRGEN_LIBGR.IGraph graph, GRGEN_LIBGR.IMatchesExact<Rule_GrowWorldEnd.IMatch_GrowWorldEnd> matches)
         {
-            if(!graph.TransactionManager.TransactionActive && graph.ReuseOptimization) {
-                foreach(Rule_GrowWorldEnd.IMatch_GrowWorldEnd match in matches) _rulePattern.Modify((GRGEN_LGSP.LGSPGraph)graph, match);
-            } else {
-                foreach(Rule_GrowWorldEnd.IMatch_GrowWorldEnd match in matches) _rulePattern.ModifyNoReuse((GRGEN_LGSP.LGSPGraph)graph, match);
-            }
+            foreach(Rule_GrowWorldEnd.IMatch_GrowWorldEnd match in matches) _rulePattern.Modify((GRGEN_LGSP.LGSPGraph)graph, match);
         }
         public bool Apply(GRGEN_LIBGR.IGraph graph, GRGEN_MODEL.IGridNode GrowWorldEnd_node_cur, GRGEN_MODEL.IGridNode GrowWorldEnd_node_curOuter)
         {
             GRGEN_LIBGR.IMatchesExact<Rule_GrowWorldEnd.IMatch_GrowWorldEnd> matches = DynamicMatch((GRGEN_LGSP.LGSPGraph)graph, 1, GrowWorldEnd_node_cur, GrowWorldEnd_node_curOuter);
             if(matches.Count <= 0) return false;
-            if(!graph.TransactionManager.TransactionActive && graph.ReuseOptimization) _rulePattern.Modify((GRGEN_LGSP.LGSPGraph)graph, matches.First);
-            else _rulePattern.ModifyNoReuse((GRGEN_LGSP.LGSPGraph)graph, matches.First);
+            _rulePattern.Modify((GRGEN_LGSP.LGSPGraph)graph, matches.First);
             return true;
         }
         public bool ApplyAll(int maxMatches, GRGEN_LIBGR.IGraph graph, GRGEN_MODEL.IGridNode GrowWorldEnd_node_cur, GRGEN_MODEL.IGridNode GrowWorldEnd_node_curOuter)
         {
             GRGEN_LIBGR.IMatchesExact<Rule_GrowWorldEnd.IMatch_GrowWorldEnd> matches = DynamicMatch((GRGEN_LGSP.LGSPGraph)graph, maxMatches, GrowWorldEnd_node_cur, GrowWorldEnd_node_curOuter);
             if(matches.Count <= 0) return false;
-            if(!graph.TransactionManager.TransactionActive && graph.ReuseOptimization) {
-                foreach(Rule_GrowWorldEnd.IMatch_GrowWorldEnd match in matches) _rulePattern.Modify((GRGEN_LGSP.LGSPGraph)graph, match);
-            } else {
-                foreach(Rule_GrowWorldEnd.IMatch_GrowWorldEnd match in matches) _rulePattern.ModifyNoReuse((GRGEN_LGSP.LGSPGraph)graph, match);
-            }
+            foreach(Rule_GrowWorldEnd.IMatch_GrowWorldEnd match in matches) _rulePattern.Modify((GRGEN_LGSP.LGSPGraph)graph, match);
             return true;
         }
         public bool ApplyStar(GRGEN_LIBGR.IGraph graph, GRGEN_MODEL.IGridNode GrowWorldEnd_node_cur, GRGEN_MODEL.IGridNode GrowWorldEnd_node_curOuter)
@@ -9094,8 +8562,7 @@ label1: ;
             {
                 matches = DynamicMatch((GRGEN_LGSP.LGSPGraph)graph, 1, GrowWorldEnd_node_cur, GrowWorldEnd_node_curOuter);
                 if(matches.Count <= 0) return true;
-                if(!graph.TransactionManager.TransactionActive && graph.ReuseOptimization) _rulePattern.Modify((GRGEN_LGSP.LGSPGraph)graph, matches.First);
-                else _rulePattern.ModifyNoReuse((GRGEN_LGSP.LGSPGraph)graph, matches.First);
+                _rulePattern.Modify((GRGEN_LGSP.LGSPGraph)graph, matches.First);
             }
         }
         public bool ApplyPlus(GRGEN_LIBGR.IGraph graph, GRGEN_MODEL.IGridNode GrowWorldEnd_node_cur, GRGEN_MODEL.IGridNode GrowWorldEnd_node_curOuter)
@@ -9105,8 +8572,7 @@ label1: ;
             
             do
             {
-                if(!graph.TransactionManager.TransactionActive && graph.ReuseOptimization) _rulePattern.Modify((GRGEN_LGSP.LGSPGraph)graph, matches.First);
-                else _rulePattern.ModifyNoReuse((GRGEN_LGSP.LGSPGraph)graph, matches.First);
+                _rulePattern.Modify((GRGEN_LGSP.LGSPGraph)graph, matches.First);
                 matches = DynamicMatch((GRGEN_LGSP.LGSPGraph)graph, 1, GrowWorldEnd_node_cur, GrowWorldEnd_node_curOuter);
             }
             while(matches.Count > 0) ;
@@ -9120,8 +8586,7 @@ label1: ;
             {
                 matches = DynamicMatch((GRGEN_LGSP.LGSPGraph)graph, 1, GrowWorldEnd_node_cur, GrowWorldEnd_node_curOuter);
                 if(matches.Count <= 0) return i >= min;
-                if(!graph.TransactionManager.TransactionActive && graph.ReuseOptimization) _rulePattern.Modify((GRGEN_LGSP.LGSPGraph)graph, matches.First);
-                else _rulePattern.ModifyNoReuse((GRGEN_LGSP.LGSPGraph)graph, matches.First);
+                _rulePattern.Modify((GRGEN_LGSP.LGSPGraph)graph, matches.First);
             }
             return true;
         }
@@ -9294,35 +8759,25 @@ label1: ;
         }
         public void Modify(GRGEN_LIBGR.IGraph graph, Rule_GetNextAnt.IMatch_GetNextAnt match, out GRGEN_MODEL.IAnt output_0)
         {
-            if(!graph.TransactionManager.TransactionActive && graph.ReuseOptimization) _rulePattern.Modify((GRGEN_LGSP.LGSPGraph)graph, match, out output_0);
-            else _rulePattern.ModifyNoReuse((GRGEN_LGSP.LGSPGraph)graph, match, out output_0);
+            _rulePattern.Modify((GRGEN_LGSP.LGSPGraph)graph, match, out output_0);
         }
         public void ModifyAll(GRGEN_LIBGR.IGraph graph, GRGEN_LIBGR.IMatchesExact<Rule_GetNextAnt.IMatch_GetNextAnt> matches, out GRGEN_MODEL.IAnt output_0)
         {
             output_0 = null;
-            if(!graph.TransactionManager.TransactionActive && graph.ReuseOptimization) {
-                foreach(Rule_GetNextAnt.IMatch_GetNextAnt match in matches) _rulePattern.Modify((GRGEN_LGSP.LGSPGraph)graph, match, out output_0);
-            } else {
-                foreach(Rule_GetNextAnt.IMatch_GetNextAnt match in matches) _rulePattern.ModifyNoReuse((GRGEN_LGSP.LGSPGraph)graph, match, out output_0);
-            }
+            foreach(Rule_GetNextAnt.IMatch_GetNextAnt match in matches) _rulePattern.Modify((GRGEN_LGSP.LGSPGraph)graph, match, out output_0);
         }
         public bool Apply(GRGEN_LIBGR.IGraph graph, GRGEN_MODEL.IAnt GetNextAnt_node_curAnt, ref GRGEN_MODEL.IAnt output_0)
         {
             GRGEN_LIBGR.IMatchesExact<Rule_GetNextAnt.IMatch_GetNextAnt> matches = DynamicMatch((GRGEN_LGSP.LGSPGraph)graph, 1, GetNextAnt_node_curAnt);
             if(matches.Count <= 0) return false;
-            if(!graph.TransactionManager.TransactionActive && graph.ReuseOptimization) _rulePattern.Modify((GRGEN_LGSP.LGSPGraph)graph, matches.First, out output_0);
-            else _rulePattern.ModifyNoReuse((GRGEN_LGSP.LGSPGraph)graph, matches.First, out output_0);
+            _rulePattern.Modify((GRGEN_LGSP.LGSPGraph)graph, matches.First, out output_0);
             return true;
         }
         public bool ApplyAll(int maxMatches, GRGEN_LIBGR.IGraph graph, GRGEN_MODEL.IAnt GetNextAnt_node_curAnt, ref GRGEN_MODEL.IAnt output_0)
         {
             GRGEN_LIBGR.IMatchesExact<Rule_GetNextAnt.IMatch_GetNextAnt> matches = DynamicMatch((GRGEN_LGSP.LGSPGraph)graph, maxMatches, GetNextAnt_node_curAnt);
             if(matches.Count <= 0) return false;
-            if(!graph.TransactionManager.TransactionActive && graph.ReuseOptimization) {
-                foreach(Rule_GetNextAnt.IMatch_GetNextAnt match in matches) _rulePattern.Modify((GRGEN_LGSP.LGSPGraph)graph, match, out output_0);
-            } else {
-                foreach(Rule_GetNextAnt.IMatch_GetNextAnt match in matches) _rulePattern.ModifyNoReuse((GRGEN_LGSP.LGSPGraph)graph, match, out output_0);
-            }
+            foreach(Rule_GetNextAnt.IMatch_GetNextAnt match in matches) _rulePattern.Modify((GRGEN_LGSP.LGSPGraph)graph, match, out output_0);
             return true;
         }
         public bool ApplyStar(GRGEN_LIBGR.IGraph graph, GRGEN_MODEL.IAnt GetNextAnt_node_curAnt)
@@ -9333,8 +8788,7 @@ label1: ;
             {
                 matches = DynamicMatch((GRGEN_LGSP.LGSPGraph)graph, 1, GetNextAnt_node_curAnt);
                 if(matches.Count <= 0) return true;
-                if(!graph.TransactionManager.TransactionActive && graph.ReuseOptimization) _rulePattern.Modify((GRGEN_LGSP.LGSPGraph)graph, matches.First, out output_0);
-                else _rulePattern.ModifyNoReuse((GRGEN_LGSP.LGSPGraph)graph, matches.First, out output_0);
+                _rulePattern.Modify((GRGEN_LGSP.LGSPGraph)graph, matches.First, out output_0);
             }
         }
         public bool ApplyPlus(GRGEN_LIBGR.IGraph graph, GRGEN_MODEL.IAnt GetNextAnt_node_curAnt)
@@ -9344,8 +8798,7 @@ label1: ;
             GRGEN_MODEL.IAnt output_0; 
             do
             {
-                if(!graph.TransactionManager.TransactionActive && graph.ReuseOptimization) _rulePattern.Modify((GRGEN_LGSP.LGSPGraph)graph, matches.First, out output_0);
-                else _rulePattern.ModifyNoReuse((GRGEN_LGSP.LGSPGraph)graph, matches.First, out output_0);
+                _rulePattern.Modify((GRGEN_LGSP.LGSPGraph)graph, matches.First, out output_0);
                 matches = DynamicMatch((GRGEN_LGSP.LGSPGraph)graph, 1, GetNextAnt_node_curAnt);
             }
             while(matches.Count > 0) ;
@@ -9359,8 +8812,7 @@ label1: ;
             {
                 matches = DynamicMatch((GRGEN_LGSP.LGSPGraph)graph, 1, GetNextAnt_node_curAnt);
                 if(matches.Count <= 0) return i >= min;
-                if(!graph.TransactionManager.TransactionActive && graph.ReuseOptimization) _rulePattern.Modify((GRGEN_LGSP.LGSPGraph)graph, matches.First, out output_0);
-                else _rulePattern.ModifyNoReuse((GRGEN_LGSP.LGSPGraph)graph, matches.First, out output_0);
+                _rulePattern.Modify((GRGEN_LGSP.LGSPGraph)graph, matches.First, out output_0);
             }
             return true;
         }
@@ -9518,35 +8970,25 @@ label1: ;
         }
         public void Modify(GRGEN_LIBGR.IGraph graph, Rule_Food2Ant.IMatch_Food2Ant match, out GRGEN_MODEL.IAnt output_0)
         {
-            if(!graph.TransactionManager.TransactionActive && graph.ReuseOptimization) _rulePattern.Modify((GRGEN_LGSP.LGSPGraph)graph, match, out output_0);
-            else _rulePattern.ModifyNoReuse((GRGEN_LGSP.LGSPGraph)graph, match, out output_0);
+            _rulePattern.Modify((GRGEN_LGSP.LGSPGraph)graph, match, out output_0);
         }
         public void ModifyAll(GRGEN_LIBGR.IGraph graph, GRGEN_LIBGR.IMatchesExact<Rule_Food2Ant.IMatch_Food2Ant> matches, out GRGEN_MODEL.IAnt output_0)
         {
             output_0 = null;
-            if(!graph.TransactionManager.TransactionActive && graph.ReuseOptimization) {
-                foreach(Rule_Food2Ant.IMatch_Food2Ant match in matches) _rulePattern.Modify((GRGEN_LGSP.LGSPGraph)graph, match, out output_0);
-            } else {
-                foreach(Rule_Food2Ant.IMatch_Food2Ant match in matches) _rulePattern.ModifyNoReuse((GRGEN_LGSP.LGSPGraph)graph, match, out output_0);
-            }
+            foreach(Rule_Food2Ant.IMatch_Food2Ant match in matches) _rulePattern.Modify((GRGEN_LGSP.LGSPGraph)graph, match, out output_0);
         }
         public bool Apply(GRGEN_LIBGR.IGraph graph, GRGEN_MODEL.IAnt Food2Ant_node_lastAnt, ref GRGEN_MODEL.IAnt output_0)
         {
             GRGEN_LIBGR.IMatchesExact<Rule_Food2Ant.IMatch_Food2Ant> matches = DynamicMatch((GRGEN_LGSP.LGSPGraph)graph, 1, Food2Ant_node_lastAnt);
             if(matches.Count <= 0) return false;
-            if(!graph.TransactionManager.TransactionActive && graph.ReuseOptimization) _rulePattern.Modify((GRGEN_LGSP.LGSPGraph)graph, matches.First, out output_0);
-            else _rulePattern.ModifyNoReuse((GRGEN_LGSP.LGSPGraph)graph, matches.First, out output_0);
+            _rulePattern.Modify((GRGEN_LGSP.LGSPGraph)graph, matches.First, out output_0);
             return true;
         }
         public bool ApplyAll(int maxMatches, GRGEN_LIBGR.IGraph graph, GRGEN_MODEL.IAnt Food2Ant_node_lastAnt, ref GRGEN_MODEL.IAnt output_0)
         {
             GRGEN_LIBGR.IMatchesExact<Rule_Food2Ant.IMatch_Food2Ant> matches = DynamicMatch((GRGEN_LGSP.LGSPGraph)graph, maxMatches, Food2Ant_node_lastAnt);
             if(matches.Count <= 0) return false;
-            if(!graph.TransactionManager.TransactionActive && graph.ReuseOptimization) {
-                foreach(Rule_Food2Ant.IMatch_Food2Ant match in matches) _rulePattern.Modify((GRGEN_LGSP.LGSPGraph)graph, match, out output_0);
-            } else {
-                foreach(Rule_Food2Ant.IMatch_Food2Ant match in matches) _rulePattern.ModifyNoReuse((GRGEN_LGSP.LGSPGraph)graph, match, out output_0);
-            }
+            foreach(Rule_Food2Ant.IMatch_Food2Ant match in matches) _rulePattern.Modify((GRGEN_LGSP.LGSPGraph)graph, match, out output_0);
             return true;
         }
         public bool ApplyStar(GRGEN_LIBGR.IGraph graph, GRGEN_MODEL.IAnt Food2Ant_node_lastAnt)
@@ -9557,8 +8999,7 @@ label1: ;
             {
                 matches = DynamicMatch((GRGEN_LGSP.LGSPGraph)graph, 1, Food2Ant_node_lastAnt);
                 if(matches.Count <= 0) return true;
-                if(!graph.TransactionManager.TransactionActive && graph.ReuseOptimization) _rulePattern.Modify((GRGEN_LGSP.LGSPGraph)graph, matches.First, out output_0);
-                else _rulePattern.ModifyNoReuse((GRGEN_LGSP.LGSPGraph)graph, matches.First, out output_0);
+                _rulePattern.Modify((GRGEN_LGSP.LGSPGraph)graph, matches.First, out output_0);
             }
         }
         public bool ApplyPlus(GRGEN_LIBGR.IGraph graph, GRGEN_MODEL.IAnt Food2Ant_node_lastAnt)
@@ -9568,8 +9009,7 @@ label1: ;
             GRGEN_MODEL.IAnt output_0; 
             do
             {
-                if(!graph.TransactionManager.TransactionActive && graph.ReuseOptimization) _rulePattern.Modify((GRGEN_LGSP.LGSPGraph)graph, matches.First, out output_0);
-                else _rulePattern.ModifyNoReuse((GRGEN_LGSP.LGSPGraph)graph, matches.First, out output_0);
+                _rulePattern.Modify((GRGEN_LGSP.LGSPGraph)graph, matches.First, out output_0);
                 matches = DynamicMatch((GRGEN_LGSP.LGSPGraph)graph, 1, Food2Ant_node_lastAnt);
             }
             while(matches.Count > 0) ;
@@ -9583,8 +9023,7 @@ label1: ;
             {
                 matches = DynamicMatch((GRGEN_LGSP.LGSPGraph)graph, 1, Food2Ant_node_lastAnt);
                 if(matches.Count <= 0) return i >= min;
-                if(!graph.TransactionManager.TransactionActive && graph.ReuseOptimization) _rulePattern.Modify((GRGEN_LGSP.LGSPGraph)graph, matches.First, out output_0);
-                else _rulePattern.ModifyNoReuse((GRGEN_LGSP.LGSPGraph)graph, matches.First, out output_0);
+                _rulePattern.Modify((GRGEN_LGSP.LGSPGraph)graph, matches.First, out output_0);
             }
             return true;
         }
@@ -9735,34 +9174,24 @@ label1: ;
         }
         public void Modify(GRGEN_LIBGR.IGraph graph, Rule_EvaporateWorld.IMatch_EvaporateWorld match)
         {
-            if(!graph.TransactionManager.TransactionActive && graph.ReuseOptimization) _rulePattern.Modify((GRGEN_LGSP.LGSPGraph)graph, match);
-            else _rulePattern.ModifyNoReuse((GRGEN_LGSP.LGSPGraph)graph, match);
+            _rulePattern.Modify((GRGEN_LGSP.LGSPGraph)graph, match);
         }
         public void ModifyAll(GRGEN_LIBGR.IGraph graph, GRGEN_LIBGR.IMatchesExact<Rule_EvaporateWorld.IMatch_EvaporateWorld> matches)
         {
-            if(!graph.TransactionManager.TransactionActive && graph.ReuseOptimization) {
-                foreach(Rule_EvaporateWorld.IMatch_EvaporateWorld match in matches) _rulePattern.Modify((GRGEN_LGSP.LGSPGraph)graph, match);
-            } else {
-                foreach(Rule_EvaporateWorld.IMatch_EvaporateWorld match in matches) _rulePattern.ModifyNoReuse((GRGEN_LGSP.LGSPGraph)graph, match);
-            }
+            foreach(Rule_EvaporateWorld.IMatch_EvaporateWorld match in matches) _rulePattern.Modify((GRGEN_LGSP.LGSPGraph)graph, match);
         }
         public bool Apply(GRGEN_LIBGR.IGraph graph)
         {
             GRGEN_LIBGR.IMatchesExact<Rule_EvaporateWorld.IMatch_EvaporateWorld> matches = DynamicMatch((GRGEN_LGSP.LGSPGraph)graph, 1);
             if(matches.Count <= 0) return false;
-            if(!graph.TransactionManager.TransactionActive && graph.ReuseOptimization) _rulePattern.Modify((GRGEN_LGSP.LGSPGraph)graph, matches.First);
-            else _rulePattern.ModifyNoReuse((GRGEN_LGSP.LGSPGraph)graph, matches.First);
+            _rulePattern.Modify((GRGEN_LGSP.LGSPGraph)graph, matches.First);
             return true;
         }
         public bool ApplyAll(int maxMatches, GRGEN_LIBGR.IGraph graph)
         {
             GRGEN_LIBGR.IMatchesExact<Rule_EvaporateWorld.IMatch_EvaporateWorld> matches = DynamicMatch((GRGEN_LGSP.LGSPGraph)graph, maxMatches);
             if(matches.Count <= 0) return false;
-            if(!graph.TransactionManager.TransactionActive && graph.ReuseOptimization) {
-                foreach(Rule_EvaporateWorld.IMatch_EvaporateWorld match in matches) _rulePattern.Modify((GRGEN_LGSP.LGSPGraph)graph, match);
-            } else {
-                foreach(Rule_EvaporateWorld.IMatch_EvaporateWorld match in matches) _rulePattern.ModifyNoReuse((GRGEN_LGSP.LGSPGraph)graph, match);
-            }
+            foreach(Rule_EvaporateWorld.IMatch_EvaporateWorld match in matches) _rulePattern.Modify((GRGEN_LGSP.LGSPGraph)graph, match);
             return true;
         }
         public bool ApplyStar(GRGEN_LIBGR.IGraph graph)
@@ -9773,8 +9202,7 @@ label1: ;
             {
                 matches = DynamicMatch((GRGEN_LGSP.LGSPGraph)graph, 1);
                 if(matches.Count <= 0) return true;
-                if(!graph.TransactionManager.TransactionActive && graph.ReuseOptimization) _rulePattern.Modify((GRGEN_LGSP.LGSPGraph)graph, matches.First);
-                else _rulePattern.ModifyNoReuse((GRGEN_LGSP.LGSPGraph)graph, matches.First);
+                _rulePattern.Modify((GRGEN_LGSP.LGSPGraph)graph, matches.First);
             }
         }
         public bool ApplyPlus(GRGEN_LIBGR.IGraph graph)
@@ -9784,8 +9212,7 @@ label1: ;
             
             do
             {
-                if(!graph.TransactionManager.TransactionActive && graph.ReuseOptimization) _rulePattern.Modify((GRGEN_LGSP.LGSPGraph)graph, matches.First);
-                else _rulePattern.ModifyNoReuse((GRGEN_LGSP.LGSPGraph)graph, matches.First);
+                _rulePattern.Modify((GRGEN_LGSP.LGSPGraph)graph, matches.First);
                 matches = DynamicMatch((GRGEN_LGSP.LGSPGraph)graph, 1);
             }
             while(matches.Count > 0) ;
@@ -9799,8 +9226,7 @@ label1: ;
             {
                 matches = DynamicMatch((GRGEN_LGSP.LGSPGraph)graph, 1);
                 if(matches.Count <= 0) return i >= min;
-                if(!graph.TransactionManager.TransactionActive && graph.ReuseOptimization) _rulePattern.Modify((GRGEN_LGSP.LGSPGraph)graph, matches.First);
-                else _rulePattern.ModifyNoReuse((GRGEN_LGSP.LGSPGraph)graph, matches.First);
+                _rulePattern.Modify((GRGEN_LGSP.LGSPGraph)graph, matches.First);
             }
             return true;
         }
@@ -9951,34 +9377,24 @@ label1: ;
         }
         public void Modify(GRGEN_LIBGR.IGraph graph, Rule_doAntWorld.IMatch_doAntWorld match)
         {
-            if(!graph.TransactionManager.TransactionActive && graph.ReuseOptimization) _rulePattern.Modify((GRGEN_LGSP.LGSPGraph)graph, match);
-            else _rulePattern.ModifyNoReuse((GRGEN_LGSP.LGSPGraph)graph, match);
+            _rulePattern.Modify((GRGEN_LGSP.LGSPGraph)graph, match);
         }
         public void ModifyAll(GRGEN_LIBGR.IGraph graph, GRGEN_LIBGR.IMatchesExact<Rule_doAntWorld.IMatch_doAntWorld> matches)
         {
-            if(!graph.TransactionManager.TransactionActive && graph.ReuseOptimization) {
-                foreach(Rule_doAntWorld.IMatch_doAntWorld match in matches) _rulePattern.Modify((GRGEN_LGSP.LGSPGraph)graph, match);
-            } else {
-                foreach(Rule_doAntWorld.IMatch_doAntWorld match in matches) _rulePattern.ModifyNoReuse((GRGEN_LGSP.LGSPGraph)graph, match);
-            }
+            foreach(Rule_doAntWorld.IMatch_doAntWorld match in matches) _rulePattern.Modify((GRGEN_LGSP.LGSPGraph)graph, match);
         }
         public bool Apply(GRGEN_LIBGR.IGraph graph, GRGEN_MODEL.IAnt doAntWorld_node_firstAnt)
         {
             GRGEN_LIBGR.IMatchesExact<Rule_doAntWorld.IMatch_doAntWorld> matches = DynamicMatch((GRGEN_LGSP.LGSPGraph)graph, 1, doAntWorld_node_firstAnt);
             if(matches.Count <= 0) return false;
-            if(!graph.TransactionManager.TransactionActive && graph.ReuseOptimization) _rulePattern.Modify((GRGEN_LGSP.LGSPGraph)graph, matches.First);
-            else _rulePattern.ModifyNoReuse((GRGEN_LGSP.LGSPGraph)graph, matches.First);
+            _rulePattern.Modify((GRGEN_LGSP.LGSPGraph)graph, matches.First);
             return true;
         }
         public bool ApplyAll(int maxMatches, GRGEN_LIBGR.IGraph graph, GRGEN_MODEL.IAnt doAntWorld_node_firstAnt)
         {
             GRGEN_LIBGR.IMatchesExact<Rule_doAntWorld.IMatch_doAntWorld> matches = DynamicMatch((GRGEN_LGSP.LGSPGraph)graph, maxMatches, doAntWorld_node_firstAnt);
             if(matches.Count <= 0) return false;
-            if(!graph.TransactionManager.TransactionActive && graph.ReuseOptimization) {
-                foreach(Rule_doAntWorld.IMatch_doAntWorld match in matches) _rulePattern.Modify((GRGEN_LGSP.LGSPGraph)graph, match);
-            } else {
-                foreach(Rule_doAntWorld.IMatch_doAntWorld match in matches) _rulePattern.ModifyNoReuse((GRGEN_LGSP.LGSPGraph)graph, match);
-            }
+            foreach(Rule_doAntWorld.IMatch_doAntWorld match in matches) _rulePattern.Modify((GRGEN_LGSP.LGSPGraph)graph, match);
             return true;
         }
         public bool ApplyStar(GRGEN_LIBGR.IGraph graph, GRGEN_MODEL.IAnt doAntWorld_node_firstAnt)
@@ -9989,8 +9405,7 @@ label1: ;
             {
                 matches = DynamicMatch((GRGEN_LGSP.LGSPGraph)graph, 1, doAntWorld_node_firstAnt);
                 if(matches.Count <= 0) return true;
-                if(!graph.TransactionManager.TransactionActive && graph.ReuseOptimization) _rulePattern.Modify((GRGEN_LGSP.LGSPGraph)graph, matches.First);
-                else _rulePattern.ModifyNoReuse((GRGEN_LGSP.LGSPGraph)graph, matches.First);
+                _rulePattern.Modify((GRGEN_LGSP.LGSPGraph)graph, matches.First);
             }
         }
         public bool ApplyPlus(GRGEN_LIBGR.IGraph graph, GRGEN_MODEL.IAnt doAntWorld_node_firstAnt)
@@ -10000,8 +9415,7 @@ label1: ;
             
             do
             {
-                if(!graph.TransactionManager.TransactionActive && graph.ReuseOptimization) _rulePattern.Modify((GRGEN_LGSP.LGSPGraph)graph, matches.First);
-                else _rulePattern.ModifyNoReuse((GRGEN_LGSP.LGSPGraph)graph, matches.First);
+                _rulePattern.Modify((GRGEN_LGSP.LGSPGraph)graph, matches.First);
                 matches = DynamicMatch((GRGEN_LGSP.LGSPGraph)graph, 1, doAntWorld_node_firstAnt);
             }
             while(matches.Count > 0) ;
@@ -10015,8 +9429,7 @@ label1: ;
             {
                 matches = DynamicMatch((GRGEN_LGSP.LGSPGraph)graph, 1, doAntWorld_node_firstAnt);
                 if(matches.Count <= 0) return i >= min;
-                if(!graph.TransactionManager.TransactionActive && graph.ReuseOptimization) _rulePattern.Modify((GRGEN_LGSP.LGSPGraph)graph, matches.First);
-                else _rulePattern.ModifyNoReuse((GRGEN_LGSP.LGSPGraph)graph, matches.First);
+                _rulePattern.Modify((GRGEN_LGSP.LGSPGraph)graph, matches.First);
             }
             return true;
         }

@@ -1,6 +1,6 @@
 // This file has been generated automatically by GrGen (www.grgen.net)
 // Do not modify this file! Any changes will be lost!
-// Generated from "..\..\tests\antWorld\AntWorld_ExtendAtEndOfRound_NoGammel.grg" on Sat Mar 27 15:04:20 CET 2010
+// Generated from "..\..\tests\antWorld\AntWorld_ExtendAtEndOfRound_NoGammel.grg" on Mon Jan 03 00:10:19 CET 2011
 
 using System;
 using System.Collections.Generic;
@@ -120,6 +120,8 @@ namespace de.unika.ipd.grGen.Model_AntWorld_NoGammel
 		}
 		public override bool IsAbstract { get { return false; } }
 		public override bool IsConst { get { return false; } }
+		public override IEnumerable<KeyValuePair<string, string>> Annotations { get { return annotations; } }
+		public IDictionary<string, string> annotations = new Dictionary<string, string>();
 		public override int NumAttributes { get { return 0; } }
 		public override IEnumerable<GRGEN_LIBGR.AttributeType> AttributeTypes { get { yield break; } }
 		public override GRGEN_LIBGR.AttributeType GetAttributeType(string name) { return null; }
@@ -164,8 +166,8 @@ namespace de.unika.ipd.grGen.Model_AntWorld_NoGammel
 
 		private @GridNode(GRGEN_MODEL.@GridNode oldElem) : base(GRGEN_MODEL.NodeType_GridNode.typeVar)
 		{
-			_food = oldElem._food;
-			_pheromones = oldElem._pheromones;
+			food\u0303 = oldElem.food\u0303;
+			pheromones\u0303 = oldElem.pheromones\u0303;
 		}
 		public static GRGEN_MODEL.@GridNode CreateNode(GRGEN_LGSP.LGSPGraph graph)
 		{
@@ -214,18 +216,18 @@ namespace de.unika.ipd.grGen.Model_AntWorld_NoGammel
 		}
 
 
-		private int _food;
+		private int food\u0303;
 		public int @food
 		{
-			get { return _food; }
-			set { _food = value; }
+			get { return food\u0303; }
+			set { food\u0303 = value; }
 		}
 
-		private int _pheromones;
+		private int pheromones\u0303;
 		public int @pheromones
 		{
-			get { return _pheromones; }
-			set { _pheromones = value; }
+			get { return pheromones\u0303; }
+			set { pheromones\u0303 = value; }
 		}
 		public override object GetAttribute(string attrName)
 		{
@@ -277,6 +279,8 @@ namespace de.unika.ipd.grGen.Model_AntWorld_NoGammel
 		}
 		public override bool IsAbstract { get { return false; } }
 		public override bool IsConst { get { return false; } }
+		public override IEnumerable<KeyValuePair<string, string>> Annotations { get { return annotations; } }
+		public IDictionary<string, string> annotations = new Dictionary<string, string>();
 		public override int NumAttributes { get { return 2; } }
 		public override IEnumerable<GRGEN_LIBGR.AttributeType> AttributeTypes
 		{
@@ -352,8 +356,8 @@ namespace de.unika.ipd.grGen.Model_AntWorld_NoGammel
 
 		private @GridCornerNode(GRGEN_MODEL.@GridCornerNode oldElem) : base(GRGEN_MODEL.NodeType_GridCornerNode.typeVar)
 		{
-			_food = oldElem._food;
-			_pheromones = oldElem._pheromones;
+			food\u0303 = oldElem.food\u0303;
+			pheromones\u0303 = oldElem.pheromones\u0303;
 		}
 		public static GRGEN_MODEL.@GridCornerNode CreateNode(GRGEN_LGSP.LGSPGraph graph)
 		{
@@ -404,18 +408,18 @@ namespace de.unika.ipd.grGen.Model_AntWorld_NoGammel
 		}
 
 
-		private int _food;
+		private int food\u0303;
 		public int @food
 		{
-			get { return _food; }
-			set { _food = value; }
+			get { return food\u0303; }
+			set { food\u0303 = value; }
 		}
 
-		private int _pheromones;
+		private int pheromones\u0303;
 		public int @pheromones
 		{
-			get { return _pheromones; }
-			set { _pheromones = value; }
+			get { return pheromones\u0303; }
+			set { pheromones\u0303 = value; }
 		}
 		public override object GetAttribute(string attrName)
 		{
@@ -464,6 +468,8 @@ namespace de.unika.ipd.grGen.Model_AntWorld_NoGammel
 		}
 		public override bool IsAbstract { get { return false; } }
 		public override bool IsConst { get { return false; } }
+		public override IEnumerable<KeyValuePair<string, string>> Annotations { get { return annotations; } }
+		public IDictionary<string, string> annotations = new Dictionary<string, string>();
 		public override int NumAttributes { get { return 2; } }
 		public override IEnumerable<GRGEN_LIBGR.AttributeType> AttributeTypes
 		{
@@ -548,9 +554,9 @@ namespace de.unika.ipd.grGen.Model_AntWorld_NoGammel
 
 		private @AntHill(GRGEN_MODEL.@AntHill oldElem) : base(GRGEN_MODEL.NodeType_AntHill.typeVar)
 		{
-			_food = oldElem._food;
-			_pheromones = oldElem._pheromones;
-			_foodCountdown = oldElem._foodCountdown;
+			food\u0303 = oldElem.food\u0303;
+			pheromones\u0303 = oldElem.pheromones\u0303;
+			foodCountdown\u0303 = oldElem.foodCountdown\u0303;
 		}
 		public static GRGEN_MODEL.@AntHill CreateNode(GRGEN_LGSP.LGSPGraph graph)
 		{
@@ -605,25 +611,25 @@ namespace de.unika.ipd.grGen.Model_AntWorld_NoGammel
 		}
 
 
-		private int _food;
+		private int food\u0303;
 		public int @food
 		{
-			get { return _food; }
-			set { _food = value; }
+			get { return food\u0303; }
+			set { food\u0303 = value; }
 		}
 
-		private int _pheromones;
+		private int pheromones\u0303;
 		public int @pheromones
 		{
-			get { return _pheromones; }
-			set { _pheromones = value; }
+			get { return pheromones\u0303; }
+			set { pheromones\u0303 = value; }
 		}
 
-		private int _foodCountdown;
+		private int foodCountdown\u0303;
 		public int @foodCountdown
 		{
-			get { return _foodCountdown; }
-			set { _foodCountdown = value; }
+			get { return foodCountdown\u0303; }
+			set { foodCountdown\u0303 = value; }
 		}
 		public override object GetAttribute(string attrName)
 		{
@@ -678,6 +684,8 @@ namespace de.unika.ipd.grGen.Model_AntWorld_NoGammel
 		}
 		public override bool IsAbstract { get { return false; } }
 		public override bool IsConst { get { return false; } }
+		public override IEnumerable<KeyValuePair<string, string>> Annotations { get { return annotations; } }
+		public IDictionary<string, string> annotations = new Dictionary<string, string>();
 		public override int NumAttributes { get { return 3; } }
 		public override IEnumerable<GRGEN_LIBGR.AttributeType> AttributeTypes
 		{
@@ -761,7 +769,7 @@ namespace de.unika.ipd.grGen.Model_AntWorld_NoGammel
 
 		private @Ant(GRGEN_MODEL.@Ant oldElem) : base(GRGEN_MODEL.NodeType_Ant.typeVar)
 		{
-			_hasFood = oldElem._hasFood;
+			hasFood\u0303 = oldElem.hasFood\u0303;
 		}
 		public static GRGEN_MODEL.@Ant CreateNode(GRGEN_LGSP.LGSPGraph graph)
 		{
@@ -808,11 +816,11 @@ namespace de.unika.ipd.grGen.Model_AntWorld_NoGammel
 		}
 
 
-		private bool _hasFood;
+		private bool hasFood\u0303;
 		public bool @hasFood
 		{
-			get { return _hasFood; }
-			set { _hasFood = value; }
+			get { return hasFood\u0303; }
+			set { hasFood\u0303 = value; }
 		}
 		public override object GetAttribute(string attrName)
 		{
@@ -859,6 +867,8 @@ namespace de.unika.ipd.grGen.Model_AntWorld_NoGammel
 		}
 		public override bool IsAbstract { get { return false; } }
 		public override bool IsConst { get { return false; } }
+		public override IEnumerable<KeyValuePair<string, string>> Annotations { get { return annotations; } }
+		public IDictionary<string, string> annotations = new Dictionary<string, string>();
 		public override int NumAttributes { get { return 1; } }
 		public override IEnumerable<GRGEN_LIBGR.AttributeType> AttributeTypes
 		{
@@ -1049,6 +1059,8 @@ namespace de.unika.ipd.grGen.Model_AntWorld_NoGammel
 		}
 		public override bool IsAbstract { get { return true; } }
 		public override bool IsConst { get { return false; } }
+		public override IEnumerable<KeyValuePair<string, string>> Annotations { get { return annotations; } }
+		public IDictionary<string, string> annotations = new Dictionary<string, string>();
 		public override int NumAttributes { get { return 0; } }
 		public override IEnumerable<GRGEN_LIBGR.AttributeType> AttributeTypes { get { yield break; } }
 		public override GRGEN_LIBGR.AttributeType GetAttributeType(string name) { return null; }
@@ -1162,6 +1174,8 @@ namespace de.unika.ipd.grGen.Model_AntWorld_NoGammel
 		}
 		public override bool IsAbstract { get { return false; } }
 		public override bool IsConst { get { return false; } }
+		public override IEnumerable<KeyValuePair<string, string>> Annotations { get { return annotations; } }
+		public IDictionary<string, string> annotations = new Dictionary<string, string>();
 		public override int NumAttributes { get { return 0; } }
 		public override IEnumerable<GRGEN_LIBGR.AttributeType> AttributeTypes { get { yield break; } }
 		public override GRGEN_LIBGR.AttributeType GetAttributeType(string name) { return null; }
@@ -1276,6 +1290,8 @@ namespace de.unika.ipd.grGen.Model_AntWorld_NoGammel
 		}
 		public override bool IsAbstract { get { return false; } }
 		public override bool IsConst { get { return false; } }
+		public override IEnumerable<KeyValuePair<string, string>> Annotations { get { return annotations; } }
+		public IDictionary<string, string> annotations = new Dictionary<string, string>();
 		public override int NumAttributes { get { return 0; } }
 		public override IEnumerable<GRGEN_LIBGR.AttributeType> AttributeTypes { get { yield break; } }
 		public override GRGEN_LIBGR.AttributeType GetAttributeType(string name) { return null; }
@@ -1399,6 +1415,8 @@ namespace de.unika.ipd.grGen.Model_AntWorld_NoGammel
 		}
 		public override bool IsAbstract { get { return false; } }
 		public override bool IsConst { get { return false; } }
+		public override IEnumerable<KeyValuePair<string, string>> Annotations { get { return annotations; } }
+		public IDictionary<string, string> annotations = new Dictionary<string, string>();
 		public override int NumAttributes { get { return 0; } }
 		public override IEnumerable<GRGEN_LIBGR.AttributeType> AttributeTypes { get { yield break; } }
 		public override GRGEN_LIBGR.AttributeType GetAttributeType(string name) { return null; }
@@ -1528,6 +1546,8 @@ namespace de.unika.ipd.grGen.Model_AntWorld_NoGammel
 		}
 		public override bool IsAbstract { get { return false; } }
 		public override bool IsConst { get { return false; } }
+		public override IEnumerable<KeyValuePair<string, string>> Annotations { get { return annotations; } }
+		public IDictionary<string, string> annotations = new Dictionary<string, string>();
 		public override int NumAttributes { get { return 0; } }
 		public override IEnumerable<GRGEN_LIBGR.AttributeType> AttributeTypes { get { yield break; } }
 		public override GRGEN_LIBGR.AttributeType GetAttributeType(string name) { return null; }
@@ -1651,6 +1671,8 @@ namespace de.unika.ipd.grGen.Model_AntWorld_NoGammel
 		}
 		public override bool IsAbstract { get { return false; } }
 		public override bool IsConst { get { return false; } }
+		public override IEnumerable<KeyValuePair<string, string>> Annotations { get { return annotations; } }
+		public IDictionary<string, string> annotations = new Dictionary<string, string>();
 		public override int NumAttributes { get { return 0; } }
 		public override IEnumerable<GRGEN_LIBGR.AttributeType> AttributeTypes { get { yield break; } }
 		public override GRGEN_LIBGR.AttributeType GetAttributeType(string name) { return null; }
@@ -1774,6 +1796,8 @@ namespace de.unika.ipd.grGen.Model_AntWorld_NoGammel
 		}
 		public override bool IsAbstract { get { return false; } }
 		public override bool IsConst { get { return false; } }
+		public override IEnumerable<KeyValuePair<string, string>> Annotations { get { return annotations; } }
+		public IDictionary<string, string> annotations = new Dictionary<string, string>();
 		public override int NumAttributes { get { return 0; } }
 		public override IEnumerable<GRGEN_LIBGR.AttributeType> AttributeTypes { get { yield break; } }
 		public override GRGEN_LIBGR.AttributeType GetAttributeType(string name) { return null; }
@@ -1951,7 +1975,6 @@ namespace de.unika.ipd.grGen.Model_AntWorld_NoGammel
 	//
 	// IGraphModel implementation
 	//
-
 	public sealed class AntWorld_NoGammelGraphModel : GRGEN_LIBGR.IGraphModel
 	{
 		private AntWorld_NoGammelNodeModel nodeModel = new AntWorld_NoGammelNodeModel();
@@ -1969,13 +1992,13 @@ namespace de.unika.ipd.grGen.Model_AntWorld_NoGammel
 		public IEnumerable<GRGEN_LIBGR.EnumAttributeType> EnumAttributeTypes { get { return enumAttributeTypes; } }
 		public string MD5Hash { get { return "5efeccfb37eb4c2835fae110fe22d2e7"; } }
 	}
+
 	//
 	// IGraph/IGraphModel implementation
 	//
-
-	public class AntWorld_NoGammel : GRGEN_LGSP.LGSPGraph, GRGEN_LIBGR.IGraphModel
+	public class AntWorld_NoGammelGraph : GRGEN_LGSP.LGSPGraph, GRGEN_LIBGR.IGraphModel
 	{
-		public AntWorld_NoGammel() : base(GetNextGraphName())
+		public AntWorld_NoGammelGraph() : base(GetNextGraphName())
 		{
 			InitializeGraph(this);
 		}

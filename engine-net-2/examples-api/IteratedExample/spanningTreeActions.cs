@@ -1,6 +1,6 @@
 // This file has been generated automatically by GrGen (www.grgen.net)
 // Do not modify this file! Any changes will be lost!
-// Generated from "..\..\tests\iterated\spanningTree.grg" on Sun Oct 10 18:44:15 CEST 2010
+// Generated from "..\..\tests\iterated\spanningTree.grg" on Mon Jan 03 00:10:35 CET 2011
 
 using System;
 using System.Collections.Generic;
@@ -69,7 +69,7 @@ namespace de.unika.ipd.grGen.Action_spanningTree
 			int[] SpanningTree_maxMatches = new int[1] {
 				0, 
 			};
-			GRGEN_LGSP.PatternNode SpanningTree_node_root = new GRGEN_LGSP.PatternNode((int) GRGEN_MODEL.NodeTypes.@Node, "GRGEN_LIBGR.INode", "SpanningTree_node_root", "root", SpanningTree_node_root_AllowedTypes, SpanningTree_node_root_IsAllowedType, 5.5F, 0, false);
+			GRGEN_LGSP.PatternNode SpanningTree_node_root = new GRGEN_LGSP.PatternNode((int) GRGEN_MODEL.NodeTypes.@Node, "GRGEN_LIBGR.INode", "SpanningTree_node_root", "root", SpanningTree_node_root_AllowedTypes, SpanningTree_node_root_IsAllowedType, 5.5F, 0, false, null, null);
 			bool[,] SpanningTree_iter_0_isNodeHomomorphicGlobal = new bool[2, 2] {
 				{ false, false, },
 				{ false, false, },
@@ -79,8 +79,8 @@ namespace de.unika.ipd.grGen.Action_spanningTree
 			};
 			int[] SpanningTree_iter_0_minMatches = new int[0] ;
 			int[] SpanningTree_iter_0_maxMatches = new int[0] ;
-			GRGEN_LGSP.PatternNode SpanningTree_iter_0_node_next = new GRGEN_LGSP.PatternNode((int) GRGEN_MODEL.NodeTypes.@Node, "GRGEN_LIBGR.INode", "SpanningTree_iter_0_node_next", "next", SpanningTree_iter_0_node_next_AllowedTypes, SpanningTree_iter_0_node_next_IsAllowedType, 5.5F, -1, false);
-			GRGEN_LGSP.PatternEdge SpanningTree_iter_0_edge_e = new GRGEN_LGSP.PatternEdge(false, (int) GRGEN_MODEL.EdgeTypes.@UEdge, "GRGEN_LIBGR.IEdge", "SpanningTree_iter_0_edge_e", "e", SpanningTree_iter_0_edge_e_AllowedTypes, SpanningTree_iter_0_edge_e_IsAllowedType, 5.5F, -1, false);
+			GRGEN_LGSP.PatternNode SpanningTree_iter_0_node_next = new GRGEN_LGSP.PatternNode((int) GRGEN_MODEL.NodeTypes.@Node, "GRGEN_LIBGR.INode", "SpanningTree_iter_0_node_next", "next", SpanningTree_iter_0_node_next_AllowedTypes, SpanningTree_iter_0_node_next_IsAllowedType, 5.5F, -1, false, null, null);
+			GRGEN_LGSP.PatternEdge SpanningTree_iter_0_edge_e = new GRGEN_LGSP.PatternEdge(false, (int) GRGEN_MODEL.EdgeTypes.@UEdge, "GRGEN_LIBGR.IEdge", "SpanningTree_iter_0_edge_e", "e", SpanningTree_iter_0_edge_e_AllowedTypes, SpanningTree_iter_0_edge_e_IsAllowedType, 5.5F, -1, false, null, null);
 			GRGEN_LGSP.PatternGraphEmbedding SpanningTree_iter_0_sptr = new GRGEN_LGSP.PatternGraphEmbedding("sptr", Pattern_SpanningTree.Instance, 
 				new GRGEN_EXPR.Expression[] {
 					new GRGEN_EXPR.GraphEntityExpression("SpanningTree_iter_0_node_next"),
@@ -501,7 +501,7 @@ namespace de.unika.ipd.grGen.Action_spanningTree
 			int[] SpanningTreeReverse_maxMatches = new int[1] {
 				0, 
 			};
-			GRGEN_LGSP.PatternNode SpanningTreeReverse_node_root = new GRGEN_LGSP.PatternNode((int) GRGEN_MODEL.NodeTypes.@Node, "GRGEN_LIBGR.INode", "SpanningTreeReverse_node_root", "root", SpanningTreeReverse_node_root_AllowedTypes, SpanningTreeReverse_node_root_IsAllowedType, 5.5F, 0, false);
+			GRGEN_LGSP.PatternNode SpanningTreeReverse_node_root = new GRGEN_LGSP.PatternNode((int) GRGEN_MODEL.NodeTypes.@Node, "GRGEN_LIBGR.INode", "SpanningTreeReverse_node_root", "root", SpanningTreeReverse_node_root_AllowedTypes, SpanningTreeReverse_node_root_IsAllowedType, 5.5F, 0, false, null, null);
 			bool[,] SpanningTreeReverse_iter_0_isNodeHomomorphicGlobal = new bool[2, 2] {
 				{ false, false, },
 				{ false, false, },
@@ -511,8 +511,8 @@ namespace de.unika.ipd.grGen.Action_spanningTree
 			};
 			int[] SpanningTreeReverse_iter_0_minMatches = new int[0] ;
 			int[] SpanningTreeReverse_iter_0_maxMatches = new int[0] ;
-			GRGEN_LGSP.PatternNode SpanningTreeReverse_iter_0_node_next = new GRGEN_LGSP.PatternNode((int) GRGEN_MODEL.NodeTypes.@Node, "GRGEN_LIBGR.INode", "SpanningTreeReverse_iter_0_node_next", "next", SpanningTreeReverse_iter_0_node_next_AllowedTypes, SpanningTreeReverse_iter_0_node_next_IsAllowedType, 5.5F, -1, false);
-			GRGEN_LGSP.PatternEdge SpanningTreeReverse_iter_0_edge__edge0 = new GRGEN_LGSP.PatternEdge(true, (int) GRGEN_MODEL.EdgeTypes.@Edge, "GRGEN_LIBGR.IEdge", "SpanningTreeReverse_iter_0_edge__edge0", "_edge0", SpanningTreeReverse_iter_0_edge__edge0_AllowedTypes, SpanningTreeReverse_iter_0_edge__edge0_IsAllowedType, 5.5F, -1, false);
+			GRGEN_LGSP.PatternNode SpanningTreeReverse_iter_0_node_next = new GRGEN_LGSP.PatternNode((int) GRGEN_MODEL.NodeTypes.@Node, "GRGEN_LIBGR.INode", "SpanningTreeReverse_iter_0_node_next", "next", SpanningTreeReverse_iter_0_node_next_AllowedTypes, SpanningTreeReverse_iter_0_node_next_IsAllowedType, 5.5F, -1, false, null, null);
+			GRGEN_LGSP.PatternEdge SpanningTreeReverse_iter_0_edge__edge0 = new GRGEN_LGSP.PatternEdge(true, (int) GRGEN_MODEL.EdgeTypes.@Edge, "GRGEN_LIBGR.IEdge", "SpanningTreeReverse_iter_0_edge__edge0", "_edge0", SpanningTreeReverse_iter_0_edge__edge0_AllowedTypes, SpanningTreeReverse_iter_0_edge__edge0_IsAllowedType, 5.5F, -1, false, null, null);
 			GRGEN_LGSP.PatternGraphEmbedding SpanningTreeReverse_iter_0_sptrr = new GRGEN_LGSP.PatternGraphEmbedding("sptrr", Pattern_SpanningTreeReverse.Instance, 
 				new GRGEN_EXPR.Expression[] {
 					new GRGEN_EXPR.GraphEntityExpression("SpanningTreeReverse_iter_0_node_next"),
@@ -903,7 +903,7 @@ namespace de.unika.ipd.grGen.Action_spanningTree
 		public enum SpanningTreeOutgoing_iter_0_NodeNums { @root, @next, };
 		public enum SpanningTreeOutgoing_iter_0_EdgeNums { @_edge0, };
 		public enum SpanningTreeOutgoing_iter_0_VariableNums { };
-		public enum SpanningTreeOutgoing_iter_0_SubNums { @_subpattern0, };
+		public enum SpanningTreeOutgoing_iter_0_SubNums { @_sub0, };
 		public enum SpanningTreeOutgoing_iter_0_AltNums { };
 		public enum SpanningTreeOutgoing_iter_0_IterNums { };
 
@@ -932,7 +932,7 @@ namespace de.unika.ipd.grGen.Action_spanningTree
 			int[] SpanningTreeOutgoing_maxMatches = new int[1] {
 				0, 
 			};
-			GRGEN_LGSP.PatternNode SpanningTreeOutgoing_node_root = new GRGEN_LGSP.PatternNode((int) GRGEN_MODEL.NodeTypes.@Node, "GRGEN_LIBGR.INode", "SpanningTreeOutgoing_node_root", "root", SpanningTreeOutgoing_node_root_AllowedTypes, SpanningTreeOutgoing_node_root_IsAllowedType, 5.5F, 0, false);
+			GRGEN_LGSP.PatternNode SpanningTreeOutgoing_node_root = new GRGEN_LGSP.PatternNode((int) GRGEN_MODEL.NodeTypes.@Node, "GRGEN_LIBGR.INode", "SpanningTreeOutgoing_node_root", "root", SpanningTreeOutgoing_node_root_AllowedTypes, SpanningTreeOutgoing_node_root_IsAllowedType, 5.5F, 0, false, null, null);
 			bool[,] SpanningTreeOutgoing_iter_0_isNodeHomomorphicGlobal = new bool[2, 2] {
 				{ false, false, },
 				{ false, false, },
@@ -942,9 +942,9 @@ namespace de.unika.ipd.grGen.Action_spanningTree
 			};
 			int[] SpanningTreeOutgoing_iter_0_minMatches = new int[0] ;
 			int[] SpanningTreeOutgoing_iter_0_maxMatches = new int[0] ;
-			GRGEN_LGSP.PatternNode SpanningTreeOutgoing_iter_0_node_next = new GRGEN_LGSP.PatternNode((int) GRGEN_MODEL.NodeTypes.@Node, "GRGEN_LIBGR.INode", "SpanningTreeOutgoing_iter_0_node_next", "next", SpanningTreeOutgoing_iter_0_node_next_AllowedTypes, SpanningTreeOutgoing_iter_0_node_next_IsAllowedType, 5.5F, -1, false);
-			GRGEN_LGSP.PatternEdge SpanningTreeOutgoing_iter_0_edge__edge0 = new GRGEN_LGSP.PatternEdge(true, (int) GRGEN_MODEL.EdgeTypes.@Edge, "GRGEN_LIBGR.IEdge", "SpanningTreeOutgoing_iter_0_edge__edge0", "_edge0", SpanningTreeOutgoing_iter_0_edge__edge0_AllowedTypes, SpanningTreeOutgoing_iter_0_edge__edge0_IsAllowedType, 5.5F, -1, false);
-			GRGEN_LGSP.PatternGraphEmbedding SpanningTreeOutgoing_iter_0__subpattern0 = new GRGEN_LGSP.PatternGraphEmbedding("_subpattern0", Pattern_SpanningTreeOutgoing.Instance, 
+			GRGEN_LGSP.PatternNode SpanningTreeOutgoing_iter_0_node_next = new GRGEN_LGSP.PatternNode((int) GRGEN_MODEL.NodeTypes.@Node, "GRGEN_LIBGR.INode", "SpanningTreeOutgoing_iter_0_node_next", "next", SpanningTreeOutgoing_iter_0_node_next_AllowedTypes, SpanningTreeOutgoing_iter_0_node_next_IsAllowedType, 5.5F, -1, false, null, null);
+			GRGEN_LGSP.PatternEdge SpanningTreeOutgoing_iter_0_edge__edge0 = new GRGEN_LGSP.PatternEdge(true, (int) GRGEN_MODEL.EdgeTypes.@Edge, "GRGEN_LIBGR.IEdge", "SpanningTreeOutgoing_iter_0_edge__edge0", "_edge0", SpanningTreeOutgoing_iter_0_edge__edge0_AllowedTypes, SpanningTreeOutgoing_iter_0_edge__edge0_IsAllowedType, 5.5F, -1, false, null, null);
+			GRGEN_LGSP.PatternGraphEmbedding SpanningTreeOutgoing_iter_0__sub0 = new GRGEN_LGSP.PatternGraphEmbedding("_sub0", Pattern_SpanningTreeOutgoing.Instance, 
 				new GRGEN_EXPR.Expression[] {
 					new GRGEN_EXPR.GraphEntityExpression("SpanningTreeOutgoing_iter_0_node_next"),
 				}, 
@@ -956,7 +956,7 @@ namespace de.unika.ipd.grGen.Action_spanningTree
 				new GRGEN_LGSP.PatternNode[] { SpanningTreeOutgoing_node_root, SpanningTreeOutgoing_iter_0_node_next }, 
 				new GRGEN_LGSP.PatternEdge[] { SpanningTreeOutgoing_iter_0_edge__edge0 }, 
 				new GRGEN_LGSP.PatternVariable[] {  }, 
-				new GRGEN_LGSP.PatternGraphEmbedding[] { SpanningTreeOutgoing_iter_0__subpattern0 }, 
+				new GRGEN_LGSP.PatternGraphEmbedding[] { SpanningTreeOutgoing_iter_0__sub0 }, 
 				new GRGEN_LGSP.Alternative[] {  }, 
 				new GRGEN_LGSP.PatternGraph[] {  }, 
 				SpanningTreeOutgoing_iter_0_minMatches,
@@ -1004,7 +1004,7 @@ namespace de.unika.ipd.grGen.Action_spanningTree
 			SpanningTreeOutgoing_node_root.pointOfDefinition = null;
 			SpanningTreeOutgoing_iter_0_node_next.pointOfDefinition = SpanningTreeOutgoing_iter_0;
 			SpanningTreeOutgoing_iter_0_edge__edge0.pointOfDefinition = SpanningTreeOutgoing_iter_0;
-			SpanningTreeOutgoing_iter_0__subpattern0.PointOfDefinition = SpanningTreeOutgoing_iter_0;
+			SpanningTreeOutgoing_iter_0__sub0.PointOfDefinition = SpanningTreeOutgoing_iter_0;
 
 			patternGraph = pat_SpanningTreeOutgoing;
 		}
@@ -1036,13 +1036,13 @@ namespace de.unika.ipd.grGen.Action_spanningTree
 			GRGEN_LGSP.LGSPNode node_root = curMatch._node_root;
 			GRGEN_LGSP.LGSPNode node_next = curMatch._node_next;
 			GRGEN_LGSP.LGSPEdge edge__edge0 = curMatch._edge__edge0;
-			Pattern_SpanningTreeOutgoing.Match_SpanningTreeOutgoing subpattern__subpattern0 = curMatch.@__subpattern0;
+			Pattern_SpanningTreeOutgoing.Match_SpanningTreeOutgoing subpattern__sub0 = curMatch.@__sub0;
 			graph.Remove(edge__edge0);
 			graph.RemoveEdges(node_root);
 			graph.Remove(node_root);
 			graph.RemoveEdges(node_next);
 			graph.Remove(node_next);
-			Pattern_SpanningTreeOutgoing.Instance.SpanningTreeOutgoing_Delete(graph, subpattern__subpattern0);
+			Pattern_SpanningTreeOutgoing.Instance.SpanningTreeOutgoing_Delete(graph, subpattern__sub0);
 		}
 
 		static Pattern_SpanningTreeOutgoing() {
@@ -1072,7 +1072,7 @@ namespace de.unika.ipd.grGen.Action_spanningTree
 			GRGEN_LIBGR.IEdge edge__edge0 { get; }
 			//Variables
 			//EmbeddedGraphs
-			@Pattern_SpanningTreeOutgoing.Match_SpanningTreeOutgoing @_subpattern0 { get; }
+			@Pattern_SpanningTreeOutgoing.Match_SpanningTreeOutgoing @_sub0 { get; }
 			//Alternatives
 			//Iterateds
 			//Independents
@@ -1217,16 +1217,16 @@ namespace de.unika.ipd.grGen.Action_spanningTree
 				}
 			}
 			
-			public @Pattern_SpanningTreeOutgoing.Match_SpanningTreeOutgoing @_subpattern0 { get { return @__subpattern0; } }
-			public @Pattern_SpanningTreeOutgoing.Match_SpanningTreeOutgoing @__subpattern0;
-			public enum SpanningTreeOutgoing_iter_0_SubNums { @_subpattern0, END_OF_ENUM };
+			public @Pattern_SpanningTreeOutgoing.Match_SpanningTreeOutgoing @_sub0 { get { return @__sub0; } }
+			public @Pattern_SpanningTreeOutgoing.Match_SpanningTreeOutgoing @__sub0;
+			public enum SpanningTreeOutgoing_iter_0_SubNums { @_sub0, END_OF_ENUM };
 			public IEnumerable<GRGEN_LIBGR.IMatch> EmbeddedGraphs { get { return new GRGEN_LGSP.EmbeddedGraphs_Enumerable(this); } }
 			public IEnumerator<GRGEN_LIBGR.IMatch> EmbeddedGraphsEnumerator { get { return new GRGEN_LGSP.EmbeddedGraphs_Enumerator(this); } }
 			public int NumberOfEmbeddedGraphs { get { return 1;} }
 			public GRGEN_LIBGR.IMatch getEmbeddedGraphAt(int index)
 			{
 				switch(index) {
-				case (int)SpanningTreeOutgoing_iter_0_SubNums.@_subpattern0: return __subpattern0;
+				case (int)SpanningTreeOutgoing_iter_0_SubNums.@_sub0: return __sub0;
 				default: return null;
 				}
 			}
@@ -1300,7 +1300,7 @@ namespace de.unika.ipd.grGen.Action_spanningTree
 		public enum SpanningTreeIncoming_iter_0_NodeNums { @next, @root, };
 		public enum SpanningTreeIncoming_iter_0_EdgeNums { @_edge0, };
 		public enum SpanningTreeIncoming_iter_0_VariableNums { };
-		public enum SpanningTreeIncoming_iter_0_SubNums { @_subpattern0, };
+		public enum SpanningTreeIncoming_iter_0_SubNums { @_sub0, };
 		public enum SpanningTreeIncoming_iter_0_AltNums { };
 		public enum SpanningTreeIncoming_iter_0_IterNums { };
 
@@ -1329,7 +1329,7 @@ namespace de.unika.ipd.grGen.Action_spanningTree
 			int[] SpanningTreeIncoming_maxMatches = new int[1] {
 				0, 
 			};
-			GRGEN_LGSP.PatternNode SpanningTreeIncoming_node_root = new GRGEN_LGSP.PatternNode((int) GRGEN_MODEL.NodeTypes.@Node, "GRGEN_LIBGR.INode", "SpanningTreeIncoming_node_root", "root", SpanningTreeIncoming_node_root_AllowedTypes, SpanningTreeIncoming_node_root_IsAllowedType, 5.5F, 0, false);
+			GRGEN_LGSP.PatternNode SpanningTreeIncoming_node_root = new GRGEN_LGSP.PatternNode((int) GRGEN_MODEL.NodeTypes.@Node, "GRGEN_LIBGR.INode", "SpanningTreeIncoming_node_root", "root", SpanningTreeIncoming_node_root_AllowedTypes, SpanningTreeIncoming_node_root_IsAllowedType, 5.5F, 0, false, null, null);
 			bool[,] SpanningTreeIncoming_iter_0_isNodeHomomorphicGlobal = new bool[2, 2] {
 				{ false, false, },
 				{ false, false, },
@@ -1339,9 +1339,9 @@ namespace de.unika.ipd.grGen.Action_spanningTree
 			};
 			int[] SpanningTreeIncoming_iter_0_minMatches = new int[0] ;
 			int[] SpanningTreeIncoming_iter_0_maxMatches = new int[0] ;
-			GRGEN_LGSP.PatternNode SpanningTreeIncoming_iter_0_node_next = new GRGEN_LGSP.PatternNode((int) GRGEN_MODEL.NodeTypes.@Node, "GRGEN_LIBGR.INode", "SpanningTreeIncoming_iter_0_node_next", "next", SpanningTreeIncoming_iter_0_node_next_AllowedTypes, SpanningTreeIncoming_iter_0_node_next_IsAllowedType, 5.5F, -1, false);
-			GRGEN_LGSP.PatternEdge SpanningTreeIncoming_iter_0_edge__edge0 = new GRGEN_LGSP.PatternEdge(true, (int) GRGEN_MODEL.EdgeTypes.@Edge, "GRGEN_LIBGR.IEdge", "SpanningTreeIncoming_iter_0_edge__edge0", "_edge0", SpanningTreeIncoming_iter_0_edge__edge0_AllowedTypes, SpanningTreeIncoming_iter_0_edge__edge0_IsAllowedType, 5.5F, -1, false);
-			GRGEN_LGSP.PatternGraphEmbedding SpanningTreeIncoming_iter_0__subpattern0 = new GRGEN_LGSP.PatternGraphEmbedding("_subpattern0", Pattern_SpanningTreeIncoming.Instance, 
+			GRGEN_LGSP.PatternNode SpanningTreeIncoming_iter_0_node_next = new GRGEN_LGSP.PatternNode((int) GRGEN_MODEL.NodeTypes.@Node, "GRGEN_LIBGR.INode", "SpanningTreeIncoming_iter_0_node_next", "next", SpanningTreeIncoming_iter_0_node_next_AllowedTypes, SpanningTreeIncoming_iter_0_node_next_IsAllowedType, 5.5F, -1, false, null, null);
+			GRGEN_LGSP.PatternEdge SpanningTreeIncoming_iter_0_edge__edge0 = new GRGEN_LGSP.PatternEdge(true, (int) GRGEN_MODEL.EdgeTypes.@Edge, "GRGEN_LIBGR.IEdge", "SpanningTreeIncoming_iter_0_edge__edge0", "_edge0", SpanningTreeIncoming_iter_0_edge__edge0_AllowedTypes, SpanningTreeIncoming_iter_0_edge__edge0_IsAllowedType, 5.5F, -1, false, null, null);
+			GRGEN_LGSP.PatternGraphEmbedding SpanningTreeIncoming_iter_0__sub0 = new GRGEN_LGSP.PatternGraphEmbedding("_sub0", Pattern_SpanningTreeIncoming.Instance, 
 				new GRGEN_EXPR.Expression[] {
 					new GRGEN_EXPR.GraphEntityExpression("SpanningTreeIncoming_iter_0_node_next"),
 				}, 
@@ -1353,7 +1353,7 @@ namespace de.unika.ipd.grGen.Action_spanningTree
 				new GRGEN_LGSP.PatternNode[] { SpanningTreeIncoming_iter_0_node_next, SpanningTreeIncoming_node_root }, 
 				new GRGEN_LGSP.PatternEdge[] { SpanningTreeIncoming_iter_0_edge__edge0 }, 
 				new GRGEN_LGSP.PatternVariable[] {  }, 
-				new GRGEN_LGSP.PatternGraphEmbedding[] { SpanningTreeIncoming_iter_0__subpattern0 }, 
+				new GRGEN_LGSP.PatternGraphEmbedding[] { SpanningTreeIncoming_iter_0__sub0 }, 
 				new GRGEN_LGSP.Alternative[] {  }, 
 				new GRGEN_LGSP.PatternGraph[] {  }, 
 				SpanningTreeIncoming_iter_0_minMatches,
@@ -1401,7 +1401,7 @@ namespace de.unika.ipd.grGen.Action_spanningTree
 			SpanningTreeIncoming_node_root.pointOfDefinition = null;
 			SpanningTreeIncoming_iter_0_node_next.pointOfDefinition = SpanningTreeIncoming_iter_0;
 			SpanningTreeIncoming_iter_0_edge__edge0.pointOfDefinition = SpanningTreeIncoming_iter_0;
-			SpanningTreeIncoming_iter_0__subpattern0.PointOfDefinition = SpanningTreeIncoming_iter_0;
+			SpanningTreeIncoming_iter_0__sub0.PointOfDefinition = SpanningTreeIncoming_iter_0;
 
 			patternGraph = pat_SpanningTreeIncoming;
 		}
@@ -1433,13 +1433,13 @@ namespace de.unika.ipd.grGen.Action_spanningTree
 			GRGEN_LGSP.LGSPNode node_next = curMatch._node_next;
 			GRGEN_LGSP.LGSPNode node_root = curMatch._node_root;
 			GRGEN_LGSP.LGSPEdge edge__edge0 = curMatch._edge__edge0;
-			Pattern_SpanningTreeIncoming.Match_SpanningTreeIncoming subpattern__subpattern0 = curMatch.@__subpattern0;
+			Pattern_SpanningTreeIncoming.Match_SpanningTreeIncoming subpattern__sub0 = curMatch.@__sub0;
 			graph.Remove(edge__edge0);
 			graph.RemoveEdges(node_next);
 			graph.Remove(node_next);
 			graph.RemoveEdges(node_root);
 			graph.Remove(node_root);
-			Pattern_SpanningTreeIncoming.Instance.SpanningTreeIncoming_Delete(graph, subpattern__subpattern0);
+			Pattern_SpanningTreeIncoming.Instance.SpanningTreeIncoming_Delete(graph, subpattern__sub0);
 		}
 
 		static Pattern_SpanningTreeIncoming() {
@@ -1469,7 +1469,7 @@ namespace de.unika.ipd.grGen.Action_spanningTree
 			GRGEN_LIBGR.IEdge edge__edge0 { get; }
 			//Variables
 			//EmbeddedGraphs
-			@Pattern_SpanningTreeIncoming.Match_SpanningTreeIncoming @_subpattern0 { get; }
+			@Pattern_SpanningTreeIncoming.Match_SpanningTreeIncoming @_sub0 { get; }
 			//Alternatives
 			//Iterateds
 			//Independents
@@ -1614,16 +1614,16 @@ namespace de.unika.ipd.grGen.Action_spanningTree
 				}
 			}
 			
-			public @Pattern_SpanningTreeIncoming.Match_SpanningTreeIncoming @_subpattern0 { get { return @__subpattern0; } }
-			public @Pattern_SpanningTreeIncoming.Match_SpanningTreeIncoming @__subpattern0;
-			public enum SpanningTreeIncoming_iter_0_SubNums { @_subpattern0, END_OF_ENUM };
+			public @Pattern_SpanningTreeIncoming.Match_SpanningTreeIncoming @_sub0 { get { return @__sub0; } }
+			public @Pattern_SpanningTreeIncoming.Match_SpanningTreeIncoming @__sub0;
+			public enum SpanningTreeIncoming_iter_0_SubNums { @_sub0, END_OF_ENUM };
 			public IEnumerable<GRGEN_LIBGR.IMatch> EmbeddedGraphs { get { return new GRGEN_LGSP.EmbeddedGraphs_Enumerable(this); } }
 			public IEnumerator<GRGEN_LIBGR.IMatch> EmbeddedGraphsEnumerator { get { return new GRGEN_LGSP.EmbeddedGraphs_Enumerator(this); } }
 			public int NumberOfEmbeddedGraphs { get { return 1;} }
 			public GRGEN_LIBGR.IMatch getEmbeddedGraphAt(int index)
 			{
 				switch(index) {
-				case (int)SpanningTreeIncoming_iter_0_SubNums.@_subpattern0: return __subpattern0;
+				case (int)SpanningTreeIncoming_iter_0_SubNums.@_sub0: return __sub0;
 				default: return null;
 				}
 			}
@@ -2282,7 +2282,7 @@ namespace de.unika.ipd.grGen.Action_spanningTree
 			bool[,] spanningTree_isEdgeHomomorphicGlobal = new bool[0, 0] ;
 			int[] spanningTree_minMatches = new int[0] ;
 			int[] spanningTree_maxMatches = new int[0] ;
-			GRGEN_LGSP.PatternNode spanningTree_node_root = new GRGEN_LGSP.PatternNode((int) GRGEN_MODEL.NodeTypes.@Node, "GRGEN_LIBGR.INode", "spanningTree_node_root", "root", spanningTree_node_root_AllowedTypes, spanningTree_node_root_IsAllowedType, 5.5F, 0, false);
+			GRGEN_LGSP.PatternNode spanningTree_node_root = new GRGEN_LGSP.PatternNode((int) GRGEN_MODEL.NodeTypes.@Node, "GRGEN_LIBGR.INode", "spanningTree_node_root", "root", spanningTree_node_root_AllowedTypes, spanningTree_node_root_IsAllowedType, 5.5F, 0, false, null, null);
 			GRGEN_LGSP.PatternGraphEmbedding spanningTree_sptr = new GRGEN_LGSP.PatternGraphEmbedding("sptr", Pattern_SpanningTree.Instance, 
 				new GRGEN_EXPR.Expression[] {
 					new GRGEN_EXPR.GraphEntityExpression("spanningTree_node_root"),
@@ -2480,7 +2480,7 @@ namespace de.unika.ipd.grGen.Action_spanningTree
 			};
 			int[] edgesVisited_minMatches = new int[0] ;
 			int[] edgesVisited_maxMatches = new int[0] ;
-			GRGEN_LGSP.PatternEdge edgesVisited_edge_e = new GRGEN_LGSP.PatternEdge(false, (int) GRGEN_MODEL.EdgeTypes.@UEdge, "GRGEN_LIBGR.IEdge", "edgesVisited_edge_e", "e", edgesVisited_edge_e_AllowedTypes, edgesVisited_edge_e_IsAllowedType, 5.5F, -1, false);
+			GRGEN_LGSP.PatternEdge edgesVisited_edge_e = new GRGEN_LGSP.PatternEdge(false, (int) GRGEN_MODEL.EdgeTypes.@UEdge, "GRGEN_LIBGR.IEdge", "edgesVisited_edge_e", "e", edgesVisited_edge_e_AllowedTypes, edgesVisited_edge_e_IsAllowedType, 5.5F, -1, false, null, null);
 			GRGEN_LGSP.PatternCondition edgesVisited_cond_0 = new GRGEN_LGSP.PatternCondition(
 				new GRGEN_EXPR.Visited("edgesVisited_edge_e", new GRGEN_EXPR.Constant("0")),
 				new string[] {  }, new string[] { "edgesVisited_edge_e" }, new string[] {  }, new GRGEN_LIBGR.VarType[] {  });
@@ -2663,7 +2663,7 @@ namespace de.unika.ipd.grGen.Action_spanningTree
 			bool[,] nodesVisited_isEdgeHomomorphicGlobal = new bool[0, 0] ;
 			int[] nodesVisited_minMatches = new int[0] ;
 			int[] nodesVisited_maxMatches = new int[0] ;
-			GRGEN_LGSP.PatternNode nodesVisited_node_n = new GRGEN_LGSP.PatternNode((int) GRGEN_MODEL.NodeTypes.@Node, "GRGEN_LIBGR.INode", "nodesVisited_node_n", "n", nodesVisited_node_n_AllowedTypes, nodesVisited_node_n_IsAllowedType, 5.5F, -1, false);
+			GRGEN_LGSP.PatternNode nodesVisited_node_n = new GRGEN_LGSP.PatternNode((int) GRGEN_MODEL.NodeTypes.@Node, "GRGEN_LIBGR.INode", "nodesVisited_node_n", "n", nodesVisited_node_n_AllowedTypes, nodesVisited_node_n_IsAllowedType, 5.5F, -1, false, null, null);
 			GRGEN_LGSP.PatternCondition nodesVisited_cond_0 = new GRGEN_LGSP.PatternCondition(
 				new GRGEN_EXPR.Visited("nodesVisited_node_n", new GRGEN_EXPR.Constant("0")),
 				new string[] { "nodesVisited_node_n" }, new string[] {  }, new string[] {  }, new GRGEN_LIBGR.VarType[] {  });
@@ -2847,7 +2847,7 @@ namespace de.unika.ipd.grGen.Action_spanningTree
 			bool[,] spanningTreeReverse_isEdgeHomomorphicGlobal = new bool[0, 0] ;
 			int[] spanningTreeReverse_minMatches = new int[0] ;
 			int[] spanningTreeReverse_maxMatches = new int[0] ;
-			GRGEN_LGSP.PatternNode spanningTreeReverse_node_root = new GRGEN_LGSP.PatternNode((int) GRGEN_MODEL.NodeTypes.@Node, "GRGEN_LIBGR.INode", "spanningTreeReverse_node_root", "root", spanningTreeReverse_node_root_AllowedTypes, spanningTreeReverse_node_root_IsAllowedType, 5.5F, 0, false);
+			GRGEN_LGSP.PatternNode spanningTreeReverse_node_root = new GRGEN_LGSP.PatternNode((int) GRGEN_MODEL.NodeTypes.@Node, "GRGEN_LIBGR.INode", "spanningTreeReverse_node_root", "root", spanningTreeReverse_node_root_AllowedTypes, spanningTreeReverse_node_root_IsAllowedType, 5.5F, 0, false, null, null);
 			GRGEN_LGSP.PatternGraphEmbedding spanningTreeReverse_sptrr = new GRGEN_LGSP.PatternGraphEmbedding("sptrr", Pattern_SpanningTreeReverse.Instance, 
 				new GRGEN_EXPR.Expression[] {
 					new GRGEN_EXPR.GraphEntityExpression("spanningTreeReverse_node_root"),
@@ -3017,7 +3017,7 @@ namespace de.unika.ipd.grGen.Action_spanningTree
 		public enum spanningTreeOutgoing_NodeNums { @root, };
 		public enum spanningTreeOutgoing_EdgeNums { };
 		public enum spanningTreeOutgoing_VariableNums { };
-		public enum spanningTreeOutgoing_SubNums { @_subpattern0, };
+		public enum spanningTreeOutgoing_SubNums { @_sub0, };
 		public enum spanningTreeOutgoing_AltNums { };
 		public enum spanningTreeOutgoing_IterNums { };
 
@@ -3043,8 +3043,8 @@ namespace de.unika.ipd.grGen.Action_spanningTree
 			bool[,] spanningTreeOutgoing_isEdgeHomomorphicGlobal = new bool[0, 0] ;
 			int[] spanningTreeOutgoing_minMatches = new int[0] ;
 			int[] spanningTreeOutgoing_maxMatches = new int[0] ;
-			GRGEN_LGSP.PatternNode spanningTreeOutgoing_node_root = new GRGEN_LGSP.PatternNode((int) GRGEN_MODEL.NodeTypes.@Node, "GRGEN_LIBGR.INode", "spanningTreeOutgoing_node_root", "root", spanningTreeOutgoing_node_root_AllowedTypes, spanningTreeOutgoing_node_root_IsAllowedType, 5.5F, 0, false);
-			GRGEN_LGSP.PatternGraphEmbedding spanningTreeOutgoing__subpattern0 = new GRGEN_LGSP.PatternGraphEmbedding("_subpattern0", Pattern_SpanningTreeOutgoing.Instance, 
+			GRGEN_LGSP.PatternNode spanningTreeOutgoing_node_root = new GRGEN_LGSP.PatternNode((int) GRGEN_MODEL.NodeTypes.@Node, "GRGEN_LIBGR.INode", "spanningTreeOutgoing_node_root", "root", spanningTreeOutgoing_node_root_AllowedTypes, spanningTreeOutgoing_node_root_IsAllowedType, 5.5F, 0, false, null, null);
+			GRGEN_LGSP.PatternGraphEmbedding spanningTreeOutgoing__sub0 = new GRGEN_LGSP.PatternGraphEmbedding("_sub0", Pattern_SpanningTreeOutgoing.Instance, 
 				new GRGEN_EXPR.Expression[] {
 					new GRGEN_EXPR.GraphEntityExpression("spanningTreeOutgoing_node_root"),
 				}, 
@@ -3056,7 +3056,7 @@ namespace de.unika.ipd.grGen.Action_spanningTree
 				new GRGEN_LGSP.PatternNode[] { spanningTreeOutgoing_node_root }, 
 				new GRGEN_LGSP.PatternEdge[] {  }, 
 				new GRGEN_LGSP.PatternVariable[] {  }, 
-				new GRGEN_LGSP.PatternGraphEmbedding[] { spanningTreeOutgoing__subpattern0 }, 
+				new GRGEN_LGSP.PatternGraphEmbedding[] { spanningTreeOutgoing__sub0 }, 
 				new GRGEN_LGSP.Alternative[] {  }, 
 				new GRGEN_LGSP.PatternGraph[] {  }, 
 				spanningTreeOutgoing_minMatches,
@@ -3073,7 +3073,7 @@ namespace de.unika.ipd.grGen.Action_spanningTree
 			);
 
 			spanningTreeOutgoing_node_root.pointOfDefinition = null;
-			spanningTreeOutgoing__subpattern0.PointOfDefinition = pat_spanningTreeOutgoing;
+			spanningTreeOutgoing__sub0.PointOfDefinition = pat_spanningTreeOutgoing;
 
 			patternGraph = pat_spanningTreeOutgoing;
 		}
@@ -3083,7 +3083,7 @@ namespace de.unika.ipd.grGen.Action_spanningTree
 		{
 			Match_spanningTreeOutgoing curMatch = (Match_spanningTreeOutgoing)_curMatch;
 			GRGEN_LGSP.LGSPNode node_root = curMatch._node_root;
-			Pattern_SpanningTreeOutgoing.Match_SpanningTreeOutgoing subpattern__subpattern0 = curMatch.@__subpattern0;
+			Pattern_SpanningTreeOutgoing.Match_SpanningTreeOutgoing subpattern__sub0 = curMatch.@__sub0;
 			return;
 		}
 
@@ -3097,7 +3097,7 @@ namespace de.unika.ipd.grGen.Action_spanningTree
 			//Edges
 			//Variables
 			//EmbeddedGraphs
-			@Pattern_SpanningTreeOutgoing.Match_SpanningTreeOutgoing @_subpattern0 { get; }
+			@Pattern_SpanningTreeOutgoing.Match_SpanningTreeOutgoing @_sub0 { get; }
 			//Alternatives
 			//Iterateds
 			//Independents
@@ -3143,16 +3143,16 @@ namespace de.unika.ipd.grGen.Action_spanningTree
 				}
 			}
 			
-			public @Pattern_SpanningTreeOutgoing.Match_SpanningTreeOutgoing @_subpattern0 { get { return @__subpattern0; } }
-			public @Pattern_SpanningTreeOutgoing.Match_SpanningTreeOutgoing @__subpattern0;
-			public enum spanningTreeOutgoing_SubNums { @_subpattern0, END_OF_ENUM };
+			public @Pattern_SpanningTreeOutgoing.Match_SpanningTreeOutgoing @_sub0 { get { return @__sub0; } }
+			public @Pattern_SpanningTreeOutgoing.Match_SpanningTreeOutgoing @__sub0;
+			public enum spanningTreeOutgoing_SubNums { @_sub0, END_OF_ENUM };
 			public IEnumerable<GRGEN_LIBGR.IMatch> EmbeddedGraphs { get { return new GRGEN_LGSP.EmbeddedGraphs_Enumerable(this); } }
 			public IEnumerator<GRGEN_LIBGR.IMatch> EmbeddedGraphsEnumerator { get { return new GRGEN_LGSP.EmbeddedGraphs_Enumerator(this); } }
 			public int NumberOfEmbeddedGraphs { get { return 1;} }
 			public GRGEN_LIBGR.IMatch getEmbeddedGraphAt(int index)
 			{
 				switch(index) {
-				case (int)spanningTreeOutgoing_SubNums.@_subpattern0: return __subpattern0;
+				case (int)spanningTreeOutgoing_SubNums.@_sub0: return __sub0;
 				default: return null;
 				}
 			}
@@ -3209,7 +3209,7 @@ namespace de.unika.ipd.grGen.Action_spanningTree
 		public enum spanningTreeIncoming_NodeNums { @root, };
 		public enum spanningTreeIncoming_EdgeNums { };
 		public enum spanningTreeIncoming_VariableNums { };
-		public enum spanningTreeIncoming_SubNums { @_subpattern0, };
+		public enum spanningTreeIncoming_SubNums { @_sub0, };
 		public enum spanningTreeIncoming_AltNums { };
 		public enum spanningTreeIncoming_IterNums { };
 
@@ -3235,8 +3235,8 @@ namespace de.unika.ipd.grGen.Action_spanningTree
 			bool[,] spanningTreeIncoming_isEdgeHomomorphicGlobal = new bool[0, 0] ;
 			int[] spanningTreeIncoming_minMatches = new int[0] ;
 			int[] spanningTreeIncoming_maxMatches = new int[0] ;
-			GRGEN_LGSP.PatternNode spanningTreeIncoming_node_root = new GRGEN_LGSP.PatternNode((int) GRGEN_MODEL.NodeTypes.@Node, "GRGEN_LIBGR.INode", "spanningTreeIncoming_node_root", "root", spanningTreeIncoming_node_root_AllowedTypes, spanningTreeIncoming_node_root_IsAllowedType, 5.5F, 0, false);
-			GRGEN_LGSP.PatternGraphEmbedding spanningTreeIncoming__subpattern0 = new GRGEN_LGSP.PatternGraphEmbedding("_subpattern0", Pattern_SpanningTreeIncoming.Instance, 
+			GRGEN_LGSP.PatternNode spanningTreeIncoming_node_root = new GRGEN_LGSP.PatternNode((int) GRGEN_MODEL.NodeTypes.@Node, "GRGEN_LIBGR.INode", "spanningTreeIncoming_node_root", "root", spanningTreeIncoming_node_root_AllowedTypes, spanningTreeIncoming_node_root_IsAllowedType, 5.5F, 0, false, null, null);
+			GRGEN_LGSP.PatternGraphEmbedding spanningTreeIncoming__sub0 = new GRGEN_LGSP.PatternGraphEmbedding("_sub0", Pattern_SpanningTreeIncoming.Instance, 
 				new GRGEN_EXPR.Expression[] {
 					new GRGEN_EXPR.GraphEntityExpression("spanningTreeIncoming_node_root"),
 				}, 
@@ -3248,7 +3248,7 @@ namespace de.unika.ipd.grGen.Action_spanningTree
 				new GRGEN_LGSP.PatternNode[] { spanningTreeIncoming_node_root }, 
 				new GRGEN_LGSP.PatternEdge[] {  }, 
 				new GRGEN_LGSP.PatternVariable[] {  }, 
-				new GRGEN_LGSP.PatternGraphEmbedding[] { spanningTreeIncoming__subpattern0 }, 
+				new GRGEN_LGSP.PatternGraphEmbedding[] { spanningTreeIncoming__sub0 }, 
 				new GRGEN_LGSP.Alternative[] {  }, 
 				new GRGEN_LGSP.PatternGraph[] {  }, 
 				spanningTreeIncoming_minMatches,
@@ -3265,7 +3265,7 @@ namespace de.unika.ipd.grGen.Action_spanningTree
 			);
 
 			spanningTreeIncoming_node_root.pointOfDefinition = null;
-			spanningTreeIncoming__subpattern0.PointOfDefinition = pat_spanningTreeIncoming;
+			spanningTreeIncoming__sub0.PointOfDefinition = pat_spanningTreeIncoming;
 
 			patternGraph = pat_spanningTreeIncoming;
 		}
@@ -3275,7 +3275,7 @@ namespace de.unika.ipd.grGen.Action_spanningTree
 		{
 			Match_spanningTreeIncoming curMatch = (Match_spanningTreeIncoming)_curMatch;
 			GRGEN_LGSP.LGSPNode node_root = curMatch._node_root;
-			Pattern_SpanningTreeIncoming.Match_SpanningTreeIncoming subpattern__subpattern0 = curMatch.@__subpattern0;
+			Pattern_SpanningTreeIncoming.Match_SpanningTreeIncoming subpattern__sub0 = curMatch.@__sub0;
 			return;
 		}
 
@@ -3289,7 +3289,7 @@ namespace de.unika.ipd.grGen.Action_spanningTree
 			//Edges
 			//Variables
 			//EmbeddedGraphs
-			@Pattern_SpanningTreeIncoming.Match_SpanningTreeIncoming @_subpattern0 { get; }
+			@Pattern_SpanningTreeIncoming.Match_SpanningTreeIncoming @_sub0 { get; }
 			//Alternatives
 			//Iterateds
 			//Independents
@@ -3335,16 +3335,16 @@ namespace de.unika.ipd.grGen.Action_spanningTree
 				}
 			}
 			
-			public @Pattern_SpanningTreeIncoming.Match_SpanningTreeIncoming @_subpattern0 { get { return @__subpattern0; } }
-			public @Pattern_SpanningTreeIncoming.Match_SpanningTreeIncoming @__subpattern0;
-			public enum spanningTreeIncoming_SubNums { @_subpattern0, END_OF_ENUM };
+			public @Pattern_SpanningTreeIncoming.Match_SpanningTreeIncoming @_sub0 { get { return @__sub0; } }
+			public @Pattern_SpanningTreeIncoming.Match_SpanningTreeIncoming @__sub0;
+			public enum spanningTreeIncoming_SubNums { @_sub0, END_OF_ENUM };
 			public IEnumerable<GRGEN_LIBGR.IMatch> EmbeddedGraphs { get { return new GRGEN_LGSP.EmbeddedGraphs_Enumerable(this); } }
 			public IEnumerator<GRGEN_LIBGR.IMatch> EmbeddedGraphsEnumerator { get { return new GRGEN_LGSP.EmbeddedGraphs_Enumerator(this); } }
 			public int NumberOfEmbeddedGraphs { get { return 1;} }
 			public GRGEN_LIBGR.IMatch getEmbeddedGraphAt(int index)
 			{
 				switch(index) {
-				case (int)spanningTreeIncoming_SubNums.@_subpattern0: return __subpattern0;
+				case (int)spanningTreeIncoming_SubNums.@_sub0: return __sub0;
 				default: return null;
 				}
 			}
@@ -4334,13 +4334,13 @@ maxMatchesIterReached:
                         candidate_SpanningTreeOutgoing_iter_0_edge__edge0.lgspFlags |= (uint) GRGEN_LGSP.LGSPElemFlags.IS_MATCHED_BY_SOME_ENCLOSING_PATTERN;
                         // accept iterated instance match
                         ++numMatchesIter;
-                        // Push subpattern matching task for _subpattern0
-                        PatternAction_SpanningTreeOutgoing taskFor__subpattern0 = PatternAction_SpanningTreeOutgoing.getNewTask(graph, openTasks);
-                        taskFor__subpattern0.SpanningTreeOutgoing_node_root = candidate_SpanningTreeOutgoing_iter_0_node_next;
-                        taskFor__subpattern0.searchPatternpath = false;
-                        taskFor__subpattern0.matchOfNestingPattern = patternpath_match_SpanningTreeOutgoing_iter_0;
-                        taskFor__subpattern0.lastMatchAtPreviousNestingLevel = null;
-                        openTasks.Push(taskFor__subpattern0);
+                        // Push subpattern matching task for _sub0
+                        PatternAction_SpanningTreeOutgoing taskFor__sub0 = PatternAction_SpanningTreeOutgoing.getNewTask(graph, openTasks);
+                        taskFor__sub0.SpanningTreeOutgoing_node_root = candidate_SpanningTreeOutgoing_iter_0_node_next;
+                        taskFor__sub0.searchPatternpath = false;
+                        taskFor__sub0.matchOfNestingPattern = patternpath_match_SpanningTreeOutgoing_iter_0;
+                        taskFor__sub0.lastMatchAtPreviousNestingLevel = null;
+                        openTasks.Push(taskFor__sub0);
                         uint prevGlobal__candidate_SpanningTreeOutgoing_iter_0_node_next;
                         if(negLevel <= (int) GRGEN_LGSP.LGSPElemFlags.MAX_NEG_LEVEL) {
                             prevGlobal__candidate_SpanningTreeOutgoing_iter_0_node_next = candidate_SpanningTreeOutgoing_iter_0_node_next.lgspFlags & (uint) GRGEN_LGSP.LGSPElemFlags.IS_MATCHED_BY_ENCLOSING_PATTERN << negLevel;
@@ -4359,9 +4359,9 @@ maxMatchesIterReached:
                         }
                         // Match subpatterns 
                         openTasks.Peek().myMatch(matchesList, maxMatches - foundPartialMatches.Count, negLevel);
-                        // Pop subpattern matching task for _subpattern0
+                        // Pop subpattern matching task for _sub0
                         openTasks.Pop();
-                        PatternAction_SpanningTreeOutgoing.releaseTask(taskFor__subpattern0);
+                        PatternAction_SpanningTreeOutgoing.releaseTask(taskFor__sub0);
                         // Check whether subpatterns were found 
                         if(matchesList.Count>0) {
                             patternFound = true;
@@ -4372,8 +4372,8 @@ maxMatchesIterReached:
                                 match._node_root = candidate_SpanningTreeOutgoing_node_root;
                                 match._node_next = candidate_SpanningTreeOutgoing_iter_0_node_next;
                                 match._edge__edge0 = candidate_SpanningTreeOutgoing_iter_0_edge__edge0;
-                                match.__subpattern0 = (@Pattern_SpanningTreeOutgoing.Match_SpanningTreeOutgoing)currentFoundPartialMatch.Pop();
-                                match.__subpattern0._matchOfEnclosingPattern = match;
+                                match.__sub0 = (@Pattern_SpanningTreeOutgoing.Match_SpanningTreeOutgoing)currentFoundPartialMatch.Pop();
+                                match.__sub0._matchOfEnclosingPattern = match;
                                 currentFoundPartialMatch.Push(match);
                             }
                             // if enough matches were found, we leave
@@ -4679,13 +4679,13 @@ maxMatchesIterReached:
                         candidate_SpanningTreeIncoming_iter_0_edge__edge0.lgspFlags |= (uint) GRGEN_LGSP.LGSPElemFlags.IS_MATCHED_BY_SOME_ENCLOSING_PATTERN;
                         // accept iterated instance match
                         ++numMatchesIter;
-                        // Push subpattern matching task for _subpattern0
-                        PatternAction_SpanningTreeIncoming taskFor__subpattern0 = PatternAction_SpanningTreeIncoming.getNewTask(graph, openTasks);
-                        taskFor__subpattern0.SpanningTreeIncoming_node_root = candidate_SpanningTreeIncoming_iter_0_node_next;
-                        taskFor__subpattern0.searchPatternpath = false;
-                        taskFor__subpattern0.matchOfNestingPattern = patternpath_match_SpanningTreeIncoming_iter_0;
-                        taskFor__subpattern0.lastMatchAtPreviousNestingLevel = null;
-                        openTasks.Push(taskFor__subpattern0);
+                        // Push subpattern matching task for _sub0
+                        PatternAction_SpanningTreeIncoming taskFor__sub0 = PatternAction_SpanningTreeIncoming.getNewTask(graph, openTasks);
+                        taskFor__sub0.SpanningTreeIncoming_node_root = candidate_SpanningTreeIncoming_iter_0_node_next;
+                        taskFor__sub0.searchPatternpath = false;
+                        taskFor__sub0.matchOfNestingPattern = patternpath_match_SpanningTreeIncoming_iter_0;
+                        taskFor__sub0.lastMatchAtPreviousNestingLevel = null;
+                        openTasks.Push(taskFor__sub0);
                         uint prevGlobal__candidate_SpanningTreeIncoming_iter_0_node_next;
                         if(negLevel <= (int) GRGEN_LGSP.LGSPElemFlags.MAX_NEG_LEVEL) {
                             prevGlobal__candidate_SpanningTreeIncoming_iter_0_node_next = candidate_SpanningTreeIncoming_iter_0_node_next.lgspFlags & (uint) GRGEN_LGSP.LGSPElemFlags.IS_MATCHED_BY_ENCLOSING_PATTERN << negLevel;
@@ -4704,9 +4704,9 @@ maxMatchesIterReached:
                         }
                         // Match subpatterns 
                         openTasks.Peek().myMatch(matchesList, maxMatches - foundPartialMatches.Count, negLevel);
-                        // Pop subpattern matching task for _subpattern0
+                        // Pop subpattern matching task for _sub0
                         openTasks.Pop();
-                        PatternAction_SpanningTreeIncoming.releaseTask(taskFor__subpattern0);
+                        PatternAction_SpanningTreeIncoming.releaseTask(taskFor__sub0);
                         // Check whether subpatterns were found 
                         if(matchesList.Count>0) {
                             patternFound = true;
@@ -4717,8 +4717,8 @@ maxMatchesIterReached:
                                 match._node_next = candidate_SpanningTreeIncoming_iter_0_node_next;
                                 match._node_root = candidate_SpanningTreeIncoming_node_root;
                                 match._edge__edge0 = candidate_SpanningTreeIncoming_iter_0_edge__edge0;
-                                match.__subpattern0 = (@Pattern_SpanningTreeIncoming.Match_SpanningTreeIncoming)currentFoundPartialMatch.Pop();
-                                match.__subpattern0._matchOfEnclosingPattern = match;
+                                match.__sub0 = (@Pattern_SpanningTreeIncoming.Match_SpanningTreeIncoming)currentFoundPartialMatch.Pop();
+                                match.__sub0._matchOfEnclosingPattern = match;
                                 currentFoundPartialMatch.Push(match);
                             }
                             // if enough matches were found, we leave
@@ -6420,13 +6420,13 @@ maxMatchesIterReached:
             uint prevSomeGlobal__candidate_spanningTreeOutgoing_node_root;
             prevSomeGlobal__candidate_spanningTreeOutgoing_node_root = candidate_spanningTreeOutgoing_node_root.lgspFlags & (uint) GRGEN_LGSP.LGSPElemFlags.IS_MATCHED_BY_SOME_ENCLOSING_PATTERN;
             candidate_spanningTreeOutgoing_node_root.lgspFlags |= (uint) GRGEN_LGSP.LGSPElemFlags.IS_MATCHED_BY_SOME_ENCLOSING_PATTERN;
-            // Push subpattern matching task for _subpattern0
-            PatternAction_SpanningTreeOutgoing taskFor__subpattern0 = PatternAction_SpanningTreeOutgoing.getNewTask(graph, openTasks);
-            taskFor__subpattern0.SpanningTreeOutgoing_node_root = candidate_spanningTreeOutgoing_node_root;
-            taskFor__subpattern0.searchPatternpath = false;
-            taskFor__subpattern0.matchOfNestingPattern = patternpath_match_spanningTreeOutgoing;
-            taskFor__subpattern0.lastMatchAtPreviousNestingLevel = null;
-            openTasks.Push(taskFor__subpattern0);
+            // Push subpattern matching task for _sub0
+            PatternAction_SpanningTreeOutgoing taskFor__sub0 = PatternAction_SpanningTreeOutgoing.getNewTask(graph, openTasks);
+            taskFor__sub0.SpanningTreeOutgoing_node_root = candidate_spanningTreeOutgoing_node_root;
+            taskFor__sub0.searchPatternpath = false;
+            taskFor__sub0.matchOfNestingPattern = patternpath_match_spanningTreeOutgoing;
+            taskFor__sub0.lastMatchAtPreviousNestingLevel = null;
+            openTasks.Push(taskFor__sub0);
             uint prevGlobal__candidate_spanningTreeOutgoing_node_root;
             if(negLevel <= (int) GRGEN_LGSP.LGSPElemFlags.MAX_NEG_LEVEL) {
                 prevGlobal__candidate_spanningTreeOutgoing_node_root = candidate_spanningTreeOutgoing_node_root.lgspFlags & (uint) GRGEN_LGSP.LGSPElemFlags.IS_MATCHED_BY_ENCLOSING_PATTERN << negLevel;
@@ -6437,9 +6437,9 @@ maxMatchesIterReached:
             }
             // Match subpatterns 
             openTasks.Peek().myMatch(matchesList, maxMatches - foundPartialMatches.Count, negLevel);
-            // Pop subpattern matching task for _subpattern0
+            // Pop subpattern matching task for _sub0
             openTasks.Pop();
-            PatternAction_SpanningTreeOutgoing.releaseTask(taskFor__subpattern0);
+            PatternAction_SpanningTreeOutgoing.releaseTask(taskFor__sub0);
             // Check whether subpatterns were found 
             if(matchesList.Count>0) {
                 // subpatterns/alternatives were found, extend the partial matches by our local match object, becoming a complete match object and save it
@@ -6447,8 +6447,8 @@ maxMatchesIterReached:
                 {
                     Rule_spanningTreeOutgoing.Match_spanningTreeOutgoing match = matches.GetNextUnfilledPosition();
                     match._node_root = candidate_spanningTreeOutgoing_node_root;
-                    match.__subpattern0 = (@Pattern_SpanningTreeOutgoing.Match_SpanningTreeOutgoing)currentFoundPartialMatch.Pop();
-                    match.__subpattern0._matchOfEnclosingPattern = match;
+                    match.__sub0 = (@Pattern_SpanningTreeOutgoing.Match_SpanningTreeOutgoing)currentFoundPartialMatch.Pop();
+                    match.__sub0._matchOfEnclosingPattern = match;
                     matches.PositionWasFilledFixIt();
                 }
                 matchesList.Clear();
@@ -6678,13 +6678,13 @@ maxMatchesIterReached:
             uint prevSomeGlobal__candidate_spanningTreeIncoming_node_root;
             prevSomeGlobal__candidate_spanningTreeIncoming_node_root = candidate_spanningTreeIncoming_node_root.lgspFlags & (uint) GRGEN_LGSP.LGSPElemFlags.IS_MATCHED_BY_SOME_ENCLOSING_PATTERN;
             candidate_spanningTreeIncoming_node_root.lgspFlags |= (uint) GRGEN_LGSP.LGSPElemFlags.IS_MATCHED_BY_SOME_ENCLOSING_PATTERN;
-            // Push subpattern matching task for _subpattern0
-            PatternAction_SpanningTreeIncoming taskFor__subpattern0 = PatternAction_SpanningTreeIncoming.getNewTask(graph, openTasks);
-            taskFor__subpattern0.SpanningTreeIncoming_node_root = candidate_spanningTreeIncoming_node_root;
-            taskFor__subpattern0.searchPatternpath = false;
-            taskFor__subpattern0.matchOfNestingPattern = patternpath_match_spanningTreeIncoming;
-            taskFor__subpattern0.lastMatchAtPreviousNestingLevel = null;
-            openTasks.Push(taskFor__subpattern0);
+            // Push subpattern matching task for _sub0
+            PatternAction_SpanningTreeIncoming taskFor__sub0 = PatternAction_SpanningTreeIncoming.getNewTask(graph, openTasks);
+            taskFor__sub0.SpanningTreeIncoming_node_root = candidate_spanningTreeIncoming_node_root;
+            taskFor__sub0.searchPatternpath = false;
+            taskFor__sub0.matchOfNestingPattern = patternpath_match_spanningTreeIncoming;
+            taskFor__sub0.lastMatchAtPreviousNestingLevel = null;
+            openTasks.Push(taskFor__sub0);
             uint prevGlobal__candidate_spanningTreeIncoming_node_root;
             if(negLevel <= (int) GRGEN_LGSP.LGSPElemFlags.MAX_NEG_LEVEL) {
                 prevGlobal__candidate_spanningTreeIncoming_node_root = candidate_spanningTreeIncoming_node_root.lgspFlags & (uint) GRGEN_LGSP.LGSPElemFlags.IS_MATCHED_BY_ENCLOSING_PATTERN << negLevel;
@@ -6695,9 +6695,9 @@ maxMatchesIterReached:
             }
             // Match subpatterns 
             openTasks.Peek().myMatch(matchesList, maxMatches - foundPartialMatches.Count, negLevel);
-            // Pop subpattern matching task for _subpattern0
+            // Pop subpattern matching task for _sub0
             openTasks.Pop();
-            PatternAction_SpanningTreeIncoming.releaseTask(taskFor__subpattern0);
+            PatternAction_SpanningTreeIncoming.releaseTask(taskFor__sub0);
             // Check whether subpatterns were found 
             if(matchesList.Count>0) {
                 // subpatterns/alternatives were found, extend the partial matches by our local match object, becoming a complete match object and save it
@@ -6705,8 +6705,8 @@ maxMatchesIterReached:
                 {
                     Rule_spanningTreeIncoming.Match_spanningTreeIncoming match = matches.GetNextUnfilledPosition();
                     match._node_root = candidate_spanningTreeIncoming_node_root;
-                    match.__subpattern0 = (@Pattern_SpanningTreeIncoming.Match_SpanningTreeIncoming)currentFoundPartialMatch.Pop();
-                    match.__subpattern0._matchOfEnclosingPattern = match;
+                    match.__sub0 = (@Pattern_SpanningTreeIncoming.Match_SpanningTreeIncoming)currentFoundPartialMatch.Pop();
+                    match.__sub0._matchOfEnclosingPattern = match;
                     matches.PositionWasFilledFixIt();
                 }
                 matchesList.Clear();

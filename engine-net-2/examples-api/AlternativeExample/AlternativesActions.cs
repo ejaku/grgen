@@ -1,6 +1,6 @@
 // This file has been generated automatically by GrGen (www.grgen.net)
 // Do not modify this file! Any changes will be lost!
-// Generated from "..\..\tests\alternatives\Alternatives.grg" on Sun Oct 10 18:44:02 CEST 2010
+// Generated from "..\..\tests\alternatives\Alternatives.grg" on Mon Jan 03 00:10:14 CET 2011
 
 using System;
 using System.Collections.Generic;
@@ -79,8 +79,8 @@ namespace de.unika.ipd.grGen.Action_Alternatives
 			};
 			int[] toAorB_minMatches = new int[0] ;
 			int[] toAorB_maxMatches = new int[0] ;
-			GRGEN_LGSP.PatternNode toAorB_node_x = new GRGEN_LGSP.PatternNode((int) GRGEN_MODEL.NodeTypes.@Node, "GRGEN_LIBGR.INode", "toAorB_node_x", "x", toAorB_node_x_AllowedTypes, toAorB_node_x_IsAllowedType, 5.5F, 0, false);
-			GRGEN_LGSP.PatternEdge toAorB_edge_y = new GRGEN_LGSP.PatternEdge(true, (int) GRGEN_MODEL.EdgeTypes.@Edge, "GRGEN_LIBGR.IEdge", "toAorB_edge_y", "y", toAorB_edge_y_AllowedTypes, toAorB_edge_y_IsAllowedType, 5.5F, -1, false);
+			GRGEN_LGSP.PatternNode toAorB_node_x = new GRGEN_LGSP.PatternNode((int) GRGEN_MODEL.NodeTypes.@Node, "GRGEN_LIBGR.INode", "toAorB_node_x", "x", toAorB_node_x_AllowedTypes, toAorB_node_x_IsAllowedType, 5.5F, 0, false, null, null);
+			GRGEN_LGSP.PatternEdge toAorB_edge_y = new GRGEN_LGSP.PatternEdge(true, (int) GRGEN_MODEL.EdgeTypes.@Edge, "GRGEN_LIBGR.IEdge", "toAorB_edge_y", "y", toAorB_edge_y_AllowedTypes, toAorB_edge_y_IsAllowedType, 5.5F, -1, false, null, null);
 			bool[,] toAorB_alt_0_toA_isNodeHomomorphicGlobal = new bool[1, 1] {
 				{ false, },
 			};
@@ -89,7 +89,7 @@ namespace de.unika.ipd.grGen.Action_Alternatives
 			};
 			int[] toAorB_alt_0_toA_minMatches = new int[0] ;
 			int[] toAorB_alt_0_toA_maxMatches = new int[0] ;
-			GRGEN_LGSP.PatternNode toAorB_alt_0_toA_node_a = new GRGEN_LGSP.PatternNode((int) GRGEN_MODEL.NodeTypes.@A, "GRGEN_MODEL.IA", "toAorB_alt_0_toA_node_a", "a", toAorB_alt_0_toA_node_a_AllowedTypes, toAorB_alt_0_toA_node_a_IsAllowedType, 5.5F, -1, false);
+			GRGEN_LGSP.PatternNode toAorB_alt_0_toA_node_a = new GRGEN_LGSP.PatternNode((int) GRGEN_MODEL.NodeTypes.@A, "GRGEN_MODEL.IA", "toAorB_alt_0_toA_node_a", "a", toAorB_alt_0_toA_node_a_AllowedTypes, toAorB_alt_0_toA_node_a_IsAllowedType, 5.5F, -1, false, null, null);
 			toAorB_alt_0_toA = new GRGEN_LGSP.PatternGraph(
 				"toA",
 				"toAorB_alt_0_",
@@ -124,7 +124,7 @@ namespace de.unika.ipd.grGen.Action_Alternatives
 			};
 			int[] toAorB_alt_0_toB_minMatches = new int[0] ;
 			int[] toAorB_alt_0_toB_maxMatches = new int[0] ;
-			GRGEN_LGSP.PatternNode toAorB_alt_0_toB_node_b = new GRGEN_LGSP.PatternNode((int) GRGEN_MODEL.NodeTypes.@B, "GRGEN_MODEL.IB", "toAorB_alt_0_toB_node_b", "b", toAorB_alt_0_toB_node_b_AllowedTypes, toAorB_alt_0_toB_node_b_IsAllowedType, 5.5F, -1, false);
+			GRGEN_LGSP.PatternNode toAorB_alt_0_toB_node_b = new GRGEN_LGSP.PatternNode((int) GRGEN_MODEL.NodeTypes.@B, "GRGEN_MODEL.IB", "toAorB_alt_0_toB_node_b", "b", toAorB_alt_0_toB_node_b_AllowedTypes, toAorB_alt_0_toB_node_b_IsAllowedType, 5.5F, -1, false, null, null);
 			toAorB_alt_0_toB = new GRGEN_LGSP.PatternGraph(
 				"toB",
 				"toAorB_alt_0_",
@@ -1649,7 +1649,7 @@ namespace de.unika.ipd.grGen.Action_Alternatives
 			bool[,] AorB_alt_0_A_isEdgeHomomorphicGlobal = new bool[0, 0] ;
 			int[] AorB_alt_0_A_minMatches = new int[0] ;
 			int[] AorB_alt_0_A_maxMatches = new int[0] ;
-			GRGEN_LGSP.PatternNode AorB_alt_0_A_node__node0 = new GRGEN_LGSP.PatternNode((int) GRGEN_MODEL.NodeTypes.@A, "GRGEN_MODEL.IA", "AorB_alt_0_A_node__node0", "_node0", AorB_alt_0_A_node__node0_AllowedTypes, AorB_alt_0_A_node__node0_IsAllowedType, 5.5F, -1, false);
+			GRGEN_LGSP.PatternNode AorB_alt_0_A_node__node0 = new GRGEN_LGSP.PatternNode((int) GRGEN_MODEL.NodeTypes.@A, "GRGEN_MODEL.IA", "AorB_alt_0_A_node__node0", "_node0", AorB_alt_0_A_node__node0_AllowedTypes, AorB_alt_0_A_node__node0_IsAllowedType, 5.5F, -1, false, null, null);
 			AorB_alt_0_A = new GRGEN_LGSP.PatternGraph(
 				"A",
 				"AorB_alt_0_",
@@ -1679,7 +1679,7 @@ namespace de.unika.ipd.grGen.Action_Alternatives
 			bool[,] AorB_alt_0_B_isEdgeHomomorphicGlobal = new bool[0, 0] ;
 			int[] AorB_alt_0_B_minMatches = new int[0] ;
 			int[] AorB_alt_0_B_maxMatches = new int[0] ;
-			GRGEN_LGSP.PatternNode AorB_alt_0_B_node__node0 = new GRGEN_LGSP.PatternNode((int) GRGEN_MODEL.NodeTypes.@B, "GRGEN_MODEL.IB", "AorB_alt_0_B_node__node0", "_node0", AorB_alt_0_B_node__node0_AllowedTypes, AorB_alt_0_B_node__node0_IsAllowedType, 5.5F, -1, false);
+			GRGEN_LGSP.PatternNode AorB_alt_0_B_node__node0 = new GRGEN_LGSP.PatternNode((int) GRGEN_MODEL.NodeTypes.@B, "GRGEN_MODEL.IB", "AorB_alt_0_B_node__node0", "_node0", AorB_alt_0_B_node__node0_AllowedTypes, AorB_alt_0_B_node__node0_IsAllowedType, 5.5F, -1, false, null, null);
 			AorB_alt_0_B = new GRGEN_LGSP.PatternGraph(
 				"B",
 				"AorB_alt_0_",
@@ -2147,14 +2147,14 @@ namespace de.unika.ipd.grGen.Action_Alternatives
 			bool[,] AandnotCorB_alt_0_A_isEdgeHomomorphicGlobal = new bool[0, 0] ;
 			int[] AandnotCorB_alt_0_A_minMatches = new int[0] ;
 			int[] AandnotCorB_alt_0_A_maxMatches = new int[0] ;
-			GRGEN_LGSP.PatternNode AandnotCorB_alt_0_A_node__node0 = new GRGEN_LGSP.PatternNode((int) GRGEN_MODEL.NodeTypes.@A, "GRGEN_MODEL.IA", "AandnotCorB_alt_0_A_node__node0", "_node0", AandnotCorB_alt_0_A_node__node0_AllowedTypes, AandnotCorB_alt_0_A_node__node0_IsAllowedType, 5.5F, -1, false);
+			GRGEN_LGSP.PatternNode AandnotCorB_alt_0_A_node__node0 = new GRGEN_LGSP.PatternNode((int) GRGEN_MODEL.NodeTypes.@A, "GRGEN_MODEL.IA", "AandnotCorB_alt_0_A_node__node0", "_node0", AandnotCorB_alt_0_A_node__node0_AllowedTypes, AandnotCorB_alt_0_A_node__node0_IsAllowedType, 5.5F, -1, false, null, null);
 			bool[,] AandnotCorB_alt_0_A_neg_0_isNodeHomomorphicGlobal = new bool[1, 1] {
 				{ false, },
 			};
 			bool[,] AandnotCorB_alt_0_A_neg_0_isEdgeHomomorphicGlobal = new bool[0, 0] ;
 			int[] AandnotCorB_alt_0_A_neg_0_minMatches = new int[0] ;
 			int[] AandnotCorB_alt_0_A_neg_0_maxMatches = new int[0] ;
-			GRGEN_LGSP.PatternNode AandnotCorB_alt_0_A_neg_0_node__node0 = new GRGEN_LGSP.PatternNode((int) GRGEN_MODEL.NodeTypes.@C, "GRGEN_MODEL.IC", "AandnotCorB_alt_0_A_neg_0_node__node0", "_node0", AandnotCorB_alt_0_A_neg_0_node__node0_AllowedTypes, AandnotCorB_alt_0_A_neg_0_node__node0_IsAllowedType, 5.5F, -1, false);
+			GRGEN_LGSP.PatternNode AandnotCorB_alt_0_A_neg_0_node__node0 = new GRGEN_LGSP.PatternNode((int) GRGEN_MODEL.NodeTypes.@C, "GRGEN_MODEL.IC", "AandnotCorB_alt_0_A_neg_0_node__node0", "_node0", AandnotCorB_alt_0_A_neg_0_node__node0_AllowedTypes, AandnotCorB_alt_0_A_neg_0_node__node0_IsAllowedType, 5.5F, -1, false, null, null);
 			AandnotCorB_alt_0_A_neg_0 = new GRGEN_LGSP.PatternGraph(
 				"neg_0",
 				"AandnotCorB_alt_0_A_",
@@ -2208,7 +2208,7 @@ namespace de.unika.ipd.grGen.Action_Alternatives
 			bool[,] AandnotCorB_alt_0_B_isEdgeHomomorphicGlobal = new bool[0, 0] ;
 			int[] AandnotCorB_alt_0_B_minMatches = new int[0] ;
 			int[] AandnotCorB_alt_0_B_maxMatches = new int[0] ;
-			GRGEN_LGSP.PatternNode AandnotCorB_alt_0_B_node__node0 = new GRGEN_LGSP.PatternNode((int) GRGEN_MODEL.NodeTypes.@B, "GRGEN_MODEL.IB", "AandnotCorB_alt_0_B_node__node0", "_node0", AandnotCorB_alt_0_B_node__node0_AllowedTypes, AandnotCorB_alt_0_B_node__node0_IsAllowedType, 5.5F, -1, false);
+			GRGEN_LGSP.PatternNode AandnotCorB_alt_0_B_node__node0 = new GRGEN_LGSP.PatternNode((int) GRGEN_MODEL.NodeTypes.@B, "GRGEN_MODEL.IB", "AandnotCorB_alt_0_B_node__node0", "_node0", AandnotCorB_alt_0_B_node__node0_AllowedTypes, AandnotCorB_alt_0_B_node__node0_IsAllowedType, 5.5F, -1, false, null, null);
 			AandnotCorB_alt_0_B = new GRGEN_LGSP.PatternGraph(
 				"B",
 				"AandnotCorB_alt_0_",
@@ -2782,7 +2782,7 @@ namespace de.unika.ipd.grGen.Action_Alternatives
 			bool[,] AorBorC_alt_0_A_isEdgeHomomorphicGlobal = new bool[0, 0] ;
 			int[] AorBorC_alt_0_A_minMatches = new int[0] ;
 			int[] AorBorC_alt_0_A_maxMatches = new int[0] ;
-			GRGEN_LGSP.PatternNode AorBorC_alt_0_A_node__node0 = new GRGEN_LGSP.PatternNode((int) GRGEN_MODEL.NodeTypes.@A, "GRGEN_MODEL.IA", "AorBorC_alt_0_A_node__node0", "_node0", AorBorC_alt_0_A_node__node0_AllowedTypes, AorBorC_alt_0_A_node__node0_IsAllowedType, 5.5F, -1, false);
+			GRGEN_LGSP.PatternNode AorBorC_alt_0_A_node__node0 = new GRGEN_LGSP.PatternNode((int) GRGEN_MODEL.NodeTypes.@A, "GRGEN_MODEL.IA", "AorBorC_alt_0_A_node__node0", "_node0", AorBorC_alt_0_A_node__node0_AllowedTypes, AorBorC_alt_0_A_node__node0_IsAllowedType, 5.5F, -1, false, null, null);
 			AorBorC_alt_0_A = new GRGEN_LGSP.PatternGraph(
 				"A",
 				"AorBorC_alt_0_",
@@ -2812,7 +2812,7 @@ namespace de.unika.ipd.grGen.Action_Alternatives
 			bool[,] AorBorC_alt_0_B_isEdgeHomomorphicGlobal = new bool[0, 0] ;
 			int[] AorBorC_alt_0_B_minMatches = new int[0] ;
 			int[] AorBorC_alt_0_B_maxMatches = new int[0] ;
-			GRGEN_LGSP.PatternNode AorBorC_alt_0_B_node__node0 = new GRGEN_LGSP.PatternNode((int) GRGEN_MODEL.NodeTypes.@B, "GRGEN_MODEL.IB", "AorBorC_alt_0_B_node__node0", "_node0", AorBorC_alt_0_B_node__node0_AllowedTypes, AorBorC_alt_0_B_node__node0_IsAllowedType, 5.5F, -1, false);
+			GRGEN_LGSP.PatternNode AorBorC_alt_0_B_node__node0 = new GRGEN_LGSP.PatternNode((int) GRGEN_MODEL.NodeTypes.@B, "GRGEN_MODEL.IB", "AorBorC_alt_0_B_node__node0", "_node0", AorBorC_alt_0_B_node__node0_AllowedTypes, AorBorC_alt_0_B_node__node0_IsAllowedType, 5.5F, -1, false, null, null);
 			AorBorC_alt_0_B = new GRGEN_LGSP.PatternGraph(
 				"B",
 				"AorBorC_alt_0_",
@@ -2842,7 +2842,7 @@ namespace de.unika.ipd.grGen.Action_Alternatives
 			bool[,] AorBorC_alt_0_C_isEdgeHomomorphicGlobal = new bool[0, 0] ;
 			int[] AorBorC_alt_0_C_minMatches = new int[0] ;
 			int[] AorBorC_alt_0_C_maxMatches = new int[0] ;
-			GRGEN_LGSP.PatternNode AorBorC_alt_0_C_node__node0 = new GRGEN_LGSP.PatternNode((int) GRGEN_MODEL.NodeTypes.@C, "GRGEN_MODEL.IC", "AorBorC_alt_0_C_node__node0", "_node0", AorBorC_alt_0_C_node__node0_AllowedTypes, AorBorC_alt_0_C_node__node0_IsAllowedType, 5.5F, -1, false);
+			GRGEN_LGSP.PatternNode AorBorC_alt_0_C_node__node0 = new GRGEN_LGSP.PatternNode((int) GRGEN_MODEL.NodeTypes.@C, "GRGEN_MODEL.IC", "AorBorC_alt_0_C_node__node0", "_node0", AorBorC_alt_0_C_node__node0_AllowedTypes, AorBorC_alt_0_C_node__node0_IsAllowedType, 5.5F, -1, false, null, null);
 			AorBorC_alt_0_C = new GRGEN_LGSP.PatternGraph(
 				"C",
 				"AorBorC_alt_0_",
@@ -3411,7 +3411,7 @@ namespace de.unika.ipd.grGen.Action_Alternatives
 			bool[,] AtoAorB_isEdgeHomomorphicGlobal = new bool[0, 0] ;
 			int[] AtoAorB_minMatches = new int[0] ;
 			int[] AtoAorB_maxMatches = new int[0] ;
-			GRGEN_LGSP.PatternNode AtoAorB_node_a = new GRGEN_LGSP.PatternNode((int) GRGEN_MODEL.NodeTypes.@A, "GRGEN_MODEL.IA", "AtoAorB_node_a", "a", AtoAorB_node_a_AllowedTypes, AtoAorB_node_a_IsAllowedType, 5.5F, -1, false);
+			GRGEN_LGSP.PatternNode AtoAorB_node_a = new GRGEN_LGSP.PatternNode((int) GRGEN_MODEL.NodeTypes.@A, "GRGEN_MODEL.IA", "AtoAorB_node_a", "a", AtoAorB_node_a_AllowedTypes, AtoAorB_node_a_IsAllowedType, 5.5F, -1, false, null, null);
 			bool[,] AtoAorB_alt_0_toA_isNodeHomomorphicGlobal = new bool[2, 2] {
 				{ false, false, },
 				{ false, false, },
@@ -3421,8 +3421,8 @@ namespace de.unika.ipd.grGen.Action_Alternatives
 			};
 			int[] AtoAorB_alt_0_toA_minMatches = new int[0] ;
 			int[] AtoAorB_alt_0_toA_maxMatches = new int[0] ;
-			GRGEN_LGSP.PatternNode AtoAorB_alt_0_toA_node__node0 = new GRGEN_LGSP.PatternNode((int) GRGEN_MODEL.NodeTypes.@A, "GRGEN_MODEL.IA", "AtoAorB_alt_0_toA_node__node0", "_node0", AtoAorB_alt_0_toA_node__node0_AllowedTypes, AtoAorB_alt_0_toA_node__node0_IsAllowedType, 5.5F, -1, false);
-			GRGEN_LGSP.PatternEdge AtoAorB_alt_0_toA_edge__edge0 = new GRGEN_LGSP.PatternEdge(true, (int) GRGEN_MODEL.EdgeTypes.@Edge, "GRGEN_LIBGR.IEdge", "AtoAorB_alt_0_toA_edge__edge0", "_edge0", AtoAorB_alt_0_toA_edge__edge0_AllowedTypes, AtoAorB_alt_0_toA_edge__edge0_IsAllowedType, 5.5F, -1, false);
+			GRGEN_LGSP.PatternNode AtoAorB_alt_0_toA_node__node0 = new GRGEN_LGSP.PatternNode((int) GRGEN_MODEL.NodeTypes.@A, "GRGEN_MODEL.IA", "AtoAorB_alt_0_toA_node__node0", "_node0", AtoAorB_alt_0_toA_node__node0_AllowedTypes, AtoAorB_alt_0_toA_node__node0_IsAllowedType, 5.5F, -1, false, null, null);
+			GRGEN_LGSP.PatternEdge AtoAorB_alt_0_toA_edge__edge0 = new GRGEN_LGSP.PatternEdge(true, (int) GRGEN_MODEL.EdgeTypes.@Edge, "GRGEN_LIBGR.IEdge", "AtoAorB_alt_0_toA_edge__edge0", "_edge0", AtoAorB_alt_0_toA_edge__edge0_AllowedTypes, AtoAorB_alt_0_toA_edge__edge0_IsAllowedType, 5.5F, -1, false, null, null);
 			AtoAorB_alt_0_toA = new GRGEN_LGSP.PatternGraph(
 				"toA",
 				"AtoAorB_alt_0_",
@@ -3460,8 +3460,8 @@ namespace de.unika.ipd.grGen.Action_Alternatives
 			};
 			int[] AtoAorB_alt_0_toB_minMatches = new int[0] ;
 			int[] AtoAorB_alt_0_toB_maxMatches = new int[0] ;
-			GRGEN_LGSP.PatternNode AtoAorB_alt_0_toB_node__node0 = new GRGEN_LGSP.PatternNode((int) GRGEN_MODEL.NodeTypes.@B, "GRGEN_MODEL.IB", "AtoAorB_alt_0_toB_node__node0", "_node0", AtoAorB_alt_0_toB_node__node0_AllowedTypes, AtoAorB_alt_0_toB_node__node0_IsAllowedType, 5.5F, -1, false);
-			GRGEN_LGSP.PatternEdge AtoAorB_alt_0_toB_edge__edge0 = new GRGEN_LGSP.PatternEdge(true, (int) GRGEN_MODEL.EdgeTypes.@Edge, "GRGEN_LIBGR.IEdge", "AtoAorB_alt_0_toB_edge__edge0", "_edge0", AtoAorB_alt_0_toB_edge__edge0_AllowedTypes, AtoAorB_alt_0_toB_edge__edge0_IsAllowedType, 5.5F, -1, false);
+			GRGEN_LGSP.PatternNode AtoAorB_alt_0_toB_node__node0 = new GRGEN_LGSP.PatternNode((int) GRGEN_MODEL.NodeTypes.@B, "GRGEN_MODEL.IB", "AtoAorB_alt_0_toB_node__node0", "_node0", AtoAorB_alt_0_toB_node__node0_AllowedTypes, AtoAorB_alt_0_toB_node__node0_IsAllowedType, 5.5F, -1, false, null, null);
+			GRGEN_LGSP.PatternEdge AtoAorB_alt_0_toB_edge__edge0 = new GRGEN_LGSP.PatternEdge(true, (int) GRGEN_MODEL.EdgeTypes.@Edge, "GRGEN_LIBGR.IEdge", "AtoAorB_alt_0_toB_edge__edge0", "_edge0", AtoAorB_alt_0_toB_edge__edge0_AllowedTypes, AtoAorB_alt_0_toB_edge__edge0_IsAllowedType, 5.5F, -1, false, null, null);
 			AtoAorB_alt_0_toB = new GRGEN_LGSP.PatternGraph(
 				"toB",
 				"AtoAorB_alt_0_",
@@ -4195,10 +4195,10 @@ namespace de.unika.ipd.grGen.Action_Alternatives
 			};
 			int[] Complex_minMatches = new int[0] ;
 			int[] Complex_maxMatches = new int[0] ;
-			GRGEN_LGSP.PatternNode Complex_node_a = new GRGEN_LGSP.PatternNode((int) GRGEN_MODEL.NodeTypes.@A, "GRGEN_MODEL.IA", "Complex_node_a", "a", Complex_node_a_AllowedTypes, Complex_node_a_IsAllowedType, 5.5F, -1, false);
-			GRGEN_LGSP.PatternNode Complex_node_b = new GRGEN_LGSP.PatternNode((int) GRGEN_MODEL.NodeTypes.@B, "GRGEN_MODEL.IB", "Complex_node_b", "b", Complex_node_b_AllowedTypes, Complex_node_b_IsAllowedType, 5.5F, -1, false);
-			GRGEN_LGSP.PatternEdge Complex_edge__edge0 = new GRGEN_LGSP.PatternEdge(true, (int) GRGEN_MODEL.EdgeTypes.@Edge, "GRGEN_LIBGR.IEdge", "Complex_edge__edge0", "_edge0", Complex_edge__edge0_AllowedTypes, Complex_edge__edge0_IsAllowedType, 5.5F, -1, false);
-			GRGEN_LGSP.PatternEdge Complex_edge__edge1 = new GRGEN_LGSP.PatternEdge(true, (int) GRGEN_MODEL.EdgeTypes.@Edge, "GRGEN_LIBGR.IEdge", "Complex_edge__edge1", "_edge1", Complex_edge__edge1_AllowedTypes, Complex_edge__edge1_IsAllowedType, 5.5F, -1, false);
+			GRGEN_LGSP.PatternNode Complex_node_a = new GRGEN_LGSP.PatternNode((int) GRGEN_MODEL.NodeTypes.@A, "GRGEN_MODEL.IA", "Complex_node_a", "a", Complex_node_a_AllowedTypes, Complex_node_a_IsAllowedType, 5.5F, -1, false, null, null);
+			GRGEN_LGSP.PatternNode Complex_node_b = new GRGEN_LGSP.PatternNode((int) GRGEN_MODEL.NodeTypes.@B, "GRGEN_MODEL.IB", "Complex_node_b", "b", Complex_node_b_AllowedTypes, Complex_node_b_IsAllowedType, 5.5F, -1, false, null, null);
+			GRGEN_LGSP.PatternEdge Complex_edge__edge0 = new GRGEN_LGSP.PatternEdge(true, (int) GRGEN_MODEL.EdgeTypes.@Edge, "GRGEN_LIBGR.IEdge", "Complex_edge__edge0", "_edge0", Complex_edge__edge0_AllowedTypes, Complex_edge__edge0_IsAllowedType, 5.5F, -1, false, null, null);
+			GRGEN_LGSP.PatternEdge Complex_edge__edge1 = new GRGEN_LGSP.PatternEdge(true, (int) GRGEN_MODEL.EdgeTypes.@Edge, "GRGEN_LIBGR.IEdge", "Complex_edge__edge1", "_edge1", Complex_edge__edge1_AllowedTypes, Complex_edge__edge1_IsAllowedType, 5.5F, -1, false, null, null);
 			bool[,] Complex_alt_0_ExtendAv_isNodeHomomorphicGlobal = new bool[5, 5] {
 				{ false, false, false, false, false, },
 				{ false, false, false, false, false, },
@@ -4214,13 +4214,13 @@ namespace de.unika.ipd.grGen.Action_Alternatives
 			};
 			int[] Complex_alt_0_ExtendAv_minMatches = new int[0] ;
 			int[] Complex_alt_0_ExtendAv_maxMatches = new int[0] ;
-			GRGEN_LGSP.PatternNode Complex_alt_0_ExtendAv_node_b2 = new GRGEN_LGSP.PatternNode((int) GRGEN_MODEL.NodeTypes.@B, "GRGEN_MODEL.IB", "Complex_alt_0_ExtendAv_node_b2", "b2", Complex_alt_0_ExtendAv_node_b2_AllowedTypes, Complex_alt_0_ExtendAv_node_b2_IsAllowedType, 5.5F, -1, false);
-			GRGEN_LGSP.PatternNode Complex_alt_0_ExtendAv_node__node0 = new GRGEN_LGSP.PatternNode((int) GRGEN_MODEL.NodeTypes.@C, "GRGEN_MODEL.IC", "Complex_alt_0_ExtendAv_node__node0", "_node0", Complex_alt_0_ExtendAv_node__node0_AllowedTypes, Complex_alt_0_ExtendAv_node__node0_IsAllowedType, 5.5F, -1, false);
-			GRGEN_LGSP.PatternNode Complex_alt_0_ExtendAv_node__node1 = new GRGEN_LGSP.PatternNode((int) GRGEN_MODEL.NodeTypes.@C, "GRGEN_MODEL.IC", "Complex_alt_0_ExtendAv_node__node1", "_node1", Complex_alt_0_ExtendAv_node__node1_AllowedTypes, Complex_alt_0_ExtendAv_node__node1_IsAllowedType, 5.5F, -1, false);
-			GRGEN_LGSP.PatternEdge Complex_alt_0_ExtendAv_edge__edge0 = new GRGEN_LGSP.PatternEdge(true, (int) GRGEN_MODEL.EdgeTypes.@Edge, "GRGEN_LIBGR.IEdge", "Complex_alt_0_ExtendAv_edge__edge0", "_edge0", Complex_alt_0_ExtendAv_edge__edge0_AllowedTypes, Complex_alt_0_ExtendAv_edge__edge0_IsAllowedType, 5.5F, -1, false);
-			GRGEN_LGSP.PatternEdge Complex_alt_0_ExtendAv_edge__edge1 = new GRGEN_LGSP.PatternEdge(true, (int) GRGEN_MODEL.EdgeTypes.@Edge, "GRGEN_LIBGR.IEdge", "Complex_alt_0_ExtendAv_edge__edge1", "_edge1", Complex_alt_0_ExtendAv_edge__edge1_AllowedTypes, Complex_alt_0_ExtendAv_edge__edge1_IsAllowedType, 5.5F, -1, false);
-			GRGEN_LGSP.PatternEdge Complex_alt_0_ExtendAv_edge__edge2 = new GRGEN_LGSP.PatternEdge(true, (int) GRGEN_MODEL.EdgeTypes.@Edge, "GRGEN_LIBGR.IEdge", "Complex_alt_0_ExtendAv_edge__edge2", "_edge2", Complex_alt_0_ExtendAv_edge__edge2_AllowedTypes, Complex_alt_0_ExtendAv_edge__edge2_IsAllowedType, 5.5F, -1, false);
-			GRGEN_LGSP.PatternEdge Complex_alt_0_ExtendAv_edge__edge3 = new GRGEN_LGSP.PatternEdge(true, (int) GRGEN_MODEL.EdgeTypes.@Edge, "GRGEN_LIBGR.IEdge", "Complex_alt_0_ExtendAv_edge__edge3", "_edge3", Complex_alt_0_ExtendAv_edge__edge3_AllowedTypes, Complex_alt_0_ExtendAv_edge__edge3_IsAllowedType, 5.5F, -1, false);
+			GRGEN_LGSP.PatternNode Complex_alt_0_ExtendAv_node_b2 = new GRGEN_LGSP.PatternNode((int) GRGEN_MODEL.NodeTypes.@B, "GRGEN_MODEL.IB", "Complex_alt_0_ExtendAv_node_b2", "b2", Complex_alt_0_ExtendAv_node_b2_AllowedTypes, Complex_alt_0_ExtendAv_node_b2_IsAllowedType, 5.5F, -1, false, null, null);
+			GRGEN_LGSP.PatternNode Complex_alt_0_ExtendAv_node__node0 = new GRGEN_LGSP.PatternNode((int) GRGEN_MODEL.NodeTypes.@C, "GRGEN_MODEL.IC", "Complex_alt_0_ExtendAv_node__node0", "_node0", Complex_alt_0_ExtendAv_node__node0_AllowedTypes, Complex_alt_0_ExtendAv_node__node0_IsAllowedType, 5.5F, -1, false, null, null);
+			GRGEN_LGSP.PatternNode Complex_alt_0_ExtendAv_node__node1 = new GRGEN_LGSP.PatternNode((int) GRGEN_MODEL.NodeTypes.@C, "GRGEN_MODEL.IC", "Complex_alt_0_ExtendAv_node__node1", "_node1", Complex_alt_0_ExtendAv_node__node1_AllowedTypes, Complex_alt_0_ExtendAv_node__node1_IsAllowedType, 5.5F, -1, false, null, null);
+			GRGEN_LGSP.PatternEdge Complex_alt_0_ExtendAv_edge__edge0 = new GRGEN_LGSP.PatternEdge(true, (int) GRGEN_MODEL.EdgeTypes.@Edge, "GRGEN_LIBGR.IEdge", "Complex_alt_0_ExtendAv_edge__edge0", "_edge0", Complex_alt_0_ExtendAv_edge__edge0_AllowedTypes, Complex_alt_0_ExtendAv_edge__edge0_IsAllowedType, 5.5F, -1, false, null, null);
+			GRGEN_LGSP.PatternEdge Complex_alt_0_ExtendAv_edge__edge1 = new GRGEN_LGSP.PatternEdge(true, (int) GRGEN_MODEL.EdgeTypes.@Edge, "GRGEN_LIBGR.IEdge", "Complex_alt_0_ExtendAv_edge__edge1", "_edge1", Complex_alt_0_ExtendAv_edge__edge1_AllowedTypes, Complex_alt_0_ExtendAv_edge__edge1_IsAllowedType, 5.5F, -1, false, null, null);
+			GRGEN_LGSP.PatternEdge Complex_alt_0_ExtendAv_edge__edge2 = new GRGEN_LGSP.PatternEdge(true, (int) GRGEN_MODEL.EdgeTypes.@Edge, "GRGEN_LIBGR.IEdge", "Complex_alt_0_ExtendAv_edge__edge2", "_edge2", Complex_alt_0_ExtendAv_edge__edge2_AllowedTypes, Complex_alt_0_ExtendAv_edge__edge2_IsAllowedType, 5.5F, -1, false, null, null);
+			GRGEN_LGSP.PatternEdge Complex_alt_0_ExtendAv_edge__edge3 = new GRGEN_LGSP.PatternEdge(true, (int) GRGEN_MODEL.EdgeTypes.@Edge, "GRGEN_LIBGR.IEdge", "Complex_alt_0_ExtendAv_edge__edge3", "_edge3", Complex_alt_0_ExtendAv_edge__edge3_AllowedTypes, Complex_alt_0_ExtendAv_edge__edge3_IsAllowedType, 5.5F, -1, false, null, null);
 			Complex_alt_0_ExtendAv = new GRGEN_LGSP.PatternGraph(
 				"ExtendAv",
 				"Complex_alt_0_",
@@ -4278,15 +4278,15 @@ namespace de.unika.ipd.grGen.Action_Alternatives
 			};
 			int[] Complex_alt_0_ExtendAv2_minMatches = new int[0] ;
 			int[] Complex_alt_0_ExtendAv2_maxMatches = new int[0] ;
-			GRGEN_LGSP.PatternNode Complex_alt_0_ExtendAv2_node_b2 = new GRGEN_LGSP.PatternNode((int) GRGEN_MODEL.NodeTypes.@B, "GRGEN_MODEL.IB", "Complex_alt_0_ExtendAv2_node_b2", "b2", Complex_alt_0_ExtendAv2_node_b2_AllowedTypes, Complex_alt_0_ExtendAv2_node_b2_IsAllowedType, 5.5F, -1, false);
-			GRGEN_LGSP.PatternNode Complex_alt_0_ExtendAv2_node__node0 = new GRGEN_LGSP.PatternNode((int) GRGEN_MODEL.NodeTypes.@C, "GRGEN_MODEL.IC", "Complex_alt_0_ExtendAv2_node__node0", "_node0", Complex_alt_0_ExtendAv2_node__node0_AllowedTypes, Complex_alt_0_ExtendAv2_node__node0_IsAllowedType, 5.5F, -1, false);
-			GRGEN_LGSP.PatternNode Complex_alt_0_ExtendAv2_node__node1 = new GRGEN_LGSP.PatternNode((int) GRGEN_MODEL.NodeTypes.@C, "GRGEN_MODEL.IC", "Complex_alt_0_ExtendAv2_node__node1", "_node1", Complex_alt_0_ExtendAv2_node__node1_AllowedTypes, Complex_alt_0_ExtendAv2_node__node1_IsAllowedType, 5.5F, -1, false);
-			GRGEN_LGSP.PatternNode Complex_alt_0_ExtendAv2_node__node2 = new GRGEN_LGSP.PatternNode((int) GRGEN_MODEL.NodeTypes.@C, "GRGEN_MODEL.IC", "Complex_alt_0_ExtendAv2_node__node2", "_node2", Complex_alt_0_ExtendAv2_node__node2_AllowedTypes, Complex_alt_0_ExtendAv2_node__node2_IsAllowedType, 5.5F, -1, false);
-			GRGEN_LGSP.PatternEdge Complex_alt_0_ExtendAv2_edge__edge0 = new GRGEN_LGSP.PatternEdge(true, (int) GRGEN_MODEL.EdgeTypes.@Edge, "GRGEN_LIBGR.IEdge", "Complex_alt_0_ExtendAv2_edge__edge0", "_edge0", Complex_alt_0_ExtendAv2_edge__edge0_AllowedTypes, Complex_alt_0_ExtendAv2_edge__edge0_IsAllowedType, 5.5F, -1, false);
-			GRGEN_LGSP.PatternEdge Complex_alt_0_ExtendAv2_edge__edge1 = new GRGEN_LGSP.PatternEdge(true, (int) GRGEN_MODEL.EdgeTypes.@Edge, "GRGEN_LIBGR.IEdge", "Complex_alt_0_ExtendAv2_edge__edge1", "_edge1", Complex_alt_0_ExtendAv2_edge__edge1_AllowedTypes, Complex_alt_0_ExtendAv2_edge__edge1_IsAllowedType, 5.5F, -1, false);
-			GRGEN_LGSP.PatternEdge Complex_alt_0_ExtendAv2_edge__edge2 = new GRGEN_LGSP.PatternEdge(true, (int) GRGEN_MODEL.EdgeTypes.@Edge, "GRGEN_LIBGR.IEdge", "Complex_alt_0_ExtendAv2_edge__edge2", "_edge2", Complex_alt_0_ExtendAv2_edge__edge2_AllowedTypes, Complex_alt_0_ExtendAv2_edge__edge2_IsAllowedType, 5.5F, -1, false);
-			GRGEN_LGSP.PatternEdge Complex_alt_0_ExtendAv2_edge__edge3 = new GRGEN_LGSP.PatternEdge(true, (int) GRGEN_MODEL.EdgeTypes.@Edge, "GRGEN_LIBGR.IEdge", "Complex_alt_0_ExtendAv2_edge__edge3", "_edge3", Complex_alt_0_ExtendAv2_edge__edge3_AllowedTypes, Complex_alt_0_ExtendAv2_edge__edge3_IsAllowedType, 5.5F, -1, false);
-			GRGEN_LGSP.PatternEdge Complex_alt_0_ExtendAv2_edge__edge4 = new GRGEN_LGSP.PatternEdge(true, (int) GRGEN_MODEL.EdgeTypes.@Edge, "GRGEN_LIBGR.IEdge", "Complex_alt_0_ExtendAv2_edge__edge4", "_edge4", Complex_alt_0_ExtendAv2_edge__edge4_AllowedTypes, Complex_alt_0_ExtendAv2_edge__edge4_IsAllowedType, 5.5F, -1, false);
+			GRGEN_LGSP.PatternNode Complex_alt_0_ExtendAv2_node_b2 = new GRGEN_LGSP.PatternNode((int) GRGEN_MODEL.NodeTypes.@B, "GRGEN_MODEL.IB", "Complex_alt_0_ExtendAv2_node_b2", "b2", Complex_alt_0_ExtendAv2_node_b2_AllowedTypes, Complex_alt_0_ExtendAv2_node_b2_IsAllowedType, 5.5F, -1, false, null, null);
+			GRGEN_LGSP.PatternNode Complex_alt_0_ExtendAv2_node__node0 = new GRGEN_LGSP.PatternNode((int) GRGEN_MODEL.NodeTypes.@C, "GRGEN_MODEL.IC", "Complex_alt_0_ExtendAv2_node__node0", "_node0", Complex_alt_0_ExtendAv2_node__node0_AllowedTypes, Complex_alt_0_ExtendAv2_node__node0_IsAllowedType, 5.5F, -1, false, null, null);
+			GRGEN_LGSP.PatternNode Complex_alt_0_ExtendAv2_node__node1 = new GRGEN_LGSP.PatternNode((int) GRGEN_MODEL.NodeTypes.@C, "GRGEN_MODEL.IC", "Complex_alt_0_ExtendAv2_node__node1", "_node1", Complex_alt_0_ExtendAv2_node__node1_AllowedTypes, Complex_alt_0_ExtendAv2_node__node1_IsAllowedType, 5.5F, -1, false, null, null);
+			GRGEN_LGSP.PatternNode Complex_alt_0_ExtendAv2_node__node2 = new GRGEN_LGSP.PatternNode((int) GRGEN_MODEL.NodeTypes.@C, "GRGEN_MODEL.IC", "Complex_alt_0_ExtendAv2_node__node2", "_node2", Complex_alt_0_ExtendAv2_node__node2_AllowedTypes, Complex_alt_0_ExtendAv2_node__node2_IsAllowedType, 5.5F, -1, false, null, null);
+			GRGEN_LGSP.PatternEdge Complex_alt_0_ExtendAv2_edge__edge0 = new GRGEN_LGSP.PatternEdge(true, (int) GRGEN_MODEL.EdgeTypes.@Edge, "GRGEN_LIBGR.IEdge", "Complex_alt_0_ExtendAv2_edge__edge0", "_edge0", Complex_alt_0_ExtendAv2_edge__edge0_AllowedTypes, Complex_alt_0_ExtendAv2_edge__edge0_IsAllowedType, 5.5F, -1, false, null, null);
+			GRGEN_LGSP.PatternEdge Complex_alt_0_ExtendAv2_edge__edge1 = new GRGEN_LGSP.PatternEdge(true, (int) GRGEN_MODEL.EdgeTypes.@Edge, "GRGEN_LIBGR.IEdge", "Complex_alt_0_ExtendAv2_edge__edge1", "_edge1", Complex_alt_0_ExtendAv2_edge__edge1_AllowedTypes, Complex_alt_0_ExtendAv2_edge__edge1_IsAllowedType, 5.5F, -1, false, null, null);
+			GRGEN_LGSP.PatternEdge Complex_alt_0_ExtendAv2_edge__edge2 = new GRGEN_LGSP.PatternEdge(true, (int) GRGEN_MODEL.EdgeTypes.@Edge, "GRGEN_LIBGR.IEdge", "Complex_alt_0_ExtendAv2_edge__edge2", "_edge2", Complex_alt_0_ExtendAv2_edge__edge2_AllowedTypes, Complex_alt_0_ExtendAv2_edge__edge2_IsAllowedType, 5.5F, -1, false, null, null);
+			GRGEN_LGSP.PatternEdge Complex_alt_0_ExtendAv2_edge__edge3 = new GRGEN_LGSP.PatternEdge(true, (int) GRGEN_MODEL.EdgeTypes.@Edge, "GRGEN_LIBGR.IEdge", "Complex_alt_0_ExtendAv2_edge__edge3", "_edge3", Complex_alt_0_ExtendAv2_edge__edge3_AllowedTypes, Complex_alt_0_ExtendAv2_edge__edge3_IsAllowedType, 5.5F, -1, false, null, null);
+			GRGEN_LGSP.PatternEdge Complex_alt_0_ExtendAv2_edge__edge4 = new GRGEN_LGSP.PatternEdge(true, (int) GRGEN_MODEL.EdgeTypes.@Edge, "GRGEN_LIBGR.IEdge", "Complex_alt_0_ExtendAv2_edge__edge4", "_edge4", Complex_alt_0_ExtendAv2_edge__edge4_AllowedTypes, Complex_alt_0_ExtendAv2_edge__edge4_IsAllowedType, 5.5F, -1, false, null, null);
 			Complex_alt_0_ExtendAv2 = new GRGEN_LGSP.PatternGraph(
 				"ExtendAv2",
 				"Complex_alt_0_",
@@ -4346,13 +4346,13 @@ namespace de.unika.ipd.grGen.Action_Alternatives
 			};
 			int[] Complex_alt_0_ExtendNA2_minMatches = new int[0] ;
 			int[] Complex_alt_0_ExtendNA2_maxMatches = new int[0] ;
-			GRGEN_LGSP.PatternNode Complex_alt_0_ExtendNA2_node__node0 = new GRGEN_LGSP.PatternNode((int) GRGEN_MODEL.NodeTypes.@C, "GRGEN_MODEL.IC", "Complex_alt_0_ExtendNA2_node__node0", "_node0", Complex_alt_0_ExtendNA2_node__node0_AllowedTypes, Complex_alt_0_ExtendNA2_node__node0_IsAllowedType, 5.5F, -1, false);
-			GRGEN_LGSP.PatternNode Complex_alt_0_ExtendNA2_node__node1 = new GRGEN_LGSP.PatternNode((int) GRGEN_MODEL.NodeTypes.@C, "GRGEN_MODEL.IC", "Complex_alt_0_ExtendNA2_node__node1", "_node1", Complex_alt_0_ExtendNA2_node__node1_AllowedTypes, Complex_alt_0_ExtendNA2_node__node1_IsAllowedType, 5.5F, -1, false);
-			GRGEN_LGSP.PatternNode Complex_alt_0_ExtendNA2_node_b2 = new GRGEN_LGSP.PatternNode((int) GRGEN_MODEL.NodeTypes.@B, "GRGEN_MODEL.IB", "Complex_alt_0_ExtendNA2_node_b2", "b2", Complex_alt_0_ExtendNA2_node_b2_AllowedTypes, Complex_alt_0_ExtendNA2_node_b2_IsAllowedType, 5.5F, -1, false);
-			GRGEN_LGSP.PatternEdge Complex_alt_0_ExtendNA2_edge__edge0 = new GRGEN_LGSP.PatternEdge(true, (int) GRGEN_MODEL.EdgeTypes.@Edge, "GRGEN_LIBGR.IEdge", "Complex_alt_0_ExtendNA2_edge__edge0", "_edge0", Complex_alt_0_ExtendNA2_edge__edge0_AllowedTypes, Complex_alt_0_ExtendNA2_edge__edge0_IsAllowedType, 5.5F, -1, false);
-			GRGEN_LGSP.PatternEdge Complex_alt_0_ExtendNA2_edge__edge1 = new GRGEN_LGSP.PatternEdge(true, (int) GRGEN_MODEL.EdgeTypes.@Edge, "GRGEN_LIBGR.IEdge", "Complex_alt_0_ExtendNA2_edge__edge1", "_edge1", Complex_alt_0_ExtendNA2_edge__edge1_AllowedTypes, Complex_alt_0_ExtendNA2_edge__edge1_IsAllowedType, 5.5F, -1, false);
-			GRGEN_LGSP.PatternEdge Complex_alt_0_ExtendNA2_edge__edge2 = new GRGEN_LGSP.PatternEdge(true, (int) GRGEN_MODEL.EdgeTypes.@Edge, "GRGEN_LIBGR.IEdge", "Complex_alt_0_ExtendNA2_edge__edge2", "_edge2", Complex_alt_0_ExtendNA2_edge__edge2_AllowedTypes, Complex_alt_0_ExtendNA2_edge__edge2_IsAllowedType, 5.5F, -1, false);
-			GRGEN_LGSP.PatternEdge Complex_alt_0_ExtendNA2_edge__edge3 = new GRGEN_LGSP.PatternEdge(true, (int) GRGEN_MODEL.EdgeTypes.@Edge, "GRGEN_LIBGR.IEdge", "Complex_alt_0_ExtendNA2_edge__edge3", "_edge3", Complex_alt_0_ExtendNA2_edge__edge3_AllowedTypes, Complex_alt_0_ExtendNA2_edge__edge3_IsAllowedType, 5.5F, -1, false);
+			GRGEN_LGSP.PatternNode Complex_alt_0_ExtendNA2_node__node0 = new GRGEN_LGSP.PatternNode((int) GRGEN_MODEL.NodeTypes.@C, "GRGEN_MODEL.IC", "Complex_alt_0_ExtendNA2_node__node0", "_node0", Complex_alt_0_ExtendNA2_node__node0_AllowedTypes, Complex_alt_0_ExtendNA2_node__node0_IsAllowedType, 5.5F, -1, false, null, null);
+			GRGEN_LGSP.PatternNode Complex_alt_0_ExtendNA2_node__node1 = new GRGEN_LGSP.PatternNode((int) GRGEN_MODEL.NodeTypes.@C, "GRGEN_MODEL.IC", "Complex_alt_0_ExtendNA2_node__node1", "_node1", Complex_alt_0_ExtendNA2_node__node1_AllowedTypes, Complex_alt_0_ExtendNA2_node__node1_IsAllowedType, 5.5F, -1, false, null, null);
+			GRGEN_LGSP.PatternNode Complex_alt_0_ExtendNA2_node_b2 = new GRGEN_LGSP.PatternNode((int) GRGEN_MODEL.NodeTypes.@B, "GRGEN_MODEL.IB", "Complex_alt_0_ExtendNA2_node_b2", "b2", Complex_alt_0_ExtendNA2_node_b2_AllowedTypes, Complex_alt_0_ExtendNA2_node_b2_IsAllowedType, 5.5F, -1, false, null, null);
+			GRGEN_LGSP.PatternEdge Complex_alt_0_ExtendNA2_edge__edge0 = new GRGEN_LGSP.PatternEdge(true, (int) GRGEN_MODEL.EdgeTypes.@Edge, "GRGEN_LIBGR.IEdge", "Complex_alt_0_ExtendNA2_edge__edge0", "_edge0", Complex_alt_0_ExtendNA2_edge__edge0_AllowedTypes, Complex_alt_0_ExtendNA2_edge__edge0_IsAllowedType, 5.5F, -1, false, null, null);
+			GRGEN_LGSP.PatternEdge Complex_alt_0_ExtendNA2_edge__edge1 = new GRGEN_LGSP.PatternEdge(true, (int) GRGEN_MODEL.EdgeTypes.@Edge, "GRGEN_LIBGR.IEdge", "Complex_alt_0_ExtendNA2_edge__edge1", "_edge1", Complex_alt_0_ExtendNA2_edge__edge1_AllowedTypes, Complex_alt_0_ExtendNA2_edge__edge1_IsAllowedType, 5.5F, -1, false, null, null);
+			GRGEN_LGSP.PatternEdge Complex_alt_0_ExtendNA2_edge__edge2 = new GRGEN_LGSP.PatternEdge(true, (int) GRGEN_MODEL.EdgeTypes.@Edge, "GRGEN_LIBGR.IEdge", "Complex_alt_0_ExtendNA2_edge__edge2", "_edge2", Complex_alt_0_ExtendNA2_edge__edge2_AllowedTypes, Complex_alt_0_ExtendNA2_edge__edge2_IsAllowedType, 5.5F, -1, false, null, null);
+			GRGEN_LGSP.PatternEdge Complex_alt_0_ExtendNA2_edge__edge3 = new GRGEN_LGSP.PatternEdge(true, (int) GRGEN_MODEL.EdgeTypes.@Edge, "GRGEN_LIBGR.IEdge", "Complex_alt_0_ExtendNA2_edge__edge3", "_edge3", Complex_alt_0_ExtendNA2_edge__edge3_AllowedTypes, Complex_alt_0_ExtendNA2_edge__edge3_IsAllowedType, 5.5F, -1, false, null, null);
 			Complex_alt_0_ExtendNA2 = new GRGEN_LGSP.PatternGraph(
 				"ExtendNA2",
 				"Complex_alt_0_",
@@ -5164,10 +5164,10 @@ namespace de.unika.ipd.grGen.Action_Alternatives
 			};
 			int[] ComplexMax_minMatches = new int[0] ;
 			int[] ComplexMax_maxMatches = new int[0] ;
-			GRGEN_LGSP.PatternNode ComplexMax_node_a = new GRGEN_LGSP.PatternNode((int) GRGEN_MODEL.NodeTypes.@A, "GRGEN_MODEL.IA", "ComplexMax_node_a", "a", ComplexMax_node_a_AllowedTypes, ComplexMax_node_a_IsAllowedType, 5.5F, -1, false);
-			GRGEN_LGSP.PatternNode ComplexMax_node_b = new GRGEN_LGSP.PatternNode((int) GRGEN_MODEL.NodeTypes.@B, "GRGEN_MODEL.IB", "ComplexMax_node_b", "b", ComplexMax_node_b_AllowedTypes, ComplexMax_node_b_IsAllowedType, 5.5F, -1, false);
-			GRGEN_LGSP.PatternEdge ComplexMax_edge__edge0 = new GRGEN_LGSP.PatternEdge(true, (int) GRGEN_MODEL.EdgeTypes.@Edge, "GRGEN_LIBGR.IEdge", "ComplexMax_edge__edge0", "_edge0", ComplexMax_edge__edge0_AllowedTypes, ComplexMax_edge__edge0_IsAllowedType, 5.5F, -1, false);
-			GRGEN_LGSP.PatternEdge ComplexMax_edge__edge1 = new GRGEN_LGSP.PatternEdge(true, (int) GRGEN_MODEL.EdgeTypes.@Edge, "GRGEN_LIBGR.IEdge", "ComplexMax_edge__edge1", "_edge1", ComplexMax_edge__edge1_AllowedTypes, ComplexMax_edge__edge1_IsAllowedType, 5.5F, -1, false);
+			GRGEN_LGSP.PatternNode ComplexMax_node_a = new GRGEN_LGSP.PatternNode((int) GRGEN_MODEL.NodeTypes.@A, "GRGEN_MODEL.IA", "ComplexMax_node_a", "a", ComplexMax_node_a_AllowedTypes, ComplexMax_node_a_IsAllowedType, 5.5F, -1, false, null, null);
+			GRGEN_LGSP.PatternNode ComplexMax_node_b = new GRGEN_LGSP.PatternNode((int) GRGEN_MODEL.NodeTypes.@B, "GRGEN_MODEL.IB", "ComplexMax_node_b", "b", ComplexMax_node_b_AllowedTypes, ComplexMax_node_b_IsAllowedType, 5.5F, -1, false, null, null);
+			GRGEN_LGSP.PatternEdge ComplexMax_edge__edge0 = new GRGEN_LGSP.PatternEdge(true, (int) GRGEN_MODEL.EdgeTypes.@Edge, "GRGEN_LIBGR.IEdge", "ComplexMax_edge__edge0", "_edge0", ComplexMax_edge__edge0_AllowedTypes, ComplexMax_edge__edge0_IsAllowedType, 5.5F, -1, false, null, null);
+			GRGEN_LGSP.PatternEdge ComplexMax_edge__edge1 = new GRGEN_LGSP.PatternEdge(true, (int) GRGEN_MODEL.EdgeTypes.@Edge, "GRGEN_LIBGR.IEdge", "ComplexMax_edge__edge1", "_edge1", ComplexMax_edge__edge1_AllowedTypes, ComplexMax_edge__edge1_IsAllowedType, 5.5F, -1, false, null, null);
 			bool[,] ComplexMax_alt_0_ExtendAv_isNodeHomomorphicGlobal = new bool[5, 5] {
 				{ false, false, false, false, false, },
 				{ false, false, false, false, false, },
@@ -5183,13 +5183,13 @@ namespace de.unika.ipd.grGen.Action_Alternatives
 			};
 			int[] ComplexMax_alt_0_ExtendAv_minMatches = new int[0] ;
 			int[] ComplexMax_alt_0_ExtendAv_maxMatches = new int[0] ;
-			GRGEN_LGSP.PatternNode ComplexMax_alt_0_ExtendAv_node_b2 = new GRGEN_LGSP.PatternNode((int) GRGEN_MODEL.NodeTypes.@B, "GRGEN_MODEL.IB", "ComplexMax_alt_0_ExtendAv_node_b2", "b2", ComplexMax_alt_0_ExtendAv_node_b2_AllowedTypes, ComplexMax_alt_0_ExtendAv_node_b2_IsAllowedType, 5.5F, -1, false);
-			GRGEN_LGSP.PatternNode ComplexMax_alt_0_ExtendAv_node__node0 = new GRGEN_LGSP.PatternNode((int) GRGEN_MODEL.NodeTypes.@C, "GRGEN_MODEL.IC", "ComplexMax_alt_0_ExtendAv_node__node0", "_node0", ComplexMax_alt_0_ExtendAv_node__node0_AllowedTypes, ComplexMax_alt_0_ExtendAv_node__node0_IsAllowedType, 5.5F, -1, false);
-			GRGEN_LGSP.PatternNode ComplexMax_alt_0_ExtendAv_node_c = new GRGEN_LGSP.PatternNode((int) GRGEN_MODEL.NodeTypes.@C, "GRGEN_MODEL.IC", "ComplexMax_alt_0_ExtendAv_node_c", "c", ComplexMax_alt_0_ExtendAv_node_c_AllowedTypes, ComplexMax_alt_0_ExtendAv_node_c_IsAllowedType, 5.5F, -1, false);
-			GRGEN_LGSP.PatternEdge ComplexMax_alt_0_ExtendAv_edge__edge0 = new GRGEN_LGSP.PatternEdge(true, (int) GRGEN_MODEL.EdgeTypes.@Edge, "GRGEN_LIBGR.IEdge", "ComplexMax_alt_0_ExtendAv_edge__edge0", "_edge0", ComplexMax_alt_0_ExtendAv_edge__edge0_AllowedTypes, ComplexMax_alt_0_ExtendAv_edge__edge0_IsAllowedType, 5.5F, -1, false);
-			GRGEN_LGSP.PatternEdge ComplexMax_alt_0_ExtendAv_edge__edge1 = new GRGEN_LGSP.PatternEdge(true, (int) GRGEN_MODEL.EdgeTypes.@Edge, "GRGEN_LIBGR.IEdge", "ComplexMax_alt_0_ExtendAv_edge__edge1", "_edge1", ComplexMax_alt_0_ExtendAv_edge__edge1_AllowedTypes, ComplexMax_alt_0_ExtendAv_edge__edge1_IsAllowedType, 5.5F, -1, false);
-			GRGEN_LGSP.PatternEdge ComplexMax_alt_0_ExtendAv_edge__edge2 = new GRGEN_LGSP.PatternEdge(true, (int) GRGEN_MODEL.EdgeTypes.@Edge, "GRGEN_LIBGR.IEdge", "ComplexMax_alt_0_ExtendAv_edge__edge2", "_edge2", ComplexMax_alt_0_ExtendAv_edge__edge2_AllowedTypes, ComplexMax_alt_0_ExtendAv_edge__edge2_IsAllowedType, 5.5F, -1, false);
-			GRGEN_LGSP.PatternEdge ComplexMax_alt_0_ExtendAv_edge__edge3 = new GRGEN_LGSP.PatternEdge(true, (int) GRGEN_MODEL.EdgeTypes.@Edge, "GRGEN_LIBGR.IEdge", "ComplexMax_alt_0_ExtendAv_edge__edge3", "_edge3", ComplexMax_alt_0_ExtendAv_edge__edge3_AllowedTypes, ComplexMax_alt_0_ExtendAv_edge__edge3_IsAllowedType, 5.5F, -1, false);
+			GRGEN_LGSP.PatternNode ComplexMax_alt_0_ExtendAv_node_b2 = new GRGEN_LGSP.PatternNode((int) GRGEN_MODEL.NodeTypes.@B, "GRGEN_MODEL.IB", "ComplexMax_alt_0_ExtendAv_node_b2", "b2", ComplexMax_alt_0_ExtendAv_node_b2_AllowedTypes, ComplexMax_alt_0_ExtendAv_node_b2_IsAllowedType, 5.5F, -1, false, null, null);
+			GRGEN_LGSP.PatternNode ComplexMax_alt_0_ExtendAv_node__node0 = new GRGEN_LGSP.PatternNode((int) GRGEN_MODEL.NodeTypes.@C, "GRGEN_MODEL.IC", "ComplexMax_alt_0_ExtendAv_node__node0", "_node0", ComplexMax_alt_0_ExtendAv_node__node0_AllowedTypes, ComplexMax_alt_0_ExtendAv_node__node0_IsAllowedType, 5.5F, -1, false, null, null);
+			GRGEN_LGSP.PatternNode ComplexMax_alt_0_ExtendAv_node_c = new GRGEN_LGSP.PatternNode((int) GRGEN_MODEL.NodeTypes.@C, "GRGEN_MODEL.IC", "ComplexMax_alt_0_ExtendAv_node_c", "c", ComplexMax_alt_0_ExtendAv_node_c_AllowedTypes, ComplexMax_alt_0_ExtendAv_node_c_IsAllowedType, 5.5F, -1, false, null, null);
+			GRGEN_LGSP.PatternEdge ComplexMax_alt_0_ExtendAv_edge__edge0 = new GRGEN_LGSP.PatternEdge(true, (int) GRGEN_MODEL.EdgeTypes.@Edge, "GRGEN_LIBGR.IEdge", "ComplexMax_alt_0_ExtendAv_edge__edge0", "_edge0", ComplexMax_alt_0_ExtendAv_edge__edge0_AllowedTypes, ComplexMax_alt_0_ExtendAv_edge__edge0_IsAllowedType, 5.5F, -1, false, null, null);
+			GRGEN_LGSP.PatternEdge ComplexMax_alt_0_ExtendAv_edge__edge1 = new GRGEN_LGSP.PatternEdge(true, (int) GRGEN_MODEL.EdgeTypes.@Edge, "GRGEN_LIBGR.IEdge", "ComplexMax_alt_0_ExtendAv_edge__edge1", "_edge1", ComplexMax_alt_0_ExtendAv_edge__edge1_AllowedTypes, ComplexMax_alt_0_ExtendAv_edge__edge1_IsAllowedType, 5.5F, -1, false, null, null);
+			GRGEN_LGSP.PatternEdge ComplexMax_alt_0_ExtendAv_edge__edge2 = new GRGEN_LGSP.PatternEdge(true, (int) GRGEN_MODEL.EdgeTypes.@Edge, "GRGEN_LIBGR.IEdge", "ComplexMax_alt_0_ExtendAv_edge__edge2", "_edge2", ComplexMax_alt_0_ExtendAv_edge__edge2_AllowedTypes, ComplexMax_alt_0_ExtendAv_edge__edge2_IsAllowedType, 5.5F, -1, false, null, null);
+			GRGEN_LGSP.PatternEdge ComplexMax_alt_0_ExtendAv_edge__edge3 = new GRGEN_LGSP.PatternEdge(true, (int) GRGEN_MODEL.EdgeTypes.@Edge, "GRGEN_LIBGR.IEdge", "ComplexMax_alt_0_ExtendAv_edge__edge3", "_edge3", ComplexMax_alt_0_ExtendAv_edge__edge3_AllowedTypes, ComplexMax_alt_0_ExtendAv_edge__edge3_IsAllowedType, 5.5F, -1, false, null, null);
 			bool[,] ComplexMax_alt_0_ExtendAv_neg_0_isNodeHomomorphicGlobal = new bool[2, 2] {
 				{ false, false, },
 				{ false, false, },
@@ -5199,8 +5199,8 @@ namespace de.unika.ipd.grGen.Action_Alternatives
 			};
 			int[] ComplexMax_alt_0_ExtendAv_neg_0_minMatches = new int[0] ;
 			int[] ComplexMax_alt_0_ExtendAv_neg_0_maxMatches = new int[0] ;
-			GRGEN_LGSP.PatternNode ComplexMax_alt_0_ExtendAv_neg_0_node__node0 = new GRGEN_LGSP.PatternNode((int) GRGEN_MODEL.NodeTypes.@C, "GRGEN_MODEL.IC", "ComplexMax_alt_0_ExtendAv_neg_0_node__node0", "_node0", ComplexMax_alt_0_ExtendAv_neg_0_node__node0_AllowedTypes, ComplexMax_alt_0_ExtendAv_neg_0_node__node0_IsAllowedType, 5.5F, -1, false);
-			GRGEN_LGSP.PatternEdge ComplexMax_alt_0_ExtendAv_neg_0_edge__edge0 = new GRGEN_LGSP.PatternEdge(true, (int) GRGEN_MODEL.EdgeTypes.@Edge, "GRGEN_LIBGR.IEdge", "ComplexMax_alt_0_ExtendAv_neg_0_edge__edge0", "_edge0", ComplexMax_alt_0_ExtendAv_neg_0_edge__edge0_AllowedTypes, ComplexMax_alt_0_ExtendAv_neg_0_edge__edge0_IsAllowedType, 5.5F, -1, false);
+			GRGEN_LGSP.PatternNode ComplexMax_alt_0_ExtendAv_neg_0_node__node0 = new GRGEN_LGSP.PatternNode((int) GRGEN_MODEL.NodeTypes.@C, "GRGEN_MODEL.IC", "ComplexMax_alt_0_ExtendAv_neg_0_node__node0", "_node0", ComplexMax_alt_0_ExtendAv_neg_0_node__node0_AllowedTypes, ComplexMax_alt_0_ExtendAv_neg_0_node__node0_IsAllowedType, 5.5F, -1, false, null, null);
+			GRGEN_LGSP.PatternEdge ComplexMax_alt_0_ExtendAv_neg_0_edge__edge0 = new GRGEN_LGSP.PatternEdge(true, (int) GRGEN_MODEL.EdgeTypes.@Edge, "GRGEN_LIBGR.IEdge", "ComplexMax_alt_0_ExtendAv_neg_0_edge__edge0", "_edge0", ComplexMax_alt_0_ExtendAv_neg_0_edge__edge0_AllowedTypes, ComplexMax_alt_0_ExtendAv_neg_0_edge__edge0_IsAllowedType, 5.5F, -1, false, null, null);
 			ComplexMax_alt_0_ExtendAv_neg_0 = new GRGEN_LGSP.PatternGraph(
 				"neg_0",
 				"ComplexMax_alt_0_ExtendAv_",
@@ -5287,15 +5287,15 @@ namespace de.unika.ipd.grGen.Action_Alternatives
 			};
 			int[] ComplexMax_alt_0_ExtendAv2_minMatches = new int[0] ;
 			int[] ComplexMax_alt_0_ExtendAv2_maxMatches = new int[0] ;
-			GRGEN_LGSP.PatternNode ComplexMax_alt_0_ExtendAv2_node_b2 = new GRGEN_LGSP.PatternNode((int) GRGEN_MODEL.NodeTypes.@B, "GRGEN_MODEL.IB", "ComplexMax_alt_0_ExtendAv2_node_b2", "b2", ComplexMax_alt_0_ExtendAv2_node_b2_AllowedTypes, ComplexMax_alt_0_ExtendAv2_node_b2_IsAllowedType, 5.5F, -1, false);
-			GRGEN_LGSP.PatternNode ComplexMax_alt_0_ExtendAv2_node__node0 = new GRGEN_LGSP.PatternNode((int) GRGEN_MODEL.NodeTypes.@C, "GRGEN_MODEL.IC", "ComplexMax_alt_0_ExtendAv2_node__node0", "_node0", ComplexMax_alt_0_ExtendAv2_node__node0_AllowedTypes, ComplexMax_alt_0_ExtendAv2_node__node0_IsAllowedType, 5.5F, -1, false);
-			GRGEN_LGSP.PatternNode ComplexMax_alt_0_ExtendAv2_node__node1 = new GRGEN_LGSP.PatternNode((int) GRGEN_MODEL.NodeTypes.@C, "GRGEN_MODEL.IC", "ComplexMax_alt_0_ExtendAv2_node__node1", "_node1", ComplexMax_alt_0_ExtendAv2_node__node1_AllowedTypes, ComplexMax_alt_0_ExtendAv2_node__node1_IsAllowedType, 5.5F, -1, false);
-			GRGEN_LGSP.PatternNode ComplexMax_alt_0_ExtendAv2_node__node2 = new GRGEN_LGSP.PatternNode((int) GRGEN_MODEL.NodeTypes.@C, "GRGEN_MODEL.IC", "ComplexMax_alt_0_ExtendAv2_node__node2", "_node2", ComplexMax_alt_0_ExtendAv2_node__node2_AllowedTypes, ComplexMax_alt_0_ExtendAv2_node__node2_IsAllowedType, 5.5F, -1, false);
-			GRGEN_LGSP.PatternEdge ComplexMax_alt_0_ExtendAv2_edge__edge0 = new GRGEN_LGSP.PatternEdge(true, (int) GRGEN_MODEL.EdgeTypes.@Edge, "GRGEN_LIBGR.IEdge", "ComplexMax_alt_0_ExtendAv2_edge__edge0", "_edge0", ComplexMax_alt_0_ExtendAv2_edge__edge0_AllowedTypes, ComplexMax_alt_0_ExtendAv2_edge__edge0_IsAllowedType, 5.5F, -1, false);
-			GRGEN_LGSP.PatternEdge ComplexMax_alt_0_ExtendAv2_edge__edge1 = new GRGEN_LGSP.PatternEdge(true, (int) GRGEN_MODEL.EdgeTypes.@Edge, "GRGEN_LIBGR.IEdge", "ComplexMax_alt_0_ExtendAv2_edge__edge1", "_edge1", ComplexMax_alt_0_ExtendAv2_edge__edge1_AllowedTypes, ComplexMax_alt_0_ExtendAv2_edge__edge1_IsAllowedType, 5.5F, -1, false);
-			GRGEN_LGSP.PatternEdge ComplexMax_alt_0_ExtendAv2_edge__edge2 = new GRGEN_LGSP.PatternEdge(true, (int) GRGEN_MODEL.EdgeTypes.@Edge, "GRGEN_LIBGR.IEdge", "ComplexMax_alt_0_ExtendAv2_edge__edge2", "_edge2", ComplexMax_alt_0_ExtendAv2_edge__edge2_AllowedTypes, ComplexMax_alt_0_ExtendAv2_edge__edge2_IsAllowedType, 5.5F, -1, false);
-			GRGEN_LGSP.PatternEdge ComplexMax_alt_0_ExtendAv2_edge__edge3 = new GRGEN_LGSP.PatternEdge(true, (int) GRGEN_MODEL.EdgeTypes.@Edge, "GRGEN_LIBGR.IEdge", "ComplexMax_alt_0_ExtendAv2_edge__edge3", "_edge3", ComplexMax_alt_0_ExtendAv2_edge__edge3_AllowedTypes, ComplexMax_alt_0_ExtendAv2_edge__edge3_IsAllowedType, 5.5F, -1, false);
-			GRGEN_LGSP.PatternEdge ComplexMax_alt_0_ExtendAv2_edge__edge4 = new GRGEN_LGSP.PatternEdge(true, (int) GRGEN_MODEL.EdgeTypes.@Edge, "GRGEN_LIBGR.IEdge", "ComplexMax_alt_0_ExtendAv2_edge__edge4", "_edge4", ComplexMax_alt_0_ExtendAv2_edge__edge4_AllowedTypes, ComplexMax_alt_0_ExtendAv2_edge__edge4_IsAllowedType, 5.5F, -1, false);
+			GRGEN_LGSP.PatternNode ComplexMax_alt_0_ExtendAv2_node_b2 = new GRGEN_LGSP.PatternNode((int) GRGEN_MODEL.NodeTypes.@B, "GRGEN_MODEL.IB", "ComplexMax_alt_0_ExtendAv2_node_b2", "b2", ComplexMax_alt_0_ExtendAv2_node_b2_AllowedTypes, ComplexMax_alt_0_ExtendAv2_node_b2_IsAllowedType, 5.5F, -1, false, null, null);
+			GRGEN_LGSP.PatternNode ComplexMax_alt_0_ExtendAv2_node__node0 = new GRGEN_LGSP.PatternNode((int) GRGEN_MODEL.NodeTypes.@C, "GRGEN_MODEL.IC", "ComplexMax_alt_0_ExtendAv2_node__node0", "_node0", ComplexMax_alt_0_ExtendAv2_node__node0_AllowedTypes, ComplexMax_alt_0_ExtendAv2_node__node0_IsAllowedType, 5.5F, -1, false, null, null);
+			GRGEN_LGSP.PatternNode ComplexMax_alt_0_ExtendAv2_node__node1 = new GRGEN_LGSP.PatternNode((int) GRGEN_MODEL.NodeTypes.@C, "GRGEN_MODEL.IC", "ComplexMax_alt_0_ExtendAv2_node__node1", "_node1", ComplexMax_alt_0_ExtendAv2_node__node1_AllowedTypes, ComplexMax_alt_0_ExtendAv2_node__node1_IsAllowedType, 5.5F, -1, false, null, null);
+			GRGEN_LGSP.PatternNode ComplexMax_alt_0_ExtendAv2_node__node2 = new GRGEN_LGSP.PatternNode((int) GRGEN_MODEL.NodeTypes.@C, "GRGEN_MODEL.IC", "ComplexMax_alt_0_ExtendAv2_node__node2", "_node2", ComplexMax_alt_0_ExtendAv2_node__node2_AllowedTypes, ComplexMax_alt_0_ExtendAv2_node__node2_IsAllowedType, 5.5F, -1, false, null, null);
+			GRGEN_LGSP.PatternEdge ComplexMax_alt_0_ExtendAv2_edge__edge0 = new GRGEN_LGSP.PatternEdge(true, (int) GRGEN_MODEL.EdgeTypes.@Edge, "GRGEN_LIBGR.IEdge", "ComplexMax_alt_0_ExtendAv2_edge__edge0", "_edge0", ComplexMax_alt_0_ExtendAv2_edge__edge0_AllowedTypes, ComplexMax_alt_0_ExtendAv2_edge__edge0_IsAllowedType, 5.5F, -1, false, null, null);
+			GRGEN_LGSP.PatternEdge ComplexMax_alt_0_ExtendAv2_edge__edge1 = new GRGEN_LGSP.PatternEdge(true, (int) GRGEN_MODEL.EdgeTypes.@Edge, "GRGEN_LIBGR.IEdge", "ComplexMax_alt_0_ExtendAv2_edge__edge1", "_edge1", ComplexMax_alt_0_ExtendAv2_edge__edge1_AllowedTypes, ComplexMax_alt_0_ExtendAv2_edge__edge1_IsAllowedType, 5.5F, -1, false, null, null);
+			GRGEN_LGSP.PatternEdge ComplexMax_alt_0_ExtendAv2_edge__edge2 = new GRGEN_LGSP.PatternEdge(true, (int) GRGEN_MODEL.EdgeTypes.@Edge, "GRGEN_LIBGR.IEdge", "ComplexMax_alt_0_ExtendAv2_edge__edge2", "_edge2", ComplexMax_alt_0_ExtendAv2_edge__edge2_AllowedTypes, ComplexMax_alt_0_ExtendAv2_edge__edge2_IsAllowedType, 5.5F, -1, false, null, null);
+			GRGEN_LGSP.PatternEdge ComplexMax_alt_0_ExtendAv2_edge__edge3 = new GRGEN_LGSP.PatternEdge(true, (int) GRGEN_MODEL.EdgeTypes.@Edge, "GRGEN_LIBGR.IEdge", "ComplexMax_alt_0_ExtendAv2_edge__edge3", "_edge3", ComplexMax_alt_0_ExtendAv2_edge__edge3_AllowedTypes, ComplexMax_alt_0_ExtendAv2_edge__edge3_IsAllowedType, 5.5F, -1, false, null, null);
+			GRGEN_LGSP.PatternEdge ComplexMax_alt_0_ExtendAv2_edge__edge4 = new GRGEN_LGSP.PatternEdge(true, (int) GRGEN_MODEL.EdgeTypes.@Edge, "GRGEN_LIBGR.IEdge", "ComplexMax_alt_0_ExtendAv2_edge__edge4", "_edge4", ComplexMax_alt_0_ExtendAv2_edge__edge4_AllowedTypes, ComplexMax_alt_0_ExtendAv2_edge__edge4_IsAllowedType, 5.5F, -1, false, null, null);
 			ComplexMax_alt_0_ExtendAv2 = new GRGEN_LGSP.PatternGraph(
 				"ExtendAv2",
 				"ComplexMax_alt_0_",
@@ -5355,13 +5355,13 @@ namespace de.unika.ipd.grGen.Action_Alternatives
 			};
 			int[] ComplexMax_alt_0_ExtendNA2_minMatches = new int[0] ;
 			int[] ComplexMax_alt_0_ExtendNA2_maxMatches = new int[0] ;
-			GRGEN_LGSP.PatternNode ComplexMax_alt_0_ExtendNA2_node__node0 = new GRGEN_LGSP.PatternNode((int) GRGEN_MODEL.NodeTypes.@C, "GRGEN_MODEL.IC", "ComplexMax_alt_0_ExtendNA2_node__node0", "_node0", ComplexMax_alt_0_ExtendNA2_node__node0_AllowedTypes, ComplexMax_alt_0_ExtendNA2_node__node0_IsAllowedType, 5.5F, -1, false);
-			GRGEN_LGSP.PatternNode ComplexMax_alt_0_ExtendNA2_node__node1 = new GRGEN_LGSP.PatternNode((int) GRGEN_MODEL.NodeTypes.@C, "GRGEN_MODEL.IC", "ComplexMax_alt_0_ExtendNA2_node__node1", "_node1", ComplexMax_alt_0_ExtendNA2_node__node1_AllowedTypes, ComplexMax_alt_0_ExtendNA2_node__node1_IsAllowedType, 5.5F, -1, false);
-			GRGEN_LGSP.PatternNode ComplexMax_alt_0_ExtendNA2_node_b2 = new GRGEN_LGSP.PatternNode((int) GRGEN_MODEL.NodeTypes.@B, "GRGEN_MODEL.IB", "ComplexMax_alt_0_ExtendNA2_node_b2", "b2", ComplexMax_alt_0_ExtendNA2_node_b2_AllowedTypes, ComplexMax_alt_0_ExtendNA2_node_b2_IsAllowedType, 5.5F, -1, false);
-			GRGEN_LGSP.PatternEdge ComplexMax_alt_0_ExtendNA2_edge__edge0 = new GRGEN_LGSP.PatternEdge(true, (int) GRGEN_MODEL.EdgeTypes.@Edge, "GRGEN_LIBGR.IEdge", "ComplexMax_alt_0_ExtendNA2_edge__edge0", "_edge0", ComplexMax_alt_0_ExtendNA2_edge__edge0_AllowedTypes, ComplexMax_alt_0_ExtendNA2_edge__edge0_IsAllowedType, 5.5F, -1, false);
-			GRGEN_LGSP.PatternEdge ComplexMax_alt_0_ExtendNA2_edge__edge1 = new GRGEN_LGSP.PatternEdge(true, (int) GRGEN_MODEL.EdgeTypes.@Edge, "GRGEN_LIBGR.IEdge", "ComplexMax_alt_0_ExtendNA2_edge__edge1", "_edge1", ComplexMax_alt_0_ExtendNA2_edge__edge1_AllowedTypes, ComplexMax_alt_0_ExtendNA2_edge__edge1_IsAllowedType, 5.5F, -1, false);
-			GRGEN_LGSP.PatternEdge ComplexMax_alt_0_ExtendNA2_edge__edge2 = new GRGEN_LGSP.PatternEdge(true, (int) GRGEN_MODEL.EdgeTypes.@Edge, "GRGEN_LIBGR.IEdge", "ComplexMax_alt_0_ExtendNA2_edge__edge2", "_edge2", ComplexMax_alt_0_ExtendNA2_edge__edge2_AllowedTypes, ComplexMax_alt_0_ExtendNA2_edge__edge2_IsAllowedType, 5.5F, -1, false);
-			GRGEN_LGSP.PatternEdge ComplexMax_alt_0_ExtendNA2_edge__edge3 = new GRGEN_LGSP.PatternEdge(true, (int) GRGEN_MODEL.EdgeTypes.@Edge, "GRGEN_LIBGR.IEdge", "ComplexMax_alt_0_ExtendNA2_edge__edge3", "_edge3", ComplexMax_alt_0_ExtendNA2_edge__edge3_AllowedTypes, ComplexMax_alt_0_ExtendNA2_edge__edge3_IsAllowedType, 5.5F, -1, false);
+			GRGEN_LGSP.PatternNode ComplexMax_alt_0_ExtendNA2_node__node0 = new GRGEN_LGSP.PatternNode((int) GRGEN_MODEL.NodeTypes.@C, "GRGEN_MODEL.IC", "ComplexMax_alt_0_ExtendNA2_node__node0", "_node0", ComplexMax_alt_0_ExtendNA2_node__node0_AllowedTypes, ComplexMax_alt_0_ExtendNA2_node__node0_IsAllowedType, 5.5F, -1, false, null, null);
+			GRGEN_LGSP.PatternNode ComplexMax_alt_0_ExtendNA2_node__node1 = new GRGEN_LGSP.PatternNode((int) GRGEN_MODEL.NodeTypes.@C, "GRGEN_MODEL.IC", "ComplexMax_alt_0_ExtendNA2_node__node1", "_node1", ComplexMax_alt_0_ExtendNA2_node__node1_AllowedTypes, ComplexMax_alt_0_ExtendNA2_node__node1_IsAllowedType, 5.5F, -1, false, null, null);
+			GRGEN_LGSP.PatternNode ComplexMax_alt_0_ExtendNA2_node_b2 = new GRGEN_LGSP.PatternNode((int) GRGEN_MODEL.NodeTypes.@B, "GRGEN_MODEL.IB", "ComplexMax_alt_0_ExtendNA2_node_b2", "b2", ComplexMax_alt_0_ExtendNA2_node_b2_AllowedTypes, ComplexMax_alt_0_ExtendNA2_node_b2_IsAllowedType, 5.5F, -1, false, null, null);
+			GRGEN_LGSP.PatternEdge ComplexMax_alt_0_ExtendNA2_edge__edge0 = new GRGEN_LGSP.PatternEdge(true, (int) GRGEN_MODEL.EdgeTypes.@Edge, "GRGEN_LIBGR.IEdge", "ComplexMax_alt_0_ExtendNA2_edge__edge0", "_edge0", ComplexMax_alt_0_ExtendNA2_edge__edge0_AllowedTypes, ComplexMax_alt_0_ExtendNA2_edge__edge0_IsAllowedType, 5.5F, -1, false, null, null);
+			GRGEN_LGSP.PatternEdge ComplexMax_alt_0_ExtendNA2_edge__edge1 = new GRGEN_LGSP.PatternEdge(true, (int) GRGEN_MODEL.EdgeTypes.@Edge, "GRGEN_LIBGR.IEdge", "ComplexMax_alt_0_ExtendNA2_edge__edge1", "_edge1", ComplexMax_alt_0_ExtendNA2_edge__edge1_AllowedTypes, ComplexMax_alt_0_ExtendNA2_edge__edge1_IsAllowedType, 5.5F, -1, false, null, null);
+			GRGEN_LGSP.PatternEdge ComplexMax_alt_0_ExtendNA2_edge__edge2 = new GRGEN_LGSP.PatternEdge(true, (int) GRGEN_MODEL.EdgeTypes.@Edge, "GRGEN_LIBGR.IEdge", "ComplexMax_alt_0_ExtendNA2_edge__edge2", "_edge2", ComplexMax_alt_0_ExtendNA2_edge__edge2_AllowedTypes, ComplexMax_alt_0_ExtendNA2_edge__edge2_IsAllowedType, 5.5F, -1, false, null, null);
+			GRGEN_LGSP.PatternEdge ComplexMax_alt_0_ExtendNA2_edge__edge3 = new GRGEN_LGSP.PatternEdge(true, (int) GRGEN_MODEL.EdgeTypes.@Edge, "GRGEN_LIBGR.IEdge", "ComplexMax_alt_0_ExtendNA2_edge__edge3", "_edge3", ComplexMax_alt_0_ExtendNA2_edge__edge3_AllowedTypes, ComplexMax_alt_0_ExtendNA2_edge__edge3_IsAllowedType, 5.5F, -1, false, null, null);
 			ComplexMax_alt_0_ExtendNA2 = new GRGEN_LGSP.PatternGraph(
 				"ExtendNA2",
 				"ComplexMax_alt_0_",
@@ -6407,10 +6407,10 @@ namespace de.unika.ipd.grGen.Action_Alternatives
 			};
 			int[] homm_minMatches = new int[0] ;
 			int[] homm_maxMatches = new int[0] ;
-			GRGEN_LGSP.PatternNode homm_node_a = new GRGEN_LGSP.PatternNode((int) GRGEN_MODEL.NodeTypes.@A, "GRGEN_MODEL.IA", "homm_node_a", "a", homm_node_a_AllowedTypes, homm_node_a_IsAllowedType, 5.5F, -1, false);
-			GRGEN_LGSP.PatternNode homm_node_b = new GRGEN_LGSP.PatternNode((int) GRGEN_MODEL.NodeTypes.@B, "GRGEN_MODEL.IB", "homm_node_b", "b", homm_node_b_AllowedTypes, homm_node_b_IsAllowedType, 5.5F, -1, false);
-			GRGEN_LGSP.PatternEdge homm_edge__edge0 = new GRGEN_LGSP.PatternEdge(true, (int) GRGEN_MODEL.EdgeTypes.@Edge, "GRGEN_LIBGR.IEdge", "homm_edge__edge0", "_edge0", homm_edge__edge0_AllowedTypes, homm_edge__edge0_IsAllowedType, 5.5F, -1, false);
-			GRGEN_LGSP.PatternEdge homm_edge__edge1 = new GRGEN_LGSP.PatternEdge(true, (int) GRGEN_MODEL.EdgeTypes.@Edge, "GRGEN_LIBGR.IEdge", "homm_edge__edge1", "_edge1", homm_edge__edge1_AllowedTypes, homm_edge__edge1_IsAllowedType, 5.5F, -1, false);
+			GRGEN_LGSP.PatternNode homm_node_a = new GRGEN_LGSP.PatternNode((int) GRGEN_MODEL.NodeTypes.@A, "GRGEN_MODEL.IA", "homm_node_a", "a", homm_node_a_AllowedTypes, homm_node_a_IsAllowedType, 5.5F, -1, false, null, null);
+			GRGEN_LGSP.PatternNode homm_node_b = new GRGEN_LGSP.PatternNode((int) GRGEN_MODEL.NodeTypes.@B, "GRGEN_MODEL.IB", "homm_node_b", "b", homm_node_b_AllowedTypes, homm_node_b_IsAllowedType, 5.5F, -1, false, null, null);
+			GRGEN_LGSP.PatternEdge homm_edge__edge0 = new GRGEN_LGSP.PatternEdge(true, (int) GRGEN_MODEL.EdgeTypes.@Edge, "GRGEN_LIBGR.IEdge", "homm_edge__edge0", "_edge0", homm_edge__edge0_AllowedTypes, homm_edge__edge0_IsAllowedType, 5.5F, -1, false, null, null);
+			GRGEN_LGSP.PatternEdge homm_edge__edge1 = new GRGEN_LGSP.PatternEdge(true, (int) GRGEN_MODEL.EdgeTypes.@Edge, "GRGEN_LIBGR.IEdge", "homm_edge__edge1", "_edge1", homm_edge__edge1_AllowedTypes, homm_edge__edge1_IsAllowedType, 5.5F, -1, false, null, null);
 			bool[,] homm_alt_0_case1_isNodeHomomorphicGlobal = new bool[3, 3] {
 				{ false, false, false, },
 				{ false, false, true, },
@@ -6422,9 +6422,9 @@ namespace de.unika.ipd.grGen.Action_Alternatives
 			};
 			int[] homm_alt_0_case1_minMatches = new int[0] ;
 			int[] homm_alt_0_case1_maxMatches = new int[0] ;
-			GRGEN_LGSP.PatternNode homm_alt_0_case1_node_b2 = new GRGEN_LGSP.PatternNode((int) GRGEN_MODEL.NodeTypes.@B, "GRGEN_MODEL.IB", "homm_alt_0_case1_node_b2", "b2", homm_alt_0_case1_node_b2_AllowedTypes, homm_alt_0_case1_node_b2_IsAllowedType, 5.5F, -1, false);
-			GRGEN_LGSP.PatternEdge homm_alt_0_case1_edge__edge0 = new GRGEN_LGSP.PatternEdge(true, (int) GRGEN_MODEL.EdgeTypes.@Edge, "GRGEN_LIBGR.IEdge", "homm_alt_0_case1_edge__edge0", "_edge0", homm_alt_0_case1_edge__edge0_AllowedTypes, homm_alt_0_case1_edge__edge0_IsAllowedType, 5.5F, -1, false);
-			GRGEN_LGSP.PatternEdge homm_alt_0_case1_edge__edge1 = new GRGEN_LGSP.PatternEdge(true, (int) GRGEN_MODEL.EdgeTypes.@Edge, "GRGEN_LIBGR.IEdge", "homm_alt_0_case1_edge__edge1", "_edge1", homm_alt_0_case1_edge__edge1_AllowedTypes, homm_alt_0_case1_edge__edge1_IsAllowedType, 5.5F, -1, false);
+			GRGEN_LGSP.PatternNode homm_alt_0_case1_node_b2 = new GRGEN_LGSP.PatternNode((int) GRGEN_MODEL.NodeTypes.@B, "GRGEN_MODEL.IB", "homm_alt_0_case1_node_b2", "b2", homm_alt_0_case1_node_b2_AllowedTypes, homm_alt_0_case1_node_b2_IsAllowedType, 5.5F, -1, false, null, null);
+			GRGEN_LGSP.PatternEdge homm_alt_0_case1_edge__edge0 = new GRGEN_LGSP.PatternEdge(true, (int) GRGEN_MODEL.EdgeTypes.@Edge, "GRGEN_LIBGR.IEdge", "homm_alt_0_case1_edge__edge0", "_edge0", homm_alt_0_case1_edge__edge0_AllowedTypes, homm_alt_0_case1_edge__edge0_IsAllowedType, 5.5F, -1, false, null, null);
+			GRGEN_LGSP.PatternEdge homm_alt_0_case1_edge__edge1 = new GRGEN_LGSP.PatternEdge(true, (int) GRGEN_MODEL.EdgeTypes.@Edge, "GRGEN_LIBGR.IEdge", "homm_alt_0_case1_edge__edge1", "_edge1", homm_alt_0_case1_edge__edge1_AllowedTypes, homm_alt_0_case1_edge__edge1_IsAllowedType, 5.5F, -1, false, null, null);
 			homm_alt_0_case1 = new GRGEN_LGSP.PatternGraph(
 				"case1",
 				"homm_alt_0_",
@@ -6467,9 +6467,9 @@ namespace de.unika.ipd.grGen.Action_Alternatives
 			};
 			int[] homm_alt_0_case2_minMatches = new int[0] ;
 			int[] homm_alt_0_case2_maxMatches = new int[0] ;
-			GRGEN_LGSP.PatternNode homm_alt_0_case2_node_b2 = new GRGEN_LGSP.PatternNode((int) GRGEN_MODEL.NodeTypes.@B, "GRGEN_MODEL.IB", "homm_alt_0_case2_node_b2", "b2", homm_alt_0_case2_node_b2_AllowedTypes, homm_alt_0_case2_node_b2_IsAllowedType, 5.5F, -1, false);
-			GRGEN_LGSP.PatternEdge homm_alt_0_case2_edge__edge0 = new GRGEN_LGSP.PatternEdge(true, (int) GRGEN_MODEL.EdgeTypes.@Edge, "GRGEN_LIBGR.IEdge", "homm_alt_0_case2_edge__edge0", "_edge0", homm_alt_0_case2_edge__edge0_AllowedTypes, homm_alt_0_case2_edge__edge0_IsAllowedType, 5.5F, -1, false);
-			GRGEN_LGSP.PatternEdge homm_alt_0_case2_edge__edge1 = new GRGEN_LGSP.PatternEdge(true, (int) GRGEN_MODEL.EdgeTypes.@Edge, "GRGEN_LIBGR.IEdge", "homm_alt_0_case2_edge__edge1", "_edge1", homm_alt_0_case2_edge__edge1_AllowedTypes, homm_alt_0_case2_edge__edge1_IsAllowedType, 5.5F, -1, false);
+			GRGEN_LGSP.PatternNode homm_alt_0_case2_node_b2 = new GRGEN_LGSP.PatternNode((int) GRGEN_MODEL.NodeTypes.@B, "GRGEN_MODEL.IB", "homm_alt_0_case2_node_b2", "b2", homm_alt_0_case2_node_b2_AllowedTypes, homm_alt_0_case2_node_b2_IsAllowedType, 5.5F, -1, false, null, null);
+			GRGEN_LGSP.PatternEdge homm_alt_0_case2_edge__edge0 = new GRGEN_LGSP.PatternEdge(true, (int) GRGEN_MODEL.EdgeTypes.@Edge, "GRGEN_LIBGR.IEdge", "homm_alt_0_case2_edge__edge0", "_edge0", homm_alt_0_case2_edge__edge0_AllowedTypes, homm_alt_0_case2_edge__edge0_IsAllowedType, 5.5F, -1, false, null, null);
+			GRGEN_LGSP.PatternEdge homm_alt_0_case2_edge__edge1 = new GRGEN_LGSP.PatternEdge(true, (int) GRGEN_MODEL.EdgeTypes.@Edge, "GRGEN_LIBGR.IEdge", "homm_alt_0_case2_edge__edge1", "_edge1", homm_alt_0_case2_edge__edge1_AllowedTypes, homm_alt_0_case2_edge__edge1_IsAllowedType, 5.5F, -1, false, null, null);
 			homm_alt_0_case2 = new GRGEN_LGSP.PatternGraph(
 				"case2",
 				"homm_alt_0_",
@@ -6941,7 +6941,7 @@ namespace de.unika.ipd.grGen.Action_Alternatives
 		public enum XtoAorB_NodeNums { @x, };
 		public enum XtoAorB_EdgeNums { };
 		public enum XtoAorB_VariableNums { };
-		public enum XtoAorB_SubNums { @_subpattern0, };
+		public enum XtoAorB_SubNums { @_sub0, };
 		public enum XtoAorB_AltNums { };
 		public enum XtoAorB_IterNums { };
 
@@ -6967,8 +6967,8 @@ namespace de.unika.ipd.grGen.Action_Alternatives
 			bool[,] XtoAorB_isEdgeHomomorphicGlobal = new bool[0, 0] ;
 			int[] XtoAorB_minMatches = new int[0] ;
 			int[] XtoAorB_maxMatches = new int[0] ;
-			GRGEN_LGSP.PatternNode XtoAorB_node_x = new GRGEN_LGSP.PatternNode((int) GRGEN_MODEL.NodeTypes.@Node, "GRGEN_LIBGR.INode", "XtoAorB_node_x", "x", XtoAorB_node_x_AllowedTypes, XtoAorB_node_x_IsAllowedType, 5.5F, -1, false);
-			GRGEN_LGSP.PatternGraphEmbedding XtoAorB__subpattern0 = new GRGEN_LGSP.PatternGraphEmbedding("_subpattern0", Pattern_toAorB.Instance, 
+			GRGEN_LGSP.PatternNode XtoAorB_node_x = new GRGEN_LGSP.PatternNode((int) GRGEN_MODEL.NodeTypes.@Node, "GRGEN_LIBGR.INode", "XtoAorB_node_x", "x", XtoAorB_node_x_AllowedTypes, XtoAorB_node_x_IsAllowedType, 5.5F, -1, false, null, null);
+			GRGEN_LGSP.PatternGraphEmbedding XtoAorB__sub0 = new GRGEN_LGSP.PatternGraphEmbedding("_sub0", Pattern_toAorB.Instance, 
 				new GRGEN_EXPR.Expression[] {
 					new GRGEN_EXPR.GraphEntityExpression("XtoAorB_node_x"),
 				}, 
@@ -6980,7 +6980,7 @@ namespace de.unika.ipd.grGen.Action_Alternatives
 				new GRGEN_LGSP.PatternNode[] { XtoAorB_node_x }, 
 				new GRGEN_LGSP.PatternEdge[] {  }, 
 				new GRGEN_LGSP.PatternVariable[] {  }, 
-				new GRGEN_LGSP.PatternGraphEmbedding[] { XtoAorB__subpattern0 }, 
+				new GRGEN_LGSP.PatternGraphEmbedding[] { XtoAorB__sub0 }, 
 				new GRGEN_LGSP.Alternative[] {  }, 
 				new GRGEN_LGSP.PatternGraph[] {  }, 
 				XtoAorB_minMatches,
@@ -6997,7 +6997,7 @@ namespace de.unika.ipd.grGen.Action_Alternatives
 			);
 
 			XtoAorB_node_x.pointOfDefinition = pat_XtoAorB;
-			XtoAorB__subpattern0.PointOfDefinition = pat_XtoAorB;
+			XtoAorB__sub0.PointOfDefinition = pat_XtoAorB;
 
 			patternGraph = pat_XtoAorB;
 		}
@@ -7007,7 +7007,7 @@ namespace de.unika.ipd.grGen.Action_Alternatives
 		{
 			Match_XtoAorB curMatch = (Match_XtoAorB)_curMatch;
 			GRGEN_LGSP.LGSPNode node_x = curMatch._node_x;
-			Pattern_toAorB.Match_toAorB subpattern__subpattern0 = curMatch.@__subpattern0;
+			Pattern_toAorB.Match_toAorB subpattern__sub0 = curMatch.@__sub0;
 			return;
 		}
 
@@ -7021,7 +7021,7 @@ namespace de.unika.ipd.grGen.Action_Alternatives
 			//Edges
 			//Variables
 			//EmbeddedGraphs
-			@Pattern_toAorB.Match_toAorB @_subpattern0 { get; }
+			@Pattern_toAorB.Match_toAorB @_sub0 { get; }
 			//Alternatives
 			//Iterateds
 			//Independents
@@ -7067,16 +7067,16 @@ namespace de.unika.ipd.grGen.Action_Alternatives
 				}
 			}
 			
-			public @Pattern_toAorB.Match_toAorB @_subpattern0 { get { return @__subpattern0; } }
-			public @Pattern_toAorB.Match_toAorB @__subpattern0;
-			public enum XtoAorB_SubNums { @_subpattern0, END_OF_ENUM };
+			public @Pattern_toAorB.Match_toAorB @_sub0 { get { return @__sub0; } }
+			public @Pattern_toAorB.Match_toAorB @__sub0;
+			public enum XtoAorB_SubNums { @_sub0, END_OF_ENUM };
 			public IEnumerable<GRGEN_LIBGR.IMatch> EmbeddedGraphs { get { return new GRGEN_LGSP.EmbeddedGraphs_Enumerable(this); } }
 			public IEnumerator<GRGEN_LIBGR.IMatch> EmbeddedGraphsEnumerator { get { return new GRGEN_LGSP.EmbeddedGraphs_Enumerator(this); } }
 			public int NumberOfEmbeddedGraphs { get { return 1;} }
 			public GRGEN_LIBGR.IMatch getEmbeddedGraphAt(int index)
 			{
 				switch(index) {
-				case (int)XtoAorB_SubNums.@_subpattern0: return __subpattern0;
+				case (int)XtoAorB_SubNums.@_sub0: return __sub0;
 				default: return null;
 				}
 			}
@@ -7206,7 +7206,7 @@ namespace de.unika.ipd.grGen.Action_Alternatives
 			bool[,] alternative_in_negative_neg_0_alt_0_Foo_isEdgeHomomorphicGlobal = new bool[0, 0] ;
 			int[] alternative_in_negative_neg_0_alt_0_Foo_minMatches = new int[0] ;
 			int[] alternative_in_negative_neg_0_alt_0_Foo_maxMatches = new int[0] ;
-			GRGEN_LGSP.PatternNode alternative_in_negative_neg_0_alt_0_Foo_node__node0 = new GRGEN_LGSP.PatternNode((int) GRGEN_MODEL.NodeTypes.@Node, "GRGEN_LIBGR.INode", "alternative_in_negative_neg_0_alt_0_Foo_node__node0", "_node0", alternative_in_negative_neg_0_alt_0_Foo_node__node0_AllowedTypes, alternative_in_negative_neg_0_alt_0_Foo_node__node0_IsAllowedType, 5.5F, -1, false);
+			GRGEN_LGSP.PatternNode alternative_in_negative_neg_0_alt_0_Foo_node__node0 = new GRGEN_LGSP.PatternNode((int) GRGEN_MODEL.NodeTypes.@Node, "GRGEN_LIBGR.INode", "alternative_in_negative_neg_0_alt_0_Foo_node__node0", "_node0", alternative_in_negative_neg_0_alt_0_Foo_node__node0_AllowedTypes, alternative_in_negative_neg_0_alt_0_Foo_node__node0_IsAllowedType, 5.5F, -1, false, null, null);
 			alternative_in_negative_neg_0_alt_0_Foo = new GRGEN_LGSP.PatternGraph(
 				"Foo",
 				"alternative_in_negative_neg_0_alt_0_",
@@ -7239,9 +7239,9 @@ namespace de.unika.ipd.grGen.Action_Alternatives
 			};
 			int[] alternative_in_negative_neg_0_alt_0_Bar_minMatches = new int[0] ;
 			int[] alternative_in_negative_neg_0_alt_0_Bar_maxMatches = new int[0] ;
-			GRGEN_LGSP.PatternNode alternative_in_negative_neg_0_alt_0_Bar_node__node0 = new GRGEN_LGSP.PatternNode((int) GRGEN_MODEL.NodeTypes.@Node, "GRGEN_LIBGR.INode", "alternative_in_negative_neg_0_alt_0_Bar_node__node0", "_node0", alternative_in_negative_neg_0_alt_0_Bar_node__node0_AllowedTypes, alternative_in_negative_neg_0_alt_0_Bar_node__node0_IsAllowedType, 5.5F, -1, false);
-			GRGEN_LGSP.PatternNode alternative_in_negative_neg_0_alt_0_Bar_node__node1 = new GRGEN_LGSP.PatternNode((int) GRGEN_MODEL.NodeTypes.@Node, "GRGEN_LIBGR.INode", "alternative_in_negative_neg_0_alt_0_Bar_node__node1", "_node1", alternative_in_negative_neg_0_alt_0_Bar_node__node1_AllowedTypes, alternative_in_negative_neg_0_alt_0_Bar_node__node1_IsAllowedType, 5.5F, -1, false);
-			GRGEN_LGSP.PatternEdge alternative_in_negative_neg_0_alt_0_Bar_edge__edge0 = new GRGEN_LGSP.PatternEdge(true, (int) GRGEN_MODEL.EdgeTypes.@Edge, "GRGEN_LIBGR.IEdge", "alternative_in_negative_neg_0_alt_0_Bar_edge__edge0", "_edge0", alternative_in_negative_neg_0_alt_0_Bar_edge__edge0_AllowedTypes, alternative_in_negative_neg_0_alt_0_Bar_edge__edge0_IsAllowedType, 5.5F, -1, false);
+			GRGEN_LGSP.PatternNode alternative_in_negative_neg_0_alt_0_Bar_node__node0 = new GRGEN_LGSP.PatternNode((int) GRGEN_MODEL.NodeTypes.@Node, "GRGEN_LIBGR.INode", "alternative_in_negative_neg_0_alt_0_Bar_node__node0", "_node0", alternative_in_negative_neg_0_alt_0_Bar_node__node0_AllowedTypes, alternative_in_negative_neg_0_alt_0_Bar_node__node0_IsAllowedType, 5.5F, -1, false, null, null);
+			GRGEN_LGSP.PatternNode alternative_in_negative_neg_0_alt_0_Bar_node__node1 = new GRGEN_LGSP.PatternNode((int) GRGEN_MODEL.NodeTypes.@Node, "GRGEN_LIBGR.INode", "alternative_in_negative_neg_0_alt_0_Bar_node__node1", "_node1", alternative_in_negative_neg_0_alt_0_Bar_node__node1_AllowedTypes, alternative_in_negative_neg_0_alt_0_Bar_node__node1_IsAllowedType, 5.5F, -1, false, null, null);
+			GRGEN_LGSP.PatternEdge alternative_in_negative_neg_0_alt_0_Bar_edge__edge0 = new GRGEN_LGSP.PatternEdge(true, (int) GRGEN_MODEL.EdgeTypes.@Edge, "GRGEN_LIBGR.IEdge", "alternative_in_negative_neg_0_alt_0_Bar_edge__edge0", "_edge0", alternative_in_negative_neg_0_alt_0_Bar_edge__edge0_AllowedTypes, alternative_in_negative_neg_0_alt_0_Bar_edge__edge0_IsAllowedType, 5.5F, -1, false, null, null);
 			alternative_in_negative_neg_0_alt_0_Bar = new GRGEN_LGSP.PatternGraph(
 				"Bar",
 				"alternative_in_negative_neg_0_alt_0_",
@@ -7852,14 +7852,14 @@ namespace de.unika.ipd.grGen.Action_Alternatives
 			bool[,] alternative_in_iterated_iter_0_isEdgeHomomorphicGlobal = new bool[0, 0] ;
 			int[] alternative_in_iterated_iter_0_minMatches = new int[0] ;
 			int[] alternative_in_iterated_iter_0_maxMatches = new int[0] ;
-			GRGEN_LGSP.PatternNode alternative_in_iterated_iter_0_node__node0 = new GRGEN_LGSP.PatternNode((int) GRGEN_MODEL.NodeTypes.@Node, "GRGEN_LIBGR.INode", "alternative_in_iterated_iter_0_node__node0", "_node0", alternative_in_iterated_iter_0_node__node0_AllowedTypes, alternative_in_iterated_iter_0_node__node0_IsAllowedType, 5.5F, -1, false);
+			GRGEN_LGSP.PatternNode alternative_in_iterated_iter_0_node__node0 = new GRGEN_LGSP.PatternNode((int) GRGEN_MODEL.NodeTypes.@Node, "GRGEN_LIBGR.INode", "alternative_in_iterated_iter_0_node__node0", "_node0", alternative_in_iterated_iter_0_node__node0_AllowedTypes, alternative_in_iterated_iter_0_node__node0_IsAllowedType, 5.5F, -1, false, null, null);
 			bool[,] alternative_in_iterated_iter_0_alt_0_Foo_isNodeHomomorphicGlobal = new bool[1, 1] {
 				{ false, },
 			};
 			bool[,] alternative_in_iterated_iter_0_alt_0_Foo_isEdgeHomomorphicGlobal = new bool[0, 0] ;
 			int[] alternative_in_iterated_iter_0_alt_0_Foo_minMatches = new int[0] ;
 			int[] alternative_in_iterated_iter_0_alt_0_Foo_maxMatches = new int[0] ;
-			GRGEN_LGSP.PatternNode alternative_in_iterated_iter_0_alt_0_Foo_node__node0 = new GRGEN_LGSP.PatternNode((int) GRGEN_MODEL.NodeTypes.@Node, "GRGEN_LIBGR.INode", "alternative_in_iterated_iter_0_alt_0_Foo_node__node0", "_node0", alternative_in_iterated_iter_0_alt_0_Foo_node__node0_AllowedTypes, alternative_in_iterated_iter_0_alt_0_Foo_node__node0_IsAllowedType, 5.5F, -1, false);
+			GRGEN_LGSP.PatternNode alternative_in_iterated_iter_0_alt_0_Foo_node__node0 = new GRGEN_LGSP.PatternNode((int) GRGEN_MODEL.NodeTypes.@Node, "GRGEN_LIBGR.INode", "alternative_in_iterated_iter_0_alt_0_Foo_node__node0", "_node0", alternative_in_iterated_iter_0_alt_0_Foo_node__node0_AllowedTypes, alternative_in_iterated_iter_0_alt_0_Foo_node__node0_IsAllowedType, 5.5F, -1, false, null, null);
 			alternative_in_iterated_iter_0_alt_0_Foo = new GRGEN_LGSP.PatternGraph(
 				"Foo",
 				"alternative_in_iterated_iter_0_alt_0_",
@@ -7892,9 +7892,9 @@ namespace de.unika.ipd.grGen.Action_Alternatives
 			};
 			int[] alternative_in_iterated_iter_0_alt_0_Bar_minMatches = new int[0] ;
 			int[] alternative_in_iterated_iter_0_alt_0_Bar_maxMatches = new int[0] ;
-			GRGEN_LGSP.PatternNode alternative_in_iterated_iter_0_alt_0_Bar_node__node0 = new GRGEN_LGSP.PatternNode((int) GRGEN_MODEL.NodeTypes.@Node, "GRGEN_LIBGR.INode", "alternative_in_iterated_iter_0_alt_0_Bar_node__node0", "_node0", alternative_in_iterated_iter_0_alt_0_Bar_node__node0_AllowedTypes, alternative_in_iterated_iter_0_alt_0_Bar_node__node0_IsAllowedType, 5.5F, -1, false);
-			GRGEN_LGSP.PatternNode alternative_in_iterated_iter_0_alt_0_Bar_node__node1 = new GRGEN_LGSP.PatternNode((int) GRGEN_MODEL.NodeTypes.@Node, "GRGEN_LIBGR.INode", "alternative_in_iterated_iter_0_alt_0_Bar_node__node1", "_node1", alternative_in_iterated_iter_0_alt_0_Bar_node__node1_AllowedTypes, alternative_in_iterated_iter_0_alt_0_Bar_node__node1_IsAllowedType, 5.5F, -1, false);
-			GRGEN_LGSP.PatternEdge alternative_in_iterated_iter_0_alt_0_Bar_edge__edge0 = new GRGEN_LGSP.PatternEdge(true, (int) GRGEN_MODEL.EdgeTypes.@Edge, "GRGEN_LIBGR.IEdge", "alternative_in_iterated_iter_0_alt_0_Bar_edge__edge0", "_edge0", alternative_in_iterated_iter_0_alt_0_Bar_edge__edge0_AllowedTypes, alternative_in_iterated_iter_0_alt_0_Bar_edge__edge0_IsAllowedType, 5.5F, -1, false);
+			GRGEN_LGSP.PatternNode alternative_in_iterated_iter_0_alt_0_Bar_node__node0 = new GRGEN_LGSP.PatternNode((int) GRGEN_MODEL.NodeTypes.@Node, "GRGEN_LIBGR.INode", "alternative_in_iterated_iter_0_alt_0_Bar_node__node0", "_node0", alternative_in_iterated_iter_0_alt_0_Bar_node__node0_AllowedTypes, alternative_in_iterated_iter_0_alt_0_Bar_node__node0_IsAllowedType, 5.5F, -1, false, null, null);
+			GRGEN_LGSP.PatternNode alternative_in_iterated_iter_0_alt_0_Bar_node__node1 = new GRGEN_LGSP.PatternNode((int) GRGEN_MODEL.NodeTypes.@Node, "GRGEN_LIBGR.INode", "alternative_in_iterated_iter_0_alt_0_Bar_node__node1", "_node1", alternative_in_iterated_iter_0_alt_0_Bar_node__node1_AllowedTypes, alternative_in_iterated_iter_0_alt_0_Bar_node__node1_IsAllowedType, 5.5F, -1, false, null, null);
+			GRGEN_LGSP.PatternEdge alternative_in_iterated_iter_0_alt_0_Bar_edge__edge0 = new GRGEN_LGSP.PatternEdge(true, (int) GRGEN_MODEL.EdgeTypes.@Edge, "GRGEN_LIBGR.IEdge", "alternative_in_iterated_iter_0_alt_0_Bar_edge__edge0", "_edge0", alternative_in_iterated_iter_0_alt_0_Bar_edge__edge0_AllowedTypes, alternative_in_iterated_iter_0_alt_0_Bar_edge__edge0_IsAllowedType, 5.5F, -1, false, null, null);
 			alternative_in_iterated_iter_0_alt_0_Bar = new GRGEN_LGSP.PatternGraph(
 				"Bar",
 				"alternative_in_iterated_iter_0_alt_0_",
@@ -18682,13 +18682,13 @@ label3: ;
                     uint prevSomeGlobal__candidate_XtoAorB_node_x;
                     prevSomeGlobal__candidate_XtoAorB_node_x = candidate_XtoAorB_node_x.lgspFlags & (uint) GRGEN_LGSP.LGSPElemFlags.IS_MATCHED_BY_SOME_ENCLOSING_PATTERN;
                     candidate_XtoAorB_node_x.lgspFlags |= (uint) GRGEN_LGSP.LGSPElemFlags.IS_MATCHED_BY_SOME_ENCLOSING_PATTERN;
-                    // Push subpattern matching task for _subpattern0
-                    PatternAction_toAorB taskFor__subpattern0 = PatternAction_toAorB.getNewTask(graph, openTasks);
-                    taskFor__subpattern0.toAorB_node_x = candidate_XtoAorB_node_x;
-                    taskFor__subpattern0.searchPatternpath = false;
-                    taskFor__subpattern0.matchOfNestingPattern = patternpath_match_XtoAorB;
-                    taskFor__subpattern0.lastMatchAtPreviousNestingLevel = null;
-                    openTasks.Push(taskFor__subpattern0);
+                    // Push subpattern matching task for _sub0
+                    PatternAction_toAorB taskFor__sub0 = PatternAction_toAorB.getNewTask(graph, openTasks);
+                    taskFor__sub0.toAorB_node_x = candidate_XtoAorB_node_x;
+                    taskFor__sub0.searchPatternpath = false;
+                    taskFor__sub0.matchOfNestingPattern = patternpath_match_XtoAorB;
+                    taskFor__sub0.lastMatchAtPreviousNestingLevel = null;
+                    openTasks.Push(taskFor__sub0);
                     uint prevGlobal__candidate_XtoAorB_node_x;
                     if(negLevel <= (int) GRGEN_LGSP.LGSPElemFlags.MAX_NEG_LEVEL) {
                         prevGlobal__candidate_XtoAorB_node_x = candidate_XtoAorB_node_x.lgspFlags & (uint) GRGEN_LGSP.LGSPElemFlags.IS_MATCHED_BY_ENCLOSING_PATTERN << negLevel;
@@ -18699,9 +18699,9 @@ label3: ;
                     }
                     // Match subpatterns 
                     openTasks.Peek().myMatch(matchesList, maxMatches - foundPartialMatches.Count, negLevel);
-                    // Pop subpattern matching task for _subpattern0
+                    // Pop subpattern matching task for _sub0
                     openTasks.Pop();
-                    PatternAction_toAorB.releaseTask(taskFor__subpattern0);
+                    PatternAction_toAorB.releaseTask(taskFor__sub0);
                     // Check whether subpatterns were found 
                     if(matchesList.Count>0) {
                         // subpatterns/alternatives were found, extend the partial matches by our local match object, becoming a complete match object and save it
@@ -18709,8 +18709,8 @@ label3: ;
                         {
                             Rule_XtoAorB.Match_XtoAorB match = matches.GetNextUnfilledPosition();
                             match._node_x = candidate_XtoAorB_node_x;
-                            match.__subpattern0 = (@Pattern_toAorB.Match_toAorB)currentFoundPartialMatch.Pop();
-                            match.__subpattern0._matchOfEnclosingPattern = match;
+                            match.__sub0 = (@Pattern_toAorB.Match_toAorB)currentFoundPartialMatch.Pop();
+                            match.__sub0._matchOfEnclosingPattern = match;
                             matches.PositionWasFilledFixIt();
                         }
                         matchesList.Clear();

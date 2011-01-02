@@ -1,7 +1,7 @@
 // This file has been generated automatically by GrGen (www.grgen.net)
 // Do not modify this file! Any changes will be lost!
 // Rename this file or use a copy!
-// Generated from "test.grg" on Sun Oct 10 18:44:39 CEST 2010
+// Generated from "test.grg" on Mon Jan 03 00:11:09 CET 2011
 
 using System;
 using System.Collections.Generic;
@@ -19,62 +19,62 @@ namespace test
 
 		private D231_4121_Impl(D231_4121_Impl oldElem) : base()
 		{
-			_a2 = oldElem._a2;
-			_b23 = oldElem._b23;
-			_a4 = oldElem._a4;
-			_b41 = oldElem._b41;
-			_b42 = oldElem._b42;
-			_a5 = oldElem._a5;
-			_d231_4121 = oldElem._d231_4121;
+			a2\u0303 = oldElem.a2\u0303;
+			b23\u0303 = oldElem.b23\u0303;
+			a4\u0303 = oldElem.a4\u0303;
+			b41\u0303 = oldElem.b41\u0303;
+			b42\u0303 = oldElem.b42\u0303;
+			a5\u0303 = oldElem.a5\u0303;
+			d231_4121\u0303 = oldElem.d231_4121\u0303;
 		}
 
-		private int _a2;
+		private int a2\u0303;
 		public override int @a2
 		{
-			get { return _a2; }
-			set { _a2 = value; }
+			get { return a2\u0303; }
+			set { a2\u0303 = value; }
 		}
 
-		private int _b23;
+		private int b23\u0303;
 		public override int @b23
 		{
-			get { return _b23; }
-			set { _b23 = value; }
+			get { return b23\u0303; }
+			set { b23\u0303 = value; }
 		}
 
-		private int _a4;
+		private int a4\u0303;
 		public override int @a4
 		{
-			get { return _a4; }
-			set { _a4 = value; }
+			get { return a4\u0303; }
+			set { a4\u0303 = value; }
 		}
 
-		private int _b41;
+		private int b41\u0303;
 		public override int @b41
 		{
-			get { return _b41; }
-			set { _b41 = value; }
+			get { return b41\u0303; }
+			set { b41\u0303 = value; }
 		}
 
-		private int _b42;
+		private int b42\u0303;
 		public override int @b42
 		{
-			get { return _b42; }
-			set { _b42 = value; }
+			get { return b42\u0303; }
+			set { b42\u0303 = value; }
 		}
 
-		private int _a5;
+		private int a5\u0303;
 		public override int @a5
 		{
-			get { return _a5; }
-			set { _a5 = value; }
+			get { return a5\u0303; }
+			set { a5\u0303 = value; }
 		}
 
-		private int _d231_4121;
+		private int d231_4121\u0303;
 		public override int @d231_4121
 		{
-			get { return _d231_4121; }
-			set { _d231_4121 = value; }
+			get { return d231_4121\u0303; }
+			set { d231_4121\u0303 = value; }
 		}
 	}
 }

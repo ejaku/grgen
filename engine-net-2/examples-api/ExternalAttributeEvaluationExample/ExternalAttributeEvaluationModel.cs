@@ -1,6 +1,6 @@
 // This file has been generated automatically by GrGen (www.grgen.net)
 // Do not modify this file! Any changes will be lost!
-// Generated from "..\..\examples\ExternalAttributeEvaluationExample\ExternalAttributeEvaluation.grg" on Sun Oct 24 13:09:13 CEST 2010
+// Generated from "..\..\examples\ExternalAttributeEvaluationExample\ExternalAttributeEvaluation.grg" on Mon Jan 03 00:10:30 CET 2011
 
 using System;
 using System.Collections.Generic;
@@ -185,17 +185,17 @@ namespace de.unika.ipd.grGen.Model_ExternalAttributeEvaluation
 
 		private @N(GRGEN_MODEL.@N oldElem) : base(GRGEN_MODEL.NodeType_N.typeVar)
 		{
-			_i = oldElem._i;
-			_s = oldElem._s;
-			_o = oldElem._o;
-			_b = oldElem._b;
-			_f = oldElem._f;
-			_d = oldElem._d;
-			_enu = oldElem._enu;
-			_si = new Dictionary<int, GRGEN_LIBGR.SetValueType>(oldElem._si);
-			_mso = new Dictionary<string, object>(oldElem._mso);
-			_ow = oldElem._ow;
-			_op = oldElem._op;
+			i\u0303 = oldElem.i\u0303;
+			s\u0303 = oldElem.s\u0303;
+			o\u0303 = oldElem.o\u0303;
+			b\u0303 = oldElem.b\u0303;
+			f\u0303 = oldElem.f\u0303;
+			d\u0303 = oldElem.d\u0303;
+			enu\u0303 = oldElem.enu\u0303;
+			si\u0303 = new Dictionary<int, GRGEN_LIBGR.SetValueType>(oldElem.si\u0303);
+			mso\u0303 = new Dictionary<string, object>(oldElem.mso\u0303);
+			ow\u0303 = oldElem.ow\u0303;
+			op\u0303 = oldElem.op\u0303;
 		}
 		public static GRGEN_MODEL.@N CreateNode(GRGEN_LGSP.LGSPGraph graph)
 		{
@@ -264,81 +264,81 @@ namespace de.unika.ipd.grGen.Model_ExternalAttributeEvaluation
 		}
 
 
-		private int _i;
+		private int i\u0303;
 		public int @i
 		{
-			get { return _i; }
-			set { _i = value; }
+			get { return i\u0303; }
+			set { i\u0303 = value; }
 		}
 
-		private string _s;
+		private string s\u0303;
 		public string @s
 		{
-			get { return _s; }
-			set { _s = value; }
+			get { return s\u0303; }
+			set { s\u0303 = value; }
 		}
 
-		private object _o;
+		private object o\u0303;
 		public object @o
 		{
-			get { return _o; }
-			set { _o = value; }
+			get { return o\u0303; }
+			set { o\u0303 = value; }
 		}
 
-		private bool _b;
+		private bool b\u0303;
 		public bool @b
 		{
-			get { return _b; }
-			set { _b = value; }
+			get { return b\u0303; }
+			set { b\u0303 = value; }
 		}
 
-		private float _f;
+		private float f\u0303;
 		public float @f
 		{
-			get { return _f; }
-			set { _f = value; }
+			get { return f\u0303; }
+			set { f\u0303 = value; }
 		}
 
-		private double _d;
+		private double d\u0303;
 		public double @d
 		{
-			get { return _d; }
-			set { _d = value; }
+			get { return d\u0303; }
+			set { d\u0303 = value; }
 		}
 
-		private GRGEN_MODEL.ENUM_Enu _enu;
+		private GRGEN_MODEL.ENUM_Enu enu\u0303;
 		public GRGEN_MODEL.ENUM_Enu @enu
 		{
-			get { return _enu; }
-			set { _enu = value; }
+			get { return enu\u0303; }
+			set { enu\u0303 = value; }
 		}
 
-		private Dictionary<int, GRGEN_LIBGR.SetValueType> _si;
+		private Dictionary<int, GRGEN_LIBGR.SetValueType> si\u0303;
 		public Dictionary<int, GRGEN_LIBGR.SetValueType> @si
 		{
-			get { return _si; }
-			set { _si = value; }
+			get { return si\u0303; }
+			set { si\u0303 = value; }
 		}
 
-		private Dictionary<string, object> _mso;
+		private Dictionary<string, object> mso\u0303;
 		public Dictionary<string, object> @mso
 		{
-			get { return _mso; }
-			set { _mso = value; }
+			get { return mso\u0303; }
+			set { mso\u0303 = value; }
 		}
 
-		private GRGEN_MODEL.Own _ow;
+		private GRGEN_MODEL.Own ow\u0303;
 		public GRGEN_MODEL.Own @ow
 		{
-			get { return _ow; }
-			set { _ow = value; }
+			get { return ow\u0303; }
+			set { ow\u0303 = value; }
 		}
 
-		private GRGEN_MODEL.OwnPown _op;
+		private GRGEN_MODEL.OwnPown op\u0303;
 		public GRGEN_MODEL.OwnPown @op
 		{
-			get { return _op; }
-			set { _op = value; }
+			get { return op\u0303; }
+			set { op\u0303 = value; }
 		}
 		public override object GetAttribute(string attrName)
 		{
