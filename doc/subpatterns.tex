@@ -30,9 +30,9 @@ pattern Expression(root:Expr)
   alternative { // expression may be
     Binary { // a binary expression of an operator and two expresions
       root <-- expr1:Expr;
-	  :Expression(expr1);
+      :Expression(expr1);
       root <-- expr2:Expr;
-	  :Expression(expr2);
+      :Expression(expr2);
       root <-- :Operator;
     }
     Unary { // or a unary expression which is a variable (reading it)
@@ -278,18 +278,18 @@ In contrast to the iterated which locally matches everything available and inser
   \begin{grgen}
 test feature(c:Class)
 {
-	alternative // a feature of the class is either
-	{
-		FeatureMethod { // a method
-			c --> :Method;
-		}
-		FeatureVariable { // or a variable
-			c --> :Variable;
-		}
-		FeatureConstant { // or a constant
-			c ---> :Constant;
-		}
-	}
+  alternative // a feature of the class is either
+  {
+    FeatureMethod { // a method
+      c --> :Method;
+    }
+    FeatureVariable { // or a variable
+      c --> :Variable;
+    }
+    FeatureConstant { // or a constant
+      c ---> :Constant;
+    }
+  }
 }  
   \end{grgen}
 \end{example}
@@ -301,14 +301,14 @@ test variableMaybeInitialized
   v:Variable; // match variable
   alternative { // and an initialization with a different one if available
     Empty {
-        // the empty pattern matches always	
-	  negative { // so prevent it to match if initialization is available
+      // the empty pattern matches always
+      negative { // so prevent it to match if initialization is available
         v <-- otherV:Variable;
-	  }
-	}
-	Initialized { // initialization
+      }
+    }
+    Initialized { // initialization
       v <-- otherV:Variable;
-	}
+    }
   }
 }
   \end{grgen}
@@ -331,17 +331,18 @@ The common recurring pattern is specified in a subpattern declaration and used b
 
 Subpattern declarations define a subpattern type denoting the specified shape in global namespace; the parameters specify some context elements the pattern may refer to, but which are not part of the pattern itself. 
 So they are only syntactically the same as test/rule-parameters (which are members of the pattern part), a further difference is the lack of ReturnTypes, due to the fact that a subpattern can't return anything (they are not actions, just a helper in constructing complex patterns).
-Subpatterns can receive additional rewrite parameters in contrast to the actions; they can be used to hand in elements which are created in the rewrite part of the action or subpattern which contains the subpattern entity.
+Subpatterns can receive additional rewrite parameters in contrast to the actions; they can be used to hand in nodes which are created in the rewrite part of the action or subpattern which contains the subpattern entity.
 (The nested body will be explained in Section~\ref{sec:subrule}.)
 
 \begin{rail}  
   SubpatternEntityDeclaration: 
-    Ident ':' SubpatternType '(' ')' ';' ;
+    Ident ':' SubpatternType '(' (Ident * ',') ')' ';' ;
 \end{rail}\ixnterm{SubpatternEntityDeclaration}\indexmain{subpattern entity declaration}
 
 Subpattern entity declarations instantiate an entity of the subpattern type (i.e. specified shape), which means the subpattern must get matched for the matching of the enclosing pattern to succeed.
 The arguments given are bound to the corresponding parameters of the subpattern.
 If you prefer a syntactical point of view, you may see the subpattern entity as a placeholder, which gets substituted in place by the textual body of the subpattern declaration under renaming of the parameters to the arguments.
+If you prefer an operational point of view, you may see the subpattern entity as a call to the matcher routine searching for the specified pattern from the given arguments on.
 
 %TODO:remove
 %Termersetzung mit Termen die Graphen beschreiben.
@@ -517,10 +518,10 @@ rule methods
   c:Class;
   iterated {
     c --> m:Method;
-	
-	replace {
-	  c <-- m;
-	}
+
+    replace {
+      c <-- m;
+    }
   } 
 
   replace {
@@ -540,30 +541,30 @@ rule methodWithTwoOrThreeParameters(m:Method)
       m <-- n:Name;
       m <-e1:Edge- v1:Variable;
       m <-e2:Edge- v2:Variable;
-	  negative {
-	    v1; v2; m <-- :Variable;
-	  }
-	  
-	  modify {
-	    delete(e1); m --> v1;
-	    delete(e2); m --> v2;	    
-	  }
-	}
-	Three {
+      negative {
+        v1; v2; m <-- :Variable;
+      }
+
+      modify {
+        delete(e1); m --> v1;
+        delete(e2); m --> v2;	    
+      }
+    }
+    Three {
       m <-- n:Name;
       m <-e1:Edge- v1:Variable;
       m <-e2:Edge- v2:Variable;
       m <-e3:Edge- v3:Variable;
-	  
-	  modify {
-	    delete(e1); m --> v1;
-	    delete(e2); m --> v2;
-	    delete(e3); m --> v3;
-	  }
-	}
-	
-	modify {
-	}
+
+      modify {
+        delete(e1); m --> v1;
+        delete(e2); m --> v2;
+        delete(e3); m --> v3;
+      }
+    }
+
+  modify {
+  }
 }
   \end{grgen}
 \end{example}
@@ -579,20 +580,20 @@ rule alternativeRelabeling
   alternative {
     private {
       if { m.access == Access::private; }
-	
+
       modify {
         pm:PrivateMethod<m>;
       }
-	  }
-	  static {
-	    negative {
+    }
+    static {
+      negative {
         m <-- c;
-	    }
-	  
+      }
+
       modify {
         sm:StaticMethod<m>;
       }
-	  }
+    }
   } 
 
   modify {
@@ -620,7 +621,7 @@ but additionally there may be rewrite parameters given in the subpattern header 
 
 \begin{rail}  
   SubpatternRewriteApplication: 
-    Ident '(' ((Ident ':' NodeType)*',') ')' ';' |
+    Ident '(' (Ident * ',') ')' ';' |
     SubpatternOccurence |
 	'emithere' '(' StringExpr ')' ';' |
 	'exec' '(' RewriteSequence ')' ';'
@@ -663,7 +664,7 @@ rule methodAndFurtherAddDelete
 {
   m:Method <-- n:Name;
   tp:TwoParametersAddDelete(m);
-  
+
   modify {
     tp(); // trigger rewriting of the TwoParametersAddDelete instance
   }
@@ -684,11 +685,11 @@ pattern IteratedPathReverse(prev:Node)
     ipr:IteratedPathReverse(next);
     
     replace {
-    	prev <-- next;
-    	ipr();
+      prev <-- next;
+      ipr();
     }
   }
-  
+
   replace {
   }
 }
@@ -702,44 +703,44 @@ It can't be simulated by subpattern parameters which get defined at matching tim
   \begin{grgen}
 pattern ChainFromToReverseToCommon(from:Node, to:Node) replace(common:Node)
 {
-	alternative {
-		rec {
-			from --> intermediate:Node;
-			cftrtc:ChainFromToReverseToCommon(intermediate, to);
+  alternative {
+    rec {
+      from --> intermediate:Node;
+      cftrtc:ChainFromToReverseToCommon(intermediate, to);
 
-			replace {
-				from <-- intermediate;
-				from --> common;
-				cftrtc(common);
-			}
-		}
-		base {
-			from --> to;
+      replace {
+        from <-- intermediate;
+        from --> common;
+        cftrtc(common);
+      }
+    }
+    base {
+      from --> to;
 
-			replace {
-				from <-- to;
-				from --> common;
-				to --> common;
-			}
-		}
-	}
+      replace {
+        from <-- to;
+        from --> common;
+        to --> common;
+      }
+    }
+  }
 
-	replace {
-		from; to;
-	}
+  replace {
+    from; to;
+  }
 }
   \end{grgen}
 
   \begin{grgen}  
 rule chainFromToReverseToCommon()
 {
-	from:Node; to:Node;
-	cftrtc:ChainFromToReverseToCommon(from, to);
+  from:Node; to:Node;
+  cftrtc:ChainFromToReverseToCommon(from, to);
 
-	modify {
-		common:Node;
-		cftrtc(common);
-	}
+  modify {
+    common:Node;
+    cftrtc(common);
+  }
 }
   \end{grgen}
 \end{example}
@@ -778,8 +779,7 @@ rule R {
 \begin{note}
 You may even give a SubpatternEntityDeclaration within a rewrite part which causes the subpattern to be created; 
 but this employment has several issues which can only be overcome by introducing explicit creation-only subpatterns
--- so you better only use it if you think it should obviously work 
-and you are willing to adapt your code in a later version. 
+-- so you better only use it if you think it should obviously work (examples for the issues are alternatives -- which case to instantiate? -- and abstract node or edge types -- what concrete type to choose?). 
 
   \begin{grgen}
 pattern ForCreationOnly(mp:Method)
@@ -807,8 +807,8 @@ In addition to the already introduced syntax for the nested patterns with the ke
 there is a more lightweight syntax resembling regular expressions; 
 using it together with the subpatterns gives graph rewrite specifications which look like EBNF-grammars with embedded actions. 
 Exceeding the more verbose syntax they offer constructs for matching the pattern a bounded number of times (same notation as the one for the bounded iteration in the xgrs).
-Table \ref{keywordregexpsyntax} lists the corresponding (/equivalent) language constructs; 
-Example \ref{introexampleregexp} is a version of the introductionary example \ref{introexample} modified to use the new syntax.
+%Table \ref{keywordregexpsyntax} lists the corresponding (/equivalent) language constructs; 
+%Example \ref{introexampleregexp} is a version of the introductionary example \ref{introexample} modified to use the new syntax. commented out to get better layout
 
 \begin{table}[htbp]
   \centering
@@ -852,9 +852,9 @@ pattern Expression(root:Expr)
 {
   ( // expression may be a binary expression of an operator and two expresions
       root <-- expr1:Expr;
-	  :Expression(expr1);
+      :Expression(expr1);
       root <-- expr2:Expr;
-	  :Expression(expr2);
+      :Expression(expr2);
       root <-- :Operator;
   | // or a unary expression which is a variable (reading it)
       root <-- v:Variable;

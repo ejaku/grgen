@@ -916,10 +916,11 @@ The following rule will promote the matched city \texttt{x} from a \texttt{City}
 with exception of the matched street \texttt{y}, which will get promoted from \texttt{Street} to \texttt{Highway}, keeping all its adjacent nodes/cities.
 \begin{grgen}
 rule oneway {
-    x:City -y:Street->;
-    replace {
-		x_rt:Metropolies<x> -y_rt:Highway<y>->;
-    }
+  x:City -y:Street->;
+  
+  replace {
+    x_rt:Metropolies<x> -y_rt:Highway<y>->;
+  }
 }
 \end{grgen}
 \end{example}
@@ -936,14 +937,15 @@ rule oneway {
 The following rule will add a reverse edge to a one-way street, of the exact dynamic subtype of \texttt{street}, bearing the same attribute values as the original street.
 \begin{grgen}
 rule oneway {
-    a:Node -x:street-> y:Node;
-    negative {
-        y -:typeof(x)-> a;
-    }
-    replace {
-        a -x-> y;
-        y -:copy<x>-> a;
-    }
+  a:Node -x:street-> y:Node;
+  negative {
+    y -:typeof(x)-> a;
+  }
+
+  replace {
+    a -x-> y;
+    y -:copy<x>-> a;
+  }
 }
 \end{grgen}
 \end{example}

@@ -19,7 +19,7 @@ enum Resident {VILLAGE = 500, TOWN = 5000, CITY = 50000}
 node class Sight;
 
 node class City {
-	Size:Resident;
+  Size:Resident;
 }
 
 const node class Metropolis extends City {
@@ -161,7 +161,7 @@ The abstract-property will not be inherited by subclasses, of course.
 We adjust our map model and make \texttt{city} abstract:
 \begin{grgen}
 abstract node class City {
-	Size:int;
+  Size:int;
 }
 abstract node class AbandonedCity extends City;
 node class GhostTown extends AbandonedCity;
