@@ -1,4 +1,31 @@
-﻿v2.7.ms1b (2010-12-20)
+﻿v2.7.ms2 (2011-01-03)
+ Added copy operator:
+ - new-node:copy<old-node> creates a clone of the old node 
+   (type and attribute values are same, incident edges are not taken care of)
+ - -new-edge:copy<old-edge>-> creates a clone of the old edge,
+   the source and target nodes of the new edge must be specified (otherwise edge would dangle)
+
+ Added deferred exec:
+ - allowed exec from nested alternatives or iterateds, and from subpatterns
+ - when used closures for the exec applications are put into a to-be-processed queue,
+   which gets executed at the end of the root rule using them
+
+ Added storage access clauses:
+ - on LHS one can write x:T<s> with s being a storage; 
+   the storage elements are iterated, the ones which are of type T are accepted as a match of x
+ - on LHS one can write x:T<s[y]> with s being a storage-map and y being an element from the pattern;
+   the value of y in s is looked up and if it exists and is of type T it is accepted as a match of x
+
+ Improved user manual with some pragmatics explanations, some fixes
+  "Merge and Split, Node Replacement Grammars, and Subgraph Copying"
+
+ Fixes:
+  - values of variables are now transmitted into nested iterateds/alternatives
+  - anonymous subpatterns are now named "sub"_X, 
+    so that nodes don't get blown up that much in debugger detail mode
+  
+  
+v2.7.ms1b (2010-12-20)
  Bugfixes:
   Compiler:
   - generation error when attribute named A had a sibling attribute named _A (i.e. "_" prefix) fixed
