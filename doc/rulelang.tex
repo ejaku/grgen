@@ -407,7 +407,7 @@ We do not define \texttt{varnode} within the pattern part because this is alread
 \begin{rail}
   Pattern: (()+PatternStatement) (() | ReturnStatement);
 \end{rail}\ixnterm{Pattern}
-A \indexed{pattern} consists of zero or more pattern statements and, in case of a test, an optional return statement.
+A \indexed{pattern} consists of zero or more pattern statements and, (only) in case of a test, an optional return statement.
 All the pattern statements must be fulfilled by a subgraph of the host graph in order to form a match. 
 An \indexed{empty pattern} always produces exactly one (empty) match. 
 This is caused by the uniqueness of the total and totally undefined function.
@@ -448,7 +448,7 @@ The semantics of the various pattern statements are given below:
   Inside a NAC the \texttt{hom} operator may only operate on graph elements that are either defined or used in the NAC.
   Nested \texttt{negative}/\texttt{independent} blocks inherit the \texttt{hom} declarations of their nesting pattern.
   In contrast to previous versions \texttt{hom} delarations are non-transitive, i.e \texttt{hom(a,b)} and \texttt{hom(b,c)} don't cause \texttt{hom(a,c)} unless specified.
-  \item[Attribute Conditions] \indexmain{attribute condition}The Java-like attribute conditions (keyword \texttt{if}) in the pattern part allow for further restriction of the applicability of a rule.
+  \item[Attribute Conditions] \indexmain{attribute condition}The Java-like attribute conditions (keyword \texttt{if}) in the pattern part allow for further restriction of the applicability of a rule. The pattern can only match if the \emph{BooleanExpression} (see chapter \ref{cha:typeexpr}) is evaluated to \texttt{true}.
   \item[Pattern Modifiers] Additionally to modifiers that apply to a pattern as a whole, you may also specify pattern modifiers for a specific set of nodes. Accordingly the list of identifiers for a pattern modifier must not contain any edge identifier. See Section~\ref{sct:patternmodifier} for an explanation of the \texttt{exact} and \texttt{induced} modifiers. 
   \item[NestedPattern] will be explained in \ref{nac},\ref{pac},\ref{cardinality},\ref{alternative}.
   \item[SubpatternEntityDeclaration] will be explained in \ref{sec:subpattern}.
@@ -551,6 +551,13 @@ See Section~\ref{rule:morphismr} for a detailed explanation of the transformatio
 In particular all the \indexed{anonymous} graph elements are kept. 
 Additionally this mode supports the \texttt{delete} operator that deletes every element given as an argument. 
 Deletion takes place after all other rewrite operations. Multiple deletion of the same graph element is allowed (but pointless) as well as deletion of just created elements (pointless, too).
+
+\begin{note}
+In general modify mode should be prefered as it allows to read the rewrite part as a diff of the changes to be made to the pattern part, whereas replace mode requires comparing the LHS and RHS pattern while reading to find out about the changes.
+Only if most of the pattern is to be deleted replace mode is advantageous, pinpointing what should stay.
+(Furthermore it might be simpler to generate code for, just dumping both patterns.)
+\end{note}
+
 \begin{figure}[htbp]
 \begin{example}
 How might Example~\ref{ex:rule:someruleext} look in modify mode? 
@@ -580,13 +587,17 @@ rule SomeRuleExtModify(varnode: Node): (Node, EdgeTypeB)  {
   Replace: ('replace' | 'modify') lbrace (()+ReplaceStatement) (() | ReturnStatement) \\
   (()+ExecStatement) rbrace ;
 \end{rail}\ixkeyw{replace}\ixkeyw{modify}\ixnterm{Replace}\label{replclause}
-Selects whether the replace mode or the modify mode is used. Several replace statements describe the transformation from the pattern subgraph to the destination subgraph.
+Selects whether the replace mode or the modify mode is used.
+Several replace statements describe the transformation from the pattern subgraph to the destination subgraph.
+The \emph{ReturnStatement} was already introduced, for tests it can appear in the pattern part.
+Regarding rules it can only be given in the rewrite part.
+The \emph{ExecStatement} will be introduced in chapter \ref{cha:imperativeandstate}.
 
 \begin{rail}  
   ReplaceStatement:
     Graphlet ';' |
     'delete' '(' (Ident + ',') ')' ';' |
-    'eval' lbrace ((Assignment|SetMapStateChange) ';' +) rbrace |
+    'eval' lbrace ((Assignment|VisitedAssignment|SetMapStateChange) ';' +) rbrace |
     SubpatternRewriteApplication
     ;
 \end{rail}\ixkeyw{delete}\ixkeyw{eval}\ixnterm{ReplaceStatement}\label{replstmt}
@@ -594,20 +605,15 @@ The semantics of the various replace statements are given below:
 \begin{description}
   \item[Graphlet] \indexmain{graphlet}Analogous to a pattern graphlet; a specification of a connected subgraph. Its graph elements are either kept because they are elements of the pattern or added otherwise. Names defined in the pattern part must not be redefined in the replace graphlet. See Section~\ref{rulebb} for a detailed explanation of graphlets. 
   \item[Deletion] \indexmain{deletion}The \texttt{delete} operator is only available in the modify mode. It deletes the specified pattern graph elements. Multiple occurrences of \texttt{delete} statements are allowed. Deletion statements are executed after all other replace statements. Multiple deletion of the same graph element is allowed (but pointless) as well as deletion of just created elements (pointless, too).
-  \item[Attribute Evaluation] \indexmain{attribute evaluation}\indexmainsee{evaluation}{attribute evaluation}\indexmainsee{re-evaluation}{attribute evaluation}If a rule is applied, then the attributes of matched and inserted graph elements will be recalculated according to the \texttt{eval} statements.
+  \item[Attribute Evaluation] \indexmain{attribute evaluation}\indexmainsee{evaluation}{attribute evaluation}\indexmainsee{re-evaluation}{attribute evaluation}If a rule is applied, then the attributes of matched and inserted graph elements will be recalculated according to the \texttt{eval} statements. The \emph{Assignment} will be explained below, the \emph{VisitedAssignment} and \emph{SetMapStateChange} clauses will be introduced in chapter \ref{cha:imperativeandstate}.
   \item[SubpatternRewriteApplication] will be explained in \ref{sec:subrule}.
 \end{description} 
 
 \begin{rail}    
   Assignment:
-	NodeOrEdge '.' Ident '=' Expression | 
-	NodeOrEdge '.' 'visited' ('[' FlagNumber ']')? '=' BoolExpr
+	  NodeOrEdge '.' Ident '=' Expression
 	;
-  SetMapStateChange:
-   	SetParameter '.' ( ( 'add' '(' Expr ')') | ( 'rem' '(' Expr ')' ) ) |
-	MapParameter '.' ( ( 'add' '(' KeyExpr ',' ValueExpr ')' ) | ( 'rem' '(' KeyExpr ')' ) )
-	;
-\end{rail}\indexmain{attribute evaluation}\ixnterm{Assignment}\ixnterm{SetMapStateChange}\ixkeyw{visited}
+\end{rail}\indexmain{attribute evaluation}\ixnterm{Assignment}
 Several evaluation parts are allowed within the replace part. 
 Multiple evaluation statements will be internally concatenated, preserving their order.
 Evaluation statements have \indexedsee{imperative}{attribute evaluation} semantics.
@@ -616,13 +622,7 @@ Evaluation takes place before any graph element gets deleted and after all the n
 You may read (and write, although this is pointless) attributes of graph elements to be deleted.
 Assignment is carried out using value semantics, even for entities of \verb#set<K># and \verb#map<K,V># or \texttt{string} type.
 The only exception is the type \texttt{object}, there reference semantics is used.
-In addition, there are by-ref parameters available which can be operated upon by the set/map state change methods,
-which allow to only partially change the set/map by adding and removing elements resp. pairs of elements;
-they are especially useful for storages, i.e. sets or maps containing nodes or edges.
-The \texttt{visited} flag assignment sets the \texttt{boolean} status of the \indexed{visited flag} of the given number for the given graph element.
-If no flag number is given, the default number for the first visited flag of 0 is used.
-Make sure to allocate\ref{allocvisitflag}/\ref{apiallocvisitflag} visited flags before you try to use them 
-(and deallocate them afterwards, as they are a sparse resource stored in some excess bits of the graph elements, or in some dictionary if the needed number of flags exceeds the number of available bits per graph element.)
+You can find out about the available \emph{Expression}s in chapter \ref{cha:typeexpr}.
 
 \begin{example}
 \begin{grgen}
@@ -643,23 +643,6 @@ modify {
 }
 \end{grgen}
 This toy example yields $\texttt{y.i} = 42$, $\texttt{y.j} = 1$.
-\end{example}
-
-\begin{example}
-The set/map state change methods \texttt{add} and \texttt{rem} allow to add graph elements to storages or remove graph elements from storages, i.e. sets or maps holding nodes and edges used for rewrite in the calling sequence (cf. \ref{sec:storages}).
-This way you can write transformations consisting of several passes with one pass operating on nodes/edges determined in a previous pass,
-without the need to mark the element in the graph by helper edges or visited flags.
-	\begin{grgen}
-rule foo(ref storage:set<Node>)
-{
-  n:Node;
-  modify {
-    eval {
-      storage.add(n);
-    }
-  }
-}  
-	\end{grgen}
 \end{example}
 
 
@@ -763,9 +746,9 @@ Example \ref{ex:rules:modifiers} explains the modifiers by small toy-graphs.
 
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-\section{Type Handling and Storage Access}
+\section{Static Type Constraint and Exact Dynamic Type}
 
-In the following section we'll have a look at language constructs to constrain the types to match by excluding forbidden types or by requiring an element to be typed the same as another element. Furthermore we learn about the storage access constructs.
+In the following section we'll have a look at a language construct to statically constrain the types to match by excluding forbidden types and at a language construct which allows to require an element to be typed the same as another element or to create an element with the same exact dynamic type as another element. 
 
 %-----------------------------------------------------------------------------------------------
 \subsection{Static Type Constraint}
@@ -831,41 +814,6 @@ rule oneway {
 }
 \end{grgen}
 Remember that we have several subtypes of \texttt{street}. By the aid of the \texttt{typeof} operator, the reverse edge will be automatically typed correctly (the same type as the one-way edge). This behavior is not possible without the \texttt{typeof} operator.
-\end{example}
-
-%-----------------------------------------------------------------------------------------------
-\subsection{Storage Access} \label{sub:storageaccess}\indexmain{storage access}
-Storages are sets or maps (cf. \ref{sec:builtintypes}) storing nodes or edges. They can be used in the rule control language as defined here \ref{sec:storages}, they can get filled or emptied in the rules as defined here \ref{replstmt}, a discussion about their usage is given here \ref{sub:copymergesplit}.
-You may ask for an element to get bound to an element from a storage; this is syntactically specified by giving the storage enclosed in left and right angles.
-You may ask for an element to get bound to the value element queried from a storagemap by a key graph element; this is syntactically specified by giving the storagemap indexed by the key graph element enclosed in left and right angles.
-If the type of the element retrieved from the storage is not compatible to the type of the pattern element specified,
-or if the storage is empty, or if the key element is not contained in the storagemap, matching fails.
-
-\begin{rail}
-  StorageAccess: '<' Ident '>' | '<' Ident '[' Ident ']' '>';
-\end{rail}\ixnterm{StorageAccess}
-
-\begin{example}
-Queries the graph for the neighbouring cities to the cities contained in the storageset.
-\begin{grgen}
-test neighbour(ref startCities:set<City>) : City
-{
-    :City<startCities> -:Street-> n:City;
-    return(n);
-}
-\end{grgen}
-\end{example}
-
-\begin{example}
-Queries for the neighbour of the neighbour of a city matched. With the first neigbouring relation queried from the storagemap assumed to contain the neighbouring relation of some cities of interest, and the second neighbouring relation queried from the graph.
-\begin{grgen}
-test neighbourneighbour(ref neighbours:map<City, City>) : City
-{
-    someCity:City;
-    nc:City<neighbours[someCity]> -:Street-> nnc:City;
-    return(nnc);
-}
-\end{grgen}
 \end{example}
 
 
@@ -979,61 +927,3 @@ We search the pattern \texttt{v:NodeTypeA -e:EdgeType-> w:NodeTypeB}. We have a 
 % todo: The maybeDeleted by Sebastian?
 
 
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-\section{Imperative Statements}\indexmain{imperative statements} 
-\label{sct:imperative}
-
-\begin{rail}  
-  ExecStatement: 'emit' '(' StringExpr ')' ';' |
-    'exec' '(' RewriteSequence ')' \\ ('->' ((IdentDecl ':' NodeType | '-' IdentDecl ':' EdgeType '->') + ','))? ';'
-	;
-\end{rail}\ixkeyw{emit}\ixkeyw{exec}\ixnterm{ExecStatement}
-The statements \texttt{emit} and \texttt{exec} as well as the set/map modification statements enhance the declarative rewrite part by imperative clauses.
-That means, these statements are executed in the same order as they appear within the rule.
-The execution statements take place after all the rewrite operations are done, i.e.\ they operate on the modified host graph.
-However, \emph{attribute} values of deleted graph elements are still available for reading.
-The \texttt{eval} statements are executed before the execution statements, i.e.\ the execution statements work on the recalculated attributes.
-\begin{description}
-  \item[XGRS Execution] The \texttt{exec} statement executes a graph rewrite sequence, which is a composition of graph rewrite rules. Yielded graph elements may be included into the RHS pattern, but as of now they are only accessible from the \texttt{return} statement. See Chapter~\ref{cha:xgrs} for a description of graph rewrite sequences. The \texttt{exec} statement is one of the means available in \GrG~to build complex rules and split work into several parts, see \ref{sub:copymergesplit} for a discussion of this topic.
-  \item[Text Output] The \texttt{emit} statement prints a string to the currently associated output stream (default is \texttt{stdout}). See Chapter~\ref{cha:typeexpr} for a description of string expressions.
-  For emitting in between the emits from subpatterns, there is an additional \texttt{emithere} statement available.
-\end{description}
-
-\begin{figure}[htbp]
-\begin{example}
-	The following example works on a hypothetical network flow.
-	We don't define all the rules nor the graph meta model.
-	It's just about the look and feel of the \texttt{exec} and \texttt{emit} statements
-	\begin{grgen}
-rule AddRedundancy
-{
-  s: SourceNode;
-  t: DestinationNode;	
-  modify {
-    emit ("Source node is " + s.name + ". Destination node is " + t.name + ".");
-    exec ( (x:SourceNode) = DuplicateNode(s) & ConnectNeighbors(s, x)* );
-    exec ( [DuplicateCriticalEdge] );
-    exec ( MaxCapacityIncidentEdge(t)* );
-    emit ("Redundancy added");
-  }
-}  
-	\end{grgen}
-\end{example}
-\end{figure}
-
-\begin{example}
-This is an example for returning elements yielded from an \texttt{exec} statement.
-The results of the rule \texttt{bar} are written to the variables \texttt{a} and \texttt{b};
-The \texttt{yield} statement is similar to a return but does not jump out. 
-The anonymous output variables written in the yield statement are assigned in the given order to the pattern variables specified after the assign to operator \verb#->#.
-
-	\begin{grgen}
-rule foo : (A,B)
-{
-  modify {
-    exec( (a,b)=bar && yield(a,b) ) -> u:A, v:B;
-    return(u,v)
-  }
-}  
-	\end{grgen}
-\end{example}

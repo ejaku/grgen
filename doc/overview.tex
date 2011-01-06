@@ -79,13 +79,13 @@ We have organized the presentation of the features of the \GrG\ languages accord
 	\item Choosing out of three additional rule application semantics: DPO or exact patterns only or induced subgraphs only
     \item Attribute re-/calculation (assigning the result of e.g. arithmetic expressions to the attributes)
     \item Retyping of nodes/edges (a more general version of casts known from common programming languages)
-    \item Creation of new nodes/edges of only dynamically known types
+    \item Creation of new nodes/edges of only dynamically known types or as exact copies of other nodes/edges
 	\pagebreak
     \item Two modes of specification: A rule can either express changes to be made to the match or replace the whole match
+    \item A rewrite part for the nested patterns and subpatterns, so that complex structures can not only get matched, but also get rewritten
     \item Embedded graph rewrite sequences capable of calling other rules (with access to the nodes/edges of the rule)
     \item Emitting user-defined text to \texttt{stdout} or files during the rewrite steps
-	\item A rewrite part for the nested patterns and subpatterns, so that complex structures can not only get matched, but also get rewritten
-	\item Visited flags (which can be written here, in addition to reading them in the pattern language)
+	\item Visited flags and storages to communicate between rule applications using state
     \item Parameter passing out of rules
   \end{itemize}
   
@@ -96,8 +96,7 @@ We have organized the presentation of the features of the \GrG\ languages accord
     \item Rule execution
     \item Variable handling
     \item Extended control (e.g decisions, transactions, backtracking, indeterministic choice)
-    \item Visited flags management
-	\item Storages, i.e. sets and maps capable of storing graph elements and allowing element-wise iteration
+    \item Visited flags and storages management
   \end{itemize}
 \end{itemize}
 
@@ -623,7 +622,7 @@ There's one convenience not offered you might expect: a visual rule language and
 This brings a clear benefit -- graph transformation specifications to be processed by \GrG\ can be easily generated --
 but especially is a good deal cheaper to implement. Given the limited resources of an university project this is an important point,
 as can be seen with the AGG\cite{agg} tool, offering a nice graphical editor but delivering performance only up to simple toy examples 
-(causing the wrong impression that graph rewriting is notoriously inefficient in the heads of users).
+(causing the wrong impression that graph rewriting is notoriously inefficient).
 
 \item[Well Founded Semantics]
 to ease formal, but especially human reasoning.
