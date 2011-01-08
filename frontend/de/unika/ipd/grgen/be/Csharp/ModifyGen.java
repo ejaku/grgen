@@ -1029,6 +1029,10 @@ public class ModifyGen extends CSharpBase {
 	private void genImperativeStatements(StringBuffer sb, ModifyGenerationStateConst state, 
 			ModifyGenerationTask task, String pathPrefix)
 	{
+		if(task.mightThereBeDeferredExecs) {
+			sb.append("\t\t\tgraph.sequencesManager.ExecuteDeferredSequencesThenExitRuleModify(graph);\n");
+		}
+
 		int xgrsID = 0;
 		for(ImperativeStmt istmt : task.right.getImperativeStmts()) {
 			if(istmt instanceof Emit) {
@@ -1058,7 +1062,7 @@ public class ModifyGen extends CSharpBase {
 						sb.append(formatEntity(neededEntity));
 					}
 					sb.append(");\n");
-					sb.append("\t\t\ttoBeExecuted.Enqueue(xgrs"+xgrsID);
+					sb.append("\t\t\tgraph.sequencesManager.AddDeferredSequence(xgrs"+xgrsID);
 				} else {
 					sb.append("\t\t\tApplyXGRS_" + task.left.getNameOfGraph() + "_" + xgrsID + "(graph");
 					for(Entity neededEntity : exec.getNeededEntities()) {
@@ -1085,10 +1089,6 @@ public class ModifyGen extends CSharpBase {
 				
 				++xgrsID;
 			} else assert false : "unknown ImperativeStmt: " + istmt + " in " + task.left.getNameOfGraph();
-		}
-		
-		if(task.mightThereBeDeferredExecs) {
-			sb.append("\t\t\twhile(toBeExecuted.Count>0) toBeExecuted.Dequeue().exec(graph);\n");
 		}
 	}
 
@@ -1282,6 +1282,10 @@ public class ModifyGen extends CSharpBase {
 			ExpressionGenerationState state, HashSet<Node> nodesNeededAsElements, HashSet<Variable> neededVariables) {
 		if(task.right==task.left) { // test needs top-level-modify due to interface, but not more
 			return;
+		}
+
+		if(task.mightThereBeDeferredExecs) {
+			sb.append("\t\t\tgraph.sequencesManager.EnterRuleModifyAddingDeferredSequences();\n");
 		}
 
 		// generate calls to the dependent modifications of the subpatterns

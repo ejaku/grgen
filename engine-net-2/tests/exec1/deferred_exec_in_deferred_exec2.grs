@@ -1,0 +1,14 @@
+new graph "exec1/deferred_exec_in_deferred_exec2.grg"
+
+xgrs Init
+show num nodes only "Center"
+show num nodes only "A"
+show num nodes only "B"
+show num nodes only "AB"
+xgrs r
+show num nodes only "Center"
+show num nodes only "A"
+show num nodes only "B"
+show num nodes only "AB"
+
+quit

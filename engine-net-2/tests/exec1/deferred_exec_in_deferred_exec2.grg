@@ -1,0 +1,86 @@
+using execModel;
+
+rule Init
+{
+    replace {
+		:Center; :A; :B;
+    }
+}
+
+rule r
+{
+	p:P();
+	
+	modify {
+		p();
+	}
+}
+
+pattern P
+{    
+
+	modify {
+		exec(<s & sab>); // :B->:AB, the stuff done by s rolled back
+							// i.e. ok: :Center, :AB, :A,   fail otherwise
+    }
+}
+
+rule s
+{
+	q:Q();
+	
+	modify {
+		q();
+	}
+}
+
+rule sab
+{
+	b:B;
+	
+	modify {
+		:AB<b>;
+	}
+}
+
+pattern Q
+{
+
+	modify {
+		exec(<t & tdel & false>); // :A->:B, Center deleted, but then rolled back
+	}
+}
+
+rule t
+{
+	rr:R();
+	
+	modify {
+		rr();
+	}
+}
+
+rule tdel
+{
+	:Center;
+	
+	replace {
+	}
+}
+
+pattern R
+{
+
+	modify {
+		exec(<u>); // :A->:B, committed, but then rolled back in nesting exec
+	}
+}
+
+rule u
+{
+	a:A;
+	
+	modify {
+		:B<a>;
+	}
+}

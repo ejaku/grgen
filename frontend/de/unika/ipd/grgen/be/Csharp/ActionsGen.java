@@ -1320,7 +1320,7 @@ public class ActionsGen extends CSharpBase {
 			}
 			sb.append("\t\t\t}\n");
 			
-			sb.append("\t\t\tpublic bool exec(GRGEN_LGSP.LGSPGraph graph) {\n");
+			sb.append("\t\t\tpublic override bool exec(GRGEN_LGSP.LGSPGraph graph) {\n");
 			sb.append("\t\t\t\treturn ApplyXGRS_" + pathPrefix + xgrsID + "(graph");
 			for(Entity neededEntity : exec.getNeededEntities()) {
 				sb.append(", " + formatEntity(neededEntity));
@@ -1331,6 +1331,11 @@ public class ActionsGen extends CSharpBase {
 			for(Entity neededEntity : exec.getNeededEntities()) {
 				sb.append("\t\t\t" + formatType(neededEntity.getType()) + " " + formatEntity(neededEntity) + ";\n");
 			}
+
+			//sb.append("\n");
+			//sb.append("\t\t\tpublic static int numFreeClosures = 0;\n");
+			//sb.append("\t\t\tpublic static LGSPEmbeddedSequenceClosure rootOfFreeClosures = null;\n");
+
 			sb.append("\t\t}\n");
 			
 			++xgrsID;

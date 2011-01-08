@@ -1056,15 +1056,6 @@ namespace de.unika.ipd.grGen.lgsp
         /// Our name
         /// </summary>
         public string name;
-
-        /////////////////////////////////////////////////////////////////////////
-
-        /// <summary>
-        /// A global queue with the sequences to be executed after execution of the current rule/test.
-        /// These are sequences with their needed environment, used from within subpatterns/alternatives/iterateds.
-        /// </summary>
-        protected static Queue<LGSPEmbeddedSequenceClosure> toBeExecuted 
-            = new Queue<LGSPEmbeddedSequenceClosure>();
     }
 
     /// <summary>

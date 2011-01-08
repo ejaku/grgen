@@ -1,0 +1,62 @@
+using execModel;
+
+rule Init
+{
+    replace {
+		:Center;
+    }
+}
+
+rule r
+{
+	p:P();
+	
+	modify {
+		p();
+	}
+}
+
+pattern P
+{    
+
+	modify {
+		exec(t); // check if the retyping from s is retyped further with u spawned from t
+				 // cause the retyping from s is executed prematurely as the entire to do queue is emptied by s
+		exec(s);          // ok: :Center -> :A,  fail: :Center -> :B cause there is no :A for u
+    }
+}
+
+rule s
+{
+	c:Center;
+	
+	modify {
+		:A<c>;
+	}
+}
+
+rule t
+{
+	q:Q();
+	
+	modify {
+		q();
+	}
+}
+
+pattern Q
+{
+
+	modify {
+		exec(u);
+	}
+}
+
+rule u
+{
+	a:A;
+	
+	modify {
+		:B<a>;
+	}
+}

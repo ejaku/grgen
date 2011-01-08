@@ -38,6 +38,8 @@ namespace de.unika.ipd.grGen.lgsp
 
         private LGSPTransactionManager transactionManager;
 
+        public LGSPDeferredSequencesManager sequencesManager;
+
         /// <summary>
         /// Currently associated LGSPActions object.
         /// This is needed to the current matchers while executing an exec statement on the RHS of a rule.
@@ -130,7 +132,8 @@ namespace de.unika.ipd.grGen.lgsp
         /// Constructs an LGSPGraph object with the given model and an automatically generated name.
         /// </summary>
         /// <param name="grmodel">The graph model.</param>
-        public LGSPGraph(IGraphModel grmodel) : this(grmodel, GetNextGraphName())
+        public LGSPGraph(IGraphModel grmodel)
+            : this(grmodel, GetNextGraphName())
         {
         }
 
@@ -262,6 +265,8 @@ namespace de.unika.ipd.grGen.lgsp
         private void InitializeGraph()
         {
             transactionManager = new LGSPTransactionManager(this);
+
+            sequencesManager = new LGSPDeferredSequencesManager();
 
             nodesByTypeHeads = new LGSPNode[model.NodeModel.Types.Length];
             for(int i = 0; i < model.NodeModel.Types.Length; i++)

@@ -64,16 +64,16 @@ namespace de.unika.ipd.grGen.lgsp
     /// containing the entities needed for the exec execution.
     /// These exec are executed at the end of the rule which directly or indirectly used them,
     /// long after the alternative/iterated/subpattern modification containing them has been applied.
-    /// The real stuff depends on the xgrs and is generated, obeying this interface.
+    /// The real stuff depends on the xgrs and is generated, implementing this abstract class.
     /// </summary>
-    public interface LGSPEmbeddedSequenceClosure
+    public abstract class LGSPEmbeddedSequenceClosure
     {
         /// <summary>
         /// Executes the embedded sequence closure
         /// </summary>
         /// <param name="graph">the graph on which to apply the sequence</param>
         /// <returns>the result of sequence execution</returns>
-        bool exec(LGSPGraph graph);
+        public abstract bool exec(LGSPGraph graph);
     }
 
     /// <summary>
