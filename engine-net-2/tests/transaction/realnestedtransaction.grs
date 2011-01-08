@@ -1,0 +1,15 @@
+new graph "transaction/realnestedtransaction"
+
+xgrs init
+show num nodes
+xgrs < < deleteNode > && false > 
+show num nodes
+
+clear graph
+
+xgrs init
+show num nodes
+xgrs < deleteNode | < deleteNode  | < deleteNode & false > | deleteNode | < deleteNode > | deleteNode > ;> false > 
+show num nodes
+
+quit

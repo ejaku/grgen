@@ -23,13 +23,39 @@ namespace de.unika.ipd.grGen.lgsp
         IUndoItem Clone(Dictionary<IGraphElement, IGraphElement> oldToNewMap);
     }
 
+
+    ////////////////////////////////////////////////////////////////////////////////
+    public class LGSPUndoTransactionStarted : IUndoItem
+    ////////////////////////////////////////////////////////////////////////////////
+    {
+        public LGSPUndoTransactionStarted()
+        {
+        }
+
+        public void DoUndo(IGraph graph)
+        {
+            // nothing to do, this is only needed to distinguish the outermost transaction
+            // from the nested transactions to know when to remove the rollback information
+            // if nothing happened from opening the first transaction to opening the transaction of interest,
+            // they would be indistinguishable as the number of undo items did not change
+        }
+
+        public IUndoItem Clone(Dictionary<IGraphElement, IGraphElement> oldToNewMap)
+        {
+            return new LGSPUndoTransactionStarted();
+        }
+    }
+
     ////////////////////////////////////////////////////////////////////////////////
     public class LGSPUndoElemAdded : IUndoItem
     ////////////////////////////////////////////////////////////////////////////////
     {
         public IGraphElement _elem;
 
-        public LGSPUndoElemAdded(IGraphElement elem) { _elem = elem; }
+        public LGSPUndoElemAdded(IGraphElement elem)
+        { 
+            _elem = elem;
+        }
 
         public void DoUndo(IGraph graph)
         {
@@ -404,11 +430,14 @@ namespace de.unika.ipd.grGen.lgsp
             if(!recording)
                 SubscribeEvents();
 
-            return undoItems.Count;
+            int count = undoItems.Count;
+            undoItems.AddLast(new LGSPUndoTransactionStarted());
+            return count;
         }
 
         /// <summary>
-        /// Removes the rollback data and stops this transaction
+        /// Commits the changes during a transaction
+        /// (removes rollback information only if the transaction is outermost)
         /// </summary>
         /// <param name="transactionID">Transaction ID returned by a StartTransaction call</param>
         public void Commit(int transactionID)
@@ -427,10 +456,6 @@ namespace de.unika.ipd.grGen.lgsp
             {
                 undoItems.Clear();
                 UnsubscribeEvents();
-            }
-            else
-            {
-                while(undoItems.Count > transactionID) undoItems.RemoveLast();
             }
         }
 
@@ -451,7 +476,9 @@ namespace de.unika.ipd.grGen.lgsp
             {
 #if LOG_TRANSACTION_HANDLING
                 writer.Write("rolling back " + undoItems.Count + " - ");
-                if(undoItems.Last.Value is LGSPUndoElemAdded) {
+                if(undoItems.Last.Value is LGSPUndoTransactionStarted) {
+                    writer.WriteLine("TransactionStarted");
+                } else if(undoItems.Last.Value is LGSPUndoElemAdded) {
                     LGSPUndoElemAdded item = (LGSPUndoElemAdded)undoItems.Last.Value;
                     if(item._elem is INode) {
                         INode node = (INode)item._elem;
@@ -469,9 +496,7 @@ namespace de.unika.ipd.grGen.lgsp
                         IEdge edge = (IEdge)item._elem;
                         writer.WriteLine("RemovingElement: " + graph.GetElementName(edge.Source) + " -"+ graph.GetElementName(edge) + ":" + edge.Type.Name + "-> " + graph.GetElementName(edge.Target));
                     }
-                }
-                else if(undoItems.Last.Value is LGSPUndoAttributeChanged)
-                {
+                } else if(undoItems.Last.Value is LGSPUndoAttributeChanged) {
                     LGSPUndoAttributeChanged item = (LGSPUndoAttributeChanged)undoItems.Last.Value;
                     writer.WriteLine("ChangingElementAttribute: " + graph.GetElementName(item._elem) + ":" + item._elem.Type.Name + "." + item._attrType.Name);
                 } else if(undoItems.Last.Value is LGSPUndoElemRetyped) {

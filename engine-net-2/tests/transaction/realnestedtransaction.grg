@@ -1,0 +1,12 @@
+rule init {
+	modify {
+		.; .; .; .; .; .;
+	}
+}
+
+rule deleteNode {
+	.;
+
+	replace {
+	}
+}
