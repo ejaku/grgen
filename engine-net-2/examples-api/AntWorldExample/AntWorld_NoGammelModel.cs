@@ -1,6 +1,6 @@
 // This file has been generated automatically by GrGen (www.grgen.net)
 // Do not modify this file! Any changes will be lost!
-// Generated from "..\..\tests\antWorld\AntWorld_ExtendAtEndOfRound_NoGammel.grg" on Mon Jan 03 00:10:19 CET 2011
+// Generated from "..\..\tests\antWorld\AntWorld_ExtendAtEndOfRound_NoGammel.grg" on Mon Jan 10 21:49:38 CET 2011
 
 using System;
 using System.Collections.Generic;
@@ -267,8 +267,8 @@ namespace de.unika.ipd.grGen.Model_AntWorld_NoGammel
 		public static GRGEN_LIBGR.AttributeType AttributeType_pheromones;
 		public NodeType_GridNode() : base((int) NodeTypes.@GridNode)
 		{
-			AttributeType_food = new GRGEN_LIBGR.AttributeType("food", this, GRGEN_LIBGR.AttributeKind.IntegerAttr, null, null, null);
-			AttributeType_pheromones = new GRGEN_LIBGR.AttributeType("pheromones", this, GRGEN_LIBGR.AttributeKind.IntegerAttr, null, null, null);
+			AttributeType_food = new GRGEN_LIBGR.AttributeType("food", this, GRGEN_LIBGR.AttributeKind.IntegerAttr, null, null, null, null);
+			AttributeType_pheromones = new GRGEN_LIBGR.AttributeType("pheromones", this, GRGEN_LIBGR.AttributeKind.IntegerAttr, null, null, null, null);
 		}
 		public override string Name { get { return "GridNode"; } }
 		public override string NodeInterfaceName { get { return "de.unika.ipd.grGen.Model_AntWorld_NoGammel.IGridNode"; } }
@@ -673,7 +673,7 @@ namespace de.unika.ipd.grGen.Model_AntWorld_NoGammel
 		public static GRGEN_LIBGR.AttributeType AttributeType_foodCountdown;
 		public NodeType_AntHill() : base((int) NodeTypes.@AntHill)
 		{
-			AttributeType_foodCountdown = new GRGEN_LIBGR.AttributeType("foodCountdown", this, GRGEN_LIBGR.AttributeKind.IntegerAttr, null, null, null);
+			AttributeType_foodCountdown = new GRGEN_LIBGR.AttributeType("foodCountdown", this, GRGEN_LIBGR.AttributeKind.IntegerAttr, null, null, null, null);
 		}
 		public override string Name { get { return "AntHill"; } }
 		public override string NodeInterfaceName { get { return "de.unika.ipd.grGen.Model_AntWorld_NoGammel.IAntHill"; } }
@@ -856,7 +856,7 @@ namespace de.unika.ipd.grGen.Model_AntWorld_NoGammel
 		public static GRGEN_LIBGR.AttributeType AttributeType_hasFood;
 		public NodeType_Ant() : base((int) NodeTypes.@Ant)
 		{
-			AttributeType_hasFood = new GRGEN_LIBGR.AttributeType("hasFood", this, GRGEN_LIBGR.AttributeKind.BooleanAttr, null, null, null);
+			AttributeType_hasFood = new GRGEN_LIBGR.AttributeType("hasFood", this, GRGEN_LIBGR.AttributeKind.BooleanAttr, null, null, null, null);
 		}
 		public override string Name { get { return "Ant"; } }
 		public override string NodeInterfaceName { get { return "de.unika.ipd.grGen.Model_AntWorld_NoGammel.IAnt"; } }

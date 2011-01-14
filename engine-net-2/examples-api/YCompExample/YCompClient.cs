@@ -593,7 +593,7 @@ namespace de.unika.ipd.grGen.grShell
                     IDictionary setmap = (IDictionary)node.GetAttribute(attrType.Name);
                     string attrTypeString;
                     string attrValue;
-                    DictionaryHelper.ToString(setmap, out attrTypeString, out attrValue);
+                    DictionaryHelper.ToString(setmap, out attrTypeString, out attrValue, attrType, graph);
                     ycompStream.Write("changeNodeAttr \"n" + name + "\" \"" + attrType.OwnerType.Name + "::" + attrType.Name + " : "
                         + attrTypeString + "\" \"" + Encode(attrValue) + "\"\n");
                 }
@@ -626,7 +626,7 @@ namespace de.unika.ipd.grGen.grShell
                     IDictionary setmap = (IDictionary)edge.GetAttribute(attrType.Name);
                     string attrTypeString;
                     string attrValue;
-                    DictionaryHelper.ToString(setmap, out attrTypeString, out attrValue);
+                    DictionaryHelper.ToString(setmap, out attrTypeString, out attrValue, attrType, graph);
                     ycompStream.Write("changeEdgeAttr \"e" + edgeName + "\" \"" + attrType.OwnerType.Name + "::" + attrType.Name + " : "
                         + attrTypeString + "\" \"" + Encode(attrValue) + "\"\n");
                 }
@@ -699,7 +699,7 @@ namespace de.unika.ipd.grGen.grShell
                 IDictionary setmap = (IDictionary)node.GetAttribute(attrType.Name);
                 string attrTypeString;
                 string attrValue;
-                DictionaryHelper.ToString(setmap, changeType, newValue, keyValue, out attrTypeString, out attrValue, attrType);
+                DictionaryHelper.ToString(setmap, changeType, newValue, keyValue, out attrTypeString, out attrValue, attrType, graph);
                 ChangeNodeAttribute(node, attrType, attrTypeString, attrValue);
             }
             else
@@ -736,7 +736,7 @@ namespace de.unika.ipd.grGen.grShell
                 IDictionary setmap = (IDictionary)edge.GetAttribute(attrType.Name);
                 string attrTypeString;
                 string attrValue;
-                DictionaryHelper.ToString(setmap, changeType, newValue, keyValue, out attrTypeString, out attrValue, attrType);
+                DictionaryHelper.ToString(setmap, changeType, newValue, keyValue, out attrTypeString, out attrValue, attrType, graph);
                 ChangeEdgeAttribute(edge, attrType, attrTypeString, attrValue);
             }
             else

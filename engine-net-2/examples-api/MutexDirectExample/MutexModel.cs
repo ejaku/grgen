@@ -1,6 +1,6 @@
 // This file has been generated automatically by GrGen (www.grgen.net)
 // Do not modify this file! Any changes will be lost!
-// Generated from "..\..\examples\Mutex\MutexPimped.grg" on Mon Jan 03 00:10:43 CET 2011
+// Generated from "..\..\examples\Mutex\MutexPimped.grg" on Mon Jan 10 21:50:05 CET 2011
 
 using System;
 using System.Collections.Generic;
@@ -1746,7 +1746,7 @@ namespace de.unika.ipd.grGen.Model_Mutex
 		public static GRGEN_LIBGR.AttributeType AttributeType_attrib;
 		public EdgeType_annotationTestEdge() : base((int) EdgeTypes.@annotationTestEdge)
 		{
-			AttributeType_attrib = new GRGEN_LIBGR.AttributeType("attrib", this, GRGEN_LIBGR.AttributeKind.IntegerAttr, null, null, null);
+			AttributeType_attrib = new GRGEN_LIBGR.AttributeType("attrib", this, GRGEN_LIBGR.AttributeKind.IntegerAttr, null, null, null, null);
 			AttributeType_attrib.annotations.Add("special", "42");
 		}
 		public override string Name { get { return "annotationTestEdge"; } }

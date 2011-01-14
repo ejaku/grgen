@@ -1,6 +1,6 @@
 // This file has been generated automatically by GrGen (www.grgen.net)
 // Do not modify this file! Any changes will be lost!
-// Generated from "..\..\examples\Turing3\Turing3.grg" on Mon Jan 03 00:10:23 CET 2011
+// Generated from "..\..\examples\Turing3\Turing3.grg" on Mon Jan 10 21:49:42 CET 2011
 
 using System;
 using System.Collections.Generic;
@@ -252,7 +252,7 @@ namespace de.unika.ipd.grGen.Model_Turing3
 		public static GRGEN_LIBGR.AttributeType AttributeType_value;
 		public NodeType_BandPosition() : base((int) NodeTypes.@BandPosition)
 		{
-			AttributeType_value = new GRGEN_LIBGR.AttributeType("value", this, GRGEN_LIBGR.AttributeKind.IntegerAttr, null, null, null);
+			AttributeType_value = new GRGEN_LIBGR.AttributeType("value", this, GRGEN_LIBGR.AttributeKind.IntegerAttr, null, null, null, null);
 		}
 		public override string Name { get { return "BandPosition"; } }
 		public override string NodeInterfaceName { get { return "de.unika.ipd.grGen.Model_Turing3.IBandPosition"; } }
@@ -541,7 +541,7 @@ namespace de.unika.ipd.grGen.Model_Turing3
 		public static GRGEN_LIBGR.AttributeType AttributeType_value;
 		public NodeType_WriteValue() : base((int) NodeTypes.@WriteValue)
 		{
-			AttributeType_value = new GRGEN_LIBGR.AttributeType("value", this, GRGEN_LIBGR.AttributeKind.IntegerAttr, null, null, null);
+			AttributeType_value = new GRGEN_LIBGR.AttributeType("value", this, GRGEN_LIBGR.AttributeKind.IntegerAttr, null, null, null, null);
 		}
 		public override string Name { get { return "WriteValue"; } }
 		public override string NodeInterfaceName { get { return "de.unika.ipd.grGen.Model_Turing3.IWriteValue"; } }
