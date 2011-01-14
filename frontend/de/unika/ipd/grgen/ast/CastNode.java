@@ -93,7 +93,8 @@ public class CastNode extends ExprNode {
 		return childrenNames;
 	}
 
-	private static DeclarationTypeResolver<BasicTypeNode> typeResolver = new DeclarationTypeResolver<BasicTypeNode>(BasicTypeNode.class);
+	private static DeclarationTypeResolver<BasicTypeNode> typeResolver = 
+		new DeclarationTypeResolver<BasicTypeNode>(BasicTypeNode.class);
 
 	/** @see de.unika.ipd.grgen.ast.BaseNode#resolveLocal() */
 	@Override

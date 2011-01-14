@@ -165,30 +165,36 @@ PARSER_BEGIN(GRSImporter)
         
         public INode GetNodeByVar(String varName)
         {
-			object elem = graph.GetVariableValue(varName);
-			if(elem==null) throw new Exception("Unknown variable "+varName);
-            return (INode)elem;
+            return (INode)GetElemByVar(varName);
         }
 
         public INode GetNodeByName(String elemName)
         {
-	        IGraphElement elem = graph.GetGraphElement(elemName);
-	        if(elem==null) throw new Exception("Unknown graph element "+elemName);
-            return (INode)elem;
+            return (INode)GetElemByName(elemName);
         }
 
         public IEdge GetEdgeByVar(String varName)
         {
-  			object elem = graph.GetVariableValue(varName);
-			if(elem==null) throw new Exception("Unknown variable "+varName);
-            return (IEdge)elem;
+            return (IEdge)GetElemByVar(varName);
         }
 
         public IEdge GetEdgeByName(String elemName)
         {
+            return (IEdge)GetElemByName(elemName);
+        }
+
+        public IGraphElement GetElemByVar(String varName)
+        {
+			object elem = graph.GetVariableValue(varName);
+			if(elem==null) throw new Exception("Unknown variable "+varName);
+            return (IGraphElement)elem;
+        }
+
+        public IGraphElement GetElemByName(String elemName)
+        {
 	        IGraphElement elem = graph.GetGraphElement(elemName);
 	        if(elem==null) throw new Exception("Unknown graph element "+elemName);
-            return (IEdge)elem;
+            return elem;
         }
         
         public void NewNode(ElementDef elemDef)
@@ -223,7 +229,12 @@ PARSER_BEGIN(GRSImporter)
             if(edge==null) throw new Exception("Can't create edge");
             
             if(elemDef.Attributes!=null) SetAttributes(edge, elemDef.Attributes);
-        }        
+        }
+        
+        public void DeferredAttributeInitialization(IGraphElement elem, ArrayList defrAttrInit)
+        {
+	        SetAttributes(elem, defrAttrInit);
+        }
 
 		private object ParseAttributeValue(AttributeKind attrKind, String valueString) // not set/map/enum
         {
@@ -261,6 +272,26 @@ PARSER_BEGIN(GRSImporter)
 				if(valueString!="null")
 	                throw new Exception("(Non-null) Object attributes unsupported");
 				value = null;
+				break;
+			case AttributeKind.NodeAttr:
+				if(valueString[0]=='@' && valueString[1]=='(' && valueString[valueString.Length-1]==')') {
+					if((valueString[2]=='\"' || valueString[2]=='\'') && (valueString[valueString.Length-2]=='\"' || valueString[valueString.Length-2]=='\''))
+						value = GetNodeByName(valueString.Substring(3, valueString.Length-5));
+					else
+						value = GetNodeByName(valueString.Substring(2, valueString.Length-3));
+				} else {
+					value = GetNodeByVar(valueString);
+				}
+				break;
+			case AttributeKind.EdgeAttr:
+				if(valueString[0]=='@' && valueString[1]=='(' && valueString[valueString.Length-1]==')') {
+					if((valueString[2]=='\"' || valueString[2]=='\'') && (valueString[valueString.Length-2]=='\"' || valueString[valueString.Length-2]=='\''))
+						value = GetEdgeByName(valueString.Substring(3, valueString.Length-5));
+					else
+						value = GetEdgeByName(valueString.Substring(2, valueString.Length-3));					
+				} else {
+					value = GetEdgeByVar(valueString);
+				}
 				break;
             }
             return value;
@@ -513,6 +544,21 @@ IEdge Edge():
 	{ return edge; }
 }
 
+IGraphElement GraphElement():
+{
+	IGraphElement elem;
+	String str;
+}
+{
+	(
+		"@" "(" str=Text() ")" { elem = GetElemByName(str); }
+	|
+		str=Text() { elem = GetElemByVar(str); }
+	)
+	{ return elem; }
+}
+
+
 void LineEnd():
 {}
 {
@@ -524,6 +570,9 @@ bool ParseGraphBuildingScript() :
 	String modelFilename, graphName="";
 	INode srcNode, tgtNode;
 	ElementDef elemDef;
+	IGraphElement elem;
+	String attrName;
+	ArrayList defrAttrInit;
 }
 {
 	(
@@ -554,6 +603,12 @@ bool ParseGraphBuildingScript() :
 				return true;
 			}
 		)
+	|
+		elem=GraphElement() "." { defrAttrInit = new ArrayList(); } SingleAttribute(defrAttrInit) LineEnd()
+			{ 
+				DeferredAttributeInitialization(elem, defrAttrInit);
+				return true;
+			}
 	| <NL>
 		{
 			return true;

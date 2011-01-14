@@ -9,6 +9,9 @@ using System;
 using System.Diagnostics;
 using System.Collections.Generic;
 
+using de.unika.ipd.grGen.libGr;
+
+
 namespace de.unika.ipd.grGen.lgsp
 {
     public class IsomorphyInformation : ICloneable
@@ -107,6 +110,7 @@ namespace de.unika.ipd.grGen.lgsp
         public object Element;
         public SearchPlanNode SourceSPNode;
         public PatternVariable Storage;
+        public AttributeType StorageAttribute;
         public float CostToEnd;
 
         // used in check for isomorphic elements

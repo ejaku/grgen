@@ -1,0 +1,116 @@
+using map_model_003;
+
+rule addToMap {
+	n:N -e:E-> m:Node -i:Edge->;
+	
+	modify {
+		eval {
+			n.nodeNodeMap = n.nodeNodeMap | map<Node,Node>{ n->m };
+			n.nodeNodeMap = n.nodeNodeMap | { m->m };
+			n.nodeEdgeMap = n.nodeEdgeMap | map<N,E>{ n->e };
+			n.nodeEdgeMap = n.nodeEdgeMap | { n->e };
+
+			n.edgeEdgeMap = n.edgeEdgeMap | map<Edge,Edge>{ e->i };
+			n.edgeEdgeMap = n.edgeEdgeMap | { i->i };
+			n.edgeNodeMap = n.edgeNodeMap | map<E,N>{ e->n };
+			n.edgeNodeMap = n.edgeNodeMap | { e->n };
+		}
+	}
+}
+
+test containedInMap {
+	n:N -e:E->;
+	
+	if { n in n.nodeNodeMap; }
+	if { n in n.nodeEdgeMap; }
+	if { e in n.edgeEdgeMap; }
+	if { e in n.edgeNodeMap; }
+}
+
+rule removeFromMap {
+	n:N -e:E-> m:Node -i:Edge->;
+	
+	modify {
+		eval {
+			n.nodeNodeMap = n.nodeNodeMap \ map<Node,Node>{ n->m };
+			n.nodeNodeMap = n.nodeNodeMap \ { m->m };
+			n.nodeEdgeMap = n.nodeEdgeMap \ map<N,E>{ n->e };
+			n.nodeEdgeMap = n.nodeEdgeMap \ { n->e };
+
+			n.edgeEdgeMap = n.edgeEdgeMap \ map<Edge,Edge>{ e->i };
+			n.edgeEdgeMap = n.edgeEdgeMap \ { i->i };
+			n.edgeNodeMap = n.edgeNodeMap \ map<E,N>{ e->n };
+			n.edgeNodeMap = n.edgeNodeMap \ { e->n };
+		}
+	}
+}
+
+// This clones the sets
+rule assignMapToMap {
+	n:N; m:N; 
+		
+	modify {
+		eval {
+			n.nodeNodeMap = m.nodeNodeMap;
+			m.nodeEdgeMap = n.nodeEdgeMap;
+			n.edgeEdgeMap = m.edgeEdgeMap;
+			m.edgeNodeMap = n.edgeNodeMap;
+		}
+	}
+}
+
+rule anonymousMap {
+	n:N -e:E-> m:N -i:Edge->;
+	
+	if { n in map<Node,Node>{ n->m }; }
+	if { n in map<Node,Node>{ m->n }; }
+	if { n in map<N,E>{ n->e }; }
+	if { e in map<Edge,Edge>{ e->i }; }
+	if { e in map<Edge,Edge>{ i->e }; }
+	if { e in map<E,N>{ e->n }; }
+
+	modify {
+		eval {
+			n.val = (n in map<N,Node>{n->m}) ? 1 : 0;
+			m.val = (e in map<Edge,N>{i->n}) ? 1 : 0;
+		}
+	}
+}
+
+rule mapSize {
+	n:N;
+	
+	if { n.nodeNodeMap.size()==42; }
+	if { n.nodeEdgeMap.size()==42; }
+	if { n.edgeEdgeMap.size()==42; }
+	if { n.edgeNodeMap.size()==42; }
+	
+	modify {
+		eval {
+			n.val = n.nodeNodeMap.size();
+			n.val = n.nodeEdgeMap.size();
+			n.val = n.edgeEdgeMap.size();
+			n.val = n.edgeNodeMap.size();
+		}
+	}
+}
+
+rule addToMapRemoveFromMap {
+	n:N -e:E-> m:N -i:Edge->;
+	
+	modify {
+		eval {
+			n.nodeNodeMap = (m.nodeNodeMap | map<Node,Node>{ n->m }) \ map<Node,Node>{ m->n };
+			n.edgeEdgeMap = (m.edgeEdgeMap | map<Edge,Edge>{ e->i }) \ map<Edge,Edge>{ i->e };
+		}
+	}
+}
+
+rule storagemap {
+	n:N;
+	m:N<n.nodeNodeMap>;
+	-l:E<n.edgeNodeMap>->;
+	
+	modify {
+	}
+}

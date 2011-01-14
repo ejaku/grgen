@@ -1570,6 +1570,36 @@ namespace de.unika.ipd.grGen.grShell
                     value = null;
                     break;
                 }
+                case AttributeKind.NodeAttr:
+                {
+                    if(valueString[0] == '@' && valueString[1] == '(' && valueString[valueString.Length - 1] == ')')
+                    {
+                        if((valueString[2] == '\"' || valueString[2] == '\'') && (valueString[valueString.Length - 2] == '\"' || valueString[valueString.Length - 2] == '\''))
+                            value = GetNodeByName(valueString.Substring(3, valueString.Length - 5));
+                        else
+                            value = GetNodeByName(valueString.Substring(2, valueString.Length - 3));
+                    }
+                    else
+                    {
+                        value = GetNodeByVar(valueString);
+                    }
+                    break;
+                }
+                case AttributeKind.EdgeAttr:
+                {
+                    if(valueString[0] == '@' && valueString[1] == '(' && valueString[valueString.Length - 1] == ')')
+                    {
+                        if((valueString[2] == '\"' || valueString[2] == '\'') && (valueString[valueString.Length - 2] == '\"' || valueString[valueString.Length - 2] == '\''))
+                            value = GetEdgeByName(valueString.Substring(3, valueString.Length - 5));
+                        else
+                            value = GetEdgeByName(valueString.Substring(2, valueString.Length - 3));
+                    }
+                    else
+                    {
+                        value = GetEdgeByVar(valueString);
+                    }
+                    break;
+                }
             }
             return value;
         }
@@ -2303,7 +2333,8 @@ namespace de.unika.ipd.grGen.grShell
                 string content;
                 if(val.GetType().Name=="Dictionary`2")
                 {
-                    DictionaryHelper.ToString((IDictionary)val, out type, out content, curShellGraph!=null ? curShellGraph.Graph : null);
+                    DictionaryHelper.ToString((IDictionary)val, out type, out content, 
+                        null, curShellGraph!=null ? curShellGraph.Graph : null);
                     debugOut.WriteLine("The value of variable \"" + name + "\" of type " + type + " is: \"" + content + "\"");
                     return;
                 }
@@ -2321,7 +2352,8 @@ namespace de.unika.ipd.grGen.grShell
                     //ShowElementAttributes((IGraphElement)val);
                     return;
                 }
-                DictionaryHelper.ToString(val, out type, out content, curShellGraph!=null ? curShellGraph.Graph : null);
+                DictionaryHelper.ToString(val, out type, out content, 
+                    null, curShellGraph!=null ? curShellGraph.Graph : null);
                 debugOut.WriteLine("The value of variable \"" + name + "\" of type " + type + " is: \"" + content + "\"");
                 return;
             }

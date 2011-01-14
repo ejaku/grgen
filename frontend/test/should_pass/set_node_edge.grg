@@ -1,0 +1,92 @@
+using set_model_003;
+
+rule addToSet {
+	n:N; m:Node;
+	
+	modify {
+		eval {
+			n.nodeSet = n.nodeSet | set<Node>{ n };
+			n.nodeSet = n.nodeSet | { m };
+			n.nSet = n.nSet | set<N>{ n };
+			n.nSet = n.nSet | { n };
+		}
+	}
+}
+
+test containedInSet {
+	n:N;
+	
+	if { n in n.nodeSet; }
+	if { n in n.nSet; }
+}
+
+rule removeFromSet {
+	n:N; m:Node;
+	
+	modify {
+		eval {
+			n.nodeSet = n.nodeSet \ set<Node>{ n };
+			n.nodeSet = n.nodeSet \ { m };
+			n.nSet = n.nSet \ set<N>{ n };
+			n.nSet = n.nSet \ { n };
+		}
+	}
+}
+
+// This clones the sets
+rule assignSetToSet {
+	n:N; m:N; 
+		
+	modify {
+		eval {
+			n.nodeSet = m.nodeSet;
+			m.nSet = n.nSet;
+		}
+	}
+}
+
+rule anonymousSet {
+	n:N; m:N;
+	
+	if { n in set<Node>{ n, m }; }
+	if { n in set<N>{ n, m }; }
+
+	modify {
+		eval {
+			n.val = (n in {n, m}) ? 1 : 0;
+		}
+	}
+}
+
+rule setSize {
+	n:N;
+	
+	if { n.nodeSet.size()==42; }
+	if { n.nSet.size()==42; }
+	
+	modify {
+		eval {
+			n.val = n.nodeSet.size();
+			n.val = n.nSet.size();
+		}
+	}
+}
+
+rule addToSetRemoveFromSet {
+	n:N; m:N;
+	
+	modify {
+		eval {
+			n.nodeSet = (m.nodeSet | set<Node>{ n, m }) \ set<Node>{ m };
+		}
+	}
+}
+
+rule storage {
+	n:N;
+	m:N<n.nSet>;
+	l:Node<n.nodeSet>;
+	
+	modify {
+	}
+}

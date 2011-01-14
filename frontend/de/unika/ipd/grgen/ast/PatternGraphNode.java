@@ -652,41 +652,74 @@ public class PatternGraphNode extends GraphNode {
 				if(!gr.hasVar(node.getStorage())) {
 					gr.addVariable(node.getStorage());
 				}
+			}
 
-				if(node.getAccessor()!=null && node.getAccessor() instanceof Node) {
-					Node neededNode = (Node)node.getAccessor();
+			if(node.getStorageAttribute()!=null) {		
+				if(node.getStorageAttribute().getOwner() instanceof Node) {
+					Node neededNode = (Node)node.getStorageAttribute().getOwner();
 					if(!gr.hasNode(neededNode)) {
 						gr.addSingleNode(neededNode);
 						gr.addHomToAll(neededNode);
 					}					
-				} else if(node.getAccessor()!=null && node.getAccessor() instanceof Edge) {
-					Edge neededEdge = (Edge)node.getAccessor();
+				} else if(node.getStorageAttribute().getOwner() instanceof Edge) {
+					Edge neededEdge = (Edge)node.getStorageAttribute().getOwner();
 					if(!gr.hasEdge(neededEdge)) {
 						gr.addSingleEdge(neededEdge);	// TODO: maybe we lose context here
 						gr.addHomToAll(neededEdge);
 					}					
 				}
 			}
+
+			if(node.getAccessor()!=null && node.getAccessor() instanceof Node) {
+				Node neededNode = (Node)node.getAccessor();
+				if(!gr.hasNode(neededNode)) {
+					gr.addSingleNode(neededNode);
+					gr.addHomToAll(neededNode);
+				}					
+			} else if(node.getAccessor()!=null && node.getAccessor() instanceof Edge) {
+				Edge neededEdge = (Edge)node.getAccessor();
+				if(!gr.hasEdge(neededEdge)) {
+					gr.addSingleEdge(neededEdge);	// TODO: maybe we lose context here
+					gr.addHomToAll(neededEdge);
+				}					
+			}
 		}
+		
 		for(Edge edge : gr.getEdges()) {
 			if(edge.getStorage()!=null) {
 				if(!gr.hasVar(edge.getStorage())) {
 					gr.addVariable(edge.getStorage());
 				}
+			}
 
-				if(edge.getAccessor()!=null && edge.getAccessor() instanceof Node) {
-					Node neededNode = (Node)edge.getAccessor();
+			if(edge.getStorageAttribute()!=null) {		
+				if(edge.getStorageAttribute().getOwner() instanceof Node) {
+					Node neededNode = (Node)edge.getStorageAttribute().getOwner();
 					if(!gr.hasNode(neededNode)) {
 						gr.addSingleNode(neededNode);
 						gr.addHomToAll(neededNode);
 					}					
-				} else if(edge.getAccessor()!=null && edge.getAccessor() instanceof Edge) {
-					Edge neededEdge = (Edge)edge.getAccessor();
+				} else if(edge.getStorageAttribute().getOwner() instanceof Edge) {
+					Edge neededEdge = (Edge)edge.getStorageAttribute().getOwner();
 					if(!gr.hasEdge(neededEdge)) {
 						gr.addSingleEdge(neededEdge);	// TODO: maybe we lose context here
 						gr.addHomToAll(neededEdge);
 					}					
 				}
+			}
+
+			if(edge.getAccessor()!=null && edge.getAccessor() instanceof Node) {
+				Node neededNode = (Node)edge.getAccessor();
+				if(!gr.hasNode(neededNode)) {
+					gr.addSingleNode(neededNode);
+					gr.addHomToAll(neededNode);
+				}					
+			} else if(edge.getAccessor()!=null && edge.getAccessor() instanceof Edge) {
+				Edge neededEdge = (Edge)edge.getAccessor();
+				if(!gr.hasEdge(neededEdge)) {
+					gr.addSingleEdge(neededEdge);	// TODO: maybe we lose context here
+					gr.addHomToAll(neededEdge);
+				}					
 			}
 		}
 		

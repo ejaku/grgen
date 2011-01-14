@@ -1,0 +1,14 @@
+node class N
+{
+	nodeSet:set<Node>;
+	nSet:set<N>;
+	val:int;
+}
+
+edge class E
+{
+	edgeSet:set<Edge>;
+	eSet:set<E>;
+	uSet:set<UEdge>;
+	val:int;
+}

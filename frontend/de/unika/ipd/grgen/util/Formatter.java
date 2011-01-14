@@ -44,9 +44,9 @@ public class Formatter {
 	// 		the second right shift is signed. This Backend simply gens
 	//		C-bitwise-shift-operations on signed integers, for simplicity ;-)
 	private static String[] opSymbols = {
-		null, "||", "&&", "|", "^", "&",
+		"?:", "||", "&&", "|", "^", "&",
 			"==", "!=", "<", "<=", ">", ">=", "<<", ">>", ">>", "+",
-			"-", "*", "/", "%", "!", "~", "-", "(cast)"
+			"-", "*", "/", "%", "!", "~", "-", "in", "\\"
 	};
 
 	public static String formatConditionEval(Expression cond) {

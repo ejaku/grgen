@@ -1726,7 +1726,10 @@ public class ModifyGen extends CSharpBase {
 		sb.append("\t\t\t");
 		genExpression(sb, target, state);
 		sb.append(".Remove(");
-		sb.append(keyExprStr);
+		if(mri.getKeyExpr() instanceof GraphEntityExpression)
+			sb.append("(" + formatElementInterfaceRef(mri.getKeyExpr().getType()) + ")(" + keyExprStr + ")");
+		else
+			sb.append(keyExprStr);
 		sb.append(");\n");
 
 		if(mri.getNext()!=null) {
@@ -1749,9 +1752,15 @@ public class ModifyGen extends CSharpBase {
 		sb.append("\t\t\t");
 		genExpression(sb, target, state);
 		sb.append("[");
-		sb.append(keyExprStr);
+		if(mai.getKeyExpr() instanceof GraphEntityExpression)
+			sb.append("(" + formatElementInterfaceRef(mai.getKeyExpr().getType()) + ")(" + keyExprStr + ")");
+		else
+			sb.append(keyExprStr);
 		sb.append("] = ");
-		sb.append(valueExprStr);
+		if(mai.getValueExpr() instanceof GraphEntityExpression)
+			sb.append("(" + formatElementInterfaceRef(mai.getValueExpr().getType()) + ")(" + valueExprStr + ")");
+		else
+			sb.append(valueExprStr);
 		sb.append(";\n");
 
 		if(mai.getNext()!=null) {
@@ -1771,7 +1780,10 @@ public class ModifyGen extends CSharpBase {
 		sb.append("\t\t\t");
 		genExpression(sb, target, state);
 		sb.append(".Remove(");
-		sb.append(valueExprStr);
+		if(sri.getValueExpr() instanceof GraphEntityExpression)
+			sb.append("(" + formatElementInterfaceRef(sri.getValueExpr().getType()) + ")(" + valueExprStr + ")");
+		else
+			sb.append(valueExprStr);
 		sb.append(");\n");
 
 		if(sri.getNext()!=null) {
@@ -1791,7 +1803,10 @@ public class ModifyGen extends CSharpBase {
 		sb.append("\t\t\t");
 		genExpression(sb, target, state);
 		sb.append("[");
-		sb.append(valueExprStr);
+		if(sai.getValueExpr() instanceof GraphEntityExpression)
+			sb.append("(" + formatElementInterfaceRef(sai.getValueExpr().getType()) + ")(" + valueExprStr + ")");
+		else
+			sb.append(valueExprStr);
 		sb.append("] = null;\n");
 
 		if(sai.getNext()!=null) {

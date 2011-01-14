@@ -15,6 +15,7 @@ import java.util.Vector;
 
 import de.unika.ipd.grgen.ir.IR;
 import de.unika.ipd.grgen.ir.Node;
+import de.unika.ipd.grgen.ir.Qualification;
 import de.unika.ipd.grgen.ir.Variable;
 
 
@@ -23,11 +24,12 @@ public class MatchNodeFromStorageNode extends NodeDeclNode implements NodeCharac
 		setName(MatchNodeFromStorageNode.class, "match node from storage decl");
 	}
 
-	private IdentExprNode storageUnresolved;
+	private BaseNode storageUnresolved;
 	private VarDeclNode storage = null;
+	private QualIdentNode storageAttribute = null;
 
-	
-	public MatchNodeFromStorageNode(IdentNode id, BaseNode type, int context, IdentExprNode storage,
+
+	public MatchNodeFromStorageNode(IdentNode id, BaseNode type, int context, BaseNode storage,
 			PatternGraphNode directlyNestingLHSGraph) {
 		super(id, type, false, context, TypeExprNode.getEmpty(), directlyNestingLHSGraph, false);
 		this.storageUnresolved = storage;
@@ -41,7 +43,7 @@ public class MatchNodeFromStorageNode extends NodeDeclNode implements NodeCharac
 		children.add(ident);
 		children.add(getValidVersion(typeUnresolved, typeNodeDecl, typeTypeDecl));
 		children.add(constraints);
-		children.add(getValidVersion(storageUnresolved, storage));
+		children.add(getValidVersion(storageUnresolved, storage, storageAttribute));
 		return children;
 	}
 
@@ -60,10 +62,24 @@ public class MatchNodeFromStorageNode extends NodeDeclNode implements NodeCharac
 	@Override
 	protected boolean resolveLocal() {
 		boolean successfullyResolved = super.resolveLocal();
-		if(storageUnresolved.resolve() && storageUnresolved.decl instanceof VarDeclNode) {
-			storage = (VarDeclNode)storageUnresolved.decl;
+		if(storageUnresolved instanceof IdentExprNode) {
+			IdentExprNode unresolved = (IdentExprNode)storageUnresolved;
+			if(unresolved.resolve() && unresolved.decl instanceof VarDeclNode) {
+				storage = (VarDeclNode)unresolved.decl;
+			} else {
+				reportError("match node from storage expects a parameter variable.");
+				successfullyResolved = false;
+			}
+		} else if(storageUnresolved instanceof QualIdentNode) {
+			QualIdentNode unresolved = (QualIdentNode)storageUnresolved;
+			if(unresolved.resolve()) {
+				storageAttribute = unresolved;
+			} else {
+				reportError("match node from storage attribute expects a storage attribute.");
+				successfullyResolved = false;
+			}
 		} else {
-			reportError("match node from storage expects a parameter variable.");
+			reportError("internal error - invalid match node from storage attribute");
 			successfullyResolved = false;
 		}
 		return successfullyResolved;
@@ -73,7 +89,7 @@ public class MatchNodeFromStorageNode extends NodeDeclNode implements NodeCharac
 	@Override
 	protected boolean checkLocal() {
 		boolean res = super.checkLocal();
-		TypeNode storageType = storage.getDeclType();
+		TypeNode storageType = storage!=null ? storage.getDeclType() : storageAttribute.getDecl().getDeclType();
 		if(!(storageType instanceof SetTypeNode || storageType instanceof MapTypeNode)) {
 			reportError("match node from storage expects a parameter variable of set or map type.");
 			return false;
@@ -104,7 +120,8 @@ public class MatchNodeFromStorageNode extends NodeDeclNode implements NodeCharac
 	@Override
 	protected IR constructIR() {
 		Node node = (Node)super.constructIR();
-		node.setStorage(storage.checkIR(Variable.class));
+		if(storage!=null) node.setStorage(storage.checkIR(Variable.class));
+		else node.setStorageAttribute(storageAttribute.checkIR(Qualification.class));
 		return node;
 	}
 }

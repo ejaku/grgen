@@ -108,6 +108,12 @@ public class NodeTypeNode extends InheritanceTypeNode {
 		NodeType nt = new NodeType(getDecl().getIdentNode().getIdent(),
 								   getIRModifiers(), getExternalName());
 
+		if (isIRAlreadySet()) { // break endless recursion in case of member of set/map of node/edge type
+			return getIR();
+		} else{
+			setIR(nt);			
+		}
+		
 		constructIR(nt);
 
 		return nt;

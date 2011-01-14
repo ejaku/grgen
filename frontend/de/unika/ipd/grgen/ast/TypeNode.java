@@ -163,7 +163,7 @@ public abstract class TypeNode extends BaseNode {
 	 * @param a The first type.
 	 * @param b The second type.
 	 */
-	protected static void addCompatibility(TypeNode a, TypeNode b) {
+	public static void addCompatibility(TypeNode a, TypeNode b) {
 		addTypeToMap(compatibleMap, a, b);
 	}
 

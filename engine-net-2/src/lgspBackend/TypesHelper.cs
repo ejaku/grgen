@@ -126,6 +126,10 @@ namespace de.unika.ipd.grGen.lgsp
                 return "set<"+AttributeTypeToXgrsType(attributeType.ValueType)+">";
             case AttributeKind.MapAttr:
                 return "map<" + AttributeTypeToXgrsType(attributeType.KeyType) + "," + AttributeTypeToXgrsType(attributeType.ValueType) + ">";
+            case AttributeKind.NodeAttr:
+                return attributeType.TypeName;
+            case AttributeKind.EdgeAttr:
+                return attributeType.TypeName;
             default:
                 return null;
             }

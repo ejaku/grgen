@@ -112,6 +112,16 @@ namespace de.unika.ipd.grGen.lgsp
         /// </summary>
         public PatternElement Accessor;
 
+        /// <summary>
+        /// If not null this pattern element is to be bound by iterating the given storage attribute of this owner.
+        /// </summary>
+        public PatternElement StorageAttributeOwner;
+
+        /// <summary>
+        /// If not null this pattern element is to be bound by iterating the given storage attribute.
+        /// </summary>
+        public AttributeType StorageAttribute;
+
         ////////////////////////////////////////////////////////////////////////////
 
         /// <summary>
@@ -140,11 +150,14 @@ namespace de.unika.ipd.grGen.lgsp
         /// <param name="storage">If not null this pattern element is to be bound by iterating the given storage.</param>
         /// <param name="accessor">If not null this pattern element is to be determined by map lookup,
         ///     with the accessor given here applied as index into the storage map given in the storage parameter.</param>
+        /// <param name="storageAttributeOwner">If not null this pattern element is to be bound by iterating the given storage attribute of this owner.</param>
+        /// <param name="storageAttribute">If not null this pattern element is to be bound by iterating the given storage attribute.</param>
         public PatternElement(int typeID, String typeName, 
             String name, String unprefixedName, 
             GrGenType[] allowedTypes, bool[] isAllowedType, 
             float cost, int parameterIndex, bool maybeNull,
-            PatternVariable storage, PatternElement accessor)
+            PatternVariable storage, PatternElement accessor,
+            PatternElement storageAttributeOwner, AttributeType storageAttribute)
         {
             this.TypeID = typeID;
             this.typeName = typeName;
@@ -157,6 +170,8 @@ namespace de.unika.ipd.grGen.lgsp
             this.MaybeNull = maybeNull;
             this.Storage = storage;
             this.Accessor = accessor;
+            this.StorageAttributeOwner = storageAttributeOwner;
+            this.StorageAttribute = storageAttribute;
         }
 
         /// <summary>
@@ -193,12 +208,16 @@ namespace de.unika.ipd.grGen.lgsp
         /// <param name="storage">If not null this pattern node is to be bound by iterating the given storage.</param>
         /// <param name="accessor">If not null this pattern node is to be determined by map lookup,
         ///     with the accessor given here applied as index into the storage map given in the storage parameter.</param>
+        /// <param name="storageAttributeOwner">If not null this pattern node is to be bound by iterating the given storage attribute of this owner.</param>
+        /// <param name="storageAttribute">If not null this pattern node is to be bound by iterating the given storage attribute.</param>
         public PatternNode(int typeID, String typeName,
             String name, String unprefixedName,
             GrGenType[] allowedTypes, bool[] isAllowedType, 
             float cost, int parameterIndex, bool maybeNull,
-            PatternVariable storage, PatternElement accessor)
-            : base(typeID, typeName, name, unprefixedName, allowedTypes, isAllowedType, cost, parameterIndex, maybeNull, storage, accessor)
+            PatternVariable storage, PatternElement accessor,
+            PatternElement storageAttributeOwner, AttributeType storageAttribute)
+            : base(typeID, typeName, name, unprefixedName, allowedTypes, isAllowedType, 
+                cost, parameterIndex, maybeNull, storage, accessor, storageAttributeOwner, storageAttribute)
         {
         }
 
@@ -242,13 +261,17 @@ namespace de.unika.ipd.grGen.lgsp
         /// <param name="storage">If not null this pattern edge is to be bound by iterating the given storage.</param>
         /// <param name="accessor">If not null this pattern edge is to be determined by map lookup,
         ///     with the accessor given here applied as index into the storage map given in the storage parameter.</param>
+        /// <param name="storageAttributeOwner">If not null this pattern edge is to be bound by iterating the given storage attribute of this owner.</param>
+        /// <param name="storageAttribute">If not null this pattern edge is to be bound by iterating the given storage attribute.</param>
         public PatternEdge(bool fixedDirection,
             int typeID, String typeName, 
             String name, String unprefixedName,
             GrGenType[] allowedTypes, bool[] isAllowedType,
             float cost, int parameterIndex, bool maybeNull,
-            PatternVariable storage, PatternElement accessor)
-            : base(typeID, typeName, name, unprefixedName, allowedTypes, isAllowedType, cost, parameterIndex, maybeNull, storage, accessor)
+            PatternVariable storage, PatternElement accessor,
+            PatternElement storageAttributeOwner, AttributeType storageAttribute)
+            : base(typeID, typeName, name, unprefixedName, allowedTypes, isAllowedType,
+                cost, parameterIndex, maybeNull, storage, accessor, storageAttributeOwner, storageAttribute)
         {
             this.fixedDirection = fixedDirection;
         }

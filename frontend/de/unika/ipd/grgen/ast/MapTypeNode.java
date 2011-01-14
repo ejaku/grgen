@@ -145,6 +145,8 @@ public class MapTypeNode extends DeclaredTypeNode {
 		OperatorSignature.makeBinOp(OperatorSignature.EXCEPT, this, this, exceptCompatibleSetTyp,
 				OperatorSignature.mapEvaluator);
 
+		TypeNode.addCompatibility(this, BasicTypeNode.stringType);
+
 		return true;
 	}
 

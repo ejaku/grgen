@@ -817,22 +817,13 @@ namespace de.unika.ipd.grGen.lgsp
                 {
                     SequenceEmit seqEmit = (SequenceEmit)seq;
                     if(seqEmit.Variable!=null) {
-                        if(seqEmit.Variable.Type=="string" || seqEmit.Variable.Type==""
-                            || seqEmit.Variable.Type.StartsWith("set<") || seqEmit.Variable.Type.StartsWith("map<"))
+                        if(seqEmit.Variable.Type=="" || seqEmit.Variable.Type.StartsWith("set<") || seqEmit.Variable.Type.StartsWith("map<"))
                         {
-                            source.AppendFront("if(" + GetVar(seqEmit.Variable) + "!=null) {\n");
-                            source.Indent();
-                            if(seqEmit.Variable.Type=="string") {
-                                source.AppendFront("graph.EmitWriter.Write(" + GetVar(seqEmit.Variable) + ".ToString());\n");
-                            } else {
-                                source.AppendFront("if(" + GetVar(seqEmit.Variable) + " is IDictionary) graph.EmitWriter.Write(GRGEN_LIBGR.DictionaryHelper.ToString((IDictionary)" + GetVar(seqEmit.Variable) + "));\n");
-                                source.AppendFront("else graph.EmitWriter.Write(" + GetVar(seqEmit.Variable) + ".ToString());\n");
-                            }
-                            source.Unindent();
-                            source.AppendFront("}\n");
-                        } else {
-                            source.AppendFront("graph.EmitWriter.Write(" + GetVar(seqEmit.Variable) + ".ToString());\n");
+                            source.AppendFront("if(" + GetVar(seqEmit.Variable) + " is IDictionary)\n");
+                            source.AppendFront("\tgraph.EmitWriter.Write(GRGEN_LIBGR.DictionaryHelper.ToString((IDictionary)" + GetVar(seqEmit.Variable) + ", graph));\n");
+                            source.AppendFront("else\n\t");
                         }
+                        source.AppendFront("graph.EmitWriter.Write(GRGEN_LIBGR.DictionaryHelper.ToString(" + GetVar(seqEmit.Variable) + ", graph));\n");
                     } else {
                         String text = seqEmit.Text.Replace("\n", "\\n");
                         text = text.Replace("\r", "\\r");
@@ -846,32 +837,15 @@ namespace de.unika.ipd.grGen.lgsp
                 case SequenceType.Record:
                 {
                     SequenceRecord seqRec = (SequenceRecord)seq;
-                    if(seqRec.Variable != null)
-                    {
-                        if(seqRec.Variable.Type == "string" || seqRec.Variable.Type == ""
-                            || seqRec.Variable.Type.StartsWith("set<") || seqRec.Variable.Type.StartsWith("map<"))
+                    if(seqRec.Variable != null) {
+                        if(seqRec.Variable.Type=="" || seqRec.Variable.Type.StartsWith("set<") || seqRec.Variable.Type.StartsWith("map<"))
                         {
-                            source.AppendFront("if(" + GetVar(seqRec.Variable) + "!=null) {\n");
-                            source.Indent();
-                            if(seqRec.Variable.Type == "string")
-                            {
-                                source.AppendFront("graph.Recorder.Write(" + GetVar(seqRec.Variable) + ".ToString());\n");
-                            }
-                            else
-                            {
-                                source.AppendFront("if(" + GetVar(seqRec.Variable) + " is IDictionary) graph.Recorder.Write(GRGEN_LIBGR.DictionaryHelper.ToString((IDictionary)" + GetVar(seqRec.Variable) + "));\n");
-                                source.AppendFront("else graph.Recorder.Write(" + GetVar(seqRec.Variable) + ".ToString());\n");
-                            }
-                            source.Unindent();
-                            source.AppendFront("}\n");
+                            source.AppendFront("if(" + GetVar(seqRec.Variable) + " is IDictionary)\n");
+                            source.AppendFront("\tgraph.Recorder.Write(GRGEN_LIBGR.DictionaryHelper.ToString((IDictionary)" + GetVar(seqRec.Variable) + ", graph));\n");
+                            source.AppendFront("else\n\t");
                         }
-                        else
-                        {
-                            source.AppendFront("graph.Recorder.Write(" + GetVar(seqRec.Variable) + ".ToString());\n");
-                        }
-                    }
-                    else
-                    {
+                        source.AppendFront("graph.Recorder.Write(GRGEN_LIBGR.DictionaryHelper.ToString(" + GetVar(seqRec.Variable) + ", graph));\n");
+                    } else {
                         String text = seqRec.Text.Replace("\n", "\\n");
                         text = text.Replace("\r", "\\r");
                         text = text.Replace("\t", "\\t");

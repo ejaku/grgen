@@ -16,6 +16,7 @@ import java.util.Vector;
 import de.unika.ipd.grgen.ir.Edge;
 import de.unika.ipd.grgen.ir.GraphEntity;
 import de.unika.ipd.grgen.ir.IR;
+import de.unika.ipd.grgen.ir.Qualification;
 import de.unika.ipd.grgen.ir.Variable;
 
 
@@ -24,13 +25,14 @@ public class MatchEdgeByStorageAccessNode extends EdgeDeclNode implements EdgeCh
 		setName(MatchEdgeByStorageAccessNode.class, "match edge by storage access decl");
 	}
 
-	private IdentExprNode storageUnresolved;
+	private BaseNode storageUnresolved;
 	private VarDeclNode storage = null;
+	private QualIdentNode storageAttribute = null;
 	private IdentExprNode accessorUnresolved;
 	private ConstraintDeclNode accessor = null;
 	
 	public MatchEdgeByStorageAccessNode(IdentNode id, BaseNode type, int context, 
-			IdentExprNode storage, IdentExprNode accessor,
+			BaseNode storage, IdentExprNode accessor,
 			PatternGraphNode directlyNestingLHSGraph) {
 		super(id, type, false, context, TypeExprNode.getEmpty(), directlyNestingLHSGraph, false);
 		this.storageUnresolved = storage;
@@ -46,7 +48,7 @@ public class MatchEdgeByStorageAccessNode extends EdgeDeclNode implements EdgeCh
 		children.add(ident);
 		children.add(getValidVersion(typeUnresolved, typeEdgeDecl, typeTypeDecl));
 		children.add(constraints);
-		children.add(getValidVersion(storageUnresolved, storage));
+		children.add(getValidVersion(storageUnresolved, storage, storageAttribute));
 		children.add(getValidVersion(accessorUnresolved, accessor));
 		return children;
 	}
@@ -67,10 +69,24 @@ public class MatchEdgeByStorageAccessNode extends EdgeDeclNode implements EdgeCh
 	@Override
 	protected boolean resolveLocal() {
 		boolean successfullyResolved = super.resolveLocal();
-		if(storageUnresolved.resolve() && storageUnresolved.decl instanceof VarDeclNode) {
-			storage = (VarDeclNode)storageUnresolved.decl;
+		if(storageUnresolved instanceof IdentExprNode) {
+			IdentExprNode unresolved = (IdentExprNode)storageUnresolved;
+			if(unresolved.resolve() && unresolved.decl instanceof VarDeclNode) {
+				storage = (VarDeclNode)unresolved.decl;
+			} else {
+				reportError("match edge by storage access expects a parameter variable as storage.");
+				successfullyResolved = false;
+			}
+		} else if(storageUnresolved instanceof QualIdentNode) {
+			QualIdentNode unresolved = (QualIdentNode)storageUnresolved;
+			if(unresolved.resolve()) {
+				storageAttribute = unresolved;
+			} else {
+				reportError("match edge by storage attribute access expects a storage attribute.");
+				successfullyResolved = false;
+			}
 		} else {
-			reportError("match edge by storage access expects a parameter variable as storage.");
+			reportError("internal error - invalid match edge by storage attribute");
 			successfullyResolved = false;
 		}
 		if(accessorUnresolved.resolve() && accessorUnresolved.decl instanceof ConstraintDeclNode) {
@@ -86,7 +102,7 @@ public class MatchEdgeByStorageAccessNode extends EdgeDeclNode implements EdgeCh
 	@Override
 	protected boolean checkLocal() {
 		boolean res = super.checkLocal();
-		TypeNode storageType = storage.getDeclType();
+		TypeNode storageType = storage!=null ? storage.getDeclType() : storageAttribute.getDecl().getDeclType();
 		if(!(storageType instanceof MapTypeNode)) {
 			reportError("match edge by storage access expects a parameter variable of map type.");
 			return false;
@@ -126,7 +142,8 @@ public class MatchEdgeByStorageAccessNode extends EdgeDeclNode implements EdgeCh
 		} else{
 			setIR(edge);			
 		}
-		edge.setStorage(storage.checkIR(Variable.class));
+		if(storage!=null) edge.setStorage(storage.checkIR(Variable.class));
+		else edge.setStorageAttribute(storageAttribute.checkIR(Qualification.class));
 		edge.setAccessor(accessor.checkIR(GraphEntity.class));
 		return edge;
 	}

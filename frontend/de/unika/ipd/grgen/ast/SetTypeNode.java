@@ -128,6 +128,8 @@ public class SetTypeNode extends DeclaredTypeNode {
 				OperatorSignature.setEvaluator);
 		OperatorSignature.makeBinOp(OperatorSignature.EXCEPT, this, this, this,
 				OperatorSignature.setEvaluator);
+		
+		TypeNode.addCompatibility(this, BasicTypeNode.stringType);
 
 		return true;
 	}

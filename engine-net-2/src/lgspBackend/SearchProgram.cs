@@ -801,7 +801,8 @@ namespace de.unika.ipd.grGen.lgsp
     {
         GraphElements, // available graph elements
         IncidentEdges, // incident edges
-        StorageElements // available storage elements
+        StorageElements, // available elements of the storage variable
+        StorageAttributeElements // available elements of the storage attribute
     }
 
     /// <summary>
@@ -850,6 +851,25 @@ namespace de.unika.ipd.grGen.lgsp
         public GetCandidateByIteration(
             GetCandidateByIterationType type,
             string patternElementName,
+            string storageOwnerName,
+            string storageOwnerTypeName,
+            string storageAttributeName,
+            string storageKeyValuePairType,
+            bool isNode)
+        {
+            Debug.Assert(type == GetCandidateByIterationType.StorageAttributeElements);
+            Type = type;
+            PatternElementName = patternElementName;
+            StorageOwnerName = storageOwnerName;
+            StorageOwnerTypeName = storageOwnerTypeName;
+            StorageAttributeName = storageAttributeName;
+            StorageKeyValuePairType = storageKeyValuePairType;
+            IsNode = isNode;
+        }
+
+        public GetCandidateByIteration(
+            GetCandidateByIterationType type,
+            string patternElementName,
             string startingPointNodeName,
             IncidentEdgeType edgeType)
         {
@@ -872,6 +892,10 @@ namespace de.unika.ipd.grGen.lgsp
                 builder.Append("StorageElements ");
                 builder.AppendFormat("on {0} from {1} node:{2}\n",
                     PatternElementName, StorageName, IsNode);
+            } else if(Type == GetCandidateByIterationType.StorageAttributeElements) {
+                builder.Append("StorageAttributeElements ");
+                builder.AppendFormat("on {0} from {1}.{2} node:{3}\n",
+                    PatternElementName, StorageOwnerName, StorageAttributeName, IsNode);
             } else { //Type==GetCandidateByIterationType.IncidentEdges
                 builder.Append("IncidentEdges ");
                 builder.AppendFormat("on {0} from {1} edge type:{2}\n",
@@ -949,6 +973,41 @@ namespace de.unika.ipd.grGen.lgsp
                 sourceCode.AppendFrontFormat("foreach({0} {1} in {2})\n",
                     StorageKeyValuePairType, variableContainingDictionaryEntry, variableContainingDictionary);
                 
+                // open loop
+                sourceCode.AppendFront("{\n");
+                sourceCode.Indent();
+
+                // emit candidate variable, initialized with key from dictionary entry
+                string typeOfVariableContainingCandidate = "GRGEN_LGSP."
+                    + (IsNode ? "LGSPNode" : "LGSPEdge");
+                string variableContainingCandidate =
+                    NamesOfEntities.CandidateVariable(PatternElementName);
+                sourceCode.AppendFrontFormat("{0} {1} = ({0}){2}.Key;\n",
+                    typeOfVariableContainingCandidate, variableContainingCandidate, variableContainingDictionaryEntry);
+
+                // emit loop body
+                NestedOperationsList.Emit(sourceCode);
+
+                // close loop
+                sourceCode.Unindent();
+                sourceCode.AppendFront("}\n");
+            }
+            else if(Type == GetCandidateByIterationType.StorageAttributeElements)
+            {
+                if(sourceCode.CommentSourceCode)
+                {
+                    sourceCode.AppendFrontFormat("// Pick {0} {1} from {2}.{3}\n",
+                        IsNode ? "node" : "edge", PatternElementName, StorageOwnerName, StorageAttributeName);
+                }
+
+                // emit loop header with variable containing dictionary entry
+                string variableContainingDictionary =
+                    "((" + StorageOwnerTypeName + ")" + NamesOfEntities.CandidateVariable(StorageOwnerName) + ")." + StorageAttributeName;
+                string variableContainingDictionaryEntry =
+                    NamesOfEntities.CandidateIterationDictionaryEntry(PatternElementName);
+                sourceCode.AppendFrontFormat("foreach({0} {1} in {2})\n",
+                    StorageKeyValuePairType, variableContainingDictionaryEntry, variableContainingDictionary);
+
                 // open loop
                 sourceCode.AppendFront("{\n");
                 sourceCode.Indent();
@@ -1090,9 +1149,12 @@ namespace de.unika.ipd.grGen.lgsp
         }
 
         public GetCandidateByIterationType Type;
-        public bool IsNode; // node|edge - only available if GraphElements|StorageElements
+        public bool IsNode; // node|edge - only available if GraphElements|StorageElements|StorageAttributeElements
         public string StorageName; // only available if StorageElements
-        public string StorageKeyValuePairType; // only available if StorageElements
+        public string StorageOwnerName; // only available if StorageAttributeElements
+        public string StorageOwnerTypeName; // only available if StorageAttributeElements
+        public string StorageAttributeName; // only available if StorageAttributeElements
+        public string StorageKeyValuePairType; // only available if StorageElements|StorageAttributeElements
         public string StartingPointNodeName; // from pattern - only available if IncidentEdges
         public IncidentEdgeType EdgeType; // only available if IncidentEdges
 

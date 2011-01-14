@@ -561,16 +561,18 @@ firstNodeOrSubpattern [ CollectNode<BaseNode> conn, CollectNode<SubpatternUsageN
 		( // node declaration
 			type=typeIdentUse
 			( constr=typeConstraint )?
-			( LT oldid=entIdentUse (LBRACK mapAccess=entIdentUse RBRACK)? GT )?
+			( LT oldid=entIdentUse (d=DOT attr=entIdentUse)? (LBRACK mapAccess=entIdentUse RBRACK)? GT )?
 			{
 				if(oldid==null) {
 					n = new NodeDeclNode(id, type, false, context, constr, directlyNestingLHSGraph);
 				} else {
 					if((context&BaseNode.CONTEXT_LHS_OR_RHS)==BaseNode.CONTEXT_LHS) {
 						if(mapAccess==null)
-							n = new MatchNodeFromStorageNode(id, type, context, new IdentExprNode(oldid), directlyNestingLHSGraph);
+							n = new MatchNodeFromStorageNode(id, type, context, 
+								attr==null ? new IdentExprNode(oldid) : new QualIdentNode(getCoords(d), oldid, attr), directlyNestingLHSGraph);
 						else
-							n = new MatchNodeByStorageAccessNode(id, type, context, new IdentExprNode(oldid), new IdentExprNode(mapAccess), directlyNestingLHSGraph);
+							n = new MatchNodeByStorageAccessNode(id, type, context, 
+								attr==null ? new IdentExprNode(oldid) : new QualIdentNode(getCoords(d), oldid, attr), new IdentExprNode(mapAccess), directlyNestingLHSGraph);
 					} else {
 						n = new NodeTypeChangeNode(id, type, context, oldid, directlyNestingLHSGraph);
 					}
@@ -605,16 +607,18 @@ firstNodeOrSubpattern [ CollectNode<BaseNode> conn, CollectNode<SubpatternUsageN
 				{ id = env.defineAnonymousEntity("node", getCoords(c)); }
 				type=typeIdentUse
 				( constr=typeConstraint )?
-				( LT oldid=entIdentUse (LBRACK mapAccess=entIdentUse RBRACK)? GT )?
+				( LT oldid=entIdentUse (d=DOT attr=entIdentUse)? (LBRACK mapAccess=entIdentUse RBRACK)? GT )?
 				{
 					if(oldid==null) {
 						n = new NodeDeclNode(id, type, false, context, constr, directlyNestingLHSGraph);
 					} else {
 						if((context&BaseNode.CONTEXT_LHS_OR_RHS)==BaseNode.CONTEXT_LHS) {
 							if(mapAccess==null)
-								n = new MatchNodeFromStorageNode(id, type, context, new IdentExprNode(oldid), directlyNestingLHSGraph);
+								n = new MatchNodeFromStorageNode(id, type, context, 
+									attr==null ? new IdentExprNode(oldid) : new QualIdentNode(getCoords(d), oldid, attr), directlyNestingLHSGraph);
 							else
-								n = new MatchNodeByStorageAccessNode(id, type, context, new IdentExprNode(oldid), new IdentExprNode(mapAccess), directlyNestingLHSGraph);
+								n = new MatchNodeByStorageAccessNode(id, type, context,
+									attr==null ? new IdentExprNode(oldid) : new QualIdentNode(getCoords(d), oldid, attr), new IdentExprNode(mapAccess), directlyNestingLHSGraph);
 						} else {
 							n = new NodeTypeChangeNode(id, type, context, oldid, directlyNestingLHSGraph);
 						}
@@ -741,16 +745,18 @@ nodeTypeContinuation [ IdentNode id, int context, PatternGraphNode directlyNesti
 		| TYPEOF LPAREN type=entIdentUse RPAREN
 		)
 		( constr=typeConstraint )?
-		( LT oldid=entIdentUse (LBRACK mapAccess=entIdentUse RBRACK)? GT )?
+		( LT oldid=entIdentUse (d=DOT attr=entIdentUse)? (LBRACK mapAccess=entIdentUse RBRACK)? GT )?
 			{
 				if(oldid==null) {
 					res = new NodeDeclNode(id, type, false, context, constr, directlyNestingLHSGraph);
 				} else {
 					if((context&BaseNode.CONTEXT_LHS_OR_RHS)==BaseNode.CONTEXT_LHS) {
 						if(mapAccess==null)
-							res = new MatchNodeFromStorageNode(id, type, context, new IdentExprNode(oldid), directlyNestingLHSGraph);
+							res = new MatchNodeFromStorageNode(id, type, context, 
+								attr==null ? new IdentExprNode(oldid) : new QualIdentNode(getCoords(d), oldid, attr), directlyNestingLHSGraph);
 						else
-							res = new MatchNodeByStorageAccessNode(id, type, context, new IdentExprNode(oldid), new IdentExprNode(mapAccess), directlyNestingLHSGraph);
+							res = new MatchNodeByStorageAccessNode(id, type, context,
+								attr==null ? new IdentExprNode(oldid) : new QualIdentNode(getCoords(d), oldid, attr), new IdentExprNode(mapAccess), directlyNestingLHSGraph);
 					} else {
 						res = new NodeTypeChangeNode(id, type, context, oldid, directlyNestingLHSGraph);
 					}
@@ -772,16 +778,18 @@ nodeDecl [ int context, PatternGraphNode directlyNestingLHSGraph ] returns [ Bas
 		| TYPEOF LPAREN type=entIdentUse RPAREN
 		)
 		( constr=typeConstraint )?
-		( LT oldid=entIdentUse (LBRACK mapAccess=entIdentUse RBRACK)? GT )?
+		( LT oldid=entIdentUse (d=DOT attr=entIdentUse)? (LBRACK mapAccess=entIdentUse RBRACK)? GT )?
 			{
 				if(oldid==null) {
 					res = new NodeDeclNode(id, type, false, context, constr, directlyNestingLHSGraph);
 				} else {
 					if((context&BaseNode.CONTEXT_LHS_OR_RHS)==BaseNode.CONTEXT_LHS) {
 						if(mapAccess==null)
-							res = new MatchNodeFromStorageNode(id, type, context, new IdentExprNode(oldid), directlyNestingLHSGraph);
+							res = new MatchNodeFromStorageNode(id, type, context,
+								attr==null ? new IdentExprNode(oldid) : new QualIdentNode(getCoords(d), oldid, attr), directlyNestingLHSGraph);
 						else
-							res = new MatchNodeByStorageAccessNode(id, type, context, new IdentExprNode(oldid), new IdentExprNode(mapAccess), directlyNestingLHSGraph);
+							res = new MatchNodeByStorageAccessNode(id, type, context, 
+								attr==null ? new IdentExprNode(oldid) : new QualIdentNode(getCoords(d), oldid, attr), new IdentExprNode(mapAccess), directlyNestingLHSGraph);
 					} else {
 						res = new NodeTypeChangeNode(id, type, context, oldid, directlyNestingLHSGraph);
 					}
@@ -941,16 +949,18 @@ edgeTypeContinuation [ IdentNode id, int context, PatternGraphNode directlyNesti
 		| TYPEOF LPAREN type=entIdentUse RPAREN
 		)
 		( constr=typeConstraint )?
-		( LT oldid=entIdentUse (LBRACK mapAccess=entIdentUse RBRACK)? GT )?
+		( LT oldid=entIdentUse (d=DOT attr=entIdentUse)? (LBRACK mapAccess=entIdentUse RBRACK)? GT )?
 			{
 				if(oldid==null) {
 					res = new EdgeDeclNode(id, type, false, context, constr, directlyNestingLHSGraph);
 				} else {
 					if((context&BaseNode.CONTEXT_LHS_OR_RHS)==BaseNode.CONTEXT_LHS) {
 						if(mapAccess==null)
-							res = new MatchEdgeFromStorageNode(id, type, context, new IdentExprNode(oldid), directlyNestingLHSGraph);
+							res = new MatchEdgeFromStorageNode(id, type, context, 
+								attr==null ? new IdentExprNode(oldid) : new QualIdentNode(getCoords(d), oldid, attr), directlyNestingLHSGraph);
 						else
-							res = new MatchEdgeByStorageAccessNode(id, type, context, new IdentExprNode(oldid), new IdentExprNode(mapAccess), directlyNestingLHSGraph);
+							res = new MatchEdgeByStorageAccessNode(id, type, context, 
+								attr==null ? new IdentExprNode(oldid) : new QualIdentNode(getCoords(d), oldid, attr), new IdentExprNode(mapAccess), directlyNestingLHSGraph);
 					} else {
 						res = new EdgeTypeChangeNode(id, type, context, oldid, directlyNestingLHSGraph);
 					}

@@ -15,6 +15,7 @@ import java.util.Vector;
 
 import de.unika.ipd.grgen.ir.Edge;
 import de.unika.ipd.grgen.ir.IR;
+import de.unika.ipd.grgen.ir.Qualification;
 import de.unika.ipd.grgen.ir.Variable;
 
 
@@ -23,11 +24,12 @@ public class MatchEdgeFromStorageNode extends EdgeDeclNode implements EdgeCharac
 		setName(MatchEdgeFromStorageNode.class, "match edge from storage decl");
 	}
 
-	private IdentExprNode storageUnresolved;
+	private BaseNode storageUnresolved;
 	private VarDeclNode storage = null;
+	private QualIdentNode storageAttribute = null;
 
 	
-	public MatchEdgeFromStorageNode(IdentNode id, BaseNode newType, int context, IdentExprNode storage, 
+	public MatchEdgeFromStorageNode(IdentNode id, BaseNode newType, int context, BaseNode storage, 
 			PatternGraphNode directlyNestingLHSGraph) {
 		super(id, newType, false, context, TypeExprNode.getEmpty(), directlyNestingLHSGraph, false);
 		this.storageUnresolved = storage;
@@ -41,7 +43,7 @@ public class MatchEdgeFromStorageNode extends EdgeDeclNode implements EdgeCharac
 		children.add(ident);
 		children.add(getValidVersion(typeUnresolved, typeEdgeDecl, typeTypeDecl));
 		children.add(constraints);
-		children.add(getValidVersion(storageUnresolved, storage));
+		children.add(getValidVersion(storageUnresolved, storage, storageAttribute));
 		return children;
 	}
 
@@ -60,10 +62,24 @@ public class MatchEdgeFromStorageNode extends EdgeDeclNode implements EdgeCharac
 	@Override
 	protected boolean resolveLocal() {
 		boolean successfullyResolved = super.resolveLocal();
-		if(storageUnresolved.resolve() && storageUnresolved.decl instanceof VarDeclNode) {
-			storage = (VarDeclNode)storageUnresolved.decl;
+		if(storageUnresolved instanceof IdentExprNode) {
+			IdentExprNode unresolved = (IdentExprNode)storageUnresolved;
+			if(unresolved.resolve() && unresolved.decl instanceof VarDeclNode) {
+				storage = (VarDeclNode)unresolved.decl;
+			} else {
+				reportError("match edge from storage expects a parameter variable.");
+				successfullyResolved = false;
+			}
+		} else if(storageUnresolved instanceof QualIdentNode) {
+			QualIdentNode unresolved = (QualIdentNode)storageUnresolved;
+			if(unresolved.resolve()) {
+				storageAttribute = unresolved;
+			} else {
+				reportError("match edge from storage attribute expects a storage attribute.");
+				successfullyResolved = false;
+			}
 		} else {
-			reportError("match edge from storage expects a parameter variable.");
+			reportError("internal error - invalid match edge from storage attribute");
 			successfullyResolved = false;
 		}
 		return successfullyResolved;
@@ -73,9 +89,9 @@ public class MatchEdgeFromStorageNode extends EdgeDeclNode implements EdgeCharac
 	@Override
 	protected boolean checkLocal() {
 		boolean res = super.checkLocal();
-		TypeNode storageType = storage.getDeclType();
+		TypeNode storageType = storage!=null ? storage.getDeclType() : storageAttribute.getDecl().getDeclType();
 		if(!(storageType instanceof SetTypeNode || storageType instanceof MapTypeNode)) {
-			reportError("match node from storage expects a parameter variable of set or map type.");
+			reportError("match edge from storage expects a parameter variable of set or map type.");
 			return false;
 		}
 		TypeNode storageElementType = null;
@@ -85,7 +101,7 @@ public class MatchEdgeFromStorageNode extends EdgeDeclNode implements EdgeCharac
 			storageElementType = ((MapTypeNode)storageType).keyType;
 		}
 		if(!(storageElementType instanceof EdgeTypeNode)) {
-			reportError("match node from storage expects the element type to be an edge type.");
+			reportError("match edge from storage expects the element type to be an edge type.");
 			return false;
 		}
 		EdgeTypeNode storageElemType = (EdgeTypeNode)storageElementType;
@@ -104,7 +120,8 @@ public class MatchEdgeFromStorageNode extends EdgeDeclNode implements EdgeCharac
 	@Override
 	protected IR constructIR() {
 		Edge edge = (Edge)super.constructIR();
-		edge.setStorage(storage.checkIR(Variable.class));
+		if(storage!=null) edge.setStorage(storage.checkIR(Variable.class));
+		else edge.setStorageAttribute(storageAttribute.checkIR(Qualification.class));
 		return edge;
 	}
 }

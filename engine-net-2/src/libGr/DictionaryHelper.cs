@@ -381,16 +381,19 @@ namespace de.unika.ipd.grGen.libGr
             return true;
         }
 
+        /////////////////////////////////////////////////////////////////////////////////
+
         /// <summary>
         /// Returns a string representation of the given dictionary
         /// </summary>
         /// <param name="setmap">The dictionary of which to get the string representation</param>
-        /// <returns>String representation of set/map.</returns>
-        public static string ToString(IDictionary setmap)
+        /// <param name="graph">The graph with the model and the element names if available, otherwise null</param>
+        /// <returns>string representation of dictionary</returns>
+        public static string ToString(IDictionary setmap, IGraph graph)
         {
             string type;
             string content;
-            ToString(setmap, out type, out content);
+            ToString(setmap, out type, out content, null, graph);
             return content;
         }
 
@@ -400,7 +403,10 @@ namespace de.unika.ipd.grGen.libGr
         /// <param name="setmap">The dictionary of which to get the string representation</param>
         /// <param name="type">The type as string, e.g set<int> or map<string,boolean> </param>
         /// <param name="content">The content as string, e.g. { 42, 43 } or { "foo"->true, "bar"->false } </param>
-        public static void ToString(IDictionary setmap, out string type, out string content)
+        /// <param name="attrType">The attribute type of the dictionary if available, otherwise null</param>
+        /// <param name="graph">The graph with the model and the element names if available, otherwise null</param>
+        public static void ToString(IDictionary setmap, out string type, out string content, 
+            AttributeType attrType, IGraph graph)
         {
             Type keyType;
             Type valueType;
@@ -409,119 +415,33 @@ namespace de.unika.ipd.grGen.libGr
             StringBuilder sb = new StringBuilder(256);
             sb.Append("{");
 
-            if(valueType==typeof(SetValueType))
+            AttributeType attrValueType = attrType != null ? attrType.ValueType : null;
+            AttributeType attrKeyType = attrType != null ? attrType.KeyType : null;
+
+            if(setmap != null)
             {
-                type = "set<"+keyType.Name+">";
-                bool first = true;
-                foreach(DictionaryEntry entry in setmap)
+                if (valueType == typeof(SetValueType))
                 {
-                    if(first) { sb.Append(entry.Key.ToString()); first = false; }
-                    else { sb.Append(","); sb.Append(entry.Key.ToString()); }
+                    type = "set<" + keyType.Name + ">";
+                    bool first = true;
+                    foreach (DictionaryEntry entry in setmap)
+                    {
+                        if (first) { sb.Append(ToString(entry.Key, attrValueType, graph)); first = false; }
+                        else { sb.Append(","); sb.Append(ToString(entry.Key, attrValueType, graph)); }
+                    }
                 }
-            }
-            else
-            {
-                type = "map<"+keyType.Name+","+valueType.Name+">";
-                bool first = true;
-                foreach(DictionaryEntry entry in setmap)
+                else
                 {
-                    if(first) { sb.Append(entry.Key.ToString()); sb.Append("->"); sb.Append(entry.Value.ToString()); first = false; }
-                    else { sb.Append(","); sb.Append(entry.Key.ToString()); sb.Append("->"); sb.Append(entry.Value.ToString()); }
+                    type = "map<" + keyType.Name + "," + valueType.Name + ">";
+                    bool first = true;
+                    foreach (DictionaryEntry entry in setmap)
+                    {
+                        if (first) { sb.Append(ToString(entry.Key, attrKeyType, graph)); sb.Append("->"); sb.Append(ToString(entry.Value, attrValueType, graph)); first = false; }
+                        else { sb.Append(","); sb.Append(ToString(entry.Key, attrKeyType, graph)); sb.Append("->"); sb.Append(ToString(entry.Value, attrValueType, graph)); }
+                    }
                 }
-            }
-
-            sb.Append("}");
-            content = sb.ToString();
-        }
-
-        /// <summary>
-        /// Returns a string representation of the given dictionary
-        /// </summary>
-        /// <param name="setmap">The dictionary of which to get the string representation</param>
-        /// <param name="type">The type as string, e.g set<int> or map<string,boolean> </param>
-        /// <param name="content">The content as string, e.g. { 42, 43 } or { "foo"->true, "bar"->false } </param>
-        /// <param name="attrType">The attribute type of the dictionary</param>
-        public static void ToString(IDictionary setmap, out string type, out string content, AttributeType attrType)
-        {
-            if (attrType == null)
-            {
-                ToString(setmap, out type, out content);
-                return;
-            }
-
-            Type keyType;
-            Type valueType;
-            GetDictionaryTypes(setmap, out keyType, out valueType);
-
-            StringBuilder sb = new StringBuilder(256);
-            sb.Append("{");
-
-            if (valueType == typeof(SetValueType))
-            {
-                type = "set<" + keyType.Name + ">";
-                bool first = true;
-                foreach (DictionaryEntry entry in setmap)
-                {
-                    if (first) { sb.Append(ToString(entry.Key, attrType.ValueType)); first = false; }
-                    else { sb.Append(","); sb.Append(ToString(entry.Key, attrType.ValueType)); }
-                }
-            }
-            else
-            {
-                type = "map<" + keyType.Name + "," + valueType.Name + ">";
-                bool first = true;
-                foreach (DictionaryEntry entry in setmap)
-                {
-                    if (first) { sb.Append(ToString(entry.Key, attrType.KeyType)); sb.Append("->"); sb.Append(ToString(entry.Value, attrType.ValueType)); first = false; }
-                    else { sb.Append(","); sb.Append(ToString(entry.Key, attrType.KeyType)); sb.Append("->"); sb.Append(ToString(entry.Value, attrType.ValueType)); }
-                }
-            }
-
-            sb.Append("}");
-            content = sb.ToString();
-        }
-
-        /// <summary>
-        /// Returns a string representation of the given dictionary
-        /// </summary>
-        /// <param name="setmap">The dictionary of which to get the string representation</param>
-        /// <param name="type">The type as string, e.g set<int> or map<string,boolean> </param>
-        /// <param name="content">The content as string, e.g. { 42, 43 } or { "foo"->true, "bar"->false } </param>
-        /// <param name="graph">The graph with the model</param>
-        public static void ToString(IDictionary setmap, out string type, out string content, IGraph graph)
-        {
-            if (graph == null)
-            {
-                ToString(setmap, out type, out content);
-                return;
-            }
-
-            Type keyType;
-            Type valueType;
-            GetDictionaryTypes(setmap, out keyType, out valueType);
-
-            StringBuilder sb = new StringBuilder(256);
-            sb.Append("{");
-
-            if (valueType == typeof(SetValueType))
-            {
-                type = "set<" + keyType.Name + ">";
-                bool first = true;
-                foreach (DictionaryEntry entry in setmap)
-                {
-                    if (first) { sb.Append(ToString(entry.Key, graph)); first = false; }
-                    else { sb.Append(","); sb.Append(ToString(entry.Key, graph)); }
-                }
-            }
-            else
-            {
-                type = "map<" + keyType.Name + "," + valueType.Name + ">";
-                bool first = true;
-                foreach (DictionaryEntry entry in setmap)
-                {
-                    if (first) { sb.Append(ToString(entry.Key, graph)); sb.Append("->"); sb.Append(ToString(entry.Value, graph)); first = false; }
-                    else { sb.Append(","); sb.Append(ToString(entry.Key, graph)); sb.Append("->"); sb.Append(ToString(entry.Value, graph)); }
-                }
+            } else {
+                type = "<INVALID>";
             }
 
             sb.Append("}");
@@ -541,9 +461,11 @@ namespace de.unika.ipd.grGen.libGr
         /// <param name="type">The type as string, e.g set<int> or map<string,boolean> </param>
         /// <param name="content">The content as string, e.g. { 42, 43 } or { "foo"->true, "bar"->false } </param>
         /// <param name="attrType">The attribute type of the dictionary</param>
+        /// <param name="graph">The graph with the model and the element names</param>
         public static void ToString(IDictionary setmap, 
             AttributeChangeType changeType, Object newValue, Object keyValue,
-            out string type, out string content, AttributeType attrType)
+            out string type, out string content, 
+            AttributeType attrType, IGraph graph)
         {
             if(changeType==AttributeChangeType.PutElement)
             {
@@ -553,13 +475,13 @@ namespace de.unika.ipd.grGen.libGr
 
                 if(valueType==typeof(SetValueType))
                 {
-                    ToString(setmap, out type, out content, attrType);
-                    content += "|" + ToString(newValue, attrType.ValueType);
+                    ToString(setmap, out type, out content, attrType, graph);
+                    content += "|" + ToString(newValue, attrType.ValueType, graph);
                 }
                 else
                 {
-                    ToString(setmap, out type, out content, attrType);
-                    content += "|" + ToString(keyValue, attrType.KeyType) + "->" + ToString(newValue, attrType.ValueType);
+                    ToString(setmap, out type, out content, attrType, graph);
+                    content += "|" + ToString(keyValue, attrType.KeyType, graph) + "->" + ToString(newValue, attrType.ValueType, graph);
                 }
             }
             else if(changeType==AttributeChangeType.RemoveElement)
@@ -570,19 +492,33 @@ namespace de.unika.ipd.grGen.libGr
 
                 if(valueType==typeof(SetValueType))
                 {
-                    ToString(setmap, out type, out content, attrType);
-                    content += "\\" + ToString(newValue, attrType.ValueType);
+                    ToString(setmap, out type, out content, attrType, graph);
+                    content += "\\" + ToString(newValue, attrType.ValueType, graph);
                 }
                 else
                 {
-                    ToString(setmap, out type, out content, attrType);
-                    content += "\\" + ToString(keyValue, attrType.KeyType) + "->.";
+                    ToString(setmap, out type, out content, attrType, graph);
+                    content += "\\" + ToString(keyValue, attrType.KeyType, graph) + "->.";
                 }
             }
             else // changeType==AttributeChangeType.Assign
             {
-                ToString((IDictionary)newValue, out type, out content, attrType);
+                ToString((IDictionary)newValue, out type, out content, attrType, graph);
             }
+        }
+
+        /// <summary>
+        /// Returns a string representation of the given scalar value
+        /// </summary>
+        /// <param name="value">The scalar value of which to get the string representation</param>
+        /// <param name="graph">The graph with the model and the element names if available, otherwise null</param>
+        /// <returns>string representation of scalar value</returns>
+        public static string ToString(object value, IGraph graph)
+        {
+            string type;
+            string content;
+            ToString(value, out type, out content, null, graph);
+            return content;
         }
 
         /// <summary>
@@ -592,11 +528,49 @@ namespace de.unika.ipd.grGen.libGr
         /// <param name="type">The type as string, e.g int,string,Foo </param>
         /// <param name="content">The content as string, e.g. 42,"foo",bar } </param>
         /// <param name="attrType">The attribute type of the value</param>
-        public static void ToString(object value, out string type, out string content, AttributeType attrType)
+        /// <param name="graph">The graph with the model and the element names</param>
+        public static void ToString(object value, out string type, out string content, 
+            AttributeType attrType, IGraph graph)
         {
-            if (attrType == null) {
-                type = "<INVALID>";
-                content = ToString(value, attrType);
+            if (attrType == null)
+            {
+                if(value == null)
+                {
+                    type = "<INVALID>";
+                    content = ToString(value, attrType, graph);
+                    return;
+                }
+
+                Debug.Assert(value.GetType().Name != "Dictionary`2");
+                switch(value.GetType().Name)
+                {
+                    case "Int32": type = "int"; break;
+                    case "Boolean": type = "bool"; break;
+                    case "String": type = "string"; break;
+                    case "Single": type = "float"; break;
+                    case "Double": type = "double"; break;
+                    case "Object": type = "object"; break;
+                    default:
+                        type = "<INVALID>";
+                        if(graph != null && value is Enum)
+                        {
+                            foreach(EnumAttributeType enumAttrType in graph.Model.EnumAttributeTypes)
+                            {
+                                if(value.GetType() == enumAttrType.EnumType)
+                                {
+                                    type = enumAttrType.Name;
+                                    break;
+                                }
+                            }
+                        }
+                        else if(value is IGraphElement)
+                        {
+                            type = ((IGraphElement)value).Type.Name;
+                        }
+                        break;
+                }
+
+                content = ToString(value, attrType, graph);
                 return;
             }
 
@@ -610,52 +584,12 @@ namespace de.unika.ipd.grGen.libGr
                 case AttributeKind.FloatAttr: type = "float"; break;
                 case AttributeKind.DoubleAttr: type = "double"; break;
                 case AttributeKind.ObjectAttr: type = "object"; break;
+                case AttributeKind.NodeAttr: type = attrType.TypeName; break;
+                case AttributeKind.EdgeAttr: type = attrType.TypeName; break; 
                 default: type = "<INVALID>"; break;
             }
 
-            content = ToString(value, attrType);
-        }
-
-        /// <summary>
-        /// Returns a string representation of the given scalar value
-        /// </summary>
-        /// <param name="value">The scalar value of which to get the string representation</param>
-        /// <param name="type">The type as string, e.g int,string,Foo </param>
-        /// <param name="content">The content as string, e.g. 42,"foo",bar } </param>
-        /// <param name="attrType">The attribute type of the value</param>
-        public static void ToString(object value, out string type, out string content, IGraph graph)
-        {
-            if (value == null) {
-                type = "<INVALID>";
-                content = ToString(value, graph);
-                return;
-            }
-
-            Debug.Assert(value.GetType().Name != "Dictionary`2");
-            switch(value.GetType().Name)
-            {
-            case "Int32": type = "int"; break;
-            case "Boolean": type = "bool"; break;
-            case "String": type = "string"; break;
-            case "Single": type = "float"; break;
-            case "Double": type = "double"; break;
-            case "Object": type = "object"; break;
-            default:
-                type = "<INVALID>";
-                if (graph != null && value is Enum)
-                {
-                    foreach (EnumAttributeType enumAttrType in graph.Model.EnumAttributeTypes)
-                    {
-                        if (value.GetType() == enumAttrType.EnumType) {
-                            type = enumAttrType.Name;
-                            break;
-                        }
-                    }
-                }
-                break;
-            }
-
-            content = ToString(value, graph);
+            content = ToString(value, attrType, graph);
         }
 
         /// <summary>
@@ -680,45 +614,50 @@ namespace de.unika.ipd.grGen.libGr
         /// Returns a string representation of the given scalar value
         /// </summary>
         /// <param name="value">The scalar of which to get the string representation</param>
-        /// <param name="graph">The graph with the model</param>
+        /// <param name="attrType">The attribute type</param>
+        /// <param name="graph">The graph with the model and the element names</param>
         /// <returns>String representation of the scalar.</returns>
-        public static string ToString(object value, IGraph graph)
+        private static string ToString(object value, AttributeType attrType, IGraph graph)
         {
             // enums are bitches, sometimes ToString gives the symbolic name, sometimes only the integer value
             // we always want the symbolic name, enforce this here
+            if(attrType!=null && attrType.Kind==AttributeKind.EnumAttr)
+            {
+                Debug.Assert(attrType.Kind!=AttributeKind.SetAttr && attrType.Kind!=AttributeKind.MapAttr);
+                EnumAttributeType enumAttrType = attrType.EnumType;
+                EnumMember member = enumAttrType[(int)value];
+                if(member!=null) return member.Name;
+            }
             if(graph!=null && value is Enum)
             {
-                Debug.Assert(value.GetType().Name != "Dictionary`2");
-                foreach (EnumAttributeType enumAttrType in graph.Model.EnumAttributeTypes)
+                Debug.Assert(value.GetType().Name!="Dictionary`2");
+                foreach(EnumAttributeType enumAttrType in graph.Model.EnumAttributeTypes)
                 {
-                    if (value.GetType() == enumAttrType.EnumType)
+                    if(value.GetType()==enumAttrType.EnumType)
                     {
                         EnumMember member = enumAttrType[(int)value];
-                        if (member != null) return member.Name;
+                        if(member != null) return member.Name;
                         else break;
                     }
                 }
             }
-            return value!=null ? value.ToString() : "";
-        }
 
-        /// <summary>
-        /// Returns a string representation of the given scalar value
-        /// </summary>
-        /// <param name="value">The scalar of which to get the string representation</param>
-        /// <param name="attrType">The attribute type</param>
-        /// <returns>String representation of the scalar.</returns>
-        public static string ToString(object value, AttributeType attrType)
-        {
-            // enums are bitches, sometimes ToString gives the symbolic name, sometimes only the integer value
-            // we always want the symbolic name, enforce this here
-            if (attrType!=null && attrType.Kind==AttributeKind.EnumAttr)
+            // for set/map entries of node/edge type return the persistent name
+            if(attrType!=null && (attrType.Kind==AttributeKind.NodeAttr || attrType.Kind==AttributeKind.EdgeAttr))
             {
-                Debug.Assert(attrType.Kind != AttributeKind.SetAttr && attrType.Kind != AttributeKind.MapAttr);
-                EnumAttributeType enumAttrType = attrType.EnumType;
-                EnumMember member = enumAttrType[(int)value];
-                if (member != null) return member.Name;
+                if(graph!=null && value!=null)
+                {
+                    return graph.GetElementName((IGraphElement)value);
+                }
             }
+            if(value is IGraphElement)
+            {
+                if(graph!=null)
+                {
+                    return graph.GetElementName((IGraphElement)value);
+                }
+            }
+
             return value!=null ? value.ToString() : "";
         }
     }

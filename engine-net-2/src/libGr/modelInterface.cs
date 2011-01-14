@@ -299,7 +299,13 @@ namespace de.unika.ipd.grGen.libGr
         MapAttr,
 
         /// <summary>The attribute is a set.</summary>
-        SetAttr
+        SetAttr,
+
+        /// <summary>The attribute is a node (only valid for set/map key/value type).</summary>
+        NodeAttr,
+
+        /// <summary>The attribute is an edge (only valid for set/map key/value type).</summary>
+        EdgeAttr
     }
 
     /// <summary>
@@ -341,6 +347,11 @@ namespace de.unika.ipd.grGen.libGr
         public readonly AttributeType KeyType;
 
         /// <summary>
+        /// The name of the attribute type, if Kind == AttributeKind.NodeAttr || Kind == AttributeKind.EdgeAttr
+        /// </summary>
+        public readonly String TypeName;
+
+        /// <summary>
         /// The annotations of the attribute
         /// </summary>
         public IEnumerable<KeyValuePair<string, string>> Annotations { get { return annotations; } }
@@ -359,8 +370,10 @@ namespace de.unika.ipd.grGen.libGr
         /// <param name="enumType">The enum type description, if Kind == AttributeKind.EnumAttr, otherwise null.</param>
         /// <param name="valueType">The attribute type of the value of the set, if Kind == AttributeKind.SetAttr; the attribute type of the value of the map, if Kind == AttributeKind.MapAttr; otherwise null. </param>
         /// <param name="keyType">The attribute type of the key of the map, if Kind == AttributeKind.MapAttr; otherwise null.</param>
+        /// <param name="typeName">The name of the attribute type, if Kind == AttributeKind.NodeAttr || Kind == AttributeKind.EdgeAttr; otherwise null.</param>
         public AttributeType(String name, GrGenType ownerType, AttributeKind kind,
-            EnumAttributeType enumType, AttributeType valueType, AttributeType keyType)
+            EnumAttributeType enumType, AttributeType valueType, AttributeType keyType,
+            String typeName)
         {
             Name = name;
             OwnerType = ownerType;
@@ -368,6 +381,7 @@ namespace de.unika.ipd.grGen.libGr
             EnumType = enumType;
             ValueType = valueType;
             KeyType = keyType;
+            TypeName = typeName;
         }
 
         /// <summary>
@@ -400,6 +414,8 @@ namespace de.unika.ipd.grGen.libGr
                 case AttributeKind.EnumAttr: return EnumType.Name;
                 case AttributeKind.SetAttr: return "set<"+ValueType.GetKindName()+">";
                 case AttributeKind.MapAttr: return "map<"+KeyType.GetKindName()+","+ValueType.GetKindName()+">";
+                case AttributeKind.NodeAttr: return TypeName;
+                case AttributeKind.EdgeAttr: return TypeName;
             }
             return GetKindName(Kind);
         }

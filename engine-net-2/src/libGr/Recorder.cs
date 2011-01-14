@@ -194,7 +194,7 @@ namespace de.unika.ipd.grGen.libGr
                 {
                 case AttributeChangeType.Assign:
                     writer.Write("@(\"" + graph.GetElementName(element) + "\")." + attrType.Name + " = ");
-                    GRSExport.EmitAttribute(attrType, newValue, writer);
+                    GRSExport.EmitAttribute(attrType, newValue, graph, writer);
                     writer.WriteLine();
                     break;
                 case AttributeChangeType.PutElement:
@@ -203,14 +203,14 @@ namespace de.unika.ipd.grGen.libGr
                     {
                     case AttributeKind.SetAttr:
                         writer.Write(".add(");
-                        writer.Write(GRSExport.ToString(newValue, attrType.ValueType));
+                        writer.Write(GRSExport.ToString(newValue, attrType.ValueType, null));
                         writer.WriteLine(")");
                         break;
                     case AttributeKind.MapAttr:
                         writer.Write(".add(");
-                        writer.Write(GRSExport.ToString(keyValue, attrType.KeyType));
+                        writer.Write(GRSExport.ToString(keyValue, attrType.KeyType, graph));
                         writer.Write(", ");
-                        writer.Write(GRSExport.ToString(newValue, attrType.ValueType));
+                        writer.Write(GRSExport.ToString(newValue, attrType.ValueType, graph));
                         writer.WriteLine(")");
                         break;
                     default:
@@ -223,12 +223,12 @@ namespace de.unika.ipd.grGen.libGr
                     {
                     case AttributeKind.SetAttr:
                         writer.Write(".rem(");
-                        writer.Write(GRSExport.ToString(newValue, attrType.ValueType));
+                        writer.Write(GRSExport.ToString(newValue, attrType.ValueType, graph));
                         writer.WriteLine(")");
                         break;
                     case AttributeKind.MapAttr:
                         writer.Write(".rem(");
-                        writer.Write(GRSExport.ToString(keyValue, attrType.KeyType));
+                        writer.Write(GRSExport.ToString(keyValue, attrType.KeyType, graph));
                         writer.WriteLine(")");
                         break;
                     default:

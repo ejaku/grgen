@@ -567,18 +567,28 @@ namespace de.unika.ipd.grGen.expression
     /// </summary>
     public class Cast : Expression
     {
-        public Cast(String typeName, Expression nested)
+        public Cast(String typeName, Expression nested, bool isDictionary)
         {
             TypeName = typeName;
             Nested = nested;
+            IsDictionary = isDictionary;
         }
 
         public override void Emit(SourceBuilder sourceCode)
         {
             if (TypeName == "string")
             {
-                Nested.Emit(sourceCode);
-                sourceCode.Append(".ToString()");
+                if(IsDictionary)
+                {
+                    sourceCode.Append("GRGEN_LIBGR.DictionaryHelper.ToString(");
+                    Nested.Emit(sourceCode);
+                    sourceCode.Append(", graph)");
+                }
+                else
+                {
+                    Nested.Emit(sourceCode);
+                    sourceCode.Append(".ToString()");
+                }
             }
             else
             {
@@ -589,6 +599,7 @@ namespace de.unika.ipd.grGen.expression
 
         String TypeName;
         Expression Nested;
+        bool IsDictionary;
     }
 
     /// <summary>
@@ -1147,19 +1158,33 @@ namespace de.unika.ipd.grGen.expression
     /// </summary>
     public class MapItem : Expression
     {
-        public MapItem(Expression key, Expression value, MapItem next)
+        public MapItem(Expression key, String keyType, 
+            Expression value, String valueType, MapItem next)
         {
             Key = key;
+            KeyType = keyType;
             Value = value;
+            ValueType = valueType;
             Next = next;
         }
 
         public override void Emit(SourceBuilder sourceCode)
         {
+            if(KeyType != null)
+                sourceCode.Append("(" + KeyType + ")(");
             Key.Emit(sourceCode);
+            if(KeyType != null)
+                sourceCode.Append(")");
+            
             sourceCode.Append(", ");
+            
+            if(ValueType != null)
+                sourceCode.Append("(" + ValueType + ")(");
             Value.Emit(sourceCode);
-            if (Next != null)
+            if(ValueType != null)
+                sourceCode.Append(")");
+            
+            if(Next != null)
             {
                 sourceCode.Append(", ");
                 Next.Emit(sourceCode);
@@ -1167,7 +1192,9 @@ namespace de.unika.ipd.grGen.expression
         }
 
         Expression Key;
+        String KeyType;
         Expression Value;
+        String ValueType;
         MapItem Next;
     }
 
@@ -1200,15 +1227,21 @@ namespace de.unika.ipd.grGen.expression
     /// </summary>
     public class SetItem : Expression
     {
-        public SetItem(Expression value, SetItem next)
+        public SetItem(Expression value, String valueType, SetItem next)
         {
             Value = value;
+            ValueType = valueType;
             Next = next;
         }
 
         public override void Emit(SourceBuilder sourceCode)
         {
+            if(ValueType != null)
+                sourceCode.Append("(" + ValueType + ")(");
             Value.Emit(sourceCode);
+            if(ValueType!=null)
+                sourceCode.Append(")");
+            
             if (Next != null)
             {
                 sourceCode.Append(", ");
@@ -1217,6 +1250,7 @@ namespace de.unika.ipd.grGen.expression
         }
 
         Expression Value;
+        String ValueType;
         SetItem Next;
     }
 

@@ -90,16 +90,24 @@ namespace de.unika.ipd.grGen.libGr
                 graph = new NamedGraph(graph);
             }
 
+            bool thereIsNodeOrEdgeValuedSetOrMap = false;
+
+            // emit nodes
             int numNodes = 0;
             foreach (INode node in graph.Nodes)
             {
                 sw.Write("new :{0}($ = \"{1}\"", node.Type.Name, graph.GetElementName(node));
                 foreach (AttributeType attrType in node.Type.AttributeTypes)
                 {
+                    if(IsNodeOrEdgeValuedSetOrMap(attrType)) {
+                        thereIsNodeOrEdgeValuedSetOrMap = true;
+                        continue;
+                    }
+
                     object value = node.GetAttribute(attrType.Name);
                     // TODO: Add support for null values, as the default initializers could assign non-null values!
                     if(value != null) {
-                        EmitAttributeInitialization(attrType, value, sw);
+                        EmitAttributeInitialization(attrType, value, graph, sw);
                     }
                 }
                 sw.WriteLine(")");
@@ -119,6 +127,7 @@ namespace de.unika.ipd.grGen.libGr
             sw.WriteLine("# total number of nodes: {0}", numNodes);
             sw.WriteLine();
 
+            // emit edges
             int numEdges = 0;
             foreach (INode node in graph.Nodes)
             {
@@ -128,10 +137,15 @@ namespace de.unika.ipd.grGen.libGr
                         edge.Type.Name, graph.GetElementName(edge));
                     foreach (AttributeType attrType in edge.Type.AttributeTypes)
                     {
+                        if(IsNodeOrEdgeValuedSetOrMap(attrType)) {
+                            thereIsNodeOrEdgeValuedSetOrMap = true;
+                            continue;
+                        }
+
                         object value = edge.GetAttribute(attrType.Name);
                         // TODO: Add support for null values, as the default initializers could assign non-null values!
                         if(value != null) {
-                            EmitAttributeInitialization(attrType, value, sw);
+                            EmitAttributeInitialization(attrType, value, graph, sw);
                         }
                     }
                     sw.WriteLine(") -> @(\"{0}\")", graph.GetElementName(edge.Target));
@@ -153,6 +167,38 @@ namespace de.unika.ipd.grGen.libGr
             sw.WriteLine("# total number of edges: {0}", numEdges);
             sw.WriteLine();
 
+            // emit node/edge valued sets/maps
+            if(thereIsNodeOrEdgeValuedSetOrMap)
+            {
+                foreach(INode node in graph.Nodes)
+                {
+                    foreach(AttributeType attrType in node.Type.AttributeTypes)
+                    {
+                        if(!IsNodeOrEdgeValuedSetOrMap(attrType))
+                            continue;
+
+                        object value = node.GetAttribute(attrType.Name);
+                        sw.Write("{0}.{1} = ", graph.GetElementName(node), attrType.Name);
+                        EmitAttribute(attrType, value, graph, sw);
+                        sw.Write("\n");
+                    }
+
+                    foreach(IEdge edge in node.Outgoing)
+                    {
+                        foreach(AttributeType attrType in edge.Type.AttributeTypes)
+                        {
+                            if(!IsNodeOrEdgeValuedSetOrMap(attrType))
+                                continue;
+
+                            object value = edge.GetAttribute(attrType.Name);
+                            sw.Write("{0}.{1} = ", graph.GetElementName(edge), attrType.Name);
+                            EmitAttribute(attrType, value, graph, sw);
+                            sw.Write("\n");
+                        }
+                    }
+                }
+            }
+
             sw.WriteLine("# end of graph \"{0}\" saved by GrsExport", graph.Name);
             sw.WriteLine();
         }
@@ -161,17 +207,17 @@ namespace de.unika.ipd.grGen.libGr
         /// Emits the node/edge attribute initialization code in graph exporting
         /// for an attribute of the given type with the given value into the stream writer
         /// </summary>
-        private static void EmitAttributeInitialization(AttributeType attrType, object value, StreamWriter sw)
+        private static void EmitAttributeInitialization(AttributeType attrType, object value, IGraph graph, StreamWriter sw)
         {
             sw.Write(", {0} = ", attrType.Name);
-            EmitAttribute(attrType, value, sw);
+            EmitAttribute(attrType, value, graph, sw);
         }
 
         /// <summary>
         /// Emits the attribute value as code
         /// for an attribute of the given type with the given value into the stream writer
         /// </summary>
-        public static void EmitAttribute(AttributeType attrType, object value, StreamWriter sw)
+        public static void EmitAttribute(AttributeType attrType, object value, IGraph graph, StreamWriter sw)
         {
             if(attrType.Kind==AttributeKind.SetAttr)
             {
@@ -180,8 +226,8 @@ namespace de.unika.ipd.grGen.libGr
                 bool first = true;
                 foreach(DictionaryEntry entry in set)
                 {
-                    if(first) { sw.Write(ToString(entry.Key, attrType.ValueType)); first = false; }
-                    else { sw.Write("," + ToString(entry.Key, attrType.ValueType)); }
+                    if(first) { sw.Write(ToString(entry.Key, attrType.ValueType, graph)); first = false; }
+                    else { sw.Write("," + ToString(entry.Key, attrType.ValueType, graph)); }
                 }
                 sw.Write("}");
             }
@@ -192,21 +238,25 @@ namespace de.unika.ipd.grGen.libGr
                 bool first = true;
                 foreach(DictionaryEntry entry in map)
                 {
-                    if(first) { sw.Write(ToString(entry.Key, attrType.KeyType)
-                        + "->" + ToString(entry.Value, attrType.ValueType)); first = false;
+                    if(first) { sw.Write(ToString(entry.Key, attrType.KeyType, graph)
+                        + "->" + ToString(entry.Value, attrType.ValueType, graph)); first = false;
                     }
-                    else { sw.Write("," + ToString(entry.Key, attrType.KeyType)
-                        + "->" + ToString(entry.Value, attrType.ValueType)); }
+                    else { sw.Write("," + ToString(entry.Key, attrType.KeyType, graph)
+                        + "->" + ToString(entry.Value, attrType.ValueType, graph)); }
                 }
                 sw.Write("}");
             }
             else
             {
-                sw.Write("{0}", ToString(value, attrType));
+                sw.Write("{0}", ToString(value, attrType, graph));
             }
         }
 
-        public static String ToString(object value, AttributeType type)
+        /// <summary>
+        /// type needed for enum, otherwise null ok
+        /// graph needed for node/edge in set/map, otherwise null ok
+        /// </summary>
+        public static String ToString(object value, AttributeType type, IGraph graph)
         {
             switch(type.Kind)
             {
@@ -227,9 +277,30 @@ namespace de.unika.ipd.grGen.libGr
                 return "null";
             case AttributeKind.EnumAttr:
                 return type.EnumType.Name + "::" + type.EnumType[(int)value].Name;
+            case AttributeKind.NodeAttr:
+            case AttributeKind.EdgeAttr:
+                return graph.GetElementName((IGraphElement)value);
             default:
                 throw new Exception("Unsupported attribute kind in export");
             }
+        }
+
+        public static bool IsNodeOrEdgeValuedSetOrMap(AttributeType attrType)
+        {
+            if(attrType.Kind == AttributeKind.SetAttr
+                || attrType.Kind == AttributeKind.MapAttr)
+            {
+                if(attrType.ValueType.Kind == AttributeKind.NodeAttr
+                    || attrType.ValueType.Kind == AttributeKind.EdgeAttr)
+                    return true;
+            }
+            if(attrType.Kind == AttributeKind.MapAttr)
+            {
+                if(attrType.KeyType.Kind == AttributeKind.NodeAttr
+                    || attrType.KeyType.Kind == AttributeKind.EdgeAttr)
+                    return true;
+            }
+            return false;
         }
     }
 }

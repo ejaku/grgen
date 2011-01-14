@@ -1,0 +1,18 @@
+node class N
+{
+	nodeNodeMap: map<Node,Node>;
+	nodeEdgeMap: map<N,E>;
+	edgeEdgeMap: map<Edge,Edge>;
+	edgeNodeMap: map<E,N>;
+	val:int;
+}
+
+edge class E
+{
+	nodeNodeMap: map<Node,Node>;
+	nodeEdgeMap: map<N,E>;
+	edgeEdgeMap: map<Edge,Edge>;
+	edgeNodeMap: map<E,N>;
+	val:int;
+}
+

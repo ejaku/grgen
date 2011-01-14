@@ -41,6 +41,9 @@ public abstract class GraphEntity extends Entity {
 	/** The storage from which to get the node or edge, if any */
 	protected Variable storage = null;
 
+	/** The storage attribute from which to get the node or edge, if any */
+	protected Qualification storageAttribute = null;
+
 	/** The accessor for the storagemap from which to get the node or edge, if any */
 	protected GraphEntity accessor = null;
 
@@ -174,10 +177,18 @@ public abstract class GraphEntity extends Entity {
 		this.storage = storage;
 	}
 
+	public void setStorageAttribute(Qualification storage) {
+		this.storageAttribute = storage;
+	}
+
 	public Variable getStorage() {
 		return storage;
 	}
-	
+
+	public Qualification getStorageAttribute() {
+		return storageAttribute;
+	}
+
 	public void setAccessor(GraphEntity accessor) {
 		this.accessor = accessor;
 	}

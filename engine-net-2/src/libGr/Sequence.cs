@@ -1988,8 +1988,10 @@ namespace de.unika.ipd.grGen.libGr
             if(Variable!=null) {
                 object val = Variable.GetVariableValue(graph);
                 if(val!=null) {
-                    if(val is IDictionary) graph.EmitWriter.Write(DictionaryHelper.ToString((IDictionary)val));
-                    else graph.EmitWriter.Write(val.ToString());
+                    if(val is IDictionary)
+                        graph.EmitWriter.Write(DictionaryHelper.ToString((IDictionary)val, env!=null ? env.GetNamedGraph() : graph));
+                    else
+                        graph.EmitWriter.Write(DictionaryHelper.ToString(val, env!=null ? env.GetNamedGraph() : graph));
                 }
             } else {
                 graph.EmitWriter.Write(Text);
@@ -2025,17 +2027,15 @@ namespace de.unika.ipd.grGen.libGr
 
         protected override bool ApplyImpl(IGraph graph, SequenceExecutionEnvironment env)
         {
-            if(Variable != null)
-            {
+            if(Variable!=null) {
                 object val = Variable.GetVariableValue(graph);
-                if(val != null)
-                {
-                    if(val is IDictionary) graph.Recorder.Write(DictionaryHelper.ToString((IDictionary)val));
-                    else graph.Recorder.Write(val.ToString());
+                if(val!=null) {
+                    if(val is IDictionary)
+                        graph.Recorder.Write(DictionaryHelper.ToString((IDictionary)val, env!=null ? env.GetNamedGraph() : graph));
+                    else
+                        graph.Recorder.Write(DictionaryHelper.ToString(val, env!=null ? env.GetNamedGraph() : graph));
                 }
-            }
-            else
-            {
+            } else {
                 graph.Recorder.Write(Text);
             }
             return true;

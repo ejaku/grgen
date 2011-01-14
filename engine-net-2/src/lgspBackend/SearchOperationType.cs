@@ -45,6 +45,10 @@ namespace de.unika.ipd.grGen.lgsp
         /// </summary>
         MapWithStorage,
         /// <summary>
+        /// Pick element from storage attribute, needs attribute owner.
+        /// </summary>
+        PickFromStorageAttribute,
+        /// <summary>
         /// Follow outgoing edges of given node.
         /// </summary>
         Outgoing,

@@ -595,14 +595,14 @@ public class ActionsGen extends CSharpBase {
 			int itemCounter = 0;
 			boolean first = true;
 			for(MapItem item : mapInit.getMapItems()) {
-				String itemKeyType = formatAttributeType(item.getKeyExpr().getType());
-				String itemValueType = formatAttributeType(item.getValueExpr().getType());
+				String itemKeyType = formatType(item.getKeyExpr().getType());
+				String itemValueType = formatType(item.getValueExpr().getType());
 				if(first) {
-					sb.append(itemKeyType + " itemkey" + itemCounter);
+					sb.append(itemKeyType + " itemkey" + itemCounter + ",");
 					sb.append(itemValueType + " itemvalue" + itemCounter);
 					first = false;
 				} else {
-					sb.append(", " + itemKeyType + " itemkey" + itemCounter);
+					sb.append(", " + itemKeyType + " itemkey" + itemCounter + ",");
 					sb.append(itemValueType + " itemvalue" + itemCounter);
 				}
 				++itemCounter;
@@ -642,7 +642,7 @@ public class ActionsGen extends CSharpBase {
 			int itemCounter = 0;
 			boolean first = true;
 			for(SetItem item : setInit.getSetItems()) {
-				String itemType = formatAttributeType(item.getValueExpr().getType());
+				String itemType = formatType(item.getValueExpr().getType());
 				if(first) {
 					sb.append(itemType + " item" + itemCounter);
 					first = false;
@@ -956,8 +956,17 @@ public class ActionsGen extends CSharpBase {
 				appendPrio(sb, node, max);
 				sb.append(parameters.indexOf(node)+", ");
 				sb.append(node.getMaybeNull() ? "true, " : "false, ");
-				sb.append((node.getStorage()!=null ? formatEntity(node.getStorage(), pathPrefixForElements, alreadyDefinedEntityToName): "null")+", ");
-				sb.append((node.getAccessor()!=null ? formatEntity(node.getAccessor(), pathPrefixForElements, alreadyDefinedEntityToName): "null")+");\n");
+				sb.append((node.getStorage()!=null ? formatEntity(node.getStorage(), pathPrefixForElements, alreadyDefinedEntityToName) : "null")+", ");
+				sb.append((node.getAccessor()!=null ? formatEntity(node.getAccessor(), pathPrefixForElements, alreadyDefinedEntityToName) : "null")+", ");
+				if(node.getStorageAttribute()!=null) {
+					GraphEntity owner = (GraphEntity)node.getStorageAttribute().getOwner();
+					Entity member = node.getStorageAttribute().getMember();
+					sb.append(formatEntity(owner, pathPrefix, alreadyDefinedEntityToName));
+					sb.append(", " + formatTypeClassRef(owner.getParameterInterfaceType()!=null ? owner.getParameterInterfaceType() : owner.getType()) + ".typeVar" + ".GetAttributeType(\"" + formatIdentifiable(member) + "\")");
+					sb.append(");\n");
+				} else {
+					sb.append("null, null);\n");
+				}
 				alreadyDefinedEntityToName.put(node, nodeName);
 				aux.append("\t\t\t" + nodeName + ".pointOfDefinition = " + (parameters.indexOf(node)==-1 ? patGraphVarName : "null") + ";\n");
 				addAnnotations(aux, node, nodeName+".annotations");
@@ -984,8 +993,17 @@ public class ActionsGen extends CSharpBase {
 				appendPrio(sb, edge, max);
 				sb.append(parameters.indexOf(edge)+", ");
 				sb.append(edge.getMaybeNull()?"true, ":"false, ");
-				sb.append((edge.getStorage()!=null ? formatEntity(edge.getStorage(), pathPrefixForElements, alreadyDefinedEntityToName): "null")+", ");
-				sb.append((edge.getAccessor()!=null ? formatEntity(edge.getAccessor(), pathPrefixForElements, alreadyDefinedEntityToName): "null")+");\n");
+				sb.append((edge.getStorage()!=null ? formatEntity(edge.getStorage(), pathPrefixForElements, alreadyDefinedEntityToName) : "null")+", ");
+				sb.append((edge.getAccessor()!=null ? formatEntity(edge.getAccessor(), pathPrefixForElements, alreadyDefinedEntityToName) : "null")+", ");
+				if(edge.getStorageAttribute()!=null) {
+					GraphEntity owner = (GraphEntity)edge.getStorageAttribute().getOwner();
+					Entity member = edge.getStorageAttribute().getMember();
+					sb.append(formatEntity(owner, pathPrefix, alreadyDefinedEntityToName));
+					sb.append(", " + formatTypeClassRef(owner.getParameterInterfaceType()!=null ? owner.getParameterInterfaceType() : owner.getType()) + ".typeVar" + ".GetAttributeType(\"" + formatIdentifiable(member) + "\")");
+					sb.append(");\n");
+				} else {
+					sb.append("null, null);\n");
+				}
 				alreadyDefinedEntityToName.put(edge, edgeName);
 				aux.append("\t\t\t" + edgeName + ".pointOfDefinition = " + (parameters.indexOf(edge)==-1 ? patGraphVarName : "null") + ";\n");
 				addAnnotations(aux, edge, edgeName+".annotations");
@@ -1397,7 +1415,6 @@ public class ActionsGen extends CSharpBase {
 			Entity member = qual.getMember();
 			sb.append("new GRGEN_EXPR.Qualification(\"" + formatElementInterfaceRef(owner.getType())
 				+ "\", \"" + formatEntity(owner, pathPrefix, alreadyDefinedEntityToName) + "\", \"" + formatIdentifiable(member) + "\")");
-
 		}
 		else if(expr instanceof EnumExpression) {
 			EnumExpression enumExp = (EnumExpression) expr;
@@ -1427,6 +1444,11 @@ public class ActionsGen extends CSharpBase {
 			} else {
 				sb.append("new GRGEN_EXPR.Cast(\"" + typeName + "\", ");
 				genExpressionTree(sb, cast.getExpression(), className, pathPrefix, alreadyDefinedEntityToName);
+				if(cast.getExpression().getType() instanceof SetType || cast.getExpression().getType() instanceof MapType) {
+					sb.append(", true");
+				} else {
+					sb.append(", false");
+				}
 				sb.append(")");
 			}
 		}
@@ -1556,8 +1578,16 @@ public class ActionsGen extends CSharpBase {
 					sb.append("new GRGEN_EXPR.MapItem(");
 					genExpressionTree(sb, item.getKeyExpr(), className, pathPrefix, alreadyDefinedEntityToName);
 					sb.append(", ");
+					if(item.getKeyExpr() instanceof GraphEntityExpression)
+						sb.append("\"" + formatElementInterfaceRef(item.getKeyExpr().getType()) + "\", ");
+					else
+						sb.append("null, ");
 					genExpressionTree(sb, item.getValueExpr(), className, pathPrefix, alreadyDefinedEntityToName);
 					sb.append(", ");
+					if(item.getValueExpr() instanceof GraphEntityExpression)
+						sb.append("\"" + formatElementInterfaceRef(item.getValueExpr().getType()) + "\", ");
+					else
+						sb.append("null, ");
 					++openParenthesis;
 				}
 				sb.append("null");
@@ -1576,6 +1606,10 @@ public class ActionsGen extends CSharpBase {
 					sb.append("new GRGEN_EXPR.SetItem(");
 					genExpressionTree(sb, item.getValueExpr(), className, pathPrefix, alreadyDefinedEntityToName);
 					sb.append(", ");
+					if(item.getValueExpr() instanceof GraphEntityExpression)
+						sb.append("\"" + formatElementInterfaceRef(item.getValueExpr().getType()) + "\", ");
+					else
+						sb.append("null, ");
 					++openParenthesis;
 				}
 				sb.append("null");

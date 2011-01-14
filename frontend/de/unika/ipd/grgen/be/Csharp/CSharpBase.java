@@ -591,8 +591,7 @@ public abstract class CSharpBase {
 			Nameof no = (Nameof) expr;
 			if(no.getEntity()==null) {
 				sb.append("graph.Name"); // name of graph
-			}
-			else {
+			} else {
 				sb.append("graph.GetElementName(" + formatEntity(no.getEntity()) + ")"); // name of entity
 			}
 		}
@@ -605,14 +604,18 @@ public abstract class CSharpBase {
 			String typeName = getTypeNameForCast(cast);
 
 			if(typeName == "string") {
-				genExpression(sb, cast.getExpression(), modifyGenerationState);
-				sb.append(".ToString()");
-			}
-			else if(typeName == "object") {
+				if(cast.getExpression().getType() instanceof SetType || cast.getExpression().getType() instanceof MapType) {
+					sb.append("GRGEN_LIBGR.DictionaryHelper.ToString(");
+					genExpression(sb, cast.getExpression(), modifyGenerationState);
+					sb.append(", graph)");					
+				} else {
+					genExpression(sb, cast.getExpression(), modifyGenerationState);
+					sb.append(".ToString()");
+				}
+			} else if(typeName == "object") {
 				// no cast needed
 				genExpression(sb, cast.getExpression(), modifyGenerationState);
-			}
-			else {
+			} else {
 				sb.append("((" + typeName  + ") ");
 				genExpression(sb, cast.getExpression(), modifyGenerationState);
 				sb.append(")");
@@ -785,17 +788,24 @@ public abstract class CSharpBase {
 				sb.append("fill_" + mi.getAnonymnousMapName() + "(");
 				boolean first = true;
 				for(MapItem item : mi.getMapItems()) {
-					if(first) {
-						genExpression(sb, item.getKeyExpr(), modifyGenerationState);
-						sb.append(", ");
-						genExpression(sb, item.getValueExpr(), modifyGenerationState);
+					if(first)
 						first = false;
-					} else {
+					else
 						sb.append(", ");
-						genExpression(sb, item.getKeyExpr(), modifyGenerationState);
-						sb.append(", ");
-						genExpression(sb, item.getValueExpr(), modifyGenerationState);
-					}
+					
+					if(item.getKeyExpr() instanceof GraphEntityExpression)
+						sb.append("(" + formatElementInterfaceRef(item.getKeyExpr().getType()) + ")(");
+					genExpression(sb, item.getKeyExpr(), modifyGenerationState);
+					if(item.getKeyExpr() instanceof GraphEntityExpression)
+						sb.append(")");
+
+					sb.append(", ");
+
+					if(item.getValueExpr() instanceof GraphEntityExpression)
+						sb.append("(" + formatElementInterfaceRef(item.getValueExpr().getType()) + ")(");
+					genExpression(sb, item.getValueExpr(), modifyGenerationState);
+					if(item.getValueExpr() instanceof GraphEntityExpression)
+						sb.append(")");
 				}
 				sb.append(")");
 			}
@@ -808,13 +818,16 @@ public abstract class CSharpBase {
 				sb.append("fill_" + si.getAnonymnousSetName() + "(");
 				boolean first = true;
 				for(SetItem item : si.getSetItems()) {
-					if(first) {
-						genExpression(sb, item.getValueExpr(), modifyGenerationState);
+					if(first)
 						first = false;
-					} else {
+					else
 						sb.append(", ");
-						genExpression(sb, item.getValueExpr(), modifyGenerationState);
-					}
+
+					if(item.getValueExpr() instanceof GraphEntityExpression)
+						sb.append("(" + formatElementInterfaceRef(item.getValueExpr().getType()) + ")(");
+					genExpression(sb, item.getValueExpr(), modifyGenerationState);
+					if(item.getValueExpr() instanceof GraphEntityExpression)
+						sb.append(")");
 				}
 				sb.append(")");
 			}

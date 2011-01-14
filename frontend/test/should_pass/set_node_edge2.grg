@@ -1,0 +1,102 @@
+using set_model_003;
+
+rule addToSet {
+	-n:E->; -m:Edge->; -u:UEdge-;
+	
+	modify {
+		eval {
+			n.edgeSet = n.edgeSet | set<Edge>{ n };
+			n.edgeSet = n.edgeSet | { m };
+			n.eSet = n.eSet | set<E>{ n };
+			n.eSet = n.eSet | { n };
+			n.uSet = n.uSet | { u };
+		}
+	}
+}
+
+test containedInSet {
+	-n:E->; -u:UEdge-;
+	
+	if { n in n.edgeSet; }
+	if { n in n.eSet; }
+	if { u in n.uSet; }
+}
+
+rule removeFromSet {
+	-n:E->; -m:Edge->; -u:UEdge-;
+	
+	modify {
+		eval {
+			n.edgeSet = n.edgeSet \ set<Edge>{ n };
+			n.edgeSet = n.edgeSet \ { m };
+			n.eSet = n.eSet \ set<E>{ n };
+			n.eSet = n.eSet \ { n };
+			n.uSet = n.uSet \ { u };
+		}
+	}
+}
+
+// This clones the sets
+rule assignSetToSet {
+	-n:E->; -m:E->; -u:UEdge-;
+		
+	modify {
+		eval {
+			n.edgeSet = m.edgeSet;
+			m.eSet = n.eSet;
+			n.uSet = m.uSet;
+		}
+	}
+}
+
+rule anonymousSet {
+	-n:E->; -m:E->; -u:UEdge-;
+	
+	if { n in set<Edge>{ n, m }; }
+	if { n in set<E>{ n, m }; }
+	if { u in set<UEdge>{ u }; }
+
+	modify {
+		eval {
+			n.val = (n in {n, m}) ? 1 : 0;
+			m.val = (u in {u}) ? 1 : 0;
+		}
+	}
+}
+
+rule setSize {
+	-n:E->; -u:UEdge-;
+	
+	if { n.edgeSet.size()==42; }
+	if { n.eSet.size()==42; }
+	if { n.uSet.size()==42; }
+	
+	modify {
+		eval {
+			n.val = n.edgeSet.size();
+			n.val = n.eSet.size();
+			n.val = n.uSet.size();
+		}
+	}
+}
+
+rule addToSetRemoveFromSet {
+	-n:E->; -m:E->; -u:UEdge-;
+	
+	modify {
+		eval {
+			n.edgeSet = (m.edgeSet | set<Edge>{ n, m }) \ set<Edge>{ m };
+			n.uSet = (m.uSet | set<UEdge>{ u }) \ set<UEdge>{ u };
+		}
+	}
+}
+
+rule storage {
+	-n:E->;
+	-m:E<n.eSet>->;
+	-l:Edge<n.edgeSet>->;
+	-k:UEdge<m.uSet>-;
+	
+	modify {
+	}
+}

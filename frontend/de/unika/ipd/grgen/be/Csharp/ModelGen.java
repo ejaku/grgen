@@ -1188,17 +1188,25 @@ set_init_loop:
 	private void genAttributeInitTypeDependentStuff(Type t, Entity e) {
 		if (t instanceof EnumType) {
 			sb.append(getAttributeKind(t) + ", GRGEN_MODEL.Enums.@" + formatIdentifiable(t) + ", "
-					+ "null, null");
+					+ "null, null, "
+					+ "null");
 		} else if (t instanceof MapType) {
 			sb.append(getAttributeKind(t) + ", null, "
 					+ formatAttributeTypeName(e) + "_map_range_type" + ", "
-					+ formatAttributeTypeName(e) + "_map_domain_type");
+					+ formatAttributeTypeName(e) + "_map_domain_type" + ", "
+					+ "null");
 		} else if (t instanceof SetType) {
 			sb.append(getAttributeKind(t) + ", null, "
-					+ formatAttributeTypeName(e) + "_set_member_type" + ", null");
+					+ formatAttributeTypeName(e) + "_set_member_type" + ", null, "
+					+ "null");
+		} else if (t instanceof NodeType || t instanceof EdgeType) {
+			sb.append(getAttributeKind(t) + ", null, " 
+					+ "null, null, "
+					+ "\"" + formatIdentifiable(t) + "\"");
 		} else {
 			sb.append(getAttributeKind(t) + ", null, " 
-					+ "null, null");
+					+ "null, null, "
+					+ "null");
 		}
 	}
 
@@ -1221,6 +1229,10 @@ set_init_loop:
 			return "GRGEN_LIBGR.AttributeKind.MapAttr";
 		else if (t instanceof SetType)
 			return "GRGEN_LIBGR.AttributeKind.SetAttr";
+		else if (t instanceof NodeType)
+			return "GRGEN_LIBGR.AttributeKind.NodeAttr";
+		else if (t instanceof EdgeType)
+			return "GRGEN_LIBGR.AttributeKind.EdgeAttr";
 		else throw new IllegalArgumentException("Unknown Type: " + t);
 	}
 

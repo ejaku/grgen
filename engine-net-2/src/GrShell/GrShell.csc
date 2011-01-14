@@ -514,13 +514,18 @@ String TextOrNumber():
 String AttributeValue():
 {
 	Token tok;
-	String enumName, enumValue;
+	String enumName, enumValue, elemName;
 }
 {
 	(
 		LOOKAHEAD(2) enumName=WordOrText() "::" enumValue=AttributeName()
 		{
 			return enumName + "::" + enumValue;
+		}
+	|
+		"@" "(" elemName=WordOrText() ")"
+		{
+			return "@(" + elemName + ")";
 		}
 	|
 		(tok=<DOUBLEQUOTEDTEXT> | tok=<SINGLEQUOTEDTEXT> | tok=<WORD> | tok=<NUMBER> | tok=<HEXNUMBER> | tok=<NUMFLOAT> | tok=<NUMDOUBLE> | tok=<TRUE> | tok=<FALSE> | tok=<NULL>)

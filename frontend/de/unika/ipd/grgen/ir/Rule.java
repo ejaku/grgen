@@ -342,8 +342,15 @@ public class Rule extends MatchingAction {
 			somethingChanged = false;
 			
 			for(Node node : left.getNodes()) {
-				if(node.getStorage()!=null && node.getAccessor()!=null) {
+				if(node.getAccessor()!=null) {
 					if(node.getDependencyLevel()<=node.getAccessor().getDependencyLevel()) {
+						node.incrementDependencyLevel();
+						dependencyLevel = Math.max(node.getDependencyLevel(), dependencyLevel);
+						somethingChanged = true;
+					}
+				}
+				if(node.getStorageAttribute()!=null) {
+					if(node.getDependencyLevel()<=((GraphEntity)node.getStorageAttribute().getOwner()).getDependencyLevel()) {
 						node.incrementDependencyLevel();
 						dependencyLevel = Math.max(node.getDependencyLevel(), dependencyLevel);
 						somethingChanged = true;
@@ -351,8 +358,15 @@ public class Rule extends MatchingAction {
 				}
 			}
 			for(Edge edge : left.getEdges()) {
-				if(edge.getStorage()!=null && edge.getAccessor()!=null) {
+				if(edge.getAccessor()!=null) {
 					if(edge.getDependencyLevel()<=edge.getAccessor().getDependencyLevel()) {
+						edge.incrementDependencyLevel();
+						dependencyLevel = Math.max(edge.getDependencyLevel(), dependencyLevel);
+						somethingChanged = true;
+					}
+				}
+				if(edge.getStorageAttribute()!=null) {
+					if(edge.getDependencyLevel()<=((GraphEntity)edge.getStorageAttribute().getOwner()).getDependencyLevel()) {
 						edge.incrementDependencyLevel();
 						dependencyLevel = Math.max(edge.getDependencyLevel(), dependencyLevel);
 						somethingChanged = true;
@@ -360,7 +374,7 @@ public class Rule extends MatchingAction {
 				}
 			}
 			if(dependencyLevel>=MAX_CHAINING_FOR_STORAGE_MAP_ACCESS) {
-				error.error("Cycle in match node/edge by storage map access.");
+				error.error("Cycle in match node/edge by storage map access or storage attribute.");
 				break;
 			}
 		} while(somethingChanged);
