@@ -1,0 +1,8 @@
+node class N
+{
+	reachable:set<N>;
+}
+
+node class NSeed extends N;
+
+edge class then; // for building worklist of nodes to be handled

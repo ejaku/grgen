@@ -1,0 +1,21 @@
+new graph dataFlowAnalysis/dataFlowAnalysisForReachability
+
+debug set layout Hierarchic
+dump add node "N" shortinfotag reachable
+
+xgrs init
+
+xgrs match
+
+xgrs [directReachability]
+
+xgrs match
+
+xgrs todo=set<N>{} ;> [addAllNodesToWorkset(todo)] ;> succs=set<N>{}
+xgrs if{ (n)=pickAndRemove(todo) ; \
+         [successors(n, succs)] ;> changed=false ;> for{s in succs; (changed)=propagateBackwards(n,s,changed)} ;> if{changed; [addPredecessors(n,todo)]} ;> succs.clear() ; \
+         false }*
+
+xgrs match
+
+quit

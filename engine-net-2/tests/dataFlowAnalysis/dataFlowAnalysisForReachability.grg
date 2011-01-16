@@ -1,0 +1,243 @@
+using dataFlowAnalysisForReachability;
+
+rule init
+{
+  modify {
+    na1:N --> na2:N --> na3:N;
+
+    nb1:N --> nb2a:N --> nb3:N; nb1 --> nb2b:N --> nb3;
+
+    nc1:N --> nc2a:N --> nc3:N; nc1 --> nc2b:N --> nc3 --> nc1;
+
+    nd1:N --> nd2:N --> nd1;
+
+    ne1:N --> ne1;
+
+    nf1:N;
+
+    ng1:N --> ng2a:N; ng1 --> ng2b:N;
+    ng2a --> ng3a:N; ng2a --> ng3b:N;  ng2b --> ng3b; ng2b --> ng3c:N;
+    ng3a --> ng4a:N; ng3b --> ng4a; ng3b --> ng4b:N; ng3c --> ng4b;
+  }
+}
+
+rule match
+{
+  na1:N --> na2:N --> na3:N;
+
+  nb1:N --> nb2a:N --> nb3:N; nb1 --> nb2b:N --> nb3;
+
+  nc1:N --> nc2a:N --> nc3:N; nc1 --> nc2b:N --> nc3 --> nc1;
+
+  nd1:N --> nd2:N --> nd1;
+
+  ne1:N --> ne1;
+
+  nf1:N;
+
+  ng1:N --> ng2a:N; ng1 --> ng2b:N;
+  ng2a --> ng3a:N; ng2a --> ng3b:N;  ng2b --> ng3b; ng2b --> ng3c:N;
+  ng3a --> ng4a:N; ng3b --> ng4a; ng3b --> ng4b:N; ng3c --> ng4b;
+  
+  modify {
+    // emit the value of the attribute
+    // the numbers are placeholders needed for arbitrary but successive words
+    // so that the test script accepts them as outputs to be checked
+    emit("1 value of attribute 5 6 " + na1.reachable + "\n");
+    emit("1 value of attribute 5 6 " + na2.reachable + "\n");
+    emit("1 value of attribute 5 6 " + na3.reachable + "\n");
+
+    emit("1 value of attribute 5 6 " + nb1.reachable + "\n");
+    emit("1 value of attribute 5 6 " + nb2a.reachable + "\n");
+    emit("1 value of attribute 5 6 " + nb2b.reachable + "\n");
+    emit("1 value of attribute 5 6 " + nb3.reachable + "\n");
+
+    emit("1 value of attribute 5 6 " + nc1.reachable + "\n");
+    emit("1 value of attribute 5 6 " + nc2a.reachable + "\n");
+    emit("1 value of attribute 5 6 " + nc2b.reachable + "\n");
+    emit("1 value of attribute 5 6 " + nc3.reachable + "\n");
+
+    emit("1 value of attribute 5 6 " + nd1.reachable + "\n");
+    emit("1 value of attribute 5 6 " + nd2.reachable + "\n");
+
+    emit("1 value of attribute 5 6 " + ne1.reachable + "\n");
+
+    emit("1 value of attribute 5 6 " + nf1.reachable + "\n");
+
+    emit("1 value of attribute 5 6 " + ng1.reachable + "\n");
+    emit("1 value of attribute 5 6 " + ng2a.reachable + "\n");
+    emit("1 value of attribute 5 6 " + ng2b.reachable + "\n");
+    emit("1 value of attribute 5 6 " + ng3a.reachable + "\n");
+    emit("1 value of attribute 5 6 " + ng3b.reachable + "\n");
+    emit("1 value of attribute 5 6 " + ng3c.reachable + "\n");
+    emit("1 value of attribute 5 6 " + ng4a.reachable + "\n");
+    emit("1 value of attribute 5 6 " + ng4b.reachable + "\n");
+  }
+}
+
+//////////////////////////////////////////////////////////////////////////
+
+rule directReachability
+{
+  hom(n,m);
+  n:N --> m:N;
+
+  modify {
+    eval { n.reachable.add(m); }
+  }
+}
+
+rule successors(n:N, ref succs:set<N>)
+{
+  n -:Edge\then-> s:N;
+  
+  modify {
+    eval { succs.add(s); }
+  }
+}
+
+rule predecessors(n:N, ref preds:set<N>)
+{
+  p:N -:Edge\then-> n;
+  
+  modify {
+    eval { preds.add(p); }
+  }
+}
+
+// adds what is reachable to the successor s to the nodes reachable from n, tells whether something was added 
+rule propagateBackwards(n:N, s:N, var changed:boolean) : (boolean)
+{
+  modify {
+    eval { n.reachable |= s.reachable |> changed; }
+    return(changed);
+  }
+}
+
+//////////////////////////////////////////////////////////////////////////
+
+rule addAllNodesToWorkset(ref todo:set<N>)
+{
+  n:N;
+  
+  modify {
+    eval { todo.add(n); }
+  }
+}
+
+rule pickAndRemove(ref todo:set<N>) : (N)
+{
+  n:N<todo>;
+  
+  modify {
+    eval { todo.rem(n); }
+    return(n);
+  }
+}
+
+rule addPredecessors(n:N, ref todo:set<N>)
+{
+  p:N --> n;
+  if { !(p in todo); }
+  
+  modify {
+    eval { todo.add(p); }
+  }
+}
+
+//////////////////////////////////////////////////////////////////////////
+
+rule initWorklist : (N)
+{
+  modify {
+    n:NSeed;
+    return(n);
+  }
+}
+
+rule addFinalNodesToWorklist(last:N, ref todo:set<N>) : (N)
+{
+  n:N\NSeed;
+  negative {
+    n -->;
+  }
+  negative {
+    -:then-> n;
+  }
+  
+  modify {
+    eval { todo.add(n); }
+    last -:then-> n;
+    return(n);
+  }
+}
+
+// add nodes in postorder to list
+rule addFurther(pos:N, last:N, ref todo:set<N>) : (N)
+{
+  hom(pos,last);
+  n:N -:Edge\then-> pos;
+  if { !(n in todo); }
+  
+  modify {
+    eval { todo.add(n); }
+    last -:then-> n;
+    return(n);
+  }
+}
+
+rule switchToNextWorklistPosition(pos:N) : (N)
+{
+  pos -t:then-> next:N;
+  
+  modify {
+    return(next);
+  }
+}
+
+// add nodes not yet visited cause they are part of an endless loop (no exit node without outgoing edges)
+rule addNotYetVisitedNodeToWorklist(last:N, ref todo:set<N>) : (N)
+{
+  n:N\NSeed;
+  negative {
+    -:then-> n;
+  }
+
+  modify {
+    last -:then-> n;
+    eval { todo.add(n); }
+    return(n);
+  }
+}
+
+rule addToWorklist(p:N, ref todo:set<N>, last:N) : (N)
+{
+  // hom(p,last); not needed, if same p is already in worklist, thus set, thus if fails
+  if{ !(p in todo); }
+    
+  modify {
+    last -:then-> p;
+    eval { todo.add(p); }
+    return(p);
+  }
+}
+
+rule nextWorklistPosition(pos:N, ref todo:set<N>) : (N)
+{
+  pos -t:then-> next:N;
+  
+  modify {
+    delete(t);
+    eval { todo.rem(pos); }
+    return(next);
+  }
+}
+
+rule uninitWorklist
+{
+  n:NSeed;
+  
+  modify {
+    delete(n);
+  }
+}

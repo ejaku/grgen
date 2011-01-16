@@ -1,0 +1,36 @@
+new graph dataFlowAnalysis/dataFlowAnalysisForReachability
+
+debug set layout Organic
+debug set layout option INITIAL_PLACEMENT AS_IS
+dump add node "N" shortinfotag reachable
+dump set node "NSeed" color red
+dump set node "NSeed" shape circle
+dump set edge "then" color red
+
+xgrs init
+
+xgrs match
+
+xgrs [directReachability]
+
+xgrs match
+
+# add final nodes to worklist starting with some special head
+xgrs todo=set<N>{} ;> (head)=initWorklist ;> last=head ;> (last)=addFinalNodesToWorklist(last, todo)*
+# add all nodes reachable from final nodes
+xgrs pos=head ;> ( (last)=addFurther(pos, last, todo)* ;> (pos)=switchToNextWorklistPosition(pos) )*
+# add all nodes not reachable from some final nodes
+xgrs ( (last)=addNotYetVisitedNodeToWorklist(last, todo) && pos=last && ( (last)=addFurther(pos, last, todo)* ;> (pos)=switchToNextWorklistPosition(pos) )* )*
+
+# walk along worklist, compute data flow, unchain handled node, chain every node depending on handled node if it changed
+xgrs succs=set<N>{} ;> preds=set<N>{} ;> pos=head
+xgrs ( [successors(pos, succs)] ;> changed=false ;> for{s in succs; (changed)=propagateBackwards(pos,s,changed)} ;> succs.clear() \
+       ;> if{ changed ; [predecessors(pos, preds)] ;> for{p in preds; (last)=addToWorklist(p, todo, last)*} ;> preds.clear() } \
+       ;> (pos)=nextWorklistPosition(pos, todo) )*
+
+# finally remove special head
+xgrs uninitWorklist
+
+xgrs match
+
+quit
