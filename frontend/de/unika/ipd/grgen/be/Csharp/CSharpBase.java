@@ -50,6 +50,7 @@ import de.unika.ipd.grgen.ir.MapSizeExpr;
 import de.unika.ipd.grgen.ir.MapPeekExpr;
 import de.unika.ipd.grgen.ir.MaxExpr;
 import de.unika.ipd.grgen.ir.MinExpr;
+import de.unika.ipd.grgen.ir.PowExpr;
 import de.unika.ipd.grgen.ir.SetInit;
 import de.unika.ipd.grgen.ir.SetItem;
 import de.unika.ipd.grgen.ir.SetSizeExpr;
@@ -856,6 +857,14 @@ public abstract class CSharpBase {
 		else if (expr instanceof MinExpr) {
 			MinExpr m = (MinExpr)expr;
 			sb.append("Math.Min(");
+			genExpression(sb, m.getLeftExpr(), modifyGenerationState);
+			sb.append(", ");
+			genExpression(sb, m.getRightExpr(), modifyGenerationState);
+			sb.append(")");
+		}
+		else if (expr instanceof PowExpr) {
+			PowExpr m = (PowExpr)expr;
+			sb.append("Math.Pow(");
 			genExpression(sb, m.getLeftExpr(), modifyGenerationState);
 			sb.append(", ");
 			genExpression(sb, m.getRightExpr(), modifyGenerationState);

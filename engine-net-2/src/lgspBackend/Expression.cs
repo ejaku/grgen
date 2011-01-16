@@ -1309,4 +1309,17 @@ namespace de.unika.ipd.grGen.expression
             return "Math.Min(";
         }
     }
+
+    /// <summary>
+    /// Class representing the to-the-power-of operator.
+    /// </summary>
+    public class Pow : BinFuncOperator
+    {
+        public Pow(Expression left, Expression right) : base(left, right) { }
+
+        public override string GetFuncOperatorAndLParen()
+        {
+            return "Math.Pow(";
+        }
+    }
 }

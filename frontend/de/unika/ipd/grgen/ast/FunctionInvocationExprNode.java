@@ -73,7 +73,7 @@ public class FunctionInvocationExprNode extends ExprNode
 
 		if(functionName.equals("min")) {
 			if(params.size() != 2) {
-				reportError("min(a,b) takes two parameters.");
+				reportError("min(.,.) takes two parameters.");
 				return false;
 			}
 			else
@@ -81,11 +81,19 @@ public class FunctionInvocationExprNode extends ExprNode
 		}
 		else if(functionName.equals("max")) {
 			if(params.size() != 2) {
-				reportError("max(a,b) takes two parameters.");
+				reportError("max(.,.) takes two parameters.");
 				return false;
 			}
 			else
 				result = new MaxExprNode(getCoords(), params.get(0), params.get(1));
+		}		
+		else if(functionName.equals("pow")) {
+			if(params.size() != 2) {
+				reportError("pow(.,.) takes two parameters.");
+				return false;
+			}
+			else
+				result = new PowExprNode(getCoords(), params.get(0), params.get(1));
 		}		
 		else {
 			reportError("no function " +functionName + " known");

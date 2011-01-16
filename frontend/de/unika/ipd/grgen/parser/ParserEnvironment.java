@@ -147,6 +147,7 @@ public abstract class ParserEnvironment extends Base {
 		
 		predefine(EXTERNAL_FUNCTIONS, "min");
 		predefine(EXTERNAL_FUNCTIONS, "max");
+		predefine(EXTERNAL_FUNCTIONS, "pow");
 	}
 
 	public ModelNode getStdModel() {

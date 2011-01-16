@@ -53,6 +53,7 @@ import de.unika.ipd.grgen.ir.MapPeekExpr;
 import de.unika.ipd.grgen.ir.MapType;
 import de.unika.ipd.grgen.ir.MaxExpr;
 import de.unika.ipd.grgen.ir.MinExpr;
+import de.unika.ipd.grgen.ir.PowExpr;
 import de.unika.ipd.grgen.ir.SetInit;
 import de.unika.ipd.grgen.ir.SetItem;
 import de.unika.ipd.grgen.ir.SetSizeExpr;
@@ -1665,6 +1666,14 @@ public class ActionsGen extends CSharpBase {
 		else if (expr instanceof MinExpr) {
 			MinExpr m = (MinExpr) expr;
 			sb.append("new GRGEN_EXPR.Min(");
+			genExpressionTree(sb, m.getLeftExpr(), className, pathPrefix, alreadyDefinedEntityToName);
+			sb.append(", ");
+			genExpressionTree(sb, m.getRightExpr(), className, pathPrefix, alreadyDefinedEntityToName);
+			sb.append(")");
+		}
+		else if (expr instanceof PowExpr) {
+			PowExpr m = (PowExpr) expr;
+			sb.append("new GRGEN_EXPR.Pow(");
 			genExpressionTree(sb, m.getLeftExpr(), className, pathPrefix, alreadyDefinedEntityToName);
 			sb.append(", ");
 			genExpressionTree(sb, m.getRightExpr(), className, pathPrefix, alreadyDefinedEntityToName);
