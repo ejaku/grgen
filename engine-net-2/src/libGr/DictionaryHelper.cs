@@ -360,7 +360,7 @@ namespace de.unika.ipd.grGen.libGr
         /// <param name="owner">The node containing the attribute which gets changed.</param>
         /// <param name="attrType">The attribute type of the attribute which gets changed.</param>
         /// <returns>A truth value telling whether at least one element was changed in a</returns>
-        public static bool UnionChanged<K, V>(Dictionary<K, de.unika.ipd.grGen.libGr.SetValueType> a,
+        public static bool UnionChanged<K>(Dictionary<K, de.unika.ipd.grGen.libGr.SetValueType> a,
             Dictionary<K, de.unika.ipd.grGen.libGr.SetValueType> b,
             IGraph graph, INode owner, AttributeType attrType)
         {
