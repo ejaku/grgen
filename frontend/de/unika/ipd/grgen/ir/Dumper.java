@@ -139,6 +139,33 @@ public class Dumper {
 						gd.edge(a, expr);
 					}
 				}
+				else if(e instanceof AssignmentVar) {
+					// TODO
+				}
+				else if(e instanceof CompoundAssignmentChanged) {
+					// MAP TODO
+				}
+				else if(e instanceof CompoundAssignmentChangedVar) {
+					// MAP TODO
+				}
+				else if(e instanceof CompoundAssignmentChangedVisited) {
+					// MAP TODO
+				}
+				else if(e instanceof CompoundAssignment) {
+					// MAP TODO
+				}
+				else if(e instanceof CompoundAssignmentVarChanged) {
+					// MAP TODO
+				}
+				else if(e instanceof CompoundAssignmentVarChangedVar) {
+					// MAP TODO
+				}
+				else if(e instanceof CompoundAssignmentVarChangedVisited) {
+					// MAP TODO
+				}
+				else if(e instanceof CompoundAssignmentVar) {
+					// MAP TODO
+				}
 				else if(e instanceof MapAddItem) {
 					// MAP TODO
 				}

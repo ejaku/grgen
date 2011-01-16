@@ -1,0 +1,137 @@
+using set_map_node_req, set_map_node_edge;
+
+rule r(var b:boolean, var i:int, var s:string, var f:float, var d:double, var e:Lol, ref ss:set<int>, ref m:map<string, boolean>)
+{
+	iterated {
+		.;
+		
+		modify {
+			eval {
+				b = true;
+				i = 42;
+				s = "Fest gemauert in der Erden, Steht die Form, aus Lehm gebrannt. Heute muß die Glocke werden, Frisch, Gesellen! seid zur Hand.";
+				f = 3.141f;
+				d = 3.141592654;
+				e = Lol::Lal;
+				ss = set<int>{ 2,3,5,7,11,13,17 };
+				m = map<string,boolean>{ "2"->true,"3"->true,"4"->false,"5"->true,"6"->false };
+			}
+		}
+	}
+	
+	alternative {
+		case {
+			modify {
+				eval {
+					b = true;
+					i = 42;
+					s = "Fest gemauert in der Erden, Steht die Form, aus Lehm gebrannt. Heute muß die Glocke werden, Frisch, Gesellen! seid zur Hand.";
+					f = 3.141f;
+					d = 3.141592654;
+					e = Lol::Lal;
+					ss = set<int>{ 2,3,5,7,11,13,17 };
+					m = map<string,boolean>{ "2"->true,"3"->true,"4"->false,"5"->true,"6"->false };
+				}
+			}
+		}
+	}
+	
+	modify {
+
+		eval {
+			b = true;
+			i = 42;
+			s = "Fest gemauert in der Erden, Steht die Form, aus Lehm gebrannt. Heute muß die Glocke werden, Frisch, Gesellen! seid zur Hand.";
+			f = 3.141f;
+			d = 3.141592654;
+			e = Lol::Lal;
+			ss = set<int>{ 2,3,5,7,11,13,17 };
+			m = map<string,boolean>{ "2"->true,"3"->true,"4"->false,"5"->true,"6"->false };
+			
+			b = true || (i==42 ? true : false);
+			i = 42 + 0x4eadbeef;
+			s = "Kültür" + "de Luxe";
+			f = 3.141f - 1.0f;
+			d = 3.141592654 - f;
+			e = d<2.0 ? Lol::Bleeh : Lol::Foo;
+			ss = set<int>{ 2,3,5,7,11,13,17 } & set<int>{ 1,2 };
+			m = map<string,boolean>{ "2"->true,"3"->true,"4"->false,"5"->true,"6"->false } | map<string,boolean>{ "7"->true,"8"->false };
+		}
+	}
+}
+
+pattern p(var b:boolean, var i:int, var s:string, var f:float, var d:double, var e:Lol, ref ss:set<int>, ref m:map<string, boolean>)
+{
+	iterated {
+		.;
+		
+		modify {
+			eval {
+				b = true;
+				i = 42;
+				s = "Fest gemauert in der Erden, Steht die Form, aus Lehm gebrannt. Heute muß die Glocke werden, Frisch, Gesellen! seid zur Hand.";
+				f = 3.141f;
+				d = 3.141592654;
+				e = Lol::Lal;
+				ss = set<int>{ 2,3,5,7,11,13,17 };
+				m = map<string,boolean>{ "2"->true,"3"->true,"4"->false,"5"->true,"6"->false };
+			}
+		}
+	}
+	
+	alternative {
+		case {
+			modify {
+				eval {
+					b = true;
+					i = 42;
+					s = "Fest gemauert in der Erden, Steht die Form, aus Lehm gebrannt. Heute muß die Glocke werden, Frisch, Gesellen! seid zur Hand.";
+					f = 3.141f;
+					d = 3.141592654;
+					e = Lol::Lal;
+					ss = set<int>{ 2,3,5,7,11,13,17 };
+					m = map<string,boolean>{ "2"->true,"3"->true,"4"->false,"5"->true,"6"->false };
+				}
+			}
+		}
+	}
+	
+	modify {
+
+		eval {
+			b = true;
+			i = 42;
+			s = "Fest gemauert in der Erden, Steht die Form, aus Lehm gebrannt. Heute muß die Glocke werden, Frisch, Gesellen! seid zur Hand.";
+			f = 3.141f;
+			d = 3.141592654;
+			e = Lol::Lal;
+			ss = set<int>{ 2,3,5,7,11,13,17 };
+			m = map<string,boolean>{ "2"->true,"3"->true,"4"->false,"5"->true,"6"->false };
+			
+			b = true || (i==42 ? true : false);
+			i = 42 + 0x4eadbeef;
+			s = "Kültür" + "de Luxe";
+			f = 3.141f - 1.0f;
+			d = 3.141592654 - f;
+			e = d<2.0 ? Lol::Bleeh : Lol::Foo;
+			ss = set<int>{ 2,3,5,7,11,13,17 } & set<int>{ 1,2 };
+			m = map<string,boolean>{ "2"->true,"3"->true,"4"->false,"5"->true,"6"->false } | map<string,boolean>{ "7"->true,"8"->false };
+		}
+	}
+}
+
+rule s(ref sg:set<Gaggl>)
+{
+	g1:Gaggl;
+	
+	modify {
+		g2:Gaggl;
+		
+		eval {
+			sg = set<Gaggl> { g1 };
+
+			sg = set<Gaggl> { g1 } \ set<Gaggl> { g2 };			
+		}
+
+	}
+}

@@ -5,6 +5,7 @@ enum et
 
 node class A
 {
+	b:boolean = false;
 	val:int = 42;
 	const constVal:int = 42;
 	strval:string = "foo";

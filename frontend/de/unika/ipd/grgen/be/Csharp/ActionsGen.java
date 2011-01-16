@@ -25,7 +25,10 @@ import java.util.LinkedList;
 
 import de.unika.ipd.grgen.ir.Alternative;
 import de.unika.ipd.grgen.ir.Assignment;
+import de.unika.ipd.grgen.ir.AssignmentVar;
 import de.unika.ipd.grgen.ir.Cast;
+import de.unika.ipd.grgen.ir.CompoundAssignment;
+import de.unika.ipd.grgen.ir.CompoundAssignmentVar;
 import de.unika.ipd.grgen.ir.Constant;
 import de.unika.ipd.grgen.ir.Edge;
 import de.unika.ipd.grgen.ir.Emit;
@@ -525,6 +528,18 @@ public class ActionsGen extends CSharpBase {
 		for(EvalStatement eval : evals) {
 			if(eval instanceof Assignment) {
 				Assignment assignment = (Assignment)eval;
+				assignment.getExpression().collectNeededEntities(needs);
+			}
+			if(eval instanceof CompoundAssignment) {
+				CompoundAssignment assignment = (CompoundAssignment)eval;
+				assignment.getExpression().collectNeededEntities(needs);
+			}
+			if(eval instanceof AssignmentVar) {
+				AssignmentVar assignment = (AssignmentVar)eval;
+				assignment.getExpression().collectNeededEntities(needs);
+			}
+			if(eval instanceof CompoundAssignmentVar) {
+				CompoundAssignmentVar assignment = (CompoundAssignmentVar)eval;
 				assignment.getExpression().collectNeededEntities(needs);
 			}
 		}

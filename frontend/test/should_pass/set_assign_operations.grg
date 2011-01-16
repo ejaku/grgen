@@ -1,0 +1,95 @@
+using set_model_001, set_map_node_edge;
+
+rule r(ref ss1:set<string>, ref ss2:set<string>, ref sa1:set<A>, ref sa2:set<A>)
+{
+	modify {
+		eval {
+			ss1 |= ss2;
+			ss1 &= ss2;
+			ss1 \= ss2;
+			
+			sa1 |= sa2;
+			sa1 &= sa2;
+			sa1 \= sa2;
+		}
+	}
+}
+
+rule s(ref ss1:set<string>, ref ss2:set<string>, ref sa1:set<A>, ref sa2:set<A>, var b:boolean)
+{
+	a:A;
+	
+	modify {
+		eval {
+			ss1 |= ss1 => b;
+			ss1 &= ss1 |> b;
+			ss1 \= ss1 &> b;
+			
+			sa1 |= sa1 |> a.b;
+			sa1 &= sa1 &> a.b;
+			sa1 \= sa1 => a.b;
+
+			sa1 |= sa1 |> a.visited;
+			sa1 &= sa1 &> a.visited;
+			sa1 \= sa1 => a.visited[0];
+		}
+	}
+}
+
+rule u
+{
+	a1:A; a2:A;
+	
+	modify {
+		eval {
+			a1.niceSet |= a2.niceSet;
+			a1.niceSet &= a2.niceSet;
+			a1.niceSet \= a2.niceSet;
+		}
+	}
+}
+
+rule v
+{
+	a1:A; a2:A;
+	a:A;
+	
+	modify {
+		eval {
+			a1.spiceSet |= a1.spiceSet => a.b;
+			a1.spiceSet &= a1.spiceSet |> a.b;
+			a1.spiceSet \= a1.spiceSet &> a.b;			
+
+			a1.spiceSet |= a1.spiceSet => a1.visited;
+			a1.spiceSet &= a1.spiceSet |> a2.visited[0];
+			a1.spiceSet \= a1.spiceSet &> a.visited[1];			
+		}
+	}
+}
+
+rule q
+{
+	a1:Gaggl; a2:Gaggl;
+	
+	modify {
+		eval {
+			a1.s |= a2.s;
+			a1.t &= a2.t;
+			a1.t \= a2.t;
+		}
+	}
+}
+
+rule t
+{
+	a1:Gaggl; a2:Gaggl;
+	a:A;
+	
+	modify {
+		eval {
+			a1.s |= a1.s => a.b;
+			a1.s &= a1.s |> a.b;
+			a1.t \= a1.t &> a.b;			
+		}
+	}
+}

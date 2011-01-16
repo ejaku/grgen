@@ -1,0 +1,96 @@
+using map_model_001, set_map_node_edge;
+
+
+rule r(ref ss1:map<string,int>, ref ss2:map<string,int>, ref sa1:map<A,E>, ref sa2:map<A,E>)
+{
+	modify {
+		eval {
+			ss1 |= ss2;
+			ss1 &= ss2;
+			ss1 \= ss2;
+			
+			sa1 |= sa2;
+			sa1 &= sa2;
+			sa1 \= sa2;
+		}
+	}
+}
+
+rule s(ref ss1:map<boolean,double>, ref ss2:map<boolean,double>, ref sa1:map<A,A>, ref sa2:map<A,A>, var b:boolean)
+{
+	a:A;
+	
+	modify {
+		eval {
+			ss1 |= ss1 => b;
+			ss1 &= ss1 |> b;
+			ss1 \= ss1 &> b;
+			
+			sa1 |= sa1 |> a.b;
+			sa1 &= sa1 &> a.b;
+			sa1 \= sa1 => a.b;
+			
+			sa1 |= sa1 |> a.visited;
+			sa1 &= sa1 &> a.visited;
+			sa1 \= sa1 => a.visited[0];
+		}
+	}
+}
+
+rule u
+{
+	a1:A; a2:A;
+	
+	modify {
+		eval {
+			a1.niceMap |= a2.niceMap;
+			a1.niceMap &= a2.niceMap;
+			a1.niceMap \= a2.niceMap;
+		}
+	}
+}
+
+rule v
+{
+	a1:A; a2:A;
+	a:A;
+	
+	modify {
+		eval {
+			a1.spiceMap |= a1.spiceMap => a.b;
+			a1.spiceMap &= a1.spiceMap |> a.b;
+			a1.spiceMap \= a1.spiceMap &> a.b;			
+
+			a1.spiceMap |= a1.spiceMap => a1.visited;
+			a1.spiceMap &= a1.spiceMap |> a2.visited[0];
+			a1.spiceMap \= a1.spiceMap &> a.visited[1];			
+		}
+	}
+}
+
+rule q
+{
+	a1:Gaggl; a2:Gaggl;
+	
+	modify {
+		eval {
+			a1.u |= a2.u;
+			a1.v &= a2.v;
+			a1.v \= a2.v;
+		}
+	}
+}
+
+rule t
+{
+	a1:Gaggl; a2:Gaggl;
+	a:A;
+	
+	modify {
+		eval {
+			a1.u |= a2.u |> a.b;
+			a1.u &= a2.u &> a.b;
+			a1.v \= a2.v => a.b;
+		}
+	}
+}

@@ -6,7 +6,7 @@
  */
 
 /**
- * @author Sebastian Hack
+ * @author Sebastian Hack, Edgar Jakumeit
  * @version $Id$
  */
 package de.unika.ipd.grgen.ast;
@@ -16,12 +16,14 @@ import java.util.Iterator;
 import java.util.Vector;
 
 import de.unika.ipd.grgen.ir.Assignment;
+import de.unika.ipd.grgen.ir.AssignmentVar;
 import de.unika.ipd.grgen.ir.Edge;
 import de.unika.ipd.grgen.ir.EvalStatement;
 import de.unika.ipd.grgen.ir.Expression;
 import de.unika.ipd.grgen.ir.IR;
 import de.unika.ipd.grgen.ir.Node;
 import de.unika.ipd.grgen.ir.Qualification;
+import de.unika.ipd.grgen.ir.Variable;
 import de.unika.ipd.grgen.parser.Coords;
 
 /**
@@ -32,8 +34,11 @@ public class AssignNode extends EvalStatementNode {
 		setName(AssignNode.class, "Assign");
 	}
 
-	QualIdentNode lhs;
+	BaseNode lhsUnresolved;
 	ExprNode rhs;
+	
+	QualIdentNode lhsQual;
+	VarDeclNode lhsVar;
 
 	/**
 	 * @param coords The source code coordinates of = operator.
@@ -42,8 +47,21 @@ public class AssignNode extends EvalStatementNode {
 	 */
 	public AssignNode(Coords coords, QualIdentNode target, ExprNode expr) {
 		super(coords);
-		this.lhs = target;
-		becomeParent(this.lhs);
+		this.lhsUnresolved = target;
+		becomeParent(this.lhsUnresolved);
+		this.rhs = expr;
+		becomeParent(this.rhs);
+	}
+
+	/**
+	 * @param coords The source code coordinates of = operator.
+	 * @param target The left hand side.
+	 * @param expr The expression, that is assigned.
+	 */
+	public AssignNode(Coords coords, IdentExprNode target, ExprNode expr) {
+		super(coords);
+		this.lhsUnresolved = target;
+		becomeParent(this.lhsUnresolved);
 		this.rhs = expr;
 		becomeParent(this.rhs);
 	}
@@ -52,7 +70,7 @@ public class AssignNode extends EvalStatementNode {
 	@Override
 	public Collection<BaseNode> getChildren() {
 		Vector<BaseNode> children = new Vector<BaseNode>();
-		children.add(lhs);
+		children.add(getValidVersion(lhsUnresolved, lhsQual, lhsVar));
 		children.add(rhs);
 		return children;
 	}
@@ -69,30 +87,53 @@ public class AssignNode extends EvalStatementNode {
 	/** @see de.unika.ipd.grgen.ast.BaseNode#resolveLocal() */
 	@Override
 	protected boolean resolveLocal() {
-		return true;
+		boolean successfullyResolved = true;
+		if(lhsUnresolved instanceof IdentExprNode) {
+			IdentExprNode unresolved = (IdentExprNode)lhsUnresolved;
+			if(unresolved.resolve() && unresolved.decl instanceof VarDeclNode) {
+				lhsVar = (VarDeclNode)unresolved.decl;
+			} else {
+				reportError("assign expects a parameter variable.");
+				successfullyResolved = false;
+			}
+		} else if(lhsUnresolved instanceof QualIdentNode) {
+			QualIdentNode unresolved = (QualIdentNode)lhsUnresolved;
+			if(unresolved.resolve()) {
+				lhsQual = unresolved;
+			} else {
+				reportError("assign expects a qualified attribute.");
+				successfullyResolved = false;
+			}
+		} else {
+			reportError("internal error - invalid target in assign");
+			successfullyResolved = false;
+		}
+		return successfullyResolved;
 	}
 
 	/** @see de.unika.ipd.grgen.ast.BaseNode#checkLocal() */
 	@Override
 	protected boolean checkLocal() {
-		QualIdentNode qual = (QualIdentNode) lhs;
-		DeclNode owner = qual.getOwner();
-		TypeNode ty = owner.getDeclType();
-
-		if(qual.getDecl().isConst()) {
-			error.error(getCoords(), "assignment to a const member is not allowed");
-			return false;
-		}
-
-		if(ty instanceof InheritanceTypeNode) {
-			InheritanceTypeNode inhTy = (InheritanceTypeNode) ty;
-
-			if(inhTy.isConst()) {
-				error.error(getCoords(), "assignment to a const type object not allowed");
+		if(lhsQual!=null)
+		{
+			DeclNode owner = lhsQual.getOwner();
+			TypeNode ty = owner.getDeclType();
+	
+			if(lhsQual.getDecl().isConst()) {
+				error.error(getCoords(), "assignment to a const member is not allowed");
 				return false;
 			}
+	
+			if(ty instanceof InheritanceTypeNode) {
+				InheritanceTypeNode inhTy = (InheritanceTypeNode) ty;
+	
+				if(inhTy.isConst()) {
+					error.error(getCoords(), "assignment to a const type object not allowed");
+					return false;
+				}
+			}
 		}
-
+		
 		return typeCheckLocal();
 	}
 
@@ -102,8 +143,7 @@ public class AssignNode extends EvalStatementNode {
 	 * @return true, if the types are equal or compatible, false otherwise
 	 */
 	private boolean typeCheckLocal() {
-		QualIdentNode qual = (QualIdentNode) lhs;
-		TypeNode targetType = qual.getDecl().getDeclType();
+		TypeNode targetType = lhsQual!=null ? lhsQual.getDecl().getDeclType() : lhsVar.getDeclType();
 		TypeNode exprType = rhs.getType();
 
 		if (exprType.isEqual(targetType))
@@ -119,31 +159,42 @@ public class AssignNode extends EvalStatementNode {
 	 */
 	@Override
 	protected IR constructIR() {
-		Qualification qual = lhs.checkIR(Qualification.class);
-		if(qual.getOwner() instanceof Node && ((Node)qual.getOwner()).changesType(null)) {
-			error.error(getCoords(), "Assignment to an old node of a type changed node is not allowed");
-		}
-		if(qual.getOwner() instanceof Edge && ((Edge)qual.getOwner()).changesType(null)) {
-			error.error(getCoords(), "Assignment to an old edge of a type changed edge is not allowed");
-		}
-
-		if(canSetOrMapAssignmentBeBrokenUpIntoStateChangingOperations()) {
-			markSetOrMapAssignmentToBeBrokenUpIntoStateChangingOperations();
+		if(lhsQual!=null) {
+			Qualification qual = lhsQual.checkIR(Qualification.class);
+			if(qual.getOwner() instanceof Node && ((Node)qual.getOwner()).changesType(null)) {
+				error.error(getCoords(), "Assignment to an old node of a type changed node is not allowed");
+			}
+			if(qual.getOwner() instanceof Edge && ((Edge)qual.getOwner()).changesType(null)) {
+				error.error(getCoords(), "Assignment to an old edge of a type changed edge is not allowed");
+			}
+	
+			if(canSetOrMapAssignmentBeBrokenUpIntoStateChangingOperations()) {
+				markSetOrMapAssignmentToBeBrokenUpIntoStateChangingOperations();
+				ExprNode rhsEvaluated = rhs.evaluate();
+				return rhsEvaluated.checkIR(EvalStatement.class);
+			}
+	
 			ExprNode rhsEvaluated = rhs.evaluate();
-			return rhsEvaluated.checkIR(EvalStatement.class);
+			return new Assignment(qual, rhsEvaluated.checkIR(Expression.class));
+		} else {
+			Variable var = lhsVar.checkIR(Variable.class);
+		
+			// TODO: extend optimization to assignments to variables
+			
+			ExprNode rhsEvaluated = rhs.evaluate();
+			return new AssignmentVar(var, rhsEvaluated.checkIR(Expression.class));
 		}
-
-		ExprNode rhsEvaluated = rhs.evaluate();
-		return new Assignment(qual, rhsEvaluated.checkIR(Expression.class));
 	}
 
 	private boolean canSetOrMapAssignmentBeBrokenUpIntoStateChangingOperations()
 	{
+		// TODO: extend optimization to rewrite to compound assignment statement if same lhs but non-constructor rhs
+		
 		// is it a set or map assignment ?
-		if(!(lhs instanceof QualIdentNode)) {
-			return false;
+		if(lhsQual == null) {
+			return false; // TODO: extend optimization to assignments to variables
 		}
-		QualIdentNode qual = (QualIdentNode)lhs;
+		QualIdentNode qual = lhsQual;
 		if(!(qual.getDecl().type instanceof SetTypeNode)
 				&& !(qual.getDecl().type instanceof MapTypeNode )) {
 			return false;
@@ -199,7 +250,7 @@ public class AssignNode extends EvalStatementNode {
 		while(curLoc!=null) {
 			if(curLoc instanceof ArithmeticOpNode) {
 				ArithmeticOpNode operator = (ArithmeticOpNode)curLoc;
-				operator.markToBreakUpIntoStateChangingOperations((QualIdentNode)lhs);
+				operator.markToBreakUpIntoStateChangingOperations(lhsQual);
 				ExprNode left = operator.getChildren().iterator().next();
 				curLoc = left;
 			} else {

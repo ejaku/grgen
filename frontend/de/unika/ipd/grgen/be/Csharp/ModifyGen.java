@@ -28,7 +28,16 @@ import java.util.Map;
 
 import de.unika.ipd.grgen.ir.Alternative;
 import de.unika.ipd.grgen.ir.Assignment;
+import de.unika.ipd.grgen.ir.AssignmentVar;
 import de.unika.ipd.grgen.ir.AssignmentVisited;
+import de.unika.ipd.grgen.ir.CompoundAssignment;
+import de.unika.ipd.grgen.ir.CompoundAssignmentChanged;
+import de.unika.ipd.grgen.ir.CompoundAssignmentChangedVar;
+import de.unika.ipd.grgen.ir.CompoundAssignmentChangedVisited;
+import de.unika.ipd.grgen.ir.CompoundAssignmentVar;
+import de.unika.ipd.grgen.ir.CompoundAssignmentVarChanged;
+import de.unika.ipd.grgen.ir.CompoundAssignmentVarChangedVar;
+import de.unika.ipd.grgen.ir.CompoundAssignmentVarChangedVisited;
 import de.unika.ipd.grgen.ir.Edge;
 import de.unika.ipd.grgen.ir.Emit;
 import de.unika.ipd.grgen.ir.Entity;
@@ -65,6 +74,7 @@ import de.unika.ipd.grgen.ir.Type;
 import de.unika.ipd.grgen.ir.MapType;
 import de.unika.ipd.grgen.ir.SetType;
 import de.unika.ipd.grgen.ir.Variable;
+import de.unika.ipd.grgen.ir.Visited;
 import de.unika.ipd.grgen.ir.YieldedEntities;
 
 public class ModifyGen extends CSharpBase {
@@ -1581,8 +1591,35 @@ public class ModifyGen extends CSharpBase {
 		if(evalStmt instanceof Assignment) {
 			genAssignment(sb, state, (Assignment) evalStmt);
 		}
+		else if(evalStmt instanceof AssignmentVar) {
+			genAssignmentVar(sb, state, (AssignmentVar) evalStmt);
+		}
 		else if(evalStmt instanceof AssignmentVisited) {
 			genAssignmentVisited(sb, state, (AssignmentVisited) evalStmt);
+		}
+		else if(evalStmt instanceof CompoundAssignmentChanged) {
+			genCompoundAssignmentChanged(sb, state, (CompoundAssignmentChanged) evalStmt);
+		}
+		else if(evalStmt instanceof CompoundAssignmentChangedVar) {
+			genCompoundAssignmentChangedVar(sb, state, (CompoundAssignmentChangedVar) evalStmt);
+		}
+		else if(evalStmt instanceof CompoundAssignmentChangedVisited) {
+			genCompoundAssignmentChangedVisited(sb, state, (CompoundAssignmentChangedVisited) evalStmt);
+		}
+		else if(evalStmt instanceof CompoundAssignment) { // must come after the changed versions
+			genCompoundAssignment(sb, state, (CompoundAssignment) evalStmt, "\t\t\t", ";\n");
+		}
+		else if(evalStmt instanceof CompoundAssignmentVarChanged) {
+			genCompoundAssignmentVarChanged(sb, state, (CompoundAssignmentVarChanged) evalStmt);
+		}
+		else if(evalStmt instanceof CompoundAssignmentVarChangedVar) {
+			genCompoundAssignmentVarChangedVar(sb, state, (CompoundAssignmentVarChangedVar) evalStmt);
+		}
+		else if(evalStmt instanceof CompoundAssignmentVarChangedVisited) {
+			genCompoundAssignmentVarChangedVisited(sb, state, (CompoundAssignmentVarChangedVisited) evalStmt);
+		}
+		else if(evalStmt instanceof CompoundAssignmentVar) { // must come after the changed versions
+			genCompoundAssignmentVar(sb, state, (CompoundAssignmentVar) evalStmt, "\t\t\t", ";\n");
 		}
 		else if(evalStmt instanceof MapRemoveItem) {
 			genMapRemoveItem(sb, state, (MapRemoveItem) evalStmt);
@@ -1706,12 +1743,228 @@ public class ModifyGen extends CSharpBase {
 		sb.append(varName + ";\n");
 	}
 
+	private void genAssignmentVar(StringBuffer sb, ModifyGenerationStateConst state, AssignmentVar ass) {
+		Variable target = ass.getTarget();
+		Expression expr = ass.getExpression();
+
+		sb.append("\t\t\t");
+		sb.append("var_" + target.getIdent());
+		sb.append(" = ");
+		if(target.getType() instanceof EnumType)
+			sb.append("(GRGEN_MODEL.ENUM_" + formatIdentifiable(target.getType()) + ") ");
+//		if(target.getType() instanceof EnumType)
+//			sb.append("(int) ");
+		genExpression(sb, expr, state);
+		sb.append(";\n");
+	}
+
 	private void genAssignmentVisited(StringBuffer sb, ModifyGenerationStateConst state, AssignmentVisited ass) {
 		sb.append("\t\t\tgraph.SetVisited(" + formatEntity(ass.getTarget().getEntity()) + ", ");
 		genExpression(sb, ass.getTarget().getVisitorID(), state);
 		sb.append(", ");
 		genExpression(sb, ass.getExpression(), state);
 		sb.append(");\n");
+	}
+	
+	private void genCompoundAssignmentChanged(StringBuffer sb, ModifyGenerationStateConst state, CompoundAssignmentChanged cass)
+	{
+		Qualification changedTarget = cass.getChangedTarget();
+		String changedOperation;
+		if(cass.getChangedOperation()==CompoundAssignment.UNION)
+			changedOperation = " |= ";
+		else if(cass.getChangedOperation()==CompoundAssignment.INTERSECTION)
+			changedOperation = " &= ";
+		else //if(cass.getChangedOperation()==CompoundAssignment.ASSIGN)
+			changedOperation = " = ";
+
+		Entity owner = cass.getTarget().getOwner();
+		boolean isDeletedElem = owner instanceof Node ? state.delNodes().contains(owner) : state.delEdges().contains(owner);
+		if(!isDeletedElem && be.system.mayFireEvents()) {
+			owner = changedTarget.getOwner();
+			isDeletedElem = owner instanceof Node ? state.delNodes().contains(owner) : state.delEdges().contains(owner);
+			if(!isDeletedElem && be.system.mayFireEvents()) {
+				String varName = "tempvar_bool";
+				String varType = defined.contains("bool") ? "" : "bool ";
+				defined.add("bool");
+
+				sb.append("\t\t\t" + varType + varName + " = ");
+				genExpression(sb, changedTarget, state);
+				sb.append(";\n");
+
+				String prefix = "\t\t\t" + varName + changedOperation;
+				
+				genCompoundAssignment(sb, state, cass, prefix, ";\n");
+
+				genChangingAttribute(sb, state, changedTarget, "Assign", varName, "null");	
+
+				sb.append("\t\t\t");				
+				genExpression(sb, changedTarget, state);
+				sb.append(" = " + varName + ";\n");
+			} else {
+				genCompoundAssignment(sb, state, cass, "\t\t\t", ";\n");
+			}
+		}
+	}
+	
+	private void genCompoundAssignmentChangedVar(StringBuffer sb, ModifyGenerationStateConst state, CompoundAssignmentChangedVar cass)
+	{
+		Variable changedTarget = cass.getChangedTarget();
+		String changedOperation;
+		if(cass.getChangedOperation()==CompoundAssignment.UNION)
+			changedOperation = " |= ";
+		else if(cass.getChangedOperation()==CompoundAssignment.INTERSECTION)
+			changedOperation = " &= ";
+		else //if(cass.getChangedOperation()==CompoundAssignment.ASSIGN)
+			changedOperation = " = ";
+		
+		String prefix = "\t\t\t" + "var_" + changedTarget.getIdent() + changedOperation;
+
+		genCompoundAssignment(sb, state, cass, prefix, ";\n");
+	}
+	
+	private void genCompoundAssignmentChangedVisited(StringBuffer sb, ModifyGenerationStateConst state, CompoundAssignmentChangedVisited cass)
+	{
+		Visited changedTarget = cass.getChangedTarget();
+
+		StringBuffer changedTargetBuffer = new StringBuffer();
+		genExpression(changedTargetBuffer, changedTarget.getVisitorID(), state);
+
+		String prefix = "\t\t\t" + "graph.SetVisited("
+			+ formatEntity(changedTarget.getEntity()) + ", "
+			+ changedTargetBuffer.toString() + ", ";
+		if(cass.getChangedOperation()!=CompoundAssignment.ASSIGN) {
+			prefix += "graph.IsVisited(" + formatEntity(changedTarget.getEntity())
+				+ ", " + changedTargetBuffer.toString() + ")"
+				+ (cass.getChangedOperation()==CompoundAssignment.UNION ? " | " : " & ");
+		}
+
+		genCompoundAssignment(sb, state, cass, prefix, ");\n");
+	}
+	
+	private void genCompoundAssignment(StringBuffer sb, ModifyGenerationStateConst state, CompoundAssignment cass,
+			String prefix, String postfix)
+	{
+		Qualification target = cass.getTarget();
+		assert(target.getType() instanceof MapType || target.getType() instanceof SetType);
+		Expression expr = cass.getExpression();
+
+		Entity element = target.getOwner();
+		Entity attribute = target.getMember();
+		Type elementType = attribute.getOwner();
+
+		boolean isDeletedElem = element instanceof Node ? state.delNodes().contains(element) : state.delEdges().contains(element);
+		if(!isDeletedElem && be.system.mayFireEvents()) {
+			sb.append(prefix);
+			sb.append("GRGEN_LIBGR.DictionaryHelper.");
+			if(cass.getOperation()==CompoundAssignment.UNION)
+				sb.append("UnionChanged(");
+			else if(cass.getOperation()==CompoundAssignment.INTERSECTION)
+				sb.append("IntersectChanged(");
+			else //if(cass.getOperation()==CompoundAssignment.WITHOUT)
+				sb.append("ExceptChanged(");
+			genExpression(sb, target, state);
+			sb.append(", ");
+			genExpression(sb, expr, state);
+			sb.append(", ");
+			sb.append("graph, "
+					+ formatEntity(element) + ", " 
+					+ formatTypeClassRef(elementType) + "." + formatAttributeTypeName(attribute));
+			sb.append(")");
+			sb.append(postfix);
+		}
+	}
+
+	private void genCompoundAssignmentVarChanged(StringBuffer sb, ModifyGenerationStateConst state, CompoundAssignmentVarChanged cass)
+	{
+		Qualification changedTarget = cass.getChangedTarget();
+		String changedOperation;
+		if(cass.getChangedOperation()==CompoundAssignment.UNION)
+			changedOperation = " |= ";
+		else if(cass.getChangedOperation()==CompoundAssignment.INTERSECTION)
+			changedOperation = " &= ";
+		else //if(cass.getChangedOperation()==CompoundAssignment.ASSIGN)
+			changedOperation = " = ";
+
+		Entity owner = changedTarget.getOwner();
+		boolean isDeletedElem = owner instanceof Node ? state.delNodes().contains(owner) : state.delEdges().contains(owner);
+		if(!isDeletedElem && be.system.mayFireEvents()) {
+			String varName = "tempvar_bool";
+			String varType = defined.contains("bool") ? "" : "bool ";
+			defined.add("bool");
+
+			sb.append("\t\t\t" + varType + varName + " = ");
+			genExpression(sb, changedTarget, state);
+			sb.append(";\n");
+
+			String prefix = "\t\t\t" + varName + changedOperation;
+			
+			genCompoundAssignmentVar(sb, state, cass, prefix, ";\n");
+
+			genChangingAttribute(sb, state, changedTarget, "Assign", varName, "null");	
+
+			sb.append("\t\t\t");				
+			genExpression(sb, changedTarget, state);
+			sb.append(" = " + varName + ";\n");
+		} else {
+			genCompoundAssignmentVar(sb, state, cass, "\t\t\t", ";\n");
+		}
+	}
+	
+	private void genCompoundAssignmentVarChangedVar(StringBuffer sb, ModifyGenerationStateConst state, CompoundAssignmentVarChangedVar cass)
+	{
+		Variable changedTarget = cass.getChangedTarget();
+		String changedOperation;
+		if(cass.getChangedOperation()==CompoundAssignment.UNION)
+			changedOperation = " |= ";
+		else if(cass.getChangedOperation()==CompoundAssignment.INTERSECTION)
+			changedOperation = " &= ";
+		else //if(cass.getChangedOperation()==CompoundAssignment.ASSIGN)
+			changedOperation = " = ";
+		
+		String prefix = "\t\t\t" + "var_" + changedTarget.getIdent() + changedOperation;
+		
+		genCompoundAssignmentVar(sb, state, cass, prefix, ";\n");
+	}
+	
+	private void genCompoundAssignmentVarChangedVisited(StringBuffer sb, ModifyGenerationStateConst state, CompoundAssignmentVarChangedVisited cass)
+	{
+		Visited changedTarget = cass.getChangedTarget();
+
+		StringBuffer changedTargetBuffer = new StringBuffer();
+		genExpression(changedTargetBuffer, changedTarget.getVisitorID(), state);
+
+		String prefix = "\t\t\t" + "graph.SetVisited("
+			+ formatEntity(changedTarget.getEntity()) + ", "
+			+ changedTargetBuffer.toString() + ", ";
+		if(cass.getChangedOperation()!=CompoundAssignment.ASSIGN) {
+			prefix += "graph.IsVisited(" + formatEntity(changedTarget.getEntity())
+				+ ", " + changedTargetBuffer.toString() + ")"
+				+ (cass.getChangedOperation()==CompoundAssignment.UNION ? " | " : " & ");
+		}
+
+		genCompoundAssignmentVar(sb, state, cass, prefix, ");\n");
+	}
+
+	private void genCompoundAssignmentVar(StringBuffer sb, ModifyGenerationStateConst state, CompoundAssignmentVar cass,
+			String prefix, String postfix)
+	{
+		Variable target = cass.getTarget();
+		assert(target.getType() instanceof MapType || target.getType() instanceof SetType);
+		Expression expr = cass.getExpression();
+
+		sb.append(prefix);
+		sb.append("GRGEN_LIBGR.DictionaryHelper.");
+		if(cass.getOperation()==CompoundAssignment.UNION)
+			sb.append("UnionChanged(");
+		else if(cass.getOperation()==CompoundAssignment.INTERSECTION)
+			sb.append("IntersectChanged(");
+		else //if(cass.getOperation()==CompoundAssignment.WITHOUT)
+			sb.append("ExceptChanged(");
+		sb.append("var_" + target.getIdent());
+		sb.append(", ");
+		genExpression(sb, expr, state);
+		sb.append(")");
+		sb.append(postfix);
 	}
 
 	private void genMapRemoveItem(StringBuffer sb, ModifyGenerationStateConst state, MapRemoveItem mri) {

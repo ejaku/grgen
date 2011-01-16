@@ -2208,8 +2208,17 @@ memberIdentUse returns [ IdentNode res = env.getDummyIdent() ]
 	
 assignmentOrMethodCall returns [ EvalStatementNode res = null ]
 options { k = 4; }
+	@init{
+		int cat = -1; // compound assign type
+		int ccat = CompoundAssignNode.NONE; // changed compound assign type
+		BaseNode tgtChanged = null;
+	}
+
 	: owner=entIdentUse	d=DOT member=entIdentUse a=ASSIGN e=expr[false] //'false' because this rule is not used for the assignments in enum item decls
 		{ res = new AssignNode(getCoords(a), new QualIdentNode(getCoords(d), owner, member), e); }
+	|
+	  variable=entIdentUse a=ASSIGN e=expr[false]
+		{ res = new AssignNode(getCoords(a), new IdentExprNode(variable), e); }
 	|
 	  vis=visited a=ASSIGN e=expr[false]
 		{ res = new AssignVisitedNode(getCoords(a), vis, e); }
@@ -2219,6 +2228,30 @@ options { k = 4; }
 	|
 	  variable=entIdentUse DOT method=memberIdentUse params=paramExprs[false]
 		{ res = new MethodCallNode(new IdentExprNode(variable), method, params); }
+	| 
+	  owner=entIdentUse d=DOT member=entIdentUse 
+		(BOR_ASSIGN { cat = CompoundAssignNode.UNION; } | BAND_ASSIGN { cat = CompoundAssignNode.INTERSECTION; } | BACKSLASH_ASSIGN { cat = CompoundAssignNode.WITHOUT; })
+		e=expr[false] ( at=assignTo { ccat = at.ccat; tgtChanged = at.tgtChanged; } )?
+			{ res = new CompoundAssignNode(getCoords(a), new QualIdentNode(getCoords(d), owner, member), cat, e, ccat, tgtChanged); }
+	|
+	  variable=entIdentUse 
+		(BOR_ASSIGN { cat = CompoundAssignNode.UNION; } | BAND_ASSIGN { cat = CompoundAssignNode.INTERSECTION; } | BACKSLASH_ASSIGN { cat = CompoundAssignNode.WITHOUT; })
+		e=expr[false] ( at=assignTo { ccat = at.ccat; tgtChanged = at.tgtChanged; } )?
+			{ res = new CompoundAssignNode(getCoords(a), new IdentExprNode(variable), cat, e, ccat, tgtChanged); }
+	;
+
+assignTo returns [ int ccat = CompoundAssignNode.NONE, BaseNode tgtChanged = null ]
+	: (ASSIGN_TO { $ccat = CompoundAssignNode.ASSIGN; }
+		| BOR_TO { $ccat = CompoundAssignNode.UNION; }
+		| BAND_TO { $ccat = CompoundAssignNode.INTERSECTION; })
+	  tgtc=assignToTgt { $tgtChanged = tgtc; }
+	;
+
+assignToTgt returns [ BaseNode tgtChanged = null ]
+options { k = 4; }
+	: tgtOwner=entIdentUse d=DOT tgtMember=entIdentUse { tgtChanged = new QualIdentNode(getCoords(d), tgtOwner, tgtMember); }
+	    | tgtVariable=entIdentUse { tgtChanged = new IdentExprNode(tgtVariable); }
+	    | vis=visited { tgtChanged = vis; }
 	;
 
 expr [ boolean inEnumInit ] returns [ ExprNode res = env.initExprNode() ]
@@ -2596,6 +2629,12 @@ DOUBLECOLON     :   '::'    ;
 COMMA			:	','		;
 DOT 			:	'.'		;
 ASSIGN			:	'='		;
+BOR_ASSIGN		:	'|='	;
+BAND_ASSIGN		:	'&='	;
+BACKSLASH_ASSIGN:	'\\='	;
+ASSIGN_TO		:	'=>'	;
+BOR_TO			:	'|>'	;
+BAND_TO			:	'&>'	;
 EQUAL			:	'=='	;
 NOT         	:	'!'		;
 TILDE			:	'~'		;

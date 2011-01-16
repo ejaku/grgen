@@ -184,25 +184,22 @@ namespace de.unika.ipd.grGen.libGr
 
         /// <summary>
         /// Creates a new dictionary containing all key/value pairs from
-        /// <paramref name="b"/> whose keys are also contained in <paramref name="a"/>.
-        /// If both dictionaries contain one key, the value from <paramref name="b"/> takes precedence
-        /// for consistency with Union.
+        /// <paramref name="a"/> whose keys are also contained in <paramref name="b"/>.
+        /// If both dictionaries contain one key, the value from <paramref name="a"/> takes precedence, in contrast to union.
         /// </summary>
         /// <param name="a">A dictionary.</param>
         /// <param name="b">Another dictionary of compatible type to <paramref name="a"/>.</param>
-        /// <returns>A new dictionary containing all elements from <paramref name="b"/>,
-        /// which are also in <paramref name="a"/>.</returns>
+        /// <returns>A new dictionary containing all elements from <paramref name="a"/>,
+        /// which are also in <paramref name="b"/>.</returns>
         public static Dictionary<K, V> Intersect<K, V>(Dictionary<K, V> a, Dictionary<K, V> b)
         {
-            // Fill new dictionary with all elements from b.
-            Dictionary<K, V> newDict = new Dictionary<K, V>(b);
+            // Fill new dictionary with all elements from a.
+            Dictionary<K, V> newDict = new Dictionary<K, V>(a);
 
-            // Remove all elements of a not contained in a.
+            // Remove all elements of b not contained in a.
             foreach(KeyValuePair<K, V> entry in b)
-            {
                 if(!a.ContainsKey(entry.Key))
                     newDict.Remove(entry.Key);
-            }
 
             return newDict;
         }
@@ -220,14 +217,410 @@ namespace de.unika.ipd.grGen.libGr
             // Fill new dictionary with all elements from a.
             Dictionary<K, V> newDict = new Dictionary<K, V>(a);
 
-            // Remove all elements of a contained in b.
-            foreach(KeyValuePair<K, V> entry in a)
-            {
-                if(b.ContainsKey(entry.Key))
-                    newDict.Remove(entry.Key);
-            }
+            // Remove all elements contained in b.
+            foreach(KeyValuePair<K, W> entry in b)
+                newDict.Remove(entry.Key);
 
             return newDict;
+        }
+
+        /// <summary>
+        /// Adds all key/value pairs from set/map <paramref name="b"/> to <paramref name="a"/>.
+        /// If both dictionaries contain one key, the value from <paramref name="b"/> takes precedence
+        /// (this way the common case "a = a | map<int, int> { 7 -> 13 };" would update an existing entry
+        /// with key 7 to 13).
+        /// </summary>
+        /// <param name="a">A dictionary to change.</param>
+        /// <param name="b">Another dictionary of compatible type to <paramref name="a"/>.</param>
+        /// <returns>A truth value telling whether at least one element was changed in a</returns>
+        public static bool UnionChanged<K, V>(Dictionary<K, V> a, Dictionary<K, V> b)
+        {
+            bool changed = false;
+
+            // Add all elements from b not contained in a (different values count as not contained, overwriting old value).
+            foreach(KeyValuePair<K, V> entry in b)
+            {
+                if(!a.ContainsKey(entry.Key) || EqualityComparer<V>.Default.Equals(a[entry.Key], entry.Value))
+                {
+                    a[entry.Key] = entry.Value;
+                    changed = true;
+                }
+            }
+
+            return changed;
+        }
+
+        /// <summary>
+        /// Removes all key/value pairs from set/map <paramref name="a"/> whose keys are not also contained in <paramref name="b"/>.
+        /// If both dictionaries contain one key, the value from <paramref name="a"/> takes precedence, in contrast to union.
+        /// </summary>
+        /// <param name="a">A dictionary to change.</param>
+        /// <param name="b">Another dictionary of compatible type to <paramref name="a"/>.</param>
+        /// <returns>A truth value telling whether at least one element was changed in a</returns>
+        public static bool IntersectChanged<K, V>(Dictionary<K, V> a, Dictionary<K, V> b)
+        {
+            // First determine all elements from a not contained in b
+            List<K> toBeRemoved = new List<K>(a.Count);
+            foreach(KeyValuePair<K, V> entry in a)
+                if(!b.ContainsKey(entry.Key))
+                    toBeRemoved.Add(entry.Key);
+
+            // Then remove them
+            foreach(K key in toBeRemoved)
+                a.Remove(key);
+
+            return toBeRemoved.Count>0;
+        }
+
+        /// <summary>
+        /// Removes all key/value pairs from set/map <paramref name="a"/> whose keys are contained in <paramref name="b"/>.
+        /// </summary>
+        /// <param name="a">A dictionary to change.</param>
+        /// <param name="b">Another dictionary of compatible key type to <paramref name="a"/>.</param>
+        /// <returns>A truth value telling whether at least one element was changed in a</returns>
+        public static bool ExceptChanged<K, V, W>(Dictionary<K, V> a, Dictionary<K, W> b)
+        {
+            bool changed = false;
+
+            // Remove all elements from a contained in b.
+            foreach(KeyValuePair<K, W> entry in b)
+                changed |= a.Remove(entry.Key);
+
+            return changed;
+        }
+
+        /// <summary>
+        /// Adds all key/value pairs from map <paramref name="b"/> to <paramref name="a"/>.
+        /// If both dictionaries contain one key, the value from <paramref name="b"/> takes precedence
+        /// (this way the common case "a = a | map<int, int> { 7 -> 13 };" would update an existing entry
+        /// with key 7 to 13).
+        /// </summary>
+        /// <param name="a">A dictionary to change.</param>
+        /// <param name="b">Another dictionary of compatible type to <paramref name="a"/>.</param>
+        /// <param name="graph">The graph containing the node containing the attribute which gets changed.</param>
+        /// <param name="owner">The node containing the attribute which gets changed.</param>
+        /// <param name="attrType">The attribute type of the attribute which gets changed.</param>
+        /// <returns>A truth value telling whether at least one element was changed in a</returns>
+        public static bool UnionChanged<K, V>(Dictionary<K, V> a, Dictionary<K, V> b,
+            IGraph graph, INode owner, AttributeType attrType)
+        {
+            bool changed = false;
+
+            // Add all elements from b not contained in a (different values count as not contained, overwriting old value).
+            foreach(KeyValuePair<K, V> entry in b)
+            {
+                if(!a.ContainsKey(entry.Key) || EqualityComparer<V>.Default.Equals(a[entry.Key], entry.Value))
+                {
+                    graph.ChangingNodeAttribute(owner, attrType, AttributeChangeType.PutElement, entry.Value, entry.Key);
+                    a[entry.Key] = entry.Value;
+                    changed = true;
+                }
+            }
+
+            return changed;
+        }
+
+        /// <summary>
+        /// Adds all key/value pairs from map <paramref name="b"/> to <paramref name="a"/>.
+        /// If both dictionaries contain one key, the value from <paramref name="b"/> takes precedence
+        /// (this way the common case "a = a | map<int, int> { 7 -> 13 };" would update an existing entry
+        /// with key 7 to 13).
+        /// </summary>
+        /// <param name="a">A dictionary to change.</param>
+        /// <param name="b">Another dictionary of compatible type to <paramref name="a"/>.</param>
+        /// <param name="graph">The graph containing the edge containing the attribute which gets changed.</param>
+        /// <param name="owner">The edge containing the attribute which gets changed.</param>
+        /// <param name="attrType">The attribute type of the attribute which gets changed.</param>
+        /// <returns>A truth value telling whether at least one element was changed in a</returns>
+        public static bool UnionChanged<K, V>(Dictionary<K, V> a, Dictionary<K, V> b,
+            IGraph graph, IEdge owner, AttributeType attrType)
+        {
+            bool changed = false;
+
+            // Add all elements from b not contained in a (different values count as not contained, overwriting old value).
+            foreach(KeyValuePair<K, V> entry in b)
+            {
+                if(!a.ContainsKey(entry.Key) || EqualityComparer<V>.Default.Equals(a[entry.Key], entry.Value))
+                {
+                    graph.ChangingEdgeAttribute(owner, attrType, AttributeChangeType.PutElement, entry.Value, entry.Key);
+                    a[entry.Key] = entry.Value;
+                    changed = true;
+                }
+            }
+
+            return changed;
+        }
+
+        /// <summary>
+        /// Adds all key/value pairs from set <paramref name="b"/> to <paramref name="a"/>.
+        /// </summary>
+        /// <param name="a">A dictionary to change.</param>
+        /// <param name="b">Another dictionary of compatible type to <paramref name="a"/>.</param>
+        /// <param name="graph">The graph containing the node containing the attribute which gets changed.</param>
+        /// <param name="owner">The node containing the attribute which gets changed.</param>
+        /// <param name="attrType">The attribute type of the attribute which gets changed.</param>
+        /// <returns>A truth value telling whether at least one element was changed in a</returns>
+        public static bool UnionChanged<K, V>(Dictionary<K, de.unika.ipd.grGen.libGr.SetValueType> a,
+            Dictionary<K, de.unika.ipd.grGen.libGr.SetValueType> b,
+            IGraph graph, INode owner, AttributeType attrType)
+        {
+            bool changed = false;
+
+            // Add all elements from b not contained in a (different values count as not contained, overwriting old value).
+            foreach(KeyValuePair<K, de.unika.ipd.grGen.libGr.SetValueType> entry in b)
+            {
+                if(!a.ContainsKey(entry.Key))
+                {
+                    graph.ChangingNodeAttribute(owner, attrType, AttributeChangeType.PutElement, entry.Key, null);
+                    a[entry.Key] = entry.Value;
+                    changed = true;
+                }
+            }
+
+            return changed;
+        }
+
+        /// <summary>
+        /// Adds all key/value pairs from set <paramref name="b"/> to <paramref name="a"/>.
+        /// </summary>
+        /// <param name="a">A dictionary to change.</param>
+        /// <param name="b">Another dictionary of compatible type to <paramref name="a"/>.</param>
+        /// <param name="graph">The graph containing the edge containing the attribute which gets changed.</param>
+        /// <param name="owner">The edge containing the attribute which gets changed.</param>
+        /// <param name="attrType">The attribute type of the attribute which gets changed.</param>
+        /// <returns>A truth value telling whether at least one element was changed in a</returns>
+        public static bool UnionChanged<K>(Dictionary<K, de.unika.ipd.grGen.libGr.SetValueType> a,
+            Dictionary<K, de.unika.ipd.grGen.libGr.SetValueType> b,
+            IGraph graph, IEdge owner, AttributeType attrType)
+        {
+            bool changed = false;
+
+            // Add all elements from b not contained in a (different values count as not contained, overwriting old value).
+            foreach(KeyValuePair<K, de.unika.ipd.grGen.libGr.SetValueType> entry in b)
+            {
+                if(!a.ContainsKey(entry.Key))
+                {
+                    graph.ChangingEdgeAttribute(owner, attrType, AttributeChangeType.PutElement, entry.Key, null);
+                    a[entry.Key] = entry.Value;
+                    changed = true;
+                }
+            }
+
+            return changed;
+        }
+
+        /// <summary>
+        /// Removes all key/value pairs from map <paramref name="a"/> whose keys are not also contained in <paramref name="b"/>.
+        /// If both dictionaries contain one key, the value from <paramref name="a"/> takes precedence, in contrast to union.
+        /// </summary>
+        /// <param name="a">A dictionary to change.</param>
+        /// <param name="b">Another dictionary of compatible type to <paramref name="a"/>.</param>
+        /// <param name="graph">The graph containing the node containing the attribute which gets changed.</param>
+        /// <param name="owner">The node containing the attribute which gets changed.</param>
+        /// <param name="attrType">The attribute type of the attribute which gets changed.</param>
+        /// <returns>A truth value telling whether at least one element was changed in a</returns>
+        public static bool IntersectChanged<K, V>(Dictionary<K, V> a, Dictionary<K, V> b,
+            IGraph graph, INode owner, AttributeType attrType)
+        {
+            // First determine all elements from a not contained in b
+            List<K> toBeRemoved = new List<K>(a.Count);
+            foreach(KeyValuePair<K, V> entry in a)
+                if(!b.ContainsKey(entry.Key))
+                    toBeRemoved.Add(entry.Key);
+
+            // Then remove them
+            foreach(K key in toBeRemoved)
+            {
+                graph.ChangingNodeAttribute(owner, attrType, AttributeChangeType.RemoveElement, null, key);
+                a.Remove(key);
+            }
+
+            return toBeRemoved.Count > 0;
+        }
+
+        /// <summary>
+        /// Removes all key/value pairs from map <paramref name="a"/> whose keys are not also contained in <paramref name="b"/>.
+        /// If both dictionaries contain one key, the value from <paramref name="a"/> takes precedence, in contrast to union.
+        /// </summary>
+        /// <param name="a">A dictionary to change.</param>
+        /// <param name="b">Another dictionary of compatible type to <paramref name="a"/>.</param>
+        /// <param name="graph">The graph containing the edge containing the attribute which gets changed.</param>
+        /// <param name="owner">The edge containing the attribute which gets changed.</param>
+        /// <param name="attrType">The attribute type of the attribute which gets changed.</param>
+        /// <returns>A truth value telling whether at least one element was changed in a</returns>
+        public static bool IntersectChanged<K, V>(Dictionary<K, V> a, Dictionary<K, V> b,
+            IGraph graph, IEdge owner, AttributeType attrType)
+        {
+            // First determine all elements from a not contained in b
+            List<K> toBeRemoved = new List<K>(a.Count);
+            foreach(KeyValuePair<K, V> entry in a)
+                if(!b.ContainsKey(entry.Key))
+                    toBeRemoved.Add(entry.Key);
+
+            // Then remove them
+            foreach(K key in toBeRemoved)
+            {
+                graph.ChangingEdgeAttribute(owner, attrType, AttributeChangeType.RemoveElement, null, key);
+                a.Remove(key);
+            }
+
+            return toBeRemoved.Count > 0;
+        }
+
+        /// <summary>
+        /// Removes all key/value pairs from set <paramref name="a"/> whose keys are not also contained in <paramref name="b"/>.
+        /// </summary>
+        /// <param name="a">A dictionary to change.</param>
+        /// <param name="b">Another dictionary of compatible type to <paramref name="a"/>.</param>
+        /// <param name="graph">The graph containing the node containing the attribute which gets changed.</param>
+        /// <param name="owner">The node containing the attribute which gets changed.</param>
+        /// <param name="attrType">The attribute type of the attribute which gets changed.</param>
+        /// <returns>A truth value telling whether at least one element was changed in a</returns>
+        public static bool IntersectChanged<K>(Dictionary<K, de.unika.ipd.grGen.libGr.SetValueType> a,
+            Dictionary<K, de.unika.ipd.grGen.libGr.SetValueType> b,
+            IGraph graph, INode owner, AttributeType attrType)
+        {
+            // First determine all elements from a not contained in b
+            List<K> toBeRemoved = new List<K>(a.Count);
+            foreach(KeyValuePair<K, de.unika.ipd.grGen.libGr.SetValueType> entry in a)
+                if(!b.ContainsKey(entry.Key))
+                    toBeRemoved.Add(entry.Key);
+
+            // Then remove them
+            foreach(K key in toBeRemoved)
+            {
+                graph.ChangingNodeAttribute(owner, attrType, AttributeChangeType.RemoveElement, key, null);
+                a.Remove(key);
+            }
+
+            return toBeRemoved.Count > 0;
+        }
+
+        /// <summary>
+        /// Removes all key/value pairs from set <paramref name="a"/> whose keys are not also contained in <paramref name="b"/>.
+        /// </summary>
+        /// <param name="a">A dictionary to change.</param>
+        /// <param name="b">Another dictionary of compatible type to <paramref name="a"/>.</param>
+        /// <param name="graph">The graph containing the edge containing the attribute which gets changed.</param>
+        /// <param name="owner">The edge containing the attribute which gets changed.</param>
+        /// <param name="attrType">The attribute type of the attribute which gets changed.</param>
+        /// <returns>A truth value telling whether at least one element was changed in a</returns>
+        public static bool IntersectChanged<K>(Dictionary<K, de.unika.ipd.grGen.libGr.SetValueType> a,
+            Dictionary<K, de.unika.ipd.grGen.libGr.SetValueType> b,
+            IGraph graph, IEdge owner, AttributeType attrType)
+        {
+            // First determine all elements from a not contained in b
+            List<K> toBeRemoved = new List<K>(a.Count);
+            foreach(KeyValuePair<K, de.unika.ipd.grGen.libGr.SetValueType> entry in a)
+                if(!b.ContainsKey(entry.Key))
+                    toBeRemoved.Add(entry.Key);
+
+            // Then remove them
+            foreach(K key in toBeRemoved)
+            {
+                graph.ChangingEdgeAttribute(owner, attrType, AttributeChangeType.RemoveElement, key, null);
+                a.Remove(key);
+            }
+
+            return toBeRemoved.Count > 0;
+        }
+
+        /// <summary>
+        /// Removes all key/value pairs from map <paramref name="a"/> whose keys are contained in <paramref name="b"/>.
+        /// </summary>
+        /// <param name="a">A dictionary to change.</param>
+        /// <param name="b">Another dictionary of compatible key type to <paramref name="a"/>.</param>
+        /// <param name="graph">The graph containing the node containing the attribute which gets changed.</param>
+        /// <param name="owner">The node containing the attribute which gets changed.</param>
+        /// <param name="attrType">The attribute type of the attribute which gets changed.</param>
+        /// <returns>A truth value telling whether at least one element was changed in a</returns>
+        public static bool ExceptChanged<K, V, W>(Dictionary<K, V> a, Dictionary<K, W> b,
+            IGraph graph, INode owner, AttributeType attrType)
+        {
+            bool changed = false;
+
+            // Remove all elements from a contained in b.
+            foreach(KeyValuePair<K, W> entry in b)
+            {
+                graph.ChangingNodeAttribute(owner, attrType, AttributeChangeType.RemoveElement, null, entry.Key);
+                changed |= a.Remove(entry.Key);
+            }
+
+            return changed;
+        }
+
+        /// <summary>
+        /// Removes all key/value pairs from map <paramref name="a"/> whose keys are contained in <paramref name="b"/>.
+        /// </summary>
+        /// <param name="a">A dictionary to change.</param>
+        /// <param name="b">Another dictionary of compatible key type to <paramref name="a"/>.</param>
+        /// <param name="graph">The graph containing the edge containing the attribute which gets changed.</param>
+        /// <param name="owner">The edge containing the attribute which gets changed.</param>
+        /// <param name="attrType">The attribute type of the attribute which gets changed.</param>
+        /// <returns>A truth value telling whether at least one element was changed in a</returns>
+        public static bool ExceptChanged<K, V, W>(Dictionary<K, V> a, Dictionary<K, W> b,
+            IGraph graph, IEdge owner, AttributeType attrType)
+        {
+            bool changed = false;
+
+            // Remove all elements from a contained in b.
+            foreach(KeyValuePair<K, W> entry in b)
+            {
+                graph.ChangingEdgeAttribute(owner, attrType, AttributeChangeType.RemoveElement, null, entry.Key);
+                changed |= a.Remove(entry.Key);
+            }
+
+            return changed;
+        }
+
+        /// <summary>
+        /// Removes all key/value pairs from set <paramref name="a"/> whose keys are contained in <paramref name="b"/>.
+        /// </summary>
+        /// <param name="a">A dictionary to change.</param>
+        /// <param name="b">Another dictionary of compatible key type to <paramref name="a"/>.</param>
+        /// <param name="graph">The graph containing the node containing the attribute which gets changed.</param>
+        /// <param name="owner">The node containing the attribute which gets changed.</param>
+        /// <param name="attrType">The attribute type of the attribute which gets changed.</param>
+        /// <returns>A truth value telling whether at least one element was changed in a</returns>
+        public static bool ExceptChanged<K, W>(Dictionary<K, de.unika.ipd.grGen.libGr.SetValueType> a,
+            Dictionary<K, W> b,
+            IGraph graph, INode owner, AttributeType attrType)
+        {
+            bool changed = false;
+
+            // Remove all elements from a contained in b.
+            foreach(KeyValuePair<K, W> entry in b)
+            {
+                graph.ChangingNodeAttribute(owner, attrType, AttributeChangeType.RemoveElement, entry.Key, null);
+                changed |= a.Remove(entry.Key);
+            }
+
+            return changed;
+        }
+
+        /// <summary>
+        /// Removes all key/value pairs from set <paramref name="a"/> whose keys are contained in <paramref name="b"/>.
+        /// </summary>
+        /// <param name="a">A dictionary to change.</param>
+        /// <param name="b">Another dictionary of compatible key type to <paramref name="a"/>.</param>
+        /// <param name="graph">The graph containing the edge containing the attribute which gets changed.</param>
+        /// <param name="owner">The edge containing the attribute which gets changed.</param>
+        /// <param name="attrType">The attribute type of the attribute which gets changed.</param>
+        /// <returns>A truth value telling whether at least one element was changed in a</returns>
+        public static bool ExceptChanged<K, W>(Dictionary<K, de.unika.ipd.grGen.libGr.SetValueType> a,
+            Dictionary<K, W> b,
+            IGraph graph, IEdge owner, AttributeType attrType)
+        {
+            bool changed = false;
+
+            // Remove all elements from a contained in b.
+            foreach(KeyValuePair<K, W> entry in b)
+            {
+                graph.ChangingEdgeAttribute(owner, attrType, AttributeChangeType.RemoveElement, entry.Key, null);
+                changed |= a.Remove(entry.Key);
+            }
+
+            return changed;
         }
 
         /// <summary>
