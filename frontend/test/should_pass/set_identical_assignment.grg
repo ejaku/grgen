@@ -1,0 +1,12 @@
+using set_model_001;
+
+rule assi {
+	a:A;
+	
+	modify {
+		eval {
+			a.niceSet = a.niceSet;
+			a.spiceSet = a.spiceSet;
+		}
+	}
+}

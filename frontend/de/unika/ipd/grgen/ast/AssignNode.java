@@ -16,6 +16,7 @@ import java.util.Iterator;
 import java.util.Vector;
 
 import de.unika.ipd.grgen.ir.Assignment;
+import de.unika.ipd.grgen.ir.AssignmentIdentical;
 import de.unika.ipd.grgen.ir.AssignmentVar;
 import de.unika.ipd.grgen.ir.Edge;
 import de.unika.ipd.grgen.ir.EvalStatement;
@@ -159,6 +160,11 @@ public class AssignNode extends EvalStatementNode {
 	 */
 	@Override
 	protected IR constructIR() {
+		// optimize . = . away
+		if(isIdenticalAssignment()) {
+			return new AssignmentIdentical();
+		}
+		
 		if(lhsQual!=null) {
 			Qualification qual = lhsQual.checkIR(Qualification.class);
 			if(qual.getOwner() instanceof Node && ((Node)qual.getOwner()).changesType(null)) {
@@ -257,5 +263,27 @@ public class AssignNode extends EvalStatementNode {
 				curLoc = null;
 			}
 		}
+	}
+	
+	private boolean isIdenticalAssignment()
+	{
+		if(lhsQual!=null) {
+			if(rhs instanceof MemberAccessExprNode) {
+				MemberAccessExprNode rhsQual = (MemberAccessExprNode)rhs;
+				if(!(rhsQual.getTarget() instanceof IdentExprNode)) return false;
+				IdentExprNode target = (IdentExprNode)rhsQual.getTarget();
+				if(lhsQual.getOwner()==target.decl.getDecl()
+						&& lhsQual.getDecl()==rhsQual.getDecl())
+					return true;
+			}
+		} else {
+			if(rhs instanceof IdentExprNode) {
+				IdentExprNode rhsVar = (IdentExprNode)rhs;
+				if(lhsVar==rhsVar.decl.getDecl())
+					return true;
+			}
+		}
+		
+		return false;
 	}
 }

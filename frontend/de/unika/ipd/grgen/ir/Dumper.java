@@ -142,6 +142,12 @@ public class Dumper {
 				else if(e instanceof AssignmentVar) {
 					// TODO
 				}
+				else if(e instanceof AssignmentVisited) {
+					// TODO
+				}
+				else if(e instanceof AssignmentIdentical) {
+					// TODO
+				}
 				else if(e instanceof CompoundAssignmentChanged) {
 					// MAP TODO
 				}

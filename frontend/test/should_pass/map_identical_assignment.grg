@@ -1,0 +1,13 @@
+using map_model_001;
+
+rule assi {
+	a:A;
+	
+	modify {
+		eval {
+			a.niceMap = a.niceMap;
+			a.spiceMap = a.spiceMap;
+			a.shiceMap = a.shiceMap;
+		}
+	}
+}

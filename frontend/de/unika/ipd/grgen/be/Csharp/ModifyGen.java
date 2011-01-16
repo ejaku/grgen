@@ -28,6 +28,7 @@ import java.util.Map;
 
 import de.unika.ipd.grgen.ir.Alternative;
 import de.unika.ipd.grgen.ir.Assignment;
+import de.unika.ipd.grgen.ir.AssignmentIdentical;
 import de.unika.ipd.grgen.ir.AssignmentVar;
 import de.unika.ipd.grgen.ir.AssignmentVisited;
 import de.unika.ipd.grgen.ir.CompoundAssignment;
@@ -1596,6 +1597,9 @@ public class ModifyGen extends CSharpBase {
 		}
 		else if(evalStmt instanceof AssignmentVisited) {
 			genAssignmentVisited(sb, state, (AssignmentVisited) evalStmt);
+		}
+		else if(evalStmt instanceof AssignmentIdentical) {
+			//nothing to generate, was assignment . = . optimized away;
 		}
 		else if(evalStmt instanceof CompoundAssignmentChanged) {
 			genCompoundAssignmentChanged(sb, state, (CompoundAssignmentChanged) evalStmt);
