@@ -597,7 +597,7 @@ The \emph{ExecStatement} will be introduced in chapter \ref{cha:imperativeandsta
   ReplaceStatement:
     Graphlet ';' |
     'delete' '(' (Ident + ',') ')' ';' |
-    'eval' lbrace ((Assignment|VisitedAssignment|SetMapStateChange) ';' +) rbrace |
+    'eval' lbrace ((Assignment|CompoundAssignment|VisitedAssignment|SetMapStateChange) ';' +) rbrace |
     SubpatternRewriteApplication
     ;
 \end{rail}\ixkeyw{delete}\ixkeyw{eval}\ixnterm{ReplaceStatement}\label{replstmt}
@@ -605,13 +605,14 @@ The semantics of the various replace statements are given below:
 \begin{description}
   \item[Graphlet] \indexmain{graphlet}Analogous to a pattern graphlet; a specification of a connected subgraph. Its graph elements are either kept because they are elements of the pattern or added otherwise. Names defined in the pattern part must not be redefined in the replace graphlet. See Section~\ref{rulebb} for a detailed explanation of graphlets. 
   \item[Deletion] \indexmain{deletion}The \texttt{delete} operator is only available in the modify mode. It deletes the specified pattern graph elements. Multiple occurrences of \texttt{delete} statements are allowed. Deletion statements are executed after all other replace statements. Multiple deletion of the same graph element is allowed (but pointless) as well as deletion of just created elements (pointless, too).
-  \item[Attribute Evaluation] \indexmain{attribute evaluation}\indexmainsee{evaluation}{attribute evaluation}\indexmainsee{re-evaluation}{attribute evaluation}If a rule is applied, then the attributes of matched and inserted graph elements will be recalculated according to the \texttt{eval} statements. The \emph{Assignment} will be explained below, the \emph{VisitedAssignment} and \emph{SetMapStateChange} clauses will be introduced in chapter \ref{cha:imperativeandstate}.
+  \item[Attribute Evaluation] \indexmain{attribute evaluation}\indexmainsee{evaluation}{attribute evaluation}\indexmainsee{re-evaluation}{attribute evaluation}If a rule is applied, then the attributes of matched and inserted graph elements will be recalculated according to the \texttt{eval} statements. The \emph{Assignment} will be explained below, the \emph{CompoundAssignment}, \emph{VisitedAssignment} and \emph{SetMapStateChange} clauses will be introduced in chapter \ref{cha:imperativeandstate}.
   \item[SubpatternRewriteApplication] will be explained in \ref{sec:subrule}.
 \end{description} 
 
 \begin{rail}    
   Assignment:
-	  NodeOrEdge '.' Ident '=' Expression
+	  NodeOrEdge '.' Ident '=' Expression |
+	  Variable '=' Expression
 	;
 \end{rail}\indexmain{attribute evaluation}\ixnterm{Assignment}
 Several evaluation parts are allowed within the replace part. 
@@ -622,6 +623,7 @@ Evaluation takes place before any graph element gets deleted and after all the n
 You may read (and write, although this is pointless) attributes of graph elements to be deleted.
 Assignment is carried out using value semantics, even for entities of \verb#set<K># and \verb#map<K,V># or \texttt{string} type.
 The only exception is the type \texttt{object}, there reference semantics is used.
+The variable assignments are only useful in a few limited situations due to parameter psasing being by-value.
 You can find out about the available \emph{Expression}s in chapter \ref{cha:typeexpr}.
 
 \begin{example}
@@ -875,7 +877,7 @@ rule oneway {
 
 %-----------------------------------------------------------------------------------------------
 \subsection{Copy} \label{sec:copy}
-\indexmain{copy}The copy operator allows to create a node or edge of the type of another node/edge, bearing the same attributes as that other node. It can be seen as an extended version of the \texttt{typeof} construct not only copying the exact dynamic type but also the attributes of the matched graph element. Together with the \texttt{iterated} construct it allows to simulate node replacement grammars or to copy entire structures, see \ref{sub:copymergesplit}.
+\indexmain{copy}The copy operator allows to create a node or edge of the type of another node/edge, bearing the same attributes as that other node. It can be seen as an extended version of the \texttt{typeof} construct not only copying the exact dynamic type but also the attributes of the matched graph element. Together with the \texttt{iterated} construct it allows to simulate node replacement grammars or to copy entire structures, see \ref{sub:mergesplit} and \ref{sub:copyflow}.
 
 \begin{rail}
   CopyOperator: 'copy' '<' Ident '>';

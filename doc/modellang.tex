@@ -297,7 +297,8 @@ You may extend \GrG~with external functions if the built-in attribute computatio
   AttributeType: PrimitiveType | EnumType | GenericType; 
   AttributeOverwrite: Ident '=' Expression
 \end{rail}\ixnterm{AttributeDeclaration}\ixnterm{AttributeType}\ixnterm{AttributeOverwrite}\ixkeyw{const}
-Defines a node or edge \indexed{attribute}. Possible types are enumeration types (\texttt{enum}) and primitive types or generic types.
+Defines a node or edge \indexed{attribute}.
+Possible types are enumeration types (\texttt{enum}) and primitive types or generic types.
 See Section~\ref{sec:builtintypes} for a list of built-in primitive and generic types.
 Optionally attributes may be initialized with a \emph{constant} expression.
 The expression has to be of a compatible type of the declared attribute.

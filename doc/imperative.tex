@@ -19,12 +19,12 @@ Finally we apply these techniques to accomplish certain common transformation ta
 	;
 \end{rail}\ixkeyw{emit}\ixkeyw{exec}\ixnterm{ExecStatement}
 The statements \texttt{emit} and \texttt{exec} enhance the declarative rewrite part by imperative clauses.
-That means, these statements are executed in the same order as they appear within the rule.
-The execution statements take place after all the rewrite operations are done, i.e.\ they operate on the modified host graph.
+That means, i) these statements are executed in the same order as they appear within the rule,
+and ii) they are executed after all the rewrite operations are done, i.e.\ they operate on the modified host graph.
 However, \emph{attribute} values of deleted graph elements are still available for reading.
 The \texttt{eval} statements are executed before the execution statements, i.e.\ the execution statements work on the recalculated attributes.
 \begin{description}
-  \item[XGRS Execution] The \texttt{exec} statement executes a graph rewrite sequence, which is a composition of graph rewrite rules. Yielded graph elements may be included into the RHS pattern, but as of now they are only accessible from the \texttt{return} statement. See Chapter~\ref{cha:xgrs} for a description of graph rewrite sequences. The \texttt{exec} statement is one of the means available in \GrG~to build complex rules and split work into several parts, see \ref{sub:copymergesplit} for a discussion of this topic.
+  \item[XGRS Execution] The \texttt{exec} statement executes a graph rewrite sequence, which is a composition of graph rewrite rules. Yielded graph elements may be included into the RHS pattern, but as of now they are only accessible from the \texttt{return} statement. See Chapter~\ref{cha:xgrs} for a description of graph rewrite sequences. The \texttt{exec} statement is one of the means available in \GrG~to build complex rules and split work into several parts, see \ref{sub:mergesplit} for a discussion of this topic.
   \item[Text Output] The \texttt{emit} statement prints a string to the currently associated output stream (default is \texttt{stdout}). See Chapter~\ref{cha:typeexpr} for a description of string expressions.
   For emitting in between the emits from subpatterns, there is an additional \texttt{emithere} statement available.
 \end{description}
@@ -80,18 +80,35 @@ rule foo : (A,B)
 \end{rail}\ixnterm{SubpatternExecEmit}\ixkeyw{emithere}
 
 The statements \texttt{emit}, \texttt{emithere} and \texttt{exec} enhance the declarative nested rewrite part by imperative clauses.
-That means, these statements are executed in the same order as they appear within the rule.
-The \texttt{emithere}-statements are executed before the emit and exec statements,
-and in the order in between the subpattern rewrite applications they are specified syntactically.
-The \texttt{exec}-statements listed here are a slightly different version of the \texttt{exec}-statements from the \emph{ExecStatement} introduced in \ref{replclause}.
-They are only available in the rewrite parts of subpatterns or nested alternatives/iterateds,
-but not in the rewrite part of rules as the original embedded sequences.
+The \texttt{emit} and \texttt{emithere} statements get executed during rewriting before the \texttt{exec} statements;
+the \texttt{emithere}-statements get executed before the \texttt{emit} statements,
+in the order in between the subpattern rewrite applications they are specified syntactically.
+The \texttt{exec} statements are executed i) after the rule which used their patterns was executed
+and ii) in the order as they appear within the rule.
+They are a slightly different version of the \texttt{exec}-statements from the \emph{ExecStatement} introduced in \ref{replclause}, only available in the rewrite parts of subpatterns or nested alternatives/iterateds
+(but not in the rewrite part of rules as the original embedded sequences).
 They are executed after the original rule calling them was executed,
 so they can't get extended by \texttt{yield}s, 
 as the containing rule is not available any more when they get executed.
 
 \begin{note}
-The embedded sequences are executed after the top-level rule which contains them in a nested pattern or in a used  subpattern was executed; they are \emph{not} executed during subpattern rewriting. They allow you to put work you can't do while executing the rule proper (e.g. because an element was already matched and is now locked due to the isomorphy constraint) to a waiting queue which gets processed afterwards --- with access to the elements of the rule and contained parts which are available when the rule gets executed. Or to just split the work into several parts, reusing already available functionality, see \ref{sub:copymergesplit} for a discussion on this topic.
+The embedded sequences are executed after the top-level rule which contains them in a nested pattern or in a used  subpattern was executed; they are \emph{not} executed during subpattern rewriting. They allow you to put work you can't do while executing the rule proper (e.g. because an element was already matched and is now locked due to the isomorphy constraint) to a waiting queue which gets processed afterwards --- with access to the elements of the rule and contained parts which are available when the rule gets executed. Or to just split the work into several parts, reusing already available functionality, see \ref{sub:mergesplit} for a discussion on this topic.
+\end{note}
+
+\begin{note}
+And again --- the embedded sequences are executed \emph{after} the rule containing them;
+thus rule execution is split into two parts, a declartive of parts a) and b), and an imperative.
+The declarative is split into two subparts:
+First the rule including all its nested and subpatterns is matched.
+Then the rule modifications are applied, including all nested and subpattern modification.
+
+After this declarative step, containing only the changes of the rule and its nested and used subpatterns,
+the deferred execs which were spawned during the main rewriting are executed in a second, imperative step;
+during this, a rule called from the sequence to execute may do other nifty things, 
+using further own sequences, even calling itself recursively with them.
+First all sequences from a called rule are executed, before the current sequences is continued or other sequences of its parent rule get executed (depth first).
+
+Note: all changes from such dynamically nested sequences are rolled back if a transaction/a backtrack enclosing a parent rule is to be rolled back (but no pending sequences of a parent of this parent).
 \end{note}
 
 \begin{example}
@@ -136,6 +153,7 @@ pattern BinaryExpression(root:Expr)
 \end{example}
 
 
+
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% 
 \section{Reading, writing, and managing state}\indexmain{visited flag}\indexmain{storage}
 
@@ -145,18 +163,19 @@ Both allow to split a transformation into passes mediated by their state.
 
 \begin{note}
 The storage sets are more efficient in case the count of elements of interest is a good deal smaller than the number elements in the graph; they are looked up in the set, in contrast to the visited flags, which are used by enumerating all available graph elements, filtering according to visited state.
-The visited flags on the other hand are much more memory efficient (unless you use more than a few of them at the same time).
+The visited flags on the other hand are extremely memory efficient (for free as long as you use only a few of them at the same time).
 \end{note}
 
 %-----------------------------------------------------------------------------------------------
 \subsection{Storage and visited flag handling in the sequences}\label{sec:storages}
 
-Storages are variables of set or map type (cf. \ref{sec:builtintypes}) used in the sequences or rules handed in via parameters;
-in contrast to the sets or maps in the graph model, their elements can be of node or edge type. 
-Storing nodes and edges is in fact their primary usage. 
+Storages are variables of set or map type (cf. \ref{sec:builtintypes}) storing nodes or edges.
+Primarily used in the sequences, from where they are handed in to the rules via parameters;
+but additionally set/map member attributes may be used as storages,
+esp. for doing data flow analyses, cf. \ref{subsub:flow}.
 They allow to decouple processing phases: the first run collects all graph elements relevant for the second run which consists of a sequence executed for each graph element in the set.
-A further difference to the sets and maps in the rewrite rules is that they only offer imperative addition and removal instead of union, intersection, difference and construction.
-The splitting of transformations into passes mediated by set/map valued global variables allows for subgraph copying without model pollution, cf. \ref{subsub:copystructure}; please have a look at \ref{sub:copymergesplit} regarding a discussion on when to use which transformation combinators.
+A difference to the sets and maps in the rewrite rules is that they only offer imperative addition and removal instead of union, intersection, difference and construction.
+The splitting of transformations into passes mediated by set/map valued global variables allows for subgraph copying without model pollution, cf. \ref{subsub:copystructure}; please have a look at \ref{sub:mergesplit} and \ref{sub:copyflow} regarding a discussion on when to use which transformation combinators and for storage examples.
  
 \begin{rail}
   VariableHandling: 
@@ -282,14 +301,17 @@ The value stored in the variable must be of integer type, stemming from a previo
 %-----------------------------------------------------------------------------------------------
 \subsection{Storage and visited flag access in the rules} \label{sub:storageaccess}\indexmain{storage access}
 
-Storages can be used in the rule control language as introduced above \ref{sec:storages}, they can get filled or emptied in the rules as defined here \ref{replstmt}, a discussion about their usage is given here \ref{sub:copymergesplit}.
-In the pattern part you may ask for an element to get bound to an element from a storage; this is syntactically specified by giving the storage enclosed in left and right angles.
-You may ask for an element to get bound to the value element queried from a storagemap by a key graph element; this is syntactically specified by giving the storagemap indexed by the key graph element enclosed in left and right angles.
+Storages can be used in the rule control language as introduced above \ref{sec:storages}, they can get filled or emptied in the rules as defined here \ref{replstmt}, a discussion about their usage and examples are given here \ref{sub:mergesplit} and here \ref{sub:copyflow}.
+In the pattern part you may ask for an element to get bound to an element from a storage or a storage attribute; this is syntactically specified by giving the storage enclosed in left and right angles.
+You may ask for an element to get bound to the value element queried from a storagemap by a key graph element; this is syntactically specified by giving the storagemap indexed by the key graph element enclosed in left and right angles (this is not possible for storage map attributes due to internal limitations with the search planning).
 If the type of the element retrieved from the storage is not compatible to the type of the pattern element specified,
 or if the storage is empty, or if the key element is not contained in the storagemap, matching fails.
 
 \begin{rail}
-  StorageAccess: '<' Ident '>' | '<' Ident '[' Ident ']' '>';
+  StorageAccess:
+    '<' StorageVariable '>' |
+    '<' NodeOrEdge '.' StorageAttribute '>' |
+    '<' StorageMap '[' Ident ']' '>';
 \end{rail}\ixnterm{StorageAccess}
 
 \begin{example}
@@ -321,15 +343,35 @@ with the set and map expressions as given in the Types and Expressions chapter \
 Furthermore you can add and remove elements from the storages in the \texttt{eval} clause of the rewrite part.
 
 \begin{rail}    
+  CompoundAssignment:
+    SetMapEntity ('|' '=' | ampersand '=' | backslash '=') Expr ChangeAssignment?
+  ;
   SetMapStateChange:
-   	SetParameter '.' ( ( 'add' '(' Expr ')') | ( 'rem' '(' Expr ')' ) ) |
-	MapParameter '.' ( ( 'add' '(' KeyExpr ',' ValueExpr ')' ) | ( 'rem' '(' KeyExpr ')' ) )
+   	SetMapEntity '.' ( ( 'add' '(' Expr ')') | ( 'rem' '(' Expr ')' ) ) |
+	  SetMapEntity '.' ( ( 'add' '(' KeyExpr ',' ValueExpr ')' ) | ( 'rem' '(' KeyExpr ')' ) )
 	;
-\end{rail}\ixnterm{SetMapStateChange}
+	SetMapEntity:
+	  (NodeOrEdge '.' SetOrMapAttribute | Variable)
+	;
+  ChangeAssignment:
+    ('=' '>' | '|' '>' | ampersand '>') (NodeOrEdge '.' BoolAttribute | BoolVariable | VisitedFlag)
+  ;
+\end{rail}\ixnterm{CompoundAssignment}\ixnterm{SetMapStateChange}
 
-The by-ref parameters can be operated upon by the set/map state change methods,
+The by-ref set/map parameters or set/map attributes can be operated upon by the set/map state change methods,
 which allow to only partially change the set/map by adding and removing elements resp. pairs of elements;
 they are especially useful for sets or maps containing nodes or edges.
+
+The same holds for the compound assignments, which are assignments which use the first source as target, too,
+only adapting the target value instead of computing a new value and overwriting the target with it.
+For scalars this is not supported, but for set/map valued enitities it is offered due to performance reasons.
+The compound assignment statements are set/map union \verb#|=#, intersection \verb#&=# and difference \verb#\=# assignment.
+
+The compound assignments may be enhanced with a change assignment declaration.
+The change value is \texttt{true} in case the target collection changes and \texttt{false} in case the target collection is not altered.
+The assign-to operator \verb#=># assigns the change value to the specified target, the or-to operator \verb#|># assigns the boolean disjunction of the change value target with the change value to the change value target, the and-to operator \verb#&># assigns the boolean conjunction of the change value target with the change value to the change value target.
+This addition allows for efficient data flow computations not needing to check for a change by set comparison, see \ref{subsub:flow}.
+
 
 \begin{example}
 The set/map state change methods \texttt{add} and \texttt{rem} allow to add graph elements to storages or remove graph elements from storages, i.e. sets or maps holding nodes and edges used for rewrite in the calling sequence (cf. \ref{sec:storages}).
@@ -358,8 +400,11 @@ Additionally you can set them in the \texttt{eval} clause of the rewrite part.
 
 \begin{rail}    
   VisitedAssignment:
-	NodeOrEdge '.' 'visited' ('[' FlagNumber ']')? '=' BoolExpr
+    VisitedFlag '=' BoolExpr
 	;
+	VisitedFlag:
+    NodeOrEdge '.' 'visited' ('[' FlagNumber ']')?
+  ;
 \end{rail}\ixnterm{VisitedAssignment}\ixkeyw{visited}
 
 The \texttt{visited} flag assignment sets the \texttt{boolean} status of the \indexed{visited flag} of the given number for the given graph element.
@@ -369,9 +414,9 @@ Make sure to allocate \ref{allocvisitflag}/\ref{apiallocvisitflag} visited flags
 
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-\section{Merge and Split, Node Replacement Grammars, and Subgraph copying}\label{sub:copymergesplit}
+\section{Merge, Split, and Node Replacement Grammars}\label{sub:mergesplit}
 
-In this section we'll have a look at several common graph rewriting tasks and how to accomplish them in \GrG.
+In this and the following section we'll have a look at several common graph rewriting tasks and how to accomplish them in \GrG.
 They could be offered directly by some dedicated operators,
 but these would need so much customization to be useful in the different situations one needs them,
 that we decided against dedicated operators; 
@@ -388,7 +433,7 @@ for deferred rule execution to do work later on you can't do while executing the
 to store elements collected in one run and reuse them as input in another run, i.e. using multi-value variables to break up the transformation into passes. (This is the half point, as they are not a means to build a complex rule, but a means to communicate between rules building complex transformations.)
 \end{description}
 
-\noindent In the following we'll employ them to merge and split nodes, emulate node replacement grammars, and copy substructures.
+\noindent In the following we'll employ them to merge and split nodes, emulate node replacement grammars, copy substructures and compute flow equations over the graph structure with sets in the nodes.
 
 \begin{note}
 You should use the means to build complex transformations in the order given, first try to solve the problem with nested and subpatterns, if they don't get the job done (often because of the isomorphy constraint locking of already matched elements) or feel awkward then embedded graph rewrite sequences, and if these are still inadequate then storages and storagemaps; i.e. from declarative-local to imperative-global. This helps in keeping the code readable and easily adaptable. And don't forget the last resort if you must solve a task so complex that rules, control and storages are not sufficient: adding helper nodes, edges, or attributes to the graph model and the graph itself (with the visited flags being a light version of this tactic). Note: storages and storagemaps might be useful when you are experiencing performance problems, replacing a search in the graph by a lookup in a dictionary. But beware of elements already deleted from the graph still hanging out in your storage because you forgot to remove them.
@@ -615,6 +660,8 @@ rule cliqueTerminal
 
 The examples can be found in the \texttt{tests/nodeReplacementGrammar} directory.
 
+\section{Subgraph copying and Reachability via Flow Equations}\label{sub:copyflow}
+
 \subsubsection*{Copy structures}\label{subsub:copystructure}\indexmain{subgraph copying}\indexmainsee{copy structure}{subgraph copying}
 Structures are copied in two passes, the first copying and collecting all nodes of interest, the second copying all edges of interest in between the nodes.
 
@@ -668,4 +715,143 @@ rule CopyOutgoingEdge(n:Node, ref oldToNew:map<Node, Node>)
 
 The example can be found in the \texttt{tests/copyStructure} directory.
 Without storagemaps one would have to pollute the graph model with helper edges linking the original to the copied nodes.
+
+\subsubsection*{Data flow analysis for computing reachability}\label{subsub:flow}\indexmain{flow equations}\indexmain{data flow analysis}\indexmain{reachability}
+%todo: refine this nightly hacked section
+
+In compiler construction, given a program graph, one wants to compute non-local properties in order to transform the program graph.
+This is normally handled within the framework of data flow analysis, which employs flow equations telling how property values of a node are influenced by property values of the predecessor or successor nodes in addition to the node's local share on the overall information, with the predecessor or successor nodes being again influenced by their predecessor or successor nodes.
+Property values are modeled as sets; the information is propagated around the graph until a fix point is reached (the operations must be monotone in order for a fix point to exist on the finite domain of discourse).
+You might be interested in the transparencies under \url{http://www2.imm.dtu.dk/~riis/PPA/slides2.pdf} for some reading on this topic;
+especially as this is a general method to compute non-local informations over graphs not limited to compiler construction.
+
+We'll apply a backward may analysis (with only $gen$ but no $kill$ information) to compute for each node the nodes which can be reached from this node.
+Reachability is an interesting property if you have to do a lot of iterated path checks:
+instead of computing the itererated path with a recursive pattern each and every time you must check for it,
+compute it once and just look it up from then one.
+If you need to check several paths which must be disjoint you won't get around employing recursive subpatterns with one locking the elements for the other; but even in this case the precomputed information should be valuable (unless the graph is heavily connected), constraining the search to source and target nodes between which a path does exist, eliminating nodes which are not connected.
+
+The reachability information will be stored in a storage set per node of the graph (indeed, we trade memory space for execution speed):
+  \begin{example}
+    \begin{grgen}
+node class N
+{
+	reachable:set<N>;
+}
+    \end{grgen}
+  \end{example}
+
+The analysis begins with initializing all the storage sets with the local information about the direct successors by employing the following rule on all possible matches:
+  \begin{example}
+    \begin{grgen}
+rule directReachability
+{
+  hom(n,m);
+  n:N --> m:N;
+
+  modify {
+    eval { n.reachable.add(m); }
+  }
+}
+    \end{grgen}
+  \end{example}
+
+The analysis works by keeping a global todo-set \verb#todo# containing all the nodes which need to be (re-)visited,
+because the information in one of their successors changed;
+this set is initialized with all nodes available using the sequence \verb#[addAllNodesToWorkset(todo)]#).
+
+From then on in each iteration step a node \verb#n# is removed with \verb#(n)=pickAndRemove(todo)#, until the todo-set becomes empty, signaling the termination of the analysis; the node is processed by determining its successors \verb#[successors(n, succs)]#, adding the reachability information available in each successor to \verb#n# controled by the sequence\\
+\verb#for{s in succs; (changed)=propagateBackwards(n,s,changed)}#.\\
+If the information in \verb#n# changed due to this, the predecessors of the node are added to the workset via \verb#if{changed;[addPredecessors(n,todo)]}#.
+
+  \begin{example}
+This is the core rule of the dataflow analysis: the reachability information from the successor node \texttt{s} in its \texttt{reachable} storage attribute is added to the storage attribute of the node \texttt{n} of interest; if the storage set changes this is written to the returned variable.
+    \begin{grgen}
+rule propagateBackwards(n:N, s:N, var changed:boolean) : (boolean)
+{
+  modify {
+    eval { n.reachable |= s.reachable |> changed; }
+    return(changed);
+  }
+}
+    \end{grgen}
+  \end{example}
+  
+The example can be found in the \texttt{tests/dataFlowAnalysis} directory, just add \texttt{debug} before the \texttt{xgrs} in \texttt{dataFlowAnalysisForReachability.grs} and watch it run.
+A sample situation showing a propagation step is given in \ref{figdataflow}.
+The subgraph at the top-left is already handled as you can see by the reachable set displayed in each node.
+
+\begin{figure}[htbp]
+  \centering
+  \includegraphics[width=\textwidth]{fig/Dataflow}
+  \caption{Situation from dataflow analysis}
+  \label{figdataflow}
+\end{figure}
+
+\subsubsection*{Worklist based data flow analysis}\indexmain{worklist}
+
+The approach introduced above implements the basics but will not scale well to large graphs -- even medium sized graphs -- due to the random order the nodes are visited.
+What is used in practice instead is a version employing a worklist built in postorder, so that a node is only visited after all its successor nodes have been processed.
+For graphs without backedges, i.e. loops for program graphs, this gives an analysis which visits every node exactly once in the propagation phase.
+For graphs with loops some nodes will be visited multiple times, but due to the ordering the analysis still terminates very fast.
+
+The worklist is implemented directly in the graph by additional edges of the special type \verb#then# between the nodes, and a special node for the list start; the \verb#todo# set is kept, to allow for a fast "is the node already contained in the worklist"-check, used to save us from adding nodes again which are already contained (thus will be visited in the future anyway); i.e. the abstract worklist concept is implemented by the todo-set and the list added invasively to the graph.
+
+  \begin{example}
+    \begin{grgen}
+edge class then; // for building worklist of nodes to be handled
+    \end{grgen}
+  \end{example}
+
+\noindent The initial todo-set population of the simple approach is replaced by worklist constructing, successively advancing the last node of the worklist given by the \verb#last# variable; it starts with all nodes having no successor:\\
+\verb#(last)=addFinalNodesToWorklist(last, todo)*#\\
+Then iteratively all nodes which lead to them get added:\\
+\verb#( (last)=addFurther(pos, last, todo)* ;> (pos)=switchToNextWorklistPosition(pos) )*#\\
+In case of loops without terminal nodes we pick an arbitrary node from them:\\ \verb#(last)=addNotYetVisitedNodeToWorklist(last, todo)#\\
+and add everything what leads to them, until every node was added to the worklist.
+
+Now we can start the analysis, which works like the simple one does, utilizing the very same propagation rule,but follows the worklist instead of randomly picking from a todo-set, shrinking and growing the worklist along the way.
+
+  \begin{example}
+An example rule for worklist handling, adding a not yet contained node to the worklist; please note the quick check for containment via the set membership query.
+    \begin{grgen}
+rule addToWorklist(p:N, ref todo:set<N>, last:N) : (N)
+{
+  if{ !(p in todo); }
+    
+  modify {
+    last -:then-> p;
+    eval { todo.add(p); }
+    return(p);
+  }
+}
+    \end{grgen}
+  \end{example}
+
+  \begin{example}
+An exmaple rule for worklist handling, removing the by-then processed node \texttt{pos} from the worklist.
+    \begin{grgen}
+rule nextWorklistPosition(pos:N, ref todo:set<N>) : (N)
+{
+  pos -t:then-> next:N;
+  
+  modify {
+    delete(t);
+    eval { todo.rem(pos); }
+    return(next);
+  }
+}
+    \end{grgen}
+  \end{example}
+
+The example can be found in the \texttt{tests/dataFlowAnalysis} directory, just add \texttt{debug} before the \texttt{xgrs} in \texttt{dataFlowAnalysisForReachabilityWorklist.grs} and watch it run.
+A sample situation showing a worklist building step is given in \ref{figworklist}.
+The subgraph at the top-left is already handled as you can see by the reachable set displayed in each node.
+
+\begin{figure}[htbp]
+  \centering
+  \includegraphics[width=\textwidth]{fig/Worklist}
+  \caption{Situation from worklist building}
+  \label{figworklist}
+\end{figure}
 

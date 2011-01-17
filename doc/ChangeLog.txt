@@ -1,4 +1,34 @@
-﻿v2.7.ms2 (2011-01-03)
+﻿v2.7.ms3 (2011-01-17)
+ Added support for storage attributes, i.e. attributes typed with set/map of node/edge,
+  can now be declared in model, handled by all the other set/map constructs already available,
+  furthermore added an extension of the storage access constructs on the LHS by:
+   x:T<n.a> with n being a node or edge and a an attribute of it, 
+   yielding a pattern element picked from the storage attribute
+
+ Added compound assignment statement which allows for efficient set/map operations, 
+  especially for efficient data flow analysis with the optional change assignment:
+   -set/map union |=, intersection &=, difference \= assignments are available
+   -change assignment operators assign-to =>, union-to |=, intersect-to &> are available
+     examples: v |= w => changed; n.s &= m.s |> e.changed; n.m \= w &> n.visited[2];
+
+ Improved user manual:
+  - split off exec/emit and storage handling (+visited) 
+    into an own chapter "Embedded Sequences and Storages",
+    meant as an introduction into combining rules to build transformations.
+  - added subsection on data flow analysis explaining how to compute reachability.
+
+ Bugfixes: 
+  - transaction handling (thus backtracking too) now capable of nested processing,
+    i.e. a committed nested transaction gets rolled back if the enclosing transaction fails
+  - deferred execs used from rules contained in deferred execs 
+    don't execute pending execs from their parent any more
+
+ Further minor features:
+  - added pow operator to expressions, pow(x,y) computes x to the power of y (only for double)
+  - intersection changed to retain first element for maps
+
+
+v2.7.ms2 (2011-01-03)
  Added copy operator:
  - new-node:copy<old-node> creates a clone of the old node 
    (type and attribute values are same, incident edges are not taken care of)
@@ -23,8 +53,8 @@
   - values of variables are now transmitted into nested iterateds/alternatives
   - anonymous subpatterns are now named "sub"_X, 
     so that nodes don't get blown up that much in debugger detail mode
-  
-  
+
+
 v2.7.ms1b (2010-12-20)
  Bugfixes:
   Compiler:
@@ -64,7 +94,7 @@ v2.7.ms1 (2010-12-05)
  - further smaller fixes and improvements
  - purged deprecated shell constructs for set handling, map handling, visited flags handling
 
- 
+
 v2.6.4 (2010-10-30)
  Fixes for bugs introduced in 2.6.3:
  - certain pattern elements were deleted when using patterns with more than 2 nesting levels; fixed

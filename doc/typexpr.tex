@@ -28,8 +28,8 @@ The \indexed{LGSPBackend} maps the \GrG\ primitive types to the corresponding C\
 \begin{table}[htbp]
 \begin{tabularx}{\linewidth}{|l|X|}
 	\hline
-	\texttt{\indexed{set}<T>} & A (mathematical) set of type \texttt{T}, where \texttt{T} may be an enumeration type or one of the primitive types from above \\
-	\texttt{\indexed{map}<S,T>} & A (mathematical) map from type \texttt{S} to type \texttt{T}, where \texttt{S} and \texttt{T} may be enumeration types or one of the primitive types from above \\
+	\texttt{\indexed{set}<T>} & A (mathematical) set of type \texttt{T}, where \texttt{T} may be an enumeration type or one of the primitive types from above; it may even be a node or edge type, then we speak of storages \\
+	\texttt{\indexed{map}<S,T>} & A (mathematical) map from type \texttt{S} to type \texttt{T}, where \texttt{S} and \texttt{T} may be enumeration types or one of the primitive types from above; it may even be a node or edge type, then we speak of storages \\
 	\hline
 \end{tabularx}
 \caption{\GrG\ built-in generic types}
@@ -62,7 +62,8 @@ Thus, enum values can only be assigned to attributes having the same enum type.
 A cast of an enum value to a string value will return the declared name of the enum value.
 A cast of an object value to a string value will return ``null'' or it will call the \texttt{toString()} method of the .NET object.
 Be careful with assignments of objects: \GrG\ does not know your .NET type hierarchy and therefore it cannot check two objects for type compatibility.
-Objects of type object are not very useful for \GrG\ processing (and the im/exporters can't handle them), but they can be used on the API level.
+Objects of type object are not very useful for \GrG\ processing and the im/exporters can't handle them,
+but they can be used on the API level.
 
 \begin{example}
   \begin{itemize}
@@ -300,7 +301,7 @@ Furthermore there are two operations on sets available in method call notation (
 
 \begin{description}
 \item[\texttt{.size()}] returns the number of elements in the set, as \texttt{int}
-\item[\texttt{.peek(num)}] returns the element which comes at position \texttt{num:int} in the sequence of enumeration, as \texttt{T} for \verb#set<T>#
+\item[\texttt{.peek(num)}] returns the element which comes at position \texttt{num:int} in the sequence of enumeration, as \texttt{T} for \verb#set<T>#; the higher the number, the longer retrieval takes
 \end{description}
  
 \begin{note}
@@ -329,7 +330,7 @@ Map expressions consist of the known mathematical set operations extended to map
   %\begin{tabularx}{0.45\linewidth}{|ll|} \hline
   \begin{tabular}[c]{|ll|} \hline
     \begin{tabular}[c]{l} \verb#|# \end{tabular} & \begin{tabular}[c]{l}Map union: returns new map with elements which are in at least one of the maps,\\ with the value of map2 taking precedence\end{tabular}\\ \hline
-    \begin{tabular}[c]{l} \verb#&# \end{tabular} & \begin{tabular}[c]{l}Map intersection: returns new map with elements which are in both maps,\\ with the value of map2 taking precedence\end{tabular} \\ \hline
+    \begin{tabular}[c]{l} \verb#&# \end{tabular} & \begin{tabular}[c]{l}Map intersection: returns new map with elements which are in both maps,\\ with the value of map1 taking precedence\end{tabular} \\ \hline
     \begin{tabular}[c]{l} \verb#\# \end{tabular} & \begin{tabular}[c]{l}Map difference: returns new map with elements from map1\\ without the elements with a key contained in map2\end{tabular}\\ \hline
   \end{tabular}
   \caption{Binary map operators, in ascending order of precedence}\indexmain{order of precedence}
@@ -346,7 +347,7 @@ There are several operations on maps available in method call notation (MethodSe
 \item[\texttt{.size()}] returns the number of elements in the map, as \texttt{int}
 \item[\texttt{.domain()}] returns the set of elements in the domain of the map, as \verb#set<S># for \verb#map<S,T>#
 \item[\texttt{.range()}] returns the set of elements in the range of the map, as \verb#set<T># for \verb#map<S,T>#
-\item[\texttt{.peek(num)}] returns the key of the element which comes at position \texttt{num:int} in the sequence of enumeration, as \texttt{S} for \verb#map<S,T>#
+\item[\texttt{.peek(num)}] returns the key of the element which comes at position \texttt{num:int} in the sequence of enumeration, as \texttt{S} for \verb#map<S,T>#; the higher the number, the longer retrieval takes
 \end{description}
 
 \begin{note}
@@ -437,6 +438,7 @@ A function call employs an external (attribute evaluation) function (cf. \ref{su
 \begin{description}
 \item[\texttt{min(.,.)}] returns the smaller of the two argument values, which must be of the same numeric type (i.e. both either \texttt{int} or \texttt{float} or \texttt{double})
 \item[\texttt{max(.,.)}] returns the greater of the two argument values, which must be of the same numeric type (i.e. both either \texttt{int} or \texttt{float} or \texttt{double})
+\item[\texttt{pow(.,.)}] returns the first argument value to the power of the second value; both must be of type \texttt{double}
 \end{description}
 
 \begin{rail} 
@@ -463,7 +465,7 @@ The Constants are:
 
 The set/map constructors are constant if only primitive type literals, enum literals, or constant expressions are used; 
 this is required for set/map initializations in the model.
-They are non-constant if they contain member accesses, which is the common case if used in rules.
+They are non-constant if they contain nodes/edges/or member accesses, which is the common case if used in rules.
 If the type of the set/map is given before the constructor, the elements given in the type constructor are casted to the specified member types if needed and possible.
 Without the type prefix all elements given in the constructor must be of the same type.
 
@@ -472,7 +474,7 @@ Some examples of literals:
 \begin{grgen}
 Apple::ToffeeApple // an enum literal
 42 // an integer number in decimal notation
-0x5eadbeef // an integer number in hexadecimal notation
+0x7eadbeef // an integer number in hexadecimal notation
 3.14159 // a double number
 3.14159f // a float number
 "ve rule and 0wn ze vorld" // a text literal

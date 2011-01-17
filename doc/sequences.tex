@@ -232,13 +232,18 @@ The sequence \verb#if{Condition;TrueCase}# is equivalent to \verb#if{Condition;T
 
 Graph rewrite sequences can be processed \indexed{transaction}ally by using angle brackets (\texttt{<>}), i.e.
 if the return value is \texttt{false}, all the related operations on the host graph will be rolled back.
-Nested transactions\indexmainsee{nested transaction}{transaction} are supported.
+Nested transactions\indexmainsee{nested transaction}{transaction} are supported, i.e. a transaction which was committed is rolled back again if an enclosing transaction fails.
 Transactions are a key ingredient for backtracking, which is syntactically specified by double angle brackets (\texttt{<<r;s>>}.
 The semantics of the construct are:
 First compute all matches for rule \texttt{r}, then start a transaction.
 For each match: execute the rewrite of the match, then execute \texttt{s}.
 If \texttt{s} failed then rollback and continue with the loop.
 If \texttt{s} succeeded then commit and break from the loop.
+
+\begin{note}
+While a transaction or a backtrack is pending, all changes to the graph are recorded into some kind of undo log, which is used to reverse the effects on the graph in the case of rollback (and is thrown away when the nesting root gets committed).
+So these constructs are not horribly inefficient, but they do have their price --- if you need them, use them, but evaluate first if you really do.
+\end{note}
 
 \begin{rail} 
   ExtendedControl: 
