@@ -631,6 +631,11 @@
             Map some given input element to an output graph element.
             </summary>
         </member>
+        <member name="F:de.unika.ipd.grGen.lgsp.SearchOperationType.PickFromStorageAttribute">
+            <summary>
+            Pick element from storage attribute, needs attribute owner.
+            </summary>
+        </member>
         <member name="F:de.unika.ipd.grGen.lgsp.SearchOperationType.Outgoing">
             <summary>
             Follow outgoing edges of given node.
@@ -722,7 +727,7 @@
             containing the entities needed for the exec execution.
             These exec are executed at the end of the rule which directly or indirectly used them,
             long after the alternative/iterated/subpattern modification containing them has been applied.
-            The real stuff depends on the xgrs and is generated, obeying this interface.
+            The real stuff depends on the xgrs and is generated, implementing this abstract class.
             </summary>
         </member>
         <member name="M:de.unika.ipd.grGen.lgsp.LGSPEmbeddedSequenceClosure.exec(de.unika.ipd.grGen.lgsp.LGSPGraph)">
@@ -1059,29 +1064,6 @@
             Generate a new action for the given action, doing the same work, 
             but hopefully faster by taking graph analysis information into account
             </summary>
-        </member>
-        <member name="T:de.unika.ipd.grGen.lgsp.LGSPTransactionManager">
-            <summary>
-            A class for managing graph transactions.
-            </summary>
-        </member>
-        <member name="M:de.unika.ipd.grGen.lgsp.LGSPTransactionManager.StartTransaction">
-            <summary>
-            Starts a transaction
-            </summary>
-            <returns>A transaction ID to be used with Commit or Rollback</returns>
-        </member>
-        <member name="M:de.unika.ipd.grGen.lgsp.LGSPTransactionManager.Commit(System.Int32)">
-            <summary>
-            Removes the rollback data and stops this transaction
-            </summary>
-            <param name="transactionID">Transaction ID returned by a StartTransaction call</param>
-        </member>
-        <member name="M:de.unika.ipd.grGen.lgsp.LGSPTransactionManager.Rollback(System.Int32)">
-            <summary>
-            Undoes all changes during a transaction
-            </summary>
-            <param name="transactionID">The ID of the transaction to be rollbacked</param>
         </member>
         <member name="T:de.unika.ipd.grGen.lgsp.LGSPGraph">
             <summary>
@@ -2883,6 +2865,19 @@
             values are the names of the appropriate models (not filenames).
             </summary>
         </member>
+        <member name="T:de.unika.ipd.grGen.lgsp.LGSPDeferredSequencesManager">
+            <summary>
+            A class for managing deferred sequence execution.
+            </summary>
+        </member>
+        <member name="F:de.unika.ipd.grGen.lgsp.LGSPDeferredSequencesManager.toBeExecuted">
+            <summary>
+            A global stack of queues with the sequences to be executed after execution of the current rule/test.
+            These are sequences with their needed environment, used from within subpatterns/alternatives/iterateds.
+            For every exec entry a queue is pushed, for every exit popped, to ensure that the exec processing
+            of a nested rule is not executing the execs of the calling rule.
+            </summary>
+        </member>
         <member name="T:de.unika.ipd.grGen.lgsp.SearchProgramCompleter">
             <summary>
             Class completing search programs
@@ -3009,12 +3004,22 @@
             with the accessor given here applied as index into the storage map given in the Storage field.
             </summary>
         </member>
+        <member name="F:de.unika.ipd.grGen.lgsp.PatternElement.StorageAttributeOwner">
+            <summary>
+            If not null this pattern element is to be bound by iterating the given storage attribute of this owner.
+            </summary>
+        </member>
+        <member name="F:de.unika.ipd.grGen.lgsp.PatternElement.StorageAttribute">
+            <summary>
+            If not null this pattern element is to be bound by iterating the given storage attribute.
+            </summary>
+        </member>
         <member name="F:de.unika.ipd.grGen.lgsp.PatternElement.TempPlanMapping">
             <summary>
             plan graph node corresponding to this pattern element, used in plan graph generation, just hacked into this place
             </summary>
         </member>
-        <member name="M:de.unika.ipd.grGen.lgsp.PatternElement.#ctor(System.Int32,System.String,System.String,System.String,de.unika.ipd.grGen.libGr.GrGenType[],System.Boolean[],System.Single,System.Int32,System.Boolean,de.unika.ipd.grGen.lgsp.PatternVariable,de.unika.ipd.grGen.lgsp.PatternElement)">
+        <member name="M:de.unika.ipd.grGen.lgsp.PatternElement.#ctor(System.Int32,System.String,System.String,System.String,de.unika.ipd.grGen.libGr.GrGenType[],System.Boolean[],System.Single,System.Int32,System.Boolean,de.unika.ipd.grGen.lgsp.PatternVariable,de.unika.ipd.grGen.lgsp.PatternElement,de.unika.ipd.grGen.lgsp.PatternElement,de.unika.ipd.grGen.libGr.AttributeType)">
             <summary>
             Instantiates a new PatternElement object.
             </summary>
@@ -3034,6 +3039,8 @@
             <param name="storage">If not null this pattern element is to be bound by iterating the given storage.</param>
             <param name="accessor">If not null this pattern element is to be determined by map lookup,
                 with the accessor given here applied as index into the storage map given in the storage parameter.</param>
+            <param name="storageAttributeOwner">If not null this pattern element is to be bound by iterating the given storage attribute of this owner.</param>
+            <param name="storageAttribute">If not null this pattern element is to be bound by iterating the given storage attribute.</param>
         </member>
         <member name="M:de.unika.ipd.grGen.lgsp.PatternElement.ToString">
             <summary>
@@ -3066,7 +3073,7 @@
             A pattern node of a rule pattern.
             </summary>
         </member>
-        <member name="M:de.unika.ipd.grGen.lgsp.PatternNode.#ctor(System.Int32,System.String,System.String,System.String,de.unika.ipd.grGen.libGr.GrGenType[],System.Boolean[],System.Single,System.Int32,System.Boolean,de.unika.ipd.grGen.lgsp.PatternVariable,de.unika.ipd.grGen.lgsp.PatternElement)">
+        <member name="M:de.unika.ipd.grGen.lgsp.PatternNode.#ctor(System.Int32,System.String,System.String,System.String,de.unika.ipd.grGen.libGr.GrGenType[],System.Boolean[],System.Single,System.Int32,System.Boolean,de.unika.ipd.grGen.lgsp.PatternVariable,de.unika.ipd.grGen.lgsp.PatternElement,de.unika.ipd.grGen.lgsp.PatternElement,de.unika.ipd.grGen.libGr.AttributeType)">
             <summary>
             Instantiates a new PatternNode object
             </summary>
@@ -3086,6 +3093,8 @@
             <param name="storage">If not null this pattern node is to be bound by iterating the given storage.</param>
             <param name="accessor">If not null this pattern node is to be determined by map lookup,
                 with the accessor given here applied as index into the storage map given in the storage parameter.</param>
+            <param name="storageAttributeOwner">If not null this pattern node is to be bound by iterating the given storage attribute of this owner.</param>
+            <param name="storageAttribute">If not null this pattern node is to be bound by iterating the given storage attribute.</param>
         </member>
         <member name="M:de.unika.ipd.grGen.lgsp.PatternNode.ToString">
             <summary>
@@ -3103,7 +3112,7 @@
             Indicates, whether this pattern edge should be matched with a fixed direction or not.
             </summary>
         </member>
-        <member name="M:de.unika.ipd.grGen.lgsp.PatternEdge.#ctor(System.Boolean,System.Int32,System.String,System.String,System.String,de.unika.ipd.grGen.libGr.GrGenType[],System.Boolean[],System.Single,System.Int32,System.Boolean,de.unika.ipd.grGen.lgsp.PatternVariable,de.unika.ipd.grGen.lgsp.PatternElement)">
+        <member name="M:de.unika.ipd.grGen.lgsp.PatternEdge.#ctor(System.Boolean,System.Int32,System.String,System.String,System.String,de.unika.ipd.grGen.libGr.GrGenType[],System.Boolean[],System.Single,System.Int32,System.Boolean,de.unika.ipd.grGen.lgsp.PatternVariable,de.unika.ipd.grGen.lgsp.PatternElement,de.unika.ipd.grGen.lgsp.PatternElement,de.unika.ipd.grGen.libGr.AttributeType)">
             <summary>
             Instantiates a new PatternEdge object
             </summary>
@@ -3124,6 +3133,8 @@
             <param name="storage">If not null this pattern edge is to be bound by iterating the given storage.</param>
             <param name="accessor">If not null this pattern edge is to be determined by map lookup,
                 with the accessor given here applied as index into the storage map given in the storage parameter.</param>
+            <param name="storageAttributeOwner">If not null this pattern edge is to be bound by iterating the given storage attribute of this owner.</param>
+            <param name="storageAttribute">If not null this pattern edge is to be bound by iterating the given storage attribute.</param>
         </member>
         <member name="M:de.unika.ipd.grGen.lgsp.PatternEdge.ToString">
             <summary>
@@ -3693,12 +3704,6 @@
             Our name
             </summary>
         </member>
-        <member name="F:de.unika.ipd.grGen.lgsp.LGSPMatchingPattern.toBeExecuted">
-            <summary>
-            A global queue with the sequences to be executed after execution of the current rule/test.
-            These are sequences with their needed environment, used from within subpatterns/alternatives/iterateds.
-            </summary>
-        </member>
         <member name="P:de.unika.ipd.grGen.lgsp.LGSPMatchingPattern.PatternGraph">
             <summary>
             The main pattern graph.
@@ -3887,6 +3892,13 @@
             <summary>
             Search program operations implementing the
             PickFromStorage search plan operation
+            are created and inserted into search program
+            </summary>
+        </member>
+        <member name="M:de.unika.ipd.grGen.lgsp.SearchProgramBuilder.buildPickFromStorageAttribute(de.unika.ipd.grGen.lgsp.SearchProgramOperation,System.Int32,de.unika.ipd.grGen.lgsp.SearchPlanNode,de.unika.ipd.grGen.lgsp.SearchPlanNode,de.unika.ipd.grGen.libGr.AttributeType,de.unika.ipd.grGen.lgsp.IsomorphyInformation)">
+            <summary>
+            Search program operations implementing the
+            PickFromStorageAttribute search plan operation
             are created and inserted into search program
             </summary>
         </member>
@@ -4175,6 +4187,30 @@
             <summary>
             the types of match objects there are, to be filled by insertMatchObjectBuilding
             </summary>
+        </member>
+        <member name="T:de.unika.ipd.grGen.lgsp.LGSPTransactionManager">
+            <summary>
+            A class for managing graph transactions.
+            </summary>
+        </member>
+        <member name="M:de.unika.ipd.grGen.lgsp.LGSPTransactionManager.StartTransaction">
+            <summary>
+            Starts a transaction
+            </summary>
+            <returns>A transaction ID to be used with Commit or Rollback</returns>
+        </member>
+        <member name="M:de.unika.ipd.grGen.lgsp.LGSPTransactionManager.Commit(System.Int32)">
+            <summary>
+            Commits the changes during a transaction
+            (removes rollback information only if the transaction is outermost)
+            </summary>
+            <param name="transactionID">Transaction ID returned by a StartTransaction call</param>
+        </member>
+        <member name="M:de.unika.ipd.grGen.lgsp.LGSPTransactionManager.Rollback(System.Int32)">
+            <summary>
+            Undoes all changes during a transaction
+            </summary>
+            <param name="transactionID">The ID of the transaction to be rollbacked</param>
         </member>
         <member name="T:de.unika.ipd.grGen.lgsp.SourceBuilder">
             <summary>
@@ -4709,6 +4745,11 @@
         <member name="T:de.unika.ipd.grGen.expression.Min">
             <summary>
             Class representing the min operator.
+            </summary>
+        </member>
+        <member name="T:de.unika.ipd.grGen.expression.Pow">
+            <summary>
+            Class representing the to-the-power-of operator.
             </summary>
         </member>
     </members>

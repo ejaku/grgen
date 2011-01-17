@@ -1765,6 +1765,150 @@
             Fired when a sequence is left.
             </summary>
         </member>
+        <member name="T:de.unika.ipd.grGen.libGr.Recorder">
+            <summary>
+            A class for recording changes (and their causes) applied to a graph into a file,
+            so that they can get replayed.
+            </summary>
+        </member>
+        <member name="T:de.unika.ipd.grGen.libGr.IRecorder">
+            <summary>
+            An interface for recording changes (and their causes) applied to a graph into a file,
+            so that they can get replayed.
+            </summary>
+        </member>
+        <member name="M:de.unika.ipd.grGen.libGr.IRecorder.StartRecording(System.String)">
+            <summary>
+            Creates a file which initially gets filled with a .grs export of the graph.
+            Afterwards the changes applied to the graph are recorded into the file,
+            in the order they occur.
+            You can start multiple recordings into differently named files.
+            </summary>
+            <param name="filename">The name of the file to record to</param>
+        </member>
+        <member name="M:de.unika.ipd.grGen.libGr.IRecorder.StopRecording(System.String)">
+            <summary>
+            Stops recording of the changes applied to the graph to the given file.
+            </summary>
+            <param name="filename">The name of the file to stop recording to</param>
+        </member>
+        <member name="M:de.unika.ipd.grGen.libGr.IRecorder.IsRecording(System.String)">
+            <summary>
+            Returns whether the graph changes get currently recorded into the given file.
+            </summary>
+            <param name="filename">The name of the file whose recording status gets queried</param>
+            <returns>The recording status of the file queried</returns>
+        </member>
+        <member name="M:de.unika.ipd.grGen.libGr.IRecorder.Write(System.String)">
+            <summary>
+            Writes the given string to the currently ongoing recordings
+            </summary>
+            <param name="value">The string to write to the recordings</param>
+        </member>
+        <member name="M:de.unika.ipd.grGen.libGr.IRecorder.TransactionStart(System.Int32)">
+            <summary>
+            Called by the transaction manager when a transaction is started
+            </summary>
+            <param name="transactionID">The id of the transaction</param>
+        </member>
+        <member name="M:de.unika.ipd.grGen.libGr.IRecorder.TransactionCommit(System.Int32)">
+            <summary>
+            Called by the transaction manager when a transaction is committed
+            </summary>
+            <param name="transactionID">The id of the transaction</param>
+        </member>
+        <member name="M:de.unika.ipd.grGen.libGr.IRecorder.TransactionRollback(System.Int32,System.Boolean)">
+            <summary>
+            Called by the transaction manager when a transaction is rolled back
+            </summary>
+            <param name="transactionID">The id of the transaction</param>
+            <param name="start">true when called at rollback start, false when called at rollback end</param>
+        </member>
+        <member name="M:de.unika.ipd.grGen.libGr.Recorder.#ctor(de.unika.ipd.grGen.libGr.IGraph)">
+            <summary>
+            Create a recorder
+            </summary>
+            <param name="graph">The graph whose changes are to be recorded; 
+            should be a NamedGraph for things to run smoothly (same holds for Porter methods)</param>
+        </member>
+        <member name="M:de.unika.ipd.grGen.libGr.Recorder.StartRecording(System.String)">
+            <summary>
+            Creates a file which initially gets filled with a .grs export of the graph.
+            Afterwards the changes applied to the graph are recorded into the file,
+            in the order they occur.
+            You can start multiple recordings into differently named files.
+            </summary>
+            <param name="filename">The name of the file to record to</param>
+        </member>
+        <member name="M:de.unika.ipd.grGen.libGr.Recorder.StopRecording(System.String)">
+            <summary>
+            Stops recording of the changes applied to the graph to the given file.
+            </summary>
+            <param name="filename">The name of the file to stop recording to</param>
+        </member>
+        <member name="M:de.unika.ipd.grGen.libGr.Recorder.IsRecording(System.String)">
+            <summary>
+            Returns whether the graph changes get currently recorded into the given file.
+            </summary>
+            <param name="filename">The name of the file whose recording status gets queried</param>
+            <returns>The recording status of the file queried</returns>
+        </member>
+        <member name="M:de.unika.ipd.grGen.libGr.Recorder.Write(System.String)">
+            <summary>
+            Writes the given string to the currently ongoing recordings
+            </summary>
+            <param name="value">The string to write to the recordings</param>
+        </member>
+        <member name="M:de.unika.ipd.grGen.libGr.Recorder.NodeAdded(de.unika.ipd.grGen.libGr.INode)">
+            <summary>
+            Event handler for IGraph.OnNodeAdded.
+            </summary>
+            <param name="node">The added node.</param>
+        </member>
+        <member name="M:de.unika.ipd.grGen.libGr.Recorder.EdgeAdded(de.unika.ipd.grGen.libGr.IEdge)">
+            <summary>
+            Event handler for IGraph.OnEdgeAdded.
+            </summary>
+            <param name="edge">The added edge.</param>
+        </member>
+        <member name="M:de.unika.ipd.grGen.libGr.Recorder.RemovingNode(de.unika.ipd.grGen.libGr.INode)">
+            <summary>
+            Event handler for IGraph.OnRemovingNode.
+            </summary>
+            <param name="node">The node to be deleted.</param>
+        </member>
+        <member name="M:de.unika.ipd.grGen.libGr.Recorder.RemovingEdge(de.unika.ipd.grGen.libGr.IEdge)">
+            <summary>
+            Event handler for IGraph.OnRemovingEdge.
+            </summary>
+            <param name="edge">The edge to be deleted.</param>
+        </member>
+        <member name="M:de.unika.ipd.grGen.libGr.Recorder.ChangingAttribute(de.unika.ipd.grGen.libGr.IGraphElement,de.unika.ipd.grGen.libGr.AttributeType,de.unika.ipd.grGen.libGr.AttributeChangeType,System.Object,System.Object)">
+            <summary>
+            Event handler for IGraph.OnChangingNodeAttribute and IGraph.OnChangingEdgeAttribute.
+            </summary>
+            <param name="element">The node or edge whose attribute is changed.</param>
+            <param name="attrType">The type of the attribute to be changed.</param>
+            <param name="changeType">The type of the change which will be made.</param>
+            <param name="newValue">The new value of the attribute, if changeType==Assign.
+                                   Or the value to be inserted/removed if changeType==PutElement/RemoveElement on set.
+                                   Or the new map pair value to be inserted if changeType==PutElement on map.</param>
+            <param name="keyValue">The map pair key to be inserted/removed if changeType==PutElement/RemoveElement on map.</param>
+        </member>
+        <member name="M:de.unika.ipd.grGen.libGr.Recorder.RetypingNode(de.unika.ipd.grGen.libGr.INode,de.unika.ipd.grGen.libGr.INode)">
+            <summary>
+            Event handler for IGraph.OnRetypingNode.
+            </summary>
+            <param name="oldNode">The node to be retyped.</param>
+            <param name="newNode">The new node with the common attributes, but without the correct connections, yet.</param>
+        </member>
+        <member name="M:de.unika.ipd.grGen.libGr.Recorder.RetypingEdge(de.unika.ipd.grGen.libGr.IEdge,de.unika.ipd.grGen.libGr.IEdge)">
+            <summary>
+            Event handler for IGraph.OnRetypingEdge.
+            </summary>
+            <param name="oldEdge">The edge to be retyped.</param>
+            <param name="newEdge">The new edge with the common attributes, but without the correct connections, yet.</param>
+        </member>
         <member name="T:de.unika.ipd.grGen.libGr.ECoreImport">
             <summary>
             Imports a graph model from the ECore format.
@@ -2432,16 +2576,22 @@
             <param name="sw">The stream writer of the file to export into. The stream writer is not closed automatically.</param>
             <param name="withVariables">Export the graph variables, too?</param>
         </member>
-        <member name="M:de.unika.ipd.grGen.libGr.GRSExport.EmitAttributeInitialization(de.unika.ipd.grGen.libGr.AttributeType,System.Object,System.IO.StreamWriter)">
+        <member name="M:de.unika.ipd.grGen.libGr.GRSExport.EmitAttributeInitialization(de.unika.ipd.grGen.libGr.AttributeType,System.Object,de.unika.ipd.grGen.libGr.IGraph,System.IO.StreamWriter)">
             <summary>
             Emits the node/edge attribute initialization code in graph exporting
             for an attribute of the given type with the given value into the stream writer
             </summary>
         </member>
-        <member name="M:de.unika.ipd.grGen.libGr.GRSExport.EmitAttribute(de.unika.ipd.grGen.libGr.AttributeType,System.Object,System.IO.StreamWriter)">
+        <member name="M:de.unika.ipd.grGen.libGr.GRSExport.EmitAttribute(de.unika.ipd.grGen.libGr.AttributeType,System.Object,de.unika.ipd.grGen.libGr.IGraph,System.IO.StreamWriter)">
             <summary>
             Emits the attribute value as code
             for an attribute of the given type with the given value into the stream writer
+            </summary>
+        </member>
+        <member name="M:de.unika.ipd.grGen.libGr.GRSExport.ToString(System.Object,de.unika.ipd.grGen.libGr.AttributeType,de.unika.ipd.grGen.libGr.IGraph)">
+            <summary>
+            type needed for enum, otherwise null ok
+            graph needed for node/edge in set/map, otherwise null ok
             </summary>
         </member>
         <member name="M:de.unika.ipd.grGen.libGr.porter.GRSImporter.Import(System.String,System.String,de.unika.ipd.grGen.libGr.IBackend)">
@@ -2566,14 +2716,13 @@
         <member name="M:de.unika.ipd.grGen.libGr.DictionaryHelper.Intersect``2(System.Collections.Generic.Dictionary{``0,``1},System.Collections.Generic.Dictionary{``0,``1})">
             <summary>
             Creates a new dictionary containing all key/value pairs from
-            <paramref name="b"/> whose keys are also contained in <paramref name="a"/>.
-            If both dictionaries contain one key, the value from <paramref name="b"/> takes precedence
-            for consistency with Union.
+            <paramref name="a"/> whose keys are also contained in <paramref name="b"/>.
+            If both dictionaries contain one key, the value from <paramref name="a"/> takes precedence, in contrast to union.
             </summary>
             <param name="a">A dictionary.</param>
             <param name="b">Another dictionary of compatible type to <paramref name="a"/>.</param>
-            <returns>A new dictionary containing all elements from <paramref name="b"/>,
-            which are also in <paramref name="a"/>.</returns>
+            <returns>A new dictionary containing all elements from <paramref name="a"/>,
+            which are also in <paramref name="b"/>.</returns>
         </member>
         <member name="M:de.unika.ipd.grGen.libGr.DictionaryHelper.Except``3(System.Collections.Generic.Dictionary{``0,``1},System.Collections.Generic.Dictionary{``0,``2})">
             <summary>
@@ -2584,6 +2733,138 @@
             <param name="b">Another dictionary of compatible key type to <paramref name="a"/>.</param>
             <returns>A new dictionary containing all elements from <paramref name="a"/>,
             which are not in <paramref name="b"/>.</returns>
+        </member>
+        <!-- Ungültiger XML-Kommentar wurde für den Member "M:de.unika.ipd.grGen.libGr.DictionaryHelper.UnionChanged``2(System.Collections.Generic.Dictionary{``0,``1},System.Collections.Generic.Dictionary{``0,``1})" ignoriert -->
+        <member name="M:de.unika.ipd.grGen.libGr.DictionaryHelper.IntersectChanged``2(System.Collections.Generic.Dictionary{``0,``1},System.Collections.Generic.Dictionary{``0,``1})">
+            <summary>
+            Removes all key/value pairs from set/map <paramref name="a"/> whose keys are not also contained in <paramref name="b"/>.
+            If both dictionaries contain one key, the value from <paramref name="a"/> takes precedence, in contrast to union.
+            </summary>
+            <param name="a">A dictionary to change.</param>
+            <param name="b">Another dictionary of compatible type to <paramref name="a"/>.</param>
+            <returns>A truth value telling whether at least one element was changed in a</returns>
+        </member>
+        <member name="M:de.unika.ipd.grGen.libGr.DictionaryHelper.ExceptChanged``3(System.Collections.Generic.Dictionary{``0,``1},System.Collections.Generic.Dictionary{``0,``2})">
+            <summary>
+            Removes all key/value pairs from set/map <paramref name="a"/> whose keys are contained in <paramref name="b"/>.
+            </summary>
+            <param name="a">A dictionary to change.</param>
+            <param name="b">Another dictionary of compatible key type to <paramref name="a"/>.</param>
+            <returns>A truth value telling whether at least one element was changed in a</returns>
+        </member>
+        <!-- Ungültiger XML-Kommentar wurde für den Member "M:de.unika.ipd.grGen.libGr.DictionaryHelper.UnionChanged``2(System.Collections.Generic.Dictionary{``0,``1},System.Collections.Generic.Dictionary{``0,``1},de.unika.ipd.grGen.libGr.IGraph,de.unika.ipd.grGen.libGr.INode,de.unika.ipd.grGen.libGr.AttributeType)" ignoriert -->
+        <!-- Ungültiger XML-Kommentar wurde für den Member "M:de.unika.ipd.grGen.libGr.DictionaryHelper.UnionChanged``2(System.Collections.Generic.Dictionary{``0,``1},System.Collections.Generic.Dictionary{``0,``1},de.unika.ipd.grGen.libGr.IGraph,de.unika.ipd.grGen.libGr.IEdge,de.unika.ipd.grGen.libGr.AttributeType)" ignoriert -->
+        <member name="M:de.unika.ipd.grGen.libGr.DictionaryHelper.UnionChanged``1(System.Collections.Generic.Dictionary{``0,de.unika.ipd.grGen.libGr.SetValueType},System.Collections.Generic.Dictionary{``0,de.unika.ipd.grGen.libGr.SetValueType},de.unika.ipd.grGen.libGr.IGraph,de.unika.ipd.grGen.libGr.INode,de.unika.ipd.grGen.libGr.AttributeType)">
+            <summary>
+            Adds all key/value pairs from set <paramref name="b"/> to <paramref name="a"/>.
+            </summary>
+            <param name="a">A dictionary to change.</param>
+            <param name="b">Another dictionary of compatible type to <paramref name="a"/>.</param>
+            <param name="graph">The graph containing the node containing the attribute which gets changed.</param>
+            <param name="owner">The node containing the attribute which gets changed.</param>
+            <param name="attrType">The attribute type of the attribute which gets changed.</param>
+            <returns>A truth value telling whether at least one element was changed in a</returns>
+        </member>
+        <member name="M:de.unika.ipd.grGen.libGr.DictionaryHelper.UnionChanged``1(System.Collections.Generic.Dictionary{``0,de.unika.ipd.grGen.libGr.SetValueType},System.Collections.Generic.Dictionary{``0,de.unika.ipd.grGen.libGr.SetValueType},de.unika.ipd.grGen.libGr.IGraph,de.unika.ipd.grGen.libGr.IEdge,de.unika.ipd.grGen.libGr.AttributeType)">
+            <summary>
+            Adds all key/value pairs from set <paramref name="b"/> to <paramref name="a"/>.
+            </summary>
+            <param name="a">A dictionary to change.</param>
+            <param name="b">Another dictionary of compatible type to <paramref name="a"/>.</param>
+            <param name="graph">The graph containing the edge containing the attribute which gets changed.</param>
+            <param name="owner">The edge containing the attribute which gets changed.</param>
+            <param name="attrType">The attribute type of the attribute which gets changed.</param>
+            <returns>A truth value telling whether at least one element was changed in a</returns>
+        </member>
+        <member name="M:de.unika.ipd.grGen.libGr.DictionaryHelper.IntersectChanged``2(System.Collections.Generic.Dictionary{``0,``1},System.Collections.Generic.Dictionary{``0,``1},de.unika.ipd.grGen.libGr.IGraph,de.unika.ipd.grGen.libGr.INode,de.unika.ipd.grGen.libGr.AttributeType)">
+            <summary>
+            Removes all key/value pairs from map <paramref name="a"/> whose keys are not also contained in <paramref name="b"/>.
+            If both dictionaries contain one key, the value from <paramref name="a"/> takes precedence, in contrast to union.
+            </summary>
+            <param name="a">A dictionary to change.</param>
+            <param name="b">Another dictionary of compatible type to <paramref name="a"/>.</param>
+            <param name="graph">The graph containing the node containing the attribute which gets changed.</param>
+            <param name="owner">The node containing the attribute which gets changed.</param>
+            <param name="attrType">The attribute type of the attribute which gets changed.</param>
+            <returns>A truth value telling whether at least one element was changed in a</returns>
+        </member>
+        <member name="M:de.unika.ipd.grGen.libGr.DictionaryHelper.IntersectChanged``2(System.Collections.Generic.Dictionary{``0,``1},System.Collections.Generic.Dictionary{``0,``1},de.unika.ipd.grGen.libGr.IGraph,de.unika.ipd.grGen.libGr.IEdge,de.unika.ipd.grGen.libGr.AttributeType)">
+            <summary>
+            Removes all key/value pairs from map <paramref name="a"/> whose keys are not also contained in <paramref name="b"/>.
+            If both dictionaries contain one key, the value from <paramref name="a"/> takes precedence, in contrast to union.
+            </summary>
+            <param name="a">A dictionary to change.</param>
+            <param name="b">Another dictionary of compatible type to <paramref name="a"/>.</param>
+            <param name="graph">The graph containing the edge containing the attribute which gets changed.</param>
+            <param name="owner">The edge containing the attribute which gets changed.</param>
+            <param name="attrType">The attribute type of the attribute which gets changed.</param>
+            <returns>A truth value telling whether at least one element was changed in a</returns>
+        </member>
+        <member name="M:de.unika.ipd.grGen.libGr.DictionaryHelper.IntersectChanged``1(System.Collections.Generic.Dictionary{``0,de.unika.ipd.grGen.libGr.SetValueType},System.Collections.Generic.Dictionary{``0,de.unika.ipd.grGen.libGr.SetValueType},de.unika.ipd.grGen.libGr.IGraph,de.unika.ipd.grGen.libGr.INode,de.unika.ipd.grGen.libGr.AttributeType)">
+            <summary>
+            Removes all key/value pairs from set <paramref name="a"/> whose keys are not also contained in <paramref name="b"/>.
+            </summary>
+            <param name="a">A dictionary to change.</param>
+            <param name="b">Another dictionary of compatible type to <paramref name="a"/>.</param>
+            <param name="graph">The graph containing the node containing the attribute which gets changed.</param>
+            <param name="owner">The node containing the attribute which gets changed.</param>
+            <param name="attrType">The attribute type of the attribute which gets changed.</param>
+            <returns>A truth value telling whether at least one element was changed in a</returns>
+        </member>
+        <member name="M:de.unika.ipd.grGen.libGr.DictionaryHelper.IntersectChanged``1(System.Collections.Generic.Dictionary{``0,de.unika.ipd.grGen.libGr.SetValueType},System.Collections.Generic.Dictionary{``0,de.unika.ipd.grGen.libGr.SetValueType},de.unika.ipd.grGen.libGr.IGraph,de.unika.ipd.grGen.libGr.IEdge,de.unika.ipd.grGen.libGr.AttributeType)">
+            <summary>
+            Removes all key/value pairs from set <paramref name="a"/> whose keys are not also contained in <paramref name="b"/>.
+            </summary>
+            <param name="a">A dictionary to change.</param>
+            <param name="b">Another dictionary of compatible type to <paramref name="a"/>.</param>
+            <param name="graph">The graph containing the edge containing the attribute which gets changed.</param>
+            <param name="owner">The edge containing the attribute which gets changed.</param>
+            <param name="attrType">The attribute type of the attribute which gets changed.</param>
+            <returns>A truth value telling whether at least one element was changed in a</returns>
+        </member>
+        <member name="M:de.unika.ipd.grGen.libGr.DictionaryHelper.ExceptChanged``3(System.Collections.Generic.Dictionary{``0,``1},System.Collections.Generic.Dictionary{``0,``2},de.unika.ipd.grGen.libGr.IGraph,de.unika.ipd.grGen.libGr.INode,de.unika.ipd.grGen.libGr.AttributeType)">
+            <summary>
+            Removes all key/value pairs from map <paramref name="a"/> whose keys are contained in <paramref name="b"/>.
+            </summary>
+            <param name="a">A dictionary to change.</param>
+            <param name="b">Another dictionary of compatible key type to <paramref name="a"/>.</param>
+            <param name="graph">The graph containing the node containing the attribute which gets changed.</param>
+            <param name="owner">The node containing the attribute which gets changed.</param>
+            <param name="attrType">The attribute type of the attribute which gets changed.</param>
+            <returns>A truth value telling whether at least one element was changed in a</returns>
+        </member>
+        <member name="M:de.unika.ipd.grGen.libGr.DictionaryHelper.ExceptChanged``3(System.Collections.Generic.Dictionary{``0,``1},System.Collections.Generic.Dictionary{``0,``2},de.unika.ipd.grGen.libGr.IGraph,de.unika.ipd.grGen.libGr.IEdge,de.unika.ipd.grGen.libGr.AttributeType)">
+            <summary>
+            Removes all key/value pairs from map <paramref name="a"/> whose keys are contained in <paramref name="b"/>.
+            </summary>
+            <param name="a">A dictionary to change.</param>
+            <param name="b">Another dictionary of compatible key type to <paramref name="a"/>.</param>
+            <param name="graph">The graph containing the edge containing the attribute which gets changed.</param>
+            <param name="owner">The edge containing the attribute which gets changed.</param>
+            <param name="attrType">The attribute type of the attribute which gets changed.</param>
+            <returns>A truth value telling whether at least one element was changed in a</returns>
+        </member>
+        <member name="M:de.unika.ipd.grGen.libGr.DictionaryHelper.ExceptChanged``2(System.Collections.Generic.Dictionary{``0,de.unika.ipd.grGen.libGr.SetValueType},System.Collections.Generic.Dictionary{``0,``1},de.unika.ipd.grGen.libGr.IGraph,de.unika.ipd.grGen.libGr.INode,de.unika.ipd.grGen.libGr.AttributeType)">
+            <summary>
+            Removes all key/value pairs from set <paramref name="a"/> whose keys are contained in <paramref name="b"/>.
+            </summary>
+            <param name="a">A dictionary to change.</param>
+            <param name="b">Another dictionary of compatible key type to <paramref name="a"/>.</param>
+            <param name="graph">The graph containing the node containing the attribute which gets changed.</param>
+            <param name="owner">The node containing the attribute which gets changed.</param>
+            <param name="attrType">The attribute type of the attribute which gets changed.</param>
+            <returns>A truth value telling whether at least one element was changed in a</returns>
+        </member>
+        <member name="M:de.unika.ipd.grGen.libGr.DictionaryHelper.ExceptChanged``2(System.Collections.Generic.Dictionary{``0,de.unika.ipd.grGen.libGr.SetValueType},System.Collections.Generic.Dictionary{``0,``1},de.unika.ipd.grGen.libGr.IGraph,de.unika.ipd.grGen.libGr.IEdge,de.unika.ipd.grGen.libGr.AttributeType)">
+            <summary>
+            Removes all key/value pairs from set <paramref name="a"/> whose keys are contained in <paramref name="b"/>.
+            </summary>
+            <param name="a">A dictionary to change.</param>
+            <param name="b">Another dictionary of compatible key type to <paramref name="a"/>.</param>
+            <param name="graph">The graph containing the edge containing the attribute which gets changed.</param>
+            <param name="owner">The edge containing the attribute which gets changed.</param>
+            <param name="attrType">The attribute type of the attribute which gets changed.</param>
+            <returns>A truth value telling whether at least one element was changed in a</returns>
         </member>
         <member name="M:de.unika.ipd.grGen.libGr.DictionaryHelper.Domain``2(System.Collections.Generic.Dictionary{``0,``1})">
             <summary>
@@ -2663,18 +2944,25 @@
             <param name="b">Another dictionary of compatible type to <paramref name="a"/>.</param>
             <returns>Boolean result of set/map comparison.</returns>
         </member>
-        <member name="M:de.unika.ipd.grGen.libGr.DictionaryHelper.ToString(System.Collections.IDictionary)">
+        <member name="M:de.unika.ipd.grGen.libGr.DictionaryHelper.ToString(System.Collections.IDictionary,de.unika.ipd.grGen.libGr.IGraph)">
             <summary>
             Returns a string representation of the given dictionary
             </summary>
             <param name="setmap">The dictionary of which to get the string representation</param>
-            <returns>String representation of set/map.</returns>
+            <param name="graph">The graph with the model and the element names if available, otherwise null</param>
+            <returns>string representation of dictionary</returns>
         </member>
-        <!-- Ungültiger XML-Kommentar wurde für den Member "M:de.unika.ipd.grGen.libGr.DictionaryHelper.ToString(System.Collections.IDictionary,System.String@,System.String@)" ignoriert -->
-        <!-- Ungültiger XML-Kommentar wurde für den Member "M:de.unika.ipd.grGen.libGr.DictionaryHelper.ToString(System.Collections.IDictionary,System.String@,System.String@,de.unika.ipd.grGen.libGr.AttributeType)" ignoriert -->
-        <!-- Ungültiger XML-Kommentar wurde für den Member "M:de.unika.ipd.grGen.libGr.DictionaryHelper.ToString(System.Collections.IDictionary,System.String@,System.String@,de.unika.ipd.grGen.libGr.IGraph)" ignoriert -->
-        <!-- Ungültiger XML-Kommentar wurde für den Member "M:de.unika.ipd.grGen.libGr.DictionaryHelper.ToString(System.Collections.IDictionary,de.unika.ipd.grGen.libGr.AttributeChangeType,System.Object,System.Object,System.String@,System.String@,de.unika.ipd.grGen.libGr.AttributeType)" ignoriert -->
-        <member name="M:de.unika.ipd.grGen.libGr.DictionaryHelper.ToString(System.Object,System.String@,System.String@,de.unika.ipd.grGen.libGr.AttributeType)">
+        <!-- Ungültiger XML-Kommentar wurde für den Member "M:de.unika.ipd.grGen.libGr.DictionaryHelper.ToString(System.Collections.IDictionary,System.String@,System.String@,de.unika.ipd.grGen.libGr.AttributeType,de.unika.ipd.grGen.libGr.IGraph)" ignoriert -->
+        <!-- Ungültiger XML-Kommentar wurde für den Member "M:de.unika.ipd.grGen.libGr.DictionaryHelper.ToString(System.Collections.IDictionary,de.unika.ipd.grGen.libGr.AttributeChangeType,System.Object,System.Object,System.String@,System.String@,de.unika.ipd.grGen.libGr.AttributeType,de.unika.ipd.grGen.libGr.IGraph)" ignoriert -->
+        <member name="M:de.unika.ipd.grGen.libGr.DictionaryHelper.ToString(System.Object,de.unika.ipd.grGen.libGr.IGraph)">
+            <summary>
+            Returns a string representation of the given scalar value
+            </summary>
+            <param name="value">The scalar value of which to get the string representation</param>
+            <param name="graph">The graph with the model and the element names if available, otherwise null</param>
+            <returns>string representation of scalar value</returns>
+        </member>
+        <member name="M:de.unika.ipd.grGen.libGr.DictionaryHelper.ToString(System.Object,System.String@,System.String@,de.unika.ipd.grGen.libGr.AttributeType,de.unika.ipd.grGen.libGr.IGraph)">
             <summary>
             Returns a string representation of the given scalar value
             </summary>
@@ -2682,15 +2970,7 @@
             <param name="type">The type as string, e.g int,string,Foo </param>
             <param name="content">The content as string, e.g. 42,"foo",bar } </param>
             <param name="attrType">The attribute type of the value</param>
-        </member>
-        <member name="M:de.unika.ipd.grGen.libGr.DictionaryHelper.ToString(System.Object,System.String@,System.String@,de.unika.ipd.grGen.libGr.IGraph)">
-            <summary>
-            Returns a string representation of the given scalar value
-            </summary>
-            <param name="value">The scalar value of which to get the string representation</param>
-            <param name="type">The type as string, e.g int,string,Foo </param>
-            <param name="content">The content as string, e.g. 42,"foo",bar } </param>
-            <param name="attrType">The attribute type of the value</param>
+            <param name="graph">The graph with the model and the element names</param>
         </member>
         <member name="M:de.unika.ipd.grGen.libGr.DictionaryHelper.IfAttributeOfElementIsDictionaryThenCloneDictionaryValue(de.unika.ipd.grGen.libGr.IGraphElement,System.String,System.Object,de.unika.ipd.grGen.libGr.AttributeType@)">
             <summary>
@@ -2699,20 +2979,13 @@
             additionally returns the AttributeType of the attribute of the element.
             </summary>
         </member>
-        <member name="M:de.unika.ipd.grGen.libGr.DictionaryHelper.ToString(System.Object,de.unika.ipd.grGen.libGr.IGraph)">
-            <summary>
-            Returns a string representation of the given scalar value
-            </summary>
-            <param name="value">The scalar of which to get the string representation</param>
-            <param name="graph">The graph with the model</param>
-            <returns>String representation of the scalar.</returns>
-        </member>
-        <member name="M:de.unika.ipd.grGen.libGr.DictionaryHelper.ToString(System.Object,de.unika.ipd.grGen.libGr.AttributeType)">
+        <member name="M:de.unika.ipd.grGen.libGr.DictionaryHelper.ToString(System.Object,de.unika.ipd.grGen.libGr.AttributeType,de.unika.ipd.grGen.libGr.IGraph)">
             <summary>
             Returns a string representation of the given scalar value
             </summary>
             <param name="value">The scalar of which to get the string representation</param>
             <param name="attrType">The attribute type</param>
+            <param name="graph">The graph with the model and the element names</param>
             <returns>String representation of the scalar.</returns>
         </member>
         <member name="T:de.unika.ipd.grGen.libGr.sequenceParser.SimpleCharStream">
@@ -3221,6 +3494,12 @@
         <member name="F:de.unika.ipd.grGen.libGr.AttributeKind.SetAttr">
             <summary>The attribute is a set.</summary>
         </member>
+        <member name="F:de.unika.ipd.grGen.libGr.AttributeKind.NodeAttr">
+            <summary>The attribute is a node (only valid for set/map key/value type).</summary>
+        </member>
+        <member name="F:de.unika.ipd.grGen.libGr.AttributeKind.EdgeAttr">
+            <summary>The attribute is an edge (only valid for set/map key/value type).</summary>
+        </member>
         <member name="T:de.unika.ipd.grGen.libGr.AttributeType">
             <summary>
             Describes a GrGen attribute.
@@ -3259,12 +3538,17 @@
             Undefined otherwise.
             </summary>
         </member>
+        <member name="F:de.unika.ipd.grGen.libGr.AttributeType.TypeName">
+            <summary>
+            The name of the attribute type, if Kind == AttributeKind.NodeAttr || Kind == AttributeKind.EdgeAttr
+            </summary>
+        </member>
         <member name="F:de.unika.ipd.grGen.libGr.AttributeType.annotations">
             <summary>
             The annotations of the attribute
             </summary>
         </member>
-        <member name="M:de.unika.ipd.grGen.libGr.AttributeType.#ctor(System.String,de.unika.ipd.grGen.libGr.GrGenType,de.unika.ipd.grGen.libGr.AttributeKind,de.unika.ipd.grGen.libGr.EnumAttributeType,de.unika.ipd.grGen.libGr.AttributeType,de.unika.ipd.grGen.libGr.AttributeType)">
+        <member name="M:de.unika.ipd.grGen.libGr.AttributeType.#ctor(System.String,de.unika.ipd.grGen.libGr.GrGenType,de.unika.ipd.grGen.libGr.AttributeKind,de.unika.ipd.grGen.libGr.EnumAttributeType,de.unika.ipd.grGen.libGr.AttributeType,de.unika.ipd.grGen.libGr.AttributeType,System.String)">
             <summary>
             Initializes an AttributeType instance.
             </summary>
@@ -3274,6 +3558,7 @@
             <param name="enumType">The enum type description, if Kind == AttributeKind.EnumAttr, otherwise null.</param>
             <param name="valueType">The attribute type of the value of the set, if Kind == AttributeKind.SetAttr; the attribute type of the value of the map, if Kind == AttributeKind.MapAttr; otherwise null. </param>
             <param name="keyType">The attribute type of the key of the map, if Kind == AttributeKind.MapAttr; otherwise null.</param>
+            <param name="typeName">The name of the attribute type, if Kind == AttributeKind.NodeAttr || Kind == AttributeKind.EdgeAttr; otherwise null.</param>
         </member>
         <member name="M:de.unika.ipd.grGen.libGr.AttributeType.GetKindName(de.unika.ipd.grGen.libGr.AttributeKind)">
             <summary>
@@ -3998,150 +4283,6 @@
             <summary>
             Show only the matches
             </summary>
-        </member>
-        <member name="T:de.unika.ipd.grGen.libGr.Recorder">
-            <summary>
-            A class for recording changes (and their causes) applied to a graph into a file,
-            so that they can get replayed.
-            </summary>
-        </member>
-        <member name="T:de.unika.ipd.grGen.libGr.IRecorder">
-            <summary>
-            An interface for recording changes (and their causes) applied to a graph into a file,
-            so that they can get replayed.
-            </summary>
-        </member>
-        <member name="M:de.unika.ipd.grGen.libGr.IRecorder.StartRecording(System.String)">
-            <summary>
-            Creates a file which initially gets filled with a .grs export of the graph.
-            Afterwards the changes applied to the graph are recorded into the file,
-            in the order they occur.
-            You can start multiple recordings into differently named files.
-            </summary>
-            <param name="filename">The name of the file to record to</param>
-        </member>
-        <member name="M:de.unika.ipd.grGen.libGr.IRecorder.StopRecording(System.String)">
-            <summary>
-            Stops recording of the changes applied to the graph to the given file.
-            </summary>
-            <param name="filename">The name of the file to stop recording to</param>
-        </member>
-        <member name="M:de.unika.ipd.grGen.libGr.IRecorder.IsRecording(System.String)">
-            <summary>
-            Returns whether the graph changes get currently recorded into the given file.
-            </summary>
-            <param name="filename">The name of the file whose recording status gets queried</param>
-            <returns>The recording status of the file queried</returns>
-        </member>
-        <member name="M:de.unika.ipd.grGen.libGr.IRecorder.Write(System.String)">
-            <summary>
-            Writes the given string to the currently ongoing recordings
-            </summary>
-            <param name="value">The string to write to the recordings</param>
-        </member>
-        <member name="M:de.unika.ipd.grGen.libGr.IRecorder.TransactionStart(System.Int32)">
-            <summary>
-            Called by the transaction manager when a transaction is started
-            </summary>
-            <param name="transactionID">The id of the transaction</param>
-        </member>
-        <member name="M:de.unika.ipd.grGen.libGr.IRecorder.TransactionCommit(System.Int32)">
-            <summary>
-            Called by the transaction manager when a transaction is committed
-            </summary>
-            <param name="transactionID">The id of the transaction</param>
-        </member>
-        <member name="M:de.unika.ipd.grGen.libGr.IRecorder.TransactionRollback(System.Int32,System.Boolean)">
-            <summary>
-            Called by the transaction manager when a transaction is rolled back
-            </summary>
-            <param name="transactionID">The id of the transaction</param>
-            <param name="start">true when called at rollback start, false when called at rollback end</param>
-        </member>
-        <member name="M:de.unika.ipd.grGen.libGr.Recorder.#ctor(de.unika.ipd.grGen.libGr.IGraph)">
-            <summary>
-            Create a recorder
-            </summary>
-            <param name="graph">The graph whose changes are to be recorded; 
-            should be a NamedGraph for things to run smoothly (same holds for Porter methods)</param>
-        </member>
-        <member name="M:de.unika.ipd.grGen.libGr.Recorder.StartRecording(System.String)">
-            <summary>
-            Creates a file which initially gets filled with a .grs export of the graph.
-            Afterwards the changes applied to the graph are recorded into the file,
-            in the order they occur.
-            You can start multiple recordings into differently named files.
-            </summary>
-            <param name="filename">The name of the file to record to</param>
-        </member>
-        <member name="M:de.unika.ipd.grGen.libGr.Recorder.StopRecording(System.String)">
-            <summary>
-            Stops recording of the changes applied to the graph to the given file.
-            </summary>
-            <param name="filename">The name of the file to stop recording to</param>
-        </member>
-        <member name="M:de.unika.ipd.grGen.libGr.Recorder.IsRecording(System.String)">
-            <summary>
-            Returns whether the graph changes get currently recorded into the given file.
-            </summary>
-            <param name="filename">The name of the file whose recording status gets queried</param>
-            <returns>The recording status of the file queried</returns>
-        </member>
-        <member name="M:de.unika.ipd.grGen.libGr.Recorder.Write(System.String)">
-            <summary>
-            Writes the given string to the currently ongoing recordings
-            </summary>
-            <param name="value">The string to write to the recordings</param>
-        </member>
-        <member name="M:de.unika.ipd.grGen.libGr.Recorder.NodeAdded(de.unika.ipd.grGen.libGr.INode)">
-            <summary>
-            Event handler for IGraph.OnNodeAdded.
-            </summary>
-            <param name="node">The added node.</param>
-        </member>
-        <member name="M:de.unika.ipd.grGen.libGr.Recorder.EdgeAdded(de.unika.ipd.grGen.libGr.IEdge)">
-            <summary>
-            Event handler for IGraph.OnEdgeAdded.
-            </summary>
-            <param name="edge">The added edge.</param>
-        </member>
-        <member name="M:de.unika.ipd.grGen.libGr.Recorder.RemovingNode(de.unika.ipd.grGen.libGr.INode)">
-            <summary>
-            Event handler for IGraph.OnRemovingNode.
-            </summary>
-            <param name="node">The node to be deleted.</param>
-        </member>
-        <member name="M:de.unika.ipd.grGen.libGr.Recorder.RemovingEdge(de.unika.ipd.grGen.libGr.IEdge)">
-            <summary>
-            Event handler for IGraph.OnRemovingEdge.
-            </summary>
-            <param name="edge">The edge to be deleted.</param>
-        </member>
-        <member name="M:de.unika.ipd.grGen.libGr.Recorder.ChangingAttribute(de.unika.ipd.grGen.libGr.IGraphElement,de.unika.ipd.grGen.libGr.AttributeType,de.unika.ipd.grGen.libGr.AttributeChangeType,System.Object,System.Object)">
-            <summary>
-            Event handler for IGraph.OnChangingNodeAttribute and IGraph.OnChangingEdgeAttribute.
-            </summary>
-            <param name="element">The node or edge whose attribute is changed.</param>
-            <param name="attrType">The type of the attribute to be changed.</param>
-            <param name="changeType">The type of the change which will be made.</param>
-            <param name="newValue">The new value of the attribute, if changeType==Assign.
-                                   Or the value to be inserted/removed if changeType==PutElement/RemoveElement on set.
-                                   Or the new map pair value to be inserted if changeType==PutElement on map.</param>
-            <param name="keyValue">The map pair key to be inserted/removed if changeType==PutElement/RemoveElement on map.</param>
-        </member>
-        <member name="M:de.unika.ipd.grGen.libGr.Recorder.RetypingNode(de.unika.ipd.grGen.libGr.INode,de.unika.ipd.grGen.libGr.INode)">
-            <summary>
-            Event handler for IGraph.OnRetypingNode.
-            </summary>
-            <param name="oldNode">The node to be retyped.</param>
-            <param name="newNode">The new node with the common attributes, but without the correct connections, yet.</param>
-        </member>
-        <member name="M:de.unika.ipd.grGen.libGr.Recorder.RetypingEdge(de.unika.ipd.grGen.libGr.IEdge,de.unika.ipd.grGen.libGr.IEdge)">
-            <summary>
-            Event handler for IGraph.OnRetypingEdge.
-            </summary>
-            <param name="oldEdge">The edge to be retyped.</param>
-            <param name="newEdge">The new edge with the common attributes, but without the correct connections, yet.</param>
         </member>
         <member name="T:de.unika.ipd.grGen.libGr.BaseGraph">
             <summary>
