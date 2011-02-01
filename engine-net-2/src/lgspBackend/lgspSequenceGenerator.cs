@@ -92,16 +92,24 @@ namespace de.unika.ipd.grGen.lgsp
         // maps rule names available in the .grg to compile to the list of the output typ names
         Dictionary<String, List<String>> rulesToOutputTypes;
 
+        // maps sequence names available in the .grg to compile to the list of the input typ names
+        Dictionary<String, List<String>> sequencesToInputTypes;
+        // maps sequence names available in the .grg to compile to the list of the output typ names
+        Dictionary<String, List<String>> sequencesToOutputTypes;
+
         // the used rules (so that a variable was created for easy acess to them)
 		Dictionary<String, object> knownRules = new Dictionary<string, object>();
 
         public LGSPSequenceGenerator(LGSPGrGen gen, IGraphModel model,
-            Dictionary<String, List<String>> rulesToInputTypes, Dictionary<String, List<String>> rulesToOutputTypes)
+            Dictionary<String, List<String>> rulesToInputTypes, Dictionary<String, List<String>> rulesToOutputTypes,
+            Dictionary<String, List<String>> sequencesToInputTypes, Dictionary<String, List<String>> sequencesToOutputTypes)
         {
             this.gen = gen;
             this.model = model;
             this.rulesToInputTypes = rulesToInputTypes;
             this.rulesToOutputTypes = rulesToOutputTypes;
+            this.sequencesToInputTypes = sequencesToInputTypes;
+            this.sequencesToOutputTypes = sequencesToOutputTypes;
         }
 
         /// <summary>
@@ -240,7 +248,9 @@ namespace de.unika.ipd.grGen.lgsp
                     break;
                 }
 				case SequenceType.AssignSequenceResultToVar:
-				{
+                case SequenceType.OrAssignSequenceResultToVar:
+                case SequenceType.AndAssignSequenceResultToVar:
+                {
 					SequenceAssignSequenceResultToVar seqToVar = (SequenceAssignSequenceResultToVar) seq;
                     EmitVarIfNew(seqToVar.DestVar, source);
 					EmitNeededVarAndRuleEntities(seqToVar.Seq, source);
@@ -277,10 +287,10 @@ namespace de.unika.ipd.grGen.lgsp
                     break;
                 }
 
-				case SequenceType.Rule:
-				case SequenceType.RuleAll:
+				case SequenceType.RuleCall:
+				case SequenceType.RuleAllCall:
 				{
-					SequenceRule seqRule = (SequenceRule) seq;
+					SequenceRuleCall seqRule = (SequenceRuleCall) seq;
 					String ruleName = seqRule.ParamBindings.RuleName;
 					if(!knownRules.ContainsKey(ruleName))
 					{
@@ -360,7 +370,7 @@ namespace de.unika.ipd.grGen.lgsp
 			source.AppendFront("}\n");
 		}
 
-        void EmitRuleOrRuleAll(SequenceRule seqRule, SourceBuilder source)
+        void EmitRuleOrRuleAll(SequenceRuleCall seqRule, SourceBuilder source)
         {
             RuleInvocationParameterBindings paramBindings = seqRule.ParamBindings;
             String specialStr = seqRule.Special ? "true" : "false";
@@ -372,14 +382,14 @@ namespace de.unika.ipd.grGen.lgsp
             String matchesType = "GRGEN_LIBGR.IMatchesExact<" + matchType + ">";
             String matchesName = "matches_" + seqRule.Id;
             source.AppendFront(matchesType + " " + matchesName + " = rule_" + paramBindings.RuleName
-                + ".Match(graph, " + (seqRule.SequenceType == SequenceType.Rule ? "1" : "graph.MaxMatches")
+                + ".Match(graph, " + (seqRule.SequenceType == SequenceType.RuleCall ? "1" : "graph.MaxMatches")
                 + parameters + ");\n");
             if(gen.FireEvents) source.AppendFront("graph.Matched(" + matchesName + ", " + specialStr + ");\n");
-            if(seqRule is SequenceRuleAll
-                && ((SequenceRuleAll)seqRule).ChooseRandom
-                && ((SequenceRuleAll)seqRule).MinSpecified)
+            if(seqRule is SequenceRuleAllCall
+                && ((SequenceRuleAllCall)seqRule).ChooseRandom
+                && ((SequenceRuleAllCall)seqRule).MinSpecified)
             {
-                SequenceRuleAll seqRuleAll = (SequenceRuleAll)seqRule;
+                SequenceRuleAllCall seqRuleAll = (SequenceRuleAllCall)seqRule;
                 source.AppendFrontFormat("int minmatchesvar_{0} = (int){1};\n", seqRuleAll.Id, GetVar(seqRuleAll.MinVarChooseRandom));
                 source.AppendFrontFormat("if({0}.Count < minmatchesvar_{1}) {{\n", matchesName, seqRuleAll.Id);
             }
@@ -402,7 +412,7 @@ namespace de.unika.ipd.grGen.lgsp
             String returnAssignments;
             BuildReturnParameters(paramBindings, out returnParameterDeclarations, out returnArguments, out returnAssignments);
 
-            if(seqRule.SequenceType == SequenceType.Rule)
+            if(seqRule.SequenceType == SequenceType.RuleCall)
             {
                 source.AppendFront(matchType + " " + matchName + " = " + matchesName + ".FirstExact;\n");
                 if(returnParameterDeclarations.Length!=0) source.AppendFront(returnParameterDeclarations + "\n");
@@ -410,7 +420,7 @@ namespace de.unika.ipd.grGen.lgsp
                 if(returnAssignments.Length != 0) source.AppendFront(returnAssignments + "\n");
                 if(gen.UsePerfInfo) source.AppendFront("if(graph.PerformanceInfo != null) graph.PerformanceInfo.RewritesPerformed++;\n");
             }
-            else if(!((SequenceRuleAll)seqRule).ChooseRandom) // seq.SequenceType == SequenceType.RuleAll
+            else if(!((SequenceRuleAllCall)seqRule).ChooseRandom) // seq.SequenceType == SequenceType.RuleAll
             {
                 // iterate through matches, use Modify on each, fire the next match event after the first
                 String enumeratorName = "enum_" + seqRule.Id;
@@ -430,7 +440,7 @@ namespace de.unika.ipd.grGen.lgsp
             else // seq.SequenceType == SequenceType.RuleAll && ((SequenceRuleAll)seqRule).ChooseRandom
             {
                 // as long as a further rewrite has to be selected: randomly choose next match, rewrite it and remove it from available matches; fire the next match event after the first
-                SequenceRuleAll seqRuleAll = (SequenceRuleAll)seqRule;
+                SequenceRuleAllCall seqRuleAll = (SequenceRuleAllCall)seqRule;
                 source.AppendFrontFormat("int numchooserandomvar_{0} = (int){1};\n", seqRuleAll.Id, seqRuleAll.MaxVarChooseRandom != null ? GetVar(seqRuleAll.MaxVarChooseRandom) : (seqRuleAll.MinSpecified ? "2147483647" : "1"));
                 source.AppendFrontFormat("if({0}.Count < numchooserandomvar_{1}) numchooserandomvar_{1} = {0}.Count;\n", matchesName, seqRule.Id);
                 source.AppendFrontFormat("for(int i = 0; i < numchooserandomvar_{0}; ++i)\n", seqRule.Id);
@@ -456,9 +466,9 @@ namespace de.unika.ipd.grGen.lgsp
 		{
 			switch(seq.SequenceType)
 			{
-				case SequenceType.Rule:
-                case SequenceType.RuleAll:
-                    EmitRuleOrRuleAll((SequenceRule)seq, source);
+				case SequenceType.RuleCall:
+                case SequenceType.RuleAllCall:
+                    EmitRuleOrRuleAll((SequenceRuleCall)seq, source);
                     break;
 
 				case SequenceType.VarPredicate:
@@ -939,6 +949,24 @@ namespace de.unika.ipd.grGen.lgsp
                     break;
                 }
 
+                case SequenceType.OrAssignSequenceResultToVar:
+                {
+                    SequenceOrAssignSequenceResultToVar seqToVar = (SequenceOrAssignSequenceResultToVar)seq;
+                    EmitSequence(seqToVar.Seq, source);
+                    source.AppendFront(SetVar(seqToVar.DestVar, GetResultVar(seqToVar.Seq) + "|| (bool)" + GetVar(seqToVar.DestVar)));
+                    source.AppendFront(SetResultVar(seqToVar, "true"));
+                    break;
+                }
+
+                case SequenceType.AndAssignSequenceResultToVar:
+                {
+                    SequenceAndAssignSequenceResultToVar seqToVar = (SequenceAndAssignSequenceResultToVar)seq;
+                    EmitSequence(seqToVar.Seq, source);
+                    source.AppendFront(SetVar(seqToVar.DestVar, GetResultVar(seqToVar.Seq) + "&& (bool)" + GetVar(seqToVar.DestVar)));
+                    source.AppendFront(SetResultVar(seqToVar, "true"));
+                    break;
+                }
+
                 case SequenceType.AssignUserInputToVar:
                 {
                     throw new Exception("Internal Error: the AssignUserInputToVar is interpreted only (no Debugger available at lgsp level)");
@@ -1210,7 +1238,7 @@ namespace de.unika.ipd.grGen.lgsp
             // emit code for matching all the contained rules
             for (int i = 0; i < seqSome.Sequences.Count; ++i)
             {
-                SequenceRule seqRule = (SequenceRule)seqSome.Sequences[i];
+                SequenceRuleCall seqRule = (SequenceRuleCall)seqSome.Sequences[i];
                 RuleInvocationParameterBindings paramBindings = seqRule.ParamBindings;
                 String specialStr = seqRule.Special ? "true" : "false";
                 String parameters = BuildParameters(seqRule, paramBindings);
@@ -1220,7 +1248,7 @@ namespace de.unika.ipd.grGen.lgsp
                 String matchesType = "GRGEN_LIBGR.IMatchesExact<" + matchType + ">";
                 String matchesName = "matches_" + seqRule.Id;
                 source.AppendFront(matchesType + " " + matchesName + " = rule_" + paramBindings.RuleName
-                    + ".Match(graph, " + (seqRule.SequenceType == SequenceType.Rule ? "1" : "graph.MaxMatches")
+                    + ".Match(graph, " + (seqRule.SequenceType == SequenceType.RuleCall ? "1" : "graph.MaxMatches")
                     + parameters + ");\n");
                 if (gen.UsePerfInfo) source.AppendFront("if(graph.PerformanceInfo!=null) graph.PerformanceInfo.MatchesFound += " + matchesName + ".Count;\n");
                 source.AppendFront("if(" + matchesName + ".Count!=0) {\n");
@@ -1238,11 +1266,11 @@ namespace de.unika.ipd.grGen.lgsp
                 source.AppendFront("int " + totalMatchToApply + " = 0;\n");
                 for (int i = 0; i < seqSome.Sequences.Count; ++i)
                 {
-                    SequenceRule seqRule = (SequenceRule)seqSome.Sequences[i];
+                    SequenceRuleCall seqRule = (SequenceRuleCall)seqSome.Sequences[i];
                     String matchesName = "matches_" + seqRule.Id;
-                    if (seqRule.SequenceType == SequenceType.Rule)
+                    if (seqRule.SequenceType == SequenceType.RuleCall)
                         source.AppendFront(totalMatchToApply + " += " + matchesName + ".Count;\n");
-                    else if (!((SequenceRuleAll)seqRule).ChooseRandom) // seq.SequenceType == SequenceType.RuleAll
+                    else if (!((SequenceRuleAllCall)seqRule).ChooseRandom) // seq.SequenceType == SequenceType.RuleAll
                         source.AppendFront("if(" + matchesName + ".Count>0) ++" + totalMatchToApply + ";\n");
                     else // seq.SequenceType == SequenceType.RuleAll && ((SequenceRuleAll)seqRule).ChooseRandom
                         source.AppendFront(totalMatchToApply + " += " + matchesName + ".Count;\n");
@@ -1258,7 +1286,7 @@ namespace de.unika.ipd.grGen.lgsp
             // emit code for rewriting all the contained rules which got matched
             for (int i = 0; i < seqSome.Sequences.Count; ++i)
             {
-                SequenceRule seqRule = (SequenceRule)seqSome.Sequences[i];
+                SequenceRuleCall seqRule = (SequenceRuleCall)seqSome.Sequences[i];
                 RuleInvocationParameterBindings paramBindings = seqRule.ParamBindings;
                 String specialStr = seqRule.Special ? "true" : "false";
                 String matchingPatternClassName = "Rule_" + paramBindings.RuleName;
@@ -1279,7 +1307,7 @@ namespace de.unika.ipd.grGen.lgsp
                 String returnAssignments;
                 BuildReturnParameters(paramBindings, out returnParameterDeclarations, out returnArguments, out returnAssignments);
 
-                if (seqRule.SequenceType == SequenceType.Rule)
+                if (seqRule.SequenceType == SequenceType.RuleCall)
                 {
                     if (seqSome.Random) {
                         source.AppendFront("if(" + curTotalMatch + "==" + totalMatchToApply + ") {\n");
@@ -1302,7 +1330,7 @@ namespace de.unika.ipd.grGen.lgsp
                         source.AppendFront("++" + curTotalMatch + ";\n");
                     }
                 }
-                else if (!((SequenceRuleAll)seqRule).ChooseRandom) // seq.SequenceType == SequenceType.RuleAll
+                else if (!((SequenceRuleAllCall)seqRule).ChooseRandom) // seq.SequenceType == SequenceType.RuleAll
                 {
                     if (seqSome.Random)
                     {
@@ -1384,7 +1412,7 @@ namespace de.unika.ipd.grGen.lgsp
             }
         }
 
-        private String BuildParameters(SequenceRule seqRule, RuleInvocationParameterBindings paramBindings)
+        private String BuildParameters(SequenceRuleCall seqRule, RuleInvocationParameterBindings paramBindings)
         {
             String parameters = "";
             for (int j = 0; j < paramBindings.ParamVars.Length; j++)
@@ -1448,11 +1476,18 @@ namespace de.unika.ipd.grGen.lgsp
                 ruleNames[j] = ruleToInputTypes.Key;
                 ++j;
             }
+            String[] sequenceNames = new String[sequencesToInputTypes.Count];
+            j = 0;
+            foreach(KeyValuePair<String, List<String>> sequenceToInputTypes in sequencesToInputTypes)
+            {
+                sequenceNames[j] = sequenceToInputTypes.Key;
+                ++j;
+            }
 
 			Sequence seq;
             try
             {
-                seq = SequenceParser.ParseSequence(xgrsStr, ruleNames, varDecls, model);
+                seq = SequenceParser.ParseSequence(xgrsStr, ruleNames, sequenceNames, varDecls, model);
                 LGSPSequenceChecker checker = new LGSPSequenceChecker(ruleNames, rulesToInputTypes, rulesToOutputTypes, model, outParamTypes);
                 checker.Check(seq);
             }

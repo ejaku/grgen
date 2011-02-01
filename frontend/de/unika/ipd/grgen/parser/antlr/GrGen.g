@@ -1312,8 +1312,8 @@ xgrsStrictAnd[ExecNode xg]
 	;
 
 xgrsNegOrIteration[ExecNode xg]
-	: NOT {xg.append("!");} xgrsNegOrIteration[xg]
-	| iterSequence[xg]
+	: NOT {xg.append("!");} iterSequence[xg] (ASSIGN_TO {xg.append("=>");} xgrsEntity[xg] | BOR_TO {xg.append("|>");} xgrsEntity[xg] | BAND_TO {xg.append("&>");} xgrsEntity[xg])?
+	| iterSequence[xg] (ASSIGN_TO {xg.append("=>");} xgrsEntity[xg] | BOR_TO {xg.append("|>");} xgrsEntity[xg] | BAND_TO {xg.append("&>");} xgrsEntity[xg])?
 	;
 
 iterSequence[ExecNode xg]

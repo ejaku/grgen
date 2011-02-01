@@ -1,0 +1,10 @@
+new graph "exec1/exec1.grg"
+
+xgrs Init
+xgrs existingPattern => b
+show var b
+xgrs notExistingPattern &> b
+show var b
+xgrs existingPattern |> b
+show var b
+quit

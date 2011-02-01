@@ -2497,7 +2497,7 @@ namespace de.unika.ipd.grGen.grShell
 
         bool ContainsSpecial(Sequence seq)
         {
-            if((seq.SequenceType == SequenceType.Rule || seq.SequenceType == SequenceType.RuleAll) && ((SequenceRule)seq).Special)
+            if((seq.SequenceType == SequenceType.RuleCall || seq.SequenceType == SequenceType.RuleAllCall) && ((SequenceRuleCall)seq).Special)
                 return true;
 
             foreach(Sequence child in seq.Children)
@@ -2506,8 +2506,17 @@ namespace de.unika.ipd.grGen.grShell
             return false;
         }
 
+        public void DefineRewriteSequence(SequenceDefinition seqDef)
+        {
+            bool overwritten = CurrentActions.RegisterGraphRewriteSequenceDefinition(seqDef);
+            if(overwritten)
+                debugOut.WriteLine("Replaced old sequence definition by new one for " + seqDef.SequenceName);
+            else
+                debugOut.WriteLine("Registered sequence definition for " + seqDef.SequenceName);
+        }
+
         Sequence curGRS;
-        SequenceRule curRule;
+        SequenceRuleCall curRule;
 
         public void ApplyRewriteSequence(Sequence seq, bool debug)
         {
@@ -2601,15 +2610,15 @@ namespace de.unika.ipd.grGen.grShell
             if(cancelSequence)
                 Cancel();
 
-            if(seq.SequenceType == SequenceType.Rule || seq.SequenceType == SequenceType.RuleAll)
-                curRule = (SequenceRule) seq;
+            if(seq.SequenceType == SequenceType.RuleCall || seq.SequenceType == SequenceType.RuleAllCall)
+                curRule = (SequenceRuleCall) seq;
         }
 
         void DumpOnEntereringSequence(Sequence seq)
         {
-            if(seq.SequenceType == SequenceType.Rule || seq.SequenceType == SequenceType.RuleAll)
+            if(seq.SequenceType == SequenceType.RuleCall || seq.SequenceType == SequenceType.RuleAllCall)
             {
-                curRule = (SequenceRule) seq;
+                curRule = (SequenceRuleCall) seq;
                 if(curRule.Special)
                     curShellGraph.Graph.OnFinishing += new BeforeFinishHandler(DumpOnFinishing);
             }
@@ -2617,9 +2626,9 @@ namespace de.unika.ipd.grGen.grShell
 
         void DumpOnExitingSequence(Sequence seq)
         {
-            if(seq.SequenceType == SequenceType.Rule || seq.SequenceType == SequenceType.RuleAll)
+            if(seq.SequenceType == SequenceType.RuleCall || seq.SequenceType == SequenceType.RuleAllCall)
             {
-                SequenceRule ruleSeq = (SequenceRule) seq;
+                SequenceRuleCall ruleSeq = (SequenceRuleCall) seq;
                 if(ruleSeq != null && ruleSeq.Special)
                     curShellGraph.Graph.OnFinishing -= new BeforeFinishHandler(DumpOnFinishing);
             }

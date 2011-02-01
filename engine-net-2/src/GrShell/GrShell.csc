@@ -944,6 +944,7 @@ void ShellCommand():
 	IEdge edge1, edge2;
 	ShellGraph shellGraph = null;
 	Sequence seq;
+	SequenceDefinition seqDef;
 	bool shellGraphSpecified = false, boolVal, boolVal2;
 	bool strict = false, exitOnFailure = false, validated = false, onlySpecified = false;
 	int num;
@@ -1160,6 +1161,31 @@ void ShellCommand():
         catch(Exception ex)
         {
             Console.WriteLine("Unable to execute xgrs: " + ex);
+            noError = false;
+        }
+    }
+|
+    "def" str1=CommandLine()
+    {
+        try
+        {
+            seqDef = SequenceParser.ParseSequenceDefinition(str1, impl.CurrentActions);
+            impl.DefineRewriteSequence(seqDef);
+        }
+        catch(SequenceParserException ex)
+        {
+            impl.HandleSequenceParserException(ex);
+            noError = false;
+        }
+        catch(de.unika.ipd.grGen.libGr.sequenceParser.ParseException ex)
+        {
+            Console.WriteLine("Unable to process sequence definition: " + ex.Message);
+            noError = false;
+        }
+        catch(Exception ex)
+        {
+            Console.WriteLine("Unable to process sequence definition: " + ex);
+            Console.WriteLine("(You tried to overwrite a compiled sequence?)");
             noError = false;
         }
     }
@@ -1638,7 +1664,6 @@ void DebugCommand():
 {
     Sequence seq;
     String str = null, str2;
-    RuleInvocationParameterBindings paramBindings;
 }
 {
 	try

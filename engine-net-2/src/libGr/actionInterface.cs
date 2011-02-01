@@ -16,62 +16,6 @@ using System.Diagnostics;
 namespace de.unika.ipd.grGen.libGr
 {
     /// <summary>
-    /// An object representing a rule invocation.
-    /// It tells from where (which variables/constants) to get the input values 
-    /// and where (which variables) to store the output values.
-    /// </summary>
-    public class RuleInvocationParameterBindings
-    {
-        /// <summary>
-        /// The IAction instance to be used
-        /// </summary>
-        public IAction Action;
-
-        /// <summary>
-        /// The name of the rule. Used for generation, where the IAction objects do not exist yet.
-        /// </summary>
-        public String RuleName;
-
-        /// <summary>
-        /// An array of variables used for the parameters.
-        /// It must have the same length as Parameters.
-        /// If an entry is null, the according entry in parameters is used unchanged.
-        /// </summary>
-        public SequenceVariable[] ParamVars;
-
-        /// <summary>
-        /// An array of variables used for the return values.
-        /// </summary>
-        public SequenceVariable[] ReturnVars;
-
-        /// <summary>
-        /// Buffer to store parameters used by libGr to avoid unneccessary memory allocation.
-        /// Also holds constant parameters at the positions where ParamVars has null entries.
-        /// </summary>
-        public object[] Parameters;
-
-        /// <summary>
-        /// Instantiates a new RuleInvocationParameterBindings object
-        /// </summary>
-        /// <param name="action">The IAction instance to be used</param>
-        /// <param name="paramVars">An array of variable used for the parameters</param>
-        /// <param name="paramConsts">An array of constants used for the parameters.</param>
-        /// <param name="returnVars">An array of variables used for the return values</param>
-        public RuleInvocationParameterBindings(IAction action, SequenceVariable[] paramVars, object[] paramConsts, SequenceVariable[] returnVars)
-        {
-            if(paramVars.Length != paramConsts.Length)
-                throw new ArgumentException("Lengths of variable and constant parameter array do not match");
-
-            Action = action;
-            if(action != null) RuleName = action.Name;
-            else RuleName = "<Unknown rule>";
-            ParamVars = paramVars;
-            ReturnVars = returnVars;
-            Parameters = paramConsts;
-        }
-    }
-
-    /// <summary>
     /// An object representing an executable rule.
     /// </summary>
     public interface IAction

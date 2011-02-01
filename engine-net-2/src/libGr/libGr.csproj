@@ -72,6 +72,7 @@
     <Compile Include="elementInterface.cs" />
     <Compile Include="GRSImporter\GRSImporter.cs" />
     <Compile Include="IGraph.cs" />
+    <Compile Include="IGraphHelpers.cs" />
     <Compile Include="IO\EMF\ECoreImport.cs" />
     <Compile Include="IO\GRS\GrsExport.cs" />
     <Compile Include="IO\GXL\GXLExport.cs" />
@@ -89,6 +90,7 @@
     <Compile Include="GRSImporter\TokenMgrError.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Recorder.cs" />
+    <Compile Include="RuleAndSequenceInvocationRepresentations.cs" />
     <Compile Include="Sequence.cs" />
     <Compile Include="SequenceChecker.cs" />
     <Compile Include="SequenceParser.cs" />

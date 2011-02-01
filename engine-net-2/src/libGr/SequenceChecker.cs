@@ -83,18 +83,29 @@ namespace de.unika.ipd.grGen.libGr
                 foreach (Sequence seqChild in seq.Children)
                 {
                     Check(seqChild);
-                    if (seqChild is SequenceRuleAll
-                        && ((SequenceRuleAll)seqChild).MinVarChooseRandom != null
-                        && ((SequenceRuleAll)seqChild).MaxVarChooseRandom != null)
+                    if (seqChild is SequenceRuleAllCall
+                        && ((SequenceRuleAllCall)seqChild).MinVarChooseRandom != null
+                        && ((SequenceRuleAllCall)seqChild).MaxVarChooseRandom != null)
                         throw new Exception("Sequence SomeFromSet (e.g. {r1,[r2],$[r3]}) can't contain a select with variable from all construct (e.g. $v[r4], e.g. $v1,v2[r4])");
                 }
                 break;
             }
 
-            case SequenceType.RuleAll:
-            case SequenceType.Rule:
+            case SequenceType.SequenceDefinition:
             {
-                SequenceRule ruleSeq = (SequenceRule)seq;
+                SequenceDefinition seqDef = (SequenceDefinition)seq;
+                Check(seqDef.Seq);
+                break;
+            }
+
+            case SequenceType.SequenceCall:
+                // Nothing to be done here?
+                break;
+
+            case SequenceType.RuleAllCall:
+            case SequenceType.RuleCall:
+            {
+                SequenceRuleCall ruleSeq = (SequenceRuleCall)seq;
                 RuleInvocationParameterBindings paramBindings = ruleSeq.ParamBindings;
 
                 // We found the rule?
@@ -124,7 +135,7 @@ namespace de.unika.ipd.grGen.libGr
                         throw new SequenceParserException(paramBindings, SequenceParserError.BadParameter, i);
                 }
 
-                if(seq.SequenceType != SequenceType.RuleAll)
+                if(seq.SequenceType != SequenceType.RuleAllCall)
                 {
                     // When no return parameters were specified for a rule with returns, create an according array with null entries
                     if(paramBindings.ReturnVars.Length == 0 && action.RulePattern.Outputs.Length > 0)
@@ -136,6 +147,8 @@ namespace de.unika.ipd.grGen.libGr
             }
 
             case SequenceType.AssignSequenceResultToVar:
+            case SequenceType.OrAssignSequenceResultToVar:
+            case SequenceType.AndAssignSequenceResultToVar:
             {
                 SequenceAssignSequenceResultToVar assignSeq = (SequenceAssignSequenceResultToVar)seq;
                 Check(assignSeq.Seq);

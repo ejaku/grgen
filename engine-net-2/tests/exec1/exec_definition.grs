@@ -1,0 +1,35 @@
+new graph "exec1/exec_definition.grg"
+
+debug set layout Hierarchic
+
+xgrs (start)=init
+xgrs testInit
+xgrs testInitPlusReverse
+
+show num nodes A
+show num nodes AB
+show num edges
+
+# a sequence definition (of an interpreted sequence) is only available after it was registered the first time
+# but it can get overwritten with a sequence of the same signature
+# -> (self or mutually) recursive sequences must be constructed with empty body first
+def chain(first:A):(last:A) { true }
+def chain(first:A):(last:A) { if{(next:A)=chainPiece(first); (last)=chain(next); last=first} } 
+
+show num nodes A
+show num nodes AB
+show num edges
+
+show var last
+
+xgrs (last)=chain(start)
+
+xgrs testInit
+xgrs testInitPlusReverse
+
+show var last
+
+xgrs addReflexive(last)
+xgrs testReflexive
+
+quit

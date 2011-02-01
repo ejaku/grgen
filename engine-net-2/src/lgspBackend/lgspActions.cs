@@ -726,7 +726,10 @@ invalidCommand:
         /// <summary>
         /// Enumerates all actions managed by this LGSPActions instance.
         /// </summary>
-        public override IEnumerable<IAction> Actions { get { foreach(IAction action in actions.Values) yield return action; } }
+        public override IEnumerable<IAction> Actions { get { 
+            foreach(IAction action in actions.Values)
+                yield return action;
+        } }
 
         /// <summary>
         /// Gets the action with the given name.

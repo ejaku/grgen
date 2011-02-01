@@ -508,6 +508,10 @@ namespace de.unika.ipd.grGen.libGr
             return matches.Count;
         }
 
+        #endregion Graph rewriting
+
+        #region Sequence handling
+
         /// <summary>
         /// Apply a graph rewrite sequence.
         /// </summary>
@@ -560,7 +564,7 @@ namespace de.unika.ipd.grGen.libGr
             return seq.Apply(Clone("clonedGraph"), env);
         }
 
-        #endregion Graph rewriting
+        #endregion Sequence handling
 
         #region Events
 

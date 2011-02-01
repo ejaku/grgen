@@ -6,6 +6,7 @@
  */
 
 using System;
+using System.Collections.Generic;
 
 namespace de.unika.ipd.grGen.libGr
 {
@@ -24,6 +25,26 @@ namespace de.unika.ipd.grGen.libGr
             this.type = type;
             value = null;
             visited = false;
+        }
+
+        public SequenceVariable Copy(Dictionary<SequenceVariable, SequenceVariable> originalToCopy)
+        {
+            // ensure that every instance of a variable is mapped to the same copy
+            if(originalToCopy.ContainsKey(this))
+                return originalToCopy[this];
+
+            // local variables must be cloned when a defined sequence gets copied
+            // global variables stay the same 
+            if(Type == "")
+            {
+                originalToCopy.Add(this, this);
+                return this;
+            }
+            else
+            {
+                originalToCopy.Add(this, new SequenceVariable(Name, Prefix, Type));
+                return originalToCopy[this];
+            }
         }
 
         // the name of the variable

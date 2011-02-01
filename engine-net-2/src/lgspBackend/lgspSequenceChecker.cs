@@ -106,18 +106,18 @@ namespace de.unika.ipd.grGen.lgsp
                 foreach(Sequence seqChild in seq.Children)
                 {
                     Check(seqChild);
-                    if(seqChild is SequenceRuleAll 
-                        && ((SequenceRuleAll)seqChild).MinVarChooseRandom!=null
-                        && ((SequenceRuleAll)seqChild).MaxVarChooseRandom!=null)
+                    if(seqChild is SequenceRuleAllCall 
+                        && ((SequenceRuleAllCall)seqChild).MinVarChooseRandom!=null
+                        && ((SequenceRuleAllCall)seqChild).MaxVarChooseRandom!=null)
                         throw new Exception("Sequence SomeFromSet (e.g. {r1,[r2],$[r3]}) can't contain a select with variable from all construct (e.g. $v[r4], e.g. $v1,v2[r4])");
                 }
                 break;
             }
 
-            case SequenceType.RuleAll:
-            case SequenceType.Rule:
+            case SequenceType.RuleAllCall:
+            case SequenceType.RuleCall:
             {
-                SequenceRule ruleSeq = (SequenceRule)seq;
+                SequenceRuleCall ruleSeq = (SequenceRuleCall)seq;
                 RuleInvocationParameterBindings paramBindings = ruleSeq.ParamBindings;
 
                 // processing of a compiled xgrs without BaseActions but array of rule names,
@@ -150,12 +150,19 @@ namespace de.unika.ipd.grGen.lgsp
             }
 
             case SequenceType.AssignSequenceResultToVar:
+            case SequenceType.OrAssignSequenceResultToVar:
+            case SequenceType.AndAssignSequenceResultToVar:
             {
                 SequenceAssignSequenceResultToVar assignSeq = (SequenceAssignSequenceResultToVar)seq;
                 Check(assignSeq.Seq);
                 if(!TypesHelper.IsSameOrSubtype(assignSeq.DestVar.Type, "boolean", model))
                 {
-                    throw new SequenceParserException(assignSeq.DestVar.Name + "=sequence", "boolean", assignSeq.DestVar.Type);
+                    if(seq.SequenceType == SequenceType.OrAssignSequenceResultToVar)
+                        throw new SequenceParserException("sequence |> " + assignSeq.DestVar.Name, "boolean", assignSeq.DestVar.Type);
+                    else if(seq.SequenceType == SequenceType.AndAssignSequenceResultToVar)
+                        throw new SequenceParserException("sequence &> " + assignSeq.DestVar.Name, "boolean", assignSeq.DestVar.Type);
+                    else //if(seq.SequenceType==SequenceType.AssignSequenceResultToVar)
+                        throw new SequenceParserException("sequence => " + assignSeq.DestVar.Name, "boolean", assignSeq.DestVar.Type);
                 }
                 break;
             }

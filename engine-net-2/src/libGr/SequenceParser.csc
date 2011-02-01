@@ -17,7 +17,7 @@ PARSER_BEGIN(SequenceParser)
 	public class SequenceParser
 	{
 		/// <summary>
-		/// The rules used in the specification, set if parsing an xgrs to be interpreted
+		/// The rules and sequences used in the specification, set if parsing an xgrs to be interpreted
 		/// </summary>
 		BaseActions actions;
 
@@ -25,6 +25,11 @@ PARSER_BEGIN(SequenceParser)
 		/// The names of the rules used in the specification, set if parsing an xgrs to be compiled
 		/// </summary>
 		String[] ruleNames;
+
+		/// <summary>
+		/// The names of the sequences used in the specification, set if parsing an xgrs to be compiled
+		/// </summary>
+		String[] sequenceNames;
 		
 		/// <summary>
 		/// The model used in the specification
@@ -61,22 +66,47 @@ PARSER_BEGIN(SequenceParser)
 		}		
 
         /// <summary>
+        /// Parses a given string in sequence definition syntax and builds a SequenceDefinition object. Used for the interpreted xgrs.
+        /// </summary>
+        /// <param name="sequenceStr">The string representing a xgrs (e.g. "test[7] &amp;&amp; (chicken+ || egg)*")</param>
+        /// <param name="actions">The BaseActions object containing the rules used in the string.</param>
+        /// <returns>The sequence object according to sequenceStr.</returns>
+        /// <exception cref="ParseException">Thrown when a syntax error was found in the string.</exception>
+        /// <exception cref="SequenceParserException">Thrown when a rule is used with the wrong number of arguments
+        /// or return parameters.</exception>
+		public static SequenceDefinition ParseSequenceDefinition(String sequenceStr, BaseActions actions)
+		{
+			SequenceParser parser = new SequenceParser(new StringReader(sequenceStr));
+			parser.actions = actions;
+			parser.ruleNames = null;
+			parser.model = actions.Graph.Model;
+			parser.varDecls = new SymbolTable();
+			parser.varDecls.PushFirstScope(null);
+			SequenceDefinition seq = parser.defXGRS();
+			SequenceChecker seqChecker = new SequenceChecker(actions);
+			seqChecker.Check(seq);
+			return seq;
+		}		
+
+        /// <summary>
         /// Parses a given string in xgrs syntax and builds a Sequence object. Used for the compiled xgrs.
         /// </summary>
         /// <param name="sequenceStr">The string representing a xgrs (e.g. "test[7] &amp;&amp; (chicken+ || egg)*")</param>
         /// <param name="ruleNames">An array containing the names of the rules used in the specification.</param>
+        /// <param name="sequenceNames">An array containing the names of the sequences used in the specification.</param>
         /// <param name="predefinedVariables">A map from variables to types giving the parameters to the sequence, i.e. predefined variables.</param>
         /// <param name="model">The model used in the specification.</param>
         /// <returns>The sequence object according to sequenceStr.</returns>
         /// <exception cref="ParseException">Thrown when a syntax error was found in the string.</exception>
         /// <exception cref="SequenceParserException">Thrown when a rule is used with the wrong number of arguments
         /// or return parameters.</exception>
-		public static Sequence ParseSequence(String sequenceStr, String[] ruleNames,
+		public static Sequence ParseSequence(String sequenceStr, String[] ruleNames, String[] sequenceNames,
 		        Dictionary<String, String> predefinedVariables, IGraphModel model)
 		{
 			SequenceParser parser = new SequenceParser(new StringReader(sequenceStr));
 			parser.actions = null;
 			parser.ruleNames = ruleNames;
+			parser.sequenceNames = sequenceNames;
 			parser.model = model;
 			parser.varDecls = new SymbolTable();
 			parser.varDecls.PushFirstScope(predefinedVariables);
@@ -97,6 +127,9 @@ SKIP: {
 
 TOKEN: {
     < EQUAL: "=" >
+|	< ASSIGN_TO: "=>" >
+|	< BOR_TO: "|>" >
+|	< BAND_TO: "&>" >
 |	< COMMA: "," >
 |	< DOLLAR: "$" >
 |   < DOUBLEAMPERSAND: "&&" >
@@ -387,14 +420,10 @@ void RuleParameters(List<SequenceVariable> paramVars, List<Object> paramConsts):
 
 SequenceVariable Variable(): // usage as well as definition
 {
-	String varName, typeName = null, typeNameDst;
+	String varName, typeName=null;
 }
 {
-	varName=Word() (":" (typeName=Word()
-							| "set" "<" typeName=Word() ">" { typeName = "set<"+typeName+">"; }
-							| "map" "<" typeName=Word() "," typeNameDst=Word() ">" { typeName = "map<"+typeName+","+typeNameDst+">"; }
-						  )
-					 )?
+	varName=Word() (":" typeName=Type() )?
 	{
 		SequenceVariable oldVariable = varDecls.Lookup(varName);
 		SequenceVariable newVariable;
@@ -416,6 +445,26 @@ SequenceVariable Variable(): // usage as well as definition
 				newVariable = oldVariable;
 			}
 		}		
+		return newVariable;
+	}
+}
+
+SequenceVariable VariableDefinition(): // only definition in contrast to Variable
+{
+	String varName, typeName;
+}
+{
+	varName=Word() ":" typeName=Type()
+	{
+		SequenceVariable oldVariable = varDecls.Lookup(varName);
+		SequenceVariable newVariable;
+		if(oldVariable==null) {
+			newVariable = varDecls.Define(varName, typeName);
+		} else if(oldVariable.Type=="") {
+			throw new ParseException("The variable \""+varName+"\" has already been used/implicitely declared as global variable!");
+		} else {
+			throw new ParseException("The variable \""+varName+"\" has already been declared as local variable with type \""+oldVariable.Type+"\"!");
+		}
 		return newVariable;
 	}
 }
@@ -446,6 +495,29 @@ void VariableList(List<SequenceVariable> variables):
 	var=Variable() { variables.Add(var); } ("," var=Variable() { variables.Add(var); })*
 }
 
+void VariableDefinitionList(List<SequenceVariable> variables):
+{
+	SequenceVariable var;
+}
+{
+	var=VariableDefinition() { variables.Add(var); } ("," var=VariableDefinition() { variables.Add(var); })*
+}
+
+String Type():
+{
+	String type;
+	String typeParam, typeParamDst;
+}
+{
+	(type=Word()
+		| "set" "<" typeParam=Word() ">" { type = "set<"+typeParam+">"; }
+		| "map" "<" typeParam=Word() "," typeParamDst=Word() ">" { type = "map<"+typeParam+","+typeParamDst+">"; }
+	)
+	{
+		return type;
+	}
+}
+
 Sequence XGRS():
 {
 	Sequence seq;
@@ -454,6 +526,21 @@ Sequence XGRS():
 	seq=RewriteSequence() <EOF>
 	{
 		return seq;
+	}
+}
+
+SequenceDefinition defXGRS():
+{
+	String name;
+	List<SequenceVariable> inputVariables = new List<SequenceVariable>();
+	List<SequenceVariable> outputVariables = new List<SequenceVariable>();
+	Sequence seq;
+}
+{
+	name=Word() ( "(" VariableDefinitionList(inputVariables) ")" )? ( ":" "(" VariableDefinitionList(outputVariables) ")" )? 
+		"{" seq=RewriteSequence() "}" <EOF>
+	{
+		return new SequenceDefinition(name, inputVariables.ToArray(), outputVariables.ToArray(), seq);
 	}
 }
 
@@ -587,17 +674,22 @@ Sequence RewriteSequenceStrictAnd():
 Sequence RewriteSequenceNeg():
 {
 	Sequence seq;
+	SequenceVariable toVar;
 }
 {
-    "!" seq=RewriteSequenceNeg()
-	{
-		return new SequenceNot(seq);
-	}
-|	
+    "!" seq=RewriteSequenceIteration() 
+		( "=>" toVar=Variable() { return new SequenceAssignSequenceResultToVar(toVar, new SequenceNot(seq)); }
+		| "|>" toVar=Variable() { return new SequenceOrAssignSequenceResultToVar(toVar, new SequenceNot(seq)); }
+		| "&>" toVar=Variable() { return new SequenceAndAssignSequenceResultToVar(toVar, new SequenceNot(seq)); }
+		| { return new SequenceNot(seq); }
+		)
+|
 	seq=RewriteSequenceIteration()
-	{
-		return seq;
-	}
+		( "=>" toVar=Variable() { return new SequenceAssignSequenceResultToVar(toVar, seq); }
+		| "|>" toVar=Variable() { return new SequenceOrAssignSequenceResultToVar(toVar, seq); }
+		| "&>" toVar=Variable() { return new SequenceAndAssignSequenceResultToVar(toVar, seq); }
+		| { return seq; }
+		)
 }
 
 Sequence RewriteSequenceIteration():
@@ -923,7 +1015,7 @@ Sequence Rule():
 			if(varDecls.Lookup(str)!=null)
 				throw new SequenceParserException(str, SequenceParserError.RuleNameUsedByVariable);
 
-			return new SequenceRuleAll(CreateRuleInvocationParameterBindings(str, paramVars, paramConsts, returnVars),
+			return new SequenceRuleAllCall(CreateRuleInvocationParameterBindings(str, paramVars, paramConsts, returnVars),
 					special, test, chooseRandSpecified, varChooseRand, chooseRandSpecified2, varChooseRand2, choice);
 		}
 	|
@@ -944,9 +1036,15 @@ Sequence Rule():
 			// No variable with this name may exist
 			if(varDecls.Lookup(str)!=null)
 				throw new SequenceParserException(str, SequenceParserError.RuleNameUsedByVariable);
-				
-			return new SequenceRule(CreateRuleInvocationParameterBindings(str, paramVars, paramConsts, returnVars),
-					special, test);
+
+			if(IsSequenceName(str))
+				return new SequenceSequenceCall(
+								CreateSequenceInvocationParameterBindings(str, paramVars, paramConsts, returnVars),
+								special);
+			else
+				return new SequenceRuleCall(
+								CreateRuleInvocationParameterBindings(str, paramVars, paramConsts, returnVars),
+								special, test);
 		}
 	)
 }
@@ -966,6 +1064,37 @@ RuleInvocationParameterBindings CreateRuleInvocationParameterBindings(String rul
 		paramBindings.RuleName = ruleName;
 
 	return paramBindings;
+}
+
+CSHARPCODE
+SequenceInvocationParameterBindings CreateSequenceInvocationParameterBindings(String sequenceName, 
+				List<SequenceVariable> paramVars, List<Object> paramConsts, List<SequenceVariable> returnVars)
+{
+	SequenceDefinition sequenceDef = null;
+	if(actions != null) {
+		sequenceDef = actions.RetrieveGraphRewriteSequenceDefinition(sequenceName);
+	}
+			
+	SequenceInvocationParameterBindings paramBindings = new SequenceInvocationParameterBindings(sequenceDef, 
+			paramVars.ToArray(), paramConsts.ToArray(), returnVars.ToArray());
+
+	if(sequenceDef == null)
+		paramBindings.SequenceName = sequenceName;
+
+	return paramBindings;
+}
+
+CSHARPCODE
+bool IsSequenceName(String ruleOrSequenceName)
+{
+	if(actions != null) {
+		return actions.RetrieveGraphRewriteSequenceDefinition(ruleOrSequenceName) != null;
+	} else {
+		foreach(String sequenceName in sequenceNames)
+			if(ruleOrSequenceName == sequenceName)
+				return true;
+		return false;
+	}
 }
 
 TOKEN: { < ERROR: ~[] > }

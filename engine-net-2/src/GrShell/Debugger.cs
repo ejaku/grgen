@@ -79,7 +79,7 @@ namespace de.unika.ipd.grGen.grShell
 
         Process viewerProcess = null;
         YCompClient ycompClient = null;
-        Sequence debugSequence = null;
+        Stack<Sequence> debugSequence = new Stack<Sequence>();
         bool stepMode = true;
         bool dynamicStepMode = false;
         bool skipMode = false;
@@ -245,7 +245,7 @@ namespace de.unika.ipd.grGen.grShell
 
             context.highlightSeq = seq;
             context.choice = true;
-            PrintSequence(debugSequence, null, context);
+            PrintSequence(debugSequence.Peek(), context, debugSequence.Count);
             Console.WriteLine();
             context.choice = false;
 
@@ -294,7 +294,7 @@ namespace de.unika.ipd.grGen.grShell
                 context.highlightSeq = sequences[seqToExecute];
                 context.choice = true;
                 context.sequences = sequences;
-                PrintSequence(debugSequence, null, context);
+                PrintSequence(debugSequence.Peek(), context, debugSequence.Count);
                 Console.WriteLine();
                 context.choice = false;
                 context.sequences = null;
@@ -376,7 +376,7 @@ namespace de.unika.ipd.grGen.grShell
                 context.choice = true;
                 context.sequences = seq.Sequences;
                 context.matches = seq.Matches;
-                PrintSequence(debugSequence, null, context);
+                PrintSequence(debugSequence.Peek(), context, debugSequence.Count);
                 Console.WriteLine();
                 context.choice = false;
                 context.sequences = null;
@@ -460,7 +460,7 @@ namespace de.unika.ipd.grGen.grShell
         {
             context.highlightSeq = seq;
             context.choice = true;
-            PrintSequence(debugSequence, null, context);
+            PrintSequence(debugSequence.Peek(), context, debugSequence.Count);
             Console.WriteLine();
             context.choice = false;
 
@@ -551,7 +551,7 @@ namespace de.unika.ipd.grGen.grShell
 
             context.highlightSeq = seq;
             context.choice = true;
-            PrintSequence(debugSequence, null, context);
+            PrintSequence(debugSequence.Peek(), context, debugSequence.Count);
             Console.WriteLine();
             context.choice = false;
 
@@ -621,7 +621,7 @@ namespace de.unika.ipd.grGen.grShell
 
             context.highlightSeq = seq;
             context.choice = true;
-            PrintSequence(debugSequence, null, context);
+            PrintSequence(debugSequence.Peek(), context, debugSequence.Count);
             Console.WriteLine();
             context.choice = false;
 
@@ -668,15 +668,23 @@ namespace de.unika.ipd.grGen.grShell
                         else text = "Backtracking possibilities exhausted, fail ";
                     context.workaround.PrintHighlighted(text, HighlightingMode.SequenceStart);
                     context.highlightSeq = seq;
-                    PrintSequence(seq, null, context);
+                    PrintSequence(seq, context, debugSequence.Count);
                     if(!continueLoop)
                         context.workaround.PrintHighlighted("< leaving backtracking brackets", HighlightingMode.SequenceStart);
+                }
+                else if(seq is SequenceDefinition)
+                {
+                    SequenceDefinition seqDef = (SequenceDefinition)seq;
+                    context.workaround.PrintHighlighted("State at end of sequence call ", HighlightingMode.SequenceStart);
+                    context.highlightSeq = seq;
+                    PrintSequence(seq, context, debugSequence.Count);
+                    context.workaround.PrintHighlighted("< leaving", HighlightingMode.SequenceStart);
                 }
                 else
                 {
                     context.workaround.PrintHighlighted("State at end of iteration step ", HighlightingMode.SequenceStart);
                     context.highlightSeq = seq;
-                    PrintSequence(seq, null, context);
+                    PrintSequence(seq, context, debugSequence.Count);
                     if(!continueLoop)
                         context.workaround.PrintHighlighted("< leaving loop", HighlightingMode.SequenceStart);
                 }
@@ -703,7 +711,8 @@ namespace de.unika.ipd.grGen.grShell
 
         public void InitNewRewriteSequence(Sequence seq, bool withStepMode)
         {
-            debugSequence = seq;
+            debugSequence.Clear();
+            debugSequence.Push(seq);
             curStepSequence = null;
             stepMode = withStepMode;
             recordMode = false;
@@ -788,6 +797,18 @@ namespace de.unika.ipd.grGen.grShell
         }
 
         /// <summary>
+        /// Prints the given root sequence adding parentheses if needed according to the print context.
+        /// </summary>
+        /// <param name="seq">The sequence to be printed</param>
+        /// <param name="context">The print context</param>
+        /// <param name="nestingLevel">The level the sequence is nested in</param>
+        private static void PrintSequence(Sequence seq, PrintSequenceContext context, int nestingLevel)
+        {
+            context.workaround.PrintHighlighted(nestingLevel + ">", HighlightingMode.SequenceStart);
+            PrintSequence(seq, null, context);
+        }
+
+        /// <summary>
         /// Prints the given sequence adding parentheses if needed according to the print context.
         /// </summary>
         /// <param name="seq">The sequence to be printed</param>
@@ -795,8 +816,6 @@ namespace de.unika.ipd.grGen.grShell
         /// <param name="context">The print context</param>
         private static void PrintSequence(Sequence seq, Sequence parent, PrintSequenceContext context)
         {
-            if(parent == null) context.workaround.PrintHighlighted(">", HighlightingMode.SequenceStart);
-
             // print parentheses, if neccessary
             if(parent != null && seq.Precedence < parent.Precedence) Console.Write("(");
 
@@ -1055,8 +1074,9 @@ namespace de.unika.ipd.grGen.grShell
                 }
 
                 // Breakpointable atoms
-                case SequenceType.Rule:
-                case SequenceType.RuleAll:
+                case SequenceType.SequenceCall:
+                case SequenceType.RuleCall:
+                case SequenceType.RuleAllCall:
                 case SequenceType.True:
                 case SequenceType.False:
                 case SequenceType.VarPredicate:
@@ -1097,12 +1117,19 @@ namespace de.unika.ipd.grGen.grShell
 
                 // Unary assignment
                 case SequenceType.AssignSequenceResultToVar:
+                case SequenceType.OrAssignSequenceResultToVar:
+                case SequenceType.AndAssignSequenceResultToVar:
                 {
                     SequenceAssignSequenceResultToVar seqAss = (SequenceAssignSequenceResultToVar)seq;
                     Console.Write("(");
-                    Console.Write(seqAss.DestVar.Name);
-                    Console.Write("=");
                     PrintSequence(seqAss.Seq, seq, context);
+                    if(seq.SequenceType==SequenceType.OrAssignSequenceResultToVar)
+                        Console.Write("|>");
+                    else if(seq.SequenceType==SequenceType.AndAssignSequenceResultToVar)
+                        Console.Write("&>");
+                    else //if(seq.SequenceType==SequenceType.AssignSequenceResultToVar)
+                        Console.Write("=>");
+                    Console.Write(seqAss.DestVar.Name);
                     Console.Write(")");
                     break;
                 }
@@ -1123,6 +1150,17 @@ namespace de.unika.ipd.grGen.grShell
                         context.workaround.PrintHighlighted(seq.Symbol, HighlightingMode.Choicepoint);
                     else
                         Console.Write(seq.Symbol);
+                    break;
+                }
+
+                case SequenceType.SequenceDefinition:
+                {
+                    SequenceDefinition seqDef = (SequenceDefinition)seq;
+                    HighlightingMode mode = HighlightingMode.None;
+                    if(seqDef.ExecutionState == SequenceExecutionState.Success) mode = HighlightingMode.LastSuccess;
+                    if(seqDef.ExecutionState == SequenceExecutionState.Fail) mode = HighlightingMode.LastFail;
+                    context.workaround.PrintHighlighted(seqDef.Symbol+": ", mode);
+                    PrintSequence(seqDef.Seq, seqDef.Seq, context);
                     break;
                 }
 
@@ -1212,7 +1250,8 @@ namespace de.unika.ipd.grGen.grShell
         {
             PrintSequenceContext context = new PrintSequenceContext(workaround);
             context.highlightSeq = highlight;
-            PrintSequence(seq, null, context);
+            PrintSequence(seq, context, 0);
+            // TODO: what to do if abort came within sequence called from top sequence?
         }
 
         /// <summary>
@@ -1248,13 +1287,19 @@ namespace de.unika.ipd.grGen.grShell
             return key;
         }
 
+        void HandleShowVariable()
+        {
+            Console.WriteLine("Available global (non null) variables:");
+            Console.WriteLine("NIY");
+        }
+
         void HandleToggleBreakpoints()
         {
             Console.Write("Available breakpoint positions:\n  ");
 
             PrintSequenceContext contextBp = new PrintSequenceContext(grShellImpl.Workaround);
             contextBp.bpPosCounter = 0;
-            PrintSequence(debugSequence, null, contextBp);
+            PrintSequence(debugSequence.Peek(), contextBp, debugSequence.Count);
             Console.WriteLine();
 
             if(contextBp.bpPosCounter == 0)
@@ -1268,7 +1313,7 @@ namespace de.unika.ipd.grGen.grShell
                 return;
 
             int bpCounter = 0; // dummy
-            SequenceSpecial bpSeq = GetSequenceAtBreakpointPosition(debugSequence, pos, ref bpCounter);
+            SequenceSpecial bpSeq = GetSequenceAtBreakpointPosition(debugSequence.Peek(), pos, ref bpCounter);
             bpSeq.Special = !bpSeq.Special;
         }
 
@@ -1278,7 +1323,7 @@ namespace de.unika.ipd.grGen.grShell
 
             PrintSequenceContext contextCp = new PrintSequenceContext(grShellImpl.Workaround);
             contextCp.cpPosCounter = 0;
-            PrintSequence(debugSequence, null, contextCp);
+            PrintSequence(debugSequence.Peek(), contextCp, debugSequence.Count);
             Console.WriteLine();
 
             if (contextCp.cpPosCounter == 0)
@@ -1292,7 +1337,7 @@ namespace de.unika.ipd.grGen.grShell
                 return;
 
             int cpCounter = 0; // dummy
-            SequenceRandomChoice cpSeq = GetSequenceAtChoicepointPosition(debugSequence, pos, ref cpCounter);
+            SequenceRandomChoice cpSeq = GetSequenceAtChoicepointPosition(debugSequence.Peek(), pos, ref cpCounter);
             cpSeq.Choice = !cpSeq.Choice;
         }
 
@@ -1401,10 +1446,10 @@ namespace de.unika.ipd.grGen.grShell
             {
                 ycompClient.UpdateDisplay();
                 ycompClient.Sync();
-                PrintSequence(debugSequence, null, context);
+                PrintSequence(debugSequence.Peek(), context, debugSequence.Count);
                 Console.WriteLine();
                 context.workaround.PrintHighlighted("Debug started", HighlightingMode.SequenceStart);
-                Console.WriteLine(" -- available commands are: (n)ext match, (d)etailed step, (s)tep, step (u)p, step (o)ut of loop, (r)un, toggle (b)reakpoints, toggle (c)hoicepoints, toggle (l)azy choice and (a)bort (plus Ctrl+C for forced abort).");
+                Console.WriteLine(" -- available commands are: (n)ext match, (d)etailed step, (s)tep, step (u)p, step (o)ut of loop, (r)un, toggle (b)reakpoints, toggle (c)hoicepoints, toggle (l)azy choice, show (v)ariable and (a)bort (plus Ctrl+C for forced abort).");
                 QueryUser(seq);
             }
 
@@ -1420,11 +1465,18 @@ namespace de.unika.ipd.grGen.grShell
                 loopList.AddFirst(seq);
             }
 
+            // Entering a subsequence called?
+            if(seq.SequenceType == SequenceType.SequenceDefinition)
+            {
+                loopList.AddFirst(seq);
+                debugSequence.Push(seq);
+            }
+
             // Breakpoint reached?
             bool breakpointReached = false;
-            if((seq.SequenceType == SequenceType.Rule || seq.SequenceType == SequenceType.RuleAll
+            if((seq.SequenceType == SequenceType.RuleCall || seq.SequenceType == SequenceType.RuleAllCall
                 || seq.SequenceType == SequenceType.True || seq.SequenceType == SequenceType.False
-                || seq.SequenceType == SequenceType.VarPredicate)
+                || seq.SequenceType == SequenceType.VarPredicate || seq.SequenceType == SequenceType.SequenceCall)
                     && ((SequenceSpecial)seq).Special)
             {
                 stepMode = true;
@@ -1436,14 +1488,15 @@ namespace de.unika.ipd.grGen.grShell
                 return;
             }
 
-            if(seq.SequenceType == SequenceType.Rule || seq.SequenceType == SequenceType.RuleAll
+            if(seq.SequenceType == SequenceType.RuleCall || seq.SequenceType == SequenceType.RuleAllCall
+                || seq.SequenceType == SequenceType.SequenceCall
                 || breakpointReached)
             {
                 ycompClient.UpdateDisplay();
                 ycompClient.Sync();
                 context.highlightSeq = seq;
                 context.success = false;
-                PrintSequence(debugSequence, null, context);
+                PrintSequence(debugSequence.Peek(), context, debugSequence.Count);
                 Console.WriteLine();
                 QueryUser(seq);
                 return;
@@ -1466,6 +1519,12 @@ namespace de.unika.ipd.grGen.grShell
             {
                 loopList.RemoveFirst();
             }
+
+            if(seq.SequenceType == SequenceType.SequenceDefinition)
+            {
+                debugSequence.Pop();
+                loopList.RemoveFirst();
+            }
         }
 
         void DebugMatched(IMatches matches, bool special)
@@ -1480,7 +1539,7 @@ namespace de.unika.ipd.grGen.grShell
                 ycompClient.Sync();
                 context.highlightSeq = lastlyEntered;
                 context.success = true;
-                PrintSequence(debugSequence, null, context);
+                PrintSequence(debugSequence.Peek(), context, debugSequence.Count);
                 Console.WriteLine();
 
                 if(!QueryUser(lastlyEntered))
@@ -1547,7 +1606,7 @@ namespace de.unika.ipd.grGen.grShell
                     stepMode = false;
                     dynamicStepMode = false;
                     detailedMode = false;
-                    curStepSequence = GetParentSequence(seq, debugSequence);
+                    curStepSequence = GetParentSequence(seq, debugSequence.Peek());
                     return false;
                 case 'o':
                     stepMode = false;
@@ -1568,14 +1627,14 @@ namespace de.unika.ipd.grGen.grShell
                     HandleToggleBreakpoints();
                     context.highlightSeq = seq;
                     context.success = false;
-                    PrintSequence(debugSequence, null, context);
+                    PrintSequence(debugSequence.Peek(), context, debugSequence.Count);
                     Console.WriteLine();
                     break;
                 case 'c':
                     HandleToggleChoicepoints();
                     context.highlightSeq = seq;
                     context.success = false;
-                    PrintSequence(debugSequence, null, context);
+                    PrintSequence(debugSequence.Peek(), context, debugSequence.Count);
                     Console.WriteLine();
                     break;
                 case 'l':
@@ -1589,9 +1648,12 @@ namespace de.unika.ipd.grGen.grShell
                     dynamicStepMode = true;
                     detailedMode = false;
                     return false;
+                case 'v':
+                    HandleShowVariable();
+                    break;
                 default:
                     Console.WriteLine("Illegal command (Key = " + key.Key
-                        + ")! Only (n)ext match, (d)etailed step, (s)tep, step (u)p, step (o)ut, (r)un, toggle (b)reakpoints, toggle (c)hoicepoints, toggle (l)azy choice and (a)bort allowed!");
+                        + ")! Only (n)ext match, (d)etailed step, (s)tep, step (u)p, step (o)ut, (r)un, toggle (b)reakpoints, toggle (c)hoicepoints, toggle (l)azy choice, show (v)ariable and (a)bort allowed!");
                     break;
                 }
             }

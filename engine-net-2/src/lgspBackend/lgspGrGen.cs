@@ -753,6 +753,8 @@ namespace de.unika.ipd.grGen.lgsp
 
                 Dictionary<String, List<String>> rulesToInputTypes = new Dictionary<String, List<String>>();
                 Dictionary<String, List<String>> rulesToOutputTypes = new Dictionary<String, List<String>>();
+                Dictionary<String, List<String>> sequencesToInputTypes = new Dictionary<String, List<String>>();
+                Dictionary<String, List<String>> sequencesToOutputTypes = new Dictionary<String, List<String>>();
                 foreach (IRulePattern rulePattern in ruleAndMatchingPatterns.Rules)
                 {
                     List<String> inputTypes = new List<String>();
@@ -792,7 +794,8 @@ namespace de.unika.ipd.grGen.lgsp
                         else if(line.Length > 0 && line[0] == '#' && line.Contains("// GrGen imperative statement section"))
                         {
                             LGSPSequenceGenerator seqGen = new LGSPSequenceGenerator(this, model, 
-                                rulesToInputTypes, rulesToOutputTypes);
+                                rulesToInputTypes, rulesToOutputTypes,
+                                sequencesToInputTypes, sequencesToOutputTypes);
                             int lastSpace = line.LastIndexOf(' ');
                             String ruleName = line.Substring(lastSpace + 1);
                             Type ruleType = actionTypes[ruleName];

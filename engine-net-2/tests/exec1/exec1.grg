@@ -32,3 +32,21 @@ rule R4(a:A) {
         a -:eee-> a;
     }
 }
+
+rule RTestCodeGen
+{
+	a:A;
+	modify {
+		exec(R2(a)* => b:boolean ;> R3(a) |> b ;> !R4(a) &> b ;> (R2(a) || R3(a)) => b);
+	}
+}
+
+test existingPattern()
+{
+	:Center;
+}
+
+test notExistingPattern()
+{
+	:Center --> :B --> :B;
+}

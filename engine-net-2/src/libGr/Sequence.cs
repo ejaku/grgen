@@ -24,15 +24,17 @@ namespace de.unika.ipd.grGen.libGr
     {
         ThenLeft, ThenRight, LazyOr, LazyAnd, StrictOr, Xor, StrictAnd, Not, 
         IterationMin, IterationMinMax,
-        Rule, RuleAll, Def, Yield, True, False, VarPredicate,
+        RuleCall, RuleAllCall, Def, Yield, True, False, VarPredicate,
         AssignVAllocToVar, AssignSetmapSizeToVar, AssignSetmapEmptyToVar, AssignMapAccessToVar,
-        AssignVarToVar, AssignElemToVar, AssignSequenceResultToVar,
+        AssignVarToVar, AssignElemToVar,
+        AssignSequenceResultToVar, OrAssignSequenceResultToVar, AndAssignSequenceResultToVar,
         AssignUserInputToVar, AssignRandomToVar,
         AssignConstToVar, AssignAttributeToVar, AssignVarToAttribute,
         IsVisited, SetVisited, VFree, VReset, Emit, Record,
         SetmapAdd, SetmapRem, SetmapClear, InSetmap,
         LazyOrAll, LazyAndAll, StrictOrAll, StrictAndAll, SomeFromSet,
-        Transaction, Backtrack, IfThenElse, IfThen, For
+        Transaction, Backtrack, IfThenElse, IfThen, For,
+        SequenceDefinition, SequenceCall
     }
 
     /// <summary>
@@ -126,6 +128,30 @@ namespace de.unika.ipd.grGen.libGr
         }
 
         /// <summary>
+        /// Copies the sequence deeply so that
+        /// - the execution state of the copy is NotYet
+        /// - the global Variables are kept
+        /// - the local Variables are replaced by copies initialized to null
+        /// Used for cloning defined sequenced before executing them if needed.
+        /// Needed if the defined sequence is currently executed to prevent state corruption.
+        /// </summary>
+        /// <param name="originalToCopy">A map used to ensure that every instance of a variable is mapped to the same copy</param>
+        /// <returns>The copy of the sequence</returns>
+        internal abstract Sequence Copy(Dictionary<SequenceVariable, SequenceVariable> originalToCopy);
+
+        /// <summary>
+        /// After a sequence definition was replaced by a new one, all references from then on will use the new one,
+        /// but the old references are still there and must get replaced.
+        /// </summary>
+        /// <param name="oldDef">The old definition which is to be replaced</param>
+        /// <param name="newDef">The new definition which replaces the old one</param>
+        internal virtual void ReplaceSequenceDefinition(SequenceDefinition oldDef, SequenceDefinition newDef)
+        {
+            // most sequences are basic ones not referencing seqences 
+            // this null implementation saves us the effort of implementing this method everywhere, needed or not
+        }
+
+        /// <summary>
         /// Applies this sequence.
         /// </summary>
         /// <param name="graph">The graph on which this sequence is to be applied.
@@ -187,6 +213,7 @@ namespace de.unika.ipd.grGen.libGr
 
         /// <summary>
         /// returns the sequence id - every sequence is assigned a unique id used in xgrs code generation
+        /// for copies the old id is just taken over, does not cause problems as code is only generated once per defined sequence
         /// </summary>
         public int Id { get { return id; } }
 
@@ -269,6 +296,19 @@ namespace de.unika.ipd.grGen.libGr
             Seq = seq;
         }
 
+        internal override Sequence Copy(Dictionary<SequenceVariable, SequenceVariable> originalToCopy)
+        {
+            SequenceUnary copy = (SequenceUnary)MemberwiseClone();
+            copy.Seq = Seq.Copy(originalToCopy);
+            copy.executionState = SequenceExecutionState.NotYet;
+            return copy;
+        }
+
+        internal override void ReplaceSequenceDefinition(SequenceDefinition oldDef, SequenceDefinition newDef)
+        {
+            Seq.ReplaceSequenceDefinition(oldDef, newDef);
+        }
+
         public override IEnumerable<Sequence> Children
         {
             get { yield return Seq; }
@@ -297,6 +337,21 @@ namespace de.unika.ipd.grGen.libGr
             this.choice = choice;
         }
 
+        internal override Sequence Copy(Dictionary<SequenceVariable, SequenceVariable> originalToCopy)
+        {
+            SequenceBinary copy = (SequenceBinary)MemberwiseClone();
+            copy.Left = Left.Copy(originalToCopy);
+            copy.Right = Right.Copy(originalToCopy);
+            copy.executionState = SequenceExecutionState.NotYet;
+            return copy;
+        }
+
+        internal override void ReplaceSequenceDefinition(SequenceDefinition oldDef, SequenceDefinition newDef)
+        {
+            Left.ReplaceSequenceDefinition(oldDef, newDef);
+            Right.ReplaceSequenceDefinition(oldDef, newDef);
+        }
+
         public override IEnumerable<Sequence> Children
         {
             get { yield return Left; yield return Right; }
@@ -323,11 +378,59 @@ namespace de.unika.ipd.grGen.libGr
             this.choice = choice;
         }
 
+        internal override Sequence Copy(Dictionary<SequenceVariable, SequenceVariable> originalToCopy)
+        {
+            SequenceNAry copy = (SequenceNAry)MemberwiseClone();
+            copy.Sequences = new List<Sequence>();
+            foreach(Sequence seq in Sequences)
+                copy.Sequences.Add(seq.Copy(originalToCopy));
+            copy.executionState = SequenceExecutionState.NotYet;
+            return copy;
+        }
+
+        internal override void ReplaceSequenceDefinition(SequenceDefinition oldDef, SequenceDefinition newDef)
+        {
+            foreach(Sequence seq in Sequences)
+                seq.ReplaceSequenceDefinition(oldDef, newDef);
+        }
+
         public override IEnumerable<Sequence> Children
         { 
             get { foreach(Sequence seq in Sequences) yield return seq; }
         }
     }
+
+    /// <summary>
+    /// A sequence which assigns something to a destination variable.
+    /// </summary>
+    public abstract class SequenceAssign : Sequence
+    {
+        public SequenceVariable DestVar;
+
+        public SequenceAssign(SequenceVariable destVar, SequenceType seqType)
+            : base(seqType)
+        {
+            DestVar = destVar;
+        }
+
+        internal override Sequence Copy(Dictionary<SequenceVariable, SequenceVariable> originalToCopy)
+        {
+            SequenceAssign copy = (SequenceAssign)MemberwiseClone();
+            copy.DestVar = DestVar.Copy(originalToCopy);
+            copy.executionState = SequenceExecutionState.NotYet;
+            return copy;
+        }
+
+        protected bool Assign(object value, IGraph graph)
+        {
+            DestVar.SetVariableValue(value, graph);
+            return true;
+        }
+
+        public override IEnumerable<Sequence> Children { get { yield break; } } // nearly always no children
+        public override int Precedence { get { return 8; } } // nearly always a top prio assignment factor
+    }
+
 
     public class SequenceThenLeft : SequenceBinary
     {
@@ -562,17 +665,25 @@ namespace de.unika.ipd.grGen.libGr
         public override string Symbol { get { return "[" + Min + ":" + Max + "]"; } }
     }
 
-    public class SequenceRule : SequenceSpecial
+    public class SequenceRuleCall : SequenceSpecial
     {
         public RuleInvocationParameterBindings ParamBindings;
 
         public bool Test;
 
-        public SequenceRule(RuleInvocationParameterBindings paramBindings, bool special, bool test)
-            : base(special, SequenceType.Rule)
+        public SequenceRuleCall(RuleInvocationParameterBindings paramBindings, bool special, bool test)
+            : base(special, SequenceType.RuleCall)
         {
             ParamBindings = paramBindings;
             Test = test;
+        }
+
+        internal override Sequence Copy(Dictionary<SequenceVariable, SequenceVariable> originalToCopy)
+        {
+            SequenceRuleCall copy = (SequenceRuleCall)MemberwiseClone();
+            copy.ParamBindings = ParamBindings.Copy(originalToCopy);
+            copy.executionState = SequenceExecutionState.NotYet;
+            return copy;
         }
 
         protected override bool ApplyImpl(IGraph graph, SequenceExecutionEnvironment env)
@@ -684,7 +795,7 @@ namespace de.unika.ipd.grGen.libGr
         }
     }
 
-    public class SequenceRuleAll : SequenceRule, SequenceRandomChoice
+    public class SequenceRuleAllCall : SequenceRuleCall, SequenceRandomChoice
     {
         public bool ChooseRandom;
         public bool MinSpecified;
@@ -692,12 +803,12 @@ namespace de.unika.ipd.grGen.libGr
         public SequenceVariable MaxVarChooseRandom;
         private bool choice;
 
-        public SequenceRuleAll(RuleInvocationParameterBindings paramBindings, bool special, bool test, 
+        public SequenceRuleAllCall(RuleInvocationParameterBindings paramBindings, bool special, bool test, 
             bool chooseRandom, SequenceVariable varChooseRandom,
             bool chooseRandom2, SequenceVariable varChooseRandom2, bool choice)
             : base(paramBindings, special, test)
         {
-            SequenceType = SequenceType.RuleAll;
+            SequenceType = SequenceType.RuleAllCall;
             ChooseRandom = chooseRandom;
             if(chooseRandom)
             {
@@ -711,6 +822,16 @@ namespace de.unika.ipd.grGen.libGr
                     MaxVarChooseRandom = varChooseRandom;
             }
             this.choice = choice;
+        }
+
+        internal override Sequence Copy(Dictionary<SequenceVariable, SequenceVariable> originalToCopy)
+        {
+            SequenceRuleAllCall copy = (SequenceRuleAllCall)MemberwiseClone();
+            copy.ParamBindings = ParamBindings.Copy(originalToCopy);
+            copy.MinVarChooseRandom = MinVarChooseRandom.Copy(originalToCopy);
+            copy.MaxVarChooseRandom = MaxVarChooseRandom.Copy(originalToCopy);
+            copy.executionState = SequenceExecutionState.NotYet;
+            return copy;
         }
 
         public bool Random { get { return ChooseRandom; } set { ChooseRandom = value; } }
@@ -897,6 +1018,16 @@ namespace de.unika.ipd.grGen.libGr
             DefVars = defVars;
         }
 
+        internal override Sequence Copy(Dictionary<SequenceVariable, SequenceVariable> originalToCopy)
+        {
+            SequenceDef copy = (SequenceDef)MemberwiseClone();
+            copy.DefVars = new SequenceVariable[DefVars.Length];
+            for(int i=0; i<DefVars.Length; ++i)
+                copy.DefVars[i] = DefVars[i].Copy(originalToCopy);
+            copy.executionState = SequenceExecutionState.NotYet;
+            return copy;
+        }
+
         protected override bool ApplyImpl(IGraph graph, SequenceExecutionEnvironment env)
         {
             foreach(SequenceVariable defVar in DefVars)
@@ -932,6 +1063,16 @@ namespace de.unika.ipd.grGen.libGr
             : base(SequenceType.Yield)
         {
             YieldVars = yieldVars;
+        }
+
+        internal override Sequence Copy(Dictionary<SequenceVariable, SequenceVariable> originalToCopy)
+        {
+            SequenceYield copy = (SequenceYield)MemberwiseClone();
+            copy.YieldVars = new SequenceVariable[YieldVars.Length];
+            for(int i=0; i<YieldVars.Length; ++i)
+                copy.YieldVars[i] = YieldVars[i];
+            copy.executionState = SequenceExecutionState.NotYet;
+            return copy;
         }
 
         public void SetExpectedYieldType(String[] expectedYieldType)
@@ -970,6 +1111,13 @@ namespace de.unika.ipd.grGen.libGr
         {
         }
 
+        internal override Sequence Copy(Dictionary<SequenceVariable, SequenceVariable> originalToCopy)
+        {
+            SequenceTrue copy = (SequenceTrue)MemberwiseClone();
+            copy.executionState = SequenceExecutionState.NotYet;
+            return copy;
+        }
+
         protected override bool ApplyImpl(IGraph graph, SequenceExecutionEnvironment env) { return true; }
         public override IEnumerable<Sequence> Children { get { yield break; } }
         public override int Precedence { get { return 8; } }
@@ -981,6 +1129,13 @@ namespace de.unika.ipd.grGen.libGr
         public SequenceFalse(bool special)
             : base(special, SequenceType.False)
         {
+        }
+
+        internal override Sequence Copy(Dictionary<SequenceVariable, SequenceVariable> originalToCopy)
+        {
+            SequenceFalse copy = (SequenceFalse)MemberwiseClone();
+            copy.executionState = SequenceExecutionState.NotYet;
+            return copy;
         }
 
         protected override bool ApplyImpl(IGraph graph, SequenceExecutionEnvironment env) { return false; }
@@ -999,6 +1154,14 @@ namespace de.unika.ipd.grGen.libGr
             PredicateVar = var;
         }
 
+        internal override Sequence Copy(Dictionary<SequenceVariable, SequenceVariable> originalToCopy)
+        {
+            SequenceVarPredicate copy = (SequenceVarPredicate)MemberwiseClone();
+            copy.PredicateVar = PredicateVar.Copy(originalToCopy);
+            copy.executionState = SequenceExecutionState.NotYet;
+            return copy;
+        }
+
         protected override bool ApplyImpl(IGraph graph, SequenceExecutionEnvironment env)
         {
             object val = PredicateVar.GetVariableValue(graph);
@@ -1010,87 +1173,97 @@ namespace de.unika.ipd.grGen.libGr
         public override string Symbol { get { return Special ? "%"+PredicateVar.Name : PredicateVar.Name; } }
     }
 
-    public class SequenceAssignVAllocToVar : Sequence
+    public class SequenceAssignVAllocToVar : SequenceAssign
     {
-        public SequenceVariable DestVar;
-
         public SequenceAssignVAllocToVar(SequenceVariable destVar)
-            : base(SequenceType.AssignVAllocToVar)
+            : base(destVar, SequenceType.AssignVAllocToVar)
         {
-            DestVar = destVar;
         }
 
         protected override bool ApplyImpl(IGraph graph, SequenceExecutionEnvironment env)
         {
-            DestVar.SetVariableValue(graph.AllocateVisitedFlag(), graph);
-            return true;
+            return Assign(graph.AllocateVisitedFlag(), graph);
         }
 
-        public override IEnumerable<Sequence> Children { get { yield break; } }
-        public override int Precedence { get { return 8; } }
         public override string Symbol { get { return DestVar.Name + "=valloc()"; } }
     }
 
-    public class SequenceAssignSetmapSizeToVar : Sequence
+    public class SequenceAssignSetmapSizeToVar : SequenceAssign
     {
-        public SequenceVariable DestVar;
         public SequenceVariable Setmap;
 
         public SequenceAssignSetmapSizeToVar(SequenceVariable destVar, SequenceVariable setmap)
-            : base(SequenceType.AssignSetmapSizeToVar)
+            : base(destVar, SequenceType.AssignSetmapSizeToVar)
         {
-            DestVar = destVar;
             Setmap = setmap;
+        }
+
+        internal override Sequence Copy(Dictionary<SequenceVariable, SequenceVariable> originalToCopy)
+        {
+            SequenceAssignSetmapSizeToVar copy = (SequenceAssignSetmapSizeToVar)MemberwiseClone();
+            copy.Setmap = Setmap.Copy(originalToCopy);
+            copy.DestVar = DestVar.Copy(originalToCopy);
+            copy.executionState = SequenceExecutionState.NotYet;
+            return copy;
         }
 
         protected override bool ApplyImpl(IGraph graph, SequenceExecutionEnvironment env)
         {
             IDictionary setmap = (IDictionary)Setmap.GetVariableValue(graph);
-            DestVar.SetVariableValue(setmap.Count, graph);
-            return true;
+            return Assign(setmap.Count, graph);
         }
 
-        public override IEnumerable<Sequence> Children { get { yield break; } }
-        public override int Precedence { get { return 8; } }
         public override string Symbol { get { return DestVar.Name + "=" + Setmap.Name + ".size()"; } }
     }
 
-    public class SequenceAssignSetmapEmptyToVar : Sequence
+    public class SequenceAssignSetmapEmptyToVar : SequenceAssign
     {
-        public SequenceVariable DestVar;
         public SequenceVariable Setmap;
 
         public SequenceAssignSetmapEmptyToVar(SequenceVariable destVar, SequenceVariable setmap)
-            : base(SequenceType.AssignSetmapEmptyToVar)
+            : base(destVar, SequenceType.AssignSetmapEmptyToVar)
         {
-            DestVar = destVar;
             Setmap = setmap;
+        }
+
+        internal override Sequence Copy(Dictionary<SequenceVariable, SequenceVariable> originalToCopy)
+        {
+            SequenceAssignSetmapEmptyToVar copy = (SequenceAssignSetmapEmptyToVar)MemberwiseClone();
+            copy.Setmap = Setmap.Copy(originalToCopy);
+            copy.DestVar = DestVar.Copy(originalToCopy);
+            copy.executionState = SequenceExecutionState.NotYet;
+            return copy;
         }
 
         protected override bool ApplyImpl(IGraph graph, SequenceExecutionEnvironment env)
         {
             IDictionary setmap = (IDictionary)Setmap.GetVariableValue(graph);
-            DestVar.SetVariableValue(setmap.Count == 0, graph);
-            return true;
+            return Assign(setmap.Count == 0, graph);
         }
 
-        public override IEnumerable<Sequence> Children { get { yield break; } }
-        public override int Precedence { get { return 8; } }
         public override string Symbol { get { return DestVar.Name + "=" + Setmap.Name + ".empty()"; } }
     }
 
-    public class SequenceAssignMapAccessToVar : Sequence
-        {
-        public SequenceVariable DestVar;
+    public class SequenceAssignMapAccessToVar : SequenceAssign
+    {
         public SequenceVariable Setmap;
         public SequenceVariable KeyVar;
 
         public SequenceAssignMapAccessToVar(SequenceVariable destVar, SequenceVariable setmap, SequenceVariable keyVar)
-            : base(SequenceType.AssignMapAccessToVar)
+            : base(destVar, SequenceType.AssignMapAccessToVar)
         {
-            DestVar = destVar;
             Setmap = setmap;
             KeyVar = keyVar;
+        }
+
+        internal override Sequence Copy(Dictionary<SequenceVariable, SequenceVariable> originalToCopy)
+        {
+            SequenceAssignMapAccessToVar copy = (SequenceAssignMapAccessToVar)MemberwiseClone();
+            copy.Setmap = Setmap.Copy(originalToCopy);
+            copy.KeyVar = KeyVar.Copy(originalToCopy);
+            copy.DestVar = DestVar.Copy(originalToCopy);
+            copy.executionState = SequenceExecutionState.NotYet;
+            return copy;
         }
 
         protected override bool ApplyImpl(IGraph graph, SequenceExecutionEnvironment env)
@@ -1098,50 +1271,49 @@ namespace de.unika.ipd.grGen.libGr
             IDictionary setmap = (IDictionary)Setmap.GetVariableValue(graph);
             object keyVar = KeyVar.GetVariableValue(graph);
             if(!setmap.Contains(keyVar)) return false;
-            DestVar.SetVariableValue(setmap[keyVar], graph);
-            return true;
+            return Assign(setmap[keyVar], graph);
         }
 
-        public override IEnumerable<Sequence> Children { get { yield break; } }
-        public override int Precedence { get { return 8; } }
         public override string Symbol { get { return DestVar.Name + "=" + Setmap.Name + "[" + KeyVar.Name + "]"; } }
     }
     
-    public class SequenceAssignVarToVar : Sequence
+    public class SequenceAssignVarToVar : SequenceAssign
     {
-        public SequenceVariable DestVar;
         public SequenceVariable SourceVar;
 
         public SequenceAssignVarToVar(SequenceVariable destVar, SequenceVariable sourceVar)
-            : base(SequenceType.AssignVarToVar)
+            : base(destVar, SequenceType.AssignVarToVar)
         {
-            DestVar = destVar;
             SourceVar = sourceVar;
+        }
+
+        internal override Sequence Copy(Dictionary<SequenceVariable, SequenceVariable> originalToCopy)
+        {
+            SequenceAssignVarToVar copy = (SequenceAssignVarToVar)MemberwiseClone();
+            copy.SourceVar = SourceVar.Copy(originalToCopy);
+            copy.DestVar = DestVar.Copy(originalToCopy);
+            copy.executionState = SequenceExecutionState.NotYet;
+            return copy;
         }
 
         protected override bool ApplyImpl(IGraph graph, SequenceExecutionEnvironment env)
         {
-            DestVar.SetVariableValue(SourceVar.GetVariableValue(graph), graph);
-            return true;                    // Semantics changed! Now always returns true, as it is always successful!
+            return Assign(SourceVar.GetVariableValue(graph), graph);
         }
 
-        public override IEnumerable<Sequence> Children { get { yield break; } }
-        public override int Precedence { get { return 8; } }
         public override string Symbol { get { return DestVar.Name + "=" + SourceVar.Name; } }
     }
 
-    public class SequenceAssignUserInputToVar : Sequence, SequenceRandomChoice
+    public class SequenceAssignUserInputToVar : SequenceAssign, SequenceRandomChoice
     {
-        public SequenceVariable DestVar;
         public String Type;
 
         public bool Random { get { return false; } set { throw new Exception("can't change Random on SequenceAssignUserInputToVar"); } }
         public bool Choice { get { return true; } set { throw new Exception("can't change Choice on SequenceAssignUserInputToVar"); } }
 
         public SequenceAssignUserInputToVar(SequenceVariable destVar, String type)
-            : base(SequenceType.AssignUserInputToVar)
+            : base(destVar, SequenceType.AssignUserInputToVar)
         {
-            DestVar = destVar;
             Type = type;
         }
 
@@ -1149,18 +1321,14 @@ namespace de.unika.ipd.grGen.libGr
         {
             if (env == null)
                 throw new Exception("Can only query the user for a value if a debugger is available");
-            DestVar.SetVariableValue(env.ChooseValue(Type, this), graph);
-            return true;
+            return Assign(env.ChooseValue(Type, this), graph);
         }
 
-        public override IEnumerable<Sequence> Children { get { yield break; } }
-        public override int Precedence { get { return 8; } }
         public override string Symbol { get { return DestVar.Name + "=" + "$%(" + Type + ")"; } }
     }
 
-    public class SequenceAssignRandomToVar : Sequence, SequenceRandomChoice
+    public class SequenceAssignRandomToVar : SequenceAssign, SequenceRandomChoice
     {
-        public SequenceVariable DestVar;
         public int Number;
 
         public bool Random { get { return true; } set { throw new Exception("can't change Random on SequenceAssignRandomToVar"); } }
@@ -1168,9 +1336,8 @@ namespace de.unika.ipd.grGen.libGr
         private bool choice;
 
         public SequenceAssignRandomToVar(SequenceVariable destVar, int number, bool choice)
-            : base(SequenceType.AssignRandomToVar)
+            : base(destVar, SequenceType.AssignRandomToVar)
         {
-            DestVar = destVar;
             Number = number;
             this.choice = choice;
         }
@@ -1179,35 +1346,27 @@ namespace de.unika.ipd.grGen.libGr
         {
             int randomNumber = randomGenerator.Next(Number);
             if(Choice && env!=null) randomNumber = env.ChooseRandomNumber(randomNumber, Number, this);
-            DestVar.SetVariableValue(randomNumber, graph);
-            return true;
+            return Assign(randomNumber, graph);
         }
 
-        public override IEnumerable<Sequence> Children { get { yield break; } }
-        public override int Precedence { get { return 8; } }
         public override string Symbol { get { return DestVar.Name + "=" + (Choice ? "$%" : "$") + "(" + Number + ")"; } }
     }
 
-    public class SequenceAssignConstToVar : Sequence
+    public class SequenceAssignConstToVar : SequenceAssign
     {
-        public SequenceVariable DestVar;
         public object Constant; 
 
         public SequenceAssignConstToVar(SequenceVariable destVar, object constant)
-            : base(SequenceType.AssignConstToVar)
+            : base(destVar, SequenceType.AssignConstToVar)
         {
-            DestVar = destVar;
             Constant = constant;
         }
 
         protected override bool ApplyImpl(IGraph graph, SequenceExecutionEnvironment env)
         {
-            DestVar.SetVariableValue(Constant, graph);
-            return true;
+            return Assign(Constant, graph);
         }
 
-        public override IEnumerable<Sequence> Children { get { yield break; } }
-        public override int Precedence { get { return 8; } }
         public override string Symbol { get {
             if(Constant==null)
                 return DestVar.Name + "=null";
@@ -1232,6 +1391,15 @@ namespace de.unika.ipd.grGen.libGr
             SourceVar = sourceVar;
         }
 
+        internal override Sequence Copy(Dictionary<SequenceVariable, SequenceVariable> originalToCopy)
+        {
+            SequenceAssignVarToAttribute copy = (SequenceAssignVarToAttribute)MemberwiseClone();
+            copy.DestVar = DestVar.Copy(originalToCopy);
+            copy.SourceVar = SourceVar.Copy(originalToCopy);
+            copy.executionState = SequenceExecutionState.NotYet;
+            return copy;
+        }
+
         protected override bool ApplyImpl(IGraph graph, SequenceExecutionEnvironment env)
         {
             object value = SourceVar.GetVariableValue(graph);
@@ -1253,18 +1421,25 @@ namespace de.unika.ipd.grGen.libGr
         public override string Symbol { get { return DestVar.Name + "." + AttributeName + "=" + SourceVar.Name; } }
     }
 
-    public class SequenceAssignAttributeToVar : Sequence
+    public class SequenceAssignAttributeToVar : SequenceAssign
     {
-        public SequenceVariable DestVar;
         public SequenceVariable SourceVar;
         public String AttributeName;
 
         public SequenceAssignAttributeToVar(SequenceVariable destVar, SequenceVariable sourceVar, String attributeName)
-            : base(SequenceType.AssignAttributeToVar)
+            : base(destVar, SequenceType.AssignAttributeToVar)
         {
-            DestVar = destVar;
             SourceVar = sourceVar;
             AttributeName = attributeName;
+        }
+
+        internal override Sequence Copy(Dictionary<SequenceVariable, SequenceVariable> originalToCopy)
+        {
+            SequenceAssignAttributeToVar copy = (SequenceAssignAttributeToVar)MemberwiseClone();
+            copy.SourceVar = SourceVar.Copy(originalToCopy);
+            copy.DestVar = DestVar.Copy(originalToCopy);
+            copy.executionState = SequenceExecutionState.NotYet;
+            return copy;
         }
 
         protected override bool ApplyImpl(IGraph graph, SequenceExecutionEnvironment env)
@@ -1274,24 +1449,19 @@ namespace de.unika.ipd.grGen.libGr
             AttributeType attrType;
             value = DictionaryHelper.IfAttributeOfElementIsDictionaryThenCloneDictionaryValue(
                 elem, AttributeName, value, out attrType);
-            DestVar.SetVariableValue(value, graph);
-            return true;
+            return Assign(value, graph);
         }
 
-        public override IEnumerable<Sequence> Children { get { yield break; } }
-        public override int Precedence { get { return 8; } }
         public override string Symbol { get { return DestVar.Name + "=" + SourceVar.Name + "." + AttributeName; } }
     }
 
-    public class SequenceAssignElemToVar : Sequence
+    public class SequenceAssignElemToVar : SequenceAssign
     {
-        public SequenceVariable DestVar;
         public String ElementName;
 
         public SequenceAssignElemToVar(SequenceVariable destVar, String elemName)
-            : base(SequenceType.AssignElemToVar)
+            : base(destVar, SequenceType.AssignElemToVar)
         {
-            DestVar = destVar;
             ElementName = elemName;
             if(ElementName[0]=='\"') ElementName = ElementName.Substring(1, ElementName.Length-2); 
         }
@@ -1306,37 +1476,83 @@ namespace de.unika.ipd.grGen.libGr
             IGraphElement elem = namedGraph.GetGraphElement(ElementName);
             if(elem == null)
                 throw new InvalidOperationException("Graph element does not exist: \"" + ElementName + "\"!");
-            DestVar.SetVariableValue(elem, graph);
-            return true;                    // Semantics changed! Now always returns true, as it is always successful!
+            return Assign(elem, graph);
         }
 
-        public override IEnumerable<Sequence> Children { get { yield break; } }
-        public override int Precedence { get { return 8; } }
         public override string Symbol { get { return DestVar.Name + "=@("+ElementName+")"; } }
     }
 
-    public class SequenceAssignSequenceResultToVar : Sequence
+    public class SequenceAssignSequenceResultToVar : SequenceAssign
     {
-        public SequenceVariable DestVar;
         public Sequence Seq;
 
         public SequenceAssignSequenceResultToVar(SequenceVariable destVar, Sequence sequence)
-            : base(SequenceType.AssignSequenceResultToVar)
+            : base(destVar, SequenceType.AssignSequenceResultToVar)
         {
-            DestVar = destVar;
             Seq = sequence;
+        }
+
+        public SequenceAssignSequenceResultToVar(SequenceType seqType, SequenceVariable destVar, Sequence sequence)
+            : base(destVar, seqType)
+        {
+            Seq = sequence;
+        }
+
+        internal override Sequence Copy(Dictionary<SequenceVariable, SequenceVariable> originalToCopy)
+        {
+            SequenceAssignSequenceResultToVar copy = (SequenceAssignSequenceResultToVar)MemberwiseClone();
+            copy.Seq = Seq.Copy(originalToCopy);
+            copy.DestVar = DestVar.Copy(originalToCopy);
+            copy.executionState = SequenceExecutionState.NotYet;
+            return copy;
+        }
+
+        internal override void ReplaceSequenceDefinition(SequenceDefinition oldDef, SequenceDefinition newDef)
+        {
+            Seq.ReplaceSequenceDefinition(oldDef, newDef);
         }
 
         protected override bool ApplyImpl(IGraph graph, SequenceExecutionEnvironment env)
         {
             bool result = Seq.Apply(graph, env);
-            DestVar.SetVariableValue(result, graph);
-            return true; // Semantics changed! Now always returns true, as it is always successful!
+            return Assign(result, graph);
         }
 
         public override IEnumerable<Sequence> Children { get { yield return Seq; } }
-        public override int Precedence { get { return 8; } }
-        public override string Symbol { get { return "(" + DestVar.Name + ")=..."; } }
+        public override int Precedence { get { return 6; } }
+        public override string Symbol { get { return "... => " + DestVar.Name; } }
+    }
+
+    public class SequenceOrAssignSequenceResultToVar : SequenceAssignSequenceResultToVar
+    {
+        public SequenceOrAssignSequenceResultToVar(SequenceVariable destVar, Sequence sequence)
+            : base(SequenceType.OrAssignSequenceResultToVar, destVar, sequence)
+        {
+        }
+
+        protected override bool ApplyImpl(IGraph graph, SequenceExecutionEnvironment env)
+        {
+            bool result = Seq.Apply(graph, env);
+            return Assign(result || (bool)DestVar.GetVariableValue(graph), graph);
+        }
+
+        public override string Symbol { get { return "... |> " + DestVar.Name; } }
+    }
+
+    public class SequenceAndAssignSequenceResultToVar : SequenceAssignSequenceResultToVar
+    {
+        public SequenceAndAssignSequenceResultToVar(SequenceVariable destVar, Sequence sequence)
+            : base(SequenceType.AndAssignSequenceResultToVar, destVar, sequence)
+        {
+        }
+
+        protected override bool ApplyImpl(IGraph graph, SequenceExecutionEnvironment env)
+        {
+            bool result = Seq.Apply(graph, env);
+            return Assign(result && (bool)DestVar.GetVariableValue(graph), graph);
+        }
+
+        public override string Symbol { get { return "... &> " + DestVar.Name; } }
     }
 
     public class SequenceLazyOrAll : SequenceNAry
@@ -1467,9 +1683,9 @@ namespace de.unika.ipd.grGen.libGr
             Matches = new List<IMatches>(Sequences.Count);
             for (int i = 0; i < Sequences.Count; ++i)
             {
-                if (Sequences[i] is SequenceRuleAll)
+                if (Sequences[i] is SequenceRuleAllCall)
                 {
-                    SequenceRuleAll ruleAll = (SequenceRuleAll)Sequences[i];
+                    SequenceRuleAllCall ruleAll = (SequenceRuleAllCall)Sequences[i];
                     if (ruleAll.Choice)
                     {
                         Console.WriteLine("Warning: No user choice % available inside {...}, removing choice modificator from " + ruleAll.Symbol + " (user choice handled by $%{...} construct)");
@@ -1482,7 +1698,7 @@ namespace de.unika.ipd.grGen.libGr
 
         public bool NonRandomAll(int rule) 
         {
-            return Sequences[rule] is SequenceRuleAll && !((SequenceRuleAll)Sequences[rule]).ChooseRandom;
+            return Sequences[rule] is SequenceRuleAllCall && !((SequenceRuleAllCall)Sequences[rule]).ChooseRandom;
         }
 
         public int NumTotalMatches { get {
@@ -1541,11 +1757,11 @@ namespace de.unika.ipd.grGen.libGr
                 if (Choice && env != null) totalMatchToExecute = env.ChooseMatch(totalMatchToExecute, this);
                 int ruleToExecute; int matchToExecute;
                 FromTotalMatch(totalMatchToExecute, out ruleToExecute, out matchToExecute);
-                SequenceRule rule = (SequenceRule)Sequences[ruleToExecute];
+                SequenceRuleCall rule = (SequenceRuleCall)Sequences[ruleToExecute];
                 IMatch match = Matches[ruleToExecute].GetMatch(matchToExecute);
-                if (!(rule is SequenceRuleAll))
+                if (!(rule is SequenceRuleAllCall))
                     ApplyRule(rule, graph, Matches[ruleToExecute], null);
-                else if (!((SequenceRuleAll)rule).ChooseRandom)
+                else if (!((SequenceRuleAllCall)rule).ChooseRandom)
                     ApplyRule(rule, graph, Matches[ruleToExecute], null);
                 else
                     ApplyRule(rule, graph, Matches[ruleToExecute], Matches[ruleToExecute].GetMatch(matchToExecute));
@@ -1559,7 +1775,7 @@ namespace de.unika.ipd.grGen.libGr
                 {
                     if (Matches[i].Count > 0)
                     {
-                        SequenceRule rule = (SequenceRule)Sequences[i];
+                        SequenceRuleCall rule = (SequenceRuleCall)Sequences[i];
                         ApplyRule(rule, graph, Matches[i], null);
                     }
                     else
@@ -1574,14 +1790,14 @@ namespace de.unika.ipd.grGen.libGr
         {
             for (int i = 0; i < Sequences.Count; ++i)
             {
-                if (!(Sequences[i] is SequenceRule))
+                if (!(Sequences[i] is SequenceRuleCall))
                     throw new InvalidOperationException("Internal error: some from set containing non-rule sequences");
-                SequenceRule rule = (SequenceRule)Sequences[i];
-                SequenceRuleAll ruleAll = null;
+                SequenceRuleCall rule = (SequenceRuleCall)Sequences[i];
+                SequenceRuleAllCall ruleAll = null;
                 int maxMatches = 1;
-                if (rule is SequenceRuleAll)
+                if (rule is SequenceRuleAllCall)
                 {
-                    ruleAll = (SequenceRuleAll)rule;
+                    ruleAll = (SequenceRuleAllCall)rule;
                     maxMatches = graph.MaxMatches;
                 }
 
@@ -1612,7 +1828,7 @@ namespace de.unika.ipd.grGen.libGr
             }
         }
 
-        protected bool ApplyRule(SequenceRule rule, IGraph graph, IMatches matches, IMatch match)
+        protected bool ApplyRule(SequenceRuleCall rule, IGraph graph, IMatches matches, IMatch match)
         {
             bool result;
             graph.EnteringSequence(rule);
@@ -1636,7 +1852,9 @@ namespace de.unika.ipd.grGen.libGr
 
     public class SequenceTransaction : SequenceUnary
     {
-        public SequenceTransaction(Sequence seq) : base(seq, SequenceType.Transaction) { }
+        public SequenceTransaction(Sequence seq) : base(seq, SequenceType.Transaction)
+        {
+        }
 
         protected override bool ApplyImpl(IGraph graph, SequenceExecutionEnvironment env)
         {
@@ -1665,13 +1883,27 @@ namespace de.unika.ipd.grGen.libGr
 
     public class SequenceBacktrack : Sequence
     {
-        public SequenceRule Rule;
+        public SequenceRuleCall Rule;
         public Sequence Seq;
 
         public SequenceBacktrack(Sequence seqRule, Sequence seq) : base(SequenceType.Backtrack)
         {
-            Rule = (SequenceRule)seqRule;
+            Rule = (SequenceRuleCall)seqRule;
             Seq = seq;
+        }
+
+        internal override Sequence Copy(Dictionary<SequenceVariable, SequenceVariable> originalToCopy)
+        {
+            SequenceBacktrack copy = (SequenceBacktrack)MemberwiseClone();
+            copy.Rule = (SequenceRuleCall)Rule.Copy(originalToCopy);
+            copy.Seq = Seq.Copy(originalToCopy);
+            copy.executionState = SequenceExecutionState.NotYet;
+            return copy;
+        }
+
+        internal override void ReplaceSequenceDefinition(SequenceDefinition oldDef, SequenceDefinition newDef)
+        {
+            Seq.ReplaceSequenceDefinition(oldDef, newDef);
         }
 
         protected override bool ApplyImpl(IGraph graph, SequenceExecutionEnvironment env)
@@ -1789,6 +2021,23 @@ namespace de.unika.ipd.grGen.libGr
             FalseCase = falseCase;
         }
 
+        internal override Sequence Copy(Dictionary<SequenceVariable, SequenceVariable> originalToCopy)
+        {
+            SequenceIfThenElse copy = (SequenceIfThenElse)MemberwiseClone();
+            copy.Condition = Condition.Copy(originalToCopy);
+            copy.TrueCase = TrueCase.Copy(originalToCopy);
+            copy.FalseCase = FalseCase.Copy(originalToCopy);
+            copy.executionState = SequenceExecutionState.NotYet;
+            return copy;
+        }
+
+        internal override void ReplaceSequenceDefinition(SequenceDefinition oldDef, SequenceDefinition newDef)
+        {
+            Condition.ReplaceSequenceDefinition(oldDef, newDef);
+            TrueCase.ReplaceSequenceDefinition(oldDef, newDef);
+            FalseCase.ReplaceSequenceDefinition(oldDef, newDef);
+        }
+
         protected override bool ApplyImpl(IGraph graph, SequenceExecutionEnvironment env)
         {
             return Condition.Apply(graph, env) ? TrueCase.Apply(graph, env) : FalseCase.Apply(graph, env);
@@ -1829,6 +2078,18 @@ namespace de.unika.ipd.grGen.libGr
             Setmap = setmap;
         }
 
+        internal override Sequence Copy(Dictionary<SequenceVariable, SequenceVariable> originalToCopy)
+        {
+            SequenceFor copy = (SequenceFor)MemberwiseClone();
+            copy.Var = Var.Copy(originalToCopy);
+            if(VarDst!=null)
+                copy.VarDst = VarDst.Copy(originalToCopy);
+            copy.Setmap = Setmap.Copy(originalToCopy);
+            copy.Seq = Seq.Copy(originalToCopy);
+            copy.executionState = SequenceExecutionState.NotYet;
+            return copy;
+        }
+
         protected override bool ApplyImpl(IGraph graph, SequenceExecutionEnvironment env)
         {
             IDictionary setmap = (IDictionary)Setmap.GetVariableValue(graph);
@@ -1862,6 +2123,15 @@ namespace de.unika.ipd.grGen.libGr
         {
             GraphElementVar = graphElementVar;
             VisitedFlagVar = visitedFlagVar;
+        }
+
+        internal override Sequence Copy(Dictionary<SequenceVariable, SequenceVariable> originalToCopy)
+        {
+            SequenceIsVisited copy = (SequenceIsVisited)MemberwiseClone();
+            copy.GraphElementVar = GraphElementVar.Copy(originalToCopy);
+            copy.VisitedFlagVar = VisitedFlagVar.Copy(originalToCopy);
+            copy.executionState = SequenceExecutionState.NotYet;
+            return copy;
         }
 
         protected override bool ApplyImpl(IGraph graph, SequenceExecutionEnvironment env)
@@ -1899,6 +2169,17 @@ namespace de.unika.ipd.grGen.libGr
             Val = val;
         }
 
+        internal override Sequence Copy(Dictionary<SequenceVariable, SequenceVariable> originalToCopy)
+        {
+            SequenceSetVisited copy = (SequenceSetVisited)MemberwiseClone();
+            copy.GraphElementVar = GraphElementVar.Copy(originalToCopy);
+            copy.VisitedFlagVar = VisitedFlagVar.Copy(originalToCopy);
+            if(Var!=null)
+                copy.Var = Var.Copy(originalToCopy);
+            copy.executionState = SequenceExecutionState.NotYet;
+            return copy;
+        }
+
         protected override bool ApplyImpl(IGraph graph, SequenceExecutionEnvironment env)
         {
             IGraphElement elem = (IGraphElement)GraphElementVar.GetVariableValue(graph);
@@ -1928,6 +2209,14 @@ namespace de.unika.ipd.grGen.libGr
             VisitedFlagVar = visitedFlagVar;
         }
 
+        internal override Sequence Copy(Dictionary<SequenceVariable, SequenceVariable> originalToCopy)
+        {
+            SequenceVFree copy = (SequenceVFree)MemberwiseClone();
+            copy.VisitedFlagVar = VisitedFlagVar.Copy(originalToCopy);
+            copy.executionState = SequenceExecutionState.NotYet;
+            return copy;
+        }
+
         protected override bool ApplyImpl(IGraph graph, SequenceExecutionEnvironment env)
         {
             int visitedFlag = (int)VisitedFlagVar.GetVariableValue(graph);
@@ -1948,6 +2237,14 @@ namespace de.unika.ipd.grGen.libGr
             : base(SequenceType.VReset)
         {
             VisitedFlagVar = visitedFlagVar;
+        }
+
+        internal override Sequence Copy(Dictionary<SequenceVariable, SequenceVariable> originalToCopy)
+        {
+            SequenceVReset copy = (SequenceVReset)MemberwiseClone();
+            copy.VisitedFlagVar = VisitedFlagVar.Copy(originalToCopy);
+            copy.executionState = SequenceExecutionState.NotYet;
+            return copy;
         }
 
         protected override bool ApplyImpl(IGraph graph, SequenceExecutionEnvironment env)
@@ -1981,6 +2278,15 @@ namespace de.unika.ipd.grGen.libGr
             : base(SequenceType.Emit)
         {
             Variable = var;
+        }
+
+        internal override Sequence Copy(Dictionary<SequenceVariable, SequenceVariable> originalToCopy)
+        {
+            SequenceEmit copy = (SequenceEmit)MemberwiseClone();
+            if(Variable!=null)
+                copy.Variable = Variable.Copy(originalToCopy);
+            copy.executionState = SequenceExecutionState.NotYet;
+            return copy;
         }
 
         protected override bool ApplyImpl(IGraph graph, SequenceExecutionEnvironment env)
@@ -2025,6 +2331,15 @@ namespace de.unika.ipd.grGen.libGr
             Variable = var;
         }
 
+        internal override Sequence Copy(Dictionary<SequenceVariable, SequenceVariable> originalToCopy)
+        {
+            SequenceRecord copy = (SequenceRecord)MemberwiseClone();
+            if(Variable!=null)
+                copy.Variable = Variable.Copy(originalToCopy);
+            copy.executionState = SequenceExecutionState.NotYet;
+            return copy;
+        }
+
         protected override bool ApplyImpl(IGraph graph, SequenceExecutionEnvironment env)
         {
             if(Variable!=null) {
@@ -2060,6 +2375,17 @@ namespace de.unika.ipd.grGen.libGr
             VarDst = varDst;
         }
 
+        internal override Sequence Copy(Dictionary<SequenceVariable, SequenceVariable> originalToCopy)
+        {
+            SequenceSetmapAdd copy = (SequenceSetmapAdd)MemberwiseClone();
+            copy.Setmap = Setmap.Copy(originalToCopy);
+            copy.Var = Var.Copy(originalToCopy);
+            if(VarDst!=null)
+                copy.VarDst = VarDst.Copy(originalToCopy);
+            copy.executionState = SequenceExecutionState.NotYet;
+            return copy;
+        }
+
         protected override bool ApplyImpl(IGraph graph, SequenceExecutionEnvironment env)
         {
             IDictionary setmap = (IDictionary)Setmap.GetVariableValue(graph);
@@ -2088,6 +2414,15 @@ namespace de.unika.ipd.grGen.libGr
             Var = var;
         }
 
+        internal override Sequence Copy(Dictionary<SequenceVariable, SequenceVariable> originalToCopy)
+        {
+            SequenceSetmapRem copy = (SequenceSetmapRem)MemberwiseClone();
+            copy.Setmap = Setmap.Copy(originalToCopy);
+            copy.Var = Var.Copy(originalToCopy);
+            copy.executionState = SequenceExecutionState.NotYet;
+            return copy;
+        }
+
         protected override bool ApplyImpl(IGraph graph, SequenceExecutionEnvironment env)
         {
             IDictionary setmap = (IDictionary)Setmap.GetVariableValue(graph);
@@ -2110,6 +2445,14 @@ namespace de.unika.ipd.grGen.libGr
             Setmap = setmap;
         }
 
+        internal override Sequence Copy(Dictionary<SequenceVariable, SequenceVariable> originalToCopy)
+        {
+            SequenceSetmapClear copy = (SequenceSetmapClear)MemberwiseClone();
+            copy.Setmap = Setmap.Copy(originalToCopy);
+            copy.executionState = SequenceExecutionState.NotYet;
+            return copy;
+        }
+
         protected override bool ApplyImpl(IGraph graph, SequenceExecutionEnvironment env)
         {
             IDictionary setmap = (IDictionary)Setmap.GetVariableValue(graph);
@@ -2122,7 +2465,7 @@ namespace de.unika.ipd.grGen.libGr
         public override string Symbol { get { return Setmap.Name + ".clear()"; } }
     }
 
-    public class SequenceIn: Sequence
+    public class SequenceIn : Sequence
     {
         public SequenceVariable Var;
         public SequenceVariable Setmap;
@@ -2134,6 +2477,15 @@ namespace de.unika.ipd.grGen.libGr
             Setmap = setmap;
         }
 
+        internal override Sequence Copy(Dictionary<SequenceVariable, SequenceVariable> originalToCopy)
+        {
+            SequenceIn copy = (SequenceIn)MemberwiseClone();
+            copy.Setmap = Setmap.Copy(originalToCopy);
+            copy.Var = Var.Copy(originalToCopy);
+            copy.executionState = SequenceExecutionState.NotYet;
+            return copy;
+        }
+
         protected override bool ApplyImpl(IGraph graph, SequenceExecutionEnvironment env)
         {
             IDictionary setmap = (IDictionary)Setmap.GetVariableValue(graph);
@@ -2143,5 +2495,278 @@ namespace de.unika.ipd.grGen.libGr
         public override IEnumerable<Sequence> Children { get { yield break; } }
         public override int Precedence { get { return 8; } }
         public override string Symbol { get { return Var.Name + " in " + Setmap.Name; } }
+    }
+
+    /// <summary>
+    /// An sequence representing a sequence definition.
+    /// Like the other sequences it can be directly interpreted or used as representation to generate code from.
+    /// In contrast to the others it always must be the root sequence 
+    /// and must be applied with a different method because it requires the parameter information.
+    /// </summary>
+    public class SequenceDefinition : Sequence
+    {
+        public String SequenceName;
+        public SequenceVariable[] InputVariables;
+        public SequenceVariable[] OutputVariables;
+        public Sequence Seq;
+
+        // a cache for copies of sequence definitions, accessed by the name
+        private static Dictionary<String, Stack<SequenceDefinition>> nameToCopies = 
+            new Dictionary<string, Stack<SequenceDefinition>>(); 
+
+        public SequenceDefinition(String sequenceName,
+            SequenceVariable[] inputVariables,
+            SequenceVariable[] outputVariables,
+            Sequence seq)
+            : base(SequenceType.SequenceDefinition)
+        {
+            SequenceName = sequenceName;
+            InputVariables = inputVariables;
+            OutputVariables = outputVariables;
+            Seq = seq;
+        }
+
+        internal override Sequence Copy(Dictionary<SequenceVariable, SequenceVariable> originalToCopy)
+        {
+            SequenceDefinition copy = (SequenceDefinition)MemberwiseClone();
+            copy.InputVariables = new SequenceVariable[InputVariables.Length];
+            for(int i = 0; i < InputVariables.Length; ++i)
+                copy.InputVariables[i] = InputVariables[i].Copy(originalToCopy);
+            copy.OutputVariables = new SequenceVariable[OutputVariables.Length];
+            for(int i = 0; i < OutputVariables.Length; ++i)
+                copy.OutputVariables[i] = OutputVariables[i].Copy(originalToCopy);
+            copy.Seq = Seq.Copy(originalToCopy);
+            copy.executionState = SequenceExecutionState.NotYet;
+            return copy;
+        }
+
+        internal override void ReplaceSequenceDefinition(SequenceDefinition oldDef, SequenceDefinition newDef)
+        {
+            Seq.ReplaceSequenceDefinition(oldDef, newDef);
+        }
+
+        protected override bool ApplyImpl(IGraph graph, SequenceExecutionEnvironment env)
+        {
+            throw new Exception("Can't apply sequence definition like a normal sequence");
+        }
+
+        /// <summary>
+        /// Applies this sequence.
+        /// </summary>
+        /// <param name="sequenceInvocation">Sequence invocation object for this sequence application,
+        ///     containing the input parameter sources and output parameter targets</param>
+        /// <param name="graph">The graph on which this sequence is to be applied.
+        ///     The rules will only be chosen during the Sequence object instantiation, so
+        ///     exchanging rules will have no effect for already existing Sequence objects.</param>
+        /// <param name="env">The execution environment giving access to the names and user interface (null if not available)</param>
+        /// <returns>True, iff the sequence succeeded</returns>
+        public bool Apply(SequenceInvocationParameterBindings sequenceInvocation,
+            IGraph graph, SequenceExecutionEnvironment env)
+        {
+            // If this sequence definition is currently executed
+            // we must copy it and use the copy in its place
+            // to prevent state corruption.
+            if(executionState == SequenceExecutionState.Underway)
+            {
+                return ApplyCopy(sequenceInvocation, graph, env);
+            }
+
+            graph.EnteringSequence(this);
+            executionState = SequenceExecutionState.Underway;
+#if LOG_SEQUENCE_EXECUTION
+            writer.WriteLine("Before executing sequence definition " + Id + ": " + Symbol);
+#endif
+            bool res = ApplyImpl(sequenceInvocation, graph, env);
+#if LOG_SEQUENCE_EXECUTION
+            writer.WriteLine("After executing sequence definition " + Id + ": " + Symbol + " result " + res);
+#endif
+            executionState = res ? SequenceExecutionState.Success : SequenceExecutionState.Fail;
+
+            if(env != null) env.EndOfIteration(false, this);
+            
+            graph.ExitingSequence(this);
+
+            ResetExecutionState(); // state is shown by call, we don't exist any more for the debugger
+
+            return res;
+        }
+
+        // creates or reuses a copy and applies the copy
+        protected bool ApplyCopy(SequenceInvocationParameterBindings sequenceInvocation,
+            IGraph graph, SequenceExecutionEnvironment env)
+        {
+            // To improve performance we recycle copies in nameToCopies.
+            SequenceDefinition seqCopy;
+            if(nameToCopies.ContainsKey(SequenceName) && nameToCopies[SequenceName].Count > 0)
+            {
+                seqCopy = nameToCopies[SequenceName].Pop();
+            }
+            else
+            {
+                Dictionary<SequenceVariable, SequenceVariable> originalToCopy
+                    = new Dictionary<SequenceVariable, SequenceVariable>();
+                seqCopy = (SequenceDefinition)Copy(originalToCopy);
+            }
+            sequenceInvocation.SequenceDef = seqCopy;
+            bool success = seqCopy.Apply(sequenceInvocation, graph, env);
+            sequenceInvocation.SequenceDef = this;
+            if(!nameToCopies.ContainsKey(SequenceName))
+                nameToCopies.Add(SequenceName, new Stack<SequenceDefinition>());
+            nameToCopies[SequenceName].Push(seqCopy);
+            return success;
+        }
+
+        // applies the sequence of/in the sequence definition
+        protected bool ApplyImpl(SequenceInvocationParameterBindings sequenceInvocation,
+            IGraph graph, SequenceExecutionEnvironment env)
+        {
+            if(sequenceInvocation.ParamVars.Length != InputVariables.Length)
+                throw new Exception("Number of input parameters given and expected differ for " + Symbol);
+            if(sequenceInvocation.ReturnVars.Length != OutputVariables.Length)
+                throw new Exception("Number of output parameters given and expected differ for " + Symbol);
+
+            // prefill the local input variables with the invocation values, read from parameter variables of the caller
+            for(int i=0; i<sequenceInvocation.ParamVars.Length; ++i)
+            {
+                if(sequenceInvocation.ParamVars[i] != null)
+                    InputVariables[i].SetVariableValue(sequenceInvocation.ParamVars[i].GetVariableValue(graph), graph);
+                else
+                    InputVariables[i].SetVariableValue(sequenceInvocation.Parameters[i], graph);
+            }
+
+            bool success = Seq.Apply(graph, env);
+
+            if(success)
+            {
+                // postfill the return-to variables of the caller with the return values, read from the local output variables
+                if(sequenceInvocation.ReturnVars[0] != null)
+                {
+                    for(int i = 0; i < sequenceInvocation.ReturnVars.Length; i++)
+                        sequenceInvocation.ReturnVars[i].SetVariableValue(OutputVariables[i].GetVariableValue(graph), graph);
+                }
+            }
+
+            return success;
+        }
+
+        public void WasReplacedBy(SequenceDefinition newSeq)
+        {
+            if(newSeq.SequenceName != SequenceName)
+                throw new Exception("Internal Failure: name mismatch on sequence replacement");
+            nameToCopies.Remove(SequenceName);
+        }
+
+        public override IEnumerable<Sequence> Children { get { yield return Seq; } }
+        public override int Precedence { get { return -1; } }
+        public override string Symbol
+        {
+            get
+            {
+                StringBuilder sb = new StringBuilder();
+                sb.Append(SequenceName);
+                if(InputVariables.Length > 0)
+                {
+                    sb.Append("(");
+                    for(int i = 0; i < InputVariables.Length; ++i)
+                    {
+                        sb.Append(InputVariables[i].Name + ":" + InputVariables[i].Type);
+                        if(i != InputVariables.Length - 1) sb.Append(",");
+                    }
+                    sb.Append(")");
+                }
+                if(OutputVariables.Length > 0)
+                {
+                    sb.Append(":(");
+                    for(int i = 0; i < OutputVariables.Length; ++i)
+                    {
+                        sb.Append(OutputVariables[i].Name + ":" + OutputVariables[i].Type);
+                        if(i != OutputVariables.Length - 1) sb.Append(",");
+                    }
+                    sb.Append(")");
+                }
+                return sb.ToString();
+            }
+        }
+    }
+
+    public class SequenceSequenceCall : SequenceSpecial
+    {
+        public SequenceInvocationParameterBindings ParamBindings;
+
+        public SequenceSequenceCall(SequenceInvocationParameterBindings paramBindings, bool special)
+            : base(special, SequenceType.SequenceCall)
+        {
+            ParamBindings = paramBindings;
+        }
+
+        internal override Sequence Copy(Dictionary<SequenceVariable, SequenceVariable> originalToCopy)
+        {
+            SequenceSequenceCall copy = (SequenceSequenceCall)MemberwiseClone();
+            copy.ParamBindings = ParamBindings.Copy(originalToCopy);
+            copy.executionState = SequenceExecutionState.NotYet;
+            return copy;
+        }
+
+        internal override void ReplaceSequenceDefinition(SequenceDefinition oldDef, SequenceDefinition newDef)
+        {
+            if(ParamBindings.SequenceDef==oldDef)
+                ParamBindings.SequenceDef = newDef;
+        }
+
+        protected override bool ApplyImpl(IGraph graph, SequenceExecutionEnvironment env)
+        {
+            SequenceDefinition seqDef = ParamBindings.SequenceDef;
+            bool res = seqDef.Apply(ParamBindings, graph, env);
+
+#if LOG_SEQUENCE_EXECUTION
+            if(res)
+            {
+                writer.WriteLine("Applied sequence " + Symbol + " successfully");
+                writer.Flush();
+            }
+#endif
+            return res;
+        }
+
+        public override IEnumerable<Sequence> Children { get { yield break; } }
+        public override int Precedence { get { return 8; } }
+
+        protected String GetSequenceString()
+        {
+            StringBuilder sb = new StringBuilder();
+            if(ParamBindings.ReturnVars.Length > 0 && ParamBindings.ReturnVars[0] != null)
+            {
+                sb.Append("(");
+                for(int i = 0; i < ParamBindings.ReturnVars.Length; ++i)
+                {
+                    sb.Append(ParamBindings.ReturnVars[i].Name);
+                    if(i != ParamBindings.ReturnVars.Length - 1) sb.Append(",");
+                }
+                sb.Append(")=");
+            }
+            sb.Append(ParamBindings.SequenceDef.SequenceName);
+            if(ParamBindings.ParamVars.Length > 0)
+            {
+                sb.Append("(");
+                for(int i = 0; i < ParamBindings.ParamVars.Length; ++i)
+                {
+                    if(ParamBindings.ParamVars[i] != null)
+                        sb.Append(ParamBindings.ParamVars[i].Name);
+                    else
+                        sb.Append(ParamBindings.Parameters[i] != null ? ParamBindings.Parameters[i] : "null");
+                    if(i != ParamBindings.ParamVars.Length - 1) sb.Append(",");
+                }
+                sb.Append(")");
+            }
+            return sb.ToString();
+        }
+
+        public override string Symbol
+        {
+            get
+            {
+                return (Special ? "%" : "") + GetSequenceString();
+            }
+        }
     }
 }
