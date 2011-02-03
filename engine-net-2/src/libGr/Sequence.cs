@@ -195,6 +195,18 @@ namespace de.unika.ipd.grGen.libGr
         }
 
         /// <summary>
+        /// Walks the sequence tree from this on to the given target sequence (inclusive),
+        /// collecting all variables found on the way into the variables dictionary.
+        /// </summary>
+        /// <param name="variables">Contains the variables found</param>
+        /// <param name="target">The target sequence up to which to walk</param>
+        /// <returns>Returns whether the target was hit, so the parent can abort walking</returns>
+        public virtual bool GetLocalVariables(Dictionary<SequenceVariable, SetValueType> variables, Sequence target)
+        {
+            return this == target;
+        }
+
+        /// <summary>
         /// Enumerates all child sequence objects
         /// </summary>
         public abstract IEnumerable<Sequence> Children { get; }
@@ -309,6 +321,13 @@ namespace de.unika.ipd.grGen.libGr
             Seq.ReplaceSequenceDefinition(oldDef, newDef);
         }
 
+        public override bool GetLocalVariables(Dictionary<SequenceVariable, SetValueType> variables, Sequence target)
+        {
+            if(Seq.GetLocalVariables(variables, target))
+                return true;
+            return this == target;
+        }
+
         public override IEnumerable<Sequence> Children
         {
             get { yield return Seq; }
@@ -350,6 +369,15 @@ namespace de.unika.ipd.grGen.libGr
         {
             Left.ReplaceSequenceDefinition(oldDef, newDef);
             Right.ReplaceSequenceDefinition(oldDef, newDef);
+        }
+
+        public override bool GetLocalVariables(Dictionary<SequenceVariable, SetValueType> variables, Sequence target)
+        {
+            if(Left.GetLocalVariables(variables, target))
+                return true;
+            if(Right.GetLocalVariables(variables, target))
+                return true;
+            return this == target;
         }
 
         public override IEnumerable<Sequence> Children
@@ -394,6 +422,14 @@ namespace de.unika.ipd.grGen.libGr
                 seq.ReplaceSequenceDefinition(oldDef, newDef);
         }
 
+        public override bool GetLocalVariables(Dictionary<SequenceVariable, SetValueType> variables, Sequence target)
+        {
+            foreach(Sequence seq in Sequences)
+                if(seq.GetLocalVariables(variables, target))
+                    return true;
+            return this == target;
+        }
+
         public override IEnumerable<Sequence> Children
         { 
             get { foreach(Sequence seq in Sequences) yield return seq; }
@@ -425,6 +461,12 @@ namespace de.unika.ipd.grGen.libGr
         {
             DestVar.SetVariableValue(value, graph);
             return true;
+        }
+
+        public override bool GetLocalVariables(Dictionary<SequenceVariable, SetValueType> variables, Sequence target)
+        {
+            DestVar.GetLocalVariables(variables);
+            return this == target;
         }
 
         public override IEnumerable<Sequence> Children { get { yield break; } } // nearly always no children
@@ -742,6 +784,12 @@ namespace de.unika.ipd.grGen.libGr
             return true;
         }
 
+        public override bool GetLocalVariables(Dictionary<SequenceVariable, SetValueType> variables, Sequence target)
+        {
+            ParamBindings.GetLocalVariables(variables);
+            return this == target;
+        }
+
         public override IEnumerable<Sequence> Children { get { yield break; } }
         public override int Precedence { get { return 8; } }
 
@@ -971,6 +1019,14 @@ namespace de.unika.ipd.grGen.libGr
             return true;
         }
 
+        public override bool GetLocalVariables(Dictionary<SequenceVariable, SetValueType> variables, Sequence target)
+        {
+            ParamBindings.GetLocalVariables(variables);
+            MinVarChooseRandom.GetLocalVariables(variables);
+            MaxVarChooseRandom.GetLocalVariables(variables);
+            return this == target;
+        }
+
         public override string Symbol
         { 
             get 
@@ -1038,6 +1094,13 @@ namespace de.unika.ipd.grGen.libGr
             return true;
         }
 
+        public override bool GetLocalVariables(Dictionary<SequenceVariable, SetValueType> variables, Sequence target)
+        {
+            foreach(SequenceVariable seqVar in DefVars)
+                seqVar.GetLocalVariables(variables);
+            return this == target;
+        }
+
         public override IEnumerable<Sequence> Children { get { yield break; } }
         public override int Precedence { get { return 8; } }
         public override string Symbol { get {
@@ -1083,6 +1146,13 @@ namespace de.unika.ipd.grGen.libGr
         protected override bool ApplyImpl(IGraph graph, SequenceExecutionEnvironment env)
         {
             throw new Exception("yield is only available in the compiled sequences (exec)");
+        }
+
+        public override bool GetLocalVariables(Dictionary<SequenceVariable, SetValueType> variables, Sequence target)
+        {
+            foreach(SequenceVariable seqVar in YieldVars)
+                seqVar.GetLocalVariables(variables);
+            return this == target;
         }
 
         public override IEnumerable<Sequence> Children { get { yield break; } }
@@ -1168,6 +1238,13 @@ namespace de.unika.ipd.grGen.libGr
             if(val is bool) return (bool)val;
             throw new InvalidOperationException("The variable '" + PredicateVar + "' is not boolean!");
         }
+
+        public override bool GetLocalVariables(Dictionary<SequenceVariable, SetValueType> variables, Sequence target)
+        {
+            PredicateVar.GetLocalVariables(variables);
+            return this == target;
+        }
+
         public override IEnumerable<Sequence> Children { get { yield break; } }
         public override int Precedence { get { return 8; } }
         public override string Symbol { get { return Special ? "%"+PredicateVar.Name : PredicateVar.Name; } }
@@ -1213,6 +1290,13 @@ namespace de.unika.ipd.grGen.libGr
             return Assign(setmap.Count, graph);
         }
 
+        public override bool GetLocalVariables(Dictionary<SequenceVariable, SetValueType> variables, Sequence target)
+        {
+            DestVar.GetLocalVariables(variables);
+            Setmap.GetLocalVariables(variables);
+            return this == target;
+        }
+
         public override string Symbol { get { return DestVar.Name + "=" + Setmap.Name + ".size()"; } }
     }
 
@@ -1239,6 +1323,13 @@ namespace de.unika.ipd.grGen.libGr
         {
             IDictionary setmap = (IDictionary)Setmap.GetVariableValue(graph);
             return Assign(setmap.Count == 0, graph);
+        }
+
+        public override bool GetLocalVariables(Dictionary<SequenceVariable, SetValueType> variables, Sequence target)
+        {
+            DestVar.GetLocalVariables(variables);
+            Setmap.GetLocalVariables(variables);
+            return this == target;
         }
 
         public override string Symbol { get { return DestVar.Name + "=" + Setmap.Name + ".empty()"; } }
@@ -1274,6 +1365,14 @@ namespace de.unika.ipd.grGen.libGr
             return Assign(setmap[keyVar], graph);
         }
 
+        public override bool GetLocalVariables(Dictionary<SequenceVariable, SetValueType> variables, Sequence target)
+        {
+            DestVar.GetLocalVariables(variables);
+            Setmap.GetLocalVariables(variables);
+            KeyVar.GetLocalVariables(variables);
+            return this == target;
+        }
+
         public override string Symbol { get { return DestVar.Name + "=" + Setmap.Name + "[" + KeyVar.Name + "]"; } }
     }
     
@@ -1299,6 +1398,13 @@ namespace de.unika.ipd.grGen.libGr
         protected override bool ApplyImpl(IGraph graph, SequenceExecutionEnvironment env)
         {
             return Assign(SourceVar.GetVariableValue(graph), graph);
+        }
+
+        public override bool GetLocalVariables(Dictionary<SequenceVariable, SetValueType> variables, Sequence target)
+        {
+            DestVar.GetLocalVariables(variables);
+            SourceVar.GetLocalVariables(variables);
+            return this == target;
         }
 
         public override string Symbol { get { return DestVar.Name + "=" + SourceVar.Name; } }
@@ -1416,6 +1522,13 @@ namespace de.unika.ipd.grGen.libGr
             return true;
         }
 
+        public override bool GetLocalVariables(Dictionary<SequenceVariable, SetValueType> variables, Sequence target)
+        {
+            DestVar.GetLocalVariables(variables);
+            SourceVar.GetLocalVariables(variables);
+            return this == target;
+        }
+
         public override IEnumerable<Sequence> Children { get { yield break; } }
         public override int Precedence { get { return 8; } }
         public override string Symbol { get { return DestVar.Name + "." + AttributeName + "=" + SourceVar.Name; } }
@@ -1450,6 +1563,13 @@ namespace de.unika.ipd.grGen.libGr
             value = DictionaryHelper.IfAttributeOfElementIsDictionaryThenCloneDictionaryValue(
                 elem, AttributeName, value, out attrType);
             return Assign(value, graph);
+        }
+
+        public override bool GetLocalVariables(Dictionary<SequenceVariable, SetValueType> variables, Sequence target)
+        {
+            DestVar.GetLocalVariables(variables);
+            SourceVar.GetLocalVariables(variables);
+            return this == target;
         }
 
         public override string Symbol { get { return DestVar.Name + "=" + SourceVar.Name + "." + AttributeName; } }
@@ -1516,6 +1636,14 @@ namespace de.unika.ipd.grGen.libGr
         {
             bool result = Seq.Apply(graph, env);
             return Assign(result, graph);
+        }
+
+        public override bool GetLocalVariables(Dictionary<SequenceVariable, SetValueType> variables, Sequence target)
+        {
+            DestVar.GetLocalVariables(variables);
+            if(Seq.GetLocalVariables(variables, target))
+                return true;
+            return this == target;
         }
 
         public override IEnumerable<Sequence> Children { get { yield return Seq; } }
@@ -2003,6 +2131,15 @@ namespace de.unika.ipd.grGen.libGr
             get { yield return Rule; yield return Seq; }
         }
 
+        public override bool GetLocalVariables(Dictionary<SequenceVariable, SetValueType> variables, Sequence target)
+        {
+            if(Rule.GetLocalVariables(variables, target))
+                return true;
+            if(Seq.GetLocalVariables(variables, target))
+                return true;
+            return this == target;
+        }
+
         public override int Precedence { get { return 8; } }
         public override string Symbol { get { return "<< " + Rule.Symbol + " ; ... >>"; } }
     }
@@ -2013,12 +2150,19 @@ namespace de.unika.ipd.grGen.libGr
         public Sequence TrueCase;
         public Sequence FalseCase;
 
-        public SequenceIfThenElse(Sequence condition, Sequence trueCase, Sequence falseCase)
+        public List<SequenceVariable> VariablesFallingOutOfScopeOnLeavingIf;
+        public List<SequenceVariable> VariablesFallingOutOfScopeOnLeavingTrueCase;
+
+        public SequenceIfThenElse(Sequence condition, Sequence trueCase, Sequence falseCase,
+            List<SequenceVariable> variablesFallingOutOfScopeOnLeavingIf,
+            List<SequenceVariable> variablesFallingOutOfScopeOnLeavingTrueCase)
             : base(SequenceType.IfThenElse)
         {
             Condition = condition;
             TrueCase = trueCase;
             FalseCase = falseCase;
+            VariablesFallingOutOfScopeOnLeavingIf = variablesFallingOutOfScopeOnLeavingIf;
+            VariablesFallingOutOfScopeOnLeavingTrueCase = variablesFallingOutOfScopeOnLeavingTrueCase;
         }
 
         internal override Sequence Copy(Dictionary<SequenceVariable, SequenceVariable> originalToCopy)
@@ -2027,6 +2171,12 @@ namespace de.unika.ipd.grGen.libGr
             copy.Condition = Condition.Copy(originalToCopy);
             copy.TrueCase = TrueCase.Copy(originalToCopy);
             copy.FalseCase = FalseCase.Copy(originalToCopy);
+            copy.VariablesFallingOutOfScopeOnLeavingIf = new List<SequenceVariable>(VariablesFallingOutOfScopeOnLeavingIf.Count);
+            foreach(SequenceVariable var in VariablesFallingOutOfScopeOnLeavingIf)
+                copy.VariablesFallingOutOfScopeOnLeavingIf.Add(var.Copy(originalToCopy));
+            copy.VariablesFallingOutOfScopeOnLeavingTrueCase = new List<SequenceVariable>(VariablesFallingOutOfScopeOnLeavingTrueCase.Count);
+            foreach(SequenceVariable var in VariablesFallingOutOfScopeOnLeavingTrueCase)
+                copy.VariablesFallingOutOfScopeOnLeavingTrueCase.Add(var.Copy(originalToCopy));
             copy.executionState = SequenceExecutionState.NotYet;
             return copy;
         }
@@ -2043,6 +2193,21 @@ namespace de.unika.ipd.grGen.libGr
             return Condition.Apply(graph, env) ? TrueCase.Apply(graph, env) : FalseCase.Apply(graph, env);
         }
 
+        public override bool GetLocalVariables(Dictionary<SequenceVariable, SetValueType> variables, Sequence target)
+        {
+            if(Condition.GetLocalVariables(variables, target))
+                return true;
+            if(TrueCase.GetLocalVariables(variables, target))
+                return true;
+            foreach(SequenceVariable seqVar in VariablesFallingOutOfScopeOnLeavingTrueCase)
+                variables.Remove(seqVar);
+            if(FalseCase.GetLocalVariables(variables, target))
+                return true;
+            foreach(SequenceVariable seqVar in VariablesFallingOutOfScopeOnLeavingIf)
+                variables.Remove(seqVar);
+            return this == target;
+        }
+
         public override IEnumerable<Sequence> Children { get { yield return Condition; yield return TrueCase; yield return FalseCase; } }
         public override int Precedence { get { return 8; } }
         public override string Symbol { get { return "if{ ... ; ... ; ...}"; } }
@@ -2050,14 +2215,49 @@ namespace de.unika.ipd.grGen.libGr
 
     public class SequenceIfThen : SequenceBinary
     {
-        public SequenceIfThen(Sequence condition, Sequence trueCase)
+        public List<SequenceVariable> VariablesFallingOutOfScopeOnLeavingIf;
+        public List<SequenceVariable> VariablesFallingOutOfScopeOnLeavingTrueCase;
+
+        public SequenceIfThen(Sequence condition, Sequence trueCase,
+            List<SequenceVariable> variablesFallingOutOfScopeOnLeavingIf,
+            List<SequenceVariable> variablesFallingOutOfScopeOnLeavingTrueCase)
             : base(condition, trueCase, false, false, SequenceType.IfThen)
         {
+            VariablesFallingOutOfScopeOnLeavingIf = variablesFallingOutOfScopeOnLeavingIf;
+            VariablesFallingOutOfScopeOnLeavingTrueCase = variablesFallingOutOfScopeOnLeavingTrueCase;
+        }
+
+        internal override Sequence Copy(Dictionary<SequenceVariable, SequenceVariable> originalToCopy)
+        {
+            SequenceIfThen copy = (SequenceIfThen)MemberwiseClone();
+            copy.Left = Left.Copy(originalToCopy);
+            copy.Right = Right.Copy(originalToCopy);
+            copy.VariablesFallingOutOfScopeOnLeavingIf = new List<SequenceVariable>(VariablesFallingOutOfScopeOnLeavingIf.Count);
+            foreach(SequenceVariable var in VariablesFallingOutOfScopeOnLeavingIf)
+                copy.VariablesFallingOutOfScopeOnLeavingIf.Add(var.Copy(originalToCopy));
+            copy.VariablesFallingOutOfScopeOnLeavingTrueCase = new List<SequenceVariable>(VariablesFallingOutOfScopeOnLeavingTrueCase.Count);
+            foreach(SequenceVariable var in VariablesFallingOutOfScopeOnLeavingTrueCase)
+                copy.VariablesFallingOutOfScopeOnLeavingTrueCase.Add(var.Copy(originalToCopy));
+            copy.executionState = SequenceExecutionState.NotYet;
+            return copy;
         }
 
         protected override bool ApplyImpl(IGraph graph, SequenceExecutionEnvironment env)
         {
             return Left.Apply(graph, env) ? Right.Apply(graph, env) : true; // lazy implication
+        }
+
+        public override bool GetLocalVariables(Dictionary<SequenceVariable, SetValueType> variables, Sequence target)
+        {
+            if(Left.GetLocalVariables(variables, target))
+                return true;
+            if(Right.GetLocalVariables(variables, target))
+                return true;
+            foreach(SequenceVariable seqVar in VariablesFallingOutOfScopeOnLeavingTrueCase)
+                variables.Remove(seqVar);
+            foreach(SequenceVariable seqVar in VariablesFallingOutOfScopeOnLeavingIf)
+                variables.Remove(seqVar);
+            return this == target;
         }
 
         public override int Precedence { get { return 8; } }
@@ -2070,12 +2270,16 @@ namespace de.unika.ipd.grGen.libGr
         public SequenceVariable VarDst;
         public SequenceVariable Setmap;
 
-        public SequenceFor(SequenceVariable var, SequenceVariable varDst, SequenceVariable setmap, Sequence seq)
+        public List<SequenceVariable> VariablesFallingOutOfScopeOnLeavingFor;
+
+        public SequenceFor(SequenceVariable var, SequenceVariable varDst, SequenceVariable setmap, Sequence seq,
+            List<SequenceVariable> variablesFallingOutOfScopeOnLeavingFor)
             : base(seq, SequenceType.For)
         {
             Var = var;
             VarDst = varDst;
             Setmap = setmap;
+            VariablesFallingOutOfScopeOnLeavingFor = variablesFallingOutOfScopeOnLeavingFor;
         }
 
         internal override Sequence Copy(Dictionary<SequenceVariable, SequenceVariable> originalToCopy)
@@ -2086,6 +2290,9 @@ namespace de.unika.ipd.grGen.libGr
                 copy.VarDst = VarDst.Copy(originalToCopy);
             copy.Setmap = Setmap.Copy(originalToCopy);
             copy.Seq = Seq.Copy(originalToCopy);
+            copy.VariablesFallingOutOfScopeOnLeavingFor = new List<SequenceVariable>(VariablesFallingOutOfScopeOnLeavingFor.Count);
+            foreach(SequenceVariable var in VariablesFallingOutOfScopeOnLeavingFor)
+                copy.VariablesFallingOutOfScopeOnLeavingFor.Add(var.Copy(originalToCopy));
             copy.executionState = SequenceExecutionState.NotYet;
             return copy;
         }
@@ -2107,6 +2314,21 @@ namespace de.unika.ipd.grGen.libGr
             }
             if(env!=null) env.EndOfIteration(false, this);
             return res;
+        }
+
+        public override bool GetLocalVariables(Dictionary<SequenceVariable, SetValueType> variables, Sequence target)
+        {
+            Var.GetLocalVariables(variables);
+            if(VarDst != null)
+                VarDst.GetLocalVariables(variables); 
+            if(Seq.GetLocalVariables(variables, target))
+                return true;
+            foreach(SequenceVariable seqVar in VariablesFallingOutOfScopeOnLeavingFor)
+                variables.Remove(seqVar);
+            if(VarDst != null)
+                variables.Remove(VarDst);
+            variables.Remove(Var);
+            return this == target;
         }
 
         public override int Precedence { get { return 8; } }
@@ -2139,6 +2361,13 @@ namespace de.unika.ipd.grGen.libGr
             IGraphElement elem = (IGraphElement)GraphElementVar.GetVariableValue(graph);
             int visitedFlag = (int)VisitedFlagVar.GetVariableValue(graph);
             return graph.IsVisited(elem, visitedFlag);
+        }
+
+        public override bool GetLocalVariables(Dictionary<SequenceVariable, SetValueType> variables, Sequence target)
+        {
+            GraphElementVar.GetLocalVariables(variables);
+            VisitedFlagVar.GetLocalVariables(variables);
+            return this == target;
         }
 
         public override IEnumerable<Sequence> Children { get { yield break; } }
@@ -2194,6 +2423,15 @@ namespace de.unika.ipd.grGen.libGr
             return true;
         }
 
+        public override bool GetLocalVariables(Dictionary<SequenceVariable, SetValueType> variables, Sequence target)
+        {
+            GraphElementVar.GetLocalVariables(variables);
+            VisitedFlagVar.GetLocalVariables(variables);
+            if(Var != null)
+                Var.GetLocalVariables(variables);
+            return this == target;
+        }
+
         public override IEnumerable<Sequence> Children { get { yield break; } }
         public override int Precedence { get { return 8; } }
         public override string Symbol { get { return GraphElementVar.Name+".visited["+VisitedFlagVar.Name+"]="+(Var!=null ? Var.Name : Val.ToString()); } }
@@ -2224,6 +2462,12 @@ namespace de.unika.ipd.grGen.libGr
             return true;
         }
 
+        public override bool GetLocalVariables(Dictionary<SequenceVariable, SetValueType> variables, Sequence target)
+        {
+            VisitedFlagVar.GetLocalVariables(variables);
+            return this == target;
+        }
+
         public override IEnumerable<Sequence> Children { get { yield break; } }
         public override int Precedence { get { return 8; } }
         public override string Symbol { get { return "vfree("+VisitedFlagVar.Name+")"; } }
@@ -2252,6 +2496,12 @@ namespace de.unika.ipd.grGen.libGr
             int visitedFlag = (int)VisitedFlagVar.GetVariableValue(graph);
             graph.ResetVisitedFlag(visitedFlag);
             return true;
+        }
+
+        public override bool GetLocalVariables(Dictionary<SequenceVariable, SetValueType> variables, Sequence target)
+        {
+            VisitedFlagVar.GetLocalVariables(variables);
+            return this == target;
         }
 
         public override IEnumerable<Sequence> Children { get { yield break; } }
@@ -2305,6 +2555,13 @@ namespace de.unika.ipd.grGen.libGr
             return true;
         }
 
+        public override bool GetLocalVariables(Dictionary<SequenceVariable, SetValueType> variables, Sequence target)
+        {
+            if(Variable!=null)
+                Variable.GetLocalVariables(variables);
+            return this == target;
+        }
+
         public override IEnumerable<Sequence> Children { get { yield break; } }
         public override int Precedence { get { return 8; } }
         public override string Symbol { get { return Variable!=null ? "emit("+Variable.Name+")" : "emit("+Text+")"; } }
@@ -2356,6 +2613,13 @@ namespace de.unika.ipd.grGen.libGr
             return true;
         }
 
+        public override bool GetLocalVariables(Dictionary<SequenceVariable, SetValueType> variables, Sequence target)
+        {
+            if(Variable!=null)
+                Variable.GetLocalVariables(variables);
+            return this == target;
+        }
+
         public override IEnumerable<Sequence> Children { get { yield break; } }
         public override int Precedence { get { return 8; } }
         public override string Symbol { get { return Variable != null ? "record(" + Variable.Name + ")" : "record(" + Text + ")"; } }
@@ -2397,6 +2661,15 @@ namespace de.unika.ipd.grGen.libGr
             return true;
         }
 
+        public override bool GetLocalVariables(Dictionary<SequenceVariable, SetValueType> variables, Sequence target)
+        {
+            Setmap.GetLocalVariables(variables);
+            Var.GetLocalVariables(variables);
+            if(VarDst != null)
+                VarDst.GetLocalVariables(variables);
+            return this == target;
+        }
+
         public override IEnumerable<Sequence> Children { get { yield break; } }
         public override int Precedence { get { return 8; } }
         public override string Symbol { get { return Setmap.Name+".add("+Var.Name+(VarDst!=null?","+VarDst.Name:"")+")"; } }
@@ -2430,6 +2703,13 @@ namespace de.unika.ipd.grGen.libGr
             return true;
         }
 
+        public override bool GetLocalVariables(Dictionary<SequenceVariable, SetValueType> variables, Sequence target)
+        {
+            Setmap.GetLocalVariables(variables);
+            Var.GetLocalVariables(variables);
+            return this == target;
+        }
+
         public override IEnumerable<Sequence> Children { get { yield break; } }
         public override int Precedence { get { return 8; } }
         public override string Symbol { get { return Setmap.Name+".rem("+Var.Name+")"; } }
@@ -2458,6 +2738,12 @@ namespace de.unika.ipd.grGen.libGr
             IDictionary setmap = (IDictionary)Setmap.GetVariableValue(graph);
             setmap.Clear();
             return true;
+        }
+
+        public override bool GetLocalVariables(Dictionary<SequenceVariable, SetValueType> variables, Sequence target)
+        {
+            Setmap.GetLocalVariables(variables);
+            return this == target;
         }
 
         public override IEnumerable<Sequence> Children { get { yield break; } }
@@ -2490,6 +2776,13 @@ namespace de.unika.ipd.grGen.libGr
         {
             IDictionary setmap = (IDictionary)Setmap.GetVariableValue(graph);
             return setmap.Contains(Var.GetVariableValue(graph));
+        }
+
+        public override bool GetLocalVariables(Dictionary<SequenceVariable, SetValueType> variables, Sequence target)
+        {
+            Setmap.GetLocalVariables(variables);
+            Var.GetLocalVariables(variables);
+            return this == target;
         }
 
         public override IEnumerable<Sequence> Children { get { yield break; } }
@@ -2656,6 +2949,17 @@ namespace de.unika.ipd.grGen.libGr
             nameToCopies.Remove(SequenceName);
         }
 
+        public override bool GetLocalVariables(Dictionary<SequenceVariable, SetValueType> variables, Sequence target)
+        {
+            foreach(SequenceVariable seqVar in InputVariables)
+                seqVar.GetLocalVariables(variables);
+            foreach(SequenceVariable seqVar in OutputVariables)
+                seqVar.GetLocalVariables(variables);
+            if(Seq.GetLocalVariables(variables, target))
+                return true;
+            return this == target;
+        }
+
         public override IEnumerable<Sequence> Children { get { yield return Seq; } }
         public override int Precedence { get { return -1; } }
         public override string Symbol
@@ -2726,6 +3030,12 @@ namespace de.unika.ipd.grGen.libGr
             }
 #endif
             return res;
+        }
+
+        public override bool GetLocalVariables(Dictionary<SequenceVariable, SetValueType> variables, Sequence target)
+        {
+            ParamBindings.GetLocalVariables(variables);
+            return this == target;
         }
 
         public override IEnumerable<Sequence> Children { get { yield break; } }

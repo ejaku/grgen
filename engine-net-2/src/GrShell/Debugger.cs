@@ -6,6 +6,7 @@
  */
 
 using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Threading;
@@ -1287,10 +1288,33 @@ namespace de.unika.ipd.grGen.grShell
             return key;
         }
 
-        void HandleShowVariable()
+        void HandleShowVariable(Sequence seq)
         {
             Console.WriteLine("Available global (non null) variables:");
-            Console.WriteLine("NIY");
+            foreach(Variable var in shellGraph.Graph.Variables)
+            {
+                string type;
+                string content;
+                if(var.Value is IDictionary)
+                    DictionaryHelper.ToString((IDictionary)var.Value, out type, out content, null, shellGraph.Graph);
+                else
+                    DictionaryHelper.ToString(var.Value, out type, out content, null, shellGraph.Graph);
+                Console.WriteLine("  " + var.Name + " = " + content + " : " + type);
+            }
+
+            Console.WriteLine("Available local variables:");
+            Dictionary<SequenceVariable, SetValueType> seqVars = new Dictionary<SequenceVariable,SetValueType>();
+            debugSequence.Peek().GetLocalVariables(seqVars, seq);
+            foreach(SequenceVariable var in seqVars.Keys)
+            {
+                string type;
+                string content;
+                if(var.Value is IDictionary)
+                    DictionaryHelper.ToString((IDictionary)var.Value, out type, out content, null, shellGraph.Graph);
+                else
+                    DictionaryHelper.ToString(var.Value, out type, out content, null, shellGraph.Graph);
+                Console.WriteLine("  " + var.Name + " = " + content + " : " + type);
+            }
         }
 
         void HandleToggleBreakpoints()
@@ -1649,7 +1673,9 @@ namespace de.unika.ipd.grGen.grShell
                     detailedMode = false;
                     return false;
                 case 'v':
-                    HandleShowVariable();
+                    HandleShowVariable(seq);
+                    PrintSequence(debugSequence.Peek(), context, debugSequence.Count);
+                    Console.WriteLine();
                     break;
                 default:
                     Console.WriteLine("Illegal command (Key = " + key.Key

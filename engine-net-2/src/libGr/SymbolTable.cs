@@ -101,8 +101,11 @@ namespace de.unika.ipd.grGen.libGr
             scopesMeta.Push(new ScopeMetaInformation("", ScopeType.Sequence));
 		}
 		
-		public void PopScope()
+		public void PopScope(List<SequenceVariable> seqVarsDefinedInThisScope)
 		{
+            foreach(SequenceVariable seqVar in scopes.Peek().Values)
+                seqVarsDefinedInThisScope.Add(seqVar);
+
 			scopes.Pop();
             scopesMeta.Pop();
 		}

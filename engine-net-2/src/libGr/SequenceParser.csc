@@ -749,7 +749,8 @@ Sequence SimpleSequence():
 {
 	bool special = false, choice = false, chooseRandSpecified = false;
 	Sequence seq, seq2, seq3 = null;
-	List<SequenceVariable> paramVars = new List<SequenceVariable>();
+	List<SequenceVariable> variableList1 = new List<SequenceVariable>();
+	List<SequenceVariable> variableList2 = new List<SequenceVariable>();
 	List<Sequence> sequences = new List<Sequence>();
 	SequenceVariable toVar, fromVar, fromVar2 = null, fromVar3 = null;
 	String attrName, method, elemName;
@@ -822,9 +823,9 @@ Sequence SimpleSequence():
             return new SequenceAssignRandomToVar(toVar, num, choice);
         }
 	|
-		"def" "(" Parameters(paramVars) ")" // todo: eigentliches Ziel: Zuweisung simple sequence an Variable
+		"def" "(" Parameters(variableList1) ")" // todo: eigentliches Ziel: Zuweisung simple sequence an Variable
 		{
-			return new SequenceAssignSequenceResultToVar(toVar, new SequenceDef(paramVars.ToArray()));
+			return new SequenceAssignSequenceResultToVar(toVar, new SequenceDef(variableList1.ToArray()));
 		}
 	|
 		"(" seq=RewriteSequence() ")"
@@ -898,9 +899,9 @@ Sequence SimpleSequence():
 		return seq;
 	}
 |
-	"def" "(" Parameters(paramVars) ")"
+	"def" "(" Parameters(variableList1) ")"
 	{
-		return new SequenceDef(paramVars.ToArray());
+		return new SequenceDef(variableList1.ToArray());
 	}
 |
     LOOKAHEAD(2) ("%" { special = true; })? "true"
@@ -959,22 +960,22 @@ Sequence SimpleSequence():
     }
 |
     "if" "{" { varDecls.PushScope(ScopeType.If); } seq=RewriteSequence() ";"
-		{ varDecls.PushScope(ScopeType.IfThenPart); } seq2=RewriteSequence() { varDecls.PopScope(); }
-		(";" seq3=RewriteSequence())? { varDecls.PopScope(); } "}"
+		{ varDecls.PushScope(ScopeType.IfThenPart); } seq2=RewriteSequence() { varDecls.PopScope(variableList2); }
+		(";" seq3=RewriteSequence())? { varDecls.PopScope(variableList1); } "}"
     {
-		if(seq3==null) return new SequenceIfThen(seq, seq2);
-        else return new SequenceIfThenElse(seq, seq2, seq3);
+		if(seq3==null) return new SequenceIfThen(seq, seq2, variableList1, variableList2);
+        else return new SequenceIfThenElse(seq, seq2, seq3, variableList1, variableList2);
     }
 |
 	"for" "{" { varDecls.PushScope(ScopeType.For); } fromVar=Variable() ("->" fromVar2=Variable())? "in" fromVar3=VariableUse() ";"
-		seq=RewriteSequence() { varDecls.PopScope(); } "}"
+		seq=RewriteSequence() { varDecls.PopScope(variableList1); } "}"
 	{
-        return new SequenceFor(fromVar, fromVar2, fromVar3, seq);
+        return new SequenceFor(fromVar, fromVar2, fromVar3, seq, variableList1);
     }
 |
-	"yield" "(" Parameters(paramVars) ")"
+	"yield" "(" Parameters(variableList1) ")"
 	{
-		return new SequenceYield(paramVars.ToArray());
+		return new SequenceYield(variableList1.ToArray());
 	}
 }
 

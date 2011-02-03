@@ -81,6 +81,13 @@ namespace de.unika.ipd.grGen.libGr
             }
         }
 
+        // add ourselves to the variables set if we are a local variable
+        public void GetLocalVariables(Dictionary<SequenceVariable, SetValueType> variables)
+        {
+            if(Type != "" && !variables.ContainsKey(this))
+                variables.Add(this, null);
+        }
+
         // visited flag used in xgrs code generation
         public bool Visited { get { return visited; } set { this.visited = value; } }
 

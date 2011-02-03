@@ -1517,6 +1517,18 @@ namespace de.unika.ipd.grGen.lgsp
             }
         }
 
+        /// <summary>
+        /// Returns an iterator over all available (non-null) variables
+        /// </summary>
+        public override IEnumerable<Variable> Variables
+        {
+            get
+            {
+                foreach(Variable var in VariableMap.Values)
+                    yield return var; 
+            }
+        }
+
         #endregion Variables management
 
 #if USE_SUB_SUPER_ENUMERATORS

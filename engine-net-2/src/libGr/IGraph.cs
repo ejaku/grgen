@@ -493,6 +493,11 @@ namespace de.unika.ipd.grGen.libGr
         /// <param name="val">The new value of the variable</param>
         void SetVariableValue(string varName, object val);
 
+        /// <summary>
+        /// Returns an iterator over all available (non-null) variables
+        /// </summary>
+        IEnumerable<Variable> Variables { get; }
+
         #endregion Variables management
 
         #region Graph rewriting

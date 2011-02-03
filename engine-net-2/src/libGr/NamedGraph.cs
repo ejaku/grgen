@@ -896,7 +896,18 @@ namespace de.unika.ipd.grGen.libGr
         /// </summary>
         /// <param name="varName">The name of the variable</param>
         /// <param name="val">The new value of the variable</param>
-        public void SetVariableValue(string varName, object val) { graph.SetVariableValue(varName, val); }
+        public void SetVariableValue(string varName, object val)
+        {
+            graph.SetVariableValue(varName, val);
+        }
+
+        /// <summary>
+        /// Returns an iterator over all available (non-null) variables
+        /// </summary>
+        public IEnumerable<Variable> Variables
+        {
+            get { return graph.Variables; } 
+        }
 
         #endregion Variables management
 

@@ -362,6 +362,11 @@ namespace de.unika.ipd.grGen.libGr
         /// <param name="val">The new value of the variable</param>
         public abstract void SetVariableValue(String varName, object val);
 
+        /// <summary>
+        /// Returns an iterator over all available (non-null) variables
+        /// </summary>
+        public abstract IEnumerable<Variable> Variables { get; }
+
         #endregion Variables management
 
         #region Graph rewriting

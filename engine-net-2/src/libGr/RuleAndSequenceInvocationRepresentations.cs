@@ -81,6 +81,14 @@ namespace de.unika.ipd.grGen.libGr
                 copy.Parameters[i] = Parameters[i];
             return copy;
         }
+
+        public void GetLocalVariables(Dictionary<SequenceVariable, SetValueType> variables)
+        {
+            foreach(SequenceVariable seqVar in ParamVars)
+                seqVar.GetLocalVariables(variables);
+            foreach(SequenceVariable seqVar in ReturnVars)
+                seqVar.GetLocalVariables(variables);
+        }
     }
 
     /// <summary>
@@ -153,6 +161,14 @@ namespace de.unika.ipd.grGen.libGr
             for(int i = 0; i < Parameters.Length; ++i)
                 copy.Parameters[i] = Parameters[i];
             return copy;
+        }
+
+        public void GetLocalVariables(Dictionary<SequenceVariable, SetValueType> variables)
+        {
+            foreach(SequenceVariable seqVar in ParamVars)
+                seqVar.GetLocalVariables(variables);
+            foreach(SequenceVariable seqVar in ReturnVars)
+                seqVar.GetLocalVariables(variables);
         }
     }
 }
