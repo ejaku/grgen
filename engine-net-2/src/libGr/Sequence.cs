@@ -195,6 +195,19 @@ namespace de.unika.ipd.grGen.libGr
         }
 
         /// <summary>
+        /// Returns the innermost sequence beneath this as root
+        /// which gets currently executed (for sequences on call stack this is the call).
+        /// A path in the sequence tree gets executed, the innermost is the important one.
+        /// </summary>
+        /// <returns>The innermost sequence currently executed, or null if there is no such</returns>
+        public virtual Sequence GetCurrentlyExecutedSequence()
+        {
+            if(executionState == SequenceExecutionState.Underway)
+                return this;
+            return null;
+        }
+
+        /// <summary>
         /// Walks the sequence tree from this on to the given target sequence (inclusive),
         /// collecting all variables found on the way into the variables dictionary.
         /// </summary>
@@ -321,6 +334,15 @@ namespace de.unika.ipd.grGen.libGr
             Seq.ReplaceSequenceDefinition(oldDef, newDef);
         }
 
+        public override Sequence GetCurrentlyExecutedSequence()
+        {
+            if(Seq.GetCurrentlyExecutedSequence() != null)
+                return Seq.GetCurrentlyExecutedSequence();
+            if(executionState == SequenceExecutionState.Underway)
+                return this;
+            return null;
+        }
+
         public override bool GetLocalVariables(Dictionary<SequenceVariable, SetValueType> variables, Sequence target)
         {
             if(Seq.GetLocalVariables(variables, target))
@@ -369,6 +391,17 @@ namespace de.unika.ipd.grGen.libGr
         {
             Left.ReplaceSequenceDefinition(oldDef, newDef);
             Right.ReplaceSequenceDefinition(oldDef, newDef);
+        }
+
+        public override Sequence GetCurrentlyExecutedSequence()
+        {
+            if(Left.GetCurrentlyExecutedSequence() != null)
+                return Left.GetCurrentlyExecutedSequence();
+            if(Right.GetCurrentlyExecutedSequence() != null)
+                return Right.GetCurrentlyExecutedSequence();
+            if(executionState == SequenceExecutionState.Underway)
+                return this;
+            return null;
         }
 
         public override bool GetLocalVariables(Dictionary<SequenceVariable, SetValueType> variables, Sequence target)
@@ -420,6 +453,16 @@ namespace de.unika.ipd.grGen.libGr
         {
             foreach(Sequence seq in Sequences)
                 seq.ReplaceSequenceDefinition(oldDef, newDef);
+        }
+
+        public override Sequence GetCurrentlyExecutedSequence()
+        {
+            foreach(Sequence seq in Sequences)
+                if(seq.GetCurrentlyExecutedSequence() != null)
+                    return seq.GetCurrentlyExecutedSequence();
+            if(executionState == SequenceExecutionState.Underway)
+                return this;
+            return null;
         }
 
         public override bool GetLocalVariables(Dictionary<SequenceVariable, SetValueType> variables, Sequence target)
@@ -1638,6 +1681,15 @@ namespace de.unika.ipd.grGen.libGr
             return Assign(result, graph);
         }
 
+        public override Sequence GetCurrentlyExecutedSequence()
+        {
+            if(Seq.GetCurrentlyExecutedSequence() != null)
+                return Seq.GetCurrentlyExecutedSequence();
+            if(executionState == SequenceExecutionState.Underway)
+                return this;
+            return null;
+        }
+
         public override bool GetLocalVariables(Dictionary<SequenceVariable, SetValueType> variables, Sequence target)
         {
             DestVar.GetLocalVariables(variables);
@@ -2126,9 +2178,15 @@ namespace de.unika.ipd.grGen.libGr
             return false; // to satisfy the compiler, we return from inside the loop
         }
 
-        public override IEnumerable<Sequence> Children
+        public override Sequence GetCurrentlyExecutedSequence()
         {
-            get { yield return Rule; yield return Seq; }
+            if(Rule.GetCurrentlyExecutedSequence() != null)
+                return Rule.GetCurrentlyExecutedSequence();
+            if(Seq.GetCurrentlyExecutedSequence() != null)
+                return Seq.GetCurrentlyExecutedSequence();
+            if(executionState == SequenceExecutionState.Underway)
+                return this;
+            return null;
         }
 
         public override bool GetLocalVariables(Dictionary<SequenceVariable, SetValueType> variables, Sequence target)
@@ -2138,6 +2196,11 @@ namespace de.unika.ipd.grGen.libGr
             if(Seq.GetLocalVariables(variables, target))
                 return true;
             return this == target;
+        }
+
+        public override IEnumerable<Sequence> Children
+        {
+            get { yield return Rule; yield return Seq; }
         }
 
         public override int Precedence { get { return 8; } }
@@ -2191,6 +2254,19 @@ namespace de.unika.ipd.grGen.libGr
         protected override bool ApplyImpl(IGraph graph, SequenceExecutionEnvironment env)
         {
             return Condition.Apply(graph, env) ? TrueCase.Apply(graph, env) : FalseCase.Apply(graph, env);
+        }
+
+        public override Sequence GetCurrentlyExecutedSequence()
+        {
+            if(Condition.GetCurrentlyExecutedSequence() != null)
+                return Condition.GetCurrentlyExecutedSequence();
+            if(TrueCase.GetCurrentlyExecutedSequence() != null)
+                return TrueCase.GetCurrentlyExecutedSequence();
+            if(FalseCase.GetCurrentlyExecutedSequence() != null)
+                return FalseCase.GetCurrentlyExecutedSequence();
+            if(executionState == SequenceExecutionState.Underway)
+                return this;
+            return null;
         }
 
         public override bool GetLocalVariables(Dictionary<SequenceVariable, SetValueType> variables, Sequence target)
@@ -2807,6 +2883,10 @@ namespace de.unika.ipd.grGen.libGr
         private static Dictionary<String, Stack<SequenceDefinition>> nameToCopies = 
             new Dictionary<string, Stack<SequenceDefinition>>(); 
 
+        // an empty stack to return an iterator if the copies cache does not contain a value for a given name
+        private static Stack<SequenceDefinition> emptyStack =
+            new Stack<SequenceDefinition>();
+
         public SequenceDefinition(String sequenceName,
             SequenceVariable[] inputVariables,
             SequenceVariable[] outputVariables,
@@ -2947,6 +3027,26 @@ namespace de.unika.ipd.grGen.libGr
             if(newSeq.SequenceName != SequenceName)
                 throw new Exception("Internal Failure: name mismatch on sequence replacement");
             nameToCopies.Remove(SequenceName);
+        }
+
+        public IEnumerable<SequenceDefinition> CachedSequenceCopies
+        {
+            get
+            {
+                if(nameToCopies.ContainsKey(SequenceName))
+                    return nameToCopies[SequenceName];
+                else
+                    return emptyStack;
+            }
+        }
+
+        public override Sequence GetCurrentlyExecutedSequence()
+        {
+            if(Seq.GetCurrentlyExecutedSequence() != null)
+                return Seq.GetCurrentlyExecutedSequence();
+            if(executionState == SequenceExecutionState.Underway)
+                return this;
+            return null;
         }
 
         public override bool GetLocalVariables(Dictionary<SequenceVariable, SetValueType> variables, Sequence target)
