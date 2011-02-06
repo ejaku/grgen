@@ -501,7 +501,7 @@ namespace de.unika.ipd.grGen.grShell
             IAction action = ex.Action;
             errOut.WriteLine(ex.Message);
 
-            debugOut.Write("Prototype: {0}", ex.RuleName);
+            debugOut.Write("Prototype: {0}", ex.Name);
             if(action == null)
             {
                 debugOut.WriteLine("");

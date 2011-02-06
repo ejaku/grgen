@@ -17,9 +17,9 @@ import java.util.Iterator;
 import java.util.Vector;
 
 import de.unika.ipd.grgen.ast.util.CollectResolver;
-import de.unika.ipd.grgen.ast.util.DeclarationPairResolver;
 import de.unika.ipd.grgen.ast.util.DeclarationResolver;
-import de.unika.ipd.grgen.ast.util.Pair;
+import de.unika.ipd.grgen.ast.util.DeclarationTripleResolver;
+import de.unika.ipd.grgen.ast.util.Triple;
 import de.unika.ipd.grgen.ir.Bad;
 import de.unika.ipd.grgen.ir.EdgeType;
 import de.unika.ipd.grgen.ir.IR;
@@ -42,11 +42,14 @@ public class CallActionNode extends BaseNode {
 	}
 
 	private IdentNode actionUnresolved;
+	
 	private CollectNode<BaseNode> paramsUnresolved;
 	private CollectNode<BaseNode> returnsUnresolved;
 
 	private TestDeclNode action;
+	private SequenceDeclNode sequence;
 	private ExecVarDeclNode booleVar;
+	
 	protected CollectNode<ExprNode> params;
 	protected CollectNode<ExecVarDeclNode> returns;
 
@@ -67,7 +70,7 @@ public class CallActionNode extends BaseNode {
 	@Override
 	public Collection<BaseNode> getChildren() {
 		Vector<BaseNode> children = new Vector<BaseNode>();
-		children.add(getValidVersion(actionUnresolved,action,booleVar));
+		children.add(getValidVersion(actionUnresolved,action,sequence,booleVar));
 		children.add(getValidVersion(paramsUnresolved,params));
 		children.add(getValidVersion(returnsUnresolved,returns));
 		return children;
@@ -158,8 +161,8 @@ public class CallActionNode extends BaseNode {
 		}
 	}
 	
-	private static final DeclarationPairResolver<TestDeclNode, ExecVarDeclNode> actionResolver =
-		new DeclarationPairResolver<TestDeclNode, ExecVarDeclNode>(TestDeclNode.class, ExecVarDeclNode.class);
+	private static final DeclarationTripleResolver<TestDeclNode, SequenceDeclNode, ExecVarDeclNode> actionResolver =
+		new DeclarationTripleResolver<TestDeclNode, SequenceDeclNode, ExecVarDeclNode>(TestDeclNode.class, SequenceDeclNode.class, ExecVarDeclNode.class);
 
 	private static final CollectResolver<ExprNode> paramNodeResolver =
 		new CollectResolver<ExprNode>(new DeclarationResolver<ExprNode>(ExprNode.class));
@@ -173,14 +176,18 @@ public class CallActionNode extends BaseNode {
 		boolean successfullyResolved = true;
 		addImplicitDefinitions();
 		fixupDefinition(actionUnresolved, actionUnresolved.getScope());
-		Pair<TestDeclNode, ExecVarDeclNode> resolved = actionResolver.resolve(actionUnresolved, this);
-		if(resolved!=null)
-			if(resolved.fst!=null)
-				action = resolved.fst;
+		Triple<TestDeclNode, SequenceDeclNode, ExecVarDeclNode> resolved = 
+			actionResolver.resolve(actionUnresolved, this);
+		if(resolved!=null) {
+			if(resolved.first!=null)
+				action = resolved.first;
+			else if(resolved.second!=null)
+				sequence = resolved.second;
 			else
-				booleVar = resolved.snd;
-
-		successfullyResolved = resolved!=null && (action!=null || booleVar!=null) && successfullyResolved;
+				booleVar = resolved.third;
+		}
+		
+		successfullyResolved = resolved!=null && (action!=null || sequence!=null || booleVar!=null) && successfullyResolved;
 
 		params = paramNodeResolver.resolve(paramsUnresolved, this);
 		successfullyResolved = params!=null && successfullyResolved;
@@ -210,7 +217,13 @@ public class CallActionNode extends BaseNode {
 
 		if(action!=null) {
 			res &= checkParams(action.pattern.getParamDecls(), params.getChildren());
-			res &= checkReturns(action.returnFormalParameters, returns);
+			res &= checkReturns(action.returnFormalParameters.getChildren(), returns);
+		} else if(sequence!=null) {
+			Vector<TypeNode> outTypes = new Vector<TypeNode>();
+			for(ExecVarDeclNode varDecl : sequence.outParams.getChildren())
+				outTypes.add(varDecl.getDeclType());
+			res &= checkParams(sequence.inParams.getChildren(), params.getChildren());
+			res &= checkReturns(outTypes, returns);
 		}
 
 		return res;
@@ -218,16 +231,14 @@ public class CallActionNode extends BaseNode {
 
 	/**
 	 * Method checkParams
-	 *
 	 * @param    formalParams        a  Collection<? extends DeclNode>
 	 * @param    actualParams        a  Collection<? extends DeclNode>
-	 *
 	 * @return   a  boolean
 	 */
 	private boolean checkParams(Collection<? extends DeclNode> formalParams, Collection<? extends ExprNode> actualParams) {
 		boolean res = true;
 		if(formalParams.size() != actualParams.size()) {
-			error.error(getCoords(), "Formal and actual parameter(s) of action " + actionUnresolved.toString()
+			error.error(getCoords(), "Formal and actual parameter(s) of " + actionUnresolved.toString()
 					+ " mismatch in number (" + formalParams.size() + " vs. " + actualParams.size() +")");
 			res = false;
 		} else if(actualParams.size() > 0) {
@@ -311,23 +322,21 @@ public class CallActionNode extends BaseNode {
 
 	/**
 	 * Method checkReturns
-	 *
-	 * @param    formalReturns a  CollectNode<IdentNode>
+	 * @param    formalReturns a  Collection<? extends TypeNode>
 	 * @param    actualReturns a  CollectNode<ExecVarDeclNode>
-	 *
 	 * @return   a  boolean
 	 */
-	private boolean checkReturns(CollectNode<TypeNode> formalReturns, CollectNode<ExecVarDeclNode> actualReturns) {
+	private boolean checkReturns(Collection<? extends TypeNode> formalReturns, CollectNode<ExecVarDeclNode> actualReturns) {
 		boolean res = true;
 		// It is ok to have no actual returns, but if there are some, then they have to fit.
-		if(actualReturns.children.size() > 0 && formalReturns.children.size() != actualReturns.children.size()) {
-			error.error(getCoords(), "Formal and actual return-parameter(s) of action " + actionUnresolved.toString()
-					+ " mismatch in number (formal:" + formalReturns.children.size()
+		if(actualReturns.children.size() > 0 && formalReturns.size() != actualReturns.children.size()) {
+			error.error(getCoords(), "Formal and actual return-parameter(s) of " + actionUnresolved.toString()
+					+ " mismatch in number (formal:" + formalReturns.size()
 					+ " vs. actual:" + actualReturns.children.size() +")");
 			res = false;
 		} else if(actualReturns.children.size() > 0) {
 			Iterator<ExecVarDeclNode> iterAR = actualReturns.getChildren().iterator();
-			for(TypeNode formalReturn : formalReturns.getChildren()) {
+			for(TypeNode formalReturn : formalReturns) {
 				Type     formalReturnType = formalReturn.getType();
 
 				DeclNode actualReturn     = iterAR.next();

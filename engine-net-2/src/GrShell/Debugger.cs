@@ -1154,9 +1154,9 @@ namespace de.unika.ipd.grGen.grShell
                     break;
                 }
 
-                case SequenceType.SequenceDefinition:
+                case SequenceType.SequenceDefinitionInterpreted:
                 {
-                    SequenceDefinition seqDef = (SequenceDefinition)seq;
+                    SequenceDefinitionInterpreted seqDef = (SequenceDefinitionInterpreted)seq;
                     HighlightingMode mode = HighlightingMode.None;
                     if(seqDef.ExecutionState == SequenceExecutionState.Success) mode = HighlightingMode.LastSuccess;
                     if(seqDef.ExecutionState == SequenceExecutionState.Fail) mode = HighlightingMode.LastFail;
@@ -1459,11 +1459,11 @@ namespace de.unika.ipd.grGen.grShell
         {
             if(debugSequences.Count > 1)
             {
-                SequenceDefinition top = (SequenceDefinition)debugSequences.Peek();
+                SequenceDefinitionInterpreted top = (SequenceDefinitionInterpreted)debugSequences.Peek();
                 Sequence[] callStack = debugSequences.ToArray();
                 for(int i = 0; i <= callStack.Length - 2; ++i) // non definition bottom excluded
                 {
-                    SequenceDefinition seqDef = (SequenceDefinition)callStack[i];
+                    SequenceDefinitionInterpreted seqDef = (SequenceDefinitionInterpreted)callStack[i];
                     if(seqDef.SequenceName == top.SequenceName)
                     {
                         if(choice)
@@ -1474,7 +1474,7 @@ namespace de.unika.ipd.grGen.grShell
                 }
 
                 // additionally handle the internally cached sequences
-                foreach(SequenceDefinition seqDef in top.CachedSequenceCopies)
+                foreach(SequenceDefinitionInterpreted seqDef in top.CachedSequenceCopies)
                 {
                     if(choice)
                         ToggleChoicepoint(seqDef, pos);
@@ -1578,7 +1578,7 @@ namespace de.unika.ipd.grGen.grShell
             }
 
             // Entering a subsequence called?
-            if(seq.SequenceType == SequenceType.SequenceDefinition)
+            if(seq.SequenceType == SequenceType.SequenceDefinitionInterpreted)
             {
                 loopList.AddFirst(seq);
                 debugSequences.Push(seq);
@@ -1632,7 +1632,7 @@ namespace de.unika.ipd.grGen.grShell
                 loopList.RemoveFirst();
             }
 
-            if(seq.SequenceType == SequenceType.SequenceDefinition)
+            if(seq.SequenceType == SequenceType.SequenceDefinitionInterpreted)
             {
                 debugSequences.Pop();
                 loopList.RemoveFirst();

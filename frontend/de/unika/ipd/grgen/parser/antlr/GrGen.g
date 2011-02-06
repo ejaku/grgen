@@ -200,6 +200,7 @@ textActions returns [ UnitNode main = null ]
 		CollectNode<ModelNode> modelChilds = new CollectNode<ModelNode>();
 		CollectNode<IdentNode> patternChilds = new CollectNode<IdentNode>();
 		CollectNode<IdentNode> actionChilds = new CollectNode<IdentNode>();
+		CollectNode<IdentNode> sequenceChilds = new CollectNode<IdentNode>();
 		String actionsName = Util.getActionsNameFromFilename(getFilename());
 	}
 
@@ -218,7 +219,7 @@ textActions returns [ UnitNode main = null ]
 	| usingDecl[modelChilds]
 	)?
 
-	( patternOrActionDecls[patternChilds, actionChilds] )? EOF
+	( patternOrActionOrSequenceDecls[patternChilds, actionChilds, sequenceChilds] )? EOF
 		{
 			if(modelChilds.getChildren().size() == 0)
 				modelChilds.addChild(env.getStdModel());
@@ -233,7 +234,8 @@ textActions returns [ UnitNode main = null ]
 				modelChilds = new CollectNode<ModelNode>();
 				modelChilds.addChild(model);
 			}
-			main = new UnitNode(actionsName, getFilename(), env.getStdModel(), modelChilds, patternChilds, actionChilds);
+			main = new UnitNode(actionsName, getFilename(), env.getStdModel(), 
+								modelChilds, patternChilds, actionChilds, sequenceChilds);
 		}
 	;
 
@@ -258,10 +260,10 @@ usingDecl [ CollectNode<ModelNode> modelChilds ]
 		}
 	;
 
-patternOrActionDecls[ CollectNode<IdentNode> patternChilds, CollectNode<IdentNode> actionChilds ]
+patternOrActionOrSequenceDecls[ CollectNode<IdentNode> patternChilds, CollectNode<IdentNode> actionChilds, CollectNode<IdentNode> sequenceChilds ]
 	@init{ mod = 0; }
 
-	: ( mod=patternModifiers patternOrActionDecl[patternChilds, actionChilds, mod] )+
+	: ( mod=patternModifiers patternOrActionOrSequenceDecl[patternChilds, actionChilds, sequenceChilds, mod] )+
 	;
 
 patternModifiers returns [ int res = 0 ]
@@ -306,12 +308,13 @@ patternModifier [ int mod ] returns [ int res = 0 ]
 		}
 	;
 
-patternOrActionDecl [ CollectNode<IdentNode> patternChilds, CollectNode<IdentNode> actionChilds, int mod ]
+patternOrActionOrSequenceDecl [ CollectNode<IdentNode> patternChilds, CollectNode<IdentNode> actionChilds, CollectNode<IdentNode> sequenceChilds, int mod ]
 	@init{
 		CollectNode<EvalStatementNode> eval = new CollectNode<EvalStatementNode>();
 		CollectNode<IdentNode> dels = new CollectNode<IdentNode>();
 		CollectNode<RhsDeclNode> rightHandSides = new CollectNode<RhsDeclNode>();
 		CollectNode<BaseNode> modifyParams = new CollectNode<BaseNode>();
+		ExecNode exec = null;
 	}
 
 	: t=TEST id=actionIdentDecl pushScope[id] params=parameters[BaseNode.CONTEXT_TEST|BaseNode.CONTEXT_ACTION|BaseNode.CONTEXT_LHS|BaseNode.CONTEXT_PARAMETER, null] ret=returnTypes LBRACE
@@ -355,6 +358,15 @@ patternOrActionDecl [ CollectNode<IdentNode> patternChilds, CollectNode<IdentNod
 			{
 				id.setDecl(new SubpatternDeclNode(id, left, rightHandSides));
 				patternChilds.addChild(id);
+			}
+		RBRACE popScope
+	| s=SEQUENCE id=actionIdentDecl pushScope[id] { exec = new ExecNode(getCoords(s), null); }
+		inParams=execInParameters[exec] outParams=execOutParameters[exec]
+		LBRACE
+			xgrs[exec] 
+			{
+				id.setDecl(new SequenceDeclNode(id, exec, inParams, outParams));
+				sequenceChilds.addChild(id);
 			}
 		RBRACE popScope
 	;
@@ -1286,6 +1298,20 @@ typeUnaryExpr returns [ TypeExprNode res = null ]
 // todo: add more user friendly explicit error messages for % used after $ instead of implicit syntax error
 // (a user choice $% override for the random flag $ is only available in the shell/debugger)
 
+execInParameters [ ExecNode xg ] returns [ CollectNode<ExecVarDeclNode> res = new CollectNode<ExecVarDeclNode>() ]
+	: LPAREN (execParamList[res, xg])? RPAREN
+	|
+	;
+
+execOutParameters [ ExecNode xg ] returns [ CollectNode<ExecVarDeclNode> res = new CollectNode<ExecVarDeclNode>() ]
+	: COLON LPAREN (execParamList[res, xg])? RPAREN
+	|
+	;
+
+execParamList [ CollectNode<ExecVarDeclNode> params, ExecNode xg ]
+	: p=xgrsEntityDecl[xg, false] { params.addChild(p); } ( COMMA p=xgrsEntityDecl[xg, false] { params.addChild(p); } )*
+	;
+
 xgrs[ExecNode xg]
 	: xgrsLazyOr[xg] ( DOLLAR THENLEFT {xg.append(" $<; ");} xgrs[xg] | THENLEFT {xg.append(" <; ");} xgrs[xg]
 						| DOLLAR THENRIGHT {xg.append(" $;> ");} xgrs[xg] | THENRIGHT {xg.append(" ;> ");} xgrs[xg] )?
@@ -1504,15 +1530,21 @@ xgrsVariableList[ExecNode xg, CollectNode<BaseNode> res]
 	;
 
 xgrsEntity[ExecNode xg] returns [BaseNode res = null]
-options { k = *; }
 	:
 		id=entIdentUse // var of node, edge, or basic type
 		{ res = id; xg.append(id); xg.addUsage(id); } 
 	|
+		xgrsVarDecl=xgrsEntityDecl[xg, true]
+		{ res = xgrsVarDecl; }
+	;
+
+xgrsEntityDecl[ExecNode xg, boolean emit] returns [ExecVarDeclNode res = null]
+options { k = *; }
+	:
 		id=entIdentDecl COLON type=typeIdentUse // node decl
 		{
 			ExecVarDeclNode decl = new ExecVarDeclNode(id, type);
-			xg.append(id.toString()+":"+type.toString());
+			if(emit) xg.append(id.toString()+":"+type.toString());
 			xg.addVarDecl(decl);
 			res = decl;
 		}
@@ -1520,7 +1552,7 @@ options { k = *; }
 		id=entIdentDecl COLON SET LT type=typeIdentUse GT // set decl
 		{
 			ExecVarDeclNode decl = new ExecVarDeclNode(id, SetTypeNode.getSetType(type));
-			xg.append(id.toString()+":set<"+type.toString()+">");
+			if(emit) xg.append(id.toString()+":set<"+type.toString()+">");
 			xg.addVarDecl(decl);
 			res = decl;
 		}
@@ -1529,7 +1561,7 @@ options { k = *; }
 		id=entIdentDecl COLON SET LT type=typeIdentUse // set decl; special to save user from splitting set<S>=x to set<S> =x as >= is GE not GT ASSIGN
 		{
 			ExecVarDeclNode decl = new ExecVarDeclNode(id, SetTypeNode.getSetType(type));
-			xg.append(id.toString()+":set<"+type.toString()+">");
+			if(emit) xg.append(id.toString()+":set<"+type.toString()+">");
 			xg.addVarDecl(decl);
 			res = decl;
 		}
@@ -1537,7 +1569,7 @@ options { k = *; }
 		id=entIdentDecl COLON MAP LT keyType=typeIdentUse COMMA valueType=typeIdentUse GT // map decl
 		{
 			ExecVarDeclNode decl = new ExecVarDeclNode(id, MapTypeNode.getMapType(keyType, valueType));
-			xg.append(id.toString()+":map<"+keyType.toString()+","+valueType.toString()+">");
+			if(emit) xg.append(id.toString()+":map<"+keyType.toString()+","+valueType.toString()+">");
 			xg.addVarDecl(decl);
 			res = decl;
 		}
@@ -1546,7 +1578,7 @@ options { k = *; }
 		id=entIdentDecl COLON MAP LT keyType=typeIdentUse COMMA valueType=typeIdentUse // map decl; special to save user from splitting map<S,T>=x to map<S,T> =x as >= is GE not GT ASSIGN
 		{
 			ExecVarDeclNode decl = new ExecVarDeclNode(id, MapTypeNode.getMapType(keyType, valueType));
-			xg.append(id.toString()+":map<"+keyType.toString()+","+valueType.toString()+">");
+			if(emit) xg.append(id.toString()+":map<"+keyType.toString()+","+valueType.toString()+">");
 			xg.addVarDecl(decl);
 			res = decl;
 		}
@@ -1554,9 +1586,7 @@ options { k = *; }
 		MINUS id=entIdentDecl COLON type=typeIdentUse RARROW // edge decl, interpreted grs don't use -:-> form
 		{
 			ExecVarDeclNode decl = new ExecVarDeclNode(id, type);
-			xg.append(decl.getIdentNode().getIdent());
-			xg.append(':');
-			xg.append(decl.typeUnresolved);
+			if(emit) xg.append(decl.getIdentNode().getIdent() + ":" + decl.typeUnresolved);
 			xg.addVarDecl(decl);
 			res = decl;
 		}
@@ -2777,6 +2807,7 @@ RECORD : 'record';
 REPLACE : 'replace';
 RETURN : 'return';
 RULE : 'rule';
+SEQUENCE : 'sequence';
 SET : 'set';
 TEST : 'test';
 TRUE : 'true';

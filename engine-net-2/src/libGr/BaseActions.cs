@@ -70,17 +70,23 @@ namespace de.unika.ipd.grGen.libGr
         {
             if(namesToSequenceDefinitions.ContainsKey(sequenceDef.SequenceName))
             {
-                SequenceDefinition existingSequenceDef = namesToSequenceDefinitions[sequenceDef.SequenceName];
-                
-                if(sequenceDef.InputVariables.Length != existingSequenceDef.InputVariables.Length)
+                if(namesToSequenceDefinitions[sequenceDef.SequenceName] is SequenceDefinitionCompiled)
+                {
+                    throw new Exception("A compiled sequence can't be overwritten!");
+                }
+
+                SequenceDefinitionInterpreted existingSequenceDef = (SequenceDefinitionInterpreted)namesToSequenceDefinitions[sequenceDef.SequenceName];
+                SequenceDefinitionInterpreted interpretedSequenceDef = (SequenceDefinitionInterpreted)sequenceDef;
+
+                if(interpretedSequenceDef.InputVariables.Length != existingSequenceDef.InputVariables.Length)
                     throw new Exception("Old and new sequence definition for " + sequenceDef.SequenceName + " have a different number of parameters");
-                for(int i = 0; i < sequenceDef.InputVariables.Length; ++i)
-                    if(sequenceDef.InputVariables[i].Type != existingSequenceDef.InputVariables[i].Type)
+                for(int i = 0; i < interpretedSequenceDef.InputVariables.Length; ++i)
+                    if(interpretedSequenceDef.InputVariables[i].Type != existingSequenceDef.InputVariables[i].Type)
                         throw new Exception("Old and new sequence definition for " + sequenceDef.SequenceName + " differ in parameter #" + i);
-                if(sequenceDef.OutputVariables.Length != existingSequenceDef.OutputVariables.Length)
+                if(interpretedSequenceDef.OutputVariables.Length != existingSequenceDef.OutputVariables.Length)
                     throw new Exception("Old and new sequence definition for " + sequenceDef.SequenceName + " have a different number of output parameters");
-                for(int i = 0; i < sequenceDef.OutputVariables.Length; ++i)
-                    if(sequenceDef.OutputVariables[i].Type != existingSequenceDef.OutputVariables[i].Type)
+                for(int i = 0; i < interpretedSequenceDef.OutputVariables.Length; ++i)
+                    if(interpretedSequenceDef.OutputVariables[i].Type != existingSequenceDef.OutputVariables[i].Type)
                         throw new Exception("Old and new sequence definition for " + sequenceDef.SequenceName + " differ in output parameter #" + i);
 
                 namesToSequenceDefinitions[sequenceDef.SequenceName] = sequenceDef; // replace definition in map by name used for new sequences

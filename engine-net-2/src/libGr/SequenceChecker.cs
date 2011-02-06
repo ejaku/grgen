@@ -91,9 +91,9 @@ namespace de.unika.ipd.grGen.libGr
                 break;
             }
 
-            case SequenceType.SequenceDefinition:
+            case SequenceType.SequenceDefinitionInterpreted:
             {
-                SequenceDefinition seqDef = (SequenceDefinition)seq;
+                SequenceDefinitionInterpreted seqDef = (SequenceDefinitionInterpreted)seq;
                 Check(seqDef.Seq);
                 break;
             }
@@ -111,7 +111,7 @@ namespace de.unika.ipd.grGen.libGr
                 // We found the rule?
                 if(paramBindings.Action == null)
                 {
-                    throw new SequenceParserException(paramBindings, SequenceParserError.UnknownRule);
+                    throw new SequenceParserException(paramBindings, SequenceParserError.UnknownRuleOrSequence);
                 }
                 
                 // yes -> this is a rule call; now check it

@@ -1116,5 +1116,10 @@ namespace de.unika.ipd.grGen.lgsp
         /// All the rule and subrule representations generated
         /// </summary>
         public abstract LGSPMatchingPattern[] RulesAndSubpatterns { get; }
+
+        /// <summary>
+        /// All the defined sequence representations generated
+        /// </summary>
+        public abstract LGSPDefinedSequenceInfo[] DefinedSequences { get; }
     }
 }

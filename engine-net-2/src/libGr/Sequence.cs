@@ -34,7 +34,7 @@ namespace de.unika.ipd.grGen.libGr
         SetmapAdd, SetmapRem, SetmapClear, InSetmap,
         LazyOrAll, LazyAndAll, StrictOrAll, StrictAndAll, SomeFromSet,
         Transaction, Backtrack, IfThenElse, IfThen, For,
-        SequenceDefinition, SequenceCall
+        SequenceDefinitionInterpreted, SequenceDefinitionCompiled, SequenceCall
     }
 
     /// <summary>
@@ -2868,54 +2868,16 @@ namespace de.unika.ipd.grGen.libGr
 
     /// <summary>
     /// An sequence representing a sequence definition.
-    /// Like the other sequences it can be directly interpreted or used as representation to generate code from.
-    /// In contrast to the others it always must be the root sequence 
-    /// and must be applied with a different method because it requires the parameter information.
+    /// It must be applied with a different method than the other sequences because it requires the parameter information.
     /// </summary>
-    public class SequenceDefinition : Sequence
+    public abstract class SequenceDefinition : Sequence
     {
         public String SequenceName;
-        public SequenceVariable[] InputVariables;
-        public SequenceVariable[] OutputVariables;
-        public Sequence Seq;
 
-        // a cache for copies of sequence definitions, accessed by the name
-        private static Dictionary<String, Stack<SequenceDefinition>> nameToCopies = 
-            new Dictionary<string, Stack<SequenceDefinition>>(); 
-
-        // an empty stack to return an iterator if the copies cache does not contain a value for a given name
-        private static Stack<SequenceDefinition> emptyStack =
-            new Stack<SequenceDefinition>();
-
-        public SequenceDefinition(String sequenceName,
-            SequenceVariable[] inputVariables,
-            SequenceVariable[] outputVariables,
-            Sequence seq)
-            : base(SequenceType.SequenceDefinition)
+        public SequenceDefinition(SequenceType seqType, String sequenceName)
+            : base(seqType)
         {
             SequenceName = sequenceName;
-            InputVariables = inputVariables;
-            OutputVariables = outputVariables;
-            Seq = seq;
-        }
-
-        internal override Sequence Copy(Dictionary<SequenceVariable, SequenceVariable> originalToCopy)
-        {
-            SequenceDefinition copy = (SequenceDefinition)MemberwiseClone();
-            copy.InputVariables = new SequenceVariable[InputVariables.Length];
-            for(int i = 0; i < InputVariables.Length; ++i)
-                copy.InputVariables[i] = InputVariables[i].Copy(originalToCopy);
-            copy.OutputVariables = new SequenceVariable[OutputVariables.Length];
-            for(int i = 0; i < OutputVariables.Length; ++i)
-                copy.OutputVariables[i] = OutputVariables[i].Copy(originalToCopy);
-            copy.Seq = Seq.Copy(originalToCopy);
-            copy.executionState = SequenceExecutionState.NotYet;
-            return copy;
-        }
-
-        internal override void ReplaceSequenceDefinition(SequenceDefinition oldDef, SequenceDefinition newDef)
-        {
-            Seq.ReplaceSequenceDefinition(oldDef, newDef);
         }
 
         protected override bool ApplyImpl(IGraph graph, SequenceExecutionEnvironment env)
@@ -2933,7 +2895,63 @@ namespace de.unika.ipd.grGen.libGr
         ///     exchanging rules will have no effect for already existing Sequence objects.</param>
         /// <param name="env">The execution environment giving access to the names and user interface (null if not available)</param>
         /// <returns>True, iff the sequence succeeded</returns>
-        public bool Apply(SequenceInvocationParameterBindings sequenceInvocation,
+        public abstract bool Apply(SequenceInvocationParameterBindings sequenceInvocation,
+            IGraph graph, SequenceExecutionEnvironment env);
+
+        public override int Precedence { get { return -1; } }
+        public override string Symbol { get { return SequenceName; } }
+    }
+
+    /// <summary>
+    /// An sequence representing an interpreted sequence definition.
+    /// Like the other sequences it can be directly interpreted (but with a different apply method),
+    /// in contrast to the others it always must be the root sequence.
+    /// </summary>
+    public class SequenceDefinitionInterpreted : SequenceDefinition
+    {
+        public SequenceVariable[] InputVariables;
+        public SequenceVariable[] OutputVariables;
+        public Sequence Seq;
+
+        // a cache for copies of sequence definitions, accessed by the name
+        private static Dictionary<String, Stack<SequenceDefinition>> nameToCopies = 
+            new Dictionary<string, Stack<SequenceDefinition>>(); 
+
+        // an empty stack to return an iterator if the copies cache does not contain a value for a given name
+        private static Stack<SequenceDefinition> emptyStack =
+            new Stack<SequenceDefinition>();
+
+        public SequenceDefinitionInterpreted(String sequenceName,
+            SequenceVariable[] inputVariables,
+            SequenceVariable[] outputVariables,
+            Sequence seq)
+            : base(SequenceType.SequenceDefinitionInterpreted, sequenceName)
+        {
+            InputVariables = inputVariables;
+            OutputVariables = outputVariables;
+            Seq = seq;
+        }
+
+        internal override Sequence Copy(Dictionary<SequenceVariable, SequenceVariable> originalToCopy)
+        {
+            SequenceDefinitionInterpreted copy = (SequenceDefinitionInterpreted)MemberwiseClone();
+            copy.InputVariables = new SequenceVariable[InputVariables.Length];
+            for(int i = 0; i < InputVariables.Length; ++i)
+                copy.InputVariables[i] = InputVariables[i].Copy(originalToCopy);
+            copy.OutputVariables = new SequenceVariable[OutputVariables.Length];
+            for(int i = 0; i < OutputVariables.Length; ++i)
+                copy.OutputVariables[i] = OutputVariables[i].Copy(originalToCopy);
+            copy.Seq = Seq.Copy(originalToCopy);
+            copy.executionState = SequenceExecutionState.NotYet;
+            return copy;
+        }
+
+        internal override void ReplaceSequenceDefinition(SequenceDefinition oldDef, SequenceDefinition newDef)
+        {
+            Seq.ReplaceSequenceDefinition(oldDef, newDef);
+        }
+
+        public override bool Apply(SequenceInvocationParameterBindings sequenceInvocation,
             IGraph graph, SequenceExecutionEnvironment env)
         {
             // If this sequence definition is currently executed
@@ -3061,7 +3079,6 @@ namespace de.unika.ipd.grGen.libGr
         }
 
         public override IEnumerable<Sequence> Children { get { yield return Seq; } }
-        public override int Precedence { get { return -1; } }
         public override string Symbol
         {
             get
@@ -3091,6 +3108,49 @@ namespace de.unika.ipd.grGen.libGr
                 return sb.ToString();
             }
         }
+    }
+
+    /// <summary>
+    /// A sequence representing a compiled sequence definition.
+    /// The subclass contains the method implementing the real sequence,
+    /// and ApplyImpl calling that method mapping SequenceInvocationParameterBindings to the exact parameters of that method.
+    /// </summary>
+    public abstract class SequenceDefinitionCompiled : SequenceDefinition
+    {
+        public SequenceDefinitionCompiled(String sequenceName)
+            : base(SequenceType.SequenceDefinitionCompiled, sequenceName)
+        {
+        }
+
+        internal override Sequence Copy(Dictionary<SequenceVariable, SequenceVariable> originalToCopy)
+        {
+            throw new Exception("Copy not supported on compiled sequences");
+        }
+
+        internal override void ReplaceSequenceDefinition(SequenceDefinition oldDef, SequenceDefinition newDef)
+        {
+            throw new Exception("ReplaceSequenceDefinition not supported on compiled sequences");
+        }
+
+        protected override bool ApplyImpl(IGraph graph, SequenceExecutionEnvironment env)
+        {
+            throw new Exception("Can't apply compiled sequence definition like a normal sequence");
+        }
+
+        public abstract override bool Apply(SequenceInvocationParameterBindings sequenceInvocation,
+            IGraph graph, SequenceExecutionEnvironment env);
+
+        public override Sequence GetCurrentlyExecutedSequence()
+        {
+            throw new Exception("GetCurrentlyExecutedSequence not supported on compiled sequences");
+        }
+
+        public override bool GetLocalVariables(Dictionary<SequenceVariable, SetValueType> variables, Sequence target)
+        {
+            throw new Exception("GetLocalVariables not supported on compiled sequences");
+        }
+
+        public override IEnumerable<Sequence> Children { get { yield break; } }
     }
 
     public class SequenceSequenceCall : SequenceSpecial

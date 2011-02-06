@@ -1,0 +1,29 @@
+new graph "exec1/exec_definition_compiled.grg"
+
+debug set layout Hierarchic
+
+xgrs (start)=init
+xgrs testInit
+xgrs testInitPlusReverse
+
+show num nodes A
+show num nodes AB
+show num edges
+
+show num nodes A
+show num nodes AB
+show num edges
+
+show var last
+
+xgrs (last)=chain(start)
+
+xgrs testInit
+xgrs testInitPlusReverse
+
+show var last
+
+xgrs addReflexive(last)
+xgrs testReflexive
+
+quit

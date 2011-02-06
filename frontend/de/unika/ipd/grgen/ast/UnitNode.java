@@ -22,6 +22,7 @@ import de.unika.ipd.grgen.ast.util.SimpleChecker;
 import de.unika.ipd.grgen.ir.IR;
 import de.unika.ipd.grgen.ir.Model;
 import de.unika.ipd.grgen.ir.Rule;
+import de.unika.ipd.grgen.ir.Sequence;
 import de.unika.ipd.grgen.ir.Unit;
 
 /**
@@ -43,6 +44,10 @@ public class UnitNode extends BaseNode {
 	private CollectNode<TestDeclNode> actions;
 	private CollectNode<IdentNode> actionsUnresolved;
 
+	// of type TestDeclNode or RuleDeclNode
+	private CollectNode<SequenceDeclNode> sequences;
+	private CollectNode<IdentNode> sequencesUnresolved;
+
 	/**
 	 * The name for this unit node
 	 */
@@ -54,7 +59,7 @@ public class UnitNode extends BaseNode {
 	private String filename;
 
 	public UnitNode(String unitname, String filename, ModelNode stdModel, CollectNode<ModelNode> models,
-			CollectNode<IdentNode> subpatterns, CollectNode<IdentNode> actions) {
+			CollectNode<IdentNode> subpatterns, CollectNode<IdentNode> actions, CollectNode<IdentNode> sequences) {
 		this.stdModel = stdModel;
 		this.models = models;
 		becomeParent(this.models);
@@ -62,6 +67,8 @@ public class UnitNode extends BaseNode {
 		becomeParent(this.subpatternsUnresolved);
 		this.actionsUnresolved = actions;
 		becomeParent(this.actionsUnresolved);
+		this.sequencesUnresolved = sequences;
+		becomeParent(this.sequencesUnresolved);
 		this.unitname = unitname;
 		this.filename = filename;
 	}
@@ -81,6 +88,7 @@ public class UnitNode extends BaseNode {
 		children.add(models);
 		children.add(getValidVersion(subpatternsUnresolved, subpatterns));
 		children.add(getValidVersion(actionsUnresolved, actions));
+		children.add(getValidVersion(sequencesUnresolved, sequences));
 		return children;
 	}
 
@@ -91,6 +99,7 @@ public class UnitNode extends BaseNode {
 		childrenNames.add("models");
 		childrenNames.add("subpatterns");
 		childrenNames.add("actions");
+		childrenNames.add("sequences");
 		return childrenNames;
 	}
 
@@ -100,13 +109,17 @@ public class UnitNode extends BaseNode {
 	private static final CollectResolver<SubpatternDeclNode> subpatternsResolver = new CollectResolver<SubpatternDeclNode>(
 			new DeclarationResolver<SubpatternDeclNode>(SubpatternDeclNode.class));
 
+	private static final CollectResolver<SequenceDeclNode> sequencesResolver = new CollectResolver<SequenceDeclNode>(
+			new DeclarationResolver<SequenceDeclNode>(SequenceDeclNode.class));
+
 	/** @see de.unika.ipd.grgen.ast.BaseNode#resolveLocal() */
 	@Override
 	protected boolean resolveLocal() {
 		actions     = actionsResolver.resolve(actionsUnresolved, this);
 		subpatterns = subpatternsResolver.resolve(subpatternsUnresolved, this);
+		sequences   = sequencesResolver.resolve(sequencesUnresolved, this);
 
-		return actions != null && subpatterns != null;
+		return actions != null && subpatterns != null && sequences != null;
 	}
 
 	/** Check the collect nodes containing the model declarations, subpattern declarations, action declarations
@@ -147,6 +160,11 @@ public class UnitNode extends BaseNode {
 		for(TestDeclNode n : actions.getChildren()) {
 			Rule rule = n.getAction();
 			res.addActionRule(rule);
+		}
+
+		for(SequenceDeclNode n : sequences.getChildren()) {
+			Sequence sequence = n.getSequence();
+			res.addSequence(sequence);
 		}
 
 		return res;

@@ -35,6 +35,7 @@ import de.unika.ipd.grgen.ir.Emit;
 import de.unika.ipd.grgen.ir.Entity;
 import de.unika.ipd.grgen.ir.EnumExpression;
 import de.unika.ipd.grgen.ir.Exec;
+import de.unika.ipd.grgen.ir.ExecVariable;
 import de.unika.ipd.grgen.ir.Expression;
 import de.unika.ipd.grgen.ir.EvalStatement;
 import de.unika.ipd.grgen.ir.ExternalFunctionInvocationExpr;
@@ -54,6 +55,7 @@ import de.unika.ipd.grgen.ir.MapType;
 import de.unika.ipd.grgen.ir.MaxExpr;
 import de.unika.ipd.grgen.ir.MinExpr;
 import de.unika.ipd.grgen.ir.PowExpr;
+import de.unika.ipd.grgen.ir.Sequence;
 import de.unika.ipd.grgen.ir.SetInit;
 import de.unika.ipd.grgen.ir.SetItem;
 import de.unika.ipd.grgen.ir.SetSizeExpr;
@@ -125,6 +127,8 @@ public class ActionsGen extends CSharpBase {
 				+ "namespace de.unika.ipd.grGen.Action_" + be.unit.getUnitName() + "\n"
 				+ "{\n");
 
+		/////////////////////////////////////////////////////////
+		
 		for(Rule subpatternRule : be.unit.getSubpatternRules()) {
 			genSubpattern(sb, subpatternRule);
 		}
@@ -133,6 +137,12 @@ public class ActionsGen extends CSharpBase {
 			genAction(sb, actionRule);
 		}
 
+		for(Sequence sequence : be.unit.getSequences()) {
+			genSequence(sb, sequence);
+		}
+		
+		/////////////////////////////////////////////////////////
+		
 		sb.append("\tpublic class " + be.unit.getUnitName() + "_RuleAndMatchingPatterns : GRGEN_LGSP.LGSPRuleAndMatchingPatterns\n");
 		sb.append("\t{\n");
 		sb.append("\t\tpublic " + be.unit.getUnitName() + "_RuleAndMatchingPatterns()\n");
@@ -141,6 +151,7 @@ public class ActionsGen extends CSharpBase {
 		sb.append("\t\t\trules = new GRGEN_LGSP.LGSPRulePattern["+be.unit.getActionRules().size()+"];\n");
 		sb.append("\t\t\trulesAndSubpatterns = new GRGEN_LGSP.LGSPMatchingPattern["+
 				be.unit.getSubpatternRules().size()+"+"+be.unit.getActionRules().size()+"];\n");
+		sb.append("\t\t\tdefinedSequences = new GRGEN_LGSP.LGSPDefinedSequenceInfo["+be.unit.getSequences().size()+"];\n");
 		int i = 0;
 		for(Rule subpatternRule : be.unit.getSubpatternRules()) {
 			sb.append("\t\t\tsubpatterns["+i+"] = Pattern_"+formatIdentifiable(subpatternRule)+".Instance;\n");
@@ -153,6 +164,11 @@ public class ActionsGen extends CSharpBase {
 			sb.append("\t\t\trulesAndSubpatterns["+i+"+"+j+"] = Rule_"+formatIdentifiable(actionRule)+".Instance;\n");
 			++j;
 		}
+		i = 0;
+		for(Sequence sequence : be.unit.getSequences()) {
+			sb.append("\t\t\tdefinedSequences["+i+"] = SequenceInfo_"+formatIdentifiable(sequence)+".Instance;\n");
+			++i;
+		}
 		sb.append("\t\t}\n");
 		sb.append("\t\tpublic override GRGEN_LGSP.LGSPRulePattern[] Rules { get { return rules; } }\n");
 		sb.append("\t\tprivate GRGEN_LGSP.LGSPRulePattern[] rules;\n");
@@ -160,6 +176,8 @@ public class ActionsGen extends CSharpBase {
 		sb.append("\t\tprivate GRGEN_LGSP.LGSPMatchingPattern[] subpatterns;\n");
 		sb.append("\t\tpublic override GRGEN_LGSP.LGSPMatchingPattern[] RulesAndSubpatterns { get { return rulesAndSubpatterns; } }\n");
 		sb.append("\t\tprivate GRGEN_LGSP.LGSPMatchingPattern[] rulesAndSubpatterns;\n");
+		sb.append("\t\tpublic override GRGEN_LGSP.LGSPDefinedSequenceInfo[] DefinedSequences { get { return definedSequences; } }\n");
+		sb.append("\t\tprivate GRGEN_LGSP.LGSPDefinedSequenceInfo[] definedSequences;\n");
 		sb.append("\t}\n");
 		sb.append("\n");
 
@@ -170,7 +188,7 @@ public class ActionsGen extends CSharpBase {
 	}
 
 	/**
-	 * Generates the subpattern actions sourcecode for the given subpattern-matching-action
+	 * Generates the subpattern action representation sourcecode for the given subpattern-matching-action
 	 */
 	private void genSubpattern(StringBuffer sb, Rule subpatternRule) {
 		String actionName = formatIdentifiable(subpatternRule);
@@ -205,7 +223,7 @@ public class ActionsGen extends CSharpBase {
 	}
 
 	/**
-	 * Generates the actions sourcecode for the given matching-action
+	 * Generates the action representation sourcecode for the given matching-action
 	 */
 	private void genAction(StringBuffer sb, Rule actionRule) {
 		String actionName = formatIdentifiable(actionRule);
@@ -234,6 +252,52 @@ public class ActionsGen extends CSharpBase {
 		genStaticConstructor(sb, className, staticInitializers);
 
 		genMatch(sb, actionRule.getPattern(), className);
+
+		sb.append("\t}\n");
+		sb.append("\n");
+	}
+
+	/**
+	 * Generates the sequence representation sourcecode for the given sequence
+	 */
+	private void genSequence(StringBuffer sb, Sequence sequence) {
+		String sequenceName = formatIdentifiable(sequence);
+		String className = "SequenceInfo_"+sequenceName;
+
+		sb.append("\tpublic class " + className + " : GRGEN_LGSP.LGSPDefinedSequenceInfo\n");
+		sb.append("\t{\n");
+		sb.append("\t\tprivate static " + className + " instance = null;\n");
+		sb.append("\t\tpublic static " + className + " Instance { get { if (instance==null) { "
+				+ "instance = new " + className + "(); } return instance; } }\n");
+		sb.append("\n");
+
+		sb.append("\t\tprivate " + className + "()\n");
+		sb.append("\t\t\t\t\t: base(\n");
+		sb.append("\t\t\t\t\t\tnew String[] { ");
+		for(ExecVariable inParam : sequence.getInParameters()) {
+			sb.append("\"" + inParam.getIdent() + "\", ");
+		}
+		sb.append(" },\n");
+		sb.append("\t\t\t\t\t\tnew GRGEN_LIBGR.GrGenType[] { ");
+		for(ExecVariable inParam : sequence.getInParameters()) {
+			sb.append(formatTypeClassRef(inParam.getType()) + ".typeVar, ");
+		}
+		sb.append(" },\n");
+		sb.append("\t\t\t\t\t\tnew String[] { ");
+		for(ExecVariable inParam : sequence.getOutParameters()) {
+			sb.append("\"" + inParam.getIdent() + "\", ");
+		}
+		sb.append(" },\n");
+		sb.append("\t\t\t\t\t\tnew GRGEN_LIBGR.GrGenType[] { ");
+		for(ExecVariable inParam : sequence.getOutParameters()) {
+			sb.append(formatTypeClassRef(inParam.getType()) + ".typeVar, ");
+		}
+		sb.append(" },\n");
+		sb.append("\t\t\t\t\t\t\"" + sequenceName + "\",\n");
+		sb.append("\t\t\t\t\t\t\"" + sequence.getExec().getXGRSString().replace("\\", "\\\\").replace("\"", "\\\"") + "\"\n");
+		sb.append("\t\t\t\t\t  )\n");
+		sb.append("\t\t{\n");
+		sb.append("\t\t}\n");
 
 		sb.append("\t}\n");
 		sb.append("\n");

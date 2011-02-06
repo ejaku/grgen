@@ -1,0 +1,54 @@
+using exec_model_002;
+
+sequence chain(first:A):(last:A)
+{
+	if{(next:A)=chainPiece(first); (last)=chain(next); last=first}
+} 
+
+rule init : (A)
+{
+	modify {
+		start:A --> :A --> :A --> :A --> :AB;
+		return(start);
+	}
+}
+
+test testInit
+{
+	:A --> :A --> :A --> :A --> :AB;
+}
+
+test testInitPlusReverse
+{
+	a0:A --> a1:A --> a2:A --> a3:A --> a4:AB;
+	a0 <-:eee- a1 <-:eee- a2 <-:eee- a3 <-:eee- a4;
+}
+
+rule chainPiece(n:A) : (A)
+{
+	n -:Edge\eee-> succ:A;
+	
+	modify {
+		n <-:eee- succ;
+		return(succ);
+	}
+}
+
+rule addReflexive(n:Node)
+{
+	modify {
+		n --> n;
+	}
+}
+
+test testReflexive
+{
+	n:AB --> n; 
+}
+
+rule topLevel(start:A)
+{
+	modify {
+		exec((last)=chain(start) && testInit && testInitPlusReverse && addReflexive(last) && testReflexive);
+	}
+}

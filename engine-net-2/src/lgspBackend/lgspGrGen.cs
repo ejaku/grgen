@@ -770,6 +770,24 @@ namespace de.unika.ipd.grGen.lgsp
                         outputTypes.Add(TypesHelper.DotNetTypeToXgrsType(outputType));
                     }
                 }
+                foreach(LGSPDefinedSequenceInfo sequence in ruleAndMatchingPatterns.DefinedSequences)
+                {
+                    List<String> inputTypes = new List<String>();
+                    sequencesToInputTypes.Add(sequence.Name, inputTypes);
+                    foreach(GrGenType inputType in sequence.ParameterTypes)
+                    {
+                        inputTypes.Add(TypesHelper.DotNetTypeToXgrsType(inputType));
+                    }
+                    List<String> outputTypes = new List<String>();
+                    sequencesToOutputTypes.Add(sequence.Name, outputTypes);
+                    foreach(GrGenType outputType in sequence.OutParameterTypes)
+                    {
+                        outputTypes.Add(TypesHelper.DotNetTypeToXgrsType(outputType));
+                    }
+                }
+                LGSPSequenceGenerator seqGen = new LGSPSequenceGenerator(this, model,
+                    rulesToInputTypes, rulesToOutputTypes,
+                    sequencesToInputTypes, sequencesToOutputTypes);
 
                 ///////////////////////////////////////////////
                 // take action intermediate file until action insertion point as base for action file 
@@ -793,9 +811,6 @@ namespace de.unika.ipd.grGen.lgsp
                         }
                         else if(line.Length > 0 && line[0] == '#' && line.Contains("// GrGen imperative statement section"))
                         {
-                            LGSPSequenceGenerator seqGen = new LGSPSequenceGenerator(this, model, 
-                                rulesToInputTypes, rulesToOutputTypes,
-                                sequencesToInputTypes, sequencesToOutputTypes);
                             int lastSpace = line.LastIndexOf(' ');
                             String ruleName = line.Substring(lastSpace + 1);
                             Type ruleType = actionTypes[ruleName];
@@ -851,6 +866,8 @@ namespace de.unika.ipd.grGen.lgsp
                 if(lastDot == -1) unitName = "";
                 else unitName = actionsNamespace.Substring(lastDot + 8);  // skip ".Action_"
 
+                // the actions class referencing the generated stuff is generated now into 
+                // a different source builder which is appended at the end of the other generated stuff
                 SourceBuilder endSource = new SourceBuilder("\n");
                 endSource.Indent();
                 if ((flags & ProcessSpecFlags.KeepGeneratedFiles) != 0)
@@ -913,6 +930,16 @@ namespace de.unika.ipd.grGen.lgsp
                 }
                 endSource.AppendFront("analyzer.ComputeInterPatternRelations();\n");
 
+                foreach(LGSPDefinedSequenceInfo sequence in ruleAndMatchingPatterns.DefinedSequences)
+                {
+                    seqGen.GenerateDefinedSequences(source, sequence);
+
+                    endSource.AppendFrontFormat("RegisterGraphRewriteSequenceDefinition("
+                            + "Sequence_{0}.Instance);\n", sequence.Name);
+
+                    endSource.AppendFrontFormat("@{0} = Sequence_{0}.Instance;\n", sequence.Name);
+                }
+
                 endSource.Unindent();
                 endSource.AppendFront("}\n");
                 endSource.AppendFront("\n");
@@ -923,6 +950,12 @@ namespace de.unika.ipd.grGen.lgsp
                     {
                         endSource.AppendFrontFormat("public IAction_{0} @{0};\n", matchingPattern.name);
                     }
+                }
+                endSource.AppendFront("\n");
+                
+                foreach(LGSPDefinedSequenceInfo sequence in ruleAndMatchingPatterns.DefinedSequences)
+                {
+                    endSource.AppendFrontFormat("public Sequence_{0} @{0};\n", sequence.Name);
                 }
                 endSource.AppendFront("\n");
 

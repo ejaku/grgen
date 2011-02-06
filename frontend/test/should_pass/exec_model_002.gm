@@ -1,0 +1,6 @@
+node class Center;
+node class A;
+node class B;
+node class AB extends A,B;
+
+edge class eee;

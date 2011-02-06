@@ -22,10 +22,24 @@ namespace de.unika.ipd.grGen.lgsp
         // the rule names available in the .grg to compile
         String[] ruleNames;
 
+        // the sequence names available in the .grg to compile
+        String[] sequenceNames;
+
         // maps rule names available in the .grg to compile to the list of the input typ names
         Dictionary<String, List<String>> rulesToInputTypes;
         // maps rule names available in the .grg to compile to the list of the output typ names
         Dictionary<String, List<String>> rulesToOutputTypes;
+
+        // maps sequence names available in the .grg to compile to the list of the input typ names
+        Dictionary<String, List<String>> sequencesToInputTypes;
+        // maps sequence names available in the .grg to compile to the list of the output typ names
+        Dictionary<String, List<String>> sequencesToOutputTypes;
+
+        // returns rule or sequence name to input types dictionary depending on argument
+        Dictionary<String, List<String>> toInputTypes(bool rule) { return rule ? rulesToInputTypes : sequencesToInputTypes; }
+
+        // returns rule or sequence name to output types dictionary depending on argument
+        Dictionary<String, List<String>> toOutputTypes(bool rule) { return rule ? rulesToOutputTypes : sequencesToOutputTypes; } 
 
         // the model object of the .grg to compile
         IGraphModel model;
@@ -34,12 +48,17 @@ namespace de.unika.ipd.grGen.lgsp
         String[] expectedYieldTypes;
 
 
-        public LGSPSequenceChecker(String[] ruleNames, Dictionary<String, List<String>> rulesToInputTypes, 
-            Dictionary<String, List<String>> rulesToOutputTypes, IGraphModel model, GrGenType[] expectedYieldTypes)
+        public LGSPSequenceChecker(String[] ruleNames, String[] sequenceNames, 
+            Dictionary<String, List<String>> rulesToInputTypes, Dictionary<String, List<String>> rulesToOutputTypes,
+            Dictionary<String, List<String>> sequencesToInputTypes, Dictionary<String, List<String>> sequencesToOutputTypes,
+            IGraphModel model, GrGenType[] expectedYieldTypes)
         {
             this.ruleNames = ruleNames;
+            this.sequenceNames = sequenceNames;
             this.rulesToInputTypes = rulesToInputTypes;
             this.rulesToOutputTypes = rulesToOutputTypes;
+            this.sequencesToInputTypes = sequencesToInputTypes;
+            this.sequencesToOutputTypes = sequencesToOutputTypes;
             this.model = model;
             this.expectedYieldTypes = new String[expectedYieldTypes.Length];
             for(int i=0; i<expectedYieldTypes.Length; ++i)
@@ -116,36 +135,46 @@ namespace de.unika.ipd.grGen.lgsp
 
             case SequenceType.RuleAllCall:
             case SequenceType.RuleCall:
+            case SequenceType.SequenceCall:
             {
-                SequenceRuleCall ruleSeq = (SequenceRuleCall)seq;
-                RuleInvocationParameterBindings paramBindings = ruleSeq.ParamBindings;
+                SequenceRuleCall ruleSeq = seq as SequenceRuleCall;
+                SequenceSequenceCall seqSeq = seq as SequenceSequenceCall;
+                InvocationParameterBindings paramBindings = ruleSeq!=null ? (InvocationParameterBindings)ruleSeq.ParamBindings : (InvocationParameterBindings)seqSeq.ParamBindings;
 
                 // processing of a compiled xgrs without BaseActions but array of rule names,
                 // check the rule name against the available rule names
-                if(Array.IndexOf(ruleNames, paramBindings.RuleName) == -1)
-                    throw new SequenceParserException(paramBindings, SequenceParserError.UnknownRule);
+                if(Array.IndexOf(ruleNames, paramBindings.Name) == -1
+                    && Array.IndexOf(sequenceNames, paramBindings.Name) == -1)
+                    throw new SequenceParserException(paramBindings, SequenceParserError.UnknownRuleOrSequence);
 
                 // Check whether number of parameters and return parameters match
-                if(rulesToInputTypes[paramBindings.RuleName].Count != paramBindings.ParamVars.Length
-                        || paramBindings.ReturnVars.Length != 0 && rulesToOutputTypes[paramBindings.RuleName].Count != paramBindings.ReturnVars.Length)
+                if(toInputTypes(ruleSeq!=null)[paramBindings.Name].Count != paramBindings.ParamVars.Length
+                        || paramBindings.ReturnVars.Length != 0 && toOutputTypes(ruleSeq!=null)[paramBindings.Name].Count != paramBindings.ReturnVars.Length)
                     throw new SequenceParserException(paramBindings, SequenceParserError.BadNumberOfParametersOrReturnParameters);
 
                 // Check parameter types
                 for(int i = 0; i < paramBindings.ParamVars.Length; i++)
                 {
-                    if(paramBindings.ParamVars[i] != null 
-                        && !TypesHelper.IsSameOrSubtype(paramBindings.ParamVars[i].Type, rulesToInputTypes[paramBindings.RuleName][i], model))
+                    if(paramBindings.ParamVars[i] != null
+                        && !TypesHelper.IsSameOrSubtype(paramBindings.ParamVars[i].Type, toInputTypes(ruleSeq!=null)[paramBindings.Name][i], model))
                         throw new SequenceParserException(paramBindings, SequenceParserError.BadParameter, i);
                 }
 
                 // Check return types
                 for(int i = 0; i < paramBindings.ReturnVars.Length; ++i)
                 {
-                    if(!TypesHelper.IsSameOrSubtype(rulesToOutputTypes[paramBindings.RuleName][i], paramBindings.ReturnVars[i].Type, model))
+                    if(!TypesHelper.IsSameOrSubtype(toOutputTypes(ruleSeq!=null)[paramBindings.Name][i], paramBindings.ReturnVars[i].Type, model))
                         throw new SequenceParserException(paramBindings, SequenceParserError.BadReturnParameter, i);
                 }
 
                 // ok, this is a well-formed rule invocation
+                break;
+            }
+
+            // case SequenceType.SequenceDefinition: not supported in compiled sequence
+            case SequenceType.SequenceDefinitionCompiled:
+            {
+                // todo: something to check?
                 break;
             }
 

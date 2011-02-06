@@ -540,7 +540,7 @@ SequenceDefinition defXGRS():
 	name=Word() ( "(" VariableDefinitionList(inputVariables) ")" )? ( ":" "(" VariableDefinitionList(outputVariables) ")" )? 
 		"{" seq=RewriteSequence() "}" <EOF>
 	{
-		return new SequenceDefinition(name, inputVariables.ToArray(), outputVariables.ToArray(), seq);
+		return new SequenceDefinitionInterpreted(name, inputVariables.ToArray(), outputVariables.ToArray(), seq);
 	}
 }
 
@@ -1062,7 +1062,7 @@ RuleInvocationParameterBindings CreateRuleInvocationParameterBindings(String rul
 			paramVars.ToArray(), paramConsts.ToArray(), returnVars.ToArray());
 
 	if(action == null)
-		paramBindings.RuleName = ruleName;
+		paramBindings.Name = ruleName;
 
 	return paramBindings;
 }
@@ -1080,7 +1080,7 @@ SequenceInvocationParameterBindings CreateSequenceInvocationParameterBindings(St
 			paramVars.ToArray(), paramConsts.ToArray(), returnVars.ToArray());
 
 	if(sequenceDef == null)
-		paramBindings.SequenceName = sequenceName;
+		paramBindings.Name = sequenceName;
 
 	return paramBindings;
 }

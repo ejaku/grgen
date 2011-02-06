@@ -77,6 +77,46 @@ namespace de.unika.ipd.grGen.lgsp
     }
 
     /// <summary>
+    /// Represents a sequence definition.
+    /// </summary>
+    public class LGSPDefinedSequenceInfo : LGSPEmbeddedSequenceInfo
+    {
+        /// <summary>
+        /// Constructs an LGSPEmbeddedSequenceInfo object.
+        /// </summary>
+        /// <param name="parameters">The names of the needed graph elements of the containing action.</param>
+        /// <param name="parameterTypes">The types of the needed graph elements of the containing action.</param>
+        /// <param name="outParameters">The names of the needed graph elements returned to the containing action.</param>
+        /// <param name="outParameterTypes">The types of the graph elements returned to the containing action.</param>
+        /// <param name="name">The name the sequence was defined with.</param>
+        /// <param name="xgrs">The XGRS string.</param>
+        public LGSPDefinedSequenceInfo(String[] parameters, GrGenType[] parameterTypes,
+            String[] outParameters, GrGenType[] outParameterTypes, 
+            String name, String xgrs)
+            : base(parameters, parameterTypes, outParameterTypes, xgrs)
+        {
+            OutParameters = outParameters;
+            Name = name;
+        }
+
+        public object[] Apply(IGraph graph, params object[] parameters)
+        {
+            // unclear whether to use this or generate some apply method
+            return null;
+        }
+
+        /// <summary>
+        /// The name the sequence was defined with
+        /// </summary>
+        public string Name;
+
+        /// <summary>
+        /// The names of the graph elements returned to the containing action.
+        /// </summary>
+        public String[] OutParameters;
+    }
+
+    /// <summary>
     /// The C#-part responsible for compiling the XGRSs of the exec statements.
     /// </summary>
     public class LGSPSequenceGenerator
@@ -291,7 +331,7 @@ namespace de.unika.ipd.grGen.lgsp
 				case SequenceType.RuleAllCall:
 				{
 					SequenceRuleCall seqRule = (SequenceRuleCall) seq;
-					String ruleName = seqRule.ParamBindings.RuleName;
+					String ruleName = seqRule.ParamBindings.Name;
 					if(!knownRules.ContainsKey(ruleName))
 					{
                         knownRules.Add(ruleName, null);
@@ -370,18 +410,18 @@ namespace de.unika.ipd.grGen.lgsp
 			source.AppendFront("}\n");
 		}
 
-        void EmitRuleOrRuleAll(SequenceRuleCall seqRule, SourceBuilder source)
+        void EmitRuleOrRuleAllCall(SequenceRuleCall seqRule, SourceBuilder source)
         {
             RuleInvocationParameterBindings paramBindings = seqRule.ParamBindings;
             String specialStr = seqRule.Special ? "true" : "false";
-            String parameters = BuildParameters(seqRule, paramBindings);
-            String matchingPatternClassName = "Rule_" + paramBindings.RuleName;
-            String patternName = paramBindings.RuleName;
+            String parameters = BuildParameters(paramBindings);
+            String matchingPatternClassName = "Rule_" + paramBindings.Name;
+            String patternName = paramBindings.Name;
             String matchType = matchingPatternClassName + "." + NamesOfEntities.MatchInterfaceName(patternName);
             String matchName = "match_" + seqRule.Id;
             String matchesType = "GRGEN_LIBGR.IMatchesExact<" + matchType + ">";
             String matchesName = "matches_" + seqRule.Id;
-            source.AppendFront(matchesType + " " + matchesName + " = rule_" + paramBindings.RuleName
+            source.AppendFront(matchesType + " " + matchesName + " = rule_" + paramBindings.Name
                 + ".Match(graph, " + (seqRule.SequenceType == SequenceType.RuleCall ? "1" : "graph.MaxMatches")
                 + parameters + ");\n");
             if(gen.FireEvents) source.AppendFront("graph.Matched(" + matchesName + ", " + specialStr + ");\n");
@@ -416,7 +456,7 @@ namespace de.unika.ipd.grGen.lgsp
             {
                 source.AppendFront(matchType + " " + matchName + " = " + matchesName + ".FirstExact;\n");
                 if(returnParameterDeclarations.Length!=0) source.AppendFront(returnParameterDeclarations + "\n");
-                source.AppendFront("rule_" + paramBindings.RuleName + ".Modify(graph, " + matchName + returnArguments + ");\n");
+                source.AppendFront("rule_" + paramBindings.Name + ".Modify(graph, " + matchName + returnArguments + ");\n");
                 if(returnAssignments.Length != 0) source.AppendFront(returnAssignments + "\n");
                 if(gen.UsePerfInfo) source.AppendFront("if(graph.PerformanceInfo != null) graph.PerformanceInfo.RewritesPerformed++;\n");
             }
@@ -431,7 +471,7 @@ namespace de.unika.ipd.grGen.lgsp
                 source.AppendFront(matchType + " " + matchName + " = " + enumeratorName + ".Current;\n");
                 source.AppendFront("if(" + matchName + "!=" + matchesName + ".FirstExact) graph.RewritingNextMatch();\n");
                 if (returnParameterDeclarations.Length != 0) source.AppendFront(returnParameterDeclarations + "\n");
-                source.AppendFront("rule_" + paramBindings.RuleName + ".Modify(graph, " + matchName + returnArguments + ");\n");
+                source.AppendFront("rule_" + paramBindings.Name + ".Modify(graph, " + matchName + returnArguments + ");\n");
                 if(returnAssignments.Length != 0) source.AppendFront(returnAssignments + "\n");
                 if(gen.UsePerfInfo) source.AppendFront("if(graph.PerformanceInfo!=null) graph.PerformanceInfo.RewritesPerformed++;\n");
                 source.Unindent();
@@ -449,7 +489,7 @@ namespace de.unika.ipd.grGen.lgsp
                 source.AppendFront("if(i != 0) graph.RewritingNextMatch();\n");
                 source.AppendFront(matchType + " " + matchName + " = " + matchesName + ".RemoveMatchExact(GRGEN_LIBGR.Sequence.randomGenerator.Next(" + matchesName + ".Count));\n");
                 if(returnParameterDeclarations.Length != 0) source.AppendFront(returnParameterDeclarations + "\n");
-                source.AppendFront("rule_" + paramBindings.RuleName + ".Modify(graph, " + matchName + returnArguments + ");\n");
+                source.AppendFront("rule_" + paramBindings.Name + ".Modify(graph, " + matchName + returnArguments + ");\n");
                 if(returnAssignments.Length != 0) source.AppendFront(returnAssignments + "\n");
                 if(gen.UsePerfInfo) source.AppendFront("if(graph.PerformanceInfo!=null) graph.PerformanceInfo.RewritesPerformed++;\n");
                 source.Unindent();
@@ -462,13 +502,43 @@ namespace de.unika.ipd.grGen.lgsp
             source.AppendFront("}\n");
         }
 
+        void EmitSequenceCall(SequenceSequenceCall seqSeq, SourceBuilder source)
+        {
+            SequenceInvocationParameterBindings paramBindings = seqSeq.ParamBindings;
+            String parameters = BuildParameters(paramBindings);
+            String outParameterDeclarations;
+            String outArguments;
+            String outAssignments;
+            BuildOutParameters(paramBindings, out outParameterDeclarations, out outArguments, out outAssignments);
+
+            if(outParameterDeclarations.Length != 0)
+                source.AppendFront(outParameterDeclarations + "\n");
+            source.AppendFront("if(Sequence_"+paramBindings.Name+".ApplyXGRS_" + paramBindings.Name
+                                + "(graph" + parameters + outArguments + ")) {\n");
+            source.Indent();
+            if(paramBindings.ReturnVars != null)
+                if(outAssignments.Length != 0)
+                    source.AppendFront(outAssignments + "\n");
+            source.AppendFront(SetResultVar(seqSeq, "true"));
+            source.Unindent();
+            source.AppendFront("} else {\n");
+            source.Indent();
+            source.AppendFront(SetResultVar(seqSeq, "false"));
+            source.Unindent();
+            source.AppendFront("}\n");
+        }
+
 		void EmitSequence(Sequence seq, SourceBuilder source)
 		{
 			switch(seq.SequenceType)
 			{
 				case SequenceType.RuleCall:
                 case SequenceType.RuleAllCall:
-                    EmitRuleOrRuleAll((SequenceRuleCall)seq, source);
+                    EmitRuleOrRuleAllCall((SequenceRuleCall)seq, source);
+                    break;
+
+                case SequenceType.SequenceCall:
+                    EmitSequenceCall((SequenceSequenceCall)seq, source);
                     break;
 
 				case SequenceType.VarPredicate:
@@ -1113,14 +1183,14 @@ namespace de.unika.ipd.grGen.lgsp
         {
             RuleInvocationParameterBindings paramBindings = seq.Rule.ParamBindings;
             String specialStr = seq.Rule.Special ? "true" : "false";
-            String parameters = BuildParameters(seq.Rule, paramBindings);
-            String matchingPatternClassName = "Rule_" + paramBindings.RuleName;
-            String patternName = paramBindings.RuleName;
+            String parameters = BuildParameters(paramBindings);
+            String matchingPatternClassName = "Rule_" + paramBindings.Name;
+            String patternName = paramBindings.Name;
             String matchType = matchingPatternClassName + "." + NamesOfEntities.MatchInterfaceName(patternName);
             String matchName = "match_" + seq.Id;
             String matchesType = "GRGEN_LIBGR.IMatchesExact<" + matchType + ">";
             String matchesName = "matches_" + seq.Id;
-            source.AppendFront(matchesType + " " + matchesName + " = rule_" + paramBindings.RuleName
+            source.AppendFront(matchesType + " " + matchesName + " = rule_" + paramBindings.Name
                 + ".Match(graph, graph.MaxMatches" + parameters + ");\n");
             
             source.AppendFront("if(" + matchesName + ".Count==0) {\n");
@@ -1158,7 +1228,7 @@ namespace de.unika.ipd.grGen.lgsp
             if(gen.FireEvents) source.AppendFront("graph.Matched(" + matchesName + ", " + specialStr + ");\n");
             if(returnParameterDeclarations.Length!=0) source.AppendFront(returnParameterDeclarations + "\n");
 
-            source.AppendFront("rule_" + paramBindings.RuleName + ".Modify(graph, " + matchName + returnArguments + ");\n");
+            source.AppendFront("rule_" + paramBindings.Name + ".Modify(graph, " + matchName + returnArguments + ");\n");
             if(returnAssignments.Length != 0) source.AppendFront(returnAssignments + "\n");
             if(gen.UsePerfInfo) source.AppendFront("if(graph.PerformanceInfo!=null) graph.PerformanceInfo.RewritesPerformed++;\n");
             if(gen.FireEvents) source.AppendFront("graph.Finished(" + matchesName + ", " + specialStr + ");\n");
@@ -1241,13 +1311,13 @@ namespace de.unika.ipd.grGen.lgsp
                 SequenceRuleCall seqRule = (SequenceRuleCall)seqSome.Sequences[i];
                 RuleInvocationParameterBindings paramBindings = seqRule.ParamBindings;
                 String specialStr = seqRule.Special ? "true" : "false";
-                String parameters = BuildParameters(seqRule, paramBindings);
-                String matchingPatternClassName = "Rule_" + paramBindings.RuleName;
-                String patternName = paramBindings.RuleName;
+                String parameters = BuildParameters(paramBindings);
+                String matchingPatternClassName = "Rule_" + paramBindings.Name;
+                String patternName = paramBindings.Name;
                 String matchType = matchingPatternClassName + "." + NamesOfEntities.MatchInterfaceName(patternName);
                 String matchesType = "GRGEN_LIBGR.IMatchesExact<" + matchType + ">";
                 String matchesName = "matches_" + seqRule.Id;
-                source.AppendFront(matchesType + " " + matchesName + " = rule_" + paramBindings.RuleName
+                source.AppendFront(matchesType + " " + matchesName + " = rule_" + paramBindings.Name
                     + ".Match(graph, " + (seqRule.SequenceType == SequenceType.RuleCall ? "1" : "graph.MaxMatches")
                     + parameters + ");\n");
                 if (gen.UsePerfInfo) source.AppendFront("if(graph.PerformanceInfo!=null) graph.PerformanceInfo.MatchesFound += " + matchesName + ".Count;\n");
@@ -1289,8 +1359,8 @@ namespace de.unika.ipd.grGen.lgsp
                 SequenceRuleCall seqRule = (SequenceRuleCall)seqSome.Sequences[i];
                 RuleInvocationParameterBindings paramBindings = seqRule.ParamBindings;
                 String specialStr = seqRule.Special ? "true" : "false";
-                String matchingPatternClassName = "Rule_" + paramBindings.RuleName;
-                String patternName = paramBindings.RuleName;
+                String matchingPatternClassName = "Rule_" + paramBindings.Name;
+                String patternName = paramBindings.Name;
                 String matchType = matchingPatternClassName + "." + NamesOfEntities.MatchInterfaceName(patternName);
                 String matchName = "match_" + seqRule.Id;
                 String matchesType = "GRGEN_LIBGR.IMatchesExact<" + matchType + ">";
@@ -1319,7 +1389,7 @@ namespace de.unika.ipd.grGen.lgsp
                     if (gen.FireEvents) source.AppendFront("graph.Finishing(" + matchesName + ", " + specialStr + ");\n");
                     source.AppendFront("if(!" + firstRewrite + ") graph.RewritingNextMatch();\n");
                     if (returnParameterDeclarations.Length != 0) source.AppendFront(returnParameterDeclarations + "\n");
-                    source.AppendFront("rule_" + paramBindings.RuleName + ".Modify(graph, " + matchName + returnArguments + ");\n");
+                    source.AppendFront("rule_" + paramBindings.Name + ".Modify(graph, " + matchName + returnArguments + ");\n");
                     if (returnAssignments.Length != 0) source.AppendFront(returnAssignments + "\n");
                     if (gen.UsePerfInfo) source.AppendFront("if(graph.PerformanceInfo != null) graph.PerformanceInfo.RewritesPerformed++;\n");
                     source.AppendFront(firstRewrite + " = false;\n");
@@ -1349,7 +1419,7 @@ namespace de.unika.ipd.grGen.lgsp
                     if (gen.FireEvents) source.AppendFront("graph.Finishing(" + matchesName + ", " + specialStr + ");\n");
                     source.AppendFront("if(!" + firstRewrite + ") graph.RewritingNextMatch();\n");
                     if (returnParameterDeclarations.Length != 0) source.AppendFront(returnParameterDeclarations + "\n");
-                    source.AppendFront("rule_" + paramBindings.RuleName + ".Modify(graph, " + matchName + returnArguments + ");\n");
+                    source.AppendFront("rule_" + paramBindings.Name + ".Modify(graph, " + matchName + returnArguments + ");\n");
                     if (returnAssignments.Length != 0) source.AppendFront(returnAssignments + "\n");
                     if (gen.UsePerfInfo) source.AppendFront("if(graph.PerformanceInfo!=null) graph.PerformanceInfo.RewritesPerformed++;\n");
                     source.AppendFront(firstRewrite + " = false;\n");
@@ -1380,7 +1450,7 @@ namespace de.unika.ipd.grGen.lgsp
                         if (gen.FireEvents) source.AppendFront("graph.Finishing(" + matchesName + ", " + specialStr + ");\n");
                         source.AppendFront("if(!" + firstRewrite + ") graph.RewritingNextMatch();\n");
                         if (returnParameterDeclarations.Length != 0) source.AppendFront(returnParameterDeclarations + "\n");
-                        source.AppendFront("rule_" + paramBindings.RuleName + ".Modify(graph, " + matchName + returnArguments + ");\n");
+                        source.AppendFront("rule_" + paramBindings.Name + ".Modify(graph, " + matchName + returnArguments + ");\n");
                         if (returnAssignments.Length != 0) source.AppendFront(returnAssignments + "\n");
                         if (gen.UsePerfInfo) source.AppendFront("if(graph.PerformanceInfo!=null) graph.PerformanceInfo.RewritesPerformed++;\n");
                         source.AppendFront(firstRewrite + " = false;\n");
@@ -1398,7 +1468,7 @@ namespace de.unika.ipd.grGen.lgsp
                         if (gen.FireEvents) source.AppendFront("graph.Finishing(" + matchesName + ", " + specialStr + ");\n");
                         source.AppendFront("if(!" + firstRewrite + ") graph.RewritingNextMatch();\n");
                         if (returnParameterDeclarations.Length != 0) source.AppendFront(returnParameterDeclarations + "\n");
-                        source.AppendFront("rule_" + paramBindings.RuleName + ".Modify(graph, " + matchName + returnArguments + ");\n");
+                        source.AppendFront("rule_" + paramBindings.Name + ".Modify(graph, " + matchName + returnArguments + ");\n");
                         if (returnAssignments.Length != 0) source.AppendFront(returnAssignments + "\n");
                         if (gen.UsePerfInfo) source.AppendFront("if(graph.PerformanceInfo!=null) graph.PerformanceInfo.RewritesPerformed++;\n");
                         source.AppendFront(firstRewrite + " = false;\n");
@@ -1412,14 +1482,19 @@ namespace de.unika.ipd.grGen.lgsp
             }
         }
 
-        private String BuildParameters(SequenceRuleCall seqRule, RuleInvocationParameterBindings paramBindings)
+        private String BuildParameters(InvocationParameterBindings paramBindings)
         {
             String parameters = "";
             for (int j = 0; j < paramBindings.ParamVars.Length; j++)
             {
                 if (paramBindings.ParamVars[j] != null)
                 {
-                    String cast = "(" + TypesHelper.XgrsTypeToCSharpType(rulesToInputTypes[seqRule.ParamBindings.RuleName][j], model) + ")";
+                    String typeName;
+                    if(rulesToInputTypes.ContainsKey(paramBindings.Name))
+                        typeName = rulesToInputTypes[paramBindings.Name][j];
+                    else
+                        typeName = sequencesToInputTypes[paramBindings.Name][j];
+                    String cast = "(" + TypesHelper.XgrsTypeToCSharpType(typeName, model) + ")";
                     parameters += ", " + cast + GetVar(paramBindings.ParamVars[j]);
                 }
                 else
@@ -1441,8 +1516,27 @@ namespace de.unika.ipd.grGen.lgsp
             return parameters;
         }
 
+        private void BuildOutParameters(SequenceInvocationParameterBindings paramBindings, out String outParameterDeclarations, out String outArguments, out String outAssignments)
+        {
+            // TODO: null out entry, use dummy stuff
+            outParameterDeclarations = "";
+            outArguments = "";
+            outAssignments = "";
+            for(int j = 0; j < paramBindings.ReturnVars.Length; j++)
+            {
+                String varName = paramBindings.ReturnVars[j].Prefix + paramBindings.ReturnVars[j].Name;
+                String typeName = sequencesToOutputTypes[paramBindings.Name][j];
+                outParameterDeclarations += TypesHelper.XgrsTypeToCSharpType(typeName, model) + " tmpvar_" + varName 
+                    + " = " + TypesHelper.DefaultValue(typeName, model) + ";";
+                outArguments += ", ref tmpvar_" + varName;
+                outAssignments += SetVar(paramBindings.ReturnVars[j], "tmpvar_" + varName);
+            }
+        }
+
         private void BuildReturnParameters(RuleInvocationParameterBindings paramBindings, out String returnParameterDeclarations, out String returnArguments, out String returnAssignments)
         {
+            // TODO: null return entry, use dummy stuff
+
             // can't use the normal xgrs variables for return value receiving as the type of an out-parameter must be invariant
             // this is bullshit, as it is perfectly safe to assign a subtype to a variable of a supertype
             // so we create temporary variables of exact type, which are used to receive the return values, 
@@ -1454,7 +1548,7 @@ namespace de.unika.ipd.grGen.lgsp
             for (int j = 0; j < paramBindings.ReturnVars.Length; j++)
             {
                 String varName = paramBindings.ReturnVars[j].Prefix + paramBindings.ReturnVars[j].Name;
-                returnParameterDeclarations += TypesHelper.XgrsTypeToCSharpType(rulesToOutputTypes[paramBindings.RuleName][j], model) + " tmpvar_" + varName + "; ";
+                returnParameterDeclarations += TypesHelper.XgrsTypeToCSharpType(rulesToOutputTypes[paramBindings.Name][j], model) + " tmpvar_" + varName + "; ";
                 returnArguments += ", out tmpvar_" + varName;
                 returnAssignments += SetVar(paramBindings.ReturnVars[j], "tmpvar_" + varName);
             }
@@ -1488,7 +1582,8 @@ namespace de.unika.ipd.grGen.lgsp
             try
             {
                 seq = SequenceParser.ParseSequence(xgrsStr, ruleNames, sequenceNames, varDecls, model);
-                LGSPSequenceChecker checker = new LGSPSequenceChecker(ruleNames, rulesToInputTypes, rulesToOutputTypes, model, outParamTypes);
+                LGSPSequenceChecker checker = new LGSPSequenceChecker(ruleNames, sequenceNames, rulesToInputTypes, rulesToOutputTypes,
+                                                    sequencesToInputTypes, sequencesToOutputTypes, model, outParamTypes);
                 checker.Check(seq);
             }
             catch(ParseException ex)
@@ -1501,77 +1596,7 @@ namespace de.unika.ipd.grGen.lgsp
             {
                 Console.Error.WriteLine("The exec statement \"" + xgrsStr
                     + "\" caused the following error:\n");
-                if(ex.RuleName == null && ex.Kind != SequenceParserError.TypeMismatch)
-                {
-                    Console.Error.WriteLine("Unknown rule: \"{0}\"", ex.RuleName);
-                    return false;
-                }
-                switch(ex.Kind)
-                {
-                case SequenceParserError.BadNumberOfParametersOrReturnParameters:
-                    if(rulesToInputTypes[ex.RuleName].Count != ex.NumGivenInputs && rulesToOutputTypes[ex.RuleName].Count != ex.NumGivenOutputs)
-                        Console.Error.WriteLine("Wrong number of parameters and return values for action \"" + ex.RuleName + "\"!");
-                    else if(rulesToInputTypes[ex.RuleName].Count != ex.NumGivenInputs)
-                        Console.Error.WriteLine("Wrong number of parameters for action \"" + ex.RuleName + "\"!");
-                    else if(rulesToOutputTypes[ex.RuleName].Count != ex.NumGivenOutputs)
-                        Console.Error.WriteLine("Wrong number of return values for action \"" + ex.RuleName + "\"!");
-                    else
-                        goto default;
-                    break;
-
-                case SequenceParserError.BadParameter:
-                    Console.Error.WriteLine("The " + (ex.BadParamIndex + 1) + ". parameter is not valid for action \"" + ex.RuleName + "\"!");
-                    break;
-
-                case SequenceParserError.BadReturnParameter:
-                    Console.Error.WriteLine("The " + (ex.BadParamIndex + 1) + ". return parameter is not valid for action \"" + ex.RuleName + "\"!");
-                    break;
-
-                case SequenceParserError.RuleNameUsedByVariable:
-                    Console.Error.WriteLine("The name of the variable conflicts with the name of action \"" + ex.RuleName + "\"!");
-                    return false;
-
-                case SequenceParserError.VariableUsedWithParametersOrReturnParameters:
-                    Console.Error.WriteLine("The variable \"" + ex.RuleName + "\" may neither receive parameters nor return values!");
-                    return false;
-
-                case SequenceParserError.UnknownAttribute:
-                    Console.WriteLine("Unknown attribute \"" + ex.RuleName + "\"!");
-                    return false;
-
-                case SequenceParserError.TypeMismatch:
-                    Console.Error.WriteLine("The construct \"" + ex.VariableOrFunctionName + "\" expects:" + ex.ExpectedType + " but is / is given " + ex.GivenType + "!");
-                    return false;
-
-                default:
-                    throw new ArgumentException("Invalid error kind: " + ex.Kind);
-                }
-
-                Console.Error.Write("Prototype: {0}", ex.RuleName);
-                if(rulesToInputTypes[ex.RuleName].Count != 0)
-                {
-                    Console.Error.Write("(");
-                    bool first = true;
-                    foreach(String typeName in rulesToInputTypes[ex.RuleName])
-                    {
-                        Console.Error.Write("{0}{1}", first ? "" : ", ", typeName);
-                        first = false;
-                    }
-                    Console.Error.Write(")");
-                }
-                if(rulesToOutputTypes[ex.RuleName].Count != 0)
-                {
-                    Console.Error.Write(" : (");
-                    bool first = true;
-                    foreach(String typeName in rulesToOutputTypes[ex.RuleName])
-                    {
-                        Console.Error.Write("{0}{1}", first ? "" : ", ", typeName);
-                        first = false;
-                    }
-                    Console.Error.Write(")");
-                }
-                Console.Error.WriteLine();
-
+                HandleSequenceParserException(ex);
                 return false;
             }
 
@@ -1604,5 +1629,293 @@ namespace de.unika.ipd.grGen.lgsp
 
 			return true;
 		}
+
+        public bool GenerateDefinedSequences(SourceBuilder source, LGSPDefinedSequenceInfo sequence)
+        {
+            Dictionary<String, String> varDecls = new Dictionary<String, String>();
+            for(int i = 0; i < sequence.Parameters.Length; i++)
+            {
+                varDecls.Add(sequence.Parameters[i], TypesHelper.DotNetTypeToXgrsType(sequence.ParameterTypes[i]));
+            }
+            for(int i = 0; i < sequence.OutParameters.Length; i++)
+            {
+                varDecls.Add(sequence.OutParameters[i], TypesHelper.DotNetTypeToXgrsType(sequence.OutParameterTypes[i]));
+            }
+            String[] ruleNames = new String[rulesToInputTypes.Count];
+            int j = 0;
+            foreach(KeyValuePair<String, List<String>> ruleToInputTypes in rulesToInputTypes)
+            {
+                ruleNames[j] = ruleToInputTypes.Key;
+                ++j;
+            }
+            String[] sequenceNames = new String[sequencesToInputTypes.Count];
+            j = 0;
+            foreach(KeyValuePair<String, List<String>> sequenceToInputTypes in sequencesToInputTypes)
+            {
+                sequenceNames[j] = sequenceToInputTypes.Key;
+                ++j;
+            }
+
+            Sequence seq;
+            try
+            {
+                seq = SequenceParser.ParseSequence(sequence.XGRS, ruleNames, sequenceNames, varDecls, model);
+                GrGenType[] yieldTypes = new GrGenType[0];
+                LGSPSequenceChecker checker = new LGSPSequenceChecker(ruleNames, sequenceNames, rulesToInputTypes, rulesToOutputTypes,
+                                                    sequencesToInputTypes, sequencesToOutputTypes, model, yieldTypes);
+                checker.Check(seq);
+            }
+            catch(ParseException ex)
+            {
+                Console.Error.WriteLine("In the defined sequence " + sequence.Name 
+                    + " the exec part \"" + sequence.XGRS
+                    + "\" caused the following error:\n" + ex.Message);
+                return false;
+            }
+            catch(SequenceParserException ex)
+            {
+                Console.Error.WriteLine("In the defined sequence " + sequence.Name 
+                    + " the exec part \"" + sequence.XGRS
+                    + "\" caused the following error:\n");
+                HandleSequenceParserException(ex);
+                return false;
+            }
+
+            // exact sequence definition compiled class
+            source.Append("\n");
+            source.AppendFront("public class Sequence_" + sequence.Name + " : GRGEN_LIBGR.SequenceDefinitionCompiled\n");
+            source.AppendFront("{\n");
+            source.Indent();
+
+            GenerateSequenceDefinedSingleton(source, sequence);
+
+            source.Append("\n");
+            GenerateInternalDefinedSequenceApplicationMethod(source, sequence, seq);
+
+            source.Append("\n");
+            GenerateExactExternalDefinedSequenceApplicationMethod(source, sequence);
+
+            source.Append("\n");
+            GenerateGenericExternalDefinedSequenceApplicationMethod(source, sequence);
+
+            // end of exact sequence definition compiled class
+            source.Unindent();
+            source.AppendFront("}\n");
+
+            return true;
+        }
+
+        private void GenerateSequenceDefinedSingleton(SourceBuilder source, LGSPDefinedSequenceInfo sequence)
+        {
+            String className = "Sequence_" + sequence.Name;
+            source.AppendFront("private static "+className+" instance = null;\n");
+
+            source.AppendFront("public static "+className+" Instance { get { if(instance==null) instance = new "+className+"(); return instance; } }\n");
+
+            source.AppendFront("private "+className+"() : base(\""+sequence.Name+"\") { }\n");
+        }
+
+        private void GenerateInternalDefinedSequenceApplicationMethod(SourceBuilder source, LGSPDefinedSequenceInfo sequence, Sequence seq)
+        {
+            source.AppendFront("public static bool ApplyXGRS_" + sequence.Name + "(GRGEN_LGSP.LGSPGraph graph");
+            for(int i = 0; i < sequence.Parameters.Length; ++i)
+            {
+                source.Append(", " + TypesHelper.XgrsTypeToCSharpType(TypesHelper.DotNetTypeToXgrsType(sequence.ParameterTypes[i]), model) + " var_");
+                source.Append(sequence.Parameters[i]);
+            }
+            for(int i = 0; i < sequence.OutParameters.Length; ++i)
+            {
+                source.Append(", ref " + TypesHelper.XgrsTypeToCSharpType(TypesHelper.DotNetTypeToXgrsType(sequence.OutParameterTypes[i]), model) + " var_");
+                source.Append(sequence.OutParameters[i]);
+            }
+            source.Append(")\n");
+            source.AppendFront("{\n");
+            source.Indent();
+
+            source.AppendFront("GRGEN_LGSP.LGSPActions actions = graph.curActions;\n");
+
+            knownRules.Clear();
+
+            EmitNeededVarAndRuleEntities(seq, source);
+
+            EmitSequence(seq, source);
+
+            source.AppendFront("return " + GetResultVar(seq) + ";\n");
+            source.Unindent();
+            source.AppendFront("}\n");
+        }
+
+        private void GenerateExactExternalDefinedSequenceApplicationMethod(SourceBuilder source, LGSPDefinedSequenceInfo sequence)
+        {
+            source.AppendFront("public static bool Apply_" + sequence.Name + "(GRGEN_LIBGR.IGraph graph");
+            for(int i = 0; i < sequence.Parameters.Length; ++i)
+            {
+                source.Append(", " + TypesHelper.XgrsTypeToCSharpType(TypesHelper.DotNetTypeToXgrsType(sequence.ParameterTypes[i]), model) + " var_");
+                source.Append(sequence.Parameters[i]);
+            }
+            for(int i = 0; i < sequence.OutParameters.Length; ++i)
+            {
+                source.Append(", ref " + TypesHelper.XgrsTypeToCSharpType(TypesHelper.DotNetTypeToXgrsType(sequence.OutParameterTypes[i]), model) + " var_");
+                source.Append(sequence.OutParameters[i]);
+            }
+            source.Append(")\n");
+            source.AppendFront("{\n");
+            source.Indent();
+
+            for(int i = 0; i < sequence.OutParameters.Length; ++i)
+            {
+                string typeName = TypesHelper.XgrsTypeToCSharpType(TypesHelper.DotNetTypeToXgrsType(sequence.OutParameterTypes[i]), model);
+                source.AppendFront(typeName + " vari_" + sequence.OutParameters[i]);
+                source.Append(" = " + TypesHelper.DefaultValue(typeName, model) + ";\n");
+            }
+            source.AppendFront("bool result = ApplyXGRS_" + sequence.Name + "((GRGEN_LGSP.LGSPGraph)graph");
+            for(int i = 0; i < sequence.Parameters.Length; ++i)
+            {
+                source.Append(", var_" + sequence.Parameters[i]);
+            }
+            for(int i = 0; i < sequence.OutParameters.Length; ++i)
+            {
+                source.Append(", ref var_" + sequence.OutParameters[i]);
+            }
+            source.Append(");\n");
+            if(sequence.OutParameters.Length > 0)
+            {
+                source.AppendFront("if(result) {\n");
+                source.Indent();
+                for(int i = 0; i < sequence.OutParameters.Length; ++i)
+                {
+                    source.AppendFront("var_" + sequence.OutParameters[i]);
+                    source.Append(" = vari_" + sequence.OutParameters[i] + ";\n");
+                }
+                source.Unindent();
+                source.AppendFront("}\n");
+            }
+
+            source.AppendFront("return result;\n");
+            source.Unindent();
+            source.AppendFront("}\n");
+        }
+
+        private void GenerateGenericExternalDefinedSequenceApplicationMethod(SourceBuilder source, LGSPDefinedSequenceInfo sequence)
+        {
+            source.AppendFront("public override bool Apply(GRGEN_LIBGR.SequenceInvocationParameterBindings sequenceInvocation, GRGEN_LIBGR.IGraph graph, GRGEN_LIBGR.SequenceExecutionEnvironment env)");
+            source.AppendFront("{\n");
+            source.Indent();
+
+            for(int i = 0; i < sequence.Parameters.Length; ++i)
+            {
+                string typeName = TypesHelper.XgrsTypeToCSharpType(TypesHelper.DotNetTypeToXgrsType(sequence.ParameterTypes[i]), model);
+                source.AppendFront(typeName + " var_" + sequence.Parameters[i]);
+                source.Append(" = (" + typeName + ")sequenceInvocation.ParamVars[" + i + "].GetVariableValue(graph);\n");
+            }
+            for(int i = 0; i < sequence.OutParameters.Length; ++i)
+            {
+                string typeName = TypesHelper.XgrsTypeToCSharpType(TypesHelper.DotNetTypeToXgrsType(sequence.OutParameterTypes[i]), model);
+                source.AppendFront(typeName + " var_" + sequence.OutParameters[i]);
+                source.Append(" = " + TypesHelper.DefaultValue(typeName, model) + ";\n");
+            }
+
+            source.AppendFront("bool result = ApplyXGRS_" + sequence.Name + "((GRGEN_LGSP.LGSPGraph)graph");
+            for(int i = 0; i < sequence.Parameters.Length; ++i)
+            {
+                source.Append(", var_" + sequence.Parameters[i]);
+            }
+            for(int i = 0; i < sequence.OutParameters.Length; ++i)
+            {
+                source.Append(", ref var_" + sequence.OutParameters[i]);
+            }
+            source.Append(");\n");
+            if(sequence.OutParameters.Length > 0)
+            {
+                source.AppendFront("if(result) {\n");
+                source.Indent();
+                for(int i = 0; i < sequence.OutParameters.Length; ++i)
+                {
+                    source.AppendFront("sequenceInvocation.ReturnVars[" + i + "].SetVariableValue(var_" + sequence.OutParameters[i] + ", graph);\n");
+                }
+                source.Unindent();
+                source.AppendFront("}\n");
+            }
+
+            source.AppendFront("return result;\n");
+            source.Unindent();
+            source.AppendFront("}\n");
+        }
+
+        void HandleSequenceParserException(SequenceParserException ex)
+        {
+            if(ex.Name == null && ex.Kind != SequenceParserError.TypeMismatch)
+            {
+                Console.Error.WriteLine("Unknown rule/sequence: \"{0}\"", ex.Name);
+                return;
+            }
+
+            switch(ex.Kind)
+            {
+                case SequenceParserError.BadNumberOfParametersOrReturnParameters:
+                    if(rulesToInputTypes[ex.Name].Count != ex.NumGivenInputs && rulesToOutputTypes[ex.Name].Count != ex.NumGivenOutputs)
+                        Console.Error.WriteLine("Wrong number of parameters and return values for action/sequence \"" + ex.Name + "\"!");
+                    else if(rulesToInputTypes[ex.Name].Count != ex.NumGivenInputs)
+                        Console.Error.WriteLine("Wrong number of parameters for action/sequence \"" + ex.Name + "\"!");
+                    else if(rulesToOutputTypes[ex.Name].Count != ex.NumGivenOutputs)
+                        Console.Error.WriteLine("Wrong number of return values for action/sequence \"" + ex.Name + "\"!");
+                    else
+                        goto default;
+                    break;
+
+                case SequenceParserError.BadParameter:
+                    Console.Error.WriteLine("The " + (ex.BadParamIndex + 1) + ". parameter is not valid for action/sequence \"" + ex.Name + "\"!");
+                    break;
+
+                case SequenceParserError.BadReturnParameter:
+                    Console.Error.WriteLine("The " + (ex.BadParamIndex + 1) + ". return parameter is not valid for action/sequence \"" + ex.Name + "\"!");
+                    break;
+
+                case SequenceParserError.RuleNameUsedByVariable:
+                    Console.Error.WriteLine("The name of the variable conflicts with the name of action/sequence \"" + ex.Name + "\"!");
+                    return;
+
+                case SequenceParserError.VariableUsedWithParametersOrReturnParameters:
+                    Console.Error.WriteLine("The variable \"" + ex.Name + "\" may neither receive parameters nor return values!");
+                    return;
+
+                case SequenceParserError.UnknownAttribute:
+                    Console.WriteLine("Unknown attribute \"" + ex.Name + "\"!");
+                    return;
+
+                case SequenceParserError.TypeMismatch:
+                    Console.Error.WriteLine("The construct \"" + ex.VariableOrFunctionName + "\" expects:" + ex.ExpectedType + " but is / is given " + ex.GivenType + "!");
+                    return;
+
+                default:
+                    throw new ArgumentException("Invalid error kind: " + ex.Kind);
+            }
+
+            // todo: Sequence
+            Console.Error.Write("Prototype: {0}", ex.Name);
+            if(rulesToInputTypes[ex.Name].Count != 0)
+            {
+                Console.Error.Write("(");
+                bool first = true;
+                foreach(String typeName in rulesToInputTypes[ex.Name])
+                {
+                    Console.Error.Write("{0}{1}", first ? "" : ", ", typeName);
+                    first = false;
+                }
+                Console.Error.Write(")");
+            }
+            if(rulesToOutputTypes[ex.Name].Count != 0)
+            {
+                Console.Error.Write(" : (");
+                bool first = true;
+                foreach(String typeName in rulesToOutputTypes[ex.Name])
+                {
+                    Console.Error.Write("{0}{1}", first ? "" : ", ", typeName);
+                    first = false;
+                }
+                Console.Error.Write(")");
+            }
+            Console.Error.WriteLine();
+        }
     }
 }
