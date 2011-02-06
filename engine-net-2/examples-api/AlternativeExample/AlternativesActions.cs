@@ -1,6 +1,6 @@
 // This file has been generated automatically by GrGen (www.grgen.net)
 // Do not modify this file! Any changes will be lost!
-// Generated from "..\..\tests\alternatives\Alternatives.grg" on Mon Jan 10 21:49:33 CET 2011
+// Generated from "..\..\tests\alternatives\Alternatives.grg" on Sun Feb 06 21:14:02 CET 2011
 
 using System;
 using System.Collections.Generic;
@@ -8487,6 +8487,7 @@ namespace de.unika.ipd.grGen.Action_Alternatives
 			subpatterns = new GRGEN_LGSP.LGSPMatchingPattern[1];
 			rules = new GRGEN_LGSP.LGSPRulePattern[17];
 			rulesAndSubpatterns = new GRGEN_LGSP.LGSPMatchingPattern[1+17];
+			definedSequences = new GRGEN_LGSP.LGSPDefinedSequenceInfo[0];
 			subpatterns[0] = Pattern_toAorB.Instance;
 			rulesAndSubpatterns[0] = Pattern_toAorB.Instance;
 			rules[0] = Rule_createA.Instance;
@@ -8530,6 +8531,8 @@ namespace de.unika.ipd.grGen.Action_Alternatives
 		private GRGEN_LGSP.LGSPMatchingPattern[] subpatterns;
 		public override GRGEN_LGSP.LGSPMatchingPattern[] RulesAndSubpatterns { get { return rulesAndSubpatterns; } }
 		private GRGEN_LGSP.LGSPMatchingPattern[] rulesAndSubpatterns;
+		public override GRGEN_LGSP.LGSPDefinedSequenceInfo[] DefinedSequences { get { return definedSequences; } }
+		private GRGEN_LGSP.LGSPDefinedSequenceInfo[] definedSequences;
 	}
 
 
@@ -20421,6 +20424,7 @@ maxMatchesIterReached:
         public IAction_XtoAorB @XtoAorB;
         public IAction_alternative_in_negative @alternative_in_negative;
         public IAction_alternative_in_iterated @alternative_in_iterated;
+        
         
         public override string Name { get { return "AlternativesActions"; } }
         public override string ModelMD5Hash { get { return "9318fc8b892e7676373a2a9f05e2f491"; } }

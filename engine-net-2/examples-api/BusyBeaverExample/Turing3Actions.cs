@@ -1,6 +1,6 @@
 // This file has been generated automatically by GrGen (www.grgen.net)
 // Do not modify this file! Any changes will be lost!
-// Generated from "..\..\examples\Turing3\Turing3.grg" on Mon Jan 10 21:49:42 CET 2011
+// Generated from "..\..\examples\Turing3\Turing3.grg" on Sun Feb 06 21:14:10 CET 2011
 
 using System;
 using System.Collections.Generic;
@@ -2122,6 +2122,7 @@ namespace de.unika.ipd.grGen.Action_Turing3
 			subpatterns = new GRGEN_LGSP.LGSPMatchingPattern[0];
 			rules = new GRGEN_LGSP.LGSPRulePattern[8];
 			rulesAndSubpatterns = new GRGEN_LGSP.LGSPMatchingPattern[0+8];
+			definedSequences = new GRGEN_LGSP.LGSPDefinedSequenceInfo[0];
 			rules[0] = Rule_readZeroRule.Instance;
 			rulesAndSubpatterns[0+0] = Rule_readZeroRule.Instance;
 			rules[1] = Rule_readOneRule.Instance;
@@ -2145,6 +2146,8 @@ namespace de.unika.ipd.grGen.Action_Turing3
 		private GRGEN_LGSP.LGSPMatchingPattern[] subpatterns;
 		public override GRGEN_LGSP.LGSPMatchingPattern[] RulesAndSubpatterns { get { return rulesAndSubpatterns; } }
 		private GRGEN_LGSP.LGSPMatchingPattern[] rulesAndSubpatterns;
+		public override GRGEN_LGSP.LGSPDefinedSequenceInfo[] DefinedSequences { get { return definedSequences; } }
+		private GRGEN_LGSP.LGSPDefinedSequenceInfo[] definedSequences;
 	}
 
 
@@ -4120,6 +4123,7 @@ namespace de.unika.ipd.grGen.Action_Turing3
         public IAction_moveRightRule @moveRightRule;
         public IAction_countZeros @countZeros;
         public IAction_countOnes @countOnes;
+        
         
         public override string Name { get { return "Turing3Actions"; } }
         public override string ModelMD5Hash { get { return "3f4f1e3e3ccd5475eeca1ab5c25802bc"; } }

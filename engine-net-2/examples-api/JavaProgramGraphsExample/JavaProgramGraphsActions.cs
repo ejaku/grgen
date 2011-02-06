@@ -1,6 +1,6 @@
 // This file has been generated automatically by GrGen (www.grgen.net)
 // Do not modify this file! Any changes will be lost!
-// Generated from "..\..\examples\JavaProgramGraphs-GraBaTs08\JavaProgramGraphs.grg" on Mon Jan 10 21:49:59 CET 2011
+// Generated from "..\..\examples\JavaProgramGraphs-GraBaTs08\JavaProgramGraphs.grg" on Sun Feb 06 21:14:26 CET 2011
 
 using System;
 using System.Collections.Generic;
@@ -25421,6 +25421,7 @@ namespace de.unika.ipd.grGen.Action_JavaProgramGraphs
 			subpatterns = new GRGEN_LGSP.LGSPMatchingPattern[11];
 			rules = new GRGEN_LGSP.LGSPRulePattern[69];
 			rulesAndSubpatterns = new GRGEN_LGSP.LGSPMatchingPattern[11+69];
+			definedSequences = new GRGEN_LGSP.LGSPDefinedSequenceInfo[0];
 			subpatterns[0] = Pattern_MultipleContainedPackagesOrClasses.Instance;
 			rulesAndSubpatterns[0] = Pattern_MultipleContainedPackagesOrClasses.Instance;
 			subpatterns[1] = Pattern_MultipleVariables.Instance;
@@ -25588,6 +25589,8 @@ namespace de.unika.ipd.grGen.Action_JavaProgramGraphs
 		private GRGEN_LGSP.LGSPMatchingPattern[] subpatterns;
 		public override GRGEN_LGSP.LGSPMatchingPattern[] RulesAndSubpatterns { get { return rulesAndSubpatterns; } }
 		private GRGEN_LGSP.LGSPMatchingPattern[] rulesAndSubpatterns;
+		public override GRGEN_LGSP.LGSPDefinedSequenceInfo[] DefinedSequences { get { return definedSequences; } }
+		private GRGEN_LGSP.LGSPDefinedSequenceInfo[] definedSequences;
 	}
 
 
@@ -48210,6 +48213,7 @@ label22: ;
         public IAction_getUnprocessedCallWithActualParameter @getUnprocessedCallWithActualParameter;
         public IAction_replaceAccess_Parameter_AccessWithoutLink @replaceAccess_Parameter_AccessWithoutLink;
         public IAction_replaceAccess_Parameter_AccessWithLinkToExpression @replaceAccess_Parameter_AccessWithLinkToExpression;
+        
         
         public override string Name { get { return "JavaProgramGraphsActions"; } }
         public override string ModelMD5Hash { get { return "8fd694f4f8cc691f8759cb852bb0c81c"; } }

@@ -1,6 +1,6 @@
 // This file has been generated automatically by GrGen (www.grgen.net)
 // Do not modify this file! Any changes will be lost!
-// Generated from "..\..\examples\ProgramGraphs\ProgramGraphsOriginal.grg" on Mon Jan 10 21:50:09 CET 2011
+// Generated from "..\..\examples\ProgramGraphs\ProgramGraphsOriginal.grg" on Sun Feb 06 21:14:37 CET 2011
 
 using System;
 using System.Collections.Generic;
@@ -8182,6 +8182,7 @@ namespace de.unika.ipd.grGen.Action_ProgramGraphsOriginal
 			subpatterns = new GRGEN_LGSP.LGSPMatchingPattern[12];
 			rules = new GRGEN_LGSP.LGSPRulePattern[9];
 			rulesAndSubpatterns = new GRGEN_LGSP.LGSPMatchingPattern[12+9];
+			definedSequences = new GRGEN_LGSP.LGSPDefinedSequenceInfo[0];
 			subpatterns[0] = Pattern_Subclasses.Instance;
 			rulesAndSubpatterns[0] = Pattern_Subclasses.Instance;
 			subpatterns[1] = Pattern_Subclass.Instance;
@@ -8231,6 +8232,8 @@ namespace de.unika.ipd.grGen.Action_ProgramGraphsOriginal
 		private GRGEN_LGSP.LGSPMatchingPattern[] subpatterns;
 		public override GRGEN_LGSP.LGSPMatchingPattern[] RulesAndSubpatterns { get { return rulesAndSubpatterns; } }
 		private GRGEN_LGSP.LGSPMatchingPattern[] rulesAndSubpatterns;
+		public override GRGEN_LGSP.LGSPDefinedSequenceInfo[] DefinedSequences { get { return definedSequences; } }
+		private GRGEN_LGSP.LGSPDefinedSequenceInfo[] definedSequences;
 	}
 
 
@@ -15384,6 +15387,7 @@ label3: ;
         public IAction_LinkMethodBodyToContainedExpressionTransitive @LinkMethodBodyToContainedExpressionTransitive;
         public IAction_RemoveMethodBodyContainsBetweenExpressions @RemoveMethodBodyContainsBetweenExpressions;
         public IAction_RetypeClassContainment @RetypeClassContainment;
+        
         
         public override string Name { get { return "ProgramGraphsOriginalActions"; } }
         public override string ModelMD5Hash { get { return "367e59eecca3afadcdac0347954e2ede"; } }

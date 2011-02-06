@@ -1,6 +1,6 @@
 // This file has been generated automatically by GrGen (www.grgen.net)
 // Do not modify this file! Any changes will be lost!
-// Generated from "..\..\tests\independent\Independent.grg" on Mon Jan 10 21:49:53 CET 2011
+// Generated from "..\..\tests\independent\Independent.grg" on Sun Feb 06 21:14:19 CET 2011
 
 using System;
 using System.Collections.Generic;
@@ -3873,6 +3873,7 @@ namespace de.unika.ipd.grGen.Action_Independent
 			subpatterns = new GRGEN_LGSP.LGSPMatchingPattern[2];
 			rules = new GRGEN_LGSP.LGSPRulePattern[7];
 			rulesAndSubpatterns = new GRGEN_LGSP.LGSPMatchingPattern[2+7];
+			definedSequences = new GRGEN_LGSP.LGSPDefinedSequenceInfo[0];
 			subpatterns[0] = Pattern_iteratedPath.Instance;
 			rulesAndSubpatterns[0] = Pattern_iteratedPath.Instance;
 			subpatterns[1] = Pattern_iteratedPathToIntNode.Instance;
@@ -3898,6 +3899,8 @@ namespace de.unika.ipd.grGen.Action_Independent
 		private GRGEN_LGSP.LGSPMatchingPattern[] subpatterns;
 		public override GRGEN_LGSP.LGSPMatchingPattern[] RulesAndSubpatterns { get { return rulesAndSubpatterns; } }
 		private GRGEN_LGSP.LGSPMatchingPattern[] rulesAndSubpatterns;
+		public override GRGEN_LGSP.LGSPDefinedSequenceInfo[] DefinedSequences { get { return definedSequences; } }
+		private GRGEN_LGSP.LGSPDefinedSequenceInfo[] definedSequences;
 	}
 
 
@@ -7304,6 +7307,7 @@ label15: ;
         public IAction_createIterated @createIterated;
         public IAction_findChainPlusChainToInt @findChainPlusChainToInt;
         public IAction_findChainPlusChainToIntIndependent @findChainPlusChainToIntIndependent;
+        
         
         public override string Name { get { return "IndependentActions"; } }
         public override string ModelMD5Hash { get { return "a5b70deb49575f4d0997a3b831be3dfa"; } }

@@ -1,6 +1,6 @@
 // This file has been generated automatically by GrGen (www.grgen.net)
 // Do not modify this file! Any changes will be lost!
-// Generated from "test.grg" on Mon Jan 10 21:49:21 CET 2011
+// Generated from "test.grg" on Sun Feb 06 21:14:10 CET 2011
 
 using System;
 using System.Collections.Generic;
@@ -269,6 +269,7 @@ namespace de.unika.ipd.grGen.Action_test
 			subpatterns = new GRGEN_LGSP.LGSPMatchingPattern[0];
 			rules = new GRGEN_LGSP.LGSPRulePattern[1];
 			rulesAndSubpatterns = new GRGEN_LGSP.LGSPMatchingPattern[0+1];
+			definedSequences = new GRGEN_LGSP.LGSPDefinedSequenceInfo[0];
 			rules[0] = Rule_testRule.Instance;
 			rulesAndSubpatterns[0+0] = Rule_testRule.Instance;
 		}
@@ -278,6 +279,8 @@ namespace de.unika.ipd.grGen.Action_test
 		private GRGEN_LGSP.LGSPMatchingPattern[] subpatterns;
 		public override GRGEN_LGSP.LGSPMatchingPattern[] RulesAndSubpatterns { get { return rulesAndSubpatterns; } }
 		private GRGEN_LGSP.LGSPMatchingPattern[] rulesAndSubpatterns;
+		public override GRGEN_LGSP.LGSPDefinedSequenceInfo[] DefinedSequences { get { return definedSequences; } }
+		private GRGEN_LGSP.LGSPDefinedSequenceInfo[] definedSequences;
 	}
 
 
@@ -557,6 +560,7 @@ namespace de.unika.ipd.grGen.Action_test
         }
         
         public IAction_testRule @testRule;
+        
         
         public override string Name { get { return "testActions"; } }
         public override string ModelMD5Hash { get { return "6a630d39ca3371b697e3fb227fb1f51a"; } }

@@ -1,6 +1,6 @@
 // This file has been generated automatically by GrGen (www.grgen.net)
 // Do not modify this file! Any changes will be lost!
-// Generated from "..\..\tests\edge1\edge1.grg" on Mon Jan 10 21:49:45 CET 2011
+// Generated from "..\..\tests\edge1\edge1.grg" on Sun Feb 06 21:14:14 CET 2011
 
 using System;
 using System.Collections.Generic;
@@ -2246,6 +2246,7 @@ namespace de.unika.ipd.grGen.Action_edge1
 			subpatterns = new GRGEN_LGSP.LGSPMatchingPattern[0];
 			rules = new GRGEN_LGSP.LGSPRulePattern[11];
 			rulesAndSubpatterns = new GRGEN_LGSP.LGSPMatchingPattern[0+11];
+			definedSequences = new GRGEN_LGSP.LGSPDefinedSequenceInfo[0];
 			rules[0] = Rule_init.Instance;
 			rulesAndSubpatterns[0+0] = Rule_init.Instance;
 			rules[1] = Rule_init2.Instance;
@@ -2275,6 +2276,8 @@ namespace de.unika.ipd.grGen.Action_edge1
 		private GRGEN_LGSP.LGSPMatchingPattern[] subpatterns;
 		public override GRGEN_LGSP.LGSPMatchingPattern[] RulesAndSubpatterns { get { return rulesAndSubpatterns; } }
 		private GRGEN_LGSP.LGSPMatchingPattern[] rulesAndSubpatterns;
+		public override GRGEN_LGSP.LGSPDefinedSequenceInfo[] DefinedSequences { get { return definedSequences; } }
+		private GRGEN_LGSP.LGSPDefinedSequenceInfo[] definedSequences;
 	}
 
 
@@ -4859,6 +4862,7 @@ namespace de.unika.ipd.grGen.Action_edge1
         public IAction_findArbitraryDirectedTriple @findArbitraryDirectedTriple;
         public IAction_findDirectedEdge @findDirectedEdge;
         public IAction_findTripleCircle @findTripleCircle;
+        
         
         public override string Name { get { return "edge1Actions"; } }
         public override string ModelMD5Hash { get { return "cee2fe3026e313db20fe574ef2ea4643"; } }

@@ -1,6 +1,6 @@
 // This file has been generated automatically by GrGen (www.grgen.net)
 // Do not modify this file! Any changes will be lost!
-// Generated from "..\..\tests\Recursive\Recursive.grg" on Mon Jan 10 21:50:13 CET 2011
+// Generated from "..\..\tests\Recursive\Recursive.grg" on Sun Feb 06 21:14:40 CET 2011
 
 using System;
 using System.Collections.Generic;
@@ -9171,6 +9171,7 @@ namespace de.unika.ipd.grGen.Action_Recursive
 			subpatterns = new GRGEN_LGSP.LGSPMatchingPattern[10];
 			rules = new GRGEN_LGSP.LGSPRulePattern[13];
 			rulesAndSubpatterns = new GRGEN_LGSP.LGSPMatchingPattern[10+13];
+			definedSequences = new GRGEN_LGSP.LGSPDefinedSequenceInfo[0];
 			subpatterns[0] = Pattern_ChainFromTo.Instance;
 			rulesAndSubpatterns[0] = Pattern_ChainFromTo.Instance;
 			subpatterns[1] = Pattern_ChainFrom.Instance;
@@ -9224,6 +9225,8 @@ namespace de.unika.ipd.grGen.Action_Recursive
 		private GRGEN_LGSP.LGSPMatchingPattern[] subpatterns;
 		public override GRGEN_LGSP.LGSPMatchingPattern[] RulesAndSubpatterns { get { return rulesAndSubpatterns; } }
 		private GRGEN_LGSP.LGSPMatchingPattern[] rulesAndSubpatterns;
+		public override GRGEN_LGSP.LGSPDefinedSequenceInfo[] DefinedSequences { get { return definedSequences; } }
+		private GRGEN_LGSP.LGSPDefinedSequenceInfo[] definedSequences;
 	}
 
 
@@ -17574,6 +17577,7 @@ label11: ;
         public IAction_chainFromToReverse @chainFromToReverse;
         public IAction_chainFromToReverseToCommon @chainFromToReverseToCommon;
         public IAction_reverseChainFromToToCommon @reverseChainFromToToCommon;
+        
         
         public override string Name { get { return "RecursiveActions"; } }
         public override string ModelMD5Hash { get { return "cee2fe3026e313db20fe574ef2ea4643"; } }

@@ -1,6 +1,6 @@
 // This file has been generated automatically by GrGen (www.grgen.net)
 // Do not modify this file! Any changes will be lost!
-// Generated from "..\..\examples\Mutex\MutexPimped.grg" on Mon Jan 10 21:50:05 CET 2011
+// Generated from "..\..\examples\Mutex\MutexPimped.grg" on Sun Feb 06 21:14:32 CET 2011
 
 using System;
 using System.Collections.Generic;
@@ -5375,6 +5375,7 @@ namespace de.unika.ipd.grGen.Action_MutexPimped
 			subpatterns = new GRGEN_LGSP.LGSPMatchingPattern[0];
 			rules = new GRGEN_LGSP.LGSPRulePattern[18];
 			rulesAndSubpatterns = new GRGEN_LGSP.LGSPMatchingPattern[0+18];
+			definedSequences = new GRGEN_LGSP.LGSPDefinedSequenceInfo[0];
 			rules[0] = Rule_newRule.Instance;
 			rulesAndSubpatterns[0+0] = Rule_newRule.Instance;
 			rules[1] = Rule_killRule.Instance;
@@ -5418,6 +5419,8 @@ namespace de.unika.ipd.grGen.Action_MutexPimped
 		private GRGEN_LGSP.LGSPMatchingPattern[] subpatterns;
 		public override GRGEN_LGSP.LGSPMatchingPattern[] RulesAndSubpatterns { get { return rulesAndSubpatterns; } }
 		private GRGEN_LGSP.LGSPMatchingPattern[] rulesAndSubpatterns;
+		public override GRGEN_LGSP.LGSPDefinedSequenceInfo[] DefinedSequences { get { return definedSequences; } }
+		private GRGEN_LGSP.LGSPDefinedSequenceInfo[] definedSequences;
 	}
 
 
@@ -9999,6 +10002,7 @@ label7: ;
         public IAction_requestSimpleRule @requestSimpleRule;
         public IAction_aux_attachResource @aux_attachResource;
         public IAction_annotationTestRule @annotationTestRule;
+        
         
         public override string Name { get { return "MutexPimpedActions"; } }
         public override string ModelMD5Hash { get { return "b75cc12d5d56ba550bb415bb40c4947f"; } }

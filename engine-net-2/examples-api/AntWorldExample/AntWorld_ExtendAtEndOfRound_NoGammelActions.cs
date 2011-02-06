@@ -1,6 +1,6 @@
 // This file has been generated automatically by GrGen (www.grgen.net)
 // Do not modify this file! Any changes will be lost!
-// Generated from "..\..\tests\antWorld\AntWorld_ExtendAtEndOfRound_NoGammel.grg" on Mon Jan 10 21:49:38 CET 2011
+// Generated from "..\..\tests\antWorld\AntWorld_ExtendAtEndOfRound_NoGammel.grg" on Sun Feb 06 21:14:06 CET 2011
 
 using System;
 using System.Collections.Generic;
@@ -5184,6 +5184,7 @@ var_curOuter = (GRGEN_MODEL.IGridNode)(tmpvar_curOuter);
 			subpatterns = new GRGEN_LGSP.LGSPMatchingPattern[0];
 			rules = new GRGEN_LGSP.LGSPRulePattern[18];
 			rulesAndSubpatterns = new GRGEN_LGSP.LGSPMatchingPattern[0+18];
+			definedSequences = new GRGEN_LGSP.LGSPDefinedSequenceInfo[0];
 			rules[0] = Rule_InitWorld.Instance;
 			rulesAndSubpatterns[0+0] = Rule_InitWorld.Instance;
 			rules[1] = Rule_TakeFood.Instance;
@@ -5227,6 +5228,8 @@ var_curOuter = (GRGEN_MODEL.IGridNode)(tmpvar_curOuter);
 		private GRGEN_LGSP.LGSPMatchingPattern[] subpatterns;
 		public override GRGEN_LGSP.LGSPMatchingPattern[] RulesAndSubpatterns { get { return rulesAndSubpatterns; } }
 		private GRGEN_LGSP.LGSPMatchingPattern[] rulesAndSubpatterns;
+		public override GRGEN_LGSP.LGSPDefinedSequenceInfo[] DefinedSequences { get { return definedSequences; } }
+		private GRGEN_LGSP.LGSPDefinedSequenceInfo[] definedSequences;
 	}
 
 
@@ -9596,6 +9599,7 @@ label1: ;
         public IAction_Food2Ant @Food2Ant;
         public IAction_EvaporateWorld @EvaporateWorld;
         public IAction_doAntWorld @doAntWorld;
+        
         
         public override string Name { get { return "AntWorld_ExtendAtEndOfRound_NoGammelActions"; } }
         public override string ModelMD5Hash { get { return "5efeccfb37eb4c2835fae110fe22d2e7"; } }

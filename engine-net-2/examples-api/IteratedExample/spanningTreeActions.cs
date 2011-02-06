@@ -1,6 +1,6 @@
 // This file has been generated automatically by GrGen (www.grgen.net)
 // Do not modify this file! Any changes will be lost!
-// Generated from "..\..\tests\iterated\spanningTree.grg" on Mon Jan 10 21:49:56 CET 2011
+// Generated from "..\..\tests\iterated\spanningTree.grg" on Sun Feb 06 21:14:22 CET 2011
 
 using System;
 using System.Collections.Generic;
@@ -3398,6 +3398,7 @@ namespace de.unika.ipd.grGen.Action_spanningTree
 			subpatterns = new GRGEN_LGSP.LGSPMatchingPattern[4];
 			rules = new GRGEN_LGSP.LGSPRulePattern[9];
 			rulesAndSubpatterns = new GRGEN_LGSP.LGSPMatchingPattern[4+9];
+			definedSequences = new GRGEN_LGSP.LGSPDefinedSequenceInfo[0];
 			subpatterns[0] = Pattern_SpanningTree.Instance;
 			rulesAndSubpatterns[0] = Pattern_SpanningTree.Instance;
 			subpatterns[1] = Pattern_SpanningTreeReverse.Instance;
@@ -3431,6 +3432,8 @@ namespace de.unika.ipd.grGen.Action_spanningTree
 		private GRGEN_LGSP.LGSPMatchingPattern[] subpatterns;
 		public override GRGEN_LGSP.LGSPMatchingPattern[] RulesAndSubpatterns { get { return rulesAndSubpatterns; } }
 		private GRGEN_LGSP.LGSPMatchingPattern[] rulesAndSubpatterns;
+		public override GRGEN_LGSP.LGSPDefinedSequenceInfo[] DefinedSequences { get { return definedSequences; } }
+		private GRGEN_LGSP.LGSPDefinedSequenceInfo[] definedSequences;
 	}
 
 
@@ -6942,6 +6945,7 @@ maxMatchesIterReached:
         public IAction_spanningTreeReverse @spanningTreeReverse;
         public IAction_spanningTreeOutgoing @spanningTreeOutgoing;
         public IAction_spanningTreeIncoming @spanningTreeIncoming;
+        
         
         public override string Name { get { return "spanningTreeActions"; } }
         public override string ModelMD5Hash { get { return "cee2fe3026e313db20fe574ef2ea4643"; } }

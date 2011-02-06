@@ -1,6 +1,6 @@
 // This file has been generated automatically by GrGen (www.grgen.net)
 // Do not modify this file! Any changes will be lost!
-// Generated from "..\..\examples\ExternalAttributeEvaluationExample\ExternalAttributeEvaluation.grg" on Mon Jan 10 21:49:48 CET 2011
+// Generated from "..\..\examples\ExternalAttributeEvaluationExample\ExternalAttributeEvaluation.grg" on Sun Feb 06 21:14:17 CET 2011
 
 using System;
 using System.Collections.Generic;
@@ -422,6 +422,7 @@ namespace de.unika.ipd.grGen.Action_ExternalAttributeEvaluation
 			subpatterns = new GRGEN_LGSP.LGSPMatchingPattern[0];
 			rules = new GRGEN_LGSP.LGSPRulePattern[2];
 			rulesAndSubpatterns = new GRGEN_LGSP.LGSPMatchingPattern[0+2];
+			definedSequences = new GRGEN_LGSP.LGSPDefinedSequenceInfo[0];
 			rules[0] = Rule_init.Instance;
 			rulesAndSubpatterns[0+0] = Rule_init.Instance;
 			rules[1] = Rule_r.Instance;
@@ -433,6 +434,8 @@ namespace de.unika.ipd.grGen.Action_ExternalAttributeEvaluation
 		private GRGEN_LGSP.LGSPMatchingPattern[] subpatterns;
 		public override GRGEN_LGSP.LGSPMatchingPattern[] RulesAndSubpatterns { get { return rulesAndSubpatterns; } }
 		private GRGEN_LGSP.LGSPMatchingPattern[] rulesAndSubpatterns;
+		public override GRGEN_LGSP.LGSPDefinedSequenceInfo[] DefinedSequences { get { return definedSequences; } }
+		private GRGEN_LGSP.LGSPDefinedSequenceInfo[] definedSequences;
 	}
 
 
@@ -897,6 +900,7 @@ namespace de.unika.ipd.grGen.Action_ExternalAttributeEvaluation
         
         public IAction_init @init;
         public IAction_r @r;
+        
         
         public override string Name { get { return "ExternalAttributeEvaluationActions"; } }
         public override string ModelMD5Hash { get { return "34311a93174c6d719d04895ac04ab578"; } }

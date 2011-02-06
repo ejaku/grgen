@@ -1,6 +1,6 @@
 // This file has been generated automatically by GrGen (www.grgen.net)
 // Do not modify this file! Any changes will be lost!
-// Generated from "..\..\tests\TNT\TNT.grg" on Mon Jan 10 21:50:16 CET 2011
+// Generated from "..\..\tests\TNT\TNT.grg" on Sun Feb 06 21:14:44 CET 2011
 
 using System;
 using System.Collections.Generic;
@@ -9581,6 +9581,7 @@ namespace de.unika.ipd.grGen.Action_TNT
 			subpatterns = new GRGEN_LGSP.LGSPMatchingPattern[11];
 			rules = new GRGEN_LGSP.LGSPRulePattern[19];
 			rulesAndSubpatterns = new GRGEN_LGSP.LGSPMatchingPattern[11+19];
+			definedSequences = new GRGEN_LGSP.LGSPDefinedSequenceInfo[0];
 			subpatterns[0] = Pattern_BenzolRing.Instance;
 			rulesAndSubpatterns[0] = Pattern_BenzolRing.Instance;
 			subpatterns[1] = Pattern_BenzolRingC123456Exposed.Instance;
@@ -9648,6 +9649,8 @@ namespace de.unika.ipd.grGen.Action_TNT
 		private GRGEN_LGSP.LGSPMatchingPattern[] subpatterns;
 		public override GRGEN_LGSP.LGSPMatchingPattern[] RulesAndSubpatterns { get { return rulesAndSubpatterns; } }
 		private GRGEN_LGSP.LGSPMatchingPattern[] rulesAndSubpatterns;
+		public override GRGEN_LGSP.LGSPDefinedSequenceInfo[] DefinedSequences { get { return definedSequences; } }
+		private GRGEN_LGSP.LGSPDefinedSequenceInfo[] definedSequences;
 	}
 
 
@@ -29020,6 +29023,7 @@ label0: ;
         public IAction_createBenzolRingPattern @createBenzolRingPattern;
         public IAction_deleteBenzolRingPattern @deleteBenzolRingPattern;
         public IAction_deleteInModifyBenzolRingPattern @deleteInModifyBenzolRingPattern;
+        
         
         public override string Name { get { return "TNTActions"; } }
         public override string ModelMD5Hash { get { return "6589f1c2ac770b020a3debe9eff7e74d"; } }
