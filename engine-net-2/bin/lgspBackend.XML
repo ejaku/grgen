@@ -737,6 +737,32 @@
             <param name="graph">the graph on which to apply the sequence</param>
             <returns>the result of sequence execution</returns>
         </member>
+        <member name="T:de.unika.ipd.grGen.lgsp.LGSPDefinedSequenceInfo">
+            <summary>
+            Represents a sequence definition.
+            </summary>
+        </member>
+        <member name="M:de.unika.ipd.grGen.lgsp.LGSPDefinedSequenceInfo.#ctor(System.String[],de.unika.ipd.grGen.libGr.GrGenType[],System.String[],de.unika.ipd.grGen.libGr.GrGenType[],System.String,System.String)">
+            <summary>
+            Constructs an LGSPEmbeddedSequenceInfo object.
+            </summary>
+            <param name="parameters">The names of the needed graph elements of the containing action.</param>
+            <param name="parameterTypes">The types of the needed graph elements of the containing action.</param>
+            <param name="outParameters">The names of the needed graph elements returned to the containing action.</param>
+            <param name="outParameterTypes">The types of the graph elements returned to the containing action.</param>
+            <param name="name">The name the sequence was defined with.</param>
+            <param name="xgrs">The XGRS string.</param>
+        </member>
+        <member name="F:de.unika.ipd.grGen.lgsp.LGSPDefinedSequenceInfo.Name">
+            <summary>
+            The name the sequence was defined with
+            </summary>
+        </member>
+        <member name="F:de.unika.ipd.grGen.lgsp.LGSPDefinedSequenceInfo.OutParameters">
+            <summary>
+            The names of the graph elements returned to the containing action.
+            </summary>
+        </member>
         <member name="T:de.unika.ipd.grGen.lgsp.LGSPSequenceGenerator">
             <summary>
             The C#-part responsible for compiling the XGRSs of the exec statements.
@@ -1634,6 +1660,11 @@
             Set it if a named graph is available, so that 
             - the nameof operator can return the persistent name instead of a hash code
             - a retyped element can keep its name
+            </summary>
+        </member>
+        <member name="P:de.unika.ipd.grGen.lgsp.LGSPGraph.Variables">
+            <summary>
+            Returns an iterator over all available (non-null) variables
             </summary>
         </member>
         <member name="F:de.unika.ipd.grGen.lgsp.LGSPGraph.VisitorData.NodesMarked">
@@ -3757,6 +3788,11 @@
         <member name="P:de.unika.ipd.grGen.lgsp.LGSPRuleAndMatchingPatterns.RulesAndSubpatterns">
             <summary>
             All the rule and subrule representations generated
+            </summary>
+        </member>
+        <member name="P:de.unika.ipd.grGen.lgsp.LGSPRuleAndMatchingPatterns.DefinedSequences">
+            <summary>
+            All the defined sequence representations generated
             </summary>
         </member>
         <member name="T:de.unika.ipd.grGen.lgsp.SearchProgramType">

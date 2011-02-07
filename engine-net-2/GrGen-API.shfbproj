@@ -29,7 +29,7 @@
     </WorkingPath>
     <HelpFileFormat>Website</HelpFileFormat>
     <FrameworkVersion>2.0.50727</FrameworkVersion>
-    <HelpTitle>GrGen.NET v2.7.ms2 API: the libGr class library %28the type exact interface gets generated%29</HelpTitle>
+    <HelpTitle>GrGen.NET v2.7.ms4 API: the libGr class library %28the type exact interface gets generated%29</HelpTitle>
     <PresentationStyle>Prototype</PresentationStyle>
     <NamingMethod>MemberName</NamingMethod>
     <SyntaxFilters>CSharp</SyntaxFilters>

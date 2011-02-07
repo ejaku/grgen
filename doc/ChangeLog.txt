@@ -1,4 +1,35 @@
-﻿v2.7.ms3 (2011-01-17)
+﻿v2.7.ms4 (2011-02-07)
+ Added procedural abstraction for graph rewrite sequences with sequence definitions:
+ - added support for compiled named sequence definitions in rules file with syntax:
+    sequence name(input variables):(output variables) { sequence }
+ - added support for interpreted named sequence definitions in shell with syntax:
+    def name(input variables):(output variables) { sequence }
+ - for both: input and output variables are local variables, 
+    they get filled with the input values,
+    and define the output values in case of success,
+	where success is defined by the sequence.
+ - they can be called from other sequences (or even the same) with 
+   (output parameters)=name(input parameters) syntax, 
+   as for rule calls the output parameters of sequence calls are only written on success
+
+ Added debugger commands
+  - "(v)ariables" which prints out all global variables and all local variables 
+      of the currently executed sequence (up to the point focussed)
+  - "stack (t)race" which prints the call stack of the sequences currently executed
+      (including sequence content and execution state)
+  - "(f)ull dump" which prints the call stack of sequences including all their variables 
+
+ User manual restructuring and extension:
+  - split chapter "Understanding and Extending GrGen.NET" out of API chapter,
+    added a lot of content there explaining how GrGen.NET works
+  - split chapter "Visualization and Debugging" out of GrShell chapter,
+    to decrease shell chapter size and emphasize visualization and debugging
+
+ Further minor:
+   - added support for sequence result postfix assignment s => v, s |> v, s &> v
+
+   
+v2.7.ms3 (2011-01-17)
  Added support for storage attributes, i.e. attributes typed with set/map of node/edge,
   can now be declared in model, handled by all the other set/map constructs already available,
   furthermore added an extension of the storage access constructs on the LHS by:
