@@ -45,12 +45,12 @@ These return values can be assigned to variables on the fly (see example \ref{ex
 \begin{figure}[htbp]
 \begin{example}
 	\label{ex:grsreturn}
-	The graph rewrite sequence
+The graph rewrite sequences
 	\begin{grgen}	 
-a = ((b,c) = R(x,y,z))
+(b,c)=R(x,y,z)=>a
+a = ((b,c)=R(x,y,z))
 	\end{grgen}
-	is valid. 
-	It assigns returned graph elements from rule \texttt{R} to variables \texttt{b} and \texttt{c} and the information whether \texttt{R} mached or not to variable \texttt{a}.
+assign the two returned graph elements from rule \texttt{R} to variables \texttt{b} and \texttt{c} and the information whether \texttt{R} mached or not to variable \texttt{a}. The first version is recommended.
 \end{example}
 \end{figure}
 
@@ -65,7 +65,7 @@ a = ((b,c) = R(x,y,z))
     (RewriteNegTerm) (( (dollar (percent)?)? (ampersand | xorhat | '|' | doubleampersand | '||' | ';>' | '<;') RewriteNegTerm )*)
 	;
   RewriteNegTerm: 
-    ('!')? RewriteTerm
+    ('!')? RewriteTerm ( ('=''>' | ampersand'>' | '|''>') Variable)?
 	;
 \end{rail}\ixnterm{RewriteSequence}\ixnterm{RewriteNegTerm}
 
@@ -75,6 +75,7 @@ The modifier \texttt{\$} changes the semantics of the following operator to rand
 usually operands are executed / evaluated from left to right if not altered by bracketing.
 In contrast the sequences \texttt{s}, \texttt{t}, \texttt{u} in \texttt{s \$<op> t \$<op> u} are executed / evaluated in arbitrary order.
 The modifier \texttt{\%} appended to the \texttt{\$} overrides the random selection by a user selection (cf. see Section~\ref{sct:debugger}, \indexed{choice point}s).
+The assign-to operator \texttt{=>} optionally available at the end of the $RewriteNegTerm$ assigns the (negated in case of \texttt{!}) result of the $RewriteTerm$ execution to the given variable; the and-to \texttt{\&>} operator assigns the conjunction and the or-to \texttt{|>} operator assigns the disjunction of the original value of the variable with the sequence result to the variable.
 
 \begin{table}[htbp]
     \begin{tabularx}{\linewidth}{l|X}
@@ -113,7 +114,7 @@ Consider all-bracketing introduced in the next section for rewriting all matches
 \end{note}
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-\section{Rule application}
+\section{Rule and sequence application} \label{sec:ruleapplication}
 
 \begin{rail} 
   RewriteFactor: RuleExecution
@@ -126,7 +127,7 @@ Consider all-bracketing introduced in the next section for rewriting all matches
 \end{rail}\ixnterm{RewriteFactor}\ixkeyw{emit}\ixkeyw{record}\label{recstmt}\indexmain{record}\indexmain{emit}
 
 Rewrite factors are the building blocks of graph rewrite sequences.
-They split into four major areas: rule application, variable assignment, extended control, and visited flags management (plus the special area of storages to be described separately).
+They are split into four major areas: rule and sequence application, variable assignment, extended control, and visited flags management (plus the special area of storages to be described separately).
 Further on, there are the \texttt{emit} and \texttt{record} statements: the emit statement writes a double quoted string or the value of a variable to the emit target (stdout as default, or a file specified with the shell command \texttt{redirect emit}). The record statement writes a double quoted string or the value of a variable to the currently ongoing recordings (see \ref{recordnreplay}). This feature allows to mark states reached during the transformation process in order to replay only interesting parts of an recording. It is recommended to write only comment label lines, i.e. \verb/"#"/, some label, and \verb/"\n"/.
 
 \begin{rail}    
@@ -144,6 +145,11 @@ The operator \texttt{\%} is a multi-purpose flag.
 In the \GrShell\ (see Chapter~\ref{chapgrshell}) it dumps the matched graph elements to \texttt{stdout};
 in \texttt{debug}-mode (see Section~\ref{sct:debugger}) it acts as a \indexed{break point} (which is its main use in fact);
 you are also able to use this flag for your own purposes, when using \GrG\ via its API interface (see Section~\ref{sct:API}).
+
+The \emph{RuleExecution} clause can be applied to a defined sequence (cf. \ref{sec:sequencedefinition}), too.
+Application will succeed or fail depending on the result of the body of the sequence definition called.
+In case of success, the output variables of the sequence definition are written to the destination variables of the assignment. In case of failure, no assignment takes place, so sequence calls behave the same as rule calls.
+The break point \texttt{\%} can be applied to a sequence call, but neither the \texttt{?} operator nor all braces (\texttt{[]}).
 
 The sqare braces (\texttt{[]}) introduce a special kind of multiple rule application:
 Every pattern match produced by the rule will be rewritten;
@@ -276,6 +282,26 @@ The \indexed{one-of-set braces} \verb/${r,[s],$[t]}/ (some-of-set with random ch
 (i.e. the one match of a rule, all matches of an all bracketed rule, or one randomly chosen match of an all bracketed rule with random choice).
 The one/some-of-set is true if at least one rule matched and false if no contained rule matched.
 A \indexed{choice point} may be used on the one-of-set; it allows you to inspect the matches available graphically before deciding on the one to apply. 
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\section{Procedural abstraction (Sequence definitions)} \label{sec:sequencedefinition}
+\begin{rail}
+  RewriteSequenceDefinition: 
+    ('def' | 'sequence') RewriteSequenceSignature lbrace RewriteSequence rbrace;
+  RewriteSequenceSignature: 
+    SequenceName ('(' ((InVariable ':' Type)*',') ')')? \\ (':' '(' ((OutVariable ':' Type)*',') ')')?
+	;
+\end{rail}\ixnterm{RewriteSequenceDefinition}\ixnterm{RewriteSequenceSignature}
+
+If you want to use a sequence or sequence part at several locations, factor it out into a \indexed{sequence definition} and reuse with its name as if it were a rule.
+A sequence definition declares input and output variables; 
+when the sequence gets called the input variables are bound to the values it was called with.
+If and only if the sequences succeeds, the values from the output variables get assigned to the assignment target of the sequence call.
+Thus a sequence call behaves as a rule call, cf. \ref{sec:ruleapplication}.
+
+The compiled sequences must start with the \texttt{sequence} keyword in the rule file.
+The interpreted sequences in the shell must start with the \texttt{def} keyword; a shell sequences can be overwritten with another shell sequence in case the signature is identical. (Overwriting is needed in the shell to define direct or mutually recursive sequences as a sequence must be defined before it can get used; furthermore it allows for a more rapid-prototyping like style of development in the shell.)
 
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%

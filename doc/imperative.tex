@@ -660,7 +660,7 @@ rule cliqueTerminal
 
 The examples can be found in the \texttt{tests/nodeReplacementGrammar} directory.
 
-\section{Subgraph copying and Reachability via Flow Equations}\label{sub:copyflow}
+\section{Subgraph copying and Reachability via Data Flow Analysis}\label{sub:copyflow}
 
 \subsubsection*{Copy structures}\label{subsub:copystructure}\indexmain{subgraph copying}\indexmainsee{copy structure}{subgraph copying}
 Structures are copied in two passes, the first copying and collecting all nodes of interest, the second copying all edges of interest in between the nodes.
@@ -718,6 +718,7 @@ Without storagemaps one would have to pollute the graph model with helper edges 
 
 \subsubsection*{Data flow analysis for computing reachability}\label{subsub:flow}\indexmain{flow equations}\indexmain{data flow analysis}\indexmain{reachability}
 %todo: refine this nightly hacked section
+%add dominance computation
 
 In compiler construction, given a program graph, one wants to compute non-local properties in order to transform the program graph.
 This is normally handled within the framework of data flow analysis, which employs flow equations telling how property values of a node are influenced by property values of the predecessor or successor nodes in addition to the node's local share on the overall information, with the predecessor or successor nodes being again influenced by their predecessor or successor nodes.
