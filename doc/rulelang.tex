@@ -283,15 +283,15 @@ And some illegal graphlets:\\
 \label{ruledecls}
 The structure of a \indexed{rule set} file is as follows:
 \begin{rail}
-  RuleSet: FileHeader ((TestDeclaration | RuleDeclaration | SubpatternDeclaration)+) ;
+  RuleSet: FileHeader ((TestDeclaration | RuleDeclaration | SubpatternDeclaration | RewriteSequenceDefinition)+) ;
   FileHeader: ('using' ((ModelIdent)+',') ';')? (('\#include' Filename)*());
 \end{rail}\ixkeyw{using}\ixkeyw{include}\ixnterm{RuleSet}\ixnterm{FileHeader}
 
-A rule set consists of the underlying \indexed{graph model}s and several rewrite rules and tests (subpatterns will be introduced in \ref{sec:subpattern}).
+A rule set consists of the underlying \indexed{graph model}s and several rewrite rules and tests (subpatterns will be introduced in \ref{sec:subpattern}, rewrite sequence definitions in \ref{sec:sequencedefinition}).
 Additionally you may include further rule set files (without \texttt{using} directives, we prefer to suffix them with \texttt{.gri} in this case).
 In case of multiple graph models, \GrG\ uses the union of these models. In this case beware of conflicting declarations.
-There is no built-in conflict resolution mechanism like packages or namespaces for models.
-If necessary you can use prefixes as you might do in C.
+There is (unfortunately) no built-in conflict resolution mechanism for models like packages or namespaces.
+If necessary you must use prefixes as you might do in C.
 
 \begin{rail}
   TestDeclaration: (() | 'exact' | 'induced') 'test' ActionSignature lbrace Pattern rbrace ;
