@@ -44,7 +44,7 @@ public class IteratedNode extends ActionDeclNode  {
 	private int maxMatches;
 
 	/** Type for this declaration. */
-	private static TypeNode subpatternType = new IteratedTypeNode();
+	private static IteratedTypeNode iteratedType = new IteratedTypeNode();
 
 	/**
 	 * Make a new iterated rule.
@@ -53,7 +53,7 @@ public class IteratedNode extends ActionDeclNode  {
 	 */
 	public IteratedNode(IdentNode id, PatternGraphNode left, CollectNode<RhsDeclNode> right,
 			int minMatches, int maxMatches) {
-		super(id, subpatternType);
+		super(id, iteratedType);
 		this.pattern = left;
 		becomeParent(this.pattern);
 		this.right = right;
@@ -625,7 +625,7 @@ public class IteratedNode extends ActionDeclNode  {
 	public IteratedTypeNode getDeclType() {
 		assert isResolved();
 
-		return type;
+		return iteratedType;
 	}
 
 	public static String getKindStr() {

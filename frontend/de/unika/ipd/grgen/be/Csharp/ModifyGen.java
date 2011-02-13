@@ -343,9 +343,8 @@ public class ModifyGen extends CSharpBase {
 			genModifyRuleOrSubrule(sb, task, pathPrefix);
 		}
 
-		int i = 0;
 		for(Alternative alt : rule.getLeft().getAlts()) {
-			String altName = "alt_" + i;
+			String altName = alt.getNameOfGraph();
 
 			genModifyAlternative(sb, rule, alt, pathPrefix+rule.getLeft().getNameOfGraph()+"_", altName, isSubpattern);
 
@@ -354,16 +353,13 @@ public class ModifyGen extends CSharpBase {
 				String altCasePatGraphVarName = pathPrefix+rule.getLeft().getNameOfGraph()+"_"+altName+"_"+altCasePattern.getNameOfGraph();
 				genModify(sb, altCase, pathPrefix+rule.getLeft().getNameOfGraph()+"_"+altName+"_", altCasePatGraphVarName, isSubpattern);
 			}
-			++i;
 		}
 
-		i = 0;
 		for(Rule iter : rule.getLeft().getIters()) {
-			String iterName = "iter_" + i;
+			String iterName = iter.getLeft().getNameOfGraph();
 			String iterPatGraphVarName = pathPrefix+rule.getLeft().getNameOfGraph()+"_"+iterName;
 			genModifyIterated(sb, iter, pathPrefix+rule.getLeft().getNameOfGraph()+"_", iterName, isSubpattern);
 			genModify(sb, iter, pathPrefix+rule.getLeft().getNameOfGraph()+"_", iterPatGraphVarName, isSubpattern);
-			++i;
 		}
 	}
 
@@ -1233,10 +1229,9 @@ public class ModifyGen extends CSharpBase {
 
 		if(task.typeOfTask==TYPE_OF_TASK_MODIFY) {
 			// generate calls to the modifications of the alternatives (nested alternatives are handled in their enclosing alternative)
-			int i = 0;
 			Collection<Alternative> alts = task.left.getAlts();
 			for(Alternative alt : alts) {
-				String altName = "alt_" + i;
+				String altName = alt.getNameOfGraph();
 				sb.append("\t\t\t" + pathPrefix+task.left.getNameOfGraph()+"_"+altName+"_" +
 						"Modify(graph, alternative_" + altName);
 				List<Entity> replParameters = new LinkedList<Entity>();
@@ -1245,13 +1240,13 @@ public class ModifyGen extends CSharpBase {
 					sb.append(", " + formatEntity(entity));
 				}
 				sb.append(");\n");
-				++i;
 			}
 		}
 		else if(task.typeOfTask==TYPE_OF_TASK_DELETION) {
 			// generate calls to the deletion of the alternatives (nested alternatives are handled in their enclosing alternative)
-			for(int i = 0; i < task.left.getAlts().size(); i++) {
-				String altName = "alt_" + i;
+			Collection<Alternative> alts = task.left.getAlts();
+			for(Alternative alt : alts) {
+				String altName = alt.getNameOfGraph();
 				sb.append("\t\t\t" + pathPrefix+task.left.getNameOfGraph()+"_"+altName+"_" +
 						"Delete" + "(graph, alternative_"+altName+");\n");
 			}
@@ -1265,10 +1260,9 @@ public class ModifyGen extends CSharpBase {
 
 		if(task.typeOfTask==TYPE_OF_TASK_MODIFY) {
 			// generate calls to the modifications of the iterateds (nested iterateds are handled in their enclosing iterated)
-			int i = 0;
 			Collection<Rule> iters = task.left.getIters();
 			for(Rule iter : iters) {
-				String iterName = "iter_" + i;
+				String iterName = iter.getLeft().getNameOfGraph();
 				sb.append("\t\t\t" + pathPrefix+task.left.getNameOfGraph()+"_"+iterName+"_" +
 						"Modify(graph, iterated_" + iterName);
 				List<Entity> replParameters = iter.getRight().getReplParameters();
@@ -1276,13 +1270,13 @@ public class ModifyGen extends CSharpBase {
 					sb.append(", " + formatEntity(entity));
 				}
 				sb.append(");\n");
-				++i;
 			}
 		}
 		else if(task.typeOfTask==TYPE_OF_TASK_DELETION) {
 			// generate calls to the deletion of the iterateds (nested iterateds are handled in their enclosing iterated)
-			for(int i = 0; i < task.left.getIters().size(); i++) {
-				String iterName = "iter_" + i;
+			Collection<Rule> iters = task.left.getIters();
+			for(Rule iter : iters) {
+				String iterName = iter.getLeft().getNameOfGraph();
 				sb.append("\t\t\t" + pathPrefix+task.left.getNameOfGraph()+"_"+iterName+"_" +
 						"Delete" + "(graph, iterated_"+iterName+");\n");
 			}
@@ -1416,15 +1410,15 @@ public class ModifyGen extends CSharpBase {
 			sb.append("\t\t\t"+matchType(sub.getSubpatternAction().getPattern(), true, "")+" subpattern_" + subName
 					+ " = curMatch.@_" + formatIdentifiable(sub) + ";\n");
 		}
-		for(int i = 0; i < pattern.getIters().size(); i++) {
-			String iterName = "iter_" + i;
+		for(Rule iter : pattern.getIters()) {
+			String iterName = iter.getLeft().getNameOfGraph();
 			String iterType = "GRGEN_LGSP.LGSPMatchesList<Match_"+pathPrefix+pattern.getNameOfGraph()+"_"+iterName
 			  + ", IMatch_"+pathPrefix+pattern.getNameOfGraph()+"_"+iterName+">";
 			sb.append("\t\t\t"+iterType+" iterated_" + iterName
 					+ " = curMatch._"+iterName+";\n");
 		}
-		for(int i = 0; i < pattern.getAlts().size(); i++) {
-			String altName = "alt_" + i;
+		for(Alternative alt : pattern.getAlts()) {
+			String altName = alt.getNameOfGraph();
 			String altType = "IMatch_"+pathPrefix+pattern.getNameOfGraph()+"_"+altName;
 			sb.append("\t\t\t"+altType+" alternative_" + altName
 					+ " = curMatch._"+altName+";\n");

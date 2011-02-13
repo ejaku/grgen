@@ -80,20 +80,6 @@ tokens {
 }
 
 @members {
-	class NestedPatternCounters {
-		NestedPatternCounters() {
-			alt = 0;
-			iter = 0;
-			neg = 0;
-			idpt = 0;
-		}
-		
-		int alt;
-		int iter;
-		int neg;
-		int idpt;
-	}
-		
 	boolean hadError = false;
 
 	private static Map<Integer, Integer> opIds = new HashMap<Integer, Integer>();
@@ -315,10 +301,11 @@ patternOrActionOrSequenceDecl [ CollectNode<IdentNode> patternChilds, CollectNod
 		CollectNode<RhsDeclNode> rightHandSides = new CollectNode<RhsDeclNode>();
 		CollectNode<BaseNode> modifyParams = new CollectNode<BaseNode>();
 		ExecNode exec = null;
+		AnonymousPatternNamer namer = new AnonymousPatternNamer(env);
 	}
 
 	: t=TEST id=actionIdentDecl pushScope[id] params=parameters[BaseNode.CONTEXT_TEST|BaseNode.CONTEXT_ACTION|BaseNode.CONTEXT_LHS|BaseNode.CONTEXT_PARAMETER, null] ret=returnTypes LBRACE
-		left=patternPart[getCoords(t), params, mod, BaseNode.CONTEXT_TEST|BaseNode.CONTEXT_ACTION|BaseNode.CONTEXT_LHS, id.toString()]
+		left=patternPart[getCoords(t), params, namer, mod, BaseNode.CONTEXT_TEST|BaseNode.CONTEXT_ACTION|BaseNode.CONTEXT_LHS, id.toString()]
 			{
 				id.setDecl(new TestDeclNode(id, left, ret));
 				actionChilds.addChild(id);
@@ -330,7 +317,7 @@ patternOrActionOrSequenceDecl [ CollectNode<IdentNode> patternChilds, CollectNod
 			}
 		}
 	| r=RULE id=actionIdentDecl pushScope[id] params=parameters[BaseNode.CONTEXT_RULE|BaseNode.CONTEXT_ACTION|BaseNode.CONTEXT_LHS|BaseNode.CONTEXT_PARAMETER, null] ret=returnTypes LBRACE
-		left=patternPart[getCoords(r), params, mod, BaseNode.CONTEXT_RULE|BaseNode.CONTEXT_ACTION|BaseNode.CONTEXT_LHS, id.toString()]
+		left=patternPart[getCoords(r), params, namer, mod, BaseNode.CONTEXT_RULE|BaseNode.CONTEXT_ACTION|BaseNode.CONTEXT_LHS, id.toString()]
 		( rightReplace=replacePart[eval, new CollectNode<BaseNode>(), BaseNode.CONTEXT_RULE|BaseNode.CONTEXT_ACTION|BaseNode.CONTEXT_RHS, id, left]
 			{
 				id.setDecl(new RuleDeclNode(id, left, rightReplace, ret));
@@ -345,7 +332,7 @@ patternOrActionOrSequenceDecl [ CollectNode<IdentNode> patternChilds, CollectNod
 		RBRACE popScope
 	| p=PATTERN id=patIdentDecl pushScope[id] params=parameters[BaseNode.CONTEXT_PATTERN|BaseNode.CONTEXT_LHS|BaseNode.CONTEXT_PARAMETER, null] 
 		((MODIFY|REPLACE) mp=parameters[BaseNode.CONTEXT_PATTERN|BaseNode.CONTEXT_RHS|BaseNode.CONTEXT_PARAMETER, null] { modifyParams = mp; })? LBRACE
-		left=patternPart[getCoords(p), params, mod, BaseNode.CONTEXT_PATTERN|BaseNode.CONTEXT_LHS, id.toString()]
+		left=patternPart[getCoords(p), params, namer, mod, BaseNode.CONTEXT_PATTERN|BaseNode.CONTEXT_LHS, id.toString()]
 		( rightReplace=replacePart[eval, modifyParams, BaseNode.CONTEXT_PATTERN|BaseNode.CONTEXT_RHS, id, left]
 			{
 				rightHandSides.addChild(rightReplace);
@@ -450,12 +437,12 @@ returnType returns [ BaseNode res = env.initNode() ]
 		}
 	;
 
-patternPart [ Coords pattern_coords, CollectNode<BaseNode> params, int mod, int context, String nameOfGraph ] returns [ PatternGraphNode res = null ]
+patternPart [ Coords pattern_coords, CollectNode<BaseNode> params, AnonymousPatternNamer namer, int mod, int context, String nameOfGraph ] returns [ PatternGraphNode res = null ]
 	: p=PATTERN LBRACE
-		n=patternBody[getCoords(p), params, mod, context, nameOfGraph] { res = n; }
+		n=patternBody[getCoords(p), params, namer, mod, context, nameOfGraph] { res = n; }
 		RBRACE
 			{ reportWarning(getCoords(p), "separate pattern part deprecated, just merge content directly into rule/test-body"); }
-	| n=patternBody[pattern_coords, params, mod, context, nameOfGraph] { res = n; }
+	| n=patternBody[pattern_coords, params, namer, mod, context, nameOfGraph] { res = n; }
 	;
 
 replacePart [ CollectNode<EvalStatementNode> eval, CollectNode<BaseNode> params,
@@ -494,7 +481,7 @@ evalBody [ CollectNode<EvalStatementNode> n  ]
 	: ( a=assignmentOrMethodCall { n.addChild(a); } SEMI )*
 	;
 
-patternBody [ Coords coords, CollectNode<BaseNode> params, int mod, int context, String nameOfGraph ] returns [ PatternGraphNode res = null ]
+patternBody [ Coords coords, CollectNode<BaseNode> params, AnonymousPatternNamer namer, int mod, int context, String nameOfGraph ] returns [ PatternGraphNode res = null ]
 	@init{
 		CollectNode<BaseNode> connections = new CollectNode<BaseNode>();
 		CollectNode<SubpatternUsageNode> subpatterns = new CollectNode<SubpatternUsageNode>();
@@ -508,27 +495,27 @@ patternBody [ Coords coords, CollectNode<BaseNode> params, int mod, int context,
 		CollectNode<HomNode> homs = new CollectNode<HomNode>();
 		CollectNode<ExactNode> exact = new CollectNode<ExactNode>();
 		CollectNode<InducedNode> induced = new CollectNode<InducedNode>();
-		NestedPatternCounters counters = new NestedPatternCounters();
-		res = new PatternGraphNode(nameOfGraph, coords, connections, params, subpatterns, orderedReplacements, 
+		res = new PatternGraphNode(nameOfGraph, coords, 
+				connections, params, subpatterns, orderedReplacements, 
 				alts, iters, negs, idpts, conds,
 				returnz, homs, exact, induced, mod, context);
 	}
 
 	: ( patternStmt[connections, subpatterns, orderedReplacements,
-			alts, iters, negs, idpts, counters, conds,
+			alts, iters, negs, idpts, namer, conds,
 			returnz, homs, exact, induced, context, res] )*
 	;
 
 patternStmt [ CollectNode<BaseNode> conn, CollectNode<SubpatternUsageNode> subpatterns, CollectNode<OrderedReplacementNode> orderedReplacements,
 			CollectNode<AlternativeNode> alts, CollectNode<IteratedNode> iters, CollectNode<PatternGraphNode> negs,
-			CollectNode<PatternGraphNode> idpts, NestedPatternCounters counters, CollectNode<ExprNode> conds,
+			CollectNode<PatternGraphNode> idpts, AnonymousPatternNamer namer, CollectNode<ExprNode> conds,
 			CollectNode<ExprNode> returnz, CollectNode<HomNode> homs, CollectNode<ExactNode> exact, CollectNode<InducedNode> induced,
 			int context, PatternGraphNode directlyNestingLHSGraph]
 	: connectionsOrSubpattern[conn, subpatterns, orderedReplacements, context, directlyNestingLHSGraph] SEMI
-	| (iterated[0, 0]) => iter=iterated[counters.iter, context] { iters.addChild(iter); ++counters.iter; } // must scan ahead to end of () to see if *,+,?,[ is following in order to distinguish from one-case alternative ()
-	| alt=alternative[counters.alt, context] { alts.addChild(alt); ++counters.alt; }
-	| neg=negative[counters.neg, context] { negs.addChild(neg); ++counters.neg; }
-	| idpt=independent[counters.idpt, context] { idpts.addChild(idpt); ++counters.idpt; }
+	| (iterated[AnonymousPatternNamer.getDummyNamer(), 0]) => iter=iterated[namer, context] { iters.addChild(iter); } // must scan ahead to end of () to see if *,+,?,[ is following in order to distinguish from one-case alternative ()
+	| alt=alternative[namer, context] { alts.addChild(alt); }
+	| neg=negative[namer, context] { negs.addChild(neg); }
+	| idpt=independent[namer, context] { idpts.addChild(idpt); }
 	| condition[conds]
 	| rets[returnz, context] SEMI
 	| hom=homStatement { homs.addChild(hom); } SEMI
@@ -1065,20 +1052,17 @@ modifyStmt [ Coords coords, CollectNode<BaseNode> connections, CollectNode<Subpa
 	| evalPart[eval]
 	;
 
-alternative [ int altCount, int context ] returns [ AlternativeNode alt = null ]
-	@init{
-		int altCasesCount = 0;
-	}
-	: a=ALTERNATIVE (name=altIdentDecl)? { alt = new AlternativeNode(getCoords(a)); } LBRACE
-		( alternativeCase[alt, altCount, context] ) +
+alternative [ AnonymousPatternNamer namer, int context ] returns [ AlternativeNode alt = null ]
+	: a=ALTERNATIVE (name=altIdentDecl)? { namer.defAlt(name, getCoords(a)); alt = new AlternativeNode(namer.alt()); } LBRACE
+		( alternativeCase[alt, namer, context] ) +
 		RBRACE
-	| a=LPAREN { alt = new AlternativeNode(getCoords(a)); }
-		( alternativeCasePure[alt, a, altCount, altCasesCount, context] { ++altCasesCount; } )
-			( BOR alternativeCasePure[alt, a, altCount, altCasesCount, context] { ++altCasesCount; } ) *
+	| a=LPAREN { namer.defAlt(null, getCoords(a)); alt = new AlternativeNode(namer.alt()); }
+		( alternativeCasePure[alt, a, namer, context] )
+			( BOR alternativeCasePure[alt, a, namer, context] ) *
 		RPAREN
 	;	
 	
-alternativeCase [ AlternativeNode alt, int altCount, int context ]
+alternativeCase [ AlternativeNode alt, AnonymousPatternNamer namer, int context ]
 	@init{
 		int mod = 0;
 		CollectNode<EvalStatementNode> eval = new CollectNode<EvalStatementNode>();
@@ -1086,22 +1070,22 @@ alternativeCase [ AlternativeNode alt, int altCount, int context ]
 		CollectNode<RhsDeclNode> rightHandSides = new CollectNode<RhsDeclNode>();
 	}
 	
-	: id=altIdentDecl l=LBRACE pushScopeStr["alt_"+altCount+id.toString(), getCoords(l)]
-		left=patternBody[getCoords(l), new CollectNode<BaseNode>(), mod, context, id.toString()]
+	: (name=altIdentDecl)? l=LBRACE { namer.defAltCase(name, getCoords(l)); } pushScope[namer.altCase()]
+		left=patternBody[getCoords(l), new CollectNode<BaseNode>(), namer, mod, context, namer.altCase().toString()]
 		(
-			rightReplace=replacePart[eval, new CollectNode<BaseNode>(), context|BaseNode.CONTEXT_RHS, id, left]
+			rightReplace=replacePart[eval, new CollectNode<BaseNode>(), context|BaseNode.CONTEXT_RHS, namer.altCase(), left]
 				{
 					rightHandSides.addChild(rightReplace);
 				}
-			| rightModify=modifyPart[eval, dels, new CollectNode<BaseNode>(), context|BaseNode.CONTEXT_RHS, id, left]
+			| rightModify=modifyPart[eval, dels, new CollectNode<BaseNode>(), context|BaseNode.CONTEXT_RHS, namer.altCase(), left]
 				{
 					rightHandSides.addChild(rightModify);
 				}
 		) ?
-		RBRACE popScope	{ alt.addChild(new AlternativeCaseNode(id, left, rightHandSides)); }
+		RBRACE popScope	{ alt.addChild(new AlternativeCaseNode(namer.altCase(), left, rightHandSides)); }
 	;
 
-alternativeCasePure [ AlternativeNode alt, Token a, int altCount, int altCasesCount, int context ]
+alternativeCasePure [ AlternativeNode alt, Token a, AnonymousPatternNamer namer, int context ]
 	@init{
 		int mod = 0;
 		CollectNode<EvalStatementNode> eval = new CollectNode<EvalStatementNode>();
@@ -1110,23 +1094,22 @@ alternativeCasePure [ AlternativeNode alt, Token a, int altCount, int altCasesCo
 		IdentNode altCaseName = IdentNode.getInvalid();
 	}
 	
-	: { altCaseName = new IdentNode(env.define(ParserEnvironment.ALTERNATIVES, "alt_"+altCount+"_"+altCasesCount, getCoords(a))); }
-		pushScopeStr["alt_"+altCount+"_"+altCaseName.toString(), getCoords(a)]
-		left=patternBody[getCoords(a), new CollectNode<BaseNode>(), mod, context, altCaseName.toString()]
+	: { namer.defAltCase(null, getCoords(a)); } pushScope[namer.altCase()]
+		left=patternBody[getCoords(a), new CollectNode<BaseNode>(), namer, mod, context, namer.altCase().toString()]
 		(
-			rightReplace=replacePart[eval, new CollectNode<BaseNode>(), context|BaseNode.CONTEXT_RHS, altCaseName, left]
+			rightReplace=replacePart[eval, new CollectNode<BaseNode>(), context|BaseNode.CONTEXT_RHS, namer.altCase(), left]
 				{
 					rightHandSides.addChild(rightReplace);
 				}
-			| rightModify=modifyPart[eval, dels, new CollectNode<BaseNode>(), context|BaseNode.CONTEXT_RHS, altCaseName, left]
+			| rightModify=modifyPart[eval, dels, new CollectNode<BaseNode>(), context|BaseNode.CONTEXT_RHS, namer.altCase(), left]
 				{
 					rightHandSides.addChild(rightModify);
 				}
 		) ?
-		popScope { alt.addChild(new AlternativeCaseNode(altCaseName, left, rightHandSides)); }
+		popScope { alt.addChild(new AlternativeCaseNode(namer.altCase(), left, rightHandSides)); }
 	;
 
-iterated [ int iterCount, int context ] returns [ IteratedNode res = null ]
+iterated [ AnonymousPatternNamer namer, int context ] returns [ IteratedNode res = null ]
 	@init{
 		CollectNode<EvalStatementNode> eval = new CollectNode<EvalStatementNode>();
 		CollectNode<IdentNode> dels = new CollectNode<IdentNode>();
@@ -1140,81 +1123,85 @@ iterated [ int iterCount, int context ] returns [ IteratedNode res = null ]
 	  | i=OPTIONAL { minMatches = 0; maxMatches = 1; }
 	  | i=MULTIPLE { minMatches = 1; maxMatches = 0; }
 	  )
-	    ( in=iterIdentDecl { iterName = in; } | { iterName = new IdentNode(env.define(ParserEnvironment.ITERATEDS, "iter_"+iterCount, getCoords(i))); } )
-		LBRACE pushScopeStr["iter_"+iterCount, getCoords(i)]
-		left=patternBody[getCoords(i), new CollectNode<BaseNode>(), 0, context, "iter_"+iterCount]
+	    ( name=iterIdentDecl { namer.defIter(name, null); } 
+		  | { namer.defIter(null, getCoords(i)); } )
+		LBRACE pushScope[namer.iter()]
+		left=patternBody[getCoords(i), new CollectNode<BaseNode>(), namer, 0, context, namer.iter().toString()]
 		(
-			rightReplace=replacePart[eval, new CollectNode<BaseNode>(), context|BaseNode.CONTEXT_RHS, iterName, left]
+			rightReplace=replacePart[eval, new CollectNode<BaseNode>(), context|BaseNode.CONTEXT_RHS, namer.iter(), left]
 				{
 					rightHandSides.addChild(rightReplace);
 				}
-			| rightModify=modifyPart[eval, dels, new CollectNode<BaseNode>(), context|BaseNode.CONTEXT_RHS, iterName, left]
+			| rightModify=modifyPart[eval, dels, new CollectNode<BaseNode>(), context|BaseNode.CONTEXT_RHS, namer.iter(), left]
 				{
 					rightHandSides.addChild(rightModify);
 				}
 		) ?				
-		RBRACE popScope { res = new IteratedNode(iterName, left, rightHandSides, minMatches, maxMatches); }
+		RBRACE popScope { res = new IteratedNode(namer.iter(), left, rightHandSides, minMatches, maxMatches); }
 	| 
-		{ iterName = new IdentNode(env.define(ParserEnvironment.ITERATEDS, "iter_"+iterCount, getCoords(i))); }
-		LPAREN pushScopeStr["iter_"+iterCount, getCoords(i)]
-		left=patternBody[getCoords(i), new CollectNode<BaseNode>(), 0, context, "iter_"+iterCount]
+		l=LPAREN { namer.defIter(null, getCoords(l)); } pushScope[namer.iter()]
+		left=patternBody[getCoords(i), new CollectNode<BaseNode>(), namer, 0, context, namer.iter().toString()]
 		(
-			rightReplace=replacePart[eval, new CollectNode<BaseNode>(), context|BaseNode.CONTEXT_RHS, iterName, left]
+			rightReplace=replacePart[eval, new CollectNode<BaseNode>(), context|BaseNode.CONTEXT_RHS, namer.iter(), left]
 				{
 					rightHandSides.addChild(rightReplace);
 				}
-			| rightModify=modifyPart[eval, dels, new CollectNode<BaseNode>(), context|BaseNode.CONTEXT_RHS, iterName, left]
+			| rightModify=modifyPart[eval, dels, new CollectNode<BaseNode>(), context|BaseNode.CONTEXT_RHS, namer.iter(), left]
 				{
 					rightHandSides.addChild(rightModify);
 				}
 		) ?	
 		RPAREN popScope 
 	  ( 
-	    i=STAR { minMatches = 0; maxMatches = 0; } 
-	  | i=QUESTION { minMatches = 0; maxMatches = 1; }
-	  | i=PLUS { minMatches = 1; maxMatches = 0; }
-	  | l=LBRACK i=NUM_INTEGER { minMatches = Integer.parseInt(i.getText()); }
+	    STAR { minMatches = 0; maxMatches = 0; } 
+	  | QUESTION { minMatches = 0; maxMatches = 1; }
+	  | PLUS { minMatches = 1; maxMatches = 0; }
+	  | LBRACK i=NUM_INTEGER { minMatches = Integer.parseInt(i.getText()); }
 	  	   ( COLON ( STAR { maxMatches=0; } | i=NUM_INTEGER { maxMatches = Integer.parseInt(i.getText()); } ) | { maxMatches = minMatches; } )
 		  RBRACK
 	  )
-		{ res = new IteratedNode(iterName, left, rightHandSides, minMatches, maxMatches); }
+		{ res = new IteratedNode(namer.iter(), left, rightHandSides, minMatches, maxMatches); }
 	;
 
-negative [ int negCount, int context ] returns [ PatternGraphNode res = null ]
+negative [ AnonymousPatternNamer namer, int context ] returns [ PatternGraphNode res = null ]
 	@init{
 		int mod = 0;
 	}
 	
-	: n=NEGATIVE (name=negIdentDecl)? LBRACE pushScopeStr["neg"+negCount, getCoords(n)]
+	: n=NEGATIVE (name=negIdentDecl)? { namer.defNeg(name, getCoords(n)); } 
+		LBRACE pushScope[namer.neg()]
 			( ( PATTERNPATH { mod = PatternGraphNode.MOD_PATTERNPATH_LOCKED; }
 			| PATTERN { mod = PatternGraphNode.MOD_PATTERN_LOCKED; } ) SEMI )*
-			b=patternBody[getCoords(n), new CollectNode<BaseNode>(), mod, 
-				context|BaseNode.CONTEXT_NEGATIVE, "negative"+negCount] { res = b; } 
+			b=patternBody[getCoords(n), new CollectNode<BaseNode>(), namer, mod, 
+				context|BaseNode.CONTEXT_NEGATIVE, namer.neg().toString()] { res = b; } 
 		RBRACE popScope
-	| n=TILDE LPAREN pushScopeStr["neg"+negCount, getCoords(n)]
+	| n=TILDE { namer.defNeg(null, getCoords(n)); }
+		LPAREN pushScope[namer.neg()]
 			( ( PATTERNPATH { mod = PatternGraphNode.MOD_PATTERNPATH_LOCKED; }
 			| PATTERN { mod = PatternGraphNode.MOD_PATTERN_LOCKED; } ) SEMI )*
-			b=patternBody[getCoords(n), new CollectNode<BaseNode>(), mod, 
-				context|BaseNode.CONTEXT_NEGATIVE, "negative"+negCount] { res = b; } 
+			b=patternBody[getCoords(n), new CollectNode<BaseNode>(), namer, mod, 
+				context|BaseNode.CONTEXT_NEGATIVE, namer.neg().toString()] { res = b; } 
 		RPAREN popScope
 	;
 
-independent [ int idptCount, int context ] returns [ PatternGraphNode res = null ]
+independent [ AnonymousPatternNamer namer, int context ] returns [ PatternGraphNode res = null ]
 	@init{
 		int mod = 0;
 	}
 	
-	: i=INDEPENDENT (name=idptIdentDecl)? LBRACE pushScopeStr["idpt"+idptCount, getCoords(i)]
+	: i=INDEPENDENT (name=idptIdentDecl)? { namer.defIdpt(name, getCoords(i)); }
+		LBRACE pushScope[namer.idpt()]
 			( ( PATTERNPATH { mod = PatternGraphNode.MOD_PATTERNPATH_LOCKED; }
 			| PATTERN { mod = PatternGraphNode.MOD_PATTERN_LOCKED; } ) SEMI )*
-			b=patternBody[getCoords(i), new CollectNode<BaseNode>(), mod,
-				context|BaseNode.CONTEXT_INDEPENDENT, "independent"+idptCount] { res = b; } 
+			b=patternBody[getCoords(i), new CollectNode<BaseNode>(), namer, mod,
+				context|BaseNode.CONTEXT_INDEPENDENT, namer.idpt().toString()] { res = b; } 
 		RBRACE popScope
-	| i=BAND LPAREN pushScopeStr["idpt"+idptCount, getCoords(i)]
+	| i=BAND { namer.defIdpt(null, getCoords(i)); }
+		LPAREN pushScope[namer.idpt()]
 			( ( PATTERNPATH { mod = PatternGraphNode.MOD_PATTERNPATH_LOCKED; }
 			| PATTERN { mod = PatternGraphNode.MOD_PATTERN_LOCKED; } ) SEMI )*
-			b=patternBody[getCoords(i), new CollectNode<BaseNode>(), mod,
-				context|BaseNode.CONTEXT_INDEPENDENT, "independent"+idptCount] { res = b; } 
+			b=patternBody[getCoords(i), new CollectNode<BaseNode>(), namer, mod,
+				context|BaseNode.CONTEXT_INDEPENDENT, namer.idpt().toString()] { res = b; } 
 		RPAREN popScope
 	;
 
@@ -2059,19 +2046,16 @@ memberIdent returns [ Token t = null ]
 
 pushScope [IdentNode name]
 	@init{ env.pushScope(name); }
-
 	:
 	;
 
 pushScopeStr [String str, Coords coords]
 	@init{ env.pushScope(new IdentNode(new Symbol.Definition(env.getCurrScope(), coords, new Symbol(str, SymbolTable.getInvalid())))); }
-
 	:
 	;
 
 popScope
 	@init{ env.popScope(); }
-
 	:
 	;
 

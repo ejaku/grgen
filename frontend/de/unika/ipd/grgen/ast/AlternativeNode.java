@@ -17,20 +17,22 @@ import java.util.Vector;
 import de.unika.ipd.grgen.ir.Alternative;
 import de.unika.ipd.grgen.ir.IR;
 import de.unika.ipd.grgen.ir.Rule;
-import de.unika.ipd.grgen.parser.Coords;
 
 /**
  * AST node that represents an alternative, containing the alternative graph patterns
  */
-public class AlternativeNode extends BaseNode {
+public class AlternativeNode extends DeclNode {
 	static {
 		setName(AlternativeNode.class, "alternative");
 	}
 
+	/** Type for this declaration. */
+	private static AlternativeTypeNode alternativeType = new AlternativeTypeNode();
+	
 	private Vector<AlternativeCaseNode> children = new Vector<AlternativeCaseNode>();
 
-	public AlternativeNode(Coords coords) {
-		super(coords);
+	public AlternativeNode(IdentNode id) {
+		super(id, alternativeType);
 	}
 
 	public void addChild(AlternativeCaseNode n) {
@@ -73,11 +75,18 @@ public class AlternativeNode extends BaseNode {
 	/** @see de.unika.ipd.grgen.ast.BaseNode#constructIR() */
 	@Override
 	protected IR constructIR() {
-		Alternative alternative = new Alternative();
+		Alternative alternative = new Alternative(ident.getIdent());
 		for (AlternativeCaseNode alternativeCaseNode : children) {
 			Rule alternativeCaseRule = alternativeCaseNode.checkIR(Rule.class);
 			alternative.addAlternativeCase(alternativeCaseRule);
 		}
 		return alternative;
+	}
+
+	@Override
+	public AlternativeTypeNode getDeclType() {
+		assert isResolved();
+
+		return alternativeType;
 	}
 }

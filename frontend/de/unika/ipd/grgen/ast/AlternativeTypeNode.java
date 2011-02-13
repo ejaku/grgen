@@ -12,11 +12,11 @@ import java.util.Vector;
 
 
 /**
- * Type of iterated node declaration.
+ * Type of alternative node declaration.
  */
-public class IteratedTypeNode extends TypeNode {
+public class AlternativeTypeNode extends TypeNode {
 	static {
-		setName(IteratedTypeNode.class, "iterated type");
+		setName(AlternativeTypeNode.class, "alternative type");
 	}
 
 	/** returns children of this node */

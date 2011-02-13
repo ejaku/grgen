@@ -342,29 +342,24 @@ public class ActionsGen extends CSharpBase {
 		sb.append("\t\tpublic GRGEN_LGSP.PatternGraph " + patGraphVarName + ";\n");
 		sb.append("\n");
 
-		int i = 0;
 		for(PatternGraph neg : pattern.getNegs()) {
-			String negName = "neg_" + i;
+			String negName = neg.getNameOfGraph();
 			HashMap<Entity, String> alreadyDefinedEntityToNameClone = new HashMap<Entity, String>(alreadyDefinedEntityToName);
 			genRuleOrSubpatternClassEntities(sb, neg, pathPrefixForElements+negName, staticInitializers,
 					pathPrefixForElements + negName + "_",
 					alreadyDefinedEntityToNameClone);
-			++i;
 		}
 
-		i = 0;
 		for(PatternGraph idpt : pattern.getIdpts()) {
-			String idptName = "idpt_" + i;
+			String idptName = idpt.getNameOfGraph();
 			HashMap<Entity, String> alreadyDefinedEntityToNameClone = new HashMap<Entity, String>(alreadyDefinedEntityToName);
 			genRuleOrSubpatternClassEntities(sb, idpt, pathPrefixForElements+idptName, staticInitializers,
 					pathPrefixForElements + idptName + "_",
 					alreadyDefinedEntityToNameClone);
-			++i;
 		}
 
-		i = 0;
 		for(Alternative alt : pattern.getAlts()) {
-			String altName = "alt_" + i;
+			String altName = alt.getNameOfGraph();
 			genCaseEnum(sb, alt, pathPrefixForElements+altName+"_");
 			for(Rule altCase : alt.getAlternativeCases()) {
 				PatternGraph altCasePattern = altCase.getLeft();
@@ -374,17 +369,14 @@ public class ActionsGen extends CSharpBase {
 						pathPrefixForElements + altName + "_" + altCasePattern.getNameOfGraph() + "_",
 						alreadyDefinedEntityToNameClone);
 			}
-			++i;
 		}
 
-		i = 0;
 		for(Rule iter : pattern.getIters()) {
-			String iterName = "iter_" + i;
+			String iterName = iter.getLeft().getNameOfGraph();
 			HashMap<Entity, String> alreadyDefinedEntityToNameClone = new HashMap<Entity, String>(alreadyDefinedEntityToName);
 			genRuleOrSubpatternClassEntities(sb, iter, pathPrefixForElements+iterName, staticInitializers,
 					pathPrefixForElements + iterName + "_",
 					alreadyDefinedEntityToNameClone);
-			++i;
 		}
 	}
 
@@ -398,29 +390,24 @@ public class ActionsGen extends CSharpBase {
 		sb.append("\t\tpublic GRGEN_LGSP.PatternGraph " + patGraphVarName + ";\n");
 		sb.append("\n");
 
-		int i = 0;
 		for(PatternGraph neg : pattern.getNegs()) {
-			String negName = "neg_" + i;
+			String negName = neg.getNameOfGraph();
 			HashMap<Entity, String> alreadyDefinedEntityToNameClone = new HashMap<Entity, String>(alreadyDefinedEntityToName);
 			genRuleOrSubpatternClassEntities(sb, neg, pathPrefixForElements+negName, staticInitializers,
 					pathPrefixForElements + negName + "_",
 					alreadyDefinedEntityToNameClone);
-			++i;
 		}
 
-		i = 0;
 		for(PatternGraph idpt : pattern.getIdpts()) {
-			String idptName = "idpt_" + i;
+			String idptName = idpt.getNameOfGraph();
 			HashMap<Entity, String> alreadyDefinedEntityToNameClone = new HashMap<Entity, String>(alreadyDefinedEntityToName);
 			genRuleOrSubpatternClassEntities(sb, idpt, pathPrefixForElements+idptName, staticInitializers,
 					pathPrefixForElements + idptName + "_",
 					alreadyDefinedEntityToNameClone);
-			++i;
 		}
 
-		i = 0;
 		for(Alternative alt : pattern.getAlts()) {
-			String altName = "alt_" + i;
+			String altName = alt.getNameOfGraph();
 			genCaseEnum(sb, alt, pathPrefixForElements+altName+"_");
 			for(Rule altCase : alt.getAlternativeCases()) {
 				PatternGraph altCasePattern = altCase.getLeft();
@@ -430,12 +417,10 @@ public class ActionsGen extends CSharpBase {
 						pathPrefixForElements + altName + "_" + altCasePattern.getNameOfGraph() + "_",
 						alreadyDefinedEntityToNameClone);
 				}
-			++i;
 		}
 
-		i = 0;
 		for(Rule iter : pattern.getIters()) {
-			String iterName = "iter_" + i;
+			String iterName = iter.getLeft().getNameOfGraph();
 			HashMap<Entity, String> alreadyDefinedEntityToNameClone = new HashMap<Entity, String>(alreadyDefinedEntityToName);
 			genRuleOrSubpatternClassEntities(sb, iter, pathPrefixForElements+iterName, staticInitializers,
 					pathPrefixForElements + iterName + "_",
@@ -557,14 +542,14 @@ public class ActionsGen extends CSharpBase {
 		sb.append("};\n");
 
 		sb.append("\t\tpublic enum " + pathPrefixForElements + "AltNums { ");
-		for(int i=0; i < pattern.getAlts().size(); i++) {
-			sb.append("@" + "alt_" + i + ", ");
+		for(Alternative alt : pattern.getAlts()) {
+			sb.append("@" + alt.getNameOfGraph() + ", ");
 		}
 		sb.append("};\n");
 
 		sb.append("\t\tpublic enum " + pathPrefixForElements + "IterNums { ");
-		for(int i=0; i < pattern.getIters().size(); i++) {
-			sb.append("@" + "iter_" + i + ", ");
+		for(Rule iter : pattern.getIters()) {
+			sb.append("@" + iter.getLeft().getNameOfGraph() + ", ");
 		}
 		sb.append("};\n");
 	}
@@ -814,14 +799,14 @@ public class ActionsGen extends CSharpBase {
 		sb.append(", \n");
 
 		sb.append("\t\t\t\tnew GRGEN_LGSP.Alternative[] { ");
-		for(int i = 0; i < pattern.getAlts().size(); ++i) {
-			sb.append(pathPrefixForElements+"alt_" + i + ", ");
+		for(Alternative alt : pattern.getAlts()) {
+			sb.append(pathPrefixForElements + alt.getNameOfGraph() + ", ");
 		}
 		sb.append(" }, \n");
 
 		sb.append("\t\t\t\tnew GRGEN_LGSP.PatternGraph[] { ");
-		for(int i = 0; i < pattern.getIters().size(); ++i) {
-			sb.append(pathPrefixForElements+"iter_" + i + ", ");
+		for(Rule iter : pattern.getIters()) {
+			sb.append(pathPrefixForElements + iter.getLeft().getNameOfGraph() + ", ");
 		}
 		sb.append(" }, \n");
 
@@ -829,14 +814,14 @@ public class ActionsGen extends CSharpBase {
 		sb.append("\t\t\t\t" + pathPrefixForElements + "maxMatches,\n");
 
 		sb.append("\t\t\t\tnew GRGEN_LGSP.PatternGraph[] { ");
-		for(int i = 0; i < pattern.getNegs().size(); ++i) {
-			sb.append(pathPrefixForElements+"neg_" + i + ", ");
+		for(PatternGraph neg : pattern.getNegs()) {
+			sb.append(pathPrefixForElements + neg.getNameOfGraph() + ", ");
 		}
 		sb.append(" }, \n");
 
 		sb.append("\t\t\t\tnew GRGEN_LGSP.PatternGraph[] { ");
-		for(int i = 0; i < pattern.getIdpts().size(); ++i) {
-			sb.append(pathPrefixForElements+"idpt_" + i + ", ");
+		for(PatternGraph idpt : pattern.getIdpts()) {
+			sb.append(pathPrefixForElements + idpt.getNameOfGraph() + ", ");
 		}
 		sb.append(" }, \n");
 
@@ -903,29 +888,27 @@ public class ActionsGen extends CSharpBase {
 		}
 
 		// set embedding-member of contained graphs
-		int i = 0;
 		for(Alternative alt : pattern.getAlts()) {
-			String altName = "alt_" + i;
+			String altName = alt.getNameOfGraph();
 			for(Rule altCase : alt.getAlternativeCases()) {
 				PatternGraph altCasePattern = altCase.getLeft();
 				String altPatGraphVarName = pathPrefixForElements + altName + "_" + altCasePattern.getNameOfGraph();
 				sb.append("\t\t\t" + altPatGraphVarName + ".embeddingGraph = " + patGraphVarName + ";\n");
 			}
-			++i;
 		}
 
-		for(int j = 0; j < pattern.getIters().size(); j++) {
-			String iterName = "iter_" + j;
+		for(Rule iter : pattern.getIters()) {
+			String iterName = iter.getLeft().getNameOfGraph();
 			sb.append("\t\t\t" + pathPrefixForElements+iterName + ".embeddingGraph = " + patGraphVarName + ";\n");
 		}
 
-		for(int j = 0; j < pattern.getNegs().size(); j++) {
-			String negName = "neg_" + j;
+		for(PatternGraph neg : pattern.getNegs()) {
+			String negName = neg.getNameOfGraph();
 			sb.append("\t\t\t" + pathPrefixForElements+negName + ".embeddingGraph = " + patGraphVarName + ";\n");
 		}
 
-		for(int j = 0; j < pattern.getIdpts().size(); j++) {
-			String idptName = "idpt_" + j;
+		for(PatternGraph idpt : pattern.getIdpts()) {
+			String idptName = idpt.getNameOfGraph();
 			sb.append("\t\t\t" + pathPrefixForElements+idptName + ".embeddingGraph = " + patGraphVarName + ";\n");
 		}
 
@@ -1147,9 +1130,8 @@ public class ActionsGen extends CSharpBase {
 			++i;
 		}
 
-		i = 0;
 		for(Alternative alt : pattern.getAlts()) {
-			String altName = "alt_" + i;
+			String altName = alt.getNameOfGraph();
 			for(Rule altCase : alt.getAlternativeCases()) {
 				PatternGraph altCasePattern = altCase.getLeft();
 				String altPatGraphVarName = pathPrefixForElements + altName + "_" + altCasePattern.getNameOfGraph();
@@ -1162,24 +1144,20 @@ public class ActionsGen extends CSharpBase {
 								  alreadyDefinedIdentifiableToNameClone,
 								  parameters, max);
 			}
-			++i;
 		}
 
-		i = 0;
 		for(Alternative alt : pattern.getAlts()) {
-			String altName = "alt_" + i;
+			String altName = alt.getNameOfGraph();
 			sb.append("\t\t\tGRGEN_LGSP.Alternative " + pathPrefixForElements+altName + " = new GRGEN_LGSP.Alternative( ");
 			sb.append("\"" + altName + "\", ");
 			sb.append("\"" + pathPrefixForElements + "\", ");
 			sb.append("new GRGEN_LGSP.PatternGraph[] ");
 			genAlternativesSet(sb, alt.getAlternativeCases(), pathPrefixForElements+altName+"_", "", true);
 			sb.append(" );\n\n");
-			++i;
 		}
 
-		i = 0;
 		for(Rule iter : pattern.getIters()) {
-			String iterName = "iter_" + i;
+			String iterName = iter.getLeft().getNameOfGraph();
 			PatternGraph iterPattern = iter.getLeft();
 			HashMap<Entity, String> alreadyDefinedEntityToNameClone = new HashMap<Entity, String>(alreadyDefinedEntityToName);
 			HashMap<Identifiable, String> alreadyDefinedIdentifiableToNameClone = new HashMap<Identifiable, String>(alreadyDefinedIdentifiableToName);
@@ -1189,12 +1167,10 @@ public class ActionsGen extends CSharpBase {
 							  alreadyDefinedEntityToNameClone,
 							  alreadyDefinedIdentifiableToNameClone,
 							  parameters, max);
-			++i;
 		}
 
-		i = 0;
 		for(PatternGraph neg : pattern.getNegs()) {
-			String negName = "neg_" + i;
+			String negName = neg.getNameOfGraph();
 			HashMap<Entity, String> alreadyDefinedEntityToNameClone = new HashMap<Entity, String>(alreadyDefinedEntityToName);
 			HashMap<Identifiable, String> alreadyDefinedIdentifiableToNameClone = new HashMap<Identifiable, String>(alreadyDefinedIdentifiableToName);
 			genPatternGraph(sb, aux, neg,
@@ -1203,12 +1179,10 @@ public class ActionsGen extends CSharpBase {
 							  alreadyDefinedEntityToNameClone,
 							  alreadyDefinedIdentifiableToNameClone,
 							  parameters, max);
-			++i;
 		}
 
-		i = 0;
 		for(PatternGraph idpt : pattern.getIdpts()) {
-			String idptName = "idpt_" + i;
+			String idptName = idpt.getNameOfGraph();
 			HashMap<Entity, String> alreadyDefinedEntityToNameClone = new HashMap<Entity, String>(alreadyDefinedEntityToName);
 			HashMap<Identifiable, String> alreadyDefinedIdentifiableToNameClone = new HashMap<Identifiable, String>(alreadyDefinedIdentifiableToName);
 			genPatternGraph(sb, aux, idpt,
@@ -1217,7 +1191,6 @@ public class ActionsGen extends CSharpBase {
 							  alreadyDefinedEntityToNameClone,
 							  alreadyDefinedIdentifiableToNameClone,
 							  parameters, max);
-			++i;
 		}
 	}
 
@@ -1267,25 +1240,21 @@ public class ActionsGen extends CSharpBase {
 		genImperativeStatements(sb, rule, pathPrefix);
 				
 		PatternGraph pattern = rule.getPattern();
-		int i = 0;
 		for(Alternative alt : pattern.getAlts()) {
-			String altName = "alt_" + i;
+			String altName = alt.getNameOfGraph();
 			for(Rule altCase : alt.getAlternativeCases()) {
 				PatternGraph altCasePattern = altCase.getLeft();
 				genImperativeStatements(sb, altCase,
 						pathPrefix + altName + "_" + altCasePattern.getNameOfGraph() + "_",
 						false, isSubpattern);
 			}
-			++i;
 		}
 		
-		i = 0;
 		for(Rule iter : pattern.getIters()) {
-			String iterName = "iter_" + i;
+			String iterName = iter.getLeft().getNameOfGraph();
 			genImperativeStatements(sb, iter,
 					pathPrefix + iterName + "_",
 					false, isSubpattern);
-			++i;
 		}
 		
 		if(isTopLevel) {
@@ -1368,27 +1337,22 @@ public class ActionsGen extends CSharpBase {
 		}
 						
 		PatternGraph pattern = rule.getPattern();
-		int i = 0;
 		for(Alternative alt : pattern.getAlts()) {
-			String altName = "alt_" + i;
+			String altName = alt.getNameOfGraph();
 			for(Rule altCase : alt.getAlternativeCases()) {
 				PatternGraph altCasePattern = altCase.getLeft();
 				genImperativeStatementClosures(sb, altCase,
 						pathPrefix + altName + "_" + altCasePattern.getNameOfGraph() + "_",
 						false);
 			}
-			++i;
 		}
 		
-		i = 0;
 		for(Rule iter : pattern.getIters()) {
-			String iterName = "iter_" + i;
+			String iterName = iter.getLeft().getNameOfGraph();
 			genImperativeStatementClosures(sb, iter,
 					pathPrefix + iterName + "_",
 					false);
-			++i;
 		}
-		
 	}
 
 	private void genImperativeStatementClosures(StringBuffer sb, Rule rule, String pathPrefix) {
@@ -1847,27 +1811,22 @@ public class ActionsGen extends CSharpBase {
 		genMatchInterface(sb, pattern, name,
 				base, pathPrefixForElements, iterated, alternativeCase);
 
-		int i = 0;
 		for(PatternGraph neg : pattern.getNegs()) {
-			String negName = "neg_" + i;
+			String negName = neg.getNameOfGraph();
 			genPatternMatchInterface(sb, neg, pathPrefixForElements+negName,
 					"GRGEN_LIBGR.IMatch", pathPrefixForElements + negName + "_",
 					false, false);
-			++i;
 		}
 
-		i = 0;
 		for(PatternGraph idpt : pattern.getIdpts()) {
-			String idptName = "idpt_" + i;
+			String idptName = idpt.getNameOfGraph();
 			genPatternMatchInterface(sb, idpt, pathPrefixForElements+idptName,
 					"GRGEN_LIBGR.IMatch", pathPrefixForElements + idptName + "_",
 					false, false);
-			++i;
 		}
 
-		i = 0;
 		for(Alternative alt : pattern.getAlts()) {
-			String altName = "alt_" + i;
+			String altName = alt.getNameOfGraph();
 			genAlternativeMatchInterface(sb, pathPrefixForElements + altName);
 			for(Rule altCase : alt.getAlternativeCases()) {
 				PatternGraph altCasePattern = altCase.getLeft();
@@ -1877,17 +1836,14 @@ public class ActionsGen extends CSharpBase {
 						pathPrefixForElements + altName + "_" + altCasePattern.getNameOfGraph() + "_",
 						false, true);
 			}
-			++i;
 		}
 
-		i = 0;
 		for(Rule iter : pattern.getIters()) {
-			String iterName = "iter_" + i;
 			PatternGraph iterPattern = iter.getLeft();
+			String iterName = iterPattern.getNameOfGraph();
 			genPatternMatchInterface(sb, iterPattern, pathPrefixForElements+iterName,
 					"GRGEN_LIBGR.IMatch", pathPrefixForElements + iterName + "_",
 					true, false);
-			++i;
 		}
 	}
 
@@ -1898,27 +1854,22 @@ public class ActionsGen extends CSharpBase {
 		genMatchImplementation(sb, pattern, name,
 				patGraphVarName, className, pathPrefixForElements, iterated, independent);
 
-		int i = 0;
 		for(PatternGraph neg : pattern.getNegs()) {
-			String negName = "neg_" + i;
+			String negName = neg.getNameOfGraph();
 			genPatternMatchImplementation(sb, neg, pathPrefixForElements+negName,
 					pathPrefixForElements+negName, className,
 					pathPrefixForElements+negName+"_", false, false);
-			++i;
 		}
 
-		i = 0;
 		for(PatternGraph idpt : pattern.getIdpts()) {
-			String idptName = "idpt_" + i;
+			String idptName = idpt.getNameOfGraph();
 			genPatternMatchImplementation(sb, idpt, pathPrefixForElements+idptName,
 					pathPrefixForElements+idptName, className,
 					pathPrefixForElements+idptName+"_", false, true);
-			++i;
 		}
 
-		i = 0;
 		for(Alternative alt : pattern.getAlts()) {
-			String altName = "alt_" + i;
+			String altName = alt.getNameOfGraph();
 			for(Rule altCase : alt.getAlternativeCases()) {
 				PatternGraph altCasePattern = altCase.getLeft();
 				String altPatName = pathPrefixForElements + altName + "_" + altCasePattern.getNameOfGraph();
@@ -1927,17 +1878,14 @@ public class ActionsGen extends CSharpBase {
 						pathPrefixForElements + altName + "_" + altCasePattern.getNameOfGraph() + "_", 
 						false, false);
 			}
-			++i;
 		}
 
-		i = 0;
 		for(Rule iter : pattern.getIters()) {
-			String iterName = "iter_" + i;
 			PatternGraph iterPattern = iter.getLeft();
+			String iterName = iterPattern.getNameOfGraph();
 			genPatternMatchImplementation(sb, iterPattern, pathPrefixForElements+iterName,
 					pathPrefixForElements+iterName, className,
 					pathPrefixForElements+iterName+"_", true, false);
-			++i;
 		}
 	}
 
@@ -2056,18 +2004,21 @@ public class ActionsGen extends CSharpBase {
 			}
 			break;
 		case MATCH_PART_ALTERNATIVES:
-			for(int i=0; i<pattern.getAlts().size(); ++i) {
-				sb.append("\t\t\tIMatch_"+pathPrefixForElements+"alt_"+i+" alt_"+i+" { get; }\n");
+			for(Alternative alt : pattern.getAlts()) {
+				String altName = alt.getNameOfGraph();
+				sb.append("\t\t\tIMatch_"+pathPrefixForElements+altName+" "+altName+" { get; }\n");
 			}
 			break;
 		case MATCH_PART_ITERATEDS:
-			for(int i=0; i<pattern.getIters().size(); ++i) {
-				sb.append("\t\t\tGRGEN_LIBGR.IMatchesExact<IMatch_"+pathPrefixForElements+"iter_"+i+"> iter_"+i+" { get; }\n");
+			for(Rule iter : pattern.getIters()) {
+				String iterName = iter.getLeft().getNameOfGraph();
+				sb.append("\t\t\tGRGEN_LIBGR.IMatchesExact<IMatch_"+pathPrefixForElements+iterName+"> "+iterName+" { get; }\n");
 			}
 			break;
 		case MATCH_PART_INDEPENDENTS:
-			for(int i=0; i<pattern.getIdpts().size(); ++i) {
-				sb.append("\t\t\tIMatch_"+pathPrefixForElements+"idpt_"+i+" idpt_"+i+" { get; }\n");
+			for(PatternGraph idpt : pattern.getIdpts()) {
+				String idptName = idpt.getNameOfGraph();
+				sb.append("\t\t\tIMatch_"+pathPrefixForElements+idptName+" "+idptName+" { get; }\n");
 			}
 			break;
 		default:
@@ -2116,27 +2067,33 @@ public class ActionsGen extends CSharpBase {
 			}
 			break;
 		case MATCH_PART_ALTERNATIVES:
-			for(int i=0; i<pattern.getAlts().size(); ++i) {
-				sb.append("\t\t\tpublic IMatch_"+pathPrefixForElements+"alt_"+i+" alt_"+i+" { get { return _alt_"+i+"; } }\n");
+			for(Alternative alt : pattern.getAlts()) {
+				String altName = alt.getNameOfGraph();
+				sb.append("\t\t\tpublic IMatch_"+pathPrefixForElements+altName+" "+altName+" { get { return _"+altName+"; } }\n");
 			}
-			for(int i=0; i<pattern.getAlts().size(); ++i) {
-				sb.append("\t\t\tpublic IMatch_"+pathPrefixForElements+"alt_"+i+" _alt_"+i+";\n");
+			for(Alternative alt : pattern.getAlts()) {
+				String altName = alt.getNameOfGraph();
+				sb.append("\t\t\tpublic IMatch_"+pathPrefixForElements+altName+" _"+altName+";\n");
 			}
 			break;
 		case MATCH_PART_ITERATEDS:
-			for(int i=0; i<pattern.getIters().size(); ++i) {
-				sb.append("\t\t\tpublic GRGEN_LIBGR.IMatchesExact<IMatch_"+pathPrefixForElements+"iter_"+i+"> iter_"+i+" { get { return _iter_"+i+"; } }\n");
+			for(Rule iter : pattern.getIters()) {
+				String iterName = iter.getLeft().getNameOfGraph();
+				sb.append("\t\t\tpublic GRGEN_LIBGR.IMatchesExact<IMatch_"+pathPrefixForElements+iterName+"> "+iterName+" { get { return _"+iterName+"; } }\n");
 			}
-			for(int i=0; i<pattern.getIters().size(); ++i) {
-				sb.append("\t\t\tpublic GRGEN_LGSP.LGSPMatchesList<Match_"+pathPrefixForElements+"iter_"+i+", IMatch_"+pathPrefixForElements+"iter_"+i+"> _iter_"+i+";\n");
+			for(Rule iter : pattern.getIters()) {
+				String iterName = iter.getLeft().getNameOfGraph();
+				sb.append("\t\t\tpublic GRGEN_LGSP.LGSPMatchesList<Match_"+pathPrefixForElements+iterName+", IMatch_"+pathPrefixForElements+iterName+"> _"+iterName+";\n");
 			}
 			break;
 		case MATCH_PART_INDEPENDENTS:
-			for(int i=0; i<pattern.getIdpts().size(); ++i) {
-				sb.append("\t\t\tpublic IMatch_"+pathPrefixForElements+"idpt_"+i+" idpt_"+i+" { get { return _idpt_"+i+"; } }\n");
+			for(PatternGraph idpt : pattern.getIdpts()) {
+				String idptName = idpt.getNameOfGraph();
+				sb.append("\t\t\tpublic IMatch_"+pathPrefixForElements+idptName+" "+idptName+" { get { return _"+idptName+"; } }\n");
 			}
-			for(int i=0; i<pattern.getIdpts().size(); ++i) {
-				sb.append("\t\t\tpublic IMatch_"+pathPrefixForElements+"idpt_"+i+" _idpt_"+i+";\n");
+			for(PatternGraph idpt : pattern.getIdpts()) {
+				String idptName = idpt.getNameOfGraph();
+				sb.append("\t\t\tpublic IMatch_"+pathPrefixForElements+idptName+" _"+idptName+";\n");
 			}
 			break;
 		default:
@@ -2175,20 +2132,20 @@ public class ActionsGen extends CSharpBase {
 			}
 			break;
 		case MATCH_PART_ALTERNATIVES:
-			for(int i=0; i<pattern.getAlts().size(); ++i) {
-				String altName = "_alt_" + i;
+			for(Alternative alt : pattern.getAlts()) {
+				String altName = "_" + alt.getNameOfGraph();
 				sb.append("\t\t\t\t"+altName+" = that."+altName+";\n");
 			}
 			break;
 		case MATCH_PART_ITERATEDS:
-			for(int i=0; i<pattern.getIters().size(); ++i) {
-				String iterName = "_iter_" + i;
+			for(Rule iter : pattern.getIters()) {
+				String iterName = "_" + iter.getLeft().getNameOfGraph();
 				sb.append("\t\t\t\t"+iterName+" = that."+iterName+";\n");
 			}
 			break;
 		case MATCH_PART_INDEPENDENTS:
-			for(int i=0; i<pattern.getIdpts().size(); ++i) {
-				String idptName = "_idpt_" + i;
+			for(PatternGraph idpt : pattern.getIdpts()) {
+				String idptName = "_" + idpt.getNameOfGraph();
 				sb.append("\t\t\t\t"+idptName+" = that."+idptName+";\n");
 			}
 			break;
@@ -2240,18 +2197,21 @@ public class ActionsGen extends CSharpBase {
 			}
 			break;
 		case MATCH_PART_ALTERNATIVES:
-			for(int i=0; i < pattern.getAlts().size(); ++i) {
-				sb.append("\t\t\t\tcase (int)" + entitiesEnumName(which, pathPrefixForElements) + ".@" + "alt_" + i + ": return _alt_" + i + ";\n");
+			for(Alternative alt : pattern.getAlts()) {
+				String altName = alt.getNameOfGraph();
+				sb.append("\t\t\t\tcase (int)" + entitiesEnumName(which, pathPrefixForElements) + ".@" + altName + ": return _" + altName+ ";\n");
 			}
 			break;
 		case MATCH_PART_ITERATEDS:
-			for(int i=0; i < pattern.getIters().size(); ++i) {
-				sb.append("\t\t\t\tcase (int)" + entitiesEnumName(which, pathPrefixForElements) + ".@" + "iter_" + i + ": return _iter_" + i + ";\n");
+			for(Rule iter : pattern.getIters()) {
+				String iterName = iter.getLeft().getNameOfGraph();
+				sb.append("\t\t\t\tcase (int)" + entitiesEnumName(which, pathPrefixForElements) + ".@" + iterName + ": return _" + iterName + ";\n");
 			}
 			break;
 		case MATCH_PART_INDEPENDENTS:
-			for(int i=0; i < pattern.getIdpts().size(); ++i) {
-				sb.append("\t\t\t\tcase (int)" + entitiesEnumName(which, pathPrefixForElements) + ".@" + "idpt_" + i + ": return _idpt_" + i + ";\n");
+			for(PatternGraph idpt : pattern.getIdpts()) {
+				String idptName = idpt.getNameOfGraph();
+				sb.append("\t\t\t\tcase (int)" + entitiesEnumName(which, pathPrefixForElements) + ".@" + idptName + ": return _" + idptName + ";\n");
 			}
 			break;
 		default:
@@ -2293,18 +2253,18 @@ public class ActionsGen extends CSharpBase {
 			}
 			break;
 		case MATCH_PART_ALTERNATIVES:
-			for(int i=0; i < pattern.getAlts().size(); i++) {
-				sb.append("@"+"alt_"+ i +", ");
+			for(Alternative alt : pattern.getAlts()) {
+				sb.append("@"+alt.getNameOfGraph()+", ");
 			}
 			break;
 		case MATCH_PART_ITERATEDS:
-			for(int i=0; i < pattern.getIters().size(); i++) {
-				sb.append("@"+"iter_"+ i +", ");
+			for(Rule iter : pattern.getIters()) {
+				sb.append("@"+iter.getLeft().getNameOfGraph()+", ");
 			}
 			break;
 		case MATCH_PART_INDEPENDENTS:
-			for(int i=0; i < pattern.getIdpts().size(); i++) {
-				sb.append("@"+"idpt_"+ i +", ");
+			for(PatternGraph idpt : pattern.getIdpts()) {
+				sb.append("@"+idpt.getNameOfGraph()+", ");
 			}
 			break;
 		default:

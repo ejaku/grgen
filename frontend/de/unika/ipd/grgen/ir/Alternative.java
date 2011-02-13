@@ -18,9 +18,9 @@ import java.util.Vector;
 /**
  * Represents an alternative statement in the IR.
  */
-public class Alternative extends IR {
-	public Alternative() {
-		super("alternative");
+public class Alternative extends Identifiable {
+	public Alternative(Ident ident) {
+		super("alternative", ident);
 	}
 
 	Vector<Rule> alternativeCases = new Vector<Rule>();
@@ -32,5 +32,9 @@ public class Alternative extends IR {
 	public void addAlternativeCase(Rule alternativeCaseRule)
 	{
 		alternativeCases.add(alternativeCaseRule);
+	}
+	
+	public String getNameOfGraph() {
+		return getIdent().toString();
 	}
 }

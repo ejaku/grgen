@@ -108,6 +108,11 @@ public class PatternGraphNode extends GraphNode {
 	 */
 	private Map<List<Set<NodeDeclNode>>, Set<ConnectionNode>> doubleNodeNegMap =
 		new LinkedHashMap<List<Set<NodeDeclNode>>, Set<ConnectionNode>>();
+	
+	// counts number of implicit single and double node negative patterns
+	// created from pattern modifiers, in order to get unique negative names
+	int implicitNegCounter = 0;
+	
 
 	public PatternGraphNode(String nameOfGraph, Coords coords,
 			CollectNode<BaseNode> connections, CollectNode<BaseNode> params,
@@ -1052,7 +1057,8 @@ public class PatternGraphNode extends GraphNode {
 				Set<EdgeDeclNode> allNegEdges = new LinkedHashSet<EdgeDeclNode>();
 				Set<NodeDeclNode> allNegNodes = new LinkedHashSet<NodeDeclNode>();
 				Set<ConnectionNode> edgeSet = singleNodeNegMap.get(getHomomorphic(singleNodeNegNode));
-				PatternGraph neg = new PatternGraph(nameOfGraph, 0);
+				PatternGraph neg = new PatternGraph("implneg_"+implicitNegCounter, 0);
+				++implicitNegCounter;
 				neg.setDirectlyNestingLHSGraph(neg);
 
 				// add edges to NAC
@@ -1190,7 +1196,8 @@ public class PatternGraphNode extends GraphNode {
 			Set<ConnectionNode> edgeSet = doubleNodeNegMap.get(key);
 			edgeSet.addAll(doubleNodeNegMap.get(key2));
 
-			PatternGraph neg = new PatternGraph(nameOfGraph, 0);
+			PatternGraph neg = new PatternGraph("implneg_"+implicitNegCounter, 0);
+			++implicitNegCounter;
 			neg.setDirectlyNestingLHSGraph(neg);
 			
 			// add edges to the NAC
