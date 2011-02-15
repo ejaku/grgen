@@ -135,13 +135,6 @@ namespace de.unika.ipd.grGen.libGr
                         throw new SequenceParserException(paramBindings, SequenceParserError.BadParameter, i);
                 }
 
-                if(seq.SequenceType != SequenceType.RuleAllCall)
-                {
-                    // When no return parameters were specified for a rule with returns, create an according array with null entries
-                    if(paramBindings.ReturnVars.Length == 0 && action.RulePattern.Outputs.Length > 0)
-                        paramBindings.ReturnVars = new SequenceVariable[action.RulePattern.Outputs.Length];
-                }
-
                 // ok, this is a well-formed rule invocation
                 break;
             }

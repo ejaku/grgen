@@ -151,7 +151,7 @@ public class ActionsGen extends CSharpBase {
 		sb.append("\t\t\trules = new GRGEN_LGSP.LGSPRulePattern["+be.unit.getActionRules().size()+"];\n");
 		sb.append("\t\t\trulesAndSubpatterns = new GRGEN_LGSP.LGSPMatchingPattern["+
 				be.unit.getSubpatternRules().size()+"+"+be.unit.getActionRules().size()+"];\n");
-		sb.append("\t\t\tdefinedSequences = new GRGEN_LGSP.LGSPDefinedSequenceInfo["+be.unit.getSequences().size()+"];\n");
+		sb.append("\t\t\tdefinedSequences = new GRGEN_LIBGR.DefinedSequenceInfo["+be.unit.getSequences().size()+"];\n");
 		int i = 0;
 		for(Rule subpatternRule : be.unit.getSubpatternRules()) {
 			sb.append("\t\t\tsubpatterns["+i+"] = Pattern_"+formatIdentifiable(subpatternRule)+".Instance;\n");
@@ -176,8 +176,8 @@ public class ActionsGen extends CSharpBase {
 		sb.append("\t\tprivate GRGEN_LGSP.LGSPMatchingPattern[] subpatterns;\n");
 		sb.append("\t\tpublic override GRGEN_LGSP.LGSPMatchingPattern[] RulesAndSubpatterns { get { return rulesAndSubpatterns; } }\n");
 		sb.append("\t\tprivate GRGEN_LGSP.LGSPMatchingPattern[] rulesAndSubpatterns;\n");
-		sb.append("\t\tpublic override GRGEN_LGSP.LGSPDefinedSequenceInfo[] DefinedSequences { get { return definedSequences; } }\n");
-		sb.append("\t\tprivate GRGEN_LGSP.LGSPDefinedSequenceInfo[] definedSequences;\n");
+		sb.append("\t\tpublic override GRGEN_LIBGR.DefinedSequenceInfo[] DefinedSequences { get { return definedSequences; } }\n");
+		sb.append("\t\tprivate GRGEN_LIBGR.DefinedSequenceInfo[] definedSequences;\n");
 		sb.append("\t}\n");
 		sb.append("\n");
 
@@ -264,7 +264,7 @@ public class ActionsGen extends CSharpBase {
 		String sequenceName = formatIdentifiable(sequence);
 		String className = "SequenceInfo_"+sequenceName;
 
-		sb.append("\tpublic class " + className + " : GRGEN_LGSP.LGSPDefinedSequenceInfo\n");
+		sb.append("\tpublic class " + className + " : GRGEN_LIBGR.DefinedSequenceInfo\n");
 		sb.append("\t{\n");
 		sb.append("\t\tprivate static " + className + " instance = null;\n");
 		sb.append("\t\tpublic static " + className + " Instance { get { if (instance==null) { "
@@ -1269,8 +1269,8 @@ public class ActionsGen extends CSharpBase {
 				// nothing to do
 			} else if (istmt instanceof Exec) {
 				Exec exec = (Exec) istmt;
-				sb.append("\t\tpublic static GRGEN_LGSP.LGSPEmbeddedSequenceInfo XGRSInfo_" + pathPrefix + xgrsID
-						+ " = new GRGEN_LGSP.LGSPEmbeddedSequenceInfo(\n");
+				sb.append("\t\tpublic static GRGEN_LIBGR.EmbeddedSequenceInfo XGRSInfo_" + pathPrefix + xgrsID
+						+ " = new GRGEN_LIBGR.EmbeddedSequenceInfo(\n");
 				sb.append("\t\t\tnew string[] {");
 				for(Entity neededEntity : exec.getNeededEntities()) {
 					sb.append("\"" + neededEntity.getIdent() + "\", ");

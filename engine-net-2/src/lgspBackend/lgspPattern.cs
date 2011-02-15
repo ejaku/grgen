@@ -1120,6 +1120,6 @@ namespace de.unika.ipd.grGen.lgsp
         /// <summary>
         /// All the defined sequence representations generated
         /// </summary>
-        public abstract LGSPDefinedSequenceInfo[] DefinedSequences { get; }
+        public abstract DefinedSequenceInfo[] DefinedSequences { get; }
     }
 }

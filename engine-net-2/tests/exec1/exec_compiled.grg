@@ -1,0 +1,20 @@
+using execModel;
+
+sequence bar(first:A) {
+	foo(first)
+}
+
+sequence foo(first:A):(last:A)
+{
+	chainPiece(first)
+} 
+
+rule chainPiece(n:A) : (A)
+{
+	n -:Edge\eee-> succ:A;
+	
+	modify {
+		n <-:eee- succ;
+		return(succ);
+	}
+}

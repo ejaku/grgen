@@ -18,48 +18,6 @@ using de.unika.ipd.grGen.libGr.sequenceParser;
 namespace de.unika.ipd.grGen.lgsp
 {
     /// <summary>
-    /// Represents an XGRS used in an exec statement.
-    /// </summary>
-	public class LGSPEmbeddedSequenceInfo
-	{
-        /// <summary>
-        /// Constructs an LGSPEmbeddedSequenceInfo object.
-        /// </summary>
-        /// <param name="parameters">The names of the needed graph elements of the containing action.</param>
-        /// <param name="parameterTypes">The types of the needed graph elements of the containing action.</param>
-        /// <param name="outParameterTypes">The types of the graph elements returned to the containing action.</param>
-        /// <param name="xgrs">The XGRS string.</param>
-		public LGSPEmbeddedSequenceInfo(String[] parameters, GrGenType[] parameterTypes,
-            GrGenType[] outParameterTypes, String xgrs)
-		{
-			Parameters = parameters;
-            ParameterTypes = parameterTypes;
-            OutParameterTypes = outParameterTypes;
-			XGRS = xgrs;
-		}
-
-        /// <summary>
-        /// The names of the needed graph elements of the containing action.
-        /// </summary>
-		public String[] Parameters;
-
-        /// <summary>
-        /// The types of the needed graph elements of the containing action.
-        /// </summary>
-        public GrGenType[] ParameterTypes;
-
-        /// <summary>
-        /// The types of the graph elements returned to the containing action.
-        /// </summary>
-        public GrGenType[] OutParameterTypes;
-
-        /// <summary>
-        /// The XGRS string.
-        /// </summary>
-		public String XGRS;
-	}
-
-    /// <summary>
     /// A closure for an exec statement in an alternative, iterated or subpattern,
     /// containing the entities needed for the exec execution.
     /// These exec are executed at the end of the rule which directly or indirectly used them,
@@ -74,46 +32,6 @@ namespace de.unika.ipd.grGen.lgsp
         /// <param name="graph">the graph on which to apply the sequence</param>
         /// <returns>the result of sequence execution</returns>
         public abstract bool exec(LGSPGraph graph);
-    }
-
-    /// <summary>
-    /// Represents a sequence definition.
-    /// </summary>
-    public class LGSPDefinedSequenceInfo : LGSPEmbeddedSequenceInfo
-    {
-        /// <summary>
-        /// Constructs an LGSPEmbeddedSequenceInfo object.
-        /// </summary>
-        /// <param name="parameters">The names of the needed graph elements of the containing action.</param>
-        /// <param name="parameterTypes">The types of the needed graph elements of the containing action.</param>
-        /// <param name="outParameters">The names of the needed graph elements returned to the containing action.</param>
-        /// <param name="outParameterTypes">The types of the graph elements returned to the containing action.</param>
-        /// <param name="name">The name the sequence was defined with.</param>
-        /// <param name="xgrs">The XGRS string.</param>
-        public LGSPDefinedSequenceInfo(String[] parameters, GrGenType[] parameterTypes,
-            String[] outParameters, GrGenType[] outParameterTypes, 
-            String name, String xgrs)
-            : base(parameters, parameterTypes, outParameterTypes, xgrs)
-        {
-            OutParameters = outParameters;
-            Name = name;
-        }
-
-        public object[] Apply(IGraph graph, params object[] parameters)
-        {
-            // unclear whether to use this or generate some apply method
-            return null;
-        }
-
-        /// <summary>
-        /// The name the sequence was defined with
-        /// </summary>
-        public string Name;
-
-        /// <summary>
-        /// The names of the graph elements returned to the containing action.
-        /// </summary>
-        public String[] OutParameters;
     }
 
     /// <summary>
@@ -140,6 +58,14 @@ namespace de.unika.ipd.grGen.lgsp
         // the used rules (so that a variable was created for easy acess to them)
 		Dictionary<String, object> knownRules = new Dictionary<string, object>();
 
+        // a counter for unique temporary variables needed as dummy variables 
+        // to receive the return/out values of rules/sequnces in case no assignment is given
+        int tmpVarCtr;
+
+
+        /// <summary>
+        /// Constructs the sequence generator
+        /// </summary>
         public LGSPSequenceGenerator(LGSPGrGen gen, IGraphModel model,
             Dictionary<String, List<String>> rulesToInputTypes, Dictionary<String, List<String>> rulesToOutputTypes,
             Dictionary<String, List<String>> sequencesToInputTypes, Dictionary<String, List<String>> sequencesToOutputTypes)
@@ -516,9 +442,8 @@ namespace de.unika.ipd.grGen.lgsp
             source.AppendFront("if(Sequence_"+paramBindings.Name+".ApplyXGRS_" + paramBindings.Name
                                 + "(graph" + parameters + outArguments + ")) {\n");
             source.Indent();
-            if(paramBindings.ReturnVars != null)
-                if(outAssignments.Length != 0)
-                    source.AppendFront(outAssignments + "\n");
+            if(outAssignments.Length != 0)
+                source.AppendFront(outAssignments + "\n");
             source.AppendFront(SetResultVar(seqSeq, "true"));
             source.Unindent();
             source.AppendFront("} else {\n");
@@ -1518,25 +1443,29 @@ namespace de.unika.ipd.grGen.lgsp
 
         private void BuildOutParameters(SequenceInvocationParameterBindings paramBindings, out String outParameterDeclarations, out String outArguments, out String outAssignments)
         {
-            // TODO: null out entry, use dummy stuff
             outParameterDeclarations = "";
             outArguments = "";
             outAssignments = "";
-            for(int j = 0; j < paramBindings.ReturnVars.Length; j++)
+            for(int j = 0; j < sequencesToOutputTypes[paramBindings.Name].Count; j++)
             {
-                String varName = paramBindings.ReturnVars[j].Prefix + paramBindings.ReturnVars[j].Name;
+                String varName;
+                if(paramBindings.ReturnVars.Length != 0) {
+                    varName = paramBindings.ReturnVars[j].Prefix + paramBindings.ReturnVars[j].Name;
+                } else {
+                    varName = tmpVarCtr.ToString();
+                    ++tmpVarCtr;
+                }
                 String typeName = sequencesToOutputTypes[paramBindings.Name][j];
                 outParameterDeclarations += TypesHelper.XgrsTypeToCSharpType(typeName, model) + " tmpvar_" + varName 
                     + " = " + TypesHelper.DefaultValue(typeName, model) + ";";
                 outArguments += ", ref tmpvar_" + varName;
-                outAssignments += SetVar(paramBindings.ReturnVars[j], "tmpvar_" + varName);
+                if(paramBindings.ReturnVars.Length != 0)
+                    outAssignments += SetVar(paramBindings.ReturnVars[j], "tmpvar_" + varName);
             }
         }
 
         private void BuildReturnParameters(RuleInvocationParameterBindings paramBindings, out String returnParameterDeclarations, out String returnArguments, out String returnAssignments)
         {
-            // TODO: null return entry, use dummy stuff
-
             // can't use the normal xgrs variables for return value receiving as the type of an out-parameter must be invariant
             // this is bullshit, as it is perfectly safe to assign a subtype to a variable of a supertype
             // so we create temporary variables of exact type, which are used to receive the return values, 
@@ -1545,12 +1474,20 @@ namespace de.unika.ipd.grGen.lgsp
             returnParameterDeclarations = "";
             returnArguments = "";
             returnAssignments = "";
-            for (int j = 0; j < paramBindings.ReturnVars.Length; j++)
+            for(int j = 0; j < rulesToOutputTypes[paramBindings.Name].Count; j++)
             {
-                String varName = paramBindings.ReturnVars[j].Prefix + paramBindings.ReturnVars[j].Name;
-                returnParameterDeclarations += TypesHelper.XgrsTypeToCSharpType(rulesToOutputTypes[paramBindings.Name][j], model) + " tmpvar_" + varName + "; ";
+                String varName;
+                if(paramBindings.ReturnVars.Length != 0) {
+                    varName = paramBindings.ReturnVars[j].Prefix + paramBindings.ReturnVars[j].Name;
+                } else {
+                    varName = tmpVarCtr.ToString();
+                    ++tmpVarCtr;
+                }
+                String typeName = rulesToOutputTypes[paramBindings.Name][j];
+                returnParameterDeclarations += TypesHelper.XgrsTypeToCSharpType(typeName, model) + " tmpvar_" + varName + "; ";
                 returnArguments += ", out tmpvar_" + varName;
-                returnAssignments += SetVar(paramBindings.ReturnVars[j], "tmpvar_" + varName);
+                if(paramBindings.ReturnVars.Length != 0)
+                    returnAssignments += SetVar(paramBindings.ReturnVars[j], "tmpvar_" + varName);
             }
         }
 
@@ -1630,7 +1567,7 @@ namespace de.unika.ipd.grGen.lgsp
 			return true;
 		}
 
-        public bool GenerateDefinedSequences(SourceBuilder source, LGSPDefinedSequenceInfo sequence)
+        public bool GenerateDefinedSequences(SourceBuilder source, DefinedSequenceInfo sequence)
         {
             Dictionary<String, String> varDecls = new Dictionary<String, String>();
             for(int i = 0; i < sequence.Parameters.Length; i++)
@@ -1705,17 +1642,17 @@ namespace de.unika.ipd.grGen.lgsp
             return true;
         }
 
-        private void GenerateSequenceDefinedSingleton(SourceBuilder source, LGSPDefinedSequenceInfo sequence)
+        private void GenerateSequenceDefinedSingleton(SourceBuilder source, DefinedSequenceInfo sequence)
         {
             String className = "Sequence_" + sequence.Name;
             source.AppendFront("private static "+className+" instance = null;\n");
 
             source.AppendFront("public static "+className+" Instance { get { if(instance==null) instance = new "+className+"(); return instance; } }\n");
 
-            source.AppendFront("private "+className+"() : base(\""+sequence.Name+"\") { }\n");
+            source.AppendFront("private "+className+"() : base(\""+sequence.Name+"\", SequenceInfo_"+sequence.Name+".Instance) { }\n");
         }
 
-        private void GenerateInternalDefinedSequenceApplicationMethod(SourceBuilder source, LGSPDefinedSequenceInfo sequence, Sequence seq)
+        private void GenerateInternalDefinedSequenceApplicationMethod(SourceBuilder source, DefinedSequenceInfo sequence, Sequence seq)
         {
             source.AppendFront("public static bool ApplyXGRS_" + sequence.Name + "(GRGEN_LGSP.LGSPGraph graph");
             for(int i = 0; i < sequence.Parameters.Length; ++i)
@@ -1745,7 +1682,7 @@ namespace de.unika.ipd.grGen.lgsp
             source.AppendFront("}\n");
         }
 
-        private void GenerateExactExternalDefinedSequenceApplicationMethod(SourceBuilder source, LGSPDefinedSequenceInfo sequence)
+        private void GenerateExactExternalDefinedSequenceApplicationMethod(SourceBuilder source, DefinedSequenceInfo sequence)
         {
             source.AppendFront("public static bool Apply_" + sequence.Name + "(GRGEN_LIBGR.IGraph graph");
             for(int i = 0; i < sequence.Parameters.Length; ++i)
@@ -1796,7 +1733,7 @@ namespace de.unika.ipd.grGen.lgsp
             source.AppendFront("}\n");
         }
 
-        private void GenerateGenericExternalDefinedSequenceApplicationMethod(SourceBuilder source, LGSPDefinedSequenceInfo sequence)
+        private void GenerateGenericExternalDefinedSequenceApplicationMethod(SourceBuilder source, DefinedSequenceInfo sequence)
         {
             source.AppendFront("public override bool Apply(GRGEN_LIBGR.SequenceInvocationParameterBindings sequenceInvocation, GRGEN_LIBGR.IGraph graph, GRGEN_LIBGR.SequenceExecutionEnvironment env)");
             source.AppendFront("{\n");

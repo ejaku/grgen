@@ -31,7 +31,7 @@ namespace de.unika.ipd.grGen.libGr
 
         /// <summary>
         /// An array of variables used for the return values.
-        /// If an entry is null, the invocation is not interested in the return values.
+        /// Might be empty if the rule/sequence caller is not interested in available returns values.
         /// </summary>
         public SequenceVariable[] ReturnVars;
 
@@ -51,6 +51,8 @@ namespace de.unika.ipd.grGen.libGr
         {
             if(paramVars.Length != paramConsts.Length)
                 throw new ArgumentException("Lengths of variable and constant parameter array do not match");
+            foreach(SequenceVariable var in returnVars)
+                if(var==null) throw new Exception("Null entry in return vars");
             Name = "<Unknown rule/sequence>";
             ParamVars = paramVars;
             ReturnVars = returnVars;

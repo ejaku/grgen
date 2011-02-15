@@ -770,7 +770,7 @@ namespace de.unika.ipd.grGen.lgsp
                         outputTypes.Add(TypesHelper.DotNetTypeToXgrsType(outputType));
                     }
                 }
-                foreach(LGSPDefinedSequenceInfo sequence in ruleAndMatchingPatterns.DefinedSequences)
+                foreach(DefinedSequenceInfo sequence in ruleAndMatchingPatterns.DefinedSequences)
                 {
                     List<String> inputTypes = new List<String>();
                     sequencesToInputTypes.Add(sequence.Name, inputTypes);
@@ -817,9 +817,9 @@ namespace de.unika.ipd.grGen.lgsp
                             FieldInfo[] ruleFields = ruleType.GetFields();
                             for(int i = 0; i < ruleFields.Length; ++i)
                             {
-                                if(ruleFields[i].Name.StartsWith("XGRSInfo_") && ruleFields[i].FieldType == typeof(LGSPEmbeddedSequenceInfo))
+                                if(ruleFields[i].Name.StartsWith("XGRSInfo_") && ruleFields[i].FieldType == typeof(EmbeddedSequenceInfo))
                                 {
-                                    LGSPEmbeddedSequenceInfo xgrsInfo = (LGSPEmbeddedSequenceInfo)ruleFields[i].GetValue(null);
+                                    EmbeddedSequenceInfo xgrsInfo = (EmbeddedSequenceInfo)ruleFields[i].GetValue(null);
                                     if(!seqGen.GenerateXGRSCode(ruleFields[i].Name.Substring("XGRSInfo_".Length),
                                         xgrsInfo.XGRS, xgrsInfo.Parameters, xgrsInfo.ParameterTypes, 
                                         xgrsInfo.OutParameterTypes, source))
@@ -930,7 +930,7 @@ namespace de.unika.ipd.grGen.lgsp
                 }
                 endSource.AppendFront("analyzer.ComputeInterPatternRelations();\n");
 
-                foreach(LGSPDefinedSequenceInfo sequence in ruleAndMatchingPatterns.DefinedSequences)
+                foreach(DefinedSequenceInfo sequence in ruleAndMatchingPatterns.DefinedSequences)
                 {
                     seqGen.GenerateDefinedSequences(source, sequence);
 
@@ -953,7 +953,7 @@ namespace de.unika.ipd.grGen.lgsp
                 }
                 endSource.AppendFront("\n");
                 
-                foreach(LGSPDefinedSequenceInfo sequence in ruleAndMatchingPatterns.DefinedSequences)
+                foreach(DefinedSequenceInfo sequence in ruleAndMatchingPatterns.DefinedSequences)
                 {
                     endSource.AppendFrontFormat("public Sequence_{0} @{0};\n", sequence.Name);
                 }

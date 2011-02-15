@@ -812,8 +812,7 @@ namespace de.unika.ipd.grGen.libGr
             if(retElems == null) retElems = BaseGraph.NoElems;
 
             for(int i = 0; i < ParamBindings.ReturnVars.Length; i++)
-                if(ParamBindings.ReturnVars[i]!=null)
-                    ParamBindings.ReturnVars[i].SetVariableValue(retElems[i], graph);
+                ParamBindings.ReturnVars[i].SetVariableValue(retElems[i], graph);
 
             if(graph.PerformanceInfo != null) graph.PerformanceInfo.StopRewrite(); // total rewrite time does NOT include listeners anymore
 
@@ -839,7 +838,7 @@ namespace de.unika.ipd.grGen.libGr
         protected String GetRuleString()
         {
             StringBuilder sb = new StringBuilder();
-            if(ParamBindings.ReturnVars.Length > 0 && ParamBindings.ReturnVars[0] != null)
+            if(ParamBindings.ReturnVars.Length > 0)
             {
                 sb.Append("(");
                 for(int i = 0; i < ParamBindings.ReturnVars.Length; ++i)
@@ -3030,11 +3029,8 @@ namespace de.unika.ipd.grGen.libGr
             if(success)
             {
                 // postfill the return-to variables of the caller with the return values, read from the local output variables
-                if(sequenceInvocation.ReturnVars[0] != null)
-                {
-                    for(int i = 0; i < sequenceInvocation.ReturnVars.Length; i++)
-                        sequenceInvocation.ReturnVars[i].SetVariableValue(OutputVariables[i].GetVariableValue(graph), graph);
-                }
+                for(int i = 0; i < sequenceInvocation.ReturnVars.Length; i++)
+                    sequenceInvocation.ReturnVars[i].SetVariableValue(OutputVariables[i].GetVariableValue(graph), graph);
             }
 
             return success;
@@ -3117,9 +3113,12 @@ namespace de.unika.ipd.grGen.libGr
     /// </summary>
     public abstract class SequenceDefinitionCompiled : SequenceDefinition
     {
-        public SequenceDefinitionCompiled(String sequenceName)
+        public DefinedSequenceInfo SeqInfo;
+
+        public SequenceDefinitionCompiled(String sequenceName, DefinedSequenceInfo seqInfo)
             : base(SequenceType.SequenceDefinitionCompiled, sequenceName)
         {
+            SeqInfo = seqInfo;
         }
 
         internal override Sequence Copy(Dictionary<SequenceVariable, SequenceVariable> originalToCopy)
@@ -3204,7 +3203,7 @@ namespace de.unika.ipd.grGen.libGr
         protected String GetSequenceString()
         {
             StringBuilder sb = new StringBuilder();
-            if(ParamBindings.ReturnVars.Length > 0 && ParamBindings.ReturnVars[0] != null)
+            if(ParamBindings.ReturnVars.Length > 0)
             {
                 sb.Append("(");
                 for(int i = 0; i < ParamBindings.ReturnVars.Length; ++i)

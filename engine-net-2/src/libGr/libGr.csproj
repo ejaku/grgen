@@ -93,6 +93,7 @@
     <Compile Include="RuleAndSequenceInvocationRepresentations.cs" />
     <Compile Include="Sequence.cs" />
     <Compile Include="SequenceChecker.cs" />
+    <Compile Include="SequenceExecutionInterface.cs" />
     <Compile Include="SequenceParser.cs" />
     <Compile Include="SequenceParserConstants.cs" />
     <Compile Include="SequenceParserExceptions.cs" />
