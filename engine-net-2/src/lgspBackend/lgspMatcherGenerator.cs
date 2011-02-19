@@ -1242,9 +1242,9 @@ exitSecondLoop: ;
                 }
             }
 
-            foreach (PatternGraph iter in patternGraph.iterateds)
+            foreach (Iterated iter in patternGraph.iterateds)
             {
-                MergeNegativeAndIndependentSchedulesIntoEnclosingSchedules(iter);
+                MergeNegativeAndIndependentSchedulesIntoEnclosingSchedules(iter.iteratedPattern);
             }
 
             InsertNegativesAndIndependentsIntoSchedule(patternGraph);
@@ -1461,9 +1461,9 @@ exitSecondLoop: ;
             {
                 GenerateActionAndMatcherOfAlternative(sb, matchingPattern, alt, isInitialStatic);
             }
-            foreach (PatternGraph iter in matchingPattern.patternGraph.iterateds)
+            foreach (Iterated iter in matchingPattern.patternGraph.iterateds)
             {
-                GenerateActionAndMatcherOfIterated(sb, matchingPattern, iter, isInitialStatic);
+                GenerateActionAndMatcherOfIterated(sb, matchingPattern, iter.iteratedPattern, isInitialStatic);
             }
             foreach (PatternGraph neg in matchingPattern.patternGraph.negativePatternGraphs)
             {
@@ -1498,9 +1498,9 @@ exitSecondLoop: ;
                 {
                     GenerateActionAndMatcherOfAlternative(sb, matchingPattern, nestedAlt, isInitialStatic);
                 }
-                foreach (PatternGraph iter in altCase.iterateds)
+                foreach (Iterated iter in altCase.iterateds)
                 {
-                    GenerateActionAndMatcherOfIterated(sb, matchingPattern, iter, isInitialStatic);
+                    GenerateActionAndMatcherOfIterated(sb, matchingPattern, iter.iteratedPattern, isInitialStatic);
                 }
                 foreach (PatternGraph neg in altCase.negativePatternGraphs)
                 {
@@ -1534,9 +1534,9 @@ exitSecondLoop: ;
             {
                 GenerateActionAndMatcherOfAlternative(sb, matchingPattern, alt, isInitialStatic);
             }
-            foreach (PatternGraph nestedIter in iter.iterateds)
+            foreach (Iterated nestedIter in iter.iterateds)
             {
-                GenerateActionAndMatcherOfIterated(sb, matchingPattern, nestedIter, isInitialStatic);
+                GenerateActionAndMatcherOfIterated(sb, matchingPattern, nestedIter.iteratedPattern, isInitialStatic);
             }
             foreach (PatternGraph neg in iter.negativePatternGraphs)
             {
@@ -1562,9 +1562,9 @@ exitSecondLoop: ;
             {
                 GenerateActionAndMatcherOfAlternative(sb, matchingPattern, alt, isInitialStatic);
             }
-            foreach (PatternGraph iter in negOrIdpt.iterateds)
+            foreach (Iterated iter in negOrIdpt.iterateds)
             {
-                GenerateActionAndMatcherOfIterated(sb, matchingPattern, iter, isInitialStatic);
+                GenerateActionAndMatcherOfIterated(sb, matchingPattern, iter.iteratedPattern, isInitialStatic);
             }
             foreach (PatternGraph nestedNeg in negOrIdpt.negativePatternGraphs)
             {
@@ -2274,10 +2274,10 @@ exitSecondLoop: ;
             sb.AppendFront("patternGraph = " + matchingPatternClassName + ".Instance.patternGraph;\n");
             int index = -1;
             for (int i=0; i<iter.embeddingGraph.iterateds.Length; ++i) {
-                if (iter.embeddingGraph.iterateds[i] == iter) index = i;
+                if (iter.embeddingGraph.iterateds[i].iteratedPattern == iter) index = i;
             }
-            sb.AppendFrontFormat("minMatchesIter = {0};\n", iter.embeddingGraph.minMatches[index]);
-            sb.AppendFrontFormat("maxMatchesIter = {0};\n", iter.embeddingGraph.maxMatches[index]);
+            sb.AppendFrontFormat("minMatchesIter = {0};\n", iter.embeddingGraph.iterateds[index].minMatches);
+            sb.AppendFrontFormat("maxMatchesIter = {0};\n", iter.embeddingGraph.iterateds[index].maxMatches);
             sb.AppendFront("numMatchesIter = 0;\n");
 
             sb.Unindent(); // class level
@@ -2444,9 +2444,9 @@ exitSecondLoop: ;
                     }
                 }
 
-                foreach (PatternGraph iter in patternGraph.iterateds)
+                foreach (Iterated iter in patternGraph.iterateds)
                 {
-                    GenerateScheduledSearchPlans(iter, graph, isSubpattern, false);
+                    GenerateScheduledSearchPlans(iter.iteratedPattern, graph, isSubpattern, false);
                 }
             }
         }

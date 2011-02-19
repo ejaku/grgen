@@ -804,14 +804,11 @@ public class ActionsGen extends CSharpBase {
 		}
 		sb.append(" }, \n");
 
-		sb.append("\t\t\t\tnew GRGEN_LGSP.PatternGraph[] { ");
+		sb.append("\t\t\t\tnew GRGEN_LGSP.Iterated[] { ");
 		for(Rule iter : pattern.getIters()) {
-			sb.append(pathPrefixForElements + iter.getLeft().getNameOfGraph() + ", ");
+			sb.append(pathPrefixForElements + iter.getLeft().getNameOfGraph()+"_it" + ", ");
 		}
 		sb.append(" }, \n");
-
-		sb.append("\t\t\t\t" + pathPrefixForElements + "minMatches,\n");
-		sb.append("\t\t\t\t" + pathPrefixForElements + "maxMatches,\n");
 
 		sb.append("\t\t\t\tnew GRGEN_LGSP.PatternGraph[] { ");
 		for(PatternGraph neg : pattern.getNegs()) {
@@ -956,28 +953,6 @@ public class ActionsGen extends CSharpBase {
 				sb.append("},\n");
 			}
 			sb.append("\t\t\t}");
-		}
-		sb.append(";\n");
-
-		sb.append("\t\t\tint[] " + pathPrefixForElements + "minMatches = "
-				+ "new int[" + pattern.getIters().size() + "] ");
-		if(pattern.getIters().size() > 0) {
-			sb.append("{\n\t\t\t\t");
-			for(Rule iter : pattern.getIters()) {
-				sb.append(iter.getMinMatches() + ", ");
-			}
-			sb.append("\n\t\t\t}");
-		}
-		sb.append(";\n");
-
-		sb.append("\t\t\tint[] " + pathPrefixForElements + "maxMatches = "
-				+ "new int[" + pattern.getIters().size() + "] ");
-		if(pattern.getIters().size() > 0) {
-			sb.append("{\n\t\t\t\t");
-			for(Rule iter : pattern.getIters()) {
-				sb.append(iter.getMaxMatches() + ", ");
-			}
-			sb.append("\n\t\t\t}");
 		}
 		sb.append(";\n");
 
@@ -1157,8 +1132,8 @@ public class ActionsGen extends CSharpBase {
 		}
 
 		for(Rule iter : pattern.getIters()) {
-			String iterName = iter.getLeft().getNameOfGraph();
 			PatternGraph iterPattern = iter.getLeft();
+			String iterName = iterPattern.getNameOfGraph();
 			HashMap<Entity, String> alreadyDefinedEntityToNameClone = new HashMap<Entity, String>(alreadyDefinedEntityToName);
 			HashMap<Identifiable, String> alreadyDefinedIdentifiableToNameClone = new HashMap<Identifiable, String>(alreadyDefinedIdentifiableToName);
 			genPatternGraph(sb, aux, iterPattern,
@@ -1169,6 +1144,15 @@ public class ActionsGen extends CSharpBase {
 							  parameters, max);
 		}
 
+		for(Rule iter : pattern.getIters()) {
+			PatternGraph iterPattern = iter.getLeft();
+			String iterName = iterPattern.getNameOfGraph();
+			sb.append("\t\t\tGRGEN_LGSP.Iterated " + pathPrefixForElements+iterName+"_it" + " = new GRGEN_LGSP.Iterated( ");
+			sb.append(pathPrefixForElements + iterName + ", ");
+			sb.append(iter.getMinMatches() + ", ");
+			sb.append(iter.getMaxMatches() + ");\n");
+		}
+		
 		for(PatternGraph neg : pattern.getNegs()) {
 			String negName = neg.getNameOfGraph();
 			HashMap<Entity, String> alreadyDefinedEntityToNameClone = new HashMap<Entity, String>(alreadyDefinedEntityToName);

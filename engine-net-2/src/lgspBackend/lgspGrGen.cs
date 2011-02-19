@@ -477,9 +477,9 @@ namespace de.unika.ipd.grGen.lgsp
                     }
                 }
 
-                foreach(PatternGraph iter in patternGraph.iterateds)
+                foreach(Iterated iter in patternGraph.iterateds)
                 {
-                    GenerateScheduledSearchPlans(iter, matcherGen, true, false);
+                    GenerateScheduledSearchPlans(iter.iteratedPattern, matcherGen, true, false);
                 }
             }
         }

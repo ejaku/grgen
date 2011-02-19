@@ -80,9 +80,9 @@ namespace de.unika.ipd.grGen.lgsp
             }
 
             // iterateds represent new annotation point
-            foreach (PatternGraph iter in patternGraph.iterateds)
+            foreach (Iterated iter in patternGraph.iterateds)
             {
-                AnnotateIndependentsAtNestingTopLevelOrAlternativeCaseOrIteratedPattern(iter);
+                AnnotateIndependentsAtNestingTopLevelOrAlternativeCaseOrIteratedPattern(iter.iteratedPattern);
             }
         }
 
@@ -109,9 +109,9 @@ namespace de.unika.ipd.grGen.lgsp
                     CalculateNeededElements(altCase);
                 }
             }
-            foreach (PatternGraph iter in patternGraph.iterateds)
+            foreach (Iterated iter in patternGraph.iterateds)
             {
-                CalculateNeededElements(iter);
+                CalculateNeededElements(iter.iteratedPattern);
             }
 
             // and on ascending bottom up
@@ -151,13 +151,13 @@ namespace de.unika.ipd.grGen.lgsp
                         patternGraph.neededVariables[neededVariable.Key] = neededVariable.Value;
                 }
             }
-            foreach (PatternGraph iter in patternGraph.iterateds)
+            foreach (Iterated iter in patternGraph.iterateds)
             {
-                foreach (KeyValuePair<string, bool> neededNode in iter.neededNodes)
+                foreach (KeyValuePair<string, bool> neededNode in iter.iteratedPattern.neededNodes)
                     patternGraph.neededNodes[neededNode.Key] = neededNode.Value;
-                foreach (KeyValuePair<string, bool> neededEdge in iter.neededEdges)
+                foreach (KeyValuePair<string, bool> neededEdge in iter.iteratedPattern.neededEdges)
                     patternGraph.neededEdges[neededEdge.Key] = neededEdge.Value;
-                foreach (KeyValuePair<string, GrGenType> neededVariable in iter.neededVariables)
+                foreach (KeyValuePair<string, GrGenType> neededVariable in iter.iteratedPattern.neededVariables)
                     patternGraph.neededVariables[neededVariable.Key] = neededVariable.Value;
             }
 
@@ -240,11 +240,11 @@ namespace de.unika.ipd.grGen.lgsp
                         .AddRange(altCase.patternGraphsOnPathToEnclosedSubpatternOrAlternativeOrIteratedOrPatternpath);
                 }
             }
-            foreach (PatternGraph iter in patternGraph.iterateds)
+            foreach (Iterated iter in patternGraph.iterateds)
             {
-                ComputePatternGraphsOnPathToEnclosedSubpatternOrAlternativeOrIteratedOrPatternpath(iter);
+                ComputePatternGraphsOnPathToEnclosedSubpatternOrAlternativeOrIteratedOrPatternpath(iter.iteratedPattern);
                 patternGraph.patternGraphsOnPathToEnclosedSubpatternOrAlternativeOrIteratedOrPatternpath
-                    .AddRange(iter.patternGraphsOnPathToEnclosedSubpatternOrAlternativeOrIteratedOrPatternpath);
+                    .AddRange(iter.iteratedPattern.patternGraphsOnPathToEnclosedSubpatternOrAlternativeOrIteratedOrPatternpath);
             }
 
             // one of the nested patterns was found to be on the path -> so we are too
@@ -321,9 +321,9 @@ namespace de.unika.ipd.grGen.lgsp
                     ComputeSubpatternsUsedLocally(altCase, topLevelMatchingPattern);
                 }
             }
-            foreach (PatternGraph iter in patternGraph.iterateds)
+            foreach (Iterated iter in patternGraph.iterateds)
             {
-                ComputeSubpatternsUsedLocally(iter, topLevelMatchingPattern);
+                ComputeSubpatternsUsedLocally(iter.iteratedPattern, topLevelMatchingPattern);
             }
         }
 

@@ -2143,9 +2143,9 @@ namespace de.unika.ipd.grGen.lgsp
                 BuildMatchObject buildMatch =
                     new BuildMatchObject(
                         BuildMatchObjectType.Iteration,
-                        patternGraph.pathPrefix + patternGraph.name + "_" + patternGraph.iterateds[i].name,
-                        patternGraph.iterateds[i].name,
-                        patternGraph.iterateds[i].name,
+                        patternGraph.pathPrefix + patternGraph.name + "_" + patternGraph.iterateds[i].iteratedPattern.name,
+                        patternGraph.iterateds[i].iteratedPattern.name,
+                        patternGraph.iterateds[i].iteratedPattern.name,
                         rulePatternClassName,
                         enumPrefix,
                         matchObjectName,
@@ -2273,7 +2273,7 @@ namespace de.unika.ipd.grGen.lgsp
             // to handle iterated in linear order we've to push them in reverse order on the stack
             for (int i = patternGraph.iterateds.Length - 1; i >= 0; --i)
             {
-                PatternGraph iter = patternGraph.iterateds[i];
+                PatternGraph iter = patternGraph.iterateds[i].iteratedPattern;
 
                 int numElements = iter.neededNodes.Count + iter.neededEdges.Count + iter.neededVariables.Count;
                 string[] connectionName = new string[numElements];
@@ -2374,14 +2374,14 @@ namespace de.unika.ipd.grGen.lgsp
                 insertionPoint = insertionPoint.Append(popTask);
             }
 
-            foreach (PatternGraph iterated in patternGraph.iterateds)
+            foreach (Iterated iterated in patternGraph.iterateds)
             {
                 PopSubpatternTask popTask =
                     new PopSubpatternTask(
                         negativeIndependentNamePrefix,
                         PushAndPopSubpatternTaskTypes.Iterated,
-                        iterated.name,
-                        iterated.pathPrefix
+                        iterated.iteratedPattern.name,
+                        iterated.iteratedPattern.pathPrefix
                     );
                 insertionPoint = insertionPoint.Append(popTask);
             }

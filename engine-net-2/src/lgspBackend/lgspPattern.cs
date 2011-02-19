@@ -488,19 +488,9 @@ namespace de.unika.ipd.grGen.lgsp
         public IAlternative[] Alternatives { get { return alternatives; } }
 
         /// <summary>
-        /// An array of iterateds, each iterated is matched as often as possible.
+        /// An array of iterateds, each iterated is matched as often as possible within the specified bounds.
         /// </summary>
-        public IPatternGraph[] Iterateds { get { return iterateds; } }
-
-        /// <summary>
-        /// An array with the lower bounds the iterated patterns have to be matched to be valid.
-        /// </summary>
-        public int[] IteratedsMinMatches { get { return minMatches; } }
-
-        /// <summary>
-        /// An array with the upper bounds the iterated patterns have to be matched to be valid.
-        /// </summary>
-        public int[] IteratedsMaxMatches { get { return maxMatches; } }
+        public IIterated[] Iterateds { get { return iterateds;  } }
 
         /// <summary>
         /// An array of negative pattern graphs which make the search fail if they get matched
@@ -630,20 +620,9 @@ namespace de.unika.ipd.grGen.lgsp
         public Alternative[] alternatives;
 
         /// <summary>
-        /// An array of iterated patterns, each iterated is matched at least as specified in minMatches and at most as specified in maxMatches.
+        /// An array of iterateds, each iterated is matched as often as possible within the specified bounds.
         /// </summary>
-        public PatternGraph[] iterateds;
-
-        /// <summary>
-        /// An array of integers specifiying how often the corresponding(by array position) iterated pattern must get matched at least
-        /// </summary>
-        public int[] minMatches;
-
-        /// <summary>
-        /// An array of integers specifiying how often the corresponding(by array position) iterated pattern must get matched at most,
-        /// with 0 meaning unlimited / as often as possible
-        /// </summary>
-        public int[] maxMatches;
+        public Iterated[] iterateds;
 
         /// <summary>
         /// An array of negative pattern graphs which make the search fail if they get matched
@@ -680,10 +659,7 @@ namespace de.unika.ipd.grGen.lgsp
         /// i.e. subpatterns and the way they are connected to the pattern.</param>
         /// <param name="alternatives">An array of alternatives, each alternative contains
         /// in its cases the subpatterns to choose out of.</param>
-        /// <param name="iterateds">An array of iterated patterns, each iterated is matched as often as possible.</param>
-        /// <param name="minMatches"> An array of integers specifiying how often the corresponding(by array position) iterated pattern must get matched at least.</param>
-        /// <param name="maxMatches"> An array of integers specifiying how often the corresponding(by array position) iterated pattern must get matched at most,
-        /// with 0 meaning unlimited / as often as possible.</param>
+        /// <param name="iterateds">An array of iterated patterns, each iterated is matched as often as possible within the specified bounds.</param>
         /// <param name="negativePatternGraphs">An array of negative pattern graphs which make the
         /// search fail if they get matched (NACs - Negative Application Conditions).</param>
         /// <param name="conditions">The conditions used in this pattern graph or it's nested graphs.</param>
@@ -700,8 +676,7 @@ namespace de.unika.ipd.grGen.lgsp
         public PatternGraph(String name, String pathPrefix, bool isPatternpathLocked,
             PatternNode[] nodes, PatternEdge[] edges,
             PatternVariable[] variables, PatternGraphEmbedding[] embeddedGraphs,
-            Alternative[] alternatives, PatternGraph[] iterateds,
-            int[] minMatches, int[] maxMatches,
+            Alternative[] alternatives, Iterated[] iterateds,
             PatternGraph[] negativePatternGraphs, PatternGraph[] independentPatternGraphs,
             PatternCondition[] conditions,
             bool[,] homomorphicNodes, bool[,] homomorphicEdges,
@@ -716,8 +691,6 @@ namespace de.unika.ipd.grGen.lgsp
             this.embeddedGraphs = embeddedGraphs;
             this.alternatives = alternatives;
             this.iterateds = iterateds;
-            this.minMatches = minMatches;
-            this.maxMatches = maxMatches;
             this.negativePatternGraphs = negativePatternGraphs;
             this.independentPatternGraphs = independentPatternGraphs;
             this.Conditions = conditions;
@@ -1027,6 +1000,54 @@ namespace de.unika.ipd.grGen.lgsp
             this.name = name;
             this.pathPrefix = pathPrefix;
             this.alternativeCases = cases;
+        }
+    }
+
+    /// <summary>
+    /// An iterated is a pattern graph element containing the subpattern to be matched iteratively
+    /// and the information how much matches are needed for success and how much matches to obtain at most
+    /// </summary>
+    public class Iterated : IIterated
+    {
+        /// <summary>
+        ///The iterated pattern to be matched as often as possible within specified bounds.
+        /// </summary>
+        public IPatternGraph IteratedPattern { get { return iteratedPattern; } }
+
+        /// <summary>
+        /// How many matches to find so the iterated succeeds.
+        /// </summary>
+        public int MinMatches { get { return minMatches; } }
+
+        /// <summary>
+        /// The upper bound to stop matching at, 0 means unlimited/as often as possible.
+        /// </summary>
+        public int MaxMatches { get { return maxMatches; } }
+
+        /// <summary>
+        ///The iterated pattern to be matched as often as possible within specified bounds.
+        /// </summary>
+        public PatternGraph iteratedPattern;
+
+        /// <summary>
+        /// How many matches to find so the iterated succeeds.
+        /// </summary>
+        public int minMatches;
+
+        /// <summary>
+        /// The upper bound to stop matching at, 0 means unlimited.
+        /// </summary>
+        public int maxMatches;
+
+        /// <summary>
+        /// Constructs an Iterated object.
+        /// </summary>
+        /// <param name="iterated">PatternGraph of the iterated.</param>
+        public Iterated(PatternGraph iteratedPattern, int minMatches, int maxMatches)
+        {
+            this.iteratedPattern = iteratedPattern;
+            this.minMatches = minMatches;
+            this.maxMatches = maxMatches;
         }
     }
 

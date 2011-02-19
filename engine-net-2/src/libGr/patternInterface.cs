@@ -128,19 +128,9 @@ namespace de.unika.ipd.grGen.libGr
         IAlternative[] Alternatives { get; }
 
         /// <summary>
-        /// An array of iterated patterns, each iterated is matched as often as possible.
+        /// An array of iterateds, each iterated is matched as often as possible within the specified bounds.
         /// </summary>
-        IPatternGraph[] Iterateds { get; }
-
-        /// <summary>
-        /// An array with the lower bounds the iterated patterns have to be matched to be valid.
-        /// </summary>
-        int[] IteratedsMinMatches { get; }
-
-        /// <summary>
-        /// An array with the upper bounds the iterated patterns have to be matched to be valid.
-        /// </summary>
-        int[] IteratedsMaxMatches { get; }
+        IIterated[] Iterateds { get; }
 
         /// <summary>
         /// An array of negative pattern graphs which make the search fail if they get matched
@@ -191,6 +181,28 @@ namespace de.unika.ipd.grGen.libGr
         /// Array with the alternative cases
         /// </summary>
         IPatternGraph[] AlternativeCases { get; }
+    }
+
+    /// <summary>
+    /// An iterated is a pattern graph element containing the subpattern to be matched iteratively
+    /// and the information how much matches are needed for success and how much matches to obtain at most
+    /// </summary>
+    public interface IIterated
+    {
+        /// <summary>
+        ///The iterated pattern to be matched as often as possible within specified bounds.
+        /// </summary>
+        IPatternGraph IteratedPattern { get; }
+
+        /// <summary>
+        /// How many matches to find so the iterated succeeds.
+        /// </summary>
+        int MinMatches { get; }
+
+        /// <summary>
+        /// The upper bound to stop matching at, 0 means unlimited/as often as possible.
+        /// </summary>
+        int MaxMatches { get; }
     }
 
     /// <summary>

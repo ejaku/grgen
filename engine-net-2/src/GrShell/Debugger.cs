@@ -1927,17 +1927,17 @@ namespace de.unika.ipd.grGen.grShell
             foreach(IMatches matches in iteratedsMatches)
             {
                 String name;
-                if(pattern.IteratedsMinMatches[i] == 0 && pattern.IteratedsMaxMatches[i] == 0) {
+                if(pattern.Iterateds[i].MinMatches == 0 && pattern.Iterateds[i].MaxMatches == 0) {
                     name = "(.)*";
                     if(numIterated > 1) name += "'" + i;
-                } else if(pattern.IteratedsMinMatches[i] == 0 && pattern.IteratedsMaxMatches[i] == 1) {
+                } else if(pattern.Iterateds[i].MinMatches == 0 && pattern.Iterateds[i].MaxMatches == 1) {
                     name = "(.)?";
                     if(numOptional > 1) name += "'" + i;
-                } else if(pattern.IteratedsMinMatches[i] == 1 && pattern.IteratedsMaxMatches[i] == 0) {
+                } else if(pattern.Iterateds[i].MinMatches == 1 && pattern.Iterateds[i].MaxMatches == 0) {
                     name = "(.)+";
                     if(numMultiple > 1) name += "'" + i;
                 } else {
-                    name = "(.)[" + pattern.IteratedsMinMatches[i] + ":" + pattern.IteratedsMaxMatches[i] + "]";
+                    name = "(.)[" + pattern.Iterateds[i].MinMatches + ":" + pattern.Iterateds[i].MaxMatches + "]";
                     if(numOther > 1) name += "'" + i;
                 }
                 
@@ -1986,9 +1986,9 @@ namespace de.unika.ipd.grGen.grShell
             numIterated = numOptional = numMultiple = numOther = 0;
             for(int i = 0; i < pattern.Iterateds.Length; ++i)
             {
-                if(pattern.IteratedsMinMatches[i] == 0 && pattern.IteratedsMaxMatches[i] == 0) ++numIterated;
-                else if(pattern.IteratedsMinMatches[i] == 0 && pattern.IteratedsMaxMatches[i] == 1) ++numOptional;
-                else if(pattern.IteratedsMinMatches[i] == 1 && pattern.IteratedsMaxMatches[i] == 0) ++numMultiple;
+                if(pattern.Iterateds[i].MinMatches == 0 && pattern.Iterateds[i].MaxMatches == 0) ++numIterated;
+                else if(pattern.Iterateds[i].MinMatches == 0 && pattern.Iterateds[i].MaxMatches == 1) ++numOptional;
+                else if(pattern.Iterateds[i].MinMatches == 1 && pattern.Iterateds[i].MaxMatches == 0) ++numMultiple;
                 else ++numOther;
             }
         }
