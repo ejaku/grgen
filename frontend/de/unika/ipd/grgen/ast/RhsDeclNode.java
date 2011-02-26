@@ -36,7 +36,6 @@ public abstract class RhsDeclNode extends DeclNode {
 	}
 
 	protected GraphNode graph;
-	protected CollectNode<EvalStatementNode> eval;
 	protected RhsTypeNode type;
 
 	/** Type for this declaration. */
@@ -46,14 +45,36 @@ public abstract class RhsDeclNode extends DeclNode {
 	 * Make a new right-hand side.
 	 * @param id The identifier of this RHS.
 	 * @param graph The right hand side graph.
-	 * @param eval The evaluations.
 	 */
-	public RhsDeclNode(IdentNode id, GraphNode graph, CollectNode<EvalStatementNode> eval) {
+	public RhsDeclNode(IdentNode id, GraphNode graph) {
 		super(id, rhsType);
 		this.graph = graph;
 		becomeParent(this.graph);
-		this.eval = eval;
-		becomeParent(this.eval);
+
+	}
+
+	/** returns children of this node */
+	@Override
+	public Collection<BaseNode> getChildren() {
+		Vector<BaseNode> children = new Vector<BaseNode>();
+		children.add(ident);
+		children.add(getValidVersion(typeUnresolved, type));
+		children.add(graph);
+		return children;
+	}
+
+	/** returns names of the children, same order as in getChildren */
+	@Override
+	public Collection<String> getChildrenNames() {
+		Vector<String> childrenNames = new Vector<String>();
+		childrenNames.add("ident");
+		childrenNames.add("type");
+		childrenNames.add("right");
+		return childrenNames;
+	}
+	
+	public GraphNode getRHSGraph() {
+		return graph;
 	}
 
 	protected Collection<DeclNode> getMaybeDeleted(PatternGraphNode pattern) {
@@ -122,29 +143,8 @@ public abstract class RhsDeclNode extends DeclNode {
 	/** only used in checks against usage of deleted elements */
 	protected abstract Collection<ConnectionNode> getResultingConnections(PatternGraphNode pattern);
 
-	/** returns children of this node */
-	@Override
-	public Collection<BaseNode> getChildren() {
-		Vector<BaseNode> children = new Vector<BaseNode>();
-		children.add(ident);
-		children.add(getValidVersion(typeUnresolved, type));
-		children.add(graph);
-		children.add(eval);
-		return children;
-	}
-
-	/** returns names of the children, same order as in getChildren */
-	@Override
-	public Collection<String> getChildrenNames() {
-		Vector<String> childrenNames = new Vector<String>();
-		childrenNames.add("ident");
-		childrenNames.add("type");
-		childrenNames.add("right");
-		childrenNames.add("eval");
-		return childrenNames;
-	}
-
-	protected static final DeclarationTypeResolver<RhsTypeNode> typeResolver =	new DeclarationTypeResolver<RhsTypeNode>(RhsTypeNode.class);
+	protected static final DeclarationTypeResolver<RhsTypeNode> typeResolver
+		= new DeclarationTypeResolver<RhsTypeNode>(RhsTypeNode.class);
 
 	/** @see de.unika.ipd.grgen.ast.BaseNode#resolveLocal() */
 	@Override
@@ -190,16 +190,6 @@ public abstract class RhsDeclNode extends DeclNode {
 		return null;
 	}
 
-	protected Collection<EvalStatement> getEvalStatements() {
-		Collection<EvalStatement> ret = new LinkedHashSet<EvalStatement>();
-
-		for (EvalStatementNode n : eval.getChildren()) {
-			ret.add(n.checkIR(EvalStatement.class));
-		}
-
-		return ret;
-	}
-
 	protected void insertElementsFromEvalIntoRhs(PatternGraph left, PatternGraph right)
 	{
 		// insert all elements, which are used in eval statements (of the right hand side) and
@@ -208,7 +198,7 @@ public abstract class RhsDeclNode extends DeclNode {
 		// will add them to the left hand side, too
 
 		NeededEntities needs = new NeededEntities(true, true, true, false, false, false);
-		Collection<EvalStatement> evalStatements = getEvalStatements();
+		Collection<EvalStatement> evalStatements = graph.getYieldEvalStatements();
 		for(EvalStatement eval : evalStatements) {
 			eval.collectNeededEntities(needs);
 		}

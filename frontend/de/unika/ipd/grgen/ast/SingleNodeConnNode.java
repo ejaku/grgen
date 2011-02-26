@@ -111,7 +111,6 @@ public class SingleNodeConnNode extends BaseNode implements ConnectionCharacter 
 	}
 
 	/** @see de.unika.ipd.grgen.ast.ConnectionCharacter#addToGraph(de.unika.ipd.grgen.ir.Graph) */
-	@Override
 	public void addToGraph(Graph gr) {
 		assert isResolved();
 

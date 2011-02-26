@@ -119,11 +119,13 @@ public class PatternGraphNode extends GraphNode {
 			CollectNode<SubpatternUsageNode> subpatterns, CollectNode<OrderedReplacementNode> orderedReplacements,
 			CollectNode<AlternativeNode> alts, CollectNode<IteratedNode> iters,
 			CollectNode<PatternGraphNode> negs, CollectNode<PatternGraphNode> idpts,
-			CollectNode<ExprNode> conditions, CollectNode<ExprNode> returns,
+			CollectNode<ExprNode> conditions, 
+			CollectNode<EvalStatementNode> yieldsEvals,
+			CollectNode<ExprNode> returns,
 			CollectNode<HomNode> homs, CollectNode<ExactNode> exact,
 			CollectNode<InducedNode> induced, int modifiers, int context) {
 		super(nameOfGraph, coords, connections, params, subpatterns, orderedReplacements,
-				returns, null, null, context, null);
+				yieldsEvals, returns, null, null, context, null);
 		this.alts = alts;
 		becomeParent(this.alts);
 		this.iters = iters;
@@ -159,6 +161,7 @@ public class PatternGraphNode extends GraphNode {
 		children.add(negs);
 		children.add(idpts);
 		children.add(returns);
+		children.add(yieldsEvals);
 		children.add(conditions);
 		children.add(homs);
 		children.add(exact);
@@ -179,6 +182,7 @@ public class PatternGraphNode extends GraphNode {
 		childrenNames.add("negatives");
 		childrenNames.add("independents");
 		childrenNames.add("return");
+		childrenNames.add("yieldsEvals");
 		childrenNames.add("conditions");
 		childrenNames.add("homs");
 		childrenNames.add("exact");

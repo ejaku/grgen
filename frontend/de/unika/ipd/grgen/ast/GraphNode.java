@@ -18,6 +18,7 @@ import de.unika.ipd.grgen.ast.util.DeclarationTripleResolver;
 import de.unika.ipd.grgen.ast.util.SimpleChecker;
 import de.unika.ipd.grgen.ast.util.Triple;
 import de.unika.ipd.grgen.ir.Edge;
+import de.unika.ipd.grgen.ir.EvalStatement;
 import de.unika.ipd.grgen.ir.Exec;
 import de.unika.ipd.grgen.ir.Expression;
 import de.unika.ipd.grgen.ir.GraphEntity;
@@ -56,6 +57,7 @@ public class GraphNode extends BaseNode {
 	protected CollectNode<BaseNode> connections = new CollectNode<BaseNode>();
 	protected CollectNode<SubpatternUsageNode> subpatterns;
 	protected CollectNode<OrderedReplacementNode> orderedReplacements;
+	protected CollectNode<EvalStatementNode> yieldsEvals;
 	protected CollectNode<ExprNode> returns;
 	protected CollectNode<BaseNode> imperativeStmts;
 	protected CollectNode<BaseNode> params;
@@ -82,6 +84,7 @@ public class GraphNode extends BaseNode {
 			CollectNode<BaseNode> connections, CollectNode<BaseNode> params,
 			CollectNode<SubpatternUsageNode> subpatterns,
 			CollectNode<OrderedReplacementNode> orderedReplacements,
+			CollectNode<EvalStatementNode> yieldsEvals,
 			CollectNode<ExprNode> returns, CollectNode<BaseNode> imperativeStmts,
 			CollectNode<YieldedEntitiesNode> receivedYields,
 			int context, PatternGraphNode directlyNestingLHSGraph) {
@@ -93,6 +96,8 @@ public class GraphNode extends BaseNode {
 		becomeParent(this.subpatterns);
 		this.orderedReplacements = orderedReplacements;
 		becomeParent(this.orderedReplacements);
+		this.yieldsEvals = yieldsEvals;
+		becomeParent(this.yieldsEvals);
 		this.returns = returns;
 		becomeParent(this.returns);
 		this.imperativeStmts = imperativeStmts;
@@ -120,6 +125,7 @@ public class GraphNode extends BaseNode {
 		children.add(params);
 		children.add(subpatterns);
 		children.add(orderedReplacements);
+		children.add(yieldsEvals);
 		children.add(returns);
 		children.add(imperativeStmts);
 		return children;
@@ -133,6 +139,7 @@ public class GraphNode extends BaseNode {
 		childrenNames.add("params");
 		childrenNames.add("subpatterns");
 		childrenNames.add("subpatternReplacements");
+		childrenNames.add("yieldsEvals");
 		childrenNames.add("returns");
 		childrenNames.add("imperativeStmts");
 		return childrenNames;
@@ -231,7 +238,8 @@ public class GraphNode extends BaseNode {
 		return resolve != null && paramsOK && resSubUsages;
 	}
 
-	private static final Checker connectionsChecker = new CollectChecker(new SimpleChecker(ConnectionCharacter.class));
+	private static final Checker connectionsChecker
+		= new CollectChecker(new SimpleChecker(ConnectionCharacter.class));
 
 	/**
 	 * A pattern node contains just a collect node with connection nodes as its children.
@@ -455,5 +463,15 @@ public class GraphNode extends BaseNode {
         }
 
 		return res;
+	}
+	
+	public Collection<EvalStatement> getYieldEvalStatements() {
+		Collection<EvalStatement> ret = new LinkedHashSet<EvalStatement>();
+
+		for (EvalStatementNode n : yieldsEvals.getChildren()) {
+			ret.add(n.checkIR(EvalStatement.class));
+		}
+
+		return ret;
 	}
 }

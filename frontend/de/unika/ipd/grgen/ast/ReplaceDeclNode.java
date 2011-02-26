@@ -38,10 +38,9 @@ public class ReplaceDeclNode extends RhsDeclNode {
 	 * Make a new replace right-hand side.
 	 * @param id The identifier of this RHS.
 	 * @param graph The right hand side graph.
-	 * @param eval The evaluations.
 	 */
-	public ReplaceDeclNode(IdentNode id, GraphNode graph, CollectNode<EvalStatementNode> eval) {
-		super(id, graph, eval);
+	public ReplaceDeclNode(IdentNode id, GraphNode graph) {
+		super(id, graph);
 	}
 
 	/** returns children of this node */
@@ -50,7 +49,6 @@ public class ReplaceDeclNode extends RhsDeclNode {
 		children.add(ident);
 		children.add(getValidVersion(typeUnresolved, type));
 		children.add(graph);
-		children.add(eval);
 		return children;
 	}
 
@@ -60,7 +58,6 @@ public class ReplaceDeclNode extends RhsDeclNode {
 		childrenNames.add("ident");
 		childrenNames.add("type");
 		childrenNames.add("right");
-		childrenNames.add("eval");
 		return childrenNames;
 	}
 

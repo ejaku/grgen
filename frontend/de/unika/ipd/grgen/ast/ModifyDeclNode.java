@@ -50,11 +50,9 @@ public class ModifyDeclNode extends RhsDeclNode {
 	 * Make a new modify right-hand side.
 	 * @param id The identifier of this RHS.
 	 * @param graph The right hand side graph.
-	 * @param eval The evaluations.
 	 */
-	public ModifyDeclNode(IdentNode id, GraphNode graph, CollectNode<EvalStatementNode> eval,
-			CollectNode<IdentNode> dels) {
-		super(id, graph, eval);
+	public ModifyDeclNode(IdentNode id, GraphNode graph, CollectNode<IdentNode> dels) {
+		super(id, graph);
 		this.deleteUnresolved = dels;
 		becomeParent(this.deleteUnresolved);
 	}
@@ -65,7 +63,6 @@ public class ModifyDeclNode extends RhsDeclNode {
 		children.add(ident);
 		children.add(getValidVersion(typeUnresolved, type));
 		children.add(graph);
-		children.add(eval);
 		children.add(getValidVersion(deleteUnresolved, delete));
 		return children;
 	}
@@ -76,7 +73,6 @@ public class ModifyDeclNode extends RhsDeclNode {
 		childrenNames.add("ident");
 		childrenNames.add("type");
 		childrenNames.add("right");
-		childrenNames.add("eval");
 		childrenNames.add("delete");
 		return childrenNames;
 	}

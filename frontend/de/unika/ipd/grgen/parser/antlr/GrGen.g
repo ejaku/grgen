@@ -296,7 +296,6 @@ patternModifier [ int mod ] returns [ int res = 0 ]
 
 patternOrActionOrSequenceDecl [ CollectNode<IdentNode> patternChilds, CollectNode<IdentNode> actionChilds, CollectNode<IdentNode> sequenceChilds, int mod ]
 	@init{
-		CollectNode<EvalStatementNode> eval = new CollectNode<EvalStatementNode>();
 		CollectNode<IdentNode> dels = new CollectNode<IdentNode>();
 		CollectNode<RhsDeclNode> rightHandSides = new CollectNode<RhsDeclNode>();
 		CollectNode<BaseNode> modifyParams = new CollectNode<BaseNode>();
@@ -318,12 +317,12 @@ patternOrActionOrSequenceDecl [ CollectNode<IdentNode> patternChilds, CollectNod
 		}
 	| r=RULE id=actionIdentDecl pushScope[id] params=parameters[BaseNode.CONTEXT_RULE|BaseNode.CONTEXT_ACTION|BaseNode.CONTEXT_LHS|BaseNode.CONTEXT_PARAMETER, null] ret=returnTypes LBRACE
 		left=patternPart[getCoords(r), params, namer, mod, BaseNode.CONTEXT_RULE|BaseNode.CONTEXT_ACTION|BaseNode.CONTEXT_LHS, id.toString()]
-		( rightReplace=replacePart[eval, new CollectNode<BaseNode>(), BaseNode.CONTEXT_RULE|BaseNode.CONTEXT_ACTION|BaseNode.CONTEXT_RHS, id, left]
+		( rightReplace=replacePart[new CollectNode<BaseNode>(), BaseNode.CONTEXT_RULE|BaseNode.CONTEXT_ACTION|BaseNode.CONTEXT_RHS, id, left]
 			{
 				id.setDecl(new RuleDeclNode(id, left, rightReplace, ret));
 				actionChilds.addChild(id);
 			}
-		| rightModify=modifyPart[eval, dels, new CollectNode<BaseNode>(), BaseNode.CONTEXT_RULE|BaseNode.CONTEXT_ACTION|BaseNode.CONTEXT_RHS, id, left]
+		| rightModify=modifyPart[dels, new CollectNode<BaseNode>(), BaseNode.CONTEXT_RULE|BaseNode.CONTEXT_ACTION|BaseNode.CONTEXT_RHS, id, left]
 			{
 				id.setDecl(new RuleDeclNode(id, left, rightModify, ret));
 				actionChilds.addChild(id);
@@ -333,11 +332,11 @@ patternOrActionOrSequenceDecl [ CollectNode<IdentNode> patternChilds, CollectNod
 	| p=PATTERN id=patIdentDecl pushScope[id] params=parameters[BaseNode.CONTEXT_PATTERN|BaseNode.CONTEXT_LHS|BaseNode.CONTEXT_PARAMETER, null] 
 		((MODIFY|REPLACE) mp=parameters[BaseNode.CONTEXT_PATTERN|BaseNode.CONTEXT_RHS|BaseNode.CONTEXT_PARAMETER, null] { modifyParams = mp; })? LBRACE
 		left=patternPart[getCoords(p), params, namer, mod, BaseNode.CONTEXT_PATTERN|BaseNode.CONTEXT_LHS, id.toString()]
-		( rightReplace=replacePart[eval, modifyParams, BaseNode.CONTEXT_PATTERN|BaseNode.CONTEXT_RHS, id, left]
+		( rightReplace=replacePart[modifyParams, BaseNode.CONTEXT_PATTERN|BaseNode.CONTEXT_RHS, id, left]
 			{
 				rightHandSides.addChild(rightReplace);
 			}
-		| rightModify=modifyPart[eval, dels, modifyParams, BaseNode.CONTEXT_PATTERN|BaseNode.CONTEXT_RHS, id, left]
+		| rightModify=modifyPart[dels, modifyParams, BaseNode.CONTEXT_PATTERN|BaseNode.CONTEXT_RHS, id, left]
 			{
 				rightHandSides.addChild(rightModify);
 			}
@@ -437,7 +436,9 @@ returnType returns [ BaseNode res = env.initNode() ]
 		}
 	;
 
-patternPart [ Coords pattern_coords, CollectNode<BaseNode> params, AnonymousPatternNamer namer, int mod, int context, String nameOfGraph ] returns [ PatternGraphNode res = null ]
+patternPart [ Coords pattern_coords, CollectNode<BaseNode> params, AnonymousPatternNamer namer, int mod,
+			int context, String nameOfGraph ]
+			returns [ PatternGraphNode res = null ]
 	: p=PATTERN LBRACE
 		n=patternBody[getCoords(p), params, namer, mod, context, nameOfGraph] { res = n; }
 		RBRACE
@@ -445,40 +446,30 @@ patternPart [ Coords pattern_coords, CollectNode<BaseNode> params, AnonymousPatt
 	| n=patternBody[pattern_coords, params, namer, mod, context, nameOfGraph] { res = n; }
 	;
 
-replacePart [ CollectNode<EvalStatementNode> eval, CollectNode<BaseNode> params,
-              int context, IdentNode nameOfRHS, PatternGraphNode directlyNestingLHSGraph ]
-            returns [ ReplaceDeclNode res = null ]
+replacePart [ CollectNode<BaseNode> params, 
+			int context, IdentNode nameOfRHS, PatternGraphNode directlyNestingLHSGraph ]
+			returns [ ReplaceDeclNode res = null ]
 	: r=REPLACE ( id=rhsIdentDecl { nameOfRHS = id; } )?
 		LBRACE
-		b=replaceBody[getCoords(r), params, eval, context, nameOfRHS, directlyNestingLHSGraph] { res = b; }
+		b=replaceBody[getCoords(r), params, context, nameOfRHS, directlyNestingLHSGraph] { res = b; }
 		RBRACE
 	| LBRACEMINUS 
 		{ params = new CollectNode<BaseNode>(); }
-		b=replaceBody[getCoords(r), params, eval, context, nameOfRHS, directlyNestingLHSGraph] { res = b; }
+		b=replaceBody[getCoords(r), params, context, nameOfRHS, directlyNestingLHSGraph] { res = b; }
 	  RBRACE
 	;
 
-modifyPart [ CollectNode<EvalStatementNode> eval, CollectNode<IdentNode> dels,
-             CollectNode<BaseNode> params, int context, IdentNode nameOfRHS, PatternGraphNode directlyNestingLHSGraph ]
-           returns [ ModifyDeclNode res = null ]
+modifyPart [ CollectNode<IdentNode> dels, CollectNode<BaseNode> params,
+			int context, IdentNode nameOfRHS, PatternGraphNode directlyNestingLHSGraph ]
+			returns [ ModifyDeclNode res = null ]
 	: m=MODIFY ( id=rhsIdentDecl { nameOfRHS = id; } )?
 		LBRACE
-		b=modifyBody[getCoords(m), eval, dels, params, context, nameOfRHS, directlyNestingLHSGraph] { res = b; }
+		b=modifyBody[getCoords(m), dels, params, context, nameOfRHS, directlyNestingLHSGraph] { res = b; }
 		RBRACE
 	| LBRACEPLUS 
 		{ params = new CollectNode<BaseNode>(); }
-		b=modifyBody[getCoords(m), eval, dels, params, context, nameOfRHS, directlyNestingLHSGraph] { res = b; }
+		b=modifyBody[getCoords(m), dels, params, context, nameOfRHS, directlyNestingLHSGraph] { res = b; }
 	  RBRACE
-	;
-
-evalPart [ CollectNode<EvalStatementNode> n ]
-	: EVAL LBRACE
-		evalBody[n]
-		RBRACE
-	;
-
-evalBody [ CollectNode<EvalStatementNode> n  ]
-	: ( a=assignmentOrMethodCall { n.addChild(a); } SEMI )*
 	;
 
 patternBody [ Coords coords, CollectNode<BaseNode> params, AnonymousPatternNamer namer, int mod, int context, String nameOfGraph ] returns [ PatternGraphNode res = null ]
@@ -491,24 +482,25 @@ patternBody [ Coords coords, CollectNode<BaseNode> params, AnonymousPatternNamer
 		CollectNode<PatternGraphNode> negs = new CollectNode<PatternGraphNode>();
 		CollectNode<PatternGraphNode> idpts = new CollectNode<PatternGraphNode>();
 		CollectNode<ExprNode> conds = new CollectNode<ExprNode>();
+		CollectNode<EvalStatementNode> yieldsEvals = new CollectNode<EvalStatementNode>();
 		CollectNode<ExprNode> returnz = new CollectNode<ExprNode>();
 		CollectNode<HomNode> homs = new CollectNode<HomNode>();
 		CollectNode<ExactNode> exact = new CollectNode<ExactNode>();
 		CollectNode<InducedNode> induced = new CollectNode<InducedNode>();
 		res = new PatternGraphNode(nameOfGraph, coords, 
 				connections, params, subpatterns, orderedReplacements, 
-				alts, iters, negs, idpts, conds,
+				alts, iters, negs, idpts, conds, yieldsEvals,
 				returnz, homs, exact, induced, mod, context);
 	}
 
 	: ( patternStmt[connections, subpatterns, orderedReplacements,
-			alts, iters, negs, idpts, namer, conds,
+			alts, iters, negs, idpts, namer, conds, yieldsEvals,
 			returnz, homs, exact, induced, context, res] )*
 	;
 
 patternStmt [ CollectNode<BaseNode> conn, CollectNode<SubpatternUsageNode> subpatterns, CollectNode<OrderedReplacementNode> orderedReplacements,
 			CollectNode<AlternativeNode> alts, CollectNode<IteratedNode> iters, CollectNode<PatternGraphNode> negs,
-			CollectNode<PatternGraphNode> idpts, AnonymousPatternNamer namer, CollectNode<ExprNode> conds,
+			CollectNode<PatternGraphNode> idpts, AnonymousPatternNamer namer, CollectNode<ExprNode> conds, CollectNode<EvalStatementNode> yieldsEvals,
 			CollectNode<ExprNode> returnz, CollectNode<HomNode> homs, CollectNode<ExactNode> exact, CollectNode<InducedNode> induced,
 			int context, PatternGraphNode directlyNestingLHSGraph]
 	: connectionsOrSubpattern[conn, subpatterns, orderedReplacements, context, directlyNestingLHSGraph] SEMI
@@ -517,6 +509,7 @@ patternStmt [ CollectNode<BaseNode> conn, CollectNode<SubpatternUsageNode> subpa
 	| neg=negative[namer, context] { negs.addChild(neg); }
 	| idpt=independent[namer, context] { idpts.addChild(idpt); }
 	| condition[conds]
+	| yieldStmt[yieldsEvals]
 	| rets[returnz, context] SEMI
 	| hom=homStatement { homs.addChild(hom); } SEMI
 	| exa=exactStatement { exact.addChild(exa); } SEMI
@@ -1000,19 +993,22 @@ inducedStatement returns [ InducedNode res = null ]
 		RPAREN
 	;
 
-replaceBody [ Coords coords, CollectNode<BaseNode> params, CollectNode<EvalStatementNode> eval, int context, IdentNode nameOfRHS, PatternGraphNode directlyNestingLHSGraph ] returns [ ReplaceDeclNode res = null ]
+replaceBody [ Coords coords, CollectNode<BaseNode> params, int context, IdentNode nameOfRHS, PatternGraphNode directlyNestingLHSGraph ] returns [ ReplaceDeclNode res = null ]
 	@init{
 		CollectNode<BaseNode> connections = new CollectNode<BaseNode>();
 		CollectNode<YieldedEntitiesNode> yields = new CollectNode<YieldedEntitiesNode>();
 		CollectNode<SubpatternUsageNode> subpatterns = new CollectNode<SubpatternUsageNode>();
 		CollectNode<OrderedReplacementNode> orderedReplacements = new CollectNode<OrderedReplacementNode>();
+		CollectNode<EvalStatementNode> yieldsEvals = new CollectNode<EvalStatementNode>();
 		CollectNode<ExprNode> returnz = new CollectNode<ExprNode>();
 		CollectNode<BaseNode> imperativeStmts = new CollectNode<BaseNode>();
-		GraphNode graph = new GraphNode(nameOfRHS.toString(), coords, connections, params, subpatterns, orderedReplacements, returnz, imperativeStmts, yields, context, directlyNestingLHSGraph);
-		res = new ReplaceDeclNode(nameOfRHS, graph, eval);
+		GraphNode graph = new GraphNode(nameOfRHS.toString(), coords, 
+			connections, params, subpatterns, orderedReplacements, yieldsEvals, returnz, imperativeStmts, yields,
+			context, directlyNestingLHSGraph);
+		res = new ReplaceDeclNode(nameOfRHS, graph);
 	}
 
-	: ( replaceStmt[coords, connections, subpatterns, orderedReplacements, eval, context, directlyNestingLHSGraph] 
+	: ( replaceStmt[coords, connections, subpatterns, orderedReplacements, yieldsEvals, context, directlyNestingLHSGraph] 
 		| rets[returnz, context] SEMI
 		| execStmt[imperativeStmts, yields, context, directlyNestingLHSGraph] SEMI
 		| emitStmt[imperativeStmts, orderedReplacements] SEMI
@@ -1020,24 +1016,28 @@ replaceBody [ Coords coords, CollectNode<BaseNode> params, CollectNode<EvalState
 	;
 
 replaceStmt [ Coords coords, CollectNode<BaseNode> connections, CollectNode<SubpatternUsageNode> subpatterns,
- 		CollectNode<OrderedReplacementNode> orderedReplacements, CollectNode<EvalStatementNode> eval, int context, PatternGraphNode directlyNestingLHSGraph ]
+ 		CollectNode<OrderedReplacementNode> orderedReplacements, CollectNode<EvalStatementNode> yieldsEvals,
+		int context, PatternGraphNode directlyNestingLHSGraph ]
 	: connectionsOrSubpattern[connections, subpatterns, orderedReplacements, context, directlyNestingLHSGraph] SEMI
-	| evalPart[eval]
+	| yieldEvalStmt[yieldsEvals]
 	;
 
-modifyBody [ Coords coords, CollectNode<EvalStatementNode> eval, CollectNode<IdentNode> dels, CollectNode<BaseNode> params, int context, IdentNode nameOfRHS, PatternGraphNode directlyNestingLHSGraph ] returns [ ModifyDeclNode res = null ]
+modifyBody [ Coords coords, CollectNode<IdentNode> dels, CollectNode<BaseNode> params, int context, IdentNode nameOfRHS, PatternGraphNode directlyNestingLHSGraph ] returns [ ModifyDeclNode res = null ]
 	@init{
 		CollectNode<BaseNode> connections = new CollectNode<BaseNode>();
 		CollectNode<YieldedEntitiesNode> yields = new CollectNode<YieldedEntitiesNode>();
 		CollectNode<SubpatternUsageNode> subpatterns = new CollectNode<SubpatternUsageNode>();
 		CollectNode<OrderedReplacementNode> orderedReplacements = new CollectNode<OrderedReplacementNode>();
+		CollectNode<EvalStatementNode> yieldsEvals = new CollectNode<EvalStatementNode>();
 		CollectNode<ExprNode> returnz = new CollectNode<ExprNode>();
 		CollectNode<BaseNode> imperativeStmts = new CollectNode<BaseNode>();
-		GraphNode graph = new GraphNode(nameOfRHS.toString(), coords, connections, params, subpatterns, orderedReplacements, returnz, imperativeStmts, yields, context, directlyNestingLHSGraph);
-		res = new ModifyDeclNode(nameOfRHS, graph, eval, dels);
+		GraphNode graph = new GraphNode(nameOfRHS.toString(), coords, 
+			connections, params, subpatterns, orderedReplacements, yieldsEvals, returnz, imperativeStmts, yields,
+			context, directlyNestingLHSGraph);
+		res = new ModifyDeclNode(nameOfRHS, graph, dels);
 	}
 
-	: ( modifyStmt[coords, connections, subpatterns, orderedReplacements, eval, dels, context, directlyNestingLHSGraph] 
+	: ( modifyStmt[coords, connections, subpatterns, orderedReplacements, yieldsEvals, dels, context, directlyNestingLHSGraph] 
 		| rets[returnz, context] SEMI
 		| execStmt[imperativeStmts, yields, context, directlyNestingLHSGraph] SEMI
 		| emitStmt[imperativeStmts, orderedReplacements] SEMI
@@ -1045,11 +1045,11 @@ modifyBody [ Coords coords, CollectNode<EvalStatementNode> eval, CollectNode<Ide
 	;
 
 modifyStmt [ Coords coords, CollectNode<BaseNode> connections, CollectNode<SubpatternUsageNode> subpatterns,
- 		CollectNode<OrderedReplacementNode> orderedReplacements,
-		CollectNode<EvalStatementNode> eval, CollectNode<IdentNode> dels, int context, PatternGraphNode directlyNestingLHSGraph ]
+ 		CollectNode<OrderedReplacementNode> orderedReplacements, CollectNode<EvalStatementNode> yieldsEvals, CollectNode<IdentNode> dels,
+		int context, PatternGraphNode directlyNestingLHSGraph ]
 	: connectionsOrSubpattern[connections, subpatterns, orderedReplacements, context, directlyNestingLHSGraph] SEMI
 	| deleteStmt[dels] SEMI
-	| evalPart[eval]
+	| yieldEvalStmt[yieldsEvals]
 	;
 
 alternative [ AnonymousPatternNamer namer, int context ] returns [ AlternativeNode alt = null ]
@@ -1065,7 +1065,6 @@ alternative [ AnonymousPatternNamer namer, int context ] returns [ AlternativeNo
 alternativeCase [ AlternativeNode alt, AnonymousPatternNamer namer, int context ]
 	@init{
 		int mod = 0;
-		CollectNode<EvalStatementNode> eval = new CollectNode<EvalStatementNode>();
 		CollectNode<IdentNode> dels = new CollectNode<IdentNode>();
 		CollectNode<RhsDeclNode> rightHandSides = new CollectNode<RhsDeclNode>();
 	}
@@ -1073,11 +1072,11 @@ alternativeCase [ AlternativeNode alt, AnonymousPatternNamer namer, int context 
 	: (name=altIdentDecl)? l=LBRACE { namer.defAltCase(name, getCoords(l)); } pushScope[namer.altCase()]
 		left=patternBody[getCoords(l), new CollectNode<BaseNode>(), namer, mod, context, namer.altCase().toString()]
 		(
-			rightReplace=replacePart[eval, new CollectNode<BaseNode>(), context|BaseNode.CONTEXT_RHS, namer.altCase(), left]
+			rightReplace=replacePart[new CollectNode<BaseNode>(), context|BaseNode.CONTEXT_RHS, namer.altCase(), left]
 				{
 					rightHandSides.addChild(rightReplace);
 				}
-			| rightModify=modifyPart[eval, dels, new CollectNode<BaseNode>(), context|BaseNode.CONTEXT_RHS, namer.altCase(), left]
+			| rightModify=modifyPart[dels, new CollectNode<BaseNode>(), context|BaseNode.CONTEXT_RHS, namer.altCase(), left]
 				{
 					rightHandSides.addChild(rightModify);
 				}
@@ -1088,7 +1087,6 @@ alternativeCase [ AlternativeNode alt, AnonymousPatternNamer namer, int context 
 alternativeCasePure [ AlternativeNode alt, Token a, AnonymousPatternNamer namer, int context ]
 	@init{
 		int mod = 0;
-		CollectNode<EvalStatementNode> eval = new CollectNode<EvalStatementNode>();
 		CollectNode<IdentNode> dels = new CollectNode<IdentNode>();
 		CollectNode<RhsDeclNode> rightHandSides = new CollectNode<RhsDeclNode>();
 		IdentNode altCaseName = IdentNode.getInvalid();
@@ -1097,11 +1095,11 @@ alternativeCasePure [ AlternativeNode alt, Token a, AnonymousPatternNamer namer,
 	: { namer.defAltCase(null, getCoords(a)); } pushScope[namer.altCase()]
 		left=patternBody[getCoords(a), new CollectNode<BaseNode>(), namer, mod, context, namer.altCase().toString()]
 		(
-			rightReplace=replacePart[eval, new CollectNode<BaseNode>(), context|BaseNode.CONTEXT_RHS, namer.altCase(), left]
+			rightReplace=replacePart[new CollectNode<BaseNode>(), context|BaseNode.CONTEXT_RHS, namer.altCase(), left]
 				{
 					rightHandSides.addChild(rightReplace);
 				}
-			| rightModify=modifyPart[eval, dels, new CollectNode<BaseNode>(), context|BaseNode.CONTEXT_RHS, namer.altCase(), left]
+			| rightModify=modifyPart[dels, new CollectNode<BaseNode>(), context|BaseNode.CONTEXT_RHS, namer.altCase(), left]
 				{
 					rightHandSides.addChild(rightModify);
 				}
@@ -1111,7 +1109,6 @@ alternativeCasePure [ AlternativeNode alt, Token a, AnonymousPatternNamer namer,
 
 iterated [ AnonymousPatternNamer namer, int context ] returns [ IteratedNode res = null ]
 	@init{
-		CollectNode<EvalStatementNode> eval = new CollectNode<EvalStatementNode>();
 		CollectNode<IdentNode> dels = new CollectNode<IdentNode>();
 		CollectNode<RhsDeclNode> rightHandSides = new CollectNode<RhsDeclNode>();
 		IdentNode iterName = IdentNode.getInvalid();
@@ -1128,11 +1125,11 @@ iterated [ AnonymousPatternNamer namer, int context ] returns [ IteratedNode res
 		LBRACE pushScope[namer.iter()]
 		left=patternBody[getCoords(i), new CollectNode<BaseNode>(), namer, 0, context, namer.iter().toString()]
 		(
-			rightReplace=replacePart[eval, new CollectNode<BaseNode>(), context|BaseNode.CONTEXT_RHS, namer.iter(), left]
+			rightReplace=replacePart[new CollectNode<BaseNode>(), context|BaseNode.CONTEXT_RHS, namer.iter(), left]
 				{
 					rightHandSides.addChild(rightReplace);
 				}
-			| rightModify=modifyPart[eval, dels, new CollectNode<BaseNode>(), context|BaseNode.CONTEXT_RHS, namer.iter(), left]
+			| rightModify=modifyPart[dels, new CollectNode<BaseNode>(), context|BaseNode.CONTEXT_RHS, namer.iter(), left]
 				{
 					rightHandSides.addChild(rightModify);
 				}
@@ -1142,11 +1139,11 @@ iterated [ AnonymousPatternNamer namer, int context ] returns [ IteratedNode res
 		l=LPAREN { namer.defIter(null, getCoords(l)); } pushScope[namer.iter()]
 		left=patternBody[getCoords(i), new CollectNode<BaseNode>(), namer, 0, context, namer.iter().toString()]
 		(
-			rightReplace=replacePart[eval, new CollectNode<BaseNode>(), context|BaseNode.CONTEXT_RHS, namer.iter(), left]
+			rightReplace=replacePart[new CollectNode<BaseNode>(), context|BaseNode.CONTEXT_RHS, namer.iter(), left]
 				{
 					rightHandSides.addChild(rightReplace);
 				}
-			| rightModify=modifyPart[eval, dels, new CollectNode<BaseNode>(), context|BaseNode.CONTEXT_RHS, namer.iter(), left]
+			| rightModify=modifyPart[dels, new CollectNode<BaseNode>(), context|BaseNode.CONTEXT_RHS, namer.iter(), left]
 				{
 					rightHandSides.addChild(rightModify);
 				}
@@ -1208,6 +1205,21 @@ independent [ AnonymousPatternNamer namer, int context ] returns [ PatternGraphN
 condition [ CollectNode<ExprNode> conds ]
 	: IF LBRACE
 			( e=expr[false] { conds.addChild(e); } SEMI )* 
+		RBRACE
+	;
+
+yieldStmt [ CollectNode<EvalStatementNode> yieldsEvals ]
+	: YIELD LBRACE
+		( a=assignmentOrMethodCallNonAttribute { yieldsEvals.addChild(a); } SEMI )*
+	    RBRACE
+	;
+
+yieldEvalStmt [ CollectNode<EvalStatementNode> yieldsEvals ]
+	: YIELD LBRACE
+		( a=assignmentOrMethodCallNonAttribute { yieldsEvals.addChild(a); } SEMI )*
+	    RBRACE
+	| EVAL LBRACE
+		( a=assignmentOrMethodCall { yieldsEvals.addChild(a); } SEMI )*
 		RBRACE
 	;
 	
@@ -2248,6 +2260,25 @@ options { k = 4; }
 		e=expr[false] ( at=assignTo { ccat = at.ccat; tgtChanged = at.tgtChanged; } )?
 			{ res = new CompoundAssignNode(getCoords(a), new QualIdentNode(getCoords(d), owner, member), cat, e, ccat, tgtChanged); }
 	|
+	  variable=entIdentUse 
+		(BOR_ASSIGN { cat = CompoundAssignNode.UNION; } | BAND_ASSIGN { cat = CompoundAssignNode.INTERSECTION; } | BACKSLASH_ASSIGN { cat = CompoundAssignNode.WITHOUT; })
+		e=expr[false] ( at=assignTo { ccat = at.ccat; tgtChanged = at.tgtChanged; } )?
+			{ res = new CompoundAssignNode(getCoords(a), new IdentExprNode(variable), cat, e, ccat, tgtChanged); }
+	;
+
+assignmentOrMethodCallNonAttribute returns [ EvalStatementNode res = null ]
+	@init{
+		int cat = -1; // compound assign type
+		int ccat = CompoundAssignNode.NONE; // changed compound assign type
+		BaseNode tgtChanged = null;
+	}
+
+	: variable=entIdentUse a=ASSIGN e=expr[false]
+		{ res = new AssignNode(getCoords(a), new IdentExprNode(variable), e); }
+	| 
+	  variable=entIdentUse DOT method=memberIdentUse params=paramExprs[false]
+		{ res = new MethodCallNode(new IdentExprNode(variable), method, params); }
+	| 
 	  variable=entIdentUse 
 		(BOR_ASSIGN { cat = CompoundAssignNode.UNION; } | BAND_ASSIGN { cat = CompoundAssignNode.INTERSECTION; } | BACKSLASH_ASSIGN { cat = CompoundAssignNode.WITHOUT; })
 		e=expr[false] ( at=assignTo { ccat = at.ccat; tgtChanged = at.tgtChanged; } )?

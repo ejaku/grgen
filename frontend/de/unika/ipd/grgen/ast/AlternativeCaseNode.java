@@ -560,7 +560,7 @@ public class AlternativeCaseNode extends ActionDeclNode  {
 		// add Eval statements to the IR
 		// TODO choose the right one
 		if(this.right.children.size() > 0) {
-			for (EvalStatement n : this.right.children.get(0).getEvalStatements()) {
+			for (EvalStatement n : this.right.children.get(0).getRHSGraph().getYieldEvalStatements()) {
 				altCaseRule.addEval(n);
 			}
 		}
