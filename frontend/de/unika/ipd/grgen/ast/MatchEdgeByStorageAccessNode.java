@@ -34,7 +34,7 @@ public class MatchEdgeByStorageAccessNode extends EdgeDeclNode implements EdgeCh
 	public MatchEdgeByStorageAccessNode(IdentNode id, BaseNode type, int context, 
 			BaseNode storage, IdentExprNode accessor,
 			PatternGraphNode directlyNestingLHSGraph) {
-		super(id, type, false, context, TypeExprNode.getEmpty(), directlyNestingLHSGraph, false);
+		super(id, type, false, context, TypeExprNode.getEmpty(), directlyNestingLHSGraph);
 		this.storageUnresolved = storage;
 		becomeParent(this.storageUnresolved);
 		this.accessorUnresolved = accessor;

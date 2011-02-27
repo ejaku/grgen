@@ -1161,28 +1161,23 @@ namespace de.unika.ipd.grGen.libGr
 
     public class SequenceYield : Sequence
     {
-        public SequenceVariable[] YieldVars;
-        public String[] ExpectedYieldType;
+        public SequenceVariable ToVar;
+        public SequenceVariable FromVar;
 
-        public SequenceYield(SequenceVariable[] yieldVars)
+        public SequenceYield(SequenceVariable toVar, SequenceVariable fromVar)
             : base(SequenceType.Yield)
         {
-            YieldVars = yieldVars;
+            ToVar = toVar;
+            FromVar = fromVar;
         }
 
         internal override Sequence Copy(Dictionary<SequenceVariable, SequenceVariable> originalToCopy)
         {
             SequenceYield copy = (SequenceYield)MemberwiseClone();
-            copy.YieldVars = new SequenceVariable[YieldVars.Length];
-            for(int i=0; i<YieldVars.Length; ++i)
-                copy.YieldVars[i] = YieldVars[i];
+            copy.ToVar = ToVar;
+            copy.FromVar = FromVar;
             copy.executionState = SequenceExecutionState.NotYet;
             return copy;
-        }
-
-        public void SetExpectedYieldType(String[] expectedYieldType)
-        {
-            ExpectedYieldType = expectedYieldType;
         }
 
         protected override bool ApplyImpl(IGraph graph, SequenceExecutionEnvironment env)
@@ -1192,28 +1187,14 @@ namespace de.unika.ipd.grGen.libGr
 
         public override bool GetLocalVariables(Dictionary<SequenceVariable, SetValueType> variables, Sequence target)
         {
-            foreach(SequenceVariable seqVar in YieldVars)
-                seqVar.GetLocalVariables(variables);
+            ToVar.GetLocalVariables(variables);
+            FromVar.GetLocalVariables(variables);
             return this == target;
         }
 
         public override IEnumerable<Sequence> Children { get { yield break; } }
         public override int Precedence { get { return 8; } }
-        public override string Symbol
-        {
-            get
-            {
-                StringBuilder sb = new StringBuilder();
-                sb.Append("yield(");
-                for(int i = 0; i < YieldVars.Length; ++i)
-                {
-                    sb.Append(YieldVars[i].Name);
-                    if(i != YieldVars.Length - 1) sb.Append(",");
-                }
-                sb.Append(")");
-                return sb.ToString();
-            }
-        }
+        public override string Symbol { get { return "yield " + ToVar.Name + "=" + FromVar.Name; } }
     }
 
     public class SequenceTrue : SequenceSpecial

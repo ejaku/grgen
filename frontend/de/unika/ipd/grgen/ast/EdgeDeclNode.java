@@ -38,16 +38,18 @@ public class EdgeDeclNode extends ConstraintDeclNode implements EdgeCharacter {
 
 	
 	public EdgeDeclNode(IdentNode id, BaseNode type, boolean isCopy, 
-			int context, TypeExprNode constraints, PatternGraphNode directlyNestingLHSGraph,
-			boolean maybeNull) {
-		super(id, type, context, constraints, directlyNestingLHSGraph, maybeNull);
+			int context, TypeExprNode constraints, 
+			PatternGraphNode directlyNestingLHSGraph,
+			boolean maybeNull, boolean defEntityToBeYieldedTo) {
+		super(id, type, context, constraints, directlyNestingLHSGraph, maybeNull, defEntityToBeYieldedTo);
 		setName("edge");
 		this.isCopy = isCopy;
 	}
 
 	public EdgeDeclNode(IdentNode id, BaseNode type, boolean isCopy, 
-			int context, TypeExprNode constraints, PatternGraphNode directlyNestingLHSGraph) {
-		this(id, type, isCopy, context, constraints, directlyNestingLHSGraph, false);
+			int context, TypeExprNode constraints, 
+			PatternGraphNode directlyNestingLHSGraph) {
+		this(id, type, isCopy, context, constraints, directlyNestingLHSGraph, false, false);
 	}
 
 	/**
@@ -56,7 +58,8 @@ public class EdgeDeclNode extends ConstraintDeclNode implements EdgeCharacter {
 	 * the AST is already checked.
 	 * TODO Change type of type iff CollectNode support generics
 	 */
-	public EdgeDeclNode(IdentNode id, BaseNode type, int declLocation, BaseNode parent, PatternGraphNode directlyNestingLHSGraph) {
+	public EdgeDeclNode(IdentNode id, BaseNode type, int declLocation, BaseNode parent,
+			PatternGraphNode directlyNestingLHSGraph) {
 		this(id, type, false, declLocation, TypeExprNode.getEmpty(), directlyNestingLHSGraph);
 		parent.becomeParent(this);
 
@@ -210,8 +213,8 @@ public class EdgeDeclNode extends ConstraintDeclNode implements EdgeCharacter {
 		EdgeType et = tn.checkIR(EdgeType.class);
 		IdentNode ident = getIdentNode();
 
-		Edge edge = new Edge(ident.getIdent(), et, ident.getAnnotations(),
-				directlyNestingLHSGraph.getGraph(), isMaybeDeleted(), isMaybeRetyped(), context);
+		Edge edge = new Edge(ident.getIdent(), et, ident.getAnnotations(), directlyNestingLHSGraph.getGraph(),
+				isMaybeDeleted(), isMaybeRetyped(), defEntityToBeYieldedTo, context);
 		edge.setConstraints(getConstraints());
 
 		if(inheritsType()) {

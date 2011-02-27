@@ -18,7 +18,7 @@ import de.unika.ipd.grgen.ast.util.DeclarationResolver;
 import de.unika.ipd.grgen.ir.ExecVariable;
 
 /**
- * Declaration of a variable.
+ * Declaration of a variable in an exec, explicit sequence local or implicit graph global.
  */
 public class ExecVarDeclNode extends DeclNode {
 	private static final DeclarationResolver<DeclNode> declOfTypeResolver = new DeclarationResolver<DeclNode>(DeclNode.class);

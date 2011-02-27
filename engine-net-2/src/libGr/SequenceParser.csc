@@ -973,9 +973,9 @@ Sequence SimpleSequence():
         return new SequenceFor(fromVar, fromVar2, fromVar3, seq, variableList1);
     }
 |
-	"yield" "(" Parameters(variableList1) ")"
+	"yield" toVar=VariableUse() "=" fromVar=VariableUse()
 	{
-		return new SequenceYield(variableList1.ToArray());
+		return new SequenceYield(toVar, fromVar);
 	}
 }
 

@@ -47,7 +47,7 @@ public class ExecNode extends BaseNode {
 	private CollectNode<IdentNode> usageUnresolved = new CollectNode<IdentNode>();
 	private CollectNode<DeclNode> usage = new CollectNode<DeclNode>();
 
-	public ExecNode(Coords coords, CollectNode<BaseNode> yieldTypes) {
+	public ExecNode(Coords coords) {
 		super(coords);
 		becomeParent(callActions);
 	}

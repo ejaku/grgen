@@ -20,29 +20,40 @@ namespace de.unika.ipd.grGen.libGr
         /// </summary>
         /// <param name="parameters">The names of the needed graph elements of the containing action.</param>
         /// <param name="parameterTypes">The types of the needed graph elements of the containing action.</param>
-        /// <param name="outParameterTypes">The types of the graph elements returned to the containing action.</param>
+        /// <param name="outParameters">The names of the graph elements of the containing action yielded to.</param>
+        /// <param name="outParameterTypes">The types of the graph elements of the containing action yielded to.</param>
         /// <param name="xgrs">The XGRS string.</param>
         public EmbeddedSequenceInfo(String[] parameters, GrGenType[] parameterTypes,
-            GrGenType[] outParameterTypes, String xgrs)
+            String[] outParameters, GrGenType[] outParameterTypes, String xgrs)
         {
             Parameters = parameters;
             ParameterTypes = parameterTypes;
+            OutParameters = outParameters;
             OutParameterTypes = outParameterTypes;
             XGRS = xgrs;
         }
 
         /// <summary>
         /// The names of the needed graph elements of the containing action.
+        /// Or the names of the graph elements needed from the calling action in case of a defined sequence.
         /// </summary>
         public String[] Parameters;
 
         /// <summary>
         /// The types of the needed graph elements of the containing action.
+        /// Or the types of the graph elements needed from the calling action in case of a definted sequence.
         /// </summary>
         public GrGenType[] ParameterTypes;
 
         /// <summary>
-        /// The types of the graph elements returned to the containing action.
+        /// The names of the graph elements of the containing action yielded to.
+        /// Or the names of the graph elements returned to the calling action in case of a defined sequence.
+        /// </summary>
+        public String[] OutParameters;
+
+        /// <summary>
+        /// The types of the graph elements of the containing action yielded to.
+        /// Or the types of the graph elements returned to the calling action in case of a defined sequence.
         /// </summary>
         public GrGenType[] OutParameterTypes;
 
@@ -60,18 +71,17 @@ namespace de.unika.ipd.grGen.libGr
         /// <summary>
         /// Constructs an DefinedSequenceInfo object.
         /// </summary>
-        /// <param name="parameters">The names of the needed graph elements of the containing action.</param>
-        /// <param name="parameterTypes">The types of the needed graph elements of the containing action.</param>
-        /// <param name="outParameters">The names of the needed graph elements returned to the containing action.</param>
-        /// <param name="outParameterTypes">The types of the graph elements returned to the containing action.</param>
+        /// <param name="parameters">The names of the graph elements needed from the calling action.</param>
+        /// <param name="parameterTypes">The types of the graph elements needed from the calling action.</param>
+        /// <param name="outParameters">The names of the graph elements returned to the calling action.</param>
+        /// <param name="outParameterTypes">The types of the graph elements returned to the calling action.</param>
         /// <param name="name">The name the sequence was defined with.</param>
         /// <param name="xgrs">The XGRS string.</param>
         public DefinedSequenceInfo(String[] parameters, GrGenType[] parameterTypes,
             String[] outParameters, GrGenType[] outParameterTypes,
             String name, String xgrs)
-            : base(parameters, parameterTypes, outParameterTypes, xgrs)
+            : base(parameters, parameterTypes, outParameters, outParameterTypes, xgrs)
         {
-            OutParameters = outParameters;
             Name = name;
         }
 
@@ -79,10 +89,5 @@ namespace de.unika.ipd.grGen.libGr
         /// The name the sequence was defined with
         /// </summary>
         public string Name;
-
-        /// <summary>
-        /// The names of the graph elements returned to the containing action.
-        /// </summary>
-        public String[] OutParameters;
     }
 }

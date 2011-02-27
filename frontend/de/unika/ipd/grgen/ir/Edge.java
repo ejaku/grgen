@@ -39,12 +39,14 @@ public class Edge extends GraphEntity {
 	 * @param annots The annotations of this edge.
 	 * @param maybeDeleted Indicates whether this element might be deleted due to homomorphy.
 	 * @param maybeRetyped Indicates whether this element might be retyped due to homomorphy.
+	 * @param isDefToBeYieldedTo Is the entity a defined entity only, to be filled with yields from nested patterns.
 	 * @param context The context of the declaration
 	 */
 	public Edge(Ident ident, EdgeType type, Annotations annots,
 			PatternGraph directlyNestingLHSGraph, 
-			boolean maybeDeleted, boolean maybeRetyped, int context) {
-		super("edge", ident, type, annots, maybeDeleted, maybeRetyped, context);
+			boolean maybeDeleted, boolean maybeRetyped, boolean isDefToBeYieldedTo, int context) {
+		super("edge", ident, type, annots, 
+				maybeDeleted, maybeRetyped, isDefToBeYieldedTo, context);
 		this.type = type;
 		this.directlyNestingLHSGraph = directlyNestingLHSGraph;
 	}
@@ -55,12 +57,14 @@ public class Edge extends GraphEntity {
 	 * @param type The type of the edge.
 	 * @param maybeDeleted Indicates whether this element might be deleted due to homomorphy
 	 * @param maybeRetyped Indicates whether this element might be retyped due to homomorphy.
+	 * @param isDefToBeYieldedTo Is the entity a defined entity only, to be filled with yields from nested patterns.
 	 * @param context The context of the declaration
 	 */
 	public Edge(Ident ident, EdgeType type,
 			PatternGraph directlyNestingLHSGraph, 
-			boolean maybeDeleted, boolean maybeRetyped, int context) {
-		this(ident, type, EmptyAnnotations.get(), directlyNestingLHSGraph, maybeDeleted, maybeRetyped, context);
+			boolean maybeDeleted, boolean maybeRetyped, boolean isDefToBeYieldedTo, int context) {
+		this(ident, type, EmptyAnnotations.get(), directlyNestingLHSGraph, 
+				maybeDeleted, maybeRetyped, isDefToBeYieldedTo, context);
 	}
 
 	public void setMaybeNull(boolean maybeNull) {

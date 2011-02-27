@@ -20,7 +20,6 @@ import java.util.Set;
  */
 public class Exec extends IR implements ImperativeStmt {
 	private Set<Expression> parameters = new LinkedHashSet<Expression>();
-	private YieldedEntities yieldedEntities; // the entities yielded into its containing graph
 	private Set<Entity> neededEntities;
 
 	private String xgrsString;
@@ -31,26 +30,12 @@ public class Exec extends IR implements ImperativeStmt {
 		this.parameters = parameters;
 	}
 
-	public void addYieldedEntities(YieldedEntities yieldedEntities)
-	{
-		this.yieldedEntities = yieldedEntities;
-	}
-
-	public YieldedEntities getYieldedEntities()
-	{
-		return yieldedEntities;
-	}
-	
-	/**
-	 * Returns XGRS as an String
-	 */
+	/** Returns XGRS as an String */
 	public String getXGRSString() {
 		return xgrsString;
 	}
 
-	/**
-	 * Returns Parameters
-	 */
+	/** Returns Parameters */
 	public Set<Expression> getArguments() {
 		return Collections.unmodifiableSet(parameters);
 	}

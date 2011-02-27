@@ -50,7 +50,8 @@ public abstract class Graph extends IR {
 		private final String nodeId;
 
 		private GraphNode(Node n) {
-			super(n.getIdent(), n.getNodeType(), n.directlyNestingLHSGraph, n.isMaybeDeleted(), n.isMaybeRetyped(), n.context);
+			super(n.getIdent(), n.getNodeType(), n.directlyNestingLHSGraph,
+					n.isMaybeDeleted(), n.isMaybeRetyped(), n.isDefToBeYieldedTo(), n.context);
 			this.incoming = new LinkedHashSet<Graph.GraphEdge>();
 			this.outgoing = new LinkedHashSet<Graph.GraphEdge>();
 			this.node = n;
@@ -75,7 +76,8 @@ public abstract class Graph extends IR {
 		private final String nodeId;
 
 		private GraphEdge(Edge e) {
-			super(e.getIdent(), e.getEdgeType(), e.directlyNestingLHSGraph, e.isMaybeDeleted(), e.isMaybeRetyped(), e.context);
+			super(e.getIdent(), e.getEdgeType(), e.directlyNestingLHSGraph, 
+					e.isMaybeDeleted(), e.isMaybeRetyped(), e.isDefToBeYieldedTo(), e.context);
 			this.edge = e;
 			this.nodeId = "g" + Graph.super.getId() + "_" + super.getNodeId();
 			this.fixedDirection = e.fixedDirection;
@@ -104,8 +106,6 @@ public abstract class Graph extends IR {
 
 	private Set<OrderedReplacement> orderedReplacement = new LinkedHashSet<OrderedReplacement>();
 	
-	private Set<YieldedEntities> yieldedEntities = new LinkedHashSet<YieldedEntities>();
-
 	PatternGraph directlyNestingLHSGraph; // either this or the left graph
 
 	private String nameOfGraph;
@@ -378,13 +378,5 @@ public abstract class Graph extends IR {
 	/** @see #getLocalDumpable(Node) */
 	public GraphDumpable getLocalDumpable(Edge edge) {
 		return checkEdge(edge);
-	}
-	
-	public void addYieldedEntities(YieldedEntities yieldedEntities) {
-		this.yieldedEntities.add(yieldedEntities);
-	}
-	
-	public Collection<YieldedEntities> getYieldedEntities() {
-		return yieldedEntities;
 	}
 }

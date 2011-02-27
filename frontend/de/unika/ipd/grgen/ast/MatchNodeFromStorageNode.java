@@ -31,7 +31,7 @@ public class MatchNodeFromStorageNode extends NodeDeclNode implements NodeCharac
 
 	public MatchNodeFromStorageNode(IdentNode id, BaseNode type, int context, BaseNode storage,
 			PatternGraphNode directlyNestingLHSGraph) {
-		super(id, type, false, context, TypeExprNode.getEmpty(), directlyNestingLHSGraph, false);
+		super(id, type, false, context, TypeExprNode.getEmpty(), directlyNestingLHSGraph);
 		this.storageUnresolved = storage;
 		becomeParent(this.storageUnresolved);
 	}

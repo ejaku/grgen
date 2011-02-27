@@ -25,8 +25,14 @@ public class IdentExprNode extends DeclExprNode {
 		setName(IdentExprNode.class, "ident expression");
 	}
 
+	boolean yieldedTo = false;
+	
 	public IdentExprNode(IdentNode ident) {
 		super(ident);
+	}
+	
+	public void setYieldedTo() {
+		yieldedTo = true;
 	}
 
 	@Override

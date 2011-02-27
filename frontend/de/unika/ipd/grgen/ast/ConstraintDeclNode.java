@@ -23,6 +23,7 @@ public abstract class ConstraintDeclNode extends DeclNode
 				 // or CONTEXT_RHS if declaration is located on right hand side
 
 	protected PatternGraphNode directlyNestingLHSGraph;
+	boolean defEntityToBeYieldedTo;
 
 	/** The retyped version of this element if any. */
 	protected ConstraintDeclNode retypedElem = null;
@@ -33,13 +34,14 @@ public abstract class ConstraintDeclNode extends DeclNode
 
 	
 	protected ConstraintDeclNode(IdentNode id, BaseNode type, int context, TypeExprNode constraints,
-			PatternGraphNode directlyNestingLHSGraph, boolean maybeNull) {
+			PatternGraphNode directlyNestingLHSGraph, boolean maybeNull, boolean defEntityToBeYieldedTo) {
 		super(id, type);
 		this.constraints = constraints;
 		becomeParent(this.constraints);
 		this.context = context;
 		this.directlyNestingLHSGraph = directlyNestingLHSGraph;
 		this.maybeNull = maybeNull;
+		this.defEntityToBeYieldedTo = defEntityToBeYieldedTo;
 	}
 
 	@Override

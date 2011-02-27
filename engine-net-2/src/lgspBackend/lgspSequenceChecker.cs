@@ -44,14 +44,11 @@ namespace de.unika.ipd.grGen.lgsp
         // the model object of the .grg to compile
         IGraphModel model;
 
-        // expected sequence yield output types
-        String[] expectedYieldTypes;
-
 
         public LGSPSequenceChecker(String[] ruleNames, String[] sequenceNames, 
             Dictionary<String, List<String>> rulesToInputTypes, Dictionary<String, List<String>> rulesToOutputTypes,
             Dictionary<String, List<String>> sequencesToInputTypes, Dictionary<String, List<String>> sequencesToOutputTypes,
-            IGraphModel model, GrGenType[] expectedYieldTypes)
+            IGraphModel model)
         {
             this.ruleNames = ruleNames;
             this.sequenceNames = sequenceNames;
@@ -60,11 +57,6 @@ namespace de.unika.ipd.grGen.lgsp
             this.sequencesToInputTypes = sequencesToInputTypes;
             this.sequencesToOutputTypes = sequencesToOutputTypes;
             this.model = model;
-            this.expectedYieldTypes = new String[expectedYieldTypes.Length];
-            for(int i=0; i<expectedYieldTypes.Length; ++i)
-            {
-                this.expectedYieldTypes[i] = TypesHelper.XgrsTypeToCSharpType(TypesHelper.DotNetTypeToXgrsType(expectedYieldTypes[i]), model);
-            }
         }
 
         /// <summary>
@@ -497,9 +489,13 @@ namespace de.unika.ipd.grGen.lgsp
 
             case SequenceType.Yield:
             {
-                // transmit expected yield types from xgrs interface to the contained yields where they are needed
+                // the assignment of an untyped variable to a typed variable is ok, cause we want access to persistency
+                // which is only offered by the untyped variables; it is checked at runtime / causes an invalid cast exception
                 SequenceYield seqYield = (SequenceYield)seq;
-                seqYield.SetExpectedYieldType(expectedYieldTypes);
+                if(!TypesHelper.IsSameOrSubtype(seqYield.FromVar.Type, seqYield.ToVar.Type, model))
+                {
+                    throw new SequenceParserException("yield " + seqYield.ToVar.Name + "=" + seqYield.FromVar.Name, seqYield.ToVar.Type, seqYield.FromVar.Type);
+                }
                 break;
             }
 

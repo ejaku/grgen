@@ -62,11 +62,12 @@ public abstract class GraphEntity extends Entity {
 	 * @param type The type used in the declaration.
 	 * @param maybeDeleted Indicates whether this element might be deleted due to homomorphy.
 	 * @param maybeRetyped Indicates whether this element might be retyped due to homomorphy.
+	 * @param isDefToBeYieldedTo Is the entity a defined entity only, to be filled with yields from nested patterns.
 	 * @param context The context of the declaration.
 	 */
 	protected GraphEntity(String name, Ident ident, InheritanceType type, Annotations annots,
-			boolean maybeDeleted, boolean maybeRetyped, int context) {
-		super(name, ident, type, false, context);
+			boolean maybeDeleted, boolean maybeRetyped, boolean isDefToBeYieldedTo, int context) {
+		super(name, ident, type, false, isDefToBeYieldedTo, context);
 		setChildrenNames(childrenNames);
 		this.type = type;
 		this.annotations = annots;

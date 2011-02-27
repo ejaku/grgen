@@ -27,31 +27,52 @@ public class VarDeclNode extends DeclNode {
 	private TypeNode type;
 
 	protected PatternGraphNode directlyNestingLHSGraph;
+	boolean defEntityToBeYieldedTo;
+	
+	ExprNode initialization = null;
 	
 	int context;
 	
 
 	public VarDeclNode(IdentNode id, IdentNode type, 
-			PatternGraphNode directlyNestingLHSGraph, int context) {
+			PatternGraphNode directlyNestingLHSGraph, int context, boolean defEntityToBeYieldedTo) {
 		super(id, type);
 		this.directlyNestingLHSGraph = directlyNestingLHSGraph;
+		this.defEntityToBeYieldedTo = defEntityToBeYieldedTo;
 		this.context = context;
     }
 
-	public VarDeclNode(IdentNode id, TypeNode type,
+	public VarDeclNode(IdentNode id, IdentNode type, 
 			PatternGraphNode directlyNestingLHSGraph, int context) {
+		this(id, type, directlyNestingLHSGraph, context, false);
+    }
+
+	public VarDeclNode(IdentNode id, TypeNode type,
+			PatternGraphNode directlyNestingLHSGraph, int context, boolean defEntityToBeYieldedTo) {
 		super(id, type);
 		this.type = type;
 		this.directlyNestingLHSGraph = directlyNestingLHSGraph;
 		this.context = context;
 	}
+	
+	public VarDeclNode(IdentNode id, TypeNode type,
+			PatternGraphNode directlyNestingLHSGraph, int context) {
+		this(id, type, directlyNestingLHSGraph, context, false);
+	}
 
+	/** sets an expression to be used to initialize the variable */
+	public void setInitialization(ExprNode initialization)
+	{
+		this.initialization = initialization;
+	}
+	
 	/** returns children of this node */
 	@Override
 	public Collection<? extends BaseNode> getChildren() {
 		Vector<BaseNode> children = new Vector<BaseNode>();
 		children.add(ident);
 		children.add(getValidVersion(typeUnresolved, type));
+		if(initialization!=null) children.add(initialization);
 		return children;
 	}
 
@@ -61,6 +82,7 @@ public class VarDeclNode extends DeclNode {
 		Vector<String> childrenNames = new Vector<String>();
 		childrenNames.add("ident");
 		childrenNames.add("type");
+		if(initialization!=null) childrenNames.add("initialization expression");
 		return childrenNames;
 	}
 
@@ -119,7 +141,7 @@ public class VarDeclNode extends DeclNode {
 	@Override
 	protected IR constructIR() {
 		return new Variable("Var", getIdentNode().getIdent(), type.getType(),
-				directlyNestingLHSGraph.getGraph(), context);
+				defEntityToBeYieldedTo, directlyNestingLHSGraph.getGraph(), context);
 	}
 }
 

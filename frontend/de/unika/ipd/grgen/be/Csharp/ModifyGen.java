@@ -76,7 +76,7 @@ import de.unika.ipd.grgen.ir.MapType;
 import de.unika.ipd.grgen.ir.SetType;
 import de.unika.ipd.grgen.ir.Variable;
 import de.unika.ipd.grgen.ir.Visited;
-import de.unika.ipd.grgen.ir.YieldedEntities;
+
 
 public class ModifyGen extends CSharpBase {
 	final int TYPE_OF_TASK_NONE = 0;
@@ -842,12 +842,15 @@ public class ModifyGen extends CSharpBase {
 	private void collectYieldedElements(ModifyGenerationTask task,
 			ModifyGenerationStateConst stateConst, HashSet<Node> yieldedNodes, HashSet<Edge> yieldedEdges)
 	{
-		for(YieldedEntities ye : task.right.getYieldedEntities()) {
-			for(GraphEntity e : ye.getEntities()) {
-				if(e instanceof Node) 
-					yieldedNodes.add((Node)e);
-				else
-					yieldedEdges.add((Edge)e);
+		for(Node node : task.right.getNodes()) {
+			if(node.isDefToBeYieldedTo()) {
+				yieldedNodes.add(node);
+			}
+		}
+
+		for(Edge edge : task.right.getEdges()) {
+			if(edge.isDefToBeYieldedTo()) {
+				yieldedEdges.add(edge);
 			}
 		}
 	}
@@ -1073,17 +1076,18 @@ public class ModifyGen extends CSharpBase {
 				} else {
 					sb.append("\t\t\tApplyXGRS_" + task.left.getNameOfGraph() + "_" + xgrsID + "(graph");
 					for(Entity neededEntity : exec.getNeededEntities()) {
-						sb.append(", ");
-						if(neededEntity.getType() instanceof InheritanceType) {
-							sb.append("("+formatElementInterfaceRef(neededEntity.getType())+")");
+						if(!neededEntity.isDefToBeYieldedTo()) {
+							sb.append(", ");
+							if(neededEntity.getType() instanceof InheritanceType) {
+								sb.append("("+formatElementInterfaceRef(neededEntity.getType())+")");
+							}
+							sb.append(formatEntity(neededEntity));
 						}
-						sb.append(formatEntity(neededEntity));
 					}
-					if(exec.getYieldedEntities()!=null) {
-						for(GraphEntity outEntity : exec.getYieldedEntities().getEntities()) {
+					for(Entity neededEntity : exec.getNeededEntities()) {
+						if(neededEntity.isDefToBeYieldedTo()) {
 							sb.append(", out ");
-							// TODO: use the declared type, check declared against actual type
-							sb.append(formatEntity(outEntity));
+							sb.append(formatEntity(neededEntity));
 						}
 					}
 				}

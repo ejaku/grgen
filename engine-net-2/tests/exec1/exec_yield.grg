@@ -13,7 +13,9 @@ rule s : (A, B)
 rule r : (A, B)
 {
 	modify {
-		exec ( (a,b)=s & yield(a,b) ) -> u:A, v:B;
+		def u:A;
+		def v:B;
+		exec ( (a,b)=s & yield u=a & yield v=b);
 		return(u,v);
 	}
 }

@@ -31,6 +31,9 @@ public class Entity extends Identifiable {
 	/** Is the entity constant - (only) relevant in backend for node/edge attributes. */
 	protected boolean isConst = false;
 	
+	/** Is the entity a defined entity only, to be filled with yields from nested patterns? */
+	protected boolean isDefToBeYieldedTo = false;
+	
 	/** Context of the declaration */
 	int context;
 
@@ -41,13 +44,15 @@ public class Entity extends Identifiable {
 	 * @param ident The declaring identifier.
 	 * @param type The type used in the declaration.
 	 * @param isConst Is the entity constant.
+	 * @param isDefToBeYieldedTo Is the entity a defined entity only, to be filled with yields from nested patterns.
 	 * @param context The context of the declaration
 	 */
-	public Entity(String name, Ident ident, Type type, boolean isConst, int context) {
+	public Entity(String name, Ident ident, Type type, boolean isConst, boolean isDefToBeYieldedTo, int context) {
 		super(name, ident);
 		setChildrenNames(childrenNames);
 		this.type = type;
 		this.isConst = isConst;
+		this.isDefToBeYieldedTo = isDefToBeYieldedTo;
 		this.context = context;
 	}
 
@@ -89,6 +94,11 @@ public class Entity extends Identifiable {
 	/** @return true, if this is a constant entity, else false */
 	public boolean isConst() {
 		return isConst;
+	}
+	
+	/** @return true, if this is a defined only entity to be filled from nested patterns, else false */
+	public boolean isDefToBeYieldedTo() {
+		return isDefToBeYieldedTo;
 	}
 
 	/** The only walkable child here is the type

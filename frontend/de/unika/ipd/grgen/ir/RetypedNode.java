@@ -19,14 +19,9 @@ public class RetypedNode extends Node implements Retyped {
 	protected Node oldNode = null;
 
 	public RetypedNode(Ident ident, NodeType type, Annotations annots,
-			boolean maybeDeleted, boolean maybeRetyped, int context) {
-		super(ident, type, annots, null, maybeDeleted, maybeRetyped, context);
+			boolean maybeDeleted, boolean maybeRetyped, boolean isDefToBeYieldedTo, int context) {
+		super(ident, type, annots, null, maybeDeleted, maybeRetyped, isDefToBeYieldedTo, context);
 	}
-
-	/*public RetypedNode(Ident ident, NodeType type, Node old, boolean maybeDeleted, boolean maybeRetyped) {
-		this(ident, type, EmptyAnnotations.get(), maybeDeleted, maybeRetyped);
-		this.oldNode = old;
-	}*/ // TODO: not needed? -- remove
 
 	public Entity getOldEntity() {
 		return oldNode;

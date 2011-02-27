@@ -666,11 +666,7 @@ namespace de.unika.ipd.grGen.lgsp
                 case SequenceType.Yield:
                 {
                     SequenceYield seqYield = (SequenceYield)seq;
-                    for(int i=0; i<seqYield.YieldVars.Length; ++i)
-                    {
-                        source.AppendFront("varout_" + i + " = (" + seqYield.ExpectedYieldType[i] + ")"
-                            + GetVar(seqYield.YieldVars[i]) + ";\n");
-                    }
+                    source.AppendFront(SetVar(seqYield.ToVar, GetVar(seqYield.FromVar)));
                     source.AppendFront(SetResultVar(seqYield, "true"));
                     break;
                 }
@@ -1492,13 +1488,18 @@ namespace de.unika.ipd.grGen.lgsp
         }
 
 		public bool GenerateXGRSCode(string xgrsName, String xgrsStr, 
-            String[] paramNames, GrGenType[] paramTypes, GrGenType[] outParamTypes,
+            String[] paramNames, GrGenType[] paramTypes,
+            String[] defToBeYieldedToNames, GrGenType[] defToBeYieldedToTypes,
             SourceBuilder source)
 		{
 			Dictionary<String, String> varDecls = new Dictionary<String, String>();
             for (int i = 0; i < paramNames.Length; i++)
             {
                 varDecls.Add(paramNames[i], TypesHelper.DotNetTypeToXgrsType(paramTypes[i]));
+            }
+            for(int i = 0; i < defToBeYieldedToNames.Length; i++)
+            {
+                varDecls.Add(defToBeYieldedToNames[i], TypesHelper.DotNetTypeToXgrsType(defToBeYieldedToTypes[i]));
             }
             String[] ruleNames = new String[rulesToInputTypes.Count];
             int j = 0;
@@ -1520,7 +1521,7 @@ namespace de.unika.ipd.grGen.lgsp
             {
                 seq = SequenceParser.ParseSequence(xgrsStr, ruleNames, sequenceNames, varDecls, model);
                 LGSPSequenceChecker checker = new LGSPSequenceChecker(ruleNames, sequenceNames, rulesToInputTypes, rulesToOutputTypes,
-                                                    sequencesToInputTypes, sequencesToOutputTypes, model, outParamTypes);
+                                                    sequencesToInputTypes, sequencesToOutputTypes, model);
                 checker.Check(seq);
             }
             catch(ParseException ex)
@@ -1544,9 +1545,10 @@ namespace de.unika.ipd.grGen.lgsp
 				source.Append(", " + TypesHelper.XgrsTypeToCSharpType(TypesHelper.DotNetTypeToXgrsType(paramTypes[i]), model) + " var_");
 				source.Append(paramNames[i]);
 			}
-            for(int i = 0; i < outParamTypes.Length; i++)
+            for(int i = 0; i < defToBeYieldedToTypes.Length; i++)
             {
-                source.Append(", out " + TypesHelper.XgrsTypeToCSharpType(TypesHelper.DotNetTypeToXgrsType(outParamTypes[i]), model) + " varout_" + i);
+                source.Append(", out " + TypesHelper.XgrsTypeToCSharpType(TypesHelper.DotNetTypeToXgrsType(defToBeYieldedToTypes[i]), model) + " var_");
+                source.Append(defToBeYieldedToNames[i]);
             }
             source.Append(")\n");
 			source.AppendFront("{\n");
@@ -1597,9 +1599,8 @@ namespace de.unika.ipd.grGen.lgsp
             try
             {
                 seq = SequenceParser.ParseSequence(sequence.XGRS, ruleNames, sequenceNames, varDecls, model);
-                GrGenType[] yieldTypes = new GrGenType[0];
                 LGSPSequenceChecker checker = new LGSPSequenceChecker(ruleNames, sequenceNames, rulesToInputTypes, rulesToOutputTypes,
-                                                    sequencesToInputTypes, sequencesToOutputTypes, model, yieldTypes);
+                                                    sequencesToInputTypes, sequencesToOutputTypes, model);
                 checker.Check(seq);
             }
             catch(ParseException ex)

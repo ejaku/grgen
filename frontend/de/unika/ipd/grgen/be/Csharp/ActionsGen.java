@@ -1257,22 +1257,33 @@ public class ActionsGen extends CSharpBase {
 						+ " = new GRGEN_LIBGR.EmbeddedSequenceInfo(\n");
 				sb.append("\t\t\tnew string[] {");
 				for(Entity neededEntity : exec.getNeededEntities()) {
-					sb.append("\"" + neededEntity.getIdent() + "\", ");
-				}
-				sb.append("},\n");
-				sb.append("\t\t\tnew GRGEN_LIBGR.GrGenType[] { ");
-				for(Entity neededEntity : exec.getNeededEntities()) {
-					if(neededEntity instanceof Variable) {
-						sb.append("GRGEN_LIBGR.VarType.GetVarType(typeof(" + formatAttributeType(neededEntity) + ")), ");
-					} else {
-						GraphEntity gent = (GraphEntity)neededEntity;
-						sb.append(formatTypeClassRef(gent.getType()) + ".typeVar, ");
+					if(!neededEntity.isDefToBeYieldedTo()) {
+						sb.append("\"" + neededEntity.getIdent() + "\", ");
 					}
 				}
 				sb.append("},\n");
 				sb.append("\t\t\tnew GRGEN_LIBGR.GrGenType[] { ");
-				if(exec.getYieldedEntities()!=null) {
-					for(Entity neededEntity : exec.getYieldedEntities().getEntities()) {
+				for(Entity neededEntity : exec.getNeededEntities()) {
+					if(!neededEntity.isDefToBeYieldedTo()) {
+						if(neededEntity instanceof Variable) {
+							sb.append("GRGEN_LIBGR.VarType.GetVarType(typeof(" + formatAttributeType(neededEntity) + ")), ");
+						} else {
+							GraphEntity gent = (GraphEntity)neededEntity;
+							sb.append(formatTypeClassRef(gent.getType()) + ".typeVar, ");
+						}
+					}
+				}
+				sb.append("},\n");
+				sb.append("\t\t\tnew string[] {");
+				for(Entity neededEntity : exec.getNeededEntities()) {
+					if(neededEntity.isDefToBeYieldedTo()) {
+						sb.append("\"" + neededEntity.getIdent() + "\", ");
+					}
+				}
+				sb.append("},\n");
+				sb.append("\t\t\tnew GRGEN_LIBGR.GrGenType[] { ");
+				for(Entity neededEntity : exec.getNeededEntities()) {
+					if(neededEntity.isDefToBeYieldedTo()) {
 						if(neededEntity instanceof Variable) {
 							sb.append("GRGEN_LIBGR.VarType.GetVarType(typeof(" + formatAttributeType(neededEntity) + ")), ");
 						} else {
@@ -1287,19 +1298,20 @@ public class ActionsGen extends CSharpBase {
 				
 				sb.append("\t\tprivate static bool ApplyXGRS_" + pathPrefix + xgrsID + "(GRGEN_LGSP.LGSPGraph graph");
 				for(Entity neededEntity : exec.getNeededEntities()) {
-					sb.append(", " + formatType(neededEntity.getType()) + " var_" + neededEntity.getIdent());
+					if(!neededEntity.isDefToBeYieldedTo()) {
+						sb.append(", " + formatType(neededEntity.getType()) + " var_" + neededEntity.getIdent());
+					}
 				}
-				if(exec.getYieldedEntities()!=null) {
-					for(GraphEntity outEntity : exec.getYieldedEntities().getEntities()) {
-						// TODO: check declared against actual type
-						sb.append(", out " + formatType(outEntity.getType()) + " " + formatEntity(outEntity));
+				for(Entity neededEntity : exec.getNeededEntities()) {
+					if(neededEntity.isDefToBeYieldedTo()) {
+						sb.append(", out " + formatType(neededEntity.getType()) + " " + formatEntity(neededEntity));
 					}
 				}
 				sb.append(") {\n");
-				if(exec.getYieldedEntities()!=null) {
-					for(GraphEntity outEntity : exec.getYieldedEntities().getEntities()) {
-						sb.append("\t\t\t" + formatEntity(outEntity));
-						sb.append(" = null;\n");
+				for(Entity neededEntity : exec.getNeededEntities()) {
+					if(neededEntity.isDefToBeYieldedTo()) {
+						sb.append("\t\t\t" + formatEntity(neededEntity));
+						sb.append(" = null;\n"); // TODO: as of now only graph entities supported (?)
 					}
 				}
 				sb.append("\t\t\treturn true;\n");

@@ -19,7 +19,6 @@ import de.unika.ipd.grgen.ast.util.SimpleChecker;
 import de.unika.ipd.grgen.ast.util.Triple;
 import de.unika.ipd.grgen.ir.Edge;
 import de.unika.ipd.grgen.ir.EvalStatement;
-import de.unika.ipd.grgen.ir.Exec;
 import de.unika.ipd.grgen.ir.Expression;
 import de.unika.ipd.grgen.ir.GraphEntity;
 import de.unika.ipd.grgen.ir.GraphEntityExpression;
@@ -32,7 +31,6 @@ import de.unika.ipd.grgen.ir.OrderedReplacement;
 import de.unika.ipd.grgen.ir.SubpatternDependentReplacement;
 import de.unika.ipd.grgen.ir.SubpatternUsage;
 import de.unika.ipd.grgen.ir.Variable;
-import de.unika.ipd.grgen.ir.YieldedEntities;
 import de.unika.ipd.grgen.parser.Coords;
 import java.util.Collection;
 import java.util.Collections;
@@ -61,7 +59,6 @@ public class GraphNode extends BaseNode {
 	protected CollectNode<ExprNode> returns;
 	protected CollectNode<BaseNode> imperativeStmts;
 	protected CollectNode<BaseNode> params;
-	protected CollectNode<YieldedEntitiesNode> receivedYields;
 
 	protected boolean hasAbstractElements;
 
@@ -86,7 +83,6 @@ public class GraphNode extends BaseNode {
 			CollectNode<OrderedReplacementNode> orderedReplacements,
 			CollectNode<EvalStatementNode> yieldsEvals,
 			CollectNode<ExprNode> returns, CollectNode<BaseNode> imperativeStmts,
-			CollectNode<YieldedEntitiesNode> receivedYields,
 			int context, PatternGraphNode directlyNestingLHSGraph) {
 		super(coords);
 		this.nameOfGraph = nameOfGraph;
@@ -102,8 +98,6 @@ public class GraphNode extends BaseNode {
 		becomeParent(this.returns);
 		this.imperativeStmts = imperativeStmts;
 		becomeParent(imperativeStmts);
-		this.receivedYields = receivedYields;
-		becomeParent(receivedYields);
 		this.params = params;
 		becomeParent(this.params);
 		this.context = context;
@@ -153,9 +147,6 @@ public class GraphNode extends BaseNode {
 	/** @see de.unika.ipd.grgen.ast.BaseNode#resolveLocal() */
 	@Override
 	protected boolean resolveLocal() {
-		if(receivedYields!=null) // only given for rhs as of now
-			addYieldsToConnections();
-
 		Triple<CollectNode<ConnectionNode>, CollectNode<SingleNodeConnNode>, CollectNode<SingleGraphEntityNode>> resolve =
 			connectionsResolver.resolve(connectionsUnresolved);
 
@@ -396,19 +387,7 @@ public class GraphNode extends BaseNode {
 		for(BaseNode imp : imperativeStmts.getChildren()) {
 			gr.addImperativeStmt((ImperativeStmt)imp.getIR());
 		}
-
-		for(YieldedEntitiesNode n : receivedYields.getChildren()) {
-			gr.addYieldedEntities(n.checkIR(YieldedEntities.class));
-		}
 		
-		for(ImperativeStmt impStmt : gr.getImperativeStmts()) {
-			for(YieldedEntities yieldedEntities : gr.getYieldedEntities()) {
-				if(yieldedEntities.getOrigin()==impStmt) {
-					((Exec)impStmt).addYieldedEntities(yieldedEntities);
-				}
-			}
-		}
-
 		return gr;
 	}
 
@@ -436,13 +415,6 @@ public class GraphNode extends BaseNode {
         }
     }
 
-	protected void addYieldsToConnections()
-    {
-		for(YieldedEntitiesNode yieldedEntities : receivedYields.getChildren())
-			for(BaseNode entity : yieldedEntities.getChildren())
-				connectionsUnresolved.addChild(entity);
-    }
-	
 	protected Vector<DeclNode> getParamDecls() {
 		Vector<DeclNode> res = new Vector<DeclNode>();
 

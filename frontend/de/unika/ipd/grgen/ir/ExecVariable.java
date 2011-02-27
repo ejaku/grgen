@@ -13,9 +13,10 @@ package de.unika.ipd.grgen.ir;
 
 /**
  * A variable declared inside an "exec" statement containing nodes, edges or primitive types.
+ * (due to being declared in the sequence, it can't be a defToBeYieldedTo variable, only entities from the outside can be)
  */
 public class ExecVariable extends Entity {
 	public ExecVariable(String name, Ident ident, Type type, int context) {
-		super(name, ident, type, false, context);
+		super(name, ident, type, false, false, context);
 	}
 }

@@ -13,7 +13,9 @@ rule r : (A, B)
 	n:Node;
 
 	modify {
-		exec( (a,b)=st(n) & yield(a,b) ) -> u:A, v:B;
+		def u:A;
+		def v:B;
+		exec( (a,b)=st(n) & yield u=a & yield v=b );
 		return(u,v);
 	}
 }

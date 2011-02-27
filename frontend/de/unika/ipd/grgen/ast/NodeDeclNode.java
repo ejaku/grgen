@@ -41,17 +41,19 @@ public class NodeDeclNode extends ConstraintDeclNode implements NodeCharacter {
 
 	
 	public NodeDeclNode(IdentNode id, BaseNode type, boolean isCopy,
-			int context, TypeExprNode constr, PatternGraphNode directlyNestingLHSGraph,
-			boolean maybeNull) {
-		super(id, type, context, constr, directlyNestingLHSGraph, maybeNull);
+			int context, TypeExprNode constr, 
+			PatternGraphNode directlyNestingLHSGraph, 
+			boolean maybeNull, boolean defEntityToBeYieldedTo) {
+		super(id, type, context, constr, directlyNestingLHSGraph, maybeNull, defEntityToBeYieldedTo);
 		this.isCopy = isCopy;
 	}
 
 	public NodeDeclNode(IdentNode id, BaseNode type, boolean isCopy,
-			int context, TypeExprNode constr, PatternGraphNode directlyNestingLHSGraph) {
-		this(id, type, isCopy, context, constr, directlyNestingLHSGraph, false);
+			int context, TypeExprNode constr, 
+			PatternGraphNode directlyNestingLHSGraph) {
+		this(id, type, isCopy, context, constr, directlyNestingLHSGraph, false, false);
 	}
-
+	
 	/** The TYPE child could be a node in case the type is
 	 *  inherited dynamically via the typeof/copy operator */
 	@Override
@@ -201,8 +203,8 @@ public class NodeDeclNode extends ConstraintDeclNode implements NodeCharacter {
 		NodeType nt = tn.getNodeType();
 		IdentNode ident = getIdentNode();
 
-		Node res = new Node(ident.getIdent(), nt, ident.getAnnotations(),
-				directlyNestingLHSGraph.getGraph(), isMaybeDeleted(), isMaybeRetyped(), context);
+		Node res = new Node(ident.getIdent(), nt, ident.getAnnotations(), directlyNestingLHSGraph.getGraph(),
+				isMaybeDeleted(), isMaybeRetyped(), defEntityToBeYieldedTo, context);
 		res.setConstraints(getConstraints());
 
 		if( res.getConstraints().contains(res.getType()) ) {
