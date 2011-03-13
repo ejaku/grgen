@@ -1,0 +1,64 @@
+using attrib_model_001;
+
+rule r
+{
+	modify {
+		def var ai:int;
+		def var ab:boolean;
+		def var as:string;
+		def var af:float;
+		def var ad:double;
+		def var ao:object;
+	}
+}
+
+pattern p
+{
+	modify {
+		def var ai:int;
+		def var ab:boolean;
+		def var as:string;
+		def var af:float;
+		def var ad:double;
+		def var ao:object;
+	}
+}
+
+rule ra
+{
+	alternative
+	{
+		case {
+			modify {
+				def var ai:int;
+				def var ab:boolean;
+				def var as:string;
+				def var af:float;
+				def var ad:double;
+				def var ao:object;
+			}
+		}
+	}
+	
+	modify {
+	}
+}
+
+pattern pa
+{
+	iterated
+	{
+		.;
+		modify {
+			def var ai:int;
+			def var ab:boolean;
+			def var as:string;
+			def var af:float;
+			def var ad:double;
+			def var ao:object;
+		}
+	}
+	
+	modify {
+	}
+}

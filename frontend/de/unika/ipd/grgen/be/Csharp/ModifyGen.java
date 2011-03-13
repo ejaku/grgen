@@ -29,6 +29,7 @@ import java.util.Map;
 import de.unika.ipd.grgen.ir.Alternative;
 import de.unika.ipd.grgen.ir.AlternativeReplacement;
 import de.unika.ipd.grgen.ir.Assignment;
+import de.unika.ipd.grgen.ir.AssignmentGraphEntity;
 import de.unika.ipd.grgen.ir.AssignmentIdentical;
 import de.unika.ipd.grgen.ir.AssignmentVar;
 import de.unika.ipd.grgen.ir.AssignmentVisited;
@@ -697,9 +698,9 @@ public class ModifyGen extends CSharpBase {
 
 		genCheckDeletedElementsForRetypingThroughHomomorphy(sb3, stateConst);
 
-		genDelEdges(sb3, stateConst, state.edgesNeededAsElements);
+		genDelEdges(sb3, stateConst, state.edgesNeededAsElements, task.right);
 
-		genDelNodes(sb3, stateConst, state.nodesNeededAsElements);
+		genDelNodes(sb3, stateConst, state.nodesNeededAsElements, task.right);
 
 		genDelSubpatternCalls(sb3, stateConst);
 
@@ -1057,11 +1058,11 @@ public class ModifyGen extends CSharpBase {
 	{
 		for(Node node : state.yieldedNodes()) {
 			if(right.getReplParameters().contains(node)) continue;
-			sb.append("\t\t\t" + formatType(node.getType()) + " " + formatEntity(node)+ " = null;\n");
+			sb.append("\t\t\tGRGEN_LGSP.LGSPNode " + formatEntity(node)+ " = null;\n");
 		}
 		for(Edge edge : state.yieldedEdges()) {
 			if(right.getReplParameters().contains(edge)) continue;
-			sb.append("\t\t\t" + formatType(edge.getType()) + " " + formatEntity(edge) + " = null;\n");
+			sb.append("\t\t\tGRGEN_LGSP.LGSPEdge " + formatEntity(edge) + " = null;\n");
 		}
 		for(Variable var : state.yieldedVariables()) {
 			if(right.getReplParameters().contains(var)) continue;
@@ -1154,8 +1155,16 @@ public class ModifyGen extends CSharpBase {
 						sb.append(formatEntity(neededEntity));
 					}
 					sb.append(");\n");
-					sb.append("\t\t\tgraph.sequencesManager.AddDeferredSequence(xgrs"+xgrsID);
+					sb.append("\t\t\tgraph.sequencesManager.AddDeferredSequence(xgrs"+xgrsID+");\n");
 				} else {
+					for(Entity neededEntity : exec.getNeededEntities()) {
+						if(neededEntity.isDefToBeYieldedTo()) {
+							sb.append("\t\t\t" + formatElementInterfaceRef(neededEntity.getType()) + " ");
+							sb.append("tmp_" + formatEntity(neededEntity) + "_" + xgrsID + " = ");
+							sb.append("("+formatElementInterfaceRef(neededEntity.getType())+")");
+							sb.append(formatEntity(neededEntity) + ";\n");
+						}
+					}
 					sb.append("\t\t\tApplyXGRS_" + task.left.getNameOfGraph() + "_" + xgrsID + "(graph");
 					for(Entity neededEntity : exec.getNeededEntities()) {
 						if(!neededEntity.isDefToBeYieldedTo()) {
@@ -1169,7 +1178,19 @@ public class ModifyGen extends CSharpBase {
 					for(Entity neededEntity : exec.getNeededEntities()) {
 						if(neededEntity.isDefToBeYieldedTo()) {
 							sb.append(", out ");
-							sb.append(formatEntity(neededEntity));
+							sb.append("tmp_" + formatEntity(neededEntity) + "_" + xgrsID);
+						}
+					}
+					sb.append(");\n");
+					for(Entity neededEntity : exec.getNeededEntities()) {
+						if(neededEntity.isDefToBeYieldedTo()) {
+							sb.append("\t\t\t" + formatEntity(neededEntity) + " = ");
+							if(neededEntity instanceof Node) {
+								sb.append("(GRGEN_LGSP.LGSPNode)");
+							} else if(neededEntity instanceof Edge) {
+								sb.append("(GRGEN_LGSP.LGSPEdge)");
+							}
+							sb.append("tmp_" + formatEntity(neededEntity) + "_" + xgrsID + ";\n");
 						}
 					}
 				}
@@ -1178,7 +1199,6 @@ public class ModifyGen extends CSharpBase {
 					sb.append(", ");
 					genExpression(sb, arg, state);
 				}*/
-				sb.append(");\n");
 				
 				++xgrsID;
 			} else assert false : "unknown ImperativeStmt: " + istmt + " in " + task.left.getNameOfGraph();
@@ -1226,20 +1246,35 @@ public class ModifyGen extends CSharpBase {
 		}
 	}
 
-	private void genDelNodes(StringBuffer sb, ModifyGenerationStateConst state, HashSet<Node> nodesNeededAsElements)
+	private void genDelNodes(StringBuffer sb, ModifyGenerationStateConst state,
+			HashSet<Node> nodesNeededAsElements, PatternGraph right)
 	{
 		for(Node node : state.delNodes()) {
 			nodesNeededAsElements.add(node);
 			sb.append("\t\t\tgraph.RemoveEdges(" + formatEntity(node) + ");\n");
 			sb.append("\t\t\tgraph.Remove(" + formatEntity(node) + ");\n");
 		}
+		for(Node node : state.yieldedNodes()) {
+			if(node.patternGraphDefYieldedIsToBeDeleted()==right) {
+				nodesNeededAsElements.add(node);
+				sb.append("\t\t\tgraph.RemoveEdges(" + formatEntity(node) + ");\n");
+				sb.append("\t\t\tgraph.Remove(" + formatEntity(node) + ");\n");
+			}
+		}
 	}
 
-	private void genDelEdges(StringBuffer sb, ModifyGenerationStateConst state, HashSet<Edge> edgesNeededAsElements)
+	private void genDelEdges(StringBuffer sb, ModifyGenerationStateConst state,
+			HashSet<Edge> edgesNeededAsElements, PatternGraph right)
 	{
 		for(Edge edge : state.delEdges()) {
 			edgesNeededAsElements.add(edge);
 			sb.append("\t\t\tgraph.Remove(" + formatEntity(edge) + ");\n");
+		}
+		for(Edge edge : state.yieldedEdges()) {
+			if(edge.patternGraphDefYieldedIsToBeDeleted()==right) {
+				edgesNeededAsElements.add(edge);
+				sb.append("\t\t\tgraph.Remove(" + formatEntity(edge) + ");\n");
+			}
 		}
 	}
 
@@ -1719,6 +1754,9 @@ public class ModifyGen extends CSharpBase {
 		else if(evalStmt instanceof AssignmentVar) {
 			genAssignmentVar(sb, state, (AssignmentVar) evalStmt);
 		}
+		else if(evalStmt instanceof AssignmentGraphEntity) {
+			genAssignmentGraphEntity(sb, state, (AssignmentGraphEntity) evalStmt);
+		}
 		else if(evalStmt instanceof AssignmentVisited) {
 			genAssignmentVisited(sb, state, (AssignmentVisited) evalStmt);
 		}
@@ -1880,8 +1918,17 @@ public class ModifyGen extends CSharpBase {
 		sb.append(" = ");
 		if(target.getType() instanceof EnumType)
 			sb.append("(GRGEN_MODEL.ENUM_" + formatIdentifiable(target.getType()) + ") ");
-//		if(target.getType() instanceof EnumType)
-//			sb.append("(int) ");
+		genExpression(sb, expr, state);
+		sb.append(";\n");
+	}
+
+	private void genAssignmentGraphEntity(StringBuffer sb, ModifyGenerationStateConst state, AssignmentGraphEntity ass) {
+		GraphEntity target = ass.getTarget();
+		Expression expr = ass.getExpression();
+
+		sb.append("\t\t\t");
+		sb.append(formatEntity(target));
+		sb.append(" = ");
 		genExpression(sb, expr, state);
 		sb.append(";\n");
 	}

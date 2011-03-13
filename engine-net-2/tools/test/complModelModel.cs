@@ -1,6 +1,6 @@
 // This file has been generated automatically by GrGen (www.grgen.net)
 // Do not modify this file! Any changes will be lost!
-// Generated from "test.grg" on Sun Feb 06 21:14:10 CET 2011
+// Generated from "test.grg" on Sun Mar 13 18:12:50 CET 2011
 
 using System;
 using System.Collections.Generic;
@@ -165,7 +165,7 @@ namespace de.unika.ipd.grGen.Model_complModel
 
 		private @A1(GRGEN_MODEL.@A1 oldElem) : base(GRGEN_MODEL.NodeType_A1.typeVar)
 		{
-			a1\u0303 = oldElem.a1\u0303;
+			a1_M0no_suXx_h4rD = oldElem.a1_M0no_suXx_h4rD;
 		}
 		public static GRGEN_MODEL.@A1 CreateNode(GRGEN_LGSP.LGSPGraph graph)
 		{
@@ -212,11 +212,11 @@ namespace de.unika.ipd.grGen.Model_complModel
 		}
 
 
-		private int a1\u0303;
+		private int a1_M0no_suXx_h4rD;
 		public int @a1
 		{
-			get { return a1\u0303; }
-			set { a1\u0303 = value; }
+			get { return a1_M0no_suXx_h4rD; }
+			set { a1_M0no_suXx_h4rD = value; }
 		}
 		public override object GetAttribute(string attrName)
 		{
@@ -334,7 +334,7 @@ namespace de.unika.ipd.grGen.Model_complModel
 
 		private @A2(GRGEN_MODEL.@A2 oldElem) : base(GRGEN_MODEL.NodeType_A2.typeVar)
 		{
-			a2\u0303 = oldElem.a2\u0303;
+			a2_M0no_suXx_h4rD = oldElem.a2_M0no_suXx_h4rD;
 		}
 		public static GRGEN_MODEL.@A2 CreateNode(GRGEN_LGSP.LGSPGraph graph)
 		{
@@ -381,11 +381,11 @@ namespace de.unika.ipd.grGen.Model_complModel
 		}
 
 
-		private int a2\u0303;
+		private int a2_M0no_suXx_h4rD;
 		public int @a2
 		{
-			get { return a2\u0303; }
-			set { a2\u0303 = value; }
+			get { return a2_M0no_suXx_h4rD; }
+			set { a2_M0no_suXx_h4rD = value; }
 		}
 		public override object GetAttribute(string attrName)
 		{
@@ -510,7 +510,7 @@ namespace de.unika.ipd.grGen.Model_complModel
 
 		private @A3(GRGEN_MODEL.@A3 oldElem) : base(GRGEN_MODEL.NodeType_A3.typeVar)
 		{
-			a3\u0303 = oldElem.a3\u0303;
+			a3_M0no_suXx_h4rD = oldElem.a3_M0no_suXx_h4rD;
 		}
 		public static GRGEN_MODEL.@A3 CreateNode(GRGEN_LGSP.LGSPGraph graph)
 		{
@@ -557,11 +557,11 @@ namespace de.unika.ipd.grGen.Model_complModel
 		}
 
 
-		private int a3\u0303;
+		private int a3_M0no_suXx_h4rD;
 		public int @a3
 		{
-			get { return a3\u0303; }
-			set { a3\u0303 = value; }
+			get { return a3_M0no_suXx_h4rD; }
+			set { a3_M0no_suXx_h4rD = value; }
 		}
 		public override object GetAttribute(string attrName)
 		{
@@ -679,7 +679,7 @@ namespace de.unika.ipd.grGen.Model_complModel
 
 		private @A4(GRGEN_MODEL.@A4 oldElem) : base(GRGEN_MODEL.NodeType_A4.typeVar)
 		{
-			a4\u0303 = oldElem.a4\u0303;
+			a4_M0no_suXx_h4rD = oldElem.a4_M0no_suXx_h4rD;
 		}
 		public static GRGEN_MODEL.@A4 CreateNode(GRGEN_LGSP.LGSPGraph graph)
 		{
@@ -726,11 +726,11 @@ namespace de.unika.ipd.grGen.Model_complModel
 		}
 
 
-		private int a4\u0303;
+		private int a4_M0no_suXx_h4rD;
 		public int @a4
 		{
-			get { return a4\u0303; }
-			set { a4\u0303 = value; }
+			get { return a4_M0no_suXx_h4rD; }
+			set { a4_M0no_suXx_h4rD = value; }
 		}
 		public override object GetAttribute(string attrName)
 		{
@@ -856,7 +856,7 @@ namespace de.unika.ipd.grGen.Model_complModel
 
 		private @A5(GRGEN_MODEL.@A5 oldElem) : base(GRGEN_MODEL.NodeType_A5.typeVar)
 		{
-			a5\u0303 = oldElem.a5\u0303;
+			a5_M0no_suXx_h4rD = oldElem.a5_M0no_suXx_h4rD;
 		}
 		public static GRGEN_MODEL.@A5 CreateNode(GRGEN_LGSP.LGSPGraph graph)
 		{
@@ -903,11 +903,11 @@ namespace de.unika.ipd.grGen.Model_complModel
 		}
 
 
-		private int a5\u0303;
+		private int a5_M0no_suXx_h4rD;
 		public int @a5
 		{
-			get { return a5\u0303; }
-			set { a5\u0303 = value; }
+			get { return a5_M0no_suXx_h4rD; }
+			set { a5_M0no_suXx_h4rD = value; }
 		}
 		public override object GetAttribute(string attrName)
 		{
@@ -1029,8 +1029,8 @@ namespace de.unika.ipd.grGen.Model_complModel
 
 		private @B21(GRGEN_MODEL.@B21 oldElem) : base(GRGEN_MODEL.NodeType_B21.typeVar)
 		{
-			a2\u0303 = oldElem.a2\u0303;
-			b21\u0303 = oldElem.b21\u0303;
+			a2_M0no_suXx_h4rD = oldElem.a2_M0no_suXx_h4rD;
+			b21_M0no_suXx_h4rD = oldElem.b21_M0no_suXx_h4rD;
 		}
 		public static GRGEN_MODEL.@B21 CreateNode(GRGEN_LGSP.LGSPGraph graph)
 		{
@@ -1081,18 +1081,18 @@ namespace de.unika.ipd.grGen.Model_complModel
 		}
 
 
-		private int a2\u0303;
+		private int a2_M0no_suXx_h4rD;
 		public int @a2
 		{
-			get { return a2\u0303; }
-			set { a2\u0303 = value; }
+			get { return a2_M0no_suXx_h4rD; }
+			set { a2_M0no_suXx_h4rD = value; }
 		}
 
-		private int b21\u0303;
+		private int b21_M0no_suXx_h4rD;
 		public int @b21
 		{
-			get { return b21\u0303; }
-			set { b21\u0303 = value; }
+			get { return b21_M0no_suXx_h4rD; }
+			set { b21_M0no_suXx_h4rD = value; }
 		}
 		public override object GetAttribute(string attrName)
 		{
@@ -1233,8 +1233,8 @@ namespace de.unika.ipd.grGen.Model_complModel
 
 		private @B22(GRGEN_MODEL.@B22 oldElem) : base(GRGEN_MODEL.NodeType_B22.typeVar)
 		{
-			a2\u0303 = oldElem.a2\u0303;
-			b22\u0303 = oldElem.b22\u0303;
+			a2_M0no_suXx_h4rD = oldElem.a2_M0no_suXx_h4rD;
+			b22_M0no_suXx_h4rD = oldElem.b22_M0no_suXx_h4rD;
 		}
 		public static GRGEN_MODEL.@B22 CreateNode(GRGEN_LGSP.LGSPGraph graph)
 		{
@@ -1285,18 +1285,18 @@ namespace de.unika.ipd.grGen.Model_complModel
 		}
 
 
-		private int a2\u0303;
+		private int a2_M0no_suXx_h4rD;
 		public int @a2
 		{
-			get { return a2\u0303; }
-			set { a2\u0303 = value; }
+			get { return a2_M0no_suXx_h4rD; }
+			set { a2_M0no_suXx_h4rD = value; }
 		}
 
-		private int b22\u0303;
+		private int b22_M0no_suXx_h4rD;
 		public int @b22
 		{
-			get { return b22\u0303; }
-			set { b22\u0303 = value; }
+			get { return b22_M0no_suXx_h4rD; }
+			set { b22_M0no_suXx_h4rD = value; }
 		}
 		public override object GetAttribute(string attrName)
 		{
@@ -1437,8 +1437,8 @@ namespace de.unika.ipd.grGen.Model_complModel
 
 		private @B23(GRGEN_MODEL.@B23 oldElem) : base(GRGEN_MODEL.NodeType_B23.typeVar)
 		{
-			a2\u0303 = oldElem.a2\u0303;
-			b23\u0303 = oldElem.b23\u0303;
+			a2_M0no_suXx_h4rD = oldElem.a2_M0no_suXx_h4rD;
+			b23_M0no_suXx_h4rD = oldElem.b23_M0no_suXx_h4rD;
 		}
 		public static GRGEN_MODEL.@B23 CreateNode(GRGEN_LGSP.LGSPGraph graph)
 		{
@@ -1489,18 +1489,18 @@ namespace de.unika.ipd.grGen.Model_complModel
 		}
 
 
-		private int a2\u0303;
+		private int a2_M0no_suXx_h4rD;
 		public int @a2
 		{
-			get { return a2\u0303; }
-			set { a2\u0303 = value; }
+			get { return a2_M0no_suXx_h4rD; }
+			set { a2_M0no_suXx_h4rD = value; }
 		}
 
-		private int b23\u0303;
+		private int b23_M0no_suXx_h4rD;
 		public int @b23
 		{
-			get { return b23\u0303; }
-			set { b23\u0303 = value; }
+			get { return b23_M0no_suXx_h4rD; }
+			set { b23_M0no_suXx_h4rD = value; }
 		}
 		public override object GetAttribute(string attrName)
 		{
@@ -1641,8 +1641,8 @@ namespace de.unika.ipd.grGen.Model_complModel
 
 		private @B41(GRGEN_MODEL.@B41 oldElem) : base(GRGEN_MODEL.NodeType_B41.typeVar)
 		{
-			a4\u0303 = oldElem.a4\u0303;
-			b41\u0303 = oldElem.b41\u0303;
+			a4_M0no_suXx_h4rD = oldElem.a4_M0no_suXx_h4rD;
+			b41_M0no_suXx_h4rD = oldElem.b41_M0no_suXx_h4rD;
 		}
 		public static GRGEN_MODEL.@B41 CreateNode(GRGEN_LGSP.LGSPGraph graph)
 		{
@@ -1693,18 +1693,18 @@ namespace de.unika.ipd.grGen.Model_complModel
 		}
 
 
-		private int a4\u0303;
+		private int a4_M0no_suXx_h4rD;
 		public int @a4
 		{
-			get { return a4\u0303; }
-			set { a4\u0303 = value; }
+			get { return a4_M0no_suXx_h4rD; }
+			set { a4_M0no_suXx_h4rD = value; }
 		}
 
-		private int b41\u0303;
+		private int b41_M0no_suXx_h4rD;
 		public int @b41
 		{
-			get { return b41\u0303; }
-			set { b41\u0303 = value; }
+			get { return b41_M0no_suXx_h4rD; }
+			set { b41_M0no_suXx_h4rD = value; }
 		}
 		public override object GetAttribute(string attrName)
 		{
@@ -1846,8 +1846,8 @@ namespace de.unika.ipd.grGen.Model_complModel
 
 		private @B42(GRGEN_MODEL.@B42 oldElem) : base(GRGEN_MODEL.NodeType_B42.typeVar)
 		{
-			a4\u0303 = oldElem.a4\u0303;
-			b42\u0303 = oldElem.b42\u0303;
+			a4_M0no_suXx_h4rD = oldElem.a4_M0no_suXx_h4rD;
+			b42_M0no_suXx_h4rD = oldElem.b42_M0no_suXx_h4rD;
 		}
 		public static GRGEN_MODEL.@B42 CreateNode(GRGEN_LGSP.LGSPGraph graph)
 		{
@@ -1898,18 +1898,18 @@ namespace de.unika.ipd.grGen.Model_complModel
 		}
 
 
-		private int a4\u0303;
+		private int a4_M0no_suXx_h4rD;
 		public int @a4
 		{
-			get { return a4\u0303; }
-			set { a4\u0303 = value; }
+			get { return a4_M0no_suXx_h4rD; }
+			set { a4_M0no_suXx_h4rD = value; }
 		}
 
-		private int b42\u0303;
+		private int b42_M0no_suXx_h4rD;
 		public int @b42
 		{
-			get { return b42\u0303; }
-			set { b42\u0303 = value; }
+			get { return b42_M0no_suXx_h4rD; }
+			set { b42_M0no_suXx_h4rD = value; }
 		}
 		public override object GetAttribute(string attrName)
 		{
@@ -2050,7 +2050,7 @@ namespace de.unika.ipd.grGen.Model_complModel
 
 		private @B43(GRGEN_MODEL.@B43 oldElem) : base(GRGEN_MODEL.NodeType_B43.typeVar)
 		{
-			a4\u0303 = oldElem.a4\u0303;
+			a4_M0no_suXx_h4rD = oldElem.a4_M0no_suXx_h4rD;
 		}
 		public static GRGEN_MODEL.@B43 CreateNode(GRGEN_LGSP.LGSPGraph graph)
 		{
@@ -2099,11 +2099,11 @@ namespace de.unika.ipd.grGen.Model_complModel
 		}
 
 
-		private int a4\u0303;
+		private int a4_M0no_suXx_h4rD;
 		public int @a4
 		{
-			get { return a4\u0303; }
-			set { a4\u0303 = value; }
+			get { return a4_M0no_suXx_h4rD; }
+			set { a4_M0no_suXx_h4rD = value; }
 		}
 		public override object GetAttribute(string attrName)
 		{
@@ -2240,9 +2240,9 @@ namespace de.unika.ipd.grGen.Model_complModel
 
 		private @C221(GRGEN_MODEL.@C221 oldElem) : base(GRGEN_MODEL.NodeType_C221.typeVar)
 		{
-			a2\u0303 = oldElem.a2\u0303;
-			b22\u0303 = oldElem.b22\u0303;
-			c221\u0303 = oldElem.c221\u0303;
+			a2_M0no_suXx_h4rD = oldElem.a2_M0no_suXx_h4rD;
+			b22_M0no_suXx_h4rD = oldElem.b22_M0no_suXx_h4rD;
+			c221_M0no_suXx_h4rD = oldElem.c221_M0no_suXx_h4rD;
 		}
 		public static GRGEN_MODEL.@C221 CreateNode(GRGEN_LGSP.LGSPGraph graph)
 		{
@@ -2297,25 +2297,25 @@ namespace de.unika.ipd.grGen.Model_complModel
 		}
 
 
-		private int a2\u0303;
+		private int a2_M0no_suXx_h4rD;
 		public int @a2
 		{
-			get { return a2\u0303; }
-			set { a2\u0303 = value; }
+			get { return a2_M0no_suXx_h4rD; }
+			set { a2_M0no_suXx_h4rD = value; }
 		}
 
-		private int b22\u0303;
+		private int b22_M0no_suXx_h4rD;
 		public int @b22
 		{
-			get { return b22\u0303; }
-			set { b22\u0303 = value; }
+			get { return b22_M0no_suXx_h4rD; }
+			set { b22_M0no_suXx_h4rD = value; }
 		}
 
-		private int c221\u0303;
+		private int c221_M0no_suXx_h4rD;
 		public int @c221
 		{
-			get { return c221\u0303; }
-			set { c221\u0303 = value; }
+			get { return c221_M0no_suXx_h4rD; }
+			set { c221_M0no_suXx_h4rD = value; }
 		}
 		public override object GetAttribute(string attrName)
 		{
@@ -2479,11 +2479,11 @@ namespace de.unika.ipd.grGen.Model_complModel
 
 		private @C222_411(GRGEN_MODEL.@C222_411 oldElem) : base(GRGEN_MODEL.NodeType_C222_411.typeVar)
 		{
-			a2\u0303 = oldElem.a2\u0303;
-			b22\u0303 = oldElem.b22\u0303;
-			a4\u0303 = oldElem.a4\u0303;
-			b41\u0303 = oldElem.b41\u0303;
-			c222_411\u0303 = oldElem.c222_411\u0303;
+			a2_M0no_suXx_h4rD = oldElem.a2_M0no_suXx_h4rD;
+			b22_M0no_suXx_h4rD = oldElem.b22_M0no_suXx_h4rD;
+			a4_M0no_suXx_h4rD = oldElem.a4_M0no_suXx_h4rD;
+			b41_M0no_suXx_h4rD = oldElem.b41_M0no_suXx_h4rD;
+			c222_411_M0no_suXx_h4rD = oldElem.c222_411_M0no_suXx_h4rD;
 		}
 		public static GRGEN_MODEL.@C222_411 CreateNode(GRGEN_LGSP.LGSPGraph graph)
 		{
@@ -2546,39 +2546,39 @@ namespace de.unika.ipd.grGen.Model_complModel
 		}
 
 
-		private int a2\u0303;
+		private int a2_M0no_suXx_h4rD;
 		public int @a2
 		{
-			get { return a2\u0303; }
-			set { a2\u0303 = value; }
+			get { return a2_M0no_suXx_h4rD; }
+			set { a2_M0no_suXx_h4rD = value; }
 		}
 
-		private int b22\u0303;
+		private int b22_M0no_suXx_h4rD;
 		public int @b22
 		{
-			get { return b22\u0303; }
-			set { b22\u0303 = value; }
+			get { return b22_M0no_suXx_h4rD; }
+			set { b22_M0no_suXx_h4rD = value; }
 		}
 
-		private int a4\u0303;
+		private int a4_M0no_suXx_h4rD;
 		public int @a4
 		{
-			get { return a4\u0303; }
-			set { a4\u0303 = value; }
+			get { return a4_M0no_suXx_h4rD; }
+			set { a4_M0no_suXx_h4rD = value; }
 		}
 
-		private int b41\u0303;
+		private int b41_M0no_suXx_h4rD;
 		public int @b41
 		{
-			get { return b41\u0303; }
-			set { b41\u0303 = value; }
+			get { return b41_M0no_suXx_h4rD; }
+			set { b41_M0no_suXx_h4rD = value; }
 		}
 
-		private int c222_411\u0303;
+		private int c222_411_M0no_suXx_h4rD;
 		public int @c222_411
 		{
-			get { return c222_411\u0303; }
-			set { c222_411\u0303 = value; }
+			get { return c222_411_M0no_suXx_h4rD; }
+			set { c222_411_M0no_suXx_h4rD = value; }
 		}
 		public override object GetAttribute(string attrName)
 		{
@@ -2789,10 +2789,10 @@ namespace de.unika.ipd.grGen.Model_complModel
 
 		private @C412_421_431_51(GRGEN_MODEL.@C412_421_431_51 oldElem) : base(GRGEN_MODEL.NodeType_C412_421_431_51.typeVar)
 		{
-			a4\u0303 = oldElem.a4\u0303;
-			b41\u0303 = oldElem.b41\u0303;
-			b42\u0303 = oldElem.b42\u0303;
-			a5\u0303 = oldElem.a5\u0303;
+			a4_M0no_suXx_h4rD = oldElem.a4_M0no_suXx_h4rD;
+			b41_M0no_suXx_h4rD = oldElem.b41_M0no_suXx_h4rD;
+			b42_M0no_suXx_h4rD = oldElem.b42_M0no_suXx_h4rD;
+			a5_M0no_suXx_h4rD = oldElem.a5_M0no_suXx_h4rD;
 		}
 		public static GRGEN_MODEL.@C412_421_431_51 CreateNode(GRGEN_LGSP.LGSPGraph graph)
 		{
@@ -2855,32 +2855,32 @@ namespace de.unika.ipd.grGen.Model_complModel
 		}
 
 
-		private int a4\u0303;
+		private int a4_M0no_suXx_h4rD;
 		public int @a4
 		{
-			get { return a4\u0303; }
-			set { a4\u0303 = value; }
+			get { return a4_M0no_suXx_h4rD; }
+			set { a4_M0no_suXx_h4rD = value; }
 		}
 
-		private int b41\u0303;
+		private int b41_M0no_suXx_h4rD;
 		public int @b41
 		{
-			get { return b41\u0303; }
-			set { b41\u0303 = value; }
+			get { return b41_M0no_suXx_h4rD; }
+			set { b41_M0no_suXx_h4rD = value; }
 		}
 
-		private int b42\u0303;
+		private int b42_M0no_suXx_h4rD;
 		public int @b42
 		{
-			get { return b42\u0303; }
-			set { b42\u0303 = value; }
+			get { return b42_M0no_suXx_h4rD; }
+			set { b42_M0no_suXx_h4rD = value; }
 		}
 
-		private int a5\u0303;
+		private int a5_M0no_suXx_h4rD;
 		public int @a5
 		{
-			get { return a5\u0303; }
-			set { a5\u0303 = value; }
+			get { return a5_M0no_suXx_h4rD; }
+			set { a5_M0no_suXx_h4rD = value; }
 		}
 		public override object GetAttribute(string attrName)
 		{
@@ -3078,9 +3078,9 @@ namespace de.unika.ipd.grGen.Model_complModel
 
 		private @C432_422(GRGEN_MODEL.@C432_422 oldElem) : base(GRGEN_MODEL.NodeType_C432_422.typeVar)
 		{
-			a4\u0303 = oldElem.a4\u0303;
-			b42\u0303 = oldElem.b42\u0303;
-			c432_422\u0303 = oldElem.c432_422\u0303;
+			a4_M0no_suXx_h4rD = oldElem.a4_M0no_suXx_h4rD;
+			b42_M0no_suXx_h4rD = oldElem.b42_M0no_suXx_h4rD;
+			c432_422_M0no_suXx_h4rD = oldElem.c432_422_M0no_suXx_h4rD;
 		}
 		public static GRGEN_MODEL.@C432_422 CreateNode(GRGEN_LGSP.LGSPGraph graph)
 		{
@@ -3137,25 +3137,25 @@ namespace de.unika.ipd.grGen.Model_complModel
 		}
 
 
-		private int a4\u0303;
+		private int a4_M0no_suXx_h4rD;
 		public int @a4
 		{
-			get { return a4\u0303; }
-			set { a4\u0303 = value; }
+			get { return a4_M0no_suXx_h4rD; }
+			set { a4_M0no_suXx_h4rD = value; }
 		}
 
-		private int b42\u0303;
+		private int b42_M0no_suXx_h4rD;
 		public int @b42
 		{
-			get { return b42\u0303; }
-			set { b42\u0303 = value; }
+			get { return b42_M0no_suXx_h4rD; }
+			set { b42_M0no_suXx_h4rD = value; }
 		}
 
-		private int c432_422\u0303;
+		private int c432_422_M0no_suXx_h4rD;
 		public int @c432_422
 		{
-			get { return c432_422\u0303; }
-			set { c432_422\u0303 = value; }
+			get { return c432_422_M0no_suXx_h4rD; }
+			set { c432_422_M0no_suXx_h4rD = value; }
 		}
 		public override object GetAttribute(string attrName)
 		{
@@ -3342,13 +3342,13 @@ namespace de.unika.ipd.grGen.Model_complModel
 
 		private @D11_2221(GRGEN_MODEL.@D11_2221 oldElem) : base(GRGEN_MODEL.NodeType_D11_2221.typeVar)
 		{
-			a1\u0303 = oldElem.a1\u0303;
-			a2\u0303 = oldElem.a2\u0303;
-			b22\u0303 = oldElem.b22\u0303;
-			a4\u0303 = oldElem.a4\u0303;
-			b41\u0303 = oldElem.b41\u0303;
-			c222_411\u0303 = oldElem.c222_411\u0303;
-			d11_2221\u0303 = oldElem.d11_2221\u0303;
+			a1_M0no_suXx_h4rD = oldElem.a1_M0no_suXx_h4rD;
+			a2_M0no_suXx_h4rD = oldElem.a2_M0no_suXx_h4rD;
+			b22_M0no_suXx_h4rD = oldElem.b22_M0no_suXx_h4rD;
+			a4_M0no_suXx_h4rD = oldElem.a4_M0no_suXx_h4rD;
+			b41_M0no_suXx_h4rD = oldElem.b41_M0no_suXx_h4rD;
+			c222_411_M0no_suXx_h4rD = oldElem.c222_411_M0no_suXx_h4rD;
+			d11_2221_M0no_suXx_h4rD = oldElem.d11_2221_M0no_suXx_h4rD;
 		}
 		public static GRGEN_MODEL.@D11_2221 CreateNode(GRGEN_LGSP.LGSPGraph graph)
 		{
@@ -3419,53 +3419,53 @@ namespace de.unika.ipd.grGen.Model_complModel
 		}
 
 
-		private int a1\u0303;
+		private int a1_M0no_suXx_h4rD;
 		public int @a1
 		{
-			get { return a1\u0303; }
-			set { a1\u0303 = value; }
+			get { return a1_M0no_suXx_h4rD; }
+			set { a1_M0no_suXx_h4rD = value; }
 		}
 
-		private int a2\u0303;
+		private int a2_M0no_suXx_h4rD;
 		public int @a2
 		{
-			get { return a2\u0303; }
-			set { a2\u0303 = value; }
+			get { return a2_M0no_suXx_h4rD; }
+			set { a2_M0no_suXx_h4rD = value; }
 		}
 
-		private int b22\u0303;
+		private int b22_M0no_suXx_h4rD;
 		public int @b22
 		{
-			get { return b22\u0303; }
-			set { b22\u0303 = value; }
+			get { return b22_M0no_suXx_h4rD; }
+			set { b22_M0no_suXx_h4rD = value; }
 		}
 
-		private int a4\u0303;
+		private int a4_M0no_suXx_h4rD;
 		public int @a4
 		{
-			get { return a4\u0303; }
-			set { a4\u0303 = value; }
+			get { return a4_M0no_suXx_h4rD; }
+			set { a4_M0no_suXx_h4rD = value; }
 		}
 
-		private int b41\u0303;
+		private int b41_M0no_suXx_h4rD;
 		public int @b41
 		{
-			get { return b41\u0303; }
-			set { b41\u0303 = value; }
+			get { return b41_M0no_suXx_h4rD; }
+			set { b41_M0no_suXx_h4rD = value; }
 		}
 
-		private int c222_411\u0303;
+		private int c222_411_M0no_suXx_h4rD;
 		public int @c222_411
 		{
-			get { return c222_411\u0303; }
-			set { c222_411\u0303 = value; }
+			get { return c222_411_M0no_suXx_h4rD; }
+			set { c222_411_M0no_suXx_h4rD = value; }
 		}
 
-		private int d11_2221\u0303;
+		private int d11_2221_M0no_suXx_h4rD;
 		public int @d11_2221
 		{
-			get { return d11_2221\u0303; }
-			set { d11_2221\u0303 = value; }
+			get { return d11_2221_M0no_suXx_h4rD; }
+			set { d11_2221_M0no_suXx_h4rD = value; }
 		}
 		public override object GetAttribute(string attrName)
 		{
@@ -3714,14 +3714,14 @@ namespace de.unika.ipd.grGen.Model_complModel
 
 		private @D2211_2222_31(GRGEN_MODEL.@D2211_2222_31 oldElem) : base(GRGEN_MODEL.NodeType_D2211_2222_31.typeVar)
 		{
-			a2\u0303 = oldElem.a2\u0303;
-			b22\u0303 = oldElem.b22\u0303;
-			c221\u0303 = oldElem.c221\u0303;
-			a4\u0303 = oldElem.a4\u0303;
-			b41\u0303 = oldElem.b41\u0303;
-			c222_411\u0303 = oldElem.c222_411\u0303;
-			a3\u0303 = oldElem.a3\u0303;
-			d2211_2222_31\u0303 = oldElem.d2211_2222_31\u0303;
+			a2_M0no_suXx_h4rD = oldElem.a2_M0no_suXx_h4rD;
+			b22_M0no_suXx_h4rD = oldElem.b22_M0no_suXx_h4rD;
+			c221_M0no_suXx_h4rD = oldElem.c221_M0no_suXx_h4rD;
+			a4_M0no_suXx_h4rD = oldElem.a4_M0no_suXx_h4rD;
+			b41_M0no_suXx_h4rD = oldElem.b41_M0no_suXx_h4rD;
+			c222_411_M0no_suXx_h4rD = oldElem.c222_411_M0no_suXx_h4rD;
+			a3_M0no_suXx_h4rD = oldElem.a3_M0no_suXx_h4rD;
+			d2211_2222_31_M0no_suXx_h4rD = oldElem.d2211_2222_31_M0no_suXx_h4rD;
 		}
 		public static GRGEN_MODEL.@D2211_2222_31 CreateNode(GRGEN_LGSP.LGSPGraph graph)
 		{
@@ -3796,60 +3796,60 @@ namespace de.unika.ipd.grGen.Model_complModel
 		}
 
 
-		private int a2\u0303;
+		private int a2_M0no_suXx_h4rD;
 		public int @a2
 		{
-			get { return a2\u0303; }
-			set { a2\u0303 = value; }
+			get { return a2_M0no_suXx_h4rD; }
+			set { a2_M0no_suXx_h4rD = value; }
 		}
 
-		private int b22\u0303;
+		private int b22_M0no_suXx_h4rD;
 		public int @b22
 		{
-			get { return b22\u0303; }
-			set { b22\u0303 = value; }
+			get { return b22_M0no_suXx_h4rD; }
+			set { b22_M0no_suXx_h4rD = value; }
 		}
 
-		private int c221\u0303;
+		private int c221_M0no_suXx_h4rD;
 		public int @c221
 		{
-			get { return c221\u0303; }
-			set { c221\u0303 = value; }
+			get { return c221_M0no_suXx_h4rD; }
+			set { c221_M0no_suXx_h4rD = value; }
 		}
 
-		private int a4\u0303;
+		private int a4_M0no_suXx_h4rD;
 		public int @a4
 		{
-			get { return a4\u0303; }
-			set { a4\u0303 = value; }
+			get { return a4_M0no_suXx_h4rD; }
+			set { a4_M0no_suXx_h4rD = value; }
 		}
 
-		private int b41\u0303;
+		private int b41_M0no_suXx_h4rD;
 		public int @b41
 		{
-			get { return b41\u0303; }
-			set { b41\u0303 = value; }
+			get { return b41_M0no_suXx_h4rD; }
+			set { b41_M0no_suXx_h4rD = value; }
 		}
 
-		private int c222_411\u0303;
+		private int c222_411_M0no_suXx_h4rD;
 		public int @c222_411
 		{
-			get { return c222_411\u0303; }
-			set { c222_411\u0303 = value; }
+			get { return c222_411_M0no_suXx_h4rD; }
+			set { c222_411_M0no_suXx_h4rD = value; }
 		}
 
-		private int a3\u0303;
+		private int a3_M0no_suXx_h4rD;
 		public int @a3
 		{
-			get { return a3\u0303; }
-			set { a3\u0303 = value; }
+			get { return a3_M0no_suXx_h4rD; }
+			set { a3_M0no_suXx_h4rD = value; }
 		}
 
-		private int d2211_2222_31\u0303;
+		private int d2211_2222_31_M0no_suXx_h4rD;
 		public int @d2211_2222_31
 		{
-			get { return d2211_2222_31\u0303; }
-			set { d2211_2222_31\u0303 = value; }
+			get { return d2211_2222_31_M0no_suXx_h4rD; }
+			set { d2211_2222_31_M0no_suXx_h4rD = value; }
 		}
 		public override object GetAttribute(string attrName)
 		{

@@ -1,0 +1,15 @@
+rule r
+{
+	x:Node;
+	
+	iterated {
+		.;
+		modify {
+			y:Node -e-> y;
+		}
+	}
+	
+	modify {
+		x -e:Edge-> x;
+	}
+}

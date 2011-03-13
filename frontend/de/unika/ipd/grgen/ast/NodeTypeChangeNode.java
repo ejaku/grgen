@@ -112,8 +112,10 @@ public class NodeTypeChangeNode extends NodeDeclNode implements NodeCharacter  {
 		if (curr instanceof RuleDeclNode && prev == ((RuleDeclNode)curr).right
 				|| curr instanceof SubpatternDeclNode && prev == ((SubpatternDeclNode)curr).right
 				|| curr instanceof AlternativeCaseNode && prev == ((AlternativeCaseNode)curr).right) {
-			reportError("Source node of retype may not be declared in replace/modify part");
-			res = false;
+			if(!old.defEntityToBeYieldedTo) {
+				reportError("Source node of retype may not be declared in replace/modify part");
+				res = false;
+			}
 		}
 
 		// Collect all outer Alternative cases

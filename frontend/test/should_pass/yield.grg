@@ -1,0 +1,191 @@
+using attrib_model_001;
+
+rule createChain : (Node)
+{
+	modify {
+		start:Node --> . --> . --> . --> .;
+		return (start);
+	}
+}
+
+rule linkChainEndToStart(start:Node)
+{
+	c:Chain(start);
+	
+	modify {
+		def end:Node;
+		c(yield end);
+		end --> start;
+	}
+}
+
+pattern Chain(begin:Node) modify(def end:Node)
+{
+	alternative {
+		further {
+			begin --> next:Node;
+			c:Chain(next);
+			
+			modify {
+				c(yield end);
+			}
+		}
+		done {
+			modify {
+				eval {
+					yield end = begin;
+				}
+			}
+		}
+	}
+	
+	modify {
+	}
+}
+
+rule deleteWithoutIncoming
+{
+	n:Node;
+	negative {
+		--> n;
+	}
+	
+	replace {
+	}
+}
+
+//////////////////////////////////////////////////////////////
+
+rule createToNBOOL : (Node)
+{
+	modify {
+		start:Node --> :NBOOL;
+		return (start);
+	}
+}
+
+rule createToNINT(start:Node)
+{
+	modify {
+		start --> :NINT;
+	}
+}
+
+rule createToNSTRING(start:Node)
+{
+	modify {
+		start --> :NSTRING;
+	}
+}
+
+rule deleteNINTNSTRING(start:Node) : (object)
+{
+	alternative {
+		toNINT {
+			start --> n:NINT;
+			
+			modify {
+				eval {
+					n.a = 42;
+					m = n;
+					v = (object)n.a;
+				}
+			}
+		}
+		toNSTRING {
+			start --> n:NSTRING;
+			
+			modify {
+				eval {
+					n.a = "fool";
+					v = (object)n.a;
+					m = n;
+				}
+			}
+		}
+	}
+	
+	modify {
+		def m:Node;
+		def var v:object;
+		delete(m);
+		return (v);
+	}
+}
+
+//////////////////////////////////////////////////////////////
+
+rule retypeNINTNSTRING(start:Node) : (object)
+{
+	alternative {
+		toNINT {
+			start --> n:NINT;
+			
+			modify {
+				eval {
+					n.a = 42;
+					m = n;
+					v = (object)n.a;
+				}
+			}
+		}
+		toNSTRING {
+			start --> n:NSTRING;
+			
+			modify {
+				eval {
+					n.a = "fool";
+					v = (object)n.a;
+					m = n;
+				}
+			}
+		}
+	}
+	
+	modify {
+		def m:Node;
+		def var v:object;
+		k:NFLOAT<m>;
+		return (v);
+	}
+}
+
+//////////////////////////////////////////////////////////////
+
+rule createBlowball : (Node)
+{
+	modify {
+		start:Node;
+		start --> n1:NINT;
+		start --> n2:NINT;
+		start --> n3:NINT;
+		eval {
+			n1.a = 1;
+			n2.a = 2;
+			n3.a = 3;
+		}
+		return (start);
+	}
+}
+
+rule countNINT(start:Node) : (int)
+{
+	iterated {
+		start --> n:NINT;
+		
+		modify {
+			eval {
+				m = n;
+				i = i + n.a;
+			}
+		}
+	}
+	
+	modify {
+		def m:NINT;
+		def var i:int = 0;
+		delete(m); // deletes the lastly iterated node, which one of the 3 is indeterministic
+		return (i);
+	}
+}
+

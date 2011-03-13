@@ -1,0 +1,63 @@
+rule r
+{
+	iterated foo {
+		y:Node;
+
+		iterated bar {
+			z:Node;
+			modify {
+				x --> z;
+			}
+		}
+
+		iterated baz {
+			z:Node;
+			modify {
+				x --> z;
+			}
+		}
+
+		modify {
+			x --> y;
+			iterated bar;
+			iterated baz;
+		}
+	}
+	
+	modify {
+		x:Node;
+		iterated foo;
+	}
+}
+
+pattern p
+{
+	iterated foo {
+		y:Node;
+
+		iterated bar {
+			z:Node;
+			modify {
+				x --> z;
+			}
+		}
+
+		iterated baz {
+			z:Node;
+			modify {
+				x --> z;
+			}
+		}
+
+		modify {
+			x --> y;
+			iterated bar;
+			iterated baz;
+		}
+	}
+	
+	modify {
+		x:Node;
+		iterated foo;
+	}
+}

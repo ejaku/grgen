@@ -1,6 +1,6 @@
 // This file has been generated automatically by GrGen (www.grgen.net)
 // Do not modify this file! Any changes will be lost!
-// Generated from "..\..\examples\ExternalAttributeEvaluationExample\ExternalAttributeEvaluation.grg" on Sun Feb 06 21:14:17 CET 2011
+// Generated from "..\..\examples\ExternalAttributeEvaluationExample\ExternalAttributeEvaluation.grg" on Sun Mar 13 18:13:11 CET 2011
 
 using System;
 using System.Collections.Generic;
@@ -44,8 +44,6 @@ namespace de.unika.ipd.grGen.Action_ExternalAttributeEvaluation
 		{
 			bool[,] init_isNodeHomomorphicGlobal = new bool[0, 0] ;
 			bool[,] init_isEdgeHomomorphicGlobal = new bool[0, 0] ;
-			int[] init_minMatches = new int[0] ;
-			int[] init_maxMatches = new int[0] ;
 			pat_init = new GRGEN_LGSP.PatternGraph(
 				"init",
 				"",
@@ -55,9 +53,7 @@ namespace de.unika.ipd.grGen.Action_ExternalAttributeEvaluation
 				new GRGEN_LGSP.PatternVariable[] {  }, 
 				new GRGEN_LGSP.PatternGraphEmbedding[] {  }, 
 				new GRGEN_LGSP.Alternative[] {  }, 
-				new GRGEN_LGSP.PatternGraph[] {  }, 
-				init_minMatches,
-				init_maxMatches,
+				new GRGEN_LGSP.Iterated[] {  }, 
 				new GRGEN_LGSP.PatternGraph[] {  }, 
 				new GRGEN_LGSP.PatternGraph[] {  }, 
 				new GRGEN_LGSP.PatternCondition[] {  }, 
@@ -227,8 +223,6 @@ namespace de.unika.ipd.grGen.Action_ExternalAttributeEvaluation
 			bool[,] r_isEdgeHomomorphicGlobal = new bool[1, 1] {
 				{ false, },
 			};
-			int[] r_minMatches = new int[0] ;
-			int[] r_maxMatches = new int[0] ;
 			GRGEN_LGSP.PatternNode r_node_n = new GRGEN_LGSP.PatternNode((int) GRGEN_MODEL.NodeTypes.@N, "GRGEN_MODEL.IN", "r_node_n", "n", r_node_n_AllowedTypes, r_node_n_IsAllowedType, 5.5F, -1, false, null, null, null, null);
 			GRGEN_LGSP.PatternEdge r_edge_e = new GRGEN_LGSP.PatternEdge(true, (int) GRGEN_MODEL.EdgeTypes.@E, "GRGEN_MODEL.IE", "r_edge_e", "e", r_edge_e_AllowedTypes, r_edge_e_IsAllowedType, 5.5F, -1, false, null, null, null, null);
 			GRGEN_LGSP.PatternCondition r_cond_0 = new GRGEN_LGSP.PatternCondition(
@@ -252,9 +246,7 @@ namespace de.unika.ipd.grGen.Action_ExternalAttributeEvaluation
 				new GRGEN_LGSP.PatternVariable[] {  }, 
 				new GRGEN_LGSP.PatternGraphEmbedding[] {  }, 
 				new GRGEN_LGSP.Alternative[] {  }, 
-				new GRGEN_LGSP.PatternGraph[] {  }, 
-				r_minMatches,
-				r_maxMatches,
+				new GRGEN_LGSP.Iterated[] {  }, 
 				new GRGEN_LGSP.PatternGraph[] {  }, 
 				new GRGEN_LGSP.PatternGraph[] {  }, 
 				new GRGEN_LGSP.PatternCondition[] { r_cond_0, r_cond_1, r_cond_2, r_cond_3,  }, 
@@ -422,7 +414,7 @@ namespace de.unika.ipd.grGen.Action_ExternalAttributeEvaluation
 			subpatterns = new GRGEN_LGSP.LGSPMatchingPattern[0];
 			rules = new GRGEN_LGSP.LGSPRulePattern[2];
 			rulesAndSubpatterns = new GRGEN_LGSP.LGSPMatchingPattern[0+2];
-			definedSequences = new GRGEN_LGSP.LGSPDefinedSequenceInfo[0];
+			definedSequences = new GRGEN_LIBGR.DefinedSequenceInfo[0];
 			rules[0] = Rule_init.Instance;
 			rulesAndSubpatterns[0+0] = Rule_init.Instance;
 			rules[1] = Rule_r.Instance;
@@ -434,8 +426,8 @@ namespace de.unika.ipd.grGen.Action_ExternalAttributeEvaluation
 		private GRGEN_LGSP.LGSPMatchingPattern[] subpatterns;
 		public override GRGEN_LGSP.LGSPMatchingPattern[] RulesAndSubpatterns { get { return rulesAndSubpatterns; } }
 		private GRGEN_LGSP.LGSPMatchingPattern[] rulesAndSubpatterns;
-		public override GRGEN_LGSP.LGSPDefinedSequenceInfo[] DefinedSequences { get { return definedSequences; } }
-		private GRGEN_LGSP.LGSPDefinedSequenceInfo[] definedSequences;
+		public override GRGEN_LIBGR.DefinedSequenceInfo[] DefinedSequences { get { return definedSequences; } }
+		private GRGEN_LIBGR.DefinedSequenceInfo[] definedSequences;
 	}
 
 

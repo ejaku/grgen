@@ -1,0 +1,153 @@
+using attrib_model_001;
+
+// die ganzen anderen methoden ausser assignment noch aufführen
+
+rule r
+{
+	ni:NINT;
+	nb:NBOOL;
+	nf:NFLOAT;
+	nd:NDOUBLE;
+	-ef:EFLOAT->;
+	-ed:EDOUBLE->;
+	-eo:EOBJECT->;
+	ni -ei:EINT-> nb;
+	nf -eb:EBOOL-> nd;
+	-es:ESTRING->;
+
+	modify {
+		no:NOBJECT;
+		ns:NSTRING;
+
+		evalhere {
+			ni.a = 42;
+			nb.a = ni.a==42;
+			nf.a = 3.142f;
+			nd.a = 3.141592654;
+			no.a = null;
+			ns.a = "Hello World!";
+			ei.a = ni.a;
+			eb.a = nb.a;
+			es.a = ns.a;
+			ef.a = nf.a;
+			ed.a = nd.a;
+			eo.a = no.a;
+		}
+	}
+}
+
+pattern p
+{
+	ni:NINT;
+	nb:NBOOL;
+	nf:NFLOAT;
+	nd:NDOUBLE;
+	-ef:EFLOAT->;
+	-ed:EDOUBLE->;
+	-eo:EOBJECT->;
+	ni -ei:EINT-> nb;
+	nf -eb:EBOOL-> nd;
+	-es:ESTRING->;
+
+	modify {
+		no:NOBJECT;
+		ns:NSTRING;
+
+		evalhere {
+			ni.a = 42;
+			nb.a = ni.a==42;
+			nf.a = 3.142f;
+			nd.a = 3.141592654;
+			no.a = null;
+			ns.a = "Hello World!";
+			ei.a = ni.a;
+			eb.a = nb.a;
+			es.a = ns.a;
+			ef.a = nf.a;
+			ed.a = nd.a;
+			eo.a = no.a;
+		}
+	}
+}
+
+rule ra
+{
+	alternative
+	{
+		case {
+			ni:NINT;
+			nb:NBOOL;
+			nf:NFLOAT;
+			nd:NDOUBLE;
+			-ef:EFLOAT->;
+			-ed:EDOUBLE->;
+			-eo:EOBJECT->;
+			ni -ei:EINT-> nb;
+			nf -eb:EBOOL-> nd;
+			-es:ESTRING->;
+
+			modify {
+				no:NOBJECT;
+				ns:NSTRING;
+
+				evalhere {
+					ni.a = 42;
+					nb.a = ni.a==42;
+					nf.a = 3.142f;
+					nd.a = 3.141592654;
+					no.a = null;
+					ns.a = "Hello World!";
+					ei.a = ni.a;
+					eb.a = nb.a;
+					es.a = ns.a;
+					ef.a = nf.a;
+					ed.a = nd.a;
+					eo.a = no.a;
+				}
+			}
+		}
+	}
+	
+	modify {
+	}
+}
+
+pattern pa
+{
+	iterated
+	{
+		ni:NINT;
+		nb:NBOOL;
+		nf:NFLOAT;
+		nd:NDOUBLE;
+		-ef:EFLOAT->;
+		-ed:EDOUBLE->;
+		-eo:EOBJECT->;
+		ni -ei:EINT-> nb;
+		nf -eb:EBOOL-> nd;
+		-es:ESTRING->;
+
+		modify {
+			no:NOBJECT;
+			ns:NSTRING;
+
+			evalhere {
+				ni.a = 42;
+				nb.a = ni.a==42;
+				nf.a = 3.142f;
+				nd.a = 3.141592654;
+				no.a = null;
+				ns.a = "Hello World!";
+				ei.a = ni.a;
+				eb.a = nb.a;
+				es.a = ns.a;
+				ef.a = nf.a;
+				ed.a = nd.a;
+				eo.a = no.a;
+			}
+		}
+	}
+	
+	modify {
+	}
+}

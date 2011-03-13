@@ -16,11 +16,13 @@ import java.util.Iterator;
 import java.util.Vector;
 
 import de.unika.ipd.grgen.ir.Assignment;
+import de.unika.ipd.grgen.ir.AssignmentGraphEntity;
 import de.unika.ipd.grgen.ir.AssignmentIdentical;
 import de.unika.ipd.grgen.ir.AssignmentVar;
 import de.unika.ipd.grgen.ir.Edge;
 import de.unika.ipd.grgen.ir.EvalStatement;
 import de.unika.ipd.grgen.ir.Expression;
+import de.unika.ipd.grgen.ir.GraphEntity;
 import de.unika.ipd.grgen.ir.IR;
 import de.unika.ipd.grgen.ir.Node;
 import de.unika.ipd.grgen.ir.Qualification;
@@ -40,6 +42,7 @@ public class AssignNode extends EvalStatementNode {
 	
 	QualIdentNode lhsQual;
 	VarDeclNode lhsVar;
+	ConstraintDeclNode lhsGraphElement;
 
 	/**
 	 * @param coords The source code coordinates of = operator.
@@ -91,10 +94,17 @@ public class AssignNode extends EvalStatementNode {
 		boolean successfullyResolved = true;
 		if(lhsUnresolved instanceof IdentExprNode) {
 			IdentExprNode unresolved = (IdentExprNode)lhsUnresolved;
-			if(unresolved.resolve() && unresolved.decl instanceof VarDeclNode) {
-				lhsVar = (VarDeclNode)unresolved.decl;
+			if(unresolved.resolve()) {
+				if(unresolved.decl instanceof VarDeclNode) {
+					lhsVar = (VarDeclNode)unresolved.decl;
+				} else if(unresolved.decl instanceof ConstraintDeclNode) {
+					lhsGraphElement = (ConstraintDeclNode)unresolved.decl;
+				} else {
+					reportError("error in resolving lhs of assignment, unexpected type.");
+					successfullyResolved = false;
+				}
 			} else {
-				reportError("assign expects a parameter variable.");
+				reportError("error in resolving lhs of assignment.");
 				successfullyResolved = false;
 			}
 		} else if(lhsUnresolved instanceof QualIdentNode) {
@@ -102,7 +112,7 @@ public class AssignNode extends EvalStatementNode {
 			if(unresolved.resolve()) {
 				lhsQual = unresolved;
 			} else {
-				reportError("assign expects a qualified attribute.");
+				reportError("error in resolving lhs of qualified attribute assignment.");
 				successfullyResolved = false;
 			}
 		} else {
@@ -144,7 +154,10 @@ public class AssignNode extends EvalStatementNode {
 	 * @return true, if the types are equal or compatible, false otherwise
 	 */
 	private boolean typeCheckLocal() {
-		TypeNode targetType = lhsQual!=null ? lhsQual.getDecl().getDeclType() : lhsVar.getDeclType();
+		TypeNode targetType = null;
+		if(lhsQual!=null) targetType = lhsQual.getDecl().getDeclType();
+		if(lhsVar!=null) targetType = lhsVar.getDeclType();
+		if(lhsGraphElement!=null) targetType = lhsGraphElement.getDeclType();
 		TypeNode exprType = rhs.getType();
 
 		if (exprType.isEqual(targetType))
@@ -182,13 +195,20 @@ public class AssignNode extends EvalStatementNode {
 	
 			ExprNode rhsEvaluated = rhs.evaluate();
 			return new Assignment(qual, rhsEvaluated.checkIR(Expression.class));
-		} else {
+		} else if(lhsVar!=null) {
 			Variable var = lhsVar.checkIR(Variable.class);
 		
 			// TODO: extend optimization to assignments to variables
 			
 			ExprNode rhsEvaluated = rhs.evaluate();
 			return new AssignmentVar(var, rhsEvaluated.checkIR(Expression.class));
+		} else {
+			GraphEntity graphEntity = lhsGraphElement.checkIR(GraphEntity.class);
+
+			// TODO: extend optimization to assignments to graph entities
+			
+			ExprNode rhsEvaluated = rhs.evaluate();
+			return new AssignmentGraphEntity(graphEntity, rhsEvaluated.checkIR(Expression.class));
 		}
 	}
 

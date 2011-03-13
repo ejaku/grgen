@@ -1,6 +1,6 @@
 // This file has been generated automatically by GrGen (www.grgen.net)
 // Do not modify this file! Any changes will be lost!
-// Generated from "..\..\examples\JavaProgramGraphs-GraBaTs08\JavaProgramGraphs.grg" on Sun Feb 06 21:14:25 CET 2011
+// Generated from "..\..\examples\JavaProgramGraphs-GraBaTs08\JavaProgramGraphs.grg" on Sun Mar 13 18:13:19 CET 2011
 
 using System;
 using System.Collections.Generic;
@@ -165,7 +165,7 @@ namespace de.unika.ipd.grGen.Model_JavaProgramGraphs
 
 		private @Package(GRGEN_MODEL.@Package oldElem) : base(GRGEN_MODEL.NodeType_Package.typeVar)
 		{
-			name\u0303 = oldElem.name\u0303;
+			name_M0no_suXx_h4rD = oldElem.name_M0no_suXx_h4rD;
 		}
 		public static GRGEN_MODEL.@Package CreateNode(GRGEN_LGSP.LGSPGraph graph)
 		{
@@ -212,11 +212,11 @@ namespace de.unika.ipd.grGen.Model_JavaProgramGraphs
 		}
 
 
-		private string name\u0303;
+		private string name_M0no_suXx_h4rD;
 		public string @name
 		{
-			get { return name\u0303; }
-			set { name\u0303 = value; }
+			get { return name_M0no_suXx_h4rD; }
+			set { name_M0no_suXx_h4rD = value; }
 		}
 		public override object GetAttribute(string attrName)
 		{
@@ -335,9 +335,9 @@ namespace de.unika.ipd.grGen.Model_JavaProgramGraphs
 
 		private @Classifier(GRGEN_MODEL.@Classifier oldElem) : base(GRGEN_MODEL.NodeType_Classifier.typeVar)
 		{
-			name\u0303 = oldElem.name\u0303;
-			visibility\u0303 = oldElem.visibility\u0303;
-			isAbstract\u0303 = oldElem.isAbstract\u0303;
+			name_M0no_suXx_h4rD = oldElem.name_M0no_suXx_h4rD;
+			visibility_M0no_suXx_h4rD = oldElem.visibility_M0no_suXx_h4rD;
+			isAbstract_M0no_suXx_h4rD = oldElem.isAbstract_M0no_suXx_h4rD;
 		}
 		public static GRGEN_MODEL.@Classifier CreateNode(GRGEN_LGSP.LGSPGraph graph)
 		{
@@ -388,25 +388,25 @@ namespace de.unika.ipd.grGen.Model_JavaProgramGraphs
 		}
 
 
-		private string name\u0303;
+		private string name_M0no_suXx_h4rD;
 		public string @name
 		{
-			get { return name\u0303; }
-			set { name\u0303 = value; }
+			get { return name_M0no_suXx_h4rD; }
+			set { name_M0no_suXx_h4rD = value; }
 		}
 
-		private string visibility\u0303;
+		private string visibility_M0no_suXx_h4rD;
 		public string @visibility
 		{
-			get { return visibility\u0303; }
-			set { visibility\u0303 = value; }
+			get { return visibility_M0no_suXx_h4rD; }
+			set { visibility_M0no_suXx_h4rD = value; }
 		}
 
-		private bool isAbstract\u0303;
+		private bool isAbstract_M0no_suXx_h4rD;
 		public bool @isAbstract
 		{
-			get { return isAbstract\u0303; }
-			set { isAbstract\u0303 = value; }
+			get { return isAbstract_M0no_suXx_h4rD; }
+			set { isAbstract_M0no_suXx_h4rD = value; }
 		}
 		public override object GetAttribute(string attrName)
 		{
@@ -544,10 +544,10 @@ namespace de.unika.ipd.grGen.Model_JavaProgramGraphs
 
 		private @Class(GRGEN_MODEL.@Class oldElem) : base(GRGEN_MODEL.NodeType_Class.typeVar)
 		{
-			name\u0303 = oldElem.name\u0303;
-			visibility\u0303 = oldElem.visibility\u0303;
-			isAbstract\u0303 = oldElem.isAbstract\u0303;
-			isFinal\u0303 = oldElem.isFinal\u0303;
+			name_M0no_suXx_h4rD = oldElem.name_M0no_suXx_h4rD;
+			visibility_M0no_suXx_h4rD = oldElem.visibility_M0no_suXx_h4rD;
+			isAbstract_M0no_suXx_h4rD = oldElem.isAbstract_M0no_suXx_h4rD;
+			isFinal_M0no_suXx_h4rD = oldElem.isFinal_M0no_suXx_h4rD;
 		}
 		public static GRGEN_MODEL.@Class CreateNode(GRGEN_LGSP.LGSPGraph graph)
 		{
@@ -602,32 +602,32 @@ namespace de.unika.ipd.grGen.Model_JavaProgramGraphs
 		}
 
 
-		private string name\u0303;
+		private string name_M0no_suXx_h4rD;
 		public string @name
 		{
-			get { return name\u0303; }
-			set { name\u0303 = value; }
+			get { return name_M0no_suXx_h4rD; }
+			set { name_M0no_suXx_h4rD = value; }
 		}
 
-		private string visibility\u0303;
+		private string visibility_M0no_suXx_h4rD;
 		public string @visibility
 		{
-			get { return visibility\u0303; }
-			set { visibility\u0303 = value; }
+			get { return visibility_M0no_suXx_h4rD; }
+			set { visibility_M0no_suXx_h4rD = value; }
 		}
 
-		private bool isAbstract\u0303;
+		private bool isAbstract_M0no_suXx_h4rD;
 		public bool @isAbstract
 		{
-			get { return isAbstract\u0303; }
-			set { isAbstract\u0303 = value; }
+			get { return isAbstract_M0no_suXx_h4rD; }
+			set { isAbstract_M0no_suXx_h4rD = value; }
 		}
 
-		private bool isFinal\u0303;
+		private bool isFinal_M0no_suXx_h4rD;
 		public bool @isFinal
 		{
-			get { return isFinal\u0303; }
-			set { isFinal\u0303 = value; }
+			get { return isFinal_M0no_suXx_h4rD; }
+			set { isFinal_M0no_suXx_h4rD = value; }
 		}
 		public override object GetAttribute(string attrName)
 		{
@@ -775,9 +775,9 @@ namespace de.unika.ipd.grGen.Model_JavaProgramGraphs
 
 		private @Interface(GRGEN_MODEL.@Interface oldElem) : base(GRGEN_MODEL.NodeType_Interface.typeVar)
 		{
-			name\u0303 = oldElem.name\u0303;
-			visibility\u0303 = oldElem.visibility\u0303;
-			isAbstract\u0303 = oldElem.isAbstract\u0303;
+			name_M0no_suXx_h4rD = oldElem.name_M0no_suXx_h4rD;
+			visibility_M0no_suXx_h4rD = oldElem.visibility_M0no_suXx_h4rD;
+			isAbstract_M0no_suXx_h4rD = oldElem.isAbstract_M0no_suXx_h4rD;
 		}
 		public static GRGEN_MODEL.@Interface CreateNode(GRGEN_LGSP.LGSPGraph graph)
 		{
@@ -830,25 +830,25 @@ namespace de.unika.ipd.grGen.Model_JavaProgramGraphs
 		}
 
 
-		private string name\u0303;
+		private string name_M0no_suXx_h4rD;
 		public string @name
 		{
-			get { return name\u0303; }
-			set { name\u0303 = value; }
+			get { return name_M0no_suXx_h4rD; }
+			set { name_M0no_suXx_h4rD = value; }
 		}
 
-		private string visibility\u0303;
+		private string visibility_M0no_suXx_h4rD;
 		public string @visibility
 		{
-			get { return visibility\u0303; }
-			set { visibility\u0303 = value; }
+			get { return visibility_M0no_suXx_h4rD; }
+			set { visibility_M0no_suXx_h4rD = value; }
 		}
 
-		private bool isAbstract\u0303;
+		private bool isAbstract_M0no_suXx_h4rD;
 		public bool @isAbstract
 		{
-			get { return isAbstract\u0303; }
-			set { isAbstract\u0303 = value; }
+			get { return isAbstract_M0no_suXx_h4rD; }
+			set { isAbstract_M0no_suXx_h4rD = value; }
 		}
 		public override object GetAttribute(string attrName)
 		{
@@ -989,10 +989,10 @@ namespace de.unika.ipd.grGen.Model_JavaProgramGraphs
 
 		private @Variable(GRGEN_MODEL.@Variable oldElem) : base(GRGEN_MODEL.NodeType_Variable.typeVar)
 		{
-			name\u0303 = oldElem.name\u0303;
-			visibility\u0303 = oldElem.visibility\u0303;
-			isStatic\u0303 = oldElem.isStatic\u0303;
-			isFinal\u0303 = oldElem.isFinal\u0303;
+			name_M0no_suXx_h4rD = oldElem.name_M0no_suXx_h4rD;
+			visibility_M0no_suXx_h4rD = oldElem.visibility_M0no_suXx_h4rD;
+			isStatic_M0no_suXx_h4rD = oldElem.isStatic_M0no_suXx_h4rD;
+			isFinal_M0no_suXx_h4rD = oldElem.isFinal_M0no_suXx_h4rD;
 		}
 		public static GRGEN_MODEL.@Variable CreateNode(GRGEN_LGSP.LGSPGraph graph)
 		{
@@ -1045,32 +1045,32 @@ namespace de.unika.ipd.grGen.Model_JavaProgramGraphs
 		}
 
 
-		private string name\u0303;
+		private string name_M0no_suXx_h4rD;
 		public string @name
 		{
-			get { return name\u0303; }
-			set { name\u0303 = value; }
+			get { return name_M0no_suXx_h4rD; }
+			set { name_M0no_suXx_h4rD = value; }
 		}
 
-		private string visibility\u0303;
+		private string visibility_M0no_suXx_h4rD;
 		public string @visibility
 		{
-			get { return visibility\u0303; }
-			set { visibility\u0303 = value; }
+			get { return visibility_M0no_suXx_h4rD; }
+			set { visibility_M0no_suXx_h4rD = value; }
 		}
 
-		private bool isStatic\u0303;
+		private bool isStatic_M0no_suXx_h4rD;
 		public bool @isStatic
 		{
-			get { return isStatic\u0303; }
-			set { isStatic\u0303 = value; }
+			get { return isStatic_M0no_suXx_h4rD; }
+			set { isStatic_M0no_suXx_h4rD = value; }
 		}
 
-		private bool isFinal\u0303;
+		private bool isFinal_M0no_suXx_h4rD;
 		public bool @isFinal
 		{
-			get { return isFinal\u0303; }
-			set { isFinal\u0303 = value; }
+			get { return isFinal_M0no_suXx_h4rD; }
+			set { isFinal_M0no_suXx_h4rD = value; }
 		}
 		public override object GetAttribute(string attrName)
 		{
@@ -1215,11 +1215,11 @@ namespace de.unika.ipd.grGen.Model_JavaProgramGraphs
 
 		private @Operation(GRGEN_MODEL.@Operation oldElem) : base(GRGEN_MODEL.NodeType_Operation.typeVar)
 		{
-			name\u0303 = oldElem.name\u0303;
-			visibility\u0303 = oldElem.visibility\u0303;
-			isAbstract\u0303 = oldElem.isAbstract\u0303;
-			isStatic\u0303 = oldElem.isStatic\u0303;
-			isFinal\u0303 = oldElem.isFinal\u0303;
+			name_M0no_suXx_h4rD = oldElem.name_M0no_suXx_h4rD;
+			visibility_M0no_suXx_h4rD = oldElem.visibility_M0no_suXx_h4rD;
+			isAbstract_M0no_suXx_h4rD = oldElem.isAbstract_M0no_suXx_h4rD;
+			isStatic_M0no_suXx_h4rD = oldElem.isStatic_M0no_suXx_h4rD;
+			isFinal_M0no_suXx_h4rD = oldElem.isFinal_M0no_suXx_h4rD;
 		}
 		public static GRGEN_MODEL.@Operation CreateNode(GRGEN_LGSP.LGSPGraph graph)
 		{
@@ -1274,39 +1274,39 @@ namespace de.unika.ipd.grGen.Model_JavaProgramGraphs
 		}
 
 
-		private string name\u0303;
+		private string name_M0no_suXx_h4rD;
 		public string @name
 		{
-			get { return name\u0303; }
-			set { name\u0303 = value; }
+			get { return name_M0no_suXx_h4rD; }
+			set { name_M0no_suXx_h4rD = value; }
 		}
 
-		private string visibility\u0303;
+		private string visibility_M0no_suXx_h4rD;
 		public string @visibility
 		{
-			get { return visibility\u0303; }
-			set { visibility\u0303 = value; }
+			get { return visibility_M0no_suXx_h4rD; }
+			set { visibility_M0no_suXx_h4rD = value; }
 		}
 
-		private bool isAbstract\u0303;
+		private bool isAbstract_M0no_suXx_h4rD;
 		public bool @isAbstract
 		{
-			get { return isAbstract\u0303; }
-			set { isAbstract\u0303 = value; }
+			get { return isAbstract_M0no_suXx_h4rD; }
+			set { isAbstract_M0no_suXx_h4rD = value; }
 		}
 
-		private bool isStatic\u0303;
+		private bool isStatic_M0no_suXx_h4rD;
 		public bool @isStatic
 		{
-			get { return isStatic\u0303; }
-			set { isStatic\u0303 = value; }
+			get { return isStatic_M0no_suXx_h4rD; }
+			set { isStatic_M0no_suXx_h4rD = value; }
 		}
 
-		private bool isFinal\u0303;
+		private bool isFinal_M0no_suXx_h4rD;
 		public bool @isFinal
 		{
-			get { return isFinal\u0303; }
-			set { isFinal\u0303 = value; }
+			get { return isFinal_M0no_suXx_h4rD; }
+			set { isFinal_M0no_suXx_h4rD = value; }
 		}
 		public override object GetAttribute(string attrName)
 		{
@@ -1700,7 +1700,7 @@ namespace de.unika.ipd.grGen.Model_JavaProgramGraphs
 
 		private @Access(GRGEN_MODEL.@Access oldElem) : base(GRGEN_MODEL.NodeType_Access.typeVar)
 		{
-			this\u0303 = oldElem.this\u0303;
+			this_M0no_suXx_h4rD = oldElem.this_M0no_suXx_h4rD;
 		}
 		public static GRGEN_MODEL.@Access CreateNode(GRGEN_LGSP.LGSPGraph graph)
 		{
@@ -1749,11 +1749,11 @@ namespace de.unika.ipd.grGen.Model_JavaProgramGraphs
 		}
 
 
-		private bool this\u0303;
+		private bool this_M0no_suXx_h4rD;
 		public bool @this
 		{
-			get { return this\u0303; }
-			set { this\u0303 = value; }
+			get { return this_M0no_suXx_h4rD; }
+			set { this_M0no_suXx_h4rD = value; }
 		}
 		public override object GetAttribute(string attrName)
 		{
@@ -1874,7 +1874,7 @@ namespace de.unika.ipd.grGen.Model_JavaProgramGraphs
 
 		private @Update(GRGEN_MODEL.@Update oldElem) : base(GRGEN_MODEL.NodeType_Update.typeVar)
 		{
-			this\u0303 = oldElem.this\u0303;
+			this_M0no_suXx_h4rD = oldElem.this_M0no_suXx_h4rD;
 		}
 		public static GRGEN_MODEL.@Update CreateNode(GRGEN_LGSP.LGSPGraph graph)
 		{
@@ -1923,11 +1923,11 @@ namespace de.unika.ipd.grGen.Model_JavaProgramGraphs
 		}
 
 
-		private bool this\u0303;
+		private bool this_M0no_suXx_h4rD;
 		public bool @this
 		{
-			get { return this\u0303; }
-			set { this\u0303 = value; }
+			get { return this_M0no_suXx_h4rD; }
+			set { this_M0no_suXx_h4rD = value; }
 		}
 		public override object GetAttribute(string attrName)
 		{
@@ -2049,8 +2049,8 @@ namespace de.unika.ipd.grGen.Model_JavaProgramGraphs
 
 		private @Call(GRGEN_MODEL.@Call oldElem) : base(GRGEN_MODEL.NodeType_Call.typeVar)
 		{
-			this\u0303 = oldElem.this\u0303;
-			super\u0303 = oldElem.super\u0303;
+			this_M0no_suXx_h4rD = oldElem.this_M0no_suXx_h4rD;
+			super_M0no_suXx_h4rD = oldElem.super_M0no_suXx_h4rD;
 		}
 		public static GRGEN_MODEL.@Call CreateNode(GRGEN_LGSP.LGSPGraph graph)
 		{
@@ -2101,18 +2101,18 @@ namespace de.unika.ipd.grGen.Model_JavaProgramGraphs
 		}
 
 
-		private bool this\u0303;
+		private bool this_M0no_suXx_h4rD;
 		public bool @this
 		{
-			get { return this\u0303; }
-			set { this\u0303 = value; }
+			get { return this_M0no_suXx_h4rD; }
+			set { this_M0no_suXx_h4rD = value; }
 		}
 
-		private bool super\u0303;
+		private bool super_M0no_suXx_h4rD;
 		public bool @super
 		{
-			get { return super\u0303; }
-			set { super\u0303 = value; }
+			get { return super_M0no_suXx_h4rD; }
+			set { super_M0no_suXx_h4rD = value; }
 		}
 		public override object GetAttribute(string attrName)
 		{
@@ -2368,7 +2368,7 @@ namespace de.unika.ipd.grGen.Model_JavaProgramGraphs
 
 		private @Operator(GRGEN_MODEL.@Operator oldElem) : base(GRGEN_MODEL.NodeType_Operator.typeVar)
 		{
-			name\u0303 = oldElem.name\u0303;
+			name_M0no_suXx_h4rD = oldElem.name_M0no_suXx_h4rD;
 		}
 		public static GRGEN_MODEL.@Operator CreateNode(GRGEN_LGSP.LGSPGraph graph)
 		{
@@ -2417,11 +2417,11 @@ namespace de.unika.ipd.grGen.Model_JavaProgramGraphs
 		}
 
 
-		private string name\u0303;
+		private string name_M0no_suXx_h4rD;
 		public string @name
 		{
-			get { return name\u0303; }
-			set { name\u0303 = value; }
+			get { return name_M0no_suXx_h4rD; }
+			set { name_M0no_suXx_h4rD = value; }
 		}
 		public override object GetAttribute(string attrName)
 		{
@@ -2793,7 +2793,7 @@ namespace de.unika.ipd.grGen.Model_JavaProgramGraphs
 
 		private @Literal(GRGEN_MODEL.@Literal oldElem) : base(GRGEN_MODEL.NodeType_Literal.typeVar)
 		{
-			value\u0303 = oldElem.value\u0303;
+			value_M0no_suXx_h4rD = oldElem.value_M0no_suXx_h4rD;
 		}
 		public static GRGEN_MODEL.@Literal CreateNode(GRGEN_LGSP.LGSPGraph graph)
 		{
@@ -2840,11 +2840,11 @@ namespace de.unika.ipd.grGen.Model_JavaProgramGraphs
 		}
 
 
-		private string value\u0303;
+		private string value_M0no_suXx_h4rD;
 		public string @value
 		{
-			get { return value\u0303; }
-			set { value\u0303 = value; }
+			get { return value_M0no_suXx_h4rD; }
+			set { value_M0no_suXx_h4rD = value; }
 		}
 		public override object GetAttribute(string attrName)
 		{
@@ -4359,7 +4359,7 @@ namespace de.unika.ipd.grGen.Model_JavaProgramGraphs
 		private @parameter(GRGEN_MODEL.@parameter oldElem, GRGEN_LGSP.LGSPNode newSource, GRGEN_LGSP.LGSPNode newTarget)
 			: base(GRGEN_MODEL.EdgeType_parameter.typeVar, newSource, newTarget)
 		{
-			order\u0303 = oldElem.order\u0303;
+			order_M0no_suXx_h4rD = oldElem.order_M0no_suXx_h4rD;
 		}
 		public static GRGEN_MODEL.@parameter CreateEdge(GRGEN_LGSP.LGSPGraph graph, GRGEN_LGSP.LGSPNode source, GRGEN_LGSP.LGSPNode target)
 		{
@@ -4406,11 +4406,11 @@ namespace de.unika.ipd.grGen.Model_JavaProgramGraphs
 		}
 
 
-		private int order\u0303;
+		private int order_M0no_suXx_h4rD;
 		public int @order
 		{
-			get { return order\u0303; }
-			set { order\u0303 = value; }
+			get { return order_M0no_suXx_h4rD; }
+			set { order_M0no_suXx_h4rD = value; }
 		}
 		public override object GetAttribute(string attrName)
 		{
@@ -4906,7 +4906,7 @@ namespace de.unika.ipd.grGen.Model_JavaProgramGraphs
 		private @expression(GRGEN_MODEL.@expression oldElem, GRGEN_LGSP.LGSPNode newSource, GRGEN_LGSP.LGSPNode newTarget)
 			: base(GRGEN_MODEL.EdgeType_expression.typeVar, newSource, newTarget)
 		{
-			order\u0303 = oldElem.order\u0303;
+			order_M0no_suXx_h4rD = oldElem.order_M0no_suXx_h4rD;
 		}
 		public static GRGEN_MODEL.@expression CreateEdge(GRGEN_LGSP.LGSPGraph graph, GRGEN_LGSP.LGSPNode source, GRGEN_LGSP.LGSPNode target)
 		{
@@ -4953,11 +4953,11 @@ namespace de.unika.ipd.grGen.Model_JavaProgramGraphs
 		}
 
 
-		private int order\u0303;
+		private int order_M0no_suXx_h4rD;
 		public int @order
 		{
-			get { return order\u0303; }
-			set { order\u0303 = value; }
+			get { return order_M0no_suXx_h4rD; }
+			set { order_M0no_suXx_h4rD = value; }
 		}
 		public override object GetAttribute(string attrName)
 		{

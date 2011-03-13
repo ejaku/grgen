@@ -1,7 +1,7 @@
 // This file has been generated automatically by GrGen (www.grgen.net)
 // Do not modify this file! Any changes will be lost!
 // Rename this file or use a copy!
-// Generated from "test.grg" on Sun Feb 06 21:14:10 CET 2011
+// Generated from "test.grg" on Sun Mar 13 18:12:51 CET 2011
 
 using System;
 using System.Collections.Generic;
@@ -19,62 +19,62 @@ namespace test
 
 		private D231_4121_Impl(D231_4121_Impl oldElem) : base()
 		{
-			a2\u0303 = oldElem.a2\u0303;
-			b23\u0303 = oldElem.b23\u0303;
-			a4\u0303 = oldElem.a4\u0303;
-			b41\u0303 = oldElem.b41\u0303;
-			b42\u0303 = oldElem.b42\u0303;
-			a5\u0303 = oldElem.a5\u0303;
-			d231_4121\u0303 = oldElem.d231_4121\u0303;
+			a2_M0no_suXx_h4rD = oldElem.a2_M0no_suXx_h4rD;
+			b23_M0no_suXx_h4rD = oldElem.b23_M0no_suXx_h4rD;
+			a4_M0no_suXx_h4rD = oldElem.a4_M0no_suXx_h4rD;
+			b41_M0no_suXx_h4rD = oldElem.b41_M0no_suXx_h4rD;
+			b42_M0no_suXx_h4rD = oldElem.b42_M0no_suXx_h4rD;
+			a5_M0no_suXx_h4rD = oldElem.a5_M0no_suXx_h4rD;
+			d231_4121_M0no_suXx_h4rD = oldElem.d231_4121_M0no_suXx_h4rD;
 		}
 
-		private int a2\u0303;
+		private int a2_M0no_suXx_h4rD;
 		public override int @a2
 		{
-			get { return a2\u0303; }
-			set { a2\u0303 = value; }
+			get { return a2_M0no_suXx_h4rD; }
+			set { a2_M0no_suXx_h4rD = value; }
 		}
 
-		private int b23\u0303;
+		private int b23_M0no_suXx_h4rD;
 		public override int @b23
 		{
-			get { return b23\u0303; }
-			set { b23\u0303 = value; }
+			get { return b23_M0no_suXx_h4rD; }
+			set { b23_M0no_suXx_h4rD = value; }
 		}
 
-		private int a4\u0303;
+		private int a4_M0no_suXx_h4rD;
 		public override int @a4
 		{
-			get { return a4\u0303; }
-			set { a4\u0303 = value; }
+			get { return a4_M0no_suXx_h4rD; }
+			set { a4_M0no_suXx_h4rD = value; }
 		}
 
-		private int b41\u0303;
+		private int b41_M0no_suXx_h4rD;
 		public override int @b41
 		{
-			get { return b41\u0303; }
-			set { b41\u0303 = value; }
+			get { return b41_M0no_suXx_h4rD; }
+			set { b41_M0no_suXx_h4rD = value; }
 		}
 
-		private int b42\u0303;
+		private int b42_M0no_suXx_h4rD;
 		public override int @b42
 		{
-			get { return b42\u0303; }
-			set { b42\u0303 = value; }
+			get { return b42_M0no_suXx_h4rD; }
+			set { b42_M0no_suXx_h4rD = value; }
 		}
 
-		private int a5\u0303;
+		private int a5_M0no_suXx_h4rD;
 		public override int @a5
 		{
-			get { return a5\u0303; }
-			set { a5\u0303 = value; }
+			get { return a5_M0no_suXx_h4rD; }
+			set { a5_M0no_suXx_h4rD = value; }
 		}
 
-		private int d231_4121\u0303;
+		private int d231_4121_M0no_suXx_h4rD;
 		public override int @d231_4121
 		{
-			get { return d231_4121\u0303; }
-			set { d231_4121\u0303 = value; }
+			get { return d231_4121_M0no_suXx_h4rD; }
+			set { d231_4121_M0no_suXx_h4rD = value; }
 		}
 	}
 }

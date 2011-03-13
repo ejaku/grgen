@@ -1,6 +1,6 @@
 // This file has been generated automatically by GrGen (www.grgen.net)
 // Do not modify this file! Any changes will be lost!
-// Generated from "test.grg" on Sun Feb 06 21:14:10 CET 2011
+// Generated from "test.grg" on Sun Mar 13 18:12:51 CET 2011
 
 using System;
 using System.Collections.Generic;
@@ -61,8 +61,6 @@ namespace de.unika.ipd.grGen.Action_test
 				{ false, false, },
 				{ false, false, },
 			};
-			int[] testRule_minMatches = new int[0] ;
-			int[] testRule_maxMatches = new int[0] ;
 			GRGEN_LGSP.PatternNode testRule_node_a = new GRGEN_LGSP.PatternNode((int) GRGEN_MODEL.NodeTypes.@D231_4121, "GRGEN_MODEL.ID231_4121", "testRule_node_a", "a", testRule_node_a_AllowedTypes, testRule_node_a_IsAllowedType, 5.5F, -1, false, null, null, null, null);
 			GRGEN_LGSP.PatternNode testRule_node_f = new GRGEN_LGSP.PatternNode((int) GRGEN_MODEL.NodeTypes.@B21, "GRGEN_MODEL.IB21", "testRule_node_f", "f", testRule_node_f_AllowedTypes, testRule_node_f_IsAllowedType, 5.5F, -1, false, null, null, null, null);
 			GRGEN_LGSP.PatternNode testRule_node_m = new GRGEN_LGSP.PatternNode((int) GRGEN_MODEL.NodeTypes.@D2211_2222_31, "GRGEN_MODEL.ID2211_2222_31", "testRule_node_m", "m", testRule_node_m_AllowedTypes, testRule_node_m_IsAllowedType, 5.5F, -1, false, null, null, null, null);
@@ -77,9 +75,7 @@ namespace de.unika.ipd.grGen.Action_test
 				new GRGEN_LGSP.PatternVariable[] {  }, 
 				new GRGEN_LGSP.PatternGraphEmbedding[] {  }, 
 				new GRGEN_LGSP.Alternative[] {  }, 
-				new GRGEN_LGSP.PatternGraph[] {  }, 
-				testRule_minMatches,
-				testRule_maxMatches,
+				new GRGEN_LGSP.Iterated[] {  }, 
 				new GRGEN_LGSP.PatternGraph[] {  }, 
 				new GRGEN_LGSP.PatternGraph[] {  }, 
 				new GRGEN_LGSP.PatternCondition[] {  }, 
@@ -269,7 +265,7 @@ namespace de.unika.ipd.grGen.Action_test
 			subpatterns = new GRGEN_LGSP.LGSPMatchingPattern[0];
 			rules = new GRGEN_LGSP.LGSPRulePattern[1];
 			rulesAndSubpatterns = new GRGEN_LGSP.LGSPMatchingPattern[0+1];
-			definedSequences = new GRGEN_LGSP.LGSPDefinedSequenceInfo[0];
+			definedSequences = new GRGEN_LIBGR.DefinedSequenceInfo[0];
 			rules[0] = Rule_testRule.Instance;
 			rulesAndSubpatterns[0+0] = Rule_testRule.Instance;
 		}
@@ -279,8 +275,8 @@ namespace de.unika.ipd.grGen.Action_test
 		private GRGEN_LGSP.LGSPMatchingPattern[] subpatterns;
 		public override GRGEN_LGSP.LGSPMatchingPattern[] RulesAndSubpatterns { get { return rulesAndSubpatterns; } }
 		private GRGEN_LGSP.LGSPMatchingPattern[] rulesAndSubpatterns;
-		public override GRGEN_LGSP.LGSPDefinedSequenceInfo[] DefinedSequences { get { return definedSequences; } }
-		private GRGEN_LGSP.LGSPDefinedSequenceInfo[] definedSequences;
+		public override GRGEN_LIBGR.DefinedSequenceInfo[] DefinedSequences { get { return definedSequences; } }
+		private GRGEN_LIBGR.DefinedSequenceInfo[] definedSequences;
 	}
 
 

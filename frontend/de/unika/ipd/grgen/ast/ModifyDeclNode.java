@@ -121,15 +121,19 @@ public class ModifyDeclNode extends RhsDeclNode {
 		Collection<Entity> deleteSet = new HashSet<Entity>();
 		for(BaseNode n : delete.getChildren()) {
 			if(!(n instanceof SubpatternUsageNode)) {
-				deleteSet.add(n.checkIR(Entity.class));
-				if(n.checkIR(Entity.class) instanceof Node) {
-					Node node = n.checkIR(Node.class);
+				ConstraintDeclNode el = (ConstraintDeclNode)n;
+				Entity ent = el.checkIR(Entity.class);
+				deleteSet.add(ent);
+				if(el.defEntityToBeYieldedTo) 
+					ent.setPatternGraphDefYieldedIsToBeDeleted(right);
+				if(ent instanceof Node) {
+					Node node = el.checkIR(Node.class);
 					if(!left.hasNode(node) && node.directlyNestingLHSGraph!=left) {
 						left.addSingleNode(node);
 						left.addHomToAll(node);
 					}
 				} else {
-					Edge edge = n.checkIR(Edge.class);
+					Edge edge = el.checkIR(Edge.class);
 					if(!left.hasEdge(edge) && edge.directlyNestingLHSGraph!=left) {
 						left.addSingleEdge(edge);
 						left.addHomToAll(edge);
@@ -299,8 +303,10 @@ public class ModifyDeclNode extends RhsDeclNode {
 				continue;
 			}
 
-			for (BaseNode y : deletes) {
+			for (DeclNode y : deletes) {
 				if (elem.equals(y)) {
+					if(elem instanceof ConstraintDeclNode && ((ConstraintDeclNode)elem).defEntityToBeYieldedTo)
+						continue;
 					x.reportWarning("\"" + y + "\" appears inside as well as outside a delete statement");
 					alreadyReported.add(elem);
 				}

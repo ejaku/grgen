@@ -1,0 +1,31 @@
+rule r
+{
+	iterated foo {
+		y:Node;
+
+		modify {
+			x --> y;
+		}
+	}
+	
+	modify {
+		x:Node;
+		iterated foo;
+	}
+}
+
+pattern p
+{
+	iterated foo {
+		y:Node;
+
+		modify {
+			x --> y;
+		}
+	}
+	
+	modify {
+		x:Node;
+		iterated foo;
+	}
+}

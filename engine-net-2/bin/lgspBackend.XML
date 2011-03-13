@@ -687,40 +687,6 @@
             Try to match independent pattern.
             </summary>
         </member>
-        <member name="T:de.unika.ipd.grGen.lgsp.LGSPEmbeddedSequenceInfo">
-            <summary>
-            Represents an XGRS used in an exec statement.
-            </summary>
-        </member>
-        <member name="M:de.unika.ipd.grGen.lgsp.LGSPEmbeddedSequenceInfo.#ctor(System.String[],de.unika.ipd.grGen.libGr.GrGenType[],de.unika.ipd.grGen.libGr.GrGenType[],System.String)">
-            <summary>
-            Constructs an LGSPEmbeddedSequenceInfo object.
-            </summary>
-            <param name="parameters">The names of the needed graph elements of the containing action.</param>
-            <param name="parameterTypes">The types of the needed graph elements of the containing action.</param>
-            <param name="outParameterTypes">The types of the graph elements returned to the containing action.</param>
-            <param name="xgrs">The XGRS string.</param>
-        </member>
-        <member name="F:de.unika.ipd.grGen.lgsp.LGSPEmbeddedSequenceInfo.Parameters">
-            <summary>
-            The names of the needed graph elements of the containing action.
-            </summary>
-        </member>
-        <member name="F:de.unika.ipd.grGen.lgsp.LGSPEmbeddedSequenceInfo.ParameterTypes">
-            <summary>
-            The types of the needed graph elements of the containing action.
-            </summary>
-        </member>
-        <member name="F:de.unika.ipd.grGen.lgsp.LGSPEmbeddedSequenceInfo.OutParameterTypes">
-            <summary>
-            The types of the graph elements returned to the containing action.
-            </summary>
-        </member>
-        <member name="F:de.unika.ipd.grGen.lgsp.LGSPEmbeddedSequenceInfo.XGRS">
-            <summary>
-            The XGRS string.
-            </summary>
-        </member>
         <member name="T:de.unika.ipd.grGen.lgsp.LGSPEmbeddedSequenceClosure">
             <summary>
             A closure for an exec statement in an alternative, iterated or subpattern,
@@ -737,35 +703,14 @@
             <param name="graph">the graph on which to apply the sequence</param>
             <returns>the result of sequence execution</returns>
         </member>
-        <member name="T:de.unika.ipd.grGen.lgsp.LGSPDefinedSequenceInfo">
-            <summary>
-            Represents a sequence definition.
-            </summary>
-        </member>
-        <member name="M:de.unika.ipd.grGen.lgsp.LGSPDefinedSequenceInfo.#ctor(System.String[],de.unika.ipd.grGen.libGr.GrGenType[],System.String[],de.unika.ipd.grGen.libGr.GrGenType[],System.String,System.String)">
-            <summary>
-            Constructs an LGSPEmbeddedSequenceInfo object.
-            </summary>
-            <param name="parameters">The names of the needed graph elements of the containing action.</param>
-            <param name="parameterTypes">The types of the needed graph elements of the containing action.</param>
-            <param name="outParameters">The names of the needed graph elements returned to the containing action.</param>
-            <param name="outParameterTypes">The types of the graph elements returned to the containing action.</param>
-            <param name="name">The name the sequence was defined with.</param>
-            <param name="xgrs">The XGRS string.</param>
-        </member>
-        <member name="F:de.unika.ipd.grGen.lgsp.LGSPDefinedSequenceInfo.Name">
-            <summary>
-            The name the sequence was defined with
-            </summary>
-        </member>
-        <member name="F:de.unika.ipd.grGen.lgsp.LGSPDefinedSequenceInfo.OutParameters">
-            <summary>
-            The names of the graph elements returned to the containing action.
-            </summary>
-        </member>
         <member name="T:de.unika.ipd.grGen.lgsp.LGSPSequenceGenerator">
             <summary>
             The C#-part responsible for compiling the XGRSs of the exec statements.
+            </summary>
+        </member>
+        <member name="M:de.unika.ipd.grGen.lgsp.LGSPSequenceGenerator.#ctor(de.unika.ipd.grGen.lgsp.LGSPGrGen,de.unika.ipd.grGen.libGr.IGraphModel,System.Collections.Generic.Dictionary{System.String,System.Collections.Generic.List{System.String}},System.Collections.Generic.Dictionary{System.String,System.Collections.Generic.List{System.String}},System.Collections.Generic.Dictionary{System.String,System.Collections.Generic.List{System.String}},System.Collections.Generic.Dictionary{System.String,System.Collections.Generic.List{System.String}})">
+            <summary>
+            Constructs the sequence generator
             </summary>
         </member>
         <member name="M:de.unika.ipd.grGen.lgsp.LGSPSequenceGenerator.GetVar(de.unika.ipd.grGen.libGr.SequenceVariable)">
@@ -3381,18 +3326,7 @@
         </member>
         <member name="F:de.unika.ipd.grGen.lgsp.PatternGraph.iterateds">
             <summary>
-            An array of iterated patterns, each iterated is matched at least as specified in minMatches and at most as specified in maxMatches.
-            </summary>
-        </member>
-        <member name="F:de.unika.ipd.grGen.lgsp.PatternGraph.minMatches">
-            <summary>
-            An array of integers specifiying how often the corresponding(by array position) iterated pattern must get matched at least
-            </summary>
-        </member>
-        <member name="F:de.unika.ipd.grGen.lgsp.PatternGraph.maxMatches">
-            <summary>
-            An array of integers specifiying how often the corresponding(by array position) iterated pattern must get matched at most,
-            with 0 meaning unlimited / as often as possible
+            An array of iterateds, each iterated is matched as often as possible within the specified bounds.
             </summary>
         </member>
         <member name="F:de.unika.ipd.grGen.lgsp.PatternGraph.negativePatternGraphs">
@@ -3417,7 +3351,7 @@
             The conditions used in this pattern graph or it's nested graphs
             </summary>
         </member>
-        <member name="M:de.unika.ipd.grGen.lgsp.PatternGraph.#ctor(System.String,System.String,System.Boolean,de.unika.ipd.grGen.lgsp.PatternNode[],de.unika.ipd.grGen.lgsp.PatternEdge[],de.unika.ipd.grGen.lgsp.PatternVariable[],de.unika.ipd.grGen.lgsp.PatternGraphEmbedding[],de.unika.ipd.grGen.lgsp.Alternative[],de.unika.ipd.grGen.lgsp.PatternGraph[],System.Int32[],System.Int32[],de.unika.ipd.grGen.lgsp.PatternGraph[],de.unika.ipd.grGen.lgsp.PatternGraph[],de.unika.ipd.grGen.lgsp.PatternCondition[],System.Boolean[0:,0:],System.Boolean[0:,0:],System.Boolean[0:,0:],System.Boolean[0:,0:])">
+        <member name="M:de.unika.ipd.grGen.lgsp.PatternGraph.#ctor(System.String,System.String,System.Boolean,de.unika.ipd.grGen.lgsp.PatternNode[],de.unika.ipd.grGen.lgsp.PatternEdge[],de.unika.ipd.grGen.lgsp.PatternVariable[],de.unika.ipd.grGen.lgsp.PatternGraphEmbedding[],de.unika.ipd.grGen.lgsp.Alternative[],de.unika.ipd.grGen.lgsp.Iterated[],de.unika.ipd.grGen.lgsp.PatternGraph[],de.unika.ipd.grGen.lgsp.PatternGraph[],de.unika.ipd.grGen.lgsp.PatternCondition[],System.Boolean[0:,0:],System.Boolean[0:,0:],System.Boolean[0:,0:],System.Boolean[0:,0:])">
             <summary>
             Constructs a PatternGraph object.
             </summary>
@@ -3431,10 +3365,7 @@
             i.e. subpatterns and the way they are connected to the pattern.</param>
             <param name="alternatives">An array of alternatives, each alternative contains
             in its cases the subpatterns to choose out of.</param>
-            <param name="iterateds">An array of iterated patterns, each iterated is matched as often as possible.</param>
-            <param name="minMatches"> An array of integers specifiying how often the corresponding(by array position) iterated pattern must get matched at least.</param>
-            <param name="maxMatches"> An array of integers specifiying how often the corresponding(by array position) iterated pattern must get matched at most,
-            with 0 meaning unlimited / as often as possible.</param>
+            <param name="iterateds">An array of iterated patterns, each iterated is matched as often as possible within the specified bounds.</param>
             <param name="negativePatternGraphs">An array of negative pattern graphs which make the
             search fail if they get matched (NACs - Negative Application Conditions).</param>
             <param name="conditions">The conditions used in this pattern graph or it's nested graphs.</param>
@@ -3565,17 +3496,7 @@
         </member>
         <member name="P:de.unika.ipd.grGen.lgsp.PatternGraph.Iterateds">
             <summary>
-            An array of iterateds, each iterated is matched as often as possible.
-            </summary>
-        </member>
-        <member name="P:de.unika.ipd.grGen.lgsp.PatternGraph.IteratedsMinMatches">
-            <summary>
-            An array with the lower bounds the iterated patterns have to be matched to be valid.
-            </summary>
-        </member>
-        <member name="P:de.unika.ipd.grGen.lgsp.PatternGraph.IteratedsMaxMatches">
-            <summary>
-            An array with the upper bounds the iterated patterns have to be matched to be valid.
+            An array of iterateds, each iterated is matched as often as possible within the specified bounds.
             </summary>
         </member>
         <member name="P:de.unika.ipd.grGen.lgsp.PatternGraph.NegativePatternGraphs">
@@ -3703,6 +3624,48 @@
         <member name="P:de.unika.ipd.grGen.lgsp.Alternative.AlternativeCases">
             <summary>
             Array with the alternative cases.
+            </summary>
+        </member>
+        <member name="T:de.unika.ipd.grGen.lgsp.Iterated">
+            <summary>
+            An iterated is a pattern graph element containing the subpattern to be matched iteratively
+            and the information how much matches are needed for success and how much matches to obtain at most
+            </summary>
+        </member>
+        <member name="F:de.unika.ipd.grGen.lgsp.Iterated.iteratedPattern">
+             <summary>
+            The iterated pattern to be matched as often as possible within specified bounds.
+             </summary>
+        </member>
+        <member name="F:de.unika.ipd.grGen.lgsp.Iterated.minMatches">
+            <summary>
+            How many matches to find so the iterated succeeds.
+            </summary>
+        </member>
+        <member name="F:de.unika.ipd.grGen.lgsp.Iterated.maxMatches">
+            <summary>
+            The upper bound to stop matching at, 0 means unlimited.
+            </summary>
+        </member>
+        <member name="M:de.unika.ipd.grGen.lgsp.Iterated.#ctor(de.unika.ipd.grGen.lgsp.PatternGraph,System.Int32,System.Int32)">
+            <summary>
+            Constructs an Iterated object.
+            </summary>
+            <param name="iterated">PatternGraph of the iterated.</param>
+        </member>
+        <member name="P:de.unika.ipd.grGen.lgsp.Iterated.IteratedPattern">
+             <summary>
+            The iterated pattern to be matched as often as possible within specified bounds.
+             </summary>
+        </member>
+        <member name="P:de.unika.ipd.grGen.lgsp.Iterated.MinMatches">
+            <summary>
+            How many matches to find so the iterated succeeds.
+            </summary>
+        </member>
+        <member name="P:de.unika.ipd.grGen.lgsp.Iterated.MaxMatches">
+            <summary>
+            The upper bound to stop matching at, 0 means unlimited/as often as possible.
             </summary>
         </member>
         <member name="T:de.unika.ipd.grGen.lgsp.LGSPMatchingPattern">

@@ -1,6 +1,6 @@
 // This file has been generated automatically by GrGen (www.grgen.net)
 // Do not modify this file! Any changes will be lost!
-// Generated from "..\..\tests\TNT\TNT.grg" on Sun Feb 06 21:14:44 CET 2011
+// Generated from "..\..\tests\TNT\TNT.grg" on Sun Mar 13 18:13:36 CET 2011
 
 using System;
 using System.Collections.Generic;
@@ -89,8 +89,6 @@ namespace de.unika.ipd.grGen.Action_TNT
 				{ false, false, false, false, false, false, false, false, false, },
 				{ false, false, false, false, false, false, false, false, false, },
 			};
-			int[] BenzolRing_minMatches = new int[0] ;
-			int[] BenzolRing_maxMatches = new int[0] ;
 			GRGEN_LGSP.PatternNode BenzolRing_node_c1 = new GRGEN_LGSP.PatternNode((int) GRGEN_MODEL.NodeTypes.@C, "GRGEN_MODEL.IC", "BenzolRing_node_c1", "c1", BenzolRing_node_c1_AllowedTypes, BenzolRing_node_c1_IsAllowedType, 5.5F, -1, false, null, null, null, null);
 			GRGEN_LGSP.PatternNode BenzolRing_node_c2 = new GRGEN_LGSP.PatternNode((int) GRGEN_MODEL.NodeTypes.@C, "GRGEN_MODEL.IC", "BenzolRing_node_c2", "c2", BenzolRing_node_c2_AllowedTypes, BenzolRing_node_c2_IsAllowedType, 5.5F, -1, false, null, null, null, null);
 			GRGEN_LGSP.PatternNode BenzolRing_node_c3 = new GRGEN_LGSP.PatternNode((int) GRGEN_MODEL.NodeTypes.@C, "GRGEN_MODEL.IC", "BenzolRing_node_c3", "c3", BenzolRing_node_c3_AllowedTypes, BenzolRing_node_c3_IsAllowedType, 5.5F, -1, false, null, null, null, null);
@@ -115,9 +113,7 @@ namespace de.unika.ipd.grGen.Action_TNT
 				new GRGEN_LGSP.PatternVariable[] {  }, 
 				new GRGEN_LGSP.PatternGraphEmbedding[] {  }, 
 				new GRGEN_LGSP.Alternative[] {  }, 
-				new GRGEN_LGSP.PatternGraph[] {  }, 
-				BenzolRing_minMatches,
-				BenzolRing_maxMatches,
+				new GRGEN_LGSP.Iterated[] {  }, 
 				new GRGEN_LGSP.PatternGraph[] {  }, 
 				new GRGEN_LGSP.PatternGraph[] {  }, 
 				new GRGEN_LGSP.PatternCondition[] {  }, 
@@ -485,8 +481,6 @@ namespace de.unika.ipd.grGen.Action_TNT
 				{ false, false, false, false, false, false, false, false, false, },
 				{ false, false, false, false, false, false, false, false, false, },
 			};
-			int[] BenzolRingC123456Exposed_minMatches = new int[0] ;
-			int[] BenzolRingC123456Exposed_maxMatches = new int[0] ;
 			GRGEN_LGSP.PatternNode BenzolRingC123456Exposed_node_c1 = new GRGEN_LGSP.PatternNode((int) GRGEN_MODEL.NodeTypes.@C, "GRGEN_MODEL.IC", "BenzolRingC123456Exposed_node_c1", "c1", BenzolRingC123456Exposed_node_c1_AllowedTypes, BenzolRingC123456Exposed_node_c1_IsAllowedType, 5.5F, 0, false, null, null, null, null);
 			GRGEN_LGSP.PatternNode BenzolRingC123456Exposed_node_c2 = new GRGEN_LGSP.PatternNode((int) GRGEN_MODEL.NodeTypes.@C, "GRGEN_MODEL.IC", "BenzolRingC123456Exposed_node_c2", "c2", BenzolRingC123456Exposed_node_c2_AllowedTypes, BenzolRingC123456Exposed_node_c2_IsAllowedType, 5.5F, 1, false, null, null, null, null);
 			GRGEN_LGSP.PatternNode BenzolRingC123456Exposed_node_c3 = new GRGEN_LGSP.PatternNode((int) GRGEN_MODEL.NodeTypes.@C, "GRGEN_MODEL.IC", "BenzolRingC123456Exposed_node_c3", "c3", BenzolRingC123456Exposed_node_c3_AllowedTypes, BenzolRingC123456Exposed_node_c3_IsAllowedType, 5.5F, 2, false, null, null, null, null);
@@ -511,9 +505,7 @@ namespace de.unika.ipd.grGen.Action_TNT
 				new GRGEN_LGSP.PatternVariable[] {  }, 
 				new GRGEN_LGSP.PatternGraphEmbedding[] {  }, 
 				new GRGEN_LGSP.Alternative[] {  }, 
-				new GRGEN_LGSP.PatternGraph[] {  }, 
-				BenzolRingC123456Exposed_minMatches,
-				BenzolRingC123456Exposed_maxMatches,
+				new GRGEN_LGSP.Iterated[] {  }, 
 				new GRGEN_LGSP.PatternGraph[] {  }, 
 				new GRGEN_LGSP.PatternGraph[] {  }, 
 				new GRGEN_LGSP.PatternCondition[] {  }, 
@@ -857,8 +849,6 @@ namespace de.unika.ipd.grGen.Action_TNT
 				{ false, false, false, false, false, false, false, false, false, },
 				{ false, false, false, false, false, false, false, false, false, },
 			};
-			int[] BenzolRingC1Exposed_minMatches = new int[0] ;
-			int[] BenzolRingC1Exposed_maxMatches = new int[0] ;
 			GRGEN_LGSP.PatternNode BenzolRingC1Exposed_node_c1 = new GRGEN_LGSP.PatternNode((int) GRGEN_MODEL.NodeTypes.@C, "GRGEN_MODEL.IC", "BenzolRingC1Exposed_node_c1", "c1", BenzolRingC1Exposed_node_c1_AllowedTypes, BenzolRingC1Exposed_node_c1_IsAllowedType, 5.5F, 0, false, null, null, null, null);
 			GRGEN_LGSP.PatternNode BenzolRingC1Exposed_node_c2 = new GRGEN_LGSP.PatternNode((int) GRGEN_MODEL.NodeTypes.@C, "GRGEN_MODEL.IC", "BenzolRingC1Exposed_node_c2", "c2", BenzolRingC1Exposed_node_c2_AllowedTypes, BenzolRingC1Exposed_node_c2_IsAllowedType, 5.5F, -1, false, null, null, null, null);
 			GRGEN_LGSP.PatternNode BenzolRingC1Exposed_node_c3 = new GRGEN_LGSP.PatternNode((int) GRGEN_MODEL.NodeTypes.@C, "GRGEN_MODEL.IC", "BenzolRingC1Exposed_node_c3", "c3", BenzolRingC1Exposed_node_c3_AllowedTypes, BenzolRingC1Exposed_node_c3_IsAllowedType, 5.5F, -1, false, null, null, null, null);
@@ -883,9 +873,7 @@ namespace de.unika.ipd.grGen.Action_TNT
 				new GRGEN_LGSP.PatternVariable[] {  }, 
 				new GRGEN_LGSP.PatternGraphEmbedding[] {  }, 
 				new GRGEN_LGSP.Alternative[] {  }, 
-				new GRGEN_LGSP.PatternGraph[] {  }, 
-				BenzolRingC1Exposed_minMatches,
-				BenzolRingC1Exposed_maxMatches,
+				new GRGEN_LGSP.Iterated[] {  }, 
 				new GRGEN_LGSP.PatternGraph[] {  }, 
 				new GRGEN_LGSP.PatternGraph[] {  }, 
 				new GRGEN_LGSP.PatternCondition[] {  }, 
@@ -1270,8 +1258,6 @@ namespace de.unika.ipd.grGen.Action_TNT
 				{ false, false, false, false, false, false, false, false, false, },
 				{ false, false, false, false, false, false, false, false, false, },
 			};
-			int[] BenzolRingC1ExposedNotC6Nitro_minMatches = new int[0] ;
-			int[] BenzolRingC1ExposedNotC6Nitro_maxMatches = new int[0] ;
 			GRGEN_LGSP.PatternNode BenzolRingC1ExposedNotC6Nitro_node_c1 = new GRGEN_LGSP.PatternNode((int) GRGEN_MODEL.NodeTypes.@C, "GRGEN_MODEL.IC", "BenzolRingC1ExposedNotC6Nitro_node_c1", "c1", BenzolRingC1ExposedNotC6Nitro_node_c1_AllowedTypes, BenzolRingC1ExposedNotC6Nitro_node_c1_IsAllowedType, 5.5F, 0, false, null, null, null, null);
 			GRGEN_LGSP.PatternNode BenzolRingC1ExposedNotC6Nitro_node_c2 = new GRGEN_LGSP.PatternNode((int) GRGEN_MODEL.NodeTypes.@C, "GRGEN_MODEL.IC", "BenzolRingC1ExposedNotC6Nitro_node_c2", "c2", BenzolRingC1ExposedNotC6Nitro_node_c2_AllowedTypes, BenzolRingC1ExposedNotC6Nitro_node_c2_IsAllowedType, 5.5F, -1, false, null, null, null, null);
 			GRGEN_LGSP.PatternNode BenzolRingC1ExposedNotC6Nitro_node_c3 = new GRGEN_LGSP.PatternNode((int) GRGEN_MODEL.NodeTypes.@C, "GRGEN_MODEL.IC", "BenzolRingC1ExposedNotC6Nitro_node_c3", "c3", BenzolRingC1ExposedNotC6Nitro_node_c3_AllowedTypes, BenzolRingC1ExposedNotC6Nitro_node_c3_IsAllowedType, 5.5F, -1, false, null, null, null, null);
@@ -1298,8 +1284,6 @@ namespace de.unika.ipd.grGen.Action_TNT
 				{ false, false, false, },
 				{ false, false, false, },
 			};
-			int[] BenzolRingC1ExposedNotC6Nitro_neg_0_minMatches = new int[0] ;
-			int[] BenzolRingC1ExposedNotC6Nitro_neg_0_maxMatches = new int[0] ;
 			GRGEN_LGSP.PatternNode BenzolRingC1ExposedNotC6Nitro_neg_0_node_n = new GRGEN_LGSP.PatternNode((int) GRGEN_MODEL.NodeTypes.@N, "GRGEN_MODEL.IN", "BenzolRingC1ExposedNotC6Nitro_neg_0_node_n", "n", BenzolRingC1ExposedNotC6Nitro_neg_0_node_n_AllowedTypes, BenzolRingC1ExposedNotC6Nitro_neg_0_node_n_IsAllowedType, 5.5F, -1, false, null, null, null, null);
 			GRGEN_LGSP.PatternNode BenzolRingC1ExposedNotC6Nitro_neg_0_node__node0 = new GRGEN_LGSP.PatternNode((int) GRGEN_MODEL.NodeTypes.@O, "GRGEN_MODEL.IO", "BenzolRingC1ExposedNotC6Nitro_neg_0_node__node0", "_node0", BenzolRingC1ExposedNotC6Nitro_neg_0_node__node0_AllowedTypes, BenzolRingC1ExposedNotC6Nitro_neg_0_node__node0_IsAllowedType, 5.5F, -1, false, null, null, null, null);
 			GRGEN_LGSP.PatternNode BenzolRingC1ExposedNotC6Nitro_neg_0_node__node1 = new GRGEN_LGSP.PatternNode((int) GRGEN_MODEL.NodeTypes.@O, "GRGEN_MODEL.IO", "BenzolRingC1ExposedNotC6Nitro_neg_0_node__node1", "_node1", BenzolRingC1ExposedNotC6Nitro_neg_0_node__node1_AllowedTypes, BenzolRingC1ExposedNotC6Nitro_neg_0_node__node1_IsAllowedType, 5.5F, -1, false, null, null, null, null);
@@ -1315,9 +1299,7 @@ namespace de.unika.ipd.grGen.Action_TNT
 				new GRGEN_LGSP.PatternVariable[] {  }, 
 				new GRGEN_LGSP.PatternGraphEmbedding[] {  }, 
 				new GRGEN_LGSP.Alternative[] {  }, 
-				new GRGEN_LGSP.PatternGraph[] {  }, 
-				BenzolRingC1ExposedNotC6Nitro_neg_0_minMatches,
-				BenzolRingC1ExposedNotC6Nitro_neg_0_maxMatches,
+				new GRGEN_LGSP.Iterated[] {  }, 
 				new GRGEN_LGSP.PatternGraph[] {  }, 
 				new GRGEN_LGSP.PatternGraph[] {  }, 
 				new GRGEN_LGSP.PatternCondition[] {  }, 
@@ -1351,9 +1333,7 @@ namespace de.unika.ipd.grGen.Action_TNT
 				new GRGEN_LGSP.PatternVariable[] {  }, 
 				new GRGEN_LGSP.PatternGraphEmbedding[] {  }, 
 				new GRGEN_LGSP.Alternative[] {  }, 
-				new GRGEN_LGSP.PatternGraph[] {  }, 
-				BenzolRingC1ExposedNotC6Nitro_minMatches,
-				BenzolRingC1ExposedNotC6Nitro_maxMatches,
+				new GRGEN_LGSP.Iterated[] {  }, 
 				new GRGEN_LGSP.PatternGraph[] { BenzolRingC1ExposedNotC6Nitro_neg_0,  }, 
 				new GRGEN_LGSP.PatternGraph[] {  }, 
 				new GRGEN_LGSP.PatternCondition[] {  }, 
@@ -1818,8 +1798,6 @@ namespace de.unika.ipd.grGen.Action_TNT
 				{ false, false, },
 				{ false, false, },
 			};
-			int[] Oxygen_minMatches = new int[0] ;
-			int[] Oxygen_maxMatches = new int[0] ;
 			GRGEN_LGSP.PatternNode Oxygen_node_o1 = new GRGEN_LGSP.PatternNode((int) GRGEN_MODEL.NodeTypes.@O, "GRGEN_MODEL.IO", "Oxygen_node_o1", "o1", Oxygen_node_o1_AllowedTypes, Oxygen_node_o1_IsAllowedType, 5.5F, -1, false, null, null, null, null);
 			GRGEN_LGSP.PatternNode Oxygen_node_o2 = new GRGEN_LGSP.PatternNode((int) GRGEN_MODEL.NodeTypes.@O, "GRGEN_MODEL.IO", "Oxygen_node_o2", "o2", Oxygen_node_o2_AllowedTypes, Oxygen_node_o2_IsAllowedType, 5.5F, -1, false, null, null, null, null);
 			GRGEN_LGSP.PatternEdge Oxygen_edge__edge0 = new GRGEN_LGSP.PatternEdge(true, (int) GRGEN_MODEL.EdgeTypes.@Edge, "GRGEN_LIBGR.IEdge", "Oxygen_edge__edge0", "_edge0", Oxygen_edge__edge0_AllowedTypes, Oxygen_edge__edge0_IsAllowedType, 5.5F, -1, false, null, null, null, null);
@@ -1833,9 +1811,7 @@ namespace de.unika.ipd.grGen.Action_TNT
 				new GRGEN_LGSP.PatternVariable[] {  }, 
 				new GRGEN_LGSP.PatternGraphEmbedding[] {  }, 
 				new GRGEN_LGSP.Alternative[] {  }, 
-				new GRGEN_LGSP.PatternGraph[] {  }, 
-				Oxygen_minMatches,
-				Oxygen_maxMatches,
+				new GRGEN_LGSP.Iterated[] {  }, 
 				new GRGEN_LGSP.PatternGraph[] {  }, 
 				new GRGEN_LGSP.PatternGraph[] {  }, 
 				new GRGEN_LGSP.PatternCondition[] {  }, 
@@ -2050,8 +2026,6 @@ namespace de.unika.ipd.grGen.Action_TNT
 			bool[,] Hydrogen_isEdgeHomomorphicGlobal = new bool[1, 1] {
 				{ false, },
 			};
-			int[] Hydrogen_minMatches = new int[0] ;
-			int[] Hydrogen_maxMatches = new int[0] ;
 			GRGEN_LGSP.PatternNode Hydrogen_node_anchor = new GRGEN_LGSP.PatternNode((int) GRGEN_MODEL.NodeTypes.@C, "GRGEN_MODEL.IC", "Hydrogen_node_anchor", "anchor", Hydrogen_node_anchor_AllowedTypes, Hydrogen_node_anchor_IsAllowedType, 5.5F, 0, false, null, null, null, null);
 			GRGEN_LGSP.PatternNode Hydrogen_node__node0 = new GRGEN_LGSP.PatternNode((int) GRGEN_MODEL.NodeTypes.@H, "GRGEN_MODEL.IH", "Hydrogen_node__node0", "_node0", Hydrogen_node__node0_AllowedTypes, Hydrogen_node__node0_IsAllowedType, 5.5F, -1, false, null, null, null, null);
 			GRGEN_LGSP.PatternEdge Hydrogen_edge__edge0 = new GRGEN_LGSP.PatternEdge(true, (int) GRGEN_MODEL.EdgeTypes.@Edge, "GRGEN_LIBGR.IEdge", "Hydrogen_edge__edge0", "_edge0", Hydrogen_edge__edge0_AllowedTypes, Hydrogen_edge__edge0_IsAllowedType, 5.5F, -1, false, null, null, null, null);
@@ -2064,9 +2038,7 @@ namespace de.unika.ipd.grGen.Action_TNT
 				new GRGEN_LGSP.PatternVariable[] {  }, 
 				new GRGEN_LGSP.PatternGraphEmbedding[] {  }, 
 				new GRGEN_LGSP.Alternative[] {  }, 
-				new GRGEN_LGSP.PatternGraph[] {  }, 
-				Hydrogen_minMatches,
-				Hydrogen_maxMatches,
+				new GRGEN_LGSP.Iterated[] {  }, 
 				new GRGEN_LGSP.PatternGraph[] {  }, 
 				new GRGEN_LGSP.PatternGraph[] {  }, 
 				new GRGEN_LGSP.PatternCondition[] {  }, 
@@ -2272,8 +2244,6 @@ namespace de.unika.ipd.grGen.Action_TNT
 				{ false, false, },
 				{ false, false, },
 			};
-			int[] Hydroxyl_minMatches = new int[0] ;
-			int[] Hydroxyl_maxMatches = new int[0] ;
 			GRGEN_LGSP.PatternNode Hydroxyl_node_anchor = new GRGEN_LGSP.PatternNode((int) GRGEN_MODEL.NodeTypes.@C, "GRGEN_MODEL.IC", "Hydroxyl_node_anchor", "anchor", Hydroxyl_node_anchor_AllowedTypes, Hydroxyl_node_anchor_IsAllowedType, 5.5F, 0, false, null, null, null, null);
 			GRGEN_LGSP.PatternNode Hydroxyl_node__node0 = new GRGEN_LGSP.PatternNode((int) GRGEN_MODEL.NodeTypes.@O, "GRGEN_MODEL.IO", "Hydroxyl_node__node0", "_node0", Hydroxyl_node__node0_AllowedTypes, Hydroxyl_node__node0_IsAllowedType, 5.5F, -1, false, null, null, null, null);
 			GRGEN_LGSP.PatternNode Hydroxyl_node__node1 = new GRGEN_LGSP.PatternNode((int) GRGEN_MODEL.NodeTypes.@H, "GRGEN_MODEL.IH", "Hydroxyl_node__node1", "_node1", Hydroxyl_node__node1_AllowedTypes, Hydroxyl_node__node1_IsAllowedType, 5.5F, -1, false, null, null, null, null);
@@ -2288,9 +2258,7 @@ namespace de.unika.ipd.grGen.Action_TNT
 				new GRGEN_LGSP.PatternVariable[] {  }, 
 				new GRGEN_LGSP.PatternGraphEmbedding[] {  }, 
 				new GRGEN_LGSP.Alternative[] {  }, 
-				new GRGEN_LGSP.PatternGraph[] {  }, 
-				Hydroxyl_minMatches,
-				Hydroxyl_maxMatches,
+				new GRGEN_LGSP.Iterated[] {  }, 
 				new GRGEN_LGSP.PatternGraph[] {  }, 
 				new GRGEN_LGSP.PatternGraph[] {  }, 
 				new GRGEN_LGSP.PatternCondition[] {  }, 
@@ -2529,8 +2497,6 @@ namespace de.unika.ipd.grGen.Action_TNT
 				{ false, false, false, false, },
 				{ false, false, false, false, },
 			};
-			int[] Methyl_minMatches = new int[0] ;
-			int[] Methyl_maxMatches = new int[0] ;
 			GRGEN_LGSP.PatternNode Methyl_node_anchor = new GRGEN_LGSP.PatternNode((int) GRGEN_MODEL.NodeTypes.@C, "GRGEN_MODEL.IC", "Methyl_node_anchor", "anchor", Methyl_node_anchor_AllowedTypes, Methyl_node_anchor_IsAllowedType, 5.5F, 0, false, null, null, null, null);
 			GRGEN_LGSP.PatternNode Methyl_node_c = new GRGEN_LGSP.PatternNode((int) GRGEN_MODEL.NodeTypes.@C, "GRGEN_MODEL.IC", "Methyl_node_c", "c", Methyl_node_c_AllowedTypes, Methyl_node_c_IsAllowedType, 5.5F, -1, false, null, null, null, null);
 			GRGEN_LGSP.PatternNode Methyl_node__node0 = new GRGEN_LGSP.PatternNode((int) GRGEN_MODEL.NodeTypes.@H, "GRGEN_MODEL.IH", "Methyl_node__node0", "_node0", Methyl_node__node0_AllowedTypes, Methyl_node__node0_IsAllowedType, 5.5F, -1, false, null, null, null, null);
@@ -2549,9 +2515,7 @@ namespace de.unika.ipd.grGen.Action_TNT
 				new GRGEN_LGSP.PatternVariable[] {  }, 
 				new GRGEN_LGSP.PatternGraphEmbedding[] {  }, 
 				new GRGEN_LGSP.Alternative[] {  }, 
-				new GRGEN_LGSP.PatternGraph[] {  }, 
-				Methyl_minMatches,
-				Methyl_maxMatches,
+				new GRGEN_LGSP.Iterated[] {  }, 
 				new GRGEN_LGSP.PatternGraph[] {  }, 
 				new GRGEN_LGSP.PatternGraph[] {  }, 
 				new GRGEN_LGSP.PatternCondition[] {  }, 
@@ -2826,8 +2790,6 @@ namespace de.unika.ipd.grGen.Action_TNT
 				{ false, false, false, },
 				{ false, false, false, },
 			};
-			int[] Nitro_minMatches = new int[0] ;
-			int[] Nitro_maxMatches = new int[0] ;
 			GRGEN_LGSP.PatternNode Nitro_node_anchor = new GRGEN_LGSP.PatternNode((int) GRGEN_MODEL.NodeTypes.@C, "GRGEN_MODEL.IC", "Nitro_node_anchor", "anchor", Nitro_node_anchor_AllowedTypes, Nitro_node_anchor_IsAllowedType, 5.5F, 0, false, null, null, null, null);
 			GRGEN_LGSP.PatternNode Nitro_node_n = new GRGEN_LGSP.PatternNode((int) GRGEN_MODEL.NodeTypes.@N, "GRGEN_MODEL.IN", "Nitro_node_n", "n", Nitro_node_n_AllowedTypes, Nitro_node_n_IsAllowedType, 5.5F, -1, false, null, null, null, null);
 			GRGEN_LGSP.PatternNode Nitro_node__node0 = new GRGEN_LGSP.PatternNode((int) GRGEN_MODEL.NodeTypes.@O, "GRGEN_MODEL.IO", "Nitro_node__node0", "_node0", Nitro_node__node0_AllowedTypes, Nitro_node__node0_IsAllowedType, 5.5F, -1, false, null, null, null, null);
@@ -2844,9 +2806,7 @@ namespace de.unika.ipd.grGen.Action_TNT
 				new GRGEN_LGSP.PatternVariable[] {  }, 
 				new GRGEN_LGSP.PatternGraphEmbedding[] {  }, 
 				new GRGEN_LGSP.Alternative[] {  }, 
-				new GRGEN_LGSP.PatternGraph[] {  }, 
-				Nitro_minMatches,
-				Nitro_maxMatches,
+				new GRGEN_LGSP.Iterated[] {  }, 
 				new GRGEN_LGSP.PatternGraph[] {  }, 
 				new GRGEN_LGSP.PatternGraph[] {  }, 
 				new GRGEN_LGSP.PatternCondition[] {  }, 
@@ -3087,8 +3047,6 @@ namespace de.unika.ipd.grGen.Action_TNT
 				{ false, false, false, },
 			};
 			bool[,] TriNitro_isEdgeHomomorphicGlobal = new bool[0, 0] ;
-			int[] TriNitro_minMatches = new int[0] ;
-			int[] TriNitro_maxMatches = new int[0] ;
 			GRGEN_LGSP.PatternNode TriNitro_node_c2 = new GRGEN_LGSP.PatternNode((int) GRGEN_MODEL.NodeTypes.@C, "GRGEN_MODEL.IC", "TriNitro_node_c2", "c2", TriNitro_node_c2_AllowedTypes, TriNitro_node_c2_IsAllowedType, 5.5F, 0, false, null, null, null, null);
 			GRGEN_LGSP.PatternNode TriNitro_node_c4 = new GRGEN_LGSP.PatternNode((int) GRGEN_MODEL.NodeTypes.@C, "GRGEN_MODEL.IC", "TriNitro_node_c4", "c4", TriNitro_node_c4_AllowedTypes, TriNitro_node_c4_IsAllowedType, 5.5F, 1, false, null, null, null, null);
 			GRGEN_LGSP.PatternNode TriNitro_node_c6 = new GRGEN_LGSP.PatternNode((int) GRGEN_MODEL.NodeTypes.@C, "GRGEN_MODEL.IC", "TriNitro_node_c6", "c6", TriNitro_node_c6_AllowedTypes, TriNitro_node_c6_IsAllowedType, 5.5F, 2, false, null, null, null, null);
@@ -3116,9 +3074,7 @@ namespace de.unika.ipd.grGen.Action_TNT
 				new GRGEN_LGSP.PatternVariable[] {  }, 
 				new GRGEN_LGSP.PatternGraphEmbedding[] { TriNitro__sub0, TriNitro__sub1, TriNitro__sub2 }, 
 				new GRGEN_LGSP.Alternative[] {  }, 
-				new GRGEN_LGSP.PatternGraph[] {  }, 
-				TriNitro_minMatches,
-				TriNitro_maxMatches,
+				new GRGEN_LGSP.Iterated[] {  }, 
 				new GRGEN_LGSP.PatternGraph[] {  }, 
 				new GRGEN_LGSP.PatternGraph[] {  }, 
 				new GRGEN_LGSP.PatternCondition[] {  }, 
@@ -3340,8 +3296,6 @@ namespace de.unika.ipd.grGen.Action_TNT
 				{ false, false, false, false, false, false, },
 			};
 			bool[,] ToluolCoreThenTriNitro_isEdgeHomomorphicGlobal = new bool[0, 0] ;
-			int[] ToluolCoreThenTriNitro_minMatches = new int[0] ;
-			int[] ToluolCoreThenTriNitro_maxMatches = new int[0] ;
 			GRGEN_LGSP.PatternNode ToluolCoreThenTriNitro_node_c1 = new GRGEN_LGSP.PatternNode((int) GRGEN_MODEL.NodeTypes.@C, "GRGEN_MODEL.IC", "ToluolCoreThenTriNitro_node_c1", "c1", ToluolCoreThenTriNitro_node_c1_AllowedTypes, ToluolCoreThenTriNitro_node_c1_IsAllowedType, 5.5F, 0, false, null, null, null, null);
 			GRGEN_LGSP.PatternNode ToluolCoreThenTriNitro_node_c2 = new GRGEN_LGSP.PatternNode((int) GRGEN_MODEL.NodeTypes.@C, "GRGEN_MODEL.IC", "ToluolCoreThenTriNitro_node_c2", "c2", ToluolCoreThenTriNitro_node_c2_AllowedTypes, ToluolCoreThenTriNitro_node_c2_IsAllowedType, 5.5F, 1, false, null, null, null, null);
 			GRGEN_LGSP.PatternNode ToluolCoreThenTriNitro_node_c3 = new GRGEN_LGSP.PatternNode((int) GRGEN_MODEL.NodeTypes.@C, "GRGEN_MODEL.IC", "ToluolCoreThenTriNitro_node_c3", "c3", ToluolCoreThenTriNitro_node_c3_AllowedTypes, ToluolCoreThenTriNitro_node_c3_IsAllowedType, 5.5F, 2, false, null, null, null, null);
@@ -3379,9 +3333,7 @@ namespace de.unika.ipd.grGen.Action_TNT
 				new GRGEN_LGSP.PatternVariable[] {  }, 
 				new GRGEN_LGSP.PatternGraphEmbedding[] { ToluolCoreThenTriNitro__sub0, ToluolCoreThenTriNitro__sub1, ToluolCoreThenTriNitro__sub2, ToluolCoreThenTriNitro__sub3 }, 
 				new GRGEN_LGSP.Alternative[] {  }, 
-				new GRGEN_LGSP.PatternGraph[] {  }, 
-				ToluolCoreThenTriNitro_minMatches,
-				ToluolCoreThenTriNitro_maxMatches,
+				new GRGEN_LGSP.Iterated[] {  }, 
 				new GRGEN_LGSP.PatternGraph[] {  }, 
 				new GRGEN_LGSP.PatternGraph[] {  }, 
 				new GRGEN_LGSP.PatternCondition[] {  }, 
@@ -3611,8 +3563,6 @@ namespace de.unika.ipd.grGen.Action_TNT
 		{
 			bool[,] BenzolRing_isNodeHomomorphicGlobal = new bool[0, 0] ;
 			bool[,] BenzolRing_isEdgeHomomorphicGlobal = new bool[0, 0] ;
-			int[] BenzolRing_minMatches = new int[0] ;
-			int[] BenzolRing_maxMatches = new int[0] ;
 			GRGEN_LGSP.PatternGraphEmbedding BenzolRing__sub0 = new GRGEN_LGSP.PatternGraphEmbedding("_sub0", Pattern_BenzolRing.Instance, 
 				new GRGEN_EXPR.Expression[] {
 				}, 
@@ -3626,9 +3576,7 @@ namespace de.unika.ipd.grGen.Action_TNT
 				new GRGEN_LGSP.PatternVariable[] {  }, 
 				new GRGEN_LGSP.PatternGraphEmbedding[] { BenzolRing__sub0 }, 
 				new GRGEN_LGSP.Alternative[] {  }, 
-				new GRGEN_LGSP.PatternGraph[] {  }, 
-				BenzolRing_minMatches,
-				BenzolRing_maxMatches,
+				new GRGEN_LGSP.Iterated[] {  }, 
 				new GRGEN_LGSP.PatternGraph[] {  }, 
 				new GRGEN_LGSP.PatternGraph[] {  }, 
 				new GRGEN_LGSP.PatternCondition[] {  }, 
@@ -3808,8 +3756,6 @@ namespace de.unika.ipd.grGen.Action_TNT
 				{ false, false, false, false, false, false, },
 			};
 			bool[,] TNTTotallyFolded_isEdgeHomomorphicGlobal = new bool[0, 0] ;
-			int[] TNTTotallyFolded_minMatches = new int[0] ;
-			int[] TNTTotallyFolded_maxMatches = new int[0] ;
 			GRGEN_LGSP.PatternNode TNTTotallyFolded_node_c1 = new GRGEN_LGSP.PatternNode((int) GRGEN_MODEL.NodeTypes.@C, "GRGEN_MODEL.IC", "TNTTotallyFolded_node_c1", "c1", TNTTotallyFolded_node_c1_AllowedTypes, TNTTotallyFolded_node_c1_IsAllowedType, 5.5F, -1, false, null, null, null, null);
 			GRGEN_LGSP.PatternNode TNTTotallyFolded_node_c2 = new GRGEN_LGSP.PatternNode((int) GRGEN_MODEL.NodeTypes.@C, "GRGEN_MODEL.IC", "TNTTotallyFolded_node_c2", "c2", TNTTotallyFolded_node_c2_AllowedTypes, TNTTotallyFolded_node_c2_IsAllowedType, 5.5F, -1, false, null, null, null, null);
 			GRGEN_LGSP.PatternNode TNTTotallyFolded_node_c3 = new GRGEN_LGSP.PatternNode((int) GRGEN_MODEL.NodeTypes.@C, "GRGEN_MODEL.IC", "TNTTotallyFolded_node_c3", "c3", TNTTotallyFolded_node_c3_AllowedTypes, TNTTotallyFolded_node_c3_IsAllowedType, 5.5F, -1, false, null, null, null, null);
@@ -3865,9 +3811,7 @@ namespace de.unika.ipd.grGen.Action_TNT
 				new GRGEN_LGSP.PatternVariable[] {  }, 
 				new GRGEN_LGSP.PatternGraphEmbedding[] { TNTTotallyFolded__sub0, TNTTotallyFolded__sub1, TNTTotallyFolded__sub2, TNTTotallyFolded__sub3, TNTTotallyFolded__sub4, TNTTotallyFolded__sub5, TNTTotallyFolded__sub6 }, 
 				new GRGEN_LGSP.Alternative[] {  }, 
-				new GRGEN_LGSP.PatternGraph[] {  }, 
-				TNTTotallyFolded_minMatches,
-				TNTTotallyFolded_maxMatches,
+				new GRGEN_LGSP.Iterated[] {  }, 
 				new GRGEN_LGSP.PatternGraph[] {  }, 
 				new GRGEN_LGSP.PatternGraph[] {  }, 
 				new GRGEN_LGSP.PatternCondition[] {  }, 
@@ -4126,8 +4070,6 @@ namespace de.unika.ipd.grGen.Action_TNT
 				{ false, false, false, false, false, false, },
 			};
 			bool[,] TNTChain_isEdgeHomomorphicGlobal = new bool[0, 0] ;
-			int[] TNTChain_minMatches = new int[0] ;
-			int[] TNTChain_maxMatches = new int[0] ;
 			GRGEN_LGSP.PatternNode TNTChain_node_c1 = new GRGEN_LGSP.PatternNode((int) GRGEN_MODEL.NodeTypes.@C, "GRGEN_MODEL.IC", "TNTChain_node_c1", "c1", TNTChain_node_c1_AllowedTypes, TNTChain_node_c1_IsAllowedType, 5.5F, -1, false, null, null, null, null);
 			GRGEN_LGSP.PatternNode TNTChain_node_c2 = new GRGEN_LGSP.PatternNode((int) GRGEN_MODEL.NodeTypes.@C, "GRGEN_MODEL.IC", "TNTChain_node_c2", "c2", TNTChain_node_c2_AllowedTypes, TNTChain_node_c2_IsAllowedType, 5.5F, -1, false, null, null, null, null);
 			GRGEN_LGSP.PatternNode TNTChain_node_c3 = new GRGEN_LGSP.PatternNode((int) GRGEN_MODEL.NodeTypes.@C, "GRGEN_MODEL.IC", "TNTChain_node_c3", "c3", TNTChain_node_c3_AllowedTypes, TNTChain_node_c3_IsAllowedType, 5.5F, -1, false, null, null, null, null);
@@ -4163,9 +4105,7 @@ namespace de.unika.ipd.grGen.Action_TNT
 				new GRGEN_LGSP.PatternVariable[] {  }, 
 				new GRGEN_LGSP.PatternGraphEmbedding[] { TNTChain__sub0, TNTChain__sub1 }, 
 				new GRGEN_LGSP.Alternative[] {  }, 
-				new GRGEN_LGSP.PatternGraph[] {  }, 
-				TNTChain_minMatches,
-				TNTChain_maxMatches,
+				new GRGEN_LGSP.Iterated[] {  }, 
 				new GRGEN_LGSP.PatternGraph[] {  }, 
 				new GRGEN_LGSP.PatternGraph[] {  }, 
 				new GRGEN_LGSP.PatternCondition[] {  }, 
@@ -4379,8 +4319,6 @@ namespace de.unika.ipd.grGen.Action_TNT
 				{ false, },
 			};
 			bool[,] ToluolCore_isEdgeHomomorphicGlobal = new bool[0, 0] ;
-			int[] ToluolCore_minMatches = new int[0] ;
-			int[] ToluolCore_maxMatches = new int[0] ;
 			GRGEN_LGSP.PatternNode ToluolCore_node_c1 = new GRGEN_LGSP.PatternNode((int) GRGEN_MODEL.NodeTypes.@C, "GRGEN_MODEL.IC", "ToluolCore_node_c1", "c1", ToluolCore_node_c1_AllowedTypes, ToluolCore_node_c1_IsAllowedType, 5.5F, -1, false, null, null, null, null);
 			GRGEN_LGSP.PatternGraphEmbedding ToluolCore__sub0 = new GRGEN_LGSP.PatternGraphEmbedding("_sub0", Pattern_BenzolRingC1Exposed.Instance, 
 				new GRGEN_EXPR.Expression[] {
@@ -4401,9 +4339,7 @@ namespace de.unika.ipd.grGen.Action_TNT
 				new GRGEN_LGSP.PatternVariable[] {  }, 
 				new GRGEN_LGSP.PatternGraphEmbedding[] { ToluolCore__sub0, ToluolCore__sub1 }, 
 				new GRGEN_LGSP.Alternative[] {  }, 
-				new GRGEN_LGSP.PatternGraph[] {  }, 
-				ToluolCore_minMatches,
-				ToluolCore_maxMatches,
+				new GRGEN_LGSP.Iterated[] {  }, 
 				new GRGEN_LGSP.PatternGraph[] {  }, 
 				new GRGEN_LGSP.PatternGraph[] {  }, 
 				new GRGEN_LGSP.PatternCondition[] {  }, 
@@ -4582,8 +4518,6 @@ namespace de.unika.ipd.grGen.Action_TNT
 				{ false, },
 			};
 			bool[,] ToluolCoreNotC6Nitro_isEdgeHomomorphicGlobal = new bool[0, 0] ;
-			int[] ToluolCoreNotC6Nitro_minMatches = new int[0] ;
-			int[] ToluolCoreNotC6Nitro_maxMatches = new int[0] ;
 			GRGEN_LGSP.PatternNode ToluolCoreNotC6Nitro_node_c1 = new GRGEN_LGSP.PatternNode((int) GRGEN_MODEL.NodeTypes.@C, "GRGEN_MODEL.IC", "ToluolCoreNotC6Nitro_node_c1", "c1", ToluolCoreNotC6Nitro_node_c1_AllowedTypes, ToluolCoreNotC6Nitro_node_c1_IsAllowedType, 5.5F, -1, false, null, null, null, null);
 			GRGEN_LGSP.PatternGraphEmbedding ToluolCoreNotC6Nitro__sub0 = new GRGEN_LGSP.PatternGraphEmbedding("_sub0", Pattern_BenzolRingC1ExposedNotC6Nitro.Instance, 
 				new GRGEN_EXPR.Expression[] {
@@ -4604,9 +4538,7 @@ namespace de.unika.ipd.grGen.Action_TNT
 				new GRGEN_LGSP.PatternVariable[] {  }, 
 				new GRGEN_LGSP.PatternGraphEmbedding[] { ToluolCoreNotC6Nitro__sub0, ToluolCoreNotC6Nitro__sub1 }, 
 				new GRGEN_LGSP.Alternative[] {  }, 
-				new GRGEN_LGSP.PatternGraph[] {  }, 
-				ToluolCoreNotC6Nitro_minMatches,
-				ToluolCoreNotC6Nitro_maxMatches,
+				new GRGEN_LGSP.Iterated[] {  }, 
 				new GRGEN_LGSP.PatternGraph[] {  }, 
 				new GRGEN_LGSP.PatternGraph[] {  }, 
 				new GRGEN_LGSP.PatternCondition[] {  }, 
@@ -4800,8 +4732,6 @@ namespace de.unika.ipd.grGen.Action_TNT
 				{ false, false, false, false, false, false, },
 			};
 			bool[,] Toluol_isEdgeHomomorphicGlobal = new bool[0, 0] ;
-			int[] Toluol_minMatches = new int[0] ;
-			int[] Toluol_maxMatches = new int[0] ;
 			GRGEN_LGSP.PatternNode Toluol_node_c1 = new GRGEN_LGSP.PatternNode((int) GRGEN_MODEL.NodeTypes.@C, "GRGEN_MODEL.IC", "Toluol_node_c1", "c1", Toluol_node_c1_AllowedTypes, Toluol_node_c1_IsAllowedType, 5.5F, -1, false, null, null, null, null);
 			GRGEN_LGSP.PatternNode Toluol_node_c2 = new GRGEN_LGSP.PatternNode((int) GRGEN_MODEL.NodeTypes.@C, "GRGEN_MODEL.IC", "Toluol_node_c2", "c2", Toluol_node_c2_AllowedTypes, Toluol_node_c2_IsAllowedType, 5.5F, -1, false, null, null, null, null);
 			GRGEN_LGSP.PatternNode Toluol_node_c3 = new GRGEN_LGSP.PatternNode((int) GRGEN_MODEL.NodeTypes.@C, "GRGEN_MODEL.IC", "Toluol_node_c3", "c3", Toluol_node_c3_AllowedTypes, Toluol_node_c3_IsAllowedType, 5.5F, -1, false, null, null, null, null);
@@ -4857,9 +4787,7 @@ namespace de.unika.ipd.grGen.Action_TNT
 				new GRGEN_LGSP.PatternVariable[] {  }, 
 				new GRGEN_LGSP.PatternGraphEmbedding[] { Toluol__sub0, Toluol__sub1, Toluol__sub2, Toluol__sub3, Toluol__sub4, Toluol__sub5, Toluol__sub6 }, 
 				new GRGEN_LGSP.Alternative[] {  }, 
-				new GRGEN_LGSP.PatternGraph[] {  }, 
-				Toluol_minMatches,
-				Toluol_maxMatches,
+				new GRGEN_LGSP.Iterated[] {  }, 
 				new GRGEN_LGSP.PatternGraph[] {  }, 
 				new GRGEN_LGSP.PatternGraph[] {  }, 
 				new GRGEN_LGSP.PatternCondition[] {  }, 
@@ -5146,8 +5074,6 @@ namespace de.unika.ipd.grGen.Action_TNT
 				{ false, false, false, false, false, false, false, false, false, },
 				{ false, false, false, false, false, false, false, false, false, },
 			};
-			int[] TNT_minMatches = new int[0] ;
-			int[] TNT_maxMatches = new int[0] ;
 			GRGEN_LGSP.PatternNode TNT_node_c1 = new GRGEN_LGSP.PatternNode((int) GRGEN_MODEL.NodeTypes.@C, "GRGEN_MODEL.IC", "TNT_node_c1", "c1", TNT_node_c1_AllowedTypes, TNT_node_c1_IsAllowedType, 5.5F, -1, false, null, null, null, null);
 			GRGEN_LGSP.PatternNode TNT_node_c2 = new GRGEN_LGSP.PatternNode((int) GRGEN_MODEL.NodeTypes.@C, "GRGEN_MODEL.IC", "TNT_node_c2", "c2", TNT_node_c2_AllowedTypes, TNT_node_c2_IsAllowedType, 5.5F, -1, false, null, null, null, null);
 			GRGEN_LGSP.PatternNode TNT_node_c3 = new GRGEN_LGSP.PatternNode((int) GRGEN_MODEL.NodeTypes.@C, "GRGEN_MODEL.IC", "TNT_node_c3", "c3", TNT_node_c3_AllowedTypes, TNT_node_c3_IsAllowedType, 5.5F, -1, false, null, null, null, null);
@@ -5202,9 +5128,7 @@ namespace de.unika.ipd.grGen.Action_TNT
 				new GRGEN_LGSP.PatternVariable[] {  }, 
 				new GRGEN_LGSP.PatternGraphEmbedding[] { TNT__sub0, TNT__sub1, TNT__sub2, TNT__sub3, TNT__sub4, TNT__sub5 }, 
 				new GRGEN_LGSP.Alternative[] {  }, 
-				new GRGEN_LGSP.PatternGraph[] {  }, 
-				TNT_minMatches,
-				TNT_maxMatches,
+				new GRGEN_LGSP.Iterated[] {  }, 
 				new GRGEN_LGSP.PatternGraph[] {  }, 
 				new GRGEN_LGSP.PatternGraph[] {  }, 
 				new GRGEN_LGSP.PatternCondition[] {  }, 
@@ -5648,8 +5572,6 @@ namespace de.unika.ipd.grGen.Action_TNT
 				{ false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, },
 				{ false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, },
 			};
-			int[] TNTUnfolded_minMatches = new int[0] ;
-			int[] TNTUnfolded_maxMatches = new int[0] ;
 			GRGEN_LGSP.PatternNode TNTUnfolded_node_c1 = new GRGEN_LGSP.PatternNode((int) GRGEN_MODEL.NodeTypes.@C, "GRGEN_MODEL.IC", "TNTUnfolded_node_c1", "c1", TNTUnfolded_node_c1_AllowedTypes, TNTUnfolded_node_c1_IsAllowedType, 5.5F, -1, false, null, null, null, null);
 			GRGEN_LGSP.PatternNode TNTUnfolded_node_c2 = new GRGEN_LGSP.PatternNode((int) GRGEN_MODEL.NodeTypes.@C, "GRGEN_MODEL.IC", "TNTUnfolded_node_c2", "c2", TNTUnfolded_node_c2_AllowedTypes, TNTUnfolded_node_c2_IsAllowedType, 5.5F, -1, false, null, null, null, null);
 			GRGEN_LGSP.PatternNode TNTUnfolded_node_c3 = new GRGEN_LGSP.PatternNode((int) GRGEN_MODEL.NodeTypes.@C, "GRGEN_MODEL.IC", "TNTUnfolded_node_c3", "c3", TNTUnfolded_node_c3_AllowedTypes, TNTUnfolded_node_c3_IsAllowedType, 5.5F, -1, false, null, null, null, null);
@@ -5704,9 +5626,7 @@ namespace de.unika.ipd.grGen.Action_TNT
 				new GRGEN_LGSP.PatternVariable[] {  }, 
 				new GRGEN_LGSP.PatternGraphEmbedding[] {  }, 
 				new GRGEN_LGSP.Alternative[] {  }, 
-				new GRGEN_LGSP.PatternGraph[] {  }, 
-				TNTUnfolded_minMatches,
-				TNTUnfolded_maxMatches,
+				new GRGEN_LGSP.Iterated[] {  }, 
 				new GRGEN_LGSP.PatternGraph[] {  }, 
 				new GRGEN_LGSP.PatternGraph[] {  }, 
 				new GRGEN_LGSP.PatternCondition[] {  }, 
@@ -6182,8 +6102,6 @@ namespace de.unika.ipd.grGen.Action_TNT
 		{
 			bool[,] createTNT_isNodeHomomorphicGlobal = new bool[0, 0] ;
 			bool[,] createTNT_isEdgeHomomorphicGlobal = new bool[0, 0] ;
-			int[] createTNT_minMatches = new int[0] ;
-			int[] createTNT_maxMatches = new int[0] ;
 			pat_createTNT = new GRGEN_LGSP.PatternGraph(
 				"createTNT",
 				"",
@@ -6193,9 +6111,7 @@ namespace de.unika.ipd.grGen.Action_TNT
 				new GRGEN_LGSP.PatternVariable[] {  }, 
 				new GRGEN_LGSP.PatternGraphEmbedding[] {  }, 
 				new GRGEN_LGSP.Alternative[] {  }, 
-				new GRGEN_LGSP.PatternGraph[] {  }, 
-				createTNT_minMatches,
-				createTNT_maxMatches,
+				new GRGEN_LGSP.Iterated[] {  }, 
 				new GRGEN_LGSP.PatternGraph[] {  }, 
 				new GRGEN_LGSP.PatternGraph[] {  }, 
 				new GRGEN_LGSP.PatternCondition[] {  }, 
@@ -6446,8 +6362,6 @@ namespace de.unika.ipd.grGen.Action_TNT
 				{ false, false, false, false, false, false, false, false, false, },
 				{ false, false, false, false, false, false, false, false, false, },
 			};
-			int[] DNT_minMatches = new int[0] ;
-			int[] DNT_maxMatches = new int[0] ;
 			GRGEN_LGSP.PatternNode DNT_node_c1 = new GRGEN_LGSP.PatternNode((int) GRGEN_MODEL.NodeTypes.@C, "GRGEN_MODEL.IC", "DNT_node_c1", "c1", DNT_node_c1_AllowedTypes, DNT_node_c1_IsAllowedType, 5.5F, -1, false, null, null, null, null);
 			GRGEN_LGSP.PatternNode DNT_node_c2 = new GRGEN_LGSP.PatternNode((int) GRGEN_MODEL.NodeTypes.@C, "GRGEN_MODEL.IC", "DNT_node_c2", "c2", DNT_node_c2_AllowedTypes, DNT_node_c2_IsAllowedType, 5.5F, -1, false, null, null, null, null);
 			GRGEN_LGSP.PatternNode DNT_node_c3 = new GRGEN_LGSP.PatternNode((int) GRGEN_MODEL.NodeTypes.@C, "GRGEN_MODEL.IC", "DNT_node_c3", "c3", DNT_node_c3_AllowedTypes, DNT_node_c3_IsAllowedType, 5.5F, -1, false, null, null, null, null);
@@ -6502,9 +6416,7 @@ namespace de.unika.ipd.grGen.Action_TNT
 				new GRGEN_LGSP.PatternVariable[] {  }, 
 				new GRGEN_LGSP.PatternGraphEmbedding[] { DNT__sub0, DNT__sub1, DNT__sub2, DNT__sub3, DNT__sub4, DNT__sub5 }, 
 				new GRGEN_LGSP.Alternative[] {  }, 
-				new GRGEN_LGSP.PatternGraph[] {  }, 
-				DNT_minMatches,
-				DNT_maxMatches,
+				new GRGEN_LGSP.Iterated[] {  }, 
 				new GRGEN_LGSP.PatternGraph[] {  }, 
 				new GRGEN_LGSP.PatternGraph[] {  }, 
 				new GRGEN_LGSP.PatternCondition[] {  }, 
@@ -6936,8 +6848,6 @@ namespace de.unika.ipd.grGen.Action_TNT
 				{ false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, },
 				{ false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, },
 			};
-			int[] DNTUnfolded_minMatches = new int[0] ;
-			int[] DNTUnfolded_maxMatches = new int[0] ;
 			GRGEN_LGSP.PatternNode DNTUnfolded_node_c1 = new GRGEN_LGSP.PatternNode((int) GRGEN_MODEL.NodeTypes.@C, "GRGEN_MODEL.IC", "DNTUnfolded_node_c1", "c1", DNTUnfolded_node_c1_AllowedTypes, DNTUnfolded_node_c1_IsAllowedType, 5.5F, -1, false, null, null, null, null);
 			GRGEN_LGSP.PatternNode DNTUnfolded_node_c2 = new GRGEN_LGSP.PatternNode((int) GRGEN_MODEL.NodeTypes.@C, "GRGEN_MODEL.IC", "DNTUnfolded_node_c2", "c2", DNTUnfolded_node_c2_AllowedTypes, DNTUnfolded_node_c2_IsAllowedType, 5.5F, -1, false, null, null, null, null);
 			GRGEN_LGSP.PatternNode DNTUnfolded_node_c3 = new GRGEN_LGSP.PatternNode((int) GRGEN_MODEL.NodeTypes.@C, "GRGEN_MODEL.IC", "DNTUnfolded_node_c3", "c3", DNTUnfolded_node_c3_AllowedTypes, DNTUnfolded_node_c3_IsAllowedType, 5.5F, -1, false, null, null, null, null);
@@ -6988,9 +6898,7 @@ namespace de.unika.ipd.grGen.Action_TNT
 				new GRGEN_LGSP.PatternVariable[] {  }, 
 				new GRGEN_LGSP.PatternGraphEmbedding[] {  }, 
 				new GRGEN_LGSP.Alternative[] {  }, 
-				new GRGEN_LGSP.PatternGraph[] {  }, 
-				DNTUnfolded_minMatches,
-				DNTUnfolded_maxMatches,
+				new GRGEN_LGSP.Iterated[] {  }, 
 				new GRGEN_LGSP.PatternGraph[] {  }, 
 				new GRGEN_LGSP.PatternGraph[] {  }, 
 				new GRGEN_LGSP.PatternCondition[] {  }, 
@@ -7438,8 +7346,6 @@ namespace de.unika.ipd.grGen.Action_TNT
 		{
 			bool[,] createDNT_isNodeHomomorphicGlobal = new bool[0, 0] ;
 			bool[,] createDNT_isEdgeHomomorphicGlobal = new bool[0, 0] ;
-			int[] createDNT_minMatches = new int[0] ;
-			int[] createDNT_maxMatches = new int[0] ;
 			pat_createDNT = new GRGEN_LGSP.PatternGraph(
 				"createDNT",
 				"",
@@ -7449,9 +7355,7 @@ namespace de.unika.ipd.grGen.Action_TNT
 				new GRGEN_LGSP.PatternVariable[] {  }, 
 				new GRGEN_LGSP.PatternGraphEmbedding[] {  }, 
 				new GRGEN_LGSP.Alternative[] {  }, 
-				new GRGEN_LGSP.PatternGraph[] {  }, 
-				createDNT_minMatches,
-				createDNT_maxMatches,
+				new GRGEN_LGSP.Iterated[] {  }, 
 				new GRGEN_LGSP.PatternGraph[] {  }, 
 				new GRGEN_LGSP.PatternGraph[] {  }, 
 				new GRGEN_LGSP.PatternCondition[] {  }, 
@@ -7698,8 +7602,6 @@ namespace de.unika.ipd.grGen.Action_TNT
 				{ false, false, false, false, false, false, false, false, false, },
 				{ false, false, false, false, false, false, false, false, false, },
 			};
-			int[] TNB_minMatches = new int[0] ;
-			int[] TNB_maxMatches = new int[0] ;
 			GRGEN_LGSP.PatternNode TNB_node_c1 = new GRGEN_LGSP.PatternNode((int) GRGEN_MODEL.NodeTypes.@C, "GRGEN_MODEL.IC", "TNB_node_c1", "c1", TNB_node_c1_AllowedTypes, TNB_node_c1_IsAllowedType, 5.5F, -1, false, null, null, null, null);
 			GRGEN_LGSP.PatternNode TNB_node_c2 = new GRGEN_LGSP.PatternNode((int) GRGEN_MODEL.NodeTypes.@C, "GRGEN_MODEL.IC", "TNB_node_c2", "c2", TNB_node_c2_AllowedTypes, TNB_node_c2_IsAllowedType, 5.5F, -1, false, null, null, null, null);
 			GRGEN_LGSP.PatternNode TNB_node_c3 = new GRGEN_LGSP.PatternNode((int) GRGEN_MODEL.NodeTypes.@C, "GRGEN_MODEL.IC", "TNB_node_c3", "c3", TNB_node_c3_AllowedTypes, TNB_node_c3_IsAllowedType, 5.5F, -1, false, null, null, null, null);
@@ -7754,9 +7656,7 @@ namespace de.unika.ipd.grGen.Action_TNT
 				new GRGEN_LGSP.PatternVariable[] {  }, 
 				new GRGEN_LGSP.PatternGraphEmbedding[] { TNB__sub0, TNB__sub1, TNB__sub2, TNB__sub3, TNB__sub4, TNB__sub5 }, 
 				new GRGEN_LGSP.Alternative[] {  }, 
-				new GRGEN_LGSP.PatternGraph[] {  }, 
-				TNB_minMatches,
-				TNB_maxMatches,
+				new GRGEN_LGSP.Iterated[] {  }, 
 				new GRGEN_LGSP.PatternGraph[] {  }, 
 				new GRGEN_LGSP.PatternGraph[] {  }, 
 				new GRGEN_LGSP.PatternCondition[] {  }, 
@@ -8182,8 +8082,6 @@ namespace de.unika.ipd.grGen.Action_TNT
 				{ false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, },
 				{ false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, },
 			};
-			int[] TNBUnfolded_minMatches = new int[0] ;
-			int[] TNBUnfolded_maxMatches = new int[0] ;
 			GRGEN_LGSP.PatternNode TNBUnfolded_node_c1 = new GRGEN_LGSP.PatternNode((int) GRGEN_MODEL.NodeTypes.@C, "GRGEN_MODEL.IC", "TNBUnfolded_node_c1", "c1", TNBUnfolded_node_c1_AllowedTypes, TNBUnfolded_node_c1_IsAllowedType, 5.5F, -1, false, null, null, null, null);
 			GRGEN_LGSP.PatternNode TNBUnfolded_node_c2 = new GRGEN_LGSP.PatternNode((int) GRGEN_MODEL.NodeTypes.@C, "GRGEN_MODEL.IC", "TNBUnfolded_node_c2", "c2", TNBUnfolded_node_c2_AllowedTypes, TNBUnfolded_node_c2_IsAllowedType, 5.5F, -1, false, null, null, null, null);
 			GRGEN_LGSP.PatternNode TNBUnfolded_node_c3 = new GRGEN_LGSP.PatternNode((int) GRGEN_MODEL.NodeTypes.@C, "GRGEN_MODEL.IC", "TNBUnfolded_node_c3", "c3", TNBUnfolded_node_c3_AllowedTypes, TNBUnfolded_node_c3_IsAllowedType, 5.5F, -1, false, null, null, null, null);
@@ -8232,9 +8130,7 @@ namespace de.unika.ipd.grGen.Action_TNT
 				new GRGEN_LGSP.PatternVariable[] {  }, 
 				new GRGEN_LGSP.PatternGraphEmbedding[] {  }, 
 				new GRGEN_LGSP.Alternative[] {  }, 
-				new GRGEN_LGSP.PatternGraph[] {  }, 
-				TNBUnfolded_minMatches,
-				TNBUnfolded_maxMatches,
+				new GRGEN_LGSP.Iterated[] {  }, 
 				new GRGEN_LGSP.PatternGraph[] {  }, 
 				new GRGEN_LGSP.PatternGraph[] {  }, 
 				new GRGEN_LGSP.PatternCondition[] {  }, 
@@ -8668,8 +8564,6 @@ namespace de.unika.ipd.grGen.Action_TNT
 		{
 			bool[,] createTNB_isNodeHomomorphicGlobal = new bool[0, 0] ;
 			bool[,] createTNB_isEdgeHomomorphicGlobal = new bool[0, 0] ;
-			int[] createTNB_minMatches = new int[0] ;
-			int[] createTNB_maxMatches = new int[0] ;
 			pat_createTNB = new GRGEN_LGSP.PatternGraph(
 				"createTNB",
 				"",
@@ -8679,9 +8573,7 @@ namespace de.unika.ipd.grGen.Action_TNT
 				new GRGEN_LGSP.PatternVariable[] {  }, 
 				new GRGEN_LGSP.PatternGraphEmbedding[] {  }, 
 				new GRGEN_LGSP.Alternative[] {  }, 
-				new GRGEN_LGSP.PatternGraph[] {  }, 
-				createTNB_minMatches,
-				createTNB_maxMatches,
+				new GRGEN_LGSP.Iterated[] {  }, 
 				new GRGEN_LGSP.PatternGraph[] {  }, 
 				new GRGEN_LGSP.PatternGraph[] {  }, 
 				new GRGEN_LGSP.PatternCondition[] {  }, 
@@ -8880,8 +8772,6 @@ namespace de.unika.ipd.grGen.Action_TNT
 		{
 			bool[,] keepBenzolRingPattern_isNodeHomomorphicGlobal = new bool[0, 0] ;
 			bool[,] keepBenzolRingPattern_isEdgeHomomorphicGlobal = new bool[0, 0] ;
-			int[] keepBenzolRingPattern_minMatches = new int[0] ;
-			int[] keepBenzolRingPattern_maxMatches = new int[0] ;
 			GRGEN_LGSP.PatternGraphEmbedding keepBenzolRingPattern_br = new GRGEN_LGSP.PatternGraphEmbedding("br", Pattern_BenzolRing.Instance, 
 				new GRGEN_EXPR.Expression[] {
 				}, 
@@ -8895,9 +8785,7 @@ namespace de.unika.ipd.grGen.Action_TNT
 				new GRGEN_LGSP.PatternVariable[] {  }, 
 				new GRGEN_LGSP.PatternGraphEmbedding[] { keepBenzolRingPattern_br }, 
 				new GRGEN_LGSP.Alternative[] {  }, 
-				new GRGEN_LGSP.PatternGraph[] {  }, 
-				keepBenzolRingPattern_minMatches,
-				keepBenzolRingPattern_maxMatches,
+				new GRGEN_LGSP.Iterated[] {  }, 
 				new GRGEN_LGSP.PatternGraph[] {  }, 
 				new GRGEN_LGSP.PatternGraph[] {  }, 
 				new GRGEN_LGSP.PatternCondition[] {  }, 
@@ -9063,8 +8951,6 @@ namespace de.unika.ipd.grGen.Action_TNT
 		{
 			bool[,] createBenzolRingPattern_isNodeHomomorphicGlobal = new bool[0, 0] ;
 			bool[,] createBenzolRingPattern_isEdgeHomomorphicGlobal = new bool[0, 0] ;
-			int[] createBenzolRingPattern_minMatches = new int[0] ;
-			int[] createBenzolRingPattern_maxMatches = new int[0] ;
 			pat_createBenzolRingPattern = new GRGEN_LGSP.PatternGraph(
 				"createBenzolRingPattern",
 				"",
@@ -9074,9 +8960,7 @@ namespace de.unika.ipd.grGen.Action_TNT
 				new GRGEN_LGSP.PatternVariable[] {  }, 
 				new GRGEN_LGSP.PatternGraphEmbedding[] {  }, 
 				new GRGEN_LGSP.Alternative[] {  }, 
-				new GRGEN_LGSP.PatternGraph[] {  }, 
-				createBenzolRingPattern_minMatches,
-				createBenzolRingPattern_maxMatches,
+				new GRGEN_LGSP.Iterated[] {  }, 
 				new GRGEN_LGSP.PatternGraph[] {  }, 
 				new GRGEN_LGSP.PatternGraph[] {  }, 
 				new GRGEN_LGSP.PatternCondition[] {  }, 
@@ -9237,8 +9121,6 @@ namespace de.unika.ipd.grGen.Action_TNT
 		{
 			bool[,] deleteBenzolRingPattern_isNodeHomomorphicGlobal = new bool[0, 0] ;
 			bool[,] deleteBenzolRingPattern_isEdgeHomomorphicGlobal = new bool[0, 0] ;
-			int[] deleteBenzolRingPattern_minMatches = new int[0] ;
-			int[] deleteBenzolRingPattern_maxMatches = new int[0] ;
 			GRGEN_LGSP.PatternGraphEmbedding deleteBenzolRingPattern__sub0 = new GRGEN_LGSP.PatternGraphEmbedding("_sub0", Pattern_BenzolRing.Instance, 
 				new GRGEN_EXPR.Expression[] {
 				}, 
@@ -9252,9 +9134,7 @@ namespace de.unika.ipd.grGen.Action_TNT
 				new GRGEN_LGSP.PatternVariable[] {  }, 
 				new GRGEN_LGSP.PatternGraphEmbedding[] { deleteBenzolRingPattern__sub0 }, 
 				new GRGEN_LGSP.Alternative[] {  }, 
-				new GRGEN_LGSP.PatternGraph[] {  }, 
-				deleteBenzolRingPattern_minMatches,
-				deleteBenzolRingPattern_maxMatches,
+				new GRGEN_LGSP.Iterated[] {  }, 
 				new GRGEN_LGSP.PatternGraph[] {  }, 
 				new GRGEN_LGSP.PatternGraph[] {  }, 
 				new GRGEN_LGSP.PatternCondition[] {  }, 
@@ -9421,8 +9301,6 @@ namespace de.unika.ipd.grGen.Action_TNT
 		{
 			bool[,] deleteInModifyBenzolRingPattern_isNodeHomomorphicGlobal = new bool[0, 0] ;
 			bool[,] deleteInModifyBenzolRingPattern_isEdgeHomomorphicGlobal = new bool[0, 0] ;
-			int[] deleteInModifyBenzolRingPattern_minMatches = new int[0] ;
-			int[] deleteInModifyBenzolRingPattern_maxMatches = new int[0] ;
 			GRGEN_LGSP.PatternGraphEmbedding deleteInModifyBenzolRingPattern_br = new GRGEN_LGSP.PatternGraphEmbedding("br", Pattern_BenzolRing.Instance, 
 				new GRGEN_EXPR.Expression[] {
 				}, 
@@ -9436,9 +9314,7 @@ namespace de.unika.ipd.grGen.Action_TNT
 				new GRGEN_LGSP.PatternVariable[] {  }, 
 				new GRGEN_LGSP.PatternGraphEmbedding[] { deleteInModifyBenzolRingPattern_br }, 
 				new GRGEN_LGSP.Alternative[] {  }, 
-				new GRGEN_LGSP.PatternGraph[] {  }, 
-				deleteInModifyBenzolRingPattern_minMatches,
-				deleteInModifyBenzolRingPattern_maxMatches,
+				new GRGEN_LGSP.Iterated[] {  }, 
 				new GRGEN_LGSP.PatternGraph[] {  }, 
 				new GRGEN_LGSP.PatternGraph[] {  }, 
 				new GRGEN_LGSP.PatternCondition[] {  }, 
@@ -9581,7 +9457,7 @@ namespace de.unika.ipd.grGen.Action_TNT
 			subpatterns = new GRGEN_LGSP.LGSPMatchingPattern[11];
 			rules = new GRGEN_LGSP.LGSPRulePattern[19];
 			rulesAndSubpatterns = new GRGEN_LGSP.LGSPMatchingPattern[11+19];
-			definedSequences = new GRGEN_LGSP.LGSPDefinedSequenceInfo[0];
+			definedSequences = new GRGEN_LIBGR.DefinedSequenceInfo[0];
 			subpatterns[0] = Pattern_BenzolRing.Instance;
 			rulesAndSubpatterns[0] = Pattern_BenzolRing.Instance;
 			subpatterns[1] = Pattern_BenzolRingC123456Exposed.Instance;
@@ -9649,8 +9525,8 @@ namespace de.unika.ipd.grGen.Action_TNT
 		private GRGEN_LGSP.LGSPMatchingPattern[] subpatterns;
 		public override GRGEN_LGSP.LGSPMatchingPattern[] RulesAndSubpatterns { get { return rulesAndSubpatterns; } }
 		private GRGEN_LGSP.LGSPMatchingPattern[] rulesAndSubpatterns;
-		public override GRGEN_LGSP.LGSPDefinedSequenceInfo[] DefinedSequences { get { return definedSequences; } }
-		private GRGEN_LGSP.LGSPDefinedSequenceInfo[] definedSequences;
+		public override GRGEN_LIBGR.DefinedSequenceInfo[] DefinedSequences { get { return definedSequences; } }
+		private GRGEN_LIBGR.DefinedSequenceInfo[] definedSequences;
 	}
 
 

@@ -1,0 +1,23 @@
+new graph defYield/yield
+
+xgrs (start)=createChain
+
+show num nodes
+show num edges
+
+xgrs ?deleteWithoutIncoming
+
+show num nodes
+show num edges
+
+xgrs linkChainEndToStart(start)
+
+show num nodes
+show num edges
+
+xgrs deleteWithoutIncoming+
+
+show num nodes
+show num edges
+
+quit

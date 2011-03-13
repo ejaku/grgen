@@ -1,0 +1,75 @@
+rule r
+{
+	alternative foo {
+		foocase {
+			y:Node;
+
+			alternative bar {
+				barcase {
+					z:Node;
+					modify {
+						x --> z;
+					}
+				}
+			}
+
+			alternative baz {
+				bazcase {
+					z:Node;
+					modify {
+						x --> z;
+					}
+				}
+			}
+
+			modify {
+				x --> y;
+				alternative bar;
+				alternative baz;
+			}
+		}
+	}
+	
+	modify {
+		x:Node;
+		alternative foo;
+	}
+}
+
+pattern p
+{
+	alternative foo {
+		foocase {
+			y:Node;
+
+			alternative bar {
+				barcase {
+					z:Node;
+					modify {
+						x --> z;
+					}
+				}
+			}
+
+			alternative baz {
+				bazcase {
+					z:Node;
+					modify {
+						x --> z;
+					}
+				}
+			}
+
+			modify {
+				x --> y;
+				alternative bar;
+				alternative baz;
+			}
+		}
+	}
+	
+	modify {
+		x:Node;
+		alternative foo;
+	}
+}

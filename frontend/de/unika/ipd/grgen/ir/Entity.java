@@ -34,6 +34,9 @@ public class Entity extends Identifiable {
 	/** Is the entity a defined entity only, to be filled with yields from nested patterns? */
 	protected boolean isDefToBeYieldedTo = false;
 	
+	/** Only in case of isDefToBeYieldedTo: gives the pattern graph in which the entity is to be deleted (can't use LHS\RHS for deciding this)*/
+	protected PatternGraph patternGraphDefYieldedIsToBeDeleted = null; // todo: DELETE=LHS\RHS does not work any more due to nesting and def entities, switch to delete annotations in AST, IR
+	
 	/** Context of the declaration */
 	int context;
 
@@ -99,6 +102,16 @@ public class Entity extends Identifiable {
 	/** @return true, if this is a defined only entity to be filled from nested patterns, else false */
 	public boolean isDefToBeYieldedTo() {
 		return isDefToBeYieldedTo;
+	}
+
+	public void setPatternGraphDefYieldedIsToBeDeleted(PatternGraph graph) {
+		assert isDefToBeYieldedTo;
+		patternGraphDefYieldedIsToBeDeleted = graph;
+	}
+
+	/** @return the pattern graph this defined entity to be yielded to is to be deleted, else null; null if not isDefToBeYieldedTo*/
+	public PatternGraph patternGraphDefYieldedIsToBeDeleted() {
+		return patternGraphDefYieldedIsToBeDeleted;
 	}
 
 	/** The only walkable child here is the type

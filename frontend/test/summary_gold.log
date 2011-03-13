@@ -2,6 +2,8 @@ OK     should_pass/MaybeNull.grg
 OK     should_pass/abstract_replace_parameter.grg
 OK     should_pass/alternative_001.grg
 OK     should_pass/alternative_002.grg
+OK     should_pass/alternative_repl.grg
+OK     should_pass/alternative_repl2.grg
 OK     should_pass/alternative_replParameter.grg
 OK     should_pass/alterror.grg
 OK     should_pass/annot_001.grg
@@ -9,6 +11,7 @@ OK     should_pass/annot_002.grg
 OK     should_pass/annot_003.grg
 OK     should_pass/annot_004.grg
 OK     should_pass/annot_005.grg
+OK     should_pass/assign_parameter.grg
 OK     should_pass/attrib_001.grg
 OK     should_pass/attrib_002.grg
 OK     should_pass/attrib_003.grg
@@ -97,6 +100,9 @@ OK     should_pass/dangle_004.grg
 OK     should_pass/dangle_005.grg
 OK     should_pass/dangle_006.grg
 OK     should_pass/dangle_007.grg
+OK     should_pass/defVar_001.grg
+OK     should_pass/defVar_002.grg
+OK     should_pass/defVar_003.grg
 OK     should_pass/deleteInAlternative.grg
 OK     should_pass/deleteInAlternative_e.grg
 OK     should_pass/deleteInOptional.grg
@@ -149,6 +155,7 @@ OK     should_pass/enum_010.grg
 OK     should_pass/enum_011.grg
 OK     should_pass/enum_100.grg
 OK     should_pass/enum_101.grg
+OK     should_pass/evalhere.grg
 OK     should_pass/exact_001.grg
 OK     should_pass/exact_002.grg
 OK     should_pass/exact_003.grg
@@ -174,6 +181,7 @@ OK     should_pass/exec_014.grg
 OK     should_pass/exec_015.grg
 OK     should_pass/exec_016.grg
 OK     should_pass/exec_backtrack.grg
+OK     should_pass/exec_definition.grg
 OK     should_pass/exec_n_types.grg
 OK     should_pass/exec_yield.grg
 OK     should_pass/execscope_For.grg
@@ -270,11 +278,16 @@ OK     should_pass/iterated_004.grg
 OK     should_pass/iterated_005.grg
 OK     should_pass/iterated_006.grg
 OK     should_pass/iterated_007.grg
+OK     should_pass/iterated_repl.grg
 OK     should_pass/iterated_replParameter.grg
+ERROR  should_pass/iterated_repl_2.grg
 OK     should_pass/map_001.grg
 OK     should_pass/map_002.grg
 OK     should_pass/map_003.grg
+OK     should_pass/map_assign_operations.grg
 OK     should_pass/map_element_parameters_and_addrem.grg
+OK     should_pass/map_identical_assignment.grg
+OK     should_pass/map_node_edge.grg
 OK     should_pass/mapset_001.grg
 OK     should_pass/minmax.grg
 OK     should_pass/model_init_001.grg
@@ -318,6 +331,7 @@ OK     should_pass/pattern_014.grg
 OK     should_pass/pattern_015.grg
 OK     should_pass/pattern_016.grg
 OK     should_pass/pieter.grg
+OK     should_pass/pow.grg
 OK     should_pass/randompeek.grg
 OK     should_pass/randomrule.grg
 OK     should_pass/record_001.grg
@@ -370,7 +384,11 @@ OK     should_pass/set_002.grg
 OK     should_pass/set_003.grg
 OK     should_pass/set_004.grg
 OK     should_pass/set_005.grg
+OK     should_pass/set_assign_operations.grg
 OK     should_pass/set_element_parameters_and_addrem.grg
+OK     should_pass/set_identical_assignment.grg
+OK     should_pass/set_node_edge.grg
+OK     should_pass/set_node_edge2.grg
 OK     should_pass/snowflakeAGTIVE.grg
 OK     should_pass/strfunc_001.grg
 OK     should_pass/successfulTermination_002.grg
@@ -390,6 +408,7 @@ OK     should_pass/typeof_002.grg
 OK     should_pass/unary_001.grg
 OK     should_pass/visit_001.grg
 OK     should_pass/visit_002.grg
+OK     should_pass/yield.grg
 WARNED should_warn/basic_003.grg
 WARNED should_warn/basic_025.grg
 WARNED should_warn/basic_054.grg
@@ -981,6 +1000,9 @@ ERROR  should_fail/rhs_003.grg
 ERROR  should_fail/rhs_004.grg
 ERROR  should_fail/rhs_007.grg
 ERROR  should_fail/rhs_008.grg
+ERROR  should_fail/rhs_edge1_nested.grg
+ERROR  should_fail/rhs_edge2_nested.grg
+ERROR  should_fail/rhs_edge_evalhere.grg
 ERROR  should_fail/rhslhs.grg
 ERROR  should_fail/rhslhs2.grg
 ERROR  should_fail/same_attribute_as_node_edge_name.grg

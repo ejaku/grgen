@@ -1,0 +1,106 @@
+using attrib_model_001;
+
+rule create : (Node)
+{
+	modify {
+		start:Node --> . --> . --> . --> .;
+		start --> n1:NINT;
+		start --> n2:NINT;
+		start --> n3:NINT;
+		start --> n4:NFLOAT --> n5:NFLOAT;
+		start --> :NSTRING;
+		start --> :NSTRING;
+		start --> :NSTRING;
+		eval {
+			n1.a = 2;
+			n2.a = 2;
+			n3.a = 2;
+			n4.a = 3.0f;
+			n5.a = 4.0f;
+		}
+		return (start);
+	}
+}
+
+pattern P(start:Node) modify(def var i:int)
+{
+	start --> n:NINT;
+	
+	modify {
+		eval {
+			yield i = i + n.a;
+		}
+	}
+}
+
+pattern Chain(begin:Node) modify(def var count:int)
+{
+	optional {
+		begin --> next:Node\(NINT+NFLOAT+NSTRING);
+		c:Chain(next);
+		
+		modify {
+			c(yield count);
+			evalhere { yield count = count + 1; }
+		}
+	}
+	
+	modify {
+	}
+}
+
+rule answer(start:Node) : (int)
+{
+	iterated it {
+		start --> :NSTRING;
+		
+		modify {
+			eval {
+				yield i = i-1;
+			}
+		}
+	}
+	
+	alternative alt {
+		caseOne {
+			start --> n:NFLOAT;
+			negative { n --> :NFLOAT; }
+
+			modify {
+				eval {
+					yield i = i==4 ? i+(int)n.a : i;
+				}
+			}
+		}
+		caseTwo {
+			start --> n1:NFLOAT --> n2:NFLOAT;
+		
+			modify {
+				eval {
+					yield i = i==4 ? i+(int)(n1.a+n2.a) : i;
+				}
+			}
+		}
+	}
+	
+	sub1:P(start);
+	sub2:P(start);
+	
+	ch:Chain(start);
+
+	modify {
+		def var i:int = 0; // 0
+		evalhere { yield i = i==0 ? i+1 : i; } // 0+1 1
+		sub1(yield i); // 1+2 3
+		evalhere { yield i = i==3 ? i+1 : i; } // 3+1 4
+		alternative alt; // 4+7 11
+		evalhere { yield i = i==11 ? i+2 : i; } // 11+2 13
+		sub2(yield i); // 13+2 15
+		iterated it; // 15-1-1-1 12
+		evalhere { yield i = i==12 ? i+1 : i; } // 12+1 13
+		ch(yield i); // 13+4 17
+		evalhere { yield i = i==17 ? i+1 : i; } // 17+1 18
+		eval { yield i = i==18 ? i*2+6 : i; } // 18*2+6 42
+		return(i);
+	}
+}

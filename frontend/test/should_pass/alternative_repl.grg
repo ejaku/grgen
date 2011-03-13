@@ -1,0 +1,35 @@
+rule r
+{
+	alternative foo {
+		foocase {
+			y:Node;
+
+			modify {
+				x --> y;
+			}
+		}
+	}
+	
+	modify {
+		x:Node;
+		alternative foo;
+	}
+}
+
+pattern p
+{
+	alternative foo {
+		foocase {
+			y:Node;
+
+			modify {
+				x --> y;
+			}
+		}
+	}
+	
+	modify {
+		x:Node;
+		alternative foo;
+	}
+}

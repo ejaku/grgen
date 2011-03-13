@@ -1,0 +1,306 @@
+using attrib_model_001;
+
+rule r
+{
+	ni:NINT;
+	nb:NBOOL;
+	ns:NSTRING;
+	-ef:EFLOAT->;
+	-ed:EDOUBLE->;
+	-eo:EOBJECT->;
+
+	modify {
+		def var ai:int = 42;
+		def var ab:boolean = true;
+		def var as:string = "1337 0wn4g3 f0r ze lulz";
+		def var af:float = 42.42424242f;
+		def var ad:double = 42.42424242424242;
+		def var ao:object = null;
+
+		evalhere {
+			ni.a = ai;
+			nb.a = ab;
+			ns.a = as;
+			ef.a = af;
+			ed.a = ad;
+			eo.a = ao;
+		}
+		
+		eval {
+			yield ai = ni.a;
+			yield ab = nb.a;
+			yield as = ns.a;
+			yield af = ef.a;
+			yield ad = ed.a;
+			yield ao = eo.a;
+		}
+		
+		eval {
+			yield ai = ai + ni.a;
+			yield ab = ab | nb.a;
+			yield as = as + ns.a;
+			yield af = af + ef.a;
+			yield ad = ad + ed.a;
+			yield ao = ao==null ? eo.a : ao;
+		}
+	}
+}
+
+pattern p
+{
+	ni:NINT;
+	nb:NBOOL;
+	ns:NSTRING;
+	-ef:EFLOAT->;
+	-ed:EDOUBLE->;
+	-eo:EOBJECT->;
+
+	modify {
+		def var ai:int = 42;
+		def var ab:boolean = true;
+		def var as:string = "1337 0wn4g3 f0r ze lulz";
+		def var af:float = 42.42424242f;
+		def var ad:double = 42.42424242424242;
+		def var ao:object = null;
+
+		evalhere {
+			ni.a = ai;
+			nb.a = ab;
+			ns.a = as;
+			ef.a = af;
+			ed.a = ad;
+			eo.a = ao;
+		}
+		
+		eval {
+			yield ai = ni.a;
+			yield ab = nb.a;
+			yield as = ns.a;
+			yield af = ef.a;
+			yield ad = ed.a;
+			yield ao = eo.a;
+		}
+		
+		eval {
+			yield ai = ai + ni.a;
+			yield ab = ab | nb.a;
+			yield as = as + ns.a;
+			yield af = af + ef.a;
+			yield ad = ad + ed.a;
+			yield ao = ao==null ? eo.a : ao;
+		}
+	}
+}
+
+rule ra
+{
+	alternative
+	{
+		case {
+			ni:NINT;
+			nb:NBOOL;
+			ns:NSTRING;
+			-ef:EFLOAT->;
+			-ed:EDOUBLE->;
+			-eo:EOBJECT->;
+
+			modify {
+				def var ai:int = 42;
+				def var ab:boolean = true;
+				def var as:string = "1337 0wn4g3 f0r ze lulz";
+				def var af:float = 42.42424242f;
+				def var ad:double = 42.42424242424242;
+				def var ao:object = null;
+
+				evalhere {
+					ni.a = ai;
+					nb.a = ab;
+					ns.a = as;
+					ef.a = af;
+					ed.a = ad;
+					eo.a = ao;
+				}
+				
+				eval {
+					yield ai = ni.a;
+					yield ab = nb.a;
+					yield as = ns.a;
+					yield af = ef.a;
+					yield ad = ed.a;
+					yield ao = eo.a;
+				}
+				
+				eval {
+					yield ai = ai + ni.a;
+					yield ab = ab | nb.a;
+					yield as = as + ns.a;
+					yield af = af + ef.a;
+					yield ad = ad + ed.a;
+					yield ao = ao==null ? eo.a : ao;
+				}
+			}
+		}
+	}
+	
+	modify {
+	}
+}
+
+rule ran
+{
+	ni:NINT;
+	nb:NBOOL;
+	ns:NSTRING;
+	-ef:EFLOAT->;
+	-ed:EDOUBLE->;
+	-eo:EOBJECT->;
+
+	alternative
+	{
+		case {
+
+			modify {
+				evalhere {
+					ni.a = ai;
+					nb.a = ab;
+					ns.a = as;
+					ef.a = af;
+					ed.a = ad;
+					eo.a = ao;
+				}
+				
+				eval {
+					yield ai = ni.a;
+					yield ab = nb.a;
+					yield as = ns.a;
+					yield af = ef.a;
+					yield ad = ed.a;
+					yield ao = eo.a;
+				}
+				
+				eval {
+					yield ai = ai + ni.a;
+					yield ab = ab | nb.a;
+					yield as = as + ns.a;
+					yield af = af + ef.a;
+					yield ad = ad + ed.a;
+					yield ao = ao==null ? eo.a : ao;
+				}
+			}
+		}
+	}
+	
+	modify {
+		def var ai:int = 42;
+		def var ab:boolean = true;
+		def var as:string = "1337 0wn4g3 f0r ze lulz";
+		def var af:float = 42.42424242f;
+		def var ad:double = 42.42424242424242;
+		def var ao:object = null;
+	}
+}
+
+pattern pa
+{
+	iterated
+	{
+		ni:NINT;
+		nb:NBOOL;
+		ns:NSTRING;
+		-ef:EFLOAT->;
+		-ed:EDOUBLE->;
+		-eo:EOBJECT->;
+
+		modify {
+			def var ai:int = 42;
+			def var ab:boolean = true;
+			def var as:string = "1337 0wn4g3 f0r ze lulz";
+			def var af:float = 42.42424242f;
+			def var ad:double = 42.42424242424242;
+			def var ao:object = null;
+
+			evalhere {
+				ni.a = ai;
+				nb.a = ab;
+				ns.a = as;
+				ef.a = af;
+				ed.a = ad;
+				eo.a = ao;
+			}
+			
+			eval {
+				yield ai = ni.a;
+				yield ab = nb.a;
+				yield as = ns.a;
+				yield af = ef.a;
+				yield ad = ed.a;
+				yield ao = eo.a;
+			}
+			
+			eval {
+				yield ai = ai + ni.a;
+				yield ab = ab | nb.a;
+				yield as = as + ns.a;
+				yield af = af + ef.a;
+				yield ad = ad + ed.a;
+				yield ao = ao==null ? eo.a : ao;
+			}
+		}
+	}
+	
+	modify {
+	}
+}
+
+pattern pan
+{
+	ni:NINT;
+	nb:NBOOL;
+	ns:NSTRING;
+	-ef:EFLOAT->;
+	-ed:EDOUBLE->;
+	-eo:EOBJECT->;
+
+	iterated
+	{
+		.;
+		
+		modify {
+			evalhere {
+				ni.a = ai;
+				nb.a = ab;
+				ns.a = as;
+				ef.a = af;
+				ed.a = ad;
+				eo.a = ao;
+			}
+			
+			eval {
+				yield ai = ni.a;
+				yield ab = nb.a;
+				yield as = ns.a;
+				yield af = ef.a;
+				yield ad = ed.a;
+				yield ao = eo.a;
+			}
+			
+			eval {
+				yield ai = ai + ni.a;
+				yield ab = ab | nb.a;
+				yield as = as + ns.a;
+				yield af = af + ef.a;
+				yield ad = ad + ed.a;
+				yield ao = ao==null ? eo.a : ao;
+			}
+		}
+	}
+	
+	modify {
+		def var ai:int = 42;
+		def var ab:boolean = true;
+		def var as:string = "1337 0wn4g3 f0r ze lulz";
+		def var af:float = 42.42424242f;
+		def var ad:double = 42.42424242424242;
+		def var ao:object = null;
+	}
+}

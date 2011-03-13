@@ -25,6 +25,7 @@ import java.util.LinkedList;
 
 import de.unika.ipd.grgen.ir.Alternative;
 import de.unika.ipd.grgen.ir.Assignment;
+import de.unika.ipd.grgen.ir.AssignmentGraphEntity;
 import de.unika.ipd.grgen.ir.AssignmentVar;
 import de.unika.ipd.grgen.ir.Cast;
 import de.unika.ipd.grgen.ir.CompoundAssignment;
@@ -586,6 +587,10 @@ public class ActionsGen extends CSharpBase {
 			}
 			if(eval instanceof AssignmentVar) {
 				AssignmentVar assignment = (AssignmentVar)eval;
+				assignment.getExpression().collectNeededEntities(needs);
+			}
+			if(eval instanceof AssignmentGraphEntity) {
+				AssignmentGraphEntity assignment = (AssignmentGraphEntity)eval;
 				assignment.getExpression().collectNeededEntities(needs);
 			}
 			if(eval instanceof CompoundAssignmentVar) {

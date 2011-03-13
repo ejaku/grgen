@@ -1,6 +1,6 @@
 // This file has been generated automatically by GrGen (www.grgen.net)
 // Do not modify this file! Any changes will be lost!
-// Generated from "..\..\tests\antWorld\AntWorld_ExtendAtEndOfRound_NoGammel.grg" on Sun Feb 06 21:14:06 CET 2011
+// Generated from "..\..\tests\antWorld\AntWorld_ExtendAtEndOfRound_NoGammel.grg" on Sun Mar 13 18:13:02 CET 2011
 
 using System;
 using System.Collections.Generic;
@@ -166,8 +166,8 @@ namespace de.unika.ipd.grGen.Model_AntWorld_NoGammel
 
 		private @GridNode(GRGEN_MODEL.@GridNode oldElem) : base(GRGEN_MODEL.NodeType_GridNode.typeVar)
 		{
-			food\u0303 = oldElem.food\u0303;
-			pheromones\u0303 = oldElem.pheromones\u0303;
+			food_M0no_suXx_h4rD = oldElem.food_M0no_suXx_h4rD;
+			pheromones_M0no_suXx_h4rD = oldElem.pheromones_M0no_suXx_h4rD;
 		}
 		public static GRGEN_MODEL.@GridNode CreateNode(GRGEN_LGSP.LGSPGraph graph)
 		{
@@ -216,18 +216,18 @@ namespace de.unika.ipd.grGen.Model_AntWorld_NoGammel
 		}
 
 
-		private int food\u0303;
+		private int food_M0no_suXx_h4rD;
 		public int @food
 		{
-			get { return food\u0303; }
-			set { food\u0303 = value; }
+			get { return food_M0no_suXx_h4rD; }
+			set { food_M0no_suXx_h4rD = value; }
 		}
 
-		private int pheromones\u0303;
+		private int pheromones_M0no_suXx_h4rD;
 		public int @pheromones
 		{
-			get { return pheromones\u0303; }
-			set { pheromones\u0303 = value; }
+			get { return pheromones_M0no_suXx_h4rD; }
+			set { pheromones_M0no_suXx_h4rD = value; }
 		}
 		public override object GetAttribute(string attrName)
 		{
@@ -356,8 +356,8 @@ namespace de.unika.ipd.grGen.Model_AntWorld_NoGammel
 
 		private @GridCornerNode(GRGEN_MODEL.@GridCornerNode oldElem) : base(GRGEN_MODEL.NodeType_GridCornerNode.typeVar)
 		{
-			food\u0303 = oldElem.food\u0303;
-			pheromones\u0303 = oldElem.pheromones\u0303;
+			food_M0no_suXx_h4rD = oldElem.food_M0no_suXx_h4rD;
+			pheromones_M0no_suXx_h4rD = oldElem.pheromones_M0no_suXx_h4rD;
 		}
 		public static GRGEN_MODEL.@GridCornerNode CreateNode(GRGEN_LGSP.LGSPGraph graph)
 		{
@@ -408,18 +408,18 @@ namespace de.unika.ipd.grGen.Model_AntWorld_NoGammel
 		}
 
 
-		private int food\u0303;
+		private int food_M0no_suXx_h4rD;
 		public int @food
 		{
-			get { return food\u0303; }
-			set { food\u0303 = value; }
+			get { return food_M0no_suXx_h4rD; }
+			set { food_M0no_suXx_h4rD = value; }
 		}
 
-		private int pheromones\u0303;
+		private int pheromones_M0no_suXx_h4rD;
 		public int @pheromones
 		{
-			get { return pheromones\u0303; }
-			set { pheromones\u0303 = value; }
+			get { return pheromones_M0no_suXx_h4rD; }
+			set { pheromones_M0no_suXx_h4rD = value; }
 		}
 		public override object GetAttribute(string attrName)
 		{
@@ -554,9 +554,9 @@ namespace de.unika.ipd.grGen.Model_AntWorld_NoGammel
 
 		private @AntHill(GRGEN_MODEL.@AntHill oldElem) : base(GRGEN_MODEL.NodeType_AntHill.typeVar)
 		{
-			food\u0303 = oldElem.food\u0303;
-			pheromones\u0303 = oldElem.pheromones\u0303;
-			foodCountdown\u0303 = oldElem.foodCountdown\u0303;
+			food_M0no_suXx_h4rD = oldElem.food_M0no_suXx_h4rD;
+			pheromones_M0no_suXx_h4rD = oldElem.pheromones_M0no_suXx_h4rD;
+			foodCountdown_M0no_suXx_h4rD = oldElem.foodCountdown_M0no_suXx_h4rD;
 		}
 		public static GRGEN_MODEL.@AntHill CreateNode(GRGEN_LGSP.LGSPGraph graph)
 		{
@@ -611,25 +611,25 @@ namespace de.unika.ipd.grGen.Model_AntWorld_NoGammel
 		}
 
 
-		private int food\u0303;
+		private int food_M0no_suXx_h4rD;
 		public int @food
 		{
-			get { return food\u0303; }
-			set { food\u0303 = value; }
+			get { return food_M0no_suXx_h4rD; }
+			set { food_M0no_suXx_h4rD = value; }
 		}
 
-		private int pheromones\u0303;
+		private int pheromones_M0no_suXx_h4rD;
 		public int @pheromones
 		{
-			get { return pheromones\u0303; }
-			set { pheromones\u0303 = value; }
+			get { return pheromones_M0no_suXx_h4rD; }
+			set { pheromones_M0no_suXx_h4rD = value; }
 		}
 
-		private int foodCountdown\u0303;
+		private int foodCountdown_M0no_suXx_h4rD;
 		public int @foodCountdown
 		{
-			get { return foodCountdown\u0303; }
-			set { foodCountdown\u0303 = value; }
+			get { return foodCountdown_M0no_suXx_h4rD; }
+			set { foodCountdown_M0no_suXx_h4rD = value; }
 		}
 		public override object GetAttribute(string attrName)
 		{
@@ -769,7 +769,7 @@ namespace de.unika.ipd.grGen.Model_AntWorld_NoGammel
 
 		private @Ant(GRGEN_MODEL.@Ant oldElem) : base(GRGEN_MODEL.NodeType_Ant.typeVar)
 		{
-			hasFood\u0303 = oldElem.hasFood\u0303;
+			hasFood_M0no_suXx_h4rD = oldElem.hasFood_M0no_suXx_h4rD;
 		}
 		public static GRGEN_MODEL.@Ant CreateNode(GRGEN_LGSP.LGSPGraph graph)
 		{
@@ -816,11 +816,11 @@ namespace de.unika.ipd.grGen.Model_AntWorld_NoGammel
 		}
 
 
-		private bool hasFood\u0303;
+		private bool hasFood_M0no_suXx_h4rD;
 		public bool @hasFood
 		{
-			get { return hasFood\u0303; }
-			set { hasFood\u0303 = value; }
+			get { return hasFood_M0no_suXx_h4rD; }
+			set { hasFood_M0no_suXx_h4rD = value; }
 		}
 		public override object GetAttribute(string attrName)
 		{

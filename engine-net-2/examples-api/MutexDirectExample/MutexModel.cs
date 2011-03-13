@@ -1,6 +1,6 @@
 // This file has been generated automatically by GrGen (www.grgen.net)
 // Do not modify this file! Any changes will be lost!
-// Generated from "..\..\examples\Mutex\MutexPimped.grg" on Sun Feb 06 21:14:32 CET 2011
+// Generated from "..\..\examples\Mutex\MutexPimped.grg" on Sun Mar 13 18:13:24 CET 2011
 
 using System;
 using System.Collections.Generic;
@@ -1656,7 +1656,7 @@ namespace de.unika.ipd.grGen.Model_Mutex
 		private @annotationTestEdge(GRGEN_MODEL.@annotationTestEdge oldElem, GRGEN_LGSP.LGSPNode newSource, GRGEN_LGSP.LGSPNode newTarget)
 			: base(GRGEN_MODEL.EdgeType_annotationTestEdge.typeVar, newSource, newTarget)
 		{
-			attrib\u0303 = oldElem.attrib\u0303;
+			attrib_M0no_suXx_h4rD = oldElem.attrib_M0no_suXx_h4rD;
 		}
 		public static GRGEN_MODEL.@annotationTestEdge CreateEdge(GRGEN_LGSP.LGSPGraph graph, GRGEN_LGSP.LGSPNode source, GRGEN_LGSP.LGSPNode target)
 		{
@@ -1705,11 +1705,11 @@ namespace de.unika.ipd.grGen.Model_Mutex
 		}
 
 
-		private int attrib\u0303;
+		private int attrib_M0no_suXx_h4rD;
 		public int @attrib
 		{
-			get { return attrib\u0303; }
-			set { attrib\u0303 = value; }
+			get { return attrib_M0no_suXx_h4rD; }
+			set { attrib_M0no_suXx_h4rD = value; }
 		}
 		public override object GetAttribute(string attrName)
 		{
