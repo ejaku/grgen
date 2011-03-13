@@ -15,6 +15,7 @@ import java.util.Collection;
 import java.util.Vector;
 
 import de.unika.ipd.grgen.ast.util.DeclarationResolver;
+import de.unika.ipd.grgen.ir.Expression;
 import de.unika.ipd.grgen.ir.IR;
 import de.unika.ipd.grgen.ir.Variable;
 
@@ -59,6 +60,11 @@ public class VarDeclNode extends DeclNode {
 			PatternGraphNode directlyNestingLHSGraph, int context) {
 		this(id, type, directlyNestingLHSGraph, context, false);
 	}
+	
+	/** Get an invalid var declaration. */
+	public static final VarDeclNode getInvalidVar(PatternGraphNode directlyNestingLHSGraph, int context) {
+		return new VarDeclNode(IdentNode.getInvalid(), IdentNode.getInvalid(), directlyNestingLHSGraph, context);
+	}
 
 	/** sets an expression to be used to initialize the variable */
 	public void setInitialization(ExprNode initialization)
@@ -86,11 +92,6 @@ public class VarDeclNode extends DeclNode {
 		return childrenNames;
 	}
 
-	/**
-	 * local resolving of the current node to be implemented by the subclasses, called from the resolve AST walk
-	 * @return true, if resolution of the AST locally finished successfully;
-	 * false, if there was some error.
-	 */
 	@Override
 	protected boolean resolveLocal() {
 		// Type was already known at construction?
@@ -105,14 +106,19 @@ public class VarDeclNode extends DeclNode {
 		return type != null;
 	}
 
-	/**
-	 * local checking of the current node to be implemented by the subclasses, called from the check AST walk
-	 * @return true, if checking of the AST locally finished successfully;
-	 * false, if there was some error.
-	 */
 	@Override
 	protected boolean checkLocal() {
-		return true;
+		if(initialization==null)
+			return true;
+		
+		TypeNode targetType = getDeclType();
+		TypeNode exprType = initialization.getType();
+
+		if (exprType.isEqual(targetType))
+			return true;
+
+		initialization = becomeParent(initialization.adjustType(targetType, getCoords()));
+		return initialization != ConstNode.getInvalid();
 	}
 
 	/** @return The type node of the declaration */
@@ -141,7 +147,8 @@ public class VarDeclNode extends DeclNode {
 	@Override
 	protected IR constructIR() {
 		return new Variable("Var", getIdentNode().getIdent(), type.getType(),
-				defEntityToBeYieldedTo, directlyNestingLHSGraph.getGraph(), context);
+				defEntityToBeYieldedTo, directlyNestingLHSGraph.getGraph(), context,
+				initialization!=null ? initialization.checkIR(Expression.class): null);
 	}
 }
 

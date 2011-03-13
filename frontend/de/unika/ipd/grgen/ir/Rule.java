@@ -41,6 +41,9 @@ public class Rule extends MatchingAction {
 	private int minMatches;
 	private int maxMatches;
 	
+	/** Was the replacement code already called by means of an iterated replacement declaration? (in case this is an iterated.) */
+	public boolean wasReplacementAlreadyCalled;
+	
 	/** Have deferred execs been added by using this top level rule, so we have to execute the exec queue? */
 	public boolean mightThereBeDeferredExecs;
 

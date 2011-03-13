@@ -7,11 +7,20 @@
 
 /**
  * @author Edgar Jakumeit
- * @version $Id: SubpatternDependentReplacement.java 26712 2009-11-02 23:11:59Z eja $
+ * @version $Id$
  */
 package de.unika.ipd.grgen.ir;
 
-public interface OrderedReplacement {
-	// no functionality, allows ordering of subpattern replacement nodes and emit here nodes and eval here nodes
-	// in one container of the ordered replacement node type
+public class IteratedReplacement extends Identifiable implements OrderedReplacement{
+	Rule iterated;
+
+	public IteratedReplacement(String name, Ident ident,
+			Rule iterated) {
+		super(name, ident);
+		this.iterated = iterated;
+	}
+
+	public Rule getIterated() {
+		return iterated;
+	}
 }

@@ -629,10 +629,10 @@ public class IteratedNode extends ActionDeclNode  {
 	}
 
 	public static String getKindStr() {
-		return "alternative case node";
+		return "iterated node";
 	}
 
 	public static String getUseStr() {
-		return "alternative case";
+		return "iterated";
 	}
 }

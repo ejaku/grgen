@@ -577,7 +577,7 @@ public class PatternGraph extends Graph {
 			return;
 		}
 
-		// insert all elements, which are used (not declared) on the right hand side and not declared on left hand side,
+		// insert all nodes and variables, which are used (not declared) on the right hand side and not declared on left hand side,
 		// and are declared in some nesting right hand side,
 		// to the replacement parameters (so that they get handed down from the nesting replacement)
 
@@ -585,14 +585,6 @@ public class PatternGraph extends Graph {
 			if(n.directlyNestingLHSGraph!=this && !right.replParametersContain(n)) {
 				if((n.context&BaseNode.CONTEXT_LHS_OR_RHS)==BaseNode.CONTEXT_RHS) {
 					right.addReplParameter(n);
-				}
-			}
-		}
-
-		for(Edge e : right.getEdges()) {
-			if(e.directlyNestingLHSGraph!=this && !right.replParametersContain(e)) {
-				if((e.context&BaseNode.CONTEXT_LHS_OR_RHS)==BaseNode.CONTEXT_RHS) {
-					right.addReplParameter(e);
 				}
 			}
 		}
@@ -604,8 +596,51 @@ public class PatternGraph extends Graph {
 				}
 			}
 		}
+		
+		// emit error for edges which would have be to be handled like this,
+		// because they are not available in the nested replacement;
+		// as they are only created after the replacement code of the nested pattern is left, 
+		// that's because node retyping occurs only afterwards, 
+		// and we maybe want to create edges in between retyped=newly created nodes
+		for(Edge e : right.getEdges()) {
+			if(e.directlyNestingLHSGraph!=this) {
+				if((e.context&BaseNode.CONTEXT_LHS_OR_RHS)==BaseNode.CONTEXT_RHS) {
+					error.error(e.getIdent().getCoords(), "Can't access a newly created edge (" + e.getIdent() + ") in a nested replacement");
+				}
+			}
+		}
+		
+		// some check which is easier on ir
+		checkThatEvalhereIsNotAccessingCreatedEdges(right);
 	}
-	
+
+	public void checkThatEvalhereIsNotAccessingCreatedEdges(PatternGraph right) {
+		if(right==null) {
+			return;
+		}
+
+		// emit error on accessing freshly created edges from evalhere statements as they are not available there
+		// because they are only created after the evalhere statements are evaluated 
+
+		for(OrderedReplacement orderedRep : right.getOrderedReplacements()) {
+			if(orderedRep instanceof EvalStatement) {
+				EvalStatement evalStmt = (EvalStatement)orderedRep;
+				NeededEntities needs = new NeededEntities(false, true, false, false, true, false);
+				evalStmt.collectNeededEntities(needs);
+				for(Edge edge : needs.edges) {
+					if((edge.context&BaseNode.CONTEXT_LHS_OR_RHS)==BaseNode.CONTEXT_RHS) {
+						error.error(edge.getIdent().getCoords(), "Can't access a newly created edge (" + edge.getIdent() + ") from an evalhere statement");
+					}
+				}
+				for(Edge edge : needs.attrEdges) {
+					if((edge.context&BaseNode.CONTEXT_LHS_OR_RHS)==BaseNode.CONTEXT_RHS) {
+						error.error(edge.getIdent().getCoords(), "Can't access a newly created edge (" + edge.getIdent() + ") from an evalhere statement");
+					}
+				}
+			}
+		}
+	}
+
 	// constructs implicit lhs elements
 	public void insertElementsFromRhsDeclaredInNestingLhsToLocalLhs(PatternGraph right) {
 		if(right==null) {

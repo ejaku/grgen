@@ -115,7 +115,8 @@ public class PatternGraphNode extends GraphNode {
 	
 
 	public PatternGraphNode(String nameOfGraph, Coords coords,
-			CollectNode<BaseNode> connections, CollectNode<BaseNode> params,
+			CollectNode<BaseNode> connections, CollectNode<BaseNode> params, 
+			CollectNode<VarDeclNode> defVariablesToBeYieldedTo,
 			CollectNode<SubpatternUsageNode> subpatterns, CollectNode<OrderedReplacementNode> orderedReplacements,
 			CollectNode<AlternativeNode> alts, CollectNode<IteratedNode> iters,
 			CollectNode<PatternGraphNode> negs, CollectNode<PatternGraphNode> idpts,
@@ -124,7 +125,7 @@ public class PatternGraphNode extends GraphNode {
 			CollectNode<ExprNode> returns,
 			CollectNode<HomNode> homs, CollectNode<ExactNode> exact,
 			CollectNode<InducedNode> induced, int modifiers, int context) {
-		super(nameOfGraph, coords, connections, params, subpatterns, orderedReplacements,
+		super(nameOfGraph, coords, connections, params, defVariablesToBeYieldedTo, subpatterns, orderedReplacements,
 				yieldsEvals, returns, null, context, null);
 		this.alts = alts;
 		becomeParent(this.alts);
@@ -154,6 +155,7 @@ public class PatternGraphNode extends GraphNode {
 		Vector<BaseNode> children = new Vector<BaseNode>();
 		children.add(getValidVersion(connectionsUnresolved, connections));
 		children.add(params);
+		children.add(defVariablesToBeYieldedTo);
 		children.add(subpatterns);
 		children.add(orderedReplacements);
 		children.add(alts);
@@ -175,6 +177,7 @@ public class PatternGraphNode extends GraphNode {
 		Vector<String> childrenNames = new Vector<String>();
 		childrenNames.add("connections");
 		childrenNames.add("params");
+		childrenNames.add("defVariablesToBeYieldedTo");
 		childrenNames.add("subpatterns");
 		childrenNames.add("subpatternReplacements");
 		childrenNames.add("alternatives");
@@ -516,6 +519,10 @@ public class PatternGraphNode extends GraphNode {
 		for (BaseNode connection : connections.getChildren()) {
 			ConnectionCharacter conn = (ConnectionCharacter) connection;
 			conn.addToGraph(gr);
+		}
+
+		for(VarDeclNode n : defVariablesToBeYieldedTo.getChildren()) {
+			gr.addVariable(n.checkIR(Variable.class));
 		}
 
 		for(BaseNode subpatternUsage : subpatterns.getChildren()) {

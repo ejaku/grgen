@@ -25,6 +25,10 @@ public class Alternative extends Identifiable {
 
 	Vector<Rule> alternativeCases = new Vector<Rule>();
 
+	/** Was the replacement code already called by means of an alternative replacement declaration? */
+	public boolean wasReplacementAlreadyCalled;
+
+
 	public Collection<Rule> getAlternativeCases() {
 		return alternativeCases;
 	}

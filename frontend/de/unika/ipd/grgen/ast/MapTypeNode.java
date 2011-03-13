@@ -18,6 +18,7 @@ import java.util.Vector;
 
 import de.unika.ipd.grgen.ast.util.DeclarationTypeResolver;
 import de.unika.ipd.grgen.ir.MapType;
+import de.unika.ipd.grgen.ir.Type;
 import de.unika.ipd.grgen.parser.Scope;
 import de.unika.ipd.grgen.parser.Symbol;
 
@@ -152,6 +153,14 @@ public class MapTypeNode extends DeclaredTypeNode {
 
 	@Override
 	protected MapType constructIR() {
-		return new MapType(keyType.getType(), valueType.getType());
+		Type kt = keyType.getType();
+		Type vt = valueType.getType();
+		
+		// return if the keyType or valueType construction already constructed the IR object
+		if (isIRAlreadySet()) {
+			return (MapType)getIR();
+		}
+		
+		return new MapType(kt, vt);
 	}
 }

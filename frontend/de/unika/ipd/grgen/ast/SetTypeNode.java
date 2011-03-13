@@ -19,6 +19,7 @@ import java.util.Vector;
 import de.unika.ipd.grgen.ast.util.DeclarationTypeResolver;
 import de.unika.ipd.grgen.ir.IR;
 import de.unika.ipd.grgen.ir.SetType;
+import de.unika.ipd.grgen.ir.Type;
 import de.unika.ipd.grgen.parser.Scope;
 import de.unika.ipd.grgen.parser.Symbol;
 
@@ -136,6 +137,13 @@ public class SetTypeNode extends DeclaredTypeNode {
 
 	@Override
 	protected IR constructIR() {
-		return new SetType(valueType.getType());
+		Type vt = valueType.getType();
+		
+		// return if the keyType or valueType construction already constructed the IR object
+		if (isIRAlreadySet()) {
+			return (SetType)getIR();
+		}
+		
+		return new SetType(vt);
 	}
 }

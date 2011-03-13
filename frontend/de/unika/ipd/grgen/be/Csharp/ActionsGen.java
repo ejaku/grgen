@@ -960,6 +960,7 @@ public class ActionsGen extends CSharpBase {
 			if(alreadyDefinedEntityToName.get(var)!=null) {
 				continue;
 			}
+
 			String varName = formatEntity(var, pathPrefixForElements);
 			sb.append("\t\t\tGRGEN_LGSP.PatternVariable " + varName
 					+ " = new GRGEN_LGSP.PatternVariable(");

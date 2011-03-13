@@ -35,6 +35,7 @@ import de.unika.ipd.grgen.ast.TypeDeclNode;
 import de.unika.ipd.grgen.ast.TypeNode;
 import de.unika.ipd.grgen.ast.UndirectedEdgeTypeNode;
 import de.unika.ipd.grgen.ast.UnitNode;
+import de.unika.ipd.grgen.ast.VarDeclNode;
 import de.unika.ipd.grgen.util.Annotations;
 import de.unika.ipd.grgen.util.Base;
 import de.unika.ipd.grgen.util.EmptyAnnotations;
@@ -286,12 +287,16 @@ public abstract class ParserEnvironment extends Base {
 	public BaseNode initNode() {
 		return BaseNode.getErrorNode();
 	}
+	
 	public ExprNode initExprNode() {
 		return ExprNode.getInvalid();
 	}
+	
+	public VarDeclNode initVarNode(PatternGraphNode directlyNestingLHSGraph, int context) {
+		return VarDeclNode.getInvalidVar(directlyNestingLHSGraph, context);
+	}
 
-	public NodeDeclNode getDummyNodeDecl(int context, PatternGraphNode directlyNestingLHSGraph)
-	{
+	public NodeDeclNode getDummyNodeDecl(int context, PatternGraphNode directlyNestingLHSGraph) {
 		return NodeDeclNode.getDummy(defineAnonymousEntity("dummy_node", new Coords()), this.getNodeRoot(), context, directlyNestingLHSGraph);
 	}
 
@@ -304,13 +309,11 @@ public abstract class ParserEnvironment extends Base {
 		return IdentNode.getInvalid();
 	}
 
-	public Annotations getEmptyAnnotations()
-	{
+	public Annotations getEmptyAnnotations() {
 		return EmptyAnnotations.get();
 	}
 
-	public Coords getInvalidCoords()
-	{
+	public Coords getInvalidCoords() {
 		return Coords.getInvalid();
 	}
 

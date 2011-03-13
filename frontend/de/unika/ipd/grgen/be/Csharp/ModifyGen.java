@@ -27,10 +27,12 @@ import java.util.List;
 import java.util.Map;
 
 import de.unika.ipd.grgen.ir.Alternative;
+import de.unika.ipd.grgen.ir.AlternativeReplacement;
 import de.unika.ipd.grgen.ir.Assignment;
 import de.unika.ipd.grgen.ir.AssignmentIdentical;
 import de.unika.ipd.grgen.ir.AssignmentVar;
 import de.unika.ipd.grgen.ir.AssignmentVisited;
+import de.unika.ipd.grgen.ir.BooleanType;
 import de.unika.ipd.grgen.ir.CompoundAssignment;
 import de.unika.ipd.grgen.ir.CompoundAssignmentChanged;
 import de.unika.ipd.grgen.ir.CompoundAssignmentChangedVar;
@@ -39,6 +41,7 @@ import de.unika.ipd.grgen.ir.CompoundAssignmentVar;
 import de.unika.ipd.grgen.ir.CompoundAssignmentVarChanged;
 import de.unika.ipd.grgen.ir.CompoundAssignmentVarChangedVar;
 import de.unika.ipd.grgen.ir.CompoundAssignmentVarChangedVisited;
+import de.unika.ipd.grgen.ir.DoubleType;
 import de.unika.ipd.grgen.ir.Edge;
 import de.unika.ipd.grgen.ir.Emit;
 import de.unika.ipd.grgen.ir.Entity;
@@ -46,15 +49,20 @@ import de.unika.ipd.grgen.ir.EnumType;
 import de.unika.ipd.grgen.ir.EvalStatement;
 import de.unika.ipd.grgen.ir.Exec;
 import de.unika.ipd.grgen.ir.Expression;
+import de.unika.ipd.grgen.ir.ExternalType;
+import de.unika.ipd.grgen.ir.FloatType;
 import de.unika.ipd.grgen.ir.GraphEntity;
 import de.unika.ipd.grgen.ir.GraphEntityExpression;
 import de.unika.ipd.grgen.ir.ImperativeStmt;
 import de.unika.ipd.grgen.ir.InheritanceType;
+import de.unika.ipd.grgen.ir.IntType;
+import de.unika.ipd.grgen.ir.IteratedReplacement;
 import de.unika.ipd.grgen.ir.MapAddItem;
 import de.unika.ipd.grgen.ir.MapInit;
 import de.unika.ipd.grgen.ir.MapRemoveItem;
 import de.unika.ipd.grgen.ir.MapVarAddItem;
 import de.unika.ipd.grgen.ir.MapVarRemoveItem;
+import de.unika.ipd.grgen.ir.ObjectType;
 import de.unika.ipd.grgen.ir.Operator;
 import de.unika.ipd.grgen.ir.OrderedReplacement;
 import de.unika.ipd.grgen.ir.SetAddItem;
@@ -69,6 +77,7 @@ import de.unika.ipd.grgen.ir.RetypedNode;
 import de.unika.ipd.grgen.ir.Rule;
 import de.unika.ipd.grgen.ir.SetVarAddItem;
 import de.unika.ipd.grgen.ir.SetVarRemoveItem;
+import de.unika.ipd.grgen.ir.StringType;
 import de.unika.ipd.grgen.ir.SubpatternDependentReplacement;
 import de.unika.ipd.grgen.ir.SubpatternUsage;
 import de.unika.ipd.grgen.ir.Type;
@@ -76,6 +85,7 @@ import de.unika.ipd.grgen.ir.MapType;
 import de.unika.ipd.grgen.ir.SetType;
 import de.unika.ipd.grgen.ir.Variable;
 import de.unika.ipd.grgen.ir.Visited;
+import de.unika.ipd.grgen.ir.VoidType;
 
 
 public class ModifyGen extends CSharpBase {
@@ -123,6 +133,7 @@ public class ModifyGen extends CSharpBase {
 		
 		Collection<Node> yieldedNodes();
 		Collection<Edge> yieldedEdges();		
+		Collection<Variable> yieldedVariables();
 
 		Collection<Node> newOrRetypedNodes();
 		Collection<Edge> newOrRetypedEdges();
@@ -158,6 +169,7 @@ public class ModifyGen extends CSharpBase {
 
 		public Collection<Node> yieldedNodes() { return Collections.unmodifiableCollection(yieldedNodes); }
 		public Collection<Edge> yieldedEdges() { return Collections.unmodifiableCollection(yieldedEdges); }
+		public Collection<Variable> yieldedVariables() { return Collections.unmodifiableCollection(yieldedVariables); }
 
 		public Collection<Node> newOrRetypedNodes() { return Collections.unmodifiableCollection(newOrRetypedNodes); }
 		public Collection<Edge> newOrRetypedEdges() { return Collections.unmodifiableCollection(newOrRetypedEdges); }
@@ -196,6 +208,7 @@ public class ModifyGen extends CSharpBase {
 
 		public HashSet<Node> yieldedNodes = new LinkedHashSet<Node>();
 		public HashSet<Edge> yieldedEdges = new LinkedHashSet<Edge>();
+		public HashSet<Variable> yieldedVariables = new LinkedHashSet<Variable>();
 
 		public HashSet<Node> newOrRetypedNodes = new LinkedHashSet<Node>();
 		public HashSet<Edge> newOrRetypedEdges = new LinkedHashSet<Edge>();
@@ -407,10 +420,14 @@ public class ModifyGen extends CSharpBase {
 		for(Entity entity : replParameters) {
 			if(entity instanceof Node) {
 				Node node = (Node)entity;
-				sb.append(", GRGEN_LGSP.LGSPNode " + formatEntity(node));
+				sb.append(", ");
+				if(entity.isDefToBeYieldedTo()) sb.append("ref ");
+				sb.append("GRGEN_LGSP.LGSPNode " + formatEntity(node));
 			} else {
 				Variable var = (Variable)entity;
-				sb.append(", " + formatAttributeType(var)+ " " + formatEntity(var));
+				sb.append(", ");
+				if(entity.isDefToBeYieldedTo()) sb.append("ref ");
+				sb.append(formatAttributeType(var)+ " " + formatEntity(var));
 			}
 		}
 		sb.append(")\n");
@@ -433,7 +450,9 @@ public class ModifyGen extends CSharpBase {
 					+ "(graph, (Match_"+pathPrefix+altName+"_"+altCase.getPattern().getNameOfGraph()+")curMatch");
 			replParameters = altCase.getRight().getReplParameters();
 			for(Entity entity : replParameters) {
-				sb.append(", " + formatEntity(entity));
+				sb.append(", ");
+				if(entity.isDefToBeYieldedTo()) sb.append("ref ");
+				sb.append(formatEntity(entity));
 			}
 			sb.append(");\n");
 			sb.append("\t\t\t\treturn;\n");
@@ -510,10 +529,14 @@ public class ModifyGen extends CSharpBase {
 		for(Entity entity : replParameters) {
 			if(entity instanceof Node) {
 				Node node = (Node)entity;
-				sb.append(", GRGEN_LGSP.LGSPNode " + formatEntity(node));
+				sb.append(", ");
+				if(entity.isDefToBeYieldedTo()) sb.append("ref ");
+				sb.append("GRGEN_LGSP.LGSPNode " + formatEntity(node));
 			} else {
 				Variable var = (Variable)entity;
-				sb.append(", " + formatAttributeType(var)+ " " + formatEntity(var));
+				sb.append(", ");
+				if(entity.isDefToBeYieldedTo()) sb.append("ref ");
+				sb.append(formatAttributeType(var)+ " " + formatEntity(var));
 			}
 		}
 		sb.append(")\n");
@@ -525,7 +548,9 @@ public class ModifyGen extends CSharpBase {
 		sb.append("\t\t\t\t" + pathPrefix+iterName+"_Modify"
 				+ "(graph, curMatch");
 		for(Entity entity : replParameters) {
-			sb.append(", " + formatEntity(entity));
+			sb.append(", ");
+			if(entity.isDefToBeYieldedTo()) sb.append("ref ");
+			sb.append(formatEntity(entity));
 		}
 		sb.append(");\n");
 		sb.append("\t\t\t}\n");
@@ -603,7 +628,7 @@ public class ModifyGen extends CSharpBase {
 		ModifyGenerationState state = new ModifyGenerationState();
 		ModifyGenerationStateConst stateConst = state;
 
-		collectYieldedElements(task, stateConst, state.yieldedNodes, state.yieldedEdges);
+		collectYieldedElements(task, stateConst, state.yieldedNodes, state.yieldedEdges, state.yieldedVariables);
 
 		collectCommonElements(task, state.commonNodes, state.commonEdges, state.commonSubpatternUsages);
 
@@ -631,6 +656,8 @@ public class ModifyGen extends CSharpBase {
 			attributesStoredBeforeDelete.addAll(neededAttrs);
 		}
 
+		collectElementsAndAttributesNeededByDefVarToBeYieldedToInitialization(state, needs);
+
 		// Do not collect map and set expressions for evals
 		needs.collectMapSetExprs = false;
 		collectElementsAndAttributesNeededByEvals(task, needs);
@@ -642,8 +669,12 @@ public class ModifyGen extends CSharpBase {
 		genNewNodes(sb2, stateConst, useAddedElementNames, prefix,
 				state.nodesNeededAsElements, state.nodesNeededAsTypes);
 
+		// generates subpattern modification calls, evalhere statements, emithere statements,
+		// and alternative/iterated modification calls if specified (if not, they are generated below)
+		initEvalGen();
 		genSubpatternModificationCalls(sb2, task, pathPrefix, stateConst,
-				state.nodesNeededAsElements, state.neededVariables);
+				state.nodesNeededAsElements, state.neededVariables,
+				state.nodesNeededAsAttributes, state.edgesNeededAsAttributes);
 
 		genIteratedModificationCalls(sb2, task, pathPrefix);
 
@@ -703,7 +734,7 @@ public class ModifyGen extends CSharpBase {
 
 		genNeededTypes(sb, stateConst);
 	
-		genYieldedElements(sb, stateConst);
+		genYieldedElements(sb, stateConst, task.right);
 
 		// New nodes/edges (re-use), retype nodes/edges, call modification code
 		sb.append(sb2);
@@ -749,10 +780,14 @@ public class ModifyGen extends CSharpBase {
 				for(Entity entity : task.replParameters) {
 					if(entity instanceof Node) {
 						Node node = (Node)entity;
-						sb.append(", GRGEN_LGSP.LGSPNode " + formatEntity(node));
+						sb.append(", ");
+						if(entity.isDefToBeYieldedTo()) sb.append("ref ");
+						sb.append("GRGEN_LGSP.LGSPNode " + formatEntity(node));
 					} else {
 						Variable var = (Variable)entity;
-						sb.append(", " + formatAttributeType(var)+ " " + formatEntity(var));
+						sb.append(", ");
+						if(entity.isDefToBeYieldedTo()) sb.append("ref ");
+						sb.append(formatAttributeType(var)+ " " + formatEntity(var));
 					}
 				}
 				sb.append(")\n");
@@ -840,7 +875,8 @@ public class ModifyGen extends CSharpBase {
 	}
 
 	private void collectYieldedElements(ModifyGenerationTask task,
-			ModifyGenerationStateConst stateConst, HashSet<Node> yieldedNodes, HashSet<Edge> yieldedEdges)
+			ModifyGenerationStateConst stateConst, HashSet<Node> yieldedNodes, 
+			HashSet<Edge> yieldedEdges, HashSet<Variable> yieldedVariables)
 	{
 		for(Node node : task.right.getNodes()) {
 			if(node.isDefToBeYieldedTo()) {
@@ -851,6 +887,12 @@ public class ModifyGen extends CSharpBase {
 		for(Edge edge : task.right.getEdges()) {
 			if(edge.isDefToBeYieldedTo()) {
 				yieldedEdges.add(edge);
+			}
+		}
+		
+		for(Variable var : task.right.getVars()) {
+			if(var.isDefToBeYieldedTo()) {
+				yieldedVariables.add(var);
 			}
 		}
 	}
@@ -969,6 +1011,19 @@ public class ModifyGen extends CSharpBase {
 		for(EvalStatement evalStmt : task.evals) {
 			evalStmt.collectNeededEntities(needs);
 		}
+		for(OrderedReplacement orderedRep : task.right.getOrderedReplacements()) {
+			if(orderedRep instanceof EvalStatement) {
+				((EvalStatement)orderedRep).collectNeededEntities(needs);
+			}
+		}
+	}
+
+	private void collectElementsAndAttributesNeededByDefVarToBeYieldedToInitialization(ModifyGenerationStateConst state,
+			NeededEntities needs)
+	{
+		for(Variable var : state.yieldedVariables())
+			if(var.initialization!=null)
+				var.initialization.collectNeededEntities(needs);
 	}
 
 	private void collectElementsAndAttributesNeededByReturns(ModifyGenerationTask task,
@@ -998,13 +1053,40 @@ public class ModifyGen extends CSharpBase {
 		}
 	}
 
-	private void genYieldedElements(StringBuffer sb, ModifyGenerationStateConst state)
+	private void genYieldedElements(StringBuffer sb, ModifyGenerationStateConst state, PatternGraph right)
 	{
 		for(Node node : state.yieldedNodes()) {
-			sb.append("\t\t\t" + formatType(node.getType()) + " " + formatEntity(node)+ ";\n");
+			if(right.getReplParameters().contains(node)) continue;
+			sb.append("\t\t\t" + formatType(node.getType()) + " " + formatEntity(node)+ " = null;\n");
 		}
 		for(Edge edge : state.yieldedEdges()) {
-			sb.append("\t\t\t" + formatType(edge.getType()) + " " + formatEntity(edge) + ";\n");
+			if(right.getReplParameters().contains(edge)) continue;
+			sb.append("\t\t\t" + formatType(edge.getType()) + " " + formatEntity(edge) + " = null;\n");
+		}
+		for(Variable var : state.yieldedVariables()) {
+			if(right.getReplParameters().contains(var)) continue;
+			sb.append("\t\t\t" + formatAttributeType(var.getType()) + " " + formatEntity(var) + " = ");
+			if(var.initialization!=null) {
+				if(var.getType() instanceof EnumType)
+					sb.append("(GRGEN_MODEL.ENUM_" + formatIdentifiable(var.getType()) + ") ");
+				genExpression(sb, var.initialization, state);
+			} else {
+				if(var.getType() instanceof IntType || var.getType() instanceof DoubleType
+						|| var.getType() instanceof EnumType) {
+					sb.append("0;\n");
+				} else if(var.getType() instanceof FloatType) {
+					sb.append("0f;\n");
+				} else if(var.getType() instanceof BooleanType) {
+					sb.append("false;\n");
+				} else if(var.getType() instanceof StringType || var.getType() instanceof ObjectType 
+						|| var.getType() instanceof VoidType || var.getType() instanceof ExternalType 
+						|| var.getType() instanceof MapType || var.getType() instanceof SetType) {
+					sb.append("null;\n");
+				} else {
+					throw new IllegalArgumentException("Unknown type: " + var.getType());
+				}			
+			}
+			sb.append(";\n");
 		}
 	}
 
@@ -1235,15 +1317,9 @@ public class ModifyGen extends CSharpBase {
 			// generate calls to the modifications of the alternatives (nested alternatives are handled in their enclosing alternative)
 			Collection<Alternative> alts = task.left.getAlts();
 			for(Alternative alt : alts) {
-				String altName = alt.getNameOfGraph();
-				sb.append("\t\t\t" + pathPrefix+task.left.getNameOfGraph()+"_"+altName+"_" +
-						"Modify(graph, alternative_" + altName);
-				List<Entity> replParameters = new LinkedList<Entity>();
-				getUnionOfReplaceParametersOfAlternativeCases(alt, replParameters);
-				for(Entity entity : replParameters) {
-					sb.append(", " + formatEntity(entity));
-				}
-				sb.append(");\n");
+				if(alt.wasReplacementAlreadyCalled)
+					continue;
+				genAlternativeModificationCall(alt, sb, task, pathPrefix);
 			}
 		}
 		else if(task.typeOfTask==TYPE_OF_TASK_DELETION) {
@@ -1257,6 +1333,20 @@ public class ModifyGen extends CSharpBase {
 		}
 	}
 
+	private void genAlternativeModificationCall(Alternative alt, StringBuffer sb, ModifyGenerationTask task, String pathPrefix) {
+		String altName = alt.getNameOfGraph();
+		sb.append("\t\t\t" + pathPrefix+task.left.getNameOfGraph()+"_"+altName+"_" +
+				"Modify(graph, alternative_" + altName);
+		List<Entity> replParameters = new LinkedList<Entity>();
+		getUnionOfReplaceParametersOfAlternativeCases(alt, replParameters);
+		for(Entity entity : replParameters) {
+			sb.append(", ");
+			if(entity.isDefToBeYieldedTo()) sb.append("ref ");
+			sb.append(formatEntity(entity));
+		}
+		sb.append(");\n");
+	}
+
 	private void genIteratedModificationCalls(StringBuffer sb, ModifyGenerationTask task, String pathPrefix) {
 		if(task.right==task.left) { // test needs top-level-modify due to interface, but not more
 			return;
@@ -1266,14 +1356,9 @@ public class ModifyGen extends CSharpBase {
 			// generate calls to the modifications of the iterateds (nested iterateds are handled in their enclosing iterated)
 			Collection<Rule> iters = task.left.getIters();
 			for(Rule iter : iters) {
-				String iterName = iter.getLeft().getNameOfGraph();
-				sb.append("\t\t\t" + pathPrefix+task.left.getNameOfGraph()+"_"+iterName+"_" +
-						"Modify(graph, iterated_" + iterName);
-				List<Entity> replParameters = iter.getRight().getReplParameters();
-				for(Entity entity : replParameters) {
-					sb.append(", " + formatEntity(entity));
-				}
-				sb.append(");\n");
+				if(iter.wasReplacementAlreadyCalled)
+					continue;
+				genIteratedModificationCall(iter, sb, task, pathPrefix);
 			}
 		}
 		else if(task.typeOfTask==TYPE_OF_TASK_DELETION) {
@@ -1287,8 +1372,22 @@ public class ModifyGen extends CSharpBase {
 		}
 	}
 
+	private void genIteratedModificationCall(Rule iter, StringBuffer sb, ModifyGenerationTask task, String pathPrefix) {
+		String iterName = iter.getLeft().getNameOfGraph();
+		sb.append("\t\t\t" + pathPrefix+task.left.getNameOfGraph()+"_"+iterName+"_" +
+				"Modify(graph, iterated_" + iterName);
+		List<Entity> replParameters = iter.getRight().getReplParameters();
+		for(Entity entity : replParameters) {
+			sb.append(", ");
+			if(entity.isDefToBeYieldedTo()) sb.append("ref ");
+			sb.append(formatEntity(entity));
+		}
+		sb.append(");\n");
+	}
+
 	private void genSubpatternModificationCalls(StringBuffer sb, ModifyGenerationTask task, String pathPrefix,
-			ExpressionGenerationState state, HashSet<Node> nodesNeededAsElements, HashSet<Variable> neededVariables) {
+			ModifyGenerationStateConst state, HashSet<Node> nodesNeededAsElements, HashSet<Variable> neededVariables,
+			HashSet<Node> nodesNeededAsAttributes, HashSet<Edge> edgesNeededAsAttributes) {
 		if(task.right==task.left) { // test needs top-level-modify due to interface, but not more
 			return;
 		}
@@ -1301,18 +1400,26 @@ public class ModifyGen extends CSharpBase {
 		for(OrderedReplacement orderedRep : task.right.getOrderedReplacements()) {
 			if(orderedRep instanceof SubpatternDependentReplacement) {
 				SubpatternDependentReplacement subRep = (SubpatternDependentReplacement)orderedRep;
+				Rule subRule = subRep.getSubpatternUsage().getSubpatternAction();
 				String subName = formatIdentifiable(subRep);
-				sb.append("\t\t\tPattern_" + formatIdentifiable(subRep.getSubpatternUsage().getSubpatternAction())
-						+ ".Instance." + formatIdentifiable(subRep.getSubpatternUsage().getSubpatternAction()) +
+				sb.append("\t\t\tPattern_" + formatIdentifiable(subRule)
+						+ ".Instance." + formatIdentifiable(subRule) +
 						"_Modify(graph, subpattern_" + subName);
-				NeededEntities needs = new NeededEntities(true, true, true, false, false, true);
-				for(Expression expr: subRep.getReplConnections()) {
+				NeededEntities needs = new NeededEntities(true, true, true, false, true, true);
+				List<Entity> replParameters = subRule.getRight().getReplParameters();
+				for(int i=0; i<subRep.getReplConnections().size(); ++i) {
+					Expression expr = subRep.getReplConnections().get(i);
+					Entity param = replParameters.get(i);
 					expr.collectNeededEntities(needs);
 					sb.append(", ");
-					if(expr instanceof GraphEntityExpression) {
-						sb.append("(GRGEN_LGSP.LGSPNode)(");
+					if(param.isDefToBeYieldedTo()) {
+						sb.append("ref (");
 					} else {
-						sb.append("(" + formatAttributeType(expr.getType()) + ") (");
+						if(expr instanceof GraphEntityExpression) {
+							sb.append("(GRGEN_LGSP.LGSPNode)(");
+						} else {
+							sb.append("(" + formatAttributeType(expr.getType()) + ") (");
+						}
 					}
 					genExpression(sb, expr, state);
 					sb.append(")");
@@ -1320,18 +1427,36 @@ public class ModifyGen extends CSharpBase {
 				for(Node node : needs.nodes) {
 					nodesNeededAsElements.add(node);
 				}
+				for(Node node : needs.attrNodes) {
+					nodesNeededAsAttributes.add(node);
+				}
+				for(Edge edge : needs.attrEdges) {
+					edgesNeededAsAttributes.add(edge);
+				}
 				for(Variable var : needs.variables) {
 					neededVariables.add(var);
 				}
-							
 				sb.append(");\n");
-			} else {
+			} else if(orderedRep instanceof Emit) { // emithere
 				Emit emit = (Emit)orderedRep;
 				for(Expression arg : emit.getArguments()) {
 					sb.append("\t\t\tgraph.EmitWriter.Write(");
 					genExpression(sb, arg, state);
 					sb.append(");\n");
 				}
+			} else if(orderedRep instanceof AlternativeReplacement) {
+				AlternativeReplacement altRep = (AlternativeReplacement)orderedRep;
+				Alternative alt = altRep.getAlternative();
+				genAlternativeModificationCall(alt, sb, task, pathPrefix);
+				alt.wasReplacementAlreadyCalled = true;
+			} else if(orderedRep instanceof IteratedReplacement) {
+				IteratedReplacement iterRep = (IteratedReplacement)orderedRep;
+				Rule iter = iterRep.getIterated();
+				genIteratedModificationCall(iter, sb, task, pathPrefix);
+				iter.wasReplacementAlreadyCalled = true;
+			} else if(orderedRep instanceof EvalStatement) { // evalhere
+				EvalStatement evalStmt = (EvalStatement)orderedRep;
+				genEvalStmt(sb, state, evalStmt);
 			}
 		}
 	}
@@ -1399,9 +1524,8 @@ public class ModifyGen extends CSharpBase {
 	private void genExtractVariablesFromMatch(StringBuffer sb, ModifyGenerationTask task,
 			ModifyGenerationStateConst state, String pathPrefix, String patternName) {
 		for(Variable var : state.neededVariables()) {
-			if(task.replParameters.contains(var)) {
-				continue; // skip replacement parameters, they are handed in as parameters
-			}
+			if(task.replParameters.contains(var)) continue; // skip replacement parameters, they are handed in as parameters
+			if(state.yieldedVariables().contains(var)) continue;
 			String type = formatAttributeType(var);
 			sb.append("\t\t\t" + type + " " + formatEntity(var)
 					+ " = curMatch."+formatEntity(var, "_")+";\n");
@@ -1576,11 +1700,13 @@ public class ModifyGen extends CSharpBase {
 	// Eval part generation //
 	//////////////////////////
 
-	private void genEvals(StringBuffer sb, ModifyGenerationStateConst state, Collection<EvalStatement> evalStatements) {
+	private void initEvalGen() {
 		// init eval statement generation state
 		defined.clear();
 		mapSetVarID = 0;
+	}
 
+	private void genEvals(StringBuffer sb, ModifyGenerationStateConst state, Collection<EvalStatement> evalStatements) {
 		for(EvalStatement evalStmt : evalStatements) {
 			genEvalStmt(sb, state, evalStmt);
 		}

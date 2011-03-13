@@ -26,12 +26,20 @@ namespace de.unika.ipd.grGen.libGr
         String UnprefixedName { get; }
 
         /// <summary>
-        /// The pattern where this element gets matched (null if rule parameter).
+        /// The pattern where this element is contained the first time / gets matched (null if rule parameter).
         /// </summary>
         IPatternGraph PointOfDefinition { get; }
 
+        /* to be uncommented in case this gets implemented, i.e. left side def elements to be yielded to, on right side already implemented
         /// <summary>
-        /// The annotations of the pattern element
+        /// Iff true the element is only defined in its PointOfDefinition pattern,
+        /// it gets matched in another, nested pattern which yields it to the containing pattern.
+        /// </summary>
+        bool DefToBeYieldedTo { get; }
+        */
+
+        /// <summary>
+        /// The annotations of the pattern element.
         /// </summary>
         IEnumerable<KeyValuePair<string, string>> Annotations { get; }
     }

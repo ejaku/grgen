@@ -7,11 +7,20 @@
 
 /**
  * @author Edgar Jakumeit
- * @version $Id: SubpatternDependentReplacement.java 26712 2009-11-02 23:11:59Z eja $
+ * @version $Id$
  */
 package de.unika.ipd.grgen.ir;
 
-public interface OrderedReplacement {
-	// no functionality, allows ordering of subpattern replacement nodes and emit here nodes and eval here nodes
-	// in one container of the ordered replacement node type
+public class AlternativeReplacement extends Identifiable implements OrderedReplacement{
+	Alternative alternative;
+
+	public AlternativeReplacement(String name, Ident ident,
+			Alternative alternative) {
+		super(name, ident);
+		this.alternative = alternative;
+	}
+
+	public Alternative getAlternative() {
+		return alternative;
+	}
 }

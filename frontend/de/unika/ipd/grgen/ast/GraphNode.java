@@ -59,6 +59,7 @@ public class GraphNode extends BaseNode {
 	protected CollectNode<ExprNode> returns;
 	protected CollectNode<BaseNode> imperativeStmts;
 	protected CollectNode<BaseNode> params;
+	protected CollectNode<VarDeclNode> defVariablesToBeYieldedTo;
 
 	protected boolean hasAbstractElements;
 
@@ -79,6 +80,7 @@ public class GraphNode extends BaseNode {
 	 */
 	public GraphNode(String nameOfGraph, Coords coords,
 			CollectNode<BaseNode> connections, CollectNode<BaseNode> params,
+			CollectNode<VarDeclNode> defVariablesToBeYieldedTo,
 			CollectNode<SubpatternUsageNode> subpatterns,
 			CollectNode<OrderedReplacementNode> orderedReplacements,
 			CollectNode<EvalStatementNode> yieldsEvals,
@@ -100,10 +102,11 @@ public class GraphNode extends BaseNode {
 		becomeParent(imperativeStmts);
 		this.params = params;
 		becomeParent(this.params);
+		this.defVariablesToBeYieldedTo = defVariablesToBeYieldedTo;
 		this.context = context;
 
 		// if we're constructed as part of a PatternGraphNode 
-		// this code will be executed by the PatternGraphNode
+		// then this code will be executed by the PatternGraphNode, so don't do it here
 		if(directlyNestingLHSGraph!=null) {
 			this.directlyNestingLHSGraph = directlyNestingLHSGraph;
 			// treat non-var parameters like connections
@@ -117,6 +120,7 @@ public class GraphNode extends BaseNode {
 		Vector<BaseNode> children = new Vector<BaseNode>();
 		children.add(getValidVersion(connectionsUnresolved, connections));
 		children.add(params);
+		children.add(defVariablesToBeYieldedTo);
 		children.add(subpatterns);
 		children.add(orderedReplacements);
 		children.add(yieldsEvals);
@@ -131,6 +135,7 @@ public class GraphNode extends BaseNode {
 		Vector<String> childrenNames = new Vector<String>();
 		childrenNames.add("connections");
 		childrenNames.add("params");
+		childrenNames.add("defVariablesToBeYieldedTo");
 		childrenNames.add("subpatterns");
 		childrenNames.add("subpatternReplacements");
 		childrenNames.add("yieldsEvals");
@@ -337,6 +342,10 @@ public class GraphNode extends BaseNode {
 			conn.addToGraph(gr);
 		}
 		
+		for(VarDeclNode n : defVariablesToBeYieldedTo.getChildren()) {
+			gr.addVariable(n.checkIR(Variable.class));
+		}
+		
 		for(SubpatternUsageNode n : subpatterns.getChildren()) {
 			gr.addSubpatternUsage(n.checkIR(SubpatternUsage.class));
 		}
@@ -348,6 +357,7 @@ public class GraphNode extends BaseNode {
 		// add subpattern usage connection elements only mentioned there to the IR
 		// (they're declared in an enclosing graph and locally only show up in the subpattern usage connection)
 		for(OrderedReplacementNode n : orderedReplacements.getChildren()) {
+			// TODO: what's with all the other ordered replacement operations containing entitites?
 			if(!(n instanceof SubpatternReplNode))
 				continue;
 			SubpatternReplNode r = (SubpatternReplNode)n;

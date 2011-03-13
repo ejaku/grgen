@@ -60,7 +60,7 @@ import de.unika.ipd.grgen.ir.VoidType;
 
 public class ModelGen extends CSharpBase {
 	private final int MAX_OPERATIONS_FOR_ATTRIBUTE_INITIALIZATION_INLINING = 20;
-	private final static String ATTR_IMPL_SUFFIX = "_M0n0_suXx";
+	private final static String ATTR_IMPL_SUFFIX = "_M0no_suXx_h4rD";
 
 	public ModelGen(SearchPlanBackend2 backend, String nodeTypePrefix, String edgeTypePrefix) {
 		super(nodeTypePrefix, edgeTypePrefix);

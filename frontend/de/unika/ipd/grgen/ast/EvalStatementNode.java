@@ -14,7 +14,7 @@ package de.unika.ipd.grgen.ast;
 
 import de.unika.ipd.grgen.parser.Coords;
 
-public abstract class EvalStatementNode extends BaseNode
+public abstract class EvalStatementNode extends OrderedReplacementNode
 {
 	public EvalStatementNode(Coords coords)
 	{
