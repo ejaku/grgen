@@ -69,7 +69,7 @@ rule foo : (A,B)
 \end{example}
 
 %-----------------------------------------------------------------------------------------------
-\subsection{Deferred exec and emithere in nested and subpatterns}
+\subsection{Deferred exec and emithere in nested and subpatterns}\label{sec:deferredexecemithere}
 
 \begin{rail}  
   SubpatternExecEmit: 
@@ -82,7 +82,8 @@ rule foo : (A,B)
 The statements \texttt{emit}, \texttt{emithere} and \texttt{exec} enhance the declarative nested rewrite part by imperative clauses.
 The \texttt{emit} and \texttt{emithere} statements get executed during rewriting before the \texttt{exec} statements;
 the \texttt{emithere}-statements get executed before the \texttt{emit} statements,
-in the order in between the subpattern rewrite applications they are specified syntactically.
+in the order in between the subpattern rewrite applications they are specified syntactically
+(see \ref{sec:localvarorderedevalyield} for more on this).s
 The \texttt{exec} statements are executed i) after the rule which used their patterns was executed
 and ii) in the order as they appear within the rule.
 They are a slightly different version of the \texttt{exec}-statements from the \emph{ExecStatement} introduced in \ref{replclause}, only available in the rewrite parts of subpatterns or nested alternatives/iterateds
@@ -729,7 +730,7 @@ especially as this is a general method to compute non-local informations over gr
 We'll apply a backward may analysis (with only $gen$ but no $kill$ information) to compute for each node the nodes which can be reached from this node.
 Reachability is an interesting property if you have to do a lot of iterated path checks:
 instead of computing the itererated path with a recursive pattern each and every time you must check for it,
-compute it once and just look it up from then one.
+compute it once and just look it up from then on.
 If you need to check several paths which must be disjoint you won't get around employing recursive subpatterns with one locking the elements for the other; but even in this case the precomputed information should be valuable (unless the graph is heavily connected), constraining the search to source and target nodes between which a path does exist, eliminating nodes which are not connected.
 
 The reachability information will be stored in a storage set per node of the graph (indeed, we trade memory space for execution speed):

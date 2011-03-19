@@ -1,4 +1,32 @@
-﻿v2.7.ms4 (2011-02-07)
+﻿v2.7.ms5 (2011-03-20)
+ Local variables, ordered evaluation, and yielding outwards (RHS only):
+  - added def entity declarations which do not get created on RHS (matched on LHS), 
+    but are yielded to from evals, evalheres, subpattern rewrite parts, or execs
+	 (of the same pattern or especially of nested patterns and calles subpatterns)
+	 def vars may receive an initialization assignment
+  - added yielding assignments to evals, evalheres, execs
+  - added yield arguments to def rewrite parameters in subpattern rewrite calls
+  - added evalhere command to evaluate attributes in between the subpattern rewrite calls
+  - added alternative/iterated rewrite usage specification to trigger an alternative/iterated
+    rewrite usage in between the subpattern rewrite calls
+  - was made possible by: every nested pattern can be given a name, 
+     for the anonymous ones a counted makeshift name is assigned
+
+ Bugfixes:
+  - the mono csharp compiler yields errors for unicode escaping in identifiers,
+    changed attribute implementation suffix
+  - fixed code generation for calls in compiled sequences which do not assign return values,
+    but the rule/sequence called returns some
+  - added error messages in case edges created are referenced in evalhere,
+    in case edges from nesting pattern are referenced in nested pattern (instead of compiler crash)
+  - fixed assertion when using node/edge valued set/map types
+
+ Minor:
+  - refactorings of iterated patterns in API
+  - syntaxhighlighting adapted
+
+
+v2.7.ms4 (2011-02-07)
  Added procedural abstraction for graph rewrite sequences with sequence definitions:
  - added support for compiled named sequence definitions in rules file with syntax:
     sequence name(input variables):(output variables) { sequence }

@@ -118,7 +118,7 @@ Constraints which might cause an candidate to get rejected are the type of the e
 Furthermore there are negative checking, independent checking, and attribute checking, which are normally depending on multiple elements.
 Other matching operations are storage access, storage attribute access and storage mapping.
 
-Compared to pattern matching which may need a long time, pattern rewriting is a very simple task following a simple sequence of node or edge operations, first creating all new nodes then edges, followed by an evaluation of the attributes, then deleting all edges and nodes, finally executing embedded sequences.
+Compared to pattern matching which may need a long time, pattern rewriting is a very simple task following a simple sequence of node or edge operations, first creating all new nodes then edges, followed by an evaluation of the attributes, then deleting all edges and nodes, finally executing embedded sequences (see table \ref{table:executionorderrewriting} for more on this).
 
 A notable performance optimization allowed by the graph model is \indexed{search state space stepping}: 
 after a pattern was matched, the list heads of the type lookup ring lists, the incoming ring lists and the outgoing  ring lists are moved to the position of the matched entries with \texttt{MoveHeadAfter}, \texttt{MoveInHeadAfter} and \texttt{MoveOutHeadAfter}.
@@ -135,7 +135,7 @@ Iterateds are handled like subpatterns whose tasks are not removed when they get
 
 The advantages of this design linearizing the pattern tree on the call stack are the rather low usage of heap memory, the ability to reuse the match programs for the patterns as introduced in the previous section, and the ability to find all matches; the $n$ in $2+n$ pushdown machine stands for the number of matches found.
 
-Rewriting is carried out by a depth-first traversal of the match tree, creating new elements before decending, evaluating attributes and deleting old elements before ascending. For each pattern piece match the modification specified in the rewrite part is carried out, i.e. the overall rewrite gets combined from the rewrites of the pattern pieces.
+Rewriting is carried out by a depth-first traversal of the match tree, creating new elements before decending, evaluating attributes and deleting old elements before ascending. For each pattern piece match the modification specified in the rewrite part is carried out, i.e. the overall rewrite gets combined from the rewrites of the pattern pieces (cf. table \ref{table:executionorderrewriting} for the order of rewriting).
 
 In the following, an example run of the $2+n$ pushdown machine is given:
 

@@ -467,7 +467,7 @@ built up in a structured way from simple, connected pieces (as e.g. abstract syn
 
 \begin{note}
 If you are working with hierarchic structures like that, 
-you might be intersted in the capablities of GrShell/yComp for nested layout
+you might be interested in the capablities of GrShell/yComp for nested layout
 as described and shown in \ref{sub:visual}/\ref{note:visual}).
 \end{note}
 
@@ -785,6 +785,202 @@ rule createSubpattern
 }
   \end{grgen}
 \end{note}
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\section{Local variables, ordered evaluation, and yielding outwards} \label{sec:localvarorderedevalyield}\indexmain{local variable}\indexmainsee{evalhere}{ordered evaluation}\indexmain{yielding outwards}
+
+Sometimes attribute evaluation becomes easier with temporary variables;
+such local variables can be introduced on a right hand side employing the known variable syntax \texttt{var name:type}, prefixed with the \texttt{def}\indexmain{def} keyword.
+From then on they can be read and assigned to in eval statements of the RHS, or used as variable parameters in subpattern rewrite calls.
+In addition, on their introduction an initializing expression may be given.
+
+\begin{example}
+  \begin{grgen}
+rule R {
+  n1:N; n2:N; n3:N; n4:N; n5:N;
+  
+  modify {
+    def var mean:double = (n1.v + n2.v + n3.v + n4.v + n5.v)/5;
+    eval {
+    	n1.variance = (n1.v - mean)*(n1.v - mean); 
+    	n2.variance = (n2.v - mean)*(n2.v - mean); 
+    	n3.variance = (n3.v - mean)*(n3.v - mean); 
+    	n4.variance = (n4.v - mean)*(n4.v - mean); 
+    	n5.variance = (n5.v - mean)*(n5.v - mean); 
+    }
+  }
+}
+  \end{grgen}
+\end{example}
+
+
+Normally the rewrite order is as given in table \ref{table:executionorderrewriting}:
+\begin{table}[htbp]
+  \centering
+  \begin{tabularx}{\linewidth}{|l|X|} \hline
+    \texttt{ 1. } & \texttt{ Extract elements needed from match } \\
+    \texttt{ 2. } & \texttt{ Create new nodes } \\
+    \texttt{ 3. } & \texttt{ Call rewrite code of used subpatterns} \emph{and more...} \\ 
+	  \texttt{ 4. } & \texttt{ Call rewrite code of nested iterateds } \\
+    \texttt{ 5. } & \texttt{ Call rewrite code of nested alternatives } \\
+    \texttt{ 6. } & \texttt{ Retype nodes } \\  
+    \texttt{ 7. } & \texttt{ Create new edges } \\
+    \texttt{ 8. } & \texttt{ Retype edges } \\  
+    \texttt{ 9. } & \texttt{ Create subpatterns } \\
+    \texttt{ 10. } & \texttt{ Attribute reevaluation } \\
+    \texttt{ 11. } & \texttt{ Remove edges } \\ 
+	  \texttt{ 12. } & \texttt{ Remove nodes } \\
+    \texttt{ 13. } & \texttt{ Remove subpatterns } \\
+    \texttt{ 14. } & \texttt{ Emit / Exec } \\  
+    \texttt{ 15. } & \texttt{ Return } \\ \hline
+	\end{tabularx}
+	{\small \emph{and more...} at \texttt{3.} are \texttt{evalhere}, \texttt{emithere}, \texttt{alternative} Name, \texttt{iterated} Name}
+  \caption{Execution order rewriting}
+  \label{table:executionorderrewriting}
+\end{table}
+
+So first the subpatterns rewrites, then the iterated rewrites, then the alternative rewrits are executed, and finally the local eval statements.
+This might be sufficient in some cases, but in most cases you want to compute an attributation over a tree/a graph, you want to have local computations influenced by attributes in nested/called children or its siblings, and attributes in nested/called children influenced by its parents or siblings.
+So we need a language device which allows us to intermingle attribute computations in between the rewrite part executions of nested patterns and subpattern rewrite calls.
+And a language device which allows us to give the execution oder of the alternative and iterated statements relative to the subpattern rewrite calls and attribute evaluations.
+
+To achieve attribute evaluation in a defined order in between the subpattern rewrite calls, we use ordered evaluation statements, introduced with the keyword \texttt{evalhere}; 
+they get executed in the order in which they are given syntactically
+(a further statement executed in order is \texttt{emithere}, introduced in \ref{sec:deferredexecemithere}).
+
+To achieve iterated/alternative execution in order, we allow names to be given to nested patterns, and reuse this name in a nested pattern rewrite order specification.
+Naming nested patterns is done with the following syntax, as the already introduced syntax remains valid, on aggregate we extend the nested patterns with optional names to form \indexed{named nested pattern}.
+
+\begin{rail}  
+  NamedNestedPattern: 
+    'negative' IdentDecl lbrace etc rbrace;
+    'independent' IdentDecl lbrace etc rbrace;
+    ('iterated' | 'multiple' | 'optional') IdentDecl etc rbrace;
+    'alternative' IdentDecl lbrace etc rbrace;
+\end{rail}
+
+Alternatives and iterateds named this way can then be referenced in the rewrite part with an alternative rewrite order specification or an iterated rewrite order specification.
+
+\begin{rail}  
+  CardinalityRewriteUsage: 
+    ('iterated' | 'multiple' | 'optional') Ident ';';
+  AlternativeRewriteUsage: 
+    'alternative' Ident ';';
+\end{rail}
+
+What we've seen so far is applied in the following example.
+
+\begin{example}
+  \begin{grgen}
+rule R {
+  iterated foo { .; modify { ..read i.. } }
+  alternative bar { case { modify { ..read i.. } } } 
+  sub1:Subpattern1();
+  sub2:Subpattern2();
+
+  modify {
+    def var i:int = 0; // initializes i to 0
+    evalhere { i = i + 1; } // afterwards i==1
+    sub1(i); // input 1 to subpattern rewrite
+    evalhere { i = i + 1; } // afterwards i==2
+    iterated foo; // nested iterated reads i==2 
+    evalhere { i = i + 1; } // afterwards i==3
+    alternative bar; // nested alternative reads i==3
+    evalhere { i = i + 1; } // afterwards i==4
+    sub2(i); // input 4 to subpattern rewrite
+    evalhere { i = i + 1; } // afterwards i==5
+    eval { j = i + 1; } // assign 6 to j
+  }
+}
+  \end{grgen}
+\end{example}
+
+\begin{note}
+For rewriting the execution order of the parts can be defined, to allow programming attribute evaluation orders of interest, defining when to descend into which part and defining glueing/local computations in between.
+(A depth first run with a defined order in between the siblings, comparable to an LAG/RAG run in compiler construction, but with an explicitely defined sequence of children visits, instead of a temperal succession implicitely induced by the syntactical left-to-right ordering).
+In contrast to rewriting, the \emph{matching} order of the pattern parts can \emph{not} be defined, to allow the compiler/the runtime to use the evaluation order it estimates to be the best; the only attribute evaluation mechanisms here are the already matched elements and attribute values or the ones received as inputs, which are handed down implicitely into nested patterns or explicitely via subpattern parameters into subpattern instances.
+(A depth first run too, but without a defined order in between the siblings, comparable to an IAG computed during matching while descending).
+\end{note}
+
+Sometimes one needs to bring something matched within a nested or subpattern to an outer pattern containing it (nested patterns) or calling it (subpatterns).
+So that one can do there (in the using pattern) operations on it, e.g. attaching a further edge to an end node of a chain matched with recursive patterns (thus modularizing the graph rewrite specification into chain matching patterns and patterns using chains doing things on the chain ends), or summing attributes matched in iterated pattern instances. 
+
+The first thing one needs to bring something outwards is a target in a nesting or calling pattern. 
+This is achieved by nodes, edges, and variables declared with the \texttt{def} keyword in a rewrite part, marking them as output entities;
+variables were already introduced in previous paragraphs, but in addition to them nodes and edges are allowed, too.
+Furthermore subpattern rewrite parameters may be declared as def parameters,
+marking them as output parameters.
+These elements are then yielded to from within \texttt{eval} or \texttt{evalhere} statements, subpattern rewrite usages, and \texttt{exec} statements.
+While the latter will be covered in chapter \ref{cha:imperativeandstate}, the former will be explained in the following.
+
+Yielding is specified by prepending the \texttt{yield}\indexmain{yield} keyword to the entity yielded to,
+in an assignment to a variable or a method call on a variable,
+inside an \texttt{eval} or \texttt{evalhere}-statement, or a change assignment; 
+the target of the assignment may be a node or edge (if declared as output variable).
+The yield must be prepended to the argument for a subpattern def rewrite parameter, too.
+
+\begin{example}
+  \begin{grgen}
+pattern Chain(begin:Node) modify(def end:Node)
+{
+  alternative {
+    Further {
+      begin --> intermediate:Node;
+      c:Chain(intermediate);
+      
+      modify {
+        c(yield end);
+      }
+    }
+    Done {
+      negative {
+        begin -->;
+      }
+      
+      modify {
+        eval {
+          yield end = begin;
+        }
+      }
+    }
+  }
+  
+  modify { }
+}
+
+rule R(begin:Node) : (Node) {
+  c:Chain(begin);
+
+  modify {
+    def end:Node;
+    c(yield end); // end is filled with chain end
+    return(end);
+  }
+}
+  \end{grgen}
+  First example for RHS yielding: returning the end node of a chain.
+\end{example}
+
+\begin{example}
+  \begin{grgen}
+rule outCount(head:Node) : (int)
+{
+  iterated {
+    head --> .;
+    modify {
+      eval { yield count = count + 1; }
+    }
+  }
+
+  modify {
+    def var count:int = 0;
+    return (count);
+  }
+}
+  \end{grgen}
+  Second example for RHS yielding: counting the number of edges matched with an iterated.
+\end{example}
 
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
