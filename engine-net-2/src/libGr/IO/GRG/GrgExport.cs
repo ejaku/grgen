@@ -162,8 +162,9 @@ namespace de.unika.ipd.grGen.libGr
         /// </summary>
         private static void EmitAttributeInitialization(IGraphElement elem, AttributeType attrType, object value, IGraph graph, StreamWriter sw)
         {
-            sw.Write("\t\t\t{0}.{1} = ", graph.GetElementName(elem), attrType.Name);
+            sw.Write("\t\t\t{0}.{1} = ", EscapeName(graph.GetElementName(elem)), attrType.Name);
             EmitAttribute(attrType, value, graph, sw);
+            sw.WriteLine(";");
         }
 
         /// <summary>
