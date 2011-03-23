@@ -43,9 +43,11 @@ namespace de.unika.ipd.grGen.libGr
             if(first.EndsWith(".gxl", StringComparison.InvariantCultureIgnoreCase)) {
                 GXLExport.Export(graph, writer);
             } else if (first.EndsWith(".grs", StringComparison.InvariantCultureIgnoreCase)
-                || first.EndsWith(".grsi", StringComparison.InvariantCultureIgnoreCase))
+                || first.EndsWith(".grsi", StringComparison.InvariantCultureIgnoreCase)) {
                 GRSExport.Export(graph, writer, ListGet(filenameParameters, 1)=="withvariables");
-            else
+            } else if (first.EndsWith(".grg", StringComparison.InvariantCultureIgnoreCase)) {
+                GRGExport.Export(graph, writer);
+            } else
                 throw new NotSupportedException("File format not supported");
         }
 
