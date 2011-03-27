@@ -1064,8 +1064,8 @@ namespace de.unika.ipd.grGen.libGr
         public override bool GetLocalVariables(Dictionary<SequenceVariable, SetValueType> variables, Sequence target)
         {
             ParamBindings.GetLocalVariables(variables);
-            MinVarChooseRandom.GetLocalVariables(variables);
-            MaxVarChooseRandom.GetLocalVariables(variables);
+            if(MinVarChooseRandom!=null) MinVarChooseRandom.GetLocalVariables(variables);
+            if(MaxVarChooseRandom!=null) MaxVarChooseRandom.GetLocalVariables(variables);
             return this == target;
         }
 
