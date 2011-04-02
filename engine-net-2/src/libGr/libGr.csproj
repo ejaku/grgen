@@ -74,6 +74,7 @@
     <Compile Include="IGraph.cs" />
     <Compile Include="IGraphHelpers.cs" />
     <Compile Include="IO\EMF\ECoreImport.cs" />
+    <Compile Include="IO\GRG\GrgExport.cs" />
     <Compile Include="IO\GRS\GrsExport.cs" />
     <Compile Include="IO\GXL\GXLExport.cs" />
     <Compile Include="IO\GXL\GXLImport.cs" />
