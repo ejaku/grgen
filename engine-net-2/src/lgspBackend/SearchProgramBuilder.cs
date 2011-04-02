@@ -92,11 +92,7 @@ namespace de.unika.ipd.grGen.lgsp
             searchProgram.OperationsList = new SearchProgramList(searchProgram);
             SearchProgramOperation insertionPoint = searchProgram.OperationsList;
 
-            for(int i = 0; i < patternGraph.variables.Length; i++)
-            {
-                PatternVariable var = patternGraph.variables[i];
-                insertionPoint = insertionPoint.Append(new ExtractVariable(TypesHelper.TypeName(var.Type), var.Name));
-            }
+            insertionPoint = insertVariableDeclarations(insertionPoint, patternGraph);
 
             // start building with first operation in scheduled search plan
             indexOfSchedule = index;
@@ -170,11 +166,7 @@ namespace de.unika.ipd.grGen.lgsp
             searchProgram.OperationsList = new SearchProgramList(searchProgram);
             SearchProgramOperation insertionPoint = searchProgram.OperationsList;
 
-            for(int i = 0; i < patternGraph.variables.Length; i++)
-            {
-                PatternVariable var = patternGraph.variables[i];
-                insertionPoint = insertionPoint.Append(new ExtractVariable(TypesHelper.TypeName(var.Type), var.Name));
-            }
+            insertionPoint = insertVariableDeclarations(insertionPoint, patternGraph);
 
             // initialize task/result-pushdown handling in subpattern matcher
             InitializeSubpatternMatching initialize = 
@@ -252,11 +244,7 @@ namespace de.unika.ipd.grGen.lgsp
                 
                 // at level of the current alt case
                 insertionPoint = matchAlternative.OperationsList;
-                for (int j = 0; j < altCase.variables.Length; j++)
-                {
-                    PatternVariable var = altCase.variables[j];
-                    insertionPoint = insertionPoint.Append(new ExtractVariable(TypesHelper.TypeName(var.Type), var.Name));
-                }
+                insertionPoint = insertVariableDeclarations(insertionPoint, altCase);
 
                 patternGraphWithNestingPatterns.Push(altCase);
                 isNegative = false;
@@ -316,11 +304,7 @@ namespace de.unika.ipd.grGen.lgsp
             searchProgram.OperationsList = new SearchProgramList(searchProgram);
             SearchProgramOperation insertionPoint = searchProgram.OperationsList;
 
-            for (int i = 0; i < iter.variables.Length; i++)
-            {
-                PatternVariable var = iter.variables[i];
-                insertionPoint = insertionPoint.Append(new ExtractVariable(TypesHelper.TypeName(var.Type), var.Name));
-            }
+            insertionPoint = insertVariableDeclarations(insertionPoint, iter);
 
             // initialize task/result-pushdown handling in subpattern matcher for iteration
             InitializeSubpatternMatching initialize = 
@@ -351,6 +335,63 @@ namespace de.unika.ipd.grGen.lgsp
             patternGraphWithNestingPatterns.Pop();
 
             return searchProgram;
+        }
+
+        /// <summary>
+        /// Inserts declarations for variables extracted from parameters and for def variables to be yielded to
+        /// </summary>
+        private SearchProgramOperation insertVariableDeclarations(SearchProgramOperation insertionPoint, PatternGraph patternGraph)
+        {
+            foreach(PatternVariable var in patternGraph.variables)
+            {
+                if(var.defToBeYieldedTo)
+                {
+                    String initializationExpression;
+                    if(var.initialization != null)
+                    {
+                        SourceBuilder builder = new SourceBuilder();
+                        var.initialization.Emit(builder);
+                        initializationExpression = builder.ToString();
+                    }
+                    else
+                    {
+                        string typeName = TypesHelper.XgrsTypeToCSharpType(TypesHelper.DotNetTypeToXgrsType(var.Type), model);
+                        initializationExpression = TypesHelper.DefaultValue(typeName, model);
+                    }
+                    insertionPoint = insertionPoint.Append(
+                        new DeclareDefElement(EntityType.Variable, TypesHelper.TypeName(var.Type), var.Name, 
+                            initializationExpression)
+                    );
+                }
+                else
+                {
+                    insertionPoint = insertionPoint.Append(
+                        new ExtractVariable(TypesHelper.TypeName(var.Type), var.Name)
+                    );
+                }
+            }
+
+            foreach(PatternNode node in patternGraph.nodes)
+            {
+                if(node.defToBeYieldedTo)
+                {
+                    insertionPoint = insertionPoint.Append(
+                        new DeclareDefElement(EntityType.Node, "GRGEN_LGSP.LGSPNode", node.Name, "null")
+                    );
+                }
+            }
+
+            foreach(PatternEdge edge in patternGraph.edges)
+            {
+                if(edge.defToBeYieldedTo)
+                {
+                    insertionPoint = insertionPoint.Append(
+                        new DeclareDefElement(EntityType.Edge, "GRGEN_LGSP.LGSPEdge", edge.Name, "null")
+                    );
+                }
+            }
+
+            return insertionPoint;
         }
 
         ///////////////////////////////////////////////////////////////////////////////////
@@ -446,6 +487,7 @@ namespace de.unika.ipd.grGen.lgsp
             switch (op.Type)
             {
                 case SearchOperationType.Void:
+                case SearchOperationType.DefToBeYieldedTo:
                     return BuildScheduledSearchPlanOperationIntoSearchProgram(
                         indexOfScheduledSearchPlanOperationToBuild + 1,
                         insertionPointWithinSearchProgram);
@@ -1809,7 +1851,7 @@ namespace de.unika.ipd.grGen.lgsp
             insertionPoint = insertionPoint.Append(pushMatch);
 
             insertionPoint = insertMatchObjectBuilding(insertionPoint,
-                patternGraph, MatchObjectType.Patternpath);
+                patternGraph, MatchObjectType.Patternpath, false);
 
             insertionPoint = insertPatternpathAccept(insertionPoint, patternGraph);
 
@@ -2060,7 +2102,8 @@ namespace de.unika.ipd.grGen.lgsp
         private SearchProgramOperation insertMatchObjectBuilding(
             SearchProgramOperation insertionPoint,
             PatternGraph patternGraph,
-            MatchObjectType matchObjectType)
+            MatchObjectType matchObjectType,
+            bool defElements)
         {
             String matchObjectName;
             if(matchObjectType==MatchObjectType.Independent) {
@@ -2074,53 +2117,73 @@ namespace de.unika.ipd.grGen.lgsp
 
             for (int i = 0; i < patternGraph.nodes.Length; ++i)
             {
-                BuildMatchObject buildMatch =
-                    new BuildMatchObject(
-                        BuildMatchObjectType.Node,
-                        patternGraph.nodes[i].typeName,
-                        patternGraph.nodes[i].UnprefixedName,
-                        patternGraph.nodes[i].Name,
-                        rulePatternClassName,
-                        enumPrefix,
-                        matchObjectName,
-                        -1
-                    );
-                insertionPoint = insertionPoint.Append(buildMatch);
+                // in defElements pass only def elements, in non defElements pass only non def elements
+                if(defElements == patternGraph.nodes[i].defToBeYieldedTo)
+                {
+                    BuildMatchObject buildMatch =
+                        new BuildMatchObject(
+                            BuildMatchObjectType.Node,
+                            patternGraph.nodes[i].typeName,
+                            patternGraph.nodes[i].UnprefixedName,
+                            patternGraph.nodes[i].Name,
+                            rulePatternClassName,
+                            enumPrefix,
+                            matchObjectName,
+                            -1
+                        );
+                    insertionPoint = insertionPoint.Append(buildMatch);
+                }
             }
             for (int i = 0; i < patternGraph.edges.Length; ++i)
             {
-                BuildMatchObject buildMatch =
-                    new BuildMatchObject(
-                        BuildMatchObjectType.Edge,
-                        patternGraph.edges[i].typeName,
-                        patternGraph.edges[i].UnprefixedName,
-                        patternGraph.edges[i].Name,
-                        rulePatternClassName,
-                        enumPrefix,
-                        matchObjectName,
-                        -1
-                    );
-                insertionPoint = insertionPoint.Append(buildMatch);
+                // in defElements pass only def elements, in non defElements pass only non def elements
+                if(defElements == patternGraph.edges[i].defToBeYieldedTo)
+                {
+                    BuildMatchObject buildMatch =
+                        new BuildMatchObject(
+                            BuildMatchObjectType.Edge,
+                            patternGraph.edges[i].typeName,
+                            patternGraph.edges[i].UnprefixedName,
+                            patternGraph.edges[i].Name,
+                            rulePatternClassName,
+                            enumPrefix,
+                            matchObjectName,
+                            -1
+                        );
+                    insertionPoint = insertionPoint.Append(buildMatch);
+                }
             }
 
             // only nodes and edges for patternpath matches
-            if (matchObjectType == MatchObjectType.Patternpath) return insertionPoint;
+            if (matchObjectType == MatchObjectType.Patternpath) {
+                return insertionPoint;
+            }
 
             foreach (PatternVariable var in patternGraph.variables)
             {
-                BuildMatchObject buildMatch =
-                    new BuildMatchObject(
-                        BuildMatchObjectType.Variable,
-                        var.Type.Type.FullName,
-                        var.UnprefixedName,
-                        var.Name,
-                        rulePatternClassName,
-                        enumPrefix,
-                        matchObjectName,
-                        -1
-                    );
-                insertionPoint = insertionPoint.Append(buildMatch);
+                // in defElements pass only def elements, in non defElements pass only non def elements
+                if(defElements == var.defToBeYieldedTo)
+                {
+                    BuildMatchObject buildMatch =
+                        new BuildMatchObject(
+                            BuildMatchObjectType.Variable,
+                            var.Type.Type.FullName,
+                            var.UnprefixedName,
+                            var.Name,
+                            rulePatternClassName,
+                            enumPrefix,
+                            matchObjectName,
+                            -1
+                        );
+                    insertionPoint = insertionPoint.Append(buildMatch);
+                }
             }
+
+            // only nodes, edges, variables in defElements pass
+            if(defElements) {
+                return insertionPoint;
+            }
+
             for (int i = 0; i < patternGraph.embeddedGraphs.Length; ++i)
             {
                 string subpatternContainingType = NamesOfEntities.RulePatternClassName(patternGraph.embeddedGraphs[i].EmbeddedGraph.Name, true);
@@ -2181,6 +2244,193 @@ namespace de.unika.ipd.grGen.lgsp
                         matchObjectName
                     );
                     insertionPoint = insertionPoint.Append(buildMatch);
+                }
+            }
+
+            // we only have to take care of yielding in case of normal and independent matches 
+            // and if we contain a def entity (and if we are not in the defElements pass)
+            if(matchObjectType != MatchObjectType.Patternpath
+                && patternGraph.isDefEntityExisting)
+            {
+                return insertYields(insertionPoint, patternGraph, matchObjectName);
+            }
+
+            return insertionPoint;
+        }
+
+        /// <summary>
+        /// Inserts code to yield, bubbling effects of nested yields upwards and computing local yields 
+        /// at the given position, returns position after inserted operations
+        /// </summary>
+        private SearchProgramOperation insertYields(
+            SearchProgramOperation insertionPoint,
+            PatternGraph patternGraph,
+            String matchObjectName)
+        {
+            // the match object is built now with our local elements
+            // and the match objects of our children
+            // now 1. copy all def entities we share with children to us
+
+            foreach(PatternGraphEmbedding patternEmbedding in patternGraph.embeddedGraphs)
+            {
+                // if the pattern embedding does not contain a def entity it can't yield to us
+                if(!((PatternGraph)patternEmbedding.EmbeddedGraph).isDefEntityExisting)
+                    continue;
+
+                LGSPMatchingPattern matchingPattern = patternEmbedding.matchingPatternOfEmbeddedGraph;
+                String nestedMatchObjectName = matchObjectName + "._" + patternEmbedding.Name;
+                Debug.Assert(matchingPattern.defNames.Length == patternEmbedding.yields.Length);
+                for(int i = 0; i < patternEmbedding.yields.Length; ++i)
+                {
+                    BubbleUpYieldAssignment bubble = new BubbleUpYieldAssignment(
+                        toBubbleUpYieldAssignmentType(matchingPattern.defs[i]),
+                        patternEmbedding.yields[i],
+                        nestedMatchObjectName,
+                        matchingPattern.defNames[i]
+                        );
+                    insertionPoint = insertionPoint.Append(bubble);
+                }
+            }
+
+            foreach(Iterated iterated in patternGraph.iterateds)
+            {
+                // if the iterated does not contain a non local def entity it can't yield to us
+                if(!iterated.iteratedPattern.isNonLocalDefEntityExisting)
+                    continue;
+
+                String nestedMatchObjectName = matchObjectName + "._" + iterated.iteratedPattern.Name;
+                BubbleUpYieldIterated bubbleUpIterated = new BubbleUpYieldIterated(nestedMatchObjectName);
+                bubbleUpIterated.NestedOperationsList = new SearchProgramList(bubbleUpIterated);
+                SearchProgramOperation continuationPoint = insertionPoint.Append(bubbleUpIterated);
+                insertionPoint = bubbleUpIterated.NestedOperationsList;
+
+                insertYieldAssignments(insertionPoint,
+                    patternGraph, nestedMatchObjectName+".Root", iterated.iteratedPattern);
+
+                insertionPoint = continuationPoint;
+            }
+
+            foreach(Alternative alternative in patternGraph.alternatives)
+            {
+                bool first = true;
+                foreach(PatternGraph alternativeCase in alternative.alternativeCases)
+                {
+                    // if the alternative case does not contain a non local def entity it can't yield to us
+                    if(!alternativeCase.isNonLocalDefEntityExisting)
+                        continue;
+
+                    String nestedMatchObjectName = "_" + alternative.name;
+                    BubbleUpYieldAlternativeCase bubbleUpAlternativeCase = 
+                        new BubbleUpYieldAlternativeCase(
+                            matchObjectName,
+                            nestedMatchObjectName,
+                            rulePatternClassName + ".Match_" + patternGraph.pathPrefix + patternGraph.name + "_" + alternative.name + "_" + alternativeCase.name,
+                            first);
+                    bubbleUpAlternativeCase.NestedOperationsList = new SearchProgramList(bubbleUpAlternativeCase);
+                    SearchProgramOperation continuationPoint = insertionPoint.Append(bubbleUpAlternativeCase);
+                    insertionPoint = bubbleUpAlternativeCase.NestedOperationsList;
+                    first = false;
+
+                    insertYieldAssignments(insertionPoint,
+                        patternGraph, "altCaseMatch", alternativeCase);
+
+                    insertionPoint = continuationPoint;
+                }
+            }
+
+            foreach(PatternGraph independent in patternGraph.independentPatternGraphs)
+            {
+                // if the independent does not contain a non local def entity it can't yield to us
+                if(!independent.isNonLocalDefEntityExisting)
+                    continue;
+
+                String nestedMatchObjectName = NamesOfEntities.MatchedIndependentVariable(independent.pathPrefix + independent.name); ;
+
+                insertionPoint = insertYieldAssignments(insertionPoint,
+                    patternGraph, nestedMatchObjectName, independent);
+            }
+
+            //////////////////////////////////////////////////////
+            // then 2. compute all local yields
+            foreach(PatternYielding yielding in patternGraph.Yieldings)
+            {
+                SourceBuilder yieldAssignmentSource = new SourceBuilder();
+                yielding.YieldAssignment.Emit(yieldAssignmentSource);
+                LocalYieldAssignment yieldAssignment = 
+                    new LocalYieldAssignment(yieldAssignmentSource.ToString());
+                insertionPoint = insertionPoint.Append(yieldAssignment);
+            }
+
+            return insertionPoint;
+        }
+
+        /// <summary>
+        /// Inserts code for bubbling yield assignments
+        /// at the given position, returns position after inserted operations
+        /// </summary>
+        private SearchProgramOperation insertYieldAssignments(
+            SearchProgramOperation insertionPoint,
+            PatternGraph patternGraph,
+            String nestedMatchObjectName,
+            PatternGraph nestedPatternGraph)
+        {
+            foreach(PatternNode node in patternGraph.nodes)
+            {
+                if(!node.DefToBeYieldedTo)
+                    continue;
+
+                foreach(PatternNode nestedNode in nestedPatternGraph.nodes)
+                {
+                    if(nestedNode == node)
+                    {
+                        BubbleUpYieldAssignment bubble = new BubbleUpYieldAssignment(
+                            EntityType.Node,
+                            node.Name,
+                            nestedMatchObjectName,
+                            nestedNode.UnprefixedName
+                            );
+                        insertionPoint = insertionPoint.Append(bubble);
+                    }
+                }
+            }
+
+            foreach(PatternEdge edge in patternGraph.edges)
+            {
+                if(!edge.DefToBeYieldedTo)
+                    continue;
+
+                foreach(PatternEdge nestedEdge in nestedPatternGraph.edges)
+                {
+                    if(nestedEdge == edge)
+                    {
+                        BubbleUpYieldAssignment bubble = new BubbleUpYieldAssignment(
+                            EntityType.Edge,
+                            edge.Name,
+                            nestedMatchObjectName,
+                            nestedEdge.UnprefixedName
+                            );
+                        insertionPoint = insertionPoint.Append(bubble);
+                    }
+                }
+            }
+            
+            foreach(PatternVariable var in patternGraph.variables)
+            {
+                if(!var.DefToBeYieldedTo)
+                    continue;
+
+                foreach(PatternVariable nestedVar in nestedPatternGraph.variables)
+                {
+                    if(nestedVar == var)
+                    {
+                        BubbleUpYieldAssignment bubble = new BubbleUpYieldAssignment(
+                            EntityType.Variable,
+                            var.Name,
+                            nestedMatchObjectName,
+                            nestedVar.UnprefixedName
+                            );
+                        insertionPoint = insertionPoint.Append(bubble);
+                    }
                 }
             }
 
@@ -2429,7 +2679,9 @@ namespace de.unika.ipd.grGen.lgsp
             // ---- ---- fill the match object with the candidates 
             // ---- ---- which have passed all the checks for being a match
             insertionPoint = insertMatchObjectBuilding(insertionPoint,
-                patternGraph, MatchObjectType.Normal);
+                patternGraph, MatchObjectType.Normal, false);
+            insertionPoint = insertMatchObjectBuilding(insertionPoint,
+                patternGraph, MatchObjectType.Normal, true);
 
             // ---- nesting level up
             insertionPoint = continuationPointAfterLeafMatched;
@@ -2457,12 +2709,15 @@ namespace de.unika.ipd.grGen.lgsp
                 if (patternGraph.nodes[i].PointOfDefinition == patternGraph
                     || patternGraph.nodes[i].PointOfDefinition == null && isAction)
                 {
-                    AcceptCandidateGlobal acceptGlobal =
-                        new AcceptCandidateGlobal(patternGraph.nodes[i].name,
-                        negativeIndependentNamePrefix, 
-                        true,
-                        negLevelNeverAboveMaxNegLevel);
-                    insertionPoint = insertionPoint.Append(acceptGlobal);
+                    if(!patternGraph.nodes[i].defToBeYieldedTo)
+                    {
+                        AcceptCandidateGlobal acceptGlobal =
+                            new AcceptCandidateGlobal(patternGraph.nodes[i].name,
+                            negativeIndependentNamePrefix,
+                            true,
+                            negLevelNeverAboveMaxNegLevel);
+                        insertionPoint = insertionPoint.Append(acceptGlobal);
+                    }
                 }
             }
             for (int i = 0; i < patternGraph.edges.Length; ++i)
@@ -2470,12 +2725,15 @@ namespace de.unika.ipd.grGen.lgsp
                 if (patternGraph.edges[i].PointOfDefinition == patternGraph
                     || patternGraph.edges[i].PointOfDefinition == null && isAction)
                 {
-                    AcceptCandidateGlobal acceptGlobal =
-                        new AcceptCandidateGlobal(patternGraph.edges[i].name,
-                        negativeIndependentNamePrefix, 
-                        false,
-                        negLevelNeverAboveMaxNegLevel);
-                    insertionPoint = insertionPoint.Append(acceptGlobal);
+                    if(!patternGraph.edges[i].defToBeYieldedTo)
+                    {
+                        AcceptCandidateGlobal acceptGlobal =
+                            new AcceptCandidateGlobal(patternGraph.edges[i].name,
+                            negativeIndependentNamePrefix,
+                            false,
+                            negLevelNeverAboveMaxNegLevel);
+                        insertionPoint = insertionPoint.Append(acceptGlobal);
+                    }
                 }
             }
 
@@ -2497,11 +2755,14 @@ namespace de.unika.ipd.grGen.lgsp
                 if (patternGraph.nodes[i].PointOfDefinition == patternGraph
                     || patternGraph.nodes[i].PointOfDefinition == null && isAction)
                 {
-                    AcceptCandidatePatternpath acceptPatternpath =
-                        new AcceptCandidatePatternpath(patternGraph.nodes[i].name,
-                        negativeIndependentNamePrefix,
-                        true);
-                    insertionPoint = insertionPoint.Append(acceptPatternpath);
+                    if(!patternGraph.nodes[i].defToBeYieldedTo)
+                    {
+                        AcceptCandidatePatternpath acceptPatternpath =
+                            new AcceptCandidatePatternpath(patternGraph.nodes[i].name,
+                            negativeIndependentNamePrefix,
+                            true);
+                        insertionPoint = insertionPoint.Append(acceptPatternpath);
+                    }
                 }
             }
             for (int i = 0; i < patternGraph.edges.Length; ++i)
@@ -2509,11 +2770,14 @@ namespace de.unika.ipd.grGen.lgsp
                 if (patternGraph.edges[i].PointOfDefinition == patternGraph
                     || patternGraph.edges[i].PointOfDefinition == null && isAction)
                 {
-                    AcceptCandidatePatternpath acceptPatternpath =
-                        new AcceptCandidatePatternpath(patternGraph.edges[i].name,
-                        negativeIndependentNamePrefix,
-                        false);
-                    insertionPoint = insertionPoint.Append(acceptPatternpath);
+                    if(!patternGraph.edges[i].defToBeYieldedTo)
+                    {
+                        AcceptCandidatePatternpath acceptPatternpath =
+                            new AcceptCandidatePatternpath(patternGraph.edges[i].name,
+                            negativeIndependentNamePrefix,
+                            false);
+                        insertionPoint = insertionPoint.Append(acceptPatternpath);
+                    }
                 }
             }
 
@@ -2536,12 +2800,15 @@ namespace de.unika.ipd.grGen.lgsp
                 if (patternGraph.nodes[i].PointOfDefinition == patternGraph
                     || patternGraph.nodes[i].PointOfDefinition == null && isAction)
                 {
-                    AbandonCandidateGlobal abandonGlobal =
-                        new AbandonCandidateGlobal(patternGraph.nodes[i].name, 
-                        negativeIndependentNamePrefix, 
-                        true,
-                        negLevelNeverAboveMaxNegLevel);
-                    insertionPoint = insertionPoint.Append(abandonGlobal);
+                    if(!patternGraph.nodes[i].defToBeYieldedTo)
+                    {
+                        AbandonCandidateGlobal abandonGlobal =
+                            new AbandonCandidateGlobal(patternGraph.nodes[i].name,
+                            negativeIndependentNamePrefix,
+                            true,
+                            negLevelNeverAboveMaxNegLevel);
+                        insertionPoint = insertionPoint.Append(abandonGlobal);
+                    }
                 }
             }
             for (int i = 0; i < patternGraph.edges.Length; ++i)
@@ -2549,12 +2816,15 @@ namespace de.unika.ipd.grGen.lgsp
                 if (patternGraph.edges[i].PointOfDefinition == patternGraph
                     || patternGraph.edges[i].PointOfDefinition == null && isAction)
                 {
-                    AbandonCandidateGlobal abandonGlobal =
-                        new AbandonCandidateGlobal(patternGraph.edges[i].name,
-                        negativeIndependentNamePrefix, 
-                        false,
-                        negLevelNeverAboveMaxNegLevel);
-                    insertionPoint = insertionPoint.Append(abandonGlobal);
+                    if(!patternGraph.edges[i].defToBeYieldedTo)
+                    {
+                        AbandonCandidateGlobal abandonGlobal =
+                            new AbandonCandidateGlobal(patternGraph.edges[i].name,
+                            negativeIndependentNamePrefix,
+                            false,
+                            negLevelNeverAboveMaxNegLevel);
+                        insertionPoint = insertionPoint.Append(abandonGlobal);
+                    }
                 }
             }
 
@@ -2577,11 +2847,14 @@ namespace de.unika.ipd.grGen.lgsp
                 if (patternGraph.nodes[i].PointOfDefinition == patternGraph
                     || patternGraph.nodes[i].PointOfDefinition == null && isAction)
                 {
-                    AbandonCandidatePatternpath abandonPatternpath =
-                        new AbandonCandidatePatternpath(patternGraph.nodes[i].name,
-                        negativeIndependentNamePrefix,
-                        true);
-                    insertionPoint = insertionPoint.Append(abandonPatternpath);
+                    if(!patternGraph.nodes[i].defToBeYieldedTo)
+                    {
+                        AbandonCandidatePatternpath abandonPatternpath =
+                            new AbandonCandidatePatternpath(patternGraph.nodes[i].name,
+                            negativeIndependentNamePrefix,
+                            true);
+                        insertionPoint = insertionPoint.Append(abandonPatternpath);
+                    }
                 }
             }
             for (int i = 0; i < patternGraph.edges.Length; ++i)
@@ -2589,11 +2862,14 @@ namespace de.unika.ipd.grGen.lgsp
                 if (patternGraph.edges[i].PointOfDefinition == patternGraph
                     || patternGraph.edges[i].PointOfDefinition == null && isAction)
                 {
-                    AbandonCandidatePatternpath abandonPatternpath =
-                        new AbandonCandidatePatternpath(patternGraph.edges[i].name,
-                        negativeIndependentNamePrefix,
-                        false);
-                    insertionPoint = insertionPoint.Append(abandonPatternpath);
+                    if(!patternGraph.edges[i].defToBeYieldedTo)
+                    {
+                        AbandonCandidatePatternpath abandonPatternpath =
+                            new AbandonCandidatePatternpath(patternGraph.edges[i].name,
+                            negativeIndependentNamePrefix,
+                            false);
+                        insertionPoint = insertionPoint.Append(abandonPatternpath);
+                    }
                 }
             }
 
@@ -2641,7 +2917,9 @@ namespace de.unika.ipd.grGen.lgsp
             if (!isIteratedNullMatch)
             {
                 insertionPoint = insertMatchObjectBuilding(insertionPoint,
-                    patternGraph, MatchObjectType.Normal);
+                    patternGraph, MatchObjectType.Normal, false);
+                insertionPoint = insertMatchObjectBuilding(insertionPoint,
+                    patternGraph, MatchObjectType.Normal, true);
             }
 
             // ---- nesting level up
@@ -2710,7 +2988,9 @@ namespace de.unika.ipd.grGen.lgsp
                     // ---- fill the match object with the candidates 
                     // ---- which have passed all the checks for being a match
                     insertionPoint = insertMatchObjectBuilding(insertionPoint,
-                        patternGraph, MatchObjectType.Independent);
+                        patternGraph, MatchObjectType.Independent, false);
+                    insertionPoint = insertMatchObjectBuilding(insertionPoint,
+                        patternGraph, MatchObjectType.Independent, true);
                 }
 
                 // ---- continue the matching process outside
@@ -2745,7 +3025,10 @@ namespace de.unika.ipd.grGen.lgsp
             // ---- fill the match object with the candidates 
             // ---- which have passed all the checks for being a match
             insertionPoint = insertMatchObjectBuilding(insertionPoint,
-                patternGraph, MatchObjectType.Normal);
+                patternGraph, MatchObjectType.Normal, false);
+            insertionPoint = insertMatchObjectBuilding(insertionPoint,
+                patternGraph, MatchObjectType.Normal, true);
+
 
             // ---- nesting level up
             insertionPoint = continuationPoint;
@@ -2797,7 +3080,9 @@ namespace de.unika.ipd.grGen.lgsp
                     // fill the match object with the candidates 
                     // which have passed all the checks for being a match
                     insertionPoint = insertMatchObjectBuilding(insertionPoint, 
-                        patternGraph, MatchObjectType.Independent);
+                        patternGraph, MatchObjectType.Independent, false);
+                    insertionPoint = insertMatchObjectBuilding(insertionPoint,
+                        patternGraph, MatchObjectType.Independent, true);
                 }
 
                 // continue the matching process outside
@@ -3684,6 +3969,16 @@ namespace de.unika.ipd.grGen.lgsp
                 }
                 return "null"; // shut up warning
             }
+        }
+
+        private EntityType toBubbleUpYieldAssignmentType(GrGenType type)
+        {
+            if(type is VarType)
+                return EntityType.Variable;
+            else if(type is NodeType)
+                return EntityType.Node;
+            else //if(type is EdgeType)
+                return EntityType.Edge;
         }
     }
 }

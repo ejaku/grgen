@@ -442,7 +442,11 @@ public class SubpatternDeclNode extends ActionDeclNode  {
 		// add parameters to the IR
 		PatternGraph patternGraph = rule.getPattern();
 		for(DeclNode decl : pattern.getParamDecls()) {
-			rule.addParameter(decl.checkIR(Entity.class));
+			Entity entity = decl.checkIR(Entity.class);
+			if(entity.isDefToBeYieldedTo())
+				rule.addDefParameter(entity);
+			else
+				rule.addParameter(entity);
 			if(decl instanceof NodeCharacter) {
 				patternGraph.addSingleNode(((NodeCharacter)decl).getNode());
 			} else if (decl instanceof EdgeCharacter) {

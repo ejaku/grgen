@@ -33,6 +33,12 @@ namespace de.unika.ipd.grGen.lgsp
         /// </summary>
         SubPreset,
         /// <summary>
+        /// Def element to be yielded to, postset after matching with match parts of nested/called stuff.
+        /// Has no meaning in matching, but it is easier to use them as fake preset pattern elements
+        /// in search planning than to introduce special cases in the algorithms and data structures for them.
+        /// </summary>
+        DefToBeYieldedTo,
+        /// <summary>
         /// Draw element from graph.
         /// </summary>
         Lookup,

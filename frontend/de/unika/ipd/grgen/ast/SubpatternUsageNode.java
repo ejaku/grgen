@@ -133,6 +133,8 @@ public class SubpatternUsageNode extends DeclNode {
 			return false;
 		}
 
+		// TODO: for def parameters and yielding contra instead of covariance (or vice versa)
+		
 		// check if the types of the parameters are correct
 		boolean res = true;
 		Vector<DeclNode> formalParameters = type.pattern.getParamDecls();
@@ -165,11 +167,15 @@ public class SubpatternUsageNode extends DeclNode {
 	@Override
 	protected IR constructIR() {
 		List<Expression> subpatternConnections = new LinkedList<Expression>();
+		List<Expression> subpatternYields = new LinkedList<Expression>();
 		for (ExprNode e : connections.getChildren()) {
-			subpatternConnections.add(e.checkIR(Expression.class));
+			if(e instanceof IdentExprNode && ((IdentExprNode)e).yieldedTo)
+				subpatternYields.add(e.checkIR(Expression.class));
+			else
+				subpatternConnections.add(e.checkIR(Expression.class));
 		}
 		return new SubpatternUsage("subpattern", getIdentNode().getIdent(),
-				type.checkIR(Rule.class), subpatternConnections);
+				type.checkIR(Rule.class), subpatternConnections, subpatternYields);
 	}
 }
 

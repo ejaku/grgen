@@ -612,6 +612,50 @@ namespace de.unika.ipd.grGen.lgsp
     }
 
     /// <summary>
+    /// Available entity types 
+    /// </summary>
+    enum EntityType
+    {
+        Node,
+        Edge,
+        Variable
+    }
+
+    /// <summary>
+    /// Class representing "declare a def to be yielded to variable" operation
+    /// </summary>
+    class DeclareDefElement : SearchProgramOperation
+    {
+        public DeclareDefElement(EntityType entityType, string typeOfEntity, string nameOfEntity, string initialization)
+        {
+            Type = entityType;
+            TypeOfEntity = typeOfEntity;
+            NameOfEntity = nameOfEntity;
+            Initialization = initialization;
+        }
+
+        public override void Dump(SourceBuilder builder)
+        {
+            builder.AppendFront("Declare def " + NamesOfEntities.ToString(Type) + " " + NameOfEntity + ":" + TypeOfEntity +  " = " + Initialization + "\n");
+        }
+
+        public override void Emit(SourceBuilder sourceCode)
+        {
+            if(Type == EntityType.Node)
+                sourceCode.AppendFront(TypeOfEntity + " " + NamesOfEntities.CandidateVariable(NameOfEntity) + " = " + Initialization + ";\n");
+            else if(Type == EntityType.Edge)
+                sourceCode.AppendFront(TypeOfEntity + " " + NamesOfEntities.CandidateVariable(NameOfEntity) + " = " + Initialization + ";\n");
+            else //if(Type == EntityType.Variable)
+                sourceCode.AppendFront(TypeOfEntity + " " + NamesOfEntities.Variable(NameOfEntity) + " = " + Initialization + ";\n");
+        }
+
+        public EntityType Type;
+        public string TypeOfEntity;
+        public string NameOfEntity;
+        public string Initialization; // only valid if Variable, only not null if initialization given
+    }
+
+    /// <summary>
     /// Base class for search program check operations
     /// contains list anchor for operations to execute when check failed
     /// (check is not a search operation, thus the check failed operations are not search nested operations)
@@ -3219,6 +3263,179 @@ namespace de.unika.ipd.grGen.lgsp
         public string PathPrefixForEnum;
         public string MatchObjectName;
         public int NumSubpatterns;
+    }
+
+    /// <summary>
+    /// Class representing implicit yield assignment operations,
+    /// to bubble up values from nested patterns and subpatterns to the containing pattern
+    /// </summary>
+    class BubbleUpYieldAssignment : SearchProgramOperation
+    {
+        public BubbleUpYieldAssignment(
+            EntityType type,
+            string targetPatternElementName,
+            string nestedMatchObjectName,
+            string sourcePatternElementUnprefixedName
+            )
+        {
+            Type = type;
+            TargetPatternElementName = targetPatternElementName;
+            NestedMatchObjectName = nestedMatchObjectName;
+            SourcePatternElementUnprefixedName = sourcePatternElementUnprefixedName;
+        }
+
+        public override void Dump(SourceBuilder builder)
+        {
+            builder.AppendFrontFormat("BubbleUpYieldAssignemt {0} {1} = {2}.{3}\n",
+                NamesOfEntities.ToString(Type), TargetPatternElementName, NestedMatchObjectName, SourcePatternElementUnprefixedName);
+        }
+
+        public override void Emit(SourceBuilder sourceCode)
+        {
+            string targetPatternElement = Type==EntityType.Variable ? NamesOfEntities.Variable(TargetPatternElementName) : NamesOfEntities.CandidateVariable(TargetPatternElementName);
+            string sourcePatternElement = NamesOfEntities.MatchName(SourcePatternElementUnprefixedName, Type);
+            sourceCode.AppendFrontFormat("{0} = {1}._{2};\n",
+                targetPatternElement, NestedMatchObjectName, sourcePatternElement);
+        }
+
+        EntityType Type;
+        string TargetPatternElementName;
+        string NestedMatchObjectName;
+        string SourcePatternElementUnprefixedName;
+    }
+
+    /// <summary>
+    /// Class representing operation
+    /// </summary>
+    class BubbleUpYieldIterated : SearchProgramOperation
+    {
+        public BubbleUpYieldIterated(string nestedMatchObjectName)
+        {
+            NestedMatchObjectName = nestedMatchObjectName;
+        }
+
+        public override void Dump(SourceBuilder builder)
+        {
+            // first dump local content
+            builder.AppendFrontFormat("BubbleUpYieldIterated on {0}\n", NestedMatchObjectName);
+
+            // then nested content
+            if (NestedOperationsList != null)
+            {
+                builder.Indent();
+                NestedOperationsList.Dump(builder);
+                builder.Unindent();
+            }
+        }
+
+        public override void Emit(SourceBuilder sourceCode)
+        {
+            sourceCode.AppendFrontFormat("if({0}.Count>0) {{\n", NestedMatchObjectName);
+            sourceCode.Indent();
+
+            NestedOperationsList.Emit(sourceCode);
+
+            sourceCode.Unindent();
+            sourceCode.AppendFront("}\n");
+        }
+
+        public override bool IsSearchNestingOperation()
+        {
+            return true;
+        }
+
+        public override SearchProgramOperation GetNestedSearchOperationsList()
+        {
+            return NestedOperationsList;
+        }
+
+        string NestedMatchObjectName;
+
+        public SearchProgramList NestedOperationsList;
+    }
+
+    /// <summary>
+    /// Class representing operation
+    /// </summary>
+    class BubbleUpYieldAlternativeCase : SearchProgramOperation
+    {
+        public BubbleUpYieldAlternativeCase(string matchObjectName, string nestedMatchObjectName,
+            string alternativeCaseMatchTypeName, bool first)
+        {
+            MatchObjectName = matchObjectName;
+            NestedMatchObjectName = nestedMatchObjectName;
+            AlternativeCaseMatchTypeName = alternativeCaseMatchTypeName;
+            First = first;
+        }
+
+        public override void Dump(SourceBuilder builder)
+        {
+            // first dump local content
+            builder.AppendFrontFormat("BubbleUpYieldAlternativeCase on {0}.{1} case match type {2} {3}\n",
+                MatchObjectName, NestedMatchObjectName, AlternativeCaseMatchTypeName, First ? "first" : "");
+
+            // then nested content
+            if (NestedOperationsList != null)
+            {
+                builder.Indent();
+                NestedOperationsList.Dump(builder);
+                builder.Unindent();
+            }
+        }
+
+        public override void Emit(SourceBuilder sourceCode)
+        {
+            sourceCode.AppendFrontFormat("{0}if({1}.{2} is {3}) {{\n",
+                First ? "" : "else ", MatchObjectName, NestedMatchObjectName, AlternativeCaseMatchTypeName);
+            sourceCode.Indent();
+            sourceCode.AppendFrontFormat("{0} altCaseMatch = ({0}){1}.{2};\n",
+                AlternativeCaseMatchTypeName, MatchObjectName, NestedMatchObjectName);
+
+            NestedOperationsList.Emit(sourceCode);
+
+            sourceCode.Unindent();
+            sourceCode.AppendFront("}\n");
+        }
+
+        public override bool IsSearchNestingOperation()
+        {
+            return true;
+        }
+
+        public override SearchProgramOperation GetNestedSearchOperationsList()
+        {
+            return NestedOperationsList;
+        }
+
+        string MatchObjectName;
+        string NestedMatchObjectName;
+        string AlternativeCaseMatchTypeName;
+        bool First;
+
+        public SearchProgramList NestedOperationsList;
+    }
+
+    /// <summary>
+    /// Class representing (explicit) local yield assignment operations
+    /// </summary>
+    class LocalYieldAssignment : SearchProgramOperation
+    {
+        public LocalYieldAssignment(string assignment)
+        {
+            Assignment = assignment;
+        }
+
+        public override void Dump(SourceBuilder builder)
+        {
+            builder.AppendFrontFormat("LocalYieldAssignment {0}\n", Assignment);
+        }
+
+        public override void Emit(SourceBuilder sourceCode)
+        {
+            sourceCode.AppendFrontFormat("{0};\n", Assignment);
+        }
+
+        string Assignment;
     }
 
     /// <summary>

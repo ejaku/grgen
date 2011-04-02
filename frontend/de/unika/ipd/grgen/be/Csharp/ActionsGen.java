@@ -26,10 +26,12 @@ import java.util.LinkedList;
 import de.unika.ipd.grgen.ir.Alternative;
 import de.unika.ipd.grgen.ir.Assignment;
 import de.unika.ipd.grgen.ir.AssignmentGraphEntity;
+import de.unika.ipd.grgen.ir.AssignmentIdentical;
 import de.unika.ipd.grgen.ir.AssignmentVar;
 import de.unika.ipd.grgen.ir.Cast;
 import de.unika.ipd.grgen.ir.CompoundAssignment;
 import de.unika.ipd.grgen.ir.CompoundAssignmentVar;
+import de.unika.ipd.grgen.ir.CompoundAssignmentVarChangedVar;
 import de.unika.ipd.grgen.ir.Constant;
 import de.unika.ipd.grgen.ir.Edge;
 import de.unika.ipd.grgen.ir.Emit;
@@ -53,6 +55,8 @@ import de.unika.ipd.grgen.ir.MapRangeExpr;
 import de.unika.ipd.grgen.ir.MapSizeExpr;
 import de.unika.ipd.grgen.ir.MapPeekExpr;
 import de.unika.ipd.grgen.ir.MapType;
+import de.unika.ipd.grgen.ir.MapVarAddItem;
+import de.unika.ipd.grgen.ir.MapVarRemoveItem;
 import de.unika.ipd.grgen.ir.MaxExpr;
 import de.unika.ipd.grgen.ir.MinExpr;
 import de.unika.ipd.grgen.ir.PowExpr;
@@ -72,6 +76,8 @@ import de.unika.ipd.grgen.ir.Qualification;
 import de.unika.ipd.grgen.ir.RandomExpr;
 import de.unika.ipd.grgen.ir.Rule;
 import de.unika.ipd.grgen.ir.SetType;
+import de.unika.ipd.grgen.ir.SetVarAddItem;
+import de.unika.ipd.grgen.ir.SetVarRemoveItem;
 import de.unika.ipd.grgen.ir.StringIndexOf;
 import de.unika.ipd.grgen.ir.StringLastIndexOf;
 import de.unika.ipd.grgen.ir.StringLength;
@@ -833,6 +839,12 @@ public class ActionsGen extends CSharpBase {
 		}
 		sb.append(" }, \n");
 
+		sb.append("\t\t\t\tnew GRGEN_LGSP.PatternYielding[] { ");
+		for (int i = 0; i < pattern.getYields().size(); i++){
+			sb.append(pathPrefixForElements+"yield_" + i + ", ");
+		}
+		sb.append(" }, \n");
+
 		sb.append("\t\t\t\tnew bool[" + pattern.getNodes().size() + ", " + pattern.getNodes().size() + "] ");
 		if(pattern.getNodes().size() > 0) {
 			sb.append("{\n");
@@ -971,7 +983,14 @@ public class ActionsGen extends CSharpBase {
 					+ " = new GRGEN_LGSP.PatternVariable(");
 			sb.append("GRGEN_LIBGR.VarType.GetVarType(typeof(" + formatAttributeType(var)
 					+ ")), \"" + varName + "\", \"" + formatIdentifiable(var) + "\", ");
-			sb.append(parameters.indexOf(var)+");\n");
+			sb.append(parameters.indexOf(var)+", ");
+			sb.append(var.isDefToBeYieldedTo() ? "true, " : "false, ");
+			if(var.initialization!=null) {
+				genExpressionTree(sb, var.initialization, className, pathPrefixForElements, alreadyDefinedEntityToName);
+				sb.append(");\n");
+			} else {
+				sb.append("null);\n");				
+			}
 			alreadyDefinedEntityToName.put(var, varName);
 			addAnnotations(aux, var, varName+".annotations");
 		}
@@ -1007,10 +1026,11 @@ public class ActionsGen extends CSharpBase {
 					Entity member = node.getStorageAttribute().getMember();
 					sb.append(formatEntity(owner, pathPrefix, alreadyDefinedEntityToName));
 					sb.append(", " + formatTypeClassRef(owner.getParameterInterfaceType()!=null ? owner.getParameterInterfaceType() : owner.getType()) + ".typeVar" + ".GetAttributeType(\"" + formatIdentifiable(member) + "\")");
-					sb.append(");\n");
+					sb.append(", ");
 				} else {
-					sb.append("null, null);\n");
+					sb.append("null, null, ");
 				}
+				sb.append(node.isDefToBeYieldedTo() ? "true);\n" : "false);\n");
 				alreadyDefinedEntityToName.put(node, nodeName);
 				aux.append("\t\t\t" + nodeName + ".pointOfDefinition = " + (parameters.indexOf(node)==-1 ? patGraphVarName : "null") + ";\n");
 				addAnnotations(aux, node, nodeName+".annotations");
@@ -1044,10 +1064,11 @@ public class ActionsGen extends CSharpBase {
 					Entity member = edge.getStorageAttribute().getMember();
 					sb.append(formatEntity(owner, pathPrefix, alreadyDefinedEntityToName));
 					sb.append(", " + formatTypeClassRef(owner.getParameterInterfaceType()!=null ? owner.getParameterInterfaceType() : owner.getType()) + ".typeVar" + ".GetAttributeType(\"" + formatIdentifiable(member) + "\")");
-					sb.append(");\n");
+					sb.append(", ");
 				} else {
-					sb.append("null, null);\n");
+					sb.append("null, null, ");
 				}
+				sb.append(edge.isDefToBeYieldedTo() ? "true);\n" : "false);\n");
 				alreadyDefinedEntityToName.put(edge, edgeName);
 				aux.append("\t\t\t" + edgeName + ".pointOfDefinition = " + (parameters.indexOf(edge)==-1 ? patGraphVarName : "null") + ";\n");
 				addAnnotations(aux, edge, edgeName+".annotations");
@@ -1076,7 +1097,19 @@ public class ActionsGen extends CSharpBase {
 				sb.append(",\n");
 			}
 			sb.append("\t\t\t\t}, \n");
-			sb.append("\t\t\t\tnew string[] ");
+			sb.append("\t\t\t\tnew string[] { ");
+			for(Expression expr : sub.getSubpatternYields()) {
+				sb.append("\"");
+				if(expr instanceof VariableExpression) {
+					VariableExpression ve = (VariableExpression)expr;
+					sb.append(formatEntity(ve.getVariable(), pathPrefixForElements, alreadyDefinedEntityToName));
+				} else {
+					GraphEntityExpression ge = (GraphEntityExpression)expr;
+					sb.append(formatEntity(ge.getGraphEntity(), pathPrefixForElements, alreadyDefinedEntityToName));
+				}
+				sb.append("\", ");
+			}
+			sb.append("}, new string[] ");
 			genEntitySet(sb, needs.nodes, "\"", "\"", true, pathPrefixForElements, alreadyDefinedEntityToName);
 			sb.append(", new string[] ");
 			genEntitySet(sb, needs.edges, "\"", "\"", true, pathPrefixForElements, alreadyDefinedEntityToName);
@@ -1098,6 +1131,26 @@ public class ActionsGen extends CSharpBase {
 					+ " = new GRGEN_LGSP.PatternCondition(\n"
 					+ "\t\t\t\t");
 			genExpressionTree(sb, expr, className, pathPrefixForElements, alreadyDefinedEntityToName);
+			sb.append(",\n");
+			sb.append("\t\t\t\tnew string[] ");
+			genEntitySet(sb, needs.nodes, "\"", "\"", true, pathPrefixForElements, alreadyDefinedEntityToName);
+			sb.append(", new string[] ");
+			genEntitySet(sb, needs.edges, "\"", "\"", true, pathPrefixForElements, alreadyDefinedEntityToName);
+			sb.append(", new string[] ");
+			genEntitySet(sb, needs.variables, "\"", "\"", true, pathPrefixForElements, alreadyDefinedEntityToName);
+			sb.append(", new GRGEN_LIBGR.VarType[] ");
+			genVarTypeSet(sb, needs.variables, true);
+			sb.append(");\n");
+			++i;
+		}
+
+		i = 0;
+		for(EvalStatement yield : pattern.getYields()) {
+			NeededEntities needs = new NeededEntities(true, true, true, false, false, true);
+			yield.collectNeededEntities(needs);
+			sb.append("\t\t\tGRGEN_LGSP.PatternYielding " + pathPrefixForElements+"yield_"+i
+					+ " = new GRGEN_LGSP.PatternYielding(\n");
+			genYield(sb, yield, className, pathPrefixForElements, alreadyDefinedEntityToName);
 			sb.append(",\n");
 			sb.append("\t\t\t\tnew string[] ");
 			genEntitySet(sb, needs.nodes, "\"", "\"", true, pathPrefixForElements, alreadyDefinedEntityToName);
@@ -1199,6 +1252,22 @@ public class ActionsGen extends CSharpBase {
 		sb.append("\t\t\tinputNames = new string[] { ");
 		for(Entity ent : action.getParameters())
 			sb.append("\"" + formatEntity(ent, action.getPattern().getNameOfGraph()+"_") + "\", ");
+		sb.append("};\n");
+
+		sb.append("\t\t\tdefs = new GRGEN_LIBGR.GrGenType[] { ");
+		for(Entity ent : action.getDefParameters()) {
+			if(ent instanceof Variable) {
+				sb.append("GRGEN_LIBGR.VarType.GetVarType(typeof(" + formatAttributeType(ent) + ")), ");
+			} else {
+				GraphEntity gent = (GraphEntity)ent;
+				sb.append(formatTypeClassRef(gent.getParameterInterfaceType()!=null ? gent.getParameterInterfaceType() : gent.getType()) + ".typeVar, ");
+			}
+		}
+		sb.append("};\n");
+
+		sb.append("\t\t\tdefNames = new string[] { ");
+		for(Entity ent : action.getDefParameters())
+			sb.append("\"" + formatIdentifiable(ent) + "\", ");
 		sb.append("};\n");
 
 		if(!isSubpattern) {
@@ -1389,6 +1458,7 @@ public class ActionsGen extends CSharpBase {
 			for(Entity neededEntity : exec.getNeededEntities()) {
 				sb.append(", " + formatEntity(neededEntity));
 			}
+			
 			sb.append(");\n"); 
 			sb.append("\t\t\t}\n");
 			
@@ -2376,6 +2446,188 @@ public class ActionsGen extends CSharpBase {
 			assert(false);
 			return 0;
 		}
+	}
+
+	////////////////////////////////////
+	// Yielding assignment generation //
+	////////////////////////////////////
+
+	private void genYield(StringBuffer sb, EvalStatement evalStmt, String className,
+			String pathPrefix, HashMap<Entity, String> alreadyDefinedEntityToName) {
+		if(evalStmt instanceof AssignmentVar) {
+			genAssignmentVar(sb, (AssignmentVar) evalStmt, 
+					className, pathPrefix, alreadyDefinedEntityToName);
+		}
+		else if(evalStmt instanceof AssignmentGraphEntity) {
+			genAssignmentGraphEntity(sb, (AssignmentGraphEntity) evalStmt,
+					className, pathPrefix, alreadyDefinedEntityToName);
+		}
+		else if(evalStmt instanceof AssignmentIdentical) {
+			//nothing to generate, was assignment . = . optimized away;
+		}
+		else if(evalStmt instanceof CompoundAssignmentVarChangedVar) {
+			genCompoundAssignmentVarChangedVar(sb, (CompoundAssignmentVarChangedVar) evalStmt,
+					className, pathPrefix, alreadyDefinedEntityToName);
+		}
+		else if(evalStmt instanceof CompoundAssignmentVar) { // must come after the changed versions
+			genCompoundAssignmentVar(sb, (CompoundAssignmentVar) evalStmt, "\t\t\t\t",
+					className, pathPrefix, alreadyDefinedEntityToName);
+		}
+		else if(evalStmt instanceof MapVarRemoveItem) {
+			genMapVarRemoveItem(sb, (MapVarRemoveItem) evalStmt,
+					className, pathPrefix, alreadyDefinedEntityToName);
+		} 
+		else if(evalStmt instanceof MapVarAddItem) {
+			genMapVarAddItem(sb, (MapVarAddItem) evalStmt,
+					className, pathPrefix, alreadyDefinedEntityToName);
+		}
+		else if(evalStmt instanceof SetVarRemoveItem) {
+			genSetVarRemoveItem(sb, (SetVarRemoveItem) evalStmt,
+					className, pathPrefix, alreadyDefinedEntityToName);
+		}
+		else if(evalStmt instanceof SetVarAddItem) {
+			genSetVarAddItem(sb, (SetVarAddItem) evalStmt,
+					className, pathPrefix, alreadyDefinedEntityToName);
+		}
+		else {
+			throw new UnsupportedOperationException("Unexpected yield statement \"" + evalStmt + "\"");
+		}
+	}
+
+	private void genAssignmentVar(StringBuffer sb, AssignmentVar ass,
+			String className, String pathPrefix, HashMap<Entity, String> alreadyDefinedEntityToName) {
+		Variable target = ass.getTarget();
+		Expression expr = ass.getExpression();
+
+		sb.append("\t\t\t\tnew GRGEN_EXPR.YieldAssignment(");
+		sb.append("\"" + formatEntity(target, pathPrefix, alreadyDefinedEntityToName) + "\"");
+		sb.append(", true, ");
+		genExpressionTree(sb, expr, className, pathPrefix, alreadyDefinedEntityToName);
+		sb.append(")");
+	}
+
+	private void genAssignmentGraphEntity(StringBuffer sb, AssignmentGraphEntity ass,
+			String className, String pathPrefix, HashMap<Entity, String> alreadyDefinedEntityToName) {
+		GraphEntity target = ass.getTarget();
+		Expression expr = ass.getExpression();
+
+		sb.append("\t\t\t\tnew GRGEN_EXPR.YieldAssignment(");
+		sb.append("\"" + formatEntity(target, pathPrefix, alreadyDefinedEntityToName) + "\"");
+		sb.append(", false, ");
+		genExpressionTree(sb, expr, className, pathPrefix, alreadyDefinedEntityToName);
+		sb.append(")");
+	}
+
+	private void genCompoundAssignmentVarChangedVar(StringBuffer sb, CompoundAssignmentVarChangedVar cass,
+			String className, String pathPrefix, HashMap<Entity, String> alreadyDefinedEntityToName)
+	{
+		String changedOperation;
+		if(cass.getChangedOperation()==CompoundAssignment.UNION)
+			changedOperation = "GRGEN_EXPR.YieldChangeDisjunctionAssignment";
+		else if(cass.getChangedOperation()==CompoundAssignment.INTERSECTION)
+			changedOperation = "GRGEN_EXPR.YieldChangeConjunctionAssignment";
+		else //if(cass.getChangedOperation()==CompoundAssignment.ASSIGN)
+			changedOperation = "GRGEN_EXPR.YieldChangeAssignment";
+
+		Variable changedTarget = cass.getChangedTarget();	
+		sb.append("\t\t\t\tnew " + changedOperation + "(");
+		sb.append("\"" + changedTarget.getIdent() + "\"");
+		sb.append(", ");
+		genCompoundAssignmentVar(sb, cass, "", className, pathPrefix, alreadyDefinedEntityToName);
+		sb.append(")");
+	}
+
+	private void genCompoundAssignmentVar(StringBuffer sb, CompoundAssignmentVar cass, String prefix,
+			String className, String pathPrefix, HashMap<Entity, String> alreadyDefinedEntityToName)
+	{
+		Variable target = cass.getTarget();
+		assert(target.getType() instanceof MapType || target.getType() instanceof SetType);
+		Expression expr = cass.getExpression();
+
+		sb.append(prefix + "new GRGEN_EXPR.");
+		if(cass.getOperation()==CompoundAssignment.UNION)
+			sb.append("SetMapUnion(");
+		else if(cass.getOperation()==CompoundAssignment.INTERSECTION)
+			sb.append("SetMapIntersect(");
+		else //if(cass.getOperation()==CompoundAssignment.WITHOUT)
+			sb.append("SetMapExcept(");
+		sb.append("\"" + target.getIdent() + "\"");
+		sb.append(", ");
+		genExpressionTree(sb, expr, className, pathPrefix, alreadyDefinedEntityToName);
+		sb.append(")");
+	}
+
+	private void genMapVarRemoveItem(StringBuffer sb, MapVarRemoveItem mvri,
+			String className, String pathPrefix, HashMap<Entity, String> alreadyDefinedEntityToName) {
+		Variable target = mvri.getTarget();
+
+		StringBuffer sbtmp = new StringBuffer();
+		genExpressionTree(sbtmp, mvri.getKeyExpr(), className, pathPrefix, alreadyDefinedEntityToName);
+		String keyExprStr = sbtmp.toString();
+
+		sb.append("\t\t\t\tnew GRGEN_EXPR.SetMapRemove(");
+		sb.append("\"" + target.getIdent() + "\"");
+		sb.append(", ");
+		sb.append(keyExprStr);
+		sb.append(")");
+		
+		assert mvri.getNext()==null;
+	}
+
+	private void genMapVarAddItem(StringBuffer sb, MapVarAddItem mvai,
+			String className, String pathPrefix, HashMap<Entity, String> alreadyDefinedEntityToName) {
+		Variable target = mvai.getTarget();
+
+		StringBuffer sbtmp = new StringBuffer();
+		genExpressionTree(sbtmp, mvai.getValueExpr(), className, pathPrefix, alreadyDefinedEntityToName);
+		String valueExprStr = sbtmp.toString();
+		sbtmp.delete(0, sbtmp.length());
+		genExpressionTree(sbtmp, mvai.getKeyExpr(), className, pathPrefix, alreadyDefinedEntityToName);
+		String keyExprStr = sbtmp.toString();
+
+		sb.append("\t\t\t\tnew GRGEN_EXPR.MapAdd(");
+		sb.append("\"" + target.getIdent() + "\"");
+		sb.append(", ");
+		sb.append(keyExprStr);
+		sb.append(", ");
+		sb.append(valueExprStr);
+		sb.append(")");
+
+		assert mvai.getNext()==null;
+	}
+
+	private void genSetVarRemoveItem(StringBuffer sb, SetVarRemoveItem svri,
+			String className, String pathPrefix, HashMap<Entity, String> alreadyDefinedEntityToName) {
+		Variable target = svri.getTarget();
+
+		StringBuffer sbtmp = new StringBuffer();
+		genExpressionTree(sbtmp, svri.getValueExpr(), className, pathPrefix, alreadyDefinedEntityToName);
+		String valueExprStr = sbtmp.toString();
+
+		sb.append("\t\t\t\tnew GRGEN_EXPR.SetMapRemove(");
+		sb.append("\"" + target.getIdent() + "\"");
+		sb.append(", ");
+		sb.append(valueExprStr);
+		sb.append(")");
+		
+		assert svri.getNext()==null;
+	}
+
+	private void genSetVarAddItem(StringBuffer sb, SetVarAddItem svai,
+			String className, String pathPrefix, HashMap<Entity, String> alreadyDefinedEntityToName) {
+		Variable target = svai.getTarget();
+
+		StringBuffer sbtmp = new StringBuffer();
+		genExpressionTree(sbtmp, svai.getValueExpr(), className, pathPrefix, alreadyDefinedEntityToName);
+		String valueExprStr = sbtmp.toString();
+
+		sb.append("\t\t\t\tnew GRGEN_EXPR.SetAdd(");
+		sb.append("\"" + target.getIdent() + "\"");
+		sb.append(", ");
+		sb.append(valueExprStr);
+		sb.append(")");
+		
+		assert svai.getNext()==null;
 	}
 
 	///////////////////////

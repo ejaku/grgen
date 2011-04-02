@@ -118,7 +118,17 @@ namespace de.unika.ipd.grGen.lgsp
                 float cost;
                 bool isPreset;
                 SearchOperationType searchOperationType;
-                if (node.PointOfDefinition == null)
+                if(node.DefToBeYieldedTo)
+                {
+#if OPCOST_WITH_GEO_MEAN 
+                    cost = 0;
+#else
+                    cost = 1;
+#endif
+                    isPreset = true;
+                    searchOperationType = SearchOperationType.DefToBeYieldedTo;
+                }
+                else if(node.PointOfDefinition == null)
                 {
 #if OPCOST_WITH_GEO_MEAN 
                     cost = 0;
@@ -202,7 +212,17 @@ namespace de.unika.ipd.grGen.lgsp
 #if !NO_EDGE_LOOKUP
                 float cost;
                 SearchOperationType searchOperationType;
-                if (edge.PointOfDefinition == null)
+                if(edge.DefToBeYieldedTo)
+                {
+#if OPCOST_WITH_GEO_MEAN 
+                    cost = 0;
+#else
+                    cost = 1;
+#endif
+                    isPreset = true;
+                    searchOperationType = SearchOperationType.DefToBeYieldedTo;
+                }
+                else if(edge.PointOfDefinition == null)
                 {
 #if OPCOST_WITH_GEO_MEAN 
                     cost = 0;

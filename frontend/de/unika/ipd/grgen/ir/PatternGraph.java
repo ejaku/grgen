@@ -46,6 +46,9 @@ public class PatternGraph extends Graph {
 	/** A list of all condition expressions. */
 	private final List<Expression> conds = new LinkedList<Expression>();
 
+	/** A list of all yield assignments. */
+	private final List<EvalStatement> yields = new LinkedList<EvalStatement>();
+
 	/** A list of all potentially homomorphic node sets. */
 	private final List<Collection<Node>> homNodes = new LinkedList<Collection<Node>>();
 
@@ -148,6 +151,11 @@ public class PatternGraph extends Graph {
 		conds.add(expr);
 	}
 
+	/** Add an assignment to the list of evaluations. */
+	public void addYield(EvalStatement a) {
+		yields.add(a);
+	}
+	
 	/** Add a potentially homomorphic set to the graph. */
 	public void addHomomorphicNodes(Collection<Node> hom) {
 		homNodes.add(hom);
@@ -187,6 +195,11 @@ public class PatternGraph extends Graph {
 	/** Get a collection with all conditions in this graph. */
 	public Collection<Expression> getConditions() {
 		return Collections.unmodifiableCollection(conds);
+	}
+	
+	/** @return A collection containing all yield assignments of this graph. */
+	public Collection<EvalStatement> getYields() {
+		return Collections.unmodifiableCollection(yields);
 	}
 
 	/** Get all potentially homomorphic sets in this graph. */

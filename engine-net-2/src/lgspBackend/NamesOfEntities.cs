@@ -203,11 +203,39 @@ namespace de.unika.ipd.grGen.lgsp
         }
 
         /// <summary>
+        /// Returns name of the given element in the match class with correct match part prefix
+        /// </summary>
+        public static string MatchName(string unprefixedElementName, EntityType type)
+        {
+            switch(type)
+            {
+                case EntityType.Node: return "node_" + unprefixedElementName;
+                case EntityType.Edge: return "edge_" + unprefixedElementName;
+                case EntityType.Variable: return "var_" + unprefixedElementName;
+                default: return "INTERNAL ERROR";
+            }
+        }
+
+        /// <summary>
         /// Returns name of the state variable storing which direction run is currently underway
         /// </summary>
         public static string DirectionRunCounterVariable(string patternElementName)
         {
             return "directionRunCounterOf_" + patternElementName;
+        }
+
+        /// <summary>
+        /// Returns a string representation of the given entity type
+        /// </summary>
+        public static string ToString(EntityType type)
+        {
+            switch(type)
+            {
+                case EntityType.Node: return "Node";
+                case EntityType.Edge: return "Edge";
+                case EntityType.Variable: return "Variable"; 
+                default: return "INTERNAL ERROR";
+            }
         }
     }
 }

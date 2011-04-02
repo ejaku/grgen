@@ -39,6 +39,7 @@ namespace de.unika.ipd.grGen.lgsp
         /// <param name="matchingPattern"></param>
         public void AnalyzeNestingOfAndRemember(LGSPMatchingPattern matchingPattern)
         {
+            matchingPattern.patternGraph.SetDefEntityExistanceAndNonLocalDefEntityExistance();
             CalculateNeededElements(matchingPattern.patternGraph);
             AnnotateIndependentsAtNestingTopLevelOrAlternativeCaseOrIteratedPattern(matchingPattern.patternGraph);
             ComputePatternGraphsOnPathToEnclosedSubpatternOrAlternativeOrIteratedOrPatternpath(matchingPattern.patternGraph);
@@ -173,16 +174,19 @@ namespace de.unika.ipd.grGen.lgsp
                     patternGraph.neededVariables[cond.NeededVariables[i]] = cond.NeededVariableTypes[i];
                 }
             }
-            //    - in the pattern
+            //    - in the pattern (if not def to be yielded, they are not needed top down)
             foreach (PatternNode node in patternGraph.nodes)
                 if (node.PointOfDefinition != patternGraph)
-                    patternGraph.neededNodes[node.name] = true;
+                    if (!node.DefToBeYieldedTo)
+                        patternGraph.neededNodes[node.name] = true;
             foreach (PatternEdge edge in patternGraph.edges)
                 if (edge.PointOfDefinition != patternGraph)
-                    patternGraph.neededEdges[edge.name] = true;
+                    if(!edge.DefToBeYieldedTo)
+                        patternGraph.neededEdges[edge.name] = true;
             foreach (PatternVariable variable in patternGraph.variables)
                 if (variable.PointOfDefinition != patternGraph)
-                    patternGraph.neededVariables[variable.name] = variable.Type;
+                    if(!variable.DefToBeYieldedTo)
+                        patternGraph.neededVariables[variable.name] = variable.Type;
             //    - as subpattern connections
             foreach (PatternGraphEmbedding sub in patternGraph.embeddedGraphs)
             {

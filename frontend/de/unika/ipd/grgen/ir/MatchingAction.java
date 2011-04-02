@@ -30,6 +30,9 @@ public abstract class MatchingAction extends Action {
 	/** A list of the pattern parameters */
 	private final List<Entity> params = new LinkedList<Entity>();
 
+	/** A list of the pattern def parameters which get yielded */
+	private final List<Entity> defParams = new LinkedList<Entity>();
+
 	/** A list of the return-parameters */
 	private final List<Expression> returns = new LinkedList<Expression>();
 
@@ -59,6 +62,16 @@ public abstract class MatchingAction extends Action {
 	/** Get all Parameters of this graph. */
 	public List<Entity> getParameters() {
 		return Collections.unmodifiableList(params);
+	}
+
+	/** Add a def parameter which gets yielded to the graph. */
+	public void addDefParameter(Entity id) {
+		defParams.add(id);
+	}
+
+	/** Get all def Parameters which get yielded of this graph. */
+	public List<Entity> getDefParameters() {
+		return Collections.unmodifiableList(defParams);
 	}
 
 	/** Add a return-value to the graph. */

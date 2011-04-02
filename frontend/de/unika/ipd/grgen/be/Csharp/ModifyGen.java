@@ -879,20 +879,23 @@ public class ModifyGen extends CSharpBase {
 			ModifyGenerationStateConst stateConst, HashSet<Node> yieldedNodes, 
 			HashSet<Edge> yieldedEdges, HashSet<Variable> yieldedVariables)
 	{
+		// only RHS yielded elements, the LHS yields are handled by matching,
+		// for us they are simply matched elements
+		
 		for(Node node : task.right.getNodes()) {
-			if(node.isDefToBeYieldedTo()) {
+			if(node.isDefToBeYieldedTo() && !task.left.getNodes().contains(node)) {
 				yieldedNodes.add(node);
 			}
 		}
 
 		for(Edge edge : task.right.getEdges()) {
-			if(edge.isDefToBeYieldedTo()) {
+			if(edge.isDefToBeYieldedTo() && !task.left.getEdges().contains(edge)) {
 				yieldedEdges.add(edge);
 			}
 		}
 		
 		for(Variable var : task.right.getVars()) {
-			if(var.isDefToBeYieldedTo()) {
+			if(var.isDefToBeYieldedTo() && !task.left.getVars().contains(var)) {
 				yieldedVariables.add(var);
 			}
 		}

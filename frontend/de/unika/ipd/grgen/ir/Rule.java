@@ -34,7 +34,7 @@ public class Rule extends MatchingAction {
 	/** The right hand side of the rule. */
 	private final PatternGraph right;
 
-	/** The evaluation assignments of this rule. */
+	/** The evaluation assignments of this rule (RHS). */
 	private final Collection<EvalStatement> evals = new LinkedList<EvalStatement>();
 
 	/** How often the pattern is to be matched in case this is an iterated. */

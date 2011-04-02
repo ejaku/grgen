@@ -68,8 +68,6 @@ tokens {
 	
 	import java.util.Iterator;
 	import java.util.LinkedList;
-	import java.util.Map;
-	import java.util.HashMap;
 	import java.util.Collection;
 	
 	import java.io.File;
@@ -188,6 +186,9 @@ textActions returns [ UnitNode main = null ]
 		CollectNode<IdentNode> actionChilds = new CollectNode<IdentNode>();
 		CollectNode<IdentNode> sequenceChilds = new CollectNode<IdentNode>();
 		String actionsName = Util.getActionsNameFromFilename(getFilename());
+		if(!Util.isFilenameValidActionName(getFilename())) {
+			reportError(new de.unika.ipd.grgen.parser.Coords(), "the filename "+getFilename()+" can't be used as action name, must be similar to an identifier");
+		}
 	}
 
 	: (
@@ -509,7 +510,7 @@ patternStmt [ CollectNode<BaseNode> conn, CollectNode<VarDeclNode> defVariablesT
 	| neg=negative[namer, context] { negs.addChild(neg); }
 	| idpt=independent[namer, context] { idpts.addChild(idpt); }
 	| condition[conds]
-	| evaluation[evals, null]
+	| yielding[evals]
 	| rets[returnz, context] SEMI
 	| hom=homStatement { homs.addChild(hom); } SEMI
 	| exa=exactStatement { exact.addChild(exa); } SEMI
@@ -1046,8 +1047,8 @@ arguments[CollectNode<ExprNode> args]
 	
 argument[CollectNode<ExprNode> args] // argument for a subpattern usage or subpattern dependent rewrite usage
 	@init{ boolean yielded=false; }
-	: (y=YIELD { yielded = true; })? arg=expr[false] { args.addChild(arg); if(yielded) { if(arg instanceof IdentExprNode) ((IdentExprNode)arg).setYieldedTo(); else reportError(getCoords(y), "Can only yield to a variable defined to by yielded to (def)"); } }
-	;
+	: (y=YIELD { yielded = true; })? arg=expr[false] { args.addChild(arg); if(yielded) { if(arg instanceof IdentExprNode) ((IdentExprNode)arg).setYieldedTo(); else reportError(getCoords(y), "Can only yield to an element/variable, defined to by yielded to (def)"); } }
+ 	;
 
 homStatement returns [ HomNode res = null ]
 	: h=HOM {res = new HomNode(getCoords(h)); }
@@ -1293,10 +1294,16 @@ condition [ CollectNode<ExprNode> conds ]
 
 evaluation [ CollectNode<EvalStatementNode> evals, CollectNode<OrderedReplacementNode> orderedReplacements ]
 	: EVAL LBRACE
-		( a=assignmentOrMethodCall[orderedReplacements==null] { evals.addChild(a); } SEMI )*
+		( a=assignmentOrMethodCall[false] { evals.addChild(a); } SEMI )*
 		RBRACE
 	| EVALHERE LBRACE
-		( a=assignmentOrMethodCall[orderedReplacements==null] { orderedReplacements.addChild(a); } SEMI )*
+		( a=assignmentOrMethodCall[false] { orderedReplacements.addChild(a); } SEMI )*
+		RBRACE
+	;
+
+yielding [ CollectNode<EvalStatementNode> evals]
+	: YIELD LBRACE
+		( a=assignmentOrMethodCall[true] { evals.addChild(a); } SEMI )*
 		RBRACE
 	;
 	
@@ -2320,6 +2327,7 @@ options { k = 4; }
 		int cat = -1; // compound assign type
 		int ccat = CompoundAssignNode.NONE; // changed compound assign type
 		BaseNode tgtChanged = null;
+		CollectNode<ExprNode> subpatternConn = new CollectNode<ExprNode>();
 	}
 
 	: owner=entIdentUse	d=DOT member=entIdentUse a=ASSIGN e=expr[false] //'false' because this rule is not used for the assignments in enum item decls

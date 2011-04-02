@@ -13,14 +13,18 @@ package de.unika.ipd.grgen.ir;
 
 import java.util.List;
 
+
 public class SubpatternUsage extends Identifiable {
 	Rule subpatternAction;
 	List<Expression> subpatternConnections;
+	List<Expression> subpatternYields;
 
-	public SubpatternUsage(String name, Ident ident, Rule subpatternAction, List<Expression> connections) {
+	public SubpatternUsage(String name, Ident ident, Rule subpatternAction, 
+			List<Expression> connections, List<Expression> yields) {
 		super(name, ident);
 		this.subpatternAction = subpatternAction;
 		this.subpatternConnections = connections;
+		this.subpatternYields = yields;
 	}
 
 	public Rule getSubpatternAction() {
@@ -29,5 +33,9 @@ public class SubpatternUsage extends Identifiable {
 
 	public List<Expression> getSubpatternConnections() {
 		return subpatternConnections;
+	}
+	
+	public List<Expression> getSubpatternYields() {
+		return subpatternYields;
 	}
 }

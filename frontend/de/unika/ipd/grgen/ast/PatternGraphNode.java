@@ -26,6 +26,7 @@ import java.util.Vector;
 
 import de.unika.ipd.grgen.ir.Alternative;
 import de.unika.ipd.grgen.ir.Edge;
+import de.unika.ipd.grgen.ir.EvalStatement;
 import de.unika.ipd.grgen.ir.Expression;
 import de.unika.ipd.grgen.ir.GraphEntity;
 import de.unika.ipd.grgen.ir.GraphEntityExpression;
@@ -565,6 +566,42 @@ public class PatternGraphNode extends GraphNode {
 			}
 		}
 
+		// add subpattern usage yield elements only mentioned there to the IR
+		// (they're declared in an enclosing graph and locally only show up in the subpattern usage yield)
+		for(BaseNode n : subpatterns.getChildren()) {
+			List<Expression> yields = n.checkIR(SubpatternUsage.class).getSubpatternYields();
+			for(Expression e : yields) {
+				if(e instanceof GraphEntityExpression) {
+					GraphEntity connection = ((GraphEntityExpression)e).getGraphEntity();
+					if(connection instanceof Node) {
+						Node neededNode = (Node)connection;
+						if(!gr.hasNode(neededNode)) {
+							gr.addSingleNode(neededNode);
+							gr.addHomToAll(neededNode);
+						}
+					}
+					else if(connection instanceof Edge) {
+						Edge neededEdge = (Edge)connection;
+						if(!gr.hasEdge(neededEdge)) {
+							gr.addSingleEdge(neededEdge);	// TODO: maybe we lose context here
+							gr.addHomToAll(neededEdge);
+						}
+					}
+					else {
+						assert(false);
+					}
+				} else {
+					NeededEntities needs = new NeededEntities(false, false, true, false, false, false);
+					e.collectNeededEntities(needs);
+					for(Variable neededVariable : needs.variables) {
+						if(!gr.hasVar(neededVariable)) {
+							gr.addVariable(neededVariable);
+						}
+					}
+				}
+			}
+		}
+
 		for(AlternativeNode alternativeNode : alts.getChildren()) {
 			Alternative alternative = alternativeNode.checkIR(Alternative.class);
 			gr.addAlternative(alternative);
@@ -588,6 +625,11 @@ public class PatternGraphNode extends GraphNode {
 			gr.addCondition(exprEvaluated.checkIR(Expression.class));
 		}
 
+		// add yield assignments to the IR
+		for (EvalStatement n : getYieldEvalStatements()) {
+			gr.addYield(n);
+		}
+		
 		/* generate type conditions from dynamic type checks via typeof */
 		for (GraphEntity n : gr.getNodes()) {
 			genTypeCondsFromTypeof(gr, n);
@@ -601,6 +643,30 @@ public class PatternGraphNode extends GraphNode {
 		NeededEntities needs = new NeededEntities(true, true, true, false, false, false);
 		for(Expression cond : gr.getConditions()) {
 			cond.collectNeededEntities(needs);
+		}
+		for(Node neededNode : needs.nodes) {
+			if(!gr.hasNode(neededNode)) {
+				gr.addSingleNode(neededNode);
+				gr.addHomToAll(neededNode);
+			}
+		}
+		for(Edge neededEdge : needs.edges) {
+			if(!gr.hasEdge(neededEdge)) {
+				gr.addSingleEdge(neededEdge);	// TODO: maybe we lose context here
+				gr.addHomToAll(neededEdge);
+			}
+		}
+		for(Variable neededVariable : needs.variables) {
+			if(!gr.hasVar(neededVariable)) {
+				gr.addVariable(neededVariable);
+			}
+		}
+
+		// add Yielded elements only mentioned there to the IR
+		// (they're declared in an enclosing graph and locally only show up in the yield)
+		needs = new NeededEntities(true, true, true, false, false, false);
+		for(EvalStatement yield : gr.getYields()) {
+			yield.collectNeededEntities(needs);
 		}
 		for(Node neededNode : needs.nodes) {
 			if(!gr.hasNode(neededNode)) {
@@ -749,6 +815,17 @@ public class PatternGraphNode extends GraphNode {
 		for (PatternGraphNode pgn : idpts.getChildren()) {
 			PatternGraph idpt = pgn.getPatternGraph();
 			gr.addIdptGraph(idpt);
+		}
+		
+		// ensure def to be yielded to elements are hom to all others
+		// so backend doing some fake search planning for them is not scheduling checks for them
+		for (Node node : gr.getNodes()) {
+			if(node.isDefToBeYieldedTo())
+				gr.addHomToAll(node);
+		}
+		for (Edge edge : gr.getEdges()) {
+			if(edge.isDefToBeYieldedTo())
+				gr.addHomToAll(edge);
 		}
 
 		return gr;

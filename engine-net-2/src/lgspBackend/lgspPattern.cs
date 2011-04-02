@@ -36,6 +36,12 @@ namespace de.unika.ipd.grGen.lgsp
         public IPatternGraph PointOfDefinition { get { return pointOfDefinition; } }
 
         /// <summary>
+        /// Iff true the element is only defined in its PointOfDefinition pattern,
+        /// it gets matched in another, nested or called pattern which yields it to the containing pattern.
+        /// </summary>
+        public bool DefToBeYieldedTo { get { return defToBeYieldedTo; } }
+
+        /// <summary>
         /// The annotations of the pattern element
         /// </summary>
         public IEnumerable<KeyValuePair<string, string>> Annotations { get { return annotations; } }
@@ -64,6 +70,12 @@ namespace de.unika.ipd.grGen.lgsp
         /// The pattern where this element gets matched (null if rule parameter).
         /// </summary>
         public PatternGraph pointOfDefinition;
+
+        /// <summary>
+        /// Iff true the element is only defined in its PointOfDefinition pattern,
+        /// it gets matched in another, nested or called pattern which yields it to the containing pattern.
+        /// </summary>
+        public bool defToBeYieldedTo;
 
         /// <summary>
         /// The annotations of the pattern element
@@ -152,12 +164,15 @@ namespace de.unika.ipd.grGen.lgsp
         ///     with the accessor given here applied as index into the storage map given in the storage parameter.</param>
         /// <param name="storageAttributeOwner">If not null this pattern element is to be bound by iterating the given storage attribute of this owner.</param>
         /// <param name="storageAttribute">If not null this pattern element is to be bound by iterating the given storage attribute.</param>
+        /// <param name="defToBeYieldedTo">Iff true the element is only defined in its PointOfDefinition pattern,
+        ///     it gets matched in another, nested or called pattern which yields it to the containing pattern.</param>
         public PatternElement(int typeID, String typeName, 
             String name, String unprefixedName, 
             GrGenType[] allowedTypes, bool[] isAllowedType, 
             float cost, int parameterIndex, bool maybeNull,
             PatternVariable storage, PatternElement accessor,
-            PatternElement storageAttributeOwner, AttributeType storageAttribute)
+            PatternElement storageAttributeOwner, AttributeType storageAttribute,
+            bool defToBeYieldedTo)
         {
             this.TypeID = typeID;
             this.typeName = typeName;
@@ -172,6 +187,7 @@ namespace de.unika.ipd.grGen.lgsp
             this.Accessor = accessor;
             this.StorageAttributeOwner = storageAttributeOwner;
             this.StorageAttribute = storageAttribute;
+            this.defToBeYieldedTo = defToBeYieldedTo;
         }
 
         /// <summary>
@@ -210,14 +226,18 @@ namespace de.unika.ipd.grGen.lgsp
         ///     with the accessor given here applied as index into the storage map given in the storage parameter.</param>
         /// <param name="storageAttributeOwner">If not null this pattern node is to be bound by iterating the given storage attribute of this owner.</param>
         /// <param name="storageAttribute">If not null this pattern node is to be bound by iterating the given storage attribute.</param>
+        /// <param name="defToBeYieldedTo">Iff true the element is only defined in its PointOfDefinition pattern,
+        ///     it gets matched in another, nested or called pattern which yields it to the containing pattern.</param>
         public PatternNode(int typeID, String typeName,
             String name, String unprefixedName,
             GrGenType[] allowedTypes, bool[] isAllowedType, 
             float cost, int parameterIndex, bool maybeNull,
             PatternVariable storage, PatternElement accessor,
-            PatternElement storageAttributeOwner, AttributeType storageAttribute)
+            PatternElement storageAttributeOwner, AttributeType storageAttribute,
+            bool defToBeYieldedTo)
             : base(typeID, typeName, name, unprefixedName, allowedTypes, isAllowedType, 
-                cost, parameterIndex, maybeNull, storage, accessor, storageAttributeOwner, storageAttribute)
+                cost, parameterIndex, maybeNull, storage, accessor, 
+                storageAttributeOwner, storageAttribute, defToBeYieldedTo)
         {
         }
 
@@ -263,15 +283,19 @@ namespace de.unika.ipd.grGen.lgsp
         ///     with the accessor given here applied as index into the storage map given in the storage parameter.</param>
         /// <param name="storageAttributeOwner">If not null this pattern edge is to be bound by iterating the given storage attribute of this owner.</param>
         /// <param name="storageAttribute">If not null this pattern edge is to be bound by iterating the given storage attribute.</param>
+        /// <param name="defToBeYieldedTo">Iff true the element is only defined in its PointOfDefinition pattern,
+        ///     it gets matched in another, nested or called pattern which yields it to the containing pattern.</param>
         public PatternEdge(bool fixedDirection,
             int typeID, String typeName, 
             String name, String unprefixedName,
             GrGenType[] allowedTypes, bool[] isAllowedType,
             float cost, int parameterIndex, bool maybeNull,
             PatternVariable storage, PatternElement accessor,
-            PatternElement storageAttributeOwner, AttributeType storageAttribute)
+            PatternElement storageAttributeOwner, AttributeType storageAttribute,
+            bool defToBeYieldedTo)
             : base(typeID, typeName, name, unprefixedName, allowedTypes, isAllowedType,
-                cost, parameterIndex, maybeNull, storage, accessor, storageAttributeOwner, storageAttribute)
+                cost, parameterIndex, maybeNull, storage, accessor, 
+                storageAttributeOwner, storageAttribute, defToBeYieldedTo)
         {
             this.fixedDirection = fixedDirection;
         }
@@ -310,6 +334,12 @@ namespace de.unika.ipd.grGen.lgsp
         public IPatternGraph PointOfDefinition { get { return pointOfDefinition; } }
 
         /// <summary>
+        /// Iff true the element is only defined in its PointOfDefinition pattern,
+        /// it gets matched in another, nested or called pattern which yields it to the containing pattern.
+        /// </summary>
+        public bool DefToBeYieldedTo { get { return defToBeYieldedTo; } }
+
+        /// <summary>
         /// The annotations of the pattern element
         /// </summary>
         public IEnumerable<KeyValuePair<string, string>> Annotations { get { return annotations; } }
@@ -335,6 +365,17 @@ namespace de.unika.ipd.grGen.lgsp
         public PatternGraph pointOfDefinition;
 
         /// <summary>
+        /// Iff true the element is only defined in its PointOfDefinition pattern,
+        /// it gets matched in another, nested or called pattern which yields it to the containing pattern.
+        /// </summary>
+        public bool defToBeYieldedTo;
+
+        /// <summary>
+        /// The initialization expression for the variable if some was defined, otherwise null.
+        /// </summary>
+        public Expression initialization;
+
+        /// <summary>
         /// The annotations of the pattern element
         /// </summary>
         public IDictionary<string, string> annotations = new Dictionary<string, string>();
@@ -351,12 +392,18 @@ namespace de.unika.ipd.grGen.lgsp
         /// <param name="name">The name of the variable.</param>
         /// <param name="unprefixedName">Pure name of the variable as specified in the .grg without any prefixes.</param>
         /// <param name="parameterIndex">Specifies to which rule parameter this variable corresponds.</param>
-        public PatternVariable(VarType type, String name, String unprefixedName, int parameterIndex)
+        /// <param name="defToBeYieldedTo">Iff true the element is only defined in its PointOfDefinition pattern,
+        ///     it gets matched in another, nested or called pattern which yields it to the containing pattern.</param>
+        /// <param name="initialization">The initialization expression for the variable if some was defined, otherwise null.</param>
+        public PatternVariable(VarType type, String name, String unprefixedName,
+            int parameterIndex, bool defToBeYieldedTo, Expression initialization)
         {
             this.Type = type;
             this.name = name;
             this.unprefixedName = unprefixedName;
             this.ParameterIndex = parameterIndex;
+            this.defToBeYieldedTo = defToBeYieldedTo;
+            this.initialization = initialization;
         }
     }
 
@@ -402,6 +449,55 @@ namespace de.unika.ipd.grGen.lgsp
             String[] neededNodes, String[] neededEdges, String[] neededVariables, VarType[] neededVariableTypes)
         {
             ConditionExpression = conditionExpression;
+            NeededNodes = neededNodes;
+            NeededEdges = neededEdges;
+            NeededVariables = neededVariables;
+            NeededVariableTypes = neededVariableTypes;
+        }
+    }
+
+    /// <summary>
+    /// Representation of some assignment to a def variable to be executed after matching completed
+    /// </summary>
+    public class PatternYielding
+    {
+        /// <summary>
+        /// The yielding assignment to execute.
+        /// </summary>
+        public YieldAssignment YieldAssignment;
+
+        /// <summary>
+        /// An array of node names needed by this yielding assignment.
+        /// </summary>
+        public String[] NeededNodes;
+
+        /// <summary>
+        /// An array of edge names needed by this yielding assignment.
+        /// </summary>
+        public String[] NeededEdges;
+
+        /// <summary>
+        /// An array of variable names needed by this yielding assignment.
+        /// </summary>
+        public String[] NeededVariables;
+
+        /// <summary>
+        /// An array of variable types (corresponding to the variable names) needed by this yielding assignment.
+        /// </summary>
+        public VarType[] NeededVariableTypes;
+
+        /// <summary>
+        /// Constructs a PatternYielding object.
+        /// </summary>
+        /// <param name="yieldAssignment">The yield assignment to execute.</param>
+        /// <param name="neededNodes">An array of node names needed by this yielding assignment.</param>
+        /// <param name="neededEdges">An array of edge names needed by this yielding assignment.</param>
+        /// <param name="neededVariables">An array of variable names needed by this yielding assignment.</param>
+        /// <param name="neededVariableTypes">An array of variable types (corresponding to the variable names) needed by this yielding assignment.</param>
+        public PatternYielding(YieldAssignment yieldAssignment,
+            String[] neededNodes, String[] neededEdges, String[] neededVariables, VarType[] neededVariableTypes)
+        {
+            YieldAssignment = yieldAssignment;
             NeededNodes = neededNodes;
             NeededEdges = neededEdges;
             NeededVariables = neededVariables;
@@ -647,6 +743,22 @@ namespace de.unika.ipd.grGen.lgsp
         public PatternCondition[] Conditions;
 
         /// <summary>
+        /// The yielding assignments used in this pattern graph or it's nested graphs
+        /// </summary>
+        public PatternYielding[] Yieldings;
+
+        /// <summary>
+        /// Tells whether a def entity (node, edge, variable) is existing in this pattern graph
+        /// </summary>
+        public bool isDefEntityExisting = false;
+
+        /// <summary>
+        /// Tells whether a non local def entity (node, edge, variable) is existing in this pattern graph
+        /// </summary>
+        public bool isNonLocalDefEntityExisting = false;
+
+
+        /// <summary>
         /// Constructs a PatternGraph object.
         /// </summary>
         /// <param name="name">The name of the pattern graph.</param>
@@ -662,7 +774,8 @@ namespace de.unika.ipd.grGen.lgsp
         /// <param name="iterateds">An array of iterated patterns, each iterated is matched as often as possible within the specified bounds.</param>
         /// <param name="negativePatternGraphs">An array of negative pattern graphs which make the
         /// search fail if they get matched (NACs - Negative Application Conditions).</param>
-        /// <param name="conditions">The conditions used in this pattern graph or it's nested graphs.</param>
+        /// <param name="conditions">The conditions used in this pattern graph or its nested graphs.</param>
+        /// <param name="yieldings">The yieldings used in this pattern graph or its nested graphs.</param>
         /// <param name="homomorphicNodes">A two-dimensional array describing which pattern node may
         /// be matched non-isomorphic to which pattern node.</param>
         /// <param name="homomorphicEdges">A two-dimensional array describing which pattern edge may
@@ -678,7 +791,7 @@ namespace de.unika.ipd.grGen.lgsp
             PatternVariable[] variables, PatternGraphEmbedding[] embeddedGraphs,
             Alternative[] alternatives, Iterated[] iterateds,
             PatternGraph[] negativePatternGraphs, PatternGraph[] independentPatternGraphs,
-            PatternCondition[] conditions,
+            PatternCondition[] conditions, PatternYielding[] yieldings,
             bool[,] homomorphicNodes, bool[,] homomorphicEdges,
             bool[,] homomorphicNodesGlobal, bool[,] homomorphicEdgesGlobal)
         {
@@ -694,6 +807,7 @@ namespace de.unika.ipd.grGen.lgsp
             this.negativePatternGraphs = negativePatternGraphs;
             this.independentPatternGraphs = independentPatternGraphs;
             this.Conditions = conditions;
+            this.Yieldings = yieldings;
             this.homomorphicNodes = homomorphicNodes;
             this.homomorphicEdges = homomorphicEdges;
             this.homomorphicNodesGlobal = homomorphicNodesGlobal;
@@ -804,6 +918,36 @@ namespace de.unika.ipd.grGen.lgsp
                     edge.pointOfDefinition = null;
                 }
             }
+        }
+
+        public void SetDefEntityExistanceAndNonLocalDefEntityExistance()
+        {
+            foreach(PatternNode node in nodes)
+                if(node.DefToBeYieldedTo) {
+                    isDefEntityExisting = true;
+                    if(node.pointOfDefinition != this)
+                        isNonLocalDefEntityExisting = true;
+                }
+            foreach(PatternEdge edge in edges)
+                if(edge.DefToBeYieldedTo) {
+                    isDefEntityExisting = true;
+                    if(edge.pointOfDefinition != this)
+                        isNonLocalDefEntityExisting = true;
+                }
+            foreach(PatternVariable var in variables)
+                if(var.DefToBeYieldedTo) {
+                    isDefEntityExisting = true;
+                    if(var.pointOfDefinition != this)
+                        isNonLocalDefEntityExisting = true;
+                }
+
+            foreach(Alternative alternative in alternatives)
+                foreach(PatternGraph alternativeCase in alternative.alternativeCases)
+                    alternativeCase.SetDefEntityExistanceAndNonLocalDefEntityExistance();
+            foreach(Iterated iterated in iterateds)
+                iterated.iteratedPattern.SetDefEntityExistanceAndNonLocalDefEntityExistance();
+            foreach(PatternGraph independent in independentPatternGraphs)
+                independent.SetDefEntityExistanceAndNonLocalDefEntityExistance();
         }
 
         // -------- intermdiate results of matcher generation ----------------------------------
@@ -923,17 +1067,24 @@ namespace de.unika.ipd.grGen.lgsp
         public Expression[] connections;
 
         /// <summary>
-        /// An array of node names needed by this subpattern embedding.
+        /// An array with the output arguments to the subpattern,
+        /// that are the pattern variables plus the pattern elements
+        /// which the subpattern yields to the containing pattern.
+        /// </summary>
+        public String[] yields;
+
+        /// <summary>
+        /// An array of names of nodes needed by this subpattern embedding.
         /// </summary>
         public String[] neededNodes;
 
         /// <summary>
-        /// An array of edge names needed by this subpattern embedding.
+        /// An array of names of edges needed by this subpattern embedding.
         /// </summary>
         public String[] neededEdges;
 
         /// <summary>
-        /// An array of variable names needed by this subpattern embedding.
+        /// An array of names of variable needed by this subpattern embedding.
         /// </summary>
         public String[] neededVariables;
 
@@ -949,13 +1100,21 @@ namespace de.unika.ipd.grGen.lgsp
         /// <param name="matchingPatternOfEmbeddedGraph">The embedded subpattern.</param>
         /// <param name="connections">An array with the expressions defining how the subpattern is connected
         /// to the containing pattern (graph elements and basic variables) .</param>
+        /// <param name="connections">An array with the def elements and variables 
+        /// from the containing pattern yielded to from the subpattern.</param>
+        /// <param name="neededNodes">An array with names of nodes needed by this embedding.</param>
+        /// <param name="neededEdges">An array with names of edges  needed by this embedding.</param>
+        /// <param name="neededVariables">An array with names of variables needed by this embedding.</param>
+        /// <param name="neededVariableTypes">An array with types of variables needed by this embedding.</param>
         public PatternGraphEmbedding(String name, LGSPMatchingPattern matchingPatternOfEmbeddedGraph,
-                Expression[] connections, String[] neededNodes, String[] neededEdges,
+                Expression[] connections, String[] yields,
+                String[] neededNodes, String[] neededEdges,
                 String[] neededVariables, VarType[] neededVariableTypes)
         {
             this.name = name;
             this.matchingPatternOfEmbeddedGraph = matchingPatternOfEmbeddedGraph;
             this.connections = connections;
+            this.yields = yields;
             this.neededNodes = neededNodes;
             this.neededEdges = neededEdges;
             this.neededVariables = neededVariables;
@@ -1067,9 +1226,14 @@ namespace de.unika.ipd.grGen.lgsp
         public GrGenType[] Inputs { get { return inputs; } }
 
         /// <summary>
-        /// An array of the names corresponding to rule parameters;
+        /// An array of the names corresponding to rule parameters.
         /// </summary>
         public String[] InputNames { get { return inputNames; } }
+
+        /// <summary>
+        /// An array of the names of the def elements yielded out of this pattern.
+        /// </summary>
+        public String[] DefNames { get { return defNames; } }
 
         /// <summary>
         /// The annotations of the matching pattern (test/rule/subpattern)
@@ -1090,6 +1254,16 @@ namespace de.unika.ipd.grGen.lgsp
         /// Names of the rule parameter elements
         /// </summary>
         public string[] inputNames;
+
+        /// <summary>
+        /// An array of GrGen types corresponding to def elments yielded out of this pattern.
+        /// </summary>
+        public GrGenType[] defs; // redundant convenience, information already given by/within the PatternElements
+
+        /// <summary>
+        /// Names of the def elements yielded out of this pattern.
+        /// </summary>
+        public string[] defNames;
 
         /// <summary>
         /// The annotations of the matching pattern (test/rule/subpattern)

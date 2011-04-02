@@ -1,0 +1,98 @@
+using attrib_model_001;
+
+rule createChain : (Node)
+{
+	modify {
+		start:Node --> . --> . --> . --> .;
+		return (start);
+	}
+}
+
+pattern Chain(begin:Node, def end:Node)
+{
+	alternative {
+		further {
+			begin --> next:Node;
+			c:Chain(next, yield end);
+		}
+		done {
+			yield {
+				yield end = begin;
+			}
+		}
+	}
+}
+
+rule linkChainEndToStart(begin:Node) : (Node)
+{
+	def end:Node;
+	c:Chain(begin, yield end);
+	
+	modify {
+		end --> begin;
+		return(end);
+	}
+}
+
+rule linkChainEndToStartIndependent(begin:Node) : (Node)
+{
+	def end:Node;
+	
+	independent {
+		c:Chain(begin, yield end);
+	}
+	
+	modify {
+		end --> begin;
+		return(end);
+	}
+}
+
+rule deleteWithoutIncoming
+{
+	n:Node;
+	negative {
+		--> n;
+	}
+	
+	replace {
+	}
+}
+
+//////////////////////////////////////////////////////////////
+
+rule createBlowball : (Node)
+{
+	modify {
+		start:Node;
+		start --> n1:NINT;
+		start --> n2:NINT;
+		start --> n3:NINT;
+		eval {
+			n1.a = 1;
+			n2.a = 2;
+			n3.a = 3;
+		}
+		return (start);
+	}
+}
+
+test countNINT(start:Node) : (int)
+{
+	def var i:int = 0;
+	
+	iterated {
+		start --> n:NINT;
+		
+		yield {
+			yield i = n.a;
+		}
+	} 
+/*	
+	yield {
+		i = accumulate<+>;
+	}
+*/
+	return (i);
+}
+

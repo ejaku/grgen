@@ -398,6 +398,17 @@ public class GraphNode extends BaseNode {
 			gr.addImperativeStmt((ImperativeStmt)imp.getIR());
 		}
 		
+		// ensure def to be yielded to elements are hom to all others
+		// so backend doing some fake search planning for them is not scheduling checks for them
+		for (Node node : gr.getNodes()) {
+			if(node.isDefToBeYieldedTo())
+				gr.addHomToAll(node);
+		}
+		for (Edge edge : gr.getEdges()) {
+			if(edge.isDefToBeYieldedTo())
+				gr.addHomToAll(edge);
+		}
+		
 		return gr;
 	}
 

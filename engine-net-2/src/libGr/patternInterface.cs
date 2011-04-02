@@ -30,13 +30,11 @@ namespace de.unika.ipd.grGen.libGr
         /// </summary>
         IPatternGraph PointOfDefinition { get; }
 
-        /* to be uncommented in case this gets implemented, i.e. left side def elements to be yielded to, on right side already implemented
         /// <summary>
         /// Iff true the element is only defined in its PointOfDefinition pattern,
-        /// it gets matched in another, nested pattern which yields it to the containing pattern.
+        /// it gets matched in another, nested or called pattern which yields it to the containing pattern.
         /// </summary>
         bool DefToBeYieldedTo { get; }
-        */
 
         /// <summary>
         /// The annotations of the pattern element.
@@ -229,15 +227,23 @@ namespace de.unika.ipd.grGen.libGr
         GrGenType[] Inputs { get; }
 
         /// <summary>
-        /// An array of the names corresponding to rule parameters;
+        /// An array of the names corresponding to rule parameters.
         /// </summary>
         String[] InputNames { get; }
+
+        /// <summary>
+        /// An array of the names of the def elements yielded out of this pattern.
+        /// </summary>
+        String[] DefNames { get; }
 
         /// <summary>
         /// The annotations of the matching pattern (test/rule/subpattern)
         /// </summary>
         IEnumerable<KeyValuePair<string, string>> Annotations { get; }
     }
+
+    // TODO: split ISubpatternPattern out of IMatching pattern, def elements are a subpattern only thing 
+    // -> IMatchingPattern as parent element for IRulePattern and ISubpatternPattern
 
     /// <summary>
     /// A description of a GrGen rule.

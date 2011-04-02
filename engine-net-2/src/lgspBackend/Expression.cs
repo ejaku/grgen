@@ -1322,4 +1322,256 @@ namespace de.unika.ipd.grGen.expression
             return "Math.Pow(";
         }
     }
+
+    
+    /////////////////////////////////////////////////////////////////////////////////////
+    /////////////////////////////////////////////////////////////////////////////////////
+
+
+    /// <summary>
+    /// Base class of yielding in assignments and expressions
+    /// </summary>
+    public abstract class Yielding
+    {
+        /// <summary>
+        /// emits c# code implementing yielding into source builder
+        /// to be implemented by concrete subclasses
+        /// </summary>
+        public abstract void Emit(SourceBuilder sourceCode);
+    }
+
+    /// <summary>
+    /// Class representing a yielding assignment executed after the match was found
+    /// writing a value computed from the right expression into the left def variable
+    /// </summary>
+    public class YieldAssignment : Yielding
+    {
+        public YieldAssignment(String left, bool isVar, Expression right)
+        {
+            Left = left;
+            IsVar = isVar;
+            Right = right;
+        }
+
+        public override void Emit(SourceBuilder sourceCode)
+        {
+            sourceCode.Append(IsVar ? NamesOfEntities.Variable(Left) : NamesOfEntities.CandidateVariable(Left));
+            sourceCode.Append(" = ");
+            Right.Emit(sourceCode);
+        }
+
+        String Left;
+        bool IsVar;
+        Expression Right;
+    }
+
+    /// <summary>
+    /// Class representing a yielding change assignment executed after the match was found
+    /// writing the information whether the right yield method changed the set/map it operates upon
+    /// to the left def variable
+    /// </summary>
+    public class YieldChangeAssignment : Yielding
+    {
+        public YieldChangeAssignment(String left, YieldMethod right)
+        {
+            Left = left;
+            Right = right;
+        }
+
+        public override void Emit(SourceBuilder sourceCode)
+        {
+            sourceCode.Append(NamesOfEntities.Variable(Left));
+            sourceCode.Append(" = ");
+            Right.Emit(sourceCode);
+        }
+
+        String Left;
+        YieldMethod Right;
+    }
+
+    /// <summary>
+    /// Class representing a yielding change conjunction assignment executed after the match was found
+    /// writing the information whether the right yield method changed the set/map it operates upon
+    /// and'ed with the left def variable to the left def variable
+    /// </summary>
+    public class YieldChangeConjunctionAssignment : Yielding
+    {
+        public YieldChangeConjunctionAssignment(String left, YieldMethod right)
+        {
+            Left = left;
+            Right = right;
+        }
+
+        public override void Emit(SourceBuilder sourceCode)
+        {
+            sourceCode.Append(NamesOfEntities.Variable(Left));
+            sourceCode.Append(" &= ");
+            Right.Emit(sourceCode);
+        }
+
+        String Left;
+        YieldMethod Right;
+    }
+
+    /// <summary>
+    /// Class representing a yielding change disjunction assignment executed after the match was found
+    /// writing the information whether the right yield method changed the set/map it operates upon
+    /// or'ed with the left def variable to the left def variable
+    /// </summary>
+    public class YieldChangeDisjunctionAssignment : Yielding
+    {
+        public YieldChangeDisjunctionAssignment(String left, YieldMethod right)
+        {
+            Left = left;
+            Right = right;
+        }
+
+        public override void Emit(SourceBuilder sourceCode)
+        {
+            sourceCode.Append(NamesOfEntities.Variable(Left));
+            sourceCode.Append(" |= ");
+            Right.Emit(sourceCode);
+        }
+
+        String Left;
+        YieldMethod Right;
+    }
+
+    /// <summary>
+    /// Class representing a yielding method call executed after the match was found
+    /// writing a value computed from the right expression into the left def variable
+    /// </summary>
+    public abstract class YieldMethod : Yielding
+    {
+        public YieldMethod(String left, Expression right)
+        {
+            Left = left;
+            Right = right;
+        }
+
+        protected String Left;
+        protected Expression Right;
+    }
+
+    /// <summary>
+    /// Class representing a remove from set or map
+    /// </summary>
+    public class SetMapRemove : YieldMethod
+    {
+        public SetMapRemove(String left, Expression right)
+            : base(left, right)
+        {
+        }
+
+        public override void Emit(SourceBuilder sourceCode)
+        {
+            sourceCode.Append(NamesOfEntities.Variable(Left));
+            sourceCode.Append(".Remove(");
+            Right.Emit(sourceCode);
+            sourceCode.Append(")");
+        }
+    }
+
+    /// <summary>
+    /// Class representing an add to set
+    /// </summary>
+    public class SetAdd : YieldMethod
+    {
+        public SetAdd(String left, Expression value)
+            : base(left, value)
+        {
+        }
+
+        public override void Emit(SourceBuilder sourceCode)
+        {
+            sourceCode.Append(NamesOfEntities.Variable(Left));
+            sourceCode.Append(".Add(");
+            Right.Emit(sourceCode);
+            sourceCode.Append(")");
+        }
+    }
+
+    /// <summary>
+    /// Class representing an add to map
+    /// </summary>
+    public class MapAdd : YieldMethod
+    {
+        public MapAdd(String left, Expression key, Expression value)
+            : base(left, key)
+        {
+            Value = value;
+        }
+    
+        public override void Emit(SourceBuilder sourceCode)
+        {
+            sourceCode.Append(NamesOfEntities.Variable(Left));
+            sourceCode.Append(".Add(");
+            Right.Emit(sourceCode);
+            sourceCode.Append(", ");
+            Value.Emit(sourceCode);
+            sourceCode.Append(")");
+        }
+
+        Expression Value;
+    }
+
+    /// <summary>
+    /// Class representing a change set or map by union with another one
+    /// </summary>
+    public class SetMapUnion : YieldMethod
+    {
+        public SetMapUnion(String left, Expression right)
+            : base(left, right)
+        {
+        }
+
+        public override void Emit(SourceBuilder sourceCode)
+        {
+            sourceCode.Append("GRGEN_LIBGR.DictionaryHelper.UnionChanged(");
+            sourceCode.Append(NamesOfEntities.Variable(Left));
+            sourceCode.Append(", ");
+            Right.Emit(sourceCode);
+            sourceCode.Append(")");
+        }
+    }
+
+    /// <summary>
+    /// Class representing a change set or map by intersection with another one
+    /// </summary>
+    public class SetMapIntersect : YieldMethod
+    {
+        public SetMapIntersect(String left, Expression right)
+            : base(left, right)
+        {
+        }
+
+        public override void Emit(SourceBuilder sourceCode)
+        {
+            sourceCode.Append("GRGEN_LIBGR.DictionaryHelper.IntersectChanged(");
+            sourceCode.Append(NamesOfEntities.Variable(Left));
+            sourceCode.Append(", ");
+            Right.Emit(sourceCode);
+            sourceCode.Append(")");
+        }
+    }
+
+    /// <summary>
+    /// Class representing a change set or map by subtracting another one
+    /// </summary>
+    public class SetMapExcept : YieldMethod
+    {
+        public SetMapExcept(String left, Expression right)
+            : base(left, right)
+        {
+        }
+
+        public override void Emit(SourceBuilder sourceCode)
+        {
+            sourceCode.Append("GRGEN_LIBGR.DictionaryHelper.ExceptChanged(");
+            sourceCode.Append(NamesOfEntities.Variable(Left));
+            sourceCode.Append(", ");
+            Right.Emit(sourceCode);
+            sourceCode.Append(")");
+        }
+    }
 }

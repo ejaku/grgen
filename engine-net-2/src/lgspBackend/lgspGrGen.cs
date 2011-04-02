@@ -214,7 +214,13 @@ namespace de.unika.ipd.grGen.lgsp
                 float cost;
                 bool isPreset;
                 SearchOperationType searchOperationType;
-                if (node.PointOfDefinition == null)
+                if(node.DefToBeYieldedTo)
+                {
+                    cost = 0;
+                    isPreset = true;
+                    searchOperationType = SearchOperationType.DefToBeYieldedTo;
+                }
+                else if(node.PointOfDefinition == null)
                 {
                     cost = 0;
                     isPreset = true;
@@ -273,7 +279,13 @@ namespace de.unika.ipd.grGen.lgsp
                 float cost;
                 bool isPreset;
                 SearchOperationType searchOperationType;
-                if (edge.PointOfDefinition == null)
+                if(edge.DefToBeYieldedTo)
+                {
+                    cost = 0;
+                    isPreset = true;
+                    searchOperationType = SearchOperationType.DefToBeYieldedTo;
+                } 
+                else if(edge.PointOfDefinition == null)
                 {
                     cost = 0;
                     isPreset = true;
