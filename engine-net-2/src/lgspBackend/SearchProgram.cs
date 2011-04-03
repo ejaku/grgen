@@ -3309,15 +3309,18 @@ namespace de.unika.ipd.grGen.lgsp
     /// </summary>
     class BubbleUpYieldIterated : SearchProgramOperation
     {
-        public BubbleUpYieldIterated(string nestedMatchObjectName)
+        public BubbleUpYieldIterated(string nestedMatchObjectName, string iteratedMatchTypeName, string helperMatchName)
         {
             NestedMatchObjectName = nestedMatchObjectName;
+            IteratedMatchTypeName = iteratedMatchTypeName;
+            HelperMatchName = helperMatchName;
         }
 
         public override void Dump(SourceBuilder builder)
         {
             // first dump local content
-            builder.AppendFrontFormat("BubbleUpYieldIterated on {0}\n", NestedMatchObjectName);
+            builder.AppendFrontFormat("BubbleUpYieldIterated on {0} type {1}\n", 
+                NestedMatchObjectName, IteratedMatchTypeName);
 
             // then nested content
             if (NestedOperationsList != null)
@@ -3330,7 +3333,8 @@ namespace de.unika.ipd.grGen.lgsp
 
         public override void Emit(SourceBuilder sourceCode)
         {
-            sourceCode.AppendFrontFormat("if({0}.Count>0) {{\n", NestedMatchObjectName);
+            sourceCode.AppendFrontFormat("foreach({0} {1} in {2}) {{\n", 
+                IteratedMatchTypeName, HelperMatchName, NestedMatchObjectName);
             sourceCode.Indent();
 
             NestedOperationsList.Emit(sourceCode);
@@ -3350,6 +3354,8 @@ namespace de.unika.ipd.grGen.lgsp
         }
 
         string NestedMatchObjectName;
+        string IteratedMatchTypeName;
+        string HelperMatchName;
 
         public SearchProgramList NestedOperationsList;
     }
@@ -3360,11 +3366,12 @@ namespace de.unika.ipd.grGen.lgsp
     class BubbleUpYieldAlternativeCase : SearchProgramOperation
     {
         public BubbleUpYieldAlternativeCase(string matchObjectName, string nestedMatchObjectName,
-            string alternativeCaseMatchTypeName, bool first)
+            string alternativeCaseMatchTypeName, string helperMatchName, bool first)
         {
             MatchObjectName = matchObjectName;
             NestedMatchObjectName = nestedMatchObjectName;
             AlternativeCaseMatchTypeName = alternativeCaseMatchTypeName;
+            HelperMatchName = helperMatchName;
             First = first;
         }
 
@@ -3388,8 +3395,8 @@ namespace de.unika.ipd.grGen.lgsp
             sourceCode.AppendFrontFormat("{0}if({1}.{2} is {3}) {{\n",
                 First ? "" : "else ", MatchObjectName, NestedMatchObjectName, AlternativeCaseMatchTypeName);
             sourceCode.Indent();
-            sourceCode.AppendFrontFormat("{0} altCaseMatch = ({0}){1}.{2};\n",
-                AlternativeCaseMatchTypeName, MatchObjectName, NestedMatchObjectName);
+            sourceCode.AppendFrontFormat("{0} {1} = ({0}){2}.{3};\n",
+                AlternativeCaseMatchTypeName, HelperMatchName, MatchObjectName, NestedMatchObjectName);
 
             NestedOperationsList.Emit(sourceCode);
 
@@ -3410,6 +3417,7 @@ namespace de.unika.ipd.grGen.lgsp
         string MatchObjectName;
         string NestedMatchObjectName;
         string AlternativeCaseMatchTypeName;
+        string HelperMatchName;
         bool First;
 
         public SearchProgramList NestedOperationsList;

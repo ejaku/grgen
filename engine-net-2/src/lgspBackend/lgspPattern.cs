@@ -464,7 +464,7 @@ namespace de.unika.ipd.grGen.lgsp
         /// <summary>
         /// The yielding assignment to execute.
         /// </summary>
-        public YieldAssignment YieldAssignment;
+        public Yielding YieldAssignment;
 
         /// <summary>
         /// An array of node names needed by this yielding assignment.
@@ -494,7 +494,7 @@ namespace de.unika.ipd.grGen.lgsp
         /// <param name="neededEdges">An array of edge names needed by this yielding assignment.</param>
         /// <param name="neededVariables">An array of variable names needed by this yielding assignment.</param>
         /// <param name="neededVariableTypes">An array of variable types (corresponding to the variable names) needed by this yielding assignment.</param>
-        public PatternYielding(YieldAssignment yieldAssignment,
+        public PatternYielding(Yielding yieldAssignment,
             String[] neededNodes, String[] neededEdges, String[] neededVariables, VarType[] neededVariableTypes)
         {
             YieldAssignment = yieldAssignment;

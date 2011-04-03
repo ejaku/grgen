@@ -1574,4 +1574,49 @@ namespace de.unika.ipd.grGen.expression
             sourceCode.Append(")");
         }
     }
+
+    /// <summary>
+    /// Class representing an iterated accumulation yield executed after the match was found
+    /// accumulating the values matched by a nested iterated with a chosen operator 
+    /// writing the accumulated value into the target def variable
+    /// </summary>
+    public class IteratedAccumulationYield : Yielding
+    {
+        public IteratedAccumulationYield(String variable, String unprefixedVariable, String iterated, Expression op)
+        {
+            Variable = variable;
+            UnprefixedVariable = unprefixedVariable;
+            Iterated = iterated;
+            Operator = op;
+        }
+
+        public override void Emit(SourceBuilder sourceCode)
+        {
+            sourceCode.Append(NamesOfEntities.Variable(Variable));
+            sourceCode.Append(" = ");
+            if(Operator is BinInfixOperator)
+            {
+                BinInfixOperator binOp = (BinInfixOperator)Operator;
+                sourceCode.Append(NamesOfEntities.Variable(Variable));
+                sourceCode.Append(binOp.GetInfixOperator());
+                sourceCode.Append(IteratedMatchVariable);
+            }
+            else //if(Operator is BinFuncOperator)
+            {
+                BinFuncOperator binOp = (BinFuncOperator)Operator;
+                sourceCode.Append(binOp.GetFuncOperatorAndLParen());
+                sourceCode.Append(NamesOfEntities.Variable(Variable));
+                sourceCode.Append(", ");
+                sourceCode.Append(IteratedMatchVariable);
+                sourceCode.Append(")");
+            }
+        }
+
+        public String Variable;
+        public String UnprefixedVariable;
+        public String Iterated;
+        Expression Operator;
+
+        public String IteratedMatchVariable;
+    }
 }

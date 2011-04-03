@@ -9,9 +9,10 @@
 
 using System;
 using System.Collections.Generic;
+using System.Text;
 using System.Diagnostics;
 using de.unika.ipd.grGen.libGr;
-using System.Text;
+using de.unika.ipd.grGen.expression;
 
 namespace de.unika.ipd.grGen.lgsp
 {
@@ -2292,24 +2293,6 @@ namespace de.unika.ipd.grGen.lgsp
                 }
             }
 
-            foreach(Iterated iterated in patternGraph.iterateds)
-            {
-                // if the iterated does not contain a non local def entity it can't yield to us
-                if(!iterated.iteratedPattern.isNonLocalDefEntityExisting)
-                    continue;
-
-                String nestedMatchObjectName = matchObjectName + "._" + iterated.iteratedPattern.Name;
-                BubbleUpYieldIterated bubbleUpIterated = new BubbleUpYieldIterated(nestedMatchObjectName);
-                bubbleUpIterated.NestedOperationsList = new SearchProgramList(bubbleUpIterated);
-                SearchProgramOperation continuationPoint = insertionPoint.Append(bubbleUpIterated);
-                insertionPoint = bubbleUpIterated.NestedOperationsList;
-
-                insertYieldAssignments(insertionPoint,
-                    patternGraph, nestedMatchObjectName+".Root", iterated.iteratedPattern);
-
-                insertionPoint = continuationPoint;
-            }
-
             foreach(Alternative alternative in patternGraph.alternatives)
             {
                 bool first = true;
@@ -2325,6 +2308,7 @@ namespace de.unika.ipd.grGen.lgsp
                             matchObjectName,
                             nestedMatchObjectName,
                             rulePatternClassName + ".Match_" + patternGraph.pathPrefix + patternGraph.name + "_" + alternative.name + "_" + alternativeCase.name,
+                            "altCaseMatch",
                             first);
                     bubbleUpAlternativeCase.NestedOperationsList = new SearchProgramList(bubbleUpAlternativeCase);
                     SearchProgramOperation continuationPoint = insertionPoint.Append(bubbleUpAlternativeCase);
@@ -2354,11 +2338,45 @@ namespace de.unika.ipd.grGen.lgsp
             // then 2. compute all local yields
             foreach(PatternYielding yielding in patternGraph.Yieldings)
             {
-                SourceBuilder yieldAssignmentSource = new SourceBuilder();
-                yielding.YieldAssignment.Emit(yieldAssignmentSource);
-                LocalYieldAssignment yieldAssignment = 
-                    new LocalYieldAssignment(yieldAssignmentSource.ToString());
-                insertionPoint = insertionPoint.Append(yieldAssignment);
+                // iterated can't be bubbled up normally, they need accumulation, 
+                // that's done in/with the yield statements of the parent
+                if(yielding.YieldAssignment is IteratedAccumulationYield)
+                {
+                    IteratedAccumulationYield accumulationYield = (IteratedAccumulationYield)yielding.YieldAssignment;
+                    foreach(Iterated iterated in patternGraph.iterateds)
+                    {
+                        // skip the iterateds we're not interested in
+                        if(accumulationYield.Iterated != iterated.iteratedPattern.Name)
+                            continue;
+
+                        String nestedMatchObjectName = matchObjectName + "._" + iterated.iteratedPattern.Name;
+                        BubbleUpYieldIterated bubbleUpIterated = 
+                            new BubbleUpYieldIterated(
+                                nestedMatchObjectName,
+                                rulePatternClassName + ".Match_" + patternGraph.pathPrefix + patternGraph.name + "_" + iterated.iteratedPattern.name,
+                                "iteratedMatch");
+                        bubbleUpIterated.NestedOperationsList = new SearchProgramList(bubbleUpIterated);
+                        SearchProgramOperation continuationPoint = insertionPoint.Append(bubbleUpIterated);
+                        insertionPoint = bubbleUpIterated.NestedOperationsList;
+
+                        accumulationYield.IteratedMatchVariable = "iteratedMatch._" + NamesOfEntities.Variable(accumulationYield.UnprefixedVariable);
+                        SourceBuilder yieldAssignmentSource = new SourceBuilder();
+                        accumulationYield.Emit(yieldAssignmentSource);
+                        LocalYieldAssignment yieldAssignment =
+                            new LocalYieldAssignment(yieldAssignmentSource.ToString());
+                        insertionPoint = insertionPoint.Append(yieldAssignment);
+
+                        insertionPoint = continuationPoint;
+                    }
+                }
+                else
+                {
+                    SourceBuilder yieldAssignmentSource = new SourceBuilder();
+                    yielding.YieldAssignment.Emit(yieldAssignmentSource);
+                    LocalYieldAssignment yieldAssignment =
+                        new LocalYieldAssignment(yieldAssignmentSource.ToString());
+                    insertionPoint = insertionPoint.Append(yieldAssignment);
+                }
             }
 
             return insertionPoint;
@@ -2482,7 +2500,7 @@ namespace de.unika.ipd.grGen.lgsp
                 {
                     connectionName[j] = node.Key;
                     SourceBuilder argumentExpression = new SourceBuilder();
-                    (new de.unika.ipd.grGen.expression.GraphEntityExpression(node.Key)).Emit(argumentExpression);
+                    (new GraphEntityExpression(node.Key)).Emit(argumentExpression);
                     argumentExpressions[j] = argumentExpression.ToString();
                     ++j;
                 }
@@ -2490,7 +2508,7 @@ namespace de.unika.ipd.grGen.lgsp
                 {
                     connectionName[j] = edge.Key;
                     SourceBuilder argumentExpression = new SourceBuilder();
-                    (new de.unika.ipd.grGen.expression.GraphEntityExpression(edge.Key)).Emit(argumentExpression);
+                    (new GraphEntityExpression(edge.Key)).Emit(argumentExpression);
                     argumentExpressions[j] = argumentExpression.ToString();
                     ++j;
                 }
@@ -2498,7 +2516,7 @@ namespace de.unika.ipd.grGen.lgsp
                 {
                     connectionName[j] = variable.Key;
                     SourceBuilder argumentExpression = new SourceBuilder();
-                    (new de.unika.ipd.grGen.expression.VariableExpression(variable.Key)).Emit(argumentExpression);
+                    (new VariableExpression(variable.Key)).Emit(argumentExpression);
                     argumentExpressions[j] = argumentExpression.ToString();
                     ++j;
                 }
@@ -2533,7 +2551,7 @@ namespace de.unika.ipd.grGen.lgsp
                 {
                     connectionName[j] = node.Key;
                     SourceBuilder argumentExpression = new SourceBuilder();
-                    (new de.unika.ipd.grGen.expression.GraphEntityExpression(node.Key)).Emit(argumentExpression);
+                    (new GraphEntityExpression(node.Key)).Emit(argumentExpression);
                     argumentExpressions[j] = argumentExpression.ToString();
                     ++j;
                 }
@@ -2541,7 +2559,7 @@ namespace de.unika.ipd.grGen.lgsp
                 {
                     connectionName[j] = edge.Key;
                     SourceBuilder argumentExpression = new SourceBuilder();
-                    (new de.unika.ipd.grGen.expression.GraphEntityExpression(edge.Key)).Emit(argumentExpression);
+                    (new GraphEntityExpression(edge.Key)).Emit(argumentExpression);
                     argumentExpressions[j] = argumentExpression.ToString();
                     ++j;
                 }
@@ -2549,7 +2567,7 @@ namespace de.unika.ipd.grGen.lgsp
                 {
                     connectionName[j] = variable.Key;
                     SourceBuilder argumentExpression = new SourceBuilder();
-                    (new de.unika.ipd.grGen.expression.VariableExpression(variable.Key)).Emit(argumentExpression);
+                    (new VariableExpression(variable.Key)).Emit(argumentExpression);
                     argumentExpressions[j] = argumentExpression.ToString();
                     ++j;
                 }

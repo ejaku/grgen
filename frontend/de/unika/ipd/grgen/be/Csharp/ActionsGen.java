@@ -47,6 +47,7 @@ import de.unika.ipd.grgen.ir.GraphEntityExpression;
 import de.unika.ipd.grgen.ir.Identifiable;
 import de.unika.ipd.grgen.ir.ImperativeStmt;
 import de.unika.ipd.grgen.ir.InheritanceType;
+import de.unika.ipd.grgen.ir.IteratedAccumulationYield;
 import de.unika.ipd.grgen.ir.MapAccessExpr;
 import de.unika.ipd.grgen.ir.MapInit;
 import de.unika.ipd.grgen.ir.MapItem;
@@ -2489,6 +2490,10 @@ public class ActionsGen extends CSharpBase {
 			genSetVarAddItem(sb, (SetVarAddItem) evalStmt,
 					className, pathPrefix, alreadyDefinedEntityToName);
 		}
+		else if(evalStmt instanceof IteratedAccumulationYield) {
+			genIteratedAccumulationYield(sb, (IteratedAccumulationYield) evalStmt,
+					className, pathPrefix, alreadyDefinedEntityToName);
+		}
 		else {
 			throw new UnsupportedOperationException("Unexpected yield statement \"" + evalStmt + "\"");
 		}
@@ -2628,6 +2633,49 @@ public class ActionsGen extends CSharpBase {
 		sb.append(")");
 		
 		assert svai.getNext()==null;
+	}
+	
+	private void genIteratedAccumulationYield(StringBuffer sb, IteratedAccumulationYield iay,
+			String className, String pathPrefix, HashMap<Entity, String> alreadyDefinedEntityToName) {
+		Variable accumulationVar = iay.getAccumulationVar();
+		Rule iterated = iay.getIterated();
+		String operator = iay.getAccumulationOp();
+
+		sb.append("\t\t\t\tnew GRGEN_EXPR.IteratedAccumulationYield(");
+		sb.append("\"" + formatEntity(accumulationVar, pathPrefix, alreadyDefinedEntityToName) + "\", ");
+		sb.append("\"" + formatIdentifiable(accumulationVar) + "\", ");
+		sb.append("\"" + formatIdentifiable(iterated) + "\", ");
+		genAccumulationOperator(sb, operator, accumulationVar);
+		sb.append(")");
+	}
+
+	private void genAccumulationOperator(StringBuffer sb, String accumulationOperator, Variable target)
+	{
+		if(accumulationOperator=="||") {
+			sb.append("new GRGEN_EXPR.LOG_OR(null, null)");
+		} else if(accumulationOperator=="&&") {
+			sb.append("new GRGEN_EXPR.LOG_AND(null, null)");
+		} else if(accumulationOperator=="|") {
+			if(target.getType() instanceof SetType || target.getType() instanceof MapType)
+				sb.append("new GRGEN_EXPR.DICT_BIT_OR(null, null)");
+			else
+				sb.append("new GRGEN_EXPR.BIT_OR(null, null)");
+		} else if(accumulationOperator=="&") {
+			if(target.getType() instanceof SetType || target.getType() instanceof MapType)
+				sb.append("new GRGEN_EXPR.DICT_BIT_AND(null, null)");
+			else
+				sb.append("new GRGEN_EXPR.BIT_AND(null, null)");
+		} else if(accumulationOperator=="+") {
+			sb.append("new GRGEN_EXPR.ADD(null, null)");
+		} else if(accumulationOperator=="*") {
+			sb.append("new GRGEN_EXPR.MUL(null, null)");
+		} else if(accumulationOperator=="min") {
+			sb.append("new GRGEN_EXPR.Min(null, null)");
+		} else if(accumulationOperator=="max") {
+			sb.append("new GRGEN_EXPR.Max(null, null)");
+		} else {
+			throw new UnsupportedOperationException("Unknown iterated yield accumulation operator");
+		}
 	}
 
 	///////////////////////

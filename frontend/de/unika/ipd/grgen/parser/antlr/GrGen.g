@@ -2358,8 +2358,21 @@ options { k = 4; }
 		(BOR_ASSIGN { cat = CompoundAssignNode.UNION; } | BAND_ASSIGN { cat = CompoundAssignNode.INTERSECTION; } | BACKSLASH_ASSIGN { cat = CompoundAssignNode.WITHOUT; })
 		e=expr[false] ( at=assignTo { ccat = at.ccat; tgtChanged = at.tgtChanged; } )?
 			{ res = new CompoundAssignNode(getCoords(a), new IdentExprNode(variable), cat, e, ccat, tgtChanged); }
+	|
+	  f=FOR LPAREN variable=entIdentUse IN i=iterIdentUse SEMI YIELD ao=accumulationOperator RPAREN
+		{ res = new IteratedAccumulationYieldNode(getCoords(f), new IdentExprNode(variable), i, ao); }
 	;
 
+accumulationOperator returns [ String op = null ]
+	: LOR { $op="||"; }
+	| LAND { $op="&&"; }
+	| BOR { $op="|"; }
+	| BAND { $op="&"; }
+	| PLUS { $op="+"; }
+	| STAR { $op="*"; }
+	| id=extFuncIdentUse { if(id.toString()=="min" || id.toString()=="max") $op=id.toString(); else id.reportError("unknown iterated yield accumulation operator " + id.toString()); }
+	;
+	
 assignTo returns [ int ccat = CompoundAssignNode.NONE, BaseNode tgtChanged = null ]
 	: (ASSIGN_TO { $ccat = CompoundAssignNode.ASSIGN; }
 		| BOR_TO { $ccat = CompoundAssignNode.UNION; }
