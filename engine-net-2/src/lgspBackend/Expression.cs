@@ -1285,6 +1285,58 @@ namespace de.unika.ipd.grGen.expression
     }
 
     /// <summary>
+    /// Class representing expression counting the number of outgoing edges of a node
+    /// </summary>
+    public class CountOutgoing : Expression
+    {
+        public CountOutgoing(String node, String incidentEdgeType, String adjacentNodeType)
+        {
+            Node = node;
+            IncidentEdgeType = incidentEdgeType;
+            AdjacentNodeType = adjacentNodeType;
+        }
+
+        public override void Emit(SourceBuilder sourceCode)
+        {
+            sourceCode.Append("graph.CountOutgoing("
+                + NamesOfEntities.CandidateVariable(Node) + ", "
+                + IncidentEdgeType + ", "
+                + AdjacentNodeType
+                + ")");
+        }
+
+        String Node;
+        String IncidentEdgeType;
+        String AdjacentNodeType;
+    }
+
+    /// <summary>
+    /// Class representing expression counting the number of incoming edges of a node
+    /// </summary>
+    public class CountIncoming : Expression
+    {
+        public CountIncoming(String node, String incidentEdgeType, String adjacentNodeType)
+        {
+            Node = node;
+            IncidentEdgeType = incidentEdgeType;
+            AdjacentNodeType = adjacentNodeType;
+        }
+
+        public override void Emit(SourceBuilder sourceCode)
+        {
+            sourceCode.Append("graph.CountIncoming("
+                + NamesOfEntities.CandidateVariable(Node) + ", "
+                + IncidentEdgeType + ", "
+                + AdjacentNodeType
+                + ")");
+        }
+
+        String Node;
+        String IncidentEdgeType;
+        String AdjacentNodeType;
+    }
+
+    /// <summary>
     /// Class representing the max operator.
     /// </summary>
     public class Max : BinFuncOperator

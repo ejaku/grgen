@@ -1074,6 +1074,7 @@ public class ModifyGen extends CSharpBase {
 				if(var.getType() instanceof EnumType)
 					sb.append("(GRGEN_MODEL.ENUM_" + formatIdentifiable(var.getType()) + ") ");
 				genExpression(sb, var.initialization, state);
+				sb.append(";\n");
 			} else {
 				if(var.getType() instanceof IntType || var.getType() instanceof DoubleType
 						|| var.getType() instanceof EnumType) {
@@ -1090,7 +1091,6 @@ public class ModifyGen extends CSharpBase {
 					throw new IllegalArgumentException("Unknown type: " + var.getType());
 				}			
 			}
-			sb.append(";\n");
 		}
 	}
 

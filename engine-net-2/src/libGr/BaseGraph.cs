@@ -968,12 +968,12 @@ namespace de.unika.ipd.grGen.libGr
                 // Check outgoing count on nodes of source type
                 foreach(INode node in GetCompatibleNodes(valInfo.SourceType))
                 {
-                    result &= ValidateSource(node, valInfo, ref errors, ref checkedOutEdges, ref checkedInEdges);
+                    result &= ValidateSource(node, valInfo, errors, checkedOutEdges, checkedInEdges);
                 }
                 // Check incoming count on nodes of target type
                 foreach(INode node in GetCompatibleNodes(valInfo.TargetType))
                 {
-                    result &= ValidateTarget(node, valInfo, ref errors, ref checkedOutEdges, ref checkedInEdges);
+                    result &= ValidateTarget(node, valInfo, errors, checkedOutEdges, checkedInEdges);
                 }
 
                 ++numConnectionAssertions;
@@ -1018,16 +1018,16 @@ namespace de.unika.ipd.grGen.libGr
             return result;
         }
 
-        bool ValidateSource(INode node, ValidateInfo valInfo, ref List<ConnectionAssertionError> errors,
-            ref Dictionary<IEdge, bool> checkedOutEdges, ref Dictionary<IEdge, bool> checkedInEdges)
+        bool ValidateSource(INode node, ValidateInfo valInfo, List<ConnectionAssertionError> errors,
+            Dictionary<IEdge, bool> checkedOutEdges, Dictionary<IEdge, bool> checkedInEdges)
         {
             bool result = true;
 
             // Check outgoing edges
-            long num = CountOutgoing(node, valInfo.EdgeType, valInfo.TargetType, ref checkedOutEdges);
+            long num = CountOutgoing(node, valInfo.EdgeType, valInfo.TargetType, checkedOutEdges);
             if(valInfo.BothDirections)
             {
-                long incoming = CountIncoming(node, valInfo.EdgeType, valInfo.TargetType, ref checkedInEdges);
+                long incoming = CountIncoming(node, valInfo.EdgeType, valInfo.TargetType, checkedInEdges);
                 num -= CountReflexive(node, valInfo.EdgeType, valInfo.TargetType, num, incoming);
                 num += incoming;
             }
@@ -1046,16 +1046,16 @@ namespace de.unika.ipd.grGen.libGr
             return result;
         }
 
-        bool ValidateTarget(INode node, ValidateInfo valInfo, ref List<ConnectionAssertionError> errors,
-            ref Dictionary<IEdge, bool> checkedOutEdges, ref Dictionary<IEdge, bool> checkedInEdges)
+        bool ValidateTarget(INode node, ValidateInfo valInfo, List<ConnectionAssertionError> errors,
+            Dictionary<IEdge, bool> checkedOutEdges, Dictionary<IEdge, bool> checkedInEdges)
         {
             bool result = true;
 
             // Check incoming edges
-            long num = CountIncoming(node, valInfo.EdgeType, valInfo.SourceType, ref checkedInEdges);
+            long num = CountIncoming(node, valInfo.EdgeType, valInfo.SourceType, checkedInEdges);
             if(valInfo.BothDirections)
             {
-                long outgoing = CountOutgoing(node, valInfo.EdgeType, valInfo.SourceType, ref checkedOutEdges);
+                long outgoing = CountOutgoing(node, valInfo.EdgeType, valInfo.SourceType, checkedOutEdges);
                 num -= CountReflexive(node, valInfo.EdgeType, valInfo.SourceType, outgoing, num);
                 num += outgoing;
             }
@@ -1075,7 +1075,7 @@ namespace de.unika.ipd.grGen.libGr
         }
 
         long CountOutgoing(INode node, EdgeType edgeType, NodeType targetNodeType,
-            ref Dictionary<IEdge, bool> checkedOutEdges)
+            Dictionary<IEdge, bool> checkedOutEdges)
         {
             long num = 0;
             foreach(IEdge outEdge in node.GetExactOutgoing(edgeType))
@@ -1088,7 +1088,7 @@ namespace de.unika.ipd.grGen.libGr
         }
 
         long CountIncoming(INode node, EdgeType edgeType, NodeType sourceNodeType,
-            ref Dictionary<IEdge, bool> checkedInEdges)
+            Dictionary<IEdge, bool> checkedInEdges)
         {
             long num = 0;
             foreach(IEdge inEdge in node.GetExactIncoming(edgeType))
@@ -1121,6 +1121,36 @@ namespace de.unika.ipd.grGen.libGr
                     if(inEdge.Source != node) continue;
                     ++num;
                 }
+            }
+            return num;
+        }
+
+        /// <summary>
+        /// Returns the number of outgoing edges of given type from the node,
+        /// with a target node of given type. If dictionary is not null, the counted edges get stored.
+        /// </summary>
+        public int CountOutgoing(INode node, EdgeType edgeType, NodeType targetNodeType)
+        {
+            int num = 0;
+            foreach(IEdge outEdge in node.GetCompatibleOutgoing(edgeType))
+            {
+                if(!outEdge.Target.Type.IsA(targetNodeType)) continue;
+                ++num;
+            }
+            return num;
+        }
+
+        /// <summary>
+        /// Returns the number of incoming edges of given type to the node,
+        /// with a source node of given type. If dictionary is not null, the counted edges get stored.
+        /// </summary>
+        public int CountIncoming(INode node, EdgeType edgeType, NodeType sourceNodeType)
+        {
+            int num = 0;
+            foreach(IEdge inEdge in node.GetCompatibleIncoming(edgeType))
+            {
+                if(!inEdge.Source.Type.IsA(sourceNodeType)) continue;
+                ++num;
             }
             return num;
         }

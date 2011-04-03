@@ -1,0 +1,20 @@
+new graph expressionCount/expressionCount
+
+new n0:N
+new n1:N
+new n2:N
+new n3:Node
+new n4:Node
+
+new n0 -e1:E-> n1
+new n0 -e2:E-> n2
+new n0 -e3:E-> n3
+new n0 -e4:Edge-> n4
+
+xgrs (numOutEN,numOutE,numOut)=outgoing
+
+show var numOutEN
+show var numOutE
+show var numOut
+
+quit

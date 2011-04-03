@@ -1,0 +1,36 @@
+enum et
+{
+	foo, bar, bloh = 7
+}
+
+node class N
+{
+	en:et = et::bar;
+	i:int = 42;
+	s:string = "bleeh";
+	f:float = 3.14159f;
+	d:double = 3.141592654;
+	b:boolean = true;
+	o:object = null;
+
+    se:set<string> = { "foo","bar" };
+	ma:map<int,string> = { 42->"fool", 1->"foo" };
+    sen:set<N>;
+	mane:map<N,E>;
+}
+
+edge class E
+{
+	en:et = et::bar;
+	i:int = 42;
+	s:string = "bleeh";
+	f:float = 3.14159f;
+	d:double = 3.141592654;
+	b:boolean = true;
+	o:object = null;
+
+    se:set<string> = { "foo","bar" };
+	ma:map<int,string> = { 42->"fool", 1->"foo" };
+    sen:set<N>;
+	mane:map<N,E>;
+}

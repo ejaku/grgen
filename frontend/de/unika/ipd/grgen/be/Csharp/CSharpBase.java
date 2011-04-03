@@ -26,6 +26,7 @@ import java.util.Map;
 import de.unika.ipd.grgen.ir.BooleanType;
 import de.unika.ipd.grgen.ir.Cast;
 import de.unika.ipd.grgen.ir.Constant;
+import de.unika.ipd.grgen.ir.CountExpr;
 import de.unika.ipd.grgen.ir.DoubleType;
 import de.unika.ipd.grgen.ir.Edge;
 import de.unika.ipd.grgen.ir.EdgeType;
@@ -845,6 +846,14 @@ public abstract class CSharpBase {
 				if(i+1 < efi.arity()) sb.append(", ");
 			}
 			sb.append(")");
+		}
+		else if (expr instanceof CountExpr) {
+			CountExpr ce = (CountExpr) expr;
+			sb.append("graph.Count"+(ce.isOutgoing() ? "Outgoing" : "Incoming")+"("
+				+ formatEntity(ce.getNode())+", "
+				+ formatTypeClassRef(ce.getIncidentEdgeType()) + ".typeVar, "
+				+ formatTypeClassRef(ce.getAdjacentNodeType()) + ".typeVar"
+				+ ")");
 		}
 		else if (expr instanceof MaxExpr) {
 			MaxExpr m = (MaxExpr)expr;

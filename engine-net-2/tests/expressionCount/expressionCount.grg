@@ -1,0 +1,22 @@
+using expressionCount;
+
+rule outgoing : (int,int,int)
+{
+	n:N;
+	def var numOutEN:int;
+	if { (|n <--|) == 0; }
+	yield { 
+		yield numOutEN = (|n -E-> N|);
+	}
+	
+	modify {
+		def var numOutE:int;
+		def var numOut:int;
+		eval {
+			yield numOutE = (|n -E->|);
+			yield numOut = (|n -->|);
+		}
+		return (numOutEN,numOutE,numOut);
+	}
+}
+

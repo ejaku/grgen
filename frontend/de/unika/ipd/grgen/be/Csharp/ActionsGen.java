@@ -33,6 +33,7 @@ import de.unika.ipd.grgen.ir.CompoundAssignment;
 import de.unika.ipd.grgen.ir.CompoundAssignmentVar;
 import de.unika.ipd.grgen.ir.CompoundAssignmentVarChangedVar;
 import de.unika.ipd.grgen.ir.Constant;
+import de.unika.ipd.grgen.ir.CountExpr;
 import de.unika.ipd.grgen.ir.Edge;
 import de.unika.ipd.grgen.ir.Emit;
 import de.unika.ipd.grgen.ir.Entity;
@@ -1755,6 +1756,14 @@ public class ActionsGen extends CSharpBase {
 			}
 			sb.append("}");
 			sb.append(")");
+		}
+		else if (expr instanceof CountExpr) {
+			CountExpr ce = (CountExpr) expr;
+			sb.append("new GRGEN_EXPR.Count"+(ce.isOutgoing() ? "Outgoing" : "Incoming")+"("
+					+ "\""+formatEntity(ce.getNode(), pathPrefix, alreadyDefinedEntityToName)+"\", "
+					+ "\""+formatTypeClassRef(ce.getIncidentEdgeType()) + ".typeVar\", "
+					+ "\""+formatTypeClassRef(ce.getAdjacentNodeType()) + ".typeVar\""
+					+ ")");
 		}
 		else if (expr instanceof MaxExpr) {
 			MaxExpr m = (MaxExpr) expr;
