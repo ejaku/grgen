@@ -1013,10 +1013,17 @@ namespace de.unika.ipd.grGen.lgsp
 
         /// <summary>
         /// The names of the pattern graphs which are on a path to some 
-        /// enclosed subpattern usage/alternative/iterated or negative/independent with patternpath modifier.
-        /// Needed for patternpath processing setup.
+        /// enclosed negative/independent with patternpath modifier.
+        /// Needed for patternpath processing setup (to write to patternpath matches stack).
         /// </summary>
-        public List<String> patternGraphsOnPathToEnclosedSubpatternOrAlternativeOrIteratedOrPatternpath;
+        public List<String> patternGraphsOnPathToEnclosedPatternpath;
+
+        /// <summary>
+        /// Tells whether the pattern graph is on a path from some 
+        /// enclosing negative/independent with patternpath modifier.
+        /// Needed for patternpath processing setup (to check patternpath matches stack).
+        /// </summary>
+        public bool isPatternGraphOnPathFromEnclosingPatternpath = false;
     }
 
     /// <summary>

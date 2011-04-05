@@ -86,7 +86,7 @@ namespace de.unika.ipd.grGen.lgsp
             SearchProgram searchProgram = new SearchProgramOfAction(
                 rulePatternClassName,
                 patternGraph.name, parameterTypes, parameterNames, name,
-                rulePattern.patternGraph.patternGraphsOnPathToEnclosedSubpatternOrAlternativeOrIteratedOrPatternpath,
+                rulePattern.patternGraph.patternGraphsOnPathToEnclosedPatternpath,
                 patternGraph.embeddedGraphs.Length > 0 || patternGraph.iterateds.Length > 0 || patternGraph.alternatives.Length > 0,
                 patternGraph.maybeNullElementNames, suffixedMatcherNameList, paramNamesList);
  
@@ -162,7 +162,7 @@ namespace de.unika.ipd.grGen.lgsp
             // build outermost search program operation, create the list anchor starting it's program
             SearchProgram searchProgram = new SearchProgramOfSubpattern(
                 rulePatternClassName,
-                matchingPattern.patternGraph.patternGraphsOnPathToEnclosedSubpatternOrAlternativeOrIteratedOrPatternpath,
+                matchingPattern.patternGraph.patternGraphsOnPathToEnclosedPatternpath,
                 "myMatch");
             searchProgram.OperationsList = new SearchProgramList(searchProgram);
             SearchProgramOperation insertionPoint = searchProgram.OperationsList;
@@ -205,22 +205,23 @@ namespace de.unika.ipd.grGen.lgsp
             rulePatternClassName = NamesOfEntities.RulePatternClassName(matchingPattern.name, !(matchingPattern is LGSPRulePattern));
             negLevelNeverAboveMaxNegLevel = false;
 
-            // build combined list of namesOfPatternGraphsOnPathToEnclosedSubpatternUsageOrAlternative
-            // from the namesOfPatternGraphsOnPathToEnclosedSubpatternUsageOrAlternative of the alternative cases
-            List<string> namesOfPatternGraphsOnPathToEnclosedSubpatternUsageOrAlternative = new List<string>();
+            // build combined list of namesOfPatternGraphsOnPathToEnclosedPatternpath
+            // from the namesOfPatternGraphsOnPathToEnclosedPatternpath of the alternative cases
+            List<string> namesOfPatternGraphsOnPathToEnclosedPatternpath = new List<string>();
             for (int i = 0; i < alternative.alternativeCases.Length; ++i)
             {
                 PatternGraph altCase = alternative.alternativeCases[i];
-                foreach (String name in altCase.patternGraphsOnPathToEnclosedSubpatternOrAlternativeOrIteratedOrPatternpath)
+                foreach (String name in altCase.patternGraphsOnPathToEnclosedPatternpath)
                 {
-                    namesOfPatternGraphsOnPathToEnclosedSubpatternUsageOrAlternative.Add(name);
+                    if(!namesOfPatternGraphsOnPathToEnclosedPatternpath.Contains(name))
+                        namesOfPatternGraphsOnPathToEnclosedPatternpath.Add(name);
                 }
             }
 
             // build outermost search program operation, create the list anchor starting it's program
             SearchProgram searchProgram = new SearchProgramOfAlternative(
                 rulePatternClassName,
-                namesOfPatternGraphsOnPathToEnclosedSubpatternUsageOrAlternative,
+                namesOfPatternGraphsOnPathToEnclosedPatternpath,
                 "myMatch");
             searchProgram.OperationsList = new SearchProgramList(searchProgram);
             SearchProgramOperation insertionPoint = searchProgram.OperationsList;
@@ -300,7 +301,7 @@ namespace de.unika.ipd.grGen.lgsp
             // build outermost search program operation, create the list anchor starting it's program
             SearchProgram searchProgram = new SearchProgramOfIterated(
                 rulePatternClassName,
-                matchingPattern.patternGraph.patternGraphsOnPathToEnclosedSubpatternOrAlternativeOrIteratedOrPatternpath,
+                matchingPattern.patternGraph.patternGraphsOnPathToEnclosedPatternpath,
                 "myMatch");
             searchProgram.OperationsList = new SearchProgramList(searchProgram);
             SearchProgramOperation insertionPoint = searchProgram.OperationsList;
@@ -886,11 +887,7 @@ namespace de.unika.ipd.grGen.lgsp
             }
 
             // check candidate for pattern path isomorphy
-            if (patternGraphWithNestingPatterns.Count == 1
-                && (programType == SearchProgramType.Subpattern 
-                    || programType == SearchProgramType.AlternativeCase 
-                    || programType == SearchProgramType.Iterated)
-                || patternGraphWithNestingPatterns.Peek().isPatternpathLocked)
+            if (patternGraphWithNestingPatterns.Peek().isPatternGraphOnPathFromEnclosingPatternpath)
             {
                 CheckCandidateForIsomorphyPatternPath checkIsomorphy =
                     new CheckCandidateForIsomorphyPatternPath(
@@ -1032,11 +1029,7 @@ namespace de.unika.ipd.grGen.lgsp
             }
 
             // check candidate for pattern path isomorphy
-            if(patternGraphWithNestingPatterns.Count == 1
-                && (programType == SearchProgramType.Subpattern
-                    || programType == SearchProgramType.AlternativeCase
-                    || programType == SearchProgramType.Iterated)
-                || patternGraphWithNestingPatterns.Peek().isPatternpathLocked)
+            if(patternGraphWithNestingPatterns.Peek().isPatternGraphOnPathFromEnclosingPatternpath)
             {
                 CheckCandidateForIsomorphyPatternPath checkIsomorphy =
                     new CheckCandidateForIsomorphyPatternPath(
@@ -1181,11 +1174,7 @@ namespace de.unika.ipd.grGen.lgsp
             }
 
             // check candidate for pattern path isomorphy
-            if(patternGraphWithNestingPatterns.Count == 1
-                && (programType == SearchProgramType.Subpattern
-                    || programType == SearchProgramType.AlternativeCase
-                    || programType == SearchProgramType.Iterated)
-                || patternGraphWithNestingPatterns.Peek().isPatternpathLocked)
+            if(patternGraphWithNestingPatterns.Peek().isPatternGraphOnPathFromEnclosingPatternpath)
             {
                 CheckCandidateForIsomorphyPatternPath checkIsomorphy =
                     new CheckCandidateForIsomorphyPatternPath(
@@ -1323,11 +1312,7 @@ namespace de.unika.ipd.grGen.lgsp
             }
 
             // check candidate for pattern path isomorphy
-            if(patternGraphWithNestingPatterns.Count == 1
-                && (programType == SearchProgramType.Subpattern
-                    || programType == SearchProgramType.AlternativeCase
-                    || programType == SearchProgramType.Iterated)
-                || patternGraphWithNestingPatterns.Peek().isPatternpathLocked)
+            if(patternGraphWithNestingPatterns.Peek().isPatternGraphOnPathFromEnclosingPatternpath)
             {
                 CheckCandidateForIsomorphyPatternPath checkIsomorphy =
                     new CheckCandidateForIsomorphyPatternPath(
@@ -1445,11 +1430,7 @@ namespace de.unika.ipd.grGen.lgsp
             }
 
             // check candidate for pattern path isomorphy
-            if (patternGraphWithNestingPatterns.Count == 1
-                && (programType == SearchProgramType.Subpattern
-                    || programType == SearchProgramType.AlternativeCase
-                    || programType == SearchProgramType.Iterated)
-                || patternGraphWithNestingPatterns.Peek().isPatternpathLocked)
+            if(patternGraphWithNestingPatterns.Peek().isPatternGraphOnPathFromEnclosingPatternpath)
             {
                 CheckCandidateForIsomorphyPatternPath checkIsomorphy =
                     new CheckCandidateForIsomorphyPatternPath(
@@ -1570,11 +1551,7 @@ namespace de.unika.ipd.grGen.lgsp
             }
 
             // check candidate for pattern path isomorphy
-            if (patternGraphWithNestingPatterns.Count == 1
-                && (programType == SearchProgramType.Subpattern 
-                    || programType == SearchProgramType.AlternativeCase
-                    || programType == SearchProgramType.Iterated)
-                || patternGraphWithNestingPatterns.Peek().isPatternpathLocked)
+            if(patternGraphWithNestingPatterns.Peek().isPatternGraphOnPathFromEnclosingPatternpath)
             {
                 CheckCandidateForIsomorphyPatternPath checkIsomorphy =
                     new CheckCandidateForIsomorphyPatternPath(
@@ -2464,14 +2441,21 @@ namespace de.unika.ipd.grGen.lgsp
             PatternGraph patternGraph = patternGraphWithNestingPatterns.Peek();
             string negativeIndependentNamePrefix = NegativeIndependentNamePrefix(patternGraph);
 
-            string searchPatternpath = patternGraph.isPatternpathLocked ? "true" : "false";
-            if ((programType == SearchProgramType.Subpattern || programType == SearchProgramType.AlternativeCase)
-                && patternGraphWithNestingPatterns.Count == 1)
+            string searchPatternpath = "false";
+            string matchOfNestingPattern = "null";
+            string lastMatchAtPreviousNestingLevel = "null";
+
+            if(patternGraph.patternGraphsOnPathToEnclosedPatternpath.Count > 0)
             {
-                searchPatternpath = "searchPatternpath";
+                if(patternGraph.isPatternpathLocked) searchPatternpath = "true";
+                if((programType == SearchProgramType.Subpattern || programType == SearchProgramType.AlternativeCase || programType == SearchProgramType.Iterated)
+                    && patternGraphWithNestingPatterns.Count == 1)
+                {
+                    searchPatternpath = "searchPatternpath";
+                }
+                matchOfNestingPattern = NamesOfEntities.PatternpathMatch(patternGraph.pathPrefix + patternGraph.name);
+                lastMatchAtPreviousNestingLevel = getCurrentLastMatchAtPreviousNestingLevel();
             }
-            string matchOfNestingPattern = NamesOfEntities.PatternpathMatch(patternGraph.pathPrefix + patternGraph.name);
-            string lastMatchAtPreviousNestingLevel = getCurrentLastMatchAtPreviousNestingLevel();
 
             // first alternatives, so that they get processed last
             // to handle subpatterns in linear order we've to push them in reverse order on the stack
@@ -3941,7 +3925,8 @@ namespace de.unika.ipd.grGen.lgsp
         {
             if (patternGraphWithNestingPatterns.Count == 1)
             {
-                if (programType == SearchProgramType.Subpattern || programType == SearchProgramType.AlternativeCase) {
+                if(programType == SearchProgramType.Subpattern || programType == SearchProgramType.AlternativeCase || programType == SearchProgramType.Iterated)
+                {
                     return "matchOfNestingPattern";
                 } else {
                     return "null";
@@ -3969,7 +3954,8 @@ namespace de.unika.ipd.grGen.lgsp
         {
             if (patternGraphWithNestingPatterns.Count == 1)
             {
-                if (programType == SearchProgramType.Subpattern || programType == SearchProgramType.AlternativeCase) {
+                if(programType == SearchProgramType.Subpattern || programType == SearchProgramType.AlternativeCase || programType == SearchProgramType.Iterated)
+                {
                     return "lastMatchAtPreviousNestingLevel";
                 } else {
                     return "null";

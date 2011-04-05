@@ -1294,10 +1294,10 @@ exitSecondLoop: ;
             for(int i = 0; i < patternGraph.schedules[index].Operations.Length; ++i)
                 operations.Add(patternGraph.schedules[index].Operations[i]);
 
-            // nested patterns on the way to an enclosed subpattern/alternative/iterated/patternpath modifier 
+            // nested patterns on the way to an enclosed patternpath modifier 
             // must get matched after all local nodes and edges, because they require 
             // all outer elements to be known in order to lock them for patternpath processing
-            if (patternGraph.patternGraphsOnPathToEnclosedSubpatternOrAlternativeOrIteratedOrPatternpath
+            if (patternGraph.patternGraphsOnPathToEnclosedPatternpath
                 .Contains(patternGraph.pathPrefix + patternGraph.name))
             {
                 operations.Add(new SearchOperation(SearchOperationType.LockLocalElementsForPatternpath, null, null,

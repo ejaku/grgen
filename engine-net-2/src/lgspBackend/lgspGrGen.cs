@@ -915,6 +915,10 @@ namespace de.unika.ipd.grGen.lgsp
                     analyzer.AnalyzeNestingOfAndRemember(matchingPattern);
                 }
                 analyzer.ComputeInterPatternRelations();
+                foreach(LGSPMatchingPattern matchingPattern in ruleAndMatchingPatterns.RulesAndSubpatterns)
+                {
+                    analyzer.AnalyzeWithInterPatternRelationsKnown(matchingPattern);
+                }
 
                 endSource.AppendFront("GRGEN_LGSP.PatternGraphAnalyzer analyzer = new GRGEN_LGSP.PatternGraphAnalyzer();\n");
                 foreach (LGSPMatchingPattern matchingPattern in ruleAndMatchingPatterns.RulesAndSubpatterns)
@@ -941,6 +945,19 @@ namespace de.unika.ipd.grGen.lgsp
                     }
                 }
                 endSource.AppendFront("analyzer.ComputeInterPatternRelations();\n");
+                foreach (LGSPMatchingPattern matchingPattern in ruleAndMatchingPatterns.RulesAndSubpatterns)
+                {
+                    if (matchingPattern is LGSPRulePattern) // normal rule
+                    {
+                        endSource.AppendFrontFormat("analyzer.AnalyzeWithInterPatternRelationsKnown(Rule_{0}.Instance);\n",
+                                matchingPattern.name);
+                    }
+                    else
+                    {
+                        endSource.AppendFrontFormat("analyzer.AnalyzeWithInterPatternRelationsKnown(Pattern_{0}.Instance);\n",
+                                matchingPattern.name);
+                    }
+                }
 
                 foreach(DefinedSequenceInfo sequence in ruleAndMatchingPatterns.DefinedSequences)
                 {

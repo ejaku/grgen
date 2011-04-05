@@ -40,9 +40,13 @@ namespace de.unika.ipd.grGen.lgsp
         public void AnalyzeNestingOfAndRemember(LGSPMatchingPattern matchingPattern)
         {
             matchingPattern.patternGraph.SetDefEntityExistanceAndNonLocalDefEntityExistance();
+
             CalculateNeededElements(matchingPattern.patternGraph);
+            
             AnnotateIndependentsAtNestingTopLevelOrAlternativeCaseOrIteratedPattern(matchingPattern.patternGraph);
-            ComputePatternGraphsOnPathToEnclosedSubpatternOrAlternativeOrIteratedOrPatternpath(matchingPattern.patternGraph);
+
+            ComputePatternGraphsOnPathToEnclosedPatternpath(matchingPattern.patternGraph);
+            
             matchingPatterns.Add(matchingPattern);
         }
 
@@ -51,8 +55,32 @@ namespace de.unika.ipd.grGen.lgsp
         /// </summary>
         public void ComputeInterPatternRelations()
         {
+            // compute for every rule/subpattern all directly or indirectly used subpatterns
             ComputeSubpatternsUsed();
+
+            // fix point iteration in order to compute the pattern graphs on a path from an enclosing patternpath
+            bool onPathFromEnclosingChanged;
+            do
+            {
+                onPathFromEnclosingChanged = false; 
+                foreach (LGSPMatchingPattern matchingPattern in matchingPatterns)
+                {
+                    onPathFromEnclosingChanged |= ComputePatternGraphsOnPathFromEnclosingPatternpath(matchingPattern.patternGraph, false);
+                }
+            } // until nothing changes because transitive closure was found
+            while (onPathFromEnclosingChanged);
         }
+
+        /// <summary>
+        /// Analyze the pattern further on, know that the inter pattern relations are known
+        /// </summary>
+        /// <param name="matchingPattern"></param>
+        public void AnalyzeWithInterPatternRelationsKnown(LGSPMatchingPattern matchingPattern)
+        {
+            AddSubpatternInformationToPatternpathInformation(matchingPattern.patternGraph);
+        }
+
+        ///////////////////////////////////////////////////////////////////////////////
 
         /// <summary>
         /// Insert names of independents nested within the pattern graph 
@@ -211,58 +239,216 @@ namespace de.unika.ipd.grGen.lgsp
         }
 
         /// <summary>
-        /// Computes the pattern graphs which are on a path to some enclosed subpattern usage/alternative/iterated
-        /// or negative/independent with a patternpath modifier; stores information to the pattern graph and it's children.
+        /// Computes whether the pattern graphs are on a path from some enclosing
+        /// negative/independent with a patternpath modifier. 
+        /// They need to check the patternpath stack filled with the already matched entities 
+        /// on the subpattern usage/derivation path to this pattern.
+        /// It stores information to the pattern graph and its children.
+        /// Returns whether a change occured, to be used for a fixpoint iteration.
         /// </summary>
-        private void ComputePatternGraphsOnPathToEnclosedSubpatternOrAlternativeOrIteratedOrPatternpath(
-            PatternGraph patternGraph)
+        private bool ComputePatternGraphsOnPathFromEnclosingPatternpath(
+            PatternGraph patternGraph, bool isOnPathFromEnclosingPatternpath)
         {
-            // Algorithm descends top down to the nested patterns, 
-            // computes within each leaf pattern whether there are subpattern usages/alternatives/iterateds,
-            // or whether there is a patternpath modifier, stores this information locally,
-            // and ascends bottom up, computing/storing the same information, adding the results of the nested patterns.
-            patternGraph.patternGraphsOnPathToEnclosedSubpatternOrAlternativeOrIteratedOrPatternpath = new List<string>();
+            // Algorithm descends top down to the nested patterns,
+            // on descending the am-i-on-path-from-enclosing-patternpath information
+            // is computed locally and propagated downwards
+            bool changed = false;
+
+            // we are patternpath locked? -> so we and our nested patterns are on a path from an enclosing patternpath
+            if(patternGraph.isPatternpathLocked)
+                isOnPathFromEnclosingPatternpath = true;
+            if(isOnPathFromEnclosingPatternpath && !patternGraph.isPatternGraphOnPathFromEnclosingPatternpath)
+            {
+                patternGraph.isPatternGraphOnPathFromEnclosingPatternpath = true;
+                changed = true;
+            }
+
+            // we're on a path from an enclosing patternpath? -> the subpatterns we call are too
+            if(patternGraph.isPatternGraphOnPathFromEnclosingPatternpath)
+            {
+                foreach (PatternGraphEmbedding embedding in patternGraph.embeddedGraphs)
+                {
+                    PatternGraph embeddedPatternGraph = embedding.matchingPatternOfEmbeddedGraph.patternGraph;
+                    if(!embeddedPatternGraph.isPatternGraphOnPathFromEnclosingPatternpath)
+                    {
+                        embeddedPatternGraph.isPatternGraphOnPathFromEnclosingPatternpath = true;
+                        changed = true;
+                    }
+                }
+            }
 
             foreach (PatternGraph neg in patternGraph.negativePatternGraphs)
             {
-                ComputePatternGraphsOnPathToEnclosedSubpatternOrAlternativeOrIteratedOrPatternpath(neg);
-                patternGraph.patternGraphsOnPathToEnclosedSubpatternOrAlternativeOrIteratedOrPatternpath
-                    .AddRange(neg.patternGraphsOnPathToEnclosedSubpatternOrAlternativeOrIteratedOrPatternpath);
+                changed |= ComputePatternGraphsOnPathFromEnclosingPatternpath(neg, isOnPathFromEnclosingPatternpath);
             }
             foreach (PatternGraph idpt in patternGraph.independentPatternGraphs)
             {
-                ComputePatternGraphsOnPathToEnclosedSubpatternOrAlternativeOrIteratedOrPatternpath(idpt);
-                patternGraph.patternGraphsOnPathToEnclosedSubpatternOrAlternativeOrIteratedOrPatternpath
-                    .AddRange(idpt.patternGraphsOnPathToEnclosedSubpatternOrAlternativeOrIteratedOrPatternpath);
+                changed |= ComputePatternGraphsOnPathFromEnclosingPatternpath(idpt, isOnPathFromEnclosingPatternpath);
             }
+
             foreach (Alternative alt in patternGraph.alternatives)
             {
                 foreach (PatternGraph altCase in alt.alternativeCases)
                 {
-                    ComputePatternGraphsOnPathToEnclosedSubpatternOrAlternativeOrIteratedOrPatternpath(altCase);
-                    patternGraph.patternGraphsOnPathToEnclosedSubpatternOrAlternativeOrIteratedOrPatternpath
-                        .AddRange(altCase.patternGraphsOnPathToEnclosedSubpatternOrAlternativeOrIteratedOrPatternpath);
+                    changed |= ComputePatternGraphsOnPathFromEnclosingPatternpath(altCase, isOnPathFromEnclosingPatternpath);
                 }
             }
             foreach (Iterated iter in patternGraph.iterateds)
             {
-                ComputePatternGraphsOnPathToEnclosedSubpatternOrAlternativeOrIteratedOrPatternpath(iter.iteratedPattern);
-                patternGraph.patternGraphsOnPathToEnclosedSubpatternOrAlternativeOrIteratedOrPatternpath
-                    .AddRange(iter.iteratedPattern.patternGraphsOnPathToEnclosedSubpatternOrAlternativeOrIteratedOrPatternpath);
+                changed |= ComputePatternGraphsOnPathFromEnclosingPatternpath(iter.iteratedPattern, isOnPathFromEnclosingPatternpath);
             }
 
-            // one of the nested patterns was found to be on the path -> so we are too
-            // or we are locally on the path due to subpattern usages, alternatives, iterateds, patternpath modifier
-            if (patternGraph.patternGraphsOnPathToEnclosedSubpatternOrAlternativeOrIteratedOrPatternpath.Count != 0
-                || patternGraph.embeddedGraphs.Length > 0
-                || patternGraph.alternatives.Length > 0
-                || patternGraph.iterateds.Length > 0
+            return changed;
+        }
+
+        /// <summary>
+        /// Computes the pattern graphs which are on a path to some enclosed negative/independent 
+        /// with a patternpath modifier. They need to fill the patternpath check stack.
+        /// It stores information to the pattern graph and its children.
+        /// First pass, computes local information neglecting subpattern usage.
+        /// </summary>
+        private void ComputePatternGraphsOnPathToEnclosedPatternpath(PatternGraph patternGraph)
+        {
+            // Algorithm descends top down to the nested patterns and ascends bottom up again,
+            // on ascending the who-is-on-path-to-enclosed-patternpath information 
+            // is computed locally and propagated upwards
+            patternGraph.patternGraphsOnPathToEnclosedPatternpath = new List<string>();
+
+            foreach (PatternGraph neg in patternGraph.negativePatternGraphs)
+            {
+                ComputePatternGraphsOnPathToEnclosedPatternpath(neg);
+                patternGraph.patternGraphsOnPathToEnclosedPatternpath.AddRange(neg.patternGraphsOnPathToEnclosedPatternpath);
+            }
+            foreach (PatternGraph idpt in patternGraph.independentPatternGraphs)
+            {
+                ComputePatternGraphsOnPathToEnclosedPatternpath(idpt);
+                patternGraph.patternGraphsOnPathToEnclosedPatternpath.AddRange(idpt.patternGraphsOnPathToEnclosedPatternpath);
+            }
+
+            foreach (Alternative alt in patternGraph.alternatives)
+            {
+                foreach (PatternGraph altCase in alt.alternativeCases)
+                {
+                    ComputePatternGraphsOnPathToEnclosedPatternpath(altCase);
+                    AddNotContained(patternGraph.patternGraphsOnPathToEnclosedPatternpath,
+                        patternGraph.pathPrefix + patternGraph.name,
+                        altCase.patternGraphsOnPathToEnclosedPatternpath);
+                }
+            }
+            foreach (Iterated iter in patternGraph.iterateds)
+            {
+                ComputePatternGraphsOnPathToEnclosedPatternpath(iter.iteratedPattern);
+                AddNotContained(patternGraph.patternGraphsOnPathToEnclosedPatternpath, 
+                    patternGraph.pathPrefix + patternGraph.name,
+                    iter.iteratedPattern.patternGraphsOnPathToEnclosedPatternpath);
+            }
+
+            // one of the nested patterns was found to be on a path 
+            // to a pattern with patternpath modifier -> so we are/may be too
+            // or we are locally because we contain a patternpath modifier
+            if (patternGraph.patternGraphsOnPathToEnclosedPatternpath.Count != 0
                 || patternGraph.isPatternpathLocked)
             {
                 // add the current pattern graph to the list in the top level pattern graph
-                patternGraph.patternGraphsOnPathToEnclosedSubpatternOrAlternativeOrIteratedOrPatternpath
-                    .Add(patternGraph.pathPrefix + patternGraph.name);
+                AddNotContained(patternGraph.patternGraphsOnPathToEnclosedPatternpath,
+                    patternGraph.pathPrefix + patternGraph.name);
             }
+        }
+
+        /// <summary>
+        /// Computes the pattern graphs which are on a path to some enclosed negative/independent 
+        /// with a patternpath modifier; stores information to the pattern graph and its children.
+        /// Second pass, adds global information from subpattern usage.
+        /// </summary>
+        private void AddSubpatternInformationToPatternpathInformation(PatternGraph patternGraph)
+        {
+            // Algorithm descends top down to the nested patterns and ascends bottom up again, 
+            // on ascending the who-is-on-path-to-enclosed-patternpath information from subpattern usage 
+            // is addded locally and propagated upwards
+
+            foreach (PatternGraph neg in patternGraph.negativePatternGraphs)
+            {
+                AddSubpatternInformationToPatternpathInformation(neg);
+                AddNotContained(patternGraph.patternGraphsOnPathToEnclosedPatternpath, neg.patternGraphsOnPathToEnclosedPatternpath);
+            }
+            foreach (PatternGraph idpt in patternGraph.independentPatternGraphs)
+            {
+                AddSubpatternInformationToPatternpathInformation(idpt);
+                AddNotContained(patternGraph.patternGraphsOnPathToEnclosedPatternpath, idpt.patternGraphsOnPathToEnclosedPatternpath);
+            }
+
+            foreach (Alternative alt in patternGraph.alternatives)
+            {
+                foreach (PatternGraph altCase in alt.alternativeCases)
+                {
+                    AddSubpatternInformationToPatternpathInformation(altCase);
+                    AddNotContained(patternGraph.patternGraphsOnPathToEnclosedPatternpath,
+                        patternGraph.pathPrefix + patternGraph.name,
+                        altCase.patternGraphsOnPathToEnclosedPatternpath);
+                }
+            }
+            foreach (Iterated iter in patternGraph.iterateds)
+            {
+                AddSubpatternInformationToPatternpathInformation(iter.iteratedPattern);
+                AddNotContained(patternGraph.patternGraphsOnPathToEnclosedPatternpath,
+                    patternGraph.pathPrefix + patternGraph.name,
+                    iter.iteratedPattern.patternGraphsOnPathToEnclosedPatternpath);
+            }
+
+            foreach (PatternGraphEmbedding embedding in patternGraph.embeddedGraphs)
+            {
+                PatternGraph embeddedPatternGraph = embedding.matchingPatternOfEmbeddedGraph.patternGraph;
+                AddNotContained(patternGraph.patternGraphsOnPathToEnclosedPatternpath,
+                    patternGraph.pathPrefix + patternGraph.name,
+                    embeddedPatternGraph.patternGraphsOnPathToEnclosedPatternpath);
+
+                foreach (LGSPMatchingPattern calledMatchingPattern in embeddedPatternGraph.usedSubpatterns.Keys)
+                {
+                    if(calledMatchingPattern.patternGraph.patternGraphsOnPathToEnclosedPatternpath.Count > 0)
+                    {
+                        AddNotContained(patternGraph.patternGraphsOnPathToEnclosedPatternpath,
+                            patternGraph.pathPrefix + patternGraph.name,
+                            calledMatchingPattern.patternGraph.patternGraphsOnPathToEnclosedPatternpath);
+                    }
+                }
+            }
+
+            // one of the used subpatterns was found to be on a path 
+            // to a pattern with patternpath modifier -> so we are/may be too
+            if (patternGraph.patternGraphsOnPathToEnclosedPatternpath.Count != 0)
+            {
+                AddNotContained(patternGraph.patternGraphsOnPathToEnclosedPatternpath,
+                    patternGraph.pathPrefix + patternGraph.name);
+            }
+        }
+
+        /// <summary>
+        /// Adds the elements from the list to be added to the target list in case they are not already contained there
+        /// </summary>
+        private void AddNotContained<T>(List<T> target, List<T> listToBeAdded)
+        {
+            foreach(T toBeAdded in listToBeAdded)
+            {
+                AddNotContained(target, toBeAdded);
+            }
+        }
+
+        /// <summary>
+        /// Adds the element to be added to the target list in case it is not already contained and the condition list is not empty
+        /// </summary>
+        private void AddNotContained<T>(List<T> target, T toBeAdded, List<T> listCondition)
+        {
+            if(listCondition.Count > 0)
+                AddNotContained(target, toBeAdded);
+        }
+
+        /// <summary>
+        /// Adds the element to be added to the target list in case it is not already contained there
+        /// </summary>
+        private void AddNotContained<T>(List<T> target, T toBeAdded)
+        {
+            if(!target.Contains(toBeAdded))
+                target.Add(toBeAdded);
         }
 
         /// <summary>
