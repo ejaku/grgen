@@ -6,6 +6,7 @@
  */
 
 using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.IO;
 
@@ -1126,33 +1127,31 @@ namespace de.unika.ipd.grGen.libGr
         }
 
         /// <summary>
-        /// Returns the number of outgoing edges of given type from the node,
-        /// with a target node of given type. If dictionary is not null, the counted edges get stored.
+        /// Returns the outgoing edges of given type from the given node, with a target node of given type.
         /// </summary>
-        public int CountOutgoing(INode node, EdgeType edgeType, NodeType targetNodeType)
+        public IDictionary Outgoing(INode node, EdgeType edgeType, NodeType targetNodeType)
         {
-            int num = 0;
+            IDictionary set = DictionaryHelper.NewDictionary(DictionaryHelper.GetTypeFromNameForDictionary(edgeType.Name, this), typeof(SetValueType));
             foreach(IEdge outEdge in node.GetCompatibleOutgoing(edgeType))
             {
                 if(!outEdge.Target.Type.IsA(targetNodeType)) continue;
-                ++num;
+                set.Add(outEdge, null);
             }
-            return num;
+            return set;
         }
 
         /// <summary>
-        /// Returns the number of incoming edges of given type to the node,
-        /// with a source node of given type. If dictionary is not null, the counted edges get stored.
+        /// Returns the incoming edges of given type to the given node, with a source node of given type. 
         /// </summary>
-        public int CountIncoming(INode node, EdgeType edgeType, NodeType sourceNodeType)
+        public IDictionary Incoming(INode node, EdgeType edgeType, NodeType sourceNodeType)
         {
-            int num = 0;
+            IDictionary set = DictionaryHelper.NewDictionary(DictionaryHelper.GetTypeFromNameForDictionary(edgeType.Name, this), typeof(SetValueType));
             foreach(IEdge inEdge in node.GetCompatibleIncoming(edgeType))
             {
                 if(!inEdge.Source.Type.IsA(sourceNodeType)) continue;
-                ++num;
+                set.Add(inEdge, null);
             }
-            return num;
+            return set;
         }
 
         #endregion Graph validation

@@ -1285,11 +1285,11 @@ namespace de.unika.ipd.grGen.expression
     }
 
     /// <summary>
-    /// Class representing expression counting the number of outgoing edges of a node
+    /// Class representing expression returning the outgoing edges of a node (as set)
     /// </summary>
-    public class CountOutgoing : Expression
+    public class Outgoing : Expression
     {
-        public CountOutgoing(String node, String incidentEdgeType, String adjacentNodeType)
+        public Outgoing(String node, String incidentEdgeType, String adjacentNodeType)
         {
             Node = node;
             IncidentEdgeType = incidentEdgeType;
@@ -1298,7 +1298,7 @@ namespace de.unika.ipd.grGen.expression
 
         public override void Emit(SourceBuilder sourceCode)
         {
-            sourceCode.Append("graph.CountOutgoing("
+            sourceCode.Append("graph.Outgoing("
                 + NamesOfEntities.CandidateVariable(Node) + ", "
                 + IncidentEdgeType + ", "
                 + AdjacentNodeType
@@ -1311,11 +1311,11 @@ namespace de.unika.ipd.grGen.expression
     }
 
     /// <summary>
-    /// Class representing expression counting the number of incoming edges of a node
+    /// Class representing expression returning the incoming edges of a node (as set)
     /// </summary>
-    public class CountIncoming : Expression
+    public class Incoming : Expression
     {
-        public CountIncoming(String node, String incidentEdgeType, String adjacentNodeType)
+        public Incoming(String node, String incidentEdgeType, String adjacentNodeType)
         {
             Node = node;
             IncidentEdgeType = incidentEdgeType;
@@ -1324,7 +1324,7 @@ namespace de.unika.ipd.grGen.expression
 
         public override void Emit(SourceBuilder sourceCode)
         {
-            sourceCode.Append("graph.CountIncoming("
+            sourceCode.Append("graph.Incoming("
                 + NamesOfEntities.CandidateVariable(Node) + ", "
                 + IncidentEdgeType + ", "
                 + AdjacentNodeType

@@ -2543,7 +2543,6 @@ options { k = 3; }
 	| e=typeOf { res = e; }
 	| e=initMapOrSetExpr { res = e; }
 	| e=externalFunctionInvocationExpr[inEnumInit] { res = e; }
-	| e=countExpr { res = e; }
 	| LPAREN e=expr[inEnumInit] { res = e; } RPAREN
 	| p=PLUSPLUS { reportError(getCoords(p), "increment operator \"++\" not supported"); }
 	| q=MINUSMINUS { reportError(getCoords(q), "decrement operator \"--\" not supported"); }
@@ -2588,22 +2587,6 @@ initMapOrSetExpr returns [ ExprNode res = env.initExprNode() ]
 	| SET LT valueType=typeIdentUse GT e2=initSetExpr[null, SetTypeNode.getSetType(valueType)] { res = e2; }
 	| (LBRACE expr[false] RARROW) => e1=initMapExpr[null, null] { res = e1; }
 	| (LBRACE) => e2=initSetExpr[null, null] { res = e2; }
-	;
-
-countExpr returns [ ExprNode res = env.initExprNode() ]
-	@init{
-		incidentType = env.getDirectedEdgeRoot();
-		adjacentType = env.getNodeRoot();
-		boolean outgoing = true;
-	}
-	: lp=LPARENCOUNT node=entIdentUse 
-		( DOUBLE_LARROW { outgoing = false; }
-		| DOUBLE_RARROW
-		| LARROW incidentType=typeIdentUse MINUS { outgoing = false; }
-		| MINUS incidentType=typeIdentUse RARROW
-		)
-		(adjacentType=typeIdentUse)?
-	RPARENCOUNT { res = new CountExprNode(getCoords(lp), node, incidentType, outgoing, adjacentType); }
 	;
 	
 constant returns [ ExprNode res = env.initExprNode() ]
@@ -2656,8 +2639,9 @@ enumItemExpr returns [ ExprNode res = env.initExprNode() ]
 externalFunctionInvocationExpr [ boolean inEnumInit ] returns [ ExprNode res = env.initExprNode() ]
 	: id=extFuncIdentUse params=paramExprs[inEnumInit]
 		{
-			if((id.toString()=="min" || id.toString()=="max" || id.toString()=="pow") && params.getChildren().size()==2) {
-				res = new FunctionInvocationExprNode(id, params);
+			if((id.toString()=="min" || id.toString()=="max" || id.toString()=="pow") && params.getChildren().size()==2
+				|| (id.toString()=="incoming" || id.toString()=="outgoing") && params.getChildren().size()>=1 && params.getChildren().size()<=3) {
+				res = new FunctionInvocationExprNode(id, params, env);
 			} else {
 				res = new ExternalFunctionInvocationExprNode(id, params);
 			}
@@ -2774,8 +2758,6 @@ LBRACE			:	'{'		;
 LBRACEMINUS		:	'{-'	;
 LBRACEPLUS		:	'{+'	;
 RBRACE			:	'}'		;
-LPARENCOUNT		:	'(|'	;
-RPARENCOUNT		:	'|)'	;
 COLON			:	':'		;
 DOUBLECOLON     :   '::'    ;
 COMMA			:	','		;

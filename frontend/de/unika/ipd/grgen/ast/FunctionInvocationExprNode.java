@@ -16,6 +16,7 @@ import java.util.Collection;
 import java.util.Vector;
 
 import de.unika.ipd.grgen.ir.IR;
+import de.unika.ipd.grgen.parser.ParserEnvironment;
 
 public class FunctionInvocationExprNode extends ExprNode
 {
@@ -40,12 +41,15 @@ public class FunctionInvocationExprNode extends ExprNode
 	private IdentNode functionIdent;
 	private CollectNode<ExprNode> params;
 	private ExprNode result;
+	
+	ParserEnvironment env;
 
-	public FunctionInvocationExprNode(IdentNode functionIdent, CollectNode<ExprNode> params)
+	public FunctionInvocationExprNode(IdentNode functionIdent, CollectNode<ExprNode> params, ParserEnvironment env)
 	{
 		super(functionIdent.getCoords());
 		this.functionIdent = becomeParent(functionIdent);
 		this.params = becomeParent(params);
+		this.env = env;
 	}
 
 	@Override
@@ -94,6 +98,48 @@ public class FunctionInvocationExprNode extends ExprNode
 			}
 			else
 				result = new PowExprNode(getCoords(), params.get(0), params.get(1));
+		}		
+		else if(functionName.equals("incoming") || functionName.equals("outgoing")) {
+			boolean outgoing = functionName.equals("outgoing");
+			IdentNode first = null;
+			IdentNode second = null;
+			IdentNode third = null;
+			if(params.size() >= 1) {
+				if(!(params.get(0) instanceof IdentExprNode)) {
+					reportError("first parameter of " + functionName + "() must be a graph entity (identifier)");
+					return false;
+				}
+				first = ((IdentExprNode)params.get(0)).getIdent();
+				
+				if(params.size() >= 2) {
+					if(!(params.get(1) instanceof IdentExprNode)) {
+						reportError("second parameter of " + functionName + "() must be an edge type (identifier)");
+						return false;
+					}
+					second = ((IdentExprNode)params.get(1)).getIdent();
+					
+					if(params.size() >= 3) {
+						if(!(params.get(2) instanceof IdentExprNode)) {
+							reportError("third parameter of " + functionName + "() must be a node type (identifier)");
+							return false;
+						}
+						third = ((IdentExprNode)params.get(2)).getIdent();
+					}
+				}
+			}
+			if(params.size() == 1) {
+				result = new IncidentEdgeExprNode(getCoords(), first, env.getDirectedEdgeRoot(), outgoing, env.getNodeRoot());
+			}
+			else  if(params.size() == 2) {
+				result = new IncidentEdgeExprNode(getCoords(), first, second, outgoing, env.getNodeRoot());
+			}
+			else  if(params.size() == 3) {
+				result = new IncidentEdgeExprNode(getCoords(), first, second, outgoing, third);
+			}
+			else {
+				reportError(functionName + "() takes 1-3 parameters.");					
+				return false;
+			}
 		}		
 		else {
 			reportError("no function " +functionName + " known");

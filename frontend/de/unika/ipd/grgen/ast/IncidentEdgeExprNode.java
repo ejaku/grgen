@@ -15,19 +15,19 @@ import java.util.Vector;
 
 import de.unika.ipd.grgen.ast.util.DeclarationResolver;
 import de.unika.ipd.grgen.ast.util.DeclarationTypeResolver;
-import de.unika.ipd.grgen.ir.CountExpr;
 import de.unika.ipd.grgen.ir.EdgeType;
 import de.unika.ipd.grgen.ir.IR;
+import de.unika.ipd.grgen.ir.IncidentEdgeExpr;
 import de.unika.ipd.grgen.ir.Node;
 import de.unika.ipd.grgen.ir.NodeType;
 import de.unika.ipd.grgen.parser.Coords;
 
 /**
- * A node yielding the count of incoming/outgoing edges of a node.
+ * A node yielding the incoming/outgoing edges of a node.
  */
-public class CountExprNode extends ExprNode {
+public class IncidentEdgeExprNode extends ExprNode {
 	static {
-		setName(CountExprNode.class, "count expr");
+		setName(IncidentEdgeExprNode.class, "incident edge expr");
 	}
 
 	private IdentNode nodeUnresolved;
@@ -38,8 +38,10 @@ public class CountExprNode extends ExprNode {
 	private EdgeTypeNode incidentType;
 	private boolean outgoing;
 	private NodeTypeNode adjacentType;
+	
+	private SetTypeNode setType;
 
-	public CountExprNode(Coords coords, IdentNode node,
+	public IncidentEdgeExprNode(Coords coords, IdentNode node,
 			IdentNode incidentType, boolean outgoing,
 			IdentNode adjacentType) {
 		super(coords);
@@ -85,7 +87,7 @@ public class CountExprNode extends ExprNode {
 		nodeDecl = nodeResolver.resolve(nodeUnresolved, this);
 		incidentType = edgeTypeResolver.resolve(incidentTypeUnresolved, this);
 		adjacentType = nodeTypeResolver.resolve(adjacentTypeUnresolved, this);
-		return nodeDecl!=null && incidentType!=null && adjacentType!=null;
+		return nodeDecl!=null && incidentType!=null && adjacentType!=null && getType().resolve();
 	}
 
 	/** @see de.unika.ipd.grgen.ast.BaseNode#checkLocal() */
@@ -96,7 +98,7 @@ public class CountExprNode extends ExprNode {
 
 	@Override
 	protected IR constructIR() {
-		return new CountExpr(nodeDecl.checkIR(Node.class), 
+		return new IncidentEdgeExpr(nodeDecl.checkIR(Node.class), 
 								incidentType.checkIR(EdgeType.class), outgoing,
 								adjacentType.checkIR(NodeType.class),
 								getType().getType());
@@ -104,6 +106,6 @@ public class CountExprNode extends ExprNode {
 
 	@Override
 	public TypeNode getType() {
-		return BasicTypeNode.intType;
+		return SetTypeNode.getSetType(incidentTypeUnresolved);
 	}
 }

@@ -10,16 +10,16 @@
  */
 package de.unika.ipd.grgen.ir;
 
-public class CountExpr extends Expression {
+public class IncidentEdgeExpr extends Expression {
 	private final Node node;
 	private final EdgeType incidentEdgeType;
 	private final boolean outgoing;
 	private final NodeType adjacentNodeType;
 
-	public CountExpr(Node node, 
+	public IncidentEdgeExpr(Node node, 
 			EdgeType incidentEdgeType, boolean outgoing,
 			NodeType adjacentNodeType, Type type) {
-		super("count expression", type);
+		super("incident edge expression", type);
 		this.node = node;
 		this.incidentEdgeType = incidentEdgeType;
 		this.outgoing = outgoing;

@@ -26,7 +26,6 @@ import java.util.Map;
 import de.unika.ipd.grgen.ir.BooleanType;
 import de.unika.ipd.grgen.ir.Cast;
 import de.unika.ipd.grgen.ir.Constant;
-import de.unika.ipd.grgen.ir.CountExpr;
 import de.unika.ipd.grgen.ir.DoubleType;
 import de.unika.ipd.grgen.ir.Edge;
 import de.unika.ipd.grgen.ir.EdgeType;
@@ -40,6 +39,7 @@ import de.unika.ipd.grgen.ir.ExternalFunctionInvocationExpr;
 import de.unika.ipd.grgen.ir.GraphEntity;
 import de.unika.ipd.grgen.ir.GraphEntityExpression;
 import de.unika.ipd.grgen.ir.Identifiable;
+import de.unika.ipd.grgen.ir.IncidentEdgeExpr;
 import de.unika.ipd.grgen.ir.InheritanceType;
 import de.unika.ipd.grgen.ir.IntType;
 import de.unika.ipd.grgen.ir.MapAccessExpr;
@@ -847,9 +847,9 @@ public abstract class CSharpBase {
 			}
 			sb.append(")");
 		}
-		else if (expr instanceof CountExpr) {
-			CountExpr ce = (CountExpr) expr;
-			sb.append("graph.Count"+(ce.isOutgoing() ? "Outgoing" : "Incoming")+"("
+		else if (expr instanceof IncidentEdgeExpr) {
+			IncidentEdgeExpr ce = (IncidentEdgeExpr) expr;
+			sb.append("graph."+(ce.isOutgoing() ? "Outgoing" : "Incoming")+"("
 				+ formatEntity(ce.getNode())+", "
 				+ formatTypeClassRef(ce.getIncidentEdgeType()) + ".typeVar, "
 				+ formatTypeClassRef(ce.getAdjacentNodeType()) + ".typeVar"

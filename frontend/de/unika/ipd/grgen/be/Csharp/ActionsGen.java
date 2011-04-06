@@ -33,7 +33,6 @@ import de.unika.ipd.grgen.ir.CompoundAssignment;
 import de.unika.ipd.grgen.ir.CompoundAssignmentVar;
 import de.unika.ipd.grgen.ir.CompoundAssignmentVarChangedVar;
 import de.unika.ipd.grgen.ir.Constant;
-import de.unika.ipd.grgen.ir.CountExpr;
 import de.unika.ipd.grgen.ir.Edge;
 import de.unika.ipd.grgen.ir.Emit;
 import de.unika.ipd.grgen.ir.Entity;
@@ -47,6 +46,7 @@ import de.unika.ipd.grgen.ir.GraphEntity;
 import de.unika.ipd.grgen.ir.GraphEntityExpression;
 import de.unika.ipd.grgen.ir.Identifiable;
 import de.unika.ipd.grgen.ir.ImperativeStmt;
+import de.unika.ipd.grgen.ir.IncidentEdgeExpr;
 import de.unika.ipd.grgen.ir.InheritanceType;
 import de.unika.ipd.grgen.ir.IteratedAccumulationYield;
 import de.unika.ipd.grgen.ir.MapAccessExpr;
@@ -1757,9 +1757,9 @@ public class ActionsGen extends CSharpBase {
 			sb.append("}");
 			sb.append(")");
 		}
-		else if (expr instanceof CountExpr) {
-			CountExpr ce = (CountExpr) expr;
-			sb.append("new GRGEN_EXPR.Count"+(ce.isOutgoing() ? "Outgoing" : "Incoming")+"("
+		else if (expr instanceof IncidentEdgeExpr) {
+			IncidentEdgeExpr ce = (IncidentEdgeExpr) expr;
+			sb.append("new GRGEN_EXPR."+(ce.isOutgoing() ? "Outgoing" : "Incoming")+"("
 					+ "\""+formatEntity(ce.getNode(), pathPrefix, alreadyDefinedEntityToName)+"\", "
 					+ "\""+formatTypeClassRef(ce.getIncidentEdgeType()) + ".typeVar\", "
 					+ "\""+formatTypeClassRef(ce.getAdjacentNodeType()) + ".typeVar\""
