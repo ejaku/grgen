@@ -528,6 +528,11 @@ public class IteratedNode extends ActionDeclNode  {
 		}
 	}
 
+	public PatternGraphNode getLeft()
+	{
+		return pattern;
+	}
+	
 	/**
 	 * @see de.unika.ipd.grgen.ast.BaseNode#constructIR()
 	 */

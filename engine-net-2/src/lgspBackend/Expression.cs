@@ -16,15 +16,32 @@ using de.unika.ipd.grGen.lgsp;
 namespace de.unika.ipd.grGen.expression
 {
     /// <summary>
-    /// Base class of expressions used in conditions to constrain the pattern
+    /// Base class of expressions and yieldings 
+    /// which allows to emit code and to iterate over the contained children
     /// </summary>
-    public abstract class Expression
+    public abstract class ExpressionOrYielding
     {
         /// <summary>
-        /// emits c# code implementing expression into source builder
+        /// emits c# code implementing the construct into the source builder
         /// to be implemented by concrete subclasses
         /// </summary>
         public abstract void Emit(SourceBuilder sourceCode);
+
+        /// <summary>
+        /// returns an enumerator over the contained children of this construct
+        /// </summary>
+        public virtual IEnumerator<ExpressionOrYielding> GetEnumerator()
+        {
+            yield break;
+        }
+    }
+
+
+    /// <summary>
+    /// Base class of expressions used in conditions to constrain the pattern
+    /// </summary>
+    public abstract class Expression : ExpressionOrYielding
+    {
     }
 
     /// <summary>
@@ -54,6 +71,12 @@ namespace de.unika.ipd.grGen.expression
             sourceCode.Append(")");
         }
 
+        public override IEnumerator<ExpressionOrYielding> GetEnumerator()
+        {
+            yield return Left;
+            yield return Right;
+        }
+
         public abstract String GetInfixOperator();
 
         Expression Left;
@@ -78,6 +101,12 @@ namespace de.unika.ipd.grGen.expression
             sourceCode.Append(", ");
             Right.Emit(sourceCode);
             sourceCode.Append(")");
+        }
+
+        public override IEnumerator<ExpressionOrYielding> GetEnumerator()
+        {
+            yield return Left;
+            yield return Right;
         }
 
         public abstract String GetFuncOperatorAndLParen();
@@ -107,6 +136,13 @@ namespace de.unika.ipd.grGen.expression
             sourceCode.Append(" : ");
             Right.Emit(sourceCode);
             sourceCode.Append(")");
+        }
+
+        public override IEnumerator<ExpressionOrYielding> GetEnumerator()
+        {
+            yield return Condition;
+            yield return Left;
+            yield return Right;
         }
 
         Expression Condition;
@@ -496,6 +532,11 @@ namespace de.unika.ipd.grGen.expression
             Nested.Emit(sourceCode);
         }
 
+        public override IEnumerator<ExpressionOrYielding> GetEnumerator()
+        {
+            yield return Nested;
+        }
+
         Expression Nested;
     }
 
@@ -515,6 +556,11 @@ namespace de.unika.ipd.grGen.expression
             Nested.Emit(sourceCode);
         }
 
+        public override IEnumerator<ExpressionOrYielding> GetEnumerator()
+        {
+            yield return Nested;
+        }
+
         Expression Nested;
     }
 
@@ -532,6 +578,11 @@ namespace de.unika.ipd.grGen.expression
         {
             sourceCode.Append("-");
             Nested.Emit(sourceCode);
+        }
+
+        public override IEnumerator<ExpressionOrYielding> GetEnumerator()
+        {
+            yield return Nested;
         }
 
         Expression Nested;
@@ -595,6 +646,11 @@ namespace de.unika.ipd.grGen.expression
                 sourceCode.Append("(" + TypeName + ")");
                 Nested.Emit(sourceCode);
             }
+        }
+
+        public override IEnumerator<ExpressionOrYielding> GetEnumerator()
+        {
+            yield return Nested;
         }
 
         String TypeName;
@@ -731,14 +787,19 @@ namespace de.unika.ipd.grGen.expression
         public VariableExpression(String entity)
         {
             Entity = entity;
+            MatchEntity = null;
         }
 
         public override void Emit(SourceBuilder sourceCode)
         {
-            sourceCode.Append(NamesOfEntities.Variable(Entity));
+            if(MatchEntity!=null)
+                sourceCode.Append(MatchEntity);
+            else
+                sourceCode.Append(NamesOfEntities.Variable(Entity));
         }
 
-        String Entity;
+        public String Entity;
+        public String MatchEntity;
     }
 
     /// <summary>
@@ -757,6 +818,11 @@ namespace de.unika.ipd.grGen.expression
             sourceCode.Append("graph.IsVisited(" + NamesOfEntities.CandidateVariable(Entity) + ", ");
             Nested.Emit(sourceCode);
             sourceCode.Append(")");
+        }
+
+        public override IEnumerator<ExpressionOrYielding> GetEnumerator()
+        {
+            yield return Nested;
         }
 
         String Entity;
@@ -792,6 +858,11 @@ namespace de.unika.ipd.grGen.expression
             sourceCode.Append(")");
         }
 
+        public override IEnumerator<ExpressionOrYielding> GetEnumerator()
+        {
+            yield return Nested;
+        }
+
         Expression Nested;
     }
 
@@ -810,6 +881,11 @@ namespace de.unika.ipd.grGen.expression
             sourceCode.Append("(");
             StringExpr.Emit(sourceCode);
             sourceCode.Append(").Length");
+        }
+
+        public override IEnumerator<ExpressionOrYielding> GetEnumerator()
+        {
+            yield return StringExpr;
         }
 
         Expression StringExpr;
@@ -838,6 +914,13 @@ namespace de.unika.ipd.grGen.expression
             sourceCode.Append(")");
         }
 
+        public override IEnumerator<ExpressionOrYielding> GetEnumerator()
+        {
+            yield return StringExpr;
+            yield return StartExpr;
+            yield return LengthExpr;
+        }
+
         Expression StringExpr;
         Expression StartExpr;
         Expression LengthExpr;
@@ -863,6 +946,12 @@ namespace de.unika.ipd.grGen.expression
             sourceCode.Append(")");
         }
 
+        public override IEnumerator<ExpressionOrYielding> GetEnumerator()
+        {
+            yield return StringExpr;
+            yield return StringToSearchForExpr;
+        }
+
         Expression StringExpr;
         Expression StringToSearchForExpr;
     }
@@ -885,6 +974,12 @@ namespace de.unika.ipd.grGen.expression
             sourceCode.Append(").LastIndexOf(");
             StringToSearchForExpr.Emit(sourceCode);
             sourceCode.Append(")");
+        }
+
+        public override IEnumerator<ExpressionOrYielding> GetEnumerator()
+        {
+            yield return StringExpr;
+            yield return StringToSearchForExpr;
         }
 
         Expression StringExpr;
@@ -919,6 +1014,14 @@ namespace de.unika.ipd.grGen.expression
             sourceCode.Append(" + ");
             LengthExpr.Emit(sourceCode);
             sourceCode.Append("))");
+        }
+
+        public override IEnumerator<ExpressionOrYielding> GetEnumerator()
+        {
+            yield return StringExpr;
+            yield return StartExpr;
+            yield return LengthExpr;
+            yield return ReplaceStrExpr;
         }
 
         Expression StringExpr;
@@ -956,6 +1059,12 @@ namespace de.unika.ipd.grGen.expression
             sourceCode.Append("])");
         }
 
+        public override IEnumerator<ExpressionOrYielding> GetEnumerator()
+        {
+            yield return Target;
+            yield return KeyExpr;
+        }
+
         Expression Target;
         Expression KeyExpr;
         String Type;
@@ -976,6 +1085,11 @@ namespace de.unika.ipd.grGen.expression
             sourceCode.Append("(");
             Target.Emit(sourceCode);
             sourceCode.Append(").Count");
+        }
+
+        public override IEnumerator<ExpressionOrYielding> GetEnumerator()
+        {
+            yield return Target;
         }
 
         Expression Target;
@@ -1001,6 +1115,12 @@ namespace de.unika.ipd.grGen.expression
             sourceCode.Append(")");
         }
 
+        public override IEnumerator<ExpressionOrYielding> GetEnumerator()
+        {
+            yield return Target;
+            yield return Number;
+        }
+
         Expression Target;
         Expression Number;
     }
@@ -1020,6 +1140,11 @@ namespace de.unika.ipd.grGen.expression
             sourceCode.Append("GRGEN_LIBGR.DictionaryHelper.Domain(");
             Target.Emit(sourceCode);
             sourceCode.Append(")");
+        }
+
+        public override IEnumerator<ExpressionOrYielding> GetEnumerator()
+        {
+            yield return Target;
         }
 
         Expression Target;
@@ -1042,6 +1167,11 @@ namespace de.unika.ipd.grGen.expression
             sourceCode.Append(")");
         }
 
+        public override IEnumerator<ExpressionOrYielding> GetEnumerator()
+        {
+            yield return Target;
+        }
+
         Expression Target;
     }
 
@@ -1060,6 +1190,11 @@ namespace de.unika.ipd.grGen.expression
             sourceCode.Append("(");
             Target.Emit(sourceCode);
             sourceCode.Append(").Count");
+        }
+
+        public override IEnumerator<ExpressionOrYielding> GetEnumerator()
+        {
+            yield return Target;
         }
 
         Expression Target;
@@ -1083,6 +1218,12 @@ namespace de.unika.ipd.grGen.expression
             sourceCode.Append(",");
             Number.Emit(sourceCode);
             sourceCode.Append(")");
+        }
+
+        public override IEnumerator<ExpressionOrYielding> GetEnumerator()
+        {
+            yield return Target;
+            yield return Number;
         }
 
         Expression Target;
@@ -1148,6 +1289,11 @@ namespace de.unika.ipd.grGen.expression
             sourceCode.Append(")");
         }
 
+        public override IEnumerator<ExpressionOrYielding> GetEnumerator()
+        {
+            yield return First;
+        }
+
         String ClassName;
         String MapName;
         MapItem First;
@@ -1191,6 +1337,13 @@ namespace de.unika.ipd.grGen.expression
             }
         }
 
+        public override IEnumerator<ExpressionOrYielding> GetEnumerator()
+        {
+            yield return Key;
+            yield return Value;
+            yield return Next;
+        }
+
         Expression Key;
         String KeyType;
         Expression Value;
@@ -1215,6 +1368,11 @@ namespace de.unika.ipd.grGen.expression
             sourceCode.Append(ClassName + ".fill_" + SetName + "(");
             First.Emit(sourceCode);
             sourceCode.Append(")");
+        }
+
+        public override IEnumerator<ExpressionOrYielding> GetEnumerator()
+        {
+            yield return First;
         }
 
         String ClassName;
@@ -1249,6 +1407,12 @@ namespace de.unika.ipd.grGen.expression
             }
         }
 
+        public override IEnumerator<ExpressionOrYielding> GetEnumerator()
+        {
+            yield return Value;
+            yield return Next;
+        }
+
         Expression Value;
         String ValueType;
         SetItem Next;
@@ -1277,6 +1441,12 @@ namespace de.unika.ipd.grGen.expression
                 if(i+1<Arguments.Length) sourceCode.Append(", ");
             }
             sourceCode.Append(")");
+        }
+
+        public override IEnumerator<ExpressionOrYielding> GetEnumerator()
+        {
+            foreach(Expression argument in Arguments)
+                yield return argument;
         }
 
         String FunctionName;
@@ -1383,13 +1553,8 @@ namespace de.unika.ipd.grGen.expression
     /// <summary>
     /// Base class of yielding in assignments and expressions
     /// </summary>
-    public abstract class Yielding
+    public abstract class Yielding : ExpressionOrYielding
     {
-        /// <summary>
-        /// emits c# code implementing yielding into source builder
-        /// to be implemented by concrete subclasses
-        /// </summary>
-        public abstract void Emit(SourceBuilder sourceCode);
     }
 
     /// <summary>
@@ -1410,6 +1575,11 @@ namespace de.unika.ipd.grGen.expression
             sourceCode.Append(IsVar ? NamesOfEntities.Variable(Left) : NamesOfEntities.CandidateVariable(Left));
             sourceCode.Append(" = ");
             Right.Emit(sourceCode);
+        }
+
+        public override IEnumerator<ExpressionOrYielding> GetEnumerator()
+        {
+            yield return Right;
         }
 
         String Left;
@@ -1437,6 +1607,11 @@ namespace de.unika.ipd.grGen.expression
             Right.Emit(sourceCode);
         }
 
+        public override IEnumerator<ExpressionOrYielding> GetEnumerator()
+        {
+            yield return Right;
+        }
+
         String Left;
         YieldMethod Right;
     }
@@ -1459,6 +1634,11 @@ namespace de.unika.ipd.grGen.expression
             sourceCode.Append(NamesOfEntities.Variable(Left));
             sourceCode.Append(" &= ");
             Right.Emit(sourceCode);
+        }
+
+        public override IEnumerator<ExpressionOrYielding> GetEnumerator()
+        {
+            yield return Right;
         }
 
         String Left;
@@ -1485,6 +1665,11 @@ namespace de.unika.ipd.grGen.expression
             Right.Emit(sourceCode);
         }
 
+        public override IEnumerator<ExpressionOrYielding> GetEnumerator()
+        {
+            yield return Right;
+        }
+
         String Left;
         YieldMethod Right;
     }
@@ -1499,6 +1684,11 @@ namespace de.unika.ipd.grGen.expression
         {
             Left = left;
             Right = right;
+        }
+
+        public override IEnumerator<ExpressionOrYielding> GetEnumerator()
+        {
+            yield return Right;
         }
 
         protected String Left;
@@ -1562,6 +1752,12 @@ namespace de.unika.ipd.grGen.expression
             sourceCode.Append(", ");
             Value.Emit(sourceCode);
             sourceCode.Append(")");
+        }
+
+        public override IEnumerator<ExpressionOrYielding> GetEnumerator()
+        {
+            yield return Right;
+            yield return Value;
         }
 
         Expression Value;
@@ -1634,40 +1830,47 @@ namespace de.unika.ipd.grGen.expression
     /// </summary>
     public class IteratedAccumulationYield : Yielding
     {
-        public IteratedAccumulationYield(String variable, String unprefixedVariable, String iterated, Expression op)
+        public IteratedAccumulationYield(String variable, String unprefixedVariable, String iterated, Yielding statement)
         {
             Variable = variable;
             UnprefixedVariable = unprefixedVariable;
             Iterated = iterated;
-            Operator = op;
+            Statement = statement;
+        }
+
+        public void ReplaceVariableByIterationVariable(ExpressionOrYielding curr)
+        {
+            // traverses the yielding and expression tree, if it visits a reference to the iteration variable 
+            // it switches it from a normal variable reference into a iteration variable reference
+            foreach(ExpressionOrYielding eoy in curr)
+                ReplaceVariableByIterationVariable(eoy);
+
+            if(curr is VariableExpression)
+            {
+                VariableExpression ve = (VariableExpression)curr;
+                if(ve.Entity == Variable)
+                {
+                    ve.MatchEntity = IteratedMatchVariable;
+                }
+            }
         }
 
         public override void Emit(SourceBuilder sourceCode)
         {
-            sourceCode.Append(NamesOfEntities.Variable(Variable));
-            sourceCode.Append(" = ");
-            if(Operator is BinInfixOperator)
-            {
-                BinInfixOperator binOp = (BinInfixOperator)Operator;
-                sourceCode.Append(NamesOfEntities.Variable(Variable));
-                sourceCode.Append(binOp.GetInfixOperator());
-                sourceCode.Append(IteratedMatchVariable);
-            }
-            else //if(Operator is BinFuncOperator)
-            {
-                BinFuncOperator binOp = (BinFuncOperator)Operator;
-                sourceCode.Append(binOp.GetFuncOperatorAndLParen());
-                sourceCode.Append(NamesOfEntities.Variable(Variable));
-                sourceCode.Append(", ");
-                sourceCode.Append(IteratedMatchVariable);
-                sourceCode.Append(")");
-            }
+            //sourceCode.Append(NamesOfEntities.Variable(Variable) + " ");
+            //sourceCode.Append(IteratedMatchVariable);
+            Statement.Emit(sourceCode);
+        }
+
+        public override IEnumerator<ExpressionOrYielding> GetEnumerator()
+        {
+            yield return Statement;
         }
 
         public String Variable;
         public String UnprefixedVariable;
         public String Iterated;
-        Expression Operator;
+        Yielding Statement;
 
         public String IteratedMatchVariable;
     }

@@ -77,24 +77,29 @@ rule createBlowball : (Node)
 	}
 }
 
-test countNINT(start:Node) : (int, int)
+test countNINT(start:Node) : (int, int, int)
 {
-	def var i:int = 0;
-	def var j:int = 0;
+	def var io:int = 0;
+	def var jo:int = 0;
+	def var v:int = 0;
 	
 	iterated it {
+		def var i:int;
+		def var j:int;
+		
 		start --> n:NINT;
 		
 		yield {
 			yield i = n.a;
 			yield j = 1;
+			yield v = 42;
 		}
 	} 
 
 	yield {
-		for(i in it; yield +);
-		for(j in it; yield +);
+		for{i in it; yield io = io + i};
+		for{j in it; yield jo = jo + j};
 	}
 
-	return (i,j);
+	return (io,jo,v);
 }

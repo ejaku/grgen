@@ -3307,11 +3307,61 @@ namespace de.unika.ipd.grGen.lgsp
     }
 
     /// <summary>
-    /// Class representing operation
+    /// Class representing a block around implicit yield bubble up assignments for nested iterateds
     /// </summary>
     class BubbleUpYieldIterated : SearchProgramOperation
     {
-        public BubbleUpYieldIterated(string nestedMatchObjectName, string iteratedMatchTypeName, string helperMatchName)
+        public BubbleUpYieldIterated(string nestedMatchObjectName)
+        {
+            NestedMatchObjectName = nestedMatchObjectName;
+        }
+
+        public override void Dump(SourceBuilder builder)
+        {
+            // first dump local content
+            builder.AppendFrontFormat("BubbleUpYieldIterated on {0}\n", NestedMatchObjectName);
+
+            // then nested content
+            if(NestedOperationsList != null)
+            {
+                builder.Indent();
+                NestedOperationsList.Dump(builder);
+                builder.Unindent();
+            }
+        }
+
+        public override void Emit(SourceBuilder sourceCode)
+        {
+            sourceCode.AppendFrontFormat("if({0}.Count>0) {{\n", NestedMatchObjectName);
+            sourceCode.Indent();
+
+            NestedOperationsList.Emit(sourceCode);
+
+            sourceCode.Unindent();
+            sourceCode.AppendFront("}\n");
+        }
+
+        public override bool IsSearchNestingOperation()
+        {
+            return true;
+        }
+
+        public override SearchProgramOperation GetNestedSearchOperationsList()
+        {
+            return NestedOperationsList;
+        }
+
+        string NestedMatchObjectName;
+
+        public SearchProgramList NestedOperationsList;
+    }
+
+    /// <summary>
+    /// Class representing a block around explicit yield accumulate up assignments for nested iterateds
+    /// </summary>
+    class AccumulateUpYieldIterated : SearchProgramOperation
+    {
+        public AccumulateUpYieldIterated(string nestedMatchObjectName, string iteratedMatchTypeName, string helperMatchName)
         {
             NestedMatchObjectName = nestedMatchObjectName;
             IteratedMatchTypeName = iteratedMatchTypeName;
@@ -3363,7 +3413,7 @@ namespace de.unika.ipd.grGen.lgsp
     }
 
     /// <summary>
-    /// Class representing operation
+    /// Class representing a block around implicit yield bubble up assignments for nested alternatives
     /// </summary>
     class BubbleUpYieldAlternativeCase : SearchProgramOperation
     {

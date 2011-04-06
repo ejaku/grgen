@@ -39,8 +39,6 @@ public class IncidentEdgeExprNode extends ExprNode {
 	private boolean outgoing;
 	private NodeTypeNode adjacentType;
 	
-	private SetTypeNode setType;
-
 	public IncidentEdgeExprNode(Coords coords, IdentNode node,
 			IdentNode incidentType, boolean outgoing,
 			IdentNode adjacentType) {

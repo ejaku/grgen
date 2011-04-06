@@ -2646,45 +2646,16 @@ public class ActionsGen extends CSharpBase {
 	
 	private void genIteratedAccumulationYield(StringBuffer sb, IteratedAccumulationYield iay,
 			String className, String pathPrefix, HashMap<Entity, String> alreadyDefinedEntityToName) {
-		Variable accumulationVar = iay.getAccumulationVar();
+		Variable iterationVar = iay.getIterationVar();
 		Rule iterated = iay.getIterated();
-		String operator = iay.getAccumulationOp();
+		EvalStatement statement = iay.getAccumulationStatement();
 
 		sb.append("\t\t\t\tnew GRGEN_EXPR.IteratedAccumulationYield(");
-		sb.append("\"" + formatEntity(accumulationVar, pathPrefix, alreadyDefinedEntityToName) + "\", ");
-		sb.append("\"" + formatIdentifiable(accumulationVar) + "\", ");
+		sb.append("\"" + formatEntity(iterationVar, pathPrefix, alreadyDefinedEntityToName) + "\", ");
+		sb.append("\"" + formatIdentifiable(iterationVar) + "\", ");
 		sb.append("\"" + formatIdentifiable(iterated) + "\", ");
-		genAccumulationOperator(sb, operator, accumulationVar);
+		genYield(sb, statement, className, pathPrefix, alreadyDefinedEntityToName);
 		sb.append(")");
-	}
-
-	private void genAccumulationOperator(StringBuffer sb, String accumulationOperator, Variable target)
-	{
-		if(accumulationOperator=="||") {
-			sb.append("new GRGEN_EXPR.LOG_OR(null, null)");
-		} else if(accumulationOperator=="&&") {
-			sb.append("new GRGEN_EXPR.LOG_AND(null, null)");
-		} else if(accumulationOperator=="|") {
-			if(target.getType() instanceof SetType || target.getType() instanceof MapType)
-				sb.append("new GRGEN_EXPR.DICT_BIT_OR(null, null)");
-			else
-				sb.append("new GRGEN_EXPR.BIT_OR(null, null)");
-		} else if(accumulationOperator=="&") {
-			if(target.getType() instanceof SetType || target.getType() instanceof MapType)
-				sb.append("new GRGEN_EXPR.DICT_BIT_AND(null, null)");
-			else
-				sb.append("new GRGEN_EXPR.BIT_AND(null, null)");
-		} else if(accumulationOperator=="+") {
-			sb.append("new GRGEN_EXPR.ADD(null, null)");
-		} else if(accumulationOperator=="*") {
-			sb.append("new GRGEN_EXPR.MUL(null, null)");
-		} else if(accumulationOperator=="min") {
-			sb.append("new GRGEN_EXPR.Min(null, null)");
-		} else if(accumulationOperator=="max") {
-			sb.append("new GRGEN_EXPR.Max(null, null)");
-		} else {
-			throw new UnsupportedOperationException("Unknown iterated yield accumulation operator");
-		}
 	}
 
 	///////////////////////

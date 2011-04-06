@@ -198,7 +198,7 @@ public class PatternGraphNode extends GraphNode {
 	 * @see GraphNode#getNodes()
 	 */
 	@Override
-	protected Set<NodeDeclNode> getNodes() {
+	public Set<NodeDeclNode> getNodes() {
 		assert isResolved();
 
 		if(nodes != null) return nodes;
@@ -226,7 +226,7 @@ public class PatternGraphNode extends GraphNode {
 	 * @see GraphNode#getEdges()
 	 */
 	@Override
-	protected Set<EdgeDeclNode> getEdges() {
+	public Set<EdgeDeclNode> getEdges() {
 		assert isResolved();
 
 		if(edges != null) return edges;

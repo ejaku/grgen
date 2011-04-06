@@ -510,7 +510,7 @@ patternStmt [ CollectNode<BaseNode> conn, CollectNode<VarDeclNode> defVariablesT
 	| neg=negative[namer, context] { negs.addChild(neg); }
 	| idpt=independent[namer, context] { idpts.addChild(idpt); }
 	| condition[conds]
-	| yielding[evals]
+	| yielding[evals, context, directlyNestingLHSGraph]
 	| rets[returnz, context] SEMI
 	| hom=homStatement { homs.addChild(hom); } SEMI
 	| exa=exactStatement { exact.addChild(exa); } SEMI
@@ -1099,7 +1099,7 @@ replaceStmt [ Coords coords, CollectNode<BaseNode> connections, CollectNode<VarD
 		CollectNode<EvalStatementNode> evals,
 		int context, PatternGraphNode directlyNestingLHSGraph ]
 	: connectionsOrSubpattern[connections, defVariablesToBeYieldedTo, subpatterns, orderedReplacements, context, directlyNestingLHSGraph] SEMI
-	| evaluation[evals, orderedReplacements]
+	| evaluation[evals, orderedReplacements, context, directlyNestingLHSGraph]
 	| alternativeOrIteratedRewriteUsage[orderedReplacements]
 	;
 
@@ -1132,7 +1132,7 @@ modifyStmt [ Coords coords, CollectNode<BaseNode> connections, CollectNode<VarDe
 		int context, PatternGraphNode directlyNestingLHSGraph ]
 	: connectionsOrSubpattern[connections, defVariablesToBeYieldedTo, subpatterns, orderedReplacements, context, directlyNestingLHSGraph] SEMI
 	| deleteStmt[dels] SEMI
-	| evaluation[evals, orderedReplacements]
+	| evaluation[evals, orderedReplacements, context, directlyNestingLHSGraph ]
 	| alternativeOrIteratedRewriteUsage[orderedReplacements]
 	;
 
@@ -1292,18 +1292,18 @@ condition [ CollectNode<ExprNode> conds ]
 		RBRACE
 	;
 
-evaluation [ CollectNode<EvalStatementNode> evals, CollectNode<OrderedReplacementNode> orderedReplacements ]
+evaluation [ CollectNode<EvalStatementNode> evals, CollectNode<OrderedReplacementNode> orderedReplacements, int context, PatternGraphNode directlyNestingLHSGraph ]
 	: EVAL LBRACE
-		( a=assignmentOrMethodCall[false] { evals.addChild(a); } SEMI )*
+		( a=assignmentOrMethodCall[false, context, directlyNestingLHSGraph] { evals.addChild(a); } SEMI )*
 		RBRACE
 	| EVALHERE LBRACE
-		( a=assignmentOrMethodCall[false] { orderedReplacements.addChild(a); } SEMI )*
+		( a=assignmentOrMethodCall[false, context, directlyNestingLHSGraph] { orderedReplacements.addChild(a); } SEMI )*
 		RBRACE
 	;
 
-yielding [ CollectNode<EvalStatementNode> evals]
+yielding [ CollectNode<EvalStatementNode> evals, int context, PatternGraphNode directlyNestingLHSGraph]
 	: YIELD LBRACE
-		( a=assignmentOrMethodCall[true] { evals.addChild(a); } SEMI )*
+		( a=assignmentOrMethodCall[true, context, directlyNestingLHSGraph] { evals.addChild(a); } SEMI )*
 		RBRACE
 	;
 	
@@ -2321,7 +2321,7 @@ memberIdentUse returns [ IdentNode res = env.getDummyIdent() ]
 //////////////////////////////////////////
 
 	
-assignmentOrMethodCall [ boolean onLHS ] returns [ EvalStatementNode res = null ]
+assignmentOrMethodCall [ boolean onLHS, int context, PatternGraphNode directlyNestingLHSGraph ] returns [ EvalStatementNode res = null ]
 options { k = 4; }
 	@init{
 		int cat = -1; // compound assign type
@@ -2359,18 +2359,8 @@ options { k = 4; }
 		e=expr[false] ( at=assignTo { ccat = at.ccat; tgtChanged = at.tgtChanged; } )?
 			{ res = new CompoundAssignNode(getCoords(a), new IdentExprNode(variable), cat, e, ccat, tgtChanged); }
 	|
-	  f=FOR LPAREN variable=entIdentUse IN i=iterIdentUse SEMI YIELD ao=accumulationOperator RPAREN
-		{ res = new IteratedAccumulationYieldNode(getCoords(f), new IdentExprNode(variable), i, ao); }
-	;
-
-accumulationOperator returns [ String op = null ]
-	: LOR { $op="||"; }
-	| LAND { $op="&&"; }
-	| BOR { $op="|"; }
-	| BAND { $op="&"; }
-	| PLUS { $op="+"; }
-	| STAR { $op="*"; }
-	| id=extFuncIdentUse { if(id.toString()=="min" || id.toString()=="max") $op=id.toString(); else id.reportError("unknown iterated yield accumulation operator " + id.toString()); }
+	  f=FOR LBRACE pushScopeStr["for iterated", getCoords(f)] variable=entIdentDecl IN i=iterIdentUse SEMI YIELD aomc=assignmentOrMethodCall[onLHS, context, directlyNestingLHSGraph] RBRACE popScope
+		{ res = new IteratedAccumulationYieldNode(getCoords(f), new VarDeclNode(variable, IdentNode.getInvalid(), directlyNestingLHSGraph, context), i, aomc); }
 	;
 	
 assignTo returns [ int ccat = CompoundAssignNode.NONE, BaseNode tgtChanged = null ]

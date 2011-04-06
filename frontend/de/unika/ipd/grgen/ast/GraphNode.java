@@ -287,7 +287,7 @@ public class GraphNode extends BaseNode {
 	 * @return A set containing the declarations of all nodes occurring
 	 * in this graph pattern.
 	 */
-	protected Set<NodeDeclNode> getNodes() {
+	public Set<NodeDeclNode> getNodes() {
 		assert isResolved();
 
 		if(nodes != null) return nodes;
@@ -303,7 +303,7 @@ public class GraphNode extends BaseNode {
 		return nodes;
 	}
 
-	protected Set<EdgeDeclNode> getEdges() {
+	public Set<EdgeDeclNode> getEdges() {
 		assert isResolved();
 
 		if(edges != null) return edges;
@@ -317,6 +317,10 @@ public class GraphNode extends BaseNode {
 
 		edges = Collections.unmodifiableSet(coll);
 		return edges;
+	}
+	
+	public CollectNode<VarDeclNode> getDefVariablesToBeYieldedTo() {
+		return defVariablesToBeYieldedTo;
 	}
 
 	/**

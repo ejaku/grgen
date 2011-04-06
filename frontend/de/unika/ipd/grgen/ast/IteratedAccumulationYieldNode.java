@@ -15,6 +15,7 @@ import java.util.Collection;
 import java.util.Vector;
 
 import de.unika.ipd.grgen.ast.util.DeclarationResolver;
+import de.unika.ipd.grgen.ir.EvalStatement;
 import de.unika.ipd.grgen.ir.IR;
 import de.unika.ipd.grgen.ir.IteratedAccumulationYield;
 import de.unika.ipd.grgen.ir.Rule;
@@ -29,29 +30,31 @@ public class IteratedAccumulationYieldNode extends EvalStatementNode {
 		setName(IteratedAccumulationYieldNode.class, "IteratedAccumulationYield");
 	}
 
-	IdentExprNode accumulationVariableUnresolved;
+	BaseNode iterationVariableUnresolved;
 	IdentNode iteratedUnresolved;
 	
-	VarDeclNode accumulationVariable;
+	VarDeclNode iterationVariable;
 	IteratedNode iterated;
-	String accumulationOperator;
+	EvalStatementNode accumulationStatement;
 
-	public IteratedAccumulationYieldNode(Coords coords, IdentExprNode accumulationVariable, 
-			IdentNode iterated, String accumulationOperator) {
+	public IteratedAccumulationYieldNode(Coords coords, BaseNode iterationVariable, 
+			IdentNode iterated, EvalStatementNode accumulationStatement) {
 		super(coords);
-		this.accumulationVariableUnresolved = accumulationVariable;
-		becomeParent(this.accumulationVariableUnresolved);
+		this.iterationVariableUnresolved = iterationVariable;
+		becomeParent(this.iterationVariableUnresolved);
 		this.iteratedUnresolved = iterated;
 		becomeParent(this.iteratedUnresolved);
-		this.accumulationOperator = accumulationOperator;
+		this.accumulationStatement = accumulationStatement;
+		becomeParent(this.accumulationStatement);
 	}
 
 	/** returns children of this node */
 	@Override
 	public Collection<BaseNode> getChildren() {
 		Vector<BaseNode> children = new Vector<BaseNode>();
-		children.add(getValidVersion(accumulationVariableUnresolved, accumulationVariable));
+		children.add(getValidVersion(iterationVariableUnresolved, iterationVariable));
 		children.add(getValidVersion(iteratedUnresolved, iterated));
+		children.add(accumulationStatement);
 		return children;
 	}
 
@@ -59,8 +62,9 @@ public class IteratedAccumulationYieldNode extends EvalStatementNode {
 	@Override
 	public Collection<String> getChildrenNames() {
 		Vector<String> childrenNames = new Vector<String>();
-		childrenNames.add("accumulationVariable");
+		childrenNames.add("iterationVariable");
 		childrenNames.add("iterated");
+		childrenNames.add("accumulationStatement");
 		return childrenNames;
 	}
 
@@ -71,22 +75,36 @@ public class IteratedAccumulationYieldNode extends EvalStatementNode {
 	@Override
 	protected boolean resolveLocal() {
 		boolean successfullyResolved = true;
-		if(accumulationVariableUnresolved.resolve()) {
-			if(accumulationVariableUnresolved.decl instanceof VarDeclNode) {
-				accumulationVariable = (VarDeclNode)accumulationVariableUnresolved.decl;
-			//} else if(accumulationVariableUnresolved.decl instanceof ConstraintDeclNode) {
-			//	accumulationGraphElement = (ConstraintDeclNode)accumulationVariableUnresolved.decl;
-			} else {
-				reportError("error in resolving def variable of iterated accumulation yield, unexpected type");
-				successfullyResolved = false;
-			}
-		} else {
-			reportError("error in resolving def variable of iterated accumulation yield.");
-			successfullyResolved = false;
-		}
 		
 		iterated = iteratedResolver.resolve(iteratedUnresolved, this);
 		if(iterated==null)
+			successfullyResolved = false;
+
+		if(iterationVariableUnresolved instanceof VarDeclNode) {
+			iterationVariable = (VarDeclNode)iterationVariableUnresolved;
+		//} else if(accumulationVariableUnresolved instanceof ConstraintDeclNode) {
+		//	accumulationGraphElement = (ConstraintDeclNode)accumulationVariableUnresolved;
+		} else {
+			reportError("error in resolving iteration variable of iterated accumulation yield.");
+			successfullyResolved = false;
+		}
+
+		boolean iterationVariableFound = false;
+		for(VarDeclNode var : iterated.getLeft().getDefVariablesToBeYieldedTo().getChildren()) {
+			if(iterationVariable.toString()==var.toString()) {
+				iterationVariable.typeUnresolved = var.typeUnresolved;
+				iterationVariableFound = true;
+			}
+		}
+		if(!iterationVariableFound) {
+			reportError("can't find iteration variable in iterated");
+			successfullyResolved = false;
+		}
+						
+		if(!iterationVariable.resolve())
+			successfullyResolved = false;
+
+		if(!accumulationStatement.resolve())
 			successfullyResolved = false;
 		
 		return successfullyResolved;
@@ -94,65 +112,12 @@ public class IteratedAccumulationYieldNode extends EvalStatementNode {
 
 	@Override
 	protected boolean checkLocal() {
-		return typeCheckLocal();
-	}
-
-	private boolean typeCheckLocal() {
-		TypeNode accumulationType = null;
-		if(accumulationVariable!=null) accumulationType = accumulationVariable.getDeclType();
-		//if(accumulationGraphElement!=null) accumulationType = accumulationGraphElement.getDeclType();
-
-		if(accumulationOperator=="||") {
-			if(!(accumulationType instanceof BooleanTypeNode)) {
-				reportError("iterated yield accumulation operator || can only be applied on a def variable of boolean type");
-				return false;
-			}
-		} else if(accumulationOperator=="&&") {
-			if(!(accumulationType instanceof BooleanTypeNode)) {
-				reportError("iterated yield accumulation operator && can only be applied on a def variable of boolean type");
-				return false;
-			}
-		} else if(accumulationOperator=="|") {
-			if(!(accumulationType instanceof IntTypeNode) && !(accumulationType instanceof SetTypeNode) && !(accumulationType instanceof MapTypeNode)) {
-				reportError("iterated yield accumulation operator | can only be applied on a def variable of int or set<T>,map<S,T> type");
-				return false;
-			}
-		} else if(accumulationOperator=="&") {
-			if(!(accumulationType instanceof IntTypeNode) && !(accumulationType instanceof SetTypeNode) && !(accumulationType instanceof MapTypeNode)) {
-				reportError("iterated yield accumulation operator & can only be applied on a def variable of int or set<T>,map<S,T> type");
-				return false;
-			}
-		} else if(accumulationOperator=="+") {
-			if(!(accumulationType instanceof IntTypeNode) && !(accumulationType instanceof FloatTypeNode) && !(accumulationType instanceof DoubleTypeNode)) {
-				reportError("iterated yield accumulation operator + can only be applied on a def variable of int or float,double type");
-				return false;
-			}
-		} else if(accumulationOperator=="*") {
-			if(!(accumulationType instanceof IntTypeNode) && !(accumulationType instanceof FloatTypeNode) && !(accumulationType instanceof DoubleTypeNode)) {
-				reportError("iterated yield accumulation operator * can only be applied on a def variable of int or float, double type");
-				return false;
-			}
-		} else if(accumulationOperator=="min") {
-			if(!(accumulationType instanceof IntTypeNode) && !(accumulationType instanceof FloatTypeNode) && !(accumulationType instanceof DoubleTypeNode)) {
-				reportError("iterated yield accumulation operator min can only be applied on a def variable of int or float, double type");
-				return false;
-			}
-		} else if(accumulationOperator=="max") {
-			if(!(accumulationType instanceof IntTypeNode) && !(accumulationType instanceof FloatTypeNode) && !(accumulationType instanceof DoubleTypeNode)) {
-				reportError("iterated yield accumulation operator max can only be applied on a def variable of int or float, double type");
-				return false;
-			}
-		} else {
-			reportError("Unknown iterated yield accumulation operator");
-			return false;
-		}
-		
 		return true;
 	}
 
 	@Override
 	protected IR constructIR() {
-		return new IteratedAccumulationYield(accumulationVariable.checkIR(Variable.class), 
-				iterated.checkIR(Rule.class), accumulationOperator);
+		return new IteratedAccumulationYield(iterationVariable.checkIR(Variable.class), 
+				iterated.checkIR(Rule.class), accumulationStatement.checkIR(EvalStatement.class));
 	}
 }

@@ -17,31 +17,32 @@ package de.unika.ipd.grgen.ir;
  */
 public class IteratedAccumulationYield extends EvalStatement {
 
-	private Variable accumulationVar;
+	private Variable iterationVar;
 	private Rule iterated;
-	private String accumulationOp;
+	private EvalStatement accumulationStatement;
 
-	public IteratedAccumulationYield(Variable accumulationVar, Rule iterated, String accumulationOp) {
+	public IteratedAccumulationYield(Variable accumulationVar, Rule iterated, EvalStatement accumulationStatement) {
 		super("iterated accumulation yield");
-		this.accumulationVar = accumulationVar;
+		this.iterationVar = accumulationVar;
 		this.iterated = iterated;
-		this.accumulationOp = accumulationOp;
+		this.accumulationStatement = accumulationStatement;
 	}
 
-	public Variable getAccumulationVar() {
-		return accumulationVar;
+	public Variable getIterationVar() {
+		return iterationVar;
 	}
 
 	public Rule getIterated() {
 		return iterated;
 	}
 	
-	public String getAccumulationOp() {
-		return accumulationOp;
+	public EvalStatement getAccumulationStatement() {
+		return accumulationStatement;
 	}
 	
 	public void collectNeededEntities(NeededEntities needs)
 	{
-		needs.add(accumulationVar);
+		accumulationStatement.collectNeededEntities(needs);
+		needs.variables.remove(iterationVar);
 	}
 }

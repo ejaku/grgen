@@ -6,7 +6,7 @@ show num nodes
 show num nodes NINT
 show num edges
 
-xgrs (count,numb)=countNINT(start)
+xgrs (count,numb,v)=countNINT(start)
 
 show num nodes
 show num nodes NINT
@@ -14,5 +14,6 @@ show num edges
 
 show var count
 show var numb
+show var v
 
 quit
