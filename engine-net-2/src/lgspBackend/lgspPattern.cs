@@ -616,7 +616,10 @@ namespace de.unika.ipd.grGen.lgsp
         public String pathPrefix;
 
         /// <summary>
-        /// NIY
+        /// Tells whether the elements from the parent patterns (but not sibling patterns)
+        /// should be isomorphy locked, i.e. not again matchable, even in negatives/independents,
+        /// which are normally hom to all. This allows to match paths without a specified end,
+        /// eagerly, i.e. as long as a successor exists, even in case of a cycles in the graph.
         /// </summary>
         public bool isPatternpathLocked;
 
@@ -763,7 +766,10 @@ namespace de.unika.ipd.grGen.lgsp
         /// </summary>
         /// <param name="name">The name of the pattern graph.</param>
         /// <param name="pathPrefix">Prefix for name from nesting path.</param>
-        /// <param name="isPatternpathLocked">NIY</param>
+        /// <param name="isPatternpathLocked"> Tells whether the elements from the parent patterns (but not sibling patterns)
+        /// should be isomorphy locked, i.e. not again matchable, even in negatives/independents,
+        /// which are normally hom to all. This allows to match paths without a specified end,
+        /// eagerly, i.e. as long as a successor exists, even in case of a cycles in the graph.</param>
         /// <param name="nodes">An array of all pattern nodes.</param>
         /// <param name="edges">An array of all pattern edges.</param>
         /// <param name="variables">An array of all pattern variables.</param>
@@ -950,7 +956,7 @@ namespace de.unika.ipd.grGen.lgsp
                 independent.SetDefEntityExistanceAndNonLocalDefEntityExistance();
         }
 
-        // -------- intermdiate results of matcher generation ----------------------------------
+        // -------- intermediate results of matcher generation ----------------------------------
 
         /// <summary>
         /// Names of the elements which may be null
@@ -1024,6 +1030,14 @@ namespace de.unika.ipd.grGen.lgsp
         /// Needed for patternpath processing setup (to check patternpath matches stack).
         /// </summary>
         public bool isPatternGraphOnPathFromEnclosingPatternpath = false;
+
+        /// <summary>
+        /// Gives the maximum negLevel of the pattern reached by negative/independent nesting,
+        /// clipped by LGSPElemFlags.MAX_NEG_LEVEL+1 which is the critical point of interest,
+        /// this might happen by heavy nesting or by a subpattern call path with
+        /// direct or indirect recursion on it including a negative/independent which gets passed.
+        /// </summary>
+        public int maxNegLevel = 0;
     }
 
     /// <summary>

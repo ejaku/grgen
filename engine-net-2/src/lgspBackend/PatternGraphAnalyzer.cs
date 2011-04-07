@@ -46,6 +46,8 @@ namespace de.unika.ipd.grGen.lgsp
             AnnotateIndependentsAtNestingTopLevelOrAlternativeCaseOrIteratedPattern(matchingPattern.patternGraph);
 
             ComputePatternGraphsOnPathToEnclosedPatternpath(matchingPattern.patternGraph);
+
+            ComputeMaxNegLevel(matchingPattern.patternGraph);
             
             matchingPatterns.Add(matchingPattern);
         }
@@ -69,6 +71,18 @@ namespace de.unika.ipd.grGen.lgsp
                 }
             } // until nothing changes because transitive closure was found
             while (onPathFromEnclosingChanged);
+
+            // fix point iteration in order to compute the max neg level
+            bool maxNegLevelChanged;
+            do
+            {
+                maxNegLevelChanged = false;
+                foreach(LGSPMatchingPattern matchingPattern in matchingPatterns)
+                {
+                    maxNegLevelChanged |= ComputeMaxNegLevel(matchingPattern.patternGraph);
+                }
+            } // until nothing changes because transitive closure was found
+            while(maxNegLevelChanged);
         }
 
         /// <summary>
@@ -544,6 +558,57 @@ namespace de.unika.ipd.grGen.lgsp
             }
 
             return usedSubpatternsChanged;
+        }
+
+        /// <summary>
+        /// Computes the maximum negLevel of the pattern graph reached by negative/independent nesting,
+        /// clipped by LGSPElemFlags.MAX_NEG_LEVEL+1 which is the critical point of interest,
+        /// this might happen by heavy nesting or by a subpattern call path with
+        /// direct or indirect recursion on it including a negative/independent which gets passed.
+        /// Returns if the max negLevel of a subpattern called was increased, causing a further run.
+        /// </summary>
+        private bool ComputeMaxNegLevel(PatternGraph patternGraph)
+        {
+            foreach(PatternGraph neg in patternGraph.negativePatternGraphs)
+            {
+                neg.maxNegLevel = patternGraph.maxNegLevel + 1;
+                ComputeMaxNegLevel(neg);
+            }
+            foreach(PatternGraph idpt in patternGraph.independentPatternGraphs)
+            {
+                idpt.maxNegLevel = patternGraph.maxNegLevel + 1;
+                ComputeMaxNegLevel(idpt);
+            }
+
+            foreach(Alternative alt in patternGraph.alternatives)
+            {
+                foreach(PatternGraph altCase in alt.alternativeCases)
+                {
+                    altCase.maxNegLevel = patternGraph.maxNegLevel;
+                    ComputeMaxNegLevel(altCase);
+                }
+            }
+            foreach(Iterated iter in patternGraph.iterateds)
+            {
+                iter.iteratedPattern.maxNegLevel = patternGraph.maxNegLevel;
+                ComputeMaxNegLevel(iter.iteratedPattern);
+            }
+
+            bool changed = false;
+            PatternGraphEmbedding[] embeddedGraphs = patternGraph.embeddedGraphs;
+            for(int i = 0; i < embeddedGraphs.Length; ++i)
+            {
+                PatternGraph embeddedPatternGraph = embeddedGraphs[i].matchingPatternOfEmbeddedGraph.patternGraph;
+                if(embeddedPatternGraph.maxNegLevel <= (int)LGSPElemFlags.MAX_NEG_LEVEL)
+                {
+                    int oldMaxNegLevel = embeddedPatternGraph.maxNegLevel;
+                    embeddedPatternGraph.maxNegLevel = Math.Max(patternGraph.maxNegLevel, embeddedPatternGraph.maxNegLevel);
+                    if(embeddedPatternGraph.maxNegLevel > oldMaxNegLevel)
+                        changed = true;
+                }
+            }
+
+            return changed;
         }
 
         // ----------------------------------------------------------------

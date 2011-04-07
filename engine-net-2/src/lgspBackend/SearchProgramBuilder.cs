@@ -46,10 +46,10 @@ namespace de.unika.ipd.grGen.lgsp
             this.model = model;
             patternGraphWithNestingPatterns = new Stack<PatternGraph>();
             patternGraphWithNestingPatterns.Push(patternGraph);
+            negLevelNeverAboveMaxNegLevel = patternGraphWithNestingPatterns.Peek().maxNegLevel <= (int)LGSPElemFlags.MAX_NEG_LEVEL;
             isNegative = false;
             isNestedInNegative = false;
             rulePatternClassName = NamesOfEntities.RulePatternClassName(rulePattern.name, false);
-            negLevelNeverAboveMaxNegLevel = computeMaxNegLevel(rulePattern.patternGraph) <= (int) LGSPElemFlags.MAX_NEG_LEVEL;
             
             // filter out parameters which are implemented by lookup due to maybe null unfolding
             // and suffix matcher method name by missing parameters which get computed by lookup here
@@ -154,10 +154,10 @@ namespace de.unika.ipd.grGen.lgsp
             this.model = model;
             patternGraphWithNestingPatterns = new Stack<PatternGraph>();
             patternGraphWithNestingPatterns.Push(patternGraph);
+            negLevelNeverAboveMaxNegLevel = patternGraphWithNestingPatterns.Peek().maxNegLevel <= (int)LGSPElemFlags.MAX_NEG_LEVEL;
             isNegative = false;
             isNestedInNegative = false;
             rulePatternClassName = NamesOfEntities.RulePatternClassName(matchingPattern.name, true);
-            negLevelNeverAboveMaxNegLevel = false;
 
             // build outermost search program operation, create the list anchor starting it's program
             SearchProgram searchProgram = new SearchProgramOfSubpattern(
@@ -203,7 +203,6 @@ namespace de.unika.ipd.grGen.lgsp
             patternGraphWithNestingPatterns = new Stack<PatternGraph>();
             this.alternative = alternative;
             rulePatternClassName = NamesOfEntities.RulePatternClassName(matchingPattern.name, !(matchingPattern is LGSPRulePattern));
-            negLevelNeverAboveMaxNegLevel = false;
 
             // build combined list of namesOfPatternGraphsOnPathToEnclosedPatternpath
             // from the namesOfPatternGraphsOnPathToEnclosedPatternpath of the alternative cases
@@ -249,6 +248,7 @@ namespace de.unika.ipd.grGen.lgsp
                 insertionPoint = insertVariableDeclarations(insertionPoint, altCase);
 
                 patternGraphWithNestingPatterns.Push(altCase);
+                negLevelNeverAboveMaxNegLevel = patternGraphWithNestingPatterns.Peek().maxNegLevel <= (int)LGSPElemFlags.MAX_NEG_LEVEL;
                 isNegative = false;
                 isNestedInNegative = false;
 
@@ -293,10 +293,10 @@ namespace de.unika.ipd.grGen.lgsp
             this.model = model;
             patternGraphWithNestingPatterns = new Stack<PatternGraph>();
             patternGraphWithNestingPatterns.Push(iter);
+            negLevelNeverAboveMaxNegLevel = patternGraphWithNestingPatterns.Peek().maxNegLevel <= (int)LGSPElemFlags.MAX_NEG_LEVEL;
             isNegative = false;
             isNestedInNegative = false;
             rulePatternClassName = NamesOfEntities.RulePatternClassName(matchingPattern.name, !(matchingPattern is LGSPRulePattern));
-            negLevelNeverAboveMaxNegLevel = false;
 
             // build outermost search program operation, create the list anchor starting it's program
             SearchProgram searchProgram = new SearchProgramOfIterated(
@@ -1651,6 +1651,7 @@ namespace de.unika.ipd.grGen.lgsp
             isNestedInNegative = true;
             PatternGraph enclosingPatternGraph = patternGraphWithNestingPatterns.Peek();
             patternGraphWithNestingPatterns.Push(negativePatternGraph);
+            negLevelNeverAboveMaxNegLevel = patternGraphWithNestingPatterns.Peek().maxNegLevel <= (int)LGSPElemFlags.MAX_NEG_LEVEL;
 
             string negativeIndependentNamePrefix = NegativeIndependentNamePrefix(patternGraphWithNestingPatterns.Peek());
             bool negativeContainsSubpatterns = negativePatternGraph.EmbeddedGraphs.Length >= 1
@@ -1731,6 +1732,7 @@ namespace de.unika.ipd.grGen.lgsp
             isNegative = false;
             PatternGraph enclosingPatternGraph = patternGraphWithNestingPatterns.Peek();
             patternGraphWithNestingPatterns.Push(independentPatternGraph);
+            negLevelNeverAboveMaxNegLevel = patternGraphWithNestingPatterns.Peek().maxNegLevel <= (int)LGSPElemFlags.MAX_NEG_LEVEL;
 
             string independentNamePrefix = NegativeIndependentNamePrefix(patternGraphWithNestingPatterns.Peek());
             bool independentContainsSubpatterns = independentPatternGraph.EmbeddedGraphs.Length >= 1
@@ -3788,54 +3790,6 @@ namespace de.unika.ipd.grGen.lgsp
             }
 
             return negativeIndependentNamePrefix;
-        }
-
-        /// <summary>
-        /// computes maximum neg level of the given positive pattern graph 
-        /// if it can be easily determined statically
-        /// </summary>
-        private int computeMaxNegLevel(PatternGraph patternGraph)
-        {
-            int maxNegLevel = 0;
-
-            if(patternGraph.alternatives.Length > 0) return (int) LGSPElemFlags.MAX_NEG_LEVEL + 1;
-            if(patternGraph.iterateds.Length > 0) return (int)LGSPElemFlags.MAX_NEG_LEVEL + 1;
-            if(patternGraph.embeddedGraphs.Length > 0) return (int) LGSPElemFlags.MAX_NEG_LEVEL + 1;
-
-            foreach (PatternGraph neg in patternGraph.negativePatternGraphs)
-            {
-                int level = computeMaxNegLevelNegative(neg);
-                if(level > maxNegLevel)
-                {
-                    maxNegLevel = level;
-                }
-            }
-
-            return maxNegLevel;
-        }
-
-        /// <summary>
-        /// computes maximum neg level of the given negative pattern graph 
-        /// if it can be easily determined statically
-        /// </summary>
-        private int computeMaxNegLevelNegative(PatternGraph patternGraph)
-        {
-            int maxNegLevel = 1;
-
-            if(patternGraph.alternatives.Length > 0) return (int) LGSPElemFlags.MAX_NEG_LEVEL + 1;
-            if(patternGraph.iterateds.Length > 0) return (int)LGSPElemFlags.MAX_NEG_LEVEL + 1;
-            if(patternGraph.embeddedGraphs.Length > 0) return (int) LGSPElemFlags.MAX_NEG_LEVEL + 1;
-
-            foreach (PatternGraph neg in patternGraph.negativePatternGraphs)
-            {
-                int level = 1 + computeMaxNegLevel(neg);
-                if (level > maxNegLevel)
-                {
-                    maxNegLevel = level;
-                }
-            }
-
-            return maxNegLevel;
         }
 
         /// <summary>
