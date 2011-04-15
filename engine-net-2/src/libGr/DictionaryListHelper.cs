@@ -14,10 +14,10 @@ using System.Diagnostics;
 
 namespace de.unika.ipd.grGen.libGr
 {
-    public static class DictionaryHelper
+    public static class DictionaryListHelper
     {
         /// <summary>
-        /// If dict is dictionary, the dictionary is returned together with it's key and value type
+        /// If dict is dictionary, the dictionary is returned together with its key and value type
         /// </summary>
         /// <param name="dict">The object which should be a dictionary</param>
         /// <param name="keyType">The key type of the dictionary</param>
@@ -37,6 +37,24 @@ namespace de.unika.ipd.grGen.libGr
         }
 
         /// <summary>
+        /// If array is List, the List is returned together with its value type
+        /// </summary>
+        /// <param name="array">The object which should be a List</param>
+        /// <param name="valueType">The value type of the List</param>
+        /// <returns>The casted input List, or null if not a List</returns>
+        public static IList GetListType(object array, out Type valueType)
+        {
+            if(!(array is IList))
+            {
+                valueType = null;
+                return null;
+            }
+            Type arrayType = array.GetType();
+            GetListType(arrayType, out valueType);
+            return (IList)array;
+        }
+
+        /// <summary>
         /// The key and value types are returned of the dictionary
         /// </summary>
         /// <param name="dictType">The dictionary type</param>
@@ -50,23 +68,34 @@ namespace de.unika.ipd.grGen.libGr
         }
 
         /// <summary>
-        /// Returns type object for type name string, to be used for dictionary
+        /// The value type of the List is returned 
+        /// </summary>
+        /// <param name="arrayType">The List type</param>
+        /// <param name="valueType">The value type of the dictionary</param>
+        public static void GetListType(Type arrayType, out Type valueType)
+        {
+            Type[] arrayTypeArgs = arrayType.GetGenericArguments();
+            valueType = arrayTypeArgs[0];
+        }
+
+        /// <summary>
+        /// Returns type object for type name string, to be used for dictionary or List
         /// </summary>
         /// <param name="typeName">Name of the type we want some type object for</param>
         /// <param name="graph">Graph to be search for enum,node,edge types / enum,node/edge type names</param>
         /// <returns>The type object corresponding to the given string, null if type was not found</returns>
-        public static Type GetTypeFromNameForDictionary(String typeName, IGraph graph)
+        public static Type GetTypeFromNameForDictionaryOrList(String typeName, IGraph graph)
         {
-            return GetTypeFromNameForDictionary(typeName, graph.Model);
+            return GetTypeFromNameForDictionaryOrList(typeName, graph.Model);
         }
 
         /// <summary>
-        /// Returns type object for type name string, to be used for dictionary
+        /// Returns type object for type name string, to be used for dictionary or List
         /// </summary>
         /// <param name="typeName">Name of the type we want some type object for</param>
         /// <param name="model">Graph model to be search for enum,node,edge types / enum,node/edge type names</param>
         /// <returns>The type object corresponding to the given string, null if type was not found</returns>
-        public static Type GetTypeFromNameForDictionary(String typeName, IGraphModel model)
+        public static Type GetTypeFromNameForDictionaryOrList(String typeName, IGraphModel model)
         {
             if(typeName == null) return null;
 
@@ -123,7 +152,7 @@ namespace de.unika.ipd.grGen.libGr
         {
             if(typeName=="de.unika.ipd.grGen.libGr.SetValueType" || typeName=="SetValueType")
                 return "de.unika.ipd.grGen.libGr.SetValueType";
-            Type type = GetTypeFromNameForDictionary(typeName, model);
+            Type type = GetTypeFromNameForDictionaryOrList(typeName, model);
             return type!=null ? type.Namespace+"."+type.Name : null;
         }
 
@@ -143,6 +172,20 @@ namespace de.unika.ipd.grGen.libGr
         }
 
         /// <summary>
+        /// Creates a new List of the given value type
+        /// </summary>
+        /// <param name="valueType">The value type of the List to be created</param>
+        /// <returns>The newly created List, null if unsuccessfull</returns>
+        public static IList NewList(Type valueType)
+        {
+            if(valueType == null) return null;
+
+            Type genListType = typeof(List<>);
+            Type listType = genListType.MakeGenericType(valueType);
+            return (IList)Activator.CreateInstance(listType);
+        }
+
+        /// <summary>
         /// Creates a new dictionary of the given key type and value type,
         /// initialized with the content of the old dictionary (clones the old dictionary)
         /// </summary>
@@ -158,6 +201,23 @@ namespace de.unika.ipd.grGen.libGr
             Type genDictType = typeof(Dictionary<,>);
             Type dictType = genDictType.MakeGenericType(keyType, valueType);
             return (IDictionary) Activator.CreateInstance(dictType, oldDictionary);
+        }
+
+        /// <summary>
+        /// Creates a new List of the given value type,
+        /// initialized with the content of the old List (clones the old List)
+        /// </summary>
+        /// <param name="valueType">The value type of the List to be created</param>
+        /// <param name="oldList">The old List to be cloned</param>
+        /// <returns>The newly created List, containing the content of the old List,
+        /// null if unsuccessfull</returns>
+        public static IList NewList(Type valueType, object oldList)
+        {
+            if(valueType == null || oldList == null) return null;
+
+            Type genListType = typeof(List<>);
+            Type listType = genListType.MakeGenericType(valueType);
+            return (IList)Activator.CreateInstance(listType, oldList);
         }
 
         /// <summary>
@@ -624,6 +684,82 @@ namespace de.unika.ipd.grGen.libGr
         }
 
         /// <summary>
+        /// Creates a new dynamic array and appends all values first from
+        /// <paramref name="a"/> and then from <paramref name="b"/>.
+        /// </summary>
+        /// <param name="a">A List, i.e. dynamic array.</param>
+        /// <param name="b">Another List, i.e. dynamic array of compatible type to <paramref name="a"/>.</param>
+        /// <returns>A new List, i.e. dynamic array, containing a concatenation of the parameter arrays.</returns>
+        public static List<V> Concatenate<V>(List<V> a, List<V> b)
+        {
+            // create new list as a copy of a
+            List<V> newList = new List<V>(a);
+
+            // then append b
+            newList.AddRange(b);
+
+            return newList;
+        }
+
+        /// <summary>
+        /// Appends all values from dynamic array <paramref name="b"/> to <paramref name="a"/>.
+        /// </summary>
+        /// <param name="a">A List, i.e. dynamic array to change.</param>
+        /// <param name="b">Another List, i.e. dynamic array of compatible type to <paramref name="a"/>.</param>
+        /// <returns>A truth value telling whether a was changed (i.e. b not empty)</returns>
+        public static bool ConcatenateChanged<V>(List<V> a, List<V> b)
+        {
+            // Append b to a
+            a.AddRange(b);
+
+            return b.Count>0;
+        }
+
+        /// <summary>
+        /// Appends all values from dynamic array <paramref name="b"/> to <paramref name="a"/>.
+        /// </summary>
+        /// <param name="a">A List, i.e. dynamic array to change.</param>
+        /// <param name="b">Another List, i.e. dynamic array of compatible type to <paramref name="a"/>.</param>
+        /// <param name="graph">The graph containing the node containing the attribute which gets changed.</param>
+        /// <param name="owner">The node containing the attribute which gets changed.</param>
+        /// <param name="attrType">The attribute type of the attribute which gets changed.</param>
+        /// <returns>A truth value telling whether a was changed (i.e. b not empty)</returns>
+        public static bool ConcatenateChanged<V>(List<V> a, List<V> b,
+            IGraph graph, INode owner, AttributeType attrType)
+        {
+            // Append b to a
+            foreach(V entry in b)
+            {
+                graph.ChangingNodeAttribute(owner, attrType, AttributeChangeType.PutElement, entry, null);
+                a.Add(entry);
+            }
+
+            return b.Count>0;
+        }
+
+        /// <summary>
+        /// Appends all values from dynamic array <paramref name="b"/> to <paramref name="a"/>.
+        /// </summary>
+        /// <param name="a">A List, i.e. dynamic array to change.</param>
+        /// <param name="b">Another List, i.e. dynamic array of compatible type to <paramref name="a"/>.</param>
+        /// <param name="graph">The graph containing the edge containing the attribute which gets changed.</param>
+        /// <param name="owner">The edge containing the attribute which gets changed.</param>
+        /// <param name="attrType">The attribute type of the attribute which gets changed.</param>
+        /// <returns>A truth value telling whether at least one element was changed in a</returns>
+        public static bool ConcatenateChanged<V>(List<V> a, List<V> b,
+            IGraph graph, IEdge owner, AttributeType attrType)
+        {
+            // Append b to a
+            foreach(V entry in b)
+            {
+                graph.ChangingEdgeAttribute(owner, attrType, AttributeChangeType.PutElement, entry, null);
+                a.Add(entry);
+            }
+
+            return b.Count>0;
+        }
+
+        /// <summary>
         /// Creates a new dictionary representing a set,
         /// containing all keys from the given dictionary representing a map <paramref name="map"/>.
         /// </summary>
@@ -774,6 +910,88 @@ namespace de.unika.ipd.grGen.libGr
             return true;
         }
 
+        /// <summary>
+        /// Checks if List <paramref name="a"/> equals List <paramref name="b"/>.
+        /// Requires same values at same index for being true.
+        /// </summary>
+        /// <param name="a">A List.</param>
+        /// <param name="b">Another List of compatible type to <paramref name="a"/>.</param>
+        /// <returns>Boolean result of List comparison.</returns>
+        public static bool Equal<V>(List<V> a, List<V> b)
+        {
+            if(a.Count != b.Count) return false;
+            if(LessOrEqual(a, b)) return true;
+            else return false;
+        }
+
+        /// <summary>
+        /// Checks if List <paramref name="a"/> is not equal List <paramref name="b"/>.
+        /// </summary>
+        /// <param name="a">A List.</param>
+        /// <param name="b">Another List of compatible type to <paramref name="a"/>.</param>
+        /// <returns>Boolean result of List comparison.</returns>
+        public static bool NotEqual<V>(List<V> a, List<V> b)
+        {
+            if(a.Count != b.Count) return true;
+            if(LessOrEqual(a, b)) return false;
+            else return true;
+        }
+
+        /// <summary>
+        /// Checks if List <paramref name="a"/> is a proper superlist of <paramref name="b"/>.
+        /// Requires a to contain more entries than b and same values at same index for being true.
+        /// </summary>
+        /// <param name="a">A List.</param>
+        /// <param name="b">Another List of compatible type to <paramref name="a"/>.</param>
+        /// <returns>Boolean result of List comparison.</returns>
+        public static bool GreaterThan<V>(List<V> a, List<V> b)
+        {
+            if(a.Count == b.Count) return false;
+            return GreaterOrEqual(a, b);
+        }
+
+        /// <summary>
+        /// Checks if List <paramref name="a"/> is a superlist of <paramref name="b"/>.
+        /// Requires a to contain more or same number of entries than b and same values at same index for being true.
+        /// </summary>
+        /// <param name="a">A List.</param>
+        /// <param name="b">Another List of compatible type to <paramref name="a"/>.</param>
+        /// <returns>Boolean result of List comparison.</returns>
+        public static bool GreaterOrEqual<V>(List<V> a, List<V> b)
+        {
+            return LessOrEqual(b, a);
+        }
+
+        /// <summary>
+        /// Checks if List <paramref name="a"/> is a proper sublist of <paramref name="b"/>.
+        /// Requires a to contain less entries than b and same values at same index for being true.
+        /// </summary>
+        /// <param name="a">A List.</param>
+        /// <param name="b">Another List of compatible type to <paramref name="a"/>.</param>
+        /// <returns>Boolean result of List comparison.</returns>
+        public static bool LessThan<V>(List<V> a, List<V> b)
+        {
+            if(a.Count == b.Count) return false;
+            return LessOrEqual(a, b);
+        }
+
+        /// <summary>
+        /// Checks if List <paramref name="a"/> is a sublist of <paramref name="b"/>.
+        /// Requires a to contain less or same number of entries than b and same values at same index for being true.
+        /// </summary>
+        /// <param name="a">A List.</param>
+        /// <param name="b">Another List of compatible type to <paramref name="a"/>.</param>
+        /// <returns>Boolean result of List comparison.</returns>
+        public static bool LessOrEqual<V>(List<V> a, List<V> b)
+        {
+            if(a.Count > b.Count) return false;
+            for(int i=0; i<a.Count; ++i)
+            {
+                if(!EqualityComparer<V>.Default.Equals(a[i], b[i])) return false;
+            }
+            return true;
+        }
+
         /////////////////////////////////////////////////////////////////////////////////
 
         /// <summary>
@@ -787,6 +1005,20 @@ namespace de.unika.ipd.grGen.libGr
             string type;
             string content;
             ToString(setmap, out type, out content, null, graph);
+            return content;
+        }
+
+        /// <summary>
+        /// Returns a string representation of the given List
+        /// </summary>
+        /// <param name="array">The List of which to get the string representation</param>
+        /// <param name="graph">The graph with the model and the element names if available, otherwise null</param>
+        /// <returns>string representation of List</returns>
+        public static string ToString(IList array, IGraph graph)
+        {
+            string type;
+            string content;
+            ToString(array, out type, out content, null, graph);
             return content;
         }
 
@@ -838,6 +1070,44 @@ namespace de.unika.ipd.grGen.libGr
             }
 
             sb.Append("}");
+            content = sb.ToString();
+        }
+
+        /// <summary>
+        /// Returns a string representation of the given List
+        /// </summary>
+        /// <param name="array">The List of which to get the string representation</param>
+        /// <param name="type">The type as string, e.g set<int> or map<string,boolean> </param>
+        /// <param name="content">The content as string, e.g. { 42, 43 } or { "foo"->true, "bar"->false } </param>
+        /// <param name="attrType">The attribute type of the dictionary if available, otherwise null</param>
+        /// <param name="graph">The graph with the model and the element names if available, otherwise null</param>
+        public static void ToString(IList array, out string type, out string content,
+            AttributeType attrType, IGraph graph)
+        {
+            Type valueType;
+            GetListType(array, out valueType);
+
+            StringBuilder sb = new StringBuilder(256);
+            sb.Append("[");
+
+            AttributeType attrValueType = attrType != null ? attrType.ValueType : null;
+
+            if(array != null)
+            {
+                type = "array<" + valueType.Name + ">";
+                bool first = true;
+                foreach(Object entry in array)
+                {
+                    if(first) { sb.Append(ToString(entry, attrValueType, graph)); first = false; }
+                    else { sb.Append(","); sb.Append(ToString(entry, attrValueType, graph)); }
+                }
+            }
+            else
+            {
+                type = "<INVALID>";
+            }
+
+            sb.Append("]");
             content = sb.ToString();
         }
 
@@ -901,6 +1171,55 @@ namespace de.unika.ipd.grGen.libGr
         }
 
         /// <summary>
+        /// Returns a string representation of the given List
+        /// after the given operation with the given parameters was applied
+        /// </summary>
+        /// <param name="array">The base List of the operation</param>
+        /// <param name="changeType">The type of the change operation</param>
+        /// <param name="newValue">The new value to be inserted/added if changeType==PutElement on array.
+        ///                        Or the new value to be assigned to the given position if changeType==AssignElement on array.</param>
+        /// <param name="keyValue">The array index to be removed/written to if changeType==RemoveElement/AssignElement on array.</param>
+        /// <param name="type">The type as string, e.g array<int></param>
+        /// <param name="content">The content as string, e.g. [ 42, 43 ] </param>
+        /// <param name="attrType">The attribute type of the List</param>
+        /// <param name="graph">The graph with the model and the element names</param>
+        public static void ToString(IList array,
+            AttributeChangeType changeType, Object newValue, Object keyValue,
+            out string type, out string content,
+            AttributeType attrType, IGraph graph)
+        {
+            if(changeType == AttributeChangeType.PutElement)
+            {
+                Type valueType;
+                GetListType(array, out valueType);
+                ToString(array, out type, out content, attrType, graph);
+                content += ".add(" + ToString(newValue, attrType.ValueType, graph);
+                if(keyValue != null) content += ", " + keyValue.ToString() + ")";
+                else content += ")";
+            }
+            else if(changeType == AttributeChangeType.RemoveElement)
+            {
+                Type valueType;
+                GetListType(array, out valueType);
+                ToString(array, out type, out content, attrType, graph);
+                content += ".rem(";
+                if(keyValue != null) content += keyValue.ToString() + ")";
+                else content += ")";
+            }
+            else if(changeType == AttributeChangeType.AssignElement)
+            {
+                Type valueType;
+                GetListType(array, out valueType);
+                ToString(array, out type, out content, attrType, graph);
+                content += "[" + keyValue.ToString() + "] = " + ToString(newValue, attrType.ValueType, graph);
+            }
+            else // changeType==AttributeChangeType.Assign
+            {
+                ToString((IList)newValue, out type, out content, attrType, graph);
+            }
+        }
+
+        /// <summary>
         /// Returns a string representation of the given scalar value
         /// </summary>
         /// <param name="value">The scalar value of which to get the string representation</param>
@@ -934,7 +1253,7 @@ namespace de.unika.ipd.grGen.libGr
                     return;
                 }
 
-                Debug.Assert(value.GetType().Name != "Dictionary`2");
+                Debug.Assert(value.GetType().Name != "Dictionary`2" && value.GetType().Name != "List`1");
                 switch(value.GetType().Name)
                 {
                     case "Int32": type = "int"; break;
@@ -986,19 +1305,25 @@ namespace de.unika.ipd.grGen.libGr
         }
 
         /// <summary>
-        /// If the attribute of the given name of the given element is a set or map attribute
-        /// then return a clone of the given dictionary value, otherwise just return the original value;
+        /// If the attribute of the given name of the given element is a set or map or array attribute
+        /// then return a clone of the given dictionary or list value, otherwise just return the original value;
         /// additionally returns the AttributeType of the attribute of the element.
         /// </summary>
-        public static object IfAttributeOfElementIsDictionaryThenCloneDictionaryValue(
+        public static object IfAttributeOfElementIsDictionaryOrListThenCloneDictionaryOrListValue(
                 IGraphElement element, String AttributeName, object value, out AttributeType attrType)
         {
             attrType = element.Type.GetAttributeType(AttributeName);
             if(attrType.Kind == AttributeKind.SetAttr || attrType.Kind == AttributeKind.MapAttr)
             {
                 Type keyType, valueType;
-                DictionaryHelper.GetDictionaryTypes(element.GetAttribute(AttributeName), out keyType, out valueType);
-                return DictionaryHelper.NewDictionary(keyType, valueType, value); // by-value-semantics -> clone dictionary
+                DictionaryListHelper.GetDictionaryTypes(element.GetAttribute(AttributeName), out keyType, out valueType);
+                return DictionaryListHelper.NewDictionary(keyType, valueType, value); // by-value-semantics -> clone dictionary
+            }
+            else if(attrType.Kind == AttributeKind.ArrayAttr)
+            {
+                Type valueType;
+                DictionaryListHelper.GetListType(element.GetAttribute(AttributeName), out valueType);
+                return DictionaryListHelper.NewList(valueType, value); // by-value-semantics -> clone array
             }
             return value;
         }
@@ -1023,7 +1348,7 @@ namespace de.unika.ipd.grGen.libGr
             }
             if(graph!=null && value is Enum)
             {
-                Debug.Assert(value.GetType().Name!="Dictionary`2");
+                Debug.Assert(value.GetType().Name != "Dictionary`2" && value.GetType().Name != "List`1");
                 foreach(EnumAttributeType enumAttrType in graph.Model.EnumAttributeTypes)
                 {
                     if(value.GetType()==enumAttrType.EnumType)

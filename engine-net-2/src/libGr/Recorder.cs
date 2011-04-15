@@ -184,8 +184,11 @@ namespace de.unika.ipd.grGen.libGr
         /// <param name="changeType">The type of the change which will be made.</param>
         /// <param name="newValue">The new value of the attribute, if changeType==Assign.
         ///                        Or the value to be inserted/removed if changeType==PutElement/RemoveElement on set.
-        ///                        Or the new map pair value to be inserted if changeType==PutElement on map.</param>
-        /// <param name="keyValue">The map pair key to be inserted/removed if changeType==PutElement/RemoveElement on map.</param>
+        ///                        Or the new map pair value to be inserted if changeType==PutElement on map.
+        ///                        Or the new value to be inserted/added if changeType==PutElement on array.
+        ///                        Or the new value to be assigned to the given position if changeType==AssignElement on array.</param>
+        /// <param name="keyValue">The map pair key to be inserted/removed if changeType==PutElement/RemoveElement on map.
+        ///                        The array index to be removed/written to if changeType==RemoveElement/AssignElement on array.</param>
         void ChangingAttribute(IGraphElement element, AttributeType attrType,
                 AttributeChangeType changeType, Object newValue, Object keyValue)
         {
@@ -203,7 +206,7 @@ namespace de.unika.ipd.grGen.libGr
                     {
                     case AttributeKind.SetAttr:
                         writer.Write(".add(");
-                        writer.Write(GRSExport.ToString(newValue, attrType.ValueType, null));
+                        writer.Write(GRSExport.ToString(newValue, attrType.ValueType, graph));
                         writer.WriteLine(")");
                         break;
                     case AttributeKind.MapAttr:
@@ -212,6 +215,22 @@ namespace de.unika.ipd.grGen.libGr
                         writer.Write(", ");
                         writer.Write(GRSExport.ToString(newValue, attrType.ValueType, graph));
                         writer.WriteLine(")");
+                        break;
+                    case AttributeKind.ArrayAttr:
+                        if(keyValue == null)
+                        {
+                            writer.Write(".add(");
+                            writer.Write(GRSExport.ToString(newValue, attrType.ValueType, graph));
+                            writer.WriteLine(")");
+                        }
+                        else
+                        {
+                            writer.Write(".add(");
+                            writer.Write(GRSExport.ToString(newValue, attrType.ValueType, graph));
+                            writer.Write(", ");
+                            writer.Write(GRSExport.ToString(keyValue, new AttributeType(null, null, AttributeKind.IntegerAttr, null, null, null, null), graph));
+                            writer.WriteLine(")");
+                        }
                         break;
                     default:
                          throw new Exception("Wrong attribute type for attribute change type");
@@ -230,6 +249,32 @@ namespace de.unika.ipd.grGen.libGr
                         writer.Write(".rem(");
                         writer.Write(GRSExport.ToString(keyValue, attrType.KeyType, graph));
                         writer.WriteLine(")");
+                        break;
+                    case AttributeKind.ArrayAttr:
+                        writer.Write(".rem(");
+                        if(keyValue!=null)
+                            writer.Write(GRSExport.ToString(keyValue, new AttributeType(null, null, AttributeKind.IntegerAttr, null, null, null, null), graph));
+                        writer.WriteLine(")");
+                        break;
+                    default:
+                         throw new Exception("Wrong attribute type for attribute change type");
+                    }
+                    break;
+                case AttributeChangeType.AssignElement:
+                    writer.Write("@(\"" + graph.GetElementName(element) + "\")." + attrType.Name);
+                    switch(attrType.Kind)
+                    {
+                    case AttributeKind.ArrayAttr:
+                        writer.Write("[");
+                        writer.Write(GRSExport.ToString(keyValue, new AttributeType(null, null, AttributeKind.IntegerAttr, null, null, null, null), graph));
+                        writer.Write("] = ");
+                        writer.WriteLine(GRSExport.ToString(newValue, attrType.ValueType, graph));
+                        break;
+                    case AttributeKind.MapAttr:
+                        writer.Write("[");
+                        writer.Write(GRSExport.ToString(keyValue, attrType.KeyType, graph));
+                        writer.Write("] = ");
+                        writer.WriteLine(GRSExport.ToString(newValue, attrType.ValueType, graph));
                         break;
                     default:
                          throw new Exception("Wrong attribute type for attribute change type");

@@ -7,7 +7,6 @@
 
 /**
  * @author shack
- * @version $Id$
  */
 package de.unika.ipd.grgen.ir;
 
@@ -47,6 +46,8 @@ public abstract class InheritanceType extends CompoundType {
 	private List<MapInit> mapInitializers = new LinkedList<MapInit>();
 
 	private List<SetInit> setInitializers = new LinkedList<SetInit>();
+
+	private List<ArrayInit> arrayInitializers = new LinkedList<ArrayInit>();
 
 	/** Collection containing all members defined in that type and in its supertype.
 	 *  This field is used for caching. */
@@ -219,6 +220,14 @@ public abstract class InheritanceType extends CompoundType {
 
 	public Collection<SetInit> getSetInits() {
 		return setInitializers;
+	}
+
+	public void addArrayInit(ArrayInit init) {
+		arrayInitializers.add(init);
+	}
+
+	public Collection<ArrayInit> getArrayInits() {
+		return arrayInitializers;
 	}
 
 	/**

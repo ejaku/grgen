@@ -7,6 +7,7 @@ x.b
 x.st
 x.s
 x.m
+x.a
 x.fl
 x.d
 xgrs AssignAttributeToVar(x)

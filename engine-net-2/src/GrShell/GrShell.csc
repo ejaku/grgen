@@ -256,6 +256,7 @@ TOKEN: {
     < ACTIONS: "actions" >
 |   < ADD: "add" >
 |   < APPLY: "apply" >
+|   < ARRAY: "array" >
 |   < ASKFOR: "askfor" >
 |   < ATTRIBUTES: "attributes" >
 |   < BACKEND: "backend" >
@@ -874,10 +875,10 @@ object Constant():
     |
 		"set" "<" typeName=WordOrText() ">"
 		{
-			srcType = DictionaryHelper.GetTypeFromNameForDictionary(typeName, impl.CurrentGraph.Model);
+			srcType = DictionaryListHelper.GetTypeFromNameForDictionaryOrList(typeName, impl.CurrentGraph.Model);
 			dstType = typeof(de.unika.ipd.grGen.libGr.SetValueType);
 			if(srcType!=null)
-				constant = DictionaryHelper.NewDictionary(srcType, dstType);
+				constant = DictionaryListHelper.NewDictionary(srcType, dstType);
 			if(constant==null) 
 				throw new ParseException("Invalid constant \"set<"+typeName+">\"!");
 		}
@@ -888,10 +889,10 @@ object Constant():
 	|
 		"map" "<" typeName=WordOrText() "," typeNameDst=WordOrText() ">"
 		{
-			srcType = DictionaryHelper.GetTypeFromNameForDictionary(typeName, impl.CurrentGraph.Model);
-			dstType = DictionaryHelper.GetTypeFromNameForDictionary(typeNameDst, impl.CurrentGraph.Model);
+			srcType = DictionaryListHelper.GetTypeFromNameForDictionaryOrList(typeName, impl.CurrentGraph.Model);
+			dstType = DictionaryListHelper.GetTypeFromNameForDictionaryOrList(typeNameDst, impl.CurrentGraph.Model);
 			if(srcType!=null && dstType!=null) 
-				constant = DictionaryHelper.NewDictionary(srcType, dstType);
+				constant = DictionaryListHelper.NewDictionary(srcType, dstType);
 			if(constant==null) 
 				throw new ParseException("Invalid constant \"map<"+typeName+","+typeNameDst+">\"!");
 		}
@@ -899,6 +900,19 @@ object Constant():
 			( src=SimpleConstant() "->" dst=SimpleConstant() { ((IDictionary)constant).Add(src, dst); } )?
 				( "," src=SimpleConstant() "->" dst=SimpleConstant() { ((IDictionary)constant).Add(src, dst); } )*
 		"}"
+	|
+		"array" "<" typeName=WordOrText() ">"
+		{
+			srcType = DictionaryListHelper.GetTypeFromNameForDictionaryOrList(typeName, impl.CurrentGraph.Model);
+			if(srcType!=null)
+				constant = DictionaryListHelper.NewList(srcType);
+			if(constant==null) 
+				throw new ParseException("Invalid constant \"array<"+typeName+">\"!");
+		}
+		"[" 
+			( src=SimpleConstant() { ((IList)constant).Add(src); } )? 
+				( "," src=SimpleConstant() { ((IList)constant).Add(src); })*
+		"]"
 	)
 	{
 		return constant;
@@ -1205,27 +1219,40 @@ void ShellCommand():
 	        {
 		        impl.SetElementAttribute(elem, param);
 	        }
+	    |
+	        "[" obj=SimpleConstant() "]" "=" str2=AttributeValue() LineEnd()
+	        {
+		        impl.SetElementAttributeIndexed(elem, str1, str2, obj);
+	        }
 		|
 			LOOKAHEAD(2) "." "add" "(" obj=SimpleConstant() 
 			(
 				"," obj2=SimpleConstant() ")" LineEnd()
 				{
-					impl.MapAdd(elem, str1, obj, obj2);
+					impl.MapArrayAdd(elem, str1, obj, obj2);
 				}
 			|
 				")" LineEnd()
 				{
-					impl.SetAdd(elem, str1, obj);
+					impl.SetArrayAdd(elem, str1, obj);
 				}
 			)
 		|
-			"." "rem" "(" obj=SimpleConstant() ")" LineEnd()
-			{
-				impl.SetMapRemove(elem, str1, obj);
-			}
+			"." "rem" "(" 
+			(
+				obj=SimpleConstant() ")" LineEnd()
+				{
+					impl.SetMapArrayRemove(elem, str1, obj);
+				}
+			|
+				")" LineEnd()
+				{
+					impl.SetMapArrayRemove(elem, str1, null);
+				}
+			)
 	    )
 	|
-        str1=WordOrText() "="
+        LOOKAHEAD(2) str1=WordOrText() "="
         (
 			"askfor" 
 			(
@@ -1246,6 +1273,12 @@ void ShellCommand():
 					obj = impl.Askfor("map<"+str2+","+str3+">");
 					if(obj == null) noError = false;
 				}
+			|
+				"array" "<" str2=WordOrText() ">" 
+				{
+					obj = impl.Askfor("array<"+str2+">");
+					if(obj == null) noError = false;
+				}
 			) LineEnd()
 		|
 		    LOOKAHEAD(2) obj=GraphElementOrUnquotedVar()
@@ -1256,6 +1289,11 @@ void ShellCommand():
         {
 			if(noError) impl.SetVariable(str1, obj);
         }
+	|
+		str1=WordOrText() "[" obj=SimpleConstant() "]" "=" obj2=SimpleConstant() LineEnd()
+		{
+			impl.SetVariableIndexed(str1, obj2, obj);
+		}
     }
     catch(ParseException ex)
     {
@@ -1378,6 +1416,14 @@ void AttributeParamValue(ref Param param):
 		}
 		"{" ( value=AttributeValue() { param.Values.Add(value); } <ARROW> valueTgt=AttributeValue() { param.TgtValues.Add(valueTgt); } )?
 			( <COMMA> value=AttributeValue() { param.Values.Add(value); } <ARROW> valueTgt=AttributeValue() { param.TgtValues.Add(valueTgt); } )* "}"
+	| "array" "<" type=WordOrText() ">" 
+		{
+			param.Value = "array";
+			param.Type = type;
+			param.Values = new ArrayList();
+		}
+		"[" ( value=AttributeValue() { param.Values.Add(value); } )? 
+			(<COMMA> value=AttributeValue() { param.Values.Add(value); })* "]"
 }
 
 //////////////////////

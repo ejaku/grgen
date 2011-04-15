@@ -90,15 +90,17 @@ public class MatchNodeFromStorageNode extends NodeDeclNode implements NodeCharac
 	protected boolean checkLocal() {
 		boolean res = super.checkLocal();
 		TypeNode storageType = storage!=null ? storage.getDeclType() : storageAttribute.getDecl().getDeclType();
-		if(!(storageType instanceof SetTypeNode || storageType instanceof MapTypeNode)) {
-			reportError("match node from storage expects a parameter variable of set or map type.");
+		if(!(storageType instanceof SetTypeNode || storageType instanceof MapTypeNode || storageType instanceof ArrayTypeNode)) {
+			reportError("match node from storage expects a parameter variable of set/map/array type.");
 			return false;
 		}
 		TypeNode storageElementType = null;
 		if(storageType instanceof SetTypeNode) {
 			storageElementType = ((SetTypeNode)storageType).valueType;
-		} else {//targetType instanceof MapTypeNode
+		} else if(storageType instanceof MapTypeNode) {
 			storageElementType = ((MapTypeNode)storageType).keyType;
+		} else {//if(storageType instanceof ArrayTypeNode)
+			storageElementType = ((ArrayTypeNode)storageType).valueType;
 		}
 		if(!(storageElementType instanceof NodeTypeNode)) {
 			reportError("match node from storage expects the element type to be a node type.");

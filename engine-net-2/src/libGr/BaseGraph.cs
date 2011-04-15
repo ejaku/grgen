@@ -767,13 +767,17 @@ namespace de.unika.ipd.grGen.libGr
         /// <param name="changeType">The type of the change which will be made.</param>
         /// <param name="newValue">The new value of the attribute, if changeType==Assign.
         ///                        Or the value to be inserted/removed if changeType==PutElement/RemoveElement on set.
-        ///                        Or the new map pair value to be inserted if changeType==PutElement on map.</param>
-        /// <param name="keyValue">The map pair key to be inserted/removed if changeType==PutElement/RemoveElement on map.</param>
+        ///                        Or the new map pair value to be inserted if changeType==PutElement on map.
+        ///                        Or the new value to be inserted/added if changeType==PutElement on array.
+        ///                        Or the new value to be assigned to the given position if changeType==AssignElement on array.</param>
+        /// <param name="keyValue">The map pair key to be inserted/removed if changeType==PutElement/RemoveElement on map.
+        ///                        The array index to be removed/written to if changeType==RemoveElement/AssignElement on array.</param>
         public void ChangingNodeAttribute(INode node, AttributeType attrType,
             AttributeChangeType changeType, Object newValue, Object keyValue)
         {
             ChangingNodeAttributeHandler changingElemAttr = OnChangingNodeAttribute;
-            if(changingElemAttr != null) changingElemAttr(node, attrType, changeType, newValue, keyValue);
+            if(changingElemAttr != null)
+                changingElemAttr(node, attrType, changeType, newValue, keyValue);
         }
 
         /// <summary>
@@ -787,13 +791,17 @@ namespace de.unika.ipd.grGen.libGr
         /// <param name="changeType">The type of the change which will be made.</param>
         /// <param name="newValue">The new value of the attribute, if changeType==Assign.
         ///                        Or the value to be inserted/removed if changeType==PutElement/RemoveElement on set.
-        ///                        Or the new map pair value to be inserted if changeType==PutElement on map.</param>
-        /// <param name="keyValue">The map pair key to be inserted/removed if changeType==PutElement/RemoveElement on map.</param>
+        ///                        Or the new map pair value to be inserted if changeType==PutElement on map.
+        ///                        Or the new value to be inserted/added if changeType==PutElement on array.
+        ///                        Or the new value to be assigned to the given position if changeType==AssignElement on array.</param>
+        /// <param name="keyValue">The map pair key to be inserted/removed if changeType==PutElement/RemoveElement on map.
+        ///                        The array index to be removed/written to if changeType==RemoveElement/AssignElement on array.</param>
         public void ChangingEdgeAttribute(IEdge edge, AttributeType attrType,
             AttributeChangeType changeType, Object newValue, Object keyValue)
         {
             ChangingEdgeAttributeHandler changingElemAttr = OnChangingEdgeAttribute;
-            if(changingElemAttr != null) changingElemAttr(edge, attrType, changeType, newValue, keyValue);
+            if(changingElemAttr != null)
+                changingElemAttr(edge, attrType, changeType, newValue, keyValue);
         }
 
         /// <summary>
@@ -1131,7 +1139,7 @@ namespace de.unika.ipd.grGen.libGr
         /// </summary>
         public IDictionary Outgoing(INode node, EdgeType edgeType, NodeType targetNodeType)
         {
-            IDictionary set = DictionaryHelper.NewDictionary(DictionaryHelper.GetTypeFromNameForDictionary(edgeType.Name, this), typeof(SetValueType));
+            IDictionary set = DictionaryListHelper.NewDictionary(DictionaryListHelper.GetTypeFromNameForDictionaryOrList(edgeType.Name, this), typeof(SetValueType));
             foreach(IEdge outEdge in node.GetCompatibleOutgoing(edgeType))
             {
                 if(!outEdge.Target.Type.IsA(targetNodeType)) continue;
@@ -1145,7 +1153,7 @@ namespace de.unika.ipd.grGen.libGr
         /// </summary>
         public IDictionary Incoming(INode node, EdgeType edgeType, NodeType sourceNodeType)
         {
-            IDictionary set = DictionaryHelper.NewDictionary(DictionaryHelper.GetTypeFromNameForDictionary(edgeType.Name, this), typeof(SetValueType));
+            IDictionary set = DictionaryListHelper.NewDictionary(DictionaryListHelper.GetTypeFromNameForDictionaryOrList(edgeType.Name, this), typeof(SetValueType));
             foreach(IEdge inEdge in node.GetCompatibleIncoming(edgeType))
             {
                 if(!inEdge.Source.Type.IsA(sourceNodeType)) continue;

@@ -7,7 +7,6 @@
 
 /**
  * @author Sebastian Buchwald
- * @version $Id$
  */
 package de.unika.ipd.grgen.ast;
 
@@ -31,7 +30,7 @@ public abstract class EdgeTypeNode extends InheritanceTypeNode {
 	@SuppressWarnings("unchecked")
 	private static final CollectResolver<BaseNode> bodyResolver = new CollectResolver<BaseNode>(
 			new DeclarationResolver<BaseNode>(MemberDeclNode.class,
-					MemberInitNode.class, MapInitNode.class, SetInitNode.class,
+					MemberInitNode.class, MapInitNode.class, SetInitNode.class, ArrayInitNode.class,
 					ConstructorDeclNode.class));
 
 	private static final CollectResolver<EdgeTypeNode> extendResolver = new CollectResolver<EdgeTypeNode>(

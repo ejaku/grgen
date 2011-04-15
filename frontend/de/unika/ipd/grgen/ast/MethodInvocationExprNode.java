@@ -7,7 +7,6 @@
 
 /**
  * @author Moritz Kroll
- * @version $Id$
  */
 
 package de.unika.ipd.grgen.ast;
@@ -181,6 +180,28 @@ public class MethodInvocationExprNode extends ExprNode
 			}
   			else {
   				reportError("set<T> does not have a method named \"" + methodName + "\"");
+  				return false;
+  			}
+		}
+		else if(targetType instanceof ArrayTypeNode) {
+			if(methodName.equals("size")) {
+  				if(params.size() != 0) {
+  					reportError("array<T>.size() does not take any parameters.");
+					return false;
+				}
+  				else
+  					result = new ArraySizeNode(getCoords(), targetExpr);
+  			}
+			else if(methodName.equals("peek")) {
+				if(params.size() != 1) {
+  					reportError("array<T>.peek(index) takes one parameter.");
+					return false;
+				}
+  				else
+  					result = new ArrayPeekNode(getCoords(), targetExpr, params.get(0));
+			}
+  			else {
+  				reportError("array<T> does not have a method named \"" + methodName + "\"");
   				return false;
   			}
 		}

@@ -5,7 +5,7 @@ record recordreplay/testgraph.grs start
 
 # do graph changes
 new :NA($=n1, foo=42, bar="foo", bleeh=set<int>{1,2,3})
-new :NB($=n2, bla=3.141592, huh=true, lal=Bla::Hurz)
+new :NB($=n2, bla=3.141592, huh=true, lal=Bla::Hurz, meeh=array<string>["la","le","lu"])
 new @("n1")-:EA($=e1, foo=1337, bar="fool", bleeh=map<int,string>{2->"3",3->"2"})->@("n2")
 new @("n2")-:EB($=e2, bla=2f, huh=false, lal=Bla::Lamm)->@("n2")
 

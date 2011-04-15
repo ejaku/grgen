@@ -73,3 +73,33 @@ rule r8(ref m:map<Edge,Node>, -x:Edge->)
 		delete(l);
 	}
 }
+
+
+/* m[i] with i an input variable can be evaluated before the rule, this is nice to have but does not give additional expressiveness as a storage indexed by a pattern element just matched does
+rule ra1(ref m:array<Node>, var i:int)
+{
+	n:Node<m[i]> --> l:Node;
+	
+	modify {
+		delete(l);
+	}
+}
+
+rule ra2(ref m:array<Node>, var i:int)
+{
+	n:N<m[i]> --> l:N;
+	
+	modify {
+		delete(l);
+	}
+}
+
+rule ra3(ref m:array<N>, var i:int)
+{
+	n:NN<m[i]> --> l:NN;
+	
+	modify {
+		delete(l);
+	}
+}
+*/

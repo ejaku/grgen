@@ -7,7 +7,6 @@
 
 /**
  * @author Moritz Kroll, Edgar Jakumeit
- * @version $Id$
  */
 
 package de.unika.ipd.grgen.ast;
@@ -17,20 +16,20 @@ import java.util.Vector;
 
 import de.unika.ipd.grgen.ir.Expression;
 import de.unika.ipd.grgen.ir.IR;
-import de.unika.ipd.grgen.ir.MapAccessExpr;
+import de.unika.ipd.grgen.ir.IndexedAccessExpr;
 import de.unika.ipd.grgen.parser.Coords;
 
-public class MapAccessExprNode extends ExprNode
+public class IndexedAccessExprNode extends ExprNode
 // MAP TODO: hieraus einen operator machen
 {
 	static {
-		setName(MapAccessExprNode.class, "map access expression");
+		setName(IndexedAccessExprNode.class, "indexed access expression");
 	}
 
 	private ExprNode targetExpr;
 	private ExprNode keyExpr;
 
-	public MapAccessExprNode(Coords coords, ExprNode targetExpr, ExprNode keyExpr)
+	public IndexedAccessExprNode(Coords coords, ExprNode targetExpr, ExprNode keyExpr)
 	{
 		super(coords);
 		this.targetExpr = becomeParent(targetExpr);
@@ -56,9 +55,15 @@ public class MapAccessExprNode extends ExprNode
 	@Override
 	protected boolean checkLocal() {
 		TypeNode targetType = targetExpr.getType();
-		assert targetType instanceof MapTypeNode: targetExpr + " should have a map type";
-		MapTypeNode targetMapType = (MapTypeNode) targetType;
-		TypeNode keyType = targetMapType.keyType;
+		if(!(targetType instanceof MapTypeNode) && !(targetType instanceof ArrayTypeNode)) {
+			reportError("indexed access only supported on map and array type");
+		}
+
+		TypeNode keyType;
+		if(targetType instanceof MapTypeNode)
+			keyType = ((MapTypeNode)targetType).keyType;
+		else
+			keyType = IntTypeNode.intType;
 		TypeNode keyExprType = keyExpr.getType();
 
 		if (keyType instanceof InheritanceTypeNode) {
@@ -73,7 +78,7 @@ public class MapAccessExprNode extends ExprNode
 					expectedTypeName = ((InheritanceTypeNode) keyType).getIdentNode().toString();
 				else
 					expectedTypeName = keyType.toString();
-				reportError("Cannot convert map access argument from \""
+				reportError("Cannot convert map/array access argument from \""
 						+ givenTypeName + "\" to \"" + expectedTypeName + "\"");
 				return false;
 			}
@@ -94,15 +99,15 @@ public class MapAccessExprNode extends ExprNode
 	@Override
 	public TypeNode getType() {
 		TypeNode targetExprType = targetExpr.getType();
-		assert targetExprType instanceof MapTypeNode: targetExprType + " should have a map type";
-		MapTypeNode targetExprMapType = (MapTypeNode) targetExprType;
-
-		return targetExprMapType.valueType;
+		if(targetExprType instanceof MapTypeNode)
+			return ((MapTypeNode)targetExprType).valueType;
+		else
+			return ((ArrayTypeNode)targetExprType).valueType;
 	}
 
 	@Override
 	protected IR constructIR() {
-		return new MapAccessExpr(targetExpr.checkIR(Expression.class),
-				keyExpr.checkIR(Expression.class));
+		return new IndexedAccessExpr(targetExpr.checkIR(Expression.class),
+			keyExpr.checkIR(Expression.class));
 	}
 }

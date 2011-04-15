@@ -54,3 +54,31 @@ rule r6(ref m:map<N,Node>)
 		delete(l);
 	}
 }
+
+
+rule r7(ref s:array<Node>)
+{
+	n:Node<s> --> l:Node;
+	
+	modify {
+		delete(l);
+	}
+}
+
+rule r8(ref s:array<Node>)
+{
+	n:N<s> --> l:Node;
+	
+	modify {
+		delete(l);
+	}
+}
+
+rule r9(ref s:array<N>)
+{
+	n:NN<s> --> l:Node;
+	
+	modify {
+		delete(l);
+	}
+}

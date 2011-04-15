@@ -16,4 +16,6 @@ w=set<int>{}
 show var w
 k=map<A,H>{}
 show var k
+m=array<int>[]
+show var m
 quit

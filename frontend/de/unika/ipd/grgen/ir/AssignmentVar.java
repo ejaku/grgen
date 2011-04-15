@@ -7,7 +7,6 @@
 
 /**
  * @author Edgar Jakumeit
- * @version $Id$
  */
 package de.unika.ipd.grgen.ir;
 
@@ -25,6 +24,12 @@ public class AssignmentVar extends EvalStatement {
 
 	public AssignmentVar(Variable target, Expression expr) {
 		super("assignment var");
+		this.target = target;
+		this.expr = expr;
+	}
+
+	protected AssignmentVar(String name, Variable target, Expression expr) {
+		super(name);
 		this.target = target;
 		this.expr = expr;
 	}

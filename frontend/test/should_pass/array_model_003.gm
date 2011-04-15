@@ -1,0 +1,14 @@
+node class N
+{
+	nodeArray:array<Node>;
+	nArray:array<N>;
+	val:int;
+}
+
+edge class E
+{
+	edgeArray:array<Edge>;
+	eArray:array<E>;
+	uArray:array<UEdge>;
+	val:int;
+}

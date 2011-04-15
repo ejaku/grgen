@@ -1,0 +1,182 @@
+enum et
+{
+	a, b, c = 7
+}
+
+node class A
+{
+	b:boolean = false;
+	val:int = 42;
+	const constVal:int = 42;
+	strval:string = "foo";
+	const constStrval:string = "foo";
+	niceArray:array<string> = [
+		"foo",
+		"bar"
+	];
+	const constNiceArray:array<string> = [
+		"foo",
+		"bar"
+	];
+	spiceArray:array<int> = [
+		42
+	];
+	const constSpiceArray:array<int> = [
+		42
+	];
+	enumArray:array<et> = [
+		et::b,
+		et::c
+	];
+}
+
+edge class E
+{
+	val:int = 42;
+	const constVal:int = 42;
+	strval:string = "foo";
+	const constStrval:string = "foo";
+	niceArray:array<string> = [
+		"foo",
+		"bar"
+	];
+	const constNiceArray:array<string> = [
+		"foo",
+		"bar"
+	];
+	spiceArray:array<int> = [
+		42
+	];
+	const constSpiceArray:array<int> = [
+		42
+	];
+	enumArray:array<et> = [
+		et::a
+	];
+}
+
+node class AA extends A
+{
+	val = 666;
+	constVal = 666;
+	strval = "fooo";
+	constStrval = "fooo";
+	niceArray = [
+		"fooo",
+		"baar"
+	];
+	constNiceArray = [
+		"fooo",
+		"baar"
+	];
+	spiceArray = [
+		666
+	];
+	constSpiceArray = [
+		666
+	];
+	enumArray = [
+		et::a,
+		et::b,
+		et::c
+	];
+}
+
+node class AAA extends AA
+{
+	val = 4711;
+	constVal = 4711;
+	strval = "urgs";
+	constStrval = "urgs";
+	spiceArray = [
+		4711
+	];
+	constSpiceArray = [
+		4711
+	];
+	enumArray = [
+		et::b
+	];
+}
+
+node class AAb extends A
+{
+	val = 666;
+	constVal = 666;
+	strval = "fooo";
+	constStrval = "fooo";
+	spiceArray = array<int>[
+		666
+	];
+	constSpiceArray = array<int>[
+		666
+	];
+	enumArray = array<et>[
+		et::a,
+		et::b,
+		et::c
+	];
+}
+
+edge class EE extends E
+{
+	val = 666;
+	constVal = 666;
+	strval = "fooo";
+	constStrval = "fooo";
+	niceArray = [
+		"fooo",
+		"baar"
+	];
+	constNiceArray = [
+		"fooo",
+		"baar"
+	];
+	spiceArray = [
+		666
+	];
+	constSpiceArray = [
+		666
+	];
+	enumArray = [
+		et::a,
+		et::b,
+		et::c
+	];
+}
+
+edge class EEE extends EE
+{
+	val = 4711;
+	constVal = 4711;
+	strval = "urgs";
+	constStrval = "urgs";
+	spiceArray = [
+		4711
+	];
+	constSpiceArray = [
+		4711
+	];
+	enumArray = [
+		et::b
+	];
+}
+
+edge class EEb extends E
+{
+	val = 666;
+	constVal = 666;
+	strval = "fooo";
+	constStrval = "fooo";
+	spiceArray = array<int>[
+		666
+	];
+	constSpiceArray = array<int>[
+		666
+	];
+	enumArray = array<et>[
+		et::a,
+		et::b,
+		et::c
+	];
+}

@@ -13,6 +13,8 @@
 
 package de.unika.ipd.grgen.util;
 
+import de.unika.ipd.grgen.ir.ArrayInit;
+import de.unika.ipd.grgen.ir.ArraySizeExpr;
 import de.unika.ipd.grgen.ir.Cast;
 import de.unika.ipd.grgen.ir.Constant;
 import de.unika.ipd.grgen.ir.Edge;
@@ -22,7 +24,7 @@ import de.unika.ipd.grgen.ir.Expression;
 import de.unika.ipd.grgen.ir.ExternalFunctionInvocationExpr;
 import de.unika.ipd.grgen.ir.GraphEntityExpression;
 import de.unika.ipd.grgen.ir.Identifiable;
-import de.unika.ipd.grgen.ir.MapAccessExpr;
+import de.unika.ipd.grgen.ir.IndexedAccessExpr;
 import de.unika.ipd.grgen.ir.MapInit;
 import de.unika.ipd.grgen.ir.MapSizeExpr;
 import de.unika.ipd.grgen.ir.SetInit;
@@ -163,7 +165,7 @@ public class Formatter {
 		else if(cond instanceof Nameof) {
 			// TODO
 		}
-		else if(cond instanceof MapAccessExpr) {
+		else if(cond instanceof IndexedAccessExpr) {
 			// MAP TODO
 		}
 		else if(cond instanceof MapSizeExpr) {
@@ -176,6 +178,12 @@ public class Formatter {
 			// MAP TODO
 		}
 		else if(cond instanceof SetInit) {
+			// MAP TODO
+		}
+		else if(cond instanceof ArraySizeExpr) {
+			// MAP TODO
+		}
+		else if(cond instanceof ArrayInit) {
 			// MAP TODO
 		}
 		else if(cond instanceof GraphEntityExpression) {

@@ -7,7 +7,6 @@
 
 /**
  * @author Edgar Jakumeit
- * @version $Id$
  */
 package de.unika.ipd.grgen.ir;
 
@@ -23,7 +22,8 @@ public class CompoundAssignment extends EvalStatement {
 	public static final int UNION = 0;
 	public static final int INTERSECTION = 2;
 	public static final int WITHOUT = 3;
-	public static final int ASSIGN = 4;
+	public static final int CONCATENATE = 4;
+	public static final int ASSIGN = 5;
 
 	/** The lhs of the assignment. */
 	private Qualification target;
@@ -54,7 +54,14 @@ public class CompoundAssignment extends EvalStatement {
 	}
 
 	public String toString() {
-		return getTarget() + (operation==UNION?" |= ":operation==INTERSECTION?" &= ":" =\\ ") + getExpression();
+		String res = getTarget().toString();
+		if(operation==UNION) res += " |= ";
+		else if(operation==INTERSECTION) res += " &= ";
+		else if(operation==WITHOUT) res += " \\= ";
+		else if(operation==CONCATENATE) res += " += ";
+		else res += " = ";
+		res += getExpression().toString();
+		return res;
 	}
 	
 	public void collectNeededEntities(NeededEntities needs)

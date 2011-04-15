@@ -1,0 +1,10 @@
+new graph "exectype/exectype"
+
+new n:AA
+
+xgrs ArrayPartial2(n)
+show var n
+show var vd
+show var co1
+show var co2
+quit

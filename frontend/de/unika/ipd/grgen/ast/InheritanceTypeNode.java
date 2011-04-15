@@ -7,7 +7,6 @@
 
 /**
  * @author Sebastian Hack
- * @version $Id: InheritanceTypeNode.java 26931 2010-08-23 13:40:43Z eja $
  */
 package de.unika.ipd.grgen.ast;
 
@@ -18,6 +17,7 @@ import java.util.LinkedHashSet;
 import java.util.Map;
 import java.util.Vector;
 
+import de.unika.ipd.grgen.ir.ArrayInit;
 import de.unika.ipd.grgen.ir.IR;
 import de.unika.ipd.grgen.ir.InheritanceType;
 import de.unika.ipd.grgen.ir.MemberInit;
@@ -267,6 +267,8 @@ public abstract class InheritanceTypeNode extends CompoundTypeNode
 					inhType.addMapInit(mi.checkIR(MapInit.class));
 				} else if(init instanceof SetInit) {
 					inhType.addSetInit(mi.checkIR(SetInit.class));					
+				} else if(init instanceof ArrayInit) {
+					inhType.addArrayInit(mi.checkIR(ArrayInit.class));					
 				} else {
 					inhType.addMemberInit(mi.checkIR(MemberInit.class));
 				}
@@ -278,6 +280,10 @@ public abstract class InheritanceTypeNode extends CompoundTypeNode
 			else if(n instanceof SetInitNode) {
 				SetInitNode si = (SetInitNode) n;
 				inhType.addSetInit(si.getSetInit());
+			}
+			else if(n instanceof ArrayInitNode) {
+				ArrayInitNode ai = (ArrayInitNode) n;
+				inhType.addArrayInit(ai.getArrayInit());
 			}
 		}
 		for(InheritanceTypeNode inh : getExtends().getChildren()) {

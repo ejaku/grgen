@@ -73,13 +73,22 @@ namespace de.unika.ipd.grGen.lgsp
                 Type typeOfVar = ((VarType)type).Type;
                 if (typeOfVar.IsGenericType)
                 {
-                    Type keyType;
-                    Type valueType;
-                    DictionaryHelper.GetDictionaryTypes(typeOfVar, out keyType, out valueType);
-                    if (valueType.Name == "SetValueType")
-                        return "set<" + DotNetTypeToXgrsType(keyType.Name) + ">";
-                    else
-                        return "map<" + DotNetTypeToXgrsType(keyType.Name) + "," + DotNetTypeToXgrsType(valueType.Name) + ">";
+                    if(typeOfVar.Name == "Dictionary`2")
+                    {
+                        Type keyType;
+                        Type valueType;
+                        DictionaryListHelper.GetDictionaryTypes(typeOfVar, out keyType, out valueType);
+                        if(valueType.Name == "SetValueType")
+                            return "set<" + DotNetTypeToXgrsType(keyType.Name) + ">";
+                        else
+                            return "map<" + DotNetTypeToXgrsType(keyType.Name) + "," + DotNetTypeToXgrsType(valueType.Name) + ">";
+                    }
+                    else //if(typeOfVar.Name == "List`1")
+                    {
+                        Type valueType;
+                        DictionaryListHelper.GetListType(typeOfVar, out valueType);
+                        return "array<" + DotNetTypeToXgrsType(valueType.Name) + ">";
+                    }
                 }
                 return DotNetTypeToXgrsType(type.Name);
             }
@@ -126,6 +135,8 @@ namespace de.unika.ipd.grGen.lgsp
                 return "set<"+AttributeTypeToXgrsType(attributeType.ValueType)+">";
             case AttributeKind.MapAttr:
                 return "map<" + AttributeTypeToXgrsType(attributeType.KeyType) + "," + AttributeTypeToXgrsType(attributeType.ValueType) + ">";
+            case AttributeKind.ArrayAttr:
+                return "array<" + AttributeTypeToXgrsType(attributeType.ValueType) + ">";
             case AttributeKind.NodeAttr:
                 return attributeType.TypeName;
             case AttributeKind.EdgeAttr:
@@ -172,33 +183,47 @@ namespace de.unika.ipd.grGen.lgsp
         public static String XgrsTypeOfConstant(object constant, IGraphModel model)
         {
             if(constant.GetType().IsGenericType) {
-                Type keyType;
-                Type valueType;
-                DictionaryHelper.GetDictionaryTypes(constant, out keyType, out valueType);
-                if(valueType == typeof(de.unika.ipd.grGen.libGr.SetValueType)) {
-                    return "set<" + DotNetTypeToXgrsType(keyType.Name) + ">";
-                } else {
-                    return "map<" + DotNetTypeToXgrsType(keyType.Name) + "," + DotNetTypeToXgrsType(valueType.Name) + ">";
+                if(constant.GetType().Name == "Dictionary`2")
+                {
+                    Type keyType;
+                    Type valueType;
+                    DictionaryListHelper.GetDictionaryTypes(constant, out keyType, out valueType);
+                    if(valueType == typeof(de.unika.ipd.grGen.libGr.SetValueType))
+                        return "set<" + DotNetTypeToXgrsType(keyType.Name) + ">";
+                    else
+                        return "map<" + DotNetTypeToXgrsType(keyType.Name) + "," + DotNetTypeToXgrsType(valueType.Name) + ">";
+                }
+                else //if(typeOfVar.Name == "List`1")
+                {
+                    Type valueType;
+                    DictionaryListHelper.GetListType(constant.GetType(), out valueType);
+                    return "array<" + DotNetTypeToXgrsType(valueType.Name) + ">";
                 }
             }
 
             return DotNetTypeToXgrsType(constant.GetType().Name);
         }
 
-        public static String ExtractSrc(String setmapType)
+        public static String ExtractSrc(String setmaparrayType)
         {
-            if (setmapType == null) return null;
-            if (setmapType.StartsWith("set<")) // map<srcType>
+            if (setmaparrayType == null) return null;
+            if (setmaparrayType.StartsWith("set<")) // set<srcType>
             {
-                setmapType = setmapType.Remove(0, 4);
-                setmapType = setmapType.Remove(setmapType.Length - 1);
-                return setmapType;
+                setmaparrayType = setmaparrayType.Remove(0, 4);
+                setmaparrayType = setmaparrayType.Remove(setmaparrayType.Length - 1);
+                return setmaparrayType;
             }
-            else if (setmapType.StartsWith("map<")) // map<srcType,dstType>
+            else if (setmaparrayType.StartsWith("map<")) // map<srcType,dstType>
             {
-                setmapType = setmapType.Remove(0, 4);
-                setmapType = setmapType.Remove(setmapType.IndexOf(","));
-                return setmapType;
+                setmaparrayType = setmaparrayType.Remove(0, 4);
+                setmaparrayType = setmaparrayType.Remove(setmaparrayType.IndexOf(","));
+                return setmaparrayType;
+            }
+            else if(setmaparrayType.StartsWith("array<")) // array<srcType>
+            {
+                setmaparrayType = setmaparrayType.Remove(0, 6);
+                setmaparrayType = setmaparrayType.Remove(setmaparrayType.Length - 1);
+                return setmaparrayType;
             }
             return null;
         }
@@ -215,6 +240,10 @@ namespace de.unika.ipd.grGen.lgsp
                 setmapType = setmapType.Remove(0, setmapType.IndexOf(",") + 1);
                 setmapType = setmapType.Remove(setmapType.Length - 1);
                 return setmapType;
+            }
+            else if (setmapType.StartsWith("array<")) // array<srcType>
+            {
+                return "int"; // bullshit int return so the type checks testing that src and dst are available don't fail
             }
             return null;
         }
@@ -252,6 +281,7 @@ namespace de.unika.ipd.grGen.lgsp
             if (type == "int" || type == "bool" || type == "string" || type == "float" || type == "double" || type == "object") return type;
             if (type == "boolean") return "bool";
             if (type.StartsWith("set<") || type.StartsWith("map<")) return "Dictionary<" + XgrsTypeToCSharpType(ExtractSrc(type), model) + "," + XgrsTypeToCSharpType(ExtractDst(type), model) + ">";
+            if (type.StartsWith("array<")) return "List<" + XgrsTypeToCSharpType(ExtractSrc(type), model) + ">";
             if (type == "SetValueType") return "GRGEN_LIBGR.SetValueType";
 
             foreach (EnumAttributeType enumAttrType in model.EnumAttributeTypes)
@@ -277,6 +307,11 @@ namespace de.unika.ipd.grGen.lgsp
             {
                 if(!xgrsTypeBase.StartsWith("map<")) return false;
                 return ExtractSrc(xgrsTypeSameOrSub) == ExtractSrc(xgrsTypeBase) && ExtractDst(xgrsTypeSameOrSub) == ExtractDst(xgrsTypeBase);
+            }
+            if(xgrsTypeSameOrSub.StartsWith("array<"))
+            {
+                if(!xgrsTypeBase.StartsWith("array<")) return false;
+                return ExtractSrc(xgrsTypeSameOrSub) == ExtractSrc(xgrsTypeBase);
             }
 
             if(xgrsTypeSameOrSub == "int" || xgrsTypeSameOrSub == "string" || xgrsTypeSameOrSub == "float" || xgrsTypeSameOrSub == "double" || xgrsTypeSameOrSub == "object") 

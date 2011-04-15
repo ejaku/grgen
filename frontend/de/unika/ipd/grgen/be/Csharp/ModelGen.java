@@ -31,6 +31,9 @@ import java.util.Map;
 import java.util.Set;
 import java.util.TreeSet;
 
+import de.unika.ipd.grgen.ir.ArrayInit;
+import de.unika.ipd.grgen.ir.ArrayItem;
+import de.unika.ipd.grgen.ir.ArrayType;
 import de.unika.ipd.grgen.ir.BooleanType;
 import de.unika.ipd.grgen.ir.ConnAssert;
 import de.unika.ipd.grgen.ir.DoubleType;
@@ -424,7 +427,7 @@ public class ModelGen extends CSharpBase {
 				continue;
 
 			String attrName = formatIdentifiable(member);
-			if(member.getType() instanceof MapType || member.getType() instanceof SetType) {
+			if(member.getType() instanceof MapType || member.getType() instanceof SetType || member.getType() instanceof ArrayType) {
 				routedSB.append("\t\t\t" + attrName + ModelGen.ATTR_IMPL_SUFFIX + " = new " + formatAttributeType(member.getType())
 						+ "(oldElem." + attrName + ModelGen.ATTR_IMPL_SUFFIX + ");\n");
 			} else {
@@ -535,7 +538,7 @@ public class ModelGen extends CSharpBase {
 			return;
 		}
 
-		sb.append(indentString + "// implicit initialization, map/set creation of " + formatIdentifiable(type) + "\n");
+		sb.append(indentString + "// implicit initialization, map/set/array creation of " + formatIdentifiable(type) + "\n");
 
 		// default attribute inits need to be generated if code must overwrite old values
 		// only in constructor not needed, cause there taken care of by c#
@@ -547,8 +550,8 @@ public class ModelGen extends CSharpBase {
 					continue;
 
 				Type t = member.getType();
-				// handled down below, as maps/sets must be created independent of initialization
-				if(t instanceof MapType || t instanceof SetType)
+				// handled down below, as maps/sets/arrays must be created independent of initialization
+				if(t instanceof MapType || t instanceof SetType || t instanceof ArrayType)
 					continue;
 
 				String attrName = formatIdentifiable(member);
@@ -567,13 +570,13 @@ public class ModelGen extends CSharpBase {
 			}
 		}
 
-		// create maps and sets
+		// create maps and sets and arrays
 		for(Entity member : type.getAllMembers()) {
 			if(member.isConst())
 				continue;
 
 			Type t = member.getType();
-			if(!(t instanceof MapType || t instanceof SetType))
+			if(!(t instanceof MapType || t instanceof SetType || t instanceof ArrayType))
 				continue;
 
 			String attrName = formatIdentifiable(member);
@@ -584,6 +587,9 @@ public class ModelGen extends CSharpBase {
 			} else if(t instanceof SetType) {
 				SetType setType = (SetType) t;
 				sb.append("new " + formatAttributeType(setType) + "();\n");
+			} else if(t instanceof ArrayType) {
+				ArrayType arrayType = (ArrayType) t;
+				sb.append("new " + formatAttributeType(arrayType) + "();\n");
 			}
 		}
 
@@ -633,6 +639,16 @@ set_init_loop:
 				}
 				initializationOperations += setInit.getSetItems().size();
 			}
+array_init_loop:
+			for(ArrayInit arrayInit : superType.getArrayInits()) {
+				if(arrayInit.getMember().isConst())
+					continue;
+				for(ArrayInit tai : targetType.getArrayInits()) {
+					if(arrayInit.getMember() == tai.getMember())
+						continue array_init_loop;
+				}
+				initializationOperations += arrayInit.getArrayItems().size();
+			}
 		}
 
 		// attribute initializations of target class
@@ -649,6 +665,11 @@ set_init_loop:
 		for(SetInit setInit : targetType.getSetInits()) {
 			if(!setInit.getMember().isConst())
 				initializationOperations += setInit.getSetItems().size();
+		}
+
+		for(ArrayInit arrayInit : targetType.getArrayInits()) {
+			if(!arrayInit.getMember().isConst())
+				initializationOperations += arrayInit.getArrayItems().size();
 		}
 
 		return initializationOperations;
@@ -733,6 +754,22 @@ set_init_loop:
 				sb.append("] = null;\n");
 			}
 		}
+		
+		// init members of array value with explicit initialization
+		for(ArrayInit arrayInit : type.getArrayInits()) {
+			Entity member = arrayInit.getMember();
+			if(arrayInit.getMember().isConst())
+				continue;
+			if(!generateInitializationOfTypeAtCreatingTargetTypeInitialization(member, type, targetType))
+				continue;
+
+			String attrName = formatIdentifiable(arrayInit.getMember());
+			for(ArrayItem item : arrayInit.getArrayItems()) {
+				sb.append(indentString + varName + ".@" + attrName + ".Add(");
+				genExpression(sb, item.getValueExpr(), null);
+				sb.append(");\n");
+			}
+		}
 	}
 
 	private void genMemberInitConst(InheritanceType type, InheritanceType targetType,
@@ -814,6 +851,32 @@ set_init_loop:
 			initializedConstMembers.add(member);
 		}
 
+		// init const members of array value with explicit initialization
+		for(ArrayInit arrayInit : type.getArrayInits()) {
+			Entity member = arrayInit.getMember();
+			if(!member.isConst())
+				continue;
+			if(!generateInitializationOfTypeAtCreatingTargetTypeInitialization(member, type, targetType))
+				continue;
+
+			String attrType = formatAttributeType(member);
+			String attrName = formatIdentifiable(member);
+			sb.append("\t\tprivate static readonly " + attrType + " " + attrName + ModelGen.ATTR_IMPL_SUFFIX + " = " +
+					"new " + attrType + "();\n");
+			staticInitializers.add("init_" + attrName);
+			sb.append("\t\tstatic void init_" + attrName + "() {\n");
+			for(ArrayItem item : arrayInit.getArrayItems()) {
+				sb.append("\t\t\t");
+				sb.append(attrName + ModelGen.ATTR_IMPL_SUFFIX);
+				sb.append(".Add(");
+				genExpression(sb, item.getValueExpr(), null);
+				sb.append(");\n");
+			}
+			sb.append("\t\t}\n");
+
+			initializedConstMembers.add(member);
+		}
+
 		sb.append("\t\t// implicit initializations of " + formatIdentifiable(type) + " for target " + formatIdentifiable(targetType) + "\n");
 
 		for(Entity member : type.getMembers()) {
@@ -828,7 +891,7 @@ set_init_loop:
 			String attrType = formatAttributeType(member);
 			String attrName = formatIdentifiable(member);
 
-			if(memberType instanceof MapType || memberType instanceof SetType)
+			if(memberType instanceof MapType || memberType instanceof SetType || memberType instanceof ArrayType)
 				sb.append("\t\tprivate static readonly " + attrType + " " + attrName + ModelGen.ATTR_IMPL_SUFFIX + " = " +
 						"new " + attrType + "();\n");
 			else
@@ -871,6 +934,10 @@ set_init_loop:
 			}
 			for(SetInit tsi : relevantChildrenOfFocusedType.getSetInits()) {
 				if(member == tsi.getMember())
+					return false;
+			}
+			for(ArrayInit tai : relevantChildrenOfFocusedType.getArrayInits()) {
+				if(member == tai.getMember())
 					return false;
 			}
 		}
@@ -1135,13 +1202,16 @@ set_init_loop:
 		for(Entity member : type.getMembers()) { // only for locally defined members
 			sb.append("\t\tpublic static GRGEN_LIBGR.AttributeType " + formatAttributeTypeName(member) + ";\n");
 			
-			// attribute types T/S of set<T>/map<T,S> 
-			if(member.getType() instanceof SetType) {
-				sb.append("\t\tpublic static GRGEN_LIBGR.AttributeType " + formatAttributeTypeName(member)+"_set_member_type;\n");		
-			}
+			// attribute types T/S of map<T,S>/set<T>/array<T> 
 			if(member.getType() instanceof MapType) {
 				sb.append("\t\tpublic static GRGEN_LIBGR.AttributeType " + formatAttributeTypeName(member)+"_map_domain_type;\n");		
 				sb.append("\t\tpublic static GRGEN_LIBGR.AttributeType " + formatAttributeTypeName(member)+"_map_range_type;\n");		
+			}
+			if(member.getType() instanceof SetType) {
+				sb.append("\t\tpublic static GRGEN_LIBGR.AttributeType " + formatAttributeTypeName(member)+"_set_member_type;\n");		
+			}
+			if(member.getType() instanceof ArrayType) {
+				sb.append("\t\tpublic static GRGEN_LIBGR.AttributeType " + formatAttributeTypeName(member)+"_array_member_type;\n");		
 			}
 		}
 	}
@@ -1175,6 +1245,15 @@ set_init_loop:
 				genAttributeInitTypeDependentStuff(st.getValueType(), e);
 				sb.append(");\n");
 			}
+			if (t instanceof ArrayType) {
+				ArrayType at = (ArrayType)t;
+
+				// attribute type T of set<T>
+				sb.append("\t\t\t" + attributeTypeName + "_array_member_type = new GRGEN_LIBGR.AttributeType(");
+				sb.append("\"" + formatIdentifiable(e) + "_array_member_type\", this, ");
+				genAttributeInitTypeDependentStuff(at.getValueType(), e);
+				sb.append(");\n");
+			}
 			
 			sb.append("\t\t\t" + attributeTypeName + " = new GRGEN_LIBGR.AttributeType(");
 			sb.append("\"" + formatIdentifiable(e) + "\", this, ");
@@ -1198,6 +1277,10 @@ set_init_loop:
 		} else if (t instanceof SetType) {
 			sb.append(getAttributeKind(t) + ", null, "
 					+ formatAttributeTypeName(e) + "_set_member_type" + ", null, "
+					+ "null");
+		} else if (t instanceof ArrayType) {
+			sb.append(getAttributeKind(t) + ", null, "
+					+ formatAttributeTypeName(e) + "_array_member_type" + ", null, "
 					+ "null");
 		} else if (t instanceof NodeType || t instanceof EdgeType) {
 			sb.append(getAttributeKind(t) + ", null, " 
@@ -1229,6 +1312,8 @@ set_init_loop:
 			return "GRGEN_LIBGR.AttributeKind.MapAttr";
 		else if (t instanceof SetType)
 			return "GRGEN_LIBGR.AttributeKind.SetAttr";
+		else if (t instanceof ArrayType)
+			return "GRGEN_LIBGR.AttributeKind.ArrayAttr";
 		else if (t instanceof NodeType)
 			return "GRGEN_LIBGR.AttributeKind.NodeAttr";
 		else if (t instanceof EdgeType)
@@ -1424,7 +1509,7 @@ commonLoop:	for(InheritanceType commonType : firstCommonAncestors) {
 										+ " = (" + formatAttributeType(member) + ") old.@" + memberName
 										+ ";   // Mono workaround (bug #357287)\n");
 							} else {
-								if(member.getType() instanceof MapType || member.getType() instanceof SetType) {
+								if(member.getType() instanceof MapType || member.getType() instanceof SetType || member.getType() instanceof ArrayType) {
 									sb.append("\t\t\t\t\t\tnew" + kindName + ".@" + memberName
 											+ " = new " + formatAttributeType(member.getType()) + "(old.@" + memberName + ");\n");
 								} else {

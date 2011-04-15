@@ -1,0 +1,17 @@
+using array_model_001;
+
+rule r(ref s:array<int>, var b:int)
+{
+	a:A;
+	if {
+		a.val in (a.spiceArray + s + a.constSpiceArray);
+		b in (s + a.spiceArray);
+	}
+
+	modify {
+		eval {
+			a.spiceArray = (s + a.spiceArray) + a.constSpiceArray + s;
+			a.spiceArray += a.constSpiceArray;
+		}
+	}
+}

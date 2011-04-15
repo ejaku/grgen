@@ -50,6 +50,31 @@ rule createTestGraph2 : (N2,E2)
 	}
 }
 
+rule createTestGraph3 : (N3,E3)
+{
+	modify {
+		n:N3 -e:E3-> n;
+		
+		eval {
+			n.a = array<int>[ 1,2,3 ];
+			n.b = array<string>[ "n1","n2","n3" ];
+			n.c = array<double>[ 3.141592654, 2.0, 1.0 ];
+			n.d = array<boolean>[true,false];
+			n.e = array<FooBar>[FooBar::foo,FooBar::bar];
+			// n.empty untouched empty 
+
+			e.a = array<int>[ 1,2,3 ];
+			e.b = array<string>[ "n1","n2","n3" ];
+			e.c = array<double>[ 3.141592654, 2.0, 1.0 ];
+			e.d = array<boolean>[true,false];	
+			e.e = array<FooBar>[FooBar::foo,FooBar::bar];
+			// e.empty untouched empty 			
+		}
+		
+		return(n,e);
+	}
+}
+
 test checkForTestGraph : (N1,E1)
 {
 	n:N1 -e:E1-> n;
@@ -91,5 +116,27 @@ test checkForTestGraph2 : (N2,E2)
 		e.d == map<boolean,FooBar>{true->FooBar::foo,false->FooBar::bar};
 		e.e == map<FooBar,int>{FooBar::foo->1,FooBar::bar->2};
 		e.empty.size()==0; 			
+	}
+}
+
+test checkForTestGraph3 : (N3,E3)
+{
+	n:N3 -e:E3-> n;
+	return(n,e);
+	
+	if {
+		n.a == array<int>[ 1,2,3 ];
+		n.b == array<string>[ "n1","n2","n3" ];
+		n.c == array<double>[ 3.141592654, 2.0, 1.0 ];
+		n.d == array<boolean>[true,false];
+		n.e == array<FooBar>[FooBar::foo,FooBar::bar];
+		n.empty.size()==0;
+
+		e.a == array<int>[ 1,2,3 ];
+		e.b == array<string>[ "n1","n2","n3" ];
+		e.c == array<double>[ 3.141592654, 2.0, 1.0 ];
+		e.d == array<boolean>[true,false];
+		e.e == array<FooBar>[FooBar::foo,FooBar::bar];
+		e.empty.size()==0;
 	}
 }

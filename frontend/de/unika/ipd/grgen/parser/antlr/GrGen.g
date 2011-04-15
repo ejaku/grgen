@@ -433,6 +433,11 @@ returnType returns [ BaseNode res = env.initNode() ]
 		{ // MAP TODO: das sollte eigentlich kein Schluesselwort sein, sondern ein Typbezeichner
 			res = SetTypeNode.getSetType(keyType);
 		}
+	|
+		ARRAY LT keyType=typeIdentUse GT
+		{ // MAP TODO: das sollte eigentlich kein Schluesselwort sein, sondern ein Typbezeichner
+			res = ArrayTypeNode.getArrayType(keyType);
+		}
 	;
 
 patternPart [ Coords pattern_coords, CollectNode<BaseNode> params, AnonymousPatternNamer namer, int mod,
@@ -705,7 +710,7 @@ defVarDeclToBeYieldedTo [ int context, PatternGraphNode directlyNestingLHSGraph 
 			{
 				var = new VarDeclNode(id, type, directlyNestingLHSGraph, context, true);
 				if(!paramModifier.getText().equals("var")) 
-					{ reportError(getCoords(paramModifier), "var keyword needed before non set/map (and non graph element) parameter"); }
+					{ reportError(getCoords(paramModifier), "var keyword needed before non set/map/array (and non graph element) parameter"); }
 			}
 		|
 			MAP LT keyType=typeIdentUse COMMA valueType=typeIdentUse GT
@@ -720,6 +725,13 @@ defVarDeclToBeYieldedTo [ int context, PatternGraphNode directlyNestingLHSGraph 
 				var = new VarDeclNode(id, SetTypeNode.getSetType(keyType), directlyNestingLHSGraph, context, true);
 				if(!paramModifier.getText().equals("ref")) 
 					{ reportError(getCoords(paramModifier), "ref keyword needed before set typed parameter"); }
+			}
+		|
+			ARRAY LT keyType=typeIdentUse GT
+			{ // MAP TODO: das sollte eigentlich kein Schluesselwort sein, sondern ein Typbezeichner
+				var = new VarDeclNode(id, ArrayTypeNode.getArrayType(keyType), directlyNestingLHSGraph, context, true);
+				if(!paramModifier.getText().equals("ref")) 
+					{ reportError(getCoords(paramModifier), "ref keyword needed before array typed parameter"); }
 			}
 		)
 		{ if(var!=null) res = var; }
@@ -911,6 +923,13 @@ varDecl [ int context, PatternGraphNode directlyNestingLHSGraph ] returns [ Base
 				res = new VarDeclNode(id, SetTypeNode.getSetType(keyType), directlyNestingLHSGraph, context);
 				if(!paramModifier.getText().equals("ref")) 
 					{ reportWarning(getCoords(paramModifier), "ref keyword needed before set typed parameter"); } // TODO: next version -> error
+			}
+		|
+			ARRAY LT keyType=typeIdentUse GT
+			{ // MAP TODO: das sollte eigentlich kein Schluesselwort sein, sondern ein Typbezeichner
+				res = new VarDeclNode(id, ArrayTypeNode.getArrayType(keyType), directlyNestingLHSGraph, context);
+				if(!paramModifier.getText().equals("ref")) 
+					{ reportWarning(getCoords(paramModifier), "ref keyword needed before array typed parameter"); } // TODO: next version -> error
 			}
 		)
 	;
@@ -1462,16 +1481,16 @@ simpleSequence[ExecNode xg]
 			(entIdentUse DOT IDENT LPAREN ) => id=entIdentUse d=DOT method=IDENT LPAREN RPAREN
 			{ if(method.getText().equals("size")) { xg.append(id+".size()"); xg.addUsage(id); }
 			  else if(method.getText().equals("empty")) { xg.append(id+".empty()"); xg.addUsage(id); }
-			  else reportError(getCoords(d), "Unknown method name \""+method.getText()+"\"! (available are size|empty on set/map)");
+			  else reportError(getCoords(d), "Unknown method name \""+method.getText()+"\"! (available are size|empty on set/map/array)");
 			}
 		|
 			id=entIdentUse d=DOT attr=IDENT
 			{ xg.append(id+"."+attr.getText()); xg.addUsage(id); }
 		|
-			(entIdentUse LBRACK) => map=entIdentUse LBRACK var=entIdentUse RBRACK // parsing v=a[ as v=a[x] has priority over (v=a)[*]
-			{ xg.append(map+"["+var+"]"); xg.addUsage(map); xg.addUsage(var); }
+			(entIdentUse LBRACK) => mapOrArray=entIdentUse LBRACK var=entIdentUse RBRACK // parsing v=a[ as v=a[x] has priority over (v=a)[*]
+			{ xg.append(mapOrArray+"["+var+"]"); xg.addUsage(mapOrArray); xg.addUsage(var); }
 		| 
-			var=entIdentUse IN setmap=entIdentUse { xg.append(var+" in "+setmap); xg.addUsage(var); xg.addUsage(setmap); }
+			var=entIdentUse IN setmaparray=entIdentUse { xg.append(var+" in "+setmaparray); xg.addUsage(var); xg.addUsage(setmaparray); }
 		|
 			id=entIdentUse
 			{ xg.append(id); xg.addUsage(id); }
@@ -1512,21 +1531,22 @@ simpleSequence[ExecNode xg]
 					| id=entIdentUse { xg.append("record("+id.toString()+")"); xg.addUsage(id); } ) RPAREN
 	| id=entIdentUse d=DOT attr=IDENT ASSIGN var=entIdentUse
 		{ xg.append(id+"."+attr.getText()+" = "+var); xg.addUsage(id); xg.addUsage(var); }
-	| setmap=entIdentUse d=DOT method=IDENT { xg.addUsage(setmap); } 
+	| setmaparray=entIdentUse d=DOT method=IDENT { xg.addUsage(setmaparray); } 
 			LPAREN ( id=entIdentUse {id_=id.toString();} (COMMA id2=entIdentUse {id2_=id2.toString();})? )? RPAREN
 		{ if(method.getText().equals("add")) { // arrrrgh! == doesn't work for strings in Java ... maximum retardedness!
-			if(id_==null) reportError(getCoords(d), "\""+method.getText()+"\" expects 1(for set) or 2(for map) parameters");
-		    if(id2_!=null) { xg.append(setmap+".add("+id_+","+id2_+")"); xg.addUsage(id); xg.addUsage(id2); }
-			else { xg.append(setmap+".add("+id_+")"); xg.addUsage(id); }
+			if(id_==null) reportError(getCoords(d), "\""+method.getText()+"\" expects 1(for set value or new array tail value) or 2(for map key and value or array value with index) parameters");
+		    if(id2_!=null) { xg.append(setmaparray+".add("+id_+","+id2_+")"); xg.addUsage(id); xg.addUsage(id2); }
+			else { xg.append(setmaparray+".add("+id_+")"); xg.addUsage(id); }
 	      } else if(method.getText().equals("rem")) {
-		    if(id_==null || id2_!=null) reportError(getCoords(d), "\""+method.getText()+"\" expects 1 parameter");
-		    xg.append(setmap+".rem("+id_+")"); xg.addUsage(id);
+		    if(id2_!=null) reportError(getCoords(d), "\""+method.getText()+"\" expects 1 parameter (set value or map key or array index) or none (for array end value)");
+		    if(id_!=null) { xg.append(setmaparray+".rem("+id_+")"); xg.addUsage(id); }
+			else xg.append(setmaparray+".rem()");
 		  } else if(method.getText().equals("clear")) { 
 		    if(id_!=null || id2_!=null) reportError(getCoords(d), "\""+method.getText()+"\" expects no parameters");
-		    xg.append(setmap+".clear()");
-		  } else reportError(getCoords(d), "Unknown method name \""+method.getText()+"\"! (available are add|rem|clear on set/map)");
+		    xg.append(setmaparray+".clear()");
+		  } else reportError(getCoords(d), "Unknown method name \""+method.getText()+"\"! (available are add|rem|clear on set/map/array)");
 		}
-	| var=entIdentUse IN setmap=entIdentUse { xg.append(var+" in "+setmap); xg.addUsage(var); xg.addUsage(setmap); }
+	| var=entIdentUse IN setmaparray=entIdentUse { xg.append(var+" in "+setmaparray); xg.addUsage(var); xg.addUsage(setmaparray); }
 	| parallelCallRule[xg, returns]
 	| DEF LPAREN { xg.append("def("); } xgrsVariableList[xg, returns] RPAREN { xg.append(")"); } 
 	| TRUE { xg.append("true"); }
@@ -1556,8 +1576,9 @@ xgrsConstant[ExecNode xg]
 	| ff=FALSE { xg.append(ff.getText()); }
 	| n=NULL { xg.append(n.getText()); }
 	| tid=typeIdentUse d=DOUBLECOLON id=entIdentUse { xg.append(tid + "::" + id); }
-	| SET LT typeName=typeIdentUse GT LBRACE RBRACE { xg.append("set<"+typeName+">{ }"); }
 	| MAP LT typeName=typeIdentUse COMMA toTypeName=typeIdentUse GT LBRACE RBRACE { xg.append("map<"+typeName+","+toTypeName+">{ }"); }
+	| SET LT typeName=typeIdentUse GT LBRACE RBRACE { xg.append("set<"+typeName+">{ }"); }
+	| ARRAY LT typeName=typeIdentUse GT LBRACK RBRACK { xg.append("array<"+typeName+">[ ]"); }
 	;
 	
 parallelCallRule[ExecNode xg, CollectNode<BaseNode> returns]
@@ -1637,6 +1658,23 @@ options { k = *; }
 			res = decl;
 		}
 	|
+		id=entIdentDecl COLON MAP LT keyType=typeIdentUse COMMA valueType=typeIdentUse GT // map decl
+		{
+			ExecVarDeclNode decl = new ExecVarDeclNode(id, MapTypeNode.getMapType(keyType, valueType));
+			if(emit) xg.append(id.toString()+":map<"+keyType.toString()+","+valueType.toString()+">");
+			xg.addVarDecl(decl);
+			res = decl;
+		}
+	|
+		(entIdentDecl COLON MAP LT typeIdentUse COMMA typeIdentUse GE) =>
+		id=entIdentDecl COLON MAP LT keyType=typeIdentUse COMMA valueType=typeIdentUse // map decl; special to save user from splitting map<S,T>=x to map<S,T> =x as >= is GE not GT ASSIGN
+		{
+			ExecVarDeclNode decl = new ExecVarDeclNode(id, MapTypeNode.getMapType(keyType, valueType));
+			if(emit) xg.append(id.toString()+":map<"+keyType.toString()+","+valueType.toString()+">");
+			xg.addVarDecl(decl);
+			res = decl;
+		}
+	|
 		id=entIdentDecl COLON SET LT type=typeIdentUse GT // set decl
 		{
 			ExecVarDeclNode decl = new ExecVarDeclNode(id, SetTypeNode.getSetType(type));
@@ -1654,19 +1692,19 @@ options { k = *; }
 			res = decl;
 		}
 	|
-		id=entIdentDecl COLON MAP LT keyType=typeIdentUse COMMA valueType=typeIdentUse GT // map decl
+		id=entIdentDecl COLON ARRAY LT type=typeIdentUse GT // array decl
 		{
-			ExecVarDeclNode decl = new ExecVarDeclNode(id, MapTypeNode.getMapType(keyType, valueType));
-			if(emit) xg.append(id.toString()+":map<"+keyType.toString()+","+valueType.toString()+">");
+			ExecVarDeclNode decl = new ExecVarDeclNode(id, ArrayTypeNode.getArrayType(type));
+			if(emit) xg.append(id.toString()+":array<"+type.toString()+">");
 			xg.addVarDecl(decl);
 			res = decl;
 		}
 	|
-		(entIdentDecl COLON MAP LT typeIdentUse COMMA typeIdentUse GE) =>
-		id=entIdentDecl COLON MAP LT keyType=typeIdentUse COMMA valueType=typeIdentUse // map decl; special to save user from splitting map<S,T>=x to map<S,T> =x as >= is GE not GT ASSIGN
+		(entIdentDecl COLON ARRAY LT typeIdentUse GE) => 
+		id=entIdentDecl COLON ARRAY LT type=typeIdentUse // array decl; special to save user from splitting array<S>=x to array<S> =x as >= is GE not GT ASSIGN
 		{
-			ExecVarDeclNode decl = new ExecVarDeclNode(id, MapTypeNode.getMapType(keyType, valueType));
-			if(emit) xg.append(id.toString()+":map<"+keyType.toString()+","+valueType.toString()+">");
+			ExecVarDeclNode decl = new ExecVarDeclNode(id, ArrayTypeNode.getArrayType(type));
+			if(emit) xg.append(id.toString()+":array<"+type.toString()+">");
 			xg.addVarDecl(decl);
 			res = decl;
 		}
@@ -2067,6 +2105,21 @@ basicAndContainerDecl [ CollectNode<BaseNode> c ]
 							decl.setConstInitializer(init3);
 					}
 				)?
+			|
+				ARRAY LT valueType=typeIdentUse GT
+				{ // MAP TODO: das sollte eigentlich kein Schluesselwort sein, sondern ein Typbezeichner
+					decl = new MemberDeclNode(id, ArrayTypeNode.getArrayType(valueType), isConst);
+					id.setDecl(decl);
+					c.addChild(decl);
+				}
+				(
+					ASSIGN init4=initArrayExpr[decl.getIdentNode(), null]
+					{
+						c.addChild(init4);
+						if(isConst)
+							decl.setConstInitializer(init4);
+					}
+				)?
 			)
 		)
 	;
@@ -2096,6 +2149,13 @@ initSetExpr [IdentNode id, SetTypeNode setType] returns [ SetInitNode res = null
 	  RBRACE
 	;
 
+initArrayExpr [IdentNode id, ArrayTypeNode arrayType] returns [ ArrayInitNode res = null ]
+	: l=LBRACK { res = new ArrayInitNode(getCoords(l), id, arrayType); }	
+	          item1=arrayItem { res.addArrayItem(item1); }
+	  ( COMMA item2=arrayItem { res.addArrayItem(item2); } )*
+	  RBRACK
+	;
+
 mapItem returns [ MapItemNode res = null ]
 	: key=expr[false] a=RARROW value=expr[false]
 		{
@@ -2107,6 +2167,13 @@ setItem returns [ SetItemNode res = null ]
 	: value=expr[false]
 		{
 			res = new SetItemNode(value.getCoords(), value);
+		}
+	;
+
+arrayItem returns [ ArrayItemNode res = null ]
+	: value=expr[false]
+		{
+			res = new ArrayItemNode(value.getCoords(), value);
 		}
 	;
 
@@ -2341,6 +2408,13 @@ options { k = 4; }
 		{ res = new AssignVisitedNode(getCoords(a), vis, e); }
 		{ if(onLHS) reportError(getCoords(a), "Assignment to a visited flag is forbidden in LHS eval."); }
 	| 
+	  owner=entIdentUse	d=DOT member=entIdentUse LBRACK idx=expr[false] RBRACK a=ASSIGN e=expr[false] //'false' because this rule is not used for the assignments in enum item decls
+		{ res = new AssignIndexedNode(getCoords(a), new QualIdentNode(getCoords(d), owner, member), e, idx); }
+		{ if(onLHS) reportError(getCoords(d), "Indexed assignment to an attribute is forbidden in LHS eval, only yield indexed assignment to a def variable allowed."); }
+	|
+	  (y=YIELD)? variable=entIdentUse LBRACK idx=expr[false] RBRACK a=ASSIGN e=expr[false]
+		{ res = new AssignIndexedNode(getCoords(a), new IdentExprNode(variable), e, idx); }
+	| 
 	  owner=entIdentUse d=DOT member=entIdentUse DOT method=memberIdentUse params=paramExprs[false]
 		{ res = new MethodCallNode(new QualIdentNode(getCoords(d), owner, member), method, params); }
 		{ if(onLHS) reportError(getCoords(d), "Method call on an attribute is forbidden in LHS eval, only yield method call to a def variable allowed."); }
@@ -2349,15 +2423,19 @@ options { k = 4; }
 		{ res = new MethodCallNode(new IdentExprNode(variable), method, params); }
 	| 
 	  owner=entIdentUse d=DOT member=entIdentUse 
-		(BOR_ASSIGN { cat = CompoundAssignNode.UNION; } | BAND_ASSIGN { cat = CompoundAssignNode.INTERSECTION; } | BACKSLASH_ASSIGN { cat = CompoundAssignNode.WITHOUT; })
+		(BOR_ASSIGN { cat = CompoundAssignNode.UNION; } | BAND_ASSIGN { cat = CompoundAssignNode.INTERSECTION; }
+			| BACKSLASH_ASSIGN { cat = CompoundAssignNode.WITHOUT; } | PLUS_ASSIGN { cat = CompoundAssignNode.CONCATENATE; })
 		e=expr[false] ( at=assignTo { ccat = at.ccat; tgtChanged = at.tgtChanged; } )?
 			{ res = new CompoundAssignNode(getCoords(a), new QualIdentNode(getCoords(d), owner, member), cat, e, ccat, tgtChanged); }
 			{ if(onLHS) reportError(getCoords(d), "Assignment to an attribute is forbidden in LHS eval, only yield assignment to a def variable allowed."); }
+			{ if(cat==CompoundAssignNode.CONCATENATE && ccat!=CompoundAssignNode.NONE) reportError(getCoords(d), "No change assignment allowed for array concatenation."); }
 	|
 	  (y=YIELD)? variable=entIdentUse 
-		(BOR_ASSIGN { cat = CompoundAssignNode.UNION; } | BAND_ASSIGN { cat = CompoundAssignNode.INTERSECTION; } | BACKSLASH_ASSIGN { cat = CompoundAssignNode.WITHOUT; })
+		(BOR_ASSIGN { cat = CompoundAssignNode.UNION; } | BAND_ASSIGN { cat = CompoundAssignNode.INTERSECTION; } 
+			| BACKSLASH_ASSIGN { cat = CompoundAssignNode.WITHOUT; } | PLUS_ASSIGN { cat = CompoundAssignNode.CONCATENATE; })
 		e=expr[false] ( at=assignTo { ccat = at.ccat; tgtChanged = at.tgtChanged; } )?
 			{ res = new CompoundAssignNode(getCoords(a), new IdentExprNode(variable), cat, e, ccat, tgtChanged); }
+			{ if(cat==CompoundAssignNode.CONCATENATE && ccat!=CompoundAssignNode.NONE) reportError(getCoords(d), "No change assignment allowed for array concatenation."); }
 	|
 	  f=FOR LBRACE pushScopeStr["for iterated", getCoords(f)] variable=entIdentDecl IN i=iterIdentUse SEMI YIELD aomc=assignmentOrMethodCall[onLHS, context, directlyNestingLHSGraph] RBRACE popScope
 		{ res = new IteratedAccumulationYieldNode(getCoords(f), new VarDeclNode(variable, IdentNode.getInvalid(), directlyNestingLHSGraph, context), i, aomc); }
@@ -2531,7 +2609,7 @@ options { k = 3; }
 	| e=constant { res = e; }
 	| e=enumItemExpr { res = e; }
 	| e=typeOf { res = e; }
-	| e=initMapOrSetExpr { res = e; }
+	| e=initMapOrSetOrArrayExpr { res = e; }
 	| e=externalFunctionInvocationExpr[inEnumInit] { res = e; }
 	| LPAREN e=expr[inEnumInit] { res = e; } RPAREN
 	| p=PLUSPLUS { reportError(getCoords(p), "increment operator \"++\" not supported"); }
@@ -2572,11 +2650,13 @@ typeOf returns [ ExprNode res = env.initExprNode() ]
 	: t=TYPEOF LPAREN id=entIdentUse RPAREN { res = new TypeofNode(getCoords(t), id); }
 	;
 	
-initMapOrSetExpr returns [ ExprNode res = env.initExprNode() ]
+initMapOrSetOrArrayExpr returns [ ExprNode res = env.initExprNode() ]
 	: MAP LT keyType=typeIdentUse COMMA valueType=typeIdentUse GT e1=initMapExpr[null, MapTypeNode.getMapType(keyType, valueType)] { res = e1; }
 	| SET LT valueType=typeIdentUse GT e2=initSetExpr[null, SetTypeNode.getSetType(valueType)] { res = e2; }
+	| ARRAY LT valueType=typeIdentUse GT e3=initArrayExpr[null, ArrayTypeNode.getArrayType(valueType)] { res = e3; }
 	| (LBRACE expr[false] RARROW) => e1=initMapExpr[null, null] { res = e1; }
 	| (LBRACE) => e2=initSetExpr[null, null] { res = e2; }
+	| (LBRACK) => e3=initArrayExpr[null, null] { res = e3; }
 	;
 	
 constant returns [ ExprNode res = env.initExprNode() ]
@@ -2639,7 +2719,7 @@ externalFunctionInvocationExpr [ boolean inEnumInit ] returns [ ExprNode res = e
 	;
 	
 selectorExpr [ ExprNode target, boolean inEnumInit ] returns [ ExprNode res = env.initExprNode() ]
-	:	l=LBRACK key=expr[inEnumInit] RBRACK { res = new MapAccessExprNode(getCoords(l), target, key); }
+	:	l=LBRACK key=expr[inEnumInit] RBRACK { res = new IndexedAccessExprNode(getCoords(l), target, key); }
 	|	d=DOT id=memberIdentUse
 		(
 			params=paramExprs[inEnumInit]
@@ -2768,7 +2848,7 @@ SR				:	'>>'	;
 BSR				:	'>>>'	;
 DIV				:	'/'		;
 PLUS			:	'+'		;
-PLUSASSIGN		:	'+='	;
+PLUS_ASSIGN		:	'+='	;
 MINUS			:	'-'		;
 STAR			:	'*'		;
 MOD				:	'%'		;
@@ -2862,6 +2942,7 @@ ABSTRACT : 'abstract';
 ACTIONS : 'actions';
 ALTERNATIVE : 'alternative';
 ARBITRARY : 'arbitrary';
+ARRAY : 'array';
 CLASS : 'class';
 COPY : 'copy';
 CONNECT : 'connect';

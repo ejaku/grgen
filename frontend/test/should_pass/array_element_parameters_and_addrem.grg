@@ -1,0 +1,55 @@
+using array_model_001;
+
+rule testArrayParameter(ref s:array<Node>)
+{
+	a:A;
+	if { a in s; }
+	
+	modify {
+		aa:AA;
+		eval {
+			s.add(aa);
+			s.add(aa, 0);
+			s.rem(0);
+			s.rem();
+			
+			s[0] = aa;
+			
+			a.val = a in s ? (s[1] in s ? 1 : 0) : a.niceArray[0].length();
+			
+			a.niceArray.add("hallo");
+			a.niceArray.add("hulla", 0);
+			a.niceArray.rem(1);
+			a.niceArray.rem();
+			
+			a.niceArray[0] = "aloah";
+		}
+	}
+}
+
+rule testArrayParameter2(ref s:array<A>)
+{
+	a:A;
+	if { a in s; }
+	
+	modify {
+		aa:AA;
+		eval {
+			s.add(aa);
+			s.add(aa,0);
+			s.rem(0);
+			s.rem();
+			
+			s[0] = aa;
+
+			a.val = a in s ? (s[0] in s ? 1 : 0) : a.spiceArray[1];
+			
+			a.spiceArray.add(42);
+			a.spiceArray.add(42, 0);
+			a.spiceArray.rem(1);
+			a.spiceArray.rem();
+			
+			a.spiceArray[0] = 0x1337;
+		}
+	}
+}

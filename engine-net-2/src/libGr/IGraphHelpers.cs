@@ -48,14 +48,19 @@ namespace de.unika.ipd.grGen.libGr
         Assign,
 
         /// <summary>
-        /// Inserting a value into some set or a key value pair into some map.
+        /// Inserting a value into some set or a key value pair into some map or a value into some array.
         /// </summary>
         PutElement,
 
         /// <summary>
-        /// Removing a value from some set or a key value pair from some map.
+        /// Removing a value from some set or a key value pair from some map or a key/index from some array.
         /// </summary>
-        RemoveElement
+        RemoveElement,
+
+        /// <summary>
+        /// Assignment of a value to a key/index position in an array, overwriting old element at that position.
+        /// </summary>
+        AssignElement
     }
 
     /// <summary>

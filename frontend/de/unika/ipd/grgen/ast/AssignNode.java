@@ -7,7 +7,6 @@
 
 /**
  * @author Sebastian Hack, Edgar Jakumeit
- * @version $Id$
  */
 package de.unika.ipd.grgen.ast;
 
@@ -74,7 +73,7 @@ public class AssignNode extends EvalStatementNode {
 	@Override
 	public Collection<BaseNode> getChildren() {
 		Vector<BaseNode> children = new Vector<BaseNode>();
-		children.add(getValidVersion(lhsUnresolved, lhsQual, lhsVar));
+		children.add(getValidVersion(lhsUnresolved, lhsQual, lhsVar, lhsGraphElement));
 		children.add(rhs);
 		return children;
 	}

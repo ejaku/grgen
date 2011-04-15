@@ -1,0 +1,172 @@
+using array_model_001;
+
+rule addToArray {
+	a:A;
+	
+	modify {
+		eval {
+			a.niceArray = a.niceArray + array<string>[ "yeah" ];
+			a.niceArray = a.niceArray + [ "yeah" ];
+		}
+	}
+}
+
+test containedInArray {
+	a:A;
+	
+	if { "yeah" in a.niceArray; }
+}
+
+rule computedAddToArray {
+	a:A; b:A;
+	
+	modify {
+		eval {
+			a.spiceArray = a.spiceArray + array<int>[ a.val + b.val*2 ];
+			a.spiceArray = a.spiceArray + [ a.val + b.val*2 ];
+		}
+	}
+}
+
+test computedContainedInArray {
+	a:A; b:A;
+	
+	if { a.val+b.val*2 in a.spiceArray; }
+}
+
+rule emitFromArray {
+	a:A;
+	if { 5 in a.spiceArray; }
+	
+	modify {
+		emit("is \"5\" contained? " + (5 in a.spiceArray ? "yes" : "no") + ", arraysize = " + a.spiceArray.size());
+	}
+}
+
+rule arrayVarContains(ref m:array<string>) {
+	if { "yeah" in m; }
+	
+	modify {
+		emit("\"yeah\" is contained? " + ("yeah" in m) + ", arraysize = " + m.size());
+	}
+}
+
+// This clones the arrays
+rule assignArrayToArray {
+	a:A -e:E-> a; 
+		
+	modify {
+		eval {
+			a.niceArray = e.niceArray;
+			e.spiceArray = a.spiceArray;
+			e.niceArray = a.niceArray;
+		}
+	}
+}
+
+rule useEnumArray {
+	a:A -e:E-> a;
+
+	if {
+		et::a in e.enumArray;
+		et::c in a.enumArray;
+	}
+	
+	modify {
+		eval {
+			e.val = (et::b in a.enumArray) ? 7 : 19;
+			a.val = (et::b in e.enumArray) ? 71 : 819;
+		}
+	}
+}
+
+test anonymousArray {
+	a:A -e:E-> a;
+	
+	if { 
+            a.val in array<int>[ 1, 3, 5, 7, 11, 13, 17 ]
+            && "blub" in array<string>[ "flap", "blab", "blub" ]
+		||
+            e.strval in array<string>[ "foo", "bar", "blubb" ]
+            && 13 in array<int>[ 2, 4, 13, 19 ]
+		||
+            14 in array<int>[ 2, 4, 13, 19 ];
+	}
+	
+	if { 
+            a.val in [ 1, 3, 5, 7, 11, 13, 17 ]
+            && "blub" in [ "flap", "blab", "blub" ]
+		||
+            e.strval in [ "foo", "bar", "blubb" ]
+            && 13 in [ 2, 4, 13, 19 ]
+		||
+            14 in [ 2, 4, 13, 19 ];
+	}
+}
+
+rule anonymousArrayInRewrite {
+	a:A -e:E-> a;
+
+	modify {
+		eval {
+			a.val = (5 in array<int>[1,2,3,4,5]) ? 1 : 0;
+			a.val = (5 in [1,2,3,4,5]) ? 1 : 0;
+		}
+	}
+}
+
+rule constantArrayContainedInPatternAndRewrite {
+	a:A;
+	
+	if { "yeah" in a.constNiceArray || a.val != 999 && "bar" in a.constNiceArray; }
+	
+	modify {
+		eval {
+			a.val = ((13 in a.constSpiceArray) ? 1 : 0) + ((42 in a.constSpiceArray) ? 2 : 0);
+		}
+	}
+}
+
+rule arrayEqualityContainment {
+	a:A; b:A;
+	
+	if { a.niceArray == b.niceArray; }
+	if { a.niceArray != b.niceArray; }
+	if { a.niceArray < b.niceArray; }
+	if { a.niceArray <= b.niceArray; }
+	if { a.niceArray > b.niceArray; }
+	if { a.niceArray >= b.niceArray; }
+	
+	modify {
+		eval {
+			a.val = (a.niceArray == b.niceArray) ? 1 : 0;
+			b.val = (a.niceArray != b.niceArray) ? 1 : 0;
+			a.val = (a.niceArray < b.niceArray) ? 1 : 0;
+			b.val = (a.niceArray <= b.niceArray) ? 1 : 0;
+			a.val = (a.niceArray > b.niceArray) ? 1 : 0;
+			b.val = (a.niceArray >= b.niceArray) ? 1 : 0;
+		}
+	}
+}
+
+rule arrayEqualityContainment2 {	
+	a:A; b:A;
+	
+	if { [1,2] == [1,2,a.val]; }
+	if { [1,2] != [1,2,a.val]; }
+	if { [1,2] < [1,2,a.val]; }
+	if { [1,2] <= [1,2,a.val]; }
+	if { [1,2] > [1,2,a.val]; }
+	if { [1,2] >= [1,2,a.val]; }
+	
+	modify {
+		eval {
+			a.val = ([1,2] == [1,2,a.val]) ? 1 : 0;
+			b.val = ([1,2] != [1,2,a.val]) ? 1 : 0;
+			a.val = ([1,2] < [1,2,a.val]) ? 1 : 0;
+			b.val = ([1,2] <= [1,2,a.val]) ? 1 : 0;
+			a.val = ([1,2]> [1,2,a.val]) ? 1 : 0;
+			b.val = ([1,2] >= [1,2,a.val]) ? 1 : 0;
+		}
+	}
+}

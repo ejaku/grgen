@@ -236,7 +236,36 @@ PARSER_BEGIN(GRSImporter)
 	        SetAttributes(elem, defrAttrInit);
         }
 
-		private object ParseAttributeValue(AttributeKind attrKind, String valueString) // not set/map/enum
+		public void DeferredAttributeInitialization(IGraphElement elem, string attr, string idx, string val)
+        {
+			AttributeType attrType = elem.Type.GetAttributeType(attr);
+			if(attrType.Kind == AttributeKind.ArrayAttr)
+			{
+				IList array = (IList)elem.GetAttribute(attr);
+				object index = ParseAttributeValue(AttributeKind.IntegerAttr, idx);
+				object value = ParseAttributeValue(attrType.ValueType, val);
+				AttributeChangeType changeType = AttributeChangeType.AssignElement;
+				if (elem is INode)
+					graph.ChangingNodeAttribute((INode)elem, attrType, changeType, value, index);
+				else
+					graph.ChangingEdgeAttribute((IEdge)elem, attrType, changeType, value, index);
+				array[(int)index] = value;
+			}
+			else
+			{
+				IDictionary setmap = (IDictionary)elem.GetAttribute(attr);
+				object index = ParseAttributeValue(attrType.KeyType, idx);
+				object value = ParseAttributeValue(attrType.ValueType, val);
+				AttributeChangeType changeType = AttributeChangeType.AssignElement;
+				if (elem is INode)
+					graph.ChangingNodeAttribute((INode)elem, attrType, changeType, value, index);
+				else
+					graph.ChangingEdgeAttribute((IEdge)elem, attrType, changeType, value, index);
+				setmap[index] = value;
+			}
+        }
+
+		private object ParseAttributeValue(AttributeKind attrKind, String valueString) // not set/map/array/enum
         {
             object value = null;
             switch(attrKind)
@@ -297,7 +326,7 @@ PARSER_BEGIN(GRSImporter)
             return value;
         }
 
-		private object ParseAttributeValue(AttributeType attrType, String valueString) // not set/map
+		private object ParseAttributeValue(AttributeType attrType, String valueString) // not set/map/array
         {
             object value = null;
             if(attrType.Kind==AttributeKind.EnumAttr)
@@ -330,12 +359,13 @@ PARSER_BEGIN(GRSImporter)
                 AttributeType attrType = elem.Type.GetAttributeType(par.Key);
                 object value = null;
                 IDictionary setmap = null;
+				IList array = null;
                 switch(attrType.Kind)
                 {
                 case AttributeKind.SetAttr:
 	                if(par.Value!="set") throw new Exception("Set literal expected");
-	                setmap = DictionaryHelper.NewDictionary(
-	                    DictionaryHelper.GetTypeFromNameForDictionary(par.Type, graph),
+	                setmap = DictionaryListHelper.NewDictionary(
+	                    DictionaryListHelper.GetTypeFromNameForDictionaryOrList(par.Type, graph),
 	                    typeof(de.unika.ipd.grGen.libGr.SetValueType));
 	                foreach(object val in par.Values)
 	                {
@@ -345,9 +375,9 @@ PARSER_BEGIN(GRSImporter)
 	                break;
                 case AttributeKind.MapAttr:
    	                if(par.Value!="map") throw new Exception("Map literal expected");
-	                setmap = DictionaryHelper.NewDictionary(
-	                    DictionaryHelper.GetTypeFromNameForDictionary(par.Type, graph),
-	                    DictionaryHelper.GetTypeFromNameForDictionary(par.TgtType, graph));
+	                setmap = DictionaryListHelper.NewDictionary(
+	                    DictionaryListHelper.GetTypeFromNameForDictionaryOrList(par.Type, graph),
+	                    DictionaryListHelper.GetTypeFromNameForDictionaryOrList(par.TgtType, graph));
 	                IEnumerator tgtValEnum = par.TgtValues.GetEnumerator();
 	                foreach(object val in par.Values)
 	                {
@@ -357,6 +387,16 @@ PARSER_BEGIN(GRSImporter)
 	                }
 	                value = setmap;
 	                break;
+				case AttributeKind.ArrayAttr:
+					if(par.Value!="array") throw new Exception("Array literal expected");
+					array = DictionaryListHelper.NewList(
+						DictionaryListHelper.GetTypeFromNameForDictionaryOrList(par.Type, graph));
+					foreach(object val in par.Values)
+					{
+						array.Add( ParseAttributeValue(attrType.ValueType, (String)val) );
+					}
+					value = array;
+					break;
 				default:
 					value = ParseAttributeValue(attrType, par.Value);
 					break;
@@ -398,6 +438,8 @@ TOKEN: {
 |   < RANGLE: ">" >
 |   < LBRACE: "{" >
 |   < RBRACE: "}" >
+|   < LBOXBRACKET: "[" >
+|   < RBOXBRACKET: "]" >
 }
 
 TOKEN: {
@@ -409,6 +451,7 @@ TOKEN: {
 |   < TRUE: "true" >
 |   < SET: "set" >
 |   < MAP: "map" >
+|   < ARRAY: "array" >
 }
 
 TOKEN: {
@@ -573,6 +616,7 @@ bool ParseGraphBuildingScript() :
 	IGraphElement elem;
 	String attrName;
 	ArrayList defrAttrInit;
+	String index, value;
 }
 {
 	(
@@ -604,9 +648,15 @@ bool ParseGraphBuildingScript() :
 			}
 		)
 	|
-		elem=GraphElement() "." { defrAttrInit = new ArrayList(); } SingleAttribute(defrAttrInit) LineEnd()
+		LOOKAHEAD(3) elem=GraphElement() "." { defrAttrInit = new ArrayList(); } SingleAttribute(defrAttrInit) LineEnd()
 			{ 
 				DeferredAttributeInitialization(elem, defrAttrInit);
+				return true;
+			}
+	|
+		elem=GraphElement() "." attrName=Text() "[" index=AttributeValue() "]" "=" value=AttributeValue() LineEnd()
+			{ 
+				DeferredAttributeInitialization(elem, attrName, index, value);
 				return true;
 			}
 	| <NL>
@@ -671,6 +721,11 @@ void SingleAttribute(ArrayList attributes):
 			{ param = new Param(attribName, "map", type.image, typeTgt.image); }
 			<LBRACE> ( value=AttributeValue() { param.Values.Add(value); } <ARROW> valueTgt=AttributeValue() { param.TgtValues.Add(valueTgt); } )?
 				( <COMMA> value=AttributeValue() { param.Values.Add(value); } <ARROW> valueTgt=AttributeValue() { param.TgtValues.Add(valueTgt); } )* <RBRACE>
+			{ attributes.Add(param); }
+		| <ARRAY> <LANGLE> type=<WORD> <RANGLE> 
+			{ param = new Param(attribName, "array", type.image); }
+			<LBOXBRACKET> ( value=AttributeValue() { param.Values.Add(value); } )? 
+			    (<COMMA> value=AttributeValue() { param.Values.Add(value); })* <RBOXBRACKET>
 			{ attributes.Add(param); }
 		)
 }

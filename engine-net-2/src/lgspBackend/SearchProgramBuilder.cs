@@ -966,18 +966,23 @@ namespace de.unika.ipd.grGen.lgsp
             IsomorphyInformation isomorphy)
         {
             bool isNode = target.NodeType == PlanNodeType.Node;
+            bool isDict = !TypesHelper.DotNetTypeToXgrsType(storage.Type).StartsWith("array");
             string negativeIndependentNamePrefix = NegativeIndependentNamePrefix(patternGraphWithNestingPatterns.Peek());
 
             // iterate available storage elements
-            string keyValuePairName = "System.Collections.Generic.KeyValuePair<" 
+            string iterationType;
+            if(isDict) iterationType = "System.Collections.Generic.KeyValuePair<" 
                 + TypesHelper.GetStorageKeyTypeName(storage.Type) + ","
                 + TypesHelper.GetStorageValueTypeName(storage.Type) + ">";
+            else
+                iterationType = TypesHelper.GetStorageKeyTypeName(storage.Type);
             GetCandidateByIteration elementsIteration =
                 new GetCandidateByIteration(
                     GetCandidateByIterationType.StorageElements,
                     target.PatternElement.Name,
                     storage.Name,
-                    keyValuePairName,
+                    iterationType,
+                    isDict,
                     isNode);
             SearchProgramOperation continuationPoint =
                 insertionPoint.Append(elementsIteration);
@@ -1098,23 +1103,27 @@ namespace de.unika.ipd.grGen.lgsp
             IsomorphyInformation isomorphy)
         {
             bool isNode = target.NodeType == PlanNodeType.Node;
+            bool isDict = storageAttribute.Kind != AttributeKind.ArrayAttr;
             string negativeIndependentNamePrefix = NegativeIndependentNamePrefix(patternGraphWithNestingPatterns.Peek());
 
             // iterate available storage elements
-            string keyValuePairName;
-            if(storageAttribute.Kind==AttributeKind.SetAttr)
-            {
-                keyValuePairName = "System.Collections.Generic.KeyValuePair<"
-                    + TypesHelper.XgrsTypeToCSharpType(storageAttribute.ValueType.GetKindName(), model) + ","
-                    + "de.unika.ipd.grGen.libGr.SetValueType" + ">";
-            }
+            string iterationType;
+            if(isDict)
+                if(storageAttribute.Kind == AttributeKind.SetAttr)
+                {
+                    iterationType = "System.Collections.Generic.KeyValuePair<"
+                        + TypesHelper.XgrsTypeToCSharpType(storageAttribute.ValueType.GetKindName(), model) + ","
+                        + "de.unika.ipd.grGen.libGr.SetValueType" + ">";
+                }
+                else
+                {
+                    iterationType = "System.Collections.Generic.KeyValuePair<"
+                        + TypesHelper.XgrsTypeToCSharpType(storageAttribute.KeyType.GetKindName(), model) + ","
+                        + TypesHelper.XgrsTypeToCSharpType(storageAttribute.ValueType.GetKindName(), model) + ">";
+                }
             else
-            {
-                keyValuePairName = "System.Collections.Generic.KeyValuePair<"
-                    + TypesHelper.XgrsTypeToCSharpType(storageAttribute.KeyType.GetKindName(), model) + ","
-                    + TypesHelper.XgrsTypeToCSharpType(storageAttribute.ValueType.GetKindName(), model) + ">";
-            }
-
+                iterationType = TypesHelper.XgrsTypeToCSharpType(storageAttribute.ValueType.GetKindName(), model);
+ 
             GetCandidateByIteration elementsIteration =
                 new GetCandidateByIteration(
                     GetCandidateByIterationType.StorageAttributeElements,
@@ -1122,7 +1131,8 @@ namespace de.unika.ipd.grGen.lgsp
                     source.PatternElement.Name,
                     source.PatternElement.typeName,
                     storageAttribute.Name,
-                    keyValuePairName,
+                    iterationType,
+                    isDict,
                     isNode);
             SearchProgramOperation continuationPoint =
                 insertionPoint.Append(elementsIteration);

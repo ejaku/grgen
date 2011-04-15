@@ -1,0 +1,9 @@
+using array_model_001;
+
+test testWrongType {
+	a:A;
+	
+	if {
+		a.stringValue in a.intArray;
+	}
+}

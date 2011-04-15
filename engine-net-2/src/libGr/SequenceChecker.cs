@@ -168,20 +168,22 @@ namespace de.unika.ipd.grGen.libGr
             case SequenceType.AssignVarToAttribute:
             case SequenceType.AssignElemToVar:
             case SequenceType.AssignVAllocToVar:
-            case SequenceType.AssignSetmapSizeToVar:
-            case SequenceType.AssignSetmapEmptyToVar:
-            case SequenceType.AssignMapAccessToVar:
+            case SequenceType.AssignContainerSizeToVar:
+            case SequenceType.AssignContainerEmptyToVar:
+            case SequenceType.AssignContainerAccessToVar:
+            case SequenceType.AssignVarToIndexedVar:
             case SequenceType.IsVisited:
             case SequenceType.SetVisited:
             case SequenceType.VFree:
             case SequenceType.VReset:
             case SequenceType.Emit:
             case SequenceType.Record:
-            case SequenceType.SetmapAdd:
-            case SequenceType.SetmapRem:
-            case SequenceType.SetmapClear:
-            case SequenceType.InSetmap:
+            case SequenceType.ContainerAdd:
+            case SequenceType.ContainerRem:
+            case SequenceType.ContainerClear:
+            case SequenceType.InContainer:
                 // Nothing to be done here
+                // TODO: type checks as in lgsp sequence checker, even more possible as we got all the information
                 break;
 
             default:

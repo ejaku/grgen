@@ -1,4 +1,4 @@
-using set_map_node_req, set_map_node_edge;
+using set_map_array_node_req, set_map_array_node_edge;
 
 rule r(var b:boolean, var i:int, var s:string, var f:float, var d:double, var e:Lol, ref ss:set<int>, ref m:map<string, boolean>)
 {

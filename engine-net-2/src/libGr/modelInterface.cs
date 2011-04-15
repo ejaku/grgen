@@ -301,10 +301,13 @@ namespace de.unika.ipd.grGen.libGr
         /// <summary>The attribute is a set.</summary>
         SetAttr,
 
-        /// <summary>The attribute is a node (only valid for set/map key/value type).</summary>
+        /// <summary>The attribute is an array.</summary>
+        ArrayAttr,
+
+        /// <summary>The attribute is a node (only valid for set/map/array key/value type).</summary>
         NodeAttr,
 
-        /// <summary>The attribute is an edge (only valid for set/map key/value type).</summary>
+        /// <summary>The attribute is an edge (only valid for set/map/array key/value type).</summary>
         EdgeAttr
     }
 
@@ -336,6 +339,7 @@ namespace de.unika.ipd.grGen.libGr
         /// <summary>
         /// The attribute type of the value of the set, if Kind == AttributeKind.SetAttr.
         /// The attribute type of the value of the map, if Kind == AttributeKind.MapAttr.
+        /// The attribute type of the value of the array, if Kind == AttributeKind.ArrayAttr.
         /// Undefined otherwise.
         /// </summary>
         public readonly AttributeType ValueType;
@@ -368,7 +372,7 @@ namespace de.unika.ipd.grGen.libGr
         /// <param name="ownerType">The owner model type.</param>
         /// <param name="kind">The kind of the attribute.</param>
         /// <param name="enumType">The enum type description, if Kind == AttributeKind.EnumAttr, otherwise null.</param>
-        /// <param name="valueType">The attribute type of the value of the set, if Kind == AttributeKind.SetAttr; the attribute type of the value of the map, if Kind == AttributeKind.MapAttr; otherwise null. </param>
+        /// <param name="valueType">The attribute type of the value of the set, if Kind == AttributeKind.SetAttr; the attribute type of the value of the map, if Kind == AttributeKind.MapAttr; the attribute type of the value of the array, if Kind == AttributeKind.ArrayAttr; otherwise null. </param>
         /// <param name="keyType">The attribute type of the key of the map, if Kind == AttributeKind.MapAttr; otherwise null.</param>
         /// <param name="typeName">The name of the attribute type, if Kind == AttributeKind.NodeAttr || Kind == AttributeKind.EdgeAttr; otherwise null.</param>
         public AttributeType(String name, GrGenType ownerType, AttributeKind kind,
@@ -413,7 +417,8 @@ namespace de.unika.ipd.grGen.libGr
             {
                 case AttributeKind.EnumAttr: return EnumType.Name;
                 case AttributeKind.SetAttr: return "set<"+ValueType.GetKindName()+">";
-                case AttributeKind.MapAttr: return "map<"+KeyType.GetKindName()+","+ValueType.GetKindName()+">";
+                case AttributeKind.ArrayAttr: return "array<" + ValueType.GetKindName() + ">";
+                case AttributeKind.MapAttr: return "map<" + KeyType.GetKindName() + "," + ValueType.GetKindName() + ">";
                 case AttributeKind.NodeAttr: return TypeName;
                 case AttributeKind.EdgeAttr: return TypeName;
             }

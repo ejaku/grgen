@@ -1,0 +1,17 @@
+using array_model_001;
+
+rule addToArray {
+	a:A; b:A;
+	
+	modify {
+		eval {
+			a.niceArray = (a.niceArray + array<string>[ "yeah", a.strval ]) + array<string>[ "hey", b.strval ];
+			a.spiceArray = a.spiceArray + array<int>[ a.val + b.val*2, a.val ] + array<int>[ a.val - b.val*2, b.val ];
+		}
+		
+		eval {
+			a.niceArray = (a.niceArray + [ "yeah", a.strval ]) + [ "hey", b.strval ];
+			a.spiceArray = a.spiceArray + [ a.val + b.val*2, a.val ] + [ a.val - b.val*2, b.val ];
+		}
+	}
+}

@@ -7,7 +7,6 @@
 
 /**
  * @author Rubino Geiss
- * @version $Id$
  */
 package de.unika.ipd.grgen.ir;
 
@@ -27,6 +26,12 @@ public class Assignment extends EvalStatement {
 
 	public Assignment(Qualification target, Expression expr) {
 		super("assignment");
+		this.target = target;
+		this.expr = expr;
+	}
+
+	protected Assignment(String name, Qualification target, Expression expr) {
+		super(name);
 		this.target = target;
 		this.expr = expr;
 	}

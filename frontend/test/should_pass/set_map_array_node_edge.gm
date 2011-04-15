@@ -9,4 +9,6 @@ node class Gaggl
 	t:set<A>;
 	u:map<Node,Edge>;
 	v:map<A,E>;
+	k:array<Node>;
+	l:array<A>;
 }

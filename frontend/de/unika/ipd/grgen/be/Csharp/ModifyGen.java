@@ -28,10 +28,18 @@ import java.util.Map;
 
 import de.unika.ipd.grgen.ir.Alternative;
 import de.unika.ipd.grgen.ir.AlternativeReplacement;
+import de.unika.ipd.grgen.ir.ArrayAddItem;
+import de.unika.ipd.grgen.ir.ArrayInit;
+import de.unika.ipd.grgen.ir.ArrayRemoveItem;
+import de.unika.ipd.grgen.ir.ArrayType;
+import de.unika.ipd.grgen.ir.ArrayVarAddItem;
+import de.unika.ipd.grgen.ir.ArrayVarRemoveItem;
 import de.unika.ipd.grgen.ir.Assignment;
+import de.unika.ipd.grgen.ir.AssignmentIndexed;
 import de.unika.ipd.grgen.ir.AssignmentGraphEntity;
 import de.unika.ipd.grgen.ir.AssignmentIdentical;
 import de.unika.ipd.grgen.ir.AssignmentVar;
+import de.unika.ipd.grgen.ir.AssignmentVarIndexed;
 import de.unika.ipd.grgen.ir.AssignmentVisited;
 import de.unika.ipd.grgen.ir.BooleanType;
 import de.unika.ipd.grgen.ir.CompoundAssignment;
@@ -243,9 +251,10 @@ public class ModifyGen extends CSharpBase {
 			neededVariables = needs.variables;
 
 			int i = 0;
-			for(Expression expr : needs.mapSetExprs) {
-				if(expr instanceof MapInit || expr instanceof SetInit) continue;
-				mapExprToTempVar.put(expr, "tempmapsetvar_" + i);
+			for(Expression expr : needs.mapSetArrayExprs) {
+				if(expr instanceof MapInit || expr instanceof SetInit || expr instanceof ArrayInit)
+					continue;
+				mapExprToTempVar.put(expr, "tempmapsetarrayvar_" + i);
 				i++;
 			}
 		}
@@ -257,7 +266,7 @@ public class ModifyGen extends CSharpBase {
 
 	// eval statement generation state
 	HashSet<String> defined = new HashSet<String>();
-	int mapSetVarID;
+	int mapSetArrayVarID;
 
 	SearchPlanBackend2 be;
 	
@@ -660,9 +669,9 @@ public class ModifyGen extends CSharpBase {
 		collectElementsAndAttributesNeededByDefVarToBeYieldedToInitialization(state, needs);
 
 		// Do not collect map and set expressions for evals
-		needs.collectMapSetExprs = false;
+		needs.collectMapSetArrayExprs = false;
 		collectElementsAndAttributesNeededByEvals(task, needs);
-		needs.collectMapSetExprs = true;
+		needs.collectMapSetArrayExprs = true;
 
 		// Fill state with information gathered in needs
 		state.InitNeeds(needs);
@@ -704,7 +713,7 @@ public class ModifyGen extends CSharpBase {
 
 		genDelSubpatternCalls(sb3, stateConst);
 
-		genMapAndSetVariablesBeforeImperativeStatements(sb3, stateConst);
+		genMapSetArrayVariablesBeforeImperativeStatements(sb3, stateConst);
 
 		state.useVarForMapResult = true;
 		genImperativeStatements(sb3, stateConst, task, pathPrefix);
@@ -1085,7 +1094,7 @@ public class ModifyGen extends CSharpBase {
 					sb.append("false;\n");
 				} else if(var.getType() instanceof StringType || var.getType() instanceof ObjectType 
 						|| var.getType() instanceof VoidType || var.getType() instanceof ExternalType 
-						|| var.getType() instanceof MapType || var.getType() instanceof SetType) {
+						|| var.getType() instanceof MapType || var.getType() instanceof SetType || var.getType() instanceof ArrayType) {
 					sb.append("null;\n");
 				} else {
 					throw new IllegalArgumentException("Unknown type: " + var.getType());
@@ -1112,7 +1121,7 @@ public class ModifyGen extends CSharpBase {
 		}
 	}
 
-	private void genMapAndSetVariablesBeforeImperativeStatements(StringBuffer sb, ModifyGenerationStateConst state) {
+	private void genMapSetArrayVariablesBeforeImperativeStatements(StringBuffer sb, ModifyGenerationStateConst state) {
 		for(Map.Entry<Expression, String> entry : state.mapExprToTempVar().entrySet()) {
 			Expression expr = entry.getKey();
 			String varName = entry.getValue();
@@ -1216,7 +1225,8 @@ public class ModifyGen extends CSharpBase {
 
 			String grEntName = formatEntity(owner);
 			for(Entity entity : entry.getValue()) {
-				if(entity.getType() instanceof MapType || entity.getType() instanceof SetType) continue;
+				if(entity.getType() instanceof MapType || entity.getType() instanceof SetType || entity.getType() instanceof ArrayType)
+					continue;
 
 				genVariable(sb, grEntName, entity);
 				sb.append(" = ");
@@ -1741,7 +1751,7 @@ public class ModifyGen extends CSharpBase {
 	private void initEvalGen() {
 		// init eval statement generation state
 		defined.clear();
-		mapSetVarID = 0;
+		mapSetArrayVarID = 0;
 	}
 
 	private void genEvals(StringBuffer sb, ModifyGenerationStateConst state, Collection<EvalStatement> evalStatements) {
@@ -1751,10 +1761,10 @@ public class ModifyGen extends CSharpBase {
 	}
 
 	private void genEvalStmt(StringBuffer sb, ModifyGenerationStateConst state, EvalStatement evalStmt) {
-		if(evalStmt instanceof Assignment) {
+		if(evalStmt instanceof Assignment) { // includes evalStmt instanceof AssignmentIndexed
 			genAssignment(sb, state, (Assignment) evalStmt);
 		}
-		else if(evalStmt instanceof AssignmentVar) {
+		else if(evalStmt instanceof AssignmentVar) { // includes evalStmt instanceof AssignmentVarIndexed
 			genAssignmentVar(sb, state, (AssignmentVar) evalStmt);
 		}
 		else if(evalStmt instanceof AssignmentGraphEntity) {
@@ -1802,6 +1812,12 @@ public class ModifyGen extends CSharpBase {
 		else if(evalStmt instanceof SetAddItem) {
 			genSetAddItem(sb, state, (SetAddItem) evalStmt);
 		}
+		else if(evalStmt instanceof ArrayRemoveItem) {
+			genArrayRemoveItem(sb, state, (ArrayRemoveItem) evalStmt);
+		} 
+		else if(evalStmt instanceof ArrayAddItem) {
+			genArrayAddItem(sb, state, (ArrayAddItem) evalStmt);
+		}
 		else if(evalStmt instanceof MapVarRemoveItem) {
 			genMapVarRemoveItem(sb, state, (MapVarRemoveItem) evalStmt);
 		} 
@@ -1814,6 +1830,12 @@ public class ModifyGen extends CSharpBase {
 		else if(evalStmt instanceof SetVarAddItem) {
 			genSetVarAddItem(sb, state, (SetVarAddItem) evalStmt);
 		}
+		else if(evalStmt instanceof ArrayVarRemoveItem) {
+			genArrayVarRemoveItem(sb, state, (ArrayVarRemoveItem) evalStmt);
+		}
+		else if(evalStmt instanceof ArrayVarAddItem) {
+			genArrayVarAddItem(sb, state, (ArrayVarAddItem) evalStmt);
+		}
 		else {
 			throw new UnsupportedOperationException("Unexpected eval statement \"" + evalStmt + "\"");
 		}
@@ -1822,10 +1844,14 @@ public class ModifyGen extends CSharpBase {
 	private void genAssignment(StringBuffer sb, ModifyGenerationStateConst state, Assignment ass) {
 		Qualification target = ass.getTarget();
 		Expression expr = ass.getExpression();
+		Type targetType = target.getType();
 
-		if(target.getType() instanceof MapType || target.getType() instanceof SetType) {
-			String typeName = formatAttributeType(target.getType());
-			String varName = "tempmapsetvar_" + mapSetVarID++;
+		if((targetType instanceof MapType 
+			|| targetType instanceof SetType 
+			|| targetType instanceof ArrayType)
+				&& !(ass instanceof AssignmentIndexed)) {
+			String typeName = formatAttributeType(targetType);
+			String varName = "tempmapsetarrayvar_" + mapSetArrayVarID++;
 
 			// Check whether we have to make a copy of the right hand side of the assignment
 			boolean mustCopy = true;
@@ -1855,8 +1881,16 @@ public class ModifyGen extends CSharpBase {
 			return;
 		}
 
+		// indexed assignment to array/map, the target type is the array/map value type
+		if(ass instanceof AssignmentIndexed && targetType instanceof ArrayType) {
+			targetType = ((ArrayType)targetType).getValueType();
+		}
+		if(ass instanceof AssignmentIndexed && targetType instanceof MapType) {
+			targetType = ((MapType)targetType).getValueType();
+		}
+
 		String varName, varType;
-		switch(target.getType().classify()) {
+		switch(targetType.classify()) {
 			case Type.IS_BOOLEAN:
 				varName = "tempvar_bool";
 				varType = defined.contains("bool") ? "" : "bool ";
@@ -1888,28 +1922,87 @@ public class ModifyGen extends CSharpBase {
 				defined.add("object");
 				break;
 			case Type.IS_EXTERNAL_TYPE:
-				varName = "tempvar_" + target.getType().getIdent();
-				varType = defined.contains(target.getType().getIdent().toString()) ? "" : "GRGEN_MODEL."+target.getType().getIdent()+" ";
-				defined.add(target.getType().getIdent().toString());
+				varName = "tempvar_" + targetType.getIdent();
+				varType = defined.contains(targetType.getIdent().toString()) ? "" : "GRGEN_MODEL."+targetType.getIdent()+" ";
+				defined.add(targetType.getIdent().toString());
 				break;
 			default:
 				throw new IllegalArgumentException();
 		}
 
 		sb.append("\t\t\t" + varType + varName + " = ");
-		if(target.getType() instanceof EnumType)
+		if(targetType instanceof EnumType)
 			sb.append("(int) ");
 		genExpression(sb, expr, state);
 		sb.append(";\n");
 
-		genChangingAttribute(sb, state, target, "Assign", varName, "null");
+		if(ass instanceof AssignmentIndexed)
+		{
+			AssignmentIndexed assIdx = (AssignmentIndexed)ass; 
 
-		sb.append("\t\t\t");
-		genExpression(sb, target, state);
-		sb.append(" = ");
-		if(target.getType() instanceof EnumType)
-			sb.append("(GRGEN_MODEL.ENUM_" + formatIdentifiable(target.getType()) + ") ");
-		sb.append(varName + ";\n");
+			if(target.getType() instanceof ArrayType) {
+				String indexType = defined.contains("index") ? "" : "int ";
+				defined.add("index");
+				String indexName = "tempvar_index";
+				sb.append("\t\t\t" + indexType + indexName + " = (int)");
+				genExpression(sb, assIdx.getIndex(), state);
+				sb.append(";\n");
+
+				sb.append("\t\t\tif(" + indexName + " < ");
+				genExpression(sb, target, state);
+				sb.append(".Count) {\n");
+
+				sb.append("\t");
+				genChangingAttribute(sb, state, target, "AssignElement", varName, indexName);
+
+				sb.append("\t\t\t\t");
+				genExpression(sb, target, state);
+				sb.append("[");
+				sb.append(indexName);
+				sb.append("]");
+			} else { //if(target.getType() instanceof MapType)
+				String indexType = defined.contains("index"+targetType.getIdent().toString()) ? "" : ("GRGEN_MODEL."+targetType.getIdent()+" ");
+				defined.add("index"+targetType.getIdent().toString());
+				String indexName = "tempvar_index_"+targetType.getIdent().toString();
+				sb.append("\t\t\t" + indexType + indexName + " = ");
+				genExpression(sb, assIdx.getIndex(), state);
+				sb.append(";\n");
+
+				sb.append("\t\t\tif(");
+				genExpression(sb, target, state);
+				sb.append(".Contains(");
+				sb.append(indexName);
+				sb.append(") {\n");
+
+				sb.append("\t");
+				genChangingAttribute(sb, state, target, "AssignElement", varName, indexName);
+				
+				sb.append("\t\t\t\t");
+				genExpression(sb, target, state);
+				sb.append("[");
+				sb.append(indexName);
+				sb.append("]");
+			}
+			
+			sb.append(" = ");
+			if(targetType instanceof EnumType)
+				sb.append("(GRGEN_MODEL.ENUM_" + formatIdentifiable(targetType) + ") ");
+			sb.append(varName + ";\n");
+			
+			sb.append("\t\t\t}\n");
+		}
+		else
+		{
+			genChangingAttribute(sb, state, target, "Assign", varName, "null");
+	
+			sb.append("\t\t\t");
+			genExpression(sb, target, state);
+			
+			sb.append(" = ");
+			if(targetType instanceof EnumType)
+				sb.append("(GRGEN_MODEL.ENUM_" + formatIdentifiable(targetType) + ") ");
+			sb.append(varName + ";\n");
+		}
 	}
 
 	private void genAssignmentVar(StringBuffer sb, ModifyGenerationStateConst state, AssignmentVar ass) {
@@ -1918,6 +2011,13 @@ public class ModifyGen extends CSharpBase {
 
 		sb.append("\t\t\t");
 		sb.append("var_" + target.getIdent());
+		if(ass instanceof AssignmentVarIndexed) {
+			AssignmentVarIndexed assIdx = (AssignmentVarIndexed)ass;
+			Expression index = assIdx.getIndex();
+			sb.append("[(int)");
+			genExpression(sb, index, state);
+			sb.append("]");
+		}
 		sb.append(" = ");
 		if(target.getType() instanceof EnumType)
 			sb.append("(GRGEN_MODEL.ENUM_" + formatIdentifiable(target.getType()) + ") ");
@@ -2023,7 +2123,7 @@ public class ModifyGen extends CSharpBase {
 			String prefix, String postfix)
 	{
 		Qualification target = cass.getTarget();
-		assert(target.getType() instanceof MapType || target.getType() instanceof SetType);
+		assert(target.getType() instanceof MapType || target.getType() instanceof SetType || target.getType() instanceof ArrayType);
 		Expression expr = cass.getExpression();
 
 		Entity element = target.getOwner();
@@ -2033,13 +2133,14 @@ public class ModifyGen extends CSharpBase {
 		boolean isDeletedElem = element instanceof Node ? state.delNodes().contains(element) : state.delEdges().contains(element);
 		if(!isDeletedElem && be.system.mayFireEvents()) {
 			sb.append(prefix);
-			sb.append("GRGEN_LIBGR.DictionaryHelper.");
 			if(cass.getOperation()==CompoundAssignment.UNION)
-				sb.append("UnionChanged(");
+				sb.append("GRGEN_LIBGR.DictionaryListHelper.UnionChanged(");
 			else if(cass.getOperation()==CompoundAssignment.INTERSECTION)
-				sb.append("IntersectChanged(");
-			else //if(cass.getOperation()==CompoundAssignment.WITHOUT)
-				sb.append("ExceptChanged(");
+				sb.append("GRGEN_LIBGR.DictionaryListHelper.IntersectChanged(");
+			else if(cass.getOperation()==CompoundAssignment.WITHOUT)
+				sb.append("GRGEN_LIBGR.DictionaryListHelper.ExceptChanged(");
+			else //if(cass.getOperation()==CompoundAssignment.CONCATENATE)
+				sb.append("GRGEN_LIBGR.DictionaryListHelper.ConcatenateChanged(");
 			genExpression(sb, target, state);
 			sb.append(", ");
 			genExpression(sb, expr, state);
@@ -2127,17 +2228,18 @@ public class ModifyGen extends CSharpBase {
 			String prefix, String postfix)
 	{
 		Variable target = cass.getTarget();
-		assert(target.getType() instanceof MapType || target.getType() instanceof SetType);
+		assert(target.getType() instanceof MapType || target.getType() instanceof SetType || target.getType() instanceof ArrayType);
 		Expression expr = cass.getExpression();
 
 		sb.append(prefix);
-		sb.append("GRGEN_LIBGR.DictionaryHelper.");
 		if(cass.getOperation()==CompoundAssignment.UNION)
-			sb.append("UnionChanged(");
+			sb.append("GRGEN_LIBGR.DictionaryListHelper.UnionChanged(");
 		else if(cass.getOperation()==CompoundAssignment.INTERSECTION)
-			sb.append("IntersectChanged(");
-		else //if(cass.getOperation()==CompoundAssignment.WITHOUT)
-			sb.append("ExceptChanged(");
+			sb.append("GRGEN_LIBGR.DictionaryListHelper.IntersectChanged(");
+		else if(cass.getOperation()==CompoundAssignment.WITHOUT)
+			sb.append("GRGEN_LIBGR.DictionaryListHelper.ExceptChanged(");
+		else //if(cass.getOperation()==CompoundAssignment.CONCATENATE)
+			sb.append("GRGEN_LIBGR.DictionaryListHelper.ConcatenateChanged(");
 		sb.append("var_" + target.getIdent());
 		sb.append(", ");
 		genExpression(sb, expr, state);
@@ -2245,6 +2347,71 @@ public class ModifyGen extends CSharpBase {
 		}
 	}
 
+	private void genArrayRemoveItem(StringBuffer sb, ModifyGenerationStateConst state, ArrayRemoveItem ari) {
+		Qualification target = ari.getTarget();
+
+		String indexStr = "null";
+		if(ari.getIndexExpr()!=null) {
+			StringBuffer sbtmp = new StringBuffer();
+			genExpression(sbtmp, ari.getIndexExpr(), state);
+			indexStr = sbtmp.toString();
+		}
+		
+		genChangingAttribute(sb, state, target, "RemoveElement", "null", indexStr);
+
+		sb.append("\t\t\t");
+		genExpression(sb, target, state);
+		sb.append(".RemoveAt(");
+		if(ari.getIndexExpr()!=null) {
+			sb.append(indexStr);
+		} else {
+			sb.append("(");
+			genExpression(sb, target, state);
+			sb.append(").Count - 1");
+		}
+		sb.append(");\n");
+
+		if(ari.getNext()!=null) {
+			genEvalStmt(sb, state, ari.getNext());
+		}
+	}
+
+	private void genArrayAddItem(StringBuffer sb, ModifyGenerationStateConst state, ArrayAddItem aai) {
+		Qualification target = aai.getTarget();
+
+		StringBuffer sbtmp = new StringBuffer();
+		genExpression(sbtmp, aai.getValueExpr(), state);
+		String valueExprStr = sbtmp.toString();
+		
+		sbtmp = new StringBuffer();
+		String indexExprStr = "null";
+		if(aai.getIndexExpr()!=null) {
+			genExpression(sbtmp, aai.getIndexExpr(), state);
+			indexExprStr = sbtmp.toString();
+		}
+
+		genChangingAttribute(sb, state, target, "PutElement", valueExprStr, indexExprStr);
+
+		sb.append("\t\t\t");
+		genExpression(sb, target, state);
+		if(aai.getIndexExpr()==null) {
+			sb.append(".Add(");
+		} else {
+			sb.append(".Insert(");
+			sb.append(indexExprStr);
+			sb.append(", ");
+		}
+		if(aai.getValueExpr() instanceof GraphEntityExpression)
+			sb.append("(" + formatElementInterfaceRef(aai.getValueExpr().getType()) + ")(" + valueExprStr + ")");
+		else
+			sb.append(valueExprStr);
+		sb.append(");\n");
+		
+		if(aai.getNext()!=null) {
+			genEvalStmt(sb, state, aai.getNext());
+		}
+	}
+
 	private void genMapVarRemoveItem(StringBuffer sb, ModifyGenerationStateConst state, MapVarRemoveItem mvri) {
 		Variable target = mvri.getTarget();
 
@@ -2324,7 +2491,64 @@ public class ModifyGen extends CSharpBase {
 		
 		assert svai.getNext()==null;
 	}
-	
+
+	private void genArrayVarRemoveItem(StringBuffer sb, ModifyGenerationStateConst state, ArrayVarRemoveItem avri) {
+		Variable target = avri.getTarget();
+
+		String indexStr = "null";
+		if(avri.getIndexExpr()!=null) {
+			StringBuffer sbtmp = new StringBuffer();
+			genExpression(sbtmp, avri.getIndexExpr(), state);
+			indexStr = sbtmp.toString();
+		}
+
+		sb.append("\t\t\tvar_" + target.getIdent());
+		sb.append(".RemoveAt(");
+
+		if(avri.getIndexExpr()!=null) {
+			sb.append(indexStr);
+		} else {
+			sb.append("(");
+			sb.append("\t\t\tvar_" + target.getIdent());
+			sb.append(").Count - 1");
+		}
+		sb.append(");\n");
+		
+		assert avri.getNext()==null;
+	}
+
+	private void genArrayVarAddItem(StringBuffer sb, ModifyGenerationStateConst state, ArrayVarAddItem avai) {
+		Variable target = avai.getTarget();
+
+		StringBuffer sbtmp = new StringBuffer();
+		genExpression(sbtmp, avai.getValueExpr(), state);
+		String valueExprStr = sbtmp.toString();
+
+		sbtmp = new StringBuffer();
+		String indexExprStr = "null";
+		if(avai.getIndexExpr()!=null) {
+			genExpression(sbtmp, avai.getIndexExpr(), state);
+			indexExprStr = sbtmp.toString();
+		}
+
+		sb.append("\t\t\t");
+		sb.append("\t\t\tvar_" + target.getIdent());
+		if(avai.getIndexExpr()==null) {
+			sb.append(".Add(");
+		} else {
+			sb.append(".Insert(");
+			sb.append(indexExprStr);
+			sb.append(", ");
+		}
+		if(avai.getValueExpr() instanceof GraphEntityExpression)
+			sb.append("(" + formatElementInterfaceRef(avai.getValueExpr().getType()) + ")(" + valueExprStr + ")");
+		else
+			sb.append(valueExprStr);
+		sb.append(");\n");
+
+		assert avai.getNext()==null;
+	}
+
 	protected void genChangingAttribute(StringBuffer sb, ModifyGenerationStateConst state,
 			Qualification target, String attributeChangeType, String newValue, String keyValue)
 	{

@@ -7,7 +7,6 @@
 
 /**
  * @author Sebastian Hack
- * @version $Id$
  */
 package de.unika.ipd.grgen.ast;
 
@@ -618,6 +617,13 @@ public class OperatorSignature extends FunctionSignature {
 				}
 			}
 			throw new NotEvaluatableException(coords);
+		}
+	};
+
+	public static final Evaluator arrayEvaluator = new Evaluator() {
+		protected ExprNode eval(Coords coords, OperatorSignature op,
+				ExprNode[] e) throws NotEvaluatableException {
+			throw new NotEvaluatableException(coords);			// MAP TODO: evaluate
 		}
 	};
 

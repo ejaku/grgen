@@ -1,0 +1,37 @@
+enum et
+{
+	aloah, burgs, crorr = 7
+}
+
+node class A
+{
+    a:array<string> = [ "foo","bar" ] ;
+    const ac:array<int> = [ 1,2 ] ;
+	val:string = "argl";
+	m:array<string>;
+}
+
+node class B extends A
+{
+    b:array<string> = [ "blubb" ] ;
+    const bc:array<int> = [ 3 ] ;
+	val = "gurgl";
+	haha:array<et> = [ et::aloah, et::crorr ];
+}
+
+node class C
+{
+	a:array<string> = [ "foo", "bar", "bla" ];
+}
+
+edge class EA
+{
+    a:array<string> = [ "foo","bar" ] ;
+    const ac:array<int> = [ 1,2 ] ;
+}
+
+edge class EB extends EA
+{
+    b:array<string> = [ "blubb" ] ;
+    const bc:array<int> = [ 3 ] ;
+}

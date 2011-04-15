@@ -7,7 +7,6 @@
 
 /**
  * @author Edgar Jakumeit
- * @version $Id: MapInit.java 22945 2008-10-16 16:02:13Z moritz $
  */
 
 package de.unika.ipd.grgen.ir;
@@ -62,7 +61,7 @@ public class SetInit extends Expression {
 		return isConst;
 	}
 
-	public String getAnonymnousSetName() {
+	public String getAnonymousSetName() {
 		return "anonymous_set_" + anonymousSetId;
 	}
 }

@@ -200,6 +200,18 @@ namespace de.unika.ipd.grGen.libGr
                 }
                 sw.Write("}");
             }
+            else if(attrType.Kind==AttributeKind.ArrayAttr)
+            {
+                IList array=(IList)value;
+                sw.Write("{0}[", attrType.GetKindName());
+                bool first = true;
+                foreach(object entry in array)
+                {
+                    if(first) { sw.Write(ToString(entry, attrType.ValueType, graph)); first = false; }
+                    else { sw.Write("," + ToString(entry, attrType.ValueType, graph)); }
+                }
+                sw.Write("]");
+            }
             else
             {
                 sw.Write("{0}", ToString(value, attrType, graph));

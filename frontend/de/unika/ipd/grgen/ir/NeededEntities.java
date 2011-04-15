@@ -28,10 +28,10 @@ public class NeededEntities {
 	 *      the graph entities used to access the attributes will not be
 	 *      automatically added to the nodes, edges, and entities sets, but only
 	 *      in the attrNodes and attrEdges sets.
-	 * @param collectMapSetExprs Specifies, whether map and set expressions shall be collected.
+	 * @param collectMapSetArrayExprs Specifies, whether map, set, array expressions shall be collected.
 	 */
 	public NeededEntities(boolean collectNodes, boolean collectEdges, boolean collectVars,
-			boolean collectAllEntities, boolean collectAllAttributes, boolean collectMapSetExprs) {
+			boolean collectAllEntities, boolean collectAllAttributes, boolean collectMapSetArrayExprs) {
 		if(collectNodes)       nodes     = new LinkedHashSet<Node>();
 		if(collectEdges)       edges     = new LinkedHashSet<Edge>();
 		if(collectVars)        variables = new LinkedHashSet<Variable>();
@@ -41,9 +41,9 @@ public class NeededEntities {
 			attrNodes     = new LinkedHashSet<Node>();
 			attrEdges     = new LinkedHashSet<Edge>();
 		}
-		if(collectMapSetExprs) {
-			this.collectMapSetExprs = true;
-			mapSetExprs = new LinkedHashSet<Expression>();
+		if(collectMapSetArrayExprs) {
+			this.collectMapSetArrayExprs = true;
+			mapSetArrayExprs = new LinkedHashSet<Expression>();
 		}
 	}
 
@@ -90,12 +90,12 @@ public class NeededEntities {
 	/**
 	 * Specifies whether map and set expressions should be collected.
 	 */
-	public boolean collectMapSetExprs;
+	public boolean collectMapSetArrayExprs;
 
 	/**
 	 * The map and set expressions.
 	 */
-	public HashSet<Expression> mapSetExprs;
+	public HashSet<Expression> mapSetArrayExprs;
 
 	/**
 	 * Adds a needed graph entity.
@@ -170,7 +170,7 @@ public class NeededEntities {
 	 * @param expr The map or set expressions.
 	 */
 	public void add(Expression expr) {
-		if(collectMapSetExprs) mapSetExprs.add(expr);
+		if(collectMapSetArrayExprs) mapSetArrayExprs.add(expr);
 	}
 
 	public void needsGraph() {

@@ -1,0 +1,34 @@
+using array_model_001, set_map_array_node_edge;
+
+rule r(ref ss1:array<string>, ref ss2:array<string>, ref sa1:array<A>, ref sa2:array<A>)
+{
+	modify {
+		eval {
+			ss1 += ss2;
+			sa1 += sa2;
+		}
+	}
+}
+
+rule u
+{
+	a1:A; a2:A;
+	
+	modify {
+		eval {
+			a1.niceArray += a2.niceArray;
+		}
+	}
+}
+
+rule q
+{
+	a1:Gaggl; a2:Gaggl;
+	
+	modify {
+		eval {
+			a1.k += a2.k;
+			a1.l += a2.l;
+		}
+	}
+}

@@ -25,3 +25,39 @@ test t4(ref m:map<Node, Node>)
 		y:Node<m[x]>;
 	}
 }
+
+test tsetattr
+{
+	m:M;
+	:M<m.s>;	
+}
+
+test tmapattr
+{
+	m:M;
+	:M<m.m>;	
+}
+
+test tarrayattr
+{
+	m:M;
+	:M<m.a>;	
+}
+
+test tsetattredge
+{
+	-f:F->;
+	-:F<f.s>->;	
+}
+
+test tmapattredge
+{
+	-f:F->;
+	-:F<f.m>->;	
+}
+
+test tarrayattredge
+{
+	-f:F->;
+	-:F<f.a>->;	
+}

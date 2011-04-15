@@ -7,7 +7,6 @@
 
 /**
  * @author Sebastian Hack
- * @version $Id$
  */
 package de.unika.ipd.grgen.ast;
 
@@ -72,7 +71,7 @@ public class NodeTypeNode extends InheritanceTypeNode {
 	@SuppressWarnings("unchecked")
 	private static final CollectResolver<BaseNode> bodyResolver = new CollectResolver<BaseNode>(
 			new DeclarationResolver<BaseNode>(MemberDeclNode.class,
-					MemberInitNode.class, MapInitNode.class, SetInitNode.class,
+					MemberInitNode.class, MapInitNode.class, SetInitNode.class, ArrayInitNode.class,
 					ConstructorDeclNode.class));
 
 	/** @see de.unika.ipd.grgen.ast.BaseNode#resolveLocal() */

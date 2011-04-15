@@ -7,7 +7,6 @@
 
 /**
  * @author Edgar Jakumeit
- * @version $Id$
  */
 
 package de.unika.ipd.grgen.ast;
@@ -132,6 +131,32 @@ public class MethodCallNode extends EvalStatementNode
   				reportError("set<T> does not have a method named \"" + methodName + "\"");
   				return false;
   			}
+		}
+		else if(targetType instanceof ArrayTypeNode) {
+			if(methodName.equals("add")) {
+				if(params.size()!=1 && params.size()!=2) {
+  					reportError("array<T>.add(value)/array<T>.add(value, index) takes one or two parameters.");
+					return false;
+				}
+  				else {
+  					if(targetQual!=null)
+  						result = new ArrayAddItemNode(getCoords(), targetQual, params.get(0), params.size()!=1 ? params.get(1) : null);
+  					else
+  						result = new ArrayVarAddItemNode(getCoords(), targetVar, params.get(0), params.size()!=1 ? params.get(1) : null);
+  				}
+			}
+			else if(methodName.equals("rem")) {
+				if(params.size()!=1 && params.size()!=0) {
+  					reportError("array<T>.rem()/array<T>.rem(index) takes zero or one parameter.");
+					return false;
+				}
+  				else {
+  					if(targetQual!=null)
+  						result = new ArrayRemoveItemNode(getCoords(), targetQual, params.size()!=0 ? params.get(0) : null);
+  					else
+  						result = new ArrayVarRemoveItemNode(getCoords(), targetVar, params.size()!=0 ? params.get(0) : null);
+  				}
+			}
 		}
 		else {
 			reportError(targetType.toString() + " does not have any methods");

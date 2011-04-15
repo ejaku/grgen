@@ -1,4 +1,4 @@
-using map_model_001, set_map_node_edge;
+using map_model_001, set_map_array_node_edge;
 
 
 rule r(ref ss1:map<string,int>, ref ss2:map<string,int>, ref sa1:map<A,E>, ref sa2:map<A,E>)

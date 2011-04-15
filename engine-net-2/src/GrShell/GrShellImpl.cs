@@ -31,10 +31,10 @@ namespace de.unika.ipd.grGen.grShell
         public String Value; // the attribute value
 
         // for set, map attributed
-        public String Type; // set/map(domain) type
-        public String TgtType; // map target type
-        public ArrayList Values; // set/map(domain) values 
-        public ArrayList TgtValues; // map target values
+        public String Type; // set/map(domain) type, array value type
+        public String TgtType; // map target type, array index type
+        public ArrayList Values; // set/map(domain) values, array values
+        public ArrayList TgtValues; // map target values, array index values
 
         public Param(String key)
         {
@@ -1658,6 +1658,7 @@ namespace de.unika.ipd.grGen.grShell
                         return false;
                     }
                     IDictionary setmap = null;
+                    IList array = null;
                     switch(attrType.Kind)
                     {
                     case AttributeKind.SetAttr:
@@ -1665,8 +1666,8 @@ namespace de.unika.ipd.grGen.grShell
                             errOut.WriteLine("Attribute \"{0}\" must be a set constructor!", par.Key);
                             throw new Exception("Set literal expected");
                         }
-                        setmap = DictionaryHelper.NewDictionary(
-                            DictionaryHelper.GetTypeFromNameForDictionary(par.Type, curShellGraph.Graph),
+                        setmap = DictionaryListHelper.NewDictionary(
+                            DictionaryListHelper.GetTypeFromNameForDictionaryOrList(par.Type, curShellGraph.Graph),
                             typeof(de.unika.ipd.grGen.libGr.SetValueType));
                         foreach(object val in par.Values)
                         {
@@ -1679,9 +1680,9 @@ namespace de.unika.ipd.grGen.grShell
                             errOut.WriteLine("Attribute \"{0}\" must be a map constructor!", par.Key);
                             throw new Exception("Map literal expected");
                         }
-                        setmap = DictionaryHelper.NewDictionary(
-                            DictionaryHelper.GetTypeFromNameForDictionary(par.Type, curShellGraph.Graph),
-                            DictionaryHelper.GetTypeFromNameForDictionary(par.TgtType, curShellGraph.Graph));
+                        setmap = DictionaryListHelper.NewDictionary(
+                            DictionaryListHelper.GetTypeFromNameForDictionaryOrList(par.Type, curShellGraph.Graph),
+                            DictionaryListHelper.GetTypeFromNameForDictionaryOrList(par.TgtType, curShellGraph.Graph));
                         IEnumerator tgtValEnum = par.TgtValues.GetEnumerator();
                         foreach(object val in par.Values)
                         {
@@ -1690,6 +1691,19 @@ namespace de.unika.ipd.grGen.grShell
                                 ParseAttributeValue(attrType.ValueType, (String)tgtValEnum.Current, par.Key));
                         }
                         value = setmap;
+                        break;
+                    case AttributeKind.ArrayAttr:
+                        if(par.Value!="array") {
+                            errOut.WriteLine("Attribute \"{0}\" must be an array constructor!", par.Key);
+                            throw new Exception("Array literal expected");
+                        }
+                        array = DictionaryListHelper.NewList(
+                            DictionaryListHelper.GetTypeFromNameForDictionaryOrList(par.Type, curShellGraph.Graph));
+                        foreach(object val in par.Values)
+                        {
+                            array.Add(ParseAttributeValue(attrType.ValueType, (String)val, par.Key));
+                        }
+                        value = array;
                         break;
                     default:
                         value = ParseAttributeValue(attrType, par.Value, par.Key);
@@ -1718,6 +1732,7 @@ namespace de.unika.ipd.grGen.grShell
                         return false;
                     }
                     IDictionary setmap = null;
+                    IList array = null;
                     switch(attrType.Kind)
                     {
                     case AttributeKind.SetAttr:
@@ -1725,8 +1740,8 @@ namespace de.unika.ipd.grGen.grShell
                             errOut.WriteLine("Attribute \"{0}\" must be a set constructor!", par.Key);
                             throw new Exception("Set literal expected");
                         }
-                        setmap = DictionaryHelper.NewDictionary(
-                            DictionaryHelper.GetTypeFromNameForDictionary(par.Type, curShellGraph.Graph),
+                        setmap = DictionaryListHelper.NewDictionary(
+                            DictionaryListHelper.GetTypeFromNameForDictionaryOrList(par.Type, curShellGraph.Graph),
                             typeof(de.unika.ipd.grGen.libGr.SetValueType));
                         foreach(object val in par.Values)
                         {
@@ -1739,9 +1754,9 @@ namespace de.unika.ipd.grGen.grShell
                             errOut.WriteLine("Attribute \"{0}\" must be a map constructor!", par.Key);
                             throw new Exception("Map literal expected");
                         }
-                        setmap = DictionaryHelper.NewDictionary(
-                            DictionaryHelper.GetTypeFromNameForDictionary(par.Type, curShellGraph.Graph),
-                            DictionaryHelper.GetTypeFromNameForDictionary(par.TgtType, curShellGraph.Graph));
+                        setmap = DictionaryListHelper.NewDictionary(
+                            DictionaryListHelper.GetTypeFromNameForDictionaryOrList(par.Type, curShellGraph.Graph),
+                            DictionaryListHelper.GetTypeFromNameForDictionaryOrList(par.TgtType, curShellGraph.Graph));
                         IEnumerator tgtValEnum = par.TgtValues.GetEnumerator();
                         foreach(object val in par.Values)
                         {
@@ -1750,6 +1765,19 @@ namespace de.unika.ipd.grGen.grShell
                                 ParseAttributeValue(attrType.ValueType, (String)tgtValEnum.Current, par.Key));
                         }
                         value = setmap;
+                        break;
+                    case AttributeKind.ArrayAttr:
+                        if(par.Value!="array") {
+                            errOut.WriteLine("Attribute \"{0}\" must be an array constructor!", par.Key);
+                            throw new Exception("Array literal expected");
+                        }
+                        array = DictionaryListHelper.NewList(
+                            DictionaryListHelper.GetTypeFromNameForDictionaryOrList(par.Type, curShellGraph.Graph));
+                        foreach(object val in par.Values)
+                        {
+                            array.Add(ParseAttributeValue(attrType.ValueType, (String)val, par.Key));
+                        }
+                        value = array;
                         break;
                     default:
                         value = ParseAttributeValue(attrType, par.Value, par.Key);
@@ -2287,7 +2315,7 @@ namespace de.unika.ipd.grGen.grShell
             if (attrType.Kind == AttributeKind.MapAttr)
             {
                 Type keyType, valueType;
-                IDictionary dict = DictionaryHelper.GetDictionaryTypes(
+                IDictionary dict = DictionaryListHelper.GetDictionaryTypes(
                     elem.GetAttribute(attributeName), out keyType, out valueType);
                 debugOut.Write("The value of attribute \"" + attributeName + "\" is: \"{");
                 bool first = true;
@@ -2304,7 +2332,7 @@ namespace de.unika.ipd.grGen.grShell
             else if (attrType.Kind == AttributeKind.SetAttr)
             {
                 Type keyType, valueType;
-                IDictionary dict = DictionaryHelper.GetDictionaryTypes(
+                IDictionary dict = DictionaryListHelper.GetDictionaryTypes(
                     elem.GetAttribute(attributeName), out keyType, out valueType);
                 debugOut.Write("The value of attribute \"" + attributeName + "\" is: \"{");
                 bool first = true;
@@ -2317,6 +2345,23 @@ namespace de.unika.ipd.grGen.grShell
                     debugOut.Write(entry.Key);
                 }
                 debugOut.WriteLine("}\".");
+            }
+            else if (attrType.Kind == AttributeKind.ArrayAttr)
+            {
+                Type valueType;
+                IList array = DictionaryListHelper.GetListType(
+                    elem.GetAttribute(attributeName), out valueType);
+                debugOut.Write("The value of attribute \"" + attributeName + "\" is: \"[");
+                bool first = true;
+                foreach (Object entry in array)
+                {
+                    if (first)
+                        first = false;
+                    else
+                        debugOut.Write(", ");
+                    debugOut.Write(entry);
+                }
+                debugOut.WriteLine("]\".");
             }
             else
             {
@@ -2333,8 +2378,15 @@ namespace de.unika.ipd.grGen.grShell
                 string content;
                 if(val.GetType().Name=="Dictionary`2")
                 {
-                    DictionaryHelper.ToString((IDictionary)val, out type, out content, 
+                    DictionaryListHelper.ToString((IDictionary)val, out type, out content, 
                         null, curShellGraph!=null ? curShellGraph.Graph : null);
+                    debugOut.WriteLine("The value of variable \"" + name + "\" of type " + type + " is: \"" + content + "\"");
+                    return;
+                }
+                if(val.GetType().Name == "List`1")
+                {
+                    DictionaryListHelper.ToString((IList)val, out type, out content,
+                        null, curShellGraph != null ? curShellGraph.Graph : null);
                     debugOut.WriteLine("The value of variable \"" + name + "\" of type " + type + " is: \"" + content + "\"");
                     return;
                 }
@@ -2352,7 +2404,7 @@ namespace de.unika.ipd.grGen.grShell
                     //ShowElementAttributes((IGraphElement)val);
                     return;
                 }
-                DictionaryHelper.ToString(val, out type, out content, 
+                DictionaryListHelper.ToString(val, out type, out content, 
                     null, curShellGraph!=null ? curShellGraph.Graph : null);
                 debugOut.WriteLine("The value of variable \"" + name + "\" of type " + type + " is: \"" + content + "\"");
                 return;
@@ -2380,6 +2432,61 @@ namespace de.unika.ipd.grGen.grShell
             SetAttributes(elem, attributes);
         }
 
+        public void SetElementAttributeIndexed(IGraphElement elem, String attrName, String val, object index)
+        {
+            if(elem == null) return;
+
+            GrGenType type = elem.Type;
+            AttributeType attrType = type.GetAttributeType(attrName);
+            if(attrType == null)
+            {
+                errOut.WriteLine("Type \"{0}\" does not have an attribute \"{1}\"!", type.Name, attrName);
+                return;
+            }
+            if(attrType.Kind!=AttributeKind.ArrayAttr && attrType.Kind!=AttributeKind.MapAttr)
+            {
+                errOut.WriteLine("Attribute for indexed assignment must be of array or map type!");
+                return;
+            }
+
+            object value = null;
+            try
+            {
+                value = ParseAttributeValue(attrType.ValueType, val, attrName);
+            }
+            catch(Exception)
+            {
+                return;
+            }
+            object attr = elem.GetAttribute(attrName);
+            if(attr==null)
+            {
+                errOut.WriteLine("Can't retrieve attribute "+attrName+" !");
+                return;
+            }
+            if(!(attr is IList) && !(attr is IDictionary))
+            {
+                errOut.WriteLine("Attribute " + attrName + " is not of array/map type!");
+                return;
+            }
+
+            AttributeChangeType changeType = AttributeChangeType.AssignElement;
+            if(elem is INode)
+                curShellGraph.Graph.ChangingNodeAttribute((INode)elem, attrType, changeType, value, index);
+            else
+                curShellGraph.Graph.ChangingEdgeAttribute((IEdge)elem, attrType, changeType, value, index);
+            if(attr is IList)
+            {
+                IList array = (IList)attr;
+                array[(int)index] = value;
+            }
+            else
+            {
+                IDictionary setmap = (IDictionary)attr;
+                setmap[index] = value;
+            }
+        }
+
         public object GetVarValue(String varName)
         {
             if(!GraphExists()) return null;
@@ -2396,6 +2503,26 @@ namespace de.unika.ipd.grGen.grShell
         {
             if(!GraphExists()) return;
             curShellGraph.Graph.SetVariableValue(varName, elem);
+        }
+
+        public void SetVariableIndexed(String varName, object value, object index)
+        {
+            if(!GraphExists()) return;
+
+            object var = GetVarValue(varName);
+            if(var == null)
+                return;
+
+            if(var is IList)
+            {
+                IList array = (IList)var;
+                array[(int)index] = value;
+            }
+            else
+            {
+                IDictionary setmap = (IDictionary)var;
+                setmap[index] = value;
+            }
         }
 
         public void SetRandomSeed(int seed)
@@ -3153,9 +3280,9 @@ showavail:
         }
         #endregion "dump" commands
 
-        #region "setmap" commands
+        #region "setmaparray" commands
 
-        public object GetSetMap(IGraphElement elem, String attrName)
+        public object GetAttribute(IGraphElement elem, String attrName)
         {
             if(elem == null) return null;
             AttributeType attrType = GetElementAttributeType(elem, attrName);
@@ -3163,89 +3290,198 @@ showavail:
             return elem.GetAttribute(attrName);
         }
 
-        public void SetAdd(IGraphElement elem, String attrName, object keyObj)
+        public void SetArrayAdd(IGraphElement elem, String attrName, object keyObj)
         {
-            object set = GetSetMap(elem, attrName);
-            if(set == null)
+            object attr = GetAttribute(elem, attrName);
+            if(attr == null)
                 return;
 
-            Type keyType, valueType;
-            IDictionary dict = DictionaryHelper.GetDictionaryTypes(set, out keyType, out valueType);
-            if(dict == null) {
-                errOut.WriteLine(curShellGraph.Graph.GetElementName(elem)+"."+attrName + " is not a set.");
-                return;
-            } if(keyType != keyObj.GetType()) {
-                errOut.WriteLine("Set type must be " + keyType + ", but is " + keyObj.GetType() + ".");
-                return;
-            } if(valueType != typeof(SetValueType)) {
-                errOut.WriteLine("Not a set.");
-                return;
+            if(attr is IDictionary)
+            {
+                Type keyType, valueType;
+                IDictionary dict = DictionaryListHelper.GetDictionaryTypes(attr, out keyType, out valueType);
+                if(dict == null)
+                {
+                    errOut.WriteLine(curShellGraph.Graph.GetElementName(elem) + "." + attrName + " is not a set.");
+                    return;
+                }
+                if(keyType != keyObj.GetType())
+                {
+                    errOut.WriteLine("Set type must be " + keyType + ", but is " + keyObj.GetType() + ".");
+                    return;
+                }
+                if(valueType != typeof(SetValueType))
+                {
+                    errOut.WriteLine("Not a set.");
+                    return;
+                }
+
+                AttributeType attrType = elem.Type.GetAttributeType(attrName);
+                AttributeChangeType changeType = AttributeChangeType.PutElement;
+                if(elem is INode)
+                    curShellGraph.Graph.ChangingNodeAttribute((INode)elem, attrType, changeType, keyObj, null);
+                else
+                    curShellGraph.Graph.ChangingEdgeAttribute((IEdge)elem, attrType, changeType, keyObj, null);
+                dict[keyObj] = null;
             }
+            else if(attr is IList)
+            {
+                Type valueType;
+                IList array = DictionaryListHelper.GetListType(attr, out valueType);
+                if(array == null)
+                {
+                    errOut.WriteLine(curShellGraph.Graph.GetElementName(elem) + "." + attrName + " is not an array.");
+                    return;
+                }
+                if(valueType != keyObj.GetType())
+                {
+                    errOut.WriteLine("Array type must be " + valueType + ", but is " + keyObj.GetType() + ".");
+                    return;
+                }
 
-            AttributeType attrType = elem.Type.GetAttributeType(attrName);
-            AttributeChangeType changeType = AttributeChangeType.PutElement;
-            if(elem is INode)
-                curShellGraph.Graph.ChangingNodeAttribute((INode)elem, attrType, changeType, keyObj, null);
+                AttributeType attrType = elem.Type.GetAttributeType(attrName);
+                AttributeChangeType changeType = AttributeChangeType.PutElement;
+                if(elem is INode)
+                    curShellGraph.Graph.ChangingNodeAttribute((INode)elem, attrType, changeType, keyObj, null);
+                else
+                    curShellGraph.Graph.ChangingEdgeAttribute((IEdge)elem, attrType, changeType, keyObj, null);
+                array.Add(keyObj);
+            }
             else
-                curShellGraph.Graph.ChangingEdgeAttribute((IEdge)elem, attrType, changeType, keyObj, null);
-            dict[keyObj] = null;
+            {
+                errOut.WriteLine(curShellGraph.Graph.GetElementName(elem) + "." + attrName + " is neither a set nor an array.");
+            }
         }
 
-        public void MapAdd(IGraphElement elem, String attrName, object keyObj, object valueObj)
+        public void MapArrayAdd(IGraphElement elem, String attrName, object keyObj, object valueObj)
         {
-            object map = GetSetMap(elem, attrName);
-            if(map == null)
+            object attr = GetAttribute(elem, attrName);
+            if(attr == null)
                 return;
 
-            Type keyType, valueType;
-            IDictionary dict = DictionaryHelper.GetDictionaryTypes(map, out keyType, out valueType);
-            if(dict == null) {
-                errOut.WriteLine(curShellGraph.Graph.GetElementName(elem) + "." + attrName + " is not a map.");
-                return;
-            } if(keyType != keyObj.GetType()) {
-                errOut.WriteLine("Key type must be " + keyType + ", but is " + keyObj.GetType() + ".");
-                return;
-            } if(valueType != valueObj.GetType()) {
-                errOut.WriteLine("Value type must be " + valueType + ", but is " + valueObj.GetType() + ".");
-                return;
+            if(attr is IDictionary)
+            {
+                Type keyType, valueType;
+                IDictionary dict = DictionaryListHelper.GetDictionaryTypes(attr, out keyType, out valueType);
+                if(dict == null)
+                {
+                    errOut.WriteLine(curShellGraph.Graph.GetElementName(elem) + "." + attrName + " is not a map.");
+                    return;
+                }
+                if(keyType != keyObj.GetType())
+                {
+                    errOut.WriteLine("Key type must be " + keyType + ", but is " + keyObj.GetType() + ".");
+                    return;
+                }
+                if(valueType != valueObj.GetType())
+                {
+                    errOut.WriteLine("Value type must be " + valueType + ", but is " + valueObj.GetType() + ".");
+                    return;
+                }
+
+                AttributeType attrType = elem.Type.GetAttributeType(attrName);
+                AttributeChangeType changeType = AttributeChangeType.PutElement;
+                if(elem is INode)
+                    curShellGraph.Graph.ChangingNodeAttribute((INode)elem, attrType, changeType, valueObj, keyObj);
+                else
+                    curShellGraph.Graph.ChangingEdgeAttribute((IEdge)elem, attrType, changeType, valueObj, keyObj);
+                dict[keyObj] = valueObj;
             }
+            else if(attr is IList)
+            {
+                Type valueType;
+                IList array = DictionaryListHelper.GetListType(attr, out valueType);
+                if(array == null)
+                {
+                    errOut.WriteLine(curShellGraph.Graph.GetElementName(elem) + "." + attrName + " is not an array.");
+                    return;
+                }
+                if(valueType != keyObj.GetType())
+                {
+                    errOut.WriteLine("Value type must be " + valueType + ", but is " + keyObj.GetType() + ".");
+                    return;
+                }
+                if(typeof(int) != valueObj.GetType())
+                {
+                    errOut.WriteLine("Index type must be int, but is " + valueObj.GetType() + ".");
+                    return;
+                }
 
-            AttributeType attrType = elem.Type.GetAttributeType(attrName);
-            AttributeChangeType changeType = AttributeChangeType.PutElement;
-            if(elem is INode)
-                curShellGraph.Graph.ChangingNodeAttribute((INode)elem, attrType, changeType, valueObj, keyObj);
+                AttributeType attrType = elem.Type.GetAttributeType(attrName);
+                AttributeChangeType changeType = AttributeChangeType.PutElement;
+                if(elem is INode)
+                    curShellGraph.Graph.ChangingNodeAttribute((INode)elem, attrType, changeType, keyObj, valueObj);
+                else
+                    curShellGraph.Graph.ChangingEdgeAttribute((IEdge)elem, attrType, changeType, keyObj, valueObj);
+                array.Insert((int)valueObj, keyObj);
+            }
             else
-                curShellGraph.Graph.ChangingEdgeAttribute((IEdge)elem, attrType, changeType, valueObj, keyObj);
-            dict[keyObj] = valueObj;
+            {
+                errOut.WriteLine(curShellGraph.Graph.GetElementName(elem) + "." + attrName + " is neither a map nor an array.");
+            }
+        }
+ 
+        public void SetMapArrayRemove(IGraphElement elem, String attrName, object keyObj)
+        {
+            object attr = GetAttribute(elem, attrName);
+            if(attr == null)
+                return;
+
+            if(attr is IDictionary)
+            {
+                Type keyType, valueType;
+                IDictionary dict = DictionaryListHelper.GetDictionaryTypes(attr, out keyType, out valueType);
+                if (dict == null) {
+                    errOut.WriteLine(curShellGraph.Graph.GetElementName(elem) + "." + attrName + " is not a set/map.");
+                    return;
+                }
+                if(keyType != keyObj.GetType()) {
+                    errOut.WriteLine("Key type must be " + keyType + ", but is " + keyObj.GetType() + ".");
+                    return;
+                }
+
+                AttributeType attrType = elem.Type.GetAttributeType(attrName);
+                bool isSet = attrType.Kind == AttributeKind.SetAttr; // otherwise map
+                AttributeChangeType changeType = AttributeChangeType.RemoveElement;
+                if(elem is INode)
+                    curShellGraph.Graph.ChangingNodeAttribute((INode)elem, attrType, changeType, isSet ? keyObj : null, isSet ? null : keyObj);
+                else
+                    curShellGraph.Graph.ChangingEdgeAttribute((IEdge)elem, attrType, changeType, isSet ? keyObj : null, isSet ? null : keyObj);
+                dict.Remove(keyObj);
+            }
+            else if(attr is IList)
+            {
+                Type valueType;
+                IList array = DictionaryListHelper.GetListType(attr, out valueType);
+                if(array == null)
+                {
+                    errOut.WriteLine(curShellGraph.Graph.GetElementName(elem) + "." + attrName + " is not an array.");
+                    return;
+                }
+                if(keyObj != null && typeof(int) != keyObj.GetType())
+                {
+                    errOut.WriteLine("Key/Index type must be int, but is " + keyObj.GetType() + ".");
+                    return;
+                }
+
+                AttributeType attrType = elem.Type.GetAttributeType(attrName);
+                AttributeChangeType changeType = AttributeChangeType.RemoveElement;
+                if(elem is INode)
+                    curShellGraph.Graph.ChangingNodeAttribute((INode)elem, attrType, changeType, null, keyObj);
+                else
+                    curShellGraph.Graph.ChangingEdgeAttribute((IEdge)elem, attrType, changeType, null, keyObj);
+                if(keyObj != null)
+                    array.RemoveAt((int)keyObj);
+                else
+                    array.RemoveAt(array.Count - 1);
+            }
+            else
+            {
+                errOut.WriteLine(curShellGraph.Graph.GetElementName(elem) + "." + attrName + " is neither a map nor a set nor an array.");
+            }
         }
 
-        public void SetMapRemove(IGraphElement elem, String attrName, object keyObj)
-        {
-            object setOrMap = GetSetMap(elem, attrName);
-            if(setOrMap == null)
-                return;
-
-            Type keyType, valueType;
-            IDictionary dict = DictionaryHelper.GetDictionaryTypes(setOrMap, out keyType, out valueType);
-            if (dict == null) {
-                errOut.WriteLine(curShellGraph.Graph.GetElementName(elem) + "." + attrName + " is not a set/map.");
-                return;
-            } if(keyType != keyObj.GetType()) {
-                errOut.WriteLine("Key type must be " + keyType + ", but is " + keyObj.GetType() + ".");
-                return;
-            }
-
-            AttributeType attrType = elem.Type.GetAttributeType(attrName);
-            bool isSet = attrType.Kind == AttributeKind.SetAttr; // otherwise map
-            AttributeChangeType changeType = AttributeChangeType.RemoveElement;
-            if(elem is INode)
-                curShellGraph.Graph.ChangingNodeAttribute((INode)elem, attrType, changeType, isSet ? keyObj : null, isSet ? null : keyObj);
-            else
-                curShellGraph.Graph.ChangingEdgeAttribute((IEdge)elem, attrType, changeType, isSet ? keyObj : null, isSet ? null : keyObj);
-            dict.Remove(keyObj);
-        }
-
-        #endregion "setmap" commands
+        #endregion "setmaparray" commands
 
         private String StringToTextToken(String str)
         {

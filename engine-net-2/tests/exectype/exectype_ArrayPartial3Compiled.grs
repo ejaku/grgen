@@ -1,0 +1,11 @@
+new graph "exectype/exectype"
+
+new n:AA
+
+xgrs ArrayPartial3(n)
+show var n
+show var x
+show var y
+show var co1
+show var co2
+quit

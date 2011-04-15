@@ -198,7 +198,7 @@ namespace de.unika.ipd.grGen.expression
 
         public override string GetFuncOperatorAndLParen()
         {
-            return "GRGEN_LIBGR.DictionaryHelper.Union(";
+            return "GRGEN_LIBGR.DictionaryListHelper.Union(";
         }
     }
 
@@ -211,7 +211,7 @@ namespace de.unika.ipd.grGen.expression
 
         public override string GetFuncOperatorAndLParen()
         {
-            return "GRGEN_LIBGR.DictionaryHelper.Intersect(";
+            return "GRGEN_LIBGR.DictionaryListHelper.Intersect(";
         }
     }
 
@@ -224,7 +224,7 @@ namespace de.unika.ipd.grGen.expression
 
         public override string GetFuncOperatorAndLParen()
         {
-            return "GRGEN_LIBGR.DictionaryHelper.Except(";
+            return "GRGEN_LIBGR.DictionaryListHelper.Except(";
         }
     }
 
@@ -341,7 +341,7 @@ namespace de.unika.ipd.grGen.expression
 
         public override string GetFuncOperatorAndLParen()
         {
-            return "GRGEN_LIBGR.DictionaryHelper.Equal(";
+            return "GRGEN_LIBGR.DictionaryListHelper.Equal(";
         }
     }
 
@@ -354,7 +354,7 @@ namespace de.unika.ipd.grGen.expression
 
         public override string GetFuncOperatorAndLParen()
         {
-            return "GRGEN_LIBGR.DictionaryHelper.NotEqual(";
+            return "GRGEN_LIBGR.DictionaryListHelper.NotEqual(";
         }
     }
 
@@ -367,7 +367,7 @@ namespace de.unika.ipd.grGen.expression
 
         public override string GetFuncOperatorAndLParen()
         {
-            return "GRGEN_LIBGR.DictionaryHelper.LessThan(";
+            return "GRGEN_LIBGR.DictionaryListHelper.LessThan(";
         }
     }
 
@@ -380,7 +380,7 @@ namespace de.unika.ipd.grGen.expression
 
         public override string GetFuncOperatorAndLParen()
         {
-            return "GRGEN_LIBGR.DictionaryHelper.LessOrEqual(";
+            return "GRGEN_LIBGR.DictionaryListHelper.LessOrEqual(";
         }
     }
 
@@ -393,7 +393,7 @@ namespace de.unika.ipd.grGen.expression
 
         public override string GetFuncOperatorAndLParen()
         {
-            return "GRGEN_LIBGR.DictionaryHelper.GreaterThan(";
+            return "GRGEN_LIBGR.DictionaryListHelper.GreaterThan(";
         }
     }
 
@@ -406,7 +406,85 @@ namespace de.unika.ipd.grGen.expression
 
         public override string GetFuncOperatorAndLParen()
         {
-            return "GRGEN_LIBGR.DictionaryHelper.GreaterOrEqual(";
+            return "GRGEN_LIBGR.DictionaryListHelper.GreaterOrEqual(";
+        }
+    }
+
+    /// <summary>
+    /// Class representing set/map equality comparison.
+    /// </summary>
+    public class LIST_EQ : BinFuncOperator
+    {
+        public LIST_EQ(Expression left, Expression right) : base(left, right) { }
+
+        public override string GetFuncOperatorAndLParen()
+        {
+            return "GRGEN_LIBGR.DictionaryListHelper.Equal(";
+        }
+    }
+
+    /// <summary>
+    /// Class representing set/map inequality comparison.
+    /// </summary>
+    public class LIST_NE : BinFuncOperator
+    {
+        public LIST_NE(Expression left, Expression right) : base(left, right) { }
+
+        public override string GetFuncOperatorAndLParen()
+        {
+            return "GRGEN_LIBGR.DictionaryListHelper.NotEqual(";
+        }
+    }
+
+    /// <summary>
+    /// Class representing proper subset/map comparison.
+    /// </summary>
+    public class LIST_LT : BinFuncOperator
+    {
+        public LIST_LT(Expression left, Expression right) : base(left, right) { }
+
+        public override string GetFuncOperatorAndLParen()
+        {
+            return "GRGEN_LIBGR.DictionaryListHelper.LessThan(";
+        }
+    }
+
+    /// <summary>
+    /// Class representing subset/map comparison.
+    /// </summary>
+    public class LIST_LE : BinFuncOperator
+    {
+        public LIST_LE(Expression left, Expression right) : base(left, right) { }
+
+        public override string GetFuncOperatorAndLParen()
+        {
+            return "GRGEN_LIBGR.DictionaryListHelper.LessOrEqual(";
+        }
+    }
+
+    /// <summary>
+    /// Class representing proper superset comparison.
+    /// </summary>
+    public class LIST_GT : BinFuncOperator
+    {
+        public LIST_GT(Expression left, Expression right) : base(left, right) { }
+
+        public override string GetFuncOperatorAndLParen()
+        {
+            return "GRGEN_LIBGR.DictionaryListHelper.GreaterThan(";
+        }
+    }
+
+    /// <summary>
+    /// Class representing superset comparison.
+    /// </summary>
+    public class LIST_GE : BinFuncOperator
+    {
+        public LIST_GE(Expression left, Expression right) : base(left, right) { }
+
+        public override string GetFuncOperatorAndLParen()
+        {
+            return "GRGEN_LIBGR.DictionaryListHelper.GreaterOrEqual(";
         }
     }
 
@@ -460,6 +538,19 @@ namespace de.unika.ipd.grGen.expression
         public override string GetInfixOperator()
         {
             return " + ";
+        }
+    }
+
+    /// <summary>
+    /// Class representing a List concatenation.
+    /// </summary>
+    public class LIST_ADD : BinFuncOperator
+    {
+        public LIST_ADD(Expression left, Expression right) : base(left, right) { }
+
+        public override string GetFuncOperatorAndLParen()
+        {
+            return "GRGEN_LIBGR.DictionaryListHelper.Concatenate(";
         }
     }
 
@@ -594,23 +685,40 @@ namespace de.unika.ipd.grGen.expression
     public class IN : BinInfixOperator
     {
         // Switch operands as "right" is the dictionary
-        public IN(Expression left, Expression right) : base(right, left) { }
+        public IN(Expression left, Expression right, bool isDictionary)
+            : base(right, left) 
+        {
+            IsDictionary = isDictionary;
+        }
 
         // Switch operands as "right" is the dictionary
-        public IN(Expression left, Expression right, String type) : base(right, left)
+        public IN(Expression left, Expression right, String type, bool isDictionary)
+            : base(right, left)
         {
             Type = type;
+            IsDictionary = isDictionary;
         }
 
         public override string GetInfixOperator()
         {
-            if(Type!=null)
-                return ").ContainsKey(("+Type+")";
+            if(IsDictionary)
+            {
+                if(Type != null)
+                    return ").ContainsKey((" + Type + ")";
+                else
+                    return ").ContainsKey(";
+            }
             else
-                return ").ContainsKey(";
+            {
+                if(Type != null)
+                    return ").Contains((" + Type + ")";
+                else
+                    return ").Contains(";
+            }
         }
 
         String Type;
+        bool IsDictionary;
     }
 
     /// <summary>
@@ -631,7 +739,7 @@ namespace de.unika.ipd.grGen.expression
             {
                 if(IsDictionary)
                 {
-                    sourceCode.Append("GRGEN_LIBGR.DictionaryHelper.ToString(");
+                    sourceCode.Append("GRGEN_LIBGR.DictionaryListHelper.ToString(");
                     Nested.Emit(sourceCode);
                     sourceCode.Append(", graph)");
                 }
@@ -1071,6 +1179,36 @@ namespace de.unika.ipd.grGen.expression
     }
 
     /// <summary>
+    /// Class representing an array access expression.
+    /// </summary>
+    public class ArrayAccess : Expression
+    {
+        public ArrayAccess(Expression target, Expression keyExpr)
+        {
+            Target = target;
+            KeyExpr = keyExpr;
+        }
+
+        public override void Emit(SourceBuilder sourceCode)
+        {
+            sourceCode.Append("(");
+            Target.Emit(sourceCode);
+            sourceCode.Append("[");
+            KeyExpr.Emit(sourceCode);
+            sourceCode.Append("])");
+        }
+
+        public override IEnumerator<ExpressionOrYielding> GetEnumerator()
+        {
+            yield return Target;
+            yield return KeyExpr;
+        }
+
+        Expression Target;
+        Expression KeyExpr;
+    }
+
+    /// <summary>
     /// Class representing a map size expression.
     /// </summary>
     public class MapSize : Expression
@@ -1108,7 +1246,7 @@ namespace de.unika.ipd.grGen.expression
 
         public override void Emit(SourceBuilder sourceCode)
         {
-            sourceCode.Append("GRGEN_LIBGR.DictionaryHelper.Peek(");
+            sourceCode.Append("GRGEN_LIBGR.DictionaryListHelper.Peek(");
             Target.Emit(sourceCode);
             sourceCode.Append(",");
             Number.Emit(sourceCode);
@@ -1137,7 +1275,7 @@ namespace de.unika.ipd.grGen.expression
 
         public override void Emit(SourceBuilder sourceCode)
         {
-            sourceCode.Append("GRGEN_LIBGR.DictionaryHelper.Domain(");
+            sourceCode.Append("GRGEN_LIBGR.DictionaryListHelper.Domain(");
             Target.Emit(sourceCode);
             sourceCode.Append(")");
         }
@@ -1162,7 +1300,7 @@ namespace de.unika.ipd.grGen.expression
 
         public override void Emit(SourceBuilder sourceCode)
         {
-            sourceCode.Append("GRGEN_LIBGR.DictionaryHelper.Range(");
+            sourceCode.Append("GRGEN_LIBGR.DictionaryListHelper.Range(");
             Target.Emit(sourceCode);
             sourceCode.Append(")");
         }
@@ -1213,11 +1351,65 @@ namespace de.unika.ipd.grGen.expression
 
         public override void Emit(SourceBuilder sourceCode)
         {
-            sourceCode.Append("GRGEN_LIBGR.DictionaryHelper.Peek(");
+            sourceCode.Append("GRGEN_LIBGR.DictionaryListHelper.Peek(");
             Target.Emit(sourceCode);
             sourceCode.Append(",");
             Number.Emit(sourceCode);
             sourceCode.Append(")");
+        }
+
+        public override IEnumerator<ExpressionOrYielding> GetEnumerator()
+        {
+            yield return Target;
+            yield return Number;
+        }
+
+        Expression Target;
+        Expression Number;
+    }
+
+    /// <summary>
+    /// Class representing an array size expression.
+    /// </summary>
+    public class ArraySize : Expression
+    {
+        public ArraySize(Expression target)
+        {
+            Target = target;
+        }
+
+        public override void Emit(SourceBuilder sourceCode)
+        {
+            sourceCode.Append("(");
+            Target.Emit(sourceCode);
+            sourceCode.Append(").Count");
+        }
+
+        public override IEnumerator<ExpressionOrYielding> GetEnumerator()
+        {
+            yield return Target;
+        }
+
+        Expression Target;
+    }
+
+    /// <summary>
+    /// Class representing an array peek expression.
+    /// </summary>
+    public class ArrayPeek : Expression
+    {
+        public ArrayPeek(Expression target, Expression number)
+        {
+            Target = target;
+            Number = number;
+        }
+
+        public override void Emit(SourceBuilder sourceCode)
+        {
+            Target.Emit(sourceCode);
+            sourceCode.Append("[");
+            Number.Emit(sourceCode);
+            sourceCode.Append("]");
         }
 
         public override IEnumerator<ExpressionOrYielding> GetEnumerator()
@@ -1268,6 +1460,26 @@ namespace de.unika.ipd.grGen.expression
 
         String ClassName;
         String SetName;
+    }
+
+    /// <summary>
+    /// Class representing a constant rule-local array, available as initialized static class member.
+    /// </summary>
+    public class StaticArray : Expression
+    {
+        public StaticArray(String className, String arrayName)
+        {
+            ClassName = className;
+            ArrayName = arrayName;
+        }
+
+        public override void Emit(SourceBuilder sourceCode)
+        {
+            sourceCode.Append(ClassName + "." + ArrayName);
+        }
+
+        String ClassName;
+        String ArrayName;
     }
 
     /// <summary>
@@ -1416,6 +1628,73 @@ namespace de.unika.ipd.grGen.expression
         Expression Value;
         String ValueType;
         SetItem Next;
+    }
+
+    /// <summary>
+    /// Class representing a rule-local array to be filled with the given array items.
+    /// </summary>
+    public class ArrayConstructor : Expression
+    {
+        public ArrayConstructor(String className, String arrayName, ArrayItem first)
+        {
+            ClassName = className;
+            ArrayName = arrayName;
+            First = first;
+        }
+
+        public override void Emit(SourceBuilder sourceCode)
+        {
+            sourceCode.Append(ClassName + ".fill_" + ArrayName + "(");
+            First.Emit(sourceCode);
+            sourceCode.Append(")");
+        }
+
+        public override IEnumerator<ExpressionOrYielding> GetEnumerator()
+        {
+            yield return First;
+        }
+
+        String ClassName;
+        String ArrayName;
+        ArrayItem First;
+    }
+
+    /// <summary>
+    /// Class representing an array item.
+    /// </summary>
+    public class ArrayItem : Expression
+    {
+        public ArrayItem(Expression value, String valueType, ArrayItem next)
+        {
+            Value = value;
+            ValueType = valueType;
+            Next = next;
+        }
+
+        public override void Emit(SourceBuilder sourceCode)
+        {
+            if(ValueType != null)
+                sourceCode.Append("(" + ValueType + ")(");
+            Value.Emit(sourceCode);
+            if(ValueType != null)
+                sourceCode.Append(")");
+
+            if(Next != null)
+            {
+                sourceCode.Append(", ");
+                Next.Emit(sourceCode);
+            }
+        }
+
+        public override IEnumerator<ExpressionOrYielding> GetEnumerator()
+        {
+            yield return Value;
+            yield return Next;
+        }
+
+        Expression Value;
+        String ValueType;
+        ArrayItem Next;
     }
 
     /// <summary>
@@ -1585,6 +1864,40 @@ namespace de.unika.ipd.grGen.expression
         String Left;
         bool IsVar;
         Expression Right;
+    }
+
+    /// <summary>
+    /// Class representing a yielding indexed assignment executed after the match was found
+    /// writing a value computed from the right expression 
+    /// into the position at the given index of the left def variable of type array (TODO: extend to map)
+    /// </summary>
+    public class YieldAssignmentIndexed : Yielding
+    {
+        public YieldAssignmentIndexed(String left, Expression right, Expression index)
+        {
+            Left = left;
+            Right = right;
+            Index = index;
+        }
+
+        public override void Emit(SourceBuilder sourceCode)
+        {
+            sourceCode.Append(NamesOfEntities.Variable(Left));
+            sourceCode.Append("[");
+            Index.Emit(sourceCode);
+            sourceCode.Append("] = ");
+            Right.Emit(sourceCode);
+        }
+
+        public override IEnumerator<ExpressionOrYielding> GetEnumerator()
+        {
+            yield return Right;
+            yield return Index;
+        }
+
+        String Left;
+        Expression Right;
+        Expression Index;
     }
 
     /// <summary>
@@ -1775,7 +2088,7 @@ namespace de.unika.ipd.grGen.expression
 
         public override void Emit(SourceBuilder sourceCode)
         {
-            sourceCode.Append("GRGEN_LIBGR.DictionaryHelper.UnionChanged(");
+            sourceCode.Append("GRGEN_LIBGR.DictionaryListHelper.UnionChanged(");
             sourceCode.Append(NamesOfEntities.Variable(Left));
             sourceCode.Append(", ");
             Right.Emit(sourceCode);
@@ -1795,7 +2108,7 @@ namespace de.unika.ipd.grGen.expression
 
         public override void Emit(SourceBuilder sourceCode)
         {
-            sourceCode.Append("GRGEN_LIBGR.DictionaryHelper.IntersectChanged(");
+            sourceCode.Append("GRGEN_LIBGR.DictionaryListHelper.IntersectChanged(");
             sourceCode.Append(NamesOfEntities.Variable(Left));
             sourceCode.Append(", ");
             Right.Emit(sourceCode);
@@ -1815,7 +2128,7 @@ namespace de.unika.ipd.grGen.expression
 
         public override void Emit(SourceBuilder sourceCode)
         {
-            sourceCode.Append("GRGEN_LIBGR.DictionaryHelper.ExceptChanged(");
+            sourceCode.Append("GRGEN_LIBGR.DictionaryListHelper.ExceptChanged(");
             sourceCode.Append(NamesOfEntities.Variable(Left));
             sourceCode.Append(", ");
             Right.Emit(sourceCode);

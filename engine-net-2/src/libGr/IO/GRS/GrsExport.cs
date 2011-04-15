@@ -99,7 +99,7 @@ namespace de.unika.ipd.grGen.libGr
                 sw.Write("new :{0}($ = \"{1}\"", node.Type.Name, graph.GetElementName(node));
                 foreach (AttributeType attrType in node.Type.AttributeTypes)
                 {
-                    if(IsNodeOrEdgeValuedSetOrMap(attrType)) {
+                    if(IsNodeOrEdgeValuedSetOrMapOrArray(attrType)) {
                         thereIsNodeOrEdgeValuedSetOrMap = true;
                         continue;
                     }
@@ -137,7 +137,7 @@ namespace de.unika.ipd.grGen.libGr
                         edge.Type.Name, graph.GetElementName(edge));
                     foreach (AttributeType attrType in edge.Type.AttributeTypes)
                     {
-                        if(IsNodeOrEdgeValuedSetOrMap(attrType)) {
+                        if(IsNodeOrEdgeValuedSetOrMapOrArray(attrType)) {
                             thereIsNodeOrEdgeValuedSetOrMap = true;
                             continue;
                         }
@@ -167,14 +167,14 @@ namespace de.unika.ipd.grGen.libGr
             sw.WriteLine("# total number of edges: {0}", numEdges);
             sw.WriteLine();
 
-            // emit node/edge valued sets/maps
+            // emit node/edge valued sets/maps/array
             if(thereIsNodeOrEdgeValuedSetOrMap)
             {
                 foreach(INode node in graph.Nodes)
                 {
                     foreach(AttributeType attrType in node.Type.AttributeTypes)
                     {
-                        if(!IsNodeOrEdgeValuedSetOrMap(attrType))
+                        if(!IsNodeOrEdgeValuedSetOrMapOrArray(attrType))
                             continue;
 
                         object value = node.GetAttribute(attrType.Name);
@@ -187,7 +187,7 @@ namespace de.unika.ipd.grGen.libGr
                     {
                         foreach(AttributeType attrType in edge.Type.AttributeTypes)
                         {
-                            if(!IsNodeOrEdgeValuedSetOrMap(attrType))
+                            if(!IsNodeOrEdgeValuedSetOrMapOrArray(attrType))
                                 continue;
 
                             object value = edge.GetAttribute(attrType.Name);
@@ -246,6 +246,18 @@ namespace de.unika.ipd.grGen.libGr
                 }
                 sw.Write("}");
             }
+            else if(attrType.Kind == AttributeKind.ArrayAttr)
+            {
+                IList array = (IList)value;
+                sw.Write("{0}[", attrType.GetKindName());
+                bool first = true;
+                foreach(object entry in array)
+                {
+                    if(first) { sw.Write(ToString(entry, attrType.ValueType, graph)); first = false; }
+                    else { sw.Write("," + ToString(entry, attrType.ValueType, graph)); }
+                }
+                sw.Write("]");
+            }
             else
             {
                 sw.Write("{0}", ToString(value, attrType, graph));
@@ -285,10 +297,11 @@ namespace de.unika.ipd.grGen.libGr
             }
         }
 
-        public static bool IsNodeOrEdgeValuedSetOrMap(AttributeType attrType)
+        public static bool IsNodeOrEdgeValuedSetOrMapOrArray(AttributeType attrType)
         {
             if(attrType.Kind == AttributeKind.SetAttr
-                || attrType.Kind == AttributeKind.MapAttr)
+                || attrType.Kind == AttributeKind.MapAttr
+                || attrType.Kind == AttributeKind.ArrayAttr)
             {
                 if(attrType.ValueType.Kind == AttributeKind.NodeAttr
                     || attrType.ValueType.Kind == AttributeKind.EdgeAttr)

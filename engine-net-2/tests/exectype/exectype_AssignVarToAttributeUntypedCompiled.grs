@@ -7,6 +7,7 @@ x.b
 x.st
 x.s
 x.m
+x.a
 x.fl
 x.d
 xgrs AssignVarToAttributeUntyped(x)
@@ -16,6 +17,7 @@ x.b
 x.st
 x.s
 x.m
+x.a
 x.fl
 x.d
 show var f
@@ -24,6 +26,7 @@ show var b
 show var st
 show var s
 show var m
+show var a
 show var fl
 show var d
 quit

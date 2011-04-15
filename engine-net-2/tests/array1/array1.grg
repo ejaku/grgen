@@ -1,0 +1,60 @@
+using array1;
+
+test existsFooHuu
+{
+	nb:B;
+
+	if { "foo" in nb.b; }
+	if { "huu" in nb.b; }
+}
+
+rule addFooHuu
+{
+    nb:B;
+	modify {
+		eval {
+			nb.b = nb.b + [ "foo" ];
+			nb.b.add("huu");
+		}
+	}
+}
+
+test existsBar
+{
+	nb:B;
+	if { "bar" in nb.a; }
+}
+
+rule removeBar()
+{
+    nb:B;
+
+	modify {
+		eval {
+			nb.a.rem(1);
+			nb.a.rem();
+		}
+	}
+}
+
+test anonymousArray
+{
+	na:A;
+	if { na.val in [ "foo", "argl" ]; }
+}
+
+test anonymousArrayNA
+{
+	nb:B;
+	if { nb.val in [ "aha","oho","uh?" ]; }
+}
+
+rule useArrayVar(ref niceArray:array<string>)
+{
+    if { "Hallo" in niceArray; }
+    
+    modify {
+        emit("1 value of attribute 5 6 " + ("Handtuch" in niceArray ? "yes" : "no") + "\n");
+    }
+}
+

@@ -1,0 +1,11 @@
+using array_model_001;
+
+rule concatenateWrongType {
+	a:A;
+	
+	modify {
+		eval {
+			a.stringArray = a.stringArray + { a.intValue }; // no implicit cast without the type prefix
+		}
+	}
+}

@@ -7,7 +7,6 @@
 
 /**
  * @author shack
- * @version $Id$
  */
 package de.unika.ipd.grgen.ast;
 
@@ -208,9 +207,10 @@ public class GraphNode extends BaseNode {
 				if(!(paramVar.getDeclType() instanceof BasicTypeNode)
 						&& !(paramVar.getDeclType() instanceof EnumTypeNode)
 						&& !(paramVar.getDeclType() instanceof MapTypeNode)
-						&& !(paramVar.getDeclType() instanceof SetTypeNode)) {
+						&& !(paramVar.getDeclType() instanceof SetTypeNode)
+						&& !(paramVar.getDeclType() instanceof ArrayTypeNode)) {
 					paramVar.typeUnresolved.reportError("Type of variable \""
-							+ paramVar.getIdentNode() + "\" must be a basic type (like int or string), or an enum, or a map or a set");
+							+ paramVar.getIdentNode() + "\" must be a basic type (like int or string), or an enum, or a map or a set or an array");
 					paramsOK = false;
 				}
 			}

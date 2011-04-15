@@ -1,0 +1,23 @@
+node class A
+{
+	val:int;
+	niceArray:array<string> = {
+		"foo",
+		"bar"
+	};
+	spiceArray:array<int> = {
+		42
+	};
+}
+
+edge class E
+{
+	val:int;
+	niceArray:array<string> = {
+		"foo",
+		"bar"
+	};
+	spiceArray:array<int> = {
+		42
+	};
+}

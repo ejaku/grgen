@@ -1,0 +1,68 @@
+new graph storages/storages
+
+xgrs st1=set<Node>{}
+xgrs sz=st1.size()
+show var sz
+show num nodes
+show num edges
+
+xgrs ( (n)=addNode ;> st1.add(n) )[5]
+xgrs sz=st1.size()
+show var sz
+show num nodes
+show num edges
+
+xgrs for{n in st1; addReflexiveEdge(n)}
+xgrs sz=st1.size()
+show var sz
+show num nodes
+show num edges
+
+xgrs for{n in st1; remNode(n)}
+xgrs sz=st1.size()
+show var sz
+show num nodes
+show num edges
+
+xgrs st2=set<Node>{}
+xgrs for{n in st1; st2.add(n)}
+xgrs sz=st1.size()
+show var sz
+show num nodes
+show num edges
+
+xgrs sz=st2.size()
+show var sz
+xgrs if{n in st2; false; st2.add(n) && addNode}
+show num nodes
+xgrs sz=st2.size()
+show var sz
+
+xgrs for{n in st2; st1.rem(n)}
+xgrs sz=st1.size()
+show var sz
+show num nodes
+show num edges
+xgrs sz=st2.size()
+show var sz
+
+xgrs sz=st1.size()
+show var sz
+xgrs if{n in st1; st1.rem(n) && addNode; false}
+show num nodes
+xgrs sz=st1.size()
+show var sz
+xgrs for{n in st2; st1.rem(n) && false} && addNode
+show num nodes
+xgrs sz=st1.size()
+show var sz
+
+xgrs sz=st2.size() ;> emit("value of variable 4 5 6 7 8 9 ") ;> emit(sz) ;> emit("\n")
+xgrs s=st2.size()
+show var s
+xgrs st2.clear()
+xgrs sz=st2.size() ;> emit("value of variable 4 5 6 7 8 9 ") ;> emit(sz) ;> emit("\n")
+xgrs s=st2.size()
+show var s
+
+quit

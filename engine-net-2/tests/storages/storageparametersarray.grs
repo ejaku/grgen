@@ -1,0 +1,33 @@
+new graph storages/storageparameters
+
+new n1:NN
+new n2:NN
+new n3:NNN
+
+xgrs st = set<Node>{}
+
+xgrs [addNode(st)] <; s=st.size()
+show var s
+
+xgrs [remNode(st)] <; s=st.size()
+show var s
+
+xgrs st.rem(n2) <; s=st.size()
+show var s
+
+xgrs addNodeIfOtherNotContained(st, n1) <; s=st.size()
+show var s
+
+xgrs addNodeIfOtherNotContained(st, n1) <; s=st.size()
+show var s
+
+xgrs st.add(n2) <; s=st.size()
+show var s
+
+xgrs remNodeGiven(st, n3) <; s=st.size()
+show var s
+
+xgrs remNodeGiven(st, n3) <; s=st.size()
+show var s
+
+quit

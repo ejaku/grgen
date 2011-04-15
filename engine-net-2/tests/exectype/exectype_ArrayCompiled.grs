@@ -1,0 +1,7 @@
+new graph "exectype/exectype"
+
+new n:AA
+
+xgrs Array(n)
+
+quit

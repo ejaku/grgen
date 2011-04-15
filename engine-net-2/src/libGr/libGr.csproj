@@ -66,7 +66,7 @@
     <Compile Include="backendInterface.cs" />
     <Compile Include="BaseActions.cs" />
     <Compile Include="BaseGraph.cs" />
-    <Compile Include="DictionaryHelper.cs" />
+    <Compile Include="DictionaryListHelper.cs" />
     <Compile Include="dumpInterface.cs" />
     <Compile Include="actionInterface.cs" />
     <Compile Include="elementInterface.cs" />

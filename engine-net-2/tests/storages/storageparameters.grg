@@ -93,3 +93,53 @@ rule addNodeEdgeIfOtherNodeEdgeNotContained(ref st:map<Node,Edge>, nn:NN, -ee:EE
 		}
 	}
 }
+
+rule addToArray(ref st:array<Node>)
+{
+	nn:NN;
+	modify {
+		eval {
+			st.add(nn);
+		}
+	}
+}
+
+rule insertAtIndex(ref st:array<Node>, var index:int)
+{
+	nn:NN;
+	modify {
+		eval {
+			st.add(nn, index);
+		}
+	}
+}
+
+rule remFromArray(ref st:array<Node>)
+{
+	modify {
+		eval {
+			st.rem();
+		}
+	}
+}
+
+rule remAtIndex(ref st:array<Node>, var index:int)
+{
+	modify {
+		eval {
+			st.rem(index);
+		}
+	}
+}
+
+rule addNodeIfOtherNotContainedArray(ref st:array<Node>, nn:NN)
+{
+	nnn:NNN;
+	if { nn in st; }
+	
+	modify {
+		eval {
+			st.add(nnn);
+		}
+	}
+}

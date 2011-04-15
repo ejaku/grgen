@@ -3,6 +3,9 @@ node class NN extends N;
 node class M
 {
 	x:int;
+	s:set<M>;
+	m:map<M,M>;
+	a:array<M>;
 }
 
 edge class E;
@@ -10,6 +13,9 @@ edge class EE extends E;
 edge class F
 {
 	x:string;
+	s:set<F>;
+	m:map<F,F>;
+	a:array<F>;
 }
 undirected edge class G
 {

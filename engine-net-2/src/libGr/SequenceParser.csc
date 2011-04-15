@@ -160,6 +160,7 @@ TOKEN: {
 |   < FALSE: "false" >
 |   < SET: "set" >
 |   < MAP: "map" >
+|   < ARRAY: "array" >
 |   < ARROW: "->" >
 |   < FOR: "for" >
 |   < IF: "if" >
@@ -380,10 +381,10 @@ object Constant():
     |
 		"set" "<" typeName=Word() ">"
 		{
-			srcType = DictionaryHelper.GetTypeFromNameForDictionary(typeName, model);
+			srcType = DictionaryListHelper.GetTypeFromNameForDictionaryOrList(typeName, model);
 			dstType = typeof(de.unika.ipd.grGen.libGr.SetValueType);
 			if(srcType!=null)
-				constant = DictionaryHelper.NewDictionary(srcType, dstType);
+				constant = DictionaryListHelper.NewDictionary(srcType, dstType);
 			if(constant==null) 
 				throw new ParseException("Invalid constant \"set<"+typeName+">\"!");
 		}
@@ -394,10 +395,10 @@ object Constant():
 	|
 		"map" "<" typeName=Word() "," typeNameDst=Word() ">"
 		{
-			srcType = DictionaryHelper.GetTypeFromNameForDictionary(typeName, model);
-			dstType = DictionaryHelper.GetTypeFromNameForDictionary(typeNameDst, model);
+			srcType = DictionaryListHelper.GetTypeFromNameForDictionaryOrList(typeName, model);
+			dstType = DictionaryListHelper.GetTypeFromNameForDictionaryOrList(typeNameDst, model);
 			if(srcType!=null && dstType!=null) 
-				constant = DictionaryHelper.NewDictionary(srcType, dstType);
+				constant = DictionaryListHelper.NewDictionary(srcType, dstType);
 			if(constant==null) 
 				throw new ParseException("Invalid constant \"map<"+typeName+","+typeNameDst+">\"!");
 		}
@@ -405,6 +406,19 @@ object Constant():
 			( src=SimpleConstant() "->" dst=SimpleConstant() { ((IDictionary)constant).Add(src, dst); } )?
 				( "," src=SimpleConstant() "->" dst=SimpleConstant() { ((IDictionary)constant).Add(src, dst); } )*
 		"}"
+	|
+		"array" "<" typeName=Word() ">"
+		{
+			srcType = DictionaryListHelper.GetTypeFromNameForDictionaryOrList(typeName, model);
+			if(srcType!=null)
+				constant = DictionaryListHelper.NewList(srcType);
+			if(constant==null) 
+				throw new ParseException("Invalid constant \"array<"+typeName+">\"!");
+		}
+		"[" 
+			( src=SimpleConstant() { ((IList)constant).Add(src); } )? 
+				( "," src=SimpleConstant() { ((IList)constant).Add(src); })*
+		"]"
 	)
 	{
 		return constant;
@@ -510,8 +524,12 @@ String Type():
 }
 {
 	(type=Word()
-		| "set" "<" typeParam=Word() ">" { type = "set<"+typeParam+">"; }
+		| "set" "<" typeParam=Word() ">" { type = "set<"+typeParam+">"; } 
+			("{" { throw new ParseException("no {} allowed at set declaration, use s:set<T> = set<T>{} for initialization"); })?
 		| "map" "<" typeParam=Word() "," typeParamDst=Word() ">" { type = "map<"+typeParam+","+typeParamDst+">"; }
+			("{" { throw new ParseException("no {} allowed at map declaration, use m:map<S,T> = map<S,T>{} for initialization"); })?
+		| "array" "<" typeParam=Word() ">" { type = "array<"+typeParam+">"; }
+			(LOOKAHEAD(2) "[" { throw new ParseException("no [] allowed at array declaration, use a:array<T> = array<T>[] for initialization"); })?
 	)
 	{
 		return type;
@@ -773,8 +791,8 @@ Sequence SimpleSequence():
 	|
         LOOKAHEAD(4) fromVar=VariableUse() "." method=Word() "(" ")"
 		{
-			if(method=="size") return new SequenceAssignSetmapSizeToVar(toVar, fromVar);
-			else if(method=="empty") return new SequenceAssignSetmapEmptyToVar(toVar, fromVar);
+			if(method=="size") return new SequenceAssignContainerSizeToVar(toVar, fromVar);
+			else if(method=="empty") return new SequenceAssignContainerEmptyToVar(toVar, fromVar);
 			else throw new ParseException("Unknown method name: \"" + method + "\"! (available are size|empty on set/map)");
 		}
 	|
@@ -785,7 +803,7 @@ Sequence SimpleSequence():
 	|
 		LOOKAHEAD(2) fromVar=VariableUse() "[" fromVar2=VariableUse() "]" // parsing v=a[ as v=a[x] has priority over (v=a)[*]
 		{
-			return new SequenceAssignMapAccessToVar(toVar, fromVar, fromVar2);
+			return new SequenceAssignContainerAccessToVar(toVar, fromVar, fromVar2);
 		}
 	|
 		LOOKAHEAD(2) fromVar=VariableUse() "in" fromVar2=VariableUse()
@@ -876,14 +894,14 @@ Sequence SimpleSequence():
 	LOOKAHEAD(2) fromVar=VariableUse() "." method=Word() "(" ( fromVar2=VariableUse() ("," fromVar3=VariableUse())? )? ")"
 	{
 		if(method=="add") {
-			if(fromVar2==null) throw new ParseException("\"" + method + "\" expects 1(for set) or 2(for map) parameters)");
-			return new SequenceSetmapAdd(fromVar, fromVar2, fromVar3);
+			if(fromVar2==null) throw new ParseException("\"" + method + "\" expects 1(for set,array end) or 2(for map,array with index) parameters)");
+			return new SequenceContainerAdd(fromVar, fromVar2, fromVar3);
 		} else if(method=="rem") {
-			if(fromVar2==null || fromVar3!=null) throw new ParseException("\"" + method + "\" expects 1 parameter)");
-			return new SequenceSetmapRem(fromVar, fromVar2); 
+			if(fromVar3!=null) throw new ParseException("\"" + method + "\" expects 1(for set,map,array with index) or 0(for array end) parameters )");
+			return new SequenceContainerRem(fromVar, fromVar2); 
 		} else if(method=="clear") {
 			if(fromVar2!=null || fromVar3!=null) throw new ParseException("\"" + method + "\" expects no parameters)");
-			return new SequenceSetmapClear(fromVar);
+			return new SequenceContainerClear(fromVar);
 		} else {
 			throw new ParseException("Unknown method name: \"" + method + "\"! (available are add|rem|clear on set/map)");
 		}
@@ -897,6 +915,11 @@ Sequence SimpleSequence():
 	LOOKAHEAD(RuleLookahead()) seq=Rule()
 	{
 		return seq;
+	}
+|
+	toVar=VariableUse() "[" fromVar=VariableUse() "]" "=" fromVar2=VariableUse()
+	{ 
+		return new SequenceAssignVarToIndexedVar(toVar, fromVar, fromVar2);
 	}
 |
 	"def" "(" Parameters(variableList1) ")"
@@ -983,8 +1006,8 @@ void RuleLookahead():
 {
 }
 {
-	("(" Word() (":" (Word() | "set" "<" Word() ">" | "map" "<" Word() "," Word() ">"))?
-			("," Word() (":" (Word() | "set" "<" Word() ">" | "map" "<" Word() "," Word() ">"))?)* ")" "=")?
+	("(" Word() (":" (Word() | "set" "<" Word() ">" | "map" "<" Word() "," Word() ">" | "array" "<" Word() ">"))?
+			("," Word() (":" (Word() | "set" "<" Word() ">" | "map" "<" Word() "," Word() ">" | "array" "<" Word() ">"))?)* ")" "=")?
 	(
 	    ( "$" ("%")? ( Variable() ("," (Variable() | "*"))? )? )? "["
 	|

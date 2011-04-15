@@ -7,7 +7,6 @@
 
 /**
  * @author Edgar Jakumeit
- * @version $Id: MapInitNode.java 22956 2008-10-16 20:35:04Z buchwald $
  */
 
 package de.unika.ipd.grgen.ast;
@@ -208,5 +207,9 @@ public class SetInitNode extends ExprNode
 
 	protected SetInit getSetInit() {
 		return checkIR(SetInit.class);
+	}
+	
+	public static String getUseStr() {
+		return "set initialization";
 	}
 }

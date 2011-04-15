@@ -1,7 +1,7 @@
 new graph "exectype/exectype"
 xgrs x=3 && y="fool" && z=foo::Bar \
 		&& u=3.141592654 && l=3.141f && v=true \
-		&& w=set<int>{} && k=map<A,H>{} \
+		&& w=set<int>{} && k=map<A,H>{} && m=array<int>[] \
 		&& emit("value of variable x 5 6 7 8 9 ") && emit(x) && emit("\n") \
 		&& emit("value of variable y 5 6 7 8 9 ") && emit(y) && emit("\n") \
 		&& emit("value of variable z 5 6 7 8 9 ") && emit(z) && emit("\n") \
@@ -9,7 +9,8 @@ xgrs x=3 && y="fool" && z=foo::Bar \
 		&& emit("value of variable l 5 6 7 8 9 ") && emit(l) && emit("\n") \
 		&& emit("value of variable v 5 6 7 8 9 ") && emit(v) && emit("\n") \
 		&& emit("value of variable w 5 6 7 8 9 ") && emit(w) && emit("\n") \
-		&& emit("value of variable k 5 6 7 8 9 ") && emit(k) && emit("\n")
+		&& emit("value of variable k 5 6 7 8 9 ") && emit(k) && emit("\n") \
+		&& emit("value of variable m 5 6 7 8 9 ") && emit(m) && emit("\n")
 show var x
 show var y
 show var z
@@ -18,4 +19,5 @@ show var l
 show var v
 show var w
 show var k
+show var m
 quit

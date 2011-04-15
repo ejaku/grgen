@@ -916,7 +916,7 @@ namespace de.unika.ipd.grGen.grShell
                     Console.Write("for{");
                     Console.Write(seqFor.Var.Name);
                     if(seqFor.VarDst!=null) Console.Write("->" + seqFor.VarDst.Name);
-                    Console.Write(" in " + seqFor.Setmap.Name);
+                    Console.Write(" in " + seqFor.Container.Name);
                     Console.Write("; ");
                     PrintSequence(seqFor.Seq, seq, context);
                     Console.Write("}");
@@ -1173,17 +1173,17 @@ namespace de.unika.ipd.grGen.grShell
                 case SequenceType.AssignVarToAttribute:
                 case SequenceType.AssignElemToVar:
                 case SequenceType.AssignVAllocToVar:
-                case SequenceType.AssignSetmapSizeToVar:
-                case SequenceType.AssignSetmapEmptyToVar:
-                case SequenceType.AssignMapAccessToVar:
+                case SequenceType.AssignContainerSizeToVar:
+                case SequenceType.AssignContainerEmptyToVar:
+                case SequenceType.AssignContainerAccessToVar:
                 case SequenceType.IsVisited:
                 case SequenceType.SetVisited:
                 case SequenceType.VFree:
                 case SequenceType.VReset:
-                case SequenceType.SetmapAdd:
-                case SequenceType.SetmapRem:
-                case SequenceType.SetmapClear:
-                case SequenceType.InSetmap:
+                case SequenceType.ContainerAdd:
+                case SequenceType.ContainerRem:
+                case SequenceType.ContainerClear:
+                case SequenceType.InContainer:
                 case SequenceType.Emit:
                 case SequenceType.Record:
                 {
@@ -1337,9 +1337,11 @@ namespace de.unika.ipd.grGen.grShell
                     string type;
                     string content;
                     if(var.Value is IDictionary)
-                        DictionaryHelper.ToString((IDictionary)var.Value, out type, out content, null, shellGraph.Graph);
+                        DictionaryListHelper.ToString((IDictionary)var.Value, out type, out content, null, shellGraph.Graph);
+                    else if(var.Value is IList)
+                        DictionaryListHelper.ToString((IList)var.Value, out type, out content, null, shellGraph.Graph);
                     else
-                        DictionaryHelper.ToString(var.Value, out type, out content, null, shellGraph.Graph);
+                        DictionaryListHelper.ToString(var.Value, out type, out content, null, shellGraph.Graph);
                     Console.WriteLine("  " + var.Name + " = " + content + " : " + type);
                 }
             }
@@ -1351,9 +1353,11 @@ namespace de.unika.ipd.grGen.grShell
                     string type;
                     string content;
                     if(var.Value is IDictionary)
-                        DictionaryHelper.ToString((IDictionary)var.Value, out type, out content, null, shellGraph.Graph);
+                        DictionaryListHelper.ToString((IDictionary)var.Value, out type, out content, null, shellGraph.Graph);
+                    else if(var.Value is IList)
+                        DictionaryListHelper.ToString((IList)var.Value, out type, out content, null, shellGraph.Graph);
                     else
-                        DictionaryHelper.ToString(var.Value, out type, out content, null, shellGraph.Graph);
+                        DictionaryListHelper.ToString(var.Value, out type, out content, null, shellGraph.Graph);
                     Console.WriteLine("  " + var.Name + " = " + content + " : " + type);
                 }
             }

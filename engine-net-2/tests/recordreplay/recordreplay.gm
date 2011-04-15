@@ -16,6 +16,7 @@ node class NB
 	bla : double;
 	huh : boolean;
 	lal : Bla;
+	meeh: array<string>;
 }
 
 ///////////////////////////////////////////

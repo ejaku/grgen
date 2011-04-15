@@ -127,7 +127,8 @@ namespace de.unika.ipd.grGen.lgsp
         None,
         Assign,
         PutElement,
-        RemoveElement
+        RemoveElement,
+        AssignElement
     }
 
     ////////////////////////////////////////////////////////////////////////////////
@@ -176,11 +177,50 @@ namespace de.unika.ipd.grGen.lgsp
                 else // Assign
                 {
                     Type keyType, valueType;
-                    IDictionary dict = DictionaryHelper.GetDictionaryTypes(
+                    IDictionary dict = DictionaryListHelper.GetDictionaryTypes(
                         _elem.GetAttribute(_attrType.Name), out keyType, out valueType);
-                    IDictionary clonedDict = DictionaryHelper.NewDictionary(keyType, valueType, dict);
+                    IDictionary clonedDict = DictionaryListHelper.NewDictionary(keyType, valueType, dict);
                     _undoOperation = UndoOperation.Assign;
                     _value = clonedDict;
+                }
+            }
+            else if (_attrType.Kind == AttributeKind.ArrayAttr)
+            {
+                if (changeType == AttributeChangeType.PutElement)
+                {
+                    IList array = (IList)_elem.GetAttribute(_attrType.Name);
+                    _undoOperation = UndoOperation.RemoveElement;
+                    _keyOfValue = keyValue;
+                }
+                else if (changeType == AttributeChangeType.RemoveElement)
+                {
+                    IList array = (IList)_elem.GetAttribute(_attrType.Name);
+                    _undoOperation = UndoOperation.PutElement;
+                    if(keyValue == null)
+                    {
+                        _value = array[array.Count-1];
+                    }
+                    else
+                    {
+                        _value = array[(int)keyValue];
+                        _keyOfValue = keyValue;
+                    }
+                }
+                else if(changeType == AttributeChangeType.AssignElement)
+                {
+                    IList array = (IList)_elem.GetAttribute(_attrType.Name);
+                    _undoOperation = UndoOperation.AssignElement;
+                    _value = array[(int)keyValue];
+                    _keyOfValue = keyValue;
+                }
+                else // Assign
+                {
+                    Type valueType;
+                    IList array = DictionaryListHelper.GetListType(
+                        _elem.GetAttribute(_attrType.Name), out valueType);
+                    IList clonedArray = DictionaryListHelper.NewList(valueType, array);
+                    _undoOperation = UndoOperation.Assign;
+                    _value = clonedArray;
                 }
             }
             else if (_attrType.Kind == AttributeKind.MapAttr)
@@ -222,12 +262,26 @@ namespace de.unika.ipd.grGen.lgsp
                         _undoOperation = UndoOperation.None;
                     }
                 }
+                else if(changeType == AttributeChangeType.AssignElement)
+                {
+                    IDictionary dict = (IDictionary)_elem.GetAttribute(_attrType.Name);
+                    if(dict[keyValue] == newValue)
+                    {
+                        _undoOperation = UndoOperation.None;
+                    }
+                    else
+                    {
+                        _undoOperation = UndoOperation.AssignElement;
+                        _value = dict[keyValue];
+                        _keyOfValue = keyValue;
+                    }
+                }
                 else // Assign
                 {
                     Type keyType, valueType;
-                    IDictionary dict = DictionaryHelper.GetDictionaryTypes(
+                    IDictionary dict = DictionaryListHelper.GetDictionaryTypes(
                         _elem.GetAttribute(_attrType.Name), out keyType, out valueType);
-                    IDictionary clonedDict = DictionaryHelper.NewDictionary(keyType, valueType, dict);
+                    IDictionary clonedDict = DictionaryListHelper.NewDictionary(keyType, valueType, dict);
                     _undoOperation = UndoOperation.Assign;
                     _value = clonedDict;
                 }
@@ -250,11 +304,20 @@ namespace de.unika.ipd.grGen.lgsp
                     IDictionary dict = (IDictionary)_elem.GetAttribute(_attrType.Name);
                     dict.Add(_value, null);
                 }
-                else // AttributeKind.MapAttr
+                else if(_attrType.Kind == AttributeKind.MapAttr)
                 {
                     ChangingElementAttribute(graph);
                     IDictionary dict = (IDictionary)_elem.GetAttribute(_attrType.Name);
                     dict.Add(_keyOfValue, _value);
+                }
+                else //if (_attrType.Kind == AttributeKind.ArrayAttr)
+                {
+                    ChangingElementAttribute(graph);
+                    IList array = (IList)_elem.GetAttribute(_attrType.Name);
+                    if(_keyOfValue == null)
+                        array.Add(_value);
+                    else
+                        array.Insert((int)_keyOfValue, _value);
                 }
             }
             else if (_undoOperation == UndoOperation.RemoveElement)
@@ -265,14 +328,29 @@ namespace de.unika.ipd.grGen.lgsp
                     IDictionary dict = (IDictionary)_elem.GetAttribute(_attrType.Name);
                     dict.Remove(_value);
                 }
-                else // AttributeKind.MapAttr
+                else if (_attrType.Kind == AttributeKind.MapAttr)
                 {
                     ChangingElementAttribute(graph);
                     IDictionary dict = (IDictionary)_elem.GetAttribute(_attrType.Name);
                     dict.Remove(_keyOfValue);
                 }
+                else //if(_attrType.Kind == AttributeKind.ArrayAttr)
+                {
+                    ChangingElementAttribute(graph);
+                    IList array = (IList)_elem.GetAttribute(_attrType.Name);
+                    if(_keyOfValue == null)
+                        array.RemoveAt(array.Count - 1);
+                    else
+                        array.RemoveAt((int)_keyOfValue);
+                }
             }
-            else if (_undoOperation == UndoOperation.Assign)
+            else if(_undoOperation == UndoOperation.AssignElement)
+            {
+                ChangingElementAttribute(graph);
+                IList array = (IList)_elem.GetAttribute(_attrType.Name);
+                array[(int)_keyOfValue] = _value;
+            }
+            else if(_undoOperation == UndoOperation.Assign)
             {
                 ChangingElementAttribute(graph);
                 _elem.SetAttribute(attrName, _value);
@@ -288,6 +366,7 @@ namespace de.unika.ipd.grGen.lgsp
                 case UndoOperation.Assign: changeType = AttributeChangeType.Assign; break;
                 case UndoOperation.PutElement: changeType = AttributeChangeType.PutElement; break;
                 case UndoOperation.RemoveElement: changeType = AttributeChangeType.RemoveElement; break;
+                case UndoOperation.AssignElement: changeType = AttributeChangeType.AssignElement; break;
                 default: throw new Exception("Internal error during transaction handling");
             }
 

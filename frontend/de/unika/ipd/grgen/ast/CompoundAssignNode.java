@@ -7,7 +7,6 @@
 
 /**
  * @author Edgar Jakumeit
- * @version $Id: SetUnionWithoutNode.java 22995 2008-10-18 14:51:18Z buchwald $
  */
 
 package de.unika.ipd.grgen.ast;
@@ -40,7 +39,8 @@ public class CompoundAssignNode extends EvalStatementNode
 	public static final int UNION = 0;
 	public static final int INTERSECTION = 2;
 	public static final int WITHOUT = 3;
-	public static final int ASSIGN = 4;
+	public static final int CONCATENATE = 4;
+	public static final int ASSIGN = 5;
 		
 	private BaseNode targetUnresolved; // QualIdentNode|IdentExprNode
 	private int compoundAssignmentType;
@@ -148,8 +148,12 @@ public class CompoundAssignNode extends EvalStatementNode
 	@Override
 	protected boolean checkLocal() {
 		TypeNode targetType = targetQual!=null ? targetQual.getDecl().getDeclType() : targetVar.getDeclType();
-		if(!(targetType instanceof SetTypeNode || targetType instanceof MapTypeNode)) {
-			reportError("compound assignment expects a target of set or map type.");
+		if(compoundAssignmentType==CONCATENATE && !(targetType instanceof ArrayTypeNode)) {
+			(targetQual!=null?targetQual:targetVar).reportError("compound assignment expects a target of array type.");
+			return false;
+		}
+		if(compoundAssignmentType!=CONCATENATE && !(targetType instanceof SetTypeNode || targetType instanceof MapTypeNode)) {
+			(targetQual!=null?targetQual:targetVar).reportError("compound assignment expects a target of set or map type.");
 			return false;
 		}
 		TypeNode exprType = valueExpr.getType();

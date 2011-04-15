@@ -71,10 +71,10 @@ namespace de.unika.ipd.grGen.lgsp
         }
 
         /// <summary>
-        /// Returns name of the dictionary entry variable which will be created within the search program
-        /// holding the dictionary entry (key-value-pair) of the storage to pick an element from
+        /// Returns name of the dictionary/list entry variable which will be created within the search program
+        /// holding the dictionary entry (key-value-pair) or list entry of the storage to pick an element from
         /// </summary>
-        public static string CandidateIterationDictionaryEntry(string patternElementName)
+        public static string CandidateIterationDictionaryOrListEntry(string patternElementName)
         {
             return "storage_candidate_" + patternElementName;
         }

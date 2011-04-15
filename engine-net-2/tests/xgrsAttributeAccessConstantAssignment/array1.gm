@@ -1,0 +1,5 @@
+node class A
+{
+    a:array<string> = [ "foo","bar" ] ;
+	val:string = "argl";
+}

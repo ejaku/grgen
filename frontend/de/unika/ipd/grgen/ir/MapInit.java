@@ -7,7 +7,6 @@
 
 /**
  * @author Moritz Kroll, Edgar Jakumeit
- * @version $Id$
  */
 
 package de.unika.ipd.grgen.ir;
@@ -62,7 +61,7 @@ public class MapInit extends Expression {
 		return isConst;
 	}
 
-	public String getAnonymnousMapName() {
+	public String getAnonymousMapName() {
 		return "anonymous_map_" + anonymousMapId;
 	}
 }

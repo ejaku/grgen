@@ -6,6 +6,9 @@ node class A
 	st:string;
 	s:set<foo>;
 	m:map<int,string>;
+	a:array<foo>;
+	fl:float;
+	d:double;
 }
 
 node class AA extends A;
@@ -20,6 +23,9 @@ edge class H
 	st:string;
 	s:set<foo>;
 	m:map<int,string>;
+	a:array<string>;
+	fl:float;
+	d:double;
 }
 
 edge class HH extends H;

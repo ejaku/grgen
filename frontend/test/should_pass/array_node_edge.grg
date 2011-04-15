@@ -1,0 +1,79 @@
+using array_model_003;
+
+rule addToArray {
+	n:N; m:Node;
+	
+	modify {
+		eval {
+			n.nodeArray = n.nodeArray + array<Node>[ n ];
+			n.nodeArray = n.nodeArray + [ m ];
+			n.nArray = n.nArray + array<N>[ n ];
+			n.nArray = n.nArray + [ n ];
+		}
+	}
+}
+
+test containedInArray {
+	n:N;
+	
+	if { n in n.nodeArray; }
+	if { n in n.nArray; }
+}
+
+// This clones the arrays
+rule assignArrayToArray {
+	n:N; m:N; 
+		
+	modify {
+		eval {
+			n.nodeArray = m.nodeArray;
+			m.nArray = n.nArray;
+		}
+	}
+}
+
+rule anonymousArray {
+	n:N; m:N;
+	
+	if { n in array<Node>[ n, m ]; }
+	if { n in array<N>[ n, m ]; }
+
+	modify {
+		eval {
+			n.val = (n in [n, m]) ? 1 : 0;
+		}
+	}
+}
+
+rule arraySize {
+	n:N;
+	
+	if { n.nodeArray.size()==42; }
+	if { n.nArray.size()==42; }
+	
+	modify {
+		eval {
+			n.val = n.nodeArray.size();
+			n.val = n.nArray.size();
+		}
+	}
+}
+
+rule addToArray2 {
+	n:N; m:N;
+	
+	modify {
+		eval {
+			n.nodeArray = (m.nodeArray + array<Node>[ n, m ]) + array<Node>[ m ];
+		}
+	}
+}
+
+rule storage {
+	n:N;
+	m:N<n.nArray>;
+	l:Node<n.nodeArray>;
+	
+	modify {
+	}
+}

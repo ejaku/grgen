@@ -23,6 +23,16 @@ node class N2
 	empty:map<FooBar,FooBar>;
 }
 
+node class N3
+{
+	a:array<int>;
+	b:array<string>;
+	c:array<double>;
+	d:array<boolean>;
+	e:array<FooBar>;
+	empty:array<FooBar>;
+}
+
 ///////////////////////////////////////////
 
 edge class E1
@@ -45,3 +55,12 @@ edge class E2
 	empty:map<FooBar,FooBar>;
 }
 
+edge class E3
+{
+	a:array<int>;
+	b:array<string>;
+	c:array<double>;
+	d:array<boolean>;
+	e:array<FooBar>;
+	empty:array<FooBar>;
+}

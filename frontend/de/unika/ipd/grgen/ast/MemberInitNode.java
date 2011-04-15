@@ -7,7 +7,6 @@
 
 /**
  * @author Rubino Geiss
- * @version $Id$
  */
 package de.unika.ipd.grgen.ast;
 
@@ -16,6 +15,7 @@ import java.util.Collection;
 import java.util.Vector;
 
 import de.unika.ipd.grgen.ast.util.MemberResolver;
+import de.unika.ipd.grgen.ir.ArrayInit;
 import de.unika.ipd.grgen.ir.Entity;
 import de.unika.ipd.grgen.ir.Expression;
 import de.unika.ipd.grgen.ir.IR;
@@ -118,8 +118,16 @@ public class MemberInitNode extends BaseNode {
 			SetInit setInit = rhs.checkIR(SetInit.class);
 			setInit.setMember(lhs.checkIR(Entity.class));
 			return setInit;
+		} else if(rhs instanceof ArrayInitNode) {
+			ArrayInit arrayInit = rhs.checkIR(ArrayInit.class);
+			arrayInit.setMember(lhs.checkIR(Entity.class));
+			return arrayInit;
 		} else {
 			return new MemberInit(lhs.checkIR(Entity.class), rhs.checkIR(Expression.class));
 		}
+	}
+	
+	public static String getUseStr() {
+		return "member initialization";
 	}
 }

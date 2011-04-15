@@ -1,0 +1,9 @@
+node class A
+{
+	intValue: int;
+	stringValue: string;
+	intArray: array<int>;
+	stringArray: array<string>;
+	const constIntArray: array<int>;
+	const constStringArray: array<string>;
+}

@@ -1,4 +1,4 @@
-using set_model_001, set_map_node_edge;
+using set_model_001, set_map_array_node_edge;
 
 rule r(ref ss1:set<string>, ref ss2:set<string>, ref sa1:set<A>, ref sa2:set<A>)
 {

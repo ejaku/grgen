@@ -859,12 +859,17 @@ namespace de.unika.ipd.grGen.grShell
         {
             if (attrType.Kind == AttributeKind.SetAttr || attrType.Kind == AttributeKind.MapAttr)
             {
-                DictionaryHelper.ToString((IDictionary)elem.GetAttribute(attrType.Name), out attrTypeString, out attrValueString, attrType, graph);
+                DictionaryListHelper.ToString((IDictionary)elem.GetAttribute(attrType.Name), out attrTypeString, out attrValueString, attrType, graph);
+                attrValueString = Encode(attrValueString);
+            }
+            else if(attrType.Kind == AttributeKind.ArrayAttr)
+            {
+                DictionaryListHelper.ToString((IList)elem.GetAttribute(attrType.Name), out attrTypeString, out attrValueString, attrType, graph);
                 attrValueString = Encode(attrValueString);
             }
             else
             {
-                DictionaryHelper.ToString(elem.GetAttribute(attrType.Name), out attrTypeString, out attrValueString, attrType, graph); 
+                DictionaryListHelper.ToString(elem.GetAttribute(attrType.Name), out attrTypeString, out attrValueString, attrType, graph); 
                 attrValueString = Encode(attrValueString);
             }
         }
@@ -874,12 +879,17 @@ namespace de.unika.ipd.grGen.grShell
         {
             if (attrType.Kind == AttributeKind.SetAttr || attrType.Kind == AttributeKind.MapAttr)
             {
-                DictionaryHelper.ToString((IDictionary)elem.GetAttribute(attrType.Name), changeType, newValue, keyValue, out attrTypeString, out attrValueString, attrType, graph);
+                DictionaryListHelper.ToString((IDictionary)elem.GetAttribute(attrType.Name), changeType, newValue, keyValue, out attrTypeString, out attrValueString, attrType, graph);
+                attrValueString = Encode(attrValueString);
+            }
+            else if(attrType.Kind == AttributeKind.ArrayAttr)
+            {
+                DictionaryListHelper.ToString((IList)elem.GetAttribute(attrType.Name), changeType, newValue, keyValue, out attrTypeString, out attrValueString, attrType, graph);
                 attrValueString = Encode(attrValueString);
             }
             else
             {
-                DictionaryHelper.ToString(newValue, out attrTypeString, out attrValueString, attrType, graph);
+                DictionaryListHelper.ToString(newValue, out attrTypeString, out attrValueString, attrType, graph);
                 attrValueString = Encode(attrValueString);
             }
         }

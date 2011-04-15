@@ -1,0 +1,64 @@
+new graph xgrsAttributeAccessConstantAssignment/array1
+
+#tests attribute access in general and attribute access of array attributes in special
+
+new na:A
+na.a
+xgrs a=na.a
+xgrs str="blub"
+show var str
+xgrs a.add(str)
+na.a
+xgrs na.a = a 
+na.a
+xgrs val = na.val
+na.val
+show var val
+xgrs a=na.a
+xgrs a.add(val)
+xgrs na.a = a 
+na.a
+
+xgrs sz=a.size()
+show var sz
+
+xgrs a = na.a
+xgrs str = "blub"
+index = 2
+xgrs a.rem(index)
+na.a
+xgrs na.a = a 
+na.a
+xgrs a = na.a
+xgrs val = na.val
+xgrs a.rem()
+xgrs na.a = a 
+na.a
+
+xgrs sz=a.size()
+show var sz
+
+echo "further test for reference vs value semantics - value is what it should be"
+
+new na2:A
+xgrs arr=na.a
+xgrs na2.a=arr
+na.a
+na2.a
+xgrs val="foo"
+index = 0
+xgrs arr.rem(index)
+na.a
+na2.a
+xgrs na2.a=arr
+na.a
+na2.a
+xgrs val="bar"
+xgrs arr.rem()
+na.a
+na2.a
+xgrs na.a=arr
+na.a
+na2.a
+
+exit

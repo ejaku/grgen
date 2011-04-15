@@ -1,0 +1,88 @@
+using array_model_003;
+
+rule addToArray {
+	-n:E->; -m:Edge->; -u:UEdge-;
+	
+	modify {
+		eval {
+			n.edgeArray = n.edgeArray + array<Edge>[ n ];
+			n.edgeArray = n.edgeArray + [ m ];
+			n.eArray = n.eArray + array<E>[ n ];
+			n.eArray = n.eArray + [ n ];
+			n.uArray = n.uArray + [ u ];
+		}
+	}
+}
+
+test containedInArray {
+	-n:E->; -u:UEdge-;
+	
+	if { n in n.edgeArray; }
+	if { n in n.eArray; }
+	if { u in n.uArray; }
+}
+
+// This clones the arrays
+rule assignArrayToArray {
+	-n:E->; -m:E->; -u:UEdge-;
+		
+	modify {
+		eval {
+			n.edgeArray = m.edgeArray;
+			m.eArray = n.eArray;
+			n.uArray = m.uArray;
+		}
+	}
+}
+
+rule anonymousArray {
+	-n:E->; -m:E->; -u:UEdge-;
+	
+	if { n in array<Edge>[ n, m ]; }
+	if { n in array<E>[ n, m ]; }
+	if { u in array<UEdge>[ u ]; }
+
+	modify {
+		eval {
+			n.val = (n in [n, m]) ? 1 : 0;
+			m.val = (u in [u]) ? 1 : 0;
+		}
+	}
+}
+
+rule arraySize {
+	-n:E->; -u:UEdge-;
+	
+	if { n.edgeArray.size()==42; }
+	if { n.eArray.size()==42; }
+	if { n.uArray.size()==42; }
+	
+	modify {
+		eval {
+			n.val = n.edgeArray.size();
+			n.val = n.eArray.size();
+			n.val = n.uArray.size();
+		}
+	}
+}
+
+rule addToArray2 {
+	-n:E->; -m:E->; -u:UEdge-;
+	
+	modify {
+		eval {
+			n.edgeArray = (m.edgeArray + array<Edge>[ n, m ]) + array<Edge>[ m ];
+			n.uArray = (m.uArray + array<UEdge>[ u ]) + array<UEdge>[ u ];
+		}
+	}
+}
+
+rule storage {
+	-n:E->;
+	-m:E<n.eArray>->;
+	-l:Edge<n.edgeArray>->;
+	-k:UEdge<m.uArray>-;
+	
+	modify {
+	}
+}

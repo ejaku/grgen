@@ -11,6 +11,7 @@ rule checkTestGraphAndPrintNames1
 		n2.bla==3.141592;
 		n2.huh==true;
 		n2.lal==Bla::Hurz;
+		n2.meeh==array<string>["la","le","lu"];
 		e1.foo==1337;
 		e1.bar=="fool";
 		e1.bleeh==map<int,string>{2->"3",3->"2"};
@@ -39,6 +40,7 @@ rule createTestGraphWithRules
 			n2.bla = 3.141592;
 			n2.huh = true;
 			n2.lal = Bla::Hurz;
+			n2.meeh = array<string>["la","le","lu"];
 			e1.foo = 1337;
 			e1.bar = "fool";
 			e1.bleeh = map<int,string>{2->"3",3->"2"};

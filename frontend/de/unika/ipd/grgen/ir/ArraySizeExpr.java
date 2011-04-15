@@ -6,33 +6,25 @@
  */
 
 /**
- * @author Moritz Kroll, Edgar Jakumeit
- * @version $Id: MapInit.java 22945 2008-10-16 16:02:13Z moritz $
+ * @author Edgar Jakumeit
  */
 
 package de.unika.ipd.grgen.ir;
 
-public class MapAccessExpr extends Expression {
+public class ArraySizeExpr extends Expression {
 	Expression targetExpr;
-	Expression keyExpr;
 
-	public MapAccessExpr(Expression targetExpr, Expression keyExpr) {
-		super("map access expression", ((MapType) targetExpr.getType()).getValueType());
+	public ArraySizeExpr(Expression targetExpr) {
+		super("array size expression", IntType.getType());
 		this.targetExpr = targetExpr;
-		this.keyExpr = keyExpr;
 	}
 
 	public void collectNeededEntities(NeededEntities needs) {
 		needs.add(this);
-		keyExpr.collectNeededEntities(needs);
 		targetExpr.collectNeededEntities(needs);
 	}
 
 	public Expression getTargetExpr() {
 		return targetExpr;
-	}
-
-	public Expression getKeyExpr() {
-		return keyExpr;
 	}
 }

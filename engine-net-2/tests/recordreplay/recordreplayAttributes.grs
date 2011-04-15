@@ -2,7 +2,7 @@ new graph "recordreplay/recordreplay"
 
 # initialize graph
 new :NA($=n1, foo=42, bar="foo", bleeh=set<int>{1,2,3})
-new :NB($=n2, bla=3.141592, huh=true, lal=Bla::Hurz)
+new :NB($=n2, bla=3.141592, huh=true, lal=Bla::Hurz, meeh=array<string>["la","le","lu"])
 new @("n1")-:EA($=e1, foo=1337, bar="fool", bleeh=map<int,string>{2->"3",3->"2"})->@("n2")
 new @("n2")-:EB($=e2, bla=2f, huh=false, lal=Bla::Lamm)->@("n2")
 
@@ -17,6 +17,8 @@ xgrs changeAttributesPrimary ;> changeAttributesOverwritingOverwritingWithSamePa
 @("n1").bar = "fool"
 @("n1").bleeh = set<int>{5,6,7}
 
+@("n2").meeh = array<string>["ha","ha","ha"]
+
 @("e2").bla = 3f
 @("e2").huh = true
 @("e2").lal = Bla::Hurz
@@ -27,6 +29,10 @@ xgrs changeAttributesPrimary ;> changeAttributesOverwritingOverwritingWithSamePa
 
 @("n1").bleeh.rem(7)
 @("n1").bleeh.add(4)
+
+@("n2").meeh[1] = "ho"
+@("n2").meeh.add("ho")
+@("n2").meeh.rem(2)
 
 # stop recording
 record recordreplay/testgraph.grs stop
@@ -39,6 +45,7 @@ record recordreplay/testgraph.grs stop
 @("n2").bla
 @("n2").huh
 @("n2").lal
+@("n2").meeh
 
 @("e1").foo
 @("e1").bar
@@ -59,6 +66,7 @@ replay recordreplay/testgraph.grs
 @("n2").bla
 @("n2").huh
 @("n2").lal
+@("n2").meeh
 
 @("e1").foo
 @("e1").bar
