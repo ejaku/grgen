@@ -191,12 +191,12 @@ The sequence \verb#$[t]# determines all matches of the parameterless rule \textt
 	Variable '.' Attribute '=' Variable |
     (percent)? Variable |
     'def' '(' (Variable+',') ')' |
-	'yield' '(' (Variable+',') ')' 
+	'yield' Variable '=' Variable
   ;
 \end{rail}\ixnterm{VariableHandling}\ixkeyw{def}\makeatother
 Variables can hold graph elements, or values of value/attribute types, including booleans.
 The typed explicit declaration introduces a sequence local variable, 
-if the double colon and the type are missing, a graph global variable gets implicitely declared if not existing yet.
+if the colon and the type are missing, a graph global variable gets implicitely declared if not existing yet.
 Graph elments are initially assigned to the variables by the element returns of the \emph{RuleExecution} statement or by the by name access (denoted with the at operator).
 Assigning graph elements by their \indexed{persistent name} to variables is not supported in compiled sequences (names are not available on this level).
 The random number assignment \texttt{v=\$(42)} assigns a random number in between 0 and 41 to the variable \texttt{v}. 
@@ -207,11 +207,10 @@ Each of the \emph{VarAssignment} rewrite factors yields always true.
 The variable in the \indexed{variable predicate} (a sequence consisting of only a variable read) must contain a boolean value;
 a prepended \texttt{\%} attaches a \indexed{break point} to it.
 The variable predicate together with the sequence result assignment allow to directly transmit execution results from one part of the sequence to another one.
-A \texttt{def} term is successful iff all the variables are defined.
-A \texttt{yield} term yields the variable values to the containing \texttt{exec} which can include the yielded values into the RHS pattern; but as of now they are then only accesible from the rule \texttt{return} statement.
-Yielding is only possible from compiled sequences. 
-It always succeeds, assigning the output elements (\emph{not} returning from the sequence). 
-Preliminary implementation: you get internal errors if yielded and expected types are not equal or if there is not a yield on any control flow path leaving the sequence.
+A \texttt{def} term is successful iff all the variables are defined (not null).
+A \texttt{yield} assignment writes the rhs variable value to the lhs variable which must be declared as a  def-to-be-yielded-to variable (\texttt{def}-prefix) in the pattern containing the \texttt{exec} statement.
+Yielding is only possible from compiled sequences, it always succeeds.
+Further variable handling constructs are given in \ref{sec:storages}.
 
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -351,6 +350,8 @@ Table~\ref{ruletab} lists most of the operations of the graph rewrite expression
 \texttt{v in u} & Membership query: succeeds if \texttt{v} is element of \texttt{u}, otherwise fails.\\
 \texttt{u=map<N,Edge>\{\}}	& Create storage map and assign to \texttt{u}. Operations are the same or similar to the operations of storage sets.\\
 \texttt{v=u[w]}	& Assign target value of \texttt{w} in \texttt{u} to \texttt{v}. Fails if \texttt{!(w in u)}.\\
+\hline
+\texttt{w=s(w)} & Calls a sequence \texttt{s} handing in \texttt{w} as input and writing its output to \texttt{w}; defined e.g. with \texttt{sequence s(u:Node):(v:Node)} \texttt{\{ v=u \}}.\\
 \hline
 \end{tabularx}\indexmain{\texttt{\textasciicircum}}\indexmain{\texttt{\&\&}}\indexmain{\texttt{"|}}
 \indexmain{\texttt{\&}}\indexmain{\texttt{"|"|}}\indexmain{\texttt{\$<op>}}\indexmain{\texttt{*}}\indexmain{\texttt{"!}}\indexmain{\texttt{;>}}\indexmain{\texttt{<;}}\indexmain{\texttt{+}}\indexmain{\texttt{[]}}\indexmain{\texttt{<>}}\indexmain{\texttt{<<;>>}}\indexmain{\texttt{()}}

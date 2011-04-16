@@ -1,7 +1,14 @@
 \chapter{Rule Set Language}\indexmain{rule set language}
 \label{chaprulelang}
 
-The \indexed{rule set} language forms the core of \GrG. Rule files refer to zero\footnote{Omitting a graph meta model means that \GrG\ uses a \indexed{default graph model}. The default model consists of the base type \texttt{Node} for vertices and the base type \texttt{Edge} for edges.} or more \indexed{graph model}s and specify a set of rewrite rules. The rule language covers the pattern specification and the replace/modify specification. Attributes of graph elements can be re-evaluated during an application of a rule. The following rewrite rule mentioned in Geiß et al.~\cite{GBGHS:06} gives a rough picture of the language:
+The \indexed{rule set} language forms the core of \GrG.
+Rule files refer to zero
+\footnote{Omitting a graph meta model means that \GrG\ uses a \indexed{default graph model}.
+The default model consists of the base type \texttt{Node} for vertices and the base type \texttt{Edge} for edges.}
+or more \indexed{graph model}s and specify a set of rewrite rules.
+The rule language covers the pattern specification and the replace/modify specification.
+Attributes of graph elements can be re-evaluated during an application of a rule.
+The following rewrite rule mentioned in Geiß et al.~\cite{GBGHS:06} gives a rough picture of the language:
 %\begin{figure}[tb]
 \begin{example}\label{ex:rule:SomeRule}
 \begin{grgen}
@@ -597,7 +604,7 @@ The \emph{ExecStatement} will be introduced in chapter \ref{cha:imperativeandsta
   ReplaceStatement:
     Graphlet ';' |
     'delete' '(' (Ident + ',') ')' ';' |
-    'eval' lbrace ((Assignment|CompoundAssignment|VisitedAssignment|SetMapStateChange) ';' +) rbrace |
+    'eval' lbrace ((Assignment|CompoundAssignment|VisitedAssignment|SetMapArrayStateChange) ';' +) rbrace |
     SubpatternRewriteApplication
     ;
 \end{rail}\ixkeyw{delete}\ixkeyw{eval}\ixnterm{ReplaceStatement}\label{replstmt}
@@ -605,7 +612,7 @@ The semantics of the various replace statements are given below:
 \begin{description}
   \item[Graphlet] \indexmain{graphlet}Analogous to a pattern graphlet; a specification of a connected subgraph. Its graph elements are either kept because they are elements of the pattern or added otherwise. Names defined in the pattern part must not be redefined in the replace graphlet. See Section~\ref{rulebb} for a detailed explanation of graphlets. 
   \item[Deletion] \indexmain{deletion}The \texttt{delete} operator is only available in the modify mode. It deletes the specified pattern graph elements. Multiple occurrences of \texttt{delete} statements are allowed. Deletion statements are executed after all other replace statements. Multiple deletion of the same graph element is allowed (but pointless) as well as deletion of just created elements (pointless, too).
-  \item[Attribute Evaluation] \indexmain{attribute evaluation}\indexmainsee{evaluation}{attribute evaluation}\indexmainsee{re-evaluation}{attribute evaluation}If a rule is applied, then the attributes of matched and inserted graph elements will be recalculated according to the \texttt{eval} statements. The \emph{Assignment} will be explained below, the \emph{CompoundAssignment}, \emph{VisitedAssignment} and \emph{SetMapStateChange} clauses will be introduced in chapter \ref{cha:imperativeandstate}.
+  \item[Attribute Evaluation] \indexmain{attribute evaluation}\indexmainsee{evaluation}{attribute evaluation}\indexmainsee{re-evaluation}{attribute evaluation}If a rule is applied, then the attributes of matched and inserted graph elements will be recalculated according to the \texttt{eval} statements. The \emph{Assignment} will be explained below, the \emph{CompoundAssignment}, \emph{VisitedAssignment} and \emph{SetMapArrayStateChange} clauses will be introduced in chapter \ref{cha:imperativeandstate}.
   \item[SubpatternRewriteApplication] will be explained in \ref{sec:subrule}.
 \end{description} 
 

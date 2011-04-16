@@ -9,7 +9,7 @@
 \label{sec:builtintypes}
 Besides user-defined node types, edge types, and enumeration types (as introduced in Chapter~\ref{chapmodellang}), \GrG\ supports the built-in \indexed{primitive types}\indexmainsee{built-in types}{primitive types} in Table~\ref{builtintypes} and the built-in \indexed{generic types}\indexmainsee{built-in generic types}{generic types} in Table~\ref{builtingenerictypes}.
 The exact type format is \indexed{backend} specific. 
-The \indexed{LGSPBackend} maps the \GrG\ primitive types to the corresponding C\# primitive types, and the generic types to generic C\#-Dictionaries of their corresponding primitive types (i.e. hashmaps), with \texttt{de.unika.ipd.grGen.libGr.SetValueType} as target type for sets, only used with the value \texttt{null}.
+The \indexed{LGSPBackend} maps the \GrG\ primitive types to the corresponding C\# primitive types, and the generic types to generic C\#-Dictionaries (i.e. hashmaps) or C\#-Lists (misnamed dynamic arrays) of their corresponding primitive types, with \texttt{de.unika.ipd.grGen.libGr.SetValueType} as target type for sets, only used with the value \texttt{null}.
 
 \begin{table}[htbp]
 \begin{tabularx}{\linewidth}{|l|X|}
@@ -28,8 +28,9 @@ The \indexed{LGSPBackend} maps the \GrG\ primitive types to the corresponding C\
 \begin{table}[htbp]
 \begin{tabularx}{\linewidth}{|l|X|}
 	\hline
-	\texttt{\indexed{set}<T>} & A (mathematical) set of type \texttt{T}, where \texttt{T} may be an enumeration type or one of the primitive types from above; it may even be a node or edge type, then we speak of storages \\
-	\texttt{\indexed{map}<S,T>} & A (mathematical) map from type \texttt{S} to type \texttt{T}, where \texttt{S} and \texttt{T} may be enumeration types or one of the primitive types from above; it may even be a node or edge type, then we speak of storages \\
+	\texttt{\indexed{set}<T>} & A (mathematical) set of type \texttt{T}, where \texttt{T} may be an enumeration type or one of the primitive types from above; it may even be a node or edge type, then we speak of storages. \\
+	\texttt{\indexed{map}<S,T>} & A (mathematical) map from type \texttt{S} to type \texttt{T}, where \texttt{S} and \texttt{T} may be enumeration types or one of the primitive types from above; it may even be a node or edge type, then we speak of storages. \\
+	\texttt{\indexed{array}<T>} & An array of type \texttt{T}, where \texttt{T} may be an enumeration type or one of the primitive types from above; it may even be a node or edge type, then we speak of storages. Shares some similarities with \texttt{map<int,T>}. \\
 	\hline
 \end{tabularx}
 \caption{\GrG\ built-in generic types}
@@ -90,7 +91,7 @@ but they can be used on the API level.
 In the following they will be explained with their semantics and relative priorities one type after another in the order of the rail diagram below.
 
 \begin{rail}
-  Expression: BoolExpr | RelationalExpr | IntExpr | FloatExpr | StringExpr | SetExpr | MapExpr | TypeExpr | PrimaryExpr;  
+  Expression: BoolExpr | RelationalExpr | IntExpr | FloatExpr | StringExpr | SetExpr | MapExpr | ArrayExpr | TypeExpr | PrimaryExpr;  
 \end{rail}\ixnterm{Expression}
 
 
@@ -155,18 +156,21 @@ for strings they denote whether the strings are the same or not,
 on boolean values they denote equivalence and antivalence, 
 and on object types the tell whether the references are the same, thus the objects identical.
 
-For set and map expressions, table~\ref{compandsetmap} describes the semantics of the compare operators.
+For set/map/array expressions, table~\ref{compandsetmap} describes the semantics of the compare operators.
+Some set A is a subset of B iff all elements in A are contained in B, too.
+A map A is a submap of B iff all key-value pairs of A are contained in B, too. If they have a key in common but map to a different value, they count as not identical.
+An array A is a subarray of B iff it is smaller or equal in size and the values at each common index are identical.
 \begin{table}[htbp]
   \centering
   \begin{tabularx}{\linewidth}{|l|X|} \hline
     \texttt{A == B} & True, iff $A$ and $B$ are identical. \\
     \texttt{A != B} & True, iff $A$ and $B$ are not identical. \\
-    \texttt{A <\ \ B} & True, iff $A$ is a subset/map of $B$, but $A$ and $B$ are not identical. \\
-    \texttt{A >\ \ B} & True, iff $A$ is a superset/map of $B$, but $A$ and $B$ are not identical. \\
-    \texttt{A <= B} & True, iff $A$ is a subset/map of $B$ or $A$ and $B$ are identical. \\
-    \texttt{A >= B} & True, iff $A$ is a superset/map of $B$ or $A$ and $B$ are identical. \\ \hline
+    \texttt{A <\ \ B} & True, iff $A$ is a subset/map/array of $B$, but $A$ and $B$ are not identical. \\
+    \texttt{A >\ \ B} & True, iff $A$ is a superset/map/array of $B$, but $A$ and $B$ are not identical. \\
+    \texttt{A <= B} & True, iff $A$ is a subset/map/array of $B$ or $A$ and $B$ are identical. \\
+    \texttt{A >= B} & True, iff $A$ is a superset/map/array of $B$ or $A$ and $B$ are identical. \\ \hline
   \end{tabularx}
-  \caption{Compare operators on set/map expressions}
+  \caption{Compare operators on set/map/array expressions}
   \label{compandsetmap}
 \end{table}
 
@@ -277,10 +281,10 @@ For \texttt{n.str == "foo bar foo"} the operations yield \\
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \section{Set Expression}\label{sec:setexpr}
 
-Set expressions consist of the known mathematical set operations and size counting.
+Set expressions consist of the known mathematical set operations, plus some operations in method call notation.
 
 \begin{rail} 
-  SetExpr: Expr 'in' SetExpr | PrimaryExpr (MethodSelector)? | SetExpr (backslash | ampersand | '|') SetExpr;
+  SetExpr: Expr 'in' SetExpr | SetExpr (backslash | ampersand | '|') SetExpr | PrimaryExpr (MethodSelector)?;
 \end{rail}\ixnterm{SetExpr}\ixkeyw{in}
 
 \begin{table}[htbp] 
@@ -305,24 +309,23 @@ Furthermore there are two operations on sets available in method call notation (
 \end{description}
  
 \begin{note}
-The declarative rule language comes without the imperative set \texttt{s.add(x)} or \texttt{s.rem(x)} methods known from the XGRS,
-to add a value to a set use set union with a single valued set constructor,
-to remove a value from a set use set difference with a single valued set constructor (for set constructors cf. \ref{sec:primexpr}).
+To add a value to a set you may use set union with a single valued set constructor,
+to remove a value from a set you may use set difference with a single valued set constructor (for set constructors cf. \ref{sec:primexpr}).
 \begin{grgen}
 s | { "foo" }
 s \ { n.a }
 \end{grgen}
-Used in this way they get internally optimized to set addition and removal.
+Used in this way they get internally optimized to the imperative set addition \texttt{s.add(x)} and removal \texttt{s.rem(x)} methods available in the \texttt{eval} block and the XGRS.
 \end{note}
 
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \section{Map Expression} \label{sec:mapexpr}
 
-Map expressions consist of the known mathematical set operations extended to maps, plus map value lookup and size counting.
+Map expressions consist of the known mathematical set operations extended to maps, and map value lookup, plus some operations in method call notation.
 
 \begin{rail}
-  MapExpr: Expr 'in' MapExpr | MapExpr '[' Expr ']' | PrimaryExpr (MethodSelector)? | MapExpr (backslash | ampersand | '|') MapExpr;
+  MapExpr: Expr 'in' MapExpr | MapExpr '[' Expr ']' | MapExpr (backslash | ampersand | '|') MapExpr | PrimaryExpr (MethodSelector)?;
 \end{rail}\ixnterm{MapExpr}\ixkeyw{in}
 
 \begin{table}[htbp] 
@@ -339,7 +342,7 @@ Map expressions consist of the known mathematical set operations extended to map
 
 The binary map operators require the left and right operands to be of identical type \verb#map<S,T>#,
 with one exception for map difference, this operator accepts for a left operand of type \verb#map<S,T># a right operand of type \verb#set<S>#, too.
-The operator \texttt{x in s} denotes map domain membership $x \in dom(s)$, returning whether the domain of the set contains the given element, as \texttt{boolean}.
+The operator \texttt{x in m} denotes map domain membership $x \in dom(m)$, returning whether the domain of the map contains the given element, as \texttt{boolean}.
 The operator \texttt{m[x]} denotes map lookup, i.e. it returns the value \texttt{y} which is stored in the map \texttt{m} for the value \texttt{x} (domain value \texttt{x} is mapped by the mapping \texttt{m} to range value \texttt{y}). The value \texttt{x} \emph{must} be in the map, i.e. \texttt{x in m} must hold.
 There are several operations on maps available in method call notation (MethodSelector), these are:
 
@@ -351,15 +354,42 @@ There are several operations on maps available in method call notation (MethodSe
 \end{description}
 
 \begin{note}
-The declarative rule language comes without the imperative map \texttt{m.add(x,y)} or \texttt{m.rem(x)} methods known from the XGRS,
-and \emph{without} a mapping assignment operator \texttt{m[x]=y}, map lookup returns only a RHS value.
-To add a key,value-pair to a map use map union with a single valued map constructor,
-to remove a value from a map use map difference with a single valued set or map constructor (for map constructors cf. \ref{sec:primexpr}).
+To add a key,value-pair to a map you may use map union with a single valued map constructor,
+to remove a value from a map you may use map difference with a single valued set or map constructor (for map constructors cf. \ref{sec:primexpr}).
 \begin{grgen}
 m | { "foo" -> 42 }
 m \ { n.a -> n.b } or m \ { n.a } 
 \end{grgen}
-Used in this way they get internally optimized to map addition and removal.
+Used in this way they get internally optimized to the imperative map addition \texttt{s.add(key,value)} and removal \texttt{s.rem(key)} methods available in the \texttt{eval} block and the XGRS.
+\end{note}
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\section{Array Expression} \label{sec:arrayexpr}
+
+Array expressions consist of array membership checking, array value lookup, and array concatenation, plus some operations in method call notation.
+
+\begin{rail}
+  ArrayExpr: Expr 'in' ArrayExpr | ArrayExpr '[' Expr ']' | ArrayExpr '+' ArrayExpr | PrimaryExpr (MethodSelector)?;
+\end{rail}\ixnterm{ArrayExpr}\ixkeyw{in}
+
+The operator \texttt{x in a} denotes array value membership, returning whether the array contains the given element, as \texttt{boolean}.
+The operator \texttt{a[x]} denotes array lookup, i.e. it returns the value \texttt{y} which is stored in the array \texttt{a} at the index \texttt{x}.
+The index \texttt{x} \emph{must} be a valid array index.
+The operator \texttt{x + y} denotes array concatenation, which requires the left and right operands to be of identical type \verb#array<T>#.
+There are several operations on arrays available in method call notation (MethodSelector), these are:
+
+\begin{description}
+\item[\texttt{.size()}] returns the number of elements in the array, as \texttt{int}
+\item[\texttt{.indexOf(valueToSearchFor)}] returns first position \texttt{valueToSearchFor:T} appears at, as \texttt{int}, or -1 if not found
+\item[\texttt{.lastIndexOf(valueToSearchFor)}] returns last position \texttt{valueToSearchFor:T} appears at, as \texttt{int}, or -1 if not found
+\item[\texttt{.subarray(startIndex, length)}] returns subarray of given \texttt{length:int} from \texttt{startIndex:int} on
+\item[\texttt{.peek(num)}] returns the value stored in the array at position \texttt{num:int} in the sequence of enumeration, is equivalent to (and implemented by) \texttt{a[num])}; retrieval occurs in constant time.
+\end{description}
+
+\begin{note}
+In contrast to sets and maps which can be handled well by expressions, arrays are meant to be modified by imperative \texttt{eval} block and XGRS statements like array addition \texttt{a.add(value)}/\texttt{a.add(value, index)} and removal \texttt{s.rem()}/\texttt{s.rem(index)}.
+For declarative array construction please have a look at \ref{sec:primexpr}.
 \end{note}
 
 
@@ -439,6 +469,12 @@ A function call employs an external (attribute evaluation) function (cf. \ref{su
 \item[\texttt{min(.,.)}] returns the smaller of the two argument values, which must be of the same numeric type (i.e. both either \texttt{int} or \texttt{float} or \texttt{double})
 \item[\texttt{max(.,.)}] returns the greater of the two argument values, which must be of the same numeric type (i.e. both either \texttt{int} or \texttt{float} or \texttt{double})
 \item[\texttt{pow(.,.)}] returns the first argument value to the power of the second value; both must be of type \texttt{double}
+\item[\texttt{incoming(.)}] returns a set of the edges which are incoming to the node given as argument value.
+\item[\texttt{incoming(.,.)}] as above, but only edges of the edge type given as second argument are contained.
+\item[\texttt{incoming(.,.,.)}] as above, but only if the edges originate from a node of the node type given as third argument.
+\item[\texttt{outgoing(.)}] returns a set of the edges which are outgoing from the node given as argument value.
+\item[\texttt{outgoing(.,.)}] as above, but only edges of the edge type given as second argument are contained.
+\item[\texttt{outgoing(.,.,.)}] as above, but only if the edges lead to a node of the node type given as third argument.
 \end{description}
 
 \begin{rail} 
@@ -461,12 +497,12 @@ The Constants are:
 \begin{rail} 
   SetConstructor: ('set' '<' Type '>')? \\ lbrace ( Expression*',' ) rbrace ;
   MapConstructor: ('map' '<' Type ',' Type '>')? \\ lbrace ( (Expression '->' Expression)*',' ) rbrace ;
-\end{rail}\ixnterm{SetConstructor}\ixnterm{MapConstructor}
+  ArrayConstructor: ('array' '<' Type '>')? \\ '[' ( Expression*',' ) ']' ;
+\end{rail}\ixnterm{SetConstructor}\ixnterm{MapConstructor}\ixnterm{ArrayConstructor}
 
-The set/map constructors are constant if only primitive type literals, enum literals, or constant expressions are used; 
-this is required for set/map initializations in the model.
+The set/map/array constructors are constant if only primitive type literals, enum literals, or constant expressions are used; this is required for set/map/array initializations in the model.
 They are non-constant if they contain nodes/edges/or member accesses, which is the common case if used in rules.
-If the type of the set/map is given before the constructor, the elements given in the type constructor are casted to the specified member types if needed and possible.
+If the type of the set/map/array is given before the constructor, the elements given in the type constructor are casted to the specified member types if needed and possible.
 Without the type prefix all elements given in the constructor must be of the same type.
 
 \begin{example}
@@ -482,6 +518,7 @@ true // a bool literal
 null // the object literal
 { "foo", "bar" } // a constant set<string> constructor
 map<string,int>{ (n.strVal+m.strVal)->(m.intVal+n.intVal), intVal->strVal, "fool"->42 } // a non-constant map constructor with type prefix
+[ 1,2,3 ] // a constant array<int> constructor
 \end{grgen}
 \end{example}
 

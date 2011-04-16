@@ -34,9 +34,9 @@ These tasks are traditionally handled by pointer structures and pointer structur
 You specify your transformation task on a higher level of nodes connected by edges, and rewrite rules of patterns to be searched plus modifications to be carried out,
 and then let \GrG\ generate the algorithmic core of your application.
 
-There is nothing to gain from \GrG\ if scalars, lists and trees are sufficient to \emph{adequately} model your domain 
+There is nothing to gain from \GrG\ if scalars and lists are sufficient to \emph{adequately} model your domain 
 (which is the case for a lot of tasks in computing indeed; 
-but which is not the case for others which would be better modeled with graphs, but aren't because of the cost of maintaining graph structures by hand).
+but which is not the case for others which would be better modeled with trees and graphs, but aren't because of the cost of maintaining pointer structures by hand).
 The graph rewrite generator is not the right tool for you if you're searching for a visual environment to teach children programming -- it's a tool for software engineers.
 Neither is it what you need if your graph structured data is to be interactively edited by an end user instead of being automatically transformed by rules (the editor generator DiaGen\cite{diagen} may be of interest in this case).
 

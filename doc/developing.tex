@@ -128,14 +128,17 @@ With this optimization the pattern matching during an iteration \texttt{r*} will
 \subsection*{Pushdown Machine for Nested and Subpatterns}\indexmain{pushdown machine}\indexmain{stack machine}
 Every subpatterns is handled with a search program corresponding to its pattern as introduced in the previous section. 
 The interesting part is how the subpatterns used get combined, which happens with a $2+n$ pushdown machine.
-A simulation of it, i.e. the matching process of a pattern using subpatterns is shown on the following pages.
-Alternatives are handled like a subpattern with several possible patterns which are tried out, the first one matching is accepted.
+It consists of a call stack, containing the subpattern instances found with the bound elements in the local variables of the search program frame, an open tasks stack containing the subpatterns to match (when a subpattern was matched its contained subpatterns are pushed to that open tasks stack, then the top of the stack gets processed), and $n$ result stacks containing the (partial) match object trees; for a normal rule application $n=1$, for an all-bracketed rule the number of matches is unbound.
+A simulation of this machine, i.e. the matching process of a pattern using subpatterns is shown on the following pages.
 
+Alternatives are handled like a subpattern with several possible patterns which are tried out, the first one matching is accepted.
 Iterateds are handled like subpatterns whose tasks are not removed when they get matched, but only if matching failed or the maximum amount of matches was reached. In case of a failure the minimum required amount of matches is inspected, if the amount of found matches is larger or equal then matching partially succeeds and continues with the next open task (or plain succeeds if there are no open tasks left), otherwise matching of the given partial match failes causing matching to backtrack (to the previous decision point of influence).
 
-The advantages of this design linearizing the pattern tree on the call stack are the rather low usage of heap memory, the ability to reuse the match programs for the patterns as introduced in the previous section, and the ability to find all matches; the $n$ in $2+n$ pushdown machine stands for the number of matches found.
+The advantages of this design linearizing the pattern tree on the call stack are the rather low usage of heap memory, the ability to reuse the match programs for the patterns as introduced in the previous section, and the ability to find all matches (the $n$ in $2+n$ pushdown machine stands for the number of matches found).
 
-Rewriting is carried out by a depth-first traversal of the match tree, creating new elements before decending, evaluating attributes and deleting old elements before ascending. For each pattern piece match the modification specified in the rewrite part is carried out, i.e. the overall rewrite gets combined from the rewrites of the pattern pieces (cf. table \ref{table:executionorderrewriting} for the order of rewriting).
+Rewriting is carried out by a depth-first traversal of the match object tree, creating new elements before decending, evaluating attributes and deleting old elements before ascending. For each pattern piece match the modification specified in the rewrite part is carried out, i.e. the overall rewrite gets combined from the rewrites of the pattern pieces (cf. table \ref{table:executionorderrewriting} for the order of rewriting).
+
+The subpattern usage parameters are computed during matching from matched elements and call expressions (inherited attribution), LHS yielding is carried out after the match was found during match object building within yield statements (synthesized attribution), RHS yielding is carried out during match object tree rewriting within eval statements (left attribution, with a user defined left-relation).
 
 In the following, an example run of the $2+n$ pushdown machine is given:
 

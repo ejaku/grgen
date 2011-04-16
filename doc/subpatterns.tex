@@ -790,6 +790,7 @@ rule createSubpattern
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \section{Local variables, ordered evaluation, and yielding outwards} \label{sec:localvarorderedevalyield}\indexmain{local variable}\indexmainsee{evalhere}{ordered evaluation}\indexmain{yielding outwards}
 
+\subsection{Local variables and ordered evaluation} 
 Sometimes attribute evaluation becomes easier with temporary variables;
 such local variables can be introduced on a right hand side employing the known variable syntax \texttt{var name:type}, prefixed with the \texttt{def}\indexmain{def} keyword.
 From then on they can be read and assigned to in eval statements of the RHS, or used as variable parameters in subpattern rewrite calls.
@@ -841,7 +842,7 @@ Normally the rewrite order is as given in table \ref{table:executionorderrewriti
 \end{table}
 
 So first the subpatterns rewrites, then the iterated rewrites, then the alternative rewrits are executed, and finally the local eval statements.
-This might be sufficient in some cases, but in most cases you want to compute an attributation over a tree/a graph, you want to have local computations influenced by attributes in nested/called children or its siblings, and attributes in nested/called children influenced by its parents or siblings.
+This might be sufficient in some cases, but in other cases when you want to compute an attributation over a tree/a graph, you want to have local computations influenced by attributes in nested/called children or its siblings, and attributes in nested/called children influenced by its parents or siblings.
 So we need a language device which allows us to intermingle attribute computations in between the rewrite part executions of nested patterns and subpattern rewrite calls.
 And a language device which allows us to give the execution oder of the alternative and iterated statements relative to the subpattern rewrite calls and attribute evaluations.
 
@@ -854,8 +855,7 @@ Naming nested patterns is done with the following syntax, as the already introdu
 
 \begin{rail}  
   NamedNestedPattern: 
-    'negative' IdentDecl lbrace etc rbrace;
-    'independent' IdentDecl lbrace etc rbrace;
+    ('negative' | 'independent') IdentDecl lbrace etc rbrace;
     ('iterated' | 'multiple' | 'optional') IdentDecl etc rbrace;
     'alternative' IdentDecl lbrace etc rbrace;
 \end{rail}
@@ -899,9 +899,13 @@ rule R {
 \begin{note}
 For rewriting the execution order of the parts can be defined, to allow programming attribute evaluation orders of interest, defining when to descend into which part and defining glueing/local computations in between.
 (A depth first run with a defined order in between the siblings, comparable to an LAG/RAG run in compiler construction, but with an explicitely defined sequence of children visits, instead of a temperal succession implicitely induced by the syntactical left-to-right ordering).
-In contrast to rewriting, the \emph{matching} order of the pattern parts can \emph{not} be defined, to allow the compiler/the runtime to use the evaluation order it estimates to be the best; the only attribute evaluation mechanisms here are the already matched elements and attribute values or the ones received as inputs, which are handed down implicitely into nested patterns or explicitely via subpattern parameters into subpattern instances.
-(A depth first run too, but without a defined order in between the siblings, comparable to an IAG computed during matching while descending).
+In contrast to rewriting, the \emph{matching} order of the pattern parts can \emph{not} be defined, to allow the compiler/the runtime to use the evaluation order it estimates to be the best.
+So we can't access attributes from sibling elements, we can only compute attributes top down from local elements or elments handed in on matching, and later on bottom up from local elements or elements bubbleing up at match object tree construction.
+Top down attribute evaluation operates on the already matched elements and attribute values or the ones received as inputs, which are handed down implicitely into nested patterns or explicitely via subpattern parameters into subpattern instances. (A depth first run too, but without a defined order in between the siblings, comparable to an IAG run in compiler construction computed during matching while descending).
+Bottom up attribute evalutaion operates on the matched elements and attribute values locally available or the ones received into def elements yielded implicitely upwards from the nested patterns or explicitely accumulating iterated results or with assigning out parameters of subpatterns. (The same depth first run, but with attributes computed while ascending, comparable to an SAG run in compiler construction.)
 \end{note}
+
+\subsection{Yielding outwards during rewriting} 
 
 Sometimes one needs to bring something matched within a nested or subpattern to an outer pattern containing it (nested patterns) or calling it (subpatterns).
 So that one can do there (in the using pattern) operations on it, e.g. attaching a further edge to an end node of a chain matched with recursive patterns (thus modularizing the graph rewrite specification into chain matching patterns and patterns using chains doing things on the chain ends), or summing attributes matched in iterated pattern instances. 
@@ -935,7 +939,7 @@ pattern Chain(begin:Node) modify(def end:Node)
     }
     Done {
       negative {
-        begin -->;
+        begin --> ;
       }
       
       modify {
@@ -980,6 +984,124 @@ rule outCount(head:Node) : (int)
 }
   \end{grgen}
   Second example for RHS yielding: counting the number of edges matched with an iterated.
+\end{example}
+
+\subsection{Yielding outwards during match object construction} 
+
+Bubbeling up the elements from nested patterns and called patterns during rewriting might be too late or inconvenient.
+Luckily it can be done before, at the end pattern matching when the match object tree gets constructed.
+
+As for RHS yielding the targets of the yielding must be nodes, edges, or variables declared with the \texttt{def} keyword prepended, marking them as output entities; but this time in the pattern part.
+Furthermore subpattern parameters may be declared as def parameters in the subpattern definition header, marking them as output parameters.
+
+These elements can then be yielded to from within \texttt{eval} statements inside a \texttt{yield} block
+(maybe with iterated accumulation) and subpattern usages.
+A \texttt{yield} block is a constrained \texttt{eval} block which can be given in the pattern part;
+it does not allow to assign to or change non-\texttt{def} variables.
+Yielding is specified by prepending the \texttt{yield}\indexmain{yield} keyword to the entity yielded to,
+in the assignment or method call.
+The \texttt{yield} must be prepended to the argument for a subpattern def parameter, too.
+
+\begin{note}
+A def entity from the pattern part can't be yielded to from the rewrite part, they are constant after matching.
+\end{note}
+
+Let's have a look at two examples for yielding:
+
+\begin{example}
+  \begin{grgen}
+pattern Chain(begin:Node, def end:Node)
+{
+	alternative {
+		further {
+			begin --> next:Node;
+			:Chain(next, yield end);
+		}
+		done {
+		  negative {
+		    begin --> ;
+		  }
+			yield {
+				yield end = begin;
+			}
+		}
+	}
+}
+
+pattern LinkChainTo(begin:Node) modify(n:Node)
+{
+	alternative {
+		further {
+			begin --> next:Node;
+			o:LinkChainTo(next);
+
+			modify {
+			  next --> n;
+			  o(n);
+			}
+		}
+		done {
+		  negative {
+		    begin --> ;
+		  }
+		  
+			modify {
+			}
+		}
+	}
+
+	modify { }
+}
+
+rule linkChainEndToStartIndependent(begin:Node) : (Node)
+{
+	def end:Node;
+	
+	independent {
+		c:Chain(begin, yield end);
+	}
+  o:LinkChainTo(begin);
+  	
+	modify {
+	  o(end);
+		return(end);
+	}
+}
+  \end{grgen}
+\end{example}
+
+The first example for LHS yielding follows within an independent a chain piece by piece to some a priori unknown end node, and yields this end node chain piece by chain piece again outwards to the chain start. There it is used as input to another chain (maybe the same chain, maybe overlapping due to the independent), linking all the nodes of this chain to the end node of the former.
+
+When yielding from an iterated pattern there's the problem that each yielding assignment from an iterated instance would overwrite the one def variable from outside the iterated, while one is interested most of the time in some accumulation of the values, e.g. summing integers or concatenating strings.
+This can be reached with a \texttt{for} loop iterating a def variable inside an iterated for all the matches of the iterated pattern referenced by name, allowing to assign to an outside def variable a value computed from the def variable and the value of the iterated def variable.
+
+This is shown in the second example for LHS yielding, summing the integer attribute \texttt{a} of nodes of type \texttt{N} adjacent to a start node, matched with an iterated.
+
+\begin{example}
+  \begin{grgen}
+test sumOfWeight(start:Node) : (int,int)
+{
+	def var sum:int = 0;
+	def var v:int = 0;
+	
+	iterated it {
+		def var i:int;
+		
+		start --> n:N; // node class N { a:int; }
+		
+		yield {
+			yield i = n.a;
+			yield v = 42; // v is assigned 42 multiple times
+		}
+	} 
+
+	yield {
+		for{i in it; yield sum = sum + i};
+	}
+
+	return (sum,v);
+}
+  \end{grgen}
 \end{example}
 
 
