@@ -19,9 +19,10 @@ dpo rule accept(state:State, var input:string) : (State)
 	if { input.length()>0 && t.Trigger==input.substring(0, 1); }
 	
 	modify {
+		def last:State;
 		emit( "from " + state.id + " to " + successor.id + " with " + t.Trigger + " of " + input + "\n" );
 		exec( (reduced)=eatChar(input) | (lastSuccess)=accept(successor, reduced) |
-				if{ def(lastSuccess); yield(lastSuccess); yield(successor) } ) -> last:State;
+				if{ def(lastSuccess); yield last=lastSuccess; yield last=successor } );
 		return(last);
 	}
 }
