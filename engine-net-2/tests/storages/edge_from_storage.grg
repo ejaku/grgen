@@ -2,7 +2,7 @@ using from_storage;
 
 rule r1(ref s:set<Edge>)
 {
-	-e:Edge<s>-> . --> l:Node;
+	-e:Edge{s}-> . --> l:Node;
 	
 	modify {
 		delete(l);
@@ -11,7 +11,7 @@ rule r1(ref s:set<Edge>)
 
 rule r3(ref s:set<E>)
 {
-	-e:EE<s>-> . --> l:Node;
+	-e:EE{s}-> . --> l:Node;
 	
 	modify {
 		delete(l);
@@ -20,7 +20,7 @@ rule r3(ref s:set<E>)
 
 rule r6(ref m:map<E,Edge>)
 {
-	<-e:EE<m>-> . --> l:Node;
+	<-e:EE{m}-> . --> l:Node;
 	
 	modify {
 		delete(l);
@@ -29,7 +29,7 @@ rule r6(ref m:map<E,Edge>)
 
 rule r8(ref m:map<UEdge,Edge>)
 {
-	-e:G<m>- . --> l:Node;
+	-e:G{m}- . --> l:Node;
 	
 	modify {
 		delete(l);

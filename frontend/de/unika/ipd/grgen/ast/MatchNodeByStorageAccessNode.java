@@ -102,6 +102,10 @@ public class MatchNodeByStorageAccessNode extends NodeDeclNode implements NodeCh
 	@Override
 	protected boolean checkLocal() {
 		boolean res = super.checkLocal();
+		if((context&CONTEXT_LHS_OR_RHS)==CONTEXT_RHS) {
+			reportError("Can't employ match node by storage on RHS");
+			return false;
+		}
 		TypeNode storageType = storage!=null ? storage.getDeclType() : storageAttribute.getDecl().getDeclType();
 		if(!(storageType instanceof MapTypeNode)) {
 			reportError("match node by storage (attribute) access expects a parameter variable of map type.");

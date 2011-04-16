@@ -93,9 +93,9 @@ rule addToSetRemoveFromSet {
 
 rule storage {
 	-n:E->;
-	-m:E<n.eSet>->;
-	-l:Edge<n.edgeSet>->;
-	-k:UEdge<m.uSet>-;
+	-m:E{n.eSet}->;
+	-l:Edge{n.edgeSet}->;
+	-k:UEdge{m.uSet}-;
 	
 	modify {
 	}

@@ -2,7 +2,7 @@ using from_storage;
 
 test t2(ref m:map<Node, Node>)
 {
-	x:Node<m[y]>;
-	y:Node<m[x]>;
+	x:Node{m[y]};
+	y:Node{m[x]};
 }
 

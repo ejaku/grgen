@@ -2,62 +2,62 @@ using from_storage;
 
 test t1(ref s:set<Node>, ref t:set<Edge>)
 {
-	n:Node<s> -e:Edge<t>-> m:Node<s>;	
+	n:Node{s} -e:Edge{t}-> m:Node{s};	
 }
 
 test t2(ref s:set<Node>, ref t:set<Edge>)
 {
-	n:Node<s> -e:Edge<t>-> m:Node<s>;
+	n:Node{s} -e:Edge{t}-> m:Node{s};
 	hom(n,m);
 }
 
 test t3(ref m:map<Node, Node>)
 {
 	x:Node;
-	y:Node<m[x]>;
-	z:Node<m[y]>;
+	y:Node{m[x]};
+	z:Node{m[y]};
 }
 
 test t4(ref m:map<Node, Node>)
 {
 	x:Node;
 	iterated {
-		y:Node<m[x]>;
+		y:Node{m[x]};
 	}
 }
 
 test tsetattr
 {
 	m:M;
-	:M<m.s>;	
+	:M{m.s};	
 }
 
 test tmapattr
 {
 	m:M;
-	:M<m.m>;	
+	:M{m.m};	
 }
 
 test tarrayattr
 {
 	m:M;
-	:M<m.a>;	
+	:M{m.a};	
 }
 
 test tsetattredge
 {
 	-f:F->;
-	-:F<f.s>->;	
+	-:F{f.s}->;	
 }
 
 test tmapattredge
 {
 	-f:F->;
-	-:F<f.m>->;	
+	-:F{f.m}->;	
 }
 
 test tarrayattredge
 {
 	-f:F->;
-	-:F<f.a>->;	
+	-:F{f.a}->;	
 }

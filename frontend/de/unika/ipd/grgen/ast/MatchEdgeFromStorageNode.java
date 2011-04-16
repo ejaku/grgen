@@ -89,6 +89,10 @@ public class MatchEdgeFromStorageNode extends EdgeDeclNode implements EdgeCharac
 	@Override
 	protected boolean checkLocal() {
 		boolean res = super.checkLocal();
+		if((context&CONTEXT_LHS_OR_RHS)==CONTEXT_RHS) {
+			reportError("Can't employ match edge from storage on RHS");
+			return false;
+		}
 		TypeNode storageType = storage!=null ? storage.getDeclType() : storageAttribute.getDecl().getDeclType();
 		if(!(storageType instanceof SetTypeNode || storageType instanceof MapTypeNode || storageType instanceof ArrayTypeNode)) {
 			reportError("match edge from storage expects a parameter variable of set/map/array type.");

@@ -84,8 +84,8 @@ rule addToSetRemoveFromSet {
 
 rule storage {
 	n:N;
-	m:N<n.nSet>;
-	l:Node<n.nodeSet>;
+	m:N{n.nSet};
+	l:Node{n.nodeSet};
 	
 	modify {
 	}

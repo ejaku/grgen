@@ -108,8 +108,8 @@ rule addToMapRemoveFromMap {
 
 rule storagemap {
 	n:N;
-	m:N<n.nodeNodeMap>;
-	-l:E<n.edgeNodeMap>->;
+	m:N{n.nodeNodeMap};
+	-l:E{n.edgeNodeMap}->;
 	
 	modify {
 	}

@@ -79,9 +79,9 @@ rule addToArray2 {
 
 rule storage {
 	-n:E->;
-	-m:E<n.eArray>->;
-	-l:Edge<n.edgeArray>->;
-	-k:UEdge<m.uArray>-;
+	-m:E{n.eArray}->;
+	-l:Edge{n.edgeArray}->;
+	-k:UEdge{m.uArray}-;
 	
 	modify {
 	}

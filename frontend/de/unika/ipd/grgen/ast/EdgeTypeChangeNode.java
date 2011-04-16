@@ -93,6 +93,11 @@ public class EdgeTypeChangeNode extends EdgeDeclNode implements EdgeCharacter {
 			return false;
 		}
 
+		if((context&CONTEXT_LHS_OR_RHS)==CONTEXT_LHS) {
+			reportError("Can't retype node on LHS");
+			return false;
+		}
+
 		// check if source edge of retype is declared in replace/modify part
 		BaseNode curr = old;
 		BaseNode prev = null;

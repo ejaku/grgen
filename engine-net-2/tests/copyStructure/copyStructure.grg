@@ -31,7 +31,7 @@ rule CopyOutgoingEdge(n:Node, ref oldToNew:map<Node, Node>)
 {
   n -e:Edge-> m:Node;
   hom(n,m); // reflexive edges
-  nn:Node<oldToNew[n]>; nm:Node<oldToNew[m]>;
+  nn:Node{oldToNew[n]}; nm:Node{oldToNew[m]};
   hom(nn,nm); // reflexive edges
     
   modify {

@@ -2,7 +2,7 @@ using from_storage;
 
 rule r1(ref m:map<Node,Node>)
 {
-	n:Node<m[l]> --> l:Node;
+	n:Node{m[l]} --> l:Node;
 	
 	modify {
 		delete(l);
@@ -11,7 +11,7 @@ rule r1(ref m:map<Node,Node>)
 
 rule r2(ref m:map<Node,Node>)
 {
-	n:N<m[l]> --> l:N;
+	n:N{m[l]} --> l:N;
 	
 	modify {
 		delete(l);
@@ -20,7 +20,7 @@ rule r2(ref m:map<Node,Node>)
 
 rule r3(ref m:map<N,N>)
 {
-	n:NN<m[l]> --> l:NN;
+	n:NN{m[l]} --> l:NN;
 	
 	modify {
 		delete(l);
@@ -30,7 +30,7 @@ rule r3(ref m:map<N,N>)
 
 rule r4(ref m:map<Edge,Node>)
 {
-	n:Node<m[e]> -e:Edge-> l:Node;
+	n:Node{m[e]} -e:Edge-> l:Node;
 	
 	modify {
 		delete(l);
@@ -39,7 +39,7 @@ rule r4(ref m:map<Edge,Node>)
 
 rule r5(ref m:map<Edge,Node>)
 {
-	n:N<m[e]> -e:E-> l:Node;
+	n:N{m[e]} -e:E-> l:Node;
 	
 	modify {
 		delete(l);
@@ -48,7 +48,7 @@ rule r5(ref m:map<Edge,Node>)
 
 rule r6(ref m:map<E,N>)
 {
-	n:NN<m[e]> -e:EE-> l:Node;
+	n:NN{m[e]} -e:EE-> l:Node;
 	
 	modify {
 		delete(l);
@@ -58,7 +58,7 @@ rule r6(ref m:map<E,N>)
 
 rule r7(ref m:map<Node,Node>, x:Node)
 {
-	n:Node<m[x]> --> l:Node;
+	n:Node{m[x]} --> l:Node;
 	
 	modify {
 		delete(l);
@@ -67,7 +67,7 @@ rule r7(ref m:map<Node,Node>, x:Node)
 
 rule r8(ref m:map<Edge,Node>, -x:Edge->)
 {
-	n:Node<m[x]> --> l:Node;
+	n:Node{m[x]} --> l:Node;
 	
 	modify {
 		delete(l);
@@ -78,7 +78,7 @@ rule r8(ref m:map<Edge,Node>, -x:Edge->)
 /* m[i] with i an input variable can be evaluated before the rule, this is nice to have but does not give additional expressiveness as a storage indexed by a pattern element just matched does
 rule ra1(ref m:array<Node>, var i:int)
 {
-	n:Node<m[i]> --> l:Node;
+	n:Node{m[i]} --> l:Node;
 	
 	modify {
 		delete(l);
@@ -87,7 +87,7 @@ rule ra1(ref m:array<Node>, var i:int)
 
 rule ra2(ref m:array<Node>, var i:int)
 {
-	n:N<m[i]> --> l:N;
+	n:N{m[i]} --> l:N;
 	
 	modify {
 		delete(l);
@@ -96,7 +96,7 @@ rule ra2(ref m:array<Node>, var i:int)
 
 rule ra3(ref m:array<N>, var i:int)
 {
-	n:NN<m[i]> --> l:NN;
+	n:NN{m[i]} --> l:NN;
 	
 	modify {
 		delete(l);

@@ -102,6 +102,10 @@ public class MatchEdgeByStorageAccessNode extends EdgeDeclNode implements EdgeCh
 	@Override
 	protected boolean checkLocal() {
 		boolean res = super.checkLocal();
+		if((context&CONTEXT_LHS_OR_RHS)==CONTEXT_RHS) {
+			reportError("Can't employ match edge by storage on RHS");
+			return false;
+		}
 		TypeNode storageType = storage!=null ? storage.getDeclType() : storageAttribute.getDecl().getDeclType();
 		if(!(storageType instanceof MapTypeNode)) {
 			reportError("match edge by storage access expects a parameter variable of map type.");

@@ -2,7 +2,7 @@ using from_storage;
 
 rule r(ref m:set<NN>)
 {
-	x:N<m> --> y:Node;
+	x:N{m} --> y:Node;
 	
 	modify {
 		delete(y);

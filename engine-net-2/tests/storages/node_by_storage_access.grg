@@ -2,7 +2,7 @@ using from_storage;
 
 rule r1(ref m:map<Node,Node>)
 {
-	n:Node<m[l]> --> l:Node;
+	n:Node{m[l]} --> l:Node;
 	
 	modify {
 		delete(l);
@@ -12,7 +12,7 @@ rule r1(ref m:map<Node,Node>)
 
 rule r3(ref m:map<N,N>)
 {
-	n:NN<m[l]> --> l:NN;
+	n:NN{m[l]} --> l:NN;
 	
 	modify {
 		delete(l);
@@ -22,7 +22,7 @@ rule r3(ref m:map<N,N>)
 
 rule r6(ref m:map<E,N>)
 {
-	n:NN<m[e]> -e:EE-> l:Node;
+	n:NN{m[e]} -e:EE-> l:Node;
 	
 	modify {
 		delete(l);
@@ -33,7 +33,7 @@ rule r6(ref m:map<E,N>)
 rule r7(ref m:map<Node,Node>, x:Node)
 {
 	hom(x,l);
-	n:Node<m[x]> --> l:Node;
+	n:Node{m[x]} --> l:Node;
 	
 	modify {
 		delete(l);

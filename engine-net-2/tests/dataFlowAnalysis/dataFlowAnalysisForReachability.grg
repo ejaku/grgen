@@ -127,7 +127,7 @@ rule addAllNodesToWorkset(ref todo:set<N>)
 
 rule pickAndRemove(ref todo:set<N>) : (N)
 {
-  n:N<todo>;
+  n:N{todo};
   
   modify {
     eval { todo.rem(n); }

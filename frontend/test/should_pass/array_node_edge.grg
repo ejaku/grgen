@@ -71,8 +71,8 @@ rule addToArray2 {
 
 rule storage {
 	n:N;
-	m:N<n.nArray>;
-	l:Node<n.nodeArray>;
+	m:N{n.nArray};
+	l:Node{n.nodeArray};
 	
 	modify {
 	}

@@ -2,7 +2,7 @@ using from_storage;
 
 rule r1(ref s:set<Node>)
 {
-	n:Node<s> --> l:Node;
+	n:Node{s} --> l:Node;
 	
 	modify {
 		delete(l);
@@ -11,7 +11,7 @@ rule r1(ref s:set<Node>)
 
 rule r2(ref s:set<Node>)
 {
-	n:N<s> --> l:Node;
+	n:N{s} --> l:Node;
 	
 	modify {
 		delete(l);
@@ -20,7 +20,7 @@ rule r2(ref s:set<Node>)
 
 rule r3(ref s:set<N>)
 {
-	n:NN<s> --> l:Node;
+	n:NN{s} --> l:Node;
 	
 	modify {
 		delete(l);
@@ -30,7 +30,7 @@ rule r3(ref s:set<N>)
 
 rule r4(ref m:map<Node,Node>)
 {
-	n:Node<m> --> l:Node;
+	n:Node{m} --> l:Node;
 	
 	modify {
 		delete(l);
@@ -39,7 +39,7 @@ rule r4(ref m:map<Node,Node>)
 
 rule r5(ref m:map<Node,Node>)
 {
-	n:N<m> --> l:Node;
+	n:N{m} --> l:Node;
 	
 	modify {
 		delete(l);
@@ -48,7 +48,7 @@ rule r5(ref m:map<Node,Node>)
 
 rule r6(ref m:map<N,Node>)
 {
-	n:NN<m> --> l:Node;
+	n:NN{m} --> l:Node;
 	
 	modify {
 		delete(l);
@@ -58,7 +58,7 @@ rule r6(ref m:map<N,Node>)
 
 rule r7(ref s:array<Node>)
 {
-	n:Node<s> --> l:Node;
+	n:Node{s} --> l:Node;
 	
 	modify {
 		delete(l);
@@ -67,7 +67,7 @@ rule r7(ref s:array<Node>)
 
 rule r8(ref s:array<Node>)
 {
-	n:N<s> --> l:Node;
+	n:N{s} --> l:Node;
 	
 	modify {
 		delete(l);
@@ -76,7 +76,7 @@ rule r8(ref s:array<Node>)
 
 rule r9(ref s:array<N>)
 {
-	n:NN<s> --> l:Node;
+	n:NN{s} --> l:Node;
 	
 	modify {
 		delete(l);
