@@ -684,6 +684,59 @@ namespace de.unika.ipd.grGen.libGr
         }
 
         /// <summary>
+        /// Returns the first position of entry in the array a
+        /// </summary>
+        /// <param name="a">A List, i.e. dynamic array.</param>
+        /// <param name="entry">The value to search for.</param>
+        /// <returns>The first position of entry in the array a, -1 if entry not in a.</returns>
+        public static int IndexOf<V>(List<V> a, V entry)
+        {
+            for(int i = 0; i < a.Count; ++i)
+            {
+                if(EqualityComparer<V>.Default.Equals(a[i], entry))
+                    return i;
+            }
+
+            return -1;
+        }
+
+        /// <summary>
+        /// Returns the first position from the end inwards of entry in the array a
+        /// </summary>
+        /// <param name="a">A List, i.e. dynamic array.</param>
+        /// <param name="entry">The value to search for.</param>
+        /// <returns>The first position from the end inwards of entry in the array a, -1 if entry not in a.</returns>
+        public static int LastIndexOf<V>(List<V> a, V entry)
+        {
+            for(int i = a.Count-1; i >= 0; --i)
+            {
+                if(EqualityComparer<V>.Default.Equals(a[i], entry))
+                    return i;
+            }
+
+            return -1;
+        }
+
+        /// <summary>
+        /// Creates a new dynamic array with length values copied from a from index start on.
+        /// </summary>
+        /// <param name="a">A List, i.e. dynamic array.</param>
+        /// <param name="start">A start position in the dynamic array.</param>
+        /// <param name="length">The number of elements to copy from start on.</param>
+        /// <returns>A new List, i.e. dynamic array, containing the length first values from start on.</returns>
+        public static List<V> Subarray<V>(List<V> a, int start, int length)
+        {
+            List<V> newList = new List<V>();
+
+            for(int i = start; i < start+length; ++i)
+            {
+                newList.Add(a[i]);
+            }
+
+            return newList;
+        }
+
+        /// <summary>
         /// Creates a new dynamic array and appends all values first from
         /// <paramref name="a"/> and then from <paramref name="b"/>.
         /// </summary>

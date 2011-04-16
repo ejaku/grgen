@@ -23,10 +23,13 @@ import java.util.HashMap;
 import java.util.Iterator;
 import java.util.Map;
 
+import de.unika.ipd.grgen.ir.ArrayIndexOfExpr;
 import de.unika.ipd.grgen.ir.ArrayInit;
 import de.unika.ipd.grgen.ir.ArrayItem;
+import de.unika.ipd.grgen.ir.ArrayLastIndexOfExpr;
 import de.unika.ipd.grgen.ir.ArrayPeekExpr;
 import de.unika.ipd.grgen.ir.ArraySizeExpr;
+import de.unika.ipd.grgen.ir.ArraySubarrayExpr;
 import de.unika.ipd.grgen.ir.ArrayType;
 import de.unika.ipd.grgen.ir.BooleanType;
 import de.unika.ipd.grgen.ir.Cast;
@@ -887,6 +890,47 @@ public abstract class CSharpBase {
 				sb.append("[");
 				genExpression(sb, ap.getNumberExpr(), modifyGenerationState);
 				sb.append("])");
+			}
+		}
+		else if (expr instanceof ArrayIndexOfExpr) {
+			ArrayIndexOfExpr ai = (ArrayIndexOfExpr)expr;
+			if(modifyGenerationState.useVarForMapResult()) {
+				sb.append(modifyGenerationState.mapExprToTempVar().get(ai));
+			}
+			else {
+				sb.append("GRGEN_LIBGR.DictionaryListHelper.IndexOf(");
+				genExpression(sb, ai.getTargetExpr(), modifyGenerationState);
+				sb.append(", ");
+				genExpression(sb, ai.getValueExpr(), modifyGenerationState);
+				sb.append(")");
+			}
+		}
+		else if (expr instanceof ArrayLastIndexOfExpr) {
+			ArrayLastIndexOfExpr ali = (ArrayLastIndexOfExpr)expr;
+			if(modifyGenerationState.useVarForMapResult()) {
+				sb.append(modifyGenerationState.mapExprToTempVar().get(ali));
+			}
+			else {
+				sb.append("GRGEN_LIBGR.DictionaryListHelper.LastIndexOf(");
+				genExpression(sb, ali.getTargetExpr(), modifyGenerationState);
+				sb.append(", ");
+				genExpression(sb, ali.getValueExpr(), modifyGenerationState);
+				sb.append(")");
+			}
+		}
+		else if (expr instanceof ArraySubarrayExpr) {
+			ArraySubarrayExpr asa = (ArraySubarrayExpr)expr;
+			if(modifyGenerationState.useVarForMapResult()) {
+				sb.append(modifyGenerationState.mapExprToTempVar().get(asa));
+			}
+			else {
+				sb.append("GRGEN_LIBGR.DictionaryListHelper.Subarray(");
+				genExpression(sb, asa.getTargetExpr(), modifyGenerationState);
+				sb.append(", ");
+				genExpression(sb, asa.getStartExpr(), modifyGenerationState);
+				sb.append(", ");
+				genExpression(sb, asa.getLengthExpr(), modifyGenerationState);
+				sb.append(")");
 			}
 		}
 		else if (expr instanceof MapInit) {

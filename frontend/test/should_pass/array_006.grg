@@ -1,0 +1,17 @@
+using array_model_001;
+
+rule addToArray {
+	a:A; b:A;
+
+	if {
+		a.niceArray.subarray(a.niceArray.indexOf("foo"), 1).size()>=1 ;
+		a.spiceArray.subarray(0, a.spiceArray.size()).size()>=1;
+	}		
+	
+	modify {
+		eval {
+			a.niceArray = a.niceArray.subarray(a.niceArray.indexOf("foo"), 1);
+			a.spiceArray = a.spiceArray.subarray(0, a.spiceArray.size());
+		}		
+	}
+}

@@ -200,6 +200,30 @@ public class MethodInvocationExprNode extends ExprNode
   				else
   					result = new ArrayPeekNode(getCoords(), targetExpr, params.get(0));
 			}
+  			else if(methodName.equals("indexOf")) {
+  				if(params.size() != 1) {
+  					reportError("array<T>.indexOf(valueToSearchFor) takes one parameter.");
+					return false;
+				}
+  				else
+  					result = new ArrayIndexOfNode(getCoords(), targetExpr, params.get(0));
+  			}
+  			else if(methodName.equals("lastIndexOf")) {
+  				if(params.size() != 1) {
+  					reportError("array<T>.lastIndexOf(valueToSearchFor) takes one parameter.");
+					return false;
+				}
+  				else
+  					result = new ArrayLastIndexOfNode(getCoords(), targetExpr, params.get(0));
+  			}
+			else if(methodName.equals("subarray")) {
+  				if(params.size() != 2) {
+  					reportError("array<T>.subarray(startIndex, length) takes two parameters.");
+					return false;
+				}
+  				else
+  					result = new ArraySubarrayNode(getCoords(), targetExpr, params.get(0), params.get(1));
+  			}
   			else {
   				reportError("array<T> does not have a method named \"" + methodName + "\"");
   				return false;

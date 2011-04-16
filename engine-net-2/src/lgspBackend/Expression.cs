@@ -1423,6 +1423,101 @@ namespace de.unika.ipd.grGen.expression
     }
 
     /// <summary>
+    /// Class representing an array index of expression.
+    /// </summary>
+    public class ArrayIndexOf : Expression
+    {
+        public ArrayIndexOf(Expression target, Expression value)
+        {
+            Target = target;
+            Value = value;
+        }
+
+        public override void Emit(SourceBuilder sourceCode)
+        {
+            sourceCode.Append("GRGEN_LIBGR.DictionaryListHelper.IndexOf(");
+            Target.Emit(sourceCode);
+            sourceCode.Append(", ");
+            Value.Emit(sourceCode);
+            sourceCode.Append(")");
+        }
+
+        public override IEnumerator<ExpressionOrYielding> GetEnumerator()
+        {
+            yield return Target;
+            yield return Value;
+        }
+
+        Expression Target;
+        Expression Value;
+    }
+
+    /// <summary>
+    /// Class representing an array last index of expression.
+    /// </summary>
+    public class ArrayLastIndexOf : Expression
+    {
+        public ArrayLastIndexOf(Expression target, Expression value)
+        {
+            Target = target;
+            Value = value;
+        }
+
+        public override void Emit(SourceBuilder sourceCode)
+        {
+            sourceCode.Append("GRGEN_LIBGR.DictionaryListHelper.LastIndexOf(");
+            Target.Emit(sourceCode);
+            sourceCode.Append(", ");
+            Value.Emit(sourceCode);
+            sourceCode.Append(")");
+        }
+
+        public override IEnumerator<ExpressionOrYielding> GetEnumerator()
+        {
+            yield return Target;
+            yield return Value;
+        }
+
+        Expression Target;
+        Expression Value;
+    }
+
+    /// <summary>
+    /// Class representing an array subarray expression.
+    /// </summary>
+    public class ArraySubarray : Expression
+    {
+        public ArraySubarray(Expression target, Expression start, Expression length)
+        {
+            Target = target;
+            Start = start;
+            Length = length;
+        }
+
+        public override void Emit(SourceBuilder sourceCode)
+        {
+            sourceCode.Append("GRGEN_LIBGR.DictionaryListHelper.Subarray(");
+            Target.Emit(sourceCode);
+            sourceCode.Append(", ");
+            Start.Emit(sourceCode);
+            sourceCode.Append(", ");
+            Length.Emit(sourceCode);
+            sourceCode.Append(")");
+        }
+
+        public override IEnumerator<ExpressionOrYielding> GetEnumerator()
+        {
+            yield return Target;
+            yield return Start;
+            yield return Length;
+        }
+
+        Expression Target;
+        Expression Start;
+        Expression Length;
+    }
+
+    /// <summary>
     /// Class representing a constant rule-local map, available as initalized static class member.
     /// </summary>
     public class StaticMap : Expression

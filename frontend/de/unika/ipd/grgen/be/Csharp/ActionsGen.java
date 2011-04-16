@@ -24,10 +24,13 @@ import java.util.List;
 import java.util.LinkedList;
 
 import de.unika.ipd.grgen.ir.Alternative;
+import de.unika.ipd.grgen.ir.ArrayIndexOfExpr;
 import de.unika.ipd.grgen.ir.ArrayInit;
 import de.unika.ipd.grgen.ir.ArrayItem;
+import de.unika.ipd.grgen.ir.ArrayLastIndexOfExpr;
 import de.unika.ipd.grgen.ir.ArrayPeekExpr;
 import de.unika.ipd.grgen.ir.ArraySizeExpr;
+import de.unika.ipd.grgen.ir.ArraySubarrayExpr;
 import de.unika.ipd.grgen.ir.ArrayType;
 import de.unika.ipd.grgen.ir.ArrayVarAddItem;
 import de.unika.ipd.grgen.ir.ArrayVarRemoveItem;
@@ -1775,6 +1778,32 @@ public class ActionsGen extends CSharpBase {
 			genExpressionTree(sb, ap.getTargetExpr(), className, pathPrefix, alreadyDefinedEntityToName);
 			sb.append(", ");
 			genExpressionTree(sb, ap.getNumberExpr(), className, pathPrefix, alreadyDefinedEntityToName);
+			sb.append(")");
+		}
+		else if (expr instanceof ArrayIndexOfExpr) {
+			ArrayIndexOfExpr ai = (ArrayIndexOfExpr)expr;
+			sb.append("new GRGEN_EXPR.ArrayIndexOf(");
+			genExpressionTree(sb, ai.getTargetExpr(), className, pathPrefix, alreadyDefinedEntityToName);
+			sb.append(", ");
+			genExpressionTree(sb, ai.getValueExpr(), className, pathPrefix, alreadyDefinedEntityToName);
+			sb.append(")");
+		}
+		else if (expr instanceof ArrayLastIndexOfExpr) {
+			ArrayLastIndexOfExpr ali = (ArrayLastIndexOfExpr)expr;
+			sb.append("new GRGEN_EXPR.ArrayLastIndexOf(");
+			genExpressionTree(sb, ali.getTargetExpr(), className, pathPrefix, alreadyDefinedEntityToName);
+			sb.append(", ");
+			genExpressionTree(sb, ali.getValueExpr(), className, pathPrefix, alreadyDefinedEntityToName);
+			sb.append(")");
+		}
+		else if (expr instanceof ArraySubarrayExpr) {
+			ArraySubarrayExpr asa = (ArraySubarrayExpr)expr;
+			sb.append("new GRGEN_EXPR.ArraySubarray(");
+			genExpressionTree(sb, asa.getTargetExpr(), className, pathPrefix, alreadyDefinedEntityToName);
+			sb.append(", ");
+			genExpressionTree(sb, asa.getStartExpr(), className, pathPrefix, alreadyDefinedEntityToName);
+			sb.append(", ");
+			genExpressionTree(sb, asa.getLengthExpr(), className, pathPrefix, alreadyDefinedEntityToName);
 			sb.append(")");
 		}
 		else if (expr instanceof MapInit) {
