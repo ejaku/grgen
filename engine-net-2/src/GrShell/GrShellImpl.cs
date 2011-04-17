@@ -250,7 +250,7 @@ namespace de.unika.ipd.grGen.grShell
             }
         }
 
-        public static readonly String VersionString = "GrShell v2.6";
+        public static readonly String VersionString = "GrShell v3.0";
 
         IBackend curGraphBackend = new LGSPBackend();
         String backendFilename = null;
@@ -299,7 +299,7 @@ namespace de.unika.ipd.grGen.grShell
 
         public static void PrintVersion()
         {
-            Console.WriteLine(VersionString + " ($Revision$) (enter \"help\" for a list of commands)");
+            Console.WriteLine(VersionString + " (enter \"help\" for a list of commands)");
         }
 
         private bool BackendExists()
@@ -1044,6 +1044,74 @@ namespace de.unika.ipd.grGen.grShell
             {
                 errOut.WriteLine("Unable to execute file \"" + filename + "\": " + e.Message);
             }
+        }
+
+        public bool ChangeDirectory(String filename)
+        {
+            try
+            {
+                Directory.SetCurrentDirectory(filename);
+                debugOut.WriteLine("Changed current working directory to " + filename);
+            }
+            catch(Exception e)
+            {
+                errOut.WriteLine("Error during cd to \"" + filename + "\": " + e.Message);
+                return false;
+            }
+            return true;
+        }
+
+        public bool ListDirectory()
+        {
+            try
+            {
+                DirectoryInfo dir = new DirectoryInfo(Directory.GetCurrentDirectory());
+                DirectoryInfo[] nestedDirectories = dir.GetDirectories();
+                foreach(DirectoryInfo nestedDirectory in nestedDirectories)
+                {
+                    Workaround.PrintHighlighted(nestedDirectory.Name, HighlightingMode.Directory);
+                    debugOut.Write(" ");
+                }
+                debugOut.WriteLine();
+                FileInfo[] filesInDirectory = dir.GetFiles();
+                foreach(FileInfo file in filesInDirectory)
+                {
+                    if(file.Name.EndsWith(".grs"))
+                        Workaround.PrintHighlighted(file.Name, HighlightingMode.GrsFile);
+                    else if(file.Name.EndsWith(".grsi"))
+                        Workaround.PrintHighlighted(file.Name, HighlightingMode.GrsiFile);
+                    else if(file.Name.EndsWith(".grg"))
+                        Workaround.PrintHighlighted(file.Name, HighlightingMode.GrgFile);
+                    else if(file.Name.EndsWith(".gri"))
+                        Workaround.PrintHighlighted(file.Name, HighlightingMode.GriFile);
+                    else if(file.Name.EndsWith(".gm"))
+                        Workaround.PrintHighlighted(file.Name, HighlightingMode.GmFile);
+                    else
+                        Workaround.PrintHighlighted(file.Name, HighlightingMode.None);
+                    debugOut.Write(" ");
+                }
+                debugOut.WriteLine();
+            }
+            catch(Exception e)
+            {
+                errOut.WriteLine("Error on ls command: " + e.Message);
+                return false;
+            }
+            return true;
+        }
+
+        public bool PrintWorkingDirectory()
+        {
+            try
+            {
+                debugOut.WriteLine(Directory.GetCurrentDirectory());
+            }
+            catch(Exception e)
+            {
+                errOut.WriteLine("Error on pwd command: " + e.Message);
+                return false;
+            }
+            return true;
         }
 
         public bool Include(GrShell grShell, String filename, String from, String to)

@@ -262,6 +262,7 @@ TOKEN: {
 |   < BACKEND: "backend" >
 |   < BORDERCOLOR: "bordercolor" >
 |   < BY: "by" >
+|   < CD: "cd" >
 |   < CLEAR: "clear" >
 |   < COLOR: "color" >
 |   < CUSTOM: "custom" >
@@ -296,6 +297,7 @@ TOKEN: {
 |   < IS: "is" >
 |   < LABELS: "labels" >
 |   < LAYOUT: "layout" >
+|   < LS: "ls" >
 |   < MAP: "map" >
 |   < NEW: "new" >
 |   < NODE: "node" >
@@ -310,6 +312,7 @@ TOKEN: {
 |   < OPTIONS: "options" >
 |   < PARSE: "parse" >
 |   < PARSER: "parser" >
+|   < PWD: "pwd" >
 |   < QUIT: "quit" >
 |   < RANDOMSEED: "randomseed" >
 |   < RECORD: "record" >
@@ -970,6 +973,21 @@ void ShellCommand():
     {
         impl.ExecuteCommandLine(str1);
     }
+|
+	"cd" str1=Filename() LineEnd()
+	{
+		noError = impl.ChangeDirectory(str1); 
+	}
+|
+	"ls" LineEnd()
+	{
+		noError = impl.ListDirectory();
+	}
+|
+	"pwd" LineEnd()
+	{
+		noError = impl.PrintWorkingDirectory();
+	}
 |
 	"askfor" 
 	{

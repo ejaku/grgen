@@ -33,7 +33,14 @@ namespace de.unika.ipd.grGen.grShell
         LastFail = 8,
         Breakpoint = 16,
         Choicepoint = 32,
-        SequenceStart = 64
+        SequenceStart = 64,
+
+        GrsFile = 128,
+        GrsiFile = 256,
+        GrgFile = 512,
+        GriFile = 1024,
+        GmFile = 2048,
+        Directory = 4096
     }
 
     [FlagsAttribute]
@@ -173,6 +180,18 @@ namespace de.unika.ipd.grGen.grShell
                 Console.Write("\x1b[35m" + text + "\x1b[0m"); // magenta fg
             else if((mode & HighlightingMode.SequenceStart) == HighlightingMode.SequenceStart)
                 Console.Write("\x1b[34m" + text + "\x1b[0m"); // blue fg
+            else if((mode & HighlightingMode.GrsFile) == HighlightingMode.GrsFile)
+                Console.Write("\x1b[31m" + text + "\x1b[0m"); // red fg
+            else if((mode & HighlightingMode.GrsiFile) == HighlightingMode.GrsiFile)
+                Console.Write("\x1b[35m" + text + "\x1b[0m"); // magenta fg
+            else if((mode & HighlightingMode.GrgFile) == HighlightingMode.GrgFile)
+                Console.Write("\x1b[32m" + text + "\x1b[0m"); // green fg
+            else if((mode & HighlightingMode.GriFile) == HighlightingMode.GriFile)
+                Console.Write("\x1b[36m" + text + "\x1b[0m"); // cyan fg
+            else if((mode & HighlightingMode.GmFile) == HighlightingMode.GmFile)
+                Console.Write("\x1b[34m" + text + "\x1b[0m"); // blue fg
+            else if((mode & HighlightingMode.Directory) == HighlightingMode.Directory)
+                Console.Write("\x1b[43m" + text + "\x1b[0m"); // yellow bg
             else
                 Console.Write(text); // normal
         }
@@ -211,6 +230,12 @@ namespace de.unika.ipd.grGen.grShell
             if((mode & HighlightingMode.Breakpoint) == HighlightingMode.Breakpoint) Console.ForegroundColor = ConsoleColor.Red;
             if((mode & HighlightingMode.Choicepoint) == HighlightingMode.Choicepoint) Console.ForegroundColor = ConsoleColor.Magenta;
             if((mode & HighlightingMode.SequenceStart) == HighlightingMode.SequenceStart) Console.ForegroundColor = ConsoleColor.Blue;
+            if((mode & HighlightingMode.GrsFile) == HighlightingMode.GrsFile) Console.ForegroundColor = ConsoleColor.Red;
+            if((mode & HighlightingMode.GrsiFile) == HighlightingMode.GrsiFile) Console.ForegroundColor = ConsoleColor.Magenta;
+            if((mode & HighlightingMode.GrgFile) == HighlightingMode.GrgFile) Console.ForegroundColor = ConsoleColor.Green;
+            if((mode & HighlightingMode.GriFile) == HighlightingMode.GriFile) Console.ForegroundColor = ConsoleColor.Cyan;
+            if((mode & HighlightingMode.GmFile) == HighlightingMode.GmFile) Console.ForegroundColor = ConsoleColor.Blue;
+            if((mode & HighlightingMode.Directory) == HighlightingMode.Directory) Console.BackgroundColor = ConsoleColor.DarkYellow;
             Console.Write(text);
             Console.ForegroundColor = oldForegroundColor;
             Console.BackgroundColor = oldBackgroundColor;
@@ -282,6 +307,12 @@ namespace de.unika.ipd.grGen.grShell
             if((mode & HighlightingMode.Breakpoint) == HighlightingMode.Breakpoint) Console.ForegroundColor = ConsoleColor.Red;
             if((mode & HighlightingMode.Choicepoint) == HighlightingMode.Choicepoint) Console.ForegroundColor = ConsoleColor.Magenta;
             if((mode & HighlightingMode.SequenceStart) == HighlightingMode.SequenceStart) Console.ForegroundColor = ConsoleColor.Blue;
+            if((mode & HighlightingMode.GrsFile) == HighlightingMode.GrsFile) Console.ForegroundColor = ConsoleColor.Red;
+            if((mode & HighlightingMode.GrsiFile) == HighlightingMode.GrsiFile) Console.ForegroundColor = ConsoleColor.Magenta;
+            if((mode & HighlightingMode.GrgFile) == HighlightingMode.GrgFile) Console.ForegroundColor = ConsoleColor.Green;
+            if((mode & HighlightingMode.GriFile) == HighlightingMode.GriFile) Console.ForegroundColor = ConsoleColor.Cyan;
+            if((mode & HighlightingMode.GmFile) == HighlightingMode.GmFile) Console.ForegroundColor = ConsoleColor.Blue;
+            if((mode & HighlightingMode.Directory) == HighlightingMode.Directory) Console.BackgroundColor = ConsoleColor.DarkYellow;
             Console.Write(text);
             Console.ForegroundColor = oldForegroundColor;
             Console.BackgroundColor = oldBackgroundColor;
