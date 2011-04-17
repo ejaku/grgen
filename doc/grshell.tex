@@ -130,6 +130,21 @@ If a parser error occurs, execution of the script will stop immediately.
 Prints \emph{Text} onto the \GrShell\ command prompt.
 
 \begin{rail}
+  'pwd'
+\end{rail}\ixkeyw{pwd}
+Prints the path to the current working directory.
+
+\begin{rail}
+  'ls'
+\end{rail}\ixkeyw{ls}
+Lists the directories and files in the current working directory, files relevant to GrGen are printed highlighted.
+
+\begin{rail}
+  'cd' Path
+\end{rail}\ixkeyw{cd}
+Changes the current working directory to the path given.
+
+\begin{rail}
   'askfor';
   Variable '=' 'askfor' Type
 \end{rail}\ixkeyw{askfor}
@@ -313,6 +328,7 @@ Such a script can be loaded and executed by the \texttt{include} command (see Se
 \end{rail}\ixkeyw{export}\ixkeyw{withvariables}\indexmain{export}
 Exports an instance graph in GRS (.grs/.grsi) format, which is a reduced \GrShell\ script
 (it can get imported and exported on API level\ref{sub:imexport} without using the \GrShell).
+This is the recommended standard format.
 It contains the \texttt{new graph} command, followed by \texttt{new node} commands, followed by \texttt{new edge} commands.
 If the \texttt{.gz} suffix is given the graph is saved zipped.
 If \texttt{withvariables} is specified, the (graph global) variables are exported, too.
@@ -328,8 +344,18 @@ The persistent names are saved in contrast to the following format GXL.
 Exports an instance graph and a graph model in GXL format \cite{GXL,GXL2}, 
 which is somewhat of a standard format for graphs of graph rewrite systems, 
 but suffers from the well-known XML problems -- it is barely human-readable and bloated.
-Exporting fails if the graph model contains attributes of \texttt{set<S>}-,\texttt{map<S,T>}-, or \texttt{object}-type.
+(Besides tools claiming to support it often can't import the export of the other.)
+Exporting fails if the graph model contains attributes of \texttt{set<S>}-,\texttt{map<S,T>}-,\texttt{array<S>}- or \texttt{object}-type.
 If the \texttt{.gz} suffix is given the graph is saved zipped.
+
+\begin{rail}
+  'export' Filename '.grg' ('.gz')?
+\end{rail}\ixkeyw{export}\indexmain{import}
+Exports an instance graph in GRG format, i.e. as one GrGen rule with an empty pattern and a large modify part.
+There is no importer existing, this format is not for normal use!
+If the \texttt{.gz} suffix is given the graph is saved zipped.
+
+\pagebreak %force better layout
 
 \begin{rail}
   'import' Filename ('.grs' | '.grsi' ) ('.gz')?

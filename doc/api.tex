@@ -140,9 +140,10 @@ bar.Modify(graph, matches.First);
 
 GrGen natively supports the following formats:
 \begin{description}
-  \item[GRS/GRSI] Reduced GrShell script files (graph only, model from \texttt{.gm}; a very limited version of the normal \texttt{.grs})
+  \item[GRS/GRSI] Reduced GrShell script files (graph only, model from \texttt{.gm}; a very limited version of the normal \texttt{.grs}. The recommended standard format.)
   \item[GXL] Graph eXchange Language (\texttt{.gxl}-files, see \url{http://www.gupro.de/GXL/})
   \item[ECORE/XMI] Ecore(\texttt{.ecore}) model files and XMI(\texttt{.xmi}) graph file. Import only, export must be programmed with \texttt{emit}-statements. In an intermediate step, a \texttt{.gm} file is generated for the model.
+    \item[GRG] Writes a GrGen rule file containing one rule with an empty pattern and a large rewrite part. Export only \footnote{Original German Pisswasser, for export only :)}, not for normal use.
 \end{description}
 
 While both GRS and GXL importers expect one file
@@ -162,7 +163,7 @@ The GRS(I) importer returns a \texttt{NamedGraph}, which is a wrapper for the \t
 If you don't need the persistent names, get rid of them by casting to the named graph, getting the wrapped graph, and forgetting any references to the named graph.
 If you want to keep it you should get the wrapped graph (casting it to \texttt{LGSPGraph}) and set its property \texttt{NamedGraph} to the named graph; 
 this will cause the \texttt{nameof} operator to work as known, i.e. as if using GrShell which employs named graphs.
-Please be aware that naming is rather expensive. 
+Please be aware that naming is rather expensive:
 A named graph supplying the name to element and element to name mappings normally uses up about the same amount of memory as the wrapped \texttt{LGSPGraph} defining the real graph.
 
 There are further examples available in the \texttt{examples-api} folder of the \GrG-distribution:

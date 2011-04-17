@@ -44,11 +44,18 @@
  Changed syntax of storage access in pattern from "<" storage ">" suffix to "{" storage "}" suffix
    because "<" ">" is already used for retyping, input parameter type, copy; was too overloaded 
 
+ GrShell extended by pwd, cd, ls commands:
+  - pwd: prints working directory
+  - cd <path>: changes working directory to <path>
+  - ls: lists the content of the working directory with files relevant to GrGen highlighted
+ 
  Bugfixes:
   - the mono csharp compiler yields errors for unicode escaping in identifiers,
     changed attribute implementation suffix
   - fixed code generation for calls in compiled sequences which do not assign return values,
     but the rule/sequence called returns some
+  - if grgen is called with "path/file" then by now the path is only prepended 
+    when opening an "#include i-path" to the i-path, if the i-path is not absolute
   - added error messages in case edges created are referenced in evalhere,
     in case edges from nesting pattern are referenced in nested pattern (instead of compiler crash)
   - fixed assertion when using node/edge valued set/map types
@@ -60,7 +67,7 @@
  Minor:
   - refactorings of iterated patterns in API
   - syntaxhighlighting adapted
-  - enough changes to call the child v3.0 instead of v2.7 now
+  - enough changes to call the child v3.0 instead of v2.7 by now
 
 
 v2.7.ms4 (2011-02-07)
