@@ -1,16 +1,48 @@
-﻿v2.7.ms5 (2011-03-20)
- Local variables, ordered evaluation, and yielding outwards (RHS only):
-  - added def entity declarations which do not get created on RHS (matched on LHS), 
-    but are yielded to from evals, evalheres, subpattern rewrite parts, or execs
-	 (of the same pattern or especially of nested patterns and calles subpatterns)
-	 def vars may receive an initialization assignment
+﻿v3.0beta (2011-04-17)
+ Local variables, ordered evaluation, and yielding outwards:
+  - added def entity declarations, which on RHS do not get created, on LHS do not get matched, 
+    but are yielded to from evals, evalheres, subpattern rewrites, or execs on RHS,
+    or are yielded to from yields, subpattern usages on LHS,
+    out of the same pattern, but especially out of nested patterns and called subpatterns.
+	They can be uses as local and output variables;
+	def vars may receive an initialization assignment.
+  - added yield block which is an eval on the LHS constrainded to not assigning to / 
+     not changing graph element attributes, only parameters or def entities allowed
   - added yielding assignments to evals, evalheres, execs
-  - added yield arguments to def rewrite parameters in subpattern rewrite calls
+  - added yielding assignments to yields, esp. including iterated yield accumulation with for
+  - added yield arguments to def parameters in subpattern calls and subpattern rewrite calls
   - added evalhere command to evaluate attributes in between the subpattern rewrite calls
   - added alternative/iterated rewrite usage specification to trigger an alternative/iterated
     rewrite usage in between the subpattern rewrite calls
   - was made possible by: every nested pattern can be given a name, 
      for the anonymous ones a counted makeshift name is assigned
+
+ Generic datatype array<T> introduced:
+  - mapping to C# list (misnamed dynamic array)
+  - supporting operations added, in types and expressions, in model and rules, in sequences, in shell:
+    - array<T>[ el, el2, el3 ] constructor
+    - a.add(x) to add x to the end of array, a.add(x,i) to insert x at index i
+    - a.rem() to remove element from end of array, a.rem(i) to remove element at index i
+    - a.clear() clears array
+    - a.size() gives size of array, a.subarray(i,l) returns subarray from start i on of length l
+    - a.indexOf(x), a.lastIndexOf(x) give index of first/last occurence of value x in the array
+    - x in a returns whether x is contained in a
+    - a[i] returns value at index position i, same does a.peek(i)
+    - a[i] = x overwrites element at position i by x
+    - a==b, a!=b checking equality of size and of the elements at their respective positions
+    - a<b, a<=b, a>b, a>=b checking order of size and equality of elements 
+	   at their respective positions up to the size of the smaller array
+    - a+b returning a concatenation of array a followed by b, compound version a+=b supplied, too
+    - storage access in rules n{a} or n{m.a} of array elements
+  
+ Expressions extended by incoming/outgoing edge function:
+  - incoming(node, EdgeType, NodeType) returns a set of the edges incoming to the node,
+     only if of the given EdgeType, only if originating from a node of given node type
+	 NodeType is defaultet to Node if omitted; EdgeType is defaulted to Edge if omitted
+  - outgoing(node, EdgeType, NodeType) does the same for the edges going out from node
+  
+ Changed syntax of storage access in pattern from "<" storage ">" suffix to "{" storage "}" suffix
+   because "<" ">" is already used for retyping, input parameter type, copy; was too overloaded 
 
  Bugfixes:
   - the mono csharp compiler yields errors for unicode escaping in identifiers,
@@ -21,9 +53,14 @@
     in case edges from nesting pattern are referenced in nested pattern (instead of compiler crash)
   - fixed assertion when using node/edge valued set/map types
 
+ Optimizations by better/global data flow analyses allowing for cheaper runtime implementations:
+  - reduced overhead of runtime neg level checking to the very seldom cases it is really needed
+  - reduced overhead of patternpath setup to the very seldom cases it is really needed
+
  Minor:
   - refactorings of iterated patterns in API
   - syntaxhighlighting adapted
+  - enough changes to call the child v3.0 instead of v2.7 now
 
 
 v2.7.ms4 (2011-02-07)
