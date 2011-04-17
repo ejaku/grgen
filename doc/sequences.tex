@@ -16,7 +16,7 @@ Graph rewrite sequences are written down with a syntax similar to boolean and re
 They are a means of composing complex graph operations out of single graph rewrite rules; 
 they determine the control flow by the evaluation order of the operands.
 Graph rewrite sequences have a boolean return value; for a single rule, \texttt{true} means the rule was successfully applied to the host graph.
-A \texttt{false} return value means that the pattern was not found in the host graph.
+A \texttt{false} return value means that the pattern was not found in the host graph. 
 
 In order to store and reuse return values of rewrite sequences and most importantly, 
 for passing return values of rules to other rules, \emph{variables} can be defined.
@@ -74,7 +74,7 @@ Table \ref{tbl:sequ:op} gives the priorities and semantics of the operators, pri
 The modifier \texttt{\$} changes the semantics of the following operator to randomly execute the left or the right operand first (i.e. flags the operator to act commutative);
 usually operands are executed / evaluated from left to right if not altered by bracketing.
 In contrast the sequences \texttt{s}, \texttt{t}, \texttt{u} in \texttt{s \$<op> t \$<op> u} are executed / evaluated in arbitrary order.
-The modifier \texttt{\%} appended to the \texttt{\$} overrides the random selection by a user selection (cf. see Section~\ref{sct:debugger}, \indexed{choice point}s).
+The modifier \texttt{\%} appended to the \texttt{\$} overrides the random selection by a user selection (cf. see Chapter~\ref{chapdebugger}, \indexed{choice point}s).
 The assign-to operator \texttt{=>} optionally available at the end of the $RewriteNegTerm$ assigns the (negated in case of \texttt{!}) result of the $RewriteTerm$ execution to the given variable; the and-to \texttt{\&>} operator assigns the conjunction and the or-to \texttt{|>} operator assigns the disjunction of the original value of the variable with the sequence result to the variable.
 
 \begin{table}[htbp]
@@ -143,7 +143,7 @@ The returned graph elements can be assigned to variables again.
 The operator \texttt{?} switches the rule to a test, i.e.\ the rule application does not perform the rewrite part of the rule but only tests if a match exists.
 The operator \texttt{\%} is a multi-purpose flag. 
 In the \GrShell\ (see Chapter~\ref{chapgrshell}) it dumps the matched graph elements to \texttt{stdout};
-in \texttt{debug}-mode (see Section~\ref{sct:debugger}) it acts as a \indexed{break point} (which is its main use in fact);
+in \texttt{debug}-mode (see Chapter~\ref{chapdebugger}) it acts as a \indexed{break point} (which is its main use in fact);
 you are also able to use this flag for your own purposes, when using \GrG\ via its API interface (see Section~\ref{sct:API}).
 
 The \emph{RuleExecution} clause can be applied to a defined sequence (cf. \ref{sec:sequencedefinition}), too.
@@ -165,7 +165,7 @@ Rule application will fail in case no match was found and succeed otherwise.
 You may change the lower bound for success by giving a variable containing the value to apply before the comma-separated upper bound variable.
 In case a lower bound is given the upper bound may be set to unlimited with the \texttt{*}.
 An \texttt{\%} appended to the \texttt{\$} denotes a \indexed{choice point} 
-allowing the user to choose the match to be applied from the available ones in the debugger (see Section~\ref{sct:debugger}).
+allowing the user to choose the match to be applied from the available ones in the debugger (see Chapter ~\ref{chapdebugger}).
 
 \begin{example}
 The sequence \verb#(u,v)=r(x,y)# applies the rule \texttt{r} with input from the variables \texttt{x} and \texttt{y} on the host graph 

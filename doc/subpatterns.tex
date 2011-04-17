@@ -208,8 +208,8 @@ The \indexmain{pattern cardinality} blocks allow to specify how often the nested
 Matching will be carried out eagerly, i.e. if the construct is not limiting the number of matches and a further match is possible it will be done.
 (The nested body will be explained in Section~\ref{sec:nestedrewrite}.)
 
-\subsubsection*{The iterated block} 
-is matching the contained subpattern as often as possible, succeeding even in the case the contained pattern is not available (thus it will never fail).
+\subsection{The iterated block} 
+The iterated block is matching the contained subpattern as often as possible, succeeding even in the case the contained pattern is not available (thus it will never fail).
 It was included in the language to allow for matching breadth-splitting structures, as in capturing all methods of a class in a program graph.
 
 \begin{example}
@@ -224,8 +224,8 @@ test methods
   \end{grgen}
 \end{example}
 
-\subsubsection*{The multiple block}
-is working like the iterated block, but expects the contained subpattern to be available at least once; if it is not, matching of the multiple block and thus its enclosing pattern fails.
+\subsection{The multiple block}
+The multiple block is working like the iterated block, but expects the contained subpattern to be available at least once; if it is not, matching of the multiple block and thus its enclosing pattern fails.
 
 \begin{example}
   \begin{grgen}
@@ -239,8 +239,8 @@ test oneOrMoreMethods
   \end{grgen}
 \end{example}
 
-\subsubsection*{The optional block}
-is working like the iterated block, but matches the contained subpattern at most once; further occurences of the subpattern are left unmatched.
+\subsection{The optional block}
+The optional block is working like the iterated block, but matches the contained subpattern at most once; further occurences of the subpattern are left unmatched.
 If the nested pattern is available, it will get matched, otherwise it won't; matching of the optional block will succeed either way.
 
 \begin{example}
@@ -329,8 +329,11 @@ The common recurring pattern is specified in a subpattern declaration and used b
   SubpatternBody: (PatternStatement+) SubpatternRewriting?;
 \end{rail}\ixkeyw{pattern}\ixkeyw{modify}\ixkeyw{replace}\ixnterm{SubpatternDeclaration}\ixnterm{SubpatternBody}\label{subpatterndecl}\indexmain{subpattern declaration}
 
-Subpattern declarations define a subpattern type denoting the specified shape in global namespace; the parameters specify some context elements the pattern may refer to, but which are not part of the pattern itself. 
-So they are only syntactically the same as test/rule-parameters (which are members of the pattern part), a further difference is the lack of ReturnTypes, due to the fact that a subpattern can't return anything (they are not actions, just a helper in constructing complex patterns).
+Subpattern declarations define a subpattern type denoting the specified shape in the global namespace;
+the parameters specify some context elements the pattern may refer to, but which are not part of the pattern itself. 
+So they are only syntactically the same as test/rule-parameters (which are members of the pattern part).
+A further difference is the lack of ReturnTypes; they are not actions, just a helper in constructing complex patterns.
+In order to get values out they employ the language construct of def entites which are yielded to (cf. \ref{sec:localvarorderedevalyield} later in this chapter).
 Subpatterns can receive additional rewrite parameters in contrast to the actions; they can be used to hand in nodes which are created in the rewrite part of the action or subpattern which contains the subpattern entity.
 (The nested body will be explained in Section~\ref{sec:subrule}.)
 
@@ -400,9 +403,9 @@ pattern IteratedPath(prev:Node)
 }
   \end{grgen}
   
-Searches an iterated path from the root node on, here an assinment list. 
+Searches an iterated path from the root node on, here an assignment list. 
 The iterated path with the optional is equivalent to the code below (note the negative which ensures you get a longest match -- without it the empty case may be chosen lazily just in the beginning)
-  
+
   \begin{grgen}
 pattern IteratedPath(prev:Node)
 {
@@ -459,7 +462,7 @@ The same path specified in the pattern of the rule -- not in the independent -- 
 \end{example}
 
 With recursive subpatterns you can already capture neatly structures extending into depth (as iterated paths)
-and also structures extending into breadth (as forking patterns, although the cardinality statements are often better suited to this task).
+and also structures extending into breadth (as forking patterns, although the cardinality statements are often much better suited to this task).
 But combined with an iterated block, you may even match structures extending into breadth and depth,
 like e.g. a hierarchy of classes (i.e. match a \indexed{spanning tree} in the graph)
 giving you a very powerful and flexible notation to capture large, complex patterns
@@ -489,6 +492,7 @@ pattern SpanningTree(root:Class)
 \indexmain{nested pattern rewrite}\label{sec:nestedrewrite}
 
 Until now we focused on the pattern matching of nested and subpatterns -- but we're not only interested in finding patterns combined from several pattern pieces, we want to rewrite the pattern pieces, too.
+So we will extend the language of the structure parser introduced so far into a language for a structure transducer.
 This does not hold for the application conditions, which are pure conditions, but for all the other language constructs introduced in this chapter.
 
 \begin{rail}  
@@ -1073,7 +1077,7 @@ rule linkChainEndToStartIndependent(begin:Node) : (Node)
 The first example for LHS yielding follows within an independent a chain piece by piece to some a priori unknown end node, and yields this end node chain piece by chain piece again outwards to the chain start. There it is used as input to another chain (maybe the same chain, maybe overlapping due to the independent), linking all the nodes of this chain to the end node of the former.
 
 When yielding from an iterated pattern there's the problem that each yielding assignment from an iterated instance would overwrite the one def variable from outside the iterated, while one is interested most of the time in some accumulation of the values, e.g. summing integers or concatenating strings.
-This can be reached with a \texttt{for} loop iterating a def variable inside an iterated for all the matches of the iterated pattern referenced by name, allowing to assign to an outside def variable a value computed from the def variable and the value of the iterated def variable.
+This can be achieved with a \texttt{for} loop iterating a def variable inside an iterated for all the matches of the iterated pattern referenced by name, allowing to assign to an outside def variable a value computed from the def variable and the value of the iterated def variable.
 
 This is shown in the second example for LHS yielding, summing the integer attribute \texttt{a} of nodes of type \texttt{N} adjacent to a start node, matched with an iterated.
 
@@ -1105,8 +1109,10 @@ test sumOfWeight(start:Node) : (int,int)
 \end{example}
 
 
+\pagebreak
+
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-\section{Regular Expression Syntax}\indexmainsee{EBNF}{regular expression syntax}\indexmain{regular expression syntax}
+\section{Regular Expression Syntax and Patternpath Locking}\indexmainsee{EBNF}{regular expression syntax}\indexmain{regular expression syntax}
 
 In addition to the already introduced syntax for the nested patterns with the keywords 
 \texttt{negative}, \texttt{independent}, \texttt{alternative}, \texttt{iterated}, \texttt{multiple} and \texttt{optional},
@@ -1168,4 +1174,13 @@ pattern Expression(root:Expr)
 }
     \end{grgen}
   \end{example}\label{introexampleregexp}
+
+
+\subsubsection*{Patternpath locking}
+As stated in the sections on the negative and independent constructs (\ref{nac}, \ref{pac}), they get matched homomorphically to all already matched elements. By referencing an element from outside you can isomorphy lock that element to prevent it to get matched again.
+
+Maybe you want to lock all elements from the directly enclosing pattern, in this case you can just insert \texttt{pattern;} in the position of a graphlet into the NAC or PAC.
+
+Maybe you want to lock all elements from the patterns dynamically containing the NAC/PAC of interest, i.e. all subpattern usages and nesting patterns on the path leading to the NAC/PAC of interest (but not their siblings). In this case you can insert \texttt{patternpath;} in the position of a graphlet into the NAC or PAC. You might be interested in this construct when matching a piecewise constructed pattern, e.g. a chain, which requires to check for another chain (iterated path) which is not allowed to cross (include an element of) the original one.
+
 

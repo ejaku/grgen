@@ -124,6 +124,7 @@ A notable performance optimization allowed by the graph model is \indexed{search
 after a pattern was matched, the list heads of the type lookup ring lists, the incoming ring lists and the outgoing  ring lists are moved to the position of the matched entries with \texttt{MoveHeadAfter}, \texttt{MoveInHeadAfter} and \texttt{MoveOutHeadAfter}.
 With this optimization the pattern matching during an iteration \texttt{r*} will start where the previous iteration step left of, saving the cost of iterating again through all the elements which failed in the previous iteration.
 
+\vspace{1cm} %manual layout so the pushdown machine simulation starts on its own page
 
 \subsection*{Pushdown Machine for Nested and Subpatterns}\indexmain{pushdown machine}\indexmain{stack machine}
 Every subpatterns is handled with a search program corresponding to its pattern as introduced in the previous section. 
@@ -142,7 +143,7 @@ The subpattern usage parameters are computed during matching from matched elemen
 
 In the following, an example run of the $2+n$ pushdown machine is given:
 
-\vspace{10cm}
+\vspace{2cm} % manual layout so the pushdown simulation starts on its own page
 
 \begin{figure}[htbp]
   \centering
@@ -320,25 +321,25 @@ The details of search planning and some evaluation how well it works are given i
     \node[draw] (e3) at (9.75,3.5) {$e3:b$};
     \node[draw,ellipse] (v3) at (13.5,5) {$\mathit{v3:C}$};
 
-    \draw[-latex,bend left] (root.north) to (v1.south) node[near end, sloped, below] {$\mathsf{lkp}$/2};
+    \draw[-latex,bend left] (root.north) to node[near end, sloped, below] {$\mathsf{lkp}$/2} (v1.south);
     \draw[-latex] (root.north) -- (e1.south) node[near end, sloped, below] {$\mathsf{lkp}$/7};
     \draw[-latex] (root.north) -- (v2.south) node[midway, sloped, below] {$\mathsf{lkp}$/4};
-    \draw[-latex,bend right] (root.north) to (e2.south) node[near end, sloped, below] {$\mathsf{lkp}$/7};
+    \draw[-latex,bend right] (root.north) to node[near end, sloped, below] {$\mathsf{lkp}$/7} (e2.south);
     \draw[-latex] (root.north) -- (e3.south) node[near end, sloped, below] {$\mathsf{lkp}$/2};
-    \draw[-latex,bend right,line width = 2pt] (root.north) to (v3.south) node[near end, sloped, below] {$\mathsf{lkp}$/1};
+    \draw[-latex,bend right,line width = 2pt] (root.north) to node[near end, sloped, below] {$\mathsf{lkp}$/1} (v3.south);
 
-    \draw[-latex,bend left] (v1) to (e1) node[midway, above] {$\mathsf{out}$/2.83};
-    \draw[-latex,bend left,line width = 2pt] (e1) to (v1) node[midway, below] {$\mathsf{src}$/1};
-    \draw[-latex,bend right] (e1) to (v2) node[midway, below] {$\mathsf{tgt}$/1};
-    \draw[-latex,bend right,line width = 2pt] (v2) to (e1) node[midway, above] {$\mathsf{in}$/1};
-    \draw[-latex,bend left] (v2) to (e2) node[midway, above] {$\mathsf{out}$/1};
-    \draw[-latex,bend left,line width = 2pt] (e2) to (v2) node[midway, below] {$\mathsf{src}$/1};
-    \draw[-latex,bend left,line width = 2pt] (v2) to (e3) node[midway, above] {$\mathsf{out}$/1};
-    \draw[-latex,bend left] (e3) to (v2) node[midway, below] {$\mathsf{src}$/1};
-    \draw[-latex,bend right] (e2) to (v3) node[midway, below] {$\mathsf{tgt}$/1};
-    \draw[-latex,bend right,line width = 2pt] (v3) to (e2) node[midway, above] {$\mathsf{in}$/1};
-    \draw[-latex,bend right] (e3) to (v3) node[midway, below] {$\mathsf{tgt}$/1};
-    \draw[-latex,bend right] (v3) to (e3) node[midway, above] {$\mathsf{in}$/2};
+    \draw[-latex,bend left] (v1) to node[midway, above] {$\mathsf{out}$/2.83} (e1);
+    \draw[-latex,bend left,line width = 2pt] (e1) to node[midway, below] {$\mathsf{src}$/1} (v1);
+    \draw[-latex,bend right] (e1) to node[midway, below] {$\mathsf{tgt}$/1} (v2);
+    \draw[-latex,bend right,line width = 2pt] (v2) to node[midway, above] {$\mathsf{in}$/1} (e1);
+    \draw[-latex,bend left] (v2) to node[midway, above] {$\mathsf{out}$/1} (e2);
+    \draw[-latex,bend left,line width = 2pt] (e2) to node[midway, below] {$\mathsf{src}$/1} (v2);
+    \draw[-latex,bend left,line width = 2pt] (v2) to node[midway, above] {$\mathsf{out}$/1} (e3);
+    \draw[-latex,bend left] (e3) to node[midway, below] {$\mathsf{src}$/1} (v2);
+    \draw[-latex,bend right] (e2) to node[midway, below] {$\mathsf{tgt}$/1} (v3);
+    \draw[-latex,bend right,line width = 2pt] (v3) to node[midway, above] {$\mathsf{in}$/1} (e2);
+    \draw[-latex,bend right] (e3) to node[midway, below] {$\mathsf{tgt}$/1} (v3);
+    \draw[-latex,bend right] (v3) to node[midway, above] {$\mathsf{in}$/2} (e3);
   \end{tikzpicture}
   \caption{
   	The search plan graph for the pattern graph of Figure~\ref{figpatterntosearch} with estimated backtracking costs induced by the host graph of Figure~\ref{figgraphtosearchin}.

@@ -13,6 +13,7 @@ Finally we apply these techniques to accomplish certain common transformation ta
 %-----------------------------------------------------------------------------------------------
 \subsection{Exec and emit in rules}
 
+The following syntax diagram gives an extensions to the syntax diagrams of the Rule Set Language chapter \ref{chaprulelang}:
 \begin{rail}  
   ExecStatement: 'emit' '(' StringExpr ')' ';' | 'exec' '(' RewriteSequence ')' ';'
 	;
@@ -71,6 +72,7 @@ rule foo : (A,B)
 %-----------------------------------------------------------------------------------------------
 \subsection{Deferred exec and emithere in nested and subpatterns}\label{sec:deferredexecemithere}
 
+The following syntax diagram gives an extensions to the syntax diagrams of the Nested and Subpatterns chapter \ref{cha:nestedsub}:
 \begin{rail}  
   SubpatternExecEmit: 
 		'emithere' '(' StringExpr ')' ';' |
@@ -79,13 +81,12 @@ rule foo : (A,B)
 	;
 \end{rail}\ixnterm{SubpatternExecEmit}\ixkeyw{emithere}
 
-The statements \texttt{emit}, \texttt{emithere} and \texttt{exec} enhance the declarative nested rewrite part by imperative clauses.
+The statements \texttt{emit}, \texttt{emithere} and \texttt{exec} enhance the declarative nested (and subpattern) rewrite part by imperative clauses.
 The \texttt{emit} and \texttt{emithere} statements get executed during rewriting before the \texttt{exec} statements;
 the \texttt{emithere}-statements get executed before the \texttt{emit} statements,
 in the order in between the subpattern rewrite applications they are specified syntactically
 (see \ref{sec:localvarorderedevalyield} for more on this).
-The \texttt{exec} statements are executed i) after the rule which used their patterns was executed
-and ii) in the order as they appear within the rule.
+The \texttt{exec} statements are executed i) after the rule which used the pattern they are contained in was executed and ii) in the order as they appear within the rule.
 They are a slightly different version of the \texttt{exec}-statements from the \emph{ExecStatement} introduced in \ref{replclause}, only available in the rewrite parts of subpatterns or nested alternatives/iterateds
 (but not in the rewrite part of rules as the original embedded sequences).
 They are executed after the original rule calling them was executed,
@@ -93,7 +94,9 @@ so they can't get extended by \texttt{yield}s,
 as the containing rule is not available any more when they get executed.
 
 \begin{note}
-The embedded sequences are executed after the top-level rule which contains them in a nested pattern or in a used  subpattern was executed; they are \emph{not} executed during subpattern rewriting. They allow you to put work you can't do while executing the rule proper (e.g. because an element was already matched and is now locked due to the isomorphy constraint) to a waiting queue which gets processed afterwards --- with access to the elements of the rule and contained parts which are available when the rule gets executed. Or to just split the work into several parts, reusing already available functionality, see \ref{sub:mergesplit} for a discussion on this topic.
+The embedded sequences are executed after the top-level rule which contains them (in a nested pattern or in a used subpattern) was executed; they are \emph{not} executed during subpattern rewriting.
+They allow you to put work you can't do while executing the rule proper (e.g. because an element was already matched and is now locked due to the isomorphy constraint) to a waiting queue which gets processed afterwards --- with access to the elements of the rule and contained parts which are available when the rule gets executed.
+Or to just split the work into several parts, reusing already available functionality, see \ref{sub:mergesplit} for a discussion on this topic.
 \end{note}
 
 \begin{note}
@@ -168,15 +171,16 @@ The visited flags on the other hand are extremely memory efficient (for free as 
 \end{note}
 
 %-----------------------------------------------------------------------------------------------
-\subsection{Storage and visited flag handling in the sequences}\label{sec:storages}
+\subsection{Storage handling in the sequences}\label{sec:storages}
 
 Storages are variables of set or map or array type (cf. \ref{sec:builtintypes}) storing nodes or edges.
-Primarily used in the sequences, from where they are handed in to the rules via parameters;
-but additionally set/map/array member attributes may be used as storages,
-esp. for doing data flow analyses, cf. \ref{subsub:flow}.
+They are primarily used in the sequences, from where they are handed in to the rules via parameters
+(but additionally set/map/array attributes in graph elements may be used as storages,
+esp. for doing data flow analyses, cf. \ref{subsub:flow}).
 They allow to decouple processing phases: the first run collects all graph elements relevant for the second run which consists of a sequence executed for each graph element in the set.
-A difference of storage sets and maps to the sets and maps in the rewrite rules is that they only offer imperative addition and removal instead of union, intersection, difference and construction.
+A difference of storage sets and maps in the sequences to the sets and maps in the rewrite rules is that they only offer imperative addition and removal instead of union, intersection, difference and construction.
 The splitting of transformations into passes mediated by set/map/array valued global variables allows for subgraph copying without model pollution, cf. \ref{subsub:copystructure}; please have a look at \ref{sub:mergesplit} and \ref{sub:copyflow} regarding a discussion on when to use which transformation combinators and for storage examples.
+The following syntax diagrams give extensions to the syntax diagrams of the Rule Application Control Language chapter \ref{cha:xgrs}.
 
 \begin{rail}
   VariableHandling: 
@@ -253,12 +257,14 @@ The second line declares a variable \texttt{y} of type \texttt{map<Node,Edge>} a
 \noindent There are further operations which are only available in variable assignments:
 
 \begin{description}
-\item[Size assignment:] \texttt{v=sma.size()} writes the number of entries in the set or map or array \texttt{sma} to the variable \texttt{v}, succeeds always.
-\item[Emptyness assignment:] \texttt{v=sma.empty()} writes to the variable \texttt{v} whether the set or map or array \texttt{sma} is empty, succeeds always.
+\item[Size assignment:] \texttt{v=w.size()} writes the number of entries in the set or map or array \texttt{w} to the variable \texttt{v},\\succeeds always.
+\item[Emptyness assignment:] \texttt{v=w.empty()} writes to the variable \texttt{v} whether the set or map or array \texttt{w} is empty, succeeds always.
 \item[Map lookup assignement:] \texttt{v=m[k]} assigns the result of the map lookup to the variable \texttt{v},\\succeeds iff \texttt{k} was contained in \texttt{m},\\ fails otherwise, not touching the variable \texttt{v}.
 \item[Array lookup assignement:] \texttt{v=a[i]} assigns the result of the array access to the variable \texttt{v},\\succeeds iff \texttt{i} is a valid index into \texttt{a},\\ fails otherwise, not touching the variable \texttt{v}.
 \item[Array indexed assignement:] \texttt{a[i]=v} assigns the variable \texttt{v} to the array \texttt{a} at the index \texttt{i}, overwriting the old value,\\succeeds iff \texttt{i} is a valid index into \texttt{a},\\ fails otherwise.
 \end{description}
+
+\noindent Handling of the storages is completed by the rewrite factors for membership query and storage iteration.
 
 \begin{rail}
   RewriteFactor:
@@ -269,9 +275,7 @@ The second line declares a variable \texttt{y} of type \texttt{map<Node,Edge>} a
     ;
 \end{rail}\ixkeyw{in}\ixkeyw{for}\ixnterm{RewriteFactor}
 
-\noindent Handling of the storages is completed by the rewrite factors for membership query and storage iteration.
-
-The binary operator \texttt{el in sma} checks for set/map/array membership; it returns true if \texttt{el} is contained in the set or the domain of the map or the array, otherwise false.
+The binary operator \texttt{v in w} checks for set/map/array membership; it returns true if \texttt{v} is contained in the set or the domain of the map or the array \texttt{w}, otherwise false.
 The \texttt{for} command iterates over all elements in the set or array or all key-value pairs in the map or array and executes for each element / key-value pair the nested graph rewrite sequence; it completes successfully iff all sequences were executed successfully (an empty set/map/array causes immediate successful completion); the key in the key-value pair iteration of an array is the integer typed index.
 
 \begin{example}
@@ -281,7 +285,7 @@ Then another rule is executed iteratedly for every member of the set doing the m
 If the graph should stay untouched during set filling you may need \texttt{visited} flags to prevent endless looping.
 \verb#x=set<Node>{} ;> ( (v)=t() && x.add(v) )+ && for{v in x; r(v)} <; x.clear()#
 Handing in the storage to the rule, and using the set \texttt{add} method as introduced down below in \ref{sct:imperative} within the rule to fill the storage, allows to shorten the sequence to:\\
-\verb#x=set<Node>{} ;> ( t(x) )+ && for{v in x; r(v)} <; x.clear()#
+\verb#x=set<Node>{} ;> ( t(x) )+ && for{v in x; r(v)} <; x.clear()#\\
 The for loop could be replaced by employing the storage access in the rule construct, cf. \ref{sub:storageaccess}; this would be especially benefitial if the rule \texttt{r} inside the for loop would have to change the storage \texttt{x}, which would corrupt the iteration/enumeration variable.
 \end{example}
 
@@ -289,42 +293,11 @@ The for loop could be replaced by employing the storage access in the rule const
 The set/map/array over which the for loop iterates must stay untouched during iteration.
 \end{note}
 
-%+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
-\vspace{5mm}
-\hrule
-\vspace{5mm}
-
-\begin{rail}
-  VisitedFlagsManagement:
-    Variable (':' Type)? '=' \\('valloc' '(' ')' | GraphElement '.' 'visited' '[' Variable ']') |
-    'vfree' '(' Variable ')' |
-    GraphElement '.' 'visited' '[' Variable ']' '=' (Variable|BoolLit) |
-    GraphElement '.' 'visited' '[' Variable ']' |
-    'vreset' '(' Variable ')'
-\end{rail}\ixnterm{VisitedFlagsManagement}\ixkeyw{valloc}\ixkeyw{vfree}\ixkeyw{visited}\ixkeyw{vreset}
-The visited flags are stored in some excess bits of the graph elements, if this pool is exceeded they are stored in additional dictionaries, one per visited flag requested.
-Due to this flags must get allocated/deallocated, and all flag related operations require an integer number -- the flag id -- specifying the flag to operate on (with exception of the allocation operation returning this flag id).
-The operations always return true as sequence results (with exception of the operation reading the flag, it fails iff the visited flag is not set for the graph element);
-if you try to access a not previously allocated visited flag, an exception is thrown.
-The operations managing the visited flags are:
-\begin{description}
-\item[Flag allocation:] By \texttt{valloc}\label{allocvisitflag} -- allocates space for a visited flag in the elements of the graph and returns the id of the visited flag (integer number), starting at 0.
-Afterwards, the visited flag of the id can be read and written within the rules by the \texttt{visited}-expression and the \texttt{visited}-assignment,
-as well as by the \texttt{visited} flag reading and writing rewrite factors.
-The first visited flags are stored in some excess bits of the graph elements and are thus essentially for free,
-but if this implementation defined space is used up completely, the information is stored in graph element external dictionaries.
-\item[Flag deallocation:] By \texttt{vfree} -- frees the space previously allocated for the visited flag; afterwards you must not access it anymore. 
-The value stored in the variable must be of integer type, stemming from a previous allocation.
-\item[Flag writing:] By \texttt{e.visited[f] = b} -- sets the visited status of the flag given by the flag id variable \texttt{f} of the graph element \texttt{e} to the given boolean value \texttt{b}; visited flags are normally written by rules of the rule language.
-\item[Flag reading:] By \texttt{e.visited[f]} -- returns the visited status of the flag given by the flag id variable \texttt{f} of the graph element \texttt{e}; visited flags are normally read by tests and rules of the rule language.
-\item[Flag resetting:] By \texttt{vreset} -- resets the visitor flag given by the flag id variable in all graph elements.
-\end{description}
-
 
 %-----------------------------------------------------------------------------------------------
-\subsection{Storage and visited flag access in the rules} \label{sub:storageaccess}\indexmain{storage access}
+\subsection{Storage access in the rules} \label{sub:storageaccess}\indexmain{storage access}
 
-Storages can be used in the rule control language as introduced above \ref{sec:storages}, they can get filled or emptied in the rules as defined here \ref{replstmt}, a discussion about their usage and examples are given here \ref{sub:mergesplit} and here \ref{sub:copyflow}.
+Storages can be used in the rule application control language as introduced above \ref{sec:storages}, they can get filled or emptied in the rules as defined here \ref{replstmt}, a discussion about their usage and examples are given here \ref{sub:mergesplit} and here \ref{sub:copyflow}.
 In the pattern part you may ask for an element to get bound to an element from a storage or a storage attribute;
 this is syntactically specified by giving the storage enclosed in left and right braces.
 You may ask for an element to get bound to the value element queried from a storagemap by a key graph element;
@@ -332,8 +305,10 @@ this is syntactically specified by giving the storagemap indexed by the key grap
 (this is not possible for storage map attributes due to internal limitations with the search planning).
 If the type of the element retrieved from the storage is not compatible to the type of the pattern element specified,
 or if the storage is empty, or if the key element is not contained in the storagemap, matching fails.
-The advantage of this storage querying inside the rule over handing in a value from a for loop iterating the storage values  outside the rule are: \emph{i)} a more concise syntax, \emph{ii)} the ability to access a storage attribute of an element just matched or to access a storage map with an element just matched in the same rule, which would require to break up the rule in two rules in the other case, and \emph{iv)}, a restriction of the iteration to the matching phase, so that at rewriting one can happily manipulaivte the storage without destroying the iterator/enumerator used in the loop which would be the case when using an outside loop.
 
+The advantage of this storage querying inside the rule over handing in a value from a for loop iterating the storage values outside the rule are: i) a more concise syntax, ii) the ability to access a storage attribute of an element just matched or to access a storage map with an element just matched in the same rule, which would require to break up the rule in two rules in the other case, and iii), a restriction of the iteration to the matching phase, so that at rewriting one can happily manipulaivte the storage without destroying the iterator/enumerator used in the loop which would be the case when using an outside loop.
+
+The following syntax diagram gives an extensions to the syntax diagrams of the Rule Set Language chapter \ref{chaprulelang}, pattern part:
 \begin{rail}
   StorageAccess:
     lbrace StorageVariable rbrace |
@@ -368,7 +343,8 @@ test neighbourneighbour(ref neighbours:map<City, City>) : City
 These were the storage queries available in the pattern part; 
 additionally you can query the storage sets and maps and arrays in the \texttt{if} attribute evaluation clause,
 with the set/map/array expressions as given in the Types and Expressions chapter \ref{cha:typeexpr}.
-Furthermore you can add and remove elements from the storages (or normal sets/maps/arrays) in the \texttt{eval} clause of the rewrite part:
+
+Furthermore you can add and remove elements from the storages (or normal sets/maps/arrays) in the \texttt{eval} clause of the rewrite part, the following syntax diagrams give extensions to the \texttt{eval} clause:
 
 \begin{rail}    
   CompoundAssignment:
@@ -445,13 +421,45 @@ rule foo(ref storage:set<Node>)
 	\end{grgen}
 \end{example}
 
-%+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
-\vspace{5mm}
-\hrule
-\vspace{5mm}
+
+%-----------------------------------------------------------------------------------------------
+\subsection{Visited flag handling in the sequences}\label{sec:visited}
+
+Visited flags are flags available for/in each graph element which can be set, reset, and queried in the rules and in the sequences and must be allocated and deallocated in the sequences; they allow to mark already visited elements during a run over the graph. The following syntax diagram gives an extensions to the syntax diagrams of the Rule Application Control Language chapter \ref{cha:xgrs}.
+
+\begin{rail}
+  VisitedFlagsManagement:
+    Variable (':' Type)? '=' \\('valloc' '(' ')' | GraphElement '.' 'visited' '[' Variable ']') |
+    'vfree' '(' Variable ')' |
+    GraphElement '.' 'visited' '[' Variable ']' '=' (Variable|BoolLit) |
+    GraphElement '.' 'visited' '[' Variable ']' |
+    'vreset' '(' Variable ')'
+\end{rail}\ixnterm{VisitedFlagsManagement}\ixkeyw{valloc}\ixkeyw{vfree}\ixkeyw{visited}\ixkeyw{vreset}
+The visited flags are stored in some excess bits of the graph elements, if this pool is exceeded they are stored in additional dictionaries, one per visited flag requested.
+Due to this flags must get allocated/deallocated, and all flag related operations require an integer number -- the flag id -- specifying the flag to operate on (with exception of the allocation operation returning this flag id).
+The operations always return true as sequence results (with exception of the operation reading the flag, it fails iff the visited flag is not set for the graph element);
+if you try to access a not previously allocated visited flag, an exception is thrown.
+The operations managing the visited flags are:
+\begin{description}
+\item[Flag allocation:] By \texttt{valloc}\label{allocvisitflag} -- allocates space for a visited flag in the elements of the graph and returns the id of the visited flag (integer number), starting at 0.
+Afterwards, the visited flag of the id can be read and written within the rules by the \texttt{visited}-expression and the \texttt{visited}-assignment,
+as well as by the \texttt{visited} flag reading and writing rewrite factors.
+The first visited flags are stored in some excess bits of the graph elements and are thus essentially for free,
+but if this implementation defined space is used up completely, the information is stored in graph element external dictionaries.
+\item[Flag deallocation:] By \texttt{vfree} -- frees the space previously allocated for the visited flag; afterwards you must not access it anymore. 
+The value stored in the variable must be of integer type, stemming from a previous allocation.
+\item[Flag writing:] By \texttt{e.visited[f] = b} -- sets the visited status of the flag given by the flag id variable \texttt{f} of the graph element \texttt{e} to the given boolean value \texttt{b}; visited flags are normally written by rules of the rule language.
+\item[Flag reading:] By \texttt{e.visited[f]} -- returns the visited status of the flag given by the flag id variable \texttt{f} of the graph element \texttt{e}; visited flags are normally read by tests and rules of the rule language.
+\item[Flag resetting:] By \texttt{vreset} -- resets the visitor flag given by the flag id variable in all graph elements.
+\end{description}
+
+
+%-----------------------------------------------------------------------------------------------
+\subsection{Visited flag access in the rules} \label{sub:visitedaccess}\indexmain{visited access}
 
 The visited flag queries available in the \texttt{if} attribute evaluation clause of the pattern part are given in the Types and Expressions chapter \ref{cha:typeexpr}.
-Additionally you can set them in the \texttt{eval} clause of the rewrite part.
+
+Additionally you can set them in the \texttt{eval} clause of the rewrite part, the following syntax diagram gives an extensions to the \texttt{eval} clause:
 
 \begin{rail}    
   VisitedAssignment:
@@ -715,7 +723,7 @@ rule cliqueTerminal
 
 The examples can be found in the \texttt{tests/nodeReplacementGrammar} directory.
 
-\section{Subgraph copying and Reachability via Data Flow Analysis}\label{sub:copyflow}
+\section{Subgraph Copying and Data Flow Analysis for Reachability}\label{sub:copyflow}
 
 \subsubsection*{Copy structures}\label{subsub:copystructure}\indexmain{subgraph copying}\indexmainsee{copy structure}{subgraph copying}
 Structures are copied in two passes, the first copying and collecting all nodes of interest, the second copying all edges of interest in between the nodes.

@@ -34,9 +34,10 @@ These tasks are traditionally handled by pointer structures and pointer structur
 You specify your transformation task on a higher level of nodes connected by edges, and rewrite rules of patterns to be searched plus modifications to be carried out,
 and then let \GrG\ generate the algorithmic core of your application.
 
-There is nothing to gain from \GrG\ if scalars and lists are sufficient to \emph{adequately} model your domain 
-(which is the case for a lot of tasks in computing indeed; 
-but which is not the case for others which would be better modeled with trees and graphs, but aren't because of the cost of maintaining pointer structures by hand).
+There is nothing to gain from \GrG\ if scalars and lists are sufficient to model your domain, 
+which is the case for a lot of tasks in computing indeed; 
+but which is not the case for others which would be better modeled with trees and especially graphs, 
+but aren't because of the cost of maintaining pointer structures by hand.
 The graph rewrite generator is not the right tool for you if you're searching for a visual environment to teach children programming -- it's a tool for software engineers.
 Neither is it what you need if your graph structured data is to be interactively edited by an end user instead of being automatically transformed by rules (the editor generator DiaGen\cite{diagen} may be of interest in this case).
 
@@ -57,7 +58,7 @@ We have organized the presentation of the features of the \GrG\ languages accord
     \item Typed nodes and edges, with multiple inheritance on types
     \item Directed multigraphs (including multiple edges of the same type)
     \item Undirected and arbitrarily directed edges
-    \item Node and edge types can be equipped with typed attributes (like structs) including powerful set and map types
+    \item Node and edge types can be equipped with typed attributes (like structs) including generic set, map, and array types
     \item Connection assertions to restrict the ``shape'' of graphs
     \item Turing complete language for checking complex conditions
   \end{itemize}
@@ -65,12 +66,12 @@ We have organized the presentation of the features of the \GrG\ languages accord
   \item The pattern language supports:
   \begin{itemize}
     \item Plain isomorphic subgraph matching (injective mapping)
-    \item Homomorphic matching for a selectable set of nodes / edges, so that the matching is not injective
+    \item Homomorphic matching for a selectable set of pattern element, so that they may match (non-injectively) the same graph element 
     \item Attribute conditions (e.g. arithmetic-,boolean-,string- or set-expressions on the attributes)
     \item Type conditions (including powerful instanceof-like type expressions)
     \item Nested patterns, specifying negative and positive application conditions as well as iterated, optional, or alternative structures
     \item Subpatterns for pattern reuse, allowing via recursion to match substructures of arbitraty depth (e.g. iterated paths) and breadth (e.g multinodes)
-    \item Parameter passing to rules
+    \item Parameter passing to rules and subpatterns
   \end{itemize}
   
   \item The rewrite language supports:
@@ -82,11 +83,11 @@ We have organized the presentation of the features of the \GrG\ languages accord
     \item Creation of new nodes/edges of only dynamically known types or as exact copies of other nodes/edges
 	\pagebreak
     \item Two modes of specification: A rule can either express changes to be made to the match or replace the whole match
-    \item A rewrite part for the nested patterns and subpatterns, so that complex structures can not only get matched, but also get rewritten
+    \item A rewrite part for the nested patterns and subpatterns, so that complex structures can not only get matched (parsed), but also get rewritten (transduced)
     \item Embedded graph rewrite sequences capable of calling other rules (with access to the nodes/edges of the rule)
     \item Emitting user-defined text to \texttt{stdout} or files during the rewrite steps
 	\item Visited flags and storages to communicate between rule applications using state
-    \item Parameter passing out of rules
+    \item Parameter passing out of rules and subpatterns
   \end{itemize}
   
   \item The rule application control language (grs: graph rewrite sequences) supports:
