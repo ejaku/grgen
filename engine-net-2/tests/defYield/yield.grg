@@ -31,6 +31,10 @@ pattern Chain(begin:Node) modify(def end:Node)
 			}
 		}
 		done {
+			negative {
+				begin --> ;
+			}
+			
 			modify {
 				eval {
 					yield end = begin;

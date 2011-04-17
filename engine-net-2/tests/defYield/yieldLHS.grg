@@ -16,6 +16,9 @@ pattern Chain(begin:Node, def end:Node)
 			c:Chain(next, yield end);
 		}
 		done {
+			negative {
+				begin --> ;
+			}
 			yield {
 				yield end = begin;
 			}
