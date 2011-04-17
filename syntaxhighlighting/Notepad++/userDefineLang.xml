@@ -11,9 +11,9 @@
             <Keywords name="Folder-">}</Keywords>
             <Keywords name="Operators">- ! $ % &amp; ( ) * , . : ; \ { | } ~ + &lt; = &gt;</Keywords>
             <Keywords name="Comment">1/* 2*/ 0//</Keywords>
-            <Keywords name="Words1">#include abstract actions alternative arbitrary class copy connect const def delete directed edge emit emithere enum eval evalhere exact exec extends for hom if in independent induced iterated model modify multiple nameof negative node optional pattern patternpath replace return rule sequence test typeof undirected using valloc vfree visited vreset yield</Keywords>
-            <Keywords name="Words2">false null true boolean int float double object string set map</Keywords>
-            <Keywords name="Words3">add clear dangling domain dpo empty identification indexOf lastIndexOf length max min peek pow range ref rem size substring var</Keywords>
+            <Keywords name="Words1">#include abstract actions alternative arbitrary class copy connect const def delete directed edge emit emithere enum eval evalhere exact exec extends for hom if in independent induced iterated model modify multiple nameof negative node optional pattern patternpath replace record return rule sequence test typeof undirected using valloc vfree visited vreset yield</Keywords>
+            <Keywords name="Words2">false null true boolean int float double object string set map array</Keywords>
+            <Keywords name="Words3">add clear dangling domain dpo empty identification incoming indexOf lastIndexOf length max min outgoing peek pow range ref rem size substring subarray var</Keywords>
             <Keywords name="Words4"></Keywords>
         </KeywordLists>
         <Styles>
