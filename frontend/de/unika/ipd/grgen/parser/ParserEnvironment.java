@@ -336,6 +336,7 @@ public abstract class ParserEnvironment extends Base {
 		keywords.add("actions");
 		keywords.add("alternative");
 		keywords.add("arbitrary");
+		keywords.add("array");
 		keywords.add("class");
 		keywords.add("copy");
 		keywords.add("connect");
@@ -348,6 +349,7 @@ public abstract class ParserEnvironment extends Base {
 		keywords.add("emithere");
 		keywords.add("enum");
 		keywords.add("eval");
+		keywords.add("evalhere");
 		keywords.add("exact");
 		keywords.add("exec");
 		keywords.add("extends");
@@ -375,6 +377,7 @@ public abstract class ParserEnvironment extends Base {
 		keywords.add("replace");
 		keywords.add("return");
 		keywords.add("rule");
+		keywords.add("sequence");
 		keywords.add("set");
 		keywords.add("test");
 		keywords.add("true");
