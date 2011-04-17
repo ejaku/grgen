@@ -48,7 +48,7 @@ public class GRParserEnvironment extends ParserEnvironment {
 	}
 
     public void pushFile(Lexer lexer, File file) throws RecognitionException {
-		if(baseDir != null)
+		if(baseDir != null && !file.isAbsolute())
 			file = new File(baseDir, file.getPath());
 
 		String filePath = file.getPath();
