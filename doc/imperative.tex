@@ -54,8 +54,7 @@ rule AddRedundancy
 \begin{example}
 This is an example for returning elements yielded from an \texttt{exec} statement.
 The results of the rule \texttt{bar} are written to the variables \texttt{a} and \texttt{b};
-The \texttt{yield} statement is similar to a return but does not jump out. 
-The anonymous output variables written in the yield statement are assigned in the given order to the pattern variables specified after the assign to operator \verb#->#.
+The \texttt{yield} is a prefix to an assignment showing that the target is from the outside. 
 
 	\begin{grgen}
 rule foo : (A,B)

@@ -588,11 +588,21 @@ In addition it offers the rewrite sequence parser which gets generated out of \t
 building the rewrite sequence AST from the classes in \texttt{Sequence.cs} further utilizing \texttt{SymbolTable.cs}.
 The rewrite sequence classes contain a method \texttt{ApplyImpl(IGraph graph)} which executes them.
 Finally the libGr offers several importers and exporters in the \texttt{src/libGr/IO} and \texttt{src/libGr/GRSImporter} subfolders.
-Graph events recording is implemented in \texttt{Recorder.cs}, graph transaction handling is implemented in \texttt{lgspTransactionManager.cs}, with a list of items which know how to undo the effect on the graph which created them.
+
+When GrGen rules are matched in the graph and when the graph is changed by rule rewriting then events are fired.
+They allow to to display the matches and changes to the user in the debugger,
+to record changes to a file for later playback, or record changes to a transaction undo log for later rollback, 
+or to execute user code if event handlers are registered to them,
+allowing users to build an event based graph rewriting mechanism on API level.
+The graph delegates fired are given in \texttt{IGraph.cs}.
+Graph events recording is implemented in \texttt{Recorder.cs} (replaying is normal \texttt{.grs} execution);
+graph transaction handling is implemented in \texttt{lgspTransactionManager.cs}, with a list of undo items which know how to undo the effect on the graph which created them, which are purged on commit or executed on rollback.
+Backtracking is implemented with nested transactions.
+If you are changing the graph programmatically not using GrGen rules you have to fire the events on your own in case you want to use any of the mechanisms (graphical debugging, record and replay, transactions and backtracking, event based programming) above.
 
 The \texttt{src/GrShell} subdirectory contains the GrShell application, which builds upon the generic interface (as it must be capable of coping with arbitrary used defined models and actions at runtime) and the sequence interpretation facilities offered by the libGr.
 The command line parser of GrShell gets generated out of \texttt{GrShell.csc}, the shell implementation is given in \texttt{GrShellImpl.cs}.
-Graphical debugging is offered by the \texttt{Debugger.cs} together with the \texttt{YCompClient.cs}, which implements the protocol available for controling yComp.
+Graphical debugging is offered by the \texttt{Debugger.cs} together with the \texttt{YCompClient.cs}, which implements the protocol available for controling yComp, communicating with yComp over a tcp connection to localhost.
 
 The \texttt{examples} subdirectory of \texttt{engine-net-2} contains a bunch of examples for using \GrG~with GrShell.
 The \texttt{examples-api} subdirectory contains several examples of how to use \GrG~from the API.
