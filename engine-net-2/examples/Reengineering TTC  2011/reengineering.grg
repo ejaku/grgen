@@ -1,3 +1,14 @@
 using primitive_types__ecore, java__ecore, StateMachine__ecore;
 
-
+rule extendsState
+{
+	c:classifiers_Class -:classifiers_Class_extends-> r:types_NamespaceClassifierReference;
+	r -:types_NamespaceClassifierReference_classifierReferences-> cr:types_ClassifierReference;
+	cr -:types_ClassifierReference_target-> pc:classifiers_Class;
+	
+	if { pc._name == "State"; }
+	
+	modify {
+		emit("class matched:" + c._name + "\n");
+	}
+}

@@ -4,12 +4,33 @@ debug set layout Hierarchic
 dump add node containers_CompilationUnit group by hidden outgoing containers_CompilationUnit_classifiers
 dump add node containers_CompilationUnit group by hidden outgoing imports_ImportingElement_imports
 dump add node classifiers_Classifier group by hidden outgoing members_MemberContainer_members
+dump add node classifiers_Class group by outgoing classifiers_Class_extends
+dump add node classifiers_Class group by outgoing classifiers_Class_defaultExtends
+dump add node classifiers_Class group by outgoing classifiers_Implementor_implements
+dump add node classifiers_Class group by outgoing modifiers_AnnotableAndModifiable_annotationsAndModifiers
+dump add node classifiers_Interface group by outgoing classifiers_Interface_extends
+dump add node classifiers_Interface group by outgoing classifiers_Interface_defaultExtends
+dump add node classifiers_Interface group by outgoing modifiers_AnnotableAndModifiable_annotationsAndModifiers
 dump add node classifiers_Enumeration group by hidden outgoing classifiers_Enumeration_constants
 dump add node classifiers_Enumeration group by hidden outgoing members_MemberContainer_defaultMembers
+dump add node classifiers_Enumeration group by outgoing modifiers_AnnotableAndModifiable_annotationsAndModifiers
+dump add node members_Field group by hidden outgoing types_TypedElement_typeReference
+dump add node members_Field group by hidden outgoing instantiations_Initializable_initialValue
+dump add node members_Field group by outgoing modifiers_AnnotableAndModifiable_annotationsAndModifiers
+dump add node parameters_OrdinaryParameter group by hidden outgoing types_TypedElement_typeReference
+dump add node parameters_OrdinaryParameter group by outgoing modifiers_AnnotableAndModifiable_annotationsAndModifiers
+dump add node parameters_VariableLengthParameter group by hidden outgoing types_TypedElement_typeReference
+dump add node parameters_VariableLengthParameter group by outgoing modifiers_AnnotableAndModifiable_annotationsAndModifiers
+dump add node instantiations_NewConstructorCall group by outgoing types_TypedElement_typeReference
 dump add node members_Method group by hidden outgoing parameters_Parametrizable_parameters
 dump add node members_Method group by hidden outgoing members_MemberContainer_members
+dump add node members_ClassMethod group by hidden outgoing types_TypedElement_typeReference
+dump add node members_ClassMethod group by hidden outgoing members_ExceptionThrower_exceptions
+dump add node members_ClassMethod group by outgoing modifiers_AnnotableAndModifiable_annotationsAndModifiers
+dump add node members_InterfaceMethod group by outgoing modifiers_AnnotableAndModifiable_annotationsAndModifiers
 dump add node members_Constructor group by hidden outgoing parameters_Parametrizable_parameters
 dump add node members_Constructor group by hidden outgoing members_MemberContainer_members
+dump add node members_Constructor group by outgoing modifiers_AnnotableAndModifiable_annotationsAndModifiers
 dump add node statements_StatementContainer group by outgoing statements_StatementContainer_statement
 dump add node statements_StatementListContainer group by outgoing statements_StatementListContainer_statements
 dump add node statements_ExpressionStatement group by hidden outgoing statements_ExpressionStatement_expression
@@ -47,12 +68,9 @@ dump add node expressions_RelationExpression group by outgoing expressions_Relat
 dump add node expressions_UnaryExpression group by outgoing expressions_UnaryExpression_child
 dump add node expressions_UnaryExpression group by outgoing expressions_UnaryExpression_operators
 dump add node expressions_CastExpression group by outgoing expressions_CastExpression_child
+dump add node types_NamespaceClassifierReference group by outgoing types_NamespaceClassifierReference_classifierReferences
 
 # Hiding
-dump add node types_ClassifierReference exclude
-dump add node types_NamespaceClassifierReference exclude
-dump add node types_PrimitiveType exclude
-dump add node modifiers_Modifier exclude
 dump add node classifiers_Annotation exclude
 dump add node annotations_AnnotationAttribute exclude
 dump add node annotations_AnnotationInstance exclude
@@ -62,6 +80,7 @@ dump add node generics_QualifiedTypeArgument exclude
 
 # Appearance/color
 dump set node containers_CompilationUnit color lightgrey
+dump set node classifiers_Enumeration color orange
 dump set node members_Constructor color orchid
 dump set node parameters_OrdinaryParameter color orchid
 dump set node parameters_VariableLengthParameter color orchid
@@ -82,11 +101,22 @@ dump set node expressions_Expression color green
 dump set node operators_Operator color green
 dump set node literals_This color green
 dump set node arrays_ArraySelector color green
+dump set node types_NamespaceClassifierReference color darkyellow
+dump set node modifiers_Modifier color lightgrey
+
+dump set edge modifiers_AnnotableAndModifiable_annotationsAndModifiers color lightgrey
+dump set edge classifiers_Class_extends color red
+dump set edge classifiers_Implementor_implements color red
+dump set edge classifiers_Interface_extends color red
+dump set edge types_ClassifierReference_target color orange
+dump set edge types_TypedElement_typeReference color orange
+dump set edge references_ElementReference_target color grey
 
 # Appearance/infotags
 dump add node members_Method shortinfotag _name
 dump add node members_Constructor shortinfotag _name
 dump add node members_Field shortinfotag _name
 dump add node classifiers_Class shortinfotag _name
+dump add node classifiers_Enumeration shortinfotag _name
 dump add node containers_CompilationUnit shortinfotag _name
 
