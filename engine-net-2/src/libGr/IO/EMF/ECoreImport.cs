@@ -640,11 +640,48 @@ namespace de.unika.ipd.grGen.libGr
         private void ParseNodeSecondPass(XmlTextReader reader, XMLTree parentNode, String curTypeName)
         {
             if(noPackageNamePrefix) curTypeName = curTypeName.Substring(curTypeName.LastIndexOf(":"));
-            INode curNode = parentNode!=null ? parentNode.elementNode : null;
-            if(curNode == null) // happens on/if first node is xmi:XMI, and on nested attributes 
-                goto skip_attribute_handling;
 
-            // iterate attributes
+            if(curTypeName != "xmi:XMI") // happens on/if first node is xmi:XMI
+                HandleAttributes(reader, curTypeName, parentNode.elementNode);
+
+            int index = 0;
+            while(reader.Read())
+            {
+                if(reader.NodeType == XmlNodeType.EndElement) break;
+                if(reader.NodeType != XmlNodeType.Element) continue;
+
+                bool emptyElem = reader.IsEmptyElement;
+                String tagName = reader.Name;
+
+                XMLTree child = null;
+                if(parentNode != null)
+                {
+                    if(parentNode.children == null)
+                    {
+                        ++index;
+                        continue;
+                    }
+                    child = parentNode.children[index];
+                }
+
+                String typeName;
+                if(curTypeName == "xmi:XMI")
+                    typeName = tagName;
+                else if(reader.MoveToAttribute("xsi:type"))
+                    typeName = reader.Value;
+                else
+                    typeName = FindRefTypeName(curTypeName, tagName);
+
+                if(!emptyElem)
+                    ParseNodeSecondPass(reader, child, typeName);
+                else
+                    HandleAttributes(reader, typeName, child.elementNode); 
+                ++index;
+            }
+        }
+
+        private void HandleAttributes(XmlTextReader reader, String curTypeName, INode curNode)
+        {
             for(int attrIndex = 0; attrIndex < reader.AttributeCount; attrIndex++)
             {
                 reader.MoveToAttribute(attrIndex);
@@ -682,41 +719,10 @@ namespace de.unika.ipd.grGen.libGr
                 }
                 else
                 {
+                    if(name == "href") // skip href attributes
+                        continue;
                     AssignAttribute(curNode, name, reader.Value);
                 }
-            }
-
-skip_attribute_handling:
-            int index = 0;
-            while(reader.Read())
-            {
-                if(reader.NodeType == XmlNodeType.EndElement) break;
-                if(reader.NodeType != XmlNodeType.Element) continue;
-
-                bool emptyElem = reader.IsEmptyElement;
-                String tagName = reader.Name;
-                String typeName;
-                if(curTypeName == "xmi:XMI")
-                    typeName = tagName;
-                else if(reader.MoveToAttribute("xsi:type"))
-                    typeName = reader.Value;
-                else
-                    typeName = FindRefTypeName(curTypeName, tagName);
-
-                XMLTree child = null;
-                if(parentNode != null)
-                {
-                    if(parentNode.children == null)
-                    {
-                        ++index;
-                        continue;
-                    }
-                    child = parentNode.children[index];
-                }
-
-                if(!emptyElem)
-                    ParseNodeSecondPass(reader, child, typeName);
-                ++index;
             }
         }
 
@@ -749,7 +755,13 @@ skip_attribute_handling:
                 {
                     int val;
                     if(!Int32.TryParse(attrval, out val))
-                        throw new Exception("Attribute \"" + attrname + "\" must be an integer!");
+                    {
+                        Int64 largerVal; // we map BigInt to Int32 as of now, handle that gracefully, TODO: remove after type long was added to GrGen.NET
+                        if(!Int64.TryParse(attrval, out largerVal))
+                            throw new Exception("Attribute \"" + attrname + "\" must be an integer!");
+                        else
+                            val = 2147483647;
+                    }
                     value = val;
                     break;
                 }
