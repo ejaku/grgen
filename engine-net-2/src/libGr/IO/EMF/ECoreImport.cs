@@ -758,7 +758,8 @@ namespace de.unika.ipd.grGen.libGr
                     {
                         Int64 largerVal; // we map BigInt to Int32 as of now, handle that gracefully, TODO: remove after type long was added to GrGen.NET
                         if(!Int64.TryParse(attrval, out largerVal))
-                            throw new Exception("Attribute \"" + attrname + "\" must be an integer!");
+                            val = -2147483648; // might be DecimalValue, may be not representable with integers, but for TTC reengineering case we need to import it (although a java program for sure does not need it, gna)
+                            //throw new Exception("Attribute \"" + attrname + "\" must be an integer!");
                         else
                             val = 2147483647;
                     }
