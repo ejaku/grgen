@@ -1,0 +1,7 @@
+import primitive_types.ecore java.ecore StateMachine.ecore 1_small-model.xmi
+
+include layout.grsi
+
+show graph ycomp
+
+quit

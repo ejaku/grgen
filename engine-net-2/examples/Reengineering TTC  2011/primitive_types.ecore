@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="ASCII"?>
+<ecore:EPackage xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:ecore="http://www.eclipse.org/emf/2002/Ecore" name="primitivetypes" nsURI="http://www.emftext.org/language/primitivetypes" nsPrefix="primitivetypes">
+  <eClassifiers xsi:type="ecore:EClass" name="EStringElement" abstract="true">
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="value" lowerBound="1">
+      <eType xsi:type="ecore:EDataType" href="http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+    </eStructuralFeatures>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="EBooleanElement" abstract="true">
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="value" lowerBound="1">
+      <eType xsi:type="ecore:EDataType" href="http://www.eclipse.org/emf/2002/Ecore#//EBoolean"/>
+    </eStructuralFeatures>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="ECharElement" abstract="true">
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="value" lowerBound="1">
+      <eType xsi:type="ecore:EDataType" href="http://www.eclipse.org/emf/2002/Ecore#//EChar"/>
+    </eStructuralFeatures>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="EFloatElement" abstract="true">
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="value" lowerBound="1">
+      <eType xsi:type="ecore:EDataType" href="http://www.eclipse.org/emf/2002/Ecore#//EFloat"/>
+    </eStructuralFeatures>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="EDoubleElement" abstract="true">
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="value" lowerBound="1">
+      <eType xsi:type="ecore:EDataType" href="http://www.eclipse.org/emf/2002/Ecore#//EDouble"/>
+    </eStructuralFeatures>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="EIntElement" abstract="true">
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="value" lowerBound="1">
+      <eType xsi:type="ecore:EDataType" href="http://www.eclipse.org/emf/2002/Ecore#//EInt"/>
+    </eStructuralFeatures>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="EBigIntegerElement" abstract="true">
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="value" lowerBound="1">
+      <eType xsi:type="ecore:EDataType" href="http://www.eclipse.org/emf/2002/Ecore#//EBigInteger"/>
+    </eStructuralFeatures>
+  </eClassifiers>
+</ecore:EPackage>

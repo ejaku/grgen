@@ -1,0 +1,84 @@
+debug set layout Hierarchic
+
+# Nesting
+dump add node containers_CompilationUnit group by hidden outgoing containers_CompilationUnit_classifiers
+dump add node classifiers_Classifier group by hidden outgoing members_MemberContainer_members
+dump add node classifiers_Enumeration group by hidden outgoing classifiers_Enumeration_constants
+dump add node classifiers_Enumeration group by hidden outgoing members_MemberContainer_defaultMembers
+dump add node members_Method group by hidden outgoing parameters_Parametrizable_parameters
+dump add node members_Method group by hidden outgoing members_MemberContainer_members
+dump add node members_Constructor group by hidden outgoing parameters_Parametrizable_parameters
+dump add node members_Constructor group by hidden outgoing members_MemberContainer_members
+dump add node statements_StatementContainer group by outgoing statements_StatementContainer_statement
+dump add node statements_StatementListContainer group by outgoing statements_StatementListContainer_statements
+dump add node statements_ExpressionStatement group by hidden outgoing statements_ExpressionStatement_expression
+dump add node statements_Switch group by outgoing statements_Switch_cases
+dump add node statements_Switch group by outgoing statements_Switch_variable
+dump add node statements_Condition group by outgoing statements_Conditional_condition
+dump add node statements_NormalSwitchCase group by outgoing statements_Conditional_condition
+dump add node statements_TryBlock group by outgoing statements_TryBlock_catcheBlocks
+dump add node statements_CatchBlock group by outgoing statements_CatchBlock_parameter
+dump add node statements_SynchronizedBlock group by outgoing statements_SynchronizedBlock_lockProvider
+dump add node statements_Return group by hidden outgoing statements_Return_returnValue
+dump add node statements_Throw group by hidden outgoing statements_Throw_throwable
+dump add node references_MethodCall group by hidden outgoing references_Argumentable_arguments
+dump add node references_MethodCall group by outgoing references_Reference_next
+dump add node references_IdentifierReference group by outgoing references_Reference_next
+dump add node references_SelfReference group by outgoing references_SelfReference_self
+dump add node references_SelfReference group by outgoing references_Reference_next
+dump add node expressions_AssignmentExpression group by outgoing expressions_AssignmentExpression_child
+dump add node expressions_AssignmentExpression group by outgoing expressions_AssignmentExpression_value
+dump add node expressions_AssignmentExpression group by outgoing expressions_AssignmentExpression_assignmentOperator
+dump add node expressions_EqualityExpression group by outgoing expressions_EqualityExpression_children
+dump add node expressions_EqualityExpression group by outgoing expressions_EqualityExpression_equalityOperators
+dump add node expressions_AdditiveExpression group by outgoing expressions_AdditiveExpression_children
+dump add node expressions_AdditiveExpression group by outgoing expressions_AdditiveExpression_additiveOperators
+dump add node expressions_ConditionalExpression group by outgoing expressions_ConditionalExpression_child
+dump add node expressions_ConditionalExpression group by outgoing expressions_ConditionalExpression_expressionIf
+dump add node expressions_ConditionalExpression group by outgoing expressions_ConditionalExpression_expressionElse
+dump add node expressions_RelationExpression group by outgoing expressions_RelationExpression_children
+dump add node expressions_RelationExpression group by outgoing expressions_RelationExpression_relationOperators
+dump add node expressions_UnaryExpression group by outgoing expressions_UnaryExpression_child
+dump add node expressions_UnaryExpression group by outgoing expressions_UnaryExpression_operators
+
+# Hiding
+dump add node types_ClassifierReference exclude
+dump add node types_NamespaceClassifierReference exclude
+dump add node types_PrimitiveType exclude
+dump add node modifiers_Modifier exclude
+dump add node classifiers_Annotation exclude
+dump add node annotations_AnnotationAttribute exclude
+dump add node annotations_AnnotationInstance exclude
+dump add node annotations_AnnotationParameter exclude
+dump add node arrays_ArrayDimension exclude
+dump add node generics_QualifiedTypeArgument exclude
+
+# Appearance/color
+dump set node containers_CompilationUnit color lightgrey
+dump set node members_Constructor color orchid
+dump set node parameters_OrdinaryParameter color orchid
+dump set node parameters_VariableLengthParameter color orchid
+dump set node members_Method color pink
+dump set node members_Field color cyan
+dump set node statements_Switch color darkgreen
+dump set node statements_SwitchCase color darkgreen
+dump set node statements_Condition color darkgreen
+dump set node statements_Return color darkgreen
+dump set node statements_Throw color darkgreen
+dump set node statements_Break color darkgreen
+dump set node statements_Block color darkgreen
+dump set node statements_TryBlock color darkgreen
+dump set node statements_CatchBlock color darkgreen
+dump set node statements_SynchronizedBlock color darkgreen
+dump set node statements_ExpressionStatement color green
+dump set node expressions_Expression color green
+dump set node operators_Operator color green
+dump set node literals_This color green
+
+# Appearance/infotags
+dump add node members_Method shortinfotag _name
+dump add node members_Constructor shortinfotag _name
+dump add node members_Field shortinfotag _name
+dump add node classifiers_Class shortinfotag _name
+dump add node containers_CompilationUnit shortinfotag _name
+
