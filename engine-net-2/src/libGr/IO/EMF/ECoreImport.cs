@@ -589,6 +589,8 @@ namespace de.unika.ipd.grGen.libGr
                 String typeName = null;
                 if(reader.MoveToAttribute("xsi:type"))
                     typeName = reader.Value;
+                else if(reader.MoveToAttribute("xmi:type"))
+                    typeName = reader.Value;
                 else
                 {
                     typeName = FindRefTypeName(parentTypeName, tagName);
@@ -668,6 +670,8 @@ namespace de.unika.ipd.grGen.libGr
                 if(curTypeName == "xmi:XMI")
                     typeName = tagName;
                 else if(reader.MoveToAttribute("xsi:type"))
+                    typeName = reader.Value;
+                else if(reader.MoveToAttribute("xmi:type"))
                     typeName = reader.Value;
                 else
                     typeName = FindRefTypeName(curTypeName, tagName);

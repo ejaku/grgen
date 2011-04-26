@@ -2102,6 +2102,38 @@
             Imports a graph model from the ECore format.
             </summary>
         </member>
+        <member name="F:de.unika.ipd.grGen.libGr.ECoreImport.noPackageNamePrefix">
+            <summary>
+            no package name mangling into entities if true; requires names to be unique
+            </summary>
+        </member>
+        <member name="F:de.unika.ipd.grGen.libGr.ECoreImport.graph">
+            <summary>
+            the graph we build by importing
+            </summary>
+        </member>
+        <member name="F:de.unika.ipd.grGen.libGr.ECoreImport.typeMap">
+            <summary>
+            map of package prefixed type name to graph node type
+            </summary>
+        </member>
+        <member name="F:de.unika.ipd.grGen.libGr.ECoreImport.nodeMap">
+            <summary>
+            map of xmi:id to the graph node it denotes
+            might be empty for documents which don't use ids to reference elements but paths
+            </summary>
+        </member>
+        <member name="F:de.unika.ipd.grGen.libGr.ECoreImport.root">
+            <summary>
+            root of the xml tree hierarchy
+            needed to decode path references for documents not using xmi:id to reference elements
+            </summary>
+        </member>
+        <member name="F:de.unika.ipd.grGen.libGr.ECoreImport.enumToLiteralToValue">
+            <summary>
+            enum type definitions
+            </summary>
+        </member>
         <member name="M:de.unika.ipd.grGen.libGr.ECoreImport.Import(de.unika.ipd.grGen.libGr.IBackend,System.Collections.Generic.List{System.String},System.String,System.String,System.Boolean)">
             <summary>
             Creates a new graph from the given ECore metamodels.
