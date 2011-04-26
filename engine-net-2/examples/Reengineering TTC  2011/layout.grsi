@@ -120,3 +120,13 @@ dump add node classifiers_Class shortinfotag _name
 dump add node classifiers_Enumeration shortinfotag _name
 dump add node containers_CompilationUnit shortinfotag _name
 
+# Layout for state machine
+dump add node StateMachine group by hidden outgoing contains
+dump set node StateMachine color red
+dump set node State shape circle
+dump set node State color black
+dump set node State textcolor white
+dump add node State shortinfotag name
+dump set edge Transition color black
+dump set edge Transition color white
+dump set edge link color red

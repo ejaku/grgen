@@ -1,14 +1,98 @@
-using primitive_types__ecore, java__ecore, StateMachine__ecore;
+using primitive_types__ecore, java__ecore, StateMachine;
 
-rule extendsState
+rule createStates
 {
-	c:classifiers_Class -:classifiers_Class_extends-> r:types_NamespaceClassifierReference;
-	r -:types_NamespaceClassifierReference_classifierReferences-> cr:types_ClassifierReference;
-	cr -:types_ClassifierReference_target-> pc:classifiers_Class;
-	
-	if { pc._name == "State"; }
+	// find State class
+	stateClass:classifiers_Class;
+
+	if { stateClass._name == "State"; }	
+
+	stateClass -:modifiers_AnnotableAndModifiable_annotationsAndModifiers-> :modifiers_Abstract;
+		
+	// from it recursively find all directly or indirectly extending non-abstract classes
+	es:CreateStates(stateClass);
 	
 	modify {
-		emit("class matched:" + c._name + "\n");
+		sm:StateMachine; // create state machine where to insert the new states/transitions
+		es(sm); // add for each such found class a state to the state machine
+	}
+}
+
+pattern CreateStates(parentClass:classifiers_Class) modify(sm:StateMachine)
+{
+	iterated {
+		// find all classes directly extending the given parent class, match breadth by iterated
+		extendingClass:classifiers_Class -:classifiers_Class_extends-> r:types_NamespaceClassifierReference;
+		r -:types_NamespaceClassifierReference_classifierReferences-> cr:types_ClassifierReference;
+		cr -:types_ClassifierReference_target-> parentClass;
+		// do the same for all their children, match depth by recursive call
+		es:CreateStates(extendingClass);
+		
+		optional {
+			negative { // must be non-abstract
+				extendingClass -:modifiers_AnnotableAndModifiable_annotationsAndModifiers-> :modifiers_Abstract;
+			}
+			
+			modify {
+				sm -:contains-> s:State; // for every directly found class add a state to the state machine
+				s -:link-> extendingClass;
+				eval { s.name = extendingClass._name; }
+			}
+		}
+		
+		modify {
+			es(sm); // for every indirectly found class do the same
+		}
+	}
+	
+	modify { }
+}
+
+rule linkTransitions
+{
+	// find the class.Instance().activate() pattern
+	expressionStatement:statements_ExpressionStatement -:statements_ExpressionStatement_expression-> refTargetClass;
+	refTargetClass:references_IdentifierReference -:references_ElementReference_target-> targetClass:classifiers_Class;
+	refTargetClass -:references_Reference_next-> callInstance;
+	callInstance:references_MethodCall -:references_ElementReference_target-> instance:members_ClassMethod;
+	callInstance -:references_Reference_next-> callActivate;
+	callActivate:references_MethodCall -:references_ElementReference_target-> activate:members_ClassMethod;
+	if { instance._name=="Instance" && activate._name=="activate"; }
+
+	// get the target state from the target class; find the source state via recursive depth walking outwards
+	targetClass <-:link- targetState:State;
+	def sourceState:State;
+	:FindSourceState(expressionStatement, yield sourceState);
+	
+	modify {
+		sourceState -:Transition-> targetState;
+	}
+}
+
+pattern FindSourceState(containedEntity:Node, def sourceState:State)
+{
+	// move outwards from the contained entity till the class, return the State linked to the class
+	alternative {
+		StatementListContainer {
+			listContainer:statements_StatementListContainer -:statements_StatementListContainer_statements-> containedEntity;
+			:FindSourceState(listContainer, yield sourceState);
+		}
+		StatementContainer {
+			container:statements_StatementContainer -:statements_StatementContainer_statement-> containedEntity;
+			:FindSourceState(container, yield sourceState);
+		}
+		StatementSwitch {
+			switch:statements_Switch -:statements_Switch_cases-> containedEntity;
+			:FindSourceState(switch, yield sourceState);
+		}
+		StatementTry {
+			try:statements_TryBlock -:statements_TryBlock_catcheBlocks-> containedEntity;
+			:FindSourceState(try, yield sourceState);
+		}
+		Class { 
+			cc:classifiers_Class -:members_MemberContainer_members-> containedEntity;
+			ss:State -:link-> cc;
+			yield { yield sourceState = ss; }
+		}
 	}
 }

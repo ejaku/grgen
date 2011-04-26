@@ -1,0 +1,20 @@
+// we do support edges with attributes, so we don't need to follow the clumsy hack
+// of representing transition edges by transition nodes, as given by StateMachine.ecore
+// (although it might be interesting for linking the edges to their origins)
+
+node class StateMachine;
+
+edge class contains;
+
+node class State
+{
+	name:string;
+}
+
+edge class Transition
+{
+	action:string;
+	trigger:string;
+}
+
+edge class link; // not needed, links to the class it was created from

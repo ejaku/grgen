@@ -1,11 +1,15 @@
-#import primitive_types.ecore java.ecore StateMachine.ecore 1_small-model.xmi reengineering.grg
-import primitive_types.ecore java.ecore StateMachine.ecore 2_medium-model.xmi reengineering.grg
-#import primitive_types.ecore java.ecore StateMachine.ecore 3_big-model.xmi reengineering.grg
+# import the xmi input graph complying to the ecore models, making the rules in the grg file available
+# (the rules include the state machine model, given as .gm; we don't use the ecore state machine model cause we can do better (maybe for backlinks))
+import primitive_types.ecore java.ecore 1_small-model.xmi reengineering.grg
+#import primitive_types.ecore java.ecore 2_medium-model.xmi reengineering.grg
+#import primitive_types.ecore java.ecore 3_big-model.xmi reengineering.grg
 
 include layout.grsi
 
-xgrs [extendsState]
+xgrs [createStates]
 
-#show graph ycomp
+xgrs [linkTransitions]
+
+show graph ycomp
 
 quit
