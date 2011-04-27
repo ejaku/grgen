@@ -406,11 +406,22 @@ public abstract class CSharpBase {
 	}
 
 	public void genBinOpDefault(StringBuffer sb, Operator op, ExpressionGenerationState modifyGenerationState) {
-		sb.append("(");
-		genExpression(sb, op.getOperand(0), modifyGenerationState);
-		sb.append(" " + opSymbols[op.getOpCode()] + " ");
-		genExpression(sb, op.getOperand(1), modifyGenerationState);
-		sb.append(")");
+		if(op.getOpCode()==Operator.BIT_SHR)
+		{
+			sb.append("((int)(((uint)");
+			genExpression(sb, op.getOperand(0), modifyGenerationState);
+			sb.append(") " + opSymbols[op.getOpCode()] + " ");
+			genExpression(sb, op.getOperand(1), modifyGenerationState);
+			sb.append("))");
+		}
+		else
+		{
+			sb.append("(");
+			genExpression(sb, op.getOperand(0), modifyGenerationState);
+			sb.append(" " + opSymbols[op.getOpCode()] + " ");
+			genExpression(sb, op.getOperand(1), modifyGenerationState);
+			sb.append(")");
+		}
 	}
 
 	public strictfp void genExpression(StringBuffer sb, Expression expr,
@@ -1149,10 +1160,7 @@ public abstract class CSharpBase {
 	///////////////////////
 
 	/* binary operator symbols of the C-language */
-	// ATTENTION: the first two shift operations are signed shifts,
-	// 		the second right shift is unsigned. This Backend simply gens
-	//		C-bitwise-shift-operations on signed integers, for simplicity ;-)
-	// TODO: Check whether this is correct...
+	// The first two shift operations are signed shifts, the second right shift is unsigned. 
 	private String[] opSymbols = {
 		null, "||", "&&", "|", "^", "&",
 			"==", "!=", "<", "<=", ">", ">=", "<<", ">>", ">>", "+",

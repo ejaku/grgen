@@ -79,8 +79,8 @@ namespace de.unika.ipd.grGen.expression
 
         public abstract String GetInfixOperator();
 
-        Expression Left;
-        Expression Right;
+        protected Expression Left;
+        protected Expression Right;
     }
 
     /// <summary>
@@ -515,12 +515,20 @@ namespace de.unika.ipd.grGen.expression
     }
 
     /// <summary>
-    /// Class representing a logical shift right expression.
-    /// TODO: Currently same as shift right expression.
+    /// Class representing a bit shift right expression, i.e. 0-extending, not sign-extending.
     /// </summary>
     public class BIT_SHR : BinInfixOperator
     {
         public BIT_SHR(Expression left, Expression right) : base(left, right) { }
+
+        public override void Emit(SourceBuilder sourceCode)
+        {
+            sourceCode.Append("((int)(((uint)");
+            Left.Emit(sourceCode);
+            sourceCode.Append(")" + GetInfixOperator());
+            Right.Emit(sourceCode);
+            sourceCode.Append("))");
+        }
 
         public override string GetInfixOperator()
         {
