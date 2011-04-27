@@ -1,15 +1,31 @@
 # import the xmi input graph complying to the ecore models, making the rules in the grg file available
-# (the rules include the state machine model, given as .gm; we don't use the ecore state machine model cause we can do better (maybe for backlinks))
-import primitive_types.ecore java.ecore 1_small-model.xmi reengineering.grg
-#import primitive_types.ecore java.ecore 2_medium-model.xmi reengineering.grg
-#import primitive_types.ecore java.ecore 3_big-model.xmi reengineering.grg
+import primitive_types.ecore java.ecore StateMachine.ecore 1_small-model.xmi reengineering.grg
+#import primitive_types.ecore java.ecore StateMachine.ecore 2_medium-model.xmi reengineering.grg
+#import primitive_types.ecore java.ecore StateMachine.ecore 3_big-model.xmi reengineering.grg
 
+# include configuration for layout
 include layout.grsi
 
+# execute state machine creation (basic task) and transition attribute assignments (extemsion tasks)
 xgrs [createStates]
+xgrs [createTransitions]
+xgrs [addTriggerNonRunMethodName] ;> [addTriggerSwitchCaseEnumValueName] ;> [addTriggerCatchBlockExceptionClassName] ;> [addTriggerOtherwise]
+xgrs [addActionSend] ;> [addActionOtherwise]
 
-xgrs [linkTransitions]
-
+# show the graph with the state machine (plus the backlinks) added
 show graph ycomp
 
-quit
+# reduce "src <-:src- :statemachine_Transition -:tgt-> tgt" to "src -:Transition-> tgt"
+xgrs [beautify]
+
+# include configuration for layout of state machine only, hiding rest of program
+include layoutStateMachineOnly.grsi
+
+# watch the state machine
+debug enable
+
+# use this if you only want to display the state machine without starting debug mode (layout a bit worse)
+#show graph ycomp
+
+# uncomment in case you want the script to exit automatically
+#quit

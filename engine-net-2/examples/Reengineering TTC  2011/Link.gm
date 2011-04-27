@@ -1,0 +1,8 @@
+edge class link; // links the State to the class it was created from,
+                 // and the Transition to the elements on the path from the instance activation to the enclosing method
+
+edge class Transition // for the final result with Transition nodes and their in/out edges reduced to Transition edges
+{
+	action:string;
+	trigger:string;
+}

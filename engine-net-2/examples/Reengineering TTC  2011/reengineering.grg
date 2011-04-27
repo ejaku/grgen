@@ -1,4 +1,4 @@
-using primitive_types__ecore, java__ecore, StateMachine;
+using primitive_types__ecore, java__ecore, StateMachine__ecore, Link;
 
 rule createStates
 {
@@ -13,12 +13,12 @@ rule createStates
 	es:CreateStates(stateClass);
 	
 	modify {
-		sm:StateMachine; // create state machine where to insert the new states/transitions
+		sm:statemachine_StateMachine; // create state machine where to insert the new states/transitions
 		es(sm); // add for each such found class a state to the state machine
 	}
 }
 
-pattern CreateStates(parentClass:classifiers_Class) modify(sm:StateMachine)
+pattern CreateStates(parentClass:classifiers_Class) modify(sm:statemachine_StateMachine)
 {
 	iterated {
 		// find all classes directly extending the given parent class, match breadth by iterated
@@ -34,9 +34,10 @@ pattern CreateStates(parentClass:classifiers_Class) modify(sm:StateMachine)
 			}
 			
 			modify {
-				sm -:contains-> s:State; // for every directly found class add a state to the state machine
+				// for every directly found class add a state to the state machine
+				sm -:statemachine_StateMachine_states-> s:statemachine_State;
 				s -:link-> extendingClass;
-				eval { s.name = extendingClass._name; }
+				eval { s._name = extendingClass._name; }
 			}
 		}
 		
@@ -48,7 +49,7 @@ pattern CreateStates(parentClass:classifiers_Class) modify(sm:StateMachine)
 	modify { }
 }
 
-rule linkTransitions
+rule createTransitions
 {
 	// find the class.Instance().activate() pattern
 	expressionStatement:statements_ExpressionStatement -:statements_ExpressionStatement_expression-> refTargetClass;
@@ -60,39 +61,171 @@ rule linkTransitions
 	if { instance._name=="Instance" && activate._name=="activate"; }
 
 	// get the target state from the target class; find the source state via recursive depth walking outwards
-	targetClass <-:link- targetState:State;
-	def sourceState:State;
-	:FindSourceState(expressionStatement, yield sourceState);
+	targetClass <-:link- targetState:statemachine_State;
+	def sourceState:statemachine_State;
+	fss:FindSourceState(expressionStatement, yield sourceState);
+
+	sm:statemachine_StateMachine;
 	
 	modify {
-		sourceState -:Transition-> targetState;
+		sm -:statemachine_StateMachine_transitions-> transition:statemachine_Transition;
+		sourceState <-:statemachine_Transition_src- transition -:statemachine_Transition_dst-> targetState;
+		sourceState -:statemachine_State_out-> transition <-:statemachine_State_in- targetState;
+		transition -:link-> expressionStatement;
+		fss(transition);
 	}
 }
 
-pattern FindSourceState(containedEntity:Node, def sourceState:State)
+pattern FindSourceState(containedEntity:Node, def sourceState:statemachine_State) modify(transition:statemachine_Transition)
 {
 	// move outwards from the contained entity till the class, return the State linked to the class
 	alternative {
 		StatementListContainer {
 			listContainer:statements_StatementListContainer -:statements_StatementListContainer_statements-> containedEntity;
-			:FindSourceState(listContainer, yield sourceState);
+			fss:FindSourceState(listContainer, yield sourceState);
+			
+			modify {
+				transition -:link-> listContainer;
+				fss(transition);
+			}
 		}
 		StatementContainer {
 			container:statements_StatementContainer -:statements_StatementContainer_statement-> containedEntity;
-			:FindSourceState(container, yield sourceState);
+			fss:FindSourceState(container, yield sourceState);
+
+			modify {
+				transition -:link-> container;
+				fss(transition);
+			}
 		}
 		StatementSwitch {
 			switch:statements_Switch -:statements_Switch_cases-> containedEntity;
-			:FindSourceState(switch, yield sourceState);
+			fss:FindSourceState(switch, yield sourceState);
+
+			modify {
+				transition -:link-> switch;
+				fss(transition);
+			}
 		}
 		StatementTry {
 			try:statements_TryBlock -:statements_TryBlock_catcheBlocks-> containedEntity;
-			:FindSourceState(try, yield sourceState);
+			fss:FindSourceState(try, yield sourceState);
+
+			modify {
+				transition -:link-> try;
+				fss(transition);
+			}
 		}
 		Class { 
 			cc:classifiers_Class -:members_MemberContainer_members-> containedEntity;
-			ss:State -:link-> cc;
+			ss:statemachine_State -:link-> cc;
 			yield { yield sourceState = ss; }
+
+			modify {
+				transition -:link-> cc;
+			}
+		}
+	}
+	
+	modify { }
+}
+
+rule addTriggerNonRunMethodName
+{
+	transition:statemachine_Transition -:link-> method:members_ClassMethod;
+	if { method._name != "run"; }
+	
+	modify {
+		eval { 
+			transition._trigger = method._name;
+		}
+	}
+}
+
+rule addTriggerSwitchCaseEnumValueName
+{
+	transition:statemachine_Transition -:link-> case:statements_NormalSwitchCase;
+	case -:statements_Conditional_condition-> caseCondition:references_IdentifierReference;
+	caseCondition -:references_ElementReference_target-> value:members_EnumConstant;
+	
+	modify {
+		eval {
+			transition._trigger = value._name;
+		}
+	}
+}
+
+rule addTriggerCatchBlockExceptionClassName
+{
+	transition:statemachine_Transition -:link-> catchBlock:statements_CatchBlock;
+	catchBlock -:statements_CatchBlock_parameter-> parameter:parameters_OrdinaryParameter;
+	parameter -:types_TypedElement_typeReference-> nspClassRef:types_NamespaceClassifierReference;
+	nspClassRef -:types_NamespaceClassifierReference_classifierReferences-> classRef:types_ClassifierReference;
+	classRef -:types_ClassifierReference_target-> exceptionClass:classifiers_Class;
+	
+	modify {
+		eval {
+			transition._trigger = exceptionClass._name;
+		}
+	}
+}
+
+rule addTriggerOtherwise
+{
+	transition:statemachine_Transition;
+	
+	if { transition._trigger == null || transition._trigger == ""; }
+	
+	modify {
+		eval {
+			transition._trigger = "--";
+		}
+	}
+}
+
+rule addActionSend
+{
+	transition:statemachine_Transition -:link-> block:statements_StatementListContainer;
+	block -:statements_StatementListContainer_statements-> exprStmt:statements_ExpressionStatement;
+	exprStmt -:statements_ExpressionStatement_expression-> callMethod:references_MethodCall;
+	callMethod -:references_ElementReference_target-> method:members_ClassMethod;
+	callMethod -:references_Argumentable_arguments-> enumClassRef:references_IdentifierReference;
+	enumClassRef -:references_Reference_next-> enumValueRef:references_IdentifierReference;
+	enumValueRef -:references_ElementReference_target-> enumValue:members_EnumConstant;
+	
+	if { method._name == "send"; }
+	
+	modify {
+		eval {
+			transition._action = enumValue._name;
+		}
+	}
+}
+
+rule addActionOtherwise
+{
+	transition:statemachine_Transition;
+	
+	if { transition._action == null || transition._action == ""; }
+	
+	modify {
+		eval {
+			transition._action = "--";
+		}
+	}
+}
+
+rule beautify
+{
+	sourceState:statemachine_State;	targetState:statemachine_State; transition:statemachine_Transition;
+	sourceState <-:statemachine_Transition_src- transition -:statemachine_Transition_dst-> targetState;
+	sourceState -:statemachine_State_out-> transition <-:statemachine_State_in- targetState;
+
+	replace {
+		sourceState -t:Transition-> targetState;
+		eval {
+			t.action = transition._action;
+			t.trigger = transition._trigger;
 		}
 	}
 }

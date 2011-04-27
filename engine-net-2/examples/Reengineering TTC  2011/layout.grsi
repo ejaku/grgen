@@ -121,12 +121,16 @@ dump add node classifiers_Enumeration shortinfotag _name
 dump add node containers_CompilationUnit shortinfotag _name
 
 # Layout for state machine
-dump add node StateMachine group by hidden outgoing contains
-dump set node StateMachine color red
-dump set node State shape circle
-dump set node State color black
-dump set node State textcolor white
-dump add node State shortinfotag name
-dump set edge Transition color black
-dump set edge Transition color white
+dump add node statemachine_StateMachine group by hidden outgoing statemachine_StateMachine_states
+dump add node statemachine_StateMachine group by hidden outgoing statemachine_StateMachine_transitions
+dump set node statemachine_StateMachine color red
+dump set node statemachine_State shape circle
+dump set node statemachine_State color black
+dump set node statemachine_State textcolor white
+dump add node statemachine_State shortinfotag _name
+dump set node statemachine_Transition color white
+dump set node statemachine_Transition textcolor black
+dump set node statemachine_Transition color white
+dump add node statemachine_Transition infotag _action
+dump add node statemachine_Transition infotag _trigger
 dump set edge link color red
