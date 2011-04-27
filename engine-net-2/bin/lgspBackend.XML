@@ -4833,8 +4833,7 @@
         </member>
         <member name="T:de.unika.ipd.grGen.expression.BIT_SHR">
             <summary>
-            Class representing a logical shift right expression.
-            TODO: Currently same as shift right expression.
+            Class representing a bit shift right expression, i.e. 0-extending, not sign-extending.
             </summary>
         </member>
         <member name="T:de.unika.ipd.grGen.expression.ADD">

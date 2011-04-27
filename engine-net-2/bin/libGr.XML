@@ -2713,7 +2713,7 @@
             <param name="graph">The graph to export. If a NamedGraph is given, it will be exported including the names.</param>
             <param name="sw">The stream writer of the file to export into. The stream writer is not closed automatically.</param>
         </member>
-        <member name="M:de.unika.ipd.grGen.libGr.GRGExport.EmitAttributeInitialization(de.unika.ipd.grGen.libGr.IGraphElement,de.unika.ipd.grGen.libGr.AttributeType,System.Object,de.unika.ipd.grGen.libGr.IGraph,System.IO.StreamWriter)">
+        <member name="M:de.unika.ipd.grGen.libGr.GRGExport.EmitAttributeInitialization(de.unika.ipd.grGen.libGr.IGraphElement,de.unika.ipd.grGen.libGr.AttributeType,System.Object,de.unika.ipd.grGen.libGr.IGraph,System.String,System.IO.StreamWriter)">
             <summary>
             Emits the node/edge attribute initialization code in graph exporting
             for an attribute of the given type with the given value into the stream writer
