@@ -75,94 +75,132 @@ namespace de.unika.ipd.grGen.libGr
         /// <param name="sw">The stream writer of the file to export into. The stream writer is not closed automatically.</param>
         public static void ExportYouMustCloseStreamWriter(IGraph graph, StreamWriter sw, string modelPathPrefix)
         {
-            sw.WriteLine("// begin of graph \"{0}\" saved by GrgExport", graph.Name);
-            sw.WriteLine();
-
-            sw.WriteLine("using " + graph.Model.ModelName + ";");
-            sw.WriteLine();
-
-            if (!(graph is NamedGraph)) {
-                // assign arbitrary but unique names
-                graph = new NamedGraph(graph);
-            }
-
-            sw.Write("rule {0}\n", graph.Name);
-            sw.Write("{\n");
-            sw.Write("\treplace {\n");
-
-            // emit nodes
-            int numNodes = 0;
-            foreach (INode node in graph.Nodes)
+            // we traverse the graph in one pass, directly writing a creating rule,
+            // and writing a matching test to a helper stream which is appended at the end to the primary stream
+            using(Stream stream = new MemoryStream())
             {
-                sw.Write("\t\t{0}:{1};\n", EscapeName(graph.GetElementName(node)), node.Type.Name);
-                numNodes++;
-            }
-            sw.WriteLine("\t\t// total number of nodes: {0}", numNodes);
-            sw.WriteLine();
-
-            // emit node attributes
-            sw.Write("\t\teval {\n");
-            foreach(INode node in graph.Nodes)
-            {
-                foreach(AttributeType attrType in node.Type.AttributeTypes)
+                using(StreamWriter sw2 = new StreamWriter(stream))
                 {
-                    object value = node.GetAttribute(attrType.Name);
-                    // TODO: Add support for null values, as the default initializers could assign non-null values!
-                    if(value != null) {
-                        EmitAttributeInitialization(node, attrType, value, graph, sw);
+                    sw.WriteLine("// graph \"{0}\" saved by GrgExport, as creating rule and matching test", graph.Name);
+                    sw.WriteLine();
+
+                    sw.WriteLine("using " + graph.Model.ModelName + ";");
+                    sw.WriteLine();
+
+                    if (!(graph is NamedGraph)) {
+                        // assign arbitrary but unique names
+                        graph = new NamedGraph(graph);
                     }
-                }
-            }
-            sw.Write("\t\t}\n");
-            sw.WriteLine();
 
-            // emit edges
-            int numEdges = 0;
-            foreach (INode node in graph.Nodes)
-            {
-                foreach (IEdge edge in node.Outgoing)
-                {
-                    sw.Write("\t\t{0} -{1}:{2} -> {3};\n",
-                        EscapeName(graph.GetElementName(edge.Source)),
-                        EscapeName(graph.GetElementName(edge)), edge.Type.Name,
-                        EscapeName(graph.GetElementName(edge.Target)));
-                    numEdges++;
-                }
-            }
-            sw.WriteLine("\t\t// total number of edges: {0}", numEdges);
-            sw.WriteLine();
+                    sw.Write("rule createGraph\n");
+                    sw.Write("{\n");
+                    sw.Write("\treplace {\n");
 
-            // emit edge attributes
-            sw.Write("\t\teval {\n");
-            foreach(INode node in graph.Nodes)
-            {
-                foreach(IEdge edge in node.Outgoing)
-                {
-                    foreach(AttributeType attrType in edge.Type.AttributeTypes)
+                    sw2.Write("test matchGraph\n");
+                    sw2.Write("{\n");
+
+                    // emit nodes
+                    int numNodes = 0;
+                    foreach (INode node in graph.Nodes)
                     {
-                        object value = edge.GetAttribute(attrType.Name);
-                        // TODO: Add support for null values, as the default initializers could assign non-null values!
-                        if(value != null) {
-                            EmitAttributeInitialization(edge, attrType, value, graph, sw);
+                        String nodeName = EscapeName(graph.GetElementName(node));
+                        sw.Write("\t\t{0}:{1};\n", nodeName, node.Type.Name);
+                        sw2.Write("\t{0}:{1};\n", nodeName, node.Type.Name);
+                        numNodes++;
+                    }
+                    sw.WriteLine("\t\t// total number of nodes: {0}", numNodes);
+                    sw.WriteLine();
+                    sw2.WriteLine("\t// total number of nodes: {0}", numNodes);
+                    sw2.WriteLine();
+
+                    // emit node attributes
+                    sw.Write("\t\teval {\n");
+                    sw.Write("\tif {\n");
+                    foreach(INode node in graph.Nodes)
+                    {
+                        foreach(AttributeType attrType in node.Type.AttributeTypes)
+                        {
+                            object value = node.GetAttribute(attrType.Name);
+                            // TODO: Add support for null values, as the default initializers could assign non-null values!
+                            if(value != null) {
+                                EmitAttributeInitialization(node, attrType, value, graph, "=", sw);
+                                EmitAttributeInitialization(node, attrType, value, graph, "==", sw2);
+                            }
                         }
                     }
+                    sw.Write("\t\t}\n");
+                    sw.WriteLine();
+                    sw2.Write("\t}\n");
+                    sw2.WriteLine();
+
+                    // emit edges
+                    int numEdges = 0;
+                    foreach (INode node in graph.Nodes)
+                    {
+                        foreach (IEdge edge in node.Outgoing)
+                        {
+                            String sourceName = EscapeName(graph.GetElementName(edge.Source));
+                            String edgeName = EscapeName(graph.GetElementName(edge));
+                            String targetName = EscapeName(graph.GetElementName(edge.Target));
+                            sw.Write("\t\t{0} -{1}:{2} -> {3};\n",
+                                sourceName, edgeName, edge.Type.Name, targetName);
+                            sw2.Write("\t{0} -{1}:{2} -> {3};\n",
+                                sourceName, edgeName, edge.Type.Name, targetName);
+                            numEdges++;
+                        }
+                    }
+                    sw.WriteLine("\t\t// total number of edges: {0}", numEdges);
+                    sw.WriteLine();
+                    sw2.WriteLine("\t// total number of edges: {0}", numEdges);
+                    sw2.WriteLine();
+
+                    // emit edge attributes
+                    sw.Write("\t\teval {\n");
+                    sw2.Write("\teval {\n");
+                    foreach(INode node in graph.Nodes)
+                    {
+                        foreach(IEdge edge in node.Outgoing)
+                        {
+                            foreach(AttributeType attrType in edge.Type.AttributeTypes)
+                            {
+                                object value = edge.GetAttribute(attrType.Name);
+                                // TODO: Add support for null values, as the default initializers could assign non-null values!
+                                if(value != null) {
+                                    EmitAttributeInitialization(edge, attrType, value, graph, "=", sw);
+                                    EmitAttributeInitialization(edge, attrType, value, graph, "==", sw2);
+                                }
+                            }
+                        }
+                    }
+                    sw.Write("\t\t}\n");
+                    sw2.Write("\t}\n");
+
+                    sw.Write("\t}\n");
+                    sw.Write("}\n");
+                    sw2.Write("}\n");
+
+                    sw.WriteLine();
+                    sw2.WriteLine();
+
+                    // I'm sure now that M$ gave the task of designing the .NET library
+                    // to the most incompetent of the incompetent it could find on its campus
+                    // while C# is better than Java, the class library is just annoying
+                    sw2.Flush();
+                    stream.Seek(0, SeekOrigin.Begin);
+                    StreamReader reader = new StreamReader(stream);
+                    string str = reader.ReadToEnd();
+                    sw.WriteLine(str); // sw already contains creating rule, now write matching test
                 }
             }
-            sw.Write("\t\t}\n");
-
-            sw.Write("\t}\n");
-            sw.Write("}\n");
-
-            sw.WriteLine();
         }
 
         /// <summary>
         /// Emits the node/edge attribute initialization code in graph exporting
         /// for an attribute of the given type with the given value into the stream writer
         /// </summary>
-        private static void EmitAttributeInitialization(IGraphElement elem, AttributeType attrType, object value, IGraph graph, StreamWriter sw)
+        private static void EmitAttributeInitialization(IGraphElement elem, AttributeType attrType, object value, IGraph graph, String op, StreamWriter sw)
         {
-            sw.Write("\t\t\t{0}.{1} = ", EscapeName(graph.GetElementName(elem)), attrType.Name);
+            sw.Write("\t\t\t{0}.{1} {2} ", EscapeName(graph.GetElementName(elem)), attrType.Name, op);
             EmitAttribute(attrType, value, graph, sw);
             sw.WriteLine(";");
         }
