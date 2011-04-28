@@ -6,6 +6,9 @@ import primitive_types.ecore java.ecore StateMachine.ecore 1_small-model.xmi ree
 # include configuration for layout
 include layout.grsi
 
+# nest the expressions inside the expression statement (but not one in another)
+xgrs vid=valloc() ;> beautifyProgramGraph* ;> vfree(vid)
+
 # execute state machine creation (basic task) and transition attribute assignments (extemsion tasks)
 xgrs [createStates]
 xgrs [createTransitions]
@@ -27,5 +30,6 @@ debug enable
 # use this if you only want to display the state machine without starting debug mode (layout a bit worse)
 #show graph ycomp
 
+echo "type quit to exit"
 # uncomment in case you want the script to exit automatically
 #quit

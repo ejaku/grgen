@@ -229,3 +229,137 @@ rule beautify
 		}
 	}
 }
+
+rule beautifyProgramGraph
+{
+	alternative {
+		ExpressionStatement {
+			es:statements_ExpressionStatement;
+			if { !es.visited; }
+
+			multiple {
+				es --> e:expressions_Expression;
+				bpg:BeautifyProgramGraph(e, es);
+				negative {
+					es -:contains-> e;
+				}
+				
+				modify {
+					es --> e;
+					bpg();
+					eval { es.visited = true; }
+				}
+			}
+			
+			modify { }
+		}
+		Condition {
+			sc:statements_Condition;
+			if { !sc.visited; }
+
+			multiple {
+				sc --> e:expressions_Expression;
+				bpg:BeautifyProgramGraph(e, sc);
+				negative {
+					sc -:contains-> e;
+				}
+				
+				modify {
+					sc --> e;
+					bpg();
+					eval { sc.visited = true; }
+				}
+			}
+			
+			modify { }
+		}
+		Return {
+			sr:statements_Return;
+			if { !sr.visited; }
+
+			multiple {
+				sr --> e:expressions_Expression;
+				bpg:BeautifyProgramGraph(e, sr);
+				negative {
+					sr -:contains-> e;
+				}
+				
+				modify {
+					sr --> e;
+					bpg();
+					eval { sr.visited = true; }
+				}
+			}
+			
+			modify { }
+		}
+	}
+	
+	modify { }
+}
+
+// create a link from the enclosing statement to all expressions reachable (transitive closure)
+pattern BeautifyProgramGraph(e:expressions_Expression, es:Node)
+{
+	iterated {
+		alternative {
+			expression {
+				e --> next:expressions_Expression\instantiations_NewConstructorCall;
+				bpg:BeautifyProgramGraph(next, es);
+				negative {
+					es -:contains-> next;
+				}
+				
+				modify {
+					es -:contains-> next;
+					bpg();
+				}
+			}
+			operators {
+				e --> op:operators_Operator;
+				negative {
+					es -:contains-> op;
+				}
+				
+				modify {
+					es -:contains-> op;
+				}
+			}
+			literals {
+				e --> lit:literals_Literal;
+				negative {
+					es -:contains-> lit;
+				}
+				
+				modify {
+					es -:contains-> lit;
+				}
+			}
+			identRef {
+				e --> refId:references_IdentifierReference;
+				negative {
+					es -:contains-> refId;
+				}
+
+				modify {
+					es -:contains-> refId;
+				}
+			}
+			constructorCall {
+				e --> cc:instantiations_NewConstructorCall --> ncref:types_NamespaceClassifierReference;
+				negative {
+					es -:contains-> cc;
+				}
+
+				modify {
+					es -:contains-> cc;
+					es -:contains-> ncref;
+				}
+			}
+		}
+		
+		modify { }
+	}
+	
+	modify { }
+}
