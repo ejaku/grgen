@@ -7,6 +7,8 @@ import primitive_types.ecore java.ecore StateMachine.ecore 1_small-model.xmi ree
 include layout.grsi
 
 # nest the expressions inside the expression statement (but not one in another)
+# takes about 2min for the large graph which are not needed cause it can't be displayed anyway (out-of-memory of ycomp) 
+# so feel free to comment it out for the large graph
 xgrs vid=valloc() ;> beautifyProgramGraph* ;> vfree(vid)
 
 # execute state machine creation (basic task) and transition attribute assignments (extemsion tasks)
@@ -16,6 +18,8 @@ xgrs [addTriggerNonRunMethodName] ;> [addTriggerSwitchCaseEnumValueName] ;> [add
 xgrs [addActionSend] ;> [addActionOtherwise]
 
 # show the graph with the state machine (plus the backlinks) added
+# ycomp will crash with out of memory for the large model, feel free to comment it out for that model
+# you must press the play button to get the graph layouted
 show graph ycomp
 
 # reduce "src <-:src- :statemachine_Transition -:tgt-> tgt" to "src -:Transition-> tgt"

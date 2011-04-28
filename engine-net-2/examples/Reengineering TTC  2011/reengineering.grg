@@ -107,6 +107,15 @@ pattern FindSourceState(containedEntity:Node, def sourceState:statemachine_State
 				fss(transition);
 			}
 		}
+		StatementCondition {
+			condition:statements_Condition -:statements_Condition_elseStatement-> containedEntity;
+			fss:FindSourceState(condition, yield sourceState);
+
+			modify {
+				transition -:link-> condition;
+				fss(transition);
+			}
+		}
 		StatementTry {
 			try:statements_TryBlock -:statements_TryBlock_catcheBlocks-> containedEntity;
 			fss:FindSourceState(try, yield sourceState);
