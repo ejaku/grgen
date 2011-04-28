@@ -1590,6 +1590,8 @@ namespace de.unika.ipd.grGen.libGr
                         nodes.Remove(node);
                     }
 
+                    if(dc.DumpInfo.IsExcludedNodeType(node.Type)) continue;
+
                     foreach(IEdge edge in node.Incoming)
                     {
                         GroupMode grpMode = groupNodeType.GetEdgeGroupMode(edge.Type, edge.Source.Type);
