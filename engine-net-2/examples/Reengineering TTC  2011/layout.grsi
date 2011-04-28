@@ -102,7 +102,7 @@ dump add node containers_CompilationUnit shortinfotag _name
 # Layout for state machine
 dump add node statemachine_StateMachine group by hidden outgoing statemachine_StateMachine_states
 dump add node statemachine_StateMachine group by hidden outgoing statemachine_StateMachine_transitions
-dump set node statemachine_StateMachine color red
+dump set node statemachine_StateMachine color darkred
 dump set node statemachine_State shape circle
 dump set node statemachine_State color black
 dump set node statemachine_State textcolor white
@@ -113,3 +113,7 @@ dump set node statemachine_Transition color white
 dump add node statemachine_Transition infotag _action
 dump add node statemachine_Transition infotag _trigger
 dump set edge link color red
+dump set edge statemachine_Transition_src color white
+dump set edge statemachine_Transition_dst color black
+dump set edge statemachine_State_out color black
+dump set edge statemachine_State_in color white
