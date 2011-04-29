@@ -1,0 +1,5 @@
+<?xml version="1.0" encoding="ASCII"?>
+<helloworldext:Greeting xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:helloworldext="helloworldext" xsi:schemaLocation="helloworldext helloworldext.ecore">
+  <greetingMessage text="Hello"/>
+  <person name="TTC Participants"/>
+</helloworldext:Greeting>

@@ -1,0 +1,2 @@
+<?xml version="1.0" encoding="ASCII"?>
+<helloworld:Greeting xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:helloworld="helloworld" xsi:schemaLocation="helloworld helloworld.ecore" text="Hello World"/>

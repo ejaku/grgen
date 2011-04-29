@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="ASCII"?>
+<graph2:Graph xmi:version="2.0"
+    xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xmlns:emof="http://schema.omg.org/spec/MOF/2.0/emof.xml" xmlns:graph2="graph2"
+    xsi:schemaLocation="http://schema.omg.org/spec/MOF/2.0/emof.xml http://www.eclipse.org/emf/2002/Ecore graph2 graph2.ecore" xmi:id="_0">
+  <gcs xmi:type="graph2:Node" xmi:id="_0.@gcs.0" text="n1"/>
+  <gcs xmi:type="graph2:Node" xmi:id="_0.@gcs.1" text="n2"/>
+  <gcs xmi:type="graph2:Node" xmi:id="_0.@gcs.2" text="n3"/>
+  <gcs xmi:type="graph2:Node" xmi:id="_0.@gcs.3" text="n4"/>
+  <gcs xmi:type="graph2:Node" xmi:id="_0.@gcs.4" text="n5"/>
+  <gcs xmi:type="graph2:Node" xmi:id="_0.@gcs.5" text="n6"/>
+  <gcs xmi:type="graph2:Node" xmi:id="_0.@gcs.6" text="n7"/>
+  <gcs xmi:type="graph2:Node" xmi:id="_0.@gcs.7" text="n8"/>
+  <gcs xmi:type="graph2:Edge" xmi:id="_0.@gcs.8" text="" src="_0.@gcs.0" trg="_0.@gcs.1"/>
+  <gcs xmi:type="graph2:Edge" xmi:id="_0.@gcs.9" text="" src="_0.@gcs.1" trg="_0.@gcs.2"/>
+  <gcs xmi:type="graph2:Edge" xmi:id="_0.@gcs.10" text="" src="_0.@gcs.2" trg="_0.@gcs.0"/>
+  <gcs xmi:type="graph2:Edge" xmi:id="_0.@gcs.11" text="" src="_0.@gcs.2" trg="_0.@gcs.3"/>
+  <gcs xmi:type="graph2:Edge" xmi:id="_0.@gcs.12" text="" src="_0.@gcs.3" trg="_0.@gcs.4"/>
+  <gcs xmi:type="graph2:Edge" xmi:id="_0.@gcs.13" text="" src="_0.@gcs.4" trg="_0.@gcs.2"/>
+  <gcs xmi:type="graph2:Edge" xmi:id="_0.@gcs.14" text="" src="_0.@gcs.7" trg="_0.@gcs.7"/>
+</graph2:Graph>
