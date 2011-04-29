@@ -1,0 +1,10 @@
+import graph1.ecore Graph1.xmi Delete.grg
+
+#xgrs deleteN1
+xgrs deleteN1AndAllIncidentEdges
+
+show num nodes graph1_Edge
+
+show graph ycomp
+
+quit

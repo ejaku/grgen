@@ -1,0 +1,9 @@
+import graph1.ecore Graph1.xmi Transitive.grg
+
+show graph ycomp
+
+xgrs [addTransitiveEdge]
+
+show graph ycomp
+
+quit

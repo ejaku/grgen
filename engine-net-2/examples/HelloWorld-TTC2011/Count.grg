@@ -1,0 +1,110 @@
+using graph1__ecore, result__ecore;
+
+#include "Emitter.gri"
+
+rule aggregateResults {
+	res1:result_IntResult;
+	res2:result_IntResult;
+
+	modify {
+		delete(res2);
+
+		eval {
+			res1._result = res1._result + res2._result;
+		}
+	}
+}
+
+rule countNode {
+	n:graph1_Node;
+
+	modify {
+		res:result_IntResult;
+
+		eval {
+			res._result = 1;
+		}
+	}
+}
+
+rule countLoopingEdge {
+	n:graph1_Node;
+	e:graph1_Edge;
+	e -:graph1_Edge_src-> n;
+	e -:graph1_Edge_trg-> n;
+
+	modify {
+		res:result_IntResult;
+
+		eval {
+			res._result = 1;
+		}
+	}
+}
+
+rule countIsolatedNode {
+	n:graph1_Node;
+
+	negative {
+		n <-:graph1_Edge_src-;
+	}
+
+	negative {
+		n <-:graph1_Edge_trg-;
+	}
+
+	modify {
+		res:result_IntResult;
+
+		eval {
+			res._result = 1;
+		}
+	}
+}
+
+rule countCycles {
+	n1:graph1_Node;
+	n2:graph1_Node;
+	n3:graph1_Node;
+
+	n1 <-:graph1_Edge_src- :graph1_Edge -:graph1_Edge_trg-> n2;
+	n2 <-:graph1_Edge_src- :graph1_Edge -:graph1_Edge_trg-> n3;
+	n3 <-:graph1_Edge_src- :graph1_Edge -:graph1_Edge_trg-> n1;
+
+	modify {
+		res:result_IntResult;
+
+		eval {
+			res._result = 1;
+		}
+	}
+}
+
+rule countDanglingEdges {
+	e:graph1_Edge;
+
+	alternative {
+		missingSrc {
+			e -:graph1_Edge_src->;
+
+			negative {
+				e -:graph1_Edge_trg->;
+			}
+		}
+		missingTrg {
+			e -:graph1_Edge_trg->;
+
+			negative {
+				e -:graph1_Edge_src->;
+			}
+		}
+	}
+
+	modify {
+		res:result_IntResult;
+
+		eval {
+			res._result = 1;
+		}
+	}
+}

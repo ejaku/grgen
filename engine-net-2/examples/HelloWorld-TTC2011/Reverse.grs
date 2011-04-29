@@ -1,0 +1,9 @@
+import graph1.ecore Graph1.xmi Reverse.grg
+
+show graph ycomp
+
+xgrs [reverseEdge]
+
+show graph ycomp
+
+quit

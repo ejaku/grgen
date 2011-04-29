@@ -1,0 +1,24 @@
+using graph1__ecore;
+
+rule addTransitiveEdge {
+	n1:graph1_Node;
+	n2:graph1_Node;
+	n3:graph1_Node;
+	hom(n1,n2,n3);
+
+	n1 <-:graph1_Edge_src- :graph1_Edge -:graph1_Edge_trg-> n2;
+	n2 <-:graph1_Edge_src- :graph1_Edge -:graph1_Edge_trg-> n3;
+
+	negative {
+		n1 <-:graph1_Edge_src- :graph1_Edge -:graph1_Edge_trg-> n3;
+	}
+
+	modify {
+		n1 <-src:graph1_Edge_src- e:graph1_Edge -trg:graph1_Edge_trg-> n3;
+
+		eval {
+			src.index = 0;
+			trg.index = 0;
+		}
+	}
+}

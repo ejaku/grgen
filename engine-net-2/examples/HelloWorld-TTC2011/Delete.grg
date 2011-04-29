@@ -1,0 +1,26 @@
+using graph1__ecore, graph2__ecore;
+
+rule deleteN1 {
+	n:graph1_Node;
+
+	if {n._name == "n1";}
+
+	replace {
+	}
+}
+
+rule deleteN1AndAllIncidentEdges {
+	n:graph1_Node;
+
+	if {n._name == "n1";}
+
+	iterated {
+		n <--> e:graph1_Edge;
+
+		replace {
+		}
+	}
+
+	replace {
+	}
+}

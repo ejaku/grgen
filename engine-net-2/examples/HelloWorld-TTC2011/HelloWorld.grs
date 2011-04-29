@@ -1,0 +1,9 @@
+new graph HelloWorld
+#import helloworld.ecore helloworldext.ecore result.ecore HelloWorld.grg
+
+xgrs createHelloWorldExt
+xgrs messageToText
+redirect emit "Model-to-text-grgen.xmi"
+xgrs emitString
+
+quit

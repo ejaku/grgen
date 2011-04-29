@@ -1,0 +1,76 @@
+using graph1__ecore, graph3__ecore;
+
+rule migrateGraph {
+	n:graph1_Graph;
+
+	modify {
+		:graph3_Graph<n>;
+	}
+}
+
+rule migrateNode {
+	n:graph1_Node;
+
+	modify {
+		migrated:graph3_Node<n>;
+
+		eval {
+			migrated._text = n._name;
+		}
+	}
+}
+
+rule migrateEdge {
+	e:graph1_Edge;
+	e <-graphEdge:graph1_Graph_edges-;
+	e -:graph1_Edge_src-> src:Node;
+	e -:graph1_Edge_trg-> trg:Node;
+
+	modify {
+		delete(e);
+
+		src -migrated:graph3_Node_linksTo-> trg;
+
+		eval {
+			migrated.index = graphEdge.index;
+		}
+	}
+}
+
+rule fixEdgeIndex {
+	n:Node;
+	n -e:graph3_Node_linksTo->;
+
+	if {e.index > 0;}
+
+	negative {
+		n -f:graph3_Node_linksTo->;
+
+		if { f.index == e.index - 1;}
+	}
+
+	modify {
+		eval {
+			e.index = e.index - 1;
+		}
+	}
+}
+
+rule deleteDanglingEdge {
+	e:graph1_Edge;
+
+	replace {
+	}
+}
+
+rule migrateGraphNodes {
+	-e:graph1_Graph_nodes->;
+
+	modify {
+		-migrated:graph3_Graph_nodes<e>->;
+
+		eval {
+			migrated.index = e.index;
+		}
+	}
+}

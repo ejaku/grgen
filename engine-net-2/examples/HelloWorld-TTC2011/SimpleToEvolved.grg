@@ -1,0 +1,81 @@
+using graph1__ecore, graph2__ecore;
+
+rule migrateGraph {
+	n:graph1_Graph;
+
+	modify {
+		:graph2_Graph<n>;
+	}
+}
+
+rule migrateNode {
+	n:graph1_Node;
+
+	modify {
+		migrated:graph2_Node<n>;
+
+		eval {
+			migrated._text = n._name;
+		}
+	}
+}
+
+rule migrateEdge {
+	e:graph1_Edge;
+
+	modify {
+		migrated:graph2_Edge<e>;
+
+		eval {
+			migrated._text = "";
+		}
+	}
+}
+
+rule migrateEdgeSrc {
+	-e:graph1_Edge_src->;
+
+	modify {
+		-migrated:graph2_Edge_src<e>->;
+
+		eval {
+			migrated.index = e.index;
+		}
+	}
+}
+
+rule migrateEdgeTrg {
+	-e:graph1_Edge_trg->;
+
+	modify {
+		-migrated:graph2_Edge_trg<e>->;
+
+		eval {
+			migrated.index = e.index;
+		}
+	}
+}
+
+rule migrateGraphEdges {
+	-e:graph1_Graph_edges->;
+
+	modify {
+		-migrated:graph2_Graph_gcs<e>->;
+
+		eval {
+			migrated.index = e.index;
+		}
+	}
+}
+
+rule migrateGraphNodes {
+	-e:graph1_Graph_nodes->;
+
+	modify {
+		-migrated:graph2_Graph_gcs<e>->;
+
+		eval {
+			migrated.index = e.index;
+		}
+	}
+}

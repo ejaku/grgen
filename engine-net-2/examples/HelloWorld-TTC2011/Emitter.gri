@@ -1,0 +1,25 @@
+rule emitInt {
+	int:result_IntResult;
+
+	replace {
+		emit("<?xml version=\"1.0\" encoding=\"ASCII\"?>\n");
+		emit("<result:IntResult xmi:version=\"2.0\"\n");
+		emit("    xmlns:xmi=\"http://www.omg.org/XMI\" xmlns:xsi=\"http://www.w3.org/2001/XMLSchema-instance\"\n");
+		emit("    xmlns:emof=\"http://schema.omg.org/spec/MOF/2.0/emof.xml\" xmlns:result=\"result\"\n");
+		emit("    xsi:schemaLocation=\"http://schema.omg.org/spec/MOF/2.0/emof.xml http://www.eclipse.org/emf/2002/Ecore result Result.ecore\" xmi:id=\"_0\"\n");
+		emit("    result=\"" + int._result + "\"/>\n");
+	}
+}
+
+rule emitString {
+	string:result_StringResult;
+
+	replace {
+		emit("<?xml version=\"1.0\" encoding=\"ASCII\"?>\n");
+		emit("<result:StringResult xmi:version=\"2.0\"\n");
+		emit("    xmlns:xmi=\"http://www.omg.org/XMI\" xmlns:xsi=\"http://www.w3.org/2001/XMLSchema-instance\"\n");
+		emit("    xmlns:emof=\"http://schema.omg.org/spec/MOF/2.0/emof.xml\" xmlns:result=\"result\"\n");
+		emit("    xsi:schemaLocation=\"http://schema.omg.org/spec/MOF/2.0/emof.xml http://www.eclipse.org/emf/2002/Ecore result Result.ecore\" xmi:id=\"_0\"\n");
+		emit("    result=\"" + string._result + "\"/>\n");
+	}
+}

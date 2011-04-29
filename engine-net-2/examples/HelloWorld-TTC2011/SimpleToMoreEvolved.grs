@@ -1,0 +1,7 @@
+import graph1.ecore graph3.ecore Graph1.xmi SimpleToMoreEvolved.grg
+
+xgrs migrateGraph* & migrateNode* & migrateEdge* & deleteDanglingEdge* & fixEdgeIndex* & migrateGraphNodes*
+
+show graph ycomp
+
+quit
