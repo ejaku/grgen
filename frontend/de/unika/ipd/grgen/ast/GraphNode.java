@@ -17,6 +17,7 @@ import de.unika.ipd.grgen.ast.util.DeclarationTripleResolver;
 import de.unika.ipd.grgen.ast.util.SimpleChecker;
 import de.unika.ipd.grgen.ast.util.Triple;
 import de.unika.ipd.grgen.ir.Edge;
+import de.unika.ipd.grgen.ir.Emit;
 import de.unika.ipd.grgen.ir.EvalStatement;
 import de.unika.ipd.grgen.ir.Expression;
 import de.unika.ipd.grgen.ir.GraphEntity;
@@ -398,6 +399,16 @@ public class GraphNode extends BaseNode {
 			}
 		}
 		
+		// add emithere elements only mentioned there to the IR
+		// (they're declared in an enclosing graph and locally only show up in the emithere)
+		NeededEntities needs = new NeededEntities(true, true, true, false, false, true);
+		for(OrderedReplacement orderedRepl : gr.getOrderedReplacements()) {
+			if(orderedRepl instanceof Emit) {
+				((Emit)orderedRepl).collectNeededEntities(needs);
+			}
+		}
+		addNeededEntities(gr, needs);
+		
 		for(BaseNode imp : imperativeStmts.getChildren()) {
 			gr.addImperativeStmt((ImperativeStmt)imp.getIR());
 		}
@@ -416,6 +427,26 @@ public class GraphNode extends BaseNode {
 		return gr;
 	}
 
+	protected void addNeededEntities(PatternGraph gr, NeededEntities needs) {
+		for(Node neededNode : needs.nodes) {
+			if(!gr.hasNode(neededNode)) {
+				gr.addSingleNode(neededNode);
+				gr.addHomToAll(neededNode);
+			}
+		}
+		for(Edge neededEdge : needs.edges) {
+			if(!gr.hasEdge(neededEdge)) {
+				gr.addSingleEdge(neededEdge);	// TODO: maybe we lose context here
+				gr.addHomToAll(neededEdge);
+			}
+		}
+		for(Variable neededVariable : needs.variables) {
+			if(!gr.hasVar(neededVariable)) {
+				gr.addVariable(neededVariable);
+			}
+		}
+	}
+	
 	protected void addParamsToConnections(CollectNode<BaseNode> params)
     {
     	for (BaseNode n : params.getChildren()) {

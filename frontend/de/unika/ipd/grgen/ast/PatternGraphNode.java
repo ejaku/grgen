@@ -640,51 +640,19 @@ public class PatternGraphNode extends GraphNode {
 
 		// add Condition elements only mentioned there to the IR
 		// (they're declared in an enclosing graph and locally only show up in the condition)
-		NeededEntities needs = new NeededEntities(true, true, true, false, false, false);
+		NeededEntities needs = new NeededEntities(true, true, true, false, false, true);
 		for(Expression cond : gr.getConditions()) {
 			cond.collectNeededEntities(needs);
 		}
-		for(Node neededNode : needs.nodes) {
-			if(!gr.hasNode(neededNode)) {
-				gr.addSingleNode(neededNode);
-				gr.addHomToAll(neededNode);
-			}
-		}
-		for(Edge neededEdge : needs.edges) {
-			if(!gr.hasEdge(neededEdge)) {
-				gr.addSingleEdge(neededEdge);	// TODO: maybe we lose context here
-				gr.addHomToAll(neededEdge);
-			}
-		}
-		for(Variable neededVariable : needs.variables) {
-			if(!gr.hasVar(neededVariable)) {
-				gr.addVariable(neededVariable);
-			}
-		}
+		addNeededEntities(gr, needs);
 
 		// add Yielded elements only mentioned there to the IR
 		// (they're declared in an enclosing graph and locally only show up in the yield)
-		needs = new NeededEntities(true, true, true, false, false, false);
+		needs = new NeededEntities(true, true, true, false, false, true);
 		for(EvalStatement yield : gr.getYields()) {
 			yield.collectNeededEntities(needs);
 		}
-		for(Node neededNode : needs.nodes) {
-			if(!gr.hasNode(neededNode)) {
-				gr.addSingleNode(neededNode);
-				gr.addHomToAll(neededNode);
-			}
-		}
-		for(Edge neededEdge : needs.edges) {
-			if(!gr.hasEdge(neededEdge)) {
-				gr.addSingleEdge(neededEdge);	// TODO: maybe we lose context here
-				gr.addHomToAll(neededEdge);
-			}
-		}
-		for(Variable neededVariable : needs.variables) {
-			if(!gr.hasVar(neededVariable)) {
-				gr.addVariable(neededVariable);
-			}
-		}
+		addNeededEntities(gr, needs);
 
 		for (Set<ConstraintDeclNode> homSet : getHoms()) {
             // homSet is not empty
