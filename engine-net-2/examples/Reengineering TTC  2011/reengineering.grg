@@ -1,5 +1,7 @@
 using primitive_types__ecore, java__ecore, StateMachine__ecore, Link;
 
+#include "export.gri"
+
 rule createStates
 {
 	// find State class

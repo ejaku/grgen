@@ -1,0 +1,85 @@
+rule assignId(var id:int, ref nodeToId:map<Node, int>) : (int)
+{
+	alternative {
+		State {
+			s:statemachine_State;
+			if { !(s in nodeToId); }
+			
+			modify {
+				eval { nodeToId.add(s, id); }
+			}
+		}
+		Transition {
+			t:statemachine_Transition;
+			if { !(t in nodeToId); }
+
+			modify {
+				eval { nodeToId.add(t, id); }
+			}
+		}
+	}
+		
+	modify {
+		return (id + 1);
+	}
+}
+
+rule emitPrefix
+{
+	modify {
+		emit("<?xml version=\"1.0\" encoding=\"ASCII\"?>\n");
+		emit("<xmi:XMI xmi:version=\"2.0\" xmlns:xmi=\"http://www.omg.org/XMI\" xmlns:xsi=\"http://www.w3.org/2001/XMLSchema-instance>\" StateMachine.ecore>\n");
+		emit("  <statemachine:StateMachine>\n");
+	}
+}
+
+rule emitState(ref nodeToId:map<Node, int>)
+{
+	s:statemachine_State;
+
+	iterated outgoing {
+		s -:statemachine_State_out-> t:statemachine_Transition;
+		
+		modify {
+			emithere(nodeToId[t] + " ");
+		}
+	}
+	iterated incoming {
+		s -:statemachine_State_in-> t:statemachine_Transition;	
+		
+		modify {
+			emithere(nodeToId[t] + " ");
+		}
+	}
+
+	modify {
+		emithere("    <states xmi:type=\"statemachine:State\" xmi:id=\"" + nodeToId[s] + "\" name=\"" + s._name + "\" ");
+		emithere("out=\"");
+		iterated outgoing;
+		emithere("\" in=\"");
+		iterated incoming;
+		emithere("\" />\n");
+	}
+}
+
+rule emitTransition(ref nodeToId:map<Node, int>)
+{
+	src:statemachine_State <-:statemachine_Transition_src- t:statemachine_Transition -:statemachine_Transition_dst-> dst:statemachine_State;
+	
+	modify {
+		emit("    <transitions xmi:type=\"statemachine:Transition\" xmi:id=\"" + nodeToId[t] + "\" ");
+		emit("action=\"" + t._action + "\" trigger=\"" + t._trigger + "\" ");
+		emit("src=\"" + nodeToId[src] + "\" dst=\"" + nodeToId[dst] + "\"");
+		emit("/>\n");
+	}
+}
+
+rule emitSuffix
+{
+
+	modify {
+		emit("  <statemachine:StateMachine>\n");
+		emit("<xmi:XMI>\n");
+	}
+}
+

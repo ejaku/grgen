@@ -17,6 +17,12 @@ xgrs [createTransitions]
 xgrs [addTriggerNonRunMethodName] ;> [addTriggerSwitchCaseEnumValueName] ;> [addTriggerCatchBlockExceptionClassName] ;> [addTriggerOtherwise]
 xgrs [addActionSend] ;> [addActionOtherwise]
 
+# export the state machine as xmi
+redirect emit state_machine.xmi
+xgrs nodeToId:map<Node, int>=map<Node, int>{} ;> id=0 ;> (id)=assignId(id, nodeToId)* ;> emitPrefix ;>\
+		[emitState(nodeToId)] ;> [emitTransition(nodeToId)] ;> emitSuffix
+redirect emit -
+
 # show the graph with the state machine (plus the backlinks) added
 # ycomp will crash with out of memory for the large model, feel free to comment it out for that model
 # you must press the play button to get the graph layouted
