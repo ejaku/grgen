@@ -6,10 +6,8 @@ rule createStates
 {
 	// find State class
 	stateClass:classifiers_Class;
-
-	if { stateClass._name == "State"; }	
-
 	stateClass -:modifiers_AnnotableAndModifiable_annotationsAndModifiers-> :modifiers_Abstract;
+	if { stateClass._name == "State"; }	
 		
 	// from it recursively find all directly or indirectly extending non-abstract classes
 	es:CreateStates(stateClass);
@@ -184,7 +182,6 @@ rule addTriggerCatchBlockExceptionClassName
 rule addTriggerOtherwise
 {
 	transition:statemachine_Transition;
-	
 	if { transition._trigger == null || transition._trigger == ""; }
 	
 	modify {
@@ -203,7 +200,6 @@ rule addActionSend
 	callMethod -:references_Argumentable_arguments-> enumClassRef:references_IdentifierReference;
 	enumClassRef -:references_Reference_next-> enumValueRef:references_IdentifierReference;
 	enumValueRef -:references_ElementReference_target-> enumValue:members_EnumConstant;
-	
 	if { method._name == "send"; }
 	
 	modify {
@@ -216,7 +212,6 @@ rule addActionSend
 rule addActionOtherwise
 {
 	transition:statemachine_Transition;
-	
 	if { transition._action == null || transition._action == ""; }
 	
 	modify {
