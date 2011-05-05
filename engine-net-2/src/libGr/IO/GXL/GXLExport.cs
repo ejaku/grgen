@@ -134,9 +134,16 @@ namespace de.unika.ipd.grGen.libGr
         {
             public String Name;
             public String Type;
-            public String Value;
+            public String[] Value;
 
             public Attr(String name, String type, String value)
+            {
+                Name = name;
+                Type = type;
+                Value = new String[]{value};
+            }
+
+            public Attr(String name, String type, String[] value)
             {
                 Name = name;
                 Type = type;
@@ -156,7 +163,16 @@ namespace de.unika.ipd.grGen.libGr
             foreach(Attr attr in attrs) {
                 xmlwriter.WriteStartElement("attr");
                 xmlwriter.WriteAttributeString("name", attr.Name);
-                xmlwriter.WriteElementString(attr.Type, attr.Value);
+                if(attr.Value.Length > 1) {
+                    xmlwriter.WriteStartElement("tup");
+                }
+                foreach(string value in attr.Value)
+                {
+                    xmlwriter.WriteElementString(attr.Type, value);
+                }
+                if(attr.Value.Length > 1) {
+                    xmlwriter.WriteEndElement();
+                }
                 xmlwriter.WriteEndElement();
             }
         }
@@ -285,10 +301,10 @@ namespace de.unika.ipd.grGen.libGr
 
                 // TODO: Use limits from "connect" statements
                 WriteGXLEdge(edgetypeid, rootnodeid, "from",
-                    new Attr("limits", "tup", "<int>0</int><int>-1</int>"),
+                    new Attr("limits", "int", new String[]{"0", "-1"}),
                     new Attr("isordered", "bool", "false"));
                 WriteGXLEdge(edgetypeid, rootnodeid, "to",
-                    new Attr("limits", "tup", "<int>0</int><int>-1</int>"),
+                    new Attr("limits", "int", new String[]{"0", "-1"}),
                     new Attr("isordered", "bool", "false"));
             }
             xmlwriter.WriteEndElement();
