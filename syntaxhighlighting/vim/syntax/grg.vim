@@ -1,16 +1,18 @@
 " Vim syntax file
-" Language:     GrGen Model file
-" Maintainer:   Andreas Zwinkau <beza1e1@web.de>
-" URL:          
+" Language:     GrGen Rule Set
+" Maintainer:   Sebastian Buchwald <Sebastian.Buchwald@kit.edu>
+" Last Change:  2011 May 7
 
-syn clear
-
-if !exists("main_syntax")
-  let main_syntax = 'grgen rules'
+if version < 600
+  syntax clear
+elseif !exists("b:current_syntax")
+  finish
 endif
 
+syn spell notoplevel
+
 syn keyword grgKeyWords            alternative delete dpo emit eval exact false hom
-syn keyword grgKeyWords            if induced iterated modify multiple negative prio 
+syn keyword grgKeyWords            if induced iterated modify multiple negative prio
 syn keyword grgKeyWords            replace return true typeof var
 syn keyword grgKeyWords            pattern rule test nextgroup=grgRulePrefix
 syn keyword grgKeyWords            exec using nextgroup=grgIgnoreStatement
@@ -21,9 +23,9 @@ syn match   grgTypeDecl            "\h\w*\(\(\s\|\n\)*\\\(\(\s\|\n\)*\h\w*\|(\(,
 syn match   grgType                "\h\w*" contained
 syn match   grgPatternInstance     "\h\w*\(\s\|\n\)*(" contains=grgRule contained
 syn match   grgReturnTypes         "(\(,\=\(\s\|\n\)*\h\w*\)*)" contains=grgType contained
-syn region  grgComment             start="/\*" end="\*/"
-syn region  grgComment             start="//" end="$"
-syn match   grgString              "\"\([^\\"]\|\\\\\|\\\"\|\\n\|\\t\)*\"" contains=grgSpecialChar
+syn region  grgComment             start="/\*" end="\*/" contains=@Spell
+syn region  grgComment             start="//" end="$" contains=@Spell
+syn match   grgString              "\"\([^\\"]\|\\\\\|\\\"\|\\n\|\\t\)*\"" contains=grgSpecialChar,@Spell
 syn match   grgSpecialChar         "\\\"\|\\\\\|\\n\|\\t"
 syn match   grgRulePrefix          "\(\s\|\n\)*" nextgroup=grgRule contained
 syn match   grgRule                "\h\w*" nextgroup=grgRulePostfix contained
@@ -51,5 +53,3 @@ hi def link grgAlternative Function
 hi def link grgDelimiter   Delimiter
 
 let b:current_syntax = "grg"
-
-" vim:set ts=8 sts=2 sw=2 noet:
