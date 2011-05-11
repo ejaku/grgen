@@ -124,8 +124,18 @@ namespace de.unika.ipd.grGen.libGr
             }
             else modelfilename = modelOverride;
 
+            IGraph graph;
             String graphname = graphelem.GetAttribute("id");
-            IGraph graph = backend.CreateGraph(modelfilename, graphname);
+            if(modelfilename.EndsWith(".grg"))
+            {
+                BaseActions actions;
+                backend.CreateFromSpec(modelfilename, graphname, out graph, out actions);
+                graph.Actions = actions;
+            }
+            else
+            {
+                graph = backend.CreateGraph(modelfilename, graphname);
+            }
 
             ImportGraph(graph, doc, graphelem);
 
@@ -716,6 +726,7 @@ namespace de.unika.ipd.grGen.libGr
 
                     case AttributeKind.SetAttr:
                     case AttributeKind.MapAttr:
+                    case AttributeKind.ArrayAttr:
                     default:
                         throw new Exception("Unsupported attribute value type: \"" + attrType.Kind + "\"");
                 }
