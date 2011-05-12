@@ -1,0 +1,11 @@
+import helloworldext.ecore result.ecore HelloWorldExt.grg
+
+xgrs createHelloWorldExt
+
+show graph ycomp
+
+xgrs messageToText
+redirect emit "Model-to-text-grgen.xmi"
+xgrs emitString
+
+quit

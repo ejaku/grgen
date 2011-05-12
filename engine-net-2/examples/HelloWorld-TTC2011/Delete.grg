@@ -1,4 +1,4 @@
-using graph1__ecore, graph2__ecore;
+using graph1__ecore;
 
 rule deleteN1 {
 	n:graph1_Node;
@@ -15,12 +15,31 @@ rule deleteN1AndAllIncidentEdges {
 	if {n._name == "n1";}
 
 	iterated {
-		n <--> e:graph1_Edge;
+		n <-- e:graph1_Edge;
 
 		replace {
 		}
 	}
 
 	replace {
+	}
+}
+
+rule fixNodeIndex {
+	n:graph1_Node;
+	n <-e:graph1_Graph_nodes-;
+
+	if {e.index > 0;}
+
+	negative {
+		<-f:graph1_Graph_nodes-;
+
+		if { f.index == e.index - 1;}
+	}
+
+	modify {
+		eval {
+			e.index = e.index - 1;
+		}
 	}
 }

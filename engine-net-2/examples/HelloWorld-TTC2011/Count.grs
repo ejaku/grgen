@@ -1,4 +1,6 @@
-import graph1.ecore Graph1.xmi Count.grg
+import graph1.ecore result.ecore Graph1.xmi Count.grg
+
+show graph ycomp
 
 redirect emit "Count-nodes-grgen.xmi"
 xgrs [countNode] ;> aggregateResults* ;> emitInt
@@ -14,7 +16,5 @@ xgrs [countCycles] ;> aggregateResults* ;> emitInt
 
 redirect emit "Count-dangling-edges-grgen.xmi"
 xgrs [countDanglingEdges] ;> aggregateResults* ;> emitInt
-
-show graph ycomp
 
 quit

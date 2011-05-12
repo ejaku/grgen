@@ -84,19 +84,23 @@ rule countDanglingEdges {
 	e:graph1_Edge;
 
 	alternative {
-		missingSrc {
+		missingTrg {
 			e -:graph1_Edge_src->;
 
 			negative {
 				e -:graph1_Edge_trg->;
 			}
+
+			modify { }
 		}
-		missingTrg {
+		missingSrc {
 			e -:graph1_Edge_trg->;
 
 			negative {
 				e -:graph1_Edge_src->;
 			}
+
+			modify { }
 		}
 	}
 

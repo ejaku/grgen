@@ -1,12 +1,22 @@
 using graph1__ecore;
 
 rule reverseEdge {
-	e:graph1_Edge;
-	e -src:graph1_Edge_src->;
-	e -trg:graph1_Edge_trg->;
+	alternative {
+		Src {
+			-src:graph1_Edge_src->;
 
-	modify {
-		-:graph1_Edge_trg<src>->;
-		-:graph1_Edge_src<trg>->;
+			modify {
+				-:graph1_Edge_trg<src>->;
+			}
+		}
+		Trg {
+			-trg:graph1_Edge_trg->;
+
+			modify {
+				-:graph1_Edge_src<trg>->;
+			}
+		}
 	}
+
+	modify { }
 }
