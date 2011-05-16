@@ -1,20 +1,20 @@
 import graph1.ecore result.ecore Graph1.xmi Count.grg
 
-show graph ycomp
+include layout.grsi
 
 redirect emit "Count-nodes-grgen.xmi"
-xgrs [countNode] ;> aggregateResults* ;> emitInt
+xgrs (res)=createIntResult ;> [countNode(res)] ;> emitInt
 
 redirect emit "Count-looping-edges-grgen.xmi"
-xgrs [countLoopingEdge] ;> aggregateResults* ;> emitInt
+debug xgrs (res)=createIntResult ;> [countLoopingEdge(res)] ;> emitInt
 
 redirect emit "Count-isolated-nodes-grgen.xmi"
-xgrs [countIsolatedNode] ;> aggregateResults* ;> emitInt
+xgrs (res)=createIntResult ;> [countIsolatedNode(res)] ;> emitInt
 
 redirect emit "Count-cycles-grgen.xmi"
-xgrs [countCycles] ;> aggregateResults* ;> emitInt
+xgrs (res)=createIntResult ;> [countCycle(res)] ;> emitInt
 
 redirect emit "Count-dangling-edges-grgen.xmi"
-xgrs [countDanglingEdges] ;> aggregateResults* ;> emitInt
+xgrs (res)=createIntResult ;> [countDanglingEdge(res)] ;> emitInt
 
 quit

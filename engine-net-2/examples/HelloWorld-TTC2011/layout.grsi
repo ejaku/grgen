@@ -1,0 +1,9 @@
+debug set layout Circular
+dump add node graph1_Graph group by hidden outgoing graph1_Graph_edges
+dump add node graph1_Graph group by hidden outgoing graph1_Graph_nodes
+dump set node graph1_Graph color lightgrey
+dump set node graph1_Node shape circle
+dump set node graph1_Node color black
+dump set node graph1_Node textcolor white
+dump add node graph1_Node infotag _name
+dump set node graph1_Edge color white

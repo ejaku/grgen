@@ -5,7 +5,8 @@ rule deleteN1 {
 
 	if {n._name == "n1";}
 
-	replace {
+	modify {
+		delete(n);
 	}
 }
 
