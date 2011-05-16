@@ -1,0 +1,36 @@
+#debug set layout Hierarchic
+#debug set layout option ORIENTATION BOTTOM_TO_TOP
+debug set layout Compilergraph
+debug set layout option CREATE_REFERENCE_NODES false
+
+dump set node FirmNode color white
+
+dump set node Block color yellow
+dump add node Block group by hidden incoming Dataflow
+
+dump add node Argument shortinfotag position
+dump add node Const shortinfotag value
+dump add node SymConst shortinfotag symbol
+
+dump set node Start bordercolor green
+dump set node Start shape circle
+dump set node End bordercolor red
+dump set node End shape circle
+
+dump set node Cond color red
+dump set node Cond shape rhomb
+dump set node Jmp color red
+dump set node Return color red
+
+dump set node Phi color green
+
+dump set node Load color blue
+dump set node Store color blue
+dump set node Sync color blue
+
+dump set edge FirmEdge labels off
+dump add edge FirmEdge shortinfotag position
+dump set edge False labels "False "
+dump set edge True labels "True "
+dump set edge Controlflow color red
+dump set edge Memory color blue

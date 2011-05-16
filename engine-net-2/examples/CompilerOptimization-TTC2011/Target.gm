@@ -1,0 +1,108 @@
+/****************
+ * Target Nodes *
+ ****************/
+
+abstract node class TargetNode extends FirmNode;
+
+/* Control flow nodes */
+node class TargetJmp extends TargetNode;
+node class TargetCond extends TargetNode;
+
+/* Memory nodes */
+abstract node class TargetMemoryNode extends MemoryNode;
+
+node class TargetLoad extends TargetMemoryNode;
+node class TargetStore extends TargetMemoryNode;
+
+/* Constants */
+node class TargetConst extends TargetNode {
+	value: int;
+}
+node class TargetSymConst extends TargetNode {
+	symbol: string;
+}
+
+/* Operations */
+node class TargetNot extends TargetNode;
+
+abstract node class TargetBinary extends Binary, TargetNode;
+
+node class TargetAdd extends TargetBinary {
+	associative = true;
+	commutative = true;
+}
+node class TargetSub extends TargetBinary;
+node class TargetMul extends TargetBinary {
+	associative = true;
+	commutative = true;
+}
+node class TargetDiv extends TargetBinary;
+node class TargetMod extends TargetBinary;
+node class TargetAnd extends TargetBinary {
+	associative = true;
+	commutative = true;
+}
+node class TargetOr extends TargetBinary {
+	associative = true;
+	commutative = true;
+}
+node class TargetEor extends TargetBinary {
+	associative = true;
+	commutative = true;
+}
+node class TargetShl extends TargetBinary;
+node class TargetShr extends TargetBinary;
+node class TargetShrs extends TargetBinary;
+
+node class TargetCmp extends TargetBinary {
+	relation: Relation;
+}
+
+
+/********************************
+ * Target Nodes with immediates *
+ ********************************/
+
+abstract node class TargetMemoryNodeI extends MemoryNode {
+	symbol : string;
+}
+
+node class TargetLoadI extends TargetMemoryNodeI;
+node class TargetStoreI extends TargetMemoryNodeI;
+
+/* Operations */
+
+abstract node class TargetBinaryI extends TargetBinary {
+	value : int;
+}
+
+node class TargetAddI extends TargetBinaryI {
+	associative = true;
+	commutative = true;
+}
+node class TargetSubI extends TargetBinaryI;
+node class TargetMulI extends TargetBinaryI {
+	associative = true;
+	commutative = true;
+}
+node class TargetDivI extends TargetBinaryI;
+node class TargetModI extends TargetBinaryI;
+node class TargetAndI extends TargetBinaryI {
+	associative = true;
+	commutative = true;
+}
+node class TargetOrI extends TargetBinaryI {
+	associative = true;
+	commutative = true;
+}
+node class TargetEorI extends TargetBinaryI {
+	associative = true;
+	commutative = true;
+}
+node class TargetShlI extends TargetBinaryI;
+node class TargetShrI extends TargetBinaryI;
+node class TargetShrsI extends TargetBinaryI;
+
+node class TargetCmpI extends TargetBinaryI {
+	relation: Relation;
+}

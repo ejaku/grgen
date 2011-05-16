@@ -1,0 +1,102 @@
+test checkStartBlock
+{
+	startBlock:StartBlock;
+	start:Start -blockEdge:Dataflow-> startBlock;
+
+	if { blockEdge.position == -1; }
+
+	negative{
+		startBlock;
+		:StartBlock;
+	}
+
+	negative{
+		start;
+		:Start;
+	}
+}
+
+test checkEndBlock
+{
+	endBlock:EndBlock;
+	end:End -blockEdge:Dataflow-> endBlock;
+
+	if { blockEdge.position == -1; }
+
+	negative{
+		endBlock;
+		:EndBlock;
+	}
+
+	negative{
+		end;
+		:End;
+	}
+}
+
+test checkBlockEdges
+{
+	negative {
+		:Block <-blockEdge:Dataflow-;
+
+		if { blockEdge.position != -1; }
+	}
+}
+
+test checkBlocklessEdge
+{
+	negative {
+		n:FirmNode\Block;
+
+		negative {
+			n -blockEdge:Dataflow-> :Block;
+
+			if { blockEdge.position == -1; }
+		}
+	}
+}
+
+test checkConstBlock
+{
+	negative {
+		:Const -:Dataflow-> :Block\StartBlock;
+	}
+}
+
+test checkPhiArity
+{
+	negative {
+		phi:Phi -:Dataflow-> block:Block;
+
+		iterated {
+			phi -phiEdge:Dataflow->;
+			block -blockEdge:Controlflow->;
+
+			if { phiEdge.position == blockEdge.position; }
+		}
+
+		alternative {
+			Phi {
+				phi -:Dataflow->;
+			}
+			Block {
+				block -:Controlflow->;
+			}
+		}
+	}
+}
+
+test checkDataflowPosition
+{
+	negative {
+		n:FirmNode -e:Dataflow->;
+
+		if { e.position > 0; }
+
+		negative {
+			n -f:Dataflow->;
+
+			if { f.position == e.position - 1; }
+		}
+	}
+}

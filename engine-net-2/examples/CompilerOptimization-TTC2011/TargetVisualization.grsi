@@ -1,0 +1,10 @@
+dump set node TargetNode color lightgrey
+dump set node TargetCond color lightred
+dump set node TargetCond shape rhomb
+dump set node TargetJmp color lightred
+dump set node TargetLoad color lightblue
+dump set node TargetStore color lightblue
+dump add node TargetBinaryI infotag value
+dump add node TargetMemoryNodeI infotag symbol
+dump add node TargetConst shortinfotag value
+dump add node TargetSymConst shortinfotag symbol

@@ -1,0 +1,11 @@
+# uncomment the graph to use
+#import 1000.gxl InstructionSelection.grg
+import const.gxl InstructionSelection.grg
+#import testcase.gxl InstructionSelection.grg
+
+# real work done here
+include InstructionSelection.grsi
+
+export instructionsSelected.gxl
+
+quit

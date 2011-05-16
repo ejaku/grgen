@@ -1,0 +1,388 @@
+using Firm, Target;
+
+#include "Verifier.gri"
+
+/////////////////////////////////////////////////////////////////////////////
+// ToTargetXXX retypes a source operation XXX into a TargetXXX operation
+/////////////////////////////////////////////////////////////////////////////
+
+rule ToTargetJmp
+{
+	j:Jmp;
+	modify {
+		:TargetJmp<j>;
+	}
+}
+
+rule ToTargetCond
+{
+	c:Cond;
+	modify {
+		:TargetCond<c>;
+	}
+}
+
+rule ToTargetLoad
+{
+	l:Load;
+	modify {
+		t:TargetLoad<l>;
+		eval { t.volatile = l.volatile; }
+	}
+}
+
+rule ToTargetStore
+{
+	s:Store;
+	modify {
+		t:TargetStore<s>;
+		eval { t.volatile = s.volatile; }
+	}
+}
+
+rule ToTargetConst
+{
+	c:Const;
+	modify {
+		t:TargetConst<c>;
+		eval { t.value = c.value; }
+	}
+}
+
+rule ToTargetSymConst
+{
+	s:SymConst;
+	modify {
+		t:TargetSymConst<s>;
+		eval { t.symbol = s.symbol; }
+	}
+}
+
+rule ToTargetNot
+{
+	n:Not;
+	modify {
+		:TargetNot<n>;
+	}
+}
+
+rule ToTargetAdd
+{
+	a:Add;
+	modify {
+		:TargetAdd<a>;
+	}
+}
+
+rule ToTargetSub
+{
+	s:Sub;
+	modify {
+		:TargetSub<s>;
+	}
+}
+
+rule ToTargetMul
+{
+	m:Mul;
+	modify {
+		:TargetMul<m>;
+	}
+}
+
+rule ToTargetDiv
+{
+	d:Div;
+	modify {
+		:TargetDiv<d>;
+	}
+}
+
+rule ToTargetMod
+{
+	m:Mod;
+	modify {
+		:TargetMod<m>;
+	}
+}
+
+rule ToTargetAnd
+{
+	a:And;
+	modify {
+		:TargetAnd<a>;
+	}
+}
+
+rule ToTargetOr
+{
+	o:Or;
+	modify {
+		:TargetOr<o>;
+	}
+}
+
+rule ToTargetEor
+{
+	e:Eor;
+	modify {
+		:TargetEor<e>;
+	}
+}
+
+rule ToTargetShl
+{
+	s:Shl;
+	modify {
+		:TargetShl<s>;
+	}
+}
+
+rule ToTargetShr
+{
+	s:Shr;
+	modify {
+		:TargetShr<s>;
+	}
+}
+
+rule ToTargetShrs
+{
+	s:Shrs;
+	modify {
+		:TargetShrs<s>;
+	}
+}
+
+rule ToTargetCmp
+{
+	c:Cmp;
+	modify {
+		t:TargetCmp<c>;
+		eval {
+			t.relation = c.relation;
+		}
+	}
+}
+
+/////////////////////////////////////////////////////////////////////////////
+// ToTargetXXXI retypes a source operation XXX with a right constant argument
+// into a TargetXXXI operation
+/////////////////////////////////////////////////////////////////////////////
+
+rule NormalizeConst
+{
+	bin:Binary;
+	bin -op0Edge:Dataflow-> op0:Const;
+	bin -op1Edge:Dataflow-> op1:FirmNode\Const;
+
+	if { bin.commutative && op0Edge.position == 0 && op1Edge.position == 1; }
+
+	modify {
+		eval {
+			op0Edge.position = 1;
+			op1Edge.position = 0;
+		}
+	}
+}
+
+rule ToTargetLoadI
+{
+	l:Load -df:Dataflow-> c:SymConst;
+	if { df.position==1; }
+
+	modify {
+		tl:TargetLoadI<l>;
+		delete(df);
+		eval {
+			tl.symbol = c.symbol;
+			tl.volatile = l.volatile;
+		}
+	}
+}
+
+rule ToTargetStoreI
+{
+	s:Store -df:Dataflow-> c:SymConst;
+	s -e:Dataflow->;
+	if { df.position==1 && e.position==2; }
+
+	modify {
+		ts:TargetStoreI<s>;
+		delete(df);
+		eval {
+			e.position = 1;
+			ts.symbol = c.symbol;
+			ts.volatile = s.volatile;
+		}
+	}
+}
+
+rule ToTargetAddI
+{
+	a:Add -df:Dataflow-> c:Const;
+	if { df.position==1; }
+
+	modify {
+		ta:TargetAddI<a>;
+		delete(df);
+		eval {
+			ta.value = c.value;
+		}
+	}
+}
+
+rule ToTargetSubI
+{
+	s:Sub -df:Dataflow-> c:Const;
+	if { df.position==1; }
+
+	modify {
+		ts:TargetSubI<s>;
+		delete(df);
+		eval {
+			ts.value = c.value;
+		}
+	}
+}
+
+rule ToTargetMulI
+{
+	m:Mul -df:Dataflow-> c:Const;
+	if { df.position==1; }
+
+	modify {
+		tm:TargetMulI<m>;
+		delete(df);
+		eval {
+			tm.value = c.value;
+		}
+	}
+}
+
+rule ToTargetDivI
+{
+	d:Div -df:Dataflow-> c:Const;
+	if { df.position==1; }
+
+	modify {
+		td:TargetDivI<d>;
+		delete(df);
+		eval {
+			td.value = c.value;
+		}
+	}
+}
+
+rule ToTargetModI
+{
+	m:Mod -df:Dataflow-> c:Const;
+	if { df.position==1; }
+
+	modify {
+		tm:TargetModI<m>;
+		delete(df);
+		eval {
+			tm.value = c.value;
+		}
+	}
+}
+
+rule ToTargetAndI
+{
+	a:And -df:Dataflow-> c:Const;
+	if { df.position==1; }
+
+	modify {
+		ta:TargetAndI<a>;
+		delete(df);
+		eval {
+			ta.value = c.value;
+		}
+	}
+}
+
+rule ToTargetOrI
+{
+	o:Or -df:Dataflow-> c:Const;
+	if { df.position==1; }
+
+	modify {
+		to:TargetOrI<o>;
+		delete(df);
+		eval {
+			to.value = c.value;
+		}
+	}
+}
+
+rule ToTargetEorI
+{
+	e:Eor -df:Dataflow-> c:Const;
+	if { df.position==1; }
+
+	modify {
+		te:TargetEorI<e>;
+		delete(df);
+		eval {
+			te.value = c.value;
+		}
+	}
+}
+
+rule ToTargetShlI
+{
+	s:Shl -df:Dataflow-> c:Const;
+	if { df.position==1; }
+
+	modify {
+		ts:TargetShlI<s>;
+		delete(df);
+		eval {
+			ts.value = c.value;
+		}
+	}
+}
+
+rule ToTargetShrI
+{
+	s:Shr -df:Dataflow-> c:Const;
+	if { df.position==1; }
+
+	modify {
+		ts:TargetShrI<s>;
+		delete(df);
+		eval {
+			ts.value = c.value;
+		}
+	}
+}
+
+rule ToTargetShrsI
+{
+	s:Shrs -df:Dataflow-> c:Const;
+	if { df.position==1; }
+
+	modify {
+		ts:TargetShrsI<s>;
+		delete(df);
+		eval {
+			ts.value = c.value;
+		}
+	}
+}
+
+rule ToTargetCmpI
+{
+	cm:Cmp -df:Dataflow-> c:Const;
+	if { df.position==1; }
+
+	modify {
+		tc:TargetCmpI<cm>;
+		delete(df);
+		eval {
+			tc.value = c.value;
+			tc.relation = cm.relation;
+		}
+	}
+}

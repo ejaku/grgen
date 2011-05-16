@@ -1,0 +1,15 @@
+include Verifier.grsi
+
+validate xgrs verify
+
+xgrs [NormalizeConst]
+xgrs [ToTargetLoadI] | [ToTargetStoreI] | [ToTargetAddI] | [ToTargetSubI] | [ToTargetMulI]\
+		| [ToTargetDivI] | [ToTargetModI] | [ToTargetAndI] | [ToTargetOrI] | [ToTargetEorI]\
+		| [ToTargetShlI] | [ToTargetShrI] | [ToTargetShrsI] | [ToTargetCmpI]
+
+xgrs [ToTargetJmp] | [ToTargetCond] | [ToTargetLoad] | [ToTargetStore] | [ToTargetConst]\
+		| [ToTargetSymConst] | [ToTargetNot] | [ToTargetAdd] | [ToTargetSub] | [ToTargetMul]\
+		| [ToTargetDiv] | [ToTargetMod]  | [ToTargetAnd] | [ToTargetOr] | [ToTargetEor]\
+		| [ToTargetShl] | [ToTargetShr] | [ToTargetShrs] | [ToTargetCmp]
+
+validate xgrs verify

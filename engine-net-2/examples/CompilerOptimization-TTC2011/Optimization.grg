@@ -1,0 +1,401 @@
+using Firm;
+
+#include "Verifier.gri"
+
+rule foldCond
+{
+	startBlock:StartBlock;
+	cond:Cond -blockEdge:Dataflow->;
+	cond -df0:Dataflow-> c0:Const;
+	falseBlock:Block -falseEdge:False-> cond;
+	trueBlock:Block -trueEdge:True-> cond;
+	hom(falseBlock, trueBlock);
+
+	alternative {
+		TrueCond {
+			if { c0.value == 1; }
+
+			modify {
+				delete(falseEdge);
+				-jmpEdge:Controlflow<trueEdge>->;
+			}
+		}
+		FalseCond {
+			if { c0.value == 0; }
+
+			modify {
+				delete(trueEdge);
+				-jmpEdge:Controlflow<falseEdge>->;
+			}
+		}
+	}
+
+	modify {
+		delete(df0);
+		jmp:Jmp<cond>;
+	}
+}
+
+rule foldAssociativeAndCommutative
+{
+	bin0:Binary;
+	bin0 -:Dataflow-> block:Block;
+	bin0 -binEdge:Dataflow-> bin1:typeof(bin0);
+	bin0 -constEdge:Dataflow-> c0:Const;
+	bin1 -:Dataflow-> operand:FirmNode\Block;
+	bin1 -:Dataflow-> c1:Const;
+	hom(c0, c1);
+
+	if { bin0.associative && bin0.commutative; }
+
+	modify {
+		delete(binEdge, constEdge);
+
+		bin:typeof(bin0);
+		bin -blockEdge:Dataflow-> block;
+		bin -left:Dataflow-> c0;
+		bin -right:Dataflow-> c1;
+		bin0 -binLeft:Dataflow-> operand;
+		bin0 -binRight:Dataflow-> bin;
+
+		eval {
+			blockEdge.position = -1;
+			left.position = 0;
+			right.position = 1;
+			binLeft.position = binEdge.position;
+			binRight.position = constEdge.position;
+		}
+	}
+}
+
+
+rule foldPhi(phi:Phi<FirmNode>) : (Const)
+{
+	startBlock:StartBlock;
+	phi -blockEdge:Dataflow-> block:Block;
+	phi -e0:Dataflow-> c0:Const;
+
+	iterated {
+		phi -e:Dataflow-> c0;
+
+		modify {
+			delete(e);
+		}
+	}
+
+	iterated {
+		phi -e:Dataflow-> phi;
+
+		modify {
+			delete(e);
+		}
+	}
+
+	negative {
+		c0;
+		block;
+		phi -:Dataflow-> :FirmNode;
+	}
+
+	modify {
+		delete(blockEdge, e0);
+
+		c:Const<phi>;
+		c -startBlockEdge:Dataflow-> startBlock;
+
+		eval {
+			c.value = c0.value;
+			startBlockEdge.position = -1;
+		}
+
+		return(c);
+	}
+}
+
+rule removeUnreachablePhiOperand
+{
+	phi:Phi -blockEdge:Dataflow-> block:Block;
+	phi -operandEdge:FirmEdge-> operand:FirmNode;
+
+	negative {
+		block -cfgEdge:Controlflow->;
+
+		if { cfgEdge.position == operandEdge.position; }
+	}
+
+	modify {
+		delete(operandEdge);
+	}
+}
+
+rule fixEdgePosition {
+	n:FirmNode;
+	n -e:FirmEdge->;
+
+	if {e.position > 0;}
+
+	negative {
+		n -f:FirmEdge->;
+
+		if { f.position == e.position - 1;}
+	}
+
+	modify {
+		eval {
+			e.position = e.position - 1;
+		}
+	}
+}
+
+rule removeUnreachableBlock
+{
+	block:Block\StartBlock;
+
+	negative {
+		block -cfgEdge:Controlflow->;
+	}
+
+	modify {
+		delete(block);
+	}
+}
+
+rule removeUnreachableNode
+{
+	n:FirmNode\Block;
+
+	negative {
+		n -blockEdge:Dataflow-> :Block;
+
+		if { blockEdge.position == -1; }
+	}
+
+	modify {
+		delete(n);
+	}
+}
+
+rule removeUnusedNode
+{
+	n:FirmNode\End;
+
+	negative {
+		n <-:FirmEdge-;
+	}
+
+	modify {
+		delete(n);
+	}
+}
+
+rule mergeBlocks
+{
+	block:Block -predEdge:Controlflow-> jmp:Jmp;
+	jmp -blockEdge:Dataflow-> jmpBlock:Block;
+
+	negative {
+		phi:Phi -:Dataflow-> block;
+	}
+
+	negative {
+		-predEdge->;
+		block -otherPredEdge:Controlflow->;
+	}
+
+	modify {
+		delete(jmp);
+
+		exec([relinkUser(block,jmpBlock)] ;> deleteNode(block));
+	}
+}
+
+rule foldNot(n:Not<FirmNode>) : (Const)
+{
+	startBlock:StartBlock;
+	n -blockEdge:Dataflow->;
+	n -df0:Dataflow-> c0:Const;
+
+	modify {
+		c:Const<n> -df:Dataflow-> startBlock;
+		delete(blockEdge, df0);
+		eval {
+			c.value = ~c0.value;
+			df0.position = -1;
+		}
+		return(c);
+	}
+}
+
+rule foldCmp(cmp:Cmp<FirmNode>) : (Const)
+{
+	startBlock:StartBlock;
+	cmp -blockEdge:Dataflow->;
+	cmp -df0:Dataflow-> c0:Const;
+	cmp -df1:Dataflow-> c1:Const;
+	hom(c0, c1);
+	if{ df0.position == 0 && df1.position == 1; }
+
+	modify {
+		delete(blockEdge, df0, df1);
+		c:Const<cmp>;
+		c -startBlockEdge:Dataflow-> startBlock;
+		eval {
+			c.value = ( cmp.relation == Relation::TRUE                                  ||
+			            cmp.relation == Relation::GREATER       && c0.value >  c1.value ||
+			            cmp.relation == Relation::EQUAL         && c0.value == c1.value ||
+			            cmp.relation == Relation::GREATER_EQUAL && c0.value >= c1.value ||
+			            cmp.relation == Relation::LESS          && c0.value <  c1.value ||
+			            cmp.relation == Relation::NOT_EQUAL     && c0.value != c1.value ||
+			            cmp.relation == Relation::LESS_EQUAL    && c0.value <= c1.value ) ? 1 : 0;
+			startBlockEdge.position = -1;
+		}
+		return(c);
+	}
+}
+
+rule foldBinary(b:Binary<FirmNode>) : (Const)
+{
+	if{ typeof(b)!=Cmp; }
+
+	startBlock:StartBlock;
+	b -df0:Dataflow-> c0:Const;
+	b -df1:Dataflow-> c1:Const;
+	hom(c0, c1);
+	if{ df0.position==0 && df1.position==1; }
+
+	alternative {
+		foldAdd {
+			if{ typeof(b)==Add; }
+
+			modify {
+				eval { c.value = c0.value + c1.value; }
+			}
+		}
+
+		foldSub {
+			if{ typeof(b)==Sub; }
+
+			modify {
+				eval { c.value = c0.value - c1.value; }
+			}
+		}
+
+		foldMul {
+			if{ typeof(b)==Mul; }
+
+			modify {
+				eval { c.value = c0.value * c1.value; }
+			}
+		}
+
+		foldDiv {
+			if{ typeof(b)==Div; }
+
+			modify {
+				eval { c.value = c0.value / c1.value; }
+			}
+		}
+
+		foldMod {
+			if{ typeof(b)==Mod; }
+
+			modify {
+				eval { c.value = c0.value % c1.value; }
+			}
+		}
+
+		foldAnd {
+			if{ typeof(b)==And; }
+
+			modify {
+				eval { c.value = c0.value & c1.value; }
+			}
+		}
+
+		foldOr {
+			if{ typeof(b)==Or; }
+
+			modify {
+				eval { c.value = c0.value | c1.value; }
+			}
+		}
+
+		foldEor {
+			if{ typeof(b)==Eor; }
+
+			modify {
+				eval { c.value = c0.value ^ c1.value; }
+			}
+		}
+
+		foldShl {
+			if{ typeof(b)==Shl; }
+
+			modify {
+				eval { c.value = c0.value << c1.value; }
+			}
+		}
+
+		foldShr {
+			if{ typeof(b)==Shr; }
+
+			modify {
+				eval { c.value = c0.value >> c1.value; }
+			}
+		}
+
+		foldShrs {
+			if{ typeof(b)==Shrs; }
+
+			modify {
+				eval { c.value = c0.value >>> c1.value; }
+			}
+		}
+	}
+
+	modify {
+		c:Const -startBlockEdge:Dataflow-> startBlock;
+		eval { startBlockEdge.position = -1; }
+		exec([relinkUser(b,c)] ;> deleteNode(b));
+		return(c);
+	}
+}
+
+rule mergeConsts
+{
+	c0:Const;
+	c1:Const;
+
+	if {c0.value == c1.value;}
+
+	modify {
+		exec([relinkUser(c0,c1)] ;> deleteNode(c0));
+	}
+}
+
+rule relinkUser(from:FirmNode, to:FirmNode)
+{
+	user:FirmNode -df:Dataflow-> from;
+	modify {
+		user -:copy<df>-> to;
+		delete(df);
+	}
+}
+
+rule deleteNode(n:FirmNode)
+{
+	modify {
+		delete(n);
+	}
+}
+
+rule collectConstUsers(c:Const<null>, ref constUsers:set<FirmNode>)
+{
+	n:FirmNode -:Dataflow-> c;
+
+	modify {
+		eval {
+			constUsers.add(n);
+		}
+	}
+}

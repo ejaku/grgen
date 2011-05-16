@@ -1,0 +1,21 @@
+include Verifier.grsi
+
+# wavefront algorithm for constant folding
+def wavefront(constUsersNow:set<FirmNode>, constUsersNext:set<FirmNode>) {\
+	for{cu:FirmNode in constUsersNow;\
+		((c)=foldNot(cu) || (c)=foldCmp(cu) || (c)=foldBinary(cu) || (c)=foldPhi(cu) & false) && [collectConstUsers(c, constUsersNext)]\
+	} ;> constUsersNow.clear()\
+}
+
+validate xgrs verify
+
+debug xgrs now:set<FirmNode>=set<FirmNode>{} ;> next:set<FirmNode>=set<FirmNode>{} ;>\
+	( [collectConstUsers(dummy, now)] ;>\
+		(wavefront(now, next) ;> now.clear() ;> tmp=now ;> now=next ;> next=tmp ;> isEmpty=now.empty() ;> !isEmpty)* ;>\
+		[foldAssociativeAndCommutative] ;>\
+		(foldCond+ | removeUnreachablePhiOperand+ | removeUnreachableBlock+ | removeUnreachableNode+)* ;>\
+		fixEdgePosition* ;>\
+		(mergeConsts+ | removeUnusedNode+ | mergeBlocks+)\
+	)*
+
+validate xgrs verify

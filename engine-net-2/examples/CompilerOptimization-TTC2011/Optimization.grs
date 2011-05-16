@@ -1,0 +1,11 @@
+# uncomment the graph to use
+#import 1000.gxl Optimization.grg
+import min.gxl Optimization.grg
+#import zero.gxl Optimization.grg
+
+# real work done here
+include Optimization.grsi
+
+export constantsFolded.gxl
+
+quit

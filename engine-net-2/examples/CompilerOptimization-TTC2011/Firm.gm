@@ -1,0 +1,105 @@
+/************
+ * IR Nodes *
+ ************/
+
+abstract node class FirmNode;
+
+/* Blocks */
+node class Block extends FirmNode;
+node class StartBlock extends Block;
+node class EndBlock extends Block;
+
+/* Special nodes */
+node class Start extends FirmNode;
+node class End extends FirmNode;
+node class Argument extends FirmNode {
+	position: int;
+}
+node class Phi extends FirmNode;
+
+/* Control flow nodes */
+node class Jmp extends FirmNode;
+node class Cond extends FirmNode;
+node class Return extends FirmNode;
+
+/* Memory nodes */
+abstract node class MemoryNode extends FirmNode {
+	volatile: boolean = false;
+}
+node class Load extends MemoryNode;
+node class Store extends MemoryNode;
+node class Sync extends FirmNode;
+
+/* Constants */
+node class Const extends FirmNode {
+	value: int;
+}
+node class SymConst extends FirmNode {
+	symbol: string;
+}
+
+/* Operations */
+node class Not extends FirmNode;
+
+abstract node class Binary extends FirmNode {
+	associative: boolean = false;
+	commutative: boolean = false;
+}
+
+node class Add extends Binary {
+	associative = true;
+	commutative = true;
+}
+node class Sub extends Binary;
+node class Mul extends Binary {
+	associative = true;
+	commutative = true;
+}
+node class Div extends Binary;
+node class Mod extends Binary;
+node class And extends Binary {
+	associative = true;
+	commutative = true;
+}
+node class Or extends Binary {
+	associative = true;
+	commutative = true;
+}
+node class Eor extends Binary {
+	associative = true;
+	commutative = true;
+}
+node class Shl extends Binary;
+node class Shr extends Binary;
+node class Shrs extends Binary;
+
+enum Relation {
+	FALSE,
+	GREATER,
+	EQUAL,
+	GREATER_EQUAL,
+	LESS,
+	NOT_EQUAL,
+	LESS_EQUAL,
+	TRUE
+}
+node class Cmp extends Binary {
+	relation: Relation;
+}
+
+/************
+ * IR Edges *
+ ************/
+
+edge class FirmEdge
+	connect FirmNode [*] --> FirmNode [*] {
+	position: int;
+}
+
+edge class Keep extends FirmEdge;
+edge class Dataflow extends FirmEdge;
+edge class Memory extends Dataflow;
+edge class Controlflow extends FirmEdge;
+edge class True extends Controlflow;
+edge class False extends Controlflow;
+

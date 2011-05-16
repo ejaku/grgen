@@ -1,0 +1,1225 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE gxl SYSTEM "http://www.gupro.de/GXL/gxl-1.0.dtd">
+<gxl xmlns:xlink="http://www.w3.org/1999/xlink">
+ <graph id="SCE_Firm">
+  <type xlink:href="http://www.gupro.de/GXL/gxl-1.0.gxl#gxl-1.0" />
+  <node id="Firm">
+   <type xlink:href="http://www.gupro.de/GXL/gxl-1.0.gxl#GraphClass" />
+   <attr name="name">
+    <string>Firm</string>
+   </attr>
+  </node>
+  <node id="DM_bool">
+   <type xlink:href="http://www.gupro.de/GXL/gxl-1.0.gxl#Bool" />
+  </node>
+  <node id="DM_int">
+   <type xlink:href="http://www.gupro.de/GXL/gxl-1.0.gxl#Int" />
+  </node>
+  <node id="DM_float">
+   <type xlink:href="http://www.gupro.de/GXL/gxl-1.0.gxl#Float" />
+  </node>
+  <node id="DM_double">
+   <type xlink:href="http://www.gupro.de/GXL/gxl-1.0.gxl#Float" />
+  </node>
+  <node id="DM_string">
+   <type xlink:href="http://www.gupro.de/GXL/gxl-1.0.gxl#String" />
+  </node>
+  <node id="DM_enum_Relation">
+   <type xlink:href="http://www.gupro.de/GXL/gxl-1.0.gxl#Enum" />
+  </node>
+  <node id="EV_0_FALSE">
+   <type xlink:href="http://www.gupro.de/GXL/gxl-1.0.gxl#EnumVal" />
+   <attr name="value">
+    <string>FALSE</string>
+   </attr>
+  </node>
+  <edge from="DM_enum_Relation" to="EV_0_FALSE">
+   <type xlink:href="http://www.gupro.de/GXL/gxl-1.0.gxl#containsValue" />
+  </edge>
+  <node id="EV_1_GREATER">
+   <type xlink:href="http://www.gupro.de/GXL/gxl-1.0.gxl#EnumVal" />
+   <attr name="value">
+    <string>GREATER</string>
+   </attr>
+  </node>
+  <edge from="DM_enum_Relation" to="EV_1_GREATER">
+   <type xlink:href="http://www.gupro.de/GXL/gxl-1.0.gxl#containsValue" />
+  </edge>
+  <node id="EV_2_EQUAL">
+   <type xlink:href="http://www.gupro.de/GXL/gxl-1.0.gxl#EnumVal" />
+   <attr name="value">
+    <string>EQUAL</string>
+   </attr>
+  </node>
+  <edge from="DM_enum_Relation" to="EV_2_EQUAL">
+   <type xlink:href="http://www.gupro.de/GXL/gxl-1.0.gxl#containsValue" />
+  </edge>
+  <node id="EV_3_GREATER_EQUAL">
+   <type xlink:href="http://www.gupro.de/GXL/gxl-1.0.gxl#EnumVal" />
+   <attr name="value">
+    <string>GREATER_EQUAL</string>
+   </attr>
+  </node>
+  <edge from="DM_enum_Relation" to="EV_3_GREATER_EQUAL">
+   <type xlink:href="http://www.gupro.de/GXL/gxl-1.0.gxl#containsValue" />
+  </edge>
+  <node id="EV_4_LESS">
+   <type xlink:href="http://www.gupro.de/GXL/gxl-1.0.gxl#EnumVal" />
+   <attr name="value">
+    <string>LESS</string>
+   </attr>
+  </node>
+  <edge from="DM_enum_Relation" to="EV_4_LESS">
+   <type xlink:href="http://www.gupro.de/GXL/gxl-1.0.gxl#containsValue" />
+  </edge>
+  <node id="EV_5_NOT_EQUAL">
+   <type xlink:href="http://www.gupro.de/GXL/gxl-1.0.gxl#EnumVal" />
+   <attr name="value">
+    <string>NOT_EQUAL</string>
+   </attr>
+  </node>
+  <edge from="DM_enum_Relation" to="EV_5_NOT_EQUAL">
+   <type xlink:href="http://www.gupro.de/GXL/gxl-1.0.gxl#containsValue" />
+  </edge>
+  <node id="EV_6_LESS_EQUAL">
+   <type xlink:href="http://www.gupro.de/GXL/gxl-1.0.gxl#EnumVal" />
+   <attr name="value">
+    <string>LESS_EQUAL</string>
+   </attr>
+  </node>
+  <edge from="DM_enum_Relation" to="EV_6_LESS_EQUAL">
+   <type xlink:href="http://www.gupro.de/GXL/gxl-1.0.gxl#containsValue" />
+  </edge>
+  <node id="EV_7_TRUE">
+   <type xlink:href="http://www.gupro.de/GXL/gxl-1.0.gxl#EnumVal" />
+   <attr name="value">
+    <string>TRUE</string>
+   </attr>
+  </node>
+  <edge from="DM_enum_Relation" to="EV_7_TRUE">
+   <type xlink:href="http://www.gupro.de/GXL/gxl-1.0.gxl#containsValue" />
+  </edge>
+  <node id="NAT_Argument_position">
+   <type xlink:href="http://www.gupro.de/GXL/gxl-1.0.gxl#AttributeClass" />
+   <attr name="name">
+    <string>position</string>
+   </attr>
+  </node>
+  <edge from="NAT_Argument_position" to="DM_int">
+   <type xlink:href="http://www.gupro.de/GXL/gxl-1.0.gxl#hasDomain" />
+  </edge>
+  <node id="NAT_MemoryNode_volatile">
+   <type xlink:href="http://www.gupro.de/GXL/gxl-1.0.gxl#AttributeClass" />
+   <attr name="name">
+    <string>volatile</string>
+   </attr>
+  </node>
+  <edge from="NAT_MemoryNode_volatile" to="DM_bool">
+   <type xlink:href="http://www.gupro.de/GXL/gxl-1.0.gxl#hasDomain" />
+  </edge>
+  <node id="NAT_Const_value">
+   <type xlink:href="http://www.gupro.de/GXL/gxl-1.0.gxl#AttributeClass" />
+   <attr name="name">
+    <string>value</string>
+   </attr>
+  </node>
+  <edge from="NAT_Const_value" to="DM_int">
+   <type xlink:href="http://www.gupro.de/GXL/gxl-1.0.gxl#hasDomain" />
+  </edge>
+  <node id="NAT_SymConst_symbol">
+   <type xlink:href="http://www.gupro.de/GXL/gxl-1.0.gxl#AttributeClass" />
+   <attr name="name">
+    <string>symbol</string>
+   </attr>
+  </node>
+  <edge from="NAT_SymConst_symbol" to="DM_string">
+   <type xlink:href="http://www.gupro.de/GXL/gxl-1.0.gxl#hasDomain" />
+  </edge>
+  <node id="NAT_Binary_associative">
+   <type xlink:href="http://www.gupro.de/GXL/gxl-1.0.gxl#AttributeClass" />
+   <attr name="name">
+    <string>associative</string>
+   </attr>
+  </node>
+  <edge from="NAT_Binary_associative" to="DM_bool">
+   <type xlink:href="http://www.gupro.de/GXL/gxl-1.0.gxl#hasDomain" />
+  </edge>
+  <node id="NAT_Binary_commutative">
+   <type xlink:href="http://www.gupro.de/GXL/gxl-1.0.gxl#AttributeClass" />
+   <attr name="name">
+    <string>commutative</string>
+   </attr>
+  </node>
+  <edge from="NAT_Binary_commutative" to="DM_bool">
+   <type xlink:href="http://www.gupro.de/GXL/gxl-1.0.gxl#hasDomain" />
+  </edge>
+  <node id="NAT_Cmp_relation">
+   <type xlink:href="http://www.gupro.de/GXL/gxl-1.0.gxl#AttributeClass" />
+   <attr name="name">
+    <string>relation</string>
+   </attr>
+  </node>
+  <edge from="NAT_Cmp_relation" to="DM_enum_Relation">
+   <type xlink:href="http://www.gupro.de/GXL/gxl-1.0.gxl#hasDomain" />
+  </edge>
+  <node id="EAT_FirmEdge_position">
+   <type xlink:href="http://www.gupro.de/GXL/gxl-1.0.gxl#AttributeClass" />
+   <attr name="name">
+    <string>position</string>
+   </attr>
+  </node>
+  <edge from="EAT_FirmEdge_position" to="DM_int">
+   <type xlink:href="http://www.gupro.de/GXL/gxl-1.0.gxl#hasDomain" />
+  </edge>
+  <node id="Node">
+   <type xlink:href="http://www.gupro.de/GXL/gxl-1.0.gxl#NodeClass" />
+   <attr name="name">
+    <string>Node</string>
+   </attr>
+   <attr name="isabstract">
+    <bool>false</bool>
+   </attr>
+  </node>
+  <edge from="Firm" to="Node">
+   <type xlink:href="http://www.gupro.de/GXL/gxl-1.0.gxl#contains" />
+  </edge>
+  <edge from="FirmNode" to="Node">
+   <type xlink:href="http://www.gupro.de/GXL/gxl-1.0.gxl#isA" />
+  </edge>
+  <node id="FirmNode">
+   <type xlink:href="http://www.gupro.de/GXL/gxl-1.0.gxl#NodeClass" />
+   <attr name="name">
+    <string>FirmNode</string>
+   </attr>
+   <attr name="isabstract">
+    <bool>true</bool>
+   </attr>
+  </node>
+  <edge from="Firm" to="FirmNode">
+   <type xlink:href="http://www.gupro.de/GXL/gxl-1.0.gxl#contains" />
+  </edge>
+  <edge from="Block" to="FirmNode">
+   <type xlink:href="http://www.gupro.de/GXL/gxl-1.0.gxl#isA" />
+  </edge>
+  <edge from="Start" to="FirmNode">
+   <type xlink:href="http://www.gupro.de/GXL/gxl-1.0.gxl#isA" />
+  </edge>
+  <edge from="End" to="FirmNode">
+   <type xlink:href="http://www.gupro.de/GXL/gxl-1.0.gxl#isA" />
+  </edge>
+  <edge from="Argument" to="FirmNode">
+   <type xlink:href="http://www.gupro.de/GXL/gxl-1.0.gxl#isA" />
+  </edge>
+  <edge from="Phi" to="FirmNode">
+   <type xlink:href="http://www.gupro.de/GXL/gxl-1.0.gxl#isA" />
+  </edge>
+  <edge from="Jmp" to="FirmNode">
+   <type xlink:href="http://www.gupro.de/GXL/gxl-1.0.gxl#isA" />
+  </edge>
+  <edge from="Cond" to="FirmNode">
+   <type xlink:href="http://www.gupro.de/GXL/gxl-1.0.gxl#isA" />
+  </edge>
+  <edge from="Return" to="FirmNode">
+   <type xlink:href="http://www.gupro.de/GXL/gxl-1.0.gxl#isA" />
+  </edge>
+  <edge from="MemoryNode" to="FirmNode">
+   <type xlink:href="http://www.gupro.de/GXL/gxl-1.0.gxl#isA" />
+  </edge>
+  <edge from="Sync" to="FirmNode">
+   <type xlink:href="http://www.gupro.de/GXL/gxl-1.0.gxl#isA" />
+  </edge>
+  <edge from="Const" to="FirmNode">
+   <type xlink:href="http://www.gupro.de/GXL/gxl-1.0.gxl#isA" />
+  </edge>
+  <edge from="SymConst" to="FirmNode">
+   <type xlink:href="http://www.gupro.de/GXL/gxl-1.0.gxl#isA" />
+  </edge>
+  <edge from="Not" to="FirmNode">
+   <type xlink:href="http://www.gupro.de/GXL/gxl-1.0.gxl#isA" />
+  </edge>
+  <edge from="Binary" to="FirmNode">
+   <type xlink:href="http://www.gupro.de/GXL/gxl-1.0.gxl#isA" />
+  </edge>
+  <node id="Block">
+   <type xlink:href="http://www.gupro.de/GXL/gxl-1.0.gxl#NodeClass" />
+   <attr name="name">
+    <string>Block</string>
+   </attr>
+   <attr name="isabstract">
+    <bool>false</bool>
+   </attr>
+  </node>
+  <edge from="Firm" to="Block">
+   <type xlink:href="http://www.gupro.de/GXL/gxl-1.0.gxl#contains" />
+  </edge>
+  <edge from="StartBlock" to="Block">
+   <type xlink:href="http://www.gupro.de/GXL/gxl-1.0.gxl#isA" />
+  </edge>
+  <edge from="EndBlock" to="Block">
+   <type xlink:href="http://www.gupro.de/GXL/gxl-1.0.gxl#isA" />
+  </edge>
+  <node id="StartBlock">
+   <type xlink:href="http://www.gupro.de/GXL/gxl-1.0.gxl#NodeClass" />
+   <attr name="name">
+    <string>StartBlock</string>
+   </attr>
+   <attr name="isabstract">
+    <bool>false</bool>
+   </attr>
+  </node>
+  <edge from="Firm" to="StartBlock">
+   <type xlink:href="http://www.gupro.de/GXL/gxl-1.0.gxl#contains" />
+  </edge>
+  <node id="EndBlock">
+   <type xlink:href="http://www.gupro.de/GXL/gxl-1.0.gxl#NodeClass" />
+   <attr name="name">
+    <string>EndBlock</string>
+   </attr>
+   <attr name="isabstract">
+    <bool>false</bool>
+   </attr>
+  </node>
+  <edge from="Firm" to="EndBlock">
+   <type xlink:href="http://www.gupro.de/GXL/gxl-1.0.gxl#contains" />
+  </edge>
+  <node id="Start">
+   <type xlink:href="http://www.gupro.de/GXL/gxl-1.0.gxl#NodeClass" />
+   <attr name="name">
+    <string>Start</string>
+   </attr>
+   <attr name="isabstract">
+    <bool>false</bool>
+   </attr>
+  </node>
+  <edge from="Firm" to="Start">
+   <type xlink:href="http://www.gupro.de/GXL/gxl-1.0.gxl#contains" />
+  </edge>
+  <node id="End">
+   <type xlink:href="http://www.gupro.de/GXL/gxl-1.0.gxl#NodeClass" />
+   <attr name="name">
+    <string>End</string>
+   </attr>
+   <attr name="isabstract">
+    <bool>false</bool>
+   </attr>
+  </node>
+  <edge from="Firm" to="End">
+   <type xlink:href="http://www.gupro.de/GXL/gxl-1.0.gxl#contains" />
+  </edge>
+  <node id="Argument">
+   <type xlink:href="http://www.gupro.de/GXL/gxl-1.0.gxl#NodeClass" />
+   <attr name="name">
+    <string>Argument</string>
+   </attr>
+   <attr name="isabstract">
+    <bool>false</bool>
+   </attr>
+  </node>
+  <edge from="Argument" to="NAT_Argument_position">
+   <type xlink:href="http://www.gupro.de/GXL/gxl-1.0.gxl#hasAttribute" />
+  </edge>
+  <edge from="Firm" to="Argument">
+   <type xlink:href="http://www.gupro.de/GXL/gxl-1.0.gxl#contains" />
+  </edge>
+  <node id="Phi">
+   <type xlink:href="http://www.gupro.de/GXL/gxl-1.0.gxl#NodeClass" />
+   <attr name="name">
+    <string>Phi</string>
+   </attr>
+   <attr name="isabstract">
+    <bool>false</bool>
+   </attr>
+  </node>
+  <edge from="Firm" to="Phi">
+   <type xlink:href="http://www.gupro.de/GXL/gxl-1.0.gxl#contains" />
+  </edge>
+  <node id="Jmp">
+   <type xlink:href="http://www.gupro.de/GXL/gxl-1.0.gxl#NodeClass" />
+   <attr name="name">
+    <string>Jmp</string>
+   </attr>
+   <attr name="isabstract">
+    <bool>false</bool>
+   </attr>
+  </node>
+  <edge from="Firm" to="Jmp">
+   <type xlink:href="http://www.gupro.de/GXL/gxl-1.0.gxl#contains" />
+  </edge>
+  <node id="Cond">
+   <type xlink:href="http://www.gupro.de/GXL/gxl-1.0.gxl#NodeClass" />
+   <attr name="name">
+    <string>Cond</string>
+   </attr>
+   <attr name="isabstract">
+    <bool>false</bool>
+   </attr>
+  </node>
+  <edge from="Firm" to="Cond">
+   <type xlink:href="http://www.gupro.de/GXL/gxl-1.0.gxl#contains" />
+  </edge>
+  <node id="Return">
+   <type xlink:href="http://www.gupro.de/GXL/gxl-1.0.gxl#NodeClass" />
+   <attr name="name">
+    <string>Return</string>
+   </attr>
+   <attr name="isabstract">
+    <bool>false</bool>
+   </attr>
+  </node>
+  <edge from="Firm" to="Return">
+   <type xlink:href="http://www.gupro.de/GXL/gxl-1.0.gxl#contains" />
+  </edge>
+  <node id="MemoryNode">
+   <type xlink:href="http://www.gupro.de/GXL/gxl-1.0.gxl#NodeClass" />
+   <attr name="name">
+    <string>MemoryNode</string>
+   </attr>
+   <attr name="isabstract">
+    <bool>true</bool>
+   </attr>
+  </node>
+  <edge from="MemoryNode" to="NAT_MemoryNode_volatile">
+   <type xlink:href="http://www.gupro.de/GXL/gxl-1.0.gxl#hasAttribute" />
+  </edge>
+  <edge from="Firm" to="MemoryNode">
+   <type xlink:href="http://www.gupro.de/GXL/gxl-1.0.gxl#contains" />
+  </edge>
+  <edge from="Load" to="MemoryNode">
+   <type xlink:href="http://www.gupro.de/GXL/gxl-1.0.gxl#isA" />
+  </edge>
+  <edge from="Store" to="MemoryNode">
+   <type xlink:href="http://www.gupro.de/GXL/gxl-1.0.gxl#isA" />
+  </edge>
+  <node id="Load">
+   <type xlink:href="http://www.gupro.de/GXL/gxl-1.0.gxl#NodeClass" />
+   <attr name="name">
+    <string>Load</string>
+   </attr>
+   <attr name="isabstract">
+    <bool>false</bool>
+   </attr>
+  </node>
+  <edge from="Firm" to="Load">
+   <type xlink:href="http://www.gupro.de/GXL/gxl-1.0.gxl#contains" />
+  </edge>
+  <node id="Store">
+   <type xlink:href="http://www.gupro.de/GXL/gxl-1.0.gxl#NodeClass" />
+   <attr name="name">
+    <string>Store</string>
+   </attr>
+   <attr name="isabstract">
+    <bool>false</bool>
+   </attr>
+  </node>
+  <edge from="Firm" to="Store">
+   <type xlink:href="http://www.gupro.de/GXL/gxl-1.0.gxl#contains" />
+  </edge>
+  <node id="Sync">
+   <type xlink:href="http://www.gupro.de/GXL/gxl-1.0.gxl#NodeClass" />
+   <attr name="name">
+    <string>Sync</string>
+   </attr>
+   <attr name="isabstract">
+    <bool>false</bool>
+   </attr>
+  </node>
+  <edge from="Firm" to="Sync">
+   <type xlink:href="http://www.gupro.de/GXL/gxl-1.0.gxl#contains" />
+  </edge>
+  <node id="Const">
+   <type xlink:href="http://www.gupro.de/GXL/gxl-1.0.gxl#NodeClass" />
+   <attr name="name">
+    <string>Const</string>
+   </attr>
+   <attr name="isabstract">
+    <bool>false</bool>
+   </attr>
+  </node>
+  <edge from="Const" to="NAT_Const_value">
+   <type xlink:href="http://www.gupro.de/GXL/gxl-1.0.gxl#hasAttribute" />
+  </edge>
+  <edge from="Firm" to="Const">
+   <type xlink:href="http://www.gupro.de/GXL/gxl-1.0.gxl#contains" />
+  </edge>
+  <node id="SymConst">
+   <type xlink:href="http://www.gupro.de/GXL/gxl-1.0.gxl#NodeClass" />
+   <attr name="name">
+    <string>SymConst</string>
+   </attr>
+   <attr name="isabstract">
+    <bool>false</bool>
+   </attr>
+  </node>
+  <edge from="SymConst" to="NAT_SymConst_symbol">
+   <type xlink:href="http://www.gupro.de/GXL/gxl-1.0.gxl#hasAttribute" />
+  </edge>
+  <edge from="Firm" to="SymConst">
+   <type xlink:href="http://www.gupro.de/GXL/gxl-1.0.gxl#contains" />
+  </edge>
+  <node id="Not">
+   <type xlink:href="http://www.gupro.de/GXL/gxl-1.0.gxl#NodeClass" />
+   <attr name="name">
+    <string>Not</string>
+   </attr>
+   <attr name="isabstract">
+    <bool>false</bool>
+   </attr>
+  </node>
+  <edge from="Firm" to="Not">
+   <type xlink:href="http://www.gupro.de/GXL/gxl-1.0.gxl#contains" />
+  </edge>
+  <node id="Binary">
+   <type xlink:href="http://www.gupro.de/GXL/gxl-1.0.gxl#NodeClass" />
+   <attr name="name">
+    <string>Binary</string>
+   </attr>
+   <attr name="isabstract">
+    <bool>true</bool>
+   </attr>
+  </node>
+  <edge from="Binary" to="NAT_Binary_associative">
+   <type xlink:href="http://www.gupro.de/GXL/gxl-1.0.gxl#hasAttribute" />
+  </edge>
+  <edge from="Binary" to="NAT_Binary_commutative">
+   <type xlink:href="http://www.gupro.de/GXL/gxl-1.0.gxl#hasAttribute" />
+  </edge>
+  <edge from="Firm" to="Binary">
+   <type xlink:href="http://www.gupro.de/GXL/gxl-1.0.gxl#contains" />
+  </edge>
+  <edge from="Add" to="Binary">
+   <type xlink:href="http://www.gupro.de/GXL/gxl-1.0.gxl#isA" />
+  </edge>
+  <edge from="Sub" to="Binary">
+   <type xlink:href="http://www.gupro.de/GXL/gxl-1.0.gxl#isA" />
+  </edge>
+  <edge from="Mul" to="Binary">
+   <type xlink:href="http://www.gupro.de/GXL/gxl-1.0.gxl#isA" />
+  </edge>
+  <edge from="Div" to="Binary">
+   <type xlink:href="http://www.gupro.de/GXL/gxl-1.0.gxl#isA" />
+  </edge>
+  <edge from="Mod" to="Binary">
+   <type xlink:href="http://www.gupro.de/GXL/gxl-1.0.gxl#isA" />
+  </edge>
+  <edge from="And" to="Binary">
+   <type xlink:href="http://www.gupro.de/GXL/gxl-1.0.gxl#isA" />
+  </edge>
+  <edge from="Or" to="Binary">
+   <type xlink:href="http://www.gupro.de/GXL/gxl-1.0.gxl#isA" />
+  </edge>
+  <edge from="Eor" to="Binary">
+   <type xlink:href="http://www.gupro.de/GXL/gxl-1.0.gxl#isA" />
+  </edge>
+  <edge from="Shl" to="Binary">
+   <type xlink:href="http://www.gupro.de/GXL/gxl-1.0.gxl#isA" />
+  </edge>
+  <edge from="Shr" to="Binary">
+   <type xlink:href="http://www.gupro.de/GXL/gxl-1.0.gxl#isA" />
+  </edge>
+  <edge from="Shrs" to="Binary">
+   <type xlink:href="http://www.gupro.de/GXL/gxl-1.0.gxl#isA" />
+  </edge>
+  <edge from="Cmp" to="Binary">
+   <type xlink:href="http://www.gupro.de/GXL/gxl-1.0.gxl#isA" />
+  </edge>
+  <node id="Add">
+   <type xlink:href="http://www.gupro.de/GXL/gxl-1.0.gxl#NodeClass" />
+   <attr name="name">
+    <string>Add</string>
+   </attr>
+   <attr name="isabstract">
+    <bool>false</bool>
+   </attr>
+  </node>
+  <edge from="Firm" to="Add">
+   <type xlink:href="http://www.gupro.de/GXL/gxl-1.0.gxl#contains" />
+  </edge>
+  <node id="Sub">
+   <type xlink:href="http://www.gupro.de/GXL/gxl-1.0.gxl#NodeClass" />
+   <attr name="name">
+    <string>Sub</string>
+   </attr>
+   <attr name="isabstract">
+    <bool>false</bool>
+   </attr>
+  </node>
+  <edge from="Firm" to="Sub">
+   <type xlink:href="http://www.gupro.de/GXL/gxl-1.0.gxl#contains" />
+  </edge>
+  <node id="Mul">
+   <type xlink:href="http://www.gupro.de/GXL/gxl-1.0.gxl#NodeClass" />
+   <attr name="name">
+    <string>Mul</string>
+   </attr>
+   <attr name="isabstract">
+    <bool>false</bool>
+   </attr>
+  </node>
+  <edge from="Firm" to="Mul">
+   <type xlink:href="http://www.gupro.de/GXL/gxl-1.0.gxl#contains" />
+  </edge>
+  <node id="Div">
+   <type xlink:href="http://www.gupro.de/GXL/gxl-1.0.gxl#NodeClass" />
+   <attr name="name">
+    <string>Div</string>
+   </attr>
+   <attr name="isabstract">
+    <bool>false</bool>
+   </attr>
+  </node>
+  <edge from="Firm" to="Div">
+   <type xlink:href="http://www.gupro.de/GXL/gxl-1.0.gxl#contains" />
+  </edge>
+  <node id="Mod">
+   <type xlink:href="http://www.gupro.de/GXL/gxl-1.0.gxl#NodeClass" />
+   <attr name="name">
+    <string>Mod</string>
+   </attr>
+   <attr name="isabstract">
+    <bool>false</bool>
+   </attr>
+  </node>
+  <edge from="Firm" to="Mod">
+   <type xlink:href="http://www.gupro.de/GXL/gxl-1.0.gxl#contains" />
+  </edge>
+  <node id="And">
+   <type xlink:href="http://www.gupro.de/GXL/gxl-1.0.gxl#NodeClass" />
+   <attr name="name">
+    <string>And</string>
+   </attr>
+   <attr name="isabstract">
+    <bool>false</bool>
+   </attr>
+  </node>
+  <edge from="Firm" to="And">
+   <type xlink:href="http://www.gupro.de/GXL/gxl-1.0.gxl#contains" />
+  </edge>
+  <node id="Or">
+   <type xlink:href="http://www.gupro.de/GXL/gxl-1.0.gxl#NodeClass" />
+   <attr name="name">
+    <string>Or</string>
+   </attr>
+   <attr name="isabstract">
+    <bool>false</bool>
+   </attr>
+  </node>
+  <edge from="Firm" to="Or">
+   <type xlink:href="http://www.gupro.de/GXL/gxl-1.0.gxl#contains" />
+  </edge>
+  <node id="Eor">
+   <type xlink:href="http://www.gupro.de/GXL/gxl-1.0.gxl#NodeClass" />
+   <attr name="name">
+    <string>Eor</string>
+   </attr>
+   <attr name="isabstract">
+    <bool>false</bool>
+   </attr>
+  </node>
+  <edge from="Firm" to="Eor">
+   <type xlink:href="http://www.gupro.de/GXL/gxl-1.0.gxl#contains" />
+  </edge>
+  <node id="Shl">
+   <type xlink:href="http://www.gupro.de/GXL/gxl-1.0.gxl#NodeClass" />
+   <attr name="name">
+    <string>Shl</string>
+   </attr>
+   <attr name="isabstract">
+    <bool>false</bool>
+   </attr>
+  </node>
+  <edge from="Firm" to="Shl">
+   <type xlink:href="http://www.gupro.de/GXL/gxl-1.0.gxl#contains" />
+  </edge>
+  <node id="Shr">
+   <type xlink:href="http://www.gupro.de/GXL/gxl-1.0.gxl#NodeClass" />
+   <attr name="name">
+    <string>Shr</string>
+   </attr>
+   <attr name="isabstract">
+    <bool>false</bool>
+   </attr>
+  </node>
+  <edge from="Firm" to="Shr">
+   <type xlink:href="http://www.gupro.de/GXL/gxl-1.0.gxl#contains" />
+  </edge>
+  <node id="Shrs">
+   <type xlink:href="http://www.gupro.de/GXL/gxl-1.0.gxl#NodeClass" />
+   <attr name="name">
+    <string>Shrs</string>
+   </attr>
+   <attr name="isabstract">
+    <bool>false</bool>
+   </attr>
+  </node>
+  <edge from="Firm" to="Shrs">
+   <type xlink:href="http://www.gupro.de/GXL/gxl-1.0.gxl#contains" />
+  </edge>
+  <node id="Cmp">
+   <type xlink:href="http://www.gupro.de/GXL/gxl-1.0.gxl#NodeClass" />
+   <attr name="name">
+    <string>Cmp</string>
+   </attr>
+   <attr name="isabstract">
+    <bool>false</bool>
+   </attr>
+  </node>
+  <edge from="Cmp" to="NAT_Cmp_relation">
+   <type xlink:href="http://www.gupro.de/GXL/gxl-1.0.gxl#hasAttribute" />
+  </edge>
+  <edge from="Firm" to="Cmp">
+   <type xlink:href="http://www.gupro.de/GXL/gxl-1.0.gxl#contains" />
+  </edge>
+  <node id="AEdge">
+   <type xlink:href="http://www.gupro.de/GXL/gxl-1.0.gxl#EdgeClass" />
+   <attr name="name">
+    <string>AEdge</string>
+   </attr>
+   <attr name="isabstract">
+    <bool>true</bool>
+   </attr>
+   <attr name="isdirected">
+    <bool>false</bool>
+   </attr>
+  </node>
+  <edge from="Firm" to="AEdge">
+   <type xlink:href="http://www.gupro.de/GXL/gxl-1.0.gxl#contains" />
+  </edge>
+  <edge from="Edge" to="AEdge">
+   <type xlink:href="http://www.gupro.de/GXL/gxl-1.0.gxl#isA" />
+  </edge>
+  <edge from="UEdge" to="AEdge">
+   <type xlink:href="http://www.gupro.de/GXL/gxl-1.0.gxl#isA" />
+  </edge>
+  <edge from="AEdge" to="Node">
+   <type xlink:href="http://www.gupro.de/GXL/gxl-1.0.gxl#from" />
+   <attr name="limits">
+    <tup><int>0</int><int>-1</int></tup>
+   </attr>
+   <attr name="isordered">
+    <bool>false</bool>
+   </attr>
+  </edge>
+  <edge from="AEdge" to="Node">
+   <type xlink:href="http://www.gupro.de/GXL/gxl-1.0.gxl#to" />
+   <attr name="limits">
+    <tup><int>0</int><int>-1</int></tup>
+   </attr>
+   <attr name="isordered">
+    <bool>false</bool>
+   </attr>
+  </edge>
+  <node id="Edge">
+   <type xlink:href="http://www.gupro.de/GXL/gxl-1.0.gxl#EdgeClass" />
+   <attr name="name">
+    <string>Edge</string>
+   </attr>
+   <attr name="isabstract">
+    <bool>false</bool>
+   </attr>
+   <attr name="isdirected">
+    <bool>true</bool>
+   </attr>
+  </node>
+  <edge from="Firm" to="Edge">
+   <type xlink:href="http://www.gupro.de/GXL/gxl-1.0.gxl#contains" />
+  </edge>
+  <edge from="FirmEdge" to="Edge">
+   <type xlink:href="http://www.gupro.de/GXL/gxl-1.0.gxl#isA" />
+  </edge>
+  <edge from="Edge" to="Node">
+   <type xlink:href="http://www.gupro.de/GXL/gxl-1.0.gxl#from" />
+   <attr name="limits">
+    <tup><int>0</int><int>-1</int></tup>
+   </attr>
+   <attr name="isordered">
+    <bool>false</bool>
+   </attr>
+  </edge>
+  <edge from="Edge" to="Node">
+   <type xlink:href="http://www.gupro.de/GXL/gxl-1.0.gxl#to" />
+   <attr name="limits">
+    <tup><int>0</int><int>-1</int></tup>
+   </attr>
+   <attr name="isordered">
+    <bool>false</bool>
+   </attr>
+  </edge>
+  <node id="UEdge">
+   <type xlink:href="http://www.gupro.de/GXL/gxl-1.0.gxl#EdgeClass" />
+   <attr name="name">
+    <string>UEdge</string>
+   </attr>
+   <attr name="isabstract">
+    <bool>false</bool>
+   </attr>
+   <attr name="isdirected">
+    <bool>false</bool>
+   </attr>
+  </node>
+  <edge from="Firm" to="UEdge">
+   <type xlink:href="http://www.gupro.de/GXL/gxl-1.0.gxl#contains" />
+  </edge>
+  <edge from="UEdge" to="Node">
+   <type xlink:href="http://www.gupro.de/GXL/gxl-1.0.gxl#from" />
+   <attr name="limits">
+    <tup><int>0</int><int>-1</int></tup>
+   </attr>
+   <attr name="isordered">
+    <bool>false</bool>
+   </attr>
+  </edge>
+  <edge from="UEdge" to="Node">
+   <type xlink:href="http://www.gupro.de/GXL/gxl-1.0.gxl#to" />
+   <attr name="limits">
+    <tup><int>0</int><int>-1</int></tup>
+   </attr>
+   <attr name="isordered">
+    <bool>false</bool>
+   </attr>
+  </edge>
+  <node id="FirmEdge">
+   <type xlink:href="http://www.gupro.de/GXL/gxl-1.0.gxl#EdgeClass" />
+   <attr name="name">
+    <string>FirmEdge</string>
+   </attr>
+   <attr name="isabstract">
+    <bool>false</bool>
+   </attr>
+   <attr name="isdirected">
+    <bool>true</bool>
+   </attr>
+  </node>
+  <edge from="Firm" to="FirmEdge">
+   <type xlink:href="http://www.gupro.de/GXL/gxl-1.0.gxl#contains" />
+  </edge>
+  <edge from="FirmEdge" to="EAT_FirmEdge_position">
+   <type xlink:href="http://www.gupro.de/GXL/gxl-1.0.gxl#hasAttribute" />
+  </edge>
+  <edge from="Keep" to="FirmEdge">
+   <type xlink:href="http://www.gupro.de/GXL/gxl-1.0.gxl#isA" />
+  </edge>
+  <edge from="Dataflow" to="FirmEdge">
+   <type xlink:href="http://www.gupro.de/GXL/gxl-1.0.gxl#isA" />
+  </edge>
+  <edge from="Controlflow" to="FirmEdge">
+   <type xlink:href="http://www.gupro.de/GXL/gxl-1.0.gxl#isA" />
+  </edge>
+  <edge from="FirmEdge" to="Node">
+   <type xlink:href="http://www.gupro.de/GXL/gxl-1.0.gxl#from" />
+   <attr name="limits">
+    <tup><int>0</int><int>-1</int></tup>
+   </attr>
+   <attr name="isordered">
+    <bool>false</bool>
+   </attr>
+  </edge>
+  <edge from="FirmEdge" to="Node">
+   <type xlink:href="http://www.gupro.de/GXL/gxl-1.0.gxl#to" />
+   <attr name="limits">
+    <tup><int>0</int><int>-1</int></tup>
+   </attr>
+   <attr name="isordered">
+    <bool>false</bool>
+   </attr>
+  </edge>
+  <node id="Keep">
+   <type xlink:href="http://www.gupro.de/GXL/gxl-1.0.gxl#EdgeClass" />
+   <attr name="name">
+    <string>Keep</string>
+   </attr>
+   <attr name="isabstract">
+    <bool>false</bool>
+   </attr>
+   <attr name="isdirected">
+    <bool>true</bool>
+   </attr>
+  </node>
+  <edge from="Firm" to="Keep">
+   <type xlink:href="http://www.gupro.de/GXL/gxl-1.0.gxl#contains" />
+  </edge>
+  <edge from="Keep" to="Node">
+   <type xlink:href="http://www.gupro.de/GXL/gxl-1.0.gxl#from" />
+   <attr name="limits">
+    <tup><int>0</int><int>-1</int></tup>
+   </attr>
+   <attr name="isordered">
+    <bool>false</bool>
+   </attr>
+  </edge>
+  <edge from="Keep" to="Node">
+   <type xlink:href="http://www.gupro.de/GXL/gxl-1.0.gxl#to" />
+   <attr name="limits">
+    <tup><int>0</int><int>-1</int></tup>
+   </attr>
+   <attr name="isordered">
+    <bool>false</bool>
+   </attr>
+  </edge>
+  <node id="Dataflow">
+   <type xlink:href="http://www.gupro.de/GXL/gxl-1.0.gxl#EdgeClass" />
+   <attr name="name">
+    <string>Dataflow</string>
+   </attr>
+   <attr name="isabstract">
+    <bool>false</bool>
+   </attr>
+   <attr name="isdirected">
+    <bool>true</bool>
+   </attr>
+  </node>
+  <edge from="Firm" to="Dataflow">
+   <type xlink:href="http://www.gupro.de/GXL/gxl-1.0.gxl#contains" />
+  </edge>
+  <edge from="Memory" to="Dataflow">
+   <type xlink:href="http://www.gupro.de/GXL/gxl-1.0.gxl#isA" />
+  </edge>
+  <edge from="Dataflow" to="Node">
+   <type xlink:href="http://www.gupro.de/GXL/gxl-1.0.gxl#from" />
+   <attr name="limits">
+    <tup><int>0</int><int>-1</int></tup>
+   </attr>
+   <attr name="isordered">
+    <bool>false</bool>
+   </attr>
+  </edge>
+  <edge from="Dataflow" to="Node">
+   <type xlink:href="http://www.gupro.de/GXL/gxl-1.0.gxl#to" />
+   <attr name="limits">
+    <tup><int>0</int><int>-1</int></tup>
+   </attr>
+   <attr name="isordered">
+    <bool>false</bool>
+   </attr>
+  </edge>
+  <node id="Memory">
+   <type xlink:href="http://www.gupro.de/GXL/gxl-1.0.gxl#EdgeClass" />
+   <attr name="name">
+    <string>Memory</string>
+   </attr>
+   <attr name="isabstract">
+    <bool>false</bool>
+   </attr>
+   <attr name="isdirected">
+    <bool>true</bool>
+   </attr>
+  </node>
+  <edge from="Firm" to="Memory">
+   <type xlink:href="http://www.gupro.de/GXL/gxl-1.0.gxl#contains" />
+  </edge>
+  <edge from="Memory" to="Node">
+   <type xlink:href="http://www.gupro.de/GXL/gxl-1.0.gxl#from" />
+   <attr name="limits">
+    <tup><int>0</int><int>-1</int></tup>
+   </attr>
+   <attr name="isordered">
+    <bool>false</bool>
+   </attr>
+  </edge>
+  <edge from="Memory" to="Node">
+   <type xlink:href="http://www.gupro.de/GXL/gxl-1.0.gxl#to" />
+   <attr name="limits">
+    <tup><int>0</int><int>-1</int></tup>
+   </attr>
+   <attr name="isordered">
+    <bool>false</bool>
+   </attr>
+  </edge>
+  <node id="Controlflow">
+   <type xlink:href="http://www.gupro.de/GXL/gxl-1.0.gxl#EdgeClass" />
+   <attr name="name">
+    <string>Controlflow</string>
+   </attr>
+   <attr name="isabstract">
+    <bool>false</bool>
+   </attr>
+   <attr name="isdirected">
+    <bool>true</bool>
+   </attr>
+  </node>
+  <edge from="Firm" to="Controlflow">
+   <type xlink:href="http://www.gupro.de/GXL/gxl-1.0.gxl#contains" />
+  </edge>
+  <edge from="True" to="Controlflow">
+   <type xlink:href="http://www.gupro.de/GXL/gxl-1.0.gxl#isA" />
+  </edge>
+  <edge from="False" to="Controlflow">
+   <type xlink:href="http://www.gupro.de/GXL/gxl-1.0.gxl#isA" />
+  </edge>
+  <edge from="Controlflow" to="Node">
+   <type xlink:href="http://www.gupro.de/GXL/gxl-1.0.gxl#from" />
+   <attr name="limits">
+    <tup><int>0</int><int>-1</int></tup>
+   </attr>
+   <attr name="isordered">
+    <bool>false</bool>
+   </attr>
+  </edge>
+  <edge from="Controlflow" to="Node">
+   <type xlink:href="http://www.gupro.de/GXL/gxl-1.0.gxl#to" />
+   <attr name="limits">
+    <tup><int>0</int><int>-1</int></tup>
+   </attr>
+   <attr name="isordered">
+    <bool>false</bool>
+   </attr>
+  </edge>
+  <node id="True">
+   <type xlink:href="http://www.gupro.de/GXL/gxl-1.0.gxl#EdgeClass" />
+   <attr name="name">
+    <string>True</string>
+   </attr>
+   <attr name="isabstract">
+    <bool>false</bool>
+   </attr>
+   <attr name="isdirected">
+    <bool>true</bool>
+   </attr>
+  </node>
+  <edge from="Firm" to="True">
+   <type xlink:href="http://www.gupro.de/GXL/gxl-1.0.gxl#contains" />
+  </edge>
+  <edge from="True" to="Node">
+   <type xlink:href="http://www.gupro.de/GXL/gxl-1.0.gxl#from" />
+   <attr name="limits">
+    <tup><int>0</int><int>-1</int></tup>
+   </attr>
+   <attr name="isordered">
+    <bool>false</bool>
+   </attr>
+  </edge>
+  <edge from="True" to="Node">
+   <type xlink:href="http://www.gupro.de/GXL/gxl-1.0.gxl#to" />
+   <attr name="limits">
+    <tup><int>0</int><int>-1</int></tup>
+   </attr>
+   <attr name="isordered">
+    <bool>false</bool>
+   </attr>
+  </edge>
+  <node id="False">
+   <type xlink:href="http://www.gupro.de/GXL/gxl-1.0.gxl#EdgeClass" />
+   <attr name="name">
+    <string>False</string>
+   </attr>
+   <attr name="isabstract">
+    <bool>false</bool>
+   </attr>
+   <attr name="isdirected">
+    <bool>true</bool>
+   </attr>
+  </node>
+  <edge from="Firm" to="False">
+   <type xlink:href="http://www.gupro.de/GXL/gxl-1.0.gxl#contains" />
+  </edge>
+  <edge from="False" to="Node">
+   <type xlink:href="http://www.gupro.de/GXL/gxl-1.0.gxl#from" />
+   <attr name="limits">
+    <tup><int>0</int><int>-1</int></tup>
+   </attr>
+   <attr name="isordered">
+    <bool>false</bool>
+   </attr>
+  </edge>
+  <edge from="False" to="Node">
+   <type xlink:href="http://www.gupro.de/GXL/gxl-1.0.gxl#to" />
+   <attr name="limits">
+    <tup><int>0</int><int>-1</int></tup>
+   </attr>
+   <attr name="isordered">
+    <bool>false</bool>
+   </attr>
+  </edge>
+ </graph>
+ <graph id="DefaultGraph" edgeids="true" edgemode="defaultdirected">
+  <type xlink:href="#Firm" />
+  <node id="n-837411584">
+   <type xlink:href="#Block" />
+  </node>
+  <node id="n93310464">
+   <type xlink:href="#Block" />
+  </node>
+  <node id="n-478768640">
+   <type xlink:href="#Block" />
+  </node>
+  <node id="n-1981569792">
+   <type xlink:href="#StartBlock" />
+  </node>
+  <node id="n1382675456">
+   <type xlink:href="#EndBlock" />
+  </node>
+  <node id="n1024032512">
+   <type xlink:href="#Start" />
+  </node>
+  <node id="n1954754560">
+   <type xlink:href="#End" />
+  </node>
+  <node id="n1596111616">
+   <type xlink:href="#Phi" />
+  </node>
+  <node id="n-1768133632">
+   <type xlink:href="#Jmp" />
+  </node>
+  <node id="n-1409490688">
+   <type xlink:href="#Cond" />
+  </node>
+  <node id="n451953408">
+   <type xlink:href="#Return" />
+  </node>
+  <node id="n-1996176128">
+   <type xlink:href="#Const" />
+   <attr name="value">
+    <int>1</int>
+   </attr>
+  </node>
+  <node id="n1314710080">
+   <type xlink:href="#Const" />
+   <attr name="value">
+    <int>0</int>
+   </attr>
+  </node>
+  <node id="n-1012095040">
+   <type xlink:href="#Cmp" />
+   <attr name="associative">
+    <bool>false</bool>
+   </attr>
+   <attr name="commutative">
+    <bool>false</bool>
+   </attr>
+   <attr name="relation">
+    <enum>LESS</enum>
+   </attr>
+  </node>
+  <edge id="e-1267463744" from="n1954754560" to="n1024032512">
+   <type xlink:href="#Keep" />
+   <attr name="position">
+    <int>0</int>
+   </attr>
+  </edge>
+  <edge id="e-1557877312" from="n1596111616" to="n1314710080">
+   <type xlink:href="#Dataflow" />
+   <attr name="position">
+    <int>1</int>
+   </attr>
+  </edge>
+  <edge id="e-2076597376" from="n1596111616" to="n-1996176128">
+   <type xlink:href="#Dataflow" />
+   <attr name="position">
+    <int>0</int>
+   </attr>
+  </edge>
+  <edge id="e1699649856" from="n1596111616" to="n-837411584">
+   <type xlink:href="#Dataflow" />
+   <attr name="position">
+    <int>-1</int>
+   </attr>
+  </edge>
+  <edge id="e662209728" from="n-1768133632" to="n-478768640">
+   <type xlink:href="#Dataflow" />
+   <attr name="position">
+    <int>-1</int>
+   </attr>
+  </edge>
+  <edge id="e143489664" from="n451953408" to="n1596111616">
+   <type xlink:href="#Dataflow" />
+   <attr name="position">
+    <int>1</int>
+   </attr>
+  </edge>
+  <edge id="e-893950464" from="n451953408" to="n-837411584">
+   <type xlink:href="#Dataflow" />
+   <attr name="position">
+    <int>-1</int>
+   </attr>
+  </edge>
+  <edge id="e1844856640" from="n1024032512" to="n-1981569792">
+   <type xlink:href="#Dataflow" />
+   <attr name="position">
+    <int>-1</int>
+   </attr>
+  </edge>
+  <edge id="e1326136576" from="n-1409490688" to="n-1012095040">
+   <type xlink:href="#Dataflow" />
+   <attr name="position">
+    <int>0</int>
+   </attr>
+  </edge>
+  <edge id="e807416512" from="n-1409490688" to="n93310464">
+   <type xlink:href="#Dataflow" />
+   <attr name="position">
+    <int>-1</int>
+   </attr>
+  </edge>
+  <edge id="e288696448" from="n-1012095040" to="n-1996176128">
+   <type xlink:href="#Dataflow" />
+   <attr name="position">
+    <int>1</int>
+   </attr>
+  </edge>
+  <edge id="e-230023616" from="n-1012095040" to="n1314710080">
+   <type xlink:href="#Dataflow" />
+   <attr name="position">
+    <int>0</int>
+   </attr>
+  </edge>
+  <edge id="e-748743680" from="n-1012095040" to="n93310464">
+   <type xlink:href="#Dataflow" />
+   <attr name="position">
+    <int>-1</int>
+   </attr>
+  </edge>
+  <edge id="e-1786183808" from="n1954754560" to="n1382675456">
+   <type xlink:href="#Dataflow" />
+   <attr name="position">
+    <int>-1</int>
+   </attr>
+  </edge>
+  <edge id="e1471343360" from="n-1996176128" to="n-1981569792">
+   <type xlink:href="#Dataflow" />
+   <attr name="position">
+    <int>-1</int>
+   </attr>
+  </edge>
+  <edge id="e433903232" from="n1314710080" to="n-1981569792">
+   <type xlink:href="#Dataflow" />
+   <attr name="position">
+    <int>-1</int>
+   </attr>
+  </edge>
+  <edge id="e-375230400" from="n451953408" to="n1024032512">
+   <type xlink:href="#Memory" />
+   <attr name="position">
+    <int>0</int>
+   </attr>
+  </edge>
+  <edge id="e1180929792" from="n93310464" to="n1024032512">
+   <type xlink:href="#Controlflow" />
+   <attr name="position">
+    <int>0</int>
+   </attr>
+  </edge>
+  <edge id="e-1412670528" from="n-837411584" to="n-1768133632">
+   <type xlink:href="#Controlflow" />
+   <attr name="position">
+    <int>1</int>
+   </attr>
+  </edge>
+  <edge id="e952623296" from="n1382675456" to="n451953408">
+   <type xlink:href="#Controlflow" />
+   <attr name="position">
+    <int>0</int>
+   </attr>
+  </edge>
+  <edge id="e1990063424" from="n-478768640" to="n-1409490688">
+   <type xlink:href="#True" />
+   <attr name="position">
+    <int>0</int>
+   </attr>
+  </edge>
+  <edge id="e-1931390592" from="n-837411584" to="n-1409490688">
+   <type xlink:href="#False" />
+   <attr name="position">
+    <int>0</int>
+   </attr>
+  </edge>
+ </graph>
+</gxl>

@@ -1,0 +1,9 @@
+import const.gxl InstructionSelection.grg
+
+include FirmVisualization.grsi
+include TargetVisualization.grsi
+
+# real work done here
+include InstructionSelectionDebug.grsi
+
+quit

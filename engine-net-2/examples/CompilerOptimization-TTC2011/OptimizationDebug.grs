@@ -1,0 +1,12 @@
+# uncomment to debug control flow folding
+import min.gxl Optimization.grg
+
+# uncomment to debug data flow folding
+#import zero.gxl Optimization.grg
+
+include FirmVisualization.grsi
+
+# real work done here
+include OptimizationDebug.grsi
+
+quit
