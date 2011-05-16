@@ -670,16 +670,29 @@ namespace de.unika.ipd.grGen.lgsp
                 {
                     if(graph.edgeCounts == null)
                         throw new ArgumentException("Graph not analyzed yet!\nPlease execute 'custom graph analyze'!");
-                    if(args.Length < 2)
-                        throw new ArgumentException("Usage: gen_searchplan <actionname>*");
-                    LGSPAction[] oldActions = new LGSPAction[args.Length - 1];
-                    for(int i = 0; i < oldActions.Length; i++)
+                    LGSPAction[] oldActions;
+                    if(args.Length == 1)
                     {
-                        oldActions[i] = (LGSPAction) GetAction((String) args[i + 1]);
-                        if(oldActions[i] == null)
-                            throw new ArgumentException("'" + (String) args[i + 1] + "' is not the name of an action!\n"
-                                + "Please use 'show actions' to get a list of the available names.");
+                        oldActions = new LGSPAction[actions.Count];
+                        int i = 0;
+                        foreach(LGSPAction action in actions.Values)
+                        {
+                            oldActions[i] = action;
+                            ++i;
+                        }
                     }
+                    else
+                    {
+                        oldActions = new LGSPAction[args.Length - 1];
+                        for(int i = 0; i < oldActions.Length; i++)
+                        {
+                            oldActions[i] = (LGSPAction)GetAction((String)args[i + 1]);
+                            if(oldActions[i] == null)
+                                throw new ArgumentException("'" + (String)args[i + 1] + "' is not the name of an action!\n"
+                                    + "Please use 'show actions' to get a list of the available names.");
+                        }
+                    }
+
                     int startticks = Environment.TickCount;
                     LGSPAction[] newActions = matcherGenerator.GenerateActions(graph, modelAssemblyName,
                         actionsAssemblyName, oldActions);
