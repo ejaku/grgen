@@ -632,7 +632,18 @@ bool ParseGraphBuildingScript() :
 				if(model!=null) {
 					graph = new NamedGraph(backend.CreateGraph(model, graphName));
 				} else {
-					graph = new NamedGraph(backend.CreateGraph(modelFilename, graphName));
+					if(modelFilename.EndsWith(".grg"))
+					{
+						IGraph implementingGraph;
+						BaseActions actions;
+						backend.CreateFromSpec(modelFilename, graphName, out implementingGraph, out actions);
+						implementingGraph.Actions = actions;
+						graph = new NamedGraph(implementingGraph);
+					}
+					else
+					{
+						graph = new NamedGraph(backend.CreateGraph(modelFilename, graphName));
+					}
 				}
 		        return true;
 			}
