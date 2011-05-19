@@ -371,20 +371,10 @@ public class GraphNode extends BaseNode {
 				if(e instanceof GraphEntityExpression) {
 					GraphEntity connection = ((GraphEntityExpression)e).getGraphEntity();
 					if(connection instanceof Node) {
-						Node neededNode = (Node)connection;
-						if(!gr.hasNode(neededNode)) {
-							gr.addSingleNode(neededNode);
-							gr.addHomToAll(neededNode);
-						}
-					}
-					else if(connection instanceof Edge) {
-						Edge neededEdge = (Edge)connection;
-						if(!gr.hasEdge(neededEdge)) {
-							gr.addSingleEdge(neededEdge);	// TODO: maybe we lose context here
-							gr.addHomToAll(neededEdge);
-						}
-					}
-					else {
+						addNodeIfNotYetContained(gr, (Node)connection);
+					} else if(connection instanceof Edge) {
+						addEdgeIfNotYetContained(gr, (Edge)connection);
+					} else {
 						assert(false);
 					}
 				} else {
@@ -408,7 +398,27 @@ public class GraphNode extends BaseNode {
 			}
 		}
 		addNeededEntities(gr, needs);
+
+		// add elements only mentioned in typeof to the pattern
+		Set<Node> nodesToAdd = new HashSet<Node>();
+		Set<Edge> edgesToAdd = new HashSet<Edge>();
+		for (GraphEntity n : gr.getNodes()) {			
+			if (n.inheritsType()) {
+				nodesToAdd.add((Node)n.getTypeof());
+			}
+		}
+		for (GraphEntity e : gr.getEdges()) {
+			if (e.inheritsType()) {
+				edgesToAdd.add((Edge)e.getTypeof());
+			}
+		}
 		
+		// add elements which we could not be added before because their container was iterated over
+		for(Node n : nodesToAdd)
+			addNodeIfNotYetContained(gr, n);
+		for(Edge e : edgesToAdd)
+			addEdgeIfNotYetContained(gr, e);
+
 		for(BaseNode imp : imperativeStmts.getChildren()) {
 			gr.addImperativeStmt((ImperativeStmt)imp.getIR());
 		}
@@ -429,16 +439,10 @@ public class GraphNode extends BaseNode {
 
 	protected void addNeededEntities(PatternGraph gr, NeededEntities needs) {
 		for(Node neededNode : needs.nodes) {
-			if(!gr.hasNode(neededNode)) {
-				gr.addSingleNode(neededNode);
-				gr.addHomToAll(neededNode);
-			}
+			addNodeIfNotYetContained(gr, neededNode);
 		}
 		for(Edge neededEdge : needs.edges) {
-			if(!gr.hasEdge(neededEdge)) {
-				gr.addSingleEdge(neededEdge);	// TODO: maybe we lose context here
-				gr.addHomToAll(neededEdge);
-			}
+			addEdgeIfNotYetContained(gr, neededEdge);
 		}
 		for(Variable neededVariable : needs.variables) {
 			if(!gr.hasVar(neededVariable)) {
@@ -446,7 +450,21 @@ public class GraphNode extends BaseNode {
 			}
 		}
 	}
-	
+
+	protected void addNodeIfNotYetContained(PatternGraph gr, Node neededNode) {
+		if(!gr.hasNode(neededNode)) {
+			gr.addSingleNode(neededNode);
+			gr.addHomToAll(neededNode);
+		}
+	}
+
+	protected void addEdgeIfNotYetContained(PatternGraph gr, Edge neededEdge) {
+		if(!gr.hasEdge(neededEdge)) {
+			gr.addSingleEdge(neededEdge);	// TODO: maybe we lose context here
+			gr.addHomToAll(neededEdge);
+		}
+	}
+
 	protected void addParamsToConnections(CollectNode<BaseNode> params)
     {
     	for (BaseNode n : params.getChildren()) {

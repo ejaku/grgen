@@ -1,0 +1,22 @@
+pattern add_in_edge_last_verb(r:Node, n:Node, -e:Edge->){
+  alternative {
+    continue{
+      nr:Node;
+      r -:Edge-> nr;
+      aielv:add_in_edge_last_verb(nr, n, e);
+      modify{
+        aielv();
+      }
+    }
+    stop{
+      negative{
+        nr:Node;
+        r -:Edge-> nr;
+      }
+      modify{
+        n -cd:typeof(e)-> r;
+      }
+    }
+  }
+  modify{}
+}

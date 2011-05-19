@@ -538,20 +538,10 @@ public class PatternGraphNode extends GraphNode {
 				if(e instanceof GraphEntityExpression) {
 					GraphEntity connection = ((GraphEntityExpression)e).getGraphEntity();
 					if(connection instanceof Node) {
-						Node neededNode = (Node)connection;
-						if(!gr.hasNode(neededNode)) {
-							gr.addSingleNode(neededNode);
-							gr.addHomToAll(neededNode);
-						}
-					}
-					else if(connection instanceof Edge) {
-						Edge neededEdge = (Edge)connection;
-						if(!gr.hasEdge(neededEdge)) {
-							gr.addSingleEdge(neededEdge);	// TODO: maybe we lose context here
-							gr.addHomToAll(neededEdge);
-						}
-					}
-					else {
+						addNodeIfNotYetContained(gr, (Node)connection);
+					} else if(connection instanceof Edge) {
+						addEdgeIfNotYetContained(gr, (Edge)connection);
+					} else {
 						assert(false);
 					}
 				} else {
@@ -574,20 +564,10 @@ public class PatternGraphNode extends GraphNode {
 				if(e instanceof GraphEntityExpression) {
 					GraphEntity connection = ((GraphEntityExpression)e).getGraphEntity();
 					if(connection instanceof Node) {
-						Node neededNode = (Node)connection;
-						if(!gr.hasNode(neededNode)) {
-							gr.addSingleNode(neededNode);
-							gr.addHomToAll(neededNode);
-						}
-					}
-					else if(connection instanceof Edge) {
-						Edge neededEdge = (Edge)connection;
-						if(!gr.hasEdge(neededEdge)) {
-							gr.addSingleEdge(neededEdge);	// TODO: maybe we lose context here
-							gr.addHomToAll(neededEdge);
-						}
-					}
-					else {
+						addNodeIfNotYetContained(gr, (Node)connection);
+					} else if(connection instanceof Edge) {
+						addEdgeIfNotYetContained(gr, (Edge)connection);
+					} else {
 						assert(false);
 					}
 				} else {
@@ -630,12 +610,23 @@ public class PatternGraphNode extends GraphNode {
 			gr.addYield(n);
 		}
 		
-		/* generate type conditions from dynamic type checks via typeof */
+		// generate type conditions from dynamic type checks via typeof
+		// add elements only mentioned in typeof to the pattern
+		Set<Node> nodesToAdd = new HashSet<Node>();
+		Set<Edge> edgesToAdd = new HashSet<Edge>();
 		for (GraphEntity n : gr.getNodes()) {
 			genTypeCondsFromTypeof(gr, n);
+			
+			if (n.inheritsType()) {
+				nodesToAdd.add((Node)n.getTypeof());
+			}
 		}
 		for (GraphEntity e : gr.getEdges()) {
 			genTypeCondsFromTypeof(gr, e);
+
+			if (e.inheritsType()) {
+				edgesToAdd.add((Edge)e.getTypeof());
+			}
 		}
 
 		// add Condition elements only mentioned there to the IR
@@ -679,18 +670,9 @@ public class PatternGraphNode extends GraphNode {
 		for(Collection<? extends GraphEntity> homSet : homSets)	{
 			for(GraphEntity entity : homSet) {
 				if(entity instanceof Node) {
-					Node neededNode = (Node)entity;
-					if(!gr.hasNode(neededNode)) {
-						gr.addSingleNode(neededNode);
-						gr.addHomToAll(neededNode);
-					}
-				}
-				else {
-					Edge neededEdge = (Edge)entity;
-					if(!gr.hasEdge(neededEdge)) {
-						gr.addSingleEdge(neededEdge);	// TODO: maybe we lose context here
-						gr.addHomToAll(neededEdge);
-					}
+					addNodeIfNotYetContained(gr, (Node)entity);
+				} else {
+					addEdgeIfNotYetContained(gr, (Edge)entity);
 				}
 			}
 		}
@@ -706,32 +688,16 @@ public class PatternGraphNode extends GraphNode {
 
 			if(node.getStorageAttribute()!=null) {		
 				if(node.getStorageAttribute().getOwner() instanceof Node) {
-					Node neededNode = (Node)node.getStorageAttribute().getOwner();
-					if(!gr.hasNode(neededNode)) {
-						gr.addSingleNode(neededNode);
-						gr.addHomToAll(neededNode);
-					}					
+					nodesToAdd.add((Node)node.getStorageAttribute().getOwner());
 				} else if(node.getStorageAttribute().getOwner() instanceof Edge) {
-					Edge neededEdge = (Edge)node.getStorageAttribute().getOwner();
-					if(!gr.hasEdge(neededEdge)) {
-						gr.addSingleEdge(neededEdge);	// TODO: maybe we lose context here
-						gr.addHomToAll(neededEdge);
-					}					
+					addEdgeIfNotYetContained(gr, (Edge)node.getStorageAttribute().getOwner());					
 				}
 			}
 
 			if(node.getAccessor()!=null && node.getAccessor() instanceof Node) {
-				Node neededNode = (Node)node.getAccessor();
-				if(!gr.hasNode(neededNode)) {
-					gr.addSingleNode(neededNode);
-					gr.addHomToAll(neededNode);
-				}					
+				nodesToAdd.add((Node)node.getAccessor());
 			} else if(node.getAccessor()!=null && node.getAccessor() instanceof Edge) {
-				Edge neededEdge = (Edge)node.getAccessor();
-				if(!gr.hasEdge(neededEdge)) {
-					gr.addSingleEdge(neededEdge);	// TODO: maybe we lose context here
-					gr.addHomToAll(neededEdge);
-				}					
+				addEdgeIfNotYetContained(gr, (Edge)node.getAccessor());					
 			}
 		}
 		
@@ -744,34 +710,24 @@ public class PatternGraphNode extends GraphNode {
 
 			if(edge.getStorageAttribute()!=null) {		
 				if(edge.getStorageAttribute().getOwner() instanceof Node) {
-					Node neededNode = (Node)edge.getStorageAttribute().getOwner();
-					if(!gr.hasNode(neededNode)) {
-						gr.addSingleNode(neededNode);
-						gr.addHomToAll(neededNode);
-					}					
+					addNodeIfNotYetContained(gr, (Node)edge.getStorageAttribute().getOwner());					
 				} else if(edge.getStorageAttribute().getOwner() instanceof Edge) {
-					Edge neededEdge = (Edge)edge.getStorageAttribute().getOwner();
-					if(!gr.hasEdge(neededEdge)) {
-						gr.addSingleEdge(neededEdge);	// TODO: maybe we lose context here
-						gr.addHomToAll(neededEdge);
-					}					
+					edgesToAdd.add((Edge)edge.getStorageAttribute().getOwner());
 				}
 			}
 
 			if(edge.getAccessor()!=null && edge.getAccessor() instanceof Node) {
-				Node neededNode = (Node)edge.getAccessor();
-				if(!gr.hasNode(neededNode)) {
-					gr.addSingleNode(neededNode);
-					gr.addHomToAll(neededNode);
-				}					
+				addNodeIfNotYetContained(gr, (Node)edge.getAccessor());					
 			} else if(edge.getAccessor()!=null && edge.getAccessor() instanceof Edge) {
-				Edge neededEdge = (Edge)edge.getAccessor();
-				if(!gr.hasEdge(neededEdge)) {
-					gr.addSingleEdge(neededEdge);	// TODO: maybe we lose context here
-					gr.addHomToAll(neededEdge);
-				}					
+				edgesToAdd.add((Edge)edge.getAccessor());
 			}
 		}
+
+		// add elements which we could not be added before because their container was iterated over
+		for(Node n : nodesToAdd)
+			addNodeIfNotYetContained(gr, n);
+		for(Edge e : edgesToAdd)
+			addEdgeIfNotYetContained(gr, e);
 		
 		// add negative parts to the IR
 		for (PatternGraphNode pgn : negs.getChildren()) {

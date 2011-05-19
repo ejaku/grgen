@@ -1,0 +1,28 @@
+rule emitState(ref nodeToId:map<Node, int>)
+{
+	s:Node;
+
+	iterated outgoing {
+		s -:Edge-> t:Node;
+		
+		modify {
+			emithere(nodeToId[t] + " ");
+		}
+	}
+	iterated incoming {
+		s -:Edge-> t:Node;	
+		
+		modify {
+			emithere(nodeToId[t] + " ");
+		}
+	}
+
+	modify {
+		emithere("    <states xmi:type=\"statemachine:State\" xmi:id=\"" + nodeToId[s] + "\" ");
+		emithere("out=\"");
+		iterated outgoing;
+		emithere("\" in=\"");
+		iterated incoming;
+		emithere("\" />\n");
+	}
+}
