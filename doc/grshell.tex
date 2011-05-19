@@ -358,11 +358,13 @@ If the \texttt{.gz} suffix is given the graph is saved zipped.
 \pagebreak %force better layout
 
 \begin{rail}
-  'import' Filename ('.grs' | '.grsi' ) ('.gz')?
+  'import' Filename ('.grs' | '.grsi' ) ('.gz')? (ModelOverride)?
 \end{rail}\ixkeyw{import}
 Imports the specified graph instance in GRS (.grs/.grsi) format (the \emph{reduced} \GrShell\ script,
 a saved graph can only be imported by \texttt{include} (but an exported graph can be imported by \texttt{include}, too)).
-The referenced graph model must be available as \texttt{.gm}-file.
+The graph model referenced in the .grs/.grsi must be available as \texttt{.gm}-file.
+If a model override of the form \texttt{Filename.gm} is specified, the given model will be used instead of the model referenced in the GRS file.
+If a model override of the form \texttt{Filename.grg} is specified, the model(s) of the given rule file will be used instead of the model in the GRS file.
 If the \texttt{.gz} suffix is given the graph is expected to be zipped.
 
 \begin{rail}
@@ -370,7 +372,8 @@ If the \texttt{.gz} suffix is given the graph is expected to be zipped.
 \end{rail}\ixkeyw{import}
 Imports the specified graph instance and model in GXL format.
 If a model override of the form \texttt{Filename.gm} is specified, the given model will be used instead of the model in the GXL file.
-The \texttt{.gxl}-graph must be compatible to the \texttt{.gm}-model.
+If a model override of the form \texttt{Filename.grg} is specified(s), the model of the given rule file will be used instead of the model in the GXL file.
+The \texttt{.gxl}-graph must be compatible to the \texttt{.gm}-model/\texttt{.grg}-model.
 If the \texttt{.gz} suffix is given the graph is expected to be zipped.
 
 \begin{note}\label{shellgxlimport}
@@ -390,22 +393,25 @@ This loads the actions from the actions library in addition to the already
 loaded model and instance graph (cf. \ref{grsthings}).
 \item Now you are ready to use the actions.
 \end{enumerate}
+As of version 3.0beta you can specify a \texttt{.grg} as model override;
+basically it does what the given enumeration does.
 \end{note}
 
 \begin{note}\label{shellecoreexport}
-Further formats available for import are \texttt{.ecore} plus \texttt{.xmi}.
+Further formats available for import are \texttt{.ecore} plus \texttt{.xmi} of Eclipse Modeling Framework (EMF).
 These are formats common to the model transformation community which are not directly geared towards graphs, so they can't be imported directly.
 Instead during the import process an intermediate \texttt{.gm} is written which is equivalent to the \texttt{.ecore} given -- you may inspect it to see how the content gets mapped
 (the importer maps classes to GrGen node classes, their attributes
 to corresponding GrGen attributes, and their references to GrGen
 edge classes; inheritance is transferred one-to-one, and enumerations are
-mapped to GrGen enums; class names are prefixed by the names of the
-packages they are contained in to prevent name clashes).
+mapped to GrGen enums; 
+class names are prefixed by the names of the packages they are contained in
+and edge type names are prefixed by the names of the node types they originate from,
+to prevent name clashes).
 After this metamodel transformation the instance graph XMI adhering to the Ecore model thus adhering to the just
 generated equivalent GrGen graph model gets imported.
 Furthermore you can give specify a \texttt{.grg} containing the rules to apply (using further rule and model files).
-The importer was added for a GraBaTs challenge and is available as-is -- it may or may not work for you, 
-if you need more it's on you to improve it. An export is not available -- we coded the export we needed with emit statements.
+An export is not available -- we coded the export we needed for the GraBaTs/TTC challenges the importer was written for with emit statements.
 \begin{rail}
   'import' ((Filename '.ecore')+( )) Filename '.xmi' (Filename '.grg')?
 \end{rail}\ixkeyw{import}
@@ -675,17 +681,19 @@ If \emph{SpacedParameters} is omitted, a list of available commands will be disp
 \subsection{LGSPBackend Custom Commands}
 \label{custom}
 
+%several rail nts are defines resolved to terminal with underscores
+
 The \indexed{LGSPBackend} supports the following custom commands:
 
 \begin{rail}
-  'custom' 'graph' ('analyzegraph' | 'analyze') 
+  'custom' 'graph' (analyzegraph | 'analyze') 
 \end{rail}\ixkeyw{custom}\ixkeyw{graph}\ixkeyw{analyze}\ixkeyw{analyzegraph}
 Analyzes\indexmain{analyzing graph} the current working graph.
 The analysis data provides vital information for efficient \indexed{search plan}s.
-Analysis data is available as long as \GrShell\ is running, i.e.\ when the working graph changes, the analysis data is still available but maybe obsolete.
+Analysis data is available as long as \GrShell\ is running, i.e.\ when the host graph changes, the analysis data is still available but maybe obsolete.
 
 \begin{rail}
-  'custom' 'graph' 'setmaxmatches' Number
+  'custom' 'graph' setmaxmatches Number
 \end{rail}\ixkeyw{custom}\ixkeyw{graph}\ixkeyw{setmaxmatches}
 Sets the maximum amount of possible pattern matches to \emph{Number}.
 This command affects the expression \texttt{[\emph{Rule}]}.
@@ -698,19 +706,20 @@ If set to false it prevents deleted elements from getting reused in a rewrite (i
 If set to true, new elements may not be discriminable anymore from already deleted elements using object equality, hash maps, etc.
 					
 \begin{rail}
-  'custom' 'actions' 'gensearchplan' (Action+)
+  'custom' 'actions' gensearchplan (Action*)
 \end{rail}\ixkeyw{custom}\ixkeyw{actions}\ixkeyw{gensearchplan}
 Creates a search plan (and executable code from it) for each rewrite rule \emph{Action} using the data from analyzing the graph (\texttt{custom graph analyze}).
 Otherwise a \indexed{default search plan} is used. 
-Analyzing and search plan/code generation themselves take some time, but they can lead to massively faster pattern matching, thus overall execution times
-(the less uniform the type distribution and edge wiring between the nodes is, the higher are the improvements to be expected).
+If no rewrite rule is specified, all rewrite rules are compiled anew.
+Analyzing and search plan/code generation themselves take some time, but they can lead to (massively) faster pattern matching, thus overall execution times
+(the less uniform the type distribution and edge wiring between the nodes, the higher the improvements).
 During the analysis phase the host graph must be in a shape ``similar'' to its shape when the main amount of work is done
 (there may be some trial-and-error steps at different time points needed to get the overall most efficient search plan.)
 A search plan is available as long as the current rule set remains loaded. 
 Specify multiple rewrite rules instead of using multiple commands for each rule to improve the search plan generation performance.
 
 \begin{rail}
-  'custom' 'actions' 'dumpsourcecode' BoolLit
+  'custom' 'actions' dumpsourcecode BoolLit
 \end{rail}\ixkeyw{custom}\ixkeyw{actions}\ixkeyw{dumpsourcecode}
 If set to true, C\# files will be dumped for the newly generated searchplans (similar to the \texttt{-keep} option of the generator).
 

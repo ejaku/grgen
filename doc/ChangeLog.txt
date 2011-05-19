@@ -1,4 +1,24 @@
-﻿v3.0beta (2011-04-17)
+﻿v3.0beta2 (2011-05-19)
+ Solutions of Transformation Tool Contest 2011 tasks added to examples:
+  - HelloWorld! in examples\HelloWorld-TTC2011
+  - ProgramUnderstanding in examples\Reengineering-TTC-2011
+  - CompilerOptimization in examples\CompilerOptimization-TTC2011
+ Export/Import: 
+  - Model override can now be a rule file, e.g. import Foo.gxl Rules.grg
+    imports Foo.gxl using the model(s) from Rules.grg and selects the actions for usage.
+  - EMF/ecore/XMI importer extended, can now handle references by url fragments instead of ids
+  - GrgExport is now writing a rule creating the graph and a test matching the graph
+ New searchplans are created for all actions when no rule name is given,
+   i.e. custom actions gen_searchplan is recompiling all the matchers
+ Syntax highlighting improvements
+ Fixed several bugs:
+  - crash in vcg dumper on a certain combination of exclude and group by
+  - wrong emitting of tuple attributes in GXL export
+  - problems due to elements referenced not being available in the pattern,
+      for typeof and emithere
+  - unsigned shift right >>> semantics fixed, and now correctly explained in manual
+
+v3.0beta (2011-04-17)
  Local variables, ordered evaluation, and yielding outwards:
   - added def entity declarations, which on RHS do not get created, on LHS do not get matched, 
     but are yielded to from evals, evalheres, subpattern rewrites, or execs on RHS,
