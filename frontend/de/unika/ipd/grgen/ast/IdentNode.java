@@ -105,6 +105,12 @@ public class IdentNode extends BaseNode implements DeclaredCharacter, Annotated 
 	 * @return The symbol definition.
 	 */
 	public Symbol.Definition getSymDef() {
+		if(occ.getDefinition()==null) {
+			// I don't now why this is needed, it feels like a hack, but it works
+			Symbol.Definition def = occ.getScope().getCurrDef(getSymbol());
+			if(def.isValid())
+				setSymDef(def);
+		}
 		return occ.getDefinition();
 	}
 
