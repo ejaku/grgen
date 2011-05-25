@@ -1,0 +1,106 @@
+using ProgramGraphs;
+
+rule init
+{
+	replace {
+		p:ProgramS;
+		p -:containsS-> c:ClassS;
+		c -:containsS-> m:MethodS;
+		c -:containsS-> attr1:AttributeS;
+		c -:containsS-> attr2:AttributeS;
+		c -:containsS-> cst:ConstantS; eval { cst.value = 2; }
+		m -:containsS-> a1:AssignmentS;
+		a1 -:leftS-> ve1:ExpressionS -:usedefS-> attr1; eval { ve1.operator = "ref"; }
+		a1 -:rightS-> e:ExpressionS; eval { e.operator = "*"; }
+		e -:leftS-> ve2:ExpressionS -:usedefS-> cst; eval { ve2.operator = "ref"; }
+		e -:rightS -> ve3:ExpressionS -:usedefS-> attr2; eval { ve3.operator = "ref"; }
+		a1 -:nextS-> a2:AssignmentS;
+		a2 -:leftS-> ve4:ExpressionS -:usedefS-> attr2; eval { ve4.operator = "ref"; }
+		a2 -:rightS-> ve5:ExpressionS -:usedefS-> attr1; eval { ve5.operator = "ref"; }
+		
+		// helper edges for visual containment
+		m -:containsV-> a2;
+		m -:containsV-> ve1;
+		m -:containsV-> e;
+		m -:containsV-> ve2;
+		m -:containsV-> ve3;
+		m -:containsV-> ve4;
+		m -:containsV-> ve5;
+	}
+}
+
+rule optimize
+{
+	e:ExpressionS;
+	e -:leftS-> el:ExpressionS -u:usedefS-> c:ConstantS;
+	e -:rightS -> :ExpressionS -:usedefS-> a:AttributeS;
+	if { e.operator=="*" && c.value==2; }
+	modify {
+		delete(u);
+		el -:usedefS-> a;
+		eval { e.operator = "+"; }
+	}
+}
+
+rule transform
+{
+	prog:Program();
+	modify {
+		prog();
+	}
+}
+
+pattern Program
+{
+	p:ProgramS; 
+	( p -:containsS-> c:ClassS; cls:Class(c);
+	  modify { pt -:containsT-> ct:ClassT; cls(ct); } )+ 
+	modify { pt:ProgramT; }
+}
+
+pattern Class(c:ClassS) modify(ct:ClassT)
+{
+	(
+		( c -:containsS-> m:MethodS; meth:Method(m);
+		  modify { ct -:containsT-> mt:MethodT; meth(mt); } 
+		| c -:containsS-> a:AttributeS;
+		  modify { ct -:containsT-> at:AttributeT; }
+		| c -:containsS-> cs:ConstantS;
+		  modify { ct -:containsT-> cst:ConstantT; }
+		)
+		modify { }
+	)*
+	modify { }
+}
+
+pattern Method(m:MethodS) modify(mt:MethodT)
+{
+	m -:containsS-> a:AssignmentS; al:AssignmentList(a);
+	modify { mt -:containsT-> at:AssignmentT; al(at); }
+}
+
+pattern AssignmentList(a:AssignmentS) modify(at:AssignmentT) 
+{
+	a -:leftS-> el:ExpressionS; expl:Expression(el);
+	a -:rightS-> er:ExpressionS; expr:Expression(er);
+	( a -:nextS-> na:AssignmentS; al:AssignmentList(na); 
+	  modify { at -:nextT-> nat:AssignmentT; al(nat); }
+	)?
+	modify { at -:leftT-> elt:ExpressionT; expl(elt);
+			 at -:rightT-> ert:ExpressionT; expr(ert); }
+}
+
+pattern Expression(e:ExpressionS) modify(et:ExpressionT)
+{
+	(
+		e -:leftS-> el:ExpressionS; exp1:Expression(el); 
+		e -:rightS-> er:ExpressionS; exp2:Expression(er);
+		modify {
+			et -:leftT-> elt:ExpressionT; exp1(elt); 
+			et -:rightT-> ert:ExpressionT; exp2(ert); 
+		}
+	|
+		modify { }
+	)
+	modify { }
+}

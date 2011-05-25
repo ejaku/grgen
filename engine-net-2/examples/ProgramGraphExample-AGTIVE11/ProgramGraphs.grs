@@ -1,0 +1,27 @@
+new graph ProgramGraphs
+
+debug set layout Hierarchic
+dump add node ProgramS group by hidden outgoing containsS
+dump add node ClassS group by hidden outgoing containsS
+dump add node MethodS group by hidden outgoing containsS
+dump add node MethodS group by hidden outgoing containsV
+
+dump set node ProgramS color lightgrey
+dump set node MethodS color purple
+dump set node AttributeS color cyan
+dump set node ConstantS color cyan
+dump add node ConstantS shortinfotag value
+dump set node AssignmentS color darkgreen
+dump set node ExpressionS color green
+dump add node ExpressionS infotag operator
+dump set node ExpressionS shape circle
+dump set edge nextS color red
+dump set edge usedefS color blue
+
+xgrs init
+
+debug xgrs optimize
+
+debug xgrs transform
+
+quit
