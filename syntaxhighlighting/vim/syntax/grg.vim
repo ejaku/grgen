@@ -18,24 +18,24 @@ syn keyword grgKeyWords            pattern rule test nextgroup=grgRulePrefix
 syn keyword grgKeyWords            exec using nextgroup=grgIgnoreStatement
 syn match   grgVariable            "\h\w*"
 syn match   grgPreProc             "^#include"
-syn match   grgTypePrefix          ":\(\s\|\n\)*" nextgroup=grgTypeDecl,grgReturnTypes,grgPatternInstance,grgKeyWords
-syn match   grgTypeDecl            "\h\w*\(\(\s\|\n\)*\\\(\(\s\|\n\)*\h\w*\|(\(,\=\(\s\|\n\)*\h\w*\)*)\)\)\=" contained contains=grgType
+syn match   grgTypePrefix          ":" nextgroup=grgTypeDecl,grgReturnTypes,grgPatternInstance,grgKeyWords skipwhite skipnl
+syn match   grgTypeDecl            "\h\w*\(\\\(\h\w*\|(\(,\=\h\w*\)*)\)\)\=" contained contains=grgType skipwhite skipnl
 syn match   grgType                "\h\w*" contained
-syn match   grgPatternInstance     "\h\w*\(\s\|\n\)*(" contains=grgRule contained
-syn match   grgReturnTypes         "(\(,\=\(\s\|\n\)*\h\w*\)*)" contains=grgType contained
+syn match   grgPatternInstance     "\h\w*(" contains=grgRule contained skipwhite skipnl
+syn match   grgReturnTypes         "(\(,\=\h\w*\)*)" contains=grgType contained skipwhite skipnl
 syn region  grgComment             start="/\*" end="\*/" contains=@Spell
 syn region  grgComment             start="//" end="$" contains=@Spell
 syn match   grgString              "\"\([^\\"]\|\\\\\|\\\"\|\\n\|\\t\)*\"" contains=grgSpecialChar,@Spell
 syn match   grgSpecialChar         "\\\"\|\\\\\|\\n\|\\t"
-syn match   grgRulePrefix          "\(\s\|\n\)*" nextgroup=grgRule contained
+syn match   grgRulePrefix          "" nextgroup=grgRule contained skipwhite skipnl
 syn match   grgRule                "\h\w*" nextgroup=grgRulePostfix contained
 syn match   grgRulePostfix         "(\(\n\|[^{]\)*" contains=grgVariable,grgTypePrefix,grgOriginalType,grgKeyWords,grgComment contained
-syn match   grgOriginalType        "<\(\s\|\n\)*\h\w*\(\s\|\n\)*>" contains=grgType contained
-syn match   grgAlternativePattern  "\h\w*\(\s\|\n\)*{" contains=grgAlternative
+syn match   grgOriginalType        "<\h\w*>" contains=grgType contained skipwhite skipnl
+syn match   grgAlternativePattern  "\h\w*{" contains=grgAlternative skipwhite skipnl
 syn match   grgAlternative         "\h\w*" contained
 syn match   grgAttributePattern    "\.\h\w*"
 syn match   grgVariable            "\h\w*" contained
-syn match   grgEnumPattern         "\h\w*\(\s\|\n\)*::" contains=grgEnum
+syn match   grgEnumPattern         "\h\w*::" contains=grgEnum skipwhite skipnl
 syn match   grgEnum                "\h\w*" contained
 syn match   grgIgnoreStatement     "\(\n\|[^;]\)*;" contains=grgDelimiter contained
 syn match   grgDelimiter           ";"
