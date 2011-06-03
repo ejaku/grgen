@@ -76,7 +76,7 @@ public abstract class Graph extends IR {
 		private final String nodeId;
 
 		private GraphEdge(Edge e) {
-			super(e.getIdent(), e.getEdgeType(), e.directlyNestingLHSGraph, 
+			super(e.getIdent(), e.getEdgeType(), e.directlyNestingLHSGraph,
 					e.isMaybeDeleted(), e.isMaybeRetyped(), e.isDefToBeYieldedTo(), e.context);
 			this.edge = e;
 			this.nodeId = "g" + Graph.super.getId() + "_" + super.getNodeId();
@@ -105,7 +105,7 @@ public abstract class Graph extends IR {
 	private Set<SubpatternUsage> subpatternUsages = new LinkedHashSet<SubpatternUsage>();
 
 	private Set<OrderedReplacement> orderedReplacement = new LinkedHashSet<OrderedReplacement>();
-	
+
 	PatternGraph directlyNestingLHSGraph; // either this or the left graph
 
 	private String nameOfGraph;
@@ -118,13 +118,13 @@ public abstract class Graph extends IR {
 
 	public void setDirectlyNestingLHSGraph(PatternGraph directlyNestingLHSGraph) {
 		// this is for setting the directlyNestingLHSGraph for a retyped node when it gets added
-		// TODO: in a lot of situations one would need the pointer to the parent node in the AST and in the IR 
+		// TODO: in a lot of situations one would need the pointer to the parent node in the AST and in the IR
 		// a lot of convoluted code making everything unnecessarily complex was written to circumvent the lack thereof
 		// TODO: take care of the major architectural misdecision to not include parent-pointers only allowing top-down processing,
 		// and replace a lot of non understandable side effects by local routines accessing the parent to get the context information needed
 		this.directlyNestingLHSGraph = directlyNestingLHSGraph;
 	}
-	
+
 	public String getNameOfGraph() {
 		return nameOfGraph;
 	}
@@ -142,7 +142,7 @@ public abstract class Graph extends IR {
 			n.setRetypedNode(retypedNode, this);
 			retypedNode.directlyNestingLHSGraph = directlyNestingLHSGraph;
 		}
-		
+
 		if (!nodes.containsKey(n)) {
 			res = new GraphNode(n);
 			nodes.put(n, res);
@@ -164,7 +164,7 @@ public abstract class Graph extends IR {
 			e.setRetypedEdge(retypedEdge, this);
 			retypedEdge.directlyNestingLHSGraph = directlyNestingLHSGraph;
 		}
-		
+
 		if (!edges.containsKey(e)) {
 			res = new GraphEdge(e);
 			edges.put(e, res);

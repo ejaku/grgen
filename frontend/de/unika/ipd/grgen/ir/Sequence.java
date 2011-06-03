@@ -31,19 +31,19 @@ public class Sequence extends Identifiable {
 	public Exec getExec() {
 		return exec;
 	}
-	
+
 	public void addInParam(ExecVariable inParam) {
 		inParams.add(inParam);
 	}
-	
+
 	public List<ExecVariable> getInParameters() {
 		return Collections.unmodifiableList(inParams);
 	}
-	
+
 	public void addOutParam(ExecVariable outParam) {
 		outParams.add(outParam);
 	}
-	
+
 	public List<ExecVariable> getOutParameters() {
 		return Collections.unmodifiableList(outParams);
 	}

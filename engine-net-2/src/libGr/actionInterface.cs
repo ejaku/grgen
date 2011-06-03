@@ -179,7 +179,7 @@ namespace de.unika.ipd.grGen.libGr
         IPatternGraph Pattern { get; }
 
         /// <summary>
-        /// The match of the enclosing pattern if this is the pattern of 
+        /// The match of the enclosing pattern if this is the pattern of
         /// a subpattern, alternative, iterated or independent; otherwise null
         /// </summary>
         IMatch MatchOfEnclosingPattern { get; }

@@ -12,11 +12,11 @@ rule repRule(f:Farmer) : (Apple) {
 
   replace {
     a <-fan:Fancies<sa>- f -s-> h;
-    
+
 /* modify {
     delete(t);
     -fan:Fancies<sa>->;*/
-    
+
     n:typeof(a) <-:Sees- f;
     eval {
       f.angry = false;

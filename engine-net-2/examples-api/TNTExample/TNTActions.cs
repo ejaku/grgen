@@ -110,16 +110,16 @@ namespace de.unika.ipd.grGen.Action_TNT
 				"BenzolRing",
 				"",
 				false,
-				new GRGEN_LGSP.PatternNode[] { BenzolRing_node_c1, BenzolRing_node_c2, BenzolRing_node_c3, BenzolRing_node_c4, BenzolRing_node_c5, BenzolRing_node_c6 }, 
-				new GRGEN_LGSP.PatternEdge[] { BenzolRing_edge__edge0, BenzolRing_edge__edge1, BenzolRing_edge__edge2, BenzolRing_edge__edge3, BenzolRing_edge__edge4, BenzolRing_edge__edge5, BenzolRing_edge__edge6, BenzolRing_edge__edge7, BenzolRing_edge__edge8 }, 
-				new GRGEN_LGSP.PatternVariable[] {  }, 
-				new GRGEN_LGSP.PatternGraphEmbedding[] {  }, 
-				new GRGEN_LGSP.Alternative[] {  }, 
-				new GRGEN_LGSP.Iterated[] {  }, 
-				new GRGEN_LGSP.PatternGraph[] {  }, 
-				new GRGEN_LGSP.PatternGraph[] {  }, 
-				new GRGEN_LGSP.PatternCondition[] {  }, 
-				new GRGEN_LGSP.PatternYielding[] {  }, 
+				new GRGEN_LGSP.PatternNode[] { BenzolRing_node_c1, BenzolRing_node_c2, BenzolRing_node_c3, BenzolRing_node_c4, BenzolRing_node_c5, BenzolRing_node_c6 },
+				new GRGEN_LGSP.PatternEdge[] { BenzolRing_edge__edge0, BenzolRing_edge__edge1, BenzolRing_edge__edge2, BenzolRing_edge__edge3, BenzolRing_edge__edge4, BenzolRing_edge__edge5, BenzolRing_edge__edge6, BenzolRing_edge__edge7, BenzolRing_edge__edge8 },
+				new GRGEN_LGSP.PatternVariable[] {  },
+				new GRGEN_LGSP.PatternGraphEmbedding[] {  },
+				new GRGEN_LGSP.Alternative[] {  },
+				new GRGEN_LGSP.Iterated[] {  },
+				new GRGEN_LGSP.PatternGraph[] {  },
+				new GRGEN_LGSP.PatternGraph[] {  },
+				new GRGEN_LGSP.PatternCondition[] {  },
+				new GRGEN_LGSP.PatternYielding[] {  },
 				new bool[6, 6] {
 					{ true, false, false, false, false, false, },
 					{ false, true, false, false, false, false, },
@@ -305,7 +305,7 @@ namespace de.unika.ipd.grGen.Action_TNT
 				default: return null;
 				}
 			}
-			
+
 			public GRGEN_LIBGR.IEdge edge__edge0 { get { return (GRGEN_LIBGR.IEdge)_edge__edge0; } }
 			public GRGEN_LIBGR.IEdge edge__edge1 { get { return (GRGEN_LIBGR.IEdge)_edge__edge1; } }
 			public GRGEN_LIBGR.IEdge edge__edge2 { get { return (GRGEN_LIBGR.IEdge)_edge__edge2; } }
@@ -343,7 +343,7 @@ namespace de.unika.ipd.grGen.Action_TNT
 				default: return null;
 				}
 			}
-			
+
 			public enum BenzolRing_VariableNums { END_OF_ENUM };
 			public IEnumerable<object> Variables { get { return new GRGEN_LGSP.Variables_Enumerable(this); } }
 			public IEnumerator<object> VariablesEnumerator { get { return new GRGEN_LGSP.Variables_Enumerator(this); } }
@@ -354,7 +354,7 @@ namespace de.unika.ipd.grGen.Action_TNT
 				default: return null;
 				}
 			}
-			
+
 			public enum BenzolRing_SubNums { END_OF_ENUM };
 			public IEnumerable<GRGEN_LIBGR.IMatch> EmbeddedGraphs { get { return new GRGEN_LGSP.EmbeddedGraphs_Enumerable(this); } }
 			public IEnumerator<GRGEN_LIBGR.IMatch> EmbeddedGraphsEnumerator { get { return new GRGEN_LGSP.EmbeddedGraphs_Enumerator(this); } }
@@ -365,7 +365,7 @@ namespace de.unika.ipd.grGen.Action_TNT
 				default: return null;
 				}
 			}
-			
+
 			public enum BenzolRing_AltNums { END_OF_ENUM };
 			public IEnumerable<GRGEN_LIBGR.IMatch> Alternatives { get { return new GRGEN_LGSP.Alternatives_Enumerable(this); } }
 			public IEnumerator<GRGEN_LIBGR.IMatch> AlternativesEnumerator { get { return new GRGEN_LGSP.Alternatives_Enumerator(this); } }
@@ -376,7 +376,7 @@ namespace de.unika.ipd.grGen.Action_TNT
 				default: return null;
 				}
 			}
-			
+
 			public enum BenzolRing_IterNums { END_OF_ENUM };
 			public IEnumerable<GRGEN_LIBGR.IMatches> Iterateds { get { return new GRGEN_LGSP.Iterateds_Enumerable(this); } }
 			public IEnumerator<GRGEN_LIBGR.IMatches> IteratedsEnumerator { get { return new GRGEN_LGSP.Iterateds_Enumerator(this); } }
@@ -387,7 +387,7 @@ namespace de.unika.ipd.grGen.Action_TNT
 				default: return null;
 				}
 			}
-			
+
 			public enum BenzolRing_IdptNums { END_OF_ENUM };
 			public IEnumerable<GRGEN_LIBGR.IMatch> Independents { get { return new GRGEN_LGSP.Independents_Enumerable(this); } }
 			public IEnumerator<GRGEN_LIBGR.IMatch> IndependentsEnumerator { get { return new GRGEN_LGSP.Independents_Enumerator(this); } }
@@ -398,7 +398,7 @@ namespace de.unika.ipd.grGen.Action_TNT
 				default: return null;
 				}
 			}
-			
+
 			public GRGEN_LIBGR.IPatternGraph Pattern { get { return Pattern_BenzolRing.instance.pat_BenzolRing; } }
 			public GRGEN_LIBGR.IMatch MatchOfEnclosingPattern { get { return _matchOfEnclosingPattern; } }
 			public GRGEN_LIBGR.IMatch _matchOfEnclosingPattern;
@@ -505,16 +505,16 @@ namespace de.unika.ipd.grGen.Action_TNT
 				"BenzolRingC123456Exposed",
 				"",
 				false,
-				new GRGEN_LGSP.PatternNode[] { BenzolRingC123456Exposed_node_c1, BenzolRingC123456Exposed_node_c2, BenzolRingC123456Exposed_node_c3, BenzolRingC123456Exposed_node_c4, BenzolRingC123456Exposed_node_c5, BenzolRingC123456Exposed_node_c6 }, 
-				new GRGEN_LGSP.PatternEdge[] { BenzolRingC123456Exposed_edge__edge0, BenzolRingC123456Exposed_edge__edge1, BenzolRingC123456Exposed_edge__edge2, BenzolRingC123456Exposed_edge__edge3, BenzolRingC123456Exposed_edge__edge4, BenzolRingC123456Exposed_edge__edge5, BenzolRingC123456Exposed_edge__edge6, BenzolRingC123456Exposed_edge__edge7, BenzolRingC123456Exposed_edge__edge8 }, 
-				new GRGEN_LGSP.PatternVariable[] {  }, 
-				new GRGEN_LGSP.PatternGraphEmbedding[] {  }, 
-				new GRGEN_LGSP.Alternative[] {  }, 
-				new GRGEN_LGSP.Iterated[] {  }, 
-				new GRGEN_LGSP.PatternGraph[] {  }, 
-				new GRGEN_LGSP.PatternGraph[] {  }, 
-				new GRGEN_LGSP.PatternCondition[] {  }, 
-				new GRGEN_LGSP.PatternYielding[] {  }, 
+				new GRGEN_LGSP.PatternNode[] { BenzolRingC123456Exposed_node_c1, BenzolRingC123456Exposed_node_c2, BenzolRingC123456Exposed_node_c3, BenzolRingC123456Exposed_node_c4, BenzolRingC123456Exposed_node_c5, BenzolRingC123456Exposed_node_c6 },
+				new GRGEN_LGSP.PatternEdge[] { BenzolRingC123456Exposed_edge__edge0, BenzolRingC123456Exposed_edge__edge1, BenzolRingC123456Exposed_edge__edge2, BenzolRingC123456Exposed_edge__edge3, BenzolRingC123456Exposed_edge__edge4, BenzolRingC123456Exposed_edge__edge5, BenzolRingC123456Exposed_edge__edge6, BenzolRingC123456Exposed_edge__edge7, BenzolRingC123456Exposed_edge__edge8 },
+				new GRGEN_LGSP.PatternVariable[] {  },
+				new GRGEN_LGSP.PatternGraphEmbedding[] {  },
+				new GRGEN_LGSP.Alternative[] {  },
+				new GRGEN_LGSP.Iterated[] {  },
+				new GRGEN_LGSP.PatternGraph[] {  },
+				new GRGEN_LGSP.PatternGraph[] {  },
+				new GRGEN_LGSP.PatternCondition[] {  },
+				new GRGEN_LGSP.PatternYielding[] {  },
 				new bool[6, 6] {
 					{ true, false, false, false, false, false, },
 					{ false, true, false, false, false, false, },
@@ -676,7 +676,7 @@ namespace de.unika.ipd.grGen.Action_TNT
 				default: return null;
 				}
 			}
-			
+
 			public GRGEN_LIBGR.IEdge edge__edge0 { get { return (GRGEN_LIBGR.IEdge)_edge__edge0; } }
 			public GRGEN_LIBGR.IEdge edge__edge1 { get { return (GRGEN_LIBGR.IEdge)_edge__edge1; } }
 			public GRGEN_LIBGR.IEdge edge__edge2 { get { return (GRGEN_LIBGR.IEdge)_edge__edge2; } }
@@ -714,7 +714,7 @@ namespace de.unika.ipd.grGen.Action_TNT
 				default: return null;
 				}
 			}
-			
+
 			public enum BenzolRingC123456Exposed_VariableNums { END_OF_ENUM };
 			public IEnumerable<object> Variables { get { return new GRGEN_LGSP.Variables_Enumerable(this); } }
 			public IEnumerator<object> VariablesEnumerator { get { return new GRGEN_LGSP.Variables_Enumerator(this); } }
@@ -725,7 +725,7 @@ namespace de.unika.ipd.grGen.Action_TNT
 				default: return null;
 				}
 			}
-			
+
 			public enum BenzolRingC123456Exposed_SubNums { END_OF_ENUM };
 			public IEnumerable<GRGEN_LIBGR.IMatch> EmbeddedGraphs { get { return new GRGEN_LGSP.EmbeddedGraphs_Enumerable(this); } }
 			public IEnumerator<GRGEN_LIBGR.IMatch> EmbeddedGraphsEnumerator { get { return new GRGEN_LGSP.EmbeddedGraphs_Enumerator(this); } }
@@ -736,7 +736,7 @@ namespace de.unika.ipd.grGen.Action_TNT
 				default: return null;
 				}
 			}
-			
+
 			public enum BenzolRingC123456Exposed_AltNums { END_OF_ENUM };
 			public IEnumerable<GRGEN_LIBGR.IMatch> Alternatives { get { return new GRGEN_LGSP.Alternatives_Enumerable(this); } }
 			public IEnumerator<GRGEN_LIBGR.IMatch> AlternativesEnumerator { get { return new GRGEN_LGSP.Alternatives_Enumerator(this); } }
@@ -747,7 +747,7 @@ namespace de.unika.ipd.grGen.Action_TNT
 				default: return null;
 				}
 			}
-			
+
 			public enum BenzolRingC123456Exposed_IterNums { END_OF_ENUM };
 			public IEnumerable<GRGEN_LIBGR.IMatches> Iterateds { get { return new GRGEN_LGSP.Iterateds_Enumerable(this); } }
 			public IEnumerator<GRGEN_LIBGR.IMatches> IteratedsEnumerator { get { return new GRGEN_LGSP.Iterateds_Enumerator(this); } }
@@ -758,7 +758,7 @@ namespace de.unika.ipd.grGen.Action_TNT
 				default: return null;
 				}
 			}
-			
+
 			public enum BenzolRingC123456Exposed_IdptNums { END_OF_ENUM };
 			public IEnumerable<GRGEN_LIBGR.IMatch> Independents { get { return new GRGEN_LGSP.Independents_Enumerable(this); } }
 			public IEnumerator<GRGEN_LIBGR.IMatch> IndependentsEnumerator { get { return new GRGEN_LGSP.Independents_Enumerator(this); } }
@@ -769,7 +769,7 @@ namespace de.unika.ipd.grGen.Action_TNT
 				default: return null;
 				}
 			}
-			
+
 			public GRGEN_LIBGR.IPatternGraph Pattern { get { return Pattern_BenzolRingC123456Exposed.instance.pat_BenzolRingC123456Exposed; } }
 			public GRGEN_LIBGR.IMatch MatchOfEnclosingPattern { get { return _matchOfEnclosingPattern; } }
 			public GRGEN_LIBGR.IMatch _matchOfEnclosingPattern;
@@ -876,16 +876,16 @@ namespace de.unika.ipd.grGen.Action_TNT
 				"BenzolRingC1Exposed",
 				"",
 				false,
-				new GRGEN_LGSP.PatternNode[] { BenzolRingC1Exposed_node_c1, BenzolRingC1Exposed_node_c2, BenzolRingC1Exposed_node_c3, BenzolRingC1Exposed_node_c4, BenzolRingC1Exposed_node_c5, BenzolRingC1Exposed_node_c6 }, 
-				new GRGEN_LGSP.PatternEdge[] { BenzolRingC1Exposed_edge__edge0, BenzolRingC1Exposed_edge__edge1, BenzolRingC1Exposed_edge__edge2, BenzolRingC1Exposed_edge__edge3, BenzolRingC1Exposed_edge__edge4, BenzolRingC1Exposed_edge__edge5, BenzolRingC1Exposed_edge__edge6, BenzolRingC1Exposed_edge__edge7, BenzolRingC1Exposed_edge__edge8 }, 
-				new GRGEN_LGSP.PatternVariable[] {  }, 
-				new GRGEN_LGSP.PatternGraphEmbedding[] {  }, 
-				new GRGEN_LGSP.Alternative[] {  }, 
-				new GRGEN_LGSP.Iterated[] {  }, 
-				new GRGEN_LGSP.PatternGraph[] {  }, 
-				new GRGEN_LGSP.PatternGraph[] {  }, 
-				new GRGEN_LGSP.PatternCondition[] {  }, 
-				new GRGEN_LGSP.PatternYielding[] {  }, 
+				new GRGEN_LGSP.PatternNode[] { BenzolRingC1Exposed_node_c1, BenzolRingC1Exposed_node_c2, BenzolRingC1Exposed_node_c3, BenzolRingC1Exposed_node_c4, BenzolRingC1Exposed_node_c5, BenzolRingC1Exposed_node_c6 },
+				new GRGEN_LGSP.PatternEdge[] { BenzolRingC1Exposed_edge__edge0, BenzolRingC1Exposed_edge__edge1, BenzolRingC1Exposed_edge__edge2, BenzolRingC1Exposed_edge__edge3, BenzolRingC1Exposed_edge__edge4, BenzolRingC1Exposed_edge__edge5, BenzolRingC1Exposed_edge__edge6, BenzolRingC1Exposed_edge__edge7, BenzolRingC1Exposed_edge__edge8 },
+				new GRGEN_LGSP.PatternVariable[] {  },
+				new GRGEN_LGSP.PatternGraphEmbedding[] {  },
+				new GRGEN_LGSP.Alternative[] {  },
+				new GRGEN_LGSP.Iterated[] {  },
+				new GRGEN_LGSP.PatternGraph[] {  },
+				new GRGEN_LGSP.PatternGraph[] {  },
+				new GRGEN_LGSP.PatternCondition[] {  },
+				new GRGEN_LGSP.PatternYielding[] {  },
 				new bool[6, 6] {
 					{ true, false, false, false, false, false, },
 					{ false, true, false, false, false, false, },
@@ -1067,7 +1067,7 @@ namespace de.unika.ipd.grGen.Action_TNT
 				default: return null;
 				}
 			}
-			
+
 			public GRGEN_LIBGR.IEdge edge__edge0 { get { return (GRGEN_LIBGR.IEdge)_edge__edge0; } }
 			public GRGEN_LIBGR.IEdge edge__edge1 { get { return (GRGEN_LIBGR.IEdge)_edge__edge1; } }
 			public GRGEN_LIBGR.IEdge edge__edge2 { get { return (GRGEN_LIBGR.IEdge)_edge__edge2; } }
@@ -1105,7 +1105,7 @@ namespace de.unika.ipd.grGen.Action_TNT
 				default: return null;
 				}
 			}
-			
+
 			public enum BenzolRingC1Exposed_VariableNums { END_OF_ENUM };
 			public IEnumerable<object> Variables { get { return new GRGEN_LGSP.Variables_Enumerable(this); } }
 			public IEnumerator<object> VariablesEnumerator { get { return new GRGEN_LGSP.Variables_Enumerator(this); } }
@@ -1116,7 +1116,7 @@ namespace de.unika.ipd.grGen.Action_TNT
 				default: return null;
 				}
 			}
-			
+
 			public enum BenzolRingC1Exposed_SubNums { END_OF_ENUM };
 			public IEnumerable<GRGEN_LIBGR.IMatch> EmbeddedGraphs { get { return new GRGEN_LGSP.EmbeddedGraphs_Enumerable(this); } }
 			public IEnumerator<GRGEN_LIBGR.IMatch> EmbeddedGraphsEnumerator { get { return new GRGEN_LGSP.EmbeddedGraphs_Enumerator(this); } }
@@ -1127,7 +1127,7 @@ namespace de.unika.ipd.grGen.Action_TNT
 				default: return null;
 				}
 			}
-			
+
 			public enum BenzolRingC1Exposed_AltNums { END_OF_ENUM };
 			public IEnumerable<GRGEN_LIBGR.IMatch> Alternatives { get { return new GRGEN_LGSP.Alternatives_Enumerable(this); } }
 			public IEnumerator<GRGEN_LIBGR.IMatch> AlternativesEnumerator { get { return new GRGEN_LGSP.Alternatives_Enumerator(this); } }
@@ -1138,7 +1138,7 @@ namespace de.unika.ipd.grGen.Action_TNT
 				default: return null;
 				}
 			}
-			
+
 			public enum BenzolRingC1Exposed_IterNums { END_OF_ENUM };
 			public IEnumerable<GRGEN_LIBGR.IMatches> Iterateds { get { return new GRGEN_LGSP.Iterateds_Enumerable(this); } }
 			public IEnumerator<GRGEN_LIBGR.IMatches> IteratedsEnumerator { get { return new GRGEN_LGSP.Iterateds_Enumerator(this); } }
@@ -1149,7 +1149,7 @@ namespace de.unika.ipd.grGen.Action_TNT
 				default: return null;
 				}
 			}
-			
+
 			public enum BenzolRingC1Exposed_IdptNums { END_OF_ENUM };
 			public IEnumerable<GRGEN_LIBGR.IMatch> Independents { get { return new GRGEN_LGSP.Independents_Enumerable(this); } }
 			public IEnumerator<GRGEN_LIBGR.IMatch> IndependentsEnumerator { get { return new GRGEN_LGSP.Independents_Enumerator(this); } }
@@ -1160,7 +1160,7 @@ namespace de.unika.ipd.grGen.Action_TNT
 				default: return null;
 				}
 			}
-			
+
 			public GRGEN_LIBGR.IPatternGraph Pattern { get { return Pattern_BenzolRingC1Exposed.instance.pat_BenzolRingC1Exposed; } }
 			public GRGEN_LIBGR.IMatch MatchOfEnclosingPattern { get { return _matchOfEnclosingPattern; } }
 			public GRGEN_LIBGR.IMatch _matchOfEnclosingPattern;
@@ -1305,16 +1305,16 @@ namespace de.unika.ipd.grGen.Action_TNT
 				"neg_0",
 				"BenzolRingC1ExposedNotC6Nitro_",
 				false,
-				new GRGEN_LGSP.PatternNode[] { BenzolRingC1ExposedNotC6Nitro_node_c6, BenzolRingC1ExposedNotC6Nitro_neg_0_node_n, BenzolRingC1ExposedNotC6Nitro_neg_0_node__node0, BenzolRingC1ExposedNotC6Nitro_neg_0_node__node1 }, 
-				new GRGEN_LGSP.PatternEdge[] { BenzolRingC1ExposedNotC6Nitro_neg_0_edge__edge0, BenzolRingC1ExposedNotC6Nitro_neg_0_edge__edge1, BenzolRingC1ExposedNotC6Nitro_neg_0_edge__edge2 }, 
-				new GRGEN_LGSP.PatternVariable[] {  }, 
-				new GRGEN_LGSP.PatternGraphEmbedding[] {  }, 
-				new GRGEN_LGSP.Alternative[] {  }, 
-				new GRGEN_LGSP.Iterated[] {  }, 
-				new GRGEN_LGSP.PatternGraph[] {  }, 
-				new GRGEN_LGSP.PatternGraph[] {  }, 
-				new GRGEN_LGSP.PatternCondition[] {  }, 
-				new GRGEN_LGSP.PatternYielding[] {  }, 
+				new GRGEN_LGSP.PatternNode[] { BenzolRingC1ExposedNotC6Nitro_node_c6, BenzolRingC1ExposedNotC6Nitro_neg_0_node_n, BenzolRingC1ExposedNotC6Nitro_neg_0_node__node0, BenzolRingC1ExposedNotC6Nitro_neg_0_node__node1 },
+				new GRGEN_LGSP.PatternEdge[] { BenzolRingC1ExposedNotC6Nitro_neg_0_edge__edge0, BenzolRingC1ExposedNotC6Nitro_neg_0_edge__edge1, BenzolRingC1ExposedNotC6Nitro_neg_0_edge__edge2 },
+				new GRGEN_LGSP.PatternVariable[] {  },
+				new GRGEN_LGSP.PatternGraphEmbedding[] {  },
+				new GRGEN_LGSP.Alternative[] {  },
+				new GRGEN_LGSP.Iterated[] {  },
+				new GRGEN_LGSP.PatternGraph[] {  },
+				new GRGEN_LGSP.PatternGraph[] {  },
+				new GRGEN_LGSP.PatternCondition[] {  },
+				new GRGEN_LGSP.PatternYielding[] {  },
 				new bool[4, 4] {
 					{ true, false, false, false, },
 					{ false, true, false, false, },
@@ -1340,16 +1340,16 @@ namespace de.unika.ipd.grGen.Action_TNT
 				"BenzolRingC1ExposedNotC6Nitro",
 				"",
 				false,
-				new GRGEN_LGSP.PatternNode[] { BenzolRingC1ExposedNotC6Nitro_node_c1, BenzolRingC1ExposedNotC6Nitro_node_c2, BenzolRingC1ExposedNotC6Nitro_node_c3, BenzolRingC1ExposedNotC6Nitro_node_c4, BenzolRingC1ExposedNotC6Nitro_node_c5, BenzolRingC1ExposedNotC6Nitro_node_c6 }, 
-				new GRGEN_LGSP.PatternEdge[] { BenzolRingC1ExposedNotC6Nitro_edge__edge0, BenzolRingC1ExposedNotC6Nitro_edge__edge1, BenzolRingC1ExposedNotC6Nitro_edge__edge2, BenzolRingC1ExposedNotC6Nitro_edge__edge3, BenzolRingC1ExposedNotC6Nitro_edge__edge4, BenzolRingC1ExposedNotC6Nitro_edge__edge5, BenzolRingC1ExposedNotC6Nitro_edge__edge6, BenzolRingC1ExposedNotC6Nitro_edge__edge7, BenzolRingC1ExposedNotC6Nitro_edge__edge8 }, 
-				new GRGEN_LGSP.PatternVariable[] {  }, 
-				new GRGEN_LGSP.PatternGraphEmbedding[] {  }, 
-				new GRGEN_LGSP.Alternative[] {  }, 
-				new GRGEN_LGSP.Iterated[] {  }, 
-				new GRGEN_LGSP.PatternGraph[] { BenzolRingC1ExposedNotC6Nitro_neg_0,  }, 
-				new GRGEN_LGSP.PatternGraph[] {  }, 
-				new GRGEN_LGSP.PatternCondition[] {  }, 
-				new GRGEN_LGSP.PatternYielding[] {  }, 
+				new GRGEN_LGSP.PatternNode[] { BenzolRingC1ExposedNotC6Nitro_node_c1, BenzolRingC1ExposedNotC6Nitro_node_c2, BenzolRingC1ExposedNotC6Nitro_node_c3, BenzolRingC1ExposedNotC6Nitro_node_c4, BenzolRingC1ExposedNotC6Nitro_node_c5, BenzolRingC1ExposedNotC6Nitro_node_c6 },
+				new GRGEN_LGSP.PatternEdge[] { BenzolRingC1ExposedNotC6Nitro_edge__edge0, BenzolRingC1ExposedNotC6Nitro_edge__edge1, BenzolRingC1ExposedNotC6Nitro_edge__edge2, BenzolRingC1ExposedNotC6Nitro_edge__edge3, BenzolRingC1ExposedNotC6Nitro_edge__edge4, BenzolRingC1ExposedNotC6Nitro_edge__edge5, BenzolRingC1ExposedNotC6Nitro_edge__edge6, BenzolRingC1ExposedNotC6Nitro_edge__edge7, BenzolRingC1ExposedNotC6Nitro_edge__edge8 },
+				new GRGEN_LGSP.PatternVariable[] {  },
+				new GRGEN_LGSP.PatternGraphEmbedding[] {  },
+				new GRGEN_LGSP.Alternative[] {  },
+				new GRGEN_LGSP.Iterated[] {  },
+				new GRGEN_LGSP.PatternGraph[] { BenzolRingC1ExposedNotC6Nitro_neg_0,  },
+				new GRGEN_LGSP.PatternGraph[] {  },
+				new GRGEN_LGSP.PatternCondition[] {  },
+				new GRGEN_LGSP.PatternYielding[] {  },
 				new bool[6, 6] {
 					{ true, false, false, false, false, false, },
 					{ false, true, false, false, false, false, },
@@ -1558,7 +1558,7 @@ namespace de.unika.ipd.grGen.Action_TNT
 				default: return null;
 				}
 			}
-			
+
 			public GRGEN_LIBGR.IEdge edge__edge0 { get { return (GRGEN_LIBGR.IEdge)_edge__edge0; } }
 			public GRGEN_LIBGR.IEdge edge__edge1 { get { return (GRGEN_LIBGR.IEdge)_edge__edge1; } }
 			public GRGEN_LIBGR.IEdge edge__edge2 { get { return (GRGEN_LIBGR.IEdge)_edge__edge2; } }
@@ -1596,7 +1596,7 @@ namespace de.unika.ipd.grGen.Action_TNT
 				default: return null;
 				}
 			}
-			
+
 			public enum BenzolRingC1ExposedNotC6Nitro_VariableNums { END_OF_ENUM };
 			public IEnumerable<object> Variables { get { return new GRGEN_LGSP.Variables_Enumerable(this); } }
 			public IEnumerator<object> VariablesEnumerator { get { return new GRGEN_LGSP.Variables_Enumerator(this); } }
@@ -1607,7 +1607,7 @@ namespace de.unika.ipd.grGen.Action_TNT
 				default: return null;
 				}
 			}
-			
+
 			public enum BenzolRingC1ExposedNotC6Nitro_SubNums { END_OF_ENUM };
 			public IEnumerable<GRGEN_LIBGR.IMatch> EmbeddedGraphs { get { return new GRGEN_LGSP.EmbeddedGraphs_Enumerable(this); } }
 			public IEnumerator<GRGEN_LIBGR.IMatch> EmbeddedGraphsEnumerator { get { return new GRGEN_LGSP.EmbeddedGraphs_Enumerator(this); } }
@@ -1618,7 +1618,7 @@ namespace de.unika.ipd.grGen.Action_TNT
 				default: return null;
 				}
 			}
-			
+
 			public enum BenzolRingC1ExposedNotC6Nitro_AltNums { END_OF_ENUM };
 			public IEnumerable<GRGEN_LIBGR.IMatch> Alternatives { get { return new GRGEN_LGSP.Alternatives_Enumerable(this); } }
 			public IEnumerator<GRGEN_LIBGR.IMatch> AlternativesEnumerator { get { return new GRGEN_LGSP.Alternatives_Enumerator(this); } }
@@ -1629,7 +1629,7 @@ namespace de.unika.ipd.grGen.Action_TNT
 				default: return null;
 				}
 			}
-			
+
 			public enum BenzolRingC1ExposedNotC6Nitro_IterNums { END_OF_ENUM };
 			public IEnumerable<GRGEN_LIBGR.IMatches> Iterateds { get { return new GRGEN_LGSP.Iterateds_Enumerable(this); } }
 			public IEnumerator<GRGEN_LIBGR.IMatches> IteratedsEnumerator { get { return new GRGEN_LGSP.Iterateds_Enumerator(this); } }
@@ -1640,7 +1640,7 @@ namespace de.unika.ipd.grGen.Action_TNT
 				default: return null;
 				}
 			}
-			
+
 			public enum BenzolRingC1ExposedNotC6Nitro_IdptNums { END_OF_ENUM };
 			public IEnumerable<GRGEN_LIBGR.IMatch> Independents { get { return new GRGEN_LGSP.Independents_Enumerable(this); } }
 			public IEnumerator<GRGEN_LIBGR.IMatch> IndependentsEnumerator { get { return new GRGEN_LGSP.Independents_Enumerator(this); } }
@@ -1651,7 +1651,7 @@ namespace de.unika.ipd.grGen.Action_TNT
 				default: return null;
 				}
 			}
-			
+
 			public GRGEN_LIBGR.IPatternGraph Pattern { get { return Pattern_BenzolRingC1ExposedNotC6Nitro.instance.pat_BenzolRingC1ExposedNotC6Nitro; } }
 			public GRGEN_LIBGR.IMatch MatchOfEnclosingPattern { get { return _matchOfEnclosingPattern; } }
 			public GRGEN_LIBGR.IMatch _matchOfEnclosingPattern;
@@ -1683,7 +1683,7 @@ namespace de.unika.ipd.grGen.Action_TNT
 				default: return null;
 				}
 			}
-			
+
 			public GRGEN_LIBGR.IEdge edge__edge0 { get { return (GRGEN_LIBGR.IEdge)_edge__edge0; } }
 			public GRGEN_LIBGR.IEdge edge__edge1 { get { return (GRGEN_LIBGR.IEdge)_edge__edge1; } }
 			public GRGEN_LIBGR.IEdge edge__edge2 { get { return (GRGEN_LIBGR.IEdge)_edge__edge2; } }
@@ -1703,7 +1703,7 @@ namespace de.unika.ipd.grGen.Action_TNT
 				default: return null;
 				}
 			}
-			
+
 			public enum BenzolRingC1ExposedNotC6Nitro_neg_0_VariableNums { END_OF_ENUM };
 			public IEnumerable<object> Variables { get { return new GRGEN_LGSP.Variables_Enumerable(this); } }
 			public IEnumerator<object> VariablesEnumerator { get { return new GRGEN_LGSP.Variables_Enumerator(this); } }
@@ -1714,7 +1714,7 @@ namespace de.unika.ipd.grGen.Action_TNT
 				default: return null;
 				}
 			}
-			
+
 			public enum BenzolRingC1ExposedNotC6Nitro_neg_0_SubNums { END_OF_ENUM };
 			public IEnumerable<GRGEN_LIBGR.IMatch> EmbeddedGraphs { get { return new GRGEN_LGSP.EmbeddedGraphs_Enumerable(this); } }
 			public IEnumerator<GRGEN_LIBGR.IMatch> EmbeddedGraphsEnumerator { get { return new GRGEN_LGSP.EmbeddedGraphs_Enumerator(this); } }
@@ -1725,7 +1725,7 @@ namespace de.unika.ipd.grGen.Action_TNT
 				default: return null;
 				}
 			}
-			
+
 			public enum BenzolRingC1ExposedNotC6Nitro_neg_0_AltNums { END_OF_ENUM };
 			public IEnumerable<GRGEN_LIBGR.IMatch> Alternatives { get { return new GRGEN_LGSP.Alternatives_Enumerable(this); } }
 			public IEnumerator<GRGEN_LIBGR.IMatch> AlternativesEnumerator { get { return new GRGEN_LGSP.Alternatives_Enumerator(this); } }
@@ -1736,7 +1736,7 @@ namespace de.unika.ipd.grGen.Action_TNT
 				default: return null;
 				}
 			}
-			
+
 			public enum BenzolRingC1ExposedNotC6Nitro_neg_0_IterNums { END_OF_ENUM };
 			public IEnumerable<GRGEN_LIBGR.IMatches> Iterateds { get { return new GRGEN_LGSP.Iterateds_Enumerable(this); } }
 			public IEnumerator<GRGEN_LIBGR.IMatches> IteratedsEnumerator { get { return new GRGEN_LGSP.Iterateds_Enumerator(this); } }
@@ -1747,7 +1747,7 @@ namespace de.unika.ipd.grGen.Action_TNT
 				default: return null;
 				}
 			}
-			
+
 			public enum BenzolRingC1ExposedNotC6Nitro_neg_0_IdptNums { END_OF_ENUM };
 			public IEnumerable<GRGEN_LIBGR.IMatch> Independents { get { return new GRGEN_LGSP.Independents_Enumerable(this); } }
 			public IEnumerator<GRGEN_LIBGR.IMatch> IndependentsEnumerator { get { return new GRGEN_LGSP.Independents_Enumerator(this); } }
@@ -1758,7 +1758,7 @@ namespace de.unika.ipd.grGen.Action_TNT
 				default: return null;
 				}
 			}
-			
+
 			public GRGEN_LIBGR.IPatternGraph Pattern { get { return Pattern_BenzolRingC1ExposedNotC6Nitro.instance.BenzolRingC1ExposedNotC6Nitro_neg_0; } }
 			public GRGEN_LIBGR.IMatch MatchOfEnclosingPattern { get { return _matchOfEnclosingPattern; } }
 			public GRGEN_LIBGR.IMatch _matchOfEnclosingPattern;
@@ -1821,16 +1821,16 @@ namespace de.unika.ipd.grGen.Action_TNT
 				"Oxygen",
 				"",
 				false,
-				new GRGEN_LGSP.PatternNode[] { Oxygen_node_o1, Oxygen_node_o2 }, 
-				new GRGEN_LGSP.PatternEdge[] { Oxygen_edge__edge0, Oxygen_edge__edge1 }, 
-				new GRGEN_LGSP.PatternVariable[] {  }, 
-				new GRGEN_LGSP.PatternGraphEmbedding[] {  }, 
-				new GRGEN_LGSP.Alternative[] {  }, 
-				new GRGEN_LGSP.Iterated[] {  }, 
-				new GRGEN_LGSP.PatternGraph[] {  }, 
-				new GRGEN_LGSP.PatternGraph[] {  }, 
-				new GRGEN_LGSP.PatternCondition[] {  }, 
-				new GRGEN_LGSP.PatternYielding[] {  }, 
+				new GRGEN_LGSP.PatternNode[] { Oxygen_node_o1, Oxygen_node_o2 },
+				new GRGEN_LGSP.PatternEdge[] { Oxygen_edge__edge0, Oxygen_edge__edge1 },
+				new GRGEN_LGSP.PatternVariable[] {  },
+				new GRGEN_LGSP.PatternGraphEmbedding[] {  },
+				new GRGEN_LGSP.Alternative[] {  },
+				new GRGEN_LGSP.Iterated[] {  },
+				new GRGEN_LGSP.PatternGraph[] {  },
+				new GRGEN_LGSP.PatternGraph[] {  },
+				new GRGEN_LGSP.PatternCondition[] {  },
+				new GRGEN_LGSP.PatternYielding[] {  },
 				new bool[2, 2] {
 					{ true, false, },
 					{ false, true, },
@@ -1920,7 +1920,7 @@ namespace de.unika.ipd.grGen.Action_TNT
 				default: return null;
 				}
 			}
-			
+
 			public GRGEN_LIBGR.IEdge edge__edge0 { get { return (GRGEN_LIBGR.IEdge)_edge__edge0; } }
 			public GRGEN_LIBGR.IEdge edge__edge1 { get { return (GRGEN_LIBGR.IEdge)_edge__edge1; } }
 			public GRGEN_LGSP.LGSPEdge _edge__edge0;
@@ -1937,7 +1937,7 @@ namespace de.unika.ipd.grGen.Action_TNT
 				default: return null;
 				}
 			}
-			
+
 			public enum Oxygen_VariableNums { END_OF_ENUM };
 			public IEnumerable<object> Variables { get { return new GRGEN_LGSP.Variables_Enumerable(this); } }
 			public IEnumerator<object> VariablesEnumerator { get { return new GRGEN_LGSP.Variables_Enumerator(this); } }
@@ -1948,7 +1948,7 @@ namespace de.unika.ipd.grGen.Action_TNT
 				default: return null;
 				}
 			}
-			
+
 			public enum Oxygen_SubNums { END_OF_ENUM };
 			public IEnumerable<GRGEN_LIBGR.IMatch> EmbeddedGraphs { get { return new GRGEN_LGSP.EmbeddedGraphs_Enumerable(this); } }
 			public IEnumerator<GRGEN_LIBGR.IMatch> EmbeddedGraphsEnumerator { get { return new GRGEN_LGSP.EmbeddedGraphs_Enumerator(this); } }
@@ -1959,7 +1959,7 @@ namespace de.unika.ipd.grGen.Action_TNT
 				default: return null;
 				}
 			}
-			
+
 			public enum Oxygen_AltNums { END_OF_ENUM };
 			public IEnumerable<GRGEN_LIBGR.IMatch> Alternatives { get { return new GRGEN_LGSP.Alternatives_Enumerable(this); } }
 			public IEnumerator<GRGEN_LIBGR.IMatch> AlternativesEnumerator { get { return new GRGEN_LGSP.Alternatives_Enumerator(this); } }
@@ -1970,7 +1970,7 @@ namespace de.unika.ipd.grGen.Action_TNT
 				default: return null;
 				}
 			}
-			
+
 			public enum Oxygen_IterNums { END_OF_ENUM };
 			public IEnumerable<GRGEN_LIBGR.IMatches> Iterateds { get { return new GRGEN_LGSP.Iterateds_Enumerable(this); } }
 			public IEnumerator<GRGEN_LIBGR.IMatches> IteratedsEnumerator { get { return new GRGEN_LGSP.Iterateds_Enumerator(this); } }
@@ -1981,7 +1981,7 @@ namespace de.unika.ipd.grGen.Action_TNT
 				default: return null;
 				}
 			}
-			
+
 			public enum Oxygen_IdptNums { END_OF_ENUM };
 			public IEnumerable<GRGEN_LIBGR.IMatch> Independents { get { return new GRGEN_LGSP.Independents_Enumerable(this); } }
 			public IEnumerator<GRGEN_LIBGR.IMatch> IndependentsEnumerator { get { return new GRGEN_LGSP.Independents_Enumerator(this); } }
@@ -1992,7 +1992,7 @@ namespace de.unika.ipd.grGen.Action_TNT
 				default: return null;
 				}
 			}
-			
+
 			public GRGEN_LIBGR.IPatternGraph Pattern { get { return Pattern_Oxygen.instance.pat_Oxygen; } }
 			public GRGEN_LIBGR.IMatch MatchOfEnclosingPattern { get { return _matchOfEnclosingPattern; } }
 			public GRGEN_LIBGR.IMatch _matchOfEnclosingPattern;
@@ -2051,16 +2051,16 @@ namespace de.unika.ipd.grGen.Action_TNT
 				"Hydrogen",
 				"",
 				false,
-				new GRGEN_LGSP.PatternNode[] { Hydrogen_node_anchor, Hydrogen_node__node0 }, 
-				new GRGEN_LGSP.PatternEdge[] { Hydrogen_edge__edge0 }, 
-				new GRGEN_LGSP.PatternVariable[] {  }, 
-				new GRGEN_LGSP.PatternGraphEmbedding[] {  }, 
-				new GRGEN_LGSP.Alternative[] {  }, 
-				new GRGEN_LGSP.Iterated[] {  }, 
-				new GRGEN_LGSP.PatternGraph[] {  }, 
-				new GRGEN_LGSP.PatternGraph[] {  }, 
-				new GRGEN_LGSP.PatternCondition[] {  }, 
-				new GRGEN_LGSP.PatternYielding[] {  }, 
+				new GRGEN_LGSP.PatternNode[] { Hydrogen_node_anchor, Hydrogen_node__node0 },
+				new GRGEN_LGSP.PatternEdge[] { Hydrogen_edge__edge0 },
+				new GRGEN_LGSP.PatternVariable[] {  },
+				new GRGEN_LGSP.PatternGraphEmbedding[] {  },
+				new GRGEN_LGSP.Alternative[] {  },
+				new GRGEN_LGSP.Iterated[] {  },
+				new GRGEN_LGSP.PatternGraph[] {  },
+				new GRGEN_LGSP.PatternGraph[] {  },
+				new GRGEN_LGSP.PatternCondition[] {  },
+				new GRGEN_LGSP.PatternYielding[] {  },
 				new bool[2, 2] {
 					{ true, false, },
 					{ false, true, },
@@ -2138,7 +2138,7 @@ namespace de.unika.ipd.grGen.Action_TNT
 				default: return null;
 				}
 			}
-			
+
 			public GRGEN_LIBGR.IEdge edge__edge0 { get { return (GRGEN_LIBGR.IEdge)_edge__edge0; } }
 			public GRGEN_LGSP.LGSPEdge _edge__edge0;
 			public enum Hydrogen_EdgeNums { @_edge0, END_OF_ENUM };
@@ -2152,7 +2152,7 @@ namespace de.unika.ipd.grGen.Action_TNT
 				default: return null;
 				}
 			}
-			
+
 			public enum Hydrogen_VariableNums { END_OF_ENUM };
 			public IEnumerable<object> Variables { get { return new GRGEN_LGSP.Variables_Enumerable(this); } }
 			public IEnumerator<object> VariablesEnumerator { get { return new GRGEN_LGSP.Variables_Enumerator(this); } }
@@ -2163,7 +2163,7 @@ namespace de.unika.ipd.grGen.Action_TNT
 				default: return null;
 				}
 			}
-			
+
 			public enum Hydrogen_SubNums { END_OF_ENUM };
 			public IEnumerable<GRGEN_LIBGR.IMatch> EmbeddedGraphs { get { return new GRGEN_LGSP.EmbeddedGraphs_Enumerable(this); } }
 			public IEnumerator<GRGEN_LIBGR.IMatch> EmbeddedGraphsEnumerator { get { return new GRGEN_LGSP.EmbeddedGraphs_Enumerator(this); } }
@@ -2174,7 +2174,7 @@ namespace de.unika.ipd.grGen.Action_TNT
 				default: return null;
 				}
 			}
-			
+
 			public enum Hydrogen_AltNums { END_OF_ENUM };
 			public IEnumerable<GRGEN_LIBGR.IMatch> Alternatives { get { return new GRGEN_LGSP.Alternatives_Enumerable(this); } }
 			public IEnumerator<GRGEN_LIBGR.IMatch> AlternativesEnumerator { get { return new GRGEN_LGSP.Alternatives_Enumerator(this); } }
@@ -2185,7 +2185,7 @@ namespace de.unika.ipd.grGen.Action_TNT
 				default: return null;
 				}
 			}
-			
+
 			public enum Hydrogen_IterNums { END_OF_ENUM };
 			public IEnumerable<GRGEN_LIBGR.IMatches> Iterateds { get { return new GRGEN_LGSP.Iterateds_Enumerable(this); } }
 			public IEnumerator<GRGEN_LIBGR.IMatches> IteratedsEnumerator { get { return new GRGEN_LGSP.Iterateds_Enumerator(this); } }
@@ -2196,7 +2196,7 @@ namespace de.unika.ipd.grGen.Action_TNT
 				default: return null;
 				}
 			}
-			
+
 			public enum Hydrogen_IdptNums { END_OF_ENUM };
 			public IEnumerable<GRGEN_LIBGR.IMatch> Independents { get { return new GRGEN_LGSP.Independents_Enumerable(this); } }
 			public IEnumerator<GRGEN_LIBGR.IMatch> IndependentsEnumerator { get { return new GRGEN_LGSP.Independents_Enumerator(this); } }
@@ -2207,7 +2207,7 @@ namespace de.unika.ipd.grGen.Action_TNT
 				default: return null;
 				}
 			}
-			
+
 			public GRGEN_LIBGR.IPatternGraph Pattern { get { return Pattern_Hydrogen.instance.pat_Hydrogen; } }
 			public GRGEN_LIBGR.IMatch MatchOfEnclosingPattern { get { return _matchOfEnclosingPattern; } }
 			public GRGEN_LIBGR.IMatch _matchOfEnclosingPattern;
@@ -2274,16 +2274,16 @@ namespace de.unika.ipd.grGen.Action_TNT
 				"Hydroxyl",
 				"",
 				false,
-				new GRGEN_LGSP.PatternNode[] { Hydroxyl_node_anchor, Hydroxyl_node__node0, Hydroxyl_node__node1 }, 
-				new GRGEN_LGSP.PatternEdge[] { Hydroxyl_edge__edge0, Hydroxyl_edge__edge1 }, 
-				new GRGEN_LGSP.PatternVariable[] {  }, 
-				new GRGEN_LGSP.PatternGraphEmbedding[] {  }, 
-				new GRGEN_LGSP.Alternative[] {  }, 
-				new GRGEN_LGSP.Iterated[] {  }, 
-				new GRGEN_LGSP.PatternGraph[] {  }, 
-				new GRGEN_LGSP.PatternGraph[] {  }, 
-				new GRGEN_LGSP.PatternCondition[] {  }, 
-				new GRGEN_LGSP.PatternYielding[] {  }, 
+				new GRGEN_LGSP.PatternNode[] { Hydroxyl_node_anchor, Hydroxyl_node__node0, Hydroxyl_node__node1 },
+				new GRGEN_LGSP.PatternEdge[] { Hydroxyl_edge__edge0, Hydroxyl_edge__edge1 },
+				new GRGEN_LGSP.PatternVariable[] {  },
+				new GRGEN_LGSP.PatternGraphEmbedding[] {  },
+				new GRGEN_LGSP.Alternative[] {  },
+				new GRGEN_LGSP.Iterated[] {  },
+				new GRGEN_LGSP.PatternGraph[] {  },
+				new GRGEN_LGSP.PatternGraph[] {  },
+				new GRGEN_LGSP.PatternCondition[] {  },
+				new GRGEN_LGSP.PatternYielding[] {  },
 				new bool[3, 3] {
 					{ true, false, false, },
 					{ false, true, false, },
@@ -2379,7 +2379,7 @@ namespace de.unika.ipd.grGen.Action_TNT
 				default: return null;
 				}
 			}
-			
+
 			public GRGEN_LIBGR.IEdge edge__edge0 { get { return (GRGEN_LIBGR.IEdge)_edge__edge0; } }
 			public GRGEN_LIBGR.IEdge edge__edge1 { get { return (GRGEN_LIBGR.IEdge)_edge__edge1; } }
 			public GRGEN_LGSP.LGSPEdge _edge__edge0;
@@ -2396,7 +2396,7 @@ namespace de.unika.ipd.grGen.Action_TNT
 				default: return null;
 				}
 			}
-			
+
 			public enum Hydroxyl_VariableNums { END_OF_ENUM };
 			public IEnumerable<object> Variables { get { return new GRGEN_LGSP.Variables_Enumerable(this); } }
 			public IEnumerator<object> VariablesEnumerator { get { return new GRGEN_LGSP.Variables_Enumerator(this); } }
@@ -2407,7 +2407,7 @@ namespace de.unika.ipd.grGen.Action_TNT
 				default: return null;
 				}
 			}
-			
+
 			public enum Hydroxyl_SubNums { END_OF_ENUM };
 			public IEnumerable<GRGEN_LIBGR.IMatch> EmbeddedGraphs { get { return new GRGEN_LGSP.EmbeddedGraphs_Enumerable(this); } }
 			public IEnumerator<GRGEN_LIBGR.IMatch> EmbeddedGraphsEnumerator { get { return new GRGEN_LGSP.EmbeddedGraphs_Enumerator(this); } }
@@ -2418,7 +2418,7 @@ namespace de.unika.ipd.grGen.Action_TNT
 				default: return null;
 				}
 			}
-			
+
 			public enum Hydroxyl_AltNums { END_OF_ENUM };
 			public IEnumerable<GRGEN_LIBGR.IMatch> Alternatives { get { return new GRGEN_LGSP.Alternatives_Enumerable(this); } }
 			public IEnumerator<GRGEN_LIBGR.IMatch> AlternativesEnumerator { get { return new GRGEN_LGSP.Alternatives_Enumerator(this); } }
@@ -2429,7 +2429,7 @@ namespace de.unika.ipd.grGen.Action_TNT
 				default: return null;
 				}
 			}
-			
+
 			public enum Hydroxyl_IterNums { END_OF_ENUM };
 			public IEnumerable<GRGEN_LIBGR.IMatches> Iterateds { get { return new GRGEN_LGSP.Iterateds_Enumerable(this); } }
 			public IEnumerator<GRGEN_LIBGR.IMatches> IteratedsEnumerator { get { return new GRGEN_LGSP.Iterateds_Enumerator(this); } }
@@ -2440,7 +2440,7 @@ namespace de.unika.ipd.grGen.Action_TNT
 				default: return null;
 				}
 			}
-			
+
 			public enum Hydroxyl_IdptNums { END_OF_ENUM };
 			public IEnumerable<GRGEN_LIBGR.IMatch> Independents { get { return new GRGEN_LGSP.Independents_Enumerable(this); } }
 			public IEnumerator<GRGEN_LIBGR.IMatch> IndependentsEnumerator { get { return new GRGEN_LGSP.Independents_Enumerator(this); } }
@@ -2451,7 +2451,7 @@ namespace de.unika.ipd.grGen.Action_TNT
 				default: return null;
 				}
 			}
-			
+
 			public GRGEN_LIBGR.IPatternGraph Pattern { get { return Pattern_Hydroxyl.instance.pat_Hydroxyl; } }
 			public GRGEN_LIBGR.IMatch MatchOfEnclosingPattern { get { return _matchOfEnclosingPattern; } }
 			public GRGEN_LIBGR.IMatch _matchOfEnclosingPattern;
@@ -2534,16 +2534,16 @@ namespace de.unika.ipd.grGen.Action_TNT
 				"Methyl",
 				"",
 				false,
-				new GRGEN_LGSP.PatternNode[] { Methyl_node_anchor, Methyl_node_c, Methyl_node__node0, Methyl_node__node1, Methyl_node__node2 }, 
-				new GRGEN_LGSP.PatternEdge[] { Methyl_edge__edge0, Methyl_edge__edge1, Methyl_edge__edge2, Methyl_edge__edge3 }, 
-				new GRGEN_LGSP.PatternVariable[] {  }, 
-				new GRGEN_LGSP.PatternGraphEmbedding[] {  }, 
-				new GRGEN_LGSP.Alternative[] {  }, 
-				new GRGEN_LGSP.Iterated[] {  }, 
-				new GRGEN_LGSP.PatternGraph[] {  }, 
-				new GRGEN_LGSP.PatternGraph[] {  }, 
-				new GRGEN_LGSP.PatternCondition[] {  }, 
-				new GRGEN_LGSP.PatternYielding[] {  }, 
+				new GRGEN_LGSP.PatternNode[] { Methyl_node_anchor, Methyl_node_c, Methyl_node__node0, Methyl_node__node1, Methyl_node__node2 },
+				new GRGEN_LGSP.PatternEdge[] { Methyl_edge__edge0, Methyl_edge__edge1, Methyl_edge__edge2, Methyl_edge__edge3 },
+				new GRGEN_LGSP.PatternVariable[] {  },
+				new GRGEN_LGSP.PatternGraphEmbedding[] {  },
+				new GRGEN_LGSP.Alternative[] {  },
+				new GRGEN_LGSP.Iterated[] {  },
+				new GRGEN_LGSP.PatternGraph[] {  },
+				new GRGEN_LGSP.PatternGraph[] {  },
+				new GRGEN_LGSP.PatternCondition[] {  },
+				new GRGEN_LGSP.PatternYielding[] {  },
 				new bool[5, 5] {
 					{ true, false, false, false, false, },
 					{ false, true, false, false, false, },
@@ -2675,7 +2675,7 @@ namespace de.unika.ipd.grGen.Action_TNT
 				default: return null;
 				}
 			}
-			
+
 			public GRGEN_LIBGR.IEdge edge__edge0 { get { return (GRGEN_LIBGR.IEdge)_edge__edge0; } }
 			public GRGEN_LIBGR.IEdge edge__edge1 { get { return (GRGEN_LIBGR.IEdge)_edge__edge1; } }
 			public GRGEN_LIBGR.IEdge edge__edge2 { get { return (GRGEN_LIBGR.IEdge)_edge__edge2; } }
@@ -2698,7 +2698,7 @@ namespace de.unika.ipd.grGen.Action_TNT
 				default: return null;
 				}
 			}
-			
+
 			public enum Methyl_VariableNums { END_OF_ENUM };
 			public IEnumerable<object> Variables { get { return new GRGEN_LGSP.Variables_Enumerable(this); } }
 			public IEnumerator<object> VariablesEnumerator { get { return new GRGEN_LGSP.Variables_Enumerator(this); } }
@@ -2709,7 +2709,7 @@ namespace de.unika.ipd.grGen.Action_TNT
 				default: return null;
 				}
 			}
-			
+
 			public enum Methyl_SubNums { END_OF_ENUM };
 			public IEnumerable<GRGEN_LIBGR.IMatch> EmbeddedGraphs { get { return new GRGEN_LGSP.EmbeddedGraphs_Enumerable(this); } }
 			public IEnumerator<GRGEN_LIBGR.IMatch> EmbeddedGraphsEnumerator { get { return new GRGEN_LGSP.EmbeddedGraphs_Enumerator(this); } }
@@ -2720,7 +2720,7 @@ namespace de.unika.ipd.grGen.Action_TNT
 				default: return null;
 				}
 			}
-			
+
 			public enum Methyl_AltNums { END_OF_ENUM };
 			public IEnumerable<GRGEN_LIBGR.IMatch> Alternatives { get { return new GRGEN_LGSP.Alternatives_Enumerable(this); } }
 			public IEnumerator<GRGEN_LIBGR.IMatch> AlternativesEnumerator { get { return new GRGEN_LGSP.Alternatives_Enumerator(this); } }
@@ -2731,7 +2731,7 @@ namespace de.unika.ipd.grGen.Action_TNT
 				default: return null;
 				}
 			}
-			
+
 			public enum Methyl_IterNums { END_OF_ENUM };
 			public IEnumerable<GRGEN_LIBGR.IMatches> Iterateds { get { return new GRGEN_LGSP.Iterateds_Enumerable(this); } }
 			public IEnumerator<GRGEN_LIBGR.IMatches> IteratedsEnumerator { get { return new GRGEN_LGSP.Iterateds_Enumerator(this); } }
@@ -2742,7 +2742,7 @@ namespace de.unika.ipd.grGen.Action_TNT
 				default: return null;
 				}
 			}
-			
+
 			public enum Methyl_IdptNums { END_OF_ENUM };
 			public IEnumerable<GRGEN_LIBGR.IMatch> Independents { get { return new GRGEN_LGSP.Independents_Enumerable(this); } }
 			public IEnumerator<GRGEN_LIBGR.IMatch> IndependentsEnumerator { get { return new GRGEN_LGSP.Independents_Enumerator(this); } }
@@ -2753,7 +2753,7 @@ namespace de.unika.ipd.grGen.Action_TNT
 				default: return null;
 				}
 			}
-			
+
 			public GRGEN_LIBGR.IPatternGraph Pattern { get { return Pattern_Methyl.instance.pat_Methyl; } }
 			public GRGEN_LIBGR.IMatch MatchOfEnclosingPattern { get { return _matchOfEnclosingPattern; } }
 			public GRGEN_LIBGR.IMatch _matchOfEnclosingPattern;
@@ -2828,16 +2828,16 @@ namespace de.unika.ipd.grGen.Action_TNT
 				"Nitro",
 				"",
 				false,
-				new GRGEN_LGSP.PatternNode[] { Nitro_node_anchor, Nitro_node_n, Nitro_node__node0, Nitro_node__node1 }, 
-				new GRGEN_LGSP.PatternEdge[] { Nitro_edge__edge0, Nitro_edge__edge1, Nitro_edge__edge2 }, 
-				new GRGEN_LGSP.PatternVariable[] {  }, 
-				new GRGEN_LGSP.PatternGraphEmbedding[] {  }, 
-				new GRGEN_LGSP.Alternative[] {  }, 
-				new GRGEN_LGSP.Iterated[] {  }, 
-				new GRGEN_LGSP.PatternGraph[] {  }, 
-				new GRGEN_LGSP.PatternGraph[] {  }, 
-				new GRGEN_LGSP.PatternCondition[] {  }, 
-				new GRGEN_LGSP.PatternYielding[] {  }, 
+				new GRGEN_LGSP.PatternNode[] { Nitro_node_anchor, Nitro_node_n, Nitro_node__node0, Nitro_node__node1 },
+				new GRGEN_LGSP.PatternEdge[] { Nitro_edge__edge0, Nitro_edge__edge1, Nitro_edge__edge2 },
+				new GRGEN_LGSP.PatternVariable[] {  },
+				new GRGEN_LGSP.PatternGraphEmbedding[] {  },
+				new GRGEN_LGSP.Alternative[] {  },
+				new GRGEN_LGSP.Iterated[] {  },
+				new GRGEN_LGSP.PatternGraph[] {  },
+				new GRGEN_LGSP.PatternGraph[] {  },
+				new GRGEN_LGSP.PatternCondition[] {  },
+				new GRGEN_LGSP.PatternYielding[] {  },
 				new bool[4, 4] {
 					{ true, false, false, false, },
 					{ false, true, false, false, },
@@ -2951,7 +2951,7 @@ namespace de.unika.ipd.grGen.Action_TNT
 				default: return null;
 				}
 			}
-			
+
 			public GRGEN_LIBGR.IEdge edge__edge0 { get { return (GRGEN_LIBGR.IEdge)_edge__edge0; } }
 			public GRGEN_LIBGR.IEdge edge__edge1 { get { return (GRGEN_LIBGR.IEdge)_edge__edge1; } }
 			public GRGEN_LIBGR.IEdge edge__edge2 { get { return (GRGEN_LIBGR.IEdge)_edge__edge2; } }
@@ -2971,7 +2971,7 @@ namespace de.unika.ipd.grGen.Action_TNT
 				default: return null;
 				}
 			}
-			
+
 			public enum Nitro_VariableNums { END_OF_ENUM };
 			public IEnumerable<object> Variables { get { return new GRGEN_LGSP.Variables_Enumerable(this); } }
 			public IEnumerator<object> VariablesEnumerator { get { return new GRGEN_LGSP.Variables_Enumerator(this); } }
@@ -2982,7 +2982,7 @@ namespace de.unika.ipd.grGen.Action_TNT
 				default: return null;
 				}
 			}
-			
+
 			public enum Nitro_SubNums { END_OF_ENUM };
 			public IEnumerable<GRGEN_LIBGR.IMatch> EmbeddedGraphs { get { return new GRGEN_LGSP.EmbeddedGraphs_Enumerable(this); } }
 			public IEnumerator<GRGEN_LIBGR.IMatch> EmbeddedGraphsEnumerator { get { return new GRGEN_LGSP.EmbeddedGraphs_Enumerator(this); } }
@@ -2993,7 +2993,7 @@ namespace de.unika.ipd.grGen.Action_TNT
 				default: return null;
 				}
 			}
-			
+
 			public enum Nitro_AltNums { END_OF_ENUM };
 			public IEnumerable<GRGEN_LIBGR.IMatch> Alternatives { get { return new GRGEN_LGSP.Alternatives_Enumerable(this); } }
 			public IEnumerator<GRGEN_LIBGR.IMatch> AlternativesEnumerator { get { return new GRGEN_LGSP.Alternatives_Enumerator(this); } }
@@ -3004,7 +3004,7 @@ namespace de.unika.ipd.grGen.Action_TNT
 				default: return null;
 				}
 			}
-			
+
 			public enum Nitro_IterNums { END_OF_ENUM };
 			public IEnumerable<GRGEN_LIBGR.IMatches> Iterateds { get { return new GRGEN_LGSP.Iterateds_Enumerable(this); } }
 			public IEnumerator<GRGEN_LIBGR.IMatches> IteratedsEnumerator { get { return new GRGEN_LGSP.Iterateds_Enumerator(this); } }
@@ -3015,7 +3015,7 @@ namespace de.unika.ipd.grGen.Action_TNT
 				default: return null;
 				}
 			}
-			
+
 			public enum Nitro_IdptNums { END_OF_ENUM };
 			public IEnumerable<GRGEN_LIBGR.IMatch> Independents { get { return new GRGEN_LGSP.Independents_Enumerable(this); } }
 			public IEnumerator<GRGEN_LIBGR.IMatch> IndependentsEnumerator { get { return new GRGEN_LGSP.Independents_Enumerator(this); } }
@@ -3026,7 +3026,7 @@ namespace de.unika.ipd.grGen.Action_TNT
 				default: return null;
 				}
 			}
-			
+
 			public GRGEN_LIBGR.IPatternGraph Pattern { get { return Pattern_Nitro.instance.pat_Nitro; } }
 			public GRGEN_LIBGR.IMatch MatchOfEnclosingPattern { get { return _matchOfEnclosingPattern; } }
 			public GRGEN_LIBGR.IMatch _matchOfEnclosingPattern;
@@ -3080,35 +3080,35 @@ namespace de.unika.ipd.grGen.Action_TNT
 			GRGEN_LGSP.PatternNode TriNitro_node_c2 = new GRGEN_LGSP.PatternNode((int) GRGEN_MODEL.NodeTypes.@C, "GRGEN_MODEL.IC", "TriNitro_node_c2", "c2", TriNitro_node_c2_AllowedTypes, TriNitro_node_c2_IsAllowedType, 5.5F, 0, false, null, null, null, null, false);
 			GRGEN_LGSP.PatternNode TriNitro_node_c4 = new GRGEN_LGSP.PatternNode((int) GRGEN_MODEL.NodeTypes.@C, "GRGEN_MODEL.IC", "TriNitro_node_c4", "c4", TriNitro_node_c4_AllowedTypes, TriNitro_node_c4_IsAllowedType, 5.5F, 1, false, null, null, null, null, false);
 			GRGEN_LGSP.PatternNode TriNitro_node_c6 = new GRGEN_LGSP.PatternNode((int) GRGEN_MODEL.NodeTypes.@C, "GRGEN_MODEL.IC", "TriNitro_node_c6", "c6", TriNitro_node_c6_AllowedTypes, TriNitro_node_c6_IsAllowedType, 5.5F, 2, false, null, null, null, null, false);
-			GRGEN_LGSP.PatternGraphEmbedding TriNitro__sub0 = new GRGEN_LGSP.PatternGraphEmbedding("_sub0", Pattern_Nitro.Instance, 
+			GRGEN_LGSP.PatternGraphEmbedding TriNitro__sub0 = new GRGEN_LGSP.PatternGraphEmbedding("_sub0", Pattern_Nitro.Instance,
 				new GRGEN_EXPR.Expression[] {
 					new GRGEN_EXPR.GraphEntityExpression("TriNitro_node_c2"),
-				}, 
+				},
 				new string[] { }, new string[] { "TriNitro_node_c2" }, new string[] {  }, new string[] {  }, new GRGEN_LIBGR.VarType[] {  });
-			GRGEN_LGSP.PatternGraphEmbedding TriNitro__sub1 = new GRGEN_LGSP.PatternGraphEmbedding("_sub1", Pattern_Nitro.Instance, 
+			GRGEN_LGSP.PatternGraphEmbedding TriNitro__sub1 = new GRGEN_LGSP.PatternGraphEmbedding("_sub1", Pattern_Nitro.Instance,
 				new GRGEN_EXPR.Expression[] {
 					new GRGEN_EXPR.GraphEntityExpression("TriNitro_node_c4"),
-				}, 
+				},
 				new string[] { }, new string[] { "TriNitro_node_c4" }, new string[] {  }, new string[] {  }, new GRGEN_LIBGR.VarType[] {  });
-			GRGEN_LGSP.PatternGraphEmbedding TriNitro__sub2 = new GRGEN_LGSP.PatternGraphEmbedding("_sub2", Pattern_Nitro.Instance, 
+			GRGEN_LGSP.PatternGraphEmbedding TriNitro__sub2 = new GRGEN_LGSP.PatternGraphEmbedding("_sub2", Pattern_Nitro.Instance,
 				new GRGEN_EXPR.Expression[] {
 					new GRGEN_EXPR.GraphEntityExpression("TriNitro_node_c6"),
-				}, 
+				},
 				new string[] { }, new string[] { "TriNitro_node_c6" }, new string[] {  }, new string[] {  }, new GRGEN_LIBGR.VarType[] {  });
 			pat_TriNitro = new GRGEN_LGSP.PatternGraph(
 				"TriNitro",
 				"",
 				false,
-				new GRGEN_LGSP.PatternNode[] { TriNitro_node_c2, TriNitro_node_c4, TriNitro_node_c6 }, 
-				new GRGEN_LGSP.PatternEdge[] {  }, 
-				new GRGEN_LGSP.PatternVariable[] {  }, 
-				new GRGEN_LGSP.PatternGraphEmbedding[] { TriNitro__sub0, TriNitro__sub1, TriNitro__sub2 }, 
-				new GRGEN_LGSP.Alternative[] {  }, 
-				new GRGEN_LGSP.Iterated[] {  }, 
-				new GRGEN_LGSP.PatternGraph[] {  }, 
-				new GRGEN_LGSP.PatternGraph[] {  }, 
-				new GRGEN_LGSP.PatternCondition[] {  }, 
-				new GRGEN_LGSP.PatternYielding[] {  }, 
+				new GRGEN_LGSP.PatternNode[] { TriNitro_node_c2, TriNitro_node_c4, TriNitro_node_c6 },
+				new GRGEN_LGSP.PatternEdge[] {  },
+				new GRGEN_LGSP.PatternVariable[] {  },
+				new GRGEN_LGSP.PatternGraphEmbedding[] { TriNitro__sub0, TriNitro__sub1, TriNitro__sub2 },
+				new GRGEN_LGSP.Alternative[] {  },
+				new GRGEN_LGSP.Iterated[] {  },
+				new GRGEN_LGSP.PatternGraph[] {  },
+				new GRGEN_LGSP.PatternGraph[] {  },
+				new GRGEN_LGSP.PatternCondition[] {  },
+				new GRGEN_LGSP.PatternYielding[] {  },
 				new bool[3, 3] {
 					{ true, false, false, },
 					{ false, true, false, },
@@ -3194,7 +3194,7 @@ namespace de.unika.ipd.grGen.Action_TNT
 				default: return null;
 				}
 			}
-			
+
 			public enum TriNitro_EdgeNums { END_OF_ENUM };
 			public IEnumerable<GRGEN_LIBGR.IEdge> Edges { get { return new GRGEN_LGSP.Edges_Enumerable(this); } }
 			public IEnumerator<GRGEN_LIBGR.IEdge> EdgesEnumerator { get { return new GRGEN_LGSP.Edges_Enumerator(this); } }
@@ -3205,7 +3205,7 @@ namespace de.unika.ipd.grGen.Action_TNT
 				default: return null;
 				}
 			}
-			
+
 			public enum TriNitro_VariableNums { END_OF_ENUM };
 			public IEnumerable<object> Variables { get { return new GRGEN_LGSP.Variables_Enumerable(this); } }
 			public IEnumerator<object> VariablesEnumerator { get { return new GRGEN_LGSP.Variables_Enumerator(this); } }
@@ -3216,7 +3216,7 @@ namespace de.unika.ipd.grGen.Action_TNT
 				default: return null;
 				}
 			}
-			
+
 			public @Pattern_Nitro.Match_Nitro @_sub0 { get { return @__sub0; } }
 			public @Pattern_Nitro.Match_Nitro @_sub1 { get { return @__sub1; } }
 			public @Pattern_Nitro.Match_Nitro @_sub2 { get { return @__sub2; } }
@@ -3236,7 +3236,7 @@ namespace de.unika.ipd.grGen.Action_TNT
 				default: return null;
 				}
 			}
-			
+
 			public enum TriNitro_AltNums { END_OF_ENUM };
 			public IEnumerable<GRGEN_LIBGR.IMatch> Alternatives { get { return new GRGEN_LGSP.Alternatives_Enumerable(this); } }
 			public IEnumerator<GRGEN_LIBGR.IMatch> AlternativesEnumerator { get { return new GRGEN_LGSP.Alternatives_Enumerator(this); } }
@@ -3247,7 +3247,7 @@ namespace de.unika.ipd.grGen.Action_TNT
 				default: return null;
 				}
 			}
-			
+
 			public enum TriNitro_IterNums { END_OF_ENUM };
 			public IEnumerable<GRGEN_LIBGR.IMatches> Iterateds { get { return new GRGEN_LGSP.Iterateds_Enumerable(this); } }
 			public IEnumerator<GRGEN_LIBGR.IMatches> IteratedsEnumerator { get { return new GRGEN_LGSP.Iterateds_Enumerator(this); } }
@@ -3258,7 +3258,7 @@ namespace de.unika.ipd.grGen.Action_TNT
 				default: return null;
 				}
 			}
-			
+
 			public enum TriNitro_IdptNums { END_OF_ENUM };
 			public IEnumerable<GRGEN_LIBGR.IMatch> Independents { get { return new GRGEN_LGSP.Independents_Enumerable(this); } }
 			public IEnumerator<GRGEN_LIBGR.IMatch> IndependentsEnumerator { get { return new GRGEN_LGSP.Independents_Enumerator(this); } }
@@ -3269,7 +3269,7 @@ namespace de.unika.ipd.grGen.Action_TNT
 				default: return null;
 				}
 			}
-			
+
 			public GRGEN_LIBGR.IPatternGraph Pattern { get { return Pattern_TriNitro.instance.pat_TriNitro; } }
 			public GRGEN_LIBGR.IMatch MatchOfEnclosingPattern { get { return _matchOfEnclosingPattern; } }
 			public GRGEN_LIBGR.IMatch _matchOfEnclosingPattern;
@@ -3335,42 +3335,42 @@ namespace de.unika.ipd.grGen.Action_TNT
 			GRGEN_LGSP.PatternNode ToluolCoreThenTriNitro_node_c4 = new GRGEN_LGSP.PatternNode((int) GRGEN_MODEL.NodeTypes.@C, "GRGEN_MODEL.IC", "ToluolCoreThenTriNitro_node_c4", "c4", ToluolCoreThenTriNitro_node_c4_AllowedTypes, ToluolCoreThenTriNitro_node_c4_IsAllowedType, 5.5F, 3, false, null, null, null, null, false);
 			GRGEN_LGSP.PatternNode ToluolCoreThenTriNitro_node_c5 = new GRGEN_LGSP.PatternNode((int) GRGEN_MODEL.NodeTypes.@C, "GRGEN_MODEL.IC", "ToluolCoreThenTriNitro_node_c5", "c5", ToluolCoreThenTriNitro_node_c5_AllowedTypes, ToluolCoreThenTriNitro_node_c5_IsAllowedType, 5.5F, 4, false, null, null, null, null, false);
 			GRGEN_LGSP.PatternNode ToluolCoreThenTriNitro_node_c6 = new GRGEN_LGSP.PatternNode((int) GRGEN_MODEL.NodeTypes.@C, "GRGEN_MODEL.IC", "ToluolCoreThenTriNitro_node_c6", "c6", ToluolCoreThenTriNitro_node_c6_AllowedTypes, ToluolCoreThenTriNitro_node_c6_IsAllowedType, 5.5F, 5, false, null, null, null, null, false);
-			GRGEN_LGSP.PatternGraphEmbedding ToluolCoreThenTriNitro__sub0 = new GRGEN_LGSP.PatternGraphEmbedding("_sub0", Pattern_Methyl.Instance, 
+			GRGEN_LGSP.PatternGraphEmbedding ToluolCoreThenTriNitro__sub0 = new GRGEN_LGSP.PatternGraphEmbedding("_sub0", Pattern_Methyl.Instance,
 				new GRGEN_EXPR.Expression[] {
 					new GRGEN_EXPR.GraphEntityExpression("ToluolCoreThenTriNitro_node_c1"),
-				}, 
+				},
 				new string[] { }, new string[] { "ToluolCoreThenTriNitro_node_c1" }, new string[] {  }, new string[] {  }, new GRGEN_LIBGR.VarType[] {  });
-			GRGEN_LGSP.PatternGraphEmbedding ToluolCoreThenTriNitro__sub1 = new GRGEN_LGSP.PatternGraphEmbedding("_sub1", Pattern_Hydrogen.Instance, 
+			GRGEN_LGSP.PatternGraphEmbedding ToluolCoreThenTriNitro__sub1 = new GRGEN_LGSP.PatternGraphEmbedding("_sub1", Pattern_Hydrogen.Instance,
 				new GRGEN_EXPR.Expression[] {
 					new GRGEN_EXPR.GraphEntityExpression("ToluolCoreThenTriNitro_node_c3"),
-				}, 
+				},
 				new string[] { }, new string[] { "ToluolCoreThenTriNitro_node_c3" }, new string[] {  }, new string[] {  }, new GRGEN_LIBGR.VarType[] {  });
-			GRGEN_LGSP.PatternGraphEmbedding ToluolCoreThenTriNitro__sub2 = new GRGEN_LGSP.PatternGraphEmbedding("_sub2", Pattern_Hydrogen.Instance, 
+			GRGEN_LGSP.PatternGraphEmbedding ToluolCoreThenTriNitro__sub2 = new GRGEN_LGSP.PatternGraphEmbedding("_sub2", Pattern_Hydrogen.Instance,
 				new GRGEN_EXPR.Expression[] {
 					new GRGEN_EXPR.GraphEntityExpression("ToluolCoreThenTriNitro_node_c5"),
-				}, 
+				},
 				new string[] { }, new string[] { "ToluolCoreThenTriNitro_node_c5" }, new string[] {  }, new string[] {  }, new GRGEN_LIBGR.VarType[] {  });
-			GRGEN_LGSP.PatternGraphEmbedding ToluolCoreThenTriNitro__sub3 = new GRGEN_LGSP.PatternGraphEmbedding("_sub3", Pattern_TriNitro.Instance, 
+			GRGEN_LGSP.PatternGraphEmbedding ToluolCoreThenTriNitro__sub3 = new GRGEN_LGSP.PatternGraphEmbedding("_sub3", Pattern_TriNitro.Instance,
 				new GRGEN_EXPR.Expression[] {
 					new GRGEN_EXPR.GraphEntityExpression("ToluolCoreThenTriNitro_node_c2"),
 					new GRGEN_EXPR.GraphEntityExpression("ToluolCoreThenTriNitro_node_c4"),
 					new GRGEN_EXPR.GraphEntityExpression("ToluolCoreThenTriNitro_node_c6"),
-				}, 
+				},
 				new string[] { }, new string[] { "ToluolCoreThenTriNitro_node_c2", "ToluolCoreThenTriNitro_node_c4", "ToluolCoreThenTriNitro_node_c6" }, new string[] {  }, new string[] {  }, new GRGEN_LIBGR.VarType[] {  });
 			pat_ToluolCoreThenTriNitro = new GRGEN_LGSP.PatternGraph(
 				"ToluolCoreThenTriNitro",
 				"",
 				false,
-				new GRGEN_LGSP.PatternNode[] { ToluolCoreThenTriNitro_node_c1, ToluolCoreThenTriNitro_node_c2, ToluolCoreThenTriNitro_node_c3, ToluolCoreThenTriNitro_node_c4, ToluolCoreThenTriNitro_node_c5, ToluolCoreThenTriNitro_node_c6 }, 
-				new GRGEN_LGSP.PatternEdge[] {  }, 
-				new GRGEN_LGSP.PatternVariable[] {  }, 
-				new GRGEN_LGSP.PatternGraphEmbedding[] { ToluolCoreThenTriNitro__sub0, ToluolCoreThenTriNitro__sub1, ToluolCoreThenTriNitro__sub2, ToluolCoreThenTriNitro__sub3 }, 
-				new GRGEN_LGSP.Alternative[] {  }, 
-				new GRGEN_LGSP.Iterated[] {  }, 
-				new GRGEN_LGSP.PatternGraph[] {  }, 
-				new GRGEN_LGSP.PatternGraph[] {  }, 
-				new GRGEN_LGSP.PatternCondition[] {  }, 
-				new GRGEN_LGSP.PatternYielding[] {  }, 
+				new GRGEN_LGSP.PatternNode[] { ToluolCoreThenTriNitro_node_c1, ToluolCoreThenTriNitro_node_c2, ToluolCoreThenTriNitro_node_c3, ToluolCoreThenTriNitro_node_c4, ToluolCoreThenTriNitro_node_c5, ToluolCoreThenTriNitro_node_c6 },
+				new GRGEN_LGSP.PatternEdge[] {  },
+				new GRGEN_LGSP.PatternVariable[] {  },
+				new GRGEN_LGSP.PatternGraphEmbedding[] { ToluolCoreThenTriNitro__sub0, ToluolCoreThenTriNitro__sub1, ToluolCoreThenTriNitro__sub2, ToluolCoreThenTriNitro__sub3 },
+				new GRGEN_LGSP.Alternative[] {  },
+				new GRGEN_LGSP.Iterated[] {  },
+				new GRGEN_LGSP.PatternGraph[] {  },
+				new GRGEN_LGSP.PatternGraph[] {  },
+				new GRGEN_LGSP.PatternCondition[] {  },
+				new GRGEN_LGSP.PatternYielding[] {  },
 				new bool[6, 6] {
 					{ true, false, false, false, false, false, },
 					{ false, true, false, false, false, false, },
@@ -3479,7 +3479,7 @@ namespace de.unika.ipd.grGen.Action_TNT
 				default: return null;
 				}
 			}
-			
+
 			public enum ToluolCoreThenTriNitro_EdgeNums { END_OF_ENUM };
 			public IEnumerable<GRGEN_LIBGR.IEdge> Edges { get { return new GRGEN_LGSP.Edges_Enumerable(this); } }
 			public IEnumerator<GRGEN_LIBGR.IEdge> EdgesEnumerator { get { return new GRGEN_LGSP.Edges_Enumerator(this); } }
@@ -3490,7 +3490,7 @@ namespace de.unika.ipd.grGen.Action_TNT
 				default: return null;
 				}
 			}
-			
+
 			public enum ToluolCoreThenTriNitro_VariableNums { END_OF_ENUM };
 			public IEnumerable<object> Variables { get { return new GRGEN_LGSP.Variables_Enumerable(this); } }
 			public IEnumerator<object> VariablesEnumerator { get { return new GRGEN_LGSP.Variables_Enumerator(this); } }
@@ -3501,7 +3501,7 @@ namespace de.unika.ipd.grGen.Action_TNT
 				default: return null;
 				}
 			}
-			
+
 			public @Pattern_Methyl.Match_Methyl @_sub0 { get { return @__sub0; } }
 			public @Pattern_Hydrogen.Match_Hydrogen @_sub1 { get { return @__sub1; } }
 			public @Pattern_Hydrogen.Match_Hydrogen @_sub2 { get { return @__sub2; } }
@@ -3524,7 +3524,7 @@ namespace de.unika.ipd.grGen.Action_TNT
 				default: return null;
 				}
 			}
-			
+
 			public enum ToluolCoreThenTriNitro_AltNums { END_OF_ENUM };
 			public IEnumerable<GRGEN_LIBGR.IMatch> Alternatives { get { return new GRGEN_LGSP.Alternatives_Enumerable(this); } }
 			public IEnumerator<GRGEN_LIBGR.IMatch> AlternativesEnumerator { get { return new GRGEN_LGSP.Alternatives_Enumerator(this); } }
@@ -3535,7 +3535,7 @@ namespace de.unika.ipd.grGen.Action_TNT
 				default: return null;
 				}
 			}
-			
+
 			public enum ToluolCoreThenTriNitro_IterNums { END_OF_ENUM };
 			public IEnumerable<GRGEN_LIBGR.IMatches> Iterateds { get { return new GRGEN_LGSP.Iterateds_Enumerable(this); } }
 			public IEnumerator<GRGEN_LIBGR.IMatches> IteratedsEnumerator { get { return new GRGEN_LGSP.Iterateds_Enumerator(this); } }
@@ -3546,7 +3546,7 @@ namespace de.unika.ipd.grGen.Action_TNT
 				default: return null;
 				}
 			}
-			
+
 			public enum ToluolCoreThenTriNitro_IdptNums { END_OF_ENUM };
 			public IEnumerable<GRGEN_LIBGR.IMatch> Independents { get { return new GRGEN_LGSP.Independents_Enumerable(this); } }
 			public IEnumerator<GRGEN_LIBGR.IMatch> IndependentsEnumerator { get { return new GRGEN_LGSP.Independents_Enumerator(this); } }
@@ -3557,7 +3557,7 @@ namespace de.unika.ipd.grGen.Action_TNT
 				default: return null;
 				}
 			}
-			
+
 			public GRGEN_LIBGR.IPatternGraph Pattern { get { return Pattern_ToluolCoreThenTriNitro.instance.pat_ToluolCoreThenTriNitro; } }
 			public GRGEN_LIBGR.IMatch MatchOfEnclosingPattern { get { return _matchOfEnclosingPattern; } }
 			public GRGEN_LIBGR.IMatch _matchOfEnclosingPattern;
@@ -3599,24 +3599,24 @@ namespace de.unika.ipd.grGen.Action_TNT
 		{
 			bool[,] BenzolRing_isNodeHomomorphicGlobal = new bool[0, 0] ;
 			bool[,] BenzolRing_isEdgeHomomorphicGlobal = new bool[0, 0] ;
-			GRGEN_LGSP.PatternGraphEmbedding BenzolRing__sub0 = new GRGEN_LGSP.PatternGraphEmbedding("_sub0", Pattern_BenzolRing.Instance, 
+			GRGEN_LGSP.PatternGraphEmbedding BenzolRing__sub0 = new GRGEN_LGSP.PatternGraphEmbedding("_sub0", Pattern_BenzolRing.Instance,
 				new GRGEN_EXPR.Expression[] {
-				}, 
+				},
 				new string[] { }, new string[] {  }, new string[] {  }, new string[] {  }, new GRGEN_LIBGR.VarType[] {  });
 			pat_BenzolRing = new GRGEN_LGSP.PatternGraph(
 				"BenzolRing",
 				"",
 				false,
-				new GRGEN_LGSP.PatternNode[] {  }, 
-				new GRGEN_LGSP.PatternEdge[] {  }, 
-				new GRGEN_LGSP.PatternVariable[] {  }, 
-				new GRGEN_LGSP.PatternGraphEmbedding[] { BenzolRing__sub0 }, 
-				new GRGEN_LGSP.Alternative[] {  }, 
-				new GRGEN_LGSP.Iterated[] {  }, 
-				new GRGEN_LGSP.PatternGraph[] {  }, 
-				new GRGEN_LGSP.PatternGraph[] {  }, 
-				new GRGEN_LGSP.PatternCondition[] {  }, 
-				new GRGEN_LGSP.PatternYielding[] {  }, 
+				new GRGEN_LGSP.PatternNode[] {  },
+				new GRGEN_LGSP.PatternEdge[] {  },
+				new GRGEN_LGSP.PatternVariable[] {  },
+				new GRGEN_LGSP.PatternGraphEmbedding[] { BenzolRing__sub0 },
+				new GRGEN_LGSP.Alternative[] {  },
+				new GRGEN_LGSP.Iterated[] {  },
+				new GRGEN_LGSP.PatternGraph[] {  },
+				new GRGEN_LGSP.PatternGraph[] {  },
+				new GRGEN_LGSP.PatternCondition[] {  },
+				new GRGEN_LGSP.PatternYielding[] {  },
 				new bool[0, 0] ,
 				new bool[0, 0] ,
 				BenzolRing_isNodeHomomorphicGlobal,
@@ -3665,7 +3665,7 @@ namespace de.unika.ipd.grGen.Action_TNT
 				default: return null;
 				}
 			}
-			
+
 			public enum BenzolRing_EdgeNums { END_OF_ENUM };
 			public IEnumerable<GRGEN_LIBGR.IEdge> Edges { get { return new GRGEN_LGSP.Edges_Enumerable(this); } }
 			public IEnumerator<GRGEN_LIBGR.IEdge> EdgesEnumerator { get { return new GRGEN_LGSP.Edges_Enumerator(this); } }
@@ -3676,7 +3676,7 @@ namespace de.unika.ipd.grGen.Action_TNT
 				default: return null;
 				}
 			}
-			
+
 			public enum BenzolRing_VariableNums { END_OF_ENUM };
 			public IEnumerable<object> Variables { get { return new GRGEN_LGSP.Variables_Enumerable(this); } }
 			public IEnumerator<object> VariablesEnumerator { get { return new GRGEN_LGSP.Variables_Enumerator(this); } }
@@ -3687,7 +3687,7 @@ namespace de.unika.ipd.grGen.Action_TNT
 				default: return null;
 				}
 			}
-			
+
 			public @Pattern_BenzolRing.Match_BenzolRing @_sub0 { get { return @__sub0; } }
 			public @Pattern_BenzolRing.Match_BenzolRing @__sub0;
 			public enum BenzolRing_SubNums { @_sub0, END_OF_ENUM };
@@ -3701,7 +3701,7 @@ namespace de.unika.ipd.grGen.Action_TNT
 				default: return null;
 				}
 			}
-			
+
 			public enum BenzolRing_AltNums { END_OF_ENUM };
 			public IEnumerable<GRGEN_LIBGR.IMatch> Alternatives { get { return new GRGEN_LGSP.Alternatives_Enumerable(this); } }
 			public IEnumerator<GRGEN_LIBGR.IMatch> AlternativesEnumerator { get { return new GRGEN_LGSP.Alternatives_Enumerator(this); } }
@@ -3712,7 +3712,7 @@ namespace de.unika.ipd.grGen.Action_TNT
 				default: return null;
 				}
 			}
-			
+
 			public enum BenzolRing_IterNums { END_OF_ENUM };
 			public IEnumerable<GRGEN_LIBGR.IMatches> Iterateds { get { return new GRGEN_LGSP.Iterateds_Enumerable(this); } }
 			public IEnumerator<GRGEN_LIBGR.IMatches> IteratedsEnumerator { get { return new GRGEN_LGSP.Iterateds_Enumerator(this); } }
@@ -3723,7 +3723,7 @@ namespace de.unika.ipd.grGen.Action_TNT
 				default: return null;
 				}
 			}
-			
+
 			public enum BenzolRing_IdptNums { END_OF_ENUM };
 			public IEnumerable<GRGEN_LIBGR.IMatch> Independents { get { return new GRGEN_LGSP.Independents_Enumerable(this); } }
 			public IEnumerator<GRGEN_LIBGR.IMatch> IndependentsEnumerator { get { return new GRGEN_LGSP.Independents_Enumerator(this); } }
@@ -3734,7 +3734,7 @@ namespace de.unika.ipd.grGen.Action_TNT
 				default: return null;
 				}
 			}
-			
+
 			public GRGEN_LIBGR.IPatternGraph Pattern { get { return Rule_BenzolRing.instance.pat_BenzolRing; } }
 			public GRGEN_LIBGR.IMatch MatchOfEnclosingPattern { get { return _matchOfEnclosingPattern; } }
 			public GRGEN_LIBGR.IMatch _matchOfEnclosingPattern;
@@ -3801,7 +3801,7 @@ namespace de.unika.ipd.grGen.Action_TNT
 			GRGEN_LGSP.PatternNode TNTTotallyFolded_node_c4 = new GRGEN_LGSP.PatternNode((int) GRGEN_MODEL.NodeTypes.@C, "GRGEN_MODEL.IC", "TNTTotallyFolded_node_c4", "c4", TNTTotallyFolded_node_c4_AllowedTypes, TNTTotallyFolded_node_c4_IsAllowedType, 5.5F, -1, false, null, null, null, null, false);
 			GRGEN_LGSP.PatternNode TNTTotallyFolded_node_c5 = new GRGEN_LGSP.PatternNode((int) GRGEN_MODEL.NodeTypes.@C, "GRGEN_MODEL.IC", "TNTTotallyFolded_node_c5", "c5", TNTTotallyFolded_node_c5_AllowedTypes, TNTTotallyFolded_node_c5_IsAllowedType, 5.5F, -1, false, null, null, null, null, false);
 			GRGEN_LGSP.PatternNode TNTTotallyFolded_node_c6 = new GRGEN_LGSP.PatternNode((int) GRGEN_MODEL.NodeTypes.@C, "GRGEN_MODEL.IC", "TNTTotallyFolded_node_c6", "c6", TNTTotallyFolded_node_c6_AllowedTypes, TNTTotallyFolded_node_c6_IsAllowedType, 5.5F, -1, false, null, null, null, null, false);
-			GRGEN_LGSP.PatternGraphEmbedding TNTTotallyFolded__sub0 = new GRGEN_LGSP.PatternGraphEmbedding("_sub0", Pattern_BenzolRingC123456Exposed.Instance, 
+			GRGEN_LGSP.PatternGraphEmbedding TNTTotallyFolded__sub0 = new GRGEN_LGSP.PatternGraphEmbedding("_sub0", Pattern_BenzolRingC123456Exposed.Instance,
 				new GRGEN_EXPR.Expression[] {
 					new GRGEN_EXPR.GraphEntityExpression("TNTTotallyFolded_node_c1"),
 					new GRGEN_EXPR.GraphEntityExpression("TNTTotallyFolded_node_c2"),
@@ -3809,52 +3809,52 @@ namespace de.unika.ipd.grGen.Action_TNT
 					new GRGEN_EXPR.GraphEntityExpression("TNTTotallyFolded_node_c4"),
 					new GRGEN_EXPR.GraphEntityExpression("TNTTotallyFolded_node_c5"),
 					new GRGEN_EXPR.GraphEntityExpression("TNTTotallyFolded_node_c6"),
-				}, 
+				},
 				new string[] { }, new string[] { "TNTTotallyFolded_node_c1", "TNTTotallyFolded_node_c2", "TNTTotallyFolded_node_c3", "TNTTotallyFolded_node_c4", "TNTTotallyFolded_node_c5", "TNTTotallyFolded_node_c6" }, new string[] {  }, new string[] {  }, new GRGEN_LIBGR.VarType[] {  });
-			GRGEN_LGSP.PatternGraphEmbedding TNTTotallyFolded__sub1 = new GRGEN_LGSP.PatternGraphEmbedding("_sub1", Pattern_Methyl.Instance, 
+			GRGEN_LGSP.PatternGraphEmbedding TNTTotallyFolded__sub1 = new GRGEN_LGSP.PatternGraphEmbedding("_sub1", Pattern_Methyl.Instance,
 				new GRGEN_EXPR.Expression[] {
 					new GRGEN_EXPR.GraphEntityExpression("TNTTotallyFolded_node_c1"),
-				}, 
+				},
 				new string[] { }, new string[] { "TNTTotallyFolded_node_c1" }, new string[] {  }, new string[] {  }, new GRGEN_LIBGR.VarType[] {  });
-			GRGEN_LGSP.PatternGraphEmbedding TNTTotallyFolded__sub2 = new GRGEN_LGSP.PatternGraphEmbedding("_sub2", Pattern_Nitro.Instance, 
+			GRGEN_LGSP.PatternGraphEmbedding TNTTotallyFolded__sub2 = new GRGEN_LGSP.PatternGraphEmbedding("_sub2", Pattern_Nitro.Instance,
 				new GRGEN_EXPR.Expression[] {
 					new GRGEN_EXPR.GraphEntityExpression("TNTTotallyFolded_node_c2"),
-				}, 
+				},
 				new string[] { }, new string[] { "TNTTotallyFolded_node_c2" }, new string[] {  }, new string[] {  }, new GRGEN_LIBGR.VarType[] {  });
-			GRGEN_LGSP.PatternGraphEmbedding TNTTotallyFolded__sub3 = new GRGEN_LGSP.PatternGraphEmbedding("_sub3", Pattern_Hydrogen.Instance, 
+			GRGEN_LGSP.PatternGraphEmbedding TNTTotallyFolded__sub3 = new GRGEN_LGSP.PatternGraphEmbedding("_sub3", Pattern_Hydrogen.Instance,
 				new GRGEN_EXPR.Expression[] {
 					new GRGEN_EXPR.GraphEntityExpression("TNTTotallyFolded_node_c3"),
-				}, 
+				},
 				new string[] { }, new string[] { "TNTTotallyFolded_node_c3" }, new string[] {  }, new string[] {  }, new GRGEN_LIBGR.VarType[] {  });
-			GRGEN_LGSP.PatternGraphEmbedding TNTTotallyFolded__sub4 = new GRGEN_LGSP.PatternGraphEmbedding("_sub4", Pattern_Nitro.Instance, 
+			GRGEN_LGSP.PatternGraphEmbedding TNTTotallyFolded__sub4 = new GRGEN_LGSP.PatternGraphEmbedding("_sub4", Pattern_Nitro.Instance,
 				new GRGEN_EXPR.Expression[] {
 					new GRGEN_EXPR.GraphEntityExpression("TNTTotallyFolded_node_c4"),
-				}, 
+				},
 				new string[] { }, new string[] { "TNTTotallyFolded_node_c4" }, new string[] {  }, new string[] {  }, new GRGEN_LIBGR.VarType[] {  });
-			GRGEN_LGSP.PatternGraphEmbedding TNTTotallyFolded__sub5 = new GRGEN_LGSP.PatternGraphEmbedding("_sub5", Pattern_Hydrogen.Instance, 
+			GRGEN_LGSP.PatternGraphEmbedding TNTTotallyFolded__sub5 = new GRGEN_LGSP.PatternGraphEmbedding("_sub5", Pattern_Hydrogen.Instance,
 				new GRGEN_EXPR.Expression[] {
 					new GRGEN_EXPR.GraphEntityExpression("TNTTotallyFolded_node_c5"),
-				}, 
+				},
 				new string[] { }, new string[] { "TNTTotallyFolded_node_c5" }, new string[] {  }, new string[] {  }, new GRGEN_LIBGR.VarType[] {  });
-			GRGEN_LGSP.PatternGraphEmbedding TNTTotallyFolded__sub6 = new GRGEN_LGSP.PatternGraphEmbedding("_sub6", Pattern_Nitro.Instance, 
+			GRGEN_LGSP.PatternGraphEmbedding TNTTotallyFolded__sub6 = new GRGEN_LGSP.PatternGraphEmbedding("_sub6", Pattern_Nitro.Instance,
 				new GRGEN_EXPR.Expression[] {
 					new GRGEN_EXPR.GraphEntityExpression("TNTTotallyFolded_node_c6"),
-				}, 
+				},
 				new string[] { }, new string[] { "TNTTotallyFolded_node_c6" }, new string[] {  }, new string[] {  }, new GRGEN_LIBGR.VarType[] {  });
 			pat_TNTTotallyFolded = new GRGEN_LGSP.PatternGraph(
 				"TNTTotallyFolded",
 				"",
 				false,
-				new GRGEN_LGSP.PatternNode[] { TNTTotallyFolded_node_c1, TNTTotallyFolded_node_c2, TNTTotallyFolded_node_c3, TNTTotallyFolded_node_c4, TNTTotallyFolded_node_c5, TNTTotallyFolded_node_c6 }, 
-				new GRGEN_LGSP.PatternEdge[] {  }, 
-				new GRGEN_LGSP.PatternVariable[] {  }, 
-				new GRGEN_LGSP.PatternGraphEmbedding[] { TNTTotallyFolded__sub0, TNTTotallyFolded__sub1, TNTTotallyFolded__sub2, TNTTotallyFolded__sub3, TNTTotallyFolded__sub4, TNTTotallyFolded__sub5, TNTTotallyFolded__sub6 }, 
-				new GRGEN_LGSP.Alternative[] {  }, 
-				new GRGEN_LGSP.Iterated[] {  }, 
-				new GRGEN_LGSP.PatternGraph[] {  }, 
-				new GRGEN_LGSP.PatternGraph[] {  }, 
-				new GRGEN_LGSP.PatternCondition[] {  }, 
-				new GRGEN_LGSP.PatternYielding[] {  }, 
+				new GRGEN_LGSP.PatternNode[] { TNTTotallyFolded_node_c1, TNTTotallyFolded_node_c2, TNTTotallyFolded_node_c3, TNTTotallyFolded_node_c4, TNTTotallyFolded_node_c5, TNTTotallyFolded_node_c6 },
+				new GRGEN_LGSP.PatternEdge[] {  },
+				new GRGEN_LGSP.PatternVariable[] {  },
+				new GRGEN_LGSP.PatternGraphEmbedding[] { TNTTotallyFolded__sub0, TNTTotallyFolded__sub1, TNTTotallyFolded__sub2, TNTTotallyFolded__sub3, TNTTotallyFolded__sub4, TNTTotallyFolded__sub5, TNTTotallyFolded__sub6 },
+				new GRGEN_LGSP.Alternative[] {  },
+				new GRGEN_LGSP.Iterated[] {  },
+				new GRGEN_LGSP.PatternGraph[] {  },
+				new GRGEN_LGSP.PatternGraph[] {  },
+				new GRGEN_LGSP.PatternCondition[] {  },
+				new GRGEN_LGSP.PatternYielding[] {  },
 				new bool[6, 6] {
 					{ true, false, false, false, false, false, },
 					{ false, true, false, false, false, false, },
@@ -3964,7 +3964,7 @@ namespace de.unika.ipd.grGen.Action_TNT
 				default: return null;
 				}
 			}
-			
+
 			public enum TNTTotallyFolded_EdgeNums { END_OF_ENUM };
 			public IEnumerable<GRGEN_LIBGR.IEdge> Edges { get { return new GRGEN_LGSP.Edges_Enumerable(this); } }
 			public IEnumerator<GRGEN_LIBGR.IEdge> EdgesEnumerator { get { return new GRGEN_LGSP.Edges_Enumerator(this); } }
@@ -3975,7 +3975,7 @@ namespace de.unika.ipd.grGen.Action_TNT
 				default: return null;
 				}
 			}
-			
+
 			public enum TNTTotallyFolded_VariableNums { END_OF_ENUM };
 			public IEnumerable<object> Variables { get { return new GRGEN_LGSP.Variables_Enumerable(this); } }
 			public IEnumerator<object> VariablesEnumerator { get { return new GRGEN_LGSP.Variables_Enumerator(this); } }
@@ -3986,7 +3986,7 @@ namespace de.unika.ipd.grGen.Action_TNT
 				default: return null;
 				}
 			}
-			
+
 			public @Pattern_BenzolRingC123456Exposed.Match_BenzolRingC123456Exposed @_sub0 { get { return @__sub0; } }
 			public @Pattern_Methyl.Match_Methyl @_sub1 { get { return @__sub1; } }
 			public @Pattern_Nitro.Match_Nitro @_sub2 { get { return @__sub2; } }
@@ -4018,7 +4018,7 @@ namespace de.unika.ipd.grGen.Action_TNT
 				default: return null;
 				}
 			}
-			
+
 			public enum TNTTotallyFolded_AltNums { END_OF_ENUM };
 			public IEnumerable<GRGEN_LIBGR.IMatch> Alternatives { get { return new GRGEN_LGSP.Alternatives_Enumerable(this); } }
 			public IEnumerator<GRGEN_LIBGR.IMatch> AlternativesEnumerator { get { return new GRGEN_LGSP.Alternatives_Enumerator(this); } }
@@ -4029,7 +4029,7 @@ namespace de.unika.ipd.grGen.Action_TNT
 				default: return null;
 				}
 			}
-			
+
 			public enum TNTTotallyFolded_IterNums { END_OF_ENUM };
 			public IEnumerable<GRGEN_LIBGR.IMatches> Iterateds { get { return new GRGEN_LGSP.Iterateds_Enumerable(this); } }
 			public IEnumerator<GRGEN_LIBGR.IMatches> IteratedsEnumerator { get { return new GRGEN_LGSP.Iterateds_Enumerator(this); } }
@@ -4040,7 +4040,7 @@ namespace de.unika.ipd.grGen.Action_TNT
 				default: return null;
 				}
 			}
-			
+
 			public enum TNTTotallyFolded_IdptNums { END_OF_ENUM };
 			public IEnumerable<GRGEN_LIBGR.IMatch> Independents { get { return new GRGEN_LGSP.Independents_Enumerable(this); } }
 			public IEnumerator<GRGEN_LIBGR.IMatch> IndependentsEnumerator { get { return new GRGEN_LGSP.Independents_Enumerator(this); } }
@@ -4051,7 +4051,7 @@ namespace de.unika.ipd.grGen.Action_TNT
 				default: return null;
 				}
 			}
-			
+
 			public GRGEN_LIBGR.IPatternGraph Pattern { get { return Rule_TNTTotallyFolded.instance.pat_TNTTotallyFolded; } }
 			public GRGEN_LIBGR.IMatch MatchOfEnclosingPattern { get { return _matchOfEnclosingPattern; } }
 			public GRGEN_LIBGR.IMatch _matchOfEnclosingPattern;
@@ -4118,7 +4118,7 @@ namespace de.unika.ipd.grGen.Action_TNT
 			GRGEN_LGSP.PatternNode TNTChain_node_c4 = new GRGEN_LGSP.PatternNode((int) GRGEN_MODEL.NodeTypes.@C, "GRGEN_MODEL.IC", "TNTChain_node_c4", "c4", TNTChain_node_c4_AllowedTypes, TNTChain_node_c4_IsAllowedType, 5.5F, -1, false, null, null, null, null, false);
 			GRGEN_LGSP.PatternNode TNTChain_node_c5 = new GRGEN_LGSP.PatternNode((int) GRGEN_MODEL.NodeTypes.@C, "GRGEN_MODEL.IC", "TNTChain_node_c5", "c5", TNTChain_node_c5_AllowedTypes, TNTChain_node_c5_IsAllowedType, 5.5F, -1, false, null, null, null, null, false);
 			GRGEN_LGSP.PatternNode TNTChain_node_c6 = new GRGEN_LGSP.PatternNode((int) GRGEN_MODEL.NodeTypes.@C, "GRGEN_MODEL.IC", "TNTChain_node_c6", "c6", TNTChain_node_c6_AllowedTypes, TNTChain_node_c6_IsAllowedType, 5.5F, -1, false, null, null, null, null, false);
-			GRGEN_LGSP.PatternGraphEmbedding TNTChain__sub0 = new GRGEN_LGSP.PatternGraphEmbedding("_sub0", Pattern_BenzolRingC123456Exposed.Instance, 
+			GRGEN_LGSP.PatternGraphEmbedding TNTChain__sub0 = new GRGEN_LGSP.PatternGraphEmbedding("_sub0", Pattern_BenzolRingC123456Exposed.Instance,
 				new GRGEN_EXPR.Expression[] {
 					new GRGEN_EXPR.GraphEntityExpression("TNTChain_node_c1"),
 					new GRGEN_EXPR.GraphEntityExpression("TNTChain_node_c2"),
@@ -4126,9 +4126,9 @@ namespace de.unika.ipd.grGen.Action_TNT
 					new GRGEN_EXPR.GraphEntityExpression("TNTChain_node_c4"),
 					new GRGEN_EXPR.GraphEntityExpression("TNTChain_node_c5"),
 					new GRGEN_EXPR.GraphEntityExpression("TNTChain_node_c6"),
-				}, 
+				},
 				new string[] { }, new string[] { "TNTChain_node_c1", "TNTChain_node_c2", "TNTChain_node_c3", "TNTChain_node_c4", "TNTChain_node_c5", "TNTChain_node_c6" }, new string[] {  }, new string[] {  }, new GRGEN_LIBGR.VarType[] {  });
-			GRGEN_LGSP.PatternGraphEmbedding TNTChain__sub1 = new GRGEN_LGSP.PatternGraphEmbedding("_sub1", Pattern_ToluolCoreThenTriNitro.Instance, 
+			GRGEN_LGSP.PatternGraphEmbedding TNTChain__sub1 = new GRGEN_LGSP.PatternGraphEmbedding("_sub1", Pattern_ToluolCoreThenTriNitro.Instance,
 				new GRGEN_EXPR.Expression[] {
 					new GRGEN_EXPR.GraphEntityExpression("TNTChain_node_c1"),
 					new GRGEN_EXPR.GraphEntityExpression("TNTChain_node_c2"),
@@ -4136,22 +4136,22 @@ namespace de.unika.ipd.grGen.Action_TNT
 					new GRGEN_EXPR.GraphEntityExpression("TNTChain_node_c4"),
 					new GRGEN_EXPR.GraphEntityExpression("TNTChain_node_c5"),
 					new GRGEN_EXPR.GraphEntityExpression("TNTChain_node_c6"),
-				}, 
+				},
 				new string[] { }, new string[] { "TNTChain_node_c1", "TNTChain_node_c2", "TNTChain_node_c3", "TNTChain_node_c4", "TNTChain_node_c5", "TNTChain_node_c6" }, new string[] {  }, new string[] {  }, new GRGEN_LIBGR.VarType[] {  });
 			pat_TNTChain = new GRGEN_LGSP.PatternGraph(
 				"TNTChain",
 				"",
 				false,
-				new GRGEN_LGSP.PatternNode[] { TNTChain_node_c1, TNTChain_node_c2, TNTChain_node_c3, TNTChain_node_c4, TNTChain_node_c5, TNTChain_node_c6 }, 
-				new GRGEN_LGSP.PatternEdge[] {  }, 
-				new GRGEN_LGSP.PatternVariable[] {  }, 
-				new GRGEN_LGSP.PatternGraphEmbedding[] { TNTChain__sub0, TNTChain__sub1 }, 
-				new GRGEN_LGSP.Alternative[] {  }, 
-				new GRGEN_LGSP.Iterated[] {  }, 
-				new GRGEN_LGSP.PatternGraph[] {  }, 
-				new GRGEN_LGSP.PatternGraph[] {  }, 
-				new GRGEN_LGSP.PatternCondition[] {  }, 
-				new GRGEN_LGSP.PatternYielding[] {  }, 
+				new GRGEN_LGSP.PatternNode[] { TNTChain_node_c1, TNTChain_node_c2, TNTChain_node_c3, TNTChain_node_c4, TNTChain_node_c5, TNTChain_node_c6 },
+				new GRGEN_LGSP.PatternEdge[] {  },
+				new GRGEN_LGSP.PatternVariable[] {  },
+				new GRGEN_LGSP.PatternGraphEmbedding[] { TNTChain__sub0, TNTChain__sub1 },
+				new GRGEN_LGSP.Alternative[] {  },
+				new GRGEN_LGSP.Iterated[] {  },
+				new GRGEN_LGSP.PatternGraph[] {  },
+				new GRGEN_LGSP.PatternGraph[] {  },
+				new GRGEN_LGSP.PatternCondition[] {  },
+				new GRGEN_LGSP.PatternYielding[] {  },
 				new bool[6, 6] {
 					{ true, false, false, false, false, false, },
 					{ false, true, false, false, false, false, },
@@ -4246,7 +4246,7 @@ namespace de.unika.ipd.grGen.Action_TNT
 				default: return null;
 				}
 			}
-			
+
 			public enum TNTChain_EdgeNums { END_OF_ENUM };
 			public IEnumerable<GRGEN_LIBGR.IEdge> Edges { get { return new GRGEN_LGSP.Edges_Enumerable(this); } }
 			public IEnumerator<GRGEN_LIBGR.IEdge> EdgesEnumerator { get { return new GRGEN_LGSP.Edges_Enumerator(this); } }
@@ -4257,7 +4257,7 @@ namespace de.unika.ipd.grGen.Action_TNT
 				default: return null;
 				}
 			}
-			
+
 			public enum TNTChain_VariableNums { END_OF_ENUM };
 			public IEnumerable<object> Variables { get { return new GRGEN_LGSP.Variables_Enumerable(this); } }
 			public IEnumerator<object> VariablesEnumerator { get { return new GRGEN_LGSP.Variables_Enumerator(this); } }
@@ -4268,7 +4268,7 @@ namespace de.unika.ipd.grGen.Action_TNT
 				default: return null;
 				}
 			}
-			
+
 			public @Pattern_BenzolRingC123456Exposed.Match_BenzolRingC123456Exposed @_sub0 { get { return @__sub0; } }
 			public @Pattern_ToluolCoreThenTriNitro.Match_ToluolCoreThenTriNitro @_sub1 { get { return @__sub1; } }
 			public @Pattern_BenzolRingC123456Exposed.Match_BenzolRingC123456Exposed @__sub0;
@@ -4285,7 +4285,7 @@ namespace de.unika.ipd.grGen.Action_TNT
 				default: return null;
 				}
 			}
-			
+
 			public enum TNTChain_AltNums { END_OF_ENUM };
 			public IEnumerable<GRGEN_LIBGR.IMatch> Alternatives { get { return new GRGEN_LGSP.Alternatives_Enumerable(this); } }
 			public IEnumerator<GRGEN_LIBGR.IMatch> AlternativesEnumerator { get { return new GRGEN_LGSP.Alternatives_Enumerator(this); } }
@@ -4296,7 +4296,7 @@ namespace de.unika.ipd.grGen.Action_TNT
 				default: return null;
 				}
 			}
-			
+
 			public enum TNTChain_IterNums { END_OF_ENUM };
 			public IEnumerable<GRGEN_LIBGR.IMatches> Iterateds { get { return new GRGEN_LGSP.Iterateds_Enumerable(this); } }
 			public IEnumerator<GRGEN_LIBGR.IMatches> IteratedsEnumerator { get { return new GRGEN_LGSP.Iterateds_Enumerator(this); } }
@@ -4307,7 +4307,7 @@ namespace de.unika.ipd.grGen.Action_TNT
 				default: return null;
 				}
 			}
-			
+
 			public enum TNTChain_IdptNums { END_OF_ENUM };
 			public IEnumerable<GRGEN_LIBGR.IMatch> Independents { get { return new GRGEN_LGSP.Independents_Enumerable(this); } }
 			public IEnumerator<GRGEN_LIBGR.IMatch> IndependentsEnumerator { get { return new GRGEN_LGSP.Independents_Enumerator(this); } }
@@ -4318,7 +4318,7 @@ namespace de.unika.ipd.grGen.Action_TNT
 				default: return null;
 				}
 			}
-			
+
 			public GRGEN_LIBGR.IPatternGraph Pattern { get { return Rule_TNTChain.instance.pat_TNTChain; } }
 			public GRGEN_LIBGR.IMatch MatchOfEnclosingPattern { get { return _matchOfEnclosingPattern; } }
 			public GRGEN_LIBGR.IMatch _matchOfEnclosingPattern;
@@ -4365,30 +4365,30 @@ namespace de.unika.ipd.grGen.Action_TNT
 			};
 			bool[,] ToluolCore_isEdgeHomomorphicGlobal = new bool[0, 0] ;
 			GRGEN_LGSP.PatternNode ToluolCore_node_c1 = new GRGEN_LGSP.PatternNode((int) GRGEN_MODEL.NodeTypes.@C, "GRGEN_MODEL.IC", "ToluolCore_node_c1", "c1", ToluolCore_node_c1_AllowedTypes, ToluolCore_node_c1_IsAllowedType, 5.5F, -1, false, null, null, null, null, false);
-			GRGEN_LGSP.PatternGraphEmbedding ToluolCore__sub0 = new GRGEN_LGSP.PatternGraphEmbedding("_sub0", Pattern_BenzolRingC1Exposed.Instance, 
+			GRGEN_LGSP.PatternGraphEmbedding ToluolCore__sub0 = new GRGEN_LGSP.PatternGraphEmbedding("_sub0", Pattern_BenzolRingC1Exposed.Instance,
 				new GRGEN_EXPR.Expression[] {
 					new GRGEN_EXPR.GraphEntityExpression("ToluolCore_node_c1"),
-				}, 
+				},
 				new string[] { }, new string[] { "ToluolCore_node_c1" }, new string[] {  }, new string[] {  }, new GRGEN_LIBGR.VarType[] {  });
-			GRGEN_LGSP.PatternGraphEmbedding ToluolCore__sub1 = new GRGEN_LGSP.PatternGraphEmbedding("_sub1", Pattern_Methyl.Instance, 
+			GRGEN_LGSP.PatternGraphEmbedding ToluolCore__sub1 = new GRGEN_LGSP.PatternGraphEmbedding("_sub1", Pattern_Methyl.Instance,
 				new GRGEN_EXPR.Expression[] {
 					new GRGEN_EXPR.GraphEntityExpression("ToluolCore_node_c1"),
-				}, 
+				},
 				new string[] { }, new string[] { "ToluolCore_node_c1" }, new string[] {  }, new string[] {  }, new GRGEN_LIBGR.VarType[] {  });
 			pat_ToluolCore = new GRGEN_LGSP.PatternGraph(
 				"ToluolCore",
 				"",
 				false,
-				new GRGEN_LGSP.PatternNode[] { ToluolCore_node_c1 }, 
-				new GRGEN_LGSP.PatternEdge[] {  }, 
-				new GRGEN_LGSP.PatternVariable[] {  }, 
-				new GRGEN_LGSP.PatternGraphEmbedding[] { ToluolCore__sub0, ToluolCore__sub1 }, 
-				new GRGEN_LGSP.Alternative[] {  }, 
-				new GRGEN_LGSP.Iterated[] {  }, 
-				new GRGEN_LGSP.PatternGraph[] {  }, 
-				new GRGEN_LGSP.PatternGraph[] {  }, 
-				new GRGEN_LGSP.PatternCondition[] {  }, 
-				new GRGEN_LGSP.PatternYielding[] {  }, 
+				new GRGEN_LGSP.PatternNode[] { ToluolCore_node_c1 },
+				new GRGEN_LGSP.PatternEdge[] {  },
+				new GRGEN_LGSP.PatternVariable[] {  },
+				new GRGEN_LGSP.PatternGraphEmbedding[] { ToluolCore__sub0, ToluolCore__sub1 },
+				new GRGEN_LGSP.Alternative[] {  },
+				new GRGEN_LGSP.Iterated[] {  },
+				new GRGEN_LGSP.PatternGraph[] {  },
+				new GRGEN_LGSP.PatternGraph[] {  },
+				new GRGEN_LGSP.PatternCondition[] {  },
+				new GRGEN_LGSP.PatternYielding[] {  },
 				new bool[1, 1] {
 					{ true, },
 				},
@@ -4448,7 +4448,7 @@ namespace de.unika.ipd.grGen.Action_TNT
 				default: return null;
 				}
 			}
-			
+
 			public enum ToluolCore_EdgeNums { END_OF_ENUM };
 			public IEnumerable<GRGEN_LIBGR.IEdge> Edges { get { return new GRGEN_LGSP.Edges_Enumerable(this); } }
 			public IEnumerator<GRGEN_LIBGR.IEdge> EdgesEnumerator { get { return new GRGEN_LGSP.Edges_Enumerator(this); } }
@@ -4459,7 +4459,7 @@ namespace de.unika.ipd.grGen.Action_TNT
 				default: return null;
 				}
 			}
-			
+
 			public enum ToluolCore_VariableNums { END_OF_ENUM };
 			public IEnumerable<object> Variables { get { return new GRGEN_LGSP.Variables_Enumerable(this); } }
 			public IEnumerator<object> VariablesEnumerator { get { return new GRGEN_LGSP.Variables_Enumerator(this); } }
@@ -4470,7 +4470,7 @@ namespace de.unika.ipd.grGen.Action_TNT
 				default: return null;
 				}
 			}
-			
+
 			public @Pattern_BenzolRingC1Exposed.Match_BenzolRingC1Exposed @_sub0 { get { return @__sub0; } }
 			public @Pattern_Methyl.Match_Methyl @_sub1 { get { return @__sub1; } }
 			public @Pattern_BenzolRingC1Exposed.Match_BenzolRingC1Exposed @__sub0;
@@ -4487,7 +4487,7 @@ namespace de.unika.ipd.grGen.Action_TNT
 				default: return null;
 				}
 			}
-			
+
 			public enum ToluolCore_AltNums { END_OF_ENUM };
 			public IEnumerable<GRGEN_LIBGR.IMatch> Alternatives { get { return new GRGEN_LGSP.Alternatives_Enumerable(this); } }
 			public IEnumerator<GRGEN_LIBGR.IMatch> AlternativesEnumerator { get { return new GRGEN_LGSP.Alternatives_Enumerator(this); } }
@@ -4498,7 +4498,7 @@ namespace de.unika.ipd.grGen.Action_TNT
 				default: return null;
 				}
 			}
-			
+
 			public enum ToluolCore_IterNums { END_OF_ENUM };
 			public IEnumerable<GRGEN_LIBGR.IMatches> Iterateds { get { return new GRGEN_LGSP.Iterateds_Enumerable(this); } }
 			public IEnumerator<GRGEN_LIBGR.IMatches> IteratedsEnumerator { get { return new GRGEN_LGSP.Iterateds_Enumerator(this); } }
@@ -4509,7 +4509,7 @@ namespace de.unika.ipd.grGen.Action_TNT
 				default: return null;
 				}
 			}
-			
+
 			public enum ToluolCore_IdptNums { END_OF_ENUM };
 			public IEnumerable<GRGEN_LIBGR.IMatch> Independents { get { return new GRGEN_LGSP.Independents_Enumerable(this); } }
 			public IEnumerator<GRGEN_LIBGR.IMatch> IndependentsEnumerator { get { return new GRGEN_LGSP.Independents_Enumerator(this); } }
@@ -4520,7 +4520,7 @@ namespace de.unika.ipd.grGen.Action_TNT
 				default: return null;
 				}
 			}
-			
+
 			public GRGEN_LIBGR.IPatternGraph Pattern { get { return Rule_ToluolCore.instance.pat_ToluolCore; } }
 			public GRGEN_LIBGR.IMatch MatchOfEnclosingPattern { get { return _matchOfEnclosingPattern; } }
 			public GRGEN_LIBGR.IMatch _matchOfEnclosingPattern;
@@ -4567,30 +4567,30 @@ namespace de.unika.ipd.grGen.Action_TNT
 			};
 			bool[,] ToluolCoreNotC6Nitro_isEdgeHomomorphicGlobal = new bool[0, 0] ;
 			GRGEN_LGSP.PatternNode ToluolCoreNotC6Nitro_node_c1 = new GRGEN_LGSP.PatternNode((int) GRGEN_MODEL.NodeTypes.@C, "GRGEN_MODEL.IC", "ToluolCoreNotC6Nitro_node_c1", "c1", ToluolCoreNotC6Nitro_node_c1_AllowedTypes, ToluolCoreNotC6Nitro_node_c1_IsAllowedType, 5.5F, -1, false, null, null, null, null, false);
-			GRGEN_LGSP.PatternGraphEmbedding ToluolCoreNotC6Nitro__sub0 = new GRGEN_LGSP.PatternGraphEmbedding("_sub0", Pattern_BenzolRingC1ExposedNotC6Nitro.Instance, 
+			GRGEN_LGSP.PatternGraphEmbedding ToluolCoreNotC6Nitro__sub0 = new GRGEN_LGSP.PatternGraphEmbedding("_sub0", Pattern_BenzolRingC1ExposedNotC6Nitro.Instance,
 				new GRGEN_EXPR.Expression[] {
 					new GRGEN_EXPR.GraphEntityExpression("ToluolCoreNotC6Nitro_node_c1"),
-				}, 
+				},
 				new string[] { }, new string[] { "ToluolCoreNotC6Nitro_node_c1" }, new string[] {  }, new string[] {  }, new GRGEN_LIBGR.VarType[] {  });
-			GRGEN_LGSP.PatternGraphEmbedding ToluolCoreNotC6Nitro__sub1 = new GRGEN_LGSP.PatternGraphEmbedding("_sub1", Pattern_Methyl.Instance, 
+			GRGEN_LGSP.PatternGraphEmbedding ToluolCoreNotC6Nitro__sub1 = new GRGEN_LGSP.PatternGraphEmbedding("_sub1", Pattern_Methyl.Instance,
 				new GRGEN_EXPR.Expression[] {
 					new GRGEN_EXPR.GraphEntityExpression("ToluolCoreNotC6Nitro_node_c1"),
-				}, 
+				},
 				new string[] { }, new string[] { "ToluolCoreNotC6Nitro_node_c1" }, new string[] {  }, new string[] {  }, new GRGEN_LIBGR.VarType[] {  });
 			pat_ToluolCoreNotC6Nitro = new GRGEN_LGSP.PatternGraph(
 				"ToluolCoreNotC6Nitro",
 				"",
 				false,
-				new GRGEN_LGSP.PatternNode[] { ToluolCoreNotC6Nitro_node_c1 }, 
-				new GRGEN_LGSP.PatternEdge[] {  }, 
-				new GRGEN_LGSP.PatternVariable[] {  }, 
-				new GRGEN_LGSP.PatternGraphEmbedding[] { ToluolCoreNotC6Nitro__sub0, ToluolCoreNotC6Nitro__sub1 }, 
-				new GRGEN_LGSP.Alternative[] {  }, 
-				new GRGEN_LGSP.Iterated[] {  }, 
-				new GRGEN_LGSP.PatternGraph[] {  }, 
-				new GRGEN_LGSP.PatternGraph[] {  }, 
-				new GRGEN_LGSP.PatternCondition[] {  }, 
-				new GRGEN_LGSP.PatternYielding[] {  }, 
+				new GRGEN_LGSP.PatternNode[] { ToluolCoreNotC6Nitro_node_c1 },
+				new GRGEN_LGSP.PatternEdge[] {  },
+				new GRGEN_LGSP.PatternVariable[] {  },
+				new GRGEN_LGSP.PatternGraphEmbedding[] { ToluolCoreNotC6Nitro__sub0, ToluolCoreNotC6Nitro__sub1 },
+				new GRGEN_LGSP.Alternative[] {  },
+				new GRGEN_LGSP.Iterated[] {  },
+				new GRGEN_LGSP.PatternGraph[] {  },
+				new GRGEN_LGSP.PatternGraph[] {  },
+				new GRGEN_LGSP.PatternCondition[] {  },
+				new GRGEN_LGSP.PatternYielding[] {  },
 				new bool[1, 1] {
 					{ true, },
 				},
@@ -4650,7 +4650,7 @@ namespace de.unika.ipd.grGen.Action_TNT
 				default: return null;
 				}
 			}
-			
+
 			public enum ToluolCoreNotC6Nitro_EdgeNums { END_OF_ENUM };
 			public IEnumerable<GRGEN_LIBGR.IEdge> Edges { get { return new GRGEN_LGSP.Edges_Enumerable(this); } }
 			public IEnumerator<GRGEN_LIBGR.IEdge> EdgesEnumerator { get { return new GRGEN_LGSP.Edges_Enumerator(this); } }
@@ -4661,7 +4661,7 @@ namespace de.unika.ipd.grGen.Action_TNT
 				default: return null;
 				}
 			}
-			
+
 			public enum ToluolCoreNotC6Nitro_VariableNums { END_OF_ENUM };
 			public IEnumerable<object> Variables { get { return new GRGEN_LGSP.Variables_Enumerable(this); } }
 			public IEnumerator<object> VariablesEnumerator { get { return new GRGEN_LGSP.Variables_Enumerator(this); } }
@@ -4672,7 +4672,7 @@ namespace de.unika.ipd.grGen.Action_TNT
 				default: return null;
 				}
 			}
-			
+
 			public @Pattern_BenzolRingC1ExposedNotC6Nitro.Match_BenzolRingC1ExposedNotC6Nitro @_sub0 { get { return @__sub0; } }
 			public @Pattern_Methyl.Match_Methyl @_sub1 { get { return @__sub1; } }
 			public @Pattern_BenzolRingC1ExposedNotC6Nitro.Match_BenzolRingC1ExposedNotC6Nitro @__sub0;
@@ -4689,7 +4689,7 @@ namespace de.unika.ipd.grGen.Action_TNT
 				default: return null;
 				}
 			}
-			
+
 			public enum ToluolCoreNotC6Nitro_AltNums { END_OF_ENUM };
 			public IEnumerable<GRGEN_LIBGR.IMatch> Alternatives { get { return new GRGEN_LGSP.Alternatives_Enumerable(this); } }
 			public IEnumerator<GRGEN_LIBGR.IMatch> AlternativesEnumerator { get { return new GRGEN_LGSP.Alternatives_Enumerator(this); } }
@@ -4700,7 +4700,7 @@ namespace de.unika.ipd.grGen.Action_TNT
 				default: return null;
 				}
 			}
-			
+
 			public enum ToluolCoreNotC6Nitro_IterNums { END_OF_ENUM };
 			public IEnumerable<GRGEN_LIBGR.IMatches> Iterateds { get { return new GRGEN_LGSP.Iterateds_Enumerable(this); } }
 			public IEnumerator<GRGEN_LIBGR.IMatches> IteratedsEnumerator { get { return new GRGEN_LGSP.Iterateds_Enumerator(this); } }
@@ -4711,7 +4711,7 @@ namespace de.unika.ipd.grGen.Action_TNT
 				default: return null;
 				}
 			}
-			
+
 			public enum ToluolCoreNotC6Nitro_IdptNums { END_OF_ENUM };
 			public IEnumerable<GRGEN_LIBGR.IMatch> Independents { get { return new GRGEN_LGSP.Independents_Enumerable(this); } }
 			public IEnumerator<GRGEN_LIBGR.IMatch> IndependentsEnumerator { get { return new GRGEN_LGSP.Independents_Enumerator(this); } }
@@ -4722,7 +4722,7 @@ namespace de.unika.ipd.grGen.Action_TNT
 				default: return null;
 				}
 			}
-			
+
 			public GRGEN_LIBGR.IPatternGraph Pattern { get { return Rule_ToluolCoreNotC6Nitro.instance.pat_ToluolCoreNotC6Nitro; } }
 			public GRGEN_LIBGR.IMatch MatchOfEnclosingPattern { get { return _matchOfEnclosingPattern; } }
 			public GRGEN_LIBGR.IMatch _matchOfEnclosingPattern;
@@ -4789,7 +4789,7 @@ namespace de.unika.ipd.grGen.Action_TNT
 			GRGEN_LGSP.PatternNode Toluol_node_c4 = new GRGEN_LGSP.PatternNode((int) GRGEN_MODEL.NodeTypes.@C, "GRGEN_MODEL.IC", "Toluol_node_c4", "c4", Toluol_node_c4_AllowedTypes, Toluol_node_c4_IsAllowedType, 5.5F, -1, false, null, null, null, null, false);
 			GRGEN_LGSP.PatternNode Toluol_node_c5 = new GRGEN_LGSP.PatternNode((int) GRGEN_MODEL.NodeTypes.@C, "GRGEN_MODEL.IC", "Toluol_node_c5", "c5", Toluol_node_c5_AllowedTypes, Toluol_node_c5_IsAllowedType, 5.5F, -1, false, null, null, null, null, false);
 			GRGEN_LGSP.PatternNode Toluol_node_c6 = new GRGEN_LGSP.PatternNode((int) GRGEN_MODEL.NodeTypes.@C, "GRGEN_MODEL.IC", "Toluol_node_c6", "c6", Toluol_node_c6_AllowedTypes, Toluol_node_c6_IsAllowedType, 5.5F, -1, false, null, null, null, null, false);
-			GRGEN_LGSP.PatternGraphEmbedding Toluol__sub0 = new GRGEN_LGSP.PatternGraphEmbedding("_sub0", Pattern_BenzolRingC123456Exposed.Instance, 
+			GRGEN_LGSP.PatternGraphEmbedding Toluol__sub0 = new GRGEN_LGSP.PatternGraphEmbedding("_sub0", Pattern_BenzolRingC123456Exposed.Instance,
 				new GRGEN_EXPR.Expression[] {
 					new GRGEN_EXPR.GraphEntityExpression("Toluol_node_c1"),
 					new GRGEN_EXPR.GraphEntityExpression("Toluol_node_c2"),
@@ -4797,52 +4797,52 @@ namespace de.unika.ipd.grGen.Action_TNT
 					new GRGEN_EXPR.GraphEntityExpression("Toluol_node_c4"),
 					new GRGEN_EXPR.GraphEntityExpression("Toluol_node_c5"),
 					new GRGEN_EXPR.GraphEntityExpression("Toluol_node_c6"),
-				}, 
+				},
 				new string[] { }, new string[] { "Toluol_node_c1", "Toluol_node_c2", "Toluol_node_c3", "Toluol_node_c4", "Toluol_node_c5", "Toluol_node_c6" }, new string[] {  }, new string[] {  }, new GRGEN_LIBGR.VarType[] {  });
-			GRGEN_LGSP.PatternGraphEmbedding Toluol__sub1 = new GRGEN_LGSP.PatternGraphEmbedding("_sub1", Pattern_Methyl.Instance, 
+			GRGEN_LGSP.PatternGraphEmbedding Toluol__sub1 = new GRGEN_LGSP.PatternGraphEmbedding("_sub1", Pattern_Methyl.Instance,
 				new GRGEN_EXPR.Expression[] {
 					new GRGEN_EXPR.GraphEntityExpression("Toluol_node_c1"),
-				}, 
+				},
 				new string[] { }, new string[] { "Toluol_node_c1" }, new string[] {  }, new string[] {  }, new GRGEN_LIBGR.VarType[] {  });
-			GRGEN_LGSP.PatternGraphEmbedding Toluol__sub2 = new GRGEN_LGSP.PatternGraphEmbedding("_sub2", Pattern_Hydrogen.Instance, 
+			GRGEN_LGSP.PatternGraphEmbedding Toluol__sub2 = new GRGEN_LGSP.PatternGraphEmbedding("_sub2", Pattern_Hydrogen.Instance,
 				new GRGEN_EXPR.Expression[] {
 					new GRGEN_EXPR.GraphEntityExpression("Toluol_node_c2"),
-				}, 
+				},
 				new string[] { }, new string[] { "Toluol_node_c2" }, new string[] {  }, new string[] {  }, new GRGEN_LIBGR.VarType[] {  });
-			GRGEN_LGSP.PatternGraphEmbedding Toluol__sub3 = new GRGEN_LGSP.PatternGraphEmbedding("_sub3", Pattern_Hydrogen.Instance, 
+			GRGEN_LGSP.PatternGraphEmbedding Toluol__sub3 = new GRGEN_LGSP.PatternGraphEmbedding("_sub3", Pattern_Hydrogen.Instance,
 				new GRGEN_EXPR.Expression[] {
 					new GRGEN_EXPR.GraphEntityExpression("Toluol_node_c3"),
-				}, 
+				},
 				new string[] { }, new string[] { "Toluol_node_c3" }, new string[] {  }, new string[] {  }, new GRGEN_LIBGR.VarType[] {  });
-			GRGEN_LGSP.PatternGraphEmbedding Toluol__sub4 = new GRGEN_LGSP.PatternGraphEmbedding("_sub4", Pattern_Hydrogen.Instance, 
+			GRGEN_LGSP.PatternGraphEmbedding Toluol__sub4 = new GRGEN_LGSP.PatternGraphEmbedding("_sub4", Pattern_Hydrogen.Instance,
 				new GRGEN_EXPR.Expression[] {
 					new GRGEN_EXPR.GraphEntityExpression("Toluol_node_c4"),
-				}, 
+				},
 				new string[] { }, new string[] { "Toluol_node_c4" }, new string[] {  }, new string[] {  }, new GRGEN_LIBGR.VarType[] {  });
-			GRGEN_LGSP.PatternGraphEmbedding Toluol__sub5 = new GRGEN_LGSP.PatternGraphEmbedding("_sub5", Pattern_Hydrogen.Instance, 
+			GRGEN_LGSP.PatternGraphEmbedding Toluol__sub5 = new GRGEN_LGSP.PatternGraphEmbedding("_sub5", Pattern_Hydrogen.Instance,
 				new GRGEN_EXPR.Expression[] {
 					new GRGEN_EXPR.GraphEntityExpression("Toluol_node_c5"),
-				}, 
+				},
 				new string[] { }, new string[] { "Toluol_node_c5" }, new string[] {  }, new string[] {  }, new GRGEN_LIBGR.VarType[] {  });
-			GRGEN_LGSP.PatternGraphEmbedding Toluol__sub6 = new GRGEN_LGSP.PatternGraphEmbedding("_sub6", Pattern_Hydrogen.Instance, 
+			GRGEN_LGSP.PatternGraphEmbedding Toluol__sub6 = new GRGEN_LGSP.PatternGraphEmbedding("_sub6", Pattern_Hydrogen.Instance,
 				new GRGEN_EXPR.Expression[] {
 					new GRGEN_EXPR.GraphEntityExpression("Toluol_node_c6"),
-				}, 
+				},
 				new string[] { }, new string[] { "Toluol_node_c6" }, new string[] {  }, new string[] {  }, new GRGEN_LIBGR.VarType[] {  });
 			pat_Toluol = new GRGEN_LGSP.PatternGraph(
 				"Toluol",
 				"",
 				false,
-				new GRGEN_LGSP.PatternNode[] { Toluol_node_c1, Toluol_node_c2, Toluol_node_c3, Toluol_node_c4, Toluol_node_c5, Toluol_node_c6 }, 
-				new GRGEN_LGSP.PatternEdge[] {  }, 
-				new GRGEN_LGSP.PatternVariable[] {  }, 
-				new GRGEN_LGSP.PatternGraphEmbedding[] { Toluol__sub0, Toluol__sub1, Toluol__sub2, Toluol__sub3, Toluol__sub4, Toluol__sub5, Toluol__sub6 }, 
-				new GRGEN_LGSP.Alternative[] {  }, 
-				new GRGEN_LGSP.Iterated[] {  }, 
-				new GRGEN_LGSP.PatternGraph[] {  }, 
-				new GRGEN_LGSP.PatternGraph[] {  }, 
-				new GRGEN_LGSP.PatternCondition[] {  }, 
-				new GRGEN_LGSP.PatternYielding[] {  }, 
+				new GRGEN_LGSP.PatternNode[] { Toluol_node_c1, Toluol_node_c2, Toluol_node_c3, Toluol_node_c4, Toluol_node_c5, Toluol_node_c6 },
+				new GRGEN_LGSP.PatternEdge[] {  },
+				new GRGEN_LGSP.PatternVariable[] {  },
+				new GRGEN_LGSP.PatternGraphEmbedding[] { Toluol__sub0, Toluol__sub1, Toluol__sub2, Toluol__sub3, Toluol__sub4, Toluol__sub5, Toluol__sub6 },
+				new GRGEN_LGSP.Alternative[] {  },
+				new GRGEN_LGSP.Iterated[] {  },
+				new GRGEN_LGSP.PatternGraph[] {  },
+				new GRGEN_LGSP.PatternGraph[] {  },
+				new GRGEN_LGSP.PatternCondition[] {  },
+				new GRGEN_LGSP.PatternYielding[] {  },
 				new bool[6, 6] {
 					{ true, false, false, false, false, false, },
 					{ false, true, false, false, false, false, },
@@ -4952,7 +4952,7 @@ namespace de.unika.ipd.grGen.Action_TNT
 				default: return null;
 				}
 			}
-			
+
 			public enum Toluol_EdgeNums { END_OF_ENUM };
 			public IEnumerable<GRGEN_LIBGR.IEdge> Edges { get { return new GRGEN_LGSP.Edges_Enumerable(this); } }
 			public IEnumerator<GRGEN_LIBGR.IEdge> EdgesEnumerator { get { return new GRGEN_LGSP.Edges_Enumerator(this); } }
@@ -4963,7 +4963,7 @@ namespace de.unika.ipd.grGen.Action_TNT
 				default: return null;
 				}
 			}
-			
+
 			public enum Toluol_VariableNums { END_OF_ENUM };
 			public IEnumerable<object> Variables { get { return new GRGEN_LGSP.Variables_Enumerable(this); } }
 			public IEnumerator<object> VariablesEnumerator { get { return new GRGEN_LGSP.Variables_Enumerator(this); } }
@@ -4974,7 +4974,7 @@ namespace de.unika.ipd.grGen.Action_TNT
 				default: return null;
 				}
 			}
-			
+
 			public @Pattern_BenzolRingC123456Exposed.Match_BenzolRingC123456Exposed @_sub0 { get { return @__sub0; } }
 			public @Pattern_Methyl.Match_Methyl @_sub1 { get { return @__sub1; } }
 			public @Pattern_Hydrogen.Match_Hydrogen @_sub2 { get { return @__sub2; } }
@@ -5006,7 +5006,7 @@ namespace de.unika.ipd.grGen.Action_TNT
 				default: return null;
 				}
 			}
-			
+
 			public enum Toluol_AltNums { END_OF_ENUM };
 			public IEnumerable<GRGEN_LIBGR.IMatch> Alternatives { get { return new GRGEN_LGSP.Alternatives_Enumerable(this); } }
 			public IEnumerator<GRGEN_LIBGR.IMatch> AlternativesEnumerator { get { return new GRGEN_LGSP.Alternatives_Enumerator(this); } }
@@ -5017,7 +5017,7 @@ namespace de.unika.ipd.grGen.Action_TNT
 				default: return null;
 				}
 			}
-			
+
 			public enum Toluol_IterNums { END_OF_ENUM };
 			public IEnumerable<GRGEN_LIBGR.IMatches> Iterateds { get { return new GRGEN_LGSP.Iterateds_Enumerable(this); } }
 			public IEnumerator<GRGEN_LIBGR.IMatches> IteratedsEnumerator { get { return new GRGEN_LGSP.Iterateds_Enumerator(this); } }
@@ -5028,7 +5028,7 @@ namespace de.unika.ipd.grGen.Action_TNT
 				default: return null;
 				}
 			}
-			
+
 			public enum Toluol_IdptNums { END_OF_ENUM };
 			public IEnumerable<GRGEN_LIBGR.IMatch> Independents { get { return new GRGEN_LGSP.Independents_Enumerable(this); } }
 			public IEnumerator<GRGEN_LIBGR.IMatch> IndependentsEnumerator { get { return new GRGEN_LGSP.Independents_Enumerator(this); } }
@@ -5039,7 +5039,7 @@ namespace de.unika.ipd.grGen.Action_TNT
 				default: return null;
 				}
 			}
-			
+
 			public GRGEN_LIBGR.IPatternGraph Pattern { get { return Rule_Toluol.instance.pat_Toluol; } }
 			public GRGEN_LIBGR.IMatch MatchOfEnclosingPattern { get { return _matchOfEnclosingPattern; } }
 			public GRGEN_LIBGR.IMatch _matchOfEnclosingPattern;
@@ -5143,50 +5143,50 @@ namespace de.unika.ipd.grGen.Action_TNT
 			GRGEN_LGSP.PatternEdge TNT_edge__edge6 = new GRGEN_LGSP.PatternEdge(true, (int) GRGEN_MODEL.EdgeTypes.@Edge, "GRGEN_LIBGR.IEdge", "TNT_edge__edge6", "_edge6", TNT_edge__edge6_AllowedTypes, TNT_edge__edge6_IsAllowedType, 5.5F, -1, false, null, null, null, null, false);
 			GRGEN_LGSP.PatternEdge TNT_edge__edge7 = new GRGEN_LGSP.PatternEdge(true, (int) GRGEN_MODEL.EdgeTypes.@Edge, "GRGEN_LIBGR.IEdge", "TNT_edge__edge7", "_edge7", TNT_edge__edge7_AllowedTypes, TNT_edge__edge7_IsAllowedType, 5.5F, -1, false, null, null, null, null, false);
 			GRGEN_LGSP.PatternEdge TNT_edge__edge8 = new GRGEN_LGSP.PatternEdge(true, (int) GRGEN_MODEL.EdgeTypes.@Edge, "GRGEN_LIBGR.IEdge", "TNT_edge__edge8", "_edge8", TNT_edge__edge8_AllowedTypes, TNT_edge__edge8_IsAllowedType, 5.5F, -1, false, null, null, null, null, false);
-			GRGEN_LGSP.PatternGraphEmbedding TNT__sub0 = new GRGEN_LGSP.PatternGraphEmbedding("_sub0", Pattern_Methyl.Instance, 
+			GRGEN_LGSP.PatternGraphEmbedding TNT__sub0 = new GRGEN_LGSP.PatternGraphEmbedding("_sub0", Pattern_Methyl.Instance,
 				new GRGEN_EXPR.Expression[] {
 					new GRGEN_EXPR.GraphEntityExpression("TNT_node_c1"),
-				}, 
+				},
 				new string[] { }, new string[] { "TNT_node_c1" }, new string[] {  }, new string[] {  }, new GRGEN_LIBGR.VarType[] {  });
-			GRGEN_LGSP.PatternGraphEmbedding TNT__sub1 = new GRGEN_LGSP.PatternGraphEmbedding("_sub1", Pattern_Nitro.Instance, 
+			GRGEN_LGSP.PatternGraphEmbedding TNT__sub1 = new GRGEN_LGSP.PatternGraphEmbedding("_sub1", Pattern_Nitro.Instance,
 				new GRGEN_EXPR.Expression[] {
 					new GRGEN_EXPR.GraphEntityExpression("TNT_node_c2"),
-				}, 
+				},
 				new string[] { }, new string[] { "TNT_node_c2" }, new string[] {  }, new string[] {  }, new GRGEN_LIBGR.VarType[] {  });
-			GRGEN_LGSP.PatternGraphEmbedding TNT__sub2 = new GRGEN_LGSP.PatternGraphEmbedding("_sub2", Pattern_Hydrogen.Instance, 
+			GRGEN_LGSP.PatternGraphEmbedding TNT__sub2 = new GRGEN_LGSP.PatternGraphEmbedding("_sub2", Pattern_Hydrogen.Instance,
 				new GRGEN_EXPR.Expression[] {
 					new GRGEN_EXPR.GraphEntityExpression("TNT_node_c3"),
-				}, 
+				},
 				new string[] { }, new string[] { "TNT_node_c3" }, new string[] {  }, new string[] {  }, new GRGEN_LIBGR.VarType[] {  });
-			GRGEN_LGSP.PatternGraphEmbedding TNT__sub3 = new GRGEN_LGSP.PatternGraphEmbedding("_sub3", Pattern_Nitro.Instance, 
+			GRGEN_LGSP.PatternGraphEmbedding TNT__sub3 = new GRGEN_LGSP.PatternGraphEmbedding("_sub3", Pattern_Nitro.Instance,
 				new GRGEN_EXPR.Expression[] {
 					new GRGEN_EXPR.GraphEntityExpression("TNT_node_c4"),
-				}, 
+				},
 				new string[] { }, new string[] { "TNT_node_c4" }, new string[] {  }, new string[] {  }, new GRGEN_LIBGR.VarType[] {  });
-			GRGEN_LGSP.PatternGraphEmbedding TNT__sub4 = new GRGEN_LGSP.PatternGraphEmbedding("_sub4", Pattern_Hydrogen.Instance, 
+			GRGEN_LGSP.PatternGraphEmbedding TNT__sub4 = new GRGEN_LGSP.PatternGraphEmbedding("_sub4", Pattern_Hydrogen.Instance,
 				new GRGEN_EXPR.Expression[] {
 					new GRGEN_EXPR.GraphEntityExpression("TNT_node_c5"),
-				}, 
+				},
 				new string[] { }, new string[] { "TNT_node_c5" }, new string[] {  }, new string[] {  }, new GRGEN_LIBGR.VarType[] {  });
-			GRGEN_LGSP.PatternGraphEmbedding TNT__sub5 = new GRGEN_LGSP.PatternGraphEmbedding("_sub5", Pattern_Nitro.Instance, 
+			GRGEN_LGSP.PatternGraphEmbedding TNT__sub5 = new GRGEN_LGSP.PatternGraphEmbedding("_sub5", Pattern_Nitro.Instance,
 				new GRGEN_EXPR.Expression[] {
 					new GRGEN_EXPR.GraphEntityExpression("TNT_node_c6"),
-				}, 
+				},
 				new string[] { }, new string[] { "TNT_node_c6" }, new string[] {  }, new string[] {  }, new GRGEN_LIBGR.VarType[] {  });
 			pat_TNT = new GRGEN_LGSP.PatternGraph(
 				"TNT",
 				"",
 				false,
-				new GRGEN_LGSP.PatternNode[] { TNT_node_c1, TNT_node_c2, TNT_node_c3, TNT_node_c4, TNT_node_c5, TNT_node_c6 }, 
-				new GRGEN_LGSP.PatternEdge[] { TNT_edge__edge0, TNT_edge__edge1, TNT_edge__edge2, TNT_edge__edge3, TNT_edge__edge4, TNT_edge__edge5, TNT_edge__edge6, TNT_edge__edge7, TNT_edge__edge8 }, 
-				new GRGEN_LGSP.PatternVariable[] {  }, 
-				new GRGEN_LGSP.PatternGraphEmbedding[] { TNT__sub0, TNT__sub1, TNT__sub2, TNT__sub3, TNT__sub4, TNT__sub5 }, 
-				new GRGEN_LGSP.Alternative[] {  }, 
-				new GRGEN_LGSP.Iterated[] {  }, 
-				new GRGEN_LGSP.PatternGraph[] {  }, 
-				new GRGEN_LGSP.PatternGraph[] {  }, 
-				new GRGEN_LGSP.PatternCondition[] {  }, 
-				new GRGEN_LGSP.PatternYielding[] {  }, 
+				new GRGEN_LGSP.PatternNode[] { TNT_node_c1, TNT_node_c2, TNT_node_c3, TNT_node_c4, TNT_node_c5, TNT_node_c6 },
+				new GRGEN_LGSP.PatternEdge[] { TNT_edge__edge0, TNT_edge__edge1, TNT_edge__edge2, TNT_edge__edge3, TNT_edge__edge4, TNT_edge__edge5, TNT_edge__edge6, TNT_edge__edge7, TNT_edge__edge8 },
+				new GRGEN_LGSP.PatternVariable[] {  },
+				new GRGEN_LGSP.PatternGraphEmbedding[] { TNT__sub0, TNT__sub1, TNT__sub2, TNT__sub3, TNT__sub4, TNT__sub5 },
+				new GRGEN_LGSP.Alternative[] {  },
+				new GRGEN_LGSP.Iterated[] {  },
+				new GRGEN_LGSP.PatternGraph[] {  },
+				new GRGEN_LGSP.PatternGraph[] {  },
+				new GRGEN_LGSP.PatternCondition[] {  },
+				new GRGEN_LGSP.PatternYielding[] {  },
 				new bool[6, 6] {
 					{ true, false, false, false, false, false, },
 					{ false, true, false, false, false, false, },
@@ -5339,7 +5339,7 @@ namespace de.unika.ipd.grGen.Action_TNT
 				default: return null;
 				}
 			}
-			
+
 			public GRGEN_LIBGR.IEdge edge__edge0 { get { return (GRGEN_LIBGR.IEdge)_edge__edge0; } }
 			public GRGEN_LIBGR.IEdge edge__edge1 { get { return (GRGEN_LIBGR.IEdge)_edge__edge1; } }
 			public GRGEN_LIBGR.IEdge edge__edge2 { get { return (GRGEN_LIBGR.IEdge)_edge__edge2; } }
@@ -5377,7 +5377,7 @@ namespace de.unika.ipd.grGen.Action_TNT
 				default: return null;
 				}
 			}
-			
+
 			public enum TNT_VariableNums { END_OF_ENUM };
 			public IEnumerable<object> Variables { get { return new GRGEN_LGSP.Variables_Enumerable(this); } }
 			public IEnumerator<object> VariablesEnumerator { get { return new GRGEN_LGSP.Variables_Enumerator(this); } }
@@ -5388,7 +5388,7 @@ namespace de.unika.ipd.grGen.Action_TNT
 				default: return null;
 				}
 			}
-			
+
 			public @Pattern_Methyl.Match_Methyl @_sub0 { get { return @__sub0; } }
 			public @Pattern_Nitro.Match_Nitro @_sub1 { get { return @__sub1; } }
 			public @Pattern_Hydrogen.Match_Hydrogen @_sub2 { get { return @__sub2; } }
@@ -5417,7 +5417,7 @@ namespace de.unika.ipd.grGen.Action_TNT
 				default: return null;
 				}
 			}
-			
+
 			public enum TNT_AltNums { END_OF_ENUM };
 			public IEnumerable<GRGEN_LIBGR.IMatch> Alternatives { get { return new GRGEN_LGSP.Alternatives_Enumerable(this); } }
 			public IEnumerator<GRGEN_LIBGR.IMatch> AlternativesEnumerator { get { return new GRGEN_LGSP.Alternatives_Enumerator(this); } }
@@ -5428,7 +5428,7 @@ namespace de.unika.ipd.grGen.Action_TNT
 				default: return null;
 				}
 			}
-			
+
 			public enum TNT_IterNums { END_OF_ENUM };
 			public IEnumerable<GRGEN_LIBGR.IMatches> Iterateds { get { return new GRGEN_LGSP.Iterateds_Enumerable(this); } }
 			public IEnumerator<GRGEN_LIBGR.IMatches> IteratedsEnumerator { get { return new GRGEN_LGSP.Iterateds_Enumerator(this); } }
@@ -5439,7 +5439,7 @@ namespace de.unika.ipd.grGen.Action_TNT
 				default: return null;
 				}
 			}
-			
+
 			public enum TNT_IdptNums { END_OF_ENUM };
 			public IEnumerable<GRGEN_LIBGR.IMatch> Independents { get { return new GRGEN_LGSP.Independents_Enumerable(this); } }
 			public IEnumerator<GRGEN_LIBGR.IMatch> IndependentsEnumerator { get { return new GRGEN_LGSP.Independents_Enumerator(this); } }
@@ -5450,7 +5450,7 @@ namespace de.unika.ipd.grGen.Action_TNT
 				default: return null;
 				}
 			}
-			
+
 			public GRGEN_LIBGR.IPatternGraph Pattern { get { return Rule_TNT.instance.pat_TNT; } }
 			public GRGEN_LIBGR.IMatch MatchOfEnclosingPattern { get { return _matchOfEnclosingPattern; } }
 			public GRGEN_LIBGR.IMatch _matchOfEnclosingPattern;
@@ -5678,16 +5678,16 @@ namespace de.unika.ipd.grGen.Action_TNT
 				"TNTUnfolded",
 				"",
 				false,
-				new GRGEN_LGSP.PatternNode[] { TNTUnfolded_node_c1, TNTUnfolded_node_c2, TNTUnfolded_node_c3, TNTUnfolded_node_c4, TNTUnfolded_node_c5, TNTUnfolded_node_c6, TNTUnfolded_node_c, TNTUnfolded_node__node0, TNTUnfolded_node__node1, TNTUnfolded_node__node2, TNTUnfolded_node_n2, TNTUnfolded_node__node3, TNTUnfolded_node__node4, TNTUnfolded_node__node5, TNTUnfolded_node_n4, TNTUnfolded_node__node6, TNTUnfolded_node__node7, TNTUnfolded_node__node8, TNTUnfolded_node_n6, TNTUnfolded_node__node9, TNTUnfolded_node__node10 }, 
-				new GRGEN_LGSP.PatternEdge[] { TNTUnfolded_edge__edge0, TNTUnfolded_edge__edge1, TNTUnfolded_edge__edge2, TNTUnfolded_edge__edge3, TNTUnfolded_edge__edge4, TNTUnfolded_edge__edge5, TNTUnfolded_edge__edge6, TNTUnfolded_edge__edge7, TNTUnfolded_edge__edge8, TNTUnfolded_edge__edge9, TNTUnfolded_edge__edge10, TNTUnfolded_edge__edge11, TNTUnfolded_edge__edge12, TNTUnfolded_edge__edge13, TNTUnfolded_edge__edge14, TNTUnfolded_edge__edge15, TNTUnfolded_edge__edge16, TNTUnfolded_edge__edge17, TNTUnfolded_edge__edge18, TNTUnfolded_edge__edge19, TNTUnfolded_edge__edge20, TNTUnfolded_edge__edge21, TNTUnfolded_edge__edge22, TNTUnfolded_edge__edge23 }, 
-				new GRGEN_LGSP.PatternVariable[] {  }, 
-				new GRGEN_LGSP.PatternGraphEmbedding[] {  }, 
-				new GRGEN_LGSP.Alternative[] {  }, 
-				new GRGEN_LGSP.Iterated[] {  }, 
-				new GRGEN_LGSP.PatternGraph[] {  }, 
-				new GRGEN_LGSP.PatternGraph[] {  }, 
-				new GRGEN_LGSP.PatternCondition[] {  }, 
-				new GRGEN_LGSP.PatternYielding[] {  }, 
+				new GRGEN_LGSP.PatternNode[] { TNTUnfolded_node_c1, TNTUnfolded_node_c2, TNTUnfolded_node_c3, TNTUnfolded_node_c4, TNTUnfolded_node_c5, TNTUnfolded_node_c6, TNTUnfolded_node_c, TNTUnfolded_node__node0, TNTUnfolded_node__node1, TNTUnfolded_node__node2, TNTUnfolded_node_n2, TNTUnfolded_node__node3, TNTUnfolded_node__node4, TNTUnfolded_node__node5, TNTUnfolded_node_n4, TNTUnfolded_node__node6, TNTUnfolded_node__node7, TNTUnfolded_node__node8, TNTUnfolded_node_n6, TNTUnfolded_node__node9, TNTUnfolded_node__node10 },
+				new GRGEN_LGSP.PatternEdge[] { TNTUnfolded_edge__edge0, TNTUnfolded_edge__edge1, TNTUnfolded_edge__edge2, TNTUnfolded_edge__edge3, TNTUnfolded_edge__edge4, TNTUnfolded_edge__edge5, TNTUnfolded_edge__edge6, TNTUnfolded_edge__edge7, TNTUnfolded_edge__edge8, TNTUnfolded_edge__edge9, TNTUnfolded_edge__edge10, TNTUnfolded_edge__edge11, TNTUnfolded_edge__edge12, TNTUnfolded_edge__edge13, TNTUnfolded_edge__edge14, TNTUnfolded_edge__edge15, TNTUnfolded_edge__edge16, TNTUnfolded_edge__edge17, TNTUnfolded_edge__edge18, TNTUnfolded_edge__edge19, TNTUnfolded_edge__edge20, TNTUnfolded_edge__edge21, TNTUnfolded_edge__edge22, TNTUnfolded_edge__edge23 },
+				new GRGEN_LGSP.PatternVariable[] {  },
+				new GRGEN_LGSP.PatternGraphEmbedding[] {  },
+				new GRGEN_LGSP.Alternative[] {  },
+				new GRGEN_LGSP.Iterated[] {  },
+				new GRGEN_LGSP.PatternGraph[] {  },
+				new GRGEN_LGSP.PatternGraph[] {  },
+				new GRGEN_LGSP.PatternCondition[] {  },
+				new GRGEN_LGSP.PatternYielding[] {  },
 				new bool[21, 21] {
 					{ true, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, },
 					{ false, true, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, },
@@ -5981,7 +5981,7 @@ namespace de.unika.ipd.grGen.Action_TNT
 				default: return null;
 				}
 			}
-			
+
 			public GRGEN_LIBGR.IEdge edge__edge0 { get { return (GRGEN_LIBGR.IEdge)_edge__edge0; } }
 			public GRGEN_LIBGR.IEdge edge__edge1 { get { return (GRGEN_LIBGR.IEdge)_edge__edge1; } }
 			public GRGEN_LIBGR.IEdge edge__edge2 { get { return (GRGEN_LIBGR.IEdge)_edge__edge2; } }
@@ -6064,7 +6064,7 @@ namespace de.unika.ipd.grGen.Action_TNT
 				default: return null;
 				}
 			}
-			
+
 			public enum TNTUnfolded_VariableNums { END_OF_ENUM };
 			public IEnumerable<object> Variables { get { return new GRGEN_LGSP.Variables_Enumerable(this); } }
 			public IEnumerator<object> VariablesEnumerator { get { return new GRGEN_LGSP.Variables_Enumerator(this); } }
@@ -6075,7 +6075,7 @@ namespace de.unika.ipd.grGen.Action_TNT
 				default: return null;
 				}
 			}
-			
+
 			public enum TNTUnfolded_SubNums { END_OF_ENUM };
 			public IEnumerable<GRGEN_LIBGR.IMatch> EmbeddedGraphs { get { return new GRGEN_LGSP.EmbeddedGraphs_Enumerable(this); } }
 			public IEnumerator<GRGEN_LIBGR.IMatch> EmbeddedGraphsEnumerator { get { return new GRGEN_LGSP.EmbeddedGraphs_Enumerator(this); } }
@@ -6086,7 +6086,7 @@ namespace de.unika.ipd.grGen.Action_TNT
 				default: return null;
 				}
 			}
-			
+
 			public enum TNTUnfolded_AltNums { END_OF_ENUM };
 			public IEnumerable<GRGEN_LIBGR.IMatch> Alternatives { get { return new GRGEN_LGSP.Alternatives_Enumerable(this); } }
 			public IEnumerator<GRGEN_LIBGR.IMatch> AlternativesEnumerator { get { return new GRGEN_LGSP.Alternatives_Enumerator(this); } }
@@ -6097,7 +6097,7 @@ namespace de.unika.ipd.grGen.Action_TNT
 				default: return null;
 				}
 			}
-			
+
 			public enum TNTUnfolded_IterNums { END_OF_ENUM };
 			public IEnumerable<GRGEN_LIBGR.IMatches> Iterateds { get { return new GRGEN_LGSP.Iterateds_Enumerable(this); } }
 			public IEnumerator<GRGEN_LIBGR.IMatches> IteratedsEnumerator { get { return new GRGEN_LGSP.Iterateds_Enumerator(this); } }
@@ -6108,7 +6108,7 @@ namespace de.unika.ipd.grGen.Action_TNT
 				default: return null;
 				}
 			}
-			
+
 			public enum TNTUnfolded_IdptNums { END_OF_ENUM };
 			public IEnumerable<GRGEN_LIBGR.IMatch> Independents { get { return new GRGEN_LGSP.Independents_Enumerable(this); } }
 			public IEnumerator<GRGEN_LIBGR.IMatch> IndependentsEnumerator { get { return new GRGEN_LGSP.Independents_Enumerator(this); } }
@@ -6119,7 +6119,7 @@ namespace de.unika.ipd.grGen.Action_TNT
 				default: return null;
 				}
 			}
-			
+
 			public GRGEN_LIBGR.IPatternGraph Pattern { get { return Rule_TNTUnfolded.instance.pat_TNTUnfolded; } }
 			public GRGEN_LIBGR.IMatch MatchOfEnclosingPattern { get { return _matchOfEnclosingPattern; } }
 			public GRGEN_LIBGR.IMatch _matchOfEnclosingPattern;
@@ -6166,16 +6166,16 @@ namespace de.unika.ipd.grGen.Action_TNT
 				"createTNT",
 				"",
 				false,
-				new GRGEN_LGSP.PatternNode[] {  }, 
-				new GRGEN_LGSP.PatternEdge[] {  }, 
-				new GRGEN_LGSP.PatternVariable[] {  }, 
-				new GRGEN_LGSP.PatternGraphEmbedding[] {  }, 
-				new GRGEN_LGSP.Alternative[] {  }, 
-				new GRGEN_LGSP.Iterated[] {  }, 
-				new GRGEN_LGSP.PatternGraph[] {  }, 
-				new GRGEN_LGSP.PatternGraph[] {  }, 
-				new GRGEN_LGSP.PatternCondition[] {  }, 
-				new GRGEN_LGSP.PatternYielding[] {  }, 
+				new GRGEN_LGSP.PatternNode[] {  },
+				new GRGEN_LGSP.PatternEdge[] {  },
+				new GRGEN_LGSP.PatternVariable[] {  },
+				new GRGEN_LGSP.PatternGraphEmbedding[] {  },
+				new GRGEN_LGSP.Alternative[] {  },
+				new GRGEN_LGSP.Iterated[] {  },
+				new GRGEN_LGSP.PatternGraph[] {  },
+				new GRGEN_LGSP.PatternGraph[] {  },
+				new GRGEN_LGSP.PatternCondition[] {  },
+				new GRGEN_LGSP.PatternYielding[] {  },
 				new bool[0, 0] ,
 				new bool[0, 0] ,
 				createTNT_isNodeHomomorphicGlobal,
@@ -6270,7 +6270,7 @@ namespace de.unika.ipd.grGen.Action_TNT
 				default: return null;
 				}
 			}
-			
+
 			public enum createTNT_EdgeNums { END_OF_ENUM };
 			public IEnumerable<GRGEN_LIBGR.IEdge> Edges { get { return new GRGEN_LGSP.Edges_Enumerable(this); } }
 			public IEnumerator<GRGEN_LIBGR.IEdge> EdgesEnumerator { get { return new GRGEN_LGSP.Edges_Enumerator(this); } }
@@ -6281,7 +6281,7 @@ namespace de.unika.ipd.grGen.Action_TNT
 				default: return null;
 				}
 			}
-			
+
 			public enum createTNT_VariableNums { END_OF_ENUM };
 			public IEnumerable<object> Variables { get { return new GRGEN_LGSP.Variables_Enumerable(this); } }
 			public IEnumerator<object> VariablesEnumerator { get { return new GRGEN_LGSP.Variables_Enumerator(this); } }
@@ -6292,7 +6292,7 @@ namespace de.unika.ipd.grGen.Action_TNT
 				default: return null;
 				}
 			}
-			
+
 			public enum createTNT_SubNums { END_OF_ENUM };
 			public IEnumerable<GRGEN_LIBGR.IMatch> EmbeddedGraphs { get { return new GRGEN_LGSP.EmbeddedGraphs_Enumerable(this); } }
 			public IEnumerator<GRGEN_LIBGR.IMatch> EmbeddedGraphsEnumerator { get { return new GRGEN_LGSP.EmbeddedGraphs_Enumerator(this); } }
@@ -6303,7 +6303,7 @@ namespace de.unika.ipd.grGen.Action_TNT
 				default: return null;
 				}
 			}
-			
+
 			public enum createTNT_AltNums { END_OF_ENUM };
 			public IEnumerable<GRGEN_LIBGR.IMatch> Alternatives { get { return new GRGEN_LGSP.Alternatives_Enumerable(this); } }
 			public IEnumerator<GRGEN_LIBGR.IMatch> AlternativesEnumerator { get { return new GRGEN_LGSP.Alternatives_Enumerator(this); } }
@@ -6314,7 +6314,7 @@ namespace de.unika.ipd.grGen.Action_TNT
 				default: return null;
 				}
 			}
-			
+
 			public enum createTNT_IterNums { END_OF_ENUM };
 			public IEnumerable<GRGEN_LIBGR.IMatches> Iterateds { get { return new GRGEN_LGSP.Iterateds_Enumerable(this); } }
 			public IEnumerator<GRGEN_LIBGR.IMatches> IteratedsEnumerator { get { return new GRGEN_LGSP.Iterateds_Enumerator(this); } }
@@ -6325,7 +6325,7 @@ namespace de.unika.ipd.grGen.Action_TNT
 				default: return null;
 				}
 			}
-			
+
 			public enum createTNT_IdptNums { END_OF_ENUM };
 			public IEnumerable<GRGEN_LIBGR.IMatch> Independents { get { return new GRGEN_LGSP.Independents_Enumerable(this); } }
 			public IEnumerator<GRGEN_LIBGR.IMatch> IndependentsEnumerator { get { return new GRGEN_LGSP.Independents_Enumerator(this); } }
@@ -6336,7 +6336,7 @@ namespace de.unika.ipd.grGen.Action_TNT
 				default: return null;
 				}
 			}
-			
+
 			public GRGEN_LIBGR.IPatternGraph Pattern { get { return Rule_createTNT.instance.pat_createTNT; } }
 			public GRGEN_LIBGR.IMatch MatchOfEnclosingPattern { get { return _matchOfEnclosingPattern; } }
 			public GRGEN_LIBGR.IMatch _matchOfEnclosingPattern;
@@ -6440,50 +6440,50 @@ namespace de.unika.ipd.grGen.Action_TNT
 			GRGEN_LGSP.PatternEdge DNT_edge__edge6 = new GRGEN_LGSP.PatternEdge(true, (int) GRGEN_MODEL.EdgeTypes.@Edge, "GRGEN_LIBGR.IEdge", "DNT_edge__edge6", "_edge6", DNT_edge__edge6_AllowedTypes, DNT_edge__edge6_IsAllowedType, 5.5F, -1, false, null, null, null, null, false);
 			GRGEN_LGSP.PatternEdge DNT_edge__edge7 = new GRGEN_LGSP.PatternEdge(true, (int) GRGEN_MODEL.EdgeTypes.@Edge, "GRGEN_LIBGR.IEdge", "DNT_edge__edge7", "_edge7", DNT_edge__edge7_AllowedTypes, DNT_edge__edge7_IsAllowedType, 5.5F, -1, false, null, null, null, null, false);
 			GRGEN_LGSP.PatternEdge DNT_edge__edge8 = new GRGEN_LGSP.PatternEdge(true, (int) GRGEN_MODEL.EdgeTypes.@Edge, "GRGEN_LIBGR.IEdge", "DNT_edge__edge8", "_edge8", DNT_edge__edge8_AllowedTypes, DNT_edge__edge8_IsAllowedType, 5.5F, -1, false, null, null, null, null, false);
-			GRGEN_LGSP.PatternGraphEmbedding DNT__sub0 = new GRGEN_LGSP.PatternGraphEmbedding("_sub0", Pattern_Methyl.Instance, 
+			GRGEN_LGSP.PatternGraphEmbedding DNT__sub0 = new GRGEN_LGSP.PatternGraphEmbedding("_sub0", Pattern_Methyl.Instance,
 				new GRGEN_EXPR.Expression[] {
 					new GRGEN_EXPR.GraphEntityExpression("DNT_node_c1"),
-				}, 
+				},
 				new string[] { }, new string[] { "DNT_node_c1" }, new string[] {  }, new string[] {  }, new GRGEN_LIBGR.VarType[] {  });
-			GRGEN_LGSP.PatternGraphEmbedding DNT__sub1 = new GRGEN_LGSP.PatternGraphEmbedding("_sub1", Pattern_Nitro.Instance, 
+			GRGEN_LGSP.PatternGraphEmbedding DNT__sub1 = new GRGEN_LGSP.PatternGraphEmbedding("_sub1", Pattern_Nitro.Instance,
 				new GRGEN_EXPR.Expression[] {
 					new GRGEN_EXPR.GraphEntityExpression("DNT_node_c2"),
-				}, 
+				},
 				new string[] { }, new string[] { "DNT_node_c2" }, new string[] {  }, new string[] {  }, new GRGEN_LIBGR.VarType[] {  });
-			GRGEN_LGSP.PatternGraphEmbedding DNT__sub2 = new GRGEN_LGSP.PatternGraphEmbedding("_sub2", Pattern_Hydrogen.Instance, 
+			GRGEN_LGSP.PatternGraphEmbedding DNT__sub2 = new GRGEN_LGSP.PatternGraphEmbedding("_sub2", Pattern_Hydrogen.Instance,
 				new GRGEN_EXPR.Expression[] {
 					new GRGEN_EXPR.GraphEntityExpression("DNT_node_c3"),
-				}, 
+				},
 				new string[] { }, new string[] { "DNT_node_c3" }, new string[] {  }, new string[] {  }, new GRGEN_LIBGR.VarType[] {  });
-			GRGEN_LGSP.PatternGraphEmbedding DNT__sub3 = new GRGEN_LGSP.PatternGraphEmbedding("_sub3", Pattern_Nitro.Instance, 
+			GRGEN_LGSP.PatternGraphEmbedding DNT__sub3 = new GRGEN_LGSP.PatternGraphEmbedding("_sub3", Pattern_Nitro.Instance,
 				new GRGEN_EXPR.Expression[] {
 					new GRGEN_EXPR.GraphEntityExpression("DNT_node_c4"),
-				}, 
+				},
 				new string[] { }, new string[] { "DNT_node_c4" }, new string[] {  }, new string[] {  }, new GRGEN_LIBGR.VarType[] {  });
-			GRGEN_LGSP.PatternGraphEmbedding DNT__sub4 = new GRGEN_LGSP.PatternGraphEmbedding("_sub4", Pattern_Hydrogen.Instance, 
+			GRGEN_LGSP.PatternGraphEmbedding DNT__sub4 = new GRGEN_LGSP.PatternGraphEmbedding("_sub4", Pattern_Hydrogen.Instance,
 				new GRGEN_EXPR.Expression[] {
 					new GRGEN_EXPR.GraphEntityExpression("DNT_node_c5"),
-				}, 
+				},
 				new string[] { }, new string[] { "DNT_node_c5" }, new string[] {  }, new string[] {  }, new GRGEN_LIBGR.VarType[] {  });
-			GRGEN_LGSP.PatternGraphEmbedding DNT__sub5 = new GRGEN_LGSP.PatternGraphEmbedding("_sub5", Pattern_Hydrogen.Instance, 
+			GRGEN_LGSP.PatternGraphEmbedding DNT__sub5 = new GRGEN_LGSP.PatternGraphEmbedding("_sub5", Pattern_Hydrogen.Instance,
 				new GRGEN_EXPR.Expression[] {
 					new GRGEN_EXPR.GraphEntityExpression("DNT_node_c6"),
-				}, 
+				},
 				new string[] { }, new string[] { "DNT_node_c6" }, new string[] {  }, new string[] {  }, new GRGEN_LIBGR.VarType[] {  });
 			pat_DNT = new GRGEN_LGSP.PatternGraph(
 				"DNT",
 				"",
 				false,
-				new GRGEN_LGSP.PatternNode[] { DNT_node_c1, DNT_node_c2, DNT_node_c3, DNT_node_c4, DNT_node_c5, DNT_node_c6 }, 
-				new GRGEN_LGSP.PatternEdge[] { DNT_edge__edge0, DNT_edge__edge1, DNT_edge__edge2, DNT_edge__edge3, DNT_edge__edge4, DNT_edge__edge5, DNT_edge__edge6, DNT_edge__edge7, DNT_edge__edge8 }, 
-				new GRGEN_LGSP.PatternVariable[] {  }, 
-				new GRGEN_LGSP.PatternGraphEmbedding[] { DNT__sub0, DNT__sub1, DNT__sub2, DNT__sub3, DNT__sub4, DNT__sub5 }, 
-				new GRGEN_LGSP.Alternative[] {  }, 
-				new GRGEN_LGSP.Iterated[] {  }, 
-				new GRGEN_LGSP.PatternGraph[] {  }, 
-				new GRGEN_LGSP.PatternGraph[] {  }, 
-				new GRGEN_LGSP.PatternCondition[] {  }, 
-				new GRGEN_LGSP.PatternYielding[] {  }, 
+				new GRGEN_LGSP.PatternNode[] { DNT_node_c1, DNT_node_c2, DNT_node_c3, DNT_node_c4, DNT_node_c5, DNT_node_c6 },
+				new GRGEN_LGSP.PatternEdge[] { DNT_edge__edge0, DNT_edge__edge1, DNT_edge__edge2, DNT_edge__edge3, DNT_edge__edge4, DNT_edge__edge5, DNT_edge__edge6, DNT_edge__edge7, DNT_edge__edge8 },
+				new GRGEN_LGSP.PatternVariable[] {  },
+				new GRGEN_LGSP.PatternGraphEmbedding[] { DNT__sub0, DNT__sub1, DNT__sub2, DNT__sub3, DNT__sub4, DNT__sub5 },
+				new GRGEN_LGSP.Alternative[] {  },
+				new GRGEN_LGSP.Iterated[] {  },
+				new GRGEN_LGSP.PatternGraph[] {  },
+				new GRGEN_LGSP.PatternGraph[] {  },
+				new GRGEN_LGSP.PatternCondition[] {  },
+				new GRGEN_LGSP.PatternYielding[] {  },
 				new bool[6, 6] {
 					{ true, false, false, false, false, false, },
 					{ false, true, false, false, false, false, },
@@ -6636,7 +6636,7 @@ namespace de.unika.ipd.grGen.Action_TNT
 				default: return null;
 				}
 			}
-			
+
 			public GRGEN_LIBGR.IEdge edge__edge0 { get { return (GRGEN_LIBGR.IEdge)_edge__edge0; } }
 			public GRGEN_LIBGR.IEdge edge__edge1 { get { return (GRGEN_LIBGR.IEdge)_edge__edge1; } }
 			public GRGEN_LIBGR.IEdge edge__edge2 { get { return (GRGEN_LIBGR.IEdge)_edge__edge2; } }
@@ -6674,7 +6674,7 @@ namespace de.unika.ipd.grGen.Action_TNT
 				default: return null;
 				}
 			}
-			
+
 			public enum DNT_VariableNums { END_OF_ENUM };
 			public IEnumerable<object> Variables { get { return new GRGEN_LGSP.Variables_Enumerable(this); } }
 			public IEnumerator<object> VariablesEnumerator { get { return new GRGEN_LGSP.Variables_Enumerator(this); } }
@@ -6685,7 +6685,7 @@ namespace de.unika.ipd.grGen.Action_TNT
 				default: return null;
 				}
 			}
-			
+
 			public @Pattern_Methyl.Match_Methyl @_sub0 { get { return @__sub0; } }
 			public @Pattern_Nitro.Match_Nitro @_sub1 { get { return @__sub1; } }
 			public @Pattern_Hydrogen.Match_Hydrogen @_sub2 { get { return @__sub2; } }
@@ -6714,7 +6714,7 @@ namespace de.unika.ipd.grGen.Action_TNT
 				default: return null;
 				}
 			}
-			
+
 			public enum DNT_AltNums { END_OF_ENUM };
 			public IEnumerable<GRGEN_LIBGR.IMatch> Alternatives { get { return new GRGEN_LGSP.Alternatives_Enumerable(this); } }
 			public IEnumerator<GRGEN_LIBGR.IMatch> AlternativesEnumerator { get { return new GRGEN_LGSP.Alternatives_Enumerator(this); } }
@@ -6725,7 +6725,7 @@ namespace de.unika.ipd.grGen.Action_TNT
 				default: return null;
 				}
 			}
-			
+
 			public enum DNT_IterNums { END_OF_ENUM };
 			public IEnumerable<GRGEN_LIBGR.IMatches> Iterateds { get { return new GRGEN_LGSP.Iterateds_Enumerable(this); } }
 			public IEnumerator<GRGEN_LIBGR.IMatches> IteratedsEnumerator { get { return new GRGEN_LGSP.Iterateds_Enumerator(this); } }
@@ -6736,7 +6736,7 @@ namespace de.unika.ipd.grGen.Action_TNT
 				default: return null;
 				}
 			}
-			
+
 			public enum DNT_IdptNums { END_OF_ENUM };
 			public IEnumerable<GRGEN_LIBGR.IMatch> Independents { get { return new GRGEN_LGSP.Independents_Enumerable(this); } }
 			public IEnumerator<GRGEN_LIBGR.IMatch> IndependentsEnumerator { get { return new GRGEN_LGSP.Independents_Enumerator(this); } }
@@ -6747,7 +6747,7 @@ namespace de.unika.ipd.grGen.Action_TNT
 				default: return null;
 				}
 			}
-			
+
 			public GRGEN_LIBGR.IPatternGraph Pattern { get { return Rule_DNT.instance.pat_DNT; } }
 			public GRGEN_LIBGR.IMatch MatchOfEnclosingPattern { get { return _matchOfEnclosingPattern; } }
 			public GRGEN_LIBGR.IMatch _matchOfEnclosingPattern;
@@ -6959,16 +6959,16 @@ namespace de.unika.ipd.grGen.Action_TNT
 				"DNTUnfolded",
 				"",
 				false,
-				new GRGEN_LGSP.PatternNode[] { DNTUnfolded_node_c1, DNTUnfolded_node_c2, DNTUnfolded_node_c3, DNTUnfolded_node_c4, DNTUnfolded_node_c5, DNTUnfolded_node_c6, DNTUnfolded_node_c, DNTUnfolded_node__node0, DNTUnfolded_node__node1, DNTUnfolded_node__node2, DNTUnfolded_node_n2, DNTUnfolded_node__node3, DNTUnfolded_node__node4, DNTUnfolded_node__node5, DNTUnfolded_node_n4, DNTUnfolded_node__node6, DNTUnfolded_node__node7, DNTUnfolded_node__node8, DNTUnfolded_node__node9 }, 
-				new GRGEN_LGSP.PatternEdge[] { DNTUnfolded_edge__edge0, DNTUnfolded_edge__edge1, DNTUnfolded_edge__edge2, DNTUnfolded_edge__edge3, DNTUnfolded_edge__edge4, DNTUnfolded_edge__edge5, DNTUnfolded_edge__edge6, DNTUnfolded_edge__edge7, DNTUnfolded_edge__edge8, DNTUnfolded_edge__edge9, DNTUnfolded_edge__edge10, DNTUnfolded_edge__edge11, DNTUnfolded_edge__edge12, DNTUnfolded_edge__edge13, DNTUnfolded_edge__edge14, DNTUnfolded_edge__edge15, DNTUnfolded_edge__edge16, DNTUnfolded_edge__edge17, DNTUnfolded_edge__edge18, DNTUnfolded_edge__edge19, DNTUnfolded_edge__edge20, DNTUnfolded_edge__edge21 }, 
-				new GRGEN_LGSP.PatternVariable[] {  }, 
-				new GRGEN_LGSP.PatternGraphEmbedding[] {  }, 
-				new GRGEN_LGSP.Alternative[] {  }, 
-				new GRGEN_LGSP.Iterated[] {  }, 
-				new GRGEN_LGSP.PatternGraph[] {  }, 
-				new GRGEN_LGSP.PatternGraph[] {  }, 
-				new GRGEN_LGSP.PatternCondition[] {  }, 
-				new GRGEN_LGSP.PatternYielding[] {  }, 
+				new GRGEN_LGSP.PatternNode[] { DNTUnfolded_node_c1, DNTUnfolded_node_c2, DNTUnfolded_node_c3, DNTUnfolded_node_c4, DNTUnfolded_node_c5, DNTUnfolded_node_c6, DNTUnfolded_node_c, DNTUnfolded_node__node0, DNTUnfolded_node__node1, DNTUnfolded_node__node2, DNTUnfolded_node_n2, DNTUnfolded_node__node3, DNTUnfolded_node__node4, DNTUnfolded_node__node5, DNTUnfolded_node_n4, DNTUnfolded_node__node6, DNTUnfolded_node__node7, DNTUnfolded_node__node8, DNTUnfolded_node__node9 },
+				new GRGEN_LGSP.PatternEdge[] { DNTUnfolded_edge__edge0, DNTUnfolded_edge__edge1, DNTUnfolded_edge__edge2, DNTUnfolded_edge__edge3, DNTUnfolded_edge__edge4, DNTUnfolded_edge__edge5, DNTUnfolded_edge__edge6, DNTUnfolded_edge__edge7, DNTUnfolded_edge__edge8, DNTUnfolded_edge__edge9, DNTUnfolded_edge__edge10, DNTUnfolded_edge__edge11, DNTUnfolded_edge__edge12, DNTUnfolded_edge__edge13, DNTUnfolded_edge__edge14, DNTUnfolded_edge__edge15, DNTUnfolded_edge__edge16, DNTUnfolded_edge__edge17, DNTUnfolded_edge__edge18, DNTUnfolded_edge__edge19, DNTUnfolded_edge__edge20, DNTUnfolded_edge__edge21 },
+				new GRGEN_LGSP.PatternVariable[] {  },
+				new GRGEN_LGSP.PatternGraphEmbedding[] {  },
+				new GRGEN_LGSP.Alternative[] {  },
+				new GRGEN_LGSP.Iterated[] {  },
+				new GRGEN_LGSP.PatternGraph[] {  },
+				new GRGEN_LGSP.PatternGraph[] {  },
+				new GRGEN_LGSP.PatternCondition[] {  },
+				new GRGEN_LGSP.PatternYielding[] {  },
 				new bool[19, 19] {
 					{ true, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, },
 					{ false, true, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, },
@@ -7240,7 +7240,7 @@ namespace de.unika.ipd.grGen.Action_TNT
 				default: return null;
 				}
 			}
-			
+
 			public GRGEN_LIBGR.IEdge edge__edge0 { get { return (GRGEN_LIBGR.IEdge)_edge__edge0; } }
 			public GRGEN_LIBGR.IEdge edge__edge1 { get { return (GRGEN_LIBGR.IEdge)_edge__edge1; } }
 			public GRGEN_LIBGR.IEdge edge__edge2 { get { return (GRGEN_LIBGR.IEdge)_edge__edge2; } }
@@ -7317,7 +7317,7 @@ namespace de.unika.ipd.grGen.Action_TNT
 				default: return null;
 				}
 			}
-			
+
 			public enum DNTUnfolded_VariableNums { END_OF_ENUM };
 			public IEnumerable<object> Variables { get { return new GRGEN_LGSP.Variables_Enumerable(this); } }
 			public IEnumerator<object> VariablesEnumerator { get { return new GRGEN_LGSP.Variables_Enumerator(this); } }
@@ -7328,7 +7328,7 @@ namespace de.unika.ipd.grGen.Action_TNT
 				default: return null;
 				}
 			}
-			
+
 			public enum DNTUnfolded_SubNums { END_OF_ENUM };
 			public IEnumerable<GRGEN_LIBGR.IMatch> EmbeddedGraphs { get { return new GRGEN_LGSP.EmbeddedGraphs_Enumerable(this); } }
 			public IEnumerator<GRGEN_LIBGR.IMatch> EmbeddedGraphsEnumerator { get { return new GRGEN_LGSP.EmbeddedGraphs_Enumerator(this); } }
@@ -7339,7 +7339,7 @@ namespace de.unika.ipd.grGen.Action_TNT
 				default: return null;
 				}
 			}
-			
+
 			public enum DNTUnfolded_AltNums { END_OF_ENUM };
 			public IEnumerable<GRGEN_LIBGR.IMatch> Alternatives { get { return new GRGEN_LGSP.Alternatives_Enumerable(this); } }
 			public IEnumerator<GRGEN_LIBGR.IMatch> AlternativesEnumerator { get { return new GRGEN_LGSP.Alternatives_Enumerator(this); } }
@@ -7350,7 +7350,7 @@ namespace de.unika.ipd.grGen.Action_TNT
 				default: return null;
 				}
 			}
-			
+
 			public enum DNTUnfolded_IterNums { END_OF_ENUM };
 			public IEnumerable<GRGEN_LIBGR.IMatches> Iterateds { get { return new GRGEN_LGSP.Iterateds_Enumerable(this); } }
 			public IEnumerator<GRGEN_LIBGR.IMatches> IteratedsEnumerator { get { return new GRGEN_LGSP.Iterateds_Enumerator(this); } }
@@ -7361,7 +7361,7 @@ namespace de.unika.ipd.grGen.Action_TNT
 				default: return null;
 				}
 			}
-			
+
 			public enum DNTUnfolded_IdptNums { END_OF_ENUM };
 			public IEnumerable<GRGEN_LIBGR.IMatch> Independents { get { return new GRGEN_LGSP.Independents_Enumerable(this); } }
 			public IEnumerator<GRGEN_LIBGR.IMatch> IndependentsEnumerator { get { return new GRGEN_LGSP.Independents_Enumerator(this); } }
@@ -7372,7 +7372,7 @@ namespace de.unika.ipd.grGen.Action_TNT
 				default: return null;
 				}
 			}
-			
+
 			public GRGEN_LIBGR.IPatternGraph Pattern { get { return Rule_DNTUnfolded.instance.pat_DNTUnfolded; } }
 			public GRGEN_LIBGR.IMatch MatchOfEnclosingPattern { get { return _matchOfEnclosingPattern; } }
 			public GRGEN_LIBGR.IMatch _matchOfEnclosingPattern;
@@ -7419,16 +7419,16 @@ namespace de.unika.ipd.grGen.Action_TNT
 				"createDNT",
 				"",
 				false,
-				new GRGEN_LGSP.PatternNode[] {  }, 
-				new GRGEN_LGSP.PatternEdge[] {  }, 
-				new GRGEN_LGSP.PatternVariable[] {  }, 
-				new GRGEN_LGSP.PatternGraphEmbedding[] {  }, 
-				new GRGEN_LGSP.Alternative[] {  }, 
-				new GRGEN_LGSP.Iterated[] {  }, 
-				new GRGEN_LGSP.PatternGraph[] {  }, 
-				new GRGEN_LGSP.PatternGraph[] {  }, 
-				new GRGEN_LGSP.PatternCondition[] {  }, 
-				new GRGEN_LGSP.PatternYielding[] {  }, 
+				new GRGEN_LGSP.PatternNode[] {  },
+				new GRGEN_LGSP.PatternEdge[] {  },
+				new GRGEN_LGSP.PatternVariable[] {  },
+				new GRGEN_LGSP.PatternGraphEmbedding[] {  },
+				new GRGEN_LGSP.Alternative[] {  },
+				new GRGEN_LGSP.Iterated[] {  },
+				new GRGEN_LGSP.PatternGraph[] {  },
+				new GRGEN_LGSP.PatternGraph[] {  },
+				new GRGEN_LGSP.PatternCondition[] {  },
+				new GRGEN_LGSP.PatternYielding[] {  },
 				new bool[0, 0] ,
 				new bool[0, 0] ,
 				createDNT_isNodeHomomorphicGlobal,
@@ -7519,7 +7519,7 @@ namespace de.unika.ipd.grGen.Action_TNT
 				default: return null;
 				}
 			}
-			
+
 			public enum createDNT_EdgeNums { END_OF_ENUM };
 			public IEnumerable<GRGEN_LIBGR.IEdge> Edges { get { return new GRGEN_LGSP.Edges_Enumerable(this); } }
 			public IEnumerator<GRGEN_LIBGR.IEdge> EdgesEnumerator { get { return new GRGEN_LGSP.Edges_Enumerator(this); } }
@@ -7530,7 +7530,7 @@ namespace de.unika.ipd.grGen.Action_TNT
 				default: return null;
 				}
 			}
-			
+
 			public enum createDNT_VariableNums { END_OF_ENUM };
 			public IEnumerable<object> Variables { get { return new GRGEN_LGSP.Variables_Enumerable(this); } }
 			public IEnumerator<object> VariablesEnumerator { get { return new GRGEN_LGSP.Variables_Enumerator(this); } }
@@ -7541,7 +7541,7 @@ namespace de.unika.ipd.grGen.Action_TNT
 				default: return null;
 				}
 			}
-			
+
 			public enum createDNT_SubNums { END_OF_ENUM };
 			public IEnumerable<GRGEN_LIBGR.IMatch> EmbeddedGraphs { get { return new GRGEN_LGSP.EmbeddedGraphs_Enumerable(this); } }
 			public IEnumerator<GRGEN_LIBGR.IMatch> EmbeddedGraphsEnumerator { get { return new GRGEN_LGSP.EmbeddedGraphs_Enumerator(this); } }
@@ -7552,7 +7552,7 @@ namespace de.unika.ipd.grGen.Action_TNT
 				default: return null;
 				}
 			}
-			
+
 			public enum createDNT_AltNums { END_OF_ENUM };
 			public IEnumerable<GRGEN_LIBGR.IMatch> Alternatives { get { return new GRGEN_LGSP.Alternatives_Enumerable(this); } }
 			public IEnumerator<GRGEN_LIBGR.IMatch> AlternativesEnumerator { get { return new GRGEN_LGSP.Alternatives_Enumerator(this); } }
@@ -7563,7 +7563,7 @@ namespace de.unika.ipd.grGen.Action_TNT
 				default: return null;
 				}
 			}
-			
+
 			public enum createDNT_IterNums { END_OF_ENUM };
 			public IEnumerable<GRGEN_LIBGR.IMatches> Iterateds { get { return new GRGEN_LGSP.Iterateds_Enumerable(this); } }
 			public IEnumerator<GRGEN_LIBGR.IMatches> IteratedsEnumerator { get { return new GRGEN_LGSP.Iterateds_Enumerator(this); } }
@@ -7574,7 +7574,7 @@ namespace de.unika.ipd.grGen.Action_TNT
 				default: return null;
 				}
 			}
-			
+
 			public enum createDNT_IdptNums { END_OF_ENUM };
 			public IEnumerable<GRGEN_LIBGR.IMatch> Independents { get { return new GRGEN_LGSP.Independents_Enumerable(this); } }
 			public IEnumerator<GRGEN_LIBGR.IMatch> IndependentsEnumerator { get { return new GRGEN_LGSP.Independents_Enumerator(this); } }
@@ -7585,7 +7585,7 @@ namespace de.unika.ipd.grGen.Action_TNT
 				default: return null;
 				}
 			}
-			
+
 			public GRGEN_LIBGR.IPatternGraph Pattern { get { return Rule_createDNT.instance.pat_createDNT; } }
 			public GRGEN_LIBGR.IMatch MatchOfEnclosingPattern { get { return _matchOfEnclosingPattern; } }
 			public GRGEN_LIBGR.IMatch _matchOfEnclosingPattern;
@@ -7689,50 +7689,50 @@ namespace de.unika.ipd.grGen.Action_TNT
 			GRGEN_LGSP.PatternEdge TNB_edge__edge6 = new GRGEN_LGSP.PatternEdge(true, (int) GRGEN_MODEL.EdgeTypes.@Edge, "GRGEN_LIBGR.IEdge", "TNB_edge__edge6", "_edge6", TNB_edge__edge6_AllowedTypes, TNB_edge__edge6_IsAllowedType, 5.5F, -1, false, null, null, null, null, false);
 			GRGEN_LGSP.PatternEdge TNB_edge__edge7 = new GRGEN_LGSP.PatternEdge(true, (int) GRGEN_MODEL.EdgeTypes.@Edge, "GRGEN_LIBGR.IEdge", "TNB_edge__edge7", "_edge7", TNB_edge__edge7_AllowedTypes, TNB_edge__edge7_IsAllowedType, 5.5F, -1, false, null, null, null, null, false);
 			GRGEN_LGSP.PatternEdge TNB_edge__edge8 = new GRGEN_LGSP.PatternEdge(true, (int) GRGEN_MODEL.EdgeTypes.@Edge, "GRGEN_LIBGR.IEdge", "TNB_edge__edge8", "_edge8", TNB_edge__edge8_AllowedTypes, TNB_edge__edge8_IsAllowedType, 5.5F, -1, false, null, null, null, null, false);
-			GRGEN_LGSP.PatternGraphEmbedding TNB__sub0 = new GRGEN_LGSP.PatternGraphEmbedding("_sub0", Pattern_Hydrogen.Instance, 
+			GRGEN_LGSP.PatternGraphEmbedding TNB__sub0 = new GRGEN_LGSP.PatternGraphEmbedding("_sub0", Pattern_Hydrogen.Instance,
 				new GRGEN_EXPR.Expression[] {
 					new GRGEN_EXPR.GraphEntityExpression("TNB_node_c1"),
-				}, 
+				},
 				new string[] { }, new string[] { "TNB_node_c1" }, new string[] {  }, new string[] {  }, new GRGEN_LIBGR.VarType[] {  });
-			GRGEN_LGSP.PatternGraphEmbedding TNB__sub1 = new GRGEN_LGSP.PatternGraphEmbedding("_sub1", Pattern_Nitro.Instance, 
+			GRGEN_LGSP.PatternGraphEmbedding TNB__sub1 = new GRGEN_LGSP.PatternGraphEmbedding("_sub1", Pattern_Nitro.Instance,
 				new GRGEN_EXPR.Expression[] {
 					new GRGEN_EXPR.GraphEntityExpression("TNB_node_c2"),
-				}, 
+				},
 				new string[] { }, new string[] { "TNB_node_c2" }, new string[] {  }, new string[] {  }, new GRGEN_LIBGR.VarType[] {  });
-			GRGEN_LGSP.PatternGraphEmbedding TNB__sub2 = new GRGEN_LGSP.PatternGraphEmbedding("_sub2", Pattern_Hydrogen.Instance, 
+			GRGEN_LGSP.PatternGraphEmbedding TNB__sub2 = new GRGEN_LGSP.PatternGraphEmbedding("_sub2", Pattern_Hydrogen.Instance,
 				new GRGEN_EXPR.Expression[] {
 					new GRGEN_EXPR.GraphEntityExpression("TNB_node_c3"),
-				}, 
+				},
 				new string[] { }, new string[] { "TNB_node_c3" }, new string[] {  }, new string[] {  }, new GRGEN_LIBGR.VarType[] {  });
-			GRGEN_LGSP.PatternGraphEmbedding TNB__sub3 = new GRGEN_LGSP.PatternGraphEmbedding("_sub3", Pattern_Nitro.Instance, 
+			GRGEN_LGSP.PatternGraphEmbedding TNB__sub3 = new GRGEN_LGSP.PatternGraphEmbedding("_sub3", Pattern_Nitro.Instance,
 				new GRGEN_EXPR.Expression[] {
 					new GRGEN_EXPR.GraphEntityExpression("TNB_node_c4"),
-				}, 
+				},
 				new string[] { }, new string[] { "TNB_node_c4" }, new string[] {  }, new string[] {  }, new GRGEN_LIBGR.VarType[] {  });
-			GRGEN_LGSP.PatternGraphEmbedding TNB__sub4 = new GRGEN_LGSP.PatternGraphEmbedding("_sub4", Pattern_Hydrogen.Instance, 
+			GRGEN_LGSP.PatternGraphEmbedding TNB__sub4 = new GRGEN_LGSP.PatternGraphEmbedding("_sub4", Pattern_Hydrogen.Instance,
 				new GRGEN_EXPR.Expression[] {
 					new GRGEN_EXPR.GraphEntityExpression("TNB_node_c5"),
-				}, 
+				},
 				new string[] { }, new string[] { "TNB_node_c5" }, new string[] {  }, new string[] {  }, new GRGEN_LIBGR.VarType[] {  });
-			GRGEN_LGSP.PatternGraphEmbedding TNB__sub5 = new GRGEN_LGSP.PatternGraphEmbedding("_sub5", Pattern_Nitro.Instance, 
+			GRGEN_LGSP.PatternGraphEmbedding TNB__sub5 = new GRGEN_LGSP.PatternGraphEmbedding("_sub5", Pattern_Nitro.Instance,
 				new GRGEN_EXPR.Expression[] {
 					new GRGEN_EXPR.GraphEntityExpression("TNB_node_c6"),
-				}, 
+				},
 				new string[] { }, new string[] { "TNB_node_c6" }, new string[] {  }, new string[] {  }, new GRGEN_LIBGR.VarType[] {  });
 			pat_TNB = new GRGEN_LGSP.PatternGraph(
 				"TNB",
 				"",
 				false,
-				new GRGEN_LGSP.PatternNode[] { TNB_node_c1, TNB_node_c2, TNB_node_c3, TNB_node_c4, TNB_node_c5, TNB_node_c6 }, 
-				new GRGEN_LGSP.PatternEdge[] { TNB_edge__edge0, TNB_edge__edge1, TNB_edge__edge2, TNB_edge__edge3, TNB_edge__edge4, TNB_edge__edge5, TNB_edge__edge6, TNB_edge__edge7, TNB_edge__edge8 }, 
-				new GRGEN_LGSP.PatternVariable[] {  }, 
-				new GRGEN_LGSP.PatternGraphEmbedding[] { TNB__sub0, TNB__sub1, TNB__sub2, TNB__sub3, TNB__sub4, TNB__sub5 }, 
-				new GRGEN_LGSP.Alternative[] {  }, 
-				new GRGEN_LGSP.Iterated[] {  }, 
-				new GRGEN_LGSP.PatternGraph[] {  }, 
-				new GRGEN_LGSP.PatternGraph[] {  }, 
-				new GRGEN_LGSP.PatternCondition[] {  }, 
-				new GRGEN_LGSP.PatternYielding[] {  }, 
+				new GRGEN_LGSP.PatternNode[] { TNB_node_c1, TNB_node_c2, TNB_node_c3, TNB_node_c4, TNB_node_c5, TNB_node_c6 },
+				new GRGEN_LGSP.PatternEdge[] { TNB_edge__edge0, TNB_edge__edge1, TNB_edge__edge2, TNB_edge__edge3, TNB_edge__edge4, TNB_edge__edge5, TNB_edge__edge6, TNB_edge__edge7, TNB_edge__edge8 },
+				new GRGEN_LGSP.PatternVariable[] {  },
+				new GRGEN_LGSP.PatternGraphEmbedding[] { TNB__sub0, TNB__sub1, TNB__sub2, TNB__sub3, TNB__sub4, TNB__sub5 },
+				new GRGEN_LGSP.Alternative[] {  },
+				new GRGEN_LGSP.Iterated[] {  },
+				new GRGEN_LGSP.PatternGraph[] {  },
+				new GRGEN_LGSP.PatternGraph[] {  },
+				new GRGEN_LGSP.PatternCondition[] {  },
+				new GRGEN_LGSP.PatternYielding[] {  },
 				new bool[6, 6] {
 					{ true, false, false, false, false, false, },
 					{ false, true, false, false, false, false, },
@@ -7885,7 +7885,7 @@ namespace de.unika.ipd.grGen.Action_TNT
 				default: return null;
 				}
 			}
-			
+
 			public GRGEN_LIBGR.IEdge edge__edge0 { get { return (GRGEN_LIBGR.IEdge)_edge__edge0; } }
 			public GRGEN_LIBGR.IEdge edge__edge1 { get { return (GRGEN_LIBGR.IEdge)_edge__edge1; } }
 			public GRGEN_LIBGR.IEdge edge__edge2 { get { return (GRGEN_LIBGR.IEdge)_edge__edge2; } }
@@ -7923,7 +7923,7 @@ namespace de.unika.ipd.grGen.Action_TNT
 				default: return null;
 				}
 			}
-			
+
 			public enum TNB_VariableNums { END_OF_ENUM };
 			public IEnumerable<object> Variables { get { return new GRGEN_LGSP.Variables_Enumerable(this); } }
 			public IEnumerator<object> VariablesEnumerator { get { return new GRGEN_LGSP.Variables_Enumerator(this); } }
@@ -7934,7 +7934,7 @@ namespace de.unika.ipd.grGen.Action_TNT
 				default: return null;
 				}
 			}
-			
+
 			public @Pattern_Hydrogen.Match_Hydrogen @_sub0 { get { return @__sub0; } }
 			public @Pattern_Nitro.Match_Nitro @_sub1 { get { return @__sub1; } }
 			public @Pattern_Hydrogen.Match_Hydrogen @_sub2 { get { return @__sub2; } }
@@ -7963,7 +7963,7 @@ namespace de.unika.ipd.grGen.Action_TNT
 				default: return null;
 				}
 			}
-			
+
 			public enum TNB_AltNums { END_OF_ENUM };
 			public IEnumerable<GRGEN_LIBGR.IMatch> Alternatives { get { return new GRGEN_LGSP.Alternatives_Enumerable(this); } }
 			public IEnumerator<GRGEN_LIBGR.IMatch> AlternativesEnumerator { get { return new GRGEN_LGSP.Alternatives_Enumerator(this); } }
@@ -7974,7 +7974,7 @@ namespace de.unika.ipd.grGen.Action_TNT
 				default: return null;
 				}
 			}
-			
+
 			public enum TNB_IterNums { END_OF_ENUM };
 			public IEnumerable<GRGEN_LIBGR.IMatches> Iterateds { get { return new GRGEN_LGSP.Iterateds_Enumerable(this); } }
 			public IEnumerator<GRGEN_LIBGR.IMatches> IteratedsEnumerator { get { return new GRGEN_LGSP.Iterateds_Enumerator(this); } }
@@ -7985,7 +7985,7 @@ namespace de.unika.ipd.grGen.Action_TNT
 				default: return null;
 				}
 			}
-			
+
 			public enum TNB_IdptNums { END_OF_ENUM };
 			public IEnumerable<GRGEN_LIBGR.IMatch> Independents { get { return new GRGEN_LGSP.Independents_Enumerable(this); } }
 			public IEnumerator<GRGEN_LIBGR.IMatch> IndependentsEnumerator { get { return new GRGEN_LGSP.Independents_Enumerator(this); } }
@@ -7996,7 +7996,7 @@ namespace de.unika.ipd.grGen.Action_TNT
 				default: return null;
 				}
 			}
-			
+
 			public GRGEN_LIBGR.IPatternGraph Pattern { get { return Rule_TNB.instance.pat_TNB; } }
 			public GRGEN_LIBGR.IMatch MatchOfEnclosingPattern { get { return _matchOfEnclosingPattern; } }
 			public GRGEN_LIBGR.IMatch _matchOfEnclosingPattern;
@@ -8200,16 +8200,16 @@ namespace de.unika.ipd.grGen.Action_TNT
 				"TNBUnfolded",
 				"",
 				false,
-				new GRGEN_LGSP.PatternNode[] { TNBUnfolded_node_c1, TNBUnfolded_node_c2, TNBUnfolded_node_c3, TNBUnfolded_node_c4, TNBUnfolded_node_c5, TNBUnfolded_node_c6, TNBUnfolded_node__node0, TNBUnfolded_node_n2, TNBUnfolded_node__node1, TNBUnfolded_node__node2, TNBUnfolded_node__node3, TNBUnfolded_node_n4, TNBUnfolded_node__node4, TNBUnfolded_node__node5, TNBUnfolded_node__node6, TNBUnfolded_node_n6, TNBUnfolded_node__node7, TNBUnfolded_node__node8 }, 
-				new GRGEN_LGSP.PatternEdge[] { TNBUnfolded_edge__edge0, TNBUnfolded_edge__edge1, TNBUnfolded_edge__edge2, TNBUnfolded_edge__edge3, TNBUnfolded_edge__edge4, TNBUnfolded_edge__edge5, TNBUnfolded_edge__edge6, TNBUnfolded_edge__edge7, TNBUnfolded_edge__edge8, TNBUnfolded_edge__edge9, TNBUnfolded_edge__edge10, TNBUnfolded_edge__edge11, TNBUnfolded_edge__edge12, TNBUnfolded_edge__edge13, TNBUnfolded_edge__edge14, TNBUnfolded_edge__edge15, TNBUnfolded_edge__edge16, TNBUnfolded_edge__edge17, TNBUnfolded_edge__edge18, TNBUnfolded_edge__edge19, TNBUnfolded_edge__edge20 }, 
-				new GRGEN_LGSP.PatternVariable[] {  }, 
-				new GRGEN_LGSP.PatternGraphEmbedding[] {  }, 
-				new GRGEN_LGSP.Alternative[] {  }, 
-				new GRGEN_LGSP.Iterated[] {  }, 
-				new GRGEN_LGSP.PatternGraph[] {  }, 
-				new GRGEN_LGSP.PatternGraph[] {  }, 
-				new GRGEN_LGSP.PatternCondition[] {  }, 
-				new GRGEN_LGSP.PatternYielding[] {  }, 
+				new GRGEN_LGSP.PatternNode[] { TNBUnfolded_node_c1, TNBUnfolded_node_c2, TNBUnfolded_node_c3, TNBUnfolded_node_c4, TNBUnfolded_node_c5, TNBUnfolded_node_c6, TNBUnfolded_node__node0, TNBUnfolded_node_n2, TNBUnfolded_node__node1, TNBUnfolded_node__node2, TNBUnfolded_node__node3, TNBUnfolded_node_n4, TNBUnfolded_node__node4, TNBUnfolded_node__node5, TNBUnfolded_node__node6, TNBUnfolded_node_n6, TNBUnfolded_node__node7, TNBUnfolded_node__node8 },
+				new GRGEN_LGSP.PatternEdge[] { TNBUnfolded_edge__edge0, TNBUnfolded_edge__edge1, TNBUnfolded_edge__edge2, TNBUnfolded_edge__edge3, TNBUnfolded_edge__edge4, TNBUnfolded_edge__edge5, TNBUnfolded_edge__edge6, TNBUnfolded_edge__edge7, TNBUnfolded_edge__edge8, TNBUnfolded_edge__edge9, TNBUnfolded_edge__edge10, TNBUnfolded_edge__edge11, TNBUnfolded_edge__edge12, TNBUnfolded_edge__edge13, TNBUnfolded_edge__edge14, TNBUnfolded_edge__edge15, TNBUnfolded_edge__edge16, TNBUnfolded_edge__edge17, TNBUnfolded_edge__edge18, TNBUnfolded_edge__edge19, TNBUnfolded_edge__edge20 },
+				new GRGEN_LGSP.PatternVariable[] {  },
+				new GRGEN_LGSP.PatternGraphEmbedding[] {  },
+				new GRGEN_LGSP.Alternative[] {  },
+				new GRGEN_LGSP.Iterated[] {  },
+				new GRGEN_LGSP.PatternGraph[] {  },
+				new GRGEN_LGSP.PatternGraph[] {  },
+				new GRGEN_LGSP.PatternCondition[] {  },
+				new GRGEN_LGSP.PatternYielding[] {  },
 				new bool[18, 18] {
 					{ true, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, },
 					{ false, true, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, },
@@ -8470,7 +8470,7 @@ namespace de.unika.ipd.grGen.Action_TNT
 				default: return null;
 				}
 			}
-			
+
 			public GRGEN_LIBGR.IEdge edge__edge0 { get { return (GRGEN_LIBGR.IEdge)_edge__edge0; } }
 			public GRGEN_LIBGR.IEdge edge__edge1 { get { return (GRGEN_LIBGR.IEdge)_edge__edge1; } }
 			public GRGEN_LIBGR.IEdge edge__edge2 { get { return (GRGEN_LIBGR.IEdge)_edge__edge2; } }
@@ -8544,7 +8544,7 @@ namespace de.unika.ipd.grGen.Action_TNT
 				default: return null;
 				}
 			}
-			
+
 			public enum TNBUnfolded_VariableNums { END_OF_ENUM };
 			public IEnumerable<object> Variables { get { return new GRGEN_LGSP.Variables_Enumerable(this); } }
 			public IEnumerator<object> VariablesEnumerator { get { return new GRGEN_LGSP.Variables_Enumerator(this); } }
@@ -8555,7 +8555,7 @@ namespace de.unika.ipd.grGen.Action_TNT
 				default: return null;
 				}
 			}
-			
+
 			public enum TNBUnfolded_SubNums { END_OF_ENUM };
 			public IEnumerable<GRGEN_LIBGR.IMatch> EmbeddedGraphs { get { return new GRGEN_LGSP.EmbeddedGraphs_Enumerable(this); } }
 			public IEnumerator<GRGEN_LIBGR.IMatch> EmbeddedGraphsEnumerator { get { return new GRGEN_LGSP.EmbeddedGraphs_Enumerator(this); } }
@@ -8566,7 +8566,7 @@ namespace de.unika.ipd.grGen.Action_TNT
 				default: return null;
 				}
 			}
-			
+
 			public enum TNBUnfolded_AltNums { END_OF_ENUM };
 			public IEnumerable<GRGEN_LIBGR.IMatch> Alternatives { get { return new GRGEN_LGSP.Alternatives_Enumerable(this); } }
 			public IEnumerator<GRGEN_LIBGR.IMatch> AlternativesEnumerator { get { return new GRGEN_LGSP.Alternatives_Enumerator(this); } }
@@ -8577,7 +8577,7 @@ namespace de.unika.ipd.grGen.Action_TNT
 				default: return null;
 				}
 			}
-			
+
 			public enum TNBUnfolded_IterNums { END_OF_ENUM };
 			public IEnumerable<GRGEN_LIBGR.IMatches> Iterateds { get { return new GRGEN_LGSP.Iterateds_Enumerable(this); } }
 			public IEnumerator<GRGEN_LIBGR.IMatches> IteratedsEnumerator { get { return new GRGEN_LGSP.Iterateds_Enumerator(this); } }
@@ -8588,7 +8588,7 @@ namespace de.unika.ipd.grGen.Action_TNT
 				default: return null;
 				}
 			}
-			
+
 			public enum TNBUnfolded_IdptNums { END_OF_ENUM };
 			public IEnumerable<GRGEN_LIBGR.IMatch> Independents { get { return new GRGEN_LGSP.Independents_Enumerable(this); } }
 			public IEnumerator<GRGEN_LIBGR.IMatch> IndependentsEnumerator { get { return new GRGEN_LGSP.Independents_Enumerator(this); } }
@@ -8599,7 +8599,7 @@ namespace de.unika.ipd.grGen.Action_TNT
 				default: return null;
 				}
 			}
-			
+
 			public GRGEN_LIBGR.IPatternGraph Pattern { get { return Rule_TNBUnfolded.instance.pat_TNBUnfolded; } }
 			public GRGEN_LIBGR.IMatch MatchOfEnclosingPattern { get { return _matchOfEnclosingPattern; } }
 			public GRGEN_LIBGR.IMatch _matchOfEnclosingPattern;
@@ -8646,16 +8646,16 @@ namespace de.unika.ipd.grGen.Action_TNT
 				"createTNB",
 				"",
 				false,
-				new GRGEN_LGSP.PatternNode[] {  }, 
-				new GRGEN_LGSP.PatternEdge[] {  }, 
-				new GRGEN_LGSP.PatternVariable[] {  }, 
-				new GRGEN_LGSP.PatternGraphEmbedding[] {  }, 
-				new GRGEN_LGSP.Alternative[] {  }, 
-				new GRGEN_LGSP.Iterated[] {  }, 
-				new GRGEN_LGSP.PatternGraph[] {  }, 
-				new GRGEN_LGSP.PatternGraph[] {  }, 
-				new GRGEN_LGSP.PatternCondition[] {  }, 
-				new GRGEN_LGSP.PatternYielding[] {  }, 
+				new GRGEN_LGSP.PatternNode[] {  },
+				new GRGEN_LGSP.PatternEdge[] {  },
+				new GRGEN_LGSP.PatternVariable[] {  },
+				new GRGEN_LGSP.PatternGraphEmbedding[] {  },
+				new GRGEN_LGSP.Alternative[] {  },
+				new GRGEN_LGSP.Iterated[] {  },
+				new GRGEN_LGSP.PatternGraph[] {  },
+				new GRGEN_LGSP.PatternGraph[] {  },
+				new GRGEN_LGSP.PatternCondition[] {  },
+				new GRGEN_LGSP.PatternYielding[] {  },
 				new bool[0, 0] ,
 				new bool[0, 0] ,
 				createTNB_isNodeHomomorphicGlobal,
@@ -8744,7 +8744,7 @@ namespace de.unika.ipd.grGen.Action_TNT
 				default: return null;
 				}
 			}
-			
+
 			public enum createTNB_EdgeNums { END_OF_ENUM };
 			public IEnumerable<GRGEN_LIBGR.IEdge> Edges { get { return new GRGEN_LGSP.Edges_Enumerable(this); } }
 			public IEnumerator<GRGEN_LIBGR.IEdge> EdgesEnumerator { get { return new GRGEN_LGSP.Edges_Enumerator(this); } }
@@ -8755,7 +8755,7 @@ namespace de.unika.ipd.grGen.Action_TNT
 				default: return null;
 				}
 			}
-			
+
 			public enum createTNB_VariableNums { END_OF_ENUM };
 			public IEnumerable<object> Variables { get { return new GRGEN_LGSP.Variables_Enumerable(this); } }
 			public IEnumerator<object> VariablesEnumerator { get { return new GRGEN_LGSP.Variables_Enumerator(this); } }
@@ -8766,7 +8766,7 @@ namespace de.unika.ipd.grGen.Action_TNT
 				default: return null;
 				}
 			}
-			
+
 			public enum createTNB_SubNums { END_OF_ENUM };
 			public IEnumerable<GRGEN_LIBGR.IMatch> EmbeddedGraphs { get { return new GRGEN_LGSP.EmbeddedGraphs_Enumerable(this); } }
 			public IEnumerator<GRGEN_LIBGR.IMatch> EmbeddedGraphsEnumerator { get { return new GRGEN_LGSP.EmbeddedGraphs_Enumerator(this); } }
@@ -8777,7 +8777,7 @@ namespace de.unika.ipd.grGen.Action_TNT
 				default: return null;
 				}
 			}
-			
+
 			public enum createTNB_AltNums { END_OF_ENUM };
 			public IEnumerable<GRGEN_LIBGR.IMatch> Alternatives { get { return new GRGEN_LGSP.Alternatives_Enumerable(this); } }
 			public IEnumerator<GRGEN_LIBGR.IMatch> AlternativesEnumerator { get { return new GRGEN_LGSP.Alternatives_Enumerator(this); } }
@@ -8788,7 +8788,7 @@ namespace de.unika.ipd.grGen.Action_TNT
 				default: return null;
 				}
 			}
-			
+
 			public enum createTNB_IterNums { END_OF_ENUM };
 			public IEnumerable<GRGEN_LIBGR.IMatches> Iterateds { get { return new GRGEN_LGSP.Iterateds_Enumerable(this); } }
 			public IEnumerator<GRGEN_LIBGR.IMatches> IteratedsEnumerator { get { return new GRGEN_LGSP.Iterateds_Enumerator(this); } }
@@ -8799,7 +8799,7 @@ namespace de.unika.ipd.grGen.Action_TNT
 				default: return null;
 				}
 			}
-			
+
 			public enum createTNB_IdptNums { END_OF_ENUM };
 			public IEnumerable<GRGEN_LIBGR.IMatch> Independents { get { return new GRGEN_LGSP.Independents_Enumerable(this); } }
 			public IEnumerator<GRGEN_LIBGR.IMatch> IndependentsEnumerator { get { return new GRGEN_LGSP.Independents_Enumerator(this); } }
@@ -8810,7 +8810,7 @@ namespace de.unika.ipd.grGen.Action_TNT
 				default: return null;
 				}
 			}
-			
+
 			public GRGEN_LIBGR.IPatternGraph Pattern { get { return Rule_createTNB.instance.pat_createTNB; } }
 			public GRGEN_LIBGR.IMatch MatchOfEnclosingPattern { get { return _matchOfEnclosingPattern; } }
 			public GRGEN_LIBGR.IMatch _matchOfEnclosingPattern;
@@ -8853,24 +8853,24 @@ namespace de.unika.ipd.grGen.Action_TNT
 		{
 			bool[,] keepBenzolRingPattern_isNodeHomomorphicGlobal = new bool[0, 0] ;
 			bool[,] keepBenzolRingPattern_isEdgeHomomorphicGlobal = new bool[0, 0] ;
-			GRGEN_LGSP.PatternGraphEmbedding keepBenzolRingPattern_br = new GRGEN_LGSP.PatternGraphEmbedding("br", Pattern_BenzolRing.Instance, 
+			GRGEN_LGSP.PatternGraphEmbedding keepBenzolRingPattern_br = new GRGEN_LGSP.PatternGraphEmbedding("br", Pattern_BenzolRing.Instance,
 				new GRGEN_EXPR.Expression[] {
-				}, 
+				},
 				new string[] { }, new string[] {  }, new string[] {  }, new string[] {  }, new GRGEN_LIBGR.VarType[] {  });
 			pat_keepBenzolRingPattern = new GRGEN_LGSP.PatternGraph(
 				"keepBenzolRingPattern",
 				"",
 				false,
-				new GRGEN_LGSP.PatternNode[] {  }, 
-				new GRGEN_LGSP.PatternEdge[] {  }, 
-				new GRGEN_LGSP.PatternVariable[] {  }, 
-				new GRGEN_LGSP.PatternGraphEmbedding[] { keepBenzolRingPattern_br }, 
-				new GRGEN_LGSP.Alternative[] {  }, 
-				new GRGEN_LGSP.Iterated[] {  }, 
-				new GRGEN_LGSP.PatternGraph[] {  }, 
-				new GRGEN_LGSP.PatternGraph[] {  }, 
-				new GRGEN_LGSP.PatternCondition[] {  }, 
-				new GRGEN_LGSP.PatternYielding[] {  }, 
+				new GRGEN_LGSP.PatternNode[] {  },
+				new GRGEN_LGSP.PatternEdge[] {  },
+				new GRGEN_LGSP.PatternVariable[] {  },
+				new GRGEN_LGSP.PatternGraphEmbedding[] { keepBenzolRingPattern_br },
+				new GRGEN_LGSP.Alternative[] {  },
+				new GRGEN_LGSP.Iterated[] {  },
+				new GRGEN_LGSP.PatternGraph[] {  },
+				new GRGEN_LGSP.PatternGraph[] {  },
+				new GRGEN_LGSP.PatternCondition[] {  },
+				new GRGEN_LGSP.PatternYielding[] {  },
 				new bool[0, 0] ,
 				new bool[0, 0] ,
 				keepBenzolRingPattern_isNodeHomomorphicGlobal,
@@ -8923,7 +8923,7 @@ namespace de.unika.ipd.grGen.Action_TNT
 				default: return null;
 				}
 			}
-			
+
 			public enum keepBenzolRingPattern_EdgeNums { END_OF_ENUM };
 			public IEnumerable<GRGEN_LIBGR.IEdge> Edges { get { return new GRGEN_LGSP.Edges_Enumerable(this); } }
 			public IEnumerator<GRGEN_LIBGR.IEdge> EdgesEnumerator { get { return new GRGEN_LGSP.Edges_Enumerator(this); } }
@@ -8934,7 +8934,7 @@ namespace de.unika.ipd.grGen.Action_TNT
 				default: return null;
 				}
 			}
-			
+
 			public enum keepBenzolRingPattern_VariableNums { END_OF_ENUM };
 			public IEnumerable<object> Variables { get { return new GRGEN_LGSP.Variables_Enumerable(this); } }
 			public IEnumerator<object> VariablesEnumerator { get { return new GRGEN_LGSP.Variables_Enumerator(this); } }
@@ -8945,7 +8945,7 @@ namespace de.unika.ipd.grGen.Action_TNT
 				default: return null;
 				}
 			}
-			
+
 			public @Pattern_BenzolRing.Match_BenzolRing @br { get { return @_br; } }
 			public @Pattern_BenzolRing.Match_BenzolRing @_br;
 			public enum keepBenzolRingPattern_SubNums { @br, END_OF_ENUM };
@@ -8959,7 +8959,7 @@ namespace de.unika.ipd.grGen.Action_TNT
 				default: return null;
 				}
 			}
-			
+
 			public enum keepBenzolRingPattern_AltNums { END_OF_ENUM };
 			public IEnumerable<GRGEN_LIBGR.IMatch> Alternatives { get { return new GRGEN_LGSP.Alternatives_Enumerable(this); } }
 			public IEnumerator<GRGEN_LIBGR.IMatch> AlternativesEnumerator { get { return new GRGEN_LGSP.Alternatives_Enumerator(this); } }
@@ -8970,7 +8970,7 @@ namespace de.unika.ipd.grGen.Action_TNT
 				default: return null;
 				}
 			}
-			
+
 			public enum keepBenzolRingPattern_IterNums { END_OF_ENUM };
 			public IEnumerable<GRGEN_LIBGR.IMatches> Iterateds { get { return new GRGEN_LGSP.Iterateds_Enumerable(this); } }
 			public IEnumerator<GRGEN_LIBGR.IMatches> IteratedsEnumerator { get { return new GRGEN_LGSP.Iterateds_Enumerator(this); } }
@@ -8981,7 +8981,7 @@ namespace de.unika.ipd.grGen.Action_TNT
 				default: return null;
 				}
 			}
-			
+
 			public enum keepBenzolRingPattern_IdptNums { END_OF_ENUM };
 			public IEnumerable<GRGEN_LIBGR.IMatch> Independents { get { return new GRGEN_LGSP.Independents_Enumerable(this); } }
 			public IEnumerator<GRGEN_LIBGR.IMatch> IndependentsEnumerator { get { return new GRGEN_LGSP.Independents_Enumerator(this); } }
@@ -8992,7 +8992,7 @@ namespace de.unika.ipd.grGen.Action_TNT
 				default: return null;
 				}
 			}
-			
+
 			public GRGEN_LIBGR.IPatternGraph Pattern { get { return Rule_keepBenzolRingPattern.instance.pat_keepBenzolRingPattern; } }
 			public GRGEN_LIBGR.IMatch MatchOfEnclosingPattern { get { return _matchOfEnclosingPattern; } }
 			public GRGEN_LIBGR.IMatch _matchOfEnclosingPattern;
@@ -9039,16 +9039,16 @@ namespace de.unika.ipd.grGen.Action_TNT
 				"createBenzolRingPattern",
 				"",
 				false,
-				new GRGEN_LGSP.PatternNode[] {  }, 
-				new GRGEN_LGSP.PatternEdge[] {  }, 
-				new GRGEN_LGSP.PatternVariable[] {  }, 
-				new GRGEN_LGSP.PatternGraphEmbedding[] {  }, 
-				new GRGEN_LGSP.Alternative[] {  }, 
-				new GRGEN_LGSP.Iterated[] {  }, 
-				new GRGEN_LGSP.PatternGraph[] {  }, 
-				new GRGEN_LGSP.PatternGraph[] {  }, 
-				new GRGEN_LGSP.PatternCondition[] {  }, 
-				new GRGEN_LGSP.PatternYielding[] {  }, 
+				new GRGEN_LGSP.PatternNode[] {  },
+				new GRGEN_LGSP.PatternEdge[] {  },
+				new GRGEN_LGSP.PatternVariable[] {  },
+				new GRGEN_LGSP.PatternGraphEmbedding[] {  },
+				new GRGEN_LGSP.Alternative[] {  },
+				new GRGEN_LGSP.Iterated[] {  },
+				new GRGEN_LGSP.PatternGraph[] {  },
+				new GRGEN_LGSP.PatternGraph[] {  },
+				new GRGEN_LGSP.PatternCondition[] {  },
+				new GRGEN_LGSP.PatternYielding[] {  },
 				new bool[0, 0] ,
 				new bool[0, 0] ,
 				createBenzolRingPattern_isNodeHomomorphicGlobal,
@@ -9099,7 +9099,7 @@ namespace de.unika.ipd.grGen.Action_TNT
 				default: return null;
 				}
 			}
-			
+
 			public enum createBenzolRingPattern_EdgeNums { END_OF_ENUM };
 			public IEnumerable<GRGEN_LIBGR.IEdge> Edges { get { return new GRGEN_LGSP.Edges_Enumerable(this); } }
 			public IEnumerator<GRGEN_LIBGR.IEdge> EdgesEnumerator { get { return new GRGEN_LGSP.Edges_Enumerator(this); } }
@@ -9110,7 +9110,7 @@ namespace de.unika.ipd.grGen.Action_TNT
 				default: return null;
 				}
 			}
-			
+
 			public enum createBenzolRingPattern_VariableNums { END_OF_ENUM };
 			public IEnumerable<object> Variables { get { return new GRGEN_LGSP.Variables_Enumerable(this); } }
 			public IEnumerator<object> VariablesEnumerator { get { return new GRGEN_LGSP.Variables_Enumerator(this); } }
@@ -9121,7 +9121,7 @@ namespace de.unika.ipd.grGen.Action_TNT
 				default: return null;
 				}
 			}
-			
+
 			public enum createBenzolRingPattern_SubNums { END_OF_ENUM };
 			public IEnumerable<GRGEN_LIBGR.IMatch> EmbeddedGraphs { get { return new GRGEN_LGSP.EmbeddedGraphs_Enumerable(this); } }
 			public IEnumerator<GRGEN_LIBGR.IMatch> EmbeddedGraphsEnumerator { get { return new GRGEN_LGSP.EmbeddedGraphs_Enumerator(this); } }
@@ -9132,7 +9132,7 @@ namespace de.unika.ipd.grGen.Action_TNT
 				default: return null;
 				}
 			}
-			
+
 			public enum createBenzolRingPattern_AltNums { END_OF_ENUM };
 			public IEnumerable<GRGEN_LIBGR.IMatch> Alternatives { get { return new GRGEN_LGSP.Alternatives_Enumerable(this); } }
 			public IEnumerator<GRGEN_LIBGR.IMatch> AlternativesEnumerator { get { return new GRGEN_LGSP.Alternatives_Enumerator(this); } }
@@ -9143,7 +9143,7 @@ namespace de.unika.ipd.grGen.Action_TNT
 				default: return null;
 				}
 			}
-			
+
 			public enum createBenzolRingPattern_IterNums { END_OF_ENUM };
 			public IEnumerable<GRGEN_LIBGR.IMatches> Iterateds { get { return new GRGEN_LGSP.Iterateds_Enumerable(this); } }
 			public IEnumerator<GRGEN_LIBGR.IMatches> IteratedsEnumerator { get { return new GRGEN_LGSP.Iterateds_Enumerator(this); } }
@@ -9154,7 +9154,7 @@ namespace de.unika.ipd.grGen.Action_TNT
 				default: return null;
 				}
 			}
-			
+
 			public enum createBenzolRingPattern_IdptNums { END_OF_ENUM };
 			public IEnumerable<GRGEN_LIBGR.IMatch> Independents { get { return new GRGEN_LGSP.Independents_Enumerable(this); } }
 			public IEnumerator<GRGEN_LIBGR.IMatch> IndependentsEnumerator { get { return new GRGEN_LGSP.Independents_Enumerator(this); } }
@@ -9165,7 +9165,7 @@ namespace de.unika.ipd.grGen.Action_TNT
 				default: return null;
 				}
 			}
-			
+
 			public GRGEN_LIBGR.IPatternGraph Pattern { get { return Rule_createBenzolRingPattern.instance.pat_createBenzolRingPattern; } }
 			public GRGEN_LIBGR.IMatch MatchOfEnclosingPattern { get { return _matchOfEnclosingPattern; } }
 			public GRGEN_LIBGR.IMatch _matchOfEnclosingPattern;
@@ -9208,24 +9208,24 @@ namespace de.unika.ipd.grGen.Action_TNT
 		{
 			bool[,] deleteBenzolRingPattern_isNodeHomomorphicGlobal = new bool[0, 0] ;
 			bool[,] deleteBenzolRingPattern_isEdgeHomomorphicGlobal = new bool[0, 0] ;
-			GRGEN_LGSP.PatternGraphEmbedding deleteBenzolRingPattern__sub0 = new GRGEN_LGSP.PatternGraphEmbedding("_sub0", Pattern_BenzolRing.Instance, 
+			GRGEN_LGSP.PatternGraphEmbedding deleteBenzolRingPattern__sub0 = new GRGEN_LGSP.PatternGraphEmbedding("_sub0", Pattern_BenzolRing.Instance,
 				new GRGEN_EXPR.Expression[] {
-				}, 
+				},
 				new string[] { }, new string[] {  }, new string[] {  }, new string[] {  }, new GRGEN_LIBGR.VarType[] {  });
 			pat_deleteBenzolRingPattern = new GRGEN_LGSP.PatternGraph(
 				"deleteBenzolRingPattern",
 				"",
 				false,
-				new GRGEN_LGSP.PatternNode[] {  }, 
-				new GRGEN_LGSP.PatternEdge[] {  }, 
-				new GRGEN_LGSP.PatternVariable[] {  }, 
-				new GRGEN_LGSP.PatternGraphEmbedding[] { deleteBenzolRingPattern__sub0 }, 
-				new GRGEN_LGSP.Alternative[] {  }, 
-				new GRGEN_LGSP.Iterated[] {  }, 
-				new GRGEN_LGSP.PatternGraph[] {  }, 
-				new GRGEN_LGSP.PatternGraph[] {  }, 
-				new GRGEN_LGSP.PatternCondition[] {  }, 
-				new GRGEN_LGSP.PatternYielding[] {  }, 
+				new GRGEN_LGSP.PatternNode[] {  },
+				new GRGEN_LGSP.PatternEdge[] {  },
+				new GRGEN_LGSP.PatternVariable[] {  },
+				new GRGEN_LGSP.PatternGraphEmbedding[] { deleteBenzolRingPattern__sub0 },
+				new GRGEN_LGSP.Alternative[] {  },
+				new GRGEN_LGSP.Iterated[] {  },
+				new GRGEN_LGSP.PatternGraph[] {  },
+				new GRGEN_LGSP.PatternGraph[] {  },
+				new GRGEN_LGSP.PatternCondition[] {  },
+				new GRGEN_LGSP.PatternYielding[] {  },
 				new bool[0, 0] ,
 				new bool[0, 0] ,
 				deleteBenzolRingPattern_isNodeHomomorphicGlobal,
@@ -9279,7 +9279,7 @@ namespace de.unika.ipd.grGen.Action_TNT
 				default: return null;
 				}
 			}
-			
+
 			public enum deleteBenzolRingPattern_EdgeNums { END_OF_ENUM };
 			public IEnumerable<GRGEN_LIBGR.IEdge> Edges { get { return new GRGEN_LGSP.Edges_Enumerable(this); } }
 			public IEnumerator<GRGEN_LIBGR.IEdge> EdgesEnumerator { get { return new GRGEN_LGSP.Edges_Enumerator(this); } }
@@ -9290,7 +9290,7 @@ namespace de.unika.ipd.grGen.Action_TNT
 				default: return null;
 				}
 			}
-			
+
 			public enum deleteBenzolRingPattern_VariableNums { END_OF_ENUM };
 			public IEnumerable<object> Variables { get { return new GRGEN_LGSP.Variables_Enumerable(this); } }
 			public IEnumerator<object> VariablesEnumerator { get { return new GRGEN_LGSP.Variables_Enumerator(this); } }
@@ -9301,7 +9301,7 @@ namespace de.unika.ipd.grGen.Action_TNT
 				default: return null;
 				}
 			}
-			
+
 			public @Pattern_BenzolRing.Match_BenzolRing @_sub0 { get { return @__sub0; } }
 			public @Pattern_BenzolRing.Match_BenzolRing @__sub0;
 			public enum deleteBenzolRingPattern_SubNums { @_sub0, END_OF_ENUM };
@@ -9315,7 +9315,7 @@ namespace de.unika.ipd.grGen.Action_TNT
 				default: return null;
 				}
 			}
-			
+
 			public enum deleteBenzolRingPattern_AltNums { END_OF_ENUM };
 			public IEnumerable<GRGEN_LIBGR.IMatch> Alternatives { get { return new GRGEN_LGSP.Alternatives_Enumerable(this); } }
 			public IEnumerator<GRGEN_LIBGR.IMatch> AlternativesEnumerator { get { return new GRGEN_LGSP.Alternatives_Enumerator(this); } }
@@ -9326,7 +9326,7 @@ namespace de.unika.ipd.grGen.Action_TNT
 				default: return null;
 				}
 			}
-			
+
 			public enum deleteBenzolRingPattern_IterNums { END_OF_ENUM };
 			public IEnumerable<GRGEN_LIBGR.IMatches> Iterateds { get { return new GRGEN_LGSP.Iterateds_Enumerable(this); } }
 			public IEnumerator<GRGEN_LIBGR.IMatches> IteratedsEnumerator { get { return new GRGEN_LGSP.Iterateds_Enumerator(this); } }
@@ -9337,7 +9337,7 @@ namespace de.unika.ipd.grGen.Action_TNT
 				default: return null;
 				}
 			}
-			
+
 			public enum deleteBenzolRingPattern_IdptNums { END_OF_ENUM };
 			public IEnumerable<GRGEN_LIBGR.IMatch> Independents { get { return new GRGEN_LGSP.Independents_Enumerable(this); } }
 			public IEnumerator<GRGEN_LIBGR.IMatch> IndependentsEnumerator { get { return new GRGEN_LGSP.Independents_Enumerator(this); } }
@@ -9348,7 +9348,7 @@ namespace de.unika.ipd.grGen.Action_TNT
 				default: return null;
 				}
 			}
-			
+
 			public GRGEN_LIBGR.IPatternGraph Pattern { get { return Rule_deleteBenzolRingPattern.instance.pat_deleteBenzolRingPattern; } }
 			public GRGEN_LIBGR.IMatch MatchOfEnclosingPattern { get { return _matchOfEnclosingPattern; } }
 			public GRGEN_LIBGR.IMatch _matchOfEnclosingPattern;
@@ -9391,24 +9391,24 @@ namespace de.unika.ipd.grGen.Action_TNT
 		{
 			bool[,] deleteInModifyBenzolRingPattern_isNodeHomomorphicGlobal = new bool[0, 0] ;
 			bool[,] deleteInModifyBenzolRingPattern_isEdgeHomomorphicGlobal = new bool[0, 0] ;
-			GRGEN_LGSP.PatternGraphEmbedding deleteInModifyBenzolRingPattern_br = new GRGEN_LGSP.PatternGraphEmbedding("br", Pattern_BenzolRing.Instance, 
+			GRGEN_LGSP.PatternGraphEmbedding deleteInModifyBenzolRingPattern_br = new GRGEN_LGSP.PatternGraphEmbedding("br", Pattern_BenzolRing.Instance,
 				new GRGEN_EXPR.Expression[] {
-				}, 
+				},
 				new string[] { }, new string[] {  }, new string[] {  }, new string[] {  }, new GRGEN_LIBGR.VarType[] {  });
 			pat_deleteInModifyBenzolRingPattern = new GRGEN_LGSP.PatternGraph(
 				"deleteInModifyBenzolRingPattern",
 				"",
 				false,
-				new GRGEN_LGSP.PatternNode[] {  }, 
-				new GRGEN_LGSP.PatternEdge[] {  }, 
-				new GRGEN_LGSP.PatternVariable[] {  }, 
-				new GRGEN_LGSP.PatternGraphEmbedding[] { deleteInModifyBenzolRingPattern_br }, 
-				new GRGEN_LGSP.Alternative[] {  }, 
-				new GRGEN_LGSP.Iterated[] {  }, 
-				new GRGEN_LGSP.PatternGraph[] {  }, 
-				new GRGEN_LGSP.PatternGraph[] {  }, 
-				new GRGEN_LGSP.PatternCondition[] {  }, 
-				new GRGEN_LGSP.PatternYielding[] {  }, 
+				new GRGEN_LGSP.PatternNode[] {  },
+				new GRGEN_LGSP.PatternEdge[] {  },
+				new GRGEN_LGSP.PatternVariable[] {  },
+				new GRGEN_LGSP.PatternGraphEmbedding[] { deleteInModifyBenzolRingPattern_br },
+				new GRGEN_LGSP.Alternative[] {  },
+				new GRGEN_LGSP.Iterated[] {  },
+				new GRGEN_LGSP.PatternGraph[] {  },
+				new GRGEN_LGSP.PatternGraph[] {  },
+				new GRGEN_LGSP.PatternCondition[] {  },
+				new GRGEN_LGSP.PatternYielding[] {  },
 				new bool[0, 0] ,
 				new bool[0, 0] ,
 				deleteInModifyBenzolRingPattern_isNodeHomomorphicGlobal,
@@ -9462,7 +9462,7 @@ namespace de.unika.ipd.grGen.Action_TNT
 				default: return null;
 				}
 			}
-			
+
 			public enum deleteInModifyBenzolRingPattern_EdgeNums { END_OF_ENUM };
 			public IEnumerable<GRGEN_LIBGR.IEdge> Edges { get { return new GRGEN_LGSP.Edges_Enumerable(this); } }
 			public IEnumerator<GRGEN_LIBGR.IEdge> EdgesEnumerator { get { return new GRGEN_LGSP.Edges_Enumerator(this); } }
@@ -9473,7 +9473,7 @@ namespace de.unika.ipd.grGen.Action_TNT
 				default: return null;
 				}
 			}
-			
+
 			public enum deleteInModifyBenzolRingPattern_VariableNums { END_OF_ENUM };
 			public IEnumerable<object> Variables { get { return new GRGEN_LGSP.Variables_Enumerable(this); } }
 			public IEnumerator<object> VariablesEnumerator { get { return new GRGEN_LGSP.Variables_Enumerator(this); } }
@@ -9484,7 +9484,7 @@ namespace de.unika.ipd.grGen.Action_TNT
 				default: return null;
 				}
 			}
-			
+
 			public @Pattern_BenzolRing.Match_BenzolRing @br { get { return @_br; } }
 			public @Pattern_BenzolRing.Match_BenzolRing @_br;
 			public enum deleteInModifyBenzolRingPattern_SubNums { @br, END_OF_ENUM };
@@ -9498,7 +9498,7 @@ namespace de.unika.ipd.grGen.Action_TNT
 				default: return null;
 				}
 			}
-			
+
 			public enum deleteInModifyBenzolRingPattern_AltNums { END_OF_ENUM };
 			public IEnumerable<GRGEN_LIBGR.IMatch> Alternatives { get { return new GRGEN_LGSP.Alternatives_Enumerable(this); } }
 			public IEnumerator<GRGEN_LIBGR.IMatch> AlternativesEnumerator { get { return new GRGEN_LGSP.Alternatives_Enumerator(this); } }
@@ -9509,7 +9509,7 @@ namespace de.unika.ipd.grGen.Action_TNT
 				default: return null;
 				}
 			}
-			
+
 			public enum deleteInModifyBenzolRingPattern_IterNums { END_OF_ENUM };
 			public IEnumerable<GRGEN_LIBGR.IMatches> Iterateds { get { return new GRGEN_LGSP.Iterateds_Enumerable(this); } }
 			public IEnumerator<GRGEN_LIBGR.IMatches> IteratedsEnumerator { get { return new GRGEN_LGSP.Iterateds_Enumerator(this); } }
@@ -9520,7 +9520,7 @@ namespace de.unika.ipd.grGen.Action_TNT
 				default: return null;
 				}
 			}
-			
+
 			public enum deleteInModifyBenzolRingPattern_IdptNums { END_OF_ENUM };
 			public IEnumerable<GRGEN_LIBGR.IMatch> Independents { get { return new GRGEN_LGSP.Independents_Enumerable(this); } }
 			public IEnumerator<GRGEN_LIBGR.IMatch> IndependentsEnumerator { get { return new GRGEN_LGSP.Independents_Enumerator(this); } }
@@ -9531,7 +9531,7 @@ namespace de.unika.ipd.grGen.Action_TNT
 				default: return null;
 				}
 			}
-			
+
 			public GRGEN_LIBGR.IPatternGraph Pattern { get { return Rule_deleteInModifyBenzolRingPattern.instance.pat_deleteInModifyBenzolRingPattern; } }
 			public GRGEN_LIBGR.IMatch MatchOfEnclosingPattern { get { return _matchOfEnclosingPattern; } }
 			public GRGEN_LIBGR.IMatch _matchOfEnclosingPattern;
@@ -9657,13 +9657,13 @@ namespace de.unika.ipd.grGen.Action_TNT
 
         private PatternAction_BenzolRing next = null;
 
-        
+
         public override void myMatch(List<Stack<GRGEN_LIBGR.IMatch>> foundPartialMatches, int maxMatches, int negLevel)
         {
             openTasks.Pop();
             List<Stack<GRGEN_LIBGR.IMatch>> matchesList = foundPartialMatches;
             if(matchesList.Count!=0) throw new ApplicationException(); //debug assert
-            // Lookup BenzolRing_edge__edge0 
+            // Lookup BenzolRing_edge__edge0
             int type_id_candidate_BenzolRing_edge__edge0 = 1;
             for(GRGEN_LGSP.LGSPEdge head_candidate_BenzolRing_edge__edge0 = graph.edgesByTypeHeads[type_id_candidate_BenzolRing_edge__edge0], candidate_BenzolRing_edge__edge0 = head_candidate_BenzolRing_edge__edge0.lgspTypeNext; candidate_BenzolRing_edge__edge0 != head_candidate_BenzolRing_edge__edge0; candidate_BenzolRing_edge__edge0 = candidate_BenzolRing_edge__edge0.lgspTypeNext)
             {
@@ -9674,7 +9674,7 @@ namespace de.unika.ipd.grGen.Action_TNT
                 uint prev__candidate_BenzolRing_edge__edge0;
                 prev__candidate_BenzolRing_edge__edge0 = candidate_BenzolRing_edge__edge0.lgspFlags & (uint) GRGEN_LGSP.LGSPElemFlags.IS_MATCHED << negLevel;
                 candidate_BenzolRing_edge__edge0.lgspFlags |= (uint) GRGEN_LGSP.LGSPElemFlags.IS_MATCHED << negLevel;
-                // Implicit Source BenzolRing_node_c1 from BenzolRing_edge__edge0 
+                // Implicit Source BenzolRing_node_c1 from BenzolRing_edge__edge0
                 GRGEN_LGSP.LGSPNode candidate_BenzolRing_node_c1 = candidate_BenzolRing_edge__edge0.lgspSource;
                 if(candidate_BenzolRing_node_c1.lgspType.TypeID!=1) {
                     candidate_BenzolRing_edge__edge0.lgspFlags = candidate_BenzolRing_edge__edge0.lgspFlags & ~((uint) GRGEN_LGSP.LGSPElemFlags.IS_MATCHED << negLevel) | prev__candidate_BenzolRing_edge__edge0;
@@ -9688,7 +9688,7 @@ namespace de.unika.ipd.grGen.Action_TNT
                 uint prev__candidate_BenzolRing_node_c1;
                 prev__candidate_BenzolRing_node_c1 = candidate_BenzolRing_node_c1.lgspFlags & (uint) GRGEN_LGSP.LGSPElemFlags.IS_MATCHED << negLevel;
                 candidate_BenzolRing_node_c1.lgspFlags |= (uint) GRGEN_LGSP.LGSPElemFlags.IS_MATCHED << negLevel;
-                // Implicit Target BenzolRing_node_c2 from BenzolRing_edge__edge0 
+                // Implicit Target BenzolRing_node_c2 from BenzolRing_edge__edge0
                 GRGEN_LGSP.LGSPNode candidate_BenzolRing_node_c2 = candidate_BenzolRing_edge__edge0.lgspTarget;
                 if(candidate_BenzolRing_node_c2.lgspType.TypeID!=1) {
                     candidate_BenzolRing_node_c1.lgspFlags = candidate_BenzolRing_node_c1.lgspFlags & ~((uint) GRGEN_LGSP.LGSPElemFlags.IS_MATCHED << negLevel) | prev__candidate_BenzolRing_node_c1;
@@ -9710,7 +9710,7 @@ namespace de.unika.ipd.grGen.Action_TNT
                 uint prev__candidate_BenzolRing_node_c2;
                 prev__candidate_BenzolRing_node_c2 = candidate_BenzolRing_node_c2.lgspFlags & (uint) GRGEN_LGSP.LGSPElemFlags.IS_MATCHED << negLevel;
                 candidate_BenzolRing_node_c2.lgspFlags |= (uint) GRGEN_LGSP.LGSPElemFlags.IS_MATCHED << negLevel;
-                // Extend Outgoing BenzolRing_edge__edge6 from BenzolRing_node_c1 
+                // Extend Outgoing BenzolRing_edge__edge6 from BenzolRing_node_c1
                 GRGEN_LGSP.LGSPEdge head_candidate_BenzolRing_edge__edge6 = candidate_BenzolRing_node_c1.lgspOuthead;
                 if(head_candidate_BenzolRing_edge__edge6 != null)
                 {
@@ -9734,7 +9734,7 @@ namespace de.unika.ipd.grGen.Action_TNT
                         uint prev__candidate_BenzolRing_edge__edge6;
                         prev__candidate_BenzolRing_edge__edge6 = candidate_BenzolRing_edge__edge6.lgspFlags & (uint) GRGEN_LGSP.LGSPElemFlags.IS_MATCHED << negLevel;
                         candidate_BenzolRing_edge__edge6.lgspFlags |= (uint) GRGEN_LGSP.LGSPElemFlags.IS_MATCHED << negLevel;
-                        // Extend Outgoing BenzolRing_edge__edge1 from BenzolRing_node_c2 
+                        // Extend Outgoing BenzolRing_edge__edge1 from BenzolRing_node_c2
                         GRGEN_LGSP.LGSPEdge head_candidate_BenzolRing_edge__edge1 = candidate_BenzolRing_node_c2.lgspOuthead;
                         if(head_candidate_BenzolRing_edge__edge1 != null)
                         {
@@ -9755,7 +9755,7 @@ namespace de.unika.ipd.grGen.Action_TNT
                                 uint prev__candidate_BenzolRing_edge__edge1;
                                 prev__candidate_BenzolRing_edge__edge1 = candidate_BenzolRing_edge__edge1.lgspFlags & (uint) GRGEN_LGSP.LGSPElemFlags.IS_MATCHED << negLevel;
                                 candidate_BenzolRing_edge__edge1.lgspFlags |= (uint) GRGEN_LGSP.LGSPElemFlags.IS_MATCHED << negLevel;
-                                // Implicit Target BenzolRing_node_c3 from BenzolRing_edge__edge1 
+                                // Implicit Target BenzolRing_node_c3 from BenzolRing_edge__edge1
                                 GRGEN_LGSP.LGSPNode candidate_BenzolRing_node_c3 = candidate_BenzolRing_edge__edge1.lgspTarget;
                                 if(candidate_BenzolRing_node_c3.lgspType.TypeID!=1) {
                                     candidate_BenzolRing_edge__edge1.lgspFlags = candidate_BenzolRing_edge__edge1.lgspFlags & ~((uint) GRGEN_LGSP.LGSPElemFlags.IS_MATCHED << negLevel) | prev__candidate_BenzolRing_edge__edge1;
@@ -9774,7 +9774,7 @@ namespace de.unika.ipd.grGen.Action_TNT
                                 uint prev__candidate_BenzolRing_node_c3;
                                 prev__candidate_BenzolRing_node_c3 = candidate_BenzolRing_node_c3.lgspFlags & (uint) GRGEN_LGSP.LGSPElemFlags.IS_MATCHED << negLevel;
                                 candidate_BenzolRing_node_c3.lgspFlags |= (uint) GRGEN_LGSP.LGSPElemFlags.IS_MATCHED << negLevel;
-                                // Extend Outgoing BenzolRing_edge__edge2 from BenzolRing_node_c3 
+                                // Extend Outgoing BenzolRing_edge__edge2 from BenzolRing_node_c3
                                 GRGEN_LGSP.LGSPEdge head_candidate_BenzolRing_edge__edge2 = candidate_BenzolRing_node_c3.lgspOuthead;
                                 if(head_candidate_BenzolRing_edge__edge2 != null)
                                 {
@@ -9795,7 +9795,7 @@ namespace de.unika.ipd.grGen.Action_TNT
                                         uint prev__candidate_BenzolRing_edge__edge2;
                                         prev__candidate_BenzolRing_edge__edge2 = candidate_BenzolRing_edge__edge2.lgspFlags & (uint) GRGEN_LGSP.LGSPElemFlags.IS_MATCHED << negLevel;
                                         candidate_BenzolRing_edge__edge2.lgspFlags |= (uint) GRGEN_LGSP.LGSPElemFlags.IS_MATCHED << negLevel;
-                                        // Implicit Target BenzolRing_node_c4 from BenzolRing_edge__edge2 
+                                        // Implicit Target BenzolRing_node_c4 from BenzolRing_edge__edge2
                                         GRGEN_LGSP.LGSPNode candidate_BenzolRing_node_c4 = candidate_BenzolRing_edge__edge2.lgspTarget;
                                         if(candidate_BenzolRing_node_c4.lgspType.TypeID!=1) {
                                             candidate_BenzolRing_edge__edge2.lgspFlags = candidate_BenzolRing_edge__edge2.lgspFlags & ~((uint) GRGEN_LGSP.LGSPElemFlags.IS_MATCHED << negLevel) | prev__candidate_BenzolRing_edge__edge2;
@@ -9814,7 +9814,7 @@ namespace de.unika.ipd.grGen.Action_TNT
                                         uint prev__candidate_BenzolRing_node_c4;
                                         prev__candidate_BenzolRing_node_c4 = candidate_BenzolRing_node_c4.lgspFlags & (uint) GRGEN_LGSP.LGSPElemFlags.IS_MATCHED << negLevel;
                                         candidate_BenzolRing_node_c4.lgspFlags |= (uint) GRGEN_LGSP.LGSPElemFlags.IS_MATCHED << negLevel;
-                                        // Extend Outgoing BenzolRing_edge__edge7 from BenzolRing_node_c3 
+                                        // Extend Outgoing BenzolRing_edge__edge7 from BenzolRing_node_c3
                                         GRGEN_LGSP.LGSPEdge head_candidate_BenzolRing_edge__edge7 = candidate_BenzolRing_node_c3.lgspOuthead;
                                         if(head_candidate_BenzolRing_edge__edge7 != null)
                                         {
@@ -9838,7 +9838,7 @@ namespace de.unika.ipd.grGen.Action_TNT
                                                 uint prev__candidate_BenzolRing_edge__edge7;
                                                 prev__candidate_BenzolRing_edge__edge7 = candidate_BenzolRing_edge__edge7.lgspFlags & (uint) GRGEN_LGSP.LGSPElemFlags.IS_MATCHED << negLevel;
                                                 candidate_BenzolRing_edge__edge7.lgspFlags |= (uint) GRGEN_LGSP.LGSPElemFlags.IS_MATCHED << negLevel;
-                                                // Extend Outgoing BenzolRing_edge__edge3 from BenzolRing_node_c4 
+                                                // Extend Outgoing BenzolRing_edge__edge3 from BenzolRing_node_c4
                                                 GRGEN_LGSP.LGSPEdge head_candidate_BenzolRing_edge__edge3 = candidate_BenzolRing_node_c4.lgspOuthead;
                                                 if(head_candidate_BenzolRing_edge__edge3 != null)
                                                 {
@@ -9859,7 +9859,7 @@ namespace de.unika.ipd.grGen.Action_TNT
                                                         uint prev__candidate_BenzolRing_edge__edge3;
                                                         prev__candidate_BenzolRing_edge__edge3 = candidate_BenzolRing_edge__edge3.lgspFlags & (uint) GRGEN_LGSP.LGSPElemFlags.IS_MATCHED << negLevel;
                                                         candidate_BenzolRing_edge__edge3.lgspFlags |= (uint) GRGEN_LGSP.LGSPElemFlags.IS_MATCHED << negLevel;
-                                                        // Implicit Target BenzolRing_node_c5 from BenzolRing_edge__edge3 
+                                                        // Implicit Target BenzolRing_node_c5 from BenzolRing_edge__edge3
                                                         GRGEN_LGSP.LGSPNode candidate_BenzolRing_node_c5 = candidate_BenzolRing_edge__edge3.lgspTarget;
                                                         if(candidate_BenzolRing_node_c5.lgspType.TypeID!=1) {
                                                             candidate_BenzolRing_edge__edge3.lgspFlags = candidate_BenzolRing_edge__edge3.lgspFlags & ~((uint) GRGEN_LGSP.LGSPElemFlags.IS_MATCHED << negLevel) | prev__candidate_BenzolRing_edge__edge3;
@@ -9878,7 +9878,7 @@ namespace de.unika.ipd.grGen.Action_TNT
                                                         uint prev__candidate_BenzolRing_node_c5;
                                                         prev__candidate_BenzolRing_node_c5 = candidate_BenzolRing_node_c5.lgspFlags & (uint) GRGEN_LGSP.LGSPElemFlags.IS_MATCHED << negLevel;
                                                         candidate_BenzolRing_node_c5.lgspFlags |= (uint) GRGEN_LGSP.LGSPElemFlags.IS_MATCHED << negLevel;
-                                                        // Extend Outgoing BenzolRing_edge__edge4 from BenzolRing_node_c5 
+                                                        // Extend Outgoing BenzolRing_edge__edge4 from BenzolRing_node_c5
                                                         GRGEN_LGSP.LGSPEdge head_candidate_BenzolRing_edge__edge4 = candidate_BenzolRing_node_c5.lgspOuthead;
                                                         if(head_candidate_BenzolRing_edge__edge4 != null)
                                                         {
@@ -9899,7 +9899,7 @@ namespace de.unika.ipd.grGen.Action_TNT
                                                                 uint prev__candidate_BenzolRing_edge__edge4;
                                                                 prev__candidate_BenzolRing_edge__edge4 = candidate_BenzolRing_edge__edge4.lgspFlags & (uint) GRGEN_LGSP.LGSPElemFlags.IS_MATCHED << negLevel;
                                                                 candidate_BenzolRing_edge__edge4.lgspFlags |= (uint) GRGEN_LGSP.LGSPElemFlags.IS_MATCHED << negLevel;
-                                                                // Implicit Target BenzolRing_node_c6 from BenzolRing_edge__edge4 
+                                                                // Implicit Target BenzolRing_node_c6 from BenzolRing_edge__edge4
                                                                 GRGEN_LGSP.LGSPNode candidate_BenzolRing_node_c6 = candidate_BenzolRing_edge__edge4.lgspTarget;
                                                                 if(candidate_BenzolRing_node_c6.lgspType.TypeID!=1) {
                                                                     candidate_BenzolRing_edge__edge4.lgspFlags = candidate_BenzolRing_edge__edge4.lgspFlags & ~((uint) GRGEN_LGSP.LGSPElemFlags.IS_MATCHED << negLevel) | prev__candidate_BenzolRing_edge__edge4;
@@ -9915,7 +9915,7 @@ namespace de.unika.ipd.grGen.Action_TNT
                                                                     candidate_BenzolRing_edge__edge4.lgspFlags = candidate_BenzolRing_edge__edge4.lgspFlags & ~((uint) GRGEN_LGSP.LGSPElemFlags.IS_MATCHED << negLevel) | prev__candidate_BenzolRing_edge__edge4;
                                                                     continue;
                                                                 }
-                                                                // Extend Outgoing BenzolRing_edge__edge8 from BenzolRing_node_c5 
+                                                                // Extend Outgoing BenzolRing_edge__edge8 from BenzolRing_node_c5
                                                                 GRGEN_LGSP.LGSPEdge head_candidate_BenzolRing_edge__edge8 = candidate_BenzolRing_node_c5.lgspOuthead;
                                                                 if(head_candidate_BenzolRing_edge__edge8 != null)
                                                                 {
@@ -9939,7 +9939,7 @@ namespace de.unika.ipd.grGen.Action_TNT
                                                                         uint prev__candidate_BenzolRing_edge__edge8;
                                                                         prev__candidate_BenzolRing_edge__edge8 = candidate_BenzolRing_edge__edge8.lgspFlags & (uint) GRGEN_LGSP.LGSPElemFlags.IS_MATCHED << negLevel;
                                                                         candidate_BenzolRing_edge__edge8.lgspFlags |= (uint) GRGEN_LGSP.LGSPElemFlags.IS_MATCHED << negLevel;
-                                                                        // Extend Outgoing BenzolRing_edge__edge5 from BenzolRing_node_c6 
+                                                                        // Extend Outgoing BenzolRing_edge__edge5 from BenzolRing_node_c6
                                                                         GRGEN_LGSP.LGSPEdge head_candidate_BenzolRing_edge__edge5 = candidate_BenzolRing_node_c6.lgspOuthead;
                                                                         if(head_candidate_BenzolRing_edge__edge5 != null)
                                                                         {
@@ -10048,9 +10048,9 @@ namespace de.unika.ipd.grGen.Action_TNT
                                                                                 uint prevGlobal__candidate_BenzolRing_edge__edge8;
                                                                                 prevGlobal__candidate_BenzolRing_edge__edge8 = candidate_BenzolRing_edge__edge8.lgspFlags & (uint) GRGEN_LGSP.LGSPElemFlags.IS_MATCHED_BY_ENCLOSING_PATTERN << negLevel;
                                                                                 candidate_BenzolRing_edge__edge8.lgspFlags |= (uint) GRGEN_LGSP.LGSPElemFlags.IS_MATCHED_BY_ENCLOSING_PATTERN << negLevel;
-                                                                                // Match subpatterns 
+                                                                                // Match subpatterns
                                                                                 openTasks.Peek().myMatch(matchesList, maxMatches - foundPartialMatches.Count, negLevel);
-                                                                                // Check whether subpatterns were found 
+                                                                                // Check whether subpatterns were found
                                                                                 if(matchesList.Count>0) {
                                                                                     // subpatterns/alternatives were found, extend the partial matches by our local match object
                                                                                     foreach(Stack<GRGEN_LIBGR.IMatch> currentFoundPartialMatch in matchesList)
@@ -10232,25 +10232,25 @@ namespace de.unika.ipd.grGen.Action_TNT
         public GRGEN_LGSP.LGSPNode BenzolRingC123456Exposed_node_c4;
         public GRGEN_LGSP.LGSPNode BenzolRingC123456Exposed_node_c5;
         public GRGEN_LGSP.LGSPNode BenzolRingC123456Exposed_node_c6;
-        
+
         public override void myMatch(List<Stack<GRGEN_LIBGR.IMatch>> foundPartialMatches, int maxMatches, int negLevel)
         {
             openTasks.Pop();
             List<Stack<GRGEN_LIBGR.IMatch>> matchesList = foundPartialMatches;
             if(matchesList.Count!=0) throw new ApplicationException(); //debug assert
-            // SubPreset BenzolRingC123456Exposed_node_c1 
+            // SubPreset BenzolRingC123456Exposed_node_c1
             GRGEN_LGSP.LGSPNode candidate_BenzolRingC123456Exposed_node_c1 = BenzolRingC123456Exposed_node_c1;
-            // SubPreset BenzolRingC123456Exposed_node_c2 
+            // SubPreset BenzolRingC123456Exposed_node_c2
             GRGEN_LGSP.LGSPNode candidate_BenzolRingC123456Exposed_node_c2 = BenzolRingC123456Exposed_node_c2;
-            // SubPreset BenzolRingC123456Exposed_node_c3 
+            // SubPreset BenzolRingC123456Exposed_node_c3
             GRGEN_LGSP.LGSPNode candidate_BenzolRingC123456Exposed_node_c3 = BenzolRingC123456Exposed_node_c3;
-            // SubPreset BenzolRingC123456Exposed_node_c4 
+            // SubPreset BenzolRingC123456Exposed_node_c4
             GRGEN_LGSP.LGSPNode candidate_BenzolRingC123456Exposed_node_c4 = BenzolRingC123456Exposed_node_c4;
-            // SubPreset BenzolRingC123456Exposed_node_c5 
+            // SubPreset BenzolRingC123456Exposed_node_c5
             GRGEN_LGSP.LGSPNode candidate_BenzolRingC123456Exposed_node_c5 = BenzolRingC123456Exposed_node_c5;
-            // SubPreset BenzolRingC123456Exposed_node_c6 
+            // SubPreset BenzolRingC123456Exposed_node_c6
             GRGEN_LGSP.LGSPNode candidate_BenzolRingC123456Exposed_node_c6 = BenzolRingC123456Exposed_node_c6;
-            // Extend Outgoing BenzolRingC123456Exposed_edge__edge0 from BenzolRingC123456Exposed_node_c1 
+            // Extend Outgoing BenzolRingC123456Exposed_edge__edge0 from BenzolRingC123456Exposed_node_c1
             GRGEN_LGSP.LGSPEdge head_candidate_BenzolRingC123456Exposed_edge__edge0 = candidate_BenzolRingC123456Exposed_node_c1.lgspOuthead;
             if(head_candidate_BenzolRingC123456Exposed_edge__edge0 != null)
             {
@@ -10270,7 +10270,7 @@ namespace de.unika.ipd.grGen.Action_TNT
                     uint prev__candidate_BenzolRingC123456Exposed_edge__edge0;
                     prev__candidate_BenzolRingC123456Exposed_edge__edge0 = candidate_BenzolRingC123456Exposed_edge__edge0.lgspFlags & (uint) GRGEN_LGSP.LGSPElemFlags.IS_MATCHED << negLevel;
                     candidate_BenzolRingC123456Exposed_edge__edge0.lgspFlags |= (uint) GRGEN_LGSP.LGSPElemFlags.IS_MATCHED << negLevel;
-                    // Extend Outgoing BenzolRingC123456Exposed_edge__edge6 from BenzolRingC123456Exposed_node_c1 
+                    // Extend Outgoing BenzolRingC123456Exposed_edge__edge6 from BenzolRingC123456Exposed_node_c1
                     GRGEN_LGSP.LGSPEdge head_candidate_BenzolRingC123456Exposed_edge__edge6 = candidate_BenzolRingC123456Exposed_node_c1.lgspOuthead;
                     if(head_candidate_BenzolRingC123456Exposed_edge__edge6 != null)
                     {
@@ -10294,7 +10294,7 @@ namespace de.unika.ipd.grGen.Action_TNT
                             uint prev__candidate_BenzolRingC123456Exposed_edge__edge6;
                             prev__candidate_BenzolRingC123456Exposed_edge__edge6 = candidate_BenzolRingC123456Exposed_edge__edge6.lgspFlags & (uint) GRGEN_LGSP.LGSPElemFlags.IS_MATCHED << negLevel;
                             candidate_BenzolRingC123456Exposed_edge__edge6.lgspFlags |= (uint) GRGEN_LGSP.LGSPElemFlags.IS_MATCHED << negLevel;
-                            // Extend Outgoing BenzolRingC123456Exposed_edge__edge1 from BenzolRingC123456Exposed_node_c2 
+                            // Extend Outgoing BenzolRingC123456Exposed_edge__edge1 from BenzolRingC123456Exposed_node_c2
                             GRGEN_LGSP.LGSPEdge head_candidate_BenzolRingC123456Exposed_edge__edge1 = candidate_BenzolRingC123456Exposed_node_c2.lgspOuthead;
                             if(head_candidate_BenzolRingC123456Exposed_edge__edge1 != null)
                             {
@@ -10318,7 +10318,7 @@ namespace de.unika.ipd.grGen.Action_TNT
                                     uint prev__candidate_BenzolRingC123456Exposed_edge__edge1;
                                     prev__candidate_BenzolRingC123456Exposed_edge__edge1 = candidate_BenzolRingC123456Exposed_edge__edge1.lgspFlags & (uint) GRGEN_LGSP.LGSPElemFlags.IS_MATCHED << negLevel;
                                     candidate_BenzolRingC123456Exposed_edge__edge1.lgspFlags |= (uint) GRGEN_LGSP.LGSPElemFlags.IS_MATCHED << negLevel;
-                                    // Extend Outgoing BenzolRingC123456Exposed_edge__edge2 from BenzolRingC123456Exposed_node_c3 
+                                    // Extend Outgoing BenzolRingC123456Exposed_edge__edge2 from BenzolRingC123456Exposed_node_c3
                                     GRGEN_LGSP.LGSPEdge head_candidate_BenzolRingC123456Exposed_edge__edge2 = candidate_BenzolRingC123456Exposed_node_c3.lgspOuthead;
                                     if(head_candidate_BenzolRingC123456Exposed_edge__edge2 != null)
                                     {
@@ -10342,7 +10342,7 @@ namespace de.unika.ipd.grGen.Action_TNT
                                             uint prev__candidate_BenzolRingC123456Exposed_edge__edge2;
                                             prev__candidate_BenzolRingC123456Exposed_edge__edge2 = candidate_BenzolRingC123456Exposed_edge__edge2.lgspFlags & (uint) GRGEN_LGSP.LGSPElemFlags.IS_MATCHED << negLevel;
                                             candidate_BenzolRingC123456Exposed_edge__edge2.lgspFlags |= (uint) GRGEN_LGSP.LGSPElemFlags.IS_MATCHED << negLevel;
-                                            // Extend Outgoing BenzolRingC123456Exposed_edge__edge7 from BenzolRingC123456Exposed_node_c3 
+                                            // Extend Outgoing BenzolRingC123456Exposed_edge__edge7 from BenzolRingC123456Exposed_node_c3
                                             GRGEN_LGSP.LGSPEdge head_candidate_BenzolRingC123456Exposed_edge__edge7 = candidate_BenzolRingC123456Exposed_node_c3.lgspOuthead;
                                             if(head_candidate_BenzolRingC123456Exposed_edge__edge7 != null)
                                             {
@@ -10366,7 +10366,7 @@ namespace de.unika.ipd.grGen.Action_TNT
                                                     uint prev__candidate_BenzolRingC123456Exposed_edge__edge7;
                                                     prev__candidate_BenzolRingC123456Exposed_edge__edge7 = candidate_BenzolRingC123456Exposed_edge__edge7.lgspFlags & (uint) GRGEN_LGSP.LGSPElemFlags.IS_MATCHED << negLevel;
                                                     candidate_BenzolRingC123456Exposed_edge__edge7.lgspFlags |= (uint) GRGEN_LGSP.LGSPElemFlags.IS_MATCHED << negLevel;
-                                                    // Extend Outgoing BenzolRingC123456Exposed_edge__edge3 from BenzolRingC123456Exposed_node_c4 
+                                                    // Extend Outgoing BenzolRingC123456Exposed_edge__edge3 from BenzolRingC123456Exposed_node_c4
                                                     GRGEN_LGSP.LGSPEdge head_candidate_BenzolRingC123456Exposed_edge__edge3 = candidate_BenzolRingC123456Exposed_node_c4.lgspOuthead;
                                                     if(head_candidate_BenzolRingC123456Exposed_edge__edge3 != null)
                                                     {
@@ -10390,7 +10390,7 @@ namespace de.unika.ipd.grGen.Action_TNT
                                                             uint prev__candidate_BenzolRingC123456Exposed_edge__edge3;
                                                             prev__candidate_BenzolRingC123456Exposed_edge__edge3 = candidate_BenzolRingC123456Exposed_edge__edge3.lgspFlags & (uint) GRGEN_LGSP.LGSPElemFlags.IS_MATCHED << negLevel;
                                                             candidate_BenzolRingC123456Exposed_edge__edge3.lgspFlags |= (uint) GRGEN_LGSP.LGSPElemFlags.IS_MATCHED << negLevel;
-                                                            // Extend Outgoing BenzolRingC123456Exposed_edge__edge4 from BenzolRingC123456Exposed_node_c5 
+                                                            // Extend Outgoing BenzolRingC123456Exposed_edge__edge4 from BenzolRingC123456Exposed_node_c5
                                                             GRGEN_LGSP.LGSPEdge head_candidate_BenzolRingC123456Exposed_edge__edge4 = candidate_BenzolRingC123456Exposed_node_c5.lgspOuthead;
                                                             if(head_candidate_BenzolRingC123456Exposed_edge__edge4 != null)
                                                             {
@@ -10414,7 +10414,7 @@ namespace de.unika.ipd.grGen.Action_TNT
                                                                     uint prev__candidate_BenzolRingC123456Exposed_edge__edge4;
                                                                     prev__candidate_BenzolRingC123456Exposed_edge__edge4 = candidate_BenzolRingC123456Exposed_edge__edge4.lgspFlags & (uint) GRGEN_LGSP.LGSPElemFlags.IS_MATCHED << negLevel;
                                                                     candidate_BenzolRingC123456Exposed_edge__edge4.lgspFlags |= (uint) GRGEN_LGSP.LGSPElemFlags.IS_MATCHED << negLevel;
-                                                                    // Extend Outgoing BenzolRingC123456Exposed_edge__edge8 from BenzolRingC123456Exposed_node_c5 
+                                                                    // Extend Outgoing BenzolRingC123456Exposed_edge__edge8 from BenzolRingC123456Exposed_node_c5
                                                                     GRGEN_LGSP.LGSPEdge head_candidate_BenzolRingC123456Exposed_edge__edge8 = candidate_BenzolRingC123456Exposed_node_c5.lgspOuthead;
                                                                     if(head_candidate_BenzolRingC123456Exposed_edge__edge8 != null)
                                                                     {
@@ -10438,7 +10438,7 @@ namespace de.unika.ipd.grGen.Action_TNT
                                                                             uint prev__candidate_BenzolRingC123456Exposed_edge__edge8;
                                                                             prev__candidate_BenzolRingC123456Exposed_edge__edge8 = candidate_BenzolRingC123456Exposed_edge__edge8.lgspFlags & (uint) GRGEN_LGSP.LGSPElemFlags.IS_MATCHED << negLevel;
                                                                             candidate_BenzolRingC123456Exposed_edge__edge8.lgspFlags |= (uint) GRGEN_LGSP.LGSPElemFlags.IS_MATCHED << negLevel;
-                                                                            // Extend Outgoing BenzolRingC123456Exposed_edge__edge5 from BenzolRingC123456Exposed_node_c6 
+                                                                            // Extend Outgoing BenzolRingC123456Exposed_edge__edge5 from BenzolRingC123456Exposed_node_c6
                                                                             GRGEN_LGSP.LGSPEdge head_candidate_BenzolRingC123456Exposed_edge__edge5 = candidate_BenzolRingC123456Exposed_node_c6.lgspOuthead;
                                                                             if(head_candidate_BenzolRingC123456Exposed_edge__edge5 != null)
                                                                             {
@@ -10524,9 +10524,9 @@ namespace de.unika.ipd.grGen.Action_TNT
                                                                                     uint prevGlobal__candidate_BenzolRingC123456Exposed_edge__edge8;
                                                                                     prevGlobal__candidate_BenzolRingC123456Exposed_edge__edge8 = candidate_BenzolRingC123456Exposed_edge__edge8.lgspFlags & (uint) GRGEN_LGSP.LGSPElemFlags.IS_MATCHED_BY_ENCLOSING_PATTERN << negLevel;
                                                                                     candidate_BenzolRingC123456Exposed_edge__edge8.lgspFlags |= (uint) GRGEN_LGSP.LGSPElemFlags.IS_MATCHED_BY_ENCLOSING_PATTERN << negLevel;
-                                                                                    // Match subpatterns 
+                                                                                    // Match subpatterns
                                                                                     openTasks.Peek().myMatch(matchesList, maxMatches - foundPartialMatches.Count, negLevel);
-                                                                                    // Check whether subpatterns were found 
+                                                                                    // Check whether subpatterns were found
                                                                                     if(matchesList.Count>0) {
                                                                                         // subpatterns/alternatives were found, extend the partial matches by our local match object
                                                                                         foreach(Stack<GRGEN_LIBGR.IMatch> currentFoundPartialMatch in matchesList)
@@ -10677,15 +10677,15 @@ namespace de.unika.ipd.grGen.Action_TNT
         private PatternAction_BenzolRingC1Exposed next = null;
 
         public GRGEN_LGSP.LGSPNode BenzolRingC1Exposed_node_c1;
-        
+
         public override void myMatch(List<Stack<GRGEN_LIBGR.IMatch>> foundPartialMatches, int maxMatches, int negLevel)
         {
             openTasks.Pop();
             List<Stack<GRGEN_LIBGR.IMatch>> matchesList = foundPartialMatches;
             if(matchesList.Count!=0) throw new ApplicationException(); //debug assert
-            // SubPreset BenzolRingC1Exposed_node_c1 
+            // SubPreset BenzolRingC1Exposed_node_c1
             GRGEN_LGSP.LGSPNode candidate_BenzolRingC1Exposed_node_c1 = BenzolRingC1Exposed_node_c1;
-            // Extend Outgoing BenzolRingC1Exposed_edge__edge0 from BenzolRingC1Exposed_node_c1 
+            // Extend Outgoing BenzolRingC1Exposed_edge__edge0 from BenzolRingC1Exposed_node_c1
             GRGEN_LGSP.LGSPEdge head_candidate_BenzolRingC1Exposed_edge__edge0 = candidate_BenzolRingC1Exposed_node_c1.lgspOuthead;
             if(head_candidate_BenzolRingC1Exposed_edge__edge0 != null)
             {
@@ -10702,7 +10702,7 @@ namespace de.unika.ipd.grGen.Action_TNT
                     uint prev__candidate_BenzolRingC1Exposed_edge__edge0;
                     prev__candidate_BenzolRingC1Exposed_edge__edge0 = candidate_BenzolRingC1Exposed_edge__edge0.lgspFlags & (uint) GRGEN_LGSP.LGSPElemFlags.IS_MATCHED << negLevel;
                     candidate_BenzolRingC1Exposed_edge__edge0.lgspFlags |= (uint) GRGEN_LGSP.LGSPElemFlags.IS_MATCHED << negLevel;
-                    // Implicit Target BenzolRingC1Exposed_node_c2 from BenzolRingC1Exposed_edge__edge0 
+                    // Implicit Target BenzolRingC1Exposed_node_c2 from BenzolRingC1Exposed_edge__edge0
                     GRGEN_LGSP.LGSPNode candidate_BenzolRingC1Exposed_node_c2 = candidate_BenzolRingC1Exposed_edge__edge0.lgspTarget;
                     if(candidate_BenzolRingC1Exposed_node_c2.lgspType.TypeID!=1) {
                         candidate_BenzolRingC1Exposed_edge__edge0.lgspFlags = candidate_BenzolRingC1Exposed_edge__edge0.lgspFlags & ~((uint) GRGEN_LGSP.LGSPElemFlags.IS_MATCHED << negLevel) | prev__candidate_BenzolRingC1Exposed_edge__edge0;
@@ -10721,7 +10721,7 @@ namespace de.unika.ipd.grGen.Action_TNT
                     uint prev__candidate_BenzolRingC1Exposed_node_c2;
                     prev__candidate_BenzolRingC1Exposed_node_c2 = candidate_BenzolRingC1Exposed_node_c2.lgspFlags & (uint) GRGEN_LGSP.LGSPElemFlags.IS_MATCHED << negLevel;
                     candidate_BenzolRingC1Exposed_node_c2.lgspFlags |= (uint) GRGEN_LGSP.LGSPElemFlags.IS_MATCHED << negLevel;
-                    // Extend Outgoing BenzolRingC1Exposed_edge__edge6 from BenzolRingC1Exposed_node_c1 
+                    // Extend Outgoing BenzolRingC1Exposed_edge__edge6 from BenzolRingC1Exposed_node_c1
                     GRGEN_LGSP.LGSPEdge head_candidate_BenzolRingC1Exposed_edge__edge6 = candidate_BenzolRingC1Exposed_node_c1.lgspOuthead;
                     if(head_candidate_BenzolRingC1Exposed_edge__edge6 != null)
                     {
@@ -10745,7 +10745,7 @@ namespace de.unika.ipd.grGen.Action_TNT
                             uint prev__candidate_BenzolRingC1Exposed_edge__edge6;
                             prev__candidate_BenzolRingC1Exposed_edge__edge6 = candidate_BenzolRingC1Exposed_edge__edge6.lgspFlags & (uint) GRGEN_LGSP.LGSPElemFlags.IS_MATCHED << negLevel;
                             candidate_BenzolRingC1Exposed_edge__edge6.lgspFlags |= (uint) GRGEN_LGSP.LGSPElemFlags.IS_MATCHED << negLevel;
-                            // Extend Outgoing BenzolRingC1Exposed_edge__edge1 from BenzolRingC1Exposed_node_c2 
+                            // Extend Outgoing BenzolRingC1Exposed_edge__edge1 from BenzolRingC1Exposed_node_c2
                             GRGEN_LGSP.LGSPEdge head_candidate_BenzolRingC1Exposed_edge__edge1 = candidate_BenzolRingC1Exposed_node_c2.lgspOuthead;
                             if(head_candidate_BenzolRingC1Exposed_edge__edge1 != null)
                             {
@@ -10766,7 +10766,7 @@ namespace de.unika.ipd.grGen.Action_TNT
                                     uint prev__candidate_BenzolRingC1Exposed_edge__edge1;
                                     prev__candidate_BenzolRingC1Exposed_edge__edge1 = candidate_BenzolRingC1Exposed_edge__edge1.lgspFlags & (uint) GRGEN_LGSP.LGSPElemFlags.IS_MATCHED << negLevel;
                                     candidate_BenzolRingC1Exposed_edge__edge1.lgspFlags |= (uint) GRGEN_LGSP.LGSPElemFlags.IS_MATCHED << negLevel;
-                                    // Implicit Target BenzolRingC1Exposed_node_c3 from BenzolRingC1Exposed_edge__edge1 
+                                    // Implicit Target BenzolRingC1Exposed_node_c3 from BenzolRingC1Exposed_edge__edge1
                                     GRGEN_LGSP.LGSPNode candidate_BenzolRingC1Exposed_node_c3 = candidate_BenzolRingC1Exposed_edge__edge1.lgspTarget;
                                     if(candidate_BenzolRingC1Exposed_node_c3.lgspType.TypeID!=1) {
                                         candidate_BenzolRingC1Exposed_edge__edge1.lgspFlags = candidate_BenzolRingC1Exposed_edge__edge1.lgspFlags & ~((uint) GRGEN_LGSP.LGSPElemFlags.IS_MATCHED << negLevel) | prev__candidate_BenzolRingC1Exposed_edge__edge1;
@@ -10785,7 +10785,7 @@ namespace de.unika.ipd.grGen.Action_TNT
                                     uint prev__candidate_BenzolRingC1Exposed_node_c3;
                                     prev__candidate_BenzolRingC1Exposed_node_c3 = candidate_BenzolRingC1Exposed_node_c3.lgspFlags & (uint) GRGEN_LGSP.LGSPElemFlags.IS_MATCHED << negLevel;
                                     candidate_BenzolRingC1Exposed_node_c3.lgspFlags |= (uint) GRGEN_LGSP.LGSPElemFlags.IS_MATCHED << negLevel;
-                                    // Extend Outgoing BenzolRingC1Exposed_edge__edge2 from BenzolRingC1Exposed_node_c3 
+                                    // Extend Outgoing BenzolRingC1Exposed_edge__edge2 from BenzolRingC1Exposed_node_c3
                                     GRGEN_LGSP.LGSPEdge head_candidate_BenzolRingC1Exposed_edge__edge2 = candidate_BenzolRingC1Exposed_node_c3.lgspOuthead;
                                     if(head_candidate_BenzolRingC1Exposed_edge__edge2 != null)
                                     {
@@ -10806,7 +10806,7 @@ namespace de.unika.ipd.grGen.Action_TNT
                                             uint prev__candidate_BenzolRingC1Exposed_edge__edge2;
                                             prev__candidate_BenzolRingC1Exposed_edge__edge2 = candidate_BenzolRingC1Exposed_edge__edge2.lgspFlags & (uint) GRGEN_LGSP.LGSPElemFlags.IS_MATCHED << negLevel;
                                             candidate_BenzolRingC1Exposed_edge__edge2.lgspFlags |= (uint) GRGEN_LGSP.LGSPElemFlags.IS_MATCHED << negLevel;
-                                            // Implicit Target BenzolRingC1Exposed_node_c4 from BenzolRingC1Exposed_edge__edge2 
+                                            // Implicit Target BenzolRingC1Exposed_node_c4 from BenzolRingC1Exposed_edge__edge2
                                             GRGEN_LGSP.LGSPNode candidate_BenzolRingC1Exposed_node_c4 = candidate_BenzolRingC1Exposed_edge__edge2.lgspTarget;
                                             if(candidate_BenzolRingC1Exposed_node_c4.lgspType.TypeID!=1) {
                                                 candidate_BenzolRingC1Exposed_edge__edge2.lgspFlags = candidate_BenzolRingC1Exposed_edge__edge2.lgspFlags & ~((uint) GRGEN_LGSP.LGSPElemFlags.IS_MATCHED << negLevel) | prev__candidate_BenzolRingC1Exposed_edge__edge2;
@@ -10825,7 +10825,7 @@ namespace de.unika.ipd.grGen.Action_TNT
                                             uint prev__candidate_BenzolRingC1Exposed_node_c4;
                                             prev__candidate_BenzolRingC1Exposed_node_c4 = candidate_BenzolRingC1Exposed_node_c4.lgspFlags & (uint) GRGEN_LGSP.LGSPElemFlags.IS_MATCHED << negLevel;
                                             candidate_BenzolRingC1Exposed_node_c4.lgspFlags |= (uint) GRGEN_LGSP.LGSPElemFlags.IS_MATCHED << negLevel;
-                                            // Extend Outgoing BenzolRingC1Exposed_edge__edge7 from BenzolRingC1Exposed_node_c3 
+                                            // Extend Outgoing BenzolRingC1Exposed_edge__edge7 from BenzolRingC1Exposed_node_c3
                                             GRGEN_LGSP.LGSPEdge head_candidate_BenzolRingC1Exposed_edge__edge7 = candidate_BenzolRingC1Exposed_node_c3.lgspOuthead;
                                             if(head_candidate_BenzolRingC1Exposed_edge__edge7 != null)
                                             {
@@ -10849,7 +10849,7 @@ namespace de.unika.ipd.grGen.Action_TNT
                                                     uint prev__candidate_BenzolRingC1Exposed_edge__edge7;
                                                     prev__candidate_BenzolRingC1Exposed_edge__edge7 = candidate_BenzolRingC1Exposed_edge__edge7.lgspFlags & (uint) GRGEN_LGSP.LGSPElemFlags.IS_MATCHED << negLevel;
                                                     candidate_BenzolRingC1Exposed_edge__edge7.lgspFlags |= (uint) GRGEN_LGSP.LGSPElemFlags.IS_MATCHED << negLevel;
-                                                    // Extend Outgoing BenzolRingC1Exposed_edge__edge3 from BenzolRingC1Exposed_node_c4 
+                                                    // Extend Outgoing BenzolRingC1Exposed_edge__edge3 from BenzolRingC1Exposed_node_c4
                                                     GRGEN_LGSP.LGSPEdge head_candidate_BenzolRingC1Exposed_edge__edge3 = candidate_BenzolRingC1Exposed_node_c4.lgspOuthead;
                                                     if(head_candidate_BenzolRingC1Exposed_edge__edge3 != null)
                                                     {
@@ -10870,7 +10870,7 @@ namespace de.unika.ipd.grGen.Action_TNT
                                                             uint prev__candidate_BenzolRingC1Exposed_edge__edge3;
                                                             prev__candidate_BenzolRingC1Exposed_edge__edge3 = candidate_BenzolRingC1Exposed_edge__edge3.lgspFlags & (uint) GRGEN_LGSP.LGSPElemFlags.IS_MATCHED << negLevel;
                                                             candidate_BenzolRingC1Exposed_edge__edge3.lgspFlags |= (uint) GRGEN_LGSP.LGSPElemFlags.IS_MATCHED << negLevel;
-                                                            // Implicit Target BenzolRingC1Exposed_node_c5 from BenzolRingC1Exposed_edge__edge3 
+                                                            // Implicit Target BenzolRingC1Exposed_node_c5 from BenzolRingC1Exposed_edge__edge3
                                                             GRGEN_LGSP.LGSPNode candidate_BenzolRingC1Exposed_node_c5 = candidate_BenzolRingC1Exposed_edge__edge3.lgspTarget;
                                                             if(candidate_BenzolRingC1Exposed_node_c5.lgspType.TypeID!=1) {
                                                                 candidate_BenzolRingC1Exposed_edge__edge3.lgspFlags = candidate_BenzolRingC1Exposed_edge__edge3.lgspFlags & ~((uint) GRGEN_LGSP.LGSPElemFlags.IS_MATCHED << negLevel) | prev__candidate_BenzolRingC1Exposed_edge__edge3;
@@ -10889,7 +10889,7 @@ namespace de.unika.ipd.grGen.Action_TNT
                                                             uint prev__candidate_BenzolRingC1Exposed_node_c5;
                                                             prev__candidate_BenzolRingC1Exposed_node_c5 = candidate_BenzolRingC1Exposed_node_c5.lgspFlags & (uint) GRGEN_LGSP.LGSPElemFlags.IS_MATCHED << negLevel;
                                                             candidate_BenzolRingC1Exposed_node_c5.lgspFlags |= (uint) GRGEN_LGSP.LGSPElemFlags.IS_MATCHED << negLevel;
-                                                            // Extend Outgoing BenzolRingC1Exposed_edge__edge4 from BenzolRingC1Exposed_node_c5 
+                                                            // Extend Outgoing BenzolRingC1Exposed_edge__edge4 from BenzolRingC1Exposed_node_c5
                                                             GRGEN_LGSP.LGSPEdge head_candidate_BenzolRingC1Exposed_edge__edge4 = candidate_BenzolRingC1Exposed_node_c5.lgspOuthead;
                                                             if(head_candidate_BenzolRingC1Exposed_edge__edge4 != null)
                                                             {
@@ -10910,7 +10910,7 @@ namespace de.unika.ipd.grGen.Action_TNT
                                                                     uint prev__candidate_BenzolRingC1Exposed_edge__edge4;
                                                                     prev__candidate_BenzolRingC1Exposed_edge__edge4 = candidate_BenzolRingC1Exposed_edge__edge4.lgspFlags & (uint) GRGEN_LGSP.LGSPElemFlags.IS_MATCHED << negLevel;
                                                                     candidate_BenzolRingC1Exposed_edge__edge4.lgspFlags |= (uint) GRGEN_LGSP.LGSPElemFlags.IS_MATCHED << negLevel;
-                                                                    // Implicit Target BenzolRingC1Exposed_node_c6 from BenzolRingC1Exposed_edge__edge4 
+                                                                    // Implicit Target BenzolRingC1Exposed_node_c6 from BenzolRingC1Exposed_edge__edge4
                                                                     GRGEN_LGSP.LGSPNode candidate_BenzolRingC1Exposed_node_c6 = candidate_BenzolRingC1Exposed_edge__edge4.lgspTarget;
                                                                     if(candidate_BenzolRingC1Exposed_node_c6.lgspType.TypeID!=1) {
                                                                         candidate_BenzolRingC1Exposed_edge__edge4.lgspFlags = candidate_BenzolRingC1Exposed_edge__edge4.lgspFlags & ~((uint) GRGEN_LGSP.LGSPElemFlags.IS_MATCHED << negLevel) | prev__candidate_BenzolRingC1Exposed_edge__edge4;
@@ -10926,7 +10926,7 @@ namespace de.unika.ipd.grGen.Action_TNT
                                                                         candidate_BenzolRingC1Exposed_edge__edge4.lgspFlags = candidate_BenzolRingC1Exposed_edge__edge4.lgspFlags & ~((uint) GRGEN_LGSP.LGSPElemFlags.IS_MATCHED << negLevel) | prev__candidate_BenzolRingC1Exposed_edge__edge4;
                                                                         continue;
                                                                     }
-                                                                    // Extend Outgoing BenzolRingC1Exposed_edge__edge8 from BenzolRingC1Exposed_node_c5 
+                                                                    // Extend Outgoing BenzolRingC1Exposed_edge__edge8 from BenzolRingC1Exposed_node_c5
                                                                     GRGEN_LGSP.LGSPEdge head_candidate_BenzolRingC1Exposed_edge__edge8 = candidate_BenzolRingC1Exposed_node_c5.lgspOuthead;
                                                                     if(head_candidate_BenzolRingC1Exposed_edge__edge8 != null)
                                                                     {
@@ -10950,7 +10950,7 @@ namespace de.unika.ipd.grGen.Action_TNT
                                                                             uint prev__candidate_BenzolRingC1Exposed_edge__edge8;
                                                                             prev__candidate_BenzolRingC1Exposed_edge__edge8 = candidate_BenzolRingC1Exposed_edge__edge8.lgspFlags & (uint) GRGEN_LGSP.LGSPElemFlags.IS_MATCHED << negLevel;
                                                                             candidate_BenzolRingC1Exposed_edge__edge8.lgspFlags |= (uint) GRGEN_LGSP.LGSPElemFlags.IS_MATCHED << negLevel;
-                                                                            // Extend Outgoing BenzolRingC1Exposed_edge__edge5 from BenzolRingC1Exposed_node_c6 
+                                                                            // Extend Outgoing BenzolRingC1Exposed_edge__edge5 from BenzolRingC1Exposed_node_c6
                                                                             GRGEN_LGSP.LGSPEdge head_candidate_BenzolRingC1Exposed_edge__edge5 = candidate_BenzolRingC1Exposed_node_c6.lgspOuthead;
                                                                             if(head_candidate_BenzolRingC1Exposed_edge__edge5 != null)
                                                                             {
@@ -11055,9 +11055,9 @@ namespace de.unika.ipd.grGen.Action_TNT
                                                                                     uint prevGlobal__candidate_BenzolRingC1Exposed_edge__edge8;
                                                                                     prevGlobal__candidate_BenzolRingC1Exposed_edge__edge8 = candidate_BenzolRingC1Exposed_edge__edge8.lgspFlags & (uint) GRGEN_LGSP.LGSPElemFlags.IS_MATCHED_BY_ENCLOSING_PATTERN << negLevel;
                                                                                     candidate_BenzolRingC1Exposed_edge__edge8.lgspFlags |= (uint) GRGEN_LGSP.LGSPElemFlags.IS_MATCHED_BY_ENCLOSING_PATTERN << negLevel;
-                                                                                    // Match subpatterns 
+                                                                                    // Match subpatterns
                                                                                     openTasks.Peek().myMatch(matchesList, maxMatches - foundPartialMatches.Count, negLevel);
-                                                                                    // Check whether subpatterns were found 
+                                                                                    // Check whether subpatterns were found
                                                                                     if(matchesList.Count>0) {
                                                                                         // subpatterns/alternatives were found, extend the partial matches by our local match object
                                                                                         foreach(Stack<GRGEN_LIBGR.IMatch> currentFoundPartialMatch in matchesList)
@@ -11231,15 +11231,15 @@ namespace de.unika.ipd.grGen.Action_TNT
         private PatternAction_BenzolRingC1ExposedNotC6Nitro next = null;
 
         public GRGEN_LGSP.LGSPNode BenzolRingC1ExposedNotC6Nitro_node_c1;
-        
+
         public override void myMatch(List<Stack<GRGEN_LIBGR.IMatch>> foundPartialMatches, int maxMatches, int negLevel)
         {
             openTasks.Pop();
             List<Stack<GRGEN_LIBGR.IMatch>> matchesList = foundPartialMatches;
             if(matchesList.Count!=0) throw new ApplicationException(); //debug assert
-            // SubPreset BenzolRingC1ExposedNotC6Nitro_node_c1 
+            // SubPreset BenzolRingC1ExposedNotC6Nitro_node_c1
             GRGEN_LGSP.LGSPNode candidate_BenzolRingC1ExposedNotC6Nitro_node_c1 = BenzolRingC1ExposedNotC6Nitro_node_c1;
-            // Extend Outgoing BenzolRingC1ExposedNotC6Nitro_edge__edge0 from BenzolRingC1ExposedNotC6Nitro_node_c1 
+            // Extend Outgoing BenzolRingC1ExposedNotC6Nitro_edge__edge0 from BenzolRingC1ExposedNotC6Nitro_node_c1
             GRGEN_LGSP.LGSPEdge head_candidate_BenzolRingC1ExposedNotC6Nitro_edge__edge0 = candidate_BenzolRingC1ExposedNotC6Nitro_node_c1.lgspOuthead;
             if(head_candidate_BenzolRingC1ExposedNotC6Nitro_edge__edge0 != null)
             {
@@ -11256,7 +11256,7 @@ namespace de.unika.ipd.grGen.Action_TNT
                     uint prev__candidate_BenzolRingC1ExposedNotC6Nitro_edge__edge0;
                     prev__candidate_BenzolRingC1ExposedNotC6Nitro_edge__edge0 = candidate_BenzolRingC1ExposedNotC6Nitro_edge__edge0.lgspFlags & (uint) GRGEN_LGSP.LGSPElemFlags.IS_MATCHED << negLevel;
                     candidate_BenzolRingC1ExposedNotC6Nitro_edge__edge0.lgspFlags |= (uint) GRGEN_LGSP.LGSPElemFlags.IS_MATCHED << negLevel;
-                    // Implicit Target BenzolRingC1ExposedNotC6Nitro_node_c2 from BenzolRingC1ExposedNotC6Nitro_edge__edge0 
+                    // Implicit Target BenzolRingC1ExposedNotC6Nitro_node_c2 from BenzolRingC1ExposedNotC6Nitro_edge__edge0
                     GRGEN_LGSP.LGSPNode candidate_BenzolRingC1ExposedNotC6Nitro_node_c2 = candidate_BenzolRingC1ExposedNotC6Nitro_edge__edge0.lgspTarget;
                     if(candidate_BenzolRingC1ExposedNotC6Nitro_node_c2.lgspType.TypeID!=1) {
                         candidate_BenzolRingC1ExposedNotC6Nitro_edge__edge0.lgspFlags = candidate_BenzolRingC1ExposedNotC6Nitro_edge__edge0.lgspFlags & ~((uint) GRGEN_LGSP.LGSPElemFlags.IS_MATCHED << negLevel) | prev__candidate_BenzolRingC1ExposedNotC6Nitro_edge__edge0;
@@ -11275,7 +11275,7 @@ namespace de.unika.ipd.grGen.Action_TNT
                     uint prev__candidate_BenzolRingC1ExposedNotC6Nitro_node_c2;
                     prev__candidate_BenzolRingC1ExposedNotC6Nitro_node_c2 = candidate_BenzolRingC1ExposedNotC6Nitro_node_c2.lgspFlags & (uint) GRGEN_LGSP.LGSPElemFlags.IS_MATCHED << negLevel;
                     candidate_BenzolRingC1ExposedNotC6Nitro_node_c2.lgspFlags |= (uint) GRGEN_LGSP.LGSPElemFlags.IS_MATCHED << negLevel;
-                    // Extend Outgoing BenzolRingC1ExposedNotC6Nitro_edge__edge6 from BenzolRingC1ExposedNotC6Nitro_node_c1 
+                    // Extend Outgoing BenzolRingC1ExposedNotC6Nitro_edge__edge6 from BenzolRingC1ExposedNotC6Nitro_node_c1
                     GRGEN_LGSP.LGSPEdge head_candidate_BenzolRingC1ExposedNotC6Nitro_edge__edge6 = candidate_BenzolRingC1ExposedNotC6Nitro_node_c1.lgspOuthead;
                     if(head_candidate_BenzolRingC1ExposedNotC6Nitro_edge__edge6 != null)
                     {
@@ -11299,7 +11299,7 @@ namespace de.unika.ipd.grGen.Action_TNT
                             uint prev__candidate_BenzolRingC1ExposedNotC6Nitro_edge__edge6;
                             prev__candidate_BenzolRingC1ExposedNotC6Nitro_edge__edge6 = candidate_BenzolRingC1ExposedNotC6Nitro_edge__edge6.lgspFlags & (uint) GRGEN_LGSP.LGSPElemFlags.IS_MATCHED << negLevel;
                             candidate_BenzolRingC1ExposedNotC6Nitro_edge__edge6.lgspFlags |= (uint) GRGEN_LGSP.LGSPElemFlags.IS_MATCHED << negLevel;
-                            // Extend Outgoing BenzolRingC1ExposedNotC6Nitro_edge__edge1 from BenzolRingC1ExposedNotC6Nitro_node_c2 
+                            // Extend Outgoing BenzolRingC1ExposedNotC6Nitro_edge__edge1 from BenzolRingC1ExposedNotC6Nitro_node_c2
                             GRGEN_LGSP.LGSPEdge head_candidate_BenzolRingC1ExposedNotC6Nitro_edge__edge1 = candidate_BenzolRingC1ExposedNotC6Nitro_node_c2.lgspOuthead;
                             if(head_candidate_BenzolRingC1ExposedNotC6Nitro_edge__edge1 != null)
                             {
@@ -11320,7 +11320,7 @@ namespace de.unika.ipd.grGen.Action_TNT
                                     uint prev__candidate_BenzolRingC1ExposedNotC6Nitro_edge__edge1;
                                     prev__candidate_BenzolRingC1ExposedNotC6Nitro_edge__edge1 = candidate_BenzolRingC1ExposedNotC6Nitro_edge__edge1.lgspFlags & (uint) GRGEN_LGSP.LGSPElemFlags.IS_MATCHED << negLevel;
                                     candidate_BenzolRingC1ExposedNotC6Nitro_edge__edge1.lgspFlags |= (uint) GRGEN_LGSP.LGSPElemFlags.IS_MATCHED << negLevel;
-                                    // Implicit Target BenzolRingC1ExposedNotC6Nitro_node_c3 from BenzolRingC1ExposedNotC6Nitro_edge__edge1 
+                                    // Implicit Target BenzolRingC1ExposedNotC6Nitro_node_c3 from BenzolRingC1ExposedNotC6Nitro_edge__edge1
                                     GRGEN_LGSP.LGSPNode candidate_BenzolRingC1ExposedNotC6Nitro_node_c3 = candidate_BenzolRingC1ExposedNotC6Nitro_edge__edge1.lgspTarget;
                                     if(candidate_BenzolRingC1ExposedNotC6Nitro_node_c3.lgspType.TypeID!=1) {
                                         candidate_BenzolRingC1ExposedNotC6Nitro_edge__edge1.lgspFlags = candidate_BenzolRingC1ExposedNotC6Nitro_edge__edge1.lgspFlags & ~((uint) GRGEN_LGSP.LGSPElemFlags.IS_MATCHED << negLevel) | prev__candidate_BenzolRingC1ExposedNotC6Nitro_edge__edge1;
@@ -11339,7 +11339,7 @@ namespace de.unika.ipd.grGen.Action_TNT
                                     uint prev__candidate_BenzolRingC1ExposedNotC6Nitro_node_c3;
                                     prev__candidate_BenzolRingC1ExposedNotC6Nitro_node_c3 = candidate_BenzolRingC1ExposedNotC6Nitro_node_c3.lgspFlags & (uint) GRGEN_LGSP.LGSPElemFlags.IS_MATCHED << negLevel;
                                     candidate_BenzolRingC1ExposedNotC6Nitro_node_c3.lgspFlags |= (uint) GRGEN_LGSP.LGSPElemFlags.IS_MATCHED << negLevel;
-                                    // Extend Outgoing BenzolRingC1ExposedNotC6Nitro_edge__edge2 from BenzolRingC1ExposedNotC6Nitro_node_c3 
+                                    // Extend Outgoing BenzolRingC1ExposedNotC6Nitro_edge__edge2 from BenzolRingC1ExposedNotC6Nitro_node_c3
                                     GRGEN_LGSP.LGSPEdge head_candidate_BenzolRingC1ExposedNotC6Nitro_edge__edge2 = candidate_BenzolRingC1ExposedNotC6Nitro_node_c3.lgspOuthead;
                                     if(head_candidate_BenzolRingC1ExposedNotC6Nitro_edge__edge2 != null)
                                     {
@@ -11360,7 +11360,7 @@ namespace de.unika.ipd.grGen.Action_TNT
                                             uint prev__candidate_BenzolRingC1ExposedNotC6Nitro_edge__edge2;
                                             prev__candidate_BenzolRingC1ExposedNotC6Nitro_edge__edge2 = candidate_BenzolRingC1ExposedNotC6Nitro_edge__edge2.lgspFlags & (uint) GRGEN_LGSP.LGSPElemFlags.IS_MATCHED << negLevel;
                                             candidate_BenzolRingC1ExposedNotC6Nitro_edge__edge2.lgspFlags |= (uint) GRGEN_LGSP.LGSPElemFlags.IS_MATCHED << negLevel;
-                                            // Implicit Target BenzolRingC1ExposedNotC6Nitro_node_c4 from BenzolRingC1ExposedNotC6Nitro_edge__edge2 
+                                            // Implicit Target BenzolRingC1ExposedNotC6Nitro_node_c4 from BenzolRingC1ExposedNotC6Nitro_edge__edge2
                                             GRGEN_LGSP.LGSPNode candidate_BenzolRingC1ExposedNotC6Nitro_node_c4 = candidate_BenzolRingC1ExposedNotC6Nitro_edge__edge2.lgspTarget;
                                             if(candidate_BenzolRingC1ExposedNotC6Nitro_node_c4.lgspType.TypeID!=1) {
                                                 candidate_BenzolRingC1ExposedNotC6Nitro_edge__edge2.lgspFlags = candidate_BenzolRingC1ExposedNotC6Nitro_edge__edge2.lgspFlags & ~((uint) GRGEN_LGSP.LGSPElemFlags.IS_MATCHED << negLevel) | prev__candidate_BenzolRingC1ExposedNotC6Nitro_edge__edge2;
@@ -11379,7 +11379,7 @@ namespace de.unika.ipd.grGen.Action_TNT
                                             uint prev__candidate_BenzolRingC1ExposedNotC6Nitro_node_c4;
                                             prev__candidate_BenzolRingC1ExposedNotC6Nitro_node_c4 = candidate_BenzolRingC1ExposedNotC6Nitro_node_c4.lgspFlags & (uint) GRGEN_LGSP.LGSPElemFlags.IS_MATCHED << negLevel;
                                             candidate_BenzolRingC1ExposedNotC6Nitro_node_c4.lgspFlags |= (uint) GRGEN_LGSP.LGSPElemFlags.IS_MATCHED << negLevel;
-                                            // Extend Outgoing BenzolRingC1ExposedNotC6Nitro_edge__edge7 from BenzolRingC1ExposedNotC6Nitro_node_c3 
+                                            // Extend Outgoing BenzolRingC1ExposedNotC6Nitro_edge__edge7 from BenzolRingC1ExposedNotC6Nitro_node_c3
                                             GRGEN_LGSP.LGSPEdge head_candidate_BenzolRingC1ExposedNotC6Nitro_edge__edge7 = candidate_BenzolRingC1ExposedNotC6Nitro_node_c3.lgspOuthead;
                                             if(head_candidate_BenzolRingC1ExposedNotC6Nitro_edge__edge7 != null)
                                             {
@@ -11403,7 +11403,7 @@ namespace de.unika.ipd.grGen.Action_TNT
                                                     uint prev__candidate_BenzolRingC1ExposedNotC6Nitro_edge__edge7;
                                                     prev__candidate_BenzolRingC1ExposedNotC6Nitro_edge__edge7 = candidate_BenzolRingC1ExposedNotC6Nitro_edge__edge7.lgspFlags & (uint) GRGEN_LGSP.LGSPElemFlags.IS_MATCHED << negLevel;
                                                     candidate_BenzolRingC1ExposedNotC6Nitro_edge__edge7.lgspFlags |= (uint) GRGEN_LGSP.LGSPElemFlags.IS_MATCHED << negLevel;
-                                                    // Extend Outgoing BenzolRingC1ExposedNotC6Nitro_edge__edge3 from BenzolRingC1ExposedNotC6Nitro_node_c4 
+                                                    // Extend Outgoing BenzolRingC1ExposedNotC6Nitro_edge__edge3 from BenzolRingC1ExposedNotC6Nitro_node_c4
                                                     GRGEN_LGSP.LGSPEdge head_candidate_BenzolRingC1ExposedNotC6Nitro_edge__edge3 = candidate_BenzolRingC1ExposedNotC6Nitro_node_c4.lgspOuthead;
                                                     if(head_candidate_BenzolRingC1ExposedNotC6Nitro_edge__edge3 != null)
                                                     {
@@ -11424,7 +11424,7 @@ namespace de.unika.ipd.grGen.Action_TNT
                                                             uint prev__candidate_BenzolRingC1ExposedNotC6Nitro_edge__edge3;
                                                             prev__candidate_BenzolRingC1ExposedNotC6Nitro_edge__edge3 = candidate_BenzolRingC1ExposedNotC6Nitro_edge__edge3.lgspFlags & (uint) GRGEN_LGSP.LGSPElemFlags.IS_MATCHED << negLevel;
                                                             candidate_BenzolRingC1ExposedNotC6Nitro_edge__edge3.lgspFlags |= (uint) GRGEN_LGSP.LGSPElemFlags.IS_MATCHED << negLevel;
-                                                            // Implicit Target BenzolRingC1ExposedNotC6Nitro_node_c5 from BenzolRingC1ExposedNotC6Nitro_edge__edge3 
+                                                            // Implicit Target BenzolRingC1ExposedNotC6Nitro_node_c5 from BenzolRingC1ExposedNotC6Nitro_edge__edge3
                                                             GRGEN_LGSP.LGSPNode candidate_BenzolRingC1ExposedNotC6Nitro_node_c5 = candidate_BenzolRingC1ExposedNotC6Nitro_edge__edge3.lgspTarget;
                                                             if(candidate_BenzolRingC1ExposedNotC6Nitro_node_c5.lgspType.TypeID!=1) {
                                                                 candidate_BenzolRingC1ExposedNotC6Nitro_edge__edge3.lgspFlags = candidate_BenzolRingC1ExposedNotC6Nitro_edge__edge3.lgspFlags & ~((uint) GRGEN_LGSP.LGSPElemFlags.IS_MATCHED << negLevel) | prev__candidate_BenzolRingC1ExposedNotC6Nitro_edge__edge3;
@@ -11443,7 +11443,7 @@ namespace de.unika.ipd.grGen.Action_TNT
                                                             uint prev__candidate_BenzolRingC1ExposedNotC6Nitro_node_c5;
                                                             prev__candidate_BenzolRingC1ExposedNotC6Nitro_node_c5 = candidate_BenzolRingC1ExposedNotC6Nitro_node_c5.lgspFlags & (uint) GRGEN_LGSP.LGSPElemFlags.IS_MATCHED << negLevel;
                                                             candidate_BenzolRingC1ExposedNotC6Nitro_node_c5.lgspFlags |= (uint) GRGEN_LGSP.LGSPElemFlags.IS_MATCHED << negLevel;
-                                                            // Extend Outgoing BenzolRingC1ExposedNotC6Nitro_edge__edge4 from BenzolRingC1ExposedNotC6Nitro_node_c5 
+                                                            // Extend Outgoing BenzolRingC1ExposedNotC6Nitro_edge__edge4 from BenzolRingC1ExposedNotC6Nitro_node_c5
                                                             GRGEN_LGSP.LGSPEdge head_candidate_BenzolRingC1ExposedNotC6Nitro_edge__edge4 = candidate_BenzolRingC1ExposedNotC6Nitro_node_c5.lgspOuthead;
                                                             if(head_candidate_BenzolRingC1ExposedNotC6Nitro_edge__edge4 != null)
                                                             {
@@ -11464,7 +11464,7 @@ namespace de.unika.ipd.grGen.Action_TNT
                                                                     uint prev__candidate_BenzolRingC1ExposedNotC6Nitro_edge__edge4;
                                                                     prev__candidate_BenzolRingC1ExposedNotC6Nitro_edge__edge4 = candidate_BenzolRingC1ExposedNotC6Nitro_edge__edge4.lgspFlags & (uint) GRGEN_LGSP.LGSPElemFlags.IS_MATCHED << negLevel;
                                                                     candidate_BenzolRingC1ExposedNotC6Nitro_edge__edge4.lgspFlags |= (uint) GRGEN_LGSP.LGSPElemFlags.IS_MATCHED << negLevel;
-                                                                    // Implicit Target BenzolRingC1ExposedNotC6Nitro_node_c6 from BenzolRingC1ExposedNotC6Nitro_edge__edge4 
+                                                                    // Implicit Target BenzolRingC1ExposedNotC6Nitro_node_c6 from BenzolRingC1ExposedNotC6Nitro_edge__edge4
                                                                     GRGEN_LGSP.LGSPNode candidate_BenzolRingC1ExposedNotC6Nitro_node_c6 = candidate_BenzolRingC1ExposedNotC6Nitro_edge__edge4.lgspTarget;
                                                                     if(candidate_BenzolRingC1ExposedNotC6Nitro_node_c6.lgspType.TypeID!=1) {
                                                                         candidate_BenzolRingC1ExposedNotC6Nitro_edge__edge4.lgspFlags = candidate_BenzolRingC1ExposedNotC6Nitro_edge__edge4.lgspFlags & ~((uint) GRGEN_LGSP.LGSPElemFlags.IS_MATCHED << negLevel) | prev__candidate_BenzolRingC1ExposedNotC6Nitro_edge__edge4;
@@ -11480,7 +11480,7 @@ namespace de.unika.ipd.grGen.Action_TNT
                                                                         candidate_BenzolRingC1ExposedNotC6Nitro_edge__edge4.lgspFlags = candidate_BenzolRingC1ExposedNotC6Nitro_edge__edge4.lgspFlags & ~((uint) GRGEN_LGSP.LGSPElemFlags.IS_MATCHED << negLevel) | prev__candidate_BenzolRingC1ExposedNotC6Nitro_edge__edge4;
                                                                         continue;
                                                                     }
-                                                                    // Extend Outgoing BenzolRingC1ExposedNotC6Nitro_edge__edge8 from BenzolRingC1ExposedNotC6Nitro_node_c5 
+                                                                    // Extend Outgoing BenzolRingC1ExposedNotC6Nitro_edge__edge8 from BenzolRingC1ExposedNotC6Nitro_node_c5
                                                                     GRGEN_LGSP.LGSPEdge head_candidate_BenzolRingC1ExposedNotC6Nitro_edge__edge8 = candidate_BenzolRingC1ExposedNotC6Nitro_node_c5.lgspOuthead;
                                                                     if(head_candidate_BenzolRingC1ExposedNotC6Nitro_edge__edge8 != null)
                                                                     {
@@ -11504,7 +11504,7 @@ namespace de.unika.ipd.grGen.Action_TNT
                                                                             uint prev__candidate_BenzolRingC1ExposedNotC6Nitro_edge__edge8;
                                                                             prev__candidate_BenzolRingC1ExposedNotC6Nitro_edge__edge8 = candidate_BenzolRingC1ExposedNotC6Nitro_edge__edge8.lgspFlags & (uint) GRGEN_LGSP.LGSPElemFlags.IS_MATCHED << negLevel;
                                                                             candidate_BenzolRingC1ExposedNotC6Nitro_edge__edge8.lgspFlags |= (uint) GRGEN_LGSP.LGSPElemFlags.IS_MATCHED << negLevel;
-                                                                            // Extend Outgoing BenzolRingC1ExposedNotC6Nitro_edge__edge5 from BenzolRingC1ExposedNotC6Nitro_node_c6 
+                                                                            // Extend Outgoing BenzolRingC1ExposedNotC6Nitro_edge__edge5 from BenzolRingC1ExposedNotC6Nitro_node_c6
                                                                             GRGEN_LGSP.LGSPEdge head_candidate_BenzolRingC1ExposedNotC6Nitro_edge__edge5 = candidate_BenzolRingC1ExposedNotC6Nitro_node_c6.lgspOuthead;
                                                                             if(head_candidate_BenzolRingC1ExposedNotC6Nitro_edge__edge5 != null)
                                                                             {
@@ -11525,10 +11525,10 @@ namespace de.unika.ipd.grGen.Action_TNT
                                                                                     {
                                                                                         continue;
                                                                                     }
-                                                                                    // NegativePattern 
+                                                                                    // NegativePattern
                                                                                     {
                                                                                         ++negLevel;
-                                                                                        // Extend Outgoing BenzolRingC1ExposedNotC6Nitro_neg_0_edge__edge0 from BenzolRingC1ExposedNotC6Nitro_node_c6 
+                                                                                        // Extend Outgoing BenzolRingC1ExposedNotC6Nitro_neg_0_edge__edge0 from BenzolRingC1ExposedNotC6Nitro_node_c6
                                                                                         GRGEN_LGSP.LGSPEdge head_candidate_BenzolRingC1ExposedNotC6Nitro_neg_0_edge__edge0 = candidate_BenzolRingC1ExposedNotC6Nitro_node_c6.lgspOuthead;
                                                                                         if(head_candidate_BenzolRingC1ExposedNotC6Nitro_neg_0_edge__edge0 != null)
                                                                                         {
@@ -11545,7 +11545,7 @@ namespace de.unika.ipd.grGen.Action_TNT
                                                                                                 uint prev_neg_0__candidate_BenzolRingC1ExposedNotC6Nitro_neg_0_edge__edge0;
                                                                                                 prev_neg_0__candidate_BenzolRingC1ExposedNotC6Nitro_neg_0_edge__edge0 = candidate_BenzolRingC1ExposedNotC6Nitro_neg_0_edge__edge0.lgspFlags & (uint) GRGEN_LGSP.LGSPElemFlags.IS_MATCHED << negLevel;
                                                                                                 candidate_BenzolRingC1ExposedNotC6Nitro_neg_0_edge__edge0.lgspFlags |= (uint) GRGEN_LGSP.LGSPElemFlags.IS_MATCHED << negLevel;
-                                                                                                // Implicit Target BenzolRingC1ExposedNotC6Nitro_neg_0_node_n from BenzolRingC1ExposedNotC6Nitro_neg_0_edge__edge0 
+                                                                                                // Implicit Target BenzolRingC1ExposedNotC6Nitro_neg_0_node_n from BenzolRingC1ExposedNotC6Nitro_neg_0_edge__edge0
                                                                                                 GRGEN_LGSP.LGSPNode candidate_BenzolRingC1ExposedNotC6Nitro_neg_0_node_n = candidate_BenzolRingC1ExposedNotC6Nitro_neg_0_edge__edge0.lgspTarget;
                                                                                                 if(candidate_BenzolRingC1ExposedNotC6Nitro_neg_0_node_n.lgspType.TypeID!=4) {
                                                                                                     candidate_BenzolRingC1ExposedNotC6Nitro_neg_0_edge__edge0.lgspFlags = candidate_BenzolRingC1ExposedNotC6Nitro_neg_0_edge__edge0.lgspFlags & ~((uint) GRGEN_LGSP.LGSPElemFlags.IS_MATCHED << negLevel) | prev_neg_0__candidate_BenzolRingC1ExposedNotC6Nitro_neg_0_edge__edge0;
@@ -11556,7 +11556,7 @@ namespace de.unika.ipd.grGen.Action_TNT
                                                                                                     candidate_BenzolRingC1ExposedNotC6Nitro_neg_0_edge__edge0.lgspFlags = candidate_BenzolRingC1ExposedNotC6Nitro_neg_0_edge__edge0.lgspFlags & ~((uint) GRGEN_LGSP.LGSPElemFlags.IS_MATCHED << negLevel) | prev_neg_0__candidate_BenzolRingC1ExposedNotC6Nitro_neg_0_edge__edge0;
                                                                                                     continue;
                                                                                                 }
-                                                                                                // Extend Outgoing BenzolRingC1ExposedNotC6Nitro_neg_0_edge__edge1 from BenzolRingC1ExposedNotC6Nitro_neg_0_node_n 
+                                                                                                // Extend Outgoing BenzolRingC1ExposedNotC6Nitro_neg_0_edge__edge1 from BenzolRingC1ExposedNotC6Nitro_neg_0_node_n
                                                                                                 GRGEN_LGSP.LGSPEdge head_candidate_BenzolRingC1ExposedNotC6Nitro_neg_0_edge__edge1 = candidate_BenzolRingC1ExposedNotC6Nitro_neg_0_node_n.lgspOuthead;
                                                                                                 if(head_candidate_BenzolRingC1ExposedNotC6Nitro_neg_0_edge__edge1 != null)
                                                                                                 {
@@ -11577,7 +11577,7 @@ namespace de.unika.ipd.grGen.Action_TNT
                                                                                                         uint prev_neg_0__candidate_BenzolRingC1ExposedNotC6Nitro_neg_0_edge__edge1;
                                                                                                         prev_neg_0__candidate_BenzolRingC1ExposedNotC6Nitro_neg_0_edge__edge1 = candidate_BenzolRingC1ExposedNotC6Nitro_neg_0_edge__edge1.lgspFlags & (uint) GRGEN_LGSP.LGSPElemFlags.IS_MATCHED << negLevel;
                                                                                                         candidate_BenzolRingC1ExposedNotC6Nitro_neg_0_edge__edge1.lgspFlags |= (uint) GRGEN_LGSP.LGSPElemFlags.IS_MATCHED << negLevel;
-                                                                                                        // Implicit Target BenzolRingC1ExposedNotC6Nitro_neg_0_node__node0 from BenzolRingC1ExposedNotC6Nitro_neg_0_edge__edge1 
+                                                                                                        // Implicit Target BenzolRingC1ExposedNotC6Nitro_neg_0_node__node0 from BenzolRingC1ExposedNotC6Nitro_neg_0_edge__edge1
                                                                                                         GRGEN_LGSP.LGSPNode candidate_BenzolRingC1ExposedNotC6Nitro_neg_0_node__node0 = candidate_BenzolRingC1ExposedNotC6Nitro_neg_0_edge__edge1.lgspTarget;
                                                                                                         if(candidate_BenzolRingC1ExposedNotC6Nitro_neg_0_node__node0.lgspType.TypeID!=3) {
                                                                                                             candidate_BenzolRingC1ExposedNotC6Nitro_neg_0_edge__edge1.lgspFlags = candidate_BenzolRingC1ExposedNotC6Nitro_neg_0_edge__edge1.lgspFlags & ~((uint) GRGEN_LGSP.LGSPElemFlags.IS_MATCHED << negLevel) | prev_neg_0__candidate_BenzolRingC1ExposedNotC6Nitro_neg_0_edge__edge1;
@@ -11591,7 +11591,7 @@ namespace de.unika.ipd.grGen.Action_TNT
                                                                                                         uint prev_neg_0__candidate_BenzolRingC1ExposedNotC6Nitro_neg_0_node__node0;
                                                                                                         prev_neg_0__candidate_BenzolRingC1ExposedNotC6Nitro_neg_0_node__node0 = candidate_BenzolRingC1ExposedNotC6Nitro_neg_0_node__node0.lgspFlags & (uint) GRGEN_LGSP.LGSPElemFlags.IS_MATCHED << negLevel;
                                                                                                         candidate_BenzolRingC1ExposedNotC6Nitro_neg_0_node__node0.lgspFlags |= (uint) GRGEN_LGSP.LGSPElemFlags.IS_MATCHED << negLevel;
-                                                                                                        // Extend Outgoing BenzolRingC1ExposedNotC6Nitro_neg_0_edge__edge2 from BenzolRingC1ExposedNotC6Nitro_neg_0_node_n 
+                                                                                                        // Extend Outgoing BenzolRingC1ExposedNotC6Nitro_neg_0_edge__edge2 from BenzolRingC1ExposedNotC6Nitro_neg_0_node_n
                                                                                                         GRGEN_LGSP.LGSPEdge head_candidate_BenzolRingC1ExposedNotC6Nitro_neg_0_edge__edge2 = candidate_BenzolRingC1ExposedNotC6Nitro_neg_0_node_n.lgspOuthead;
                                                                                                         if(head_candidate_BenzolRingC1ExposedNotC6Nitro_neg_0_edge__edge2 != null)
                                                                                                         {
@@ -11609,7 +11609,7 @@ namespace de.unika.ipd.grGen.Action_TNT
                                                                                                                 {
                                                                                                                     continue;
                                                                                                                 }
-                                                                                                                // Implicit Target BenzolRingC1ExposedNotC6Nitro_neg_0_node__node1 from BenzolRingC1ExposedNotC6Nitro_neg_0_edge__edge2 
+                                                                                                                // Implicit Target BenzolRingC1ExposedNotC6Nitro_neg_0_node__node1 from BenzolRingC1ExposedNotC6Nitro_neg_0_edge__edge2
                                                                                                                 GRGEN_LGSP.LGSPNode candidate_BenzolRingC1ExposedNotC6Nitro_neg_0_node__node1 = candidate_BenzolRingC1ExposedNotC6Nitro_neg_0_edge__edge2.lgspTarget;
                                                                                                                 if(candidate_BenzolRingC1ExposedNotC6Nitro_neg_0_node__node1.lgspType.TypeID!=3) {
                                                                                                                     continue;
@@ -11728,9 +11728,9 @@ namespace de.unika.ipd.grGen.Action_TNT
                                                                                     uint prevGlobal__candidate_BenzolRingC1ExposedNotC6Nitro_edge__edge8;
                                                                                     prevGlobal__candidate_BenzolRingC1ExposedNotC6Nitro_edge__edge8 = candidate_BenzolRingC1ExposedNotC6Nitro_edge__edge8.lgspFlags & (uint) GRGEN_LGSP.LGSPElemFlags.IS_MATCHED_BY_ENCLOSING_PATTERN << negLevel;
                                                                                     candidate_BenzolRingC1ExposedNotC6Nitro_edge__edge8.lgspFlags |= (uint) GRGEN_LGSP.LGSPElemFlags.IS_MATCHED_BY_ENCLOSING_PATTERN << negLevel;
-                                                                                    // Match subpatterns 
+                                                                                    // Match subpatterns
                                                                                     openTasks.Peek().myMatch(matchesList, maxMatches - foundPartialMatches.Count, negLevel);
-                                                                                    // Check whether subpatterns were found 
+                                                                                    // Check whether subpatterns were found
                                                                                     if(matchesList.Count>0) {
                                                                                         // subpatterns/alternatives were found, extend the partial matches by our local match object
                                                                                         foreach(Stack<GRGEN_LIBGR.IMatch> currentFoundPartialMatch in matchesList)
@@ -11906,13 +11906,13 @@ label0: ;
 
         private PatternAction_Oxygen next = null;
 
-        
+
         public override void myMatch(List<Stack<GRGEN_LIBGR.IMatch>> foundPartialMatches, int maxMatches, int negLevel)
         {
             openTasks.Pop();
             List<Stack<GRGEN_LIBGR.IMatch>> matchesList = foundPartialMatches;
             if(matchesList.Count!=0) throw new ApplicationException(); //debug assert
-            // Lookup Oxygen_edge__edge0 
+            // Lookup Oxygen_edge__edge0
             int type_id_candidate_Oxygen_edge__edge0 = 1;
             for(GRGEN_LGSP.LGSPEdge head_candidate_Oxygen_edge__edge0 = graph.edgesByTypeHeads[type_id_candidate_Oxygen_edge__edge0], candidate_Oxygen_edge__edge0 = head_candidate_Oxygen_edge__edge0.lgspTypeNext; candidate_Oxygen_edge__edge0 != head_candidate_Oxygen_edge__edge0; candidate_Oxygen_edge__edge0 = candidate_Oxygen_edge__edge0.lgspTypeNext)
             {
@@ -11923,7 +11923,7 @@ label0: ;
                 uint prev__candidate_Oxygen_edge__edge0;
                 prev__candidate_Oxygen_edge__edge0 = candidate_Oxygen_edge__edge0.lgspFlags & (uint) GRGEN_LGSP.LGSPElemFlags.IS_MATCHED << negLevel;
                 candidate_Oxygen_edge__edge0.lgspFlags |= (uint) GRGEN_LGSP.LGSPElemFlags.IS_MATCHED << negLevel;
-                // Implicit Source Oxygen_node_o1 from Oxygen_edge__edge0 
+                // Implicit Source Oxygen_node_o1 from Oxygen_edge__edge0
                 GRGEN_LGSP.LGSPNode candidate_Oxygen_node_o1 = candidate_Oxygen_edge__edge0.lgspSource;
                 if(candidate_Oxygen_node_o1.lgspType.TypeID!=3) {
                     candidate_Oxygen_edge__edge0.lgspFlags = candidate_Oxygen_edge__edge0.lgspFlags & ~((uint) GRGEN_LGSP.LGSPElemFlags.IS_MATCHED << negLevel) | prev__candidate_Oxygen_edge__edge0;
@@ -11937,7 +11937,7 @@ label0: ;
                 uint prev__candidate_Oxygen_node_o1;
                 prev__candidate_Oxygen_node_o1 = candidate_Oxygen_node_o1.lgspFlags & (uint) GRGEN_LGSP.LGSPElemFlags.IS_MATCHED << negLevel;
                 candidate_Oxygen_node_o1.lgspFlags |= (uint) GRGEN_LGSP.LGSPElemFlags.IS_MATCHED << negLevel;
-                // Implicit Target Oxygen_node_o2 from Oxygen_edge__edge0 
+                // Implicit Target Oxygen_node_o2 from Oxygen_edge__edge0
                 GRGEN_LGSP.LGSPNode candidate_Oxygen_node_o2 = candidate_Oxygen_edge__edge0.lgspTarget;
                 if(candidate_Oxygen_node_o2.lgspType.TypeID!=3) {
                     candidate_Oxygen_node_o1.lgspFlags = candidate_Oxygen_node_o1.lgspFlags & ~((uint) GRGEN_LGSP.LGSPElemFlags.IS_MATCHED << negLevel) | prev__candidate_Oxygen_node_o1;
@@ -11956,7 +11956,7 @@ label0: ;
                     candidate_Oxygen_edge__edge0.lgspFlags = candidate_Oxygen_edge__edge0.lgspFlags & ~((uint) GRGEN_LGSP.LGSPElemFlags.IS_MATCHED << negLevel) | prev__candidate_Oxygen_edge__edge0;
                     continue;
                 }
-                // Extend Outgoing Oxygen_edge__edge1 from Oxygen_node_o2 
+                // Extend Outgoing Oxygen_edge__edge1 from Oxygen_node_o2
                 GRGEN_LGSP.LGSPEdge head_candidate_Oxygen_edge__edge1 = candidate_Oxygen_node_o2.lgspOuthead;
                 if(head_candidate_Oxygen_edge__edge1 != null)
                 {
@@ -12010,9 +12010,9 @@ label0: ;
                         uint prevGlobal__candidate_Oxygen_edge__edge1;
                         prevGlobal__candidate_Oxygen_edge__edge1 = candidate_Oxygen_edge__edge1.lgspFlags & (uint) GRGEN_LGSP.LGSPElemFlags.IS_MATCHED_BY_ENCLOSING_PATTERN << negLevel;
                         candidate_Oxygen_edge__edge1.lgspFlags |= (uint) GRGEN_LGSP.LGSPElemFlags.IS_MATCHED_BY_ENCLOSING_PATTERN << negLevel;
-                        // Match subpatterns 
+                        // Match subpatterns
                         openTasks.Peek().myMatch(matchesList, maxMatches - foundPartialMatches.Count, negLevel);
-                        // Check whether subpatterns were found 
+                        // Check whether subpatterns were found
                         if(matchesList.Count>0) {
                             // subpatterns/alternatives were found, extend the partial matches by our local match object
                             foreach(Stack<GRGEN_LIBGR.IMatch> currentFoundPartialMatch in matchesList)
@@ -12102,15 +12102,15 @@ label0: ;
         private PatternAction_Hydrogen next = null;
 
         public GRGEN_LGSP.LGSPNode Hydrogen_node_anchor;
-        
+
         public override void myMatch(List<Stack<GRGEN_LIBGR.IMatch>> foundPartialMatches, int maxMatches, int negLevel)
         {
             openTasks.Pop();
             List<Stack<GRGEN_LIBGR.IMatch>> matchesList = foundPartialMatches;
             if(matchesList.Count!=0) throw new ApplicationException(); //debug assert
-            // SubPreset Hydrogen_node_anchor 
+            // SubPreset Hydrogen_node_anchor
             GRGEN_LGSP.LGSPNode candidate_Hydrogen_node_anchor = Hydrogen_node_anchor;
-            // Extend Outgoing Hydrogen_edge__edge0 from Hydrogen_node_anchor 
+            // Extend Outgoing Hydrogen_edge__edge0 from Hydrogen_node_anchor
             GRGEN_LGSP.LGSPEdge head_candidate_Hydrogen_edge__edge0 = candidate_Hydrogen_node_anchor.lgspOuthead;
             if(head_candidate_Hydrogen_edge__edge0 != null)
             {
@@ -12124,7 +12124,7 @@ label0: ;
                     {
                         continue;
                     }
-                    // Implicit Target Hydrogen_node__node0 from Hydrogen_edge__edge0 
+                    // Implicit Target Hydrogen_node__node0 from Hydrogen_edge__edge0
                     GRGEN_LGSP.LGSPNode candidate_Hydrogen_node__node0 = candidate_Hydrogen_edge__edge0.lgspTarget;
                     if(candidate_Hydrogen_node__node0.lgspType.TypeID!=2) {
                         continue;
@@ -12157,9 +12157,9 @@ label0: ;
                     uint prevGlobal__candidate_Hydrogen_edge__edge0;
                     prevGlobal__candidate_Hydrogen_edge__edge0 = candidate_Hydrogen_edge__edge0.lgspFlags & (uint) GRGEN_LGSP.LGSPElemFlags.IS_MATCHED_BY_ENCLOSING_PATTERN << negLevel;
                     candidate_Hydrogen_edge__edge0.lgspFlags |= (uint) GRGEN_LGSP.LGSPElemFlags.IS_MATCHED_BY_ENCLOSING_PATTERN << negLevel;
-                    // Match subpatterns 
+                    // Match subpatterns
                     openTasks.Peek().myMatch(matchesList, maxMatches - foundPartialMatches.Count, negLevel);
-                    // Check whether subpatterns were found 
+                    // Check whether subpatterns were found
                     if(matchesList.Count>0) {
                         // subpatterns/alternatives were found, extend the partial matches by our local match object
                         foreach(Stack<GRGEN_LIBGR.IMatch> currentFoundPartialMatch in matchesList)
@@ -12237,15 +12237,15 @@ label0: ;
         private PatternAction_Hydroxyl next = null;
 
         public GRGEN_LGSP.LGSPNode Hydroxyl_node_anchor;
-        
+
         public override void myMatch(List<Stack<GRGEN_LIBGR.IMatch>> foundPartialMatches, int maxMatches, int negLevel)
         {
             openTasks.Pop();
             List<Stack<GRGEN_LIBGR.IMatch>> matchesList = foundPartialMatches;
             if(matchesList.Count!=0) throw new ApplicationException(); //debug assert
-            // SubPreset Hydroxyl_node_anchor 
+            // SubPreset Hydroxyl_node_anchor
             GRGEN_LGSP.LGSPNode candidate_Hydroxyl_node_anchor = Hydroxyl_node_anchor;
-            // Extend Outgoing Hydroxyl_edge__edge0 from Hydroxyl_node_anchor 
+            // Extend Outgoing Hydroxyl_edge__edge0 from Hydroxyl_node_anchor
             GRGEN_LGSP.LGSPEdge head_candidate_Hydroxyl_edge__edge0 = candidate_Hydroxyl_node_anchor.lgspOuthead;
             if(head_candidate_Hydroxyl_edge__edge0 != null)
             {
@@ -12262,7 +12262,7 @@ label0: ;
                     uint prev__candidate_Hydroxyl_edge__edge0;
                     prev__candidate_Hydroxyl_edge__edge0 = candidate_Hydroxyl_edge__edge0.lgspFlags & (uint) GRGEN_LGSP.LGSPElemFlags.IS_MATCHED << negLevel;
                     candidate_Hydroxyl_edge__edge0.lgspFlags |= (uint) GRGEN_LGSP.LGSPElemFlags.IS_MATCHED << negLevel;
-                    // Implicit Target Hydroxyl_node__node0 from Hydroxyl_edge__edge0 
+                    // Implicit Target Hydroxyl_node__node0 from Hydroxyl_edge__edge0
                     GRGEN_LGSP.LGSPNode candidate_Hydroxyl_node__node0 = candidate_Hydroxyl_edge__edge0.lgspTarget;
                     if(candidate_Hydroxyl_node__node0.lgspType.TypeID!=3) {
                         candidate_Hydroxyl_edge__edge0.lgspFlags = candidate_Hydroxyl_edge__edge0.lgspFlags & ~((uint) GRGEN_LGSP.LGSPElemFlags.IS_MATCHED << negLevel) | prev__candidate_Hydroxyl_edge__edge0;
@@ -12273,7 +12273,7 @@ label0: ;
                         candidate_Hydroxyl_edge__edge0.lgspFlags = candidate_Hydroxyl_edge__edge0.lgspFlags & ~((uint) GRGEN_LGSP.LGSPElemFlags.IS_MATCHED << negLevel) | prev__candidate_Hydroxyl_edge__edge0;
                         continue;
                     }
-                    // Extend Outgoing Hydroxyl_edge__edge1 from Hydroxyl_node__node0 
+                    // Extend Outgoing Hydroxyl_edge__edge1 from Hydroxyl_node__node0
                     GRGEN_LGSP.LGSPEdge head_candidate_Hydroxyl_edge__edge1 = candidate_Hydroxyl_node__node0.lgspOuthead;
                     if(head_candidate_Hydroxyl_edge__edge1 != null)
                     {
@@ -12291,7 +12291,7 @@ label0: ;
                             {
                                 continue;
                             }
-                            // Implicit Target Hydroxyl_node__node1 from Hydroxyl_edge__edge1 
+                            // Implicit Target Hydroxyl_node__node1 from Hydroxyl_edge__edge1
                             GRGEN_LGSP.LGSPNode candidate_Hydroxyl_node__node1 = candidate_Hydroxyl_edge__edge1.lgspTarget;
                             if(candidate_Hydroxyl_node__node1.lgspType.TypeID!=2) {
                                 continue;
@@ -12333,9 +12333,9 @@ label0: ;
                             uint prevGlobal__candidate_Hydroxyl_edge__edge1;
                             prevGlobal__candidate_Hydroxyl_edge__edge1 = candidate_Hydroxyl_edge__edge1.lgspFlags & (uint) GRGEN_LGSP.LGSPElemFlags.IS_MATCHED_BY_ENCLOSING_PATTERN << negLevel;
                             candidate_Hydroxyl_edge__edge1.lgspFlags |= (uint) GRGEN_LGSP.LGSPElemFlags.IS_MATCHED_BY_ENCLOSING_PATTERN << negLevel;
-                            // Match subpatterns 
+                            // Match subpatterns
                             openTasks.Peek().myMatch(matchesList, maxMatches - foundPartialMatches.Count, negLevel);
-                            // Check whether subpatterns were found 
+                            // Check whether subpatterns were found
                             if(matchesList.Count>0) {
                                 // subpatterns/alternatives were found, extend the partial matches by our local match object
                                 foreach(Stack<GRGEN_LIBGR.IMatch> currentFoundPartialMatch in matchesList)
@@ -12426,15 +12426,15 @@ label0: ;
         private PatternAction_Methyl next = null;
 
         public GRGEN_LGSP.LGSPNode Methyl_node_anchor;
-        
+
         public override void myMatch(List<Stack<GRGEN_LIBGR.IMatch>> foundPartialMatches, int maxMatches, int negLevel)
         {
             openTasks.Pop();
             List<Stack<GRGEN_LIBGR.IMatch>> matchesList = foundPartialMatches;
             if(matchesList.Count!=0) throw new ApplicationException(); //debug assert
-            // SubPreset Methyl_node_anchor 
+            // SubPreset Methyl_node_anchor
             GRGEN_LGSP.LGSPNode candidate_Methyl_node_anchor = Methyl_node_anchor;
-            // Extend Outgoing Methyl_edge__edge0 from Methyl_node_anchor 
+            // Extend Outgoing Methyl_edge__edge0 from Methyl_node_anchor
             GRGEN_LGSP.LGSPEdge head_candidate_Methyl_edge__edge0 = candidate_Methyl_node_anchor.lgspOuthead;
             if(head_candidate_Methyl_edge__edge0 != null)
             {
@@ -12451,7 +12451,7 @@ label0: ;
                     uint prev__candidate_Methyl_edge__edge0;
                     prev__candidate_Methyl_edge__edge0 = candidate_Methyl_edge__edge0.lgspFlags & (uint) GRGEN_LGSP.LGSPElemFlags.IS_MATCHED << negLevel;
                     candidate_Methyl_edge__edge0.lgspFlags |= (uint) GRGEN_LGSP.LGSPElemFlags.IS_MATCHED << negLevel;
-                    // Implicit Target Methyl_node_c from Methyl_edge__edge0 
+                    // Implicit Target Methyl_node_c from Methyl_edge__edge0
                     GRGEN_LGSP.LGSPNode candidate_Methyl_node_c = candidate_Methyl_edge__edge0.lgspTarget;
                     if(candidate_Methyl_node_c.lgspType.TypeID!=1) {
                         candidate_Methyl_edge__edge0.lgspFlags = candidate_Methyl_edge__edge0.lgspFlags & ~((uint) GRGEN_LGSP.LGSPElemFlags.IS_MATCHED << negLevel) | prev__candidate_Methyl_edge__edge0;
@@ -12467,7 +12467,7 @@ label0: ;
                         candidate_Methyl_edge__edge0.lgspFlags = candidate_Methyl_edge__edge0.lgspFlags & ~((uint) GRGEN_LGSP.LGSPElemFlags.IS_MATCHED << negLevel) | prev__candidate_Methyl_edge__edge0;
                         continue;
                     }
-                    // Extend Outgoing Methyl_edge__edge1 from Methyl_node_c 
+                    // Extend Outgoing Methyl_edge__edge1 from Methyl_node_c
                     GRGEN_LGSP.LGSPEdge head_candidate_Methyl_edge__edge1 = candidate_Methyl_node_c.lgspOuthead;
                     if(head_candidate_Methyl_edge__edge1 != null)
                     {
@@ -12488,7 +12488,7 @@ label0: ;
                             uint prev__candidate_Methyl_edge__edge1;
                             prev__candidate_Methyl_edge__edge1 = candidate_Methyl_edge__edge1.lgspFlags & (uint) GRGEN_LGSP.LGSPElemFlags.IS_MATCHED << negLevel;
                             candidate_Methyl_edge__edge1.lgspFlags |= (uint) GRGEN_LGSP.LGSPElemFlags.IS_MATCHED << negLevel;
-                            // Implicit Target Methyl_node__node0 from Methyl_edge__edge1 
+                            // Implicit Target Methyl_node__node0 from Methyl_edge__edge1
                             GRGEN_LGSP.LGSPNode candidate_Methyl_node__node0 = candidate_Methyl_edge__edge1.lgspTarget;
                             if(candidate_Methyl_node__node0.lgspType.TypeID!=2) {
                                 candidate_Methyl_edge__edge1.lgspFlags = candidate_Methyl_edge__edge1.lgspFlags & ~((uint) GRGEN_LGSP.LGSPElemFlags.IS_MATCHED << negLevel) | prev__candidate_Methyl_edge__edge1;
@@ -12502,7 +12502,7 @@ label0: ;
                             uint prev__candidate_Methyl_node__node0;
                             prev__candidate_Methyl_node__node0 = candidate_Methyl_node__node0.lgspFlags & (uint) GRGEN_LGSP.LGSPElemFlags.IS_MATCHED << negLevel;
                             candidate_Methyl_node__node0.lgspFlags |= (uint) GRGEN_LGSP.LGSPElemFlags.IS_MATCHED << negLevel;
-                            // Extend Outgoing Methyl_edge__edge2 from Methyl_node_c 
+                            // Extend Outgoing Methyl_edge__edge2 from Methyl_node_c
                             GRGEN_LGSP.LGSPEdge head_candidate_Methyl_edge__edge2 = candidate_Methyl_node_c.lgspOuthead;
                             if(head_candidate_Methyl_edge__edge2 != null)
                             {
@@ -12523,7 +12523,7 @@ label0: ;
                                     uint prev__candidate_Methyl_edge__edge2;
                                     prev__candidate_Methyl_edge__edge2 = candidate_Methyl_edge__edge2.lgspFlags & (uint) GRGEN_LGSP.LGSPElemFlags.IS_MATCHED << negLevel;
                                     candidate_Methyl_edge__edge2.lgspFlags |= (uint) GRGEN_LGSP.LGSPElemFlags.IS_MATCHED << negLevel;
-                                    // Implicit Target Methyl_node__node1 from Methyl_edge__edge2 
+                                    // Implicit Target Methyl_node__node1 from Methyl_edge__edge2
                                     GRGEN_LGSP.LGSPNode candidate_Methyl_node__node1 = candidate_Methyl_edge__edge2.lgspTarget;
                                     if(candidate_Methyl_node__node1.lgspType.TypeID!=2) {
                                         candidate_Methyl_edge__edge2.lgspFlags = candidate_Methyl_edge__edge2.lgspFlags & ~((uint) GRGEN_LGSP.LGSPElemFlags.IS_MATCHED << negLevel) | prev__candidate_Methyl_edge__edge2;
@@ -12542,7 +12542,7 @@ label0: ;
                                     uint prev__candidate_Methyl_node__node1;
                                     prev__candidate_Methyl_node__node1 = candidate_Methyl_node__node1.lgspFlags & (uint) GRGEN_LGSP.LGSPElemFlags.IS_MATCHED << negLevel;
                                     candidate_Methyl_node__node1.lgspFlags |= (uint) GRGEN_LGSP.LGSPElemFlags.IS_MATCHED << negLevel;
-                                    // Extend Outgoing Methyl_edge__edge3 from Methyl_node_c 
+                                    // Extend Outgoing Methyl_edge__edge3 from Methyl_node_c
                                     GRGEN_LGSP.LGSPEdge head_candidate_Methyl_edge__edge3 = candidate_Methyl_node_c.lgspOuthead;
                                     if(head_candidate_Methyl_edge__edge3 != null)
                                     {
@@ -12560,7 +12560,7 @@ label0: ;
                                             {
                                                 continue;
                                             }
-                                            // Implicit Target Methyl_node__node2 from Methyl_edge__edge3 
+                                            // Implicit Target Methyl_node__node2 from Methyl_edge__edge3
                                             GRGEN_LGSP.LGSPNode candidate_Methyl_node__node2 = candidate_Methyl_edge__edge3.lgspTarget;
                                             if(candidate_Methyl_node__node2.lgspType.TypeID!=2) {
                                                 continue;
@@ -12626,9 +12626,9 @@ label0: ;
                                             uint prevGlobal__candidate_Methyl_edge__edge3;
                                             prevGlobal__candidate_Methyl_edge__edge3 = candidate_Methyl_edge__edge3.lgspFlags & (uint) GRGEN_LGSP.LGSPElemFlags.IS_MATCHED_BY_ENCLOSING_PATTERN << negLevel;
                                             candidate_Methyl_edge__edge3.lgspFlags |= (uint) GRGEN_LGSP.LGSPElemFlags.IS_MATCHED_BY_ENCLOSING_PATTERN << negLevel;
-                                            // Match subpatterns 
+                                            // Match subpatterns
                                             openTasks.Peek().myMatch(matchesList, maxMatches - foundPartialMatches.Count, negLevel);
-                                            // Check whether subpatterns were found 
+                                            // Check whether subpatterns were found
                                             if(matchesList.Count>0) {
                                                 // subpatterns/alternatives were found, extend the partial matches by our local match object
                                                 foreach(Stack<GRGEN_LIBGR.IMatch> currentFoundPartialMatch in matchesList)
@@ -12749,15 +12749,15 @@ label0: ;
         private PatternAction_Nitro next = null;
 
         public GRGEN_LGSP.LGSPNode Nitro_node_anchor;
-        
+
         public override void myMatch(List<Stack<GRGEN_LIBGR.IMatch>> foundPartialMatches, int maxMatches, int negLevel)
         {
             openTasks.Pop();
             List<Stack<GRGEN_LIBGR.IMatch>> matchesList = foundPartialMatches;
             if(matchesList.Count!=0) throw new ApplicationException(); //debug assert
-            // SubPreset Nitro_node_anchor 
+            // SubPreset Nitro_node_anchor
             GRGEN_LGSP.LGSPNode candidate_Nitro_node_anchor = Nitro_node_anchor;
-            // Extend Outgoing Nitro_edge__edge0 from Nitro_node_anchor 
+            // Extend Outgoing Nitro_edge__edge0 from Nitro_node_anchor
             GRGEN_LGSP.LGSPEdge head_candidate_Nitro_edge__edge0 = candidate_Nitro_node_anchor.lgspOuthead;
             if(head_candidate_Nitro_edge__edge0 != null)
             {
@@ -12774,7 +12774,7 @@ label0: ;
                     uint prev__candidate_Nitro_edge__edge0;
                     prev__candidate_Nitro_edge__edge0 = candidate_Nitro_edge__edge0.lgspFlags & (uint) GRGEN_LGSP.LGSPElemFlags.IS_MATCHED << negLevel;
                     candidate_Nitro_edge__edge0.lgspFlags |= (uint) GRGEN_LGSP.LGSPElemFlags.IS_MATCHED << negLevel;
-                    // Implicit Target Nitro_node_n from Nitro_edge__edge0 
+                    // Implicit Target Nitro_node_n from Nitro_edge__edge0
                     GRGEN_LGSP.LGSPNode candidate_Nitro_node_n = candidate_Nitro_edge__edge0.lgspTarget;
                     if(candidate_Nitro_node_n.lgspType.TypeID!=4) {
                         candidate_Nitro_edge__edge0.lgspFlags = candidate_Nitro_edge__edge0.lgspFlags & ~((uint) GRGEN_LGSP.LGSPElemFlags.IS_MATCHED << negLevel) | prev__candidate_Nitro_edge__edge0;
@@ -12785,7 +12785,7 @@ label0: ;
                         candidate_Nitro_edge__edge0.lgspFlags = candidate_Nitro_edge__edge0.lgspFlags & ~((uint) GRGEN_LGSP.LGSPElemFlags.IS_MATCHED << negLevel) | prev__candidate_Nitro_edge__edge0;
                         continue;
                     }
-                    // Extend Outgoing Nitro_edge__edge1 from Nitro_node_n 
+                    // Extend Outgoing Nitro_edge__edge1 from Nitro_node_n
                     GRGEN_LGSP.LGSPEdge head_candidate_Nitro_edge__edge1 = candidate_Nitro_node_n.lgspOuthead;
                     if(head_candidate_Nitro_edge__edge1 != null)
                     {
@@ -12806,7 +12806,7 @@ label0: ;
                             uint prev__candidate_Nitro_edge__edge1;
                             prev__candidate_Nitro_edge__edge1 = candidate_Nitro_edge__edge1.lgspFlags & (uint) GRGEN_LGSP.LGSPElemFlags.IS_MATCHED << negLevel;
                             candidate_Nitro_edge__edge1.lgspFlags |= (uint) GRGEN_LGSP.LGSPElemFlags.IS_MATCHED << negLevel;
-                            // Implicit Target Nitro_node__node0 from Nitro_edge__edge1 
+                            // Implicit Target Nitro_node__node0 from Nitro_edge__edge1
                             GRGEN_LGSP.LGSPNode candidate_Nitro_node__node0 = candidate_Nitro_edge__edge1.lgspTarget;
                             if(candidate_Nitro_node__node0.lgspType.TypeID!=3) {
                                 candidate_Nitro_edge__edge1.lgspFlags = candidate_Nitro_edge__edge1.lgspFlags & ~((uint) GRGEN_LGSP.LGSPElemFlags.IS_MATCHED << negLevel) | prev__candidate_Nitro_edge__edge1;
@@ -12820,7 +12820,7 @@ label0: ;
                             uint prev__candidate_Nitro_node__node0;
                             prev__candidate_Nitro_node__node0 = candidate_Nitro_node__node0.lgspFlags & (uint) GRGEN_LGSP.LGSPElemFlags.IS_MATCHED << negLevel;
                             candidate_Nitro_node__node0.lgspFlags |= (uint) GRGEN_LGSP.LGSPElemFlags.IS_MATCHED << negLevel;
-                            // Extend Outgoing Nitro_edge__edge2 from Nitro_node_n 
+                            // Extend Outgoing Nitro_edge__edge2 from Nitro_node_n
                             GRGEN_LGSP.LGSPEdge head_candidate_Nitro_edge__edge2 = candidate_Nitro_node_n.lgspOuthead;
                             if(head_candidate_Nitro_edge__edge2 != null)
                             {
@@ -12838,7 +12838,7 @@ label0: ;
                                     {
                                         continue;
                                     }
-                                    // Implicit Target Nitro_node__node1 from Nitro_edge__edge2 
+                                    // Implicit Target Nitro_node__node1 from Nitro_edge__edge2
                                     GRGEN_LGSP.LGSPNode candidate_Nitro_node__node1 = candidate_Nitro_edge__edge2.lgspTarget;
                                     if(candidate_Nitro_node__node1.lgspType.TypeID!=3) {
                                         continue;
@@ -12894,9 +12894,9 @@ label0: ;
                                     uint prevGlobal__candidate_Nitro_edge__edge2;
                                     prevGlobal__candidate_Nitro_edge__edge2 = candidate_Nitro_edge__edge2.lgspFlags & (uint) GRGEN_LGSP.LGSPElemFlags.IS_MATCHED_BY_ENCLOSING_PATTERN << negLevel;
                                     candidate_Nitro_edge__edge2.lgspFlags |= (uint) GRGEN_LGSP.LGSPElemFlags.IS_MATCHED_BY_ENCLOSING_PATTERN << negLevel;
-                                    // Match subpatterns 
+                                    // Match subpatterns
                                     openTasks.Peek().myMatch(matchesList, maxMatches - foundPartialMatches.Count, negLevel);
-                                    // Check whether subpatterns were found 
+                                    // Check whether subpatterns were found
                                     if(matchesList.Count>0) {
                                         // subpatterns/alternatives were found, extend the partial matches by our local match object
                                         foreach(Stack<GRGEN_LIBGR.IMatch> currentFoundPartialMatch in matchesList)
@@ -13004,17 +13004,17 @@ label0: ;
         public GRGEN_LGSP.LGSPNode TriNitro_node_c2;
         public GRGEN_LGSP.LGSPNode TriNitro_node_c4;
         public GRGEN_LGSP.LGSPNode TriNitro_node_c6;
-        
+
         public override void myMatch(List<Stack<GRGEN_LIBGR.IMatch>> foundPartialMatches, int maxMatches, int negLevel)
         {
             openTasks.Pop();
             List<Stack<GRGEN_LIBGR.IMatch>> matchesList = foundPartialMatches;
             if(matchesList.Count!=0) throw new ApplicationException(); //debug assert
-            // SubPreset TriNitro_node_c2 
+            // SubPreset TriNitro_node_c2
             GRGEN_LGSP.LGSPNode candidate_TriNitro_node_c2 = TriNitro_node_c2;
-            // SubPreset TriNitro_node_c4 
+            // SubPreset TriNitro_node_c4
             GRGEN_LGSP.LGSPNode candidate_TriNitro_node_c4 = TriNitro_node_c4;
-            // SubPreset TriNitro_node_c6 
+            // SubPreset TriNitro_node_c6
             GRGEN_LGSP.LGSPNode candidate_TriNitro_node_c6 = TriNitro_node_c6;
             // Push subpattern matching task for _sub2
             PatternAction_Nitro taskFor__sub2 = PatternAction_Nitro.getNewTask(graph, openTasks);
@@ -13037,7 +13037,7 @@ label0: ;
             taskFor__sub0.matchOfNestingPattern = null;
             taskFor__sub0.lastMatchAtPreviousNestingLevel = null;
             openTasks.Push(taskFor__sub0);
-            // Match subpatterns 
+            // Match subpatterns
             openTasks.Peek().myMatch(matchesList, maxMatches - foundPartialMatches.Count, negLevel);
             // Pop subpattern matching task for _sub0
             openTasks.Pop();
@@ -13048,7 +13048,7 @@ label0: ;
             // Pop subpattern matching task for _sub2
             openTasks.Pop();
             PatternAction_Nitro.releaseTask(taskFor__sub2);
-            // Check whether subpatterns were found 
+            // Check whether subpatterns were found
             if(matchesList.Count>0) {
                 // subpatterns/alternatives were found, extend the partial matches by our local match object
                 foreach(Stack<GRGEN_LIBGR.IMatch> currentFoundPartialMatch in matchesList)
@@ -13129,23 +13129,23 @@ label0: ;
         public GRGEN_LGSP.LGSPNode ToluolCoreThenTriNitro_node_c4;
         public GRGEN_LGSP.LGSPNode ToluolCoreThenTriNitro_node_c5;
         public GRGEN_LGSP.LGSPNode ToluolCoreThenTriNitro_node_c6;
-        
+
         public override void myMatch(List<Stack<GRGEN_LIBGR.IMatch>> foundPartialMatches, int maxMatches, int negLevel)
         {
             openTasks.Pop();
             List<Stack<GRGEN_LIBGR.IMatch>> matchesList = foundPartialMatches;
             if(matchesList.Count!=0) throw new ApplicationException(); //debug assert
-            // SubPreset ToluolCoreThenTriNitro_node_c1 
+            // SubPreset ToluolCoreThenTriNitro_node_c1
             GRGEN_LGSP.LGSPNode candidate_ToluolCoreThenTriNitro_node_c1 = ToluolCoreThenTriNitro_node_c1;
-            // SubPreset ToluolCoreThenTriNitro_node_c2 
+            // SubPreset ToluolCoreThenTriNitro_node_c2
             GRGEN_LGSP.LGSPNode candidate_ToluolCoreThenTriNitro_node_c2 = ToluolCoreThenTriNitro_node_c2;
-            // SubPreset ToluolCoreThenTriNitro_node_c3 
+            // SubPreset ToluolCoreThenTriNitro_node_c3
             GRGEN_LGSP.LGSPNode candidate_ToluolCoreThenTriNitro_node_c3 = ToluolCoreThenTriNitro_node_c3;
-            // SubPreset ToluolCoreThenTriNitro_node_c4 
+            // SubPreset ToluolCoreThenTriNitro_node_c4
             GRGEN_LGSP.LGSPNode candidate_ToluolCoreThenTriNitro_node_c4 = ToluolCoreThenTriNitro_node_c4;
-            // SubPreset ToluolCoreThenTriNitro_node_c5 
+            // SubPreset ToluolCoreThenTriNitro_node_c5
             GRGEN_LGSP.LGSPNode candidate_ToluolCoreThenTriNitro_node_c5 = ToluolCoreThenTriNitro_node_c5;
-            // SubPreset ToluolCoreThenTriNitro_node_c6 
+            // SubPreset ToluolCoreThenTriNitro_node_c6
             GRGEN_LGSP.LGSPNode candidate_ToluolCoreThenTriNitro_node_c6 = ToluolCoreThenTriNitro_node_c6;
             // Push subpattern matching task for _sub3
             PatternAction_TriNitro taskFor__sub3 = PatternAction_TriNitro.getNewTask(graph, openTasks);
@@ -13177,7 +13177,7 @@ label0: ;
             taskFor__sub0.matchOfNestingPattern = null;
             taskFor__sub0.lastMatchAtPreviousNestingLevel = null;
             openTasks.Push(taskFor__sub0);
-            // Match subpatterns 
+            // Match subpatterns
             openTasks.Peek().myMatch(matchesList, maxMatches - foundPartialMatches.Count, negLevel);
             // Pop subpattern matching task for _sub0
             openTasks.Pop();
@@ -13191,7 +13191,7 @@ label0: ;
             // Pop subpattern matching task for _sub3
             openTasks.Pop();
             PatternAction_TriNitro.releaseTask(taskFor__sub3);
-            // Check whether subpatterns were found 
+            // Check whether subpatterns were found
             if(matchesList.Count>0) {
                 // subpatterns/alternatives were found, extend the partial matches by our local match object
                 foreach(Stack<GRGEN_LIBGR.IMatch> currentFoundPartialMatch in matchesList)
@@ -13257,7 +13257,7 @@ label0: ;
         /// <summary> same as IAction.ApplyMinMax, but with exact types and distinct parameters. </summary>
         bool ApplyMinMax(GRGEN_LIBGR.IGraph graph, int min, int max);
     }
-    
+
     public class Action_BenzolRing : GRGEN_LGSP.LGSPAction, GRGEN_LIBGR.IAction, IAction_BenzolRing
     {
         public Action_BenzolRing() {
@@ -13275,7 +13275,7 @@ label0: ;
 
         public static Action_BenzolRing Instance { get { return instance; } }
         private static Action_BenzolRing instance = new Action_BenzolRing();
-        
+
         public GRGEN_LIBGR.IMatchesExact<Rule_BenzolRing.IMatch_BenzolRing> myMatch(GRGEN_LGSP.LGSPGraph graph, int maxMatches)
         {
             matches.Clear();
@@ -13289,12 +13289,12 @@ label0: ;
             taskFor__sub0.matchOfNestingPattern = null;
             taskFor__sub0.lastMatchAtPreviousNestingLevel = null;
             openTasks.Push(taskFor__sub0);
-            // Match subpatterns 
+            // Match subpatterns
             openTasks.Peek().myMatch(matchesList, maxMatches - foundPartialMatches.Count, negLevel);
             // Pop subpattern matching task for _sub0
             openTasks.Pop();
             PatternAction_BenzolRing.releaseTask(taskFor__sub0);
-            // Check whether subpatterns were found 
+            // Check whether subpatterns were found
             if(matchesList.Count>0) {
                 // subpatterns/alternatives were found, extend the partial matches by our local match object, becoming a complete match object and save it
                 foreach(Stack<GRGEN_LIBGR.IMatch> currentFoundPartialMatch in matchesList)
@@ -13349,7 +13349,7 @@ label0: ;
         public bool ApplyStar(GRGEN_LIBGR.IGraph graph)
         {
             GRGEN_LIBGR.IMatchesExact<Rule_BenzolRing.IMatch_BenzolRing> matches;
-            
+
             while(true)
             {
                 matches = DynamicMatch((GRGEN_LGSP.LGSPGraph)graph, 1);
@@ -13361,7 +13361,7 @@ label0: ;
         {
             GRGEN_LIBGR.IMatchesExact<Rule_BenzolRing.IMatch_BenzolRing> matches = DynamicMatch((GRGEN_LGSP.LGSPGraph)graph, 1);
             if(matches.Count <= 0) return false;
-            
+
             do
             {
                 _rulePattern.Modify((GRGEN_LGSP.LGSPGraph)graph, matches.First);
@@ -13373,7 +13373,7 @@ label0: ;
         public bool ApplyMinMax(GRGEN_LIBGR.IGraph graph, int min, int max)
         {
             GRGEN_LIBGR.IMatchesExact<Rule_BenzolRing.IMatch_BenzolRing> matches;
-            
+
             for(int i = 0; i < max; i++)
             {
                 matches = DynamicMatch((GRGEN_LGSP.LGSPGraph)graph, 1);
@@ -13389,19 +13389,19 @@ label0: ;
         }
         public object[] Modify(GRGEN_LIBGR.IGraph graph, GRGEN_LIBGR.IMatch match)
         {
-            
+
             Modify(graph, (Rule_BenzolRing.IMatch_BenzolRing)match);
             return ReturnArray;
         }
         public object[] ModifyAll(GRGEN_LIBGR.IGraph graph, GRGEN_LIBGR.IMatches matches)
         {
-            
+
             ModifyAll(graph, (GRGEN_LIBGR.IMatchesExact<Rule_BenzolRing.IMatch_BenzolRing>)matches);
             return ReturnArray;
         }
         object[] GRGEN_LIBGR.IAction.Apply(GRGEN_LIBGR.IGraph graph)
         {
-            
+
             if(Apply(graph)) {
                 return ReturnArray;
             }
@@ -13409,7 +13409,7 @@ label0: ;
         }
         object[] GRGEN_LIBGR.IAction.Apply(GRGEN_LIBGR.IGraph graph, params object[] parameters)
         {
-            
+
             if(Apply(graph)) {
                 return ReturnArray;
             }
@@ -13417,7 +13417,7 @@ label0: ;
         }
         object[] GRGEN_LIBGR.IAction.ApplyAll(int maxMatches, GRGEN_LIBGR.IGraph graph)
         {
-            
+
             if(ApplyAll(maxMatches, graph)) {
                 return ReturnArray;
             }
@@ -13425,7 +13425,7 @@ label0: ;
         }
         object[] GRGEN_LIBGR.IAction.ApplyAll(int maxMatches, GRGEN_LIBGR.IGraph graph, params object[] parameters)
         {
-            
+
             if(ApplyAll(maxMatches, graph)) {
                 return ReturnArray;
             }
@@ -13479,7 +13479,7 @@ label0: ;
         /// <summary> same as IAction.ApplyMinMax, but with exact types and distinct parameters. </summary>
         bool ApplyMinMax(GRGEN_LIBGR.IGraph graph, int min, int max);
     }
-    
+
     public class Action_TNTTotallyFolded : GRGEN_LGSP.LGSPAction, GRGEN_LIBGR.IAction, IAction_TNTTotallyFolded
     {
         public Action_TNTTotallyFolded() {
@@ -13497,7 +13497,7 @@ label0: ;
 
         public static Action_TNTTotallyFolded Instance { get { return instance; } }
         private static Action_TNTTotallyFolded instance = new Action_TNTTotallyFolded();
-        
+
         public GRGEN_LIBGR.IMatchesExact<Rule_TNTTotallyFolded.IMatch_TNTTotallyFolded> myMatch(GRGEN_LGSP.LGSPGraph graph, int maxMatches)
         {
             matches.Clear();
@@ -13505,14 +13505,14 @@ label0: ;
             Stack<GRGEN_LGSP.LGSPSubpatternAction> openTasks = new Stack<GRGEN_LGSP.LGSPSubpatternAction>();
             List<Stack<GRGEN_LIBGR.IMatch>> foundPartialMatches = new List<Stack<GRGEN_LIBGR.IMatch>>();
             List<Stack<GRGEN_LIBGR.IMatch>> matchesList = foundPartialMatches;
-            // Lookup TNTTotallyFolded_node_c3 
+            // Lookup TNTTotallyFolded_node_c3
             int type_id_candidate_TNTTotallyFolded_node_c3 = 1;
             for(GRGEN_LGSP.LGSPNode head_candidate_TNTTotallyFolded_node_c3 = graph.nodesByTypeHeads[type_id_candidate_TNTTotallyFolded_node_c3], candidate_TNTTotallyFolded_node_c3 = head_candidate_TNTTotallyFolded_node_c3.lgspTypeNext; candidate_TNTTotallyFolded_node_c3 != head_candidate_TNTTotallyFolded_node_c3; candidate_TNTTotallyFolded_node_c3 = candidate_TNTTotallyFolded_node_c3.lgspTypeNext)
             {
                 uint prev__candidate_TNTTotallyFolded_node_c3;
                 prev__candidate_TNTTotallyFolded_node_c3 = candidate_TNTTotallyFolded_node_c3.lgspFlags & (uint) GRGEN_LGSP.LGSPElemFlags.IS_MATCHED << negLevel;
                 candidate_TNTTotallyFolded_node_c3.lgspFlags |= (uint) GRGEN_LGSP.LGSPElemFlags.IS_MATCHED << negLevel;
-                // Lookup TNTTotallyFolded_node_c5 
+                // Lookup TNTTotallyFolded_node_c5
                 int type_id_candidate_TNTTotallyFolded_node_c5 = 1;
                 for(GRGEN_LGSP.LGSPNode head_candidate_TNTTotallyFolded_node_c5 = graph.nodesByTypeHeads[type_id_candidate_TNTTotallyFolded_node_c5], candidate_TNTTotallyFolded_node_c5 = head_candidate_TNTTotallyFolded_node_c5.lgspTypeNext; candidate_TNTTotallyFolded_node_c5 != head_candidate_TNTTotallyFolded_node_c5; candidate_TNTTotallyFolded_node_c5 = candidate_TNTTotallyFolded_node_c5.lgspTypeNext)
                 {
@@ -13523,7 +13523,7 @@ label0: ;
                     uint prev__candidate_TNTTotallyFolded_node_c5;
                     prev__candidate_TNTTotallyFolded_node_c5 = candidate_TNTTotallyFolded_node_c5.lgspFlags & (uint) GRGEN_LGSP.LGSPElemFlags.IS_MATCHED << negLevel;
                     candidate_TNTTotallyFolded_node_c5.lgspFlags |= (uint) GRGEN_LGSP.LGSPElemFlags.IS_MATCHED << negLevel;
-                    // Lookup TNTTotallyFolded_node_c6 
+                    // Lookup TNTTotallyFolded_node_c6
                     int type_id_candidate_TNTTotallyFolded_node_c6 = 1;
                     for(GRGEN_LGSP.LGSPNode head_candidate_TNTTotallyFolded_node_c6 = graph.nodesByTypeHeads[type_id_candidate_TNTTotallyFolded_node_c6], candidate_TNTTotallyFolded_node_c6 = head_candidate_TNTTotallyFolded_node_c6.lgspTypeNext; candidate_TNTTotallyFolded_node_c6 != head_candidate_TNTTotallyFolded_node_c6; candidate_TNTTotallyFolded_node_c6 = candidate_TNTTotallyFolded_node_c6.lgspTypeNext)
                     {
@@ -13534,7 +13534,7 @@ label0: ;
                         uint prev__candidate_TNTTotallyFolded_node_c6;
                         prev__candidate_TNTTotallyFolded_node_c6 = candidate_TNTTotallyFolded_node_c6.lgspFlags & (uint) GRGEN_LGSP.LGSPElemFlags.IS_MATCHED << negLevel;
                         candidate_TNTTotallyFolded_node_c6.lgspFlags |= (uint) GRGEN_LGSP.LGSPElemFlags.IS_MATCHED << negLevel;
-                        // Lookup TNTTotallyFolded_node_c4 
+                        // Lookup TNTTotallyFolded_node_c4
                         int type_id_candidate_TNTTotallyFolded_node_c4 = 1;
                         for(GRGEN_LGSP.LGSPNode head_candidate_TNTTotallyFolded_node_c4 = graph.nodesByTypeHeads[type_id_candidate_TNTTotallyFolded_node_c4], candidate_TNTTotallyFolded_node_c4 = head_candidate_TNTTotallyFolded_node_c4.lgspTypeNext; candidate_TNTTotallyFolded_node_c4 != head_candidate_TNTTotallyFolded_node_c4; candidate_TNTTotallyFolded_node_c4 = candidate_TNTTotallyFolded_node_c4.lgspTypeNext)
                         {
@@ -13545,7 +13545,7 @@ label0: ;
                             uint prev__candidate_TNTTotallyFolded_node_c4;
                             prev__candidate_TNTTotallyFolded_node_c4 = candidate_TNTTotallyFolded_node_c4.lgspFlags & (uint) GRGEN_LGSP.LGSPElemFlags.IS_MATCHED << negLevel;
                             candidate_TNTTotallyFolded_node_c4.lgspFlags |= (uint) GRGEN_LGSP.LGSPElemFlags.IS_MATCHED << negLevel;
-                            // Lookup TNTTotallyFolded_node_c2 
+                            // Lookup TNTTotallyFolded_node_c2
                             int type_id_candidate_TNTTotallyFolded_node_c2 = 1;
                             for(GRGEN_LGSP.LGSPNode head_candidate_TNTTotallyFolded_node_c2 = graph.nodesByTypeHeads[type_id_candidate_TNTTotallyFolded_node_c2], candidate_TNTTotallyFolded_node_c2 = head_candidate_TNTTotallyFolded_node_c2.lgspTypeNext; candidate_TNTTotallyFolded_node_c2 != head_candidate_TNTTotallyFolded_node_c2; candidate_TNTTotallyFolded_node_c2 = candidate_TNTTotallyFolded_node_c2.lgspTypeNext)
                             {
@@ -13556,7 +13556,7 @@ label0: ;
                                 uint prev__candidate_TNTTotallyFolded_node_c2;
                                 prev__candidate_TNTTotallyFolded_node_c2 = candidate_TNTTotallyFolded_node_c2.lgspFlags & (uint) GRGEN_LGSP.LGSPElemFlags.IS_MATCHED << negLevel;
                                 candidate_TNTTotallyFolded_node_c2.lgspFlags |= (uint) GRGEN_LGSP.LGSPElemFlags.IS_MATCHED << negLevel;
-                                // Lookup TNTTotallyFolded_node_c1 
+                                // Lookup TNTTotallyFolded_node_c1
                                 int type_id_candidate_TNTTotallyFolded_node_c1 = 1;
                                 for(GRGEN_LGSP.LGSPNode head_candidate_TNTTotallyFolded_node_c1 = graph.nodesByTypeHeads[type_id_candidate_TNTTotallyFolded_node_c1], candidate_TNTTotallyFolded_node_c1 = head_candidate_TNTTotallyFolded_node_c1.lgspTypeNext; candidate_TNTTotallyFolded_node_c1 != head_candidate_TNTTotallyFolded_node_c1; candidate_TNTTotallyFolded_node_c1 = candidate_TNTTotallyFolded_node_c1.lgspTypeNext)
                                 {
@@ -13636,7 +13636,7 @@ label0: ;
                                     uint prevGlobal__candidate_TNTTotallyFolded_node_c6;
                                     prevGlobal__candidate_TNTTotallyFolded_node_c6 = candidate_TNTTotallyFolded_node_c6.lgspFlags & (uint) GRGEN_LGSP.LGSPElemFlags.IS_MATCHED_BY_ENCLOSING_PATTERN << negLevel;
                                     candidate_TNTTotallyFolded_node_c6.lgspFlags |= (uint) GRGEN_LGSP.LGSPElemFlags.IS_MATCHED_BY_ENCLOSING_PATTERN << negLevel;
-                                    // Match subpatterns 
+                                    // Match subpatterns
                                     openTasks.Peek().myMatch(matchesList, maxMatches - foundPartialMatches.Count, negLevel);
                                     // Pop subpattern matching task for _sub0
                                     openTasks.Pop();
@@ -13659,7 +13659,7 @@ label0: ;
                                     // Pop subpattern matching task for _sub6
                                     openTasks.Pop();
                                     PatternAction_Nitro.releaseTask(taskFor__sub6);
-                                    // Check whether subpatterns were found 
+                                    // Check whether subpatterns were found
                                     if(matchesList.Count>0) {
                                         // subpatterns/alternatives were found, extend the partial matches by our local match object, becoming a complete match object and save it
                                         foreach(Stack<GRGEN_LIBGR.IMatch> currentFoundPartialMatch in matchesList)
@@ -13766,7 +13766,7 @@ label0: ;
         public bool ApplyStar(GRGEN_LIBGR.IGraph graph)
         {
             GRGEN_LIBGR.IMatchesExact<Rule_TNTTotallyFolded.IMatch_TNTTotallyFolded> matches;
-            
+
             while(true)
             {
                 matches = DynamicMatch((GRGEN_LGSP.LGSPGraph)graph, 1);
@@ -13778,7 +13778,7 @@ label0: ;
         {
             GRGEN_LIBGR.IMatchesExact<Rule_TNTTotallyFolded.IMatch_TNTTotallyFolded> matches = DynamicMatch((GRGEN_LGSP.LGSPGraph)graph, 1);
             if(matches.Count <= 0) return false;
-            
+
             do
             {
                 _rulePattern.Modify((GRGEN_LGSP.LGSPGraph)graph, matches.First);
@@ -13790,7 +13790,7 @@ label0: ;
         public bool ApplyMinMax(GRGEN_LIBGR.IGraph graph, int min, int max)
         {
             GRGEN_LIBGR.IMatchesExact<Rule_TNTTotallyFolded.IMatch_TNTTotallyFolded> matches;
-            
+
             for(int i = 0; i < max; i++)
             {
                 matches = DynamicMatch((GRGEN_LGSP.LGSPGraph)graph, 1);
@@ -13806,19 +13806,19 @@ label0: ;
         }
         public object[] Modify(GRGEN_LIBGR.IGraph graph, GRGEN_LIBGR.IMatch match)
         {
-            
+
             Modify(graph, (Rule_TNTTotallyFolded.IMatch_TNTTotallyFolded)match);
             return ReturnArray;
         }
         public object[] ModifyAll(GRGEN_LIBGR.IGraph graph, GRGEN_LIBGR.IMatches matches)
         {
-            
+
             ModifyAll(graph, (GRGEN_LIBGR.IMatchesExact<Rule_TNTTotallyFolded.IMatch_TNTTotallyFolded>)matches);
             return ReturnArray;
         }
         object[] GRGEN_LIBGR.IAction.Apply(GRGEN_LIBGR.IGraph graph)
         {
-            
+
             if(Apply(graph)) {
                 return ReturnArray;
             }
@@ -13826,7 +13826,7 @@ label0: ;
         }
         object[] GRGEN_LIBGR.IAction.Apply(GRGEN_LIBGR.IGraph graph, params object[] parameters)
         {
-            
+
             if(Apply(graph)) {
                 return ReturnArray;
             }
@@ -13834,7 +13834,7 @@ label0: ;
         }
         object[] GRGEN_LIBGR.IAction.ApplyAll(int maxMatches, GRGEN_LIBGR.IGraph graph)
         {
-            
+
             if(ApplyAll(maxMatches, graph)) {
                 return ReturnArray;
             }
@@ -13842,7 +13842,7 @@ label0: ;
         }
         object[] GRGEN_LIBGR.IAction.ApplyAll(int maxMatches, GRGEN_LIBGR.IGraph graph, params object[] parameters)
         {
-            
+
             if(ApplyAll(maxMatches, graph)) {
                 return ReturnArray;
             }
@@ -13896,7 +13896,7 @@ label0: ;
         /// <summary> same as IAction.ApplyMinMax, but with exact types and distinct parameters. </summary>
         bool ApplyMinMax(GRGEN_LIBGR.IGraph graph, int min, int max);
     }
-    
+
     public class Action_TNTChain : GRGEN_LGSP.LGSPAction, GRGEN_LIBGR.IAction, IAction_TNTChain
     {
         public Action_TNTChain() {
@@ -13914,7 +13914,7 @@ label0: ;
 
         public static Action_TNTChain Instance { get { return instance; } }
         private static Action_TNTChain instance = new Action_TNTChain();
-        
+
         public GRGEN_LIBGR.IMatchesExact<Rule_TNTChain.IMatch_TNTChain> myMatch(GRGEN_LGSP.LGSPGraph graph, int maxMatches)
         {
             matches.Clear();
@@ -13922,14 +13922,14 @@ label0: ;
             Stack<GRGEN_LGSP.LGSPSubpatternAction> openTasks = new Stack<GRGEN_LGSP.LGSPSubpatternAction>();
             List<Stack<GRGEN_LIBGR.IMatch>> foundPartialMatches = new List<Stack<GRGEN_LIBGR.IMatch>>();
             List<Stack<GRGEN_LIBGR.IMatch>> matchesList = foundPartialMatches;
-            // Lookup TNTChain_node_c3 
+            // Lookup TNTChain_node_c3
             int type_id_candidate_TNTChain_node_c3 = 1;
             for(GRGEN_LGSP.LGSPNode head_candidate_TNTChain_node_c3 = graph.nodesByTypeHeads[type_id_candidate_TNTChain_node_c3], candidate_TNTChain_node_c3 = head_candidate_TNTChain_node_c3.lgspTypeNext; candidate_TNTChain_node_c3 != head_candidate_TNTChain_node_c3; candidate_TNTChain_node_c3 = candidate_TNTChain_node_c3.lgspTypeNext)
             {
                 uint prev__candidate_TNTChain_node_c3;
                 prev__candidate_TNTChain_node_c3 = candidate_TNTChain_node_c3.lgspFlags & (uint) GRGEN_LGSP.LGSPElemFlags.IS_MATCHED << negLevel;
                 candidate_TNTChain_node_c3.lgspFlags |= (uint) GRGEN_LGSP.LGSPElemFlags.IS_MATCHED << negLevel;
-                // Lookup TNTChain_node_c5 
+                // Lookup TNTChain_node_c5
                 int type_id_candidate_TNTChain_node_c5 = 1;
                 for(GRGEN_LGSP.LGSPNode head_candidate_TNTChain_node_c5 = graph.nodesByTypeHeads[type_id_candidate_TNTChain_node_c5], candidate_TNTChain_node_c5 = head_candidate_TNTChain_node_c5.lgspTypeNext; candidate_TNTChain_node_c5 != head_candidate_TNTChain_node_c5; candidate_TNTChain_node_c5 = candidate_TNTChain_node_c5.lgspTypeNext)
                 {
@@ -13940,7 +13940,7 @@ label0: ;
                     uint prev__candidate_TNTChain_node_c5;
                     prev__candidate_TNTChain_node_c5 = candidate_TNTChain_node_c5.lgspFlags & (uint) GRGEN_LGSP.LGSPElemFlags.IS_MATCHED << negLevel;
                     candidate_TNTChain_node_c5.lgspFlags |= (uint) GRGEN_LGSP.LGSPElemFlags.IS_MATCHED << negLevel;
-                    // Lookup TNTChain_node_c6 
+                    // Lookup TNTChain_node_c6
                     int type_id_candidate_TNTChain_node_c6 = 1;
                     for(GRGEN_LGSP.LGSPNode head_candidate_TNTChain_node_c6 = graph.nodesByTypeHeads[type_id_candidate_TNTChain_node_c6], candidate_TNTChain_node_c6 = head_candidate_TNTChain_node_c6.lgspTypeNext; candidate_TNTChain_node_c6 != head_candidate_TNTChain_node_c6; candidate_TNTChain_node_c6 = candidate_TNTChain_node_c6.lgspTypeNext)
                     {
@@ -13951,7 +13951,7 @@ label0: ;
                         uint prev__candidate_TNTChain_node_c6;
                         prev__candidate_TNTChain_node_c6 = candidate_TNTChain_node_c6.lgspFlags & (uint) GRGEN_LGSP.LGSPElemFlags.IS_MATCHED << negLevel;
                         candidate_TNTChain_node_c6.lgspFlags |= (uint) GRGEN_LGSP.LGSPElemFlags.IS_MATCHED << negLevel;
-                        // Lookup TNTChain_node_c4 
+                        // Lookup TNTChain_node_c4
                         int type_id_candidate_TNTChain_node_c4 = 1;
                         for(GRGEN_LGSP.LGSPNode head_candidate_TNTChain_node_c4 = graph.nodesByTypeHeads[type_id_candidate_TNTChain_node_c4], candidate_TNTChain_node_c4 = head_candidate_TNTChain_node_c4.lgspTypeNext; candidate_TNTChain_node_c4 != head_candidate_TNTChain_node_c4; candidate_TNTChain_node_c4 = candidate_TNTChain_node_c4.lgspTypeNext)
                         {
@@ -13962,7 +13962,7 @@ label0: ;
                             uint prev__candidate_TNTChain_node_c4;
                             prev__candidate_TNTChain_node_c4 = candidate_TNTChain_node_c4.lgspFlags & (uint) GRGEN_LGSP.LGSPElemFlags.IS_MATCHED << negLevel;
                             candidate_TNTChain_node_c4.lgspFlags |= (uint) GRGEN_LGSP.LGSPElemFlags.IS_MATCHED << negLevel;
-                            // Lookup TNTChain_node_c2 
+                            // Lookup TNTChain_node_c2
                             int type_id_candidate_TNTChain_node_c2 = 1;
                             for(GRGEN_LGSP.LGSPNode head_candidate_TNTChain_node_c2 = graph.nodesByTypeHeads[type_id_candidate_TNTChain_node_c2], candidate_TNTChain_node_c2 = head_candidate_TNTChain_node_c2.lgspTypeNext; candidate_TNTChain_node_c2 != head_candidate_TNTChain_node_c2; candidate_TNTChain_node_c2 = candidate_TNTChain_node_c2.lgspTypeNext)
                             {
@@ -13973,7 +13973,7 @@ label0: ;
                                 uint prev__candidate_TNTChain_node_c2;
                                 prev__candidate_TNTChain_node_c2 = candidate_TNTChain_node_c2.lgspFlags & (uint) GRGEN_LGSP.LGSPElemFlags.IS_MATCHED << negLevel;
                                 candidate_TNTChain_node_c2.lgspFlags |= (uint) GRGEN_LGSP.LGSPElemFlags.IS_MATCHED << negLevel;
-                                // Lookup TNTChain_node_c1 
+                                // Lookup TNTChain_node_c1
                                 int type_id_candidate_TNTChain_node_c1 = 1;
                                 for(GRGEN_LGSP.LGSPNode head_candidate_TNTChain_node_c1 = graph.nodesByTypeHeads[type_id_candidate_TNTChain_node_c1], candidate_TNTChain_node_c1 = head_candidate_TNTChain_node_c1.lgspTypeNext; candidate_TNTChain_node_c1 != head_candidate_TNTChain_node_c1; candidate_TNTChain_node_c1 = candidate_TNTChain_node_c1.lgspTypeNext)
                                 {
@@ -14023,7 +14023,7 @@ label0: ;
                                     uint prevGlobal__candidate_TNTChain_node_c6;
                                     prevGlobal__candidate_TNTChain_node_c6 = candidate_TNTChain_node_c6.lgspFlags & (uint) GRGEN_LGSP.LGSPElemFlags.IS_MATCHED_BY_ENCLOSING_PATTERN << negLevel;
                                     candidate_TNTChain_node_c6.lgspFlags |= (uint) GRGEN_LGSP.LGSPElemFlags.IS_MATCHED_BY_ENCLOSING_PATTERN << negLevel;
-                                    // Match subpatterns 
+                                    // Match subpatterns
                                     openTasks.Peek().myMatch(matchesList, maxMatches - foundPartialMatches.Count, negLevel);
                                     // Pop subpattern matching task for _sub0
                                     openTasks.Pop();
@@ -14031,7 +14031,7 @@ label0: ;
                                     // Pop subpattern matching task for _sub1
                                     openTasks.Pop();
                                     PatternAction_ToluolCoreThenTriNitro.releaseTask(taskFor__sub1);
-                                    // Check whether subpatterns were found 
+                                    // Check whether subpatterns were found
                                     if(matchesList.Count>0) {
                                         // subpatterns/alternatives were found, extend the partial matches by our local match object, becoming a complete match object and save it
                                         foreach(Stack<GRGEN_LIBGR.IMatch> currentFoundPartialMatch in matchesList)
@@ -14128,7 +14128,7 @@ label0: ;
         public bool ApplyStar(GRGEN_LIBGR.IGraph graph)
         {
             GRGEN_LIBGR.IMatchesExact<Rule_TNTChain.IMatch_TNTChain> matches;
-            
+
             while(true)
             {
                 matches = DynamicMatch((GRGEN_LGSP.LGSPGraph)graph, 1);
@@ -14140,7 +14140,7 @@ label0: ;
         {
             GRGEN_LIBGR.IMatchesExact<Rule_TNTChain.IMatch_TNTChain> matches = DynamicMatch((GRGEN_LGSP.LGSPGraph)graph, 1);
             if(matches.Count <= 0) return false;
-            
+
             do
             {
                 _rulePattern.Modify((GRGEN_LGSP.LGSPGraph)graph, matches.First);
@@ -14152,7 +14152,7 @@ label0: ;
         public bool ApplyMinMax(GRGEN_LIBGR.IGraph graph, int min, int max)
         {
             GRGEN_LIBGR.IMatchesExact<Rule_TNTChain.IMatch_TNTChain> matches;
-            
+
             for(int i = 0; i < max; i++)
             {
                 matches = DynamicMatch((GRGEN_LGSP.LGSPGraph)graph, 1);
@@ -14168,19 +14168,19 @@ label0: ;
         }
         public object[] Modify(GRGEN_LIBGR.IGraph graph, GRGEN_LIBGR.IMatch match)
         {
-            
+
             Modify(graph, (Rule_TNTChain.IMatch_TNTChain)match);
             return ReturnArray;
         }
         public object[] ModifyAll(GRGEN_LIBGR.IGraph graph, GRGEN_LIBGR.IMatches matches)
         {
-            
+
             ModifyAll(graph, (GRGEN_LIBGR.IMatchesExact<Rule_TNTChain.IMatch_TNTChain>)matches);
             return ReturnArray;
         }
         object[] GRGEN_LIBGR.IAction.Apply(GRGEN_LIBGR.IGraph graph)
         {
-            
+
             if(Apply(graph)) {
                 return ReturnArray;
             }
@@ -14188,7 +14188,7 @@ label0: ;
         }
         object[] GRGEN_LIBGR.IAction.Apply(GRGEN_LIBGR.IGraph graph, params object[] parameters)
         {
-            
+
             if(Apply(graph)) {
                 return ReturnArray;
             }
@@ -14196,7 +14196,7 @@ label0: ;
         }
         object[] GRGEN_LIBGR.IAction.ApplyAll(int maxMatches, GRGEN_LIBGR.IGraph graph)
         {
-            
+
             if(ApplyAll(maxMatches, graph)) {
                 return ReturnArray;
             }
@@ -14204,7 +14204,7 @@ label0: ;
         }
         object[] GRGEN_LIBGR.IAction.ApplyAll(int maxMatches, GRGEN_LIBGR.IGraph graph, params object[] parameters)
         {
-            
+
             if(ApplyAll(maxMatches, graph)) {
                 return ReturnArray;
             }
@@ -14258,7 +14258,7 @@ label0: ;
         /// <summary> same as IAction.ApplyMinMax, but with exact types and distinct parameters. </summary>
         bool ApplyMinMax(GRGEN_LIBGR.IGraph graph, int min, int max);
     }
-    
+
     public class Action_ToluolCore : GRGEN_LGSP.LGSPAction, GRGEN_LIBGR.IAction, IAction_ToluolCore
     {
         public Action_ToluolCore() {
@@ -14276,7 +14276,7 @@ label0: ;
 
         public static Action_ToluolCore Instance { get { return instance; } }
         private static Action_ToluolCore instance = new Action_ToluolCore();
-        
+
         public GRGEN_LIBGR.IMatchesExact<Rule_ToluolCore.IMatch_ToluolCore> myMatch(GRGEN_LGSP.LGSPGraph graph, int maxMatches)
         {
             matches.Clear();
@@ -14284,7 +14284,7 @@ label0: ;
             Stack<GRGEN_LGSP.LGSPSubpatternAction> openTasks = new Stack<GRGEN_LGSP.LGSPSubpatternAction>();
             List<Stack<GRGEN_LIBGR.IMatch>> foundPartialMatches = new List<Stack<GRGEN_LIBGR.IMatch>>();
             List<Stack<GRGEN_LIBGR.IMatch>> matchesList = foundPartialMatches;
-            // Lookup ToluolCore_node_c1 
+            // Lookup ToluolCore_node_c1
             int type_id_candidate_ToluolCore_node_c1 = 1;
             for(GRGEN_LGSP.LGSPNode head_candidate_ToluolCore_node_c1 = graph.nodesByTypeHeads[type_id_candidate_ToluolCore_node_c1], candidate_ToluolCore_node_c1 = head_candidate_ToluolCore_node_c1.lgspTypeNext; candidate_ToluolCore_node_c1 != head_candidate_ToluolCore_node_c1; candidate_ToluolCore_node_c1 = candidate_ToluolCore_node_c1.lgspTypeNext)
             {
@@ -14305,7 +14305,7 @@ label0: ;
                 uint prevGlobal__candidate_ToluolCore_node_c1;
                 prevGlobal__candidate_ToluolCore_node_c1 = candidate_ToluolCore_node_c1.lgspFlags & (uint) GRGEN_LGSP.LGSPElemFlags.IS_MATCHED_BY_ENCLOSING_PATTERN << negLevel;
                 candidate_ToluolCore_node_c1.lgspFlags |= (uint) GRGEN_LGSP.LGSPElemFlags.IS_MATCHED_BY_ENCLOSING_PATTERN << negLevel;
-                // Match subpatterns 
+                // Match subpatterns
                 openTasks.Peek().myMatch(matchesList, maxMatches - foundPartialMatches.Count, negLevel);
                 // Pop subpattern matching task for _sub0
                 openTasks.Pop();
@@ -14313,7 +14313,7 @@ label0: ;
                 // Pop subpattern matching task for _sub1
                 openTasks.Pop();
                 PatternAction_Methyl.releaseTask(taskFor__sub1);
-                // Check whether subpatterns were found 
+                // Check whether subpatterns were found
                 if(matchesList.Count>0) {
                     // subpatterns/alternatives were found, extend the partial matches by our local match object, becoming a complete match object and save it
                     foreach(Stack<GRGEN_LIBGR.IMatch> currentFoundPartialMatch in matchesList)
@@ -14375,7 +14375,7 @@ label0: ;
         public bool ApplyStar(GRGEN_LIBGR.IGraph graph)
         {
             GRGEN_LIBGR.IMatchesExact<Rule_ToluolCore.IMatch_ToluolCore> matches;
-            
+
             while(true)
             {
                 matches = DynamicMatch((GRGEN_LGSP.LGSPGraph)graph, 1);
@@ -14387,7 +14387,7 @@ label0: ;
         {
             GRGEN_LIBGR.IMatchesExact<Rule_ToluolCore.IMatch_ToluolCore> matches = DynamicMatch((GRGEN_LGSP.LGSPGraph)graph, 1);
             if(matches.Count <= 0) return false;
-            
+
             do
             {
                 _rulePattern.Modify((GRGEN_LGSP.LGSPGraph)graph, matches.First);
@@ -14399,7 +14399,7 @@ label0: ;
         public bool ApplyMinMax(GRGEN_LIBGR.IGraph graph, int min, int max)
         {
             GRGEN_LIBGR.IMatchesExact<Rule_ToluolCore.IMatch_ToluolCore> matches;
-            
+
             for(int i = 0; i < max; i++)
             {
                 matches = DynamicMatch((GRGEN_LGSP.LGSPGraph)graph, 1);
@@ -14415,19 +14415,19 @@ label0: ;
         }
         public object[] Modify(GRGEN_LIBGR.IGraph graph, GRGEN_LIBGR.IMatch match)
         {
-            
+
             Modify(graph, (Rule_ToluolCore.IMatch_ToluolCore)match);
             return ReturnArray;
         }
         public object[] ModifyAll(GRGEN_LIBGR.IGraph graph, GRGEN_LIBGR.IMatches matches)
         {
-            
+
             ModifyAll(graph, (GRGEN_LIBGR.IMatchesExact<Rule_ToluolCore.IMatch_ToluolCore>)matches);
             return ReturnArray;
         }
         object[] GRGEN_LIBGR.IAction.Apply(GRGEN_LIBGR.IGraph graph)
         {
-            
+
             if(Apply(graph)) {
                 return ReturnArray;
             }
@@ -14435,7 +14435,7 @@ label0: ;
         }
         object[] GRGEN_LIBGR.IAction.Apply(GRGEN_LIBGR.IGraph graph, params object[] parameters)
         {
-            
+
             if(Apply(graph)) {
                 return ReturnArray;
             }
@@ -14443,7 +14443,7 @@ label0: ;
         }
         object[] GRGEN_LIBGR.IAction.ApplyAll(int maxMatches, GRGEN_LIBGR.IGraph graph)
         {
-            
+
             if(ApplyAll(maxMatches, graph)) {
                 return ReturnArray;
             }
@@ -14451,7 +14451,7 @@ label0: ;
         }
         object[] GRGEN_LIBGR.IAction.ApplyAll(int maxMatches, GRGEN_LIBGR.IGraph graph, params object[] parameters)
         {
-            
+
             if(ApplyAll(maxMatches, graph)) {
                 return ReturnArray;
             }
@@ -14505,7 +14505,7 @@ label0: ;
         /// <summary> same as IAction.ApplyMinMax, but with exact types and distinct parameters. </summary>
         bool ApplyMinMax(GRGEN_LIBGR.IGraph graph, int min, int max);
     }
-    
+
     public class Action_ToluolCoreNotC6Nitro : GRGEN_LGSP.LGSPAction, GRGEN_LIBGR.IAction, IAction_ToluolCoreNotC6Nitro
     {
         public Action_ToluolCoreNotC6Nitro() {
@@ -14523,7 +14523,7 @@ label0: ;
 
         public static Action_ToluolCoreNotC6Nitro Instance { get { return instance; } }
         private static Action_ToluolCoreNotC6Nitro instance = new Action_ToluolCoreNotC6Nitro();
-        
+
         public GRGEN_LIBGR.IMatchesExact<Rule_ToluolCoreNotC6Nitro.IMatch_ToluolCoreNotC6Nitro> myMatch(GRGEN_LGSP.LGSPGraph graph, int maxMatches)
         {
             matches.Clear();
@@ -14531,7 +14531,7 @@ label0: ;
             Stack<GRGEN_LGSP.LGSPSubpatternAction> openTasks = new Stack<GRGEN_LGSP.LGSPSubpatternAction>();
             List<Stack<GRGEN_LIBGR.IMatch>> foundPartialMatches = new List<Stack<GRGEN_LIBGR.IMatch>>();
             List<Stack<GRGEN_LIBGR.IMatch>> matchesList = foundPartialMatches;
-            // Lookup ToluolCoreNotC6Nitro_node_c1 
+            // Lookup ToluolCoreNotC6Nitro_node_c1
             int type_id_candidate_ToluolCoreNotC6Nitro_node_c1 = 1;
             for(GRGEN_LGSP.LGSPNode head_candidate_ToluolCoreNotC6Nitro_node_c1 = graph.nodesByTypeHeads[type_id_candidate_ToluolCoreNotC6Nitro_node_c1], candidate_ToluolCoreNotC6Nitro_node_c1 = head_candidate_ToluolCoreNotC6Nitro_node_c1.lgspTypeNext; candidate_ToluolCoreNotC6Nitro_node_c1 != head_candidate_ToluolCoreNotC6Nitro_node_c1; candidate_ToluolCoreNotC6Nitro_node_c1 = candidate_ToluolCoreNotC6Nitro_node_c1.lgspTypeNext)
             {
@@ -14552,7 +14552,7 @@ label0: ;
                 uint prevGlobal__candidate_ToluolCoreNotC6Nitro_node_c1;
                 prevGlobal__candidate_ToluolCoreNotC6Nitro_node_c1 = candidate_ToluolCoreNotC6Nitro_node_c1.lgspFlags & (uint) GRGEN_LGSP.LGSPElemFlags.IS_MATCHED_BY_ENCLOSING_PATTERN << negLevel;
                 candidate_ToluolCoreNotC6Nitro_node_c1.lgspFlags |= (uint) GRGEN_LGSP.LGSPElemFlags.IS_MATCHED_BY_ENCLOSING_PATTERN << negLevel;
-                // Match subpatterns 
+                // Match subpatterns
                 openTasks.Peek().myMatch(matchesList, maxMatches - foundPartialMatches.Count, negLevel);
                 // Pop subpattern matching task for _sub0
                 openTasks.Pop();
@@ -14560,7 +14560,7 @@ label0: ;
                 // Pop subpattern matching task for _sub1
                 openTasks.Pop();
                 PatternAction_Methyl.releaseTask(taskFor__sub1);
-                // Check whether subpatterns were found 
+                // Check whether subpatterns were found
                 if(matchesList.Count>0) {
                     // subpatterns/alternatives were found, extend the partial matches by our local match object, becoming a complete match object and save it
                     foreach(Stack<GRGEN_LIBGR.IMatch> currentFoundPartialMatch in matchesList)
@@ -14622,7 +14622,7 @@ label0: ;
         public bool ApplyStar(GRGEN_LIBGR.IGraph graph)
         {
             GRGEN_LIBGR.IMatchesExact<Rule_ToluolCoreNotC6Nitro.IMatch_ToluolCoreNotC6Nitro> matches;
-            
+
             while(true)
             {
                 matches = DynamicMatch((GRGEN_LGSP.LGSPGraph)graph, 1);
@@ -14634,7 +14634,7 @@ label0: ;
         {
             GRGEN_LIBGR.IMatchesExact<Rule_ToluolCoreNotC6Nitro.IMatch_ToluolCoreNotC6Nitro> matches = DynamicMatch((GRGEN_LGSP.LGSPGraph)graph, 1);
             if(matches.Count <= 0) return false;
-            
+
             do
             {
                 _rulePattern.Modify((GRGEN_LGSP.LGSPGraph)graph, matches.First);
@@ -14646,7 +14646,7 @@ label0: ;
         public bool ApplyMinMax(GRGEN_LIBGR.IGraph graph, int min, int max)
         {
             GRGEN_LIBGR.IMatchesExact<Rule_ToluolCoreNotC6Nitro.IMatch_ToluolCoreNotC6Nitro> matches;
-            
+
             for(int i = 0; i < max; i++)
             {
                 matches = DynamicMatch((GRGEN_LGSP.LGSPGraph)graph, 1);
@@ -14662,19 +14662,19 @@ label0: ;
         }
         public object[] Modify(GRGEN_LIBGR.IGraph graph, GRGEN_LIBGR.IMatch match)
         {
-            
+
             Modify(graph, (Rule_ToluolCoreNotC6Nitro.IMatch_ToluolCoreNotC6Nitro)match);
             return ReturnArray;
         }
         public object[] ModifyAll(GRGEN_LIBGR.IGraph graph, GRGEN_LIBGR.IMatches matches)
         {
-            
+
             ModifyAll(graph, (GRGEN_LIBGR.IMatchesExact<Rule_ToluolCoreNotC6Nitro.IMatch_ToluolCoreNotC6Nitro>)matches);
             return ReturnArray;
         }
         object[] GRGEN_LIBGR.IAction.Apply(GRGEN_LIBGR.IGraph graph)
         {
-            
+
             if(Apply(graph)) {
                 return ReturnArray;
             }
@@ -14682,7 +14682,7 @@ label0: ;
         }
         object[] GRGEN_LIBGR.IAction.Apply(GRGEN_LIBGR.IGraph graph, params object[] parameters)
         {
-            
+
             if(Apply(graph)) {
                 return ReturnArray;
             }
@@ -14690,7 +14690,7 @@ label0: ;
         }
         object[] GRGEN_LIBGR.IAction.ApplyAll(int maxMatches, GRGEN_LIBGR.IGraph graph)
         {
-            
+
             if(ApplyAll(maxMatches, graph)) {
                 return ReturnArray;
             }
@@ -14698,7 +14698,7 @@ label0: ;
         }
         object[] GRGEN_LIBGR.IAction.ApplyAll(int maxMatches, GRGEN_LIBGR.IGraph graph, params object[] parameters)
         {
-            
+
             if(ApplyAll(maxMatches, graph)) {
                 return ReturnArray;
             }
@@ -14752,7 +14752,7 @@ label0: ;
         /// <summary> same as IAction.ApplyMinMax, but with exact types and distinct parameters. </summary>
         bool ApplyMinMax(GRGEN_LIBGR.IGraph graph, int min, int max);
     }
-    
+
     public class Action_Toluol : GRGEN_LGSP.LGSPAction, GRGEN_LIBGR.IAction, IAction_Toluol
     {
         public Action_Toluol() {
@@ -14770,7 +14770,7 @@ label0: ;
 
         public static Action_Toluol Instance { get { return instance; } }
         private static Action_Toluol instance = new Action_Toluol();
-        
+
         public GRGEN_LIBGR.IMatchesExact<Rule_Toluol.IMatch_Toluol> myMatch(GRGEN_LGSP.LGSPGraph graph, int maxMatches)
         {
             matches.Clear();
@@ -14778,14 +14778,14 @@ label0: ;
             Stack<GRGEN_LGSP.LGSPSubpatternAction> openTasks = new Stack<GRGEN_LGSP.LGSPSubpatternAction>();
             List<Stack<GRGEN_LIBGR.IMatch>> foundPartialMatches = new List<Stack<GRGEN_LIBGR.IMatch>>();
             List<Stack<GRGEN_LIBGR.IMatch>> matchesList = foundPartialMatches;
-            // Lookup Toluol_node_c3 
+            // Lookup Toluol_node_c3
             int type_id_candidate_Toluol_node_c3 = 1;
             for(GRGEN_LGSP.LGSPNode head_candidate_Toluol_node_c3 = graph.nodesByTypeHeads[type_id_candidate_Toluol_node_c3], candidate_Toluol_node_c3 = head_candidate_Toluol_node_c3.lgspTypeNext; candidate_Toluol_node_c3 != head_candidate_Toluol_node_c3; candidate_Toluol_node_c3 = candidate_Toluol_node_c3.lgspTypeNext)
             {
                 uint prev__candidate_Toluol_node_c3;
                 prev__candidate_Toluol_node_c3 = candidate_Toluol_node_c3.lgspFlags & (uint) GRGEN_LGSP.LGSPElemFlags.IS_MATCHED << negLevel;
                 candidate_Toluol_node_c3.lgspFlags |= (uint) GRGEN_LGSP.LGSPElemFlags.IS_MATCHED << negLevel;
-                // Lookup Toluol_node_c5 
+                // Lookup Toluol_node_c5
                 int type_id_candidate_Toluol_node_c5 = 1;
                 for(GRGEN_LGSP.LGSPNode head_candidate_Toluol_node_c5 = graph.nodesByTypeHeads[type_id_candidate_Toluol_node_c5], candidate_Toluol_node_c5 = head_candidate_Toluol_node_c5.lgspTypeNext; candidate_Toluol_node_c5 != head_candidate_Toluol_node_c5; candidate_Toluol_node_c5 = candidate_Toluol_node_c5.lgspTypeNext)
                 {
@@ -14796,7 +14796,7 @@ label0: ;
                     uint prev__candidate_Toluol_node_c5;
                     prev__candidate_Toluol_node_c5 = candidate_Toluol_node_c5.lgspFlags & (uint) GRGEN_LGSP.LGSPElemFlags.IS_MATCHED << negLevel;
                     candidate_Toluol_node_c5.lgspFlags |= (uint) GRGEN_LGSP.LGSPElemFlags.IS_MATCHED << negLevel;
-                    // Lookup Toluol_node_c6 
+                    // Lookup Toluol_node_c6
                     int type_id_candidate_Toluol_node_c6 = 1;
                     for(GRGEN_LGSP.LGSPNode head_candidate_Toluol_node_c6 = graph.nodesByTypeHeads[type_id_candidate_Toluol_node_c6], candidate_Toluol_node_c6 = head_candidate_Toluol_node_c6.lgspTypeNext; candidate_Toluol_node_c6 != head_candidate_Toluol_node_c6; candidate_Toluol_node_c6 = candidate_Toluol_node_c6.lgspTypeNext)
                     {
@@ -14807,7 +14807,7 @@ label0: ;
                         uint prev__candidate_Toluol_node_c6;
                         prev__candidate_Toluol_node_c6 = candidate_Toluol_node_c6.lgspFlags & (uint) GRGEN_LGSP.LGSPElemFlags.IS_MATCHED << negLevel;
                         candidate_Toluol_node_c6.lgspFlags |= (uint) GRGEN_LGSP.LGSPElemFlags.IS_MATCHED << negLevel;
-                        // Lookup Toluol_node_c4 
+                        // Lookup Toluol_node_c4
                         int type_id_candidate_Toluol_node_c4 = 1;
                         for(GRGEN_LGSP.LGSPNode head_candidate_Toluol_node_c4 = graph.nodesByTypeHeads[type_id_candidate_Toluol_node_c4], candidate_Toluol_node_c4 = head_candidate_Toluol_node_c4.lgspTypeNext; candidate_Toluol_node_c4 != head_candidate_Toluol_node_c4; candidate_Toluol_node_c4 = candidate_Toluol_node_c4.lgspTypeNext)
                         {
@@ -14818,7 +14818,7 @@ label0: ;
                             uint prev__candidate_Toluol_node_c4;
                             prev__candidate_Toluol_node_c4 = candidate_Toluol_node_c4.lgspFlags & (uint) GRGEN_LGSP.LGSPElemFlags.IS_MATCHED << negLevel;
                             candidate_Toluol_node_c4.lgspFlags |= (uint) GRGEN_LGSP.LGSPElemFlags.IS_MATCHED << negLevel;
-                            // Lookup Toluol_node_c2 
+                            // Lookup Toluol_node_c2
                             int type_id_candidate_Toluol_node_c2 = 1;
                             for(GRGEN_LGSP.LGSPNode head_candidate_Toluol_node_c2 = graph.nodesByTypeHeads[type_id_candidate_Toluol_node_c2], candidate_Toluol_node_c2 = head_candidate_Toluol_node_c2.lgspTypeNext; candidate_Toluol_node_c2 != head_candidate_Toluol_node_c2; candidate_Toluol_node_c2 = candidate_Toluol_node_c2.lgspTypeNext)
                             {
@@ -14829,7 +14829,7 @@ label0: ;
                                 uint prev__candidate_Toluol_node_c2;
                                 prev__candidate_Toluol_node_c2 = candidate_Toluol_node_c2.lgspFlags & (uint) GRGEN_LGSP.LGSPElemFlags.IS_MATCHED << negLevel;
                                 candidate_Toluol_node_c2.lgspFlags |= (uint) GRGEN_LGSP.LGSPElemFlags.IS_MATCHED << negLevel;
-                                // Lookup Toluol_node_c1 
+                                // Lookup Toluol_node_c1
                                 int type_id_candidate_Toluol_node_c1 = 1;
                                 for(GRGEN_LGSP.LGSPNode head_candidate_Toluol_node_c1 = graph.nodesByTypeHeads[type_id_candidate_Toluol_node_c1], candidate_Toluol_node_c1 = head_candidate_Toluol_node_c1.lgspTypeNext; candidate_Toluol_node_c1 != head_candidate_Toluol_node_c1; candidate_Toluol_node_c1 = candidate_Toluol_node_c1.lgspTypeNext)
                                 {
@@ -14909,7 +14909,7 @@ label0: ;
                                     uint prevGlobal__candidate_Toluol_node_c6;
                                     prevGlobal__candidate_Toluol_node_c6 = candidate_Toluol_node_c6.lgspFlags & (uint) GRGEN_LGSP.LGSPElemFlags.IS_MATCHED_BY_ENCLOSING_PATTERN << negLevel;
                                     candidate_Toluol_node_c6.lgspFlags |= (uint) GRGEN_LGSP.LGSPElemFlags.IS_MATCHED_BY_ENCLOSING_PATTERN << negLevel;
-                                    // Match subpatterns 
+                                    // Match subpatterns
                                     openTasks.Peek().myMatch(matchesList, maxMatches - foundPartialMatches.Count, negLevel);
                                     // Pop subpattern matching task for _sub0
                                     openTasks.Pop();
@@ -14932,7 +14932,7 @@ label0: ;
                                     // Pop subpattern matching task for _sub6
                                     openTasks.Pop();
                                     PatternAction_Hydrogen.releaseTask(taskFor__sub6);
-                                    // Check whether subpatterns were found 
+                                    // Check whether subpatterns were found
                                     if(matchesList.Count>0) {
                                         // subpatterns/alternatives were found, extend the partial matches by our local match object, becoming a complete match object and save it
                                         foreach(Stack<GRGEN_LIBGR.IMatch> currentFoundPartialMatch in matchesList)
@@ -15039,7 +15039,7 @@ label0: ;
         public bool ApplyStar(GRGEN_LIBGR.IGraph graph)
         {
             GRGEN_LIBGR.IMatchesExact<Rule_Toluol.IMatch_Toluol> matches;
-            
+
             while(true)
             {
                 matches = DynamicMatch((GRGEN_LGSP.LGSPGraph)graph, 1);
@@ -15051,7 +15051,7 @@ label0: ;
         {
             GRGEN_LIBGR.IMatchesExact<Rule_Toluol.IMatch_Toluol> matches = DynamicMatch((GRGEN_LGSP.LGSPGraph)graph, 1);
             if(matches.Count <= 0) return false;
-            
+
             do
             {
                 _rulePattern.Modify((GRGEN_LGSP.LGSPGraph)graph, matches.First);
@@ -15063,7 +15063,7 @@ label0: ;
         public bool ApplyMinMax(GRGEN_LIBGR.IGraph graph, int min, int max)
         {
             GRGEN_LIBGR.IMatchesExact<Rule_Toluol.IMatch_Toluol> matches;
-            
+
             for(int i = 0; i < max; i++)
             {
                 matches = DynamicMatch((GRGEN_LGSP.LGSPGraph)graph, 1);
@@ -15079,19 +15079,19 @@ label0: ;
         }
         public object[] Modify(GRGEN_LIBGR.IGraph graph, GRGEN_LIBGR.IMatch match)
         {
-            
+
             Modify(graph, (Rule_Toluol.IMatch_Toluol)match);
             return ReturnArray;
         }
         public object[] ModifyAll(GRGEN_LIBGR.IGraph graph, GRGEN_LIBGR.IMatches matches)
         {
-            
+
             ModifyAll(graph, (GRGEN_LIBGR.IMatchesExact<Rule_Toluol.IMatch_Toluol>)matches);
             return ReturnArray;
         }
         object[] GRGEN_LIBGR.IAction.Apply(GRGEN_LIBGR.IGraph graph)
         {
-            
+
             if(Apply(graph)) {
                 return ReturnArray;
             }
@@ -15099,7 +15099,7 @@ label0: ;
         }
         object[] GRGEN_LIBGR.IAction.Apply(GRGEN_LIBGR.IGraph graph, params object[] parameters)
         {
-            
+
             if(Apply(graph)) {
                 return ReturnArray;
             }
@@ -15107,7 +15107,7 @@ label0: ;
         }
         object[] GRGEN_LIBGR.IAction.ApplyAll(int maxMatches, GRGEN_LIBGR.IGraph graph)
         {
-            
+
             if(ApplyAll(maxMatches, graph)) {
                 return ReturnArray;
             }
@@ -15115,7 +15115,7 @@ label0: ;
         }
         object[] GRGEN_LIBGR.IAction.ApplyAll(int maxMatches, GRGEN_LIBGR.IGraph graph, params object[] parameters)
         {
-            
+
             if(ApplyAll(maxMatches, graph)) {
                 return ReturnArray;
             }
@@ -15169,7 +15169,7 @@ label0: ;
         /// <summary> same as IAction.ApplyMinMax, but with exact types and distinct parameters. </summary>
         bool ApplyMinMax(GRGEN_LIBGR.IGraph graph, int min, int max);
     }
-    
+
     public class Action_TNT : GRGEN_LGSP.LGSPAction, GRGEN_LIBGR.IAction, IAction_TNT
     {
         public Action_TNT() {
@@ -15187,7 +15187,7 @@ label0: ;
 
         public static Action_TNT Instance { get { return instance; } }
         private static Action_TNT instance = new Action_TNT();
-        
+
         public GRGEN_LIBGR.IMatchesExact<Rule_TNT.IMatch_TNT> myMatch(GRGEN_LGSP.LGSPGraph graph, int maxMatches)
         {
             matches.Clear();
@@ -15195,14 +15195,14 @@ label0: ;
             Stack<GRGEN_LGSP.LGSPSubpatternAction> openTasks = new Stack<GRGEN_LGSP.LGSPSubpatternAction>();
             List<Stack<GRGEN_LIBGR.IMatch>> foundPartialMatches = new List<Stack<GRGEN_LIBGR.IMatch>>();
             List<Stack<GRGEN_LIBGR.IMatch>> matchesList = foundPartialMatches;
-            // Lookup TNT_edge__edge0 
+            // Lookup TNT_edge__edge0
             int type_id_candidate_TNT_edge__edge0 = 1;
             for(GRGEN_LGSP.LGSPEdge head_candidate_TNT_edge__edge0 = graph.edgesByTypeHeads[type_id_candidate_TNT_edge__edge0], candidate_TNT_edge__edge0 = head_candidate_TNT_edge__edge0.lgspTypeNext; candidate_TNT_edge__edge0 != head_candidate_TNT_edge__edge0; candidate_TNT_edge__edge0 = candidate_TNT_edge__edge0.lgspTypeNext)
             {
                 uint prev__candidate_TNT_edge__edge0;
                 prev__candidate_TNT_edge__edge0 = candidate_TNT_edge__edge0.lgspFlags & (uint) GRGEN_LGSP.LGSPElemFlags.IS_MATCHED << negLevel;
                 candidate_TNT_edge__edge0.lgspFlags |= (uint) GRGEN_LGSP.LGSPElemFlags.IS_MATCHED << negLevel;
-                // Implicit Source TNT_node_c1 from TNT_edge__edge0 
+                // Implicit Source TNT_node_c1 from TNT_edge__edge0
                 GRGEN_LGSP.LGSPNode candidate_TNT_node_c1 = candidate_TNT_edge__edge0.lgspSource;
                 if(candidate_TNT_node_c1.lgspType.TypeID!=1) {
                     candidate_TNT_edge__edge0.lgspFlags = candidate_TNT_edge__edge0.lgspFlags & ~((uint) GRGEN_LGSP.LGSPElemFlags.IS_MATCHED << negLevel) | prev__candidate_TNT_edge__edge0;
@@ -15211,7 +15211,7 @@ label0: ;
                 uint prev__candidate_TNT_node_c1;
                 prev__candidate_TNT_node_c1 = candidate_TNT_node_c1.lgspFlags & (uint) GRGEN_LGSP.LGSPElemFlags.IS_MATCHED << negLevel;
                 candidate_TNT_node_c1.lgspFlags |= (uint) GRGEN_LGSP.LGSPElemFlags.IS_MATCHED << negLevel;
-                // Implicit Target TNT_node_c2 from TNT_edge__edge0 
+                // Implicit Target TNT_node_c2 from TNT_edge__edge0
                 GRGEN_LGSP.LGSPNode candidate_TNT_node_c2 = candidate_TNT_edge__edge0.lgspTarget;
                 if(candidate_TNT_node_c2.lgspType.TypeID!=1) {
                     candidate_TNT_node_c1.lgspFlags = candidate_TNT_node_c1.lgspFlags & ~((uint) GRGEN_LGSP.LGSPElemFlags.IS_MATCHED << negLevel) | prev__candidate_TNT_node_c1;
@@ -15227,7 +15227,7 @@ label0: ;
                 uint prev__candidate_TNT_node_c2;
                 prev__candidate_TNT_node_c2 = candidate_TNT_node_c2.lgspFlags & (uint) GRGEN_LGSP.LGSPElemFlags.IS_MATCHED << negLevel;
                 candidate_TNT_node_c2.lgspFlags |= (uint) GRGEN_LGSP.LGSPElemFlags.IS_MATCHED << negLevel;
-                // Extend Outgoing TNT_edge__edge6 from TNT_node_c1 
+                // Extend Outgoing TNT_edge__edge6 from TNT_node_c1
                 GRGEN_LGSP.LGSPEdge head_candidate_TNT_edge__edge6 = candidate_TNT_node_c1.lgspOuthead;
                 if(head_candidate_TNT_edge__edge6 != null)
                 {
@@ -15247,7 +15247,7 @@ label0: ;
                         uint prev__candidate_TNT_edge__edge6;
                         prev__candidate_TNT_edge__edge6 = candidate_TNT_edge__edge6.lgspFlags & (uint) GRGEN_LGSP.LGSPElemFlags.IS_MATCHED << negLevel;
                         candidate_TNT_edge__edge6.lgspFlags |= (uint) GRGEN_LGSP.LGSPElemFlags.IS_MATCHED << negLevel;
-                        // Extend Outgoing TNT_edge__edge1 from TNT_node_c2 
+                        // Extend Outgoing TNT_edge__edge1 from TNT_node_c2
                         GRGEN_LGSP.LGSPEdge head_candidate_TNT_edge__edge1 = candidate_TNT_node_c2.lgspOuthead;
                         if(head_candidate_TNT_edge__edge1 != null)
                         {
@@ -15264,7 +15264,7 @@ label0: ;
                                 uint prev__candidate_TNT_edge__edge1;
                                 prev__candidate_TNT_edge__edge1 = candidate_TNT_edge__edge1.lgspFlags & (uint) GRGEN_LGSP.LGSPElemFlags.IS_MATCHED << negLevel;
                                 candidate_TNT_edge__edge1.lgspFlags |= (uint) GRGEN_LGSP.LGSPElemFlags.IS_MATCHED << negLevel;
-                                // Implicit Target TNT_node_c3 from TNT_edge__edge1 
+                                // Implicit Target TNT_node_c3 from TNT_edge__edge1
                                 GRGEN_LGSP.LGSPNode candidate_TNT_node_c3 = candidate_TNT_edge__edge1.lgspTarget;
                                 if(candidate_TNT_node_c3.lgspType.TypeID!=1) {
                                     candidate_TNT_edge__edge1.lgspFlags = candidate_TNT_edge__edge1.lgspFlags & ~((uint) GRGEN_LGSP.LGSPElemFlags.IS_MATCHED << negLevel) | prev__candidate_TNT_edge__edge1;
@@ -15278,7 +15278,7 @@ label0: ;
                                 uint prev__candidate_TNT_node_c3;
                                 prev__candidate_TNT_node_c3 = candidate_TNT_node_c3.lgspFlags & (uint) GRGEN_LGSP.LGSPElemFlags.IS_MATCHED << negLevel;
                                 candidate_TNT_node_c3.lgspFlags |= (uint) GRGEN_LGSP.LGSPElemFlags.IS_MATCHED << negLevel;
-                                // Extend Outgoing TNT_edge__edge2 from TNT_node_c3 
+                                // Extend Outgoing TNT_edge__edge2 from TNT_node_c3
                                 GRGEN_LGSP.LGSPEdge head_candidate_TNT_edge__edge2 = candidate_TNT_node_c3.lgspOuthead;
                                 if(head_candidate_TNT_edge__edge2 != null)
                                 {
@@ -15295,7 +15295,7 @@ label0: ;
                                         uint prev__candidate_TNT_edge__edge2;
                                         prev__candidate_TNT_edge__edge2 = candidate_TNT_edge__edge2.lgspFlags & (uint) GRGEN_LGSP.LGSPElemFlags.IS_MATCHED << negLevel;
                                         candidate_TNT_edge__edge2.lgspFlags |= (uint) GRGEN_LGSP.LGSPElemFlags.IS_MATCHED << negLevel;
-                                        // Implicit Target TNT_node_c4 from TNT_edge__edge2 
+                                        // Implicit Target TNT_node_c4 from TNT_edge__edge2
                                         GRGEN_LGSP.LGSPNode candidate_TNT_node_c4 = candidate_TNT_edge__edge2.lgspTarget;
                                         if(candidate_TNT_node_c4.lgspType.TypeID!=1) {
                                             candidate_TNT_edge__edge2.lgspFlags = candidate_TNT_edge__edge2.lgspFlags & ~((uint) GRGEN_LGSP.LGSPElemFlags.IS_MATCHED << negLevel) | prev__candidate_TNT_edge__edge2;
@@ -15309,7 +15309,7 @@ label0: ;
                                         uint prev__candidate_TNT_node_c4;
                                         prev__candidate_TNT_node_c4 = candidate_TNT_node_c4.lgspFlags & (uint) GRGEN_LGSP.LGSPElemFlags.IS_MATCHED << negLevel;
                                         candidate_TNT_node_c4.lgspFlags |= (uint) GRGEN_LGSP.LGSPElemFlags.IS_MATCHED << negLevel;
-                                        // Extend Outgoing TNT_edge__edge7 from TNT_node_c3 
+                                        // Extend Outgoing TNT_edge__edge7 from TNT_node_c3
                                         GRGEN_LGSP.LGSPEdge head_candidate_TNT_edge__edge7 = candidate_TNT_node_c3.lgspOuthead;
                                         if(head_candidate_TNT_edge__edge7 != null)
                                         {
@@ -15329,7 +15329,7 @@ label0: ;
                                                 uint prev__candidate_TNT_edge__edge7;
                                                 prev__candidate_TNT_edge__edge7 = candidate_TNT_edge__edge7.lgspFlags & (uint) GRGEN_LGSP.LGSPElemFlags.IS_MATCHED << negLevel;
                                                 candidate_TNT_edge__edge7.lgspFlags |= (uint) GRGEN_LGSP.LGSPElemFlags.IS_MATCHED << negLevel;
-                                                // Extend Outgoing TNT_edge__edge3 from TNT_node_c4 
+                                                // Extend Outgoing TNT_edge__edge3 from TNT_node_c4
                                                 GRGEN_LGSP.LGSPEdge head_candidate_TNT_edge__edge3 = candidate_TNT_node_c4.lgspOuthead;
                                                 if(head_candidate_TNT_edge__edge3 != null)
                                                 {
@@ -15346,7 +15346,7 @@ label0: ;
                                                         uint prev__candidate_TNT_edge__edge3;
                                                         prev__candidate_TNT_edge__edge3 = candidate_TNT_edge__edge3.lgspFlags & (uint) GRGEN_LGSP.LGSPElemFlags.IS_MATCHED << negLevel;
                                                         candidate_TNT_edge__edge3.lgspFlags |= (uint) GRGEN_LGSP.LGSPElemFlags.IS_MATCHED << negLevel;
-                                                        // Implicit Target TNT_node_c5 from TNT_edge__edge3 
+                                                        // Implicit Target TNT_node_c5 from TNT_edge__edge3
                                                         GRGEN_LGSP.LGSPNode candidate_TNT_node_c5 = candidate_TNT_edge__edge3.lgspTarget;
                                                         if(candidate_TNT_node_c5.lgspType.TypeID!=1) {
                                                             candidate_TNT_edge__edge3.lgspFlags = candidate_TNT_edge__edge3.lgspFlags & ~((uint) GRGEN_LGSP.LGSPElemFlags.IS_MATCHED << negLevel) | prev__candidate_TNT_edge__edge3;
@@ -15360,7 +15360,7 @@ label0: ;
                                                         uint prev__candidate_TNT_node_c5;
                                                         prev__candidate_TNT_node_c5 = candidate_TNT_node_c5.lgspFlags & (uint) GRGEN_LGSP.LGSPElemFlags.IS_MATCHED << negLevel;
                                                         candidate_TNT_node_c5.lgspFlags |= (uint) GRGEN_LGSP.LGSPElemFlags.IS_MATCHED << negLevel;
-                                                        // Extend Outgoing TNT_edge__edge4 from TNT_node_c5 
+                                                        // Extend Outgoing TNT_edge__edge4 from TNT_node_c5
                                                         GRGEN_LGSP.LGSPEdge head_candidate_TNT_edge__edge4 = candidate_TNT_node_c5.lgspOuthead;
                                                         if(head_candidate_TNT_edge__edge4 != null)
                                                         {
@@ -15377,7 +15377,7 @@ label0: ;
                                                                 uint prev__candidate_TNT_edge__edge4;
                                                                 prev__candidate_TNT_edge__edge4 = candidate_TNT_edge__edge4.lgspFlags & (uint) GRGEN_LGSP.LGSPElemFlags.IS_MATCHED << negLevel;
                                                                 candidate_TNT_edge__edge4.lgspFlags |= (uint) GRGEN_LGSP.LGSPElemFlags.IS_MATCHED << negLevel;
-                                                                // Implicit Target TNT_node_c6 from TNT_edge__edge4 
+                                                                // Implicit Target TNT_node_c6 from TNT_edge__edge4
                                                                 GRGEN_LGSP.LGSPNode candidate_TNT_node_c6 = candidate_TNT_edge__edge4.lgspTarget;
                                                                 if(candidate_TNT_node_c6.lgspType.TypeID!=1) {
                                                                     candidate_TNT_edge__edge4.lgspFlags = candidate_TNT_edge__edge4.lgspFlags & ~((uint) GRGEN_LGSP.LGSPElemFlags.IS_MATCHED << negLevel) | prev__candidate_TNT_edge__edge4;
@@ -15388,7 +15388,7 @@ label0: ;
                                                                     candidate_TNT_edge__edge4.lgspFlags = candidate_TNT_edge__edge4.lgspFlags & ~((uint) GRGEN_LGSP.LGSPElemFlags.IS_MATCHED << negLevel) | prev__candidate_TNT_edge__edge4;
                                                                     continue;
                                                                 }
-                                                                // Extend Outgoing TNT_edge__edge8 from TNT_node_c5 
+                                                                // Extend Outgoing TNT_edge__edge8 from TNT_node_c5
                                                                 GRGEN_LGSP.LGSPEdge head_candidate_TNT_edge__edge8 = candidate_TNT_node_c5.lgspOuthead;
                                                                 if(head_candidate_TNT_edge__edge8 != null)
                                                                 {
@@ -15408,7 +15408,7 @@ label0: ;
                                                                         uint prev__candidate_TNT_edge__edge8;
                                                                         prev__candidate_TNT_edge__edge8 = candidate_TNT_edge__edge8.lgspFlags & (uint) GRGEN_LGSP.LGSPElemFlags.IS_MATCHED << negLevel;
                                                                         candidate_TNT_edge__edge8.lgspFlags |= (uint) GRGEN_LGSP.LGSPElemFlags.IS_MATCHED << negLevel;
-                                                                        // Extend Outgoing TNT_edge__edge5 from TNT_node_c6 
+                                                                        // Extend Outgoing TNT_edge__edge5 from TNT_node_c6
                                                                         GRGEN_LGSP.LGSPEdge head_candidate_TNT_edge__edge5 = candidate_TNT_node_c6.lgspOuthead;
                                                                         if(head_candidate_TNT_edge__edge5 != null)
                                                                         {
@@ -15512,7 +15512,7 @@ label0: ;
                                                                                 uint prevGlobal__candidate_TNT_edge__edge8;
                                                                                 prevGlobal__candidate_TNT_edge__edge8 = candidate_TNT_edge__edge8.lgspFlags & (uint) GRGEN_LGSP.LGSPElemFlags.IS_MATCHED_BY_ENCLOSING_PATTERN << negLevel;
                                                                                 candidate_TNT_edge__edge8.lgspFlags |= (uint) GRGEN_LGSP.LGSPElemFlags.IS_MATCHED_BY_ENCLOSING_PATTERN << negLevel;
-                                                                                // Match subpatterns 
+                                                                                // Match subpatterns
                                                                                 openTasks.Peek().myMatch(matchesList, maxMatches - foundPartialMatches.Count, negLevel);
                                                                                 // Pop subpattern matching task for _sub0
                                                                                 openTasks.Pop();
@@ -15532,7 +15532,7 @@ label0: ;
                                                                                 // Pop subpattern matching task for _sub5
                                                                                 openTasks.Pop();
                                                                                 PatternAction_Nitro.releaseTask(taskFor__sub5);
-                                                                                // Check whether subpatterns were found 
+                                                                                // Check whether subpatterns were found
                                                                                 if(matchesList.Count>0) {
                                                                                     // subpatterns/alternatives were found, extend the partial matches by our local match object, becoming a complete match object and save it
                                                                                     foreach(Stack<GRGEN_LIBGR.IMatch> currentFoundPartialMatch in matchesList)
@@ -15708,7 +15708,7 @@ label0: ;
         public bool ApplyStar(GRGEN_LIBGR.IGraph graph)
         {
             GRGEN_LIBGR.IMatchesExact<Rule_TNT.IMatch_TNT> matches;
-            
+
             while(true)
             {
                 matches = DynamicMatch((GRGEN_LGSP.LGSPGraph)graph, 1);
@@ -15720,7 +15720,7 @@ label0: ;
         {
             GRGEN_LIBGR.IMatchesExact<Rule_TNT.IMatch_TNT> matches = DynamicMatch((GRGEN_LGSP.LGSPGraph)graph, 1);
             if(matches.Count <= 0) return false;
-            
+
             do
             {
                 _rulePattern.Modify((GRGEN_LGSP.LGSPGraph)graph, matches.First);
@@ -15732,7 +15732,7 @@ label0: ;
         public bool ApplyMinMax(GRGEN_LIBGR.IGraph graph, int min, int max)
         {
             GRGEN_LIBGR.IMatchesExact<Rule_TNT.IMatch_TNT> matches;
-            
+
             for(int i = 0; i < max; i++)
             {
                 matches = DynamicMatch((GRGEN_LGSP.LGSPGraph)graph, 1);
@@ -15748,19 +15748,19 @@ label0: ;
         }
         public object[] Modify(GRGEN_LIBGR.IGraph graph, GRGEN_LIBGR.IMatch match)
         {
-            
+
             Modify(graph, (Rule_TNT.IMatch_TNT)match);
             return ReturnArray;
         }
         public object[] ModifyAll(GRGEN_LIBGR.IGraph graph, GRGEN_LIBGR.IMatches matches)
         {
-            
+
             ModifyAll(graph, (GRGEN_LIBGR.IMatchesExact<Rule_TNT.IMatch_TNT>)matches);
             return ReturnArray;
         }
         object[] GRGEN_LIBGR.IAction.Apply(GRGEN_LIBGR.IGraph graph)
         {
-            
+
             if(Apply(graph)) {
                 return ReturnArray;
             }
@@ -15768,7 +15768,7 @@ label0: ;
         }
         object[] GRGEN_LIBGR.IAction.Apply(GRGEN_LIBGR.IGraph graph, params object[] parameters)
         {
-            
+
             if(Apply(graph)) {
                 return ReturnArray;
             }
@@ -15776,7 +15776,7 @@ label0: ;
         }
         object[] GRGEN_LIBGR.IAction.ApplyAll(int maxMatches, GRGEN_LIBGR.IGraph graph)
         {
-            
+
             if(ApplyAll(maxMatches, graph)) {
                 return ReturnArray;
             }
@@ -15784,7 +15784,7 @@ label0: ;
         }
         object[] GRGEN_LIBGR.IAction.ApplyAll(int maxMatches, GRGEN_LIBGR.IGraph graph, params object[] parameters)
         {
-            
+
             if(ApplyAll(maxMatches, graph)) {
                 return ReturnArray;
             }
@@ -15838,7 +15838,7 @@ label0: ;
         /// <summary> same as IAction.ApplyMinMax, but with exact types and distinct parameters. </summary>
         bool ApplyMinMax(GRGEN_LIBGR.IGraph graph, int min, int max);
     }
-    
+
     public class Action_TNTUnfolded : GRGEN_LGSP.LGSPAction, GRGEN_LIBGR.IAction, IAction_TNTUnfolded
     {
         public Action_TNTUnfolded() {
@@ -15856,19 +15856,19 @@ label0: ;
 
         public static Action_TNTUnfolded Instance { get { return instance; } }
         private static Action_TNTUnfolded instance = new Action_TNTUnfolded();
-        
+
         public GRGEN_LIBGR.IMatchesExact<Rule_TNTUnfolded.IMatch_TNTUnfolded> myMatch(GRGEN_LGSP.LGSPGraph graph, int maxMatches)
         {
             matches.Clear();
             int negLevel = 0;
-            // Lookup TNTUnfolded_edge__edge0 
+            // Lookup TNTUnfolded_edge__edge0
             int type_id_candidate_TNTUnfolded_edge__edge0 = 1;
             for(GRGEN_LGSP.LGSPEdge head_candidate_TNTUnfolded_edge__edge0 = graph.edgesByTypeHeads[type_id_candidate_TNTUnfolded_edge__edge0], candidate_TNTUnfolded_edge__edge0 = head_candidate_TNTUnfolded_edge__edge0.lgspTypeNext; candidate_TNTUnfolded_edge__edge0 != head_candidate_TNTUnfolded_edge__edge0; candidate_TNTUnfolded_edge__edge0 = candidate_TNTUnfolded_edge__edge0.lgspTypeNext)
             {
                 uint prev__candidate_TNTUnfolded_edge__edge0;
                 prev__candidate_TNTUnfolded_edge__edge0 = candidate_TNTUnfolded_edge__edge0.lgspFlags & (uint) GRGEN_LGSP.LGSPElemFlags.IS_MATCHED << negLevel;
                 candidate_TNTUnfolded_edge__edge0.lgspFlags |= (uint) GRGEN_LGSP.LGSPElemFlags.IS_MATCHED << negLevel;
-                // Implicit Source TNTUnfolded_node_c1 from TNTUnfolded_edge__edge0 
+                // Implicit Source TNTUnfolded_node_c1 from TNTUnfolded_edge__edge0
                 GRGEN_LGSP.LGSPNode candidate_TNTUnfolded_node_c1 = candidate_TNTUnfolded_edge__edge0.lgspSource;
                 if(candidate_TNTUnfolded_node_c1.lgspType.TypeID!=1) {
                     candidate_TNTUnfolded_edge__edge0.lgspFlags = candidate_TNTUnfolded_edge__edge0.lgspFlags & ~((uint) GRGEN_LGSP.LGSPElemFlags.IS_MATCHED << negLevel) | prev__candidate_TNTUnfolded_edge__edge0;
@@ -15877,7 +15877,7 @@ label0: ;
                 uint prev__candidate_TNTUnfolded_node_c1;
                 prev__candidate_TNTUnfolded_node_c1 = candidate_TNTUnfolded_node_c1.lgspFlags & (uint) GRGEN_LGSP.LGSPElemFlags.IS_MATCHED << negLevel;
                 candidate_TNTUnfolded_node_c1.lgspFlags |= (uint) GRGEN_LGSP.LGSPElemFlags.IS_MATCHED << negLevel;
-                // Implicit Target TNTUnfolded_node_c2 from TNTUnfolded_edge__edge0 
+                // Implicit Target TNTUnfolded_node_c2 from TNTUnfolded_edge__edge0
                 GRGEN_LGSP.LGSPNode candidate_TNTUnfolded_node_c2 = candidate_TNTUnfolded_edge__edge0.lgspTarget;
                 if(candidate_TNTUnfolded_node_c2.lgspType.TypeID!=1) {
                     candidate_TNTUnfolded_node_c1.lgspFlags = candidate_TNTUnfolded_node_c1.lgspFlags & ~((uint) GRGEN_LGSP.LGSPElemFlags.IS_MATCHED << negLevel) | prev__candidate_TNTUnfolded_node_c1;
@@ -15893,7 +15893,7 @@ label0: ;
                 uint prev__candidate_TNTUnfolded_node_c2;
                 prev__candidate_TNTUnfolded_node_c2 = candidate_TNTUnfolded_node_c2.lgspFlags & (uint) GRGEN_LGSP.LGSPElemFlags.IS_MATCHED << negLevel;
                 candidate_TNTUnfolded_node_c2.lgspFlags |= (uint) GRGEN_LGSP.LGSPElemFlags.IS_MATCHED << negLevel;
-                // Extend Outgoing TNTUnfolded_edge__edge6 from TNTUnfolded_node_c1 
+                // Extend Outgoing TNTUnfolded_edge__edge6 from TNTUnfolded_node_c1
                 GRGEN_LGSP.LGSPEdge head_candidate_TNTUnfolded_edge__edge6 = candidate_TNTUnfolded_node_c1.lgspOuthead;
                 if(head_candidate_TNTUnfolded_edge__edge6 != null)
                 {
@@ -15913,7 +15913,7 @@ label0: ;
                         uint prev__candidate_TNTUnfolded_edge__edge6;
                         prev__candidate_TNTUnfolded_edge__edge6 = candidate_TNTUnfolded_edge__edge6.lgspFlags & (uint) GRGEN_LGSP.LGSPElemFlags.IS_MATCHED << negLevel;
                         candidate_TNTUnfolded_edge__edge6.lgspFlags |= (uint) GRGEN_LGSP.LGSPElemFlags.IS_MATCHED << negLevel;
-                        // Extend Outgoing TNTUnfolded_edge__edge9 from TNTUnfolded_node_c1 
+                        // Extend Outgoing TNTUnfolded_edge__edge9 from TNTUnfolded_node_c1
                         GRGEN_LGSP.LGSPEdge head_candidate_TNTUnfolded_edge__edge9 = candidate_TNTUnfolded_node_c1.lgspOuthead;
                         if(head_candidate_TNTUnfolded_edge__edge9 != null)
                         {
@@ -15930,7 +15930,7 @@ label0: ;
                                 uint prev__candidate_TNTUnfolded_edge__edge9;
                                 prev__candidate_TNTUnfolded_edge__edge9 = candidate_TNTUnfolded_edge__edge9.lgspFlags & (uint) GRGEN_LGSP.LGSPElemFlags.IS_MATCHED << negLevel;
                                 candidate_TNTUnfolded_edge__edge9.lgspFlags |= (uint) GRGEN_LGSP.LGSPElemFlags.IS_MATCHED << negLevel;
-                                // Implicit Target TNTUnfolded_node_c from TNTUnfolded_edge__edge9 
+                                // Implicit Target TNTUnfolded_node_c from TNTUnfolded_edge__edge9
                                 GRGEN_LGSP.LGSPNode candidate_TNTUnfolded_node_c = candidate_TNTUnfolded_edge__edge9.lgspTarget;
                                 if(candidate_TNTUnfolded_node_c.lgspType.TypeID!=1) {
                                     candidate_TNTUnfolded_edge__edge9.lgspFlags = candidate_TNTUnfolded_edge__edge9.lgspFlags & ~((uint) GRGEN_LGSP.LGSPElemFlags.IS_MATCHED << negLevel) | prev__candidate_TNTUnfolded_edge__edge9;
@@ -15944,7 +15944,7 @@ label0: ;
                                 uint prev__candidate_TNTUnfolded_node_c;
                                 prev__candidate_TNTUnfolded_node_c = candidate_TNTUnfolded_node_c.lgspFlags & (uint) GRGEN_LGSP.LGSPElemFlags.IS_MATCHED << negLevel;
                                 candidate_TNTUnfolded_node_c.lgspFlags |= (uint) GRGEN_LGSP.LGSPElemFlags.IS_MATCHED << negLevel;
-                                // Extend Outgoing TNTUnfolded_edge__edge1 from TNTUnfolded_node_c2 
+                                // Extend Outgoing TNTUnfolded_edge__edge1 from TNTUnfolded_node_c2
                                 GRGEN_LGSP.LGSPEdge head_candidate_TNTUnfolded_edge__edge1 = candidate_TNTUnfolded_node_c2.lgspOuthead;
                                 if(head_candidate_TNTUnfolded_edge__edge1 != null)
                                 {
@@ -15961,7 +15961,7 @@ label0: ;
                                         uint prev__candidate_TNTUnfolded_edge__edge1;
                                         prev__candidate_TNTUnfolded_edge__edge1 = candidate_TNTUnfolded_edge__edge1.lgspFlags & (uint) GRGEN_LGSP.LGSPElemFlags.IS_MATCHED << negLevel;
                                         candidate_TNTUnfolded_edge__edge1.lgspFlags |= (uint) GRGEN_LGSP.LGSPElemFlags.IS_MATCHED << negLevel;
-                                        // Implicit Target TNTUnfolded_node_c3 from TNTUnfolded_edge__edge1 
+                                        // Implicit Target TNTUnfolded_node_c3 from TNTUnfolded_edge__edge1
                                         GRGEN_LGSP.LGSPNode candidate_TNTUnfolded_node_c3 = candidate_TNTUnfolded_edge__edge1.lgspTarget;
                                         if(candidate_TNTUnfolded_node_c3.lgspType.TypeID!=1) {
                                             candidate_TNTUnfolded_edge__edge1.lgspFlags = candidate_TNTUnfolded_edge__edge1.lgspFlags & ~((uint) GRGEN_LGSP.LGSPElemFlags.IS_MATCHED << negLevel) | prev__candidate_TNTUnfolded_edge__edge1;
@@ -15975,7 +15975,7 @@ label0: ;
                                         uint prev__candidate_TNTUnfolded_node_c3;
                                         prev__candidate_TNTUnfolded_node_c3 = candidate_TNTUnfolded_node_c3.lgspFlags & (uint) GRGEN_LGSP.LGSPElemFlags.IS_MATCHED << negLevel;
                                         candidate_TNTUnfolded_node_c3.lgspFlags |= (uint) GRGEN_LGSP.LGSPElemFlags.IS_MATCHED << negLevel;
-                                        // Extend Outgoing TNTUnfolded_edge__edge13 from TNTUnfolded_node_c2 
+                                        // Extend Outgoing TNTUnfolded_edge__edge13 from TNTUnfolded_node_c2
                                         GRGEN_LGSP.LGSPEdge head_candidate_TNTUnfolded_edge__edge13 = candidate_TNTUnfolded_node_c2.lgspOuthead;
                                         if(head_candidate_TNTUnfolded_edge__edge13 != null)
                                         {
@@ -15992,7 +15992,7 @@ label0: ;
                                                 uint prev__candidate_TNTUnfolded_edge__edge13;
                                                 prev__candidate_TNTUnfolded_edge__edge13 = candidate_TNTUnfolded_edge__edge13.lgspFlags & (uint) GRGEN_LGSP.LGSPElemFlags.IS_MATCHED << negLevel;
                                                 candidate_TNTUnfolded_edge__edge13.lgspFlags |= (uint) GRGEN_LGSP.LGSPElemFlags.IS_MATCHED << negLevel;
-                                                // Implicit Target TNTUnfolded_node_n2 from TNTUnfolded_edge__edge13 
+                                                // Implicit Target TNTUnfolded_node_n2 from TNTUnfolded_edge__edge13
                                                 GRGEN_LGSP.LGSPNode candidate_TNTUnfolded_node_n2 = candidate_TNTUnfolded_edge__edge13.lgspTarget;
                                                 if(candidate_TNTUnfolded_node_n2.lgspType.TypeID!=4) {
                                                     candidate_TNTUnfolded_edge__edge13.lgspFlags = candidate_TNTUnfolded_edge__edge13.lgspFlags & ~((uint) GRGEN_LGSP.LGSPElemFlags.IS_MATCHED << negLevel) | prev__candidate_TNTUnfolded_edge__edge13;
@@ -16001,7 +16001,7 @@ label0: ;
                                                 uint prev__candidate_TNTUnfolded_node_n2;
                                                 prev__candidate_TNTUnfolded_node_n2 = candidate_TNTUnfolded_node_n2.lgspFlags & (uint) GRGEN_LGSP.LGSPElemFlags.IS_MATCHED << negLevel;
                                                 candidate_TNTUnfolded_node_n2.lgspFlags |= (uint) GRGEN_LGSP.LGSPElemFlags.IS_MATCHED << negLevel;
-                                                // Extend Outgoing TNTUnfolded_edge__edge10 from TNTUnfolded_node_c 
+                                                // Extend Outgoing TNTUnfolded_edge__edge10 from TNTUnfolded_node_c
                                                 GRGEN_LGSP.LGSPEdge head_candidate_TNTUnfolded_edge__edge10 = candidate_TNTUnfolded_node_c.lgspOuthead;
                                                 if(head_candidate_TNTUnfolded_edge__edge10 != null)
                                                 {
@@ -16018,7 +16018,7 @@ label0: ;
                                                         uint prev__candidate_TNTUnfolded_edge__edge10;
                                                         prev__candidate_TNTUnfolded_edge__edge10 = candidate_TNTUnfolded_edge__edge10.lgspFlags & (uint) GRGEN_LGSP.LGSPElemFlags.IS_MATCHED << negLevel;
                                                         candidate_TNTUnfolded_edge__edge10.lgspFlags |= (uint) GRGEN_LGSP.LGSPElemFlags.IS_MATCHED << negLevel;
-                                                        // Implicit Target TNTUnfolded_node__node0 from TNTUnfolded_edge__edge10 
+                                                        // Implicit Target TNTUnfolded_node__node0 from TNTUnfolded_edge__edge10
                                                         GRGEN_LGSP.LGSPNode candidate_TNTUnfolded_node__node0 = candidate_TNTUnfolded_edge__edge10.lgspTarget;
                                                         if(candidate_TNTUnfolded_node__node0.lgspType.TypeID!=2) {
                                                             candidate_TNTUnfolded_edge__edge10.lgspFlags = candidate_TNTUnfolded_edge__edge10.lgspFlags & ~((uint) GRGEN_LGSP.LGSPElemFlags.IS_MATCHED << negLevel) | prev__candidate_TNTUnfolded_edge__edge10;
@@ -16027,7 +16027,7 @@ label0: ;
                                                         uint prev__candidate_TNTUnfolded_node__node0;
                                                         prev__candidate_TNTUnfolded_node__node0 = candidate_TNTUnfolded_node__node0.lgspFlags & (uint) GRGEN_LGSP.LGSPElemFlags.IS_MATCHED << negLevel;
                                                         candidate_TNTUnfolded_node__node0.lgspFlags |= (uint) GRGEN_LGSP.LGSPElemFlags.IS_MATCHED << negLevel;
-                                                        // Extend Outgoing TNTUnfolded_edge__edge11 from TNTUnfolded_node_c 
+                                                        // Extend Outgoing TNTUnfolded_edge__edge11 from TNTUnfolded_node_c
                                                         GRGEN_LGSP.LGSPEdge head_candidate_TNTUnfolded_edge__edge11 = candidate_TNTUnfolded_node_c.lgspOuthead;
                                                         if(head_candidate_TNTUnfolded_edge__edge11 != null)
                                                         {
@@ -16044,7 +16044,7 @@ label0: ;
                                                                 uint prev__candidate_TNTUnfolded_edge__edge11;
                                                                 prev__candidate_TNTUnfolded_edge__edge11 = candidate_TNTUnfolded_edge__edge11.lgspFlags & (uint) GRGEN_LGSP.LGSPElemFlags.IS_MATCHED << negLevel;
                                                                 candidate_TNTUnfolded_edge__edge11.lgspFlags |= (uint) GRGEN_LGSP.LGSPElemFlags.IS_MATCHED << negLevel;
-                                                                // Implicit Target TNTUnfolded_node__node1 from TNTUnfolded_edge__edge11 
+                                                                // Implicit Target TNTUnfolded_node__node1 from TNTUnfolded_edge__edge11
                                                                 GRGEN_LGSP.LGSPNode candidate_TNTUnfolded_node__node1 = candidate_TNTUnfolded_edge__edge11.lgspTarget;
                                                                 if(candidate_TNTUnfolded_node__node1.lgspType.TypeID!=2) {
                                                                     candidate_TNTUnfolded_edge__edge11.lgspFlags = candidate_TNTUnfolded_edge__edge11.lgspFlags & ~((uint) GRGEN_LGSP.LGSPElemFlags.IS_MATCHED << negLevel) | prev__candidate_TNTUnfolded_edge__edge11;
@@ -16058,7 +16058,7 @@ label0: ;
                                                                 uint prev__candidate_TNTUnfolded_node__node1;
                                                                 prev__candidate_TNTUnfolded_node__node1 = candidate_TNTUnfolded_node__node1.lgspFlags & (uint) GRGEN_LGSP.LGSPElemFlags.IS_MATCHED << negLevel;
                                                                 candidate_TNTUnfolded_node__node1.lgspFlags |= (uint) GRGEN_LGSP.LGSPElemFlags.IS_MATCHED << negLevel;
-                                                                // Extend Outgoing TNTUnfolded_edge__edge12 from TNTUnfolded_node_c 
+                                                                // Extend Outgoing TNTUnfolded_edge__edge12 from TNTUnfolded_node_c
                                                                 GRGEN_LGSP.LGSPEdge head_candidate_TNTUnfolded_edge__edge12 = candidate_TNTUnfolded_node_c.lgspOuthead;
                                                                 if(head_candidate_TNTUnfolded_edge__edge12 != null)
                                                                 {
@@ -16075,7 +16075,7 @@ label0: ;
                                                                         uint prev__candidate_TNTUnfolded_edge__edge12;
                                                                         prev__candidate_TNTUnfolded_edge__edge12 = candidate_TNTUnfolded_edge__edge12.lgspFlags & (uint) GRGEN_LGSP.LGSPElemFlags.IS_MATCHED << negLevel;
                                                                         candidate_TNTUnfolded_edge__edge12.lgspFlags |= (uint) GRGEN_LGSP.LGSPElemFlags.IS_MATCHED << negLevel;
-                                                                        // Implicit Target TNTUnfolded_node__node2 from TNTUnfolded_edge__edge12 
+                                                                        // Implicit Target TNTUnfolded_node__node2 from TNTUnfolded_edge__edge12
                                                                         GRGEN_LGSP.LGSPNode candidate_TNTUnfolded_node__node2 = candidate_TNTUnfolded_edge__edge12.lgspTarget;
                                                                         if(candidate_TNTUnfolded_node__node2.lgspType.TypeID!=2) {
                                                                             candidate_TNTUnfolded_edge__edge12.lgspFlags = candidate_TNTUnfolded_edge__edge12.lgspFlags & ~((uint) GRGEN_LGSP.LGSPElemFlags.IS_MATCHED << negLevel) | prev__candidate_TNTUnfolded_edge__edge12;
@@ -16089,7 +16089,7 @@ label0: ;
                                                                         uint prev__candidate_TNTUnfolded_node__node2;
                                                                         prev__candidate_TNTUnfolded_node__node2 = candidate_TNTUnfolded_node__node2.lgspFlags & (uint) GRGEN_LGSP.LGSPElemFlags.IS_MATCHED << negLevel;
                                                                         candidate_TNTUnfolded_node__node2.lgspFlags |= (uint) GRGEN_LGSP.LGSPElemFlags.IS_MATCHED << negLevel;
-                                                                        // Extend Outgoing TNTUnfolded_edge__edge2 from TNTUnfolded_node_c3 
+                                                                        // Extend Outgoing TNTUnfolded_edge__edge2 from TNTUnfolded_node_c3
                                                                         GRGEN_LGSP.LGSPEdge head_candidate_TNTUnfolded_edge__edge2 = candidate_TNTUnfolded_node_c3.lgspOuthead;
                                                                         if(head_candidate_TNTUnfolded_edge__edge2 != null)
                                                                         {
@@ -16106,7 +16106,7 @@ label0: ;
                                                                                 uint prev__candidate_TNTUnfolded_edge__edge2;
                                                                                 prev__candidate_TNTUnfolded_edge__edge2 = candidate_TNTUnfolded_edge__edge2.lgspFlags & (uint) GRGEN_LGSP.LGSPElemFlags.IS_MATCHED << negLevel;
                                                                                 candidate_TNTUnfolded_edge__edge2.lgspFlags |= (uint) GRGEN_LGSP.LGSPElemFlags.IS_MATCHED << negLevel;
-                                                                                // Implicit Target TNTUnfolded_node_c4 from TNTUnfolded_edge__edge2 
+                                                                                // Implicit Target TNTUnfolded_node_c4 from TNTUnfolded_edge__edge2
                                                                                 GRGEN_LGSP.LGSPNode candidate_TNTUnfolded_node_c4 = candidate_TNTUnfolded_edge__edge2.lgspTarget;
                                                                                 if(candidate_TNTUnfolded_node_c4.lgspType.TypeID!=1) {
                                                                                     candidate_TNTUnfolded_edge__edge2.lgspFlags = candidate_TNTUnfolded_edge__edge2.lgspFlags & ~((uint) GRGEN_LGSP.LGSPElemFlags.IS_MATCHED << negLevel) | prev__candidate_TNTUnfolded_edge__edge2;
@@ -16120,7 +16120,7 @@ label0: ;
                                                                                 uint prev__candidate_TNTUnfolded_node_c4;
                                                                                 prev__candidate_TNTUnfolded_node_c4 = candidate_TNTUnfolded_node_c4.lgspFlags & (uint) GRGEN_LGSP.LGSPElemFlags.IS_MATCHED << negLevel;
                                                                                 candidate_TNTUnfolded_node_c4.lgspFlags |= (uint) GRGEN_LGSP.LGSPElemFlags.IS_MATCHED << negLevel;
-                                                                                // Extend Outgoing TNTUnfolded_edge__edge7 from TNTUnfolded_node_c3 
+                                                                                // Extend Outgoing TNTUnfolded_edge__edge7 from TNTUnfolded_node_c3
                                                                                 GRGEN_LGSP.LGSPEdge head_candidate_TNTUnfolded_edge__edge7 = candidate_TNTUnfolded_node_c3.lgspOuthead;
                                                                                 if(head_candidate_TNTUnfolded_edge__edge7 != null)
                                                                                 {
@@ -16140,7 +16140,7 @@ label0: ;
                                                                                         uint prev__candidate_TNTUnfolded_edge__edge7;
                                                                                         prev__candidate_TNTUnfolded_edge__edge7 = candidate_TNTUnfolded_edge__edge7.lgspFlags & (uint) GRGEN_LGSP.LGSPElemFlags.IS_MATCHED << negLevel;
                                                                                         candidate_TNTUnfolded_edge__edge7.lgspFlags |= (uint) GRGEN_LGSP.LGSPElemFlags.IS_MATCHED << negLevel;
-                                                                                        // Extend Outgoing TNTUnfolded_edge__edge16 from TNTUnfolded_node_c3 
+                                                                                        // Extend Outgoing TNTUnfolded_edge__edge16 from TNTUnfolded_node_c3
                                                                                         GRGEN_LGSP.LGSPEdge head_candidate_TNTUnfolded_edge__edge16 = candidate_TNTUnfolded_node_c3.lgspOuthead;
                                                                                         if(head_candidate_TNTUnfolded_edge__edge16 != null)
                                                                                         {
@@ -16157,7 +16157,7 @@ label0: ;
                                                                                                 uint prev__candidate_TNTUnfolded_edge__edge16;
                                                                                                 prev__candidate_TNTUnfolded_edge__edge16 = candidate_TNTUnfolded_edge__edge16.lgspFlags & (uint) GRGEN_LGSP.LGSPElemFlags.IS_MATCHED << negLevel;
                                                                                                 candidate_TNTUnfolded_edge__edge16.lgspFlags |= (uint) GRGEN_LGSP.LGSPElemFlags.IS_MATCHED << negLevel;
-                                                                                                // Implicit Target TNTUnfolded_node__node5 from TNTUnfolded_edge__edge16 
+                                                                                                // Implicit Target TNTUnfolded_node__node5 from TNTUnfolded_edge__edge16
                                                                                                 GRGEN_LGSP.LGSPNode candidate_TNTUnfolded_node__node5 = candidate_TNTUnfolded_edge__edge16.lgspTarget;
                                                                                                 if(candidate_TNTUnfolded_node__node5.lgspType.TypeID!=2) {
                                                                                                     candidate_TNTUnfolded_edge__edge16.lgspFlags = candidate_TNTUnfolded_edge__edge16.lgspFlags & ~((uint) GRGEN_LGSP.LGSPElemFlags.IS_MATCHED << negLevel) | prev__candidate_TNTUnfolded_edge__edge16;
@@ -16171,7 +16171,7 @@ label0: ;
                                                                                                 uint prev__candidate_TNTUnfolded_node__node5;
                                                                                                 prev__candidate_TNTUnfolded_node__node5 = candidate_TNTUnfolded_node__node5.lgspFlags & (uint) GRGEN_LGSP.LGSPElemFlags.IS_MATCHED << negLevel;
                                                                                                 candidate_TNTUnfolded_node__node5.lgspFlags |= (uint) GRGEN_LGSP.LGSPElemFlags.IS_MATCHED << negLevel;
-                                                                                                // Extend Outgoing TNTUnfolded_edge__edge14 from TNTUnfolded_node_n2 
+                                                                                                // Extend Outgoing TNTUnfolded_edge__edge14 from TNTUnfolded_node_n2
                                                                                                 GRGEN_LGSP.LGSPEdge head_candidate_TNTUnfolded_edge__edge14 = candidate_TNTUnfolded_node_n2.lgspOuthead;
                                                                                                 if(head_candidate_TNTUnfolded_edge__edge14 != null)
                                                                                                 {
@@ -16188,7 +16188,7 @@ label0: ;
                                                                                                         uint prev__candidate_TNTUnfolded_edge__edge14;
                                                                                                         prev__candidate_TNTUnfolded_edge__edge14 = candidate_TNTUnfolded_edge__edge14.lgspFlags & (uint) GRGEN_LGSP.LGSPElemFlags.IS_MATCHED << negLevel;
                                                                                                         candidate_TNTUnfolded_edge__edge14.lgspFlags |= (uint) GRGEN_LGSP.LGSPElemFlags.IS_MATCHED << negLevel;
-                                                                                                        // Implicit Target TNTUnfolded_node__node3 from TNTUnfolded_edge__edge14 
+                                                                                                        // Implicit Target TNTUnfolded_node__node3 from TNTUnfolded_edge__edge14
                                                                                                         GRGEN_LGSP.LGSPNode candidate_TNTUnfolded_node__node3 = candidate_TNTUnfolded_edge__edge14.lgspTarget;
                                                                                                         if(candidate_TNTUnfolded_node__node3.lgspType.TypeID!=3) {
                                                                                                             candidate_TNTUnfolded_edge__edge14.lgspFlags = candidate_TNTUnfolded_edge__edge14.lgspFlags & ~((uint) GRGEN_LGSP.LGSPElemFlags.IS_MATCHED << negLevel) | prev__candidate_TNTUnfolded_edge__edge14;
@@ -16197,7 +16197,7 @@ label0: ;
                                                                                                         uint prev__candidate_TNTUnfolded_node__node3;
                                                                                                         prev__candidate_TNTUnfolded_node__node3 = candidate_TNTUnfolded_node__node3.lgspFlags & (uint) GRGEN_LGSP.LGSPElemFlags.IS_MATCHED << negLevel;
                                                                                                         candidate_TNTUnfolded_node__node3.lgspFlags |= (uint) GRGEN_LGSP.LGSPElemFlags.IS_MATCHED << negLevel;
-                                                                                                        // Extend Outgoing TNTUnfolded_edge__edge15 from TNTUnfolded_node_n2 
+                                                                                                        // Extend Outgoing TNTUnfolded_edge__edge15 from TNTUnfolded_node_n2
                                                                                                         GRGEN_LGSP.LGSPEdge head_candidate_TNTUnfolded_edge__edge15 = candidate_TNTUnfolded_node_n2.lgspOuthead;
                                                                                                         if(head_candidate_TNTUnfolded_edge__edge15 != null)
                                                                                                         {
@@ -16214,7 +16214,7 @@ label0: ;
                                                                                                                 uint prev__candidate_TNTUnfolded_edge__edge15;
                                                                                                                 prev__candidate_TNTUnfolded_edge__edge15 = candidate_TNTUnfolded_edge__edge15.lgspFlags & (uint) GRGEN_LGSP.LGSPElemFlags.IS_MATCHED << negLevel;
                                                                                                                 candidate_TNTUnfolded_edge__edge15.lgspFlags |= (uint) GRGEN_LGSP.LGSPElemFlags.IS_MATCHED << negLevel;
-                                                                                                                // Implicit Target TNTUnfolded_node__node4 from TNTUnfolded_edge__edge15 
+                                                                                                                // Implicit Target TNTUnfolded_node__node4 from TNTUnfolded_edge__edge15
                                                                                                                 GRGEN_LGSP.LGSPNode candidate_TNTUnfolded_node__node4 = candidate_TNTUnfolded_edge__edge15.lgspTarget;
                                                                                                                 if(candidate_TNTUnfolded_node__node4.lgspType.TypeID!=3) {
                                                                                                                     candidate_TNTUnfolded_edge__edge15.lgspFlags = candidate_TNTUnfolded_edge__edge15.lgspFlags & ~((uint) GRGEN_LGSP.LGSPElemFlags.IS_MATCHED << negLevel) | prev__candidate_TNTUnfolded_edge__edge15;
@@ -16228,7 +16228,7 @@ label0: ;
                                                                                                                 uint prev__candidate_TNTUnfolded_node__node4;
                                                                                                                 prev__candidate_TNTUnfolded_node__node4 = candidate_TNTUnfolded_node__node4.lgspFlags & (uint) GRGEN_LGSP.LGSPElemFlags.IS_MATCHED << negLevel;
                                                                                                                 candidate_TNTUnfolded_node__node4.lgspFlags |= (uint) GRGEN_LGSP.LGSPElemFlags.IS_MATCHED << negLevel;
-                                                                                                                // Extend Outgoing TNTUnfolded_edge__edge3 from TNTUnfolded_node_c4 
+                                                                                                                // Extend Outgoing TNTUnfolded_edge__edge3 from TNTUnfolded_node_c4
                                                                                                                 GRGEN_LGSP.LGSPEdge head_candidate_TNTUnfolded_edge__edge3 = candidate_TNTUnfolded_node_c4.lgspOuthead;
                                                                                                                 if(head_candidate_TNTUnfolded_edge__edge3 != null)
                                                                                                                 {
@@ -16245,7 +16245,7 @@ label0: ;
                                                                                                                         uint prev__candidate_TNTUnfolded_edge__edge3;
                                                                                                                         prev__candidate_TNTUnfolded_edge__edge3 = candidate_TNTUnfolded_edge__edge3.lgspFlags & (uint) GRGEN_LGSP.LGSPElemFlags.IS_MATCHED << negLevel;
                                                                                                                         candidate_TNTUnfolded_edge__edge3.lgspFlags |= (uint) GRGEN_LGSP.LGSPElemFlags.IS_MATCHED << negLevel;
-                                                                                                                        // Implicit Target TNTUnfolded_node_c5 from TNTUnfolded_edge__edge3 
+                                                                                                                        // Implicit Target TNTUnfolded_node_c5 from TNTUnfolded_edge__edge3
                                                                                                                         GRGEN_LGSP.LGSPNode candidate_TNTUnfolded_node_c5 = candidate_TNTUnfolded_edge__edge3.lgspTarget;
                                                                                                                         if(candidate_TNTUnfolded_node_c5.lgspType.TypeID!=1) {
                                                                                                                             candidate_TNTUnfolded_edge__edge3.lgspFlags = candidate_TNTUnfolded_edge__edge3.lgspFlags & ~((uint) GRGEN_LGSP.LGSPElemFlags.IS_MATCHED << negLevel) | prev__candidate_TNTUnfolded_edge__edge3;
@@ -16259,7 +16259,7 @@ label0: ;
                                                                                                                         uint prev__candidate_TNTUnfolded_node_c5;
                                                                                                                         prev__candidate_TNTUnfolded_node_c5 = candidate_TNTUnfolded_node_c5.lgspFlags & (uint) GRGEN_LGSP.LGSPElemFlags.IS_MATCHED << negLevel;
                                                                                                                         candidate_TNTUnfolded_node_c5.lgspFlags |= (uint) GRGEN_LGSP.LGSPElemFlags.IS_MATCHED << negLevel;
-                                                                                                                        // Extend Outgoing TNTUnfolded_edge__edge17 from TNTUnfolded_node_c4 
+                                                                                                                        // Extend Outgoing TNTUnfolded_edge__edge17 from TNTUnfolded_node_c4
                                                                                                                         GRGEN_LGSP.LGSPEdge head_candidate_TNTUnfolded_edge__edge17 = candidate_TNTUnfolded_node_c4.lgspOuthead;
                                                                                                                         if(head_candidate_TNTUnfolded_edge__edge17 != null)
                                                                                                                         {
@@ -16276,7 +16276,7 @@ label0: ;
                                                                                                                                 uint prev__candidate_TNTUnfolded_edge__edge17;
                                                                                                                                 prev__candidate_TNTUnfolded_edge__edge17 = candidate_TNTUnfolded_edge__edge17.lgspFlags & (uint) GRGEN_LGSP.LGSPElemFlags.IS_MATCHED << negLevel;
                                                                                                                                 candidate_TNTUnfolded_edge__edge17.lgspFlags |= (uint) GRGEN_LGSP.LGSPElemFlags.IS_MATCHED << negLevel;
-                                                                                                                                // Implicit Target TNTUnfolded_node_n4 from TNTUnfolded_edge__edge17 
+                                                                                                                                // Implicit Target TNTUnfolded_node_n4 from TNTUnfolded_edge__edge17
                                                                                                                                 GRGEN_LGSP.LGSPNode candidate_TNTUnfolded_node_n4 = candidate_TNTUnfolded_edge__edge17.lgspTarget;
                                                                                                                                 if(candidate_TNTUnfolded_node_n4.lgspType.TypeID!=4) {
                                                                                                                                     candidate_TNTUnfolded_edge__edge17.lgspFlags = candidate_TNTUnfolded_edge__edge17.lgspFlags & ~((uint) GRGEN_LGSP.LGSPElemFlags.IS_MATCHED << negLevel) | prev__candidate_TNTUnfolded_edge__edge17;
@@ -16290,7 +16290,7 @@ label0: ;
                                                                                                                                 uint prev__candidate_TNTUnfolded_node_n4;
                                                                                                                                 prev__candidate_TNTUnfolded_node_n4 = candidate_TNTUnfolded_node_n4.lgspFlags & (uint) GRGEN_LGSP.LGSPElemFlags.IS_MATCHED << negLevel;
                                                                                                                                 candidate_TNTUnfolded_node_n4.lgspFlags |= (uint) GRGEN_LGSP.LGSPElemFlags.IS_MATCHED << negLevel;
-                                                                                                                                // Extend Outgoing TNTUnfolded_edge__edge4 from TNTUnfolded_node_c5 
+                                                                                                                                // Extend Outgoing TNTUnfolded_edge__edge4 from TNTUnfolded_node_c5
                                                                                                                                 GRGEN_LGSP.LGSPEdge head_candidate_TNTUnfolded_edge__edge4 = candidate_TNTUnfolded_node_c5.lgspOuthead;
                                                                                                                                 if(head_candidate_TNTUnfolded_edge__edge4 != null)
                                                                                                                                 {
@@ -16307,7 +16307,7 @@ label0: ;
                                                                                                                                         uint prev__candidate_TNTUnfolded_edge__edge4;
                                                                                                                                         prev__candidate_TNTUnfolded_edge__edge4 = candidate_TNTUnfolded_edge__edge4.lgspFlags & (uint) GRGEN_LGSP.LGSPElemFlags.IS_MATCHED << negLevel;
                                                                                                                                         candidate_TNTUnfolded_edge__edge4.lgspFlags |= (uint) GRGEN_LGSP.LGSPElemFlags.IS_MATCHED << negLevel;
-                                                                                                                                        // Implicit Target TNTUnfolded_node_c6 from TNTUnfolded_edge__edge4 
+                                                                                                                                        // Implicit Target TNTUnfolded_node_c6 from TNTUnfolded_edge__edge4
                                                                                                                                         GRGEN_LGSP.LGSPNode candidate_TNTUnfolded_node_c6 = candidate_TNTUnfolded_edge__edge4.lgspTarget;
                                                                                                                                         if(candidate_TNTUnfolded_node_c6.lgspType.TypeID!=1) {
                                                                                                                                             candidate_TNTUnfolded_edge__edge4.lgspFlags = candidate_TNTUnfolded_edge__edge4.lgspFlags & ~((uint) GRGEN_LGSP.LGSPElemFlags.IS_MATCHED << negLevel) | prev__candidate_TNTUnfolded_edge__edge4;
@@ -16318,7 +16318,7 @@ label0: ;
                                                                                                                                             candidate_TNTUnfolded_edge__edge4.lgspFlags = candidate_TNTUnfolded_edge__edge4.lgspFlags & ~((uint) GRGEN_LGSP.LGSPElemFlags.IS_MATCHED << negLevel) | prev__candidate_TNTUnfolded_edge__edge4;
                                                                                                                                             continue;
                                                                                                                                         }
-                                                                                                                                        // Extend Outgoing TNTUnfolded_edge__edge8 from TNTUnfolded_node_c5 
+                                                                                                                                        // Extend Outgoing TNTUnfolded_edge__edge8 from TNTUnfolded_node_c5
                                                                                                                                         GRGEN_LGSP.LGSPEdge head_candidate_TNTUnfolded_edge__edge8 = candidate_TNTUnfolded_node_c5.lgspOuthead;
                                                                                                                                         if(head_candidate_TNTUnfolded_edge__edge8 != null)
                                                                                                                                         {
@@ -16338,7 +16338,7 @@ label0: ;
                                                                                                                                                 uint prev__candidate_TNTUnfolded_edge__edge8;
                                                                                                                                                 prev__candidate_TNTUnfolded_edge__edge8 = candidate_TNTUnfolded_edge__edge8.lgspFlags & (uint) GRGEN_LGSP.LGSPElemFlags.IS_MATCHED << negLevel;
                                                                                                                                                 candidate_TNTUnfolded_edge__edge8.lgspFlags |= (uint) GRGEN_LGSP.LGSPElemFlags.IS_MATCHED << negLevel;
-                                                                                                                                                // Extend Outgoing TNTUnfolded_edge__edge20 from TNTUnfolded_node_c5 
+                                                                                                                                                // Extend Outgoing TNTUnfolded_edge__edge20 from TNTUnfolded_node_c5
                                                                                                                                                 GRGEN_LGSP.LGSPEdge head_candidate_TNTUnfolded_edge__edge20 = candidate_TNTUnfolded_node_c5.lgspOuthead;
                                                                                                                                                 if(head_candidate_TNTUnfolded_edge__edge20 != null)
                                                                                                                                                 {
@@ -16355,7 +16355,7 @@ label0: ;
                                                                                                                                                         uint prev__candidate_TNTUnfolded_edge__edge20;
                                                                                                                                                         prev__candidate_TNTUnfolded_edge__edge20 = candidate_TNTUnfolded_edge__edge20.lgspFlags & (uint) GRGEN_LGSP.LGSPElemFlags.IS_MATCHED << negLevel;
                                                                                                                                                         candidate_TNTUnfolded_edge__edge20.lgspFlags |= (uint) GRGEN_LGSP.LGSPElemFlags.IS_MATCHED << negLevel;
-                                                                                                                                                        // Implicit Target TNTUnfolded_node__node8 from TNTUnfolded_edge__edge20 
+                                                                                                                                                        // Implicit Target TNTUnfolded_node__node8 from TNTUnfolded_edge__edge20
                                                                                                                                                         GRGEN_LGSP.LGSPNode candidate_TNTUnfolded_node__node8 = candidate_TNTUnfolded_edge__edge20.lgspTarget;
                                                                                                                                                         if(candidate_TNTUnfolded_node__node8.lgspType.TypeID!=2) {
                                                                                                                                                             candidate_TNTUnfolded_edge__edge20.lgspFlags = candidate_TNTUnfolded_edge__edge20.lgspFlags & ~((uint) GRGEN_LGSP.LGSPElemFlags.IS_MATCHED << negLevel) | prev__candidate_TNTUnfolded_edge__edge20;
@@ -16366,7 +16366,7 @@ label0: ;
                                                                                                                                                             candidate_TNTUnfolded_edge__edge20.lgspFlags = candidate_TNTUnfolded_edge__edge20.lgspFlags & ~((uint) GRGEN_LGSP.LGSPElemFlags.IS_MATCHED << negLevel) | prev__candidate_TNTUnfolded_edge__edge20;
                                                                                                                                                             continue;
                                                                                                                                                         }
-                                                                                                                                                        // Extend Outgoing TNTUnfolded_edge__edge18 from TNTUnfolded_node_n4 
+                                                                                                                                                        // Extend Outgoing TNTUnfolded_edge__edge18 from TNTUnfolded_node_n4
                                                                                                                                                         GRGEN_LGSP.LGSPEdge head_candidate_TNTUnfolded_edge__edge18 = candidate_TNTUnfolded_node_n4.lgspOuthead;
                                                                                                                                                         if(head_candidate_TNTUnfolded_edge__edge18 != null)
                                                                                                                                                         {
@@ -16383,7 +16383,7 @@ label0: ;
                                                                                                                                                                 uint prev__candidate_TNTUnfolded_edge__edge18;
                                                                                                                                                                 prev__candidate_TNTUnfolded_edge__edge18 = candidate_TNTUnfolded_edge__edge18.lgspFlags & (uint) GRGEN_LGSP.LGSPElemFlags.IS_MATCHED << negLevel;
                                                                                                                                                                 candidate_TNTUnfolded_edge__edge18.lgspFlags |= (uint) GRGEN_LGSP.LGSPElemFlags.IS_MATCHED << negLevel;
-                                                                                                                                                                // Implicit Target TNTUnfolded_node__node6 from TNTUnfolded_edge__edge18 
+                                                                                                                                                                // Implicit Target TNTUnfolded_node__node6 from TNTUnfolded_edge__edge18
                                                                                                                                                                 GRGEN_LGSP.LGSPNode candidate_TNTUnfolded_node__node6 = candidate_TNTUnfolded_edge__edge18.lgspTarget;
                                                                                                                                                                 if(candidate_TNTUnfolded_node__node6.lgspType.TypeID!=3) {
                                                                                                                                                                     candidate_TNTUnfolded_edge__edge18.lgspFlags = candidate_TNTUnfolded_edge__edge18.lgspFlags & ~((uint) GRGEN_LGSP.LGSPElemFlags.IS_MATCHED << negLevel) | prev__candidate_TNTUnfolded_edge__edge18;
@@ -16397,7 +16397,7 @@ label0: ;
                                                                                                                                                                 uint prev__candidate_TNTUnfolded_node__node6;
                                                                                                                                                                 prev__candidate_TNTUnfolded_node__node6 = candidate_TNTUnfolded_node__node6.lgspFlags & (uint) GRGEN_LGSP.LGSPElemFlags.IS_MATCHED << negLevel;
                                                                                                                                                                 candidate_TNTUnfolded_node__node6.lgspFlags |= (uint) GRGEN_LGSP.LGSPElemFlags.IS_MATCHED << negLevel;
-                                                                                                                                                                // Extend Outgoing TNTUnfolded_edge__edge19 from TNTUnfolded_node_n4 
+                                                                                                                                                                // Extend Outgoing TNTUnfolded_edge__edge19 from TNTUnfolded_node_n4
                                                                                                                                                                 GRGEN_LGSP.LGSPEdge head_candidate_TNTUnfolded_edge__edge19 = candidate_TNTUnfolded_node_n4.lgspOuthead;
                                                                                                                                                                 if(head_candidate_TNTUnfolded_edge__edge19 != null)
                                                                                                                                                                 {
@@ -16414,7 +16414,7 @@ label0: ;
                                                                                                                                                                         uint prev__candidate_TNTUnfolded_edge__edge19;
                                                                                                                                                                         prev__candidate_TNTUnfolded_edge__edge19 = candidate_TNTUnfolded_edge__edge19.lgspFlags & (uint) GRGEN_LGSP.LGSPElemFlags.IS_MATCHED << negLevel;
                                                                                                                                                                         candidate_TNTUnfolded_edge__edge19.lgspFlags |= (uint) GRGEN_LGSP.LGSPElemFlags.IS_MATCHED << negLevel;
-                                                                                                                                                                        // Implicit Target TNTUnfolded_node__node7 from TNTUnfolded_edge__edge19 
+                                                                                                                                                                        // Implicit Target TNTUnfolded_node__node7 from TNTUnfolded_edge__edge19
                                                                                                                                                                         GRGEN_LGSP.LGSPNode candidate_TNTUnfolded_node__node7 = candidate_TNTUnfolded_edge__edge19.lgspTarget;
                                                                                                                                                                         if(candidate_TNTUnfolded_node__node7.lgspType.TypeID!=3) {
                                                                                                                                                                             candidate_TNTUnfolded_edge__edge19.lgspFlags = candidate_TNTUnfolded_edge__edge19.lgspFlags & ~((uint) GRGEN_LGSP.LGSPElemFlags.IS_MATCHED << negLevel) | prev__candidate_TNTUnfolded_edge__edge19;
@@ -16428,7 +16428,7 @@ label0: ;
                                                                                                                                                                         uint prev__candidate_TNTUnfolded_node__node7;
                                                                                                                                                                         prev__candidate_TNTUnfolded_node__node7 = candidate_TNTUnfolded_node__node7.lgspFlags & (uint) GRGEN_LGSP.LGSPElemFlags.IS_MATCHED << negLevel;
                                                                                                                                                                         candidate_TNTUnfolded_node__node7.lgspFlags |= (uint) GRGEN_LGSP.LGSPElemFlags.IS_MATCHED << negLevel;
-                                                                                                                                                                        // Extend Outgoing TNTUnfolded_edge__edge5 from TNTUnfolded_node_c6 
+                                                                                                                                                                        // Extend Outgoing TNTUnfolded_edge__edge5 from TNTUnfolded_node_c6
                                                                                                                                                                         GRGEN_LGSP.LGSPEdge head_candidate_TNTUnfolded_edge__edge5 = candidate_TNTUnfolded_node_c6.lgspOuthead;
                                                                                                                                                                         if(head_candidate_TNTUnfolded_edge__edge5 != null)
                                                                                                                                                                         {
@@ -16448,7 +16448,7 @@ label0: ;
                                                                                                                                                                                 uint prev__candidate_TNTUnfolded_edge__edge5;
                                                                                                                                                                                 prev__candidate_TNTUnfolded_edge__edge5 = candidate_TNTUnfolded_edge__edge5.lgspFlags & (uint) GRGEN_LGSP.LGSPElemFlags.IS_MATCHED << negLevel;
                                                                                                                                                                                 candidate_TNTUnfolded_edge__edge5.lgspFlags |= (uint) GRGEN_LGSP.LGSPElemFlags.IS_MATCHED << negLevel;
-                                                                                                                                                                                // Extend Outgoing TNTUnfolded_edge__edge21 from TNTUnfolded_node_c6 
+                                                                                                                                                                                // Extend Outgoing TNTUnfolded_edge__edge21 from TNTUnfolded_node_c6
                                                                                                                                                                                 GRGEN_LGSP.LGSPEdge head_candidate_TNTUnfolded_edge__edge21 = candidate_TNTUnfolded_node_c6.lgspOuthead;
                                                                                                                                                                                 if(head_candidate_TNTUnfolded_edge__edge21 != null)
                                                                                                                                                                                 {
@@ -16465,7 +16465,7 @@ label0: ;
                                                                                                                                                                                         uint prev__candidate_TNTUnfolded_edge__edge21;
                                                                                                                                                                                         prev__candidate_TNTUnfolded_edge__edge21 = candidate_TNTUnfolded_edge__edge21.lgspFlags & (uint) GRGEN_LGSP.LGSPElemFlags.IS_MATCHED << negLevel;
                                                                                                                                                                                         candidate_TNTUnfolded_edge__edge21.lgspFlags |= (uint) GRGEN_LGSP.LGSPElemFlags.IS_MATCHED << negLevel;
-                                                                                                                                                                                        // Implicit Target TNTUnfolded_node_n6 from TNTUnfolded_edge__edge21 
+                                                                                                                                                                                        // Implicit Target TNTUnfolded_node_n6 from TNTUnfolded_edge__edge21
                                                                                                                                                                                         GRGEN_LGSP.LGSPNode candidate_TNTUnfolded_node_n6 = candidate_TNTUnfolded_edge__edge21.lgspTarget;
                                                                                                                                                                                         if(candidate_TNTUnfolded_node_n6.lgspType.TypeID!=4) {
                                                                                                                                                                                             candidate_TNTUnfolded_edge__edge21.lgspFlags = candidate_TNTUnfolded_edge__edge21.lgspFlags & ~((uint) GRGEN_LGSP.LGSPElemFlags.IS_MATCHED << negLevel) | prev__candidate_TNTUnfolded_edge__edge21;
@@ -16476,7 +16476,7 @@ label0: ;
                                                                                                                                                                                             candidate_TNTUnfolded_edge__edge21.lgspFlags = candidate_TNTUnfolded_edge__edge21.lgspFlags & ~((uint) GRGEN_LGSP.LGSPElemFlags.IS_MATCHED << negLevel) | prev__candidate_TNTUnfolded_edge__edge21;
                                                                                                                                                                                             continue;
                                                                                                                                                                                         }
-                                                                                                                                                                                        // Extend Outgoing TNTUnfolded_edge__edge22 from TNTUnfolded_node_n6 
+                                                                                                                                                                                        // Extend Outgoing TNTUnfolded_edge__edge22 from TNTUnfolded_node_n6
                                                                                                                                                                                         GRGEN_LGSP.LGSPEdge head_candidate_TNTUnfolded_edge__edge22 = candidate_TNTUnfolded_node_n6.lgspOuthead;
                                                                                                                                                                                         if(head_candidate_TNTUnfolded_edge__edge22 != null)
                                                                                                                                                                                         {
@@ -16493,7 +16493,7 @@ label0: ;
                                                                                                                                                                                                 uint prev__candidate_TNTUnfolded_edge__edge22;
                                                                                                                                                                                                 prev__candidate_TNTUnfolded_edge__edge22 = candidate_TNTUnfolded_edge__edge22.lgspFlags & (uint) GRGEN_LGSP.LGSPElemFlags.IS_MATCHED << negLevel;
                                                                                                                                                                                                 candidate_TNTUnfolded_edge__edge22.lgspFlags |= (uint) GRGEN_LGSP.LGSPElemFlags.IS_MATCHED << negLevel;
-                                                                                                                                                                                                // Implicit Target TNTUnfolded_node__node9 from TNTUnfolded_edge__edge22 
+                                                                                                                                                                                                // Implicit Target TNTUnfolded_node__node9 from TNTUnfolded_edge__edge22
                                                                                                                                                                                                 GRGEN_LGSP.LGSPNode candidate_TNTUnfolded_node__node9 = candidate_TNTUnfolded_edge__edge22.lgspTarget;
                                                                                                                                                                                                 if(candidate_TNTUnfolded_node__node9.lgspType.TypeID!=3) {
                                                                                                                                                                                                     candidate_TNTUnfolded_edge__edge22.lgspFlags = candidate_TNTUnfolded_edge__edge22.lgspFlags & ~((uint) GRGEN_LGSP.LGSPElemFlags.IS_MATCHED << negLevel) | prev__candidate_TNTUnfolded_edge__edge22;
@@ -16507,7 +16507,7 @@ label0: ;
                                                                                                                                                                                                 uint prev__candidate_TNTUnfolded_node__node9;
                                                                                                                                                                                                 prev__candidate_TNTUnfolded_node__node9 = candidate_TNTUnfolded_node__node9.lgspFlags & (uint) GRGEN_LGSP.LGSPElemFlags.IS_MATCHED << negLevel;
                                                                                                                                                                                                 candidate_TNTUnfolded_node__node9.lgspFlags |= (uint) GRGEN_LGSP.LGSPElemFlags.IS_MATCHED << negLevel;
-                                                                                                                                                                                                // Extend Outgoing TNTUnfolded_edge__edge23 from TNTUnfolded_node_n6 
+                                                                                                                                                                                                // Extend Outgoing TNTUnfolded_edge__edge23 from TNTUnfolded_node_n6
                                                                                                                                                                                                 GRGEN_LGSP.LGSPEdge head_candidate_TNTUnfolded_edge__edge23 = candidate_TNTUnfolded_node_n6.lgspOuthead;
                                                                                                                                                                                                 if(head_candidate_TNTUnfolded_edge__edge23 != null)
                                                                                                                                                                                                 {
@@ -16521,7 +16521,7 @@ label0: ;
                                                                                                                                                                                                         {
                                                                                                                                                                                                             continue;
                                                                                                                                                                                                         }
-                                                                                                                                                                                                        // Implicit Target TNTUnfolded_node__node10 from TNTUnfolded_edge__edge23 
+                                                                                                                                                                                                        // Implicit Target TNTUnfolded_node__node10 from TNTUnfolded_edge__edge23
                                                                                                                                                                                                         GRGEN_LGSP.LGSPNode candidate_TNTUnfolded_node__node10 = candidate_TNTUnfolded_edge__edge23.lgspTarget;
                                                                                                                                                                                                         if(candidate_TNTUnfolded_node__node10.lgspType.TypeID!=3) {
                                                                                                                                                                                                             continue;
@@ -16793,7 +16793,7 @@ label0: ;
         public bool ApplyStar(GRGEN_LIBGR.IGraph graph)
         {
             GRGEN_LIBGR.IMatchesExact<Rule_TNTUnfolded.IMatch_TNTUnfolded> matches;
-            
+
             while(true)
             {
                 matches = DynamicMatch((GRGEN_LGSP.LGSPGraph)graph, 1);
@@ -16805,7 +16805,7 @@ label0: ;
         {
             GRGEN_LIBGR.IMatchesExact<Rule_TNTUnfolded.IMatch_TNTUnfolded> matches = DynamicMatch((GRGEN_LGSP.LGSPGraph)graph, 1);
             if(matches.Count <= 0) return false;
-            
+
             do
             {
                 _rulePattern.Modify((GRGEN_LGSP.LGSPGraph)graph, matches.First);
@@ -16817,7 +16817,7 @@ label0: ;
         public bool ApplyMinMax(GRGEN_LIBGR.IGraph graph, int min, int max)
         {
             GRGEN_LIBGR.IMatchesExact<Rule_TNTUnfolded.IMatch_TNTUnfolded> matches;
-            
+
             for(int i = 0; i < max; i++)
             {
                 matches = DynamicMatch((GRGEN_LGSP.LGSPGraph)graph, 1);
@@ -16833,19 +16833,19 @@ label0: ;
         }
         public object[] Modify(GRGEN_LIBGR.IGraph graph, GRGEN_LIBGR.IMatch match)
         {
-            
+
             Modify(graph, (Rule_TNTUnfolded.IMatch_TNTUnfolded)match);
             return ReturnArray;
         }
         public object[] ModifyAll(GRGEN_LIBGR.IGraph graph, GRGEN_LIBGR.IMatches matches)
         {
-            
+
             ModifyAll(graph, (GRGEN_LIBGR.IMatchesExact<Rule_TNTUnfolded.IMatch_TNTUnfolded>)matches);
             return ReturnArray;
         }
         object[] GRGEN_LIBGR.IAction.Apply(GRGEN_LIBGR.IGraph graph)
         {
-            
+
             if(Apply(graph)) {
                 return ReturnArray;
             }
@@ -16853,7 +16853,7 @@ label0: ;
         }
         object[] GRGEN_LIBGR.IAction.Apply(GRGEN_LIBGR.IGraph graph, params object[] parameters)
         {
-            
+
             if(Apply(graph)) {
                 return ReturnArray;
             }
@@ -16861,7 +16861,7 @@ label0: ;
         }
         object[] GRGEN_LIBGR.IAction.ApplyAll(int maxMatches, GRGEN_LIBGR.IGraph graph)
         {
-            
+
             if(ApplyAll(maxMatches, graph)) {
                 return ReturnArray;
             }
@@ -16869,7 +16869,7 @@ label0: ;
         }
         object[] GRGEN_LIBGR.IAction.ApplyAll(int maxMatches, GRGEN_LIBGR.IGraph graph, params object[] parameters)
         {
-            
+
             if(ApplyAll(maxMatches, graph)) {
                 return ReturnArray;
             }
@@ -16923,7 +16923,7 @@ label0: ;
         /// <summary> same as IAction.ApplyMinMax, but with exact types and distinct parameters. </summary>
         bool ApplyMinMax(GRGEN_LIBGR.IGraph graph, int min, int max);
     }
-    
+
     public class Action_createTNT : GRGEN_LGSP.LGSPAction, GRGEN_LIBGR.IAction, IAction_createTNT
     {
         public Action_createTNT() {
@@ -16941,7 +16941,7 @@ label0: ;
 
         public static Action_createTNT Instance { get { return instance; } }
         private static Action_createTNT instance = new Action_createTNT();
-        
+
         public GRGEN_LIBGR.IMatchesExact<Rule_createTNT.IMatch_createTNT> myMatch(GRGEN_LGSP.LGSPGraph graph, int maxMatches)
         {
             matches.Clear();
@@ -16990,7 +16990,7 @@ label0: ;
         public bool ApplyStar(GRGEN_LIBGR.IGraph graph)
         {
             GRGEN_LIBGR.IMatchesExact<Rule_createTNT.IMatch_createTNT> matches;
-            
+
             while(true)
             {
                 matches = DynamicMatch((GRGEN_LGSP.LGSPGraph)graph, 1);
@@ -17002,7 +17002,7 @@ label0: ;
         {
             GRGEN_LIBGR.IMatchesExact<Rule_createTNT.IMatch_createTNT> matches = DynamicMatch((GRGEN_LGSP.LGSPGraph)graph, 1);
             if(matches.Count <= 0) return false;
-            
+
             do
             {
                 _rulePattern.Modify((GRGEN_LGSP.LGSPGraph)graph, matches.First);
@@ -17014,7 +17014,7 @@ label0: ;
         public bool ApplyMinMax(GRGEN_LIBGR.IGraph graph, int min, int max)
         {
             GRGEN_LIBGR.IMatchesExact<Rule_createTNT.IMatch_createTNT> matches;
-            
+
             for(int i = 0; i < max; i++)
             {
                 matches = DynamicMatch((GRGEN_LGSP.LGSPGraph)graph, 1);
@@ -17030,19 +17030,19 @@ label0: ;
         }
         public object[] Modify(GRGEN_LIBGR.IGraph graph, GRGEN_LIBGR.IMatch match)
         {
-            
+
             Modify(graph, (Rule_createTNT.IMatch_createTNT)match);
             return ReturnArray;
         }
         public object[] ModifyAll(GRGEN_LIBGR.IGraph graph, GRGEN_LIBGR.IMatches matches)
         {
-            
+
             ModifyAll(graph, (GRGEN_LIBGR.IMatchesExact<Rule_createTNT.IMatch_createTNT>)matches);
             return ReturnArray;
         }
         object[] GRGEN_LIBGR.IAction.Apply(GRGEN_LIBGR.IGraph graph)
         {
-            
+
             if(Apply(graph)) {
                 return ReturnArray;
             }
@@ -17050,7 +17050,7 @@ label0: ;
         }
         object[] GRGEN_LIBGR.IAction.Apply(GRGEN_LIBGR.IGraph graph, params object[] parameters)
         {
-            
+
             if(Apply(graph)) {
                 return ReturnArray;
             }
@@ -17058,7 +17058,7 @@ label0: ;
         }
         object[] GRGEN_LIBGR.IAction.ApplyAll(int maxMatches, GRGEN_LIBGR.IGraph graph)
         {
-            
+
             if(ApplyAll(maxMatches, graph)) {
                 return ReturnArray;
             }
@@ -17066,7 +17066,7 @@ label0: ;
         }
         object[] GRGEN_LIBGR.IAction.ApplyAll(int maxMatches, GRGEN_LIBGR.IGraph graph, params object[] parameters)
         {
-            
+
             if(ApplyAll(maxMatches, graph)) {
                 return ReturnArray;
             }
@@ -17120,7 +17120,7 @@ label0: ;
         /// <summary> same as IAction.ApplyMinMax, but with exact types and distinct parameters. </summary>
         bool ApplyMinMax(GRGEN_LIBGR.IGraph graph, int min, int max);
     }
-    
+
     public class Action_DNT : GRGEN_LGSP.LGSPAction, GRGEN_LIBGR.IAction, IAction_DNT
     {
         public Action_DNT() {
@@ -17138,7 +17138,7 @@ label0: ;
 
         public static Action_DNT Instance { get { return instance; } }
         private static Action_DNT instance = new Action_DNT();
-        
+
         public GRGEN_LIBGR.IMatchesExact<Rule_DNT.IMatch_DNT> myMatch(GRGEN_LGSP.LGSPGraph graph, int maxMatches)
         {
             matches.Clear();
@@ -17146,14 +17146,14 @@ label0: ;
             Stack<GRGEN_LGSP.LGSPSubpatternAction> openTasks = new Stack<GRGEN_LGSP.LGSPSubpatternAction>();
             List<Stack<GRGEN_LIBGR.IMatch>> foundPartialMatches = new List<Stack<GRGEN_LIBGR.IMatch>>();
             List<Stack<GRGEN_LIBGR.IMatch>> matchesList = foundPartialMatches;
-            // Lookup DNT_edge__edge0 
+            // Lookup DNT_edge__edge0
             int type_id_candidate_DNT_edge__edge0 = 1;
             for(GRGEN_LGSP.LGSPEdge head_candidate_DNT_edge__edge0 = graph.edgesByTypeHeads[type_id_candidate_DNT_edge__edge0], candidate_DNT_edge__edge0 = head_candidate_DNT_edge__edge0.lgspTypeNext; candidate_DNT_edge__edge0 != head_candidate_DNT_edge__edge0; candidate_DNT_edge__edge0 = candidate_DNT_edge__edge0.lgspTypeNext)
             {
                 uint prev__candidate_DNT_edge__edge0;
                 prev__candidate_DNT_edge__edge0 = candidate_DNT_edge__edge0.lgspFlags & (uint) GRGEN_LGSP.LGSPElemFlags.IS_MATCHED << negLevel;
                 candidate_DNT_edge__edge0.lgspFlags |= (uint) GRGEN_LGSP.LGSPElemFlags.IS_MATCHED << negLevel;
-                // Implicit Source DNT_node_c1 from DNT_edge__edge0 
+                // Implicit Source DNT_node_c1 from DNT_edge__edge0
                 GRGEN_LGSP.LGSPNode candidate_DNT_node_c1 = candidate_DNT_edge__edge0.lgspSource;
                 if(candidate_DNT_node_c1.lgspType.TypeID!=1) {
                     candidate_DNT_edge__edge0.lgspFlags = candidate_DNT_edge__edge0.lgspFlags & ~((uint) GRGEN_LGSP.LGSPElemFlags.IS_MATCHED << negLevel) | prev__candidate_DNT_edge__edge0;
@@ -17162,7 +17162,7 @@ label0: ;
                 uint prev__candidate_DNT_node_c1;
                 prev__candidate_DNT_node_c1 = candidate_DNT_node_c1.lgspFlags & (uint) GRGEN_LGSP.LGSPElemFlags.IS_MATCHED << negLevel;
                 candidate_DNT_node_c1.lgspFlags |= (uint) GRGEN_LGSP.LGSPElemFlags.IS_MATCHED << negLevel;
-                // Implicit Target DNT_node_c2 from DNT_edge__edge0 
+                // Implicit Target DNT_node_c2 from DNT_edge__edge0
                 GRGEN_LGSP.LGSPNode candidate_DNT_node_c2 = candidate_DNT_edge__edge0.lgspTarget;
                 if(candidate_DNT_node_c2.lgspType.TypeID!=1) {
                     candidate_DNT_node_c1.lgspFlags = candidate_DNT_node_c1.lgspFlags & ~((uint) GRGEN_LGSP.LGSPElemFlags.IS_MATCHED << negLevel) | prev__candidate_DNT_node_c1;
@@ -17178,7 +17178,7 @@ label0: ;
                 uint prev__candidate_DNT_node_c2;
                 prev__candidate_DNT_node_c2 = candidate_DNT_node_c2.lgspFlags & (uint) GRGEN_LGSP.LGSPElemFlags.IS_MATCHED << negLevel;
                 candidate_DNT_node_c2.lgspFlags |= (uint) GRGEN_LGSP.LGSPElemFlags.IS_MATCHED << negLevel;
-                // Extend Outgoing DNT_edge__edge6 from DNT_node_c1 
+                // Extend Outgoing DNT_edge__edge6 from DNT_node_c1
                 GRGEN_LGSP.LGSPEdge head_candidate_DNT_edge__edge6 = candidate_DNT_node_c1.lgspOuthead;
                 if(head_candidate_DNT_edge__edge6 != null)
                 {
@@ -17198,7 +17198,7 @@ label0: ;
                         uint prev__candidate_DNT_edge__edge6;
                         prev__candidate_DNT_edge__edge6 = candidate_DNT_edge__edge6.lgspFlags & (uint) GRGEN_LGSP.LGSPElemFlags.IS_MATCHED << negLevel;
                         candidate_DNT_edge__edge6.lgspFlags |= (uint) GRGEN_LGSP.LGSPElemFlags.IS_MATCHED << negLevel;
-                        // Extend Outgoing DNT_edge__edge1 from DNT_node_c2 
+                        // Extend Outgoing DNT_edge__edge1 from DNT_node_c2
                         GRGEN_LGSP.LGSPEdge head_candidate_DNT_edge__edge1 = candidate_DNT_node_c2.lgspOuthead;
                         if(head_candidate_DNT_edge__edge1 != null)
                         {
@@ -17215,7 +17215,7 @@ label0: ;
                                 uint prev__candidate_DNT_edge__edge1;
                                 prev__candidate_DNT_edge__edge1 = candidate_DNT_edge__edge1.lgspFlags & (uint) GRGEN_LGSP.LGSPElemFlags.IS_MATCHED << negLevel;
                                 candidate_DNT_edge__edge1.lgspFlags |= (uint) GRGEN_LGSP.LGSPElemFlags.IS_MATCHED << negLevel;
-                                // Implicit Target DNT_node_c3 from DNT_edge__edge1 
+                                // Implicit Target DNT_node_c3 from DNT_edge__edge1
                                 GRGEN_LGSP.LGSPNode candidate_DNT_node_c3 = candidate_DNT_edge__edge1.lgspTarget;
                                 if(candidate_DNT_node_c3.lgspType.TypeID!=1) {
                                     candidate_DNT_edge__edge1.lgspFlags = candidate_DNT_edge__edge1.lgspFlags & ~((uint) GRGEN_LGSP.LGSPElemFlags.IS_MATCHED << negLevel) | prev__candidate_DNT_edge__edge1;
@@ -17229,7 +17229,7 @@ label0: ;
                                 uint prev__candidate_DNT_node_c3;
                                 prev__candidate_DNT_node_c3 = candidate_DNT_node_c3.lgspFlags & (uint) GRGEN_LGSP.LGSPElemFlags.IS_MATCHED << negLevel;
                                 candidate_DNT_node_c3.lgspFlags |= (uint) GRGEN_LGSP.LGSPElemFlags.IS_MATCHED << negLevel;
-                                // Extend Outgoing DNT_edge__edge2 from DNT_node_c3 
+                                // Extend Outgoing DNT_edge__edge2 from DNT_node_c3
                                 GRGEN_LGSP.LGSPEdge head_candidate_DNT_edge__edge2 = candidate_DNT_node_c3.lgspOuthead;
                                 if(head_candidate_DNT_edge__edge2 != null)
                                 {
@@ -17246,7 +17246,7 @@ label0: ;
                                         uint prev__candidate_DNT_edge__edge2;
                                         prev__candidate_DNT_edge__edge2 = candidate_DNT_edge__edge2.lgspFlags & (uint) GRGEN_LGSP.LGSPElemFlags.IS_MATCHED << negLevel;
                                         candidate_DNT_edge__edge2.lgspFlags |= (uint) GRGEN_LGSP.LGSPElemFlags.IS_MATCHED << negLevel;
-                                        // Implicit Target DNT_node_c4 from DNT_edge__edge2 
+                                        // Implicit Target DNT_node_c4 from DNT_edge__edge2
                                         GRGEN_LGSP.LGSPNode candidate_DNT_node_c4 = candidate_DNT_edge__edge2.lgspTarget;
                                         if(candidate_DNT_node_c4.lgspType.TypeID!=1) {
                                             candidate_DNT_edge__edge2.lgspFlags = candidate_DNT_edge__edge2.lgspFlags & ~((uint) GRGEN_LGSP.LGSPElemFlags.IS_MATCHED << negLevel) | prev__candidate_DNT_edge__edge2;
@@ -17260,7 +17260,7 @@ label0: ;
                                         uint prev__candidate_DNT_node_c4;
                                         prev__candidate_DNT_node_c4 = candidate_DNT_node_c4.lgspFlags & (uint) GRGEN_LGSP.LGSPElemFlags.IS_MATCHED << negLevel;
                                         candidate_DNT_node_c4.lgspFlags |= (uint) GRGEN_LGSP.LGSPElemFlags.IS_MATCHED << negLevel;
-                                        // Extend Outgoing DNT_edge__edge7 from DNT_node_c3 
+                                        // Extend Outgoing DNT_edge__edge7 from DNT_node_c3
                                         GRGEN_LGSP.LGSPEdge head_candidate_DNT_edge__edge7 = candidate_DNT_node_c3.lgspOuthead;
                                         if(head_candidate_DNT_edge__edge7 != null)
                                         {
@@ -17280,7 +17280,7 @@ label0: ;
                                                 uint prev__candidate_DNT_edge__edge7;
                                                 prev__candidate_DNT_edge__edge7 = candidate_DNT_edge__edge7.lgspFlags & (uint) GRGEN_LGSP.LGSPElemFlags.IS_MATCHED << negLevel;
                                                 candidate_DNT_edge__edge7.lgspFlags |= (uint) GRGEN_LGSP.LGSPElemFlags.IS_MATCHED << negLevel;
-                                                // Extend Outgoing DNT_edge__edge3 from DNT_node_c4 
+                                                // Extend Outgoing DNT_edge__edge3 from DNT_node_c4
                                                 GRGEN_LGSP.LGSPEdge head_candidate_DNT_edge__edge3 = candidate_DNT_node_c4.lgspOuthead;
                                                 if(head_candidate_DNT_edge__edge3 != null)
                                                 {
@@ -17297,7 +17297,7 @@ label0: ;
                                                         uint prev__candidate_DNT_edge__edge3;
                                                         prev__candidate_DNT_edge__edge3 = candidate_DNT_edge__edge3.lgspFlags & (uint) GRGEN_LGSP.LGSPElemFlags.IS_MATCHED << negLevel;
                                                         candidate_DNT_edge__edge3.lgspFlags |= (uint) GRGEN_LGSP.LGSPElemFlags.IS_MATCHED << negLevel;
-                                                        // Implicit Target DNT_node_c5 from DNT_edge__edge3 
+                                                        // Implicit Target DNT_node_c5 from DNT_edge__edge3
                                                         GRGEN_LGSP.LGSPNode candidate_DNT_node_c5 = candidate_DNT_edge__edge3.lgspTarget;
                                                         if(candidate_DNT_node_c5.lgspType.TypeID!=1) {
                                                             candidate_DNT_edge__edge3.lgspFlags = candidate_DNT_edge__edge3.lgspFlags & ~((uint) GRGEN_LGSP.LGSPElemFlags.IS_MATCHED << negLevel) | prev__candidate_DNT_edge__edge3;
@@ -17311,7 +17311,7 @@ label0: ;
                                                         uint prev__candidate_DNT_node_c5;
                                                         prev__candidate_DNT_node_c5 = candidate_DNT_node_c5.lgspFlags & (uint) GRGEN_LGSP.LGSPElemFlags.IS_MATCHED << negLevel;
                                                         candidate_DNT_node_c5.lgspFlags |= (uint) GRGEN_LGSP.LGSPElemFlags.IS_MATCHED << negLevel;
-                                                        // Extend Outgoing DNT_edge__edge4 from DNT_node_c5 
+                                                        // Extend Outgoing DNT_edge__edge4 from DNT_node_c5
                                                         GRGEN_LGSP.LGSPEdge head_candidate_DNT_edge__edge4 = candidate_DNT_node_c5.lgspOuthead;
                                                         if(head_candidate_DNT_edge__edge4 != null)
                                                         {
@@ -17328,7 +17328,7 @@ label0: ;
                                                                 uint prev__candidate_DNT_edge__edge4;
                                                                 prev__candidate_DNT_edge__edge4 = candidate_DNT_edge__edge4.lgspFlags & (uint) GRGEN_LGSP.LGSPElemFlags.IS_MATCHED << negLevel;
                                                                 candidate_DNT_edge__edge4.lgspFlags |= (uint) GRGEN_LGSP.LGSPElemFlags.IS_MATCHED << negLevel;
-                                                                // Implicit Target DNT_node_c6 from DNT_edge__edge4 
+                                                                // Implicit Target DNT_node_c6 from DNT_edge__edge4
                                                                 GRGEN_LGSP.LGSPNode candidate_DNT_node_c6 = candidate_DNT_edge__edge4.lgspTarget;
                                                                 if(candidate_DNT_node_c6.lgspType.TypeID!=1) {
                                                                     candidate_DNT_edge__edge4.lgspFlags = candidate_DNT_edge__edge4.lgspFlags & ~((uint) GRGEN_LGSP.LGSPElemFlags.IS_MATCHED << negLevel) | prev__candidate_DNT_edge__edge4;
@@ -17339,7 +17339,7 @@ label0: ;
                                                                     candidate_DNT_edge__edge4.lgspFlags = candidate_DNT_edge__edge4.lgspFlags & ~((uint) GRGEN_LGSP.LGSPElemFlags.IS_MATCHED << negLevel) | prev__candidate_DNT_edge__edge4;
                                                                     continue;
                                                                 }
-                                                                // Extend Outgoing DNT_edge__edge8 from DNT_node_c5 
+                                                                // Extend Outgoing DNT_edge__edge8 from DNT_node_c5
                                                                 GRGEN_LGSP.LGSPEdge head_candidate_DNT_edge__edge8 = candidate_DNT_node_c5.lgspOuthead;
                                                                 if(head_candidate_DNT_edge__edge8 != null)
                                                                 {
@@ -17359,7 +17359,7 @@ label0: ;
                                                                         uint prev__candidate_DNT_edge__edge8;
                                                                         prev__candidate_DNT_edge__edge8 = candidate_DNT_edge__edge8.lgspFlags & (uint) GRGEN_LGSP.LGSPElemFlags.IS_MATCHED << negLevel;
                                                                         candidate_DNT_edge__edge8.lgspFlags |= (uint) GRGEN_LGSP.LGSPElemFlags.IS_MATCHED << negLevel;
-                                                                        // Extend Outgoing DNT_edge__edge5 from DNT_node_c6 
+                                                                        // Extend Outgoing DNT_edge__edge5 from DNT_node_c6
                                                                         GRGEN_LGSP.LGSPEdge head_candidate_DNT_edge__edge5 = candidate_DNT_node_c6.lgspOuthead;
                                                                         if(head_candidate_DNT_edge__edge5 != null)
                                                                         {
@@ -17463,7 +17463,7 @@ label0: ;
                                                                                 uint prevGlobal__candidate_DNT_edge__edge8;
                                                                                 prevGlobal__candidate_DNT_edge__edge8 = candidate_DNT_edge__edge8.lgspFlags & (uint) GRGEN_LGSP.LGSPElemFlags.IS_MATCHED_BY_ENCLOSING_PATTERN << negLevel;
                                                                                 candidate_DNT_edge__edge8.lgspFlags |= (uint) GRGEN_LGSP.LGSPElemFlags.IS_MATCHED_BY_ENCLOSING_PATTERN << negLevel;
-                                                                                // Match subpatterns 
+                                                                                // Match subpatterns
                                                                                 openTasks.Peek().myMatch(matchesList, maxMatches - foundPartialMatches.Count, negLevel);
                                                                                 // Pop subpattern matching task for _sub0
                                                                                 openTasks.Pop();
@@ -17483,7 +17483,7 @@ label0: ;
                                                                                 // Pop subpattern matching task for _sub5
                                                                                 openTasks.Pop();
                                                                                 PatternAction_Hydrogen.releaseTask(taskFor__sub5);
-                                                                                // Check whether subpatterns were found 
+                                                                                // Check whether subpatterns were found
                                                                                 if(matchesList.Count>0) {
                                                                                     // subpatterns/alternatives were found, extend the partial matches by our local match object, becoming a complete match object and save it
                                                                                     foreach(Stack<GRGEN_LIBGR.IMatch> currentFoundPartialMatch in matchesList)
@@ -17659,7 +17659,7 @@ label0: ;
         public bool ApplyStar(GRGEN_LIBGR.IGraph graph)
         {
             GRGEN_LIBGR.IMatchesExact<Rule_DNT.IMatch_DNT> matches;
-            
+
             while(true)
             {
                 matches = DynamicMatch((GRGEN_LGSP.LGSPGraph)graph, 1);
@@ -17671,7 +17671,7 @@ label0: ;
         {
             GRGEN_LIBGR.IMatchesExact<Rule_DNT.IMatch_DNT> matches = DynamicMatch((GRGEN_LGSP.LGSPGraph)graph, 1);
             if(matches.Count <= 0) return false;
-            
+
             do
             {
                 _rulePattern.Modify((GRGEN_LGSP.LGSPGraph)graph, matches.First);
@@ -17683,7 +17683,7 @@ label0: ;
         public bool ApplyMinMax(GRGEN_LIBGR.IGraph graph, int min, int max)
         {
             GRGEN_LIBGR.IMatchesExact<Rule_DNT.IMatch_DNT> matches;
-            
+
             for(int i = 0; i < max; i++)
             {
                 matches = DynamicMatch((GRGEN_LGSP.LGSPGraph)graph, 1);
@@ -17699,19 +17699,19 @@ label0: ;
         }
         public object[] Modify(GRGEN_LIBGR.IGraph graph, GRGEN_LIBGR.IMatch match)
         {
-            
+
             Modify(graph, (Rule_DNT.IMatch_DNT)match);
             return ReturnArray;
         }
         public object[] ModifyAll(GRGEN_LIBGR.IGraph graph, GRGEN_LIBGR.IMatches matches)
         {
-            
+
             ModifyAll(graph, (GRGEN_LIBGR.IMatchesExact<Rule_DNT.IMatch_DNT>)matches);
             return ReturnArray;
         }
         object[] GRGEN_LIBGR.IAction.Apply(GRGEN_LIBGR.IGraph graph)
         {
-            
+
             if(Apply(graph)) {
                 return ReturnArray;
             }
@@ -17719,7 +17719,7 @@ label0: ;
         }
         object[] GRGEN_LIBGR.IAction.Apply(GRGEN_LIBGR.IGraph graph, params object[] parameters)
         {
-            
+
             if(Apply(graph)) {
                 return ReturnArray;
             }
@@ -17727,7 +17727,7 @@ label0: ;
         }
         object[] GRGEN_LIBGR.IAction.ApplyAll(int maxMatches, GRGEN_LIBGR.IGraph graph)
         {
-            
+
             if(ApplyAll(maxMatches, graph)) {
                 return ReturnArray;
             }
@@ -17735,7 +17735,7 @@ label0: ;
         }
         object[] GRGEN_LIBGR.IAction.ApplyAll(int maxMatches, GRGEN_LIBGR.IGraph graph, params object[] parameters)
         {
-            
+
             if(ApplyAll(maxMatches, graph)) {
                 return ReturnArray;
             }
@@ -17789,7 +17789,7 @@ label0: ;
         /// <summary> same as IAction.ApplyMinMax, but with exact types and distinct parameters. </summary>
         bool ApplyMinMax(GRGEN_LIBGR.IGraph graph, int min, int max);
     }
-    
+
     public class Action_DNTUnfolded : GRGEN_LGSP.LGSPAction, GRGEN_LIBGR.IAction, IAction_DNTUnfolded
     {
         public Action_DNTUnfolded() {
@@ -17807,19 +17807,19 @@ label0: ;
 
         public static Action_DNTUnfolded Instance { get { return instance; } }
         private static Action_DNTUnfolded instance = new Action_DNTUnfolded();
-        
+
         public GRGEN_LIBGR.IMatchesExact<Rule_DNTUnfolded.IMatch_DNTUnfolded> myMatch(GRGEN_LGSP.LGSPGraph graph, int maxMatches)
         {
             matches.Clear();
             int negLevel = 0;
-            // Lookup DNTUnfolded_edge__edge0 
+            // Lookup DNTUnfolded_edge__edge0
             int type_id_candidate_DNTUnfolded_edge__edge0 = 1;
             for(GRGEN_LGSP.LGSPEdge head_candidate_DNTUnfolded_edge__edge0 = graph.edgesByTypeHeads[type_id_candidate_DNTUnfolded_edge__edge0], candidate_DNTUnfolded_edge__edge0 = head_candidate_DNTUnfolded_edge__edge0.lgspTypeNext; candidate_DNTUnfolded_edge__edge0 != head_candidate_DNTUnfolded_edge__edge0; candidate_DNTUnfolded_edge__edge0 = candidate_DNTUnfolded_edge__edge0.lgspTypeNext)
             {
                 uint prev__candidate_DNTUnfolded_edge__edge0;
                 prev__candidate_DNTUnfolded_edge__edge0 = candidate_DNTUnfolded_edge__edge0.lgspFlags & (uint) GRGEN_LGSP.LGSPElemFlags.IS_MATCHED << negLevel;
                 candidate_DNTUnfolded_edge__edge0.lgspFlags |= (uint) GRGEN_LGSP.LGSPElemFlags.IS_MATCHED << negLevel;
-                // Implicit Source DNTUnfolded_node_c1 from DNTUnfolded_edge__edge0 
+                // Implicit Source DNTUnfolded_node_c1 from DNTUnfolded_edge__edge0
                 GRGEN_LGSP.LGSPNode candidate_DNTUnfolded_node_c1 = candidate_DNTUnfolded_edge__edge0.lgspSource;
                 if(candidate_DNTUnfolded_node_c1.lgspType.TypeID!=1) {
                     candidate_DNTUnfolded_edge__edge0.lgspFlags = candidate_DNTUnfolded_edge__edge0.lgspFlags & ~((uint) GRGEN_LGSP.LGSPElemFlags.IS_MATCHED << negLevel) | prev__candidate_DNTUnfolded_edge__edge0;
@@ -17828,7 +17828,7 @@ label0: ;
                 uint prev__candidate_DNTUnfolded_node_c1;
                 prev__candidate_DNTUnfolded_node_c1 = candidate_DNTUnfolded_node_c1.lgspFlags & (uint) GRGEN_LGSP.LGSPElemFlags.IS_MATCHED << negLevel;
                 candidate_DNTUnfolded_node_c1.lgspFlags |= (uint) GRGEN_LGSP.LGSPElemFlags.IS_MATCHED << negLevel;
-                // Implicit Target DNTUnfolded_node_c2 from DNTUnfolded_edge__edge0 
+                // Implicit Target DNTUnfolded_node_c2 from DNTUnfolded_edge__edge0
                 GRGEN_LGSP.LGSPNode candidate_DNTUnfolded_node_c2 = candidate_DNTUnfolded_edge__edge0.lgspTarget;
                 if(candidate_DNTUnfolded_node_c2.lgspType.TypeID!=1) {
                     candidate_DNTUnfolded_node_c1.lgspFlags = candidate_DNTUnfolded_node_c1.lgspFlags & ~((uint) GRGEN_LGSP.LGSPElemFlags.IS_MATCHED << negLevel) | prev__candidate_DNTUnfolded_node_c1;
@@ -17844,7 +17844,7 @@ label0: ;
                 uint prev__candidate_DNTUnfolded_node_c2;
                 prev__candidate_DNTUnfolded_node_c2 = candidate_DNTUnfolded_node_c2.lgspFlags & (uint) GRGEN_LGSP.LGSPElemFlags.IS_MATCHED << negLevel;
                 candidate_DNTUnfolded_node_c2.lgspFlags |= (uint) GRGEN_LGSP.LGSPElemFlags.IS_MATCHED << negLevel;
-                // Extend Outgoing DNTUnfolded_edge__edge6 from DNTUnfolded_node_c1 
+                // Extend Outgoing DNTUnfolded_edge__edge6 from DNTUnfolded_node_c1
                 GRGEN_LGSP.LGSPEdge head_candidate_DNTUnfolded_edge__edge6 = candidate_DNTUnfolded_node_c1.lgspOuthead;
                 if(head_candidate_DNTUnfolded_edge__edge6 != null)
                 {
@@ -17864,7 +17864,7 @@ label0: ;
                         uint prev__candidate_DNTUnfolded_edge__edge6;
                         prev__candidate_DNTUnfolded_edge__edge6 = candidate_DNTUnfolded_edge__edge6.lgspFlags & (uint) GRGEN_LGSP.LGSPElemFlags.IS_MATCHED << negLevel;
                         candidate_DNTUnfolded_edge__edge6.lgspFlags |= (uint) GRGEN_LGSP.LGSPElemFlags.IS_MATCHED << negLevel;
-                        // Extend Outgoing DNTUnfolded_edge__edge9 from DNTUnfolded_node_c1 
+                        // Extend Outgoing DNTUnfolded_edge__edge9 from DNTUnfolded_node_c1
                         GRGEN_LGSP.LGSPEdge head_candidate_DNTUnfolded_edge__edge9 = candidate_DNTUnfolded_node_c1.lgspOuthead;
                         if(head_candidate_DNTUnfolded_edge__edge9 != null)
                         {
@@ -17881,7 +17881,7 @@ label0: ;
                                 uint prev__candidate_DNTUnfolded_edge__edge9;
                                 prev__candidate_DNTUnfolded_edge__edge9 = candidate_DNTUnfolded_edge__edge9.lgspFlags & (uint) GRGEN_LGSP.LGSPElemFlags.IS_MATCHED << negLevel;
                                 candidate_DNTUnfolded_edge__edge9.lgspFlags |= (uint) GRGEN_LGSP.LGSPElemFlags.IS_MATCHED << negLevel;
-                                // Implicit Target DNTUnfolded_node_c from DNTUnfolded_edge__edge9 
+                                // Implicit Target DNTUnfolded_node_c from DNTUnfolded_edge__edge9
                                 GRGEN_LGSP.LGSPNode candidate_DNTUnfolded_node_c = candidate_DNTUnfolded_edge__edge9.lgspTarget;
                                 if(candidate_DNTUnfolded_node_c.lgspType.TypeID!=1) {
                                     candidate_DNTUnfolded_edge__edge9.lgspFlags = candidate_DNTUnfolded_edge__edge9.lgspFlags & ~((uint) GRGEN_LGSP.LGSPElemFlags.IS_MATCHED << negLevel) | prev__candidate_DNTUnfolded_edge__edge9;
@@ -17895,7 +17895,7 @@ label0: ;
                                 uint prev__candidate_DNTUnfolded_node_c;
                                 prev__candidate_DNTUnfolded_node_c = candidate_DNTUnfolded_node_c.lgspFlags & (uint) GRGEN_LGSP.LGSPElemFlags.IS_MATCHED << negLevel;
                                 candidate_DNTUnfolded_node_c.lgspFlags |= (uint) GRGEN_LGSP.LGSPElemFlags.IS_MATCHED << negLevel;
-                                // Extend Outgoing DNTUnfolded_edge__edge1 from DNTUnfolded_node_c2 
+                                // Extend Outgoing DNTUnfolded_edge__edge1 from DNTUnfolded_node_c2
                                 GRGEN_LGSP.LGSPEdge head_candidate_DNTUnfolded_edge__edge1 = candidate_DNTUnfolded_node_c2.lgspOuthead;
                                 if(head_candidate_DNTUnfolded_edge__edge1 != null)
                                 {
@@ -17912,7 +17912,7 @@ label0: ;
                                         uint prev__candidate_DNTUnfolded_edge__edge1;
                                         prev__candidate_DNTUnfolded_edge__edge1 = candidate_DNTUnfolded_edge__edge1.lgspFlags & (uint) GRGEN_LGSP.LGSPElemFlags.IS_MATCHED << negLevel;
                                         candidate_DNTUnfolded_edge__edge1.lgspFlags |= (uint) GRGEN_LGSP.LGSPElemFlags.IS_MATCHED << negLevel;
-                                        // Implicit Target DNTUnfolded_node_c3 from DNTUnfolded_edge__edge1 
+                                        // Implicit Target DNTUnfolded_node_c3 from DNTUnfolded_edge__edge1
                                         GRGEN_LGSP.LGSPNode candidate_DNTUnfolded_node_c3 = candidate_DNTUnfolded_edge__edge1.lgspTarget;
                                         if(candidate_DNTUnfolded_node_c3.lgspType.TypeID!=1) {
                                             candidate_DNTUnfolded_edge__edge1.lgspFlags = candidate_DNTUnfolded_edge__edge1.lgspFlags & ~((uint) GRGEN_LGSP.LGSPElemFlags.IS_MATCHED << negLevel) | prev__candidate_DNTUnfolded_edge__edge1;
@@ -17926,7 +17926,7 @@ label0: ;
                                         uint prev__candidate_DNTUnfolded_node_c3;
                                         prev__candidate_DNTUnfolded_node_c3 = candidate_DNTUnfolded_node_c3.lgspFlags & (uint) GRGEN_LGSP.LGSPElemFlags.IS_MATCHED << negLevel;
                                         candidate_DNTUnfolded_node_c3.lgspFlags |= (uint) GRGEN_LGSP.LGSPElemFlags.IS_MATCHED << negLevel;
-                                        // Extend Outgoing DNTUnfolded_edge__edge13 from DNTUnfolded_node_c2 
+                                        // Extend Outgoing DNTUnfolded_edge__edge13 from DNTUnfolded_node_c2
                                         GRGEN_LGSP.LGSPEdge head_candidate_DNTUnfolded_edge__edge13 = candidate_DNTUnfolded_node_c2.lgspOuthead;
                                         if(head_candidate_DNTUnfolded_edge__edge13 != null)
                                         {
@@ -17943,7 +17943,7 @@ label0: ;
                                                 uint prev__candidate_DNTUnfolded_edge__edge13;
                                                 prev__candidate_DNTUnfolded_edge__edge13 = candidate_DNTUnfolded_edge__edge13.lgspFlags & (uint) GRGEN_LGSP.LGSPElemFlags.IS_MATCHED << negLevel;
                                                 candidate_DNTUnfolded_edge__edge13.lgspFlags |= (uint) GRGEN_LGSP.LGSPElemFlags.IS_MATCHED << negLevel;
-                                                // Implicit Target DNTUnfolded_node_n2 from DNTUnfolded_edge__edge13 
+                                                // Implicit Target DNTUnfolded_node_n2 from DNTUnfolded_edge__edge13
                                                 GRGEN_LGSP.LGSPNode candidate_DNTUnfolded_node_n2 = candidate_DNTUnfolded_edge__edge13.lgspTarget;
                                                 if(candidate_DNTUnfolded_node_n2.lgspType.TypeID!=4) {
                                                     candidate_DNTUnfolded_edge__edge13.lgspFlags = candidate_DNTUnfolded_edge__edge13.lgspFlags & ~((uint) GRGEN_LGSP.LGSPElemFlags.IS_MATCHED << negLevel) | prev__candidate_DNTUnfolded_edge__edge13;
@@ -17952,7 +17952,7 @@ label0: ;
                                                 uint prev__candidate_DNTUnfolded_node_n2;
                                                 prev__candidate_DNTUnfolded_node_n2 = candidate_DNTUnfolded_node_n2.lgspFlags & (uint) GRGEN_LGSP.LGSPElemFlags.IS_MATCHED << negLevel;
                                                 candidate_DNTUnfolded_node_n2.lgspFlags |= (uint) GRGEN_LGSP.LGSPElemFlags.IS_MATCHED << negLevel;
-                                                // Extend Outgoing DNTUnfolded_edge__edge10 from DNTUnfolded_node_c 
+                                                // Extend Outgoing DNTUnfolded_edge__edge10 from DNTUnfolded_node_c
                                                 GRGEN_LGSP.LGSPEdge head_candidate_DNTUnfolded_edge__edge10 = candidate_DNTUnfolded_node_c.lgspOuthead;
                                                 if(head_candidate_DNTUnfolded_edge__edge10 != null)
                                                 {
@@ -17969,7 +17969,7 @@ label0: ;
                                                         uint prev__candidate_DNTUnfolded_edge__edge10;
                                                         prev__candidate_DNTUnfolded_edge__edge10 = candidate_DNTUnfolded_edge__edge10.lgspFlags & (uint) GRGEN_LGSP.LGSPElemFlags.IS_MATCHED << negLevel;
                                                         candidate_DNTUnfolded_edge__edge10.lgspFlags |= (uint) GRGEN_LGSP.LGSPElemFlags.IS_MATCHED << negLevel;
-                                                        // Implicit Target DNTUnfolded_node__node0 from DNTUnfolded_edge__edge10 
+                                                        // Implicit Target DNTUnfolded_node__node0 from DNTUnfolded_edge__edge10
                                                         GRGEN_LGSP.LGSPNode candidate_DNTUnfolded_node__node0 = candidate_DNTUnfolded_edge__edge10.lgspTarget;
                                                         if(candidate_DNTUnfolded_node__node0.lgspType.TypeID!=2) {
                                                             candidate_DNTUnfolded_edge__edge10.lgspFlags = candidate_DNTUnfolded_edge__edge10.lgspFlags & ~((uint) GRGEN_LGSP.LGSPElemFlags.IS_MATCHED << negLevel) | prev__candidate_DNTUnfolded_edge__edge10;
@@ -17978,7 +17978,7 @@ label0: ;
                                                         uint prev__candidate_DNTUnfolded_node__node0;
                                                         prev__candidate_DNTUnfolded_node__node0 = candidate_DNTUnfolded_node__node0.lgspFlags & (uint) GRGEN_LGSP.LGSPElemFlags.IS_MATCHED << negLevel;
                                                         candidate_DNTUnfolded_node__node0.lgspFlags |= (uint) GRGEN_LGSP.LGSPElemFlags.IS_MATCHED << negLevel;
-                                                        // Extend Outgoing DNTUnfolded_edge__edge11 from DNTUnfolded_node_c 
+                                                        // Extend Outgoing DNTUnfolded_edge__edge11 from DNTUnfolded_node_c
                                                         GRGEN_LGSP.LGSPEdge head_candidate_DNTUnfolded_edge__edge11 = candidate_DNTUnfolded_node_c.lgspOuthead;
                                                         if(head_candidate_DNTUnfolded_edge__edge11 != null)
                                                         {
@@ -17995,7 +17995,7 @@ label0: ;
                                                                 uint prev__candidate_DNTUnfolded_edge__edge11;
                                                                 prev__candidate_DNTUnfolded_edge__edge11 = candidate_DNTUnfolded_edge__edge11.lgspFlags & (uint) GRGEN_LGSP.LGSPElemFlags.IS_MATCHED << negLevel;
                                                                 candidate_DNTUnfolded_edge__edge11.lgspFlags |= (uint) GRGEN_LGSP.LGSPElemFlags.IS_MATCHED << negLevel;
-                                                                // Implicit Target DNTUnfolded_node__node1 from DNTUnfolded_edge__edge11 
+                                                                // Implicit Target DNTUnfolded_node__node1 from DNTUnfolded_edge__edge11
                                                                 GRGEN_LGSP.LGSPNode candidate_DNTUnfolded_node__node1 = candidate_DNTUnfolded_edge__edge11.lgspTarget;
                                                                 if(candidate_DNTUnfolded_node__node1.lgspType.TypeID!=2) {
                                                                     candidate_DNTUnfolded_edge__edge11.lgspFlags = candidate_DNTUnfolded_edge__edge11.lgspFlags & ~((uint) GRGEN_LGSP.LGSPElemFlags.IS_MATCHED << negLevel) | prev__candidate_DNTUnfolded_edge__edge11;
@@ -18009,7 +18009,7 @@ label0: ;
                                                                 uint prev__candidate_DNTUnfolded_node__node1;
                                                                 prev__candidate_DNTUnfolded_node__node1 = candidate_DNTUnfolded_node__node1.lgspFlags & (uint) GRGEN_LGSP.LGSPElemFlags.IS_MATCHED << negLevel;
                                                                 candidate_DNTUnfolded_node__node1.lgspFlags |= (uint) GRGEN_LGSP.LGSPElemFlags.IS_MATCHED << negLevel;
-                                                                // Extend Outgoing DNTUnfolded_edge__edge12 from DNTUnfolded_node_c 
+                                                                // Extend Outgoing DNTUnfolded_edge__edge12 from DNTUnfolded_node_c
                                                                 GRGEN_LGSP.LGSPEdge head_candidate_DNTUnfolded_edge__edge12 = candidate_DNTUnfolded_node_c.lgspOuthead;
                                                                 if(head_candidate_DNTUnfolded_edge__edge12 != null)
                                                                 {
@@ -18026,7 +18026,7 @@ label0: ;
                                                                         uint prev__candidate_DNTUnfolded_edge__edge12;
                                                                         prev__candidate_DNTUnfolded_edge__edge12 = candidate_DNTUnfolded_edge__edge12.lgspFlags & (uint) GRGEN_LGSP.LGSPElemFlags.IS_MATCHED << negLevel;
                                                                         candidate_DNTUnfolded_edge__edge12.lgspFlags |= (uint) GRGEN_LGSP.LGSPElemFlags.IS_MATCHED << negLevel;
-                                                                        // Implicit Target DNTUnfolded_node__node2 from DNTUnfolded_edge__edge12 
+                                                                        // Implicit Target DNTUnfolded_node__node2 from DNTUnfolded_edge__edge12
                                                                         GRGEN_LGSP.LGSPNode candidate_DNTUnfolded_node__node2 = candidate_DNTUnfolded_edge__edge12.lgspTarget;
                                                                         if(candidate_DNTUnfolded_node__node2.lgspType.TypeID!=2) {
                                                                             candidate_DNTUnfolded_edge__edge12.lgspFlags = candidate_DNTUnfolded_edge__edge12.lgspFlags & ~((uint) GRGEN_LGSP.LGSPElemFlags.IS_MATCHED << negLevel) | prev__candidate_DNTUnfolded_edge__edge12;
@@ -18040,7 +18040,7 @@ label0: ;
                                                                         uint prev__candidate_DNTUnfolded_node__node2;
                                                                         prev__candidate_DNTUnfolded_node__node2 = candidate_DNTUnfolded_node__node2.lgspFlags & (uint) GRGEN_LGSP.LGSPElemFlags.IS_MATCHED << negLevel;
                                                                         candidate_DNTUnfolded_node__node2.lgspFlags |= (uint) GRGEN_LGSP.LGSPElemFlags.IS_MATCHED << negLevel;
-                                                                        // Extend Outgoing DNTUnfolded_edge__edge2 from DNTUnfolded_node_c3 
+                                                                        // Extend Outgoing DNTUnfolded_edge__edge2 from DNTUnfolded_node_c3
                                                                         GRGEN_LGSP.LGSPEdge head_candidate_DNTUnfolded_edge__edge2 = candidate_DNTUnfolded_node_c3.lgspOuthead;
                                                                         if(head_candidate_DNTUnfolded_edge__edge2 != null)
                                                                         {
@@ -18057,7 +18057,7 @@ label0: ;
                                                                                 uint prev__candidate_DNTUnfolded_edge__edge2;
                                                                                 prev__candidate_DNTUnfolded_edge__edge2 = candidate_DNTUnfolded_edge__edge2.lgspFlags & (uint) GRGEN_LGSP.LGSPElemFlags.IS_MATCHED << negLevel;
                                                                                 candidate_DNTUnfolded_edge__edge2.lgspFlags |= (uint) GRGEN_LGSP.LGSPElemFlags.IS_MATCHED << negLevel;
-                                                                                // Implicit Target DNTUnfolded_node_c4 from DNTUnfolded_edge__edge2 
+                                                                                // Implicit Target DNTUnfolded_node_c4 from DNTUnfolded_edge__edge2
                                                                                 GRGEN_LGSP.LGSPNode candidate_DNTUnfolded_node_c4 = candidate_DNTUnfolded_edge__edge2.lgspTarget;
                                                                                 if(candidate_DNTUnfolded_node_c4.lgspType.TypeID!=1) {
                                                                                     candidate_DNTUnfolded_edge__edge2.lgspFlags = candidate_DNTUnfolded_edge__edge2.lgspFlags & ~((uint) GRGEN_LGSP.LGSPElemFlags.IS_MATCHED << negLevel) | prev__candidate_DNTUnfolded_edge__edge2;
@@ -18071,7 +18071,7 @@ label0: ;
                                                                                 uint prev__candidate_DNTUnfolded_node_c4;
                                                                                 prev__candidate_DNTUnfolded_node_c4 = candidate_DNTUnfolded_node_c4.lgspFlags & (uint) GRGEN_LGSP.LGSPElemFlags.IS_MATCHED << negLevel;
                                                                                 candidate_DNTUnfolded_node_c4.lgspFlags |= (uint) GRGEN_LGSP.LGSPElemFlags.IS_MATCHED << negLevel;
-                                                                                // Extend Outgoing DNTUnfolded_edge__edge7 from DNTUnfolded_node_c3 
+                                                                                // Extend Outgoing DNTUnfolded_edge__edge7 from DNTUnfolded_node_c3
                                                                                 GRGEN_LGSP.LGSPEdge head_candidate_DNTUnfolded_edge__edge7 = candidate_DNTUnfolded_node_c3.lgspOuthead;
                                                                                 if(head_candidate_DNTUnfolded_edge__edge7 != null)
                                                                                 {
@@ -18091,7 +18091,7 @@ label0: ;
                                                                                         uint prev__candidate_DNTUnfolded_edge__edge7;
                                                                                         prev__candidate_DNTUnfolded_edge__edge7 = candidate_DNTUnfolded_edge__edge7.lgspFlags & (uint) GRGEN_LGSP.LGSPElemFlags.IS_MATCHED << negLevel;
                                                                                         candidate_DNTUnfolded_edge__edge7.lgspFlags |= (uint) GRGEN_LGSP.LGSPElemFlags.IS_MATCHED << negLevel;
-                                                                                        // Extend Outgoing DNTUnfolded_edge__edge16 from DNTUnfolded_node_c3 
+                                                                                        // Extend Outgoing DNTUnfolded_edge__edge16 from DNTUnfolded_node_c3
                                                                                         GRGEN_LGSP.LGSPEdge head_candidate_DNTUnfolded_edge__edge16 = candidate_DNTUnfolded_node_c3.lgspOuthead;
                                                                                         if(head_candidate_DNTUnfolded_edge__edge16 != null)
                                                                                         {
@@ -18108,7 +18108,7 @@ label0: ;
                                                                                                 uint prev__candidate_DNTUnfolded_edge__edge16;
                                                                                                 prev__candidate_DNTUnfolded_edge__edge16 = candidate_DNTUnfolded_edge__edge16.lgspFlags & (uint) GRGEN_LGSP.LGSPElemFlags.IS_MATCHED << negLevel;
                                                                                                 candidate_DNTUnfolded_edge__edge16.lgspFlags |= (uint) GRGEN_LGSP.LGSPElemFlags.IS_MATCHED << negLevel;
-                                                                                                // Implicit Target DNTUnfolded_node__node5 from DNTUnfolded_edge__edge16 
+                                                                                                // Implicit Target DNTUnfolded_node__node5 from DNTUnfolded_edge__edge16
                                                                                                 GRGEN_LGSP.LGSPNode candidate_DNTUnfolded_node__node5 = candidate_DNTUnfolded_edge__edge16.lgspTarget;
                                                                                                 if(candidate_DNTUnfolded_node__node5.lgspType.TypeID!=2) {
                                                                                                     candidate_DNTUnfolded_edge__edge16.lgspFlags = candidate_DNTUnfolded_edge__edge16.lgspFlags & ~((uint) GRGEN_LGSP.LGSPElemFlags.IS_MATCHED << negLevel) | prev__candidate_DNTUnfolded_edge__edge16;
@@ -18122,7 +18122,7 @@ label0: ;
                                                                                                 uint prev__candidate_DNTUnfolded_node__node5;
                                                                                                 prev__candidate_DNTUnfolded_node__node5 = candidate_DNTUnfolded_node__node5.lgspFlags & (uint) GRGEN_LGSP.LGSPElemFlags.IS_MATCHED << negLevel;
                                                                                                 candidate_DNTUnfolded_node__node5.lgspFlags |= (uint) GRGEN_LGSP.LGSPElemFlags.IS_MATCHED << negLevel;
-                                                                                                // Extend Outgoing DNTUnfolded_edge__edge14 from DNTUnfolded_node_n2 
+                                                                                                // Extend Outgoing DNTUnfolded_edge__edge14 from DNTUnfolded_node_n2
                                                                                                 GRGEN_LGSP.LGSPEdge head_candidate_DNTUnfolded_edge__edge14 = candidate_DNTUnfolded_node_n2.lgspOuthead;
                                                                                                 if(head_candidate_DNTUnfolded_edge__edge14 != null)
                                                                                                 {
@@ -18139,7 +18139,7 @@ label0: ;
                                                                                                         uint prev__candidate_DNTUnfolded_edge__edge14;
                                                                                                         prev__candidate_DNTUnfolded_edge__edge14 = candidate_DNTUnfolded_edge__edge14.lgspFlags & (uint) GRGEN_LGSP.LGSPElemFlags.IS_MATCHED << negLevel;
                                                                                                         candidate_DNTUnfolded_edge__edge14.lgspFlags |= (uint) GRGEN_LGSP.LGSPElemFlags.IS_MATCHED << negLevel;
-                                                                                                        // Implicit Target DNTUnfolded_node__node3 from DNTUnfolded_edge__edge14 
+                                                                                                        // Implicit Target DNTUnfolded_node__node3 from DNTUnfolded_edge__edge14
                                                                                                         GRGEN_LGSP.LGSPNode candidate_DNTUnfolded_node__node3 = candidate_DNTUnfolded_edge__edge14.lgspTarget;
                                                                                                         if(candidate_DNTUnfolded_node__node3.lgspType.TypeID!=3) {
                                                                                                             candidate_DNTUnfolded_edge__edge14.lgspFlags = candidate_DNTUnfolded_edge__edge14.lgspFlags & ~((uint) GRGEN_LGSP.LGSPElemFlags.IS_MATCHED << negLevel) | prev__candidate_DNTUnfolded_edge__edge14;
@@ -18148,7 +18148,7 @@ label0: ;
                                                                                                         uint prev__candidate_DNTUnfolded_node__node3;
                                                                                                         prev__candidate_DNTUnfolded_node__node3 = candidate_DNTUnfolded_node__node3.lgspFlags & (uint) GRGEN_LGSP.LGSPElemFlags.IS_MATCHED << negLevel;
                                                                                                         candidate_DNTUnfolded_node__node3.lgspFlags |= (uint) GRGEN_LGSP.LGSPElemFlags.IS_MATCHED << negLevel;
-                                                                                                        // Extend Outgoing DNTUnfolded_edge__edge15 from DNTUnfolded_node_n2 
+                                                                                                        // Extend Outgoing DNTUnfolded_edge__edge15 from DNTUnfolded_node_n2
                                                                                                         GRGEN_LGSP.LGSPEdge head_candidate_DNTUnfolded_edge__edge15 = candidate_DNTUnfolded_node_n2.lgspOuthead;
                                                                                                         if(head_candidate_DNTUnfolded_edge__edge15 != null)
                                                                                                         {
@@ -18165,7 +18165,7 @@ label0: ;
                                                                                                                 uint prev__candidate_DNTUnfolded_edge__edge15;
                                                                                                                 prev__candidate_DNTUnfolded_edge__edge15 = candidate_DNTUnfolded_edge__edge15.lgspFlags & (uint) GRGEN_LGSP.LGSPElemFlags.IS_MATCHED << negLevel;
                                                                                                                 candidate_DNTUnfolded_edge__edge15.lgspFlags |= (uint) GRGEN_LGSP.LGSPElemFlags.IS_MATCHED << negLevel;
-                                                                                                                // Implicit Target DNTUnfolded_node__node4 from DNTUnfolded_edge__edge15 
+                                                                                                                // Implicit Target DNTUnfolded_node__node4 from DNTUnfolded_edge__edge15
                                                                                                                 GRGEN_LGSP.LGSPNode candidate_DNTUnfolded_node__node4 = candidate_DNTUnfolded_edge__edge15.lgspTarget;
                                                                                                                 if(candidate_DNTUnfolded_node__node4.lgspType.TypeID!=3) {
                                                                                                                     candidate_DNTUnfolded_edge__edge15.lgspFlags = candidate_DNTUnfolded_edge__edge15.lgspFlags & ~((uint) GRGEN_LGSP.LGSPElemFlags.IS_MATCHED << negLevel) | prev__candidate_DNTUnfolded_edge__edge15;
@@ -18179,7 +18179,7 @@ label0: ;
                                                                                                                 uint prev__candidate_DNTUnfolded_node__node4;
                                                                                                                 prev__candidate_DNTUnfolded_node__node4 = candidate_DNTUnfolded_node__node4.lgspFlags & (uint) GRGEN_LGSP.LGSPElemFlags.IS_MATCHED << negLevel;
                                                                                                                 candidate_DNTUnfolded_node__node4.lgspFlags |= (uint) GRGEN_LGSP.LGSPElemFlags.IS_MATCHED << negLevel;
-                                                                                                                // Extend Outgoing DNTUnfolded_edge__edge3 from DNTUnfolded_node_c4 
+                                                                                                                // Extend Outgoing DNTUnfolded_edge__edge3 from DNTUnfolded_node_c4
                                                                                                                 GRGEN_LGSP.LGSPEdge head_candidate_DNTUnfolded_edge__edge3 = candidate_DNTUnfolded_node_c4.lgspOuthead;
                                                                                                                 if(head_candidate_DNTUnfolded_edge__edge3 != null)
                                                                                                                 {
@@ -18196,7 +18196,7 @@ label0: ;
                                                                                                                         uint prev__candidate_DNTUnfolded_edge__edge3;
                                                                                                                         prev__candidate_DNTUnfolded_edge__edge3 = candidate_DNTUnfolded_edge__edge3.lgspFlags & (uint) GRGEN_LGSP.LGSPElemFlags.IS_MATCHED << negLevel;
                                                                                                                         candidate_DNTUnfolded_edge__edge3.lgspFlags |= (uint) GRGEN_LGSP.LGSPElemFlags.IS_MATCHED << negLevel;
-                                                                                                                        // Implicit Target DNTUnfolded_node_c5 from DNTUnfolded_edge__edge3 
+                                                                                                                        // Implicit Target DNTUnfolded_node_c5 from DNTUnfolded_edge__edge3
                                                                                                                         GRGEN_LGSP.LGSPNode candidate_DNTUnfolded_node_c5 = candidate_DNTUnfolded_edge__edge3.lgspTarget;
                                                                                                                         if(candidate_DNTUnfolded_node_c5.lgspType.TypeID!=1) {
                                                                                                                             candidate_DNTUnfolded_edge__edge3.lgspFlags = candidate_DNTUnfolded_edge__edge3.lgspFlags & ~((uint) GRGEN_LGSP.LGSPElemFlags.IS_MATCHED << negLevel) | prev__candidate_DNTUnfolded_edge__edge3;
@@ -18210,7 +18210,7 @@ label0: ;
                                                                                                                         uint prev__candidate_DNTUnfolded_node_c5;
                                                                                                                         prev__candidate_DNTUnfolded_node_c5 = candidate_DNTUnfolded_node_c5.lgspFlags & (uint) GRGEN_LGSP.LGSPElemFlags.IS_MATCHED << negLevel;
                                                                                                                         candidate_DNTUnfolded_node_c5.lgspFlags |= (uint) GRGEN_LGSP.LGSPElemFlags.IS_MATCHED << negLevel;
-                                                                                                                        // Extend Outgoing DNTUnfolded_edge__edge17 from DNTUnfolded_node_c4 
+                                                                                                                        // Extend Outgoing DNTUnfolded_edge__edge17 from DNTUnfolded_node_c4
                                                                                                                         GRGEN_LGSP.LGSPEdge head_candidate_DNTUnfolded_edge__edge17 = candidate_DNTUnfolded_node_c4.lgspOuthead;
                                                                                                                         if(head_candidate_DNTUnfolded_edge__edge17 != null)
                                                                                                                         {
@@ -18227,7 +18227,7 @@ label0: ;
                                                                                                                                 uint prev__candidate_DNTUnfolded_edge__edge17;
                                                                                                                                 prev__candidate_DNTUnfolded_edge__edge17 = candidate_DNTUnfolded_edge__edge17.lgspFlags & (uint) GRGEN_LGSP.LGSPElemFlags.IS_MATCHED << negLevel;
                                                                                                                                 candidate_DNTUnfolded_edge__edge17.lgspFlags |= (uint) GRGEN_LGSP.LGSPElemFlags.IS_MATCHED << negLevel;
-                                                                                                                                // Implicit Target DNTUnfolded_node_n4 from DNTUnfolded_edge__edge17 
+                                                                                                                                // Implicit Target DNTUnfolded_node_n4 from DNTUnfolded_edge__edge17
                                                                                                                                 GRGEN_LGSP.LGSPNode candidate_DNTUnfolded_node_n4 = candidate_DNTUnfolded_edge__edge17.lgspTarget;
                                                                                                                                 if(candidate_DNTUnfolded_node_n4.lgspType.TypeID!=4) {
                                                                                                                                     candidate_DNTUnfolded_edge__edge17.lgspFlags = candidate_DNTUnfolded_edge__edge17.lgspFlags & ~((uint) GRGEN_LGSP.LGSPElemFlags.IS_MATCHED << negLevel) | prev__candidate_DNTUnfolded_edge__edge17;
@@ -18238,7 +18238,7 @@ label0: ;
                                                                                                                                     candidate_DNTUnfolded_edge__edge17.lgspFlags = candidate_DNTUnfolded_edge__edge17.lgspFlags & ~((uint) GRGEN_LGSP.LGSPElemFlags.IS_MATCHED << negLevel) | prev__candidate_DNTUnfolded_edge__edge17;
                                                                                                                                     continue;
                                                                                                                                 }
-                                                                                                                                // Extend Outgoing DNTUnfolded_edge__edge4 from DNTUnfolded_node_c5 
+                                                                                                                                // Extend Outgoing DNTUnfolded_edge__edge4 from DNTUnfolded_node_c5
                                                                                                                                 GRGEN_LGSP.LGSPEdge head_candidate_DNTUnfolded_edge__edge4 = candidate_DNTUnfolded_node_c5.lgspOuthead;
                                                                                                                                 if(head_candidate_DNTUnfolded_edge__edge4 != null)
                                                                                                                                 {
@@ -18255,7 +18255,7 @@ label0: ;
                                                                                                                                         uint prev__candidate_DNTUnfolded_edge__edge4;
                                                                                                                                         prev__candidate_DNTUnfolded_edge__edge4 = candidate_DNTUnfolded_edge__edge4.lgspFlags & (uint) GRGEN_LGSP.LGSPElemFlags.IS_MATCHED << negLevel;
                                                                                                                                         candidate_DNTUnfolded_edge__edge4.lgspFlags |= (uint) GRGEN_LGSP.LGSPElemFlags.IS_MATCHED << negLevel;
-                                                                                                                                        // Implicit Target DNTUnfolded_node_c6 from DNTUnfolded_edge__edge4 
+                                                                                                                                        // Implicit Target DNTUnfolded_node_c6 from DNTUnfolded_edge__edge4
                                                                                                                                         GRGEN_LGSP.LGSPNode candidate_DNTUnfolded_node_c6 = candidate_DNTUnfolded_edge__edge4.lgspTarget;
                                                                                                                                         if(candidate_DNTUnfolded_node_c6.lgspType.TypeID!=1) {
                                                                                                                                             candidate_DNTUnfolded_edge__edge4.lgspFlags = candidate_DNTUnfolded_edge__edge4.lgspFlags & ~((uint) GRGEN_LGSP.LGSPElemFlags.IS_MATCHED << negLevel) | prev__candidate_DNTUnfolded_edge__edge4;
@@ -18266,7 +18266,7 @@ label0: ;
                                                                                                                                             candidate_DNTUnfolded_edge__edge4.lgspFlags = candidate_DNTUnfolded_edge__edge4.lgspFlags & ~((uint) GRGEN_LGSP.LGSPElemFlags.IS_MATCHED << negLevel) | prev__candidate_DNTUnfolded_edge__edge4;
                                                                                                                                             continue;
                                                                                                                                         }
-                                                                                                                                        // Extend Outgoing DNTUnfolded_edge__edge8 from DNTUnfolded_node_c5 
+                                                                                                                                        // Extend Outgoing DNTUnfolded_edge__edge8 from DNTUnfolded_node_c5
                                                                                                                                         GRGEN_LGSP.LGSPEdge head_candidate_DNTUnfolded_edge__edge8 = candidate_DNTUnfolded_node_c5.lgspOuthead;
                                                                                                                                         if(head_candidate_DNTUnfolded_edge__edge8 != null)
                                                                                                                                         {
@@ -18286,7 +18286,7 @@ label0: ;
                                                                                                                                                 uint prev__candidate_DNTUnfolded_edge__edge8;
                                                                                                                                                 prev__candidate_DNTUnfolded_edge__edge8 = candidate_DNTUnfolded_edge__edge8.lgspFlags & (uint) GRGEN_LGSP.LGSPElemFlags.IS_MATCHED << negLevel;
                                                                                                                                                 candidate_DNTUnfolded_edge__edge8.lgspFlags |= (uint) GRGEN_LGSP.LGSPElemFlags.IS_MATCHED << negLevel;
-                                                                                                                                                // Extend Outgoing DNTUnfolded_edge__edge20 from DNTUnfolded_node_c5 
+                                                                                                                                                // Extend Outgoing DNTUnfolded_edge__edge20 from DNTUnfolded_node_c5
                                                                                                                                                 GRGEN_LGSP.LGSPEdge head_candidate_DNTUnfolded_edge__edge20 = candidate_DNTUnfolded_node_c5.lgspOuthead;
                                                                                                                                                 if(head_candidate_DNTUnfolded_edge__edge20 != null)
                                                                                                                                                 {
@@ -18303,7 +18303,7 @@ label0: ;
                                                                                                                                                         uint prev__candidate_DNTUnfolded_edge__edge20;
                                                                                                                                                         prev__candidate_DNTUnfolded_edge__edge20 = candidate_DNTUnfolded_edge__edge20.lgspFlags & (uint) GRGEN_LGSP.LGSPElemFlags.IS_MATCHED << negLevel;
                                                                                                                                                         candidate_DNTUnfolded_edge__edge20.lgspFlags |= (uint) GRGEN_LGSP.LGSPElemFlags.IS_MATCHED << negLevel;
-                                                                                                                                                        // Implicit Target DNTUnfolded_node__node8 from DNTUnfolded_edge__edge20 
+                                                                                                                                                        // Implicit Target DNTUnfolded_node__node8 from DNTUnfolded_edge__edge20
                                                                                                                                                         GRGEN_LGSP.LGSPNode candidate_DNTUnfolded_node__node8 = candidate_DNTUnfolded_edge__edge20.lgspTarget;
                                                                                                                                                         if(candidate_DNTUnfolded_node__node8.lgspType.TypeID!=2) {
                                                                                                                                                             candidate_DNTUnfolded_edge__edge20.lgspFlags = candidate_DNTUnfolded_edge__edge20.lgspFlags & ~((uint) GRGEN_LGSP.LGSPElemFlags.IS_MATCHED << negLevel) | prev__candidate_DNTUnfolded_edge__edge20;
@@ -18317,7 +18317,7 @@ label0: ;
                                                                                                                                                         uint prev__candidate_DNTUnfolded_node__node8;
                                                                                                                                                         prev__candidate_DNTUnfolded_node__node8 = candidate_DNTUnfolded_node__node8.lgspFlags & (uint) GRGEN_LGSP.LGSPElemFlags.IS_MATCHED << negLevel;
                                                                                                                                                         candidate_DNTUnfolded_node__node8.lgspFlags |= (uint) GRGEN_LGSP.LGSPElemFlags.IS_MATCHED << negLevel;
-                                                                                                                                                        // Extend Outgoing DNTUnfolded_edge__edge18 from DNTUnfolded_node_n4 
+                                                                                                                                                        // Extend Outgoing DNTUnfolded_edge__edge18 from DNTUnfolded_node_n4
                                                                                                                                                         GRGEN_LGSP.LGSPEdge head_candidate_DNTUnfolded_edge__edge18 = candidate_DNTUnfolded_node_n4.lgspOuthead;
                                                                                                                                                         if(head_candidate_DNTUnfolded_edge__edge18 != null)
                                                                                                                                                         {
@@ -18334,7 +18334,7 @@ label0: ;
                                                                                                                                                                 uint prev__candidate_DNTUnfolded_edge__edge18;
                                                                                                                                                                 prev__candidate_DNTUnfolded_edge__edge18 = candidate_DNTUnfolded_edge__edge18.lgspFlags & (uint) GRGEN_LGSP.LGSPElemFlags.IS_MATCHED << negLevel;
                                                                                                                                                                 candidate_DNTUnfolded_edge__edge18.lgspFlags |= (uint) GRGEN_LGSP.LGSPElemFlags.IS_MATCHED << negLevel;
-                                                                                                                                                                // Implicit Target DNTUnfolded_node__node6 from DNTUnfolded_edge__edge18 
+                                                                                                                                                                // Implicit Target DNTUnfolded_node__node6 from DNTUnfolded_edge__edge18
                                                                                                                                                                 GRGEN_LGSP.LGSPNode candidate_DNTUnfolded_node__node6 = candidate_DNTUnfolded_edge__edge18.lgspTarget;
                                                                                                                                                                 if(candidate_DNTUnfolded_node__node6.lgspType.TypeID!=3) {
                                                                                                                                                                     candidate_DNTUnfolded_edge__edge18.lgspFlags = candidate_DNTUnfolded_edge__edge18.lgspFlags & ~((uint) GRGEN_LGSP.LGSPElemFlags.IS_MATCHED << negLevel) | prev__candidate_DNTUnfolded_edge__edge18;
@@ -18348,7 +18348,7 @@ label0: ;
                                                                                                                                                                 uint prev__candidate_DNTUnfolded_node__node6;
                                                                                                                                                                 prev__candidate_DNTUnfolded_node__node6 = candidate_DNTUnfolded_node__node6.lgspFlags & (uint) GRGEN_LGSP.LGSPElemFlags.IS_MATCHED << negLevel;
                                                                                                                                                                 candidate_DNTUnfolded_node__node6.lgspFlags |= (uint) GRGEN_LGSP.LGSPElemFlags.IS_MATCHED << negLevel;
-                                                                                                                                                                // Extend Outgoing DNTUnfolded_edge__edge19 from DNTUnfolded_node_n4 
+                                                                                                                                                                // Extend Outgoing DNTUnfolded_edge__edge19 from DNTUnfolded_node_n4
                                                                                                                                                                 GRGEN_LGSP.LGSPEdge head_candidate_DNTUnfolded_edge__edge19 = candidate_DNTUnfolded_node_n4.lgspOuthead;
                                                                                                                                                                 if(head_candidate_DNTUnfolded_edge__edge19 != null)
                                                                                                                                                                 {
@@ -18365,7 +18365,7 @@ label0: ;
                                                                                                                                                                         uint prev__candidate_DNTUnfolded_edge__edge19;
                                                                                                                                                                         prev__candidate_DNTUnfolded_edge__edge19 = candidate_DNTUnfolded_edge__edge19.lgspFlags & (uint) GRGEN_LGSP.LGSPElemFlags.IS_MATCHED << negLevel;
                                                                                                                                                                         candidate_DNTUnfolded_edge__edge19.lgspFlags |= (uint) GRGEN_LGSP.LGSPElemFlags.IS_MATCHED << negLevel;
-                                                                                                                                                                        // Implicit Target DNTUnfolded_node__node7 from DNTUnfolded_edge__edge19 
+                                                                                                                                                                        // Implicit Target DNTUnfolded_node__node7 from DNTUnfolded_edge__edge19
                                                                                                                                                                         GRGEN_LGSP.LGSPNode candidate_DNTUnfolded_node__node7 = candidate_DNTUnfolded_edge__edge19.lgspTarget;
                                                                                                                                                                         if(candidate_DNTUnfolded_node__node7.lgspType.TypeID!=3) {
                                                                                                                                                                             candidate_DNTUnfolded_edge__edge19.lgspFlags = candidate_DNTUnfolded_edge__edge19.lgspFlags & ~((uint) GRGEN_LGSP.LGSPElemFlags.IS_MATCHED << negLevel) | prev__candidate_DNTUnfolded_edge__edge19;
@@ -18376,7 +18376,7 @@ label0: ;
                                                                                                                                                                             candidate_DNTUnfolded_edge__edge19.lgspFlags = candidate_DNTUnfolded_edge__edge19.lgspFlags & ~((uint) GRGEN_LGSP.LGSPElemFlags.IS_MATCHED << negLevel) | prev__candidate_DNTUnfolded_edge__edge19;
                                                                                                                                                                             continue;
                                                                                                                                                                         }
-                                                                                                                                                                        // Extend Outgoing DNTUnfolded_edge__edge5 from DNTUnfolded_node_c6 
+                                                                                                                                                                        // Extend Outgoing DNTUnfolded_edge__edge5 from DNTUnfolded_node_c6
                                                                                                                                                                         GRGEN_LGSP.LGSPEdge head_candidate_DNTUnfolded_edge__edge5 = candidate_DNTUnfolded_node_c6.lgspOuthead;
                                                                                                                                                                         if(head_candidate_DNTUnfolded_edge__edge5 != null)
                                                                                                                                                                         {
@@ -18396,7 +18396,7 @@ label0: ;
                                                                                                                                                                                 uint prev__candidate_DNTUnfolded_edge__edge5;
                                                                                                                                                                                 prev__candidate_DNTUnfolded_edge__edge5 = candidate_DNTUnfolded_edge__edge5.lgspFlags & (uint) GRGEN_LGSP.LGSPElemFlags.IS_MATCHED << negLevel;
                                                                                                                                                                                 candidate_DNTUnfolded_edge__edge5.lgspFlags |= (uint) GRGEN_LGSP.LGSPElemFlags.IS_MATCHED << negLevel;
-                                                                                                                                                                                // Extend Outgoing DNTUnfolded_edge__edge21 from DNTUnfolded_node_c6 
+                                                                                                                                                                                // Extend Outgoing DNTUnfolded_edge__edge21 from DNTUnfolded_node_c6
                                                                                                                                                                                 GRGEN_LGSP.LGSPEdge head_candidate_DNTUnfolded_edge__edge21 = candidate_DNTUnfolded_node_c6.lgspOuthead;
                                                                                                                                                                                 if(head_candidate_DNTUnfolded_edge__edge21 != null)
                                                                                                                                                                                 {
@@ -18410,7 +18410,7 @@ label0: ;
                                                                                                                                                                                         {
                                                                                                                                                                                             continue;
                                                                                                                                                                                         }
-                                                                                                                                                                                        // Implicit Target DNTUnfolded_node__node9 from DNTUnfolded_edge__edge21 
+                                                                                                                                                                                        // Implicit Target DNTUnfolded_node__node9 from DNTUnfolded_edge__edge21
                                                                                                                                                                                         GRGEN_LGSP.LGSPNode candidate_DNTUnfolded_node__node9 = candidate_DNTUnfolded_edge__edge21.lgspTarget;
                                                                                                                                                                                         if(candidate_DNTUnfolded_node__node9.lgspType.TypeID!=2) {
                                                                                                                                                                                             continue;
@@ -18662,7 +18662,7 @@ label0: ;
         public bool ApplyStar(GRGEN_LIBGR.IGraph graph)
         {
             GRGEN_LIBGR.IMatchesExact<Rule_DNTUnfolded.IMatch_DNTUnfolded> matches;
-            
+
             while(true)
             {
                 matches = DynamicMatch((GRGEN_LGSP.LGSPGraph)graph, 1);
@@ -18674,7 +18674,7 @@ label0: ;
         {
             GRGEN_LIBGR.IMatchesExact<Rule_DNTUnfolded.IMatch_DNTUnfolded> matches = DynamicMatch((GRGEN_LGSP.LGSPGraph)graph, 1);
             if(matches.Count <= 0) return false;
-            
+
             do
             {
                 _rulePattern.Modify((GRGEN_LGSP.LGSPGraph)graph, matches.First);
@@ -18686,7 +18686,7 @@ label0: ;
         public bool ApplyMinMax(GRGEN_LIBGR.IGraph graph, int min, int max)
         {
             GRGEN_LIBGR.IMatchesExact<Rule_DNTUnfolded.IMatch_DNTUnfolded> matches;
-            
+
             for(int i = 0; i < max; i++)
             {
                 matches = DynamicMatch((GRGEN_LGSP.LGSPGraph)graph, 1);
@@ -18702,19 +18702,19 @@ label0: ;
         }
         public object[] Modify(GRGEN_LIBGR.IGraph graph, GRGEN_LIBGR.IMatch match)
         {
-            
+
             Modify(graph, (Rule_DNTUnfolded.IMatch_DNTUnfolded)match);
             return ReturnArray;
         }
         public object[] ModifyAll(GRGEN_LIBGR.IGraph graph, GRGEN_LIBGR.IMatches matches)
         {
-            
+
             ModifyAll(graph, (GRGEN_LIBGR.IMatchesExact<Rule_DNTUnfolded.IMatch_DNTUnfolded>)matches);
             return ReturnArray;
         }
         object[] GRGEN_LIBGR.IAction.Apply(GRGEN_LIBGR.IGraph graph)
         {
-            
+
             if(Apply(graph)) {
                 return ReturnArray;
             }
@@ -18722,7 +18722,7 @@ label0: ;
         }
         object[] GRGEN_LIBGR.IAction.Apply(GRGEN_LIBGR.IGraph graph, params object[] parameters)
         {
-            
+
             if(Apply(graph)) {
                 return ReturnArray;
             }
@@ -18730,7 +18730,7 @@ label0: ;
         }
         object[] GRGEN_LIBGR.IAction.ApplyAll(int maxMatches, GRGEN_LIBGR.IGraph graph)
         {
-            
+
             if(ApplyAll(maxMatches, graph)) {
                 return ReturnArray;
             }
@@ -18738,7 +18738,7 @@ label0: ;
         }
         object[] GRGEN_LIBGR.IAction.ApplyAll(int maxMatches, GRGEN_LIBGR.IGraph graph, params object[] parameters)
         {
-            
+
             if(ApplyAll(maxMatches, graph)) {
                 return ReturnArray;
             }
@@ -18792,7 +18792,7 @@ label0: ;
         /// <summary> same as IAction.ApplyMinMax, but with exact types and distinct parameters. </summary>
         bool ApplyMinMax(GRGEN_LIBGR.IGraph graph, int min, int max);
     }
-    
+
     public class Action_createDNT : GRGEN_LGSP.LGSPAction, GRGEN_LIBGR.IAction, IAction_createDNT
     {
         public Action_createDNT() {
@@ -18810,7 +18810,7 @@ label0: ;
 
         public static Action_createDNT Instance { get { return instance; } }
         private static Action_createDNT instance = new Action_createDNT();
-        
+
         public GRGEN_LIBGR.IMatchesExact<Rule_createDNT.IMatch_createDNT> myMatch(GRGEN_LGSP.LGSPGraph graph, int maxMatches)
         {
             matches.Clear();
@@ -18859,7 +18859,7 @@ label0: ;
         public bool ApplyStar(GRGEN_LIBGR.IGraph graph)
         {
             GRGEN_LIBGR.IMatchesExact<Rule_createDNT.IMatch_createDNT> matches;
-            
+
             while(true)
             {
                 matches = DynamicMatch((GRGEN_LGSP.LGSPGraph)graph, 1);
@@ -18871,7 +18871,7 @@ label0: ;
         {
             GRGEN_LIBGR.IMatchesExact<Rule_createDNT.IMatch_createDNT> matches = DynamicMatch((GRGEN_LGSP.LGSPGraph)graph, 1);
             if(matches.Count <= 0) return false;
-            
+
             do
             {
                 _rulePattern.Modify((GRGEN_LGSP.LGSPGraph)graph, matches.First);
@@ -18883,7 +18883,7 @@ label0: ;
         public bool ApplyMinMax(GRGEN_LIBGR.IGraph graph, int min, int max)
         {
             GRGEN_LIBGR.IMatchesExact<Rule_createDNT.IMatch_createDNT> matches;
-            
+
             for(int i = 0; i < max; i++)
             {
                 matches = DynamicMatch((GRGEN_LGSP.LGSPGraph)graph, 1);
@@ -18899,19 +18899,19 @@ label0: ;
         }
         public object[] Modify(GRGEN_LIBGR.IGraph graph, GRGEN_LIBGR.IMatch match)
         {
-            
+
             Modify(graph, (Rule_createDNT.IMatch_createDNT)match);
             return ReturnArray;
         }
         public object[] ModifyAll(GRGEN_LIBGR.IGraph graph, GRGEN_LIBGR.IMatches matches)
         {
-            
+
             ModifyAll(graph, (GRGEN_LIBGR.IMatchesExact<Rule_createDNT.IMatch_createDNT>)matches);
             return ReturnArray;
         }
         object[] GRGEN_LIBGR.IAction.Apply(GRGEN_LIBGR.IGraph graph)
         {
-            
+
             if(Apply(graph)) {
                 return ReturnArray;
             }
@@ -18919,7 +18919,7 @@ label0: ;
         }
         object[] GRGEN_LIBGR.IAction.Apply(GRGEN_LIBGR.IGraph graph, params object[] parameters)
         {
-            
+
             if(Apply(graph)) {
                 return ReturnArray;
             }
@@ -18927,7 +18927,7 @@ label0: ;
         }
         object[] GRGEN_LIBGR.IAction.ApplyAll(int maxMatches, GRGEN_LIBGR.IGraph graph)
         {
-            
+
             if(ApplyAll(maxMatches, graph)) {
                 return ReturnArray;
             }
@@ -18935,7 +18935,7 @@ label0: ;
         }
         object[] GRGEN_LIBGR.IAction.ApplyAll(int maxMatches, GRGEN_LIBGR.IGraph graph, params object[] parameters)
         {
-            
+
             if(ApplyAll(maxMatches, graph)) {
                 return ReturnArray;
             }
@@ -18989,7 +18989,7 @@ label0: ;
         /// <summary> same as IAction.ApplyMinMax, but with exact types and distinct parameters. </summary>
         bool ApplyMinMax(GRGEN_LIBGR.IGraph graph, int min, int max);
     }
-    
+
     public class Action_TNB : GRGEN_LGSP.LGSPAction, GRGEN_LIBGR.IAction, IAction_TNB
     {
         public Action_TNB() {
@@ -19007,7 +19007,7 @@ label0: ;
 
         public static Action_TNB Instance { get { return instance; } }
         private static Action_TNB instance = new Action_TNB();
-        
+
         public GRGEN_LIBGR.IMatchesExact<Rule_TNB.IMatch_TNB> myMatch(GRGEN_LGSP.LGSPGraph graph, int maxMatches)
         {
             matches.Clear();
@@ -19015,14 +19015,14 @@ label0: ;
             Stack<GRGEN_LGSP.LGSPSubpatternAction> openTasks = new Stack<GRGEN_LGSP.LGSPSubpatternAction>();
             List<Stack<GRGEN_LIBGR.IMatch>> foundPartialMatches = new List<Stack<GRGEN_LIBGR.IMatch>>();
             List<Stack<GRGEN_LIBGR.IMatch>> matchesList = foundPartialMatches;
-            // Lookup TNB_edge__edge0 
+            // Lookup TNB_edge__edge0
             int type_id_candidate_TNB_edge__edge0 = 1;
             for(GRGEN_LGSP.LGSPEdge head_candidate_TNB_edge__edge0 = graph.edgesByTypeHeads[type_id_candidate_TNB_edge__edge0], candidate_TNB_edge__edge0 = head_candidate_TNB_edge__edge0.lgspTypeNext; candidate_TNB_edge__edge0 != head_candidate_TNB_edge__edge0; candidate_TNB_edge__edge0 = candidate_TNB_edge__edge0.lgspTypeNext)
             {
                 uint prev__candidate_TNB_edge__edge0;
                 prev__candidate_TNB_edge__edge0 = candidate_TNB_edge__edge0.lgspFlags & (uint) GRGEN_LGSP.LGSPElemFlags.IS_MATCHED << negLevel;
                 candidate_TNB_edge__edge0.lgspFlags |= (uint) GRGEN_LGSP.LGSPElemFlags.IS_MATCHED << negLevel;
-                // Implicit Source TNB_node_c1 from TNB_edge__edge0 
+                // Implicit Source TNB_node_c1 from TNB_edge__edge0
                 GRGEN_LGSP.LGSPNode candidate_TNB_node_c1 = candidate_TNB_edge__edge0.lgspSource;
                 if(candidate_TNB_node_c1.lgspType.TypeID!=1) {
                     candidate_TNB_edge__edge0.lgspFlags = candidate_TNB_edge__edge0.lgspFlags & ~((uint) GRGEN_LGSP.LGSPElemFlags.IS_MATCHED << negLevel) | prev__candidate_TNB_edge__edge0;
@@ -19031,7 +19031,7 @@ label0: ;
                 uint prev__candidate_TNB_node_c1;
                 prev__candidate_TNB_node_c1 = candidate_TNB_node_c1.lgspFlags & (uint) GRGEN_LGSP.LGSPElemFlags.IS_MATCHED << negLevel;
                 candidate_TNB_node_c1.lgspFlags |= (uint) GRGEN_LGSP.LGSPElemFlags.IS_MATCHED << negLevel;
-                // Implicit Target TNB_node_c2 from TNB_edge__edge0 
+                // Implicit Target TNB_node_c2 from TNB_edge__edge0
                 GRGEN_LGSP.LGSPNode candidate_TNB_node_c2 = candidate_TNB_edge__edge0.lgspTarget;
                 if(candidate_TNB_node_c2.lgspType.TypeID!=1) {
                     candidate_TNB_node_c1.lgspFlags = candidate_TNB_node_c1.lgspFlags & ~((uint) GRGEN_LGSP.LGSPElemFlags.IS_MATCHED << negLevel) | prev__candidate_TNB_node_c1;
@@ -19047,7 +19047,7 @@ label0: ;
                 uint prev__candidate_TNB_node_c2;
                 prev__candidate_TNB_node_c2 = candidate_TNB_node_c2.lgspFlags & (uint) GRGEN_LGSP.LGSPElemFlags.IS_MATCHED << negLevel;
                 candidate_TNB_node_c2.lgspFlags |= (uint) GRGEN_LGSP.LGSPElemFlags.IS_MATCHED << negLevel;
-                // Extend Outgoing TNB_edge__edge6 from TNB_node_c1 
+                // Extend Outgoing TNB_edge__edge6 from TNB_node_c1
                 GRGEN_LGSP.LGSPEdge head_candidate_TNB_edge__edge6 = candidate_TNB_node_c1.lgspOuthead;
                 if(head_candidate_TNB_edge__edge6 != null)
                 {
@@ -19067,7 +19067,7 @@ label0: ;
                         uint prev__candidate_TNB_edge__edge6;
                         prev__candidate_TNB_edge__edge6 = candidate_TNB_edge__edge6.lgspFlags & (uint) GRGEN_LGSP.LGSPElemFlags.IS_MATCHED << negLevel;
                         candidate_TNB_edge__edge6.lgspFlags |= (uint) GRGEN_LGSP.LGSPElemFlags.IS_MATCHED << negLevel;
-                        // Extend Outgoing TNB_edge__edge1 from TNB_node_c2 
+                        // Extend Outgoing TNB_edge__edge1 from TNB_node_c2
                         GRGEN_LGSP.LGSPEdge head_candidate_TNB_edge__edge1 = candidate_TNB_node_c2.lgspOuthead;
                         if(head_candidate_TNB_edge__edge1 != null)
                         {
@@ -19084,7 +19084,7 @@ label0: ;
                                 uint prev__candidate_TNB_edge__edge1;
                                 prev__candidate_TNB_edge__edge1 = candidate_TNB_edge__edge1.lgspFlags & (uint) GRGEN_LGSP.LGSPElemFlags.IS_MATCHED << negLevel;
                                 candidate_TNB_edge__edge1.lgspFlags |= (uint) GRGEN_LGSP.LGSPElemFlags.IS_MATCHED << negLevel;
-                                // Implicit Target TNB_node_c3 from TNB_edge__edge1 
+                                // Implicit Target TNB_node_c3 from TNB_edge__edge1
                                 GRGEN_LGSP.LGSPNode candidate_TNB_node_c3 = candidate_TNB_edge__edge1.lgspTarget;
                                 if(candidate_TNB_node_c3.lgspType.TypeID!=1) {
                                     candidate_TNB_edge__edge1.lgspFlags = candidate_TNB_edge__edge1.lgspFlags & ~((uint) GRGEN_LGSP.LGSPElemFlags.IS_MATCHED << negLevel) | prev__candidate_TNB_edge__edge1;
@@ -19098,7 +19098,7 @@ label0: ;
                                 uint prev__candidate_TNB_node_c3;
                                 prev__candidate_TNB_node_c3 = candidate_TNB_node_c3.lgspFlags & (uint) GRGEN_LGSP.LGSPElemFlags.IS_MATCHED << negLevel;
                                 candidate_TNB_node_c3.lgspFlags |= (uint) GRGEN_LGSP.LGSPElemFlags.IS_MATCHED << negLevel;
-                                // Extend Outgoing TNB_edge__edge2 from TNB_node_c3 
+                                // Extend Outgoing TNB_edge__edge2 from TNB_node_c3
                                 GRGEN_LGSP.LGSPEdge head_candidate_TNB_edge__edge2 = candidate_TNB_node_c3.lgspOuthead;
                                 if(head_candidate_TNB_edge__edge2 != null)
                                 {
@@ -19115,7 +19115,7 @@ label0: ;
                                         uint prev__candidate_TNB_edge__edge2;
                                         prev__candidate_TNB_edge__edge2 = candidate_TNB_edge__edge2.lgspFlags & (uint) GRGEN_LGSP.LGSPElemFlags.IS_MATCHED << negLevel;
                                         candidate_TNB_edge__edge2.lgspFlags |= (uint) GRGEN_LGSP.LGSPElemFlags.IS_MATCHED << negLevel;
-                                        // Implicit Target TNB_node_c4 from TNB_edge__edge2 
+                                        // Implicit Target TNB_node_c4 from TNB_edge__edge2
                                         GRGEN_LGSP.LGSPNode candidate_TNB_node_c4 = candidate_TNB_edge__edge2.lgspTarget;
                                         if(candidate_TNB_node_c4.lgspType.TypeID!=1) {
                                             candidate_TNB_edge__edge2.lgspFlags = candidate_TNB_edge__edge2.lgspFlags & ~((uint) GRGEN_LGSP.LGSPElemFlags.IS_MATCHED << negLevel) | prev__candidate_TNB_edge__edge2;
@@ -19129,7 +19129,7 @@ label0: ;
                                         uint prev__candidate_TNB_node_c4;
                                         prev__candidate_TNB_node_c4 = candidate_TNB_node_c4.lgspFlags & (uint) GRGEN_LGSP.LGSPElemFlags.IS_MATCHED << negLevel;
                                         candidate_TNB_node_c4.lgspFlags |= (uint) GRGEN_LGSP.LGSPElemFlags.IS_MATCHED << negLevel;
-                                        // Extend Outgoing TNB_edge__edge7 from TNB_node_c3 
+                                        // Extend Outgoing TNB_edge__edge7 from TNB_node_c3
                                         GRGEN_LGSP.LGSPEdge head_candidate_TNB_edge__edge7 = candidate_TNB_node_c3.lgspOuthead;
                                         if(head_candidate_TNB_edge__edge7 != null)
                                         {
@@ -19149,7 +19149,7 @@ label0: ;
                                                 uint prev__candidate_TNB_edge__edge7;
                                                 prev__candidate_TNB_edge__edge7 = candidate_TNB_edge__edge7.lgspFlags & (uint) GRGEN_LGSP.LGSPElemFlags.IS_MATCHED << negLevel;
                                                 candidate_TNB_edge__edge7.lgspFlags |= (uint) GRGEN_LGSP.LGSPElemFlags.IS_MATCHED << negLevel;
-                                                // Extend Outgoing TNB_edge__edge3 from TNB_node_c4 
+                                                // Extend Outgoing TNB_edge__edge3 from TNB_node_c4
                                                 GRGEN_LGSP.LGSPEdge head_candidate_TNB_edge__edge3 = candidate_TNB_node_c4.lgspOuthead;
                                                 if(head_candidate_TNB_edge__edge3 != null)
                                                 {
@@ -19166,7 +19166,7 @@ label0: ;
                                                         uint prev__candidate_TNB_edge__edge3;
                                                         prev__candidate_TNB_edge__edge3 = candidate_TNB_edge__edge3.lgspFlags & (uint) GRGEN_LGSP.LGSPElemFlags.IS_MATCHED << negLevel;
                                                         candidate_TNB_edge__edge3.lgspFlags |= (uint) GRGEN_LGSP.LGSPElemFlags.IS_MATCHED << negLevel;
-                                                        // Implicit Target TNB_node_c5 from TNB_edge__edge3 
+                                                        // Implicit Target TNB_node_c5 from TNB_edge__edge3
                                                         GRGEN_LGSP.LGSPNode candidate_TNB_node_c5 = candidate_TNB_edge__edge3.lgspTarget;
                                                         if(candidate_TNB_node_c5.lgspType.TypeID!=1) {
                                                             candidate_TNB_edge__edge3.lgspFlags = candidate_TNB_edge__edge3.lgspFlags & ~((uint) GRGEN_LGSP.LGSPElemFlags.IS_MATCHED << negLevel) | prev__candidate_TNB_edge__edge3;
@@ -19180,7 +19180,7 @@ label0: ;
                                                         uint prev__candidate_TNB_node_c5;
                                                         prev__candidate_TNB_node_c5 = candidate_TNB_node_c5.lgspFlags & (uint) GRGEN_LGSP.LGSPElemFlags.IS_MATCHED << negLevel;
                                                         candidate_TNB_node_c5.lgspFlags |= (uint) GRGEN_LGSP.LGSPElemFlags.IS_MATCHED << negLevel;
-                                                        // Extend Outgoing TNB_edge__edge4 from TNB_node_c5 
+                                                        // Extend Outgoing TNB_edge__edge4 from TNB_node_c5
                                                         GRGEN_LGSP.LGSPEdge head_candidate_TNB_edge__edge4 = candidate_TNB_node_c5.lgspOuthead;
                                                         if(head_candidate_TNB_edge__edge4 != null)
                                                         {
@@ -19197,7 +19197,7 @@ label0: ;
                                                                 uint prev__candidate_TNB_edge__edge4;
                                                                 prev__candidate_TNB_edge__edge4 = candidate_TNB_edge__edge4.lgspFlags & (uint) GRGEN_LGSP.LGSPElemFlags.IS_MATCHED << negLevel;
                                                                 candidate_TNB_edge__edge4.lgspFlags |= (uint) GRGEN_LGSP.LGSPElemFlags.IS_MATCHED << negLevel;
-                                                                // Implicit Target TNB_node_c6 from TNB_edge__edge4 
+                                                                // Implicit Target TNB_node_c6 from TNB_edge__edge4
                                                                 GRGEN_LGSP.LGSPNode candidate_TNB_node_c6 = candidate_TNB_edge__edge4.lgspTarget;
                                                                 if(candidate_TNB_node_c6.lgspType.TypeID!=1) {
                                                                     candidate_TNB_edge__edge4.lgspFlags = candidate_TNB_edge__edge4.lgspFlags & ~((uint) GRGEN_LGSP.LGSPElemFlags.IS_MATCHED << negLevel) | prev__candidate_TNB_edge__edge4;
@@ -19208,7 +19208,7 @@ label0: ;
                                                                     candidate_TNB_edge__edge4.lgspFlags = candidate_TNB_edge__edge4.lgspFlags & ~((uint) GRGEN_LGSP.LGSPElemFlags.IS_MATCHED << negLevel) | prev__candidate_TNB_edge__edge4;
                                                                     continue;
                                                                 }
-                                                                // Extend Outgoing TNB_edge__edge8 from TNB_node_c5 
+                                                                // Extend Outgoing TNB_edge__edge8 from TNB_node_c5
                                                                 GRGEN_LGSP.LGSPEdge head_candidate_TNB_edge__edge8 = candidate_TNB_node_c5.lgspOuthead;
                                                                 if(head_candidate_TNB_edge__edge8 != null)
                                                                 {
@@ -19228,7 +19228,7 @@ label0: ;
                                                                         uint prev__candidate_TNB_edge__edge8;
                                                                         prev__candidate_TNB_edge__edge8 = candidate_TNB_edge__edge8.lgspFlags & (uint) GRGEN_LGSP.LGSPElemFlags.IS_MATCHED << negLevel;
                                                                         candidate_TNB_edge__edge8.lgspFlags |= (uint) GRGEN_LGSP.LGSPElemFlags.IS_MATCHED << negLevel;
-                                                                        // Extend Outgoing TNB_edge__edge5 from TNB_node_c6 
+                                                                        // Extend Outgoing TNB_edge__edge5 from TNB_node_c6
                                                                         GRGEN_LGSP.LGSPEdge head_candidate_TNB_edge__edge5 = candidate_TNB_node_c6.lgspOuthead;
                                                                         if(head_candidate_TNB_edge__edge5 != null)
                                                                         {
@@ -19332,7 +19332,7 @@ label0: ;
                                                                                 uint prevGlobal__candidate_TNB_edge__edge8;
                                                                                 prevGlobal__candidate_TNB_edge__edge8 = candidate_TNB_edge__edge8.lgspFlags & (uint) GRGEN_LGSP.LGSPElemFlags.IS_MATCHED_BY_ENCLOSING_PATTERN << negLevel;
                                                                                 candidate_TNB_edge__edge8.lgspFlags |= (uint) GRGEN_LGSP.LGSPElemFlags.IS_MATCHED_BY_ENCLOSING_PATTERN << negLevel;
-                                                                                // Match subpatterns 
+                                                                                // Match subpatterns
                                                                                 openTasks.Peek().myMatch(matchesList, maxMatches - foundPartialMatches.Count, negLevel);
                                                                                 // Pop subpattern matching task for _sub0
                                                                                 openTasks.Pop();
@@ -19352,7 +19352,7 @@ label0: ;
                                                                                 // Pop subpattern matching task for _sub5
                                                                                 openTasks.Pop();
                                                                                 PatternAction_Nitro.releaseTask(taskFor__sub5);
-                                                                                // Check whether subpatterns were found 
+                                                                                // Check whether subpatterns were found
                                                                                 if(matchesList.Count>0) {
                                                                                     // subpatterns/alternatives were found, extend the partial matches by our local match object, becoming a complete match object and save it
                                                                                     foreach(Stack<GRGEN_LIBGR.IMatch> currentFoundPartialMatch in matchesList)
@@ -19528,7 +19528,7 @@ label0: ;
         public bool ApplyStar(GRGEN_LIBGR.IGraph graph)
         {
             GRGEN_LIBGR.IMatchesExact<Rule_TNB.IMatch_TNB> matches;
-            
+
             while(true)
             {
                 matches = DynamicMatch((GRGEN_LGSP.LGSPGraph)graph, 1);
@@ -19540,7 +19540,7 @@ label0: ;
         {
             GRGEN_LIBGR.IMatchesExact<Rule_TNB.IMatch_TNB> matches = DynamicMatch((GRGEN_LGSP.LGSPGraph)graph, 1);
             if(matches.Count <= 0) return false;
-            
+
             do
             {
                 _rulePattern.Modify((GRGEN_LGSP.LGSPGraph)graph, matches.First);
@@ -19552,7 +19552,7 @@ label0: ;
         public bool ApplyMinMax(GRGEN_LIBGR.IGraph graph, int min, int max)
         {
             GRGEN_LIBGR.IMatchesExact<Rule_TNB.IMatch_TNB> matches;
-            
+
             for(int i = 0; i < max; i++)
             {
                 matches = DynamicMatch((GRGEN_LGSP.LGSPGraph)graph, 1);
@@ -19568,19 +19568,19 @@ label0: ;
         }
         public object[] Modify(GRGEN_LIBGR.IGraph graph, GRGEN_LIBGR.IMatch match)
         {
-            
+
             Modify(graph, (Rule_TNB.IMatch_TNB)match);
             return ReturnArray;
         }
         public object[] ModifyAll(GRGEN_LIBGR.IGraph graph, GRGEN_LIBGR.IMatches matches)
         {
-            
+
             ModifyAll(graph, (GRGEN_LIBGR.IMatchesExact<Rule_TNB.IMatch_TNB>)matches);
             return ReturnArray;
         }
         object[] GRGEN_LIBGR.IAction.Apply(GRGEN_LIBGR.IGraph graph)
         {
-            
+
             if(Apply(graph)) {
                 return ReturnArray;
             }
@@ -19588,7 +19588,7 @@ label0: ;
         }
         object[] GRGEN_LIBGR.IAction.Apply(GRGEN_LIBGR.IGraph graph, params object[] parameters)
         {
-            
+
             if(Apply(graph)) {
                 return ReturnArray;
             }
@@ -19596,7 +19596,7 @@ label0: ;
         }
         object[] GRGEN_LIBGR.IAction.ApplyAll(int maxMatches, GRGEN_LIBGR.IGraph graph)
         {
-            
+
             if(ApplyAll(maxMatches, graph)) {
                 return ReturnArray;
             }
@@ -19604,7 +19604,7 @@ label0: ;
         }
         object[] GRGEN_LIBGR.IAction.ApplyAll(int maxMatches, GRGEN_LIBGR.IGraph graph, params object[] parameters)
         {
-            
+
             if(ApplyAll(maxMatches, graph)) {
                 return ReturnArray;
             }
@@ -19658,7 +19658,7 @@ label0: ;
         /// <summary> same as IAction.ApplyMinMax, but with exact types and distinct parameters. </summary>
         bool ApplyMinMax(GRGEN_LIBGR.IGraph graph, int min, int max);
     }
-    
+
     public class Action_TNBUnfolded : GRGEN_LGSP.LGSPAction, GRGEN_LIBGR.IAction, IAction_TNBUnfolded
     {
         public Action_TNBUnfolded() {
@@ -19676,19 +19676,19 @@ label0: ;
 
         public static Action_TNBUnfolded Instance { get { return instance; } }
         private static Action_TNBUnfolded instance = new Action_TNBUnfolded();
-        
+
         public GRGEN_LIBGR.IMatchesExact<Rule_TNBUnfolded.IMatch_TNBUnfolded> myMatch(GRGEN_LGSP.LGSPGraph graph, int maxMatches)
         {
             matches.Clear();
             int negLevel = 0;
-            // Lookup TNBUnfolded_edge__edge0 
+            // Lookup TNBUnfolded_edge__edge0
             int type_id_candidate_TNBUnfolded_edge__edge0 = 1;
             for(GRGEN_LGSP.LGSPEdge head_candidate_TNBUnfolded_edge__edge0 = graph.edgesByTypeHeads[type_id_candidate_TNBUnfolded_edge__edge0], candidate_TNBUnfolded_edge__edge0 = head_candidate_TNBUnfolded_edge__edge0.lgspTypeNext; candidate_TNBUnfolded_edge__edge0 != head_candidate_TNBUnfolded_edge__edge0; candidate_TNBUnfolded_edge__edge0 = candidate_TNBUnfolded_edge__edge0.lgspTypeNext)
             {
                 uint prev__candidate_TNBUnfolded_edge__edge0;
                 prev__candidate_TNBUnfolded_edge__edge0 = candidate_TNBUnfolded_edge__edge0.lgspFlags & (uint) GRGEN_LGSP.LGSPElemFlags.IS_MATCHED << negLevel;
                 candidate_TNBUnfolded_edge__edge0.lgspFlags |= (uint) GRGEN_LGSP.LGSPElemFlags.IS_MATCHED << negLevel;
-                // Implicit Source TNBUnfolded_node_c1 from TNBUnfolded_edge__edge0 
+                // Implicit Source TNBUnfolded_node_c1 from TNBUnfolded_edge__edge0
                 GRGEN_LGSP.LGSPNode candidate_TNBUnfolded_node_c1 = candidate_TNBUnfolded_edge__edge0.lgspSource;
                 if(candidate_TNBUnfolded_node_c1.lgspType.TypeID!=1) {
                     candidate_TNBUnfolded_edge__edge0.lgspFlags = candidate_TNBUnfolded_edge__edge0.lgspFlags & ~((uint) GRGEN_LGSP.LGSPElemFlags.IS_MATCHED << negLevel) | prev__candidate_TNBUnfolded_edge__edge0;
@@ -19697,7 +19697,7 @@ label0: ;
                 uint prev__candidate_TNBUnfolded_node_c1;
                 prev__candidate_TNBUnfolded_node_c1 = candidate_TNBUnfolded_node_c1.lgspFlags & (uint) GRGEN_LGSP.LGSPElemFlags.IS_MATCHED << negLevel;
                 candidate_TNBUnfolded_node_c1.lgspFlags |= (uint) GRGEN_LGSP.LGSPElemFlags.IS_MATCHED << negLevel;
-                // Implicit Target TNBUnfolded_node_c2 from TNBUnfolded_edge__edge0 
+                // Implicit Target TNBUnfolded_node_c2 from TNBUnfolded_edge__edge0
                 GRGEN_LGSP.LGSPNode candidate_TNBUnfolded_node_c2 = candidate_TNBUnfolded_edge__edge0.lgspTarget;
                 if(candidate_TNBUnfolded_node_c2.lgspType.TypeID!=1) {
                     candidate_TNBUnfolded_node_c1.lgspFlags = candidate_TNBUnfolded_node_c1.lgspFlags & ~((uint) GRGEN_LGSP.LGSPElemFlags.IS_MATCHED << negLevel) | prev__candidate_TNBUnfolded_node_c1;
@@ -19713,7 +19713,7 @@ label0: ;
                 uint prev__candidate_TNBUnfolded_node_c2;
                 prev__candidate_TNBUnfolded_node_c2 = candidate_TNBUnfolded_node_c2.lgspFlags & (uint) GRGEN_LGSP.LGSPElemFlags.IS_MATCHED << negLevel;
                 candidate_TNBUnfolded_node_c2.lgspFlags |= (uint) GRGEN_LGSP.LGSPElemFlags.IS_MATCHED << negLevel;
-                // Extend Outgoing TNBUnfolded_edge__edge6 from TNBUnfolded_node_c1 
+                // Extend Outgoing TNBUnfolded_edge__edge6 from TNBUnfolded_node_c1
                 GRGEN_LGSP.LGSPEdge head_candidate_TNBUnfolded_edge__edge6 = candidate_TNBUnfolded_node_c1.lgspOuthead;
                 if(head_candidate_TNBUnfolded_edge__edge6 != null)
                 {
@@ -19733,7 +19733,7 @@ label0: ;
                         uint prev__candidate_TNBUnfolded_edge__edge6;
                         prev__candidate_TNBUnfolded_edge__edge6 = candidate_TNBUnfolded_edge__edge6.lgspFlags & (uint) GRGEN_LGSP.LGSPElemFlags.IS_MATCHED << negLevel;
                         candidate_TNBUnfolded_edge__edge6.lgspFlags |= (uint) GRGEN_LGSP.LGSPElemFlags.IS_MATCHED << negLevel;
-                        // Extend Outgoing TNBUnfolded_edge__edge9 from TNBUnfolded_node_c1 
+                        // Extend Outgoing TNBUnfolded_edge__edge9 from TNBUnfolded_node_c1
                         GRGEN_LGSP.LGSPEdge head_candidate_TNBUnfolded_edge__edge9 = candidate_TNBUnfolded_node_c1.lgspOuthead;
                         if(head_candidate_TNBUnfolded_edge__edge9 != null)
                         {
@@ -19750,7 +19750,7 @@ label0: ;
                                 uint prev__candidate_TNBUnfolded_edge__edge9;
                                 prev__candidate_TNBUnfolded_edge__edge9 = candidate_TNBUnfolded_edge__edge9.lgspFlags & (uint) GRGEN_LGSP.LGSPElemFlags.IS_MATCHED << negLevel;
                                 candidate_TNBUnfolded_edge__edge9.lgspFlags |= (uint) GRGEN_LGSP.LGSPElemFlags.IS_MATCHED << negLevel;
-                                // Implicit Target TNBUnfolded_node__node0 from TNBUnfolded_edge__edge9 
+                                // Implicit Target TNBUnfolded_node__node0 from TNBUnfolded_edge__edge9
                                 GRGEN_LGSP.LGSPNode candidate_TNBUnfolded_node__node0 = candidate_TNBUnfolded_edge__edge9.lgspTarget;
                                 if(candidate_TNBUnfolded_node__node0.lgspType.TypeID!=2) {
                                     candidate_TNBUnfolded_edge__edge9.lgspFlags = candidate_TNBUnfolded_edge__edge9.lgspFlags & ~((uint) GRGEN_LGSP.LGSPElemFlags.IS_MATCHED << negLevel) | prev__candidate_TNBUnfolded_edge__edge9;
@@ -19759,7 +19759,7 @@ label0: ;
                                 uint prev__candidate_TNBUnfolded_node__node0;
                                 prev__candidate_TNBUnfolded_node__node0 = candidate_TNBUnfolded_node__node0.lgspFlags & (uint) GRGEN_LGSP.LGSPElemFlags.IS_MATCHED << negLevel;
                                 candidate_TNBUnfolded_node__node0.lgspFlags |= (uint) GRGEN_LGSP.LGSPElemFlags.IS_MATCHED << negLevel;
-                                // Extend Outgoing TNBUnfolded_edge__edge1 from TNBUnfolded_node_c2 
+                                // Extend Outgoing TNBUnfolded_edge__edge1 from TNBUnfolded_node_c2
                                 GRGEN_LGSP.LGSPEdge head_candidate_TNBUnfolded_edge__edge1 = candidate_TNBUnfolded_node_c2.lgspOuthead;
                                 if(head_candidate_TNBUnfolded_edge__edge1 != null)
                                 {
@@ -19776,7 +19776,7 @@ label0: ;
                                         uint prev__candidate_TNBUnfolded_edge__edge1;
                                         prev__candidate_TNBUnfolded_edge__edge1 = candidate_TNBUnfolded_edge__edge1.lgspFlags & (uint) GRGEN_LGSP.LGSPElemFlags.IS_MATCHED << negLevel;
                                         candidate_TNBUnfolded_edge__edge1.lgspFlags |= (uint) GRGEN_LGSP.LGSPElemFlags.IS_MATCHED << negLevel;
-                                        // Implicit Target TNBUnfolded_node_c3 from TNBUnfolded_edge__edge1 
+                                        // Implicit Target TNBUnfolded_node_c3 from TNBUnfolded_edge__edge1
                                         GRGEN_LGSP.LGSPNode candidate_TNBUnfolded_node_c3 = candidate_TNBUnfolded_edge__edge1.lgspTarget;
                                         if(candidate_TNBUnfolded_node_c3.lgspType.TypeID!=1) {
                                             candidate_TNBUnfolded_edge__edge1.lgspFlags = candidate_TNBUnfolded_edge__edge1.lgspFlags & ~((uint) GRGEN_LGSP.LGSPElemFlags.IS_MATCHED << negLevel) | prev__candidate_TNBUnfolded_edge__edge1;
@@ -19790,7 +19790,7 @@ label0: ;
                                         uint prev__candidate_TNBUnfolded_node_c3;
                                         prev__candidate_TNBUnfolded_node_c3 = candidate_TNBUnfolded_node_c3.lgspFlags & (uint) GRGEN_LGSP.LGSPElemFlags.IS_MATCHED << negLevel;
                                         candidate_TNBUnfolded_node_c3.lgspFlags |= (uint) GRGEN_LGSP.LGSPElemFlags.IS_MATCHED << negLevel;
-                                        // Extend Outgoing TNBUnfolded_edge__edge10 from TNBUnfolded_node_c2 
+                                        // Extend Outgoing TNBUnfolded_edge__edge10 from TNBUnfolded_node_c2
                                         GRGEN_LGSP.LGSPEdge head_candidate_TNBUnfolded_edge__edge10 = candidate_TNBUnfolded_node_c2.lgspOuthead;
                                         if(head_candidate_TNBUnfolded_edge__edge10 != null)
                                         {
@@ -19807,7 +19807,7 @@ label0: ;
                                                 uint prev__candidate_TNBUnfolded_edge__edge10;
                                                 prev__candidate_TNBUnfolded_edge__edge10 = candidate_TNBUnfolded_edge__edge10.lgspFlags & (uint) GRGEN_LGSP.LGSPElemFlags.IS_MATCHED << negLevel;
                                                 candidate_TNBUnfolded_edge__edge10.lgspFlags |= (uint) GRGEN_LGSP.LGSPElemFlags.IS_MATCHED << negLevel;
-                                                // Implicit Target TNBUnfolded_node_n2 from TNBUnfolded_edge__edge10 
+                                                // Implicit Target TNBUnfolded_node_n2 from TNBUnfolded_edge__edge10
                                                 GRGEN_LGSP.LGSPNode candidate_TNBUnfolded_node_n2 = candidate_TNBUnfolded_edge__edge10.lgspTarget;
                                                 if(candidate_TNBUnfolded_node_n2.lgspType.TypeID!=4) {
                                                     candidate_TNBUnfolded_edge__edge10.lgspFlags = candidate_TNBUnfolded_edge__edge10.lgspFlags & ~((uint) GRGEN_LGSP.LGSPElemFlags.IS_MATCHED << negLevel) | prev__candidate_TNBUnfolded_edge__edge10;
@@ -19816,7 +19816,7 @@ label0: ;
                                                 uint prev__candidate_TNBUnfolded_node_n2;
                                                 prev__candidate_TNBUnfolded_node_n2 = candidate_TNBUnfolded_node_n2.lgspFlags & (uint) GRGEN_LGSP.LGSPElemFlags.IS_MATCHED << negLevel;
                                                 candidate_TNBUnfolded_node_n2.lgspFlags |= (uint) GRGEN_LGSP.LGSPElemFlags.IS_MATCHED << negLevel;
-                                                // Extend Outgoing TNBUnfolded_edge__edge2 from TNBUnfolded_node_c3 
+                                                // Extend Outgoing TNBUnfolded_edge__edge2 from TNBUnfolded_node_c3
                                                 GRGEN_LGSP.LGSPEdge head_candidate_TNBUnfolded_edge__edge2 = candidate_TNBUnfolded_node_c3.lgspOuthead;
                                                 if(head_candidate_TNBUnfolded_edge__edge2 != null)
                                                 {
@@ -19833,7 +19833,7 @@ label0: ;
                                                         uint prev__candidate_TNBUnfolded_edge__edge2;
                                                         prev__candidate_TNBUnfolded_edge__edge2 = candidate_TNBUnfolded_edge__edge2.lgspFlags & (uint) GRGEN_LGSP.LGSPElemFlags.IS_MATCHED << negLevel;
                                                         candidate_TNBUnfolded_edge__edge2.lgspFlags |= (uint) GRGEN_LGSP.LGSPElemFlags.IS_MATCHED << negLevel;
-                                                        // Implicit Target TNBUnfolded_node_c4 from TNBUnfolded_edge__edge2 
+                                                        // Implicit Target TNBUnfolded_node_c4 from TNBUnfolded_edge__edge2
                                                         GRGEN_LGSP.LGSPNode candidate_TNBUnfolded_node_c4 = candidate_TNBUnfolded_edge__edge2.lgspTarget;
                                                         if(candidate_TNBUnfolded_node_c4.lgspType.TypeID!=1) {
                                                             candidate_TNBUnfolded_edge__edge2.lgspFlags = candidate_TNBUnfolded_edge__edge2.lgspFlags & ~((uint) GRGEN_LGSP.LGSPElemFlags.IS_MATCHED << negLevel) | prev__candidate_TNBUnfolded_edge__edge2;
@@ -19847,7 +19847,7 @@ label0: ;
                                                         uint prev__candidate_TNBUnfolded_node_c4;
                                                         prev__candidate_TNBUnfolded_node_c4 = candidate_TNBUnfolded_node_c4.lgspFlags & (uint) GRGEN_LGSP.LGSPElemFlags.IS_MATCHED << negLevel;
                                                         candidate_TNBUnfolded_node_c4.lgspFlags |= (uint) GRGEN_LGSP.LGSPElemFlags.IS_MATCHED << negLevel;
-                                                        // Extend Outgoing TNBUnfolded_edge__edge7 from TNBUnfolded_node_c3 
+                                                        // Extend Outgoing TNBUnfolded_edge__edge7 from TNBUnfolded_node_c3
                                                         GRGEN_LGSP.LGSPEdge head_candidate_TNBUnfolded_edge__edge7 = candidate_TNBUnfolded_node_c3.lgspOuthead;
                                                         if(head_candidate_TNBUnfolded_edge__edge7 != null)
                                                         {
@@ -19867,7 +19867,7 @@ label0: ;
                                                                 uint prev__candidate_TNBUnfolded_edge__edge7;
                                                                 prev__candidate_TNBUnfolded_edge__edge7 = candidate_TNBUnfolded_edge__edge7.lgspFlags & (uint) GRGEN_LGSP.LGSPElemFlags.IS_MATCHED << negLevel;
                                                                 candidate_TNBUnfolded_edge__edge7.lgspFlags |= (uint) GRGEN_LGSP.LGSPElemFlags.IS_MATCHED << negLevel;
-                                                                // Extend Outgoing TNBUnfolded_edge__edge13 from TNBUnfolded_node_c3 
+                                                                // Extend Outgoing TNBUnfolded_edge__edge13 from TNBUnfolded_node_c3
                                                                 GRGEN_LGSP.LGSPEdge head_candidate_TNBUnfolded_edge__edge13 = candidate_TNBUnfolded_node_c3.lgspOuthead;
                                                                 if(head_candidate_TNBUnfolded_edge__edge13 != null)
                                                                 {
@@ -19884,7 +19884,7 @@ label0: ;
                                                                         uint prev__candidate_TNBUnfolded_edge__edge13;
                                                                         prev__candidate_TNBUnfolded_edge__edge13 = candidate_TNBUnfolded_edge__edge13.lgspFlags & (uint) GRGEN_LGSP.LGSPElemFlags.IS_MATCHED << negLevel;
                                                                         candidate_TNBUnfolded_edge__edge13.lgspFlags |= (uint) GRGEN_LGSP.LGSPElemFlags.IS_MATCHED << negLevel;
-                                                                        // Implicit Target TNBUnfolded_node__node3 from TNBUnfolded_edge__edge13 
+                                                                        // Implicit Target TNBUnfolded_node__node3 from TNBUnfolded_edge__edge13
                                                                         GRGEN_LGSP.LGSPNode candidate_TNBUnfolded_node__node3 = candidate_TNBUnfolded_edge__edge13.lgspTarget;
                                                                         if(candidate_TNBUnfolded_node__node3.lgspType.TypeID!=2) {
                                                                             candidate_TNBUnfolded_edge__edge13.lgspFlags = candidate_TNBUnfolded_edge__edge13.lgspFlags & ~((uint) GRGEN_LGSP.LGSPElemFlags.IS_MATCHED << negLevel) | prev__candidate_TNBUnfolded_edge__edge13;
@@ -19898,7 +19898,7 @@ label0: ;
                                                                         uint prev__candidate_TNBUnfolded_node__node3;
                                                                         prev__candidate_TNBUnfolded_node__node3 = candidate_TNBUnfolded_node__node3.lgspFlags & (uint) GRGEN_LGSP.LGSPElemFlags.IS_MATCHED << negLevel;
                                                                         candidate_TNBUnfolded_node__node3.lgspFlags |= (uint) GRGEN_LGSP.LGSPElemFlags.IS_MATCHED << negLevel;
-                                                                        // Extend Outgoing TNBUnfolded_edge__edge11 from TNBUnfolded_node_n2 
+                                                                        // Extend Outgoing TNBUnfolded_edge__edge11 from TNBUnfolded_node_n2
                                                                         GRGEN_LGSP.LGSPEdge head_candidate_TNBUnfolded_edge__edge11 = candidate_TNBUnfolded_node_n2.lgspOuthead;
                                                                         if(head_candidate_TNBUnfolded_edge__edge11 != null)
                                                                         {
@@ -19915,7 +19915,7 @@ label0: ;
                                                                                 uint prev__candidate_TNBUnfolded_edge__edge11;
                                                                                 prev__candidate_TNBUnfolded_edge__edge11 = candidate_TNBUnfolded_edge__edge11.lgspFlags & (uint) GRGEN_LGSP.LGSPElemFlags.IS_MATCHED << negLevel;
                                                                                 candidate_TNBUnfolded_edge__edge11.lgspFlags |= (uint) GRGEN_LGSP.LGSPElemFlags.IS_MATCHED << negLevel;
-                                                                                // Implicit Target TNBUnfolded_node__node1 from TNBUnfolded_edge__edge11 
+                                                                                // Implicit Target TNBUnfolded_node__node1 from TNBUnfolded_edge__edge11
                                                                                 GRGEN_LGSP.LGSPNode candidate_TNBUnfolded_node__node1 = candidate_TNBUnfolded_edge__edge11.lgspTarget;
                                                                                 if(candidate_TNBUnfolded_node__node1.lgspType.TypeID!=3) {
                                                                                     candidate_TNBUnfolded_edge__edge11.lgspFlags = candidate_TNBUnfolded_edge__edge11.lgspFlags & ~((uint) GRGEN_LGSP.LGSPElemFlags.IS_MATCHED << negLevel) | prev__candidate_TNBUnfolded_edge__edge11;
@@ -19924,7 +19924,7 @@ label0: ;
                                                                                 uint prev__candidate_TNBUnfolded_node__node1;
                                                                                 prev__candidate_TNBUnfolded_node__node1 = candidate_TNBUnfolded_node__node1.lgspFlags & (uint) GRGEN_LGSP.LGSPElemFlags.IS_MATCHED << negLevel;
                                                                                 candidate_TNBUnfolded_node__node1.lgspFlags |= (uint) GRGEN_LGSP.LGSPElemFlags.IS_MATCHED << negLevel;
-                                                                                // Extend Outgoing TNBUnfolded_edge__edge12 from TNBUnfolded_node_n2 
+                                                                                // Extend Outgoing TNBUnfolded_edge__edge12 from TNBUnfolded_node_n2
                                                                                 GRGEN_LGSP.LGSPEdge head_candidate_TNBUnfolded_edge__edge12 = candidate_TNBUnfolded_node_n2.lgspOuthead;
                                                                                 if(head_candidate_TNBUnfolded_edge__edge12 != null)
                                                                                 {
@@ -19941,7 +19941,7 @@ label0: ;
                                                                                         uint prev__candidate_TNBUnfolded_edge__edge12;
                                                                                         prev__candidate_TNBUnfolded_edge__edge12 = candidate_TNBUnfolded_edge__edge12.lgspFlags & (uint) GRGEN_LGSP.LGSPElemFlags.IS_MATCHED << negLevel;
                                                                                         candidate_TNBUnfolded_edge__edge12.lgspFlags |= (uint) GRGEN_LGSP.LGSPElemFlags.IS_MATCHED << negLevel;
-                                                                                        // Implicit Target TNBUnfolded_node__node2 from TNBUnfolded_edge__edge12 
+                                                                                        // Implicit Target TNBUnfolded_node__node2 from TNBUnfolded_edge__edge12
                                                                                         GRGEN_LGSP.LGSPNode candidate_TNBUnfolded_node__node2 = candidate_TNBUnfolded_edge__edge12.lgspTarget;
                                                                                         if(candidate_TNBUnfolded_node__node2.lgspType.TypeID!=3) {
                                                                                             candidate_TNBUnfolded_edge__edge12.lgspFlags = candidate_TNBUnfolded_edge__edge12.lgspFlags & ~((uint) GRGEN_LGSP.LGSPElemFlags.IS_MATCHED << negLevel) | prev__candidate_TNBUnfolded_edge__edge12;
@@ -19955,7 +19955,7 @@ label0: ;
                                                                                         uint prev__candidate_TNBUnfolded_node__node2;
                                                                                         prev__candidate_TNBUnfolded_node__node2 = candidate_TNBUnfolded_node__node2.lgspFlags & (uint) GRGEN_LGSP.LGSPElemFlags.IS_MATCHED << negLevel;
                                                                                         candidate_TNBUnfolded_node__node2.lgspFlags |= (uint) GRGEN_LGSP.LGSPElemFlags.IS_MATCHED << negLevel;
-                                                                                        // Extend Outgoing TNBUnfolded_edge__edge3 from TNBUnfolded_node_c4 
+                                                                                        // Extend Outgoing TNBUnfolded_edge__edge3 from TNBUnfolded_node_c4
                                                                                         GRGEN_LGSP.LGSPEdge head_candidate_TNBUnfolded_edge__edge3 = candidate_TNBUnfolded_node_c4.lgspOuthead;
                                                                                         if(head_candidate_TNBUnfolded_edge__edge3 != null)
                                                                                         {
@@ -19972,7 +19972,7 @@ label0: ;
                                                                                                 uint prev__candidate_TNBUnfolded_edge__edge3;
                                                                                                 prev__candidate_TNBUnfolded_edge__edge3 = candidate_TNBUnfolded_edge__edge3.lgspFlags & (uint) GRGEN_LGSP.LGSPElemFlags.IS_MATCHED << negLevel;
                                                                                                 candidate_TNBUnfolded_edge__edge3.lgspFlags |= (uint) GRGEN_LGSP.LGSPElemFlags.IS_MATCHED << negLevel;
-                                                                                                // Implicit Target TNBUnfolded_node_c5 from TNBUnfolded_edge__edge3 
+                                                                                                // Implicit Target TNBUnfolded_node_c5 from TNBUnfolded_edge__edge3
                                                                                                 GRGEN_LGSP.LGSPNode candidate_TNBUnfolded_node_c5 = candidate_TNBUnfolded_edge__edge3.lgspTarget;
                                                                                                 if(candidate_TNBUnfolded_node_c5.lgspType.TypeID!=1) {
                                                                                                     candidate_TNBUnfolded_edge__edge3.lgspFlags = candidate_TNBUnfolded_edge__edge3.lgspFlags & ~((uint) GRGEN_LGSP.LGSPElemFlags.IS_MATCHED << negLevel) | prev__candidate_TNBUnfolded_edge__edge3;
@@ -19986,7 +19986,7 @@ label0: ;
                                                                                                 uint prev__candidate_TNBUnfolded_node_c5;
                                                                                                 prev__candidate_TNBUnfolded_node_c5 = candidate_TNBUnfolded_node_c5.lgspFlags & (uint) GRGEN_LGSP.LGSPElemFlags.IS_MATCHED << negLevel;
                                                                                                 candidate_TNBUnfolded_node_c5.lgspFlags |= (uint) GRGEN_LGSP.LGSPElemFlags.IS_MATCHED << negLevel;
-                                                                                                // Extend Outgoing TNBUnfolded_edge__edge14 from TNBUnfolded_node_c4 
+                                                                                                // Extend Outgoing TNBUnfolded_edge__edge14 from TNBUnfolded_node_c4
                                                                                                 GRGEN_LGSP.LGSPEdge head_candidate_TNBUnfolded_edge__edge14 = candidate_TNBUnfolded_node_c4.lgspOuthead;
                                                                                                 if(head_candidate_TNBUnfolded_edge__edge14 != null)
                                                                                                 {
@@ -20003,7 +20003,7 @@ label0: ;
                                                                                                         uint prev__candidate_TNBUnfolded_edge__edge14;
                                                                                                         prev__candidate_TNBUnfolded_edge__edge14 = candidate_TNBUnfolded_edge__edge14.lgspFlags & (uint) GRGEN_LGSP.LGSPElemFlags.IS_MATCHED << negLevel;
                                                                                                         candidate_TNBUnfolded_edge__edge14.lgspFlags |= (uint) GRGEN_LGSP.LGSPElemFlags.IS_MATCHED << negLevel;
-                                                                                                        // Implicit Target TNBUnfolded_node_n4 from TNBUnfolded_edge__edge14 
+                                                                                                        // Implicit Target TNBUnfolded_node_n4 from TNBUnfolded_edge__edge14
                                                                                                         GRGEN_LGSP.LGSPNode candidate_TNBUnfolded_node_n4 = candidate_TNBUnfolded_edge__edge14.lgspTarget;
                                                                                                         if(candidate_TNBUnfolded_node_n4.lgspType.TypeID!=4) {
                                                                                                             candidate_TNBUnfolded_edge__edge14.lgspFlags = candidate_TNBUnfolded_edge__edge14.lgspFlags & ~((uint) GRGEN_LGSP.LGSPElemFlags.IS_MATCHED << negLevel) | prev__candidate_TNBUnfolded_edge__edge14;
@@ -20017,7 +20017,7 @@ label0: ;
                                                                                                         uint prev__candidate_TNBUnfolded_node_n4;
                                                                                                         prev__candidate_TNBUnfolded_node_n4 = candidate_TNBUnfolded_node_n4.lgspFlags & (uint) GRGEN_LGSP.LGSPElemFlags.IS_MATCHED << negLevel;
                                                                                                         candidate_TNBUnfolded_node_n4.lgspFlags |= (uint) GRGEN_LGSP.LGSPElemFlags.IS_MATCHED << negLevel;
-                                                                                                        // Extend Outgoing TNBUnfolded_edge__edge4 from TNBUnfolded_node_c5 
+                                                                                                        // Extend Outgoing TNBUnfolded_edge__edge4 from TNBUnfolded_node_c5
                                                                                                         GRGEN_LGSP.LGSPEdge head_candidate_TNBUnfolded_edge__edge4 = candidate_TNBUnfolded_node_c5.lgspOuthead;
                                                                                                         if(head_candidate_TNBUnfolded_edge__edge4 != null)
                                                                                                         {
@@ -20034,7 +20034,7 @@ label0: ;
                                                                                                                 uint prev__candidate_TNBUnfolded_edge__edge4;
                                                                                                                 prev__candidate_TNBUnfolded_edge__edge4 = candidate_TNBUnfolded_edge__edge4.lgspFlags & (uint) GRGEN_LGSP.LGSPElemFlags.IS_MATCHED << negLevel;
                                                                                                                 candidate_TNBUnfolded_edge__edge4.lgspFlags |= (uint) GRGEN_LGSP.LGSPElemFlags.IS_MATCHED << negLevel;
-                                                                                                                // Implicit Target TNBUnfolded_node_c6 from TNBUnfolded_edge__edge4 
+                                                                                                                // Implicit Target TNBUnfolded_node_c6 from TNBUnfolded_edge__edge4
                                                                                                                 GRGEN_LGSP.LGSPNode candidate_TNBUnfolded_node_c6 = candidate_TNBUnfolded_edge__edge4.lgspTarget;
                                                                                                                 if(candidate_TNBUnfolded_node_c6.lgspType.TypeID!=1) {
                                                                                                                     candidate_TNBUnfolded_edge__edge4.lgspFlags = candidate_TNBUnfolded_edge__edge4.lgspFlags & ~((uint) GRGEN_LGSP.LGSPElemFlags.IS_MATCHED << negLevel) | prev__candidate_TNBUnfolded_edge__edge4;
@@ -20045,7 +20045,7 @@ label0: ;
                                                                                                                     candidate_TNBUnfolded_edge__edge4.lgspFlags = candidate_TNBUnfolded_edge__edge4.lgspFlags & ~((uint) GRGEN_LGSP.LGSPElemFlags.IS_MATCHED << negLevel) | prev__candidate_TNBUnfolded_edge__edge4;
                                                                                                                     continue;
                                                                                                                 }
-                                                                                                                // Extend Outgoing TNBUnfolded_edge__edge8 from TNBUnfolded_node_c5 
+                                                                                                                // Extend Outgoing TNBUnfolded_edge__edge8 from TNBUnfolded_node_c5
                                                                                                                 GRGEN_LGSP.LGSPEdge head_candidate_TNBUnfolded_edge__edge8 = candidate_TNBUnfolded_node_c5.lgspOuthead;
                                                                                                                 if(head_candidate_TNBUnfolded_edge__edge8 != null)
                                                                                                                 {
@@ -20065,7 +20065,7 @@ label0: ;
                                                                                                                         uint prev__candidate_TNBUnfolded_edge__edge8;
                                                                                                                         prev__candidate_TNBUnfolded_edge__edge8 = candidate_TNBUnfolded_edge__edge8.lgspFlags & (uint) GRGEN_LGSP.LGSPElemFlags.IS_MATCHED << negLevel;
                                                                                                                         candidate_TNBUnfolded_edge__edge8.lgspFlags |= (uint) GRGEN_LGSP.LGSPElemFlags.IS_MATCHED << negLevel;
-                                                                                                                        // Extend Outgoing TNBUnfolded_edge__edge17 from TNBUnfolded_node_c5 
+                                                                                                                        // Extend Outgoing TNBUnfolded_edge__edge17 from TNBUnfolded_node_c5
                                                                                                                         GRGEN_LGSP.LGSPEdge head_candidate_TNBUnfolded_edge__edge17 = candidate_TNBUnfolded_node_c5.lgspOuthead;
                                                                                                                         if(head_candidate_TNBUnfolded_edge__edge17 != null)
                                                                                                                         {
@@ -20082,7 +20082,7 @@ label0: ;
                                                                                                                                 uint prev__candidate_TNBUnfolded_edge__edge17;
                                                                                                                                 prev__candidate_TNBUnfolded_edge__edge17 = candidate_TNBUnfolded_edge__edge17.lgspFlags & (uint) GRGEN_LGSP.LGSPElemFlags.IS_MATCHED << negLevel;
                                                                                                                                 candidate_TNBUnfolded_edge__edge17.lgspFlags |= (uint) GRGEN_LGSP.LGSPElemFlags.IS_MATCHED << negLevel;
-                                                                                                                                // Implicit Target TNBUnfolded_node__node6 from TNBUnfolded_edge__edge17 
+                                                                                                                                // Implicit Target TNBUnfolded_node__node6 from TNBUnfolded_edge__edge17
                                                                                                                                 GRGEN_LGSP.LGSPNode candidate_TNBUnfolded_node__node6 = candidate_TNBUnfolded_edge__edge17.lgspTarget;
                                                                                                                                 if(candidate_TNBUnfolded_node__node6.lgspType.TypeID!=2) {
                                                                                                                                     candidate_TNBUnfolded_edge__edge17.lgspFlags = candidate_TNBUnfolded_edge__edge17.lgspFlags & ~((uint) GRGEN_LGSP.LGSPElemFlags.IS_MATCHED << negLevel) | prev__candidate_TNBUnfolded_edge__edge17;
@@ -20093,7 +20093,7 @@ label0: ;
                                                                                                                                     candidate_TNBUnfolded_edge__edge17.lgspFlags = candidate_TNBUnfolded_edge__edge17.lgspFlags & ~((uint) GRGEN_LGSP.LGSPElemFlags.IS_MATCHED << negLevel) | prev__candidate_TNBUnfolded_edge__edge17;
                                                                                                                                     continue;
                                                                                                                                 }
-                                                                                                                                // Extend Outgoing TNBUnfolded_edge__edge15 from TNBUnfolded_node_n4 
+                                                                                                                                // Extend Outgoing TNBUnfolded_edge__edge15 from TNBUnfolded_node_n4
                                                                                                                                 GRGEN_LGSP.LGSPEdge head_candidate_TNBUnfolded_edge__edge15 = candidate_TNBUnfolded_node_n4.lgspOuthead;
                                                                                                                                 if(head_candidate_TNBUnfolded_edge__edge15 != null)
                                                                                                                                 {
@@ -20110,7 +20110,7 @@ label0: ;
                                                                                                                                         uint prev__candidate_TNBUnfolded_edge__edge15;
                                                                                                                                         prev__candidate_TNBUnfolded_edge__edge15 = candidate_TNBUnfolded_edge__edge15.lgspFlags & (uint) GRGEN_LGSP.LGSPElemFlags.IS_MATCHED << negLevel;
                                                                                                                                         candidate_TNBUnfolded_edge__edge15.lgspFlags |= (uint) GRGEN_LGSP.LGSPElemFlags.IS_MATCHED << negLevel;
-                                                                                                                                        // Implicit Target TNBUnfolded_node__node4 from TNBUnfolded_edge__edge15 
+                                                                                                                                        // Implicit Target TNBUnfolded_node__node4 from TNBUnfolded_edge__edge15
                                                                                                                                         GRGEN_LGSP.LGSPNode candidate_TNBUnfolded_node__node4 = candidate_TNBUnfolded_edge__edge15.lgspTarget;
                                                                                                                                         if(candidate_TNBUnfolded_node__node4.lgspType.TypeID!=3) {
                                                                                                                                             candidate_TNBUnfolded_edge__edge15.lgspFlags = candidate_TNBUnfolded_edge__edge15.lgspFlags & ~((uint) GRGEN_LGSP.LGSPElemFlags.IS_MATCHED << negLevel) | prev__candidate_TNBUnfolded_edge__edge15;
@@ -20124,7 +20124,7 @@ label0: ;
                                                                                                                                         uint prev__candidate_TNBUnfolded_node__node4;
                                                                                                                                         prev__candidate_TNBUnfolded_node__node4 = candidate_TNBUnfolded_node__node4.lgspFlags & (uint) GRGEN_LGSP.LGSPElemFlags.IS_MATCHED << negLevel;
                                                                                                                                         candidate_TNBUnfolded_node__node4.lgspFlags |= (uint) GRGEN_LGSP.LGSPElemFlags.IS_MATCHED << negLevel;
-                                                                                                                                        // Extend Outgoing TNBUnfolded_edge__edge16 from TNBUnfolded_node_n4 
+                                                                                                                                        // Extend Outgoing TNBUnfolded_edge__edge16 from TNBUnfolded_node_n4
                                                                                                                                         GRGEN_LGSP.LGSPEdge head_candidate_TNBUnfolded_edge__edge16 = candidate_TNBUnfolded_node_n4.lgspOuthead;
                                                                                                                                         if(head_candidate_TNBUnfolded_edge__edge16 != null)
                                                                                                                                         {
@@ -20141,7 +20141,7 @@ label0: ;
                                                                                                                                                 uint prev__candidate_TNBUnfolded_edge__edge16;
                                                                                                                                                 prev__candidate_TNBUnfolded_edge__edge16 = candidate_TNBUnfolded_edge__edge16.lgspFlags & (uint) GRGEN_LGSP.LGSPElemFlags.IS_MATCHED << negLevel;
                                                                                                                                                 candidate_TNBUnfolded_edge__edge16.lgspFlags |= (uint) GRGEN_LGSP.LGSPElemFlags.IS_MATCHED << negLevel;
-                                                                                                                                                // Implicit Target TNBUnfolded_node__node5 from TNBUnfolded_edge__edge16 
+                                                                                                                                                // Implicit Target TNBUnfolded_node__node5 from TNBUnfolded_edge__edge16
                                                                                                                                                 GRGEN_LGSP.LGSPNode candidate_TNBUnfolded_node__node5 = candidate_TNBUnfolded_edge__edge16.lgspTarget;
                                                                                                                                                 if(candidate_TNBUnfolded_node__node5.lgspType.TypeID!=3) {
                                                                                                                                                     candidate_TNBUnfolded_edge__edge16.lgspFlags = candidate_TNBUnfolded_edge__edge16.lgspFlags & ~((uint) GRGEN_LGSP.LGSPElemFlags.IS_MATCHED << negLevel) | prev__candidate_TNBUnfolded_edge__edge16;
@@ -20155,7 +20155,7 @@ label0: ;
                                                                                                                                                 uint prev__candidate_TNBUnfolded_node__node5;
                                                                                                                                                 prev__candidate_TNBUnfolded_node__node5 = candidate_TNBUnfolded_node__node5.lgspFlags & (uint) GRGEN_LGSP.LGSPElemFlags.IS_MATCHED << negLevel;
                                                                                                                                                 candidate_TNBUnfolded_node__node5.lgspFlags |= (uint) GRGEN_LGSP.LGSPElemFlags.IS_MATCHED << negLevel;
-                                                                                                                                                // Extend Outgoing TNBUnfolded_edge__edge5 from TNBUnfolded_node_c6 
+                                                                                                                                                // Extend Outgoing TNBUnfolded_edge__edge5 from TNBUnfolded_node_c6
                                                                                                                                                 GRGEN_LGSP.LGSPEdge head_candidate_TNBUnfolded_edge__edge5 = candidate_TNBUnfolded_node_c6.lgspOuthead;
                                                                                                                                                 if(head_candidate_TNBUnfolded_edge__edge5 != null)
                                                                                                                                                 {
@@ -20175,7 +20175,7 @@ label0: ;
                                                                                                                                                         uint prev__candidate_TNBUnfolded_edge__edge5;
                                                                                                                                                         prev__candidate_TNBUnfolded_edge__edge5 = candidate_TNBUnfolded_edge__edge5.lgspFlags & (uint) GRGEN_LGSP.LGSPElemFlags.IS_MATCHED << negLevel;
                                                                                                                                                         candidate_TNBUnfolded_edge__edge5.lgspFlags |= (uint) GRGEN_LGSP.LGSPElemFlags.IS_MATCHED << negLevel;
-                                                                                                                                                        // Extend Outgoing TNBUnfolded_edge__edge18 from TNBUnfolded_node_c6 
+                                                                                                                                                        // Extend Outgoing TNBUnfolded_edge__edge18 from TNBUnfolded_node_c6
                                                                                                                                                         GRGEN_LGSP.LGSPEdge head_candidate_TNBUnfolded_edge__edge18 = candidate_TNBUnfolded_node_c6.lgspOuthead;
                                                                                                                                                         if(head_candidate_TNBUnfolded_edge__edge18 != null)
                                                                                                                                                         {
@@ -20192,7 +20192,7 @@ label0: ;
                                                                                                                                                                 uint prev__candidate_TNBUnfolded_edge__edge18;
                                                                                                                                                                 prev__candidate_TNBUnfolded_edge__edge18 = candidate_TNBUnfolded_edge__edge18.lgspFlags & (uint) GRGEN_LGSP.LGSPElemFlags.IS_MATCHED << negLevel;
                                                                                                                                                                 candidate_TNBUnfolded_edge__edge18.lgspFlags |= (uint) GRGEN_LGSP.LGSPElemFlags.IS_MATCHED << negLevel;
-                                                                                                                                                                // Implicit Target TNBUnfolded_node_n6 from TNBUnfolded_edge__edge18 
+                                                                                                                                                                // Implicit Target TNBUnfolded_node_n6 from TNBUnfolded_edge__edge18
                                                                                                                                                                 GRGEN_LGSP.LGSPNode candidate_TNBUnfolded_node_n6 = candidate_TNBUnfolded_edge__edge18.lgspTarget;
                                                                                                                                                                 if(candidate_TNBUnfolded_node_n6.lgspType.TypeID!=4) {
                                                                                                                                                                     candidate_TNBUnfolded_edge__edge18.lgspFlags = candidate_TNBUnfolded_edge__edge18.lgspFlags & ~((uint) GRGEN_LGSP.LGSPElemFlags.IS_MATCHED << negLevel) | prev__candidate_TNBUnfolded_edge__edge18;
@@ -20203,7 +20203,7 @@ label0: ;
                                                                                                                                                                     candidate_TNBUnfolded_edge__edge18.lgspFlags = candidate_TNBUnfolded_edge__edge18.lgspFlags & ~((uint) GRGEN_LGSP.LGSPElemFlags.IS_MATCHED << negLevel) | prev__candidate_TNBUnfolded_edge__edge18;
                                                                                                                                                                     continue;
                                                                                                                                                                 }
-                                                                                                                                                                // Extend Outgoing TNBUnfolded_edge__edge19 from TNBUnfolded_node_n6 
+                                                                                                                                                                // Extend Outgoing TNBUnfolded_edge__edge19 from TNBUnfolded_node_n6
                                                                                                                                                                 GRGEN_LGSP.LGSPEdge head_candidate_TNBUnfolded_edge__edge19 = candidate_TNBUnfolded_node_n6.lgspOuthead;
                                                                                                                                                                 if(head_candidate_TNBUnfolded_edge__edge19 != null)
                                                                                                                                                                 {
@@ -20220,7 +20220,7 @@ label0: ;
                                                                                                                                                                         uint prev__candidate_TNBUnfolded_edge__edge19;
                                                                                                                                                                         prev__candidate_TNBUnfolded_edge__edge19 = candidate_TNBUnfolded_edge__edge19.lgspFlags & (uint) GRGEN_LGSP.LGSPElemFlags.IS_MATCHED << negLevel;
                                                                                                                                                                         candidate_TNBUnfolded_edge__edge19.lgspFlags |= (uint) GRGEN_LGSP.LGSPElemFlags.IS_MATCHED << negLevel;
-                                                                                                                                                                        // Implicit Target TNBUnfolded_node__node7 from TNBUnfolded_edge__edge19 
+                                                                                                                                                                        // Implicit Target TNBUnfolded_node__node7 from TNBUnfolded_edge__edge19
                                                                                                                                                                         GRGEN_LGSP.LGSPNode candidate_TNBUnfolded_node__node7 = candidate_TNBUnfolded_edge__edge19.lgspTarget;
                                                                                                                                                                         if(candidate_TNBUnfolded_node__node7.lgspType.TypeID!=3) {
                                                                                                                                                                             candidate_TNBUnfolded_edge__edge19.lgspFlags = candidate_TNBUnfolded_edge__edge19.lgspFlags & ~((uint) GRGEN_LGSP.LGSPElemFlags.IS_MATCHED << negLevel) | prev__candidate_TNBUnfolded_edge__edge19;
@@ -20234,7 +20234,7 @@ label0: ;
                                                                                                                                                                         uint prev__candidate_TNBUnfolded_node__node7;
                                                                                                                                                                         prev__candidate_TNBUnfolded_node__node7 = candidate_TNBUnfolded_node__node7.lgspFlags & (uint) GRGEN_LGSP.LGSPElemFlags.IS_MATCHED << negLevel;
                                                                                                                                                                         candidate_TNBUnfolded_node__node7.lgspFlags |= (uint) GRGEN_LGSP.LGSPElemFlags.IS_MATCHED << negLevel;
-                                                                                                                                                                        // Extend Outgoing TNBUnfolded_edge__edge20 from TNBUnfolded_node_n6 
+                                                                                                                                                                        // Extend Outgoing TNBUnfolded_edge__edge20 from TNBUnfolded_node_n6
                                                                                                                                                                         GRGEN_LGSP.LGSPEdge head_candidate_TNBUnfolded_edge__edge20 = candidate_TNBUnfolded_node_n6.lgspOuthead;
                                                                                                                                                                         if(head_candidate_TNBUnfolded_edge__edge20 != null)
                                                                                                                                                                         {
@@ -20248,7 +20248,7 @@ label0: ;
                                                                                                                                                                                 {
                                                                                                                                                                                     continue;
                                                                                                                                                                                 }
-                                                                                                                                                                                // Implicit Target TNBUnfolded_node__node8 from TNBUnfolded_edge__edge20 
+                                                                                                                                                                                // Implicit Target TNBUnfolded_node__node8 from TNBUnfolded_edge__edge20
                                                                                                                                                                                 GRGEN_LGSP.LGSPNode candidate_TNBUnfolded_node__node8 = candidate_TNBUnfolded_edge__edge20.lgspTarget;
                                                                                                                                                                                 if(candidate_TNBUnfolded_node__node8.lgspType.TypeID!=3) {
                                                                                                                                                                                     continue;
@@ -20490,7 +20490,7 @@ label0: ;
         public bool ApplyStar(GRGEN_LIBGR.IGraph graph)
         {
             GRGEN_LIBGR.IMatchesExact<Rule_TNBUnfolded.IMatch_TNBUnfolded> matches;
-            
+
             while(true)
             {
                 matches = DynamicMatch((GRGEN_LGSP.LGSPGraph)graph, 1);
@@ -20502,7 +20502,7 @@ label0: ;
         {
             GRGEN_LIBGR.IMatchesExact<Rule_TNBUnfolded.IMatch_TNBUnfolded> matches = DynamicMatch((GRGEN_LGSP.LGSPGraph)graph, 1);
             if(matches.Count <= 0) return false;
-            
+
             do
             {
                 _rulePattern.Modify((GRGEN_LGSP.LGSPGraph)graph, matches.First);
@@ -20514,7 +20514,7 @@ label0: ;
         public bool ApplyMinMax(GRGEN_LIBGR.IGraph graph, int min, int max)
         {
             GRGEN_LIBGR.IMatchesExact<Rule_TNBUnfolded.IMatch_TNBUnfolded> matches;
-            
+
             for(int i = 0; i < max; i++)
             {
                 matches = DynamicMatch((GRGEN_LGSP.LGSPGraph)graph, 1);
@@ -20530,19 +20530,19 @@ label0: ;
         }
         public object[] Modify(GRGEN_LIBGR.IGraph graph, GRGEN_LIBGR.IMatch match)
         {
-            
+
             Modify(graph, (Rule_TNBUnfolded.IMatch_TNBUnfolded)match);
             return ReturnArray;
         }
         public object[] ModifyAll(GRGEN_LIBGR.IGraph graph, GRGEN_LIBGR.IMatches matches)
         {
-            
+
             ModifyAll(graph, (GRGEN_LIBGR.IMatchesExact<Rule_TNBUnfolded.IMatch_TNBUnfolded>)matches);
             return ReturnArray;
         }
         object[] GRGEN_LIBGR.IAction.Apply(GRGEN_LIBGR.IGraph graph)
         {
-            
+
             if(Apply(graph)) {
                 return ReturnArray;
             }
@@ -20550,7 +20550,7 @@ label0: ;
         }
         object[] GRGEN_LIBGR.IAction.Apply(GRGEN_LIBGR.IGraph graph, params object[] parameters)
         {
-            
+
             if(Apply(graph)) {
                 return ReturnArray;
             }
@@ -20558,7 +20558,7 @@ label0: ;
         }
         object[] GRGEN_LIBGR.IAction.ApplyAll(int maxMatches, GRGEN_LIBGR.IGraph graph)
         {
-            
+
             if(ApplyAll(maxMatches, graph)) {
                 return ReturnArray;
             }
@@ -20566,7 +20566,7 @@ label0: ;
         }
         object[] GRGEN_LIBGR.IAction.ApplyAll(int maxMatches, GRGEN_LIBGR.IGraph graph, params object[] parameters)
         {
-            
+
             if(ApplyAll(maxMatches, graph)) {
                 return ReturnArray;
             }
@@ -20620,7 +20620,7 @@ label0: ;
         /// <summary> same as IAction.ApplyMinMax, but with exact types and distinct parameters. </summary>
         bool ApplyMinMax(GRGEN_LIBGR.IGraph graph, int min, int max);
     }
-    
+
     public class Action_createTNB : GRGEN_LGSP.LGSPAction, GRGEN_LIBGR.IAction, IAction_createTNB
     {
         public Action_createTNB() {
@@ -20638,7 +20638,7 @@ label0: ;
 
         public static Action_createTNB Instance { get { return instance; } }
         private static Action_createTNB instance = new Action_createTNB();
-        
+
         public GRGEN_LIBGR.IMatchesExact<Rule_createTNB.IMatch_createTNB> myMatch(GRGEN_LGSP.LGSPGraph graph, int maxMatches)
         {
             matches.Clear();
@@ -20687,7 +20687,7 @@ label0: ;
         public bool ApplyStar(GRGEN_LIBGR.IGraph graph)
         {
             GRGEN_LIBGR.IMatchesExact<Rule_createTNB.IMatch_createTNB> matches;
-            
+
             while(true)
             {
                 matches = DynamicMatch((GRGEN_LGSP.LGSPGraph)graph, 1);
@@ -20699,7 +20699,7 @@ label0: ;
         {
             GRGEN_LIBGR.IMatchesExact<Rule_createTNB.IMatch_createTNB> matches = DynamicMatch((GRGEN_LGSP.LGSPGraph)graph, 1);
             if(matches.Count <= 0) return false;
-            
+
             do
             {
                 _rulePattern.Modify((GRGEN_LGSP.LGSPGraph)graph, matches.First);
@@ -20711,7 +20711,7 @@ label0: ;
         public bool ApplyMinMax(GRGEN_LIBGR.IGraph graph, int min, int max)
         {
             GRGEN_LIBGR.IMatchesExact<Rule_createTNB.IMatch_createTNB> matches;
-            
+
             for(int i = 0; i < max; i++)
             {
                 matches = DynamicMatch((GRGEN_LGSP.LGSPGraph)graph, 1);
@@ -20727,19 +20727,19 @@ label0: ;
         }
         public object[] Modify(GRGEN_LIBGR.IGraph graph, GRGEN_LIBGR.IMatch match)
         {
-            
+
             Modify(graph, (Rule_createTNB.IMatch_createTNB)match);
             return ReturnArray;
         }
         public object[] ModifyAll(GRGEN_LIBGR.IGraph graph, GRGEN_LIBGR.IMatches matches)
         {
-            
+
             ModifyAll(graph, (GRGEN_LIBGR.IMatchesExact<Rule_createTNB.IMatch_createTNB>)matches);
             return ReturnArray;
         }
         object[] GRGEN_LIBGR.IAction.Apply(GRGEN_LIBGR.IGraph graph)
         {
-            
+
             if(Apply(graph)) {
                 return ReturnArray;
             }
@@ -20747,7 +20747,7 @@ label0: ;
         }
         object[] GRGEN_LIBGR.IAction.Apply(GRGEN_LIBGR.IGraph graph, params object[] parameters)
         {
-            
+
             if(Apply(graph)) {
                 return ReturnArray;
             }
@@ -20755,7 +20755,7 @@ label0: ;
         }
         object[] GRGEN_LIBGR.IAction.ApplyAll(int maxMatches, GRGEN_LIBGR.IGraph graph)
         {
-            
+
             if(ApplyAll(maxMatches, graph)) {
                 return ReturnArray;
             }
@@ -20763,7 +20763,7 @@ label0: ;
         }
         object[] GRGEN_LIBGR.IAction.ApplyAll(int maxMatches, GRGEN_LIBGR.IGraph graph, params object[] parameters)
         {
-            
+
             if(ApplyAll(maxMatches, graph)) {
                 return ReturnArray;
             }
@@ -20817,7 +20817,7 @@ label0: ;
         /// <summary> same as IAction.ApplyMinMax, but with exact types and distinct parameters. </summary>
         bool ApplyMinMax(GRGEN_LIBGR.IGraph graph, int min, int max);
     }
-    
+
     public class Action_keepBenzolRingPattern : GRGEN_LGSP.LGSPAction, GRGEN_LIBGR.IAction, IAction_keepBenzolRingPattern
     {
         public Action_keepBenzolRingPattern() {
@@ -20835,7 +20835,7 @@ label0: ;
 
         public static Action_keepBenzolRingPattern Instance { get { return instance; } }
         private static Action_keepBenzolRingPattern instance = new Action_keepBenzolRingPattern();
-        
+
         public GRGEN_LIBGR.IMatchesExact<Rule_keepBenzolRingPattern.IMatch_keepBenzolRingPattern> myMatch(GRGEN_LGSP.LGSPGraph graph, int maxMatches)
         {
             matches.Clear();
@@ -20849,12 +20849,12 @@ label0: ;
             taskFor_br.matchOfNestingPattern = null;
             taskFor_br.lastMatchAtPreviousNestingLevel = null;
             openTasks.Push(taskFor_br);
-            // Match subpatterns 
+            // Match subpatterns
             openTasks.Peek().myMatch(matchesList, maxMatches - foundPartialMatches.Count, negLevel);
             // Pop subpattern matching task for br
             openTasks.Pop();
             PatternAction_BenzolRing.releaseTask(taskFor_br);
-            // Check whether subpatterns were found 
+            // Check whether subpatterns were found
             if(matchesList.Count>0) {
                 // subpatterns/alternatives were found, extend the partial matches by our local match object, becoming a complete match object and save it
                 foreach(Stack<GRGEN_LIBGR.IMatch> currentFoundPartialMatch in matchesList)
@@ -20909,7 +20909,7 @@ label0: ;
         public bool ApplyStar(GRGEN_LIBGR.IGraph graph)
         {
             GRGEN_LIBGR.IMatchesExact<Rule_keepBenzolRingPattern.IMatch_keepBenzolRingPattern> matches;
-            
+
             while(true)
             {
                 matches = DynamicMatch((GRGEN_LGSP.LGSPGraph)graph, 1);
@@ -20921,7 +20921,7 @@ label0: ;
         {
             GRGEN_LIBGR.IMatchesExact<Rule_keepBenzolRingPattern.IMatch_keepBenzolRingPattern> matches = DynamicMatch((GRGEN_LGSP.LGSPGraph)graph, 1);
             if(matches.Count <= 0) return false;
-            
+
             do
             {
                 _rulePattern.Modify((GRGEN_LGSP.LGSPGraph)graph, matches.First);
@@ -20933,7 +20933,7 @@ label0: ;
         public bool ApplyMinMax(GRGEN_LIBGR.IGraph graph, int min, int max)
         {
             GRGEN_LIBGR.IMatchesExact<Rule_keepBenzolRingPattern.IMatch_keepBenzolRingPattern> matches;
-            
+
             for(int i = 0; i < max; i++)
             {
                 matches = DynamicMatch((GRGEN_LGSP.LGSPGraph)graph, 1);
@@ -20949,19 +20949,19 @@ label0: ;
         }
         public object[] Modify(GRGEN_LIBGR.IGraph graph, GRGEN_LIBGR.IMatch match)
         {
-            
+
             Modify(graph, (Rule_keepBenzolRingPattern.IMatch_keepBenzolRingPattern)match);
             return ReturnArray;
         }
         public object[] ModifyAll(GRGEN_LIBGR.IGraph graph, GRGEN_LIBGR.IMatches matches)
         {
-            
+
             ModifyAll(graph, (GRGEN_LIBGR.IMatchesExact<Rule_keepBenzolRingPattern.IMatch_keepBenzolRingPattern>)matches);
             return ReturnArray;
         }
         object[] GRGEN_LIBGR.IAction.Apply(GRGEN_LIBGR.IGraph graph)
         {
-            
+
             if(Apply(graph)) {
                 return ReturnArray;
             }
@@ -20969,7 +20969,7 @@ label0: ;
         }
         object[] GRGEN_LIBGR.IAction.Apply(GRGEN_LIBGR.IGraph graph, params object[] parameters)
         {
-            
+
             if(Apply(graph)) {
                 return ReturnArray;
             }
@@ -20977,7 +20977,7 @@ label0: ;
         }
         object[] GRGEN_LIBGR.IAction.ApplyAll(int maxMatches, GRGEN_LIBGR.IGraph graph)
         {
-            
+
             if(ApplyAll(maxMatches, graph)) {
                 return ReturnArray;
             }
@@ -20985,7 +20985,7 @@ label0: ;
         }
         object[] GRGEN_LIBGR.IAction.ApplyAll(int maxMatches, GRGEN_LIBGR.IGraph graph, params object[] parameters)
         {
-            
+
             if(ApplyAll(maxMatches, graph)) {
                 return ReturnArray;
             }
@@ -21039,7 +21039,7 @@ label0: ;
         /// <summary> same as IAction.ApplyMinMax, but with exact types and distinct parameters. </summary>
         bool ApplyMinMax(GRGEN_LIBGR.IGraph graph, int min, int max);
     }
-    
+
     public class Action_createBenzolRingPattern : GRGEN_LGSP.LGSPAction, GRGEN_LIBGR.IAction, IAction_createBenzolRingPattern
     {
         public Action_createBenzolRingPattern() {
@@ -21057,7 +21057,7 @@ label0: ;
 
         public static Action_createBenzolRingPattern Instance { get { return instance; } }
         private static Action_createBenzolRingPattern instance = new Action_createBenzolRingPattern();
-        
+
         public GRGEN_LIBGR.IMatchesExact<Rule_createBenzolRingPattern.IMatch_createBenzolRingPattern> myMatch(GRGEN_LGSP.LGSPGraph graph, int maxMatches)
         {
             matches.Clear();
@@ -21106,7 +21106,7 @@ label0: ;
         public bool ApplyStar(GRGEN_LIBGR.IGraph graph)
         {
             GRGEN_LIBGR.IMatchesExact<Rule_createBenzolRingPattern.IMatch_createBenzolRingPattern> matches;
-            
+
             while(true)
             {
                 matches = DynamicMatch((GRGEN_LGSP.LGSPGraph)graph, 1);
@@ -21118,7 +21118,7 @@ label0: ;
         {
             GRGEN_LIBGR.IMatchesExact<Rule_createBenzolRingPattern.IMatch_createBenzolRingPattern> matches = DynamicMatch((GRGEN_LGSP.LGSPGraph)graph, 1);
             if(matches.Count <= 0) return false;
-            
+
             do
             {
                 _rulePattern.Modify((GRGEN_LGSP.LGSPGraph)graph, matches.First);
@@ -21130,7 +21130,7 @@ label0: ;
         public bool ApplyMinMax(GRGEN_LIBGR.IGraph graph, int min, int max)
         {
             GRGEN_LIBGR.IMatchesExact<Rule_createBenzolRingPattern.IMatch_createBenzolRingPattern> matches;
-            
+
             for(int i = 0; i < max; i++)
             {
                 matches = DynamicMatch((GRGEN_LGSP.LGSPGraph)graph, 1);
@@ -21146,19 +21146,19 @@ label0: ;
         }
         public object[] Modify(GRGEN_LIBGR.IGraph graph, GRGEN_LIBGR.IMatch match)
         {
-            
+
             Modify(graph, (Rule_createBenzolRingPattern.IMatch_createBenzolRingPattern)match);
             return ReturnArray;
         }
         public object[] ModifyAll(GRGEN_LIBGR.IGraph graph, GRGEN_LIBGR.IMatches matches)
         {
-            
+
             ModifyAll(graph, (GRGEN_LIBGR.IMatchesExact<Rule_createBenzolRingPattern.IMatch_createBenzolRingPattern>)matches);
             return ReturnArray;
         }
         object[] GRGEN_LIBGR.IAction.Apply(GRGEN_LIBGR.IGraph graph)
         {
-            
+
             if(Apply(graph)) {
                 return ReturnArray;
             }
@@ -21166,7 +21166,7 @@ label0: ;
         }
         object[] GRGEN_LIBGR.IAction.Apply(GRGEN_LIBGR.IGraph graph, params object[] parameters)
         {
-            
+
             if(Apply(graph)) {
                 return ReturnArray;
             }
@@ -21174,7 +21174,7 @@ label0: ;
         }
         object[] GRGEN_LIBGR.IAction.ApplyAll(int maxMatches, GRGEN_LIBGR.IGraph graph)
         {
-            
+
             if(ApplyAll(maxMatches, graph)) {
                 return ReturnArray;
             }
@@ -21182,7 +21182,7 @@ label0: ;
         }
         object[] GRGEN_LIBGR.IAction.ApplyAll(int maxMatches, GRGEN_LIBGR.IGraph graph, params object[] parameters)
         {
-            
+
             if(ApplyAll(maxMatches, graph)) {
                 return ReturnArray;
             }
@@ -21236,7 +21236,7 @@ label0: ;
         /// <summary> same as IAction.ApplyMinMax, but with exact types and distinct parameters. </summary>
         bool ApplyMinMax(GRGEN_LIBGR.IGraph graph, int min, int max);
     }
-    
+
     public class Action_deleteBenzolRingPattern : GRGEN_LGSP.LGSPAction, GRGEN_LIBGR.IAction, IAction_deleteBenzolRingPattern
     {
         public Action_deleteBenzolRingPattern() {
@@ -21254,7 +21254,7 @@ label0: ;
 
         public static Action_deleteBenzolRingPattern Instance { get { return instance; } }
         private static Action_deleteBenzolRingPattern instance = new Action_deleteBenzolRingPattern();
-        
+
         public GRGEN_LIBGR.IMatchesExact<Rule_deleteBenzolRingPattern.IMatch_deleteBenzolRingPattern> myMatch(GRGEN_LGSP.LGSPGraph graph, int maxMatches)
         {
             matches.Clear();
@@ -21268,12 +21268,12 @@ label0: ;
             taskFor__sub0.matchOfNestingPattern = null;
             taskFor__sub0.lastMatchAtPreviousNestingLevel = null;
             openTasks.Push(taskFor__sub0);
-            // Match subpatterns 
+            // Match subpatterns
             openTasks.Peek().myMatch(matchesList, maxMatches - foundPartialMatches.Count, negLevel);
             // Pop subpattern matching task for _sub0
             openTasks.Pop();
             PatternAction_BenzolRing.releaseTask(taskFor__sub0);
-            // Check whether subpatterns were found 
+            // Check whether subpatterns were found
             if(matchesList.Count>0) {
                 // subpatterns/alternatives were found, extend the partial matches by our local match object, becoming a complete match object and save it
                 foreach(Stack<GRGEN_LIBGR.IMatch> currentFoundPartialMatch in matchesList)
@@ -21328,7 +21328,7 @@ label0: ;
         public bool ApplyStar(GRGEN_LIBGR.IGraph graph)
         {
             GRGEN_LIBGR.IMatchesExact<Rule_deleteBenzolRingPattern.IMatch_deleteBenzolRingPattern> matches;
-            
+
             while(true)
             {
                 matches = DynamicMatch((GRGEN_LGSP.LGSPGraph)graph, 1);
@@ -21340,7 +21340,7 @@ label0: ;
         {
             GRGEN_LIBGR.IMatchesExact<Rule_deleteBenzolRingPattern.IMatch_deleteBenzolRingPattern> matches = DynamicMatch((GRGEN_LGSP.LGSPGraph)graph, 1);
             if(matches.Count <= 0) return false;
-            
+
             do
             {
                 _rulePattern.Modify((GRGEN_LGSP.LGSPGraph)graph, matches.First);
@@ -21352,7 +21352,7 @@ label0: ;
         public bool ApplyMinMax(GRGEN_LIBGR.IGraph graph, int min, int max)
         {
             GRGEN_LIBGR.IMatchesExact<Rule_deleteBenzolRingPattern.IMatch_deleteBenzolRingPattern> matches;
-            
+
             for(int i = 0; i < max; i++)
             {
                 matches = DynamicMatch((GRGEN_LGSP.LGSPGraph)graph, 1);
@@ -21368,19 +21368,19 @@ label0: ;
         }
         public object[] Modify(GRGEN_LIBGR.IGraph graph, GRGEN_LIBGR.IMatch match)
         {
-            
+
             Modify(graph, (Rule_deleteBenzolRingPattern.IMatch_deleteBenzolRingPattern)match);
             return ReturnArray;
         }
         public object[] ModifyAll(GRGEN_LIBGR.IGraph graph, GRGEN_LIBGR.IMatches matches)
         {
-            
+
             ModifyAll(graph, (GRGEN_LIBGR.IMatchesExact<Rule_deleteBenzolRingPattern.IMatch_deleteBenzolRingPattern>)matches);
             return ReturnArray;
         }
         object[] GRGEN_LIBGR.IAction.Apply(GRGEN_LIBGR.IGraph graph)
         {
-            
+
             if(Apply(graph)) {
                 return ReturnArray;
             }
@@ -21388,7 +21388,7 @@ label0: ;
         }
         object[] GRGEN_LIBGR.IAction.Apply(GRGEN_LIBGR.IGraph graph, params object[] parameters)
         {
-            
+
             if(Apply(graph)) {
                 return ReturnArray;
             }
@@ -21396,7 +21396,7 @@ label0: ;
         }
         object[] GRGEN_LIBGR.IAction.ApplyAll(int maxMatches, GRGEN_LIBGR.IGraph graph)
         {
-            
+
             if(ApplyAll(maxMatches, graph)) {
                 return ReturnArray;
             }
@@ -21404,7 +21404,7 @@ label0: ;
         }
         object[] GRGEN_LIBGR.IAction.ApplyAll(int maxMatches, GRGEN_LIBGR.IGraph graph, params object[] parameters)
         {
-            
+
             if(ApplyAll(maxMatches, graph)) {
                 return ReturnArray;
             }
@@ -21458,7 +21458,7 @@ label0: ;
         /// <summary> same as IAction.ApplyMinMax, but with exact types and distinct parameters. </summary>
         bool ApplyMinMax(GRGEN_LIBGR.IGraph graph, int min, int max);
     }
-    
+
     public class Action_deleteInModifyBenzolRingPattern : GRGEN_LGSP.LGSPAction, GRGEN_LIBGR.IAction, IAction_deleteInModifyBenzolRingPattern
     {
         public Action_deleteInModifyBenzolRingPattern() {
@@ -21476,7 +21476,7 @@ label0: ;
 
         public static Action_deleteInModifyBenzolRingPattern Instance { get { return instance; } }
         private static Action_deleteInModifyBenzolRingPattern instance = new Action_deleteInModifyBenzolRingPattern();
-        
+
         public GRGEN_LIBGR.IMatchesExact<Rule_deleteInModifyBenzolRingPattern.IMatch_deleteInModifyBenzolRingPattern> myMatch(GRGEN_LGSP.LGSPGraph graph, int maxMatches)
         {
             matches.Clear();
@@ -21490,12 +21490,12 @@ label0: ;
             taskFor_br.matchOfNestingPattern = null;
             taskFor_br.lastMatchAtPreviousNestingLevel = null;
             openTasks.Push(taskFor_br);
-            // Match subpatterns 
+            // Match subpatterns
             openTasks.Peek().myMatch(matchesList, maxMatches - foundPartialMatches.Count, negLevel);
             // Pop subpattern matching task for br
             openTasks.Pop();
             PatternAction_BenzolRing.releaseTask(taskFor_br);
-            // Check whether subpatterns were found 
+            // Check whether subpatterns were found
             if(matchesList.Count>0) {
                 // subpatterns/alternatives were found, extend the partial matches by our local match object, becoming a complete match object and save it
                 foreach(Stack<GRGEN_LIBGR.IMatch> currentFoundPartialMatch in matchesList)
@@ -21550,7 +21550,7 @@ label0: ;
         public bool ApplyStar(GRGEN_LIBGR.IGraph graph)
         {
             GRGEN_LIBGR.IMatchesExact<Rule_deleteInModifyBenzolRingPattern.IMatch_deleteInModifyBenzolRingPattern> matches;
-            
+
             while(true)
             {
                 matches = DynamicMatch((GRGEN_LGSP.LGSPGraph)graph, 1);
@@ -21562,7 +21562,7 @@ label0: ;
         {
             GRGEN_LIBGR.IMatchesExact<Rule_deleteInModifyBenzolRingPattern.IMatch_deleteInModifyBenzolRingPattern> matches = DynamicMatch((GRGEN_LGSP.LGSPGraph)graph, 1);
             if(matches.Count <= 0) return false;
-            
+
             do
             {
                 _rulePattern.Modify((GRGEN_LGSP.LGSPGraph)graph, matches.First);
@@ -21574,7 +21574,7 @@ label0: ;
         public bool ApplyMinMax(GRGEN_LIBGR.IGraph graph, int min, int max)
         {
             GRGEN_LIBGR.IMatchesExact<Rule_deleteInModifyBenzolRingPattern.IMatch_deleteInModifyBenzolRingPattern> matches;
-            
+
             for(int i = 0; i < max; i++)
             {
                 matches = DynamicMatch((GRGEN_LGSP.LGSPGraph)graph, 1);
@@ -21590,19 +21590,19 @@ label0: ;
         }
         public object[] Modify(GRGEN_LIBGR.IGraph graph, GRGEN_LIBGR.IMatch match)
         {
-            
+
             Modify(graph, (Rule_deleteInModifyBenzolRingPattern.IMatch_deleteInModifyBenzolRingPattern)match);
             return ReturnArray;
         }
         public object[] ModifyAll(GRGEN_LIBGR.IGraph graph, GRGEN_LIBGR.IMatches matches)
         {
-            
+
             ModifyAll(graph, (GRGEN_LIBGR.IMatchesExact<Rule_deleteInModifyBenzolRingPattern.IMatch_deleteInModifyBenzolRingPattern>)matches);
             return ReturnArray;
         }
         object[] GRGEN_LIBGR.IAction.Apply(GRGEN_LIBGR.IGraph graph)
         {
-            
+
             if(Apply(graph)) {
                 return ReturnArray;
             }
@@ -21610,7 +21610,7 @@ label0: ;
         }
         object[] GRGEN_LIBGR.IAction.Apply(GRGEN_LIBGR.IGraph graph, params object[] parameters)
         {
-            
+
             if(Apply(graph)) {
                 return ReturnArray;
             }
@@ -21618,7 +21618,7 @@ label0: ;
         }
         object[] GRGEN_LIBGR.IAction.ApplyAll(int maxMatches, GRGEN_LIBGR.IGraph graph)
         {
-            
+
             if(ApplyAll(maxMatches, graph)) {
                 return ReturnArray;
             }
@@ -21626,7 +21626,7 @@ label0: ;
         }
         object[] GRGEN_LIBGR.IAction.ApplyAll(int maxMatches, GRGEN_LIBGR.IGraph graph, params object[] parameters)
         {
-            
+
             if(ApplyAll(maxMatches, graph)) {
                 return ReturnArray;
             }
@@ -21779,7 +21779,7 @@ label0: ;
             analyzer.AnalyzeWithInterPatternRelationsKnown(Rule_deleteBenzolRingPattern.Instance);
             analyzer.AnalyzeWithInterPatternRelationsKnown(Rule_deleteInModifyBenzolRingPattern.Instance);
         }
-        
+
         public IAction_BenzolRing @BenzolRing;
         public IAction_TNTTotallyFolded @TNTTotallyFolded;
         public IAction_TNTChain @TNTChain;
@@ -21799,8 +21799,8 @@ label0: ;
         public IAction_createBenzolRingPattern @createBenzolRingPattern;
         public IAction_deleteBenzolRingPattern @deleteBenzolRingPattern;
         public IAction_deleteInModifyBenzolRingPattern @deleteInModifyBenzolRingPattern;
-        
-        
+
+
         public override string Name { get { return "TNTActions"; } }
         public override string ModelMD5Hash { get { return "6589f1c2ac770b020a3debe9eff7e74d"; } }
     }

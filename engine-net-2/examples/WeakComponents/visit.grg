@@ -17,7 +17,7 @@ pattern Component(n:Node)
             n ?--? m:Node;
             c1:Component(n);
             c2:Component(m);
-            
+
             modify {
                 c1();
                 c2();
@@ -25,7 +25,7 @@ pattern Component(n:Node)
         }
         end {
             negative { n ?--? m:Node; }
-            
+
             modify {
                 eval {
                     n.visited[0] = true;
@@ -40,9 +40,9 @@ rule findComponent()
 {
     n:N;
     if { !n.visited[0]; }
-    
+
     comp:Component(n);
-    
+
     modify {
         comp();
     }

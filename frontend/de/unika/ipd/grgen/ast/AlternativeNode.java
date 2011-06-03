@@ -28,7 +28,7 @@ public class AlternativeNode extends DeclNode {
 
 	/** Type for this declaration. */
 	private static AlternativeTypeNode alternativeType = new AlternativeTypeNode();
-	
+
 	private Vector<AlternativeCaseNode> children = new Vector<AlternativeCaseNode>();
 
 	public AlternativeNode(IdentNode id) {

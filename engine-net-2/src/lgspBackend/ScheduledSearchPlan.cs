@@ -63,7 +63,7 @@ namespace de.unika.ipd.grGen.lgsp
 
         public List<string> PatternElementsToCheckAgainstAsListOfStrings()
         {
-            if (PatternElementsToCheckAgainst == null) 
+            if (PatternElementsToCheckAgainst == null)
             {
                 return null;
             }
@@ -151,7 +151,7 @@ namespace de.unika.ipd.grGen.lgsp
         public PatternGraph PatternGraph; // the pattern graph originating this schedule
         public SearchOperation[] Operations; // the scheduled list of search operations
         public float Cost; // (needed for scheduling nac-subgraphs into the full graph)
-        
+
         public ScheduledSearchPlan(PatternGraph patternGraph, SearchOperation[] ops, float cost)
         {
             PatternGraph = patternGraph;

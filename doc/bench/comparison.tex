@@ -23,31 +23,31 @@
 	\centering
 	\begin{tikzpicture} [scale=0.92]
         \sf
-		\draw[color=red] plot[mark=triangle*,mark options={color=red, rotate=180}] 
+		\draw[color=red] plot[mark=triangle*,mark options={color=red, rotate=180}]
 			file{results/agg-Mutex.table} node[right] {\agg};
-		\draw[color=CadetBlue] plot[mark=triangle*,mark options={color=black}] 
+		\draw[color=CadetBlue] plot[mark=triangle*,mark options={color=black}]
 			file{results/varrodb-Mutex_varro_scaled.table} node[above right] {\varrodb};
-		\draw[color=OliveGreen] plot[mark=star, mark options={color=black}] 
+		\draw[color=OliveGreen] plot[mark=star, mark options={color=black}]
 			file{results/progres-Mutex_varro_scaled.table} +(0,-0.07) node[right] {\progres};
 
-        \draw[color=blue] plot[mark=*,mark options={color=black}] 
+        \draw[color=blue] plot[mark=*,mark options={color=black}]
 			file{results/viatra2.table} +(0,-0.1) node[right] {{\sc Viatra2}};
 
-		\draw[color=red] plot[mark=square, mark options={color=red}] 
+		\draw[color=red] plot[mark=square, mark options={color=red}]
 			file{results/psql-Mutex_opt.table} node[right] {\GrGen(PSQL, GrShell)};
 
-        \draw[color=magenta] plot[mark=*,mark options={color=black}] 
+        \draw[color=magenta] plot[mark=*,mark options={color=black}]
 			file{results/fujaba-Mutex_varro_scaled.table} node[right] {\fujaba(Varr{\'o})};
 
-        \draw[color=magenta] plot[mark=*,mark options={color=black}] 
+        \draw[color=magenta] plot[mark=*,mark options={color=black}]
 			file{results/mutex_fujaba_many_mo_fixed_10_100-1000.txt.table} node[right] {\fujaba(improved)};
 
-		\draw[color=blue] plot[mark=square, mark options={color=blue}] 
+		\draw[color=blue] plot[mark=square, mark options={color=blue}]
 			file{results/mutex_mono_lgsp_small_10-1000.txt.table} node[right] {\grgennet(Mono, direct)};
-%		\draw[color=blue] plot[mark=square, mark options={color=blue}] 
+%		\draw[color=blue] plot[mark=square, mark options={color=blue}]
 %			file{results/fb-Mutex_opt6.table} node[right] {\GrGen(SP, GrShell)};
 
-    	\draw[color=OliveGreen] plot[mark=square, mark options={color=OliveGreen}] 
+    	\draw[color=OliveGreen] plot[mark=square, mark options={color=OliveGreen}]
 			file{results/grgenc_grshell_100-1000_toldtime_better.txt.table} +(0,-0.1) node[right] {\GrGen(SP, GrShell)};
 
 		\draw[->] (-0.2,0) -- (10.5,0) node[right] {size};
@@ -72,25 +72,25 @@
 	\centering
 	\begin{tikzpicture} [scale=1.15]
         \sf
-		\draw[color=red] plot[mark=triangle*,mark options={color=red, rotate=180}] 
+		\draw[color=red] plot[mark=triangle*,mark options={color=red, rotate=180}]
 			file{results/agg-Mutex.dtable} node[right] {\agg};
-		\draw[color=CadetBlue] plot[mark=triangle*,mark options={color=black}] 
+		\draw[color=CadetBlue] plot[mark=triangle*,mark options={color=black}]
 			file{results/varrodb-Mutex_varro_scaled.dtable} +(0,0.2) node[right] {\varrodb};
-		\draw[color=OliveGreen] plot[mark=star, mark options={color=black}] 
+		\draw[color=OliveGreen] plot[mark=star, mark options={color=black}]
 			file{results/progres-Mutex_varro_scaled.dtable} +(0,-0.08) node[right] {\progres};
 
-        \draw[color=blue] plot[mark=*,mark options={color=black}] 
+        \draw[color=blue] plot[mark=*,mark options={color=black}]
 			file{results/viatra2.dtable} node[right] {{\sc Viatra2}};
 
-		\draw[color=red] plot[mark=square, mark options={color=red}] 
+		\draw[color=red] plot[mark=square, mark options={color=red}]
 			file{results/psql-Mutex_opt.dtable} +(0,0.45) node[right] {\GrGen(PSQL, GrShell)};
 
-        \draw[color=magenta] plot[mark=*,mark options={color=black}] 
+        \draw[color=magenta] plot[mark=*,mark options={color=black}]
 			file{results/mutex_fujaba_linux_many_mo_fixed_nolog4j_10-10000.txt.dtable} +(0,0.0) node[right] {\fujaba(improved)};
 
-		\draw[color=OliveGreen] plot[mark=square, mark options={color=OliveGreen}] 
-			file{results/grgenc_grshell_10-1000000_toldtime.txt.dtable} +(-6.2,-3.6) node[right] {\GrGen(SP, GrShell)};			
-		\draw[color=blue] plot[mark=square, mark options={color=blue}] 
+		\draw[color=OliveGreen] plot[mark=square, mark options={color=OliveGreen}]
+			file{results/grgenc_grshell_10-1000000_toldtime.txt.dtable} +(-6.2,-3.6) node[right] {\GrGen(SP, GrShell)};
+		\draw[color=blue] plot[mark=square, mark options={color=blue}]
 			file{results/mutex_mono_lgsp_withjittime_10-1000000.txt.dtable} +(-3.4,-2) node[right] {\grgennet(Mono, direct)};
 
 		\draw[->] (0.8,0) -- (12.5,0) node[right] {size};
@@ -116,25 +116,25 @@
 	\centering
 	\begin{tikzpicture} [scale=1.15]	% 0.9
         \sf
-		\draw[color=red] plot[mark=triangle*,mark options={color=red, rotate=180}] 
+		\draw[color=red] plot[mark=triangle*,mark options={color=red, rotate=180}]
 			file{results/agg-Mutex.dtable} node[right] {\agg};
-		\draw[color=CadetBlue] plot[mark=triangle*,mark options={color=black}] 
+		\draw[color=CadetBlue] plot[mark=triangle*,mark options={color=black}]
 			file{results/varrodb-Mutex_varro_scaled.dtable} +(0,0.2) node[right] {\varrodb};
-		\draw[color=OliveGreen] plot[mark=star, mark options={color=black}] 
+		\draw[color=OliveGreen] plot[mark=star, mark options={color=black}]
 			file{results/progres-Mutex_varro_scaled.dtable} +(0,-0.08) node[right] {\progres};
 
-        \draw[color=blue] plot[mark=*,mark options={color=black}] 
+        \draw[color=blue] plot[mark=*,mark options={color=black}]
 			file{results/viatra2.dtable} node[right] {{\sc Viatra2}};
 
-        \draw[color=red] plot[mark=square, mark options={color=red}] 
+        \draw[color=red] plot[mark=square, mark options={color=red}]
 			file{results/psql-Mutex_opt.dtable} +(0,0.45) node[right] {\GrGen(PSQL, GrShell)};
 
-        \draw[color=magenta] plot[mark=*,mark options={color=black}] 
+        \draw[color=magenta] plot[mark=*,mark options={color=black}]
 			file{results/mutex_fujaba_linux_many_mo_fixed_nolog4j_nojittime_10-10000.txt.dtable} +(0,0.0) node[right] {\fujaba(improved)};
 
-		\draw[color=OliveGreen] plot[mark=square, mark options={color=OliveGreen}] 
-			file{results/grgenc_grshell_10-1000000_toldtime.txt.dtable} +(-6.2,-3.6) node[right] {\GrGen(SP, GrShell)};			
-		\draw[color=blue] plot[mark=square, mark options={color=blue}] 
+		\draw[color=OliveGreen] plot[mark=square, mark options={color=OliveGreen}]
+			file{results/grgenc_grshell_10-1000000_toldtime.txt.dtable} +(-6.2,-3.6) node[right] {\GrGen(SP, GrShell)};
+		\draw[color=blue] plot[mark=square, mark options={color=blue}]
 			file{results/mutex_mono_lgsp_nojittime_10-1000000.txt.dtable} +(-3.2,-2.3) node[right] {\grgennet(Mono, direct)};
 
 		\draw[->] (0.8,0) -- (12.5,0) node[right] {size};

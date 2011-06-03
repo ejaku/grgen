@@ -27,6 +27,6 @@ public abstract class EvalStatement extends IR implements OrderedReplacement
 	public void setNext(EvalStatement next) {
 		this.next = next;
 	}
-	
+
 	public abstract void collectNeededEntities(NeededEntities needs);
 }

@@ -8,7 +8,7 @@ rule readZeroRule {
 		delete(h);
 		wv -:rwHead-> tp;
 	}
-}      
+}
 
 rule readOneRule {
   s:State -h:rwHead-> tp:TapePosition -:one-> tp;
@@ -35,7 +35,7 @@ rule writeZeroRule {
 
 	replace {
 		wv -rw-> tp -:zero-> tp;
-	}	
+	}
 }
 
 rule writeOneRule {
@@ -43,7 +43,7 @@ rule writeOneRule {
 
 	replace {
 		wv -rw-> tp -:one-> tp;
-	}	
+	}
 }
 
 rule writeEmptyRule {
@@ -51,7 +51,7 @@ rule writeEmptyRule {
 
 	replace {
 		wv -rw-> tp -:empty-> tp;
-	}	
+	}
 }
 
 rule moveLeftRule {

@@ -23,7 +23,7 @@ edge class eventSet
 node class Hiding extends ProcessWithSet;
 edge class hiddenProcess
   connect Hiding [*] --> ProcessExpression [1:1];
-  
+
 node class Concurrency extends BinaryOperator, ProcessWithSet;
 
 node class Process extends ProcessExpression { name:string; subscript:string; }

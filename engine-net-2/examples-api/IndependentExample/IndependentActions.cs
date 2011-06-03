@@ -94,16 +94,16 @@ namespace de.unika.ipd.grGen.Action_Independent
 				"base",
 				"iteratedPath_alt_0_",
 				false,
-				new GRGEN_LGSP.PatternNode[] { iteratedPath_node_beg, iteratedPath_node_end }, 
-				new GRGEN_LGSP.PatternEdge[] { iteratedPath_alt_0_base_edge__edge0 }, 
-				new GRGEN_LGSP.PatternVariable[] {  }, 
-				new GRGEN_LGSP.PatternGraphEmbedding[] {  }, 
-				new GRGEN_LGSP.Alternative[] {  }, 
-				new GRGEN_LGSP.Iterated[] {  }, 
-				new GRGEN_LGSP.PatternGraph[] {  }, 
-				new GRGEN_LGSP.PatternGraph[] {  }, 
-				new GRGEN_LGSP.PatternCondition[] {  }, 
-				new GRGEN_LGSP.PatternYielding[] {  }, 
+				new GRGEN_LGSP.PatternNode[] { iteratedPath_node_beg, iteratedPath_node_end },
+				new GRGEN_LGSP.PatternEdge[] { iteratedPath_alt_0_base_edge__edge0 },
+				new GRGEN_LGSP.PatternVariable[] {  },
+				new GRGEN_LGSP.PatternGraphEmbedding[] {  },
+				new GRGEN_LGSP.Alternative[] {  },
+				new GRGEN_LGSP.Iterated[] {  },
+				new GRGEN_LGSP.PatternGraph[] {  },
+				new GRGEN_LGSP.PatternGraph[] {  },
+				new GRGEN_LGSP.PatternCondition[] {  },
+				new GRGEN_LGSP.PatternYielding[] {  },
 				new bool[2, 2] {
 					{ true, false, },
 					{ false, true, },
@@ -127,26 +127,26 @@ namespace de.unika.ipd.grGen.Action_Independent
 			};
 			GRGEN_LGSP.PatternNode iteratedPath_alt_0_recursive_node_intermediate = new GRGEN_LGSP.PatternNode((int) GRGEN_MODEL.NodeTypes.@Node, "GRGEN_LIBGR.INode", "iteratedPath_alt_0_recursive_node_intermediate", "intermediate", iteratedPath_alt_0_recursive_node_intermediate_AllowedTypes, iteratedPath_alt_0_recursive_node_intermediate_IsAllowedType, 5.5F, -1, false, null, null, null, null, false);
 			GRGEN_LGSP.PatternEdge iteratedPath_alt_0_recursive_edge__edge0 = new GRGEN_LGSP.PatternEdge(true, (int) GRGEN_MODEL.EdgeTypes.@Edge, "GRGEN_LIBGR.IEdge", "iteratedPath_alt_0_recursive_edge__edge0", "_edge0", iteratedPath_alt_0_recursive_edge__edge0_AllowedTypes, iteratedPath_alt_0_recursive_edge__edge0_IsAllowedType, 5.5F, -1, false, null, null, null, null, false);
-			GRGEN_LGSP.PatternGraphEmbedding iteratedPath_alt_0_recursive__sub0 = new GRGEN_LGSP.PatternGraphEmbedding("_sub0", Pattern_iteratedPath.Instance, 
+			GRGEN_LGSP.PatternGraphEmbedding iteratedPath_alt_0_recursive__sub0 = new GRGEN_LGSP.PatternGraphEmbedding("_sub0", Pattern_iteratedPath.Instance,
 				new GRGEN_EXPR.Expression[] {
 					new GRGEN_EXPR.GraphEntityExpression("iteratedPath_alt_0_recursive_node_intermediate"),
 					new GRGEN_EXPR.GraphEntityExpression("iteratedPath_node_end"),
-				}, 
+				},
 				new string[] { }, new string[] { "iteratedPath_alt_0_recursive_node_intermediate", "iteratedPath_node_end" }, new string[] {  }, new string[] {  }, new GRGEN_LIBGR.VarType[] {  });
 			iteratedPath_alt_0_recursive = new GRGEN_LGSP.PatternGraph(
 				"recursive",
 				"iteratedPath_alt_0_",
 				false,
-				new GRGEN_LGSP.PatternNode[] { iteratedPath_node_beg, iteratedPath_alt_0_recursive_node_intermediate, iteratedPath_node_end }, 
-				new GRGEN_LGSP.PatternEdge[] { iteratedPath_alt_0_recursive_edge__edge0 }, 
-				new GRGEN_LGSP.PatternVariable[] {  }, 
-				new GRGEN_LGSP.PatternGraphEmbedding[] { iteratedPath_alt_0_recursive__sub0 }, 
-				new GRGEN_LGSP.Alternative[] {  }, 
-				new GRGEN_LGSP.Iterated[] {  }, 
-				new GRGEN_LGSP.PatternGraph[] {  }, 
-				new GRGEN_LGSP.PatternGraph[] {  }, 
-				new GRGEN_LGSP.PatternCondition[] {  }, 
-				new GRGEN_LGSP.PatternYielding[] {  }, 
+				new GRGEN_LGSP.PatternNode[] { iteratedPath_node_beg, iteratedPath_alt_0_recursive_node_intermediate, iteratedPath_node_end },
+				new GRGEN_LGSP.PatternEdge[] { iteratedPath_alt_0_recursive_edge__edge0 },
+				new GRGEN_LGSP.PatternVariable[] {  },
+				new GRGEN_LGSP.PatternGraphEmbedding[] { iteratedPath_alt_0_recursive__sub0 },
+				new GRGEN_LGSP.Alternative[] {  },
+				new GRGEN_LGSP.Iterated[] {  },
+				new GRGEN_LGSP.PatternGraph[] {  },
+				new GRGEN_LGSP.PatternGraph[] {  },
+				new GRGEN_LGSP.PatternCondition[] {  },
+				new GRGEN_LGSP.PatternYielding[] {  },
 				new bool[3, 3] {
 					{ true, false, true, },
 					{ false, true, true, },
@@ -167,16 +167,16 @@ namespace de.unika.ipd.grGen.Action_Independent
 				"iteratedPath",
 				"",
 				false,
-				new GRGEN_LGSP.PatternNode[] { iteratedPath_node_beg, iteratedPath_node_end }, 
-				new GRGEN_LGSP.PatternEdge[] {  }, 
-				new GRGEN_LGSP.PatternVariable[] {  }, 
-				new GRGEN_LGSP.PatternGraphEmbedding[] {  }, 
-				new GRGEN_LGSP.Alternative[] { iteratedPath_alt_0,  }, 
-				new GRGEN_LGSP.Iterated[] {  }, 
-				new GRGEN_LGSP.PatternGraph[] {  }, 
-				new GRGEN_LGSP.PatternGraph[] {  }, 
-				new GRGEN_LGSP.PatternCondition[] {  }, 
-				new GRGEN_LGSP.PatternYielding[] {  }, 
+				new GRGEN_LGSP.PatternNode[] { iteratedPath_node_beg, iteratedPath_node_end },
+				new GRGEN_LGSP.PatternEdge[] {  },
+				new GRGEN_LGSP.PatternVariable[] {  },
+				new GRGEN_LGSP.PatternGraphEmbedding[] {  },
+				new GRGEN_LGSP.Alternative[] { iteratedPath_alt_0,  },
+				new GRGEN_LGSP.Iterated[] {  },
+				new GRGEN_LGSP.PatternGraph[] {  },
+				new GRGEN_LGSP.PatternGraph[] {  },
+				new GRGEN_LGSP.PatternCondition[] {  },
+				new GRGEN_LGSP.PatternYielding[] {  },
 				new bool[2, 2] {
 					{ true, false, },
 					{ false, true, },
@@ -331,7 +331,7 @@ namespace de.unika.ipd.grGen.Action_Independent
 				default: return null;
 				}
 			}
-			
+
 			public enum iteratedPath_EdgeNums { END_OF_ENUM };
 			public IEnumerable<GRGEN_LIBGR.IEdge> Edges { get { return new GRGEN_LGSP.Edges_Enumerable(this); } }
 			public IEnumerator<GRGEN_LIBGR.IEdge> EdgesEnumerator { get { return new GRGEN_LGSP.Edges_Enumerator(this); } }
@@ -342,7 +342,7 @@ namespace de.unika.ipd.grGen.Action_Independent
 				default: return null;
 				}
 			}
-			
+
 			public enum iteratedPath_VariableNums { END_OF_ENUM };
 			public IEnumerable<object> Variables { get { return new GRGEN_LGSP.Variables_Enumerable(this); } }
 			public IEnumerator<object> VariablesEnumerator { get { return new GRGEN_LGSP.Variables_Enumerator(this); } }
@@ -353,7 +353,7 @@ namespace de.unika.ipd.grGen.Action_Independent
 				default: return null;
 				}
 			}
-			
+
 			public enum iteratedPath_SubNums { END_OF_ENUM };
 			public IEnumerable<GRGEN_LIBGR.IMatch> EmbeddedGraphs { get { return new GRGEN_LGSP.EmbeddedGraphs_Enumerable(this); } }
 			public IEnumerator<GRGEN_LIBGR.IMatch> EmbeddedGraphsEnumerator { get { return new GRGEN_LGSP.EmbeddedGraphs_Enumerator(this); } }
@@ -364,7 +364,7 @@ namespace de.unika.ipd.grGen.Action_Independent
 				default: return null;
 				}
 			}
-			
+
 			public IMatch_iteratedPath_alt_0 alt_0 { get { return _alt_0; } }
 			public IMatch_iteratedPath_alt_0 _alt_0;
 			public enum iteratedPath_AltNums { @alt_0, END_OF_ENUM };
@@ -378,7 +378,7 @@ namespace de.unika.ipd.grGen.Action_Independent
 				default: return null;
 				}
 			}
-			
+
 			public enum iteratedPath_IterNums { END_OF_ENUM };
 			public IEnumerable<GRGEN_LIBGR.IMatches> Iterateds { get { return new GRGEN_LGSP.Iterateds_Enumerable(this); } }
 			public IEnumerator<GRGEN_LIBGR.IMatches> IteratedsEnumerator { get { return new GRGEN_LGSP.Iterateds_Enumerator(this); } }
@@ -389,7 +389,7 @@ namespace de.unika.ipd.grGen.Action_Independent
 				default: return null;
 				}
 			}
-			
+
 			public enum iteratedPath_IdptNums { END_OF_ENUM };
 			public IEnumerable<GRGEN_LIBGR.IMatch> Independents { get { return new GRGEN_LGSP.Independents_Enumerable(this); } }
 			public IEnumerator<GRGEN_LIBGR.IMatch> IndependentsEnumerator { get { return new GRGEN_LGSP.Independents_Enumerator(this); } }
@@ -400,7 +400,7 @@ namespace de.unika.ipd.grGen.Action_Independent
 				default: return null;
 				}
 			}
-			
+
 			public GRGEN_LIBGR.IPatternGraph Pattern { get { return Pattern_iteratedPath.instance.pat_iteratedPath; } }
 			public GRGEN_LIBGR.IMatch MatchOfEnclosingPattern { get { return _matchOfEnclosingPattern; } }
 			public GRGEN_LIBGR.IMatch _matchOfEnclosingPattern;
@@ -426,7 +426,7 @@ namespace de.unika.ipd.grGen.Action_Independent
 				default: return null;
 				}
 			}
-			
+
 			public GRGEN_LIBGR.IEdge edge__edge0 { get { return (GRGEN_LIBGR.IEdge)_edge__edge0; } }
 			public GRGEN_LGSP.LGSPEdge _edge__edge0;
 			public enum iteratedPath_alt_0_base_EdgeNums { @_edge0, END_OF_ENUM };
@@ -440,7 +440,7 @@ namespace de.unika.ipd.grGen.Action_Independent
 				default: return null;
 				}
 			}
-			
+
 			public enum iteratedPath_alt_0_base_VariableNums { END_OF_ENUM };
 			public IEnumerable<object> Variables { get { return new GRGEN_LGSP.Variables_Enumerable(this); } }
 			public IEnumerator<object> VariablesEnumerator { get { return new GRGEN_LGSP.Variables_Enumerator(this); } }
@@ -451,7 +451,7 @@ namespace de.unika.ipd.grGen.Action_Independent
 				default: return null;
 				}
 			}
-			
+
 			public enum iteratedPath_alt_0_base_SubNums { END_OF_ENUM };
 			public IEnumerable<GRGEN_LIBGR.IMatch> EmbeddedGraphs { get { return new GRGEN_LGSP.EmbeddedGraphs_Enumerable(this); } }
 			public IEnumerator<GRGEN_LIBGR.IMatch> EmbeddedGraphsEnumerator { get { return new GRGEN_LGSP.EmbeddedGraphs_Enumerator(this); } }
@@ -462,7 +462,7 @@ namespace de.unika.ipd.grGen.Action_Independent
 				default: return null;
 				}
 			}
-			
+
 			public enum iteratedPath_alt_0_base_AltNums { END_OF_ENUM };
 			public IEnumerable<GRGEN_LIBGR.IMatch> Alternatives { get { return new GRGEN_LGSP.Alternatives_Enumerable(this); } }
 			public IEnumerator<GRGEN_LIBGR.IMatch> AlternativesEnumerator { get { return new GRGEN_LGSP.Alternatives_Enumerator(this); } }
@@ -473,7 +473,7 @@ namespace de.unika.ipd.grGen.Action_Independent
 				default: return null;
 				}
 			}
-			
+
 			public enum iteratedPath_alt_0_base_IterNums { END_OF_ENUM };
 			public IEnumerable<GRGEN_LIBGR.IMatches> Iterateds { get { return new GRGEN_LGSP.Iterateds_Enumerable(this); } }
 			public IEnumerator<GRGEN_LIBGR.IMatches> IteratedsEnumerator { get { return new GRGEN_LGSP.Iterateds_Enumerator(this); } }
@@ -484,7 +484,7 @@ namespace de.unika.ipd.grGen.Action_Independent
 				default: return null;
 				}
 			}
-			
+
 			public enum iteratedPath_alt_0_base_IdptNums { END_OF_ENUM };
 			public IEnumerable<GRGEN_LIBGR.IMatch> Independents { get { return new GRGEN_LGSP.Independents_Enumerable(this); } }
 			public IEnumerator<GRGEN_LIBGR.IMatch> IndependentsEnumerator { get { return new GRGEN_LGSP.Independents_Enumerator(this); } }
@@ -495,7 +495,7 @@ namespace de.unika.ipd.grGen.Action_Independent
 				default: return null;
 				}
 			}
-			
+
 			public GRGEN_LIBGR.IPatternGraph Pattern { get { return Pattern_iteratedPath.instance.iteratedPath_alt_0_base; } }
 			public GRGEN_LIBGR.IMatch MatchOfEnclosingPattern { get { return _matchOfEnclosingPattern; } }
 			public GRGEN_LIBGR.IMatch _matchOfEnclosingPattern;
@@ -524,7 +524,7 @@ namespace de.unika.ipd.grGen.Action_Independent
 				default: return null;
 				}
 			}
-			
+
 			public GRGEN_LIBGR.IEdge edge__edge0 { get { return (GRGEN_LIBGR.IEdge)_edge__edge0; } }
 			public GRGEN_LGSP.LGSPEdge _edge__edge0;
 			public enum iteratedPath_alt_0_recursive_EdgeNums { @_edge0, END_OF_ENUM };
@@ -538,7 +538,7 @@ namespace de.unika.ipd.grGen.Action_Independent
 				default: return null;
 				}
 			}
-			
+
 			public enum iteratedPath_alt_0_recursive_VariableNums { END_OF_ENUM };
 			public IEnumerable<object> Variables { get { return new GRGEN_LGSP.Variables_Enumerable(this); } }
 			public IEnumerator<object> VariablesEnumerator { get { return new GRGEN_LGSP.Variables_Enumerator(this); } }
@@ -549,7 +549,7 @@ namespace de.unika.ipd.grGen.Action_Independent
 				default: return null;
 				}
 			}
-			
+
 			public @Pattern_iteratedPath.Match_iteratedPath @_sub0 { get { return @__sub0; } }
 			public @Pattern_iteratedPath.Match_iteratedPath @__sub0;
 			public enum iteratedPath_alt_0_recursive_SubNums { @_sub0, END_OF_ENUM };
@@ -563,7 +563,7 @@ namespace de.unika.ipd.grGen.Action_Independent
 				default: return null;
 				}
 			}
-			
+
 			public enum iteratedPath_alt_0_recursive_AltNums { END_OF_ENUM };
 			public IEnumerable<GRGEN_LIBGR.IMatch> Alternatives { get { return new GRGEN_LGSP.Alternatives_Enumerable(this); } }
 			public IEnumerator<GRGEN_LIBGR.IMatch> AlternativesEnumerator { get { return new GRGEN_LGSP.Alternatives_Enumerator(this); } }
@@ -574,7 +574,7 @@ namespace de.unika.ipd.grGen.Action_Independent
 				default: return null;
 				}
 			}
-			
+
 			public enum iteratedPath_alt_0_recursive_IterNums { END_OF_ENUM };
 			public IEnumerable<GRGEN_LIBGR.IMatches> Iterateds { get { return new GRGEN_LGSP.Iterateds_Enumerable(this); } }
 			public IEnumerator<GRGEN_LIBGR.IMatches> IteratedsEnumerator { get { return new GRGEN_LGSP.Iterateds_Enumerator(this); } }
@@ -585,7 +585,7 @@ namespace de.unika.ipd.grGen.Action_Independent
 				default: return null;
 				}
 			}
-			
+
 			public enum iteratedPath_alt_0_recursive_IdptNums { END_OF_ENUM };
 			public IEnumerable<GRGEN_LIBGR.IMatch> Independents { get { return new GRGEN_LGSP.Independents_Enumerable(this); } }
 			public IEnumerator<GRGEN_LIBGR.IMatch> IndependentsEnumerator { get { return new GRGEN_LGSP.Independents_Enumerator(this); } }
@@ -596,7 +596,7 @@ namespace de.unika.ipd.grGen.Action_Independent
 				default: return null;
 				}
 			}
-			
+
 			public GRGEN_LIBGR.IPatternGraph Pattern { get { return Pattern_iteratedPath.instance.iteratedPath_alt_0_recursive; } }
 			public GRGEN_LIBGR.IMatch MatchOfEnclosingPattern { get { return _matchOfEnclosingPattern; } }
 			public GRGEN_LIBGR.IMatch _matchOfEnclosingPattern;
@@ -686,16 +686,16 @@ namespace de.unika.ipd.grGen.Action_Independent
 				"base",
 				"iteratedPathToIntNode_alt_0_",
 				false,
-				new GRGEN_LGSP.PatternNode[] { iteratedPathToIntNode_node_beg, iteratedPathToIntNode_alt_0_base_node_end }, 
-				new GRGEN_LGSP.PatternEdge[] { iteratedPathToIntNode_alt_0_base_edge__edge0 }, 
-				new GRGEN_LGSP.PatternVariable[] {  }, 
-				new GRGEN_LGSP.PatternGraphEmbedding[] {  }, 
-				new GRGEN_LGSP.Alternative[] {  }, 
-				new GRGEN_LGSP.Iterated[] {  }, 
-				new GRGEN_LGSP.PatternGraph[] {  }, 
-				new GRGEN_LGSP.PatternGraph[] {  }, 
-				new GRGEN_LGSP.PatternCondition[] {  }, 
-				new GRGEN_LGSP.PatternYielding[] {  }, 
+				new GRGEN_LGSP.PatternNode[] { iteratedPathToIntNode_node_beg, iteratedPathToIntNode_alt_0_base_node_end },
+				new GRGEN_LGSP.PatternEdge[] { iteratedPathToIntNode_alt_0_base_edge__edge0 },
+				new GRGEN_LGSP.PatternVariable[] {  },
+				new GRGEN_LGSP.PatternGraphEmbedding[] {  },
+				new GRGEN_LGSP.Alternative[] {  },
+				new GRGEN_LGSP.Iterated[] {  },
+				new GRGEN_LGSP.PatternGraph[] {  },
+				new GRGEN_LGSP.PatternGraph[] {  },
+				new GRGEN_LGSP.PatternCondition[] {  },
+				new GRGEN_LGSP.PatternYielding[] {  },
 				new bool[2, 2] {
 					{ true, false, },
 					{ false, true, },
@@ -718,25 +718,25 @@ namespace de.unika.ipd.grGen.Action_Independent
 			};
 			GRGEN_LGSP.PatternNode iteratedPathToIntNode_alt_0_recursive_node_intermediate = new GRGEN_LGSP.PatternNode((int) GRGEN_MODEL.NodeTypes.@Node, "GRGEN_LIBGR.INode", "iteratedPathToIntNode_alt_0_recursive_node_intermediate", "intermediate", iteratedPathToIntNode_alt_0_recursive_node_intermediate_AllowedTypes, iteratedPathToIntNode_alt_0_recursive_node_intermediate_IsAllowedType, 5.5F, -1, false, null, null, null, null, false);
 			GRGEN_LGSP.PatternEdge iteratedPathToIntNode_alt_0_recursive_edge__edge0 = new GRGEN_LGSP.PatternEdge(true, (int) GRGEN_MODEL.EdgeTypes.@Edge, "GRGEN_LIBGR.IEdge", "iteratedPathToIntNode_alt_0_recursive_edge__edge0", "_edge0", iteratedPathToIntNode_alt_0_recursive_edge__edge0_AllowedTypes, iteratedPathToIntNode_alt_0_recursive_edge__edge0_IsAllowedType, 5.5F, -1, false, null, null, null, null, false);
-			GRGEN_LGSP.PatternGraphEmbedding iteratedPathToIntNode_alt_0_recursive__sub0 = new GRGEN_LGSP.PatternGraphEmbedding("_sub0", Pattern_iteratedPathToIntNode.Instance, 
+			GRGEN_LGSP.PatternGraphEmbedding iteratedPathToIntNode_alt_0_recursive__sub0 = new GRGEN_LGSP.PatternGraphEmbedding("_sub0", Pattern_iteratedPathToIntNode.Instance,
 				new GRGEN_EXPR.Expression[] {
 					new GRGEN_EXPR.GraphEntityExpression("iteratedPathToIntNode_alt_0_recursive_node_intermediate"),
-				}, 
+				},
 				new string[] { }, new string[] { "iteratedPathToIntNode_alt_0_recursive_node_intermediate" }, new string[] {  }, new string[] {  }, new GRGEN_LIBGR.VarType[] {  });
 			iteratedPathToIntNode_alt_0_recursive = new GRGEN_LGSP.PatternGraph(
 				"recursive",
 				"iteratedPathToIntNode_alt_0_",
 				false,
-				new GRGEN_LGSP.PatternNode[] { iteratedPathToIntNode_node_beg, iteratedPathToIntNode_alt_0_recursive_node_intermediate }, 
-				new GRGEN_LGSP.PatternEdge[] { iteratedPathToIntNode_alt_0_recursive_edge__edge0 }, 
-				new GRGEN_LGSP.PatternVariable[] {  }, 
-				new GRGEN_LGSP.PatternGraphEmbedding[] { iteratedPathToIntNode_alt_0_recursive__sub0 }, 
-				new GRGEN_LGSP.Alternative[] {  }, 
-				new GRGEN_LGSP.Iterated[] {  }, 
-				new GRGEN_LGSP.PatternGraph[] {  }, 
-				new GRGEN_LGSP.PatternGraph[] {  }, 
-				new GRGEN_LGSP.PatternCondition[] {  }, 
-				new GRGEN_LGSP.PatternYielding[] {  }, 
+				new GRGEN_LGSP.PatternNode[] { iteratedPathToIntNode_node_beg, iteratedPathToIntNode_alt_0_recursive_node_intermediate },
+				new GRGEN_LGSP.PatternEdge[] { iteratedPathToIntNode_alt_0_recursive_edge__edge0 },
+				new GRGEN_LGSP.PatternVariable[] {  },
+				new GRGEN_LGSP.PatternGraphEmbedding[] { iteratedPathToIntNode_alt_0_recursive__sub0 },
+				new GRGEN_LGSP.Alternative[] {  },
+				new GRGEN_LGSP.Iterated[] {  },
+				new GRGEN_LGSP.PatternGraph[] {  },
+				new GRGEN_LGSP.PatternGraph[] {  },
+				new GRGEN_LGSP.PatternCondition[] {  },
+				new GRGEN_LGSP.PatternYielding[] {  },
 				new bool[2, 2] {
 					{ true, false, },
 					{ false, true, },
@@ -756,16 +756,16 @@ namespace de.unika.ipd.grGen.Action_Independent
 				"iteratedPathToIntNode",
 				"",
 				false,
-				new GRGEN_LGSP.PatternNode[] { iteratedPathToIntNode_node_beg }, 
-				new GRGEN_LGSP.PatternEdge[] {  }, 
-				new GRGEN_LGSP.PatternVariable[] {  }, 
-				new GRGEN_LGSP.PatternGraphEmbedding[] {  }, 
-				new GRGEN_LGSP.Alternative[] { iteratedPathToIntNode_alt_0,  }, 
-				new GRGEN_LGSP.Iterated[] {  }, 
-				new GRGEN_LGSP.PatternGraph[] {  }, 
-				new GRGEN_LGSP.PatternGraph[] {  }, 
-				new GRGEN_LGSP.PatternCondition[] {  }, 
-				new GRGEN_LGSP.PatternYielding[] {  }, 
+				new GRGEN_LGSP.PatternNode[] { iteratedPathToIntNode_node_beg },
+				new GRGEN_LGSP.PatternEdge[] {  },
+				new GRGEN_LGSP.PatternVariable[] {  },
+				new GRGEN_LGSP.PatternGraphEmbedding[] {  },
+				new GRGEN_LGSP.Alternative[] { iteratedPathToIntNode_alt_0,  },
+				new GRGEN_LGSP.Iterated[] {  },
+				new GRGEN_LGSP.PatternGraph[] {  },
+				new GRGEN_LGSP.PatternGraph[] {  },
+				new GRGEN_LGSP.PatternCondition[] {  },
+				new GRGEN_LGSP.PatternYielding[] {  },
 				new bool[1, 1] {
 					{ true, },
 				},
@@ -911,7 +911,7 @@ namespace de.unika.ipd.grGen.Action_Independent
 				default: return null;
 				}
 			}
-			
+
 			public enum iteratedPathToIntNode_EdgeNums { END_OF_ENUM };
 			public IEnumerable<GRGEN_LIBGR.IEdge> Edges { get { return new GRGEN_LGSP.Edges_Enumerable(this); } }
 			public IEnumerator<GRGEN_LIBGR.IEdge> EdgesEnumerator { get { return new GRGEN_LGSP.Edges_Enumerator(this); } }
@@ -922,7 +922,7 @@ namespace de.unika.ipd.grGen.Action_Independent
 				default: return null;
 				}
 			}
-			
+
 			public enum iteratedPathToIntNode_VariableNums { END_OF_ENUM };
 			public IEnumerable<object> Variables { get { return new GRGEN_LGSP.Variables_Enumerable(this); } }
 			public IEnumerator<object> VariablesEnumerator { get { return new GRGEN_LGSP.Variables_Enumerator(this); } }
@@ -933,7 +933,7 @@ namespace de.unika.ipd.grGen.Action_Independent
 				default: return null;
 				}
 			}
-			
+
 			public enum iteratedPathToIntNode_SubNums { END_OF_ENUM };
 			public IEnumerable<GRGEN_LIBGR.IMatch> EmbeddedGraphs { get { return new GRGEN_LGSP.EmbeddedGraphs_Enumerable(this); } }
 			public IEnumerator<GRGEN_LIBGR.IMatch> EmbeddedGraphsEnumerator { get { return new GRGEN_LGSP.EmbeddedGraphs_Enumerator(this); } }
@@ -944,7 +944,7 @@ namespace de.unika.ipd.grGen.Action_Independent
 				default: return null;
 				}
 			}
-			
+
 			public IMatch_iteratedPathToIntNode_alt_0 alt_0 { get { return _alt_0; } }
 			public IMatch_iteratedPathToIntNode_alt_0 _alt_0;
 			public enum iteratedPathToIntNode_AltNums { @alt_0, END_OF_ENUM };
@@ -958,7 +958,7 @@ namespace de.unika.ipd.grGen.Action_Independent
 				default: return null;
 				}
 			}
-			
+
 			public enum iteratedPathToIntNode_IterNums { END_OF_ENUM };
 			public IEnumerable<GRGEN_LIBGR.IMatches> Iterateds { get { return new GRGEN_LGSP.Iterateds_Enumerable(this); } }
 			public IEnumerator<GRGEN_LIBGR.IMatches> IteratedsEnumerator { get { return new GRGEN_LGSP.Iterateds_Enumerator(this); } }
@@ -969,7 +969,7 @@ namespace de.unika.ipd.grGen.Action_Independent
 				default: return null;
 				}
 			}
-			
+
 			public enum iteratedPathToIntNode_IdptNums { END_OF_ENUM };
 			public IEnumerable<GRGEN_LIBGR.IMatch> Independents { get { return new GRGEN_LGSP.Independents_Enumerable(this); } }
 			public IEnumerator<GRGEN_LIBGR.IMatch> IndependentsEnumerator { get { return new GRGEN_LGSP.Independents_Enumerator(this); } }
@@ -980,7 +980,7 @@ namespace de.unika.ipd.grGen.Action_Independent
 				default: return null;
 				}
 			}
-			
+
 			public GRGEN_LIBGR.IPatternGraph Pattern { get { return Pattern_iteratedPathToIntNode.instance.pat_iteratedPathToIntNode; } }
 			public GRGEN_LIBGR.IMatch MatchOfEnclosingPattern { get { return _matchOfEnclosingPattern; } }
 			public GRGEN_LIBGR.IMatch _matchOfEnclosingPattern;
@@ -1006,7 +1006,7 @@ namespace de.unika.ipd.grGen.Action_Independent
 				default: return null;
 				}
 			}
-			
+
 			public GRGEN_LIBGR.IEdge edge__edge0 { get { return (GRGEN_LIBGR.IEdge)_edge__edge0; } }
 			public GRGEN_LGSP.LGSPEdge _edge__edge0;
 			public enum iteratedPathToIntNode_alt_0_base_EdgeNums { @_edge0, END_OF_ENUM };
@@ -1020,7 +1020,7 @@ namespace de.unika.ipd.grGen.Action_Independent
 				default: return null;
 				}
 			}
-			
+
 			public enum iteratedPathToIntNode_alt_0_base_VariableNums { END_OF_ENUM };
 			public IEnumerable<object> Variables { get { return new GRGEN_LGSP.Variables_Enumerable(this); } }
 			public IEnumerator<object> VariablesEnumerator { get { return new GRGEN_LGSP.Variables_Enumerator(this); } }
@@ -1031,7 +1031,7 @@ namespace de.unika.ipd.grGen.Action_Independent
 				default: return null;
 				}
 			}
-			
+
 			public enum iteratedPathToIntNode_alt_0_base_SubNums { END_OF_ENUM };
 			public IEnumerable<GRGEN_LIBGR.IMatch> EmbeddedGraphs { get { return new GRGEN_LGSP.EmbeddedGraphs_Enumerable(this); } }
 			public IEnumerator<GRGEN_LIBGR.IMatch> EmbeddedGraphsEnumerator { get { return new GRGEN_LGSP.EmbeddedGraphs_Enumerator(this); } }
@@ -1042,7 +1042,7 @@ namespace de.unika.ipd.grGen.Action_Independent
 				default: return null;
 				}
 			}
-			
+
 			public enum iteratedPathToIntNode_alt_0_base_AltNums { END_OF_ENUM };
 			public IEnumerable<GRGEN_LIBGR.IMatch> Alternatives { get { return new GRGEN_LGSP.Alternatives_Enumerable(this); } }
 			public IEnumerator<GRGEN_LIBGR.IMatch> AlternativesEnumerator { get { return new GRGEN_LGSP.Alternatives_Enumerator(this); } }
@@ -1053,7 +1053,7 @@ namespace de.unika.ipd.grGen.Action_Independent
 				default: return null;
 				}
 			}
-			
+
 			public enum iteratedPathToIntNode_alt_0_base_IterNums { END_OF_ENUM };
 			public IEnumerable<GRGEN_LIBGR.IMatches> Iterateds { get { return new GRGEN_LGSP.Iterateds_Enumerable(this); } }
 			public IEnumerator<GRGEN_LIBGR.IMatches> IteratedsEnumerator { get { return new GRGEN_LGSP.Iterateds_Enumerator(this); } }
@@ -1064,7 +1064,7 @@ namespace de.unika.ipd.grGen.Action_Independent
 				default: return null;
 				}
 			}
-			
+
 			public enum iteratedPathToIntNode_alt_0_base_IdptNums { END_OF_ENUM };
 			public IEnumerable<GRGEN_LIBGR.IMatch> Independents { get { return new GRGEN_LGSP.Independents_Enumerable(this); } }
 			public IEnumerator<GRGEN_LIBGR.IMatch> IndependentsEnumerator { get { return new GRGEN_LGSP.Independents_Enumerator(this); } }
@@ -1075,7 +1075,7 @@ namespace de.unika.ipd.grGen.Action_Independent
 				default: return null;
 				}
 			}
-			
+
 			public GRGEN_LIBGR.IPatternGraph Pattern { get { return Pattern_iteratedPathToIntNode.instance.iteratedPathToIntNode_alt_0_base; } }
 			public GRGEN_LIBGR.IMatch MatchOfEnclosingPattern { get { return _matchOfEnclosingPattern; } }
 			public GRGEN_LIBGR.IMatch _matchOfEnclosingPattern;
@@ -1101,7 +1101,7 @@ namespace de.unika.ipd.grGen.Action_Independent
 				default: return null;
 				}
 			}
-			
+
 			public GRGEN_LIBGR.IEdge edge__edge0 { get { return (GRGEN_LIBGR.IEdge)_edge__edge0; } }
 			public GRGEN_LGSP.LGSPEdge _edge__edge0;
 			public enum iteratedPathToIntNode_alt_0_recursive_EdgeNums { @_edge0, END_OF_ENUM };
@@ -1115,7 +1115,7 @@ namespace de.unika.ipd.grGen.Action_Independent
 				default: return null;
 				}
 			}
-			
+
 			public enum iteratedPathToIntNode_alt_0_recursive_VariableNums { END_OF_ENUM };
 			public IEnumerable<object> Variables { get { return new GRGEN_LGSP.Variables_Enumerable(this); } }
 			public IEnumerator<object> VariablesEnumerator { get { return new GRGEN_LGSP.Variables_Enumerator(this); } }
@@ -1126,7 +1126,7 @@ namespace de.unika.ipd.grGen.Action_Independent
 				default: return null;
 				}
 			}
-			
+
 			public @Pattern_iteratedPathToIntNode.Match_iteratedPathToIntNode @_sub0 { get { return @__sub0; } }
 			public @Pattern_iteratedPathToIntNode.Match_iteratedPathToIntNode @__sub0;
 			public enum iteratedPathToIntNode_alt_0_recursive_SubNums { @_sub0, END_OF_ENUM };
@@ -1140,7 +1140,7 @@ namespace de.unika.ipd.grGen.Action_Independent
 				default: return null;
 				}
 			}
-			
+
 			public enum iteratedPathToIntNode_alt_0_recursive_AltNums { END_OF_ENUM };
 			public IEnumerable<GRGEN_LIBGR.IMatch> Alternatives { get { return new GRGEN_LGSP.Alternatives_Enumerable(this); } }
 			public IEnumerator<GRGEN_LIBGR.IMatch> AlternativesEnumerator { get { return new GRGEN_LGSP.Alternatives_Enumerator(this); } }
@@ -1151,7 +1151,7 @@ namespace de.unika.ipd.grGen.Action_Independent
 				default: return null;
 				}
 			}
-			
+
 			public enum iteratedPathToIntNode_alt_0_recursive_IterNums { END_OF_ENUM };
 			public IEnumerable<GRGEN_LIBGR.IMatches> Iterateds { get { return new GRGEN_LGSP.Iterateds_Enumerable(this); } }
 			public IEnumerator<GRGEN_LIBGR.IMatches> IteratedsEnumerator { get { return new GRGEN_LGSP.Iterateds_Enumerator(this); } }
@@ -1162,7 +1162,7 @@ namespace de.unika.ipd.grGen.Action_Independent
 				default: return null;
 				}
 			}
-			
+
 			public enum iteratedPathToIntNode_alt_0_recursive_IdptNums { END_OF_ENUM };
 			public IEnumerable<GRGEN_LIBGR.IMatch> Independents { get { return new GRGEN_LGSP.Independents_Enumerable(this); } }
 			public IEnumerator<GRGEN_LIBGR.IMatch> IndependentsEnumerator { get { return new GRGEN_LGSP.Independents_Enumerator(this); } }
@@ -1173,7 +1173,7 @@ namespace de.unika.ipd.grGen.Action_Independent
 				default: return null;
 				}
 			}
-			
+
 			public GRGEN_LIBGR.IPatternGraph Pattern { get { return Pattern_iteratedPathToIntNode.instance.iteratedPathToIntNode_alt_0_recursive; } }
 			public GRGEN_LIBGR.IMatch MatchOfEnclosingPattern { get { return _matchOfEnclosingPattern; } }
 			public GRGEN_LIBGR.IMatch _matchOfEnclosingPattern;
@@ -1220,16 +1220,16 @@ namespace de.unika.ipd.grGen.Action_Independent
 				"create",
 				"",
 				false,
-				new GRGEN_LGSP.PatternNode[] {  }, 
-				new GRGEN_LGSP.PatternEdge[] {  }, 
-				new GRGEN_LGSP.PatternVariable[] {  }, 
-				new GRGEN_LGSP.PatternGraphEmbedding[] {  }, 
-				new GRGEN_LGSP.Alternative[] {  }, 
-				new GRGEN_LGSP.Iterated[] {  }, 
-				new GRGEN_LGSP.PatternGraph[] {  }, 
-				new GRGEN_LGSP.PatternGraph[] {  }, 
-				new GRGEN_LGSP.PatternCondition[] {  }, 
-				new GRGEN_LGSP.PatternYielding[] {  }, 
+				new GRGEN_LGSP.PatternNode[] {  },
+				new GRGEN_LGSP.PatternEdge[] {  },
+				new GRGEN_LGSP.PatternVariable[] {  },
+				new GRGEN_LGSP.PatternGraphEmbedding[] {  },
+				new GRGEN_LGSP.Alternative[] {  },
+				new GRGEN_LGSP.Iterated[] {  },
+				new GRGEN_LGSP.PatternGraph[] {  },
+				new GRGEN_LGSP.PatternGraph[] {  },
+				new GRGEN_LGSP.PatternCondition[] {  },
+				new GRGEN_LGSP.PatternYielding[] {  },
 				new bool[0, 0] ,
 				new bool[0, 0] ,
 				create_isNodeHomomorphicGlobal,
@@ -1288,7 +1288,7 @@ namespace de.unika.ipd.grGen.Action_Independent
 				default: return null;
 				}
 			}
-			
+
 			public enum create_EdgeNums { END_OF_ENUM };
 			public IEnumerable<GRGEN_LIBGR.IEdge> Edges { get { return new GRGEN_LGSP.Edges_Enumerable(this); } }
 			public IEnumerator<GRGEN_LIBGR.IEdge> EdgesEnumerator { get { return new GRGEN_LGSP.Edges_Enumerator(this); } }
@@ -1299,7 +1299,7 @@ namespace de.unika.ipd.grGen.Action_Independent
 				default: return null;
 				}
 			}
-			
+
 			public enum create_VariableNums { END_OF_ENUM };
 			public IEnumerable<object> Variables { get { return new GRGEN_LGSP.Variables_Enumerable(this); } }
 			public IEnumerator<object> VariablesEnumerator { get { return new GRGEN_LGSP.Variables_Enumerator(this); } }
@@ -1310,7 +1310,7 @@ namespace de.unika.ipd.grGen.Action_Independent
 				default: return null;
 				}
 			}
-			
+
 			public enum create_SubNums { END_OF_ENUM };
 			public IEnumerable<GRGEN_LIBGR.IMatch> EmbeddedGraphs { get { return new GRGEN_LGSP.EmbeddedGraphs_Enumerable(this); } }
 			public IEnumerator<GRGEN_LIBGR.IMatch> EmbeddedGraphsEnumerator { get { return new GRGEN_LGSP.EmbeddedGraphs_Enumerator(this); } }
@@ -1321,7 +1321,7 @@ namespace de.unika.ipd.grGen.Action_Independent
 				default: return null;
 				}
 			}
-			
+
 			public enum create_AltNums { END_OF_ENUM };
 			public IEnumerable<GRGEN_LIBGR.IMatch> Alternatives { get { return new GRGEN_LGSP.Alternatives_Enumerable(this); } }
 			public IEnumerator<GRGEN_LIBGR.IMatch> AlternativesEnumerator { get { return new GRGEN_LGSP.Alternatives_Enumerator(this); } }
@@ -1332,7 +1332,7 @@ namespace de.unika.ipd.grGen.Action_Independent
 				default: return null;
 				}
 			}
-			
+
 			public enum create_IterNums { END_OF_ENUM };
 			public IEnumerable<GRGEN_LIBGR.IMatches> Iterateds { get { return new GRGEN_LGSP.Iterateds_Enumerable(this); } }
 			public IEnumerator<GRGEN_LIBGR.IMatches> IteratedsEnumerator { get { return new GRGEN_LGSP.Iterateds_Enumerator(this); } }
@@ -1343,7 +1343,7 @@ namespace de.unika.ipd.grGen.Action_Independent
 				default: return null;
 				}
 			}
-			
+
 			public enum create_IdptNums { END_OF_ENUM };
 			public IEnumerable<GRGEN_LIBGR.IMatch> Independents { get { return new GRGEN_LGSP.Independents_Enumerable(this); } }
 			public IEnumerator<GRGEN_LIBGR.IMatch> IndependentsEnumerator { get { return new GRGEN_LGSP.Independents_Enumerator(this); } }
@@ -1354,7 +1354,7 @@ namespace de.unika.ipd.grGen.Action_Independent
 				default: return null;
 				}
 			}
-			
+
 			public GRGEN_LIBGR.IPatternGraph Pattern { get { return Rule_create.instance.pat_create; } }
 			public GRGEN_LIBGR.IMatch MatchOfEnclosingPattern { get { return _matchOfEnclosingPattern; } }
 			public GRGEN_LIBGR.IMatch _matchOfEnclosingPattern;
@@ -1434,16 +1434,16 @@ namespace de.unika.ipd.grGen.Action_Independent
 				"find",
 				"",
 				false,
-				new GRGEN_LGSP.PatternNode[] { find_node_beg, find_node__node0, find_node_end, find_node__node1 }, 
-				new GRGEN_LGSP.PatternEdge[] { find_edge__edge0, find_edge__edge1, find_edge__edge2, find_edge__edge3 }, 
-				new GRGEN_LGSP.PatternVariable[] {  }, 
-				new GRGEN_LGSP.PatternGraphEmbedding[] {  }, 
-				new GRGEN_LGSP.Alternative[] {  }, 
-				new GRGEN_LGSP.Iterated[] {  }, 
-				new GRGEN_LGSP.PatternGraph[] {  }, 
-				new GRGEN_LGSP.PatternGraph[] {  }, 
-				new GRGEN_LGSP.PatternCondition[] {  }, 
-				new GRGEN_LGSP.PatternYielding[] {  }, 
+				new GRGEN_LGSP.PatternNode[] { find_node_beg, find_node__node0, find_node_end, find_node__node1 },
+				new GRGEN_LGSP.PatternEdge[] { find_edge__edge0, find_edge__edge1, find_edge__edge2, find_edge__edge3 },
+				new GRGEN_LGSP.PatternVariable[] {  },
+				new GRGEN_LGSP.PatternGraphEmbedding[] {  },
+				new GRGEN_LGSP.Alternative[] {  },
+				new GRGEN_LGSP.Iterated[] {  },
+				new GRGEN_LGSP.PatternGraph[] {  },
+				new GRGEN_LGSP.PatternGraph[] {  },
+				new GRGEN_LGSP.PatternCondition[] {  },
+				new GRGEN_LGSP.PatternYielding[] {  },
 				new bool[4, 4] {
 					{ true, false, false, false, },
 					{ false, true, false, false, },
@@ -1535,7 +1535,7 @@ namespace de.unika.ipd.grGen.Action_Independent
 				default: return null;
 				}
 			}
-			
+
 			public GRGEN_LIBGR.IEdge edge__edge0 { get { return (GRGEN_LIBGR.IEdge)_edge__edge0; } }
 			public GRGEN_LIBGR.IEdge edge__edge1 { get { return (GRGEN_LIBGR.IEdge)_edge__edge1; } }
 			public GRGEN_LIBGR.IEdge edge__edge2 { get { return (GRGEN_LIBGR.IEdge)_edge__edge2; } }
@@ -1558,7 +1558,7 @@ namespace de.unika.ipd.grGen.Action_Independent
 				default: return null;
 				}
 			}
-			
+
 			public enum find_VariableNums { END_OF_ENUM };
 			public IEnumerable<object> Variables { get { return new GRGEN_LGSP.Variables_Enumerable(this); } }
 			public IEnumerator<object> VariablesEnumerator { get { return new GRGEN_LGSP.Variables_Enumerator(this); } }
@@ -1569,7 +1569,7 @@ namespace de.unika.ipd.grGen.Action_Independent
 				default: return null;
 				}
 			}
-			
+
 			public enum find_SubNums { END_OF_ENUM };
 			public IEnumerable<GRGEN_LIBGR.IMatch> EmbeddedGraphs { get { return new GRGEN_LGSP.EmbeddedGraphs_Enumerable(this); } }
 			public IEnumerator<GRGEN_LIBGR.IMatch> EmbeddedGraphsEnumerator { get { return new GRGEN_LGSP.EmbeddedGraphs_Enumerator(this); } }
@@ -1580,7 +1580,7 @@ namespace de.unika.ipd.grGen.Action_Independent
 				default: return null;
 				}
 			}
-			
+
 			public enum find_AltNums { END_OF_ENUM };
 			public IEnumerable<GRGEN_LIBGR.IMatch> Alternatives { get { return new GRGEN_LGSP.Alternatives_Enumerable(this); } }
 			public IEnumerator<GRGEN_LIBGR.IMatch> AlternativesEnumerator { get { return new GRGEN_LGSP.Alternatives_Enumerator(this); } }
@@ -1591,7 +1591,7 @@ namespace de.unika.ipd.grGen.Action_Independent
 				default: return null;
 				}
 			}
-			
+
 			public enum find_IterNums { END_OF_ENUM };
 			public IEnumerable<GRGEN_LIBGR.IMatches> Iterateds { get { return new GRGEN_LGSP.Iterateds_Enumerable(this); } }
 			public IEnumerator<GRGEN_LIBGR.IMatches> IteratedsEnumerator { get { return new GRGEN_LGSP.Iterateds_Enumerator(this); } }
@@ -1602,7 +1602,7 @@ namespace de.unika.ipd.grGen.Action_Independent
 				default: return null;
 				}
 			}
-			
+
 			public enum find_IdptNums { END_OF_ENUM };
 			public IEnumerable<GRGEN_LIBGR.IMatch> Independents { get { return new GRGEN_LGSP.Independents_Enumerable(this); } }
 			public IEnumerator<GRGEN_LIBGR.IMatch> IndependentsEnumerator { get { return new GRGEN_LGSP.Independents_Enumerator(this); } }
@@ -1613,7 +1613,7 @@ namespace de.unika.ipd.grGen.Action_Independent
 				default: return null;
 				}
 			}
-			
+
 			public GRGEN_LIBGR.IPatternGraph Pattern { get { return Rule_find.instance.pat_find; } }
 			public GRGEN_LIBGR.IMatch MatchOfEnclosingPattern { get { return _matchOfEnclosingPattern; } }
 			public GRGEN_LIBGR.IMatch _matchOfEnclosingPattern;
@@ -1708,16 +1708,16 @@ namespace de.unika.ipd.grGen.Action_Independent
 				"idpt_0",
 				"findIndependent_",
 				false,
-				new GRGEN_LGSP.PatternNode[] { findIndependent_idpt_0_node__node0, findIndependent_node_beg, findIndependent_node_end }, 
-				new GRGEN_LGSP.PatternEdge[] { findIndependent_idpt_0_edge__edge0, findIndependent_idpt_0_edge__edge1 }, 
-				new GRGEN_LGSP.PatternVariable[] {  }, 
-				new GRGEN_LGSP.PatternGraphEmbedding[] {  }, 
-				new GRGEN_LGSP.Alternative[] {  }, 
-				new GRGEN_LGSP.Iterated[] {  }, 
-				new GRGEN_LGSP.PatternGraph[] {  }, 
-				new GRGEN_LGSP.PatternGraph[] {  }, 
-				new GRGEN_LGSP.PatternCondition[] {  }, 
-				new GRGEN_LGSP.PatternYielding[] {  }, 
+				new GRGEN_LGSP.PatternNode[] { findIndependent_idpt_0_node__node0, findIndependent_node_beg, findIndependent_node_end },
+				new GRGEN_LGSP.PatternEdge[] { findIndependent_idpt_0_edge__edge0, findIndependent_idpt_0_edge__edge1 },
+				new GRGEN_LGSP.PatternVariable[] {  },
+				new GRGEN_LGSP.PatternGraphEmbedding[] {  },
+				new GRGEN_LGSP.Alternative[] {  },
+				new GRGEN_LGSP.Iterated[] {  },
+				new GRGEN_LGSP.PatternGraph[] {  },
+				new GRGEN_LGSP.PatternGraph[] {  },
+				new GRGEN_LGSP.PatternCondition[] {  },
+				new GRGEN_LGSP.PatternYielding[] {  },
 				new bool[3, 3] {
 					{ true, false, false, },
 					{ false, true, false, },
@@ -1739,16 +1739,16 @@ namespace de.unika.ipd.grGen.Action_Independent
 				"findIndependent",
 				"",
 				false,
-				new GRGEN_LGSP.PatternNode[] { findIndependent_node_beg, findIndependent_node__node0, findIndependent_node_end }, 
-				new GRGEN_LGSP.PatternEdge[] { findIndependent_edge__edge0, findIndependent_edge__edge1 }, 
-				new GRGEN_LGSP.PatternVariable[] {  }, 
-				new GRGEN_LGSP.PatternGraphEmbedding[] {  }, 
-				new GRGEN_LGSP.Alternative[] {  }, 
-				new GRGEN_LGSP.Iterated[] {  }, 
-				new GRGEN_LGSP.PatternGraph[] {  }, 
-				new GRGEN_LGSP.PatternGraph[] { findIndependent_idpt_0,  }, 
-				new GRGEN_LGSP.PatternCondition[] {  }, 
-				new GRGEN_LGSP.PatternYielding[] {  }, 
+				new GRGEN_LGSP.PatternNode[] { findIndependent_node_beg, findIndependent_node__node0, findIndependent_node_end },
+				new GRGEN_LGSP.PatternEdge[] { findIndependent_edge__edge0, findIndependent_edge__edge1 },
+				new GRGEN_LGSP.PatternVariable[] {  },
+				new GRGEN_LGSP.PatternGraphEmbedding[] {  },
+				new GRGEN_LGSP.Alternative[] {  },
+				new GRGEN_LGSP.Iterated[] {  },
+				new GRGEN_LGSP.PatternGraph[] {  },
+				new GRGEN_LGSP.PatternGraph[] { findIndependent_idpt_0,  },
+				new GRGEN_LGSP.PatternCondition[] {  },
+				new GRGEN_LGSP.PatternYielding[] {  },
 				new bool[3, 3] {
 					{ true, false, false, },
 					{ false, true, false, },
@@ -1847,7 +1847,7 @@ namespace de.unika.ipd.grGen.Action_Independent
 				default: return null;
 				}
 			}
-			
+
 			public GRGEN_LIBGR.IEdge edge__edge0 { get { return (GRGEN_LIBGR.IEdge)_edge__edge0; } }
 			public GRGEN_LIBGR.IEdge edge__edge1 { get { return (GRGEN_LIBGR.IEdge)_edge__edge1; } }
 			public GRGEN_LGSP.LGSPEdge _edge__edge0;
@@ -1864,7 +1864,7 @@ namespace de.unika.ipd.grGen.Action_Independent
 				default: return null;
 				}
 			}
-			
+
 			public enum findIndependent_VariableNums { END_OF_ENUM };
 			public IEnumerable<object> Variables { get { return new GRGEN_LGSP.Variables_Enumerable(this); } }
 			public IEnumerator<object> VariablesEnumerator { get { return new GRGEN_LGSP.Variables_Enumerator(this); } }
@@ -1875,7 +1875,7 @@ namespace de.unika.ipd.grGen.Action_Independent
 				default: return null;
 				}
 			}
-			
+
 			public enum findIndependent_SubNums { END_OF_ENUM };
 			public IEnumerable<GRGEN_LIBGR.IMatch> EmbeddedGraphs { get { return new GRGEN_LGSP.EmbeddedGraphs_Enumerable(this); } }
 			public IEnumerator<GRGEN_LIBGR.IMatch> EmbeddedGraphsEnumerator { get { return new GRGEN_LGSP.EmbeddedGraphs_Enumerator(this); } }
@@ -1886,7 +1886,7 @@ namespace de.unika.ipd.grGen.Action_Independent
 				default: return null;
 				}
 			}
-			
+
 			public enum findIndependent_AltNums { END_OF_ENUM };
 			public IEnumerable<GRGEN_LIBGR.IMatch> Alternatives { get { return new GRGEN_LGSP.Alternatives_Enumerable(this); } }
 			public IEnumerator<GRGEN_LIBGR.IMatch> AlternativesEnumerator { get { return new GRGEN_LGSP.Alternatives_Enumerator(this); } }
@@ -1897,7 +1897,7 @@ namespace de.unika.ipd.grGen.Action_Independent
 				default: return null;
 				}
 			}
-			
+
 			public enum findIndependent_IterNums { END_OF_ENUM };
 			public IEnumerable<GRGEN_LIBGR.IMatches> Iterateds { get { return new GRGEN_LGSP.Iterateds_Enumerable(this); } }
 			public IEnumerator<GRGEN_LIBGR.IMatches> IteratedsEnumerator { get { return new GRGEN_LGSP.Iterateds_Enumerator(this); } }
@@ -1908,7 +1908,7 @@ namespace de.unika.ipd.grGen.Action_Independent
 				default: return null;
 				}
 			}
-			
+
 			public IMatch_findIndependent_idpt_0 idpt_0 { get { return _idpt_0; } }
 			public IMatch_findIndependent_idpt_0 _idpt_0;
 			public enum findIndependent_IdptNums { @idpt_0, END_OF_ENUM };
@@ -1922,7 +1922,7 @@ namespace de.unika.ipd.grGen.Action_Independent
 				default: return null;
 				}
 			}
-			
+
 			public GRGEN_LIBGR.IPatternGraph Pattern { get { return Rule_findIndependent.instance.pat_findIndependent; } }
 			public GRGEN_LIBGR.IMatch MatchOfEnclosingPattern { get { return _matchOfEnclosingPattern; } }
 			public GRGEN_LIBGR.IMatch _matchOfEnclosingPattern;
@@ -1951,7 +1951,7 @@ namespace de.unika.ipd.grGen.Action_Independent
 				default: return null;
 				}
 			}
-			
+
 			public GRGEN_LIBGR.IEdge edge__edge0 { get { return (GRGEN_LIBGR.IEdge)_edge__edge0; } }
 			public GRGEN_LIBGR.IEdge edge__edge1 { get { return (GRGEN_LIBGR.IEdge)_edge__edge1; } }
 			public GRGEN_LGSP.LGSPEdge _edge__edge0;
@@ -1968,7 +1968,7 @@ namespace de.unika.ipd.grGen.Action_Independent
 				default: return null;
 				}
 			}
-			
+
 			public enum findIndependent_idpt_0_VariableNums { END_OF_ENUM };
 			public IEnumerable<object> Variables { get { return new GRGEN_LGSP.Variables_Enumerable(this); } }
 			public IEnumerator<object> VariablesEnumerator { get { return new GRGEN_LGSP.Variables_Enumerator(this); } }
@@ -1979,7 +1979,7 @@ namespace de.unika.ipd.grGen.Action_Independent
 				default: return null;
 				}
 			}
-			
+
 			public enum findIndependent_idpt_0_SubNums { END_OF_ENUM };
 			public IEnumerable<GRGEN_LIBGR.IMatch> EmbeddedGraphs { get { return new GRGEN_LGSP.EmbeddedGraphs_Enumerable(this); } }
 			public IEnumerator<GRGEN_LIBGR.IMatch> EmbeddedGraphsEnumerator { get { return new GRGEN_LGSP.EmbeddedGraphs_Enumerator(this); } }
@@ -1990,7 +1990,7 @@ namespace de.unika.ipd.grGen.Action_Independent
 				default: return null;
 				}
 			}
-			
+
 			public enum findIndependent_idpt_0_AltNums { END_OF_ENUM };
 			public IEnumerable<GRGEN_LIBGR.IMatch> Alternatives { get { return new GRGEN_LGSP.Alternatives_Enumerable(this); } }
 			public IEnumerator<GRGEN_LIBGR.IMatch> AlternativesEnumerator { get { return new GRGEN_LGSP.Alternatives_Enumerator(this); } }
@@ -2001,7 +2001,7 @@ namespace de.unika.ipd.grGen.Action_Independent
 				default: return null;
 				}
 			}
-			
+
 			public enum findIndependent_idpt_0_IterNums { END_OF_ENUM };
 			public IEnumerable<GRGEN_LIBGR.IMatches> Iterateds { get { return new GRGEN_LGSP.Iterateds_Enumerable(this); } }
 			public IEnumerator<GRGEN_LIBGR.IMatches> IteratedsEnumerator { get { return new GRGEN_LGSP.Iterateds_Enumerator(this); } }
@@ -2012,7 +2012,7 @@ namespace de.unika.ipd.grGen.Action_Independent
 				default: return null;
 				}
 			}
-			
+
 			public enum findIndependent_idpt_0_IdptNums { END_OF_ENUM };
 			public IEnumerable<GRGEN_LIBGR.IMatch> Independents { get { return new GRGEN_LGSP.Independents_Enumerable(this); } }
 			public IEnumerator<GRGEN_LIBGR.IMatch> IndependentsEnumerator { get { return new GRGEN_LGSP.Independents_Enumerator(this); } }
@@ -2023,7 +2023,7 @@ namespace de.unika.ipd.grGen.Action_Independent
 				default: return null;
 				}
 			}
-			
+
 			public GRGEN_LIBGR.IPatternGraph Pattern { get { return Rule_findIndependent.instance.findIndependent_idpt_0; } }
 			public GRGEN_LIBGR.IMatch MatchOfEnclosingPattern { get { return _matchOfEnclosingPattern; } }
 			public GRGEN_LIBGR.IMatch _matchOfEnclosingPattern;
@@ -2187,16 +2187,16 @@ namespace de.unika.ipd.grGen.Action_Independent
 				"idpt_1",
 				"findMultiNested_idpt_0_",
 				false,
-				new GRGEN_LGSP.PatternNode[] { findMultiNested_node_beg, findMultiNested_idpt_0_idpt_1_node__node0, findMultiNested_node_end }, 
-				new GRGEN_LGSP.PatternEdge[] { findMultiNested_idpt_0_idpt_1_edge__edge0, findMultiNested_idpt_0_idpt_1_edge__edge1 }, 
-				new GRGEN_LGSP.PatternVariable[] {  }, 
-				new GRGEN_LGSP.PatternGraphEmbedding[] {  }, 
-				new GRGEN_LGSP.Alternative[] {  }, 
-				new GRGEN_LGSP.Iterated[] {  }, 
-				new GRGEN_LGSP.PatternGraph[] {  }, 
-				new GRGEN_LGSP.PatternGraph[] {  }, 
-				new GRGEN_LGSP.PatternCondition[] {  }, 
-				new GRGEN_LGSP.PatternYielding[] {  }, 
+				new GRGEN_LGSP.PatternNode[] { findMultiNested_node_beg, findMultiNested_idpt_0_idpt_1_node__node0, findMultiNested_node_end },
+				new GRGEN_LGSP.PatternEdge[] { findMultiNested_idpt_0_idpt_1_edge__edge0, findMultiNested_idpt_0_idpt_1_edge__edge1 },
+				new GRGEN_LGSP.PatternVariable[] {  },
+				new GRGEN_LGSP.PatternGraphEmbedding[] {  },
+				new GRGEN_LGSP.Alternative[] {  },
+				new GRGEN_LGSP.Iterated[] {  },
+				new GRGEN_LGSP.PatternGraph[] {  },
+				new GRGEN_LGSP.PatternGraph[] {  },
+				new GRGEN_LGSP.PatternCondition[] {  },
+				new GRGEN_LGSP.PatternYielding[] {  },
 				new bool[3, 3] {
 					{ true, false, false, },
 					{ false, true, false, },
@@ -2218,16 +2218,16 @@ namespace de.unika.ipd.grGen.Action_Independent
 				"idpt_0",
 				"findMultiNested_",
 				false,
-				new GRGEN_LGSP.PatternNode[] { findMultiNested_idpt_0_node__node0, findMultiNested_node_beg, findMultiNested_node_end }, 
-				new GRGEN_LGSP.PatternEdge[] { findMultiNested_idpt_0_edge__edge0, findMultiNested_idpt_0_edge__edge1 }, 
-				new GRGEN_LGSP.PatternVariable[] {  }, 
-				new GRGEN_LGSP.PatternGraphEmbedding[] {  }, 
-				new GRGEN_LGSP.Alternative[] {  }, 
-				new GRGEN_LGSP.Iterated[] {  }, 
-				new GRGEN_LGSP.PatternGraph[] {  }, 
-				new GRGEN_LGSP.PatternGraph[] { findMultiNested_idpt_0_idpt_1,  }, 
-				new GRGEN_LGSP.PatternCondition[] {  }, 
-				new GRGEN_LGSP.PatternYielding[] {  }, 
+				new GRGEN_LGSP.PatternNode[] { findMultiNested_idpt_0_node__node0, findMultiNested_node_beg, findMultiNested_node_end },
+				new GRGEN_LGSP.PatternEdge[] { findMultiNested_idpt_0_edge__edge0, findMultiNested_idpt_0_edge__edge1 },
+				new GRGEN_LGSP.PatternVariable[] {  },
+				new GRGEN_LGSP.PatternGraphEmbedding[] {  },
+				new GRGEN_LGSP.Alternative[] {  },
+				new GRGEN_LGSP.Iterated[] {  },
+				new GRGEN_LGSP.PatternGraph[] {  },
+				new GRGEN_LGSP.PatternGraph[] { findMultiNested_idpt_0_idpt_1,  },
+				new GRGEN_LGSP.PatternCondition[] {  },
+				new GRGEN_LGSP.PatternYielding[] {  },
 				new bool[3, 3] {
 					{ true, false, false, },
 					{ false, true, false, },
@@ -2274,16 +2274,16 @@ namespace de.unika.ipd.grGen.Action_Independent
 				"idpt_3",
 				"findMultiNested_idpt_2_",
 				false,
-				new GRGEN_LGSP.PatternNode[] { findMultiNested_idpt_2_idpt_3_node__node0, findMultiNested_node_beg, findMultiNested_node_end }, 
-				new GRGEN_LGSP.PatternEdge[] { findMultiNested_idpt_2_idpt_3_edge__edge0, findMultiNested_idpt_2_idpt_3_edge__edge1 }, 
-				new GRGEN_LGSP.PatternVariable[] {  }, 
-				new GRGEN_LGSP.PatternGraphEmbedding[] {  }, 
-				new GRGEN_LGSP.Alternative[] {  }, 
-				new GRGEN_LGSP.Iterated[] {  }, 
-				new GRGEN_LGSP.PatternGraph[] {  }, 
-				new GRGEN_LGSP.PatternGraph[] {  }, 
-				new GRGEN_LGSP.PatternCondition[] {  }, 
-				new GRGEN_LGSP.PatternYielding[] {  }, 
+				new GRGEN_LGSP.PatternNode[] { findMultiNested_idpt_2_idpt_3_node__node0, findMultiNested_node_beg, findMultiNested_node_end },
+				new GRGEN_LGSP.PatternEdge[] { findMultiNested_idpt_2_idpt_3_edge__edge0, findMultiNested_idpt_2_idpt_3_edge__edge1 },
+				new GRGEN_LGSP.PatternVariable[] {  },
+				new GRGEN_LGSP.PatternGraphEmbedding[] {  },
+				new GRGEN_LGSP.Alternative[] {  },
+				new GRGEN_LGSP.Iterated[] {  },
+				new GRGEN_LGSP.PatternGraph[] {  },
+				new GRGEN_LGSP.PatternGraph[] {  },
+				new GRGEN_LGSP.PatternCondition[] {  },
+				new GRGEN_LGSP.PatternYielding[] {  },
 				new bool[3, 3] {
 					{ true, false, false, },
 					{ false, true, false, },
@@ -2305,16 +2305,16 @@ namespace de.unika.ipd.grGen.Action_Independent
 				"idpt_2",
 				"findMultiNested_",
 				false,
-				new GRGEN_LGSP.PatternNode[] { findMultiNested_node_beg, findMultiNested_idpt_2_node__node0, findMultiNested_node_end }, 
-				new GRGEN_LGSP.PatternEdge[] { findMultiNested_idpt_2_edge__edge0, findMultiNested_idpt_2_edge__edge1 }, 
-				new GRGEN_LGSP.PatternVariable[] {  }, 
-				new GRGEN_LGSP.PatternGraphEmbedding[] {  }, 
-				new GRGEN_LGSP.Alternative[] {  }, 
-				new GRGEN_LGSP.Iterated[] {  }, 
-				new GRGEN_LGSP.PatternGraph[] {  }, 
-				new GRGEN_LGSP.PatternGraph[] { findMultiNested_idpt_2_idpt_3,  }, 
-				new GRGEN_LGSP.PatternCondition[] {  }, 
-				new GRGEN_LGSP.PatternYielding[] {  }, 
+				new GRGEN_LGSP.PatternNode[] { findMultiNested_node_beg, findMultiNested_idpt_2_node__node0, findMultiNested_node_end },
+				new GRGEN_LGSP.PatternEdge[] { findMultiNested_idpt_2_edge__edge0, findMultiNested_idpt_2_edge__edge1 },
+				new GRGEN_LGSP.PatternVariable[] {  },
+				new GRGEN_LGSP.PatternGraphEmbedding[] {  },
+				new GRGEN_LGSP.Alternative[] {  },
+				new GRGEN_LGSP.Iterated[] {  },
+				new GRGEN_LGSP.PatternGraph[] {  },
+				new GRGEN_LGSP.PatternGraph[] { findMultiNested_idpt_2_idpt_3,  },
+				new GRGEN_LGSP.PatternCondition[] {  },
+				new GRGEN_LGSP.PatternYielding[] {  },
 				new bool[3, 3] {
 					{ true, false, false, },
 					{ false, true, false, },
@@ -2337,16 +2337,16 @@ namespace de.unika.ipd.grGen.Action_Independent
 				"findMultiNested",
 				"",
 				false,
-				new GRGEN_LGSP.PatternNode[] { findMultiNested_node_beg, findMultiNested_node__node0, findMultiNested_node_end }, 
-				new GRGEN_LGSP.PatternEdge[] { findMultiNested_edge__edge0, findMultiNested_edge__edge1 }, 
-				new GRGEN_LGSP.PatternVariable[] {  }, 
-				new GRGEN_LGSP.PatternGraphEmbedding[] {  }, 
-				new GRGEN_LGSP.Alternative[] {  }, 
-				new GRGEN_LGSP.Iterated[] {  }, 
-				new GRGEN_LGSP.PatternGraph[] {  }, 
-				new GRGEN_LGSP.PatternGraph[] { findMultiNested_idpt_0, findMultiNested_idpt_2,  }, 
-				new GRGEN_LGSP.PatternCondition[] {  }, 
-				new GRGEN_LGSP.PatternYielding[] {  }, 
+				new GRGEN_LGSP.PatternNode[] { findMultiNested_node_beg, findMultiNested_node__node0, findMultiNested_node_end },
+				new GRGEN_LGSP.PatternEdge[] { findMultiNested_edge__edge0, findMultiNested_edge__edge1 },
+				new GRGEN_LGSP.PatternVariable[] {  },
+				new GRGEN_LGSP.PatternGraphEmbedding[] {  },
+				new GRGEN_LGSP.Alternative[] {  },
+				new GRGEN_LGSP.Iterated[] {  },
+				new GRGEN_LGSP.PatternGraph[] {  },
+				new GRGEN_LGSP.PatternGraph[] { findMultiNested_idpt_0, findMultiNested_idpt_2,  },
+				new GRGEN_LGSP.PatternCondition[] {  },
+				new GRGEN_LGSP.PatternYielding[] {  },
 				new bool[3, 3] {
 					{ true, false, false, },
 					{ false, true, false, },
@@ -2512,7 +2512,7 @@ namespace de.unika.ipd.grGen.Action_Independent
 				default: return null;
 				}
 			}
-			
+
 			public GRGEN_LIBGR.IEdge edge__edge0 { get { return (GRGEN_LIBGR.IEdge)_edge__edge0; } }
 			public GRGEN_LIBGR.IEdge edge__edge1 { get { return (GRGEN_LIBGR.IEdge)_edge__edge1; } }
 			public GRGEN_LGSP.LGSPEdge _edge__edge0;
@@ -2529,7 +2529,7 @@ namespace de.unika.ipd.grGen.Action_Independent
 				default: return null;
 				}
 			}
-			
+
 			public enum findMultiNested_VariableNums { END_OF_ENUM };
 			public IEnumerable<object> Variables { get { return new GRGEN_LGSP.Variables_Enumerable(this); } }
 			public IEnumerator<object> VariablesEnumerator { get { return new GRGEN_LGSP.Variables_Enumerator(this); } }
@@ -2540,7 +2540,7 @@ namespace de.unika.ipd.grGen.Action_Independent
 				default: return null;
 				}
 			}
-			
+
 			public enum findMultiNested_SubNums { END_OF_ENUM };
 			public IEnumerable<GRGEN_LIBGR.IMatch> EmbeddedGraphs { get { return new GRGEN_LGSP.EmbeddedGraphs_Enumerable(this); } }
 			public IEnumerator<GRGEN_LIBGR.IMatch> EmbeddedGraphsEnumerator { get { return new GRGEN_LGSP.EmbeddedGraphs_Enumerator(this); } }
@@ -2551,7 +2551,7 @@ namespace de.unika.ipd.grGen.Action_Independent
 				default: return null;
 				}
 			}
-			
+
 			public enum findMultiNested_AltNums { END_OF_ENUM };
 			public IEnumerable<GRGEN_LIBGR.IMatch> Alternatives { get { return new GRGEN_LGSP.Alternatives_Enumerable(this); } }
 			public IEnumerator<GRGEN_LIBGR.IMatch> AlternativesEnumerator { get { return new GRGEN_LGSP.Alternatives_Enumerator(this); } }
@@ -2562,7 +2562,7 @@ namespace de.unika.ipd.grGen.Action_Independent
 				default: return null;
 				}
 			}
-			
+
 			public enum findMultiNested_IterNums { END_OF_ENUM };
 			public IEnumerable<GRGEN_LIBGR.IMatches> Iterateds { get { return new GRGEN_LGSP.Iterateds_Enumerable(this); } }
 			public IEnumerator<GRGEN_LIBGR.IMatches> IteratedsEnumerator { get { return new GRGEN_LGSP.Iterateds_Enumerator(this); } }
@@ -2573,7 +2573,7 @@ namespace de.unika.ipd.grGen.Action_Independent
 				default: return null;
 				}
 			}
-			
+
 			public IMatch_findMultiNested_idpt_0 idpt_0 { get { return _idpt_0; } }
 			public IMatch_findMultiNested_idpt_2 idpt_2 { get { return _idpt_2; } }
 			public IMatch_findMultiNested_idpt_0 _idpt_0;
@@ -2590,7 +2590,7 @@ namespace de.unika.ipd.grGen.Action_Independent
 				default: return null;
 				}
 			}
-			
+
 			public GRGEN_LIBGR.IPatternGraph Pattern { get { return Rule_findMultiNested.instance.pat_findMultiNested; } }
 			public GRGEN_LIBGR.IMatch MatchOfEnclosingPattern { get { return _matchOfEnclosingPattern; } }
 			public GRGEN_LIBGR.IMatch _matchOfEnclosingPattern;
@@ -2619,7 +2619,7 @@ namespace de.unika.ipd.grGen.Action_Independent
 				default: return null;
 				}
 			}
-			
+
 			public GRGEN_LIBGR.IEdge edge__edge0 { get { return (GRGEN_LIBGR.IEdge)_edge__edge0; } }
 			public GRGEN_LIBGR.IEdge edge__edge1 { get { return (GRGEN_LIBGR.IEdge)_edge__edge1; } }
 			public GRGEN_LGSP.LGSPEdge _edge__edge0;
@@ -2636,7 +2636,7 @@ namespace de.unika.ipd.grGen.Action_Independent
 				default: return null;
 				}
 			}
-			
+
 			public enum findMultiNested_idpt_0_VariableNums { END_OF_ENUM };
 			public IEnumerable<object> Variables { get { return new GRGEN_LGSP.Variables_Enumerable(this); } }
 			public IEnumerator<object> VariablesEnumerator { get { return new GRGEN_LGSP.Variables_Enumerator(this); } }
@@ -2647,7 +2647,7 @@ namespace de.unika.ipd.grGen.Action_Independent
 				default: return null;
 				}
 			}
-			
+
 			public enum findMultiNested_idpt_0_SubNums { END_OF_ENUM };
 			public IEnumerable<GRGEN_LIBGR.IMatch> EmbeddedGraphs { get { return new GRGEN_LGSP.EmbeddedGraphs_Enumerable(this); } }
 			public IEnumerator<GRGEN_LIBGR.IMatch> EmbeddedGraphsEnumerator { get { return new GRGEN_LGSP.EmbeddedGraphs_Enumerator(this); } }
@@ -2658,7 +2658,7 @@ namespace de.unika.ipd.grGen.Action_Independent
 				default: return null;
 				}
 			}
-			
+
 			public enum findMultiNested_idpt_0_AltNums { END_OF_ENUM };
 			public IEnumerable<GRGEN_LIBGR.IMatch> Alternatives { get { return new GRGEN_LGSP.Alternatives_Enumerable(this); } }
 			public IEnumerator<GRGEN_LIBGR.IMatch> AlternativesEnumerator { get { return new GRGEN_LGSP.Alternatives_Enumerator(this); } }
@@ -2669,7 +2669,7 @@ namespace de.unika.ipd.grGen.Action_Independent
 				default: return null;
 				}
 			}
-			
+
 			public enum findMultiNested_idpt_0_IterNums { END_OF_ENUM };
 			public IEnumerable<GRGEN_LIBGR.IMatches> Iterateds { get { return new GRGEN_LGSP.Iterateds_Enumerable(this); } }
 			public IEnumerator<GRGEN_LIBGR.IMatches> IteratedsEnumerator { get { return new GRGEN_LGSP.Iterateds_Enumerator(this); } }
@@ -2680,7 +2680,7 @@ namespace de.unika.ipd.grGen.Action_Independent
 				default: return null;
 				}
 			}
-			
+
 			public IMatch_findMultiNested_idpt_0_idpt_1 idpt_1 { get { return _idpt_1; } }
 			public IMatch_findMultiNested_idpt_0_idpt_1 _idpt_1;
 			public enum findMultiNested_idpt_0_IdptNums { @idpt_1, END_OF_ENUM };
@@ -2694,7 +2694,7 @@ namespace de.unika.ipd.grGen.Action_Independent
 				default: return null;
 				}
 			}
-			
+
 			public GRGEN_LIBGR.IPatternGraph Pattern { get { return Rule_findMultiNested.instance.findMultiNested_idpt_0; } }
 			public GRGEN_LIBGR.IMatch MatchOfEnclosingPattern { get { return _matchOfEnclosingPattern; } }
 			public GRGEN_LIBGR.IMatch _matchOfEnclosingPattern;
@@ -2736,7 +2736,7 @@ namespace de.unika.ipd.grGen.Action_Independent
 				default: return null;
 				}
 			}
-			
+
 			public GRGEN_LIBGR.IEdge edge__edge0 { get { return (GRGEN_LIBGR.IEdge)_edge__edge0; } }
 			public GRGEN_LIBGR.IEdge edge__edge1 { get { return (GRGEN_LIBGR.IEdge)_edge__edge1; } }
 			public GRGEN_LGSP.LGSPEdge _edge__edge0;
@@ -2753,7 +2753,7 @@ namespace de.unika.ipd.grGen.Action_Independent
 				default: return null;
 				}
 			}
-			
+
 			public enum findMultiNested_idpt_0_idpt_1_VariableNums { END_OF_ENUM };
 			public IEnumerable<object> Variables { get { return new GRGEN_LGSP.Variables_Enumerable(this); } }
 			public IEnumerator<object> VariablesEnumerator { get { return new GRGEN_LGSP.Variables_Enumerator(this); } }
@@ -2764,7 +2764,7 @@ namespace de.unika.ipd.grGen.Action_Independent
 				default: return null;
 				}
 			}
-			
+
 			public enum findMultiNested_idpt_0_idpt_1_SubNums { END_OF_ENUM };
 			public IEnumerable<GRGEN_LIBGR.IMatch> EmbeddedGraphs { get { return new GRGEN_LGSP.EmbeddedGraphs_Enumerable(this); } }
 			public IEnumerator<GRGEN_LIBGR.IMatch> EmbeddedGraphsEnumerator { get { return new GRGEN_LGSP.EmbeddedGraphs_Enumerator(this); } }
@@ -2775,7 +2775,7 @@ namespace de.unika.ipd.grGen.Action_Independent
 				default: return null;
 				}
 			}
-			
+
 			public enum findMultiNested_idpt_0_idpt_1_AltNums { END_OF_ENUM };
 			public IEnumerable<GRGEN_LIBGR.IMatch> Alternatives { get { return new GRGEN_LGSP.Alternatives_Enumerable(this); } }
 			public IEnumerator<GRGEN_LIBGR.IMatch> AlternativesEnumerator { get { return new GRGEN_LGSP.Alternatives_Enumerator(this); } }
@@ -2786,7 +2786,7 @@ namespace de.unika.ipd.grGen.Action_Independent
 				default: return null;
 				}
 			}
-			
+
 			public enum findMultiNested_idpt_0_idpt_1_IterNums { END_OF_ENUM };
 			public IEnumerable<GRGEN_LIBGR.IMatches> Iterateds { get { return new GRGEN_LGSP.Iterateds_Enumerable(this); } }
 			public IEnumerator<GRGEN_LIBGR.IMatches> IteratedsEnumerator { get { return new GRGEN_LGSP.Iterateds_Enumerator(this); } }
@@ -2797,7 +2797,7 @@ namespace de.unika.ipd.grGen.Action_Independent
 				default: return null;
 				}
 			}
-			
+
 			public enum findMultiNested_idpt_0_idpt_1_IdptNums { END_OF_ENUM };
 			public IEnumerable<GRGEN_LIBGR.IMatch> Independents { get { return new GRGEN_LGSP.Independents_Enumerable(this); } }
 			public IEnumerator<GRGEN_LIBGR.IMatch> IndependentsEnumerator { get { return new GRGEN_LGSP.Independents_Enumerator(this); } }
@@ -2808,7 +2808,7 @@ namespace de.unika.ipd.grGen.Action_Independent
 				default: return null;
 				}
 			}
-			
+
 			public GRGEN_LIBGR.IPatternGraph Pattern { get { return Rule_findMultiNested.instance.findMultiNested_idpt_0_idpt_1; } }
 			public GRGEN_LIBGR.IMatch MatchOfEnclosingPattern { get { return _matchOfEnclosingPattern; } }
 			public GRGEN_LIBGR.IMatch _matchOfEnclosingPattern;
@@ -2849,7 +2849,7 @@ namespace de.unika.ipd.grGen.Action_Independent
 				default: return null;
 				}
 			}
-			
+
 			public GRGEN_LIBGR.IEdge edge__edge0 { get { return (GRGEN_LIBGR.IEdge)_edge__edge0; } }
 			public GRGEN_LIBGR.IEdge edge__edge1 { get { return (GRGEN_LIBGR.IEdge)_edge__edge1; } }
 			public GRGEN_LGSP.LGSPEdge _edge__edge0;
@@ -2866,7 +2866,7 @@ namespace de.unika.ipd.grGen.Action_Independent
 				default: return null;
 				}
 			}
-			
+
 			public enum findMultiNested_idpt_2_VariableNums { END_OF_ENUM };
 			public IEnumerable<object> Variables { get { return new GRGEN_LGSP.Variables_Enumerable(this); } }
 			public IEnumerator<object> VariablesEnumerator { get { return new GRGEN_LGSP.Variables_Enumerator(this); } }
@@ -2877,7 +2877,7 @@ namespace de.unika.ipd.grGen.Action_Independent
 				default: return null;
 				}
 			}
-			
+
 			public enum findMultiNested_idpt_2_SubNums { END_OF_ENUM };
 			public IEnumerable<GRGEN_LIBGR.IMatch> EmbeddedGraphs { get { return new GRGEN_LGSP.EmbeddedGraphs_Enumerable(this); } }
 			public IEnumerator<GRGEN_LIBGR.IMatch> EmbeddedGraphsEnumerator { get { return new GRGEN_LGSP.EmbeddedGraphs_Enumerator(this); } }
@@ -2888,7 +2888,7 @@ namespace de.unika.ipd.grGen.Action_Independent
 				default: return null;
 				}
 			}
-			
+
 			public enum findMultiNested_idpt_2_AltNums { END_OF_ENUM };
 			public IEnumerable<GRGEN_LIBGR.IMatch> Alternatives { get { return new GRGEN_LGSP.Alternatives_Enumerable(this); } }
 			public IEnumerator<GRGEN_LIBGR.IMatch> AlternativesEnumerator { get { return new GRGEN_LGSP.Alternatives_Enumerator(this); } }
@@ -2899,7 +2899,7 @@ namespace de.unika.ipd.grGen.Action_Independent
 				default: return null;
 				}
 			}
-			
+
 			public enum findMultiNested_idpt_2_IterNums { END_OF_ENUM };
 			public IEnumerable<GRGEN_LIBGR.IMatches> Iterateds { get { return new GRGEN_LGSP.Iterateds_Enumerable(this); } }
 			public IEnumerator<GRGEN_LIBGR.IMatches> IteratedsEnumerator { get { return new GRGEN_LGSP.Iterateds_Enumerator(this); } }
@@ -2910,7 +2910,7 @@ namespace de.unika.ipd.grGen.Action_Independent
 				default: return null;
 				}
 			}
-			
+
 			public IMatch_findMultiNested_idpt_2_idpt_3 idpt_3 { get { return _idpt_3; } }
 			public IMatch_findMultiNested_idpt_2_idpt_3 _idpt_3;
 			public enum findMultiNested_idpt_2_IdptNums { @idpt_3, END_OF_ENUM };
@@ -2924,7 +2924,7 @@ namespace de.unika.ipd.grGen.Action_Independent
 				default: return null;
 				}
 			}
-			
+
 			public GRGEN_LIBGR.IPatternGraph Pattern { get { return Rule_findMultiNested.instance.findMultiNested_idpt_2; } }
 			public GRGEN_LIBGR.IMatch MatchOfEnclosingPattern { get { return _matchOfEnclosingPattern; } }
 			public GRGEN_LIBGR.IMatch _matchOfEnclosingPattern;
@@ -2966,7 +2966,7 @@ namespace de.unika.ipd.grGen.Action_Independent
 				default: return null;
 				}
 			}
-			
+
 			public GRGEN_LIBGR.IEdge edge__edge0 { get { return (GRGEN_LIBGR.IEdge)_edge__edge0; } }
 			public GRGEN_LIBGR.IEdge edge__edge1 { get { return (GRGEN_LIBGR.IEdge)_edge__edge1; } }
 			public GRGEN_LGSP.LGSPEdge _edge__edge0;
@@ -2983,7 +2983,7 @@ namespace de.unika.ipd.grGen.Action_Independent
 				default: return null;
 				}
 			}
-			
+
 			public enum findMultiNested_idpt_2_idpt_3_VariableNums { END_OF_ENUM };
 			public IEnumerable<object> Variables { get { return new GRGEN_LGSP.Variables_Enumerable(this); } }
 			public IEnumerator<object> VariablesEnumerator { get { return new GRGEN_LGSP.Variables_Enumerator(this); } }
@@ -2994,7 +2994,7 @@ namespace de.unika.ipd.grGen.Action_Independent
 				default: return null;
 				}
 			}
-			
+
 			public enum findMultiNested_idpt_2_idpt_3_SubNums { END_OF_ENUM };
 			public IEnumerable<GRGEN_LIBGR.IMatch> EmbeddedGraphs { get { return new GRGEN_LGSP.EmbeddedGraphs_Enumerable(this); } }
 			public IEnumerator<GRGEN_LIBGR.IMatch> EmbeddedGraphsEnumerator { get { return new GRGEN_LGSP.EmbeddedGraphs_Enumerator(this); } }
@@ -3005,7 +3005,7 @@ namespace de.unika.ipd.grGen.Action_Independent
 				default: return null;
 				}
 			}
-			
+
 			public enum findMultiNested_idpt_2_idpt_3_AltNums { END_OF_ENUM };
 			public IEnumerable<GRGEN_LIBGR.IMatch> Alternatives { get { return new GRGEN_LGSP.Alternatives_Enumerable(this); } }
 			public IEnumerator<GRGEN_LIBGR.IMatch> AlternativesEnumerator { get { return new GRGEN_LGSP.Alternatives_Enumerator(this); } }
@@ -3016,7 +3016,7 @@ namespace de.unika.ipd.grGen.Action_Independent
 				default: return null;
 				}
 			}
-			
+
 			public enum findMultiNested_idpt_2_idpt_3_IterNums { END_OF_ENUM };
 			public IEnumerable<GRGEN_LIBGR.IMatches> Iterateds { get { return new GRGEN_LGSP.Iterateds_Enumerable(this); } }
 			public IEnumerator<GRGEN_LIBGR.IMatches> IteratedsEnumerator { get { return new GRGEN_LGSP.Iterateds_Enumerator(this); } }
@@ -3027,7 +3027,7 @@ namespace de.unika.ipd.grGen.Action_Independent
 				default: return null;
 				}
 			}
-			
+
 			public enum findMultiNested_idpt_2_idpt_3_IdptNums { END_OF_ENUM };
 			public IEnumerable<GRGEN_LIBGR.IMatch> Independents { get { return new GRGEN_LGSP.Independents_Enumerable(this); } }
 			public IEnumerator<GRGEN_LIBGR.IMatch> IndependentsEnumerator { get { return new GRGEN_LGSP.Independents_Enumerator(this); } }
@@ -3038,7 +3038,7 @@ namespace de.unika.ipd.grGen.Action_Independent
 				default: return null;
 				}
 			}
-			
+
 			public GRGEN_LIBGR.IPatternGraph Pattern { get { return Rule_findMultiNested.instance.findMultiNested_idpt_2_idpt_3; } }
 			public GRGEN_LIBGR.IMatch MatchOfEnclosingPattern { get { return _matchOfEnclosingPattern; } }
 			public GRGEN_LIBGR.IMatch _matchOfEnclosingPattern;
@@ -3097,16 +3097,16 @@ namespace de.unika.ipd.grGen.Action_Independent
 				"createIterated",
 				"",
 				false,
-				new GRGEN_LGSP.PatternNode[] {  }, 
-				new GRGEN_LGSP.PatternEdge[] {  }, 
-				new GRGEN_LGSP.PatternVariable[] {  }, 
-				new GRGEN_LGSP.PatternGraphEmbedding[] {  }, 
-				new GRGEN_LGSP.Alternative[] {  }, 
-				new GRGEN_LGSP.Iterated[] {  }, 
-				new GRGEN_LGSP.PatternGraph[] {  }, 
-				new GRGEN_LGSP.PatternGraph[] {  }, 
-				new GRGEN_LGSP.PatternCondition[] {  }, 
-				new GRGEN_LGSP.PatternYielding[] {  }, 
+				new GRGEN_LGSP.PatternNode[] {  },
+				new GRGEN_LGSP.PatternEdge[] {  },
+				new GRGEN_LGSP.PatternVariable[] {  },
+				new GRGEN_LGSP.PatternGraphEmbedding[] {  },
+				new GRGEN_LGSP.Alternative[] {  },
+				new GRGEN_LGSP.Iterated[] {  },
+				new GRGEN_LGSP.PatternGraph[] {  },
+				new GRGEN_LGSP.PatternGraph[] {  },
+				new GRGEN_LGSP.PatternCondition[] {  },
+				new GRGEN_LGSP.PatternYielding[] {  },
 				new bool[0, 0] ,
 				new bool[0, 0] ,
 				createIterated_isNodeHomomorphicGlobal,
@@ -3172,7 +3172,7 @@ namespace de.unika.ipd.grGen.Action_Independent
 				default: return null;
 				}
 			}
-			
+
 			public enum createIterated_EdgeNums { END_OF_ENUM };
 			public IEnumerable<GRGEN_LIBGR.IEdge> Edges { get { return new GRGEN_LGSP.Edges_Enumerable(this); } }
 			public IEnumerator<GRGEN_LIBGR.IEdge> EdgesEnumerator { get { return new GRGEN_LGSP.Edges_Enumerator(this); } }
@@ -3183,7 +3183,7 @@ namespace de.unika.ipd.grGen.Action_Independent
 				default: return null;
 				}
 			}
-			
+
 			public enum createIterated_VariableNums { END_OF_ENUM };
 			public IEnumerable<object> Variables { get { return new GRGEN_LGSP.Variables_Enumerable(this); } }
 			public IEnumerator<object> VariablesEnumerator { get { return new GRGEN_LGSP.Variables_Enumerator(this); } }
@@ -3194,7 +3194,7 @@ namespace de.unika.ipd.grGen.Action_Independent
 				default: return null;
 				}
 			}
-			
+
 			public enum createIterated_SubNums { END_OF_ENUM };
 			public IEnumerable<GRGEN_LIBGR.IMatch> EmbeddedGraphs { get { return new GRGEN_LGSP.EmbeddedGraphs_Enumerable(this); } }
 			public IEnumerator<GRGEN_LIBGR.IMatch> EmbeddedGraphsEnumerator { get { return new GRGEN_LGSP.EmbeddedGraphs_Enumerator(this); } }
@@ -3205,7 +3205,7 @@ namespace de.unika.ipd.grGen.Action_Independent
 				default: return null;
 				}
 			}
-			
+
 			public enum createIterated_AltNums { END_OF_ENUM };
 			public IEnumerable<GRGEN_LIBGR.IMatch> Alternatives { get { return new GRGEN_LGSP.Alternatives_Enumerable(this); } }
 			public IEnumerator<GRGEN_LIBGR.IMatch> AlternativesEnumerator { get { return new GRGEN_LGSP.Alternatives_Enumerator(this); } }
@@ -3216,7 +3216,7 @@ namespace de.unika.ipd.grGen.Action_Independent
 				default: return null;
 				}
 			}
-			
+
 			public enum createIterated_IterNums { END_OF_ENUM };
 			public IEnumerable<GRGEN_LIBGR.IMatches> Iterateds { get { return new GRGEN_LGSP.Iterateds_Enumerable(this); } }
 			public IEnumerator<GRGEN_LIBGR.IMatches> IteratedsEnumerator { get { return new GRGEN_LGSP.Iterateds_Enumerator(this); } }
@@ -3227,7 +3227,7 @@ namespace de.unika.ipd.grGen.Action_Independent
 				default: return null;
 				}
 			}
-			
+
 			public enum createIterated_IdptNums { END_OF_ENUM };
 			public IEnumerable<GRGEN_LIBGR.IMatch> Independents { get { return new GRGEN_LGSP.Independents_Enumerable(this); } }
 			public IEnumerator<GRGEN_LIBGR.IMatch> IndependentsEnumerator { get { return new GRGEN_LGSP.Independents_Enumerator(this); } }
@@ -3238,7 +3238,7 @@ namespace de.unika.ipd.grGen.Action_Independent
 				default: return null;
 				}
 			}
-			
+
 			public GRGEN_LIBGR.IPatternGraph Pattern { get { return Rule_createIterated.instance.pat_createIterated; } }
 			public GRGEN_LIBGR.IMatch MatchOfEnclosingPattern { get { return _matchOfEnclosingPattern; } }
 			public GRGEN_LIBGR.IMatch _matchOfEnclosingPattern;
@@ -3289,31 +3289,31 @@ namespace de.unika.ipd.grGen.Action_Independent
 			bool[,] findChainPlusChainToInt_isEdgeHomomorphicGlobal = new bool[0, 0] ;
 			GRGEN_LGSP.PatternNode findChainPlusChainToInt_node_beg = new GRGEN_LGSP.PatternNode((int) GRGEN_MODEL.NodeTypes.@Node, "GRGEN_LIBGR.INode", "findChainPlusChainToInt_node_beg", "beg", findChainPlusChainToInt_node_beg_AllowedTypes, findChainPlusChainToInt_node_beg_IsAllowedType, 5.5F, 0, false, null, null, null, null, false);
 			GRGEN_LGSP.PatternNode findChainPlusChainToInt_node_end = new GRGEN_LGSP.PatternNode((int) GRGEN_MODEL.NodeTypes.@Node, "GRGEN_LIBGR.INode", "findChainPlusChainToInt_node_end", "end", findChainPlusChainToInt_node_end_AllowedTypes, findChainPlusChainToInt_node_end_IsAllowedType, 5.5F, 1, false, null, null, null, null, false);
-			GRGEN_LGSP.PatternGraphEmbedding findChainPlusChainToInt__sub0 = new GRGEN_LGSP.PatternGraphEmbedding("_sub0", Pattern_iteratedPath.Instance, 
+			GRGEN_LGSP.PatternGraphEmbedding findChainPlusChainToInt__sub0 = new GRGEN_LGSP.PatternGraphEmbedding("_sub0", Pattern_iteratedPath.Instance,
 				new GRGEN_EXPR.Expression[] {
 					new GRGEN_EXPR.GraphEntityExpression("findChainPlusChainToInt_node_beg"),
 					new GRGEN_EXPR.GraphEntityExpression("findChainPlusChainToInt_node_end"),
-				}, 
+				},
 				new string[] { }, new string[] { "findChainPlusChainToInt_node_beg", "findChainPlusChainToInt_node_end" }, new string[] {  }, new string[] {  }, new GRGEN_LIBGR.VarType[] {  });
-			GRGEN_LGSP.PatternGraphEmbedding findChainPlusChainToInt__sub1 = new GRGEN_LGSP.PatternGraphEmbedding("_sub1", Pattern_iteratedPathToIntNode.Instance, 
+			GRGEN_LGSP.PatternGraphEmbedding findChainPlusChainToInt__sub1 = new GRGEN_LGSP.PatternGraphEmbedding("_sub1", Pattern_iteratedPathToIntNode.Instance,
 				new GRGEN_EXPR.Expression[] {
 					new GRGEN_EXPR.GraphEntityExpression("findChainPlusChainToInt_node_end"),
-				}, 
+				},
 				new string[] { }, new string[] { "findChainPlusChainToInt_node_end" }, new string[] {  }, new string[] {  }, new GRGEN_LIBGR.VarType[] {  });
 			pat_findChainPlusChainToInt = new GRGEN_LGSP.PatternGraph(
 				"findChainPlusChainToInt",
 				"",
 				false,
-				new GRGEN_LGSP.PatternNode[] { findChainPlusChainToInt_node_beg, findChainPlusChainToInt_node_end }, 
-				new GRGEN_LGSP.PatternEdge[] {  }, 
-				new GRGEN_LGSP.PatternVariable[] {  }, 
-				new GRGEN_LGSP.PatternGraphEmbedding[] { findChainPlusChainToInt__sub0, findChainPlusChainToInt__sub1 }, 
-				new GRGEN_LGSP.Alternative[] {  }, 
-				new GRGEN_LGSP.Iterated[] {  }, 
-				new GRGEN_LGSP.PatternGraph[] {  }, 
-				new GRGEN_LGSP.PatternGraph[] {  }, 
-				new GRGEN_LGSP.PatternCondition[] {  }, 
-				new GRGEN_LGSP.PatternYielding[] {  }, 
+				new GRGEN_LGSP.PatternNode[] { findChainPlusChainToInt_node_beg, findChainPlusChainToInt_node_end },
+				new GRGEN_LGSP.PatternEdge[] {  },
+				new GRGEN_LGSP.PatternVariable[] {  },
+				new GRGEN_LGSP.PatternGraphEmbedding[] { findChainPlusChainToInt__sub0, findChainPlusChainToInt__sub1 },
+				new GRGEN_LGSP.Alternative[] {  },
+				new GRGEN_LGSP.Iterated[] {  },
+				new GRGEN_LGSP.PatternGraph[] {  },
+				new GRGEN_LGSP.PatternGraph[] {  },
+				new GRGEN_LGSP.PatternCondition[] {  },
+				new GRGEN_LGSP.PatternYielding[] {  },
 				new bool[2, 2] {
 					{ true, false, },
 					{ false, true, },
@@ -3380,7 +3380,7 @@ namespace de.unika.ipd.grGen.Action_Independent
 				default: return null;
 				}
 			}
-			
+
 			public enum findChainPlusChainToInt_EdgeNums { END_OF_ENUM };
 			public IEnumerable<GRGEN_LIBGR.IEdge> Edges { get { return new GRGEN_LGSP.Edges_Enumerable(this); } }
 			public IEnumerator<GRGEN_LIBGR.IEdge> EdgesEnumerator { get { return new GRGEN_LGSP.Edges_Enumerator(this); } }
@@ -3391,7 +3391,7 @@ namespace de.unika.ipd.grGen.Action_Independent
 				default: return null;
 				}
 			}
-			
+
 			public enum findChainPlusChainToInt_VariableNums { END_OF_ENUM };
 			public IEnumerable<object> Variables { get { return new GRGEN_LGSP.Variables_Enumerable(this); } }
 			public IEnumerator<object> VariablesEnumerator { get { return new GRGEN_LGSP.Variables_Enumerator(this); } }
@@ -3402,7 +3402,7 @@ namespace de.unika.ipd.grGen.Action_Independent
 				default: return null;
 				}
 			}
-			
+
 			public @Pattern_iteratedPath.Match_iteratedPath @_sub0 { get { return @__sub0; } }
 			public @Pattern_iteratedPathToIntNode.Match_iteratedPathToIntNode @_sub1 { get { return @__sub1; } }
 			public @Pattern_iteratedPath.Match_iteratedPath @__sub0;
@@ -3419,7 +3419,7 @@ namespace de.unika.ipd.grGen.Action_Independent
 				default: return null;
 				}
 			}
-			
+
 			public enum findChainPlusChainToInt_AltNums { END_OF_ENUM };
 			public IEnumerable<GRGEN_LIBGR.IMatch> Alternatives { get { return new GRGEN_LGSP.Alternatives_Enumerable(this); } }
 			public IEnumerator<GRGEN_LIBGR.IMatch> AlternativesEnumerator { get { return new GRGEN_LGSP.Alternatives_Enumerator(this); } }
@@ -3430,7 +3430,7 @@ namespace de.unika.ipd.grGen.Action_Independent
 				default: return null;
 				}
 			}
-			
+
 			public enum findChainPlusChainToInt_IterNums { END_OF_ENUM };
 			public IEnumerable<GRGEN_LIBGR.IMatches> Iterateds { get { return new GRGEN_LGSP.Iterateds_Enumerable(this); } }
 			public IEnumerator<GRGEN_LIBGR.IMatches> IteratedsEnumerator { get { return new GRGEN_LGSP.Iterateds_Enumerator(this); } }
@@ -3441,7 +3441,7 @@ namespace de.unika.ipd.grGen.Action_Independent
 				default: return null;
 				}
 			}
-			
+
 			public enum findChainPlusChainToInt_IdptNums { END_OF_ENUM };
 			public IEnumerable<GRGEN_LIBGR.IMatch> Independents { get { return new GRGEN_LGSP.Independents_Enumerable(this); } }
 			public IEnumerator<GRGEN_LIBGR.IMatch> IndependentsEnumerator { get { return new GRGEN_LGSP.Independents_Enumerator(this); } }
@@ -3452,7 +3452,7 @@ namespace de.unika.ipd.grGen.Action_Independent
 				default: return null;
 				}
 			}
-			
+
 			public GRGEN_LIBGR.IPatternGraph Pattern { get { return Rule_findChainPlusChainToInt.instance.pat_findChainPlusChainToInt; } }
 			public GRGEN_LIBGR.IMatch MatchOfEnclosingPattern { get { return _matchOfEnclosingPattern; } }
 			public GRGEN_LIBGR.IMatch _matchOfEnclosingPattern;
@@ -3512,35 +3512,35 @@ namespace de.unika.ipd.grGen.Action_Independent
 			bool[,] findChainPlusChainToIntIndependent_isEdgeHomomorphicGlobal = new bool[0, 0] ;
 			GRGEN_LGSP.PatternNode findChainPlusChainToIntIndependent_node_beg = new GRGEN_LGSP.PatternNode((int) GRGEN_MODEL.NodeTypes.@Node, "GRGEN_LIBGR.INode", "findChainPlusChainToIntIndependent_node_beg", "beg", findChainPlusChainToIntIndependent_node_beg_AllowedTypes, findChainPlusChainToIntIndependent_node_beg_IsAllowedType, 5.5F, 0, false, null, null, null, null, false);
 			GRGEN_LGSP.PatternNode findChainPlusChainToIntIndependent_node_end = new GRGEN_LGSP.PatternNode((int) GRGEN_MODEL.NodeTypes.@Node, "GRGEN_LIBGR.INode", "findChainPlusChainToIntIndependent_node_end", "end", findChainPlusChainToIntIndependent_node_end_AllowedTypes, findChainPlusChainToIntIndependent_node_end_IsAllowedType, 5.5F, 1, false, null, null, null, null, false);
-			GRGEN_LGSP.PatternGraphEmbedding findChainPlusChainToIntIndependent__sub0 = new GRGEN_LGSP.PatternGraphEmbedding("_sub0", Pattern_iteratedPath.Instance, 
+			GRGEN_LGSP.PatternGraphEmbedding findChainPlusChainToIntIndependent__sub0 = new GRGEN_LGSP.PatternGraphEmbedding("_sub0", Pattern_iteratedPath.Instance,
 				new GRGEN_EXPR.Expression[] {
 					new GRGEN_EXPR.GraphEntityExpression("findChainPlusChainToIntIndependent_node_beg"),
 					new GRGEN_EXPR.GraphEntityExpression("findChainPlusChainToIntIndependent_node_end"),
-				}, 
+				},
 				new string[] { }, new string[] { "findChainPlusChainToIntIndependent_node_beg", "findChainPlusChainToIntIndependent_node_end" }, new string[] {  }, new string[] {  }, new GRGEN_LIBGR.VarType[] {  });
 			bool[,] findChainPlusChainToIntIndependent_idpt_0_isNodeHomomorphicGlobal = new bool[1, 1] {
 				{ false, },
 			};
 			bool[,] findChainPlusChainToIntIndependent_idpt_0_isEdgeHomomorphicGlobal = new bool[0, 0] ;
-			GRGEN_LGSP.PatternGraphEmbedding findChainPlusChainToIntIndependent_idpt_0__sub0 = new GRGEN_LGSP.PatternGraphEmbedding("_sub0", Pattern_iteratedPathToIntNode.Instance, 
+			GRGEN_LGSP.PatternGraphEmbedding findChainPlusChainToIntIndependent_idpt_0__sub0 = new GRGEN_LGSP.PatternGraphEmbedding("_sub0", Pattern_iteratedPathToIntNode.Instance,
 				new GRGEN_EXPR.Expression[] {
 					new GRGEN_EXPR.GraphEntityExpression("findChainPlusChainToIntIndependent_node_end"),
-				}, 
+				},
 				new string[] { }, new string[] { "findChainPlusChainToIntIndependent_node_end" }, new string[] {  }, new string[] {  }, new GRGEN_LIBGR.VarType[] {  });
 			findChainPlusChainToIntIndependent_idpt_0 = new GRGEN_LGSP.PatternGraph(
 				"idpt_0",
 				"findChainPlusChainToIntIndependent_",
 				false,
-				new GRGEN_LGSP.PatternNode[] { findChainPlusChainToIntIndependent_node_end }, 
-				new GRGEN_LGSP.PatternEdge[] {  }, 
-				new GRGEN_LGSP.PatternVariable[] {  }, 
-				new GRGEN_LGSP.PatternGraphEmbedding[] { findChainPlusChainToIntIndependent_idpt_0__sub0 }, 
-				new GRGEN_LGSP.Alternative[] {  }, 
-				new GRGEN_LGSP.Iterated[] {  }, 
-				new GRGEN_LGSP.PatternGraph[] {  }, 
-				new GRGEN_LGSP.PatternGraph[] {  }, 
-				new GRGEN_LGSP.PatternCondition[] {  }, 
-				new GRGEN_LGSP.PatternYielding[] {  }, 
+				new GRGEN_LGSP.PatternNode[] { findChainPlusChainToIntIndependent_node_end },
+				new GRGEN_LGSP.PatternEdge[] {  },
+				new GRGEN_LGSP.PatternVariable[] {  },
+				new GRGEN_LGSP.PatternGraphEmbedding[] { findChainPlusChainToIntIndependent_idpt_0__sub0 },
+				new GRGEN_LGSP.Alternative[] {  },
+				new GRGEN_LGSP.Iterated[] {  },
+				new GRGEN_LGSP.PatternGraph[] {  },
+				new GRGEN_LGSP.PatternGraph[] {  },
+				new GRGEN_LGSP.PatternCondition[] {  },
+				new GRGEN_LGSP.PatternYielding[] {  },
 				new bool[1, 1] {
 					{ true, },
 				},
@@ -3553,16 +3553,16 @@ namespace de.unika.ipd.grGen.Action_Independent
 				"findChainPlusChainToIntIndependent",
 				"",
 				false,
-				new GRGEN_LGSP.PatternNode[] { findChainPlusChainToIntIndependent_node_beg, findChainPlusChainToIntIndependent_node_end }, 
-				new GRGEN_LGSP.PatternEdge[] {  }, 
-				new GRGEN_LGSP.PatternVariable[] {  }, 
-				new GRGEN_LGSP.PatternGraphEmbedding[] { findChainPlusChainToIntIndependent__sub0 }, 
-				new GRGEN_LGSP.Alternative[] {  }, 
-				new GRGEN_LGSP.Iterated[] {  }, 
-				new GRGEN_LGSP.PatternGraph[] {  }, 
-				new GRGEN_LGSP.PatternGraph[] { findChainPlusChainToIntIndependent_idpt_0,  }, 
-				new GRGEN_LGSP.PatternCondition[] {  }, 
-				new GRGEN_LGSP.PatternYielding[] {  }, 
+				new GRGEN_LGSP.PatternNode[] { findChainPlusChainToIntIndependent_node_beg, findChainPlusChainToIntIndependent_node_end },
+				new GRGEN_LGSP.PatternEdge[] {  },
+				new GRGEN_LGSP.PatternVariable[] {  },
+				new GRGEN_LGSP.PatternGraphEmbedding[] { findChainPlusChainToIntIndependent__sub0 },
+				new GRGEN_LGSP.Alternative[] {  },
+				new GRGEN_LGSP.Iterated[] {  },
+				new GRGEN_LGSP.PatternGraph[] {  },
+				new GRGEN_LGSP.PatternGraph[] { findChainPlusChainToIntIndependent_idpt_0,  },
+				new GRGEN_LGSP.PatternCondition[] {  },
+				new GRGEN_LGSP.PatternYielding[] {  },
 				new bool[2, 2] {
 					{ true, false, },
 					{ false, true, },
@@ -3644,7 +3644,7 @@ namespace de.unika.ipd.grGen.Action_Independent
 				default: return null;
 				}
 			}
-			
+
 			public enum findChainPlusChainToIntIndependent_EdgeNums { END_OF_ENUM };
 			public IEnumerable<GRGEN_LIBGR.IEdge> Edges { get { return new GRGEN_LGSP.Edges_Enumerable(this); } }
 			public IEnumerator<GRGEN_LIBGR.IEdge> EdgesEnumerator { get { return new GRGEN_LGSP.Edges_Enumerator(this); } }
@@ -3655,7 +3655,7 @@ namespace de.unika.ipd.grGen.Action_Independent
 				default: return null;
 				}
 			}
-			
+
 			public enum findChainPlusChainToIntIndependent_VariableNums { END_OF_ENUM };
 			public IEnumerable<object> Variables { get { return new GRGEN_LGSP.Variables_Enumerable(this); } }
 			public IEnumerator<object> VariablesEnumerator { get { return new GRGEN_LGSP.Variables_Enumerator(this); } }
@@ -3666,7 +3666,7 @@ namespace de.unika.ipd.grGen.Action_Independent
 				default: return null;
 				}
 			}
-			
+
 			public @Pattern_iteratedPath.Match_iteratedPath @_sub0 { get { return @__sub0; } }
 			public @Pattern_iteratedPath.Match_iteratedPath @__sub0;
 			public enum findChainPlusChainToIntIndependent_SubNums { @_sub0, END_OF_ENUM };
@@ -3680,7 +3680,7 @@ namespace de.unika.ipd.grGen.Action_Independent
 				default: return null;
 				}
 			}
-			
+
 			public enum findChainPlusChainToIntIndependent_AltNums { END_OF_ENUM };
 			public IEnumerable<GRGEN_LIBGR.IMatch> Alternatives { get { return new GRGEN_LGSP.Alternatives_Enumerable(this); } }
 			public IEnumerator<GRGEN_LIBGR.IMatch> AlternativesEnumerator { get { return new GRGEN_LGSP.Alternatives_Enumerator(this); } }
@@ -3691,7 +3691,7 @@ namespace de.unika.ipd.grGen.Action_Independent
 				default: return null;
 				}
 			}
-			
+
 			public enum findChainPlusChainToIntIndependent_IterNums { END_OF_ENUM };
 			public IEnumerable<GRGEN_LIBGR.IMatches> Iterateds { get { return new GRGEN_LGSP.Iterateds_Enumerable(this); } }
 			public IEnumerator<GRGEN_LIBGR.IMatches> IteratedsEnumerator { get { return new GRGEN_LGSP.Iterateds_Enumerator(this); } }
@@ -3702,7 +3702,7 @@ namespace de.unika.ipd.grGen.Action_Independent
 				default: return null;
 				}
 			}
-			
+
 			public IMatch_findChainPlusChainToIntIndependent_idpt_0 idpt_0 { get { return _idpt_0; } }
 			public IMatch_findChainPlusChainToIntIndependent_idpt_0 _idpt_0;
 			public enum findChainPlusChainToIntIndependent_IdptNums { @idpt_0, END_OF_ENUM };
@@ -3716,7 +3716,7 @@ namespace de.unika.ipd.grGen.Action_Independent
 				default: return null;
 				}
 			}
-			
+
 			public GRGEN_LIBGR.IPatternGraph Pattern { get { return Rule_findChainPlusChainToIntIndependent.instance.pat_findChainPlusChainToIntIndependent; } }
 			public GRGEN_LIBGR.IMatch MatchOfEnclosingPattern { get { return _matchOfEnclosingPattern; } }
 			public GRGEN_LIBGR.IMatch _matchOfEnclosingPattern;
@@ -3739,7 +3739,7 @@ namespace de.unika.ipd.grGen.Action_Independent
 				default: return null;
 				}
 			}
-			
+
 			public enum findChainPlusChainToIntIndependent_idpt_0_EdgeNums { END_OF_ENUM };
 			public IEnumerable<GRGEN_LIBGR.IEdge> Edges { get { return new GRGEN_LGSP.Edges_Enumerable(this); } }
 			public IEnumerator<GRGEN_LIBGR.IEdge> EdgesEnumerator { get { return new GRGEN_LGSP.Edges_Enumerator(this); } }
@@ -3750,7 +3750,7 @@ namespace de.unika.ipd.grGen.Action_Independent
 				default: return null;
 				}
 			}
-			
+
 			public enum findChainPlusChainToIntIndependent_idpt_0_VariableNums { END_OF_ENUM };
 			public IEnumerable<object> Variables { get { return new GRGEN_LGSP.Variables_Enumerable(this); } }
 			public IEnumerator<object> VariablesEnumerator { get { return new GRGEN_LGSP.Variables_Enumerator(this); } }
@@ -3761,7 +3761,7 @@ namespace de.unika.ipd.grGen.Action_Independent
 				default: return null;
 				}
 			}
-			
+
 			public @Pattern_iteratedPathToIntNode.Match_iteratedPathToIntNode @_sub0 { get { return @__sub0; } }
 			public @Pattern_iteratedPathToIntNode.Match_iteratedPathToIntNode @__sub0;
 			public enum findChainPlusChainToIntIndependent_idpt_0_SubNums { @_sub0, END_OF_ENUM };
@@ -3775,7 +3775,7 @@ namespace de.unika.ipd.grGen.Action_Independent
 				default: return null;
 				}
 			}
-			
+
 			public enum findChainPlusChainToIntIndependent_idpt_0_AltNums { END_OF_ENUM };
 			public IEnumerable<GRGEN_LIBGR.IMatch> Alternatives { get { return new GRGEN_LGSP.Alternatives_Enumerable(this); } }
 			public IEnumerator<GRGEN_LIBGR.IMatch> AlternativesEnumerator { get { return new GRGEN_LGSP.Alternatives_Enumerator(this); } }
@@ -3786,7 +3786,7 @@ namespace de.unika.ipd.grGen.Action_Independent
 				default: return null;
 				}
 			}
-			
+
 			public enum findChainPlusChainToIntIndependent_idpt_0_IterNums { END_OF_ENUM };
 			public IEnumerable<GRGEN_LIBGR.IMatches> Iterateds { get { return new GRGEN_LGSP.Iterateds_Enumerable(this); } }
 			public IEnumerator<GRGEN_LIBGR.IMatches> IteratedsEnumerator { get { return new GRGEN_LGSP.Iterateds_Enumerator(this); } }
@@ -3797,7 +3797,7 @@ namespace de.unika.ipd.grGen.Action_Independent
 				default: return null;
 				}
 			}
-			
+
 			public enum findChainPlusChainToIntIndependent_idpt_0_IdptNums { END_OF_ENUM };
 			public IEnumerable<GRGEN_LIBGR.IMatch> Independents { get { return new GRGEN_LGSP.Independents_Enumerable(this); } }
 			public IEnumerator<GRGEN_LIBGR.IMatch> IndependentsEnumerator { get { return new GRGEN_LGSP.Independents_Enumerator(this); } }
@@ -3808,7 +3808,7 @@ namespace de.unika.ipd.grGen.Action_Independent
 				default: return null;
 				}
 			}
-			
+
 			public GRGEN_LIBGR.IPatternGraph Pattern { get { return Rule_findChainPlusChainToIntIndependent.instance.findChainPlusChainToIntIndependent_idpt_0; } }
 			public GRGEN_LIBGR.IMatch MatchOfEnclosingPattern { get { return _matchOfEnclosingPattern; } }
 			public GRGEN_LIBGR.IMatch _matchOfEnclosingPattern;
@@ -3903,15 +3903,15 @@ namespace de.unika.ipd.grGen.Action_Independent
 
         public GRGEN_LGSP.LGSPNode iteratedPath_node_beg;
         public GRGEN_LGSP.LGSPNode iteratedPath_node_end;
-        
+
         public override void myMatch(List<Stack<GRGEN_LIBGR.IMatch>> foundPartialMatches, int maxMatches, int negLevel)
         {
             openTasks.Pop();
             List<Stack<GRGEN_LIBGR.IMatch>> matchesList = foundPartialMatches;
             if(matchesList.Count!=0) throw new ApplicationException(); //debug assert
-            // SubPreset iteratedPath_node_beg 
+            // SubPreset iteratedPath_node_beg
             GRGEN_LGSP.LGSPNode candidate_iteratedPath_node_beg = iteratedPath_node_beg;
-            // SubPreset iteratedPath_node_end 
+            // SubPreset iteratedPath_node_end
             GRGEN_LGSP.LGSPNode candidate_iteratedPath_node_end = iteratedPath_node_end;
             // Push alternative matching task for iteratedPath_alt_0
             AlternativeAction_iteratedPath_alt_0 taskFor_alt_0 = AlternativeAction_iteratedPath_alt_0.getNewTask(graph, openTasks, Pattern_iteratedPath.Instance.patternGraph.alternatives[(int)Pattern_iteratedPath.iteratedPath_AltNums.@alt_0].alternativeCases);
@@ -3921,12 +3921,12 @@ namespace de.unika.ipd.grGen.Action_Independent
             taskFor_alt_0.matchOfNestingPattern = null;
             taskFor_alt_0.lastMatchAtPreviousNestingLevel = null;
             openTasks.Push(taskFor_alt_0);
-            // Match subpatterns 
+            // Match subpatterns
             openTasks.Peek().myMatch(matchesList, maxMatches - foundPartialMatches.Count, negLevel);
             // Pop alternative matching task for iteratedPath_alt_0
             openTasks.Pop();
             AlternativeAction_iteratedPath_alt_0.releaseTask(taskFor_alt_0);
-            // Check whether subpatterns were found 
+            // Check whether subpatterns were found
             if(matchesList.Count>0) {
                 // subpatterns/alternatives were found, extend the partial matches by our local match object
                 foreach(Stack<GRGEN_LIBGR.IMatch> currentFoundPartialMatch in matchesList)
@@ -3999,20 +3999,20 @@ namespace de.unika.ipd.grGen.Action_Independent
 
         public GRGEN_LGSP.LGSPNode iteratedPath_node_beg;
         public GRGEN_LGSP.LGSPNode iteratedPath_node_end;
-        
+
         public override void myMatch(List<Stack<GRGEN_LIBGR.IMatch>> foundPartialMatches, int maxMatches, int negLevel)
         {
             openTasks.Pop();
             List<Stack<GRGEN_LIBGR.IMatch>> matchesList = foundPartialMatches;
             if(matchesList.Count!=0) throw new ApplicationException(); //debug assert
-            // Alternative case iteratedPath_alt_0_base 
+            // Alternative case iteratedPath_alt_0_base
             do {
                 patternGraph = patternGraphs[(int)Pattern_iteratedPath.iteratedPath_alt_0_CaseNums.@base];
-                // SubPreset iteratedPath_node_beg 
+                // SubPreset iteratedPath_node_beg
                 GRGEN_LGSP.LGSPNode candidate_iteratedPath_node_beg = iteratedPath_node_beg;
-                // SubPreset iteratedPath_node_end 
+                // SubPreset iteratedPath_node_end
                 GRGEN_LGSP.LGSPNode candidate_iteratedPath_node_end = iteratedPath_node_end;
-                // Extend Outgoing iteratedPath_alt_0_base_edge__edge0 from iteratedPath_node_beg 
+                // Extend Outgoing iteratedPath_alt_0_base_edge__edge0 from iteratedPath_node_beg
                 GRGEN_LGSP.LGSPEdge head_candidate_iteratedPath_alt_0_base_edge__edge0 = candidate_iteratedPath_node_beg.lgspOuthead;
                 if(head_candidate_iteratedPath_alt_0_base_edge__edge0 != null)
                 {
@@ -4050,9 +4050,9 @@ namespace de.unika.ipd.grGen.Action_Independent
                         uint prevGlobal__candidate_iteratedPath_alt_0_base_edge__edge0;
                         prevGlobal__candidate_iteratedPath_alt_0_base_edge__edge0 = candidate_iteratedPath_alt_0_base_edge__edge0.lgspFlags & (uint) GRGEN_LGSP.LGSPElemFlags.IS_MATCHED_BY_ENCLOSING_PATTERN << negLevel;
                         candidate_iteratedPath_alt_0_base_edge__edge0.lgspFlags |= (uint) GRGEN_LGSP.LGSPElemFlags.IS_MATCHED_BY_ENCLOSING_PATTERN << negLevel;
-                        // Match subpatterns 
+                        // Match subpatterns
                         openTasks.Peek().myMatch(matchesList, maxMatches - foundPartialMatches.Count, negLevel);
-                        // Check whether subpatterns were found 
+                        // Check whether subpatterns were found
                         if(matchesList.Count>0) {
                             // subpatterns/alternatives were found, extend the partial matches by our local match object
                             foreach(Stack<GRGEN_LIBGR.IMatch> currentFoundPartialMatch in matchesList)
@@ -4096,14 +4096,14 @@ namespace de.unika.ipd.grGen.Action_Independent
                     matchesList.Clear();
                 }
             }
-            // Alternative case iteratedPath_alt_0_recursive 
+            // Alternative case iteratedPath_alt_0_recursive
             do {
                 patternGraph = patternGraphs[(int)Pattern_iteratedPath.iteratedPath_alt_0_CaseNums.@recursive];
-                // SubPreset iteratedPath_node_beg 
+                // SubPreset iteratedPath_node_beg
                 GRGEN_LGSP.LGSPNode candidate_iteratedPath_node_beg = iteratedPath_node_beg;
-                // SubPreset iteratedPath_node_end 
+                // SubPreset iteratedPath_node_end
                 GRGEN_LGSP.LGSPNode candidate_iteratedPath_node_end = iteratedPath_node_end;
-                // Extend Outgoing iteratedPath_alt_0_recursive_edge__edge0 from iteratedPath_node_beg 
+                // Extend Outgoing iteratedPath_alt_0_recursive_edge__edge0 from iteratedPath_node_beg
                 GRGEN_LGSP.LGSPEdge head_candidate_iteratedPath_alt_0_recursive_edge__edge0 = candidate_iteratedPath_node_beg.lgspOuthead;
                 if(head_candidate_iteratedPath_alt_0_recursive_edge__edge0 != null)
                 {
@@ -4117,7 +4117,7 @@ namespace de.unika.ipd.grGen.Action_Independent
                         {
                             continue;
                         }
-                        // Implicit Target iteratedPath_alt_0_recursive_node_intermediate from iteratedPath_alt_0_recursive_edge__edge0 
+                        // Implicit Target iteratedPath_alt_0_recursive_node_intermediate from iteratedPath_alt_0_recursive_edge__edge0
                         GRGEN_LGSP.LGSPNode candidate_iteratedPath_alt_0_recursive_node_intermediate = candidate_iteratedPath_alt_0_recursive_edge__edge0.lgspTarget;
                         if((candidate_iteratedPath_alt_0_recursive_node_intermediate.lgspFlags & (uint) GRGEN_LGSP.LGSPElemFlags.IS_MATCHED << negLevel) != 0
                             && candidate_iteratedPath_alt_0_recursive_node_intermediate==candidate_iteratedPath_node_beg
@@ -4143,12 +4143,12 @@ namespace de.unika.ipd.grGen.Action_Independent
                         uint prevGlobal__candidate_iteratedPath_alt_0_recursive_edge__edge0;
                         prevGlobal__candidate_iteratedPath_alt_0_recursive_edge__edge0 = candidate_iteratedPath_alt_0_recursive_edge__edge0.lgspFlags & (uint) GRGEN_LGSP.LGSPElemFlags.IS_MATCHED_BY_ENCLOSING_PATTERN << negLevel;
                         candidate_iteratedPath_alt_0_recursive_edge__edge0.lgspFlags |= (uint) GRGEN_LGSP.LGSPElemFlags.IS_MATCHED_BY_ENCLOSING_PATTERN << negLevel;
-                        // Match subpatterns 
+                        // Match subpatterns
                         openTasks.Peek().myMatch(matchesList, maxMatches - foundPartialMatches.Count, negLevel);
                         // Pop subpattern matching task for _sub0
                         openTasks.Pop();
                         PatternAction_iteratedPath.releaseTask(taskFor__sub0);
-                        // Check whether subpatterns were found 
+                        // Check whether subpatterns were found
                         if(matchesList.Count>0) {
                             // subpatterns/alternatives were found, extend the partial matches by our local match object
                             foreach(Stack<GRGEN_LIBGR.IMatch> currentFoundPartialMatch in matchesList)
@@ -4230,13 +4230,13 @@ namespace de.unika.ipd.grGen.Action_Independent
         private PatternAction_iteratedPathToIntNode next = null;
 
         public GRGEN_LGSP.LGSPNode iteratedPathToIntNode_node_beg;
-        
+
         public override void myMatch(List<Stack<GRGEN_LIBGR.IMatch>> foundPartialMatches, int maxMatches, int negLevel)
         {
             openTasks.Pop();
             List<Stack<GRGEN_LIBGR.IMatch>> matchesList = foundPartialMatches;
             if(matchesList.Count!=0) throw new ApplicationException(); //debug assert
-            // SubPreset iteratedPathToIntNode_node_beg 
+            // SubPreset iteratedPathToIntNode_node_beg
             GRGEN_LGSP.LGSPNode candidate_iteratedPathToIntNode_node_beg = iteratedPathToIntNode_node_beg;
             // Push alternative matching task for iteratedPathToIntNode_alt_0
             AlternativeAction_iteratedPathToIntNode_alt_0 taskFor_alt_0 = AlternativeAction_iteratedPathToIntNode_alt_0.getNewTask(graph, openTasks, Pattern_iteratedPathToIntNode.Instance.patternGraph.alternatives[(int)Pattern_iteratedPathToIntNode.iteratedPathToIntNode_AltNums.@alt_0].alternativeCases);
@@ -4245,12 +4245,12 @@ namespace de.unika.ipd.grGen.Action_Independent
             taskFor_alt_0.matchOfNestingPattern = null;
             taskFor_alt_0.lastMatchAtPreviousNestingLevel = null;
             openTasks.Push(taskFor_alt_0);
-            // Match subpatterns 
+            // Match subpatterns
             openTasks.Peek().myMatch(matchesList, maxMatches - foundPartialMatches.Count, negLevel);
             // Pop alternative matching task for iteratedPathToIntNode_alt_0
             openTasks.Pop();
             AlternativeAction_iteratedPathToIntNode_alt_0.releaseTask(taskFor_alt_0);
-            // Check whether subpatterns were found 
+            // Check whether subpatterns were found
             if(matchesList.Count>0) {
                 // subpatterns/alternatives were found, extend the partial matches by our local match object
                 foreach(Stack<GRGEN_LIBGR.IMatch> currentFoundPartialMatch in matchesList)
@@ -4321,18 +4321,18 @@ namespace de.unika.ipd.grGen.Action_Independent
         private AlternativeAction_iteratedPathToIntNode_alt_0 next = null;
 
         public GRGEN_LGSP.LGSPNode iteratedPathToIntNode_node_beg;
-        
+
         public override void myMatch(List<Stack<GRGEN_LIBGR.IMatch>> foundPartialMatches, int maxMatches, int negLevel)
         {
             openTasks.Pop();
             List<Stack<GRGEN_LIBGR.IMatch>> matchesList = foundPartialMatches;
             if(matchesList.Count!=0) throw new ApplicationException(); //debug assert
-            // Alternative case iteratedPathToIntNode_alt_0_base 
+            // Alternative case iteratedPathToIntNode_alt_0_base
             do {
                 patternGraph = patternGraphs[(int)Pattern_iteratedPathToIntNode.iteratedPathToIntNode_alt_0_CaseNums.@base];
-                // SubPreset iteratedPathToIntNode_node_beg 
+                // SubPreset iteratedPathToIntNode_node_beg
                 GRGEN_LGSP.LGSPNode candidate_iteratedPathToIntNode_node_beg = iteratedPathToIntNode_node_beg;
-                // Extend Outgoing iteratedPathToIntNode_alt_0_base_edge__edge0 from iteratedPathToIntNode_node_beg 
+                // Extend Outgoing iteratedPathToIntNode_alt_0_base_edge__edge0 from iteratedPathToIntNode_node_beg
                 GRGEN_LGSP.LGSPEdge head_candidate_iteratedPathToIntNode_alt_0_base_edge__edge0 = candidate_iteratedPathToIntNode_node_beg.lgspOuthead;
                 if(head_candidate_iteratedPathToIntNode_alt_0_base_edge__edge0 != null)
                 {
@@ -4346,7 +4346,7 @@ namespace de.unika.ipd.grGen.Action_Independent
                         {
                             continue;
                         }
-                        // Implicit Target iteratedPathToIntNode_alt_0_base_node_end from iteratedPathToIntNode_alt_0_base_edge__edge0 
+                        // Implicit Target iteratedPathToIntNode_alt_0_base_node_end from iteratedPathToIntNode_alt_0_base_edge__edge0
                         GRGEN_LGSP.LGSPNode candidate_iteratedPathToIntNode_alt_0_base_node_end = candidate_iteratedPathToIntNode_alt_0_base_edge__edge0.lgspTarget;
                         if(candidate_iteratedPathToIntNode_alt_0_base_node_end.lgspType.TypeID!=1) {
                             continue;
@@ -4383,9 +4383,9 @@ namespace de.unika.ipd.grGen.Action_Independent
                         uint prevGlobal__candidate_iteratedPathToIntNode_alt_0_base_edge__edge0;
                         prevGlobal__candidate_iteratedPathToIntNode_alt_0_base_edge__edge0 = candidate_iteratedPathToIntNode_alt_0_base_edge__edge0.lgspFlags & (uint) GRGEN_LGSP.LGSPElemFlags.IS_MATCHED_BY_ENCLOSING_PATTERN << negLevel;
                         candidate_iteratedPathToIntNode_alt_0_base_edge__edge0.lgspFlags |= (uint) GRGEN_LGSP.LGSPElemFlags.IS_MATCHED_BY_ENCLOSING_PATTERN << negLevel;
-                        // Match subpatterns 
+                        // Match subpatterns
                         openTasks.Peek().myMatch(matchesList, maxMatches - foundPartialMatches.Count, negLevel);
-                        // Check whether subpatterns were found 
+                        // Check whether subpatterns were found
                         if(matchesList.Count>0) {
                             // subpatterns/alternatives were found, extend the partial matches by our local match object
                             foreach(Stack<GRGEN_LIBGR.IMatch> currentFoundPartialMatch in matchesList)
@@ -4432,12 +4432,12 @@ namespace de.unika.ipd.grGen.Action_Independent
                     matchesList.Clear();
                 }
             }
-            // Alternative case iteratedPathToIntNode_alt_0_recursive 
+            // Alternative case iteratedPathToIntNode_alt_0_recursive
             do {
                 patternGraph = patternGraphs[(int)Pattern_iteratedPathToIntNode.iteratedPathToIntNode_alt_0_CaseNums.@recursive];
-                // SubPreset iteratedPathToIntNode_node_beg 
+                // SubPreset iteratedPathToIntNode_node_beg
                 GRGEN_LGSP.LGSPNode candidate_iteratedPathToIntNode_node_beg = iteratedPathToIntNode_node_beg;
-                // Extend Outgoing iteratedPathToIntNode_alt_0_recursive_edge__edge0 from iteratedPathToIntNode_node_beg 
+                // Extend Outgoing iteratedPathToIntNode_alt_0_recursive_edge__edge0 from iteratedPathToIntNode_node_beg
                 GRGEN_LGSP.LGSPEdge head_candidate_iteratedPathToIntNode_alt_0_recursive_edge__edge0 = candidate_iteratedPathToIntNode_node_beg.lgspOuthead;
                 if(head_candidate_iteratedPathToIntNode_alt_0_recursive_edge__edge0 != null)
                 {
@@ -4451,7 +4451,7 @@ namespace de.unika.ipd.grGen.Action_Independent
                         {
                             continue;
                         }
-                        // Implicit Target iteratedPathToIntNode_alt_0_recursive_node_intermediate from iteratedPathToIntNode_alt_0_recursive_edge__edge0 
+                        // Implicit Target iteratedPathToIntNode_alt_0_recursive_node_intermediate from iteratedPathToIntNode_alt_0_recursive_edge__edge0
                         GRGEN_LGSP.LGSPNode candidate_iteratedPathToIntNode_alt_0_recursive_node_intermediate = candidate_iteratedPathToIntNode_alt_0_recursive_edge__edge0.lgspTarget;
                         if(candidate_iteratedPathToIntNode_alt_0_recursive_node_intermediate.lgspType.TypeID!=0) {
                             continue;
@@ -4477,12 +4477,12 @@ namespace de.unika.ipd.grGen.Action_Independent
                         uint prevGlobal__candidate_iteratedPathToIntNode_alt_0_recursive_edge__edge0;
                         prevGlobal__candidate_iteratedPathToIntNode_alt_0_recursive_edge__edge0 = candidate_iteratedPathToIntNode_alt_0_recursive_edge__edge0.lgspFlags & (uint) GRGEN_LGSP.LGSPElemFlags.IS_MATCHED_BY_ENCLOSING_PATTERN << negLevel;
                         candidate_iteratedPathToIntNode_alt_0_recursive_edge__edge0.lgspFlags |= (uint) GRGEN_LGSP.LGSPElemFlags.IS_MATCHED_BY_ENCLOSING_PATTERN << negLevel;
-                        // Match subpatterns 
+                        // Match subpatterns
                         openTasks.Peek().myMatch(matchesList, maxMatches - foundPartialMatches.Count, negLevel);
                         // Pop subpattern matching task for _sub0
                         openTasks.Pop();
                         PatternAction_iteratedPathToIntNode.releaseTask(taskFor__sub0);
-                        // Check whether subpatterns were found 
+                        // Check whether subpatterns were found
                         if(matchesList.Count>0) {
                             // subpatterns/alternatives were found, extend the partial matches by our local match object
                             foreach(Stack<GRGEN_LIBGR.IMatch> currentFoundPartialMatch in matchesList)
@@ -4548,7 +4548,7 @@ namespace de.unika.ipd.grGen.Action_Independent
         /// <summary> same as IAction.ApplyMinMax, but with exact types and distinct parameters. </summary>
         bool ApplyMinMax(GRGEN_LIBGR.IGraph graph, int min, int max);
     }
-    
+
     public class Action_create : GRGEN_LGSP.LGSPAction, GRGEN_LIBGR.IAction, IAction_create
     {
         public Action_create() {
@@ -4566,7 +4566,7 @@ namespace de.unika.ipd.grGen.Action_Independent
 
         public static Action_create Instance { get { return instance; } }
         private static Action_create instance = new Action_create();
-        
+
         public GRGEN_LIBGR.IMatchesExact<Rule_create.IMatch_create> myMatch(GRGEN_LGSP.LGSPGraph graph, int maxMatches)
         {
             matches.Clear();
@@ -4617,7 +4617,7 @@ namespace de.unika.ipd.grGen.Action_Independent
         public bool ApplyStar(GRGEN_LIBGR.IGraph graph)
         {
             GRGEN_LIBGR.IMatchesExact<Rule_create.IMatch_create> matches;
-            GRGEN_LIBGR.INode output_0; GRGEN_LIBGR.INode output_1; 
+            GRGEN_LIBGR.INode output_0; GRGEN_LIBGR.INode output_1;
             while(true)
             {
                 matches = DynamicMatch((GRGEN_LGSP.LGSPGraph)graph, 1);
@@ -4629,7 +4629,7 @@ namespace de.unika.ipd.grGen.Action_Independent
         {
             GRGEN_LIBGR.IMatchesExact<Rule_create.IMatch_create> matches = DynamicMatch((GRGEN_LGSP.LGSPGraph)graph, 1);
             if(matches.Count <= 0) return false;
-            GRGEN_LIBGR.INode output_0; GRGEN_LIBGR.INode output_1; 
+            GRGEN_LIBGR.INode output_0; GRGEN_LIBGR.INode output_1;
             do
             {
                 _rulePattern.Modify((GRGEN_LGSP.LGSPGraph)graph, matches.First, out output_0, out output_1);
@@ -4641,7 +4641,7 @@ namespace de.unika.ipd.grGen.Action_Independent
         public bool ApplyMinMax(GRGEN_LIBGR.IGraph graph, int min, int max)
         {
             GRGEN_LIBGR.IMatchesExact<Rule_create.IMatch_create> matches;
-            GRGEN_LIBGR.INode output_0; GRGEN_LIBGR.INode output_1; 
+            GRGEN_LIBGR.INode output_0; GRGEN_LIBGR.INode output_1;
             for(int i = 0; i < max; i++)
             {
                 matches = DynamicMatch((GRGEN_LGSP.LGSPGraph)graph, 1);
@@ -4657,7 +4657,7 @@ namespace de.unika.ipd.grGen.Action_Independent
         }
         public object[] Modify(GRGEN_LIBGR.IGraph graph, GRGEN_LIBGR.IMatch match)
         {
-            GRGEN_LIBGR.INode output_0; GRGEN_LIBGR.INode output_1; 
+            GRGEN_LIBGR.INode output_0; GRGEN_LIBGR.INode output_1;
             Modify(graph, (Rule_create.IMatch_create)match, out output_0, out output_1);
             ReturnArray[0] = output_0;
             ReturnArray[1] = output_1;
@@ -4665,7 +4665,7 @@ namespace de.unika.ipd.grGen.Action_Independent
         }
         public object[] ModifyAll(GRGEN_LIBGR.IGraph graph, GRGEN_LIBGR.IMatches matches)
         {
-            GRGEN_LIBGR.INode output_0; GRGEN_LIBGR.INode output_1; 
+            GRGEN_LIBGR.INode output_0; GRGEN_LIBGR.INode output_1;
             ModifyAll(graph, (GRGEN_LIBGR.IMatchesExact<Rule_create.IMatch_create>)matches, out output_0, out output_1);
             ReturnArray[0] = output_0;
             ReturnArray[1] = output_1;
@@ -4673,7 +4673,7 @@ namespace de.unika.ipd.grGen.Action_Independent
         }
         object[] GRGEN_LIBGR.IAction.Apply(GRGEN_LIBGR.IGraph graph)
         {
-            GRGEN_LIBGR.INode output_0 = null; GRGEN_LIBGR.INode output_1 = null; 
+            GRGEN_LIBGR.INode output_0 = null; GRGEN_LIBGR.INode output_1 = null;
             if(Apply(graph, ref output_0, ref output_1)) {
                 ReturnArray[0] = output_0;
                 ReturnArray[1] = output_1;
@@ -4683,7 +4683,7 @@ namespace de.unika.ipd.grGen.Action_Independent
         }
         object[] GRGEN_LIBGR.IAction.Apply(GRGEN_LIBGR.IGraph graph, params object[] parameters)
         {
-            GRGEN_LIBGR.INode output_0 = null; GRGEN_LIBGR.INode output_1 = null; 
+            GRGEN_LIBGR.INode output_0 = null; GRGEN_LIBGR.INode output_1 = null;
             if(Apply(graph, ref output_0, ref output_1)) {
                 ReturnArray[0] = output_0;
                 ReturnArray[1] = output_1;
@@ -4693,7 +4693,7 @@ namespace de.unika.ipd.grGen.Action_Independent
         }
         object[] GRGEN_LIBGR.IAction.ApplyAll(int maxMatches, GRGEN_LIBGR.IGraph graph)
         {
-            GRGEN_LIBGR.INode output_0 = null; GRGEN_LIBGR.INode output_1 = null; 
+            GRGEN_LIBGR.INode output_0 = null; GRGEN_LIBGR.INode output_1 = null;
             if(ApplyAll(maxMatches, graph, ref output_0, ref output_1)) {
                 ReturnArray[0] = output_0;
                 ReturnArray[1] = output_1;
@@ -4703,7 +4703,7 @@ namespace de.unika.ipd.grGen.Action_Independent
         }
         object[] GRGEN_LIBGR.IAction.ApplyAll(int maxMatches, GRGEN_LIBGR.IGraph graph, params object[] parameters)
         {
-            GRGEN_LIBGR.INode output_0 = null; GRGEN_LIBGR.INode output_1 = null; 
+            GRGEN_LIBGR.INode output_0 = null; GRGEN_LIBGR.INode output_1 = null;
             if(ApplyAll(maxMatches, graph, ref output_0, ref output_1)) {
                 ReturnArray[0] = output_0;
                 ReturnArray[1] = output_1;
@@ -4759,7 +4759,7 @@ namespace de.unika.ipd.grGen.Action_Independent
         /// <summary> same as IAction.ApplyMinMax, but with exact types and distinct parameters. </summary>
         bool ApplyMinMax(GRGEN_LIBGR.IGraph graph, int min, int max);
     }
-    
+
     public class Action_find : GRGEN_LGSP.LGSPAction, GRGEN_LIBGR.IAction, IAction_find
     {
         public Action_find() {
@@ -4777,24 +4777,24 @@ namespace de.unika.ipd.grGen.Action_Independent
 
         public static Action_find Instance { get { return instance; } }
         private static Action_find instance = new Action_find();
-        
+
         public GRGEN_LIBGR.IMatchesExact<Rule_find.IMatch_find> myMatch(GRGEN_LGSP.LGSPGraph graph, int maxMatches)
         {
             matches.Clear();
             int negLevel = 0;
-            // Lookup find_edge__edge0 
+            // Lookup find_edge__edge0
             int type_id_candidate_find_edge__edge0 = 1;
             for(GRGEN_LGSP.LGSPEdge head_candidate_find_edge__edge0 = graph.edgesByTypeHeads[type_id_candidate_find_edge__edge0], candidate_find_edge__edge0 = head_candidate_find_edge__edge0.lgspTypeNext; candidate_find_edge__edge0 != head_candidate_find_edge__edge0; candidate_find_edge__edge0 = candidate_find_edge__edge0.lgspTypeNext)
             {
                 uint prev__candidate_find_edge__edge0;
                 prev__candidate_find_edge__edge0 = candidate_find_edge__edge0.lgspFlags & (uint) GRGEN_LGSP.LGSPElemFlags.IS_MATCHED << negLevel;
                 candidate_find_edge__edge0.lgspFlags |= (uint) GRGEN_LGSP.LGSPElemFlags.IS_MATCHED << negLevel;
-                // Implicit Source find_node_beg from find_edge__edge0 
+                // Implicit Source find_node_beg from find_edge__edge0
                 GRGEN_LGSP.LGSPNode candidate_find_node_beg = candidate_find_edge__edge0.lgspSource;
                 uint prev__candidate_find_node_beg;
                 prev__candidate_find_node_beg = candidate_find_node_beg.lgspFlags & (uint) GRGEN_LGSP.LGSPElemFlags.IS_MATCHED << negLevel;
                 candidate_find_node_beg.lgspFlags |= (uint) GRGEN_LGSP.LGSPElemFlags.IS_MATCHED << negLevel;
-                // Implicit Target find_node__node0 from find_edge__edge0 
+                // Implicit Target find_node__node0 from find_edge__edge0
                 GRGEN_LGSP.LGSPNode candidate_find_node__node0 = candidate_find_edge__edge0.lgspTarget;
                 if((candidate_find_node__node0.lgspFlags & (uint) GRGEN_LGSP.LGSPElemFlags.IS_MATCHED << negLevel) != 0)
                 {
@@ -4805,7 +4805,7 @@ namespace de.unika.ipd.grGen.Action_Independent
                 uint prev__candidate_find_node__node0;
                 prev__candidate_find_node__node0 = candidate_find_node__node0.lgspFlags & (uint) GRGEN_LGSP.LGSPElemFlags.IS_MATCHED << negLevel;
                 candidate_find_node__node0.lgspFlags |= (uint) GRGEN_LGSP.LGSPElemFlags.IS_MATCHED << negLevel;
-                // Extend Outgoing find_edge__edge1 from find_node__node0 
+                // Extend Outgoing find_edge__edge1 from find_node__node0
                 GRGEN_LGSP.LGSPEdge head_candidate_find_edge__edge1 = candidate_find_node__node0.lgspOuthead;
                 if(head_candidate_find_edge__edge1 != null)
                 {
@@ -4822,7 +4822,7 @@ namespace de.unika.ipd.grGen.Action_Independent
                         uint prev__candidate_find_edge__edge1;
                         prev__candidate_find_edge__edge1 = candidate_find_edge__edge1.lgspFlags & (uint) GRGEN_LGSP.LGSPElemFlags.IS_MATCHED << negLevel;
                         candidate_find_edge__edge1.lgspFlags |= (uint) GRGEN_LGSP.LGSPElemFlags.IS_MATCHED << negLevel;
-                        // Implicit Target find_node_end from find_edge__edge1 
+                        // Implicit Target find_node_end from find_edge__edge1
                         GRGEN_LGSP.LGSPNode candidate_find_node_end = candidate_find_edge__edge1.lgspTarget;
                         if((candidate_find_node_end.lgspFlags & (uint) GRGEN_LGSP.LGSPElemFlags.IS_MATCHED << negLevel) != 0)
                         {
@@ -4832,7 +4832,7 @@ namespace de.unika.ipd.grGen.Action_Independent
                         uint prev__candidate_find_node_end;
                         prev__candidate_find_node_end = candidate_find_node_end.lgspFlags & (uint) GRGEN_LGSP.LGSPElemFlags.IS_MATCHED << negLevel;
                         candidate_find_node_end.lgspFlags |= (uint) GRGEN_LGSP.LGSPElemFlags.IS_MATCHED << negLevel;
-                        // Extend Outgoing find_edge__edge3 from find_node_end 
+                        // Extend Outgoing find_edge__edge3 from find_node_end
                         GRGEN_LGSP.LGSPEdge head_candidate_find_edge__edge3 = candidate_find_node_end.lgspOuthead;
                         if(head_candidate_find_edge__edge3 != null)
                         {
@@ -4849,14 +4849,14 @@ namespace de.unika.ipd.grGen.Action_Independent
                                 uint prev__candidate_find_edge__edge3;
                                 prev__candidate_find_edge__edge3 = candidate_find_edge__edge3.lgspFlags & (uint) GRGEN_LGSP.LGSPElemFlags.IS_MATCHED << negLevel;
                                 candidate_find_edge__edge3.lgspFlags |= (uint) GRGEN_LGSP.LGSPElemFlags.IS_MATCHED << negLevel;
-                                // Implicit Target find_node__node1 from find_edge__edge3 
+                                // Implicit Target find_node__node1 from find_edge__edge3
                                 GRGEN_LGSP.LGSPNode candidate_find_node__node1 = candidate_find_edge__edge3.lgspTarget;
                                 if((candidate_find_node__node1.lgspFlags & (uint) GRGEN_LGSP.LGSPElemFlags.IS_MATCHED << negLevel) != 0)
                                 {
                                     candidate_find_edge__edge3.lgspFlags = candidate_find_edge__edge3.lgspFlags & ~((uint) GRGEN_LGSP.LGSPElemFlags.IS_MATCHED << negLevel) | prev__candidate_find_edge__edge3;
                                     continue;
                                 }
-                                // Extend Outgoing find_edge__edge2 from find_node__node1 
+                                // Extend Outgoing find_edge__edge2 from find_node__node1
                                 GRGEN_LGSP.LGSPEdge head_candidate_find_edge__edge2 = candidate_find_node__node1.lgspOuthead;
                                 if(head_candidate_find_edge__edge2 != null)
                                 {
@@ -4951,7 +4951,7 @@ namespace de.unika.ipd.grGen.Action_Independent
         public bool ApplyStar(GRGEN_LIBGR.IGraph graph)
         {
             GRGEN_LIBGR.IMatchesExact<Rule_find.IMatch_find> matches;
-            
+
             while(true)
             {
                 matches = DynamicMatch((GRGEN_LGSP.LGSPGraph)graph, 1);
@@ -4963,7 +4963,7 @@ namespace de.unika.ipd.grGen.Action_Independent
         {
             GRGEN_LIBGR.IMatchesExact<Rule_find.IMatch_find> matches = DynamicMatch((GRGEN_LGSP.LGSPGraph)graph, 1);
             if(matches.Count <= 0) return false;
-            
+
             do
             {
                 _rulePattern.Modify((GRGEN_LGSP.LGSPGraph)graph, matches.First);
@@ -4975,7 +4975,7 @@ namespace de.unika.ipd.grGen.Action_Independent
         public bool ApplyMinMax(GRGEN_LIBGR.IGraph graph, int min, int max)
         {
             GRGEN_LIBGR.IMatchesExact<Rule_find.IMatch_find> matches;
-            
+
             for(int i = 0; i < max; i++)
             {
                 matches = DynamicMatch((GRGEN_LGSP.LGSPGraph)graph, 1);
@@ -4991,19 +4991,19 @@ namespace de.unika.ipd.grGen.Action_Independent
         }
         public object[] Modify(GRGEN_LIBGR.IGraph graph, GRGEN_LIBGR.IMatch match)
         {
-            
+
             Modify(graph, (Rule_find.IMatch_find)match);
             return ReturnArray;
         }
         public object[] ModifyAll(GRGEN_LIBGR.IGraph graph, GRGEN_LIBGR.IMatches matches)
         {
-            
+
             ModifyAll(graph, (GRGEN_LIBGR.IMatchesExact<Rule_find.IMatch_find>)matches);
             return ReturnArray;
         }
         object[] GRGEN_LIBGR.IAction.Apply(GRGEN_LIBGR.IGraph graph)
         {
-            
+
             if(Apply(graph)) {
                 return ReturnArray;
             }
@@ -5011,7 +5011,7 @@ namespace de.unika.ipd.grGen.Action_Independent
         }
         object[] GRGEN_LIBGR.IAction.Apply(GRGEN_LIBGR.IGraph graph, params object[] parameters)
         {
-            
+
             if(Apply(graph)) {
                 return ReturnArray;
             }
@@ -5019,7 +5019,7 @@ namespace de.unika.ipd.grGen.Action_Independent
         }
         object[] GRGEN_LIBGR.IAction.ApplyAll(int maxMatches, GRGEN_LIBGR.IGraph graph)
         {
-            
+
             if(ApplyAll(maxMatches, graph)) {
                 return ReturnArray;
             }
@@ -5027,7 +5027,7 @@ namespace de.unika.ipd.grGen.Action_Independent
         }
         object[] GRGEN_LIBGR.IAction.ApplyAll(int maxMatches, GRGEN_LIBGR.IGraph graph, params object[] parameters)
         {
-            
+
             if(ApplyAll(maxMatches, graph)) {
                 return ReturnArray;
             }
@@ -5081,7 +5081,7 @@ namespace de.unika.ipd.grGen.Action_Independent
         /// <summary> same as IAction.ApplyMinMax, but with exact types and distinct parameters. </summary>
         bool ApplyMinMax(GRGEN_LIBGR.IGraph graph, int min, int max);
     }
-    
+
     public class Action_findIndependent : GRGEN_LGSP.LGSPAction, GRGEN_LIBGR.IAction, IAction_findIndependent
     {
         public Action_findIndependent() {
@@ -5099,24 +5099,24 @@ namespace de.unika.ipd.grGen.Action_Independent
 
         public static Action_findIndependent Instance { get { return instance; } }
         private static Action_findIndependent instance = new Action_findIndependent();
-        private Rule_findIndependent.Match_findIndependent_idpt_0 matched_independent_findIndependent_idpt_0 = new Rule_findIndependent.Match_findIndependent_idpt_0();        
+        private Rule_findIndependent.Match_findIndependent_idpt_0 matched_independent_findIndependent_idpt_0 = new Rule_findIndependent.Match_findIndependent_idpt_0();
         public GRGEN_LIBGR.IMatchesExact<Rule_findIndependent.IMatch_findIndependent> myMatch(GRGEN_LGSP.LGSPGraph graph, int maxMatches)
         {
             matches.Clear();
             int negLevel = 0;
-            // Lookup findIndependent_edge__edge1 
+            // Lookup findIndependent_edge__edge1
             int type_id_candidate_findIndependent_edge__edge1 = 1;
             for(GRGEN_LGSP.LGSPEdge head_candidate_findIndependent_edge__edge1 = graph.edgesByTypeHeads[type_id_candidate_findIndependent_edge__edge1], candidate_findIndependent_edge__edge1 = head_candidate_findIndependent_edge__edge1.lgspTypeNext; candidate_findIndependent_edge__edge1 != head_candidate_findIndependent_edge__edge1; candidate_findIndependent_edge__edge1 = candidate_findIndependent_edge__edge1.lgspTypeNext)
             {
                 uint prev__candidate_findIndependent_edge__edge1;
                 prev__candidate_findIndependent_edge__edge1 = candidate_findIndependent_edge__edge1.lgspFlags & (uint) GRGEN_LGSP.LGSPElemFlags.IS_MATCHED << negLevel;
                 candidate_findIndependent_edge__edge1.lgspFlags |= (uint) GRGEN_LGSP.LGSPElemFlags.IS_MATCHED << negLevel;
-                // Implicit Source findIndependent_node__node0 from findIndependent_edge__edge1 
+                // Implicit Source findIndependent_node__node0 from findIndependent_edge__edge1
                 GRGEN_LGSP.LGSPNode candidate_findIndependent_node__node0 = candidate_findIndependent_edge__edge1.lgspSource;
                 uint prev__candidate_findIndependent_node__node0;
                 prev__candidate_findIndependent_node__node0 = candidate_findIndependent_node__node0.lgspFlags & (uint) GRGEN_LGSP.LGSPElemFlags.IS_MATCHED << negLevel;
                 candidate_findIndependent_node__node0.lgspFlags |= (uint) GRGEN_LGSP.LGSPElemFlags.IS_MATCHED << negLevel;
-                // Implicit Target findIndependent_node_end from findIndependent_edge__edge1 
+                // Implicit Target findIndependent_node_end from findIndependent_edge__edge1
                 GRGEN_LGSP.LGSPNode candidate_findIndependent_node_end = candidate_findIndependent_edge__edge1.lgspTarget;
                 if((candidate_findIndependent_node_end.lgspFlags & (uint) GRGEN_LGSP.LGSPElemFlags.IS_MATCHED << negLevel) != 0)
                 {
@@ -5127,7 +5127,7 @@ namespace de.unika.ipd.grGen.Action_Independent
                 uint prev__candidate_findIndependent_node_end;
                 prev__candidate_findIndependent_node_end = candidate_findIndependent_node_end.lgspFlags & (uint) GRGEN_LGSP.LGSPElemFlags.IS_MATCHED << negLevel;
                 candidate_findIndependent_node_end.lgspFlags |= (uint) GRGEN_LGSP.LGSPElemFlags.IS_MATCHED << negLevel;
-                // Extend Incoming findIndependent_edge__edge0 from findIndependent_node__node0 
+                // Extend Incoming findIndependent_edge__edge0 from findIndependent_node__node0
                 GRGEN_LGSP.LGSPEdge head_candidate_findIndependent_edge__edge0 = candidate_findIndependent_node__node0.lgspInhead;
                 if(head_candidate_findIndependent_edge__edge0 != null)
                 {
@@ -5141,13 +5141,13 @@ namespace de.unika.ipd.grGen.Action_Independent
                         {
                             continue;
                         }
-                        // Implicit Source findIndependent_node_beg from findIndependent_edge__edge0 
+                        // Implicit Source findIndependent_node_beg from findIndependent_edge__edge0
                         GRGEN_LGSP.LGSPNode candidate_findIndependent_node_beg = candidate_findIndependent_edge__edge0.lgspSource;
                         if((candidate_findIndependent_node_beg.lgspFlags & (uint) GRGEN_LGSP.LGSPElemFlags.IS_MATCHED << negLevel) != 0)
                         {
                             continue;
                         }
-                        // IndependentPattern 
+                        // IndependentPattern
                         {
                             ++negLevel;
                             uint prev_idpt_0__candidate_findIndependent_node_beg;
@@ -5162,7 +5162,7 @@ namespace de.unika.ipd.grGen.Action_Independent
                             uint prev_idpt_0__candidate_findIndependent_node_end;
                             prev_idpt_0__candidate_findIndependent_node_end = candidate_findIndependent_node_end.lgspFlags & (uint) GRGEN_LGSP.LGSPElemFlags.IS_MATCHED << negLevel;
                             candidate_findIndependent_node_end.lgspFlags |= (uint) GRGEN_LGSP.LGSPElemFlags.IS_MATCHED << negLevel;
-                            // Extend Outgoing findIndependent_idpt_0_edge__edge1 from findIndependent_node_end 
+                            // Extend Outgoing findIndependent_idpt_0_edge__edge1 from findIndependent_node_end
                             GRGEN_LGSP.LGSPEdge head_candidate_findIndependent_idpt_0_edge__edge1 = candidate_findIndependent_node_end.lgspOuthead;
                             if(head_candidate_findIndependent_idpt_0_edge__edge1 != null)
                             {
@@ -5175,14 +5175,14 @@ namespace de.unika.ipd.grGen.Action_Independent
                                     uint prev_idpt_0__candidate_findIndependent_idpt_0_edge__edge1;
                                     prev_idpt_0__candidate_findIndependent_idpt_0_edge__edge1 = candidate_findIndependent_idpt_0_edge__edge1.lgspFlags & (uint) GRGEN_LGSP.LGSPElemFlags.IS_MATCHED << negLevel;
                                     candidate_findIndependent_idpt_0_edge__edge1.lgspFlags |= (uint) GRGEN_LGSP.LGSPElemFlags.IS_MATCHED << negLevel;
-                                    // Implicit Target findIndependent_idpt_0_node__node0 from findIndependent_idpt_0_edge__edge1 
+                                    // Implicit Target findIndependent_idpt_0_node__node0 from findIndependent_idpt_0_edge__edge1
                                     GRGEN_LGSP.LGSPNode candidate_findIndependent_idpt_0_node__node0 = candidate_findIndependent_idpt_0_edge__edge1.lgspTarget;
                                     if((candidate_findIndependent_idpt_0_node__node0.lgspFlags & (uint) GRGEN_LGSP.LGSPElemFlags.IS_MATCHED << negLevel) != 0)
                                     {
                                         candidate_findIndependent_idpt_0_edge__edge1.lgspFlags = candidate_findIndependent_idpt_0_edge__edge1.lgspFlags & ~((uint) GRGEN_LGSP.LGSPElemFlags.IS_MATCHED << negLevel) | prev_idpt_0__candidate_findIndependent_idpt_0_edge__edge1;
                                         continue;
                                     }
-                                    // Extend Outgoing findIndependent_idpt_0_edge__edge0 from findIndependent_idpt_0_node__node0 
+                                    // Extend Outgoing findIndependent_idpt_0_edge__edge0 from findIndependent_idpt_0_node__node0
                                     GRGEN_LGSP.LGSPEdge head_candidate_findIndependent_idpt_0_edge__edge0 = candidate_findIndependent_idpt_0_node__node0.lgspOuthead;
                                     if(head_candidate_findIndependent_idpt_0_edge__edge0 != null)
                                     {
@@ -5289,7 +5289,7 @@ label2: ;
         public bool ApplyStar(GRGEN_LIBGR.IGraph graph)
         {
             GRGEN_LIBGR.IMatchesExact<Rule_findIndependent.IMatch_findIndependent> matches;
-            
+
             while(true)
             {
                 matches = DynamicMatch((GRGEN_LGSP.LGSPGraph)graph, 1);
@@ -5301,7 +5301,7 @@ label2: ;
         {
             GRGEN_LIBGR.IMatchesExact<Rule_findIndependent.IMatch_findIndependent> matches = DynamicMatch((GRGEN_LGSP.LGSPGraph)graph, 1);
             if(matches.Count <= 0) return false;
-            
+
             do
             {
                 _rulePattern.Modify((GRGEN_LGSP.LGSPGraph)graph, matches.First);
@@ -5313,7 +5313,7 @@ label2: ;
         public bool ApplyMinMax(GRGEN_LIBGR.IGraph graph, int min, int max)
         {
             GRGEN_LIBGR.IMatchesExact<Rule_findIndependent.IMatch_findIndependent> matches;
-            
+
             for(int i = 0; i < max; i++)
             {
                 matches = DynamicMatch((GRGEN_LGSP.LGSPGraph)graph, 1);
@@ -5329,19 +5329,19 @@ label2: ;
         }
         public object[] Modify(GRGEN_LIBGR.IGraph graph, GRGEN_LIBGR.IMatch match)
         {
-            
+
             Modify(graph, (Rule_findIndependent.IMatch_findIndependent)match);
             return ReturnArray;
         }
         public object[] ModifyAll(GRGEN_LIBGR.IGraph graph, GRGEN_LIBGR.IMatches matches)
         {
-            
+
             ModifyAll(graph, (GRGEN_LIBGR.IMatchesExact<Rule_findIndependent.IMatch_findIndependent>)matches);
             return ReturnArray;
         }
         object[] GRGEN_LIBGR.IAction.Apply(GRGEN_LIBGR.IGraph graph)
         {
-            
+
             if(Apply(graph)) {
                 return ReturnArray;
             }
@@ -5349,7 +5349,7 @@ label2: ;
         }
         object[] GRGEN_LIBGR.IAction.Apply(GRGEN_LIBGR.IGraph graph, params object[] parameters)
         {
-            
+
             if(Apply(graph)) {
                 return ReturnArray;
             }
@@ -5357,7 +5357,7 @@ label2: ;
         }
         object[] GRGEN_LIBGR.IAction.ApplyAll(int maxMatches, GRGEN_LIBGR.IGraph graph)
         {
-            
+
             if(ApplyAll(maxMatches, graph)) {
                 return ReturnArray;
             }
@@ -5365,7 +5365,7 @@ label2: ;
         }
         object[] GRGEN_LIBGR.IAction.ApplyAll(int maxMatches, GRGEN_LIBGR.IGraph graph, params object[] parameters)
         {
-            
+
             if(ApplyAll(maxMatches, graph)) {
                 return ReturnArray;
             }
@@ -5419,7 +5419,7 @@ label2: ;
         /// <summary> same as IAction.ApplyMinMax, but with exact types and distinct parameters. </summary>
         bool ApplyMinMax(GRGEN_LIBGR.IGraph graph, int min, int max);
     }
-    
+
     public class Action_findMultiNested : GRGEN_LGSP.LGSPAction, GRGEN_LIBGR.IAction, IAction_findMultiNested
     {
         public Action_findMultiNested() {
@@ -5437,24 +5437,24 @@ label2: ;
 
         public static Action_findMultiNested Instance { get { return instance; } }
         private static Action_findMultiNested instance = new Action_findMultiNested();
-        private Rule_findMultiNested.Match_findMultiNested_idpt_0 matched_independent_findMultiNested_idpt_0 = new Rule_findMultiNested.Match_findMultiNested_idpt_0();        private Rule_findMultiNested.Match_findMultiNested_idpt_2 matched_independent_findMultiNested_idpt_2 = new Rule_findMultiNested.Match_findMultiNested_idpt_2();        private Rule_findMultiNested.Match_findMultiNested_idpt_0_idpt_1 matched_independent_findMultiNested_idpt_0_idpt_1 = new Rule_findMultiNested.Match_findMultiNested_idpt_0_idpt_1();        private Rule_findMultiNested.Match_findMultiNested_idpt_2_idpt_3 matched_independent_findMultiNested_idpt_2_idpt_3 = new Rule_findMultiNested.Match_findMultiNested_idpt_2_idpt_3();        
+        private Rule_findMultiNested.Match_findMultiNested_idpt_0 matched_independent_findMultiNested_idpt_0 = new Rule_findMultiNested.Match_findMultiNested_idpt_0();        private Rule_findMultiNested.Match_findMultiNested_idpt_2 matched_independent_findMultiNested_idpt_2 = new Rule_findMultiNested.Match_findMultiNested_idpt_2();        private Rule_findMultiNested.Match_findMultiNested_idpt_0_idpt_1 matched_independent_findMultiNested_idpt_0_idpt_1 = new Rule_findMultiNested.Match_findMultiNested_idpt_0_idpt_1();        private Rule_findMultiNested.Match_findMultiNested_idpt_2_idpt_3 matched_independent_findMultiNested_idpt_2_idpt_3 = new Rule_findMultiNested.Match_findMultiNested_idpt_2_idpt_3();
         public GRGEN_LIBGR.IMatchesExact<Rule_findMultiNested.IMatch_findMultiNested> myMatch(GRGEN_LGSP.LGSPGraph graph, int maxMatches)
         {
             matches.Clear();
             int negLevel = 0;
-            // Lookup findMultiNested_edge__edge1 
+            // Lookup findMultiNested_edge__edge1
             int type_id_candidate_findMultiNested_edge__edge1 = 1;
             for(GRGEN_LGSP.LGSPEdge head_candidate_findMultiNested_edge__edge1 = graph.edgesByTypeHeads[type_id_candidate_findMultiNested_edge__edge1], candidate_findMultiNested_edge__edge1 = head_candidate_findMultiNested_edge__edge1.lgspTypeNext; candidate_findMultiNested_edge__edge1 != head_candidate_findMultiNested_edge__edge1; candidate_findMultiNested_edge__edge1 = candidate_findMultiNested_edge__edge1.lgspTypeNext)
             {
                 uint prev__candidate_findMultiNested_edge__edge1;
                 prev__candidate_findMultiNested_edge__edge1 = candidate_findMultiNested_edge__edge1.lgspFlags & (uint) GRGEN_LGSP.LGSPElemFlags.IS_MATCHED << negLevel;
                 candidate_findMultiNested_edge__edge1.lgspFlags |= (uint) GRGEN_LGSP.LGSPElemFlags.IS_MATCHED << negLevel;
-                // Implicit Source findMultiNested_node__node0 from findMultiNested_edge__edge1 
+                // Implicit Source findMultiNested_node__node0 from findMultiNested_edge__edge1
                 GRGEN_LGSP.LGSPNode candidate_findMultiNested_node__node0 = candidate_findMultiNested_edge__edge1.lgspSource;
                 uint prev__candidate_findMultiNested_node__node0;
                 prev__candidate_findMultiNested_node__node0 = candidate_findMultiNested_node__node0.lgspFlags & (uint) GRGEN_LGSP.LGSPElemFlags.IS_MATCHED << negLevel;
                 candidate_findMultiNested_node__node0.lgspFlags |= (uint) GRGEN_LGSP.LGSPElemFlags.IS_MATCHED << negLevel;
-                // Implicit Target findMultiNested_node_end from findMultiNested_edge__edge1 
+                // Implicit Target findMultiNested_node_end from findMultiNested_edge__edge1
                 GRGEN_LGSP.LGSPNode candidate_findMultiNested_node_end = candidate_findMultiNested_edge__edge1.lgspTarget;
                 if((candidate_findMultiNested_node_end.lgspFlags & (uint) GRGEN_LGSP.LGSPElemFlags.IS_MATCHED << negLevel) != 0)
                 {
@@ -5465,7 +5465,7 @@ label2: ;
                 uint prev__candidate_findMultiNested_node_end;
                 prev__candidate_findMultiNested_node_end = candidate_findMultiNested_node_end.lgspFlags & (uint) GRGEN_LGSP.LGSPElemFlags.IS_MATCHED << negLevel;
                 candidate_findMultiNested_node_end.lgspFlags |= (uint) GRGEN_LGSP.LGSPElemFlags.IS_MATCHED << negLevel;
-                // Extend Incoming findMultiNested_edge__edge0 from findMultiNested_node__node0 
+                // Extend Incoming findMultiNested_edge__edge0 from findMultiNested_node__node0
                 GRGEN_LGSP.LGSPEdge head_candidate_findMultiNested_edge__edge0 = candidate_findMultiNested_node__node0.lgspInhead;
                 if(head_candidate_findMultiNested_edge__edge0 != null)
                 {
@@ -5479,13 +5479,13 @@ label2: ;
                         {
                             continue;
                         }
-                        // Implicit Source findMultiNested_node_beg from findMultiNested_edge__edge0 
+                        // Implicit Source findMultiNested_node_beg from findMultiNested_edge__edge0
                         GRGEN_LGSP.LGSPNode candidate_findMultiNested_node_beg = candidate_findMultiNested_edge__edge0.lgspSource;
                         if((candidate_findMultiNested_node_beg.lgspFlags & (uint) GRGEN_LGSP.LGSPElemFlags.IS_MATCHED << negLevel) != 0)
                         {
                             continue;
                         }
-                        // IndependentPattern 
+                        // IndependentPattern
                         {
                             ++negLevel;
                             uint prev_idpt_0__candidate_findMultiNested_node_beg;
@@ -5500,7 +5500,7 @@ label2: ;
                             uint prev_idpt_0__candidate_findMultiNested_node_end;
                             prev_idpt_0__candidate_findMultiNested_node_end = candidate_findMultiNested_node_end.lgspFlags & (uint) GRGEN_LGSP.LGSPElemFlags.IS_MATCHED << negLevel;
                             candidate_findMultiNested_node_end.lgspFlags |= (uint) GRGEN_LGSP.LGSPElemFlags.IS_MATCHED << negLevel;
-                            // IndependentPattern 
+                            // IndependentPattern
                             {
                                 ++negLevel;
                                 uint prev_idpt_0idpt_1__candidate_findMultiNested_node_beg;
@@ -5515,7 +5515,7 @@ label2: ;
                                 uint prev_idpt_0idpt_1__candidate_findMultiNested_node_end;
                                 prev_idpt_0idpt_1__candidate_findMultiNested_node_end = candidate_findMultiNested_node_end.lgspFlags & (uint) GRGEN_LGSP.LGSPElemFlags.IS_MATCHED << negLevel;
                                 candidate_findMultiNested_node_end.lgspFlags |= (uint) GRGEN_LGSP.LGSPElemFlags.IS_MATCHED << negLevel;
-                                // Extend Outgoing findMultiNested_idpt_0_idpt_1_edge__edge0 from findMultiNested_node_beg 
+                                // Extend Outgoing findMultiNested_idpt_0_idpt_1_edge__edge0 from findMultiNested_node_beg
                                 GRGEN_LGSP.LGSPEdge head_candidate_findMultiNested_idpt_0_idpt_1_edge__edge0 = candidate_findMultiNested_node_beg.lgspOuthead;
                                 if(head_candidate_findMultiNested_idpt_0_idpt_1_edge__edge0 != null)
                                 {
@@ -5528,14 +5528,14 @@ label2: ;
                                         uint prev_idpt_0idpt_1__candidate_findMultiNested_idpt_0_idpt_1_edge__edge0;
                                         prev_idpt_0idpt_1__candidate_findMultiNested_idpt_0_idpt_1_edge__edge0 = candidate_findMultiNested_idpt_0_idpt_1_edge__edge0.lgspFlags & (uint) GRGEN_LGSP.LGSPElemFlags.IS_MATCHED << negLevel;
                                         candidate_findMultiNested_idpt_0_idpt_1_edge__edge0.lgspFlags |= (uint) GRGEN_LGSP.LGSPElemFlags.IS_MATCHED << negLevel;
-                                        // Implicit Target findMultiNested_idpt_0_idpt_1_node__node0 from findMultiNested_idpt_0_idpt_1_edge__edge0 
+                                        // Implicit Target findMultiNested_idpt_0_idpt_1_node__node0 from findMultiNested_idpt_0_idpt_1_edge__edge0
                                         GRGEN_LGSP.LGSPNode candidate_findMultiNested_idpt_0_idpt_1_node__node0 = candidate_findMultiNested_idpt_0_idpt_1_edge__edge0.lgspTarget;
                                         if((candidate_findMultiNested_idpt_0_idpt_1_node__node0.lgspFlags & (uint) GRGEN_LGSP.LGSPElemFlags.IS_MATCHED << negLevel) != 0)
                                         {
                                             candidate_findMultiNested_idpt_0_idpt_1_edge__edge0.lgspFlags = candidate_findMultiNested_idpt_0_idpt_1_edge__edge0.lgspFlags & ~((uint) GRGEN_LGSP.LGSPElemFlags.IS_MATCHED << negLevel) | prev_idpt_0idpt_1__candidate_findMultiNested_idpt_0_idpt_1_edge__edge0;
                                             continue;
                                         }
-                                        // Extend Outgoing findMultiNested_idpt_0_idpt_1_edge__edge1 from findMultiNested_idpt_0_idpt_1_node__node0 
+                                        // Extend Outgoing findMultiNested_idpt_0_idpt_1_edge__edge1 from findMultiNested_idpt_0_idpt_1_node__node0
                                         GRGEN_LGSP.LGSPEdge head_candidate_findMultiNested_idpt_0_idpt_1_edge__edge1 = candidate_findMultiNested_idpt_0_idpt_1_node__node0.lgspOuthead;
                                         if(head_candidate_findMultiNested_idpt_0_idpt_1_edge__edge1 != null)
                                         {
@@ -5580,7 +5580,7 @@ label4: ;
                             --negLevel;
                             goto label6;
 label5: ;
-                            // Extend Outgoing findMultiNested_idpt_0_edge__edge1 from findMultiNested_node_end 
+                            // Extend Outgoing findMultiNested_idpt_0_edge__edge1 from findMultiNested_node_end
                             GRGEN_LGSP.LGSPEdge head_candidate_findMultiNested_idpt_0_edge__edge1 = candidate_findMultiNested_node_end.lgspOuthead;
                             if(head_candidate_findMultiNested_idpt_0_edge__edge1 != null)
                             {
@@ -5593,14 +5593,14 @@ label5: ;
                                     uint prev_idpt_0__candidate_findMultiNested_idpt_0_edge__edge1;
                                     prev_idpt_0__candidate_findMultiNested_idpt_0_edge__edge1 = candidate_findMultiNested_idpt_0_edge__edge1.lgspFlags & (uint) GRGEN_LGSP.LGSPElemFlags.IS_MATCHED << negLevel;
                                     candidate_findMultiNested_idpt_0_edge__edge1.lgspFlags |= (uint) GRGEN_LGSP.LGSPElemFlags.IS_MATCHED << negLevel;
-                                    // Implicit Target findMultiNested_idpt_0_node__node0 from findMultiNested_idpt_0_edge__edge1 
+                                    // Implicit Target findMultiNested_idpt_0_node__node0 from findMultiNested_idpt_0_edge__edge1
                                     GRGEN_LGSP.LGSPNode candidate_findMultiNested_idpt_0_node__node0 = candidate_findMultiNested_idpt_0_edge__edge1.lgspTarget;
                                     if((candidate_findMultiNested_idpt_0_node__node0.lgspFlags & (uint) GRGEN_LGSP.LGSPElemFlags.IS_MATCHED << negLevel) != 0)
                                     {
                                         candidate_findMultiNested_idpt_0_edge__edge1.lgspFlags = candidate_findMultiNested_idpt_0_edge__edge1.lgspFlags & ~((uint) GRGEN_LGSP.LGSPElemFlags.IS_MATCHED << negLevel) | prev_idpt_0__candidate_findMultiNested_idpt_0_edge__edge1;
                                         continue;
                                     }
-                                    // Extend Outgoing findMultiNested_idpt_0_edge__edge0 from findMultiNested_idpt_0_node__node0 
+                                    // Extend Outgoing findMultiNested_idpt_0_edge__edge0 from findMultiNested_idpt_0_node__node0
                                     GRGEN_LGSP.LGSPEdge head_candidate_findMultiNested_idpt_0_edge__edge0 = candidate_findMultiNested_idpt_0_node__node0.lgspOuthead;
                                     if(head_candidate_findMultiNested_idpt_0_edge__edge0 != null)
                                     {
@@ -5645,7 +5645,7 @@ label5: ;
 label3: ;
                         goto label8;
 label7: ;
-                        // IndependentPattern 
+                        // IndependentPattern
                         {
                             ++negLevel;
                             uint prev_idpt_2__candidate_findMultiNested_node_beg;
@@ -5660,7 +5660,7 @@ label7: ;
                             uint prev_idpt_2__candidate_findMultiNested_node_end;
                             prev_idpt_2__candidate_findMultiNested_node_end = candidate_findMultiNested_node_end.lgspFlags & (uint) GRGEN_LGSP.LGSPElemFlags.IS_MATCHED << negLevel;
                             candidate_findMultiNested_node_end.lgspFlags |= (uint) GRGEN_LGSP.LGSPElemFlags.IS_MATCHED << negLevel;
-                            // IndependentPattern 
+                            // IndependentPattern
                             {
                                 ++negLevel;
                                 uint prev_idpt_2idpt_3__candidate_findMultiNested_node_beg;
@@ -5675,7 +5675,7 @@ label7: ;
                                 uint prev_idpt_2idpt_3__candidate_findMultiNested_node_end;
                                 prev_idpt_2idpt_3__candidate_findMultiNested_node_end = candidate_findMultiNested_node_end.lgspFlags & (uint) GRGEN_LGSP.LGSPElemFlags.IS_MATCHED << negLevel;
                                 candidate_findMultiNested_node_end.lgspFlags |= (uint) GRGEN_LGSP.LGSPElemFlags.IS_MATCHED << negLevel;
-                                // Extend Outgoing findMultiNested_idpt_2_idpt_3_edge__edge1 from findMultiNested_node_end 
+                                // Extend Outgoing findMultiNested_idpt_2_idpt_3_edge__edge1 from findMultiNested_node_end
                                 GRGEN_LGSP.LGSPEdge head_candidate_findMultiNested_idpt_2_idpt_3_edge__edge1 = candidate_findMultiNested_node_end.lgspOuthead;
                                 if(head_candidate_findMultiNested_idpt_2_idpt_3_edge__edge1 != null)
                                 {
@@ -5688,14 +5688,14 @@ label7: ;
                                         uint prev_idpt_2idpt_3__candidate_findMultiNested_idpt_2_idpt_3_edge__edge1;
                                         prev_idpt_2idpt_3__candidate_findMultiNested_idpt_2_idpt_3_edge__edge1 = candidate_findMultiNested_idpt_2_idpt_3_edge__edge1.lgspFlags & (uint) GRGEN_LGSP.LGSPElemFlags.IS_MATCHED << negLevel;
                                         candidate_findMultiNested_idpt_2_idpt_3_edge__edge1.lgspFlags |= (uint) GRGEN_LGSP.LGSPElemFlags.IS_MATCHED << negLevel;
-                                        // Implicit Target findMultiNested_idpt_2_idpt_3_node__node0 from findMultiNested_idpt_2_idpt_3_edge__edge1 
+                                        // Implicit Target findMultiNested_idpt_2_idpt_3_node__node0 from findMultiNested_idpt_2_idpt_3_edge__edge1
                                         GRGEN_LGSP.LGSPNode candidate_findMultiNested_idpt_2_idpt_3_node__node0 = candidate_findMultiNested_idpt_2_idpt_3_edge__edge1.lgspTarget;
                                         if((candidate_findMultiNested_idpt_2_idpt_3_node__node0.lgspFlags & (uint) GRGEN_LGSP.LGSPElemFlags.IS_MATCHED << negLevel) != 0)
                                         {
                                             candidate_findMultiNested_idpt_2_idpt_3_edge__edge1.lgspFlags = candidate_findMultiNested_idpt_2_idpt_3_edge__edge1.lgspFlags & ~((uint) GRGEN_LGSP.LGSPElemFlags.IS_MATCHED << negLevel) | prev_idpt_2idpt_3__candidate_findMultiNested_idpt_2_idpt_3_edge__edge1;
                                             continue;
                                         }
-                                        // Extend Outgoing findMultiNested_idpt_2_idpt_3_edge__edge0 from findMultiNested_idpt_2_idpt_3_node__node0 
+                                        // Extend Outgoing findMultiNested_idpt_2_idpt_3_edge__edge0 from findMultiNested_idpt_2_idpt_3_node__node0
                                         GRGEN_LGSP.LGSPEdge head_candidate_findMultiNested_idpt_2_idpt_3_edge__edge0 = candidate_findMultiNested_idpt_2_idpt_3_node__node0.lgspOuthead;
                                         if(head_candidate_findMultiNested_idpt_2_idpt_3_edge__edge0 != null)
                                         {
@@ -5740,7 +5740,7 @@ label10: ;
                             --negLevel;
                             goto label12;
 label11: ;
-                            // Extend Outgoing findMultiNested_idpt_2_edge__edge0 from findMultiNested_node_beg 
+                            // Extend Outgoing findMultiNested_idpt_2_edge__edge0 from findMultiNested_node_beg
                             GRGEN_LGSP.LGSPEdge head_candidate_findMultiNested_idpt_2_edge__edge0 = candidate_findMultiNested_node_beg.lgspOuthead;
                             if(head_candidate_findMultiNested_idpt_2_edge__edge0 != null)
                             {
@@ -5753,14 +5753,14 @@ label11: ;
                                     uint prev_idpt_2__candidate_findMultiNested_idpt_2_edge__edge0;
                                     prev_idpt_2__candidate_findMultiNested_idpt_2_edge__edge0 = candidate_findMultiNested_idpt_2_edge__edge0.lgspFlags & (uint) GRGEN_LGSP.LGSPElemFlags.IS_MATCHED << negLevel;
                                     candidate_findMultiNested_idpt_2_edge__edge0.lgspFlags |= (uint) GRGEN_LGSP.LGSPElemFlags.IS_MATCHED << negLevel;
-                                    // Implicit Target findMultiNested_idpt_2_node__node0 from findMultiNested_idpt_2_edge__edge0 
+                                    // Implicit Target findMultiNested_idpt_2_node__node0 from findMultiNested_idpt_2_edge__edge0
                                     GRGEN_LGSP.LGSPNode candidate_findMultiNested_idpt_2_node__node0 = candidate_findMultiNested_idpt_2_edge__edge0.lgspTarget;
                                     if((candidate_findMultiNested_idpt_2_node__node0.lgspFlags & (uint) GRGEN_LGSP.LGSPElemFlags.IS_MATCHED << negLevel) != 0)
                                     {
                                         candidate_findMultiNested_idpt_2_edge__edge0.lgspFlags = candidate_findMultiNested_idpt_2_edge__edge0.lgspFlags & ~((uint) GRGEN_LGSP.LGSPElemFlags.IS_MATCHED << negLevel) | prev_idpt_2__candidate_findMultiNested_idpt_2_edge__edge0;
                                         continue;
                                     }
-                                    // Extend Outgoing findMultiNested_idpt_2_edge__edge1 from findMultiNested_idpt_2_node__node0 
+                                    // Extend Outgoing findMultiNested_idpt_2_edge__edge1 from findMultiNested_idpt_2_node__node0
                                     GRGEN_LGSP.LGSPEdge head_candidate_findMultiNested_idpt_2_edge__edge1 = candidate_findMultiNested_idpt_2_node__node0.lgspOuthead;
                                     if(head_candidate_findMultiNested_idpt_2_edge__edge1 != null)
                                     {
@@ -5876,7 +5876,7 @@ label14: ;
         public bool ApplyStar(GRGEN_LIBGR.IGraph graph)
         {
             GRGEN_LIBGR.IMatchesExact<Rule_findMultiNested.IMatch_findMultiNested> matches;
-            
+
             while(true)
             {
                 matches = DynamicMatch((GRGEN_LGSP.LGSPGraph)graph, 1);
@@ -5888,7 +5888,7 @@ label14: ;
         {
             GRGEN_LIBGR.IMatchesExact<Rule_findMultiNested.IMatch_findMultiNested> matches = DynamicMatch((GRGEN_LGSP.LGSPGraph)graph, 1);
             if(matches.Count <= 0) return false;
-            
+
             do
             {
                 _rulePattern.Modify((GRGEN_LGSP.LGSPGraph)graph, matches.First);
@@ -5900,7 +5900,7 @@ label14: ;
         public bool ApplyMinMax(GRGEN_LIBGR.IGraph graph, int min, int max)
         {
             GRGEN_LIBGR.IMatchesExact<Rule_findMultiNested.IMatch_findMultiNested> matches;
-            
+
             for(int i = 0; i < max; i++)
             {
                 matches = DynamicMatch((GRGEN_LGSP.LGSPGraph)graph, 1);
@@ -5916,19 +5916,19 @@ label14: ;
         }
         public object[] Modify(GRGEN_LIBGR.IGraph graph, GRGEN_LIBGR.IMatch match)
         {
-            
+
             Modify(graph, (Rule_findMultiNested.IMatch_findMultiNested)match);
             return ReturnArray;
         }
         public object[] ModifyAll(GRGEN_LIBGR.IGraph graph, GRGEN_LIBGR.IMatches matches)
         {
-            
+
             ModifyAll(graph, (GRGEN_LIBGR.IMatchesExact<Rule_findMultiNested.IMatch_findMultiNested>)matches);
             return ReturnArray;
         }
         object[] GRGEN_LIBGR.IAction.Apply(GRGEN_LIBGR.IGraph graph)
         {
-            
+
             if(Apply(graph)) {
                 return ReturnArray;
             }
@@ -5936,7 +5936,7 @@ label14: ;
         }
         object[] GRGEN_LIBGR.IAction.Apply(GRGEN_LIBGR.IGraph graph, params object[] parameters)
         {
-            
+
             if(Apply(graph)) {
                 return ReturnArray;
             }
@@ -5944,7 +5944,7 @@ label14: ;
         }
         object[] GRGEN_LIBGR.IAction.ApplyAll(int maxMatches, GRGEN_LIBGR.IGraph graph)
         {
-            
+
             if(ApplyAll(maxMatches, graph)) {
                 return ReturnArray;
             }
@@ -5952,7 +5952,7 @@ label14: ;
         }
         object[] GRGEN_LIBGR.IAction.ApplyAll(int maxMatches, GRGEN_LIBGR.IGraph graph, params object[] parameters)
         {
-            
+
             if(ApplyAll(maxMatches, graph)) {
                 return ReturnArray;
             }
@@ -6006,7 +6006,7 @@ label14: ;
         /// <summary> same as IAction.ApplyMinMax, but with exact types and distinct parameters. </summary>
         bool ApplyMinMax(GRGEN_LIBGR.IGraph graph, int min, int max);
     }
-    
+
     public class Action_createIterated : GRGEN_LGSP.LGSPAction, GRGEN_LIBGR.IAction, IAction_createIterated
     {
         public Action_createIterated() {
@@ -6024,7 +6024,7 @@ label14: ;
 
         public static Action_createIterated Instance { get { return instance; } }
         private static Action_createIterated instance = new Action_createIterated();
-        
+
         public GRGEN_LIBGR.IMatchesExact<Rule_createIterated.IMatch_createIterated> myMatch(GRGEN_LGSP.LGSPGraph graph, int maxMatches)
         {
             matches.Clear();
@@ -6075,7 +6075,7 @@ label14: ;
         public bool ApplyStar(GRGEN_LIBGR.IGraph graph)
         {
             GRGEN_LIBGR.IMatchesExact<Rule_createIterated.IMatch_createIterated> matches;
-            GRGEN_MODEL.IintNode output_0; GRGEN_LIBGR.INode output_1; 
+            GRGEN_MODEL.IintNode output_0; GRGEN_LIBGR.INode output_1;
             while(true)
             {
                 matches = DynamicMatch((GRGEN_LGSP.LGSPGraph)graph, 1);
@@ -6087,7 +6087,7 @@ label14: ;
         {
             GRGEN_LIBGR.IMatchesExact<Rule_createIterated.IMatch_createIterated> matches = DynamicMatch((GRGEN_LGSP.LGSPGraph)graph, 1);
             if(matches.Count <= 0) return false;
-            GRGEN_MODEL.IintNode output_0; GRGEN_LIBGR.INode output_1; 
+            GRGEN_MODEL.IintNode output_0; GRGEN_LIBGR.INode output_1;
             do
             {
                 _rulePattern.Modify((GRGEN_LGSP.LGSPGraph)graph, matches.First, out output_0, out output_1);
@@ -6099,7 +6099,7 @@ label14: ;
         public bool ApplyMinMax(GRGEN_LIBGR.IGraph graph, int min, int max)
         {
             GRGEN_LIBGR.IMatchesExact<Rule_createIterated.IMatch_createIterated> matches;
-            GRGEN_MODEL.IintNode output_0; GRGEN_LIBGR.INode output_1; 
+            GRGEN_MODEL.IintNode output_0; GRGEN_LIBGR.INode output_1;
             for(int i = 0; i < max; i++)
             {
                 matches = DynamicMatch((GRGEN_LGSP.LGSPGraph)graph, 1);
@@ -6115,7 +6115,7 @@ label14: ;
         }
         public object[] Modify(GRGEN_LIBGR.IGraph graph, GRGEN_LIBGR.IMatch match)
         {
-            GRGEN_MODEL.IintNode output_0; GRGEN_LIBGR.INode output_1; 
+            GRGEN_MODEL.IintNode output_0; GRGEN_LIBGR.INode output_1;
             Modify(graph, (Rule_createIterated.IMatch_createIterated)match, out output_0, out output_1);
             ReturnArray[0] = output_0;
             ReturnArray[1] = output_1;
@@ -6123,7 +6123,7 @@ label14: ;
         }
         public object[] ModifyAll(GRGEN_LIBGR.IGraph graph, GRGEN_LIBGR.IMatches matches)
         {
-            GRGEN_MODEL.IintNode output_0; GRGEN_LIBGR.INode output_1; 
+            GRGEN_MODEL.IintNode output_0; GRGEN_LIBGR.INode output_1;
             ModifyAll(graph, (GRGEN_LIBGR.IMatchesExact<Rule_createIterated.IMatch_createIterated>)matches, out output_0, out output_1);
             ReturnArray[0] = output_0;
             ReturnArray[1] = output_1;
@@ -6131,7 +6131,7 @@ label14: ;
         }
         object[] GRGEN_LIBGR.IAction.Apply(GRGEN_LIBGR.IGraph graph)
         {
-            GRGEN_MODEL.IintNode output_0 = null; GRGEN_LIBGR.INode output_1 = null; 
+            GRGEN_MODEL.IintNode output_0 = null; GRGEN_LIBGR.INode output_1 = null;
             if(Apply(graph, ref output_0, ref output_1)) {
                 ReturnArray[0] = output_0;
                 ReturnArray[1] = output_1;
@@ -6141,7 +6141,7 @@ label14: ;
         }
         object[] GRGEN_LIBGR.IAction.Apply(GRGEN_LIBGR.IGraph graph, params object[] parameters)
         {
-            GRGEN_MODEL.IintNode output_0 = null; GRGEN_LIBGR.INode output_1 = null; 
+            GRGEN_MODEL.IintNode output_0 = null; GRGEN_LIBGR.INode output_1 = null;
             if(Apply(graph, ref output_0, ref output_1)) {
                 ReturnArray[0] = output_0;
                 ReturnArray[1] = output_1;
@@ -6151,7 +6151,7 @@ label14: ;
         }
         object[] GRGEN_LIBGR.IAction.ApplyAll(int maxMatches, GRGEN_LIBGR.IGraph graph)
         {
-            GRGEN_MODEL.IintNode output_0 = null; GRGEN_LIBGR.INode output_1 = null; 
+            GRGEN_MODEL.IintNode output_0 = null; GRGEN_LIBGR.INode output_1 = null;
             if(ApplyAll(maxMatches, graph, ref output_0, ref output_1)) {
                 ReturnArray[0] = output_0;
                 ReturnArray[1] = output_1;
@@ -6161,7 +6161,7 @@ label14: ;
         }
         object[] GRGEN_LIBGR.IAction.ApplyAll(int maxMatches, GRGEN_LIBGR.IGraph graph, params object[] parameters)
         {
-            GRGEN_MODEL.IintNode output_0 = null; GRGEN_LIBGR.INode output_1 = null; 
+            GRGEN_MODEL.IintNode output_0 = null; GRGEN_LIBGR.INode output_1 = null;
             if(ApplyAll(maxMatches, graph, ref output_0, ref output_1)) {
                 ReturnArray[0] = output_0;
                 ReturnArray[1] = output_1;
@@ -6217,7 +6217,7 @@ label14: ;
         /// <summary> same as IAction.ApplyMinMax, but with exact types and distinct parameters. </summary>
         bool ApplyMinMax(GRGEN_LIBGR.IGraph graph, int min, int max, GRGEN_LIBGR.INode findChainPlusChainToInt_node_beg, GRGEN_LIBGR.INode findChainPlusChainToInt_node_end);
     }
-    
+
     public class Action_findChainPlusChainToInt : GRGEN_LGSP.LGSPAction, GRGEN_LIBGR.IAction, IAction_findChainPlusChainToInt
     {
         public Action_findChainPlusChainToInt() {
@@ -6235,7 +6235,7 @@ label14: ;
 
         public static Action_findChainPlusChainToInt Instance { get { return instance; } }
         private static Action_findChainPlusChainToInt instance = new Action_findChainPlusChainToInt();
-        
+
         public GRGEN_LIBGR.IMatchesExact<Rule_findChainPlusChainToInt.IMatch_findChainPlusChainToInt> myMatch(GRGEN_LGSP.LGSPGraph graph, int maxMatches, GRGEN_LIBGR.INode findChainPlusChainToInt_node_beg, GRGEN_LIBGR.INode findChainPlusChainToInt_node_end)
         {
             matches.Clear();
@@ -6243,12 +6243,12 @@ label14: ;
             Stack<GRGEN_LGSP.LGSPSubpatternAction> openTasks = new Stack<GRGEN_LGSP.LGSPSubpatternAction>();
             List<Stack<GRGEN_LIBGR.IMatch>> foundPartialMatches = new List<Stack<GRGEN_LIBGR.IMatch>>();
             List<Stack<GRGEN_LIBGR.IMatch>> matchesList = foundPartialMatches;
-            // Preset findChainPlusChainToInt_node_beg 
+            // Preset findChainPlusChainToInt_node_beg
             GRGEN_LGSP.LGSPNode candidate_findChainPlusChainToInt_node_beg = (GRGEN_LGSP.LGSPNode)findChainPlusChainToInt_node_beg;
             uint prev__candidate_findChainPlusChainToInt_node_beg;
             prev__candidate_findChainPlusChainToInt_node_beg = candidate_findChainPlusChainToInt_node_beg.lgspFlags & (uint) GRGEN_LGSP.LGSPElemFlags.IS_MATCHED << negLevel;
             candidate_findChainPlusChainToInt_node_beg.lgspFlags |= (uint) GRGEN_LGSP.LGSPElemFlags.IS_MATCHED << negLevel;
-            // Preset findChainPlusChainToInt_node_end 
+            // Preset findChainPlusChainToInt_node_end
             GRGEN_LGSP.LGSPNode candidate_findChainPlusChainToInt_node_end = (GRGEN_LGSP.LGSPNode)findChainPlusChainToInt_node_end;
             if((candidate_findChainPlusChainToInt_node_end.lgspFlags & (uint) GRGEN_LGSP.LGSPElemFlags.IS_MATCHED << negLevel) != 0)
             {
@@ -6276,7 +6276,7 @@ label14: ;
             uint prevGlobal__candidate_findChainPlusChainToInt_node_end;
             prevGlobal__candidate_findChainPlusChainToInt_node_end = candidate_findChainPlusChainToInt_node_end.lgspFlags & (uint) GRGEN_LGSP.LGSPElemFlags.IS_MATCHED_BY_ENCLOSING_PATTERN << negLevel;
             candidate_findChainPlusChainToInt_node_end.lgspFlags |= (uint) GRGEN_LGSP.LGSPElemFlags.IS_MATCHED_BY_ENCLOSING_PATTERN << negLevel;
-            // Match subpatterns 
+            // Match subpatterns
             openTasks.Peek().myMatch(matchesList, maxMatches - foundPartialMatches.Count, negLevel);
             // Pop subpattern matching task for _sub0
             openTasks.Pop();
@@ -6284,7 +6284,7 @@ label14: ;
             // Pop subpattern matching task for _sub1
             openTasks.Pop();
             PatternAction_iteratedPathToIntNode.releaseTask(taskFor__sub1);
-            // Check whether subpatterns were found 
+            // Check whether subpatterns were found
             if(matchesList.Count>0) {
                 // subpatterns/alternatives were found, extend the partial matches by our local match object, becoming a complete match object and save it
                 foreach(Stack<GRGEN_LIBGR.IMatch> currentFoundPartialMatch in matchesList)
@@ -6352,7 +6352,7 @@ label14: ;
         public bool ApplyStar(GRGEN_LIBGR.IGraph graph, GRGEN_LIBGR.INode findChainPlusChainToInt_node_beg, GRGEN_LIBGR.INode findChainPlusChainToInt_node_end)
         {
             GRGEN_LIBGR.IMatchesExact<Rule_findChainPlusChainToInt.IMatch_findChainPlusChainToInt> matches;
-            
+
             while(true)
             {
                 matches = DynamicMatch((GRGEN_LGSP.LGSPGraph)graph, 1, findChainPlusChainToInt_node_beg, findChainPlusChainToInt_node_end);
@@ -6364,7 +6364,7 @@ label14: ;
         {
             GRGEN_LIBGR.IMatchesExact<Rule_findChainPlusChainToInt.IMatch_findChainPlusChainToInt> matches = DynamicMatch((GRGEN_LGSP.LGSPGraph)graph, 1, findChainPlusChainToInt_node_beg, findChainPlusChainToInt_node_end);
             if(matches.Count <= 0) return false;
-            
+
             do
             {
                 _rulePattern.Modify((GRGEN_LGSP.LGSPGraph)graph, matches.First);
@@ -6376,7 +6376,7 @@ label14: ;
         public bool ApplyMinMax(GRGEN_LIBGR.IGraph graph, int min, int max, GRGEN_LIBGR.INode findChainPlusChainToInt_node_beg, GRGEN_LIBGR.INode findChainPlusChainToInt_node_end)
         {
             GRGEN_LIBGR.IMatchesExact<Rule_findChainPlusChainToInt.IMatch_findChainPlusChainToInt> matches;
-            
+
             for(int i = 0; i < max; i++)
             {
                 matches = DynamicMatch((GRGEN_LGSP.LGSPGraph)graph, 1, findChainPlusChainToInt_node_beg, findChainPlusChainToInt_node_end);
@@ -6392,13 +6392,13 @@ label14: ;
         }
         public object[] Modify(GRGEN_LIBGR.IGraph graph, GRGEN_LIBGR.IMatch match)
         {
-            
+
             Modify(graph, (Rule_findChainPlusChainToInt.IMatch_findChainPlusChainToInt)match);
             return ReturnArray;
         }
         public object[] ModifyAll(GRGEN_LIBGR.IGraph graph, GRGEN_LIBGR.IMatches matches)
         {
-            
+
             ModifyAll(graph, (GRGEN_LIBGR.IMatchesExact<Rule_findChainPlusChainToInt.IMatch_findChainPlusChainToInt>)matches);
             return ReturnArray;
         }
@@ -6408,7 +6408,7 @@ label14: ;
         }
         object[] GRGEN_LIBGR.IAction.Apply(GRGEN_LIBGR.IGraph graph, params object[] parameters)
         {
-            
+
             if(Apply(graph, (GRGEN_LIBGR.INode) parameters[0], (GRGEN_LIBGR.INode) parameters[1])) {
                 return ReturnArray;
             }
@@ -6420,7 +6420,7 @@ label14: ;
         }
         object[] GRGEN_LIBGR.IAction.ApplyAll(int maxMatches, GRGEN_LIBGR.IGraph graph, params object[] parameters)
         {
-            
+
             if(ApplyAll(maxMatches, graph, (GRGEN_LIBGR.INode) parameters[0], (GRGEN_LIBGR.INode) parameters[1])) {
                 return ReturnArray;
             }
@@ -6474,7 +6474,7 @@ label14: ;
         /// <summary> same as IAction.ApplyMinMax, but with exact types and distinct parameters. </summary>
         bool ApplyMinMax(GRGEN_LIBGR.IGraph graph, int min, int max, GRGEN_LIBGR.INode findChainPlusChainToIntIndependent_node_beg, GRGEN_LIBGR.INode findChainPlusChainToIntIndependent_node_end);
     }
-    
+
     public class Action_findChainPlusChainToIntIndependent : GRGEN_LGSP.LGSPAction, GRGEN_LIBGR.IAction, IAction_findChainPlusChainToIntIndependent
     {
         public Action_findChainPlusChainToIntIndependent() {
@@ -6492,7 +6492,7 @@ label14: ;
 
         public static Action_findChainPlusChainToIntIndependent Instance { get { return instance; } }
         private static Action_findChainPlusChainToIntIndependent instance = new Action_findChainPlusChainToIntIndependent();
-        private Rule_findChainPlusChainToIntIndependent.Match_findChainPlusChainToIntIndependent_idpt_0 matched_independent_findChainPlusChainToIntIndependent_idpt_0 = new Rule_findChainPlusChainToIntIndependent.Match_findChainPlusChainToIntIndependent_idpt_0();        
+        private Rule_findChainPlusChainToIntIndependent.Match_findChainPlusChainToIntIndependent_idpt_0 matched_independent_findChainPlusChainToIntIndependent_idpt_0 = new Rule_findChainPlusChainToIntIndependent.Match_findChainPlusChainToIntIndependent_idpt_0();
         public GRGEN_LIBGR.IMatchesExact<Rule_findChainPlusChainToIntIndependent.IMatch_findChainPlusChainToIntIndependent> myMatch(GRGEN_LGSP.LGSPGraph graph, int maxMatches, GRGEN_LIBGR.INode findChainPlusChainToIntIndependent_node_beg, GRGEN_LIBGR.INode findChainPlusChainToIntIndependent_node_end)
         {
             matches.Clear();
@@ -6500,19 +6500,19 @@ label14: ;
             Stack<GRGEN_LGSP.LGSPSubpatternAction> openTasks = new Stack<GRGEN_LGSP.LGSPSubpatternAction>();
             List<Stack<GRGEN_LIBGR.IMatch>> foundPartialMatches = new List<Stack<GRGEN_LIBGR.IMatch>>();
             List<Stack<GRGEN_LIBGR.IMatch>> matchesList = foundPartialMatches;
-            // Preset findChainPlusChainToIntIndependent_node_beg 
+            // Preset findChainPlusChainToIntIndependent_node_beg
             GRGEN_LGSP.LGSPNode candidate_findChainPlusChainToIntIndependent_node_beg = (GRGEN_LGSP.LGSPNode)findChainPlusChainToIntIndependent_node_beg;
             uint prev__candidate_findChainPlusChainToIntIndependent_node_beg;
             prev__candidate_findChainPlusChainToIntIndependent_node_beg = candidate_findChainPlusChainToIntIndependent_node_beg.lgspFlags & (uint) GRGEN_LGSP.LGSPElemFlags.IS_MATCHED << negLevel;
             candidate_findChainPlusChainToIntIndependent_node_beg.lgspFlags |= (uint) GRGEN_LGSP.LGSPElemFlags.IS_MATCHED << negLevel;
-            // Preset findChainPlusChainToIntIndependent_node_end 
+            // Preset findChainPlusChainToIntIndependent_node_end
             GRGEN_LGSP.LGSPNode candidate_findChainPlusChainToIntIndependent_node_end = (GRGEN_LGSP.LGSPNode)findChainPlusChainToIntIndependent_node_end;
             if((candidate_findChainPlusChainToIntIndependent_node_end.lgspFlags & (uint) GRGEN_LGSP.LGSPElemFlags.IS_MATCHED << negLevel) != 0)
             {
                 candidate_findChainPlusChainToIntIndependent_node_beg.lgspFlags = candidate_findChainPlusChainToIntIndependent_node_beg.lgspFlags & ~((uint) GRGEN_LGSP.LGSPElemFlags.IS_MATCHED << negLevel) | prev__candidate_findChainPlusChainToIntIndependent_node_beg;
                 return matches;
             }
-            // IndependentPattern 
+            // IndependentPattern
             {
                 ++negLevel;
                 Stack<GRGEN_LGSP.LGSPSubpatternAction> idpt_0_openTasks = new Stack<GRGEN_LGSP.LGSPSubpatternAction>();
@@ -6533,7 +6533,7 @@ label14: ;
                 // Pop subpattern matching task for _sub0
                 idpt_0_openTasks.Pop();
                 PatternAction_iteratedPathToIntNode.releaseTask(taskFor_idpt_0__sub0);
-                // Check whether subpatterns were found 
+                // Check whether subpatterns were found
                 if(idpt_0_matchesList.Count>0) {
                     // independent pattern with contained subpatterns found
                     Stack<GRGEN_LIBGR.IMatch> currentFoundPartialMatch = idpt_0_matchesList[0];
@@ -6565,12 +6565,12 @@ label15: ;
             uint prevGlobal__candidate_findChainPlusChainToIntIndependent_node_end;
             prevGlobal__candidate_findChainPlusChainToIntIndependent_node_end = candidate_findChainPlusChainToIntIndependent_node_end.lgspFlags & (uint) GRGEN_LGSP.LGSPElemFlags.IS_MATCHED_BY_ENCLOSING_PATTERN << negLevel;
             candidate_findChainPlusChainToIntIndependent_node_end.lgspFlags |= (uint) GRGEN_LGSP.LGSPElemFlags.IS_MATCHED_BY_ENCLOSING_PATTERN << negLevel;
-            // Match subpatterns 
+            // Match subpatterns
             openTasks.Peek().myMatch(matchesList, maxMatches - foundPartialMatches.Count, negLevel);
             // Pop subpattern matching task for _sub0
             openTasks.Pop();
             PatternAction_iteratedPath.releaseTask(taskFor__sub0);
-            // Check whether subpatterns were found 
+            // Check whether subpatterns were found
             if(matchesList.Count>0) {
                 // subpatterns/alternatives were found, extend the partial matches by our local match object, becoming a complete match object and save it
                 foreach(Stack<GRGEN_LIBGR.IMatch> currentFoundPartialMatch in matchesList)
@@ -6639,7 +6639,7 @@ label15: ;
         public bool ApplyStar(GRGEN_LIBGR.IGraph graph, GRGEN_LIBGR.INode findChainPlusChainToIntIndependent_node_beg, GRGEN_LIBGR.INode findChainPlusChainToIntIndependent_node_end)
         {
             GRGEN_LIBGR.IMatchesExact<Rule_findChainPlusChainToIntIndependent.IMatch_findChainPlusChainToIntIndependent> matches;
-            
+
             while(true)
             {
                 matches = DynamicMatch((GRGEN_LGSP.LGSPGraph)graph, 1, findChainPlusChainToIntIndependent_node_beg, findChainPlusChainToIntIndependent_node_end);
@@ -6651,7 +6651,7 @@ label15: ;
         {
             GRGEN_LIBGR.IMatchesExact<Rule_findChainPlusChainToIntIndependent.IMatch_findChainPlusChainToIntIndependent> matches = DynamicMatch((GRGEN_LGSP.LGSPGraph)graph, 1, findChainPlusChainToIntIndependent_node_beg, findChainPlusChainToIntIndependent_node_end);
             if(matches.Count <= 0) return false;
-            
+
             do
             {
                 _rulePattern.Modify((GRGEN_LGSP.LGSPGraph)graph, matches.First);
@@ -6663,7 +6663,7 @@ label15: ;
         public bool ApplyMinMax(GRGEN_LIBGR.IGraph graph, int min, int max, GRGEN_LIBGR.INode findChainPlusChainToIntIndependent_node_beg, GRGEN_LIBGR.INode findChainPlusChainToIntIndependent_node_end)
         {
             GRGEN_LIBGR.IMatchesExact<Rule_findChainPlusChainToIntIndependent.IMatch_findChainPlusChainToIntIndependent> matches;
-            
+
             for(int i = 0; i < max; i++)
             {
                 matches = DynamicMatch((GRGEN_LGSP.LGSPGraph)graph, 1, findChainPlusChainToIntIndependent_node_beg, findChainPlusChainToIntIndependent_node_end);
@@ -6679,13 +6679,13 @@ label15: ;
         }
         public object[] Modify(GRGEN_LIBGR.IGraph graph, GRGEN_LIBGR.IMatch match)
         {
-            
+
             Modify(graph, (Rule_findChainPlusChainToIntIndependent.IMatch_findChainPlusChainToIntIndependent)match);
             return ReturnArray;
         }
         public object[] ModifyAll(GRGEN_LIBGR.IGraph graph, GRGEN_LIBGR.IMatches matches)
         {
-            
+
             ModifyAll(graph, (GRGEN_LIBGR.IMatchesExact<Rule_findChainPlusChainToIntIndependent.IMatch_findChainPlusChainToIntIndependent>)matches);
             return ReturnArray;
         }
@@ -6695,7 +6695,7 @@ label15: ;
         }
         object[] GRGEN_LIBGR.IAction.Apply(GRGEN_LIBGR.IGraph graph, params object[] parameters)
         {
-            
+
             if(Apply(graph, (GRGEN_LIBGR.INode) parameters[0], (GRGEN_LIBGR.INode) parameters[1])) {
                 return ReturnArray;
             }
@@ -6707,7 +6707,7 @@ label15: ;
         }
         object[] GRGEN_LIBGR.IAction.ApplyAll(int maxMatches, GRGEN_LIBGR.IGraph graph, params object[] parameters)
         {
-            
+
             if(ApplyAll(maxMatches, graph, (GRGEN_LIBGR.INode) parameters[0], (GRGEN_LIBGR.INode) parameters[1])) {
                 return ReturnArray;
             }
@@ -6794,7 +6794,7 @@ label15: ;
             analyzer.AnalyzeWithInterPatternRelationsKnown(Rule_findChainPlusChainToInt.Instance);
             analyzer.AnalyzeWithInterPatternRelationsKnown(Rule_findChainPlusChainToIntIndependent.Instance);
         }
-        
+
         public IAction_create @create;
         public IAction_find @find;
         public IAction_findIndependent @findIndependent;
@@ -6802,8 +6802,8 @@ label15: ;
         public IAction_createIterated @createIterated;
         public IAction_findChainPlusChainToInt @findChainPlusChainToInt;
         public IAction_findChainPlusChainToIntIndependent @findChainPlusChainToIntIndependent;
-        
-        
+
+
         public override string Name { get { return "IndependentActions"; } }
         public override string ModelMD5Hash { get { return "a5b70deb49575f4d0997a3b831be3dfa"; } }
     }

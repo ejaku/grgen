@@ -71,7 +71,7 @@ public class MethodCallNode extends EvalStatementNode
 			targetVar = (VarDeclNode)((IdentExprNode)target).decl;
 			targetType = targetVar.getDeclType();
 		}
-		
+
 		if(targetType instanceof MapTypeNode) {
 			if(methodName.equals("add")) {
   				if(params.size() != 2) {
@@ -81,7 +81,7 @@ public class MethodCallNode extends EvalStatementNode
   				else {
   					if(targetQual!=null)
   						result = new MapAddItemNode(getCoords(), targetQual, params.get(0), params.get(1));
-  					else 
+  					else
   						result = new MapVarAddItemNode(getCoords(), targetVar, params.get(0), params.get(1));
   				}
   			}

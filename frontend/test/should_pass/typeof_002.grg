@@ -7,4 +7,4 @@ rule r1 {
     v -:typeof(c)-> y;
     delete(c);
   }
-} 
+}

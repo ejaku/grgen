@@ -48,7 +48,7 @@ public class ArrayInit extends Expression {
 		assert(member==null && entity!=null);
 		member = entity;
 	}
-	
+
 	public Entity getMember() {
 		return member;
 	}

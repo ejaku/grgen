@@ -93,7 +93,7 @@ namespace de.unika.ipd.grGen.lgsp
                         CheckPartialMatchByNegativeOrIndependent checkNegativeOrIndependent =
                             (CheckPartialMatchByNegativeOrIndependent)currentOperation;
 
-                        // ByNegative/ByIndependent is handled in CheckContinueMatchingFailed 
+                        // ByNegative/ByIndependent is handled in CheckContinueMatchingFailed
                         // of the negative/independent case - enter negative/independent case
                         CompleteCheckOperations(
                             checkNegativeOrIndependent.NestedOperationsList,
@@ -135,7 +135,7 @@ namespace de.unika.ipd.grGen.lgsp
                                 enclosingCheckNegativeOrIndependent ?? (enclosingAlternative ?? enclosingSearchProgram));
                         }
 
-                        // check subpatterns found has a further check maximum matches 
+                        // check subpatterns found has a further check maximum matches
                         // or check continue matching of negative failed nested within check failed code
                         // give it its special bit of attention here
                         CompleteCheckOperations(
@@ -399,7 +399,7 @@ namespace de.unika.ipd.grGen.lgsp
             string gotoLabelName;
 
             // if our continuation point is a candidate iteration
-            // -> append label at the end of the loop body of the candidate iteration loop 
+            // -> append label at the end of the loop body of the candidate iteration loop
             if (continuationPoint is GetCandidateByIteration)
             {
                 GetCandidateByIteration candidateIteration =
@@ -470,7 +470,7 @@ namespace de.unika.ipd.grGen.lgsp
         /// <summary>
         /// move outwards from check succeeded operation until check partial match by independent is found
         /// appending restore isomorphy for isomorphy written on the way
-        /// and final jump to operation right after the independent failed operation of the check partial match by independent 
+        /// and final jump to operation right after the independent failed operation of the check partial match by independent
         /// </summary>
         private void MoveRightAfterCorrespondingIndependentFailedAppendingRemoveIsomorphyAndJump(
             CheckContinueMatchingOfIndependentSucceeded checkSucceeded,
@@ -494,7 +494,7 @@ namespace de.unika.ipd.grGen.lgsp
             {
                 continuationPoint = continuationPoint.Next;
             }
-            CheckContinueMatchingOfIndependentFailed checkFailed = 
+            CheckContinueMatchingOfIndependentFailed checkFailed =
                 (CheckContinueMatchingOfIndependentFailed)continuationPoint;
 
             // insert label right thereafter, append jump there at insertion point
@@ -598,10 +598,10 @@ namespace de.unika.ipd.grGen.lgsp
                 }
 
                 // determine operation to continue at
-                // found by looking at the graph elements 
+                // found by looking at the graph elements
                 // the check operation depends on / is dominated by
                 // its the first element iteration on our way outwards the search program
-                // after or at the point of a get element operation 
+                // after or at the point of a get element operation
                 // of some dominating element the check depends on
                 // (or the outermost operation if no iteration is found until it is reached)
                 if (op is GetCandidate || op is BothDirectionsIteration)
@@ -625,7 +625,7 @@ namespace de.unika.ipd.grGen.lgsp
                         }
                         else
                         {
-                            // needed elements == null means everything fits, 
+                            // needed elements == null means everything fits,
                             // take first element iteration on our way outwards the search program
                             // (or the outermost operation if no iteration is found until it is reached)
                             creationPointOfDominatingElementFound = true;

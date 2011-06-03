@@ -60,7 +60,7 @@ public class DefaultAnnotations implements Annotations {
 	public void put(String key, Object value) {
 		annots.put(key, value);
 	}
-	
+
 	public Set<String> keySet() {
 		return annots.keySet();
 	}

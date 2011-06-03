@@ -89,7 +89,7 @@ rule createBlowball():(Node)
 
 test blowball(head:Node)
 {
-	:Blowball(head);	
+	:Blowball(head);
 }
 
 pattern ReverseChainFromTo(from:Node, to:Node)
@@ -123,7 +123,7 @@ pattern ChainFromToReverse(from:Node, to:Node)
 	alternative {
 		base {
 			from --> to;
-			
+
 			replace {
 				from <-- to;
 			}
@@ -131,14 +131,14 @@ pattern ChainFromToReverse(from:Node, to:Node)
 		rec {
 			from --> intermediate:Node;
 			cftr:ChainFromToReverse(intermediate, to);
-			
+
 			replace {
 				from <-- intermediate;
 				cftr();
 			}
 		}
 	}
-	
+
 	replace {
 		from; to;
 	}
@@ -147,7 +147,7 @@ pattern ChainFromToReverse(from:Node, to:Node)
 rule chainFromToReverse(beg:Node, end:Node)
 {
 	cftr:ChainFromToReverse(beg, end);
-	
+
 	replace {
 		beg; end;
 		cftr();
@@ -159,7 +159,7 @@ pattern ChainFromToReverseToCommon(from:Node, to:Node) replace(common:Node)
 	alternative {
 		base {
 			from --> to;
-			
+
 			replace {
 				from <-- to;
 				from --> common;
@@ -169,7 +169,7 @@ pattern ChainFromToReverseToCommon(from:Node, to:Node) replace(common:Node)
 		rec {
 			from --> intermediate:Node;
 			cftrtc:ChainFromToReverseToCommon(intermediate, to);
-			
+
 			replace {
 				from <-- intermediate;
 				from --> common;
@@ -177,7 +177,7 @@ pattern ChainFromToReverseToCommon(from:Node, to:Node) replace(common:Node)
 			}
 		}
 	}
-	
+
 	replace {
 		from; to;
 	}
@@ -186,7 +186,7 @@ pattern ChainFromToReverseToCommon(from:Node, to:Node) replace(common:Node)
 rule chainFromToReverseToCommon(beg:Node, end:Node) : (Node)
 {
 	cftrtc:ChainFromToReverseToCommon(beg, end);
-	
+
 	replace {
 		beg; end;
 		common:Node;

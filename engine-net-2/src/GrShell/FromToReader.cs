@@ -6,7 +6,7 @@ using System.IO;
 namespace de.unika.ipd.grGen.grShell
 {
     /// <summary>
-    /// A wrapper for a TextReader, 
+    /// A wrapper for a TextReader,
     /// which ensures that reading starts from the line following a line consisting of a given from string,
     /// and ends at the line before the line consisting of a given to string.
     /// From or to might be null meaning start at file start or end at file end.
@@ -30,7 +30,7 @@ namespace de.unika.ipd.grGen.grShell
 
         public new void Dispose()
         {
-            wrappedReader.Dispose(); 
+            wrappedReader.Dispose();
         }
 
         public override int Read(char[] buffer, int index, int count)

@@ -149,7 +149,7 @@ public class ActionsGen extends CSharpBase {
 				+ "{\n");
 
 		/////////////////////////////////////////////////////////
-		
+
 		for(Rule subpatternRule : be.unit.getSubpatternRules()) {
 			genSubpattern(sb, subpatternRule);
 		}
@@ -161,9 +161,9 @@ public class ActionsGen extends CSharpBase {
 		for(Sequence sequence : be.unit.getSequences()) {
 			genSequence(sb, sequence);
 		}
-		
+
 		/////////////////////////////////////////////////////////
-		
+
 		sb.append("\tpublic class " + be.unit.getUnitName() + "_RuleAndMatchingPatterns : GRGEN_LGSP.LGSPRuleAndMatchingPatterns\n");
 		sb.append("\t{\n");
 		sb.append("\t\tpublic " + be.unit.getUnitName() + "_RuleAndMatchingPatterns()\n");
@@ -640,7 +640,7 @@ public class ActionsGen extends CSharpBase {
 		}
 		genLocalMapSetArray(sb, needs, staticInitializers);
 	}
-	
+
 	private void genLocalMapSetArray(StringBuffer sb, List<ImperativeStmt> istmts, List<String> staticInitializers,
 			String pathPrefixForElements, HashMap<Entity, String> alreadyDefinedEntityToName)
 	{
@@ -1059,7 +1059,7 @@ public class ActionsGen extends CSharpBase {
 				genExpressionTree(sb, var.initialization, className, pathPrefixForElements, alreadyDefinedEntityToName);
 				sb.append(");\n");
 			} else {
-				sb.append("null);\n");				
+				sb.append("null);\n");
 			}
 			alreadyDefinedEntityToName.put(var, varName);
 			addAnnotations(aux, var, varName+".annotations");
@@ -1079,7 +1079,7 @@ public class ActionsGen extends CSharpBase {
 					somethingSkipped = true;
 					continue;
 				}
-				
+
 				String nodeName = formatEntity(node, pathPrefixForElements);
 				sb.append("\t\t\tGRGEN_LGSP.PatternNode " + nodeName + " = new GRGEN_LGSP.PatternNode(");
 				sb.append("(int) GRGEN_MODEL.NodeTypes.@" + formatIdentifiable(node.getType()) + ", \"" + formatElementInterfaceRef(node.getType()) + "\", ");
@@ -1104,10 +1104,10 @@ public class ActionsGen extends CSharpBase {
 				alreadyDefinedEntityToName.put(node, nodeName);
 				aux.append("\t\t\t" + nodeName + ".pointOfDefinition = " + (parameters.indexOf(node)==-1 ? patGraphVarName : "null") + ";\n");
 				addAnnotations(aux, node, nodeName+".annotations");
-	
+
 				node.setPointOfDefinition(pattern);
 			}
-	
+
 			for(Edge edge : pattern.getEdges()) {
 				if(alreadyDefinedEntityToName.get(edge)!=null) {
 					continue;
@@ -1142,13 +1142,13 @@ public class ActionsGen extends CSharpBase {
 				alreadyDefinedEntityToName.put(edge, edgeName);
 				aux.append("\t\t\t" + edgeName + ".pointOfDefinition = " + (parameters.indexOf(edge)==-1 ? patGraphVarName : "null") + ";\n");
 				addAnnotations(aux, edge, edgeName+".annotations");
-	
+
 				edge.setPointOfDefinition(pattern);
 			}
-			
+
 			++dependencyLevel;
 		} while(somethingSkipped);
-		
+
 		for(SubpatternUsage sub : pattern.getSubpatternUsages()) {
 			if(alreadyDefinedIdentifiableToName.get(sub)!=null) {
 				continue;
@@ -1281,7 +1281,7 @@ public class ActionsGen extends CSharpBase {
 			sb.append(iter.getMinMatches() + ", ");
 			sb.append(iter.getMaxMatches() + ");\n");
 		}
-		
+
 		for(PatternGraph neg : pattern.getNegs()) {
 			String negName = neg.getNameOfGraph();
 			HashMap<Entity, String> alreadyDefinedEntityToNameClone = new HashMap<Entity, String>(alreadyDefinedEntityToName);
@@ -1361,13 +1361,13 @@ public class ActionsGen extends CSharpBase {
 		if(rule.getRight()==null) {
 			return;
 		}
-		
+
 		if(isTopLevel) {
 			sb.append("#if INITIAL_WARMUP\t\t// GrGen imperative statement section: "  + (isSubpattern ? "Pattern_" : "Rule_") + formatIdentifiable(rule) + "\n");
 		}
-		
+
 		genImperativeStatements(sb, rule, pathPrefix);
-				
+
 		PatternGraph pattern = rule.getPattern();
 		for(Alternative alt : pattern.getAlts()) {
 			String altName = alt.getNameOfGraph();
@@ -1378,14 +1378,14 @@ public class ActionsGen extends CSharpBase {
 						false, isSubpattern);
 			}
 		}
-		
+
 		for(Rule iter : pattern.getIters()) {
 			String iterName = iter.getLeft().getNameOfGraph();
 			genImperativeStatements(sb, iter,
 					pathPrefix + iterName + "_",
 					false, isSubpattern);
 		}
-		
+
 		if(isTopLevel) {
 			sb.append("#endif\n");
 		}
@@ -1440,7 +1440,7 @@ public class ActionsGen extends CSharpBase {
 				sb.append("},\n");
 				sb.append("\t\t\t\"" + exec.getXGRSString().replace("\\", "\\\\").replace("\"", "\\\"") + "\"\n");
 				sb.append("\t\t);\n");
-				
+
 				sb.append("\t\tprivate static bool ApplyXGRS_" + pathPrefix + xgrsID + "(GRGEN_LGSP.LGSPGraph graph");
 				for(Entity neededEntity : exec.getNeededEntities()) {
 					if(!neededEntity.isDefToBeYieldedTo()) {
@@ -1461,7 +1461,7 @@ public class ActionsGen extends CSharpBase {
 				}
 				sb.append("\t\t\treturn true;\n");
 				sb.append("\t\t}\n");
-				
+
 				++xgrsID;
 			} else assert false : "unknown ImperativeStmt: " + istmt + " in " + rule;
 		}
@@ -1476,7 +1476,7 @@ public class ActionsGen extends CSharpBase {
 		if(!isTopLevelRule) {
 			genImperativeStatementClosures(sb, rule, pathPrefix);
 		}
-						
+
 		PatternGraph pattern = rule.getPattern();
 		for(Alternative alt : pattern.getAlts()) {
 			String altName = alt.getNameOfGraph();
@@ -1487,7 +1487,7 @@ public class ActionsGen extends CSharpBase {
 						false);
 			}
 		}
-		
+
 		for(Rule iter : pattern.getIters()) {
 			String iterName = iter.getLeft().getNameOfGraph();
 			genImperativeStatementClosures(sb, iter,
@@ -1502,10 +1502,10 @@ public class ActionsGen extends CSharpBase {
 			if (!(istmt instanceof Exec)) {
 				continue;
 			}
-			
+
 			Exec exec = (Exec) istmt;
 			sb.append("\n"
-					+ "\t\tpublic class XGRSClosure_" + pathPrefix + xgrsID + " : GRGEN_LGSP.LGSPEmbeddedSequenceClosure\n" 
+					+ "\t\tpublic class XGRSClosure_" + pathPrefix + xgrsID + " : GRGEN_LGSP.LGSPEmbeddedSequenceClosure\n"
 					+ "\t\t{\n");
 			sb.append("\t\t\tpublic XGRSClosure_" + pathPrefix + xgrsID + "(");
 			boolean first = true;
@@ -1522,16 +1522,16 @@ public class ActionsGen extends CSharpBase {
 				sb.append("\t\t\t\tthis." + formatEntity(neededEntity) + " = " + formatEntity(neededEntity) + ";\n");
 			}
 			sb.append("\t\t\t}\n");
-			
+
 			sb.append("\t\t\tpublic override bool exec(GRGEN_LGSP.LGSPGraph graph) {\n");
 			sb.append("\t\t\t\treturn ApplyXGRS_" + pathPrefix + xgrsID + "(graph");
 			for(Entity neededEntity : exec.getNeededEntities()) {
 				sb.append(", " + formatEntity(neededEntity));
 			}
-			
-			sb.append(");\n"); 
+
+			sb.append(");\n");
 			sb.append("\t\t\t}\n");
-			
+
 			for(Entity neededEntity : exec.getNeededEntities()) {
 				sb.append("\t\t\t" + formatType(neededEntity.getType()) + " " + formatEntity(neededEntity) + ";\n");
 			}
@@ -1541,7 +1541,7 @@ public class ActionsGen extends CSharpBase {
 			//sb.append("\t\t\tpublic static LGSPEmbeddedSequenceClosure rootOfFreeClosures = null;\n");
 
 			sb.append("\t\t}\n");
-			
+
 			++xgrsID;
 		}
 	}
@@ -1638,7 +1638,7 @@ public class ActionsGen extends CSharpBase {
 			} else {
 				sb.append("new GRGEN_EXPR.Cast(\"" + typeName + "\", ");
 				genExpressionTree(sb, cast.getExpression(), className, pathPrefix, alreadyDefinedEntityToName);
-				if(cast.getExpression().getType() instanceof SetType 
+				if(cast.getExpression().getType() instanceof SetType
 					|| cast.getExpression().getType() instanceof MapType
 					|| cast.getExpression().getType() instanceof ArrayType ) {
 					sb.append(", true");
@@ -2100,7 +2100,7 @@ public class ActionsGen extends CSharpBase {
 				String altPatName = pathPrefixForElements + altName + "_" + altCasePattern.getNameOfGraph();
 				genPatternMatchImplementation(sb, altCasePattern, altPatName,
 						altPatName, className,
-						pathPrefixForElements + altName + "_" + altCasePattern.getNameOfGraph() + "_", 
+						pathPrefixForElements + altName + "_" + altCasePattern.getNameOfGraph() + "_",
 						false, false);
 			}
 		}
@@ -2191,7 +2191,7 @@ public class ActionsGen extends CSharpBase {
 						i, pathPrefixForElements);
 			}
 			sb.append("\t\t\t}\n");
-			
+
 			sb.append("\t\t\tpublic "+className+"()\n");
 			sb.append("\t\t\t{\n");
 			sb.append("\t\t\t}\n");
@@ -2379,7 +2379,7 @@ public class ActionsGen extends CSharpBase {
 		}
 	}
 
-	
+
 	private void genIMatchImplementation(StringBuffer sb, PatternGraph pattern,
 			String name, int which, String pathPrefixForElements)
 	{
@@ -2608,11 +2608,11 @@ public class ActionsGen extends CSharpBase {
 	private void genYield(StringBuffer sb, EvalStatement evalStmt, String className,
 			String pathPrefix, HashMap<Entity, String> alreadyDefinedEntityToName) {
 		if(evalStmt instanceof AssignmentVarIndexed) { // must come before AssignmentVar
-			genAssignmentVarIndexed(sb, (AssignmentVarIndexed) evalStmt, 
+			genAssignmentVarIndexed(sb, (AssignmentVarIndexed) evalStmt,
 					className, pathPrefix, alreadyDefinedEntityToName);
 		}
 		else if(evalStmt instanceof AssignmentVar) {
-			genAssignmentVar(sb, (AssignmentVar) evalStmt, 
+			genAssignmentVar(sb, (AssignmentVar) evalStmt,
 					className, pathPrefix, alreadyDefinedEntityToName);
 		}
 		else if(evalStmt instanceof AssignmentGraphEntity) {
@@ -2633,7 +2633,7 @@ public class ActionsGen extends CSharpBase {
 		else if(evalStmt instanceof MapVarRemoveItem) {
 			genMapVarRemoveItem(sb, (MapVarRemoveItem) evalStmt,
 					className, pathPrefix, alreadyDefinedEntityToName);
-		} 
+		}
 		else if(evalStmt instanceof MapVarAddItem) {
 			genMapVarAddItem(sb, (MapVarAddItem) evalStmt,
 					className, pathPrefix, alreadyDefinedEntityToName);
@@ -2712,7 +2712,7 @@ public class ActionsGen extends CSharpBase {
 		else //if(cass.getChangedOperation()==CompoundAssignment.ASSIGN)
 			changedOperation = "GRGEN_EXPR.YieldChangeAssignment";
 
-		Variable changedTarget = cass.getChangedTarget();	
+		Variable changedTarget = cass.getChangedTarget();
 		sb.append("\t\t\t\tnew " + changedOperation + "(");
 		sb.append("\"" + changedTarget.getIdent() + "\"");
 		sb.append(", ");
@@ -2753,7 +2753,7 @@ public class ActionsGen extends CSharpBase {
 		sb.append(", ");
 		sb.append(keyExprStr);
 		sb.append(")");
-		
+
 		assert mvri.getNext()==null;
 	}
 
@@ -2792,7 +2792,7 @@ public class ActionsGen extends CSharpBase {
 		sb.append(", ");
 		sb.append(valueExprStr);
 		sb.append(")");
-		
+
 		assert svri.getNext()==null;
 	}
 
@@ -2809,7 +2809,7 @@ public class ActionsGen extends CSharpBase {
 		sb.append(", ");
 		sb.append(valueExprStr);
 		sb.append(")");
-		
+
 		assert svai.getNext()==null;
 	}
 
@@ -2827,7 +2827,7 @@ public class ActionsGen extends CSharpBase {
 			sb.append(indexExprStr);
 		}
 		sb.append(")");
-		
+
 		assert avri.getNext()==null;
 	}
 
@@ -2851,7 +2851,7 @@ public class ActionsGen extends CSharpBase {
 			sb.append(indexExprStr);
 		}
 		sb.append(")");
-		
+
 		assert avai.getNext()==null;
 	}
 

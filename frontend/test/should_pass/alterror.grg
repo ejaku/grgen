@@ -7,26 +7,26 @@ rule error
   {
     alt_error {
       if {( node1.info ) in set<string>{"plip", "plop" };}
-      
+
       alternative
       {
         alt_alt_error {
           if {( node1.info ) in set<string>{"plip", "ploup" };}
-  
+
           modify {
             node2:gnode;
             node1 -:gedge-> node2;
           }
         }
       }
-      
+
       modify {
         node2:gnode;
         node1 -:gedge-> node2;
       }
     }
   }
-  
+
   modify {
   }
 }

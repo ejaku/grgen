@@ -3,7 +3,7 @@ using attrib_model_001;
 rule r {
 	ns : NSTRING;
 	-es:ESTRING->;
-	
+
 	modify {
 		eval {
 			ns.a = min(ns.a, es.a);

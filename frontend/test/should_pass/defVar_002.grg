@@ -25,7 +25,7 @@ rule r
 			ed.a = ad;
 			eo.a = ao;
 		}
-		
+
 		eval {
 			yield ai = ni.a;
 			yield ab = nb.a;
@@ -34,7 +34,7 @@ rule r
 			yield ad = ed.a;
 			yield ao = eo.a;
 		}
-		
+
 		eval {
 			yield ai = ai + ni.a;
 			yield ab = ab | nb.a;
@@ -71,7 +71,7 @@ pattern p
 			ed.a = ad;
 			eo.a = ao;
 		}
-		
+
 		eval {
 			yield ai = ni.a;
 			yield ab = nb.a;
@@ -80,7 +80,7 @@ pattern p
 			yield ad = ed.a;
 			yield ao = eo.a;
 		}
-		
+
 		eval {
 			yield ai = ai + ni.a;
 			yield ab = ab | nb.a;
@@ -120,7 +120,7 @@ rule ra
 					ed.a = ad;
 					eo.a = ao;
 				}
-				
+
 				eval {
 					yield ai = ni.a;
 					yield ab = nb.a;
@@ -129,7 +129,7 @@ rule ra
 					yield ad = ed.a;
 					yield ao = eo.a;
 				}
-				
+
 				eval {
 					yield ai = ai + ni.a;
 					yield ab = ab | nb.a;
@@ -141,7 +141,7 @@ rule ra
 			}
 		}
 	}
-	
+
 	modify {
 	}
 }
@@ -168,7 +168,7 @@ rule ran
 					ed.a = ad;
 					eo.a = ao;
 				}
-				
+
 				eval {
 					yield ai = ni.a;
 					yield ab = nb.a;
@@ -177,7 +177,7 @@ rule ran
 					yield ad = ed.a;
 					yield ao = eo.a;
 				}
-				
+
 				eval {
 					yield ai = ai + ni.a;
 					yield ab = ab | nb.a;
@@ -189,7 +189,7 @@ rule ran
 			}
 		}
 	}
-	
+
 	modify {
 		def var ai:int = 42;
 		def var ab:boolean = true;
@@ -227,7 +227,7 @@ pattern pa
 				ed.a = ad;
 				eo.a = ao;
 			}
-			
+
 			eval {
 				yield ai = ni.a;
 				yield ab = nb.a;
@@ -236,7 +236,7 @@ pattern pa
 				yield ad = ed.a;
 				yield ao = eo.a;
 			}
-			
+
 			eval {
 				yield ai = ai + ni.a;
 				yield ab = ab | nb.a;
@@ -247,7 +247,7 @@ pattern pa
 			}
 		}
 	}
-	
+
 	modify {
 	}
 }
@@ -264,7 +264,7 @@ pattern pan
 	iterated
 	{
 		.;
-		
+
 		modify {
 			evalhere {
 				ni.a = ai;
@@ -274,7 +274,7 @@ pattern pan
 				ed.a = ad;
 				eo.a = ao;
 			}
-			
+
 			eval {
 				yield ai = ni.a;
 				yield ab = nb.a;
@@ -283,7 +283,7 @@ pattern pan
 				yield ad = ed.a;
 				yield ao = eo.a;
 			}
-			
+
 			eval {
 				yield ai = ai + ni.a;
 				yield ab = ab | nb.a;
@@ -294,7 +294,7 @@ pattern pan
 			}
 		}
 	}
-	
+
 	modify {
 		def var ai:int = 42;
 		def var ab:boolean = true;

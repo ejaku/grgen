@@ -11,7 +11,7 @@ rule r1
 		str.a.lastIndexOf("test") == str.a.indexOf("test");
 		str2.a.indexOf("test") != -1;
 		str2.a.lastIndexOf("test") == str2.a.indexOf("test");
-		
+
 		(str2.a + 8).length() != (str.a + str2.a).indexOf("blub");
 
 		str.a.substring(0, str.a.indexOf("test"))

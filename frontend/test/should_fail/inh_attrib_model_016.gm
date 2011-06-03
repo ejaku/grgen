@@ -1,4 +1,4 @@
-// A multiply inherited edge attribute should be rejected when 
+// A multiply inherited edge attribute should be rejected when
 // it is declared on a single path through the class hierarchy
 
 edge class Type1 {

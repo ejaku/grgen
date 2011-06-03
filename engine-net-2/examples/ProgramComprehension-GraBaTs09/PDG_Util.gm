@@ -1,4 +1,4 @@
-abstract edge class controlDependence { 
+abstract edge class controlDependence {
 	index:int;
 }
 

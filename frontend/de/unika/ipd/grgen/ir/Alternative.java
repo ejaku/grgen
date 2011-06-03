@@ -37,7 +37,7 @@ public class Alternative extends Identifiable {
 	{
 		alternativeCases.add(alternativeCaseRule);
 	}
-	
+
 	public String getNameOfGraph() {
 		return getIdent().toString();
 	}

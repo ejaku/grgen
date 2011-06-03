@@ -26,11 +26,11 @@ public class IdentExprNode extends DeclExprNode {
 	}
 
 	boolean yieldedTo = false;
-	
+
 	public IdentExprNode(IdentNode ident) {
 		super(ident);
 	}
-	
+
 	public void setYieldedTo() {
 		yieldedTo = true;
 	}

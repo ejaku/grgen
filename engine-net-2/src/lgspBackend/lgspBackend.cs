@@ -456,7 +456,7 @@ namespace de.unika.ipd.grGen.lgsp
         }
 
         /// <summary>
-        /// Returns a string where all "wrong" directory separator chars are replaced by the ones used by the system 
+        /// Returns a string where all "wrong" directory separator chars are replaced by the ones used by the system
         /// </summary>
         /// <param name="path">The original path string potentially with wrong chars</param>
         /// <returns>The corrected path string</returns>

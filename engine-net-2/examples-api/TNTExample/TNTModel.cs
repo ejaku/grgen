@@ -31,10 +31,10 @@ namespace de.unika.ipd.grGen.Model_TNT
 	{
 		private static int poolLevel = 0;
 		private static GRGEN_MODEL.@Node[] pool = new GRGEN_MODEL.@Node[10];
-		
+
 		static @Node() {
 		}
-		
+
 		public @Node() : base(GRGEN_MODEL.NodeType_Node.typeVar)
 		{
 			// implicit initialization, map/set creation of Node
@@ -146,12 +146,12 @@ namespace de.unika.ipd.grGen.Model_TNT
 	{
 		private static int poolLevel = 0;
 		private static GRGEN_MODEL.@C[] pool = new GRGEN_MODEL.@C[10];
-		
+
 		// explicit initializations of C for target C
 		// implicit initializations of C for target C
 		static @C() {
 		}
-		
+
 		public @C() : base(GRGEN_MODEL.NodeType_C.typeVar)
 		{
 			// implicit initialization, map/set creation of C
@@ -267,12 +267,12 @@ namespace de.unika.ipd.grGen.Model_TNT
 	{
 		private static int poolLevel = 0;
 		private static GRGEN_MODEL.@H[] pool = new GRGEN_MODEL.@H[10];
-		
+
 		// explicit initializations of H for target H
 		// implicit initializations of H for target H
 		static @H() {
 		}
-		
+
 		public @H() : base(GRGEN_MODEL.NodeType_H.typeVar)
 		{
 			// implicit initialization, map/set creation of H
@@ -388,12 +388,12 @@ namespace de.unika.ipd.grGen.Model_TNT
 	{
 		private static int poolLevel = 0;
 		private static GRGEN_MODEL.@O[] pool = new GRGEN_MODEL.@O[10];
-		
+
 		// explicit initializations of O for target O
 		// implicit initializations of O for target O
 		static @O() {
 		}
-		
+
 		public @O() : base(GRGEN_MODEL.NodeType_O.typeVar)
 		{
 			// implicit initialization, map/set creation of O
@@ -509,12 +509,12 @@ namespace de.unika.ipd.grGen.Model_TNT
 	{
 		private static int poolLevel = 0;
 		private static GRGEN_MODEL.@N[] pool = new GRGEN_MODEL.@N[10];
-		
+
 		// explicit initializations of N for target N
 		// implicit initializations of N for target N
 		static @N() {
 		}
-		
+
 		public @N() : base(GRGEN_MODEL.NodeType_N.typeVar)
 		{
 			// implicit initialization, map/set creation of N
@@ -630,12 +630,12 @@ namespace de.unika.ipd.grGen.Model_TNT
 	{
 		private static int poolLevel = 0;
 		private static GRGEN_MODEL.@P[] pool = new GRGEN_MODEL.@P[10];
-		
+
 		// explicit initializations of P for target P
 		// implicit initializations of P for target P
 		static @P() {
 		}
-		
+
 		public @P() : base(GRGEN_MODEL.NodeType_P.typeVar)
 		{
 			// implicit initialization, map/set creation of P
@@ -751,12 +751,12 @@ namespace de.unika.ipd.grGen.Model_TNT
 	{
 		private static int poolLevel = 0;
 		private static GRGEN_MODEL.@S[] pool = new GRGEN_MODEL.@S[10];
-		
+
 		// explicit initializations of S for target S
 		// implicit initializations of S for target S
 		static @S() {
 		}
-		
+
 		public @S() : base(GRGEN_MODEL.NodeType_S.typeVar)
 		{
 			// implicit initialization, map/set creation of S
@@ -1061,10 +1061,10 @@ namespace de.unika.ipd.grGen.Model_TNT
 	{
 		private static int poolLevel = 0;
 		private static GRGEN_MODEL.@Edge[] pool = new GRGEN_MODEL.@Edge[10];
-		
+
 		static @Edge() {
 		}
-		
+
 		public @Edge(GRGEN_LGSP.LGSPNode source, GRGEN_LGSP.LGSPNode target)
 			: base(GRGEN_MODEL.EdgeType_Edge.typeVar, source, target)
 		{
@@ -1177,10 +1177,10 @@ namespace de.unika.ipd.grGen.Model_TNT
 	{
 		private static int poolLevel = 0;
 		private static GRGEN_MODEL.@UEdge[] pool = new GRGEN_MODEL.@UEdge[10];
-		
+
 		static @UEdge() {
 		}
-		
+
 		public @UEdge(GRGEN_LGSP.LGSPNode source, GRGEN_LGSP.LGSPNode target)
 			: base(GRGEN_MODEL.EdgeType_UEdge.typeVar, source, target)
 		{

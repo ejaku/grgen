@@ -29,7 +29,7 @@ public class Edge extends GraphEntity {
 	public PatternGraph directlyNestingLHSGraph;
 
 	protected boolean fixedDirection;
-	
+
 	protected boolean maybeNull;
 
 	/**
@@ -43,9 +43,9 @@ public class Edge extends GraphEntity {
 	 * @param context The context of the declaration
 	 */
 	public Edge(Ident ident, EdgeType type, Annotations annots,
-			PatternGraph directlyNestingLHSGraph, 
+			PatternGraph directlyNestingLHSGraph,
 			boolean maybeDeleted, boolean maybeRetyped, boolean isDefToBeYieldedTo, int context) {
-		super("edge", ident, type, annots, 
+		super("edge", ident, type, annots,
 				maybeDeleted, maybeRetyped, isDefToBeYieldedTo, context);
 		this.type = type;
 		this.directlyNestingLHSGraph = directlyNestingLHSGraph;
@@ -61,20 +61,20 @@ public class Edge extends GraphEntity {
 	 * @param context The context of the declaration
 	 */
 	public Edge(Ident ident, EdgeType type,
-			PatternGraph directlyNestingLHSGraph, 
+			PatternGraph directlyNestingLHSGraph,
 			boolean maybeDeleted, boolean maybeRetyped, boolean isDefToBeYieldedTo, int context) {
-		this(ident, type, EmptyAnnotations.get(), directlyNestingLHSGraph, 
+		this(ident, type, EmptyAnnotations.get(), directlyNestingLHSGraph,
 				maybeDeleted, maybeRetyped, isDefToBeYieldedTo, context);
 	}
 
 	public void setMaybeNull(boolean maybeNull) {
 		this.maybeNull = maybeNull;
 	}
-	
+
 	public boolean getMaybeNull() {
 		return maybeNull;
 	}
-	
+
 	/** @return The type of the edge. */
 	public EdgeType getEdgeType() {
 		return type;

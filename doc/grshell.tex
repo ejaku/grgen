@@ -1,9 +1,9 @@
 \chapter{GrShell Language}\indexmain{GrShell}
 \label{chapgrshell}
-\GrShell\ is a \indexedsee{shell}{GrShell} application built on top of \LibGr\indexmain{libGr}. 
-It belongs to \GrG's standard equipment. 
+\GrShell\ is a \indexedsee{shell}{GrShell} application built on top of \LibGr\indexmain{libGr}.
+It belongs to \GrG's standard equipment.
 \GrShell\ is capable of creating, manipulating, and dumping graphs as well as performing and debugging graph rewriting.
-The \GrShell\ provides a line oriented scripting language. 
+The \GrShell\ provides a line oriented scripting language.
 \GrShell\ scripts are structured by simple statements separated by line breaks.
 
 %rewrite stuff to be command based instead of splitting commands over several sections?
@@ -12,9 +12,9 @@ The \GrShell\ provides a line oriented scripting language.
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \section{Building Blocks}
 
-\GrShell\ is \indexed{case sensitive}. 
-A line may be empty, may contain a shell command, or may contain a comment. 
-A \indexed{comment} starts with a \indexed{\texttt{\#}} and is terminated by end-of-line or end-of-file. 
+\GrShell\ is \indexed{case sensitive}.
+A line may be empty, may contain a shell command, or may contain a comment.
+A \indexed{comment} starts with a \indexed{\texttt{\#}} and is terminated by end-of-line or end-of-file.
 The following items are required for representing text, numbers, and rule parameters.\\
 \\
 \emph{Text}\\
@@ -30,9 +30,9 @@ Due to the chosen parser generator shell keywords are not allowed for type names
 \emph{Number}\\
 Is an \texttt{int} or \texttt{float} constant in decimal notation (see also Section~\ref{sec:builtintypes}).
 
-\begin{rail} 
+\begin{rail}
  Parameters : Text + ',' ;
- SpacedParameters: Text + ; 
+ SpacedParameters: Text + ;
 \end{rail}\ixnterm{Parameters}\ixnterm{SpacedParameters}
 
 In order to describe the commands more precisely, the following (semantic) specializations of \emph{Text} are defined:
@@ -54,27 +54,27 @@ The elements of a graph (nodes and edges) can be accessed both by their (graph g
 The specializations \emph{Node} and \emph{Edge} of \emph{GraphElement} require the corresponding graph element to be a node or an edge respectively.
 
 \begin{example}
-\label{persistentex} 
+\label{persistentex}
 We insert a node, \indexed{anonymous}ly and with a \indexed{constructor} (see also Section~\ref{mani}):
 \begin{grshell}
 > new graph "../lib/lgsp-TuringModel.dll" G
 New graph "G" of model "Turing" created.
-  
-# insert an anonymous node... 
+
+# insert an anonymous node...
 # it will get a persistent pseudo name
-> new :State  
+> new :State
 New node "$0" of type "State" has been created.
 > delete node @("$0")
-  
+
 # and now with constructor
-> new v:State($=start) 
+> new v:State($=start)
 new node "start" of type "State" has been created.
 # Now we have a node named "start" and a variable v assigned to "start"
 \end{grshell}
 \end{example}
 \begin{note}
-Persistent names will be saved (\texttt{save graph\dots}, see Section~\ref{outputcmds}) and exported, 
-and, if you visualize a graph (\texttt{dump graph\dots}, see Section~\ref{outputcmds}), 
+Persistent names will be saved (\texttt{save graph\dots}, see Section~\ref{outputcmds}) and exported,
+and, if you visualize a graph (\texttt{dump graph\dots}, see Section~\ref{outputcmds}),
 graph elements will be \indexed{label}ed with their persistent names.
 Persistent names have to be unique for a graph (the graph they belong to).
 \end{note}
@@ -87,17 +87,17 @@ If \emph{Variable} has not been defined yet, it will be defined implicitly.
 As usual for scripting languages, variables have neither static types nor declarations.
 The variables known to \GrShell\ are the graph global variables (see \ref{cha:xgrs} for the distinction between graph global and sequence local variables).
 
-\begin{rail} 
-'show' 'var' Variable 
+\begin{rail}
+'show' 'var' Variable
 \end{rail}\ixkeyw{show}\ixkeyw{var}
 Prints the content of the specified variable.
 
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \section{\GrShell\ Commands}
-This section describes the \GrShell\ commands\ixnterm{Command}. Commands are assembled from basic elements. 
+This section describes the \GrShell\ commands\ixnterm{Command}. Commands are assembled from basic elements.
 As stated before commands are terminated by line breaks. Alternatively commands can be terminated by the \indexed{\texttt{;;}} symbol.
-Like an operating system shell, the \GrShell\ allows you to span a single command over $n$ lines by terminating the first $n-1$ lines with a \indexed{backslash}.  
+Like an operating system shell, the \GrShell\ allows you to span a single command over $n$ lines by terminating the first $n-1$ lines with a \indexed{backslash}.
 \begin{rail}
   Script: ((Command ('<line break>' | ';;'))+) '<end of file>' ;
 \end{rail}\ixnterm{Script}
@@ -108,7 +108,7 @@ Like an operating system shell, the \GrShell\ allows you to span a single comman
 \begin{rail}
   'help' (Command)?
 \end{rail}\ixkeyw{help}
-Displays an information message describing all the supported commands. 
+Displays an information message describing all the supported commands.
 A command \texttt{Command} displayed with \texttt{...} has further help available, which can be displayed with \texttt{help Command}.
 
 \begin{rail}
@@ -164,7 +164,7 @@ asks the user to enter an integer value; pressing 4 then 2 then enter will do fi
 \begin{grshelllet}
 x = askfor Node
 \end{grshelllet}
-asks the user to select a graph element in yComp; double clicking any node will do fine. 
+asks the user to select a graph element in yComp; double clicking any node will do fine.
 \end{example}
 
 \begin{rail}
@@ -204,18 +204,18 @@ Redirects the output of the emit-statements in the rules to stdout (again).
 \label{graphcommands}
 
 \begin{rail}
-  'new' 'graph' Filename Text 
+  'new' 'graph' Filename Text
 \end{rail}\ixkeyw{new}\ixkeyw{graph}
 Creates a new graph with the model specified in \emph{Filename}\indexmain{graph model}.
-Its name is set to \emph{Text}. 
+Its name is set to \emph{Text}.
 The model file can be either source code (e.g.\ \texttt{turing\textunderscore machineModel.cs}) or a .NET assembly (e.g.\ \texttt{lgsp-turing\textunderscore machineModel.dll}).
-It's also possible to specify a rule set file as \emph{Filename}. 
+It's also possible to specify a rule set file as \emph{Filename}.
 In this case the necessary assemblies will be created on the fly.
 
 \begin{rail}
   'open' 'graph' Filename Text
 \end{rail}\ixkeyw{open}\ixkeyw{graph}
-Opens the graph \emph{Text} stored in the backend. 
+Opens the graph \emph{Text} stored in the backend.
 However, the \emph{LGSPBackend} doesn't support \indexed{persistent graph}s, and as the \emph{LGSPBackend} is the only backend available at the moment, this command is currently useless.
 You may achieve persistence by using import/export or save/include instead.
 
@@ -244,7 +244,7 @@ Deletes the graph \emph{Graph} from the backend storage.
 %-----------------------------------------------------------------------------------------------
 \subsection{Validation Commands}
 
-\GrG\ offers two different graph validation mechanisms, 
+\GrG\ offers two different graph validation mechanisms,
 the first checks against the connection assertions specified in the model,
 the second checks against an arbitrary graph rewrite sequence containing arbitrary tests and rules.
 
@@ -252,7 +252,7 @@ the second checks against an arbitrary graph rewrite sequence containing arbitra
   'validate' ('exitonfailure')? ('strict' ('only' 'specified')?)?
 \end{rail}\ixkeyw{validate}\ixkeyw{exitonfailure}\ixkeyw{strict}\ixkeyw{only}\ixkeyw{specified}
 Validates\indexmain{validate} if the current working graph fulfills the \indexed{connection assertion}s specified in the corresponding graph model (cf. ~\ref{sct:ConnectionAssertions}).
-Validate without the strict modifier checks the multiplicities of the connections it finds in the host graph, 
+Validate without the strict modifier checks the multiplicities of the connections it finds in the host graph,
 it ignores node-edge-node connections which are available in the host graph but have not been specified in the model.
 The \emph{strict} mode additionally requires that all the edges available in the host graph must have been specified in the model.
 This requirement is too harsh for models where only certain parts are considered critical enough to be checked
@@ -272,7 +272,7 @@ The GrShell is exited with an error code if \texttt{exitonfailure} is specified 
 
 \begin{example}
 We reuse a simplified version of the road map model from Chapter~\ref{chapmodellang}:
-\begin{grgen} 
+\begin{grgen}
 model Map;
 
 node class city;
@@ -288,7 +288,7 @@ The node constraint on \emph{highway} requires all the metropolises to be connec
 \end{center}
 
 This graph is valid but not strict valid.
-\begin{grshell} 
+\begin{grshell}
 > validate
 The graph is valid.
 > validate strict only specified
@@ -320,7 +320,7 @@ The created script includes
   \item restoring the (graph global) variables
   \item restoring the visualisation styles
 \end{itemize}
-but not necessarily using the same commands you typed in during construction. 
+but not necessarily using the same commands you typed in during construction.
 Such a script can be loaded and executed by the \texttt{include} command (see Section~\ref{commcommands}).
 
 \begin{rail}
@@ -334,15 +334,15 @@ If the \texttt{.gz} suffix is given the graph is saved zipped.
 If \texttt{withvariables} is specified, the (graph global) variables are exported, too.
 The export is only complete with the model of the graph given in the \texttt{.gm} file.
 Exporting fails if the graph model contains attributes of \texttt{object}-type.
-The \texttt{save} command is for saving about a \GrShell\ session including graph global variables and visualization commands, 
+The \texttt{save} command is for saving about a \GrShell\ session including graph global variables and visualization commands,
 the goal of the \texttt{export} command is basic graph rewrite system interoperability.
 The persistent names are saved in contrast to the following format GXL.
 
 \begin{rail}
   'export' Filename '.gxl' ('.gz')?
 \end{rail}\ixkeyw{export}\indexmain{import}
-Exports an instance graph and a graph model in GXL format \cite{GXL,GXL2}, 
-which is somewhat of a standard format for graphs of graph rewrite systems, 
+Exports an instance graph and a graph model in GXL format \cite{GXL,GXL2},
+which is somewhat of a standard format for graphs of graph rewrite systems,
 but suffers from the well-known XML problems -- it is barely human-readable and bloated.
 (Besides tools claiming to support it often can't import the export of the other.)
 Exporting fails if the graph model contains attributes of \texttt{set<S>}-,\texttt{map<S,T>}-,\texttt{array<S>}- or \texttt{object}-type.
@@ -404,7 +404,7 @@ Instead during the import process an intermediate \texttt{.gm} is written which 
 (the importer maps classes to GrGen node classes, their attributes
 to corresponding GrGen attributes, and their references to GrGen
 edge classes; inheritance is transferred one-to-one, and enumerations are
-mapped to GrGen enums; 
+mapped to GrGen enums;
 class names are prefixed by the names of the packages they are contained in
 and edge type names are prefixed by the names of the node types they originate from,
 to prevent name clashes).
@@ -451,7 +451,7 @@ An example for record and replay is given in \texttt{tests/recordreplay}.
 \subsection{Graph Manipulation Commands}
 \label{mani}
 Graph manipulation commands alter existing graphs;
-they allow to create, retype and delete graph elements and change attributes. 
+they allow to create, retype and delete graph elements and change attributes.
 These are tasks which are or at least should be carried out by the rules of the rule language in the first place.
 On shell level they are available and mainly used as elementary instructions in creating an initial graph, in exporting and importing a graph, as well as in change recording and replaying.
 
@@ -463,7 +463,7 @@ Optionally a variable \emph{Text} is assigned to the new node.
 If \emph{NodeType} is supplied, the new node will be of type \emph{NodeType} and attributes can be initialized by a constructor.
 Otherwise the node will be of the base node class type \emph{Node}.
 \begin{note}
-The \GrShell\ can reassign \indexed{variable}s. 
+The \GrShell\ can reassign \indexed{variable}s.
 This is in contrast to the rule language (Chapter~\ref{chaprulelang}), where we mainly use \emph{names}\indexmain{name}\indexmain{expression variable}\indexmainsee{expression variable}{name}
 (with exception of var and ref input variables and def entities).
 \end{note}
@@ -493,7 +493,7 @@ Otherwise the edge will be of the base edge class type \texttt{Edge} for \texttt
 A \indexed{constructor} is used to initialize a new graph element (see \texttt{new \dots} below).
 A comma separated list of \indexed{attribute} declarations is supplied to the constructor.
 Available attribute names are specified by the graph model of the current working graph.
-All the undeclared attributes will be initialized with \indexed{default value}s, depending on their type 
+All the undeclared attributes will be initialized with \indexed{default value}s, depending on their type
 (\texttt{int} $\leftarrow$ \texttt{0}; \texttt{boolean} $\leftarrow$ \texttt{false}; \texttt{float} $\leftarrow$ \texttt{0.0f}; \texttt{double} $\leftarrow$ \texttt{0.0}; \texttt{string} $\leftarrow$ \texttt{""}; \texttt{set<T>} $\leftarrow$ \texttt{set<T>\{\}}; \texttt{map<S,T>} $\leftarrow$ \texttt{map<S,T>\{\}}; \texttt{array<T>} $\leftarrow$ \texttt{array<T>[]}; \texttt{enum} $\leftarrow$ unspecified;).\\
 The \texttt{\$} is a special attribute name: a unique identifier of the new graph element.
 This identifier is also called \newterm{persistent name} (see Example~\ref{persistentex}).
@@ -541,15 +541,15 @@ Or add the value \emph{PrimitiveAttributeValue} to the end of the array valued a
   GraphElement '.' AttributeName '.' 'rem' '(' (PrimitiveAttributeValue)? ')' ;
 \end{rail}
 Remove the value \emph{PrimitiveAttributeValue} from the set valued attribute \emph{AttributeName} of the graph element \emph{GraphElement} or remove the key \emph{PrimitiveAttributeValue} from the map valued attribute \emph{AttributeName} of the graph element \emph{GraphElement} or remove the index \emph{PrimitiveAttributeValue} from the array valued attribute \emph{AttributeName} of the graph element \emph{GraphElement} or remove the end element from the array valued attribute \emph{AttributeName} of the graph element \emph{GraphElement} in the zero parameter case.
-  
+
 %-----------------------------------------------------------------------------------------------
 \subsection{Graph and Model Query Commands}
 
 \begin{rail}
   'show' (() | 'num') ('nodes' (() | (() | 'only') NodeType) | 'edges' (() | (() | 'only') EdgeType))
 \end{rail}\ixkeyw{show}\ixkeyw{num}\ixkeyw{nodes}\ixkeyw{edges}\ixkeyw{only}
-Gets the \indexed{persistent name}s and the types of all the nodes/edges of the current graph. 
-If a node type or edge type is supplied, only elements compatible to this type are considered. 
+Gets the \indexed{persistent name}s and the types of all the nodes/edges of the current graph.
+If a node type or edge type is supplied, only elements compatible to this type are considered.
 The \texttt{only} keyword excludes subtypes. Nodes/edges without persistent names are shown with a pseudo-name.
 If the command is specified with \texttt{num}, only the number of nodes/edges will be displayed.
 
@@ -611,7 +611,7 @@ Rules can return a set of graph elements.
 \begin{rail}
   'custom' 'actions' (() | SpacedParameters)
 \end{rail}\ixkeyw{custom}\ixkeyw{actions}
-Executes an action specific to the current \indexed{backend}. 
+Executes an action specific to the current \indexed{backend}.
 If \emph{SpacedParameters} is omitted, a list of available commands will be displayed (for the LGSPBackend see Section~\ref{custom}).
 
 \begin{rail}
@@ -620,7 +620,7 @@ If \emph{SpacedParameters} is omitted, a list of available commands will be disp
 This command allows to define a named sequence at runtime, for $RewriteSequenceDefinition$ have a look here  \ref{sec:sequencedefinition} in the rule application control language chapter.
 Especially it allows to replace an old sequence definition, but only if the signature is identical.
 Compiled sequences defined in rule files can't be replaced.
-The defined sequence can then be used from following graph rewrite sequences (or following sequence definitions) in the shell. 
+The defined sequence can then be used from following graph rewrite sequences (or following sequence definitions) in the shell.
 
 \begin{example}
 \begin{grgen}
@@ -629,7 +629,7 @@ The defined sequence can then be used from following graph rewrite sequences (or
 # but it can get overwritten with a sequence of the same signature
 # -> (self or mutually) recursive sequences must be constructed with empty body first
 def chain(first:A):(last:A){ true }
-def chain(first:A):(last:A){ if{(next:A)=chainPiece(first); (last)=chain(next); last=first} } 
+def chain(first:A):(last:A){ if{(next:A)=chainPiece(first); (last)=chain(next); last=first} }
 \end{grgen}
 \end{example}
 
@@ -641,9 +641,9 @@ This executes the graph rewrite sequence \emph{SimpleRewriteSequence}.
 See Chapter~\ref{cha:xgrs} for graph rewrite sequences.
 Additionally to the variable assignment in rule-embedded graph rewrite sequences, you are also able to assign \emph{persistent names} to parameters via  \texttt{Variable = \@(Text)}.
 
-Graph elements returned by rules can be assigned to variables\indexmain{variable} using \texttt{(Para\-meters) = \emph{Action}}\indexmain{parameter}. 
-The desired variable identifiers have to be listed in \emph{Parameters}. 
-Graph elements required by rules must be provided using \texttt{Action (Para\-meters)}, where \emph{Parameters} is a list of variable identifiers. 
+Graph elements returned by rules can be assigned to variables\indexmain{variable} using \texttt{(Para\-meters) = \emph{Action}}\indexmain{parameter}.
+The desired variable identifiers have to be listed in \emph{Parameters}.
+Graph elements required by rules must be provided using \texttt{Action (Para\-meters)}, where \emph{Parameters} is a list of variable identifiers.
 For \indexed{undefined variables} see Section~\ref{ruledecls}, \emph{Parameters}.
 
 
@@ -686,7 +686,7 @@ If \emph{SpacedParameters} is omitted, a list of available commands will be disp
 The \indexed{LGSPBackend} supports the following custom commands:
 
 \begin{rail}
-  'custom' 'graph' (analyzegraph | 'analyze') 
+  'custom' 'graph' (analyzegraph | 'analyze')
 \end{rail}\ixkeyw{custom}\ixkeyw{graph}\ixkeyw{analyze}\ixkeyw{analyzegraph}
 Analyzes\indexmain{analyzing graph} the current working graph.
 The analysis data provides vital information for efficient \indexed{search plan}s.
@@ -704,18 +704,18 @@ If \emph{Number} is less or equal to zero, the constraint is reset.
 \end{rail}\ixkeyw{custom}\ixkeyw{graph}\ixkeyw{optimizereuse}
 If set to false it prevents deleted elements from getting reused in a rewrite (i.e. it disables a performance optimization).
 If set to true, new elements may not be discriminable anymore from already deleted elements using object equality, hash maps, etc.
-					
+
 \begin{rail}
   'custom' 'actions' gensearchplan (Action*)
 \end{rail}\ixkeyw{custom}\ixkeyw{actions}\ixkeyw{gensearchplan}
 Creates a search plan (and executable code from it) for each rewrite rule \emph{Action} using the data from analyzing the graph (\texttt{custom graph analyze}).
-Otherwise a \indexed{default search plan} is used. 
+Otherwise a \indexed{default search plan} is used.
 If no rewrite rule is specified, all rewrite rules are compiled anew.
 Analyzing and search plan/code generation themselves take some time, but they can lead to (massively) faster pattern matching, thus overall execution times
 (the less uniform the type distribution and edge wiring between the nodes, the higher the improvements).
 During the analysis phase the host graph must be in a shape ``similar'' to its shape when the main amount of work is done
 (there may be some trial-and-error steps at different time points needed to get the overall most efficient search plan.)
-A search plan is available as long as the current rule set remains loaded. 
+A search plan is available as long as the current rule set remains loaded.
 Specify multiple rewrite rules instead of using multiple commands for each rule to improve the search plan generation performance.
 
 \begin{rail}

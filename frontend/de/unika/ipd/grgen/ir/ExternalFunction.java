@@ -32,7 +32,7 @@ public class ExternalFunction extends Identifiable {
 	 */
 	public ExternalFunction(String name, Ident ident, Type retType) {
 		super(name, ident);
-		
+
 		this.retType = retType;
 	}
 

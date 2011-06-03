@@ -68,7 +68,7 @@ namespace de.unika.ipd.grGen.lgsp
         /// <summary>
         /// Builds a plan graph out of a given pattern graph.
         /// </summary>
-        /// <param name="graph">The host graph to optimize the matcher program for, 
+        /// <param name="graph">The host graph to optimize the matcher program for,
         /// providing statistical information about its structure </param>
         public PlanGraph GeneratePlanGraph(LGSPGraph graph, PatternGraph patternGraph, bool negativePatternGraph)
         {
@@ -89,7 +89,7 @@ namespace de.unika.ipd.grGen.lgsp
                 SearchOperationType searchOperationType;
                 if(node.PatternElementType == PatternElementType.Preset)
                 {
-#if OPCOST_WITH_GEO_MEAN 
+#if OPCOST_WITH_GEO_MEAN
                     cost = 0;
 #else
                     cost = 1;
@@ -99,7 +99,7 @@ namespace de.unika.ipd.grGen.lgsp
                 }
                 else if(negativePatternGraph && node.PatternElementType == PatternElementType.Normal)
                 {
-#if OPCOST_WITH_GEO_MEAN 
+#if OPCOST_WITH_GEO_MEAN
                     cost = 0;
 #else
                     cost = 1;
@@ -136,7 +136,7 @@ namespace de.unika.ipd.grGen.lgsp
                 SearchOperationType searchOperationType;
                 if(edge.PatternElementType == PatternElementType.Preset)
                 {
-#if OPCOST_WITH_GEO_MEAN 
+#if OPCOST_WITH_GEO_MEAN
                     cost = 0;
 #else
                     cost = 1;
@@ -147,7 +147,7 @@ namespace de.unika.ipd.grGen.lgsp
                 }
                 else if(negativePatternGraph && edge.PatternElementType == PatternElementType.Normal)
                 {
-#if OPCOST_WITH_GEO_MEAN 
+#if OPCOST_WITH_GEO_MEAN
                     cost = 0;
 #else
                     cost = 1;
@@ -171,7 +171,7 @@ namespace de.unika.ipd.grGen.lgsp
   #else
                     cost = graph.vstructs[sourceTypeID, edge.TypeID, targetTypeID, (int) LGSPDir.Out];
   #endif
-#elif OPCOST_WITH_GEO_MEAN 
+#elif OPCOST_WITH_GEO_MEAN
                     cost = graph.edgeLookupCosts[edge.TypeID];
 #else
                     cost = graph.edgeCounts[edge.TypeID];
@@ -208,7 +208,7 @@ namespace de.unika.ipd.grGen.lgsp
                 // only add implicit source operation if edge source is needed and the edge source is not a preset node
                 if(edge.source != null && !edge.source.TempPlanMapping.IsPreset)
                 {
-#if OPCOST_WITH_GEO_MEAN 
+#if OPCOST_WITH_GEO_MEAN
                     PlanEdge implSrcEdge = new PlanEdge(SearchOperationType.ImplicitSource, nodes[nodesIndex], edge.source.TempPlanMapping, 0);
 #else
                     PlanEdge implSrcEdge = new PlanEdge(SearchOperationType.ImplicitSource, nodes[nodesIndex], edge.source.TempPlanMapping, 1);
@@ -219,7 +219,7 @@ namespace de.unika.ipd.grGen.lgsp
                 // only add implicit target operation if edge target is needed and the edge target is not a preset node
                 if(edge.target != null && !edge.target.TempPlanMapping.IsPreset)
                 {
-#if OPCOST_WITH_GEO_MEAN 
+#if OPCOST_WITH_GEO_MEAN
                     PlanEdge implTgtEdge = new PlanEdge(SearchOperationType.ImplicitTarget, nodes[nodesIndex], edge.target.TempPlanMapping, 0);
 #else
                     PlanEdge implTgtEdge = new PlanEdge(SearchOperationType.ImplicitTarget, nodes[nodesIndex], edge.target.TempPlanMapping, 1);
@@ -343,7 +343,7 @@ exitSecondLoop: ;
                 DumpContractedPlanGraph(planGraph, dumpName);
             }
 
-            // breaks all cycles represented by setting the incoming msa edges of the 
+            // breaks all cycles represented by setting the incoming msa edges of the
             // representative nodes to the incoming msa edges according to the supernode
             /*no, not equivalent:
             foreach(PlanSuperNode superNode in superNodeStack)
@@ -684,7 +684,7 @@ exitSecondLoop: ;
             //
             // schedule positive search plan
             //
-            
+
             // a set of search plan edges representing the currently reachable not yet visited elements
             PriorityQueue<SearchPlanEdge> activeEdges = new PriorityQueue<SearchPlanEdge>();
 
@@ -781,7 +781,7 @@ exitSecondLoop: ;
                     for(int i = operations.Count - 1; i >= 0; i--)
                     {
                         SearchOperation op = operations[i];
-                        if(op.Type == SearchOperationType.NegativePattern 
+                        if(op.Type == SearchOperationType.NegativePattern
                             || op.Type == SearchOperationType.Condition) continue;
                         // needed element matched at this operation?
                         if(neededElements.ContainsKey(((SearchPlanNode) op.Element).PatternElement.Name))
@@ -807,7 +807,7 @@ exitSecondLoop: ;
             // Schedule conditions at the earliest position possible
 
             Condition[] conditions = spGraph.PatternGraph.Conditions;
-            for(int j = conditions.Length - 1; j >= 0; j--)            
+            for(int j = conditions.Length - 1; j >= 0; j--)
             {
                 Condition condition = conditions[j];
                 int k;
@@ -854,7 +854,7 @@ exitSecondLoop: ;
         }
 
         /// <summary>
-        /// checks for each operation in the scheduled search plan whether the resulting host graph element 
+        /// checks for each operation in the scheduled search plan whether the resulting host graph element
         /// must be mapped to a pattern element, needed for isomorphism checks later on
         /// </summary>
         public void CalculateNeededMaps(ScheduledSearchPlan schedSP)
@@ -949,16 +949,16 @@ exitSecondLoop: ;
         }
 
 #if CSHARPCODE_VERSION2
-        
+
         /// <summary>
         /// Code generated per operation consists of front part, cut by code for next operation, and code for tail part
         /// Operation state is necessary for generating tail part fitting front part, is remembered on the operation stack
         /// </summary>
         class OperationState
         {
-            public static int labelid = 0; // to prevent problems with equally named labels 
+            public static int labelid = 0; // to prevent problems with equally named labels
             public SearchOperationType OperationType; // the type of the operation originating this state
-            public SearchPlanNode TargetNode; // and its search plan node 
+            public SearchPlanNode TargetNode; // and its search plan node
             public bool IsNode; // node/edge?
             public String CurPosVar; // name of local variable containing index into list with candidates
                                      // or name of local variable containing candidate itself
@@ -1107,7 +1107,7 @@ exitSecondLoop: ;
             // find out which types are to be examined for the target element to emit the lookup for
             String typeIDStr;
             bool usesLoop;
-            if(target.PatternElement.AllowedTypes == null) 
+            if(target.PatternElement.AllowedTypes == null)
             {
                 // AllowedTypes == null -> all subtypes or the same type are allowed
 
@@ -1191,7 +1191,7 @@ exitSecondLoop: ;
 
             if(!isNode)
             {
-                // some edge found by lookup, now emit: 
+                // some edge found by lookup, now emit:
                 // check whether source/target-nodes of the edge are the same as
                 // the already found nodes to which the edge must be incident
                 // don't need to if the edge is not required by the pattern to be incident to some given node
@@ -1210,7 +1210,7 @@ exitSecondLoop: ;
             }
             else //isNode
             {
-                // some node found by lookup, now emit: 
+                // some node found by lookup, now emit:
                 // check whether incoming/outgoing-edges of the node are the same as
                 // the already found edges to which the node must be incident
                 // only for the edges required by the pattern to be incident with the node
@@ -1243,7 +1243,7 @@ exitSecondLoop: ;
             if(CommentSourceCode)
                 sourceCode.AppendFront("// Tail of Lookup(" + state.CurPosVar + ")\n");
 
-            sourceCode.Unindent();    
+            sourceCode.Unindent();
             sourceCode.AppendFront("}\n");
             if(((OpStateLookup) state).UsesLoop)
             {
@@ -1396,7 +1396,7 @@ exitSecondLoop: ;
 
             if(isIncoming)
             {
-                if(target.PatternEdgeSource != null && target.PatternEdgeSource.Visited)    // check op?        
+                if(target.PatternEdgeSource != null && target.PatternEdgeSource.Visited)    // check op?
                 {
                     sourceCode.AppendFrontFormat("if({0}.source != node_cur_{1}) continue;\n", curName,
                         target.PatternEdgeSource.PatternElement.Name);
@@ -1404,9 +1404,9 @@ exitSecondLoop: ;
             }
             else // outgoing
             {
-                if(target.PatternEdgeTarget != null && target.PatternEdgeTarget.Visited)    // check op?       
+                if(target.PatternEdgeTarget != null && target.PatternEdgeTarget.Visited)    // check op?
                 {
-                    sourceCode.AppendFrontFormat("if({0}.target != node_cur_{1}) continue;\n", curName, 
+                    sourceCode.AppendFrontFormat("if({0}.target != node_cur_{1}) continue;\n", curName,
                         target.PatternEdgeTarget.PatternElement.Name);
                 }
             }
@@ -1914,7 +1914,7 @@ exitSecondLoop: ;
                     loopState.elemName = edge.Target.Name;
                     loopElemNameMap[edge.Target.Name] = loopState;
                 }
-                else // edge.Type == PlanEdgeType.ImplicitSource || edge.Type == PlanEdgeType.ImpliciTarget 
+                else // edge.Type == PlanEdgeType.ImplicitSource || edge.Type == PlanEdgeType.ImpliciTarget
                 {
                     curPos = ilMatcher.DeclareLocal(typeof(LGSPNode));
                 }
@@ -2105,7 +2105,7 @@ exitSecondLoop: ;
                     OpCode opcode = instr.OpCode;
                     OpCode otheropcode = OpCodes.Nop;
 
-                    // if(instr.OpCode == OpCodes.Nop)   
+                    // if(instr.OpCode == OpCodes.Nop)
                     // lgspActions.cs(1171,20): error CS0019: Operator `==' cannot be applied to operands of type
                     // `ClrTest.Reflection.ILInstruction.OpCode' and `System.Reflection.Emit.OpCodes.Nop'
 
@@ -2153,7 +2153,7 @@ exitSecondLoop: ;
             //            il.Emit(OpCodes.Dup);
             il.Emit(OpCodes.Stloc, listState.listVar);
 
-            // head = list.head 
+            // head = list.head
             il.Emit(OpCodes.Ldloc, listState.listVar);      // instead of dup
 
             il.Emit(OpCodes.Ldfld, listType.GetField("head"));
@@ -2214,7 +2214,7 @@ exitSecondLoop: ;
 
             //il.EmitWriteLine(String.Format("Entered EmitExtendInOut for \"{0}\"", targetLoopState.elemName));
 
-            // head = sourceNode.<incoming/outgoing>.head 
+            // head = sourceNode.<incoming/outgoing>.head
 
             il.Emit(OpCodes.Ldloc, varElemNameMap[edge.Source.Name]);
             if(isIncoming)
@@ -2371,7 +2371,7 @@ exitSecondLoop: ;
             il.Emit(OpCodes.Ldfld, typeof(LGSPNode).GetField("type", BindingFlags.Instance | BindingFlags.Public));
             il.Emit(OpCodes.Ldfld, typeof(ITypeFramework).GetField("typeID"));
             il.Emit(OpCodes.Ldelem_I1);
-            il.Emit(OpCodes.Brfalse, loopElemNameMap[edge.Source.Name].continueLabel); 
+            il.Emit(OpCodes.Brfalse, loopElemNameMap[edge.Source.Name].continueLabel);
 #else
             // elem = edge.<source/target>
 
@@ -2442,13 +2442,13 @@ exitSecondLoop: ;
         //  recursive insert of code for further operations
         //beforeunmaplabel: // jump here at mismatch after mapping was written, in order to unmap
         //  unmap (undo the mapping)
-        //afterunmaplabel: // jump here at mismatch before mapping was written, no unmapping necessary 
+        //afterunmaplabel: // jump here at mismatch before mapping was written, no unmapping necessary
         //  tail (for closing loops)
 
         /// <summary>
         /// Generates the source code of the matcher function for the given scheduled search plan
         /// </summary>
-        public String GenerateMatcherSourceCode(ScheduledSearchPlan scheduledSearchPlan, 
+        public String GenerateMatcherSourceCode(ScheduledSearchPlan scheduledSearchPlan,
             String actionName, LGSPRulePattern rulePattern)
         {
             if(DumpSearchPlan)
@@ -2738,7 +2738,7 @@ exitSecondLoop: ;
             return (LGSPAction) obj;
         }
 
-        public LGSPAction[] GenerateSearchPlans(LGSPGraph graph, String modelAssemblyName, String actionsAssemblyName, 
+        public LGSPAction[] GenerateSearchPlans(LGSPGraph graph, String modelAssemblyName, String actionsAssemblyName,
             params LGSPAction[] actions)
         {
             if(actions.Length == 0) throw new ArgumentException("No actions provided!");

@@ -26,7 +26,7 @@ public class IteratedReplNode extends OrderedReplacementNode {
 
 	private IdentNode iteratedUnresolved;
 	private IteratedNode iterated;
-	
+
 
 	public IteratedReplNode(IdentNode n) {
 		this.iteratedUnresolved = n;

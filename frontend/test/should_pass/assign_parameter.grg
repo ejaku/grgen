@@ -4,7 +4,7 @@ rule r(var b:boolean, var i:int, var s:string, var f:float, var d:double, var e:
 {
 	iterated {
 		.;
-		
+
 		modify {
 			eval {
 				b = true;
@@ -18,7 +18,7 @@ rule r(var b:boolean, var i:int, var s:string, var f:float, var d:double, var e:
 			}
 		}
 	}
-	
+
 	alternative {
 		case {
 			modify {
@@ -35,7 +35,7 @@ rule r(var b:boolean, var i:int, var s:string, var f:float, var d:double, var e:
 			}
 		}
 	}
-	
+
 	modify {
 
 		eval {
@@ -47,7 +47,7 @@ rule r(var b:boolean, var i:int, var s:string, var f:float, var d:double, var e:
 			e = Lol::Lal;
 			ss = set<int>{ 2,3,5,7,11,13,17 };
 			m = map<string,boolean>{ "2"->true,"3"->true,"4"->false,"5"->true,"6"->false };
-			
+
 			b = true || (i==42 ? true : false);
 			i = 42 + 0x4eadbeef;
 			s = "Kültür" + "de Luxe";
@@ -64,7 +64,7 @@ pattern p(var b:boolean, var i:int, var s:string, var f:float, var d:double, var
 {
 	iterated {
 		.;
-		
+
 		modify {
 			eval {
 				b = true;
@@ -78,7 +78,7 @@ pattern p(var b:boolean, var i:int, var s:string, var f:float, var d:double, var
 			}
 		}
 	}
-	
+
 	alternative {
 		case {
 			modify {
@@ -95,7 +95,7 @@ pattern p(var b:boolean, var i:int, var s:string, var f:float, var d:double, var
 			}
 		}
 	}
-	
+
 	modify {
 
 		eval {
@@ -107,7 +107,7 @@ pattern p(var b:boolean, var i:int, var s:string, var f:float, var d:double, var
 			e = Lol::Lal;
 			ss = set<int>{ 2,3,5,7,11,13,17 };
 			m = map<string,boolean>{ "2"->true,"3"->true,"4"->false,"5"->true,"6"->false };
-			
+
 			b = true || (i==42 ? true : false);
 			i = 42 + 0x4eadbeef;
 			s = "Kültür" + "de Luxe";
@@ -123,14 +123,14 @@ pattern p(var b:boolean, var i:int, var s:string, var f:float, var d:double, var
 rule s(ref sg:set<Gaggl>)
 {
 	g1:Gaggl;
-	
+
 	modify {
 		g2:Gaggl;
-		
+
 		eval {
 			sg = set<Gaggl> { g1 };
 
-			sg = set<Gaggl> { g1 } \ set<Gaggl> { g2 };			
+			sg = set<Gaggl> { g1 } \ set<Gaggl> { g2 };
 		}
 
 	}

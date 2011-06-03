@@ -31,7 +31,7 @@ public class AssignmentIndexed extends Assignment {
 	public String toString() {
 		return getTarget() + "[" + getIndex() + "] = " + getExpression();
 	}
-	
+
 	public void collectNeededEntities(NeededEntities needs)
 	{
 		super.collectNeededEntities(needs);

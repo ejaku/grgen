@@ -10,7 +10,7 @@ rule rr
 rule ss
 {
 	-hh:HH->;
-	
+
 	modify {
 	}
 }
@@ -156,7 +156,7 @@ rule Set(n:AA)
 			&& emit("value of variable u 5 6 7 8 9 ") && emit(u) && emit("\n")
 			&& emit("value of variable w 5 6 7 8 9 ") && emit(w) && emit("\n")
 			&& co1=(v in y) && k:int=1 && co2=(k in y)
-			&& emit("value of variable co1 5 6 7 8 9 ") && emit(co1) && emit("\n") 
+			&& emit("value of variable co1 5 6 7 8 9 ") && emit(co1) && emit("\n")
 			&& emit("value of variable co2 5 6 7 8 9 ") && emit(co2) && emit("\n")
 			&& x.clear() && y.rem(v)
 			&& i=x.size() && j=y.size()
@@ -444,7 +444,7 @@ rule AssignAttributeToVar(x:A)
 			&& emit("value of variable m 5 6 7 8 9 ") && emit(m) && emit("\n")
 			&& emit("value of variable a 5 6 7 8 9 ") && emit(a) && emit("\n")
 			&& emit("value of variable fl 5 6 7 8 9 ") && emit(fl) && emit("\n")
-			&& emit("value of variable d 5 6 7 8 9 ") && emit(d) && emit("\n") 
+			&& emit("value of variable d 5 6 7 8 9 ") && emit(d) && emit("\n")
 		);
 	}
 }
@@ -461,7 +461,7 @@ rule AssignAttributeToVarUntyped(x:A)
 			&& emit("value of variable m 5 6 7 8 9 ") && emit(m) && emit("\n")
 			&& emit("value of variable a 5 6 7 8 9 ") && emit(a) && emit("\n")
 			&& emit("value of variable fl 5 6 7 8 9 ") && emit(fl) && emit("\n")
-			&& emit("value of variable d 5 6 7 8 9 ") && emit(d) && emit("\n") 
+			&& emit("value of variable d 5 6 7 8 9 ") && emit(d) && emit("\n")
 		);
 	}
 }
@@ -473,7 +473,7 @@ rule Visited(n:A,-e:H->)
 			;> n.visited[i] && emit("value of variable n 5 6 7 8 9 visited\n") || emit("value of variable n 5 6 7 8 9 notvisited\n")
 			;> e.visited[i] && emit("value of variable e 5 6 7 8 9 visited\n") || emit("value of variable e 5 6 7 8 9 notvisited\n")
 			;> vreset(i)
-			;> n.visited[i] && emit("value of variable n 5 6 7 8 9 visited\n") || emit("value of variable n 5 6 7 8 9 notvisited\n") 
+			;> n.visited[i] && emit("value of variable n 5 6 7 8 9 visited\n") || emit("value of variable n 5 6 7 8 9 notvisited\n")
 			;> e.visited[i] && emit("value of variable e 5 6 7 8 9 visited\n") || emit("value of variable e 5 6 7 8 9 notvisited\n")
 			;> vfree(i)
 		);

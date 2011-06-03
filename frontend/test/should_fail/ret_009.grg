@@ -1,7 +1,7 @@
 rule r : (Node, Node) {
 	x: Node;
 	y: Node;
-	
+
 	x -e:Edge-> y;
 
 	modify {

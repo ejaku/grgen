@@ -21,7 +21,7 @@ namespace de.unika.ipd.grGen.lgsp
         public List<SearchPlanEdge> OutgoingEdges = new List<SearchPlanEdge>();
         public int ElementID;
         public bool IsPreset;
-        public bool Visited; // flag needed in matcher program generation from the scheduled search plan 
+        public bool Visited; // flag needed in matcher program generation from the scheduled search plan
 
         public PatternElement PatternElement;
 

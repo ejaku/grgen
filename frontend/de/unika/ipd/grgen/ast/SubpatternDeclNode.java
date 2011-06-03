@@ -102,10 +102,10 @@ public class SubpatternDeclNode extends ActionDeclNode  {
 		assert isResolved();
 
 		boolean valid = true;
-		
+
 		if(right.getChildren().size()==0)
 			return valid;
-		
+
 		Set<DeclNode> delete = right.children.get(0).getDelete(pattern);
 		Collection<DeclNode> maybeDeleted = right.children.get(0).getMaybeDeleted(pattern);
 
@@ -147,7 +147,7 @@ public class SubpatternDeclNode extends ActionDeclNode  {
 		}
 		return valid;
 	}
-	
+
 	/* Checks, whether the reused nodes and edges of the RHS are consistent with the LHS.
 	 * If consistent, replace the dummy nodes with the nodes the pattern edge is
 	 * incident to (if these aren't dummy nodes themselves, of course). */
@@ -369,7 +369,7 @@ public class SubpatternDeclNode extends ActionDeclNode  {
 				}
 			}
 		}
-		
+
 		for(IteratedNode iter : pattern.iters.getChildren()) {
 			if(right.getChildren().size()!=iter.right.getChildren().size()) {
 				error.error(getCoords(), "Different number of replacement patterns/rewrite partss in subpattern " + ident.toString()
@@ -377,7 +377,7 @@ public class SubpatternDeclNode extends ActionDeclNode  {
 				res = false;
 				continue;
 			}
-			
+
 			if(right.getChildren().size()==0) continue;
 
 			Vector<DeclNode> parametersInNestedIterated =
@@ -392,7 +392,7 @@ public class SubpatternDeclNode extends ActionDeclNode  {
 
 		return res;
 	}
-	
+
 	/**
 	 * Check, if the rule type node is right.
 	 * The children of a rule type are
@@ -503,7 +503,7 @@ public class SubpatternDeclNode extends ActionDeclNode  {
 				}
 				for(Rule iter : patternGraph.getIters()) {
 					iter.getRight().addReplParameter(decl.checkIR(Node.class));
-					iter.getRight().addSingleNode(((NodeCharacter) decl).getNode());					
+					iter.getRight().addSingleNode(((NodeCharacter) decl).getNode());
 				}
 			} else if(decl instanceof VarDeclNode) {
 				for(Alternative alt : patternGraph.getAlts()) {
@@ -514,14 +514,14 @@ public class SubpatternDeclNode extends ActionDeclNode  {
 				}
 				for(Rule iter : patternGraph.getIters()) {
 					iter.getRight().addReplParameter(decl.checkIR(Variable.class));
-					iter.getRight().addVariable(((VarDeclNode) decl).getVariable());					
+					iter.getRight().addVariable(((VarDeclNode) decl).getVariable());
 				}
 			} else {
 				throw new IllegalArgumentException("unknown Class: " + decl);
 			}
 		}
 	}
-	
+
 	/**
 	 * @see de.unika.ipd.grgen.ast.BaseNode#constructIR()
 	 */
@@ -551,7 +551,7 @@ public class SubpatternDeclNode extends ActionDeclNode  {
 		}
 
 		Rule rule = new Rule(getIdentNode().getIdent(), left, right);
-		
+
 		constructImplicitNegs(left);
 		constructIRaux(rule);
 

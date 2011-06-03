@@ -1,6 +1,6 @@
 \chapter{Quickstart}\indexmain{quickstart}\indexmain{example}
 
-In this chapter we'll build a \GrG\ system from scratch. 
+In this chapter we'll build a \GrG\ system from scratch.
 You should already have read Chapter~\ref{chp:intro} to have a glimpse of the \GrG\ system and its components.
 We will use \GrG\ to construct non-deterministic state machines.
 We further show some actual graph rewriting by removing $\varepsilon$-transitions from our state machines.
@@ -13,7 +13,7 @@ If you are reading this document, you probably did already download the \GrG\ so
 Make sure you have the following system requirements installed and available in the search path:
 \begin{itemize}
 	\item Java 1.5 or above
-	\item Mono 1.2.3 or above / Microsoft .NET 2.0 or above 
+	\item Mono 1.2.3 or above / Microsoft .NET 2.0 or above
 \end{itemize}
 
 \noindent{\bf If you're using Linux:}
@@ -62,11 +62,11 @@ edge class Transition {
     Trigger: string;
 }
 
-const edge class EpsilonTransition extends Transition;    
+const edge class EpsilonTransition extends Transition;
     \end{grgen}
     \caption{Meta Model for State Machines}
     \label{fig:quick:mm}
-\end{figure}    
+\end{figure}
 What have we done?
 You can see two base types, \texttt{State} for state nodes and \texttt{Transition} for transition edges that will connect the state nodes.
 \texttt{State} has an integer attribute \texttt{id} and \texttt{Transition} has a string attribute \texttt{Trigger} which indicates the character sequence for switching from the source state node to the destination state node.
@@ -177,7 +177,7 @@ rule forwardTransition {
     modify {
         x -forward:typeof(e)-> z;
         eval {forward.Trigger = e.Trigger;}
-    }    
+    }
 }
 
 rule addStartFinalState {
@@ -198,8 +198,8 @@ rule addFinalState {
 
 rule removeEpsilonTransition {
     -:EpsilonTransition->;
-    replace {}   
-}	
+    replace {}
+}
 	\end{grgen}
 	\caption{Rule set for removing $\varepsilon$-transitions}
 	\label{fig:quick:ruleset}
@@ -220,7 +220,7 @@ The difference between a replace part and a modify part is that a replace part d
 The modify part, in contrast, deletes nothing (by default), but just adds or adjusts graph elements.
 However, the modify part allows for \emph{explicit} deletion of graph elements by using the \texttt{delete} statement.
 
-What else can we do? 
+What else can we do?
 We have negative application conditions (NACs), expressed by \texttt{negative \{\dots\}}; they prevent rules to be applied if the negative pattern is found.
 We also have attribute conditions, expressed by \texttt{if \{\dots\}}; a rule is only applicable if all such conditions yield true.
 Note, the dot notation to access attributes (as in \texttt{e.Trigger}).
@@ -232,7 +232,7 @@ That means the newly created node \texttt{y} is actually the node \texttt{x} (in
 Imagine retyping as a kind of a type cast.
 
 The created rewrite rules might be considered as rewrite primitives.
-In order to implement more complex functionality, we will compose a sequence of rewrite rules out of them. 
+In order to implement more complex functionality, we will compose a sequence of rewrite rules out of them.
 For instance we don't want to forward just one $\varepsilon$-transition as \texttt{forwardTransition} would do; we want to forward them all.
 Such a rule composing is called \emph{graph rewrite sequence} (see Chapter~\ref{cha:xgrs}).
 We add the following line to our shell script \texttt{removeEpsilons.grs}:

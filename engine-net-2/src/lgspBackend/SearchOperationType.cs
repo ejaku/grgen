@@ -17,7 +17,7 @@ namespace de.unika.ipd.grGen.lgsp
         /// </summary>
         Void,
         /// <summary>
-        /// Preset handed in to action pattern, maybe null, 
+        /// Preset handed in to action pattern, maybe null,
         /// in this causing creation of two search plans, one with preset, one with lookup operation
         /// (might occur in enclosed negative pattern, too, but replaced by neg preset in schedule).
         /// </summary>

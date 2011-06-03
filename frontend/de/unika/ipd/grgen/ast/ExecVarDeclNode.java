@@ -33,7 +33,7 @@ public class ExecVarDeclNode extends DeclNode {
 		super(id, type);
 		this.type = type;
 	}
-	
+
 	/** returns children of this node */
 	@Override
 	public Collection<? extends BaseNode> getChildren() {
@@ -61,7 +61,7 @@ public class ExecVarDeclNode extends DeclNode {
 	protected boolean resolveLocal() {
 		// Type was already known at construction?
 		if(type != null) return true;
-		
+
 		DeclNode typeDecl = declOfTypeResolver.resolve(typeUnresolved, this);
 		if(typeDecl instanceof InvalidDeclNode) {
 			typeUnresolved.reportError("Unknown type: \"" + typeUnresolved + "\"");

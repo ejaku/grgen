@@ -33,6 +33,6 @@ rule homtest3 {
 rule test1 {
 	a:A;
 	b:B;
-	
+
 	modify {}
 }

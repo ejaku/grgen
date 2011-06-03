@@ -36,9 +36,9 @@ public class EdgeDeclNode extends ConstraintDeclNode implements EdgeCharacter {
 	protected static final DeclarationPairResolver<EdgeDeclNode,TypeDeclNode> typeResolver =
 		new DeclarationPairResolver<EdgeDeclNode,TypeDeclNode>(EdgeDeclNode.class, TypeDeclNode.class);
 
-	
-	public EdgeDeclNode(IdentNode id, BaseNode type, boolean isCopy, 
-			int context, TypeExprNode constraints, 
+
+	public EdgeDeclNode(IdentNode id, BaseNode type, boolean isCopy,
+			int context, TypeExprNode constraints,
 			PatternGraphNode directlyNestingLHSGraph,
 			boolean maybeNull, boolean defEntityToBeYieldedTo) {
 		super(id, type, context, constraints, directlyNestingLHSGraph, maybeNull, defEntityToBeYieldedTo);
@@ -46,8 +46,8 @@ public class EdgeDeclNode extends ConstraintDeclNode implements EdgeCharacter {
 		this.isCopy = isCopy;
 	}
 
-	public EdgeDeclNode(IdentNode id, BaseNode type, boolean isCopy, 
-			int context, TypeExprNode constraints, 
+	public EdgeDeclNode(IdentNode id, BaseNode type, boolean isCopy,
+			int context, TypeExprNode constraints,
 			PatternGraphNode directlyNestingLHSGraph) {
 		this(id, type, isCopy, context, constraints, directlyNestingLHSGraph, false, false);
 	}
@@ -222,7 +222,7 @@ public class EdgeDeclNode extends ConstraintDeclNode implements EdgeCharacter {
 		}
 
 		edge.setMaybeNull(maybeNull);
-		
+
 		return edge;
 	}
 

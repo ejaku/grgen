@@ -37,7 +37,7 @@
                   <entry key="soNamePrefix" value="msql_" />
                   <entry key="generator" value="de.unika.ipd.grgen.be.C.MySQLGenerator" />
                   <entry key="tableEdgeAttrs" value="edge_attrs" />
-                  
+
                   <entry key="limitQueryResults" value="0" />
                 </map>
               </node>

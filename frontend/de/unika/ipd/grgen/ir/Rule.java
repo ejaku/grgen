@@ -40,10 +40,10 @@ public class Rule extends MatchingAction {
 	/** How often the pattern is to be matched in case this is an iterated. */
 	private int minMatches;
 	private int maxMatches;
-	
+
 	/** Was the replacement code already called by means of an iterated replacement declaration? (in case this is an iterated.) */
 	public boolean wasReplacementAlreadyCalled;
-	
+
 	/** Have deferred execs been added by using this top level rule, so we have to execute the exec queue? */
 	public boolean mightThereBeDeferredExecs;
 
@@ -148,7 +148,7 @@ public class Rule extends MatchingAction {
 	public int getMaxMatches() {
 		return maxMatches;
 	}
-	
+
 	public void checkForRhsElementsUsedOnLhs()
 	{
 		PatternGraph left = getLeft();
@@ -163,7 +163,7 @@ public class Rule extends MatchingAction {
 			}
 		}
 	}
-	
+
 	public void computeUsageDependencies(HashMap<Rule, HashSet<Rule>> subpatternsDefToUse, Rule subpattern)
 	{
 		for(SubpatternUsage sub : pattern.getSubpatternUsages()) {
@@ -180,14 +180,14 @@ public class Rule extends MatchingAction {
 			iterated.computeUsageDependencies(subpatternsDefToUse, subpattern);
 		}
 	}
-		
+
 	public boolean checkForMultipleDeletesOrRetypes(HashMap<Entity, Rule> entitiesToTheirDeletingOrRetypingPattern,
 						HashMap<Rule, HashMap<Entity, Rule>> subpatternsToParametersToTheirDeletingOrRetypingPattern)
-	{		
+	{
 		if(right==null) {
 			return false;
 		}
-		
+
 		for(Node node : pattern.getNodes()) {
 			for(Node homNode : pattern.getHomomorphic(node)) {
 				if(!right.hasNode(homNode)) {
@@ -236,7 +236,7 @@ public class Rule extends MatchingAction {
 			}
 			if(!isDependentReplacementUsed)
 				continue;
-			
+
 			List<Entity> parameters = sub.subpatternAction.getParameters();
 			Iterator<Entity> parametersIt = parameters.iterator();
 			List<Expression> arguments = sub.subpatternConnections;
@@ -247,7 +247,7 @@ public class Rule extends MatchingAction {
 				Entity parameter = parametersIt.next();
 				if(argument instanceof GraphEntityExpression) {
 					GraphEntity argumentEntity = ((GraphEntityExpression)argument).getGraphEntity();
-					HashMap<Entity, Rule> parametersToTheirDeletingOrRetypingPattern = 
+					HashMap<Entity, Rule> parametersToTheirDeletingOrRetypingPattern =
 						subpatternsToParametersToTheirDeletingOrRetypingPattern.get(sub.subpatternAction);
 					Rule deletingOrRetypingPattern = parametersToTheirDeletingOrRetypingPattern.get(parameter);
 					if(deletingOrRetypingPattern!=null) {
@@ -299,18 +299,18 @@ public class Rule extends MatchingAction {
 		}
 		return changed;
 	}
-	
+
 	void reportMultipleDeleteOrRetype(Entity entity, Rule first, Rule second) {
 		error.error(entity.getIdent().getCoords(), "The entity " + entity.getIdent() + " (or a hom entity)"
 				+ " may get deleted or retyped in pattern " + first.getIdent() + " starting at " + first.getIdent().getCoords()
 				+ " and in pattern " + second.getIdent() + " starting at " + second.getIdent().getCoords() + " (only one such place allowed, provable at compile time)");
 	}
-	
+
 	boolean isUsingNonDirectExec(boolean isTopLevelRule) {
 		if(right==null) {
 			return false;
 		}
-		
+
 		if(!isTopLevelRule) {
 			for(ImperativeStmt is : right.getImperativeStmts()) {
 				if(is instanceof Exec) {
@@ -318,7 +318,7 @@ public class Rule extends MatchingAction {
 				}
 			}
 		}
-		
+
 		for(Alternative alternative : pattern.getAlts()) {
 			for(Rule altCase : alternative.getAlternativeCases()) {
 				if(altCase.isUsingNonDirectExec(false)) {
@@ -343,7 +343,7 @@ public class Rule extends MatchingAction {
 		boolean somethingChanged;
 		do {
 			somethingChanged = false;
-			
+
 			for(Node node : left.getNodes()) {
 				if(node.getAccessor()!=null) {
 					if(node.getDependencyLevel()<=node.getAccessor().getDependencyLevel()) {
@@ -381,7 +381,7 @@ public class Rule extends MatchingAction {
 				break;
 			}
 		} while(somethingChanged);
-		
+
 		for(Alternative alternative : pattern.getAlts()) {
 			for(Rule altCase : alternative.getAlternativeCases()) {
 				altCase.setDependencyLevelByStorageMapAccess();

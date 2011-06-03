@@ -6,11 +6,11 @@ rule CFG_initial_id : (int) {
 
 rule CFG_number_node(var id:int) : (int) {
 	n:org_amma_cfg_AbstractNode;
-	
+
 	negative {
 		n -:DumpEdge->;
 	}
-	
+
 	modify {
 		n -:DumpEdge-> d:DumpNode;
 		eval {
@@ -22,9 +22,9 @@ rule CFG_number_node(var id:int) : (int) {
 
 rule CFG_node_by_id(var id:int) : (org_amma_cfg_AbstractNode, int) {
 	n:org_amma_cfg_AbstractNode -:DumpEdge-> d:DumpNode;
-	
+
 	if { d.id == id; }
-	
+
 	modify {
 		return (n, id + 1);
 	}
@@ -58,7 +58,7 @@ rule CFG_dump_Node(n:org_amma_cfg_Node<org_amma_cfg_AbstractNode>) {
 rule CFG_dump_FromNode(n:org_amma_cfg_AbstractNode) {
 	pred:org_amma_cfg_AbstractNode -:org_amma_cfg_AbstractNode_toNode-> n;
 	pred -:DumpEdge-> d:DumpNode;
-	
+
 	modify {
 		emit(" fromNode=\"");
 		exec([CFG_dump_FromNode_attribute(n)]);
@@ -69,7 +69,7 @@ rule CFG_dump_FromNode(n:org_amma_cfg_AbstractNode) {
 rule CFG_dump_FromNode_attribute(n:org_amma_cfg_AbstractNode) {
 	pred:org_amma_cfg_AbstractNode -:org_amma_cfg_AbstractNode_toNode-> n;
 	pred -:DumpEdge-> d:DumpNode;
-	
+
 	modify {
 		emit("//@nodes." + d.id + " ");
 	}
@@ -78,7 +78,7 @@ rule CFG_dump_FromNode_attribute(n:org_amma_cfg_AbstractNode) {
 rule CFG_dump_ToNode(n:org_amma_cfg_AbstractNode) {
 	n -:org_amma_cfg_AbstractNode_toNode-> succ:org_amma_cfg_AbstractNode;
 	succ -:DumpEdge-> d:DumpNode;
-	
+
 	modify {
 		emit(" toNode=\"");
 		exec([CFG_dump_ToNode_attribute(n)]);
@@ -89,7 +89,7 @@ rule CFG_dump_ToNode(n:org_amma_cfg_AbstractNode) {
 rule CFG_dump_ToNode_attribute(n:org_amma_cfg_AbstractNode) {
 	n -:org_amma_cfg_AbstractNode_toNode-> succ:org_amma_cfg_AbstractNode;
 	succ -:DumpEdge-> d:DumpNode;
-	
+
 	modify {
 		emit("//@nodes." + d.id + " ");
 	}
@@ -113,7 +113,7 @@ rule CFG_dump_IterativeNode(n:org_amma_cfg_IterativeNode<org_amma_cfg_AbstractNo
 rule CFG_dump_FalseNode(n:org_amma_cfg_AbstractNode) {
 	n -:org_amma_cfg_ConditionalNode_falseConditionNode-> succ:org_amma_cfg_AbstractNode;
 	succ -:DumpEdge-> d:DumpNode;
-	
+
 	modify {
 		emit(" falseConditionNode=\"//@nodes." + d.id + "\"");
 	}
@@ -122,7 +122,7 @@ rule CFG_dump_FalseNode(n:org_amma_cfg_AbstractNode) {
 rule CFG_dump_TrueNode(n:org_amma_cfg_AbstractNode) {
 	n -:org_amma_cfg_ConditionalNode_trueConditionNode-> succ:org_amma_cfg_AbstractNode;
 	succ -:DumpEdge-> d:DumpNode;
-	
+
 	modify {
 		emit(" trueConditionNode=\"//@nodes." + d.id + "\"");
 	}
@@ -139,9 +139,9 @@ rule CFG_dump_Expression(var tag:string, expr:org_amma_cfg_Expression) {
 rule CFG_dump_binary_Expression(var tag:string, expr:org_amma_cfg_Expression) {
 	expr -lhs_edge:org_amma_cfg_Expression_innerExpression-> lhs:org_amma_cfg_Expression;
 	expr -rhs_edge:org_amma_cfg_Expression_innerExpression-> rhs:org_amma_cfg_Expression;
-	
+
 	if { lhs_edge.index < rhs_edge.index; }
-	
+
 	modify {
 		emit("    <" + tag + " expressionName=\"" + expr._expressionName + "\">\n");
 		exec(CFG_dump_Expression("innerExpression", lhs));
@@ -152,7 +152,7 @@ rule CFG_dump_binary_Expression(var tag:string, expr:org_amma_cfg_Expression) {
 
 rule CFG_dump_unary_Expression(var tag:string, expr:org_amma_cfg_Expression) {
 	expr -:org_amma_cfg_Expression_innerExpression-> op:org_amma_cfg_Expression;
-	
+
 	modify {
 		emit("    <" + tag + " expressionName=\"" + expr._expressionName + "\">\n");
 		exec(CFG_dump_Expression("innerExpression", op));
@@ -181,6 +181,6 @@ rule CFG_finish_dump {
 
 rule CFG_delete_DumpNode {
 	d:DumpNode;
-	
+
 	replace {}
 }

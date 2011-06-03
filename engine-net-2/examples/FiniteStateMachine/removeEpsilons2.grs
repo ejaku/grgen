@@ -1,10 +1,10 @@
 # graph rewrite shell script file, shows a graph rewrite sequence, with logical-sequential connectives,
 # and a loop construct (plz note the negative in the rules file to prevent endless looping)
 # the debugger allows to step rule by rule through the sequence, it offers several commands, e.g.
-# (d)etailed step to show the match, the changes, and the new graph, 
+# (d)etailed step to show the match, the changes, and the new graph,
 # (s)tep to show the new graph after the rewrite,
 # (n)ext to continue execution at the next matching rule,
-# (b)reakpoint to enable a breakpoint (brechpunkt ;) 
+# (b)reakpoint to enable a breakpoint (brechpunkt ;)
 # before was removeEpsilons1.grs, next is removeEpsilons2b.grs
 
 new graph removeEpsilons2.grg "StateMachine"

@@ -82,7 +82,7 @@ public class ArraySubarrayNode extends ExprNode
 
 	@Override
 	protected IR constructIR() {
-		return new ArraySubarrayExpr(targetExpr.checkIR(Expression.class), 
+		return new ArraySubarrayExpr(targetExpr.checkIR(Expression.class),
 				startExpr.checkIR(Expression.class), lengthExpr.checkIR(Expression.class));
 	}
 }

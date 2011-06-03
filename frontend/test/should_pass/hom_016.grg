@@ -1,7 +1,7 @@
 rule r {
 	x: Node;
 	y: Node;
-	
+
 	hom(x,y);
 
 	replace {}

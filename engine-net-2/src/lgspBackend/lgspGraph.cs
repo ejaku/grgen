@@ -102,7 +102,7 @@ namespace de.unika.ipd.grGen.lgsp
         /// It is null, if no analysis has been executed, yet.
         /// </summary>
         public float[] meanInDegree;
-       
+
         /// <summary>
         /// An array containing one head of a doubly-linked ring-list for each node type indexed by the type ID.
         /// </summary>
@@ -362,7 +362,7 @@ namespace de.unika.ipd.grGen.lgsp
                         errorMsg += String.Format("\r\nLine: {0} - {1}", error.Line, error.ErrorText);
                     throw new ArgumentException("Illegal actions C# source code: " + errorMsg);
                 }
-                
+
                 assembly = compResults.CompiledAssembly;
                 assemblyName = compParams.OutputAssembly;
             }
@@ -1365,7 +1365,7 @@ namespace de.unika.ipd.grGen.lgsp
         #region Names and Variables management
 
         /// <summary>
-        /// Set it if a named graph is available, so that 
+        /// Set it if a named graph is available, so that
         /// - the nameof operator can return the persistent name instead of a hash code
         /// - a retyped element can keep its name
         /// </summary>
@@ -1384,7 +1384,7 @@ namespace de.unika.ipd.grGen.lgsp
         /// <returns>The name of the given element</returns>
         public override String GetElementName(IGraphElement elem)
         {
-            if(namedGraph != null) 
+            if(namedGraph != null)
                 return namedGraph.GetElementName(elem);
             else
                 return "$" + elem.GetHashCode();
@@ -1525,7 +1525,7 @@ namespace de.unika.ipd.grGen.lgsp
             get
             {
                 foreach(Variable var in VariableMap.Values)
-                    yield return var; 
+                    yield return var;
             }
         }
 
@@ -2226,7 +2226,7 @@ namespace de.unika.ipd.grGen.lgsp
             foreach(LGSPEdge head in edgesByTypeHeads)
                 CheckTypeRinglistBroken(head);
         }
-                    
+
         /// <summary>
         /// Checks whether the incoming or outgoing ringlists of the given node are broken.
         /// Use for debugging purposes.

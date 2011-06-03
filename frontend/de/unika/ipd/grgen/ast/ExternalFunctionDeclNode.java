@@ -67,7 +67,7 @@ public class ExternalFunctionDeclNode extends DeclNode {
 
 	private static final CollectResolver<TypeNode> paramsTypeResolver = new CollectResolver<TypeNode>(
     		new DeclarationTypeResolver<TypeNode>(TypeNode.class));
-	private static final Resolver<TypeNode> retTypeResolver = 
+	private static final Resolver<TypeNode> retTypeResolver =
     		new DeclarationTypeResolver<TypeNode>(TypeNode.class);
 
 	/** @see de.unika.ipd.grgen.ast.BaseNode#resolveLocal() */
@@ -84,7 +84,7 @@ public class ExternalFunctionDeclNode extends DeclNode {
 	protected boolean checkLocal() {
 		return true;
 	}
-	
+
 	@Override
 	public TypeNode getDeclType() {
 		assert isResolved();
@@ -94,7 +94,7 @@ public class ExternalFunctionDeclNode extends DeclNode {
 
 	@Override
 	protected IR constructIR() {
-		ExternalFunction externalFunc = new ExternalFunction(getIdentNode().toString(), 
+		ExternalFunction externalFunc = new ExternalFunction(getIdentNode().toString(),
 				getIdentNode().getIdent(), ret.checkIR(Type.class));
 		for(TypeNode param : params.getChildren()) {
 			externalFunc.addParameterType(param.checkIR(Type.class));

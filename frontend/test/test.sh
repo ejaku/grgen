@@ -105,7 +105,7 @@ do_test()
 if [ "$1" ]; then
 	for i in "$@";  do
 		if echo "$i" | grep -q "\\.grg\$"; then
-			do_test "$i"; 
+			do_test "$i";
 		fi
 	done
 else

@@ -660,7 +660,7 @@ bool ParseGraphBuildingScript() :
 		)
 	|
 		LOOKAHEAD(3) elem=GraphElement() "." { defrAttrInit = new ArrayList(); } SingleAttribute(defrAttrInit) LineEnd()
-			{ 
+			{
 				DeferredAttributeInitialization(elem, defrAttrInit);
 				return true;
 			}

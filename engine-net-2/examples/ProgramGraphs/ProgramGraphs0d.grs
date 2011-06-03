@@ -1,4 +1,4 @@
-# graph rewrite shell script file, shows how to improve the readability of the original graph 
+# graph rewrite shell script file, shows how to improve the readability of the original graph
 #  by using nesting along edges which are retyped or computed solely for the purpose of layout
 # the result is clearly worth the effort, now exactly the things which should be nested are nested,
 #  yielding together with the colors an readably abstract syntax graph

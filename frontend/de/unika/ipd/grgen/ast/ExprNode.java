@@ -68,7 +68,7 @@ public abstract class ExprNode extends BaseNode {
 	protected ExprNode adjustType(TypeNode tgt)	{
 		TypeNode src = getType();
 
-		if(src.isEqual(tgt) 
+		if(src.isEqual(tgt)
 				|| src instanceof NodeTypeNode || src instanceof EdgeTypeNode) {
 			return this;
 		}

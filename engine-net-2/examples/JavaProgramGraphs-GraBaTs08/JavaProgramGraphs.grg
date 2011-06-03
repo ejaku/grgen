@@ -48,12 +48,12 @@ rule insertMethodGetter(c:Class, v:Variable, var name:string, var isStatic:boole
 	modify {
 		c <-:belongsTo- mb:MethodBody;
 		mb <-:binding- op:Operation;
-		eval { op.name = name; 
-			op.visibility = "public"; 
-			op.isAbstract = false; 
-			op.isStatic = isStatic; 
+		eval { op.name = name;
+			op.visibility = "public";
+			op.isAbstract = false;
+			op.isStatic = isStatic;
 			op.isFinal = false; }
-			
+
 		mb <-:belongsTo- :Block -:expression-> :Return -:expression-> :Access -:link-> v;
 		return(op);
 	}
@@ -62,17 +62,17 @@ rule insertMethodGetter(c:Class, v:Variable, var name:string, var isStatic:boole
 rule insertMethodSetter(c:Class, v:Variable, var name:string, var isStatic:boolean) : (Operation)
 {
 	v -:type_-> type:Class;
-	
+
 	// setter: update von variable mit parameter
 	modify {
 		c <-:belongsTo- mb:MethodBody;
 		mb <-:binding- op:Operation;
-		eval { op.name = name; 
-			op.visibility = "public"; 
-			op.isAbstract = false; 
-			op.isStatic = isStatic; 
+		eval { op.name = name;
+			op.visibility = "public";
+			op.isAbstract = false;
+			op.isStatic = isStatic;
 			op.isFinal = false; }
-			
+
 		op -:parameter-> p:Parameter -:type_-> type;
 		mb <-:belongsTo- :Block -:expression-> u:Update;
 		u -:link-> v;
@@ -92,9 +92,9 @@ rule changeVisibility(v:Variable)
 // updateReferences only if not in same class
 
 rule adaptAccess(c:Class, v:Variable, getter:Operation)
-{	
+{
 	a:Access -l:link-> v;
-	
+
 	negative {
 		:InClass(a, c);
 	}
@@ -102,18 +102,18 @@ rule adaptAccess(c:Class, v:Variable, getter:Operation)
 	modify {
 		call:Call<a> -:link-> getter;
 		delete(l);
-	}		
+	}
 }
 
 rule adaptUpdate(c:Class, v:Variable, setter:Operation)
-{	
+{
 	u:Update -l:link-> v;
 	u -e:expression-> exp:Expression;
 
 	negative {
 		:InClass(u, c);
 	}
-	
+
 	modify {
 		call:Call<u> -:link-> setter;
 		call -:actualParameter-> exp;
@@ -127,7 +127,7 @@ pattern InClass(e:Expression, c:Class)
 	alternative {
 		Previous {
 			prev:Expression\Block -:expression-> e;
-			:InClass(prev, c);	
+			:InClass(prev, c);
 		}
 		End {
 			prev:Block -:expression-> e;
@@ -141,17 +141,17 @@ pattern InClass(e:Expression, c:Class)
 // updateReferences use accessors always
 
 rule adaptAccessUseAccessorsAlways(c:Class, v:Variable, getter:Operation)
-{	
+{
 	a:Access -l:link-> v;
-	
+
 	modify {
 		call:Call<a> -:link-> getter;
 		delete(l);
-	}		
+	}
 }
 
 rule adaptUpdateUseAccessorsAlways(c:Class, v:Variable, setter:Operation)
-{	
+{
 	u:Update -l:link-> v;
 	u -e:expression-> exp:Expression;
 
@@ -202,10 +202,10 @@ rule markExpressionOfBody(mb:MethodBody)
 	mb <-:belongsTo- :Block -:expression-> exp:Expression;
 
 	if { !exp.visited[0]; }
-	
+
 	modify {
 		eval { exp.visited[0] = true; }
-		
+
 		exec( ( markExpressionFollowingExpression(exp) || markExpressionFollowingActualParameter(exp) )* );
 	}
 }
@@ -213,12 +213,12 @@ rule markExpressionOfBody(mb:MethodBody)
 rule markExpressionFollowingExpression(root:Expression)
 {
 	root -:expression-> exp:Expression;
-	
+
 	if { !exp.visited[0]; }
-	
+
 	modify {
 		eval { exp.visited[0] = true; }
-		
+
 		exec( ( markExpressionFollowingExpression(exp) || markExpressionFollowingActualParameter(exp) )* );
 	}
 }
@@ -226,12 +226,12 @@ rule markExpressionFollowingExpression(root:Expression)
 rule markExpressionFollowingActualParameter(root:Expression)
 {
 	root -:actualParameter-> exp:Expression;
-	
+
 	if { !exp.visited[0]; }
-	
+
 	modify {
 		eval { exp.visited[0] = true; }
-		
+
 		exec( ( markExpressionFollowingExpression(exp) || markExpressionFollowingActualParameter(exp) )* );
 	}
 }
@@ -250,7 +250,7 @@ rule unmarkExpression
 test callToSuperExists
 {
 	call:Call;
-	
+
 	if { call.super && call.visited[0]; }
 }
 
@@ -263,7 +263,7 @@ test isStatic(mb:MethodBody)
 test methodNameExists(mb:MethodBody, tgt:Class)
 {
 	mb <-- op:Operation;
-	:methodNameExistsSuper(op, tgt);	
+	:methodNameExistsSuper(op, tgt);
 }
 
 pattern methodNameExistsSuper(opForName:Operation, cls:Class)
@@ -283,17 +283,17 @@ pattern methodNameExistsSuper(opForName:Operation, cls:Class)
 
 
 /////////////////////////////////////////////////////////////////////////////////////////////////////
-// move method body (the implementation) and/or the operation from the source to the target class 
+// move method body (the implementation) and/or the operation from the source to the target class
 // (implicit change of type of "this" parameter)
-// add parameter to moved method of type source class, if "this" is accessed, 
+// add parameter to moved method of type source class, if "this" is accessed,
 // rewrite method to use it instead of this
 
 test thisIsAccessed()
 {
 	access:Access;
-	
+
 	if { access.visited[0]; }
-	
+
 	negative {
 		access -:link-> ;
 	}
@@ -311,13 +311,13 @@ rule addSourceParameter(op:Operation, src:Class) : (Parameter)
 rule useSourceParameter(srcparam:Parameter)
 {
 	access:Access;
-	
+
 	if { access.visited[0]; }
-	
+
 	negative {
 		access -:link-> ;
 	}
-	
+
 	modify {
 		access -:link-> srcparam;
 	}
@@ -334,9 +334,9 @@ rule copyOperation(op:Operation, tgt:Class) : (Operation)
 rule copyOperationParameter(op:Operation, newop:Operation)
 {
 	op -:parameter-> p:Parameter;
-	
+
 	modify {
-		newop -:parameter-> newp:Parameter;		
+		newop -:parameter-> newp:Parameter;
 	}
 }
 
@@ -356,12 +356,12 @@ rule relinkParameter(mb:MethodBody, op:Operation, newop:Operation)
 {
 	// marked access or update with link to parameter of old op
 	exp:Expression -l:link-> p:Parameter <-:parameter- op;
-	
-	// can't correlate formal parameters due to missing information in graph (model) 
+
+	// can't correlate formal parameters due to missing information in graph (model)
 	// - parameters should be ordered by attribute
 	// so just link arbitrarily..
 	newp:Parameter <-:parameter- newop;
-	
+
 	modify {
 		delete(l);
 		exp -newl:link-> newp;
@@ -403,11 +403,11 @@ rule linkDelegateBodyToOperation(call:Call, op:Operation)
 {
 	op -:parameter-> param:Parameter;
 
-	// can't correlate actual parameter to formal parameter due to missing information in graph (model) 
+	// can't correlate actual parameter to formal parameter due to missing information in graph (model)
 	// - parameters should be ordered by attribute
 	// so just link arbitrarily..
 	// if source was added, one of the parameters isn't a parameter in delegate method
-	
+
 	modify {
 		call -:actualParameter-> access:Access -:link-> param;
 	}
@@ -420,7 +420,7 @@ rule replaceAccess_Variable(movedOperation:Operation, v:Variable)
 {
 	a:Access -e:expression-> call:Call -l:link-> movedOperation;
 	call -:inBlock-> b:Block; //for nested layout
-	
+
 	modify {
 		delete(e);
 		a -:expression-> targetAccess:Access -:expression-> call;
@@ -464,7 +464,7 @@ test getUnprocessedCallWithActualParameter(movedOperation:Operation, p:Parameter
 	negative {
 		a -:link-> pe; // ensure we don't process an already processed element
 	}
-	
+
 	return(c, pe);
 }
 
@@ -489,7 +489,7 @@ rule replaceAccess_Parameter_AccessWithLinkToExpression(c:Call, pe:Expression)
 	c -:actualParameter-> pe;
 
 	a -old:link-> le:Expression;
-	
+
 	modify {
 		delete(old);
 		a -new:link-> pe;

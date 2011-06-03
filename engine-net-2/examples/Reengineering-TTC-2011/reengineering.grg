@@ -7,11 +7,11 @@ rule createStates
 	// find State class
 	stateClass:classifiers_Class;
 	stateClass -:modifiers_AnnotableAndModifiable_annotationsAndModifiers-> :modifiers_Abstract;
-	if { stateClass._name == "State"; }	
-		
+	if { stateClass._name == "State"; }
+
 	// from it recursively find all directly or indirectly extending non-abstract classes
 	es:CreateStates(stateClass);
-	
+
 	modify {
 		sm:statemachine_StateMachine; // create state machine where to insert the new states/transitions
 		es(sm); // add for each such found class a state to the state machine
@@ -27,12 +27,12 @@ pattern CreateStates(parentClass:classifiers_Class) modify(sm:statemachine_State
 		cr -:types_ClassifierReference_target-> parentClass;
 		// do the same for all their children, match depth by recursive call
 		es:CreateStates(extendingClass);
-		
+
 		optional {
 			negative { // must be non-abstract
 				extendingClass -:modifiers_AnnotableAndModifiable_annotationsAndModifiers-> :modifiers_Abstract;
 			}
-			
+
 			modify {
 				// for every directly found class add a state to the state machine
 				sm -:statemachine_StateMachine_states-> s:statemachine_State;
@@ -40,12 +40,12 @@ pattern CreateStates(parentClass:classifiers_Class) modify(sm:statemachine_State
 				eval { s._name = extendingClass._name; }
 			}
 		}
-		
+
 		modify {
 			es(sm); // for every indirectly found class do the same
 		}
 	}
-	
+
 	modify { }
 }
 
@@ -66,7 +66,7 @@ rule createTransitions
 	fss:FindSourceState(expressionStatement, yield sourceState);
 
 	sm:statemachine_StateMachine;
-	
+
 	modify {
 		sm -:statemachine_StateMachine_transitions-> transition:statemachine_Transition;
 		sourceState <-:statemachine_Transition_src- transition -:statemachine_Transition_dst-> targetState;
@@ -83,7 +83,7 @@ pattern FindSourceState(containedEntity:Node, def sourceState:statemachine_State
 		StatementListContainer {
 			listContainer:statements_StatementListContainer -:statements_StatementListContainer_statements-> containedEntity;
 			fss:FindSourceState(listContainer, yield sourceState);
-			
+
 			modify {
 				transition -:link-> listContainer;
 				fss(transition);
@@ -125,7 +125,7 @@ pattern FindSourceState(containedEntity:Node, def sourceState:statemachine_State
 				fss(transition);
 			}
 		}
-		Class { 
+		Class {
 			cc:classifiers_Class -:members_MemberContainer_members-> containedEntity;
 			ss:statemachine_State -:link-> cc;
 			yield { yield sourceState = ss; }
@@ -135,7 +135,7 @@ pattern FindSourceState(containedEntity:Node, def sourceState:statemachine_State
 			}
 		}
 	}
-	
+
 	modify { }
 }
 
@@ -143,9 +143,9 @@ rule addTriggerNonRunMethodName
 {
 	transition:statemachine_Transition -:link-> method:members_ClassMethod;
 	if { method._name != "run"; }
-	
+
 	modify {
-		eval { 
+		eval {
 			transition._trigger = method._name;
 		}
 	}
@@ -156,7 +156,7 @@ rule addTriggerSwitchCaseEnumValueName
 	transition:statemachine_Transition -:link-> case:statements_NormalSwitchCase;
 	case -:statements_Conditional_condition-> caseCondition:references_IdentifierReference;
 	caseCondition -:references_ElementReference_target-> value:members_EnumConstant;
-	
+
 	modify {
 		eval {
 			transition._trigger = value._name;
@@ -171,7 +171,7 @@ rule addTriggerCatchBlockExceptionClassName
 	parameter -:types_TypedElement_typeReference-> nspClassRef:types_NamespaceClassifierReference;
 	nspClassRef -:types_NamespaceClassifierReference_classifierReferences-> classRef:types_ClassifierReference;
 	classRef -:types_ClassifierReference_target-> exceptionClass:classifiers_Class;
-	
+
 	modify {
 		eval {
 			transition._trigger = exceptionClass._name;
@@ -183,7 +183,7 @@ rule addTriggerOtherwise
 {
 	transition:statemachine_Transition;
 	if { transition._trigger == null || transition._trigger == ""; }
-	
+
 	modify {
 		eval {
 			transition._trigger = "--";
@@ -201,7 +201,7 @@ rule addActionSend
 	enumClassRef -:references_Reference_next-> enumValueRef:references_IdentifierReference;
 	enumValueRef -:references_ElementReference_target-> enumValue:members_EnumConstant;
 	if { method._name == "send"; }
-	
+
 	modify {
 		eval {
 			transition._action = enumValue._name;
@@ -213,7 +213,7 @@ rule addActionOtherwise
 {
 	transition:statemachine_Transition;
 	if { transition._action == null || transition._action == ""; }
-	
+
 	modify {
 		eval {
 			transition._action = "--";
@@ -249,14 +249,14 @@ rule beautifyProgramGraph
 				negative {
 					es -:contains-> e;
 				}
-				
+
 				modify {
 					es --> e;
 					bpg();
 					eval { es.visited = true; }
 				}
 			}
-			
+
 			modify { }
 		}
 		Condition {
@@ -269,14 +269,14 @@ rule beautifyProgramGraph
 				negative {
 					sc -:contains-> e;
 				}
-				
+
 				modify {
 					sc --> e;
 					bpg();
 					eval { sc.visited = true; }
 				}
 			}
-			
+
 			modify { }
 		}
 		Return {
@@ -289,18 +289,18 @@ rule beautifyProgramGraph
 				negative {
 					sr -:contains-> e;
 				}
-				
+
 				modify {
 					sr --> e;
 					bpg();
 					eval { sr.visited = true; }
 				}
 			}
-			
+
 			modify { }
 		}
 	}
-	
+
 	modify { }
 }
 
@@ -315,7 +315,7 @@ pattern BeautifyProgramGraph(e:expressions_Expression, es:Node)
 				negative {
 					es -:contains-> next;
 				}
-				
+
 				modify {
 					es -:contains-> next;
 					bpg();
@@ -326,7 +326,7 @@ pattern BeautifyProgramGraph(e:expressions_Expression, es:Node)
 				negative {
 					es -:contains-> op;
 				}
-				
+
 				modify {
 					es -:contains-> op;
 				}
@@ -336,7 +336,7 @@ pattern BeautifyProgramGraph(e:expressions_Expression, es:Node)
 				negative {
 					es -:contains-> lit;
 				}
-				
+
 				modify {
 					es -:contains-> lit;
 				}
@@ -363,9 +363,9 @@ pattern BeautifyProgramGraph(e:expressions_Expression, es:Node)
 				}
 			}
 		}
-		
+
 		modify { }
 	}
-	
+
 	modify { }
 }

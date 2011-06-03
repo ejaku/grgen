@@ -137,7 +137,7 @@ namespace de.unika.ipd.grGen.grShell
 
         public event ConnectionLostHandler OnConnectionLost
         { add { ycompStream.OnConnectionLost += value; } remove { ycompStream.OnConnectionLost -= value; } }
-            
+
 
         /// <summary>
         /// If non-null, overrides the type dependend node realizer
@@ -614,7 +614,7 @@ namespace de.unika.ipd.grGen.grShell
                 String attrTypeString;
                 String attrValueString;
                 EncodeAttr(attrType, oldElem, out attrTypeString, out attrValueString);
-                ycompStream.Write("clear" + elemKind + "Attr \"" + oldName + "\" \"" + attrType.OwnerType.Name + "::" + attrType.Name + " : " 
+                ycompStream.Write("clear" + elemKind + "Attr \"" + oldName + "\" \"" + attrType.OwnerType.Name + "::" + attrType.Name + " : "
                     + attrTypeString + "\"\n");
             }
             // set the new attributes
@@ -623,7 +623,7 @@ namespace de.unika.ipd.grGen.grShell
                 String attrTypeString;
                 String attrValueString;
                 EncodeAttr(attrType, newElem, out attrTypeString, out attrValueString);
-                ycompStream.Write("change" + elemKind + "Attr \"" + oldName + "\" \"" + attrType.OwnerType.Name + "::" + attrType.Name + " : " 
+                ycompStream.Write("change" + elemKind + "Attr \"" + oldName + "\" \"" + attrType.OwnerType.Name + "::" + attrType.Name + " : "
                     + attrTypeString + "\" \"" + attrValueString + "\"\n");
             }
 
@@ -675,7 +675,7 @@ namespace de.unika.ipd.grGen.grShell
         {
             // TODO: Update group relation
 
-            if(hiddenEdges.ContainsKey(edge)) 
+            if(hiddenEdges.ContainsKey(edge))
                 hiddenEdges.Remove(edge);
             if(IsEdgeExcluded(edge)) return;
 
@@ -754,7 +754,7 @@ namespace de.unika.ipd.grGen.grShell
 
                 foreach(IEdge edge in graph.GetExactEdges((EdgeType) type))
                 {
-                    if(IsEdgeExcluded(edge)) return; // additionally checks incident nodes 
+                    if(IsEdgeExcluded(edge)) return; // additionally checks incident nodes
 
                     ycompStream.Write("setEdgeLabel \"e" + dumpInfo.GetElementName(edge) + "\" \"" + GetElemLabel(edge) + "\"\n");
                 }
@@ -869,7 +869,7 @@ namespace de.unika.ipd.grGen.grShell
             }
             else
             {
-                DictionaryListHelper.ToString(elem.GetAttribute(attrType.Name), out attrTypeString, out attrValueString, attrType, graph); 
+                DictionaryListHelper.ToString(elem.GetAttribute(attrType.Name), out attrTypeString, out attrValueString, attrType, graph);
                 attrValueString = Encode(attrValueString);
             }
         }

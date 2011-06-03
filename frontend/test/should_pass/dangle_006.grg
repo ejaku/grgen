@@ -3,7 +3,7 @@ using attrib_model_001;
 rule r {
 	x: Node;
 	y: Node;
-	
+
 	x <-e:EFLOAT- y;
 
 	x -f1:EINT-> y;

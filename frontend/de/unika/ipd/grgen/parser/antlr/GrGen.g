@@ -4,7 +4,7 @@
  * licensed under LGPL v3 (see LICENSE.txt included in the packaging of this file)
  * www.grgen.net
  */
- 
+
 /*
  * GrGen model and rule specification language grammar for ANTLR 3
  * @author Sebastian Hack, Daniel Grund, Rubino Geiss, Adam Szalkowski, Veit Batz, Edgar Jakumeit, Sebastian Buchwald, Moritz Kroll
@@ -43,7 +43,7 @@ tokens {
 	void setEnv(GRParserEnvironment env) {
 		this.env = env;
 	}
-  
+
 	// overriden for handling EOF of included file
 	public Token nextToken() {
 		Token token = super.nextToken();
@@ -58,18 +58,18 @@ tokens {
 		if(((CommonToken)token).getStartIndex() < 0) {
 			token = this.nextToken();
 		}
-			
+
 		return token;
 	}
 }
 
 @header {
 	package de.unika.ipd.grgen.parser.antlr;
-	
+
 	import java.util.Iterator;
 	import java.util.LinkedList;
 	import java.util.Collection;
-	
+
 	import java.io.File;
 
 	import de.unika.ipd.grgen.parser.*;
@@ -221,7 +221,7 @@ textActions returns [ UnitNode main = null ]
 				modelChilds = new CollectNode<ModelNode>();
 				modelChilds.addChild(model);
 			}
-			main = new UnitNode(actionsName, getFilename(), env.getStdModel(), 
+			main = new UnitNode(actionsName, getFilename(), env.getStdModel(),
 								modelChilds, patternChilds, actionChilds, sequenceChilds);
 		}
 	;
@@ -266,13 +266,13 @@ patternModifier [ int mod ] returns [ int res = 0 ]
 			res = mod | PatternGraphNode.MOD_INDUCED;
 		}
 	| modifier=EXACT
-		{		
+		{
 			if((mod & PatternGraphNode.MOD_EXACT)!=0) {
 				reportError(getCoords(modifier), "\"exact\" modifier already declared");
 			}
 			res = mod | PatternGraphNode.MOD_EXACT;
 		}
-	| modifier=IDENT 
+	| modifier=IDENT
 		{
 			if(modifier.getText().equals("dpo")) {
 				if((mod & PatternGraphNode.MOD_DANGLING)!=0 || (mod & PatternGraphNode.MOD_IDENTIFICATION)!=0) {
@@ -330,7 +330,7 @@ patternOrActionOrSequenceDecl [ CollectNode<IdentNode> patternChilds, CollectNod
 			}
 		)
 		RBRACE popScope
-	| p=PATTERN id=patIdentDecl pushScope[id] params=patternParameters[BaseNode.CONTEXT_PATTERN|BaseNode.CONTEXT_LHS|BaseNode.CONTEXT_PARAMETER, null] 
+	| p=PATTERN id=patIdentDecl pushScope[id] params=patternParameters[BaseNode.CONTEXT_PATTERN|BaseNode.CONTEXT_LHS|BaseNode.CONTEXT_PARAMETER, null]
 		((MODIFY|REPLACE) mp=patternParameters[BaseNode.CONTEXT_PATTERN|BaseNode.CONTEXT_RHS|BaseNode.CONTEXT_PARAMETER, null] { modifyParams = mp; })? LBRACE
 		left=patternPart[getCoords(p), params, namer, mod, BaseNode.CONTEXT_PATTERN|BaseNode.CONTEXT_LHS, id.toString()]
 		( rightReplace=replacePart[modifyParams, BaseNode.CONTEXT_PATTERN|BaseNode.CONTEXT_RHS, id, left]
@@ -350,7 +350,7 @@ patternOrActionOrSequenceDecl [ CollectNode<IdentNode> patternChilds, CollectNod
 	| s=SEQUENCE id=actionIdentDecl pushScope[id] { exec = new ExecNode(getCoords(s)); }
 		inParams=execInParameters[exec] outParams=execOutParameters[exec]
 		LBRACE
-			xgrs[exec] 
+			xgrs[exec]
 			{
 				id.setDecl(new SequenceDeclNode(id, exec, inParams, outParams));
 				sequenceChilds.addChild(id);
@@ -394,7 +394,7 @@ param [ int context, PatternGraphNode directlyNestingLHSGraph ] returns [ BaseNo
 			BaseNode dummy = env.getDummyNodeDecl(context, directlyNestingLHSGraph);
 			res = new ConnectionNode(dummy, edge, dummy, ConnectionNode.ARBITRARY);
 		}
-	| v=varDecl[context, directlyNestingLHSGraph] 
+	| v=varDecl[context, directlyNestingLHSGraph]
 		{
 			res = v;
 		}
@@ -450,14 +450,14 @@ patternPart [ Coords pattern_coords, CollectNode<BaseNode> params, AnonymousPatt
 	| n=patternBody[pattern_coords, params, namer, mod, context, nameOfGraph] { res = n; }
 	;
 
-replacePart [ CollectNode<BaseNode> params, 
+replacePart [ CollectNode<BaseNode> params,
 			int context, IdentNode nameOfRHS, PatternGraphNode directlyNestingLHSGraph ]
 			returns [ ReplaceDeclNode res = null ]
 	: r=REPLACE ( id=rhsIdentDecl { nameOfRHS = id; } )?
 		LBRACE
 		b=replaceBody[getCoords(r), params, context, nameOfRHS, directlyNestingLHSGraph] { res = b; }
 		RBRACE
-	| LBRACEMINUS 
+	| LBRACEMINUS
 		{ params = new CollectNode<BaseNode>(); }
 		b=replaceBody[getCoords(r), params, context, nameOfRHS, directlyNestingLHSGraph] { res = b; }
 	  RBRACE
@@ -470,7 +470,7 @@ modifyPart [ CollectNode<IdentNode> dels, CollectNode<BaseNode> params,
 		LBRACE
 		b=modifyBody[getCoords(m), dels, params, context, nameOfRHS, directlyNestingLHSGraph] { res = b; }
 		RBRACE
-	| LBRACEPLUS 
+	| LBRACEPLUS
 		{ params = new CollectNode<BaseNode>(); }
 		b=modifyBody[getCoords(m), dels, params, context, nameOfRHS, directlyNestingLHSGraph] { res = b; }
 	  RBRACE
@@ -492,8 +492,8 @@ patternBody [ Coords coords, CollectNode<BaseNode> params, AnonymousPatternNamer
 		CollectNode<HomNode> homs = new CollectNode<HomNode>();
 		CollectNode<ExactNode> exact = new CollectNode<ExactNode>();
 		CollectNode<InducedNode> induced = new CollectNode<InducedNode>();
-		res = new PatternGraphNode(nameOfGraph, coords, 
-				connections, params, defVariablesToBeYieldedTo, subpatterns, orderedReplacements, 
+		res = new PatternGraphNode(nameOfGraph, coords,
+				connections, params, defVariablesToBeYieldedTo, subpatterns, orderedReplacements,
 				alts, iters, negs, idpts, conds, evals,
 				returnz, homs, exact, induced, mod, context);
 	}
@@ -522,7 +522,7 @@ patternStmt [ CollectNode<BaseNode> conn, CollectNode<VarDeclNode> defVariablesT
 	| ind=inducedStatement { induced.addChild(ind); } SEMI
 	;
 
-connectionsOrSubpattern [ CollectNode<BaseNode> conn, CollectNode<VarDeclNode> defVariablesToBeYieldedTo, 
+connectionsOrSubpattern [ CollectNode<BaseNode> conn, CollectNode<VarDeclNode> defVariablesToBeYieldedTo,
 						CollectNode<SubpatternUsageNode> subpatterns, CollectNode<OrderedReplacementNode> orderedReplacements,
 						int context, PatternGraphNode directlyNestingLHSGraph ]
 	: firstEdge[conn, context, directlyNestingLHSGraph] // connection starts with an edge which dangles on the left
@@ -562,7 +562,7 @@ firstNodeOrSubpattern [ CollectNode<BaseNode> conn, CollectNode<SubpatternUsageN
 		( // node declaration
 			type=typeIdentUse
 			( constr=typeConstraint )?
-			( 
+			(
 				{
 					n = new NodeDeclNode(id, type, false, context, constr, directlyNestingLHSGraph);
 				}
@@ -573,10 +573,10 @@ firstNodeOrSubpattern [ CollectNode<BaseNode> conn, CollectNode<SubpatternUsageN
 			| LBRACE oldid=entIdentUse (d=DOT attr=entIdentUse)? (LBRACK mapAccess=entIdentUse RBRACK)? RBRACE
 				{
 					if(mapAccess==null)
-						n = new MatchNodeFromStorageNode(id, type, context, 
+						n = new MatchNodeFromStorageNode(id, type, context,
 							attr==null ? new IdentExprNode(oldid) : new QualIdentNode(getCoords(d), oldid, attr), directlyNestingLHSGraph);
 					else
-						n = new MatchNodeByStorageAccessNode(id, type, context, 
+						n = new MatchNodeByStorageAccessNode(id, type, context,
 							attr==null ? new IdentExprNode(oldid) : new QualIdentNode(getCoords(d), oldid, attr), new IdentExprNode(mapAccess), directlyNestingLHSGraph);
 				}
 			)
@@ -594,7 +594,7 @@ firstNodeOrSubpattern [ CollectNode<BaseNode> conn, CollectNode<SubpatternUsageN
 			}
 			firstEdgeContinuation[n, conn, context, directlyNestingLHSGraph] // and continue looking for first edge
 		| // node copy declaration
-			COPY LT type=entIdentUse GT 
+			COPY LT type=entIdentUse GT
 			{
 				n = new NodeDeclNode(id, type, true, context, constr, directlyNestingLHSGraph);
 			}
@@ -620,7 +620,7 @@ firstNodeOrSubpattern [ CollectNode<BaseNode> conn, CollectNode<SubpatternUsageN
 				| LBRACE oldid=entIdentUse (d=DOT attr=entIdentUse)? (LBRACK mapAccess=entIdentUse RBRACK)? RBRACE
 					{
 						if(mapAccess==null)
-							n = new MatchNodeFromStorageNode(id, type, context, 
+							n = new MatchNodeFromStorageNode(id, type, context,
 								attr==null ? new IdentExprNode(oldid) : new QualIdentNode(getCoords(d), oldid, attr), directlyNestingLHSGraph);
 						else
 							n = new MatchNodeByStorageAccessNode(id, type, context,
@@ -642,7 +642,7 @@ firstNodeOrSubpattern [ CollectNode<BaseNode> conn, CollectNode<SubpatternUsageN
 				}
 				firstEdgeContinuation[n, conn, context, directlyNestingLHSGraph] // and continue looking for first edge
 			| // node copy declaration
-				COPY LT type=entIdentUse GT 
+				COPY LT type=entIdentUse GT
 				{
 					n = new NodeDeclNode(id, type, true, context, constr, directlyNestingLHSGraph);
 				}
@@ -703,7 +703,7 @@ defEdgeToBeYieldedTo [ int context, PatternGraphNode directlyNestingLHSGraph ] r
 	: id=entIdentDecl COLON type=typeIdentUse
 		{ res = new EdgeDeclNode(id, type, false, context, TypeExprNode.getEmpty(), directlyNestingLHSGraph, false, true); }
 	;
-	
+
 defVarDeclToBeYieldedTo [ int context, PatternGraphNode directlyNestingLHSGraph ] returns [ VarDeclNode res = env.initVarNode(directlyNestingLHSGraph, context) ]
 	@init{ VarDeclNode var = null; }
 	: paramModifier=IDENT id=entIdentDecl COLON
@@ -711,7 +711,7 @@ defVarDeclToBeYieldedTo [ int context, PatternGraphNode directlyNestingLHSGraph 
 			type=typeIdentUse
 			{
 				var = new VarDeclNode(id, type, directlyNestingLHSGraph, context, true);
-				if(!paramModifier.getText().equals("var")) 
+				if(!paramModifier.getText().equals("var"))
 					{ reportError(getCoords(paramModifier), "var keyword needed before non set/map/array (and non graph element) parameter"); }
 			}
 		|
@@ -725,19 +725,19 @@ defVarDeclToBeYieldedTo [ int context, PatternGraphNode directlyNestingLHSGraph 
 			SET LT keyType=typeIdentUse GT
 			{ // MAP TODO: das sollte eigentlich kein Schluesselwort sein, sondern ein Typbezeichner
 				var = new VarDeclNode(id, SetTypeNode.getSetType(keyType), directlyNestingLHSGraph, context, true);
-				if(!paramModifier.getText().equals("ref")) 
+				if(!paramModifier.getText().equals("ref"))
 					{ reportError(getCoords(paramModifier), "ref keyword needed before set typed parameter"); }
 			}
 		|
 			ARRAY LT keyType=typeIdentUse GT
 			{ // MAP TODO: das sollte eigentlich kein Schluesselwort sein, sondern ein Typbezeichner
 				var = new VarDeclNode(id, ArrayTypeNode.getArrayType(keyType), directlyNestingLHSGraph, context, true);
-				if(!paramModifier.getText().equals("ref")) 
+				if(!paramModifier.getText().equals("ref"))
 					{ reportError(getCoords(paramModifier), "ref keyword needed before array typed parameter"); }
 			}
 		)
 		{ if(var!=null) res = var; }
-		(a=ASSIGN e=expr[false] { if(var!=null) var.setInitialization(e); } )? 
+		(a=ASSIGN e=expr[false] { if(var!=null) var.setInitialization(e); } )?
 	;
 
 nodeContinuation [ BaseNode e, BaseNode n1, boolean forward, MutableInteger direction, CollectNode<BaseNode> conn, int context, PatternGraphNode directlyNestingLHSGraph ]
@@ -828,7 +828,7 @@ nodeTypeContinuation [ IdentNode id, int context, PatternGraphNode directlyNesti
 		| TYPEOF LPAREN type=entIdentUse RPAREN
 		)
 		( constr=typeConstraint )?
-		( 
+		(
 			{
 				res = new NodeDeclNode(id, type, false, context, constr, directlyNestingLHSGraph);
 			}
@@ -839,7 +839,7 @@ nodeTypeContinuation [ IdentNode id, int context, PatternGraphNode directlyNesti
 		| LBRACE oldid=entIdentUse (d=DOT attr=entIdentUse)? (LBRACK mapAccess=entIdentUse RBRACK)? RBRACE
 			{
 				if(mapAccess==null)
-					res = new MatchNodeFromStorageNode(id, type, context, 
+					res = new MatchNodeFromStorageNode(id, type, context,
 						attr==null ? new IdentExprNode(oldid) : new QualIdentNode(getCoords(d), oldid, attr), directlyNestingLHSGraph);
 				else
 					res = new MatchNodeByStorageAccessNode(id, type, context,
@@ -862,7 +862,7 @@ nodeDecl [ int context, PatternGraphNode directlyNestingLHSGraph ] returns [ Bas
 		| TYPEOF LPAREN type=entIdentUse RPAREN
 		)
 		( constr=typeConstraint )?
-		( 
+		(
 			{
 				res = new NodeDeclNode(id, type, false, context, constr, directlyNestingLHSGraph);
 			}
@@ -876,7 +876,7 @@ nodeDecl [ int context, PatternGraphNode directlyNestingLHSGraph ] returns [ Bas
 					res = new MatchNodeFromStorageNode(id, type, context,
 						attr==null ? new IdentExprNode(oldid) : new QualIdentNode(getCoords(d), oldid, attr), directlyNestingLHSGraph);
 				else
-					res = new MatchNodeByStorageAccessNode(id, type, context, 
+					res = new MatchNodeByStorageAccessNode(id, type, context,
 						attr==null ? new IdentExprNode(oldid) : new QualIdentNode(getCoords(d), oldid, attr), new IdentExprNode(mapAccess), directlyNestingLHSGraph);
 			}
 		)
@@ -894,7 +894,7 @@ nodeDeclParam [ int context, PatternGraphNode directlyNestingLHSGraph ] returns 
 	: id=entIdentDecl COLON
 		type=typeIdentUse
 		( constr=typeConstraint )?
-		( LT (interfaceType=typeIdentUse | maybe=NULL 
+		( LT (interfaceType=typeIdentUse | maybe=NULL
 				| interfaceType=typeIdentUse PLUS maybe=NULL | maybe=NULL PLUS interfaceType=typeIdentUse) GT )?
 			{
 				if(interfaceType==null) {
@@ -911,7 +911,7 @@ varDecl [ int context, PatternGraphNode directlyNestingLHSGraph ] returns [ Base
 			type=typeIdentUse
 			{
 				res = new VarDeclNode(id, type, directlyNestingLHSGraph, context);
-				if(!paramModifier.getText().equals("var")) 
+				if(!paramModifier.getText().equals("var"))
 					{ reportError(getCoords(paramModifier), "var keyword needed before non set/map (and non graph element) parameter"); }
 			}
 		|
@@ -925,14 +925,14 @@ varDecl [ int context, PatternGraphNode directlyNestingLHSGraph ] returns [ Base
 			SET LT keyType=typeIdentUse GT
 			{ // MAP TODO: das sollte eigentlich kein Schluesselwort sein, sondern ein Typbezeichner
 				res = new VarDeclNode(id, SetTypeNode.getSetType(keyType), directlyNestingLHSGraph, context);
-				if(!paramModifier.getText().equals("ref")) 
+				if(!paramModifier.getText().equals("ref"))
 					{ reportWarning(getCoords(paramModifier), "ref keyword needed before set typed parameter"); } // TODO: next version -> error
 			}
 		|
 			ARRAY LT keyType=typeIdentUse GT
 			{ // MAP TODO: das sollte eigentlich kein Schluesselwort sein, sondern ein Typbezeichner
 				res = new VarDeclNode(id, ArrayTypeNode.getArrayType(keyType), directlyNestingLHSGraph, context);
-				if(!paramModifier.getText().equals("ref")) 
+				if(!paramModifier.getText().equals("ref"))
 					{ reportWarning(getCoords(paramModifier), "ref keyword needed before array typed parameter"); } // TODO: next version -> error
 			}
 		)
@@ -996,18 +996,18 @@ edgeDecl [ int context, PatternGraphNode directlyNestingLHSGraph ] returns [ Edg
 	}
 
 	:   ( id=entIdentDecl COLON
-			co=edgeTypeContinuation[id, context, directlyNestingLHSGraph] { res = co; } 
+			co=edgeTypeContinuation[id, context, directlyNestingLHSGraph] { res = co; }
 		| atCo=annotationsWithCoords
 			( c=COLON
 				{ id = env.defineAnonymousEntity("edge", getCoords(c)); }
-				co=edgeTypeContinuation[id, context, directlyNestingLHSGraph] { res = co; } 
+				co=edgeTypeContinuation[id, context, directlyNestingLHSGraph] { res = co; }
 			|   { id = env.defineAnonymousEntity("edge", atCo.second); }
 				{ res = new EdgeDeclNode(id, env.getDirectedEdgeRoot(), false, context, TypeExprNode.getEmpty(), directlyNestingLHSGraph); }
 			)
 				{ id.setAnnotations(atCo.first); }
 		| cc=COLON
 			{ id = env.defineAnonymousEntity("edge", getCoords(cc)); }
-			co=edgeTypeContinuation[id, context, directlyNestingLHSGraph] { res = co; } 
+			co=edgeTypeContinuation[id, context, directlyNestingLHSGraph] { res = co; }
 		)
 	;
 
@@ -1020,7 +1020,7 @@ edgeDeclParam [ int context, PatternGraphNode directlyNestingLHSGraph ] returns 
 
 	: id=entIdentDecl COLON type=typeIdentUse
 		( constr=typeConstraint )?
-		( LT (interfaceType=typeIdentUse | maybe=NULL 
+		( LT (interfaceType=typeIdentUse | maybe=NULL
 				| interfaceType=typeIdentUse PLUS maybe=NULL | maybe=NULL PLUS interfaceType=typeIdentUse) GT )?
 			{
 				if( interfaceType == null ) {
@@ -1052,10 +1052,10 @@ edgeTypeContinuation [ IdentNode id, int context, PatternGraphNode directlyNesti
 		| LBRACE oldid=entIdentUse (d=DOT attr=entIdentUse)? (LBRACK mapAccess=entIdentUse RBRACK)? RBRACE
 			{
 				if(mapAccess==null)
-					res = new MatchEdgeFromStorageNode(id, type, context, 
+					res = new MatchEdgeFromStorageNode(id, type, context,
 						attr==null ? new IdentExprNode(oldid) : new QualIdentNode(getCoords(d), oldid, attr), directlyNestingLHSGraph);
 				else
-					res = new MatchEdgeByStorageAccessNode(id, type, context, 
+					res = new MatchEdgeByStorageAccessNode(id, type, context,
 						attr==null ? new IdentExprNode(oldid) : new QualIdentNode(getCoords(d), oldid, attr), new IdentExprNode(mapAccess), directlyNestingLHSGraph);
 			}
 		)
@@ -1068,7 +1068,7 @@ edgeTypeContinuation [ IdentNode id, int context, PatternGraphNode directlyNesti
 arguments[CollectNode<ExprNode> args]
 	: ( arg=argument[args] ( COMMA argument[args] )* )?
 	;
-	
+
 argument[CollectNode<ExprNode> args] // argument for a subpattern usage or subpattern dependent rewrite usage
 	@init{ boolean yielded=false; }
 	: (y=YIELD { yielded = true; })? arg=expr[false] { args.addChild(arg); if(yielded) { if(arg instanceof IdentExprNode) ((IdentExprNode)arg).setYieldedTo(); else reportError(getCoords(y), "Can only yield to an element/variable, defined to by yielded to (def)"); } }
@@ -1104,14 +1104,14 @@ replaceBody [ Coords coords, CollectNode<BaseNode> params, int context, IdentNod
 		CollectNode<EvalStatementNode> evals = new CollectNode<EvalStatementNode>();
 		CollectNode<ExprNode> returnz = new CollectNode<ExprNode>();
 		CollectNode<BaseNode> imperativeStmts = new CollectNode<BaseNode>();
-		GraphNode graph = new GraphNode(nameOfRHS.toString(), coords, 
-			connections, params, defVariablesToBeYieldedTo, subpatterns, 
+		GraphNode graph = new GraphNode(nameOfRHS.toString(), coords,
+			connections, params, defVariablesToBeYieldedTo, subpatterns,
 			orderedReplacements, evals, returnz, imperativeStmts,
 			context, directlyNestingLHSGraph);
 		res = new ReplaceDeclNode(nameOfRHS, graph);
 	}
 
-	: ( replaceStmt[coords, connections, defVariablesToBeYieldedTo, subpatterns, orderedReplacements, evals, context, directlyNestingLHSGraph] 
+	: ( replaceStmt[coords, connections, defVariablesToBeYieldedTo, subpatterns, orderedReplacements, evals, context, directlyNestingLHSGraph]
 		| rets[returnz, context] SEMI
 		| execStmt[imperativeStmts, context, directlyNestingLHSGraph] SEMI
 		| emitStmt[imperativeStmts, orderedReplacements] SEMI
@@ -1136,14 +1136,14 @@ modifyBody [ Coords coords, CollectNode<IdentNode> dels, CollectNode<BaseNode> p
 		CollectNode<EvalStatementNode> evals = new CollectNode<EvalStatementNode>();
 		CollectNode<ExprNode> returnz = new CollectNode<ExprNode>();
 		CollectNode<BaseNode> imperativeStmts = new CollectNode<BaseNode>();
-		GraphNode graph = new GraphNode(nameOfRHS.toString(), coords, 
+		GraphNode graph = new GraphNode(nameOfRHS.toString(), coords,
 			connections, params, defVariablesToBeYieldedTo, subpatterns,
 			orderedReplacements, evals, returnz, imperativeStmts,
 			context, directlyNestingLHSGraph);
 		res = new ModifyDeclNode(nameOfRHS, graph, dels);
 	}
 
-	: ( modifyStmt[coords, connections, defVariablesToBeYieldedTo, subpatterns, orderedReplacements, evals, dels, context, directlyNestingLHSGraph] 
+	: ( modifyStmt[coords, connections, defVariablesToBeYieldedTo, subpatterns, orderedReplacements, evals, dels, context, directlyNestingLHSGraph]
 		| rets[returnz, context] SEMI
 		| execStmt[imperativeStmts, context, directlyNestingLHSGraph] SEMI
 		| emitStmt[imperativeStmts, orderedReplacements] SEMI
@@ -1168,15 +1168,15 @@ alternative [ AnonymousPatternNamer namer, int context ] returns [ AlternativeNo
 		( alternativeCasePure[alt, a, namer, context] )
 			( BOR alternativeCasePure[alt, a, namer, context] ) *
 		RPAREN
-	;	
-	
+	;
+
 alternativeCase [ AlternativeNode alt, AnonymousPatternNamer namer, int context ]
 	@init{
 		int mod = 0;
 		CollectNode<IdentNode> dels = new CollectNode<IdentNode>();
 		CollectNode<RhsDeclNode> rightHandSides = new CollectNode<RhsDeclNode>();
 	}
-	
+
 	: (name=altIdentDecl)? l=LBRACE { namer.defAltCase(name, getCoords(l)); } pushScope[namer.altCase()]
 		left=patternBody[getCoords(l), new CollectNode<BaseNode>(), namer, mod, context, namer.altCase().toString()]
 		(
@@ -1199,7 +1199,7 @@ alternativeCasePure [ AlternativeNode alt, Token a, AnonymousPatternNamer namer,
 		CollectNode<RhsDeclNode> rightHandSides = new CollectNode<RhsDeclNode>();
 		IdentNode altCaseName = IdentNode.getInvalid();
 	}
-	
+
 	: { namer.defAltCase(null, getCoords(a)); } pushScope[namer.altCase()]
 		left=patternBody[getCoords(a), new CollectNode<BaseNode>(), namer, mod, context, namer.altCase().toString()]
 		(
@@ -1224,11 +1224,11 @@ iterated [ AnonymousPatternNamer namer, int context ] returns [ IteratedNode res
 		int maxMatches = -1;
 	}
 
-	: ( i=ITERATED { minMatches = 0; maxMatches = 0; } 
+	: ( i=ITERATED { minMatches = 0; maxMatches = 0; }
 	  | i=OPTIONAL { minMatches = 0; maxMatches = 1; }
 	  | i=MULTIPLE { minMatches = 1; maxMatches = 0; }
 	  )
-	    ( name=iterIdentDecl { namer.defIter(name, null); } 
+	    ( name=iterIdentDecl { namer.defIter(name, null); }
 		  | { namer.defIter(null, getCoords(i)); } )
 		LBRACE pushScope[namer.iter()]
 		left=patternBody[getCoords(i), new CollectNode<BaseNode>(), namer, 0, context, namer.iter().toString()]
@@ -1241,9 +1241,9 @@ iterated [ AnonymousPatternNamer namer, int context ] returns [ IteratedNode res
 				{
 					rightHandSides.addChild(rightModify);
 				}
-		) ?				
+		) ?
 		RBRACE popScope { res = new IteratedNode(namer.iter(), left, rightHandSides, minMatches, maxMatches); }
-	| 
+	|
 		l=LPAREN { namer.defIter(null, getCoords(l)); } pushScope[namer.iter()]
 		left=patternBody[getCoords(i), new CollectNode<BaseNode>(), namer, 0, context, namer.iter().toString()]
 		(
@@ -1255,10 +1255,10 @@ iterated [ AnonymousPatternNamer namer, int context ] returns [ IteratedNode res
 				{
 					rightHandSides.addChild(rightModify);
 				}
-		) ?	
-		RPAREN popScope 
-	  ( 
-	    STAR { minMatches = 0; maxMatches = 0; } 
+		) ?
+		RPAREN popScope
+	  (
+	    STAR { minMatches = 0; maxMatches = 0; }
 	  | QUESTION { minMatches = 0; maxMatches = 1; }
 	  | PLUS { minMatches = 1; maxMatches = 0; }
 	  | LBRACK i=NUM_INTEGER { minMatches = Integer.parseInt(i.getText()); }
@@ -1272,20 +1272,20 @@ negative [ AnonymousPatternNamer namer, int context ] returns [ PatternGraphNode
 	@init{
 		int mod = 0;
 	}
-	
-	: n=NEGATIVE (name=negIdentDecl)? { namer.defNeg(name, getCoords(n)); } 
+
+	: n=NEGATIVE (name=negIdentDecl)? { namer.defNeg(name, getCoords(n)); }
 		LBRACE pushScope[namer.neg()]
 			( ( PATTERNPATH { mod = PatternGraphNode.MOD_PATTERNPATH_LOCKED; }
 			| PATTERN { mod = PatternGraphNode.MOD_PATTERN_LOCKED; } ) SEMI )*
-			b=patternBody[getCoords(n), new CollectNode<BaseNode>(), namer, mod, 
-				context|BaseNode.CONTEXT_NEGATIVE, namer.neg().toString()] { res = b; } 
+			b=patternBody[getCoords(n), new CollectNode<BaseNode>(), namer, mod,
+				context|BaseNode.CONTEXT_NEGATIVE, namer.neg().toString()] { res = b; }
 		RBRACE popScope
 	| n=TILDE { namer.defNeg(null, getCoords(n)); }
 		LPAREN pushScope[namer.neg()]
 			( ( PATTERNPATH { mod = PatternGraphNode.MOD_PATTERNPATH_LOCKED; }
 			| PATTERN { mod = PatternGraphNode.MOD_PATTERN_LOCKED; } ) SEMI )*
-			b=patternBody[getCoords(n), new CollectNode<BaseNode>(), namer, mod, 
-				context|BaseNode.CONTEXT_NEGATIVE, namer.neg().toString()] { res = b; } 
+			b=patternBody[getCoords(n), new CollectNode<BaseNode>(), namer, mod,
+				context|BaseNode.CONTEXT_NEGATIVE, namer.neg().toString()] { res = b; }
 		RPAREN popScope
 	;
 
@@ -1293,26 +1293,26 @@ independent [ AnonymousPatternNamer namer, int context ] returns [ PatternGraphN
 	@init{
 		int mod = 0;
 	}
-	
+
 	: i=INDEPENDENT (name=idptIdentDecl)? { namer.defIdpt(name, getCoords(i)); }
 		LBRACE pushScope[namer.idpt()]
 			( ( PATTERNPATH { mod = PatternGraphNode.MOD_PATTERNPATH_LOCKED; }
 			| PATTERN { mod = PatternGraphNode.MOD_PATTERN_LOCKED; } ) SEMI )*
 			b=patternBody[getCoords(i), new CollectNode<BaseNode>(), namer, mod,
-				context|BaseNode.CONTEXT_INDEPENDENT, namer.idpt().toString()] { res = b; } 
+				context|BaseNode.CONTEXT_INDEPENDENT, namer.idpt().toString()] { res = b; }
 		RBRACE popScope
 	| i=BAND { namer.defIdpt(null, getCoords(i)); }
 		LPAREN pushScope[namer.idpt()]
 			( ( PATTERNPATH { mod = PatternGraphNode.MOD_PATTERNPATH_LOCKED; }
 			| PATTERN { mod = PatternGraphNode.MOD_PATTERN_LOCKED; } ) SEMI )*
 			b=patternBody[getCoords(i), new CollectNode<BaseNode>(), namer, mod,
-				context|BaseNode.CONTEXT_INDEPENDENT, namer.idpt().toString()] { res = b; } 
+				context|BaseNode.CONTEXT_INDEPENDENT, namer.idpt().toString()] { res = b; }
 		RPAREN popScope
 	;
 
 condition [ CollectNode<ExprNode> conds ]
 	: IF LBRACE
-			( e=expr[false] { conds.addChild(e); } SEMI )* 
+			( e=expr[false] { conds.addChild(e); } SEMI )*
 		RBRACE
 	;
 
@@ -1330,7 +1330,7 @@ yielding [ CollectNode<EvalStatementNode> evals, int context, PatternGraphNode d
 		( a=assignmentOrMethodCall[true, context, directlyNestingLHSGraph] { evals.addChild(a); } SEMI )*
 		RBRACE
 	;
-	
+
 rets[CollectNode<ExprNode> res, int context]
 	@init{
 		boolean multipleReturns = ! res.getChildren().isEmpty();
@@ -1363,31 +1363,31 @@ alternativeOrIteratedRewriteUsage[CollectNode<OrderedReplacementNode> orderedRep
 	: a=ALTERNATIVE id=altIdentUse { orderedReplacements.addChild(new AlternativeReplNode(id)); } SEMI
 	| i=ITERATED id=iterIdentUse { orderedReplacements.addChild(new IteratedReplNode(id)); } SEMI
 	;
-	
+
 execStmt[CollectNode<BaseNode> imperativeStmts, int context, PatternGraphNode directlyNestingLHSGraph]
     @init{ ExecNode exec = null; }
-    
+
 	: e=EXEC pushScopeStr["exec_", getCoords(e)] { exec = new ExecNode(getCoords(e)); } LPAREN xgrs[exec] RPAREN
 		{ imperativeStmts.addChild(exec); } popScope
 	;
 
 emitStmt[CollectNode<BaseNode> imperativeStmts, CollectNode<OrderedReplacementNode> orderedReplacements]
 	@init{ EmitNode emit = null; boolean isHere = false;}
-	
+
 	: (e=EMIT | e=EMITHERE { isHere = true; })
 		{ emit = new EmitNode(getCoords(e)); }
 		LPAREN
 			exp=expr[false] { emit.addChild(exp); }
 			( COMMA exp=expr[false] { emit.addChild(exp); } )*
 		RPAREN
-		{ 
+		{
 			if(isHere) orderedReplacements.addChild(emit);
 			else imperativeStmts.addChild(emit);
 		}
 	;
 
 typeConstraint returns [ TypeExprNode constr = null ]
-	: BACKSLASH te=typeUnaryExpr { constr = te; } 
+	: BACKSLASH te=typeUnaryExpr { constr = te; }
 	;
 
 typeAddExpr returns [ TypeExprNode res = null ]
@@ -1399,7 +1399,7 @@ typeAddExpr returns [ TypeExprNode res = null ]
 
 typeUnaryExpr returns [ TypeExprNode res = null ]
 	: typeUse=typeIdentUse { res = new TypeConstraintNode(typeUse); }
-	| LPAREN te=typeAddExpr RPAREN { res = te; } 
+	| LPAREN te=typeAddExpr RPAREN { res = te; }
 	;
 
 
@@ -1471,9 +1471,9 @@ simpleSequence[ExecNode xg]
 		CollectNode<BaseNode> returns = new CollectNode<BaseNode>();
 		String id_ = null, id2_ = null;
 	}
-	
+
 	// attention/todo: names are are only partly resolved!
-	// -> using not existing types, not declared names outside of the return assignment of an action call 
+	// -> using not existing types, not declared names outside of the return assignment of an action call
 	// will not be detected in the frontend; xgrs in the frontend are to a certain degree syntax only
 	: lhs=xgrsEntity[xg] (ASSIGN | GE) { xg.append('='); }
 		(
@@ -1494,7 +1494,7 @@ simpleSequence[ExecNode xg]
 		|
 			(entIdentUse LBRACK) => mapOrArray=entIdentUse LBRACK var=entIdentUse RBRACK // parsing v=a[ as v=a[x] has priority over (v=a)[*]
 			{ xg.append(mapOrArray+"["+var+"]"); xg.addUsage(mapOrArray); xg.addUsage(var); }
-		| 
+		|
 			var=entIdentUse IN setmaparray=entIdentUse { xg.append(var+" in "+setmaparray); xg.addUsage(var); xg.addUsage(setmaparray); }
 		|
 			id=entIdentUse
@@ -1514,11 +1514,11 @@ simpleSequence[ExecNode xg]
 			d=DOLLAR LPAREN n=NUM_INTEGER RPAREN
 			{ xg.append("$("); xg.append(n.getText()); xg.append(")"); }
 		|
-			DEF LPAREN { xg.append("def("); } xgrsVariableList[xg, returns] RPAREN { xg.append(")"); } 
+			DEF LPAREN { xg.append("def("); } xgrsVariableList[xg, returns] RPAREN { xg.append(")"); }
 		|
 			LPAREN { xg.append('('); } xgrs[xg] RPAREN { xg.append(')'); }
 		)
-	| id=entIdentUse DOT VISITED LBRACK var=entIdentUse RBRACK ASSIGN 
+	| id=entIdentUse DOT VISITED LBRACK var=entIdentUse RBRACK ASSIGN
 		{ xg.append(id); xg.addUsage(id); xg.append(".visited["+var+"] = "); xg.addUsage(var); }
 			( var2=entIdentUse { xg.append(var2); xg.addUsage(var2); }
 			| TRUE { xg.append("true"); }
@@ -1536,7 +1536,7 @@ simpleSequence[ExecNode xg]
 					| id=entIdentUse { xg.append("record("+id.toString()+")"); xg.addUsage(id); } ) RPAREN
 	| id=entIdentUse d=DOT attr=IDENT ASSIGN var=entIdentUse
 		{ xg.append(id+"."+attr.getText()+" = "+var); xg.addUsage(id); xg.addUsage(var); }
-	| setmaparray=entIdentUse d=DOT method=IDENT { xg.addUsage(setmaparray); } 
+	| setmaparray=entIdentUse d=DOT method=IDENT { xg.addUsage(setmaparray); }
 			LPAREN ( id=entIdentUse {id_=id.toString();} (COMMA id2=entIdentUse {id2_=id2.toString();})? )? RPAREN
 		{ if(method.getText().equals("add")) { // arrrrgh! == doesn't work for strings in Java ... maximum retardedness!
 			if(id_==null) reportError(getCoords(d), "\""+method.getText()+"\" expects 1(for set value or new array tail value) or 2(for map key and value or array value with index) parameters");
@@ -1546,30 +1546,30 @@ simpleSequence[ExecNode xg]
 		    if(id2_!=null) reportError(getCoords(d), "\""+method.getText()+"\" expects 1 parameter (set value or map key or array index) or none (for array end value)");
 		    if(id_!=null) { xg.append(setmaparray+".rem("+id_+")"); xg.addUsage(id); }
 			else xg.append(setmaparray+".rem()");
-		  } else if(method.getText().equals("clear")) { 
+		  } else if(method.getText().equals("clear")) {
 		    if(id_!=null || id2_!=null) reportError(getCoords(d), "\""+method.getText()+"\" expects no parameters");
 		    xg.append(setmaparray+".clear()");
 		  } else reportError(getCoords(d), "Unknown method name \""+method.getText()+"\"! (available are add|rem|clear on set/map/array)");
 		}
 	| var=entIdentUse IN setmaparray=entIdentUse { xg.append(var+" in "+setmaparray); xg.addUsage(var); xg.addUsage(setmaparray); }
 	| parallelCallRule[xg, returns]
-	| DEF LPAREN { xg.append("def("); } xgrsVariableList[xg, returns] RPAREN { xg.append(")"); } 
+	| DEF LPAREN { xg.append("def("); } xgrsVariableList[xg, returns] RPAREN { xg.append(")"); }
 	| TRUE { xg.append("true"); }
 	| FALSE { xg.append("false"); }
-	| DOLLAR { xg.append("$"); } ( MOD { xg.append("\%"); } )? 
-		(LOR { xg.append("||"); } | LAND { xg.append("&&"); } | BOR { xg.append("|"); } | BAND { xg.append("&"); }) 
+	| DOLLAR { xg.append("$"); } ( MOD { xg.append("\%"); } )?
+		(LOR { xg.append("||"); } | LAND { xg.append("&&"); } | BOR { xg.append("|"); } | BAND { xg.append("&"); })
 		LPAREN { xg.append("("); } xgrs[xg] (COMMA { xg.append(","); } xgrs[xg])* RPAREN { xg.append(")"); }
 	| ( DOLLAR { xg.append("$"); } ( MOD { xg.append("\%"); } )? )?
 		LBRACE { xg.append("{"); } parallelCallRule[xg, returns] (COMMA { xg.append(","); returns = new CollectNode<BaseNode>(); } parallelCallRule[xg, returns])* RBRACE { xg.append("}"); }
 	| LPAREN { xg.append("("); } xgrs[xg] RPAREN { xg.append(")"); }
 	| LT { xg.append(" <"); } xgrs[xg] GT { xg.append("> "); }
 	| SL { xg.append(" <<"); } parallelCallRule[xg, returns] SEMI { xg.append(";"); } xgrs[xg] SR { xg.append(">> "); }
-	| IF l=LBRACE pushScopeStr["if/exec", getCoords(l)] { xg.append("if{"); } xgrs[xg] s=SEMI 
+	| IF l=LBRACE pushScopeStr["if/exec", getCoords(l)] { xg.append("if{"); } xgrs[xg] s=SEMI
 		pushScopeStr["if/then-part", getCoords(s)] { xg.append("; "); } xgrs[xg] popScope
 		(SEMI { xg.append("; "); } xgrs[xg])? popScope RBRACE { xg.append("}"); }
 	| FOR l=LBRACE pushScopeStr["for", getCoords(l)] { xg.append("for{"); } xgrsEntity[xg] (RARROW { xg.append(" -> "); } xgrsEntity[xg])?
 		IN { xg.append(" in "); } xgrsEntity[xg] SEMI { xg.append("; "); } xgrs[xg] popScope RBRACE { xg.append("}"); }
-	| YIELD { xg.append("yield "); } lhsent=entIdentUse { xg.append(lhsent); xg.addUsage(lhsent); } ASSIGN { xg.append('='); } rhsent=entIdentUse { xg.append(rhsent); xg.addUsage(rhsent); } 
+	| YIELD { xg.append("yield "); } lhsent=entIdentUse { xg.append(lhsent); xg.addUsage(lhsent); } ASSIGN { xg.append('='); } rhsent=entIdentUse { xg.append(rhsent); xg.addUsage(rhsent); }
 	;
 
 xgrsConstant[ExecNode xg]
@@ -1585,24 +1585,24 @@ xgrsConstant[ExecNode xg]
 	| SET LT typeName=typeIdentUse GT LBRACE RBRACE { xg.append("set<"+typeName+">{ }"); }
 	| ARRAY LT typeName=typeIdentUse GT LBRACK RBRACK { xg.append("array<"+typeName+">[ ]"); }
 	;
-	
+
 parallelCallRule[ExecNode xg, CollectNode<BaseNode> returns]
 	: ( LPAREN {xg.append("(");} xgrsVariableList[xg, returns] RPAREN ASSIGN {xg.append(")=");} )?
-		(	( DOLLAR {xg.append("$");} ( varRndChoose=entIdentUse {xg.append(varRndChoose);} 
+		(	( DOLLAR {xg.append("$");} ( varRndChoose=entIdentUse {xg.append(varRndChoose);}
 						(COMMA {xg.append(",");} (varRndChoose2=entIdentUse {xg.append(varRndChoose2);} | STAR {xg.append("*");}))? )? )?
-				LBRACK {xg.append("[");} 
+				LBRACK {xg.append("[");}
 				callRule[xg, returns]
 				RBRACK {xg.append("]");}
-		| 
+		|
 			callRule[xg, returns]
 		)
 	;
-		
+
 callRule[ExecNode xg, CollectNode<BaseNode> returns]
 	@init{
 		CollectNode<BaseNode> params = new CollectNode<BaseNode>();
 	}
-	
+
 	: ( | MOD { xg.append("\%"); } | MOD QUESTION { xg.append("\%?"); } | QUESTION { xg.append("?"); } | QUESTION MOD { xg.append("?\%"); } )
 		id=actionIdentUse {xg.append(id);}
 		(LPAREN ruleParams[params] RPAREN)?
@@ -1646,7 +1646,7 @@ xgrsVariableList[ExecNode xg, CollectNode<BaseNode> res]
 xgrsEntity[ExecNode xg] returns [BaseNode res = null]
 	:
 		id=entIdentUse // var of node, edge, or basic type
-		{ res = id; xg.append(id); xg.addUsage(id); } 
+		{ res = id; xg.append(id); xg.addUsage(id); }
 	|
 		xgrsVarDecl=xgrsEntityDecl[xg, true]
 		{ res = xgrsVarDecl; }
@@ -1688,7 +1688,7 @@ options { k = *; }
 			res = decl;
 		}
 	|
-		(entIdentDecl COLON SET LT typeIdentUse GE) => 
+		(entIdentDecl COLON SET LT typeIdentUse GE) =>
 		id=entIdentDecl COLON SET LT type=typeIdentUse // set decl; special to save user from splitting set<S>=x to set<S> =x as >= is GE not GT ASSIGN
 		{
 			ExecVarDeclNode decl = new ExecVarDeclNode(id, SetTypeNode.getSetType(type));
@@ -1705,7 +1705,7 @@ options { k = *; }
 			res = decl;
 		}
 	|
-		(entIdentDecl COLON ARRAY LT typeIdentUse GE) => 
+		(entIdentDecl COLON ARRAY LT typeIdentUse GE) =>
 		id=entIdentDecl COLON ARRAY LT type=typeIdentUse // array decl; special to save user from splitting array<S>=x to array<S> =x as >= is GE not GT ASSIGN
 		{
 			ExecVarDeclNode decl = new ExecVarDeclNode(id, ArrayTypeNode.getArrayType(type));
@@ -1774,8 +1774,8 @@ paramTypes returns [ CollectNode<BaseNode> res = new CollectNode<BaseNode>() ]
 	;
 
 typeDecl returns [ IdentNode res = env.getDummyIdent() ]
-	: d=classDecl { res = d; } 
-	| d=enumDecl { res = d; } 
+	: d=classDecl { res = d; }
+	| d=enumDecl { res = d; }
 	| d=extClassDecl { res = d; }
 	;
 
@@ -1866,7 +1866,7 @@ validIdent returns [ String id = "" ]
 	;
 
 fullQualIdent returns [ String id = "" ]
-	:	i=validIdent { id = i; } 
+	:	i=validIdent { id = i; }
 	 	(DOT id2=validIdent { id += "." + id2; })*
 	;
 
@@ -2049,7 +2049,7 @@ extExtendsCont [IdentNode clsId, CollectNode<IdentNode> c ]
 		}
 	)*
 	;
-	
+
 basicAndContainerDecl [ CollectNode<BaseNode> c ]
 	@init{
 		id = env.getDummyIdent();
@@ -2064,7 +2064,7 @@ basicAndContainerDecl [ CollectNode<BaseNode> c ]
 				c.addChild(decl);
 			}
 		|
-			( CONST { isConst = true; } )? id=entIdentDecl COLON 
+			( CONST { isConst = true; } )? id=entIdentDecl COLON
 			(
 				type=typeIdentUse
 				{
@@ -2148,14 +2148,14 @@ initMapExpr [IdentNode id, MapTypeNode mapType] returns [ MapInitNode res = null
 	;
 
 initSetExpr [IdentNode id, SetTypeNode setType] returns [ SetInitNode res = null ]
-	: l=LBRACE { res = new SetInitNode(getCoords(l), id, setType); }	
+	: l=LBRACE { res = new SetInitNode(getCoords(l), id, setType); }
 	          item1=setItem { res.addSetItem(item1); }
 	  ( COMMA item2=setItem { res.addSetItem(item2); } )*
 	  RBRACE
 	;
 
 initArrayExpr [IdentNode id, ArrayTypeNode arrayType] returns [ ArrayInitNode res = null ]
-	: l=LBRACK { res = new ArrayInitNode(getCoords(l), id, arrayType); }	
+	: l=LBRACK { res = new ArrayInitNode(getCoords(l), id, arrayType); }
 	          item1=arrayItem { res.addArrayItem(item1); }
 	  ( COMMA item2=arrayItem { res.addArrayItem(item2); } )*
 	  RBRACK
@@ -2186,11 +2186,11 @@ constrDecl [IdentNode clsId] returns [ ConstructorDeclNode res = null ]
 	@init {
 		CollectNode<ConstructorParamNode> params = new CollectNode<ConstructorParamNode>();
 	}
-	
+
 	: id=typeIdentUse LPAREN constrParamList[params] RPAREN
 		{
 			res = new ConstructorDeclNode(id, params);
-			
+
 			if(!id.toString().equals(clsId.toString()) )
 				reportError(id.getCoords(), "A constructor must have the name of the containing class");
 		}
@@ -2215,7 +2215,7 @@ constrParam returns [ ConstructorParamNode res = null ]
 memberIdent returns [ Token t = null ]
 	: i=IDENT { t = i; }
 	| r=REPLACE { r.setType(IDENT); t = r; }             // HACK: For string replace function... better choose another name?
-	; 
+	;
 
 pushScope [IdentNode name]
 	@init{ env.pushScope(name); }
@@ -2234,61 +2234,61 @@ popScope
 
 
 typeIdentDecl returns [ IdentNode res = env.getDummyIdent() ]
-	: i=IDENT 
+	: i=IDENT
 		{ if(i!=null) res = new IdentNode(env.define(ParserEnvironment.TYPES, i.getText(), getCoords(i))); }
 		( annots=annotations { res.setAnnotations(annots); } )?
 	;
 
 rhsIdentDecl returns [ IdentNode res = env.getDummyIdent() ]
-	: i=IDENT 
+	: i=IDENT
 		{ if(i!=null) res = new IdentNode(env.define(ParserEnvironment.REPLACES, i.getText(), getCoords(i))); }
 		( annots=annotations { res.setAnnotations(annots); } )?
 	;
 
 entIdentDecl returns [ IdentNode res = env.getDummyIdent() ]
-	: i=IDENT 
+	: i=IDENT
 		{ if(i!=null) res = new IdentNode(env.define(ParserEnvironment.ENTITIES, i.getText(), getCoords(i))); }
 		( annots=annotations { res.setAnnotations(annots); } )?
 	;
 
 actionIdentDecl returns [ IdentNode res = env.getDummyIdent() ]
-	: i=IDENT 
+	: i=IDENT
 		{ if(i!=null) res = new IdentNode(env.define(ParserEnvironment.ACTIONS, i.getText(), getCoords(i))); }
 		( annots=annotations { res.setAnnotations(annots); } )?
 	;
 
 altIdentDecl returns [ IdentNode res = env.getDummyIdent() ]
-	: i=IDENT 
+	: i=IDENT
 		{ if(i!=null) res = new IdentNode(env.define(ParserEnvironment.ALTERNATIVES, i.getText(), getCoords(i))); }
 		( annots=annotations { res.setAnnotations(annots); } )?
 	;
 
 iterIdentDecl returns [ IdentNode res = env.getDummyIdent() ]
-	: i=IDENT 
+	: i=IDENT
 		{ if(i!=null) res = new IdentNode(env.define(ParserEnvironment.ITERATEDS, i.getText(), getCoords(i))); }
 		( annots=annotations { res.setAnnotations(annots); } )?
 	;
-	
+
 negIdentDecl returns [ IdentNode res = env.getDummyIdent() ]
-	: i=IDENT 
+	: i=IDENT
 		{ if(i!=null) res = new IdentNode(env.define(ParserEnvironment.ITERATEDS, i.getText(), getCoords(i))); }
 		( annots=annotations { res.setAnnotations(annots); } )?
 	;
 
 idptIdentDecl returns [ IdentNode res = env.getDummyIdent() ]
-	: i=IDENT 
+	: i=IDENT
 		{ if(i!=null) res = new IdentNode(env.define(ParserEnvironment.INDEPENDENTS, i.getText(), getCoords(i))); }
 		( annots=annotations { res.setAnnotations(annots); } )?
 	;
 
 patIdentDecl returns [ IdentNode res = env.getDummyIdent() ]
-	: i=IDENT 
+	: i=IDENT
 		{ if(i!=null) res = new IdentNode(env.define(ParserEnvironment.PATTERNS, i.getText(), getCoords(i))); }
 		( annots=annotations { res.setAnnotations(annots); } )?
 	;
 
 extFuncIdentDecl returns [ IdentNode res = env.getDummyIdent() ]
-	: i=IDENT 
+	: i=IDENT
 		{ if(i!=null) res = new IdentNode(env.define(ParserEnvironment.EXTERNAL_FUNCTIONS, i.getText(), getCoords(i))); }
 		( annots=annotations { res.setAnnotations(annots); } )?
 	;
@@ -2299,12 +2299,12 @@ extFuncIdentDecl returns [ IdentNode res = env.getDummyIdent() ]
 // Don't factor the common stuff into "identUse", that pollutes the follow sets
 
 typeIdentUse returns [ IdentNode res = env.getDummyIdent() ]
-	: i=IDENT 
+	: i=IDENT
 	{ if(i!=null) res = new IdentNode(env.occurs(ParserEnvironment.TYPES, i.getText(), getCoords(i))); }
 	;
 
 rhsIdentUse returns [ IdentNode res = env.getDummyIdent() ]
-	: i=IDENT 
+	: i=IDENT
 	{ if(i!=null) res = new IdentNode(env.occurs(ParserEnvironment.REPLACES, i.getText(), getCoords(i))); }
 	;
 
@@ -2319,36 +2319,36 @@ actionIdentUse returns [ IdentNode res = env.getDummyIdent() ]
 	;
 
 altIdentUse returns [ IdentNode res = env.getDummyIdent() ]
-	: i=IDENT 
+	: i=IDENT
 	{ if(i!=null) res = new IdentNode(env.occurs(ParserEnvironment.ALTERNATIVES, i.getText(), getCoords(i))); }
 	;
 
 iterIdentUse returns [ IdentNode res = env.getDummyIdent() ]
-	: i=IDENT 
+	: i=IDENT
 	{ if(i!=null) res = new IdentNode(env.occurs(ParserEnvironment.ITERATEDS, i.getText(), getCoords(i))); }
 	;
 
 negIdentUse returns [ IdentNode res = env.getDummyIdent() ]
-	: i=IDENT 
+	: i=IDENT
 	{ if(i!=null) res = new IdentNode(env.occurs(ParserEnvironment.NEGATIVES, i.getText(), getCoords(i))); }
 	;
 
 idptIdentUse returns [ IdentNode res = env.getDummyIdent() ]
-	: i=IDENT 
+	: i=IDENT
 	{ if(i!=null) res = new IdentNode(env.occurs(ParserEnvironment.INDEPENDENTS, i.getText(), getCoords(i))); }
 	;
 
 patIdentUse returns [ IdentNode res = env.getDummyIdent() ]
-	: i=IDENT 
+	: i=IDENT
 	{ if(i!=null) res = new IdentNode(env.occurs(ParserEnvironment.PATTERNS, i.getText(), getCoords(i))); }
 	;
 
 extFuncIdentUse returns [ IdentNode res = env.getDummyIdent() ]
-	: i=IDENT 
+	: i=IDENT
 	{ if(i!=null) res = new IdentNode(env.occurs(ParserEnvironment.EXTERNAL_FUNCTIONS, i.getText(), getCoords(i))); }
 	;
 
-	
+
 annotations returns [ Annotations annots = new DefaultAnnotations() ]
 	: LBRACK keyValuePairs[annots] RBRACK
 	;
@@ -2392,7 +2392,7 @@ memberIdentUse returns [ IdentNode res = env.getDummyIdent() ]
 // Expressions
 //////////////////////////////////////////
 
-	
+
 assignmentOrMethodCall [ boolean onLHS, int context, PatternGraphNode directlyNestingLHSGraph ] returns [ EvalStatementNode res = null ]
 options { k = 4; }
 	@init{
@@ -2412,22 +2412,22 @@ options { k = 4; }
 	  vis=visited a=ASSIGN e=expr[false]
 		{ res = new AssignVisitedNode(getCoords(a), vis, e); }
 		{ if(onLHS) reportError(getCoords(a), "Assignment to a visited flag is forbidden in LHS eval."); }
-	| 
+	|
 	  owner=entIdentUse	d=DOT member=entIdentUse LBRACK idx=expr[false] RBRACK a=ASSIGN e=expr[false] //'false' because this rule is not used for the assignments in enum item decls
 		{ res = new AssignIndexedNode(getCoords(a), new QualIdentNode(getCoords(d), owner, member), e, idx); }
 		{ if(onLHS) reportError(getCoords(d), "Indexed assignment to an attribute is forbidden in LHS eval, only yield indexed assignment to a def variable allowed."); }
 	|
 	  (y=YIELD)? variable=entIdentUse LBRACK idx=expr[false] RBRACK a=ASSIGN e=expr[false]
 		{ res = new AssignIndexedNode(getCoords(a), new IdentExprNode(variable), e, idx); }
-	| 
+	|
 	  owner=entIdentUse d=DOT member=entIdentUse DOT method=memberIdentUse params=paramExprs[false]
 		{ res = new MethodCallNode(new QualIdentNode(getCoords(d), owner, member), method, params); }
 		{ if(onLHS) reportError(getCoords(d), "Method call on an attribute is forbidden in LHS eval, only yield method call to a def variable allowed."); }
 	|
 	  (y=YIELD)? variable=entIdentUse DOT method=memberIdentUse params=paramExprs[false]
 		{ res = new MethodCallNode(new IdentExprNode(variable), method, params); }
-	| 
-	  owner=entIdentUse d=DOT member=entIdentUse 
+	|
+	  owner=entIdentUse d=DOT member=entIdentUse
 		(BOR_ASSIGN { cat = CompoundAssignNode.UNION; } | BAND_ASSIGN { cat = CompoundAssignNode.INTERSECTION; }
 			| BACKSLASH_ASSIGN { cat = CompoundAssignNode.WITHOUT; } | PLUS_ASSIGN { cat = CompoundAssignNode.CONCATENATE; })
 		e=expr[false] ( at=assignTo { ccat = at.ccat; tgtChanged = at.tgtChanged; } )?
@@ -2435,8 +2435,8 @@ options { k = 4; }
 			{ if(onLHS) reportError(getCoords(d), "Assignment to an attribute is forbidden in LHS eval, only yield assignment to a def variable allowed."); }
 			{ if(cat==CompoundAssignNode.CONCATENATE && ccat!=CompoundAssignNode.NONE) reportError(getCoords(d), "No change assignment allowed for array concatenation."); }
 	|
-	  (y=YIELD)? variable=entIdentUse 
-		(BOR_ASSIGN { cat = CompoundAssignNode.UNION; } | BAND_ASSIGN { cat = CompoundAssignNode.INTERSECTION; } 
+	  (y=YIELD)? variable=entIdentUse
+		(BOR_ASSIGN { cat = CompoundAssignNode.UNION; } | BAND_ASSIGN { cat = CompoundAssignNode.INTERSECTION; }
 			| BACKSLASH_ASSIGN { cat = CompoundAssignNode.WITHOUT; } | PLUS_ASSIGN { cat = CompoundAssignNode.CONCATENATE; })
 		e=expr[false] ( at=assignTo { ccat = at.ccat; tgtChanged = at.tgtChanged; } )?
 			{ res = new CompoundAssignNode(getCoords(a), new IdentExprNode(variable), cat, e, ccat, tgtChanged); }
@@ -2445,7 +2445,7 @@ options { k = 4; }
 	  f=FOR LBRACE pushScopeStr["for iterated", getCoords(f)] variable=entIdentDecl IN i=iterIdentUse SEMI YIELD aomc=assignmentOrMethodCall[onLHS, context, directlyNestingLHSGraph] RBRACE popScope
 		{ res = new IteratedAccumulationYieldNode(getCoords(f), new VarDeclNode(variable, IdentNode.getInvalid(), directlyNestingLHSGraph, context), i, aomc); }
 	;
-	
+
 assignTo returns [ int ccat = CompoundAssignNode.NONE, BaseNode tgtChanged = null ]
 	: (ASSIGN_TO { $ccat = CompoundAssignNode.ASSIGN; }
 		| BOR_TO { $ccat = CompoundAssignNode.UNION; }
@@ -2603,7 +2603,7 @@ unaryExpr [ boolean inEnumInit ] returns [ ExprNode res = env.initExprNode() ]
 			res = new CastNode(getCoords(p), id, op);
 		}
 	| e=primaryExpr[inEnumInit] (e=selectorExpr[e, inEnumInit])* { res = e; }
-	; 
+	;
 
 primaryExpr [ boolean inEnumInit ] returns [ ExprNode res = env.initExprNode() ]
 options { k = 3; }
@@ -2622,7 +2622,7 @@ options { k = 3; }
 	;
 
 visited returns [ VisitedNode res ]
-	: v=VISITED LPAREN elem=entIdentUse 
+	: v=VISITED LPAREN elem=entIdentUse
 		( COMMA idExpr=expr[false] RPAREN
 			{ res = new VisitedNode(getCoords(v), idExpr, elem); }
 		| RPAREN
@@ -2630,16 +2630,16 @@ visited returns [ VisitedNode res ]
 		)
 		{ reportWarning(getCoords(v), "visited in function notation deprecated, use element.visited[flag-id] instead"); }
 	|
-		elem=entIdentUse DOT v=VISITED  
+		elem=entIdentUse DOT v=VISITED
 		( (LBRACK) => LBRACK idExpr=expr[false] RBRACK // [ starts a visited flag expression, not a following map access selector expression
 			{ res = new VisitedNode(getCoords(v), idExpr, elem); }
-		| 
+		|
 			{ res = new VisitedNode(getCoords(v), new IntConstNode(getCoords(v), 0), elem); }
 		)
 	;
 
 randomExpr returns [ ExprNode res = env.initExprNode() ]
-	: r=RANDOM LPAREN 
+	: r=RANDOM LPAREN
 		( numExpr=expr[false] RPAREN
 			{ res = new RandomNode(getCoords(r), numExpr); }
 		| RPAREN
@@ -2654,7 +2654,7 @@ nameOf returns [ ExprNode res = env.initExprNode() ]
 typeOf returns [ ExprNode res = env.initExprNode() ]
 	: t=TYPEOF LPAREN id=entIdentUse RPAREN { res = new TypeofNode(getCoords(t), id); }
 	;
-	
+
 initMapOrSetOrArrayExpr returns [ ExprNode res = env.initExprNode() ]
 	: MAP LT keyType=typeIdentUse COMMA valueType=typeIdentUse GT e1=initMapExpr[null, MapTypeNode.getMapType(keyType, valueType)] { res = e1; }
 	| SET LT valueType=typeIdentUse GT e2=initSetExpr[null, SetTypeNode.getSetType(valueType)] { res = e2; }
@@ -2663,7 +2663,7 @@ initMapOrSetOrArrayExpr returns [ ExprNode res = env.initExprNode() ]
 	| (LBRACE) => e2=initSetExpr[null, null] { res = e2; }
 	| (LBRACK) => e3=initArrayExpr[null, null] { res = e3; }
 	;
-	
+
 constant returns [ ExprNode res = env.initExprNode() ]
 	: i=NUM_INTEGER
 		{ res = new IntConstNode(getCoords(i), Integer.parseInt(i.getText(), 10)); }
@@ -2722,7 +2722,7 @@ externalFunctionInvocationExpr [ boolean inEnumInit ] returns [ ExprNode res = e
 			}
 		}
 	;
-	
+
 selectorExpr [ ExprNode target, boolean inEnumInit ] returns [ ExprNode res = env.initExprNode() ]
 	:	l=LBRACK key=expr[inEnumInit] RBRACK { res = new IndexedAccessExprNode(getCoords(l), target, key); }
 	|	d=DOT id=memberIdentUse
@@ -2731,13 +2731,13 @@ selectorExpr [ ExprNode target, boolean inEnumInit ] returns [ ExprNode res = en
 			{
 				res = new MethodInvocationExprNode(target, id, params);
 			}
-		| 
+		|
 			{
 				res = new MemberAccessExprNode(getCoords(d), target, id);
 			}
 		)
 	;
-	
+
 paramExprs [boolean inEnumInit] returns [ CollectNode<ExprNode> params = new CollectNode<ExprNode>(); ]
 	:	LPAREN
 		(

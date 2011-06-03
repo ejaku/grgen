@@ -8,7 +8,7 @@ rule r {
 	replace {
 		c: NFLOAT<a>;
 		a -e-> c;
-		
+
 	}
 }
 

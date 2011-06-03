@@ -5,6 +5,6 @@ rule test1 {
 	negative {
 		b:N;
 	}
-	
+
 	modify {}
 }

@@ -2,7 +2,7 @@ using attrib_model_001;
 
 rule r (ni : NINT, nb : NBOOL, nf : NFLOAT, nd : NDOUBLE, ns : NSTRING) {
 	if { ni.a == 1 && nb.a && nf.a != 42.0 && nd.a != 7.0 && ns.a == "Hi"; }
-	
+
 	modify {
 	}
 }

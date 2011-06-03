@@ -50,7 +50,7 @@ namespace de.unika.ipd.grGen.lgsp
             isNegative = false;
             isNestedInNegative = false;
             rulePatternClassName = NamesOfEntities.RulePatternClassName(rulePattern.name, false);
-            
+
             // filter out parameters which are implemented by lookup due to maybe null unfolding
             // and suffix matcher method name by missing parameters which get computed by lookup here
             String name;
@@ -89,7 +89,7 @@ namespace de.unika.ipd.grGen.lgsp
                 rulePattern.patternGraph.patternGraphsOnPathToEnclosedPatternpath,
                 patternGraph.embeddedGraphs.Length > 0 || patternGraph.iterateds.Length > 0 || patternGraph.alternatives.Length > 0,
                 patternGraph.maybeNullElementNames, suffixedMatcherNameList, paramNamesList);
- 
+
             searchProgram.OperationsList = new SearchProgramList(searchProgram);
             SearchProgramOperation insertionPoint = searchProgram.OperationsList;
 
@@ -170,7 +170,7 @@ namespace de.unika.ipd.grGen.lgsp
             insertionPoint = insertVariableDeclarations(insertionPoint, patternGraph);
 
             // initialize task/result-pushdown handling in subpattern matcher
-            InitializeSubpatternMatching initialize = 
+            InitializeSubpatternMatching initialize =
                 new InitializeSubpatternMatching(InitializeFinalizeSubpatternMatchingType.Normal);
             insertionPoint = insertionPoint.Append(initialize);
 
@@ -226,7 +226,7 @@ namespace de.unika.ipd.grGen.lgsp
             SearchProgramOperation insertionPoint = searchProgram.OperationsList;
 
             // initialize task/result-pushdown handling in subpattern matcher
-            InitializeSubpatternMatching initialize = 
+            InitializeSubpatternMatching initialize =
                 new InitializeSubpatternMatching(InitializeFinalizeSubpatternMatchingType.Normal);
             insertionPoint = insertionPoint.Append(initialize);
 
@@ -237,12 +237,12 @@ namespace de.unika.ipd.grGen.lgsp
                 ScheduledSearchPlan scheduledSearchPlan = altCase.schedulesIncludingNegativesAndIndependents[0];
 
                 GetPartialMatchOfAlternative matchAlternative = new GetPartialMatchOfAlternative(
-                    scheduledSearchPlan.PatternGraph.pathPrefix, 
+                    scheduledSearchPlan.PatternGraph.pathPrefix,
                     scheduledSearchPlan.PatternGraph.name,
                     rulePatternClassName);
                 matchAlternative.OperationsList = new SearchProgramList(matchAlternative);
                 SearchProgramOperation continuationPointAfterAltCase = insertionPoint.Append(matchAlternative);
-                
+
                 // at level of the current alt case
                 insertionPoint = matchAlternative.OperationsList;
                 insertionPoint = insertVariableDeclarations(insertionPoint, altCase);
@@ -309,7 +309,7 @@ namespace de.unika.ipd.grGen.lgsp
             insertionPoint = insertVariableDeclarations(insertionPoint, iter);
 
             // initialize task/result-pushdown handling in subpattern matcher for iteration
-            InitializeSubpatternMatching initialize = 
+            InitializeSubpatternMatching initialize =
                 new InitializeSubpatternMatching(InitializeFinalizeSubpatternMatchingType.Iteration);
             insertionPoint = insertionPoint.Append(initialize);
 
@@ -361,7 +361,7 @@ namespace de.unika.ipd.grGen.lgsp
                         initializationExpression = TypesHelper.DefaultValue(typeName, model);
                     }
                     insertionPoint = insertionPoint.Append(
-                        new DeclareDefElement(EntityType.Variable, TypesHelper.TypeName(var.Type), var.Name, 
+                        new DeclareDefElement(EntityType.Variable, TypesHelper.TypeName(var.Type), var.Name,
                             initializationExpression)
                     );
                 }
@@ -439,14 +439,14 @@ namespace de.unika.ipd.grGen.lgsp
         /// types of the parameters of the action (null if not an action)
         /// </summary>
         private string[] parameterTypes;
-       
+
         /// <summary>
         /// names of the parameters of the action (null if not an action)
         /// </summary>
         private string[] parameterNames;
 
         /// <summary>
-        /// true if statically determined that the neg level of the pattern getting constructed 
+        /// true if statically determined that the neg level of the pattern getting constructed
         /// is always below the maximum neg level
         /// </summary>
         private bool negLevelNeverAboveMaxNegLevel;
@@ -466,7 +466,7 @@ namespace de.unika.ipd.grGen.lgsp
         /// <summary>
         /// Builds search program operations from scheduled search plan operation.
         /// Decides which specialized build procedure is to be called.
-        /// The specialized build procedure then calls this procedure again, 
+        /// The specialized build procedure then calls this procedure again,
         /// in order to process the next search plan operation.
         /// </summary>
         private SearchProgramOperation BuildScheduledSearchPlanOperationIntoSearchProgram(
@@ -484,7 +484,7 @@ namespace de.unika.ipd.grGen.lgsp
             SearchOperation op = patternGraph.schedulesIncludingNegativesAndIndependents[indexOfSchedule].
                 Operations[indexOfScheduledSearchPlanOperationToBuild];
 
-            // for current scheduled search plan operation 
+            // for current scheduled search plan operation
             // insert corresponding search program operations into search program
             switch (op.Type)
             {
@@ -643,7 +643,7 @@ namespace de.unika.ipd.grGen.lgsp
             // check type of candidate
             insertionPoint = decideOnAndInsertCheckType(insertionPoint, target);
 
-            // check candidate for isomorphy 
+            // check candidate for isomorphy
             if (isomorphy.CheckIsMatchedBit)
             {
                 CheckCandidateForIsomorphy checkIsomorphy =
@@ -711,7 +711,7 @@ namespace de.unika.ipd.grGen.lgsp
             string negativeIndependentNamePrefix = NegativeIndependentNamePrefix(patternGraphWithNestingPatterns.Peek());
             Debug.Assert(negativeIndependentNamePrefix != "", "Negative/Independent preset in top-level search plan");
 
-            // check candidate for isomorphy 
+            // check candidate for isomorphy
             if (isomorphy.CheckIsMatchedBit)
             {
                 CheckCandidateForIsomorphy checkIsomorphy =
@@ -859,7 +859,7 @@ namespace de.unika.ipd.grGen.lgsp
                     insertionPoint, (SearchPlanEdgeNode)target, out continuationPointAfterConnectednessCheck);
             }
 
-            // check candidate for isomorphy 
+            // check candidate for isomorphy
             if (isomorphy.CheckIsMatchedBit)
             {
                 CheckCandidateForIsomorphy checkIsomorphy =
@@ -872,8 +872,8 @@ namespace de.unika.ipd.grGen.lgsp
                 insertionPoint = insertionPoint.Append(checkIsomorphy);
             }
 
-            // check candidate for global isomorphy 
-            if (programType==SearchProgramType.Subpattern 
+            // check candidate for global isomorphy
+            if (programType==SearchProgramType.Subpattern
                 || programType==SearchProgramType.AlternativeCase
                 || programType==SearchProgramType.Iterated)
             {
@@ -971,7 +971,7 @@ namespace de.unika.ipd.grGen.lgsp
 
             // iterate available storage elements
             string iterationType;
-            if(isDict) iterationType = "System.Collections.Generic.KeyValuePair<" 
+            if(isDict) iterationType = "System.Collections.Generic.KeyValuePair<"
                 + TypesHelper.GetStorageKeyTypeName(storage.Type) + ","
                 + TypesHelper.GetStorageValueTypeName(storage.Type) + ">";
             else
@@ -1006,7 +1006,7 @@ namespace de.unika.ipd.grGen.lgsp
                     insertionPoint, (SearchPlanEdgeNode)target, out continuationPointAfterConnectednessCheck);
             }
 
-            // check candidate for isomorphy 
+            // check candidate for isomorphy
             if(isomorphy.CheckIsMatchedBit)
             {
                 CheckCandidateForIsomorphy checkIsomorphy =
@@ -1019,7 +1019,7 @@ namespace de.unika.ipd.grGen.lgsp
                 insertionPoint = insertionPoint.Append(checkIsomorphy);
             }
 
-            // check candidate for global isomorphy 
+            // check candidate for global isomorphy
             if(programType == SearchProgramType.Subpattern
                 || programType == SearchProgramType.AlternativeCase
                 || programType == SearchProgramType.Iterated)
@@ -1123,7 +1123,7 @@ namespace de.unika.ipd.grGen.lgsp
                 }
             else
                 iterationType = TypesHelper.XgrsTypeToCSharpType(storageAttribute.ValueType.GetKindName(), model);
- 
+
             GetCandidateByIteration elementsIteration =
                 new GetCandidateByIteration(
                     GetCandidateByIterationType.StorageAttributeElements,
@@ -1156,7 +1156,7 @@ namespace de.unika.ipd.grGen.lgsp
                     insertionPoint, (SearchPlanEdgeNode)target, out continuationPointAfterConnectednessCheck);
             }
 
-            // check candidate for isomorphy 
+            // check candidate for isomorphy
             if(isomorphy.CheckIsMatchedBit)
             {
                 CheckCandidateForIsomorphy checkIsomorphy =
@@ -1169,7 +1169,7 @@ namespace de.unika.ipd.grGen.lgsp
                 insertionPoint = insertionPoint.Append(checkIsomorphy);
             }
 
-            // check candidate for global isomorphy 
+            // check candidate for global isomorphy
             if(programType == SearchProgramType.Subpattern
                 || programType == SearchProgramType.AlternativeCase
                 || programType == SearchProgramType.Iterated)
@@ -1256,7 +1256,7 @@ namespace de.unika.ipd.grGen.lgsp
             string negativeIndependentNamePrefix = NegativeIndependentNamePrefix(patternGraphWithNestingPatterns.Peek());
 
             // get candidate from storage-map, only creates variable to hold it, get is fused with check for map membership
-            GetCandidateByDrawing elementFromStorage = 
+            GetCandidateByDrawing elementFromStorage =
                 new GetCandidateByDrawing(
                     GetCandidateByDrawingType.MapWithStorage,
                     target.PatternElement.Name,
@@ -1266,7 +1266,7 @@ namespace de.unika.ipd.grGen.lgsp
                     isNode);
             insertionPoint = insertionPoint.Append(elementFromStorage);
 
-            // check existence of candidate in storage map 
+            // check existence of candidate in storage map
             CheckCandidateMapWithStorage checkElementInStorage =
                 new CheckCandidateMapWithStorage(
                     target.PatternElement.Name,
@@ -1294,7 +1294,7 @@ namespace de.unika.ipd.grGen.lgsp
             if(continuationPointAfterConnectednessCheck == insertionPoint)
                 continuationPointAfterConnectednessCheck = null;
 
-            // check candidate for isomorphy 
+            // check candidate for isomorphy
             if(isomorphy.CheckIsMatchedBit)
             {
                 CheckCandidateForIsomorphy checkIsomorphy =
@@ -1307,7 +1307,7 @@ namespace de.unika.ipd.grGen.lgsp
                 insertionPoint = insertionPoint.Append(checkIsomorphy);
             }
 
-            // check candidate for global isomorphy 
+            // check candidate for global isomorphy
             if(programType == SearchProgramType.Subpattern
                 || programType == SearchProgramType.AlternativeCase
                 || programType == SearchProgramType.Iterated)
@@ -1411,7 +1411,7 @@ namespace de.unika.ipd.grGen.lgsp
             if (continuationPoint == null && continuationPointAfterConnectednessCheck != insertionPoint)
                 continuationPoint = continuationPointAfterConnectednessCheck;
 
-            // check candidate for isomorphy 
+            // check candidate for isomorphy
             string negativeIndependentNamePrefix = NegativeIndependentNamePrefix(patternGraphWithNestingPatterns.Peek());
             if (isomorphy.CheckIsMatchedBit)
             {
@@ -1425,8 +1425,8 @@ namespace de.unika.ipd.grGen.lgsp
                 insertionPoint = insertionPoint.Append(checkIsomorphy);
             }
 
-            // check candidate for global isomorphy 
-            if (programType == SearchProgramType.Subpattern 
+            // check candidate for global isomorphy
+            if (programType == SearchProgramType.Subpattern
                 || programType == SearchProgramType.AlternativeCase
                 || programType == SearchProgramType.Iterated)
             {
@@ -1434,7 +1434,7 @@ namespace de.unika.ipd.grGen.lgsp
                     new CheckCandidateForIsomorphyGlobal(
                         target.PatternElement.Name,
                         isomorphy.GloballyHomomorphPatternElementsAsListOfStrings(),
-                        true, 
+                        true,
                         negLevelNeverAboveMaxNegLevel);
                 insertionPoint = insertionPoint.Append(checkIsomorphy);
             }
@@ -1529,10 +1529,10 @@ namespace de.unika.ipd.grGen.lgsp
             // check connectedness of candidate
             SearchProgramOperation continuationPointOfConnectednessCheck;
             insertionPoint = decideOnAndInsertCheckConnectednessOfIncidentEdgeFromNode(
-                insertionPoint, target, source, edgeType==IncidentEdgeType.Incoming, 
+                insertionPoint, target, source, edgeType==IncidentEdgeType.Incoming,
                 out continuationPointOfConnectednessCheck);
 
-            // check candidate for isomorphy 
+            // check candidate for isomorphy
             string negativeIndependentNamePrefix = NegativeIndependentNamePrefix(patternGraphWithNestingPatterns.Peek());
             if (isomorphy.CheckIsMatchedBit)
             {
@@ -1546,7 +1546,7 @@ namespace de.unika.ipd.grGen.lgsp
                 insertionPoint = insertionPoint.Append(checkIsomorphy);
             }
 
-            // check candidate for global isomorphy 
+            // check candidate for global isomorphy
             if (programType == SearchProgramType.Subpattern
                 || programType == SearchProgramType.AlternativeCase
                 || programType == SearchProgramType.Iterated)
@@ -1667,8 +1667,8 @@ namespace de.unika.ipd.grGen.lgsp
             bool negativeContainsSubpatterns = negativePatternGraph.EmbeddedGraphs.Length >= 1
                 || negativePatternGraph.Alternatives.Length >= 1;
             InitializeNegativeIndependentMatching initNeg = new InitializeNegativeIndependentMatching(
-                negativeContainsSubpatterns, 
-                negativeIndependentNamePrefix, 
+                negativeContainsSubpatterns,
+                negativeIndependentNamePrefix,
                 negLevelNeverAboveMaxNegLevel);
             insertionPoint = insertionPoint.Append(initNeg);
 
@@ -1981,7 +1981,7 @@ namespace de.unika.ipd.grGen.lgsp
                 {
                     if (edge.PatternEdgeSource == edge.PatternEdgeTarget)
                     {
-                        // reflexive edge without direction iteration as we don't want 2 matches 
+                        // reflexive edge without direction iteration as we don't want 2 matches
                         nodeFromEdge = new GetCandidateByDrawing(
                             GetCandidateByDrawingType.NodeFromEdge,
                             currentNode.PatternElement.Name,
@@ -2043,7 +2043,7 @@ namespace de.unika.ipd.grGen.lgsp
             {
                 if (currentEdge.PatternEdgeSource == currentEdge.PatternEdgeTarget)
                 {
-                    // reflexive edge without direction iteration as we don't want 2 matches 
+                    // reflexive edge without direction iteration as we don't want 2 matches
                     incidentIteration = new GetCandidateByIteration(
                         GetCandidateByIterationType.IncidentEdges,
                         currentEdge.PatternElement.Name,
@@ -2237,7 +2237,7 @@ namespace de.unika.ipd.grGen.lgsp
                 }
             }
 
-            // we only have to take care of yielding in case of normal and independent matches 
+            // we only have to take care of yielding in case of normal and independent matches
             // and if we contain a def entity (and if we are not in the defElements pass)
             if(matchObjectType != MatchObjectType.Patternpath
                 && patternGraph.isDefEntityExisting)
@@ -2249,7 +2249,7 @@ namespace de.unika.ipd.grGen.lgsp
         }
 
         /// <summary>
-        /// Inserts code to yield, bubbling effects of nested yields upwards and computing local yields 
+        /// Inserts code to yield, bubbling effects of nested yields upwards and computing local yields
         /// at the given position, returns position after inserted operations
         /// </summary>
         private SearchProgramOperation insertYields(
@@ -2309,7 +2309,7 @@ namespace de.unika.ipd.grGen.lgsp
                         continue;
 
                     String nestedMatchObjectName = "_" + alternative.name;
-                    BubbleUpYieldAlternativeCase bubbleUpAlternativeCase = 
+                    BubbleUpYieldAlternativeCase bubbleUpAlternativeCase =
                         new BubbleUpYieldAlternativeCase(
                             matchObjectName,
                             nestedMatchObjectName,
@@ -2345,7 +2345,7 @@ namespace de.unika.ipd.grGen.lgsp
             foreach(PatternYielding yielding in patternGraph.Yieldings)
             {
                 // iterated potentially matching more than once can't be bubbled up normally,
-                // they need accumulation with a for loop into a variable of the nesting pattern, 
+                // they need accumulation with a for loop into a variable of the nesting pattern,
                 // that's done in/with the yield statements of the parent
                 if(yielding.YieldAssignment is IteratedAccumulationYield)
                 {
@@ -2357,7 +2357,7 @@ namespace de.unika.ipd.grGen.lgsp
                             continue;
 
                         String nestedMatchObjectName = matchObjectName + "._" + iterated.iteratedPattern.Name;
-                        AccumulateUpYieldIterated accumulateUpIterated = 
+                        AccumulateUpYieldIterated accumulateUpIterated =
                             new AccumulateUpYieldIterated(
                                 nestedMatchObjectName,
                                 rulePatternClassName + ".Match_" + patternGraph.pathPrefix + patternGraph.name + "_" + iterated.iteratedPattern.name,
@@ -2440,7 +2440,7 @@ namespace de.unika.ipd.grGen.lgsp
                     }
                 }
             }
-            
+
             foreach(PatternVariable var in patternGraph.variables)
             {
                 if(!var.DefToBeYieldedTo)
@@ -2465,7 +2465,7 @@ namespace de.unika.ipd.grGen.lgsp
         }
 
         /// <summary>
-        /// Inserts code to push the subpattern tasks to the open tasks stack 
+        /// Inserts code to push the subpattern tasks to the open tasks stack
         /// at the given position, returns position after inserted operations
         /// </summary>
         private SearchProgramOperation insertPushSubpatternTasks(SearchProgramOperation insertionPoint)
@@ -2561,7 +2561,7 @@ namespace de.unika.ipd.grGen.lgsp
 
                 int numElements = iter.neededNodes.Count + iter.neededEdges.Count + iter.neededVariables.Count;
                 string[] connectionName = new string[numElements];
-                string[] argumentExpressions = new string[numElements]; 
+                string[] argumentExpressions = new string[numElements];
                 int j = 0;
                 foreach (KeyValuePair<string, bool> node in iter.neededNodes)
                 {
@@ -2710,7 +2710,7 @@ namespace de.unika.ipd.grGen.lgsp
                 new SearchProgramList(leafMatched);
             insertionPoint = leafMatched.MatchBuildingOperations;
 
-            // ---- ---- fill the match object with the candidates 
+            // ---- ---- fill the match object with the candidates
             // ---- ---- which have passed all the checks for being a match
             insertionPoint = insertMatchObjectBuilding(insertionPoint,
                 patternGraph, MatchObjectType.Normal, false);
@@ -2914,7 +2914,7 @@ namespace de.unika.ipd.grGen.lgsp
         /// Inserts code to check whether the subpatterns were found and code for case there were some
         /// at the given position, returns position after inserted operations
         /// </summary>
-        private SearchProgramOperation insertCheckForSubpatternsFound(SearchProgramOperation insertionPoint, 
+        private SearchProgramOperation insertCheckForSubpatternsFound(SearchProgramOperation insertionPoint,
             bool isIteratedNullMatch)
         {
             PatternGraph patternGraph = patternGraphWithNestingPatterns.Peek();
@@ -2938,7 +2938,7 @@ namespace de.unika.ipd.grGen.lgsp
                 else type = PatternAndSubpatternsMatchedType.Iterated;
             }
             Debug.Assert(!isIteratedNullMatch || programType == SearchProgramType.Iterated);
-            PatternAndSubpatternsMatched patternAndSubpatternsMatched = 
+            PatternAndSubpatternsMatched patternAndSubpatternsMatched =
                 new PatternAndSubpatternsMatched(rulePatternClassName, patternGraph.pathPrefix + patternGraph.name, type);
             SearchProgramOperation continuationPointAfterPatternAndSubpatternsMatched =
                 insertionPoint.Append(patternAndSubpatternsMatched);
@@ -2946,7 +2946,7 @@ namespace de.unika.ipd.grGen.lgsp
                 new SearchProgramList(patternAndSubpatternsMatched);
             insertionPoint = patternAndSubpatternsMatched.MatchBuildingOperations;
 
-            // ---- ---- fill the match object with the candidates 
+            // ---- ---- fill the match object with the candidates
             // ---- ---- which have passed all the checks for being a match
             if (!isIteratedNullMatch)
             {
@@ -2960,7 +2960,7 @@ namespace de.unika.ipd.grGen.lgsp
             insertionPoint = continuationPointAfterPatternAndSubpatternsMatched;
 
             // ---- create new matches list to search on or copy found matches into own matches list
-            if (programType==SearchProgramType.Subpattern 
+            if (programType==SearchProgramType.Subpattern
                 || programType==SearchProgramType.AlternativeCase)
             { // not needed for iterated, because if match was found, that's it
                 NewMatchesListForFollowingMatches newMatchesList =
@@ -3019,7 +3019,7 @@ namespace de.unika.ipd.grGen.lgsp
 
                 if (!isNestedInNegative) // no match object needed(/available) if independent is part of negative
                 {
-                    // ---- fill the match object with the candidates 
+                    // ---- fill the match object with the candidates
                     // ---- which have passed all the checks for being a match
                     insertionPoint = insertMatchObjectBuilding(insertionPoint,
                         patternGraph, MatchObjectType.Independent, false);
@@ -3056,7 +3056,7 @@ namespace de.unika.ipd.grGen.lgsp
                 new SearchProgramList(patternMatched);
             insertionPoint = patternMatched.MatchBuildingOperations;
 
-            // ---- fill the match object with the candidates 
+            // ---- fill the match object with the candidates
             // ---- which have passed all the checks for being a match
             insertionPoint = insertMatchObjectBuilding(insertionPoint,
                 patternGraph, MatchObjectType.Normal, false);
@@ -3097,7 +3097,7 @@ namespace de.unika.ipd.grGen.lgsp
                 insertionPoint = insertionPoint.Append(patternMatched);
 
                 // abort the matching process
-                CheckContinueMatchingOfNegativeFailed abortMatching = 
+                CheckContinueMatchingOfNegativeFailed abortMatching =
                     new CheckContinueMatchingOfNegativeFailed();
                 insertionPoint = insertionPoint.Append(abortMatching);
             }
@@ -3111,9 +3111,9 @@ namespace de.unika.ipd.grGen.lgsp
 
                 if (!isNestedInNegative) // no match object needed(/available) if independent is part of negative
                 {
-                    // fill the match object with the candidates 
+                    // fill the match object with the candidates
                     // which have passed all the checks for being a match
-                    insertionPoint = insertMatchObjectBuilding(insertionPoint, 
+                    insertionPoint = insertMatchObjectBuilding(insertionPoint,
                         patternGraph, MatchObjectType.Independent, false);
                     insertionPoint = insertMatchObjectBuilding(insertionPoint,
                         patternGraph, MatchObjectType.Independent, true);
@@ -3130,7 +3130,7 @@ namespace de.unika.ipd.grGen.lgsp
 
         /// <summary>
         /// Inserts code to check whether iteration came to an end (pattern not found (again))
-        /// and code to handle that case 
+        /// and code to handle that case
         /// </summary>
         private SearchProgramOperation insertEndOfIterationHandling(SearchProgramOperation insertionPoint)
         {
@@ -3201,7 +3201,7 @@ namespace de.unika.ipd.grGen.lgsp
 
             // ---- nesting level up
             insertionPoint = continuationPoint;
-            
+
             return insertionPoint;
         }
 
@@ -3693,7 +3693,7 @@ namespace de.unika.ipd.grGen.lgsp
             // check whether source/target-nodes of the candidate edge
             // are the same as the already found nodes to which the edge must be incident
             // don't need to, if that node is not matched by now (signaled by visited)
-            SearchPlanNodeNode nodeRequiringCheck = 
+            SearchPlanNodeNode nodeRequiringCheck =
                 connectednessType == CheckCandidateForConnectednessType.Source ?
                     edge.PatternEdgeSource : edge.PatternEdgeTarget;
             if (nodeRequiringCheck.Visited)
@@ -3732,7 +3732,7 @@ namespace de.unika.ipd.grGen.lgsp
                 // due to currentEdgeConnectsToFirstIncidentNode: at least on incident node available
                 if (edge.PatternEdgeSource == edge.PatternEdgeTarget)
                 {
-                    // reflexive edge without direction iteration as we don't want 2 matches 
+                    // reflexive edge without direction iteration as we don't want 2 matches
                     SearchPlanNodeNode nodeRequiringFirstNodeLoop = edge.PatternEdgeSource != null ?
                         edge.PatternEdgeSource : edge.PatternEdgeTarget;
                     CheckCandidateForConnectedness checkConnectedness =

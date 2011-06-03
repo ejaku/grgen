@@ -1,6 +1,6 @@
 using inh_model_009;
 
-rule bla { 
-	
-	replace{} 
+rule bla {
+
+	replace{}
 }

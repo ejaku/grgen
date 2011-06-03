@@ -10,7 +10,7 @@ rule componentStart(var counter:int) : (int)
 {
     n:N;
     if { !n.visited; }
-	
+
 	modify {
 		eval { n.visited = true; }
 		return (counter+1);
@@ -21,7 +21,7 @@ rule markComponent
 {
 	n:Node ?--? m:Node;
 	if { n.visited && !m.visited; }
-	
+
 	modify {
 		eval {
 			m.visited = true;
@@ -35,7 +35,7 @@ pattern Component(n:Node)
 	iterated {
 		n ?--? m:Node;
 		c:Component(m);
-		
+
 		modify {
 			c();
 			eval {
@@ -52,7 +52,7 @@ rule findComponent()
     n:N;
     if { !n.visited; }
     c:Component(n);
-    
+
     modify {
         c();
 		eval {
@@ -65,7 +65,7 @@ rule removeVisited()
 {
 	n:Node;
 	if { n.visited; }
-	
+
 	modify {
 		eval {
 			n.visited = false;

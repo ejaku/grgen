@@ -7,12 +7,12 @@ rule r {
 	-ei:EINT->;
 	-ef:EFLOAT->;
 	-ed:EDOUBLE->;
-	
+
 	if {
 		ni.a == min(ei.a, ni.a);
 		nf.a == min(ef.a, nf.a);
 		nd.a == min(ed.a, nd.a);
-		
+
 		ni.a == max(ei.a, ni.a);
 		nf.a == max(ef.a, nf.a);
 		nd.a == max(ed.a, nd.a);

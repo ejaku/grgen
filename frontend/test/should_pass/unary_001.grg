@@ -16,7 +16,7 @@ rule r {
 			nd.a = + + nd.a;
 			nd.a = - + nd.a;
 			nd.a = + - nd.a;
-			
+
 			nd.a = nd.a + - - nd.a;
 			nd.a = nd.a + + - nd.a;
 			nd.a = nd.a + - + nd.a;

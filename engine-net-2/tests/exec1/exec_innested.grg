@@ -13,7 +13,7 @@ rule R1a {
 	alternative {
 		toA {
 			:Center --> a:A;
-			
+
 			modify {
 				exec(R2(a));
 				exec(R4);
@@ -21,14 +21,14 @@ rule R1a {
 		}
 		toB {
 			:Center --> b:B;
-			
+
 			modify {
 				exec(R3(b));
 				exec(R4);
 			}
 		}
 	}
-    
+
 	modify {
     }
 }
@@ -37,20 +37,20 @@ rule R1b {
 	c:Center;
 	iterated {
 		c --> b:B;
-		
+
 		modify {
 			exec(R3(b));
 			exec(R5(c,b));
 		}
 	}
-	
+
     modify {
     }
 }
 
 rule R2(a:A) {
     a --> b:B;
-	
+
 	modify {
 		a <-- b;
 	}
@@ -58,7 +58,7 @@ rule R2(a:A) {
 
 rule R3(b:B) {
 	b --> a:A;
-    
+
 	modify {
         delete(a);
     }
@@ -76,7 +76,7 @@ rule R5(c:Center, b:B) {
 
 rule RP1a {
 	p:P1a();
-	
+
 	modify {
 		p();
 	}
@@ -86,7 +86,7 @@ pattern P1a {
 	alternative {
 		toA {
 			:Center --> a:A;
-			
+
 			modify {
 				exec(R2(a));
 				exec(R4);
@@ -94,14 +94,14 @@ pattern P1a {
 		}
 		toB {
 			c:Center --> b:B;
-			
+
 			modify {
 				exec(R3(b));
 				exec(R4);
 			}
 		}
 	}
-    
+
 	modify {
     }
 }

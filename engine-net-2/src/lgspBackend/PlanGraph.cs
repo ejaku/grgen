@@ -14,7 +14,7 @@ namespace de.unika.ipd.grGen.lgsp
     public enum PlanNodeType { Root, Node, Edge };
 
     /// <summary>
-    /// Common base class for the PlanNodes and PlanSuperNodes, 
+    /// Common base class for the PlanNodes and PlanSuperNodes,
     /// used for uniform access to the derived nodes within the minimum spanning arborescent computation.
     /// </summary>
     public abstract class PlanPseudoNode
@@ -103,7 +103,7 @@ namespace de.unika.ipd.grGen.lgsp
         public PatternElement PatternElement; // the pattern element(node or edge) this plan node represents
 
         /// <summary>
-        /// Only valid if this plan node is representing a pattern edge, 
+        /// Only valid if this plan node is representing a pattern edge,
         /// then PatternEdgeSource gives us the plan node made out of the source node of the edge
         /// then PatternEdgeTarget gives us the plan node made out of the target node of the edge
         /// </summary>
@@ -320,7 +320,7 @@ namespace de.unika.ipd.grGen.lgsp
             Source = source;
             Target = target;
             Cost = cost;
-#if OPCOST_WITH_GEO_MEAN 
+#if OPCOST_WITH_GEO_MEAN
             mstCost = cost;
 #else
             mstCost = (float)Math.Max(Math.Log(cost), 1);

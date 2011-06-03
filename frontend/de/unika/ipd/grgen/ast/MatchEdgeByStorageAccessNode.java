@@ -30,8 +30,8 @@ public class MatchEdgeByStorageAccessNode extends EdgeDeclNode implements EdgeCh
 	private QualIdentNode storageAttribute = null;
 	private IdentExprNode accessorUnresolved;
 	private ConstraintDeclNode accessor = null;
-	
-	public MatchEdgeByStorageAccessNode(IdentNode id, BaseNode type, int context, 
+
+	public MatchEdgeByStorageAccessNode(IdentNode id, BaseNode type, int context,
 			BaseNode storage, IdentExprNode accessor,
 			PatternGraphNode directlyNestingLHSGraph) {
 		super(id, type, false, context, TypeExprNode.getEmpty(), directlyNestingLHSGraph);
@@ -144,7 +144,7 @@ public class MatchEdgeByStorageAccessNode extends EdgeDeclNode implements EdgeCh
 		if (isIRAlreadySet()) { // break endless recursion in case of cycle in usage
 			return getIR();
 		} else{
-			setIR(edge);			
+			setIR(edge);
 		}
 		if(storage!=null) edge.setStorage(storage.checkIR(Variable.class));
 		else edge.setStorageAttribute(storageAttribute.checkIR(Qualification.class));

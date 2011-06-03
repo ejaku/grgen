@@ -66,7 +66,7 @@ public class GraphNode extends BaseNode {
 	// Cache variables
 	protected Set<NodeDeclNode> nodes;
 	protected Set<EdgeDeclNode> edges;
-	
+
 	/** context(action or pattern, lhs not rhs) in which this node occurs*/
 	protected int context = 0;
 
@@ -105,7 +105,7 @@ public class GraphNode extends BaseNode {
 		this.defVariablesToBeYieldedTo = defVariablesToBeYieldedTo;
 		this.context = context;
 
-		// if we're constructed as part of a PatternGraphNode 
+		// if we're constructed as part of a PatternGraphNode
 		// then this code will be executed by the PatternGraphNode, so don't do it here
 		if(directlyNestingLHSGraph!=null) {
 			this.directlyNestingLHSGraph = directlyNestingLHSGraph;
@@ -319,7 +319,7 @@ public class GraphNode extends BaseNode {
 		edges = Collections.unmodifiableSet(coll);
 		return edges;
 	}
-	
+
 	public CollectNode<VarDeclNode> getDefVariablesToBeYieldedTo() {
 		return defVariablesToBeYieldedTo;
 	}
@@ -341,16 +341,16 @@ public class GraphNode extends BaseNode {
 	protected IR constructIR() {
 		PatternGraph gr = new PatternGraph(nameOfGraph, 0);
 		gr.setDirectlyNestingLHSGraph(directlyNestingLHSGraph.getGraph());
-		
+
 		for(BaseNode n : connections.getChildren()) {
 			ConnectionCharacter conn = (ConnectionCharacter)n;
 			conn.addToGraph(gr);
 		}
-		
+
 		for(VarDeclNode n : defVariablesToBeYieldedTo.getChildren()) {
 			gr.addVariable(n.checkIR(Variable.class));
 		}
-		
+
 		for(SubpatternUsageNode n : subpatterns.getChildren()) {
 			gr.addSubpatternUsage(n.checkIR(SubpatternUsage.class));
 		}
@@ -388,7 +388,7 @@ public class GraphNode extends BaseNode {
 				}
 			}
 		}
-		
+
 		// add emithere elements only mentioned there to the IR
 		// (they're declared in an enclosing graph and locally only show up in the emithere)
 		NeededEntities needs = new NeededEntities(true, true, true, false, false, true);
@@ -402,7 +402,7 @@ public class GraphNode extends BaseNode {
 		// add elements only mentioned in typeof to the pattern
 		Set<Node> nodesToAdd = new HashSet<Node>();
 		Set<Edge> edgesToAdd = new HashSet<Edge>();
-		for (GraphEntity n : gr.getNodes()) {			
+		for (GraphEntity n : gr.getNodes()) {
 			if (n.inheritsType()) {
 				nodesToAdd.add((Node)n.getTypeof());
 			}
@@ -412,7 +412,7 @@ public class GraphNode extends BaseNode {
 				edgesToAdd.add((Edge)e.getTypeof());
 			}
 		}
-		
+
 		// add elements which we could not be added before because their container was iterated over
 		for(Node n : nodesToAdd)
 			addNodeIfNotYetContained(gr, n);
@@ -422,7 +422,7 @@ public class GraphNode extends BaseNode {
 		for(BaseNode imp : imperativeStmts.getChildren()) {
 			gr.addImperativeStmt((ImperativeStmt)imp.getIR());
 		}
-		
+
 		// ensure def to be yielded to elements are hom to all others
 		// so backend doing some fake search planning for them is not scheduling checks for them
 		for (Node node : gr.getNodes()) {
@@ -433,7 +433,7 @@ public class GraphNode extends BaseNode {
 			if(edge.isDefToBeYieldedTo())
 				gr.addHomToAll(edge);
 		}
-		
+
 		return gr;
 	}
 
@@ -510,7 +510,7 @@ public class GraphNode extends BaseNode {
 
 		return res;
 	}
-	
+
 	public Collection<EvalStatement> getYieldEvalStatements() {
 		Collection<EvalStatement> ret = new LinkedHashSet<EvalStatement>();
 

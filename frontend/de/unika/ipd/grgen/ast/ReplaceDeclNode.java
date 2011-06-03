@@ -170,7 +170,7 @@ public class ReplaceDeclNode extends RhsDeclNode {
         }
 	    return res;
     }
-	
+
 	private void insertElementsFromLeftToRightIfTheyAreFromNestingPattern(PatternGraph left, PatternGraph right)
 	{
 		for(Node node : left.getNodes()) {

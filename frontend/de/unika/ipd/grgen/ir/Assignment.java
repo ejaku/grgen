@@ -47,7 +47,7 @@ public class Assignment extends EvalStatement {
 	public String toString() {
 		return getTarget() + " = " + getExpression();
 	}
-	
+
 	public void collectNeededEntities(NeededEntities needs)
 	{
 		Entity entity = target.getOwner();

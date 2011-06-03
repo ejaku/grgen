@@ -109,19 +109,19 @@ public class PatternGraphNode extends GraphNode {
 	 */
 	private Map<List<Set<NodeDeclNode>>, Set<ConnectionNode>> doubleNodeNegMap =
 		new LinkedHashMap<List<Set<NodeDeclNode>>, Set<ConnectionNode>>();
-	
+
 	// counts number of implicit single and double node negative patterns
 	// created from pattern modifiers, in order to get unique negative names
 	int implicitNegCounter = 0;
-	
+
 
 	public PatternGraphNode(String nameOfGraph, Coords coords,
-			CollectNode<BaseNode> connections, CollectNode<BaseNode> params, 
+			CollectNode<BaseNode> connections, CollectNode<BaseNode> params,
 			CollectNode<VarDeclNode> defVariablesToBeYieldedTo,
 			CollectNode<SubpatternUsageNode> subpatterns, CollectNode<OrderedReplacementNode> orderedReplacements,
 			CollectNode<AlternativeNode> alts, CollectNode<IteratedNode> iters,
 			CollectNode<PatternGraphNode> negs, CollectNode<PatternGraphNode> idpts,
-			CollectNode<ExprNode> conditions, 
+			CollectNode<ExprNode> conditions,
 			CollectNode<EvalStatementNode> yieldsEvals,
 			CollectNode<ExprNode> returns,
 			CollectNode<HomNode> homs, CollectNode<ExactNode> exact,
@@ -145,7 +145,7 @@ public class PatternGraphNode extends GraphNode {
 		this.induced = induced;
 		becomeParent(this.induced);
 		this.modifiers = modifiers;
-		
+
 		directlyNestingLHSGraph = this;
 		addParamsToConnections(params);
 	}
@@ -441,7 +441,7 @@ public class PatternGraphNode extends GraphNode {
 		}
 		return result;
 	}
-	
+
 	@Override
 	protected boolean checkLocal() {
 		boolean childs = super.checkLocal();
@@ -513,7 +513,7 @@ public class PatternGraphNode extends GraphNode {
 	protected IR constructIR() {
 		PatternGraph gr = new PatternGraph(nameOfGraph, modifiers);
 		gr.setDirectlyNestingLHSGraph(gr);
-		
+
 		// mark this node as already visited
 		setIR(gr);
 
@@ -609,14 +609,14 @@ public class PatternGraphNode extends GraphNode {
 		for (EvalStatement n : getYieldEvalStatements()) {
 			gr.addYield(n);
 		}
-		
+
 		// generate type conditions from dynamic type checks via typeof
 		// add elements only mentioned in typeof to the pattern
 		Set<Node> nodesToAdd = new HashSet<Node>();
 		Set<Edge> edgesToAdd = new HashSet<Edge>();
 		for (GraphEntity n : gr.getNodes()) {
 			genTypeCondsFromTypeof(gr, n);
-			
+
 			if (n.inheritsType()) {
 				nodesToAdd.add((Node)n.getTypeof());
 			}
@@ -686,21 +686,21 @@ public class PatternGraphNode extends GraphNode {
 				}
 			}
 
-			if(node.getStorageAttribute()!=null) {		
+			if(node.getStorageAttribute()!=null) {
 				if(node.getStorageAttribute().getOwner() instanceof Node) {
 					nodesToAdd.add((Node)node.getStorageAttribute().getOwner());
 				} else if(node.getStorageAttribute().getOwner() instanceof Edge) {
-					addEdgeIfNotYetContained(gr, (Edge)node.getStorageAttribute().getOwner());					
+					addEdgeIfNotYetContained(gr, (Edge)node.getStorageAttribute().getOwner());
 				}
 			}
 
 			if(node.getAccessor()!=null && node.getAccessor() instanceof Node) {
 				nodesToAdd.add((Node)node.getAccessor());
 			} else if(node.getAccessor()!=null && node.getAccessor() instanceof Edge) {
-				addEdgeIfNotYetContained(gr, (Edge)node.getAccessor());					
+				addEdgeIfNotYetContained(gr, (Edge)node.getAccessor());
 			}
 		}
-		
+
 		for(Edge edge : gr.getEdges()) {
 			if(edge.getStorage()!=null) {
 				if(!gr.hasVar(edge.getStorage())) {
@@ -708,16 +708,16 @@ public class PatternGraphNode extends GraphNode {
 				}
 			}
 
-			if(edge.getStorageAttribute()!=null) {		
+			if(edge.getStorageAttribute()!=null) {
 				if(edge.getStorageAttribute().getOwner() instanceof Node) {
-					addNodeIfNotYetContained(gr, (Node)edge.getStorageAttribute().getOwner());					
+					addNodeIfNotYetContained(gr, (Node)edge.getStorageAttribute().getOwner());
 				} else if(edge.getStorageAttribute().getOwner() instanceof Edge) {
 					edgesToAdd.add((Edge)edge.getStorageAttribute().getOwner());
 				}
 			}
 
 			if(edge.getAccessor()!=null && edge.getAccessor() instanceof Node) {
-				addNodeIfNotYetContained(gr, (Node)edge.getAccessor());					
+				addNodeIfNotYetContained(gr, (Node)edge.getAccessor());
 			} else if(edge.getAccessor()!=null && edge.getAccessor() instanceof Edge) {
 				edgesToAdd.add((Edge)edge.getAccessor());
 			}
@@ -728,7 +728,7 @@ public class PatternGraphNode extends GraphNode {
 			addNodeIfNotYetContained(gr, n);
 		for(Edge e : edgesToAdd)
 			addEdgeIfNotYetContained(gr, e);
-		
+
 		// add negative parts to the IR
 		for (PatternGraphNode pgn : negs.getChildren()) {
 			PatternGraph neg = pgn.getPatternGraph();
@@ -740,7 +740,7 @@ public class PatternGraphNode extends GraphNode {
 			PatternGraph idpt = pgn.getPatternGraph();
 			gr.addIdptGraph(idpt);
 		}
-		
+
 		// ensure def to be yielded to elements are hom to all others
 		// so backend doing some fake search planning for them is not scheduling checks for them
 		for (Node node : gr.getNodes()) {
@@ -1211,7 +1211,7 @@ public class PatternGraphNode extends GraphNode {
 			PatternGraph neg = new PatternGraph("implneg_"+implicitNegCounter, 0);
 			++implicitNegCounter;
 			neg.setDirectlyNestingLHSGraph(neg);
-			
+
 			// add edges to the NAC
 			for (ConnectionNode conn : edgeSet) {
 				conn.addToGraph(neg);

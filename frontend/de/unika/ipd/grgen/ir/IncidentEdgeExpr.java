@@ -16,7 +16,7 @@ public class IncidentEdgeExpr extends Expression {
 	private final boolean outgoing;
 	private final NodeType adjacentNodeType;
 
-	public IncidentEdgeExpr(Node node, 
+	public IncidentEdgeExpr(Node node,
 			EdgeType incidentEdgeType, boolean outgoing,
 			NodeType adjacentNodeType, Type type) {
 		super("incident edge expression", type);

@@ -3,4 +3,4 @@ node class NN;
 
 edge class to_many
 	connect N -- NN[*];
-	
+

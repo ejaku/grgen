@@ -86,13 +86,13 @@ public class IndexedAccessExprNode extends ExprNode
 		else {
 			if (!keyExprType.isEqual(keyType)) {
 				keyExpr = becomeParent(keyExpr.adjustType(keyType, getCoords()));
-	
+
 				if (keyExpr == ConstNode.getInvalid()) {
 					return false;
 				}
 			}
 		}
-		
+
 		return true;
 	}
 

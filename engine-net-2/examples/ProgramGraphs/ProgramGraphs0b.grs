@@ -1,4 +1,4 @@
-# graph rewrite shell script file, shows how to improve the readability of the original graph 
+# graph rewrite shell script file, shows how to improve the readability of the original graph
 #  by using different colors for the different node and edge types, and another layout algorithm
 # before was ProgramGraphs0a.grs, next is ProgramGraphs0c.grs
 

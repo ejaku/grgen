@@ -3,13 +3,13 @@ using patt;
 pattern Foo modify(a:A, b:B)
 {
 	n:Node;
-	
+
 	modify {
 		a --> n <-- b;
         eval {
             x3.a = 7;
         }
-	}	
+	}
 }
 
 rule r {
@@ -17,7 +17,7 @@ rule r {
 
 	modify {
 		a:A;
-		b:B; 
+		b:B;
 		foo(a, b);
 	}
 }

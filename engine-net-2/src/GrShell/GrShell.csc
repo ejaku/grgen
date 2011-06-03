@@ -28,7 +28,7 @@ PARSER_BEGIN(GrShell)
 		{
 			this.impl = impl;
 		}
-		
+
         static int Main(string[] args)
         {
             String command = null;
@@ -36,7 +36,7 @@ PARSER_BEGIN(GrShell)
             bool showUsage = false;
             bool nonDebugNonGuiExitOnError = false;
 			int errorCode = 0; // 0==success, the return value
-            
+
             GrShellImpl.PrintVersion();
 
             for(int i = 0; i < args.Length; i++)
@@ -68,7 +68,7 @@ PARSER_BEGIN(GrShell)
                     }
                     else if(args[i] == "--help")
                     {
-	                    Console.WriteLine("Displays help");                       
+	                    Console.WriteLine("Displays help");
                         showUsage = true;
                         break;
                     }
@@ -111,7 +111,7 @@ PARSER_BEGIN(GrShell)
                 Console.WriteLine("  <grs-file>   Includes the grs-file(s) in the given order");
                 return errorCode;
             }
-            
+
             IWorkaround workaround = WorkaroundManager.Workaround;
             TextReader reader;
             bool showPrompt;
@@ -161,8 +161,8 @@ PARSER_BEGIN(GrShell)
                     {
 	                    if(nonDebugNonGuiExitOnError && !noError) {
 		                    return -1;
-	                    } 
-	                    
+	                    }
+
                         if(scriptFilename.Count != 0)
                         {
                             TextReader newReader;
@@ -418,15 +418,15 @@ SPECIAL_TOKEN: {
 |   < ERRORANYSTRING: ~[] > : DEFAULT
 }
 
-// this -- anystring, filename, ... -- this only works if triggered 
+// this -- anystring, filename, ... -- this only works if triggered
 // a) from another lexical state, another lexical rule (not possible for any but the simplest tasks) or
 // b) from the parser BUT ONLY in the case no lookahead had to be applied
 // if lookahead was needed and reached a token to be handled by a non-default-state,
-// it was tokenized with the default rules, not with the rules of this state 
-// -> be very careful with this rules and the switches to them, 
+// it was tokenized with the default rules, not with the rules of this state
+// -> be very careful with this rules and the switches to them,
 // ensure that every switch to such a state from the parser is not in reach of a lookahead decision to be made
 // it would make a lot of sense to use this token at a lot of more places, to get type and attribute names not colliding with shell keywords,
-// but unfortunately they are used to take parsing decisions via lookahead, so this lexer state won't be used 
+// but unfortunately they are used to take parsing decisions via lookahead, so this lexer state won't be used
 // sigh, maybe it's improper, but parser directed lexing is a must in the real world...
   // can't use this e.g. for type names cause in a lot of places lookahead touches them -> shell keyword typename -> use ""
   // quoted versions here only for consistency with other places, types, where quotes are allowed (needed to prevent keyword clashes), so user can blindly always use them
@@ -489,7 +489,7 @@ String WordOrText():
 {
 	(tok=<DOUBLEQUOTEDTEXT> | tok=<SINGLEQUOTEDTEXT> | tok=<WORD>)
 	{
-		return tok.image;		
+		return tok.image;
 	}
 }
 
@@ -500,7 +500,7 @@ String QuotedText():
 {
 	(tok=<DOUBLEQUOTEDTEXT> | tok=<SINGLEQUOTEDTEXT>)
 	{
-		return tok.image;		
+		return tok.image;
 	}
 }
 
@@ -511,7 +511,7 @@ String TextOrNumber():
 {
 	(tok=<DOUBLEQUOTEDTEXT> | tok=<SINGLEQUOTEDTEXT> | tok=<WORD> | tok=<NUMBER> | tok=<HEXNUMBER>)
 	{
-		return tok.image;		
+		return tok.image;
 	}
 }
 
@@ -544,8 +544,8 @@ int Number():
 	Token t;
 }
 {
-	( 
-		t=<NUMBER> 
+	(
+		t=<NUMBER>
 		{
 			return Convert.ToInt32(t.image);
 		}
@@ -690,7 +690,7 @@ List<String> FilenameParameterList():
 		while((cur = FilenameParameterOrEndOfLine()) != null)
 			list.Add(cur);
 		return list;
-	}	
+	}
 }
 
 String CommandLine():
@@ -844,9 +844,9 @@ object SimpleConstant():
 		<FALSE> { constant = false; }
 	|
 		<NULL> { constant = null; }
-	| 
-		type=WordOrText() "::" value=AttributeName() 
-		{ 
+	|
+		type=WordOrText() "::" value=AttributeName()
+		{
 			foreach(EnumAttributeType attrType in impl.CurrentGraph.Model.EnumAttributeTypes)
 			{
 				if(attrType.Name == type)
@@ -856,7 +856,7 @@ object SimpleConstant():
 					break;
 				}
 			}
-			if(constant==null) 
+			if(constant==null)
 				throw new ParseException("Invalid constant \""+type+"::"+value+"\"!");
 		}
 	)
@@ -882,11 +882,11 @@ object Constant():
 			dstType = typeof(de.unika.ipd.grGen.libGr.SetValueType);
 			if(srcType!=null)
 				constant = DictionaryListHelper.NewDictionary(srcType, dstType);
-			if(constant==null) 
+			if(constant==null)
 				throw new ParseException("Invalid constant \"set<"+typeName+">\"!");
 		}
-		"{" 
-			( src=SimpleConstant() { ((IDictionary)constant).Add(src, null); } )? 
+		"{"
+			( src=SimpleConstant() { ((IDictionary)constant).Add(src, null); } )?
 				( "," src=SimpleConstant() { ((IDictionary)constant).Add(src, null); })*
 		"}"
 	|
@@ -894,12 +894,12 @@ object Constant():
 		{
 			srcType = DictionaryListHelper.GetTypeFromNameForDictionaryOrList(typeName, impl.CurrentGraph.Model);
 			dstType = DictionaryListHelper.GetTypeFromNameForDictionaryOrList(typeNameDst, impl.CurrentGraph.Model);
-			if(srcType!=null && dstType!=null) 
+			if(srcType!=null && dstType!=null)
 				constant = DictionaryListHelper.NewDictionary(srcType, dstType);
-			if(constant==null) 
+			if(constant==null)
 				throw new ParseException("Invalid constant \"map<"+typeName+","+typeNameDst+">\"!");
 		}
-		"{" 
+		"{"
 			( src=SimpleConstant() "->" dst=SimpleConstant() { ((IDictionary)constant).Add(src, dst); } )?
 				( "," src=SimpleConstant() "->" dst=SimpleConstant() { ((IDictionary)constant).Add(src, dst); } )*
 		"}"
@@ -909,11 +909,11 @@ object Constant():
 			srcType = DictionaryListHelper.GetTypeFromNameForDictionaryOrList(typeName, impl.CurrentGraph.Model);
 			if(srcType!=null)
 				constant = DictionaryListHelper.NewList(srcType);
-			if(constant==null) 
+			if(constant==null)
 				throw new ParseException("Invalid constant \"array<"+typeName+">\"!");
 		}
-		"[" 
-			( src=SimpleConstant() { ((IList)constant).Add(src); } )? 
+		"["
+			( src=SimpleConstant() { ((IList)constant).Add(src); } )?
 				( "," src=SimpleConstant() { ((IList)constant).Add(src); })*
 		"]"
 	)
@@ -936,7 +936,7 @@ bool ParseShellCommand():
 	try
 	{
 		{ if(ShowPrompt) Console.Write("> "); }
-		
+
 		(
 			<NL>
 			| <DOUBLESEMICOLON>
@@ -976,7 +976,7 @@ void ShellCommand():
 |
 	"cd" str1=Filename() LineEnd()
 	{
-		noError = impl.ChangeDirectory(str1); 
+		noError = impl.ChangeDirectory(str1);
 	}
 |
 	"ls" LineEnd()
@@ -989,7 +989,7 @@ void ShellCommand():
 		noError = impl.PrintWorkingDirectory();
 	}
 |
-	"askfor" 
+	"askfor"
 	{
 		impl.Askfor(null);
 	}
@@ -1028,7 +1028,7 @@ void ShellCommand():
         Console.WriteLine("The old grs are not supported any longer. Please use the extended graph rewrite sequences xgrs.");
         noError = false;
 	}
-|    
+|
 	"help" parameters=SpacedParametersAndLineEnd()
 	{
 		impl.Help(parameters);
@@ -1090,8 +1090,8 @@ void ShellCommand():
 				noError = false;
 			}
 			else impl.SetRandomSeed(Environment.TickCount);
-		}		
-	)	
+		}
+	)
 |
 	"record" str1=Filename() { boolVal=false; boolVal2=false; } ("start" { boolVal=true; boolVal2=true; } | "stop" { boolVal=true; boolVal2=false; })? LineEnd()
 	{
@@ -1223,7 +1223,7 @@ void ShellCommand():
     }
 |
     // TODO: Introduce prefix for the following commands to allow useful error handling!
-    
+
     try
     {
 	    LOOKAHEAD(2) elem=GraphElement() "." str1=AttributeName()
@@ -1243,7 +1243,7 @@ void ShellCommand():
 		        impl.SetElementAttributeIndexed(elem, str1, str2, obj);
 	        }
 		|
-			LOOKAHEAD(2) "." "add" "(" obj=SimpleConstant() 
+			LOOKAHEAD(2) "." "add" "(" obj=SimpleConstant()
 			(
 				"," obj2=SimpleConstant() ")" LineEnd()
 				{
@@ -1256,7 +1256,7 @@ void ShellCommand():
 				}
 			)
 		|
-			"." "rem" "(" 
+			"." "rem" "("
 			(
 				obj=SimpleConstant() ")" LineEnd()
 				{
@@ -1272,7 +1272,7 @@ void ShellCommand():
 	|
         LOOKAHEAD(2) str1=WordOrText() "="
         (
-			"askfor" 
+			"askfor"
 			(
 				str2=WordOrText()
 				{
@@ -1280,7 +1280,7 @@ void ShellCommand():
 					if(obj == null) noError = false;
 				}
 			|
-				"set" "<" str2=WordOrText() ">" 
+				"set" "<" str2=WordOrText() ">"
 				{
 					obj = impl.Askfor("set<"+str2+">");
 					if(obj == null) noError = false;
@@ -1292,7 +1292,7 @@ void ShellCommand():
 					if(obj == null) noError = false;
 				}
 			|
-				"array" "<" str2=WordOrText() ">" 
+				"array" "<" str2=WordOrText() ">"
 				{
 					obj = impl.Askfor("array<"+str2+">");
 					if(obj == null) noError = false;
@@ -1381,7 +1381,7 @@ ElementDef ElementDefinition():
 				Attributes(attributes)
 			)?
 			")"
-		)?	
+		)?
 	)?
 	{
 		return new ElementDef(elemName, varName, typeName, attributes);
@@ -1400,7 +1400,7 @@ void SingleAttribute(ArrayList attributes):
 	Param param;
 }
 {
-	attribName=WordOrText() "=" 
+	attribName=WordOrText() "="
 		{ param = new Param(attribName); }
 		AttributeParamValue(ref param)
 			{ attributes.Add(param); }
@@ -1416,13 +1416,13 @@ void AttributeParamValue(ref Param param):
 		{
 			param.Value = value;
 		}
-	| "set" "<" type=WordOrText() ">" 
+	| "set" "<" type=WordOrText() ">"
 		{
 			param.Value = "set";
 			param.Type = type;
 			param.Values = new ArrayList();
 		}
-		"{" ( value=AttributeValue() { param.Values.Add(value); } )? 
+		"{" ( value=AttributeValue() { param.Values.Add(value); } )?
 			(<COMMA> value=AttributeValue() { param.Values.Add(value); })* "}"
 	| "map" "<" type=WordOrText() "," typeTgt=WordOrText() ">"
 		{
@@ -1434,13 +1434,13 @@ void AttributeParamValue(ref Param param):
 		}
 		"{" ( value=AttributeValue() { param.Values.Add(value); } <ARROW> valueTgt=AttributeValue() { param.TgtValues.Add(valueTgt); } )?
 			( <COMMA> value=AttributeValue() { param.Values.Add(value); } <ARROW> valueTgt=AttributeValue() { param.TgtValues.Add(valueTgt); } )* "}"
-	| "array" "<" type=WordOrText() ">" 
+	| "array" "<" type=WordOrText() ">"
 		{
 			param.Value = "array";
 			param.Type = type;
 			param.Values = new ArrayList();
 		}
-		"[" ( value=AttributeValue() { param.Values.Add(value); } )? 
+		"[" ( value=AttributeValue() { param.Values.Add(value); } )?
 			(<COMMA> value=AttributeValue() { param.Values.Add(value); })* "]"
 }
 
@@ -1466,7 +1466,7 @@ void SelectCommand():
 		{
 			if(shellGraph == null) noError = false;
 			else impl.SelectGraph(shellGraph);
-		}	
+		}
 	|
 		"actions" str=Filename() LineEnd()
 		{
@@ -1882,7 +1882,7 @@ void DumpSet():
 		{
 			noError = impl.SetDumpEdgeTypeColor(edgeType, colorName, only);
 		}
-	| 
+	|
 		"textcolor" (colorName=WordOrText())? LineEnd()
 		{
 			noError = impl.SetDumpEdgeTypeTextColor(edgeType, colorName, only);
@@ -1911,7 +1911,7 @@ void DumpAdd():
 			noError = impl.AddDumpExcludeNodeType(nodeType, only);
 		}
 	|
-		"group" 
+		"group"
 		(
 		    "by" ("hidden" { hidden = true; })? groupModeStr=WordOrText()
 		    (

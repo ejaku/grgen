@@ -39,13 +39,13 @@ namespace de.unika.ipd.grGen.lgsp
         Dictionary<String, List<String>> toInputTypes(bool rule) { return rule ? rulesToInputTypes : sequencesToInputTypes; }
 
         // returns rule or sequence name to output types dictionary depending on argument
-        Dictionary<String, List<String>> toOutputTypes(bool rule) { return rule ? rulesToOutputTypes : sequencesToOutputTypes; } 
+        Dictionary<String, List<String>> toOutputTypes(bool rule) { return rule ? rulesToOutputTypes : sequencesToOutputTypes; }
 
         // the model object of the .grg to compile
         IGraphModel model;
 
 
-        public LGSPSequenceChecker(String[] ruleNames, String[] sequenceNames, 
+        public LGSPSequenceChecker(String[] ruleNames, String[] sequenceNames,
             Dictionary<String, List<String>> rulesToInputTypes, Dictionary<String, List<String>> rulesToOutputTypes,
             Dictionary<String, List<String>> sequencesToInputTypes, Dictionary<String, List<String>> sequencesToOutputTypes,
             IGraphModel model)
@@ -117,7 +117,7 @@ namespace de.unika.ipd.grGen.lgsp
                 foreach(Sequence seqChild in seq.Children)
                 {
                     Check(seqChild);
-                    if(seqChild is SequenceRuleAllCall 
+                    if(seqChild is SequenceRuleAllCall
                         && ((SequenceRuleAllCall)seqChild).MinVarChooseRandom!=null
                         && ((SequenceRuleAllCall)seqChild).MaxVarChooseRandom!=null)
                         throw new Exception("Sequence SomeFromSet (e.g. {r1,[r2],$[r3]}) can't contain a select with variable from all construct (e.g. $v[r4], e.g. $v1,v2[r4])");
@@ -256,12 +256,12 @@ namespace de.unika.ipd.grGen.lgsp
                 if(nodeOrEdgeType==null)
                 {
                     throw new SequenceParserException(assignSeq.DestVar.Name + "=" + assignSeq.SourceVar.Name + "." + assignSeq.AttributeName, "node or edge type", assignSeq.SourceVar.Type);
-                } 
+                }
                 AttributeType attributeType = nodeOrEdgeType.GetAttributeType(assignSeq.AttributeName);
                 if(attributeType==null)
                 {
                     throw new SequenceParserException(assignSeq.AttributeName, SequenceParserError.UnknownAttribute);
-                } 
+                }
                 if(!TypesHelper.IsSameOrSubtype(TypesHelper.AttributeTypeToXgrsType(attributeType), assignSeq.DestVar.Type, model))
                 {
                     throw new SequenceParserException(assignSeq.DestVar.Name + "=" + assignSeq.SourceVar.Name + "." + assignSeq.AttributeName, assignSeq.DestVar.Type, TypesHelper.AttributeTypeToXgrsType(attributeType));
@@ -297,7 +297,7 @@ namespace de.unika.ipd.grGen.lgsp
                 if(nodeOrEdgeType == null)
                 {
                     throw new SequenceParserException(assignSeq.DestVar.Name + "=@(" + assignSeq.ElementName + ")", "node or edge type", assignSeq.DestVar.Type);
-                } 
+                }
                 break;
             }
 
@@ -449,7 +449,7 @@ namespace de.unika.ipd.grGen.lgsp
                 }
                 break;
             }
-            
+
             case SequenceType.VReset:
             {
                 SequenceVReset vResetSeq = (SequenceVReset)seq;
@@ -459,7 +459,7 @@ namespace de.unika.ipd.grGen.lgsp
                 }
                 break;
             }
-            
+
             case SequenceType.ContainerAdd:
             {
                 SequenceContainerAdd addSeq = (SequenceContainerAdd)seq;

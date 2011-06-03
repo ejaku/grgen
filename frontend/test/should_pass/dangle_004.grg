@@ -1,7 +1,7 @@
 rule r {
 	-e:Edge->;
 	-ee:Edge->;
-	
+
 	x:Node -f:Edge->;
 	xx:Node -ff:Edge->;
 	xxx:Node -fff:Edge->;

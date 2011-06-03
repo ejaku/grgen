@@ -3,7 +3,7 @@ rule r
 	n:Node;
 	p:P(n);
 	q:Q();
-	
+
 	modify {
 		p();
 		q();
@@ -21,7 +21,7 @@ pattern P(n:Node)
 pattern Q
 {
 	n:Node;
-	
+
 	modify {
 		m:Node<n>;
 	}

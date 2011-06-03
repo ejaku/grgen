@@ -29,8 +29,8 @@ public class Node extends GraphEntity {
 	public PatternGraph directlyNestingLHSGraph;
 
 	protected boolean maybeNull;
-	
-	
+
+
 	/**
 	 * Make a new node.
 	 * @param ident The identifier for the node.
@@ -42,9 +42,9 @@ public class Node extends GraphEntity {
 	 * @param context The context of the declaration
 	 */
 	public Node(Ident ident, NodeType type, Annotations annots,
-			PatternGraph directlyNestingLHSGraph, 
+			PatternGraph directlyNestingLHSGraph,
 			boolean maybeDeleted, boolean maybeRetyped, boolean isDefToBeYieldedTo, int context) {
-		super("node", ident, type, annots, 
+		super("node", ident, type, annots,
 				maybeDeleted, maybeRetyped, isDefToBeYieldedTo, context);
 		this.type = type;
 		this.directlyNestingLHSGraph = directlyNestingLHSGraph;
@@ -61,18 +61,18 @@ public class Node extends GraphEntity {
 	public Node(Ident ident, NodeType type,
 			PatternGraph directlyNestingLHSGraph,
 			boolean maybeDeleted, boolean maybeRetyped, boolean isDefToBeYieldedTo, int context) {
-		this(ident, type, EmptyAnnotations.get(), directlyNestingLHSGraph, 
+		this(ident, type, EmptyAnnotations.get(), directlyNestingLHSGraph,
 				maybeDeleted, maybeRetyped, isDefToBeYieldedTo, context);
 	}
 
 	public void setMaybeNull(boolean maybeNull) {
 		this.maybeNull = maybeNull;
 	}
-	
+
 	public boolean getMaybeNull() {
 		return maybeNull;
 	}
-	
+
 	/** @return The type of the node. */
 	public NodeType getNodeType() {
 		return type;

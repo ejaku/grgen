@@ -242,7 +242,7 @@ namespace de.unika.ipd.grGen.libGr
         IEnumerable<KeyValuePair<string, string>> Annotations { get; }
     }
 
-    // TODO: split ISubpatternPattern out of IMatching pattern, def elements are a subpattern only thing 
+    // TODO: split ISubpatternPattern out of IMatching pattern, def elements are a subpattern only thing
     // -> IMatchingPattern as parent element for IRulePattern and ISubpatternPattern
 
     /// <summary>

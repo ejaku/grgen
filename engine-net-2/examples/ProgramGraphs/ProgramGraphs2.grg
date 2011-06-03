@@ -21,12 +21,12 @@ rule FirstStatementEx(mb:MethodBody)
 					iterated
 					{
 						sub -:contains\next-> arg:Expression;
-						
+
 						modify {
 							delete(arg);
 						}
 					}
-					
+
 					modify {
 						delete(ca);
 						sub -:uses-> :Constant <-:contains- mb;
@@ -34,11 +34,11 @@ rule FirstStatementEx(mb:MethodBody)
 				}
 				Use {
 					sub -:uses->;
-					
+
 					modify { }
 				}
 			}
-			
+
 			modify { }
 		}
 		Call {
@@ -47,12 +47,12 @@ rule FirstStatementEx(mb:MethodBody)
 			iterated
 			{
 				e -:contains\next-> arg:Expression;
-				
-				modify { 
+
+				modify {
 					delete(arg);
 				}
 			}
-			
+
 			modify {
 				delete(ca);
 				e -:uses-> :Constant <-:contains- mb;
@@ -61,18 +61,18 @@ rule FirstStatementEx(mb:MethodBody)
 		Return {
 			mb -:next-> e:Expression;
 			e -:uses->;
-			
+
 			modify { }
 		}
 		Empty {
 			negative {
 				mb -:next->;
 			}
-			
+
 			modify { }
 		}
 	}
-	
+
 	modify {
 	}
 }

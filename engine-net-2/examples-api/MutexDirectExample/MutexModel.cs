@@ -31,10 +31,10 @@ namespace de.unika.ipd.grGen.Model_Mutex
 	{
 		private static int poolLevel = 0;
 		private static GRGEN_MODEL.@Node[] pool = new GRGEN_MODEL.@Node[10];
-		
+
 		static @Node() {
 		}
-		
+
 		public @Node() : base(GRGEN_MODEL.NodeType_Node.typeVar)
 		{
 			// implicit initialization, map/set creation of Node
@@ -146,12 +146,12 @@ namespace de.unika.ipd.grGen.Model_Mutex
 	{
 		private static int poolLevel = 0;
 		private static GRGEN_MODEL.@Process[] pool = new GRGEN_MODEL.@Process[10];
-		
+
 		// explicit initializations of Process for target Process
 		// implicit initializations of Process for target Process
 		static @Process() {
 		}
-		
+
 		public @Process() : base(GRGEN_MODEL.NodeType_Process.typeVar)
 		{
 			// implicit initialization, map/set creation of Process
@@ -267,12 +267,12 @@ namespace de.unika.ipd.grGen.Model_Mutex
 	{
 		private static int poolLevel = 0;
 		private static GRGEN_MODEL.@Resource[] pool = new GRGEN_MODEL.@Resource[10];
-		
+
 		// explicit initializations of Resource for target Resource
 		// implicit initializations of Resource for target Resource
 		static @Resource() {
 		}
-		
+
 		public @Resource() : base(GRGEN_MODEL.NodeType_Resource.typeVar)
 		{
 			// implicit initialization, map/set creation of Resource
@@ -388,12 +388,12 @@ namespace de.unika.ipd.grGen.Model_Mutex
 	{
 		private static int poolLevel = 0;
 		private static GRGEN_MODEL.@AnnotationTestNode[] pool = new GRGEN_MODEL.@AnnotationTestNode[10];
-		
+
 		// explicit initializations of AnnotationTestNode for target AnnotationTestNode
 		// implicit initializations of AnnotationTestNode for target AnnotationTestNode
 		static @AnnotationTestNode() {
 		}
-		
+
 		public @AnnotationTestNode() : base(GRGEN_MODEL.NodeType_AnnotationTestNode.typeVar)
 		{
 			// implicit initialization, map/set creation of AnnotationTestNode
@@ -648,10 +648,10 @@ namespace de.unika.ipd.grGen.Model_Mutex
 	{
 		private static int poolLevel = 0;
 		private static GRGEN_MODEL.@Edge[] pool = new GRGEN_MODEL.@Edge[10];
-		
+
 		static @Edge() {
 		}
-		
+
 		public @Edge(GRGEN_LGSP.LGSPNode source, GRGEN_LGSP.LGSPNode target)
 			: base(GRGEN_MODEL.EdgeType_Edge.typeVar, source, target)
 		{
@@ -764,10 +764,10 @@ namespace de.unika.ipd.grGen.Model_Mutex
 	{
 		private static int poolLevel = 0;
 		private static GRGEN_MODEL.@UEdge[] pool = new GRGEN_MODEL.@UEdge[10];
-		
+
 		static @UEdge() {
 		}
-		
+
 		public @UEdge(GRGEN_LGSP.LGSPNode source, GRGEN_LGSP.LGSPNode target)
 			: base(GRGEN_MODEL.EdgeType_UEdge.typeVar, source, target)
 		{
@@ -883,12 +883,12 @@ namespace de.unika.ipd.grGen.Model_Mutex
 	{
 		private static int poolLevel = 0;
 		private static GRGEN_MODEL.@next[] pool = new GRGEN_MODEL.@next[10];
-		
+
 		// explicit initializations of next for target next
 		// implicit initializations of next for target next
 		static @next() {
 		}
-		
+
 		public @next(GRGEN_LGSP.LGSPNode source, GRGEN_LGSP.LGSPNode target)
 			: base(GRGEN_MODEL.EdgeType_next.typeVar, source, target)
 		{
@@ -1008,12 +1008,12 @@ namespace de.unika.ipd.grGen.Model_Mutex
 	{
 		private static int poolLevel = 0;
 		private static GRGEN_MODEL.@blocked[] pool = new GRGEN_MODEL.@blocked[10];
-		
+
 		// explicit initializations of blocked for target blocked
 		// implicit initializations of blocked for target blocked
 		static @blocked() {
 		}
-		
+
 		public @blocked(GRGEN_LGSP.LGSPNode source, GRGEN_LGSP.LGSPNode target)
 			: base(GRGEN_MODEL.EdgeType_blocked.typeVar, source, target)
 		{
@@ -1133,12 +1133,12 @@ namespace de.unika.ipd.grGen.Model_Mutex
 	{
 		private static int poolLevel = 0;
 		private static GRGEN_MODEL.@held_by[] pool = new GRGEN_MODEL.@held_by[10];
-		
+
 		// explicit initializations of held_by for target held_by
 		// implicit initializations of held_by for target held_by
 		static @held_by() {
 		}
-		
+
 		public @held_by(GRGEN_LGSP.LGSPNode source, GRGEN_LGSP.LGSPNode target)
 			: base(GRGEN_MODEL.EdgeType_held_by.typeVar, source, target)
 		{
@@ -1258,12 +1258,12 @@ namespace de.unika.ipd.grGen.Model_Mutex
 	{
 		private static int poolLevel = 0;
 		private static GRGEN_MODEL.@token[] pool = new GRGEN_MODEL.@token[10];
-		
+
 		// explicit initializations of token for target token
 		// implicit initializations of token for target token
 		static @token() {
 		}
-		
+
 		public @token(GRGEN_LGSP.LGSPNode source, GRGEN_LGSP.LGSPNode target)
 			: base(GRGEN_MODEL.EdgeType_token.typeVar, source, target)
 		{
@@ -1383,12 +1383,12 @@ namespace de.unika.ipd.grGen.Model_Mutex
 	{
 		private static int poolLevel = 0;
 		private static GRGEN_MODEL.@release[] pool = new GRGEN_MODEL.@release[10];
-		
+
 		// explicit initializations of release for target release
 		// implicit initializations of release for target release
 		static @release() {
 		}
-		
+
 		public @release(GRGEN_LGSP.LGSPNode source, GRGEN_LGSP.LGSPNode target)
 			: base(GRGEN_MODEL.EdgeType_release.typeVar, source, target)
 		{
@@ -1508,12 +1508,12 @@ namespace de.unika.ipd.grGen.Model_Mutex
 	{
 		private static int poolLevel = 0;
 		private static GRGEN_MODEL.@request[] pool = new GRGEN_MODEL.@request[10];
-		
+
 		// explicit initializations of request for target request
 		// implicit initializations of request for target request
 		static @request() {
 		}
-		
+
 		public @request(GRGEN_LGSP.LGSPNode source, GRGEN_LGSP.LGSPNode target)
 			: base(GRGEN_MODEL.EdgeType_request.typeVar, source, target)
 		{
@@ -1634,12 +1634,12 @@ namespace de.unika.ipd.grGen.Model_Mutex
 	{
 		private static int poolLevel = 0;
 		private static GRGEN_MODEL.@annotationTestEdge[] pool = new GRGEN_MODEL.@annotationTestEdge[10];
-		
+
 		// explicit initializations of annotationTestEdge for target annotationTestEdge
 		// implicit initializations of annotationTestEdge for target annotationTestEdge
 		static @annotationTestEdge() {
 		}
-		
+
 		public @annotationTestEdge(GRGEN_LGSP.LGSPNode source, GRGEN_LGSP.LGSPNode target)
 			: base(GRGEN_MODEL.EdgeType_annotationTestEdge.typeVar, source, target)
 		{

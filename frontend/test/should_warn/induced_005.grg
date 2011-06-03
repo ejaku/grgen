@@ -5,7 +5,7 @@ rule r {
     d:Node;
     e:Node;
     f:Node;
-    
+
     a --> b;
     a <-- b;
     a --> d;
@@ -24,7 +24,7 @@ rule r {
     d <-- f;
     e --> f;
     e <-- f;
-    
+
     induced(a,b,d);
     induced(b,c,e);
     induced(d,e,f);

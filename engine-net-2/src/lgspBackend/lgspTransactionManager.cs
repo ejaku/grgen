@@ -53,7 +53,7 @@ namespace de.unika.ipd.grGen.lgsp
         public IGraphElement _elem;
 
         public LGSPUndoElemAdded(IGraphElement elem)
-        { 
+        {
             _elem = elem;
         }
 
@@ -587,7 +587,7 @@ namespace de.unika.ipd.grGen.lgsp
                 undoItems.RemoveLast();
             }
             undoing = false;
-      
+
             if(transactionID == 0)
                 UnsubscribeEvents();
 
@@ -653,7 +653,7 @@ namespace de.unika.ipd.grGen.lgsp
         {
             LGSPTransactionManager newTM = new LGSPTransactionManager();
             newTM.recording = recording;
-            newTM.undoing = undoing;                              
+            newTM.undoing = undoing;
             foreach(IUndoItem undoItem in undoItems)
             {
                 IUndoItem newUndoItem = undoItem.Clone(oldToNewMap);

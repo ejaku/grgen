@@ -1,6 +1,6 @@
 rule r {
 	x : Node;
-	
+
 	replace {
 	}
 }

@@ -131,7 +131,7 @@ public class ModelGen extends CSharpBase {
 			System.out.println("  writing the " + stubFilename + " stub file...");
 			writeFile(be.path, stubFilename, stubsb);
 		}
-		
+
 		// generate the external functions stub file
 		// only if there are external functions required
 		if(model.getExternalFunctions().isEmpty())
@@ -159,7 +159,7 @@ public class ModelGen extends CSharpBase {
 		genExternalClasses();
 
 		sb.append("}\n\n");
-		
+
 		sb.append("namespace de.unika.ipd.grGen.expression\n"
 				+ "{\n"
 				+ "\tusing GRGEN_MODEL = de.unika.ipd.grGen.Model_" + model.getIdent() + ";\n"
@@ -169,9 +169,9 @@ public class ModelGen extends CSharpBase {
 		sb.append("\t{\n");
 		sb.append("\t\t// You must implement the following functions in the same partial class in ./" + model.getIdent() + "ModelExternalFunctionsImpl.cs:\n"
 				+ "\n");
-		
+
 		genExternalFunctionHeaders();
-		
+
 		sb.append("\t}\n");
 
 		sb.append("}\n");
@@ -754,7 +754,7 @@ array_init_loop:
 				sb.append("] = null;\n");
 			}
 		}
-		
+
 		// init members of array value with explicit initialization
 		for(ArrayInit arrayInit : type.getArrayInits()) {
 			Entity member = arrayInit.getMember();
@@ -787,7 +787,7 @@ array_init_loop:
 				continue;
 			if(!generateInitializationOfTypeAtCreatingTargetTypeInitialization(member, type, targetType))
 				continue;
-			
+
 			String attrType = formatAttributeType(member);
 			String attrName = formatIdentifiable(member);
 			sb.append("\t\tprivate static readonly " + attrType + " " + attrName + ModelGen.ATTR_IMPL_SUFFIX + " = ");
@@ -886,7 +886,7 @@ array_init_loop:
 				continue;
 			if(!generateInitializationOfTypeAtCreatingTargetTypeInitialization(member, type, targetType))
 				continue;
-						
+
 			Type memberType = member.getType();
 			String attrType = formatAttributeType(member);
 			String attrName = formatIdentifiable(member);
@@ -903,20 +903,20 @@ array_init_loop:
 			Entity member, InheritanceType type, InheritanceType targetType)
 	{
 		// to decide on generating targetType initialization:
-		//  - generate initialization of currently focused supertype type? 
+		//  - generate initialization of currently focused supertype type?
 		// goal: only generate the initialization closest to the target type
 		// -> don't generate initialization of type if there exists a subtype of type,
 		// which is a supertype of the target type, and which contains an initialization
-		
-		Set<InheritanceType> childrenOfFocusedType = 
+
+		Set<InheritanceType> childrenOfFocusedType =
 			new LinkedHashSet<InheritanceType>(type.getAllSubTypes());
 		childrenOfFocusedType.remove(type); // we want children only, comes with type itself included
-		
-		Set<InheritanceType> targetTypeAndParents = 
+
+		Set<InheritanceType> targetTypeAndParents =
 			new LinkedHashSet<InheritanceType>(targetType.getAllSuperTypes());
 		targetTypeAndParents.add(targetType); // we want it inclusive target, comes exclusive
-	
-		Set<InheritanceType> intersection = 
+
+		Set<InheritanceType> intersection =
 			new LinkedHashSet<InheritanceType>(childrenOfFocusedType);
 		intersection.retainAll(targetTypeAndParents); // the set is empty if type==targetType
 
@@ -941,10 +941,10 @@ array_init_loop:
 					return false;
 			}
 		}
-		
+
 		return true;
 	}
-	
+
 	protected void genQualAccess(StringBuffer sb, Qualification qual, Object modifyGenerationState) {
 		Entity owner = qual.getOwner();
 		sb.append("((I" + getNodeOrEdgeTypePrefix(owner) +
@@ -1086,12 +1086,12 @@ array_init_loop:
 		sb.append("\n");
 		sb.append("\tpublic sealed class " + typename + " : GRGEN_LIBGR." + kindStr + "Type\n");
 		sb.append("\t{\n");
-		
+
 		sb.append("\t\tpublic static " + typeref + " typeVar = new " + typeref + "();\n");
 		genIsA(types, type);
 		genIsMyType(types, type);
 		genAttributeAttributes(type);
-		
+
 		sb.append("\t\tpublic " + typename + "() : base((int) " + formatNodeOrEdge(type) + "Types.@" + typeident + ")\n");
 		sb.append("\t\t{\n");
 		genAttributeInit(type);
@@ -1107,16 +1107,16 @@ array_init_loop:
 						+ "\"de.unika.ipd.grGen.libGr.IEdge\"; } }\n");
 		} else {
 			sb.append("\t\tpublic override string "+formatNodeOrEdge(type)+"InterfaceName { get { return "
-				+ "\"de.unika.ipd.grGen.Model_" + model.getIdent() + "." 
+				+ "\"de.unika.ipd.grGen.Model_" + model.getIdent() + "."
 				+ "I" + getNodeOrEdgeTypePrefix(type) + formatIdentifiable(type) + "\"; } }\n");
 		}
 		if(type.isAbstract()) {
-			sb.append("\t\tpublic override string "+formatNodeOrEdge(type)+"ClassName { get { return null; } }\n");			
+			sb.append("\t\tpublic override string "+formatNodeOrEdge(type)+"ClassName { get { return null; } }\n");
 		} else {
 			sb.append("\t\tpublic override string "+formatNodeOrEdge(type)+"ClassName { get { return \"de.unika.ipd.grGen.Model_"
 					+ model.getIdent() + "." + formatElementClassName(type) + "\"; } }\n");
 		}
-		
+
 		if(isNode) {
 			sb.append("\t\tpublic override GRGEN_LIBGR.INode CreateNode()\n"
 					+ "\t\t{\n");
@@ -1159,7 +1159,7 @@ array_init_loop:
 
 		sb.append("\t\tpublic override bool IsAbstract { get { return " + (type.isAbstract() ? "true" : "false") + "; } }\n");
 		sb.append("\t\tpublic override bool IsConst { get { return " + (type.isConst() ? "true" : "false") + "; } }\n");
-		
+
 		sb.append("\t\tpublic override IEnumerable<KeyValuePair<string, string>> Annotations { get { return annotations; } }\n");
 		sb.append("\t\tpublic IDictionary<string, string> annotations = new Dictionary<string, string>();\n");
 
@@ -1201,17 +1201,17 @@ array_init_loop:
 	private void genAttributeAttributes(InheritanceType type) {
 		for(Entity member : type.getMembers()) { // only for locally defined members
 			sb.append("\t\tpublic static GRGEN_LIBGR.AttributeType " + formatAttributeTypeName(member) + ";\n");
-			
-			// attribute types T/S of map<T,S>/set<T>/array<T> 
+
+			// attribute types T/S of map<T,S>/set<T>/array<T>
 			if(member.getType() instanceof MapType) {
-				sb.append("\t\tpublic static GRGEN_LIBGR.AttributeType " + formatAttributeTypeName(member)+"_map_domain_type;\n");		
-				sb.append("\t\tpublic static GRGEN_LIBGR.AttributeType " + formatAttributeTypeName(member)+"_map_range_type;\n");		
+				sb.append("\t\tpublic static GRGEN_LIBGR.AttributeType " + formatAttributeTypeName(member)+"_map_domain_type;\n");
+				sb.append("\t\tpublic static GRGEN_LIBGR.AttributeType " + formatAttributeTypeName(member)+"_map_range_type;\n");
 			}
 			if(member.getType() instanceof SetType) {
-				sb.append("\t\tpublic static GRGEN_LIBGR.AttributeType " + formatAttributeTypeName(member)+"_set_member_type;\n");		
+				sb.append("\t\tpublic static GRGEN_LIBGR.AttributeType " + formatAttributeTypeName(member)+"_set_member_type;\n");
 			}
 			if(member.getType() instanceof ArrayType) {
-				sb.append("\t\tpublic static GRGEN_LIBGR.AttributeType " + formatAttributeTypeName(member)+"_array_member_type;\n");		
+				sb.append("\t\tpublic static GRGEN_LIBGR.AttributeType " + formatAttributeTypeName(member)+"_array_member_type;\n");
 			}
 		}
 	}
@@ -1224,13 +1224,13 @@ array_init_loop:
 			if (t instanceof MapType) {
 				MapType mt = (MapType)t;
 
-				// attribute types T of map<T,S> 
+				// attribute types T of map<T,S>
 				sb.append("\t\t\t" + attributeTypeName + "_map_domain_type = new GRGEN_LIBGR.AttributeType(");
 				sb.append("\"" + formatIdentifiable(e) + "_map_domain_type\", this, ");
 				genAttributeInitTypeDependentStuff(mt.getKeyType(), e);
 				sb.append(");\n");
-				
-				// attribute types S of map<T,S> 
+
+				// attribute types S of map<T,S>
 				sb.append("\t\t\t" + attributeTypeName + "_map_range_type = new GRGEN_LIBGR.AttributeType(");
 				sb.append("\"" + formatIdentifiable(e) + "_map_range_type\", this, ");
 				genAttributeInitTypeDependentStuff(mt.getValueType(), e);
@@ -1254,12 +1254,12 @@ array_init_loop:
 				genAttributeInitTypeDependentStuff(at.getValueType(), e);
 				sb.append(");\n");
 			}
-			
+
 			sb.append("\t\t\t" + attributeTypeName + " = new GRGEN_LIBGR.AttributeType(");
 			sb.append("\"" + formatIdentifiable(e) + "\", this, ");
 			genAttributeInitTypeDependentStuff(t, e);
 			sb.append(");\n");
-			
+
 			addAnnotations(sb, e, attributeTypeName+".annotations");
 		}
 	}
@@ -1283,11 +1283,11 @@ array_init_loop:
 					+ formatAttributeTypeName(e) + "_array_member_type" + ", null, "
 					+ "null");
 		} else if (t instanceof NodeType || t instanceof EdgeType) {
-			sb.append(getAttributeKind(t) + ", null, " 
+			sb.append(getAttributeKind(t) + ", null, "
 					+ "null, null, "
 					+ "\"" + formatIdentifiable(t) + "\"");
 		} else {
-			sb.append(getAttributeKind(t) + ", null, " 
+			sb.append(getAttributeKind(t) + ", null, "
 					+ "null, null, "
 					+ "null");
 		}
@@ -1810,7 +1810,7 @@ commonLoop:	for(InheritanceType commonType : firstCommonAncestors) {
 			sb.append(");\n");
 		}
 	}
-	
+
 	///////////////////////
 	// Private variables //
 	///////////////////////

@@ -3,117 +3,117 @@ abstract edge class attribute;
 
 //An integer is a primitive type representing integer values.
 node class Integer {
-	
+
 	value : int;
 
 }
 
 //A Boolean type is used for logical expression, consisting of the predefined values true and false.
 node class Boolean {
-	
+
 	value : boolean;
 
 }
 
 //A string is a sequence of characters in some suitable character set used to display information about the model. Character sets may include non-Roman alphabets and characters.
 node class String {
-	
+
 	value : string;
 
 }
 
 //An unlimited natural is a primitive type representing unlimited natural values.
 node class UnlimitedNatural {
-	
+
 	value : int;
 
 }
 
 //A class is a type that has objects as its instances.
 node class Class extends Type {
-	
+
 	isAbstract : boolean = false;
-	
+
 }
-edge class ownedAttribute extends attribute connect 
+edge class ownedAttribute extends attribute connect
 		Class[0:*] --> Property[*];
-edge class ownedOperation extends attribute connect 
+edge class ownedOperation extends attribute connect
 		Class[0:*] --> Operation[*];
-edge class superClass extends attribute connect 
+edge class superClass extends attribute connect
 		Class[0:*] --> Class[*];
 
 //An operation is owned by a class and may be invoked in the context of objects that are instances of that class. It is a typed element and a multiplicity element.
 node class Operation extends TypedElement, MultiplicityElement {
-	
-	
+
+
 }
-edge class raisedException extends attribute connect 
+edge class raisedException extends attribute connect
 		Operation[0:*] --> Type[*];
-edge class ownedParameter extends attribute connect 
+edge class ownedParameter extends attribute connect
 		Operation[0:*] --> Parameter[*];
-edge class class_ extends attribute connect 
+edge class class_ extends attribute connect
 		Operation[0:1] --> Class[*],
 		Property[0:1] --> Class[*];
 
 //A parameter is a typed element that represents a parameter of an operation.
 node class Parameter extends TypedElement, MultiplicityElement {
-	
-	
+
+
 }
-edge class operation extends attribute connect 
+edge class operation extends attribute connect
 		Parameter[0:1] --> Operation[*];
 
 //A property is a typed element that represents an attribute of a class.
 node class Property extends TypedElement, MultiplicityElement {
-	
+
 	isReadOnly : boolean = false;
 	isComposite : boolean = false;
 	isDerived : boolean = false;
-	
+
 }
-edge class default extends association connect 
+edge class default extends association connect
 		Property[0:1] --> String[*];
-edge class opposite extends attribute connect 
+edge class opposite extends attribute connect
 		Property[0:1] --> Property[*];
 
 //A type is a named element that is used as the type for a typed element. A type can be contained in a package.
 abstract node class Type extends NamedElement {
-	
-	
+
+
 }
-edge class package extends attribute connect 
+edge class package extends attribute connect
 		Type[0:1] --> Package[*];
 
 //A named element represents an element with a name.
 abstract node class NamedElement extends Element {
-	
-	
+
+
 }
-edge class name extends association connect 
+edge class name extends association connect
 		NamedElement[0:1] --> String[*];
 
 //A typed element is a kind of named element that represents an element with a type.
 abstract node class TypedElement extends NamedElement {
-	
-	
+
+
 }
-edge class type extends attribute connect 
+edge class type extends attribute connect
 		TypedElement[0:1] --> Type[*];
 
 //An enumeration defines a set of literals that can be used as its values.
 node class Enumeration extends DataType {
-	
-	
+
+
 }
-edge class ownedLiteral extends attribute connect 
+edge class ownedLiteral extends attribute connect
 		Enumeration[0:*] --> EnumerationLiteral[*];
 
 //An enumeration literal is a value of an enumeration.
 node class EnumerationLiteral extends NamedElement {
-	
-	
+
+
 }
-edge class enumeration extends attribute connect 
+edge class enumeration extends attribute connect
 		EnumerationLiteral[0:1] --> Enumeration[*];
 
 //A primitive type is a data type implemented by the underlying infrastructure and made available for modeling.
@@ -121,14 +121,14 @@ node class PrimitiveType extends DataType;
 
 //A package is a container for types and other packages.
 node class Package extends NamedElement {
-	
-	
+
+
 }
-edge class nestedPackage extends attribute connect 
+edge class nestedPackage extends attribute connect
 		Package[0:*] --> Package[*];
-edge class nestingPackage extends attribute connect 
+edge class nestingPackage extends attribute connect
 		Package[0:1] --> Package[*];
-edge class ownedType extends attribute connect 
+edge class ownedType extends attribute connect
 		Package[0:*] --> Type[*];
 
 //DataType is an abstract class that acts as a common superclass for different kinds of data types.
@@ -136,30 +136,30 @@ abstract node class DataType extends Type;
 
 //A multiplicity is a definition of an inclusive interval of non-negative integers beginning with a lower bound and ending with a (possibly infinite) upper bound. A multiplicity element embeds this information to specify the allowable cardinalities for an instantiation of this element.
 abstract node class MultiplicityElement extends Element {
-	
+
 	isOrdered : boolean = false;
 	isUnique : boolean = true;
-	
+
 }
-edge class lower extends association connect 
+edge class lower extends association connect
 		MultiplicityElement[0:1] --> Integer[*];
-edge class upper extends association connect 
+edge class upper extends association connect
 		MultiplicityElement[0:1] --> UnlimitedNatural[*];
 
 //An element is a constituent of a model.
 abstract node class Element {
-	
-	
+
+
 }
-edge class ownedComment extends attribute connect 
+edge class ownedComment extends attribute connect
 		Element[0:*] --> Comment[*];
 
 //A comment is a textual annotation that can be attached to a set of elements.
 node class Comment extends Element {
-	
-	
+
+
 }
-edge class body_ extends association connect 
+edge class body_ extends association connect
 		Comment[0:1] --> String[*];
-edge class annotatedElement extends attribute connect 
+edge class annotatedElement extends attribute connect
 		Comment[0:*] --> Element[*];

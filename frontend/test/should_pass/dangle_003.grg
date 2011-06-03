@@ -6,7 +6,7 @@ rule r {
 	b: Node;
 	c: Node;
 	d: Node;
-	
+
 	x -e:Edge-> y;
 	x -ee:Edge-> y;
 	y -f:Edge->;
@@ -16,7 +16,7 @@ rule r {
 	-h:Edge->;
 	<-i:Edge-;
 	-j:Edge->;
-	
+
 	a -k:Edge->;
 	b -l:Edge->;
 	-m:Edge->;
@@ -31,7 +31,7 @@ rule r {
 		-h->;
 		-i->;
 		<-j-;
-		
+
 		b;
 	}
 }

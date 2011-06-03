@@ -2,7 +2,7 @@ using array_model_002;
 
 rule concatenateWithCast {
 	a:A;
-	
+
 	modify {
 		eval {
 			a.stringArray = a.stringArray + array<string>[ a.intValue ]; // no implicit cast without the type prefix
@@ -12,15 +12,15 @@ rule concatenateWithCast {
 
 test testWithCast {
 	a:A;
-	
+
 	if { a.intValue in a.stringArray; }
 }
 
 rule arraySize {
 	a:A;
-	
+
 	if { a.intArray.size()==42; }
-	
+
 	modify {
 		eval {
 			a.intValue = a.stringArray.size();

@@ -32,12 +32,12 @@ public class IteratedAccumulationYieldNode extends EvalStatementNode {
 
 	BaseNode iterationVariableUnresolved;
 	IdentNode iteratedUnresolved;
-	
+
 	VarDeclNode iterationVariable;
 	IteratedNode iterated;
 	EvalStatementNode accumulationStatement;
 
-	public IteratedAccumulationYieldNode(Coords coords, BaseNode iterationVariable, 
+	public IteratedAccumulationYieldNode(Coords coords, BaseNode iterationVariable,
 			IdentNode iterated, EvalStatementNode accumulationStatement) {
 		super(coords);
 		this.iterationVariableUnresolved = iterationVariable;
@@ -70,12 +70,12 @@ public class IteratedAccumulationYieldNode extends EvalStatementNode {
 
 	private static final DeclarationResolver<IteratedNode> iteratedResolver =
 		new DeclarationResolver<IteratedNode>(IteratedNode.class);
-	
+
 	/** @see de.unika.ipd.grgen.ast.BaseNode#resolveLocal() */
 	@Override
 	protected boolean resolveLocal() {
 		boolean successfullyResolved = true;
-		
+
 		iterated = iteratedResolver.resolve(iteratedUnresolved, this);
 		if(iterated==null)
 			successfullyResolved = false;
@@ -100,13 +100,13 @@ public class IteratedAccumulationYieldNode extends EvalStatementNode {
 			reportError("can't find iteration variable in iterated");
 			successfullyResolved = false;
 		}
-						
+
 		if(!iterationVariable.resolve())
 			successfullyResolved = false;
 
 		if(!accumulationStatement.resolve())
 			successfullyResolved = false;
-		
+
 		return successfullyResolved;
 	}
 
@@ -117,7 +117,7 @@ public class IteratedAccumulationYieldNode extends EvalStatementNode {
 
 	@Override
 	protected IR constructIR() {
-		return new IteratedAccumulationYield(iterationVariable.checkIR(Variable.class), 
+		return new IteratedAccumulationYield(iterationVariable.checkIR(Variable.class),
 				iterated.checkIR(Rule.class), accumulationStatement.checkIR(EvalStatement.class));
 	}
 }

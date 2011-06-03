@@ -44,7 +44,7 @@ namespace de.unika.ipd.grGen.lgsp
         internal bool UsePerfInfo { get { return (flags & ProcessSpecFlags.NoPerformanceInfoUpdates) == 0; } }
 
         /// <summary>
-        /// Returns a string where all "wrong" directory separator chars are replaced by the ones used by the system 
+        /// Returns a string where all "wrong" directory separator chars are replaced by the ones used by the system
         /// </summary>
         /// <param name="path">The original path string potentially with wrong chars</param>
         /// <returns>The corrected path string</returns>
@@ -74,7 +74,7 @@ namespace de.unika.ipd.grGen.lgsp
             }
         }
 
-        bool ProcessModel(String modelFilename, String modelStubFilename, String destDir, 
+        bool ProcessModel(String modelFilename, String modelStubFilename, String destDir,
                 out Assembly modelAssembly, out String modelAssemblyName)
         {
             String modelName = Path.GetFileNameWithoutExtension(modelFilename);
@@ -183,9 +183,9 @@ namespace de.unika.ipd.grGen.lgsp
             // Create root node
             // Create plan graph nodes for all pattern graph nodes and all pattern graph edges
             // Create "lookup" plan graph edge from root node to each plan graph node
-            // Create "implicit source" plan graph edge from each plan graph node originating with a pattern edge 
+            // Create "implicit source" plan graph edge from each plan graph node originating with a pattern edge
             //     to the plan graph node created by the source node of the pattern graph edge
-            // Create "implicit target" plan graph edge from each plan graph node originating with a pattern edge 
+            // Create "implicit target" plan graph edge from each plan graph node originating with a pattern edge
             //     to the plan graph node created by the target node of the pattern graph edge
             // Create "incoming" plan graph edge from each plan graph node originating with a pattern node
             //     to a plan graph node created by one of the incoming edges of the pattern node
@@ -284,7 +284,7 @@ namespace de.unika.ipd.grGen.lgsp
                     cost = 0;
                     isPreset = true;
                     searchOperationType = SearchOperationType.DefToBeYieldedTo;
-                } 
+                }
                 else if(edge.PointOfDefinition == null)
                 {
                     cost = 0;
@@ -342,12 +342,12 @@ namespace de.unika.ipd.grGen.lgsp
 #endif
 
                 // only add implicit source operation if edge source is needed and the edge source is not a preset node and not a storage node
-                if(patternGraph.GetSource(edge) != null 
+                if(patternGraph.GetSource(edge) != null
                     && !patternGraph.GetSource(edge).TempPlanMapping.IsPreset
                     && patternGraph.GetSource(edge).Storage == null
                     && patternGraph.GetSource(edge).StorageAttributeOwner == null)
                 {
-                    SearchOperationType operation = edge.fixedDirection ? 
+                    SearchOperationType operation = edge.fixedDirection ?
                         SearchOperationType.ImplicitSource : SearchOperationType.Implicit;
                     PlanEdge implSrcPlanEdge = new PlanEdge(operation, planNodes[nodesIndex],
                         patternGraph.GetSource(edge).TempPlanMapping, 0);
@@ -448,10 +448,10 @@ namespace de.unika.ipd.grGen.lgsp
 
             return new PlanGraph(planRoot, planNodes, planEdges.ToArray());
         }
-       
+
         /// <summary>
         /// Generates scheduled search plans needed for matcher code generation for action compilation
-        /// out of static schedule information given by rulePattern elements, 
+        /// out of static schedule information given by rulePattern elements,
         /// utilizing code of the lgsp matcher generator.
         /// The scheduled search plans are added to the main and the nested pattern graphs.
         /// </summary>
@@ -802,7 +802,7 @@ namespace de.unika.ipd.grGen.lgsp
                     sequencesToInputTypes, sequencesToOutputTypes);
 
                 ///////////////////////////////////////////////
-                // take action intermediate file until action insertion point as base for action file 
+                // take action intermediate file until action insertion point as base for action file
                 ///////////////////////////////////////////////
 
                 SourceBuilder source = new SourceBuilder((flags & ProcessSpecFlags.KeepGeneratedFiles) != 0);
@@ -833,7 +833,7 @@ namespace de.unika.ipd.grGen.lgsp
                                 {
                                     EmbeddedSequenceInfo xgrsInfo = (EmbeddedSequenceInfo)ruleFields[i].GetValue(null);
                                     if(!seqGen.GenerateXGRSCode(ruleFields[i].Name.Substring("XGRSInfo_".Length),
-                                        xgrsInfo.XGRS, xgrsInfo.Parameters, xgrsInfo.ParameterTypes, 
+                                        xgrsInfo.XGRS, xgrsInfo.Parameters, xgrsInfo.ParameterTypes,
                                         xgrsInfo.OutParameters, xgrsInfo.OutParameterTypes, source))
                                     {
                                         return ErrorType.GrGenNetError;
@@ -878,7 +878,7 @@ namespace de.unika.ipd.grGen.lgsp
                 if(lastDot == -1) unitName = "";
                 else unitName = actionsNamespace.Substring(lastDot + 8);  // skip ".Action_"
 
-                // the actions class referencing the generated stuff is generated now into 
+                // the actions class referencing the generated stuff is generated now into
                 // a different source builder which is appended at the end of the other generated stuff
                 SourceBuilder endSource = new SourceBuilder("\n");
                 endSource.Indent();
@@ -981,7 +981,7 @@ namespace de.unika.ipd.grGen.lgsp
                     }
                 }
                 endSource.AppendFront("\n");
-                
+
                 foreach(DefinedSequenceInfo sequence in ruleAndMatchingPatterns.DefinedSequences)
                 {
                     endSource.AppendFrontFormat("public Sequence_{0} @{0};\n", sequence.Name);
@@ -1024,9 +1024,9 @@ namespace de.unika.ipd.grGen.lgsp
             // finally compile the action source file into action assembly
             ///////////////////////////////////////////////
             // action source file was built this way:
-            // the rule pattern code was copied from the action intermediate file, 
+            // the rule pattern code was copied from the action intermediate file,
             // action code was appended by matcher generation,
-            // which needed access to the rule pattern objects, 
+            // which needed access to the rule pattern objects,
             // given via reflection of the compiled action intermediate file)
             ///////////////////////////////////////////////
 

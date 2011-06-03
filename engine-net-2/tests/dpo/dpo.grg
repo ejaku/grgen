@@ -6,7 +6,7 @@ rule init1
         x:Node;
         y:Node;
         z:Node;
-        
+
         x --> y;
         y --> z;
     }
@@ -19,7 +19,7 @@ rule init2
     {
         x:Node;
         y:Node;
-        
+
         x --> y;
         y --> y;
     }
@@ -32,7 +32,7 @@ rule init3
     {
         x:Node;
         y:Node;
-        
+
         x --> x;
         x --> y;
     }
@@ -44,9 +44,9 @@ rule init4
     replace
     {
         x:Node;
-        y:Node;        
+        y:Node;
         z:Node;
-                
+
         x --> y;
         y <-- z;
     }
@@ -60,7 +60,7 @@ rule init5
         x:Node;
         y:Node;
         z:Node;
-                
+
         x --> y;
         x --> y;
         y --> z;
@@ -71,7 +71,7 @@ dpo rule deleteRightNode
 {
     x:Node;
     y:Node;
-    
+
     x --> y;
 
     replace
@@ -83,7 +83,7 @@ dpo rule deleteRightNode
 dpo rule deleteDanglingIncomingEdge
 {
     x:Node;
-    
+
      --> x;
 
     replace
@@ -94,7 +94,7 @@ dpo rule deleteDanglingIncomingEdge
 dpo rule deleteDanglingOutgoingEdge
 {
     x:Node;
-    
+
     x --> ;
 
     replace
@@ -106,7 +106,7 @@ dpo rule deleteLeftNode
 {
     x:Node;
     y:Node;
-    
+
     x --> y;
 
     modify

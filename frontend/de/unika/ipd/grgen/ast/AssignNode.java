@@ -38,7 +38,7 @@ public class AssignNode extends EvalStatementNode {
 
 	BaseNode lhsUnresolved;
 	ExprNode rhs;
-	
+
 	QualIdentNode lhsQual;
 	VarDeclNode lhsVar;
 	ConstraintDeclNode lhsGraphElement;
@@ -128,22 +128,22 @@ public class AssignNode extends EvalStatementNode {
 		{
 			DeclNode owner = lhsQual.getOwner();
 			TypeNode ty = owner.getDeclType();
-	
+
 			if(lhsQual.getDecl().isConst()) {
 				error.error(getCoords(), "assignment to a const member is not allowed");
 				return false;
 			}
-	
+
 			if(ty instanceof InheritanceTypeNode) {
 				InheritanceTypeNode inhTy = (InheritanceTypeNode) ty;
-	
+
 				if(inhTy.isConst()) {
 					error.error(getCoords(), "assignment to a const type object not allowed");
 					return false;
 				}
 			}
 		}
-		
+
 		return typeCheckLocal();
 	}
 
@@ -176,7 +176,7 @@ public class AssignNode extends EvalStatementNode {
 		if(isIdenticalAssignment()) {
 			return new AssignmentIdentical();
 		}
-		
+
 		if(lhsQual!=null) {
 			Qualification qual = lhsQual.checkIR(Qualification.class);
 			if(qual.getOwner() instanceof Node && ((Node)qual.getOwner()).changesType(null)) {
@@ -185,27 +185,27 @@ public class AssignNode extends EvalStatementNode {
 			if(qual.getOwner() instanceof Edge && ((Edge)qual.getOwner()).changesType(null)) {
 				error.error(getCoords(), "Assignment to an old edge of a type changed edge is not allowed");
 			}
-	
+
 			if(canSetOrMapAssignmentBeBrokenUpIntoStateChangingOperations()) {
 				markSetOrMapAssignmentToBeBrokenUpIntoStateChangingOperations();
 				ExprNode rhsEvaluated = rhs.evaluate();
 				return rhsEvaluated.checkIR(EvalStatement.class);
 			}
-	
+
 			ExprNode rhsEvaluated = rhs.evaluate();
 			return new Assignment(qual, rhsEvaluated.checkIR(Expression.class));
 		} else if(lhsVar!=null) {
 			Variable var = lhsVar.checkIR(Variable.class);
-		
+
 			// TODO: extend optimization to assignments to variables
-			
+
 			ExprNode rhsEvaluated = rhs.evaluate();
 			return new AssignmentVar(var, rhsEvaluated.checkIR(Expression.class));
 		} else {
 			GraphEntity graphEntity = lhsGraphElement.checkIR(GraphEntity.class);
 
 			// TODO: extend optimization to assignments to graph entities
-			
+
 			ExprNode rhsEvaluated = rhs.evaluate();
 			return new AssignmentGraphEntity(graphEntity, rhsEvaluated.checkIR(Expression.class));
 		}
@@ -214,7 +214,7 @@ public class AssignNode extends EvalStatementNode {
 	private boolean canSetOrMapAssignmentBeBrokenUpIntoStateChangingOperations()
 	{
 		// TODO: extend optimization to rewrite to compound assignment statement if same lhs but non-constructor rhs
-		
+
 		// is it a set or map assignment ?
 		if(lhsQual == null) {
 			return false; // TODO: extend optimization to assignments to variables
@@ -283,7 +283,7 @@ public class AssignNode extends EvalStatementNode {
 			}
 		}
 	}
-	
+
 	private boolean isIdenticalAssignment()
 	{
 		if(lhsQual!=null) {
@@ -302,7 +302,7 @@ public class AssignNode extends EvalStatementNode {
 					return true;
 			}
 		}
-		
+
 		return false;
 	}
 }

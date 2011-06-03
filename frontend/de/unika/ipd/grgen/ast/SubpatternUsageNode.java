@@ -54,7 +54,7 @@ public class SubpatternUsageNode extends DeclNode {
 
 		return type;
 	}
-	
+
 	public int getContext() {
 		return context;
 	}
@@ -134,14 +134,14 @@ public class SubpatternUsageNode extends DeclNode {
 		}
 
 		// TODO: for def parameters and yielding contra instead of covariance (or vice versa)
-		
+
 		// check if the types of the parameters are correct
 		boolean res = true;
 		Vector<DeclNode> formalParameters = type.pattern.getParamDecls();
 		for (int i = 0; i < connections.children.size(); ++i) {
 			ExprNode actualParameter = connections.children.get(i);
 			TypeNode actualParameterType = actualParameter.getType();
-			DeclNode formalParameter = formalParameters.get(i);				
+			DeclNode formalParameter = formalParameters.get(i);
 			TypeNode formalParameterType = formalParameter.getDeclType();
 			if(!actualParameterType.isCompatibleTo(formalParameterType)) {
 				res = false;

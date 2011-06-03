@@ -314,9 +314,9 @@ namespace de.unika.ipd.grGen.lgsp
                 return ExtractSrc(xgrsTypeSameOrSub) == ExtractSrc(xgrsTypeBase);
             }
 
-            if(xgrsTypeSameOrSub == "int" || xgrsTypeSameOrSub == "string" || xgrsTypeSameOrSub == "float" || xgrsTypeSameOrSub == "double" || xgrsTypeSameOrSub == "object") 
+            if(xgrsTypeSameOrSub == "int" || xgrsTypeSameOrSub == "string" || xgrsTypeSameOrSub == "float" || xgrsTypeSameOrSub == "double" || xgrsTypeSameOrSub == "object")
                 return xgrsTypeSameOrSub==xgrsTypeBase;
-            if(xgrsTypeSameOrSub == "bool" || xgrsTypeSameOrSub == "boolean") 
+            if(xgrsTypeSameOrSub == "bool" || xgrsTypeSameOrSub == "boolean")
                 return xgrsTypeBase=="bool" || xgrsTypeBase=="boolean";
 
             foreach(EnumAttributeType enumAttrType in model.EnumAttributeTypes)

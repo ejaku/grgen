@@ -2,7 +2,7 @@ using set_model_002;
 
 rule putWithCast {
 	a:A;
-	
+
 	modify {
 		eval {
 			a.stringSet = a.stringSet | set<string>{ a.intValue }; // no implicit cast without the type prefix
@@ -12,13 +12,13 @@ rule putWithCast {
 
 test testWithCast {
 	a:A;
-	
+
 	if { a.intValue in a.stringSet; }
 }
 
 rule removeWithCast {
 	a:A;
-	
+
 	modify {
 		eval {
 			a.stringSet = a.stringSet \ set<string>{ a.intValue }; // no implicit cast without the type prefix
@@ -28,9 +28,9 @@ rule removeWithCast {
 
 rule setSize {
 	a:A;
-	
+
 	if { a.intSet.size()==42; }
-	
+
 	modify {
 		eval {
 			a.intValue = a.stringSet.size();

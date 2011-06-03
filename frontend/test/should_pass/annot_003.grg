@@ -1,6 +1,6 @@
 rule r {
 	[prio=10000] : Node;
-	
+
 	modify {
 	}
 }

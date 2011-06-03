@@ -3,7 +3,7 @@
 The key features of \GrG\ \emph{graph models}\indexmain{graph model} as described by Geiß et al.~\cite{GBGHS:06,KG:07} are given below:
 
 \begin{description}
-\item[Types] Nodes and edges are typed. 
+\item[Types] Nodes and edges are typed.
   This is similar to classes in common programming languages, except for the concept of methods that \GrG\ nodes and edges don't support. \GrG\ edge types can be directed and undirected.
 \item[Attributes] Nodes and edges may possess attributes. The set of attributes assigned to a node or edge is determined by its type. The attributes themselves are typed, too.
 \item[Inheritance] Node and edge types (classes) can be composed by multiple \indexed{inheritance}. \texttt{Node} and \texttt{Edge} are built-in root types of node and edge types, respectively. Inheritance eases the specification of attributes because subtypes inherit the attributes of their super types. Note that \GrG\ lacks a concept of overwriting. On a path in the \indexed{type hierarchy} graph from a type up to the built-in root type there must be exactly one declaration for each attribute identifier. Furthermore, if multiple paths from a type up to the built-in root type exist, the declaring types for an attribute identifier must be the same on all such paths.
@@ -24,7 +24,7 @@ node class City {
 
 const node class Metropolis extends City {
   River:String;
-}  
+}
 
 abstract node class AbandonedCity extends City;
 node class GhostTown extends AbandonedCity;
@@ -107,7 +107,7 @@ Figure~\ref{fig:basetypes} shows the edge \indexed{type hierarchy}.
   									 | ExternalClassDeclaration
   									 | ExternalFunctionDeclaration);
 \end{rail}\ixnterm{GraphModel}
-The \indexed{graph model} consists of zero or multiple type declarations. 
+The \indexed{graph model} consists of zero or multiple type declarations.
 Whereas \emph{ClassDeclaration} defines a node type or an edge type, \emph{EnumDeclaration} defines an enum type to be used as a type for a attributes of nodes or edges.
 Like all identifier definitions, types do not need to be declared\indexmain{declaration} before they are used.
 The \emph{ExternalClassDeclaration} registers an \indexed{external class}, including its subtype hierarchy, exluding any attributes with \GrG~which can subsequently be used in attribute computations with \indexed{external function} calls.
@@ -148,7 +148,7 @@ Moreover, the semantics is as in C~\cite{Sch:1990:ANSIC}. So, the following hold
 
 %-----------------------------------------------------------------------------------------------
 \subsection{Node and Edge Types}
-\begin{rail}  
+\begin{rail}
   ClassDeclaration: (() | 'abstract') (() | 'const') \\
     (NodeClass | (() | ('arbitrary' | 'directed' | 'undirected')) EdgeClass);
 \end{rail}\ixkeyw{abstract}\ixkeyw{const}\ixnterm{ClassDeclaration}\ixkeyw{arbitrary}\ixkeyw{directed}\ixkeyw{undirected}
@@ -177,13 +177,13 @@ An \texttt{undirected} edge inherits from \texttt{UEdge}.
 If you do not specify any of those keywords, a \texttt{directed} edge is choosen by default.
 See also Section~\ref{sct:basetypes}
 
-\begin{rail}  
-  NodeClass: 'node' 'class' IdentDecl (() | 'extends' (NodeType+',')) \\ 
+\begin{rail}
+  NodeClass: 'node' 'class' IdentDecl (() | 'extends' (NodeType+',')) \\
     (';' | lbrace AttributeDeclarations rbrace);
 \end{rail}\ixkeyw{node}\ixkeyw{class}\ixkeyw{extends}\ixnterm{NodeClass}
 Defines a new \indexed{node type}. Node types can inherit\indexmain{inheritance} from other node types defined within the same file. If the \texttt{extends} clause is omitted, \emph{NodeType} will inherit from the built-in type \texttt{\indexed{Node}}. Optionally nodes can possess attributes.
 
-\begin{rail}    
+\begin{rail}
   EdgeClass: 'edge' 'class' IdentDecl (() | 'extends' (EdgeType+',')) \\
     (() + ConnectionAssertions) (';' | lbrace AttributeDeclarations rbrace);
 \end{rail}\ixkeyw{edge}\ixkeyw{class}\ixkeyw{extends}\ixnterm{EdgeClass}
@@ -200,13 +200,13 @@ It is not forbidden to create graphs that are invalid according to \indexed{conn
 See also Section~\ref{graphcommands}, \texttt{validate}.
 \end{note}
 
-\begin{rail}  
+\begin{rail}
   ConnectionAssertions: 'connect' ((NodeConstraint ('-->' | '<--' | '--' | '?--?') NodeConstraint | 'copy' 'extends') + ',');
   NodeConstraint: NodeType (MultiplicityConstraint)? ;
   MultiplicityConstraint: '[' ('*' | '+' | Number | RangeConstraint) ']' ;
   RangeConstraint: Number ':' ('*' | Number) ;
 \end{rail}\ixkeyw{connect}\ixkeyw{copy}\ixkeyw{extends}\ixnterm{ConnectionAssertion}\ixnterm{NodeConstraint}\ixnterm{MultiplicityConstraint}\ixnterm{RangeConstraint}\label{sct:ConnectionAssertions}
-A \emph{\indexed{connection assertion}} is denoted as a pair of node types, optionally with their multiplicities\indexmainsee{multiplicity}{connection assertion}. 
+A \emph{\indexed{connection assertion}} is denoted as a pair of node types, optionally with their multiplicities\indexmainsee{multiplicity}{connection assertion}.
 It allows you to specify the node types an edge may connect and the multiplicities with which such edges appear on the nodes.
 It is best understood as a simple pattern of the form(cf. ~\ref{sct:graphlets}) \texttt{:SourceNodeType -:EdgeType-> :TargetNodeType}, of which every occurrence in the graph is searched.
 In contrast to a real such pattern and the node types only edges of exactly the given edge type are taken into account.
@@ -215,9 +215,9 @@ and per node of \texttt{TargetNodeType} (or a subtype) it is counted how often i
 The numbers must be in the range specified at the \texttt{SourceNodeType} and the \texttt{TargetNodeType} for the connection assertion to be fulfilled.
 Giving no multiplicity constraint is equivalent to \verb#[*]#, i.e. $[0,\infty[$, i.e. unconstrained.
 Please take care of non-disjoint source/target types/subtypes in the case of undirected and especially arbitrary edges.
-In the case of multiple connection assertions all are checked and errors for each one reported; for strict validation to succeed at least one of them must match. 
+In the case of multiple connection assertions all are checked and errors for each one reported; for strict validation to succeed at least one of them must match.
 It might happen that none of the connection assertions of an \texttt{EdgeType} are matching an edge of this type in the graph.
-This is accepted in the case of normal validation (throwing connection assertions without multiplicities effectively back to nops); 
+This is accepted in the case of normal validation (throwing connection assertions without multiplicities effectively back to nops);
 but as you normally want to see \emph{only} the specified connections occuring in the graph,
 there is the additional mode of strict validation: if an edge is not covered by a single matching connection, validation fails.
 Furtheron there is the strict-only-specified mode, which only does strict validation of the edges for which connection assertions are given.
@@ -229,12 +229,12 @@ The \texttt{-->} arrow means a directed edge aiming towards a node of the target
 The \texttt{A<--B} connection assertion is equivalent to the \texttt{B-->A} connection assertion.
 The \texttt{--} arrow is used for undirected edges.
 The \texttt{?--?} arrow means an arbitrary edge, i.e. directed as well as undirected possible (fixed by the concrete type inheriting from it); in case of an directed edge the connection pattern gets matched in both directions.
-\emph{Number} is an \texttt{int} constant as defined in Chapter~\ref{cha:typeexpr}. 
-Table~\ref{multiplicities} describes the multiplicity definitions. 
+\emph{Number} is an \texttt{int} constant as defined in Chapter~\ref{cha:typeexpr}.
+Table~\ref{multiplicities} describes the multiplicity definitions.
 
 \begin{table}[htbp]
 \begin{tabularx}{\linewidth}{|l|X|}\hline
-	\texttt{[$n$:*]} & The number of edges incident to a node of that type is unbounded. At least $n$ edges must be incident to nodes of that type.\\ 
+	\texttt{[$n$:*]} & The number of edges incident to a node of that type is unbounded. At least $n$ edges must be incident to nodes of that type.\\
 	\texttt{[$n$:$m$]} & At least $n$ edges must be incident to nodes of that type, but at most $m$ edges may be incident to nodes of that type ($m \geq n \geq 0$ must hold).\\
 	\texttt{[*]} & Abbreviation for \texttt{[0:*]}.\\
 	\texttt{[+]} & Abbreviation for \texttt{[1:*]}.\\
@@ -263,8 +263,8 @@ This is a purely syntactical simplification, i.\,e.\ the effect of using \texttt
 
 $\bullet$ Your nodes have something in common?
 Then factor it out into some base class.
-This works very well because of the support for multiple inheritance; you don't have to decide what is the primary hierarchy, forcing you to fall back to alternative patterns in the situations you need a different classification. 
-Fine grain type hierarchies not only allow for concise matching patterns and rules, 
+This works very well because of the support for multiple inheritance; you don't have to decide what is the primary hierarchy, forcing you to fall back to alternative patterns in the situations you need a different classification.
+Fine grain type hierarchies not only allow for concise matching patterns and rules,
 but deliver good matching performance, too (the search space is reduced early).
 
 $\bullet$ Your edges have something in common?
@@ -273,7 +273,7 @@ Then just do the same, edges are first class citizens.
 
 %-----------------------------------------------------------------------------------------------
 \subsection{External Attribute Types}\label{sub:extcls}
-\begin{rail}  
+\begin{rail}
   ExternalClassDeclaration: 'class' IdentDecl (() | 'extends' (NodeType+',')) ';';
 \end{rail}\ixnterm{ExternalClassDeclaration}\ixkeyw{class}\ixkeyw{extends}
 Registers a new attribute type with \GrG. You may declare the base types of the type, but not give attributes. The attribute type must be implemented externally, see \ref{sub:extclsfctimpl}; for \GrG~the type is opaque, only external functions can do computations with it. You may extend \GrG~with external attribute types if the built-in attribute types (cf. \ref{sec:builtintypes}) are insufficient for your needs.
@@ -292,9 +292,9 @@ You may extend \GrG~with external functions if the built-in attribute computatio
 \subsection{Attributes and Attribute Types}
 \label{sct:attrtypes}
 
-\begin{rail}    
+\begin{rail}
   AttributeDeclaration: 'const'? IdentDecl ':' AttributeType (() | '=' Expression) ';' | AttributeOverwrite ;
-  AttributeType: PrimitiveType | EnumType | GenericType; 
+  AttributeType: PrimitiveType | EnumType | GenericType;
   AttributeOverwrite: Ident '=' Expression
 \end{rail}\ixnterm{AttributeDeclaration}\ixnterm{AttributeType}\ixnterm{AttributeOverwrite}\ixkeyw{const}
 Defines a node or edge \indexed{attribute}.
@@ -309,7 +309,7 @@ The initialization values are evaluated in the order as they appear in the rule 
 	The following attribute declarations are \emph{illegal} because of the order of evaluation of initialization values:
 	\begin{grgen}
 x:int = y;
-y:int = 42;	
+y:int = 42;
 	\end{grgen}
 \end{note}
 

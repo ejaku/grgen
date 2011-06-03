@@ -73,7 +73,7 @@ public class MapVarAddItemNode extends EvalStatementNode
 
 	@Override
 	protected IR constructIR() {
-		return new MapVarAddItem(target.checkIR(Variable.class), 
+		return new MapVarAddItem(target.checkIR(Variable.class),
 				keyExpr.checkIR(Expression.class), valueExpr.checkIR(Expression.class));
 	}
 }

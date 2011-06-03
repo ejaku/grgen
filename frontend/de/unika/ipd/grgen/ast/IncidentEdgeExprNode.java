@@ -38,7 +38,7 @@ public class IncidentEdgeExprNode extends ExprNode {
 	private EdgeTypeNode incidentType;
 	private boolean outgoing;
 	private NodeTypeNode adjacentType;
-	
+
 	public IncidentEdgeExprNode(Coords coords, IdentNode node,
 			IdentNode incidentType, boolean outgoing,
 			IdentNode adjacentType) {
@@ -96,7 +96,7 @@ public class IncidentEdgeExprNode extends ExprNode {
 
 	@Override
 	protected IR constructIR() {
-		return new IncidentEdgeExpr(nodeDecl.checkIR(Node.class), 
+		return new IncidentEdgeExpr(nodeDecl.checkIR(Node.class),
 								incidentType.checkIR(EdgeType.class), outgoing,
 								adjacentType.checkIR(NodeType.class),
 								getType().getType());

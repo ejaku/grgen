@@ -31,10 +31,10 @@ namespace de.unika.ipd.grGen.Model_Independent
 	{
 		private static int poolLevel = 0;
 		private static GRGEN_MODEL.@Node[] pool = new GRGEN_MODEL.@Node[10];
-		
+
 		static @Node() {
 		}
-		
+
 		public @Node() : base(GRGEN_MODEL.NodeType_Node.typeVar)
 		{
 			// implicit initialization, map/set creation of Node
@@ -147,12 +147,12 @@ namespace de.unika.ipd.grGen.Model_Independent
 	{
 		private static int poolLevel = 0;
 		private static GRGEN_MODEL.@intNode[] pool = new GRGEN_MODEL.@intNode[10];
-		
+
 		// explicit initializations of intNode for target intNode
 		// implicit initializations of intNode for target intNode
 		static @intNode() {
 		}
-		
+
 		public @intNode() : base(GRGEN_MODEL.NodeType_intNode.typeVar)
 		{
 			// implicit initialization, map/set creation of intNode
@@ -419,10 +419,10 @@ namespace de.unika.ipd.grGen.Model_Independent
 	{
 		private static int poolLevel = 0;
 		private static GRGEN_MODEL.@Edge[] pool = new GRGEN_MODEL.@Edge[10];
-		
+
 		static @Edge() {
 		}
-		
+
 		public @Edge(GRGEN_LGSP.LGSPNode source, GRGEN_LGSP.LGSPNode target)
 			: base(GRGEN_MODEL.EdgeType_Edge.typeVar, source, target)
 		{
@@ -535,10 +535,10 @@ namespace de.unika.ipd.grGen.Model_Independent
 	{
 		private static int poolLevel = 0;
 		private static GRGEN_MODEL.@UEdge[] pool = new GRGEN_MODEL.@UEdge[10];
-		
+
 		static @UEdge() {
 		}
-		
+
 		public @UEdge(GRGEN_LGSP.LGSPNode source, GRGEN_LGSP.LGSPNode target)
 			: base(GRGEN_MODEL.EdgeType_UEdge.typeVar, source, target)
 		{

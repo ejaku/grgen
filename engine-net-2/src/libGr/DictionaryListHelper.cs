@@ -68,7 +68,7 @@ namespace de.unika.ipd.grGen.libGr
         }
 
         /// <summary>
-        /// The value type of the List is returned 
+        /// The value type of the List is returned
         /// </summary>
         /// <param name="arrayType">The List type</param>
         /// <param name="valueType">The value type of the dictionary</param>
@@ -833,7 +833,7 @@ namespace de.unika.ipd.grGen.libGr
         }
 
         /// <summary>
-        /// Creates a new dictionary representing a set, 
+        /// Creates a new dictionary representing a set,
         /// containing all values from the given dictionary representing a map <paramref name="map"/>.
         /// </summary>
         /// <param name="map">A dictionary representing a map.</param>
@@ -1083,7 +1083,7 @@ namespace de.unika.ipd.grGen.libGr
         /// <param name="content">The content as string, e.g. { 42, 43 } or { "foo"->true, "bar"->false } </param>
         /// <param name="attrType">The attribute type of the dictionary if available, otherwise null</param>
         /// <param name="graph">The graph with the model and the element names if available, otherwise null</param>
-        public static void ToString(IDictionary setmap, out string type, out string content, 
+        public static void ToString(IDictionary setmap, out string type, out string content,
             AttributeType attrType, IGraph graph)
         {
             Type keyType;
@@ -1178,9 +1178,9 @@ namespace de.unika.ipd.grGen.libGr
         /// <param name="content">The content as string, e.g. { 42, 43 } or { "foo"->true, "bar"->false } </param>
         /// <param name="attrType">The attribute type of the dictionary</param>
         /// <param name="graph">The graph with the model and the element names</param>
-        public static void ToString(IDictionary setmap, 
+        public static void ToString(IDictionary setmap,
             AttributeChangeType changeType, Object newValue, Object keyValue,
-            out string type, out string content, 
+            out string type, out string content,
             AttributeType attrType, IGraph graph)
         {
             if(changeType==AttributeChangeType.PutElement)
@@ -1294,7 +1294,7 @@ namespace de.unika.ipd.grGen.libGr
         /// <param name="content">The content as string, e.g. 42,"foo",bar } </param>
         /// <param name="attrType">The attribute type of the value</param>
         /// <param name="graph">The graph with the model and the element names</param>
-        public static void ToString(object value, out string type, out string content, 
+        public static void ToString(object value, out string type, out string content,
             AttributeType attrType, IGraph graph)
         {
             if (attrType == null)
@@ -1350,7 +1350,7 @@ namespace de.unika.ipd.grGen.libGr
                 case AttributeKind.DoubleAttr: type = "double"; break;
                 case AttributeKind.ObjectAttr: type = "object"; break;
                 case AttributeKind.NodeAttr: type = attrType.TypeName; break;
-                case AttributeKind.EdgeAttr: type = attrType.TypeName; break; 
+                case AttributeKind.EdgeAttr: type = attrType.TypeName; break;
                 default: type = "<INVALID>"; break;
             }
 

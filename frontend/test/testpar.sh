@@ -78,7 +78,7 @@ do_test()
 	then
 		do_waitandoutput "$NEXTTHREAD"
 	fi
-	
+
 	./testpar_do.sh "$1" "$ONLY_NEW" "$ONLY_FRONTEND" "$LOG" "$OUTPUTSUFF" &
 	Threads[$NEXTTHREAD]=$!
 	Threadfile[$NEXTTHREAD]=$1
@@ -87,17 +87,17 @@ do_test()
 do_waitforrest()
 {
 	local LASTTHREAD=$NEXTTHREAD
-	
+
 	while true
 	do
 		NEXTTHREAD=`expr $NEXTTHREAD + 1`
 		if [ $NEXTTHREAD -eq $MAXTHREADS ]; then NEXTTHREAD=0; fi
-	
+
 		if [ ${Threads[$NEXTTHREAD]} ]
 		then
 			do_waitandoutput "$NEXTTHREAD"
 		fi
-		
+
 		if [ $NEXTTHREAD -eq $LASTTHREAD ]; then break; fi
 	done
 }
@@ -105,7 +105,7 @@ do_waitforrest()
 if [ "$1" ]; then
 	for i in "$@";  do
 		if echo "$i" | grep -q "\\.grg\$"; then
-			do_test "$i"; 
+			do_test "$i";
 		fi
 	done
 else

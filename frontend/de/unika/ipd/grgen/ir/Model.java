@@ -56,11 +56,11 @@ public class Model extends Identifiable {
 	public void addExternalFunction(ExternalFunction externalFunc) {
 		externalFuncs.add(externalFunc);
 	}
-	
+
 	public Collection<ExternalFunction> getExternalFunctions() {
 		return Collections.unmodifiableCollection(externalFuncs);
 	}
-	
+
 	/** @return The types in the type model. */
 	public Collection<Type> getTypes() {
 		return Collections.unmodifiableCollection(types);

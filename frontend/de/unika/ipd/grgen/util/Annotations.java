@@ -33,6 +33,6 @@ public interface Annotations {
 	boolean isFlagSet(String key);
 
 	void put(String key, Object value);
-	
+
 	Set<String> keySet();
 }

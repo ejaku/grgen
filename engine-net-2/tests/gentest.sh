@@ -18,7 +18,7 @@ for scriptfile in $*; do
     echo "$scriptfile is not a .grs file!"
     exit 1
   fi
-  
+
   echo "$scriptfile"
 
   $exeprefix ../bin/GrShell.exe "$scriptfile" 2>&1 | awk "{sub(\"\\r\$\", \"\")}
@@ -27,7 +27,7 @@ for scriptfile in $*; do
         getline
         while(\$0 ~ /^ - /) {
           print getAttribute(4)
-          getline            
+          getline
         }
       }
       while(\$0 ~ /^All attributes/)
@@ -37,7 +37,7 @@ for scriptfile in $*; do
         getline
         while(\$0 ~ /^ - /) {
           print \$0
-          getline            
+          getline
         }
       }
       while(\$0 ~ /(^The available attributes for)|(^(Node|Edge) types)|(^(Sub|Super) types of (node|edge) type)/)
@@ -48,7 +48,7 @@ for scriptfile in $*; do
     /value of attribute/ { print getAttribute(7) }
     /value of variable/ { print getAttribute(10) }
     /The graph is/ { print \$4 }
-    
+
     function getAttribute(startindex)
     {
       if(startindex > NF) return \"\"
@@ -59,5 +59,5 @@ for scriptfile in $*; do
         value = value \" \" \$i
       }
       return value
-    }" > "$scriptfile".data && echo "Data file generated" || echo "Data file generation failed!"    
+    }" > "$scriptfile".data && echo "Data file generated" || echo "Data file generation failed!"
 done

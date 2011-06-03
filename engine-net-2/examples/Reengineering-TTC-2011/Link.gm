@@ -1,6 +1,6 @@
-edge class contains; // edge used to achieve nice layout, 
+edge class contains; // edge used to achieve nice layout,
 					 // connect all expressions transitively to their containing statement expression,
-					 // then group statement expression by contains -> 
+					 // then group statement expression by contains ->
 					 // all expressions are contained in statement expression (but the expressions themselves are not nested)
 
 edge class link; // links the State to the class it was created from,

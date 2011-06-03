@@ -14,7 +14,7 @@ pattern Subclasses(c:Class)
 pattern Subclass(sub:Class)
 {
 	:Features(sub);
-	:Subclasses(sub);	
+	:Subclasses(sub);
 }
 
 pattern Features(c:Class)
@@ -178,11 +178,11 @@ rule createProgramGraphPullUp : (Class, MethodBody)
 		ex2 -:contains-> ex3:Expression;
 		ex3 -:uses-> v9;
 		// body of m in c3
-		b3 -:contains-> ex4:Expression;	
+		b3 -:contains-> ex4:Expression;
 		ex4 -:calls-> m8;
 		ex4 -:contains-> ex5:Expression;
 		ex5 -:uses-> v7b;
-		
+
 		return(c1, b4);
 	}
 }
@@ -210,7 +210,7 @@ pattern Bodies(m5:MethodSignature, c1:Class)
 			b();
 		}
 	}
-	
+
 	modify {
 	}
 }
@@ -220,7 +220,7 @@ pattern Body(m5:MethodSignature, -ct:contains->)
 	-ct-> c2:Class -:contains-> b:MethodBody -:bindsTo-> m5;
 	p:Parameters(b);
 	s:Statements(b);
-	
+
 	modify {
 		delete(b);
 		delete(p);
@@ -246,11 +246,11 @@ rule InsertHelperEdgesForNestedLayout
 rule LinkMethodBodyToContainedEntity
 {
 	mb:MethodBody -:contains-> e:Entity;
-	
+
 	negative {
 		mb -:containedInMethodBody-> e;
 	}
-	
+
 	modify {
 		mb -:containedInMethodBody-> e;
 	}
@@ -259,11 +259,11 @@ rule LinkMethodBodyToContainedEntity
 rule LinkMethodBodyToContainedExpressionTransitive
 {
 	mb:MethodBody -:containedInMethodBody-> e1:Expression -:contains-> e2:Expression;
-	
+
 	negative {
 		e1 -:containedInMethodBody-> e2;
 	}
-	
+
 	modify {
 		e1 -:containedInMethodBody-> e2;
 		mb -:containedInMethodBody-> e2;
@@ -273,11 +273,11 @@ rule LinkMethodBodyToContainedExpressionTransitive
 rule LinkClassToFeature
 {
 	c:Class -:contains-> e:Entity\Class;
-	
+
 	negative {
 		c -:containedInClass-> e;
 	}
-	
+
 	modify {
 		c -:containedInClass-> e;
 	}

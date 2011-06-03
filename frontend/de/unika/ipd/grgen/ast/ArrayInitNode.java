@@ -208,7 +208,7 @@ public class ArrayInitNode extends ExprNode
 	protected ArrayInit getArrayInit() {
 		return checkIR(ArrayInit.class);
 	}
-	
+
 	public static String getUseStr() {
 		return "array initialization";
 	}

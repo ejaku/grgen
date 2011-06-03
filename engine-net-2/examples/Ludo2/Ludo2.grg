@@ -3,7 +3,7 @@ using Ludo2Model;
 rule init {
   replace {
     // init board
-    
+
     redStart:RedStartField -:anyPath-> :Field -:anyPath-> :Field -:anyPath-> :Field -:anyPath-> innerRed:Field
       -:anyPath-> :Field -:anyPath-> :Field -:anyPath-> :Field -:anyPath-> :Field
       -:anyPath-> blueGoalEntry:Field -:notBluePath-> blueStart:BlueStartField
@@ -16,32 +16,32 @@ rule init {
       -:anyPath-> :Field -:anyPath-> :Field -:anyPath-> :Field -:anyPath-> innerGreen:Field
       -:anyPath-> :Field -:anyPath-> :Field -:anyPath-> :Field -:anyPath-> :Field
       -:anyPath-> redGoalEntry:Field -:notRedPath-> redStart;
-      
+
     redGoalEntry -:redPath-> :Field -:redPath-> :Field -:redPath-> :Field -:redPath-> lastGoalRed:Field;
     blueGoalEntry -:bluePath-> :Field -:bluePath-> :Field -:bluePath-> :Field -:bluePath-> lastGoalBlue:Field;
     yellowGoalEntry -:yellowPath-> :Field -:yellowPath-> :Field -:yellowPath-> :Field -:yellowPath-> lastGoalYellow:Field;
     greenGoalEntry -:greenPath-> :Field -:greenPath-> :Field -:greenPath-> :Field -:greenPath-> lastGoalGreen:Field;
-    
+
     innerRed -:invisible-> lastGoalBlue -:invisible-> innerBlue -:invisible-> lastGoalYellow
       -:invisible-> innerYellow -:invisible-> lastGoalGreen -:invisible-> innerGreen
       -:invisible-> lastGoalRed -:invisible-> innerRed;
-    
+
     // Dice
-    
+
     dice:Dice;
     eval {
       dice.rand = 123456789;
       dice.dots = -1;
       dice.rolls = 0;
     }
-    
+
     // players
-    
+
     firstRedFigure:RedFigure       -:nextFigure-> redFig1:RedFigure       -:nextFigure-> redFig2:RedFigure       -:nextFigure-> lastRedFigure:RedFigure       -:nextFigure-> firstRedFigure;
     firstBlueFigure:BlueFigure     -:nextFigure-> blueFig1:BlueFigure     -:nextFigure-> blueFig2:BlueFigure     -:nextFigure-> lastBlueFigure:BlueFigure     -:nextFigure-> firstBlueFigure;
     firstYellowFigure:YellowFigure -:nextFigure-> yellowFig1:YellowFigure -:nextFigure-> yellowFig2:YellowFigure -:nextFigure-> lastYellowFigure:YellowFigure -:nextFigure-> firstYellowFigure;
     firstGreenFigure:GreenFigure   -:nextFigure-> greenFig1:GreenFigure   -:nextFigure-> greenFig2:GreenFigure   -:nextFigure-> lastGreenFigure:GreenFigure   -:nextFigure-> firstGreenFigure;
-      
+
     redPlayer:RedPlayer -:red-> firstRedFigure;
     redPlayer           -:red-> redFig1;
     redPlayer           -:red-> redFig2;
@@ -52,35 +52,35 @@ rule init {
     bluePlayer            -:blue-> blueFig2;
     bluePlayer            -:blue-> lastBlueFigure;
 
-    yellowPlayer:YellowPlayer -:yellow-> firstYellowFigure; 
+    yellowPlayer:YellowPlayer -:yellow-> firstYellowFigure;
     yellowPlayer              -:yellow-> yellowFig1;
     yellowPlayer              -:yellow-> yellowFig2;
     yellowPlayer              -:yellow-> lastYellowFigure;
-    
+
     greenPlayer:GreenPlayer -:green-> firstGreenFigure;
     greenPlayer             -:green-> greenFig1;
     greenPlayer             -:green-> greenFig2;
     greenPlayer             -:green-> lastGreenFigure;
-      
+
     redPlayer    -:current-> firstRedFigure;
     bluePlayer   -:current-> firstBlueFigure;
-    yellowPlayer -:current-> firstYellowFigure; 
+    yellowPlayer -:current-> firstYellowFigure;
     greenPlayer  -:current-> firstGreenFigure;
 
     redPlayer    -:last-> lastRedFigure;
     bluePlayer   -:last-> lastBlueFigure;
     yellowPlayer -:last-> lastYellowFigure;
     greenPlayer  -:last-> lastGreenFigure;
-    
+
     redPlayer    -:start-> redStart;
     bluePlayer   -:start-> blueStart;
     yellowPlayer -:start-> yellowStart;
     greenPlayer  -:start-> greenStart;
-    
+
     redPlayer -:nextPlayer-> bluePlayer -:nextPlayer-> yellowPlayer -:nextPlayer-> greenPlayer -:nextPlayer-> redPlayer;
-      
+
     // red begins
-    
+
     redPlayer -:holds-> dice;
   }
 }
@@ -226,14 +226,14 @@ rule removeOldOccupies {
 
 rule removeIntends {
   -:intends->;
-  
+
   replace {}
 }
 
 rule resetFigureChoice {
   p:Player -:holds-> :Dice;
   nextFig:Figure <-:nextFigure- fig:Figure <-c:current- p -l:last->;
-  
+
   modify {
     delete(c, l);
     p -:current-> nextFig;

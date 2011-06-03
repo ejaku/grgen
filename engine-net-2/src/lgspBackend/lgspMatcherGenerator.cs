@@ -72,22 +72,22 @@ namespace de.unika.ipd.grGen.lgsp
         /// and edges representing the matching operations to get the elements by.
         /// Edges in plan graph are given in the nodes by incoming list, as needed for MSA computation.
         /// </summary>
-        /// <param name="graph">The host graph to optimize the matcher program for, 
+        /// <param name="graph">The host graph to optimize the matcher program for,
         /// providing statistical information about its structure </param>
         public PlanGraph GeneratePlanGraph(LGSPGraph graph, PatternGraph patternGraph, bool isNegativeOrIndependent, bool isSubpattern)
         {
-            // 
+            //
             // If you change this method, chances are high you also want to change GenerateStaticPlanGraph in LGSPGrGen
             // look there for version without ifdef junk
             // todo: unify it with GenerateStaticPlanGraph in LGSPGrGen
-            // 
+            //
 
             // Create root node
             // Create plan graph nodes for all pattern graph nodes and all pattern graph edges
             // Create "lookup" plan graph edge from root node to each plan graph node
-            // Create "implicit source" plan graph edge from each plan graph node originating with a pattern edge 
+            // Create "implicit source" plan graph edge from each plan graph node originating with a pattern edge
             //     to the plan graph node created by the source node of the pattern graph edge
-            // Create "implicit target" plan graph edge from each plan graph node originating with a pattern edge 
+            // Create "implicit target" plan graph edge from each plan graph node originating with a pattern edge
             //     to the plan graph node created by the target node of the pattern graph edge
             // Create "incoming" plan graph edge from each plan graph node originating with a pattern node
             //     to a plan graph node created by one of the incoming edges of the pattern node
@@ -120,7 +120,7 @@ namespace de.unika.ipd.grGen.lgsp
                 SearchOperationType searchOperationType;
                 if(node.DefToBeYieldedTo)
                 {
-#if OPCOST_WITH_GEO_MEAN 
+#if OPCOST_WITH_GEO_MEAN
                     cost = 0;
 #else
                     cost = 1;
@@ -130,7 +130,7 @@ namespace de.unika.ipd.grGen.lgsp
                 }
                 else if(node.PointOfDefinition == null)
                 {
-#if OPCOST_WITH_GEO_MEAN 
+#if OPCOST_WITH_GEO_MEAN
                     cost = 0;
 #else
                     cost = 1;
@@ -140,7 +140,7 @@ namespace de.unika.ipd.grGen.lgsp
                 }
                 else if (node.PointOfDefinition != patternGraph)
                 {
-#if OPCOST_WITH_GEO_MEAN 
+#if OPCOST_WITH_GEO_MEAN
                     cost = 0;
 #else
                     cost = 1;
@@ -152,7 +152,7 @@ namespace de.unika.ipd.grGen.lgsp
                 {
                     if(node.Accessor != null)
                     {
-#if OPCOST_WITH_GEO_MEAN 
+#if OPCOST_WITH_GEO_MEAN
                         cost = 0;
 #else
                         cost = 1;
@@ -162,7 +162,7 @@ namespace de.unika.ipd.grGen.lgsp
                     }
                     else
                     {
-#if OPCOST_WITH_GEO_MEAN 
+#if OPCOST_WITH_GEO_MEAN
                         cost = 0;
 #else
                         cost = 1;
@@ -173,7 +173,7 @@ namespace de.unika.ipd.grGen.lgsp
                 }
                 else if(node.StorageAttributeOwner != null)
                 {
-#if OPCOST_WITH_GEO_MEAN 
+#if OPCOST_WITH_GEO_MEAN
                     cost = 0;
 #else
                     cost = 1;
@@ -214,7 +214,7 @@ namespace de.unika.ipd.grGen.lgsp
                 SearchOperationType searchOperationType;
                 if(edge.DefToBeYieldedTo)
                 {
-#if OPCOST_WITH_GEO_MEAN 
+#if OPCOST_WITH_GEO_MEAN
                     cost = 0;
 #else
                     cost = 1;
@@ -224,7 +224,7 @@ namespace de.unika.ipd.grGen.lgsp
                 }
                 else if(edge.PointOfDefinition == null)
                 {
-#if OPCOST_WITH_GEO_MEAN 
+#if OPCOST_WITH_GEO_MEAN
                     cost = 0;
 #else
                     cost = 1;
@@ -234,7 +234,7 @@ namespace de.unika.ipd.grGen.lgsp
                 }
                 else if (edge.PointOfDefinition != patternGraph)
                 {
-#if OPCOST_WITH_GEO_MEAN 
+#if OPCOST_WITH_GEO_MEAN
                     cost = 0;
 #else
                     cost = 1;
@@ -246,7 +246,7 @@ namespace de.unika.ipd.grGen.lgsp
                 {
                     if(edge.Accessor != null)
                     {
-#if OPCOST_WITH_GEO_MEAN 
+#if OPCOST_WITH_GEO_MEAN
                         cost = 0;
 #else
                         cost = 1;
@@ -256,7 +256,7 @@ namespace de.unika.ipd.grGen.lgsp
                     }
                     else
                     {
-#if OPCOST_WITH_GEO_MEAN 
+#if OPCOST_WITH_GEO_MEAN
                         cost = 0;
 #else
                         cost = 1;
@@ -267,7 +267,7 @@ namespace de.unika.ipd.grGen.lgsp
                 }
                 else if(edge.StorageAttributeOwner != null)
                 {
-#if OPCOST_WITH_GEO_MEAN 
+#if OPCOST_WITH_GEO_MEAN
                     cost = 0;
 #else
                     cost = 1;
@@ -290,7 +290,7 @@ namespace de.unika.ipd.grGen.lgsp
   #else
                     cost = graph.vstructs[sourceTypeID, edge.TypeID, targetTypeID, (int) LGSPDir.Out];
   #endif
-#elif OPCOST_WITH_GEO_MEAN 
+#elif OPCOST_WITH_GEO_MEAN
                     cost = graph.edgeLookupCosts[edge.TypeID];
 #else
                     cost = graph.edgeCounts[edge.TypeID];
@@ -320,7 +320,7 @@ namespace de.unika.ipd.grGen.lgsp
                     isPreset = true;
                     searchOperationType = SearchOperationType.NegPreset;
                 }
-                else 
+                else
                 {
                     isPreset = false;
                 }
@@ -336,7 +336,7 @@ namespace de.unika.ipd.grGen.lgsp
 #endif
 
                 // only add implicit source operation if edge source is needed and the edge source is not a preset node and not a storage node
-                if(patternGraph.GetSource(edge) != null 
+                if(patternGraph.GetSource(edge) != null
                     && !patternGraph.GetSource(edge).TempPlanMapping.IsPreset
                     && patternGraph.GetSource(edge).Storage == null
                     && patternGraph.GetSource(edge).StorageAttributeOwner == null)
@@ -344,7 +344,7 @@ namespace de.unika.ipd.grGen.lgsp
                     SearchOperationType operation = edge.fixedDirection ?
                         SearchOperationType.ImplicitSource : SearchOperationType.Implicit;
 
-#if OPCOST_WITH_GEO_MEAN 
+#if OPCOST_WITH_GEO_MEAN
                     PlanEdge implSrcPlanEdge = new PlanEdge(operation, planNodes[nodesIndex],
                         patternGraph.GetSource(edge).TempPlanMapping, 0);
 #else
@@ -355,14 +355,14 @@ namespace de.unika.ipd.grGen.lgsp
                     patternGraph.GetSource(edge).TempPlanMapping.IncomingEdges.Add(implSrcPlanEdge);
                 }
                 // only add implicit target operation if edge target is needed and the edge target is not a preset node and not a storage node
-                if(patternGraph.GetTarget(edge) != null 
+                if(patternGraph.GetTarget(edge) != null
                     && !patternGraph.GetTarget(edge).TempPlanMapping.IsPreset
                     && patternGraph.GetTarget(edge).Storage == null
                     && patternGraph.GetTarget(edge).StorageAttributeOwner == null)
                 {
                     SearchOperationType operation = edge.fixedDirection ?
                         SearchOperationType.ImplicitTarget : SearchOperationType.Implicit;
-#if OPCOST_WITH_GEO_MEAN 
+#if OPCOST_WITH_GEO_MEAN
                     PlanEdge implTgtPlanEdge = new PlanEdge(operation, planNodes[nodesIndex],
                         patternGraph.GetTarget(edge).TempPlanMapping, 0);
 #else
@@ -400,7 +400,7 @@ namespace de.unika.ipd.grGen.lgsp
                             normCost /= graph.nodeCounts[patternGraph.GetSource(edge).TypeID];
                         SearchOperationType operation = edge.fixedDirection ?
                             SearchOperationType.Outgoing : SearchOperationType.Incident;
-                        PlanEdge outPlanEdge = new PlanEdge(operation, patternGraph.GetSource(edge).TempPlanMapping, 
+                        PlanEdge outPlanEdge = new PlanEdge(operation, patternGraph.GetSource(edge).TempPlanMapping,
                             planNodes[nodesIndex], normCost);
                         planEdges.Add(outPlanEdge);
                         planNodes[nodesIndex].IncomingEdges.Add(outPlanEdge);
@@ -451,7 +451,7 @@ namespace de.unika.ipd.grGen.lgsp
                 {
                     if(node.Accessor != null)
                     {
-#if OPCOST_WITH_GEO_MEAN 
+#if OPCOST_WITH_GEO_MEAN
                         PlanEdge storAccessPlanEdge = new PlanEdge(SearchOperationType.MapWithStorage,
                             node.Accessor.TempPlanMapping, node.TempPlanMapping, 0);
 #else
@@ -463,7 +463,7 @@ namespace de.unika.ipd.grGen.lgsp
                     }
                     else if(node.StorageAttributeOwner != null)
                     {
-#if OPCOST_WITH_GEO_MEAN 
+#if OPCOST_WITH_GEO_MEAN
                         PlanEdge storAccessPlanEdge = new PlanEdge(SearchOperationType.PickFromStorageAttribute,
                             node.StorageAttributeOwner.TempPlanMapping, node.TempPlanMapping, 0);
 #else
@@ -484,7 +484,7 @@ namespace de.unika.ipd.grGen.lgsp
                 {
                     if(edge.Accessor != null)
                     {
-#if OPCOST_WITH_GEO_MEAN 
+#if OPCOST_WITH_GEO_MEAN
                         PlanEdge storAccessPlanEdge = new PlanEdge(SearchOperationType.MapWithStorage,
                             edge.Accessor.TempPlanMapping, edge.TempPlanMapping, 0);
 #else
@@ -496,7 +496,7 @@ namespace de.unika.ipd.grGen.lgsp
                     }
                     else if(edge.StorageAttribute != null)
                     {
-#if OPCOST_WITH_GEO_MEAN 
+#if OPCOST_WITH_GEO_MEAN
                         PlanEdge storAccessPlanEdge = new PlanEdge(SearchOperationType.PickFromStorageAttribute,
                             edge.StorageAttributeOwner.TempPlanMapping, edge.TempPlanMapping, 0);
 #else
@@ -580,7 +580,7 @@ exitSecondLoop: ;
                 DumpContractedPlanGraph(planGraph, dumpName);
             }
 
-            // breaks all cycles represented by setting the incoming msa edges of the 
+            // breaks all cycles represented by setting the incoming msa edges of the
             // representative nodes to the incoming msa edges according to the supernode
             /*no, not equivalent:
             foreach(PlanSuperNode superNode in superNodeStack)
@@ -901,7 +901,7 @@ exitSecondLoop: ;
                 ++i;
             }
 
-            // generate the search plan graph edges, 
+            // generate the search plan graph edges,
             // that are the plan graph edges chosen by the MSA algorithm, in reversed direction
             // and add references to originating pattern elements
             i = 0;
@@ -915,13 +915,13 @@ exitSecondLoop: ;
                 {
                     SearchPlanEdgeNode searchPlanEdgeNode = (SearchPlanEdgeNode) planToSearchPlanNode[planNode];
                     SearchPlanNode patElem;
-                    if(planEdge.Target.PatternEdgeSource != null 
+                    if(planEdge.Target.PatternEdgeSource != null
                         && planToSearchPlanNode.TryGetValue(planEdge.Target.PatternEdgeSource, out patElem))
                     {
                         searchPlanEdgeNode.PatternEdgeSource = (SearchPlanNodeNode) patElem;
                         searchPlanEdgeNode.PatternEdgeSource.OutgoingPatternEdges.Add(searchPlanEdgeNode);
                     }
-                    if(planEdge.Target.PatternEdgeTarget != null 
+                    if(planEdge.Target.PatternEdgeTarget != null
                         && planToSearchPlanNode.TryGetValue(planEdge.Target.PatternEdgeTarget, out patElem))
                     {
                         searchPlanEdgeNode.PatternEdgeTarget = (SearchPlanNodeNode) patElem;
@@ -938,12 +938,12 @@ exitSecondLoop: ;
         /// <summary>
         /// Generates a scheduled search plan for a given search plan graph
         /// </summary>
-        public ScheduledSearchPlan ScheduleSearchPlan(SearchPlanGraph spGraph, 
+        public ScheduledSearchPlan ScheduleSearchPlan(SearchPlanGraph spGraph,
             PatternGraph patternGraph, bool isNegativeOrIndependent)
         {
             // the schedule
             List<SearchOperation> operations = new List<SearchOperation>();
-            
+
             // a set of search plan edges representing the currently reachable not yet visited elements
             PriorityQueue<SearchPlanEdge> activeEdges = new PriorityQueue<SearchPlanEdge>();
 
@@ -1044,7 +1044,7 @@ exitSecondLoop: ;
         }
 
         /// <summary>
-        /// Determines which homomorphy check operations are necessary 
+        /// Determines which homomorphy check operations are necessary
         /// at the operation of the given position within the scheduled search plan
         /// and appends them.
         /// </summary>
@@ -1052,7 +1052,7 @@ exitSecondLoop: ;
         {
             // take care of global homomorphy
             FillInGlobalHomomorphyPatternElements(ssp, j);
-        
+
             ///////////////////////////////////////////////////////////////////////////
             // first handle special case pure homomorphy
 
@@ -1091,7 +1091,7 @@ exitSecondLoop: ;
 
             ///////////////////////////////////////////////////////////////////////////
             // no pure homomorphy, so we have restricted homomorphy or isomorphy
-            // and need to inspect the operations before, together with the homomorphy matrix 
+            // and need to inspect the operations before, together with the homomorphy matrix
             // for determining the necessary homomorphy checks
 
             GrGenType[] types;
@@ -1127,7 +1127,7 @@ exitSecondLoop: ;
                 {
                     continue;
                 }
-                
+
                 // find out whether element types are disjoint
                 GrGenType type_i = types[spn_i.PatternElement.TypeID];
                 GrGenType type_j = types[spn_j.PatternElement.TypeID];
@@ -1147,9 +1147,9 @@ exitSecondLoop: ;
                     continue;
                 }
 
-                // at this position we found out that spn_i and spn_j 
+                // at this position we found out that spn_i and spn_j
                 // might get matched to the same host graph element, i.e. homomorphy is possible
-                
+
                 // if that's ok we don't need to insert checks to prevent this from happening
                 if (hom[spn_i.ElementID - 1, spn_j.ElementID - 1])
                 {
@@ -1157,9 +1157,9 @@ exitSecondLoop: ;
                     continue;
                 }
 
-                // otherwise the generated matcher code has to check 
+                // otherwise the generated matcher code has to check
                 // that pattern element j doesn't get bound to the same graph element
-                // the pattern element i is already bound to 
+                // the pattern element i is already bound to
                 if (ssp.Operations[j].Isomorphy.PatternElementsToCheckAgainst == null) {
                     ssp.Operations[j].Isomorphy.PatternElementsToCheckAgainst = new List<SearchPlanNode>();
                 }
@@ -1182,7 +1182,7 @@ exitSecondLoop: ;
 
             // if no check for isomorphy was skipped due to homomorphy being allowed
             // pure isomorphy is to be guaranteed - simply check the is-matched-bit and be done
-            // the pattern elements to check against are only needed 
+            // the pattern elements to check against are only needed
             // if spn_j is allowed to be homomorph to some elements but must be isomorph to some others
             if (ssp.Operations[j].Isomorphy.CheckIsMatchedBit && !homomorphyPossibleAndAllowed)
             {
@@ -1223,8 +1223,8 @@ exitSecondLoop: ;
                 {
                     continue;
                 }
-           
-                // in global isomorphy check at current position 
+
+                // in global isomorphy check at current position
                 // allow globally homomorphic elements as exception
                 // if they were already defined(preset)
                 if (homGlobal[spn_j.ElementID - 1, spn_i.ElementID - 1])
@@ -1294,8 +1294,8 @@ exitSecondLoop: ;
             for(int i = 0; i < patternGraph.schedules[index].Operations.Length; ++i)
                 operations.Add(patternGraph.schedules[index].Operations[i]);
 
-            // nested patterns on the way to an enclosed patternpath modifier 
-            // must get matched after all local nodes and edges, because they require 
+            // nested patterns on the way to an enclosed patternpath modifier
+            // must get matched after all local nodes and edges, because they require
             // all outer elements to be known in order to lock them for patternpath processing
             if (patternGraph.patternGraphsOnPathToEnclosedPatternpath
                 .Contains(patternGraph.pathPrefix + patternGraph.name))
@@ -1311,7 +1311,7 @@ exitSecondLoop: ;
                 int bestFitIndex = operations.Count;
                 float bestFitCostToEnd = 0;
 
-                // find best place in scheduled search plan for current negative pattern 
+                // find best place in scheduled search plan for current negative pattern
                 // during search from end of schedule forward until the first element the negative pattern is dependent on is found
                 for (int j = operations.Count - 1; j >= 0; --j)
                 {
@@ -1358,7 +1358,7 @@ exitSecondLoop: ;
                 int bestFitIndex = operations.Count;
                 float bestFitCostToEnd = 0;
 
-                // find best place in scheduled search plan for current independent pattern 
+                // find best place in scheduled search plan for current independent pattern
                 // during search from end of schedule forward until the first element the independent pattern is dependent on is found
                 for (int j = operations.Count - 1; j >= 0; --j)
                 {
@@ -1405,13 +1405,13 @@ exitSecondLoop: ;
 
         /// <summary>
         /// Inserts conditions into the schedule given by the operations list at their earliest possible position
-        /// todo: set/map operations are potentially expensive, 
-        /// they shouldn't be insertes asap, but depending an weight, 
+        /// todo: set/map operations are potentially expensive,
+        /// they shouldn't be insertes asap, but depending an weight,
         /// derived from statistics over set/map size for graph elements, quiet well known for anonymous rule sets
         /// </summary>
         public void InsertConditionsIntoSchedule(PatternCondition[] conditions, List<SearchOperation> operations)
         {
-            // get needed (in order to evaluate it) elements of each condition 
+            // get needed (in order to evaluate it) elements of each condition
             Dictionary<String, bool>[] neededElements = new Dictionary<String, bool>[conditions.Length];
             for (int i = 0; i < conditions.Length; ++i)
             {
@@ -1453,7 +1453,7 @@ exitSecondLoop: ;
         }
 
         /// <summary>
-        /// Generates the action interface plus action implementation including the matcher source code 
+        /// Generates the action interface plus action implementation including the matcher source code
         /// for the given rule pattern into the given source builder
         /// </summary>
         public void GenerateActionAndMatcher(SourceBuilder sb,
@@ -1496,7 +1496,7 @@ exitSecondLoop: ;
         }
 
         /// <summary>
-        /// Generates the action interface plus action implementation including the matcher source code 
+        /// Generates the action interface plus action implementation including the matcher source code
         /// for the given alternative into the given source builder
         /// </summary>
         public void GenerateActionAndMatcherOfAlternative(SourceBuilder sb,
@@ -1534,7 +1534,7 @@ exitSecondLoop: ;
         }
 
         /// <summary>
-        /// Generates the action interface plus action implementation including the matcher source code 
+        /// Generates the action interface plus action implementation including the matcher source code
         /// for the given iterated pattern into the given source builder
         /// </summary>
         public void GenerateActionAndMatcherOfIterated(SourceBuilder sb,
@@ -1569,7 +1569,7 @@ exitSecondLoop: ;
         }
 
         /// <summary>
-        /// Generates the action interface plus action implementation including the matcher source code 
+        /// Generates the action interface plus action implementation including the matcher source code
         /// for the alternatives/iterateds nested within the given negative/independent pattern graph into the given source builder
         /// </summary>
         public void GenerateActionAndMatcherOfNestedPatterns(SourceBuilder sb,
@@ -1698,7 +1698,7 @@ exitSecondLoop: ;
 
             sb.AppendFront("/// <summary> The RulePattern object from which this LGSPAction object has been created. </summary>\n");
             sb.AppendFront("public GRGEN_LIBGR.IRulePattern RulePattern { get { return _rulePattern; } }\n");
-            
+
             sb.AppendFrontFormat("public {0} Match(GRGEN_LIBGR.IGraph graph, int maxMatches{1})\n", matchesType, inParameters);
             sb.AppendFront("{\n");
             sb.Indent();
@@ -1802,7 +1802,7 @@ exitSecondLoop: ;
             sb.AppendFront("{\n");
             sb.Indent();
             sb.AppendFrontFormat("return Match(graph, maxMatches{0});\n", inArgumentsFromArray);
-            sb.Unindent(); 
+            sb.Unindent();
             sb.AppendFront("}\n");
 
             sb.AppendFront("public object[] Modify(GRGEN_LIBGR.IGraph graph, GRGEN_LIBGR.IMatch match)\n");
@@ -1814,7 +1814,7 @@ exitSecondLoop: ;
                 sb.AppendFrontFormat("ReturnArray[{0}] = output_{0};\n", i);
             }
             sb.AppendFront("return ReturnArray;\n");
-            sb.Unindent(); 
+            sb.Unindent();
             sb.AppendFront("}\n");
 
             sb.AppendFront("public object[] ModifyAll(GRGEN_LIBGR.IGraph graph, GRGEN_LIBGR.IMatches matches)\n");
@@ -1826,7 +1826,7 @@ exitSecondLoop: ;
                 sb.AppendFrontFormat("ReturnArray[{0}] = output_{0};\n", i);
             }
             sb.AppendFront("return ReturnArray;\n");
-            sb.Unindent(); 
+            sb.Unindent();
             sb.AppendFront("}\n");
 
             sb.AppendFront("object[] GRGEN_LIBGR.IAction.Apply(GRGEN_LIBGR.IGraph graph)\n");
@@ -1846,7 +1846,7 @@ exitSecondLoop: ;
                 sb.AppendFront("else return null;\n");
             }
             else sb.AppendFront("throw new Exception();\n");
-            sb.Unindent(); 
+            sb.Unindent();
             sb.AppendFront("}\n");
 
             sb.AppendFront("object[] GRGEN_LIBGR.IAction.Apply(GRGEN_LIBGR.IGraph graph, params object[] parameters)\n");
@@ -1860,7 +1860,7 @@ exitSecondLoop: ;
                 sb.AppendFrontFormat("ReturnArray[{0}] = output_{0};\n", i);
             }
             sb.AppendFront("return ReturnArray;\n");
-            sb.Unindent(); 
+            sb.Unindent();
             sb.AppendFront("}\n");
             sb.AppendFront("else return null;\n");
             sb.Unindent();
@@ -1883,7 +1883,7 @@ exitSecondLoop: ;
                 sb.AppendFront("else return null;\n");
             }
             else sb.AppendFront("throw new Exception();\n");
-            sb.Unindent(); 
+            sb.Unindent();
             sb.AppendFront("}\n");
 
             sb.AppendFront("object[] GRGEN_LIBGR.IAction.ApplyAll(int maxMatches, GRGEN_LIBGR.IGraph graph, params object[] parameters)\n");
@@ -1897,7 +1897,7 @@ exitSecondLoop: ;
                 sb.AppendFrontFormat("ReturnArray[{0}] = output_{0};\n", i);
             }
             sb.AppendFront("return ReturnArray;\n");
-            sb.Unindent(); 
+            sb.Unindent();
             sb.AppendFront("}\n");
             sb.AppendFront("else return null;\n");
             sb.Unindent();
@@ -1908,14 +1908,14 @@ exitSecondLoop: ;
             sb.Indent();
             if (matchingPattern.Inputs.Length == 0) sb.AppendFront("return ApplyStar(graph);\n");
             else sb.AppendFront("throw new Exception(); return false;\n");
-            sb.Unindent(); 
+            sb.Unindent();
             sb.AppendFront("}\n");
 
             sb.AppendFront("bool GRGEN_LIBGR.IAction.ApplyStar(GRGEN_LIBGR.IGraph graph, params object[] parameters)\n");
             sb.AppendFront("{\n");
-            sb.Indent(); 
+            sb.Indent();
             sb.AppendFrontFormat("return ApplyStar(graph{0});\n", inArgumentsFromArray);
-            sb.Unindent(); 
+            sb.Unindent();
             sb.AppendFront("}\n");
 
             sb.AppendFront("bool GRGEN_LIBGR.IAction.ApplyPlus(GRGEN_LIBGR.IGraph graph)\n");
@@ -1923,14 +1923,14 @@ exitSecondLoop: ;
             sb.Indent();
             if (matchingPattern.Inputs.Length == 0) sb.AppendFront("return ApplyPlus(graph);\n");
             else sb.AppendFront("throw new Exception(); return false;\n");
-            sb.Unindent(); 
+            sb.Unindent();
             sb.AppendFront("}\n");
 
             sb.AppendFront("bool GRGEN_LIBGR.IAction.ApplyPlus(GRGEN_LIBGR.IGraph graph, params object[] parameters)\n");
             sb.AppendFront("{\n");
-            sb.Indent(); 
+            sb.Indent();
             sb.AppendFrontFormat("return ApplyPlus(graph{0});\n", inArgumentsFromArray);
-            sb.Unindent(); 
+            sb.Unindent();
             sb.AppendFront("}\n");
 
             sb.AppendFront("bool GRGEN_LIBGR.IAction.ApplyMinMax(GRGEN_LIBGR.IGraph graph, int min, int max)\n");
@@ -1938,14 +1938,14 @@ exitSecondLoop: ;
             sb.Indent();
             if (matchingPattern.Inputs.Length == 0) sb.AppendFront("return ApplyMinMax(graph, min, max);\n");
             else sb.AppendFront("throw new Exception(); return false;\n");
-            sb.Unindent(); 
+            sb.Unindent();
             sb.AppendFront("}\n");
 
             sb.AppendFront("bool GRGEN_LIBGR.IAction.ApplyMinMax(GRGEN_LIBGR.IGraph graph, int min, int max, params object[] parameters)\n");
             sb.AppendFront("{\n");
-            sb.Indent(); 
+            sb.Indent();
             sb.AppendFrontFormat("return ApplyMinMax(graph, min, max{0});\n", inArgumentsFromArray);
-            sb.Unindent(); 
+            sb.Unindent();
             sb.AppendFront("}\n");
         }
 
@@ -2016,7 +2016,7 @@ exitSecondLoop: ;
         }
 
         /// <summary>
-        /// Generates the search program for the given alternative 
+        /// Generates the search program for the given alternative
         /// </summary>
         SearchProgram GenerateSearchProgramAlternative(LGSPMatchingPattern matchingPattern, Alternative alt)
         {
@@ -2117,7 +2117,7 @@ exitSecondLoop: ;
             LGSPRulePattern rulePattern, bool isInitialStatic)
         {
             PatternGraph patternGraph = (PatternGraph)rulePattern.PatternGraph;
-                
+
             String namePrefix = (isInitialStatic ? "" : "Dyn") + "Action_";
             String className = namePrefix + rulePattern.name;
             String rulePatternClassName = rulePattern.GetType().Name;
@@ -2177,7 +2177,7 @@ exitSecondLoop: ;
             sb.Indent(); // method body level
             sb.AppendFront("graph = graph_; openTasks = openTasks_;\n");
             sb.AppendFront("patternGraph = " + matchingPatternClassName + ".Instance.patternGraph;\n");
-           
+
             sb.Unindent(); // class level
             sb.AppendFront("}\n\n");
 
@@ -2232,7 +2232,7 @@ exitSecondLoop: ;
             sb.AppendFront("graph = graph_; openTasks = openTasks_;\n");
             // pfadausdruck gebraucht, da das alternative-objekt im pattern graph steckt
             sb.AppendFront("patternGraphs = patternGraphs_;\n");
-            
+
             sb.Unindent(); // class level
             sb.AppendFront("}\n\n");
 
@@ -2262,7 +2262,7 @@ exitSecondLoop: ;
             {
                 sb.AppendFront("public " + TypesHelper.TypeName(variable.Value) + " " + variable.Key + ";\n");
             }
-    
+
             foreach (PatternGraph altCase in alternative.alternativeCases)
             {
                 GenerateIndependentsMatchObjects(sb, matchingPattern.GetType().Name, altCase);
@@ -2374,7 +2374,7 @@ exitSecondLoop: ;
             sb.AppendFront(className + " newTask;\n");
             sb.AppendFront("if(numFreeTasks>0) {\n");
             sb.Indent();
-            sb.AppendFront("newTask = freeListHead;\n"); 
+            sb.AppendFront("newTask = freeListHead;\n");
             sb.AppendFront("newTask.graph = graph_; newTask.openTasks = openTasks_;\n");
             if(isAlternative)
                 sb.AppendFront("newTask.patternGraphs = patternGraphs_;\n");
@@ -2427,7 +2427,7 @@ exitSecondLoop: ;
 
         /// <summary>
         /// Generates scheduled search plans needed for matcher code generation for action compilation
-        /// out of graph with analyze information, 
+        /// out of graph with analyze information,
         /// The scheduled search plans are added to the main and the nested pattern graphs.
         /// </summary>
         public void GenerateScheduledSearchPlans(PatternGraph patternGraph, LGSPGraph graph,
@@ -2540,10 +2540,10 @@ exitSecondLoop: ;
         }
 
         /// <summary>
-        /// Generate new actions for the given actions, doing the same work, 
+        /// Generate new actions for the given actions, doing the same work,
         /// but hopefully faster by taking graph analysis information into account
         /// </summary>
-        public LGSPAction[] GenerateActions(LGSPGraph graph, String modelAssemblyName, String actionsAssemblyName, 
+        public LGSPAction[] GenerateActions(LGSPGraph graph, String modelAssemblyName, String actionsAssemblyName,
             params LGSPAction[] actions)
         {
             if(actions.Length == 0) throw new ArgumentException("No actions provided!");
@@ -2552,11 +2552,11 @@ exitSecondLoop: ;
             GenerateFileHeaderForActionsFile(sourceCode, model.GetType().Namespace, actions[0].rulePattern.GetType().Namespace);
 
             // use domain of dictionary as set with rulepatterns of the subpatterns of the actions, get them from pattern graph
-            Dictionary<LGSPMatchingPattern, LGSPMatchingPattern> subpatternMatchingPatterns 
+            Dictionary<LGSPMatchingPattern, LGSPMatchingPattern> subpatternMatchingPatterns
                 = new Dictionary<LGSPMatchingPattern, LGSPMatchingPattern>();
             foreach (LGSPAction action in actions)
             {
-                foreach (KeyValuePair<LGSPMatchingPattern, LGSPMatchingPattern> usedSubpattern 
+                foreach (KeyValuePair<LGSPMatchingPattern, LGSPMatchingPattern> usedSubpattern
                     in action.rulePattern.patternGraph.usedSubpatterns)
                 {
                     subpatternMatchingPatterns[usedSubpattern.Key] = usedSubpattern.Value;
@@ -2597,7 +2597,7 @@ exitSecondLoop: ;
             // set up compiler
             CSharpCodeProvider compiler = new CSharpCodeProvider();
             CompilerParameters compParams = GetDynCompilerSetup(modelAssemblyName, actionsAssemblyName);
- 
+
             // compile generated code
             CompilerResults compResults = compiler.CompileAssemblyFromSource(compParams, sourceCode.ToString());
             if(compResults.Errors.HasErrors)
@@ -2622,7 +2622,7 @@ exitSecondLoop: ;
         }
 
         /// <summary>
-        /// Generate a new action for the given action, doing the same work, 
+        /// Generate a new action for the given action, doing the same work,
         /// but hopefully faster by taking graph analysis information into account
         /// </summary>
         public LGSPAction GenerateAction(LGSPGraph graph, String modelAssemblyName, String actionsAssemblyName, LGSPAction action)

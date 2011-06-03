@@ -9,13 +9,13 @@ rule dumpGxl(var v:int)
 			"<gxl>",
 			"<graph id=\"", nameof(), "\" edgeids=\"true\">",
 			"<type xlink:href=\"javaProgramGraphsSchema\"/>");
-		exec( (dumpNodePackage(v) || dumpNodeClass(v) || dumpNodeInterface(v) || dumpNodeVariable(v) 
+		exec( (dumpNodePackage(v) || dumpNodeClass(v) || dumpNodeInterface(v) || dumpNodeVariable(v)
 				|| dumpNodeOperation(v) || dumpNodeMethodBody(v) || dumpNodeAccess(v) || dumpNodeUpdate(v)
 				|| dumpNodeCall(v) || dumpNodeIstantiation(v) || dumpNodeOperator(v) || dumpNodeReturn(v)
 				|| dumpNodeBlock(v)  || dumpNodeLiteral(v) || dumpNodeParameter(v))*
-				&& 
+				&&
 				(dumpEdgeBelongsTo(v) || dumpEdgeType(v) || dumpEdgeExtends(v) || dumpEdgeImports(v)
-				|| dumpEdgeImplements(v) || dumpEdgeParameter(v) || dumpEdgeBinding(v) || dumpEdgeLink(v) 
+				|| dumpEdgeImplements(v) || dumpEdgeParameter(v) || dumpEdgeBinding(v) || dumpEdgeLink(v)
 				|| dumpEdgeExpression(v) || dumpEdgeActualParameter(v))* );
 		emit("</graph>",
 			"</gxl>");
@@ -25,12 +25,12 @@ rule dumpGxl(var v:int)
 rule dumpNodePackage(var v:int)
 {
 	n:Package;
-	
+
 	if { !n.visited[v]; }
-	
+
 	modify {
 	    eval { n.visited[v] = true; }
-		
+
 		emit("<node id=\"", nameof(n), "\">",
 			"<type xlink:href=\"Package\"/>",
 			"<attr name=\"name\"> <string>", n.name, "</string> </attr>",
@@ -41,12 +41,12 @@ rule dumpNodePackage(var v:int)
 rule dumpNodeClass(var v:int)
 {
 	n:Class;
-	
+
 	if { !n.visited[v]; }
-	
+
 	modify {
 		eval { n.visited[v] = true; }
-		
+
 		emit("<node id=\"", nameof(n), "\">",
 			"<type xlink:href=\"Class\"/>",
 			"<attr name=\"name\"> <string>", n.name, "</string> </attr>",
@@ -60,12 +60,12 @@ rule dumpNodeClass(var v:int)
 rule dumpNodeInterface(var v:int)
 {
 	n:Interface;
-	
+
 	if { !n.visited[v]; }
-	
+
 	modify {
 		eval { n.visited[v] = true; }
-		
+
 		emit("<node id=\"", nameof(n), "\">",
 			"<type xlink:href=\"Interface\"/>",
 			"<attr name=\"name\"> <string>", n.name, "</string> </attr>",
@@ -78,12 +78,12 @@ rule dumpNodeInterface(var v:int)
 rule dumpNodeVariable(var v:int)
 {
 	n:Variable;
-	
+
 	if { !n.visited[v]; }
-	
+
 	modify {
 		eval { n.visited[v] = true; }
-		
+
 		emit("<node id=\"", nameof(n), "\">",
 			"<type xlink:href=\"Variable\"/>",
 			"<attr name=\"name\"> <string>", n.name, "</string> </attr>",
@@ -97,12 +97,12 @@ rule dumpNodeVariable(var v:int)
 rule dumpNodeOperation(var v:int)
 {
 	n:Operation;
-	
+
 	if { !n.visited[v]; }
-	
+
 	modify {
 		eval { n.visited[v] = true; }
-		
+
 		emit("<node id=\"", nameof(n), "\">",
 			"<type xlink:href=\"Operation\"/>",
 			"<attr name=\"name\"> <string>", n.name, "</string> </attr>",
@@ -117,12 +117,12 @@ rule dumpNodeOperation(var v:int)
 rule dumpNodeMethodBody(var v:int)
 {
 	n:MethodBody;
-	
+
 	if { !n.visited[v]; }
-	
+
 	modify {
 		eval { n.visited[v] = true; }
-		
+
 		emit("<node id=\"", nameof(n), "\">",
 			"<type xlink:href=\"MethodBody\"/>",
 			"</node>");
@@ -132,12 +132,12 @@ rule dumpNodeMethodBody(var v:int)
 rule dumpNodeAccess(var v:int)
 {
 	n:Access;
-	
+
 	if { !n.visited[v]; }
-	
+
 	modify {
 		eval { n.visited[v] = true; }
-		
+
 		emit("<node id=\"", nameof(n), "\">",
 			"<type xlink:href=\"Access\"/>",
 			"<attr name=\"this\"> <bool>", n.this, "</bool> </attr>",
@@ -148,12 +148,12 @@ rule dumpNodeAccess(var v:int)
 rule dumpNodeUpdate(var v:int)
 {
 	n:Update;
-	
+
 	if { !n.visited[v]; }
-	
+
 	modify {
 		eval { n.visited[v] = true; }
-		
+
 		emit("<node id=\"", nameof(n), "\">",
 			"<type xlink:href=\"Update\"/>",
 			"<attr name=\"this\"> <bool>", n.this, "</bool> </attr>",
@@ -164,12 +164,12 @@ rule dumpNodeUpdate(var v:int)
 rule dumpNodeCall(var v:int)
 {
 	n:Call;
-	
+
 	if { !n.visited[v]; }
-	
+
 	modify {
 		eval { n.visited[v] = true; }
-		
+
 		emit("<node id=\"", nameof(n), "\">",
 			"<type xlink:href=\"Call\"/>",
 			"<attr name=\"this\"> <bool>", n.this, "</bool> </attr>",
@@ -181,12 +181,12 @@ rule dumpNodeCall(var v:int)
 rule dumpNodeIstantiation(var v:int)
 {
 	n:Instantiation;
-	
+
 	if { !n.visited[v]; }
-	
+
 	modify {
 		eval { n.visited[v] = true; }
-		
+
 		emit("<node id=\"", nameof(n), "\">",
 			"<type xlink:href=\"Instantiation\"/>",
 			"</node>");
@@ -196,12 +196,12 @@ rule dumpNodeIstantiation(var v:int)
 rule dumpNodeOperator(var v:int)
 {
 	n:Operator;
-	
+
 	if { !n.visited[v]; }
-	
+
 	modify {
 		eval { n.visited[v] = true; }
-		
+
 		emit("<node id=\"", nameof(n), "\">",
 			"<type xlink:href=\"Operator\"/>",
 			"<attr name=\"name\"> <string>", n.name, "</string> </attr>",
@@ -209,30 +209,30 @@ rule dumpNodeOperator(var v:int)
 	}
 }
 
-rule dumpNodeReturn(var v:int) 
+rule dumpNodeReturn(var v:int)
 {
 	n:Return;
-	
+
 	if { !n.visited[v]; }
-	
+
 	modify {
 		eval { n.visited[v] = true; }
-		
+
 		emit("<node id=\"", nameof(n), "\">",
 			"<type xlink:href=\"Return\"/>",
 			"</node>");
 	}
 }
 
-rule dumpNodeBlock(var v:int) 
+rule dumpNodeBlock(var v:int)
 {
 	n:Block;
-	
+
 	if { !n.visited[v]; }
-	
+
 	modify {
 		eval { n.visited[v] = true; }
-		
+
 		emit("<node id=\"", nameof(n), "\">",
 			"<type xlink:href=\"Block\"/>",
 			"</node>");
@@ -242,12 +242,12 @@ rule dumpNodeBlock(var v:int)
 rule dumpNodeLiteral(var v:int)
 {
 	n:Literal;
-	
+
 	if { !n.visited[v]; }
-	
+
 	modify {
 		eval { n.visited[v] = true; }
-		
+
 		emit("<node id=\"", nameof(n), "\">",
 			"<type xlink:href=\"Literal\"/>",
 			"<attr name=\"value\"> <string>", n.value, "</string> </attr>",
@@ -258,12 +258,12 @@ rule dumpNodeLiteral(var v:int)
 rule dumpNodeParameter(var v:int)
 {
 	n:Parameter;
-	
+
 	if { !n.visited[v]; }
-	
+
 	modify {
 		eval { n.visited[v] = true; }
-		
+
 		emit("<node id=\"", nameof(n), "\">",
 			"<type xlink:href=\"Parameter\"/>",
 			"</node>");
@@ -275,7 +275,7 @@ rule dumpEdgeBelongsTo(var v:int)
 	src:Node -e:belongsTo-> tgt:Node;
 
 	if { !e.visited[v]; }
-	
+
 	modify {
 		eval { e.visited[v] = true; }
 
@@ -288,12 +288,12 @@ rule dumpEdgeBelongsTo(var v:int)
 rule dumpEdgeType(var v:int)
 {
 	src:Node -e:type_-> tgt:Node;
-	
+
 	if { !e.visited[v]; }
-	
+
 	modify {
 		eval { e.visited[v] = true; }
-		
+
 		emit("<edge id=\"", nameof(e), "\" from=\"", nameof(src), "\" to=\"", nameof(tgt), "\">",
 			"<type xlink:href=\"type\"/>",
 			"</edge>");
@@ -303,12 +303,12 @@ rule dumpEdgeType(var v:int)
 rule dumpEdgeExtends(var v:int)
 {
 	src:Node -e:extends_-> tgt:Node;
-	
+
 	if { !e.visited[v]; }
-	
+
 	modify {
 		eval { e.visited[v] = true; }
-		
+
 		emit("<edge id=\"", nameof(e), "\" from=\"", nameof(src), "\" to=\"", nameof(tgt), "\">",
 			"<type xlink:href=\"extends\"/>",
 			"</edge>");
@@ -318,12 +318,12 @@ rule dumpEdgeExtends(var v:int)
 rule dumpEdgeImports(var v:int)
 {
 	src:Node -e:imports-> tgt:Node;
-	
+
 	if { !e.visited[v]; }
-	
+
 	modify {
 		eval { e.visited[v] = true; }
-		
+
 		emit("<edge id=\"", nameof(e), "\" from=\"", nameof(src), "\" to=\"", nameof(tgt), "\">",
 			"<type xlink:href=\"imports\"/>",
 			"</edge>");
@@ -333,12 +333,12 @@ rule dumpEdgeImports(var v:int)
 rule dumpEdgeImplements(var v:int)
 {
 	src:Node -e:implements-> tgt:Node;
-	
+
 	if { !e.visited[v]; }
-	
+
 	modify {
 		eval { e.visited[v] = true; }
-		
+
 		emit("<edge id=\"", nameof(e), "\" from=\"", nameof(src), "\" to=\"", nameof(tgt), "\">",
 			"<type xlink:href=\"implements\"/>",
 			"</edge>");
@@ -348,12 +348,12 @@ rule dumpEdgeImplements(var v:int)
 rule dumpEdgeParameter(var v:int)
 {
 	src:Node -e:parameter-> tgt:Node;
-	
+
 	if { !e.visited[v]; }
-	
+
 	modify {
 		eval { e.visited[v] = true; }
-		
+
 		emit("<edge id=\"", nameof(e), "\" from=\"", nameof(src), "\" to=\"", nameof(tgt), "\">",
 			"<type xlink:href=\"parameter\"/>",
 			"</edge>");
@@ -363,12 +363,12 @@ rule dumpEdgeParameter(var v:int)
 rule dumpEdgeBinding(var v:int)
 {
 	src:Node -e:binding-> tgt:Node;
-	
+
 	if { !e.visited[v]; }
-	
+
 	modify {
 		eval { e.visited[v] = true; }
-		
+
 		emit("<edge id=\"", nameof(e), "\" from=\"", nameof(src), "\" to=\"", nameof(tgt), "\">",
 			"<type xlink:href=\"binding\"/>",
 			"</edge>");
@@ -378,12 +378,12 @@ rule dumpEdgeBinding(var v:int)
 rule dumpEdgeLink(var v:int)
 {
 	src:Node -e:link-> tgt:Node;
-	
+
 	if { !e.visited[v]; }
-	
+
 	modify {
 		eval { e.visited[v] = true; }
-		
+
 		emit("<edge id=\"", nameof(e), "\" from=\"", nameof(src), "\" to=\"", nameof(tgt), "\">",
 			"<type xlink:href=\"link\"/>",
 			"</edge>");
@@ -393,12 +393,12 @@ rule dumpEdgeLink(var v:int)
 rule dumpEdgeExpression(var v:int)
 {
 	src:Node -e:expression-> tgt:Node;
-	
+
 	if { !e.visited[v]; }
-	
+
 	modify {
 		eval { e.visited[v] = true; }
-		
+
 		emit("<edge id=\"", nameof(e), "\" from=\"", nameof(src), "\" to=\"", nameof(tgt), "\">",
 			"<type xlink:href=\"expression\"/>",
 			"</edge>");
@@ -410,10 +410,10 @@ rule dumpEdgeActualParameter(var v:int)
 	src:Node -e:actualParameter-> tgt:Node;
 
 	if { !e.visited[v]; }
-		
+
 	modify {
 		eval { e.visited[v] = true; }
-		
+
 		emit("<edge id=\"", nameof(e), "\" from=\"", nameof(src), "\" to=\"", nameof(tgt), "\">",
 			"<type xlink:href=\"actualParameter\"/>",
 			"</edge>");

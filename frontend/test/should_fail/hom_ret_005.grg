@@ -7,7 +7,7 @@ rule HomRetypeReturnNodeModify : (B)
 {
     hom(a, b);
     a:A; b:B;
-    
+
     modify {
         :A<a>;
         return(b);

@@ -11,9 +11,9 @@ rule addNode
 rule removeIntKey(var key:int)
 {
 	a:A;
-	
+
 	if { key in a.m; }
-	
+
 	modify
 	{
 		eval
@@ -26,9 +26,9 @@ rule removeIntKey(var key:int)
 rule removeStringKey(var key:string)
 {
 	a:A;
-	
+
 	if { key in a.m; }
-	
+
 	modify
 	{
 		eval
@@ -41,7 +41,7 @@ rule removeStringKey(var key:string)
 rule insertIntKey(var key:int, var value:int)
 {
 	a:A;
-	
+
 	modify
 	{
 		eval
@@ -54,9 +54,9 @@ rule insertIntKey(var key:int, var value:int)
 rule insertIntKeyIfNotExists(var key:int, var value:int)
 {
 	a:A;
-	
-	if { !(key in a.m); } 
-	
+
+	if { !(key in a.m); }
+
 	modify
 	{
 		eval
@@ -69,7 +69,7 @@ rule insertIntKeyIfNotExists(var key:int, var value:int)
 rule insertStringKey(var key:string, var value:int)
 {
 	a:A;
-	
+
 	modify
 	{
 		eval
@@ -82,7 +82,7 @@ rule insertStringKey(var key:string, var value:int)
 rule getIntValue(var key:int):(int)
 {
 	a:A;
-	
+
 	modify {
 		return(a.m[key]);
 	}
@@ -91,9 +91,9 @@ rule getIntValue(var key:int):(int)
 rule dumpIntValue(var key:int)
 {
 	a:A;
-    
+
     if { key in a.m; }
-    
+
     modify {
         emit("1 value of attribute 5 6 " + a.m[key] + "\n");
     }
@@ -102,9 +102,9 @@ rule dumpIntValue(var key:int)
 rule insertStringKeyIfEmpty(var key:string, var value:int)
 {
 	a:A;
-	
+
 	if { a.m.size() == 0; }
-	
+
 	modify
 	{
 		eval

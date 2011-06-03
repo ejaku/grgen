@@ -31,10 +31,10 @@ namespace de.unika.ipd.grGen.Model_AntWorld_NoGammel
 	{
 		private static int poolLevel = 0;
 		private static GRGEN_MODEL.@Node[] pool = new GRGEN_MODEL.@Node[10];
-		
+
 		static @Node() {
 		}
-		
+
 		public @Node() : base(GRGEN_MODEL.NodeType_Node.typeVar)
 		{
 			// implicit initialization, map/set creation of Node
@@ -148,12 +148,12 @@ namespace de.unika.ipd.grGen.Model_AntWorld_NoGammel
 	{
 		private static int poolLevel = 0;
 		private static GRGEN_MODEL.@GridNode[] pool = new GRGEN_MODEL.@GridNode[10];
-		
+
 		// explicit initializations of GridNode for target GridNode
 		// implicit initializations of GridNode for target GridNode
 		static @GridNode() {
 		}
-		
+
 		public @GridNode() : base(GRGEN_MODEL.NodeType_GridNode.typeVar)
 		{
 			// implicit initialization, map/set creation of GridNode
@@ -335,14 +335,14 @@ namespace de.unika.ipd.grGen.Model_AntWorld_NoGammel
 	{
 		private static int poolLevel = 0;
 		private static GRGEN_MODEL.@GridCornerNode[] pool = new GRGEN_MODEL.@GridCornerNode[10];
-		
+
 		// explicit initializations of GridNode for target GridCornerNode
 		// implicit initializations of GridNode for target GridCornerNode
 		// explicit initializations of GridCornerNode for target GridCornerNode
 		// implicit initializations of GridCornerNode for target GridCornerNode
 		static @GridCornerNode() {
 		}
-		
+
 		public @GridCornerNode() : base(GRGEN_MODEL.NodeType_GridCornerNode.typeVar)
 		{
 			// implicit initialization, map/set creation of GridCornerNode
@@ -532,14 +532,14 @@ namespace de.unika.ipd.grGen.Model_AntWorld_NoGammel
 	{
 		private static int poolLevel = 0;
 		private static GRGEN_MODEL.@AntHill[] pool = new GRGEN_MODEL.@AntHill[10];
-		
+
 		// explicit initializations of GridNode for target AntHill
 		// implicit initializations of GridNode for target AntHill
 		// explicit initializations of AntHill for target AntHill
 		// implicit initializations of AntHill for target AntHill
 		static @AntHill() {
 		}
-		
+
 		public @AntHill() : base(GRGEN_MODEL.NodeType_AntHill.typeVar)
 		{
 			// implicit initialization, map/set creation of AntHill
@@ -751,12 +751,12 @@ namespace de.unika.ipd.grGen.Model_AntWorld_NoGammel
 	{
 		private static int poolLevel = 0;
 		private static GRGEN_MODEL.@Ant[] pool = new GRGEN_MODEL.@Ant[10];
-		
+
 		// explicit initializations of Ant for target Ant
 		// implicit initializations of Ant for target Ant
 		static @Ant() {
 		}
-		
+
 		public @Ant() : base(GRGEN_MODEL.NodeType_Ant.typeVar)
 		{
 			// implicit initialization, map/set creation of Ant
@@ -1081,10 +1081,10 @@ namespace de.unika.ipd.grGen.Model_AntWorld_NoGammel
 	{
 		private static int poolLevel = 0;
 		private static GRGEN_MODEL.@Edge[] pool = new GRGEN_MODEL.@Edge[10];
-		
+
 		static @Edge() {
 		}
-		
+
 		public @Edge(GRGEN_LGSP.LGSPNode source, GRGEN_LGSP.LGSPNode target)
 			: base(GRGEN_MODEL.EdgeType_Edge.typeVar, source, target)
 		{
@@ -1197,10 +1197,10 @@ namespace de.unika.ipd.grGen.Model_AntWorld_NoGammel
 	{
 		private static int poolLevel = 0;
 		private static GRGEN_MODEL.@UEdge[] pool = new GRGEN_MODEL.@UEdge[10];
-		
+
 		static @UEdge() {
 		}
-		
+
 		public @UEdge(GRGEN_LGSP.LGSPNode source, GRGEN_LGSP.LGSPNode target)
 			: base(GRGEN_MODEL.EdgeType_UEdge.typeVar, source, target)
 		{
@@ -1316,12 +1316,12 @@ namespace de.unika.ipd.grGen.Model_AntWorld_NoGammel
 	{
 		private static int poolLevel = 0;
 		private static GRGEN_MODEL.@GridEdge[] pool = new GRGEN_MODEL.@GridEdge[10];
-		
+
 		// explicit initializations of GridEdge for target GridEdge
 		// implicit initializations of GridEdge for target GridEdge
 		static @GridEdge() {
 		}
-		
+
 		public @GridEdge(GRGEN_LGSP.LGSPNode source, GRGEN_LGSP.LGSPNode target)
 			: base(GRGEN_MODEL.EdgeType_GridEdge.typeVar, source, target)
 		{
@@ -1441,14 +1441,14 @@ namespace de.unika.ipd.grGen.Model_AntWorld_NoGammel
 	{
 		private static int poolLevel = 0;
 		private static GRGEN_MODEL.@PathToHill[] pool = new GRGEN_MODEL.@PathToHill[10];
-		
+
 		// explicit initializations of GridEdge for target PathToHill
 		// implicit initializations of GridEdge for target PathToHill
 		// explicit initializations of PathToHill for target PathToHill
 		// implicit initializations of PathToHill for target PathToHill
 		static @PathToHill() {
 		}
-		
+
 		public @PathToHill(GRGEN_LGSP.LGSPNode source, GRGEN_LGSP.LGSPNode target)
 			: base(GRGEN_MODEL.EdgeType_PathToHill.typeVar, source, target)
 		{
@@ -1572,12 +1572,12 @@ namespace de.unika.ipd.grGen.Model_AntWorld_NoGammel
 	{
 		private static int poolLevel = 0;
 		private static GRGEN_MODEL.@AntPosition[] pool = new GRGEN_MODEL.@AntPosition[10];
-		
+
 		// explicit initializations of AntPosition for target AntPosition
 		// implicit initializations of AntPosition for target AntPosition
 		static @AntPosition() {
 		}
-		
+
 		public @AntPosition(GRGEN_LGSP.LGSPNode source, GRGEN_LGSP.LGSPNode target)
 			: base(GRGEN_MODEL.EdgeType_AntPosition.typeVar, source, target)
 		{
@@ -1697,12 +1697,12 @@ namespace de.unika.ipd.grGen.Model_AntWorld_NoGammel
 	{
 		private static int poolLevel = 0;
 		private static GRGEN_MODEL.@NextAnt[] pool = new GRGEN_MODEL.@NextAnt[10];
-		
+
 		// explicit initializations of NextAnt for target NextAnt
 		// implicit initializations of NextAnt for target NextAnt
 		static @NextAnt() {
 		}
-		
+
 		public @NextAnt(GRGEN_LGSP.LGSPNode source, GRGEN_LGSP.LGSPNode target)
 			: base(GRGEN_MODEL.EdgeType_NextAnt.typeVar, source, target)
 		{

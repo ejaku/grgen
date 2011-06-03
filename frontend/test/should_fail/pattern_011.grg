@@ -4,10 +4,10 @@ pattern Foo modify(a:A, b:B)
 {
 	n:Node;
     if { x3 == x1; }
-	
+
 	modify {
 		a --> n <-- b;
-	}	
+	}
 }
 
 rule r {
@@ -15,7 +15,7 @@ rule r {
 
 	modify {
 		a:A;
-		b:B; 
+		b:B;
 		foo(a, b);
 	}
 }

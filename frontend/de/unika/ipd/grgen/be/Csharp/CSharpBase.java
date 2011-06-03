@@ -113,7 +113,7 @@ public abstract class CSharpBase {
 	public void writeFile(File path, String filename, CharSequence cs) {
 		Util.writeFile(new File(path, filename), cs, Base.error);
 	}
-	
+
 	public boolean existsFile(File path, String filename) {
 		return new File(path, filename).exists();
 	}
@@ -160,7 +160,7 @@ public abstract class CSharpBase {
 		if (brackets)
 			sb.append(" }");
 	}
-	
+
 	public void genSubpatternUsageSet(StringBuffer sb, Collection<? extends SubpatternUsage> set, String pre, String post,
 									  boolean brackets, String pathPrefix, HashMap<? extends Identifiable, String> alreadyDefinedIdentifiableToName) {
 		if (brackets)
@@ -289,7 +289,7 @@ public abstract class CSharpBase {
 		if(type instanceof ExternalType) {
 			return "GRGEN_MODEL." + type.getIdent().toString();
 		}
-		
+
 		InheritanceType nodeEdgeType = (InheritanceType)type;
 		String ident = formatIdentifiable(type);
 		if(nodeEdgeType.isAbstract()) {
@@ -370,7 +370,7 @@ public abstract class CSharpBase {
 			return formatAttributeType(type);
 		}
 	}
-	
+
 	public String formatEntity(Entity entity) {
 		return formatEntity(entity, "");
 	}
@@ -506,7 +506,7 @@ public abstract class CSharpBase {
 							else genBinOpDefault(sb, op, modifyGenerationState);
 							break;
 						}
-						
+
 						case Operator.EQ:
 						{
 							Type opType = op.getOperand(0).getType();
@@ -546,7 +546,7 @@ public abstract class CSharpBase {
 								genExpression(sb, op.getOperand(1), modifyGenerationState);
 								sb.append(")");
 							}
-							else { 
+							else {
 								genBinOpDefault(sb, op, modifyGenerationState);
 							}
 							break;
@@ -569,7 +569,7 @@ public abstract class CSharpBase {
 								genExpression(sb, op.getOperand(1), modifyGenerationState);
 								sb.append(")");
 							}
-							else { 
+							else {
 								genBinOpDefault(sb, op, modifyGenerationState);
 							}
 							break;
@@ -592,7 +592,7 @@ public abstract class CSharpBase {
 								genExpression(sb, op.getOperand(1), modifyGenerationState);
 								sb.append(")");
 							}
-							else { 
+							else {
 								genBinOpDefault(sb, op, modifyGenerationState);
 							}
 							break;
@@ -956,7 +956,7 @@ public abstract class CSharpBase {
 						first = false;
 					else
 						sb.append(", ");
-					
+
 					if(item.getKeyExpr() instanceof GraphEntityExpression)
 						sb.append("(" + formatElementInterfaceRef(item.getKeyExpr().getType()) + ")(");
 					genExpression(sb, item.getKeyExpr(), modifyGenerationState);
@@ -1160,7 +1160,7 @@ public abstract class CSharpBase {
 	///////////////////////
 
 	/* binary operator symbols of the C-language */
-	// The first two shift operations are signed shifts, the second right shift is unsigned. 
+	// The first two shift operations are signed shifts, the second right shift is unsigned.
 	private String[] opSymbols = {
 		null, "||", "&&", "|", "^", "&",
 			"==", "!=", "<", "<=", ">", ">=", "<<", ">>", ">>", "+",

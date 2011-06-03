@@ -139,9 +139,9 @@ public class ModifyGen extends CSharpBase {
 		Collection<Node> delNodes();
 		Collection<Edge> delEdges();
 		Collection<SubpatternUsage> delSubpatternUsages();
-		
+
 		Collection<Node> yieldedNodes();
-		Collection<Edge> yieldedEdges();		
+		Collection<Edge> yieldedEdges();
 		Collection<Variable> yieldedVariables();
 
 		Collection<Node> newOrRetypedNodes();
@@ -269,8 +269,8 @@ public class ModifyGen extends CSharpBase {
 	int mapSetArrayVarID;
 
 	SearchPlanBackend2 be;
-	
-	
+
+
 	public ModifyGen(SearchPlanBackend2 backend, String nodeTypePrefix, String edgeTypePrefix) {
 		super(nodeTypePrefix, edgeTypePrefix);
 		be = backend;
@@ -315,7 +315,7 @@ public class ModifyGen extends CSharpBase {
 		}
 
 		if(isSubpattern) {
-			if(pathPrefix.isEmpty() 
+			if(pathPrefix.isEmpty()
 					&& !hasAbstractElements(rule.getLeft())
 					&& !hasDanglingEdges(rule.getLeft())) {
 				// create subpattern into pattern
@@ -473,7 +473,7 @@ public class ModifyGen extends CSharpBase {
 		// Emit end of function
 		sb.append("\t\t}\n");
 	}
-	
+
 	private void getUnionOfReplaceParametersOfAlternativeCases(Alternative alt, Collection<Entity> replaceParameters) {
 		for(Rule altCase : alt.getAlternativeCases()) {
 			List<Entity> replParams = altCase.getRight().getReplParameters();
@@ -645,7 +645,7 @@ public class ModifyGen extends CSharpBase {
 		collectNewElements(task, stateConst, state.newNodes, state.newEdges, state.newSubpatternUsages);
 
 		collectDeletedElements(task, stateConst, state.delNodes, state.delEdges, state.delSubpatternUsages);
-		
+
 		collectNewOrRetypedElements(task, state, state.newOrRetypedNodes, state.newOrRetypedEdges);
 
 		collectElementsAccessedByInterface(task, state.accessViaInterface);
@@ -743,7 +743,7 @@ public class ModifyGen extends CSharpBase {
 		genExtractSubmatchesFromMatch(sb, pathPrefix, task.left);
 
 		genNeededTypes(sb, stateConst);
-	
+
 		genYieldedElements(sb, stateConst, task.right);
 
 		// New nodes/edges (re-use), retype nodes/edges, call modification code
@@ -811,7 +811,7 @@ public class ModifyGen extends CSharpBase {
 					+ "(GRGEN_LGSP.LGSPGraph graph");
 			for(Entity entity : task.parameters) {
 				if(entity instanceof Node) {
-					sb.append(", GRGEN_LGSP.LGSPNode " + formatEntity(entity));					
+					sb.append(", GRGEN_LGSP.LGSPNode " + formatEntity(entity));
 				} else if (entity instanceof Edge) {
 					sb.append(", GRGEN_LGSP.LGSPEdge " + formatEntity(entity));
 				} else {
@@ -846,7 +846,7 @@ public class ModifyGen extends CSharpBase {
 			if(edge.changesType(task.right))
 				newOrRetypedEdges.add(edge.getRetypedEdge(task.right));
 		}
-		
+
 		// yielded elements are not to be created/retyped
 		newOrRetypedNodes.removeAll(stateConst.yieldedNodes());
 		newOrRetypedEdges.removeAll(stateConst.yieldedEdges());
@@ -863,7 +863,7 @@ public class ModifyGen extends CSharpBase {
 		nodesNeededAsAttributes.removeAll(state.newNodes());
 		edgesNeededAsElements.removeAll(state.newEdges());
 		edgesNeededAsAttributes.removeAll(state.newEdges());
-		
+
 		// yielded nodes/edges are handled separately
 		nodesNeededAsElements.removeAll(state.yieldedNodes());
 		edgesNeededAsElements.removeAll(state.yieldedEdges());
@@ -885,12 +885,12 @@ public class ModifyGen extends CSharpBase {
 	}
 
 	private void collectYieldedElements(ModifyGenerationTask task,
-			ModifyGenerationStateConst stateConst, HashSet<Node> yieldedNodes, 
+			ModifyGenerationStateConst stateConst, HashSet<Node> yieldedNodes,
 			HashSet<Edge> yieldedEdges, HashSet<Variable> yieldedVariables)
 	{
 		// only RHS yielded elements, the LHS yields are handled by matching,
 		// for us they are simply matched elements
-		
+
 		for(Node node : task.right.getNodes()) {
 			if(node.isDefToBeYieldedTo() && !task.left.getNodes().contains(node)) {
 				yieldedNodes.add(node);
@@ -902,14 +902,14 @@ public class ModifyGen extends CSharpBase {
 				yieldedEdges.add(edge);
 			}
 		}
-		
+
 		for(Variable var : task.right.getVars()) {
 			if(var.isDefToBeYieldedTo() && !task.left.getVars().contains(var)) {
 				yieldedVariables.add(var);
 			}
 		}
 	}
-	
+
 	private void collectDeletedElements(ModifyGenerationTask task,
 			ModifyGenerationStateConst stateConst, HashSet<Node> delNodes, HashSet<Edge> delEdges,
 			HashSet<SubpatternUsage> delSubpatternUsages)
@@ -950,7 +950,7 @@ public class ModifyGen extends CSharpBase {
 				newNodes.remove(node);
 			}
 		}
-		
+
 		// yielded elements are not to be created
 		newNodes.removeAll(stateConst.yieldedNodes());
 		newEdges.removeAll(stateConst.yieldedEdges());
@@ -1007,7 +1007,7 @@ public class ModifyGen extends CSharpBase {
 			}
 			else assert false : "unknown ImperativeStmt: " + istmt + " in " + task.left.getNameOfGraph();
 		}
-		
+
 		for(OrderedReplacement orpl : task.right.getOrderedReplacements())
 		{
 			if(orpl instanceof Emit) {
@@ -1092,13 +1092,13 @@ public class ModifyGen extends CSharpBase {
 					sb.append("0f;\n");
 				} else if(var.getType() instanceof BooleanType) {
 					sb.append("false;\n");
-				} else if(var.getType() instanceof StringType || var.getType() instanceof ObjectType 
-						|| var.getType() instanceof VoidType || var.getType() instanceof ExternalType 
+				} else if(var.getType() instanceof StringType || var.getType() instanceof ObjectType
+						|| var.getType() instanceof VoidType || var.getType() instanceof ExternalType
 						|| var.getType() instanceof MapType || var.getType() instanceof SetType || var.getType() instanceof ArrayType) {
 					sb.append("null;\n");
 				} else {
 					throw new IllegalArgumentException("Unknown type: " + var.getType());
-				}			
+				}
 			}
 		}
 	}
@@ -1131,7 +1131,7 @@ public class ModifyGen extends CSharpBase {
 		}
 	}
 
-	private void genImperativeStatements(StringBuffer sb, ModifyGenerationStateConst state, 
+	private void genImperativeStatements(StringBuffer sb, ModifyGenerationStateConst state,
 			ModifyGenerationTask task, String pathPrefix)
 	{
 		if(task.mightThereBeDeferredExecs) {
@@ -1211,7 +1211,7 @@ public class ModifyGen extends CSharpBase {
 					sb.append(", ");
 					genExpression(sb, arg, state);
 				}*/
-				
+
 				++xgrsID;
 			} else assert false : "unknown ImperativeStmt: " + istmt + " in " + task.left.getNameOfGraph();
 		}
@@ -1617,12 +1617,12 @@ public class ModifyGen extends CSharpBase {
 			if(node.inheritsType()) { // typeof or copy
 				Node typeofElem = (Node) getConcreteTypeofElem(node);
 				nodesNeededAsElements.add(typeofElem);
-				
+
 				if(node.isCopy()) { // node:copy<typeofElem>
 					sb2.append("\t\t\tGRGEN_LGSP.LGSPNode " + formatEntity(node)
 							+ " = (GRGEN_LGSP.LGSPNode) "
 							+ formatEntity(typeofElem) + ".Clone();\n"
-						+ "\t\t\tgraph.AddNode(" + formatEntity(node) + ");\n");					
+						+ "\t\t\tgraph.AddNode(" + formatEntity(node) + ");\n");
 				} else { // node:typeof(typeofElem)
 					nodesNeededAsTypes.add(typeofElem);
 					sb2.append("\t\t\tGRGEN_LGSP.LGSPNode " + formatEntity(node)
@@ -1630,7 +1630,7 @@ public class ModifyGen extends CSharpBase {
 								+ formatEntity(typeofElem) + "_type.CreateNode();\n"
 							+ "\t\t\tgraph.AddNode(" + formatEntity(node) + ");\n");
 				}
-				
+
 				if(state.nodesNeededAsAttributes().contains(node) && state.accessViaInterface().contains(node)) {
 					sb2.append("\t\t\t"
 							+ formatVarDeclWithCast(formatElementInterfaceRef(node.getType()), "i" + formatEntity(node))
@@ -1802,25 +1802,25 @@ public class ModifyGen extends CSharpBase {
 		}
 		else if(evalStmt instanceof MapRemoveItem) {
 			genMapRemoveItem(sb, state, (MapRemoveItem) evalStmt);
-		} 
+		}
 		else if(evalStmt instanceof MapAddItem) {
 			genMapAddItem(sb, state, (MapAddItem) evalStmt);
-		} 
+		}
 		else if(evalStmt instanceof SetRemoveItem) {
 			genSetRemoveItem(sb, state, (SetRemoveItem) evalStmt);
-		} 
+		}
 		else if(evalStmt instanceof SetAddItem) {
 			genSetAddItem(sb, state, (SetAddItem) evalStmt);
 		}
 		else if(evalStmt instanceof ArrayRemoveItem) {
 			genArrayRemoveItem(sb, state, (ArrayRemoveItem) evalStmt);
-		} 
+		}
 		else if(evalStmt instanceof ArrayAddItem) {
 			genArrayAddItem(sb, state, (ArrayAddItem) evalStmt);
 		}
 		else if(evalStmt instanceof MapVarRemoveItem) {
 			genMapVarRemoveItem(sb, state, (MapVarRemoveItem) evalStmt);
-		} 
+		}
 		else if(evalStmt instanceof MapVarAddItem) {
 			genMapVarAddItem(sb, state, (MapVarAddItem) evalStmt);
 		}
@@ -1846,8 +1846,8 @@ public class ModifyGen extends CSharpBase {
 		Expression expr = ass.getExpression();
 		Type targetType = target.getType();
 
-		if((targetType instanceof MapType 
-			|| targetType instanceof SetType 
+		if((targetType instanceof MapType
+			|| targetType instanceof SetType
 			|| targetType instanceof ArrayType)
 				&& !(ass instanceof AssignmentIndexed)) {
 			String typeName = formatAttributeType(targetType);
@@ -1938,7 +1938,7 @@ public class ModifyGen extends CSharpBase {
 
 		if(ass instanceof AssignmentIndexed)
 		{
-			AssignmentIndexed assIdx = (AssignmentIndexed)ass; 
+			AssignmentIndexed assIdx = (AssignmentIndexed)ass;
 
 			if(target.getType() instanceof ArrayType) {
 				String indexType = defined.contains("index") ? "" : "int ";
@@ -1976,28 +1976,28 @@ public class ModifyGen extends CSharpBase {
 
 				sb.append("\t");
 				genChangingAttribute(sb, state, target, "AssignElement", varName, indexName);
-				
+
 				sb.append("\t\t\t\t");
 				genExpression(sb, target, state);
 				sb.append("[");
 				sb.append(indexName);
 				sb.append("]");
 			}
-			
+
 			sb.append(" = ");
 			if(targetType instanceof EnumType)
 				sb.append("(GRGEN_MODEL.ENUM_" + formatIdentifiable(targetType) + ") ");
 			sb.append(varName + ";\n");
-			
+
 			sb.append("\t\t\t}\n");
 		}
 		else
 		{
 			genChangingAttribute(sb, state, target, "Assign", varName, "null");
-	
+
 			sb.append("\t\t\t");
 			genExpression(sb, target, state);
-			
+
 			sb.append(" = ");
 			if(targetType instanceof EnumType)
 				sb.append("(GRGEN_MODEL.ENUM_" + formatIdentifiable(targetType) + ") ");
@@ -2043,7 +2043,7 @@ public class ModifyGen extends CSharpBase {
 		genExpression(sb, ass.getExpression(), state);
 		sb.append(");\n");
 	}
-	
+
 	private void genCompoundAssignmentChanged(StringBuffer sb, ModifyGenerationStateConst state, CompoundAssignmentChanged cass)
 	{
 		Qualification changedTarget = cass.getChangedTarget();
@@ -2070,12 +2070,12 @@ public class ModifyGen extends CSharpBase {
 				sb.append(";\n");
 
 				String prefix = "\t\t\t" + varName + changedOperation;
-				
+
 				genCompoundAssignment(sb, state, cass, prefix, ";\n");
 
-				genChangingAttribute(sb, state, changedTarget, "Assign", varName, "null");	
+				genChangingAttribute(sb, state, changedTarget, "Assign", varName, "null");
 
-				sb.append("\t\t\t");				
+				sb.append("\t\t\t");
 				genExpression(sb, changedTarget, state);
 				sb.append(" = " + varName + ";\n");
 			} else {
@@ -2083,7 +2083,7 @@ public class ModifyGen extends CSharpBase {
 			}
 		}
 	}
-	
+
 	private void genCompoundAssignmentChangedVar(StringBuffer sb, ModifyGenerationStateConst state, CompoundAssignmentChangedVar cass)
 	{
 		Variable changedTarget = cass.getChangedTarget();
@@ -2094,12 +2094,12 @@ public class ModifyGen extends CSharpBase {
 			changedOperation = " &= ";
 		else //if(cass.getChangedOperation()==CompoundAssignment.ASSIGN)
 			changedOperation = " = ";
-		
+
 		String prefix = "\t\t\t" + "var_" + changedTarget.getIdent() + changedOperation;
 
 		genCompoundAssignment(sb, state, cass, prefix, ";\n");
 	}
-	
+
 	private void genCompoundAssignmentChangedVisited(StringBuffer sb, ModifyGenerationStateConst state, CompoundAssignmentChangedVisited cass)
 	{
 		Visited changedTarget = cass.getChangedTarget();
@@ -2118,7 +2118,7 @@ public class ModifyGen extends CSharpBase {
 
 		genCompoundAssignment(sb, state, cass, prefix, ");\n");
 	}
-	
+
 	private void genCompoundAssignment(StringBuffer sb, ModifyGenerationStateConst state, CompoundAssignment cass,
 			String prefix, String postfix)
 	{
@@ -2146,7 +2146,7 @@ public class ModifyGen extends CSharpBase {
 			genExpression(sb, expr, state);
 			sb.append(", ");
 			sb.append("graph, "
-					+ formatEntity(element) + ", " 
+					+ formatEntity(element) + ", "
 					+ formatTypeClassRef(elementType) + "." + formatAttributeTypeName(attribute));
 			sb.append(")");
 			sb.append(postfix);
@@ -2176,19 +2176,19 @@ public class ModifyGen extends CSharpBase {
 			sb.append(";\n");
 
 			String prefix = "\t\t\t" + varName + changedOperation;
-			
+
 			genCompoundAssignmentVar(sb, state, cass, prefix, ";\n");
 
-			genChangingAttribute(sb, state, changedTarget, "Assign", varName, "null");	
+			genChangingAttribute(sb, state, changedTarget, "Assign", varName, "null");
 
-			sb.append("\t\t\t");				
+			sb.append("\t\t\t");
 			genExpression(sb, changedTarget, state);
 			sb.append(" = " + varName + ";\n");
 		} else {
 			genCompoundAssignmentVar(sb, state, cass, "\t\t\t", ";\n");
 		}
 	}
-	
+
 	private void genCompoundAssignmentVarChangedVar(StringBuffer sb, ModifyGenerationStateConst state, CompoundAssignmentVarChangedVar cass)
 	{
 		Variable changedTarget = cass.getChangedTarget();
@@ -2199,12 +2199,12 @@ public class ModifyGen extends CSharpBase {
 			changedOperation = " &= ";
 		else //if(cass.getChangedOperation()==CompoundAssignment.ASSIGN)
 			changedOperation = " = ";
-		
+
 		String prefix = "\t\t\t" + "var_" + changedTarget.getIdent() + changedOperation;
-		
+
 		genCompoundAssignmentVar(sb, state, cass, prefix, ";\n");
 	}
-	
+
 	private void genCompoundAssignmentVarChangedVisited(StringBuffer sb, ModifyGenerationStateConst state, CompoundAssignmentVarChangedVisited cass)
 	{
 		Visited changedTarget = cass.getChangedTarget();
@@ -2356,7 +2356,7 @@ public class ModifyGen extends CSharpBase {
 			genExpression(sbtmp, ari.getIndexExpr(), state);
 			indexStr = sbtmp.toString();
 		}
-		
+
 		genChangingAttribute(sb, state, target, "RemoveElement", "null", indexStr);
 
 		sb.append("\t\t\t");
@@ -2382,7 +2382,7 @@ public class ModifyGen extends CSharpBase {
 		StringBuffer sbtmp = new StringBuffer();
 		genExpression(sbtmp, aai.getValueExpr(), state);
 		String valueExprStr = sbtmp.toString();
-		
+
 		sbtmp = new StringBuffer();
 		String indexExprStr = "null";
 		if(aai.getIndexExpr()!=null) {
@@ -2406,7 +2406,7 @@ public class ModifyGen extends CSharpBase {
 		else
 			sb.append(valueExprStr);
 		sb.append(");\n");
-		
+
 		if(aai.getNext()!=null) {
 			genEvalStmt(sb, state, aai.getNext());
 		}
@@ -2426,7 +2426,7 @@ public class ModifyGen extends CSharpBase {
 		else
 			sb.append(keyExprStr);
 		sb.append(");\n");
-		
+
 		assert mvri.getNext()==null;
 	}
 
@@ -2470,7 +2470,7 @@ public class ModifyGen extends CSharpBase {
 		else
 			sb.append(valueExprStr);
 		sb.append(");\n");
-		
+
 		assert svri.getNext()==null;
 	}
 
@@ -2488,7 +2488,7 @@ public class ModifyGen extends CSharpBase {
 		else
 			sb.append(valueExprStr);
 		sb.append("] = null;\n");
-		
+
 		assert svai.getNext()==null;
 	}
 
@@ -2513,7 +2513,7 @@ public class ModifyGen extends CSharpBase {
 			sb.append(").Count - 1");
 		}
 		sb.append(");\n");
-		
+
 		assert avri.getNext()==null;
 	}
 

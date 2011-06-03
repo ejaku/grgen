@@ -84,7 +84,7 @@ public class DeclExprNode extends ExprNode {
 	@Override
 	protected boolean resolveLocal() {
 		tryfixupDefinition(declUnresolved, declUnresolved.getScope());
-		
+
 		if(!memberResolver.resolve(declUnresolved)) return false;
 
 		memberResolver.getResult(MemberDeclNode.class);
@@ -107,7 +107,7 @@ public class DeclExprNode extends ExprNode {
 			return;
 		}
 		IdentNode id = (IdentNode)elem;
-		
+
 		debug.report(NOTE, "try Fixup " + id + " in scope " + scope);
 
 		// Get the definition of the ident's symbol local to the owned scope.
@@ -122,7 +122,7 @@ public class DeclExprNode extends ExprNode {
 		// this fixup stuff is crappy as hell
 		if(def.isValid()) {
 			id.setSymDef(def);
-		} 
+		}
 	}
 
 	/** @see de.unika.ipd.grgen.ast.ExprNode#getType() */

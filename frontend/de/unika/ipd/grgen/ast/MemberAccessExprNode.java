@@ -85,7 +85,7 @@ public class MemberAccessExprNode extends ExprNode
 			reportError("Can't access attributes of graph elements returned from method invocation (i.e. peek(); node/edge typed sets/maps are only to be accessed by the eval statements add() and rem().)");
 			return false;
 		}
-		
+
 		return true;
 	}
 

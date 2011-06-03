@@ -1,9 +1,9 @@
-node class TapePosition; 
+node class TapePosition;
 edge class right
   connect TapePosition[0:1] --> TapePosition[0:1];
-  
+
 edge class value
-  connect TapePosition[1] --> TapePosition[1];  
+  connect TapePosition[1] --> TapePosition[1];
 edge class zero  extends value;
 edge class one   extends value;
 edge class empty extends value;
@@ -15,7 +15,7 @@ edge class rwHead;
 node class WriteValue;
 node class WriteZero extends WriteValue;
 node class WriteOne extends WriteValue;
-node class WriteEmpty extends WriteValue; 
+node class WriteEmpty extends WriteValue;
 
 edge class moveLeft;
 edge class moveRight;

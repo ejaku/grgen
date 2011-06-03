@@ -19,6 +19,6 @@ xgrs f:foo=x.f && i:int=x.i && b:boolean=x.b && st:string=x.st && s:set<foo>=x.s
 	&& emit("value of variable m 5 6 7 8 9 ") && emit(m) && emit("\n") \
 	&& emit("value of variable a 5 6 7 8 9 ") && emit(a) && emit("\n") \
 	&& emit("value of variable fl 5 6 7 8 9 ") && emit(fl) && emit("\n") \
-	&& emit("value of variable d 5 6 7 8 9 ") && emit(d) && emit("\n") 
+	&& emit("value of variable d 5 6 7 8 9 ") && emit(d) && emit("\n")
 quit
-	
+

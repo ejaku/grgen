@@ -101,18 +101,18 @@ public abstract class EdgeTypeNode extends InheritanceTypeNode {
 	protected boolean checkLocal()
 	{
 		boolean res = super.checkLocal();
-		
+
 		// check all super types to ensure their copy extends are resolved
     	for(EdgeTypeNode parent : extend.getChildren()) {
     		if(!parent.visitedDuringCheck()) { // only if not already visited
     			parent.check();
     		}
     	}
-		
-		// "resolve" connection assertion inheritance, 
+
+		// "resolve" connection assertion inheritance,
 		// after resolve to ensure everything is available, before IR building
 		// remember connection assertions to copy and copy after iteration to prevent iterator from becoming stale
-		Vector<ConnAssertNode> connAssertsToCopy = new Vector<ConnAssertNode>(); 
+		Vector<ConnAssertNode> connAssertsToCopy = new Vector<ConnAssertNode>();
 		boolean alreadyCopiedExtends = false;
 		for(Iterator<ConnAssertNode> it = cas.getChildren().iterator(); it.hasNext(); ) {
 			ConnAssertNode ca = it.next();
@@ -120,7 +120,7 @@ public abstract class EdgeTypeNode extends InheritanceTypeNode {
 	        	if(alreadyCopiedExtends) {
 	        		reportWarning("more than one copy extends only causes double work without benefit");
 	        	}
-	        	
+
 	        	for(EdgeTypeNode parent : extend.getChildren()) {
 	        		for(ConnAssertNode caToCopy : parent.cas.getChildren()) {
 	        			if(caToCopy.copyExtends) {
@@ -131,21 +131,21 @@ public abstract class EdgeTypeNode extends InheritanceTypeNode {
 	        			connAssertsToCopy.add(caToCopy);
 	        		}
 	        	}
-	        	
+
 	            it.remove();
 	            alreadyCopiedExtends = true;
 	        }
 		}
-		
+
 		for(ConnAssertNode caToCopy : connAssertsToCopy) {
 			cas.addChild(caToCopy);
 		}
 
 		// todo: check for duplicate connection assertions and issue warning about being senseless
-		
+
 		return res;
 	}
-	
+
 	/**
 	 * Get the edge type IR object.
 	 * @return The edge type IR object for this AST node.
@@ -211,7 +211,7 @@ public abstract class EdgeTypeNode extends InheritanceTypeNode {
 		if (isIRAlreadySet()) { // break endless recursion in case of member of set/map of node/edge type
 			return getIR();
 		} else{
-			setIR(et);			
+			setIR(et);
 		}
 
     	constructIR(et); // from InheritanceTypeNode

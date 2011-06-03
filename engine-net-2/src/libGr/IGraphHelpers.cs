@@ -141,7 +141,7 @@ namespace de.unika.ipd.grGen.libGr
         /// </summary>
         /// <param name="transactionID">The id of the transaction</param>
         void TransactionCommit(int transactionID);
-        
+
         /// <summary>
         /// Called by the transaction manager when a transaction is rolled back
         /// </summary>

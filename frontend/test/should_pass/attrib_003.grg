@@ -25,26 +25,26 @@ rule r {
 	modify {
 		eval {
 			no.a = eo.a;
-		
+
 			ni.a = ei.a;
 			nb.a = eb.a;
-			nf.a = ef.a; 
+			nf.a = ef.a;
 			nd.a = ed.a;
 			ns.a = es.a;
 
 			ei.a = ni.a;
 			eb.a = nb.a;
-			ef.a = nf.a; 
+			ef.a = nf.a;
 			ed.a = nd.a;
 			es.a = ns.a;
-			
-			ei.a = ei.a; 
+
+			ei.a = ei.a;
 			eb.a = eb.a;
 			ef.a = ef.a;
 			ed.a = ed.a;
 			es.a = es.a;
 
-			ni.a = ni.a; 
+			ni.a = ni.a;
 			nb.a = nb.a;
 			nf.a = nf.a;
 			nd.a = nd.a;

@@ -272,7 +272,7 @@ namespace de.unika.ipd.grGen.libGr
     /// <summary>
     /// Specifies the kind of a GrGen attribute.
     /// </summary>
-    public enum AttributeKind 
+    public enum AttributeKind
     {
         /// <summary>The attribute is an integer.</summary>
         IntegerAttr,
@@ -522,7 +522,7 @@ namespace de.unika.ipd.grGen.libGr
                 else
                     return null;
             }
-        } 
+        }
     }
 
     /// <summary>

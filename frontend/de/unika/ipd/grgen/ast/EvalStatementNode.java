@@ -20,7 +20,7 @@ public abstract class EvalStatementNode extends OrderedReplacementNode
 	{
 		super(coords);
 	}
-	
+
 	protected boolean checkType(ExprNode value, TypeNode targetType, String statement, String parameter) {
 		TypeNode givenType = value.getType();
 		TypeNode expectedType = targetType;

@@ -4,7 +4,7 @@ rule assignId(var id:int, ref nodeToId:map<Node, int>) : (int)
 		State {
 			s:statemachine_State;
 			if { !(s in nodeToId); }
-			
+
 			modify {
 				eval { nodeToId.add(s, id); }
 			}
@@ -18,7 +18,7 @@ rule assignId(var id:int, ref nodeToId:map<Node, int>) : (int)
 			}
 		}
 	}
-		
+
 	modify {
 		return (id + 1);
 	}
@@ -39,14 +39,14 @@ rule emitState(ref nodeToId:map<Node, int>)
 
 	iterated outgoing {
 		s -:statemachine_State_out-> t:statemachine_Transition;
-		
+
 		modify {
 			emithere(nodeToId[t] + " ");
 		}
 	}
 	iterated incoming {
-		s -:statemachine_State_in-> t:statemachine_Transition;	
-		
+		s -:statemachine_State_in-> t:statemachine_Transition;
+
 		modify {
 			emithere(nodeToId[t] + " ");
 		}
@@ -65,7 +65,7 @@ rule emitState(ref nodeToId:map<Node, int>)
 rule emitTransition(ref nodeToId:map<Node, int>)
 {
 	src:statemachine_State <-:statemachine_Transition_src- t:statemachine_Transition -:statemachine_Transition_dst-> dst:statemachine_State;
-	
+
 	modify {
 		emit("    <transitions xmi:type=\"statemachine:Transition\" xmi:id=\"" + nodeToId[t] + "\" ");
 		emit("action=\"" + t._action + "\" trigger=\"" + t._trigger + "\" ");

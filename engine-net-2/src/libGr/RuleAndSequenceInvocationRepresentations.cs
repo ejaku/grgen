@@ -12,7 +12,7 @@ namespace de.unika.ipd.grGen.libGr
 {
     /// <summary>
     /// An object representing a rule or sequence invocation.
-    /// It tells from where (which variables/constants) to get the input values 
+    /// It tells from where (which variables/constants) to get the input values
     /// and where (which variables) to store the output values.
     /// </summary>
     public abstract class InvocationParameterBindings
@@ -67,10 +67,10 @@ namespace de.unika.ipd.grGen.libGr
                 seqVar.GetLocalVariables(variables);
         }
     }
-    
+
     /// <summary>
     /// An object representing a rule invocation.
-    /// It tells from where (which variables/constants) to get the input values 
+    /// It tells from where (which variables/constants) to get the input values
     /// and where (which variables) to store the output values.
     /// </summary>
     public class RuleInvocationParameterBindings : InvocationParameterBindings
@@ -113,7 +113,7 @@ namespace de.unika.ipd.grGen.libGr
 
     /// <summary>
     /// An object representing a sequence invocation.
-    /// It tells from where (which variables/constants) to get the input values 
+    /// It tells from where (which variables/constants) to get the input values
     /// and where (which variables) to store the output values.
     /// </summary>
     public class SequenceInvocationParameterBindings : InvocationParameterBindings

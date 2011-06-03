@@ -6,9 +6,9 @@ rule r
 	exec ( (sb:set<boolean>)=tsetboolean );
 		exec( (a:A)=tA && sA(a) && (a)=tAB
 			|| ((ab:AB)=tAB && sAB(ab) && (ab)=tABC && sA(ab))
-			|| ((abc:ABC)=tABC && sABC(abc) && sA(abc)) 
+			|| ((abc:ABC)=tABC && sABC(abc) && sA(abc))
 			|| ((n:Node)=tNode && sNode(n) && (n)=[tA]) );
-		exec( (i:int)=tint && (b:boolean)=tboolean && (s:string)=tstring 
+		exec( (i:int)=tint && (b:boolean)=tboolean && (s:string)=tstring
 			&& (f:float)=tfloat && (d:double)=tdouble && (o:object)=tobject && (fo:foo)=tfoo
 			&& (sb:set<boolean>)=tsetboolean && (mis:map<int,string>)=tmapintstring && (mfd:map<foo,double>)=tmapfoodouble );
 	}
@@ -168,7 +168,7 @@ test tfloat : (float)
 
 test tdouble : (double)
 {
-	return(3.141); 
+	return(3.141);
 }
 
 test tobject : (object)

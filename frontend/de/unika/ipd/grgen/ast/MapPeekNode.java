@@ -74,7 +74,7 @@ public class MapPeekNode extends ExprNode
 
 	@Override
 	protected IR constructIR() {
-		return new MapPeekExpr(targetExpr.checkIR(Expression.class), 
+		return new MapPeekExpr(targetExpr.checkIR(Expression.class),
 				numberExpr.checkIR(Expression.class));
 	}
 }

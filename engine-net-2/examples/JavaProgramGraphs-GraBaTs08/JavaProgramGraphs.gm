@@ -34,7 +34,7 @@ node class Operation
 	isFinal:boolean;
 }
 
-node class MethodBody 
+node class MethodBody
 {
 }
 

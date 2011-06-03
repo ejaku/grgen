@@ -148,7 +148,7 @@ namespace de.unika.ipd.grGen.libGr
         /// <param name="flags">Specifies how the specification is to be processed.</param>
         /// <exception cref="System.Exception">Thrown, when an error occurred.</exception>
         void ProcessSpecification(String specPath, String destDir, String intermediateDir, ProcessSpecFlags flags);
-        
+
         /// <summary>
         /// Processes the given rule specification file and generates a model and actions library in the same directory as the specification file.
         /// </summary>

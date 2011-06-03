@@ -3,7 +3,7 @@
   - HelloWorld! in examples\HelloWorld-TTC2011
   - ProgramUnderstanding in examples\Reengineering-TTC-2011
   - CompilerOptimization in examples\CompilerOptimization-TTC2011
- Export/Import: 
+ Export/Import:
   - Model override can now be a rule file, e.g. import Foo.gxl Rules.grg
     imports Foo.gxl using the model(s) from Rules.grg and selects the actions for usage.
   - EMF/ecore/XMI importer extended, can now handle references by url fragments instead of ids
@@ -20,13 +20,13 @@
 
 v3.0beta (2011-04-17)
  Local variables, ordered evaluation, and yielding outwards:
-  - added def entity declarations, which on RHS do not get created, on LHS do not get matched, 
+  - added def entity declarations, which on RHS do not get created, on LHS do not get matched,
     but are yielded to from evals, evalheres, subpattern rewrites, or execs on RHS,
     or are yielded to from yields, subpattern usages on LHS,
     out of the same pattern, but especially out of nested patterns and called subpatterns.
 	They can be uses as local and output variables;
 	def vars may receive an initialization assignment.
-  - added yield block which is an eval on the LHS constrainded to not assigning to / 
+  - added yield block which is an eval on the LHS constrainded to not assigning to /
      not changing graph element attributes, only parameters or def entities allowed
   - added yielding assignments to evals, evalheres, execs
   - added yielding assignments to yields, esp. including iterated yield accumulation with for
@@ -34,7 +34,7 @@ v3.0beta (2011-04-17)
   - added evalhere command to evaluate attributes in between the subpattern rewrite calls
   - added alternative/iterated rewrite usage specification to trigger an alternative/iterated
     rewrite usage in between the subpattern rewrite calls
-  - was made possible by: every nested pattern can be given a name, 
+  - was made possible by: every nested pattern can be given a name,
      for the anonymous ones a counted makeshift name is assigned
 
  Generic datatype array<T> introduced:
@@ -50,31 +50,31 @@ v3.0beta (2011-04-17)
     - a[i] returns value at index position i, same does a.peek(i)
     - a[i] = x overwrites element at position i by x
     - a==b, a!=b checking equality of size and of the elements at their respective positions
-    - a<b, a<=b, a>b, a>=b checking order of size and equality of elements 
+    - a<b, a<=b, a>b, a>=b checking order of size and equality of elements
 	   at their respective positions up to the size of the smaller array
     - a+b returning a concatenation of array a followed by b, compound version a+=b supplied, too
     - storage access in rules n{a} or n{m.a} of array elements
-  
+
  Expressions extended by incoming/outgoing edge function:
   - incoming(node, EdgeType, NodeType) returns a set of the edges incoming to the node,
      only if of the given EdgeType, only if originating from a node of given node type
 	 NodeType is defaultet to Node if omitted; EdgeType is defaulted to Edge if omitted
   - outgoing(node, EdgeType, NodeType) does the same for the edges going out from node
-  
+
  Changed syntax of storage access in pattern from "<" storage ">" suffix to "{" storage "}" suffix
-   because "<" ">" is already used for retyping, input parameter type, copy; was too overloaded 
+   because "<" ">" is already used for retyping, input parameter type, copy; was too overloaded
 
  GrShell extended by pwd, cd, ls commands:
   - pwd: prints working directory
   - cd <path>: changes working directory to <path>
   - ls: lists the content of the working directory with files relevant to GrGen highlighted
- 
+
  Bugfixes:
   - the mono csharp compiler yields errors for unicode escaping in identifiers,
     changed attribute implementation suffix
   - fixed code generation for calls in compiled sequences which do not assign return values,
     but the rule/sequence called returns some
-  - if grgen is called with "path/file" then by now the path is only prepended 
+  - if grgen is called with "path/file" then by now the path is only prepended
     when opening an "#include i-path" to the i-path, if the i-path is not absolute
   - added error messages in case edges created are referenced in evalhere,
     in case edges from nesting pattern are referenced in nested pattern (instead of compiler crash)
@@ -96,20 +96,20 @@ v2.7.ms4 (2011-02-07)
     sequence name(input variables):(output variables) { sequence }
  - added support for interpreted named sequence definitions in shell with syntax:
     def name(input variables):(output variables) { sequence }
- - for both: input and output variables are local variables, 
+ - for both: input and output variables are local variables,
     they get filled with the input values,
     and define the output values in case of success,
 	where success is defined by the sequence.
- - they can be called from other sequences (or even the same) with 
-   (output parameters)=name(input parameters) syntax, 
+ - they can be called from other sequences (or even the same) with
+   (output parameters)=name(input parameters) syntax,
    as for rule calls the output parameters of sequence calls are only written on success
 
  Added debugger commands
-  - "(v)ariables" which prints out all global variables and all local variables 
+  - "(v)ariables" which prints out all global variables and all local variables
       of the currently executed sequence (up to the point focussed)
   - "stack (t)race" which prints the call stack of the sequences currently executed
       (including sequence content and execution state)
-  - "(f)ull dump" which prints the call stack of sequences including all their variables 
+  - "(f)ull dump" which prints the call stack of sequences including all their variables
 
  User manual restructuring and extension:
   - split chapter "Understanding and Extending GrGen.NET" out of API chapter,
@@ -120,30 +120,30 @@ v2.7.ms4 (2011-02-07)
  Further minor:
    - added support for sequence result postfix assignment s => v, s |> v, s &> v
 
-   
+
 v2.7.ms3 (2011-01-17)
  Added support for storage attributes, i.e. attributes typed with set/map of node/edge,
   can now be declared in model, handled by all the other set/map constructs already available,
   furthermore added an extension of the storage access constructs on the LHS by:
-   x:T<n.a> with n being a node or edge and a an attribute of it, 
+   x:T<n.a> with n being a node or edge and a an attribute of it,
    yielding a pattern element picked from the storage attribute
 
- Added compound assignment statement which allows for efficient set/map operations, 
+ Added compound assignment statement which allows for efficient set/map operations,
   especially for efficient data flow analysis with the optional change assignment:
    -set/map union |=, intersection &=, difference \= assignments are available
    -change assignment operators assign-to =>, union-to |=, intersect-to &> are available
      examples: v |= w => changed; n.s &= m.s |> e.changed; n.m \= w &> n.visited[2];
 
  Improved user manual:
-  - split off exec/emit and storage handling (+visited) 
+  - split off exec/emit and storage handling (+visited)
     into an own chapter "Embedded Sequences and Storages",
     meant as an introduction into combining rules to build transformations.
   - added subsection on data flow analysis explaining how to compute reachability.
 
- Bugfixes: 
+ Bugfixes:
   - transaction handling (thus backtracking too) now capable of nested processing,
     i.e. a committed nested transaction gets rolled back if the enclosing transaction fails
-  - deferred execs used from rules contained in deferred execs 
+  - deferred execs used from rules contained in deferred execs
     don't execute pending execs from their parent any more
 
  Further minor features:
@@ -153,7 +153,7 @@ v2.7.ms3 (2011-01-17)
 
 v2.7.ms2 (2011-01-03)
  Added copy operator:
- - new-node:copy<old-node> creates a clone of the old node 
+ - new-node:copy<old-node> creates a clone of the old node
    (type and attribute values are same, incident edges are not taken care of)
  - -new-edge:copy<old-edge>-> creates a clone of the old edge,
    the source and target nodes of the new edge must be specified (otherwise edge would dangle)
@@ -164,7 +164,7 @@ v2.7.ms2 (2011-01-03)
    which gets executed at the end of the root rule using them
 
  Added storage access clauses:
- - on LHS one can write x:T<s> with s being a storage; 
+ - on LHS one can write x:T<s> with s being a storage;
    the storage elements are iterated, the ones which are of type T are accepted as a match of x
  - on LHS one can write x:T<s[y]> with s being a storage-map and y being an element from the pattern;
    the value of y in s is looked up and if it exists and is of type T it is accepted as a match of x
@@ -174,7 +174,7 @@ v2.7.ms2 (2011-01-03)
 
  Fixes:
   - values of variables are now transmitted into nested iterateds/alternatives
-  - anonymous subpatterns are now named "sub"_X, 
+  - anonymous subpatterns are now named "sub"_X,
     so that nodes don't get blown up that much in debugger detail mode
 
 
@@ -186,17 +186,17 @@ v2.7.ms1b (2010-12-20)
   - emit error on attempt to rewrite a rhs declared subpattern usage, i.e. a subpattern which gets instantiated
   Shell/Debugger:
   - fixed debugger/named graph mismatch on retyping (retyped elements stayed in debugger)
-  - allowed every place which expects a word (e.g. a type name) to contain a single or double quoted text, 
+  - allowed every place which expects a word (e.g. a type name) to contain a single or double quoted text,
      so user can reference shell keyword named entities by escaping
   - prevent computer from going into sleep mode while a sequence gets executed (windows only)
-  
+
 v2.7.ms1 (2010-12-05)
  Added record and replay feature (plus supporting instructions):
- - record shell command for writing the current graph and then the changes applied to it into a .grs 
+ - record shell command for writing the current graph and then the changes applied to it into a .grs
     for replaying later on, with comments telling about the events causing them as debugging help
  - replay shell command for replaying previously recorded changes
     with capability to define begin and end lines to replay only certain change sets/states
- - record operator in sequences for emitting to the currently ongoing recordings 
+ - record operator in sequences for emitting to the currently ongoing recordings
     e.g. record("\# label1\n") for labeling a state (2 such labels can be used to mark a changeset)
  - retype shell command, e.g. retype (@"$1")<NT> for a node and retype -e<ET>-> for an edge
  - commands to add/remove elements to/from graph element attributes of set/map type, e.g. (@"$4").m1.rem(42)
@@ -233,7 +233,7 @@ v2.6.3 (2010-10-11)
                    if s failed: rollback effects of r and s, continue with next match, fail if exhausted
                    if s succeeded: commit effects, succeed
  - annotations are now available on API level (transmitted from .gm/.grg to code)
- - semantic change: the parameters/attachment points of a subpattern now get deleted 
+ - semantic change: the parameters/attachment points of a subpattern now get deleted
     if not mentioned in the _replace_ part of the subpattern, as was always the case with rules
  - bugfix: allow abstract node types as replacement parameters
  - fixed crash in debugger on printing a rule call with a constant argument (instead of a variable)
@@ -244,15 +244,15 @@ v2.6.3 (2010-10-11)
 v2.6.2 (2010-09-19)
  Changes:
  - bugfixes/improvements for debugger detail mode annotations
- - improved compiler checks, esp. against non-terminating subpattern recursions 
+ - improved compiler checks, esp. against non-terminating subpattern recursions
     and iterated empty graph matching
  - fixed crash on printing the <var>=null assignment to console in debugger
 
 v2.6.1 (2010-09-12)
  Changes:
  - debugger detail mode now annotates in yComp all the pattern elements matching on a host graph node
- - debugger detail mode annotations now show in addition to the pattern element name the path to the name 
-   (with symbols from the regular expression syntax, and the subpattern entity names, 
+ - debugger detail mode annotations now show in addition to the pattern element name the path to the name
+   (with symbols from the regular expression syntax, and the subpattern entity names,
     clipped from nesting level 3 on, only showing nesting depth due to display size constraints)
  - removed the rule rewrite part reuse optimization (reuse optimization still there on graph level),
     was source of too many errors over time, esp. when used with transactions
@@ -261,7 +261,7 @@ v2.6.1 (2010-09-12)
 v2.6 (2010-09-05)
  Single most important change:
   - user manual updated (including all the changes from 1.4->2.6)
- 
+
  New sequencing constructs in xgrs:
   - operator then-left l <; r executing l then r, returning the execution result of l
   - operator then-right l ;> r executing l then r, returning the execution result of r
@@ -269,23 +269,23 @@ v2.6 (2010-09-05)
      on success truecase is executed and its result returned,
      on failure falsecase is executed and its result returned
   - if{cond; truecase} which equals if{cond;truecase;true} thus giving a lazy implication
-  - n-ary random all of operators (currently only available in the interpreted sequences), 
+  - n-ary random all of operators (currently only available in the interpreted sequences),
      in function call notation with the operator symbol as function name:
-	 - the strict $|(s1,s2,s3) and $&(s1,s2,s3) evaluate all their subsequences in random order 
+	 - the strict $|(s1,s2,s3) and $&(s1,s2,s3) evaluate all their subsequences in random order
 	 returning the disjunction resp. conjunction of their truth values.
-     - the lazy versions || and && evaluate the subsequences in random order 
+     - the lazy versions || and && evaluate the subsequences in random order
 	 as long as the outcome is not fixed or every subsequence was evaluated,
 	 returning the disjunction resp. conjunction of their truth values.
   - some-of-set braces {r,[s],$[t]} matching all contained rules
-     and then executing the ones which matched; true if one of the rules matched 
-  - one-of-set braces ${r,[s],$[t]} matching all contained rules 
+     and then executing the ones which matched; true if one of the rules matched
+  - one-of-set braces ${r,[s],$[t]} matching all contained rules
      and then executing at random one of the rules which matched; true if one of the rules matched
-  
+
  Uniform variable handling in xgrs:
   - now the compiled and the interpreted sequences both always support
     i) graph global variables, untyped, i.e. type errors are only detected at runtime,
      live from first assignment/implicit declaration on, written to file on save and restored on load
-    ii) sequence local variables, typed thus statically type checked, 
+    ii) sequence local variables, typed thus statically type checked,
      only live until sequence execution ends (thus no persistency available)
 
  Handling of set<T>/map<S,T> in xgrs:
@@ -296,12 +296,12 @@ v2.6 (2010-09-05)
   - set/map iteration for{el in st; seq} / for{el->val in mp; seq},
      failing iff seq fails for at least one el/el->val in the set/map
   - set/map membership query el in sm succeeding iff el is contained in the set/map
-  - map lookup assignment val=mp[el] assigning the result of a map lookup to a variable, 
+  - map lookup assignment val=mp[el] assigning the result of a map lookup to a variable,
      succeeding iff el is contained in mp, otherwise failing, not touching the variable
   - set/map size assignment sz=sm.size() assigning size to the variable, always succeeding
-  - set/map emptyness query result assignment se=sm.empty() assigning to the variable 
+  - set/map emptyness query result assignment se=sm.empty() assigning to the variable
      whether set/map is empty, always succeeding
-  - set/map creation st=set<T>/mp=map<S,T>, and variable declarations of explicit set/map type, 
+  - set/map creation st=set<T>/mp=map<S,T>, and variable declarations of explicit set/map type,
      st:set<S>, mp:map<S,T>,  e.g. st:set<Node>=set<Node>
 
  Handling of set<T>/map<S,T> in rules, to ease the processing of storages:
@@ -315,7 +315,7 @@ v2.6 (2010-09-05)
     visited flags processing in rules now by syntax:
       e.visited[f] = b  or  e.visited = b
       e.visited[f]  or  e.visited
-  - visited flags management in shell deprecated 
+  - visited flags management in shell deprecated
     (allocvisitflag, isvisited, setvisited, freevisitflag, resetvisitflag)
     visited flags management now by xgrs operations instead of shell commands:
       f=valloc() for visited flags allocation
@@ -331,7 +331,7 @@ v2.6 (2010-09-05)
   - random number assignment: v = $(Number) assigning a value from 0 up to excluding Number to v
   - user input assignment: v = $%(Type) querying the user for a value of given type and assigning it to v
      only in interpreted xgrs, as shell input required; only in debug mode if a node/edge type is requested
-   
+
  Improved debugging:
   - blue > at sequence start
   - renamed (n)ext to (u)p (going one level up in the sequence tree)
@@ -346,10 +346,10 @@ v2.6 (2010-09-05)
 	 applicable to the random binary operators, random match selection, random number assignment
 	 user input assignments are choice points which can't be toggled off
   - debug support for all the new and changed xgrs constructs
-  
+
  Rewrite part handling of nested patterns:
   - modify/replace graph elements of nesting pattern
-     are now available in modify/replace of nested alternative/iterated/multiple/optional-patterns 
+     are now available in modify/replace of nested alternative/iterated/multiple/optional-patterns
   - modify/replace of nested alternative/iterated/multiple/optional-patterns can't take parameters any more,
      better: no need to give them any more, as they can access the rhs elements of the nesting pattern
   - the modify/replace parameter declaration of the subpattern has to be given at the subpattern head / interface,
@@ -379,20 +379,20 @@ v2.6 (2010-09-05)
 	 sm1 >= sm2 is true iff sm1 is superset of sm2 (sm2<=sm1)
 	 sm1 > sm2  is true iff sm1 is proper superset of sm2 (sm2<sm1)
 	maps require key and value to be same for the equality, (proper) sub/supermap relationships to hold
- 
+
  EBNF/regular expression-like notation for nested patterns added:
   - (P)* = iterated { P }
   - (P)+ = multiple { P }
   - (P)? = optional { P }
-  - (P1|P2) = alternative { L1 { P1 } L2 { P2 } } 
+  - (P1|P2) = alternative { L1 { P1 } L2 { P2 } }
   - ~(P) = negative { P }
   - &(P) = independent { P }
   The notation supports additionally (P)[k], (P)[k:l], (P)[k:*] for matching a bounded number of times.
-  
+
   The rewrite part can be given in embedded action style:
   - {+ R } = modify { R }
   - {- R } = replace { R }
-  
+
  Connection assertions:
   - nodes without incident edges were ignored in validation, now the lower bound 0 vs. 1 is always checked
   - the default if no multiplicity is given is now [*] instead of [1], i.e. no constraint specified
@@ -401,7 +401,7 @@ v2.6 (2010-09-05)
   - support for "copy extends" to copy the connection assertions of the direct supertypes
   - support for undirected edges with -- syntax
   - support for arbitrary edges with ?--? syntax
-  
+
  Fixes:
   - escaping of quotation marks in VCG files
   - escaping of quotation marks and newlines in communication with yComp
@@ -417,25 +417,25 @@ v2.6 (2010-09-05)
   - fixes for nesting hierarchies of right hand side declared elements
   - dump into .vcg format now handles nesting as declared by "dump add group" commands correctly
   - name collision between shell and rule generated graph elements causing debug display corruption
-  - directed/undirected edges (as given by edge syntax) can extend arbitrary edges 
+  - directed/undirected edges (as given by edge syntax) can extend arbitrary edges
     without being forces to explicitely extend Edge/UEdge, too
-  - removed check against homomorphy of retyped elements not needed 
+  - removed check against homomorphy of retyped elements not needed
   - lazy or operator parsing priority bug
   - ResetVisitedFlag/vreset now reliably working on edge types, too
   - code generation for conditions in nested patterns
   - code generation for alternatives nested in negatives/independents
   - subpattern creation/instantiation with parameters from rewrite part
-  - runtime cast exception when calling a subpattern modification with an argument being a subtype of the parameter type 
+  - runtime cast exception when calling a subpattern modification with an argument being a subtype of the parameter type
   - wrong matching of iterated consisting of only a terminal pattern not requiring a candidate iteration loop
-  - endless loop prevention by checking against unbounded pattern cardinality constructs 
+  - endless loop prevention by checking against unbounded pattern cardinality constructs
       containing no locally defined nodes or edges (not being homomorphic to enclosing elements)
   - several bugs in code generation for iterated fixed
   - usage of rhs elements on lhs
   - further minor fixes
-  
+
  Further changes:
-  - null arguments must be declared beforehand if they should be used, 
-    causing the element to be searched by its own search plan, 
+  - null arguments must be declared beforehand if they should be used,
+    causing the element to be searched by its own search plan,
 	thus every null-capable argument doubles the number of matchers;
     declaration syntax example: rule r(x:Node<null>, y:T<S+null>)
 	  (y is example for inexactly typed input which may be null in addition)
@@ -450,7 +450,7 @@ v2.6 (2010-09-05)
   - replaced emitpre by emithere, which is emitted before regular emits,
     at the position syntax-relative to the subpattern modification invocations and the other emitheres
   - the random match selector now expects a variable instead of a number
-  - new rule modifiers dangling (only apply rule if all incident edges of a node to be deleted 
+  - new rule modifiers dangling (only apply rule if all incident edges of a node to be deleted
      are specified in the pattern), and identification (don't apply rule if a node to be deleted
      was matched homomorphically to a node to be kept), allowing to pick from the dpo conditions
 	 (dpo = dangling + identification)
@@ -458,7 +458,7 @@ v2.6 (2010-09-05)
       at the position num in the sequence of enumeration
   - new function random() returning a double random value in between 0.0 and 1.0
       and random(sup:int) returning an integer random value in between 0 and sup, sup exclusive
-  - added emit to xgrs: emit(double-quoted-text|variable)  
+  - added emit to xgrs: emit(double-quoted-text|variable)
       example: xgrs emit("foo\n") && emit(v)
   - same literal/constant syntax now in assignments and attribute initializations of
       model, rules, sequences, shell, grs (ex/)importer
@@ -470,13 +470,13 @@ v2.6 (2010-09-05)
   - added exitonfailure to GrShell validate command leaving GrShell on failed validation with error code
   - undirected edge creation in GrShell with -name:type- syntax and type UEdge if no type given
   - Added GrGen syntax highlighting for vim (model, rules, shell)
-  - Extended GrGen syntax highlighting for Notepad++ to GrShell files 
+  - Extended GrGen syntax highlighting for Notepad++ to GrShell files
   - added GrGen-solution for ModelMigration case from TTC2010
   - added GrGen-version of "Repotting the Geraniums: On Nested Graph Transformation Rules" to examples
   - user manual now under Creative Commons Attribution-Share Alike 3.0 Germany license
   - further minor improvements
 
-  
+
 v2.5.1 (2009-09-09)
  Additions:
   - subpatterns now support var parameters, too
@@ -488,7 +488,7 @@ v2.5.1 (2009-09-09)
   - usage of var parameters in alternative, iterated - blocks
   - nested iterated, alternative blocks
   - elements of enclosing lhs pattern only mentioned in eval of rhs
-  - gxl export (showing in mono glx import exception) 
+  - gxl export (showing in mono glx import exception)
   - several examples work again (not all, though)
   - some previously failing tests
 
@@ -499,7 +499,7 @@ v2.5 (2009-06-28)
   - optional block matching contained subpattern (eagerly) at most once implemented
   - independent block for specifiying positive application conditions implemented
   - emitpre (before emitting from subpatterns) and emitpost(=emit; after emitting from subpatterns)
-  
+
  Im/Export:
   - import/export commands added to GrShell, porter module added to LibGr
   - GXL importer and exporter added
@@ -507,7 +507,7 @@ v2.5 (2009-06-28)
   - GRS importer and exporter added
 
  New API:
-  - Generation of an action interface per action, implemented by the action class, 
+  - Generation of an action interface per action, implemented by the action class,
     plus an action-interface-typed member per action in actions class instance
   - Action interface with exactly typed input parameters, matches object, output parameters
     (for the match / modify / apply methods)
@@ -515,18 +515,18 @@ v2.5 (2009-06-28)
     now only available with syntax r(x:ExactType<InexactType>)
 
  Semantic changes:
-  - Semantics of negative regarding subpatterns/subrules changed:  
+  - Semantics of negative regarding subpatterns/subrules changed:
     negative pattern elements get matched independent from the subpatterns utilizing them
 	(explicit patternpath/pattern statement in the negative/independent needed for old behaviour)
   - hom declarations are inherited into nested negatives/independents now
   - hom delarations are non-transitive by now (hom(a,b) and hom(b,c) don't cause hom(a,c) unless specified)
-  
+
  Examples:
   - Solution to the GraBaTs 2009 Program Comprehension case study added
     (including EMF import)
   - Completed JavaProgramGraphs sample (Grabats 2008 refactoring case solution),
 	including GRS import/export in source code sample
-  - Rewritten ProgramGraphs sample with new iterated construct, 
+  - Rewritten ProgramGraphs sample with new iterated construct,
     added corresponding source code sample
   - Updated source code samples to the new 2.5 API
 
@@ -534,7 +534,7 @@ v2.5 (2009-06-28)
   - Added short infotags (without displaying attribute name)
   - The labels of elements can now be removed or set to a constant string
 
- GrShell/yComp: 
+ GrShell/yComp:
   - Improved interactivity: debug apply <rule with ? as placeholders>
     allows to select wildcard elements ? by double clicking at elements in graph viewer yComp
   - Debugging much more robust to unexpected connection loss
@@ -543,17 +543,17 @@ v2.5 (2009-06-28)
   - Finally implemented the help command and improved the error handling
   - Replaced "dump edge labels (on | off)" by "dump edge [only] <type> labels (on | off | <text>)"
   - Added "dump set node [only] <type> labels (on | off | <text>)"
-  - Added "dump add (node | edge) [only] <type> shortinfotag <member>"  
+  - Added "dump add (node | edge) [only] <type> shortinfotag <member>"
 
  Misc:
   - Changed License to LGPL v3
-  - Added GrGen syntax highlighting for Notepad++ 
+  - Added GrGen syntax highlighting for Notepad++
   - Shorthand visited(el) for visited(el, 0)
- 
+
  Bugs:
   - Several smashed
 
-  
+
 v2.1.2 (2009-02-16)
  Fixes:
   - don't create elements declared outside alternative if only appearing in modify/replace part
@@ -758,7 +758,7 @@ v2.0 beta (2008-04-28)
   - Renamed Condition to PatternCondition
   - Added IGraph.Actions property as a currently associated actions object
     (perhaps only temporarily...)
- 
+
  Fixes:
   - Dangling edges in nested negative patterns
   - Fixed several frontend tests
@@ -812,7 +812,7 @@ v1.4 (2008-03-20)
     INode.ReplacedByNode, and IEdge.ReplacedByEdge to check, whether
     elements were deleted or retyped during a rewrite
   - Removed unused dump fields from BaseActions
- 
+
  Fixes:
   - Returns for test actions
   - Enums are now allowed as values in '?:'-operators
@@ -826,13 +826,13 @@ v1.4 (2008-03-20)
   - Handling of abstract element classes
   - Several cases involving combinations of hom, retype, delete, and return
   - Output compile warnings also when compilation did not fail
-  
+
  Examples:
   - Added Sierpinksi3 (with parallel rewrite semantics)
   - Added FiniteStateMachine example
   - Added UML2CSP2 example using the new emit statement
   - Added DebugExec example
- 
+
  Other changes:
   - "pattern" part is now directly embedded in rules and tests
   - Added XML documentation files for Intellisense help in IDEs
@@ -850,7 +850,7 @@ v1.3.1 (2007-12-07)
   - Test actions work now
 
  Fixes:
-  - spBench acted on the original graph instead of the cloned version 
+  - spBench acted on the original graph instead of the cloned version
   - Clone variables and all statistical information when cloning a graph
   - Clear variables when clearing a graph
   - Disabled buggy node reusing as a workaround
@@ -901,7 +901,7 @@ v1.3 (2007-11-06)
    Changes:
     - Improved processing time
     - Improved error messages
-    - Added new attribute type "object" 
+    - Added new attribute type "object"
       (only operators '=', '==', and '!=' are allowed)
     - Warn if a graph element occurs inside and outside a delete statement
     - Warn if a returned graph element may be matched homomorphically to the
@@ -927,7 +927,7 @@ v1.2 (2007-07-19)
   - GrGen now places the generated libraries into the directory of the spec
     files by default (can be overridden with -o)
   - Updated examples
-  
+
  Features for GrShell:
   - The LGSPBackend is the default backend now. So the "select backend ..."
     line is not necessary anymore in the normal case.
@@ -948,11 +948,11 @@ v1.2 (2007-07-19)
     does not exist
   - Guess .grs extensions for files given via commandline
 
- API changes:    
+ API changes:
   - Renamed GetOutgoing/Incoming to GetCompatibleOutgoing/Incoming
   - Added GetExactOutgoing/Incoming
   - Added Apply, ApplyStar, ApplyPlus and ApplyMinMax to IAction
-  
+
  Fixes:
   - Fixed problems with dangling edges in patterns
   - Fixed retyping with typeof operator

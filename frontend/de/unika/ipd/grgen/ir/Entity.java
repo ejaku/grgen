@@ -30,13 +30,13 @@ public class Entity extends Identifiable {
 
 	/** Is the entity constant - (only) relevant in backend for node/edge attributes. */
 	protected boolean isConst = false;
-	
+
 	/** Is the entity a defined entity only, to be filled with yields from nested patterns? */
 	protected boolean isDefToBeYieldedTo = false;
-	
+
 	/** Only in case of isDefToBeYieldedTo: gives the pattern graph in which the entity is to be deleted (can't use LHS\RHS for deciding this)*/
 	protected PatternGraph patternGraphDefYieldedIsToBeDeleted = null; // todo: DELETE=LHS\RHS does not work any more due to nesting and def entities, switch to delete annotations in AST, IR
-	
+
 	/** Context of the declaration */
 	int context;
 
@@ -98,7 +98,7 @@ public class Entity extends Identifiable {
 	public boolean isConst() {
 		return isConst;
 	}
-	
+
 	/** @return true, if this is a defined only entity to be filled from nested patterns, else false */
 	public boolean isDefToBeYieldedTo() {
 		return isDefToBeYieldedTo;

@@ -2,7 +2,7 @@ using attrib_model_001;
 
 rule r {
 	-x:Edge->;
-	
+
 	alternative {
 		First {
 			alternative {
@@ -24,6 +24,6 @@ rule r {
 			modify {}
 		}
 	}
-	
+
 	modify {}
 }

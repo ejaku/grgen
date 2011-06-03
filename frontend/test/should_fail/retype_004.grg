@@ -7,7 +7,7 @@ rule r {
 
 	replace {
 		z:TYPE2<x>;
-		
+
 		eval { x.a = z.a; }
 	}
 }

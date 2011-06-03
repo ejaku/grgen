@@ -35,11 +35,11 @@ public class IteratedAccumulationYield extends EvalStatement {
 	public Rule getIterated() {
 		return iterated;
 	}
-	
+
 	public EvalStatement getAccumulationStatement() {
 		return accumulationStatement;
 	}
-	
+
 	public void collectNeededEntities(NeededEntities needs)
 	{
 		accumulationStatement.collectNeededEntities(needs);

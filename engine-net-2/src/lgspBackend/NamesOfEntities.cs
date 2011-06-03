@@ -11,7 +11,7 @@ using System.Diagnostics;
 namespace de.unika.ipd.grGen.lgsp
 {
     /// <summary>
-    /// class determining names of entities in generated source code from pattern element entities 
+    /// class determining names of entities in generated source code from pattern element entities
     /// </summary>
     class NamesOfEntities
     {
@@ -35,7 +35,7 @@ namespace de.unika.ipd.grGen.lgsp
         }
 
         /// <summary>
-        /// Returns name of non-graph-element variable 
+        /// Returns name of non-graph-element variable
         /// </summary>
         public static string Variable(string variableName)
         {
@@ -176,7 +176,7 @@ namespace de.unika.ipd.grGen.lgsp
         }
 
         /// <summary>
-        /// Returns name of the search program variable which will be filled 
+        /// Returns name of the search program variable which will be filled
         /// if the pattern was matched and is needed in patternpath/global isomorphy checks
         /// </summary>
         public static string PatternpathMatch(string patternGraphName)
@@ -233,7 +233,7 @@ namespace de.unika.ipd.grGen.lgsp
             {
                 case EntityType.Node: return "Node";
                 case EntityType.Edge: return "Edge";
-                case EntityType.Variable: return "Variable"; 
+                case EntityType.Variable: return "Variable";
                 default: return "INTERNAL ERROR";
             }
         }

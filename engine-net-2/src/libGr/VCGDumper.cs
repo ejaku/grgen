@@ -150,7 +150,7 @@ namespace de.unika.ipd.grGen.libGr
             if((uint) shape >= nodeShapes.Length) return nodeShapes[0];
             else return nodeShapes[(int) shape];
         }
-        
+
         /// <summary>
         /// Initializes a new instance of VCGDump.
         /// </summary>
@@ -208,9 +208,9 @@ namespace de.unika.ipd.grGen.libGr
         /// <param name="nodeColor">The color of the node border.</param>
         /// <param name="borderColor">The color of the node.</param>
         /// <param name="nodeShape">The shape of the node.</param>
-        /// 
+        ///
         /// TODO: Check whether GetHashCode should really be used or better Graph.GetElementName()
-        /// 
+        ///
         public void DumpNode(INode node, String label, IEnumerable<String> attributes, GrColor textColor,
             GrColor nodeColor, GrColor borderColor, GrNodeShape nodeShape)
         {
@@ -252,9 +252,9 @@ namespace de.unika.ipd.grGen.libGr
         /// <param name="textColor">The color of the text</param>
         /// <param name="edgeColor">The color of the edge</param>
         /// <param name="lineStyle">The linestyle of the edge</param>
-        /// 
+        ///
         /// TODO: Check whether GetHashCode should really be used or better Graph.GetElementName()
-        /// 
+        ///
         public void DumpEdge(INode srcNode, INode tgtNode, String label, IEnumerable<String> attributes,
             GrColor textColor, GrColor edgeColor, GrLineStyle lineStyle)
         {

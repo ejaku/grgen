@@ -249,10 +249,10 @@ namespace de.unika.ipd.grGen.lgsp
             get { return s_indexer.GetValue(m_scope, new object[] { token }); }
         }*/
 
-        public String AsString(int token) 
+        public String AsString(int token)
         {
             return dynMethod.Module.ResolveString(token);
-//            return this[token] as string; 
+//            return this[token] as string;
         }
 
         public FieldInfo AsField(int token)

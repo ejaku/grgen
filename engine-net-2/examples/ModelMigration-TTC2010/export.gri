@@ -8,11 +8,11 @@ rule initial_id : (int) {
 
 rule number_node(var id:int) : (int) {
 	n:Node\DumpNode;
-	
+
 	negative {
 		n -:DumpEdge->;
 	}
-	
+
 	modify {
 		n -:DumpEdge-> d:DumpNode;
 		eval {
@@ -30,9 +30,9 @@ rule XMI_prefix {
 
 rule node_by_id(var id:int) : (Node, int) {
 	n:Node -:DumpEdge-> d:DumpNode;
-	
+
 	if { d.id == id; }
-	
+
 	modify {
 		return (n, id + 1);
 	}
@@ -41,7 +41,7 @@ rule node_by_id(var id:int) : (Node, int) {
 rule emit_activity {
 	activity:uml_Activity;
 	activity -:DumpEdge-> d:DumpNode;
-	
+
 	modify {
 		emit("  <packagedElement xmi:type=\"uml:Activity\" xmi:id=\"" + d.id + "\" name=\"" + activity._name + "\">\n");
 		exec(emit_activity_nodes(activity));
@@ -123,7 +123,7 @@ rule emit_Pin(n:uml_Pin<uml_ActivityNode>) {
 
 rule emit_node_attributes(n:uml_ActivityNode) {
 	n -:DumpEdge-> d:DumpNode;
-	
+
 	modify {
 		emit(" xmi:id=\"" + d.id + "\" name=\"" + n._name + "\"");
 		exec(emit_outgoing_attribute(n));
@@ -225,7 +225,7 @@ rule emit_edge_attributes(n:uml_ActivityEdge) {
 	n -:uml_ActivityEdge_target-> tgt:uml_ActivityNode;
 	src -:DumpEdge-> src_d:DumpNode;
 	tgt -:DumpEdge-> tgt_d:DumpNode;
-	
+
 	modify {
 		emit(" xmi:id=\"" + d.id + "\" source=\"" + src_d.id + "\" target=\"" + tgt_d.id + "\"");
 	}
@@ -268,7 +268,7 @@ rule emit_activity_group(activity:uml_Activity, n:uml_ActivityPartition<Node>) {
 
 rule emit_group_attributes(n:uml_ActivityPartition) {
 	n -:DumpEdge-> d:DumpNode;
-	
+
 	modify {
 		emit(" xmi:id=\"" + d.id + "\" name=\"" + n._name + "\"");
 		exec(emit_contained_nodes(n));
@@ -308,6 +308,6 @@ rule finish_dump {
 
 rule delete_DumpNode {
 	d:DumpNode;
-	
+
 	replace {}
 }

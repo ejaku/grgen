@@ -6,11 +6,11 @@ rule createIntResult : (result_IntResult) {
 
 	modify {
 		res:result_IntResult;
-		
+
 		eval {
 			res._result = 0;
 		}
-		
+
 		return (res);
 	}
 }

@@ -80,7 +80,7 @@ public class ArrayRemoveItemNode extends EvalStatementNode
 
 	@Override
 	protected IR constructIR() {
-		return new ArrayRemoveItem(target.checkIR(Qualification.class), 
+		return new ArrayRemoveItem(target.checkIR(Qualification.class),
 				valueExpr!=null ? valueExpr.checkIR(Expression.class) : null);
 	}
 }

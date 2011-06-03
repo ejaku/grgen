@@ -607,7 +607,7 @@ namespace de.unika.ipd.grGen.libGr
         /// Fired before an attribute of a node is changed.
         /// Note for LGSPBackend:
         /// Because graph elements of the LGSPBackend don't know their graph a call to
-        /// LGSPGraphElement.SetAttribute will not fire this event. If you use this function 
+        /// LGSPGraphElement.SetAttribute will not fire this event. If you use this function
         /// and want the event to be fired, you have to fire it yourself
         /// using ChangingNodeAttributes.
         /// </summary>
@@ -617,7 +617,7 @@ namespace de.unika.ipd.grGen.libGr
         /// Fired before an attribute of an edge is changed.
         /// Note for LGSPBackend:
         /// Because graph elements of the LGSPBackend don't know their graph a call to
-        /// LGSPGraphElement.SetAttribute will not fire this event. If you use this function 
+        /// LGSPGraphElement.SetAttribute will not fire this event. If you use this function
         /// and want the event to be fired, you have to fire it yourself
         /// using ChangingEdgeAttributes.
         /// </summary>
@@ -1009,7 +1009,7 @@ namespace de.unika.ipd.grGen.libGr
                 }
             }
 
-            if(mode == ValidationMode.Strict 
+            if(mode == ValidationMode.Strict
                 && (NumEdges != checkedOutEdges.Count || NumEdges != checkedInEdges.Count))
             {
                 // Some edges are not covered; strict validation prohibits that!
@@ -1041,7 +1041,7 @@ namespace de.unika.ipd.grGen.libGr
                 num += incoming;
             }
 
-            if(num < valInfo.SourceLower) 
+            if(num < valInfo.SourceLower)
             {
                 errors.Add(new ConnectionAssertionError(CAEType.NodeTooFewSources, node, num, valInfo));
                 result = false;
@@ -1074,7 +1074,7 @@ namespace de.unika.ipd.grGen.libGr
                 errors.Add(new ConnectionAssertionError(CAEType.NodeTooFewTargets, node, num, valInfo));
                 result = false;
             }
-            else if(num > valInfo.TargetUpper) 
+            else if(num > valInfo.TargetUpper)
             {
                 errors.Add(new ConnectionAssertionError(CAEType.NodeTooManyTargets, node, num, valInfo));
                 result = false;
@@ -1149,7 +1149,7 @@ namespace de.unika.ipd.grGen.libGr
         }
 
         /// <summary>
-        /// Returns the incoming edges of given type to the given node, with a source node of given type. 
+        /// Returns the incoming edges of given type to the given node, with a source node of given type.
         /// </summary>
         public IDictionary Incoming(INode node, EdgeType edgeType, NodeType sourceNodeType)
         {
@@ -1167,7 +1167,7 @@ namespace de.unika.ipd.grGen.libGr
 
         #region Graph dumping stuff
 
-        // If the containment specified does not lead to a tree the results are unspecified, 
+        // If the containment specified does not lead to a tree the results are unspecified,
         // the nodes and incident edges will be placed within several groups and dumped this way;
         // it is up to yComp to decide which nesting to use/where to locate the node (you'll see one node with duplicate edges in this case).
         // One could think of using the most deeply nested unambiguous node as the most sensible conflict resolution strategy in this case
@@ -1553,7 +1553,7 @@ namespace de.unika.ipd.grGen.libGr
 
             dc.Dumper.StartSubgraph(root, GetElemLabel(root, dc.DumpInfo), DumpAttributes(root),
                 dc.DumpInfo.GetNodeDumpTypeTextColor(dumpType), dc.DumpInfo.GetNodeTypeColor(root.Type)); // TODO: Check coloring...
-            
+
             // Dump the elements nested inside this subgraph
             foreach(INode node in groupNodes[root].groupedNodes)
             {
@@ -1658,7 +1658,7 @@ namespace de.unika.ipd.grGen.libGr
 
             // Dump the graph, but color the matches if any exist
 
-            DumpContext dc = new DumpContext(dumper, dumpInfo, 
+            DumpContext dc = new DumpContext(dumper, dumpInfo,
                 matchedNodes, multiMatchedNodes, matchedEdges, multiMatchedEdges);
 
             foreach(NodeType nodeType in Model.NodeModel.Types)

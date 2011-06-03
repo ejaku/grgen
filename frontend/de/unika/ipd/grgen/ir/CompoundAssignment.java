@@ -30,10 +30,10 @@ public class CompoundAssignment extends EvalStatement {
 
 	/** The operation of the compound assignment */
 	private int operation;
-	
+
 	/** The rhs of the assignment. */
 	private Expression expr;
-	
+
 	public CompoundAssignment(Qualification target, int compoundAssignmentType, Expression expr) {
 		super("compound assignment");
 		this.target = target;
@@ -48,7 +48,7 @@ public class CompoundAssignment extends EvalStatement {
 	public Expression getExpression() {
 		return expr;
 	}
-	
+
 	public int getOperation() {
 		return operation;
 	}
@@ -63,7 +63,7 @@ public class CompoundAssignment extends EvalStatement {
 		res += getExpression().toString();
 		return res;
 	}
-	
+
 	public void collectNeededEntities(NeededEntities needs)
 	{
 		Entity entity = target.getOwner();

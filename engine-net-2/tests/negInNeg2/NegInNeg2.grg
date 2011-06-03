@@ -3,13 +3,13 @@ rule init
     replace {
         :Node;
         :Node;
-        
+
         a:Node --> :Node;
         a --> :Node;
         a --> :Node;
 
         b:Node --> b;
-        
+
         c:Node --> :Node;
         c --> :Node;
         c --> :Node;

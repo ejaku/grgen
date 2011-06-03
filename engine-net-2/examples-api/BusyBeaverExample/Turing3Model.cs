@@ -31,10 +31,10 @@ namespace de.unika.ipd.grGen.Model_Turing3
 	{
 		private static int poolLevel = 0;
 		private static GRGEN_MODEL.@Node[] pool = new GRGEN_MODEL.@Node[10];
-		
+
 		static @Node() {
 		}
-		
+
 		public @Node() : base(GRGEN_MODEL.NodeType_Node.typeVar)
 		{
 			// implicit initialization, map/set creation of Node
@@ -147,12 +147,12 @@ namespace de.unika.ipd.grGen.Model_Turing3
 	{
 		private static int poolLevel = 0;
 		private static GRGEN_MODEL.@BandPosition[] pool = new GRGEN_MODEL.@BandPosition[10];
-		
+
 		// explicit initializations of BandPosition for target BandPosition
 		// implicit initializations of BandPosition for target BandPosition
 		static @BandPosition() {
 		}
-		
+
 		public @BandPosition() : base(GRGEN_MODEL.NodeType_BandPosition.typeVar)
 		{
 			// implicit initialization, map/set creation of BandPosition
@@ -314,12 +314,12 @@ namespace de.unika.ipd.grGen.Model_Turing3
 	{
 		private static int poolLevel = 0;
 		private static GRGEN_MODEL.@State[] pool = new GRGEN_MODEL.@State[10];
-		
+
 		// explicit initializations of State for target State
 		// implicit initializations of State for target State
 		static @State() {
 		}
-		
+
 		public @State() : base(GRGEN_MODEL.NodeType_State.typeVar)
 		{
 			// implicit initialization, map/set creation of State
@@ -436,12 +436,12 @@ namespace de.unika.ipd.grGen.Model_Turing3
 	{
 		private static int poolLevel = 0;
 		private static GRGEN_MODEL.@WriteValue[] pool = new GRGEN_MODEL.@WriteValue[10];
-		
+
 		// explicit initializations of WriteValue for target WriteValue
 		// implicit initializations of WriteValue for target WriteValue
 		static @WriteValue() {
 		}
-		
+
 		public @WriteValue() : base(GRGEN_MODEL.NodeType_WriteValue.typeVar)
 		{
 			// implicit initialization, map/set creation of WriteValue
@@ -743,10 +743,10 @@ namespace de.unika.ipd.grGen.Model_Turing3
 	{
 		private static int poolLevel = 0;
 		private static GRGEN_MODEL.@Edge[] pool = new GRGEN_MODEL.@Edge[10];
-		
+
 		static @Edge() {
 		}
-		
+
 		public @Edge(GRGEN_LGSP.LGSPNode source, GRGEN_LGSP.LGSPNode target)
 			: base(GRGEN_MODEL.EdgeType_Edge.typeVar, source, target)
 		{
@@ -859,10 +859,10 @@ namespace de.unika.ipd.grGen.Model_Turing3
 	{
 		private static int poolLevel = 0;
 		private static GRGEN_MODEL.@UEdge[] pool = new GRGEN_MODEL.@UEdge[10];
-		
+
 		static @UEdge() {
 		}
-		
+
 		public @UEdge(GRGEN_LGSP.LGSPNode source, GRGEN_LGSP.LGSPNode target)
 			: base(GRGEN_MODEL.EdgeType_UEdge.typeVar, source, target)
 		{
@@ -978,12 +978,12 @@ namespace de.unika.ipd.grGen.Model_Turing3
 	{
 		private static int poolLevel = 0;
 		private static GRGEN_MODEL.@right[] pool = new GRGEN_MODEL.@right[10];
-		
+
 		// explicit initializations of right for target right
 		// implicit initializations of right for target right
 		static @right() {
 		}
-		
+
 		public @right(GRGEN_LGSP.LGSPNode source, GRGEN_LGSP.LGSPNode target)
 			: base(GRGEN_MODEL.EdgeType_right.typeVar, source, target)
 		{
@@ -1103,12 +1103,12 @@ namespace de.unika.ipd.grGen.Model_Turing3
 	{
 		private static int poolLevel = 0;
 		private static GRGEN_MODEL.@readZero[] pool = new GRGEN_MODEL.@readZero[10];
-		
+
 		// explicit initializations of readZero for target readZero
 		// implicit initializations of readZero for target readZero
 		static @readZero() {
 		}
-		
+
 		public @readZero(GRGEN_LGSP.LGSPNode source, GRGEN_LGSP.LGSPNode target)
 			: base(GRGEN_MODEL.EdgeType_readZero.typeVar, source, target)
 		{
@@ -1228,12 +1228,12 @@ namespace de.unika.ipd.grGen.Model_Turing3
 	{
 		private static int poolLevel = 0;
 		private static GRGEN_MODEL.@readOne[] pool = new GRGEN_MODEL.@readOne[10];
-		
+
 		// explicit initializations of readOne for target readOne
 		// implicit initializations of readOne for target readOne
 		static @readOne() {
 		}
-		
+
 		public @readOne(GRGEN_LGSP.LGSPNode source, GRGEN_LGSP.LGSPNode target)
 			: base(GRGEN_MODEL.EdgeType_readOne.typeVar, source, target)
 		{
@@ -1353,12 +1353,12 @@ namespace de.unika.ipd.grGen.Model_Turing3
 	{
 		private static int poolLevel = 0;
 		private static GRGEN_MODEL.@moveLeft[] pool = new GRGEN_MODEL.@moveLeft[10];
-		
+
 		// explicit initializations of moveLeft for target moveLeft
 		// implicit initializations of moveLeft for target moveLeft
 		static @moveLeft() {
 		}
-		
+
 		public @moveLeft(GRGEN_LGSP.LGSPNode source, GRGEN_LGSP.LGSPNode target)
 			: base(GRGEN_MODEL.EdgeType_moveLeft.typeVar, source, target)
 		{
@@ -1478,12 +1478,12 @@ namespace de.unika.ipd.grGen.Model_Turing3
 	{
 		private static int poolLevel = 0;
 		private static GRGEN_MODEL.@moveRight[] pool = new GRGEN_MODEL.@moveRight[10];
-		
+
 		// explicit initializations of moveRight for target moveRight
 		// implicit initializations of moveRight for target moveRight
 		static @moveRight() {
 		}
-		
+
 		public @moveRight(GRGEN_LGSP.LGSPNode source, GRGEN_LGSP.LGSPNode target)
 			: base(GRGEN_MODEL.EdgeType_moveRight.typeVar, source, target)
 		{

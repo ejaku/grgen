@@ -74,10 +74,10 @@ public class ArrayVarAddItemNode extends EvalStatementNode
 		success &= checkType(valueExpr, targetValueType, "array add item statement", "value");
 		return success;
 	}
-	
+
 	@Override
 	protected IR constructIR() {
-		return new ArrayVarAddItem(target.checkIR(Variable.class), 
+		return new ArrayVarAddItem(target.checkIR(Variable.class),
 				valueExpr.checkIR(Expression.class),
 				indexExpr!=null ? indexExpr.checkIR(Expression.class) : null);
 	}

@@ -37,7 +37,7 @@ public abstract class GraphEntity extends Entity {
 
 	/** The interface type of the parameter if any. */
 	protected InheritanceType parameterInterfaceType = null;
-	
+
 	/** The storage from which to get the node or edge, if any */
 	protected Variable storage = null;
 
@@ -51,7 +51,7 @@ public abstract class GraphEntity extends Entity {
 
 	private boolean maybeDeleted;
 	private boolean maybeRetyped;
-	
+
 	/** Dependencies because of match by storage access (element must be matched before storage map access with it)*/
 	protected int dependencyLevel = 0;
 
@@ -116,9 +116,9 @@ public abstract class GraphEntity extends Entity {
 		return false;
 	}
 
-	/** 
+	/**
 	 * @return true, if this entity changes its type
-	 * @param graph The graph where the entity is queried to change its type; 
+	 * @param graph The graph where the entity is queried to change its type;
 	 * if null any graph will match, i.e. return is true as soon as one graph exists where type changes
 	 */
 	public boolean changesType(Graph graph) {
@@ -154,7 +154,7 @@ public abstract class GraphEntity extends Entity {
 	public GraphEntity getTypeof() {
 		return typeof;
 	}
-	
+
 	/** returns whether the inherited type / typeof is the extended version in fact,
 	 * named copy, copying the attributes too  */
 	public boolean isCopy() {
@@ -173,7 +173,7 @@ public abstract class GraphEntity extends Entity {
 	public InheritanceType getParameterInterfaceType() {
 		return parameterInterfaceType;
 	}
-	
+
 	public void setStorage(Variable storage) {
 		this.storage = storage;
 	}
@@ -197,11 +197,11 @@ public abstract class GraphEntity extends Entity {
 	public GraphEntity getAccessor() {
 		return accessor;
 	}
-	
+
 	public void incrementDependencyLevel() {
 		++dependencyLevel;
 	}
-	
+
 	public int getDependencyLevel() {
 		return dependencyLevel;
 	}

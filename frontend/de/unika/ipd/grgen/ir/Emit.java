@@ -21,7 +21,7 @@ import java.util.List;
 public class Emit extends IR implements ImperativeStmt, OrderedReplacement {
 
 	private List<Expression> arguments;
-	
+
 	public Emit(List<Expression> arguments) {
 		super("emit");
 		this.arguments = arguments;
@@ -33,7 +33,7 @@ public class Emit extends IR implements ImperativeStmt, OrderedReplacement {
 	public List<Expression> getArguments() {
 		return Collections.unmodifiableList(arguments);
 	}
-	
+
 	public void collectNeededEntities(NeededEntities needs) {
 		for(Expression expr : arguments) {
 			expr.collectNeededEntities(needs);

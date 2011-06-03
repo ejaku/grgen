@@ -16,7 +16,7 @@ namespace de.unika.ipd.grGen.lgsp
     /// Base class for all search program operations, containing concatenation fields,
     /// so that search program operations can form a linked search program list
     /// - double linked list; next points to the following list element or null;
-    /// previous points to the preceding list element 
+    /// previous points to the preceding list element
     /// or the enclosing search program operation within the list anchor element
     /// </summary>
     abstract class SearchProgramOperation
@@ -59,7 +59,7 @@ namespace de.unika.ipd.grGen.lgsp
         {
             Debug.Assert(newElement.Previous == null, "Insert only of single unconnected element (previous)");
             Debug.Assert(newElement.Next == null, "Insert only of single unconnected element (next)");
-            
+
             if (Next == null)
             {
                 return Append(newElement);
@@ -69,12 +69,12 @@ namespace de.unika.ipd.grGen.lgsp
             Next = newElement;
             newElement.Next = Successor;
             Successor.Previous = newElement;
-            newElement.Previous = this;           
+            newElement.Previous = this;
             return newElement;
         }
 
         /// <summary>
-        /// returns whether operation is a search nesting operation 
+        /// returns whether operation is a search nesting operation
         /// containing other elements within some list inside
         /// bearing the search nesting/iteration structure.
         /// default: false (cause only few operations are search nesting operations)
@@ -104,13 +104,13 @@ namespace de.unika.ipd.grGen.lgsp
 
             // iterate list leftwards, leftmost list element is list anchor element,
             // which contains uplink to enclosing search operation in it's previous member
-            // step over search nesting operations we're not nested in 
+            // step over search nesting operations we're not nested in
             do
             {
                 nestedOperation = potentiallyNestingOperation;
                 potentiallyNestingOperation = nestedOperation.Previous;
             }
-            while (!potentiallyNestingOperation.IsSearchNestingOperation() 
+            while (!potentiallyNestingOperation.IsSearchNestingOperation()
                 || potentiallyNestingOperation.GetNestedSearchOperationsList()!=nestedOperation);
 
             return potentiallyNestingOperation;
@@ -195,7 +195,7 @@ namespace de.unika.ipd.grGen.lgsp
         public SearchProgramOfAction(string rulePatternClassName,
             string patternName, string[] parameterTypes, string[] parameterNames, string name,
             List<string> namesOfPatternGraphsOnPathToEnclosedPatternpath,
-            bool containsSubpatterns, 
+            bool containsSubpatterns,
             string[] dispatchConditions, List<string> suffixedMatcherNames, List<string[]> arguments)
         {
             RulePatternClassName = rulePatternClassName;
@@ -267,7 +267,7 @@ namespace de.unika.ipd.grGen.lgsp
 
             sourceCode.AppendFront("matches.Clear();\n");
             sourceCode.AppendFront("int negLevel = 0;\n");
-            
+
             if(NamesOfPatternGraphsOnPathToEnclosedPatternpath.Count > 0)
                 sourceCode.AppendFront("bool searchPatternpath = false;\n");
             foreach (string graphsOnPath in NamesOfPatternGraphsOnPathToEnclosedPatternpath)
@@ -322,7 +322,7 @@ namespace de.unika.ipd.grGen.lgsp
                 {
                     sourceCode.AppendFrontFormat("return {0}(graph, maxMatches", SuffixedMatcherNames[emittedCounter]);
                     foreach(string argument in Arguments[emittedCounter]) {
-                        sourceCode.AppendFormat(", {0}", argument);                        
+                        sourceCode.AppendFormat(", {0}", argument);
                     }
                     sourceCode.Append(");\n");
                 }
@@ -356,7 +356,7 @@ namespace de.unika.ipd.grGen.lgsp
         }
 
         /// <summary>
-        /// Dumps search program 
+        /// Dumps search program
         /// </summary>
         public override void Dump(SourceBuilder builder)
         {
@@ -466,7 +466,7 @@ namespace de.unika.ipd.grGen.lgsp
     }
 
     /// <summary>
-    /// Class representing the search program of an iterated pattern 
+    /// Class representing the search program of an iterated pattern
     /// </summary>
     class SearchProgramOfIterated : SearchProgram
     {
@@ -481,7 +481,7 @@ namespace de.unika.ipd.grGen.lgsp
         }
 
         /// <summary>
-        /// Dumps search program 
+        /// Dumps search program
         /// </summary>
         public override void Dump(SourceBuilder builder)
         {
@@ -564,9 +564,9 @@ namespace de.unika.ipd.grGen.lgsp
             sourceCode.Indent();
             string whichCase = RulePatternClassName + "." + PathPrefix + "CaseNums.@" + CaseName;
             sourceCode.AppendFrontFormat("patternGraph = patternGraphs[(int){0}];\n", whichCase);
-            
+
             OperationsList.Emit(sourceCode);
-            
+
             sourceCode.Unindent();
             sourceCode.AppendFront("} while(false);\n");
         }
@@ -614,7 +614,7 @@ namespace de.unika.ipd.grGen.lgsp
     }
 
     /// <summary>
-    /// Available entity types 
+    /// Available entity types
     /// </summary>
     enum EntityType
     {
@@ -713,7 +713,7 @@ namespace de.unika.ipd.grGen.lgsp
             builder.AppendFront("GetType ByIteration ");
             if(Type==GetTypeByIterationType.ExplicitelyGiven) {
                 builder.Append("ExplicitelyGiven ");
-                builder.AppendFormat("on {0} in {1} node:{2}\n", 
+                builder.AppendFormat("on {0} in {1} node:{2}\n",
                     PatternElementName, TypeName, IsNode);
             } else { // Type==GetTypeByIterationType.AllCompatible
                 builder.Append("AllCompatible ");
@@ -738,7 +738,7 @@ namespace de.unika.ipd.grGen.lgsp
 
             // emit type iteration loop header
             string typeOfVariableContainingType = NamesOfEntities.TypeOfVariableContainingType(IsNode);
-            string variableContainingTypeForCandidate = 
+            string variableContainingTypeForCandidate =
                 NamesOfEntities.TypeForCandidateVariable(PatternElementName);
             string containerWithAvailableTypes;
             if (Type == GetTypeByIterationType.ExplicitelyGiven)
@@ -751,7 +751,7 @@ namespace de.unika.ipd.grGen.lgsp
                 containerWithAvailableTypes = RulePatternTypeName
                     + ".typeVar.SubOrSameTypes";
             }
-            
+
             sourceCode.AppendFrontFormat("foreach({0} {1} in {2})\n",
                 typeOfVariableContainingType, variableContainingTypeForCandidate,
                 containerWithAvailableTypes);
@@ -760,8 +760,8 @@ namespace de.unika.ipd.grGen.lgsp
             sourceCode.AppendFront("{\n");
             sourceCode.Indent();
 
-            // emit type id setting and loop body 
-            string variableContainingTypeIDForCandidate = 
+            // emit type id setting and loop body
+            string variableContainingTypeIDForCandidate =
                 NamesOfEntities.TypeIdForCandidateVariable(PatternElementName);
             sourceCode.AppendFrontFormat("int {0} = {1}.TypeID;\n",
                 variableContainingTypeIDForCandidate, variableContainingTypeForCandidate);
@@ -820,7 +820,7 @@ namespace de.unika.ipd.grGen.lgsp
             if(sourceCode.CommentSourceCode)
                 sourceCode.AppendFrontFormat("// Lookup {0} \n", PatternElementName);
 
-            string variableContainingTypeIDForCandidate = 
+            string variableContainingTypeIDForCandidate =
                 NamesOfEntities.TypeIdForCandidateVariable(PatternElementName);
             sourceCode.AppendFrontFormat("int {0} = {1};\n",
                 variableContainingTypeIDForCandidate, TypeID);
@@ -966,7 +966,7 @@ namespace de.unika.ipd.grGen.lgsp
             {
                 // code comments: lookup comment was already emitted with type iteration/drawing
 
-                // open loop header 
+                // open loop header
                 sourceCode.AppendFrontFormat("for(");
                 // emit declaration of variable containing graph elements list head
                 string typeOfVariableContainingListHead = "GRGEN_LGSP."
@@ -987,7 +987,7 @@ namespace de.unika.ipd.grGen.lgsp
                     NamesOfEntities.CandidateVariable(PatternElementName);
                 sourceCode.AppendFormat("{0} = {1}.lgspTypeNext; ",
                     variableContainingCandidate, variableContainingListHead);
-                // emit loop condition: check for head reached again 
+                // emit loop condition: check for head reached again
                 sourceCode.AppendFormat("{0} != {1}; ",
                     variableContainingCandidate, variableContainingListHead);
                 // emit loop increment: switch to next element of same type
@@ -1018,11 +1018,11 @@ namespace de.unika.ipd.grGen.lgsp
                 // emit loop header with variable containing dictionary entry
                 string variableContainingStorage =
                     NamesOfEntities.Variable(StorageName);
-                string storageIterationVariable = 
+                string storageIterationVariable =
                     NamesOfEntities.CandidateIterationDictionaryOrListEntry(PatternElementName);
                 sourceCode.AppendFrontFormat("foreach({0} {1} in {2})\n",
                     StorageIterationType, storageIterationVariable, variableContainingStorage);
-                
+
                 // open loop
                 sourceCode.AppendFront("{\n");
                 sourceCode.Indent();
@@ -1033,7 +1033,7 @@ namespace de.unika.ipd.grGen.lgsp
                 string variableContainingCandidate =
                     NamesOfEntities.CandidateVariable(PatternElementName);
                 sourceCode.AppendFrontFormat("{0} {1} = ({0}){2}{3};\n",
-                    typeOfVariableContainingCandidate, variableContainingCandidate, 
+                    typeOfVariableContainingCandidate, variableContainingCandidate,
                     storageIterationVariable, IsDict?".Key":"");
 
                 // emit loop body
@@ -1069,7 +1069,7 @@ namespace de.unika.ipd.grGen.lgsp
                 string variableContainingCandidate =
                     NamesOfEntities.CandidateVariable(PatternElementName);
                 sourceCode.AppendFrontFormat("{0} {1} = ({0}){2}{3};\n",
-                    typeOfVariableContainingCandidate, variableContainingCandidate, 
+                    typeOfVariableContainingCandidate, variableContainingCandidate,
                     storageIterationVariable, IsDict?".Key":"");
 
                 // emit loop body
@@ -1186,7 +1186,7 @@ namespace de.unika.ipd.grGen.lgsp
                     // close the head != null check
                     sourceCode.Unindent();
                     sourceCode.AppendFront("}\n");
-                } //EdgeType 
+                } //EdgeType
             } //Type
         }
 
@@ -1286,7 +1286,7 @@ namespace de.unika.ipd.grGen.lgsp
             bool isNode)
         {
             Debug.Assert(type == GetCandidateByDrawingType.FromInputs || type == GetCandidateByDrawingType.FromSubpatternConnections);
-            
+
             Type = type;
             PatternElementName = patternElementName;
             IsNode = isNode;
@@ -1317,12 +1317,12 @@ namespace de.unika.ipd.grGen.lgsp
             if(Type==GetCandidateByDrawingType.NodeFromEdge) {
                 builder.Append("NodeFromEdge ");
                 builder.AppendFormat("on {0} of {1} from {2} implicit node type:{3}\n",
-                    PatternElementName, PatternElementTypeName, 
+                    PatternElementName, PatternElementTypeName,
                     StartingPointEdgeName, NodeType.ToString());
             } if(Type==GetCandidateByDrawingType.MapWithStorage) {
                 builder.Append("MapWithStorage ");
                 builder.AppendFormat("on {0} by {1} from {2} node:{3}\n",
-                    PatternElementName, SourcePatternElementName, 
+                    PatternElementName, SourcePatternElementName,
                     StorageName, IsNode);
             } else if(Type==GetCandidateByDrawingType.FromInputs) {
                 builder.Append("FromInputs ");
@@ -1360,10 +1360,10 @@ namespace de.unika.ipd.grGen.lgsp
                 else if (NodeType == ImplicitNodeType.SourceOrTarget)
                 {
                     // we've to look at both nodes, we do so by first handling source, then target
-                    string directionRunCounter = 
+                    string directionRunCounter =
                         NamesOfEntities.DirectionRunCounterVariable(StartingPointEdgeName);
                     // emit declaration of variable containing candidate node
-                    string variableContainingCandidate = 
+                    string variableContainingCandidate =
                         NamesOfEntities.CandidateVariable(PatternElementName);
                     sourceCode.AppendFrontFormat("GRGEN_LGSP.LGSPNode {0}", variableContainingCandidate);
                     // emit initialization with demanded node from variable containing edge
@@ -1446,7 +1446,7 @@ namespace de.unika.ipd.grGen.lgsp
     }
 
     /// <summary>
-    /// Class representing operation iterating both directions of an edge of unfixed direction 
+    /// Class representing operation iterating both directions of an edge of unfixed direction
     /// </summary>
     class BothDirectionsIteration : SearchProgramOperation
     {
@@ -1636,7 +1636,7 @@ namespace de.unika.ipd.grGen.lgsp
                 builder.AppendFormat("on {0} ids:{1} node:{2}\n",
                     PatternElementName, string.Join(",", TypeIDs), IsNode);
             }
-            
+
             // then operations for case check failed
             if (CheckFailedOperations != null)
             {
@@ -1696,7 +1696,7 @@ namespace de.unika.ipd.grGen.lgsp
 
     /// <summary>
     /// Class representing some check candidate operation,
-    /// which was determined at generation time to always fail 
+    /// which was determined at generation time to always fail
     /// </summary>
     class CheckCandidateFailed : CheckCandidate
     {
@@ -1740,7 +1740,7 @@ namespace de.unika.ipd.grGen.lgsp
     class CheckCandidateForConnectedness : CheckCandidate
     {
         public CheckCandidateForConnectedness(
-            string patternElementName, 
+            string patternElementName,
             string patternNodeName,
             string patternEdgeName,
             CheckCandidateForConnectednessType connectednessType)
@@ -1806,7 +1806,7 @@ namespace de.unika.ipd.grGen.lgsp
             {
                 // we've to check both node positions of the edge, we do so by checking source or target dependent on the direction run
                 sourceCode.AppendFrontFormat("if( ({0}==0 ? {1}.lgspSource : {1}.lgspTarget) != {2}) ",
-                    NamesOfEntities.DirectionRunCounterVariable(PatternEdgeName), 
+                    NamesOfEntities.DirectionRunCounterVariable(PatternEdgeName),
                     NamesOfEntities.CandidateVariable(PatternEdgeName),
                     NamesOfEntities.CandidateVariable(PatternNodeName));
             }
@@ -1834,7 +1834,7 @@ namespace de.unika.ipd.grGen.lgsp
     }
 
     /// <summary>
-    /// Class representing "check whether candidate is not already mapped 
+    /// Class representing "check whether candidate is not already mapped
     ///   to some other pattern element, to ensure required isomorphy" operation
     /// required graph element to pattern element mapping is written/removed by AcceptCandidate/AbandonCandidate
     /// </summary>
@@ -1902,9 +1902,9 @@ namespace de.unika.ipd.grGen.lgsp
             }
 
             // but only if isomorphy is demanded (NamesOfPatternElementsToCheckAgainst empty)
-            // otherwise homomorphy to certain elements is allowed, 
+            // otherwise homomorphy to certain elements is allowed,
             // so we only fail if the graph element is matched to one of the not allowed elements,
-            // given in NamesOfPatternElementsToCheckAgainst 
+            // given in NamesOfPatternElementsToCheckAgainst
             if (NamesOfPatternElementsToCheckAgainst != null)
             {
                 Debug.Assert(NamesOfPatternElementsToCheckAgainst.Count > 0);
@@ -1965,7 +1965,7 @@ namespace de.unika.ipd.grGen.lgsp
     }
 
     /// <summary>
-    /// Class representing "check whether candidate is not already mapped 
+    /// Class representing "check whether candidate is not already mapped
     ///   to some other (non-local) pattern element within this isomorphy space, to ensure required isomorphy" operation
     /// required graph element to pattern element mapping is written by AcceptCandidateGlobal/AbandonCandidateGlobal
     /// </summary>
@@ -2035,7 +2035,7 @@ namespace de.unika.ipd.grGen.lgsp
             if (GloballyHomomorphElements != null)
             {
                 // don't fail if candidate was globally matched by an element
-                // it is allowed to be globally homomorph to 
+                // it is allowed to be globally homomorph to
                 // (element from alternative case declared to be non-isomorph to element from enclosing pattern)
                 foreach (string name in GloballyHomomorphElements)
                 {
@@ -2059,7 +2059,7 @@ namespace de.unika.ipd.grGen.lgsp
     }
 
     /// <summary>
-    /// Class representing "check whether candidate is not already mapped 
+    /// Class representing "check whether candidate is not already mapped
     ///   to some other pattern element on the pattern derivation path, to ensure required isomorphy" operation
     /// </summary>
     class CheckCandidateForIsomorphyPatternPath : CheckCandidate
@@ -2149,7 +2149,7 @@ namespace de.unika.ipd.grGen.lgsp
             // first dump check
             builder.AppendFront("CheckCandidate MapWithStorage ");
             builder.AppendFormat("on {0} by {1} from {2} node:{3}\n",
-                PatternElementName, SourcePatternElementName, 
+                PatternElementName, SourcePatternElementName,
                 StorageName, IsNode);
             // then operations for case check failed
             if(CheckFailedOperations != null)
@@ -2167,7 +2167,7 @@ namespace de.unika.ipd.grGen.lgsp
             string variableContainingSourceElement = NamesOfEntities.CandidateVariable(SourcePatternElementName);
             string tempVariableForMapResult = NamesOfEntities.MapWithStorageTemporary(PatternElementName);
             sourceCode.AppendFrontFormat("if(!{0}.TryGetValue(({1}){2}, out {3})) ",
-                variableContainingStorage, StorageKeyTypeName, 
+                variableContainingStorage, StorageKeyTypeName,
                 variableContainingSourceElement, tempVariableForMapResult);
 
             // emit check failed code
@@ -2181,7 +2181,7 @@ namespace de.unika.ipd.grGen.lgsp
             string typeOfVariableContainingCandidate = "GRGEN_LGSP."
                     + (IsNode ? "LGSPNode" : "LGSPEdge");
             string variableContainingCandidate = NamesOfEntities.CandidateVariable(PatternElementName);
-                
+
             sourceCode.AppendFrontFormat("{0} = ({1}){2};\n",
                 variableContainingCandidate, typeOfVariableContainingCandidate, tempVariableForMapResult);
         }
@@ -2338,7 +2338,7 @@ namespace de.unika.ipd.grGen.lgsp
         {
             ConditionExpression = conditionExpression;
             NeededVariables = neededVariables;
-            
+
             int i = 0;
             NeededElements = new string[neededNodes.Length + neededEdges.Length];
             NeededElementIsNode = new bool[neededNodes.Length + neededEdges.Length];
@@ -2522,7 +2522,7 @@ namespace de.unika.ipd.grGen.lgsp
     }
 
     /// <summary>
-    /// Class representing operations to execute upon candidate gets accepted 
+    /// Class representing operations to execute upon candidate gets accepted
     /// into a complete match of its subpattern, locking candidate for other subpatterns
     /// </summary>
     class AcceptCandidateGlobal : SearchProgramOperation
@@ -2591,7 +2591,7 @@ namespace de.unika.ipd.grGen.lgsp
     }
 
     /// <summary>
-    /// Class representing operations to execute upon candidate gets accepted 
+    /// Class representing operations to execute upon candidate gets accepted
     /// into a complete match of its subpattern, locking candidate for patternpath checks later on
     /// </summary>
     class AcceptCandidatePatternpath : SearchProgramOperation
@@ -2653,7 +2653,7 @@ namespace de.unika.ipd.grGen.lgsp
     }
 
     /// <summary>
-    /// Class representing operations undoing effects of candidate acceptance 
+    /// Class representing operations undoing effects of candidate acceptance
     /// when performing the backtracking step;
     /// (currently only) restoring isomorphy information in graph, as not needed any more
     /// (mapping graph element to pattern element)
@@ -2722,7 +2722,7 @@ namespace de.unika.ipd.grGen.lgsp
     }
 
     /// <summary>
-    /// Class representing operations undoing effects of candidate acceptance 
+    /// Class representing operations undoing effects of candidate acceptance
     /// into complete match of it's subpattern when performing the backtracking step (unlocks candidate)
     /// </summary>
     class AbandonCandidateGlobal : SearchProgramOperation
@@ -2788,7 +2788,7 @@ namespace de.unika.ipd.grGen.lgsp
     }
 
     /// <summary>
-    /// Class representing operations undoing effects of patternpath candidate acceptance 
+    /// Class representing operations undoing effects of patternpath candidate acceptance
     /// into complete match of it's subpattern when performing the backtracking step (unlocks candidate)
     /// </summary>
     class AbandonCandidatePatternpath : SearchProgramOperation
@@ -2846,7 +2846,7 @@ namespace de.unika.ipd.grGen.lgsp
     }
 
     /// <summary>
-    /// Class yielding operations to be executed 
+    /// Class yielding operations to be executed
     /// when a positive pattern without contained subpatterns was matched
     /// </summary>
     class PositivePatternWithoutSubpatternsMatched : SearchProgramOperation
@@ -2889,13 +2889,13 @@ namespace de.unika.ipd.grGen.lgsp
     }
 
     /// <summary>
-    /// Class yielding operations to be executed 
+    /// Class yielding operations to be executed
     /// when a subpattern without contained subpatterns was matched (as the last element of the search)
     /// </summary>
     class LeafSubpatternMatched : SearchProgramOperation
     {
         public LeafSubpatternMatched(
-            string rulePatternClassName, 
+            string rulePatternClassName,
             string patternName,
             bool isIteratedNullMatch)
         {
@@ -2950,7 +2950,7 @@ namespace de.unika.ipd.grGen.lgsp
     }
 
     /// <summary>
-    /// Class yielding operations to be executed 
+    /// Class yielding operations to be executed
     /// when a positive pattern was matched and all of it's subpatterns were matched at least once
     /// </summary>
     class PatternAndSubpatternsMatched : SearchProgramOperation
@@ -3048,7 +3048,7 @@ namespace de.unika.ipd.grGen.lgsp
     };
 
     /// <summary>
-    /// Class yielding operations to be executed 
+    /// Class yielding operations to be executed
     /// when a negative pattern was matched
     /// </summary>
     class NegativePatternMatched : SearchProgramOperation
@@ -3089,7 +3089,7 @@ namespace de.unika.ipd.grGen.lgsp
     }
 
     /// <summary>
-    /// Class yielding operations to be executed 
+    /// Class yielding operations to be executed
     /// when a independent pattern was matched
     /// </summary>
     class IndependentPatternMatched : SearchProgramOperation
@@ -3135,7 +3135,7 @@ namespace de.unika.ipd.grGen.lgsp
     /// </summary>
     enum BuildMatchObjectType
     {
-        Node,        // build match object with match for node 
+        Node,        // build match object with match for node
         Edge,        // build match object with match for edge
         Variable,    // build match object with match for variable
         Subpattern,  // build match object with match for subpattern
@@ -3231,7 +3231,7 @@ namespace de.unika.ipd.grGen.lgsp
                 sourceCode.AppendFrontFormat("{0}._{1} = new GRGEN_LGSP.LGSPMatchesList<{2}.{3}, {2}.{4}>(null);\n",
                     MatchObjectName, matchName,
                     RulePatternClassName, NamesOfEntities.MatchClassName(PatternElementType), NamesOfEntities.MatchInterfaceName(PatternElementType));
-                sourceCode.AppendFrontFormat("while(currentFoundPartialMatch.Count>0 && currentFoundPartialMatch.Peek() is {0}.{1}) ", 
+                sourceCode.AppendFrontFormat("while(currentFoundPartialMatch.Count>0 && currentFoundPartialMatch.Peek() is {0}.{1}) ",
                     RulePatternClassName, NamesOfEntities.MatchInterfaceName(PatternElementType));
                 sourceCode.Append("{\n");
                 sourceCode.Indent();
@@ -3378,7 +3378,7 @@ namespace de.unika.ipd.grGen.lgsp
         public override void Dump(SourceBuilder builder)
         {
             // first dump local content
-            builder.AppendFrontFormat("BubbleUpYieldIterated on {0} type {1}\n", 
+            builder.AppendFrontFormat("BubbleUpYieldIterated on {0} type {1}\n",
                 NestedMatchObjectName, IteratedMatchTypeName);
 
             // then nested content
@@ -3392,7 +3392,7 @@ namespace de.unika.ipd.grGen.lgsp
 
         public override void Emit(SourceBuilder sourceCode)
         {
-            sourceCode.AppendFrontFormat("foreach({0} {1} in {2}) {{\n", 
+            sourceCode.AppendFrontFormat("foreach({0} {1} in {2}) {{\n",
                 IteratedMatchTypeName, HelperMatchName, NestedMatchObjectName);
             sourceCode.Indent();
 
@@ -3608,7 +3608,7 @@ namespace de.unika.ipd.grGen.lgsp
 
     /// <summary>
     /// Base class for search program operations
-    /// to check whether to continue the matching process 
+    /// to check whether to continue the matching process
     /// (of the pattern part under construction)
     /// </summary>
     abstract class CheckContinueMatching : CheckOperation
@@ -3711,7 +3711,7 @@ namespace de.unika.ipd.grGen.lgsp
             } else if (Type == CheckMaximumMatchesType.Iterated) {
                 sourceCode.AppendFront("if(true) // as soon as there's a match, it's enough for iterated\n");
             }
-    
+
             sourceCode.AppendFront("{\n");
             sourceCode.Indent();
 
@@ -4038,7 +4038,7 @@ namespace de.unika.ipd.grGen.lgsp
                 // emit initialization with ramdom position
                 string graphMemberContainingElementListCountsByType =
                     IsNode ? "nodesByTypeCounts" : "edgesByTypeCounts";
-                string variableContainingTypeIDForCandidate = 
+                string variableContainingTypeIDForCandidate =
                     NamesOfEntities.TypeIdForCandidateVariable(PatternElementName);
                 sourceCode.AppendFormat(" = random.Next(graph.{0}[{1}]);\n",
                     graphMemberContainingElementListCountsByType,
@@ -4061,7 +4061,7 @@ namespace de.unika.ipd.grGen.lgsp
                     "for(int i = 0; i < {0}; ++i) {1} = {1}.Next;\n",
                     variableContainingRandomPosition, variableContainingElementAtRandomPosition);
                 // iteration left, element is the one at the requested random position
-                // move list head after element at random position, 
+                // move list head after element at random position,
                 sourceCode.AppendFrontFormat("graph.MoveHeadAfter({0});\n",
                     variableContainingElementAtRandomPosition);
                 // effect is new random starting point for following iteration
@@ -4078,7 +4078,7 @@ namespace de.unika.ipd.grGen.lgsp
                 sourceCode.AppendFront("{\n");
                 sourceCode.Indent();
 
-                // emit declaration of variable containing random position to move list head to, initialize it to 0 
+                // emit declaration of variable containing random position to move list head to, initialize it to 0
                 string variableContainingRandomPosition =
                     "random_position_" + PatternElementName;
                 sourceCode.AppendFrontFormat("int {0} = 0;", variableContainingRandomPosition);
@@ -4108,7 +4108,7 @@ namespace de.unika.ipd.grGen.lgsp
                     variableContainingEdgeAtRandomPosition,
                     memberOfEdgeContainingNextEdge);
                 // iteration left, edge is the one at the requested random position
-                // move list head after edge at random position, 
+                // move list head after edge at random position,
                 if (IsIncoming)
                 {
                     sourceCode.AppendFrontFormat("{0}.MoveInHeadAfter({1});\n",
@@ -4278,7 +4278,7 @@ namespace de.unika.ipd.grGen.lgsp
                 sourceCode.AppendFrontFormat("{0} {1} = {0}.getNewTask(graph, {2}openTasks);\n",
                     typeOfVariableContainingTask, variableContainingTask, NegativeIndependentNamePrefix);
             }
-            
+
             // fill in connections
             for (int i = 0; i < ConnectionName.Length; ++i)
             {
@@ -4289,7 +4289,7 @@ namespace de.unika.ipd.grGen.lgsp
             // fill in values needed for patternpath handling
             sourceCode.AppendFrontFormat("{0}.searchPatternpath = {1};\n",
                 variableContainingTask, SearchPatternpath);
-            sourceCode.AppendFrontFormat("{0}.matchOfNestingPattern = {1};\n", 
+            sourceCode.AppendFrontFormat("{0}.matchOfNestingPattern = {1};\n",
                 variableContainingTask, MatchOfNestingPattern);
             sourceCode.AppendFrontFormat("{0}.lastMatchAtPreviousNestingLevel = {1};\n",
                 variableContainingTask, LastMatchAtPreviousNestingLevel);
@@ -4400,7 +4400,7 @@ namespace de.unika.ipd.grGen.lgsp
         public override void Emit(SourceBuilder sourceCode)
         {
             if (sourceCode.CommentSourceCode)
-                sourceCode.AppendFrontFormat("// Match subpatterns {0}\n", 
+                sourceCode.AppendFrontFormat("// Match subpatterns {0}\n",
                     NegativeIndependentNamePrefix!="" ? "of "+NegativeIndependentNamePrefix : "");
 
             sourceCode.AppendFrontFormat("{0}openTasks.Peek().myMatch({0}matchesList, {1}, negLevel);\n",
@@ -4566,7 +4566,7 @@ namespace de.unika.ipd.grGen.lgsp
 
         public override void Dump(SourceBuilder builder)
         {
-            builder.AppendFrontFormat("InitializeNegativeIndependentMatching {0}\n", 
+            builder.AppendFrontFormat("InitializeNegativeIndependentMatching {0}\n",
                 SetupSubpatternMatching ? "SetupSubpatternMatching" : "");
         }
 
@@ -4662,9 +4662,9 @@ namespace de.unika.ipd.grGen.lgsp
 
         public override void Emit(SourceBuilder sourceCode)
         {
-            sourceCode.AppendFrontFormat("// build match of {0} for patternpath checks\n", 
+            sourceCode.AppendFrontFormat("// build match of {0} for patternpath checks\n",
                 PatternGraphName);
-            sourceCode.AppendFrontFormat("if({0}==null) {0} = new {1}.{2}();\n", 
+            sourceCode.AppendFrontFormat("if({0}==null) {0} = new {1}.{2}();\n",
                 NamesOfEntities.PatternpathMatch(PatternGraphName),
                 RulePatternClassName,
                 NamesOfEntities.MatchClassName(PatternGraphName));

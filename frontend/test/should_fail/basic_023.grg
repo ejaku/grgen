@@ -1,6 +1,6 @@
 rule r {
   -x:Edge->;
-  modify { 
+  modify {
     x:Node;
   }
 }

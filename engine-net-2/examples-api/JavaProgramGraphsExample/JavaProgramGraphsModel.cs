@@ -31,10 +31,10 @@ namespace de.unika.ipd.grGen.Model_JavaProgramGraphs
 	{
 		private static int poolLevel = 0;
 		private static GRGEN_MODEL.@Node[] pool = new GRGEN_MODEL.@Node[10];
-		
+
 		static @Node() {
 		}
-		
+
 		public @Node() : base(GRGEN_MODEL.NodeType_Node.typeVar)
 		{
 			// implicit initialization, map/set creation of Node
@@ -147,12 +147,12 @@ namespace de.unika.ipd.grGen.Model_JavaProgramGraphs
 	{
 		private static int poolLevel = 0;
 		private static GRGEN_MODEL.@Package[] pool = new GRGEN_MODEL.@Package[10];
-		
+
 		// explicit initializations of Package for target Package
 		// implicit initializations of Package for target Package
 		static @Package() {
 		}
-		
+
 		public @Package() : base(GRGEN_MODEL.NodeType_Package.typeVar)
 		{
 			// implicit initialization, map/set creation of Package
@@ -317,12 +317,12 @@ namespace de.unika.ipd.grGen.Model_JavaProgramGraphs
 	{
 		private static int poolLevel = 0;
 		private static GRGEN_MODEL.@Classifier[] pool = new GRGEN_MODEL.@Classifier[10];
-		
+
 		// explicit initializations of Classifier for target Classifier
 		// implicit initializations of Classifier for target Classifier
 		static @Classifier() {
 		}
-		
+
 		public @Classifier() : base(GRGEN_MODEL.NodeType_Classifier.typeVar)
 		{
 			// implicit initialization, map/set creation of Classifier
@@ -523,14 +523,14 @@ namespace de.unika.ipd.grGen.Model_JavaProgramGraphs
 	{
 		private static int poolLevel = 0;
 		private static GRGEN_MODEL.@Class[] pool = new GRGEN_MODEL.@Class[10];
-		
+
 		// explicit initializations of Classifier for target Class
 		// implicit initializations of Classifier for target Class
 		// explicit initializations of Class for target Class
 		// implicit initializations of Class for target Class
 		static @Class() {
 		}
-		
+
 		public @Class() : base(GRGEN_MODEL.NodeType_Class.typeVar)
 		{
 			// implicit initialization, map/set creation of Class
@@ -754,14 +754,14 @@ namespace de.unika.ipd.grGen.Model_JavaProgramGraphs
 	{
 		private static int poolLevel = 0;
 		private static GRGEN_MODEL.@Interface[] pool = new GRGEN_MODEL.@Interface[10];
-		
+
 		// explicit initializations of Classifier for target Interface
 		// implicit initializations of Classifier for target Interface
 		// explicit initializations of Interface for target Interface
 		// implicit initializations of Interface for target Interface
 		static @Interface() {
 		}
-		
+
 		public @Interface() : base(GRGEN_MODEL.NodeType_Interface.typeVar)
 		{
 			// implicit initialization, map/set creation of Interface
@@ -971,12 +971,12 @@ namespace de.unika.ipd.grGen.Model_JavaProgramGraphs
 	{
 		private static int poolLevel = 0;
 		private static GRGEN_MODEL.@Variable[] pool = new GRGEN_MODEL.@Variable[10];
-		
+
 		// explicit initializations of Variable for target Variable
 		// implicit initializations of Variable for target Variable
 		static @Variable() {
 		}
-		
+
 		public @Variable() : base(GRGEN_MODEL.NodeType_Variable.typeVar)
 		{
 			// implicit initialization, map/set creation of Variable
@@ -1197,12 +1197,12 @@ namespace de.unika.ipd.grGen.Model_JavaProgramGraphs
 	{
 		private static int poolLevel = 0;
 		private static GRGEN_MODEL.@Operation[] pool = new GRGEN_MODEL.@Operation[10];
-		
+
 		// explicit initializations of Operation for target Operation
 		// implicit initializations of Operation for target Operation
 		static @Operation() {
 		}
-		
+
 		public @Operation() : base(GRGEN_MODEL.NodeType_Operation.typeVar)
 		{
 			// implicit initialization, map/set creation of Operation
@@ -1436,12 +1436,12 @@ namespace de.unika.ipd.grGen.Model_JavaProgramGraphs
 	{
 		private static int poolLevel = 0;
 		private static GRGEN_MODEL.@MethodBody[] pool = new GRGEN_MODEL.@MethodBody[10];
-		
+
 		// explicit initializations of MethodBody for target MethodBody
 		// implicit initializations of MethodBody for target MethodBody
 		static @MethodBody() {
 		}
-		
+
 		public @MethodBody() : base(GRGEN_MODEL.NodeType_MethodBody.typeVar)
 		{
 			// implicit initialization, map/set creation of MethodBody
@@ -1557,12 +1557,12 @@ namespace de.unika.ipd.grGen.Model_JavaProgramGraphs
 	{
 		private static int poolLevel = 0;
 		private static GRGEN_MODEL.@Expression[] pool = new GRGEN_MODEL.@Expression[10];
-		
+
 		// explicit initializations of Expression for target Expression
 		// implicit initializations of Expression for target Expression
 		static @Expression() {
 		}
-		
+
 		public @Expression() : base(GRGEN_MODEL.NodeType_Expression.typeVar)
 		{
 			// implicit initialization, map/set creation of Expression
@@ -1679,14 +1679,14 @@ namespace de.unika.ipd.grGen.Model_JavaProgramGraphs
 	{
 		private static int poolLevel = 0;
 		private static GRGEN_MODEL.@Access[] pool = new GRGEN_MODEL.@Access[10];
-		
+
 		// explicit initializations of Expression for target Access
 		// implicit initializations of Expression for target Access
 		// explicit initializations of Access for target Access
 		// implicit initializations of Access for target Access
 		static @Access() {
 		}
-		
+
 		public @Access() : base(GRGEN_MODEL.NodeType_Access.typeVar)
 		{
 			// implicit initialization, map/set creation of Access
@@ -1853,14 +1853,14 @@ namespace de.unika.ipd.grGen.Model_JavaProgramGraphs
 	{
 		private static int poolLevel = 0;
 		private static GRGEN_MODEL.@Update[] pool = new GRGEN_MODEL.@Update[10];
-		
+
 		// explicit initializations of Expression for target Update
 		// implicit initializations of Expression for target Update
 		// explicit initializations of Update for target Update
 		// implicit initializations of Update for target Update
 		static @Update() {
 		}
-		
+
 		public @Update() : base(GRGEN_MODEL.NodeType_Update.typeVar)
 		{
 			// implicit initialization, map/set creation of Update
@@ -2028,14 +2028,14 @@ namespace de.unika.ipd.grGen.Model_JavaProgramGraphs
 	{
 		private static int poolLevel = 0;
 		private static GRGEN_MODEL.@Call[] pool = new GRGEN_MODEL.@Call[10];
-		
+
 		// explicit initializations of Expression for target Call
 		// implicit initializations of Expression for target Call
 		// explicit initializations of Call for target Call
 		// implicit initializations of Call for target Call
 		static @Call() {
 		}
-		
+
 		public @Call() : base(GRGEN_MODEL.NodeType_Call.typeVar)
 		{
 			// implicit initialization, map/set creation of Call
@@ -2219,14 +2219,14 @@ namespace de.unika.ipd.grGen.Model_JavaProgramGraphs
 	{
 		private static int poolLevel = 0;
 		private static GRGEN_MODEL.@Instantiation[] pool = new GRGEN_MODEL.@Instantiation[10];
-		
+
 		// explicit initializations of Expression for target Instantiation
 		// implicit initializations of Expression for target Instantiation
 		// explicit initializations of Instantiation for target Instantiation
 		// implicit initializations of Instantiation for target Instantiation
 		static @Instantiation() {
 		}
-		
+
 		public @Instantiation() : base(GRGEN_MODEL.NodeType_Instantiation.typeVar)
 		{
 			// implicit initialization, map/set creation of Instantiation
@@ -2347,14 +2347,14 @@ namespace de.unika.ipd.grGen.Model_JavaProgramGraphs
 	{
 		private static int poolLevel = 0;
 		private static GRGEN_MODEL.@Operator[] pool = new GRGEN_MODEL.@Operator[10];
-		
+
 		// explicit initializations of Expression for target Operator
 		// implicit initializations of Expression for target Operator
 		// explicit initializations of Operator for target Operator
 		// implicit initializations of Operator for target Operator
 		static @Operator() {
 		}
-		
+
 		public @Operator() : base(GRGEN_MODEL.NodeType_Operator.typeVar)
 		{
 			// implicit initialization, map/set creation of Operator
@@ -2520,14 +2520,14 @@ namespace de.unika.ipd.grGen.Model_JavaProgramGraphs
 	{
 		private static int poolLevel = 0;
 		private static GRGEN_MODEL.@Return[] pool = new GRGEN_MODEL.@Return[10];
-		
+
 		// explicit initializations of Expression for target Return
 		// implicit initializations of Expression for target Return
 		// explicit initializations of Return for target Return
 		// implicit initializations of Return for target Return
 		static @Return() {
 		}
-		
+
 		public @Return() : base(GRGEN_MODEL.NodeType_Return.typeVar)
 		{
 			// implicit initialization, map/set creation of Return
@@ -2647,14 +2647,14 @@ namespace de.unika.ipd.grGen.Model_JavaProgramGraphs
 	{
 		private static int poolLevel = 0;
 		private static GRGEN_MODEL.@Block[] pool = new GRGEN_MODEL.@Block[10];
-		
+
 		// explicit initializations of Expression for target Block
 		// implicit initializations of Expression for target Block
 		// explicit initializations of Block for target Block
 		// implicit initializations of Block for target Block
 		static @Block() {
 		}
-		
+
 		public @Block() : base(GRGEN_MODEL.NodeType_Block.typeVar)
 		{
 			// implicit initialization, map/set creation of Block
@@ -2775,12 +2775,12 @@ namespace de.unika.ipd.grGen.Model_JavaProgramGraphs
 	{
 		private static int poolLevel = 0;
 		private static GRGEN_MODEL.@Literal[] pool = new GRGEN_MODEL.@Literal[10];
-		
+
 		// explicit initializations of Literal for target Literal
 		// implicit initializations of Literal for target Literal
 		static @Literal() {
 		}
-		
+
 		public @Literal() : base(GRGEN_MODEL.NodeType_Literal.typeVar)
 		{
 			// implicit initialization, map/set creation of Literal
@@ -2942,12 +2942,12 @@ namespace de.unika.ipd.grGen.Model_JavaProgramGraphs
 	{
 		private static int poolLevel = 0;
 		private static GRGEN_MODEL.@Parameter[] pool = new GRGEN_MODEL.@Parameter[10];
-		
+
 		// explicit initializations of Parameter for target Parameter
 		// implicit initializations of Parameter for target Parameter
 		static @Parameter() {
 		}
-		
+
 		public @Parameter() : base(GRGEN_MODEL.NodeType_Parameter.typeVar)
 		{
 			// implicit initialization, map/set creation of Parameter
@@ -3477,10 +3477,10 @@ namespace de.unika.ipd.grGen.Model_JavaProgramGraphs
 	{
 		private static int poolLevel = 0;
 		private static GRGEN_MODEL.@Edge[] pool = new GRGEN_MODEL.@Edge[10];
-		
+
 		static @Edge() {
 		}
-		
+
 		public @Edge(GRGEN_LGSP.LGSPNode source, GRGEN_LGSP.LGSPNode target)
 			: base(GRGEN_MODEL.EdgeType_Edge.typeVar, source, target)
 		{
@@ -3593,10 +3593,10 @@ namespace de.unika.ipd.grGen.Model_JavaProgramGraphs
 	{
 		private static int poolLevel = 0;
 		private static GRGEN_MODEL.@UEdge[] pool = new GRGEN_MODEL.@UEdge[10];
-		
+
 		static @UEdge() {
 		}
-		
+
 		public @UEdge(GRGEN_LGSP.LGSPNode source, GRGEN_LGSP.LGSPNode target)
 			: base(GRGEN_MODEL.EdgeType_UEdge.typeVar, source, target)
 		{
@@ -3712,12 +3712,12 @@ namespace de.unika.ipd.grGen.Model_JavaProgramGraphs
 	{
 		private static int poolLevel = 0;
 		private static GRGEN_MODEL.@belongsTo[] pool = new GRGEN_MODEL.@belongsTo[10];
-		
+
 		// explicit initializations of belongsTo for target belongsTo
 		// implicit initializations of belongsTo for target belongsTo
 		static @belongsTo() {
 		}
-		
+
 		public @belongsTo(GRGEN_LGSP.LGSPNode source, GRGEN_LGSP.LGSPNode target)
 			: base(GRGEN_MODEL.EdgeType_belongsTo.typeVar, source, target)
 		{
@@ -3837,12 +3837,12 @@ namespace de.unika.ipd.grGen.Model_JavaProgramGraphs
 	{
 		private static int poolLevel = 0;
 		private static GRGEN_MODEL.@type_[] pool = new GRGEN_MODEL.@type_[10];
-		
+
 		// explicit initializations of type_ for target type_
 		// implicit initializations of type_ for target type_
 		static @type_() {
 		}
-		
+
 		public @type_(GRGEN_LGSP.LGSPNode source, GRGEN_LGSP.LGSPNode target)
 			: base(GRGEN_MODEL.EdgeType_type_.typeVar, source, target)
 		{
@@ -3962,12 +3962,12 @@ namespace de.unika.ipd.grGen.Model_JavaProgramGraphs
 	{
 		private static int poolLevel = 0;
 		private static GRGEN_MODEL.@extends_[] pool = new GRGEN_MODEL.@extends_[10];
-		
+
 		// explicit initializations of extends_ for target extends_
 		// implicit initializations of extends_ for target extends_
 		static @extends_() {
 		}
-		
+
 		public @extends_(GRGEN_LGSP.LGSPNode source, GRGEN_LGSP.LGSPNode target)
 			: base(GRGEN_MODEL.EdgeType_extends_.typeVar, source, target)
 		{
@@ -4087,12 +4087,12 @@ namespace de.unika.ipd.grGen.Model_JavaProgramGraphs
 	{
 		private static int poolLevel = 0;
 		private static GRGEN_MODEL.@imports[] pool = new GRGEN_MODEL.@imports[10];
-		
+
 		// explicit initializations of imports for target imports
 		// implicit initializations of imports for target imports
 		static @imports() {
 		}
-		
+
 		public @imports(GRGEN_LGSP.LGSPNode source, GRGEN_LGSP.LGSPNode target)
 			: base(GRGEN_MODEL.EdgeType_imports.typeVar, source, target)
 		{
@@ -4212,12 +4212,12 @@ namespace de.unika.ipd.grGen.Model_JavaProgramGraphs
 	{
 		private static int poolLevel = 0;
 		private static GRGEN_MODEL.@implements[] pool = new GRGEN_MODEL.@implements[10];
-		
+
 		// explicit initializations of implements for target implements
 		// implicit initializations of implements for target implements
 		static @implements() {
 		}
-		
+
 		public @implements(GRGEN_LGSP.LGSPNode source, GRGEN_LGSP.LGSPNode target)
 			: base(GRGEN_MODEL.EdgeType_implements.typeVar, source, target)
 		{
@@ -4338,12 +4338,12 @@ namespace de.unika.ipd.grGen.Model_JavaProgramGraphs
 	{
 		private static int poolLevel = 0;
 		private static GRGEN_MODEL.@parameter[] pool = new GRGEN_MODEL.@parameter[10];
-		
+
 		// explicit initializations of parameter for target parameter
 		// implicit initializations of parameter for target parameter
 		static @parameter() {
 		}
-		
+
 		public @parameter(GRGEN_LGSP.LGSPNode source, GRGEN_LGSP.LGSPNode target)
 			: base(GRGEN_MODEL.EdgeType_parameter.typeVar, source, target)
 		{
@@ -4509,12 +4509,12 @@ namespace de.unika.ipd.grGen.Model_JavaProgramGraphs
 	{
 		private static int poolLevel = 0;
 		private static GRGEN_MODEL.@actualParameter[] pool = new GRGEN_MODEL.@actualParameter[10];
-		
+
 		// explicit initializations of actualParameter for target actualParameter
 		// implicit initializations of actualParameter for target actualParameter
 		static @actualParameter() {
 		}
-		
+
 		public @actualParameter(GRGEN_LGSP.LGSPNode source, GRGEN_LGSP.LGSPNode target)
 			: base(GRGEN_MODEL.EdgeType_actualParameter.typeVar, source, target)
 		{
@@ -4634,12 +4634,12 @@ namespace de.unika.ipd.grGen.Model_JavaProgramGraphs
 	{
 		private static int poolLevel = 0;
 		private static GRGEN_MODEL.@binding[] pool = new GRGEN_MODEL.@binding[10];
-		
+
 		// explicit initializations of binding for target binding
 		// implicit initializations of binding for target binding
 		static @binding() {
 		}
-		
+
 		public @binding(GRGEN_LGSP.LGSPNode source, GRGEN_LGSP.LGSPNode target)
 			: base(GRGEN_MODEL.EdgeType_binding.typeVar, source, target)
 		{
@@ -4759,12 +4759,12 @@ namespace de.unika.ipd.grGen.Model_JavaProgramGraphs
 	{
 		private static int poolLevel = 0;
 		private static GRGEN_MODEL.@link[] pool = new GRGEN_MODEL.@link[10];
-		
+
 		// explicit initializations of link for target link
 		// implicit initializations of link for target link
 		static @link() {
 		}
-		
+
 		public @link(GRGEN_LGSP.LGSPNode source, GRGEN_LGSP.LGSPNode target)
 			: base(GRGEN_MODEL.EdgeType_link.typeVar, source, target)
 		{
@@ -4885,12 +4885,12 @@ namespace de.unika.ipd.grGen.Model_JavaProgramGraphs
 	{
 		private static int poolLevel = 0;
 		private static GRGEN_MODEL.@expression[] pool = new GRGEN_MODEL.@expression[10];
-		
+
 		// explicit initializations of expression for target expression
 		// implicit initializations of expression for target expression
 		static @expression() {
 		}
-		
+
 		public @expression(GRGEN_LGSP.LGSPNode source, GRGEN_LGSP.LGSPNode target)
 			: base(GRGEN_MODEL.EdgeType_expression.typeVar, source, target)
 		{
@@ -5056,12 +5056,12 @@ namespace de.unika.ipd.grGen.Model_JavaProgramGraphs
 	{
 		private static int poolLevel = 0;
 		private static GRGEN_MODEL.@inBlock[] pool = new GRGEN_MODEL.@inBlock[10];
-		
+
 		// explicit initializations of inBlock for target inBlock
 		// implicit initializations of inBlock for target inBlock
 		static @inBlock() {
 		}
-		
+
 		public @inBlock(GRGEN_LGSP.LGSPNode source, GRGEN_LGSP.LGSPNode target)
 			: base(GRGEN_MODEL.EdgeType_inBlock.typeVar, source, target)
 		{
@@ -5181,12 +5181,12 @@ namespace de.unika.ipd.grGen.Model_JavaProgramGraphs
 	{
 		private static int poolLevel = 0;
 		private static GRGEN_MODEL.@inClass[] pool = new GRGEN_MODEL.@inClass[10];
-		
+
 		// explicit initializations of inClass for target inClass
 		// implicit initializations of inClass for target inClass
 		static @inClass() {
 		}
-		
+
 		public @inClass(GRGEN_LGSP.LGSPNode source, GRGEN_LGSP.LGSPNode target)
 			: base(GRGEN_MODEL.EdgeType_inClass.typeVar, source, target)
 		{

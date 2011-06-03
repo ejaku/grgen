@@ -31,10 +31,10 @@ namespace de.unika.ipd.grGen.Model_Alternatives
 	{
 		private static int poolLevel = 0;
 		private static GRGEN_MODEL.@Node[] pool = new GRGEN_MODEL.@Node[10];
-		
+
 		static @Node() {
 		}
-		
+
 		public @Node() : base(GRGEN_MODEL.NodeType_Node.typeVar)
 		{
 			// implicit initialization, map/set creation of Node
@@ -146,12 +146,12 @@ namespace de.unika.ipd.grGen.Model_Alternatives
 	{
 		private static int poolLevel = 0;
 		private static GRGEN_MODEL.@A[] pool = new GRGEN_MODEL.@A[10];
-		
+
 		// explicit initializations of A for target A
 		// implicit initializations of A for target A
 		static @A() {
 		}
-		
+
 		public @A() : base(GRGEN_MODEL.NodeType_A.typeVar)
 		{
 			// implicit initialization, map/set creation of A
@@ -267,12 +267,12 @@ namespace de.unika.ipd.grGen.Model_Alternatives
 	{
 		private static int poolLevel = 0;
 		private static GRGEN_MODEL.@B[] pool = new GRGEN_MODEL.@B[10];
-		
+
 		// explicit initializations of B for target B
 		// implicit initializations of B for target B
 		static @B() {
 		}
-		
+
 		public @B() : base(GRGEN_MODEL.NodeType_B.typeVar)
 		{
 			// implicit initialization, map/set creation of B
@@ -388,12 +388,12 @@ namespace de.unika.ipd.grGen.Model_Alternatives
 	{
 		private static int poolLevel = 0;
 		private static GRGEN_MODEL.@C[] pool = new GRGEN_MODEL.@C[10];
-		
+
 		// explicit initializations of C for target C
 		// implicit initializations of C for target C
 		static @C() {
 		}
-		
+
 		public @C() : base(GRGEN_MODEL.NodeType_C.typeVar)
 		{
 			// implicit initialization, map/set creation of C
@@ -647,10 +647,10 @@ namespace de.unika.ipd.grGen.Model_Alternatives
 	{
 		private static int poolLevel = 0;
 		private static GRGEN_MODEL.@Edge[] pool = new GRGEN_MODEL.@Edge[10];
-		
+
 		static @Edge() {
 		}
-		
+
 		public @Edge(GRGEN_LGSP.LGSPNode source, GRGEN_LGSP.LGSPNode target)
 			: base(GRGEN_MODEL.EdgeType_Edge.typeVar, source, target)
 		{
@@ -763,10 +763,10 @@ namespace de.unika.ipd.grGen.Model_Alternatives
 	{
 		private static int poolLevel = 0;
 		private static GRGEN_MODEL.@UEdge[] pool = new GRGEN_MODEL.@UEdge[10];
-		
+
 		static @UEdge() {
 		}
-		
+
 		public @UEdge(GRGEN_LGSP.LGSPNode source, GRGEN_LGSP.LGSPNode target)
 			: base(GRGEN_MODEL.EdgeType_UEdge.typeVar, source, target)
 		{

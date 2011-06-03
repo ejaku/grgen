@@ -42,14 +42,14 @@ public class CallActionNode extends BaseNode {
 	}
 
 	private IdentNode actionUnresolved;
-	
+
 	private CollectNode<BaseNode> paramsUnresolved;
 	private CollectNode<BaseNode> returnsUnresolved;
 
 	private TestDeclNode action;
 	private SequenceDeclNode sequence;
 	private ExecVarDeclNode booleVar;
-	
+
 	protected CollectNode<ExprNode> params;
 	protected CollectNode<ExecVarDeclNode> returns;
 
@@ -132,7 +132,7 @@ public class CallActionNode extends BaseNode {
 	 * this error will be caught later on when the xgrs is processed by the libgr sequence parser and symbol table.
 	 */
 	public void addImplicitDefinitions() {
-		for(int i=0; i<returnsUnresolved.children.size(); ++i)	
+		for(int i=0; i<returnsUnresolved.children.size(); ++i)
 		{
 			if(!(returnsUnresolved.children.get(i) instanceof IdentNode)) {
 				continue;
@@ -140,11 +140,11 @@ public class CallActionNode extends BaseNode {
 			IdentNode id = (IdentNode)returnsUnresolved.children.get(i);
 
 			debug.report(NOTE, "Implicit definition for " + id + " in scope " + getScope());
-		
+
 			// Get the definition of the ident's symbol local to the owned scope.
 			Symbol.Definition def = getScope().getCurrDef(id.getSymbol());
 			debug.report(NOTE, "definition is: " + def);
-	
+
 			// If this definition is valid, i.e. it exists, it will be used
 			// else, an ExecVarDeclNode of this name is added to the scope
 			if(def.isValid()) {
@@ -160,7 +160,7 @@ public class CallActionNode extends BaseNode {
 			}
 		}
 	}
-	
+
 	private static final DeclarationTripleResolver<TestDeclNode, SequenceDeclNode, ExecVarDeclNode> actionResolver =
 		new DeclarationTripleResolver<TestDeclNode, SequenceDeclNode, ExecVarDeclNode>(TestDeclNode.class, SequenceDeclNode.class, ExecVarDeclNode.class);
 
@@ -176,7 +176,7 @@ public class CallActionNode extends BaseNode {
 		boolean successfullyResolved = true;
 		addImplicitDefinitions();
 		fixupDefinition(actionUnresolved, actionUnresolved.getScope());
-		Triple<TestDeclNode, SequenceDeclNode, ExecVarDeclNode> resolved = 
+		Triple<TestDeclNode, SequenceDeclNode, ExecVarDeclNode> resolved =
 			actionResolver.resolve(actionUnresolved, this);
 		if(resolved!=null) {
 			if(resolved.first!=null)
@@ -186,7 +186,7 @@ public class CallActionNode extends BaseNode {
 			else
 				booleVar = resolved.third;
 		}
-		
+
 		successfullyResolved = resolved!=null && (action!=null || sequence!=null || booleVar!=null) && successfullyResolved;
 
 		params = paramNodeResolver.resolve(paramsUnresolved, this);
@@ -341,7 +341,7 @@ public class CallActionNode extends BaseNode {
 
 				DeclNode actualReturn     = iterAR.next();
 				Type     actualReturnType = actualReturn.getDecl().getDeclType().getType();
-				
+
 				if(actualReturnType.classify()==Type.IS_UNTYPED_EXEC_VAR_TYPE) continue;
 
 				boolean incommensurable = false;

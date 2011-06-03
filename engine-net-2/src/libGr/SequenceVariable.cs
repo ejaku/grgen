@@ -11,7 +11,7 @@ using System.Collections.Generic;
 namespace de.unika.ipd.grGen.libGr
 {
     /// <summary>
-    /// A variable declared/used within a sequence, 
+    /// A variable declared/used within a sequence,
     /// might be a sequence-local variable or a reference to a graph-global variable.
     /// It is first stored within the symbol table belonging to the sequence on sequence parsing,
     /// after parsing only on the heap, with references from the sequence AST pointing to it.
@@ -34,7 +34,7 @@ namespace de.unika.ipd.grGen.libGr
                 return originalToCopy[this];
 
             // local variables must be cloned when a defined sequence gets copied
-            // global variables stay the same 
+            // global variables stay the same
             if(Type == "")
             {
                 originalToCopy.Add(this, this);
@@ -57,7 +57,7 @@ namespace de.unika.ipd.grGen.libGr
         // the variable value if the xgrs gets interpreted/executed
         // TODO: cast the value to the declared type on write, error check throwing exception
         // TODO: sequence can be used multiple times: sequence re-initialization is needed
-        // davor? danach? dazwischen? dazwischen am besten, aber muss von hand gemacht werden. 
+        // davor? danach? dazwischen? dazwischen am besten, aber muss von hand gemacht werden.
         // davor/danach könnten automatisch vor/nach Apply laufen
         public object Value { get { return value; } set { this.value = value; } }
 

@@ -64,10 +64,10 @@ public class SetVarAddItemNode extends EvalStatementNode
 		TypeNode targetValueType = ((SetTypeNode)targetType).valueType;
 		return checkType(valueExpr, targetValueType, "set add item statement", "value");
 	}
-	
+
 	@Override
 	protected IR constructIR() {
-		return new SetVarAddItem(target.checkIR(Variable.class), 
+		return new SetVarAddItem(target.checkIR(Variable.class),
 				valueExpr.checkIR(Expression.class));
 	}
 }

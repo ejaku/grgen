@@ -34,7 +34,7 @@ public class Unit extends IR {
 	private final List<Rule> subpatternRules = new LinkedList<Rule>();
 
 	private final List<Sequence> sequences = new LinkedList<Sequence>();
-	
+
 	private final List<Model> models = new LinkedList<Model>();
 
 	private String digest = "";
@@ -182,10 +182,10 @@ public class Unit extends IR {
 			subpatternsAlreadyVisited.clear();
 		}
 	}
-	
+
 	public void checkForNeverSucceedingSubpatternRecursions()
 	{
-		// matching a subpattern never terminates successfully 
+		// matching a subpattern never terminates successfully
 		// if there is no terminal pattern on any of its alternative branches/bodies
 		// emit an error message in this case (it might be the case more often, this is what we can tell for sure)
 		HashSet<PatternGraph> subpatternsAlreadyVisited = new HashSet<PatternGraph>();
@@ -202,7 +202,7 @@ public class Unit extends IR {
 	public void checkForMultipleRetypes()
 	{
 		// an iterated may cause an element matched once to be retyped multiple times
-		// check for this situation (collect elements on descending over nesting structure, 
+		// check for this situation (collect elements on descending over nesting structure,
 		// spark checker on visiting an iterated to check its local and nested content)
 		HashSet<Node> alreadyDefinedNodes = new HashSet<Node>();
 		HashSet<Edge> alreadyDefinedEdges = new HashSet<Edge>();
@@ -230,9 +230,9 @@ public class Unit extends IR {
 		// or even in a subpattern called and outside of this subpattern
 		// so we check that on all nesting paths there is only one delete/retype occuring
 		// and emit error messages if this is not the case
-		
+
 		// initial step: compute the subpatterns where a subpattern is used
-		HashMap<Rule, HashSet<Rule>> subpatternsDefToUse = 
+		HashMap<Rule, HashSet<Rule>> subpatternsDefToUse =
 			new HashMap<Rule, HashSet<Rule>>();
 		for(Rule subpatternRule : subpatternRules) {
 			subpatternsDefToUse.put(subpatternRule, new HashSet<Rule>());
@@ -240,10 +240,10 @@ public class Unit extends IR {
 		for(Rule subpatternRule : subpatternRules) {
 			subpatternRule.computeUsageDependencies(subpatternsDefToUse, subpatternRule);
 		}
-		// then: compute which parameters may get deleted/retyped, 
+		// then: compute which parameters may get deleted/retyped,
 		// if this information changed from before, the used subpatterns are added to a worklist
 		// which is processed step by step until it gets empty due to a fixpoint being reached
-		HashMap<Rule, HashMap<Entity, Rule>> subpatternsToParametersToTheirDeletingOrRetypingPattern = 
+		HashMap<Rule, HashMap<Entity, Rule>> subpatternsToParametersToTheirDeletingOrRetypingPattern =
 			new HashMap<Rule, HashMap<Entity, Rule>>();
 		for(Rule subpatternRule : subpatternRules) {
 			subpatternsToParametersToTheirDeletingOrRetypingPattern.put(subpatternRule, new HashMap<Entity, Rule>());
@@ -269,7 +269,7 @@ public class Unit extends IR {
 		}
 		// finally: do the computation on the (non-callable) rules
 		for(Rule actionRule : actionRules) {
-			actionRule.checkForMultipleDeletesOrRetypes(new HashMap<Entity, Rule>(), 
+			actionRule.checkForMultipleDeletesOrRetypes(new HashMap<Entity, Rule>(),
 					subpatternsToParametersToTheirDeletingOrRetypingPattern);
 		}
 	}
@@ -279,9 +279,9 @@ public class Unit extends IR {
 		// if an alternative, iterated, or subpattern used from a rule employs an exec,
 		// the execs are not executed directly but added to a to-be-executed-queue;
 		// at the end the root rule must execute this queue.
-		// determine for which root rules this is the case, 
+		// determine for which root rules this is the case,
 		// so we generate the queue-executing code only for them
-		
+
 		// step 1a: compute the subpatterns and rules where a subpattern is used
 		HashMap<Rule, HashSet<Rule>> defToUse = new HashMap<Rule, HashSet<Rule>>();
 		for(Rule subpatternRule : subpatternRules) {
@@ -319,13 +319,13 @@ public class Unit extends IR {
 				}
 			}
 		} while(changed);
-		
+
 		// final step: remove the information again from the subpatterns to prevent the exec-dequeing code being called from there
 		for(Rule subpatternRule : subpatternRules) {
 			subpatternRule.mightThereBeDeferredExecs = false;
 		}
 	}
-	
+
 	public void resolvePatternLockedModifier() {
 		for(Rule actionRule : actionRules) {
 			actionRule.pattern.resolvePatternLockedModifier();
@@ -356,7 +356,7 @@ public class Unit extends IR {
 			alreadyDefinedVariables.clear();
 		}
 	}
-	
+
 	public void checkForRhsElementsUsedOnLhs()
 	{
 		for(Rule actionRule : actionRules) {

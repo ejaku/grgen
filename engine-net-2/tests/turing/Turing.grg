@@ -38,7 +38,7 @@ rule writeZeroRule {
 
 	replace {
 		wv -rw-> bp -:zero-> bp;
-	}	
+	}
 }
 
 rule writeOneRule {
@@ -46,7 +46,7 @@ rule writeOneRule {
 
 	replace {
 		wv -rw-> bp -:one-> bp;
-	}	
+	}
 }
 
 rule writeEmptyRule {
@@ -54,7 +54,7 @@ rule writeEmptyRule {
 
 	replace {
 		wv -rw-> bp -:empty-> bp;
-	}	
+	}
 }
 
 rule ensureMoveLeftValidRule {
@@ -76,7 +76,7 @@ rule ensureMoveRightValidRule {
 	negative {
 		bp -:right-> rbp:BandPosition;
 	}
-	
+
 	replace {
 		wv -m-> s;
 		wv -rw-> bp -:right-> rbp:BandPosition -:empty-> rbp;

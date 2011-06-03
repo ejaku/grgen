@@ -29,7 +29,7 @@ public class MapVarRemoveItem extends EvalStatement {
 	public Expression getKeyExpr() {
 		return keyExpr;
 	}
-	
+
 	public void collectNeededEntities(NeededEntities needs)
 	{
 		needs.add(target);

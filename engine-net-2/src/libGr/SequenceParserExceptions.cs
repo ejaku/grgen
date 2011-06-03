@@ -137,7 +137,7 @@ namespace de.unika.ipd.grGen.libGr
         public SequenceParserException(String name, SequenceParserError errorKind)
         {
             Name = name;
-            Kind = errorKind; 
+            Kind = errorKind;
         }
 
         /// <summary>

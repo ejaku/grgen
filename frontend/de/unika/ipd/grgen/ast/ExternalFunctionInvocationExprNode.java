@@ -81,7 +81,7 @@ public class ExternalFunctionInvocationExprNode extends ExprNode
 	@Override
 	protected IR constructIR() {
 		ExternalFunctionInvocationExpr efi = new ExternalFunctionInvocationExpr(
-				functionDecl.ret.checkIR(Type.class), 
+				functionDecl.ret.checkIR(Type.class),
 				functionDecl.checkIR(ExternalFunction.class));
 		for(ExprNode expr : arguments.getChildren()) {
 			efi.addArgument(expr.checkIR(Expression.class));

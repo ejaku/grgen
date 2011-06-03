@@ -49,9 +49,9 @@ rule TFAction(lastPa:ProcessAssignment) : (ProcessAssignment)
 {
 	hom(lastPa, pa);
 	pa:ProcessAssignment -tmp:tempProcess-> action:Action;
-	
+
 	action -b:ActivityEdge-> tgt:Node;
-	
+
 	modify {
 		delete(tmp);
 		delete(action);
@@ -101,7 +101,7 @@ rule TFDecisionFirst(lastPa:ProcessAssignment) : (ProcessAssignment, Condition, 
 		}
 
 		return (newPa, cond, dn);
-	}  
+	}
 }
 
 rule TFDecisionNext(lastPa:ProcessAssignment, lastCond:Condition, dn:DecisionNode)
@@ -125,7 +125,7 @@ rule TFDecisionNext(lastPa:ProcessAssignment, lastCond:Condition, dn:DecisionNod
 		}
 
 		return (newPa, newCond, dn);
-	}  
+	}
 }
 
 rule TFDecisionLast(lastPa:ProcessAssignment, lastCond:Condition, dn:DecisionNode)
@@ -146,7 +146,7 @@ rule TFDecisionLast(lastPa:ProcessAssignment, lastCond:Condition, dn:DecisionNod
 			elseProc.name = else.name;
 		}
 		return (newPa);
-	}  
+	}
 }
 
 //
@@ -205,7 +205,7 @@ modify {
 	}
 
 	return (newPa, conc, fn);
-	}  
+	}
 }
 
 rule TFForkNext(lastPa:ProcessAssignment, lastConc:Concurrency, fn:ForkNode)
@@ -227,7 +227,7 @@ rule TFForkNext(lastPa:ProcessAssignment, lastConc:Concurrency, fn:ForkNode)
 		}
 
 		return (newPa, newConc, fn);
-	}  
+	}
 }
 
 //

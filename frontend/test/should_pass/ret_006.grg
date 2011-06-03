@@ -1,7 +1,7 @@
 rule r : (Node)
 {
     x:Node;
-    
+
     modify {
     	z:Node<x>;
         return(z);

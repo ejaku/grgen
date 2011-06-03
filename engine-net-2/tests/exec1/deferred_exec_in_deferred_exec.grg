@@ -10,14 +10,14 @@ rule Init
 rule r
 {
 	p:P();
-	
+
 	modify {
 		p();
 	}
 }
 
 pattern P
-{    
+{
 
 	modify {
 		exec(t); // check if the retyping from s is retyped further with u spawned from t
@@ -29,7 +29,7 @@ pattern P
 rule s
 {
 	c:Center;
-	
+
 	modify {
 		:A<c>;
 	}
@@ -38,7 +38,7 @@ rule s
 rule t
 {
 	q:Q();
-	
+
 	modify {
 		q();
 	}
@@ -55,7 +55,7 @@ pattern Q
 rule u
 {
 	a:A;
-	
+
 	modify {
 		:B<a>;
 	}

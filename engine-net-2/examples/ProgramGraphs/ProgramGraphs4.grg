@@ -1,6 +1,6 @@
-// rule file containing rules, tests and subpatterns, 
+// rule file containing rules, tests and subpatterns,
 // with iterateds over subpatterns and subpatterns using other subpatterns, even recursively
-// this allows to match and transform structures extending into depth and breadth, 
+// this allows to match and transform structures extending into depth and breadth,
 // like the abstract syntax graph given (abstract syntax tree along contains edges plus crossing def-use edges)
 // before was ProgramGraphs3d.grg
 
@@ -20,7 +20,7 @@ pattern Subclasses(c:Class)
 pattern Subclass(sub:Class)
 {
 	:Features(sub);
-	:Subclasses(sub);	
+	:Subclasses(sub);
 }
 
 pattern Features(c:Class)
@@ -147,7 +147,7 @@ pattern Bodies(m5:MethodSignature, c1:Class)
 			b();
 		}
 	}
-	
+
 	modify {
 	}
 }
@@ -157,7 +157,7 @@ pattern Body(m5:MethodSignature, c1:Class)
 	c1 -:contains-> c2:Class -:contains-> b:MethodBody -:bindsTo-> m5;
 	p:Parameters(b);
 	s:Statements(b);
-	
+
 	modify {
 		delete(b);
 		delete(p);

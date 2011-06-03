@@ -35,7 +35,7 @@ public class AssignIndexedNode extends EvalStatementNode {
 	BaseNode lhsUnresolved;
 	ExprNode rhs;
 	ExprNode index;
-	
+
 	QualIdentNode lhsQual;
 	VarDeclNode lhsVar;
 
@@ -130,22 +130,22 @@ public class AssignIndexedNode extends EvalStatementNode {
 		{
 			DeclNode owner = lhsQual.getOwner();
 			TypeNode ty = owner.getDeclType();
-	
+
 			if(lhsQual.getDecl().isConst()) {
 				error.error(getCoords(), "indexed assignment to a const member is not allowed");
 				return false;
 			}
-	
+
 			if(ty instanceof InheritanceTypeNode) {
 				InheritanceTypeNode inhTy = (InheritanceTypeNode) ty;
-	
+
 				if(inhTy.isConst()) {
 					error.error(getCoords(), "indexed assignment to a const type object not allowed");
 					return false;
 				}
 			}
 		}
-		
+
 		return typeCheckLocal();
 	}
 
@@ -162,7 +162,7 @@ public class AssignIndexedNode extends EvalStatementNode {
 			targetType.reportError("can only do an indexed assignment on an attribute/variable of array type");
 		}
 		TypeNode valueType = ((ArrayTypeNode)targetType).valueType;
-			
+
 		TypeNode exprType = rhs.getType();
 
 		if (exprType.isEqual(valueType))
@@ -177,7 +177,7 @@ public class AssignIndexedNode extends EvalStatementNode {
 	 * @see de.unika.ipd.grgen.ast.BaseNode#constructIR()
 	 */
 	@Override
-	protected IR constructIR() {		
+	protected IR constructIR() {
 		if(lhsQual!=null) {
 			Qualification qual = lhsQual.checkIR(Qualification.class);
 			if(qual.getOwner() instanceof Node && ((Node)qual.getOwner()).changesType(null)) {
@@ -186,14 +186,14 @@ public class AssignIndexedNode extends EvalStatementNode {
 			if(qual.getOwner() instanceof Edge && ((Edge)qual.getOwner()).changesType(null)) {
 				error.error(getCoords(), "Assignment to an old edge of a type changed edge is not allowed");
 			}
-		
+
 			ExprNode rhsEvaluated = rhs.evaluate();
 			ExprNode indexEvaluated = index.evaluate();
 			return new AssignmentIndexed(qual, rhsEvaluated.checkIR(Expression.class),
 					indexEvaluated.checkIR(Expression.class));
 		} else {
 			Variable var = lhsVar.checkIR(Variable.class);
-					
+
 			ExprNode rhsEvaluated = rhs.evaluate();
 			ExprNode indexEvaluated = index.evaluate();
 			return new AssignmentVarIndexed(var, rhsEvaluated.checkIR(Expression.class),

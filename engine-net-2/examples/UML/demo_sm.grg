@@ -108,7 +108,7 @@ rule forwardTransition3(sm:StateMachine) {
   hom(x,y,z);
   x -:source-> xy -:target-> y -:source-> yz -:target-> z;
   yz -:trigger-> trig:Trigger;
-  
+
   negative {
     xy -:trigger->;
   }
@@ -138,7 +138,7 @@ rule propagateFinalState(sm:StateMachine) {
     xf -:trigger->;
   }
 
-  modify { 
+  modify {
     :FinalState<x>;
   }
 }
@@ -156,27 +156,27 @@ rule removeEpsilonTransition(sm:StateMachine) {
     xy -:trigger->;
   }
 
-  modify { 
+  modify {
     delete(xy);
   }
 }
 
 
 //============================
-// Create Host Graph 
+// Create Host Graph
 //============================
 
 rule createGraph {
   replace {
     rootpack:Package -:name-> rootpackname:String;
     eval { rootpackname.value = "Root"; }
-    
+
     rootpack -:packagedElement-> cv:Package -:name-> cvname:String;
     eval { cvname.value = "Component View"; }
-    
+
     cv -: packagedElement -> sm:StateMachine -:name-> smname:String;
     eval { smname.value = "EpsilonMachine"; }
- 
+
     // the machine and its region
     sm -:region-> reg:Region -:stateMachine-> sm;
 

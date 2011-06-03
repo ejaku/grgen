@@ -8,7 +8,7 @@
 \section{Built-In Types}
 \label{sec:builtintypes}
 Besides user-defined node types, edge types, and enumeration types (as introduced in Chapter~\ref{chapmodellang}), \GrG\ supports the built-in \indexed{primitive types}\indexmainsee{built-in types}{primitive types} in Table~\ref{builtintypes} and the built-in \indexed{generic types}\indexmainsee{built-in generic types}{generic types} in Table~\ref{builtingenerictypes}.
-The exact type format is \indexed{backend} specific. 
+The exact type format is \indexed{backend} specific.
 The \indexed{LGSPBackend} maps the \GrG\ primitive types to the corresponding C\# primitive types, and the generic types to generic C\#-Dictionaries (i.e. hashmaps) or C\#-Lists (misnamed dynamic arrays) of their corresponding primitive types, with \texttt{de.unika.ipd.grGen.libGr.SetValueType} as target type for sets, only used with the value \texttt{null}.
 
 \begin{table}[htbp]
@@ -18,7 +18,7 @@ The \indexed{LGSPBackend} maps the \GrG\ primitive types to the corresponding C\
 	\texttt{\indexed{int}} & A signed integer with at least 32 bits \\
 	\texttt{\indexed{float}}, \texttt{\indexed{double}} & A floating-point number with single precision or double precision respectively \\
 	\texttt{\indexed{string}} & A character sequence of arbitrary length\\
-	\texttt{\indexed{object}} & Contains a .NET object\\ 
+	\texttt{\indexed{object}} & Contains a .NET object\\
 	\hline
 \end{tabularx}
 \caption{\GrG\ built-in primitive types}
@@ -44,7 +44,7 @@ Of course you are free to express an implicit type cast by an explicit type cast
   \centering
   \begin{tabular}[c]{|c|ccccccc|} \hline
     \backslashbox{to}{from} & \texttt{enum} & \texttt{boolean} & \texttt{int} & \texttt{float} & \texttt{double} & \texttt{string} & \texttt{object} \\ \hline
-    \texttt{enum} & $=$/--- & & & & & & \\ 
+    \texttt{enum} & $=$/--- & & & & & & \\
     \texttt{boolean} & & $=$ & & & & & \\
     \texttt{int} & implicit & & $=$ & \texttt{(int)} & \texttt{(int)} & & \\
     \texttt{float} & implicit & & implicit & $=$ & \texttt{(float)} & & \\
@@ -91,7 +91,7 @@ but they can be used on the API level.
 In the following they will be explained with their semantics and relative priorities one type after another in the order of the rail diagram below.
 
 \begin{rail}
-  Expression: BoolExpr | RelationalExpr | IntExpr | FloatExpr | StringExpr | SetExpr | MapExpr | ArrayExpr | TypeExpr | PrimaryExpr;  
+  Expression: BoolExpr | RelationalExpr | IntExpr | FloatExpr | StringExpr | SetExpr | MapExpr | ArrayExpr | TypeExpr | PrimaryExpr;
 \end{rail}\ixnterm{Expression}
 
 
@@ -104,9 +104,9 @@ They bind weaker than the relational expressions which bind weaker than the othe
 \begin{rail}
   BoolExpr: ((() | '!') PrimaryExpr) | (BoolExpr '?' BoolExpr ':' BoolExpr) | (BoolExpr BinBoolOperator BoolExpr) | RelationalExpr;
 \end{rail}\ixnterm{BoolExpr}
-The unary \texttt{!}\ operator negates a Boolean. 
+The unary \texttt{!}\ operator negates a Boolean.
 The binary \emph{BinBoolOperator} is one of the operators in Table~\ref{tabboolops}.
-\begin{table}[htbp] 
+\begin{table}[htbp]
   \centering
   %\begin{tabularx}{0.45\linewidth}{|ll|} \hline
   \begin{tabular}[c]{|lp{0.6\linewidth}|} \hline
@@ -134,7 +134,7 @@ The \emph{CompareOperator} is one of the following operators:
 \[ \texttt{<} \;\;\;\;\; \texttt{<=} \;\;\;\;\; \texttt{==} \;\;\;\;\; \texttt{!=} \;\;\;\;\; \texttt{>=} \;\;\;\;\; \texttt{>} \]
 Their semantics are type dependent.
 
-For arithmetic expressions on \texttt{int} and \texttt{float} or \texttt{double} types 
+For arithmetic expressions on \texttt{int} and \texttt{float} or \texttt{double} types
 the semantics is given by Table~\ref{compandarithmetic} (by implicit casting they can also by used with all enum types).
 
 \begin{table}[htbp]
@@ -152,8 +152,8 @@ the semantics is given by Table~\ref{compandarithmetic} (by implicit casting the
 \end{table}
 
 \texttt{String} types, \texttt{boolean} types, and \texttt{object} types support only the \texttt{==} and the \texttt{!=} operators;
-for strings they denote whether the strings are the same or not, 
-on boolean values they denote equivalence and antivalence, 
+for strings they denote whether the strings are the same or not,
+on boolean values they denote equivalence and antivalence,
 and on object types the tell whether the references are the same, thus the objects identical.
 
 For set/map/array expressions, table~\ref{compandsetmap} describes the semantics of the compare operators.
@@ -211,11 +211,11 @@ and integer values with bitwise logical operations (interpreting integer values 
 \begin{rail}
   IntExpr: ((() | '+' | '-' | tilde) PrimaryExpr) | (BoolExpr '?' IntExpr ':' IntExpr) | (IntExpr BinIntOperator IntExpr);
 \end{rail}\ixnterm{IntExpr}
-The $\sim$ operator is the bitwise complement. 
-That means every bit of an integer value will be flipped. 
-The \texttt{?}\ operator is a simple if-then-else: If the \emph{BoolExpr} is evaluated to \texttt{true}, the operator returns the first \emph{IntExpr}, otherwise it returns the second \emph{IntExpr}. 
+The $\sim$ operator is the bitwise complement.
+That means every bit of an integer value will be flipped.
+The \texttt{?}\ operator is a simple if-then-else: If the \emph{BoolExpr} is evaluated to \texttt{true}, the operator returns the first \emph{IntExpr}, otherwise it returns the second \emph{IntExpr}.
 The \emph{BinIntOperator} is one of the operators in Table~\ref{tabbinops}.
-\begin{table}[htbp] 
+\begin{table}[htbp]
   \centering
   %\begin{tabularx}{0.45\linewidth}{|ll|} \hline
   \begin{tabular}[c]{|lp{0.6\linewidth}|} \hline
@@ -228,12 +228,12 @@ The \emph{BinIntOperator} is one of the operators in Table~\ref{tabbinops}.
   \label{tabbinops}
 \end{table}
 
-\begin{rail}  
+\begin{rail}
   FloatExpr: ((() | '+' | '-') PrimaryExpr) | (BoolExpr '?' FloatExpr ':' FloatExpr) | (FloatExpr BinFloatOperator FloatExpr);
 \end{rail}\ixnterm{FloatExpr}
 The \texttt{?}\ operator is a simple if-then-else: If the \emph{BoolExpr} is evaluated to \texttt{true}, the operator returns the first \emph{FloatExpr}, otherwise it returns the second \emph{FloatExpr}.
 The \emph{BinFloatOperator} is one of the operators in Table~\ref{tabfloatbinops}.
-\begin{table}[htbp] 
+\begin{table}[htbp]
   \centering
   %\begin{tabularx}{0.45\linewidth}{|ll|} \hline
   \begin{tabular}[c]{|ll|} \hline
@@ -258,7 +258,7 @@ String expressions combine string values by string operations, with integer numb
   StringExpr: PrimaryExpr (MethodSelector)? | StringExpr '+' StringExpr;
 \end{rail}\ixnterm{StringExpr}
 The operator \texttt{+} concatenates two strings.
-There are several operations on strings available in method call notation (MethodSelector), these are 
+There are several operations on strings available in method call notation (MethodSelector), these are
 
 \begin{description}
 \item[\texttt{.length()}] returns length of string, as \texttt{int}
@@ -283,11 +283,11 @@ For \texttt{n.str == "foo bar foo"} the operations yield \\
 
 Set expressions consist of the known mathematical set operations, plus some operations in method call notation.
 
-\begin{rail} 
+\begin{rail}
   SetExpr: Expr 'in' SetExpr | SetExpr (backslash | ampersand | '|') SetExpr | PrimaryExpr (MethodSelector)?;
 \end{rail}\ixnterm{SetExpr}\ixkeyw{in}
 
-\begin{table}[htbp] 
+\begin{table}[htbp]
   \centering
   %\begin{tabularx}{0.45\linewidth}{|ll|} \hline
   \begin{tabular}[c]{|ll|} \hline
@@ -301,13 +301,13 @@ Set expressions consist of the known mathematical set operations, plus some oper
 
 The binary set operators require the left and right operands to be of identical type \verb#set<T>#.
 The operator \texttt{x in s} denotes set membership $x \in s$, returning whether the set contains the given element, as \texttt{boolean}.
-Furthermore there are two operations on sets available in method call notation (MethodSelector): 
+Furthermore there are two operations on sets available in method call notation (MethodSelector):
 
 \begin{description}
 \item[\texttt{.size()}] returns the number of elements in the set, as \texttt{int}
 \item[\texttt{.peek(num)}] returns the element which comes at position \texttt{num:int} in the sequence of enumeration, as \texttt{T} for \verb#set<T>#; the higher the number, the longer retrieval takes
 \end{description}
- 
+
 \begin{note}
 To add a value to a set you may use set union with a single valued set constructor,
 to remove a value from a set you may use set difference with a single valued set constructor (for set constructors cf. \ref{sec:primexpr}).
@@ -328,7 +328,7 @@ Map expressions consist of the known mathematical set operations extended to map
   MapExpr: Expr 'in' MapExpr | MapExpr '[' Expr ']' | MapExpr (backslash | ampersand | '|') MapExpr | PrimaryExpr (MethodSelector)?;
 \end{rail}\ixnterm{MapExpr}\ixkeyw{in}
 
-\begin{table}[htbp] 
+\begin{table}[htbp]
   \centering
   %\begin{tabularx}{0.45\linewidth}{|ll|} \hline
   \begin{tabular}[c]{|ll|} \hline
@@ -358,7 +358,7 @@ To add a key,value-pair to a map you may use map union with a single valued map 
 to remove a value from a map you may use map difference with a single valued set or map constructor (for map constructors cf. \ref{sec:primexpr}).
 \begin{grgen}
 m | { "foo" -> 42 }
-m \ { n.a -> n.b } or m \ { n.a } 
+m \ { n.a -> n.b } or m \ { n.a }
 \end{grgen}
 Used in this way they get internally optimized to the imperative map addition \texttt{s.add(key,value)} and removal \texttt{s.rem(key)} methods available in the \texttt{eval} block and the XGRS.
 \end{note}
@@ -431,8 +431,8 @@ The type expression \texttt{typeof(x)} stands for the type of the host graph ele
 
 After we've seen the all the ways to combine expressions, finally we'll have a look at the atoms the expressions are built of.
 
-\begin{rail} 
-  PrimaryExpr: CastExpr 
+\begin{rail}
+  PrimaryExpr: CastExpr
   		| MemberAccess
   		| FunctionCall
   		| VarIdent
@@ -443,19 +443,19 @@ After we've seen the all the ways to combine expressions, finally we'll have a l
 \end{rail}\ixnterm{PrimaryExpr}\ixkeyw{visited}\ixkeyw{nameof}\indexmainsee{variable}{expression variable}\indexmain{expression variable}\indexmain{variable}
 
 The \texttt{visited} query returns the status of the \indexed{visited flag} of the given number for the given graph element as \texttt{boolean}.
-If no flag number is given, the default number for the first visited flag of 0 is used. 
+If no flag number is given, the default number for the first visited flag of 0 is used.
 The visited flags are written in the assignments of the eval statements (see section \ref{sec:replacemodify}).
-Make sure to allocate \ref{allocvisitflag}/\ref{apiallocvisitflag} visited flags before you try to use them 
+Make sure to allocate \ref{allocvisitflag}/\ref{apiallocvisitflag} visited flags before you try to use them
 (and deallocate them afterwards, as they are a sparse resource stored in some excess bits of the graph elements, or in some dictionary if the needed number of flags exceeds the number of available bits per graph element.)
 
-The \texttt{nameof} query returns the name (persistent name, see example \ref{persistentex}) of the given graph element as \texttt{string}; 
+The \texttt{nameof} query returns the name (persistent name, see example \ref{persistentex}) of the given graph element as \texttt{string};
 graphs elements at the API level bear no name, the operator can only (sensibly) be used with Shell-graphs (\texttt{NamedGraph}; unless you decide to use the \texttt{NamedGraph} on API level, too).
 If no graph element is given, the name of the graph is returned.
 
 The \texttt{random} function returns a double random value in between 0.0 and 1.0 if called without an argument,
 or, if an integer argument value is given, an integer random value in between 0 and the value given, excluding the value itself.
 
-\begin{rail} 
+\begin{rail}
   CastExpr: '(' PrimitiveType ')' PrimaryExpr;
   MemberAccess: (NodeOrEdge '.' Ident);
   FunctionCall: FunctionName '(' (() | Expr + ',') ')';
@@ -477,7 +477,7 @@ A function call employs an external (attribute evaluation) function (cf. \ref{su
 \item[\texttt{outgoing(.,.,.)}] as above, but only if the edges lead to a node of the node type given as third argument.
 \end{description}
 
-\begin{rail} 
+\begin{rail}
   Literal: Constant | SetConstructor | MapConstructor;
   Constant: EnumLit | Number | HexNum | DoubleNum | FloatNum | QuotedText | BoolLit | NullLit;
 \end{rail}\ixnterm{Constant}\ixnterm{Literal}
@@ -494,7 +494,7 @@ The Constants are:
   \item[NullLit] Is the one constant of object type, the literal \texttt{null}.
 \end{description}
 
-\begin{rail} 
+\begin{rail}
   SetConstructor: ('set' '<' Type '>')? \\ lbrace ( Expression*',' ) rbrace ;
   MapConstructor: ('map' '<' Type ',' Type '>')? \\ lbrace ( (Expression '->' Expression)*',' ) rbrace ;
   ArrayConstructor: ('array' '<' Type '>')? \\ '[' ( Expression*',' ) ']' ;
@@ -528,7 +528,7 @@ map<string,int>{ (n.strVal+m.strVal)->(m.intVal+n.intVal), intVal->strVal, "fool
 
 The priorities of all available operators are shown in ascending order in the table below, the dots mark the positions of the operands, the commas separate the operators available on the respective priority level.
 
-\begin{table}[htbp] 
+\begin{table}[htbp]
   \centering
   \begin{tabular}[c]{|ll|} \hline
     \begin{tabular}[c]{l} 01 \end{tabular} & \begin{tabular}[c]{l} \verb#. ? . : .# \end{tabular}\\ \hline

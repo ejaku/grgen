@@ -42,7 +42,7 @@ public class AssignmentVisited extends EvalStatement {
 	public String toString() {
 		return getTarget() + " = " + getExpression();
 	}
-	
+
 	public void collectNeededEntities(NeededEntities needs)
 	{
 		Entity entity = target.getEntity();

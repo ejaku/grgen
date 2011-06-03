@@ -2,7 +2,7 @@ using map_model_001;
 
 rule addToMap {
 	a:A;
-	
+
 	modify {
 		eval {
 			a.niceMap = a.niceMap | map<int,string>{ 5->"yeah" };
@@ -13,7 +13,7 @@ rule addToMap {
 
 rule containedInMap {
 	a:A;
-	
+
 	if { 5 in a.niceMap; }
 
 	modify {
@@ -25,7 +25,7 @@ rule containedInMap {
 
 rule copyMap {
 	a:A;
-	
+
 	modify {
 		b:A;
 		eval {
@@ -38,7 +38,7 @@ rule copyMap {
 rule mapIndexedMap {
 	a:A;
 	if { a.shiceMap[a.spiceMap["blubb"]] != null; }
-	
+
 	modify {
 		b:A;
 		eval {
@@ -50,7 +50,7 @@ rule mapIndexedMap {
 
 rule removeFromMap {
 	a:A;
-	
+
 	modify {
 		eval {
 			a.niceMap = a.niceMap \ a.constNiceMap;
@@ -62,7 +62,7 @@ rule removeFromMap {
 rule emitFromMap {
 	a:A;
 	if { 5 in a.niceMap; }
-	
+
 	modify {
 		emit("entry for \"5\" = " + a.niceMap[5] + ", mapsize = " + a.niceMap.size());
 	}
@@ -71,7 +71,7 @@ rule emitFromMap {
 rule emitFromMap2 {
 	a:A;
 	if { 5 in a.niceMap; }
-	
+
 	modify {
 		emit("is \"5\" contained? " + (5 in a.niceMap ? "yes" : "no") + ", mapsize = " + a.niceMap.size());
 	}
@@ -79,7 +79,7 @@ rule emitFromMap2 {
 
 rule mapVarContains(ref m:map<string, int>) {
 	if { "yeah" in m; }
-	
+
 	modify {
 		emit("entry for \"yeah\" = " + m["yeah"] + ", mapsize = " + m.size());
 	}
@@ -87,8 +87,8 @@ rule mapVarContains(ref m:map<string, int>) {
 
 // This clones the maps
 rule assignMapToMap {
-	a:A -e:E-> a; 
-		
+	a:A -e:E-> a;
+
 	modify {
 		eval {
 			a.niceMap = e.niceMap;
@@ -104,7 +104,7 @@ rule useEnumMap {
 	if { "another c" in e.enumMap2
 		&& e.enumMap2["another c"] in a.enumMap
 		&& a.enumMap[e.enumMap2["another c"]].replace(0, 3, "another") in e.enumMap2; }
-	
+
 	modify {
 		eval {
 			e.enumMap2 = e.enumMap2 | map<string, et>{ a.enumMap[e.enumMap2["another c"]].replace(0, 3, "another")->et::a };
@@ -117,7 +117,7 @@ rule useEnumMap {
 
 test anonymousMap {
 	a:A -e:E-> a;
-	
+
 	if { a.val in map<int,string>{ 1->"foo", 3->"bar", 5->"blubb", 7->"f***", 11->"that", 13->"stupid", 17->"shit" }; }
 	if { a.val in { 1->"foo", 3->"bar", 5->"blubb", 7->"f***", 11->"that", 13->"stupid", 17->"shit" }; }
 	if { map<string,string>{ "a"->"b", "b"->"c", "c"->"a" }["a"]=="b"; }
@@ -127,7 +127,7 @@ test anonymousMap {
 rule evalAndEmitFromAnonymousMap {
 	a:A;
 	if { 5 in map<int,string>{5->"foo"}; }
-	
+
 	modify {
 		eval { a.val = map<int,int>{ 1->2, 2->3, 3->1 }[2]; }
 		eval { a.val = { 1->2, 2->3, 3->1 }[2]; }
@@ -138,9 +138,9 @@ rule evalAndEmitFromAnonymousMap {
 
 rule constantMapContainedInPatternAndRewrite {
 	a:A;
-	
+
 	if { a.constNiceMap[42]=="foo"; }
-	
+
 	modify {
 		eval {
 			a.val = (int)a.constSpiceMap["bar"];
@@ -150,7 +150,7 @@ rule constantMapContainedInPatternAndRewrite {
 
 test mapOperatorsInCondition {
 	a1:A; a2:A;
-	
+
 	if {
 		1 in (a1.niceMap | a2.niceMap)
 		|| 2 in (a1.niceMap & a2.niceMap)

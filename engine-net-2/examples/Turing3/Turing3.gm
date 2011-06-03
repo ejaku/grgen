@@ -9,6 +9,6 @@ edge class right
 
 edge class readZero;
 edge class readOne;
-	
+
 edge class moveLeft;
 edge class moveRight;

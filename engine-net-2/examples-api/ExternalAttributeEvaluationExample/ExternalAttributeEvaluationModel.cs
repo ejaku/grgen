@@ -38,10 +38,10 @@ namespace de.unika.ipd.grGen.Model_ExternalAttributeEvaluation
 	{
 		private static int poolLevel = 0;
 		private static GRGEN_MODEL.@Node[] pool = new GRGEN_MODEL.@Node[10];
-		
+
 		static @Node() {
 		}
-		
+
 		public @Node() : base(GRGEN_MODEL.NodeType_Node.typeVar)
 		{
 			// implicit initialization, map/set creation of Node
@@ -164,12 +164,12 @@ namespace de.unika.ipd.grGen.Model_ExternalAttributeEvaluation
 	{
 		private static int poolLevel = 0;
 		private static GRGEN_MODEL.@N[] pool = new GRGEN_MODEL.@N[10];
-		
+
 		// explicit initializations of N for target N
 		// implicit initializations of N for target N
 		static @N() {
 		}
-		
+
 		public @N() : base(GRGEN_MODEL.NodeType_N.typeVar)
 		{
 			// implicit initialization, map/set creation of N
@@ -638,10 +638,10 @@ namespace de.unika.ipd.grGen.Model_ExternalAttributeEvaluation
 	{
 		private static int poolLevel = 0;
 		private static GRGEN_MODEL.@Edge[] pool = new GRGEN_MODEL.@Edge[10];
-		
+
 		static @Edge() {
 		}
-		
+
 		public @Edge(GRGEN_LGSP.LGSPNode source, GRGEN_LGSP.LGSPNode target)
 			: base(GRGEN_MODEL.EdgeType_Edge.typeVar, source, target)
 		{
@@ -754,10 +754,10 @@ namespace de.unika.ipd.grGen.Model_ExternalAttributeEvaluation
 	{
 		private static int poolLevel = 0;
 		private static GRGEN_MODEL.@UEdge[] pool = new GRGEN_MODEL.@UEdge[10];
-		
+
 		static @UEdge() {
 		}
-		
+
 		public @UEdge(GRGEN_LGSP.LGSPNode source, GRGEN_LGSP.LGSPNode target)
 			: base(GRGEN_MODEL.EdgeType_UEdge.typeVar, source, target)
 		{
@@ -873,12 +873,12 @@ namespace de.unika.ipd.grGen.Model_ExternalAttributeEvaluation
 	{
 		private static int poolLevel = 0;
 		private static GRGEN_MODEL.@E[] pool = new GRGEN_MODEL.@E[10];
-		
+
 		// explicit initializations of E for target E
 		// implicit initializations of E for target E
 		static @E() {
 		}
-		
+
 		public @E(GRGEN_LGSP.LGSPNode source, GRGEN_LGSP.LGSPNode target)
 			: base(GRGEN_MODEL.EdgeType_E.typeVar, source, target)
 		{

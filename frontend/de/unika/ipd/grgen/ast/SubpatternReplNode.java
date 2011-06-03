@@ -74,7 +74,7 @@ public class SubpatternReplNode extends OrderedReplacementNode {
 			error.error("A dependent replacement can only be invoked for a lhs subpattern usage; a rhs subpattern usage gets instantiated and can't be rewritten");
 			return false;
 		}
-		
+
 		// check whether the used pattern contains one rhs
 		if(right.size()!=1) {
 			error.error(getCoords(), "No dependent replacement specified in \"" + patternName + "\" ");

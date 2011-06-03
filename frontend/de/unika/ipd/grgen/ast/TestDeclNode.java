@@ -173,7 +173,7 @@ retLoop:for (int i = 0; i < Math.min(declaredNumRets, actualNumRets); i++) {
 				}
 			}
 		}
-		
+
 		for(IteratedNode iter : pattern.iters.getChildren()) {
 			if(iter.right.getChildren().size() != 0) {
 				error.error(getCoords(), "Different number of replacement patterns/rewrite parts in test " + ident.toString()
@@ -270,7 +270,7 @@ retLoop:for (int i = 0; i < Math.min(declaredNumRets, actualNumRets); i++) {
 		boolean returnParams = true;
 		if(!(this instanceof RuleDeclNode))
 			returnParams = checkReturns(pattern.returns);
-		
+
 		boolean noRewriteParts = true;
 		if(!(this instanceof RuleDeclNode))
 			noRewriteParts = SameNumberOfRewriteParts();
@@ -284,7 +284,7 @@ retLoop:for (int i = 0; i < Math.min(declaredNumRets, actualNumRets); i++) {
 		// add Params to the IR
 		for(DeclNode decl : pattern.getParamDecls()) {
 			ma.addParameter(decl.checkIR(Entity.class));
-			
+
 			// TODO: parameters were already added to the graph -> needed here again?
 			if(decl instanceof NodeCharacter) {
 				patternGraph.addSingleNode(((NodeCharacter)decl).getNode());

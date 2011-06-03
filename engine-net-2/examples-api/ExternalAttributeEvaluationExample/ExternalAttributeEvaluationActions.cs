@@ -50,16 +50,16 @@ namespace de.unika.ipd.grGen.Action_ExternalAttributeEvaluation
 				"init",
 				"",
 				false,
-				new GRGEN_LGSP.PatternNode[] {  }, 
-				new GRGEN_LGSP.PatternEdge[] {  }, 
-				new GRGEN_LGSP.PatternVariable[] {  }, 
-				new GRGEN_LGSP.PatternGraphEmbedding[] {  }, 
-				new GRGEN_LGSP.Alternative[] {  }, 
-				new GRGEN_LGSP.Iterated[] {  }, 
-				new GRGEN_LGSP.PatternGraph[] {  }, 
-				new GRGEN_LGSP.PatternGraph[] {  }, 
-				new GRGEN_LGSP.PatternCondition[] {  }, 
-				new GRGEN_LGSP.PatternYielding[] {  }, 
+				new GRGEN_LGSP.PatternNode[] {  },
+				new GRGEN_LGSP.PatternEdge[] {  },
+				new GRGEN_LGSP.PatternVariable[] {  },
+				new GRGEN_LGSP.PatternGraphEmbedding[] {  },
+				new GRGEN_LGSP.Alternative[] {  },
+				new GRGEN_LGSP.Iterated[] {  },
+				new GRGEN_LGSP.PatternGraph[] {  },
+				new GRGEN_LGSP.PatternGraph[] {  },
+				new GRGEN_LGSP.PatternCondition[] {  },
+				new GRGEN_LGSP.PatternYielding[] {  },
 				new bool[0, 0] ,
 				new bool[0, 0] ,
 				init_isNodeHomomorphicGlobal,
@@ -111,7 +111,7 @@ namespace de.unika.ipd.grGen.Action_ExternalAttributeEvaluation
 				default: return null;
 				}
 			}
-			
+
 			public enum init_EdgeNums { END_OF_ENUM };
 			public IEnumerable<GRGEN_LIBGR.IEdge> Edges { get { return new GRGEN_LGSP.Edges_Enumerable(this); } }
 			public IEnumerator<GRGEN_LIBGR.IEdge> EdgesEnumerator { get { return new GRGEN_LGSP.Edges_Enumerator(this); } }
@@ -122,7 +122,7 @@ namespace de.unika.ipd.grGen.Action_ExternalAttributeEvaluation
 				default: return null;
 				}
 			}
-			
+
 			public enum init_VariableNums { END_OF_ENUM };
 			public IEnumerable<object> Variables { get { return new GRGEN_LGSP.Variables_Enumerable(this); } }
 			public IEnumerator<object> VariablesEnumerator { get { return new GRGEN_LGSP.Variables_Enumerator(this); } }
@@ -133,7 +133,7 @@ namespace de.unika.ipd.grGen.Action_ExternalAttributeEvaluation
 				default: return null;
 				}
 			}
-			
+
 			public enum init_SubNums { END_OF_ENUM };
 			public IEnumerable<GRGEN_LIBGR.IMatch> EmbeddedGraphs { get { return new GRGEN_LGSP.EmbeddedGraphs_Enumerable(this); } }
 			public IEnumerator<GRGEN_LIBGR.IMatch> EmbeddedGraphsEnumerator { get { return new GRGEN_LGSP.EmbeddedGraphs_Enumerator(this); } }
@@ -144,7 +144,7 @@ namespace de.unika.ipd.grGen.Action_ExternalAttributeEvaluation
 				default: return null;
 				}
 			}
-			
+
 			public enum init_AltNums { END_OF_ENUM };
 			public IEnumerable<GRGEN_LIBGR.IMatch> Alternatives { get { return new GRGEN_LGSP.Alternatives_Enumerable(this); } }
 			public IEnumerator<GRGEN_LIBGR.IMatch> AlternativesEnumerator { get { return new GRGEN_LGSP.Alternatives_Enumerator(this); } }
@@ -155,7 +155,7 @@ namespace de.unika.ipd.grGen.Action_ExternalAttributeEvaluation
 				default: return null;
 				}
 			}
-			
+
 			public enum init_IterNums { END_OF_ENUM };
 			public IEnumerable<GRGEN_LIBGR.IMatches> Iterateds { get { return new GRGEN_LGSP.Iterateds_Enumerable(this); } }
 			public IEnumerator<GRGEN_LIBGR.IMatches> IteratedsEnumerator { get { return new GRGEN_LGSP.Iterateds_Enumerator(this); } }
@@ -166,7 +166,7 @@ namespace de.unika.ipd.grGen.Action_ExternalAttributeEvaluation
 				default: return null;
 				}
 			}
-			
+
 			public enum init_IdptNums { END_OF_ENUM };
 			public IEnumerable<GRGEN_LIBGR.IMatch> Independents { get { return new GRGEN_LGSP.Independents_Enumerable(this); } }
 			public IEnumerator<GRGEN_LIBGR.IMatch> IndependentsEnumerator { get { return new GRGEN_LGSP.Independents_Enumerator(this); } }
@@ -177,7 +177,7 @@ namespace de.unika.ipd.grGen.Action_ExternalAttributeEvaluation
 				default: return null;
 				}
 			}
-			
+
 			public GRGEN_LIBGR.IPatternGraph Pattern { get { return Rule_init.instance.pat_init; } }
 			public GRGEN_LIBGR.IMatch MatchOfEnclosingPattern { get { return _matchOfEnclosingPattern; } }
 			public GRGEN_LIBGR.IMatch _matchOfEnclosingPattern;
@@ -246,16 +246,16 @@ namespace de.unika.ipd.grGen.Action_ExternalAttributeEvaluation
 				"r",
 				"",
 				false,
-				new GRGEN_LGSP.PatternNode[] { r_node_n }, 
-				new GRGEN_LGSP.PatternEdge[] { r_edge_e }, 
-				new GRGEN_LGSP.PatternVariable[] {  }, 
-				new GRGEN_LGSP.PatternGraphEmbedding[] {  }, 
-				new GRGEN_LGSP.Alternative[] {  }, 
-				new GRGEN_LGSP.Iterated[] {  }, 
-				new GRGEN_LGSP.PatternGraph[] {  }, 
-				new GRGEN_LGSP.PatternGraph[] {  }, 
-				new GRGEN_LGSP.PatternCondition[] { r_cond_0, r_cond_1, r_cond_2, r_cond_3,  }, 
-				new GRGEN_LGSP.PatternYielding[] {  }, 
+				new GRGEN_LGSP.PatternNode[] { r_node_n },
+				new GRGEN_LGSP.PatternEdge[] { r_edge_e },
+				new GRGEN_LGSP.PatternVariable[] {  },
+				new GRGEN_LGSP.PatternGraphEmbedding[] {  },
+				new GRGEN_LGSP.Alternative[] {  },
+				new GRGEN_LGSP.Iterated[] {  },
+				new GRGEN_LGSP.PatternGraph[] {  },
+				new GRGEN_LGSP.PatternGraph[] {  },
+				new GRGEN_LGSP.PatternCondition[] { r_cond_0, r_cond_1, r_cond_2, r_cond_3,  },
+				new GRGEN_LGSP.PatternYielding[] {  },
 				new bool[1, 1] {
 					{ true, },
 				},
@@ -334,7 +334,7 @@ namespace de.unika.ipd.grGen.Action_ExternalAttributeEvaluation
 				default: return null;
 				}
 			}
-			
+
 			public GRGEN_MODEL.IE edge_e { get { return (GRGEN_MODEL.IE)_edge_e; } }
 			public GRGEN_LGSP.LGSPEdge _edge_e;
 			public enum r_EdgeNums { @e, END_OF_ENUM };
@@ -348,7 +348,7 @@ namespace de.unika.ipd.grGen.Action_ExternalAttributeEvaluation
 				default: return null;
 				}
 			}
-			
+
 			public enum r_VariableNums { END_OF_ENUM };
 			public IEnumerable<object> Variables { get { return new GRGEN_LGSP.Variables_Enumerable(this); } }
 			public IEnumerator<object> VariablesEnumerator { get { return new GRGEN_LGSP.Variables_Enumerator(this); } }
@@ -359,7 +359,7 @@ namespace de.unika.ipd.grGen.Action_ExternalAttributeEvaluation
 				default: return null;
 				}
 			}
-			
+
 			public enum r_SubNums { END_OF_ENUM };
 			public IEnumerable<GRGEN_LIBGR.IMatch> EmbeddedGraphs { get { return new GRGEN_LGSP.EmbeddedGraphs_Enumerable(this); } }
 			public IEnumerator<GRGEN_LIBGR.IMatch> EmbeddedGraphsEnumerator { get { return new GRGEN_LGSP.EmbeddedGraphs_Enumerator(this); } }
@@ -370,7 +370,7 @@ namespace de.unika.ipd.grGen.Action_ExternalAttributeEvaluation
 				default: return null;
 				}
 			}
-			
+
 			public enum r_AltNums { END_OF_ENUM };
 			public IEnumerable<GRGEN_LIBGR.IMatch> Alternatives { get { return new GRGEN_LGSP.Alternatives_Enumerable(this); } }
 			public IEnumerator<GRGEN_LIBGR.IMatch> AlternativesEnumerator { get { return new GRGEN_LGSP.Alternatives_Enumerator(this); } }
@@ -381,7 +381,7 @@ namespace de.unika.ipd.grGen.Action_ExternalAttributeEvaluation
 				default: return null;
 				}
 			}
-			
+
 			public enum r_IterNums { END_OF_ENUM };
 			public IEnumerable<GRGEN_LIBGR.IMatches> Iterateds { get { return new GRGEN_LGSP.Iterateds_Enumerable(this); } }
 			public IEnumerator<GRGEN_LIBGR.IMatches> IteratedsEnumerator { get { return new GRGEN_LGSP.Iterateds_Enumerator(this); } }
@@ -392,7 +392,7 @@ namespace de.unika.ipd.grGen.Action_ExternalAttributeEvaluation
 				default: return null;
 				}
 			}
-			
+
 			public enum r_IdptNums { END_OF_ENUM };
 			public IEnumerable<GRGEN_LIBGR.IMatch> Independents { get { return new GRGEN_LGSP.Independents_Enumerable(this); } }
 			public IEnumerator<GRGEN_LIBGR.IMatch> IndependentsEnumerator { get { return new GRGEN_LGSP.Independents_Enumerator(this); } }
@@ -403,7 +403,7 @@ namespace de.unika.ipd.grGen.Action_ExternalAttributeEvaluation
 				default: return null;
 				}
 			}
-			
+
 			public GRGEN_LIBGR.IPatternGraph Pattern { get { return Rule_r.instance.pat_r; } }
 			public GRGEN_LIBGR.IMatch MatchOfEnclosingPattern { get { return _matchOfEnclosingPattern; } }
 			public GRGEN_LIBGR.IMatch _matchOfEnclosingPattern;
@@ -459,7 +459,7 @@ namespace de.unika.ipd.grGen.Action_ExternalAttributeEvaluation
         /// <summary> same as IAction.ApplyMinMax, but with exact types and distinct parameters. </summary>
         bool ApplyMinMax(GRGEN_LIBGR.IGraph graph, int min, int max);
     }
-    
+
     public class Action_init : GRGEN_LGSP.LGSPAction, GRGEN_LIBGR.IAction, IAction_init
     {
         public Action_init() {
@@ -477,7 +477,7 @@ namespace de.unika.ipd.grGen.Action_ExternalAttributeEvaluation
 
         public static Action_init Instance { get { return instance; } }
         private static Action_init instance = new Action_init();
-        
+
         public GRGEN_LIBGR.IMatchesExact<Rule_init.IMatch_init> myMatch(GRGEN_LGSP.LGSPGraph graph, int maxMatches)
         {
             matches.Clear();
@@ -526,7 +526,7 @@ namespace de.unika.ipd.grGen.Action_ExternalAttributeEvaluation
         public bool ApplyStar(GRGEN_LIBGR.IGraph graph)
         {
             GRGEN_LIBGR.IMatchesExact<Rule_init.IMatch_init> matches;
-            
+
             while(true)
             {
                 matches = DynamicMatch((GRGEN_LGSP.LGSPGraph)graph, 1);
@@ -538,7 +538,7 @@ namespace de.unika.ipd.grGen.Action_ExternalAttributeEvaluation
         {
             GRGEN_LIBGR.IMatchesExact<Rule_init.IMatch_init> matches = DynamicMatch((GRGEN_LGSP.LGSPGraph)graph, 1);
             if(matches.Count <= 0) return false;
-            
+
             do
             {
                 _rulePattern.Modify((GRGEN_LGSP.LGSPGraph)graph, matches.First);
@@ -550,7 +550,7 @@ namespace de.unika.ipd.grGen.Action_ExternalAttributeEvaluation
         public bool ApplyMinMax(GRGEN_LIBGR.IGraph graph, int min, int max)
         {
             GRGEN_LIBGR.IMatchesExact<Rule_init.IMatch_init> matches;
-            
+
             for(int i = 0; i < max; i++)
             {
                 matches = DynamicMatch((GRGEN_LGSP.LGSPGraph)graph, 1);
@@ -566,19 +566,19 @@ namespace de.unika.ipd.grGen.Action_ExternalAttributeEvaluation
         }
         public object[] Modify(GRGEN_LIBGR.IGraph graph, GRGEN_LIBGR.IMatch match)
         {
-            
+
             Modify(graph, (Rule_init.IMatch_init)match);
             return ReturnArray;
         }
         public object[] ModifyAll(GRGEN_LIBGR.IGraph graph, GRGEN_LIBGR.IMatches matches)
         {
-            
+
             ModifyAll(graph, (GRGEN_LIBGR.IMatchesExact<Rule_init.IMatch_init>)matches);
             return ReturnArray;
         }
         object[] GRGEN_LIBGR.IAction.Apply(GRGEN_LIBGR.IGraph graph)
         {
-            
+
             if(Apply(graph)) {
                 return ReturnArray;
             }
@@ -586,7 +586,7 @@ namespace de.unika.ipd.grGen.Action_ExternalAttributeEvaluation
         }
         object[] GRGEN_LIBGR.IAction.Apply(GRGEN_LIBGR.IGraph graph, params object[] parameters)
         {
-            
+
             if(Apply(graph)) {
                 return ReturnArray;
             }
@@ -594,7 +594,7 @@ namespace de.unika.ipd.grGen.Action_ExternalAttributeEvaluation
         }
         object[] GRGEN_LIBGR.IAction.ApplyAll(int maxMatches, GRGEN_LIBGR.IGraph graph)
         {
-            
+
             if(ApplyAll(maxMatches, graph)) {
                 return ReturnArray;
             }
@@ -602,7 +602,7 @@ namespace de.unika.ipd.grGen.Action_ExternalAttributeEvaluation
         }
         object[] GRGEN_LIBGR.IAction.ApplyAll(int maxMatches, GRGEN_LIBGR.IGraph graph, params object[] parameters)
         {
-            
+
             if(ApplyAll(maxMatches, graph)) {
                 return ReturnArray;
             }
@@ -656,7 +656,7 @@ namespace de.unika.ipd.grGen.Action_ExternalAttributeEvaluation
         /// <summary> same as IAction.ApplyMinMax, but with exact types and distinct parameters. </summary>
         bool ApplyMinMax(GRGEN_LIBGR.IGraph graph, int min, int max);
     }
-    
+
     public class Action_r : GRGEN_LGSP.LGSPAction, GRGEN_LIBGR.IAction, IAction_r
     {
         public Action_r() {
@@ -674,16 +674,16 @@ namespace de.unika.ipd.grGen.Action_ExternalAttributeEvaluation
 
         public static Action_r Instance { get { return instance; } }
         private static Action_r instance = new Action_r();
-        
+
         public GRGEN_LIBGR.IMatchesExact<Rule_r.IMatch_r> myMatch(GRGEN_LGSP.LGSPGraph graph, int maxMatches)
         {
             matches.Clear();
             int negLevel = 0;
-            // Lookup r_edge_e 
+            // Lookup r_edge_e
             int type_id_candidate_r_edge_e = 3;
             for(GRGEN_LGSP.LGSPEdge head_candidate_r_edge_e = graph.edgesByTypeHeads[type_id_candidate_r_edge_e], candidate_r_edge_e = head_candidate_r_edge_e.lgspTypeNext; candidate_r_edge_e != head_candidate_r_edge_e; candidate_r_edge_e = candidate_r_edge_e.lgspTypeNext)
             {
-                // Implicit Source r_node_n from r_edge_e 
+                // Implicit Source r_node_n from r_edge_e
                 GRGEN_LGSP.LGSPNode candidate_r_node_n = candidate_r_edge_e.lgspSource;
                 if(candidate_r_node_n.lgspType.TypeID!=1) {
                     continue;
@@ -694,19 +694,19 @@ namespace de.unika.ipd.grGen.Action_ExternalAttributeEvaluation
                 if(candidate_r_edge_e.lgspTarget != candidate_r_node_n) {
                     continue;
                 }
-                // Condition 
+                // Condition
                 if(!(GRGEN_EXPR.ExternalFunctions.hur((GRGEN_MODEL.OwnPown)GRGEN_EXPR.ExternalFunctions.har((GRGEN_MODEL.Own)((GRGEN_MODEL.IN)candidate_r_node_n).@ow, (GRGEN_MODEL.OwnPown)GRGEN_EXPR.ExternalFunctions.har((GRGEN_MODEL.Own)((GRGEN_MODEL.IN)candidate_r_node_n).@ow, (GRGEN_MODEL.OwnPown)((GRGEN_MODEL.IN)candidate_r_node_n).@op))))) {
                     continue;
                 }
-                // Condition 
+                // Condition
                 if(!(GRGEN_EXPR.ExternalFunctions.bla((GRGEN_MODEL.IN)candidate_r_node_n, (GRGEN_MODEL.IE)candidate_r_edge_e))) {
                     continue;
                 }
-                // Condition 
+                // Condition
                 if(!(GRGEN_EXPR.ExternalFunctions.isnull(GRGEN_EXPR.ExternalFunctions.bar(null, ((GRGEN_MODEL.IN)candidate_r_node_n).@o)))) {
                     continue;
                 }
-                // Condition 
+                // Condition
                 if(!((GRGEN_EXPR.ExternalFunctions.foo(42, 3.141, GRGEN_MODEL.ENUM_Enu.@hurz, "S21-heiteitei") && GRGEN_EXPR.ExternalFunctions.foo(((GRGEN_MODEL.IN)candidate_r_node_n).@i, ((GRGEN_MODEL.IN)candidate_r_node_n).@d, ((GRGEN_MODEL.IN)candidate_r_node_n).@enu, ((GRGEN_MODEL.IN)candidate_r_node_n).@s)))) {
                     continue;
                 }
@@ -758,7 +758,7 @@ namespace de.unika.ipd.grGen.Action_ExternalAttributeEvaluation
         public bool ApplyStar(GRGEN_LIBGR.IGraph graph)
         {
             GRGEN_LIBGR.IMatchesExact<Rule_r.IMatch_r> matches;
-            
+
             while(true)
             {
                 matches = DynamicMatch((GRGEN_LGSP.LGSPGraph)graph, 1);
@@ -770,7 +770,7 @@ namespace de.unika.ipd.grGen.Action_ExternalAttributeEvaluation
         {
             GRGEN_LIBGR.IMatchesExact<Rule_r.IMatch_r> matches = DynamicMatch((GRGEN_LGSP.LGSPGraph)graph, 1);
             if(matches.Count <= 0) return false;
-            
+
             do
             {
                 _rulePattern.Modify((GRGEN_LGSP.LGSPGraph)graph, matches.First);
@@ -782,7 +782,7 @@ namespace de.unika.ipd.grGen.Action_ExternalAttributeEvaluation
         public bool ApplyMinMax(GRGEN_LIBGR.IGraph graph, int min, int max)
         {
             GRGEN_LIBGR.IMatchesExact<Rule_r.IMatch_r> matches;
-            
+
             for(int i = 0; i < max; i++)
             {
                 matches = DynamicMatch((GRGEN_LGSP.LGSPGraph)graph, 1);
@@ -798,19 +798,19 @@ namespace de.unika.ipd.grGen.Action_ExternalAttributeEvaluation
         }
         public object[] Modify(GRGEN_LIBGR.IGraph graph, GRGEN_LIBGR.IMatch match)
         {
-            
+
             Modify(graph, (Rule_r.IMatch_r)match);
             return ReturnArray;
         }
         public object[] ModifyAll(GRGEN_LIBGR.IGraph graph, GRGEN_LIBGR.IMatches matches)
         {
-            
+
             ModifyAll(graph, (GRGEN_LIBGR.IMatchesExact<Rule_r.IMatch_r>)matches);
             return ReturnArray;
         }
         object[] GRGEN_LIBGR.IAction.Apply(GRGEN_LIBGR.IGraph graph)
         {
-            
+
             if(Apply(graph)) {
                 return ReturnArray;
             }
@@ -818,7 +818,7 @@ namespace de.unika.ipd.grGen.Action_ExternalAttributeEvaluation
         }
         object[] GRGEN_LIBGR.IAction.Apply(GRGEN_LIBGR.IGraph graph, params object[] parameters)
         {
-            
+
             if(Apply(graph)) {
                 return ReturnArray;
             }
@@ -826,7 +826,7 @@ namespace de.unika.ipd.grGen.Action_ExternalAttributeEvaluation
         }
         object[] GRGEN_LIBGR.IAction.ApplyAll(int maxMatches, GRGEN_LIBGR.IGraph graph)
         {
-            
+
             if(ApplyAll(maxMatches, graph)) {
                 return ReturnArray;
             }
@@ -834,7 +834,7 @@ namespace de.unika.ipd.grGen.Action_ExternalAttributeEvaluation
         }
         object[] GRGEN_LIBGR.IAction.ApplyAll(int maxMatches, GRGEN_LIBGR.IGraph graph, params object[] parameters)
         {
-            
+
             if(ApplyAll(maxMatches, graph)) {
                 return ReturnArray;
             }
@@ -897,11 +897,11 @@ namespace de.unika.ipd.grGen.Action_ExternalAttributeEvaluation
             analyzer.AnalyzeWithInterPatternRelationsKnown(Rule_init.Instance);
             analyzer.AnalyzeWithInterPatternRelationsKnown(Rule_r.Instance);
         }
-        
+
         public IAction_init @init;
         public IAction_r @r;
-        
-        
+
+
         public override string Name { get { return "ExternalAttributeEvaluationActions"; } }
         public override string ModelMD5Hash { get { return "34311a93174c6d719d04895ac04ab578"; } }
     }

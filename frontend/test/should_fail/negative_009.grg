@@ -14,7 +14,7 @@ rule r
 			}
         }
 	}
-	
+
 	replace {
 	}
 }

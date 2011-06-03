@@ -1,5 +1,5 @@
 # graph rewrite shell script file, used for simulating the run of an epsilon free nfa, ensured by running the known procedure before
-# shows how variables are used to receive rule return values and to transmit them to further rule invocations 
+# shows how variables are used to receive rule return values and to transmit them to further rule invocations
 # before was removeEpsilons3.grs, next is simulate5.grs
 
 new graph simulate4.grg "StateMachine"
@@ -12,4 +12,4 @@ xgrs checkStartState && !checkDoublettes \
 && !epsilonTransition
 
 input="abc"
-debug xgrs (state)=getStartState && (state, input)=accept(state, input)* && isFinalState(state) 
+debug xgrs (state)=getStartState && (state, input)=accept(state, input)* && isFinalState(state)

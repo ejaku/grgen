@@ -1,24 +1,24 @@
-// dumps java program graph into pseudo code 
+// dumps java program graph into pseudo code
 // by matching spanning tree in program graph and emitting from it
 
 rule emitSpanningTree
-{	
+{
 	iterated {
 		p:Package;
 
 		negative {
-			<-:belongsTo- p; 
+			<-:belongsTo- p;
 		}
 
 		mpc:MultipleContainedPackagesOrClasses(p);
-	
+
 		modify {
 			emithere("package ", p.name, "\n{\n");
 			mpc();
-			emithere("}\n");	
+			emithere("}\n");
 		}
 	}
-	
+
 	modify {
 		emithere("// java program ", nameof(), "\n");
 	}
@@ -28,20 +28,20 @@ pattern MultipleContainedPackagesOrClasses(p:Package)
 {
 	iterated {
 		p <-:belongsTo- sub:Package;
-		mpc:MultipleContainedPackagesOrClasses(sub);	
-		
+		mpc:MultipleContainedPackagesOrClasses(sub);
+
 		modify {
 			emithere("package ", sub.name, "\n{\n");
 			mpc();
 			emithere("}\n");
 		}
 	}
-	
+
 	iterated {
 		p <-:belongsTo- c:Class;
 		mm:MultipleMethodBodies(c);
 		mv:MultipleVariables(c);
-		
+
 		modify {
 			emithere("class ", c.name, " {\n");
 			mm();
@@ -49,7 +49,7 @@ pattern MultipleContainedPackagesOrClasses(p:Package)
 			emithere("}\n");
 		}
 	}
-	
+
 	modify {}
 }
 
@@ -60,9 +60,9 @@ pattern MultipleVariables(c:Class)
 
 		modify {
 			emithere("var ", v.name, ";\n");
-		}			
+		}
 	}
-	
+
 	modify {}
 }
 
@@ -70,7 +70,7 @@ pattern MultipleMethodBodies(c:Class)
 {
 	iterated {
 		c <-:belongsTo- mb:MethodBody;
-		
+
 		bi:MethodBodyAndImplementation(mb);
 
 		modify {
@@ -79,7 +79,7 @@ pattern MultipleMethodBodies(c:Class)
 			emithere(";\n");
 		}
 	}
-	
+
 	modify {}
 }
 
@@ -88,23 +88,23 @@ pattern MethodBodyAndImplementation(mb:MethodBody)
 	optional { 	// operation can get matched only once, and it might happen that it was already matched
 		mb <-:binding- op:Operation;
 		:MultipleParameters(op);
-		
-		modify { 
+
+		modify {
 			// maybe emit parameters
 		}
 	}
-	
+
 	optional {
 		mb <-:belongsTo- b:Block;
 		me:MultipleExpressions(b);
-		
+
 		modify {
 			emithere(" {");
 			me();
 			emithere("}");
 		}
 	}
-	
+
 	modify {
 	}
 }
@@ -113,10 +113,10 @@ pattern MultipleParameters(op:Operation)
 {
 	iterated {
 		op -:parameter-> :Parameter;
-		
+
 		modify {}
 	}
-	
+
 	modify {}
 }
 
@@ -124,8 +124,8 @@ pattern MultipleExpressions(b:Block)
 {
 	iterated {
 		b -:expression-> next:Expression\Call;
-		ec:ExpressionChain(next);	
-		
+		ec:ExpressionChain(next);
+
 		modify {
 			emithere("exp");
 			ec();
@@ -137,14 +137,14 @@ pattern MultipleExpressions(b:Block)
 		b -:expression-> call:Call;
 		ec:ExpressionChain(call);
 		:MultipleActualParameters(call);
-		
+
 		modify {
 			emithere("call");
 			ec();
 			emithere(" ");
 		}
 	}
-	
+
 	modify {}
 }
 
@@ -153,8 +153,8 @@ pattern ExpressionChain(e:Expression)
 	alternative {
 		ExprAndAgain {
 			e -:expression-> next:Expression\Call;
-			ec:ExpressionChain(next);	
-			
+			ec:ExpressionChain(next);
+
 			modify {
 				emithere("--exp");
 				ec();
@@ -164,7 +164,7 @@ pattern ExpressionChain(e:Expression)
 			e -:expression-> call:Call;
 			ec:ExpressionChain(call);
 			:MultipleActualParameters(call);
-			
+
 			modify {
 				emithere("--call");
 				ec();
@@ -174,13 +174,13 @@ pattern ExpressionChain(e:Expression)
 			negative {
 				e -:expression->;
 			}
-			
+
 			modify {
 				emit(";");
 			}
 		}
 	}
-	
+
 	modify {}
 }
 
@@ -188,19 +188,19 @@ pattern MultipleActualParameters(c:Call)
 {
 	iterated {
 		c -:actualParameter-> next:Expression\Call;
-		:ExpressionChain(next);	
-			
+		:ExpressionChain(next);
+
 		modify {}
 	}
-	
+
 	iterated {
 		c -:actualParameter-> call:Call;
 		:ExpressionChain(call);
 		:MultipleActualParameters(call);
-			
+
 		modify {}
 	}
-	
+
 	modify {}
 }
 
@@ -209,9 +209,9 @@ pattern MultipleExtendingClasses(c:Class)
 	iterated {
 		c <-:extends_- sub:Class;
 		:MultipleExtendingClasses(sub);
-			
+
 		modify {}
 	}
-	
+
 	modify {}
 }

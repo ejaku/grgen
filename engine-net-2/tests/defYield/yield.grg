@@ -11,7 +11,7 @@ rule createChain : (Node)
 rule linkChainEndToStart(start:Node)
 {
 	c:Chain(start);
-	
+
 	modify {
 		def end:Node;
 		c(yield end);
@@ -25,7 +25,7 @@ pattern Chain(begin:Node) modify(def end:Node)
 		further {
 			begin --> next:Node;
 			c:Chain(next);
-			
+
 			modify {
 				c(yield end);
 			}
@@ -34,7 +34,7 @@ pattern Chain(begin:Node) modify(def end:Node)
 			negative {
 				begin --> ;
 			}
-			
+
 			modify {
 				eval {
 					yield end = begin;
@@ -42,7 +42,7 @@ pattern Chain(begin:Node) modify(def end:Node)
 			}
 		}
 	}
-	
+
 	modify {
 	}
 }
@@ -53,7 +53,7 @@ rule deleteWithoutIncoming
 	negative {
 		--> n;
 	}
-	
+
 	replace {
 	}
 }
@@ -87,7 +87,7 @@ rule deleteNINTNSTRING(start:Node) : (object)
 	alternative {
 		toNINT {
 			start --> n:NINT;
-			
+
 			modify {
 				eval {
 					n.a = 42;
@@ -98,7 +98,7 @@ rule deleteNINTNSTRING(start:Node) : (object)
 		}
 		toNSTRING {
 			start --> n:NSTRING;
-			
+
 			modify {
 				eval {
 					n.a = "fool";
@@ -108,7 +108,7 @@ rule deleteNINTNSTRING(start:Node) : (object)
 			}
 		}
 	}
-	
+
 	modify {
 		def m:Node;
 		def var v:object;
@@ -124,7 +124,7 @@ rule retypeNINTNSTRING(start:Node) : (object)
 	alternative {
 		toNINT {
 			start --> n:NINT;
-			
+
 			modify {
 				eval {
 					n.a = 42;
@@ -135,7 +135,7 @@ rule retypeNINTNSTRING(start:Node) : (object)
 		}
 		toNSTRING {
 			start --> n:NSTRING;
-			
+
 			modify {
 				eval {
 					n.a = "fool";
@@ -145,7 +145,7 @@ rule retypeNINTNSTRING(start:Node) : (object)
 			}
 		}
 	}
-	
+
 	modify {
 		def m:Node;
 		def var v:object;
@@ -176,7 +176,7 @@ rule countNINT(start:Node) : (int)
 {
 	iterated {
 		start --> n:NINT;
-		
+
 		modify {
 			eval {
 				m = n;
@@ -184,7 +184,7 @@ rule countNINT(start:Node) : (int)
 			}
 		}
 	}
-	
+
 	modify {
 		def m:NINT;
 		def var i:int = 0;

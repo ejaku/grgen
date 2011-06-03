@@ -1,6 +1,6 @@
 rule r1 : (Node)
 {
-	modify {	
+	modify {
 		n:Node;
 		return(n);
 	}
@@ -28,7 +28,7 @@ rule r4(n:Node, m:Node) : (Node, Node)
 rule some_of
 {
 	n:Node;
-	
+
 	modify {
 		exec( {(m)=r1, [r2], r3(n), (l,m)=$[r4(n,m)]} );
 	}
@@ -37,7 +37,7 @@ rule some_of
 rule one_of
 {
 	n:Node;
-	
+
 	modify {
 		exec( ${(m)=r1, [r2], r3(n), (l,m)=$[r4(n,m)]} );
 	}

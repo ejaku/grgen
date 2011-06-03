@@ -2666,7 +2666,7 @@
         <member name="M:de.unika.ipd.grGen.libGr.porter.TokenMgrError.GetLexicalError(System.Boolean,System.Int32,System.Int32,System.Int32,System.String,System.Char)">
             Returns a detailed message for the Exception when it is thrown by the
             token manager to indicate a lexical error.
-            Parameters : 
+            Parameters :
                EOFSeen     : indicates if EOF caused the lexicl error
                curLexState : lexical state in which this error occured
                errorLine   : line number when the error occured
@@ -2678,10 +2678,10 @@
         <member name="P:de.unika.ipd.grGen.libGr.porter.TokenMgrError.Message">
              You can also modify the body of this method to customize your error messages.
              For example, cases like LOOP_DETECTED and INVALID_LEXICAL_STATE are not
-             of end-users concern, so you can return something like : 
-            
+             of end-users concern, so you can return something like :
+
                  "Internal Error : Please file a bug report .... "
-            
+
              from this method for such cases in the release version of your parser.
         </member>
         <member name="T:de.unika.ipd.grGen.libGr.GRGExport">
@@ -2793,9 +2793,9 @@
              Simply add the cases to the switch for all those special cases.
              For example, if you have a subclass of Token called IDToken that
              you want to create if ofKind is ID, simlpy add something like :
-            
+
                 case MyParserConstants.ID : return new IDToken();
-            
+
              to the following switch statement. Then you can cast matchedToken
              variable to the appropriate type and use it in your lexical actions.
         </member>
@@ -3225,7 +3225,7 @@
         <member name="M:de.unika.ipd.grGen.libGr.sequenceParser.TokenMgrError.GetLexicalError(System.Boolean,System.Int32,System.Int32,System.Int32,System.String,System.Char)">
             Returns a detailed message for the Exception when it is thrown by the
             token manager to indicate a lexical error.
-            Parameters : 
+            Parameters :
                EOFSeen     : indicates if EOF caused the lexicl error
                curLexState : lexical state in which this error occured
                errorLine   : line number when the error occured
@@ -3237,10 +3237,10 @@
         <member name="P:de.unika.ipd.grGen.libGr.sequenceParser.TokenMgrError.Message">
              You can also modify the body of this method to customize your error messages.
              For example, cases like LOOP_DETECTED and INVALID_LEXICAL_STATE are not
-             of end-users concern, so you can return something like : 
-            
+             of end-users concern, so you can return something like :
+
                  "Internal Error : Please file a bug report .... "
-            
+
              from this method for such cases in the release version of your parser.
         </member>
         <member name="T:de.unika.ipd.grGen.libGr.ITypeModel">
@@ -5452,9 +5452,9 @@
              Simply add the cases to the switch for all those special cases.
              For example, if you have a subclass of Token called IDToken that
              you want to create if ofKind is ID, simlpy add something like :
-            
+
                 case MyParserConstants.ID : return new IDToken();
-            
+
              to the following switch statement. Then you can cast matchedToken
              variable to the appropriate type and use it in your lexical actions.
         </member>

@@ -29,13 +29,13 @@ public class VarDeclNode extends DeclNode {
 
 	protected PatternGraphNode directlyNestingLHSGraph;
 	boolean defEntityToBeYieldedTo;
-	
-	ExprNode initialization = null;
-	
-	int context;
-	
 
-	public VarDeclNode(IdentNode id, IdentNode type, 
+	ExprNode initialization = null;
+
+	int context;
+
+
+	public VarDeclNode(IdentNode id, IdentNode type,
 			PatternGraphNode directlyNestingLHSGraph, int context, boolean defEntityToBeYieldedTo) {
 		super(id, type);
 		this.directlyNestingLHSGraph = directlyNestingLHSGraph;
@@ -43,7 +43,7 @@ public class VarDeclNode extends DeclNode {
 		this.context = context;
     }
 
-	public VarDeclNode(IdentNode id, IdentNode type, 
+	public VarDeclNode(IdentNode id, IdentNode type,
 			PatternGraphNode directlyNestingLHSGraph, int context) {
 		this(id, type, directlyNestingLHSGraph, context, false);
     }
@@ -55,12 +55,12 @@ public class VarDeclNode extends DeclNode {
 		this.directlyNestingLHSGraph = directlyNestingLHSGraph;
 		this.context = context;
 	}
-	
+
 	public VarDeclNode(IdentNode id, TypeNode type,
 			PatternGraphNode directlyNestingLHSGraph, int context) {
 		this(id, type, directlyNestingLHSGraph, context, false);
 	}
-	
+
 	/** Get an invalid var declaration. */
 	public static final VarDeclNode getInvalidVar(PatternGraphNode directlyNestingLHSGraph, int context) {
 		return new VarDeclNode(IdentNode.getInvalid(), IdentNode.getInvalid(), directlyNestingLHSGraph, context);
@@ -71,7 +71,7 @@ public class VarDeclNode extends DeclNode {
 	{
 		this.initialization = initialization;
 	}
-	
+
 	/** returns children of this node */
 	@Override
 	public Collection<? extends BaseNode> getChildren() {
@@ -110,7 +110,7 @@ public class VarDeclNode extends DeclNode {
 	protected boolean checkLocal() {
 		if(initialization==null)
 			return true;
-		
+
 		TypeNode targetType = getDeclType();
 		TypeNode exprType = initialization.getType();
 

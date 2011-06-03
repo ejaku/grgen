@@ -5,7 +5,7 @@ rule r {
 
 	if { nameof(x)=="foo"; } // name of node x
 	if { nameof()!="bar"; } // name of graph
-	
+
 	modify {
 		x --> y : StringNode;
 		eval {

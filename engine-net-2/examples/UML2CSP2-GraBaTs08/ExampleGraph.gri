@@ -18,7 +18,7 @@ rule InitExample
     fn -f2:ActivityEdge-> pa:Action -j2:ActivityEdge-> jn;
     fn -f3:ActivityEdge-> gsf:Action -j3:ActivityEdge-> jn;
     jn -e1:ActivityEdge-> csd:Action -e2:ActivityEdge-> :FinalNode;
-    
+
     eval {
       s1.name = "S1";
       sra.name = "serverReceiveAlert";
