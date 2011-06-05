@@ -1791,7 +1791,8 @@ namespace de.unika.ipd.grGen.lgsp
 
             string negativeIndependentNamePrefix = NegativeIndependentNamePrefix(patternGraphWithNestingPatterns.Peek());
             bool negativeContainsSubpatterns = negativePatternGraph.EmbeddedGraphs.Length >= 1
-                || negativePatternGraph.Alternatives.Length >= 1;
+                || negativePatternGraph.Alternatives.Length >= 1
+                || negativePatternGraph.Iterateds.Length >= 1;
             InitializeNegativeIndependentMatching initNeg = new InitializeNegativeIndependentMatching(
                 negativeContainsSubpatterns, 
                 negativeIndependentNamePrefix, 
@@ -1872,7 +1873,8 @@ namespace de.unika.ipd.grGen.lgsp
 
             string independentNamePrefix = NegativeIndependentNamePrefix(patternGraphWithNestingPatterns.Peek());
             bool independentContainsSubpatterns = independentPatternGraph.EmbeddedGraphs.Length >= 1
-                || independentPatternGraph.Alternatives.Length >= 1;
+                || independentPatternGraph.Alternatives.Length >= 1
+                || independentPatternGraph.Iterateds.Length >= 1;
             InitializeNegativeIndependentMatching initIdpt = new InitializeNegativeIndependentMatching(
                 independentContainsSubpatterns,
                 independentNamePrefix,

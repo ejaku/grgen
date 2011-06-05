@@ -1,0 +1,48 @@
+test checkPhiArity
+{
+	negative {
+		phi:Node;
+
+		iterated {
+			phi -->;
+		}
+	}
+}
+
+test checkPhiArity2
+{
+	independent {
+		phi:Node;
+
+		iterated {
+			phi -->;
+		}
+	}
+}
+
+test checkPhiArity3
+{
+	negative {
+		phi:Node;
+
+		alternative {
+			Phoo {
+				phi -->;
+			}
+		}
+	}
+}
+
+
+test checkPhiArity4
+{
+	independent {
+		phi:Node;
+
+		alternative {
+			Phoo {
+				phi -->;
+			}
+		}
+	}
+}
