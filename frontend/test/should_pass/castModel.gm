@@ -1,0 +1,17 @@
+node class N;
+node class NA extends N {
+	val:int = 42;
+}
+node class NAA extends NA;
+node class NB extends N;
+node class NC extends N;
+node class M;
+
+edge class E;
+edge class EA extends E {
+	val:int = 42;
+}
+edge class EAA extends EA;
+edge class EB extends E;
+edge class EC extends E;
+edge class D;

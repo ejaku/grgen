@@ -15,6 +15,8 @@ import java.util.Collections;
 import java.util.Map;
 import java.util.Set;
 
+import de.unika.ipd.grgen.ast.BaseNode;
+
 /**
  * An instantiation of a type.
  */
@@ -97,6 +99,11 @@ public class Entity extends Identifiable {
 	/** @return true, if this is a constant entity, else false */
 	public boolean isConst() {
 		return isConst;
+	}
+
+	/** @return true, if this is an entity declared in the right pattern, else false */
+	public boolean isRHSEntity() {
+		return (context&BaseNode.CONTEXT_LHS_OR_RHS)==BaseNode.CONTEXT_RHS;
 	}
 	
 	/** @return true, if this is a defined only entity to be filled from nested patterns, else false */

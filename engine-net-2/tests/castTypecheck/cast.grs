@@ -1,0 +1,53 @@
+new graph castTypecheck/cast
+
+xgrs (n,e)=init
+n.val
+show num nodes only "N"
+show num nodes only "NA"
+
+xgrs testNA
+n.val
+show num nodes only "N"
+show num nodes only "NA"
+
+xgrs testNAA
+xgrs testNB
+xgrs testNC
+
+show num nodes only "N"
+show num nodes only "NA"
+show num nodes only "M"
+
+xgrs testN
+
+show num nodes only "N"
+show num nodes only "NA"
+show num nodes only "M"
+
+clear graph
+
+xgrs (n,e)=init
+e.val
+show num edges only "E"
+show num edges only "EA"
+
+xgrs testEA
+e.val
+show num edges only "E"
+show num edges only "EA"
+
+xgrs testEAA
+xgrs testEB
+xgrs testEC
+
+show num edges only "E"
+show num edges only "EA"
+show num edges only "D"
+
+xgrs testE
+
+show num edges only "E"
+show num edges only "EA"
+show num edges only "D"
+
+quit

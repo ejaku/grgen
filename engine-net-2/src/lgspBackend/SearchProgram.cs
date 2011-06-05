@@ -1222,7 +1222,8 @@ namespace de.unika.ipd.grGen.lgsp
         NodeFromEdge, // draw node from given edge
         MapWithStorage, // map element by storage map lookup
         FromInputs, // draw element from action inputs
-        FromSubpatternConnections // draw element from subpattern connections
+        FromSubpatternConnections, // draw element from subpattern connections
+        FromOtherElementForCast // draw element from other element for type cast
     }
 
     /// <summary>
@@ -1310,6 +1311,20 @@ namespace de.unika.ipd.grGen.lgsp
             IsNode = isNode;
         }
 
+        public GetCandidateByDrawing(
+            GetCandidateByDrawingType type,
+            string patternElementName,
+            string sourcePatternElementName,
+            bool isNode)
+        {
+            Debug.Assert(type == GetCandidateByDrawingType.FromOtherElementForCast);
+
+            Type = type;
+            PatternElementName = patternElementName;
+            SourcePatternElementName = sourcePatternElementName;
+            IsNode = isNode;
+        }
+
 
         public override void Dump(SourceBuilder builder)
         {
@@ -1328,10 +1343,14 @@ namespace de.unika.ipd.grGen.lgsp
                 builder.Append("FromInputs ");
                 builder.AppendFormat("on {0} node:{1}\n",
                     PatternElementName, IsNode);
-            } else { // Type==GetCandidateByDrawingType.FromSubpatternConnections
+            } else if(Type==GetCandidateByDrawingType.FromSubpatternConnections) {
                 builder.Append("FromSubpatternConnections ");
                 builder.AppendFormat("on {0} node:{1}\n",
                     PatternElementName, IsNode);
+            } else { //if(Type==GetCandidateByDrawingType.FromOtherElementForCast)
+                builder.Append("FromOtherElementForCast ");
+                builder.AppendFormat("on {0} from {1} node:{2}\n",
+                    PatternElementName, SourcePatternElementName, IsNode);
             }
         }
 
@@ -1419,7 +1438,7 @@ namespace de.unika.ipd.grGen.lgsp
                 sourceCode.AppendFormat(" = ({0}){1};\n",
                     typeOfVariableContainingCandidate, PatternElementName);
             }
-            else //Type==GetCandidateByDrawingType.FromSubpatternConnections
+            else if(Type==GetCandidateByDrawingType.FromSubpatternConnections)
             {
                 if(sourceCode.CommentSourceCode)
                     sourceCode.AppendFrontFormat("// SubPreset {0} \n", PatternElementName);
@@ -1432,6 +1451,22 @@ namespace de.unika.ipd.grGen.lgsp
                 sourceCode.AppendFrontFormat("{0} {1} = {2};\n",
                     typeOfVariableContainingCandidate, variableContainingCandidate, PatternElementName);
             }
+            else //if(Type == GetCandidateByDrawingType.FromOtherElementForCast)
+            {
+                if(sourceCode.CommentSourceCode)
+                    sourceCode.AppendFrontFormat("// Element {0} as type cast from other element {1} \n", 
+                        PatternElementName, SourcePatternElementName);
+
+                // emit declaration of variable containing candidate node
+                string typeOfVariableContainingCandidate = "GRGEN_LGSP."
+                    + (IsNode ? "LGSPNode" : "LGSPEdge");
+                string variableContainingCandidate = NamesOfEntities.CandidateVariable(PatternElementName);
+                sourceCode.AppendFrontFormat("{0} {1}",
+                    typeOfVariableContainingCandidate, variableContainingCandidate);
+                // emit initialization with other element candidate variable
+                string variableContainingSource = NamesOfEntities.CandidateVariable(SourcePatternElementName);
+                sourceCode.AppendFormat(" = {0};\n", variableContainingSource);
+            }
         }
 
         public GetCandidateByDrawingType Type;
@@ -1439,8 +1474,8 @@ namespace de.unika.ipd.grGen.lgsp
         public string TheOtherPatternElementName; // only valid if NodeFromEdge and TheOther
         public string StartingPointEdgeName; // from pattern - only valid if NodeFromEdge
         ImplicitNodeType NodeType; // only valid if NodeFromEdge
-        public bool IsNode; // node|edge - only valid if FromInputs, FromSubpatternConnections
-        public string SourcePatternElementName; // only valid if MapWithStorage
+        public bool IsNode; // node|edge
+        public string SourcePatternElementName; // only valid if MapWithStorage|FromOtherElementForCast
         public string StorageName; // only valid if MapWithStorage
         public string StorageValueTypeName; // only valid if MapWithStorage
     }

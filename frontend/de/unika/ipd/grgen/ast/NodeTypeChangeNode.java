@@ -97,11 +97,6 @@ public class NodeTypeChangeNode extends NodeDeclNode implements NodeCharacter  {
 			return false;
 		}
 
-		if((context&CONTEXT_LHS_OR_RHS)==CONTEXT_LHS) {
-			reportError("Can't retype node on LHS");
-			return false;
-		}
-
 		// check if source node of retype is declared in replace/modify part
 		BaseNode curr = old;
 		BaseNode prev = null;
@@ -158,16 +153,7 @@ public class NodeTypeChangeNode extends NodeDeclNode implements NodeCharacter  {
 			}
 		}
 
-		return res & onlyReplacementNodesAreAllowedToChangeType();
-	}
-
-	private boolean onlyReplacementNodesAreAllowedToChangeType() {
-		if((context & CONTEXT_LHS_OR_RHS) == CONTEXT_RHS) {
-			return true;
-		}
-
-		constraints.reportError("pattern nodes are not allowed to change type, only replacement nodes are");
-		return false;
+		return res;
 	}
 
 	@Override

@@ -33,6 +33,8 @@ import de.unika.ipd.grgen.ir.GraphEntityExpression;
 import de.unika.ipd.grgen.ir.IR;
 import de.unika.ipd.grgen.ir.NeededEntities;
 import de.unika.ipd.grgen.ir.Node;
+import de.unika.ipd.grgen.ir.RetypedEdge;
+import de.unika.ipd.grgen.ir.RetypedNode;
 import de.unika.ipd.grgen.ir.Variable;
 import de.unika.ipd.grgen.ir.Operator;
 import de.unika.ipd.grgen.ir.PatternGraph;
@@ -699,6 +701,11 @@ public class PatternGraphNode extends GraphNode {
 			} else if(node.getAccessor()!=null && node.getAccessor() instanceof Edge) {
 				addEdgeIfNotYetContained(gr, (Edge)node.getAccessor());					
 			}
+			
+			// add old node of lhs retype
+			if(node instanceof RetypedNode && !node.isRHSEntity()) {
+				nodesToAdd.add(((RetypedNode)node).getOldNode());
+			}
 		}
 		
 		for(Edge edge : gr.getEdges()) {
@@ -720,6 +727,11 @@ public class PatternGraphNode extends GraphNode {
 				addNodeIfNotYetContained(gr, (Node)edge.getAccessor());					
 			} else if(edge.getAccessor()!=null && edge.getAccessor() instanceof Edge) {
 				edgesToAdd.add((Edge)edge.getAccessor());
+			}
+			
+			// add old edge of lhs retype
+			if(edge instanceof RetypedEdge && !edge.isRHSEntity()) {
+				edgesToAdd.add(((RetypedEdge)edge).getOldEdge());
 			}
 		}
 
@@ -750,6 +762,24 @@ public class PatternGraphNode extends GraphNode {
 		for (Edge edge : gr.getEdges()) {
 			if(edge.isDefToBeYieldedTo())
 				gr.addHomToAll(edge);
+		}
+
+		// ensure lhs retype elements are hom to their old element
+		for (Node node : gr.getNodes()) {
+			if(node instanceof RetypedNode && !node.isRHSEntity()) {
+				Vector<Node> homNodes = new Vector<Node>();
+				homNodes.add(node);
+				homNodes.add(((RetypedNode)node).getOldNode());
+				gr.addHomomorphicNodes(homNodes);
+			}
+		}
+		for (Edge edge : gr.getEdges()) {
+			if(edge instanceof RetypedEdge && !edge.isRHSEntity()) {
+				Vector<Edge> homEdges = new Vector<Edge>();
+				homEdges.add(edge);
+				homEdges.add(((RetypedEdge)edge).getOldEdge());
+				gr.addHomomorphicEdges(homEdges);
+			}
 		}
 
 		return gr;

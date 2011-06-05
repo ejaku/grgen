@@ -1534,13 +1534,13 @@ public class ModifyGen extends CSharpBase {
 	private void genExtractElementsFromMatch(StringBuffer sb, ModifyGenerationTask task,
 			ModifyGenerationStateConst state, String pathPrefix, String patternName) {
 		for(Node node : state.nodesNeededAsElements()) {
-			if(node.isRetyped()) continue;
+			if(node.isRetyped() && node.isRHSEntity()) continue;
 			if(state.yieldedNodes().contains(node)) continue;
 			sb.append("\t\t\tGRGEN_LGSP.LGSPNode " + formatEntity(node)
 					+ " = curMatch." + formatEntity(node, "_") + ";\n");
 		}
 		for(Node node : state.nodesNeededAsAttributes()) {
-			if(node.isRetyped()) continue;
+			if(node.isRetyped() && node.isRHSEntity()) continue;
 			if(state.yieldedNodes().contains(node)) continue;
 			if(task.replParameters.contains(node)) {
 				sb.append("\t\t\t" + formatElementInterfaceRef(node.getType()) + " i" + formatEntity(node)
@@ -1551,13 +1551,13 @@ public class ModifyGen extends CSharpBase {
 					+ " = curMatch." + formatEntity(node) + ";\n");
 		}
 		for(Edge edge : state.edgesNeededAsElements()) {
-			if(edge.isRetyped()) continue;
+			if(edge.isRetyped() && edge.isRHSEntity()) continue;
 			if(state.yieldedEdges().contains(edge)) continue;
 			sb.append("\t\t\tGRGEN_LGSP.LGSPEdge " + formatEntity(edge)
 					+ " = curMatch." + formatEntity(edge, "_") + ";\n");
 		}
 		for(Edge edge : state.edgesNeededAsAttributes()) {
-			if(edge.isRetyped()) continue;
+			if(edge.isRetyped() && edge.isRHSEntity()) continue;
 			if(state.yieldedEdges().contains(edge)) continue;
 			if(task.replParameters.contains(edge)) {
 				sb.append("\t\t\t" + formatElementInterfaceRef(edge.getType()) + " i" + formatEntity(edge)

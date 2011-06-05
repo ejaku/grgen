@@ -136,7 +136,7 @@ public abstract class Graph extends IR {
 		// Do not include the virtual retyped nodes in the graph.
 		// TODO why??? we could just check in the generator whether this is a retyped node
 		// this would eliminate this unnecessary <code>changesType()</code> stuff
-		if (n.isRetyped()) {
+		if (n.isRetyped() && n.isRHSEntity()) {
 			RetypedNode retypedNode = (RetypedNode) n;
 			n = retypedNode.getOldNode();
 			n.setRetypedNode(retypedNode, this);
@@ -158,7 +158,7 @@ public abstract class Graph extends IR {
 
 		// TODO Batz included this because an analogous invocation can be found
 		// in the method right above, don't exactly whether this makes sense
-		if (e.isRetyped()) {
+		if (e.isRetyped() && e.isRHSEntity()) {
 			RetypedEdge retypedEdge = (RetypedEdge) e;
 			e = retypedEdge.getOldEdge();
 			e.setRetypedEdge(retypedEdge, this);

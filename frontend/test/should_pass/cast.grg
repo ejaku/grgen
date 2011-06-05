@@ -1,0 +1,108 @@
+using castModel;
+
+rule init : (NA,EA)
+{
+	modify {
+		n:NA -e:EA-> n;
+		return(n,e);
+	}
+}
+
+rule testNA
+{
+	n:N;
+	m:NA<n>;
+	if { m.val==42; }
+
+	modify {
+		eval { m.val = 666; }
+	}
+}
+
+rule testNAA
+{
+	n:N;
+	m:NAA<n>;
+
+	modify {
+		:M<m>;
+	}
+}
+
+rule testNB
+{
+	n:N;
+	m:NB<n>;
+
+	modify {
+		:M<m>;
+	}
+}
+
+rule testNC
+{
+	n:N;
+	m:NC<n>;
+
+	modify {
+		:M<m>;
+	}
+}
+
+rule testN
+{
+	n:N;
+	( m:NA<n>; modify { :M<m>; } | m:NB<n>; modify { :M<m>; } | m:NC<n>; modify { :M<m>; } )
+	
+	modify { }
+}
+
+rule testEA
+{
+	-e:E->;
+	-d:EA<e>->;
+	if { d.val == 42; }
+
+	modify {
+		eval { d.val = 666; }
+	}
+}
+
+rule testEAA
+{
+	-e:E->;
+	-d:EAA<e>->;
+
+	modify {
+		-:D<d>->;
+	}
+}
+
+rule testEB
+{
+	-e:E->;
+	-d:EB<e>->;
+
+	modify {
+		-:D<d>->;
+	}
+}
+
+rule testEC
+{
+	-e:E->;
+	-d:EC<e>->;
+
+	modify {
+		-:D<d>->;
+	}
+}
+
+rule testE
+{
+	-e:E->;
+	( -d:EA<e>->; modify { -:D<d>->; } | -d:EB<e>->; modify { -:D<d>->; } | -d:EC<e>->; modify { -:D<d>->; } )
+	
+	modify { }
+}
+

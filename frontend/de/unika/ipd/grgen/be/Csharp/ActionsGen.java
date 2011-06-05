@@ -74,6 +74,8 @@ import de.unika.ipd.grgen.ir.MapVarRemoveItem;
 import de.unika.ipd.grgen.ir.MaxExpr;
 import de.unika.ipd.grgen.ir.MinExpr;
 import de.unika.ipd.grgen.ir.PowExpr;
+import de.unika.ipd.grgen.ir.RetypedEdge;
+import de.unika.ipd.grgen.ir.RetypedNode;
 import de.unika.ipd.grgen.ir.Sequence;
 import de.unika.ipd.grgen.ir.SetInit;
 import de.unika.ipd.grgen.ir.SetItem;
@@ -1065,7 +1067,7 @@ public class ActionsGen extends CSharpBase {
 			addAnnotations(aux, var, varName+".annotations");
 		}
 
-		// Dependencies because of match by storage access (element must be matched before storage map access with it)
+		// Dependencies because an element requires another element (e.g. match by storage access)
 		int dependencyLevel = 0;
 		boolean somethingSkipped;
 		do {
@@ -1100,6 +1102,7 @@ public class ActionsGen extends CSharpBase {
 				} else {
 					sb.append("null, null, ");
 				}
+				sb.append((node instanceof RetypedNode ? formatEntity(((RetypedNode)node).getOldNode(), pathPrefixForElements, alreadyDefinedEntityToName) : "null")+", ");
 				sb.append(node.isDefToBeYieldedTo() ? "true);\n" : "false);\n");
 				alreadyDefinedEntityToName.put(node, nodeName);
 				aux.append("\t\t\t" + nodeName + ".pointOfDefinition = " + (parameters.indexOf(node)==-1 ? patGraphVarName : "null") + ";\n");
@@ -1138,6 +1141,7 @@ public class ActionsGen extends CSharpBase {
 				} else {
 					sb.append("null, null, ");
 				}
+				sb.append((edge instanceof RetypedEdge ? formatEntity(((RetypedEdge)edge).getOldEdge(), pathPrefixForElements, alreadyDefinedEntityToName) : "null")+", ");
 				sb.append(edge.isDefToBeYieldedTo() ? "true);\n" : "false);\n");
 				alreadyDefinedEntityToName.put(edge, edgeName);
 				aux.append("\t\t\t" + edgeName + ".pointOfDefinition = " + (parameters.indexOf(edge)==-1 ? patGraphVarName : "null") + ";\n");

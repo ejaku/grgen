@@ -336,10 +336,10 @@ public class Rule extends MatchingAction {
 		return false;
 	}
 
-	public void setDependencyLevelByStorageMapAccess() {
+	public void setDependencyLevelOfInterElementDependencies() {
 		PatternGraph left = getLeft();
 		final int MAX_CHAINING_FOR_STORAGE_MAP_ACCESS = 1000;
-		int dependencyLevel=0;
+		int dependencyLevel = 0;
 		boolean somethingChanged;
 		do {
 			somethingChanged = false;
@@ -354,6 +354,13 @@ public class Rule extends MatchingAction {
 				}
 				if(node.getStorageAttribute()!=null) {
 					if(node.getDependencyLevel()<=((GraphEntity)node.getStorageAttribute().getOwner()).getDependencyLevel()) {
+						node.incrementDependencyLevel();
+						dependencyLevel = Math.max(node.getDependencyLevel(), dependencyLevel);
+						somethingChanged = true;
+					}
+				}
+				if(node instanceof RetypedNode) {
+					if(node.getDependencyLevel()<=((RetypedNode)node).oldNode.getDependencyLevel()) {
 						node.incrementDependencyLevel();
 						dependencyLevel = Math.max(node.getDependencyLevel(), dependencyLevel);
 						somethingChanged = true;
@@ -375,6 +382,13 @@ public class Rule extends MatchingAction {
 						somethingChanged = true;
 					}
 				}
+				if(edge instanceof RetypedEdge) {
+					if(edge.getDependencyLevel()<=((RetypedEdge)edge).oldEdge.getDependencyLevel()) {
+						edge.incrementDependencyLevel();
+						dependencyLevel = Math.max(edge.getDependencyLevel(), dependencyLevel);
+						somethingChanged = true;
+					}
+				}
 			}
 			if(dependencyLevel>=MAX_CHAINING_FOR_STORAGE_MAP_ACCESS) {
 				error.error("Cycle in match node/edge by storage map access or storage attribute.");
@@ -384,12 +398,12 @@ public class Rule extends MatchingAction {
 		
 		for(Alternative alternative : pattern.getAlts()) {
 			for(Rule altCase : alternative.getAlternativeCases()) {
-				altCase.setDependencyLevelByStorageMapAccess();
+				altCase.setDependencyLevelOfInterElementDependencies();
 			}
 		}
 
 		for(Rule iterated : pattern.getIters()) {
-			iterated.setDependencyLevelByStorageMapAccess();
+			iterated.setDependencyLevelOfInterElementDependencies();
 		}
 	}
 }

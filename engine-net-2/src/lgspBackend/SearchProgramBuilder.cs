@@ -533,6 +533,13 @@ namespace de.unika.ipd.grGen.lgsp
                         op.StorageAttribute,
                         op.Isomorphy);
 
+                case SearchOperationType.Cast:
+                    return buildCast(insertionPointWithinSearchProgram,
+                        indexOfScheduledSearchPlanOperationToBuild,
+                        op.SourceSPNode,
+                        (SearchPlanNode)op.Element,
+                        op.Isomorphy);
+
                 case SearchOperationType.MapWithStorage:
                     return buildMapWithStorage(insertionPointWithinSearchProgram,
                         indexOfScheduledSearchPlanOperationToBuild,
@@ -1235,6 +1242,125 @@ namespace de.unika.ipd.grGen.lgsp
             // everything nested within candidate iteration built by now -
             // continue at the end of the list after storage iteration nesting level
             insertionPoint = continuationPoint;
+
+            return insertionPoint;
+        }
+
+        /// <summary>
+        /// Search program operations implementing the
+        /// Cast search plan operation
+        /// are created and inserted into search program
+        /// </summary>
+        private SearchProgramOperation buildCast(
+            SearchProgramOperation insertionPoint,
+            int currentOperationIndex,
+            SearchPlanNode source,
+            SearchPlanNode target,
+            IsomorphyInformation isomorphy)
+        {
+            bool isNode = target.NodeType == PlanNodeType.Node;
+            string negativeIndependentNamePrefix = NegativeIndependentNamePrefix(patternGraphWithNestingPatterns.Peek());
+
+            // get candidate from other element (the cast is simply the following type check)
+            GetCandidateByDrawing fromOtherElementForCast =
+                new GetCandidateByDrawing(
+                    GetCandidateByDrawingType.FromOtherElementForCast,
+                    target.PatternElement.Name,
+                    source.PatternElement.Name,
+                    isNode);
+            insertionPoint = insertionPoint.Append(fromOtherElementForCast);
+
+            // check type of candidate
+            insertionPoint = decideOnAndInsertCheckType(insertionPoint, target);
+
+            // check connectedness of candidate
+            SearchProgramOperation continuationPointAfterConnectednessCheck;
+            if(isNode)
+            {
+                insertionPoint = decideOnAndInsertCheckConnectednessOfNodeFromLookupOrPickOrMap(
+                    insertionPoint, (SearchPlanNodeNode)target, out continuationPointAfterConnectednessCheck);
+            }
+            else
+            {
+                insertionPoint = decideOnAndInsertCheckConnectednessOfEdgeFromLookupOrPickOrMap(
+                    insertionPoint, (SearchPlanEdgeNode)target, out continuationPointAfterConnectednessCheck);
+            }
+
+            // check candidate for isomorphy 
+            if(isomorphy.CheckIsMatchedBit)
+            {
+                CheckCandidateForIsomorphy checkIsomorphy =
+                    new CheckCandidateForIsomorphy(
+                        target.PatternElement.Name,
+                        isomorphy.PatternElementsToCheckAgainstAsListOfStrings(),
+                        negativeIndependentNamePrefix,
+                        isNode,
+                        negLevelNeverAboveMaxNegLevel);
+                insertionPoint = insertionPoint.Append(checkIsomorphy);
+            }
+
+            // check candidate for global isomorphy 
+            if(programType == SearchProgramType.Subpattern
+                || programType == SearchProgramType.AlternativeCase
+                || programType == SearchProgramType.Iterated)
+            {
+                CheckCandidateForIsomorphyGlobal checkIsomorphy =
+                    new CheckCandidateForIsomorphyGlobal(
+                        target.PatternElement.Name,
+                        isomorphy.GloballyHomomorphPatternElementsAsListOfStrings(),
+                        isNode,
+                        negLevelNeverAboveMaxNegLevel);
+                insertionPoint = insertionPoint.Append(checkIsomorphy);
+            }
+
+            // check candidate for pattern path isomorphy
+            if(patternGraphWithNestingPatterns.Peek().isPatternGraphOnPathFromEnclosingPatternpath)
+            {
+                CheckCandidateForIsomorphyPatternPath checkIsomorphy =
+                    new CheckCandidateForIsomorphyPatternPath(
+                        target.PatternElement.Name,
+                        isNode,
+                        patternGraphWithNestingPatterns.Peek().isPatternpathLocked,
+                        getCurrentLastMatchAtPreviousNestingLevel());
+                insertionPoint = insertionPoint.Append(checkIsomorphy);
+            }
+
+            // accept candidate (write isomorphy information)
+            if(isomorphy.SetIsMatchedBit)
+            {
+                AcceptCandidate acceptCandidate =
+                    new AcceptCandidate(
+                        target.PatternElement.Name,
+                        negativeIndependentNamePrefix,
+                        isNode,
+                        negLevelNeverAboveMaxNegLevel);
+                insertionPoint = insertionPoint.Append(acceptCandidate);
+            }
+
+            // mark element as visited
+            target.Visited = true;
+
+            //---------------------------------------------------------------------------
+            // build next operation
+            insertionPoint = BuildScheduledSearchPlanOperationIntoSearchProgram(
+                currentOperationIndex + 1,
+                insertionPoint);
+            //---------------------------------------------------------------------------
+
+            // unmark element for possibly following run
+            target.Visited = false;
+
+            // abandon candidate (restore isomorphy information)
+            if(isomorphy.SetIsMatchedBit)
+            { // only if isomorphy information was previously written
+                AbandonCandidate abandonCandidate =
+                    new AbandonCandidate(
+                        target.PatternElement.Name,
+                        negativeIndependentNamePrefix,
+                        isNode,
+                        negLevelNeverAboveMaxNegLevel);
+                insertionPoint = insertionPoint.Append(abandonCandidate);
+            }
 
             return insertionPoint;
         }

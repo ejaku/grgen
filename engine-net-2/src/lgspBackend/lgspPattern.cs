@@ -134,6 +134,11 @@ namespace de.unika.ipd.grGen.lgsp
         /// </summary>
         public AttributeType StorageAttribute;
 
+        /// <summary>
+        /// If not null this pattern node is to be bound by casting the given elementBeforeCasting to the pattern node type or causing matching to fail.
+        /// </summary>
+        public PatternElement ElementBeforeCasting;
+
         ////////////////////////////////////////////////////////////////////////////
 
         /// <summary>
@@ -164,6 +169,7 @@ namespace de.unika.ipd.grGen.lgsp
         ///     with the accessor given here applied as index into the storage map given in the storage parameter.</param>
         /// <param name="storageAttributeOwner">If not null this pattern element is to be bound by iterating the given storage attribute of this owner.</param>
         /// <param name="storageAttribute">If not null this pattern element is to be bound by iterating the given storage attribute.</param>
+        /// <param name="elementBeforeCasting">If not null this pattern node is to be bound by casting the given elementBeforeCasting to the pattern node type or causing matching to fail.</param>
         /// <param name="defToBeYieldedTo">Iff true the element is only defined in its PointOfDefinition pattern,
         ///     it gets matched in another, nested or called pattern which yields it to the containing pattern.</param>
         public PatternElement(int typeID, String typeName, 
@@ -172,7 +178,7 @@ namespace de.unika.ipd.grGen.lgsp
             float cost, int parameterIndex, bool maybeNull,
             PatternVariable storage, PatternElement accessor,
             PatternElement storageAttributeOwner, AttributeType storageAttribute,
-            bool defToBeYieldedTo)
+            PatternElement elementBeforeCasting, bool defToBeYieldedTo)
         {
             this.TypeID = typeID;
             this.typeName = typeName;
@@ -187,7 +193,11 @@ namespace de.unika.ipd.grGen.lgsp
             this.Accessor = accessor;
             this.StorageAttributeOwner = storageAttributeOwner;
             this.StorageAttribute = storageAttribute;
+            this.ElementBeforeCasting = elementBeforeCasting;
             this.defToBeYieldedTo = defToBeYieldedTo;
+            // TODO: the last parameters are (mostly) mutually exclusive, 
+            // introduce some abstract details class with specialized classed for the different cases,
+            // only one instance needed instead of the large amount of mostly null valued variables now
         }
 
         /// <summary>
@@ -226,6 +236,7 @@ namespace de.unika.ipd.grGen.lgsp
         ///     with the accessor given here applied as index into the storage map given in the storage parameter.</param>
         /// <param name="storageAttributeOwner">If not null this pattern node is to be bound by iterating the given storage attribute of this owner.</param>
         /// <param name="storageAttribute">If not null this pattern node is to be bound by iterating the given storage attribute.</param>
+        /// <param name="elementBeforeCasting">If not null this pattern node is to be bound by casting the given elementBeforeCasting to the pattern node type or causing matching to fail.</param>
         /// <param name="defToBeYieldedTo">Iff true the element is only defined in its PointOfDefinition pattern,
         ///     it gets matched in another, nested or called pattern which yields it to the containing pattern.</param>
         public PatternNode(int typeID, String typeName,
@@ -234,10 +245,10 @@ namespace de.unika.ipd.grGen.lgsp
             float cost, int parameterIndex, bool maybeNull,
             PatternVariable storage, PatternElement accessor,
             PatternElement storageAttributeOwner, AttributeType storageAttribute,
-            bool defToBeYieldedTo)
+            PatternElement elementBeforeCasting, bool defToBeYieldedTo)
             : base(typeID, typeName, name, unprefixedName, allowedTypes, isAllowedType, 
-                cost, parameterIndex, maybeNull, storage, accessor, 
-                storageAttributeOwner, storageAttribute, defToBeYieldedTo)
+                cost, parameterIndex, maybeNull, storage, accessor,
+                storageAttributeOwner, storageAttribute, elementBeforeCasting, defToBeYieldedTo)
         {
         }
 
@@ -283,6 +294,7 @@ namespace de.unika.ipd.grGen.lgsp
         ///     with the accessor given here applied as index into the storage map given in the storage parameter.</param>
         /// <param name="storageAttributeOwner">If not null this pattern edge is to be bound by iterating the given storage attribute of this owner.</param>
         /// <param name="storageAttribute">If not null this pattern edge is to be bound by iterating the given storage attribute.</param>
+        /// <param name="elementBeforeCasting">If not null this pattern node is to be bound by casting the given elementBeforeCasting to the pattern node type or causing matching to fail.</param>
         /// <param name="defToBeYieldedTo">Iff true the element is only defined in its PointOfDefinition pattern,
         ///     it gets matched in another, nested or called pattern which yields it to the containing pattern.</param>
         public PatternEdge(bool fixedDirection,
@@ -292,10 +304,10 @@ namespace de.unika.ipd.grGen.lgsp
             float cost, int parameterIndex, bool maybeNull,
             PatternVariable storage, PatternElement accessor,
             PatternElement storageAttributeOwner, AttributeType storageAttribute,
-            bool defToBeYieldedTo)
+            PatternElement elementBeforeCasting, bool defToBeYieldedTo)
             : base(typeID, typeName, name, unprefixedName, allowedTypes, isAllowedType,
-                cost, parameterIndex, maybeNull, storage, accessor, 
-                storageAttributeOwner, storageAttribute, defToBeYieldedTo)
+                cost, parameterIndex, maybeNull, storage, accessor,
+                storageAttributeOwner, storageAttribute, elementBeforeCasting, defToBeYieldedTo)
         {
             this.fixedDirection = fixedDirection;
         }

@@ -55,6 +55,10 @@ namespace de.unika.ipd.grGen.lgsp
         /// </summary>
         PickFromStorageAttribute,
         /// <summary>
+        /// Cast to new type (i.e. check if type is correct and uncover attributes of that type), needs old element.
+        /// </summary>
+        Cast,
+        /// <summary>
         /// Follow outgoing edges of given node.
         /// </summary>
         Outgoing,

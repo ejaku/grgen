@@ -367,12 +367,12 @@ public class Unit extends IR {
 		}
 	}
 
-	public void setDependencyLevelByStorageMapAccess() {
+	public void setDependencyLevelOfInterElementDependencies() {
 		for(Rule actionRule : actionRules) {
-			actionRule.setDependencyLevelByStorageMapAccess();
+			actionRule.setDependencyLevelOfInterElementDependencies();
 		}
 		for(Rule subpatternRule : subpatternRules) {
-			subpatternRule.setDependencyLevelByStorageMapAccess();
+			subpatternRule.setDependencyLevelOfInterElementDependencies();
 		}
 	}
 }
