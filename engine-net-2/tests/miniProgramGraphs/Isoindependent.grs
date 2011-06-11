@@ -1,0 +1,13 @@
+new graph miniProgramGraphs/ProgramGraphs
+
+xgrs init
+xgrs optimize
+
+xgrs isoindependent1
+xgrs isoindependent2
+xgrs isoindependent3a
+xgrs isoindependent3b
+xgrs isoindependent4a
+xgrs isoindependent4b
+
+quit

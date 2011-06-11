@@ -2983,7 +2983,7 @@ namespace de.unika.ipd.grGen.lgsp
                 if (patternGraph.nodes[i].PointOfDefinition == patternGraph
                     || patternGraph.nodes[i].PointOfDefinition == null && isAction)
                 {
-                    if(!patternGraph.nodes[i].defToBeYieldedTo)
+                    if(!patternGraph.nodes[i].defToBeYieldedTo && !patternGraph.totallyHomomorphicNodes[i])
                     {
                         AbandonCandidateGlobal abandonGlobal =
                             new AbandonCandidateGlobal(patternGraph.nodes[i].name,
@@ -2999,7 +2999,7 @@ namespace de.unika.ipd.grGen.lgsp
                 if (patternGraph.edges[i].PointOfDefinition == patternGraph
                     || patternGraph.edges[i].PointOfDefinition == null && isAction)
                 {
-                    if(!patternGraph.edges[i].defToBeYieldedTo)
+                    if(!patternGraph.edges[i].defToBeYieldedTo && !patternGraph.totallyHomomorphicEdges[i])
                     {
                         AbandonCandidateGlobal abandonGlobal =
                             new AbandonCandidateGlobal(patternGraph.edges[i].name,

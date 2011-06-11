@@ -111,13 +111,13 @@ public class TotallyHomNode extends BaseNode {
 	 * statements
 	 */
 	protected boolean checkLocal() {
-		if (node==null) {
+		if (node!=null) {
 			if (!childrenEdge.isEmpty()) {
 				this.reportError("totally hom statement independent(.)  may only contain nodes or edges at a time");
 				return false;
 			}
 		}
-		if (edge==null) {
+		if (edge!=null) {
 			if (!childrenNode.isEmpty()) {
 				this.reportError("totally hom statement independent(.)  may only contain nodes or edges at a time");
 				return false;
@@ -131,7 +131,9 @@ public class TotallyHomNode extends BaseNode {
 		for(BaseNode n : childrenEdge) {
 			successfullyChecked = edgeTypeChecker.check(n, error) && successfullyChecked;
 		}
-		warnEdgeTypes();
+		if (edge!=null) {
+			warnEdgeTypes();
+		}
 
 		return successfullyChecked;
 	}

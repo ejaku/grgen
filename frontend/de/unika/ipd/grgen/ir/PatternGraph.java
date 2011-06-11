@@ -300,11 +300,11 @@ public class PatternGraph extends Graph {
 
 	public boolean isTotallyHomomorphic(Edge e1, Edge e2) {
 		if(isTotallyHomomorphic(e1)) {
-			if(totallyHomNodes.get(e1).contains(e2))
+			if(totallyHomEdges.get(e1).contains(e2))
 				return false;
 		}
 		if(isTotallyHomomorphic(e2)) {
-			if(totallyHomNodes.get(e2).contains(e1))
+			if(totallyHomEdges.get(e2).contains(e1))
 				return false;
 		}
 		if(isTotallyHomomorphic(e1) || isTotallyHomomorphic(e2)) {

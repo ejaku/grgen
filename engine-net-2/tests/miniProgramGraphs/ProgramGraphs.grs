@@ -1,0 +1,93 @@
+new graph miniProgramGraphs/ProgramGraphs
+
+xgrs init
+
+show num nodes only ProgramS
+show num nodes only ClassS
+show num nodes only MethodS
+show num nodes only AttributeS
+show num nodes only ConstantS
+show num nodes only AssignmentS
+show num nodes only ExpressionS
+
+show num edges only containsS
+show num edges only leftS
+show num edges only rightS
+show num edges only nextS
+show num edges only usedefS
+
+show num nodes only ProgramT
+show num nodes only ClassT
+show num nodes only MethodT
+show num nodes only AttributeT
+show num nodes only ConstantT
+show num nodes only AssignmentT
+show num nodes only ExpressionT
+
+show num edges only containsT
+show num edges only leftT
+show num edges only rightT
+show num edges only nextT
+show num edges only usedefT
+
+xgrs optimize
+
+show num nodes only ProgramS
+show num nodes only ClassS
+show num nodes only MethodS
+show num nodes only AttributeS
+show num nodes only ConstantS
+show num nodes only AssignmentS
+show num nodes only ExpressionS
+
+show num edges only containsS
+show num edges only leftS
+show num edges only rightS
+show num edges only nextS
+show num edges only usedefS
+
+show num nodes only ProgramT
+show num nodes only ClassT
+show num nodes only MethodT
+show num nodes only AttributeT
+show num nodes only ConstantT
+show num nodes only AssignmentT
+show num nodes only ExpressionT
+
+show num edges only containsT
+show num edges only leftT
+show num edges only rightT
+show num edges only nextT
+show num edges only usedefT
+
+xgrs transform
+
+show num nodes only ProgramS
+show num nodes only ClassS
+show num nodes only MethodS
+show num nodes only AttributeS
+show num nodes only ConstantS
+show num nodes only AssignmentS
+show num nodes only ExpressionS
+
+show num edges only containsS
+show num edges only leftS
+show num edges only rightS
+show num edges only nextS
+show num edges only usedefS
+
+show num nodes only ProgramT
+show num nodes only ClassT
+show num nodes only MethodT
+show num nodes only AttributeT
+show num nodes only ConstantT
+show num nodes only AssignmentT
+show num nodes only ExpressionT
+
+show num edges only containsT
+show num edges only leftT
+show num edges only rightT
+show num edges only nextT
+show num edges only usedefT
+
+quit

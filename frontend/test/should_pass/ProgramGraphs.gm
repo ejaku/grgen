@@ -1,0 +1,40 @@
+// source model
+node class ProgramS;           
+node class ClassS;             
+node class MethodS;
+node class AttributeS;
+node class ConstantS {
+	value:int;
+}
+node class AssignmentS;
+node class ExpressionS {
+	operator:string;
+}
+
+edge class containsS;
+edge class leftS;
+edge class rightS;
+edge class nextS;
+edge class usedefS;
+
+// target model
+node class ProgramT;
+node class ClassT;
+node class MethodT;
+node class AttributeT;
+node class ConstantT {
+	value:int;
+}                   
+node class AssignmentT;
+node class ExpressionT {
+	operator:string;
+}
+
+edge class containsT;
+edge class leftT;
+edge class rightT;
+edge class nextT;
+edge class usedefT;
+
+// helper edge for visualization
+edge class containsV;
