@@ -1,0 +1,26 @@
+rule r
+{
+	. --> .;
+}
+
+rule s
+{
+	alternative {
+		l1 {
+			.;
+			modify {
+				. --> .;
+			}
+		}
+	}
+}
+
+rule t
+{
+	iterated {
+		.;
+		
+		modify {
+		}
+	}
+}

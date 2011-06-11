@@ -89,6 +89,36 @@ public class SubpatternDeclNode extends ActionDeclNode  {
 	protected boolean resolveLocal() {
 		type = typeResolver.resolve(typeUnresolved, this);
 
+		boolean rewritePartRequired = false;
+		for(AlternativeNode alt : pattern.alts.getChildren()) {
+			for(AlternativeCaseNode altCase : alt.getChildren()) {
+				if(altCase.right.getChildren().size()>0) {
+					rewritePartRequired = true;
+				}
+			}
+		}
+		
+		for(IteratedNode iter : pattern.iters.getChildren()) {
+			if(iter.right.getChildren().size()>0) {
+				rewritePartRequired = true;
+			}
+		}
+		
+		if(right.getChildren().size()==0 && rewritePartRequired) {
+			CollectNode<BaseNode> connections = new CollectNode<BaseNode>();
+			CollectNode<VarDeclNode> defVariablesToBeYieldedTo = new CollectNode<VarDeclNode>();
+			CollectNode<SubpatternUsageNode> subpatterns = new CollectNode<SubpatternUsageNode>();
+			CollectNode<OrderedReplacementNode> orderedReplacements = new CollectNode<OrderedReplacementNode>();
+			CollectNode<EvalStatementNode> evals = new CollectNode<EvalStatementNode>();
+			CollectNode<ExprNode> returnz = new CollectNode<ExprNode>();
+			CollectNode<BaseNode> imperativeStmts = new CollectNode<BaseNode>();
+			GraphNode graph = new GraphNode(getIdentNode().toString(), getIdentNode().getCoords(), 
+				connections, new CollectNode<BaseNode>(), defVariablesToBeYieldedTo, subpatterns,
+				orderedReplacements, evals, returnz, imperativeStmts,
+				BaseNode.CONTEXT_PATTERN|BaseNode.CONTEXT_RHS, pattern);
+			right.addChild(new ModifyDeclNode(getIdentNode(), graph, new CollectNode<IdentNode>()));
+		}
+		
 		return type != null;
 	}
 

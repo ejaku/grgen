@@ -328,6 +328,11 @@ patternOrActionOrSequenceDecl [ CollectNode<IdentNode> patternChilds, CollectNod
 				id.setDecl(new RuleDeclNode(id, left, rightModify, ret));
 				actionChilds.addChild(id);
 			}
+		| emptyRightModify=emptyModifyPart[getCoords(r), dels, new CollectNode<BaseNode>(), BaseNode.CONTEXT_RULE|BaseNode.CONTEXT_ACTION|BaseNode.CONTEXT_RHS, id, left]
+			{
+				id.setDecl(new RuleDeclNode(id, left, emptyRightModify, ret));
+				actionChilds.addChild(id);
+			}
 		)
 		RBRACE popScope
 	| p=PATTERN id=patIdentDecl pushScope[id] params=patternParameters[BaseNode.CONTEXT_PATTERN|BaseNode.CONTEXT_LHS|BaseNode.CONTEXT_PARAMETER, null] 
@@ -474,6 +479,26 @@ modifyPart [ CollectNode<IdentNode> dels, CollectNode<BaseNode> params,
 		{ params = new CollectNode<BaseNode>(); }
 		b=modifyBody[getCoords(m), dels, params, context, nameOfRHS, directlyNestingLHSGraph] { res = b; }
 	  RBRACE
+	;
+
+emptyModifyPart [ Coords coords, CollectNode<IdentNode> dels, CollectNode<BaseNode> params,
+				int context, IdentNode nameOfRHS, PatternGraphNode directlyNestingLHSGraph ]
+				returns [ ModifyDeclNode res = null ]
+	@init{
+		CollectNode<BaseNode> connections = new CollectNode<BaseNode>();
+		CollectNode<VarDeclNode> defVariablesToBeYieldedTo = new CollectNode<VarDeclNode>();
+		CollectNode<SubpatternUsageNode> subpatterns = new CollectNode<SubpatternUsageNode>();
+		CollectNode<OrderedReplacementNode> orderedReplacements = new CollectNode<OrderedReplacementNode>();
+		CollectNode<EvalStatementNode> evals = new CollectNode<EvalStatementNode>();
+		CollectNode<ExprNode> returnz = new CollectNode<ExprNode>();
+		CollectNode<BaseNode> imperativeStmts = new CollectNode<BaseNode>();
+		GraphNode graph = new GraphNode(nameOfRHS.toString(), coords, 
+			connections, params, defVariablesToBeYieldedTo, subpatterns,
+			orderedReplacements, evals, returnz, imperativeStmts,
+			context, directlyNestingLHSGraph);
+		res = new ModifyDeclNode(nameOfRHS, graph, dels);
+	}
+	: 
 	;
 
 patternBody [ Coords coords, CollectNode<BaseNode> params, AnonymousPatternNamer namer, int mod, int context, String nameOfGraph ] returns [ PatternGraphNode res = null ]

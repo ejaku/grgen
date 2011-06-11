@@ -1,0 +1,21 @@
+pattern s
+{
+	alternative {
+		l1 {
+			.;
+			modify {
+				. --> .;
+			}
+		}
+	}
+}
+
+pattern t
+{
+	iterated {
+		.;
+		
+		modify {
+		}
+	}
+}
