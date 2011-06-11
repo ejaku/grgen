@@ -124,6 +124,16 @@ namespace de.unika.ipd.grGen.libGr
         bool[,] HomomorphicEdgesGlobal { get; }
 
         /// <summary>
+        /// An array telling which pattern node is to be matched non-isomorphic(/independent) against any other node.
+        /// </summary>
+        bool[] TotallyHomomorphicNodes { get; }
+
+        /// <summary>
+        /// An array telling which pattern edge is to be matched non-isomorphic(/independent) against any other edge.
+        /// </summary>
+        bool[] TotallyHomomorphicEdges { get; }
+
+        /// <summary>
         /// An array with subpattern embeddings, i.e. subpatterns and the way they are connected to the pattern
         /// </summary>
         IPatternGraphEmbedding[] EmbeddedGraphs { get; }

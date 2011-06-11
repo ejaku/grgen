@@ -36,6 +36,11 @@ namespace de.unika.ipd.grGen.lgsp
         /// </summary>
         public List<SearchPlanNode> GloballyHomomorphPatternElements = null;
 
+        /// <summary>
+        /// if true the element is not to be globally checked against anything, nor does it set any flags
+        /// </summary>
+        public bool TotallyHomomorph = false;
+
 
         public Object Clone()
         {
@@ -58,6 +63,7 @@ namespace de.unika.ipd.grGen.lgsp
                     ii.GloballyHomomorphPatternElements[i] = GloballyHomomorphPatternElements[i];
                 }
             }
+            ii.TotallyHomomorph = TotallyHomomorph;
             return ii;
         }
 

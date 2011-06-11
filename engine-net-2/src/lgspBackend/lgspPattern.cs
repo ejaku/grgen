@@ -586,6 +586,16 @@ namespace de.unika.ipd.grGen.lgsp
         public bool[,] HomomorphicEdgesGlobal { get { return homomorphicEdgesGlobal; } }
 
         /// <summary>
+        /// A one-dimensional array telling which pattern node is to be matched non-isomorphic against any other node.
+        /// </summary>
+        public bool[] TotallyHomomorphicNodes { get { return totallyHomomorphicNodes; } }
+
+        /// <summary>
+        /// A one-dimensional array telling which pattern edge is to be matched non-isomorphic against any other edge.
+        /// </summary>
+        public bool[] TotallyHomomorphicEdges { get { return totallyHomomorphicEdges; } }
+
+        /// <summary>
         /// An array with subpattern embeddings, i.e. subpatterns and the way they are connected to the pattern
         /// </summary>
         public IPatternGraphEmbedding[] EmbeddedGraphs { get { return embeddedGraphs; } }
@@ -721,6 +731,16 @@ namespace de.unika.ipd.grGen.lgsp
         public bool[,] homomorphicEdgesGlobal;
 
         /// <summary>
+        /// An array telling which pattern node is to be matched non-isomorphic(/independent) against any other node.
+        /// </summary>
+        public bool[] totallyHomomorphicNodes;
+
+        /// <summary>
+        /// An array telling which pattern edge is to be matched non-isomorphic(/independent) against any other edge.
+        /// </summary>
+        public bool[] totallyHomomorphicEdges;
+        
+        /// <summary>
         /// An array with subpattern embeddings, i.e. subpatterns and the way they are connected to the pattern
         /// </summary>
         public PatternGraphEmbedding[] embeddedGraphs;
@@ -804,6 +824,8 @@ namespace de.unika.ipd.grGen.lgsp
         /// <param name="homomorphicEdgesGlobal">A two-dimensional array describing which pattern edge
         /// may be matched non-isomorphic to which pattern edge globally, i.e. the edges are contained
         /// in different, but locally nested patterns (alternative cases, iterateds).</param>
+        /// <param name="totallyHomomorphicNodes"> An array telling which pattern node is to be matched non-isomorphic(/independent) against any other node.</param>
+        /// <param name="totallyHomomorphicEdges"> An array telling which pattern edge is to be matched non-isomorphic(/independent) against any other edge.</param>
         public PatternGraph(String name, String pathPrefix, bool isPatternpathLocked,
             PatternNode[] nodes, PatternEdge[] edges,
             PatternVariable[] variables, PatternGraphEmbedding[] embeddedGraphs,
@@ -811,7 +833,8 @@ namespace de.unika.ipd.grGen.lgsp
             PatternGraph[] negativePatternGraphs, PatternGraph[] independentPatternGraphs,
             PatternCondition[] conditions, PatternYielding[] yieldings,
             bool[,] homomorphicNodes, bool[,] homomorphicEdges,
-            bool[,] homomorphicNodesGlobal, bool[,] homomorphicEdgesGlobal)
+            bool[,] homomorphicNodesGlobal, bool[,] homomorphicEdgesGlobal,
+            bool[] totallyHomomorphicNodes, bool[] totallyHomomorphicEdges)
         {
             this.name = name;
             this.pathPrefix = pathPrefix;
@@ -830,6 +853,8 @@ namespace de.unika.ipd.grGen.lgsp
             this.homomorphicEdges = homomorphicEdges;
             this.homomorphicNodesGlobal = homomorphicNodesGlobal;
             this.homomorphicEdgesGlobal = homomorphicEdgesGlobal;
+            this.totallyHomomorphicNodes = totallyHomomorphicNodes;
+            this.totallyHomomorphicEdges = totallyHomomorphicEdges;
 
             // create schedule arrays; normally only one schedule per pattern graph,
             // but each maybe null parameter causes a doubling of the number of schedules

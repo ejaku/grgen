@@ -953,8 +953,12 @@ public class ActionsGen extends CSharpBase {
 
 		sb.append("\t\t\t\t" + pathPrefixForElements + "isNodeHomomorphicGlobal,\n");
 
-		sb.append("\t\t\t\t" + pathPrefixForElements + "isEdgeHomomorphicGlobal\n");
+		sb.append("\t\t\t\t" + pathPrefixForElements + "isEdgeHomomorphicGlobal,\n");
 
+		sb.append("\t\t\t\t" + pathPrefixForElements + "isNodeTotallyHomomorphic,\n");
+
+		sb.append("\t\t\t\t" + pathPrefixForElements + "isEdgeTotallyHomomorphic\n");
+		
 		sb.append("\t\t\t);\n");
 
 		// link edges to nodes
@@ -1042,6 +1046,34 @@ public class ActionsGen extends CSharpBase {
 				sb.append("},\n");
 			}
 			sb.append("\t\t\t}");
+		}
+		sb.append(";\n");
+
+		sb.append("\t\t\tbool[] " + pathPrefixForElements + "isNodeTotallyHomomorphic = "
+				+ "new bool[" + pattern.getNodes().size() + "] ");
+		if(pattern.getNodes().size() > 0) {
+			sb.append("{ ");
+			for(Node node : pattern.getNodes()) {
+				if(pattern.isTotallyHomomorphic(node))
+					sb.append("true, ");
+				else
+					sb.append("false, ");
+			}
+			sb.append(" }");
+		}
+		sb.append(";\n");
+
+		sb.append("\t\t\tbool[] " + pathPrefixForElements + "isEdgeTotallyHomomorphic = "
+				+ "new bool[" + pattern.getEdges().size() + "] ");
+		if(pattern.getEdges().size() > 0) {
+			sb.append("{ ");
+			for(Edge edge : pattern.getEdges()) {
+				if(pattern.isTotallyHomomorphic(edge))
+					sb.append("true, ");
+				else
+					sb.append("false, ");
+			}
+			sb.append(" }");
 		}
 		sb.append(";\n");
 

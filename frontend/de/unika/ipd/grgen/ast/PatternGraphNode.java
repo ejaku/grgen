@@ -71,6 +71,7 @@ public class PatternGraphNode extends GraphNode {
 	protected CollectNode<PatternGraphNode> negs; // NACs
 	private CollectNode<PatternGraphNode> idpts; // PACs
 	private CollectNode<HomNode> homs;
+	private CollectNode<TotallyHomNode> totallyHoms;
 	private CollectNode<ExactNode> exact;
 	private CollectNode<InducedNode> induced;
 
@@ -126,8 +127,9 @@ public class PatternGraphNode extends GraphNode {
 			CollectNode<ExprNode> conditions, 
 			CollectNode<EvalStatementNode> yieldsEvals,
 			CollectNode<ExprNode> returns,
-			CollectNode<HomNode> homs, CollectNode<ExactNode> exact,
-			CollectNode<InducedNode> induced, int modifiers, int context) {
+			CollectNode<HomNode> homs, CollectNode<TotallyHomNode> totallyHoms, 
+			CollectNode<ExactNode> exact, CollectNode<InducedNode> induced,
+			int modifiers, int context) {
 		super(nameOfGraph, coords, connections, params, defVariablesToBeYieldedTo, subpatterns, orderedReplacements,
 				yieldsEvals, returns, null, context, null);
 		this.alts = alts;
@@ -142,6 +144,8 @@ public class PatternGraphNode extends GraphNode {
 		becomeParent(this.conditions);
 		this.homs = homs;
 		becomeParent(this.homs);
+		this.totallyHoms = totallyHoms;
+		becomeParent(this.totallyHoms);
 		this.exact = exact;
 		becomeParent(this.exact);
 		this.induced = induced;
@@ -169,6 +173,7 @@ public class PatternGraphNode extends GraphNode {
 		children.add(yieldsEvals);
 		children.add(conditions);
 		children.add(homs);
+		children.add(totallyHoms);
 		children.add(exact);
 		children.add(induced);
 		return children;
@@ -191,6 +196,7 @@ public class PatternGraphNode extends GraphNode {
 		childrenNames.add("yieldsEvals");
 		childrenNames.add("conditions");
 		childrenNames.add("homs");
+		childrenNames.add("totallyHoms");
 		childrenNames.add("exact");
 		childrenNames.add("induced");
 		return childrenNames;
@@ -678,6 +684,22 @@ public class PatternGraphNode extends GraphNode {
 				}
 			}
 		}
+
+		for (TotallyHomNode hom : totallyHoms.getChildren()) {
+			if(hom.node!=null) {
+				HashSet<Node> homSetIR = new HashSet<Node>();
+				for(NodeDeclNode iso : hom.childrenNode) {
+					homSetIR.add(iso.checkIR(Node.class));
+				}
+				gr.addTotallyHomomorphic(hom.node.checkIR(Node.class), homSetIR);
+			} else {
+				HashSet<Edge> homSetIR = new HashSet<Edge>();
+				for(EdgeDeclNode iso : hom.childrenEdge) {
+					homSetIR.add(iso.checkIR(Edge.class));
+				}
+				gr.addTotallyHomomorphic(hom.edge.checkIR(Edge.class), homSetIR);
+			}
+        }
 
 		// add elements only mentioned in "map by / draw from storage" entities to the IR
 		// (they're declared in an enclosing graph and locally only show up in the "map by / draw from storage" node)

@@ -490,24 +490,26 @@ patternBody [ Coords coords, CollectNode<BaseNode> params, AnonymousPatternNamer
 		CollectNode<EvalStatementNode> evals = new CollectNode<EvalStatementNode>();
 		CollectNode<ExprNode> returnz = new CollectNode<ExprNode>();
 		CollectNode<HomNode> homs = new CollectNode<HomNode>();
+		CollectNode<TotallyHomNode> totallyhoms = new CollectNode<TotallyHomNode>();
 		CollectNode<ExactNode> exact = new CollectNode<ExactNode>();
 		CollectNode<InducedNode> induced = new CollectNode<InducedNode>();
 		res = new PatternGraphNode(nameOfGraph, coords, 
 				connections, params, defVariablesToBeYieldedTo, subpatterns, orderedReplacements, 
 				alts, iters, negs, idpts, conds, evals,
-				returnz, homs, exact, induced, mod, context);
+				returnz, homs, totallyhoms, exact, induced, mod, context);
 	}
 
 	: ( patternStmt[connections, defVariablesToBeYieldedTo, subpatterns, orderedReplacements,
 			alts, iters, negs, idpts, namer, conds, evals,
-			returnz, homs, exact, induced, context, res] )*
+			returnz, homs, totallyhoms, exact, induced, context, res] )*
 	;
 
 patternStmt [ CollectNode<BaseNode> conn, CollectNode<VarDeclNode> defVariablesToBeYieldedTo,
 			CollectNode<SubpatternUsageNode> subpatterns, CollectNode<OrderedReplacementNode> orderedReplacements,
 			CollectNode<AlternativeNode> alts, CollectNode<IteratedNode> iters, CollectNode<PatternGraphNode> negs,
 			CollectNode<PatternGraphNode> idpts, AnonymousPatternNamer namer, CollectNode<ExprNode> conds, CollectNode<EvalStatementNode> evals,
-			CollectNode<ExprNode> returnz, CollectNode<HomNode> homs, CollectNode<ExactNode> exact, CollectNode<InducedNode> induced,
+			CollectNode<ExprNode> returnz, CollectNode<HomNode> homs, CollectNode<TotallyHomNode> totallyhoms,
+			CollectNode<ExactNode> exact, CollectNode<InducedNode> induced,
 			int context, PatternGraphNode directlyNestingLHSGraph]
 	: connectionsOrSubpattern[conn, defVariablesToBeYieldedTo, subpatterns, orderedReplacements, context, directlyNestingLHSGraph] SEMI
 	| (iterated[AnonymousPatternNamer.getDummyNamer(), 0]) => iter=iterated[namer, context] { iters.addChild(iter); } // must scan ahead to end of () to see if *,+,?,[ is following in order to distinguish from one-case alternative ()
@@ -518,6 +520,7 @@ patternStmt [ CollectNode<BaseNode> conn, CollectNode<VarDeclNode> defVariablesT
 	| yielding[evals, context, directlyNestingLHSGraph]
 	| rets[returnz, context] SEMI
 	| hom=homStatement { homs.addChild(hom); } SEMI
+	| totallyhom=totallyHomStatement { totallyhoms.addChild(totallyhom); } SEMI
 	| exa=exactStatement { exact.addChild(exa); } SEMI
 	| ind=inducedStatement { induced.addChild(ind); } SEMI
 	;
@@ -1081,6 +1084,23 @@ homStatement returns [ HomNode res = null ]
 		RPAREN
 	;
 
+totallyHomStatement returns [ TotallyHomNode res = null ]
+	: i=INDEPENDENT {res = new TotallyHomNode(getCoords(i)); }
+		LPAREN id=entIdentUse { res.setTotallyHom(id); } 
+			(BACKSLASH entityUnaryExpr[res])?
+		RPAREN
+	;
+
+entityUnaryExpr[ TotallyHomNode thn ]
+	: ent=entIdentUse { thn.addChild(ent); }
+	| LPAREN te=entityAddExpr[thn] RPAREN 
+	;
+
+entityAddExpr[ TotallyHomNode thn ]
+	: ent=entIdentUse { thn.addChild(ent); }
+		(p=PLUS op=entIdentUse { thn.addChild(ent); })*
+	;
+	
 exactStatement returns [ ExactNode res = null ]
 	: e=EXACT {res = new ExactNode(getCoords(e)); }
 		LPAREN id=entIdentUse { res.addChild(id); }

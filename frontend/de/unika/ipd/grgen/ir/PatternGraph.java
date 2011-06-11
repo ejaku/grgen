@@ -62,6 +62,14 @@ public class PatternGraph extends Graph {
     /** A set of edges which will be matched homomorphically to any other edge in the pattern.
      *  they appear if they're not referenced within the pattern, but some nested component uses them  */
 	private final HashSet<Edge> homToAllEdges = new HashSet<Edge>();
+
+	/** A map of nodes which will be matched homomorphically to any other node
+	 *  to the isomorphy exceptions, requested by independent(node); */
+	private final HashMap<Node, HashSet<Node>> totallyHomNodes = new HashMap<Node, HashSet<Node>>();
+
+    /** A map of edges which will be matched homomorphically to any other edge
+     *  to the isomorphy exceptions, requested by independent(edge); */
+	private final HashMap<Edge, HashSet<Edge>> totallyHomEdges = new HashMap<Edge, HashSet<Edge>>();
 	
 	/** A set of the graph elements clearly deleted (in contrast to not mentioned ones) */
 	private final HashSet<GraphEntity> deletedElements = new HashSet<GraphEntity>();
@@ -174,6 +182,14 @@ public class PatternGraph extends Graph {
 		homToAllEdges.add(edge);
 	}
 	
+	public void addTotallyHomomorphic(Node node, HashSet<Node> isoNodes) {
+		totallyHomNodes.put(node, isoNodes);
+	}
+
+	public void addTotallyHomomorphic(Edge edge, HashSet<Edge> isoEdges) {
+		totallyHomEdges.put(edge, isoEdges);
+	}
+
 	public void addDeletedElement(GraphEntity entity) {
 		deletedElements.add(entity);
 	}
@@ -238,27 +254,77 @@ public class PatternGraph extends Graph {
 	}
 
 	public boolean isHomomorphic(Node n1, Node n2) {
+		if(isTotallyHomomorphic(n1, n2))
+			return true;
 		return homToAllNodes.contains(n1) || homToAllNodes.contains(n2)
 				|| getHomomorphic(n1).contains(n2);
 	}
 
 	public boolean isHomomorphic(Edge e1, Edge e2) {
+		if(isTotallyHomomorphic(e1, e2))
+			return true;
 		return homToAllEdges.contains(e1) || homToAllEdges.contains(e2)
 				|| getHomomorphic(e1).contains(e2);
 	}
 
 	public boolean isHomomorphicGlobal(HashMap<Entity, String> alreadyDefinedEntityToName, Node n1, Node n2) {
-		if(!getHomomorphic(n1).contains(n2)) {
+		if(isTotallyHomomorphic(n1, n2))
+			return true;
+		if(!getHomomorphic(n1).contains(n2))
 			return false;
-		}
 		return alreadyDefinedEntityToName.containsKey(n1) != alreadyDefinedEntityToName.containsKey(n2);
 	}
 
 	public boolean isHomomorphicGlobal(HashMap<Entity, String> alreadyDefinedEntityToName, Edge e1, Edge e2) {
-		if(!getHomomorphic(e1).contains(e2)) {
+		if(isTotallyHomomorphic(e1, e2))
+			return true;
+		if(!getHomomorphic(e1).contains(e2))
 			return false;
-		}
 		return alreadyDefinedEntityToName.containsKey(e1) != alreadyDefinedEntityToName.containsKey(e2);
+	}
+
+	public boolean isTotallyHomomorphic(Node n1, Node n2) {
+		if(isTotallyHomomorphic(n1)) {
+			if(totallyHomNodes.get(n1).contains(n2))
+				return false;
+		}
+		if(isTotallyHomomorphic(n2)) {
+			if(totallyHomNodes.get(n2).contains(n1))
+				return false;
+		}
+		if(isTotallyHomomorphic(n1) || isTotallyHomomorphic(n2)) {
+			return true;
+		}
+		return false;
+	}
+
+	public boolean isTotallyHomomorphic(Edge e1, Edge e2) {
+		if(isTotallyHomomorphic(e1)) {
+			if(totallyHomNodes.get(e1).contains(e2))
+				return false;
+		}
+		if(isTotallyHomomorphic(e2)) {
+			if(totallyHomNodes.get(e2).contains(e1))
+				return false;
+		}
+		if(isTotallyHomomorphic(e1) || isTotallyHomomorphic(e2)) {
+			return true;
+		}
+		return false;
+	}
+
+	public boolean isTotallyHomomorphic(Node n) {
+		if(totallyHomNodes.containsKey(n))
+			return true;
+		else
+			return false;
+	}
+
+	public boolean isTotallyHomomorphic(Edge e) {
+		if(totallyHomEdges.containsKey(e))
+			return true;
+		else
+			return false;
 	}
 
 	public boolean isPatternpathLocked() {

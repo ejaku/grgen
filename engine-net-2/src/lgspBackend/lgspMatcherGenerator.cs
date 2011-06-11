@@ -1246,6 +1246,18 @@ exitSecondLoop: ;
         {
             SearchPlanNode spn_j = (SearchPlanNode)ssp.Operations[j].Element;
 
+            if (spn_j.NodeType == PlanNodeType.Node) {
+                if(ssp.PatternGraph.totallyHomomorphicNodes[spn_j.ElementID - 1]) {
+                    ssp.Operations[j].Isomorphy.TotallyHomomorph = true;
+                    return; // iso-exceptions to totally hom are handled with non-global iso checks
+                }
+            } else {
+                if(ssp.PatternGraph.totallyHomomorphicEdges[spn_j.ElementID - 1]) {
+                    ssp.Operations[j].Isomorphy.TotallyHomomorph = true;
+                    return; // iso-exceptions to totally hom are handled with non-global iso checks
+                }
+            }
+
             bool[,] homGlobal;
             if (spn_j.NodeType == PlanNodeType.Node) {
                 homGlobal = ssp.PatternGraph.HomomorphicNodesGlobal;

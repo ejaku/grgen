@@ -884,13 +884,16 @@ namespace de.unika.ipd.grGen.lgsp
                 || programType==SearchProgramType.AlternativeCase
                 || programType==SearchProgramType.Iterated)
             {
-                CheckCandidateForIsomorphyGlobal checkIsomorphy =
-                    new CheckCandidateForIsomorphyGlobal(
-                        target.PatternElement.Name,
-                        isomorphy.GloballyHomomorphPatternElementsAsListOfStrings(),
-                        isNode,
-                        negLevelNeverAboveMaxNegLevel);
-                insertionPoint = insertionPoint.Append(checkIsomorphy);
+                if(!isomorphy.TotallyHomomorph)
+                {
+                    CheckCandidateForIsomorphyGlobal checkIsomorphy =
+                        new CheckCandidateForIsomorphyGlobal(
+                            target.PatternElement.Name,
+                            isomorphy.GloballyHomomorphPatternElementsAsListOfStrings(),
+                            isNode,
+                            negLevelNeverAboveMaxNegLevel);
+                    insertionPoint = insertionPoint.Append(checkIsomorphy);
+                }
             }
 
             // check candidate for pattern path isomorphy
@@ -1031,13 +1034,16 @@ namespace de.unika.ipd.grGen.lgsp
                 || programType == SearchProgramType.AlternativeCase
                 || programType == SearchProgramType.Iterated)
             {
-                CheckCandidateForIsomorphyGlobal checkIsomorphy =
-                    new CheckCandidateForIsomorphyGlobal(
-                        target.PatternElement.Name,
-                        isomorphy.GloballyHomomorphPatternElementsAsListOfStrings(),
-                        isNode,
-                        negLevelNeverAboveMaxNegLevel);
-                insertionPoint = insertionPoint.Append(checkIsomorphy);
+                if(!isomorphy.TotallyHomomorph)
+                {
+                    CheckCandidateForIsomorphyGlobal checkIsomorphy =
+                        new CheckCandidateForIsomorphyGlobal(
+                            target.PatternElement.Name,
+                            isomorphy.GloballyHomomorphPatternElementsAsListOfStrings(),
+                            isNode,
+                            negLevelNeverAboveMaxNegLevel);
+                    insertionPoint = insertionPoint.Append(checkIsomorphy);
+                }
             }
 
             // check candidate for pattern path isomorphy
@@ -1181,13 +1187,16 @@ namespace de.unika.ipd.grGen.lgsp
                 || programType == SearchProgramType.AlternativeCase
                 || programType == SearchProgramType.Iterated)
             {
-                CheckCandidateForIsomorphyGlobal checkIsomorphy =
-                    new CheckCandidateForIsomorphyGlobal(
-                        target.PatternElement.Name,
-                        isomorphy.GloballyHomomorphPatternElementsAsListOfStrings(),
-                        isNode,
-                        negLevelNeverAboveMaxNegLevel);
-                insertionPoint = insertionPoint.Append(checkIsomorphy);
+                if(!isomorphy.TotallyHomomorph)
+                {
+                    CheckCandidateForIsomorphyGlobal checkIsomorphy =
+                        new CheckCandidateForIsomorphyGlobal(
+                            target.PatternElement.Name,
+                            isomorphy.GloballyHomomorphPatternElementsAsListOfStrings(),
+                            isNode,
+                            negLevelNeverAboveMaxNegLevel);
+                    insertionPoint = insertionPoint.Append(checkIsomorphy);
+                }
             }
 
             // check candidate for pattern path isomorphy
@@ -1304,13 +1313,16 @@ namespace de.unika.ipd.grGen.lgsp
                 || programType == SearchProgramType.AlternativeCase
                 || programType == SearchProgramType.Iterated)
             {
-                CheckCandidateForIsomorphyGlobal checkIsomorphy =
-                    new CheckCandidateForIsomorphyGlobal(
-                        target.PatternElement.Name,
-                        isomorphy.GloballyHomomorphPatternElementsAsListOfStrings(),
-                        isNode,
-                        negLevelNeverAboveMaxNegLevel);
-                insertionPoint = insertionPoint.Append(checkIsomorphy);
+                if(!isomorphy.TotallyHomomorph)
+                {
+                    CheckCandidateForIsomorphyGlobal checkIsomorphy =
+                        new CheckCandidateForIsomorphyGlobal(
+                            target.PatternElement.Name,
+                            isomorphy.GloballyHomomorphPatternElementsAsListOfStrings(),
+                            isNode,
+                            negLevelNeverAboveMaxNegLevel);
+                    insertionPoint = insertionPoint.Append(checkIsomorphy);
+                }
             }
 
             // check candidate for pattern path isomorphy
@@ -1438,13 +1450,16 @@ namespace de.unika.ipd.grGen.lgsp
                 || programType == SearchProgramType.AlternativeCase
                 || programType == SearchProgramType.Iterated)
             {
-                CheckCandidateForIsomorphyGlobal checkIsomorphy =
-                    new CheckCandidateForIsomorphyGlobal(
-                        target.PatternElement.Name,
-                        isomorphy.GloballyHomomorphPatternElementsAsListOfStrings(),
-                        isNode,
-                        negLevelNeverAboveMaxNegLevel);
-                insertionPoint = insertionPoint.Append(checkIsomorphy);
+                if(!isomorphy.TotallyHomomorph)
+                {
+                    CheckCandidateForIsomorphyGlobal checkIsomorphy =
+                        new CheckCandidateForIsomorphyGlobal(
+                            target.PatternElement.Name,
+                            isomorphy.GloballyHomomorphPatternElementsAsListOfStrings(),
+                            isNode,
+                            negLevelNeverAboveMaxNegLevel);
+                    insertionPoint = insertionPoint.Append(checkIsomorphy);
+                }
             }
 
             // check candidate for pattern path isomorphy
@@ -1556,13 +1571,16 @@ namespace de.unika.ipd.grGen.lgsp
                 || programType == SearchProgramType.AlternativeCase
                 || programType == SearchProgramType.Iterated)
             {
-                CheckCandidateForIsomorphyGlobal checkIsomorphy =
-                    new CheckCandidateForIsomorphyGlobal(
-                        target.PatternElement.Name,
-                        isomorphy.GloballyHomomorphPatternElementsAsListOfStrings(),
-                        true, 
-                        negLevelNeverAboveMaxNegLevel);
-                insertionPoint = insertionPoint.Append(checkIsomorphy);
+                if(!isomorphy.TotallyHomomorph)
+                {
+                    CheckCandidateForIsomorphyGlobal checkIsomorphy =
+                        new CheckCandidateForIsomorphyGlobal(
+                            target.PatternElement.Name,
+                            isomorphy.GloballyHomomorphPatternElementsAsListOfStrings(),
+                            true,
+                            negLevelNeverAboveMaxNegLevel);
+                    insertionPoint = insertionPoint.Append(checkIsomorphy);
+                }
             }
 
             // check candidate for pattern path isomorphy
@@ -1677,13 +1695,16 @@ namespace de.unika.ipd.grGen.lgsp
                 || programType == SearchProgramType.AlternativeCase
                 || programType == SearchProgramType.Iterated)
             {
-                CheckCandidateForIsomorphyGlobal checkIsomorphy =
-                    new CheckCandidateForIsomorphyGlobal(
-                        target.PatternElement.Name,
-                        isomorphy.GloballyHomomorphPatternElementsAsListOfStrings(),
-                        false,
-                        negLevelNeverAboveMaxNegLevel);
-                insertionPoint = insertionPoint.Append(checkIsomorphy);
+                if(!isomorphy.TotallyHomomorph)
+                {
+                    CheckCandidateForIsomorphyGlobal checkIsomorphy =
+                        new CheckCandidateForIsomorphyGlobal(
+                            target.PatternElement.Name,
+                            isomorphy.GloballyHomomorphPatternElementsAsListOfStrings(),
+                            false,
+                            negLevelNeverAboveMaxNegLevel);
+                    insertionPoint = insertionPoint.Append(checkIsomorphy);
+                }
             }
 
             // check candidate for pattern path isomorphy
@@ -2871,7 +2892,7 @@ namespace de.unika.ipd.grGen.lgsp
                 if (patternGraph.nodes[i].PointOfDefinition == patternGraph
                     || patternGraph.nodes[i].PointOfDefinition == null && isAction)
                 {
-                    if(!patternGraph.nodes[i].defToBeYieldedTo)
+                    if(!patternGraph.nodes[i].defToBeYieldedTo && !patternGraph.totallyHomomorphicNodes[i])
                     {
                         AcceptCandidateGlobal acceptGlobal =
                             new AcceptCandidateGlobal(patternGraph.nodes[i].name,
@@ -2887,7 +2908,7 @@ namespace de.unika.ipd.grGen.lgsp
                 if (patternGraph.edges[i].PointOfDefinition == patternGraph
                     || patternGraph.edges[i].PointOfDefinition == null && isAction)
                 {
-                    if(!patternGraph.edges[i].defToBeYieldedTo)
+                    if(!patternGraph.edges[i].defToBeYieldedTo && !patternGraph.totallyHomomorphicEdges[i])
                     {
                         AcceptCandidateGlobal acceptGlobal =
                             new AcceptCandidateGlobal(patternGraph.edges[i].name,
