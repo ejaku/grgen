@@ -1,6 +1,6 @@
 // This file has been generated automatically by GrGen (www.grgen.net)
 // Do not modify this file! Any changes will be lost!
-// Generated from "..\..\examples\ProgramGraphs\ProgramGraphsOriginal.grg" on Thu Apr 07 22:54:40 CEST 2011
+// Generated from "..\..\examples\ProgramGraphs\ProgramGraphsOriginal.grg" on Sun Jun 12 09:35:28 CEST 2011
 
 using System;
 using System.Collections.Generic;
@@ -63,7 +63,9 @@ namespace de.unika.ipd.grGen.Action_ProgramGraphsOriginal
 				{ false, },
 			};
 			bool[,] Subclasses_isEdgeHomomorphicGlobal = new bool[0, 0] ;
-			GRGEN_LGSP.PatternNode Subclasses_node_c = new GRGEN_LGSP.PatternNode((int) GRGEN_MODEL.NodeTypes.@Class, "GRGEN_MODEL.IClass", "Subclasses_node_c", "c", Subclasses_node_c_AllowedTypes, Subclasses_node_c_IsAllowedType, 5.5F, 0, false, null, null, null, null, false);
+			bool[] Subclasses_isNodeTotallyHomomorphic = new bool[1] { false,  };
+			bool[] Subclasses_isEdgeTotallyHomomorphic = new bool[0] ;
+			GRGEN_LGSP.PatternNode Subclasses_node_c = new GRGEN_LGSP.PatternNode((int) GRGEN_MODEL.NodeTypes.@Class, "GRGEN_MODEL.IClass", "Subclasses_node_c", "c", Subclasses_node_c_AllowedTypes, Subclasses_node_c_IsAllowedType, 5.5F, 0, false, null, null, null, null, null, false);
 			bool[,] Subclasses_iter_0_isNodeHomomorphicGlobal = new bool[2, 2] {
 				{ false, false, },
 				{ false, false, },
@@ -71,8 +73,10 @@ namespace de.unika.ipd.grGen.Action_ProgramGraphsOriginal
 			bool[,] Subclasses_iter_0_isEdgeHomomorphicGlobal = new bool[1, 1] {
 				{ false, },
 			};
-			GRGEN_LGSP.PatternNode Subclasses_iter_0_node_sub = new GRGEN_LGSP.PatternNode((int) GRGEN_MODEL.NodeTypes.@Class, "GRGEN_MODEL.IClass", "Subclasses_iter_0_node_sub", "sub", Subclasses_iter_0_node_sub_AllowedTypes, Subclasses_iter_0_node_sub_IsAllowedType, 5.5F, -1, false, null, null, null, null, false);
-			GRGEN_LGSP.PatternEdge Subclasses_iter_0_edge__edge0 = new GRGEN_LGSP.PatternEdge(true, (int) GRGEN_MODEL.EdgeTypes.@contains, "GRGEN_MODEL.Icontains", "Subclasses_iter_0_edge__edge0", "_edge0", Subclasses_iter_0_edge__edge0_AllowedTypes, Subclasses_iter_0_edge__edge0_IsAllowedType, 5.5F, -1, false, null, null, null, null, false);
+			bool[] Subclasses_iter_0_isNodeTotallyHomomorphic = new bool[2] { false, false,  };
+			bool[] Subclasses_iter_0_isEdgeTotallyHomomorphic = new bool[1] { false,  };
+			GRGEN_LGSP.PatternNode Subclasses_iter_0_node_sub = new GRGEN_LGSP.PatternNode((int) GRGEN_MODEL.NodeTypes.@Class, "GRGEN_MODEL.IClass", "Subclasses_iter_0_node_sub", "sub", Subclasses_iter_0_node_sub_AllowedTypes, Subclasses_iter_0_node_sub_IsAllowedType, 5.5F, -1, false, null, null, null, null, null, false);
+			GRGEN_LGSP.PatternEdge Subclasses_iter_0_edge__edge0 = new GRGEN_LGSP.PatternEdge(true, (int) GRGEN_MODEL.EdgeTypes.@contains, "GRGEN_MODEL.Icontains", "Subclasses_iter_0_edge__edge0", "_edge0", Subclasses_iter_0_edge__edge0_AllowedTypes, Subclasses_iter_0_edge__edge0_IsAllowedType, 5.5F, -1, false, null, null, null, null, null, false);
 			GRGEN_LGSP.PatternGraphEmbedding Subclasses_iter_0__sub0 = new GRGEN_LGSP.PatternGraphEmbedding("_sub0", Pattern_Subclass.Instance, 
 				new GRGEN_EXPR.Expression[] {
 					new GRGEN_EXPR.GraphEntityExpression("Subclasses_iter_0_node_sub"),
@@ -100,7 +104,9 @@ namespace de.unika.ipd.grGen.Action_ProgramGraphsOriginal
 					{ true, },
 				},
 				Subclasses_iter_0_isNodeHomomorphicGlobal,
-				Subclasses_iter_0_isEdgeHomomorphicGlobal
+				Subclasses_iter_0_isEdgeHomomorphicGlobal,
+				Subclasses_iter_0_isNodeTotallyHomomorphic,
+				Subclasses_iter_0_isEdgeTotallyHomomorphic
 			);
 			Subclasses_iter_0.edgeToSourceNode.Add(Subclasses_iter_0_edge__edge0, Subclasses_node_c);
 			Subclasses_iter_0.edgeToTargetNode.Add(Subclasses_iter_0_edge__edge0, Subclasses_iter_0_node_sub);
@@ -125,7 +131,9 @@ namespace de.unika.ipd.grGen.Action_ProgramGraphsOriginal
 				},
 				new bool[0, 0] ,
 				Subclasses_isNodeHomomorphicGlobal,
-				Subclasses_isEdgeHomomorphicGlobal
+				Subclasses_isEdgeHomomorphicGlobal,
+				Subclasses_isNodeTotallyHomomorphic,
+				Subclasses_isEdgeTotallyHomomorphic
 			);
 			Subclasses_iter_0.embeddingGraph = pat_Subclasses;
 
@@ -438,7 +446,9 @@ namespace de.unika.ipd.grGen.Action_ProgramGraphsOriginal
 				{ false, },
 			};
 			bool[,] Subclass_isEdgeHomomorphicGlobal = new bool[0, 0] ;
-			GRGEN_LGSP.PatternNode Subclass_node_sub = new GRGEN_LGSP.PatternNode((int) GRGEN_MODEL.NodeTypes.@Class, "GRGEN_MODEL.IClass", "Subclass_node_sub", "sub", Subclass_node_sub_AllowedTypes, Subclass_node_sub_IsAllowedType, 5.5F, 0, false, null, null, null, null, false);
+			bool[] Subclass_isNodeTotallyHomomorphic = new bool[1] { false,  };
+			bool[] Subclass_isEdgeTotallyHomomorphic = new bool[0] ;
+			GRGEN_LGSP.PatternNode Subclass_node_sub = new GRGEN_LGSP.PatternNode((int) GRGEN_MODEL.NodeTypes.@Class, "GRGEN_MODEL.IClass", "Subclass_node_sub", "sub", Subclass_node_sub_AllowedTypes, Subclass_node_sub_IsAllowedType, 5.5F, 0, false, null, null, null, null, null, false);
 			GRGEN_LGSP.PatternGraphEmbedding Subclass__sub0 = new GRGEN_LGSP.PatternGraphEmbedding("_sub0", Pattern_Features.Instance, 
 				new GRGEN_EXPR.Expression[] {
 					new GRGEN_EXPR.GraphEntityExpression("Subclass_node_sub"),
@@ -468,7 +478,9 @@ namespace de.unika.ipd.grGen.Action_ProgramGraphsOriginal
 				},
 				new bool[0, 0] ,
 				Subclass_isNodeHomomorphicGlobal,
-				Subclass_isEdgeHomomorphicGlobal
+				Subclass_isEdgeHomomorphicGlobal,
+				Subclass_isNodeTotallyHomomorphic,
+				Subclass_isEdgeTotallyHomomorphic
 			);
 
 			Subclass_node_sub.pointOfDefinition = null;
@@ -659,11 +671,15 @@ namespace de.unika.ipd.grGen.Action_ProgramGraphsOriginal
 				{ false, },
 			};
 			bool[,] Features_isEdgeHomomorphicGlobal = new bool[0, 0] ;
-			GRGEN_LGSP.PatternNode Features_node_c = new GRGEN_LGSP.PatternNode((int) GRGEN_MODEL.NodeTypes.@Class, "GRGEN_MODEL.IClass", "Features_node_c", "c", Features_node_c_AllowedTypes, Features_node_c_IsAllowedType, 5.5F, 0, false, null, null, null, null, false);
+			bool[] Features_isNodeTotallyHomomorphic = new bool[1] { false,  };
+			bool[] Features_isEdgeTotallyHomomorphic = new bool[0] ;
+			GRGEN_LGSP.PatternNode Features_node_c = new GRGEN_LGSP.PatternNode((int) GRGEN_MODEL.NodeTypes.@Class, "GRGEN_MODEL.IClass", "Features_node_c", "c", Features_node_c_AllowedTypes, Features_node_c_IsAllowedType, 5.5F, 0, false, null, null, null, null, null, false);
 			bool[,] Features_iter_0_isNodeHomomorphicGlobal = new bool[1, 1] {
 				{ false, },
 			};
 			bool[,] Features_iter_0_isEdgeHomomorphicGlobal = new bool[0, 0] ;
+			bool[] Features_iter_0_isNodeTotallyHomomorphic = new bool[1] { false,  };
+			bool[] Features_iter_0_isEdgeTotallyHomomorphic = new bool[0] ;
 			GRGEN_LGSP.PatternGraphEmbedding Features_iter_0__sub0 = new GRGEN_LGSP.PatternGraphEmbedding("_sub0", Pattern_FeaturePattern.Instance, 
 				new GRGEN_EXPR.Expression[] {
 					new GRGEN_EXPR.GraphEntityExpression("Features_node_c"),
@@ -688,7 +704,9 @@ namespace de.unika.ipd.grGen.Action_ProgramGraphsOriginal
 				},
 				new bool[0, 0] ,
 				Features_iter_0_isNodeHomomorphicGlobal,
-				Features_iter_0_isEdgeHomomorphicGlobal
+				Features_iter_0_isEdgeHomomorphicGlobal,
+				Features_iter_0_isNodeTotallyHomomorphic,
+				Features_iter_0_isEdgeTotallyHomomorphic
 			);
 
 			GRGEN_LGSP.Iterated Features_iter_0_it = new GRGEN_LGSP.Iterated( Features_iter_0, 0, 0);
@@ -711,7 +729,9 @@ namespace de.unika.ipd.grGen.Action_ProgramGraphsOriginal
 				},
 				new bool[0, 0] ,
 				Features_isNodeHomomorphicGlobal,
-				Features_isEdgeHomomorphicGlobal
+				Features_isEdgeHomomorphicGlobal,
+				Features_isNodeTotallyHomomorphic,
+				Features_isEdgeTotallyHomomorphic
 			);
 			Features_iter_0.embeddingGraph = pat_Features;
 
@@ -1070,7 +1090,9 @@ namespace de.unika.ipd.grGen.Action_ProgramGraphsOriginal
 				{ false, },
 			};
 			bool[,] FeaturePattern_isEdgeHomomorphicGlobal = new bool[0, 0] ;
-			GRGEN_LGSP.PatternNode FeaturePattern_node_c = new GRGEN_LGSP.PatternNode((int) GRGEN_MODEL.NodeTypes.@Class, "GRGEN_MODEL.IClass", "FeaturePattern_node_c", "c", FeaturePattern_node_c_AllowedTypes, FeaturePattern_node_c_IsAllowedType, 5.5F, 0, false, null, null, null, null, false);
+			bool[] FeaturePattern_isNodeTotallyHomomorphic = new bool[1] { false,  };
+			bool[] FeaturePattern_isEdgeTotallyHomomorphic = new bool[0] ;
+			GRGEN_LGSP.PatternNode FeaturePattern_node_c = new GRGEN_LGSP.PatternNode((int) GRGEN_MODEL.NodeTypes.@Class, "GRGEN_MODEL.IClass", "FeaturePattern_node_c", "c", FeaturePattern_node_c_AllowedTypes, FeaturePattern_node_c_IsAllowedType, 5.5F, 0, false, null, null, null, null, null, false);
 			bool[,] FeaturePattern_alt_0_MethodBody_isNodeHomomorphicGlobal = new bool[2, 2] {
 				{ false, false, },
 				{ false, false, },
@@ -1078,8 +1100,10 @@ namespace de.unika.ipd.grGen.Action_ProgramGraphsOriginal
 			bool[,] FeaturePattern_alt_0_MethodBody_isEdgeHomomorphicGlobal = new bool[1, 1] {
 				{ false, },
 			};
-			GRGEN_LGSP.PatternNode FeaturePattern_alt_0_MethodBody_node_b = new GRGEN_LGSP.PatternNode((int) GRGEN_MODEL.NodeTypes.@MethodBody, "GRGEN_MODEL.IMethodBody", "FeaturePattern_alt_0_MethodBody_node_b", "b", FeaturePattern_alt_0_MethodBody_node_b_AllowedTypes, FeaturePattern_alt_0_MethodBody_node_b_IsAllowedType, 5.5F, -1, false, null, null, null, null, false);
-			GRGEN_LGSP.PatternEdge FeaturePattern_alt_0_MethodBody_edge__edge0 = new GRGEN_LGSP.PatternEdge(true, (int) GRGEN_MODEL.EdgeTypes.@contains, "GRGEN_MODEL.Icontains", "FeaturePattern_alt_0_MethodBody_edge__edge0", "_edge0", FeaturePattern_alt_0_MethodBody_edge__edge0_AllowedTypes, FeaturePattern_alt_0_MethodBody_edge__edge0_IsAllowedType, 5.5F, -1, false, null, null, null, null, false);
+			bool[] FeaturePattern_alt_0_MethodBody_isNodeTotallyHomomorphic = new bool[2] { false, false,  };
+			bool[] FeaturePattern_alt_0_MethodBody_isEdgeTotallyHomomorphic = new bool[1] { false,  };
+			GRGEN_LGSP.PatternNode FeaturePattern_alt_0_MethodBody_node_b = new GRGEN_LGSP.PatternNode((int) GRGEN_MODEL.NodeTypes.@MethodBody, "GRGEN_MODEL.IMethodBody", "FeaturePattern_alt_0_MethodBody_node_b", "b", FeaturePattern_alt_0_MethodBody_node_b_AllowedTypes, FeaturePattern_alt_0_MethodBody_node_b_IsAllowedType, 5.5F, -1, false, null, null, null, null, null, false);
+			GRGEN_LGSP.PatternEdge FeaturePattern_alt_0_MethodBody_edge__edge0 = new GRGEN_LGSP.PatternEdge(true, (int) GRGEN_MODEL.EdgeTypes.@contains, "GRGEN_MODEL.Icontains", "FeaturePattern_alt_0_MethodBody_edge__edge0", "_edge0", FeaturePattern_alt_0_MethodBody_edge__edge0_AllowedTypes, FeaturePattern_alt_0_MethodBody_edge__edge0_IsAllowedType, 5.5F, -1, false, null, null, null, null, null, false);
 			GRGEN_LGSP.PatternGraphEmbedding FeaturePattern_alt_0_MethodBody__sub0 = new GRGEN_LGSP.PatternGraphEmbedding("_sub0", Pattern_Parameters.Instance, 
 				new GRGEN_EXPR.Expression[] {
 					new GRGEN_EXPR.GraphEntityExpression("FeaturePattern_alt_0_MethodBody_node_b"),
@@ -1112,7 +1136,9 @@ namespace de.unika.ipd.grGen.Action_ProgramGraphsOriginal
 					{ true, },
 				},
 				FeaturePattern_alt_0_MethodBody_isNodeHomomorphicGlobal,
-				FeaturePattern_alt_0_MethodBody_isEdgeHomomorphicGlobal
+				FeaturePattern_alt_0_MethodBody_isEdgeHomomorphicGlobal,
+				FeaturePattern_alt_0_MethodBody_isNodeTotallyHomomorphic,
+				FeaturePattern_alt_0_MethodBody_isEdgeTotallyHomomorphic
 			);
 			FeaturePattern_alt_0_MethodBody.edgeToSourceNode.Add(FeaturePattern_alt_0_MethodBody_edge__edge0, FeaturePattern_node_c);
 			FeaturePattern_alt_0_MethodBody.edgeToTargetNode.Add(FeaturePattern_alt_0_MethodBody_edge__edge0, FeaturePattern_alt_0_MethodBody_node_b);
@@ -1124,8 +1150,10 @@ namespace de.unika.ipd.grGen.Action_ProgramGraphsOriginal
 			bool[,] FeaturePattern_alt_0_MethodSignature_isEdgeHomomorphicGlobal = new bool[1, 1] {
 				{ false, },
 			};
-			GRGEN_LGSP.PatternNode FeaturePattern_alt_0_MethodSignature_node__node0 = new GRGEN_LGSP.PatternNode((int) GRGEN_MODEL.NodeTypes.@MethodSignature, "GRGEN_MODEL.IMethodSignature", "FeaturePattern_alt_0_MethodSignature_node__node0", "_node0", FeaturePattern_alt_0_MethodSignature_node__node0_AllowedTypes, FeaturePattern_alt_0_MethodSignature_node__node0_IsAllowedType, 5.5F, -1, false, null, null, null, null, false);
-			GRGEN_LGSP.PatternEdge FeaturePattern_alt_0_MethodSignature_edge__edge0 = new GRGEN_LGSP.PatternEdge(true, (int) GRGEN_MODEL.EdgeTypes.@contains, "GRGEN_MODEL.Icontains", "FeaturePattern_alt_0_MethodSignature_edge__edge0", "_edge0", FeaturePattern_alt_0_MethodSignature_edge__edge0_AllowedTypes, FeaturePattern_alt_0_MethodSignature_edge__edge0_IsAllowedType, 5.5F, -1, false, null, null, null, null, false);
+			bool[] FeaturePattern_alt_0_MethodSignature_isNodeTotallyHomomorphic = new bool[2] { false, false,  };
+			bool[] FeaturePattern_alt_0_MethodSignature_isEdgeTotallyHomomorphic = new bool[1] { false,  };
+			GRGEN_LGSP.PatternNode FeaturePattern_alt_0_MethodSignature_node__node0 = new GRGEN_LGSP.PatternNode((int) GRGEN_MODEL.NodeTypes.@MethodSignature, "GRGEN_MODEL.IMethodSignature", "FeaturePattern_alt_0_MethodSignature_node__node0", "_node0", FeaturePattern_alt_0_MethodSignature_node__node0_AllowedTypes, FeaturePattern_alt_0_MethodSignature_node__node0_IsAllowedType, 5.5F, -1, false, null, null, null, null, null, false);
+			GRGEN_LGSP.PatternEdge FeaturePattern_alt_0_MethodSignature_edge__edge0 = new GRGEN_LGSP.PatternEdge(true, (int) GRGEN_MODEL.EdgeTypes.@contains, "GRGEN_MODEL.Icontains", "FeaturePattern_alt_0_MethodSignature_edge__edge0", "_edge0", FeaturePattern_alt_0_MethodSignature_edge__edge0_AllowedTypes, FeaturePattern_alt_0_MethodSignature_edge__edge0_IsAllowedType, 5.5F, -1, false, null, null, null, null, null, false);
 			FeaturePattern_alt_0_MethodSignature = new GRGEN_LGSP.PatternGraph(
 				"MethodSignature",
 				"FeaturePattern_alt_0_",
@@ -1148,7 +1176,9 @@ namespace de.unika.ipd.grGen.Action_ProgramGraphsOriginal
 					{ true, },
 				},
 				FeaturePattern_alt_0_MethodSignature_isNodeHomomorphicGlobal,
-				FeaturePattern_alt_0_MethodSignature_isEdgeHomomorphicGlobal
+				FeaturePattern_alt_0_MethodSignature_isEdgeHomomorphicGlobal,
+				FeaturePattern_alt_0_MethodSignature_isNodeTotallyHomomorphic,
+				FeaturePattern_alt_0_MethodSignature_isEdgeTotallyHomomorphic
 			);
 			FeaturePattern_alt_0_MethodSignature.edgeToSourceNode.Add(FeaturePattern_alt_0_MethodSignature_edge__edge0, FeaturePattern_node_c);
 			FeaturePattern_alt_0_MethodSignature.edgeToTargetNode.Add(FeaturePattern_alt_0_MethodSignature_edge__edge0, FeaturePattern_alt_0_MethodSignature_node__node0);
@@ -1160,8 +1190,10 @@ namespace de.unika.ipd.grGen.Action_ProgramGraphsOriginal
 			bool[,] FeaturePattern_alt_0_Variable_isEdgeHomomorphicGlobal = new bool[1, 1] {
 				{ false, },
 			};
-			GRGEN_LGSP.PatternNode FeaturePattern_alt_0_Variable_node__node0 = new GRGEN_LGSP.PatternNode((int) GRGEN_MODEL.NodeTypes.@Variabel, "GRGEN_MODEL.IVariabel", "FeaturePattern_alt_0_Variable_node__node0", "_node0", FeaturePattern_alt_0_Variable_node__node0_AllowedTypes, FeaturePattern_alt_0_Variable_node__node0_IsAllowedType, 5.5F, -1, false, null, null, null, null, false);
-			GRGEN_LGSP.PatternEdge FeaturePattern_alt_0_Variable_edge__edge0 = new GRGEN_LGSP.PatternEdge(true, (int) GRGEN_MODEL.EdgeTypes.@contains, "GRGEN_MODEL.Icontains", "FeaturePattern_alt_0_Variable_edge__edge0", "_edge0", FeaturePattern_alt_0_Variable_edge__edge0_AllowedTypes, FeaturePattern_alt_0_Variable_edge__edge0_IsAllowedType, 5.5F, -1, false, null, null, null, null, false);
+			bool[] FeaturePattern_alt_0_Variable_isNodeTotallyHomomorphic = new bool[2] { false, false,  };
+			bool[] FeaturePattern_alt_0_Variable_isEdgeTotallyHomomorphic = new bool[1] { false,  };
+			GRGEN_LGSP.PatternNode FeaturePattern_alt_0_Variable_node__node0 = new GRGEN_LGSP.PatternNode((int) GRGEN_MODEL.NodeTypes.@Variabel, "GRGEN_MODEL.IVariabel", "FeaturePattern_alt_0_Variable_node__node0", "_node0", FeaturePattern_alt_0_Variable_node__node0_AllowedTypes, FeaturePattern_alt_0_Variable_node__node0_IsAllowedType, 5.5F, -1, false, null, null, null, null, null, false);
+			GRGEN_LGSP.PatternEdge FeaturePattern_alt_0_Variable_edge__edge0 = new GRGEN_LGSP.PatternEdge(true, (int) GRGEN_MODEL.EdgeTypes.@contains, "GRGEN_MODEL.Icontains", "FeaturePattern_alt_0_Variable_edge__edge0", "_edge0", FeaturePattern_alt_0_Variable_edge__edge0_AllowedTypes, FeaturePattern_alt_0_Variable_edge__edge0_IsAllowedType, 5.5F, -1, false, null, null, null, null, null, false);
 			FeaturePattern_alt_0_Variable = new GRGEN_LGSP.PatternGraph(
 				"Variable",
 				"FeaturePattern_alt_0_",
@@ -1184,7 +1216,9 @@ namespace de.unika.ipd.grGen.Action_ProgramGraphsOriginal
 					{ true, },
 				},
 				FeaturePattern_alt_0_Variable_isNodeHomomorphicGlobal,
-				FeaturePattern_alt_0_Variable_isEdgeHomomorphicGlobal
+				FeaturePattern_alt_0_Variable_isEdgeHomomorphicGlobal,
+				FeaturePattern_alt_0_Variable_isNodeTotallyHomomorphic,
+				FeaturePattern_alt_0_Variable_isEdgeTotallyHomomorphic
 			);
 			FeaturePattern_alt_0_Variable.edgeToSourceNode.Add(FeaturePattern_alt_0_Variable_edge__edge0, FeaturePattern_node_c);
 			FeaturePattern_alt_0_Variable.edgeToTargetNode.Add(FeaturePattern_alt_0_Variable_edge__edge0, FeaturePattern_alt_0_Variable_node__node0);
@@ -1196,8 +1230,10 @@ namespace de.unika.ipd.grGen.Action_ProgramGraphsOriginal
 			bool[,] FeaturePattern_alt_0_Konstante_isEdgeHomomorphicGlobal = new bool[1, 1] {
 				{ false, },
 			};
-			GRGEN_LGSP.PatternNode FeaturePattern_alt_0_Konstante_node__node0 = new GRGEN_LGSP.PatternNode((int) GRGEN_MODEL.NodeTypes.@Constant, "GRGEN_MODEL.IConstant", "FeaturePattern_alt_0_Konstante_node__node0", "_node0", FeaturePattern_alt_0_Konstante_node__node0_AllowedTypes, FeaturePattern_alt_0_Konstante_node__node0_IsAllowedType, 5.5F, -1, false, null, null, null, null, false);
-			GRGEN_LGSP.PatternEdge FeaturePattern_alt_0_Konstante_edge__edge0 = new GRGEN_LGSP.PatternEdge(true, (int) GRGEN_MODEL.EdgeTypes.@contains, "GRGEN_MODEL.Icontains", "FeaturePattern_alt_0_Konstante_edge__edge0", "_edge0", FeaturePattern_alt_0_Konstante_edge__edge0_AllowedTypes, FeaturePattern_alt_0_Konstante_edge__edge0_IsAllowedType, 5.5F, -1, false, null, null, null, null, false);
+			bool[] FeaturePattern_alt_0_Konstante_isNodeTotallyHomomorphic = new bool[2] { false, false,  };
+			bool[] FeaturePattern_alt_0_Konstante_isEdgeTotallyHomomorphic = new bool[1] { false,  };
+			GRGEN_LGSP.PatternNode FeaturePattern_alt_0_Konstante_node__node0 = new GRGEN_LGSP.PatternNode((int) GRGEN_MODEL.NodeTypes.@Constant, "GRGEN_MODEL.IConstant", "FeaturePattern_alt_0_Konstante_node__node0", "_node0", FeaturePattern_alt_0_Konstante_node__node0_AllowedTypes, FeaturePattern_alt_0_Konstante_node__node0_IsAllowedType, 5.5F, -1, false, null, null, null, null, null, false);
+			GRGEN_LGSP.PatternEdge FeaturePattern_alt_0_Konstante_edge__edge0 = new GRGEN_LGSP.PatternEdge(true, (int) GRGEN_MODEL.EdgeTypes.@contains, "GRGEN_MODEL.Icontains", "FeaturePattern_alt_0_Konstante_edge__edge0", "_edge0", FeaturePattern_alt_0_Konstante_edge__edge0_AllowedTypes, FeaturePattern_alt_0_Konstante_edge__edge0_IsAllowedType, 5.5F, -1, false, null, null, null, null, null, false);
 			FeaturePattern_alt_0_Konstante = new GRGEN_LGSP.PatternGraph(
 				"Konstante",
 				"FeaturePattern_alt_0_",
@@ -1220,7 +1256,9 @@ namespace de.unika.ipd.grGen.Action_ProgramGraphsOriginal
 					{ true, },
 				},
 				FeaturePattern_alt_0_Konstante_isNodeHomomorphicGlobal,
-				FeaturePattern_alt_0_Konstante_isEdgeHomomorphicGlobal
+				FeaturePattern_alt_0_Konstante_isEdgeHomomorphicGlobal,
+				FeaturePattern_alt_0_Konstante_isNodeTotallyHomomorphic,
+				FeaturePattern_alt_0_Konstante_isEdgeTotallyHomomorphic
 			);
 			FeaturePattern_alt_0_Konstante.edgeToSourceNode.Add(FeaturePattern_alt_0_Konstante_edge__edge0, FeaturePattern_node_c);
 			FeaturePattern_alt_0_Konstante.edgeToTargetNode.Add(FeaturePattern_alt_0_Konstante_edge__edge0, FeaturePattern_alt_0_Konstante_node__node0);
@@ -1246,7 +1284,9 @@ namespace de.unika.ipd.grGen.Action_ProgramGraphsOriginal
 				},
 				new bool[0, 0] ,
 				FeaturePattern_isNodeHomomorphicGlobal,
-				FeaturePattern_isEdgeHomomorphicGlobal
+				FeaturePattern_isEdgeHomomorphicGlobal,
+				FeaturePattern_isNodeTotallyHomomorphic,
+				FeaturePattern_isEdgeTotallyHomomorphic
 			);
 			FeaturePattern_alt_0_MethodBody.embeddingGraph = pat_FeaturePattern;
 			FeaturePattern_alt_0_MethodSignature.embeddingGraph = pat_FeaturePattern;
@@ -1971,11 +2011,15 @@ namespace de.unika.ipd.grGen.Action_ProgramGraphsOriginal
 				{ false, },
 			};
 			bool[,] Parameters_isEdgeHomomorphicGlobal = new bool[0, 0] ;
-			GRGEN_LGSP.PatternNode Parameters_node_b = new GRGEN_LGSP.PatternNode((int) GRGEN_MODEL.NodeTypes.@MethodBody, "GRGEN_MODEL.IMethodBody", "Parameters_node_b", "b", Parameters_node_b_AllowedTypes, Parameters_node_b_IsAllowedType, 5.5F, 0, false, null, null, null, null, false);
+			bool[] Parameters_isNodeTotallyHomomorphic = new bool[1] { false,  };
+			bool[] Parameters_isEdgeTotallyHomomorphic = new bool[0] ;
+			GRGEN_LGSP.PatternNode Parameters_node_b = new GRGEN_LGSP.PatternNode((int) GRGEN_MODEL.NodeTypes.@MethodBody, "GRGEN_MODEL.IMethodBody", "Parameters_node_b", "b", Parameters_node_b_AllowedTypes, Parameters_node_b_IsAllowedType, 5.5F, 0, false, null, null, null, null, null, false);
 			bool[,] Parameters_iter_0_isNodeHomomorphicGlobal = new bool[1, 1] {
 				{ false, },
 			};
 			bool[,] Parameters_iter_0_isEdgeHomomorphicGlobal = new bool[0, 0] ;
+			bool[] Parameters_iter_0_isNodeTotallyHomomorphic = new bool[1] { false,  };
+			bool[] Parameters_iter_0_isEdgeTotallyHomomorphic = new bool[0] ;
 			GRGEN_LGSP.PatternGraphEmbedding Parameters_iter_0__sub0 = new GRGEN_LGSP.PatternGraphEmbedding("_sub0", Pattern_Parameter.Instance, 
 				new GRGEN_EXPR.Expression[] {
 					new GRGEN_EXPR.GraphEntityExpression("Parameters_node_b"),
@@ -2000,7 +2044,9 @@ namespace de.unika.ipd.grGen.Action_ProgramGraphsOriginal
 				},
 				new bool[0, 0] ,
 				Parameters_iter_0_isNodeHomomorphicGlobal,
-				Parameters_iter_0_isEdgeHomomorphicGlobal
+				Parameters_iter_0_isEdgeHomomorphicGlobal,
+				Parameters_iter_0_isNodeTotallyHomomorphic,
+				Parameters_iter_0_isEdgeTotallyHomomorphic
 			);
 
 			GRGEN_LGSP.Iterated Parameters_iter_0_it = new GRGEN_LGSP.Iterated( Parameters_iter_0, 0, 0);
@@ -2023,7 +2069,9 @@ namespace de.unika.ipd.grGen.Action_ProgramGraphsOriginal
 				},
 				new bool[0, 0] ,
 				Parameters_isNodeHomomorphicGlobal,
-				Parameters_isEdgeHomomorphicGlobal
+				Parameters_isEdgeHomomorphicGlobal,
+				Parameters_isNodeTotallyHomomorphic,
+				Parameters_isEdgeTotallyHomomorphic
 			);
 			Parameters_iter_0.embeddingGraph = pat_Parameters;
 
@@ -2352,7 +2400,9 @@ namespace de.unika.ipd.grGen.Action_ProgramGraphsOriginal
 				{ false, },
 			};
 			bool[,] Parameter_isEdgeHomomorphicGlobal = new bool[0, 0] ;
-			GRGEN_LGSP.PatternNode Parameter_node_b = new GRGEN_LGSP.PatternNode((int) GRGEN_MODEL.NodeTypes.@MethodBody, "GRGEN_MODEL.IMethodBody", "Parameter_node_b", "b", Parameter_node_b_AllowedTypes, Parameter_node_b_IsAllowedType, 5.5F, 0, false, null, null, null, null, false);
+			bool[] Parameter_isNodeTotallyHomomorphic = new bool[1] { false,  };
+			bool[] Parameter_isEdgeTotallyHomomorphic = new bool[0] ;
+			GRGEN_LGSP.PatternNode Parameter_node_b = new GRGEN_LGSP.PatternNode((int) GRGEN_MODEL.NodeTypes.@MethodBody, "GRGEN_MODEL.IMethodBody", "Parameter_node_b", "b", Parameter_node_b_AllowedTypes, Parameter_node_b_IsAllowedType, 5.5F, 0, false, null, null, null, null, null, false);
 			bool[,] Parameter_alt_0_Variable_isNodeHomomorphicGlobal = new bool[2, 2] {
 				{ false, false, },
 				{ false, false, },
@@ -2360,8 +2410,10 @@ namespace de.unika.ipd.grGen.Action_ProgramGraphsOriginal
 			bool[,] Parameter_alt_0_Variable_isEdgeHomomorphicGlobal = new bool[1, 1] {
 				{ false, },
 			};
-			GRGEN_LGSP.PatternNode Parameter_alt_0_Variable_node_v = new GRGEN_LGSP.PatternNode((int) GRGEN_MODEL.NodeTypes.@Variabel, "GRGEN_MODEL.IVariabel", "Parameter_alt_0_Variable_node_v", "v", Parameter_alt_0_Variable_node_v_AllowedTypes, Parameter_alt_0_Variable_node_v_IsAllowedType, 5.5F, -1, false, null, null, null, null, false);
-			GRGEN_LGSP.PatternEdge Parameter_alt_0_Variable_edge__edge0 = new GRGEN_LGSP.PatternEdge(true, (int) GRGEN_MODEL.EdgeTypes.@contains, "GRGEN_MODEL.Icontains", "Parameter_alt_0_Variable_edge__edge0", "_edge0", Parameter_alt_0_Variable_edge__edge0_AllowedTypes, Parameter_alt_0_Variable_edge__edge0_IsAllowedType, 5.5F, -1, false, null, null, null, null, false);
+			bool[] Parameter_alt_0_Variable_isNodeTotallyHomomorphic = new bool[2] { false, false,  };
+			bool[] Parameter_alt_0_Variable_isEdgeTotallyHomomorphic = new bool[1] { false,  };
+			GRGEN_LGSP.PatternNode Parameter_alt_0_Variable_node_v = new GRGEN_LGSP.PatternNode((int) GRGEN_MODEL.NodeTypes.@Variabel, "GRGEN_MODEL.IVariabel", "Parameter_alt_0_Variable_node_v", "v", Parameter_alt_0_Variable_node_v_AllowedTypes, Parameter_alt_0_Variable_node_v_IsAllowedType, 5.5F, -1, false, null, null, null, null, null, false);
+			GRGEN_LGSP.PatternEdge Parameter_alt_0_Variable_edge__edge0 = new GRGEN_LGSP.PatternEdge(true, (int) GRGEN_MODEL.EdgeTypes.@contains, "GRGEN_MODEL.Icontains", "Parameter_alt_0_Variable_edge__edge0", "_edge0", Parameter_alt_0_Variable_edge__edge0_AllowedTypes, Parameter_alt_0_Variable_edge__edge0_IsAllowedType, 5.5F, -1, false, null, null, null, null, null, false);
 			Parameter_alt_0_Variable = new GRGEN_LGSP.PatternGraph(
 				"Variable",
 				"Parameter_alt_0_",
@@ -2384,7 +2436,9 @@ namespace de.unika.ipd.grGen.Action_ProgramGraphsOriginal
 					{ true, },
 				},
 				Parameter_alt_0_Variable_isNodeHomomorphicGlobal,
-				Parameter_alt_0_Variable_isEdgeHomomorphicGlobal
+				Parameter_alt_0_Variable_isEdgeHomomorphicGlobal,
+				Parameter_alt_0_Variable_isNodeTotallyHomomorphic,
+				Parameter_alt_0_Variable_isEdgeTotallyHomomorphic
 			);
 			Parameter_alt_0_Variable.edgeToSourceNode.Add(Parameter_alt_0_Variable_edge__edge0, Parameter_node_b);
 			Parameter_alt_0_Variable.edgeToTargetNode.Add(Parameter_alt_0_Variable_edge__edge0, Parameter_alt_0_Variable_node_v);
@@ -2396,8 +2450,10 @@ namespace de.unika.ipd.grGen.Action_ProgramGraphsOriginal
 			bool[,] Parameter_alt_0_Konstante_isEdgeHomomorphicGlobal = new bool[1, 1] {
 				{ false, },
 			};
-			GRGEN_LGSP.PatternNode Parameter_alt_0_Konstante_node_c = new GRGEN_LGSP.PatternNode((int) GRGEN_MODEL.NodeTypes.@Constant, "GRGEN_MODEL.IConstant", "Parameter_alt_0_Konstante_node_c", "c", Parameter_alt_0_Konstante_node_c_AllowedTypes, Parameter_alt_0_Konstante_node_c_IsAllowedType, 5.5F, -1, false, null, null, null, null, false);
-			GRGEN_LGSP.PatternEdge Parameter_alt_0_Konstante_edge__edge0 = new GRGEN_LGSP.PatternEdge(true, (int) GRGEN_MODEL.EdgeTypes.@contains, "GRGEN_MODEL.Icontains", "Parameter_alt_0_Konstante_edge__edge0", "_edge0", Parameter_alt_0_Konstante_edge__edge0_AllowedTypes, Parameter_alt_0_Konstante_edge__edge0_IsAllowedType, 5.5F, -1, false, null, null, null, null, false);
+			bool[] Parameter_alt_0_Konstante_isNodeTotallyHomomorphic = new bool[2] { false, false,  };
+			bool[] Parameter_alt_0_Konstante_isEdgeTotallyHomomorphic = new bool[1] { false,  };
+			GRGEN_LGSP.PatternNode Parameter_alt_0_Konstante_node_c = new GRGEN_LGSP.PatternNode((int) GRGEN_MODEL.NodeTypes.@Constant, "GRGEN_MODEL.IConstant", "Parameter_alt_0_Konstante_node_c", "c", Parameter_alt_0_Konstante_node_c_AllowedTypes, Parameter_alt_0_Konstante_node_c_IsAllowedType, 5.5F, -1, false, null, null, null, null, null, false);
+			GRGEN_LGSP.PatternEdge Parameter_alt_0_Konstante_edge__edge0 = new GRGEN_LGSP.PatternEdge(true, (int) GRGEN_MODEL.EdgeTypes.@contains, "GRGEN_MODEL.Icontains", "Parameter_alt_0_Konstante_edge__edge0", "_edge0", Parameter_alt_0_Konstante_edge__edge0_AllowedTypes, Parameter_alt_0_Konstante_edge__edge0_IsAllowedType, 5.5F, -1, false, null, null, null, null, null, false);
 			Parameter_alt_0_Konstante = new GRGEN_LGSP.PatternGraph(
 				"Konstante",
 				"Parameter_alt_0_",
@@ -2420,7 +2476,9 @@ namespace de.unika.ipd.grGen.Action_ProgramGraphsOriginal
 					{ true, },
 				},
 				Parameter_alt_0_Konstante_isNodeHomomorphicGlobal,
-				Parameter_alt_0_Konstante_isEdgeHomomorphicGlobal
+				Parameter_alt_0_Konstante_isEdgeHomomorphicGlobal,
+				Parameter_alt_0_Konstante_isNodeTotallyHomomorphic,
+				Parameter_alt_0_Konstante_isEdgeTotallyHomomorphic
 			);
 			Parameter_alt_0_Konstante.edgeToSourceNode.Add(Parameter_alt_0_Konstante_edge__edge0, Parameter_node_b);
 			Parameter_alt_0_Konstante.edgeToTargetNode.Add(Parameter_alt_0_Konstante_edge__edge0, Parameter_alt_0_Konstante_node_c);
@@ -2446,7 +2504,9 @@ namespace de.unika.ipd.grGen.Action_ProgramGraphsOriginal
 				},
 				new bool[0, 0] ,
 				Parameter_isNodeHomomorphicGlobal,
-				Parameter_isEdgeHomomorphicGlobal
+				Parameter_isEdgeHomomorphicGlobal,
+				Parameter_isNodeTotallyHomomorphic,
+				Parameter_isEdgeTotallyHomomorphic
 			);
 			Parameter_alt_0_Variable.embeddingGraph = pat_Parameter;
 			Parameter_alt_0_Konstante.embeddingGraph = pat_Parameter;
@@ -2897,11 +2957,15 @@ namespace de.unika.ipd.grGen.Action_ProgramGraphsOriginal
 				{ false, },
 			};
 			bool[,] Statements_isEdgeHomomorphicGlobal = new bool[0, 0] ;
-			GRGEN_LGSP.PatternNode Statements_node_b = new GRGEN_LGSP.PatternNode((int) GRGEN_MODEL.NodeTypes.@MethodBody, "GRGEN_MODEL.IMethodBody", "Statements_node_b", "b", Statements_node_b_AllowedTypes, Statements_node_b_IsAllowedType, 5.5F, 0, false, null, null, null, null, false);
+			bool[] Statements_isNodeTotallyHomomorphic = new bool[1] { false,  };
+			bool[] Statements_isEdgeTotallyHomomorphic = new bool[0] ;
+			GRGEN_LGSP.PatternNode Statements_node_b = new GRGEN_LGSP.PatternNode((int) GRGEN_MODEL.NodeTypes.@MethodBody, "GRGEN_MODEL.IMethodBody", "Statements_node_b", "b", Statements_node_b_AllowedTypes, Statements_node_b_IsAllowedType, 5.5F, 0, false, null, null, null, null, null, false);
 			bool[,] Statements_iter_0_isNodeHomomorphicGlobal = new bool[1, 1] {
 				{ false, },
 			};
 			bool[,] Statements_iter_0_isEdgeHomomorphicGlobal = new bool[0, 0] ;
+			bool[] Statements_iter_0_isNodeTotallyHomomorphic = new bool[1] { false,  };
+			bool[] Statements_iter_0_isEdgeTotallyHomomorphic = new bool[0] ;
 			GRGEN_LGSP.PatternGraphEmbedding Statements_iter_0__sub0 = new GRGEN_LGSP.PatternGraphEmbedding("_sub0", Pattern_Statement.Instance, 
 				new GRGEN_EXPR.Expression[] {
 					new GRGEN_EXPR.GraphEntityExpression("Statements_node_b"),
@@ -2926,7 +2990,9 @@ namespace de.unika.ipd.grGen.Action_ProgramGraphsOriginal
 				},
 				new bool[0, 0] ,
 				Statements_iter_0_isNodeHomomorphicGlobal,
-				Statements_iter_0_isEdgeHomomorphicGlobal
+				Statements_iter_0_isEdgeHomomorphicGlobal,
+				Statements_iter_0_isNodeTotallyHomomorphic,
+				Statements_iter_0_isEdgeTotallyHomomorphic
 			);
 
 			GRGEN_LGSP.Iterated Statements_iter_0_it = new GRGEN_LGSP.Iterated( Statements_iter_0, 0, 0);
@@ -2949,7 +3015,9 @@ namespace de.unika.ipd.grGen.Action_ProgramGraphsOriginal
 				},
 				new bool[0, 0] ,
 				Statements_isNodeHomomorphicGlobal,
-				Statements_isEdgeHomomorphicGlobal
+				Statements_isEdgeHomomorphicGlobal,
+				Statements_isNodeTotallyHomomorphic,
+				Statements_isEdgeTotallyHomomorphic
 			);
 			Statements_iter_0.embeddingGraph = pat_Statements;
 
@@ -3299,7 +3367,9 @@ namespace de.unika.ipd.grGen.Action_ProgramGraphsOriginal
 				{ false, },
 			};
 			bool[,] Statement_isEdgeHomomorphicGlobal = new bool[0, 0] ;
-			GRGEN_LGSP.PatternNode Statement_node_b = new GRGEN_LGSP.PatternNode((int) GRGEN_MODEL.NodeTypes.@MethodBody, "GRGEN_MODEL.IMethodBody", "Statement_node_b", "b", Statement_node_b_AllowedTypes, Statement_node_b_IsAllowedType, 5.5F, 0, false, null, null, null, null, false);
+			bool[] Statement_isNodeTotallyHomomorphic = new bool[1] { false,  };
+			bool[] Statement_isEdgeTotallyHomomorphic = new bool[0] ;
+			GRGEN_LGSP.PatternNode Statement_node_b = new GRGEN_LGSP.PatternNode((int) GRGEN_MODEL.NodeTypes.@MethodBody, "GRGEN_MODEL.IMethodBody", "Statement_node_b", "b", Statement_node_b_AllowedTypes, Statement_node_b_IsAllowedType, 5.5F, 0, false, null, null, null, null, null, false);
 			bool[,] Statement_alt_0_Assignment_isNodeHomomorphicGlobal = new bool[2, 2] {
 				{ false, false, },
 				{ false, false, },
@@ -3308,9 +3378,11 @@ namespace de.unika.ipd.grGen.Action_ProgramGraphsOriginal
 				{ false, false, },
 				{ false, false, },
 			};
-			GRGEN_LGSP.PatternNode Statement_alt_0_Assignment_node_e = new GRGEN_LGSP.PatternNode((int) GRGEN_MODEL.NodeTypes.@Expression, "GRGEN_MODEL.IExpression", "Statement_alt_0_Assignment_node_e", "e", Statement_alt_0_Assignment_node_e_AllowedTypes, Statement_alt_0_Assignment_node_e_IsAllowedType, 5.5F, -1, false, null, null, null, null, false);
-			GRGEN_LGSP.PatternEdge Statement_alt_0_Assignment_edge__edge0 = new GRGEN_LGSP.PatternEdge(true, (int) GRGEN_MODEL.EdgeTypes.@contains, "GRGEN_MODEL.Icontains", "Statement_alt_0_Assignment_edge__edge0", "_edge0", Statement_alt_0_Assignment_edge__edge0_AllowedTypes, Statement_alt_0_Assignment_edge__edge0_IsAllowedType, 5.5F, -1, false, null, null, null, null, false);
-			GRGEN_LGSP.PatternEdge Statement_alt_0_Assignment_edge__edge1 = new GRGEN_LGSP.PatternEdge(true, (int) GRGEN_MODEL.EdgeTypes.@writesTo, "GRGEN_MODEL.IwritesTo", "Statement_alt_0_Assignment_edge__edge1", "_edge1", Statement_alt_0_Assignment_edge__edge1_AllowedTypes, Statement_alt_0_Assignment_edge__edge1_IsAllowedType, 5.5F, -1, false, null, null, null, null, false);
+			bool[] Statement_alt_0_Assignment_isNodeTotallyHomomorphic = new bool[2] { false, false,  };
+			bool[] Statement_alt_0_Assignment_isEdgeTotallyHomomorphic = new bool[2] { false, false,  };
+			GRGEN_LGSP.PatternNode Statement_alt_0_Assignment_node_e = new GRGEN_LGSP.PatternNode((int) GRGEN_MODEL.NodeTypes.@Expression, "GRGEN_MODEL.IExpression", "Statement_alt_0_Assignment_node_e", "e", Statement_alt_0_Assignment_node_e_AllowedTypes, Statement_alt_0_Assignment_node_e_IsAllowedType, 5.5F, -1, false, null, null, null, null, null, false);
+			GRGEN_LGSP.PatternEdge Statement_alt_0_Assignment_edge__edge0 = new GRGEN_LGSP.PatternEdge(true, (int) GRGEN_MODEL.EdgeTypes.@contains, "GRGEN_MODEL.Icontains", "Statement_alt_0_Assignment_edge__edge0", "_edge0", Statement_alt_0_Assignment_edge__edge0_AllowedTypes, Statement_alt_0_Assignment_edge__edge0_IsAllowedType, 5.5F, -1, false, null, null, null, null, null, false);
+			GRGEN_LGSP.PatternEdge Statement_alt_0_Assignment_edge__edge1 = new GRGEN_LGSP.PatternEdge(true, (int) GRGEN_MODEL.EdgeTypes.@writesTo, "GRGEN_MODEL.IwritesTo", "Statement_alt_0_Assignment_edge__edge1", "_edge1", Statement_alt_0_Assignment_edge__edge1_AllowedTypes, Statement_alt_0_Assignment_edge__edge1_IsAllowedType, 5.5F, -1, false, null, null, null, null, null, false);
 			GRGEN_LGSP.PatternGraphEmbedding Statement_alt_0_Assignment__sub0 = new GRGEN_LGSP.PatternGraphEmbedding("_sub0", Pattern_ExpressionPattern.Instance, 
 				new GRGEN_EXPR.Expression[] {
 					new GRGEN_EXPR.GraphEntityExpression("Statement_alt_0_Assignment_node_e"),
@@ -3339,7 +3411,9 @@ namespace de.unika.ipd.grGen.Action_ProgramGraphsOriginal
 					{ false, true, },
 				},
 				Statement_alt_0_Assignment_isNodeHomomorphicGlobal,
-				Statement_alt_0_Assignment_isEdgeHomomorphicGlobal
+				Statement_alt_0_Assignment_isEdgeHomomorphicGlobal,
+				Statement_alt_0_Assignment_isNodeTotallyHomomorphic,
+				Statement_alt_0_Assignment_isEdgeTotallyHomomorphic
 			);
 			Statement_alt_0_Assignment.edgeToSourceNode.Add(Statement_alt_0_Assignment_edge__edge0, Statement_node_b);
 			Statement_alt_0_Assignment.edgeToTargetNode.Add(Statement_alt_0_Assignment_edge__edge0, Statement_alt_0_Assignment_node_e);
@@ -3353,9 +3427,11 @@ namespace de.unika.ipd.grGen.Action_ProgramGraphsOriginal
 				{ false, false, },
 				{ false, false, },
 			};
-			GRGEN_LGSP.PatternNode Statement_alt_0_Call_node_e = new GRGEN_LGSP.PatternNode((int) GRGEN_MODEL.NodeTypes.@Expression, "GRGEN_MODEL.IExpression", "Statement_alt_0_Call_node_e", "e", Statement_alt_0_Call_node_e_AllowedTypes, Statement_alt_0_Call_node_e_IsAllowedType, 5.5F, -1, false, null, null, null, null, false);
-			GRGEN_LGSP.PatternEdge Statement_alt_0_Call_edge__edge0 = new GRGEN_LGSP.PatternEdge(true, (int) GRGEN_MODEL.EdgeTypes.@contains, "GRGEN_MODEL.Icontains", "Statement_alt_0_Call_edge__edge0", "_edge0", Statement_alt_0_Call_edge__edge0_AllowedTypes, Statement_alt_0_Call_edge__edge0_IsAllowedType, 5.5F, -1, false, null, null, null, null, false);
-			GRGEN_LGSP.PatternEdge Statement_alt_0_Call_edge__edge1 = new GRGEN_LGSP.PatternEdge(true, (int) GRGEN_MODEL.EdgeTypes.@calls, "GRGEN_MODEL.Icalls", "Statement_alt_0_Call_edge__edge1", "_edge1", Statement_alt_0_Call_edge__edge1_AllowedTypes, Statement_alt_0_Call_edge__edge1_IsAllowedType, 5.5F, -1, false, null, null, null, null, false);
+			bool[] Statement_alt_0_Call_isNodeTotallyHomomorphic = new bool[2] { false, false,  };
+			bool[] Statement_alt_0_Call_isEdgeTotallyHomomorphic = new bool[2] { false, false,  };
+			GRGEN_LGSP.PatternNode Statement_alt_0_Call_node_e = new GRGEN_LGSP.PatternNode((int) GRGEN_MODEL.NodeTypes.@Expression, "GRGEN_MODEL.IExpression", "Statement_alt_0_Call_node_e", "e", Statement_alt_0_Call_node_e_AllowedTypes, Statement_alt_0_Call_node_e_IsAllowedType, 5.5F, -1, false, null, null, null, null, null, false);
+			GRGEN_LGSP.PatternEdge Statement_alt_0_Call_edge__edge0 = new GRGEN_LGSP.PatternEdge(true, (int) GRGEN_MODEL.EdgeTypes.@contains, "GRGEN_MODEL.Icontains", "Statement_alt_0_Call_edge__edge0", "_edge0", Statement_alt_0_Call_edge__edge0_AllowedTypes, Statement_alt_0_Call_edge__edge0_IsAllowedType, 5.5F, -1, false, null, null, null, null, null, false);
+			GRGEN_LGSP.PatternEdge Statement_alt_0_Call_edge__edge1 = new GRGEN_LGSP.PatternEdge(true, (int) GRGEN_MODEL.EdgeTypes.@calls, "GRGEN_MODEL.Icalls", "Statement_alt_0_Call_edge__edge1", "_edge1", Statement_alt_0_Call_edge__edge1_AllowedTypes, Statement_alt_0_Call_edge__edge1_IsAllowedType, 5.5F, -1, false, null, null, null, null, null, false);
 			GRGEN_LGSP.PatternGraphEmbedding Statement_alt_0_Call__sub0 = new GRGEN_LGSP.PatternGraphEmbedding("_sub0", Pattern_Expressions.Instance, 
 				new GRGEN_EXPR.Expression[] {
 					new GRGEN_EXPR.GraphEntityExpression("Statement_alt_0_Call_node_e"),
@@ -3384,7 +3460,9 @@ namespace de.unika.ipd.grGen.Action_ProgramGraphsOriginal
 					{ false, true, },
 				},
 				Statement_alt_0_Call_isNodeHomomorphicGlobal,
-				Statement_alt_0_Call_isEdgeHomomorphicGlobal
+				Statement_alt_0_Call_isEdgeHomomorphicGlobal,
+				Statement_alt_0_Call_isNodeTotallyHomomorphic,
+				Statement_alt_0_Call_isEdgeTotallyHomomorphic
 			);
 			Statement_alt_0_Call.edgeToSourceNode.Add(Statement_alt_0_Call_edge__edge0, Statement_node_b);
 			Statement_alt_0_Call.edgeToTargetNode.Add(Statement_alt_0_Call_edge__edge0, Statement_alt_0_Call_node_e);
@@ -3398,9 +3476,11 @@ namespace de.unika.ipd.grGen.Action_ProgramGraphsOriginal
 				{ false, false, },
 				{ false, false, },
 			};
-			GRGEN_LGSP.PatternNode Statement_alt_0_Return_node_e = new GRGEN_LGSP.PatternNode((int) GRGEN_MODEL.NodeTypes.@Expression, "GRGEN_MODEL.IExpression", "Statement_alt_0_Return_node_e", "e", Statement_alt_0_Return_node_e_AllowedTypes, Statement_alt_0_Return_node_e_IsAllowedType, 5.5F, -1, false, null, null, null, null, false);
-			GRGEN_LGSP.PatternEdge Statement_alt_0_Return_edge__edge0 = new GRGEN_LGSP.PatternEdge(true, (int) GRGEN_MODEL.EdgeTypes.@contains, "GRGEN_MODEL.Icontains", "Statement_alt_0_Return_edge__edge0", "_edge0", Statement_alt_0_Return_edge__edge0_AllowedTypes, Statement_alt_0_Return_edge__edge0_IsAllowedType, 5.5F, -1, false, null, null, null, null, false);
-			GRGEN_LGSP.PatternEdge Statement_alt_0_Return_edge__edge1 = new GRGEN_LGSP.PatternEdge(true, (int) GRGEN_MODEL.EdgeTypes.@uses, "GRGEN_MODEL.Iuses", "Statement_alt_0_Return_edge__edge1", "_edge1", Statement_alt_0_Return_edge__edge1_AllowedTypes, Statement_alt_0_Return_edge__edge1_IsAllowedType, 5.5F, -1, false, null, null, null, null, false);
+			bool[] Statement_alt_0_Return_isNodeTotallyHomomorphic = new bool[2] { false, false,  };
+			bool[] Statement_alt_0_Return_isEdgeTotallyHomomorphic = new bool[2] { false, false,  };
+			GRGEN_LGSP.PatternNode Statement_alt_0_Return_node_e = new GRGEN_LGSP.PatternNode((int) GRGEN_MODEL.NodeTypes.@Expression, "GRGEN_MODEL.IExpression", "Statement_alt_0_Return_node_e", "e", Statement_alt_0_Return_node_e_AllowedTypes, Statement_alt_0_Return_node_e_IsAllowedType, 5.5F, -1, false, null, null, null, null, null, false);
+			GRGEN_LGSP.PatternEdge Statement_alt_0_Return_edge__edge0 = new GRGEN_LGSP.PatternEdge(true, (int) GRGEN_MODEL.EdgeTypes.@contains, "GRGEN_MODEL.Icontains", "Statement_alt_0_Return_edge__edge0", "_edge0", Statement_alt_0_Return_edge__edge0_AllowedTypes, Statement_alt_0_Return_edge__edge0_IsAllowedType, 5.5F, -1, false, null, null, null, null, null, false);
+			GRGEN_LGSP.PatternEdge Statement_alt_0_Return_edge__edge1 = new GRGEN_LGSP.PatternEdge(true, (int) GRGEN_MODEL.EdgeTypes.@uses, "GRGEN_MODEL.Iuses", "Statement_alt_0_Return_edge__edge1", "_edge1", Statement_alt_0_Return_edge__edge1_AllowedTypes, Statement_alt_0_Return_edge__edge1_IsAllowedType, 5.5F, -1, false, null, null, null, null, null, false);
 			Statement_alt_0_Return = new GRGEN_LGSP.PatternGraph(
 				"Return",
 				"Statement_alt_0_",
@@ -3424,7 +3504,9 @@ namespace de.unika.ipd.grGen.Action_ProgramGraphsOriginal
 					{ false, true, },
 				},
 				Statement_alt_0_Return_isNodeHomomorphicGlobal,
-				Statement_alt_0_Return_isEdgeHomomorphicGlobal
+				Statement_alt_0_Return_isEdgeHomomorphicGlobal,
+				Statement_alt_0_Return_isNodeTotallyHomomorphic,
+				Statement_alt_0_Return_isEdgeTotallyHomomorphic
 			);
 			Statement_alt_0_Return.edgeToSourceNode.Add(Statement_alt_0_Return_edge__edge0, Statement_node_b);
 			Statement_alt_0_Return.edgeToTargetNode.Add(Statement_alt_0_Return_edge__edge0, Statement_alt_0_Return_node_e);
@@ -3451,7 +3533,9 @@ namespace de.unika.ipd.grGen.Action_ProgramGraphsOriginal
 				},
 				new bool[0, 0] ,
 				Statement_isNodeHomomorphicGlobal,
-				Statement_isEdgeHomomorphicGlobal
+				Statement_isEdgeHomomorphicGlobal,
+				Statement_isNodeTotallyHomomorphic,
+				Statement_isEdgeTotallyHomomorphic
 			);
 			Statement_alt_0_Assignment.embeddingGraph = pat_Statement;
 			Statement_alt_0_Call.embeddingGraph = pat_Statement;
@@ -4067,11 +4151,15 @@ namespace de.unika.ipd.grGen.Action_ProgramGraphsOriginal
 				{ false, },
 			};
 			bool[,] Expressions_isEdgeHomomorphicGlobal = new bool[0, 0] ;
-			GRGEN_LGSP.PatternNode Expressions_node_e = new GRGEN_LGSP.PatternNode((int) GRGEN_MODEL.NodeTypes.@Expression, "GRGEN_MODEL.IExpression", "Expressions_node_e", "e", Expressions_node_e_AllowedTypes, Expressions_node_e_IsAllowedType, 5.5F, 0, false, null, null, null, null, false);
+			bool[] Expressions_isNodeTotallyHomomorphic = new bool[1] { false,  };
+			bool[] Expressions_isEdgeTotallyHomomorphic = new bool[0] ;
+			GRGEN_LGSP.PatternNode Expressions_node_e = new GRGEN_LGSP.PatternNode((int) GRGEN_MODEL.NodeTypes.@Expression, "GRGEN_MODEL.IExpression", "Expressions_node_e", "e", Expressions_node_e_AllowedTypes, Expressions_node_e_IsAllowedType, 5.5F, 0, false, null, null, null, null, null, false);
 			bool[,] Expressions_iter_0_isNodeHomomorphicGlobal = new bool[1, 1] {
 				{ false, },
 			};
 			bool[,] Expressions_iter_0_isEdgeHomomorphicGlobal = new bool[0, 0] ;
+			bool[] Expressions_iter_0_isNodeTotallyHomomorphic = new bool[1] { false,  };
+			bool[] Expressions_iter_0_isEdgeTotallyHomomorphic = new bool[0] ;
 			GRGEN_LGSP.PatternGraphEmbedding Expressions_iter_0__sub0 = new GRGEN_LGSP.PatternGraphEmbedding("_sub0", Pattern_ExpressionPattern.Instance, 
 				new GRGEN_EXPR.Expression[] {
 					new GRGEN_EXPR.GraphEntityExpression("Expressions_node_e"),
@@ -4096,7 +4184,9 @@ namespace de.unika.ipd.grGen.Action_ProgramGraphsOriginal
 				},
 				new bool[0, 0] ,
 				Expressions_iter_0_isNodeHomomorphicGlobal,
-				Expressions_iter_0_isEdgeHomomorphicGlobal
+				Expressions_iter_0_isEdgeHomomorphicGlobal,
+				Expressions_iter_0_isNodeTotallyHomomorphic,
+				Expressions_iter_0_isEdgeTotallyHomomorphic
 			);
 
 			GRGEN_LGSP.Iterated Expressions_iter_0_it = new GRGEN_LGSP.Iterated( Expressions_iter_0, 0, 0);
@@ -4119,7 +4209,9 @@ namespace de.unika.ipd.grGen.Action_ProgramGraphsOriginal
 				},
 				new bool[0, 0] ,
 				Expressions_isNodeHomomorphicGlobal,
-				Expressions_isEdgeHomomorphicGlobal
+				Expressions_isEdgeHomomorphicGlobal,
+				Expressions_isNodeTotallyHomomorphic,
+				Expressions_isEdgeTotallyHomomorphic
 			);
 			Expressions_iter_0.embeddingGraph = pat_Expressions;
 
@@ -4451,16 +4543,20 @@ namespace de.unika.ipd.grGen.Action_ProgramGraphsOriginal
 			bool[,] ExpressionPattern_isEdgeHomomorphicGlobal = new bool[1, 1] {
 				{ false, },
 			};
-			GRGEN_LGSP.PatternNode ExpressionPattern_node_e = new GRGEN_LGSP.PatternNode((int) GRGEN_MODEL.NodeTypes.@Expression, "GRGEN_MODEL.IExpression", "ExpressionPattern_node_e", "e", ExpressionPattern_node_e_AllowedTypes, ExpressionPattern_node_e_IsAllowedType, 5.5F, 0, false, null, null, null, null, false);
-			GRGEN_LGSP.PatternNode ExpressionPattern_node_sub = new GRGEN_LGSP.PatternNode((int) GRGEN_MODEL.NodeTypes.@Expression, "GRGEN_MODEL.IExpression", "ExpressionPattern_node_sub", "sub", ExpressionPattern_node_sub_AllowedTypes, ExpressionPattern_node_sub_IsAllowedType, 5.5F, -1, false, null, null, null, null, false);
-			GRGEN_LGSP.PatternEdge ExpressionPattern_edge__edge0 = new GRGEN_LGSP.PatternEdge(true, (int) GRGEN_MODEL.EdgeTypes.@contains, "GRGEN_MODEL.Icontains", "ExpressionPattern_edge__edge0", "_edge0", ExpressionPattern_edge__edge0_AllowedTypes, ExpressionPattern_edge__edge0_IsAllowedType, 5.5F, -1, false, null, null, null, null, false);
+			bool[] ExpressionPattern_isNodeTotallyHomomorphic = new bool[2] { false, false,  };
+			bool[] ExpressionPattern_isEdgeTotallyHomomorphic = new bool[1] { false,  };
+			GRGEN_LGSP.PatternNode ExpressionPattern_node_e = new GRGEN_LGSP.PatternNode((int) GRGEN_MODEL.NodeTypes.@Expression, "GRGEN_MODEL.IExpression", "ExpressionPattern_node_e", "e", ExpressionPattern_node_e_AllowedTypes, ExpressionPattern_node_e_IsAllowedType, 5.5F, 0, false, null, null, null, null, null, false);
+			GRGEN_LGSP.PatternNode ExpressionPattern_node_sub = new GRGEN_LGSP.PatternNode((int) GRGEN_MODEL.NodeTypes.@Expression, "GRGEN_MODEL.IExpression", "ExpressionPattern_node_sub", "sub", ExpressionPattern_node_sub_AllowedTypes, ExpressionPattern_node_sub_IsAllowedType, 5.5F, -1, false, null, null, null, null, null, false);
+			GRGEN_LGSP.PatternEdge ExpressionPattern_edge__edge0 = new GRGEN_LGSP.PatternEdge(true, (int) GRGEN_MODEL.EdgeTypes.@contains, "GRGEN_MODEL.Icontains", "ExpressionPattern_edge__edge0", "_edge0", ExpressionPattern_edge__edge0_AllowedTypes, ExpressionPattern_edge__edge0_IsAllowedType, 5.5F, -1, false, null, null, null, null, null, false);
 			bool[,] ExpressionPattern_alt_0_Call_isNodeHomomorphicGlobal = new bool[1, 1] {
 				{ false, },
 			};
 			bool[,] ExpressionPattern_alt_0_Call_isEdgeHomomorphicGlobal = new bool[1, 1] {
 				{ false, },
 			};
-			GRGEN_LGSP.PatternEdge ExpressionPattern_alt_0_Call_edge__edge0 = new GRGEN_LGSP.PatternEdge(true, (int) GRGEN_MODEL.EdgeTypes.@calls, "GRGEN_MODEL.Icalls", "ExpressionPattern_alt_0_Call_edge__edge0", "_edge0", ExpressionPattern_alt_0_Call_edge__edge0_AllowedTypes, ExpressionPattern_alt_0_Call_edge__edge0_IsAllowedType, 5.5F, -1, false, null, null, null, null, false);
+			bool[] ExpressionPattern_alt_0_Call_isNodeTotallyHomomorphic = new bool[1] { false,  };
+			bool[] ExpressionPattern_alt_0_Call_isEdgeTotallyHomomorphic = new bool[1] { false,  };
+			GRGEN_LGSP.PatternEdge ExpressionPattern_alt_0_Call_edge__edge0 = new GRGEN_LGSP.PatternEdge(true, (int) GRGEN_MODEL.EdgeTypes.@calls, "GRGEN_MODEL.Icalls", "ExpressionPattern_alt_0_Call_edge__edge0", "_edge0", ExpressionPattern_alt_0_Call_edge__edge0_AllowedTypes, ExpressionPattern_alt_0_Call_edge__edge0_IsAllowedType, 5.5F, -1, false, null, null, null, null, null, false);
 			GRGEN_LGSP.PatternGraphEmbedding ExpressionPattern_alt_0_Call__sub0 = new GRGEN_LGSP.PatternGraphEmbedding("_sub0", Pattern_Expressions.Instance, 
 				new GRGEN_EXPR.Expression[] {
 					new GRGEN_EXPR.GraphEntityExpression("ExpressionPattern_node_sub"),
@@ -4487,7 +4583,9 @@ namespace de.unika.ipd.grGen.Action_ProgramGraphsOriginal
 					{ true, },
 				},
 				ExpressionPattern_alt_0_Call_isNodeHomomorphicGlobal,
-				ExpressionPattern_alt_0_Call_isEdgeHomomorphicGlobal
+				ExpressionPattern_alt_0_Call_isEdgeHomomorphicGlobal,
+				ExpressionPattern_alt_0_Call_isNodeTotallyHomomorphic,
+				ExpressionPattern_alt_0_Call_isEdgeTotallyHomomorphic
 			);
 			ExpressionPattern_alt_0_Call.edgeToSourceNode.Add(ExpressionPattern_alt_0_Call_edge__edge0, ExpressionPattern_node_sub);
 
@@ -4497,7 +4595,9 @@ namespace de.unika.ipd.grGen.Action_ProgramGraphsOriginal
 			bool[,] ExpressionPattern_alt_0_Use_isEdgeHomomorphicGlobal = new bool[1, 1] {
 				{ false, },
 			};
-			GRGEN_LGSP.PatternEdge ExpressionPattern_alt_0_Use_edge__edge0 = new GRGEN_LGSP.PatternEdge(true, (int) GRGEN_MODEL.EdgeTypes.@uses, "GRGEN_MODEL.Iuses", "ExpressionPattern_alt_0_Use_edge__edge0", "_edge0", ExpressionPattern_alt_0_Use_edge__edge0_AllowedTypes, ExpressionPattern_alt_0_Use_edge__edge0_IsAllowedType, 5.5F, -1, false, null, null, null, null, false);
+			bool[] ExpressionPattern_alt_0_Use_isNodeTotallyHomomorphic = new bool[1] { false,  };
+			bool[] ExpressionPattern_alt_0_Use_isEdgeTotallyHomomorphic = new bool[1] { false,  };
+			GRGEN_LGSP.PatternEdge ExpressionPattern_alt_0_Use_edge__edge0 = new GRGEN_LGSP.PatternEdge(true, (int) GRGEN_MODEL.EdgeTypes.@uses, "GRGEN_MODEL.Iuses", "ExpressionPattern_alt_0_Use_edge__edge0", "_edge0", ExpressionPattern_alt_0_Use_edge__edge0_AllowedTypes, ExpressionPattern_alt_0_Use_edge__edge0_IsAllowedType, 5.5F, -1, false, null, null, null, null, null, false);
 			ExpressionPattern_alt_0_Use = new GRGEN_LGSP.PatternGraph(
 				"Use",
 				"ExpressionPattern_alt_0_",
@@ -4519,7 +4619,9 @@ namespace de.unika.ipd.grGen.Action_ProgramGraphsOriginal
 					{ true, },
 				},
 				ExpressionPattern_alt_0_Use_isNodeHomomorphicGlobal,
-				ExpressionPattern_alt_0_Use_isEdgeHomomorphicGlobal
+				ExpressionPattern_alt_0_Use_isEdgeHomomorphicGlobal,
+				ExpressionPattern_alt_0_Use_isNodeTotallyHomomorphic,
+				ExpressionPattern_alt_0_Use_isEdgeTotallyHomomorphic
 			);
 			ExpressionPattern_alt_0_Use.edgeToSourceNode.Add(ExpressionPattern_alt_0_Use_edge__edge0, ExpressionPattern_node_sub);
 
@@ -4547,7 +4649,9 @@ namespace de.unika.ipd.grGen.Action_ProgramGraphsOriginal
 					{ true, },
 				},
 				ExpressionPattern_isNodeHomomorphicGlobal,
-				ExpressionPattern_isEdgeHomomorphicGlobal
+				ExpressionPattern_isEdgeHomomorphicGlobal,
+				ExpressionPattern_isNodeTotallyHomomorphic,
+				ExpressionPattern_isEdgeTotallyHomomorphic
 			);
 			pat_ExpressionPattern.edgeToSourceNode.Add(ExpressionPattern_edge__edge0, ExpressionPattern_node_e);
 			pat_ExpressionPattern.edgeToTargetNode.Add(ExpressionPattern_edge__edge0, ExpressionPattern_node_sub);
@@ -5013,13 +5117,17 @@ namespace de.unika.ipd.grGen.Action_ProgramGraphsOriginal
 				{ false, false, },
 			};
 			bool[,] Bodies_isEdgeHomomorphicGlobal = new bool[0, 0] ;
-			GRGEN_LGSP.PatternNode Bodies_node_m5 = new GRGEN_LGSP.PatternNode((int) GRGEN_MODEL.NodeTypes.@MethodSignature, "GRGEN_MODEL.IMethodSignature", "Bodies_node_m5", "m5", Bodies_node_m5_AllowedTypes, Bodies_node_m5_IsAllowedType, 5.5F, 0, false, null, null, null, null, false);
-			GRGEN_LGSP.PatternNode Bodies_node_c1 = new GRGEN_LGSP.PatternNode((int) GRGEN_MODEL.NodeTypes.@Class, "GRGEN_MODEL.IClass", "Bodies_node_c1", "c1", Bodies_node_c1_AllowedTypes, Bodies_node_c1_IsAllowedType, 5.5F, 1, false, null, null, null, null, false);
+			bool[] Bodies_isNodeTotallyHomomorphic = new bool[2] { false, false,  };
+			bool[] Bodies_isEdgeTotallyHomomorphic = new bool[0] ;
+			GRGEN_LGSP.PatternNode Bodies_node_m5 = new GRGEN_LGSP.PatternNode((int) GRGEN_MODEL.NodeTypes.@MethodSignature, "GRGEN_MODEL.IMethodSignature", "Bodies_node_m5", "m5", Bodies_node_m5_AllowedTypes, Bodies_node_m5_IsAllowedType, 5.5F, 0, false, null, null, null, null, null, false);
+			GRGEN_LGSP.PatternNode Bodies_node_c1 = new GRGEN_LGSP.PatternNode((int) GRGEN_MODEL.NodeTypes.@Class, "GRGEN_MODEL.IClass", "Bodies_node_c1", "c1", Bodies_node_c1_AllowedTypes, Bodies_node_c1_IsAllowedType, 5.5F, 1, false, null, null, null, null, null, false);
 			bool[,] Bodies_iter_0_isNodeHomomorphicGlobal = new bool[2, 2] {
 				{ false, false, },
 				{ false, false, },
 			};
 			bool[,] Bodies_iter_0_isEdgeHomomorphicGlobal = new bool[0, 0] ;
+			bool[] Bodies_iter_0_isNodeTotallyHomomorphic = new bool[2] { false, false,  };
+			bool[] Bodies_iter_0_isEdgeTotallyHomomorphic = new bool[0] ;
 			GRGEN_LGSP.PatternGraphEmbedding Bodies_iter_0_b = new GRGEN_LGSP.PatternGraphEmbedding("b", Pattern_Body.Instance, 
 				new GRGEN_EXPR.Expression[] {
 					new GRGEN_EXPR.GraphEntityExpression("Bodies_node_m5"),
@@ -5046,7 +5154,9 @@ namespace de.unika.ipd.grGen.Action_ProgramGraphsOriginal
 				},
 				new bool[0, 0] ,
 				Bodies_iter_0_isNodeHomomorphicGlobal,
-				Bodies_iter_0_isEdgeHomomorphicGlobal
+				Bodies_iter_0_isEdgeHomomorphicGlobal,
+				Bodies_iter_0_isNodeTotallyHomomorphic,
+				Bodies_iter_0_isEdgeTotallyHomomorphic
 			);
 
 			GRGEN_LGSP.Iterated Bodies_iter_0_it = new GRGEN_LGSP.Iterated( Bodies_iter_0, 0, 0);
@@ -5070,7 +5180,9 @@ namespace de.unika.ipd.grGen.Action_ProgramGraphsOriginal
 				},
 				new bool[0, 0] ,
 				Bodies_isNodeHomomorphicGlobal,
-				Bodies_isEdgeHomomorphicGlobal
+				Bodies_isEdgeHomomorphicGlobal,
+				Bodies_isNodeTotallyHomomorphic,
+				Bodies_isEdgeTotallyHomomorphic
 			);
 			Bodies_iter_0.embeddingGraph = pat_Bodies;
 
@@ -5429,13 +5541,15 @@ namespace de.unika.ipd.grGen.Action_ProgramGraphsOriginal
 				{ false, false, false, },
 				{ false, false, false, },
 			};
-			GRGEN_LGSP.PatternNode Body_node_c1 = new GRGEN_LGSP.PatternNode((int) GRGEN_MODEL.NodeTypes.@Class, "GRGEN_MODEL.IClass", "Body_node_c1", "c1", Body_node_c1_AllowedTypes, Body_node_c1_IsAllowedType, 5.5F, 1, false, null, null, null, null, false);
-			GRGEN_LGSP.PatternNode Body_node_c2 = new GRGEN_LGSP.PatternNode((int) GRGEN_MODEL.NodeTypes.@Class, "GRGEN_MODEL.IClass", "Body_node_c2", "c2", Body_node_c2_AllowedTypes, Body_node_c2_IsAllowedType, 5.5F, -1, false, null, null, null, null, false);
-			GRGEN_LGSP.PatternNode Body_node_b = new GRGEN_LGSP.PatternNode((int) GRGEN_MODEL.NodeTypes.@MethodBody, "GRGEN_MODEL.IMethodBody", "Body_node_b", "b", Body_node_b_AllowedTypes, Body_node_b_IsAllowedType, 5.5F, -1, false, null, null, null, null, false);
-			GRGEN_LGSP.PatternNode Body_node_m5 = new GRGEN_LGSP.PatternNode((int) GRGEN_MODEL.NodeTypes.@MethodSignature, "GRGEN_MODEL.IMethodSignature", "Body_node_m5", "m5", Body_node_m5_AllowedTypes, Body_node_m5_IsAllowedType, 5.5F, 0, false, null, null, null, null, false);
-			GRGEN_LGSP.PatternEdge Body_edge__edge0 = new GRGEN_LGSP.PatternEdge(true, (int) GRGEN_MODEL.EdgeTypes.@contains, "GRGEN_MODEL.Icontains", "Body_edge__edge0", "_edge0", Body_edge__edge0_AllowedTypes, Body_edge__edge0_IsAllowedType, 5.5F, -1, false, null, null, null, null, false);
-			GRGEN_LGSP.PatternEdge Body_edge__edge1 = new GRGEN_LGSP.PatternEdge(true, (int) GRGEN_MODEL.EdgeTypes.@contains, "GRGEN_MODEL.Icontains", "Body_edge__edge1", "_edge1", Body_edge__edge1_AllowedTypes, Body_edge__edge1_IsAllowedType, 5.5F, -1, false, null, null, null, null, false);
-			GRGEN_LGSP.PatternEdge Body_edge__edge2 = new GRGEN_LGSP.PatternEdge(true, (int) GRGEN_MODEL.EdgeTypes.@bindsTo, "GRGEN_MODEL.IbindsTo", "Body_edge__edge2", "_edge2", Body_edge__edge2_AllowedTypes, Body_edge__edge2_IsAllowedType, 5.5F, -1, false, null, null, null, null, false);
+			bool[] Body_isNodeTotallyHomomorphic = new bool[4] { false, false, false, false,  };
+			bool[] Body_isEdgeTotallyHomomorphic = new bool[3] { false, false, false,  };
+			GRGEN_LGSP.PatternNode Body_node_c1 = new GRGEN_LGSP.PatternNode((int) GRGEN_MODEL.NodeTypes.@Class, "GRGEN_MODEL.IClass", "Body_node_c1", "c1", Body_node_c1_AllowedTypes, Body_node_c1_IsAllowedType, 5.5F, 1, false, null, null, null, null, null, false);
+			GRGEN_LGSP.PatternNode Body_node_c2 = new GRGEN_LGSP.PatternNode((int) GRGEN_MODEL.NodeTypes.@Class, "GRGEN_MODEL.IClass", "Body_node_c2", "c2", Body_node_c2_AllowedTypes, Body_node_c2_IsAllowedType, 5.5F, -1, false, null, null, null, null, null, false);
+			GRGEN_LGSP.PatternNode Body_node_b = new GRGEN_LGSP.PatternNode((int) GRGEN_MODEL.NodeTypes.@MethodBody, "GRGEN_MODEL.IMethodBody", "Body_node_b", "b", Body_node_b_AllowedTypes, Body_node_b_IsAllowedType, 5.5F, -1, false, null, null, null, null, null, false);
+			GRGEN_LGSP.PatternNode Body_node_m5 = new GRGEN_LGSP.PatternNode((int) GRGEN_MODEL.NodeTypes.@MethodSignature, "GRGEN_MODEL.IMethodSignature", "Body_node_m5", "m5", Body_node_m5_AllowedTypes, Body_node_m5_IsAllowedType, 5.5F, 0, false, null, null, null, null, null, false);
+			GRGEN_LGSP.PatternEdge Body_edge__edge0 = new GRGEN_LGSP.PatternEdge(true, (int) GRGEN_MODEL.EdgeTypes.@contains, "GRGEN_MODEL.Icontains", "Body_edge__edge0", "_edge0", Body_edge__edge0_AllowedTypes, Body_edge__edge0_IsAllowedType, 5.5F, -1, false, null, null, null, null, null, false);
+			GRGEN_LGSP.PatternEdge Body_edge__edge1 = new GRGEN_LGSP.PatternEdge(true, (int) GRGEN_MODEL.EdgeTypes.@contains, "GRGEN_MODEL.Icontains", "Body_edge__edge1", "_edge1", Body_edge__edge1_AllowedTypes, Body_edge__edge1_IsAllowedType, 5.5F, -1, false, null, null, null, null, null, false);
+			GRGEN_LGSP.PatternEdge Body_edge__edge2 = new GRGEN_LGSP.PatternEdge(true, (int) GRGEN_MODEL.EdgeTypes.@bindsTo, "GRGEN_MODEL.IbindsTo", "Body_edge__edge2", "_edge2", Body_edge__edge2_AllowedTypes, Body_edge__edge2_IsAllowedType, 5.5F, -1, false, null, null, null, null, null, false);
 			GRGEN_LGSP.PatternGraphEmbedding Body_p = new GRGEN_LGSP.PatternGraphEmbedding("p", Pattern_Parameters.Instance, 
 				new GRGEN_EXPR.Expression[] {
 					new GRGEN_EXPR.GraphEntityExpression("Body_node_b"),
@@ -5472,7 +5586,9 @@ namespace de.unika.ipd.grGen.Action_ProgramGraphsOriginal
 					{ false, false, true, },
 				},
 				Body_isNodeHomomorphicGlobal,
-				Body_isEdgeHomomorphicGlobal
+				Body_isEdgeHomomorphicGlobal,
+				Body_isNodeTotallyHomomorphic,
+				Body_isEdgeTotallyHomomorphic
 			);
 			pat_Body.edgeToSourceNode.Add(Body_edge__edge0, Body_node_c1);
 			pat_Body.edgeToTargetNode.Add(Body_edge__edge0, Body_node_c2);
@@ -5723,6 +5839,8 @@ namespace de.unika.ipd.grGen.Action_ProgramGraphsOriginal
 		{
 			bool[,] createProgramGraphExample_isNodeHomomorphicGlobal = new bool[0, 0] ;
 			bool[,] createProgramGraphExample_isEdgeHomomorphicGlobal = new bool[0, 0] ;
+			bool[] createProgramGraphExample_isNodeTotallyHomomorphic = new bool[0] ;
+			bool[] createProgramGraphExample_isEdgeTotallyHomomorphic = new bool[0] ;
 			pat_createProgramGraphExample = new GRGEN_LGSP.PatternGraph(
 				"createProgramGraphExample",
 				"",
@@ -5740,7 +5858,9 @@ namespace de.unika.ipd.grGen.Action_ProgramGraphsOriginal
 				new bool[0, 0] ,
 				new bool[0, 0] ,
 				createProgramGraphExample_isNodeHomomorphicGlobal,
-				createProgramGraphExample_isEdgeHomomorphicGlobal
+				createProgramGraphExample_isEdgeHomomorphicGlobal,
+				createProgramGraphExample_isNodeTotallyHomomorphic,
+				createProgramGraphExample_isEdgeTotallyHomomorphic
 			);
 
 
@@ -5957,6 +6077,8 @@ namespace de.unika.ipd.grGen.Action_ProgramGraphsOriginal
 		{
 			bool[,] createProgramGraphPullUp_isNodeHomomorphicGlobal = new bool[0, 0] ;
 			bool[,] createProgramGraphPullUp_isEdgeHomomorphicGlobal = new bool[0, 0] ;
+			bool[] createProgramGraphPullUp_isNodeTotallyHomomorphic = new bool[0] ;
+			bool[] createProgramGraphPullUp_isEdgeTotallyHomomorphic = new bool[0] ;
 			pat_createProgramGraphPullUp = new GRGEN_LGSP.PatternGraph(
 				"createProgramGraphPullUp",
 				"",
@@ -5974,7 +6096,9 @@ namespace de.unika.ipd.grGen.Action_ProgramGraphsOriginal
 				new bool[0, 0] ,
 				new bool[0, 0] ,
 				createProgramGraphPullUp_isNodeHomomorphicGlobal,
-				createProgramGraphPullUp_isEdgeHomomorphicGlobal
+				createProgramGraphPullUp_isEdgeHomomorphicGlobal,
+				createProgramGraphPullUp_isNodeTotallyHomomorphic,
+				createProgramGraphPullUp_isEdgeTotallyHomomorphic
 			);
 
 
@@ -6201,13 +6325,15 @@ namespace de.unika.ipd.grGen.Action_ProgramGraphsOriginal
 				{ false, false, false, },
 				{ false, false, false, },
 			};
-			GRGEN_LGSP.PatternNode pullUpMethod_node_c1 = new GRGEN_LGSP.PatternNode((int) GRGEN_MODEL.NodeTypes.@Class, "GRGEN_MODEL.IClass", "pullUpMethod_node_c1", "c1", pullUpMethod_node_c1_AllowedTypes, pullUpMethod_node_c1_IsAllowedType, 5.5F, 0, false, null, null, null, null, false);
-			GRGEN_LGSP.PatternNode pullUpMethod_node_c3 = new GRGEN_LGSP.PatternNode((int) GRGEN_MODEL.NodeTypes.@Class, "GRGEN_MODEL.IClass", "pullUpMethod_node_c3", "c3", pullUpMethod_node_c3_AllowedTypes, pullUpMethod_node_c3_IsAllowedType, 5.5F, -1, false, null, null, null, null, false);
-			GRGEN_LGSP.PatternNode pullUpMethod_node_b4 = new GRGEN_LGSP.PatternNode((int) GRGEN_MODEL.NodeTypes.@MethodBody, "GRGEN_MODEL.IMethodBody", "pullUpMethod_node_b4", "b4", pullUpMethod_node_b4_AllowedTypes, pullUpMethod_node_b4_IsAllowedType, 5.5F, 1, false, null, null, null, null, false);
-			GRGEN_LGSP.PatternNode pullUpMethod_node_m5 = new GRGEN_LGSP.PatternNode((int) GRGEN_MODEL.NodeTypes.@MethodSignature, "GRGEN_MODEL.IMethodSignature", "pullUpMethod_node_m5", "m5", pullUpMethod_node_m5_AllowedTypes, pullUpMethod_node_m5_IsAllowedType, 5.5F, -1, false, null, null, null, null, false);
-			GRGEN_LGSP.PatternEdge pullUpMethod_edge__edge0 = new GRGEN_LGSP.PatternEdge(true, (int) GRGEN_MODEL.EdgeTypes.@contains, "GRGEN_MODEL.Icontains", "pullUpMethod_edge__edge0", "_edge0", pullUpMethod_edge__edge0_AllowedTypes, pullUpMethod_edge__edge0_IsAllowedType, 5.5F, -1, false, null, null, null, null, false);
-			GRGEN_LGSP.PatternEdge pullUpMethod_edge_m = new GRGEN_LGSP.PatternEdge(true, (int) GRGEN_MODEL.EdgeTypes.@contains, "GRGEN_MODEL.Icontains", "pullUpMethod_edge_m", "m", pullUpMethod_edge_m_AllowedTypes, pullUpMethod_edge_m_IsAllowedType, 5.5F, -1, false, null, null, null, null, false);
-			GRGEN_LGSP.PatternEdge pullUpMethod_edge__edge1 = new GRGEN_LGSP.PatternEdge(true, (int) GRGEN_MODEL.EdgeTypes.@bindsTo, "GRGEN_MODEL.IbindsTo", "pullUpMethod_edge__edge1", "_edge1", pullUpMethod_edge__edge1_AllowedTypes, pullUpMethod_edge__edge1_IsAllowedType, 5.5F, -1, false, null, null, null, null, false);
+			bool[] pullUpMethod_isNodeTotallyHomomorphic = new bool[4] { false, false, false, false,  };
+			bool[] pullUpMethod_isEdgeTotallyHomomorphic = new bool[3] { false, false, false,  };
+			GRGEN_LGSP.PatternNode pullUpMethod_node_c1 = new GRGEN_LGSP.PatternNode((int) GRGEN_MODEL.NodeTypes.@Class, "GRGEN_MODEL.IClass", "pullUpMethod_node_c1", "c1", pullUpMethod_node_c1_AllowedTypes, pullUpMethod_node_c1_IsAllowedType, 5.5F, 0, false, null, null, null, null, null, false);
+			GRGEN_LGSP.PatternNode pullUpMethod_node_c3 = new GRGEN_LGSP.PatternNode((int) GRGEN_MODEL.NodeTypes.@Class, "GRGEN_MODEL.IClass", "pullUpMethod_node_c3", "c3", pullUpMethod_node_c3_AllowedTypes, pullUpMethod_node_c3_IsAllowedType, 5.5F, -1, false, null, null, null, null, null, false);
+			GRGEN_LGSP.PatternNode pullUpMethod_node_b4 = new GRGEN_LGSP.PatternNode((int) GRGEN_MODEL.NodeTypes.@MethodBody, "GRGEN_MODEL.IMethodBody", "pullUpMethod_node_b4", "b4", pullUpMethod_node_b4_AllowedTypes, pullUpMethod_node_b4_IsAllowedType, 5.5F, 1, false, null, null, null, null, null, false);
+			GRGEN_LGSP.PatternNode pullUpMethod_node_m5 = new GRGEN_LGSP.PatternNode((int) GRGEN_MODEL.NodeTypes.@MethodSignature, "GRGEN_MODEL.IMethodSignature", "pullUpMethod_node_m5", "m5", pullUpMethod_node_m5_AllowedTypes, pullUpMethod_node_m5_IsAllowedType, 5.5F, -1, false, null, null, null, null, null, false);
+			GRGEN_LGSP.PatternEdge pullUpMethod_edge__edge0 = new GRGEN_LGSP.PatternEdge(true, (int) GRGEN_MODEL.EdgeTypes.@contains, "GRGEN_MODEL.Icontains", "pullUpMethod_edge__edge0", "_edge0", pullUpMethod_edge__edge0_AllowedTypes, pullUpMethod_edge__edge0_IsAllowedType, 5.5F, -1, false, null, null, null, null, null, false);
+			GRGEN_LGSP.PatternEdge pullUpMethod_edge_m = new GRGEN_LGSP.PatternEdge(true, (int) GRGEN_MODEL.EdgeTypes.@contains, "GRGEN_MODEL.Icontains", "pullUpMethod_edge_m", "m", pullUpMethod_edge_m_AllowedTypes, pullUpMethod_edge_m_IsAllowedType, 5.5F, -1, false, null, null, null, null, null, false);
+			GRGEN_LGSP.PatternEdge pullUpMethod_edge__edge1 = new GRGEN_LGSP.PatternEdge(true, (int) GRGEN_MODEL.EdgeTypes.@bindsTo, "GRGEN_MODEL.IbindsTo", "pullUpMethod_edge__edge1", "_edge1", pullUpMethod_edge__edge1_AllowedTypes, pullUpMethod_edge__edge1_IsAllowedType, 5.5F, -1, false, null, null, null, null, null, false);
 			GRGEN_LGSP.PatternGraphEmbedding pullUpMethod_bs = new GRGEN_LGSP.PatternGraphEmbedding("bs", Pattern_Bodies.Instance, 
 				new GRGEN_EXPR.Expression[] {
 					new GRGEN_EXPR.GraphEntityExpression("pullUpMethod_node_m5"),
@@ -6240,7 +6366,9 @@ namespace de.unika.ipd.grGen.Action_ProgramGraphsOriginal
 					{ false, false, true, },
 				},
 				pullUpMethod_isNodeHomomorphicGlobal,
-				pullUpMethod_isEdgeHomomorphicGlobal
+				pullUpMethod_isEdgeHomomorphicGlobal,
+				pullUpMethod_isNodeTotallyHomomorphic,
+				pullUpMethod_isEdgeTotallyHomomorphic
 			);
 			pat_pullUpMethod.edgeToSourceNode.Add(pullUpMethod_edge__edge0, pullUpMethod_node_c1);
 			pat_pullUpMethod.edgeToTargetNode.Add(pullUpMethod_edge__edge0, pullUpMethod_node_c3);
@@ -6451,7 +6579,9 @@ namespace de.unika.ipd.grGen.Action_ProgramGraphsOriginal
 				{ false, },
 			};
 			bool[,] matchAll_isEdgeHomomorphicGlobal = new bool[0, 0] ;
-			GRGEN_LGSP.PatternNode matchAll_node_c1 = new GRGEN_LGSP.PatternNode((int) GRGEN_MODEL.NodeTypes.@Class, "GRGEN_MODEL.IClass", "matchAll_node_c1", "c1", matchAll_node_c1_AllowedTypes, matchAll_node_c1_IsAllowedType, 5.5F, 0, false, null, null, null, null, false);
+			bool[] matchAll_isNodeTotallyHomomorphic = new bool[1] { false,  };
+			bool[] matchAll_isEdgeTotallyHomomorphic = new bool[0] ;
+			GRGEN_LGSP.PatternNode matchAll_node_c1 = new GRGEN_LGSP.PatternNode((int) GRGEN_MODEL.NodeTypes.@Class, "GRGEN_MODEL.IClass", "matchAll_node_c1", "c1", matchAll_node_c1_AllowedTypes, matchAll_node_c1_IsAllowedType, 5.5F, 0, false, null, null, null, null, null, false);
 			GRGEN_LGSP.PatternGraphEmbedding matchAll__sub0 = new GRGEN_LGSP.PatternGraphEmbedding("_sub0", Pattern_Subclass.Instance, 
 				new GRGEN_EXPR.Expression[] {
 					new GRGEN_EXPR.GraphEntityExpression("matchAll_node_c1"),
@@ -6476,7 +6606,9 @@ namespace de.unika.ipd.grGen.Action_ProgramGraphsOriginal
 				},
 				new bool[0, 0] ,
 				matchAll_isNodeHomomorphicGlobal,
-				matchAll_isEdgeHomomorphicGlobal
+				matchAll_isEdgeHomomorphicGlobal,
+				matchAll_isNodeTotallyHomomorphic,
+				matchAll_isEdgeTotallyHomomorphic
 			);
 
 			matchAll_node_c1.pointOfDefinition = null;
@@ -6639,6 +6771,8 @@ namespace de.unika.ipd.grGen.Action_ProgramGraphsOriginal
 		{
 			bool[,] InsertHelperEdgesForNestedLayout_isNodeHomomorphicGlobal = new bool[0, 0] ;
 			bool[,] InsertHelperEdgesForNestedLayout_isEdgeHomomorphicGlobal = new bool[0, 0] ;
+			bool[] InsertHelperEdgesForNestedLayout_isNodeTotallyHomomorphic = new bool[0] ;
+			bool[] InsertHelperEdgesForNestedLayout_isEdgeTotallyHomomorphic = new bool[0] ;
 			pat_InsertHelperEdgesForNestedLayout = new GRGEN_LGSP.PatternGraph(
 				"InsertHelperEdgesForNestedLayout",
 				"",
@@ -6656,7 +6790,9 @@ namespace de.unika.ipd.grGen.Action_ProgramGraphsOriginal
 				new bool[0, 0] ,
 				new bool[0, 0] ,
 				InsertHelperEdgesForNestedLayout_isNodeHomomorphicGlobal,
-				InsertHelperEdgesForNestedLayout_isEdgeHomomorphicGlobal
+				InsertHelperEdgesForNestedLayout_isEdgeHomomorphicGlobal,
+				InsertHelperEdgesForNestedLayout_isNodeTotallyHomomorphic,
+				InsertHelperEdgesForNestedLayout_isEdgeTotallyHomomorphic
 			);
 
 
@@ -6950,9 +7086,11 @@ namespace de.unika.ipd.grGen.Action_ProgramGraphsOriginal
 			bool[,] LinkMethodBodyToContainedEntity_isEdgeHomomorphicGlobal = new bool[1, 1] {
 				{ false, },
 			};
-			GRGEN_LGSP.PatternNode LinkMethodBodyToContainedEntity_node_mb = new GRGEN_LGSP.PatternNode((int) GRGEN_MODEL.NodeTypes.@MethodBody, "GRGEN_MODEL.IMethodBody", "LinkMethodBodyToContainedEntity_node_mb", "mb", LinkMethodBodyToContainedEntity_node_mb_AllowedTypes, LinkMethodBodyToContainedEntity_node_mb_IsAllowedType, 5.5F, -1, false, null, null, null, null, false);
-			GRGEN_LGSP.PatternNode LinkMethodBodyToContainedEntity_node_e = new GRGEN_LGSP.PatternNode((int) GRGEN_MODEL.NodeTypes.@Entity, "GRGEN_MODEL.IEntity", "LinkMethodBodyToContainedEntity_node_e", "e", LinkMethodBodyToContainedEntity_node_e_AllowedTypes, LinkMethodBodyToContainedEntity_node_e_IsAllowedType, 5.5F, -1, false, null, null, null, null, false);
-			GRGEN_LGSP.PatternEdge LinkMethodBodyToContainedEntity_edge__edge0 = new GRGEN_LGSP.PatternEdge(true, (int) GRGEN_MODEL.EdgeTypes.@contains, "GRGEN_MODEL.Icontains", "LinkMethodBodyToContainedEntity_edge__edge0", "_edge0", LinkMethodBodyToContainedEntity_edge__edge0_AllowedTypes, LinkMethodBodyToContainedEntity_edge__edge0_IsAllowedType, 5.5F, -1, false, null, null, null, null, false);
+			bool[] LinkMethodBodyToContainedEntity_isNodeTotallyHomomorphic = new bool[2] { false, false,  };
+			bool[] LinkMethodBodyToContainedEntity_isEdgeTotallyHomomorphic = new bool[1] { false,  };
+			GRGEN_LGSP.PatternNode LinkMethodBodyToContainedEntity_node_mb = new GRGEN_LGSP.PatternNode((int) GRGEN_MODEL.NodeTypes.@MethodBody, "GRGEN_MODEL.IMethodBody", "LinkMethodBodyToContainedEntity_node_mb", "mb", LinkMethodBodyToContainedEntity_node_mb_AllowedTypes, LinkMethodBodyToContainedEntity_node_mb_IsAllowedType, 5.5F, -1, false, null, null, null, null, null, false);
+			GRGEN_LGSP.PatternNode LinkMethodBodyToContainedEntity_node_e = new GRGEN_LGSP.PatternNode((int) GRGEN_MODEL.NodeTypes.@Entity, "GRGEN_MODEL.IEntity", "LinkMethodBodyToContainedEntity_node_e", "e", LinkMethodBodyToContainedEntity_node_e_AllowedTypes, LinkMethodBodyToContainedEntity_node_e_IsAllowedType, 5.5F, -1, false, null, null, null, null, null, false);
+			GRGEN_LGSP.PatternEdge LinkMethodBodyToContainedEntity_edge__edge0 = new GRGEN_LGSP.PatternEdge(true, (int) GRGEN_MODEL.EdgeTypes.@contains, "GRGEN_MODEL.Icontains", "LinkMethodBodyToContainedEntity_edge__edge0", "_edge0", LinkMethodBodyToContainedEntity_edge__edge0_AllowedTypes, LinkMethodBodyToContainedEntity_edge__edge0_IsAllowedType, 5.5F, -1, false, null, null, null, null, null, false);
 			bool[,] LinkMethodBodyToContainedEntity_neg_0_isNodeHomomorphicGlobal = new bool[2, 2] {
 				{ false, false, },
 				{ false, false, },
@@ -6960,7 +7098,9 @@ namespace de.unika.ipd.grGen.Action_ProgramGraphsOriginal
 			bool[,] LinkMethodBodyToContainedEntity_neg_0_isEdgeHomomorphicGlobal = new bool[1, 1] {
 				{ false, },
 			};
-			GRGEN_LGSP.PatternEdge LinkMethodBodyToContainedEntity_neg_0_edge__edge0 = new GRGEN_LGSP.PatternEdge(true, (int) GRGEN_MODEL.EdgeTypes.@methodBodyContains, "GRGEN_MODEL.ImethodBodyContains", "LinkMethodBodyToContainedEntity_neg_0_edge__edge0", "_edge0", LinkMethodBodyToContainedEntity_neg_0_edge__edge0_AllowedTypes, LinkMethodBodyToContainedEntity_neg_0_edge__edge0_IsAllowedType, 5.5F, -1, false, null, null, null, null, false);
+			bool[] LinkMethodBodyToContainedEntity_neg_0_isNodeTotallyHomomorphic = new bool[2] { false, false,  };
+			bool[] LinkMethodBodyToContainedEntity_neg_0_isEdgeTotallyHomomorphic = new bool[1] { false,  };
+			GRGEN_LGSP.PatternEdge LinkMethodBodyToContainedEntity_neg_0_edge__edge0 = new GRGEN_LGSP.PatternEdge(true, (int) GRGEN_MODEL.EdgeTypes.@methodBodyContains, "GRGEN_MODEL.ImethodBodyContains", "LinkMethodBodyToContainedEntity_neg_0_edge__edge0", "_edge0", LinkMethodBodyToContainedEntity_neg_0_edge__edge0_AllowedTypes, LinkMethodBodyToContainedEntity_neg_0_edge__edge0_IsAllowedType, 5.5F, -1, false, null, null, null, null, null, false);
 			LinkMethodBodyToContainedEntity_neg_0 = new GRGEN_LGSP.PatternGraph(
 				"neg_0",
 				"LinkMethodBodyToContainedEntity_",
@@ -6983,7 +7123,9 @@ namespace de.unika.ipd.grGen.Action_ProgramGraphsOriginal
 					{ true, },
 				},
 				LinkMethodBodyToContainedEntity_neg_0_isNodeHomomorphicGlobal,
-				LinkMethodBodyToContainedEntity_neg_0_isEdgeHomomorphicGlobal
+				LinkMethodBodyToContainedEntity_neg_0_isEdgeHomomorphicGlobal,
+				LinkMethodBodyToContainedEntity_neg_0_isNodeTotallyHomomorphic,
+				LinkMethodBodyToContainedEntity_neg_0_isEdgeTotallyHomomorphic
 			);
 			LinkMethodBodyToContainedEntity_neg_0.edgeToSourceNode.Add(LinkMethodBodyToContainedEntity_neg_0_edge__edge0, LinkMethodBodyToContainedEntity_node_mb);
 			LinkMethodBodyToContainedEntity_neg_0.edgeToTargetNode.Add(LinkMethodBodyToContainedEntity_neg_0_edge__edge0, LinkMethodBodyToContainedEntity_node_e);
@@ -7010,7 +7152,9 @@ namespace de.unika.ipd.grGen.Action_ProgramGraphsOriginal
 					{ true, },
 				},
 				LinkMethodBodyToContainedEntity_isNodeHomomorphicGlobal,
-				LinkMethodBodyToContainedEntity_isEdgeHomomorphicGlobal
+				LinkMethodBodyToContainedEntity_isEdgeHomomorphicGlobal,
+				LinkMethodBodyToContainedEntity_isNodeTotallyHomomorphic,
+				LinkMethodBodyToContainedEntity_isEdgeTotallyHomomorphic
 			);
 			pat_LinkMethodBodyToContainedEntity.edgeToSourceNode.Add(LinkMethodBodyToContainedEntity_edge__edge0, LinkMethodBodyToContainedEntity_node_mb);
 			pat_LinkMethodBodyToContainedEntity.edgeToTargetNode.Add(LinkMethodBodyToContainedEntity_edge__edge0, LinkMethodBodyToContainedEntity_node_e);
@@ -7326,11 +7470,13 @@ namespace de.unika.ipd.grGen.Action_ProgramGraphsOriginal
 				{ false, false, },
 				{ false, false, },
 			};
-			GRGEN_LGSP.PatternNode LinkMethodBodyToContainedExpressionTransitive_node_mb = new GRGEN_LGSP.PatternNode((int) GRGEN_MODEL.NodeTypes.@MethodBody, "GRGEN_MODEL.IMethodBody", "LinkMethodBodyToContainedExpressionTransitive_node_mb", "mb", LinkMethodBodyToContainedExpressionTransitive_node_mb_AllowedTypes, LinkMethodBodyToContainedExpressionTransitive_node_mb_IsAllowedType, 5.5F, -1, false, null, null, null, null, false);
-			GRGEN_LGSP.PatternNode LinkMethodBodyToContainedExpressionTransitive_node_e1 = new GRGEN_LGSP.PatternNode((int) GRGEN_MODEL.NodeTypes.@Expression, "GRGEN_MODEL.IExpression", "LinkMethodBodyToContainedExpressionTransitive_node_e1", "e1", LinkMethodBodyToContainedExpressionTransitive_node_e1_AllowedTypes, LinkMethodBodyToContainedExpressionTransitive_node_e1_IsAllowedType, 5.5F, -1, false, null, null, null, null, false);
-			GRGEN_LGSP.PatternNode LinkMethodBodyToContainedExpressionTransitive_node_e2 = new GRGEN_LGSP.PatternNode((int) GRGEN_MODEL.NodeTypes.@Expression, "GRGEN_MODEL.IExpression", "LinkMethodBodyToContainedExpressionTransitive_node_e2", "e2", LinkMethodBodyToContainedExpressionTransitive_node_e2_AllowedTypes, LinkMethodBodyToContainedExpressionTransitive_node_e2_IsAllowedType, 5.5F, -1, false, null, null, null, null, false);
-			GRGEN_LGSP.PatternEdge LinkMethodBodyToContainedExpressionTransitive_edge__edge0 = new GRGEN_LGSP.PatternEdge(true, (int) GRGEN_MODEL.EdgeTypes.@methodBodyContains, "GRGEN_MODEL.ImethodBodyContains", "LinkMethodBodyToContainedExpressionTransitive_edge__edge0", "_edge0", LinkMethodBodyToContainedExpressionTransitive_edge__edge0_AllowedTypes, LinkMethodBodyToContainedExpressionTransitive_edge__edge0_IsAllowedType, 5.5F, -1, false, null, null, null, null, false);
-			GRGEN_LGSP.PatternEdge LinkMethodBodyToContainedExpressionTransitive_edge__edge1 = new GRGEN_LGSP.PatternEdge(true, (int) GRGEN_MODEL.EdgeTypes.@contains, "GRGEN_MODEL.Icontains", "LinkMethodBodyToContainedExpressionTransitive_edge__edge1", "_edge1", LinkMethodBodyToContainedExpressionTransitive_edge__edge1_AllowedTypes, LinkMethodBodyToContainedExpressionTransitive_edge__edge1_IsAllowedType, 5.5F, -1, false, null, null, null, null, false);
+			bool[] LinkMethodBodyToContainedExpressionTransitive_isNodeTotallyHomomorphic = new bool[3] { false, false, false,  };
+			bool[] LinkMethodBodyToContainedExpressionTransitive_isEdgeTotallyHomomorphic = new bool[2] { false, false,  };
+			GRGEN_LGSP.PatternNode LinkMethodBodyToContainedExpressionTransitive_node_mb = new GRGEN_LGSP.PatternNode((int) GRGEN_MODEL.NodeTypes.@MethodBody, "GRGEN_MODEL.IMethodBody", "LinkMethodBodyToContainedExpressionTransitive_node_mb", "mb", LinkMethodBodyToContainedExpressionTransitive_node_mb_AllowedTypes, LinkMethodBodyToContainedExpressionTransitive_node_mb_IsAllowedType, 5.5F, -1, false, null, null, null, null, null, false);
+			GRGEN_LGSP.PatternNode LinkMethodBodyToContainedExpressionTransitive_node_e1 = new GRGEN_LGSP.PatternNode((int) GRGEN_MODEL.NodeTypes.@Expression, "GRGEN_MODEL.IExpression", "LinkMethodBodyToContainedExpressionTransitive_node_e1", "e1", LinkMethodBodyToContainedExpressionTransitive_node_e1_AllowedTypes, LinkMethodBodyToContainedExpressionTransitive_node_e1_IsAllowedType, 5.5F, -1, false, null, null, null, null, null, false);
+			GRGEN_LGSP.PatternNode LinkMethodBodyToContainedExpressionTransitive_node_e2 = new GRGEN_LGSP.PatternNode((int) GRGEN_MODEL.NodeTypes.@Expression, "GRGEN_MODEL.IExpression", "LinkMethodBodyToContainedExpressionTransitive_node_e2", "e2", LinkMethodBodyToContainedExpressionTransitive_node_e2_AllowedTypes, LinkMethodBodyToContainedExpressionTransitive_node_e2_IsAllowedType, 5.5F, -1, false, null, null, null, null, null, false);
+			GRGEN_LGSP.PatternEdge LinkMethodBodyToContainedExpressionTransitive_edge__edge0 = new GRGEN_LGSP.PatternEdge(true, (int) GRGEN_MODEL.EdgeTypes.@methodBodyContains, "GRGEN_MODEL.ImethodBodyContains", "LinkMethodBodyToContainedExpressionTransitive_edge__edge0", "_edge0", LinkMethodBodyToContainedExpressionTransitive_edge__edge0_AllowedTypes, LinkMethodBodyToContainedExpressionTransitive_edge__edge0_IsAllowedType, 5.5F, -1, false, null, null, null, null, null, false);
+			GRGEN_LGSP.PatternEdge LinkMethodBodyToContainedExpressionTransitive_edge__edge1 = new GRGEN_LGSP.PatternEdge(true, (int) GRGEN_MODEL.EdgeTypes.@contains, "GRGEN_MODEL.Icontains", "LinkMethodBodyToContainedExpressionTransitive_edge__edge1", "_edge1", LinkMethodBodyToContainedExpressionTransitive_edge__edge1_AllowedTypes, LinkMethodBodyToContainedExpressionTransitive_edge__edge1_IsAllowedType, 5.5F, -1, false, null, null, null, null, null, false);
 			bool[,] LinkMethodBodyToContainedExpressionTransitive_neg_0_isNodeHomomorphicGlobal = new bool[2, 2] {
 				{ false, false, },
 				{ false, false, },
@@ -7338,7 +7484,9 @@ namespace de.unika.ipd.grGen.Action_ProgramGraphsOriginal
 			bool[,] LinkMethodBodyToContainedExpressionTransitive_neg_0_isEdgeHomomorphicGlobal = new bool[1, 1] {
 				{ false, },
 			};
-			GRGEN_LGSP.PatternEdge LinkMethodBodyToContainedExpressionTransitive_neg_0_edge__edge0 = new GRGEN_LGSP.PatternEdge(true, (int) GRGEN_MODEL.EdgeTypes.@methodBodyContains, "GRGEN_MODEL.ImethodBodyContains", "LinkMethodBodyToContainedExpressionTransitive_neg_0_edge__edge0", "_edge0", LinkMethodBodyToContainedExpressionTransitive_neg_0_edge__edge0_AllowedTypes, LinkMethodBodyToContainedExpressionTransitive_neg_0_edge__edge0_IsAllowedType, 5.5F, -1, false, null, null, null, null, false);
+			bool[] LinkMethodBodyToContainedExpressionTransitive_neg_0_isNodeTotallyHomomorphic = new bool[2] { false, false,  };
+			bool[] LinkMethodBodyToContainedExpressionTransitive_neg_0_isEdgeTotallyHomomorphic = new bool[1] { false,  };
+			GRGEN_LGSP.PatternEdge LinkMethodBodyToContainedExpressionTransitive_neg_0_edge__edge0 = new GRGEN_LGSP.PatternEdge(true, (int) GRGEN_MODEL.EdgeTypes.@methodBodyContains, "GRGEN_MODEL.ImethodBodyContains", "LinkMethodBodyToContainedExpressionTransitive_neg_0_edge__edge0", "_edge0", LinkMethodBodyToContainedExpressionTransitive_neg_0_edge__edge0_AllowedTypes, LinkMethodBodyToContainedExpressionTransitive_neg_0_edge__edge0_IsAllowedType, 5.5F, -1, false, null, null, null, null, null, false);
 			LinkMethodBodyToContainedExpressionTransitive_neg_0 = new GRGEN_LGSP.PatternGraph(
 				"neg_0",
 				"LinkMethodBodyToContainedExpressionTransitive_",
@@ -7361,7 +7509,9 @@ namespace de.unika.ipd.grGen.Action_ProgramGraphsOriginal
 					{ true, },
 				},
 				LinkMethodBodyToContainedExpressionTransitive_neg_0_isNodeHomomorphicGlobal,
-				LinkMethodBodyToContainedExpressionTransitive_neg_0_isEdgeHomomorphicGlobal
+				LinkMethodBodyToContainedExpressionTransitive_neg_0_isEdgeHomomorphicGlobal,
+				LinkMethodBodyToContainedExpressionTransitive_neg_0_isNodeTotallyHomomorphic,
+				LinkMethodBodyToContainedExpressionTransitive_neg_0_isEdgeTotallyHomomorphic
 			);
 			LinkMethodBodyToContainedExpressionTransitive_neg_0.edgeToSourceNode.Add(LinkMethodBodyToContainedExpressionTransitive_neg_0_edge__edge0, LinkMethodBodyToContainedExpressionTransitive_node_e1);
 			LinkMethodBodyToContainedExpressionTransitive_neg_0.edgeToTargetNode.Add(LinkMethodBodyToContainedExpressionTransitive_neg_0_edge__edge0, LinkMethodBodyToContainedExpressionTransitive_node_e2);
@@ -7390,7 +7540,9 @@ namespace de.unika.ipd.grGen.Action_ProgramGraphsOriginal
 					{ false, true, },
 				},
 				LinkMethodBodyToContainedExpressionTransitive_isNodeHomomorphicGlobal,
-				LinkMethodBodyToContainedExpressionTransitive_isEdgeHomomorphicGlobal
+				LinkMethodBodyToContainedExpressionTransitive_isEdgeHomomorphicGlobal,
+				LinkMethodBodyToContainedExpressionTransitive_isNodeTotallyHomomorphic,
+				LinkMethodBodyToContainedExpressionTransitive_isEdgeTotallyHomomorphic
 			);
 			pat_LinkMethodBodyToContainedExpressionTransitive.edgeToSourceNode.Add(LinkMethodBodyToContainedExpressionTransitive_edge__edge0, LinkMethodBodyToContainedExpressionTransitive_node_mb);
 			pat_LinkMethodBodyToContainedExpressionTransitive.edgeToTargetNode.Add(LinkMethodBodyToContainedExpressionTransitive_edge__edge0, LinkMethodBodyToContainedExpressionTransitive_node_e1);
@@ -7703,9 +7855,11 @@ namespace de.unika.ipd.grGen.Action_ProgramGraphsOriginal
 			bool[,] RemoveMethodBodyContainsBetweenExpressions_isEdgeHomomorphicGlobal = new bool[1, 1] {
 				{ false, },
 			};
-			GRGEN_LGSP.PatternNode RemoveMethodBodyContainsBetweenExpressions_node_e1 = new GRGEN_LGSP.PatternNode((int) GRGEN_MODEL.NodeTypes.@Expression, "GRGEN_MODEL.IExpression", "RemoveMethodBodyContainsBetweenExpressions_node_e1", "e1", RemoveMethodBodyContainsBetweenExpressions_node_e1_AllowedTypes, RemoveMethodBodyContainsBetweenExpressions_node_e1_IsAllowedType, 5.5F, -1, false, null, null, null, null, false);
-			GRGEN_LGSP.PatternNode RemoveMethodBodyContainsBetweenExpressions_node_e2 = new GRGEN_LGSP.PatternNode((int) GRGEN_MODEL.NodeTypes.@Expression, "GRGEN_MODEL.IExpression", "RemoveMethodBodyContainsBetweenExpressions_node_e2", "e2", RemoveMethodBodyContainsBetweenExpressions_node_e2_AllowedTypes, RemoveMethodBodyContainsBetweenExpressions_node_e2_IsAllowedType, 5.5F, -1, false, null, null, null, null, false);
-			GRGEN_LGSP.PatternEdge RemoveMethodBodyContainsBetweenExpressions_edge_mbc = new GRGEN_LGSP.PatternEdge(true, (int) GRGEN_MODEL.EdgeTypes.@methodBodyContains, "GRGEN_MODEL.ImethodBodyContains", "RemoveMethodBodyContainsBetweenExpressions_edge_mbc", "mbc", RemoveMethodBodyContainsBetweenExpressions_edge_mbc_AllowedTypes, RemoveMethodBodyContainsBetweenExpressions_edge_mbc_IsAllowedType, 5.5F, -1, false, null, null, null, null, false);
+			bool[] RemoveMethodBodyContainsBetweenExpressions_isNodeTotallyHomomorphic = new bool[2] { false, false,  };
+			bool[] RemoveMethodBodyContainsBetweenExpressions_isEdgeTotallyHomomorphic = new bool[1] { false,  };
+			GRGEN_LGSP.PatternNode RemoveMethodBodyContainsBetweenExpressions_node_e1 = new GRGEN_LGSP.PatternNode((int) GRGEN_MODEL.NodeTypes.@Expression, "GRGEN_MODEL.IExpression", "RemoveMethodBodyContainsBetweenExpressions_node_e1", "e1", RemoveMethodBodyContainsBetweenExpressions_node_e1_AllowedTypes, RemoveMethodBodyContainsBetweenExpressions_node_e1_IsAllowedType, 5.5F, -1, false, null, null, null, null, null, false);
+			GRGEN_LGSP.PatternNode RemoveMethodBodyContainsBetweenExpressions_node_e2 = new GRGEN_LGSP.PatternNode((int) GRGEN_MODEL.NodeTypes.@Expression, "GRGEN_MODEL.IExpression", "RemoveMethodBodyContainsBetweenExpressions_node_e2", "e2", RemoveMethodBodyContainsBetweenExpressions_node_e2_AllowedTypes, RemoveMethodBodyContainsBetweenExpressions_node_e2_IsAllowedType, 5.5F, -1, false, null, null, null, null, null, false);
+			GRGEN_LGSP.PatternEdge RemoveMethodBodyContainsBetweenExpressions_edge_mbc = new GRGEN_LGSP.PatternEdge(true, (int) GRGEN_MODEL.EdgeTypes.@methodBodyContains, "GRGEN_MODEL.ImethodBodyContains", "RemoveMethodBodyContainsBetweenExpressions_edge_mbc", "mbc", RemoveMethodBodyContainsBetweenExpressions_edge_mbc_AllowedTypes, RemoveMethodBodyContainsBetweenExpressions_edge_mbc_IsAllowedType, 5.5F, -1, false, null, null, null, null, null, false);
 			pat_RemoveMethodBodyContainsBetweenExpressions = new GRGEN_LGSP.PatternGraph(
 				"RemoveMethodBodyContainsBetweenExpressions",
 				"",
@@ -7728,7 +7882,9 @@ namespace de.unika.ipd.grGen.Action_ProgramGraphsOriginal
 					{ true, },
 				},
 				RemoveMethodBodyContainsBetweenExpressions_isNodeHomomorphicGlobal,
-				RemoveMethodBodyContainsBetweenExpressions_isEdgeHomomorphicGlobal
+				RemoveMethodBodyContainsBetweenExpressions_isEdgeHomomorphicGlobal,
+				RemoveMethodBodyContainsBetweenExpressions_isNodeTotallyHomomorphic,
+				RemoveMethodBodyContainsBetweenExpressions_isEdgeTotallyHomomorphic
 			);
 			pat_RemoveMethodBodyContainsBetweenExpressions.edgeToSourceNode.Add(RemoveMethodBodyContainsBetweenExpressions_edge_mbc, RemoveMethodBodyContainsBetweenExpressions_node_e1);
 			pat_RemoveMethodBodyContainsBetweenExpressions.edgeToTargetNode.Add(RemoveMethodBodyContainsBetweenExpressions_edge_mbc, RemoveMethodBodyContainsBetweenExpressions_node_e2);
@@ -7913,9 +8069,11 @@ namespace de.unika.ipd.grGen.Action_ProgramGraphsOriginal
 			bool[,] RetypeClassContainment_isEdgeHomomorphicGlobal = new bool[1, 1] {
 				{ false, },
 			};
-			GRGEN_LGSP.PatternNode RetypeClassContainment_node_c1 = new GRGEN_LGSP.PatternNode((int) GRGEN_MODEL.NodeTypes.@Class, "GRGEN_MODEL.IClass", "RetypeClassContainment_node_c1", "c1", RetypeClassContainment_node_c1_AllowedTypes, RetypeClassContainment_node_c1_IsAllowedType, 5.5F, -1, false, null, null, null, null, false);
-			GRGEN_LGSP.PatternNode RetypeClassContainment_node_c2 = new GRGEN_LGSP.PatternNode((int) GRGEN_MODEL.NodeTypes.@Class, "GRGEN_MODEL.IClass", "RetypeClassContainment_node_c2", "c2", RetypeClassContainment_node_c2_AllowedTypes, RetypeClassContainment_node_c2_IsAllowedType, 5.5F, -1, false, null, null, null, null, false);
-			GRGEN_LGSP.PatternEdge RetypeClassContainment_edge_c = new GRGEN_LGSP.PatternEdge(true, (int) GRGEN_MODEL.EdgeTypes.@contains, "GRGEN_MODEL.Icontains", "RetypeClassContainment_edge_c", "c", RetypeClassContainment_edge_c_AllowedTypes, RetypeClassContainment_edge_c_IsAllowedType, 5.5F, -1, false, null, null, null, null, false);
+			bool[] RetypeClassContainment_isNodeTotallyHomomorphic = new bool[2] { false, false,  };
+			bool[] RetypeClassContainment_isEdgeTotallyHomomorphic = new bool[1] { false,  };
+			GRGEN_LGSP.PatternNode RetypeClassContainment_node_c1 = new GRGEN_LGSP.PatternNode((int) GRGEN_MODEL.NodeTypes.@Class, "GRGEN_MODEL.IClass", "RetypeClassContainment_node_c1", "c1", RetypeClassContainment_node_c1_AllowedTypes, RetypeClassContainment_node_c1_IsAllowedType, 5.5F, -1, false, null, null, null, null, null, false);
+			GRGEN_LGSP.PatternNode RetypeClassContainment_node_c2 = new GRGEN_LGSP.PatternNode((int) GRGEN_MODEL.NodeTypes.@Class, "GRGEN_MODEL.IClass", "RetypeClassContainment_node_c2", "c2", RetypeClassContainment_node_c2_AllowedTypes, RetypeClassContainment_node_c2_IsAllowedType, 5.5F, -1, false, null, null, null, null, null, false);
+			GRGEN_LGSP.PatternEdge RetypeClassContainment_edge_c = new GRGEN_LGSP.PatternEdge(true, (int) GRGEN_MODEL.EdgeTypes.@contains, "GRGEN_MODEL.Icontains", "RetypeClassContainment_edge_c", "c", RetypeClassContainment_edge_c_AllowedTypes, RetypeClassContainment_edge_c_IsAllowedType, 5.5F, -1, false, null, null, null, null, null, false);
 			pat_RetypeClassContainment = new GRGEN_LGSP.PatternGraph(
 				"RetypeClassContainment",
 				"",
@@ -7938,7 +8096,9 @@ namespace de.unika.ipd.grGen.Action_ProgramGraphsOriginal
 					{ true, },
 				},
 				RetypeClassContainment_isNodeHomomorphicGlobal,
-				RetypeClassContainment_isEdgeHomomorphicGlobal
+				RetypeClassContainment_isEdgeHomomorphicGlobal,
+				RetypeClassContainment_isNodeTotallyHomomorphic,
+				RetypeClassContainment_isEdgeTotallyHomomorphic
 			);
 			pat_RetypeClassContainment.edgeToSourceNode.Add(RetypeClassContainment_edge_c, RetypeClassContainment_node_c1);
 			pat_RetypeClassContainment.edgeToTargetNode.Add(RetypeClassContainment_edge_c, RetypeClassContainment_node_c2);

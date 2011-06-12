@@ -1,6 +1,6 @@
 // This file has been generated automatically by GrGen (www.grgen.net)
 // Do not modify this file! Any changes will be lost!
-// Generated from "..\..\tests\iterated\spanningTree.grg" on Thu Apr 07 22:54:26 CEST 2011
+// Generated from "..\..\tests\iterated\spanningTree.grg" on Sun Jun 12 09:35:18 CEST 2011
 
 using System;
 using System.Collections.Generic;
@@ -65,7 +65,9 @@ namespace de.unika.ipd.grGen.Action_spanningTree
 				{ false, },
 			};
 			bool[,] SpanningTree_isEdgeHomomorphicGlobal = new bool[0, 0] ;
-			GRGEN_LGSP.PatternNode SpanningTree_node_root = new GRGEN_LGSP.PatternNode((int) GRGEN_MODEL.NodeTypes.@Node, "GRGEN_LIBGR.INode", "SpanningTree_node_root", "root", SpanningTree_node_root_AllowedTypes, SpanningTree_node_root_IsAllowedType, 5.5F, 0, false, null, null, null, null, false);
+			bool[] SpanningTree_isNodeTotallyHomomorphic = new bool[1] { false,  };
+			bool[] SpanningTree_isEdgeTotallyHomomorphic = new bool[0] ;
+			GRGEN_LGSP.PatternNode SpanningTree_node_root = new GRGEN_LGSP.PatternNode((int) GRGEN_MODEL.NodeTypes.@Node, "GRGEN_LIBGR.INode", "SpanningTree_node_root", "root", SpanningTree_node_root_AllowedTypes, SpanningTree_node_root_IsAllowedType, 5.5F, 0, false, null, null, null, null, null, false);
 			bool[,] SpanningTree_iter_0_isNodeHomomorphicGlobal = new bool[2, 2] {
 				{ false, false, },
 				{ false, false, },
@@ -73,8 +75,10 @@ namespace de.unika.ipd.grGen.Action_spanningTree
 			bool[,] SpanningTree_iter_0_isEdgeHomomorphicGlobal = new bool[1, 1] {
 				{ false, },
 			};
-			GRGEN_LGSP.PatternNode SpanningTree_iter_0_node_next = new GRGEN_LGSP.PatternNode((int) GRGEN_MODEL.NodeTypes.@Node, "GRGEN_LIBGR.INode", "SpanningTree_iter_0_node_next", "next", SpanningTree_iter_0_node_next_AllowedTypes, SpanningTree_iter_0_node_next_IsAllowedType, 5.5F, -1, false, null, null, null, null, false);
-			GRGEN_LGSP.PatternEdge SpanningTree_iter_0_edge_e = new GRGEN_LGSP.PatternEdge(false, (int) GRGEN_MODEL.EdgeTypes.@UEdge, "GRGEN_LIBGR.IEdge", "SpanningTree_iter_0_edge_e", "e", SpanningTree_iter_0_edge_e_AllowedTypes, SpanningTree_iter_0_edge_e_IsAllowedType, 5.5F, -1, false, null, null, null, null, false);
+			bool[] SpanningTree_iter_0_isNodeTotallyHomomorphic = new bool[2] { false, false,  };
+			bool[] SpanningTree_iter_0_isEdgeTotallyHomomorphic = new bool[1] { false,  };
+			GRGEN_LGSP.PatternNode SpanningTree_iter_0_node_next = new GRGEN_LGSP.PatternNode((int) GRGEN_MODEL.NodeTypes.@Node, "GRGEN_LIBGR.INode", "SpanningTree_iter_0_node_next", "next", SpanningTree_iter_0_node_next_AllowedTypes, SpanningTree_iter_0_node_next_IsAllowedType, 5.5F, -1, false, null, null, null, null, null, false);
+			GRGEN_LGSP.PatternEdge SpanningTree_iter_0_edge_e = new GRGEN_LGSP.PatternEdge(false, (int) GRGEN_MODEL.EdgeTypes.@UEdge, "GRGEN_LIBGR.IEdge", "SpanningTree_iter_0_edge_e", "e", SpanningTree_iter_0_edge_e_AllowedTypes, SpanningTree_iter_0_edge_e_IsAllowedType, 5.5F, -1, false, null, null, null, null, null, false);
 			GRGEN_LGSP.PatternGraphEmbedding SpanningTree_iter_0_sptr = new GRGEN_LGSP.PatternGraphEmbedding("sptr", Pattern_SpanningTree.Instance, 
 				new GRGEN_EXPR.Expression[] {
 					new GRGEN_EXPR.GraphEntityExpression("SpanningTree_iter_0_node_next"),
@@ -102,7 +106,9 @@ namespace de.unika.ipd.grGen.Action_spanningTree
 					{ true, },
 				},
 				SpanningTree_iter_0_isNodeHomomorphicGlobal,
-				SpanningTree_iter_0_isEdgeHomomorphicGlobal
+				SpanningTree_iter_0_isEdgeHomomorphicGlobal,
+				SpanningTree_iter_0_isNodeTotallyHomomorphic,
+				SpanningTree_iter_0_isEdgeTotallyHomomorphic
 			);
 			SpanningTree_iter_0.edgeToSourceNode.Add(SpanningTree_iter_0_edge_e, SpanningTree_node_root);
 			SpanningTree_iter_0.edgeToTargetNode.Add(SpanningTree_iter_0_edge_e, SpanningTree_iter_0_node_next);
@@ -127,7 +133,9 @@ namespace de.unika.ipd.grGen.Action_spanningTree
 				},
 				new bool[0, 0] ,
 				SpanningTree_isNodeHomomorphicGlobal,
-				SpanningTree_isEdgeHomomorphicGlobal
+				SpanningTree_isEdgeHomomorphicGlobal,
+				SpanningTree_isNodeTotallyHomomorphic,
+				SpanningTree_isEdgeTotallyHomomorphic
 			);
 			SpanningTree_iter_0.embeddingGraph = pat_SpanningTree;
 
@@ -490,7 +498,9 @@ namespace de.unika.ipd.grGen.Action_spanningTree
 				{ false, },
 			};
 			bool[,] SpanningTreeReverse_isEdgeHomomorphicGlobal = new bool[0, 0] ;
-			GRGEN_LGSP.PatternNode SpanningTreeReverse_node_root = new GRGEN_LGSP.PatternNode((int) GRGEN_MODEL.NodeTypes.@Node, "GRGEN_LIBGR.INode", "SpanningTreeReverse_node_root", "root", SpanningTreeReverse_node_root_AllowedTypes, SpanningTreeReverse_node_root_IsAllowedType, 5.5F, 0, false, null, null, null, null, false);
+			bool[] SpanningTreeReverse_isNodeTotallyHomomorphic = new bool[1] { false,  };
+			bool[] SpanningTreeReverse_isEdgeTotallyHomomorphic = new bool[0] ;
+			GRGEN_LGSP.PatternNode SpanningTreeReverse_node_root = new GRGEN_LGSP.PatternNode((int) GRGEN_MODEL.NodeTypes.@Node, "GRGEN_LIBGR.INode", "SpanningTreeReverse_node_root", "root", SpanningTreeReverse_node_root_AllowedTypes, SpanningTreeReverse_node_root_IsAllowedType, 5.5F, 0, false, null, null, null, null, null, false);
 			bool[,] SpanningTreeReverse_iter_0_isNodeHomomorphicGlobal = new bool[2, 2] {
 				{ false, false, },
 				{ false, false, },
@@ -498,8 +508,10 @@ namespace de.unika.ipd.grGen.Action_spanningTree
 			bool[,] SpanningTreeReverse_iter_0_isEdgeHomomorphicGlobal = new bool[1, 1] {
 				{ false, },
 			};
-			GRGEN_LGSP.PatternNode SpanningTreeReverse_iter_0_node_next = new GRGEN_LGSP.PatternNode((int) GRGEN_MODEL.NodeTypes.@Node, "GRGEN_LIBGR.INode", "SpanningTreeReverse_iter_0_node_next", "next", SpanningTreeReverse_iter_0_node_next_AllowedTypes, SpanningTreeReverse_iter_0_node_next_IsAllowedType, 5.5F, -1, false, null, null, null, null, false);
-			GRGEN_LGSP.PatternEdge SpanningTreeReverse_iter_0_edge__edge0 = new GRGEN_LGSP.PatternEdge(true, (int) GRGEN_MODEL.EdgeTypes.@Edge, "GRGEN_LIBGR.IEdge", "SpanningTreeReverse_iter_0_edge__edge0", "_edge0", SpanningTreeReverse_iter_0_edge__edge0_AllowedTypes, SpanningTreeReverse_iter_0_edge__edge0_IsAllowedType, 5.5F, -1, false, null, null, null, null, false);
+			bool[] SpanningTreeReverse_iter_0_isNodeTotallyHomomorphic = new bool[2] { false, false,  };
+			bool[] SpanningTreeReverse_iter_0_isEdgeTotallyHomomorphic = new bool[1] { false,  };
+			GRGEN_LGSP.PatternNode SpanningTreeReverse_iter_0_node_next = new GRGEN_LGSP.PatternNode((int) GRGEN_MODEL.NodeTypes.@Node, "GRGEN_LIBGR.INode", "SpanningTreeReverse_iter_0_node_next", "next", SpanningTreeReverse_iter_0_node_next_AllowedTypes, SpanningTreeReverse_iter_0_node_next_IsAllowedType, 5.5F, -1, false, null, null, null, null, null, false);
+			GRGEN_LGSP.PatternEdge SpanningTreeReverse_iter_0_edge__edge0 = new GRGEN_LGSP.PatternEdge(true, (int) GRGEN_MODEL.EdgeTypes.@Edge, "GRGEN_LIBGR.IEdge", "SpanningTreeReverse_iter_0_edge__edge0", "_edge0", SpanningTreeReverse_iter_0_edge__edge0_AllowedTypes, SpanningTreeReverse_iter_0_edge__edge0_IsAllowedType, 5.5F, -1, false, null, null, null, null, null, false);
 			GRGEN_LGSP.PatternGraphEmbedding SpanningTreeReverse_iter_0_sptrr = new GRGEN_LGSP.PatternGraphEmbedding("sptrr", Pattern_SpanningTreeReverse.Instance, 
 				new GRGEN_EXPR.Expression[] {
 					new GRGEN_EXPR.GraphEntityExpression("SpanningTreeReverse_iter_0_node_next"),
@@ -527,7 +539,9 @@ namespace de.unika.ipd.grGen.Action_spanningTree
 					{ true, },
 				},
 				SpanningTreeReverse_iter_0_isNodeHomomorphicGlobal,
-				SpanningTreeReverse_iter_0_isEdgeHomomorphicGlobal
+				SpanningTreeReverse_iter_0_isEdgeHomomorphicGlobal,
+				SpanningTreeReverse_iter_0_isNodeTotallyHomomorphic,
+				SpanningTreeReverse_iter_0_isEdgeTotallyHomomorphic
 			);
 			SpanningTreeReverse_iter_0.edgeToSourceNode.Add(SpanningTreeReverse_iter_0_edge__edge0, SpanningTreeReverse_node_root);
 			SpanningTreeReverse_iter_0.edgeToTargetNode.Add(SpanningTreeReverse_iter_0_edge__edge0, SpanningTreeReverse_iter_0_node_next);
@@ -552,7 +566,9 @@ namespace de.unika.ipd.grGen.Action_spanningTree
 				},
 				new bool[0, 0] ,
 				SpanningTreeReverse_isNodeHomomorphicGlobal,
-				SpanningTreeReverse_isEdgeHomomorphicGlobal
+				SpanningTreeReverse_isEdgeHomomorphicGlobal,
+				SpanningTreeReverse_isNodeTotallyHomomorphic,
+				SpanningTreeReverse_isEdgeTotallyHomomorphic
 			);
 			SpanningTreeReverse_iter_0.embeddingGraph = pat_SpanningTreeReverse;
 
@@ -914,7 +930,9 @@ namespace de.unika.ipd.grGen.Action_spanningTree
 				{ false, },
 			};
 			bool[,] SpanningTreeOutgoing_isEdgeHomomorphicGlobal = new bool[0, 0] ;
-			GRGEN_LGSP.PatternNode SpanningTreeOutgoing_node_root = new GRGEN_LGSP.PatternNode((int) GRGEN_MODEL.NodeTypes.@Node, "GRGEN_LIBGR.INode", "SpanningTreeOutgoing_node_root", "root", SpanningTreeOutgoing_node_root_AllowedTypes, SpanningTreeOutgoing_node_root_IsAllowedType, 5.5F, 0, false, null, null, null, null, false);
+			bool[] SpanningTreeOutgoing_isNodeTotallyHomomorphic = new bool[1] { false,  };
+			bool[] SpanningTreeOutgoing_isEdgeTotallyHomomorphic = new bool[0] ;
+			GRGEN_LGSP.PatternNode SpanningTreeOutgoing_node_root = new GRGEN_LGSP.PatternNode((int) GRGEN_MODEL.NodeTypes.@Node, "GRGEN_LIBGR.INode", "SpanningTreeOutgoing_node_root", "root", SpanningTreeOutgoing_node_root_AllowedTypes, SpanningTreeOutgoing_node_root_IsAllowedType, 5.5F, 0, false, null, null, null, null, null, false);
 			bool[,] SpanningTreeOutgoing_iter_0_isNodeHomomorphicGlobal = new bool[2, 2] {
 				{ false, false, },
 				{ false, false, },
@@ -922,8 +940,10 @@ namespace de.unika.ipd.grGen.Action_spanningTree
 			bool[,] SpanningTreeOutgoing_iter_0_isEdgeHomomorphicGlobal = new bool[1, 1] {
 				{ false, },
 			};
-			GRGEN_LGSP.PatternNode SpanningTreeOutgoing_iter_0_node_next = new GRGEN_LGSP.PatternNode((int) GRGEN_MODEL.NodeTypes.@Node, "GRGEN_LIBGR.INode", "SpanningTreeOutgoing_iter_0_node_next", "next", SpanningTreeOutgoing_iter_0_node_next_AllowedTypes, SpanningTreeOutgoing_iter_0_node_next_IsAllowedType, 5.5F, -1, false, null, null, null, null, false);
-			GRGEN_LGSP.PatternEdge SpanningTreeOutgoing_iter_0_edge__edge0 = new GRGEN_LGSP.PatternEdge(true, (int) GRGEN_MODEL.EdgeTypes.@Edge, "GRGEN_LIBGR.IEdge", "SpanningTreeOutgoing_iter_0_edge__edge0", "_edge0", SpanningTreeOutgoing_iter_0_edge__edge0_AllowedTypes, SpanningTreeOutgoing_iter_0_edge__edge0_IsAllowedType, 5.5F, -1, false, null, null, null, null, false);
+			bool[] SpanningTreeOutgoing_iter_0_isNodeTotallyHomomorphic = new bool[2] { false, false,  };
+			bool[] SpanningTreeOutgoing_iter_0_isEdgeTotallyHomomorphic = new bool[1] { false,  };
+			GRGEN_LGSP.PatternNode SpanningTreeOutgoing_iter_0_node_next = new GRGEN_LGSP.PatternNode((int) GRGEN_MODEL.NodeTypes.@Node, "GRGEN_LIBGR.INode", "SpanningTreeOutgoing_iter_0_node_next", "next", SpanningTreeOutgoing_iter_0_node_next_AllowedTypes, SpanningTreeOutgoing_iter_0_node_next_IsAllowedType, 5.5F, -1, false, null, null, null, null, null, false);
+			GRGEN_LGSP.PatternEdge SpanningTreeOutgoing_iter_0_edge__edge0 = new GRGEN_LGSP.PatternEdge(true, (int) GRGEN_MODEL.EdgeTypes.@Edge, "GRGEN_LIBGR.IEdge", "SpanningTreeOutgoing_iter_0_edge__edge0", "_edge0", SpanningTreeOutgoing_iter_0_edge__edge0_AllowedTypes, SpanningTreeOutgoing_iter_0_edge__edge0_IsAllowedType, 5.5F, -1, false, null, null, null, null, null, false);
 			GRGEN_LGSP.PatternGraphEmbedding SpanningTreeOutgoing_iter_0__sub0 = new GRGEN_LGSP.PatternGraphEmbedding("_sub0", Pattern_SpanningTreeOutgoing.Instance, 
 				new GRGEN_EXPR.Expression[] {
 					new GRGEN_EXPR.GraphEntityExpression("SpanningTreeOutgoing_iter_0_node_next"),
@@ -951,7 +971,9 @@ namespace de.unika.ipd.grGen.Action_spanningTree
 					{ true, },
 				},
 				SpanningTreeOutgoing_iter_0_isNodeHomomorphicGlobal,
-				SpanningTreeOutgoing_iter_0_isEdgeHomomorphicGlobal
+				SpanningTreeOutgoing_iter_0_isEdgeHomomorphicGlobal,
+				SpanningTreeOutgoing_iter_0_isNodeTotallyHomomorphic,
+				SpanningTreeOutgoing_iter_0_isEdgeTotallyHomomorphic
 			);
 			SpanningTreeOutgoing_iter_0.edgeToSourceNode.Add(SpanningTreeOutgoing_iter_0_edge__edge0, SpanningTreeOutgoing_node_root);
 			SpanningTreeOutgoing_iter_0.edgeToTargetNode.Add(SpanningTreeOutgoing_iter_0_edge__edge0, SpanningTreeOutgoing_iter_0_node_next);
@@ -976,7 +998,9 @@ namespace de.unika.ipd.grGen.Action_spanningTree
 				},
 				new bool[0, 0] ,
 				SpanningTreeOutgoing_isNodeHomomorphicGlobal,
-				SpanningTreeOutgoing_isEdgeHomomorphicGlobal
+				SpanningTreeOutgoing_isEdgeHomomorphicGlobal,
+				SpanningTreeOutgoing_isNodeTotallyHomomorphic,
+				SpanningTreeOutgoing_isEdgeTotallyHomomorphic
 			);
 			SpanningTreeOutgoing_iter_0.embeddingGraph = pat_SpanningTreeOutgoing;
 
@@ -1304,7 +1328,9 @@ namespace de.unika.ipd.grGen.Action_spanningTree
 				{ false, },
 			};
 			bool[,] SpanningTreeIncoming_isEdgeHomomorphicGlobal = new bool[0, 0] ;
-			GRGEN_LGSP.PatternNode SpanningTreeIncoming_node_root = new GRGEN_LGSP.PatternNode((int) GRGEN_MODEL.NodeTypes.@Node, "GRGEN_LIBGR.INode", "SpanningTreeIncoming_node_root", "root", SpanningTreeIncoming_node_root_AllowedTypes, SpanningTreeIncoming_node_root_IsAllowedType, 5.5F, 0, false, null, null, null, null, false);
+			bool[] SpanningTreeIncoming_isNodeTotallyHomomorphic = new bool[1] { false,  };
+			bool[] SpanningTreeIncoming_isEdgeTotallyHomomorphic = new bool[0] ;
+			GRGEN_LGSP.PatternNode SpanningTreeIncoming_node_root = new GRGEN_LGSP.PatternNode((int) GRGEN_MODEL.NodeTypes.@Node, "GRGEN_LIBGR.INode", "SpanningTreeIncoming_node_root", "root", SpanningTreeIncoming_node_root_AllowedTypes, SpanningTreeIncoming_node_root_IsAllowedType, 5.5F, 0, false, null, null, null, null, null, false);
 			bool[,] SpanningTreeIncoming_iter_0_isNodeHomomorphicGlobal = new bool[2, 2] {
 				{ false, false, },
 				{ false, false, },
@@ -1312,8 +1338,10 @@ namespace de.unika.ipd.grGen.Action_spanningTree
 			bool[,] SpanningTreeIncoming_iter_0_isEdgeHomomorphicGlobal = new bool[1, 1] {
 				{ false, },
 			};
-			GRGEN_LGSP.PatternNode SpanningTreeIncoming_iter_0_node_next = new GRGEN_LGSP.PatternNode((int) GRGEN_MODEL.NodeTypes.@Node, "GRGEN_LIBGR.INode", "SpanningTreeIncoming_iter_0_node_next", "next", SpanningTreeIncoming_iter_0_node_next_AllowedTypes, SpanningTreeIncoming_iter_0_node_next_IsAllowedType, 5.5F, -1, false, null, null, null, null, false);
-			GRGEN_LGSP.PatternEdge SpanningTreeIncoming_iter_0_edge__edge0 = new GRGEN_LGSP.PatternEdge(true, (int) GRGEN_MODEL.EdgeTypes.@Edge, "GRGEN_LIBGR.IEdge", "SpanningTreeIncoming_iter_0_edge__edge0", "_edge0", SpanningTreeIncoming_iter_0_edge__edge0_AllowedTypes, SpanningTreeIncoming_iter_0_edge__edge0_IsAllowedType, 5.5F, -1, false, null, null, null, null, false);
+			bool[] SpanningTreeIncoming_iter_0_isNodeTotallyHomomorphic = new bool[2] { false, false,  };
+			bool[] SpanningTreeIncoming_iter_0_isEdgeTotallyHomomorphic = new bool[1] { false,  };
+			GRGEN_LGSP.PatternNode SpanningTreeIncoming_iter_0_node_next = new GRGEN_LGSP.PatternNode((int) GRGEN_MODEL.NodeTypes.@Node, "GRGEN_LIBGR.INode", "SpanningTreeIncoming_iter_0_node_next", "next", SpanningTreeIncoming_iter_0_node_next_AllowedTypes, SpanningTreeIncoming_iter_0_node_next_IsAllowedType, 5.5F, -1, false, null, null, null, null, null, false);
+			GRGEN_LGSP.PatternEdge SpanningTreeIncoming_iter_0_edge__edge0 = new GRGEN_LGSP.PatternEdge(true, (int) GRGEN_MODEL.EdgeTypes.@Edge, "GRGEN_LIBGR.IEdge", "SpanningTreeIncoming_iter_0_edge__edge0", "_edge0", SpanningTreeIncoming_iter_0_edge__edge0_AllowedTypes, SpanningTreeIncoming_iter_0_edge__edge0_IsAllowedType, 5.5F, -1, false, null, null, null, null, null, false);
 			GRGEN_LGSP.PatternGraphEmbedding SpanningTreeIncoming_iter_0__sub0 = new GRGEN_LGSP.PatternGraphEmbedding("_sub0", Pattern_SpanningTreeIncoming.Instance, 
 				new GRGEN_EXPR.Expression[] {
 					new GRGEN_EXPR.GraphEntityExpression("SpanningTreeIncoming_iter_0_node_next"),
@@ -1341,7 +1369,9 @@ namespace de.unika.ipd.grGen.Action_spanningTree
 					{ true, },
 				},
 				SpanningTreeIncoming_iter_0_isNodeHomomorphicGlobal,
-				SpanningTreeIncoming_iter_0_isEdgeHomomorphicGlobal
+				SpanningTreeIncoming_iter_0_isEdgeHomomorphicGlobal,
+				SpanningTreeIncoming_iter_0_isNodeTotallyHomomorphic,
+				SpanningTreeIncoming_iter_0_isEdgeTotallyHomomorphic
 			);
 			SpanningTreeIncoming_iter_0.edgeToSourceNode.Add(SpanningTreeIncoming_iter_0_edge__edge0, SpanningTreeIncoming_iter_0_node_next);
 			SpanningTreeIncoming_iter_0.edgeToTargetNode.Add(SpanningTreeIncoming_iter_0_edge__edge0, SpanningTreeIncoming_node_root);
@@ -1366,7 +1396,9 @@ namespace de.unika.ipd.grGen.Action_spanningTree
 				},
 				new bool[0, 0] ,
 				SpanningTreeIncoming_isNodeHomomorphicGlobal,
-				SpanningTreeIncoming_isEdgeHomomorphicGlobal
+				SpanningTreeIncoming_isEdgeHomomorphicGlobal,
+				SpanningTreeIncoming_isNodeTotallyHomomorphic,
+				SpanningTreeIncoming_isEdgeTotallyHomomorphic
 			);
 			SpanningTreeIncoming_iter_0.embeddingGraph = pat_SpanningTreeIncoming;
 
@@ -1677,6 +1709,8 @@ namespace de.unika.ipd.grGen.Action_spanningTree
 		{
 			bool[,] initTree_isNodeHomomorphicGlobal = new bool[0, 0] ;
 			bool[,] initTree_isEdgeHomomorphicGlobal = new bool[0, 0] ;
+			bool[] initTree_isNodeTotallyHomomorphic = new bool[0] ;
+			bool[] initTree_isEdgeTotallyHomomorphic = new bool[0] ;
 			pat_initTree = new GRGEN_LGSP.PatternGraph(
 				"initTree",
 				"",
@@ -1694,7 +1728,9 @@ namespace de.unika.ipd.grGen.Action_spanningTree
 				new bool[0, 0] ,
 				new bool[0, 0] ,
 				initTree_isNodeHomomorphicGlobal,
-				initTree_isEdgeHomomorphicGlobal
+				initTree_isEdgeHomomorphicGlobal,
+				initTree_isNodeTotallyHomomorphic,
+				initTree_isEdgeTotallyHomomorphic
 			);
 
 
@@ -1871,6 +1907,8 @@ namespace de.unika.ipd.grGen.Action_spanningTree
 		{
 			bool[,] initUndirected_isNodeHomomorphicGlobal = new bool[0, 0] ;
 			bool[,] initUndirected_isEdgeHomomorphicGlobal = new bool[0, 0] ;
+			bool[] initUndirected_isNodeTotallyHomomorphic = new bool[0] ;
+			bool[] initUndirected_isEdgeTotallyHomomorphic = new bool[0] ;
 			pat_initUndirected = new GRGEN_LGSP.PatternGraph(
 				"initUndirected",
 				"",
@@ -1888,7 +1926,9 @@ namespace de.unika.ipd.grGen.Action_spanningTree
 				new bool[0, 0] ,
 				new bool[0, 0] ,
 				initUndirected_isNodeHomomorphicGlobal,
-				initUndirected_isEdgeHomomorphicGlobal
+				initUndirected_isEdgeHomomorphicGlobal,
+				initUndirected_isNodeTotallyHomomorphic,
+				initUndirected_isEdgeTotallyHomomorphic
 			);
 
 
@@ -2059,6 +2099,8 @@ namespace de.unika.ipd.grGen.Action_spanningTree
 		{
 			bool[,] initDirected_isNodeHomomorphicGlobal = new bool[0, 0] ;
 			bool[,] initDirected_isEdgeHomomorphicGlobal = new bool[0, 0] ;
+			bool[] initDirected_isNodeTotallyHomomorphic = new bool[0] ;
+			bool[] initDirected_isEdgeTotallyHomomorphic = new bool[0] ;
 			pat_initDirected = new GRGEN_LGSP.PatternGraph(
 				"initDirected",
 				"",
@@ -2076,7 +2118,9 @@ namespace de.unika.ipd.grGen.Action_spanningTree
 				new bool[0, 0] ,
 				new bool[0, 0] ,
 				initDirected_isNodeHomomorphicGlobal,
-				initDirected_isEdgeHomomorphicGlobal
+				initDirected_isEdgeHomomorphicGlobal,
+				initDirected_isNodeTotallyHomomorphic,
+				initDirected_isEdgeTotallyHomomorphic
 			);
 
 
@@ -2251,7 +2295,9 @@ namespace de.unika.ipd.grGen.Action_spanningTree
 				{ false, },
 			};
 			bool[,] spanningTree_isEdgeHomomorphicGlobal = new bool[0, 0] ;
-			GRGEN_LGSP.PatternNode spanningTree_node_root = new GRGEN_LGSP.PatternNode((int) GRGEN_MODEL.NodeTypes.@Node, "GRGEN_LIBGR.INode", "spanningTree_node_root", "root", spanningTree_node_root_AllowedTypes, spanningTree_node_root_IsAllowedType, 5.5F, 0, false, null, null, null, null, false);
+			bool[] spanningTree_isNodeTotallyHomomorphic = new bool[1] { false,  };
+			bool[] spanningTree_isEdgeTotallyHomomorphic = new bool[0] ;
+			GRGEN_LGSP.PatternNode spanningTree_node_root = new GRGEN_LGSP.PatternNode((int) GRGEN_MODEL.NodeTypes.@Node, "GRGEN_LIBGR.INode", "spanningTree_node_root", "root", spanningTree_node_root_AllowedTypes, spanningTree_node_root_IsAllowedType, 5.5F, 0, false, null, null, null, null, null, false);
 			GRGEN_LGSP.PatternGraphEmbedding spanningTree_sptr = new GRGEN_LGSP.PatternGraphEmbedding("sptr", Pattern_SpanningTree.Instance, 
 				new GRGEN_EXPR.Expression[] {
 					new GRGEN_EXPR.GraphEntityExpression("spanningTree_node_root"),
@@ -2276,7 +2322,9 @@ namespace de.unika.ipd.grGen.Action_spanningTree
 				},
 				new bool[0, 0] ,
 				spanningTree_isNodeHomomorphicGlobal,
-				spanningTree_isEdgeHomomorphicGlobal
+				spanningTree_isEdgeHomomorphicGlobal,
+				spanningTree_isNodeTotallyHomomorphic,
+				spanningTree_isEdgeTotallyHomomorphic
 			);
 
 			spanningTree_node_root.pointOfDefinition = null;
@@ -2448,7 +2496,9 @@ namespace de.unika.ipd.grGen.Action_spanningTree
 			bool[,] edgesVisited_isEdgeHomomorphicGlobal = new bool[1, 1] {
 				{ false, },
 			};
-			GRGEN_LGSP.PatternEdge edgesVisited_edge_e = new GRGEN_LGSP.PatternEdge(false, (int) GRGEN_MODEL.EdgeTypes.@UEdge, "GRGEN_LIBGR.IEdge", "edgesVisited_edge_e", "e", edgesVisited_edge_e_AllowedTypes, edgesVisited_edge_e_IsAllowedType, 5.5F, -1, false, null, null, null, null, false);
+			bool[] edgesVisited_isNodeTotallyHomomorphic = new bool[0] ;
+			bool[] edgesVisited_isEdgeTotallyHomomorphic = new bool[1] { false,  };
+			GRGEN_LGSP.PatternEdge edgesVisited_edge_e = new GRGEN_LGSP.PatternEdge(false, (int) GRGEN_MODEL.EdgeTypes.@UEdge, "GRGEN_LIBGR.IEdge", "edgesVisited_edge_e", "e", edgesVisited_edge_e_AllowedTypes, edgesVisited_edge_e_IsAllowedType, 5.5F, -1, false, null, null, null, null, null, false);
 			GRGEN_LGSP.PatternCondition edgesVisited_cond_0 = new GRGEN_LGSP.PatternCondition(
 				new GRGEN_EXPR.Visited("edgesVisited_edge_e", new GRGEN_EXPR.Constant("0")),
 				new string[] {  }, new string[] { "edgesVisited_edge_e" }, new string[] {  }, new GRGEN_LIBGR.VarType[] {  });
@@ -2471,7 +2521,9 @@ namespace de.unika.ipd.grGen.Action_spanningTree
 					{ true, },
 				},
 				edgesVisited_isNodeHomomorphicGlobal,
-				edgesVisited_isEdgeHomomorphicGlobal
+				edgesVisited_isEdgeHomomorphicGlobal,
+				edgesVisited_isNodeTotallyHomomorphic,
+				edgesVisited_isEdgeTotallyHomomorphic
 			);
 
 			edgesVisited_edge_e.pointOfDefinition = pat_edgesVisited;
@@ -2630,7 +2682,9 @@ namespace de.unika.ipd.grGen.Action_spanningTree
 				{ false, },
 			};
 			bool[,] nodesVisited_isEdgeHomomorphicGlobal = new bool[0, 0] ;
-			GRGEN_LGSP.PatternNode nodesVisited_node_n = new GRGEN_LGSP.PatternNode((int) GRGEN_MODEL.NodeTypes.@Node, "GRGEN_LIBGR.INode", "nodesVisited_node_n", "n", nodesVisited_node_n_AllowedTypes, nodesVisited_node_n_IsAllowedType, 5.5F, -1, false, null, null, null, null, false);
+			bool[] nodesVisited_isNodeTotallyHomomorphic = new bool[1] { false,  };
+			bool[] nodesVisited_isEdgeTotallyHomomorphic = new bool[0] ;
+			GRGEN_LGSP.PatternNode nodesVisited_node_n = new GRGEN_LGSP.PatternNode((int) GRGEN_MODEL.NodeTypes.@Node, "GRGEN_LIBGR.INode", "nodesVisited_node_n", "n", nodesVisited_node_n_AllowedTypes, nodesVisited_node_n_IsAllowedType, 5.5F, -1, false, null, null, null, null, null, false);
 			GRGEN_LGSP.PatternCondition nodesVisited_cond_0 = new GRGEN_LGSP.PatternCondition(
 				new GRGEN_EXPR.Visited("nodesVisited_node_n", new GRGEN_EXPR.Constant("0")),
 				new string[] { "nodesVisited_node_n" }, new string[] {  }, new string[] {  }, new GRGEN_LIBGR.VarType[] {  });
@@ -2653,7 +2707,9 @@ namespace de.unika.ipd.grGen.Action_spanningTree
 				},
 				new bool[0, 0] ,
 				nodesVisited_isNodeHomomorphicGlobal,
-				nodesVisited_isEdgeHomomorphicGlobal
+				nodesVisited_isEdgeHomomorphicGlobal,
+				nodesVisited_isNodeTotallyHomomorphic,
+				nodesVisited_isEdgeTotallyHomomorphic
 			);
 
 			nodesVisited_node_n.pointOfDefinition = pat_nodesVisited;
@@ -2813,7 +2869,9 @@ namespace de.unika.ipd.grGen.Action_spanningTree
 				{ false, },
 			};
 			bool[,] spanningTreeReverse_isEdgeHomomorphicGlobal = new bool[0, 0] ;
-			GRGEN_LGSP.PatternNode spanningTreeReverse_node_root = new GRGEN_LGSP.PatternNode((int) GRGEN_MODEL.NodeTypes.@Node, "GRGEN_LIBGR.INode", "spanningTreeReverse_node_root", "root", spanningTreeReverse_node_root_AllowedTypes, spanningTreeReverse_node_root_IsAllowedType, 5.5F, 0, false, null, null, null, null, false);
+			bool[] spanningTreeReverse_isNodeTotallyHomomorphic = new bool[1] { false,  };
+			bool[] spanningTreeReverse_isEdgeTotallyHomomorphic = new bool[0] ;
+			GRGEN_LGSP.PatternNode spanningTreeReverse_node_root = new GRGEN_LGSP.PatternNode((int) GRGEN_MODEL.NodeTypes.@Node, "GRGEN_LIBGR.INode", "spanningTreeReverse_node_root", "root", spanningTreeReverse_node_root_AllowedTypes, spanningTreeReverse_node_root_IsAllowedType, 5.5F, 0, false, null, null, null, null, null, false);
 			GRGEN_LGSP.PatternGraphEmbedding spanningTreeReverse_sptrr = new GRGEN_LGSP.PatternGraphEmbedding("sptrr", Pattern_SpanningTreeReverse.Instance, 
 				new GRGEN_EXPR.Expression[] {
 					new GRGEN_EXPR.GraphEntityExpression("spanningTreeReverse_node_root"),
@@ -2838,7 +2896,9 @@ namespace de.unika.ipd.grGen.Action_spanningTree
 				},
 				new bool[0, 0] ,
 				spanningTreeReverse_isNodeHomomorphicGlobal,
-				spanningTreeReverse_isEdgeHomomorphicGlobal
+				spanningTreeReverse_isEdgeHomomorphicGlobal,
+				spanningTreeReverse_isNodeTotallyHomomorphic,
+				spanningTreeReverse_isEdgeTotallyHomomorphic
 			);
 
 			spanningTreeReverse_node_root.pointOfDefinition = null;
@@ -3008,7 +3068,9 @@ namespace de.unika.ipd.grGen.Action_spanningTree
 				{ false, },
 			};
 			bool[,] spanningTreeOutgoing_isEdgeHomomorphicGlobal = new bool[0, 0] ;
-			GRGEN_LGSP.PatternNode spanningTreeOutgoing_node_root = new GRGEN_LGSP.PatternNode((int) GRGEN_MODEL.NodeTypes.@Node, "GRGEN_LIBGR.INode", "spanningTreeOutgoing_node_root", "root", spanningTreeOutgoing_node_root_AllowedTypes, spanningTreeOutgoing_node_root_IsAllowedType, 5.5F, 0, false, null, null, null, null, false);
+			bool[] spanningTreeOutgoing_isNodeTotallyHomomorphic = new bool[1] { false,  };
+			bool[] spanningTreeOutgoing_isEdgeTotallyHomomorphic = new bool[0] ;
+			GRGEN_LGSP.PatternNode spanningTreeOutgoing_node_root = new GRGEN_LGSP.PatternNode((int) GRGEN_MODEL.NodeTypes.@Node, "GRGEN_LIBGR.INode", "spanningTreeOutgoing_node_root", "root", spanningTreeOutgoing_node_root_AllowedTypes, spanningTreeOutgoing_node_root_IsAllowedType, 5.5F, 0, false, null, null, null, null, null, false);
 			GRGEN_LGSP.PatternGraphEmbedding spanningTreeOutgoing__sub0 = new GRGEN_LGSP.PatternGraphEmbedding("_sub0", Pattern_SpanningTreeOutgoing.Instance, 
 				new GRGEN_EXPR.Expression[] {
 					new GRGEN_EXPR.GraphEntityExpression("spanningTreeOutgoing_node_root"),
@@ -3033,7 +3095,9 @@ namespace de.unika.ipd.grGen.Action_spanningTree
 				},
 				new bool[0, 0] ,
 				spanningTreeOutgoing_isNodeHomomorphicGlobal,
-				spanningTreeOutgoing_isEdgeHomomorphicGlobal
+				spanningTreeOutgoing_isEdgeHomomorphicGlobal,
+				spanningTreeOutgoing_isNodeTotallyHomomorphic,
+				spanningTreeOutgoing_isEdgeTotallyHomomorphic
 			);
 
 			spanningTreeOutgoing_node_root.pointOfDefinition = null;
@@ -3199,7 +3263,9 @@ namespace de.unika.ipd.grGen.Action_spanningTree
 				{ false, },
 			};
 			bool[,] spanningTreeIncoming_isEdgeHomomorphicGlobal = new bool[0, 0] ;
-			GRGEN_LGSP.PatternNode spanningTreeIncoming_node_root = new GRGEN_LGSP.PatternNode((int) GRGEN_MODEL.NodeTypes.@Node, "GRGEN_LIBGR.INode", "spanningTreeIncoming_node_root", "root", spanningTreeIncoming_node_root_AllowedTypes, spanningTreeIncoming_node_root_IsAllowedType, 5.5F, 0, false, null, null, null, null, false);
+			bool[] spanningTreeIncoming_isNodeTotallyHomomorphic = new bool[1] { false,  };
+			bool[] spanningTreeIncoming_isEdgeTotallyHomomorphic = new bool[0] ;
+			GRGEN_LGSP.PatternNode spanningTreeIncoming_node_root = new GRGEN_LGSP.PatternNode((int) GRGEN_MODEL.NodeTypes.@Node, "GRGEN_LIBGR.INode", "spanningTreeIncoming_node_root", "root", spanningTreeIncoming_node_root_AllowedTypes, spanningTreeIncoming_node_root_IsAllowedType, 5.5F, 0, false, null, null, null, null, null, false);
 			GRGEN_LGSP.PatternGraphEmbedding spanningTreeIncoming__sub0 = new GRGEN_LGSP.PatternGraphEmbedding("_sub0", Pattern_SpanningTreeIncoming.Instance, 
 				new GRGEN_EXPR.Expression[] {
 					new GRGEN_EXPR.GraphEntityExpression("spanningTreeIncoming_node_root"),
@@ -3224,7 +3290,9 @@ namespace de.unika.ipd.grGen.Action_spanningTree
 				},
 				new bool[0, 0] ,
 				spanningTreeIncoming_isNodeHomomorphicGlobal,
-				spanningTreeIncoming_isEdgeHomomorphicGlobal
+				spanningTreeIncoming_isEdgeHomomorphicGlobal,
+				spanningTreeIncoming_isNodeTotallyHomomorphic,
+				spanningTreeIncoming_isEdgeTotallyHomomorphic
 			);
 
 			spanningTreeIncoming_node_root.pointOfDefinition = null;

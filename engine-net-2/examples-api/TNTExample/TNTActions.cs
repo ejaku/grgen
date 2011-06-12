@@ -1,6 +1,6 @@
 // This file has been generated automatically by GrGen (www.grgen.net)
 // Do not modify this file! Any changes will be lost!
-// Generated from "..\..\tests\TNT\TNT.grg" on Thu Apr 07 22:54:47 CEST 2011
+// Generated from "..\..\tests\TNT\TNT.grg" on Sun Jun 12 09:35:33 CEST 2011
 
 using System;
 using System.Collections.Generic;
@@ -91,21 +91,23 @@ namespace de.unika.ipd.grGen.Action_TNT
 				{ false, false, false, false, false, false, false, false, false, },
 				{ false, false, false, false, false, false, false, false, false, },
 			};
-			GRGEN_LGSP.PatternNode BenzolRing_node_c1 = new GRGEN_LGSP.PatternNode((int) GRGEN_MODEL.NodeTypes.@C, "GRGEN_MODEL.IC", "BenzolRing_node_c1", "c1", BenzolRing_node_c1_AllowedTypes, BenzolRing_node_c1_IsAllowedType, 5.5F, -1, false, null, null, null, null, false);
-			GRGEN_LGSP.PatternNode BenzolRing_node_c2 = new GRGEN_LGSP.PatternNode((int) GRGEN_MODEL.NodeTypes.@C, "GRGEN_MODEL.IC", "BenzolRing_node_c2", "c2", BenzolRing_node_c2_AllowedTypes, BenzolRing_node_c2_IsAllowedType, 5.5F, -1, false, null, null, null, null, false);
-			GRGEN_LGSP.PatternNode BenzolRing_node_c3 = new GRGEN_LGSP.PatternNode((int) GRGEN_MODEL.NodeTypes.@C, "GRGEN_MODEL.IC", "BenzolRing_node_c3", "c3", BenzolRing_node_c3_AllowedTypes, BenzolRing_node_c3_IsAllowedType, 5.5F, -1, false, null, null, null, null, false);
-			GRGEN_LGSP.PatternNode BenzolRing_node_c4 = new GRGEN_LGSP.PatternNode((int) GRGEN_MODEL.NodeTypes.@C, "GRGEN_MODEL.IC", "BenzolRing_node_c4", "c4", BenzolRing_node_c4_AllowedTypes, BenzolRing_node_c4_IsAllowedType, 5.5F, -1, false, null, null, null, null, false);
-			GRGEN_LGSP.PatternNode BenzolRing_node_c5 = new GRGEN_LGSP.PatternNode((int) GRGEN_MODEL.NodeTypes.@C, "GRGEN_MODEL.IC", "BenzolRing_node_c5", "c5", BenzolRing_node_c5_AllowedTypes, BenzolRing_node_c5_IsAllowedType, 5.5F, -1, false, null, null, null, null, false);
-			GRGEN_LGSP.PatternNode BenzolRing_node_c6 = new GRGEN_LGSP.PatternNode((int) GRGEN_MODEL.NodeTypes.@C, "GRGEN_MODEL.IC", "BenzolRing_node_c6", "c6", BenzolRing_node_c6_AllowedTypes, BenzolRing_node_c6_IsAllowedType, 5.5F, -1, false, null, null, null, null, false);
-			GRGEN_LGSP.PatternEdge BenzolRing_edge__edge0 = new GRGEN_LGSP.PatternEdge(true, (int) GRGEN_MODEL.EdgeTypes.@Edge, "GRGEN_LIBGR.IEdge", "BenzolRing_edge__edge0", "_edge0", BenzolRing_edge__edge0_AllowedTypes, BenzolRing_edge__edge0_IsAllowedType, 5.5F, -1, false, null, null, null, null, false);
-			GRGEN_LGSP.PatternEdge BenzolRing_edge__edge1 = new GRGEN_LGSP.PatternEdge(true, (int) GRGEN_MODEL.EdgeTypes.@Edge, "GRGEN_LIBGR.IEdge", "BenzolRing_edge__edge1", "_edge1", BenzolRing_edge__edge1_AllowedTypes, BenzolRing_edge__edge1_IsAllowedType, 5.5F, -1, false, null, null, null, null, false);
-			GRGEN_LGSP.PatternEdge BenzolRing_edge__edge2 = new GRGEN_LGSP.PatternEdge(true, (int) GRGEN_MODEL.EdgeTypes.@Edge, "GRGEN_LIBGR.IEdge", "BenzolRing_edge__edge2", "_edge2", BenzolRing_edge__edge2_AllowedTypes, BenzolRing_edge__edge2_IsAllowedType, 5.5F, -1, false, null, null, null, null, false);
-			GRGEN_LGSP.PatternEdge BenzolRing_edge__edge3 = new GRGEN_LGSP.PatternEdge(true, (int) GRGEN_MODEL.EdgeTypes.@Edge, "GRGEN_LIBGR.IEdge", "BenzolRing_edge__edge3", "_edge3", BenzolRing_edge__edge3_AllowedTypes, BenzolRing_edge__edge3_IsAllowedType, 5.5F, -1, false, null, null, null, null, false);
-			GRGEN_LGSP.PatternEdge BenzolRing_edge__edge4 = new GRGEN_LGSP.PatternEdge(true, (int) GRGEN_MODEL.EdgeTypes.@Edge, "GRGEN_LIBGR.IEdge", "BenzolRing_edge__edge4", "_edge4", BenzolRing_edge__edge4_AllowedTypes, BenzolRing_edge__edge4_IsAllowedType, 5.5F, -1, false, null, null, null, null, false);
-			GRGEN_LGSP.PatternEdge BenzolRing_edge__edge5 = new GRGEN_LGSP.PatternEdge(true, (int) GRGEN_MODEL.EdgeTypes.@Edge, "GRGEN_LIBGR.IEdge", "BenzolRing_edge__edge5", "_edge5", BenzolRing_edge__edge5_AllowedTypes, BenzolRing_edge__edge5_IsAllowedType, 5.5F, -1, false, null, null, null, null, false);
-			GRGEN_LGSP.PatternEdge BenzolRing_edge__edge6 = new GRGEN_LGSP.PatternEdge(true, (int) GRGEN_MODEL.EdgeTypes.@Edge, "GRGEN_LIBGR.IEdge", "BenzolRing_edge__edge6", "_edge6", BenzolRing_edge__edge6_AllowedTypes, BenzolRing_edge__edge6_IsAllowedType, 5.5F, -1, false, null, null, null, null, false);
-			GRGEN_LGSP.PatternEdge BenzolRing_edge__edge7 = new GRGEN_LGSP.PatternEdge(true, (int) GRGEN_MODEL.EdgeTypes.@Edge, "GRGEN_LIBGR.IEdge", "BenzolRing_edge__edge7", "_edge7", BenzolRing_edge__edge7_AllowedTypes, BenzolRing_edge__edge7_IsAllowedType, 5.5F, -1, false, null, null, null, null, false);
-			GRGEN_LGSP.PatternEdge BenzolRing_edge__edge8 = new GRGEN_LGSP.PatternEdge(true, (int) GRGEN_MODEL.EdgeTypes.@Edge, "GRGEN_LIBGR.IEdge", "BenzolRing_edge__edge8", "_edge8", BenzolRing_edge__edge8_AllowedTypes, BenzolRing_edge__edge8_IsAllowedType, 5.5F, -1, false, null, null, null, null, false);
+			bool[] BenzolRing_isNodeTotallyHomomorphic = new bool[6] { false, false, false, false, false, false,  };
+			bool[] BenzolRing_isEdgeTotallyHomomorphic = new bool[9] { false, false, false, false, false, false, false, false, false,  };
+			GRGEN_LGSP.PatternNode BenzolRing_node_c1 = new GRGEN_LGSP.PatternNode((int) GRGEN_MODEL.NodeTypes.@C, "GRGEN_MODEL.IC", "BenzolRing_node_c1", "c1", BenzolRing_node_c1_AllowedTypes, BenzolRing_node_c1_IsAllowedType, 5.5F, -1, false, null, null, null, null, null, false);
+			GRGEN_LGSP.PatternNode BenzolRing_node_c2 = new GRGEN_LGSP.PatternNode((int) GRGEN_MODEL.NodeTypes.@C, "GRGEN_MODEL.IC", "BenzolRing_node_c2", "c2", BenzolRing_node_c2_AllowedTypes, BenzolRing_node_c2_IsAllowedType, 5.5F, -1, false, null, null, null, null, null, false);
+			GRGEN_LGSP.PatternNode BenzolRing_node_c3 = new GRGEN_LGSP.PatternNode((int) GRGEN_MODEL.NodeTypes.@C, "GRGEN_MODEL.IC", "BenzolRing_node_c3", "c3", BenzolRing_node_c3_AllowedTypes, BenzolRing_node_c3_IsAllowedType, 5.5F, -1, false, null, null, null, null, null, false);
+			GRGEN_LGSP.PatternNode BenzolRing_node_c4 = new GRGEN_LGSP.PatternNode((int) GRGEN_MODEL.NodeTypes.@C, "GRGEN_MODEL.IC", "BenzolRing_node_c4", "c4", BenzolRing_node_c4_AllowedTypes, BenzolRing_node_c4_IsAllowedType, 5.5F, -1, false, null, null, null, null, null, false);
+			GRGEN_LGSP.PatternNode BenzolRing_node_c5 = new GRGEN_LGSP.PatternNode((int) GRGEN_MODEL.NodeTypes.@C, "GRGEN_MODEL.IC", "BenzolRing_node_c5", "c5", BenzolRing_node_c5_AllowedTypes, BenzolRing_node_c5_IsAllowedType, 5.5F, -1, false, null, null, null, null, null, false);
+			GRGEN_LGSP.PatternNode BenzolRing_node_c6 = new GRGEN_LGSP.PatternNode((int) GRGEN_MODEL.NodeTypes.@C, "GRGEN_MODEL.IC", "BenzolRing_node_c6", "c6", BenzolRing_node_c6_AllowedTypes, BenzolRing_node_c6_IsAllowedType, 5.5F, -1, false, null, null, null, null, null, false);
+			GRGEN_LGSP.PatternEdge BenzolRing_edge__edge0 = new GRGEN_LGSP.PatternEdge(true, (int) GRGEN_MODEL.EdgeTypes.@Edge, "GRGEN_LIBGR.IEdge", "BenzolRing_edge__edge0", "_edge0", BenzolRing_edge__edge0_AllowedTypes, BenzolRing_edge__edge0_IsAllowedType, 5.5F, -1, false, null, null, null, null, null, false);
+			GRGEN_LGSP.PatternEdge BenzolRing_edge__edge1 = new GRGEN_LGSP.PatternEdge(true, (int) GRGEN_MODEL.EdgeTypes.@Edge, "GRGEN_LIBGR.IEdge", "BenzolRing_edge__edge1", "_edge1", BenzolRing_edge__edge1_AllowedTypes, BenzolRing_edge__edge1_IsAllowedType, 5.5F, -1, false, null, null, null, null, null, false);
+			GRGEN_LGSP.PatternEdge BenzolRing_edge__edge2 = new GRGEN_LGSP.PatternEdge(true, (int) GRGEN_MODEL.EdgeTypes.@Edge, "GRGEN_LIBGR.IEdge", "BenzolRing_edge__edge2", "_edge2", BenzolRing_edge__edge2_AllowedTypes, BenzolRing_edge__edge2_IsAllowedType, 5.5F, -1, false, null, null, null, null, null, false);
+			GRGEN_LGSP.PatternEdge BenzolRing_edge__edge3 = new GRGEN_LGSP.PatternEdge(true, (int) GRGEN_MODEL.EdgeTypes.@Edge, "GRGEN_LIBGR.IEdge", "BenzolRing_edge__edge3", "_edge3", BenzolRing_edge__edge3_AllowedTypes, BenzolRing_edge__edge3_IsAllowedType, 5.5F, -1, false, null, null, null, null, null, false);
+			GRGEN_LGSP.PatternEdge BenzolRing_edge__edge4 = new GRGEN_LGSP.PatternEdge(true, (int) GRGEN_MODEL.EdgeTypes.@Edge, "GRGEN_LIBGR.IEdge", "BenzolRing_edge__edge4", "_edge4", BenzolRing_edge__edge4_AllowedTypes, BenzolRing_edge__edge4_IsAllowedType, 5.5F, -1, false, null, null, null, null, null, false);
+			GRGEN_LGSP.PatternEdge BenzolRing_edge__edge5 = new GRGEN_LGSP.PatternEdge(true, (int) GRGEN_MODEL.EdgeTypes.@Edge, "GRGEN_LIBGR.IEdge", "BenzolRing_edge__edge5", "_edge5", BenzolRing_edge__edge5_AllowedTypes, BenzolRing_edge__edge5_IsAllowedType, 5.5F, -1, false, null, null, null, null, null, false);
+			GRGEN_LGSP.PatternEdge BenzolRing_edge__edge6 = new GRGEN_LGSP.PatternEdge(true, (int) GRGEN_MODEL.EdgeTypes.@Edge, "GRGEN_LIBGR.IEdge", "BenzolRing_edge__edge6", "_edge6", BenzolRing_edge__edge6_AllowedTypes, BenzolRing_edge__edge6_IsAllowedType, 5.5F, -1, false, null, null, null, null, null, false);
+			GRGEN_LGSP.PatternEdge BenzolRing_edge__edge7 = new GRGEN_LGSP.PatternEdge(true, (int) GRGEN_MODEL.EdgeTypes.@Edge, "GRGEN_LIBGR.IEdge", "BenzolRing_edge__edge7", "_edge7", BenzolRing_edge__edge7_AllowedTypes, BenzolRing_edge__edge7_IsAllowedType, 5.5F, -1, false, null, null, null, null, null, false);
+			GRGEN_LGSP.PatternEdge BenzolRing_edge__edge8 = new GRGEN_LGSP.PatternEdge(true, (int) GRGEN_MODEL.EdgeTypes.@Edge, "GRGEN_LIBGR.IEdge", "BenzolRing_edge__edge8", "_edge8", BenzolRing_edge__edge8_AllowedTypes, BenzolRing_edge__edge8_IsAllowedType, 5.5F, -1, false, null, null, null, null, null, false);
 			pat_BenzolRing = new GRGEN_LGSP.PatternGraph(
 				"BenzolRing",
 				"",
@@ -140,7 +142,9 @@ namespace de.unika.ipd.grGen.Action_TNT
 					{ false, false, false, false, false, false, false, false, true, },
 				},
 				BenzolRing_isNodeHomomorphicGlobal,
-				BenzolRing_isEdgeHomomorphicGlobal
+				BenzolRing_isEdgeHomomorphicGlobal,
+				BenzolRing_isNodeTotallyHomomorphic,
+				BenzolRing_isEdgeTotallyHomomorphic
 			);
 			pat_BenzolRing.edgeToSourceNode.Add(BenzolRing_edge__edge0, BenzolRing_node_c1);
 			pat_BenzolRing.edgeToTargetNode.Add(BenzolRing_edge__edge0, BenzolRing_node_c2);
@@ -486,21 +490,23 @@ namespace de.unika.ipd.grGen.Action_TNT
 				{ false, false, false, false, false, false, false, false, false, },
 				{ false, false, false, false, false, false, false, false, false, },
 			};
-			GRGEN_LGSP.PatternNode BenzolRingC123456Exposed_node_c1 = new GRGEN_LGSP.PatternNode((int) GRGEN_MODEL.NodeTypes.@C, "GRGEN_MODEL.IC", "BenzolRingC123456Exposed_node_c1", "c1", BenzolRingC123456Exposed_node_c1_AllowedTypes, BenzolRingC123456Exposed_node_c1_IsAllowedType, 5.5F, 0, false, null, null, null, null, false);
-			GRGEN_LGSP.PatternNode BenzolRingC123456Exposed_node_c2 = new GRGEN_LGSP.PatternNode((int) GRGEN_MODEL.NodeTypes.@C, "GRGEN_MODEL.IC", "BenzolRingC123456Exposed_node_c2", "c2", BenzolRingC123456Exposed_node_c2_AllowedTypes, BenzolRingC123456Exposed_node_c2_IsAllowedType, 5.5F, 1, false, null, null, null, null, false);
-			GRGEN_LGSP.PatternNode BenzolRingC123456Exposed_node_c3 = new GRGEN_LGSP.PatternNode((int) GRGEN_MODEL.NodeTypes.@C, "GRGEN_MODEL.IC", "BenzolRingC123456Exposed_node_c3", "c3", BenzolRingC123456Exposed_node_c3_AllowedTypes, BenzolRingC123456Exposed_node_c3_IsAllowedType, 5.5F, 2, false, null, null, null, null, false);
-			GRGEN_LGSP.PatternNode BenzolRingC123456Exposed_node_c4 = new GRGEN_LGSP.PatternNode((int) GRGEN_MODEL.NodeTypes.@C, "GRGEN_MODEL.IC", "BenzolRingC123456Exposed_node_c4", "c4", BenzolRingC123456Exposed_node_c4_AllowedTypes, BenzolRingC123456Exposed_node_c4_IsAllowedType, 5.5F, 3, false, null, null, null, null, false);
-			GRGEN_LGSP.PatternNode BenzolRingC123456Exposed_node_c5 = new GRGEN_LGSP.PatternNode((int) GRGEN_MODEL.NodeTypes.@C, "GRGEN_MODEL.IC", "BenzolRingC123456Exposed_node_c5", "c5", BenzolRingC123456Exposed_node_c5_AllowedTypes, BenzolRingC123456Exposed_node_c5_IsAllowedType, 5.5F, 4, false, null, null, null, null, false);
-			GRGEN_LGSP.PatternNode BenzolRingC123456Exposed_node_c6 = new GRGEN_LGSP.PatternNode((int) GRGEN_MODEL.NodeTypes.@C, "GRGEN_MODEL.IC", "BenzolRingC123456Exposed_node_c6", "c6", BenzolRingC123456Exposed_node_c6_AllowedTypes, BenzolRingC123456Exposed_node_c6_IsAllowedType, 5.5F, 5, false, null, null, null, null, false);
-			GRGEN_LGSP.PatternEdge BenzolRingC123456Exposed_edge__edge0 = new GRGEN_LGSP.PatternEdge(true, (int) GRGEN_MODEL.EdgeTypes.@Edge, "GRGEN_LIBGR.IEdge", "BenzolRingC123456Exposed_edge__edge0", "_edge0", BenzolRingC123456Exposed_edge__edge0_AllowedTypes, BenzolRingC123456Exposed_edge__edge0_IsAllowedType, 5.5F, -1, false, null, null, null, null, false);
-			GRGEN_LGSP.PatternEdge BenzolRingC123456Exposed_edge__edge1 = new GRGEN_LGSP.PatternEdge(true, (int) GRGEN_MODEL.EdgeTypes.@Edge, "GRGEN_LIBGR.IEdge", "BenzolRingC123456Exposed_edge__edge1", "_edge1", BenzolRingC123456Exposed_edge__edge1_AllowedTypes, BenzolRingC123456Exposed_edge__edge1_IsAllowedType, 5.5F, -1, false, null, null, null, null, false);
-			GRGEN_LGSP.PatternEdge BenzolRingC123456Exposed_edge__edge2 = new GRGEN_LGSP.PatternEdge(true, (int) GRGEN_MODEL.EdgeTypes.@Edge, "GRGEN_LIBGR.IEdge", "BenzolRingC123456Exposed_edge__edge2", "_edge2", BenzolRingC123456Exposed_edge__edge2_AllowedTypes, BenzolRingC123456Exposed_edge__edge2_IsAllowedType, 5.5F, -1, false, null, null, null, null, false);
-			GRGEN_LGSP.PatternEdge BenzolRingC123456Exposed_edge__edge3 = new GRGEN_LGSP.PatternEdge(true, (int) GRGEN_MODEL.EdgeTypes.@Edge, "GRGEN_LIBGR.IEdge", "BenzolRingC123456Exposed_edge__edge3", "_edge3", BenzolRingC123456Exposed_edge__edge3_AllowedTypes, BenzolRingC123456Exposed_edge__edge3_IsAllowedType, 5.5F, -1, false, null, null, null, null, false);
-			GRGEN_LGSP.PatternEdge BenzolRingC123456Exposed_edge__edge4 = new GRGEN_LGSP.PatternEdge(true, (int) GRGEN_MODEL.EdgeTypes.@Edge, "GRGEN_LIBGR.IEdge", "BenzolRingC123456Exposed_edge__edge4", "_edge4", BenzolRingC123456Exposed_edge__edge4_AllowedTypes, BenzolRingC123456Exposed_edge__edge4_IsAllowedType, 5.5F, -1, false, null, null, null, null, false);
-			GRGEN_LGSP.PatternEdge BenzolRingC123456Exposed_edge__edge5 = new GRGEN_LGSP.PatternEdge(true, (int) GRGEN_MODEL.EdgeTypes.@Edge, "GRGEN_LIBGR.IEdge", "BenzolRingC123456Exposed_edge__edge5", "_edge5", BenzolRingC123456Exposed_edge__edge5_AllowedTypes, BenzolRingC123456Exposed_edge__edge5_IsAllowedType, 5.5F, -1, false, null, null, null, null, false);
-			GRGEN_LGSP.PatternEdge BenzolRingC123456Exposed_edge__edge6 = new GRGEN_LGSP.PatternEdge(true, (int) GRGEN_MODEL.EdgeTypes.@Edge, "GRGEN_LIBGR.IEdge", "BenzolRingC123456Exposed_edge__edge6", "_edge6", BenzolRingC123456Exposed_edge__edge6_AllowedTypes, BenzolRingC123456Exposed_edge__edge6_IsAllowedType, 5.5F, -1, false, null, null, null, null, false);
-			GRGEN_LGSP.PatternEdge BenzolRingC123456Exposed_edge__edge7 = new GRGEN_LGSP.PatternEdge(true, (int) GRGEN_MODEL.EdgeTypes.@Edge, "GRGEN_LIBGR.IEdge", "BenzolRingC123456Exposed_edge__edge7", "_edge7", BenzolRingC123456Exposed_edge__edge7_AllowedTypes, BenzolRingC123456Exposed_edge__edge7_IsAllowedType, 5.5F, -1, false, null, null, null, null, false);
-			GRGEN_LGSP.PatternEdge BenzolRingC123456Exposed_edge__edge8 = new GRGEN_LGSP.PatternEdge(true, (int) GRGEN_MODEL.EdgeTypes.@Edge, "GRGEN_LIBGR.IEdge", "BenzolRingC123456Exposed_edge__edge8", "_edge8", BenzolRingC123456Exposed_edge__edge8_AllowedTypes, BenzolRingC123456Exposed_edge__edge8_IsAllowedType, 5.5F, -1, false, null, null, null, null, false);
+			bool[] BenzolRingC123456Exposed_isNodeTotallyHomomorphic = new bool[6] { false, false, false, false, false, false,  };
+			bool[] BenzolRingC123456Exposed_isEdgeTotallyHomomorphic = new bool[9] { false, false, false, false, false, false, false, false, false,  };
+			GRGEN_LGSP.PatternNode BenzolRingC123456Exposed_node_c1 = new GRGEN_LGSP.PatternNode((int) GRGEN_MODEL.NodeTypes.@C, "GRGEN_MODEL.IC", "BenzolRingC123456Exposed_node_c1", "c1", BenzolRingC123456Exposed_node_c1_AllowedTypes, BenzolRingC123456Exposed_node_c1_IsAllowedType, 5.5F, 0, false, null, null, null, null, null, false);
+			GRGEN_LGSP.PatternNode BenzolRingC123456Exposed_node_c2 = new GRGEN_LGSP.PatternNode((int) GRGEN_MODEL.NodeTypes.@C, "GRGEN_MODEL.IC", "BenzolRingC123456Exposed_node_c2", "c2", BenzolRingC123456Exposed_node_c2_AllowedTypes, BenzolRingC123456Exposed_node_c2_IsAllowedType, 5.5F, 1, false, null, null, null, null, null, false);
+			GRGEN_LGSP.PatternNode BenzolRingC123456Exposed_node_c3 = new GRGEN_LGSP.PatternNode((int) GRGEN_MODEL.NodeTypes.@C, "GRGEN_MODEL.IC", "BenzolRingC123456Exposed_node_c3", "c3", BenzolRingC123456Exposed_node_c3_AllowedTypes, BenzolRingC123456Exposed_node_c3_IsAllowedType, 5.5F, 2, false, null, null, null, null, null, false);
+			GRGEN_LGSP.PatternNode BenzolRingC123456Exposed_node_c4 = new GRGEN_LGSP.PatternNode((int) GRGEN_MODEL.NodeTypes.@C, "GRGEN_MODEL.IC", "BenzolRingC123456Exposed_node_c4", "c4", BenzolRingC123456Exposed_node_c4_AllowedTypes, BenzolRingC123456Exposed_node_c4_IsAllowedType, 5.5F, 3, false, null, null, null, null, null, false);
+			GRGEN_LGSP.PatternNode BenzolRingC123456Exposed_node_c5 = new GRGEN_LGSP.PatternNode((int) GRGEN_MODEL.NodeTypes.@C, "GRGEN_MODEL.IC", "BenzolRingC123456Exposed_node_c5", "c5", BenzolRingC123456Exposed_node_c5_AllowedTypes, BenzolRingC123456Exposed_node_c5_IsAllowedType, 5.5F, 4, false, null, null, null, null, null, false);
+			GRGEN_LGSP.PatternNode BenzolRingC123456Exposed_node_c6 = new GRGEN_LGSP.PatternNode((int) GRGEN_MODEL.NodeTypes.@C, "GRGEN_MODEL.IC", "BenzolRingC123456Exposed_node_c6", "c6", BenzolRingC123456Exposed_node_c6_AllowedTypes, BenzolRingC123456Exposed_node_c6_IsAllowedType, 5.5F, 5, false, null, null, null, null, null, false);
+			GRGEN_LGSP.PatternEdge BenzolRingC123456Exposed_edge__edge0 = new GRGEN_LGSP.PatternEdge(true, (int) GRGEN_MODEL.EdgeTypes.@Edge, "GRGEN_LIBGR.IEdge", "BenzolRingC123456Exposed_edge__edge0", "_edge0", BenzolRingC123456Exposed_edge__edge0_AllowedTypes, BenzolRingC123456Exposed_edge__edge0_IsAllowedType, 5.5F, -1, false, null, null, null, null, null, false);
+			GRGEN_LGSP.PatternEdge BenzolRingC123456Exposed_edge__edge1 = new GRGEN_LGSP.PatternEdge(true, (int) GRGEN_MODEL.EdgeTypes.@Edge, "GRGEN_LIBGR.IEdge", "BenzolRingC123456Exposed_edge__edge1", "_edge1", BenzolRingC123456Exposed_edge__edge1_AllowedTypes, BenzolRingC123456Exposed_edge__edge1_IsAllowedType, 5.5F, -1, false, null, null, null, null, null, false);
+			GRGEN_LGSP.PatternEdge BenzolRingC123456Exposed_edge__edge2 = new GRGEN_LGSP.PatternEdge(true, (int) GRGEN_MODEL.EdgeTypes.@Edge, "GRGEN_LIBGR.IEdge", "BenzolRingC123456Exposed_edge__edge2", "_edge2", BenzolRingC123456Exposed_edge__edge2_AllowedTypes, BenzolRingC123456Exposed_edge__edge2_IsAllowedType, 5.5F, -1, false, null, null, null, null, null, false);
+			GRGEN_LGSP.PatternEdge BenzolRingC123456Exposed_edge__edge3 = new GRGEN_LGSP.PatternEdge(true, (int) GRGEN_MODEL.EdgeTypes.@Edge, "GRGEN_LIBGR.IEdge", "BenzolRingC123456Exposed_edge__edge3", "_edge3", BenzolRingC123456Exposed_edge__edge3_AllowedTypes, BenzolRingC123456Exposed_edge__edge3_IsAllowedType, 5.5F, -1, false, null, null, null, null, null, false);
+			GRGEN_LGSP.PatternEdge BenzolRingC123456Exposed_edge__edge4 = new GRGEN_LGSP.PatternEdge(true, (int) GRGEN_MODEL.EdgeTypes.@Edge, "GRGEN_LIBGR.IEdge", "BenzolRingC123456Exposed_edge__edge4", "_edge4", BenzolRingC123456Exposed_edge__edge4_AllowedTypes, BenzolRingC123456Exposed_edge__edge4_IsAllowedType, 5.5F, -1, false, null, null, null, null, null, false);
+			GRGEN_LGSP.PatternEdge BenzolRingC123456Exposed_edge__edge5 = new GRGEN_LGSP.PatternEdge(true, (int) GRGEN_MODEL.EdgeTypes.@Edge, "GRGEN_LIBGR.IEdge", "BenzolRingC123456Exposed_edge__edge5", "_edge5", BenzolRingC123456Exposed_edge__edge5_AllowedTypes, BenzolRingC123456Exposed_edge__edge5_IsAllowedType, 5.5F, -1, false, null, null, null, null, null, false);
+			GRGEN_LGSP.PatternEdge BenzolRingC123456Exposed_edge__edge6 = new GRGEN_LGSP.PatternEdge(true, (int) GRGEN_MODEL.EdgeTypes.@Edge, "GRGEN_LIBGR.IEdge", "BenzolRingC123456Exposed_edge__edge6", "_edge6", BenzolRingC123456Exposed_edge__edge6_AllowedTypes, BenzolRingC123456Exposed_edge__edge6_IsAllowedType, 5.5F, -1, false, null, null, null, null, null, false);
+			GRGEN_LGSP.PatternEdge BenzolRingC123456Exposed_edge__edge7 = new GRGEN_LGSP.PatternEdge(true, (int) GRGEN_MODEL.EdgeTypes.@Edge, "GRGEN_LIBGR.IEdge", "BenzolRingC123456Exposed_edge__edge7", "_edge7", BenzolRingC123456Exposed_edge__edge7_AllowedTypes, BenzolRingC123456Exposed_edge__edge7_IsAllowedType, 5.5F, -1, false, null, null, null, null, null, false);
+			GRGEN_LGSP.PatternEdge BenzolRingC123456Exposed_edge__edge8 = new GRGEN_LGSP.PatternEdge(true, (int) GRGEN_MODEL.EdgeTypes.@Edge, "GRGEN_LIBGR.IEdge", "BenzolRingC123456Exposed_edge__edge8", "_edge8", BenzolRingC123456Exposed_edge__edge8_AllowedTypes, BenzolRingC123456Exposed_edge__edge8_IsAllowedType, 5.5F, -1, false, null, null, null, null, null, false);
 			pat_BenzolRingC123456Exposed = new GRGEN_LGSP.PatternGraph(
 				"BenzolRingC123456Exposed",
 				"",
@@ -535,7 +541,9 @@ namespace de.unika.ipd.grGen.Action_TNT
 					{ false, false, false, false, false, false, false, false, true, },
 				},
 				BenzolRingC123456Exposed_isNodeHomomorphicGlobal,
-				BenzolRingC123456Exposed_isEdgeHomomorphicGlobal
+				BenzolRingC123456Exposed_isEdgeHomomorphicGlobal,
+				BenzolRingC123456Exposed_isNodeTotallyHomomorphic,
+				BenzolRingC123456Exposed_isEdgeTotallyHomomorphic
 			);
 			pat_BenzolRingC123456Exposed.edgeToSourceNode.Add(BenzolRingC123456Exposed_edge__edge0, BenzolRingC123456Exposed_node_c1);
 			pat_BenzolRingC123456Exposed.edgeToTargetNode.Add(BenzolRingC123456Exposed_edge__edge0, BenzolRingC123456Exposed_node_c2);
@@ -857,21 +865,23 @@ namespace de.unika.ipd.grGen.Action_TNT
 				{ false, false, false, false, false, false, false, false, false, },
 				{ false, false, false, false, false, false, false, false, false, },
 			};
-			GRGEN_LGSP.PatternNode BenzolRingC1Exposed_node_c1 = new GRGEN_LGSP.PatternNode((int) GRGEN_MODEL.NodeTypes.@C, "GRGEN_MODEL.IC", "BenzolRingC1Exposed_node_c1", "c1", BenzolRingC1Exposed_node_c1_AllowedTypes, BenzolRingC1Exposed_node_c1_IsAllowedType, 5.5F, 0, false, null, null, null, null, false);
-			GRGEN_LGSP.PatternNode BenzolRingC1Exposed_node_c2 = new GRGEN_LGSP.PatternNode((int) GRGEN_MODEL.NodeTypes.@C, "GRGEN_MODEL.IC", "BenzolRingC1Exposed_node_c2", "c2", BenzolRingC1Exposed_node_c2_AllowedTypes, BenzolRingC1Exposed_node_c2_IsAllowedType, 5.5F, -1, false, null, null, null, null, false);
-			GRGEN_LGSP.PatternNode BenzolRingC1Exposed_node_c3 = new GRGEN_LGSP.PatternNode((int) GRGEN_MODEL.NodeTypes.@C, "GRGEN_MODEL.IC", "BenzolRingC1Exposed_node_c3", "c3", BenzolRingC1Exposed_node_c3_AllowedTypes, BenzolRingC1Exposed_node_c3_IsAllowedType, 5.5F, -1, false, null, null, null, null, false);
-			GRGEN_LGSP.PatternNode BenzolRingC1Exposed_node_c4 = new GRGEN_LGSP.PatternNode((int) GRGEN_MODEL.NodeTypes.@C, "GRGEN_MODEL.IC", "BenzolRingC1Exposed_node_c4", "c4", BenzolRingC1Exposed_node_c4_AllowedTypes, BenzolRingC1Exposed_node_c4_IsAllowedType, 5.5F, -1, false, null, null, null, null, false);
-			GRGEN_LGSP.PatternNode BenzolRingC1Exposed_node_c5 = new GRGEN_LGSP.PatternNode((int) GRGEN_MODEL.NodeTypes.@C, "GRGEN_MODEL.IC", "BenzolRingC1Exposed_node_c5", "c5", BenzolRingC1Exposed_node_c5_AllowedTypes, BenzolRingC1Exposed_node_c5_IsAllowedType, 5.5F, -1, false, null, null, null, null, false);
-			GRGEN_LGSP.PatternNode BenzolRingC1Exposed_node_c6 = new GRGEN_LGSP.PatternNode((int) GRGEN_MODEL.NodeTypes.@C, "GRGEN_MODEL.IC", "BenzolRingC1Exposed_node_c6", "c6", BenzolRingC1Exposed_node_c6_AllowedTypes, BenzolRingC1Exposed_node_c6_IsAllowedType, 5.5F, -1, false, null, null, null, null, false);
-			GRGEN_LGSP.PatternEdge BenzolRingC1Exposed_edge__edge0 = new GRGEN_LGSP.PatternEdge(true, (int) GRGEN_MODEL.EdgeTypes.@Edge, "GRGEN_LIBGR.IEdge", "BenzolRingC1Exposed_edge__edge0", "_edge0", BenzolRingC1Exposed_edge__edge0_AllowedTypes, BenzolRingC1Exposed_edge__edge0_IsAllowedType, 5.5F, -1, false, null, null, null, null, false);
-			GRGEN_LGSP.PatternEdge BenzolRingC1Exposed_edge__edge1 = new GRGEN_LGSP.PatternEdge(true, (int) GRGEN_MODEL.EdgeTypes.@Edge, "GRGEN_LIBGR.IEdge", "BenzolRingC1Exposed_edge__edge1", "_edge1", BenzolRingC1Exposed_edge__edge1_AllowedTypes, BenzolRingC1Exposed_edge__edge1_IsAllowedType, 5.5F, -1, false, null, null, null, null, false);
-			GRGEN_LGSP.PatternEdge BenzolRingC1Exposed_edge__edge2 = new GRGEN_LGSP.PatternEdge(true, (int) GRGEN_MODEL.EdgeTypes.@Edge, "GRGEN_LIBGR.IEdge", "BenzolRingC1Exposed_edge__edge2", "_edge2", BenzolRingC1Exposed_edge__edge2_AllowedTypes, BenzolRingC1Exposed_edge__edge2_IsAllowedType, 5.5F, -1, false, null, null, null, null, false);
-			GRGEN_LGSP.PatternEdge BenzolRingC1Exposed_edge__edge3 = new GRGEN_LGSP.PatternEdge(true, (int) GRGEN_MODEL.EdgeTypes.@Edge, "GRGEN_LIBGR.IEdge", "BenzolRingC1Exposed_edge__edge3", "_edge3", BenzolRingC1Exposed_edge__edge3_AllowedTypes, BenzolRingC1Exposed_edge__edge3_IsAllowedType, 5.5F, -1, false, null, null, null, null, false);
-			GRGEN_LGSP.PatternEdge BenzolRingC1Exposed_edge__edge4 = new GRGEN_LGSP.PatternEdge(true, (int) GRGEN_MODEL.EdgeTypes.@Edge, "GRGEN_LIBGR.IEdge", "BenzolRingC1Exposed_edge__edge4", "_edge4", BenzolRingC1Exposed_edge__edge4_AllowedTypes, BenzolRingC1Exposed_edge__edge4_IsAllowedType, 5.5F, -1, false, null, null, null, null, false);
-			GRGEN_LGSP.PatternEdge BenzolRingC1Exposed_edge__edge5 = new GRGEN_LGSP.PatternEdge(true, (int) GRGEN_MODEL.EdgeTypes.@Edge, "GRGEN_LIBGR.IEdge", "BenzolRingC1Exposed_edge__edge5", "_edge5", BenzolRingC1Exposed_edge__edge5_AllowedTypes, BenzolRingC1Exposed_edge__edge5_IsAllowedType, 5.5F, -1, false, null, null, null, null, false);
-			GRGEN_LGSP.PatternEdge BenzolRingC1Exposed_edge__edge6 = new GRGEN_LGSP.PatternEdge(true, (int) GRGEN_MODEL.EdgeTypes.@Edge, "GRGEN_LIBGR.IEdge", "BenzolRingC1Exposed_edge__edge6", "_edge6", BenzolRingC1Exposed_edge__edge6_AllowedTypes, BenzolRingC1Exposed_edge__edge6_IsAllowedType, 5.5F, -1, false, null, null, null, null, false);
-			GRGEN_LGSP.PatternEdge BenzolRingC1Exposed_edge__edge7 = new GRGEN_LGSP.PatternEdge(true, (int) GRGEN_MODEL.EdgeTypes.@Edge, "GRGEN_LIBGR.IEdge", "BenzolRingC1Exposed_edge__edge7", "_edge7", BenzolRingC1Exposed_edge__edge7_AllowedTypes, BenzolRingC1Exposed_edge__edge7_IsAllowedType, 5.5F, -1, false, null, null, null, null, false);
-			GRGEN_LGSP.PatternEdge BenzolRingC1Exposed_edge__edge8 = new GRGEN_LGSP.PatternEdge(true, (int) GRGEN_MODEL.EdgeTypes.@Edge, "GRGEN_LIBGR.IEdge", "BenzolRingC1Exposed_edge__edge8", "_edge8", BenzolRingC1Exposed_edge__edge8_AllowedTypes, BenzolRingC1Exposed_edge__edge8_IsAllowedType, 5.5F, -1, false, null, null, null, null, false);
+			bool[] BenzolRingC1Exposed_isNodeTotallyHomomorphic = new bool[6] { false, false, false, false, false, false,  };
+			bool[] BenzolRingC1Exposed_isEdgeTotallyHomomorphic = new bool[9] { false, false, false, false, false, false, false, false, false,  };
+			GRGEN_LGSP.PatternNode BenzolRingC1Exposed_node_c1 = new GRGEN_LGSP.PatternNode((int) GRGEN_MODEL.NodeTypes.@C, "GRGEN_MODEL.IC", "BenzolRingC1Exposed_node_c1", "c1", BenzolRingC1Exposed_node_c1_AllowedTypes, BenzolRingC1Exposed_node_c1_IsAllowedType, 5.5F, 0, false, null, null, null, null, null, false);
+			GRGEN_LGSP.PatternNode BenzolRingC1Exposed_node_c2 = new GRGEN_LGSP.PatternNode((int) GRGEN_MODEL.NodeTypes.@C, "GRGEN_MODEL.IC", "BenzolRingC1Exposed_node_c2", "c2", BenzolRingC1Exposed_node_c2_AllowedTypes, BenzolRingC1Exposed_node_c2_IsAllowedType, 5.5F, -1, false, null, null, null, null, null, false);
+			GRGEN_LGSP.PatternNode BenzolRingC1Exposed_node_c3 = new GRGEN_LGSP.PatternNode((int) GRGEN_MODEL.NodeTypes.@C, "GRGEN_MODEL.IC", "BenzolRingC1Exposed_node_c3", "c3", BenzolRingC1Exposed_node_c3_AllowedTypes, BenzolRingC1Exposed_node_c3_IsAllowedType, 5.5F, -1, false, null, null, null, null, null, false);
+			GRGEN_LGSP.PatternNode BenzolRingC1Exposed_node_c4 = new GRGEN_LGSP.PatternNode((int) GRGEN_MODEL.NodeTypes.@C, "GRGEN_MODEL.IC", "BenzolRingC1Exposed_node_c4", "c4", BenzolRingC1Exposed_node_c4_AllowedTypes, BenzolRingC1Exposed_node_c4_IsAllowedType, 5.5F, -1, false, null, null, null, null, null, false);
+			GRGEN_LGSP.PatternNode BenzolRingC1Exposed_node_c5 = new GRGEN_LGSP.PatternNode((int) GRGEN_MODEL.NodeTypes.@C, "GRGEN_MODEL.IC", "BenzolRingC1Exposed_node_c5", "c5", BenzolRingC1Exposed_node_c5_AllowedTypes, BenzolRingC1Exposed_node_c5_IsAllowedType, 5.5F, -1, false, null, null, null, null, null, false);
+			GRGEN_LGSP.PatternNode BenzolRingC1Exposed_node_c6 = new GRGEN_LGSP.PatternNode((int) GRGEN_MODEL.NodeTypes.@C, "GRGEN_MODEL.IC", "BenzolRingC1Exposed_node_c6", "c6", BenzolRingC1Exposed_node_c6_AllowedTypes, BenzolRingC1Exposed_node_c6_IsAllowedType, 5.5F, -1, false, null, null, null, null, null, false);
+			GRGEN_LGSP.PatternEdge BenzolRingC1Exposed_edge__edge0 = new GRGEN_LGSP.PatternEdge(true, (int) GRGEN_MODEL.EdgeTypes.@Edge, "GRGEN_LIBGR.IEdge", "BenzolRingC1Exposed_edge__edge0", "_edge0", BenzolRingC1Exposed_edge__edge0_AllowedTypes, BenzolRingC1Exposed_edge__edge0_IsAllowedType, 5.5F, -1, false, null, null, null, null, null, false);
+			GRGEN_LGSP.PatternEdge BenzolRingC1Exposed_edge__edge1 = new GRGEN_LGSP.PatternEdge(true, (int) GRGEN_MODEL.EdgeTypes.@Edge, "GRGEN_LIBGR.IEdge", "BenzolRingC1Exposed_edge__edge1", "_edge1", BenzolRingC1Exposed_edge__edge1_AllowedTypes, BenzolRingC1Exposed_edge__edge1_IsAllowedType, 5.5F, -1, false, null, null, null, null, null, false);
+			GRGEN_LGSP.PatternEdge BenzolRingC1Exposed_edge__edge2 = new GRGEN_LGSP.PatternEdge(true, (int) GRGEN_MODEL.EdgeTypes.@Edge, "GRGEN_LIBGR.IEdge", "BenzolRingC1Exposed_edge__edge2", "_edge2", BenzolRingC1Exposed_edge__edge2_AllowedTypes, BenzolRingC1Exposed_edge__edge2_IsAllowedType, 5.5F, -1, false, null, null, null, null, null, false);
+			GRGEN_LGSP.PatternEdge BenzolRingC1Exposed_edge__edge3 = new GRGEN_LGSP.PatternEdge(true, (int) GRGEN_MODEL.EdgeTypes.@Edge, "GRGEN_LIBGR.IEdge", "BenzolRingC1Exposed_edge__edge3", "_edge3", BenzolRingC1Exposed_edge__edge3_AllowedTypes, BenzolRingC1Exposed_edge__edge3_IsAllowedType, 5.5F, -1, false, null, null, null, null, null, false);
+			GRGEN_LGSP.PatternEdge BenzolRingC1Exposed_edge__edge4 = new GRGEN_LGSP.PatternEdge(true, (int) GRGEN_MODEL.EdgeTypes.@Edge, "GRGEN_LIBGR.IEdge", "BenzolRingC1Exposed_edge__edge4", "_edge4", BenzolRingC1Exposed_edge__edge4_AllowedTypes, BenzolRingC1Exposed_edge__edge4_IsAllowedType, 5.5F, -1, false, null, null, null, null, null, false);
+			GRGEN_LGSP.PatternEdge BenzolRingC1Exposed_edge__edge5 = new GRGEN_LGSP.PatternEdge(true, (int) GRGEN_MODEL.EdgeTypes.@Edge, "GRGEN_LIBGR.IEdge", "BenzolRingC1Exposed_edge__edge5", "_edge5", BenzolRingC1Exposed_edge__edge5_AllowedTypes, BenzolRingC1Exposed_edge__edge5_IsAllowedType, 5.5F, -1, false, null, null, null, null, null, false);
+			GRGEN_LGSP.PatternEdge BenzolRingC1Exposed_edge__edge6 = new GRGEN_LGSP.PatternEdge(true, (int) GRGEN_MODEL.EdgeTypes.@Edge, "GRGEN_LIBGR.IEdge", "BenzolRingC1Exposed_edge__edge6", "_edge6", BenzolRingC1Exposed_edge__edge6_AllowedTypes, BenzolRingC1Exposed_edge__edge6_IsAllowedType, 5.5F, -1, false, null, null, null, null, null, false);
+			GRGEN_LGSP.PatternEdge BenzolRingC1Exposed_edge__edge7 = new GRGEN_LGSP.PatternEdge(true, (int) GRGEN_MODEL.EdgeTypes.@Edge, "GRGEN_LIBGR.IEdge", "BenzolRingC1Exposed_edge__edge7", "_edge7", BenzolRingC1Exposed_edge__edge7_AllowedTypes, BenzolRingC1Exposed_edge__edge7_IsAllowedType, 5.5F, -1, false, null, null, null, null, null, false);
+			GRGEN_LGSP.PatternEdge BenzolRingC1Exposed_edge__edge8 = new GRGEN_LGSP.PatternEdge(true, (int) GRGEN_MODEL.EdgeTypes.@Edge, "GRGEN_LIBGR.IEdge", "BenzolRingC1Exposed_edge__edge8", "_edge8", BenzolRingC1Exposed_edge__edge8_AllowedTypes, BenzolRingC1Exposed_edge__edge8_IsAllowedType, 5.5F, -1, false, null, null, null, null, null, false);
 			pat_BenzolRingC1Exposed = new GRGEN_LGSP.PatternGraph(
 				"BenzolRingC1Exposed",
 				"",
@@ -906,7 +916,9 @@ namespace de.unika.ipd.grGen.Action_TNT
 					{ false, false, false, false, false, false, false, false, true, },
 				},
 				BenzolRingC1Exposed_isNodeHomomorphicGlobal,
-				BenzolRingC1Exposed_isEdgeHomomorphicGlobal
+				BenzolRingC1Exposed_isEdgeHomomorphicGlobal,
+				BenzolRingC1Exposed_isNodeTotallyHomomorphic,
+				BenzolRingC1Exposed_isEdgeTotallyHomomorphic
 			);
 			pat_BenzolRingC1Exposed.edgeToSourceNode.Add(BenzolRingC1Exposed_edge__edge0, BenzolRingC1Exposed_node_c1);
 			pat_BenzolRingC1Exposed.edgeToTargetNode.Add(BenzolRingC1Exposed_edge__edge0, BenzolRingC1Exposed_node_c2);
@@ -1269,21 +1281,23 @@ namespace de.unika.ipd.grGen.Action_TNT
 				{ false, false, false, false, false, false, false, false, false, },
 				{ false, false, false, false, false, false, false, false, false, },
 			};
-			GRGEN_LGSP.PatternNode BenzolRingC1ExposedNotC6Nitro_node_c1 = new GRGEN_LGSP.PatternNode((int) GRGEN_MODEL.NodeTypes.@C, "GRGEN_MODEL.IC", "BenzolRingC1ExposedNotC6Nitro_node_c1", "c1", BenzolRingC1ExposedNotC6Nitro_node_c1_AllowedTypes, BenzolRingC1ExposedNotC6Nitro_node_c1_IsAllowedType, 5.5F, 0, false, null, null, null, null, false);
-			GRGEN_LGSP.PatternNode BenzolRingC1ExposedNotC6Nitro_node_c2 = new GRGEN_LGSP.PatternNode((int) GRGEN_MODEL.NodeTypes.@C, "GRGEN_MODEL.IC", "BenzolRingC1ExposedNotC6Nitro_node_c2", "c2", BenzolRingC1ExposedNotC6Nitro_node_c2_AllowedTypes, BenzolRingC1ExposedNotC6Nitro_node_c2_IsAllowedType, 5.5F, -1, false, null, null, null, null, false);
-			GRGEN_LGSP.PatternNode BenzolRingC1ExposedNotC6Nitro_node_c3 = new GRGEN_LGSP.PatternNode((int) GRGEN_MODEL.NodeTypes.@C, "GRGEN_MODEL.IC", "BenzolRingC1ExposedNotC6Nitro_node_c3", "c3", BenzolRingC1ExposedNotC6Nitro_node_c3_AllowedTypes, BenzolRingC1ExposedNotC6Nitro_node_c3_IsAllowedType, 5.5F, -1, false, null, null, null, null, false);
-			GRGEN_LGSP.PatternNode BenzolRingC1ExposedNotC6Nitro_node_c4 = new GRGEN_LGSP.PatternNode((int) GRGEN_MODEL.NodeTypes.@C, "GRGEN_MODEL.IC", "BenzolRingC1ExposedNotC6Nitro_node_c4", "c4", BenzolRingC1ExposedNotC6Nitro_node_c4_AllowedTypes, BenzolRingC1ExposedNotC6Nitro_node_c4_IsAllowedType, 5.5F, -1, false, null, null, null, null, false);
-			GRGEN_LGSP.PatternNode BenzolRingC1ExposedNotC6Nitro_node_c5 = new GRGEN_LGSP.PatternNode((int) GRGEN_MODEL.NodeTypes.@C, "GRGEN_MODEL.IC", "BenzolRingC1ExposedNotC6Nitro_node_c5", "c5", BenzolRingC1ExposedNotC6Nitro_node_c5_AllowedTypes, BenzolRingC1ExposedNotC6Nitro_node_c5_IsAllowedType, 5.5F, -1, false, null, null, null, null, false);
-			GRGEN_LGSP.PatternNode BenzolRingC1ExposedNotC6Nitro_node_c6 = new GRGEN_LGSP.PatternNode((int) GRGEN_MODEL.NodeTypes.@C, "GRGEN_MODEL.IC", "BenzolRingC1ExposedNotC6Nitro_node_c6", "c6", BenzolRingC1ExposedNotC6Nitro_node_c6_AllowedTypes, BenzolRingC1ExposedNotC6Nitro_node_c6_IsAllowedType, 5.5F, -1, false, null, null, null, null, false);
-			GRGEN_LGSP.PatternEdge BenzolRingC1ExposedNotC6Nitro_edge__edge0 = new GRGEN_LGSP.PatternEdge(true, (int) GRGEN_MODEL.EdgeTypes.@Edge, "GRGEN_LIBGR.IEdge", "BenzolRingC1ExposedNotC6Nitro_edge__edge0", "_edge0", BenzolRingC1ExposedNotC6Nitro_edge__edge0_AllowedTypes, BenzolRingC1ExposedNotC6Nitro_edge__edge0_IsAllowedType, 5.5F, -1, false, null, null, null, null, false);
-			GRGEN_LGSP.PatternEdge BenzolRingC1ExposedNotC6Nitro_edge__edge1 = new GRGEN_LGSP.PatternEdge(true, (int) GRGEN_MODEL.EdgeTypes.@Edge, "GRGEN_LIBGR.IEdge", "BenzolRingC1ExposedNotC6Nitro_edge__edge1", "_edge1", BenzolRingC1ExposedNotC6Nitro_edge__edge1_AllowedTypes, BenzolRingC1ExposedNotC6Nitro_edge__edge1_IsAllowedType, 5.5F, -1, false, null, null, null, null, false);
-			GRGEN_LGSP.PatternEdge BenzolRingC1ExposedNotC6Nitro_edge__edge2 = new GRGEN_LGSP.PatternEdge(true, (int) GRGEN_MODEL.EdgeTypes.@Edge, "GRGEN_LIBGR.IEdge", "BenzolRingC1ExposedNotC6Nitro_edge__edge2", "_edge2", BenzolRingC1ExposedNotC6Nitro_edge__edge2_AllowedTypes, BenzolRingC1ExposedNotC6Nitro_edge__edge2_IsAllowedType, 5.5F, -1, false, null, null, null, null, false);
-			GRGEN_LGSP.PatternEdge BenzolRingC1ExposedNotC6Nitro_edge__edge3 = new GRGEN_LGSP.PatternEdge(true, (int) GRGEN_MODEL.EdgeTypes.@Edge, "GRGEN_LIBGR.IEdge", "BenzolRingC1ExposedNotC6Nitro_edge__edge3", "_edge3", BenzolRingC1ExposedNotC6Nitro_edge__edge3_AllowedTypes, BenzolRingC1ExposedNotC6Nitro_edge__edge3_IsAllowedType, 5.5F, -1, false, null, null, null, null, false);
-			GRGEN_LGSP.PatternEdge BenzolRingC1ExposedNotC6Nitro_edge__edge4 = new GRGEN_LGSP.PatternEdge(true, (int) GRGEN_MODEL.EdgeTypes.@Edge, "GRGEN_LIBGR.IEdge", "BenzolRingC1ExposedNotC6Nitro_edge__edge4", "_edge4", BenzolRingC1ExposedNotC6Nitro_edge__edge4_AllowedTypes, BenzolRingC1ExposedNotC6Nitro_edge__edge4_IsAllowedType, 5.5F, -1, false, null, null, null, null, false);
-			GRGEN_LGSP.PatternEdge BenzolRingC1ExposedNotC6Nitro_edge__edge5 = new GRGEN_LGSP.PatternEdge(true, (int) GRGEN_MODEL.EdgeTypes.@Edge, "GRGEN_LIBGR.IEdge", "BenzolRingC1ExposedNotC6Nitro_edge__edge5", "_edge5", BenzolRingC1ExposedNotC6Nitro_edge__edge5_AllowedTypes, BenzolRingC1ExposedNotC6Nitro_edge__edge5_IsAllowedType, 5.5F, -1, false, null, null, null, null, false);
-			GRGEN_LGSP.PatternEdge BenzolRingC1ExposedNotC6Nitro_edge__edge6 = new GRGEN_LGSP.PatternEdge(true, (int) GRGEN_MODEL.EdgeTypes.@Edge, "GRGEN_LIBGR.IEdge", "BenzolRingC1ExposedNotC6Nitro_edge__edge6", "_edge6", BenzolRingC1ExposedNotC6Nitro_edge__edge6_AllowedTypes, BenzolRingC1ExposedNotC6Nitro_edge__edge6_IsAllowedType, 5.5F, -1, false, null, null, null, null, false);
-			GRGEN_LGSP.PatternEdge BenzolRingC1ExposedNotC6Nitro_edge__edge7 = new GRGEN_LGSP.PatternEdge(true, (int) GRGEN_MODEL.EdgeTypes.@Edge, "GRGEN_LIBGR.IEdge", "BenzolRingC1ExposedNotC6Nitro_edge__edge7", "_edge7", BenzolRingC1ExposedNotC6Nitro_edge__edge7_AllowedTypes, BenzolRingC1ExposedNotC6Nitro_edge__edge7_IsAllowedType, 5.5F, -1, false, null, null, null, null, false);
-			GRGEN_LGSP.PatternEdge BenzolRingC1ExposedNotC6Nitro_edge__edge8 = new GRGEN_LGSP.PatternEdge(true, (int) GRGEN_MODEL.EdgeTypes.@Edge, "GRGEN_LIBGR.IEdge", "BenzolRingC1ExposedNotC6Nitro_edge__edge8", "_edge8", BenzolRingC1ExposedNotC6Nitro_edge__edge8_AllowedTypes, BenzolRingC1ExposedNotC6Nitro_edge__edge8_IsAllowedType, 5.5F, -1, false, null, null, null, null, false);
+			bool[] BenzolRingC1ExposedNotC6Nitro_isNodeTotallyHomomorphic = new bool[6] { false, false, false, false, false, false,  };
+			bool[] BenzolRingC1ExposedNotC6Nitro_isEdgeTotallyHomomorphic = new bool[9] { false, false, false, false, false, false, false, false, false,  };
+			GRGEN_LGSP.PatternNode BenzolRingC1ExposedNotC6Nitro_node_c1 = new GRGEN_LGSP.PatternNode((int) GRGEN_MODEL.NodeTypes.@C, "GRGEN_MODEL.IC", "BenzolRingC1ExposedNotC6Nitro_node_c1", "c1", BenzolRingC1ExposedNotC6Nitro_node_c1_AllowedTypes, BenzolRingC1ExposedNotC6Nitro_node_c1_IsAllowedType, 5.5F, 0, false, null, null, null, null, null, false);
+			GRGEN_LGSP.PatternNode BenzolRingC1ExposedNotC6Nitro_node_c2 = new GRGEN_LGSP.PatternNode((int) GRGEN_MODEL.NodeTypes.@C, "GRGEN_MODEL.IC", "BenzolRingC1ExposedNotC6Nitro_node_c2", "c2", BenzolRingC1ExposedNotC6Nitro_node_c2_AllowedTypes, BenzolRingC1ExposedNotC6Nitro_node_c2_IsAllowedType, 5.5F, -1, false, null, null, null, null, null, false);
+			GRGEN_LGSP.PatternNode BenzolRingC1ExposedNotC6Nitro_node_c3 = new GRGEN_LGSP.PatternNode((int) GRGEN_MODEL.NodeTypes.@C, "GRGEN_MODEL.IC", "BenzolRingC1ExposedNotC6Nitro_node_c3", "c3", BenzolRingC1ExposedNotC6Nitro_node_c3_AllowedTypes, BenzolRingC1ExposedNotC6Nitro_node_c3_IsAllowedType, 5.5F, -1, false, null, null, null, null, null, false);
+			GRGEN_LGSP.PatternNode BenzolRingC1ExposedNotC6Nitro_node_c4 = new GRGEN_LGSP.PatternNode((int) GRGEN_MODEL.NodeTypes.@C, "GRGEN_MODEL.IC", "BenzolRingC1ExposedNotC6Nitro_node_c4", "c4", BenzolRingC1ExposedNotC6Nitro_node_c4_AllowedTypes, BenzolRingC1ExposedNotC6Nitro_node_c4_IsAllowedType, 5.5F, -1, false, null, null, null, null, null, false);
+			GRGEN_LGSP.PatternNode BenzolRingC1ExposedNotC6Nitro_node_c5 = new GRGEN_LGSP.PatternNode((int) GRGEN_MODEL.NodeTypes.@C, "GRGEN_MODEL.IC", "BenzolRingC1ExposedNotC6Nitro_node_c5", "c5", BenzolRingC1ExposedNotC6Nitro_node_c5_AllowedTypes, BenzolRingC1ExposedNotC6Nitro_node_c5_IsAllowedType, 5.5F, -1, false, null, null, null, null, null, false);
+			GRGEN_LGSP.PatternNode BenzolRingC1ExposedNotC6Nitro_node_c6 = new GRGEN_LGSP.PatternNode((int) GRGEN_MODEL.NodeTypes.@C, "GRGEN_MODEL.IC", "BenzolRingC1ExposedNotC6Nitro_node_c6", "c6", BenzolRingC1ExposedNotC6Nitro_node_c6_AllowedTypes, BenzolRingC1ExposedNotC6Nitro_node_c6_IsAllowedType, 5.5F, -1, false, null, null, null, null, null, false);
+			GRGEN_LGSP.PatternEdge BenzolRingC1ExposedNotC6Nitro_edge__edge0 = new GRGEN_LGSP.PatternEdge(true, (int) GRGEN_MODEL.EdgeTypes.@Edge, "GRGEN_LIBGR.IEdge", "BenzolRingC1ExposedNotC6Nitro_edge__edge0", "_edge0", BenzolRingC1ExposedNotC6Nitro_edge__edge0_AllowedTypes, BenzolRingC1ExposedNotC6Nitro_edge__edge0_IsAllowedType, 5.5F, -1, false, null, null, null, null, null, false);
+			GRGEN_LGSP.PatternEdge BenzolRingC1ExposedNotC6Nitro_edge__edge1 = new GRGEN_LGSP.PatternEdge(true, (int) GRGEN_MODEL.EdgeTypes.@Edge, "GRGEN_LIBGR.IEdge", "BenzolRingC1ExposedNotC6Nitro_edge__edge1", "_edge1", BenzolRingC1ExposedNotC6Nitro_edge__edge1_AllowedTypes, BenzolRingC1ExposedNotC6Nitro_edge__edge1_IsAllowedType, 5.5F, -1, false, null, null, null, null, null, false);
+			GRGEN_LGSP.PatternEdge BenzolRingC1ExposedNotC6Nitro_edge__edge2 = new GRGEN_LGSP.PatternEdge(true, (int) GRGEN_MODEL.EdgeTypes.@Edge, "GRGEN_LIBGR.IEdge", "BenzolRingC1ExposedNotC6Nitro_edge__edge2", "_edge2", BenzolRingC1ExposedNotC6Nitro_edge__edge2_AllowedTypes, BenzolRingC1ExposedNotC6Nitro_edge__edge2_IsAllowedType, 5.5F, -1, false, null, null, null, null, null, false);
+			GRGEN_LGSP.PatternEdge BenzolRingC1ExposedNotC6Nitro_edge__edge3 = new GRGEN_LGSP.PatternEdge(true, (int) GRGEN_MODEL.EdgeTypes.@Edge, "GRGEN_LIBGR.IEdge", "BenzolRingC1ExposedNotC6Nitro_edge__edge3", "_edge3", BenzolRingC1ExposedNotC6Nitro_edge__edge3_AllowedTypes, BenzolRingC1ExposedNotC6Nitro_edge__edge3_IsAllowedType, 5.5F, -1, false, null, null, null, null, null, false);
+			GRGEN_LGSP.PatternEdge BenzolRingC1ExposedNotC6Nitro_edge__edge4 = new GRGEN_LGSP.PatternEdge(true, (int) GRGEN_MODEL.EdgeTypes.@Edge, "GRGEN_LIBGR.IEdge", "BenzolRingC1ExposedNotC6Nitro_edge__edge4", "_edge4", BenzolRingC1ExposedNotC6Nitro_edge__edge4_AllowedTypes, BenzolRingC1ExposedNotC6Nitro_edge__edge4_IsAllowedType, 5.5F, -1, false, null, null, null, null, null, false);
+			GRGEN_LGSP.PatternEdge BenzolRingC1ExposedNotC6Nitro_edge__edge5 = new GRGEN_LGSP.PatternEdge(true, (int) GRGEN_MODEL.EdgeTypes.@Edge, "GRGEN_LIBGR.IEdge", "BenzolRingC1ExposedNotC6Nitro_edge__edge5", "_edge5", BenzolRingC1ExposedNotC6Nitro_edge__edge5_AllowedTypes, BenzolRingC1ExposedNotC6Nitro_edge__edge5_IsAllowedType, 5.5F, -1, false, null, null, null, null, null, false);
+			GRGEN_LGSP.PatternEdge BenzolRingC1ExposedNotC6Nitro_edge__edge6 = new GRGEN_LGSP.PatternEdge(true, (int) GRGEN_MODEL.EdgeTypes.@Edge, "GRGEN_LIBGR.IEdge", "BenzolRingC1ExposedNotC6Nitro_edge__edge6", "_edge6", BenzolRingC1ExposedNotC6Nitro_edge__edge6_AllowedTypes, BenzolRingC1ExposedNotC6Nitro_edge__edge6_IsAllowedType, 5.5F, -1, false, null, null, null, null, null, false);
+			GRGEN_LGSP.PatternEdge BenzolRingC1ExposedNotC6Nitro_edge__edge7 = new GRGEN_LGSP.PatternEdge(true, (int) GRGEN_MODEL.EdgeTypes.@Edge, "GRGEN_LIBGR.IEdge", "BenzolRingC1ExposedNotC6Nitro_edge__edge7", "_edge7", BenzolRingC1ExposedNotC6Nitro_edge__edge7_AllowedTypes, BenzolRingC1ExposedNotC6Nitro_edge__edge7_IsAllowedType, 5.5F, -1, false, null, null, null, null, null, false);
+			GRGEN_LGSP.PatternEdge BenzolRingC1ExposedNotC6Nitro_edge__edge8 = new GRGEN_LGSP.PatternEdge(true, (int) GRGEN_MODEL.EdgeTypes.@Edge, "GRGEN_LIBGR.IEdge", "BenzolRingC1ExposedNotC6Nitro_edge__edge8", "_edge8", BenzolRingC1ExposedNotC6Nitro_edge__edge8_AllowedTypes, BenzolRingC1ExposedNotC6Nitro_edge__edge8_IsAllowedType, 5.5F, -1, false, null, null, null, null, null, false);
 			bool[,] BenzolRingC1ExposedNotC6Nitro_neg_0_isNodeHomomorphicGlobal = new bool[4, 4] {
 				{ false, false, false, false, },
 				{ false, false, false, false, },
@@ -1295,12 +1309,14 @@ namespace de.unika.ipd.grGen.Action_TNT
 				{ false, false, false, },
 				{ false, false, false, },
 			};
-			GRGEN_LGSP.PatternNode BenzolRingC1ExposedNotC6Nitro_neg_0_node_n = new GRGEN_LGSP.PatternNode((int) GRGEN_MODEL.NodeTypes.@N, "GRGEN_MODEL.IN", "BenzolRingC1ExposedNotC6Nitro_neg_0_node_n", "n", BenzolRingC1ExposedNotC6Nitro_neg_0_node_n_AllowedTypes, BenzolRingC1ExposedNotC6Nitro_neg_0_node_n_IsAllowedType, 5.5F, -1, false, null, null, null, null, false);
-			GRGEN_LGSP.PatternNode BenzolRingC1ExposedNotC6Nitro_neg_0_node__node0 = new GRGEN_LGSP.PatternNode((int) GRGEN_MODEL.NodeTypes.@O, "GRGEN_MODEL.IO", "BenzolRingC1ExposedNotC6Nitro_neg_0_node__node0", "_node0", BenzolRingC1ExposedNotC6Nitro_neg_0_node__node0_AllowedTypes, BenzolRingC1ExposedNotC6Nitro_neg_0_node__node0_IsAllowedType, 5.5F, -1, false, null, null, null, null, false);
-			GRGEN_LGSP.PatternNode BenzolRingC1ExposedNotC6Nitro_neg_0_node__node1 = new GRGEN_LGSP.PatternNode((int) GRGEN_MODEL.NodeTypes.@O, "GRGEN_MODEL.IO", "BenzolRingC1ExposedNotC6Nitro_neg_0_node__node1", "_node1", BenzolRingC1ExposedNotC6Nitro_neg_0_node__node1_AllowedTypes, BenzolRingC1ExposedNotC6Nitro_neg_0_node__node1_IsAllowedType, 5.5F, -1, false, null, null, null, null, false);
-			GRGEN_LGSP.PatternEdge BenzolRingC1ExposedNotC6Nitro_neg_0_edge__edge0 = new GRGEN_LGSP.PatternEdge(true, (int) GRGEN_MODEL.EdgeTypes.@Edge, "GRGEN_LIBGR.IEdge", "BenzolRingC1ExposedNotC6Nitro_neg_0_edge__edge0", "_edge0", BenzolRingC1ExposedNotC6Nitro_neg_0_edge__edge0_AllowedTypes, BenzolRingC1ExposedNotC6Nitro_neg_0_edge__edge0_IsAllowedType, 5.5F, -1, false, null, null, null, null, false);
-			GRGEN_LGSP.PatternEdge BenzolRingC1ExposedNotC6Nitro_neg_0_edge__edge1 = new GRGEN_LGSP.PatternEdge(true, (int) GRGEN_MODEL.EdgeTypes.@Edge, "GRGEN_LIBGR.IEdge", "BenzolRingC1ExposedNotC6Nitro_neg_0_edge__edge1", "_edge1", BenzolRingC1ExposedNotC6Nitro_neg_0_edge__edge1_AllowedTypes, BenzolRingC1ExposedNotC6Nitro_neg_0_edge__edge1_IsAllowedType, 5.5F, -1, false, null, null, null, null, false);
-			GRGEN_LGSP.PatternEdge BenzolRingC1ExposedNotC6Nitro_neg_0_edge__edge2 = new GRGEN_LGSP.PatternEdge(true, (int) GRGEN_MODEL.EdgeTypes.@Edge, "GRGEN_LIBGR.IEdge", "BenzolRingC1ExposedNotC6Nitro_neg_0_edge__edge2", "_edge2", BenzolRingC1ExposedNotC6Nitro_neg_0_edge__edge2_AllowedTypes, BenzolRingC1ExposedNotC6Nitro_neg_0_edge__edge2_IsAllowedType, 5.5F, -1, false, null, null, null, null, false);
+			bool[] BenzolRingC1ExposedNotC6Nitro_neg_0_isNodeTotallyHomomorphic = new bool[4] { false, false, false, false,  };
+			bool[] BenzolRingC1ExposedNotC6Nitro_neg_0_isEdgeTotallyHomomorphic = new bool[3] { false, false, false,  };
+			GRGEN_LGSP.PatternNode BenzolRingC1ExposedNotC6Nitro_neg_0_node_n = new GRGEN_LGSP.PatternNode((int) GRGEN_MODEL.NodeTypes.@N, "GRGEN_MODEL.IN", "BenzolRingC1ExposedNotC6Nitro_neg_0_node_n", "n", BenzolRingC1ExposedNotC6Nitro_neg_0_node_n_AllowedTypes, BenzolRingC1ExposedNotC6Nitro_neg_0_node_n_IsAllowedType, 5.5F, -1, false, null, null, null, null, null, false);
+			GRGEN_LGSP.PatternNode BenzolRingC1ExposedNotC6Nitro_neg_0_node__node0 = new GRGEN_LGSP.PatternNode((int) GRGEN_MODEL.NodeTypes.@O, "GRGEN_MODEL.IO", "BenzolRingC1ExposedNotC6Nitro_neg_0_node__node0", "_node0", BenzolRingC1ExposedNotC6Nitro_neg_0_node__node0_AllowedTypes, BenzolRingC1ExposedNotC6Nitro_neg_0_node__node0_IsAllowedType, 5.5F, -1, false, null, null, null, null, null, false);
+			GRGEN_LGSP.PatternNode BenzolRingC1ExposedNotC6Nitro_neg_0_node__node1 = new GRGEN_LGSP.PatternNode((int) GRGEN_MODEL.NodeTypes.@O, "GRGEN_MODEL.IO", "BenzolRingC1ExposedNotC6Nitro_neg_0_node__node1", "_node1", BenzolRingC1ExposedNotC6Nitro_neg_0_node__node1_AllowedTypes, BenzolRingC1ExposedNotC6Nitro_neg_0_node__node1_IsAllowedType, 5.5F, -1, false, null, null, null, null, null, false);
+			GRGEN_LGSP.PatternEdge BenzolRingC1ExposedNotC6Nitro_neg_0_edge__edge0 = new GRGEN_LGSP.PatternEdge(true, (int) GRGEN_MODEL.EdgeTypes.@Edge, "GRGEN_LIBGR.IEdge", "BenzolRingC1ExposedNotC6Nitro_neg_0_edge__edge0", "_edge0", BenzolRingC1ExposedNotC6Nitro_neg_0_edge__edge0_AllowedTypes, BenzolRingC1ExposedNotC6Nitro_neg_0_edge__edge0_IsAllowedType, 5.5F, -1, false, null, null, null, null, null, false);
+			GRGEN_LGSP.PatternEdge BenzolRingC1ExposedNotC6Nitro_neg_0_edge__edge1 = new GRGEN_LGSP.PatternEdge(true, (int) GRGEN_MODEL.EdgeTypes.@Edge, "GRGEN_LIBGR.IEdge", "BenzolRingC1ExposedNotC6Nitro_neg_0_edge__edge1", "_edge1", BenzolRingC1ExposedNotC6Nitro_neg_0_edge__edge1_AllowedTypes, BenzolRingC1ExposedNotC6Nitro_neg_0_edge__edge1_IsAllowedType, 5.5F, -1, false, null, null, null, null, null, false);
+			GRGEN_LGSP.PatternEdge BenzolRingC1ExposedNotC6Nitro_neg_0_edge__edge2 = new GRGEN_LGSP.PatternEdge(true, (int) GRGEN_MODEL.EdgeTypes.@Edge, "GRGEN_LIBGR.IEdge", "BenzolRingC1ExposedNotC6Nitro_neg_0_edge__edge2", "_edge2", BenzolRingC1ExposedNotC6Nitro_neg_0_edge__edge2_AllowedTypes, BenzolRingC1ExposedNotC6Nitro_neg_0_edge__edge2_IsAllowedType, 5.5F, -1, false, null, null, null, null, null, false);
 			BenzolRingC1ExposedNotC6Nitro_neg_0 = new GRGEN_LGSP.PatternGraph(
 				"neg_0",
 				"BenzolRingC1ExposedNotC6Nitro_",
@@ -1327,7 +1343,9 @@ namespace de.unika.ipd.grGen.Action_TNT
 					{ false, false, true, },
 				},
 				BenzolRingC1ExposedNotC6Nitro_neg_0_isNodeHomomorphicGlobal,
-				BenzolRingC1ExposedNotC6Nitro_neg_0_isEdgeHomomorphicGlobal
+				BenzolRingC1ExposedNotC6Nitro_neg_0_isEdgeHomomorphicGlobal,
+				BenzolRingC1ExposedNotC6Nitro_neg_0_isNodeTotallyHomomorphic,
+				BenzolRingC1ExposedNotC6Nitro_neg_0_isEdgeTotallyHomomorphic
 			);
 			BenzolRingC1ExposedNotC6Nitro_neg_0.edgeToSourceNode.Add(BenzolRingC1ExposedNotC6Nitro_neg_0_edge__edge0, BenzolRingC1ExposedNotC6Nitro_node_c6);
 			BenzolRingC1ExposedNotC6Nitro_neg_0.edgeToTargetNode.Add(BenzolRingC1ExposedNotC6Nitro_neg_0_edge__edge0, BenzolRingC1ExposedNotC6Nitro_neg_0_node_n);
@@ -1370,7 +1388,9 @@ namespace de.unika.ipd.grGen.Action_TNT
 					{ false, false, false, false, false, false, false, false, true, },
 				},
 				BenzolRingC1ExposedNotC6Nitro_isNodeHomomorphicGlobal,
-				BenzolRingC1ExposedNotC6Nitro_isEdgeHomomorphicGlobal
+				BenzolRingC1ExposedNotC6Nitro_isEdgeHomomorphicGlobal,
+				BenzolRingC1ExposedNotC6Nitro_isNodeTotallyHomomorphic,
+				BenzolRingC1ExposedNotC6Nitro_isEdgeTotallyHomomorphic
 			);
 			pat_BenzolRingC1ExposedNotC6Nitro.edgeToSourceNode.Add(BenzolRingC1ExposedNotC6Nitro_edge__edge0, BenzolRingC1ExposedNotC6Nitro_node_c1);
 			pat_BenzolRingC1ExposedNotC6Nitro.edgeToTargetNode.Add(BenzolRingC1ExposedNotC6Nitro_edge__edge0, BenzolRingC1ExposedNotC6Nitro_node_c2);
@@ -1813,10 +1833,12 @@ namespace de.unika.ipd.grGen.Action_TNT
 				{ false, false, },
 				{ false, false, },
 			};
-			GRGEN_LGSP.PatternNode Oxygen_node_o1 = new GRGEN_LGSP.PatternNode((int) GRGEN_MODEL.NodeTypes.@O, "GRGEN_MODEL.IO", "Oxygen_node_o1", "o1", Oxygen_node_o1_AllowedTypes, Oxygen_node_o1_IsAllowedType, 5.5F, -1, false, null, null, null, null, false);
-			GRGEN_LGSP.PatternNode Oxygen_node_o2 = new GRGEN_LGSP.PatternNode((int) GRGEN_MODEL.NodeTypes.@O, "GRGEN_MODEL.IO", "Oxygen_node_o2", "o2", Oxygen_node_o2_AllowedTypes, Oxygen_node_o2_IsAllowedType, 5.5F, -1, false, null, null, null, null, false);
-			GRGEN_LGSP.PatternEdge Oxygen_edge__edge0 = new GRGEN_LGSP.PatternEdge(true, (int) GRGEN_MODEL.EdgeTypes.@Edge, "GRGEN_LIBGR.IEdge", "Oxygen_edge__edge0", "_edge0", Oxygen_edge__edge0_AllowedTypes, Oxygen_edge__edge0_IsAllowedType, 5.5F, -1, false, null, null, null, null, false);
-			GRGEN_LGSP.PatternEdge Oxygen_edge__edge1 = new GRGEN_LGSP.PatternEdge(true, (int) GRGEN_MODEL.EdgeTypes.@Edge, "GRGEN_LIBGR.IEdge", "Oxygen_edge__edge1", "_edge1", Oxygen_edge__edge1_AllowedTypes, Oxygen_edge__edge1_IsAllowedType, 5.5F, -1, false, null, null, null, null, false);
+			bool[] Oxygen_isNodeTotallyHomomorphic = new bool[2] { false, false,  };
+			bool[] Oxygen_isEdgeTotallyHomomorphic = new bool[2] { false, false,  };
+			GRGEN_LGSP.PatternNode Oxygen_node_o1 = new GRGEN_LGSP.PatternNode((int) GRGEN_MODEL.NodeTypes.@O, "GRGEN_MODEL.IO", "Oxygen_node_o1", "o1", Oxygen_node_o1_AllowedTypes, Oxygen_node_o1_IsAllowedType, 5.5F, -1, false, null, null, null, null, null, false);
+			GRGEN_LGSP.PatternNode Oxygen_node_o2 = new GRGEN_LGSP.PatternNode((int) GRGEN_MODEL.NodeTypes.@O, "GRGEN_MODEL.IO", "Oxygen_node_o2", "o2", Oxygen_node_o2_AllowedTypes, Oxygen_node_o2_IsAllowedType, 5.5F, -1, false, null, null, null, null, null, false);
+			GRGEN_LGSP.PatternEdge Oxygen_edge__edge0 = new GRGEN_LGSP.PatternEdge(true, (int) GRGEN_MODEL.EdgeTypes.@Edge, "GRGEN_LIBGR.IEdge", "Oxygen_edge__edge0", "_edge0", Oxygen_edge__edge0_AllowedTypes, Oxygen_edge__edge0_IsAllowedType, 5.5F, -1, false, null, null, null, null, null, false);
+			GRGEN_LGSP.PatternEdge Oxygen_edge__edge1 = new GRGEN_LGSP.PatternEdge(true, (int) GRGEN_MODEL.EdgeTypes.@Edge, "GRGEN_LIBGR.IEdge", "Oxygen_edge__edge1", "_edge1", Oxygen_edge__edge1_AllowedTypes, Oxygen_edge__edge1_IsAllowedType, 5.5F, -1, false, null, null, null, null, null, false);
 			pat_Oxygen = new GRGEN_LGSP.PatternGraph(
 				"Oxygen",
 				"",
@@ -1840,7 +1862,9 @@ namespace de.unika.ipd.grGen.Action_TNT
 					{ false, true, },
 				},
 				Oxygen_isNodeHomomorphicGlobal,
-				Oxygen_isEdgeHomomorphicGlobal
+				Oxygen_isEdgeHomomorphicGlobal,
+				Oxygen_isNodeTotallyHomomorphic,
+				Oxygen_isEdgeTotallyHomomorphic
 			);
 			pat_Oxygen.edgeToSourceNode.Add(Oxygen_edge__edge0, Oxygen_node_o1);
 			pat_Oxygen.edgeToTargetNode.Add(Oxygen_edge__edge0, Oxygen_node_o2);
@@ -2044,9 +2068,11 @@ namespace de.unika.ipd.grGen.Action_TNT
 			bool[,] Hydrogen_isEdgeHomomorphicGlobal = new bool[1, 1] {
 				{ false, },
 			};
-			GRGEN_LGSP.PatternNode Hydrogen_node_anchor = new GRGEN_LGSP.PatternNode((int) GRGEN_MODEL.NodeTypes.@C, "GRGEN_MODEL.IC", "Hydrogen_node_anchor", "anchor", Hydrogen_node_anchor_AllowedTypes, Hydrogen_node_anchor_IsAllowedType, 5.5F, 0, false, null, null, null, null, false);
-			GRGEN_LGSP.PatternNode Hydrogen_node__node0 = new GRGEN_LGSP.PatternNode((int) GRGEN_MODEL.NodeTypes.@H, "GRGEN_MODEL.IH", "Hydrogen_node__node0", "_node0", Hydrogen_node__node0_AllowedTypes, Hydrogen_node__node0_IsAllowedType, 5.5F, -1, false, null, null, null, null, false);
-			GRGEN_LGSP.PatternEdge Hydrogen_edge__edge0 = new GRGEN_LGSP.PatternEdge(true, (int) GRGEN_MODEL.EdgeTypes.@Edge, "GRGEN_LIBGR.IEdge", "Hydrogen_edge__edge0", "_edge0", Hydrogen_edge__edge0_AllowedTypes, Hydrogen_edge__edge0_IsAllowedType, 5.5F, -1, false, null, null, null, null, false);
+			bool[] Hydrogen_isNodeTotallyHomomorphic = new bool[2] { false, false,  };
+			bool[] Hydrogen_isEdgeTotallyHomomorphic = new bool[1] { false,  };
+			GRGEN_LGSP.PatternNode Hydrogen_node_anchor = new GRGEN_LGSP.PatternNode((int) GRGEN_MODEL.NodeTypes.@C, "GRGEN_MODEL.IC", "Hydrogen_node_anchor", "anchor", Hydrogen_node_anchor_AllowedTypes, Hydrogen_node_anchor_IsAllowedType, 5.5F, 0, false, null, null, null, null, null, false);
+			GRGEN_LGSP.PatternNode Hydrogen_node__node0 = new GRGEN_LGSP.PatternNode((int) GRGEN_MODEL.NodeTypes.@H, "GRGEN_MODEL.IH", "Hydrogen_node__node0", "_node0", Hydrogen_node__node0_AllowedTypes, Hydrogen_node__node0_IsAllowedType, 5.5F, -1, false, null, null, null, null, null, false);
+			GRGEN_LGSP.PatternEdge Hydrogen_edge__edge0 = new GRGEN_LGSP.PatternEdge(true, (int) GRGEN_MODEL.EdgeTypes.@Edge, "GRGEN_LIBGR.IEdge", "Hydrogen_edge__edge0", "_edge0", Hydrogen_edge__edge0_AllowedTypes, Hydrogen_edge__edge0_IsAllowedType, 5.5F, -1, false, null, null, null, null, null, false);
 			pat_Hydrogen = new GRGEN_LGSP.PatternGraph(
 				"Hydrogen",
 				"",
@@ -2069,7 +2095,9 @@ namespace de.unika.ipd.grGen.Action_TNT
 					{ true, },
 				},
 				Hydrogen_isNodeHomomorphicGlobal,
-				Hydrogen_isEdgeHomomorphicGlobal
+				Hydrogen_isEdgeHomomorphicGlobal,
+				Hydrogen_isNodeTotallyHomomorphic,
+				Hydrogen_isEdgeTotallyHomomorphic
 			);
 			pat_Hydrogen.edgeToSourceNode.Add(Hydrogen_edge__edge0, Hydrogen_node_anchor);
 			pat_Hydrogen.edgeToTargetNode.Add(Hydrogen_edge__edge0, Hydrogen_node__node0);
@@ -2265,11 +2293,13 @@ namespace de.unika.ipd.grGen.Action_TNT
 				{ false, false, },
 				{ false, false, },
 			};
-			GRGEN_LGSP.PatternNode Hydroxyl_node_anchor = new GRGEN_LGSP.PatternNode((int) GRGEN_MODEL.NodeTypes.@C, "GRGEN_MODEL.IC", "Hydroxyl_node_anchor", "anchor", Hydroxyl_node_anchor_AllowedTypes, Hydroxyl_node_anchor_IsAllowedType, 5.5F, 0, false, null, null, null, null, false);
-			GRGEN_LGSP.PatternNode Hydroxyl_node__node0 = new GRGEN_LGSP.PatternNode((int) GRGEN_MODEL.NodeTypes.@O, "GRGEN_MODEL.IO", "Hydroxyl_node__node0", "_node0", Hydroxyl_node__node0_AllowedTypes, Hydroxyl_node__node0_IsAllowedType, 5.5F, -1, false, null, null, null, null, false);
-			GRGEN_LGSP.PatternNode Hydroxyl_node__node1 = new GRGEN_LGSP.PatternNode((int) GRGEN_MODEL.NodeTypes.@H, "GRGEN_MODEL.IH", "Hydroxyl_node__node1", "_node1", Hydroxyl_node__node1_AllowedTypes, Hydroxyl_node__node1_IsAllowedType, 5.5F, -1, false, null, null, null, null, false);
-			GRGEN_LGSP.PatternEdge Hydroxyl_edge__edge0 = new GRGEN_LGSP.PatternEdge(true, (int) GRGEN_MODEL.EdgeTypes.@Edge, "GRGEN_LIBGR.IEdge", "Hydroxyl_edge__edge0", "_edge0", Hydroxyl_edge__edge0_AllowedTypes, Hydroxyl_edge__edge0_IsAllowedType, 5.5F, -1, false, null, null, null, null, false);
-			GRGEN_LGSP.PatternEdge Hydroxyl_edge__edge1 = new GRGEN_LGSP.PatternEdge(true, (int) GRGEN_MODEL.EdgeTypes.@Edge, "GRGEN_LIBGR.IEdge", "Hydroxyl_edge__edge1", "_edge1", Hydroxyl_edge__edge1_AllowedTypes, Hydroxyl_edge__edge1_IsAllowedType, 5.5F, -1, false, null, null, null, null, false);
+			bool[] Hydroxyl_isNodeTotallyHomomorphic = new bool[3] { false, false, false,  };
+			bool[] Hydroxyl_isEdgeTotallyHomomorphic = new bool[2] { false, false,  };
+			GRGEN_LGSP.PatternNode Hydroxyl_node_anchor = new GRGEN_LGSP.PatternNode((int) GRGEN_MODEL.NodeTypes.@C, "GRGEN_MODEL.IC", "Hydroxyl_node_anchor", "anchor", Hydroxyl_node_anchor_AllowedTypes, Hydroxyl_node_anchor_IsAllowedType, 5.5F, 0, false, null, null, null, null, null, false);
+			GRGEN_LGSP.PatternNode Hydroxyl_node__node0 = new GRGEN_LGSP.PatternNode((int) GRGEN_MODEL.NodeTypes.@O, "GRGEN_MODEL.IO", "Hydroxyl_node__node0", "_node0", Hydroxyl_node__node0_AllowedTypes, Hydroxyl_node__node0_IsAllowedType, 5.5F, -1, false, null, null, null, null, null, false);
+			GRGEN_LGSP.PatternNode Hydroxyl_node__node1 = new GRGEN_LGSP.PatternNode((int) GRGEN_MODEL.NodeTypes.@H, "GRGEN_MODEL.IH", "Hydroxyl_node__node1", "_node1", Hydroxyl_node__node1_AllowedTypes, Hydroxyl_node__node1_IsAllowedType, 5.5F, -1, false, null, null, null, null, null, false);
+			GRGEN_LGSP.PatternEdge Hydroxyl_edge__edge0 = new GRGEN_LGSP.PatternEdge(true, (int) GRGEN_MODEL.EdgeTypes.@Edge, "GRGEN_LIBGR.IEdge", "Hydroxyl_edge__edge0", "_edge0", Hydroxyl_edge__edge0_AllowedTypes, Hydroxyl_edge__edge0_IsAllowedType, 5.5F, -1, false, null, null, null, null, null, false);
+			GRGEN_LGSP.PatternEdge Hydroxyl_edge__edge1 = new GRGEN_LGSP.PatternEdge(true, (int) GRGEN_MODEL.EdgeTypes.@Edge, "GRGEN_LIBGR.IEdge", "Hydroxyl_edge__edge1", "_edge1", Hydroxyl_edge__edge1_AllowedTypes, Hydroxyl_edge__edge1_IsAllowedType, 5.5F, -1, false, null, null, null, null, null, false);
 			pat_Hydroxyl = new GRGEN_LGSP.PatternGraph(
 				"Hydroxyl",
 				"",
@@ -2294,7 +2324,9 @@ namespace de.unika.ipd.grGen.Action_TNT
 					{ false, true, },
 				},
 				Hydroxyl_isNodeHomomorphicGlobal,
-				Hydroxyl_isEdgeHomomorphicGlobal
+				Hydroxyl_isEdgeHomomorphicGlobal,
+				Hydroxyl_isNodeTotallyHomomorphic,
+				Hydroxyl_isEdgeTotallyHomomorphic
 			);
 			pat_Hydroxyl.edgeToSourceNode.Add(Hydroxyl_edge__edge0, Hydroxyl_node_anchor);
 			pat_Hydroxyl.edgeToTargetNode.Add(Hydroxyl_edge__edge0, Hydroxyl_node__node0);
@@ -2521,15 +2553,17 @@ namespace de.unika.ipd.grGen.Action_TNT
 				{ false, false, false, false, },
 				{ false, false, false, false, },
 			};
-			GRGEN_LGSP.PatternNode Methyl_node_anchor = new GRGEN_LGSP.PatternNode((int) GRGEN_MODEL.NodeTypes.@C, "GRGEN_MODEL.IC", "Methyl_node_anchor", "anchor", Methyl_node_anchor_AllowedTypes, Methyl_node_anchor_IsAllowedType, 5.5F, 0, false, null, null, null, null, false);
-			GRGEN_LGSP.PatternNode Methyl_node_c = new GRGEN_LGSP.PatternNode((int) GRGEN_MODEL.NodeTypes.@C, "GRGEN_MODEL.IC", "Methyl_node_c", "c", Methyl_node_c_AllowedTypes, Methyl_node_c_IsAllowedType, 5.5F, -1, false, null, null, null, null, false);
-			GRGEN_LGSP.PatternNode Methyl_node__node0 = new GRGEN_LGSP.PatternNode((int) GRGEN_MODEL.NodeTypes.@H, "GRGEN_MODEL.IH", "Methyl_node__node0", "_node0", Methyl_node__node0_AllowedTypes, Methyl_node__node0_IsAllowedType, 5.5F, -1, false, null, null, null, null, false);
-			GRGEN_LGSP.PatternNode Methyl_node__node1 = new GRGEN_LGSP.PatternNode((int) GRGEN_MODEL.NodeTypes.@H, "GRGEN_MODEL.IH", "Methyl_node__node1", "_node1", Methyl_node__node1_AllowedTypes, Methyl_node__node1_IsAllowedType, 5.5F, -1, false, null, null, null, null, false);
-			GRGEN_LGSP.PatternNode Methyl_node__node2 = new GRGEN_LGSP.PatternNode((int) GRGEN_MODEL.NodeTypes.@H, "GRGEN_MODEL.IH", "Methyl_node__node2", "_node2", Methyl_node__node2_AllowedTypes, Methyl_node__node2_IsAllowedType, 5.5F, -1, false, null, null, null, null, false);
-			GRGEN_LGSP.PatternEdge Methyl_edge__edge0 = new GRGEN_LGSP.PatternEdge(true, (int) GRGEN_MODEL.EdgeTypes.@Edge, "GRGEN_LIBGR.IEdge", "Methyl_edge__edge0", "_edge0", Methyl_edge__edge0_AllowedTypes, Methyl_edge__edge0_IsAllowedType, 5.5F, -1, false, null, null, null, null, false);
-			GRGEN_LGSP.PatternEdge Methyl_edge__edge1 = new GRGEN_LGSP.PatternEdge(true, (int) GRGEN_MODEL.EdgeTypes.@Edge, "GRGEN_LIBGR.IEdge", "Methyl_edge__edge1", "_edge1", Methyl_edge__edge1_AllowedTypes, Methyl_edge__edge1_IsAllowedType, 5.5F, -1, false, null, null, null, null, false);
-			GRGEN_LGSP.PatternEdge Methyl_edge__edge2 = new GRGEN_LGSP.PatternEdge(true, (int) GRGEN_MODEL.EdgeTypes.@Edge, "GRGEN_LIBGR.IEdge", "Methyl_edge__edge2", "_edge2", Methyl_edge__edge2_AllowedTypes, Methyl_edge__edge2_IsAllowedType, 5.5F, -1, false, null, null, null, null, false);
-			GRGEN_LGSP.PatternEdge Methyl_edge__edge3 = new GRGEN_LGSP.PatternEdge(true, (int) GRGEN_MODEL.EdgeTypes.@Edge, "GRGEN_LIBGR.IEdge", "Methyl_edge__edge3", "_edge3", Methyl_edge__edge3_AllowedTypes, Methyl_edge__edge3_IsAllowedType, 5.5F, -1, false, null, null, null, null, false);
+			bool[] Methyl_isNodeTotallyHomomorphic = new bool[5] { false, false, false, false, false,  };
+			bool[] Methyl_isEdgeTotallyHomomorphic = new bool[4] { false, false, false, false,  };
+			GRGEN_LGSP.PatternNode Methyl_node_anchor = new GRGEN_LGSP.PatternNode((int) GRGEN_MODEL.NodeTypes.@C, "GRGEN_MODEL.IC", "Methyl_node_anchor", "anchor", Methyl_node_anchor_AllowedTypes, Methyl_node_anchor_IsAllowedType, 5.5F, 0, false, null, null, null, null, null, false);
+			GRGEN_LGSP.PatternNode Methyl_node_c = new GRGEN_LGSP.PatternNode((int) GRGEN_MODEL.NodeTypes.@C, "GRGEN_MODEL.IC", "Methyl_node_c", "c", Methyl_node_c_AllowedTypes, Methyl_node_c_IsAllowedType, 5.5F, -1, false, null, null, null, null, null, false);
+			GRGEN_LGSP.PatternNode Methyl_node__node0 = new GRGEN_LGSP.PatternNode((int) GRGEN_MODEL.NodeTypes.@H, "GRGEN_MODEL.IH", "Methyl_node__node0", "_node0", Methyl_node__node0_AllowedTypes, Methyl_node__node0_IsAllowedType, 5.5F, -1, false, null, null, null, null, null, false);
+			GRGEN_LGSP.PatternNode Methyl_node__node1 = new GRGEN_LGSP.PatternNode((int) GRGEN_MODEL.NodeTypes.@H, "GRGEN_MODEL.IH", "Methyl_node__node1", "_node1", Methyl_node__node1_AllowedTypes, Methyl_node__node1_IsAllowedType, 5.5F, -1, false, null, null, null, null, null, false);
+			GRGEN_LGSP.PatternNode Methyl_node__node2 = new GRGEN_LGSP.PatternNode((int) GRGEN_MODEL.NodeTypes.@H, "GRGEN_MODEL.IH", "Methyl_node__node2", "_node2", Methyl_node__node2_AllowedTypes, Methyl_node__node2_IsAllowedType, 5.5F, -1, false, null, null, null, null, null, false);
+			GRGEN_LGSP.PatternEdge Methyl_edge__edge0 = new GRGEN_LGSP.PatternEdge(true, (int) GRGEN_MODEL.EdgeTypes.@Edge, "GRGEN_LIBGR.IEdge", "Methyl_edge__edge0", "_edge0", Methyl_edge__edge0_AllowedTypes, Methyl_edge__edge0_IsAllowedType, 5.5F, -1, false, null, null, null, null, null, false);
+			GRGEN_LGSP.PatternEdge Methyl_edge__edge1 = new GRGEN_LGSP.PatternEdge(true, (int) GRGEN_MODEL.EdgeTypes.@Edge, "GRGEN_LIBGR.IEdge", "Methyl_edge__edge1", "_edge1", Methyl_edge__edge1_AllowedTypes, Methyl_edge__edge1_IsAllowedType, 5.5F, -1, false, null, null, null, null, null, false);
+			GRGEN_LGSP.PatternEdge Methyl_edge__edge2 = new GRGEN_LGSP.PatternEdge(true, (int) GRGEN_MODEL.EdgeTypes.@Edge, "GRGEN_LIBGR.IEdge", "Methyl_edge__edge2", "_edge2", Methyl_edge__edge2_AllowedTypes, Methyl_edge__edge2_IsAllowedType, 5.5F, -1, false, null, null, null, null, null, false);
+			GRGEN_LGSP.PatternEdge Methyl_edge__edge3 = new GRGEN_LGSP.PatternEdge(true, (int) GRGEN_MODEL.EdgeTypes.@Edge, "GRGEN_LIBGR.IEdge", "Methyl_edge__edge3", "_edge3", Methyl_edge__edge3_AllowedTypes, Methyl_edge__edge3_IsAllowedType, 5.5F, -1, false, null, null, null, null, null, false);
 			pat_Methyl = new GRGEN_LGSP.PatternGraph(
 				"Methyl",
 				"",
@@ -2558,7 +2592,9 @@ namespace de.unika.ipd.grGen.Action_TNT
 					{ false, false, false, true, },
 				},
 				Methyl_isNodeHomomorphicGlobal,
-				Methyl_isEdgeHomomorphicGlobal
+				Methyl_isEdgeHomomorphicGlobal,
+				Methyl_isNodeTotallyHomomorphic,
+				Methyl_isEdgeTotallyHomomorphic
 			);
 			pat_Methyl.edgeToSourceNode.Add(Methyl_edge__edge0, Methyl_node_anchor);
 			pat_Methyl.edgeToTargetNode.Add(Methyl_edge__edge0, Methyl_node_c);
@@ -2817,13 +2853,15 @@ namespace de.unika.ipd.grGen.Action_TNT
 				{ false, false, false, },
 				{ false, false, false, },
 			};
-			GRGEN_LGSP.PatternNode Nitro_node_anchor = new GRGEN_LGSP.PatternNode((int) GRGEN_MODEL.NodeTypes.@C, "GRGEN_MODEL.IC", "Nitro_node_anchor", "anchor", Nitro_node_anchor_AllowedTypes, Nitro_node_anchor_IsAllowedType, 5.5F, 0, false, null, null, null, null, false);
-			GRGEN_LGSP.PatternNode Nitro_node_n = new GRGEN_LGSP.PatternNode((int) GRGEN_MODEL.NodeTypes.@N, "GRGEN_MODEL.IN", "Nitro_node_n", "n", Nitro_node_n_AllowedTypes, Nitro_node_n_IsAllowedType, 5.5F, -1, false, null, null, null, null, false);
-			GRGEN_LGSP.PatternNode Nitro_node__node0 = new GRGEN_LGSP.PatternNode((int) GRGEN_MODEL.NodeTypes.@O, "GRGEN_MODEL.IO", "Nitro_node__node0", "_node0", Nitro_node__node0_AllowedTypes, Nitro_node__node0_IsAllowedType, 5.5F, -1, false, null, null, null, null, false);
-			GRGEN_LGSP.PatternNode Nitro_node__node1 = new GRGEN_LGSP.PatternNode((int) GRGEN_MODEL.NodeTypes.@O, "GRGEN_MODEL.IO", "Nitro_node__node1", "_node1", Nitro_node__node1_AllowedTypes, Nitro_node__node1_IsAllowedType, 5.5F, -1, false, null, null, null, null, false);
-			GRGEN_LGSP.PatternEdge Nitro_edge__edge0 = new GRGEN_LGSP.PatternEdge(true, (int) GRGEN_MODEL.EdgeTypes.@Edge, "GRGEN_LIBGR.IEdge", "Nitro_edge__edge0", "_edge0", Nitro_edge__edge0_AllowedTypes, Nitro_edge__edge0_IsAllowedType, 5.5F, -1, false, null, null, null, null, false);
-			GRGEN_LGSP.PatternEdge Nitro_edge__edge1 = new GRGEN_LGSP.PatternEdge(true, (int) GRGEN_MODEL.EdgeTypes.@Edge, "GRGEN_LIBGR.IEdge", "Nitro_edge__edge1", "_edge1", Nitro_edge__edge1_AllowedTypes, Nitro_edge__edge1_IsAllowedType, 5.5F, -1, false, null, null, null, null, false);
-			GRGEN_LGSP.PatternEdge Nitro_edge__edge2 = new GRGEN_LGSP.PatternEdge(true, (int) GRGEN_MODEL.EdgeTypes.@Edge, "GRGEN_LIBGR.IEdge", "Nitro_edge__edge2", "_edge2", Nitro_edge__edge2_AllowedTypes, Nitro_edge__edge2_IsAllowedType, 5.5F, -1, false, null, null, null, null, false);
+			bool[] Nitro_isNodeTotallyHomomorphic = new bool[4] { false, false, false, false,  };
+			bool[] Nitro_isEdgeTotallyHomomorphic = new bool[3] { false, false, false,  };
+			GRGEN_LGSP.PatternNode Nitro_node_anchor = new GRGEN_LGSP.PatternNode((int) GRGEN_MODEL.NodeTypes.@C, "GRGEN_MODEL.IC", "Nitro_node_anchor", "anchor", Nitro_node_anchor_AllowedTypes, Nitro_node_anchor_IsAllowedType, 5.5F, 0, false, null, null, null, null, null, false);
+			GRGEN_LGSP.PatternNode Nitro_node_n = new GRGEN_LGSP.PatternNode((int) GRGEN_MODEL.NodeTypes.@N, "GRGEN_MODEL.IN", "Nitro_node_n", "n", Nitro_node_n_AllowedTypes, Nitro_node_n_IsAllowedType, 5.5F, -1, false, null, null, null, null, null, false);
+			GRGEN_LGSP.PatternNode Nitro_node__node0 = new GRGEN_LGSP.PatternNode((int) GRGEN_MODEL.NodeTypes.@O, "GRGEN_MODEL.IO", "Nitro_node__node0", "_node0", Nitro_node__node0_AllowedTypes, Nitro_node__node0_IsAllowedType, 5.5F, -1, false, null, null, null, null, null, false);
+			GRGEN_LGSP.PatternNode Nitro_node__node1 = new GRGEN_LGSP.PatternNode((int) GRGEN_MODEL.NodeTypes.@O, "GRGEN_MODEL.IO", "Nitro_node__node1", "_node1", Nitro_node__node1_AllowedTypes, Nitro_node__node1_IsAllowedType, 5.5F, -1, false, null, null, null, null, null, false);
+			GRGEN_LGSP.PatternEdge Nitro_edge__edge0 = new GRGEN_LGSP.PatternEdge(true, (int) GRGEN_MODEL.EdgeTypes.@Edge, "GRGEN_LIBGR.IEdge", "Nitro_edge__edge0", "_edge0", Nitro_edge__edge0_AllowedTypes, Nitro_edge__edge0_IsAllowedType, 5.5F, -1, false, null, null, null, null, null, false);
+			GRGEN_LGSP.PatternEdge Nitro_edge__edge1 = new GRGEN_LGSP.PatternEdge(true, (int) GRGEN_MODEL.EdgeTypes.@Edge, "GRGEN_LIBGR.IEdge", "Nitro_edge__edge1", "_edge1", Nitro_edge__edge1_AllowedTypes, Nitro_edge__edge1_IsAllowedType, 5.5F, -1, false, null, null, null, null, null, false);
+			GRGEN_LGSP.PatternEdge Nitro_edge__edge2 = new GRGEN_LGSP.PatternEdge(true, (int) GRGEN_MODEL.EdgeTypes.@Edge, "GRGEN_LIBGR.IEdge", "Nitro_edge__edge2", "_edge2", Nitro_edge__edge2_AllowedTypes, Nitro_edge__edge2_IsAllowedType, 5.5F, -1, false, null, null, null, null, null, false);
 			pat_Nitro = new GRGEN_LGSP.PatternGraph(
 				"Nitro",
 				"",
@@ -2850,7 +2888,9 @@ namespace de.unika.ipd.grGen.Action_TNT
 					{ false, false, true, },
 				},
 				Nitro_isNodeHomomorphicGlobal,
-				Nitro_isEdgeHomomorphicGlobal
+				Nitro_isEdgeHomomorphicGlobal,
+				Nitro_isNodeTotallyHomomorphic,
+				Nitro_isEdgeTotallyHomomorphic
 			);
 			pat_Nitro.edgeToSourceNode.Add(Nitro_edge__edge0, Nitro_node_anchor);
 			pat_Nitro.edgeToTargetNode.Add(Nitro_edge__edge0, Nitro_node_n);
@@ -3077,9 +3117,11 @@ namespace de.unika.ipd.grGen.Action_TNT
 				{ false, false, false, },
 			};
 			bool[,] TriNitro_isEdgeHomomorphicGlobal = new bool[0, 0] ;
-			GRGEN_LGSP.PatternNode TriNitro_node_c2 = new GRGEN_LGSP.PatternNode((int) GRGEN_MODEL.NodeTypes.@C, "GRGEN_MODEL.IC", "TriNitro_node_c2", "c2", TriNitro_node_c2_AllowedTypes, TriNitro_node_c2_IsAllowedType, 5.5F, 0, false, null, null, null, null, false);
-			GRGEN_LGSP.PatternNode TriNitro_node_c4 = new GRGEN_LGSP.PatternNode((int) GRGEN_MODEL.NodeTypes.@C, "GRGEN_MODEL.IC", "TriNitro_node_c4", "c4", TriNitro_node_c4_AllowedTypes, TriNitro_node_c4_IsAllowedType, 5.5F, 1, false, null, null, null, null, false);
-			GRGEN_LGSP.PatternNode TriNitro_node_c6 = new GRGEN_LGSP.PatternNode((int) GRGEN_MODEL.NodeTypes.@C, "GRGEN_MODEL.IC", "TriNitro_node_c6", "c6", TriNitro_node_c6_AllowedTypes, TriNitro_node_c6_IsAllowedType, 5.5F, 2, false, null, null, null, null, false);
+			bool[] TriNitro_isNodeTotallyHomomorphic = new bool[3] { false, false, false,  };
+			bool[] TriNitro_isEdgeTotallyHomomorphic = new bool[0] ;
+			GRGEN_LGSP.PatternNode TriNitro_node_c2 = new GRGEN_LGSP.PatternNode((int) GRGEN_MODEL.NodeTypes.@C, "GRGEN_MODEL.IC", "TriNitro_node_c2", "c2", TriNitro_node_c2_AllowedTypes, TriNitro_node_c2_IsAllowedType, 5.5F, 0, false, null, null, null, null, null, false);
+			GRGEN_LGSP.PatternNode TriNitro_node_c4 = new GRGEN_LGSP.PatternNode((int) GRGEN_MODEL.NodeTypes.@C, "GRGEN_MODEL.IC", "TriNitro_node_c4", "c4", TriNitro_node_c4_AllowedTypes, TriNitro_node_c4_IsAllowedType, 5.5F, 1, false, null, null, null, null, null, false);
+			GRGEN_LGSP.PatternNode TriNitro_node_c6 = new GRGEN_LGSP.PatternNode((int) GRGEN_MODEL.NodeTypes.@C, "GRGEN_MODEL.IC", "TriNitro_node_c6", "c6", TriNitro_node_c6_AllowedTypes, TriNitro_node_c6_IsAllowedType, 5.5F, 2, false, null, null, null, null, null, false);
 			GRGEN_LGSP.PatternGraphEmbedding TriNitro__sub0 = new GRGEN_LGSP.PatternGraphEmbedding("_sub0", Pattern_Nitro.Instance, 
 				new GRGEN_EXPR.Expression[] {
 					new GRGEN_EXPR.GraphEntityExpression("TriNitro_node_c2"),
@@ -3116,7 +3158,9 @@ namespace de.unika.ipd.grGen.Action_TNT
 				},
 				new bool[0, 0] ,
 				TriNitro_isNodeHomomorphicGlobal,
-				TriNitro_isEdgeHomomorphicGlobal
+				TriNitro_isEdgeHomomorphicGlobal,
+				TriNitro_isNodeTotallyHomomorphic,
+				TriNitro_isEdgeTotallyHomomorphic
 			);
 
 			TriNitro_node_c2.pointOfDefinition = null;
@@ -3329,12 +3373,14 @@ namespace de.unika.ipd.grGen.Action_TNT
 				{ false, false, false, false, false, false, },
 			};
 			bool[,] ToluolCoreThenTriNitro_isEdgeHomomorphicGlobal = new bool[0, 0] ;
-			GRGEN_LGSP.PatternNode ToluolCoreThenTriNitro_node_c1 = new GRGEN_LGSP.PatternNode((int) GRGEN_MODEL.NodeTypes.@C, "GRGEN_MODEL.IC", "ToluolCoreThenTriNitro_node_c1", "c1", ToluolCoreThenTriNitro_node_c1_AllowedTypes, ToluolCoreThenTriNitro_node_c1_IsAllowedType, 5.5F, 0, false, null, null, null, null, false);
-			GRGEN_LGSP.PatternNode ToluolCoreThenTriNitro_node_c2 = new GRGEN_LGSP.PatternNode((int) GRGEN_MODEL.NodeTypes.@C, "GRGEN_MODEL.IC", "ToluolCoreThenTriNitro_node_c2", "c2", ToluolCoreThenTriNitro_node_c2_AllowedTypes, ToluolCoreThenTriNitro_node_c2_IsAllowedType, 5.5F, 1, false, null, null, null, null, false);
-			GRGEN_LGSP.PatternNode ToluolCoreThenTriNitro_node_c3 = new GRGEN_LGSP.PatternNode((int) GRGEN_MODEL.NodeTypes.@C, "GRGEN_MODEL.IC", "ToluolCoreThenTriNitro_node_c3", "c3", ToluolCoreThenTriNitro_node_c3_AllowedTypes, ToluolCoreThenTriNitro_node_c3_IsAllowedType, 5.5F, 2, false, null, null, null, null, false);
-			GRGEN_LGSP.PatternNode ToluolCoreThenTriNitro_node_c4 = new GRGEN_LGSP.PatternNode((int) GRGEN_MODEL.NodeTypes.@C, "GRGEN_MODEL.IC", "ToluolCoreThenTriNitro_node_c4", "c4", ToluolCoreThenTriNitro_node_c4_AllowedTypes, ToluolCoreThenTriNitro_node_c4_IsAllowedType, 5.5F, 3, false, null, null, null, null, false);
-			GRGEN_LGSP.PatternNode ToluolCoreThenTriNitro_node_c5 = new GRGEN_LGSP.PatternNode((int) GRGEN_MODEL.NodeTypes.@C, "GRGEN_MODEL.IC", "ToluolCoreThenTriNitro_node_c5", "c5", ToluolCoreThenTriNitro_node_c5_AllowedTypes, ToluolCoreThenTriNitro_node_c5_IsAllowedType, 5.5F, 4, false, null, null, null, null, false);
-			GRGEN_LGSP.PatternNode ToluolCoreThenTriNitro_node_c6 = new GRGEN_LGSP.PatternNode((int) GRGEN_MODEL.NodeTypes.@C, "GRGEN_MODEL.IC", "ToluolCoreThenTriNitro_node_c6", "c6", ToluolCoreThenTriNitro_node_c6_AllowedTypes, ToluolCoreThenTriNitro_node_c6_IsAllowedType, 5.5F, 5, false, null, null, null, null, false);
+			bool[] ToluolCoreThenTriNitro_isNodeTotallyHomomorphic = new bool[6] { false, false, false, false, false, false,  };
+			bool[] ToluolCoreThenTriNitro_isEdgeTotallyHomomorphic = new bool[0] ;
+			GRGEN_LGSP.PatternNode ToluolCoreThenTriNitro_node_c1 = new GRGEN_LGSP.PatternNode((int) GRGEN_MODEL.NodeTypes.@C, "GRGEN_MODEL.IC", "ToluolCoreThenTriNitro_node_c1", "c1", ToluolCoreThenTriNitro_node_c1_AllowedTypes, ToluolCoreThenTriNitro_node_c1_IsAllowedType, 5.5F, 0, false, null, null, null, null, null, false);
+			GRGEN_LGSP.PatternNode ToluolCoreThenTriNitro_node_c2 = new GRGEN_LGSP.PatternNode((int) GRGEN_MODEL.NodeTypes.@C, "GRGEN_MODEL.IC", "ToluolCoreThenTriNitro_node_c2", "c2", ToluolCoreThenTriNitro_node_c2_AllowedTypes, ToluolCoreThenTriNitro_node_c2_IsAllowedType, 5.5F, 1, false, null, null, null, null, null, false);
+			GRGEN_LGSP.PatternNode ToluolCoreThenTriNitro_node_c3 = new GRGEN_LGSP.PatternNode((int) GRGEN_MODEL.NodeTypes.@C, "GRGEN_MODEL.IC", "ToluolCoreThenTriNitro_node_c3", "c3", ToluolCoreThenTriNitro_node_c3_AllowedTypes, ToluolCoreThenTriNitro_node_c3_IsAllowedType, 5.5F, 2, false, null, null, null, null, null, false);
+			GRGEN_LGSP.PatternNode ToluolCoreThenTriNitro_node_c4 = new GRGEN_LGSP.PatternNode((int) GRGEN_MODEL.NodeTypes.@C, "GRGEN_MODEL.IC", "ToluolCoreThenTriNitro_node_c4", "c4", ToluolCoreThenTriNitro_node_c4_AllowedTypes, ToluolCoreThenTriNitro_node_c4_IsAllowedType, 5.5F, 3, false, null, null, null, null, null, false);
+			GRGEN_LGSP.PatternNode ToluolCoreThenTriNitro_node_c5 = new GRGEN_LGSP.PatternNode((int) GRGEN_MODEL.NodeTypes.@C, "GRGEN_MODEL.IC", "ToluolCoreThenTriNitro_node_c5", "c5", ToluolCoreThenTriNitro_node_c5_AllowedTypes, ToluolCoreThenTriNitro_node_c5_IsAllowedType, 5.5F, 4, false, null, null, null, null, null, false);
+			GRGEN_LGSP.PatternNode ToluolCoreThenTriNitro_node_c6 = new GRGEN_LGSP.PatternNode((int) GRGEN_MODEL.NodeTypes.@C, "GRGEN_MODEL.IC", "ToluolCoreThenTriNitro_node_c6", "c6", ToluolCoreThenTriNitro_node_c6_AllowedTypes, ToluolCoreThenTriNitro_node_c6_IsAllowedType, 5.5F, 5, false, null, null, null, null, null, false);
 			GRGEN_LGSP.PatternGraphEmbedding ToluolCoreThenTriNitro__sub0 = new GRGEN_LGSP.PatternGraphEmbedding("_sub0", Pattern_Methyl.Instance, 
 				new GRGEN_EXPR.Expression[] {
 					new GRGEN_EXPR.GraphEntityExpression("ToluolCoreThenTriNitro_node_c1"),
@@ -3381,7 +3427,9 @@ namespace de.unika.ipd.grGen.Action_TNT
 				},
 				new bool[0, 0] ,
 				ToluolCoreThenTriNitro_isNodeHomomorphicGlobal,
-				ToluolCoreThenTriNitro_isEdgeHomomorphicGlobal
+				ToluolCoreThenTriNitro_isEdgeHomomorphicGlobal,
+				ToluolCoreThenTriNitro_isNodeTotallyHomomorphic,
+				ToluolCoreThenTriNitro_isEdgeTotallyHomomorphic
 			);
 
 			ToluolCoreThenTriNitro_node_c1.pointOfDefinition = null;
@@ -3599,6 +3647,8 @@ namespace de.unika.ipd.grGen.Action_TNT
 		{
 			bool[,] BenzolRing_isNodeHomomorphicGlobal = new bool[0, 0] ;
 			bool[,] BenzolRing_isEdgeHomomorphicGlobal = new bool[0, 0] ;
+			bool[] BenzolRing_isNodeTotallyHomomorphic = new bool[0] ;
+			bool[] BenzolRing_isEdgeTotallyHomomorphic = new bool[0] ;
 			GRGEN_LGSP.PatternGraphEmbedding BenzolRing__sub0 = new GRGEN_LGSP.PatternGraphEmbedding("_sub0", Pattern_BenzolRing.Instance, 
 				new GRGEN_EXPR.Expression[] {
 				}, 
@@ -3620,7 +3670,9 @@ namespace de.unika.ipd.grGen.Action_TNT
 				new bool[0, 0] ,
 				new bool[0, 0] ,
 				BenzolRing_isNodeHomomorphicGlobal,
-				BenzolRing_isEdgeHomomorphicGlobal
+				BenzolRing_isEdgeHomomorphicGlobal,
+				BenzolRing_isNodeTotallyHomomorphic,
+				BenzolRing_isEdgeTotallyHomomorphic
 			);
 
 			BenzolRing__sub0.PointOfDefinition = pat_BenzolRing;
@@ -3795,12 +3847,14 @@ namespace de.unika.ipd.grGen.Action_TNT
 				{ false, false, false, false, false, false, },
 			};
 			bool[,] TNTTotallyFolded_isEdgeHomomorphicGlobal = new bool[0, 0] ;
-			GRGEN_LGSP.PatternNode TNTTotallyFolded_node_c1 = new GRGEN_LGSP.PatternNode((int) GRGEN_MODEL.NodeTypes.@C, "GRGEN_MODEL.IC", "TNTTotallyFolded_node_c1", "c1", TNTTotallyFolded_node_c1_AllowedTypes, TNTTotallyFolded_node_c1_IsAllowedType, 5.5F, -1, false, null, null, null, null, false);
-			GRGEN_LGSP.PatternNode TNTTotallyFolded_node_c2 = new GRGEN_LGSP.PatternNode((int) GRGEN_MODEL.NodeTypes.@C, "GRGEN_MODEL.IC", "TNTTotallyFolded_node_c2", "c2", TNTTotallyFolded_node_c2_AllowedTypes, TNTTotallyFolded_node_c2_IsAllowedType, 5.5F, -1, false, null, null, null, null, false);
-			GRGEN_LGSP.PatternNode TNTTotallyFolded_node_c3 = new GRGEN_LGSP.PatternNode((int) GRGEN_MODEL.NodeTypes.@C, "GRGEN_MODEL.IC", "TNTTotallyFolded_node_c3", "c3", TNTTotallyFolded_node_c3_AllowedTypes, TNTTotallyFolded_node_c3_IsAllowedType, 5.5F, -1, false, null, null, null, null, false);
-			GRGEN_LGSP.PatternNode TNTTotallyFolded_node_c4 = new GRGEN_LGSP.PatternNode((int) GRGEN_MODEL.NodeTypes.@C, "GRGEN_MODEL.IC", "TNTTotallyFolded_node_c4", "c4", TNTTotallyFolded_node_c4_AllowedTypes, TNTTotallyFolded_node_c4_IsAllowedType, 5.5F, -1, false, null, null, null, null, false);
-			GRGEN_LGSP.PatternNode TNTTotallyFolded_node_c5 = new GRGEN_LGSP.PatternNode((int) GRGEN_MODEL.NodeTypes.@C, "GRGEN_MODEL.IC", "TNTTotallyFolded_node_c5", "c5", TNTTotallyFolded_node_c5_AllowedTypes, TNTTotallyFolded_node_c5_IsAllowedType, 5.5F, -1, false, null, null, null, null, false);
-			GRGEN_LGSP.PatternNode TNTTotallyFolded_node_c6 = new GRGEN_LGSP.PatternNode((int) GRGEN_MODEL.NodeTypes.@C, "GRGEN_MODEL.IC", "TNTTotallyFolded_node_c6", "c6", TNTTotallyFolded_node_c6_AllowedTypes, TNTTotallyFolded_node_c6_IsAllowedType, 5.5F, -1, false, null, null, null, null, false);
+			bool[] TNTTotallyFolded_isNodeTotallyHomomorphic = new bool[6] { false, false, false, false, false, false,  };
+			bool[] TNTTotallyFolded_isEdgeTotallyHomomorphic = new bool[0] ;
+			GRGEN_LGSP.PatternNode TNTTotallyFolded_node_c1 = new GRGEN_LGSP.PatternNode((int) GRGEN_MODEL.NodeTypes.@C, "GRGEN_MODEL.IC", "TNTTotallyFolded_node_c1", "c1", TNTTotallyFolded_node_c1_AllowedTypes, TNTTotallyFolded_node_c1_IsAllowedType, 5.5F, -1, false, null, null, null, null, null, false);
+			GRGEN_LGSP.PatternNode TNTTotallyFolded_node_c2 = new GRGEN_LGSP.PatternNode((int) GRGEN_MODEL.NodeTypes.@C, "GRGEN_MODEL.IC", "TNTTotallyFolded_node_c2", "c2", TNTTotallyFolded_node_c2_AllowedTypes, TNTTotallyFolded_node_c2_IsAllowedType, 5.5F, -1, false, null, null, null, null, null, false);
+			GRGEN_LGSP.PatternNode TNTTotallyFolded_node_c3 = new GRGEN_LGSP.PatternNode((int) GRGEN_MODEL.NodeTypes.@C, "GRGEN_MODEL.IC", "TNTTotallyFolded_node_c3", "c3", TNTTotallyFolded_node_c3_AllowedTypes, TNTTotallyFolded_node_c3_IsAllowedType, 5.5F, -1, false, null, null, null, null, null, false);
+			GRGEN_LGSP.PatternNode TNTTotallyFolded_node_c4 = new GRGEN_LGSP.PatternNode((int) GRGEN_MODEL.NodeTypes.@C, "GRGEN_MODEL.IC", "TNTTotallyFolded_node_c4", "c4", TNTTotallyFolded_node_c4_AllowedTypes, TNTTotallyFolded_node_c4_IsAllowedType, 5.5F, -1, false, null, null, null, null, null, false);
+			GRGEN_LGSP.PatternNode TNTTotallyFolded_node_c5 = new GRGEN_LGSP.PatternNode((int) GRGEN_MODEL.NodeTypes.@C, "GRGEN_MODEL.IC", "TNTTotallyFolded_node_c5", "c5", TNTTotallyFolded_node_c5_AllowedTypes, TNTTotallyFolded_node_c5_IsAllowedType, 5.5F, -1, false, null, null, null, null, null, false);
+			GRGEN_LGSP.PatternNode TNTTotallyFolded_node_c6 = new GRGEN_LGSP.PatternNode((int) GRGEN_MODEL.NodeTypes.@C, "GRGEN_MODEL.IC", "TNTTotallyFolded_node_c6", "c6", TNTTotallyFolded_node_c6_AllowedTypes, TNTTotallyFolded_node_c6_IsAllowedType, 5.5F, -1, false, null, null, null, null, null, false);
 			GRGEN_LGSP.PatternGraphEmbedding TNTTotallyFolded__sub0 = new GRGEN_LGSP.PatternGraphEmbedding("_sub0", Pattern_BenzolRingC123456Exposed.Instance, 
 				new GRGEN_EXPR.Expression[] {
 					new GRGEN_EXPR.GraphEntityExpression("TNTTotallyFolded_node_c1"),
@@ -3865,7 +3919,9 @@ namespace de.unika.ipd.grGen.Action_TNT
 				},
 				new bool[0, 0] ,
 				TNTTotallyFolded_isNodeHomomorphicGlobal,
-				TNTTotallyFolded_isEdgeHomomorphicGlobal
+				TNTTotallyFolded_isEdgeHomomorphicGlobal,
+				TNTTotallyFolded_isNodeTotallyHomomorphic,
+				TNTTotallyFolded_isEdgeTotallyHomomorphic
 			);
 
 			TNTTotallyFolded_node_c1.pointOfDefinition = pat_TNTTotallyFolded;
@@ -4112,12 +4168,14 @@ namespace de.unika.ipd.grGen.Action_TNT
 				{ false, false, false, false, false, false, },
 			};
 			bool[,] TNTChain_isEdgeHomomorphicGlobal = new bool[0, 0] ;
-			GRGEN_LGSP.PatternNode TNTChain_node_c1 = new GRGEN_LGSP.PatternNode((int) GRGEN_MODEL.NodeTypes.@C, "GRGEN_MODEL.IC", "TNTChain_node_c1", "c1", TNTChain_node_c1_AllowedTypes, TNTChain_node_c1_IsAllowedType, 5.5F, -1, false, null, null, null, null, false);
-			GRGEN_LGSP.PatternNode TNTChain_node_c2 = new GRGEN_LGSP.PatternNode((int) GRGEN_MODEL.NodeTypes.@C, "GRGEN_MODEL.IC", "TNTChain_node_c2", "c2", TNTChain_node_c2_AllowedTypes, TNTChain_node_c2_IsAllowedType, 5.5F, -1, false, null, null, null, null, false);
-			GRGEN_LGSP.PatternNode TNTChain_node_c3 = new GRGEN_LGSP.PatternNode((int) GRGEN_MODEL.NodeTypes.@C, "GRGEN_MODEL.IC", "TNTChain_node_c3", "c3", TNTChain_node_c3_AllowedTypes, TNTChain_node_c3_IsAllowedType, 5.5F, -1, false, null, null, null, null, false);
-			GRGEN_LGSP.PatternNode TNTChain_node_c4 = new GRGEN_LGSP.PatternNode((int) GRGEN_MODEL.NodeTypes.@C, "GRGEN_MODEL.IC", "TNTChain_node_c4", "c4", TNTChain_node_c4_AllowedTypes, TNTChain_node_c4_IsAllowedType, 5.5F, -1, false, null, null, null, null, false);
-			GRGEN_LGSP.PatternNode TNTChain_node_c5 = new GRGEN_LGSP.PatternNode((int) GRGEN_MODEL.NodeTypes.@C, "GRGEN_MODEL.IC", "TNTChain_node_c5", "c5", TNTChain_node_c5_AllowedTypes, TNTChain_node_c5_IsAllowedType, 5.5F, -1, false, null, null, null, null, false);
-			GRGEN_LGSP.PatternNode TNTChain_node_c6 = new GRGEN_LGSP.PatternNode((int) GRGEN_MODEL.NodeTypes.@C, "GRGEN_MODEL.IC", "TNTChain_node_c6", "c6", TNTChain_node_c6_AllowedTypes, TNTChain_node_c6_IsAllowedType, 5.5F, -1, false, null, null, null, null, false);
+			bool[] TNTChain_isNodeTotallyHomomorphic = new bool[6] { false, false, false, false, false, false,  };
+			bool[] TNTChain_isEdgeTotallyHomomorphic = new bool[0] ;
+			GRGEN_LGSP.PatternNode TNTChain_node_c1 = new GRGEN_LGSP.PatternNode((int) GRGEN_MODEL.NodeTypes.@C, "GRGEN_MODEL.IC", "TNTChain_node_c1", "c1", TNTChain_node_c1_AllowedTypes, TNTChain_node_c1_IsAllowedType, 5.5F, -1, false, null, null, null, null, null, false);
+			GRGEN_LGSP.PatternNode TNTChain_node_c2 = new GRGEN_LGSP.PatternNode((int) GRGEN_MODEL.NodeTypes.@C, "GRGEN_MODEL.IC", "TNTChain_node_c2", "c2", TNTChain_node_c2_AllowedTypes, TNTChain_node_c2_IsAllowedType, 5.5F, -1, false, null, null, null, null, null, false);
+			GRGEN_LGSP.PatternNode TNTChain_node_c3 = new GRGEN_LGSP.PatternNode((int) GRGEN_MODEL.NodeTypes.@C, "GRGEN_MODEL.IC", "TNTChain_node_c3", "c3", TNTChain_node_c3_AllowedTypes, TNTChain_node_c3_IsAllowedType, 5.5F, -1, false, null, null, null, null, null, false);
+			GRGEN_LGSP.PatternNode TNTChain_node_c4 = new GRGEN_LGSP.PatternNode((int) GRGEN_MODEL.NodeTypes.@C, "GRGEN_MODEL.IC", "TNTChain_node_c4", "c4", TNTChain_node_c4_AllowedTypes, TNTChain_node_c4_IsAllowedType, 5.5F, -1, false, null, null, null, null, null, false);
+			GRGEN_LGSP.PatternNode TNTChain_node_c5 = new GRGEN_LGSP.PatternNode((int) GRGEN_MODEL.NodeTypes.@C, "GRGEN_MODEL.IC", "TNTChain_node_c5", "c5", TNTChain_node_c5_AllowedTypes, TNTChain_node_c5_IsAllowedType, 5.5F, -1, false, null, null, null, null, null, false);
+			GRGEN_LGSP.PatternNode TNTChain_node_c6 = new GRGEN_LGSP.PatternNode((int) GRGEN_MODEL.NodeTypes.@C, "GRGEN_MODEL.IC", "TNTChain_node_c6", "c6", TNTChain_node_c6_AllowedTypes, TNTChain_node_c6_IsAllowedType, 5.5F, -1, false, null, null, null, null, null, false);
 			GRGEN_LGSP.PatternGraphEmbedding TNTChain__sub0 = new GRGEN_LGSP.PatternGraphEmbedding("_sub0", Pattern_BenzolRingC123456Exposed.Instance, 
 				new GRGEN_EXPR.Expression[] {
 					new GRGEN_EXPR.GraphEntityExpression("TNTChain_node_c1"),
@@ -4162,7 +4220,9 @@ namespace de.unika.ipd.grGen.Action_TNT
 				},
 				new bool[0, 0] ,
 				TNTChain_isNodeHomomorphicGlobal,
-				TNTChain_isEdgeHomomorphicGlobal
+				TNTChain_isEdgeHomomorphicGlobal,
+				TNTChain_isNodeTotallyHomomorphic,
+				TNTChain_isEdgeTotallyHomomorphic
 			);
 
 			TNTChain_node_c1.pointOfDefinition = pat_TNTChain;
@@ -4364,7 +4424,9 @@ namespace de.unika.ipd.grGen.Action_TNT
 				{ false, },
 			};
 			bool[,] ToluolCore_isEdgeHomomorphicGlobal = new bool[0, 0] ;
-			GRGEN_LGSP.PatternNode ToluolCore_node_c1 = new GRGEN_LGSP.PatternNode((int) GRGEN_MODEL.NodeTypes.@C, "GRGEN_MODEL.IC", "ToluolCore_node_c1", "c1", ToluolCore_node_c1_AllowedTypes, ToluolCore_node_c1_IsAllowedType, 5.5F, -1, false, null, null, null, null, false);
+			bool[] ToluolCore_isNodeTotallyHomomorphic = new bool[1] { false,  };
+			bool[] ToluolCore_isEdgeTotallyHomomorphic = new bool[0] ;
+			GRGEN_LGSP.PatternNode ToluolCore_node_c1 = new GRGEN_LGSP.PatternNode((int) GRGEN_MODEL.NodeTypes.@C, "GRGEN_MODEL.IC", "ToluolCore_node_c1", "c1", ToluolCore_node_c1_AllowedTypes, ToluolCore_node_c1_IsAllowedType, 5.5F, -1, false, null, null, null, null, null, false);
 			GRGEN_LGSP.PatternGraphEmbedding ToluolCore__sub0 = new GRGEN_LGSP.PatternGraphEmbedding("_sub0", Pattern_BenzolRingC1Exposed.Instance, 
 				new GRGEN_EXPR.Expression[] {
 					new GRGEN_EXPR.GraphEntityExpression("ToluolCore_node_c1"),
@@ -4394,7 +4456,9 @@ namespace de.unika.ipd.grGen.Action_TNT
 				},
 				new bool[0, 0] ,
 				ToluolCore_isNodeHomomorphicGlobal,
-				ToluolCore_isEdgeHomomorphicGlobal
+				ToluolCore_isEdgeHomomorphicGlobal,
+				ToluolCore_isNodeTotallyHomomorphic,
+				ToluolCore_isEdgeTotallyHomomorphic
 			);
 
 			ToluolCore_node_c1.pointOfDefinition = pat_ToluolCore;
@@ -4566,7 +4630,9 @@ namespace de.unika.ipd.grGen.Action_TNT
 				{ false, },
 			};
 			bool[,] ToluolCoreNotC6Nitro_isEdgeHomomorphicGlobal = new bool[0, 0] ;
-			GRGEN_LGSP.PatternNode ToluolCoreNotC6Nitro_node_c1 = new GRGEN_LGSP.PatternNode((int) GRGEN_MODEL.NodeTypes.@C, "GRGEN_MODEL.IC", "ToluolCoreNotC6Nitro_node_c1", "c1", ToluolCoreNotC6Nitro_node_c1_AllowedTypes, ToluolCoreNotC6Nitro_node_c1_IsAllowedType, 5.5F, -1, false, null, null, null, null, false);
+			bool[] ToluolCoreNotC6Nitro_isNodeTotallyHomomorphic = new bool[1] { false,  };
+			bool[] ToluolCoreNotC6Nitro_isEdgeTotallyHomomorphic = new bool[0] ;
+			GRGEN_LGSP.PatternNode ToluolCoreNotC6Nitro_node_c1 = new GRGEN_LGSP.PatternNode((int) GRGEN_MODEL.NodeTypes.@C, "GRGEN_MODEL.IC", "ToluolCoreNotC6Nitro_node_c1", "c1", ToluolCoreNotC6Nitro_node_c1_AllowedTypes, ToluolCoreNotC6Nitro_node_c1_IsAllowedType, 5.5F, -1, false, null, null, null, null, null, false);
 			GRGEN_LGSP.PatternGraphEmbedding ToluolCoreNotC6Nitro__sub0 = new GRGEN_LGSP.PatternGraphEmbedding("_sub0", Pattern_BenzolRingC1ExposedNotC6Nitro.Instance, 
 				new GRGEN_EXPR.Expression[] {
 					new GRGEN_EXPR.GraphEntityExpression("ToluolCoreNotC6Nitro_node_c1"),
@@ -4596,7 +4662,9 @@ namespace de.unika.ipd.grGen.Action_TNT
 				},
 				new bool[0, 0] ,
 				ToluolCoreNotC6Nitro_isNodeHomomorphicGlobal,
-				ToluolCoreNotC6Nitro_isEdgeHomomorphicGlobal
+				ToluolCoreNotC6Nitro_isEdgeHomomorphicGlobal,
+				ToluolCoreNotC6Nitro_isNodeTotallyHomomorphic,
+				ToluolCoreNotC6Nitro_isEdgeTotallyHomomorphic
 			);
 
 			ToluolCoreNotC6Nitro_node_c1.pointOfDefinition = pat_ToluolCoreNotC6Nitro;
@@ -4783,12 +4851,14 @@ namespace de.unika.ipd.grGen.Action_TNT
 				{ false, false, false, false, false, false, },
 			};
 			bool[,] Toluol_isEdgeHomomorphicGlobal = new bool[0, 0] ;
-			GRGEN_LGSP.PatternNode Toluol_node_c1 = new GRGEN_LGSP.PatternNode((int) GRGEN_MODEL.NodeTypes.@C, "GRGEN_MODEL.IC", "Toluol_node_c1", "c1", Toluol_node_c1_AllowedTypes, Toluol_node_c1_IsAllowedType, 5.5F, -1, false, null, null, null, null, false);
-			GRGEN_LGSP.PatternNode Toluol_node_c2 = new GRGEN_LGSP.PatternNode((int) GRGEN_MODEL.NodeTypes.@C, "GRGEN_MODEL.IC", "Toluol_node_c2", "c2", Toluol_node_c2_AllowedTypes, Toluol_node_c2_IsAllowedType, 5.5F, -1, false, null, null, null, null, false);
-			GRGEN_LGSP.PatternNode Toluol_node_c3 = new GRGEN_LGSP.PatternNode((int) GRGEN_MODEL.NodeTypes.@C, "GRGEN_MODEL.IC", "Toluol_node_c3", "c3", Toluol_node_c3_AllowedTypes, Toluol_node_c3_IsAllowedType, 5.5F, -1, false, null, null, null, null, false);
-			GRGEN_LGSP.PatternNode Toluol_node_c4 = new GRGEN_LGSP.PatternNode((int) GRGEN_MODEL.NodeTypes.@C, "GRGEN_MODEL.IC", "Toluol_node_c4", "c4", Toluol_node_c4_AllowedTypes, Toluol_node_c4_IsAllowedType, 5.5F, -1, false, null, null, null, null, false);
-			GRGEN_LGSP.PatternNode Toluol_node_c5 = new GRGEN_LGSP.PatternNode((int) GRGEN_MODEL.NodeTypes.@C, "GRGEN_MODEL.IC", "Toluol_node_c5", "c5", Toluol_node_c5_AllowedTypes, Toluol_node_c5_IsAllowedType, 5.5F, -1, false, null, null, null, null, false);
-			GRGEN_LGSP.PatternNode Toluol_node_c6 = new GRGEN_LGSP.PatternNode((int) GRGEN_MODEL.NodeTypes.@C, "GRGEN_MODEL.IC", "Toluol_node_c6", "c6", Toluol_node_c6_AllowedTypes, Toluol_node_c6_IsAllowedType, 5.5F, -1, false, null, null, null, null, false);
+			bool[] Toluol_isNodeTotallyHomomorphic = new bool[6] { false, false, false, false, false, false,  };
+			bool[] Toluol_isEdgeTotallyHomomorphic = new bool[0] ;
+			GRGEN_LGSP.PatternNode Toluol_node_c1 = new GRGEN_LGSP.PatternNode((int) GRGEN_MODEL.NodeTypes.@C, "GRGEN_MODEL.IC", "Toluol_node_c1", "c1", Toluol_node_c1_AllowedTypes, Toluol_node_c1_IsAllowedType, 5.5F, -1, false, null, null, null, null, null, false);
+			GRGEN_LGSP.PatternNode Toluol_node_c2 = new GRGEN_LGSP.PatternNode((int) GRGEN_MODEL.NodeTypes.@C, "GRGEN_MODEL.IC", "Toluol_node_c2", "c2", Toluol_node_c2_AllowedTypes, Toluol_node_c2_IsAllowedType, 5.5F, -1, false, null, null, null, null, null, false);
+			GRGEN_LGSP.PatternNode Toluol_node_c3 = new GRGEN_LGSP.PatternNode((int) GRGEN_MODEL.NodeTypes.@C, "GRGEN_MODEL.IC", "Toluol_node_c3", "c3", Toluol_node_c3_AllowedTypes, Toluol_node_c3_IsAllowedType, 5.5F, -1, false, null, null, null, null, null, false);
+			GRGEN_LGSP.PatternNode Toluol_node_c4 = new GRGEN_LGSP.PatternNode((int) GRGEN_MODEL.NodeTypes.@C, "GRGEN_MODEL.IC", "Toluol_node_c4", "c4", Toluol_node_c4_AllowedTypes, Toluol_node_c4_IsAllowedType, 5.5F, -1, false, null, null, null, null, null, false);
+			GRGEN_LGSP.PatternNode Toluol_node_c5 = new GRGEN_LGSP.PatternNode((int) GRGEN_MODEL.NodeTypes.@C, "GRGEN_MODEL.IC", "Toluol_node_c5", "c5", Toluol_node_c5_AllowedTypes, Toluol_node_c5_IsAllowedType, 5.5F, -1, false, null, null, null, null, null, false);
+			GRGEN_LGSP.PatternNode Toluol_node_c6 = new GRGEN_LGSP.PatternNode((int) GRGEN_MODEL.NodeTypes.@C, "GRGEN_MODEL.IC", "Toluol_node_c6", "c6", Toluol_node_c6_AllowedTypes, Toluol_node_c6_IsAllowedType, 5.5F, -1, false, null, null, null, null, null, false);
 			GRGEN_LGSP.PatternGraphEmbedding Toluol__sub0 = new GRGEN_LGSP.PatternGraphEmbedding("_sub0", Pattern_BenzolRingC123456Exposed.Instance, 
 				new GRGEN_EXPR.Expression[] {
 					new GRGEN_EXPR.GraphEntityExpression("Toluol_node_c1"),
@@ -4853,7 +4923,9 @@ namespace de.unika.ipd.grGen.Action_TNT
 				},
 				new bool[0, 0] ,
 				Toluol_isNodeHomomorphicGlobal,
-				Toluol_isEdgeHomomorphicGlobal
+				Toluol_isEdgeHomomorphicGlobal,
+				Toluol_isNodeTotallyHomomorphic,
+				Toluol_isEdgeTotallyHomomorphic
 			);
 
 			Toluol_node_c1.pointOfDefinition = pat_Toluol;
@@ -5128,21 +5200,23 @@ namespace de.unika.ipd.grGen.Action_TNT
 				{ false, false, false, false, false, false, false, false, false, },
 				{ false, false, false, false, false, false, false, false, false, },
 			};
-			GRGEN_LGSP.PatternNode TNT_node_c1 = new GRGEN_LGSP.PatternNode((int) GRGEN_MODEL.NodeTypes.@C, "GRGEN_MODEL.IC", "TNT_node_c1", "c1", TNT_node_c1_AllowedTypes, TNT_node_c1_IsAllowedType, 5.5F, -1, false, null, null, null, null, false);
-			GRGEN_LGSP.PatternNode TNT_node_c2 = new GRGEN_LGSP.PatternNode((int) GRGEN_MODEL.NodeTypes.@C, "GRGEN_MODEL.IC", "TNT_node_c2", "c2", TNT_node_c2_AllowedTypes, TNT_node_c2_IsAllowedType, 5.5F, -1, false, null, null, null, null, false);
-			GRGEN_LGSP.PatternNode TNT_node_c3 = new GRGEN_LGSP.PatternNode((int) GRGEN_MODEL.NodeTypes.@C, "GRGEN_MODEL.IC", "TNT_node_c3", "c3", TNT_node_c3_AllowedTypes, TNT_node_c3_IsAllowedType, 5.5F, -1, false, null, null, null, null, false);
-			GRGEN_LGSP.PatternNode TNT_node_c4 = new GRGEN_LGSP.PatternNode((int) GRGEN_MODEL.NodeTypes.@C, "GRGEN_MODEL.IC", "TNT_node_c4", "c4", TNT_node_c4_AllowedTypes, TNT_node_c4_IsAllowedType, 5.5F, -1, false, null, null, null, null, false);
-			GRGEN_LGSP.PatternNode TNT_node_c5 = new GRGEN_LGSP.PatternNode((int) GRGEN_MODEL.NodeTypes.@C, "GRGEN_MODEL.IC", "TNT_node_c5", "c5", TNT_node_c5_AllowedTypes, TNT_node_c5_IsAllowedType, 5.5F, -1, false, null, null, null, null, false);
-			GRGEN_LGSP.PatternNode TNT_node_c6 = new GRGEN_LGSP.PatternNode((int) GRGEN_MODEL.NodeTypes.@C, "GRGEN_MODEL.IC", "TNT_node_c6", "c6", TNT_node_c6_AllowedTypes, TNT_node_c6_IsAllowedType, 5.5F, -1, false, null, null, null, null, false);
-			GRGEN_LGSP.PatternEdge TNT_edge__edge0 = new GRGEN_LGSP.PatternEdge(true, (int) GRGEN_MODEL.EdgeTypes.@Edge, "GRGEN_LIBGR.IEdge", "TNT_edge__edge0", "_edge0", TNT_edge__edge0_AllowedTypes, TNT_edge__edge0_IsAllowedType, 5.5F, -1, false, null, null, null, null, false);
-			GRGEN_LGSP.PatternEdge TNT_edge__edge1 = new GRGEN_LGSP.PatternEdge(true, (int) GRGEN_MODEL.EdgeTypes.@Edge, "GRGEN_LIBGR.IEdge", "TNT_edge__edge1", "_edge1", TNT_edge__edge1_AllowedTypes, TNT_edge__edge1_IsAllowedType, 5.5F, -1, false, null, null, null, null, false);
-			GRGEN_LGSP.PatternEdge TNT_edge__edge2 = new GRGEN_LGSP.PatternEdge(true, (int) GRGEN_MODEL.EdgeTypes.@Edge, "GRGEN_LIBGR.IEdge", "TNT_edge__edge2", "_edge2", TNT_edge__edge2_AllowedTypes, TNT_edge__edge2_IsAllowedType, 5.5F, -1, false, null, null, null, null, false);
-			GRGEN_LGSP.PatternEdge TNT_edge__edge3 = new GRGEN_LGSP.PatternEdge(true, (int) GRGEN_MODEL.EdgeTypes.@Edge, "GRGEN_LIBGR.IEdge", "TNT_edge__edge3", "_edge3", TNT_edge__edge3_AllowedTypes, TNT_edge__edge3_IsAllowedType, 5.5F, -1, false, null, null, null, null, false);
-			GRGEN_LGSP.PatternEdge TNT_edge__edge4 = new GRGEN_LGSP.PatternEdge(true, (int) GRGEN_MODEL.EdgeTypes.@Edge, "GRGEN_LIBGR.IEdge", "TNT_edge__edge4", "_edge4", TNT_edge__edge4_AllowedTypes, TNT_edge__edge4_IsAllowedType, 5.5F, -1, false, null, null, null, null, false);
-			GRGEN_LGSP.PatternEdge TNT_edge__edge5 = new GRGEN_LGSP.PatternEdge(true, (int) GRGEN_MODEL.EdgeTypes.@Edge, "GRGEN_LIBGR.IEdge", "TNT_edge__edge5", "_edge5", TNT_edge__edge5_AllowedTypes, TNT_edge__edge5_IsAllowedType, 5.5F, -1, false, null, null, null, null, false);
-			GRGEN_LGSP.PatternEdge TNT_edge__edge6 = new GRGEN_LGSP.PatternEdge(true, (int) GRGEN_MODEL.EdgeTypes.@Edge, "GRGEN_LIBGR.IEdge", "TNT_edge__edge6", "_edge6", TNT_edge__edge6_AllowedTypes, TNT_edge__edge6_IsAllowedType, 5.5F, -1, false, null, null, null, null, false);
-			GRGEN_LGSP.PatternEdge TNT_edge__edge7 = new GRGEN_LGSP.PatternEdge(true, (int) GRGEN_MODEL.EdgeTypes.@Edge, "GRGEN_LIBGR.IEdge", "TNT_edge__edge7", "_edge7", TNT_edge__edge7_AllowedTypes, TNT_edge__edge7_IsAllowedType, 5.5F, -1, false, null, null, null, null, false);
-			GRGEN_LGSP.PatternEdge TNT_edge__edge8 = new GRGEN_LGSP.PatternEdge(true, (int) GRGEN_MODEL.EdgeTypes.@Edge, "GRGEN_LIBGR.IEdge", "TNT_edge__edge8", "_edge8", TNT_edge__edge8_AllowedTypes, TNT_edge__edge8_IsAllowedType, 5.5F, -1, false, null, null, null, null, false);
+			bool[] TNT_isNodeTotallyHomomorphic = new bool[6] { false, false, false, false, false, false,  };
+			bool[] TNT_isEdgeTotallyHomomorphic = new bool[9] { false, false, false, false, false, false, false, false, false,  };
+			GRGEN_LGSP.PatternNode TNT_node_c1 = new GRGEN_LGSP.PatternNode((int) GRGEN_MODEL.NodeTypes.@C, "GRGEN_MODEL.IC", "TNT_node_c1", "c1", TNT_node_c1_AllowedTypes, TNT_node_c1_IsAllowedType, 5.5F, -1, false, null, null, null, null, null, false);
+			GRGEN_LGSP.PatternNode TNT_node_c2 = new GRGEN_LGSP.PatternNode((int) GRGEN_MODEL.NodeTypes.@C, "GRGEN_MODEL.IC", "TNT_node_c2", "c2", TNT_node_c2_AllowedTypes, TNT_node_c2_IsAllowedType, 5.5F, -1, false, null, null, null, null, null, false);
+			GRGEN_LGSP.PatternNode TNT_node_c3 = new GRGEN_LGSP.PatternNode((int) GRGEN_MODEL.NodeTypes.@C, "GRGEN_MODEL.IC", "TNT_node_c3", "c3", TNT_node_c3_AllowedTypes, TNT_node_c3_IsAllowedType, 5.5F, -1, false, null, null, null, null, null, false);
+			GRGEN_LGSP.PatternNode TNT_node_c4 = new GRGEN_LGSP.PatternNode((int) GRGEN_MODEL.NodeTypes.@C, "GRGEN_MODEL.IC", "TNT_node_c4", "c4", TNT_node_c4_AllowedTypes, TNT_node_c4_IsAllowedType, 5.5F, -1, false, null, null, null, null, null, false);
+			GRGEN_LGSP.PatternNode TNT_node_c5 = new GRGEN_LGSP.PatternNode((int) GRGEN_MODEL.NodeTypes.@C, "GRGEN_MODEL.IC", "TNT_node_c5", "c5", TNT_node_c5_AllowedTypes, TNT_node_c5_IsAllowedType, 5.5F, -1, false, null, null, null, null, null, false);
+			GRGEN_LGSP.PatternNode TNT_node_c6 = new GRGEN_LGSP.PatternNode((int) GRGEN_MODEL.NodeTypes.@C, "GRGEN_MODEL.IC", "TNT_node_c6", "c6", TNT_node_c6_AllowedTypes, TNT_node_c6_IsAllowedType, 5.5F, -1, false, null, null, null, null, null, false);
+			GRGEN_LGSP.PatternEdge TNT_edge__edge0 = new GRGEN_LGSP.PatternEdge(true, (int) GRGEN_MODEL.EdgeTypes.@Edge, "GRGEN_LIBGR.IEdge", "TNT_edge__edge0", "_edge0", TNT_edge__edge0_AllowedTypes, TNT_edge__edge0_IsAllowedType, 5.5F, -1, false, null, null, null, null, null, false);
+			GRGEN_LGSP.PatternEdge TNT_edge__edge1 = new GRGEN_LGSP.PatternEdge(true, (int) GRGEN_MODEL.EdgeTypes.@Edge, "GRGEN_LIBGR.IEdge", "TNT_edge__edge1", "_edge1", TNT_edge__edge1_AllowedTypes, TNT_edge__edge1_IsAllowedType, 5.5F, -1, false, null, null, null, null, null, false);
+			GRGEN_LGSP.PatternEdge TNT_edge__edge2 = new GRGEN_LGSP.PatternEdge(true, (int) GRGEN_MODEL.EdgeTypes.@Edge, "GRGEN_LIBGR.IEdge", "TNT_edge__edge2", "_edge2", TNT_edge__edge2_AllowedTypes, TNT_edge__edge2_IsAllowedType, 5.5F, -1, false, null, null, null, null, null, false);
+			GRGEN_LGSP.PatternEdge TNT_edge__edge3 = new GRGEN_LGSP.PatternEdge(true, (int) GRGEN_MODEL.EdgeTypes.@Edge, "GRGEN_LIBGR.IEdge", "TNT_edge__edge3", "_edge3", TNT_edge__edge3_AllowedTypes, TNT_edge__edge3_IsAllowedType, 5.5F, -1, false, null, null, null, null, null, false);
+			GRGEN_LGSP.PatternEdge TNT_edge__edge4 = new GRGEN_LGSP.PatternEdge(true, (int) GRGEN_MODEL.EdgeTypes.@Edge, "GRGEN_LIBGR.IEdge", "TNT_edge__edge4", "_edge4", TNT_edge__edge4_AllowedTypes, TNT_edge__edge4_IsAllowedType, 5.5F, -1, false, null, null, null, null, null, false);
+			GRGEN_LGSP.PatternEdge TNT_edge__edge5 = new GRGEN_LGSP.PatternEdge(true, (int) GRGEN_MODEL.EdgeTypes.@Edge, "GRGEN_LIBGR.IEdge", "TNT_edge__edge5", "_edge5", TNT_edge__edge5_AllowedTypes, TNT_edge__edge5_IsAllowedType, 5.5F, -1, false, null, null, null, null, null, false);
+			GRGEN_LGSP.PatternEdge TNT_edge__edge6 = new GRGEN_LGSP.PatternEdge(true, (int) GRGEN_MODEL.EdgeTypes.@Edge, "GRGEN_LIBGR.IEdge", "TNT_edge__edge6", "_edge6", TNT_edge__edge6_AllowedTypes, TNT_edge__edge6_IsAllowedType, 5.5F, -1, false, null, null, null, null, null, false);
+			GRGEN_LGSP.PatternEdge TNT_edge__edge7 = new GRGEN_LGSP.PatternEdge(true, (int) GRGEN_MODEL.EdgeTypes.@Edge, "GRGEN_LIBGR.IEdge", "TNT_edge__edge7", "_edge7", TNT_edge__edge7_AllowedTypes, TNT_edge__edge7_IsAllowedType, 5.5F, -1, false, null, null, null, null, null, false);
+			GRGEN_LGSP.PatternEdge TNT_edge__edge8 = new GRGEN_LGSP.PatternEdge(true, (int) GRGEN_MODEL.EdgeTypes.@Edge, "GRGEN_LIBGR.IEdge", "TNT_edge__edge8", "_edge8", TNT_edge__edge8_AllowedTypes, TNT_edge__edge8_IsAllowedType, 5.5F, -1, false, null, null, null, null, null, false);
 			GRGEN_LGSP.PatternGraphEmbedding TNT__sub0 = new GRGEN_LGSP.PatternGraphEmbedding("_sub0", Pattern_Methyl.Instance, 
 				new GRGEN_EXPR.Expression[] {
 					new GRGEN_EXPR.GraphEntityExpression("TNT_node_c1"),
@@ -5207,7 +5281,9 @@ namespace de.unika.ipd.grGen.Action_TNT
 					{ false, false, false, false, false, false, false, false, true, },
 				},
 				TNT_isNodeHomomorphicGlobal,
-				TNT_isEdgeHomomorphicGlobal
+				TNT_isEdgeHomomorphicGlobal,
+				TNT_isNodeTotallyHomomorphic,
+				TNT_isEdgeTotallyHomomorphic
 			);
 			pat_TNT.edgeToSourceNode.Add(TNT_edge__edge0, TNT_node_c1);
 			pat_TNT.edgeToTargetNode.Add(TNT_edge__edge0, TNT_node_c2);
@@ -5629,51 +5705,53 @@ namespace de.unika.ipd.grGen.Action_TNT
 				{ false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, },
 				{ false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, },
 			};
-			GRGEN_LGSP.PatternNode TNTUnfolded_node_c1 = new GRGEN_LGSP.PatternNode((int) GRGEN_MODEL.NodeTypes.@C, "GRGEN_MODEL.IC", "TNTUnfolded_node_c1", "c1", TNTUnfolded_node_c1_AllowedTypes, TNTUnfolded_node_c1_IsAllowedType, 5.5F, -1, false, null, null, null, null, false);
-			GRGEN_LGSP.PatternNode TNTUnfolded_node_c2 = new GRGEN_LGSP.PatternNode((int) GRGEN_MODEL.NodeTypes.@C, "GRGEN_MODEL.IC", "TNTUnfolded_node_c2", "c2", TNTUnfolded_node_c2_AllowedTypes, TNTUnfolded_node_c2_IsAllowedType, 5.5F, -1, false, null, null, null, null, false);
-			GRGEN_LGSP.PatternNode TNTUnfolded_node_c3 = new GRGEN_LGSP.PatternNode((int) GRGEN_MODEL.NodeTypes.@C, "GRGEN_MODEL.IC", "TNTUnfolded_node_c3", "c3", TNTUnfolded_node_c3_AllowedTypes, TNTUnfolded_node_c3_IsAllowedType, 5.5F, -1, false, null, null, null, null, false);
-			GRGEN_LGSP.PatternNode TNTUnfolded_node_c4 = new GRGEN_LGSP.PatternNode((int) GRGEN_MODEL.NodeTypes.@C, "GRGEN_MODEL.IC", "TNTUnfolded_node_c4", "c4", TNTUnfolded_node_c4_AllowedTypes, TNTUnfolded_node_c4_IsAllowedType, 5.5F, -1, false, null, null, null, null, false);
-			GRGEN_LGSP.PatternNode TNTUnfolded_node_c5 = new GRGEN_LGSP.PatternNode((int) GRGEN_MODEL.NodeTypes.@C, "GRGEN_MODEL.IC", "TNTUnfolded_node_c5", "c5", TNTUnfolded_node_c5_AllowedTypes, TNTUnfolded_node_c5_IsAllowedType, 5.5F, -1, false, null, null, null, null, false);
-			GRGEN_LGSP.PatternNode TNTUnfolded_node_c6 = new GRGEN_LGSP.PatternNode((int) GRGEN_MODEL.NodeTypes.@C, "GRGEN_MODEL.IC", "TNTUnfolded_node_c6", "c6", TNTUnfolded_node_c6_AllowedTypes, TNTUnfolded_node_c6_IsAllowedType, 5.5F, -1, false, null, null, null, null, false);
-			GRGEN_LGSP.PatternNode TNTUnfolded_node_c = new GRGEN_LGSP.PatternNode((int) GRGEN_MODEL.NodeTypes.@C, "GRGEN_MODEL.IC", "TNTUnfolded_node_c", "c", TNTUnfolded_node_c_AllowedTypes, TNTUnfolded_node_c_IsAllowedType, 5.5F, -1, false, null, null, null, null, false);
-			GRGEN_LGSP.PatternNode TNTUnfolded_node__node0 = new GRGEN_LGSP.PatternNode((int) GRGEN_MODEL.NodeTypes.@H, "GRGEN_MODEL.IH", "TNTUnfolded_node__node0", "_node0", TNTUnfolded_node__node0_AllowedTypes, TNTUnfolded_node__node0_IsAllowedType, 5.5F, -1, false, null, null, null, null, false);
-			GRGEN_LGSP.PatternNode TNTUnfolded_node__node1 = new GRGEN_LGSP.PatternNode((int) GRGEN_MODEL.NodeTypes.@H, "GRGEN_MODEL.IH", "TNTUnfolded_node__node1", "_node1", TNTUnfolded_node__node1_AllowedTypes, TNTUnfolded_node__node1_IsAllowedType, 5.5F, -1, false, null, null, null, null, false);
-			GRGEN_LGSP.PatternNode TNTUnfolded_node__node2 = new GRGEN_LGSP.PatternNode((int) GRGEN_MODEL.NodeTypes.@H, "GRGEN_MODEL.IH", "TNTUnfolded_node__node2", "_node2", TNTUnfolded_node__node2_AllowedTypes, TNTUnfolded_node__node2_IsAllowedType, 5.5F, -1, false, null, null, null, null, false);
-			GRGEN_LGSP.PatternNode TNTUnfolded_node_n2 = new GRGEN_LGSP.PatternNode((int) GRGEN_MODEL.NodeTypes.@N, "GRGEN_MODEL.IN", "TNTUnfolded_node_n2", "n2", TNTUnfolded_node_n2_AllowedTypes, TNTUnfolded_node_n2_IsAllowedType, 5.5F, -1, false, null, null, null, null, false);
-			GRGEN_LGSP.PatternNode TNTUnfolded_node__node3 = new GRGEN_LGSP.PatternNode((int) GRGEN_MODEL.NodeTypes.@O, "GRGEN_MODEL.IO", "TNTUnfolded_node__node3", "_node3", TNTUnfolded_node__node3_AllowedTypes, TNTUnfolded_node__node3_IsAllowedType, 5.5F, -1, false, null, null, null, null, false);
-			GRGEN_LGSP.PatternNode TNTUnfolded_node__node4 = new GRGEN_LGSP.PatternNode((int) GRGEN_MODEL.NodeTypes.@O, "GRGEN_MODEL.IO", "TNTUnfolded_node__node4", "_node4", TNTUnfolded_node__node4_AllowedTypes, TNTUnfolded_node__node4_IsAllowedType, 5.5F, -1, false, null, null, null, null, false);
-			GRGEN_LGSP.PatternNode TNTUnfolded_node__node5 = new GRGEN_LGSP.PatternNode((int) GRGEN_MODEL.NodeTypes.@H, "GRGEN_MODEL.IH", "TNTUnfolded_node__node5", "_node5", TNTUnfolded_node__node5_AllowedTypes, TNTUnfolded_node__node5_IsAllowedType, 5.5F, -1, false, null, null, null, null, false);
-			GRGEN_LGSP.PatternNode TNTUnfolded_node_n4 = new GRGEN_LGSP.PatternNode((int) GRGEN_MODEL.NodeTypes.@N, "GRGEN_MODEL.IN", "TNTUnfolded_node_n4", "n4", TNTUnfolded_node_n4_AllowedTypes, TNTUnfolded_node_n4_IsAllowedType, 5.5F, -1, false, null, null, null, null, false);
-			GRGEN_LGSP.PatternNode TNTUnfolded_node__node6 = new GRGEN_LGSP.PatternNode((int) GRGEN_MODEL.NodeTypes.@O, "GRGEN_MODEL.IO", "TNTUnfolded_node__node6", "_node6", TNTUnfolded_node__node6_AllowedTypes, TNTUnfolded_node__node6_IsAllowedType, 5.5F, -1, false, null, null, null, null, false);
-			GRGEN_LGSP.PatternNode TNTUnfolded_node__node7 = new GRGEN_LGSP.PatternNode((int) GRGEN_MODEL.NodeTypes.@O, "GRGEN_MODEL.IO", "TNTUnfolded_node__node7", "_node7", TNTUnfolded_node__node7_AllowedTypes, TNTUnfolded_node__node7_IsAllowedType, 5.5F, -1, false, null, null, null, null, false);
-			GRGEN_LGSP.PatternNode TNTUnfolded_node__node8 = new GRGEN_LGSP.PatternNode((int) GRGEN_MODEL.NodeTypes.@H, "GRGEN_MODEL.IH", "TNTUnfolded_node__node8", "_node8", TNTUnfolded_node__node8_AllowedTypes, TNTUnfolded_node__node8_IsAllowedType, 5.5F, -1, false, null, null, null, null, false);
-			GRGEN_LGSP.PatternNode TNTUnfolded_node_n6 = new GRGEN_LGSP.PatternNode((int) GRGEN_MODEL.NodeTypes.@N, "GRGEN_MODEL.IN", "TNTUnfolded_node_n6", "n6", TNTUnfolded_node_n6_AllowedTypes, TNTUnfolded_node_n6_IsAllowedType, 5.5F, -1, false, null, null, null, null, false);
-			GRGEN_LGSP.PatternNode TNTUnfolded_node__node9 = new GRGEN_LGSP.PatternNode((int) GRGEN_MODEL.NodeTypes.@O, "GRGEN_MODEL.IO", "TNTUnfolded_node__node9", "_node9", TNTUnfolded_node__node9_AllowedTypes, TNTUnfolded_node__node9_IsAllowedType, 5.5F, -1, false, null, null, null, null, false);
-			GRGEN_LGSP.PatternNode TNTUnfolded_node__node10 = new GRGEN_LGSP.PatternNode((int) GRGEN_MODEL.NodeTypes.@O, "GRGEN_MODEL.IO", "TNTUnfolded_node__node10", "_node10", TNTUnfolded_node__node10_AllowedTypes, TNTUnfolded_node__node10_IsAllowedType, 5.5F, -1, false, null, null, null, null, false);
-			GRGEN_LGSP.PatternEdge TNTUnfolded_edge__edge0 = new GRGEN_LGSP.PatternEdge(true, (int) GRGEN_MODEL.EdgeTypes.@Edge, "GRGEN_LIBGR.IEdge", "TNTUnfolded_edge__edge0", "_edge0", TNTUnfolded_edge__edge0_AllowedTypes, TNTUnfolded_edge__edge0_IsAllowedType, 5.5F, -1, false, null, null, null, null, false);
-			GRGEN_LGSP.PatternEdge TNTUnfolded_edge__edge1 = new GRGEN_LGSP.PatternEdge(true, (int) GRGEN_MODEL.EdgeTypes.@Edge, "GRGEN_LIBGR.IEdge", "TNTUnfolded_edge__edge1", "_edge1", TNTUnfolded_edge__edge1_AllowedTypes, TNTUnfolded_edge__edge1_IsAllowedType, 5.5F, -1, false, null, null, null, null, false);
-			GRGEN_LGSP.PatternEdge TNTUnfolded_edge__edge2 = new GRGEN_LGSP.PatternEdge(true, (int) GRGEN_MODEL.EdgeTypes.@Edge, "GRGEN_LIBGR.IEdge", "TNTUnfolded_edge__edge2", "_edge2", TNTUnfolded_edge__edge2_AllowedTypes, TNTUnfolded_edge__edge2_IsAllowedType, 5.5F, -1, false, null, null, null, null, false);
-			GRGEN_LGSP.PatternEdge TNTUnfolded_edge__edge3 = new GRGEN_LGSP.PatternEdge(true, (int) GRGEN_MODEL.EdgeTypes.@Edge, "GRGEN_LIBGR.IEdge", "TNTUnfolded_edge__edge3", "_edge3", TNTUnfolded_edge__edge3_AllowedTypes, TNTUnfolded_edge__edge3_IsAllowedType, 5.5F, -1, false, null, null, null, null, false);
-			GRGEN_LGSP.PatternEdge TNTUnfolded_edge__edge4 = new GRGEN_LGSP.PatternEdge(true, (int) GRGEN_MODEL.EdgeTypes.@Edge, "GRGEN_LIBGR.IEdge", "TNTUnfolded_edge__edge4", "_edge4", TNTUnfolded_edge__edge4_AllowedTypes, TNTUnfolded_edge__edge4_IsAllowedType, 5.5F, -1, false, null, null, null, null, false);
-			GRGEN_LGSP.PatternEdge TNTUnfolded_edge__edge5 = new GRGEN_LGSP.PatternEdge(true, (int) GRGEN_MODEL.EdgeTypes.@Edge, "GRGEN_LIBGR.IEdge", "TNTUnfolded_edge__edge5", "_edge5", TNTUnfolded_edge__edge5_AllowedTypes, TNTUnfolded_edge__edge5_IsAllowedType, 5.5F, -1, false, null, null, null, null, false);
-			GRGEN_LGSP.PatternEdge TNTUnfolded_edge__edge6 = new GRGEN_LGSP.PatternEdge(true, (int) GRGEN_MODEL.EdgeTypes.@Edge, "GRGEN_LIBGR.IEdge", "TNTUnfolded_edge__edge6", "_edge6", TNTUnfolded_edge__edge6_AllowedTypes, TNTUnfolded_edge__edge6_IsAllowedType, 5.5F, -1, false, null, null, null, null, false);
-			GRGEN_LGSP.PatternEdge TNTUnfolded_edge__edge7 = new GRGEN_LGSP.PatternEdge(true, (int) GRGEN_MODEL.EdgeTypes.@Edge, "GRGEN_LIBGR.IEdge", "TNTUnfolded_edge__edge7", "_edge7", TNTUnfolded_edge__edge7_AllowedTypes, TNTUnfolded_edge__edge7_IsAllowedType, 5.5F, -1, false, null, null, null, null, false);
-			GRGEN_LGSP.PatternEdge TNTUnfolded_edge__edge8 = new GRGEN_LGSP.PatternEdge(true, (int) GRGEN_MODEL.EdgeTypes.@Edge, "GRGEN_LIBGR.IEdge", "TNTUnfolded_edge__edge8", "_edge8", TNTUnfolded_edge__edge8_AllowedTypes, TNTUnfolded_edge__edge8_IsAllowedType, 5.5F, -1, false, null, null, null, null, false);
-			GRGEN_LGSP.PatternEdge TNTUnfolded_edge__edge9 = new GRGEN_LGSP.PatternEdge(true, (int) GRGEN_MODEL.EdgeTypes.@Edge, "GRGEN_LIBGR.IEdge", "TNTUnfolded_edge__edge9", "_edge9", TNTUnfolded_edge__edge9_AllowedTypes, TNTUnfolded_edge__edge9_IsAllowedType, 5.5F, -1, false, null, null, null, null, false);
-			GRGEN_LGSP.PatternEdge TNTUnfolded_edge__edge10 = new GRGEN_LGSP.PatternEdge(true, (int) GRGEN_MODEL.EdgeTypes.@Edge, "GRGEN_LIBGR.IEdge", "TNTUnfolded_edge__edge10", "_edge10", TNTUnfolded_edge__edge10_AllowedTypes, TNTUnfolded_edge__edge10_IsAllowedType, 5.5F, -1, false, null, null, null, null, false);
-			GRGEN_LGSP.PatternEdge TNTUnfolded_edge__edge11 = new GRGEN_LGSP.PatternEdge(true, (int) GRGEN_MODEL.EdgeTypes.@Edge, "GRGEN_LIBGR.IEdge", "TNTUnfolded_edge__edge11", "_edge11", TNTUnfolded_edge__edge11_AllowedTypes, TNTUnfolded_edge__edge11_IsAllowedType, 5.5F, -1, false, null, null, null, null, false);
-			GRGEN_LGSP.PatternEdge TNTUnfolded_edge__edge12 = new GRGEN_LGSP.PatternEdge(true, (int) GRGEN_MODEL.EdgeTypes.@Edge, "GRGEN_LIBGR.IEdge", "TNTUnfolded_edge__edge12", "_edge12", TNTUnfolded_edge__edge12_AllowedTypes, TNTUnfolded_edge__edge12_IsAllowedType, 5.5F, -1, false, null, null, null, null, false);
-			GRGEN_LGSP.PatternEdge TNTUnfolded_edge__edge13 = new GRGEN_LGSP.PatternEdge(true, (int) GRGEN_MODEL.EdgeTypes.@Edge, "GRGEN_LIBGR.IEdge", "TNTUnfolded_edge__edge13", "_edge13", TNTUnfolded_edge__edge13_AllowedTypes, TNTUnfolded_edge__edge13_IsAllowedType, 5.5F, -1, false, null, null, null, null, false);
-			GRGEN_LGSP.PatternEdge TNTUnfolded_edge__edge14 = new GRGEN_LGSP.PatternEdge(true, (int) GRGEN_MODEL.EdgeTypes.@Edge, "GRGEN_LIBGR.IEdge", "TNTUnfolded_edge__edge14", "_edge14", TNTUnfolded_edge__edge14_AllowedTypes, TNTUnfolded_edge__edge14_IsAllowedType, 5.5F, -1, false, null, null, null, null, false);
-			GRGEN_LGSP.PatternEdge TNTUnfolded_edge__edge15 = new GRGEN_LGSP.PatternEdge(true, (int) GRGEN_MODEL.EdgeTypes.@Edge, "GRGEN_LIBGR.IEdge", "TNTUnfolded_edge__edge15", "_edge15", TNTUnfolded_edge__edge15_AllowedTypes, TNTUnfolded_edge__edge15_IsAllowedType, 5.5F, -1, false, null, null, null, null, false);
-			GRGEN_LGSP.PatternEdge TNTUnfolded_edge__edge16 = new GRGEN_LGSP.PatternEdge(true, (int) GRGEN_MODEL.EdgeTypes.@Edge, "GRGEN_LIBGR.IEdge", "TNTUnfolded_edge__edge16", "_edge16", TNTUnfolded_edge__edge16_AllowedTypes, TNTUnfolded_edge__edge16_IsAllowedType, 5.5F, -1, false, null, null, null, null, false);
-			GRGEN_LGSP.PatternEdge TNTUnfolded_edge__edge17 = new GRGEN_LGSP.PatternEdge(true, (int) GRGEN_MODEL.EdgeTypes.@Edge, "GRGEN_LIBGR.IEdge", "TNTUnfolded_edge__edge17", "_edge17", TNTUnfolded_edge__edge17_AllowedTypes, TNTUnfolded_edge__edge17_IsAllowedType, 5.5F, -1, false, null, null, null, null, false);
-			GRGEN_LGSP.PatternEdge TNTUnfolded_edge__edge18 = new GRGEN_LGSP.PatternEdge(true, (int) GRGEN_MODEL.EdgeTypes.@Edge, "GRGEN_LIBGR.IEdge", "TNTUnfolded_edge__edge18", "_edge18", TNTUnfolded_edge__edge18_AllowedTypes, TNTUnfolded_edge__edge18_IsAllowedType, 5.5F, -1, false, null, null, null, null, false);
-			GRGEN_LGSP.PatternEdge TNTUnfolded_edge__edge19 = new GRGEN_LGSP.PatternEdge(true, (int) GRGEN_MODEL.EdgeTypes.@Edge, "GRGEN_LIBGR.IEdge", "TNTUnfolded_edge__edge19", "_edge19", TNTUnfolded_edge__edge19_AllowedTypes, TNTUnfolded_edge__edge19_IsAllowedType, 5.5F, -1, false, null, null, null, null, false);
-			GRGEN_LGSP.PatternEdge TNTUnfolded_edge__edge20 = new GRGEN_LGSP.PatternEdge(true, (int) GRGEN_MODEL.EdgeTypes.@Edge, "GRGEN_LIBGR.IEdge", "TNTUnfolded_edge__edge20", "_edge20", TNTUnfolded_edge__edge20_AllowedTypes, TNTUnfolded_edge__edge20_IsAllowedType, 5.5F, -1, false, null, null, null, null, false);
-			GRGEN_LGSP.PatternEdge TNTUnfolded_edge__edge21 = new GRGEN_LGSP.PatternEdge(true, (int) GRGEN_MODEL.EdgeTypes.@Edge, "GRGEN_LIBGR.IEdge", "TNTUnfolded_edge__edge21", "_edge21", TNTUnfolded_edge__edge21_AllowedTypes, TNTUnfolded_edge__edge21_IsAllowedType, 5.5F, -1, false, null, null, null, null, false);
-			GRGEN_LGSP.PatternEdge TNTUnfolded_edge__edge22 = new GRGEN_LGSP.PatternEdge(true, (int) GRGEN_MODEL.EdgeTypes.@Edge, "GRGEN_LIBGR.IEdge", "TNTUnfolded_edge__edge22", "_edge22", TNTUnfolded_edge__edge22_AllowedTypes, TNTUnfolded_edge__edge22_IsAllowedType, 5.5F, -1, false, null, null, null, null, false);
-			GRGEN_LGSP.PatternEdge TNTUnfolded_edge__edge23 = new GRGEN_LGSP.PatternEdge(true, (int) GRGEN_MODEL.EdgeTypes.@Edge, "GRGEN_LIBGR.IEdge", "TNTUnfolded_edge__edge23", "_edge23", TNTUnfolded_edge__edge23_AllowedTypes, TNTUnfolded_edge__edge23_IsAllowedType, 5.5F, -1, false, null, null, null, null, false);
+			bool[] TNTUnfolded_isNodeTotallyHomomorphic = new bool[21] { false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false,  };
+			bool[] TNTUnfolded_isEdgeTotallyHomomorphic = new bool[24] { false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false,  };
+			GRGEN_LGSP.PatternNode TNTUnfolded_node_c1 = new GRGEN_LGSP.PatternNode((int) GRGEN_MODEL.NodeTypes.@C, "GRGEN_MODEL.IC", "TNTUnfolded_node_c1", "c1", TNTUnfolded_node_c1_AllowedTypes, TNTUnfolded_node_c1_IsAllowedType, 5.5F, -1, false, null, null, null, null, null, false);
+			GRGEN_LGSP.PatternNode TNTUnfolded_node_c2 = new GRGEN_LGSP.PatternNode((int) GRGEN_MODEL.NodeTypes.@C, "GRGEN_MODEL.IC", "TNTUnfolded_node_c2", "c2", TNTUnfolded_node_c2_AllowedTypes, TNTUnfolded_node_c2_IsAllowedType, 5.5F, -1, false, null, null, null, null, null, false);
+			GRGEN_LGSP.PatternNode TNTUnfolded_node_c3 = new GRGEN_LGSP.PatternNode((int) GRGEN_MODEL.NodeTypes.@C, "GRGEN_MODEL.IC", "TNTUnfolded_node_c3", "c3", TNTUnfolded_node_c3_AllowedTypes, TNTUnfolded_node_c3_IsAllowedType, 5.5F, -1, false, null, null, null, null, null, false);
+			GRGEN_LGSP.PatternNode TNTUnfolded_node_c4 = new GRGEN_LGSP.PatternNode((int) GRGEN_MODEL.NodeTypes.@C, "GRGEN_MODEL.IC", "TNTUnfolded_node_c4", "c4", TNTUnfolded_node_c4_AllowedTypes, TNTUnfolded_node_c4_IsAllowedType, 5.5F, -1, false, null, null, null, null, null, false);
+			GRGEN_LGSP.PatternNode TNTUnfolded_node_c5 = new GRGEN_LGSP.PatternNode((int) GRGEN_MODEL.NodeTypes.@C, "GRGEN_MODEL.IC", "TNTUnfolded_node_c5", "c5", TNTUnfolded_node_c5_AllowedTypes, TNTUnfolded_node_c5_IsAllowedType, 5.5F, -1, false, null, null, null, null, null, false);
+			GRGEN_LGSP.PatternNode TNTUnfolded_node_c6 = new GRGEN_LGSP.PatternNode((int) GRGEN_MODEL.NodeTypes.@C, "GRGEN_MODEL.IC", "TNTUnfolded_node_c6", "c6", TNTUnfolded_node_c6_AllowedTypes, TNTUnfolded_node_c6_IsAllowedType, 5.5F, -1, false, null, null, null, null, null, false);
+			GRGEN_LGSP.PatternNode TNTUnfolded_node_c = new GRGEN_LGSP.PatternNode((int) GRGEN_MODEL.NodeTypes.@C, "GRGEN_MODEL.IC", "TNTUnfolded_node_c", "c", TNTUnfolded_node_c_AllowedTypes, TNTUnfolded_node_c_IsAllowedType, 5.5F, -1, false, null, null, null, null, null, false);
+			GRGEN_LGSP.PatternNode TNTUnfolded_node__node0 = new GRGEN_LGSP.PatternNode((int) GRGEN_MODEL.NodeTypes.@H, "GRGEN_MODEL.IH", "TNTUnfolded_node__node0", "_node0", TNTUnfolded_node__node0_AllowedTypes, TNTUnfolded_node__node0_IsAllowedType, 5.5F, -1, false, null, null, null, null, null, false);
+			GRGEN_LGSP.PatternNode TNTUnfolded_node__node1 = new GRGEN_LGSP.PatternNode((int) GRGEN_MODEL.NodeTypes.@H, "GRGEN_MODEL.IH", "TNTUnfolded_node__node1", "_node1", TNTUnfolded_node__node1_AllowedTypes, TNTUnfolded_node__node1_IsAllowedType, 5.5F, -1, false, null, null, null, null, null, false);
+			GRGEN_LGSP.PatternNode TNTUnfolded_node__node2 = new GRGEN_LGSP.PatternNode((int) GRGEN_MODEL.NodeTypes.@H, "GRGEN_MODEL.IH", "TNTUnfolded_node__node2", "_node2", TNTUnfolded_node__node2_AllowedTypes, TNTUnfolded_node__node2_IsAllowedType, 5.5F, -1, false, null, null, null, null, null, false);
+			GRGEN_LGSP.PatternNode TNTUnfolded_node_n2 = new GRGEN_LGSP.PatternNode((int) GRGEN_MODEL.NodeTypes.@N, "GRGEN_MODEL.IN", "TNTUnfolded_node_n2", "n2", TNTUnfolded_node_n2_AllowedTypes, TNTUnfolded_node_n2_IsAllowedType, 5.5F, -1, false, null, null, null, null, null, false);
+			GRGEN_LGSP.PatternNode TNTUnfolded_node__node3 = new GRGEN_LGSP.PatternNode((int) GRGEN_MODEL.NodeTypes.@O, "GRGEN_MODEL.IO", "TNTUnfolded_node__node3", "_node3", TNTUnfolded_node__node3_AllowedTypes, TNTUnfolded_node__node3_IsAllowedType, 5.5F, -1, false, null, null, null, null, null, false);
+			GRGEN_LGSP.PatternNode TNTUnfolded_node__node4 = new GRGEN_LGSP.PatternNode((int) GRGEN_MODEL.NodeTypes.@O, "GRGEN_MODEL.IO", "TNTUnfolded_node__node4", "_node4", TNTUnfolded_node__node4_AllowedTypes, TNTUnfolded_node__node4_IsAllowedType, 5.5F, -1, false, null, null, null, null, null, false);
+			GRGEN_LGSP.PatternNode TNTUnfolded_node__node5 = new GRGEN_LGSP.PatternNode((int) GRGEN_MODEL.NodeTypes.@H, "GRGEN_MODEL.IH", "TNTUnfolded_node__node5", "_node5", TNTUnfolded_node__node5_AllowedTypes, TNTUnfolded_node__node5_IsAllowedType, 5.5F, -1, false, null, null, null, null, null, false);
+			GRGEN_LGSP.PatternNode TNTUnfolded_node_n4 = new GRGEN_LGSP.PatternNode((int) GRGEN_MODEL.NodeTypes.@N, "GRGEN_MODEL.IN", "TNTUnfolded_node_n4", "n4", TNTUnfolded_node_n4_AllowedTypes, TNTUnfolded_node_n4_IsAllowedType, 5.5F, -1, false, null, null, null, null, null, false);
+			GRGEN_LGSP.PatternNode TNTUnfolded_node__node6 = new GRGEN_LGSP.PatternNode((int) GRGEN_MODEL.NodeTypes.@O, "GRGEN_MODEL.IO", "TNTUnfolded_node__node6", "_node6", TNTUnfolded_node__node6_AllowedTypes, TNTUnfolded_node__node6_IsAllowedType, 5.5F, -1, false, null, null, null, null, null, false);
+			GRGEN_LGSP.PatternNode TNTUnfolded_node__node7 = new GRGEN_LGSP.PatternNode((int) GRGEN_MODEL.NodeTypes.@O, "GRGEN_MODEL.IO", "TNTUnfolded_node__node7", "_node7", TNTUnfolded_node__node7_AllowedTypes, TNTUnfolded_node__node7_IsAllowedType, 5.5F, -1, false, null, null, null, null, null, false);
+			GRGEN_LGSP.PatternNode TNTUnfolded_node__node8 = new GRGEN_LGSP.PatternNode((int) GRGEN_MODEL.NodeTypes.@H, "GRGEN_MODEL.IH", "TNTUnfolded_node__node8", "_node8", TNTUnfolded_node__node8_AllowedTypes, TNTUnfolded_node__node8_IsAllowedType, 5.5F, -1, false, null, null, null, null, null, false);
+			GRGEN_LGSP.PatternNode TNTUnfolded_node_n6 = new GRGEN_LGSP.PatternNode((int) GRGEN_MODEL.NodeTypes.@N, "GRGEN_MODEL.IN", "TNTUnfolded_node_n6", "n6", TNTUnfolded_node_n6_AllowedTypes, TNTUnfolded_node_n6_IsAllowedType, 5.5F, -1, false, null, null, null, null, null, false);
+			GRGEN_LGSP.PatternNode TNTUnfolded_node__node9 = new GRGEN_LGSP.PatternNode((int) GRGEN_MODEL.NodeTypes.@O, "GRGEN_MODEL.IO", "TNTUnfolded_node__node9", "_node9", TNTUnfolded_node__node9_AllowedTypes, TNTUnfolded_node__node9_IsAllowedType, 5.5F, -1, false, null, null, null, null, null, false);
+			GRGEN_LGSP.PatternNode TNTUnfolded_node__node10 = new GRGEN_LGSP.PatternNode((int) GRGEN_MODEL.NodeTypes.@O, "GRGEN_MODEL.IO", "TNTUnfolded_node__node10", "_node10", TNTUnfolded_node__node10_AllowedTypes, TNTUnfolded_node__node10_IsAllowedType, 5.5F, -1, false, null, null, null, null, null, false);
+			GRGEN_LGSP.PatternEdge TNTUnfolded_edge__edge0 = new GRGEN_LGSP.PatternEdge(true, (int) GRGEN_MODEL.EdgeTypes.@Edge, "GRGEN_LIBGR.IEdge", "TNTUnfolded_edge__edge0", "_edge0", TNTUnfolded_edge__edge0_AllowedTypes, TNTUnfolded_edge__edge0_IsAllowedType, 5.5F, -1, false, null, null, null, null, null, false);
+			GRGEN_LGSP.PatternEdge TNTUnfolded_edge__edge1 = new GRGEN_LGSP.PatternEdge(true, (int) GRGEN_MODEL.EdgeTypes.@Edge, "GRGEN_LIBGR.IEdge", "TNTUnfolded_edge__edge1", "_edge1", TNTUnfolded_edge__edge1_AllowedTypes, TNTUnfolded_edge__edge1_IsAllowedType, 5.5F, -1, false, null, null, null, null, null, false);
+			GRGEN_LGSP.PatternEdge TNTUnfolded_edge__edge2 = new GRGEN_LGSP.PatternEdge(true, (int) GRGEN_MODEL.EdgeTypes.@Edge, "GRGEN_LIBGR.IEdge", "TNTUnfolded_edge__edge2", "_edge2", TNTUnfolded_edge__edge2_AllowedTypes, TNTUnfolded_edge__edge2_IsAllowedType, 5.5F, -1, false, null, null, null, null, null, false);
+			GRGEN_LGSP.PatternEdge TNTUnfolded_edge__edge3 = new GRGEN_LGSP.PatternEdge(true, (int) GRGEN_MODEL.EdgeTypes.@Edge, "GRGEN_LIBGR.IEdge", "TNTUnfolded_edge__edge3", "_edge3", TNTUnfolded_edge__edge3_AllowedTypes, TNTUnfolded_edge__edge3_IsAllowedType, 5.5F, -1, false, null, null, null, null, null, false);
+			GRGEN_LGSP.PatternEdge TNTUnfolded_edge__edge4 = new GRGEN_LGSP.PatternEdge(true, (int) GRGEN_MODEL.EdgeTypes.@Edge, "GRGEN_LIBGR.IEdge", "TNTUnfolded_edge__edge4", "_edge4", TNTUnfolded_edge__edge4_AllowedTypes, TNTUnfolded_edge__edge4_IsAllowedType, 5.5F, -1, false, null, null, null, null, null, false);
+			GRGEN_LGSP.PatternEdge TNTUnfolded_edge__edge5 = new GRGEN_LGSP.PatternEdge(true, (int) GRGEN_MODEL.EdgeTypes.@Edge, "GRGEN_LIBGR.IEdge", "TNTUnfolded_edge__edge5", "_edge5", TNTUnfolded_edge__edge5_AllowedTypes, TNTUnfolded_edge__edge5_IsAllowedType, 5.5F, -1, false, null, null, null, null, null, false);
+			GRGEN_LGSP.PatternEdge TNTUnfolded_edge__edge6 = new GRGEN_LGSP.PatternEdge(true, (int) GRGEN_MODEL.EdgeTypes.@Edge, "GRGEN_LIBGR.IEdge", "TNTUnfolded_edge__edge6", "_edge6", TNTUnfolded_edge__edge6_AllowedTypes, TNTUnfolded_edge__edge6_IsAllowedType, 5.5F, -1, false, null, null, null, null, null, false);
+			GRGEN_LGSP.PatternEdge TNTUnfolded_edge__edge7 = new GRGEN_LGSP.PatternEdge(true, (int) GRGEN_MODEL.EdgeTypes.@Edge, "GRGEN_LIBGR.IEdge", "TNTUnfolded_edge__edge7", "_edge7", TNTUnfolded_edge__edge7_AllowedTypes, TNTUnfolded_edge__edge7_IsAllowedType, 5.5F, -1, false, null, null, null, null, null, false);
+			GRGEN_LGSP.PatternEdge TNTUnfolded_edge__edge8 = new GRGEN_LGSP.PatternEdge(true, (int) GRGEN_MODEL.EdgeTypes.@Edge, "GRGEN_LIBGR.IEdge", "TNTUnfolded_edge__edge8", "_edge8", TNTUnfolded_edge__edge8_AllowedTypes, TNTUnfolded_edge__edge8_IsAllowedType, 5.5F, -1, false, null, null, null, null, null, false);
+			GRGEN_LGSP.PatternEdge TNTUnfolded_edge__edge9 = new GRGEN_LGSP.PatternEdge(true, (int) GRGEN_MODEL.EdgeTypes.@Edge, "GRGEN_LIBGR.IEdge", "TNTUnfolded_edge__edge9", "_edge9", TNTUnfolded_edge__edge9_AllowedTypes, TNTUnfolded_edge__edge9_IsAllowedType, 5.5F, -1, false, null, null, null, null, null, false);
+			GRGEN_LGSP.PatternEdge TNTUnfolded_edge__edge10 = new GRGEN_LGSP.PatternEdge(true, (int) GRGEN_MODEL.EdgeTypes.@Edge, "GRGEN_LIBGR.IEdge", "TNTUnfolded_edge__edge10", "_edge10", TNTUnfolded_edge__edge10_AllowedTypes, TNTUnfolded_edge__edge10_IsAllowedType, 5.5F, -1, false, null, null, null, null, null, false);
+			GRGEN_LGSP.PatternEdge TNTUnfolded_edge__edge11 = new GRGEN_LGSP.PatternEdge(true, (int) GRGEN_MODEL.EdgeTypes.@Edge, "GRGEN_LIBGR.IEdge", "TNTUnfolded_edge__edge11", "_edge11", TNTUnfolded_edge__edge11_AllowedTypes, TNTUnfolded_edge__edge11_IsAllowedType, 5.5F, -1, false, null, null, null, null, null, false);
+			GRGEN_LGSP.PatternEdge TNTUnfolded_edge__edge12 = new GRGEN_LGSP.PatternEdge(true, (int) GRGEN_MODEL.EdgeTypes.@Edge, "GRGEN_LIBGR.IEdge", "TNTUnfolded_edge__edge12", "_edge12", TNTUnfolded_edge__edge12_AllowedTypes, TNTUnfolded_edge__edge12_IsAllowedType, 5.5F, -1, false, null, null, null, null, null, false);
+			GRGEN_LGSP.PatternEdge TNTUnfolded_edge__edge13 = new GRGEN_LGSP.PatternEdge(true, (int) GRGEN_MODEL.EdgeTypes.@Edge, "GRGEN_LIBGR.IEdge", "TNTUnfolded_edge__edge13", "_edge13", TNTUnfolded_edge__edge13_AllowedTypes, TNTUnfolded_edge__edge13_IsAllowedType, 5.5F, -1, false, null, null, null, null, null, false);
+			GRGEN_LGSP.PatternEdge TNTUnfolded_edge__edge14 = new GRGEN_LGSP.PatternEdge(true, (int) GRGEN_MODEL.EdgeTypes.@Edge, "GRGEN_LIBGR.IEdge", "TNTUnfolded_edge__edge14", "_edge14", TNTUnfolded_edge__edge14_AllowedTypes, TNTUnfolded_edge__edge14_IsAllowedType, 5.5F, -1, false, null, null, null, null, null, false);
+			GRGEN_LGSP.PatternEdge TNTUnfolded_edge__edge15 = new GRGEN_LGSP.PatternEdge(true, (int) GRGEN_MODEL.EdgeTypes.@Edge, "GRGEN_LIBGR.IEdge", "TNTUnfolded_edge__edge15", "_edge15", TNTUnfolded_edge__edge15_AllowedTypes, TNTUnfolded_edge__edge15_IsAllowedType, 5.5F, -1, false, null, null, null, null, null, false);
+			GRGEN_LGSP.PatternEdge TNTUnfolded_edge__edge16 = new GRGEN_LGSP.PatternEdge(true, (int) GRGEN_MODEL.EdgeTypes.@Edge, "GRGEN_LIBGR.IEdge", "TNTUnfolded_edge__edge16", "_edge16", TNTUnfolded_edge__edge16_AllowedTypes, TNTUnfolded_edge__edge16_IsAllowedType, 5.5F, -1, false, null, null, null, null, null, false);
+			GRGEN_LGSP.PatternEdge TNTUnfolded_edge__edge17 = new GRGEN_LGSP.PatternEdge(true, (int) GRGEN_MODEL.EdgeTypes.@Edge, "GRGEN_LIBGR.IEdge", "TNTUnfolded_edge__edge17", "_edge17", TNTUnfolded_edge__edge17_AllowedTypes, TNTUnfolded_edge__edge17_IsAllowedType, 5.5F, -1, false, null, null, null, null, null, false);
+			GRGEN_LGSP.PatternEdge TNTUnfolded_edge__edge18 = new GRGEN_LGSP.PatternEdge(true, (int) GRGEN_MODEL.EdgeTypes.@Edge, "GRGEN_LIBGR.IEdge", "TNTUnfolded_edge__edge18", "_edge18", TNTUnfolded_edge__edge18_AllowedTypes, TNTUnfolded_edge__edge18_IsAllowedType, 5.5F, -1, false, null, null, null, null, null, false);
+			GRGEN_LGSP.PatternEdge TNTUnfolded_edge__edge19 = new GRGEN_LGSP.PatternEdge(true, (int) GRGEN_MODEL.EdgeTypes.@Edge, "GRGEN_LIBGR.IEdge", "TNTUnfolded_edge__edge19", "_edge19", TNTUnfolded_edge__edge19_AllowedTypes, TNTUnfolded_edge__edge19_IsAllowedType, 5.5F, -1, false, null, null, null, null, null, false);
+			GRGEN_LGSP.PatternEdge TNTUnfolded_edge__edge20 = new GRGEN_LGSP.PatternEdge(true, (int) GRGEN_MODEL.EdgeTypes.@Edge, "GRGEN_LIBGR.IEdge", "TNTUnfolded_edge__edge20", "_edge20", TNTUnfolded_edge__edge20_AllowedTypes, TNTUnfolded_edge__edge20_IsAllowedType, 5.5F, -1, false, null, null, null, null, null, false);
+			GRGEN_LGSP.PatternEdge TNTUnfolded_edge__edge21 = new GRGEN_LGSP.PatternEdge(true, (int) GRGEN_MODEL.EdgeTypes.@Edge, "GRGEN_LIBGR.IEdge", "TNTUnfolded_edge__edge21", "_edge21", TNTUnfolded_edge__edge21_AllowedTypes, TNTUnfolded_edge__edge21_IsAllowedType, 5.5F, -1, false, null, null, null, null, null, false);
+			GRGEN_LGSP.PatternEdge TNTUnfolded_edge__edge22 = new GRGEN_LGSP.PatternEdge(true, (int) GRGEN_MODEL.EdgeTypes.@Edge, "GRGEN_LIBGR.IEdge", "TNTUnfolded_edge__edge22", "_edge22", TNTUnfolded_edge__edge22_AllowedTypes, TNTUnfolded_edge__edge22_IsAllowedType, 5.5F, -1, false, null, null, null, null, null, false);
+			GRGEN_LGSP.PatternEdge TNTUnfolded_edge__edge23 = new GRGEN_LGSP.PatternEdge(true, (int) GRGEN_MODEL.EdgeTypes.@Edge, "GRGEN_LIBGR.IEdge", "TNTUnfolded_edge__edge23", "_edge23", TNTUnfolded_edge__edge23_AllowedTypes, TNTUnfolded_edge__edge23_IsAllowedType, 5.5F, -1, false, null, null, null, null, null, false);
 			pat_TNTUnfolded = new GRGEN_LGSP.PatternGraph(
 				"TNTUnfolded",
 				"",
@@ -5738,7 +5816,9 @@ namespace de.unika.ipd.grGen.Action_TNT
 					{ false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, true, },
 				},
 				TNTUnfolded_isNodeHomomorphicGlobal,
-				TNTUnfolded_isEdgeHomomorphicGlobal
+				TNTUnfolded_isEdgeHomomorphicGlobal,
+				TNTUnfolded_isNodeTotallyHomomorphic,
+				TNTUnfolded_isEdgeTotallyHomomorphic
 			);
 			pat_TNTUnfolded.edgeToSourceNode.Add(TNTUnfolded_edge__edge0, TNTUnfolded_node_c1);
 			pat_TNTUnfolded.edgeToTargetNode.Add(TNTUnfolded_edge__edge0, TNTUnfolded_node_c2);
@@ -6162,6 +6242,8 @@ namespace de.unika.ipd.grGen.Action_TNT
 		{
 			bool[,] createTNT_isNodeHomomorphicGlobal = new bool[0, 0] ;
 			bool[,] createTNT_isEdgeHomomorphicGlobal = new bool[0, 0] ;
+			bool[] createTNT_isNodeTotallyHomomorphic = new bool[0] ;
+			bool[] createTNT_isEdgeTotallyHomomorphic = new bool[0] ;
 			pat_createTNT = new GRGEN_LGSP.PatternGraph(
 				"createTNT",
 				"",
@@ -6179,7 +6261,9 @@ namespace de.unika.ipd.grGen.Action_TNT
 				new bool[0, 0] ,
 				new bool[0, 0] ,
 				createTNT_isNodeHomomorphicGlobal,
-				createTNT_isEdgeHomomorphicGlobal
+				createTNT_isEdgeHomomorphicGlobal,
+				createTNT_isNodeTotallyHomomorphic,
+				createTNT_isEdgeTotallyHomomorphic
 			);
 
 
@@ -6425,21 +6509,23 @@ namespace de.unika.ipd.grGen.Action_TNT
 				{ false, false, false, false, false, false, false, false, false, },
 				{ false, false, false, false, false, false, false, false, false, },
 			};
-			GRGEN_LGSP.PatternNode DNT_node_c1 = new GRGEN_LGSP.PatternNode((int) GRGEN_MODEL.NodeTypes.@C, "GRGEN_MODEL.IC", "DNT_node_c1", "c1", DNT_node_c1_AllowedTypes, DNT_node_c1_IsAllowedType, 5.5F, -1, false, null, null, null, null, false);
-			GRGEN_LGSP.PatternNode DNT_node_c2 = new GRGEN_LGSP.PatternNode((int) GRGEN_MODEL.NodeTypes.@C, "GRGEN_MODEL.IC", "DNT_node_c2", "c2", DNT_node_c2_AllowedTypes, DNT_node_c2_IsAllowedType, 5.5F, -1, false, null, null, null, null, false);
-			GRGEN_LGSP.PatternNode DNT_node_c3 = new GRGEN_LGSP.PatternNode((int) GRGEN_MODEL.NodeTypes.@C, "GRGEN_MODEL.IC", "DNT_node_c3", "c3", DNT_node_c3_AllowedTypes, DNT_node_c3_IsAllowedType, 5.5F, -1, false, null, null, null, null, false);
-			GRGEN_LGSP.PatternNode DNT_node_c4 = new GRGEN_LGSP.PatternNode((int) GRGEN_MODEL.NodeTypes.@C, "GRGEN_MODEL.IC", "DNT_node_c4", "c4", DNT_node_c4_AllowedTypes, DNT_node_c4_IsAllowedType, 5.5F, -1, false, null, null, null, null, false);
-			GRGEN_LGSP.PatternNode DNT_node_c5 = new GRGEN_LGSP.PatternNode((int) GRGEN_MODEL.NodeTypes.@C, "GRGEN_MODEL.IC", "DNT_node_c5", "c5", DNT_node_c5_AllowedTypes, DNT_node_c5_IsAllowedType, 5.5F, -1, false, null, null, null, null, false);
-			GRGEN_LGSP.PatternNode DNT_node_c6 = new GRGEN_LGSP.PatternNode((int) GRGEN_MODEL.NodeTypes.@C, "GRGEN_MODEL.IC", "DNT_node_c6", "c6", DNT_node_c6_AllowedTypes, DNT_node_c6_IsAllowedType, 5.5F, -1, false, null, null, null, null, false);
-			GRGEN_LGSP.PatternEdge DNT_edge__edge0 = new GRGEN_LGSP.PatternEdge(true, (int) GRGEN_MODEL.EdgeTypes.@Edge, "GRGEN_LIBGR.IEdge", "DNT_edge__edge0", "_edge0", DNT_edge__edge0_AllowedTypes, DNT_edge__edge0_IsAllowedType, 5.5F, -1, false, null, null, null, null, false);
-			GRGEN_LGSP.PatternEdge DNT_edge__edge1 = new GRGEN_LGSP.PatternEdge(true, (int) GRGEN_MODEL.EdgeTypes.@Edge, "GRGEN_LIBGR.IEdge", "DNT_edge__edge1", "_edge1", DNT_edge__edge1_AllowedTypes, DNT_edge__edge1_IsAllowedType, 5.5F, -1, false, null, null, null, null, false);
-			GRGEN_LGSP.PatternEdge DNT_edge__edge2 = new GRGEN_LGSP.PatternEdge(true, (int) GRGEN_MODEL.EdgeTypes.@Edge, "GRGEN_LIBGR.IEdge", "DNT_edge__edge2", "_edge2", DNT_edge__edge2_AllowedTypes, DNT_edge__edge2_IsAllowedType, 5.5F, -1, false, null, null, null, null, false);
-			GRGEN_LGSP.PatternEdge DNT_edge__edge3 = new GRGEN_LGSP.PatternEdge(true, (int) GRGEN_MODEL.EdgeTypes.@Edge, "GRGEN_LIBGR.IEdge", "DNT_edge__edge3", "_edge3", DNT_edge__edge3_AllowedTypes, DNT_edge__edge3_IsAllowedType, 5.5F, -1, false, null, null, null, null, false);
-			GRGEN_LGSP.PatternEdge DNT_edge__edge4 = new GRGEN_LGSP.PatternEdge(true, (int) GRGEN_MODEL.EdgeTypes.@Edge, "GRGEN_LIBGR.IEdge", "DNT_edge__edge4", "_edge4", DNT_edge__edge4_AllowedTypes, DNT_edge__edge4_IsAllowedType, 5.5F, -1, false, null, null, null, null, false);
-			GRGEN_LGSP.PatternEdge DNT_edge__edge5 = new GRGEN_LGSP.PatternEdge(true, (int) GRGEN_MODEL.EdgeTypes.@Edge, "GRGEN_LIBGR.IEdge", "DNT_edge__edge5", "_edge5", DNT_edge__edge5_AllowedTypes, DNT_edge__edge5_IsAllowedType, 5.5F, -1, false, null, null, null, null, false);
-			GRGEN_LGSP.PatternEdge DNT_edge__edge6 = new GRGEN_LGSP.PatternEdge(true, (int) GRGEN_MODEL.EdgeTypes.@Edge, "GRGEN_LIBGR.IEdge", "DNT_edge__edge6", "_edge6", DNT_edge__edge6_AllowedTypes, DNT_edge__edge6_IsAllowedType, 5.5F, -1, false, null, null, null, null, false);
-			GRGEN_LGSP.PatternEdge DNT_edge__edge7 = new GRGEN_LGSP.PatternEdge(true, (int) GRGEN_MODEL.EdgeTypes.@Edge, "GRGEN_LIBGR.IEdge", "DNT_edge__edge7", "_edge7", DNT_edge__edge7_AllowedTypes, DNT_edge__edge7_IsAllowedType, 5.5F, -1, false, null, null, null, null, false);
-			GRGEN_LGSP.PatternEdge DNT_edge__edge8 = new GRGEN_LGSP.PatternEdge(true, (int) GRGEN_MODEL.EdgeTypes.@Edge, "GRGEN_LIBGR.IEdge", "DNT_edge__edge8", "_edge8", DNT_edge__edge8_AllowedTypes, DNT_edge__edge8_IsAllowedType, 5.5F, -1, false, null, null, null, null, false);
+			bool[] DNT_isNodeTotallyHomomorphic = new bool[6] { false, false, false, false, false, false,  };
+			bool[] DNT_isEdgeTotallyHomomorphic = new bool[9] { false, false, false, false, false, false, false, false, false,  };
+			GRGEN_LGSP.PatternNode DNT_node_c1 = new GRGEN_LGSP.PatternNode((int) GRGEN_MODEL.NodeTypes.@C, "GRGEN_MODEL.IC", "DNT_node_c1", "c1", DNT_node_c1_AllowedTypes, DNT_node_c1_IsAllowedType, 5.5F, -1, false, null, null, null, null, null, false);
+			GRGEN_LGSP.PatternNode DNT_node_c2 = new GRGEN_LGSP.PatternNode((int) GRGEN_MODEL.NodeTypes.@C, "GRGEN_MODEL.IC", "DNT_node_c2", "c2", DNT_node_c2_AllowedTypes, DNT_node_c2_IsAllowedType, 5.5F, -1, false, null, null, null, null, null, false);
+			GRGEN_LGSP.PatternNode DNT_node_c3 = new GRGEN_LGSP.PatternNode((int) GRGEN_MODEL.NodeTypes.@C, "GRGEN_MODEL.IC", "DNT_node_c3", "c3", DNT_node_c3_AllowedTypes, DNT_node_c3_IsAllowedType, 5.5F, -1, false, null, null, null, null, null, false);
+			GRGEN_LGSP.PatternNode DNT_node_c4 = new GRGEN_LGSP.PatternNode((int) GRGEN_MODEL.NodeTypes.@C, "GRGEN_MODEL.IC", "DNT_node_c4", "c4", DNT_node_c4_AllowedTypes, DNT_node_c4_IsAllowedType, 5.5F, -1, false, null, null, null, null, null, false);
+			GRGEN_LGSP.PatternNode DNT_node_c5 = new GRGEN_LGSP.PatternNode((int) GRGEN_MODEL.NodeTypes.@C, "GRGEN_MODEL.IC", "DNT_node_c5", "c5", DNT_node_c5_AllowedTypes, DNT_node_c5_IsAllowedType, 5.5F, -1, false, null, null, null, null, null, false);
+			GRGEN_LGSP.PatternNode DNT_node_c6 = new GRGEN_LGSP.PatternNode((int) GRGEN_MODEL.NodeTypes.@C, "GRGEN_MODEL.IC", "DNT_node_c6", "c6", DNT_node_c6_AllowedTypes, DNT_node_c6_IsAllowedType, 5.5F, -1, false, null, null, null, null, null, false);
+			GRGEN_LGSP.PatternEdge DNT_edge__edge0 = new GRGEN_LGSP.PatternEdge(true, (int) GRGEN_MODEL.EdgeTypes.@Edge, "GRGEN_LIBGR.IEdge", "DNT_edge__edge0", "_edge0", DNT_edge__edge0_AllowedTypes, DNT_edge__edge0_IsAllowedType, 5.5F, -1, false, null, null, null, null, null, false);
+			GRGEN_LGSP.PatternEdge DNT_edge__edge1 = new GRGEN_LGSP.PatternEdge(true, (int) GRGEN_MODEL.EdgeTypes.@Edge, "GRGEN_LIBGR.IEdge", "DNT_edge__edge1", "_edge1", DNT_edge__edge1_AllowedTypes, DNT_edge__edge1_IsAllowedType, 5.5F, -1, false, null, null, null, null, null, false);
+			GRGEN_LGSP.PatternEdge DNT_edge__edge2 = new GRGEN_LGSP.PatternEdge(true, (int) GRGEN_MODEL.EdgeTypes.@Edge, "GRGEN_LIBGR.IEdge", "DNT_edge__edge2", "_edge2", DNT_edge__edge2_AllowedTypes, DNT_edge__edge2_IsAllowedType, 5.5F, -1, false, null, null, null, null, null, false);
+			GRGEN_LGSP.PatternEdge DNT_edge__edge3 = new GRGEN_LGSP.PatternEdge(true, (int) GRGEN_MODEL.EdgeTypes.@Edge, "GRGEN_LIBGR.IEdge", "DNT_edge__edge3", "_edge3", DNT_edge__edge3_AllowedTypes, DNT_edge__edge3_IsAllowedType, 5.5F, -1, false, null, null, null, null, null, false);
+			GRGEN_LGSP.PatternEdge DNT_edge__edge4 = new GRGEN_LGSP.PatternEdge(true, (int) GRGEN_MODEL.EdgeTypes.@Edge, "GRGEN_LIBGR.IEdge", "DNT_edge__edge4", "_edge4", DNT_edge__edge4_AllowedTypes, DNT_edge__edge4_IsAllowedType, 5.5F, -1, false, null, null, null, null, null, false);
+			GRGEN_LGSP.PatternEdge DNT_edge__edge5 = new GRGEN_LGSP.PatternEdge(true, (int) GRGEN_MODEL.EdgeTypes.@Edge, "GRGEN_LIBGR.IEdge", "DNT_edge__edge5", "_edge5", DNT_edge__edge5_AllowedTypes, DNT_edge__edge5_IsAllowedType, 5.5F, -1, false, null, null, null, null, null, false);
+			GRGEN_LGSP.PatternEdge DNT_edge__edge6 = new GRGEN_LGSP.PatternEdge(true, (int) GRGEN_MODEL.EdgeTypes.@Edge, "GRGEN_LIBGR.IEdge", "DNT_edge__edge6", "_edge6", DNT_edge__edge6_AllowedTypes, DNT_edge__edge6_IsAllowedType, 5.5F, -1, false, null, null, null, null, null, false);
+			GRGEN_LGSP.PatternEdge DNT_edge__edge7 = new GRGEN_LGSP.PatternEdge(true, (int) GRGEN_MODEL.EdgeTypes.@Edge, "GRGEN_LIBGR.IEdge", "DNT_edge__edge7", "_edge7", DNT_edge__edge7_AllowedTypes, DNT_edge__edge7_IsAllowedType, 5.5F, -1, false, null, null, null, null, null, false);
+			GRGEN_LGSP.PatternEdge DNT_edge__edge8 = new GRGEN_LGSP.PatternEdge(true, (int) GRGEN_MODEL.EdgeTypes.@Edge, "GRGEN_LIBGR.IEdge", "DNT_edge__edge8", "_edge8", DNT_edge__edge8_AllowedTypes, DNT_edge__edge8_IsAllowedType, 5.5F, -1, false, null, null, null, null, null, false);
 			GRGEN_LGSP.PatternGraphEmbedding DNT__sub0 = new GRGEN_LGSP.PatternGraphEmbedding("_sub0", Pattern_Methyl.Instance, 
 				new GRGEN_EXPR.Expression[] {
 					new GRGEN_EXPR.GraphEntityExpression("DNT_node_c1"),
@@ -6504,7 +6590,9 @@ namespace de.unika.ipd.grGen.Action_TNT
 					{ false, false, false, false, false, false, false, false, true, },
 				},
 				DNT_isNodeHomomorphicGlobal,
-				DNT_isEdgeHomomorphicGlobal
+				DNT_isEdgeHomomorphicGlobal,
+				DNT_isNodeTotallyHomomorphic,
+				DNT_isEdgeTotallyHomomorphic
 			);
 			pat_DNT.edgeToSourceNode.Add(DNT_edge__edge0, DNT_node_c1);
 			pat_DNT.edgeToTargetNode.Add(DNT_edge__edge0, DNT_node_c2);
@@ -6914,47 +7002,49 @@ namespace de.unika.ipd.grGen.Action_TNT
 				{ false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, },
 				{ false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, },
 			};
-			GRGEN_LGSP.PatternNode DNTUnfolded_node_c1 = new GRGEN_LGSP.PatternNode((int) GRGEN_MODEL.NodeTypes.@C, "GRGEN_MODEL.IC", "DNTUnfolded_node_c1", "c1", DNTUnfolded_node_c1_AllowedTypes, DNTUnfolded_node_c1_IsAllowedType, 5.5F, -1, false, null, null, null, null, false);
-			GRGEN_LGSP.PatternNode DNTUnfolded_node_c2 = new GRGEN_LGSP.PatternNode((int) GRGEN_MODEL.NodeTypes.@C, "GRGEN_MODEL.IC", "DNTUnfolded_node_c2", "c2", DNTUnfolded_node_c2_AllowedTypes, DNTUnfolded_node_c2_IsAllowedType, 5.5F, -1, false, null, null, null, null, false);
-			GRGEN_LGSP.PatternNode DNTUnfolded_node_c3 = new GRGEN_LGSP.PatternNode((int) GRGEN_MODEL.NodeTypes.@C, "GRGEN_MODEL.IC", "DNTUnfolded_node_c3", "c3", DNTUnfolded_node_c3_AllowedTypes, DNTUnfolded_node_c3_IsAllowedType, 5.5F, -1, false, null, null, null, null, false);
-			GRGEN_LGSP.PatternNode DNTUnfolded_node_c4 = new GRGEN_LGSP.PatternNode((int) GRGEN_MODEL.NodeTypes.@C, "GRGEN_MODEL.IC", "DNTUnfolded_node_c4", "c4", DNTUnfolded_node_c4_AllowedTypes, DNTUnfolded_node_c4_IsAllowedType, 5.5F, -1, false, null, null, null, null, false);
-			GRGEN_LGSP.PatternNode DNTUnfolded_node_c5 = new GRGEN_LGSP.PatternNode((int) GRGEN_MODEL.NodeTypes.@C, "GRGEN_MODEL.IC", "DNTUnfolded_node_c5", "c5", DNTUnfolded_node_c5_AllowedTypes, DNTUnfolded_node_c5_IsAllowedType, 5.5F, -1, false, null, null, null, null, false);
-			GRGEN_LGSP.PatternNode DNTUnfolded_node_c6 = new GRGEN_LGSP.PatternNode((int) GRGEN_MODEL.NodeTypes.@C, "GRGEN_MODEL.IC", "DNTUnfolded_node_c6", "c6", DNTUnfolded_node_c6_AllowedTypes, DNTUnfolded_node_c6_IsAllowedType, 5.5F, -1, false, null, null, null, null, false);
-			GRGEN_LGSP.PatternNode DNTUnfolded_node_c = new GRGEN_LGSP.PatternNode((int) GRGEN_MODEL.NodeTypes.@C, "GRGEN_MODEL.IC", "DNTUnfolded_node_c", "c", DNTUnfolded_node_c_AllowedTypes, DNTUnfolded_node_c_IsAllowedType, 5.5F, -1, false, null, null, null, null, false);
-			GRGEN_LGSP.PatternNode DNTUnfolded_node__node0 = new GRGEN_LGSP.PatternNode((int) GRGEN_MODEL.NodeTypes.@H, "GRGEN_MODEL.IH", "DNTUnfolded_node__node0", "_node0", DNTUnfolded_node__node0_AllowedTypes, DNTUnfolded_node__node0_IsAllowedType, 5.5F, -1, false, null, null, null, null, false);
-			GRGEN_LGSP.PatternNode DNTUnfolded_node__node1 = new GRGEN_LGSP.PatternNode((int) GRGEN_MODEL.NodeTypes.@H, "GRGEN_MODEL.IH", "DNTUnfolded_node__node1", "_node1", DNTUnfolded_node__node1_AllowedTypes, DNTUnfolded_node__node1_IsAllowedType, 5.5F, -1, false, null, null, null, null, false);
-			GRGEN_LGSP.PatternNode DNTUnfolded_node__node2 = new GRGEN_LGSP.PatternNode((int) GRGEN_MODEL.NodeTypes.@H, "GRGEN_MODEL.IH", "DNTUnfolded_node__node2", "_node2", DNTUnfolded_node__node2_AllowedTypes, DNTUnfolded_node__node2_IsAllowedType, 5.5F, -1, false, null, null, null, null, false);
-			GRGEN_LGSP.PatternNode DNTUnfolded_node_n2 = new GRGEN_LGSP.PatternNode((int) GRGEN_MODEL.NodeTypes.@N, "GRGEN_MODEL.IN", "DNTUnfolded_node_n2", "n2", DNTUnfolded_node_n2_AllowedTypes, DNTUnfolded_node_n2_IsAllowedType, 5.5F, -1, false, null, null, null, null, false);
-			GRGEN_LGSP.PatternNode DNTUnfolded_node__node3 = new GRGEN_LGSP.PatternNode((int) GRGEN_MODEL.NodeTypes.@O, "GRGEN_MODEL.IO", "DNTUnfolded_node__node3", "_node3", DNTUnfolded_node__node3_AllowedTypes, DNTUnfolded_node__node3_IsAllowedType, 5.5F, -1, false, null, null, null, null, false);
-			GRGEN_LGSP.PatternNode DNTUnfolded_node__node4 = new GRGEN_LGSP.PatternNode((int) GRGEN_MODEL.NodeTypes.@O, "GRGEN_MODEL.IO", "DNTUnfolded_node__node4", "_node4", DNTUnfolded_node__node4_AllowedTypes, DNTUnfolded_node__node4_IsAllowedType, 5.5F, -1, false, null, null, null, null, false);
-			GRGEN_LGSP.PatternNode DNTUnfolded_node__node5 = new GRGEN_LGSP.PatternNode((int) GRGEN_MODEL.NodeTypes.@H, "GRGEN_MODEL.IH", "DNTUnfolded_node__node5", "_node5", DNTUnfolded_node__node5_AllowedTypes, DNTUnfolded_node__node5_IsAllowedType, 5.5F, -1, false, null, null, null, null, false);
-			GRGEN_LGSP.PatternNode DNTUnfolded_node_n4 = new GRGEN_LGSP.PatternNode((int) GRGEN_MODEL.NodeTypes.@N, "GRGEN_MODEL.IN", "DNTUnfolded_node_n4", "n4", DNTUnfolded_node_n4_AllowedTypes, DNTUnfolded_node_n4_IsAllowedType, 5.5F, -1, false, null, null, null, null, false);
-			GRGEN_LGSP.PatternNode DNTUnfolded_node__node6 = new GRGEN_LGSP.PatternNode((int) GRGEN_MODEL.NodeTypes.@O, "GRGEN_MODEL.IO", "DNTUnfolded_node__node6", "_node6", DNTUnfolded_node__node6_AllowedTypes, DNTUnfolded_node__node6_IsAllowedType, 5.5F, -1, false, null, null, null, null, false);
-			GRGEN_LGSP.PatternNode DNTUnfolded_node__node7 = new GRGEN_LGSP.PatternNode((int) GRGEN_MODEL.NodeTypes.@O, "GRGEN_MODEL.IO", "DNTUnfolded_node__node7", "_node7", DNTUnfolded_node__node7_AllowedTypes, DNTUnfolded_node__node7_IsAllowedType, 5.5F, -1, false, null, null, null, null, false);
-			GRGEN_LGSP.PatternNode DNTUnfolded_node__node8 = new GRGEN_LGSP.PatternNode((int) GRGEN_MODEL.NodeTypes.@H, "GRGEN_MODEL.IH", "DNTUnfolded_node__node8", "_node8", DNTUnfolded_node__node8_AllowedTypes, DNTUnfolded_node__node8_IsAllowedType, 5.5F, -1, false, null, null, null, null, false);
-			GRGEN_LGSP.PatternNode DNTUnfolded_node__node9 = new GRGEN_LGSP.PatternNode((int) GRGEN_MODEL.NodeTypes.@H, "GRGEN_MODEL.IH", "DNTUnfolded_node__node9", "_node9", DNTUnfolded_node__node9_AllowedTypes, DNTUnfolded_node__node9_IsAllowedType, 5.5F, -1, false, null, null, null, null, false);
-			GRGEN_LGSP.PatternEdge DNTUnfolded_edge__edge0 = new GRGEN_LGSP.PatternEdge(true, (int) GRGEN_MODEL.EdgeTypes.@Edge, "GRGEN_LIBGR.IEdge", "DNTUnfolded_edge__edge0", "_edge0", DNTUnfolded_edge__edge0_AllowedTypes, DNTUnfolded_edge__edge0_IsAllowedType, 5.5F, -1, false, null, null, null, null, false);
-			GRGEN_LGSP.PatternEdge DNTUnfolded_edge__edge1 = new GRGEN_LGSP.PatternEdge(true, (int) GRGEN_MODEL.EdgeTypes.@Edge, "GRGEN_LIBGR.IEdge", "DNTUnfolded_edge__edge1", "_edge1", DNTUnfolded_edge__edge1_AllowedTypes, DNTUnfolded_edge__edge1_IsAllowedType, 5.5F, -1, false, null, null, null, null, false);
-			GRGEN_LGSP.PatternEdge DNTUnfolded_edge__edge2 = new GRGEN_LGSP.PatternEdge(true, (int) GRGEN_MODEL.EdgeTypes.@Edge, "GRGEN_LIBGR.IEdge", "DNTUnfolded_edge__edge2", "_edge2", DNTUnfolded_edge__edge2_AllowedTypes, DNTUnfolded_edge__edge2_IsAllowedType, 5.5F, -1, false, null, null, null, null, false);
-			GRGEN_LGSP.PatternEdge DNTUnfolded_edge__edge3 = new GRGEN_LGSP.PatternEdge(true, (int) GRGEN_MODEL.EdgeTypes.@Edge, "GRGEN_LIBGR.IEdge", "DNTUnfolded_edge__edge3", "_edge3", DNTUnfolded_edge__edge3_AllowedTypes, DNTUnfolded_edge__edge3_IsAllowedType, 5.5F, -1, false, null, null, null, null, false);
-			GRGEN_LGSP.PatternEdge DNTUnfolded_edge__edge4 = new GRGEN_LGSP.PatternEdge(true, (int) GRGEN_MODEL.EdgeTypes.@Edge, "GRGEN_LIBGR.IEdge", "DNTUnfolded_edge__edge4", "_edge4", DNTUnfolded_edge__edge4_AllowedTypes, DNTUnfolded_edge__edge4_IsAllowedType, 5.5F, -1, false, null, null, null, null, false);
-			GRGEN_LGSP.PatternEdge DNTUnfolded_edge__edge5 = new GRGEN_LGSP.PatternEdge(true, (int) GRGEN_MODEL.EdgeTypes.@Edge, "GRGEN_LIBGR.IEdge", "DNTUnfolded_edge__edge5", "_edge5", DNTUnfolded_edge__edge5_AllowedTypes, DNTUnfolded_edge__edge5_IsAllowedType, 5.5F, -1, false, null, null, null, null, false);
-			GRGEN_LGSP.PatternEdge DNTUnfolded_edge__edge6 = new GRGEN_LGSP.PatternEdge(true, (int) GRGEN_MODEL.EdgeTypes.@Edge, "GRGEN_LIBGR.IEdge", "DNTUnfolded_edge__edge6", "_edge6", DNTUnfolded_edge__edge6_AllowedTypes, DNTUnfolded_edge__edge6_IsAllowedType, 5.5F, -1, false, null, null, null, null, false);
-			GRGEN_LGSP.PatternEdge DNTUnfolded_edge__edge7 = new GRGEN_LGSP.PatternEdge(true, (int) GRGEN_MODEL.EdgeTypes.@Edge, "GRGEN_LIBGR.IEdge", "DNTUnfolded_edge__edge7", "_edge7", DNTUnfolded_edge__edge7_AllowedTypes, DNTUnfolded_edge__edge7_IsAllowedType, 5.5F, -1, false, null, null, null, null, false);
-			GRGEN_LGSP.PatternEdge DNTUnfolded_edge__edge8 = new GRGEN_LGSP.PatternEdge(true, (int) GRGEN_MODEL.EdgeTypes.@Edge, "GRGEN_LIBGR.IEdge", "DNTUnfolded_edge__edge8", "_edge8", DNTUnfolded_edge__edge8_AllowedTypes, DNTUnfolded_edge__edge8_IsAllowedType, 5.5F, -1, false, null, null, null, null, false);
-			GRGEN_LGSP.PatternEdge DNTUnfolded_edge__edge9 = new GRGEN_LGSP.PatternEdge(true, (int) GRGEN_MODEL.EdgeTypes.@Edge, "GRGEN_LIBGR.IEdge", "DNTUnfolded_edge__edge9", "_edge9", DNTUnfolded_edge__edge9_AllowedTypes, DNTUnfolded_edge__edge9_IsAllowedType, 5.5F, -1, false, null, null, null, null, false);
-			GRGEN_LGSP.PatternEdge DNTUnfolded_edge__edge10 = new GRGEN_LGSP.PatternEdge(true, (int) GRGEN_MODEL.EdgeTypes.@Edge, "GRGEN_LIBGR.IEdge", "DNTUnfolded_edge__edge10", "_edge10", DNTUnfolded_edge__edge10_AllowedTypes, DNTUnfolded_edge__edge10_IsAllowedType, 5.5F, -1, false, null, null, null, null, false);
-			GRGEN_LGSP.PatternEdge DNTUnfolded_edge__edge11 = new GRGEN_LGSP.PatternEdge(true, (int) GRGEN_MODEL.EdgeTypes.@Edge, "GRGEN_LIBGR.IEdge", "DNTUnfolded_edge__edge11", "_edge11", DNTUnfolded_edge__edge11_AllowedTypes, DNTUnfolded_edge__edge11_IsAllowedType, 5.5F, -1, false, null, null, null, null, false);
-			GRGEN_LGSP.PatternEdge DNTUnfolded_edge__edge12 = new GRGEN_LGSP.PatternEdge(true, (int) GRGEN_MODEL.EdgeTypes.@Edge, "GRGEN_LIBGR.IEdge", "DNTUnfolded_edge__edge12", "_edge12", DNTUnfolded_edge__edge12_AllowedTypes, DNTUnfolded_edge__edge12_IsAllowedType, 5.5F, -1, false, null, null, null, null, false);
-			GRGEN_LGSP.PatternEdge DNTUnfolded_edge__edge13 = new GRGEN_LGSP.PatternEdge(true, (int) GRGEN_MODEL.EdgeTypes.@Edge, "GRGEN_LIBGR.IEdge", "DNTUnfolded_edge__edge13", "_edge13", DNTUnfolded_edge__edge13_AllowedTypes, DNTUnfolded_edge__edge13_IsAllowedType, 5.5F, -1, false, null, null, null, null, false);
-			GRGEN_LGSP.PatternEdge DNTUnfolded_edge__edge14 = new GRGEN_LGSP.PatternEdge(true, (int) GRGEN_MODEL.EdgeTypes.@Edge, "GRGEN_LIBGR.IEdge", "DNTUnfolded_edge__edge14", "_edge14", DNTUnfolded_edge__edge14_AllowedTypes, DNTUnfolded_edge__edge14_IsAllowedType, 5.5F, -1, false, null, null, null, null, false);
-			GRGEN_LGSP.PatternEdge DNTUnfolded_edge__edge15 = new GRGEN_LGSP.PatternEdge(true, (int) GRGEN_MODEL.EdgeTypes.@Edge, "GRGEN_LIBGR.IEdge", "DNTUnfolded_edge__edge15", "_edge15", DNTUnfolded_edge__edge15_AllowedTypes, DNTUnfolded_edge__edge15_IsAllowedType, 5.5F, -1, false, null, null, null, null, false);
-			GRGEN_LGSP.PatternEdge DNTUnfolded_edge__edge16 = new GRGEN_LGSP.PatternEdge(true, (int) GRGEN_MODEL.EdgeTypes.@Edge, "GRGEN_LIBGR.IEdge", "DNTUnfolded_edge__edge16", "_edge16", DNTUnfolded_edge__edge16_AllowedTypes, DNTUnfolded_edge__edge16_IsAllowedType, 5.5F, -1, false, null, null, null, null, false);
-			GRGEN_LGSP.PatternEdge DNTUnfolded_edge__edge17 = new GRGEN_LGSP.PatternEdge(true, (int) GRGEN_MODEL.EdgeTypes.@Edge, "GRGEN_LIBGR.IEdge", "DNTUnfolded_edge__edge17", "_edge17", DNTUnfolded_edge__edge17_AllowedTypes, DNTUnfolded_edge__edge17_IsAllowedType, 5.5F, -1, false, null, null, null, null, false);
-			GRGEN_LGSP.PatternEdge DNTUnfolded_edge__edge18 = new GRGEN_LGSP.PatternEdge(true, (int) GRGEN_MODEL.EdgeTypes.@Edge, "GRGEN_LIBGR.IEdge", "DNTUnfolded_edge__edge18", "_edge18", DNTUnfolded_edge__edge18_AllowedTypes, DNTUnfolded_edge__edge18_IsAllowedType, 5.5F, -1, false, null, null, null, null, false);
-			GRGEN_LGSP.PatternEdge DNTUnfolded_edge__edge19 = new GRGEN_LGSP.PatternEdge(true, (int) GRGEN_MODEL.EdgeTypes.@Edge, "GRGEN_LIBGR.IEdge", "DNTUnfolded_edge__edge19", "_edge19", DNTUnfolded_edge__edge19_AllowedTypes, DNTUnfolded_edge__edge19_IsAllowedType, 5.5F, -1, false, null, null, null, null, false);
-			GRGEN_LGSP.PatternEdge DNTUnfolded_edge__edge20 = new GRGEN_LGSP.PatternEdge(true, (int) GRGEN_MODEL.EdgeTypes.@Edge, "GRGEN_LIBGR.IEdge", "DNTUnfolded_edge__edge20", "_edge20", DNTUnfolded_edge__edge20_AllowedTypes, DNTUnfolded_edge__edge20_IsAllowedType, 5.5F, -1, false, null, null, null, null, false);
-			GRGEN_LGSP.PatternEdge DNTUnfolded_edge__edge21 = new GRGEN_LGSP.PatternEdge(true, (int) GRGEN_MODEL.EdgeTypes.@Edge, "GRGEN_LIBGR.IEdge", "DNTUnfolded_edge__edge21", "_edge21", DNTUnfolded_edge__edge21_AllowedTypes, DNTUnfolded_edge__edge21_IsAllowedType, 5.5F, -1, false, null, null, null, null, false);
+			bool[] DNTUnfolded_isNodeTotallyHomomorphic = new bool[19] { false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false,  };
+			bool[] DNTUnfolded_isEdgeTotallyHomomorphic = new bool[22] { false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false,  };
+			GRGEN_LGSP.PatternNode DNTUnfolded_node_c1 = new GRGEN_LGSP.PatternNode((int) GRGEN_MODEL.NodeTypes.@C, "GRGEN_MODEL.IC", "DNTUnfolded_node_c1", "c1", DNTUnfolded_node_c1_AllowedTypes, DNTUnfolded_node_c1_IsAllowedType, 5.5F, -1, false, null, null, null, null, null, false);
+			GRGEN_LGSP.PatternNode DNTUnfolded_node_c2 = new GRGEN_LGSP.PatternNode((int) GRGEN_MODEL.NodeTypes.@C, "GRGEN_MODEL.IC", "DNTUnfolded_node_c2", "c2", DNTUnfolded_node_c2_AllowedTypes, DNTUnfolded_node_c2_IsAllowedType, 5.5F, -1, false, null, null, null, null, null, false);
+			GRGEN_LGSP.PatternNode DNTUnfolded_node_c3 = new GRGEN_LGSP.PatternNode((int) GRGEN_MODEL.NodeTypes.@C, "GRGEN_MODEL.IC", "DNTUnfolded_node_c3", "c3", DNTUnfolded_node_c3_AllowedTypes, DNTUnfolded_node_c3_IsAllowedType, 5.5F, -1, false, null, null, null, null, null, false);
+			GRGEN_LGSP.PatternNode DNTUnfolded_node_c4 = new GRGEN_LGSP.PatternNode((int) GRGEN_MODEL.NodeTypes.@C, "GRGEN_MODEL.IC", "DNTUnfolded_node_c4", "c4", DNTUnfolded_node_c4_AllowedTypes, DNTUnfolded_node_c4_IsAllowedType, 5.5F, -1, false, null, null, null, null, null, false);
+			GRGEN_LGSP.PatternNode DNTUnfolded_node_c5 = new GRGEN_LGSP.PatternNode((int) GRGEN_MODEL.NodeTypes.@C, "GRGEN_MODEL.IC", "DNTUnfolded_node_c5", "c5", DNTUnfolded_node_c5_AllowedTypes, DNTUnfolded_node_c5_IsAllowedType, 5.5F, -1, false, null, null, null, null, null, false);
+			GRGEN_LGSP.PatternNode DNTUnfolded_node_c6 = new GRGEN_LGSP.PatternNode((int) GRGEN_MODEL.NodeTypes.@C, "GRGEN_MODEL.IC", "DNTUnfolded_node_c6", "c6", DNTUnfolded_node_c6_AllowedTypes, DNTUnfolded_node_c6_IsAllowedType, 5.5F, -1, false, null, null, null, null, null, false);
+			GRGEN_LGSP.PatternNode DNTUnfolded_node_c = new GRGEN_LGSP.PatternNode((int) GRGEN_MODEL.NodeTypes.@C, "GRGEN_MODEL.IC", "DNTUnfolded_node_c", "c", DNTUnfolded_node_c_AllowedTypes, DNTUnfolded_node_c_IsAllowedType, 5.5F, -1, false, null, null, null, null, null, false);
+			GRGEN_LGSP.PatternNode DNTUnfolded_node__node0 = new GRGEN_LGSP.PatternNode((int) GRGEN_MODEL.NodeTypes.@H, "GRGEN_MODEL.IH", "DNTUnfolded_node__node0", "_node0", DNTUnfolded_node__node0_AllowedTypes, DNTUnfolded_node__node0_IsAllowedType, 5.5F, -1, false, null, null, null, null, null, false);
+			GRGEN_LGSP.PatternNode DNTUnfolded_node__node1 = new GRGEN_LGSP.PatternNode((int) GRGEN_MODEL.NodeTypes.@H, "GRGEN_MODEL.IH", "DNTUnfolded_node__node1", "_node1", DNTUnfolded_node__node1_AllowedTypes, DNTUnfolded_node__node1_IsAllowedType, 5.5F, -1, false, null, null, null, null, null, false);
+			GRGEN_LGSP.PatternNode DNTUnfolded_node__node2 = new GRGEN_LGSP.PatternNode((int) GRGEN_MODEL.NodeTypes.@H, "GRGEN_MODEL.IH", "DNTUnfolded_node__node2", "_node2", DNTUnfolded_node__node2_AllowedTypes, DNTUnfolded_node__node2_IsAllowedType, 5.5F, -1, false, null, null, null, null, null, false);
+			GRGEN_LGSP.PatternNode DNTUnfolded_node_n2 = new GRGEN_LGSP.PatternNode((int) GRGEN_MODEL.NodeTypes.@N, "GRGEN_MODEL.IN", "DNTUnfolded_node_n2", "n2", DNTUnfolded_node_n2_AllowedTypes, DNTUnfolded_node_n2_IsAllowedType, 5.5F, -1, false, null, null, null, null, null, false);
+			GRGEN_LGSP.PatternNode DNTUnfolded_node__node3 = new GRGEN_LGSP.PatternNode((int) GRGEN_MODEL.NodeTypes.@O, "GRGEN_MODEL.IO", "DNTUnfolded_node__node3", "_node3", DNTUnfolded_node__node3_AllowedTypes, DNTUnfolded_node__node3_IsAllowedType, 5.5F, -1, false, null, null, null, null, null, false);
+			GRGEN_LGSP.PatternNode DNTUnfolded_node__node4 = new GRGEN_LGSP.PatternNode((int) GRGEN_MODEL.NodeTypes.@O, "GRGEN_MODEL.IO", "DNTUnfolded_node__node4", "_node4", DNTUnfolded_node__node4_AllowedTypes, DNTUnfolded_node__node4_IsAllowedType, 5.5F, -1, false, null, null, null, null, null, false);
+			GRGEN_LGSP.PatternNode DNTUnfolded_node__node5 = new GRGEN_LGSP.PatternNode((int) GRGEN_MODEL.NodeTypes.@H, "GRGEN_MODEL.IH", "DNTUnfolded_node__node5", "_node5", DNTUnfolded_node__node5_AllowedTypes, DNTUnfolded_node__node5_IsAllowedType, 5.5F, -1, false, null, null, null, null, null, false);
+			GRGEN_LGSP.PatternNode DNTUnfolded_node_n4 = new GRGEN_LGSP.PatternNode((int) GRGEN_MODEL.NodeTypes.@N, "GRGEN_MODEL.IN", "DNTUnfolded_node_n4", "n4", DNTUnfolded_node_n4_AllowedTypes, DNTUnfolded_node_n4_IsAllowedType, 5.5F, -1, false, null, null, null, null, null, false);
+			GRGEN_LGSP.PatternNode DNTUnfolded_node__node6 = new GRGEN_LGSP.PatternNode((int) GRGEN_MODEL.NodeTypes.@O, "GRGEN_MODEL.IO", "DNTUnfolded_node__node6", "_node6", DNTUnfolded_node__node6_AllowedTypes, DNTUnfolded_node__node6_IsAllowedType, 5.5F, -1, false, null, null, null, null, null, false);
+			GRGEN_LGSP.PatternNode DNTUnfolded_node__node7 = new GRGEN_LGSP.PatternNode((int) GRGEN_MODEL.NodeTypes.@O, "GRGEN_MODEL.IO", "DNTUnfolded_node__node7", "_node7", DNTUnfolded_node__node7_AllowedTypes, DNTUnfolded_node__node7_IsAllowedType, 5.5F, -1, false, null, null, null, null, null, false);
+			GRGEN_LGSP.PatternNode DNTUnfolded_node__node8 = new GRGEN_LGSP.PatternNode((int) GRGEN_MODEL.NodeTypes.@H, "GRGEN_MODEL.IH", "DNTUnfolded_node__node8", "_node8", DNTUnfolded_node__node8_AllowedTypes, DNTUnfolded_node__node8_IsAllowedType, 5.5F, -1, false, null, null, null, null, null, false);
+			GRGEN_LGSP.PatternNode DNTUnfolded_node__node9 = new GRGEN_LGSP.PatternNode((int) GRGEN_MODEL.NodeTypes.@H, "GRGEN_MODEL.IH", "DNTUnfolded_node__node9", "_node9", DNTUnfolded_node__node9_AllowedTypes, DNTUnfolded_node__node9_IsAllowedType, 5.5F, -1, false, null, null, null, null, null, false);
+			GRGEN_LGSP.PatternEdge DNTUnfolded_edge__edge0 = new GRGEN_LGSP.PatternEdge(true, (int) GRGEN_MODEL.EdgeTypes.@Edge, "GRGEN_LIBGR.IEdge", "DNTUnfolded_edge__edge0", "_edge0", DNTUnfolded_edge__edge0_AllowedTypes, DNTUnfolded_edge__edge0_IsAllowedType, 5.5F, -1, false, null, null, null, null, null, false);
+			GRGEN_LGSP.PatternEdge DNTUnfolded_edge__edge1 = new GRGEN_LGSP.PatternEdge(true, (int) GRGEN_MODEL.EdgeTypes.@Edge, "GRGEN_LIBGR.IEdge", "DNTUnfolded_edge__edge1", "_edge1", DNTUnfolded_edge__edge1_AllowedTypes, DNTUnfolded_edge__edge1_IsAllowedType, 5.5F, -1, false, null, null, null, null, null, false);
+			GRGEN_LGSP.PatternEdge DNTUnfolded_edge__edge2 = new GRGEN_LGSP.PatternEdge(true, (int) GRGEN_MODEL.EdgeTypes.@Edge, "GRGEN_LIBGR.IEdge", "DNTUnfolded_edge__edge2", "_edge2", DNTUnfolded_edge__edge2_AllowedTypes, DNTUnfolded_edge__edge2_IsAllowedType, 5.5F, -1, false, null, null, null, null, null, false);
+			GRGEN_LGSP.PatternEdge DNTUnfolded_edge__edge3 = new GRGEN_LGSP.PatternEdge(true, (int) GRGEN_MODEL.EdgeTypes.@Edge, "GRGEN_LIBGR.IEdge", "DNTUnfolded_edge__edge3", "_edge3", DNTUnfolded_edge__edge3_AllowedTypes, DNTUnfolded_edge__edge3_IsAllowedType, 5.5F, -1, false, null, null, null, null, null, false);
+			GRGEN_LGSP.PatternEdge DNTUnfolded_edge__edge4 = new GRGEN_LGSP.PatternEdge(true, (int) GRGEN_MODEL.EdgeTypes.@Edge, "GRGEN_LIBGR.IEdge", "DNTUnfolded_edge__edge4", "_edge4", DNTUnfolded_edge__edge4_AllowedTypes, DNTUnfolded_edge__edge4_IsAllowedType, 5.5F, -1, false, null, null, null, null, null, false);
+			GRGEN_LGSP.PatternEdge DNTUnfolded_edge__edge5 = new GRGEN_LGSP.PatternEdge(true, (int) GRGEN_MODEL.EdgeTypes.@Edge, "GRGEN_LIBGR.IEdge", "DNTUnfolded_edge__edge5", "_edge5", DNTUnfolded_edge__edge5_AllowedTypes, DNTUnfolded_edge__edge5_IsAllowedType, 5.5F, -1, false, null, null, null, null, null, false);
+			GRGEN_LGSP.PatternEdge DNTUnfolded_edge__edge6 = new GRGEN_LGSP.PatternEdge(true, (int) GRGEN_MODEL.EdgeTypes.@Edge, "GRGEN_LIBGR.IEdge", "DNTUnfolded_edge__edge6", "_edge6", DNTUnfolded_edge__edge6_AllowedTypes, DNTUnfolded_edge__edge6_IsAllowedType, 5.5F, -1, false, null, null, null, null, null, false);
+			GRGEN_LGSP.PatternEdge DNTUnfolded_edge__edge7 = new GRGEN_LGSP.PatternEdge(true, (int) GRGEN_MODEL.EdgeTypes.@Edge, "GRGEN_LIBGR.IEdge", "DNTUnfolded_edge__edge7", "_edge7", DNTUnfolded_edge__edge7_AllowedTypes, DNTUnfolded_edge__edge7_IsAllowedType, 5.5F, -1, false, null, null, null, null, null, false);
+			GRGEN_LGSP.PatternEdge DNTUnfolded_edge__edge8 = new GRGEN_LGSP.PatternEdge(true, (int) GRGEN_MODEL.EdgeTypes.@Edge, "GRGEN_LIBGR.IEdge", "DNTUnfolded_edge__edge8", "_edge8", DNTUnfolded_edge__edge8_AllowedTypes, DNTUnfolded_edge__edge8_IsAllowedType, 5.5F, -1, false, null, null, null, null, null, false);
+			GRGEN_LGSP.PatternEdge DNTUnfolded_edge__edge9 = new GRGEN_LGSP.PatternEdge(true, (int) GRGEN_MODEL.EdgeTypes.@Edge, "GRGEN_LIBGR.IEdge", "DNTUnfolded_edge__edge9", "_edge9", DNTUnfolded_edge__edge9_AllowedTypes, DNTUnfolded_edge__edge9_IsAllowedType, 5.5F, -1, false, null, null, null, null, null, false);
+			GRGEN_LGSP.PatternEdge DNTUnfolded_edge__edge10 = new GRGEN_LGSP.PatternEdge(true, (int) GRGEN_MODEL.EdgeTypes.@Edge, "GRGEN_LIBGR.IEdge", "DNTUnfolded_edge__edge10", "_edge10", DNTUnfolded_edge__edge10_AllowedTypes, DNTUnfolded_edge__edge10_IsAllowedType, 5.5F, -1, false, null, null, null, null, null, false);
+			GRGEN_LGSP.PatternEdge DNTUnfolded_edge__edge11 = new GRGEN_LGSP.PatternEdge(true, (int) GRGEN_MODEL.EdgeTypes.@Edge, "GRGEN_LIBGR.IEdge", "DNTUnfolded_edge__edge11", "_edge11", DNTUnfolded_edge__edge11_AllowedTypes, DNTUnfolded_edge__edge11_IsAllowedType, 5.5F, -1, false, null, null, null, null, null, false);
+			GRGEN_LGSP.PatternEdge DNTUnfolded_edge__edge12 = new GRGEN_LGSP.PatternEdge(true, (int) GRGEN_MODEL.EdgeTypes.@Edge, "GRGEN_LIBGR.IEdge", "DNTUnfolded_edge__edge12", "_edge12", DNTUnfolded_edge__edge12_AllowedTypes, DNTUnfolded_edge__edge12_IsAllowedType, 5.5F, -1, false, null, null, null, null, null, false);
+			GRGEN_LGSP.PatternEdge DNTUnfolded_edge__edge13 = new GRGEN_LGSP.PatternEdge(true, (int) GRGEN_MODEL.EdgeTypes.@Edge, "GRGEN_LIBGR.IEdge", "DNTUnfolded_edge__edge13", "_edge13", DNTUnfolded_edge__edge13_AllowedTypes, DNTUnfolded_edge__edge13_IsAllowedType, 5.5F, -1, false, null, null, null, null, null, false);
+			GRGEN_LGSP.PatternEdge DNTUnfolded_edge__edge14 = new GRGEN_LGSP.PatternEdge(true, (int) GRGEN_MODEL.EdgeTypes.@Edge, "GRGEN_LIBGR.IEdge", "DNTUnfolded_edge__edge14", "_edge14", DNTUnfolded_edge__edge14_AllowedTypes, DNTUnfolded_edge__edge14_IsAllowedType, 5.5F, -1, false, null, null, null, null, null, false);
+			GRGEN_LGSP.PatternEdge DNTUnfolded_edge__edge15 = new GRGEN_LGSP.PatternEdge(true, (int) GRGEN_MODEL.EdgeTypes.@Edge, "GRGEN_LIBGR.IEdge", "DNTUnfolded_edge__edge15", "_edge15", DNTUnfolded_edge__edge15_AllowedTypes, DNTUnfolded_edge__edge15_IsAllowedType, 5.5F, -1, false, null, null, null, null, null, false);
+			GRGEN_LGSP.PatternEdge DNTUnfolded_edge__edge16 = new GRGEN_LGSP.PatternEdge(true, (int) GRGEN_MODEL.EdgeTypes.@Edge, "GRGEN_LIBGR.IEdge", "DNTUnfolded_edge__edge16", "_edge16", DNTUnfolded_edge__edge16_AllowedTypes, DNTUnfolded_edge__edge16_IsAllowedType, 5.5F, -1, false, null, null, null, null, null, false);
+			GRGEN_LGSP.PatternEdge DNTUnfolded_edge__edge17 = new GRGEN_LGSP.PatternEdge(true, (int) GRGEN_MODEL.EdgeTypes.@Edge, "GRGEN_LIBGR.IEdge", "DNTUnfolded_edge__edge17", "_edge17", DNTUnfolded_edge__edge17_AllowedTypes, DNTUnfolded_edge__edge17_IsAllowedType, 5.5F, -1, false, null, null, null, null, null, false);
+			GRGEN_LGSP.PatternEdge DNTUnfolded_edge__edge18 = new GRGEN_LGSP.PatternEdge(true, (int) GRGEN_MODEL.EdgeTypes.@Edge, "GRGEN_LIBGR.IEdge", "DNTUnfolded_edge__edge18", "_edge18", DNTUnfolded_edge__edge18_AllowedTypes, DNTUnfolded_edge__edge18_IsAllowedType, 5.5F, -1, false, null, null, null, null, null, false);
+			GRGEN_LGSP.PatternEdge DNTUnfolded_edge__edge19 = new GRGEN_LGSP.PatternEdge(true, (int) GRGEN_MODEL.EdgeTypes.@Edge, "GRGEN_LIBGR.IEdge", "DNTUnfolded_edge__edge19", "_edge19", DNTUnfolded_edge__edge19_AllowedTypes, DNTUnfolded_edge__edge19_IsAllowedType, 5.5F, -1, false, null, null, null, null, null, false);
+			GRGEN_LGSP.PatternEdge DNTUnfolded_edge__edge20 = new GRGEN_LGSP.PatternEdge(true, (int) GRGEN_MODEL.EdgeTypes.@Edge, "GRGEN_LIBGR.IEdge", "DNTUnfolded_edge__edge20", "_edge20", DNTUnfolded_edge__edge20_AllowedTypes, DNTUnfolded_edge__edge20_IsAllowedType, 5.5F, -1, false, null, null, null, null, null, false);
+			GRGEN_LGSP.PatternEdge DNTUnfolded_edge__edge21 = new GRGEN_LGSP.PatternEdge(true, (int) GRGEN_MODEL.EdgeTypes.@Edge, "GRGEN_LIBGR.IEdge", "DNTUnfolded_edge__edge21", "_edge21", DNTUnfolded_edge__edge21_AllowedTypes, DNTUnfolded_edge__edge21_IsAllowedType, 5.5F, -1, false, null, null, null, null, null, false);
 			pat_DNTUnfolded = new GRGEN_LGSP.PatternGraph(
 				"DNTUnfolded",
 				"",
@@ -7015,7 +7105,9 @@ namespace de.unika.ipd.grGen.Action_TNT
 					{ false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, true, },
 				},
 				DNTUnfolded_isNodeHomomorphicGlobal,
-				DNTUnfolded_isEdgeHomomorphicGlobal
+				DNTUnfolded_isEdgeHomomorphicGlobal,
+				DNTUnfolded_isNodeTotallyHomomorphic,
+				DNTUnfolded_isEdgeTotallyHomomorphic
 			);
 			pat_DNTUnfolded.edgeToSourceNode.Add(DNTUnfolded_edge__edge0, DNTUnfolded_node_c1);
 			pat_DNTUnfolded.edgeToTargetNode.Add(DNTUnfolded_edge__edge0, DNTUnfolded_node_c2);
@@ -7415,6 +7507,8 @@ namespace de.unika.ipd.grGen.Action_TNT
 		{
 			bool[,] createDNT_isNodeHomomorphicGlobal = new bool[0, 0] ;
 			bool[,] createDNT_isEdgeHomomorphicGlobal = new bool[0, 0] ;
+			bool[] createDNT_isNodeTotallyHomomorphic = new bool[0] ;
+			bool[] createDNT_isEdgeTotallyHomomorphic = new bool[0] ;
 			pat_createDNT = new GRGEN_LGSP.PatternGraph(
 				"createDNT",
 				"",
@@ -7432,7 +7526,9 @@ namespace de.unika.ipd.grGen.Action_TNT
 				new bool[0, 0] ,
 				new bool[0, 0] ,
 				createDNT_isNodeHomomorphicGlobal,
-				createDNT_isEdgeHomomorphicGlobal
+				createDNT_isEdgeHomomorphicGlobal,
+				createDNT_isNodeTotallyHomomorphic,
+				createDNT_isEdgeTotallyHomomorphic
 			);
 
 
@@ -7674,21 +7770,23 @@ namespace de.unika.ipd.grGen.Action_TNT
 				{ false, false, false, false, false, false, false, false, false, },
 				{ false, false, false, false, false, false, false, false, false, },
 			};
-			GRGEN_LGSP.PatternNode TNB_node_c1 = new GRGEN_LGSP.PatternNode((int) GRGEN_MODEL.NodeTypes.@C, "GRGEN_MODEL.IC", "TNB_node_c1", "c1", TNB_node_c1_AllowedTypes, TNB_node_c1_IsAllowedType, 5.5F, -1, false, null, null, null, null, false);
-			GRGEN_LGSP.PatternNode TNB_node_c2 = new GRGEN_LGSP.PatternNode((int) GRGEN_MODEL.NodeTypes.@C, "GRGEN_MODEL.IC", "TNB_node_c2", "c2", TNB_node_c2_AllowedTypes, TNB_node_c2_IsAllowedType, 5.5F, -1, false, null, null, null, null, false);
-			GRGEN_LGSP.PatternNode TNB_node_c3 = new GRGEN_LGSP.PatternNode((int) GRGEN_MODEL.NodeTypes.@C, "GRGEN_MODEL.IC", "TNB_node_c3", "c3", TNB_node_c3_AllowedTypes, TNB_node_c3_IsAllowedType, 5.5F, -1, false, null, null, null, null, false);
-			GRGEN_LGSP.PatternNode TNB_node_c4 = new GRGEN_LGSP.PatternNode((int) GRGEN_MODEL.NodeTypes.@C, "GRGEN_MODEL.IC", "TNB_node_c4", "c4", TNB_node_c4_AllowedTypes, TNB_node_c4_IsAllowedType, 5.5F, -1, false, null, null, null, null, false);
-			GRGEN_LGSP.PatternNode TNB_node_c5 = new GRGEN_LGSP.PatternNode((int) GRGEN_MODEL.NodeTypes.@C, "GRGEN_MODEL.IC", "TNB_node_c5", "c5", TNB_node_c5_AllowedTypes, TNB_node_c5_IsAllowedType, 5.5F, -1, false, null, null, null, null, false);
-			GRGEN_LGSP.PatternNode TNB_node_c6 = new GRGEN_LGSP.PatternNode((int) GRGEN_MODEL.NodeTypes.@C, "GRGEN_MODEL.IC", "TNB_node_c6", "c6", TNB_node_c6_AllowedTypes, TNB_node_c6_IsAllowedType, 5.5F, -1, false, null, null, null, null, false);
-			GRGEN_LGSP.PatternEdge TNB_edge__edge0 = new GRGEN_LGSP.PatternEdge(true, (int) GRGEN_MODEL.EdgeTypes.@Edge, "GRGEN_LIBGR.IEdge", "TNB_edge__edge0", "_edge0", TNB_edge__edge0_AllowedTypes, TNB_edge__edge0_IsAllowedType, 5.5F, -1, false, null, null, null, null, false);
-			GRGEN_LGSP.PatternEdge TNB_edge__edge1 = new GRGEN_LGSP.PatternEdge(true, (int) GRGEN_MODEL.EdgeTypes.@Edge, "GRGEN_LIBGR.IEdge", "TNB_edge__edge1", "_edge1", TNB_edge__edge1_AllowedTypes, TNB_edge__edge1_IsAllowedType, 5.5F, -1, false, null, null, null, null, false);
-			GRGEN_LGSP.PatternEdge TNB_edge__edge2 = new GRGEN_LGSP.PatternEdge(true, (int) GRGEN_MODEL.EdgeTypes.@Edge, "GRGEN_LIBGR.IEdge", "TNB_edge__edge2", "_edge2", TNB_edge__edge2_AllowedTypes, TNB_edge__edge2_IsAllowedType, 5.5F, -1, false, null, null, null, null, false);
-			GRGEN_LGSP.PatternEdge TNB_edge__edge3 = new GRGEN_LGSP.PatternEdge(true, (int) GRGEN_MODEL.EdgeTypes.@Edge, "GRGEN_LIBGR.IEdge", "TNB_edge__edge3", "_edge3", TNB_edge__edge3_AllowedTypes, TNB_edge__edge3_IsAllowedType, 5.5F, -1, false, null, null, null, null, false);
-			GRGEN_LGSP.PatternEdge TNB_edge__edge4 = new GRGEN_LGSP.PatternEdge(true, (int) GRGEN_MODEL.EdgeTypes.@Edge, "GRGEN_LIBGR.IEdge", "TNB_edge__edge4", "_edge4", TNB_edge__edge4_AllowedTypes, TNB_edge__edge4_IsAllowedType, 5.5F, -1, false, null, null, null, null, false);
-			GRGEN_LGSP.PatternEdge TNB_edge__edge5 = new GRGEN_LGSP.PatternEdge(true, (int) GRGEN_MODEL.EdgeTypes.@Edge, "GRGEN_LIBGR.IEdge", "TNB_edge__edge5", "_edge5", TNB_edge__edge5_AllowedTypes, TNB_edge__edge5_IsAllowedType, 5.5F, -1, false, null, null, null, null, false);
-			GRGEN_LGSP.PatternEdge TNB_edge__edge6 = new GRGEN_LGSP.PatternEdge(true, (int) GRGEN_MODEL.EdgeTypes.@Edge, "GRGEN_LIBGR.IEdge", "TNB_edge__edge6", "_edge6", TNB_edge__edge6_AllowedTypes, TNB_edge__edge6_IsAllowedType, 5.5F, -1, false, null, null, null, null, false);
-			GRGEN_LGSP.PatternEdge TNB_edge__edge7 = new GRGEN_LGSP.PatternEdge(true, (int) GRGEN_MODEL.EdgeTypes.@Edge, "GRGEN_LIBGR.IEdge", "TNB_edge__edge7", "_edge7", TNB_edge__edge7_AllowedTypes, TNB_edge__edge7_IsAllowedType, 5.5F, -1, false, null, null, null, null, false);
-			GRGEN_LGSP.PatternEdge TNB_edge__edge8 = new GRGEN_LGSP.PatternEdge(true, (int) GRGEN_MODEL.EdgeTypes.@Edge, "GRGEN_LIBGR.IEdge", "TNB_edge__edge8", "_edge8", TNB_edge__edge8_AllowedTypes, TNB_edge__edge8_IsAllowedType, 5.5F, -1, false, null, null, null, null, false);
+			bool[] TNB_isNodeTotallyHomomorphic = new bool[6] { false, false, false, false, false, false,  };
+			bool[] TNB_isEdgeTotallyHomomorphic = new bool[9] { false, false, false, false, false, false, false, false, false,  };
+			GRGEN_LGSP.PatternNode TNB_node_c1 = new GRGEN_LGSP.PatternNode((int) GRGEN_MODEL.NodeTypes.@C, "GRGEN_MODEL.IC", "TNB_node_c1", "c1", TNB_node_c1_AllowedTypes, TNB_node_c1_IsAllowedType, 5.5F, -1, false, null, null, null, null, null, false);
+			GRGEN_LGSP.PatternNode TNB_node_c2 = new GRGEN_LGSP.PatternNode((int) GRGEN_MODEL.NodeTypes.@C, "GRGEN_MODEL.IC", "TNB_node_c2", "c2", TNB_node_c2_AllowedTypes, TNB_node_c2_IsAllowedType, 5.5F, -1, false, null, null, null, null, null, false);
+			GRGEN_LGSP.PatternNode TNB_node_c3 = new GRGEN_LGSP.PatternNode((int) GRGEN_MODEL.NodeTypes.@C, "GRGEN_MODEL.IC", "TNB_node_c3", "c3", TNB_node_c3_AllowedTypes, TNB_node_c3_IsAllowedType, 5.5F, -1, false, null, null, null, null, null, false);
+			GRGEN_LGSP.PatternNode TNB_node_c4 = new GRGEN_LGSP.PatternNode((int) GRGEN_MODEL.NodeTypes.@C, "GRGEN_MODEL.IC", "TNB_node_c4", "c4", TNB_node_c4_AllowedTypes, TNB_node_c4_IsAllowedType, 5.5F, -1, false, null, null, null, null, null, false);
+			GRGEN_LGSP.PatternNode TNB_node_c5 = new GRGEN_LGSP.PatternNode((int) GRGEN_MODEL.NodeTypes.@C, "GRGEN_MODEL.IC", "TNB_node_c5", "c5", TNB_node_c5_AllowedTypes, TNB_node_c5_IsAllowedType, 5.5F, -1, false, null, null, null, null, null, false);
+			GRGEN_LGSP.PatternNode TNB_node_c6 = new GRGEN_LGSP.PatternNode((int) GRGEN_MODEL.NodeTypes.@C, "GRGEN_MODEL.IC", "TNB_node_c6", "c6", TNB_node_c6_AllowedTypes, TNB_node_c6_IsAllowedType, 5.5F, -1, false, null, null, null, null, null, false);
+			GRGEN_LGSP.PatternEdge TNB_edge__edge0 = new GRGEN_LGSP.PatternEdge(true, (int) GRGEN_MODEL.EdgeTypes.@Edge, "GRGEN_LIBGR.IEdge", "TNB_edge__edge0", "_edge0", TNB_edge__edge0_AllowedTypes, TNB_edge__edge0_IsAllowedType, 5.5F, -1, false, null, null, null, null, null, false);
+			GRGEN_LGSP.PatternEdge TNB_edge__edge1 = new GRGEN_LGSP.PatternEdge(true, (int) GRGEN_MODEL.EdgeTypes.@Edge, "GRGEN_LIBGR.IEdge", "TNB_edge__edge1", "_edge1", TNB_edge__edge1_AllowedTypes, TNB_edge__edge1_IsAllowedType, 5.5F, -1, false, null, null, null, null, null, false);
+			GRGEN_LGSP.PatternEdge TNB_edge__edge2 = new GRGEN_LGSP.PatternEdge(true, (int) GRGEN_MODEL.EdgeTypes.@Edge, "GRGEN_LIBGR.IEdge", "TNB_edge__edge2", "_edge2", TNB_edge__edge2_AllowedTypes, TNB_edge__edge2_IsAllowedType, 5.5F, -1, false, null, null, null, null, null, false);
+			GRGEN_LGSP.PatternEdge TNB_edge__edge3 = new GRGEN_LGSP.PatternEdge(true, (int) GRGEN_MODEL.EdgeTypes.@Edge, "GRGEN_LIBGR.IEdge", "TNB_edge__edge3", "_edge3", TNB_edge__edge3_AllowedTypes, TNB_edge__edge3_IsAllowedType, 5.5F, -1, false, null, null, null, null, null, false);
+			GRGEN_LGSP.PatternEdge TNB_edge__edge4 = new GRGEN_LGSP.PatternEdge(true, (int) GRGEN_MODEL.EdgeTypes.@Edge, "GRGEN_LIBGR.IEdge", "TNB_edge__edge4", "_edge4", TNB_edge__edge4_AllowedTypes, TNB_edge__edge4_IsAllowedType, 5.5F, -1, false, null, null, null, null, null, false);
+			GRGEN_LGSP.PatternEdge TNB_edge__edge5 = new GRGEN_LGSP.PatternEdge(true, (int) GRGEN_MODEL.EdgeTypes.@Edge, "GRGEN_LIBGR.IEdge", "TNB_edge__edge5", "_edge5", TNB_edge__edge5_AllowedTypes, TNB_edge__edge5_IsAllowedType, 5.5F, -1, false, null, null, null, null, null, false);
+			GRGEN_LGSP.PatternEdge TNB_edge__edge6 = new GRGEN_LGSP.PatternEdge(true, (int) GRGEN_MODEL.EdgeTypes.@Edge, "GRGEN_LIBGR.IEdge", "TNB_edge__edge6", "_edge6", TNB_edge__edge6_AllowedTypes, TNB_edge__edge6_IsAllowedType, 5.5F, -1, false, null, null, null, null, null, false);
+			GRGEN_LGSP.PatternEdge TNB_edge__edge7 = new GRGEN_LGSP.PatternEdge(true, (int) GRGEN_MODEL.EdgeTypes.@Edge, "GRGEN_LIBGR.IEdge", "TNB_edge__edge7", "_edge7", TNB_edge__edge7_AllowedTypes, TNB_edge__edge7_IsAllowedType, 5.5F, -1, false, null, null, null, null, null, false);
+			GRGEN_LGSP.PatternEdge TNB_edge__edge8 = new GRGEN_LGSP.PatternEdge(true, (int) GRGEN_MODEL.EdgeTypes.@Edge, "GRGEN_LIBGR.IEdge", "TNB_edge__edge8", "_edge8", TNB_edge__edge8_AllowedTypes, TNB_edge__edge8_IsAllowedType, 5.5F, -1, false, null, null, null, null, null, false);
 			GRGEN_LGSP.PatternGraphEmbedding TNB__sub0 = new GRGEN_LGSP.PatternGraphEmbedding("_sub0", Pattern_Hydrogen.Instance, 
 				new GRGEN_EXPR.Expression[] {
 					new GRGEN_EXPR.GraphEntityExpression("TNB_node_c1"),
@@ -7753,7 +7851,9 @@ namespace de.unika.ipd.grGen.Action_TNT
 					{ false, false, false, false, false, false, false, false, true, },
 				},
 				TNB_isNodeHomomorphicGlobal,
-				TNB_isEdgeHomomorphicGlobal
+				TNB_isEdgeHomomorphicGlobal,
+				TNB_isNodeTotallyHomomorphic,
+				TNB_isEdgeTotallyHomomorphic
 			);
 			pat_TNB.edgeToSourceNode.Add(TNB_edge__edge0, TNB_node_c1);
 			pat_TNB.edgeToTargetNode.Add(TNB_edge__edge0, TNB_node_c2);
@@ -8157,45 +8257,47 @@ namespace de.unika.ipd.grGen.Action_TNT
 				{ false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, },
 				{ false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, },
 			};
-			GRGEN_LGSP.PatternNode TNBUnfolded_node_c1 = new GRGEN_LGSP.PatternNode((int) GRGEN_MODEL.NodeTypes.@C, "GRGEN_MODEL.IC", "TNBUnfolded_node_c1", "c1", TNBUnfolded_node_c1_AllowedTypes, TNBUnfolded_node_c1_IsAllowedType, 5.5F, -1, false, null, null, null, null, false);
-			GRGEN_LGSP.PatternNode TNBUnfolded_node_c2 = new GRGEN_LGSP.PatternNode((int) GRGEN_MODEL.NodeTypes.@C, "GRGEN_MODEL.IC", "TNBUnfolded_node_c2", "c2", TNBUnfolded_node_c2_AllowedTypes, TNBUnfolded_node_c2_IsAllowedType, 5.5F, -1, false, null, null, null, null, false);
-			GRGEN_LGSP.PatternNode TNBUnfolded_node_c3 = new GRGEN_LGSP.PatternNode((int) GRGEN_MODEL.NodeTypes.@C, "GRGEN_MODEL.IC", "TNBUnfolded_node_c3", "c3", TNBUnfolded_node_c3_AllowedTypes, TNBUnfolded_node_c3_IsAllowedType, 5.5F, -1, false, null, null, null, null, false);
-			GRGEN_LGSP.PatternNode TNBUnfolded_node_c4 = new GRGEN_LGSP.PatternNode((int) GRGEN_MODEL.NodeTypes.@C, "GRGEN_MODEL.IC", "TNBUnfolded_node_c4", "c4", TNBUnfolded_node_c4_AllowedTypes, TNBUnfolded_node_c4_IsAllowedType, 5.5F, -1, false, null, null, null, null, false);
-			GRGEN_LGSP.PatternNode TNBUnfolded_node_c5 = new GRGEN_LGSP.PatternNode((int) GRGEN_MODEL.NodeTypes.@C, "GRGEN_MODEL.IC", "TNBUnfolded_node_c5", "c5", TNBUnfolded_node_c5_AllowedTypes, TNBUnfolded_node_c5_IsAllowedType, 5.5F, -1, false, null, null, null, null, false);
-			GRGEN_LGSP.PatternNode TNBUnfolded_node_c6 = new GRGEN_LGSP.PatternNode((int) GRGEN_MODEL.NodeTypes.@C, "GRGEN_MODEL.IC", "TNBUnfolded_node_c6", "c6", TNBUnfolded_node_c6_AllowedTypes, TNBUnfolded_node_c6_IsAllowedType, 5.5F, -1, false, null, null, null, null, false);
-			GRGEN_LGSP.PatternNode TNBUnfolded_node__node0 = new GRGEN_LGSP.PatternNode((int) GRGEN_MODEL.NodeTypes.@H, "GRGEN_MODEL.IH", "TNBUnfolded_node__node0", "_node0", TNBUnfolded_node__node0_AllowedTypes, TNBUnfolded_node__node0_IsAllowedType, 5.5F, -1, false, null, null, null, null, false);
-			GRGEN_LGSP.PatternNode TNBUnfolded_node_n2 = new GRGEN_LGSP.PatternNode((int) GRGEN_MODEL.NodeTypes.@N, "GRGEN_MODEL.IN", "TNBUnfolded_node_n2", "n2", TNBUnfolded_node_n2_AllowedTypes, TNBUnfolded_node_n2_IsAllowedType, 5.5F, -1, false, null, null, null, null, false);
-			GRGEN_LGSP.PatternNode TNBUnfolded_node__node1 = new GRGEN_LGSP.PatternNode((int) GRGEN_MODEL.NodeTypes.@O, "GRGEN_MODEL.IO", "TNBUnfolded_node__node1", "_node1", TNBUnfolded_node__node1_AllowedTypes, TNBUnfolded_node__node1_IsAllowedType, 5.5F, -1, false, null, null, null, null, false);
-			GRGEN_LGSP.PatternNode TNBUnfolded_node__node2 = new GRGEN_LGSP.PatternNode((int) GRGEN_MODEL.NodeTypes.@O, "GRGEN_MODEL.IO", "TNBUnfolded_node__node2", "_node2", TNBUnfolded_node__node2_AllowedTypes, TNBUnfolded_node__node2_IsAllowedType, 5.5F, -1, false, null, null, null, null, false);
-			GRGEN_LGSP.PatternNode TNBUnfolded_node__node3 = new GRGEN_LGSP.PatternNode((int) GRGEN_MODEL.NodeTypes.@H, "GRGEN_MODEL.IH", "TNBUnfolded_node__node3", "_node3", TNBUnfolded_node__node3_AllowedTypes, TNBUnfolded_node__node3_IsAllowedType, 5.5F, -1, false, null, null, null, null, false);
-			GRGEN_LGSP.PatternNode TNBUnfolded_node_n4 = new GRGEN_LGSP.PatternNode((int) GRGEN_MODEL.NodeTypes.@N, "GRGEN_MODEL.IN", "TNBUnfolded_node_n4", "n4", TNBUnfolded_node_n4_AllowedTypes, TNBUnfolded_node_n4_IsAllowedType, 5.5F, -1, false, null, null, null, null, false);
-			GRGEN_LGSP.PatternNode TNBUnfolded_node__node4 = new GRGEN_LGSP.PatternNode((int) GRGEN_MODEL.NodeTypes.@O, "GRGEN_MODEL.IO", "TNBUnfolded_node__node4", "_node4", TNBUnfolded_node__node4_AllowedTypes, TNBUnfolded_node__node4_IsAllowedType, 5.5F, -1, false, null, null, null, null, false);
-			GRGEN_LGSP.PatternNode TNBUnfolded_node__node5 = new GRGEN_LGSP.PatternNode((int) GRGEN_MODEL.NodeTypes.@O, "GRGEN_MODEL.IO", "TNBUnfolded_node__node5", "_node5", TNBUnfolded_node__node5_AllowedTypes, TNBUnfolded_node__node5_IsAllowedType, 5.5F, -1, false, null, null, null, null, false);
-			GRGEN_LGSP.PatternNode TNBUnfolded_node__node6 = new GRGEN_LGSP.PatternNode((int) GRGEN_MODEL.NodeTypes.@H, "GRGEN_MODEL.IH", "TNBUnfolded_node__node6", "_node6", TNBUnfolded_node__node6_AllowedTypes, TNBUnfolded_node__node6_IsAllowedType, 5.5F, -1, false, null, null, null, null, false);
-			GRGEN_LGSP.PatternNode TNBUnfolded_node_n6 = new GRGEN_LGSP.PatternNode((int) GRGEN_MODEL.NodeTypes.@N, "GRGEN_MODEL.IN", "TNBUnfolded_node_n6", "n6", TNBUnfolded_node_n6_AllowedTypes, TNBUnfolded_node_n6_IsAllowedType, 5.5F, -1, false, null, null, null, null, false);
-			GRGEN_LGSP.PatternNode TNBUnfolded_node__node7 = new GRGEN_LGSP.PatternNode((int) GRGEN_MODEL.NodeTypes.@O, "GRGEN_MODEL.IO", "TNBUnfolded_node__node7", "_node7", TNBUnfolded_node__node7_AllowedTypes, TNBUnfolded_node__node7_IsAllowedType, 5.5F, -1, false, null, null, null, null, false);
-			GRGEN_LGSP.PatternNode TNBUnfolded_node__node8 = new GRGEN_LGSP.PatternNode((int) GRGEN_MODEL.NodeTypes.@O, "GRGEN_MODEL.IO", "TNBUnfolded_node__node8", "_node8", TNBUnfolded_node__node8_AllowedTypes, TNBUnfolded_node__node8_IsAllowedType, 5.5F, -1, false, null, null, null, null, false);
-			GRGEN_LGSP.PatternEdge TNBUnfolded_edge__edge0 = new GRGEN_LGSP.PatternEdge(true, (int) GRGEN_MODEL.EdgeTypes.@Edge, "GRGEN_LIBGR.IEdge", "TNBUnfolded_edge__edge0", "_edge0", TNBUnfolded_edge__edge0_AllowedTypes, TNBUnfolded_edge__edge0_IsAllowedType, 5.5F, -1, false, null, null, null, null, false);
-			GRGEN_LGSP.PatternEdge TNBUnfolded_edge__edge1 = new GRGEN_LGSP.PatternEdge(true, (int) GRGEN_MODEL.EdgeTypes.@Edge, "GRGEN_LIBGR.IEdge", "TNBUnfolded_edge__edge1", "_edge1", TNBUnfolded_edge__edge1_AllowedTypes, TNBUnfolded_edge__edge1_IsAllowedType, 5.5F, -1, false, null, null, null, null, false);
-			GRGEN_LGSP.PatternEdge TNBUnfolded_edge__edge2 = new GRGEN_LGSP.PatternEdge(true, (int) GRGEN_MODEL.EdgeTypes.@Edge, "GRGEN_LIBGR.IEdge", "TNBUnfolded_edge__edge2", "_edge2", TNBUnfolded_edge__edge2_AllowedTypes, TNBUnfolded_edge__edge2_IsAllowedType, 5.5F, -1, false, null, null, null, null, false);
-			GRGEN_LGSP.PatternEdge TNBUnfolded_edge__edge3 = new GRGEN_LGSP.PatternEdge(true, (int) GRGEN_MODEL.EdgeTypes.@Edge, "GRGEN_LIBGR.IEdge", "TNBUnfolded_edge__edge3", "_edge3", TNBUnfolded_edge__edge3_AllowedTypes, TNBUnfolded_edge__edge3_IsAllowedType, 5.5F, -1, false, null, null, null, null, false);
-			GRGEN_LGSP.PatternEdge TNBUnfolded_edge__edge4 = new GRGEN_LGSP.PatternEdge(true, (int) GRGEN_MODEL.EdgeTypes.@Edge, "GRGEN_LIBGR.IEdge", "TNBUnfolded_edge__edge4", "_edge4", TNBUnfolded_edge__edge4_AllowedTypes, TNBUnfolded_edge__edge4_IsAllowedType, 5.5F, -1, false, null, null, null, null, false);
-			GRGEN_LGSP.PatternEdge TNBUnfolded_edge__edge5 = new GRGEN_LGSP.PatternEdge(true, (int) GRGEN_MODEL.EdgeTypes.@Edge, "GRGEN_LIBGR.IEdge", "TNBUnfolded_edge__edge5", "_edge5", TNBUnfolded_edge__edge5_AllowedTypes, TNBUnfolded_edge__edge5_IsAllowedType, 5.5F, -1, false, null, null, null, null, false);
-			GRGEN_LGSP.PatternEdge TNBUnfolded_edge__edge6 = new GRGEN_LGSP.PatternEdge(true, (int) GRGEN_MODEL.EdgeTypes.@Edge, "GRGEN_LIBGR.IEdge", "TNBUnfolded_edge__edge6", "_edge6", TNBUnfolded_edge__edge6_AllowedTypes, TNBUnfolded_edge__edge6_IsAllowedType, 5.5F, -1, false, null, null, null, null, false);
-			GRGEN_LGSP.PatternEdge TNBUnfolded_edge__edge7 = new GRGEN_LGSP.PatternEdge(true, (int) GRGEN_MODEL.EdgeTypes.@Edge, "GRGEN_LIBGR.IEdge", "TNBUnfolded_edge__edge7", "_edge7", TNBUnfolded_edge__edge7_AllowedTypes, TNBUnfolded_edge__edge7_IsAllowedType, 5.5F, -1, false, null, null, null, null, false);
-			GRGEN_LGSP.PatternEdge TNBUnfolded_edge__edge8 = new GRGEN_LGSP.PatternEdge(true, (int) GRGEN_MODEL.EdgeTypes.@Edge, "GRGEN_LIBGR.IEdge", "TNBUnfolded_edge__edge8", "_edge8", TNBUnfolded_edge__edge8_AllowedTypes, TNBUnfolded_edge__edge8_IsAllowedType, 5.5F, -1, false, null, null, null, null, false);
-			GRGEN_LGSP.PatternEdge TNBUnfolded_edge__edge9 = new GRGEN_LGSP.PatternEdge(true, (int) GRGEN_MODEL.EdgeTypes.@Edge, "GRGEN_LIBGR.IEdge", "TNBUnfolded_edge__edge9", "_edge9", TNBUnfolded_edge__edge9_AllowedTypes, TNBUnfolded_edge__edge9_IsAllowedType, 5.5F, -1, false, null, null, null, null, false);
-			GRGEN_LGSP.PatternEdge TNBUnfolded_edge__edge10 = new GRGEN_LGSP.PatternEdge(true, (int) GRGEN_MODEL.EdgeTypes.@Edge, "GRGEN_LIBGR.IEdge", "TNBUnfolded_edge__edge10", "_edge10", TNBUnfolded_edge__edge10_AllowedTypes, TNBUnfolded_edge__edge10_IsAllowedType, 5.5F, -1, false, null, null, null, null, false);
-			GRGEN_LGSP.PatternEdge TNBUnfolded_edge__edge11 = new GRGEN_LGSP.PatternEdge(true, (int) GRGEN_MODEL.EdgeTypes.@Edge, "GRGEN_LIBGR.IEdge", "TNBUnfolded_edge__edge11", "_edge11", TNBUnfolded_edge__edge11_AllowedTypes, TNBUnfolded_edge__edge11_IsAllowedType, 5.5F, -1, false, null, null, null, null, false);
-			GRGEN_LGSP.PatternEdge TNBUnfolded_edge__edge12 = new GRGEN_LGSP.PatternEdge(true, (int) GRGEN_MODEL.EdgeTypes.@Edge, "GRGEN_LIBGR.IEdge", "TNBUnfolded_edge__edge12", "_edge12", TNBUnfolded_edge__edge12_AllowedTypes, TNBUnfolded_edge__edge12_IsAllowedType, 5.5F, -1, false, null, null, null, null, false);
-			GRGEN_LGSP.PatternEdge TNBUnfolded_edge__edge13 = new GRGEN_LGSP.PatternEdge(true, (int) GRGEN_MODEL.EdgeTypes.@Edge, "GRGEN_LIBGR.IEdge", "TNBUnfolded_edge__edge13", "_edge13", TNBUnfolded_edge__edge13_AllowedTypes, TNBUnfolded_edge__edge13_IsAllowedType, 5.5F, -1, false, null, null, null, null, false);
-			GRGEN_LGSP.PatternEdge TNBUnfolded_edge__edge14 = new GRGEN_LGSP.PatternEdge(true, (int) GRGEN_MODEL.EdgeTypes.@Edge, "GRGEN_LIBGR.IEdge", "TNBUnfolded_edge__edge14", "_edge14", TNBUnfolded_edge__edge14_AllowedTypes, TNBUnfolded_edge__edge14_IsAllowedType, 5.5F, -1, false, null, null, null, null, false);
-			GRGEN_LGSP.PatternEdge TNBUnfolded_edge__edge15 = new GRGEN_LGSP.PatternEdge(true, (int) GRGEN_MODEL.EdgeTypes.@Edge, "GRGEN_LIBGR.IEdge", "TNBUnfolded_edge__edge15", "_edge15", TNBUnfolded_edge__edge15_AllowedTypes, TNBUnfolded_edge__edge15_IsAllowedType, 5.5F, -1, false, null, null, null, null, false);
-			GRGEN_LGSP.PatternEdge TNBUnfolded_edge__edge16 = new GRGEN_LGSP.PatternEdge(true, (int) GRGEN_MODEL.EdgeTypes.@Edge, "GRGEN_LIBGR.IEdge", "TNBUnfolded_edge__edge16", "_edge16", TNBUnfolded_edge__edge16_AllowedTypes, TNBUnfolded_edge__edge16_IsAllowedType, 5.5F, -1, false, null, null, null, null, false);
-			GRGEN_LGSP.PatternEdge TNBUnfolded_edge__edge17 = new GRGEN_LGSP.PatternEdge(true, (int) GRGEN_MODEL.EdgeTypes.@Edge, "GRGEN_LIBGR.IEdge", "TNBUnfolded_edge__edge17", "_edge17", TNBUnfolded_edge__edge17_AllowedTypes, TNBUnfolded_edge__edge17_IsAllowedType, 5.5F, -1, false, null, null, null, null, false);
-			GRGEN_LGSP.PatternEdge TNBUnfolded_edge__edge18 = new GRGEN_LGSP.PatternEdge(true, (int) GRGEN_MODEL.EdgeTypes.@Edge, "GRGEN_LIBGR.IEdge", "TNBUnfolded_edge__edge18", "_edge18", TNBUnfolded_edge__edge18_AllowedTypes, TNBUnfolded_edge__edge18_IsAllowedType, 5.5F, -1, false, null, null, null, null, false);
-			GRGEN_LGSP.PatternEdge TNBUnfolded_edge__edge19 = new GRGEN_LGSP.PatternEdge(true, (int) GRGEN_MODEL.EdgeTypes.@Edge, "GRGEN_LIBGR.IEdge", "TNBUnfolded_edge__edge19", "_edge19", TNBUnfolded_edge__edge19_AllowedTypes, TNBUnfolded_edge__edge19_IsAllowedType, 5.5F, -1, false, null, null, null, null, false);
-			GRGEN_LGSP.PatternEdge TNBUnfolded_edge__edge20 = new GRGEN_LGSP.PatternEdge(true, (int) GRGEN_MODEL.EdgeTypes.@Edge, "GRGEN_LIBGR.IEdge", "TNBUnfolded_edge__edge20", "_edge20", TNBUnfolded_edge__edge20_AllowedTypes, TNBUnfolded_edge__edge20_IsAllowedType, 5.5F, -1, false, null, null, null, null, false);
+			bool[] TNBUnfolded_isNodeTotallyHomomorphic = new bool[18] { false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false,  };
+			bool[] TNBUnfolded_isEdgeTotallyHomomorphic = new bool[21] { false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false,  };
+			GRGEN_LGSP.PatternNode TNBUnfolded_node_c1 = new GRGEN_LGSP.PatternNode((int) GRGEN_MODEL.NodeTypes.@C, "GRGEN_MODEL.IC", "TNBUnfolded_node_c1", "c1", TNBUnfolded_node_c1_AllowedTypes, TNBUnfolded_node_c1_IsAllowedType, 5.5F, -1, false, null, null, null, null, null, false);
+			GRGEN_LGSP.PatternNode TNBUnfolded_node_c2 = new GRGEN_LGSP.PatternNode((int) GRGEN_MODEL.NodeTypes.@C, "GRGEN_MODEL.IC", "TNBUnfolded_node_c2", "c2", TNBUnfolded_node_c2_AllowedTypes, TNBUnfolded_node_c2_IsAllowedType, 5.5F, -1, false, null, null, null, null, null, false);
+			GRGEN_LGSP.PatternNode TNBUnfolded_node_c3 = new GRGEN_LGSP.PatternNode((int) GRGEN_MODEL.NodeTypes.@C, "GRGEN_MODEL.IC", "TNBUnfolded_node_c3", "c3", TNBUnfolded_node_c3_AllowedTypes, TNBUnfolded_node_c3_IsAllowedType, 5.5F, -1, false, null, null, null, null, null, false);
+			GRGEN_LGSP.PatternNode TNBUnfolded_node_c4 = new GRGEN_LGSP.PatternNode((int) GRGEN_MODEL.NodeTypes.@C, "GRGEN_MODEL.IC", "TNBUnfolded_node_c4", "c4", TNBUnfolded_node_c4_AllowedTypes, TNBUnfolded_node_c4_IsAllowedType, 5.5F, -1, false, null, null, null, null, null, false);
+			GRGEN_LGSP.PatternNode TNBUnfolded_node_c5 = new GRGEN_LGSP.PatternNode((int) GRGEN_MODEL.NodeTypes.@C, "GRGEN_MODEL.IC", "TNBUnfolded_node_c5", "c5", TNBUnfolded_node_c5_AllowedTypes, TNBUnfolded_node_c5_IsAllowedType, 5.5F, -1, false, null, null, null, null, null, false);
+			GRGEN_LGSP.PatternNode TNBUnfolded_node_c6 = new GRGEN_LGSP.PatternNode((int) GRGEN_MODEL.NodeTypes.@C, "GRGEN_MODEL.IC", "TNBUnfolded_node_c6", "c6", TNBUnfolded_node_c6_AllowedTypes, TNBUnfolded_node_c6_IsAllowedType, 5.5F, -1, false, null, null, null, null, null, false);
+			GRGEN_LGSP.PatternNode TNBUnfolded_node__node0 = new GRGEN_LGSP.PatternNode((int) GRGEN_MODEL.NodeTypes.@H, "GRGEN_MODEL.IH", "TNBUnfolded_node__node0", "_node0", TNBUnfolded_node__node0_AllowedTypes, TNBUnfolded_node__node0_IsAllowedType, 5.5F, -1, false, null, null, null, null, null, false);
+			GRGEN_LGSP.PatternNode TNBUnfolded_node_n2 = new GRGEN_LGSP.PatternNode((int) GRGEN_MODEL.NodeTypes.@N, "GRGEN_MODEL.IN", "TNBUnfolded_node_n2", "n2", TNBUnfolded_node_n2_AllowedTypes, TNBUnfolded_node_n2_IsAllowedType, 5.5F, -1, false, null, null, null, null, null, false);
+			GRGEN_LGSP.PatternNode TNBUnfolded_node__node1 = new GRGEN_LGSP.PatternNode((int) GRGEN_MODEL.NodeTypes.@O, "GRGEN_MODEL.IO", "TNBUnfolded_node__node1", "_node1", TNBUnfolded_node__node1_AllowedTypes, TNBUnfolded_node__node1_IsAllowedType, 5.5F, -1, false, null, null, null, null, null, false);
+			GRGEN_LGSP.PatternNode TNBUnfolded_node__node2 = new GRGEN_LGSP.PatternNode((int) GRGEN_MODEL.NodeTypes.@O, "GRGEN_MODEL.IO", "TNBUnfolded_node__node2", "_node2", TNBUnfolded_node__node2_AllowedTypes, TNBUnfolded_node__node2_IsAllowedType, 5.5F, -1, false, null, null, null, null, null, false);
+			GRGEN_LGSP.PatternNode TNBUnfolded_node__node3 = new GRGEN_LGSP.PatternNode((int) GRGEN_MODEL.NodeTypes.@H, "GRGEN_MODEL.IH", "TNBUnfolded_node__node3", "_node3", TNBUnfolded_node__node3_AllowedTypes, TNBUnfolded_node__node3_IsAllowedType, 5.5F, -1, false, null, null, null, null, null, false);
+			GRGEN_LGSP.PatternNode TNBUnfolded_node_n4 = new GRGEN_LGSP.PatternNode((int) GRGEN_MODEL.NodeTypes.@N, "GRGEN_MODEL.IN", "TNBUnfolded_node_n4", "n4", TNBUnfolded_node_n4_AllowedTypes, TNBUnfolded_node_n4_IsAllowedType, 5.5F, -1, false, null, null, null, null, null, false);
+			GRGEN_LGSP.PatternNode TNBUnfolded_node__node4 = new GRGEN_LGSP.PatternNode((int) GRGEN_MODEL.NodeTypes.@O, "GRGEN_MODEL.IO", "TNBUnfolded_node__node4", "_node4", TNBUnfolded_node__node4_AllowedTypes, TNBUnfolded_node__node4_IsAllowedType, 5.5F, -1, false, null, null, null, null, null, false);
+			GRGEN_LGSP.PatternNode TNBUnfolded_node__node5 = new GRGEN_LGSP.PatternNode((int) GRGEN_MODEL.NodeTypes.@O, "GRGEN_MODEL.IO", "TNBUnfolded_node__node5", "_node5", TNBUnfolded_node__node5_AllowedTypes, TNBUnfolded_node__node5_IsAllowedType, 5.5F, -1, false, null, null, null, null, null, false);
+			GRGEN_LGSP.PatternNode TNBUnfolded_node__node6 = new GRGEN_LGSP.PatternNode((int) GRGEN_MODEL.NodeTypes.@H, "GRGEN_MODEL.IH", "TNBUnfolded_node__node6", "_node6", TNBUnfolded_node__node6_AllowedTypes, TNBUnfolded_node__node6_IsAllowedType, 5.5F, -1, false, null, null, null, null, null, false);
+			GRGEN_LGSP.PatternNode TNBUnfolded_node_n6 = new GRGEN_LGSP.PatternNode((int) GRGEN_MODEL.NodeTypes.@N, "GRGEN_MODEL.IN", "TNBUnfolded_node_n6", "n6", TNBUnfolded_node_n6_AllowedTypes, TNBUnfolded_node_n6_IsAllowedType, 5.5F, -1, false, null, null, null, null, null, false);
+			GRGEN_LGSP.PatternNode TNBUnfolded_node__node7 = new GRGEN_LGSP.PatternNode((int) GRGEN_MODEL.NodeTypes.@O, "GRGEN_MODEL.IO", "TNBUnfolded_node__node7", "_node7", TNBUnfolded_node__node7_AllowedTypes, TNBUnfolded_node__node7_IsAllowedType, 5.5F, -1, false, null, null, null, null, null, false);
+			GRGEN_LGSP.PatternNode TNBUnfolded_node__node8 = new GRGEN_LGSP.PatternNode((int) GRGEN_MODEL.NodeTypes.@O, "GRGEN_MODEL.IO", "TNBUnfolded_node__node8", "_node8", TNBUnfolded_node__node8_AllowedTypes, TNBUnfolded_node__node8_IsAllowedType, 5.5F, -1, false, null, null, null, null, null, false);
+			GRGEN_LGSP.PatternEdge TNBUnfolded_edge__edge0 = new GRGEN_LGSP.PatternEdge(true, (int) GRGEN_MODEL.EdgeTypes.@Edge, "GRGEN_LIBGR.IEdge", "TNBUnfolded_edge__edge0", "_edge0", TNBUnfolded_edge__edge0_AllowedTypes, TNBUnfolded_edge__edge0_IsAllowedType, 5.5F, -1, false, null, null, null, null, null, false);
+			GRGEN_LGSP.PatternEdge TNBUnfolded_edge__edge1 = new GRGEN_LGSP.PatternEdge(true, (int) GRGEN_MODEL.EdgeTypes.@Edge, "GRGEN_LIBGR.IEdge", "TNBUnfolded_edge__edge1", "_edge1", TNBUnfolded_edge__edge1_AllowedTypes, TNBUnfolded_edge__edge1_IsAllowedType, 5.5F, -1, false, null, null, null, null, null, false);
+			GRGEN_LGSP.PatternEdge TNBUnfolded_edge__edge2 = new GRGEN_LGSP.PatternEdge(true, (int) GRGEN_MODEL.EdgeTypes.@Edge, "GRGEN_LIBGR.IEdge", "TNBUnfolded_edge__edge2", "_edge2", TNBUnfolded_edge__edge2_AllowedTypes, TNBUnfolded_edge__edge2_IsAllowedType, 5.5F, -1, false, null, null, null, null, null, false);
+			GRGEN_LGSP.PatternEdge TNBUnfolded_edge__edge3 = new GRGEN_LGSP.PatternEdge(true, (int) GRGEN_MODEL.EdgeTypes.@Edge, "GRGEN_LIBGR.IEdge", "TNBUnfolded_edge__edge3", "_edge3", TNBUnfolded_edge__edge3_AllowedTypes, TNBUnfolded_edge__edge3_IsAllowedType, 5.5F, -1, false, null, null, null, null, null, false);
+			GRGEN_LGSP.PatternEdge TNBUnfolded_edge__edge4 = new GRGEN_LGSP.PatternEdge(true, (int) GRGEN_MODEL.EdgeTypes.@Edge, "GRGEN_LIBGR.IEdge", "TNBUnfolded_edge__edge4", "_edge4", TNBUnfolded_edge__edge4_AllowedTypes, TNBUnfolded_edge__edge4_IsAllowedType, 5.5F, -1, false, null, null, null, null, null, false);
+			GRGEN_LGSP.PatternEdge TNBUnfolded_edge__edge5 = new GRGEN_LGSP.PatternEdge(true, (int) GRGEN_MODEL.EdgeTypes.@Edge, "GRGEN_LIBGR.IEdge", "TNBUnfolded_edge__edge5", "_edge5", TNBUnfolded_edge__edge5_AllowedTypes, TNBUnfolded_edge__edge5_IsAllowedType, 5.5F, -1, false, null, null, null, null, null, false);
+			GRGEN_LGSP.PatternEdge TNBUnfolded_edge__edge6 = new GRGEN_LGSP.PatternEdge(true, (int) GRGEN_MODEL.EdgeTypes.@Edge, "GRGEN_LIBGR.IEdge", "TNBUnfolded_edge__edge6", "_edge6", TNBUnfolded_edge__edge6_AllowedTypes, TNBUnfolded_edge__edge6_IsAllowedType, 5.5F, -1, false, null, null, null, null, null, false);
+			GRGEN_LGSP.PatternEdge TNBUnfolded_edge__edge7 = new GRGEN_LGSP.PatternEdge(true, (int) GRGEN_MODEL.EdgeTypes.@Edge, "GRGEN_LIBGR.IEdge", "TNBUnfolded_edge__edge7", "_edge7", TNBUnfolded_edge__edge7_AllowedTypes, TNBUnfolded_edge__edge7_IsAllowedType, 5.5F, -1, false, null, null, null, null, null, false);
+			GRGEN_LGSP.PatternEdge TNBUnfolded_edge__edge8 = new GRGEN_LGSP.PatternEdge(true, (int) GRGEN_MODEL.EdgeTypes.@Edge, "GRGEN_LIBGR.IEdge", "TNBUnfolded_edge__edge8", "_edge8", TNBUnfolded_edge__edge8_AllowedTypes, TNBUnfolded_edge__edge8_IsAllowedType, 5.5F, -1, false, null, null, null, null, null, false);
+			GRGEN_LGSP.PatternEdge TNBUnfolded_edge__edge9 = new GRGEN_LGSP.PatternEdge(true, (int) GRGEN_MODEL.EdgeTypes.@Edge, "GRGEN_LIBGR.IEdge", "TNBUnfolded_edge__edge9", "_edge9", TNBUnfolded_edge__edge9_AllowedTypes, TNBUnfolded_edge__edge9_IsAllowedType, 5.5F, -1, false, null, null, null, null, null, false);
+			GRGEN_LGSP.PatternEdge TNBUnfolded_edge__edge10 = new GRGEN_LGSP.PatternEdge(true, (int) GRGEN_MODEL.EdgeTypes.@Edge, "GRGEN_LIBGR.IEdge", "TNBUnfolded_edge__edge10", "_edge10", TNBUnfolded_edge__edge10_AllowedTypes, TNBUnfolded_edge__edge10_IsAllowedType, 5.5F, -1, false, null, null, null, null, null, false);
+			GRGEN_LGSP.PatternEdge TNBUnfolded_edge__edge11 = new GRGEN_LGSP.PatternEdge(true, (int) GRGEN_MODEL.EdgeTypes.@Edge, "GRGEN_LIBGR.IEdge", "TNBUnfolded_edge__edge11", "_edge11", TNBUnfolded_edge__edge11_AllowedTypes, TNBUnfolded_edge__edge11_IsAllowedType, 5.5F, -1, false, null, null, null, null, null, false);
+			GRGEN_LGSP.PatternEdge TNBUnfolded_edge__edge12 = new GRGEN_LGSP.PatternEdge(true, (int) GRGEN_MODEL.EdgeTypes.@Edge, "GRGEN_LIBGR.IEdge", "TNBUnfolded_edge__edge12", "_edge12", TNBUnfolded_edge__edge12_AllowedTypes, TNBUnfolded_edge__edge12_IsAllowedType, 5.5F, -1, false, null, null, null, null, null, false);
+			GRGEN_LGSP.PatternEdge TNBUnfolded_edge__edge13 = new GRGEN_LGSP.PatternEdge(true, (int) GRGEN_MODEL.EdgeTypes.@Edge, "GRGEN_LIBGR.IEdge", "TNBUnfolded_edge__edge13", "_edge13", TNBUnfolded_edge__edge13_AllowedTypes, TNBUnfolded_edge__edge13_IsAllowedType, 5.5F, -1, false, null, null, null, null, null, false);
+			GRGEN_LGSP.PatternEdge TNBUnfolded_edge__edge14 = new GRGEN_LGSP.PatternEdge(true, (int) GRGEN_MODEL.EdgeTypes.@Edge, "GRGEN_LIBGR.IEdge", "TNBUnfolded_edge__edge14", "_edge14", TNBUnfolded_edge__edge14_AllowedTypes, TNBUnfolded_edge__edge14_IsAllowedType, 5.5F, -1, false, null, null, null, null, null, false);
+			GRGEN_LGSP.PatternEdge TNBUnfolded_edge__edge15 = new GRGEN_LGSP.PatternEdge(true, (int) GRGEN_MODEL.EdgeTypes.@Edge, "GRGEN_LIBGR.IEdge", "TNBUnfolded_edge__edge15", "_edge15", TNBUnfolded_edge__edge15_AllowedTypes, TNBUnfolded_edge__edge15_IsAllowedType, 5.5F, -1, false, null, null, null, null, null, false);
+			GRGEN_LGSP.PatternEdge TNBUnfolded_edge__edge16 = new GRGEN_LGSP.PatternEdge(true, (int) GRGEN_MODEL.EdgeTypes.@Edge, "GRGEN_LIBGR.IEdge", "TNBUnfolded_edge__edge16", "_edge16", TNBUnfolded_edge__edge16_AllowedTypes, TNBUnfolded_edge__edge16_IsAllowedType, 5.5F, -1, false, null, null, null, null, null, false);
+			GRGEN_LGSP.PatternEdge TNBUnfolded_edge__edge17 = new GRGEN_LGSP.PatternEdge(true, (int) GRGEN_MODEL.EdgeTypes.@Edge, "GRGEN_LIBGR.IEdge", "TNBUnfolded_edge__edge17", "_edge17", TNBUnfolded_edge__edge17_AllowedTypes, TNBUnfolded_edge__edge17_IsAllowedType, 5.5F, -1, false, null, null, null, null, null, false);
+			GRGEN_LGSP.PatternEdge TNBUnfolded_edge__edge18 = new GRGEN_LGSP.PatternEdge(true, (int) GRGEN_MODEL.EdgeTypes.@Edge, "GRGEN_LIBGR.IEdge", "TNBUnfolded_edge__edge18", "_edge18", TNBUnfolded_edge__edge18_AllowedTypes, TNBUnfolded_edge__edge18_IsAllowedType, 5.5F, -1, false, null, null, null, null, null, false);
+			GRGEN_LGSP.PatternEdge TNBUnfolded_edge__edge19 = new GRGEN_LGSP.PatternEdge(true, (int) GRGEN_MODEL.EdgeTypes.@Edge, "GRGEN_LIBGR.IEdge", "TNBUnfolded_edge__edge19", "_edge19", TNBUnfolded_edge__edge19_AllowedTypes, TNBUnfolded_edge__edge19_IsAllowedType, 5.5F, -1, false, null, null, null, null, null, false);
+			GRGEN_LGSP.PatternEdge TNBUnfolded_edge__edge20 = new GRGEN_LGSP.PatternEdge(true, (int) GRGEN_MODEL.EdgeTypes.@Edge, "GRGEN_LIBGR.IEdge", "TNBUnfolded_edge__edge20", "_edge20", TNBUnfolded_edge__edge20_AllowedTypes, TNBUnfolded_edge__edge20_IsAllowedType, 5.5F, -1, false, null, null, null, null, null, false);
 			pat_TNBUnfolded = new GRGEN_LGSP.PatternGraph(
 				"TNBUnfolded",
 				"",
@@ -8254,7 +8356,9 @@ namespace de.unika.ipd.grGen.Action_TNT
 					{ false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, true, },
 				},
 				TNBUnfolded_isNodeHomomorphicGlobal,
-				TNBUnfolded_isEdgeHomomorphicGlobal
+				TNBUnfolded_isEdgeHomomorphicGlobal,
+				TNBUnfolded_isNodeTotallyHomomorphic,
+				TNBUnfolded_isEdgeTotallyHomomorphic
 			);
 			pat_TNBUnfolded.edgeToSourceNode.Add(TNBUnfolded_edge__edge0, TNBUnfolded_node_c1);
 			pat_TNBUnfolded.edgeToTargetNode.Add(TNBUnfolded_edge__edge0, TNBUnfolded_node_c2);
@@ -8642,6 +8746,8 @@ namespace de.unika.ipd.grGen.Action_TNT
 		{
 			bool[,] createTNB_isNodeHomomorphicGlobal = new bool[0, 0] ;
 			bool[,] createTNB_isEdgeHomomorphicGlobal = new bool[0, 0] ;
+			bool[] createTNB_isNodeTotallyHomomorphic = new bool[0] ;
+			bool[] createTNB_isEdgeTotallyHomomorphic = new bool[0] ;
 			pat_createTNB = new GRGEN_LGSP.PatternGraph(
 				"createTNB",
 				"",
@@ -8659,7 +8765,9 @@ namespace de.unika.ipd.grGen.Action_TNT
 				new bool[0, 0] ,
 				new bool[0, 0] ,
 				createTNB_isNodeHomomorphicGlobal,
-				createTNB_isEdgeHomomorphicGlobal
+				createTNB_isEdgeHomomorphicGlobal,
+				createTNB_isNodeTotallyHomomorphic,
+				createTNB_isEdgeTotallyHomomorphic
 			);
 
 
@@ -8853,6 +8961,8 @@ namespace de.unika.ipd.grGen.Action_TNT
 		{
 			bool[,] keepBenzolRingPattern_isNodeHomomorphicGlobal = new bool[0, 0] ;
 			bool[,] keepBenzolRingPattern_isEdgeHomomorphicGlobal = new bool[0, 0] ;
+			bool[] keepBenzolRingPattern_isNodeTotallyHomomorphic = new bool[0] ;
+			bool[] keepBenzolRingPattern_isEdgeTotallyHomomorphic = new bool[0] ;
 			GRGEN_LGSP.PatternGraphEmbedding keepBenzolRingPattern_br = new GRGEN_LGSP.PatternGraphEmbedding("br", Pattern_BenzolRing.Instance, 
 				new GRGEN_EXPR.Expression[] {
 				}, 
@@ -8874,7 +8984,9 @@ namespace de.unika.ipd.grGen.Action_TNT
 				new bool[0, 0] ,
 				new bool[0, 0] ,
 				keepBenzolRingPattern_isNodeHomomorphicGlobal,
-				keepBenzolRingPattern_isEdgeHomomorphicGlobal
+				keepBenzolRingPattern_isEdgeHomomorphicGlobal,
+				keepBenzolRingPattern_isNodeTotallyHomomorphic,
+				keepBenzolRingPattern_isEdgeTotallyHomomorphic
 			);
 
 			keepBenzolRingPattern_br.PointOfDefinition = pat_keepBenzolRingPattern;
@@ -9035,6 +9147,8 @@ namespace de.unika.ipd.grGen.Action_TNT
 		{
 			bool[,] createBenzolRingPattern_isNodeHomomorphicGlobal = new bool[0, 0] ;
 			bool[,] createBenzolRingPattern_isEdgeHomomorphicGlobal = new bool[0, 0] ;
+			bool[] createBenzolRingPattern_isNodeTotallyHomomorphic = new bool[0] ;
+			bool[] createBenzolRingPattern_isEdgeTotallyHomomorphic = new bool[0] ;
 			pat_createBenzolRingPattern = new GRGEN_LGSP.PatternGraph(
 				"createBenzolRingPattern",
 				"",
@@ -9052,7 +9166,9 @@ namespace de.unika.ipd.grGen.Action_TNT
 				new bool[0, 0] ,
 				new bool[0, 0] ,
 				createBenzolRingPattern_isNodeHomomorphicGlobal,
-				createBenzolRingPattern_isEdgeHomomorphicGlobal
+				createBenzolRingPattern_isEdgeHomomorphicGlobal,
+				createBenzolRingPattern_isNodeTotallyHomomorphic,
+				createBenzolRingPattern_isEdgeTotallyHomomorphic
 			);
 
 
@@ -9208,6 +9324,8 @@ namespace de.unika.ipd.grGen.Action_TNT
 		{
 			bool[,] deleteBenzolRingPattern_isNodeHomomorphicGlobal = new bool[0, 0] ;
 			bool[,] deleteBenzolRingPattern_isEdgeHomomorphicGlobal = new bool[0, 0] ;
+			bool[] deleteBenzolRingPattern_isNodeTotallyHomomorphic = new bool[0] ;
+			bool[] deleteBenzolRingPattern_isEdgeTotallyHomomorphic = new bool[0] ;
 			GRGEN_LGSP.PatternGraphEmbedding deleteBenzolRingPattern__sub0 = new GRGEN_LGSP.PatternGraphEmbedding("_sub0", Pattern_BenzolRing.Instance, 
 				new GRGEN_EXPR.Expression[] {
 				}, 
@@ -9229,7 +9347,9 @@ namespace de.unika.ipd.grGen.Action_TNT
 				new bool[0, 0] ,
 				new bool[0, 0] ,
 				deleteBenzolRingPattern_isNodeHomomorphicGlobal,
-				deleteBenzolRingPattern_isEdgeHomomorphicGlobal
+				deleteBenzolRingPattern_isEdgeHomomorphicGlobal,
+				deleteBenzolRingPattern_isNodeTotallyHomomorphic,
+				deleteBenzolRingPattern_isEdgeTotallyHomomorphic
 			);
 
 			deleteBenzolRingPattern__sub0.PointOfDefinition = pat_deleteBenzolRingPattern;
@@ -9391,6 +9511,8 @@ namespace de.unika.ipd.grGen.Action_TNT
 		{
 			bool[,] deleteInModifyBenzolRingPattern_isNodeHomomorphicGlobal = new bool[0, 0] ;
 			bool[,] deleteInModifyBenzolRingPattern_isEdgeHomomorphicGlobal = new bool[0, 0] ;
+			bool[] deleteInModifyBenzolRingPattern_isNodeTotallyHomomorphic = new bool[0] ;
+			bool[] deleteInModifyBenzolRingPattern_isEdgeTotallyHomomorphic = new bool[0] ;
 			GRGEN_LGSP.PatternGraphEmbedding deleteInModifyBenzolRingPattern_br = new GRGEN_LGSP.PatternGraphEmbedding("br", Pattern_BenzolRing.Instance, 
 				new GRGEN_EXPR.Expression[] {
 				}, 
@@ -9412,7 +9534,9 @@ namespace de.unika.ipd.grGen.Action_TNT
 				new bool[0, 0] ,
 				new bool[0, 0] ,
 				deleteInModifyBenzolRingPattern_isNodeHomomorphicGlobal,
-				deleteInModifyBenzolRingPattern_isEdgeHomomorphicGlobal
+				deleteInModifyBenzolRingPattern_isEdgeHomomorphicGlobal,
+				deleteInModifyBenzolRingPattern_isNodeTotallyHomomorphic,
+				deleteInModifyBenzolRingPattern_isEdgeTotallyHomomorphic
 			);
 
 			deleteInModifyBenzolRingPattern_br.PointOfDefinition = pat_deleteInModifyBenzolRingPattern;

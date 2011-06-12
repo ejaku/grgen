@@ -1,6 +1,6 @@
 // This file has been generated automatically by GrGen (www.grgen.net)
 // Do not modify this file! Any changes will be lost!
-// Generated from "VisitedExample.grg" on Thu Apr 07 22:54:50 CEST 2011
+// Generated from "VisitedExample.grg" on Sun Jun 12 09:35:36 CEST 2011
 
 using System;
 using System.Collections.Generic;
@@ -37,7 +37,7 @@ namespace de.unika.ipd.grGen.Model_Std
 		
 		public @Node() : base(GRGEN_MODEL.NodeType_Node.typeVar)
 		{
-			// implicit initialization, map/set creation of Node
+			// implicit initialization, map/set/array creation of Node
 		}
 
 		public static GRGEN_MODEL.NodeType_Node TypeInstance { get { return GRGEN_MODEL.NodeType_Node.typeVar; } }
@@ -58,7 +58,7 @@ namespace de.unika.ipd.grGen.Model_Std
 				node.lgspInhead = null;
 				node.lgspOuthead = null;
 				node.lgspFlags &= ~(uint) GRGEN_LGSP.LGSPElemFlags.HAS_VARIABLES;
-				// implicit initialization, map/set creation of Node
+				// implicit initialization, map/set/array creation of Node
 			}
 			graph.AddNode(node);
 			return node;
@@ -75,7 +75,7 @@ namespace de.unika.ipd.grGen.Model_Std
 				node.lgspInhead = null;
 				node.lgspOuthead = null;
 				node.lgspFlags &= ~(uint) GRGEN_LGSP.LGSPElemFlags.HAS_VARIABLES;
-				// implicit initialization, map/set creation of Node
+				// implicit initialization, map/set/array creation of Node
 			}
 			graph.AddNode(node, varName);
 			return node;
@@ -99,7 +99,7 @@ namespace de.unika.ipd.grGen.Model_Std
 		}
 		public override void ResetAllAttributes()
 		{
-			// implicit initialization, map/set creation of Node
+			// implicit initialization, map/set/array creation of Node
 		}
 	}
 
@@ -240,7 +240,7 @@ namespace de.unika.ipd.grGen.Model_Std
 		public @Edge(GRGEN_LGSP.LGSPNode source, GRGEN_LGSP.LGSPNode target)
 			: base(GRGEN_MODEL.EdgeType_Edge.typeVar, source, target)
 		{
-			// implicit initialization, map/set creation of Edge
+			// implicit initialization, map/set/array creation of Edge
 		}
 
 		public static GRGEN_MODEL.EdgeType_Edge TypeInstance { get { return GRGEN_MODEL.EdgeType_Edge.typeVar; } }
@@ -263,7 +263,7 @@ namespace de.unika.ipd.grGen.Model_Std
 				edge.lgspFlags &= ~(uint) GRGEN_LGSP.LGSPElemFlags.HAS_VARIABLES;
 				edge.lgspSource = source;
 				edge.lgspTarget = target;
-				// implicit initialization, map/set creation of Edge
+				// implicit initialization, map/set/array creation of Edge
 			}
 			graph.AddEdge(edge);
 			return edge;
@@ -280,7 +280,7 @@ namespace de.unika.ipd.grGen.Model_Std
 				edge.lgspFlags &= ~(uint) GRGEN_LGSP.LGSPElemFlags.HAS_VARIABLES;
 				edge.lgspSource = source;
 				edge.lgspTarget = target;
-				// implicit initialization, map/set creation of Edge
+				// implicit initialization, map/set/array creation of Edge
 			}
 			graph.AddEdge(edge, varName);
 			return edge;
@@ -304,7 +304,7 @@ namespace de.unika.ipd.grGen.Model_Std
 		}
 		public override void ResetAllAttributes()
 		{
-			// implicit initialization, map/set creation of Edge
+			// implicit initialization, map/set/array creation of Edge
 		}
 	}
 
@@ -356,7 +356,7 @@ namespace de.unika.ipd.grGen.Model_Std
 		public @UEdge(GRGEN_LGSP.LGSPNode source, GRGEN_LGSP.LGSPNode target)
 			: base(GRGEN_MODEL.EdgeType_UEdge.typeVar, source, target)
 		{
-			// implicit initialization, map/set creation of UEdge
+			// implicit initialization, map/set/array creation of UEdge
 		}
 
 		public static GRGEN_MODEL.EdgeType_UEdge TypeInstance { get { return GRGEN_MODEL.EdgeType_UEdge.typeVar; } }
@@ -379,7 +379,7 @@ namespace de.unika.ipd.grGen.Model_Std
 				edge.lgspFlags &= ~(uint) GRGEN_LGSP.LGSPElemFlags.HAS_VARIABLES;
 				edge.lgspSource = source;
 				edge.lgspTarget = target;
-				// implicit initialization, map/set creation of UEdge
+				// implicit initialization, map/set/array creation of UEdge
 			}
 			graph.AddEdge(edge);
 			return edge;
@@ -396,7 +396,7 @@ namespace de.unika.ipd.grGen.Model_Std
 				edge.lgspFlags &= ~(uint) GRGEN_LGSP.LGSPElemFlags.HAS_VARIABLES;
 				edge.lgspSource = source;
 				edge.lgspTarget = target;
-				// implicit initialization, map/set creation of UEdge
+				// implicit initialization, map/set/array creation of UEdge
 			}
 			graph.AddEdge(edge, varName);
 			return edge;
@@ -420,7 +420,7 @@ namespace de.unika.ipd.grGen.Model_Std
 		}
 		public override void ResetAllAttributes()
 		{
-			// implicit initialization, map/set creation of UEdge
+			// implicit initialization, map/set/array creation of UEdge
 		}
 	}
 

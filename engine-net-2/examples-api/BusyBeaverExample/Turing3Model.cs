@@ -1,6 +1,6 @@
 // This file has been generated automatically by GrGen (www.grgen.net)
 // Do not modify this file! Any changes will be lost!
-// Generated from "..\..\examples\Turing3\Turing3.grg" on Thu Apr 07 22:54:15 CEST 2011
+// Generated from "..\..\examples\Turing3\Turing3.grg" on Sun Jun 12 09:35:10 CEST 2011
 
 using System;
 using System.Collections.Generic;
@@ -37,7 +37,7 @@ namespace de.unika.ipd.grGen.Model_Turing3
 		
 		public @Node() : base(GRGEN_MODEL.NodeType_Node.typeVar)
 		{
-			// implicit initialization, map/set creation of Node
+			// implicit initialization, map/set/array creation of Node
 		}
 
 		public static GRGEN_MODEL.NodeType_Node TypeInstance { get { return GRGEN_MODEL.NodeType_Node.typeVar; } }
@@ -58,7 +58,7 @@ namespace de.unika.ipd.grGen.Model_Turing3
 				node.lgspInhead = null;
 				node.lgspOuthead = null;
 				node.lgspFlags &= ~(uint) GRGEN_LGSP.LGSPElemFlags.HAS_VARIABLES;
-				// implicit initialization, map/set creation of Node
+				// implicit initialization, map/set/array creation of Node
 			}
 			graph.AddNode(node);
 			return node;
@@ -75,7 +75,7 @@ namespace de.unika.ipd.grGen.Model_Turing3
 				node.lgspInhead = null;
 				node.lgspOuthead = null;
 				node.lgspFlags &= ~(uint) GRGEN_LGSP.LGSPElemFlags.HAS_VARIABLES;
-				// implicit initialization, map/set creation of Node
+				// implicit initialization, map/set/array creation of Node
 			}
 			graph.AddNode(node, varName);
 			return node;
@@ -99,7 +99,7 @@ namespace de.unika.ipd.grGen.Model_Turing3
 		}
 		public override void ResetAllAttributes()
 		{
-			// implicit initialization, map/set creation of Node
+			// implicit initialization, map/set/array creation of Node
 		}
 	}
 
@@ -155,7 +155,7 @@ namespace de.unika.ipd.grGen.Model_Turing3
 		
 		public @BandPosition() : base(GRGEN_MODEL.NodeType_BandPosition.typeVar)
 		{
-			// implicit initialization, map/set creation of BandPosition
+			// implicit initialization, map/set/array creation of BandPosition
 			// explicit initializations of BandPosition for target BandPosition
 		}
 
@@ -178,7 +178,7 @@ namespace de.unika.ipd.grGen.Model_Turing3
 				node.lgspInhead = null;
 				node.lgspOuthead = null;
 				node.lgspFlags &= ~(uint) GRGEN_LGSP.LGSPElemFlags.HAS_VARIABLES;
-				// implicit initialization, map/set creation of BandPosition
+				// implicit initialization, map/set/array creation of BandPosition
 				node.@value = 0;
 				// explicit initializations of BandPosition for target BandPosition
 			}
@@ -197,7 +197,7 @@ namespace de.unika.ipd.grGen.Model_Turing3
 				node.lgspInhead = null;
 				node.lgspOuthead = null;
 				node.lgspFlags &= ~(uint) GRGEN_LGSP.LGSPElemFlags.HAS_VARIABLES;
-				// implicit initialization, map/set creation of BandPosition
+				// implicit initialization, map/set/array creation of BandPosition
 				node.@value = 0;
 				// explicit initializations of BandPosition for target BandPosition
 			}
@@ -238,7 +238,7 @@ namespace de.unika.ipd.grGen.Model_Turing3
 		}
 		public override void ResetAllAttributes()
 		{
-			// implicit initialization, map/set creation of BandPosition
+			// implicit initialization, map/set/array creation of BandPosition
 			this.@value = 0;
 			// explicit initializations of BandPosition for target BandPosition
 		}
@@ -322,7 +322,7 @@ namespace de.unika.ipd.grGen.Model_Turing3
 		
 		public @State() : base(GRGEN_MODEL.NodeType_State.typeVar)
 		{
-			// implicit initialization, map/set creation of State
+			// implicit initialization, map/set/array creation of State
 			// explicit initializations of State for target State
 		}
 
@@ -344,7 +344,7 @@ namespace de.unika.ipd.grGen.Model_Turing3
 				node.lgspInhead = null;
 				node.lgspOuthead = null;
 				node.lgspFlags &= ~(uint) GRGEN_LGSP.LGSPElemFlags.HAS_VARIABLES;
-				// implicit initialization, map/set creation of State
+				// implicit initialization, map/set/array creation of State
 				// explicit initializations of State for target State
 			}
 			graph.AddNode(node);
@@ -362,7 +362,7 @@ namespace de.unika.ipd.grGen.Model_Turing3
 				node.lgspInhead = null;
 				node.lgspOuthead = null;
 				node.lgspFlags &= ~(uint) GRGEN_LGSP.LGSPElemFlags.HAS_VARIABLES;
-				// implicit initialization, map/set creation of State
+				// implicit initialization, map/set/array creation of State
 				// explicit initializations of State for target State
 			}
 			graph.AddNode(node, varName);
@@ -387,7 +387,7 @@ namespace de.unika.ipd.grGen.Model_Turing3
 		}
 		public override void ResetAllAttributes()
 		{
-			// implicit initialization, map/set creation of State
+			// implicit initialization, map/set/array creation of State
 			// explicit initializations of State for target State
 		}
 	}
@@ -444,7 +444,7 @@ namespace de.unika.ipd.grGen.Model_Turing3
 		
 		public @WriteValue() : base(GRGEN_MODEL.NodeType_WriteValue.typeVar)
 		{
-			// implicit initialization, map/set creation of WriteValue
+			// implicit initialization, map/set/array creation of WriteValue
 			// explicit initializations of WriteValue for target WriteValue
 		}
 
@@ -467,7 +467,7 @@ namespace de.unika.ipd.grGen.Model_Turing3
 				node.lgspInhead = null;
 				node.lgspOuthead = null;
 				node.lgspFlags &= ~(uint) GRGEN_LGSP.LGSPElemFlags.HAS_VARIABLES;
-				// implicit initialization, map/set creation of WriteValue
+				// implicit initialization, map/set/array creation of WriteValue
 				node.@value = 0;
 				// explicit initializations of WriteValue for target WriteValue
 			}
@@ -486,7 +486,7 @@ namespace de.unika.ipd.grGen.Model_Turing3
 				node.lgspInhead = null;
 				node.lgspOuthead = null;
 				node.lgspFlags &= ~(uint) GRGEN_LGSP.LGSPElemFlags.HAS_VARIABLES;
-				// implicit initialization, map/set creation of WriteValue
+				// implicit initialization, map/set/array creation of WriteValue
 				node.@value = 0;
 				// explicit initializations of WriteValue for target WriteValue
 			}
@@ -527,7 +527,7 @@ namespace de.unika.ipd.grGen.Model_Turing3
 		}
 		public override void ResetAllAttributes()
 		{
-			// implicit initialization, map/set creation of WriteValue
+			// implicit initialization, map/set/array creation of WriteValue
 			this.@value = 0;
 			// explicit initializations of WriteValue for target WriteValue
 		}
@@ -750,7 +750,7 @@ namespace de.unika.ipd.grGen.Model_Turing3
 		public @Edge(GRGEN_LGSP.LGSPNode source, GRGEN_LGSP.LGSPNode target)
 			: base(GRGEN_MODEL.EdgeType_Edge.typeVar, source, target)
 		{
-			// implicit initialization, map/set creation of Edge
+			// implicit initialization, map/set/array creation of Edge
 		}
 
 		public static GRGEN_MODEL.EdgeType_Edge TypeInstance { get { return GRGEN_MODEL.EdgeType_Edge.typeVar; } }
@@ -773,7 +773,7 @@ namespace de.unika.ipd.grGen.Model_Turing3
 				edge.lgspFlags &= ~(uint) GRGEN_LGSP.LGSPElemFlags.HAS_VARIABLES;
 				edge.lgspSource = source;
 				edge.lgspTarget = target;
-				// implicit initialization, map/set creation of Edge
+				// implicit initialization, map/set/array creation of Edge
 			}
 			graph.AddEdge(edge);
 			return edge;
@@ -790,7 +790,7 @@ namespace de.unika.ipd.grGen.Model_Turing3
 				edge.lgspFlags &= ~(uint) GRGEN_LGSP.LGSPElemFlags.HAS_VARIABLES;
 				edge.lgspSource = source;
 				edge.lgspTarget = target;
-				// implicit initialization, map/set creation of Edge
+				// implicit initialization, map/set/array creation of Edge
 			}
 			graph.AddEdge(edge, varName);
 			return edge;
@@ -814,7 +814,7 @@ namespace de.unika.ipd.grGen.Model_Turing3
 		}
 		public override void ResetAllAttributes()
 		{
-			// implicit initialization, map/set creation of Edge
+			// implicit initialization, map/set/array creation of Edge
 		}
 	}
 
@@ -866,7 +866,7 @@ namespace de.unika.ipd.grGen.Model_Turing3
 		public @UEdge(GRGEN_LGSP.LGSPNode source, GRGEN_LGSP.LGSPNode target)
 			: base(GRGEN_MODEL.EdgeType_UEdge.typeVar, source, target)
 		{
-			// implicit initialization, map/set creation of UEdge
+			// implicit initialization, map/set/array creation of UEdge
 		}
 
 		public static GRGEN_MODEL.EdgeType_UEdge TypeInstance { get { return GRGEN_MODEL.EdgeType_UEdge.typeVar; } }
@@ -889,7 +889,7 @@ namespace de.unika.ipd.grGen.Model_Turing3
 				edge.lgspFlags &= ~(uint) GRGEN_LGSP.LGSPElemFlags.HAS_VARIABLES;
 				edge.lgspSource = source;
 				edge.lgspTarget = target;
-				// implicit initialization, map/set creation of UEdge
+				// implicit initialization, map/set/array creation of UEdge
 			}
 			graph.AddEdge(edge);
 			return edge;
@@ -906,7 +906,7 @@ namespace de.unika.ipd.grGen.Model_Turing3
 				edge.lgspFlags &= ~(uint) GRGEN_LGSP.LGSPElemFlags.HAS_VARIABLES;
 				edge.lgspSource = source;
 				edge.lgspTarget = target;
-				// implicit initialization, map/set creation of UEdge
+				// implicit initialization, map/set/array creation of UEdge
 			}
 			graph.AddEdge(edge, varName);
 			return edge;
@@ -930,7 +930,7 @@ namespace de.unika.ipd.grGen.Model_Turing3
 		}
 		public override void ResetAllAttributes()
 		{
-			// implicit initialization, map/set creation of UEdge
+			// implicit initialization, map/set/array creation of UEdge
 		}
 	}
 
@@ -987,7 +987,7 @@ namespace de.unika.ipd.grGen.Model_Turing3
 		public @right(GRGEN_LGSP.LGSPNode source, GRGEN_LGSP.LGSPNode target)
 			: base(GRGEN_MODEL.EdgeType_right.typeVar, source, target)
 		{
-			// implicit initialization, map/set creation of right
+			// implicit initialization, map/set/array creation of right
 			// explicit initializations of right for target right
 		}
 
@@ -1011,7 +1011,7 @@ namespace de.unika.ipd.grGen.Model_Turing3
 				edge.lgspFlags &= ~(uint) GRGEN_LGSP.LGSPElemFlags.HAS_VARIABLES;
 				edge.lgspSource = source;
 				edge.lgspTarget = target;
-				// implicit initialization, map/set creation of right
+				// implicit initialization, map/set/array creation of right
 				// explicit initializations of right for target right
 			}
 			graph.AddEdge(edge);
@@ -1029,7 +1029,7 @@ namespace de.unika.ipd.grGen.Model_Turing3
 				edge.lgspFlags &= ~(uint) GRGEN_LGSP.LGSPElemFlags.HAS_VARIABLES;
 				edge.lgspSource = source;
 				edge.lgspTarget = target;
-				// implicit initialization, map/set creation of right
+				// implicit initialization, map/set/array creation of right
 				// explicit initializations of right for target right
 			}
 			graph.AddEdge(edge, varName);
@@ -1054,7 +1054,7 @@ namespace de.unika.ipd.grGen.Model_Turing3
 		}
 		public override void ResetAllAttributes()
 		{
-			// implicit initialization, map/set creation of right
+			// implicit initialization, map/set/array creation of right
 			// explicit initializations of right for target right
 		}
 	}
@@ -1112,7 +1112,7 @@ namespace de.unika.ipd.grGen.Model_Turing3
 		public @readZero(GRGEN_LGSP.LGSPNode source, GRGEN_LGSP.LGSPNode target)
 			: base(GRGEN_MODEL.EdgeType_readZero.typeVar, source, target)
 		{
-			// implicit initialization, map/set creation of readZero
+			// implicit initialization, map/set/array creation of readZero
 			// explicit initializations of readZero for target readZero
 		}
 
@@ -1136,7 +1136,7 @@ namespace de.unika.ipd.grGen.Model_Turing3
 				edge.lgspFlags &= ~(uint) GRGEN_LGSP.LGSPElemFlags.HAS_VARIABLES;
 				edge.lgspSource = source;
 				edge.lgspTarget = target;
-				// implicit initialization, map/set creation of readZero
+				// implicit initialization, map/set/array creation of readZero
 				// explicit initializations of readZero for target readZero
 			}
 			graph.AddEdge(edge);
@@ -1154,7 +1154,7 @@ namespace de.unika.ipd.grGen.Model_Turing3
 				edge.lgspFlags &= ~(uint) GRGEN_LGSP.LGSPElemFlags.HAS_VARIABLES;
 				edge.lgspSource = source;
 				edge.lgspTarget = target;
-				// implicit initialization, map/set creation of readZero
+				// implicit initialization, map/set/array creation of readZero
 				// explicit initializations of readZero for target readZero
 			}
 			graph.AddEdge(edge, varName);
@@ -1179,7 +1179,7 @@ namespace de.unika.ipd.grGen.Model_Turing3
 		}
 		public override void ResetAllAttributes()
 		{
-			// implicit initialization, map/set creation of readZero
+			// implicit initialization, map/set/array creation of readZero
 			// explicit initializations of readZero for target readZero
 		}
 	}
@@ -1237,7 +1237,7 @@ namespace de.unika.ipd.grGen.Model_Turing3
 		public @readOne(GRGEN_LGSP.LGSPNode source, GRGEN_LGSP.LGSPNode target)
 			: base(GRGEN_MODEL.EdgeType_readOne.typeVar, source, target)
 		{
-			// implicit initialization, map/set creation of readOne
+			// implicit initialization, map/set/array creation of readOne
 			// explicit initializations of readOne for target readOne
 		}
 
@@ -1261,7 +1261,7 @@ namespace de.unika.ipd.grGen.Model_Turing3
 				edge.lgspFlags &= ~(uint) GRGEN_LGSP.LGSPElemFlags.HAS_VARIABLES;
 				edge.lgspSource = source;
 				edge.lgspTarget = target;
-				// implicit initialization, map/set creation of readOne
+				// implicit initialization, map/set/array creation of readOne
 				// explicit initializations of readOne for target readOne
 			}
 			graph.AddEdge(edge);
@@ -1279,7 +1279,7 @@ namespace de.unika.ipd.grGen.Model_Turing3
 				edge.lgspFlags &= ~(uint) GRGEN_LGSP.LGSPElemFlags.HAS_VARIABLES;
 				edge.lgspSource = source;
 				edge.lgspTarget = target;
-				// implicit initialization, map/set creation of readOne
+				// implicit initialization, map/set/array creation of readOne
 				// explicit initializations of readOne for target readOne
 			}
 			graph.AddEdge(edge, varName);
@@ -1304,7 +1304,7 @@ namespace de.unika.ipd.grGen.Model_Turing3
 		}
 		public override void ResetAllAttributes()
 		{
-			// implicit initialization, map/set creation of readOne
+			// implicit initialization, map/set/array creation of readOne
 			// explicit initializations of readOne for target readOne
 		}
 	}
@@ -1362,7 +1362,7 @@ namespace de.unika.ipd.grGen.Model_Turing3
 		public @moveLeft(GRGEN_LGSP.LGSPNode source, GRGEN_LGSP.LGSPNode target)
 			: base(GRGEN_MODEL.EdgeType_moveLeft.typeVar, source, target)
 		{
-			// implicit initialization, map/set creation of moveLeft
+			// implicit initialization, map/set/array creation of moveLeft
 			// explicit initializations of moveLeft for target moveLeft
 		}
 
@@ -1386,7 +1386,7 @@ namespace de.unika.ipd.grGen.Model_Turing3
 				edge.lgspFlags &= ~(uint) GRGEN_LGSP.LGSPElemFlags.HAS_VARIABLES;
 				edge.lgspSource = source;
 				edge.lgspTarget = target;
-				// implicit initialization, map/set creation of moveLeft
+				// implicit initialization, map/set/array creation of moveLeft
 				// explicit initializations of moveLeft for target moveLeft
 			}
 			graph.AddEdge(edge);
@@ -1404,7 +1404,7 @@ namespace de.unika.ipd.grGen.Model_Turing3
 				edge.lgspFlags &= ~(uint) GRGEN_LGSP.LGSPElemFlags.HAS_VARIABLES;
 				edge.lgspSource = source;
 				edge.lgspTarget = target;
-				// implicit initialization, map/set creation of moveLeft
+				// implicit initialization, map/set/array creation of moveLeft
 				// explicit initializations of moveLeft for target moveLeft
 			}
 			graph.AddEdge(edge, varName);
@@ -1429,7 +1429,7 @@ namespace de.unika.ipd.grGen.Model_Turing3
 		}
 		public override void ResetAllAttributes()
 		{
-			// implicit initialization, map/set creation of moveLeft
+			// implicit initialization, map/set/array creation of moveLeft
 			// explicit initializations of moveLeft for target moveLeft
 		}
 	}
@@ -1487,7 +1487,7 @@ namespace de.unika.ipd.grGen.Model_Turing3
 		public @moveRight(GRGEN_LGSP.LGSPNode source, GRGEN_LGSP.LGSPNode target)
 			: base(GRGEN_MODEL.EdgeType_moveRight.typeVar, source, target)
 		{
-			// implicit initialization, map/set creation of moveRight
+			// implicit initialization, map/set/array creation of moveRight
 			// explicit initializations of moveRight for target moveRight
 		}
 
@@ -1511,7 +1511,7 @@ namespace de.unika.ipd.grGen.Model_Turing3
 				edge.lgspFlags &= ~(uint) GRGEN_LGSP.LGSPElemFlags.HAS_VARIABLES;
 				edge.lgspSource = source;
 				edge.lgspTarget = target;
-				// implicit initialization, map/set creation of moveRight
+				// implicit initialization, map/set/array creation of moveRight
 				// explicit initializations of moveRight for target moveRight
 			}
 			graph.AddEdge(edge);
@@ -1529,7 +1529,7 @@ namespace de.unika.ipd.grGen.Model_Turing3
 				edge.lgspFlags &= ~(uint) GRGEN_LGSP.LGSPElemFlags.HAS_VARIABLES;
 				edge.lgspSource = source;
 				edge.lgspTarget = target;
-				// implicit initialization, map/set creation of moveRight
+				// implicit initialization, map/set/array creation of moveRight
 				// explicit initializations of moveRight for target moveRight
 			}
 			graph.AddEdge(edge, varName);
@@ -1554,7 +1554,7 @@ namespace de.unika.ipd.grGen.Model_Turing3
 		}
 		public override void ResetAllAttributes()
 		{
-			// implicit initialization, map/set creation of moveRight
+			// implicit initialization, map/set/array creation of moveRight
 			// explicit initializations of moveRight for target moveRight
 		}
 	}

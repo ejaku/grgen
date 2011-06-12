@@ -1,6 +1,6 @@
 // This file has been generated automatically by GrGen (www.grgen.net)
 // Do not modify this file! Any changes will be lost!
-// Generated from "..\..\examples\ExternalAttributeEvaluationExample\ExternalAttributeEvaluation.grg" on Thu Apr 07 22:54:21 CEST 2011
+// Generated from "..\..\examples\ExternalAttributeEvaluationExample\ExternalAttributeEvaluation.grg" on Sun Jun 12 09:35:14 CEST 2011
 
 using System;
 using System.Collections.Generic;
@@ -44,7 +44,7 @@ namespace de.unika.ipd.grGen.Model_ExternalAttributeEvaluation
 		
 		public @Node() : base(GRGEN_MODEL.NodeType_Node.typeVar)
 		{
-			// implicit initialization, map/set creation of Node
+			// implicit initialization, map/set/array creation of Node
 		}
 
 		public static GRGEN_MODEL.NodeType_Node TypeInstance { get { return GRGEN_MODEL.NodeType_Node.typeVar; } }
@@ -65,7 +65,7 @@ namespace de.unika.ipd.grGen.Model_ExternalAttributeEvaluation
 				node.lgspInhead = null;
 				node.lgspOuthead = null;
 				node.lgspFlags &= ~(uint) GRGEN_LGSP.LGSPElemFlags.HAS_VARIABLES;
-				// implicit initialization, map/set creation of Node
+				// implicit initialization, map/set/array creation of Node
 			}
 			graph.AddNode(node);
 			return node;
@@ -82,7 +82,7 @@ namespace de.unika.ipd.grGen.Model_ExternalAttributeEvaluation
 				node.lgspInhead = null;
 				node.lgspOuthead = null;
 				node.lgspFlags &= ~(uint) GRGEN_LGSP.LGSPElemFlags.HAS_VARIABLES;
-				// implicit initialization, map/set creation of Node
+				// implicit initialization, map/set/array creation of Node
 			}
 			graph.AddNode(node, varName);
 			return node;
@@ -106,7 +106,7 @@ namespace de.unika.ipd.grGen.Model_ExternalAttributeEvaluation
 		}
 		public override void ResetAllAttributes()
 		{
-			// implicit initialization, map/set creation of Node
+			// implicit initialization, map/set/array creation of Node
 		}
 	}
 
@@ -172,7 +172,7 @@ namespace de.unika.ipd.grGen.Model_ExternalAttributeEvaluation
 		
 		public @N() : base(GRGEN_MODEL.NodeType_N.typeVar)
 		{
-			// implicit initialization, map/set creation of N
+			// implicit initialization, map/set/array creation of N
 			this.@si = new Dictionary<int, GRGEN_LIBGR.SetValueType>();
 			this.@mso = new Dictionary<string, object>();
 			// explicit initializations of N for target N
@@ -208,7 +208,7 @@ namespace de.unika.ipd.grGen.Model_ExternalAttributeEvaluation
 				node.lgspInhead = null;
 				node.lgspOuthead = null;
 				node.lgspFlags &= ~(uint) GRGEN_LGSP.LGSPElemFlags.HAS_VARIABLES;
-				// implicit initialization, map/set creation of N
+				// implicit initialization, map/set/array creation of N
 				node.@i = 0;
 				node.@s = null;
 				node.@o = null;
@@ -238,7 +238,7 @@ namespace de.unika.ipd.grGen.Model_ExternalAttributeEvaluation
 				node.lgspInhead = null;
 				node.lgspOuthead = null;
 				node.lgspFlags &= ~(uint) GRGEN_LGSP.LGSPElemFlags.HAS_VARIABLES;
-				// implicit initialization, map/set creation of N
+				// implicit initialization, map/set/array creation of N
 				node.@i = 0;
 				node.@s = null;
 				node.@o = null;
@@ -380,7 +380,7 @@ namespace de.unika.ipd.grGen.Model_ExternalAttributeEvaluation
 		}
 		public override void ResetAllAttributes()
 		{
-			// implicit initialization, map/set creation of N
+			// implicit initialization, map/set/array creation of N
 			this.@i = 0;
 			this.@s = null;
 			this.@o = null;
@@ -645,7 +645,7 @@ namespace de.unika.ipd.grGen.Model_ExternalAttributeEvaluation
 		public @Edge(GRGEN_LGSP.LGSPNode source, GRGEN_LGSP.LGSPNode target)
 			: base(GRGEN_MODEL.EdgeType_Edge.typeVar, source, target)
 		{
-			// implicit initialization, map/set creation of Edge
+			// implicit initialization, map/set/array creation of Edge
 		}
 
 		public static GRGEN_MODEL.EdgeType_Edge TypeInstance { get { return GRGEN_MODEL.EdgeType_Edge.typeVar; } }
@@ -668,7 +668,7 @@ namespace de.unika.ipd.grGen.Model_ExternalAttributeEvaluation
 				edge.lgspFlags &= ~(uint) GRGEN_LGSP.LGSPElemFlags.HAS_VARIABLES;
 				edge.lgspSource = source;
 				edge.lgspTarget = target;
-				// implicit initialization, map/set creation of Edge
+				// implicit initialization, map/set/array creation of Edge
 			}
 			graph.AddEdge(edge);
 			return edge;
@@ -685,7 +685,7 @@ namespace de.unika.ipd.grGen.Model_ExternalAttributeEvaluation
 				edge.lgspFlags &= ~(uint) GRGEN_LGSP.LGSPElemFlags.HAS_VARIABLES;
 				edge.lgspSource = source;
 				edge.lgspTarget = target;
-				// implicit initialization, map/set creation of Edge
+				// implicit initialization, map/set/array creation of Edge
 			}
 			graph.AddEdge(edge, varName);
 			return edge;
@@ -709,7 +709,7 @@ namespace de.unika.ipd.grGen.Model_ExternalAttributeEvaluation
 		}
 		public override void ResetAllAttributes()
 		{
-			// implicit initialization, map/set creation of Edge
+			// implicit initialization, map/set/array creation of Edge
 		}
 	}
 
@@ -761,7 +761,7 @@ namespace de.unika.ipd.grGen.Model_ExternalAttributeEvaluation
 		public @UEdge(GRGEN_LGSP.LGSPNode source, GRGEN_LGSP.LGSPNode target)
 			: base(GRGEN_MODEL.EdgeType_UEdge.typeVar, source, target)
 		{
-			// implicit initialization, map/set creation of UEdge
+			// implicit initialization, map/set/array creation of UEdge
 		}
 
 		public static GRGEN_MODEL.EdgeType_UEdge TypeInstance { get { return GRGEN_MODEL.EdgeType_UEdge.typeVar; } }
@@ -784,7 +784,7 @@ namespace de.unika.ipd.grGen.Model_ExternalAttributeEvaluation
 				edge.lgspFlags &= ~(uint) GRGEN_LGSP.LGSPElemFlags.HAS_VARIABLES;
 				edge.lgspSource = source;
 				edge.lgspTarget = target;
-				// implicit initialization, map/set creation of UEdge
+				// implicit initialization, map/set/array creation of UEdge
 			}
 			graph.AddEdge(edge);
 			return edge;
@@ -801,7 +801,7 @@ namespace de.unika.ipd.grGen.Model_ExternalAttributeEvaluation
 				edge.lgspFlags &= ~(uint) GRGEN_LGSP.LGSPElemFlags.HAS_VARIABLES;
 				edge.lgspSource = source;
 				edge.lgspTarget = target;
-				// implicit initialization, map/set creation of UEdge
+				// implicit initialization, map/set/array creation of UEdge
 			}
 			graph.AddEdge(edge, varName);
 			return edge;
@@ -825,7 +825,7 @@ namespace de.unika.ipd.grGen.Model_ExternalAttributeEvaluation
 		}
 		public override void ResetAllAttributes()
 		{
-			// implicit initialization, map/set creation of UEdge
+			// implicit initialization, map/set/array creation of UEdge
 		}
 	}
 
@@ -882,7 +882,7 @@ namespace de.unika.ipd.grGen.Model_ExternalAttributeEvaluation
 		public @E(GRGEN_LGSP.LGSPNode source, GRGEN_LGSP.LGSPNode target)
 			: base(GRGEN_MODEL.EdgeType_E.typeVar, source, target)
 		{
-			// implicit initialization, map/set creation of E
+			// implicit initialization, map/set/array creation of E
 			// explicit initializations of E for target E
 		}
 
@@ -906,7 +906,7 @@ namespace de.unika.ipd.grGen.Model_ExternalAttributeEvaluation
 				edge.lgspFlags &= ~(uint) GRGEN_LGSP.LGSPElemFlags.HAS_VARIABLES;
 				edge.lgspSource = source;
 				edge.lgspTarget = target;
-				// implicit initialization, map/set creation of E
+				// implicit initialization, map/set/array creation of E
 				// explicit initializations of E for target E
 			}
 			graph.AddEdge(edge);
@@ -924,7 +924,7 @@ namespace de.unika.ipd.grGen.Model_ExternalAttributeEvaluation
 				edge.lgspFlags &= ~(uint) GRGEN_LGSP.LGSPElemFlags.HAS_VARIABLES;
 				edge.lgspSource = source;
 				edge.lgspTarget = target;
-				// implicit initialization, map/set creation of E
+				// implicit initialization, map/set/array creation of E
 				// explicit initializations of E for target E
 			}
 			graph.AddEdge(edge, varName);
@@ -949,7 +949,7 @@ namespace de.unika.ipd.grGen.Model_ExternalAttributeEvaluation
 		}
 		public override void ResetAllAttributes()
 		{
-			// implicit initialization, map/set creation of E
+			// implicit initialization, map/set/array creation of E
 			// explicit initializations of E for target E
 		}
 	}

@@ -1,6 +1,6 @@
 // This file has been generated automatically by GrGen (www.grgen.net)
 // Do not modify this file! Any changes will be lost!
-// Generated from "test.grg" on Thu Apr 07 22:54:18 CEST 2011
+// Generated from "test.grg" on Sun Jun 12 09:35:09 CEST 2011
 
 using System;
 using System.Collections.Generic;
@@ -37,7 +37,7 @@ namespace de.unika.ipd.grGen.Model_complModel
 		
 		public @Node() : base(GRGEN_MODEL.NodeType_Node.typeVar)
 		{
-			// implicit initialization, map/set creation of Node
+			// implicit initialization, map/set/array creation of Node
 		}
 
 		public static GRGEN_MODEL.NodeType_Node TypeInstance { get { return GRGEN_MODEL.NodeType_Node.typeVar; } }
@@ -58,7 +58,7 @@ namespace de.unika.ipd.grGen.Model_complModel
 				node.lgspInhead = null;
 				node.lgspOuthead = null;
 				node.lgspFlags &= ~(uint) GRGEN_LGSP.LGSPElemFlags.HAS_VARIABLES;
-				// implicit initialization, map/set creation of Node
+				// implicit initialization, map/set/array creation of Node
 			}
 			graph.AddNode(node);
 			return node;
@@ -75,7 +75,7 @@ namespace de.unika.ipd.grGen.Model_complModel
 				node.lgspInhead = null;
 				node.lgspOuthead = null;
 				node.lgspFlags &= ~(uint) GRGEN_LGSP.LGSPElemFlags.HAS_VARIABLES;
-				// implicit initialization, map/set creation of Node
+				// implicit initialization, map/set/array creation of Node
 			}
 			graph.AddNode(node, varName);
 			return node;
@@ -99,7 +99,7 @@ namespace de.unika.ipd.grGen.Model_complModel
 		}
 		public override void ResetAllAttributes()
 		{
-			// implicit initialization, map/set creation of Node
+			// implicit initialization, map/set/array creation of Node
 		}
 	}
 
@@ -155,7 +155,7 @@ namespace de.unika.ipd.grGen.Model_complModel
 		
 		public @A1() : base(GRGEN_MODEL.NodeType_A1.typeVar)
 		{
-			// implicit initialization, map/set creation of A1
+			// implicit initialization, map/set/array creation of A1
 			// explicit initializations of A1 for target A1
 		}
 
@@ -178,7 +178,7 @@ namespace de.unika.ipd.grGen.Model_complModel
 				node.lgspInhead = null;
 				node.lgspOuthead = null;
 				node.lgspFlags &= ~(uint) GRGEN_LGSP.LGSPElemFlags.HAS_VARIABLES;
-				// implicit initialization, map/set creation of A1
+				// implicit initialization, map/set/array creation of A1
 				node.@a1 = 0;
 				// explicit initializations of A1 for target A1
 			}
@@ -197,7 +197,7 @@ namespace de.unika.ipd.grGen.Model_complModel
 				node.lgspInhead = null;
 				node.lgspOuthead = null;
 				node.lgspFlags &= ~(uint) GRGEN_LGSP.LGSPElemFlags.HAS_VARIABLES;
-				// implicit initialization, map/set creation of A1
+				// implicit initialization, map/set/array creation of A1
 				node.@a1 = 0;
 				// explicit initializations of A1 for target A1
 			}
@@ -238,7 +238,7 @@ namespace de.unika.ipd.grGen.Model_complModel
 		}
 		public override void ResetAllAttributes()
 		{
-			// implicit initialization, map/set creation of A1
+			// implicit initialization, map/set/array creation of A1
 			this.@a1 = 0;
 			// explicit initializations of A1 for target A1
 		}
@@ -324,7 +324,7 @@ namespace de.unika.ipd.grGen.Model_complModel
 		
 		public @A2() : base(GRGEN_MODEL.NodeType_A2.typeVar)
 		{
-			// implicit initialization, map/set creation of A2
+			// implicit initialization, map/set/array creation of A2
 			// explicit initializations of A2 for target A2
 		}
 
@@ -347,7 +347,7 @@ namespace de.unika.ipd.grGen.Model_complModel
 				node.lgspInhead = null;
 				node.lgspOuthead = null;
 				node.lgspFlags &= ~(uint) GRGEN_LGSP.LGSPElemFlags.HAS_VARIABLES;
-				// implicit initialization, map/set creation of A2
+				// implicit initialization, map/set/array creation of A2
 				node.@a2 = 0;
 				// explicit initializations of A2 for target A2
 			}
@@ -366,7 +366,7 @@ namespace de.unika.ipd.grGen.Model_complModel
 				node.lgspInhead = null;
 				node.lgspOuthead = null;
 				node.lgspFlags &= ~(uint) GRGEN_LGSP.LGSPElemFlags.HAS_VARIABLES;
-				// implicit initialization, map/set creation of A2
+				// implicit initialization, map/set/array creation of A2
 				node.@a2 = 0;
 				// explicit initializations of A2 for target A2
 			}
@@ -407,7 +407,7 @@ namespace de.unika.ipd.grGen.Model_complModel
 		}
 		public override void ResetAllAttributes()
 		{
-			// implicit initialization, map/set creation of A2
+			// implicit initialization, map/set/array creation of A2
 			this.@a2 = 0;
 			// explicit initializations of A2 for target A2
 		}
@@ -500,7 +500,7 @@ namespace de.unika.ipd.grGen.Model_complModel
 		
 		public @A3() : base(GRGEN_MODEL.NodeType_A3.typeVar)
 		{
-			// implicit initialization, map/set creation of A3
+			// implicit initialization, map/set/array creation of A3
 			// explicit initializations of A3 for target A3
 		}
 
@@ -523,7 +523,7 @@ namespace de.unika.ipd.grGen.Model_complModel
 				node.lgspInhead = null;
 				node.lgspOuthead = null;
 				node.lgspFlags &= ~(uint) GRGEN_LGSP.LGSPElemFlags.HAS_VARIABLES;
-				// implicit initialization, map/set creation of A3
+				// implicit initialization, map/set/array creation of A3
 				node.@a3 = 0;
 				// explicit initializations of A3 for target A3
 			}
@@ -542,7 +542,7 @@ namespace de.unika.ipd.grGen.Model_complModel
 				node.lgspInhead = null;
 				node.lgspOuthead = null;
 				node.lgspFlags &= ~(uint) GRGEN_LGSP.LGSPElemFlags.HAS_VARIABLES;
-				// implicit initialization, map/set creation of A3
+				// implicit initialization, map/set/array creation of A3
 				node.@a3 = 0;
 				// explicit initializations of A3 for target A3
 			}
@@ -583,7 +583,7 @@ namespace de.unika.ipd.grGen.Model_complModel
 		}
 		public override void ResetAllAttributes()
 		{
-			// implicit initialization, map/set creation of A3
+			// implicit initialization, map/set/array creation of A3
 			this.@a3 = 0;
 			// explicit initializations of A3 for target A3
 		}
@@ -669,7 +669,7 @@ namespace de.unika.ipd.grGen.Model_complModel
 		
 		public @A4() : base(GRGEN_MODEL.NodeType_A4.typeVar)
 		{
-			// implicit initialization, map/set creation of A4
+			// implicit initialization, map/set/array creation of A4
 			// explicit initializations of A4 for target A4
 		}
 
@@ -692,7 +692,7 @@ namespace de.unika.ipd.grGen.Model_complModel
 				node.lgspInhead = null;
 				node.lgspOuthead = null;
 				node.lgspFlags &= ~(uint) GRGEN_LGSP.LGSPElemFlags.HAS_VARIABLES;
-				// implicit initialization, map/set creation of A4
+				// implicit initialization, map/set/array creation of A4
 				node.@a4 = 0;
 				// explicit initializations of A4 for target A4
 			}
@@ -711,7 +711,7 @@ namespace de.unika.ipd.grGen.Model_complModel
 				node.lgspInhead = null;
 				node.lgspOuthead = null;
 				node.lgspFlags &= ~(uint) GRGEN_LGSP.LGSPElemFlags.HAS_VARIABLES;
-				// implicit initialization, map/set creation of A4
+				// implicit initialization, map/set/array creation of A4
 				node.@a4 = 0;
 				// explicit initializations of A4 for target A4
 			}
@@ -752,7 +752,7 @@ namespace de.unika.ipd.grGen.Model_complModel
 		}
 		public override void ResetAllAttributes()
 		{
-			// implicit initialization, map/set creation of A4
+			// implicit initialization, map/set/array creation of A4
 			this.@a4 = 0;
 			// explicit initializations of A4 for target A4
 		}
@@ -846,7 +846,7 @@ namespace de.unika.ipd.grGen.Model_complModel
 		
 		public @A5() : base(GRGEN_MODEL.NodeType_A5.typeVar)
 		{
-			// implicit initialization, map/set creation of A5
+			// implicit initialization, map/set/array creation of A5
 			// explicit initializations of A5 for target A5
 		}
 
@@ -869,7 +869,7 @@ namespace de.unika.ipd.grGen.Model_complModel
 				node.lgspInhead = null;
 				node.lgspOuthead = null;
 				node.lgspFlags &= ~(uint) GRGEN_LGSP.LGSPElemFlags.HAS_VARIABLES;
-				// implicit initialization, map/set creation of A5
+				// implicit initialization, map/set/array creation of A5
 				node.@a5 = 0;
 				// explicit initializations of A5 for target A5
 			}
@@ -888,7 +888,7 @@ namespace de.unika.ipd.grGen.Model_complModel
 				node.lgspInhead = null;
 				node.lgspOuthead = null;
 				node.lgspFlags &= ~(uint) GRGEN_LGSP.LGSPElemFlags.HAS_VARIABLES;
-				// implicit initialization, map/set creation of A5
+				// implicit initialization, map/set/array creation of A5
 				node.@a5 = 0;
 				// explicit initializations of A5 for target A5
 			}
@@ -929,7 +929,7 @@ namespace de.unika.ipd.grGen.Model_complModel
 		}
 		public override void ResetAllAttributes()
 		{
-			// implicit initialization, map/set creation of A5
+			// implicit initialization, map/set/array creation of A5
 			this.@a5 = 0;
 			// explicit initializations of A5 for target A5
 		}
@@ -1018,7 +1018,7 @@ namespace de.unika.ipd.grGen.Model_complModel
 		
 		public @B21() : base(GRGEN_MODEL.NodeType_B21.typeVar)
 		{
-			// implicit initialization, map/set creation of B21
+			// implicit initialization, map/set/array creation of B21
 			// explicit initializations of A2 for target B21
 			// explicit initializations of B21 for target B21
 		}
@@ -1043,7 +1043,7 @@ namespace de.unika.ipd.grGen.Model_complModel
 				node.lgspInhead = null;
 				node.lgspOuthead = null;
 				node.lgspFlags &= ~(uint) GRGEN_LGSP.LGSPElemFlags.HAS_VARIABLES;
-				// implicit initialization, map/set creation of B21
+				// implicit initialization, map/set/array creation of B21
 				node.@a2 = 0;
 				node.@b21 = 0;
 				// explicit initializations of A2 for target B21
@@ -1064,7 +1064,7 @@ namespace de.unika.ipd.grGen.Model_complModel
 				node.lgspInhead = null;
 				node.lgspOuthead = null;
 				node.lgspFlags &= ~(uint) GRGEN_LGSP.LGSPElemFlags.HAS_VARIABLES;
-				// implicit initialization, map/set creation of B21
+				// implicit initialization, map/set/array creation of B21
 				node.@a2 = 0;
 				node.@b21 = 0;
 				// explicit initializations of A2 for target B21
@@ -1116,7 +1116,7 @@ namespace de.unika.ipd.grGen.Model_complModel
 		}
 		public override void ResetAllAttributes()
 		{
-			// implicit initialization, map/set creation of B21
+			// implicit initialization, map/set/array creation of B21
 			this.@a2 = 0;
 			this.@b21 = 0;
 			// explicit initializations of A2 for target B21
@@ -1222,7 +1222,7 @@ namespace de.unika.ipd.grGen.Model_complModel
 		
 		public @B22() : base(GRGEN_MODEL.NodeType_B22.typeVar)
 		{
-			// implicit initialization, map/set creation of B22
+			// implicit initialization, map/set/array creation of B22
 			// explicit initializations of A2 for target B22
 			// explicit initializations of B22 for target B22
 		}
@@ -1247,7 +1247,7 @@ namespace de.unika.ipd.grGen.Model_complModel
 				node.lgspInhead = null;
 				node.lgspOuthead = null;
 				node.lgspFlags &= ~(uint) GRGEN_LGSP.LGSPElemFlags.HAS_VARIABLES;
-				// implicit initialization, map/set creation of B22
+				// implicit initialization, map/set/array creation of B22
 				node.@a2 = 0;
 				node.@b22 = 0;
 				// explicit initializations of A2 for target B22
@@ -1268,7 +1268,7 @@ namespace de.unika.ipd.grGen.Model_complModel
 				node.lgspInhead = null;
 				node.lgspOuthead = null;
 				node.lgspFlags &= ~(uint) GRGEN_LGSP.LGSPElemFlags.HAS_VARIABLES;
-				// implicit initialization, map/set creation of B22
+				// implicit initialization, map/set/array creation of B22
 				node.@a2 = 0;
 				node.@b22 = 0;
 				// explicit initializations of A2 for target B22
@@ -1320,7 +1320,7 @@ namespace de.unika.ipd.grGen.Model_complModel
 		}
 		public override void ResetAllAttributes()
 		{
-			// implicit initialization, map/set creation of B22
+			// implicit initialization, map/set/array creation of B22
 			this.@a2 = 0;
 			this.@b22 = 0;
 			// explicit initializations of A2 for target B22
@@ -1426,7 +1426,7 @@ namespace de.unika.ipd.grGen.Model_complModel
 		
 		public @B23() : base(GRGEN_MODEL.NodeType_B23.typeVar)
 		{
-			// implicit initialization, map/set creation of B23
+			// implicit initialization, map/set/array creation of B23
 			// explicit initializations of A2 for target B23
 			// explicit initializations of B23 for target B23
 		}
@@ -1451,7 +1451,7 @@ namespace de.unika.ipd.grGen.Model_complModel
 				node.lgspInhead = null;
 				node.lgspOuthead = null;
 				node.lgspFlags &= ~(uint) GRGEN_LGSP.LGSPElemFlags.HAS_VARIABLES;
-				// implicit initialization, map/set creation of B23
+				// implicit initialization, map/set/array creation of B23
 				node.@a2 = 0;
 				node.@b23 = 0;
 				// explicit initializations of A2 for target B23
@@ -1472,7 +1472,7 @@ namespace de.unika.ipd.grGen.Model_complModel
 				node.lgspInhead = null;
 				node.lgspOuthead = null;
 				node.lgspFlags &= ~(uint) GRGEN_LGSP.LGSPElemFlags.HAS_VARIABLES;
-				// implicit initialization, map/set creation of B23
+				// implicit initialization, map/set/array creation of B23
 				node.@a2 = 0;
 				node.@b23 = 0;
 				// explicit initializations of A2 for target B23
@@ -1524,7 +1524,7 @@ namespace de.unika.ipd.grGen.Model_complModel
 		}
 		public override void ResetAllAttributes()
 		{
-			// implicit initialization, map/set creation of B23
+			// implicit initialization, map/set/array creation of B23
 			this.@a2 = 0;
 			this.@b23 = 0;
 			// explicit initializations of A2 for target B23
@@ -1630,7 +1630,7 @@ namespace de.unika.ipd.grGen.Model_complModel
 		
 		public @B41() : base(GRGEN_MODEL.NodeType_B41.typeVar)
 		{
-			// implicit initialization, map/set creation of B41
+			// implicit initialization, map/set/array creation of B41
 			// explicit initializations of A4 for target B41
 			// explicit initializations of B41 for target B41
 		}
@@ -1655,7 +1655,7 @@ namespace de.unika.ipd.grGen.Model_complModel
 				node.lgspInhead = null;
 				node.lgspOuthead = null;
 				node.lgspFlags &= ~(uint) GRGEN_LGSP.LGSPElemFlags.HAS_VARIABLES;
-				// implicit initialization, map/set creation of B41
+				// implicit initialization, map/set/array creation of B41
 				node.@a4 = 0;
 				node.@b41 = 0;
 				// explicit initializations of A4 for target B41
@@ -1676,7 +1676,7 @@ namespace de.unika.ipd.grGen.Model_complModel
 				node.lgspInhead = null;
 				node.lgspOuthead = null;
 				node.lgspFlags &= ~(uint) GRGEN_LGSP.LGSPElemFlags.HAS_VARIABLES;
-				// implicit initialization, map/set creation of B41
+				// implicit initialization, map/set/array creation of B41
 				node.@a4 = 0;
 				node.@b41 = 0;
 				// explicit initializations of A4 for target B41
@@ -1728,7 +1728,7 @@ namespace de.unika.ipd.grGen.Model_complModel
 		}
 		public override void ResetAllAttributes()
 		{
-			// implicit initialization, map/set creation of B41
+			// implicit initialization, map/set/array creation of B41
 			this.@a4 = 0;
 			this.@b41 = 0;
 			// explicit initializations of A4 for target B41
@@ -1835,7 +1835,7 @@ namespace de.unika.ipd.grGen.Model_complModel
 		
 		public @B42() : base(GRGEN_MODEL.NodeType_B42.typeVar)
 		{
-			// implicit initialization, map/set creation of B42
+			// implicit initialization, map/set/array creation of B42
 			// explicit initializations of A4 for target B42
 			// explicit initializations of B42 for target B42
 		}
@@ -1860,7 +1860,7 @@ namespace de.unika.ipd.grGen.Model_complModel
 				node.lgspInhead = null;
 				node.lgspOuthead = null;
 				node.lgspFlags &= ~(uint) GRGEN_LGSP.LGSPElemFlags.HAS_VARIABLES;
-				// implicit initialization, map/set creation of B42
+				// implicit initialization, map/set/array creation of B42
 				node.@a4 = 0;
 				node.@b42 = 0;
 				// explicit initializations of A4 for target B42
@@ -1881,7 +1881,7 @@ namespace de.unika.ipd.grGen.Model_complModel
 				node.lgspInhead = null;
 				node.lgspOuthead = null;
 				node.lgspFlags &= ~(uint) GRGEN_LGSP.LGSPElemFlags.HAS_VARIABLES;
-				// implicit initialization, map/set creation of B42
+				// implicit initialization, map/set/array creation of B42
 				node.@a4 = 0;
 				node.@b42 = 0;
 				// explicit initializations of A4 for target B42
@@ -1933,7 +1933,7 @@ namespace de.unika.ipd.grGen.Model_complModel
 		}
 		public override void ResetAllAttributes()
 		{
-			// implicit initialization, map/set creation of B42
+			// implicit initialization, map/set/array creation of B42
 			this.@a4 = 0;
 			this.@b42 = 0;
 			// explicit initializations of A4 for target B42
@@ -2039,7 +2039,7 @@ namespace de.unika.ipd.grGen.Model_complModel
 		
 		public @B43() : base(GRGEN_MODEL.NodeType_B43.typeVar)
 		{
-			// implicit initialization, map/set creation of B43
+			// implicit initialization, map/set/array creation of B43
 			// explicit initializations of A4 for target B43
 			// explicit initializations of B43 for target B43
 		}
@@ -2063,7 +2063,7 @@ namespace de.unika.ipd.grGen.Model_complModel
 				node.lgspInhead = null;
 				node.lgspOuthead = null;
 				node.lgspFlags &= ~(uint) GRGEN_LGSP.LGSPElemFlags.HAS_VARIABLES;
-				// implicit initialization, map/set creation of B43
+				// implicit initialization, map/set/array creation of B43
 				node.@a4 = 0;
 				// explicit initializations of A4 for target B43
 				// explicit initializations of B43 for target B43
@@ -2083,7 +2083,7 @@ namespace de.unika.ipd.grGen.Model_complModel
 				node.lgspInhead = null;
 				node.lgspOuthead = null;
 				node.lgspFlags &= ~(uint) GRGEN_LGSP.LGSPElemFlags.HAS_VARIABLES;
-				// implicit initialization, map/set creation of B43
+				// implicit initialization, map/set/array creation of B43
 				node.@a4 = 0;
 				// explicit initializations of A4 for target B43
 				// explicit initializations of B43 for target B43
@@ -2125,7 +2125,7 @@ namespace de.unika.ipd.grGen.Model_complModel
 		}
 		public override void ResetAllAttributes()
 		{
-			// implicit initialization, map/set creation of B43
+			// implicit initialization, map/set/array creation of B43
 			this.@a4 = 0;
 			// explicit initializations of A4 for target B43
 			// explicit initializations of B43 for target B43
@@ -2228,7 +2228,7 @@ namespace de.unika.ipd.grGen.Model_complModel
 		
 		public @C221() : base(GRGEN_MODEL.NodeType_C221.typeVar)
 		{
-			// implicit initialization, map/set creation of C221
+			// implicit initialization, map/set/array creation of C221
 			// explicit initializations of A2 for target C221
 			// explicit initializations of B22 for target C221
 			// explicit initializations of C221 for target C221
@@ -2255,7 +2255,7 @@ namespace de.unika.ipd.grGen.Model_complModel
 				node.lgspInhead = null;
 				node.lgspOuthead = null;
 				node.lgspFlags &= ~(uint) GRGEN_LGSP.LGSPElemFlags.HAS_VARIABLES;
-				// implicit initialization, map/set creation of C221
+				// implicit initialization, map/set/array creation of C221
 				node.@a2 = 0;
 				node.@b22 = 0;
 				node.@c221 = 0;
@@ -2278,7 +2278,7 @@ namespace de.unika.ipd.grGen.Model_complModel
 				node.lgspInhead = null;
 				node.lgspOuthead = null;
 				node.lgspFlags &= ~(uint) GRGEN_LGSP.LGSPElemFlags.HAS_VARIABLES;
-				// implicit initialization, map/set creation of C221
+				// implicit initialization, map/set/array creation of C221
 				node.@a2 = 0;
 				node.@b22 = 0;
 				node.@c221 = 0;
@@ -2341,7 +2341,7 @@ namespace de.unika.ipd.grGen.Model_complModel
 		}
 		public override void ResetAllAttributes()
 		{
-			// implicit initialization, map/set creation of C221
+			// implicit initialization, map/set/array creation of C221
 			this.@a2 = 0;
 			this.@b22 = 0;
 			this.@c221 = 0;
@@ -2465,7 +2465,7 @@ namespace de.unika.ipd.grGen.Model_complModel
 		
 		public @C222_411() : base(GRGEN_MODEL.NodeType_C222_411.typeVar)
 		{
-			// implicit initialization, map/set creation of C222_411
+			// implicit initialization, map/set/array creation of C222_411
 			// explicit initializations of A2 for target C222_411
 			// explicit initializations of B22 for target C222_411
 			// explicit initializations of A4 for target C222_411
@@ -2496,7 +2496,7 @@ namespace de.unika.ipd.grGen.Model_complModel
 				node.lgspInhead = null;
 				node.lgspOuthead = null;
 				node.lgspFlags &= ~(uint) GRGEN_LGSP.LGSPElemFlags.HAS_VARIABLES;
-				// implicit initialization, map/set creation of C222_411
+				// implicit initialization, map/set/array creation of C222_411
 				node.@a2 = 0;
 				node.@b22 = 0;
 				node.@a4 = 0;
@@ -2523,7 +2523,7 @@ namespace de.unika.ipd.grGen.Model_complModel
 				node.lgspInhead = null;
 				node.lgspOuthead = null;
 				node.lgspFlags &= ~(uint) GRGEN_LGSP.LGSPElemFlags.HAS_VARIABLES;
-				// implicit initialization, map/set creation of C222_411
+				// implicit initialization, map/set/array creation of C222_411
 				node.@a2 = 0;
 				node.@b22 = 0;
 				node.@a4 = 0;
@@ -2608,7 +2608,7 @@ namespace de.unika.ipd.grGen.Model_complModel
 		}
 		public override void ResetAllAttributes()
 		{
-			// implicit initialization, map/set creation of C222_411
+			// implicit initialization, map/set/array creation of C222_411
 			this.@a2 = 0;
 			this.@b22 = 0;
 			this.@a4 = 0;
@@ -2774,7 +2774,7 @@ namespace de.unika.ipd.grGen.Model_complModel
 		
 		public @C412_421_431_51() : base(GRGEN_MODEL.NodeType_C412_421_431_51.typeVar)
 		{
-			// implicit initialization, map/set creation of C412_421_431_51
+			// implicit initialization, map/set/array creation of C412_421_431_51
 			// explicit initializations of A4 for target C412_421_431_51
 			// explicit initializations of B41 for target C412_421_431_51
 			// explicit initializations of B42 for target C412_421_431_51
@@ -2805,7 +2805,7 @@ namespace de.unika.ipd.grGen.Model_complModel
 				node.lgspInhead = null;
 				node.lgspOuthead = null;
 				node.lgspFlags &= ~(uint) GRGEN_LGSP.LGSPElemFlags.HAS_VARIABLES;
-				// implicit initialization, map/set creation of C412_421_431_51
+				// implicit initialization, map/set/array creation of C412_421_431_51
 				node.@a4 = 0;
 				node.@b41 = 0;
 				node.@b42 = 0;
@@ -2832,7 +2832,7 @@ namespace de.unika.ipd.grGen.Model_complModel
 				node.lgspInhead = null;
 				node.lgspOuthead = null;
 				node.lgspFlags &= ~(uint) GRGEN_LGSP.LGSPElemFlags.HAS_VARIABLES;
-				// implicit initialization, map/set creation of C412_421_431_51
+				// implicit initialization, map/set/array creation of C412_421_431_51
 				node.@a4 = 0;
 				node.@b41 = 0;
 				node.@b42 = 0;
@@ -2908,7 +2908,7 @@ namespace de.unika.ipd.grGen.Model_complModel
 		}
 		public override void ResetAllAttributes()
 		{
-			// implicit initialization, map/set creation of C412_421_431_51
+			// implicit initialization, map/set/array creation of C412_421_431_51
 			this.@a4 = 0;
 			this.@b41 = 0;
 			this.@b42 = 0;
@@ -3065,7 +3065,7 @@ namespace de.unika.ipd.grGen.Model_complModel
 		
 		public @C432_422() : base(GRGEN_MODEL.NodeType_C432_422.typeVar)
 		{
-			// implicit initialization, map/set creation of C432_422
+			// implicit initialization, map/set/array creation of C432_422
 			// explicit initializations of A4 for target C432_422
 			// explicit initializations of B43 for target C432_422
 			// explicit initializations of B42 for target C432_422
@@ -3093,7 +3093,7 @@ namespace de.unika.ipd.grGen.Model_complModel
 				node.lgspInhead = null;
 				node.lgspOuthead = null;
 				node.lgspFlags &= ~(uint) GRGEN_LGSP.LGSPElemFlags.HAS_VARIABLES;
-				// implicit initialization, map/set creation of C432_422
+				// implicit initialization, map/set/array creation of C432_422
 				node.@a4 = 0;
 				node.@b42 = 0;
 				node.@c432_422 = 0;
@@ -3117,7 +3117,7 @@ namespace de.unika.ipd.grGen.Model_complModel
 				node.lgspInhead = null;
 				node.lgspOuthead = null;
 				node.lgspFlags &= ~(uint) GRGEN_LGSP.LGSPElemFlags.HAS_VARIABLES;
-				// implicit initialization, map/set creation of C432_422
+				// implicit initialization, map/set/array creation of C432_422
 				node.@a4 = 0;
 				node.@b42 = 0;
 				node.@c432_422 = 0;
@@ -3181,7 +3181,7 @@ namespace de.unika.ipd.grGen.Model_complModel
 		}
 		public override void ResetAllAttributes()
 		{
-			// implicit initialization, map/set creation of C432_422
+			// implicit initialization, map/set/array creation of C432_422
 			this.@a4 = 0;
 			this.@b42 = 0;
 			this.@c432_422 = 0;
@@ -3326,7 +3326,7 @@ namespace de.unika.ipd.grGen.Model_complModel
 		
 		public @D11_2221() : base(GRGEN_MODEL.NodeType_D11_2221.typeVar)
 		{
-			// implicit initialization, map/set creation of D11_2221
+			// implicit initialization, map/set/array creation of D11_2221
 			// explicit initializations of A1 for target D11_2221
 			// explicit initializations of A2 for target D11_2221
 			// explicit initializations of B22 for target D11_2221
@@ -3361,7 +3361,7 @@ namespace de.unika.ipd.grGen.Model_complModel
 				node.lgspInhead = null;
 				node.lgspOuthead = null;
 				node.lgspFlags &= ~(uint) GRGEN_LGSP.LGSPElemFlags.HAS_VARIABLES;
-				// implicit initialization, map/set creation of D11_2221
+				// implicit initialization, map/set/array creation of D11_2221
 				node.@a1 = 0;
 				node.@a2 = 0;
 				node.@b22 = 0;
@@ -3392,7 +3392,7 @@ namespace de.unika.ipd.grGen.Model_complModel
 				node.lgspInhead = null;
 				node.lgspOuthead = null;
 				node.lgspFlags &= ~(uint) GRGEN_LGSP.LGSPElemFlags.HAS_VARIABLES;
-				// implicit initialization, map/set creation of D11_2221
+				// implicit initialization, map/set/array creation of D11_2221
 				node.@a1 = 0;
 				node.@a2 = 0;
 				node.@b22 = 0;
@@ -3499,7 +3499,7 @@ namespace de.unika.ipd.grGen.Model_complModel
 		}
 		public override void ResetAllAttributes()
 		{
-			// implicit initialization, map/set creation of D11_2221
+			// implicit initialization, map/set/array creation of D11_2221
 			this.@a1 = 0;
 			this.@a2 = 0;
 			this.@b22 = 0;
@@ -3697,7 +3697,7 @@ namespace de.unika.ipd.grGen.Model_complModel
 		
 		public @D2211_2222_31() : base(GRGEN_MODEL.NodeType_D2211_2222_31.typeVar)
 		{
-			// implicit initialization, map/set creation of D2211_2222_31
+			// implicit initialization, map/set/array creation of D2211_2222_31
 			// explicit initializations of A2 for target D2211_2222_31
 			// explicit initializations of B22 for target D2211_2222_31
 			// explicit initializations of C221 for target D2211_2222_31
@@ -3734,7 +3734,7 @@ namespace de.unika.ipd.grGen.Model_complModel
 				node.lgspInhead = null;
 				node.lgspOuthead = null;
 				node.lgspFlags &= ~(uint) GRGEN_LGSP.LGSPElemFlags.HAS_VARIABLES;
-				// implicit initialization, map/set creation of D2211_2222_31
+				// implicit initialization, map/set/array creation of D2211_2222_31
 				node.@a2 = 0;
 				node.@b22 = 0;
 				node.@c221 = 0;
@@ -3767,7 +3767,7 @@ namespace de.unika.ipd.grGen.Model_complModel
 				node.lgspInhead = null;
 				node.lgspOuthead = null;
 				node.lgspFlags &= ~(uint) GRGEN_LGSP.LGSPElemFlags.HAS_VARIABLES;
-				// implicit initialization, map/set creation of D2211_2222_31
+				// implicit initialization, map/set/array creation of D2211_2222_31
 				node.@a2 = 0;
 				node.@b22 = 0;
 				node.@c221 = 0;
@@ -3885,7 +3885,7 @@ namespace de.unika.ipd.grGen.Model_complModel
 		}
 		public override void ResetAllAttributes()
 		{
-			// implicit initialization, map/set creation of D2211_2222_31
+			// implicit initialization, map/set/array creation of D2211_2222_31
 			this.@a2 = 0;
 			this.@b22 = 0;
 			this.@c221 = 0;
@@ -4098,7 +4098,7 @@ namespace de.unika.ipd.grGen.Model_complModel
 		
 		public @D231_4121() : base(GRGEN_MODEL.NodeType_D231_4121.typeVar)
 		{
-			// implicit initialization, map/set creation of D231_4121
+			// implicit initialization, map/set/array creation of D231_4121
 			// explicit initializations of A2 for target D231_4121
 			// explicit initializations of B23 for target D231_4121
 			// explicit initializations of A4 for target D231_4121
@@ -4123,7 +4123,7 @@ namespace de.unika.ipd.grGen.Model_complModel
 				node.lgspInhead = null;
 				node.lgspOuthead = null;
 				node.lgspFlags &= ~(uint) GRGEN_LGSP.LGSPElemFlags.HAS_VARIABLES;
-				// implicit initialization, map/set creation of D231_4121
+				// implicit initialization, map/set/array creation of D231_4121
 				node.@a2 = 0;
 				node.@b23 = 0;
 				node.@a4 = 0;
@@ -4156,7 +4156,7 @@ namespace de.unika.ipd.grGen.Model_complModel
 				node.lgspInhead = null;
 				node.lgspOuthead = null;
 				node.lgspFlags &= ~(uint) GRGEN_LGSP.LGSPElemFlags.HAS_VARIABLES;
-				// implicit initialization, map/set creation of D231_4121
+				// implicit initialization, map/set/array creation of D231_4121
 				node.@a2 = 0;
 				node.@b23 = 0;
 				node.@a4 = 0;
@@ -4223,7 +4223,7 @@ namespace de.unika.ipd.grGen.Model_complModel
 		}
 		public override void ResetAllAttributes()
 		{
-			// implicit initialization, map/set creation of D231_4121
+			// implicit initialization, map/set/array creation of D231_4121
 			this.@a2 = 0;
 			this.@b23 = 0;
 			this.@a4 = 0;
@@ -4937,7 +4937,7 @@ namespace de.unika.ipd.grGen.Model_complModel
 		public @Edge(GRGEN_LGSP.LGSPNode source, GRGEN_LGSP.LGSPNode target)
 			: base(GRGEN_MODEL.EdgeType_Edge.typeVar, source, target)
 		{
-			// implicit initialization, map/set creation of Edge
+			// implicit initialization, map/set/array creation of Edge
 		}
 
 		public static GRGEN_MODEL.EdgeType_Edge TypeInstance { get { return GRGEN_MODEL.EdgeType_Edge.typeVar; } }
@@ -4960,7 +4960,7 @@ namespace de.unika.ipd.grGen.Model_complModel
 				edge.lgspFlags &= ~(uint) GRGEN_LGSP.LGSPElemFlags.HAS_VARIABLES;
 				edge.lgspSource = source;
 				edge.lgspTarget = target;
-				// implicit initialization, map/set creation of Edge
+				// implicit initialization, map/set/array creation of Edge
 			}
 			graph.AddEdge(edge);
 			return edge;
@@ -4977,7 +4977,7 @@ namespace de.unika.ipd.grGen.Model_complModel
 				edge.lgspFlags &= ~(uint) GRGEN_LGSP.LGSPElemFlags.HAS_VARIABLES;
 				edge.lgspSource = source;
 				edge.lgspTarget = target;
-				// implicit initialization, map/set creation of Edge
+				// implicit initialization, map/set/array creation of Edge
 			}
 			graph.AddEdge(edge, varName);
 			return edge;
@@ -5001,7 +5001,7 @@ namespace de.unika.ipd.grGen.Model_complModel
 		}
 		public override void ResetAllAttributes()
 		{
-			// implicit initialization, map/set creation of Edge
+			// implicit initialization, map/set/array creation of Edge
 		}
 	}
 
@@ -5053,7 +5053,7 @@ namespace de.unika.ipd.grGen.Model_complModel
 		public @UEdge(GRGEN_LGSP.LGSPNode source, GRGEN_LGSP.LGSPNode target)
 			: base(GRGEN_MODEL.EdgeType_UEdge.typeVar, source, target)
 		{
-			// implicit initialization, map/set creation of UEdge
+			// implicit initialization, map/set/array creation of UEdge
 		}
 
 		public static GRGEN_MODEL.EdgeType_UEdge TypeInstance { get { return GRGEN_MODEL.EdgeType_UEdge.typeVar; } }
@@ -5076,7 +5076,7 @@ namespace de.unika.ipd.grGen.Model_complModel
 				edge.lgspFlags &= ~(uint) GRGEN_LGSP.LGSPElemFlags.HAS_VARIABLES;
 				edge.lgspSource = source;
 				edge.lgspTarget = target;
-				// implicit initialization, map/set creation of UEdge
+				// implicit initialization, map/set/array creation of UEdge
 			}
 			graph.AddEdge(edge);
 			return edge;
@@ -5093,7 +5093,7 @@ namespace de.unika.ipd.grGen.Model_complModel
 				edge.lgspFlags &= ~(uint) GRGEN_LGSP.LGSPElemFlags.HAS_VARIABLES;
 				edge.lgspSource = source;
 				edge.lgspTarget = target;
-				// implicit initialization, map/set creation of UEdge
+				// implicit initialization, map/set/array creation of UEdge
 			}
 			graph.AddEdge(edge, varName);
 			return edge;
@@ -5117,7 +5117,7 @@ namespace de.unika.ipd.grGen.Model_complModel
 		}
 		public override void ResetAllAttributes()
 		{
-			// implicit initialization, map/set creation of UEdge
+			// implicit initialization, map/set/array creation of UEdge
 		}
 	}
 
