@@ -90,4 +90,20 @@ public class VisitedNode extends ExprNode {
 	public TypeNode getType() {
 		return BasicTypeNode.booleanType;
 	}
+	
+	public boolean noDefElementInCondition() {
+		if(entityEdgeDecl!=null) {
+			if(entityEdgeDecl.defEntityToBeYieldedTo) {
+				entityEdgeDecl.reportError("A def entity ("+entityEdgeDecl+") can't be accessed from an if");
+				return false;
+			}
+		}
+		if(entityNodeDecl!=null) {
+			if(entityNodeDecl.defEntityToBeYieldedTo) {
+				entityNodeDecl.reportError("A def variable ("+entityNodeDecl+") can't be accessed from an if");
+				return false;
+			}
+		}
+		return true;
+	}
 }

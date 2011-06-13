@@ -69,4 +69,13 @@ public class MapItemNode extends BaseNode {
 	protected MapItem getMapItem() {
 		return checkIR(MapItem.class);
 	}
+	
+	public boolean noDefElementInCondition() {
+		boolean res = true;
+		for(BaseNode child : getChildren()) {
+			if(child instanceof ExprNode)
+				res &= ((ExprNode)child).noDefElementInCondition();
+		}
+		return res;
+	}
 }

@@ -1,0 +1,29 @@
+node class A {
+	i1 : int = 42;
+}
+
+node class B extends A {
+	i1 = 42;
+}
+
+node class BB extends B {
+	i1 = 42;
+}
+
+node class C extends B, BB;
+
+node class CC extends C {
+}
+
+edge class E1 {
+	i1 : int;
+}
+
+edge class E2 {
+	i2 : int = 23;
+}
+
+edge class EE extends E1, E2 {
+	i1 = i2 + 42;
+}
+

@@ -1,0 +1,15 @@
+using defYield;
+
+test t
+{
+	def x:B;
+	y:B;
+	pp:p(x, y);
+}
+
+pattern p(x:B, def z:B)
+{
+	y:B;
+	yield { yield x = y; }
+}
+

@@ -11,6 +11,7 @@
 package de.unika.ipd.grgen.ast;
 
 import java.util.Collection;
+import java.util.HashSet;
 import java.util.Iterator;
 import java.util.Vector;
 
@@ -38,6 +39,7 @@ public class AssignNode extends EvalStatementNode {
 
 	BaseNode lhsUnresolved;
 	ExprNode rhs;
+	int context;
 	
 	QualIdentNode lhsQual;
 	VarDeclNode lhsVar;
@@ -48,12 +50,13 @@ public class AssignNode extends EvalStatementNode {
 	 * @param target The left hand side.
 	 * @param expr The expression, that is assigned.
 	 */
-	public AssignNode(Coords coords, QualIdentNode target, ExprNode expr) {
+	public AssignNode(Coords coords, QualIdentNode target, ExprNode expr, int context) {
 		super(coords);
 		this.lhsUnresolved = target;
 		becomeParent(this.lhsUnresolved);
 		this.rhs = expr;
 		becomeParent(this.rhs);
+		this.context = context;
 	}
 
 	/**
@@ -61,12 +64,13 @@ public class AssignNode extends EvalStatementNode {
 	 * @param target The left hand side.
 	 * @param expr The expression, that is assigned.
 	 */
-	public AssignNode(Coords coords, IdentExprNode target, ExprNode expr) {
+	public AssignNode(Coords coords, IdentExprNode target, ExprNode expr, int context) {
 		super(coords);
 		this.lhsUnresolved = target;
 		becomeParent(this.lhsUnresolved);
 		this.rhs = expr;
 		becomeParent(this.rhs);
+		this.context = context;
 	}
 
 	/** returns children of this node */
@@ -142,6 +146,48 @@ public class AssignNode extends EvalStatementNode {
 					return false;
 				}
 			}
+		} else {
+			if (lhsGraphElement!=null) {
+				if(lhsGraphElement.defEntityToBeYieldedTo) {
+					IdentExprNode unresolved = (IdentExprNode)lhsUnresolved;
+					if(!unresolved.yieldedTo) {
+						error.error(getCoords(), "only yield assignment allowed to a def graph element ("+lhsGraphElement.getIdentNode()+")");
+						return false;
+					}
+					if((lhsGraphElement.context & CONTEXT_LHS_OR_RHS) == CONTEXT_LHS
+							&& (context & CONTEXT_LHS_OR_RHS) == CONTEXT_RHS) {
+						error.error(getCoords(), "can't yield from RHS to a LHS def graph element ("+lhsGraphElement.getIdentNode()+")");
+						return false;
+					}
+				} else {
+					IdentExprNode unresolved = (IdentExprNode)lhsUnresolved;
+					if(unresolved.yieldedTo) {
+						error.error(getCoords(), "yield assignment only allowed to a def graph element ("+lhsGraphElement.getIdentNode()+")");
+						return false;
+					}
+					error.error(getCoords(), "only a def graph element can be assigned to ("+lhsGraphElement.getIdentNode()+")");
+					return false;
+				}
+			} else { //lhsVar!=null
+				if(lhsVar.defEntityToBeYieldedTo) {
+					IdentExprNode unresolved = (IdentExprNode)lhsUnresolved;
+					if(!unresolved.yieldedTo) {
+						error.error(getCoords(), "only yield assignment allowed to a def variable ("+lhsVar.getIdentNode()+")");
+						return false;
+					}
+					if((lhsVar.context & CONTEXT_LHS_OR_RHS) == CONTEXT_LHS
+							&& (context & CONTEXT_LHS_OR_RHS) == CONTEXT_RHS) {
+						error.error(getCoords(), "can't yield from RHS to a LHS def variable ("+lhsGraphElement.getIdentNode()+")");
+						return false;
+					}
+				} else {
+					IdentExprNode unresolved = (IdentExprNode)lhsUnresolved;
+					if(unresolved.yieldedTo) {
+						error.error(getCoords(), "yield assignment only allowed to a def variable ("+lhsVar.getIdentNode()+")");
+						return false;
+					}
+				}
+			}
 		}
 		
 		return typeCheckLocal();
@@ -163,7 +209,25 @@ public class AssignNode extends EvalStatementNode {
 			return true;
 
 		rhs = becomeParent(rhs.adjustType(targetType, getCoords()));
-		return rhs != ConstNode.getInvalid();
+		if(rhs==ConstNode.getInvalid())
+			return false;
+		
+		if(targetType instanceof NodeTypeNode && exprType instanceof NodeTypeNode
+				|| targetType instanceof EdgeTypeNode && exprType instanceof EdgeTypeNode)
+		{
+			Collection<TypeNode> superTypes = new HashSet<TypeNode>();
+			exprType.doGetCompatibleToTypes(superTypes);
+			if(!superTypes.contains(targetType)) {
+				error.error(getCoords(), "can't assign value of "+exprType+" to variable of "+targetType);
+				return false;
+			}
+		}
+		if(targetType instanceof NodeTypeNode && exprType instanceof EdgeTypeNode
+				|| targetType instanceof EdgeTypeNode && exprType instanceof NodeTypeNode) {
+			error.error(getCoords(), "can't assign value of "+exprType+" to variable of "+targetType);
+			return false;
+		}
+		return true;
 	}
 
 	/**

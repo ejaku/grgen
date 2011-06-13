@@ -64,4 +64,13 @@ public class ArrayItemNode extends BaseNode {
 	protected ArrayItem getArrayItem() {
 		return checkIR(ArrayItem.class);
 	}
+	
+	public boolean noDefElementInCondition() {
+		boolean res = true;
+		for(BaseNode child : getChildren()) {
+			if(child instanceof ExprNode)
+				res &= ((ExprNode)child).noDefElementInCondition();
+		}
+		return res;
+	}
 }

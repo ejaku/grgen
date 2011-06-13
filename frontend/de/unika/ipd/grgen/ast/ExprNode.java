@@ -113,4 +113,15 @@ public abstract class ExprNode extends BaseNode {
 	protected ExprNode evaluate() {
 		return this;
 	}
+
+	public boolean noDefElementInCondition() {
+		boolean res = true;
+		for(BaseNode child : getChildren()) {
+			if(child instanceof ExprNode)
+				res &= ((ExprNode)child).noDefElementInCondition();
+			else if(child instanceof CollectNode<?>)
+				res &= ((CollectNode<?>)child).noDefElementInCondition();
+		}
+		return res;
+	}
 }

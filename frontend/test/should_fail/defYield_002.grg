@@ -1,0 +1,15 @@
+using defYield;
+
+test t
+{
+	def x:Node;
+	pp:p(yield x);
+	if { outgoing(x).size()>=1 || typeof(x)>Node || set<Node>{ x,x }.size()<=1; }
+}
+
+pattern p(def x:Node)
+{
+	y:Node;
+	yield { yield x = y; }
+}
+

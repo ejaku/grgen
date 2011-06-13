@@ -30,7 +30,12 @@ public class IdentExprNode extends DeclExprNode {
 	public IdentExprNode(IdentNode ident) {
 		super(ident);
 	}
-	
+
+	public IdentExprNode(IdentNode ident, boolean yieldedTo) {
+		super(ident);
+		this.yieldedTo = yieldedTo; 
+	}
+
 	public void setYieldedTo() {
 		yieldedTo = true;
 	}

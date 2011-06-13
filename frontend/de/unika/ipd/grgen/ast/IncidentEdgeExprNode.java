@@ -106,4 +106,12 @@ public class IncidentEdgeExprNode extends ExprNode {
 	public TypeNode getType() {
 		return SetTypeNode.getSetType(incidentTypeUnresolved);
 	}
+	
+	public boolean noDefElementInCondition() {
+		if(nodeDecl.defEntityToBeYieldedTo) {
+			nodeDecl.reportError("A def entity ("+nodeDecl+") can't be accessed from an if");
+			return false;
+		}
+		return true;
+	}
 }

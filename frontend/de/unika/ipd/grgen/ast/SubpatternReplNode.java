@@ -105,19 +105,72 @@ public class SubpatternReplNode extends OrderedReplacementNode {
 			TypeNode actualParameterType = actualParameter.getType();
 			DeclNode formalParameter = formalReplacementParameters.get(i);
 			TypeNode formalParameterType = formalParameter.getDeclType();
-			if(!actualParameterType.isCompatibleTo(formalParameterType)) {
-				res = false;
-				String exprTypeName;
-				if(actualParameterType instanceof InheritanceTypeNode)
-					exprTypeName = ((InheritanceTypeNode) actualParameterType).getIdentNode().toString();
-				else
-					exprTypeName = actualParameterType.toString();
-				subpatternUnresolved.reportError("Cannot convert " + (i + 1) + ". subpattern replacement argument from \""
-						+ exprTypeName + "\" to \"" + formalParameterType.toString() + "\"");
+			if(actualParameter instanceof IdentExprNode && ((IdentExprNode)actualParameter).yieldedTo) {
+				if(formalParameter instanceof ConstraintDeclNode) {
+					if(!((ConstraintDeclNode)formalParameter).defEntityToBeYieldedTo) {
+						res = false;
+						subpatternUnresolved.reportError("The " + (i + 1) + ". subpattern rewrite argument is yielded but the rewrite parameter at this position is not declared as def");
+					}
+				}
+				if(formalParameter instanceof VarDeclNode) {
+					if(!((VarDeclNode)formalParameter).defEntityToBeYieldedTo) {
+						res = false;
+						subpatternUnresolved.reportError("The " + (i + 1) + ". subpattern rewrite argument is yielded but the rewrite parameter at this position is not declared as def");
+					}
+				}
+				BaseNode argument = ((IdentExprNode)actualParameter).getResolvedNode();
+				if(argument instanceof VarDeclNode) {
+					if((((VarDeclNode)argument).context & CONTEXT_LHS_OR_RHS) == CONTEXT_LHS) {
+						subpatternUnresolved.reportError("can't yield from a RHS subpattern rewrite call to a LHS def variable ("+((VarDeclNode)argument).getIdentNode()+")");
+						return false;
+					}					
+				}
+				else if(argument instanceof ConstraintDeclNode) {
+					if((((ConstraintDeclNode)argument).context & CONTEXT_LHS_OR_RHS) == CONTEXT_LHS) {
+						subpatternUnresolved.reportError("can't yield from a RHS subpattern rewrite call to a LHS def graph element ("+((ConstraintDeclNode)argument).getIdentNode()+")");
+						return false;
+					}
+				}
+				if(!formalParameterType.isCompatibleTo(actualParameterType)) {
+					res = false;
+					String exprTypeName = getTypeName(actualParameterType);
+					String paramTypeName = getTypeName(formalParameterType);
+					subpatternUnresolved.reportError("The " + (i + 1) + ". subpattern replacement argument of type \""
+							+ exprTypeName + "\" can't be yielded to from the subpattern rewrite def parameter type \"" + paramTypeName + "\"");
+				}
+			} else {
+				if(formalParameter instanceof ConstraintDeclNode) {
+					if(((ConstraintDeclNode)formalParameter).defEntityToBeYieldedTo) {
+						res = false;
+						subpatternUnresolved.reportError("The " + (i + 1) + ". subpattern rewrite argument is not yielded but the rewrite parameter at this position is declared as def");
+					}
+				}
+				if(formalParameter instanceof VarDeclNode) {
+					if(((VarDeclNode)formalParameter).defEntityToBeYieldedTo) {
+						res = false;
+						subpatternUnresolved.reportError("The " + (i + 1) + ". subpattern rewrite argument is not yielded but the rewrite parameter at this position is declared as def");
+					}
+				}
+				if(!actualParameterType.isCompatibleTo(formalParameterType)) {
+					res = false;
+					String exprTypeName = getTypeName(actualParameterType);
+					String paramTypeName = getTypeName(formalParameterType);
+					subpatternUnresolved.reportError("Cannot convert " + (i + 1) + ". subpattern replacement argument from \""
+							+ exprTypeName + "\" to \"" + paramTypeName + "\"");
+				}
 			}
 		}
 
 		return res;
+	}
+
+	private String getTypeName(TypeNode type) {
+		String typeName;
+		if(type instanceof InheritanceTypeNode)
+			typeName = ((InheritanceTypeNode) type).getIdentNode().toString();
+		else
+			typeName = type.toString();
+		return typeName;
 	}
 
 	@Override

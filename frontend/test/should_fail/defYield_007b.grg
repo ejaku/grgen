@@ -1,0 +1,18 @@
+using defYield;
+
+rule t
+{
+	modify {
+		def x:B;
+		y:B;
+		eval { x = y; }
+	}
+}
+
+pattern p modify (x:B, def z:B)
+{
+	modify {
+		eval { z = x; }
+	}
+}
+

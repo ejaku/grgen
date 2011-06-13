@@ -1,0 +1,14 @@
+using defYield;
+
+test t
+{
+	def -x:E1->;
+	pp:p(yield x);
+}
+
+pattern p(def -x:EE->)
+{
+	-y:EE->;
+	yield { yield x = y; }
+}
+

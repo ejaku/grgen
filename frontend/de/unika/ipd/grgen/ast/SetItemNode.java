@@ -65,4 +65,13 @@ public class SetItemNode extends BaseNode {
 	protected SetItem getSetItem() {
 		return checkIR(SetItem.class);
 	}
+	
+	public boolean noDefElementInCondition() {
+		boolean res = true;
+		for(BaseNode child : getChildren()) {
+			if(child instanceof ExprNode)
+				res &= ((ExprNode)child).noDefElementInCondition();
+		}
+		return res;
+	}
 }

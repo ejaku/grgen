@@ -475,7 +475,17 @@ public class PatternGraphNode extends GraphNode {
 
 		warnOnSuperfluousHoms();
 
-		return childs && expr && noReturnInNegOrIdpt && noRewriteInIteratedOrAlternativeNestedInNegativeOrIndependent();
+		return childs && expr && noReturnInNegOrIdpt 
+				&& noRewriteInIteratedOrAlternativeNestedInNegativeOrIndependent()
+				&& noDefElementInCondition();
+	}
+
+	private boolean noDefElementInCondition() {
+		boolean res = true;
+		for(ExprNode cond : conditions.getChildren()) {
+			res &= cond.noDefElementInCondition();
+		}
+		return res;
 	}
 
 	/**

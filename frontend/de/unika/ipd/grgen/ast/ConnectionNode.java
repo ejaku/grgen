@@ -165,7 +165,8 @@ public class ConnectionNode extends BaseNode implements ConnectionCharacter {
 			& edgeTypeChecker.check(edge, error)
 			& nodeTypeChecker.check(right, error)
 			& checkEdgeRootType()
-			& areDanglingEdgesInReplacementDeclaredInPattern();
+			& areDanglingEdgesInReplacementDeclaredInPattern()
+			& noDefNonDefMixedConnection();
 
 		if(!sucess) {
 			return false;
@@ -253,6 +254,33 @@ public class ConnectionNode extends BaseNode implements ConnectionCharacter {
 
 		edge.reportError("dangling edges in replace/modify part must have been declared in pattern part");
 		return false;
+	}
+
+	private boolean noDefNonDefMixedConnection() {
+		if(left.defEntityToBeYieldedTo) {
+			if((left.context & CONTEXT_LHS_OR_RHS) == CONTEXT_LHS
+					&& (edge.context & CONTEXT_LHS_OR_RHS) == CONTEXT_LHS) {
+				left.reportError("A lhs def node can't connect to a lhs non-def edge (" + left.toString() + ")");
+				return false;
+			}
+		}
+		if(right.defEntityToBeYieldedTo) {
+			if((right.context & CONTEXT_LHS_OR_RHS) == CONTEXT_LHS
+					&& (edge.context & CONTEXT_LHS_OR_RHS) == CONTEXT_LHS) {
+				right.reportError("A lhs def node can't connect to a lhs non-def edge (" + right.toString() + ")");
+				return false;
+			}
+		}
+		if(edge.defEntityToBeYieldedTo) {
+			if((edge.context & CONTEXT_LHS_OR_RHS) == CONTEXT_LHS) {
+				if(!(left instanceof DummyNodeDeclNode && right instanceof DummyNodeDeclNode)) {
+					edge.reportError("A lhs def edge can't connect to nodes (" + edge.toString() + ")");
+					return false;
+				}
+			}
+		}
+		
+		return true;
 	}
 
 	/**

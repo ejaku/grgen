@@ -1,0 +1,27 @@
+using defYield;
+
+rule t
+{
+	def x:Node;
+	pp:p(yield x);
+	
+	modify {
+		def y:Node;
+		def var z:boolean;
+		pp(yield y);
+		eval { yield z = typeof(x)>=A; }
+		eval { yield z = typeof(y)>=A; }
+	}
+}
+
+pattern p(def x:Node) modify(def z:Node)
+{
+	y:Node;
+	yield { yield x = y; }
+	
+	modify {
+		u:Node;
+		eval { yield z = u; }
+	}
+}
+

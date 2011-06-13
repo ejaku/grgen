@@ -2445,14 +2445,15 @@ options { k = 4; }
 		int ccat = CompoundAssignNode.NONE; // changed compound assign type
 		BaseNode tgtChanged = null;
 		CollectNode<ExprNode> subpatternConn = new CollectNode<ExprNode>();
+		boolean yielded = false;
 	}
 
 	: owner=entIdentUse	d=DOT member=entIdentUse a=ASSIGN e=expr[false] //'false' because this rule is not used for the assignments in enum item decls
-		{ res = new AssignNode(getCoords(a), new QualIdentNode(getCoords(d), owner, member), e); }
+		{ res = new AssignNode(getCoords(a), new QualIdentNode(getCoords(d), owner, member), e, context); }
 		{ if(onLHS) reportError(getCoords(d), "Assignment to an attribute is forbidden in LHS eval, only yield assignment to a def variable allowed."); }
 	|
-	  (y=YIELD)? variable=entIdentUse a=ASSIGN e=expr[false]
-		{ res = new AssignNode(getCoords(a), new IdentExprNode(variable), e); }
+	  (y=YIELD { yielded = true; })? variable=entIdentUse a=ASSIGN e=expr[false]
+		{ res = new AssignNode(getCoords(a), new IdentExprNode(variable, yielded), e, context); }
 	|
 	  vis=visited a=ASSIGN e=expr[false]
 		{ res = new AssignVisitedNode(getCoords(a), vis, e); }
@@ -2462,15 +2463,15 @@ options { k = 4; }
 		{ res = new AssignIndexedNode(getCoords(a), new QualIdentNode(getCoords(d), owner, member), e, idx); }
 		{ if(onLHS) reportError(getCoords(d), "Indexed assignment to an attribute is forbidden in LHS eval, only yield indexed assignment to a def variable allowed."); }
 	|
-	  (y=YIELD)? variable=entIdentUse LBRACK idx=expr[false] RBRACK a=ASSIGN e=expr[false]
-		{ res = new AssignIndexedNode(getCoords(a), new IdentExprNode(variable), e, idx); }
+	  (y=YIELD { yielded = true; })? variable=entIdentUse LBRACK idx=expr[false] RBRACK a=ASSIGN e=expr[false]
+		{ res = new AssignIndexedNode(getCoords(a), new IdentExprNode(variable, yielded), e, idx); }
 	| 
 	  owner=entIdentUse d=DOT member=entIdentUse DOT method=memberIdentUse params=paramExprs[false]
 		{ res = new MethodCallNode(new QualIdentNode(getCoords(d), owner, member), method, params); }
 		{ if(onLHS) reportError(getCoords(d), "Method call on an attribute is forbidden in LHS eval, only yield method call to a def variable allowed."); }
 	|
-	  (y=YIELD)? variable=entIdentUse DOT method=memberIdentUse params=paramExprs[false]
-		{ res = new MethodCallNode(new IdentExprNode(variable), method, params); }
+	  (y=YIELD { yielded = true; })? variable=entIdentUse DOT method=memberIdentUse params=paramExprs[false]
+		{ res = new MethodCallNode(new IdentExprNode(variable, yielded), method, params); }
 	| 
 	  owner=entIdentUse d=DOT member=entIdentUse 
 		(BOR_ASSIGN { cat = CompoundAssignNode.UNION; } | BAND_ASSIGN { cat = CompoundAssignNode.INTERSECTION; }
@@ -2480,14 +2481,14 @@ options { k = 4; }
 			{ if(onLHS) reportError(getCoords(d), "Assignment to an attribute is forbidden in LHS eval, only yield assignment to a def variable allowed."); }
 			{ if(cat==CompoundAssignNode.CONCATENATE && ccat!=CompoundAssignNode.NONE) reportError(getCoords(d), "No change assignment allowed for array concatenation."); }
 	|
-	  (y=YIELD)? variable=entIdentUse 
+	  (y=YIELD { yielded = true; })? variable=entIdentUse 
 		(BOR_ASSIGN { cat = CompoundAssignNode.UNION; } | BAND_ASSIGN { cat = CompoundAssignNode.INTERSECTION; } 
 			| BACKSLASH_ASSIGN { cat = CompoundAssignNode.WITHOUT; } | PLUS_ASSIGN { cat = CompoundAssignNode.CONCATENATE; })
 		e=expr[false] ( at=assignTo { ccat = at.ccat; tgtChanged = at.tgtChanged; } )?
-			{ res = new CompoundAssignNode(getCoords(a), new IdentExprNode(variable), cat, e, ccat, tgtChanged); }
+			{ res = new CompoundAssignNode(getCoords(a), new IdentExprNode(variable, yielded), cat, e, ccat, tgtChanged); }
 			{ if(cat==CompoundAssignNode.CONCATENATE && ccat!=CompoundAssignNode.NONE) reportError(getCoords(d), "No change assignment allowed for array concatenation."); }
 	|
-	  f=FOR LBRACE pushScopeStr["for iterated", getCoords(f)] variable=entIdentDecl IN i=iterIdentUse SEMI YIELD aomc=assignmentOrMethodCall[onLHS, context, directlyNestingLHSGraph] RBRACE popScope
+	  f=FOR LBRACE pushScopeStr["for iterated", getCoords(f)] variable=entIdentDecl IN i=iterIdentUse SEMI aomc=assignmentOrMethodCall[onLHS, context, directlyNestingLHSGraph] RBRACE popScope
 		{ res = new IteratedAccumulationYieldNode(getCoords(f), new VarDeclNode(variable, IdentNode.getInvalid(), directlyNestingLHSGraph, context), i, aomc); }
 	;
 	
@@ -2500,8 +2501,9 @@ assignTo returns [ int ccat = CompoundAssignNode.NONE, BaseNode tgtChanged = nul
 
 assignToTgt returns [ BaseNode tgtChanged = null ]
 options { k = 4; }
+@init{ boolean yielded=false; }
 	: tgtOwner=entIdentUse d=DOT tgtMember=entIdentUse { tgtChanged = new QualIdentNode(getCoords(d), tgtOwner, tgtMember); }
-	    | (y=YIELD)? tgtVariable=entIdentUse { tgtChanged = new IdentExprNode(tgtVariable); }
+	    | (y=YIELD { yielded = true; })? tgtVariable=entIdentUse { tgtChanged = new IdentExprNode(tgtVariable, yielded); }
 	    | vis=visited { tgtChanged = vis; }
 	;
 

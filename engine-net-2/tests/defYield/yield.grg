@@ -91,8 +91,8 @@ rule deleteNINTNSTRING(start:Node) : (object)
 			modify {
 				eval {
 					n.a = 42;
-					m = n;
-					v = (object)n.a;
+					yield m = n;
+					yield v = (object)n.a;
 				}
 			}
 		}
@@ -102,8 +102,8 @@ rule deleteNINTNSTRING(start:Node) : (object)
 			modify {
 				eval {
 					n.a = "fool";
-					v = (object)n.a;
-					m = n;
+					yield v = (object)n.a;
+					yield m = n;
 				}
 			}
 		}
@@ -128,8 +128,8 @@ rule retypeNINTNSTRING(start:Node) : (object)
 			modify {
 				eval {
 					n.a = 42;
-					m = n;
-					v = (object)n.a;
+					yield m = n;
+					yield v = (object)n.a;
 				}
 			}
 		}
@@ -139,8 +139,8 @@ rule retypeNINTNSTRING(start:Node) : (object)
 			modify {
 				eval {
 					n.a = "fool";
-					v = (object)n.a;
-					m = n;
+					yield v = (object)n.a;
+					yield m = n;
 				}
 			}
 		}
@@ -179,8 +179,8 @@ rule countNINT(start:Node) : (int)
 		
 		modify {
 			eval {
-				m = n;
-				i = i + n.a;
+				yield m = n;
+				yield i = i + n.a;
 			}
 		}
 	}

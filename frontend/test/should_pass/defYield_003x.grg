@@ -1,0 +1,24 @@
+using defYield;
+
+rule t
+{
+	def x:B;
+	pp:p(yield x);
+	
+	modify {
+		def y:Node;
+		pp(yield y);
+	}
+}
+
+pattern p(def x:B) modify(def z:Node)
+{
+	y:B;
+	yield { yield x = y; }
+	
+	modify {
+		u:Node;
+		eval { yield z = u; }
+	}
+}
+

@@ -1,0 +1,20 @@
+rule t
+{
+	def x:Node;
+	
+	modify {
+		y:Node;
+		eval { yield x = y; }
+	}
+}
+
+pattern p
+{
+	def y:Node;
+	
+	modify {
+		x:Node;
+		eval { yield y = x; }
+	}
+}
+
