@@ -5561,6 +5561,16 @@
             i.e. the edges are contained in different, but locally nested patterns (alternative cases, iterateds).
             </summary>
         </member>
+        <member name="P:de.unika.ipd.grGen.libGr.IPatternGraph.TotallyHomomorphicNodes">
+            <summary>
+            An array telling which pattern node is to be matched non-isomorphic(/independent) against any other node.
+            </summary>
+        </member>
+        <member name="P:de.unika.ipd.grGen.libGr.IPatternGraph.TotallyHomomorphicEdges">
+            <summary>
+            An array telling which pattern edge is to be matched non-isomorphic(/independent) against any other edge.
+            </summary>
+        </member>
         <member name="P:de.unika.ipd.grGen.libGr.IPatternGraph.EmbeddedGraphs">
             <summary>
             An array with subpattern embeddings, i.e. subpatterns and the way they are connected to the pattern

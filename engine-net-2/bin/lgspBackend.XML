@@ -679,6 +679,11 @@
             Pick element from storage attribute, needs attribute owner.
             </summary>
         </member>
+        <member name="F:de.unika.ipd.grGen.lgsp.SearchOperationType.Cast">
+            <summary>
+            Cast to new type (i.e. check if type is correct and uncover attributes of that type), needs old element.
+            </summary>
+        </member>
         <member name="F:de.unika.ipd.grGen.lgsp.SearchOperationType.Outgoing">
             <summary>
             Follow outgoing edges of given node.
@@ -832,6 +837,11 @@
         <member name="F:de.unika.ipd.grGen.lgsp.IsomorphyInformation.GloballyHomomorphPatternElements">
             <summary>
             pattern elements the current element is allowed to be globally homomorph to
+            </summary>
+        </member>
+        <member name="F:de.unika.ipd.grGen.lgsp.IsomorphyInformation.TotallyHomomorph">
+            <summary>
+            if true the element is not to be globally checked against anything, nor does it set any flags
             </summary>
         </member>
         <member name="T:de.unika.ipd.grGen.lgsp.SearchOperation">
@@ -3098,12 +3108,17 @@
             If not null this pattern element is to be bound by iterating the given storage attribute.
             </summary>
         </member>
+        <member name="F:de.unika.ipd.grGen.lgsp.PatternElement.ElementBeforeCasting">
+            <summary>
+            If not null this pattern node is to be bound by casting the given elementBeforeCasting to the pattern node type or causing matching to fail.
+            </summary>
+        </member>
         <member name="F:de.unika.ipd.grGen.lgsp.PatternElement.TempPlanMapping">
             <summary>
             plan graph node corresponding to this pattern element, used in plan graph generation, just hacked into this place
             </summary>
         </member>
-        <member name="M:de.unika.ipd.grGen.lgsp.PatternElement.#ctor(System.Int32,System.String,System.String,System.String,de.unika.ipd.grGen.libGr.GrGenType[],System.Boolean[],System.Single,System.Int32,System.Boolean,de.unika.ipd.grGen.lgsp.PatternVariable,de.unika.ipd.grGen.lgsp.PatternElement,de.unika.ipd.grGen.lgsp.PatternElement,de.unika.ipd.grGen.libGr.AttributeType,System.Boolean)">
+        <member name="M:de.unika.ipd.grGen.lgsp.PatternElement.#ctor(System.Int32,System.String,System.String,System.String,de.unika.ipd.grGen.libGr.GrGenType[],System.Boolean[],System.Single,System.Int32,System.Boolean,de.unika.ipd.grGen.lgsp.PatternVariable,de.unika.ipd.grGen.lgsp.PatternElement,de.unika.ipd.grGen.lgsp.PatternElement,de.unika.ipd.grGen.libGr.AttributeType,de.unika.ipd.grGen.lgsp.PatternElement,System.Boolean)">
             <summary>
             Instantiates a new PatternElement object.
             </summary>
@@ -3125,6 +3140,7 @@
                 with the accessor given here applied as index into the storage map given in the storage parameter.</param>
             <param name="storageAttributeOwner">If not null this pattern element is to be bound by iterating the given storage attribute of this owner.</param>
             <param name="storageAttribute">If not null this pattern element is to be bound by iterating the given storage attribute.</param>
+            <param name="elementBeforeCasting">If not null this pattern node is to be bound by casting the given elementBeforeCasting to the pattern node type or causing matching to fail.</param>
             <param name="defToBeYieldedTo">Iff true the element is only defined in its PointOfDefinition pattern,
                 it gets matched in another, nested or called pattern which yields it to the containing pattern.</param>
         </member>
@@ -3165,7 +3181,7 @@
             A pattern node of a rule pattern.
             </summary>
         </member>
-        <member name="M:de.unika.ipd.grGen.lgsp.PatternNode.#ctor(System.Int32,System.String,System.String,System.String,de.unika.ipd.grGen.libGr.GrGenType[],System.Boolean[],System.Single,System.Int32,System.Boolean,de.unika.ipd.grGen.lgsp.PatternVariable,de.unika.ipd.grGen.lgsp.PatternElement,de.unika.ipd.grGen.lgsp.PatternElement,de.unika.ipd.grGen.libGr.AttributeType,System.Boolean)">
+        <member name="M:de.unika.ipd.grGen.lgsp.PatternNode.#ctor(System.Int32,System.String,System.String,System.String,de.unika.ipd.grGen.libGr.GrGenType[],System.Boolean[],System.Single,System.Int32,System.Boolean,de.unika.ipd.grGen.lgsp.PatternVariable,de.unika.ipd.grGen.lgsp.PatternElement,de.unika.ipd.grGen.lgsp.PatternElement,de.unika.ipd.grGen.libGr.AttributeType,de.unika.ipd.grGen.lgsp.PatternElement,System.Boolean)">
             <summary>
             Instantiates a new PatternNode object
             </summary>
@@ -3187,6 +3203,7 @@
                 with the accessor given here applied as index into the storage map given in the storage parameter.</param>
             <param name="storageAttributeOwner">If not null this pattern node is to be bound by iterating the given storage attribute of this owner.</param>
             <param name="storageAttribute">If not null this pattern node is to be bound by iterating the given storage attribute.</param>
+            <param name="elementBeforeCasting">If not null this pattern node is to be bound by casting the given elementBeforeCasting to the pattern node type or causing matching to fail.</param>
             <param name="defToBeYieldedTo">Iff true the element is only defined in its PointOfDefinition pattern,
                 it gets matched in another, nested or called pattern which yields it to the containing pattern.</param>
         </member>
@@ -3206,7 +3223,7 @@
             Indicates, whether this pattern edge should be matched with a fixed direction or not.
             </summary>
         </member>
-        <member name="M:de.unika.ipd.grGen.lgsp.PatternEdge.#ctor(System.Boolean,System.Int32,System.String,System.String,System.String,de.unika.ipd.grGen.libGr.GrGenType[],System.Boolean[],System.Single,System.Int32,System.Boolean,de.unika.ipd.grGen.lgsp.PatternVariable,de.unika.ipd.grGen.lgsp.PatternElement,de.unika.ipd.grGen.lgsp.PatternElement,de.unika.ipd.grGen.libGr.AttributeType,System.Boolean)">
+        <member name="M:de.unika.ipd.grGen.lgsp.PatternEdge.#ctor(System.Boolean,System.Int32,System.String,System.String,System.String,de.unika.ipd.grGen.libGr.GrGenType[],System.Boolean[],System.Single,System.Int32,System.Boolean,de.unika.ipd.grGen.lgsp.PatternVariable,de.unika.ipd.grGen.lgsp.PatternElement,de.unika.ipd.grGen.lgsp.PatternElement,de.unika.ipd.grGen.libGr.AttributeType,de.unika.ipd.grGen.lgsp.PatternElement,System.Boolean)">
             <summary>
             Instantiates a new PatternEdge object
             </summary>
@@ -3229,6 +3246,7 @@
                 with the accessor given here applied as index into the storage map given in the storage parameter.</param>
             <param name="storageAttributeOwner">If not null this pattern edge is to be bound by iterating the given storage attribute of this owner.</param>
             <param name="storageAttribute">If not null this pattern edge is to be bound by iterating the given storage attribute.</param>
+            <param name="elementBeforeCasting">If not null this pattern node is to be bound by casting the given elementBeforeCasting to the pattern node type or causing matching to fail.</param>
             <param name="defToBeYieldedTo">Iff true the element is only defined in its PointOfDefinition pattern,
                 it gets matched in another, nested or called pattern which yields it to the containing pattern.</param>
         </member>
@@ -3497,6 +3515,16 @@
             i.e. the edges are contained in different, but locally nested patterns (alternative cases, iterateds).
             </summary>
         </member>
+        <member name="F:de.unika.ipd.grGen.lgsp.PatternGraph.totallyHomomorphicNodes">
+            <summary>
+            An array telling which pattern node is to be matched non-isomorphic(/independent) against any other node.
+            </summary>
+        </member>
+        <member name="F:de.unika.ipd.grGen.lgsp.PatternGraph.totallyHomomorphicEdges">
+            <summary>
+            An array telling which pattern edge is to be matched non-isomorphic(/independent) against any other edge.
+            </summary>
+        </member>
         <member name="F:de.unika.ipd.grGen.lgsp.PatternGraph.embeddedGraphs">
             <summary>
             An array with subpattern embeddings, i.e. subpatterns and the way they are connected to the pattern
@@ -3549,7 +3577,7 @@
             Tells whether a non local def entity (node, edge, variable) is existing in this pattern graph
             </summary>
         </member>
-        <member name="M:de.unika.ipd.grGen.lgsp.PatternGraph.#ctor(System.String,System.String,System.Boolean,de.unika.ipd.grGen.lgsp.PatternNode[],de.unika.ipd.grGen.lgsp.PatternEdge[],de.unika.ipd.grGen.lgsp.PatternVariable[],de.unika.ipd.grGen.lgsp.PatternGraphEmbedding[],de.unika.ipd.grGen.lgsp.Alternative[],de.unika.ipd.grGen.lgsp.Iterated[],de.unika.ipd.grGen.lgsp.PatternGraph[],de.unika.ipd.grGen.lgsp.PatternGraph[],de.unika.ipd.grGen.lgsp.PatternCondition[],de.unika.ipd.grGen.lgsp.PatternYielding[],System.Boolean[0:,0:],System.Boolean[0:,0:],System.Boolean[0:,0:],System.Boolean[0:,0:])">
+        <member name="M:de.unika.ipd.grGen.lgsp.PatternGraph.#ctor(System.String,System.String,System.Boolean,de.unika.ipd.grGen.lgsp.PatternNode[],de.unika.ipd.grGen.lgsp.PatternEdge[],de.unika.ipd.grGen.lgsp.PatternVariable[],de.unika.ipd.grGen.lgsp.PatternGraphEmbedding[],de.unika.ipd.grGen.lgsp.Alternative[],de.unika.ipd.grGen.lgsp.Iterated[],de.unika.ipd.grGen.lgsp.PatternGraph[],de.unika.ipd.grGen.lgsp.PatternGraph[],de.unika.ipd.grGen.lgsp.PatternCondition[],de.unika.ipd.grGen.lgsp.PatternYielding[],System.Boolean[0:,0:],System.Boolean[0:,0:],System.Boolean[0:,0:],System.Boolean[0:,0:],System.Boolean[],System.Boolean[])">
             <summary>
             Constructs a PatternGraph object.
             </summary>
@@ -3581,6 +3609,8 @@
             <param name="homomorphicEdgesGlobal">A two-dimensional array describing which pattern edge
             may be matched non-isomorphic to which pattern edge globally, i.e. the edges are contained
             in different, but locally nested patterns (alternative cases, iterateds).</param>
+            <param name="totallyHomomorphicNodes"> An array telling which pattern node is to be matched non-isomorphic(/independent) against any other node.</param>
+            <param name="totallyHomomorphicEdges"> An array telling which pattern edge is to be matched non-isomorphic(/independent) against any other edge.</param>
         </member>
         <member name="F:de.unika.ipd.grGen.lgsp.PatternGraph.maybeNullElementNames">
             <summary>
@@ -3699,6 +3729,16 @@
             <summary>
             A two-dimensional array describing which pattern edge may be matched non-isomorphic to which pattern edge globally,
             i.e. the edges are contained in different, but locally nested patterns (alternative cases, iterateds).
+            </summary>
+        </member>
+        <member name="P:de.unika.ipd.grGen.lgsp.PatternGraph.TotallyHomomorphicNodes">
+            <summary>
+            A one-dimensional array telling which pattern node is to be matched non-isomorphic against any other node.
+            </summary>
+        </member>
+        <member name="P:de.unika.ipd.grGen.lgsp.PatternGraph.TotallyHomomorphicEdges">
+            <summary>
+            A one-dimensional array telling which pattern edge is to be matched non-isomorphic against any other edge.
             </summary>
         </member>
         <member name="P:de.unika.ipd.grGen.lgsp.PatternGraph.EmbeddedGraphs">
@@ -4148,6 +4188,13 @@
             <summary>
             Search program operations implementing the
             PickFromStorageAttribute search plan operation
+            are created and inserted into search program
+            </summary>
+        </member>
+        <member name="M:de.unika.ipd.grGen.lgsp.SearchProgramBuilder.buildCast(de.unika.ipd.grGen.lgsp.SearchProgramOperation,System.Int32,de.unika.ipd.grGen.lgsp.SearchPlanNode,de.unika.ipd.grGen.lgsp.SearchPlanNode,de.unika.ipd.grGen.lgsp.IsomorphyInformation)">
+            <summary>
+            Search program operations implementing the
+            Cast search plan operation
             are created and inserted into search program
             </summary>
         </member>
