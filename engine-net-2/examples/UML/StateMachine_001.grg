@@ -19,7 +19,7 @@ rule init {
 
     // make initial state
     qs -:kind-> qs_kind:PseudostateKind_Value;
-    eval { 
+    eval {
       qs_kind.value = PseudostateKind::entryPoint;
     }
 
@@ -37,7 +37,7 @@ rule init {
     t3 -:trigger-> :Trigger -:event-> :CallEvent;
 
     // the connections
-    qs -:source-> t1 -:target-> q1 
+    qs -:source-> t1 -:target-> q1
        -:source-> t2 -:target-> q2
        -:source-> t3 -:target-> qf;
 
@@ -62,7 +62,7 @@ rule ForwardTransition {
     modify {
         x -:source-> xz:Transition -:target-> z;
         xz -:trigger-> trig;
-    }    
+    }
 }
 
 rule AddStartFinalState {
@@ -73,7 +73,7 @@ rule AddStartFinalState {
         negative { t -:trigger-> ; }
     }
     modify {
-        //y:StartFinalState<x>;        
+        //y:StartFinalState<x>;
     }
 }
 
@@ -91,5 +91,5 @@ rule RemoveEpsilonTransition {
     pattern {
         //-:EpsilonTransition->;
     }
-    replace {}   
+    replace {}
 }

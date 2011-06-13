@@ -2,7 +2,7 @@ using retype_model_001;
 
 rule r {
 	x:TYPE1;
-	
+
 	alternative {
 		First {
 			modify {
@@ -13,7 +13,7 @@ rule r {
 			modify {}
 		}
 	}
-	
+
 	modify {
 		y:TYPE3<x>;
 	}

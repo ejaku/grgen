@@ -32,14 +32,14 @@ rule forwardTransition {
     modify {
         x -forward:typeof(e)-> z;
         eval {forward.Trigger = e.Trigger;}
-    }    
+    }
 }
 
 rule addStartFinalState {
     x:StartState -:EpsilonTransition-> :FinalState;
 
     modify {
-        y:StartFinalState<x>;        
+        y:StartFinalState<x>;
     }
 }
 
@@ -57,7 +57,7 @@ rule removeEpsilonTransition {
     -e:EpsilonTransition->;
 
     replace {
-	}   
+	}
 }
 
 rule removeLonelyStates {
@@ -65,7 +65,7 @@ rule removeLonelyStates {
 	negative {
 		x<-->;
 	}
-	
+
     modify {
 		delete(x);
 	}

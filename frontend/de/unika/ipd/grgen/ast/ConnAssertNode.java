@@ -39,9 +39,9 @@ public class ConnAssertNode extends BaseNode {
 	private BaseNode tgtUnresolved;
 	private RangeSpecNode tgtRange;
 	private boolean bothDirections;
-	
+
 	boolean copyExtends;
-	
+
 	/**
 	 * Construct a new connection assertion node.
 	 */
@@ -101,7 +101,7 @@ public class ConnAssertNode extends BaseNode {
 	@Override
 	protected boolean resolveLocal() {
 		if(copyExtends) return true;
-		
+
 		src = nodeResolver.resolve(srcUnresolved, this);
 		tgt = nodeResolver.resolve(tgtUnresolved, this);
 
@@ -120,7 +120,7 @@ public class ConnAssertNode extends BaseNode {
 	@Override
 	protected IR constructIR() {
 		assert !copyExtends; // must have been replaced by copies of the connection assertions of the parents befor entering this phase
-		
+
 		long srcLower = srcRange.getLower();
 		long srcUpper = srcRange.getUpper();
 		NodeType srcType = src.checkIR(NodeType.class);

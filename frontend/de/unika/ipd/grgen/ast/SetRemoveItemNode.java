@@ -77,7 +77,7 @@ public class SetRemoveItemNode extends EvalStatementNode
 
 	@Override
 	protected IR constructIR() {
-		return new SetRemoveItem(target.checkIR(Qualification.class), 
+		return new SetRemoveItem(target.checkIR(Qualification.class),
 				valueExpr.checkIR(Expression.class));
 	}
 }

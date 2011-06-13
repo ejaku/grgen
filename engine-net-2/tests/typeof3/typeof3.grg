@@ -4,9 +4,9 @@ rule init : (AstNode) {
 	replace {
 		a:IntConstant;
 		b:IntConstant;
-		
+
 		return(a);
-	}	
+	}
 }
 
 test checkType(x: AstNode) {

@@ -1,5 +1,5 @@
 // file with the graph elements utilized in modeling an nfa as grgen-graph
-// features shown: node classes, edge classes, attributes of basic types, multiple inheritance (diamond) 
+// features shown: node classes, edge classes, attributes of basic types, multiple inheritance (diamond)
 
 node class State
 {

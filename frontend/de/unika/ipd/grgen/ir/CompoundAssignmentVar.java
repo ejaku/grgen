@@ -28,7 +28,7 @@ public class CompoundAssignmentVar extends EvalStatement {
 
 	/** The operation of the compound assignment */
 	private int operation;
-	
+
 	/** The rhs of the assignment. */
 	private Expression expr;
 
@@ -46,7 +46,7 @@ public class CompoundAssignmentVar extends EvalStatement {
 	public Expression getExpression() {
 		return expr;
 	}
-	
+
 	public int getOperation() {
 		return operation;
 	}
@@ -54,7 +54,7 @@ public class CompoundAssignmentVar extends EvalStatement {
 	public String toString() {
 		return getTarget() + (operation==UNION?" |= ":operation==INTERSECTION?" &= ":" \\= ") + getExpression();
 	}
-	
+
 	public void collectNeededEntities(NeededEntities needs)
 	{
 		needs.add(target);

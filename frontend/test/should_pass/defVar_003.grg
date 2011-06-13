@@ -8,7 +8,7 @@ rule r
 	-ef:EFLOAT->;
 	-ed:EDOUBLE->;
 	-eo:EOBJECT->;
-	
+
 	p1:p();
 	p2:p();
 
@@ -19,7 +19,7 @@ rule r
 		def var af:float = 42.42424242f;
 		def var ad:double = 42.42424242424242;
 		def var ao:object = null;
-		
+
 		p1(ni.a, ef.a, yield ai, yield ab, yield as, yield af, yield ad, yield ao);
 		p2(ai, af, yield ai, yield ab, yield as, yield af, yield ad, yield ao);
 	}
@@ -44,7 +44,7 @@ pattern p modify(var in1:int, var in2:float, def var ai:int, def var ab:boolean,
 			ed.a = ad;
 			eo.a = ao;
 		}
-		
+
 		eval {
 			yield ai = ni.a;
 			yield ab = nb.a;
@@ -53,7 +53,7 @@ pattern p modify(var in1:int, var in2:float, def var ai:int, def var ab:boolean,
 			yield ad = ed.a;
 			yield ao = eo.a;
 		}
-		
+
 		eval {
 			yield ai = ai + ni.a;
 			yield ab = ab | nb.a;

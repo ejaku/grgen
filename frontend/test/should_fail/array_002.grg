@@ -2,7 +2,7 @@ using array_model_001;
 
 rule assignWrongType {
 	a:A;
-	
+
 	modify {
 		eval {
 			a.intArray = a.intArray + array<int>{ a.stringValue };

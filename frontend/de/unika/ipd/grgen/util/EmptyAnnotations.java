@@ -59,8 +59,8 @@ public class EmptyAnnotations implements Annotations {
 
 	public boolean isFlagSet(String key) {
 		return false;
-	}	
-	
+	}
+
 	public Set<String> keySet() {
 		return new HashSet<String>();
 	}

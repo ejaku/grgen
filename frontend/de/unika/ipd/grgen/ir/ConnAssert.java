@@ -24,7 +24,7 @@ public class ConnAssert extends IR {
 	private final NodeType srcType;
 	private final NodeType tgtType;
 	private final boolean bothDirections;
-	
+
 	public ConnAssert(NodeType srcType, long srcLower, long srcUpper,
 						NodeType tgtType, long tgtLower, long tgtUpper,
 						boolean bothDirections) {
@@ -61,7 +61,7 @@ public class ConnAssert extends IR {
 	public long getTgtUpper() {
 		return tgtUpper;
 	}
-	
+
 	public boolean getBothDirections() {
 		return bothDirections;
 	}

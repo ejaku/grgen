@@ -2,7 +2,7 @@ using map_model_002;
 
 rule getValue {
 	a:A;
-	
+
 	modify {
 		eval {
 			a.stringValue = a.intToString[5];
@@ -12,7 +12,7 @@ rule getValue {
 
 rule putValue {
 	a:A;
-	
+
 	modify {
 		eval {
 			a.intToString = a.intToString | map<int,string>{ 5->a.intValue }; // no implicit cast without the type prefix
@@ -22,7 +22,7 @@ rule putValue {
 
 rule putValueWithKeyCast {
 	a:A;
-	
+
 	modify {
 		eval {
 			a.stringToInt = a.stringToInt | map<string,int>{ a.intValue->a.intValue }; // no implicit cast without the type prefix
@@ -32,7 +32,7 @@ rule putValueWithKeyCast {
 
 rule removeWithCast {
 	a:A;
-	
+
 	modify {
 		eval {
 			a.stringToInt = a.stringToInt \ map<string,int>{ a.intValue->0 }; // no implicit cast without the type prefix
@@ -43,9 +43,9 @@ rule removeWithCast {
 
 rule mapSize {
 	a:A;
-	
+
 	if { a.intToString.size()==42; }
-	
+
 	modify {
 		eval {
 			a.intValue = a.stringToInt.size();

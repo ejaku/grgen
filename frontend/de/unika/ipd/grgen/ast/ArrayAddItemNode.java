@@ -87,14 +87,14 @@ public class ArrayAddItemNode extends EvalStatementNode
 					indexExpr.reportError("Argument index to array add item statement must be of type int");
 					return false;
 				}
-			}			
+			}
 		}
 		return true;
 	}
 
 	@Override
 	protected IR constructIR() {
-		return new ArrayAddItem(target.checkIR(Qualification.class), 
+		return new ArrayAddItem(target.checkIR(Qualification.class),
 				valueExpr.checkIR(Expression.class),
 				indexExpr!=null ? indexExpr.checkIR(Expression.class) : null);
 	}

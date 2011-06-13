@@ -1,10 +1,10 @@
 // rule file containing rules to create the inital graph(s) to work on in the examples
 // and helper rules to allow for a nice/well understandable nested layout
-// using the right hand side of a rule for building a graph is possible, 
+// using the right hand side of a rule for building a graph is possible,
 // but using a shell script for this purpose is the recommended way
 // special feature: the all-brackets in the exec for the nested layout,
-//  which applies all matches of the rule found at once 
-//  - very efficient, does not need negatives or other means to end an loop, 
+//  which applies all matches of the rule found at once
+//  - very efficient, does not need negatives or other means to end an loop,
 //    but it's your responsability to ensure the rewrites don't conflict (e.g. retyping of a node already deleted)
 // next is ProgramGraphs1.grg
 
@@ -73,11 +73,11 @@ rule createProgramGraphPullUp : (Class, MethodBody)
 		ex2 -:contains-> ex3:Expression;
 		ex3 -:uses-> v9;
 		// body of m in c3
-		b3 -:next-> ex4:Expression;	
+		b3 -:next-> ex4:Expression;
 		ex4 -:calls-> m8;
 		ex4 -:contains-> ex5:Expression;
 		ex5 -:uses-> v7b;
-		
+
 		return(c1, b4);
 	}
 }
@@ -95,11 +95,11 @@ rule InsertHelperEdgesForNestedLayout
 rule LinkMethodBodyToContainedEntity
 {
 	mb:MethodBody -:contains-> e:Entity;
-	
+
 	negative {
 		mb -:methodBodyContains-> e;
 	}
-	
+
 	modify {
 		mb -:methodBodyContains-> e;
 	}
@@ -108,11 +108,11 @@ rule LinkMethodBodyToContainedEntity
 rule LinkMethodBodyToContainedExpressionTransitive
 {
 	mb:MethodBody -:methodBodyContains-> e1:Expression -:contains-> e2:Expression;
-	
+
 	negative {
 		e1 -:methodBodyContains-> e2;
 	}
-	
+
 	modify {
 		e1 -:methodBodyContains-> e2;
 		mb -:methodBodyContains-> e2;
@@ -122,7 +122,7 @@ rule LinkMethodBodyToContainedExpressionTransitive
 rule RemoveMethodBodyContainsBetweenExpressions
 {
 	e1:Expression -mbc:methodBodyContains-> e2:Expression;
-	
+
 	modify {
 		delete(mbc);
 	}
@@ -131,7 +131,7 @@ rule RemoveMethodBodyContainsBetweenExpressions
 rule RetypeClassContainment
 {
 	c1:Class -c:contains\classContainsClass-> c2:Class;
-	
+
 	modify {
 		-:classContainsClass<c>->;
 	}

@@ -31,7 +31,7 @@ public class SequenceDeclNode extends DeclNode {
 	}
 
 	protected SequenceTypeNode type;
-	
+
 	protected ExecNode exec;
 	protected CollectNode<ExecVarDeclNode> inParams;
 	protected CollectNode<ExecVarDeclNode> outParams;
@@ -90,7 +90,7 @@ public class SequenceDeclNode extends DeclNode {
     protected Sequence getSequence() {
         return checkIR(Sequence.class);
     }
-    
+
 	/** @see de.unika.ipd.grgen.ast.BaseNode#constructIR() */
 	protected IR constructIR() {
 		Sequence sequence = new Sequence(getIdentNode().getIdent(), exec.checkIR(Exec.class));

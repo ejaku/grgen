@@ -13,7 +13,7 @@ rule r {
 	-ed:EDOUBLE->;
 	-es:ESTRING->;
 	-eo:EOBJECT->;
-	
+
 	modify {
 	}
 }

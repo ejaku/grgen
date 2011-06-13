@@ -7,7 +7,7 @@ rule HomRetypeReturnEdgeModify : (F)
 {
     hom(e, f);
     -e:E->; -f:F->;
-    
+
     modify {
         -:E<e>->;
         return(f);

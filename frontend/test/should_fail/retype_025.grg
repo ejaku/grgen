@@ -9,6 +9,6 @@ rule r {
 			y:NINT<x>;
 		}
 	}
-	
+
 	modify {}
 }

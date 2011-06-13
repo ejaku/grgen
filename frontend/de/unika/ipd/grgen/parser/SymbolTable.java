@@ -32,7 +32,7 @@ public class SymbolTable {
 
 	/** Id/Classification of the symbol table */
 	private final int id;
-	
+
 	public static final SymbolTable getInvalid() {
 		return INVALID;
 	}
@@ -123,7 +123,7 @@ public class SymbolTable {
 	public boolean test(String text) {
 		return symbolMap.containsKey(text);
 	}
-	
+
 	/** returns the id/classification of this symbol table */
 	int getSymbolTableId() {
 		return id;

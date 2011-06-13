@@ -58,7 +58,7 @@ namespace de.unika.ipd.grGen.lgsp
         // the used rules (so that a variable was created for easy acess to them)
 		Dictionary<String, object> knownRules = new Dictionary<string, object>();
 
-        // a counter for unique temporary variables needed as dummy variables 
+        // a counter for unique temporary variables needed as dummy variables
         // to receive the return/out values of rules/sequnces in case no assignment is given
         int tmpVarCtr;
 
@@ -143,7 +143,7 @@ namespace de.unika.ipd.grGen.lgsp
 
         /// <summary>
         /// Returns string containing a C# assignment to set the result variable of the sequence given
-        /// to the value as computed by the C# expression in the string given 
+        /// to the value as computed by the C# expression in the string given
         /// (every sequence part writes a success-value which is read by other parts determining execution flow)
         /// </summary>
         public string SetResultVar(Sequence seq, String valueToWrite)
@@ -198,19 +198,19 @@ namespace de.unika.ipd.grGen.lgsp
                 case SequenceType.AssignContainerSizeToVar:
                 {
                     SequenceAssignContainerSizeToVar seqSetmapSizeToVar = (SequenceAssignContainerSizeToVar)seq;
-                    EmitVarIfNew(seqSetmapSizeToVar.DestVar, source); 
+                    EmitVarIfNew(seqSetmapSizeToVar.DestVar, source);
                     break;
                 }
                 case SequenceType.AssignContainerEmptyToVar:
                 {
                     SequenceAssignContainerEmptyToVar seqSetmapEmptyToVar = (SequenceAssignContainerEmptyToVar)seq;
-                    EmitVarIfNew(seqSetmapEmptyToVar.DestVar, source); 
+                    EmitVarIfNew(seqSetmapEmptyToVar.DestVar, source);
                     break;
                 }
                 case SequenceType.AssignContainerAccessToVar:
                 {
                     SequenceAssignContainerAccessToVar seqMapAccessToVar = (SequenceAssignContainerAccessToVar)seq;
-                    EmitVarIfNew(seqMapAccessToVar.DestVar, source); 
+                    EmitVarIfNew(seqMapAccessToVar.DestVar, source);
                     break;
                 }
 				case SequenceType.AssignSequenceResultToVar:
@@ -328,7 +328,7 @@ namespace de.unika.ipd.grGen.lgsp
 			source.AppendFront("else\n");
 			source.AppendFront("{\n");
 			source.Indent();
-			
+
             EmitSequence(seqRight, source);
             source.AppendFront(SetResultVar(seq, GetResultVar(seqRight)));
 
@@ -574,7 +574,7 @@ namespace de.unika.ipd.grGen.lgsp
                     source.AppendFront(SetResultVar(seqIf, GetResultVar(seqIf.TrueCase)));
 
                     source.Unindent();
-                    source.AppendFront("}\n");                 
+                    source.AppendFront("}\n");
                     source.AppendFront("else\n");
                     source.AppendFront("{\n");
                     source.Indent();
@@ -594,7 +594,7 @@ namespace de.unika.ipd.grGen.lgsp
 
                     source.AppendFront(SetResultVar(seqFor, "true"));
 
-                    if(seqFor.Container.Type == "") 
+                    if(seqFor.Container.Type == "")
                     {
                         // type not statically known? -> might be Dictionary or List dynamically, must decide at runtime
                         source.AppendFront("if(" + GetVar(seqFor.Container) + " is IList) {\n");
@@ -621,7 +621,7 @@ namespace de.unika.ipd.grGen.lgsp
                         source.Unindent();
                         source.AppendFront("} else {\n");
                         source.Indent();
-                        
+
                         source.AppendFront("foreach(DictionaryEntry entry_" + seqFor.Id + " in (IDictionary)" + GetVar(seqFor.Container) + ")\n");
                         source.AppendFront("{\n");
                         source.Indent();
@@ -634,7 +634,7 @@ namespace de.unika.ipd.grGen.lgsp
                         source.AppendFront(SetResultVar(seqFor, GetResultVar(seqFor) + " & " + GetResultVar(seqFor.Seq)));
                         source.Unindent();
                         source.AppendFront("}\n");
-                        
+
                         source.Unindent();
                         source.AppendFront("}\n");
                     }
@@ -746,7 +746,7 @@ namespace de.unika.ipd.grGen.lgsp
                 case SequenceType.ContainerAdd:
                 {
                     SequenceContainerAdd seqAdd = (SequenceContainerAdd)seq;
-                    
+
                     if(seqAdd.Container.Type == "")
                     {
                         string sourceValue = GetVar(seqAdd.Var);
@@ -862,7 +862,7 @@ namespace de.unika.ipd.grGen.lgsp
                         string dictionary = "((System.Collections.IDictionary)" + GetVar(seqDel.Container) + ")";
                         if(sourceValue == null)
                             source.AppendFront("throw new Exception(\""+seqDel.Container.Name+".rem() only possible on array!\");\n");
-                        else                        
+                        else
                             source.AppendFront(dictionary + ".Remove(" + sourceValue + ");\n");
 
                         source.Unindent();
@@ -986,7 +986,7 @@ namespace de.unika.ipd.grGen.lgsp
                     } else {
                         source.AppendFront("graph.SetVisited((GRGEN_LIBGR.IGraphElement)"+GetVar(seqSetVisited.GraphElementVar)
                             +", (int)"+GetVar(seqSetVisited.VisitedFlagVar)+", "+(seqSetVisited.Val?"true":"false")+");\n");
-                    } 
+                    }
                     source.AppendFront(SetResultVar(seqSetVisited, "true"));
                     break;
                 }
@@ -1162,7 +1162,7 @@ namespace de.unika.ipd.grGen.lgsp
                         }
                         source.Unindent();
                         source.AppendFront("}\n");
-                        
+
                         source.Unindent();
                         source.AppendFront("} else {\n");
                         source.Indent();
@@ -1368,7 +1368,7 @@ namespace de.unika.ipd.grGen.lgsp
                     {
                         source.AppendFront(SetVar(seqConstToVar.DestVar, ((double)seqConstToVar.Constant).ToString(System.Globalization.CultureInfo.InvariantCulture)));
                     }
-                    else 
+                    else
                     {
                         source.AppendFront(SetVar(seqConstToVar.DestVar, seqConstToVar.Constant.ToString()));
                     }
@@ -1402,7 +1402,7 @@ namespace de.unika.ipd.grGen.lgsp
                     source.AppendFront("\tgraph.ChangingEdgeAttribute((GRGEN_LIBGR.IEdge)elem_" + seqVarToAttr.Id + ", attrType_" + seqVarToAttr.Id + ", changeType_" + seqVarToAttr.Id + ", value_" + seqVarToAttr.Id + ", null);\n");
                     source.AppendFront("elem_" + seqVarToAttr.Id + ".SetAttribute(\"" + seqVarToAttr.AttributeName + "\", value_" + seqVarToAttr.Id + ");\n");
                     source.AppendFront(SetResultVar(seqVarToAttr, "true"));
-                    break; 
+                    break;
                 }
 
                 case SequenceType.LazyOrAll:
@@ -1476,7 +1476,7 @@ namespace de.unika.ipd.grGen.lgsp
             String matchesName = "matches_" + seq.Id;
             source.AppendFront(matchesType + " " + matchesName + " = rule_" + paramBindings.Name
                 + ".Match(graph, graph.MaxMatches" + parameters + ");\n");
-            
+
             source.AppendFront("if(" + matchesName + ".Count==0) {\n");
             source.Indent();
             source.AppendFront(SetResultVar(seq, "false"));
@@ -1492,7 +1492,7 @@ namespace de.unika.ipd.grGen.lgsp
             String returnAssignments;
             BuildReturnParameters(paramBindings, out returnParameterDeclarations, out returnArguments, out returnAssignments);
 
-            // apply the rule and the following sequence for every match found, 
+            // apply the rule and the following sequence for every match found,
             // until the first rule and sequence execution succeeded
             // rolling back the changes of failing executions until then
             String enumeratorName = "enum_" + seq.Id;
@@ -1655,7 +1655,7 @@ namespace de.unika.ipd.grGen.lgsp
                 else
                     source.AppendFront("if(" + matchesName + ".Count!=0) {\n");
                 source.Indent();
-                
+
                 String returnParameterDeclarations;
                 String returnArguments;
                 String returnAssignments;
@@ -1815,7 +1815,7 @@ namespace de.unika.ipd.grGen.lgsp
                     ++tmpVarCtr;
                 }
                 String typeName = sequencesToOutputTypes[paramBindings.Name][j];
-                outParameterDeclarations += TypesHelper.XgrsTypeToCSharpType(typeName, model) + " tmpvar_" + varName 
+                outParameterDeclarations += TypesHelper.XgrsTypeToCSharpType(typeName, model) + " tmpvar_" + varName
                     + " = " + TypesHelper.DefaultValue(typeName, model) + ";";
                 outArguments += ", ref tmpvar_" + varName;
                 if(paramBindings.ReturnVars.Length != 0)
@@ -1827,7 +1827,7 @@ namespace de.unika.ipd.grGen.lgsp
         {
             // can't use the normal xgrs variables for return value receiving as the type of an out-parameter must be invariant
             // this is bullshit, as it is perfectly safe to assign a subtype to a variable of a supertype
-            // so we create temporary variables of exact type, which are used to receive the return values, 
+            // so we create temporary variables of exact type, which are used to receive the return values,
             // and finally we assign these temporary variables to the real xgrs variables
 
             returnParameterDeclarations = "";
@@ -1850,7 +1850,7 @@ namespace de.unika.ipd.grGen.lgsp
             }
         }
 
-		public bool GenerateXGRSCode(string xgrsName, String xgrsStr, 
+		public bool GenerateXGRSCode(string xgrsName, String xgrsStr,
             String[] paramNames, GrGenType[] paramTypes,
             String[] defToBeYieldedToNames, GrGenType[] defToBeYieldedToTypes,
             SourceBuilder source)
@@ -1867,7 +1867,7 @@ namespace de.unika.ipd.grGen.lgsp
             String[] ruleNames = new String[rulesToInputTypes.Count];
             int j = 0;
             foreach(KeyValuePair<String, List<String>> ruleToInputTypes in rulesToInputTypes)
-            {  
+            {
                 ruleNames[j] = ruleToInputTypes.Key;
                 ++j;
             }
@@ -1968,14 +1968,14 @@ namespace de.unika.ipd.grGen.lgsp
             }
             catch(ParseException ex)
             {
-                Console.Error.WriteLine("In the defined sequence " + sequence.Name 
+                Console.Error.WriteLine("In the defined sequence " + sequence.Name
                     + " the exec part \"" + sequence.XGRS
                     + "\" caused the following error:\n" + ex.Message);
                 return false;
             }
             catch(SequenceParserException ex)
             {
-                Console.Error.WriteLine("In the defined sequence " + sequence.Name 
+                Console.Error.WriteLine("In the defined sequence " + sequence.Name
                     + " the exec part \"" + sequence.XGRS
                     + "\" caused the following error:\n");
                 HandleSequenceParserException(ex);

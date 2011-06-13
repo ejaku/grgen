@@ -3,7 +3,7 @@ using attrib_model_001;
 rule r {
 	nd : NDOUBLE;
 	-ed:EDOUBLE->;
-	
+
 	if {
 		nd.a == pow(ed.a, nd.a);
 	}

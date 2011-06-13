@@ -145,7 +145,7 @@ public abstract class ParserEnvironment extends Base {
 		stdModelChilds.addChild(predefineType("float", BasicTypeNode.floatType));
 		stdModelChilds.addChild(predefineType("double", BasicTypeNode.doubleType));
 		stdModelChilds.addChild(predefineType("object", BasicTypeNode.objectType));
-		
+
 		predefine(EXTERNAL_FUNCTIONS, "min");
 		predefine(EXTERNAL_FUNCTIONS, "max");
 		predefine(EXTERNAL_FUNCTIONS, "pow");
@@ -289,11 +289,11 @@ public abstract class ParserEnvironment extends Base {
 	public BaseNode initNode() {
 		return BaseNode.getErrorNode();
 	}
-	
+
 	public ExprNode initExprNode() {
 		return ExprNode.getInvalid();
 	}
-	
+
 	public VarDeclNode initVarNode(PatternGraphNode directlyNestingLHSGraph, int context) {
 		return VarDeclNode.getInvalidVar(directlyNestingLHSGraph, context);
 	}

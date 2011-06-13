@@ -28,8 +28,8 @@ public class MatchEdgeFromStorageNode extends EdgeDeclNode implements EdgeCharac
 	private VarDeclNode storage = null;
 	private QualIdentNode storageAttribute = null;
 
-	
-	public MatchEdgeFromStorageNode(IdentNode id, BaseNode newType, int context, BaseNode storage, 
+
+	public MatchEdgeFromStorageNode(IdentNode id, BaseNode newType, int context, BaseNode storage,
 			PatternGraphNode directlyNestingLHSGraph) {
 		super(id, newType, false, context, TypeExprNode.getEmpty(), directlyNestingLHSGraph);
 		this.storageUnresolved = storage;

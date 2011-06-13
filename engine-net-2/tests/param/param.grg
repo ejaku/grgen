@@ -80,7 +80,7 @@ rule init2 : (Edge, Edge, Edge)
         d --> a;
         d --> a;
         d -r:Edge-> d;
-        
+
         return(e,f,r);
     }
 }

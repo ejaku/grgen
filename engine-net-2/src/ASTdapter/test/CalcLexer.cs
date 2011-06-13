@@ -6,7 +6,7 @@
 	using TextReader                      = System.IO.TextReader;
 	using Hashtable                       = System.Collections.Hashtable;
 	using Comparer                        = System.Collections.Comparer;
-	
+
 	using TokenStreamException            = antlr.TokenStreamException;
 	using TokenStreamIOException          = antlr.TokenStreamIOException;
 	using TokenStreamRecognitionException = antlr.TokenStreamRecognitionException;
@@ -27,7 +27,7 @@
 	using TokenStream                     = antlr.TokenStream;
 	using LexerSharedInputState           = antlr.LexerSharedInputState;
 	using BitSet                          = antlr.collections.impl.BitSet;
-	
+
 	public 	class CalcLexer : antlr.CharScanner	, TokenStream
 	 {
 		public const int EOF = 1;
@@ -40,19 +40,19 @@
 		public const int LPAREN = 9;
 		public const int RPAREN = 10;
 		public const int DIGIT = 11;
-		
+
 		public CalcLexer(Stream ins) : this(new ByteBuffer(ins))
 		{
 		}
-		
+
 		public CalcLexer(TextReader r) : this(new CharBuffer(r))
 		{
 		}
-		
+
 		public CalcLexer(InputBuffer ib)		 : this(new LexerSharedInputState(ib))
 		{
 		}
-		
+
 		public CalcLexer(LexerSharedInputState state) : base(state)
 		{
 			initialize();
@@ -63,7 +63,7 @@
 			setCaseSensitive(true);
 			literals = new Hashtable(100, (float) 0.4, null, Comparer.Default);
 		}
-		
+
 		override public IToken nextToken()			//throws TokenStreamException
 		{
 			IToken theRetToken = null;
@@ -149,12 +149,12 @@ tryAgain:
 				}
 			}
 		}
-		
+
 	public void mWS(bool _createToken) //throws RecognitionException, CharStreamException, TokenStreamException
 {
 		int _ttype; IToken _token=null; int _begin=text.Length;
 		_ttype = WS;
-		
+
 		{
 			switch ( cached_LA1 )
 			{
@@ -192,12 +192,12 @@ tryAgain:
 		}
 		returnToken_ = _token;
 	}
-	
+
 	public void mLPAREN(bool _createToken) //throws RecognitionException, CharStreamException, TokenStreamException
 {
 		int _ttype; IToken _token=null; int _begin=text.Length;
 		_ttype = LPAREN;
-		
+
 		match('(');
 		if (_createToken && (null == _token) && (_ttype != Token.SKIP))
 		{
@@ -206,12 +206,12 @@ tryAgain:
 		}
 		returnToken_ = _token;
 	}
-	
+
 	public void mRPAREN(bool _createToken) //throws RecognitionException, CharStreamException, TokenStreamException
 {
 		int _ttype; IToken _token=null; int _begin=text.Length;
 		_ttype = RPAREN;
-		
+
 		match(')');
 		if (_createToken && (null == _token) && (_ttype != Token.SKIP))
 		{
@@ -220,12 +220,12 @@ tryAgain:
 		}
 		returnToken_ = _token;
 	}
-	
+
 	public void mSTAR(bool _createToken) //throws RecognitionException, CharStreamException, TokenStreamException
 {
 		int _ttype; IToken _token=null; int _begin=text.Length;
 		_ttype = STAR;
-		
+
 		match('*');
 		if (_createToken && (null == _token) && (_ttype != Token.SKIP))
 		{
@@ -234,12 +234,12 @@ tryAgain:
 		}
 		returnToken_ = _token;
 	}
-	
+
 	public void mPLUS(bool _createToken) //throws RecognitionException, CharStreamException, TokenStreamException
 {
 		int _ttype; IToken _token=null; int _begin=text.Length;
 		_ttype = PLUS;
-		
+
 		match('+');
 		if (_createToken && (null == _token) && (_ttype != Token.SKIP))
 		{
@@ -248,12 +248,12 @@ tryAgain:
 		}
 		returnToken_ = _token;
 	}
-	
+
 	public void mSEMI(bool _createToken) //throws RecognitionException, CharStreamException, TokenStreamException
 {
 		int _ttype; IToken _token=null; int _begin=text.Length;
 		_ttype = SEMI;
-		
+
 		match(';');
 		if (_createToken && (null == _token) && (_ttype != Token.SKIP))
 		{
@@ -262,12 +262,12 @@ tryAgain:
 		}
 		returnToken_ = _token;
 	}
-	
+
 	protected void mDIGIT(bool _createToken) //throws RecognitionException, CharStreamException, TokenStreamException
 {
 		int _ttype; IToken _token=null; int _begin=text.Length;
 		_ttype = DIGIT;
-		
+
 		matchRange('0','9');
 		if (_createToken && (null == _token) && (_ttype != Token.SKIP))
 		{
@@ -276,12 +276,12 @@ tryAgain:
 		}
 		returnToken_ = _token;
 	}
-	
+
 	public void mINT(bool _createToken) //throws RecognitionException, CharStreamException, TokenStreamException
 {
 		int _ttype; IToken _token=null; int _begin=text.Length;
 		_ttype = INT;
-		
+
 		{ // ( ... )+
 			int _cnt18=0;
 			for (;;)
@@ -294,7 +294,7 @@ tryAgain:
 				{
 					if (_cnt18 >= 1) { goto _loop18_breakloop; } else { throw new NoViableAltForCharException(cached_LA1, getFilename(), getLine(), getColumn());; }
 				}
-				
+
 				_cnt18++;
 			}
 _loop18_breakloop:			;
@@ -306,7 +306,7 @@ _loop18_breakloop:			;
 		}
 		returnToken_ = _token;
 	}
-	
-	
-	
+
+
+
 }

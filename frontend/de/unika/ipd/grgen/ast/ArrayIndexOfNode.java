@@ -79,7 +79,7 @@ public class ArrayIndexOfNode extends ExprNode
 
 	@Override
 	protected IR constructIR() {
-		return new ArrayIndexOfExpr(targetExpr.checkIR(Expression.class), 
+		return new ArrayIndexOfExpr(targetExpr.checkIR(Expression.class),
 				valueExpr.checkIR(Expression.class));
 	}
 }

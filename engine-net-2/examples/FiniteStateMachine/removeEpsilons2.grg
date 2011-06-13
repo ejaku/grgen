@@ -1,6 +1,6 @@
 // graph rewrite rule file, shows how tests (rules without rewrite) look like,
-// how negative patterns look like, preventing the nesting pattern to match if they match, 
-// and showing the non-extending semantics of negatives, 
+// how negative patterns look like, preventing the nesting pattern to match if they match,
+// and showing the non-extending semantics of negatives,
 //  i.e. elements from the outside can get matched again unless they are referenced by name
 // before was removeEpsilons1.grg, next is removeEpsilons2b.grg
 
@@ -29,5 +29,5 @@ rule forwardTransition {
 
     modify {
         x -forward:typeof(e)-> z;
-    }    
+    }
 }

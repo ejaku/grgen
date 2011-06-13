@@ -2,8 +2,8 @@
 #  which causes the runtime to choose one of the matches found at random,
 #  and applying a choice point % on the the random match selector by postfixing,
 #  allowing the user at runtime to change the match chosen
-# example shows how to match the first statement of a method body, 
-#  which may be one of several possible statements, an expression node with different edges 
+# example shows how to match the first statement of a method body,
+#  which may be one of several possible statements, an expression node with different edges
 # before was ProgramGraphs0d.grs, next is ProgramGraphs1b.grs
 
 new graph "ProgramGraphs1"

@@ -12,7 +12,7 @@ rule InsertHelperEdgesForNestedLayout
 induced rule BindOperations
 {
 	op:Operation -:binding-> body:MethodBody -:belongsTo-> cl:Class;
-	
+
 	modify {
 		op -:inClass-> cl;
 	}
@@ -24,7 +24,7 @@ rule InitMoveIntoBlocks
 	negative {
 		b <-:inBlock- exp;
 	}
-	
+
 	modify {
 		b <-:inBlock- exp;
 	}
@@ -37,7 +37,7 @@ rule MoveIntoBlocks
 	negative {
 		b <-:inBlock- exp;
 	}
-	
+
 	modify {
 		b <-:inBlock- exp;
 	}

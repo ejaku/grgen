@@ -14,5 +14,5 @@ rule r {
 			z.a = (x.a != xx.a ? "foo" : "bar");
 		}
 	}
-	
+
 }

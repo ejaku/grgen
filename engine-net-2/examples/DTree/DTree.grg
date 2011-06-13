@@ -12,15 +12,15 @@ rule extBR {
  negative {
   b -->;
  }
- 
+
  modify {
   b -n0:NE-> c0:A;
   b -n1:NE-> c1:A;
   b -n2:NE-> c2:A;
   eval {
-   n0.v = e.v - 1; 
-   n1.v = e.v; 
-   n2.v = e.v + 1; 
+   n0.v = e.v - 1;
+   n1.v = e.v;
+   n2.v = e.v + 1;
   }
  }
 }
@@ -36,9 +36,9 @@ rule extAR {
   b -n1:NE-> c1:B;
   b -n2:NE-> c2:B;
   eval {
-   n0.v = e.v - 1; 
-   n1.v = e.v; 
-   n2.v = e.v + 1; 
+   n0.v = e.v - 1;
+   n1.v = e.v;
+   n2.v = e.v + 1;
   }
  }
 }

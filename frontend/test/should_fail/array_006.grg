@@ -1,8 +1,8 @@
 using array_model_002;
 
 rule assignArrayToArray {
-	a:A -e:E-> a; 
-		
+	a:A -e:E-> a;
+
 	modify {
 		eval {
 			a.niceArray = e.spiceArray;

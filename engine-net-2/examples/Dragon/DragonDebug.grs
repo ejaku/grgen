@@ -10,10 +10,10 @@ dump set edge GridEdgeDown color lightgrey
 dump set edge GridEdgeLeft color lightgrey
 dump set edge GridEdgeRight color lightgrey
 
-dump set edge MarkedGridEdgeUp color black 
-dump set edge MarkedGridEdgeDown color black 
-dump set edge MarkedGridEdgeLeft color black 
-dump set edge MarkedGridEdgeRight color black 
+dump set edge MarkedGridEdgeUp color black
+dump set edge MarkedGridEdgeDown color black
+dump set edge MarkedGridEdgeLeft color black
+dump set edge MarkedGridEdgeRight color black
 
 debug enable
 

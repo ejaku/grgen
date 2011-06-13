@@ -67,7 +67,7 @@ public class SetVarRemoveItemNode extends EvalStatementNode
 
 	@Override
 	protected IR constructIR() {
-		return new SetVarRemoveItem(target.checkIR(Variable.class), 
+		return new SetVarRemoveItem(target.checkIR(Variable.class),
 				valueExpr.checkIR(Expression.class));
 	}
 }

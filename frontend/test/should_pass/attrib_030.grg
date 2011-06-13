@@ -27,7 +27,7 @@ rule r {
 		nni:NINT;
 
 		eval{
-      ni.a = 42; 
+      ni.a = 42;
 			ni2.a = 43;
       nni.a = ni.a;
 		}

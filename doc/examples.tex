@@ -8,7 +8,7 @@ The \GrG\ package ships with samples for fractal generation. We will construct t
 \begin{center}
 \includegraphics[width=4cm]{fig/startsir}\quad\quad\includegraphics[width=4cm]{fig/startkoch}
 \end{center}
-for the Sierpinski triangle resp.\ the Koch snowflake. 
+for the Sierpinski triangle resp.\ the Koch snowflake.
 First of all we have to compile the model and rule set files. So execute in \GrG's \texttt{bin} directory
 \begin{verbatim}
 GrGen.exe ..\specs\sierpinski.grg
@@ -54,19 +54,19 @@ We use the graph model and the rewrite rules to define a general Turing machine.
 \subsection{Graph Model}
 The tape will be a chain of \texttt{TapePosition} nodes connected by right edges. A cell value is modeled by a reflexive \texttt{value} edge, attached to a \texttt{TapePosition} node. The leftmost and the rightmost cells (\texttt{TapePosition}) do not have an incoming and outgoing edge respectively. Therefore we have the node constraint $[0:1]$.
 \begin{grgen}[firstnumber=last]
-node class TapePosition; 
+node class TapePosition;
 edge class right
   connect TapePosition[0:1] --> TapePosition[0:1];
-  
+
 edge class value
-  connect TapePosition[1] --> TapePosition[1];  
+  connect TapePosition[1] --> TapePosition[1];
 edge class zero  extends value;
 edge class one   extends value;
 edge class empty extends value;
 
 \end{grgen}
-Furthermore we need states and transitions. 
-The machine's current configuration is modeled with a \texttt{RWHead} edge pointing to a \texttt{TapePosition} node. 
+Furthermore we need states and transitions.
+The machine's current configuration is modeled with a \texttt{RWHead} edge pointing to a \texttt{TapePosition} node.
 \texttt{State} nodes are connected with \texttt{WriteValue} nodes via \texttt{value} edges, a \texttt{moveLeft}/\texttt{moveRight}/\texttt{dontMove} edge leads from a \texttt{WriteValue} node to the next state (cf.~the picture on page \pageref{fig:bbstart}).
 \begin{grgen}[firstnumber=last]
 node class State;
@@ -76,7 +76,7 @@ edge class RWHead;
 node class WriteValue;
 node class WriteZero extends WriteValue;
 node class WriteOne extends WriteValue;
-node class WriteEmpty extends WriteValue; 
+node class WriteEmpty extends WriteValue;
 
 edge class moveLeft;
 edge class moveRight;
@@ -86,7 +86,7 @@ edge class dontMove;
 %-----------------------------------------------------------------------------------------------
 \subsection{Rule Set}
 Now the rule set: We begin the rule set file \texttt{Turing.grg} with
-\begin{grgen}[firstnumber=1] 
+\begin{grgen}[firstnumber=1]
 using TuringModel;
 
 \end{grgen}
@@ -94,10 +94,10 @@ We need rewrite rules for the following steps of the Turing machine:
 \begin{enumerate}
   \item Read the value of the current tape cell and select an outgoing edge of the current state.
   \item Write a new value into the current cell, according to the sub type of the \texttt{WriteValue} node.
-  \item Move the read-write-head along the tape and select a new state as current state. 
+  \item Move the read-write-head along the tape and select a new state as current state.
 \end{enumerate}
 As you can see a transition of the Turing machine is split into two graph rewrite steps: Writing the new value onto the tape and performing the state transition. We need eleven rules: Three rules for each step (for ``zero'', ``one'', and ``empty'') and two rules for extending the tape to the left and the right, respectively.
-\begin{grgen}[firstnumber=last] 
+\begin{grgen}[firstnumber=last]
 rule readZeroRule {
 	s:State -h:RWHead-> tp:TapePosition -:zero-> tp;
 	s -:zero-> wv:WriteValue;
@@ -105,11 +105,11 @@ rule readZeroRule {
 		delete(h);
 		wv -:RWHead-> tp;
 	}
-}      
+}
 
 \end{grgen}
 We take the current state \texttt{s} and the current cell \texttt{tp} which is implicitly given by the unique \texttt{RWHead} edge and check whether the cell value is zero. Furthermore we check if the state has a transition for zero. The replacement part deletes the \texttt{RWHead} edge between \texttt{s} and \texttt{tp} and adds it between \texttt{wv} and \texttt{tp}. The remaining rules are analogous:
-\begin{grgen}[firstnumber=last] 
+\begin{grgen}[firstnumber=last]
 rule readOneRule {
 	s:State -h:RWHead-> tp:TapePosition -:one-> tp;
 	s -:one-> wv:WriteValue;
@@ -132,21 +132,21 @@ rule writeZeroRule {
 	wv:WriteZero -rw:RWHead-> tp:TapePosition -:value-> tp;
 	replace {
 		wv -rw-> tp -:zero-> tp;
-	}	
+	}
 }
 
 rule writeOneRule {
 	wv:WriteOne -rw:RWHead-> tp:TapePosition -:value-> tp;
 	replace {
 		wv -rw-> tp -:one-> tp;
-	}	
+	}
 }
 
 rule writeEmptyRule {
 	wv:WriteEmpty -rw:RWHead-> tp:TapePosition -:value-> tp;
 	replace {
 		wv -rw-> tp -:empty-> tp;
-	}	
+	}
 }
 
 rule moveLeftRule {
@@ -204,7 +204,7 @@ Have a look at the negative conditions within the \texttt{ensureMove\dots} rules
 \subsection{Rule Execution with \GrShell}
 
 Finally we construct the busy beaver and let it work with \GrShell. The following script starts with building the Turing machine that is modeling the six states with their transitions in our Turing machine model:
-\begin{grshell}[firstnumber=1] 
+\begin{grshell}[firstnumber=1]
 select backend "../bin/lgspBackend.dll"
 new graph "../lib/lgsp-TuringModel.dll" "Busy Beaver"
 select actions "../lib/lgsp-TuringActions.dll"

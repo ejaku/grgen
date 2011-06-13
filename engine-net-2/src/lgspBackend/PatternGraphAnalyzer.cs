@@ -18,7 +18,7 @@ namespace de.unika.ipd.grGen.lgsp
 {
     /// <summary>
     /// Class analyzing the pattern graphs of the matching patterns to generate code for,
-    /// storing computed nesting and inter-pattern-relationships locally in the pattern graphs, 
+    /// storing computed nesting and inter-pattern-relationships locally in the pattern graphs,
     /// ready to be used by the (local intra-pattern) code generator
     /// (to generate code more easily, to generate better code).
     /// </summary>
@@ -42,13 +42,13 @@ namespace de.unika.ipd.grGen.lgsp
             matchingPattern.patternGraph.SetDefEntityExistanceAndNonLocalDefEntityExistance();
 
             CalculateNeededElements(matchingPattern.patternGraph);
-            
+
             AnnotateIndependentsAtNestingTopLevelOrAlternativeCaseOrIteratedPattern(matchingPattern.patternGraph);
 
             ComputePatternGraphsOnPathToEnclosedPatternpath(matchingPattern.patternGraph);
 
             ComputeMaxNegLevel(matchingPattern.patternGraph);
-            
+
             matchingPatterns.Add(matchingPattern);
         }
 
@@ -64,7 +64,7 @@ namespace de.unika.ipd.grGen.lgsp
             bool onPathFromEnclosingChanged;
             do
             {
-                onPathFromEnclosingChanged = false; 
+                onPathFromEnclosingChanged = false;
                 foreach (LGSPMatchingPattern matchingPattern in matchingPatterns)
                 {
                     onPathFromEnclosingChanged |= ComputePatternGraphsOnPathFromEnclosingPatternpath(matchingPattern.patternGraph, false);
@@ -97,8 +97,8 @@ namespace de.unika.ipd.grGen.lgsp
         ///////////////////////////////////////////////////////////////////////////////
 
         /// <summary>
-        /// Insert names of independents nested within the pattern graph 
-        /// to the matcher generation skeleton data structure pattern graph 
+        /// Insert names of independents nested within the pattern graph
+        /// to the matcher generation skeleton data structure pattern graph
         /// </summary>
         public void AnnotateIndependentsAtNestingTopLevelOrAlternativeCaseOrIteratedPattern(
             PatternGraph patternGraph)
@@ -254,8 +254,8 @@ namespace de.unika.ipd.grGen.lgsp
 
         /// <summary>
         /// Computes whether the pattern graphs are on a path from some enclosing
-        /// negative/independent with a patternpath modifier. 
-        /// They need to check the patternpath stack filled with the already matched entities 
+        /// negative/independent with a patternpath modifier.
+        /// They need to check the patternpath stack filled with the already matched entities
         /// on the subpattern usage/derivation path to this pattern.
         /// It stores information to the pattern graph and its children.
         /// Returns whether a change occured, to be used for a fixpoint iteration.
@@ -316,7 +316,7 @@ namespace de.unika.ipd.grGen.lgsp
         }
 
         /// <summary>
-        /// Computes the pattern graphs which are on a path to some enclosed negative/independent 
+        /// Computes the pattern graphs which are on a path to some enclosed negative/independent
         /// with a patternpath modifier. They need to fill the patternpath check stack.
         /// It stores information to the pattern graph and its children.
         /// First pass, computes local information neglecting subpattern usage.
@@ -324,7 +324,7 @@ namespace de.unika.ipd.grGen.lgsp
         private void ComputePatternGraphsOnPathToEnclosedPatternpath(PatternGraph patternGraph)
         {
             // Algorithm descends top down to the nested patterns and ascends bottom up again,
-            // on ascending the who-is-on-path-to-enclosed-patternpath information 
+            // on ascending the who-is-on-path-to-enclosed-patternpath information
             // is computed locally and propagated upwards
             patternGraph.patternGraphsOnPathToEnclosedPatternpath = new List<string>();
 
@@ -352,12 +352,12 @@ namespace de.unika.ipd.grGen.lgsp
             foreach (Iterated iter in patternGraph.iterateds)
             {
                 ComputePatternGraphsOnPathToEnclosedPatternpath(iter.iteratedPattern);
-                AddNotContained(patternGraph.patternGraphsOnPathToEnclosedPatternpath, 
+                AddNotContained(patternGraph.patternGraphsOnPathToEnclosedPatternpath,
                     patternGraph.pathPrefix + patternGraph.name,
                     iter.iteratedPattern.patternGraphsOnPathToEnclosedPatternpath);
             }
 
-            // one of the nested patterns was found to be on a path 
+            // one of the nested patterns was found to be on a path
             // to a pattern with patternpath modifier -> so we are/may be too
             // or we are locally because we contain a patternpath modifier
             if (patternGraph.patternGraphsOnPathToEnclosedPatternpath.Count != 0
@@ -370,14 +370,14 @@ namespace de.unika.ipd.grGen.lgsp
         }
 
         /// <summary>
-        /// Computes the pattern graphs which are on a path to some enclosed negative/independent 
+        /// Computes the pattern graphs which are on a path to some enclosed negative/independent
         /// with a patternpath modifier; stores information to the pattern graph and its children.
         /// Second pass, adds global information from subpattern usage.
         /// </summary>
         private void AddSubpatternInformationToPatternpathInformation(PatternGraph patternGraph)
         {
-            // Algorithm descends top down to the nested patterns and ascends bottom up again, 
-            // on ascending the who-is-on-path-to-enclosed-patternpath information from subpattern usage 
+            // Algorithm descends top down to the nested patterns and ascends bottom up again,
+            // on ascending the who-is-on-path-to-enclosed-patternpath information from subpattern usage
             // is addded locally and propagated upwards
 
             foreach (PatternGraph neg in patternGraph.negativePatternGraphs)
@@ -427,7 +427,7 @@ namespace de.unika.ipd.grGen.lgsp
                 }
             }
 
-            // one of the used subpatterns was found to be on a path 
+            // one of the used subpatterns was found to be on a path
             // to a pattern with patternpath modifier -> so we are/may be too
             if (patternGraph.patternGraphsOnPathToEnclosedPatternpath.Count != 0)
             {
@@ -475,7 +475,7 @@ namespace de.unika.ipd.grGen.lgsp
             // initialize used subpatterns in pattern graph with all locally used subpatterns - top level or nested
             foreach (LGSPMatchingPattern matchingPattern in matchingPatterns)
             {
-                matchingPattern.patternGraph.usedSubpatterns = 
+                matchingPattern.patternGraph.usedSubpatterns =
                     new Dictionary<LGSPMatchingPattern, LGSPMatchingPattern>();
                 ComputeSubpatternsUsedLocally(matchingPattern.patternGraph, matchingPattern);
             }
@@ -486,7 +486,7 @@ namespace de.unika.ipd.grGen.lgsp
             do
             {
                 // for every subpattern used, add all the subpatterns used by these ones to current one
-                subpatternsUsedChanged = false; 
+                subpatternsUsedChanged = false;
                 foreach (LGSPMatchingPattern matchingPattern in matchingPatterns)
                 {
                     subpatternsUsedChanged |= AddSubpatternsOfSubpatternsUsed(matchingPattern);

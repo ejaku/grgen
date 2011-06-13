@@ -23,7 +23,7 @@ public class AssignmentIdentical extends EvalStatement {
 	public String toString() {
 		return ". = .";
 	}
-	
+
 	public void collectNeededEntities(NeededEntities needs)
 	{
 	}

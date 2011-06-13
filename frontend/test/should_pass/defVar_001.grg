@@ -39,7 +39,7 @@ rule ra
 			}
 		}
 	}
-	
+
 	modify {
 	}
 }
@@ -58,7 +58,7 @@ pattern pa
 			def var ao:object;
 		}
 	}
-	
+
 	modify {
 	}
 }

@@ -38,7 +38,7 @@ rule passRule {
 	r -:token-> p1:Process -n:next-> p2:Process;
 	negative {
 		r <-req:request- p1;
-	}	
+	}
 
 	replace {
 		p1 -n-> p2 <-t:token- r;

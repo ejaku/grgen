@@ -220,7 +220,7 @@ public class MapInitNode extends ExprNode
 	protected MapInit getMapInit() {
 		return checkIR(MapInit.class);
 	}
-	
+
 	public static String getUseStr() {
 		return "map initialization";
 	}

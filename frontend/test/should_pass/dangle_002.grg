@@ -27,7 +27,7 @@ rule r {
 		u;
 		w;
 		neu: NINT;
-		
+
 		-e->;
 		u <-f-;
 		neu<--.;

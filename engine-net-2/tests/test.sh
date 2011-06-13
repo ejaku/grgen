@@ -32,26 +32,26 @@ failCount=0
 for filename in $targets; do
   if [ $filename == "lib" -o ! -d $filename ]; then continue; fi
   echo $filename
-  
+
   found=0
   for datafile in "$filename"/*.data; do
     if [ ! -f $datafile ]; then continue; fi
     found=1
     break
   done
-  
+
   if [ $found = 0 ]; then
     echo "No data files found in subdirectory!"
     continue
   fi
-  
+
   for grs in "$filename"/*.grs; do
     echo -n "- $grs:"
     if [ ! -f $grs.data ]; then
       echo -e "\nOutput data file for $grs not found!"
       continue
     fi
-  
+
     $exeprefix ../bin/GrShell.exe $grs < /dev/null 2>&1 | awk "BEGIN { testnum = 0 }
       {sub(\"\\r\$\", \"\")}
       /^All attributes/ {
@@ -98,7 +98,7 @@ for filename in $targets; do
 		  getline
           while(\$1 == \"CAE:\") {
             print \"    \" \$0 > \"/dev/stderr\"
-            getline 
+            getline
           }
           fail(testnum, 0)
 		}
@@ -153,17 +153,17 @@ for filename in $targets; do
       }
       END {
         if(failed) exit 1
-        
+
         if((getline noline < \"$grs.data\") > 0)
           fail(testnum, \"\n  Unexpected end of test after Test \" testnum \"!\")
-        
+
         print \" Success! Total told time: \" time \" ms\"
       }
-      
+
       function getAttribute(startindex)
       {
         if(startindex > NF) return \"\"
-        
+
         value = \$startindex
         for(i = startindex + 1; i <= NF; i++)
         {
@@ -171,7 +171,7 @@ for filename in $targets; do
         }
         return value
       }
-      
+
       function fail(testnum, string)
       {
         if(string)
@@ -179,7 +179,7 @@ for filename in $targets; do
         failed = 1
         exit 1
       }"
-    
+
 	if [ "$?" -ne 0 ]; then
       let failCount++
     fi

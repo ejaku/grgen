@@ -79,7 +79,7 @@ public class ArrayLastIndexOfNode extends ExprNode
 
 	@Override
 	protected IR constructIR() {
-		return new ArrayLastIndexOfExpr(targetExpr.checkIR(Expression.class), 
+		return new ArrayLastIndexOfExpr(targetExpr.checkIR(Expression.class),
 				valueExpr.checkIR(Expression.class));
 	}
 }

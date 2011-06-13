@@ -30,7 +30,7 @@ public class ArrayRemoveItem extends EvalStatement {
 	public Expression getIndexExpr() {
 		return indexExpr;
 	}
-	
+
 	public void collectNeededEntities(NeededEntities needs)
 	{
 		Entity entity = target.getOwner();

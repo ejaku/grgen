@@ -7,7 +7,7 @@ rule r {
 	replace {
 		a:Node;
 		b:Node;
-		
+
 		a -y:TYPE2-> b;
 		a -z:TYPE3<y>-> b;
 	}

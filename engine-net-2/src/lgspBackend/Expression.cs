@@ -16,7 +16,7 @@ using de.unika.ipd.grGen.lgsp;
 namespace de.unika.ipd.grGen.expression
 {
     /// <summary>
-    /// Base class of expressions and yieldings 
+    /// Base class of expressions and yieldings
     /// which allows to emit code and to iterate over the contained children
     /// </summary>
     public abstract class ExpressionOrYielding
@@ -694,7 +694,7 @@ namespace de.unika.ipd.grGen.expression
     {
         // Switch operands as "right" is the dictionary
         public IN(Expression left, Expression right, bool isDictionary)
-            : base(right, left) 
+            : base(right, left)
         {
             IsDictionary = isDictionary;
         }
@@ -1619,7 +1619,7 @@ namespace de.unika.ipd.grGen.expression
     /// </summary>
     public class MapItem : Expression
     {
-        public MapItem(Expression key, String keyType, 
+        public MapItem(Expression key, String keyType,
             Expression value, String valueType, MapItem next)
         {
             Key = key;
@@ -1636,15 +1636,15 @@ namespace de.unika.ipd.grGen.expression
             Key.Emit(sourceCode);
             if(KeyType != null)
                 sourceCode.Append(")");
-            
+
             sourceCode.Append(", ");
-            
+
             if(ValueType != null)
                 sourceCode.Append("(" + ValueType + ")(");
             Value.Emit(sourceCode);
             if(ValueType != null)
                 sourceCode.Append(")");
-            
+
             if(Next != null)
             {
                 sourceCode.Append(", ");
@@ -1714,7 +1714,7 @@ namespace de.unika.ipd.grGen.expression
             Value.Emit(sourceCode);
             if(ValueType!=null)
                 sourceCode.Append(")");
-            
+
             if (Next != null)
             {
                 sourceCode.Append(", ");
@@ -1927,7 +1927,7 @@ namespace de.unika.ipd.grGen.expression
         }
     }
 
-    
+
     /////////////////////////////////////////////////////////////////////////////////////
     /////////////////////////////////////////////////////////////////////////////////////
 
@@ -1971,7 +1971,7 @@ namespace de.unika.ipd.grGen.expression
 
     /// <summary>
     /// Class representing a yielding indexed assignment executed after the match was found
-    /// writing a value computed from the right expression 
+    /// writing a value computed from the right expression
     /// into the position at the given index of the left def variable of type array (TODO: extend to map)
     /// </summary>
     public class YieldAssignmentIndexed : Yielding
@@ -2159,7 +2159,7 @@ namespace de.unika.ipd.grGen.expression
         {
             Value = value;
         }
-    
+
         public override void Emit(SourceBuilder sourceCode)
         {
             sourceCode.Append(NamesOfEntities.Variable(Left));
@@ -2241,7 +2241,7 @@ namespace de.unika.ipd.grGen.expression
 
     /// <summary>
     /// Class representing an iterated accumulation yield executed after the match was found
-    /// accumulating the values matched by a nested iterated with a chosen operator 
+    /// accumulating the values matched by a nested iterated with a chosen operator
     /// writing the accumulated value into the target def variable
     /// </summary>
     public class IteratedAccumulationYield : Yielding
@@ -2256,7 +2256,7 @@ namespace de.unika.ipd.grGen.expression
 
         public void ReplaceVariableByIterationVariable(ExpressionOrYielding curr)
         {
-            // traverses the yielding and expression tree, if it visits a reference to the iteration variable 
+            // traverses the yielding and expression tree, if it visits a reference to the iteration variable
             // it switches it from a normal variable reference into a iteration variable reference
             foreach(ExpressionOrYielding eoy in curr)
                 ReplaceVariableByIterationVariable(eoy);

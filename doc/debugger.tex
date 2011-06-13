@@ -18,7 +18,7 @@ further parameters, such as program options, can be specified by \emph{Text}.
 If you use \yComp\footnote{See Section~\ref{tools:ycomp}.}\indexmain{yComp} as executable (\texttt{show graph ycomp}), this may look like
 \begin{center}
   \includegraphics[width=0.75\linewidth]{fig/showgraph}
-\end{center}  
+\end{center}
 The temporary file will be deleted, when the application \emph{Filename} is terminated if \GrShell\ is still running at this time.
 
 \begin{rail}
@@ -26,12 +26,12 @@ The temporary file will be deleted, when the application \emph{Filename} is term
 \end{rail}\ixkeyw{dump}\ixkeyw{graph}
 Dumps the current graph in \indexed{VCG} format into the file \emph{Filename}.\\
 
-The following commands control the style of the VCG output. This affects \texttt{dump graph}, \texttt{show graph}, and \texttt{enable debug}. 
+The following commands control the style of the VCG output. This affects \texttt{dump graph}, \texttt{show graph}, and \texttt{enable debug}.
 \begin{rail}
   'dump' 'set' 'node' (() | 'only') NodeType \\ (('color' | 'textcolor' | 'bordercolor') Color | 'shape' Text | 'labels' ('on' | 'off' | Text)) ;
 \end{rail}\ixkeyw{dump}\ixkeyw{set}\ixkeyw{node}\ixkeyw{only}\ixkeyw{color}\ixkeyw{textcolor}\ixkeyw{bordercolor}\ixkeyw{shape}\ixkeyw{labels}\ixkeyw{on}\ixkeyw{off}
 Sets the \indexed{color}, text color, border color, the shape or the label of the nodes of type \emph{NodeType} and all of its subtypes.
-The keyword \texttt{only} excludes the subtypes. The available colors are specified at the begin of this chapter. 
+The keyword \texttt{only} excludes the subtypes. The available colors are specified at the begin of this chapter.
 The following shapes are supported: \texttt{box}, \texttt{triangle}, \texttt{circle}, \texttt{ellipse}, \texttt{rhomb}, \texttt{hexagon}, \texttt{trapeze}, \texttt{uptrapeze}, \texttt{lparallelogram}, \texttt{rparallelogram}.
 Those are shape names of \yComp\ (for a VCG definition see~\cite{vcg}).
 The following colors are supported: \texttt{Black}, \texttt{Blue}, \texttt{Green}, \texttt{Cyan}, \texttt{Red}, \texttt{Purple}, \texttt{Brown}, \texttt{Grey}, \texttt{LightGrey}, \texttt{LightBlue}, \texttt{LightGreen}, \texttt{LightCyan}, \texttt{LightRed}, \texttt{LightPurple}, \texttt{Yel\-low}, \texttt{White}, \texttt{DarkBlue}, \texttt{DarkRed}, \texttt{Dark\-Green}, \texttt{DarkYellow}, \texttt{DarkMagenta}, \texttt{DarkCyan}, \texttt{Gold}, \texttt{Lilac}, \texttt{Turquoise}, \texttt{Aquamarine}, \texttt{Khaki}, \texttt{Pink}, \texttt{Orange}, \texttt{Orchid}.
@@ -60,17 +60,17 @@ IncAdjTypeConstraints:
   ('only')? EdgeType ('with' ('only')? NodeType)? ;
 \end{rail}\ixkeyw{dump}\ixkeyw{add}\ixkeyw{node}\ixkeyw{only}\ixkeyw{group}\ixkeyw{by}\ixkeyw{hidden}\ixkeyw{with}\ixnterm{GroupConstraints}\ixnterm{IncAdjTypeConstraints}
 Declares \emph{NodeType} and subtypes of \emph{NodeType} as \indexed{group node}\indexmainsee{hierarchic}{group node} type.
-All the differently typed nodes that point to a node of type \emph{NodeType} 
+All the differently typed nodes that point to a node of type \emph{NodeType}
 (i.e.\ there is a directed edge between such nodes) will be grouped and visibly enclosed by the \emph{NodeType}-node (nested graph).
 \texttt{GroupMode} is one of \texttt{no},\texttt{incoming},\texttt{outgoing},\texttt{any}; \texttt{hidden} causes hiding of the edges by which grouping happens.
-The \texttt{EdgeType} constrains the type of the edges which cause grouping, the \texttt{with} clause additionally constrains the type of the adjacent node; 
+The \texttt{EdgeType} constrains the type of the edges which cause grouping, the \texttt{with} clause additionally constrains the type of the adjacent node;
 \texttt{only} excludes subtypes.
 
 \begin{note}
 Only apply group commands on a graph if they indeed lead to a containment tree of groups.
 If the group commands would lead to a directed acyclic or even cyclic containment graph, the results are undefined.
 You may get duplicate edges (and nodes); the implementation is free to choose indeterministically between the possible nestings -- it may even grow an arm and stab you in your back.
-(A conflict resultion heuristic used is to give the earlier executed \texttt{add group} command priority. 
+(A conflict resultion heuristic used is to give the earlier executed \texttt{add group} command priority.
 But this mechanism is incomplete -- you'd better refine your groups or change the model in that case.
 Using a model separating edges denoting direct containment from cross-linking edges by type is normally the better design, even disregarding visual node nesting.)
 \end{note}
@@ -85,8 +85,8 @@ The following example shows \emph{metropolis} ungrouped and grouped:
   'dump' 'add' (() | 'only') ('node' NodeType | 'edge' EdgeType) \\ ('infotag' | 'shortinfotag') AttributeName
 \end{rail}\ixkeyw{dump}\ixkeyw{add}\ixkeyw{only}\ixkeyw{node}\ixkeyw{edge}\ixkeyw{infotag}\ixkeyw{shortinfotag}
 Declares the \indexed{attribute} \emph{AttributeName} to be an ``\indexed{info tag}'' or ``\indexed{short info tag}''.
-Info tags are displayed like additional node/edge \indexed{label}s, in format \texttt{Name=Value}, or \texttt{Value} only for short info tags. 
-The keyword \texttt{only} excludes the subtypes of \emph{NodeType} resp.\ \emph{EdgeType}. 
+Info tags are displayed like additional node/edge \indexed{label}s, in format \texttt{Name=Value}, or \texttt{Value} only for short info tags.
+The keyword \texttt{only} excludes the subtypes of \emph{NodeType} resp.\ \emph{EdgeType}.
 In the following example \emph{river} and \emph{jam} are info tags:
 \begin{center}
   \fbox{\includegraphics[width=0.5\linewidth]{fig/infotag}}
@@ -102,11 +102,11 @@ Resets all style options (\texttt{dump set}\dots) and (\texttt{dump add}\dots) t
 Small graphs allow for fast visual understanding, but with an increasing number of nodes and edges they quickly loose this property.
 The group commands are of outstanding importance to keep readability with increasing graph sizes
 (e.g. for program graphs it allows to lump together expressions of a method inside the method node and attributes of the class inside the class node).
-Additional helpers in keeping the graph readable are: 
+Additional helpers in keeping the graph readable are:
 the capability to exclude elements from dumping (the less hay in the stack the easier to find the needle),
 the different colors and shapes to quickly find the elements of interest,
-as well as the labels/infotags/shortinfotags to display the most important information directly. 
-Choose the layout algorithm and the options delivering the best results for your needs, organic and hierarchic or compiler graph 
+as well as the labels/infotags/shortinfotags to display the most important information directly.
+Choose the layout algorithm and the options delivering the best results for your needs, organic and hierarchic or compiler graph
 (an extension of hierarchic with automatic edge cutting -- marking cut edges by fat dots, showing the edge only on mouse over and allowing to jump to the other end on a mouse click)
 should be tried first.
 \end{note}
@@ -135,7 +135,7 @@ The following example shows several of the layout options employed to considerab
 \end{rail}\ixkeyw{debug}\ixkeyw{enable}\ixkeyw{disable}
 Enables and disables the \indexed{debug mode}.
 The debug mode shows the current working graph in a \yComp\ window.
-All changes to the working graph are tracked by \yComp\ immediately.  
+All changes to the working graph are tracked by \yComp\ immediately.
 
 \begin{rail}
   'debug' 'set' 'layout' ( (Text)? | 'option' Name String ) ;
@@ -146,7 +146,7 @@ The following layout algorithms are supported: \texttt{Random}, \texttt{Hierarch
 For technical graphs \texttt{Hierarchic} works normally best; \texttt{Compilergraph} is a version of \texttt{Hierarchic} cutting some edges, it may be of interest if \texttt{Hierarchic} contains too many crossing edges. \texttt{Organic} is the other general purpose layout available, the other layouts are rather special, but this should not prevent you from using them if they fit to your task ;).
 The \texttt{option} version allows to specify layout options by name value pairs.
 The available layout options can be listed by the following command.
- 
+
 \begin{rail}
   'debug' 'get' 'layout' 'options';
 \end{rail}\ixkeyw{debug}\ixkeyw{get}\ixkeyw{layout}\ixkeyw{options}
@@ -161,7 +161,7 @@ Forces re-layout of the graph shown in yComp (same as pressing the play button w
   GraphRewriteSequence: 'debug' 'xgrs' SimpleRewriteSequence ;
 \end{rail}\ixkeyw{debug}\ixkeyw{xgrs}\indexmain{graph rewrite sequence}\indexmainsee{GRS}{graph rewrite sequence}\ixnterm{GraphRewriteSequence}
 This executes the graph rewrite sequence \emph{SimpleRewriteSequence} in the debugger\indexmain{debugger}.
-Same as \texttt{xgrs SimpleRewriteSequence} in the previous chapter, but allows tracing the rewriting process step-by-step. 
+Same as \texttt{xgrs SimpleRewriteSequence} in the previous chapter, but allows tracing the rewriting process step-by-step.
 
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -169,7 +169,7 @@ Same as \texttt{xgrs SimpleRewriteSequence} in the previous chapter, but allows 
 
 The debugging process follows of a series of debug situations,
 which result from a user selection of the underlying execution situations accoring to interest.
-During each debugging step the debugger\indexmain{debugger} -- which is a part of the \GrShell~-- 
+During each debugging step the debugger\indexmain{debugger} -- which is a part of the \GrShell~--
 prints the debugged sequence with the currently focused/active rule highlighted yellow.
 What will be shown from executing this rule depends on the commands chosen by the user;
 and on the fact whether the focused rule matches or not.
@@ -178,8 +178,8 @@ The rules which matched during sequence execution are shown on dark green backgr
 the rules which failed during sequence execution are shown on dark red background;
 at the begin of a new loop iteration the highlighting state of the contained rules is reset.
 During execution \yComp\footnote{Make sure, that the path to your \texttt{\indexed{yComp.jar}} package is set correctly in the \texttt{ycomp} shell script within \GrG's \texttt{/bin} directory.}\indexmain{yComp}
-will display the changes to the graph from every single step. 
-Besides deciding on what is shown from the execution of the current rule, 
+will display the changes to the graph from every single step.
+Besides deciding on what is shown from the execution of the current rule,
 the user determines with the debug commands where to continue the execution
 (the rule focused next; but again this depends on success/failure of the currently active rule).
 The debug commands are given in Table~\ref{tabdebug}.
@@ -190,9 +190,9 @@ there are breakpoints and choicepoints available (toggled with the \texttt{b} an
 which are only processed when they are reached, but on the other hand are also processed if a user command would skip them.
 The \indexed{break point}s halt execution, focus the reached sequence, and cause the debugger to wait for further commands
 (e.g. \texttt{d} to inspect the rule execution en detail versus \texttt{s} for just applying it).
-The \indexed{choice point}s halt execution, focus the reached sequence in magenta, and ask for some user input; 
+The \indexed{choice point}s halt execution, focus the reached sequence in magenta, and ask for some user input;
 after the input was received, execution continues according to the command previously issued.
-Both break points and choice points are denoted by the \texttt{\%} modifier. 
+Both break points and choice points are denoted by the \texttt{\%} modifier.
 The \texttt{\%} modifier works as a break point if it is given before: a rule, an all bracketed rule, a variable predicate, or the constants \texttt{true}/\texttt{false}.
 The \texttt{\%} modifier works as a choice point if it is appended to the \texttt{\$} randomize modifier switching a random decision into a user decision.
 This holds for the binary operators, the random match selector of all bracketed rules, the random-all-of operators and the one-of-set braces.
@@ -222,7 +222,7 @@ Further commands allow to print the variables at a given situation, the sequence
   \texttt{v}(ariables) & Prints the global variables and the local variables of the sequence currently executed, which is the topmost sequence of the sequence call stack. To be more precise regarding local variables: all variables which were defined (and have not fallen out of scope again) up to the sequence position focussed.\\
   \texttt{t}(race) & Prints the stack trace of the current sequence call stack; the stack trace includes the body of each sequence called at its execution state.\\
   \texttt{f}(ull dump) & Prints the stack trace including the local variables of each stack frame plus the global variables.\\
-\hline 
+\hline
   \end{tabularx}
   \caption{\GrShell\ debug commands}
   \label{tabdebug}
@@ -237,7 +237,7 @@ Further commands allow to print the variables at a given situation, the sequence
 \pagebreak
 
 \begin{figure}[htbp]
-\begin{example}\label{ex:debug}  
+\begin{example}\label{ex:debug}
 We demonstrate the debug commands with a slightly adjusted script for the Koch snowflake from \GrG's examples (see also Section~\ref{fractals}). The graph rewriting sequence is
 \begin{grshell}
 debug xgrs (makeFlake1* & (beautify & doNothing)* & makeFlake2* & beautify*)[1]
@@ -257,18 +257,18 @@ The following table shows the ``break points'' of further debug commands, entere
     \texttt{s} & \texttt{makeFlake1} \\
     \texttt{o} & \texttt{beautify} \\
     \texttt{s} & \texttt{doNothing} \\
-    \texttt{s} & \texttt{beautify} \\ 
-    \texttt{u} & \texttt{beautify} \\ 
+    \texttt{s} & \texttt{beautify} \\
+    \texttt{u} & \texttt{beautify} \\
     \texttt{o} & \texttt{makeFlake2} \\
     \texttt{r} & --- \\ \hline
   \end{tabular}
 \end{center}
-\end{example}   
+\end{example}
 \end{figure}
 
 %\subsection{yComp}
 %url; yFiles; java app, socket communication with shell debugger
-%Find; goto node/edge; böbbels; 
+%Find; goto node/edge; böbbels;
 %relayout; zoom: mousewheel; pane by holding middle mouse
 %supported formats; vcg format
 %ref to visualization commands, again: hierarchy

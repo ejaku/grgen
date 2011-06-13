@@ -3,7 +3,7 @@
 GRGENDIR=GrGenNET-V$1-`date +"%F"`
 GRGENDIRSRC=$GRGENDIR-src
 
-#make release distribution 
+#make release distribution
 #contains binaries, examples, documentation
 #excluded internal stuff, source code
 

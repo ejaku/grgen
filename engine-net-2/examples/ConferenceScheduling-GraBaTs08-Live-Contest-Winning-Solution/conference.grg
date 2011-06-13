@@ -16,7 +16,7 @@ rule init : (Slot, CounterNode)
 			s3.id = 3;
 			s3.name = "S3";
 		}
-        
+
         gogolla:Person;
         vangorp:Person;
         hirschfeld:Person;
@@ -58,7 +58,7 @@ rule init : (Slot, CounterNode)
 			p8.name = "P8";
 			p9.name = "P9";
 		}
-        
+
         gogolla -:chair-> s1;
         vangorp -:chair-> s2;
         hirschfeld -:chair-> s3;
@@ -254,7 +254,7 @@ rule showSolution(p1:Paper, t1:Slot, p2:Paper, t2:Slot, p3:Paper, t3:Slot,
 	hom(t1, t2, t3, t4, t5, t6, t7, t8, t9);
 
 	modify {
-		emit(p1.name, "@", t1.id, ",", 
+		emit(p1.name, "@", t1.id, ",",
 			p2.name, "@", t2.id, ",",
 			p3.name, "@", t3.id, ",",
 			p4.name, "@", t4.id, ",",

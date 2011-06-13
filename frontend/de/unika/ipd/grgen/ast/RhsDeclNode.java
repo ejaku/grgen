@@ -72,7 +72,7 @@ public abstract class RhsDeclNode extends DeclNode {
 		childrenNames.add("right");
 		return childrenNames;
 	}
-	
+
 	public GraphNode getRHSGraph() {
 		return graph;
 	}

@@ -173,7 +173,7 @@ namespace de.unika.ipd.grGen.libGr
         ITransactionManager TransactionManager { get; }
 
         /// <summary>
-        /// The recorder of the graph. 
+        /// The recorder of the graph.
         /// Might be null (is set if a named graph is available, then the persistent names are taken from the named graph).
         /// </summary>
         IRecorder Recorder { get; set; }
@@ -618,7 +618,7 @@ namespace de.unika.ipd.grGen.libGr
         /// Fired before an attribute of a node is changed.
         /// Note for LGSPBackend:
         /// Because graph elements of the LGSPBackend don't know their graph a call to
-        /// LGSPGraphElement.SetAttribute will not fire this event. If you use this function 
+        /// LGSPGraphElement.SetAttribute will not fire this event. If you use this function
         /// and want the event to be fired, you have to fire it yourself
         /// using ChangingNodeAttributes.
         /// </summary>
@@ -628,7 +628,7 @@ namespace de.unika.ipd.grGen.libGr
         /// Fired before an attribute of an edge is changed.
         /// Note for LGSPBackend:
         /// Because graph elements of the LGSPBackend don't know their graph a call to
-        /// LGSPGraphElement.SetAttribute will not fire this event. If you use this function 
+        /// LGSPGraphElement.SetAttribute will not fire this event. If you use this function
         /// and want the event to be fired, you have to fire it yourself
         /// using ChangingEdgeAttributes.
         /// </summary>

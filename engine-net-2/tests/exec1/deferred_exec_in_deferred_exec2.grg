@@ -10,14 +10,14 @@ rule Init
 rule r
 {
 	p:P();
-	
+
 	modify {
 		p();
 	}
 }
 
 pattern P
-{    
+{
 
 	modify {
 		exec(<s & sab>); // :B->:AB, the stuff done by s rolled back
@@ -28,7 +28,7 @@ pattern P
 rule s
 {
 	q:Q();
-	
+
 	modify {
 		q();
 	}
@@ -37,7 +37,7 @@ rule s
 rule sab
 {
 	b:B;
-	
+
 	modify {
 		:AB<b>;
 	}
@@ -54,7 +54,7 @@ pattern Q
 rule t
 {
 	rr:R();
-	
+
 	modify {
 		rr();
 	}
@@ -63,7 +63,7 @@ rule t
 rule tdel
 {
 	:Center;
-	
+
 	replace {
 	}
 }
@@ -79,7 +79,7 @@ pattern R
 rule u
 {
 	a:A;
-	
+
 	modify {
 		:B<a>;
 	}

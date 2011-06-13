@@ -22,7 +22,7 @@ test transitiveWithNACs {
 	// instead of
 	// hom(x,y);
 	// hom(y,z);
-	
+
 	// we use
 	hom(x,y,z);
 	// and assure that x and z are matched isomorphic

@@ -1,5 +1,5 @@
 // rule file containing rules and new: subpatterns, which allow to factor a common pattern/transformation
-//  out into an entity, to prevent excessive nesting or allow re-using a pattern several times, 
+//  out into an entity, to prevent excessive nesting or allow re-using a pattern several times,
 // to be distinguished: the subpattern type declaration defining the structure and the parameters/attachement points
 //  from the subpattern entity declaration in the pattern using the subpattern, i.e. requesting it to match, from the nodes/edges given on
 //  from the subpattern replacement usage by using call syntax on the subpattern entity in the rewrite part of the pattern containing the entity declaration
@@ -18,7 +18,7 @@ rule FirstStatementEx(mb:MethodBody)
 			e -:writesTo->;
 			e -:contains\next-> sub:Expression;
 			cou:CallOrUse(sub, mb);
-			
+
 			modify {
 				cou();
 			}
@@ -29,12 +29,12 @@ rule FirstStatementEx(mb:MethodBody)
 			iterated
 			{
 				e -:contains\next-> arg:Expression;
-				
-				modify { 
+
+				modify {
 					delete(arg);
 				}
 			}
-			
+
 			modify {
 				delete(ca);
 				e -:uses-> :Constant <-:contains- mb;
@@ -43,18 +43,18 @@ rule FirstStatementEx(mb:MethodBody)
 		Return {
 			mb -:next-> e:Expression;
 			e -:uses->;
-			
+
 			modify { }
 		}
 		EndOfList {
 			negative {
 				mb -:next->;
 			}
-			
+
 			modify { }
 		}
 	}
-	
+
 	modify {
 	}
 }
@@ -68,12 +68,12 @@ pattern CallOrUse(sub:Expression, mb:MethodBody)
 			iterated
 			{
 				sub -:contains\next-> arg:Expression;
-				
-				modify { 
+
+				modify {
 					delete(arg);
 				}
 			}
-			
+
 			modify {
 				delete(ca);
 				sub -:uses-> :Constant <-:contains- mb;
@@ -81,11 +81,11 @@ pattern CallOrUse(sub:Expression, mb:MethodBody)
 		}
 		Use {
 			sub -:uses->;
-			
+
 			modify { }
 		}
 	}
-	
+
 	modify {
 	}
 }

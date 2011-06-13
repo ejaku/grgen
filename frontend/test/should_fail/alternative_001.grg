@@ -19,7 +19,7 @@ rule Test1
             }
         }
     }
-	
+
     modify {
 		delete(b);
 	}

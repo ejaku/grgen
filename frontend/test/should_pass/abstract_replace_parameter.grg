@@ -4,7 +4,7 @@ rule r
 {
 	start:AbstractNode;
 	l:List(start);
-	
+
 	modify {
 		newstart:NonAbstractNode;
 		l(newstart);
@@ -17,7 +17,7 @@ pattern List(x:AbstractNode) modify(y:AbstractNode)
 		Further {
 			x --> next:AbstractNode;
 			l:List(next);
-			
+
 			modify {
 				y --> newnext:NonAbstractNode;
 				l(newnext);
@@ -27,12 +27,12 @@ pattern List(x:AbstractNode) modify(y:AbstractNode)
 			negative {
 				x -->;
 			}
-			
+
 			modify {
 			}
 		}
 	}
-	
+
 	modify {
 	}
 }

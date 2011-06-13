@@ -113,7 +113,7 @@ namespace de.unika.ipd.grGen.libGr
                 {
                     throw new SequenceParserException(paramBindings, SequenceParserError.UnknownRuleOrSequence);
                 }
-                
+
                 // yes -> this is a rule call; now check it
                 IAction action = paramBindings.Action;
 

@@ -15,10 +15,10 @@ edge class value
 edge class zero extends value;
 edge class one extends value;
 edge class empty extends value;
-	
-	
+
+
 edge class rwhead;
-	
+
 edge class moveLeft;
 edge class dontMove;
 edge class moveRight;

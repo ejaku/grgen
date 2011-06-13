@@ -4,7 +4,7 @@ rule getMapValue(var keyStr:string)
 {
     a:A;
     if { keyStr in a.m; }
-    
+
     modify {
         emit("1 value of attribute 5 6 " + a.m[keyStr] + "\n");
     }
@@ -13,7 +13,7 @@ rule getMapValue(var keyStr:string)
 rule useMapVar(ref niceMap:map<string, int>)
 {
     if { "Hallo" in niceMap; }
-    
+
     modify {
         emit("1 value of attribute 5 6 " + niceMap["Hallo"] + "\n");
     }

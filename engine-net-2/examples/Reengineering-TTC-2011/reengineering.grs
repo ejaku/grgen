@@ -7,7 +7,7 @@ import primitive_types.ecore java.ecore StateMachine.ecore 1_small-model.xmi ree
 include layout.grsi
 
 # nest the expressions inside the expression statement (but not one in another)
-# takes about 2min for the large graph which are not needed cause it can't be displayed anyway (out-of-memory of ycomp) 
+# takes about 2min for the large graph which are not needed cause it can't be displayed anyway (out-of-memory of ycomp)
 # so feel free to comment it out for the large graph
 xgrs vid=valloc() ;> beautifyProgramGraph* ;> vfree(vid)
 

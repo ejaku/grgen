@@ -11,10 +11,10 @@ rule InitDiamond
         a:Block -:df-> :Jmp -:df-> b:Block -:df-> :Proj -:df-> d:Block;
         a       -:df-> :Jmp -:df-> c:Block -:df-> :Proj -:df-> d;
         a <-:df- :End;
-        
+
         add:Add -:df-> b;
         sub:Sub -:df-> c;
-        
+
         phi:Phi -:df-> a;
         phi -:df-> add;
         phi -:df-> sub;
@@ -26,7 +26,7 @@ rule CreateEndBlock
     b:Block <-:df- :End;
     modify {
         :EndBlock<b>;
-    }    
+    }
 }
 
 rule InitPDom
@@ -52,7 +52,7 @@ rule InitPDomEnd
 }
 
 rule CalcPDom
-{ 
+{
     a:Block -:df-> :IR_node -:df-> b:Block <-p:pdom- c:Block;
     negative {
         a <-:pdom- c;
@@ -111,7 +111,7 @@ rule IFConv
     bottom       -r:df-> :Jmp -:df-> rb:Block -:cdep-> top:Block;
     negative { bottom -:ifconv->; }
     top <-:df- cond:Cond -:df-> condProj:Proj;
-    
+
     modify {
         exec(  ICCheckPathValid(lb, top)
             && ICCheckPathValid(rb, top)
@@ -131,10 +131,10 @@ rule ICReplaceCondByJump(from:Block, to:Block, var newPos:int, cond:Cond)
 {
     cond <-:df- proj1:Proj;
     cond <-:df- proj2:Proj;
-    
+
     modify {
         delete(proj1, proj2, cond);
-    
+
         from <-:df- :Jmp <-d:df- to;
         eval {
             d.pos = newPos;
@@ -147,7 +147,7 @@ rule ICConvPhi(block:Block, var i:int, var j:int, condProj:Proj, top:Block)
     block <-:df- phi:Phi -dfi:df-> ipred:IR_node\Block;
                      phi -dfj:df-> jpred:IR_node\Block;
     if { dfi.pos == i; dfj.pos == j; }
-    
+
     modify {
         psi:Psi -    :df-> top;
             psi -    :df-> condProj;
@@ -157,9 +157,9 @@ rule ICConvPhi(block:Block, var i:int, var j:int, condProj:Proj, top:Block)
             ndfi.pos = i;
             ndfj.pos = j;
         }
-        
+
         delete(dfi, dfj);
-        
+
         phi -ndphi:df-> psi;
         eval {
             ndphi.pos = i;
@@ -182,7 +182,7 @@ pattern ICCheckPathValidNext(cur:Block, top:Block)
         {
             cur -:df-> :Jmp -:df-> next:Block;
             :ICCheckPathValidNext(next, top);
-        }        
+        }
     }
 }
 
@@ -194,7 +194,7 @@ test ICCheckPathValid(cur:Block, top:Block)
 rule ICPreparePath(block:Block, pred:Block, var i:int, top:Block)
 {
     pred -p:df-> :IR_node\Block -:df-> pred_pred:Block -:cdep-> top;
-    
+
     modify {
         exec(  (ppos:int)=ICGetPos(p)
             && ICPreparePath(pred, pred_pred, ppos, top)
@@ -220,7 +220,7 @@ rule ICGetNextPos(block:Block) : (int)
 {
     block -d:df->;
     negative { block -d2:df->; if { d2.pos > d.pos; } }
-    
+
     modify {
         return (d.pos + 1);
     }
@@ -229,7 +229,7 @@ rule ICGetNextPos(block:Block) : (int)
 rule ICGetBlockEnd(block:Block) : (IR_node)
 {
     block <-:df- jmp:Jmp;
-    
+
     modify {
         return (jmp);
     }
@@ -239,7 +239,7 @@ rule ICRemovePhiPred(block:Block, var i:int)
 {
     block <-:df- phi:Phi -dfphi:df->;
     if { dfphi.pos == i; }
-    
+
     modify {
         delete(dfphi);
     }
@@ -249,7 +249,7 @@ rule ICRemoveBlockPred(block:Block, var i:int)
 {
     block -dfblock:df->;
     if { dfblock.pos == i; }
-    
+
     modify {
         delete(dfblock);
     }
@@ -259,7 +259,7 @@ rule ICCopyPhi(block:Block, pred:Block, var i:int, pred_pred:Block, var j:int, v
 {
     block <-:df- phi:Phi -dfphi:df-> phi_pred:IR_node\Block;
     if { dfphi.pos == i; }
-    
+
     modify {
 //        exec(ICCopyTo(phi_pred, pred, pred_pred, j));
         exec(((copy_:IR_node)=ICCopyTo_otherBlock(phi_pred, pred, pred_pred)
@@ -284,7 +284,7 @@ rule ICSetPred(curNode:IR_node, var pos:int, newPred:IR_node)
 {
     curNode -d:df->;
     if { d.pos == pos; }
-    
+
     modify {
         delete(d);
         curNode -dn:df-> newPred;
@@ -300,7 +300,7 @@ rule ICCopyTo_otherBlock(curNode:IR_node, block:Block, pred_pred:Block) : (IR_no
 
     modify {
         return (curNode);
-    }            
+    }
 }
 
 rule ICCopyTo_isPhi(curNode:Phi<IR_node>, block:Block, pred_pred:Block, var i:int) : (IR_node)
@@ -308,7 +308,7 @@ rule ICCopyTo_isPhi(curNode:Phi<IR_node>, block:Block, pred_pred:Block, var i:in
     //curNode -:df-> block;            // same block
     curNode -dfphi:df-> pred:IR_node\Block;
     if { dfphi.pos == i; }
-    
+
     modify {
         return (pred);
     }
@@ -318,7 +318,7 @@ rule ICCopyTo_default(curNode:IR_node, pred:Block, pred_pred:Block, var i:int) :
 {
     //curNode -:df-> block;            // same block
     //if { typeof(curNode) != Phi; }   // not a phi
-    
+
     modify {
         // TODO: Copy all attributes...
         copy_:typeof(curNode) -:df-> pred_pred;
@@ -331,7 +331,7 @@ rule ICCopyTo_default(curNode:IR_node, pred:Block, pred_pred:Block, var i:int) :
 rule ICCopyPred(to:IR_node, from:IR_node, pred:Block, pred_pred:Block, var i:int)
 {
     from -dfrom:df-> target:IR_node\Block;
-    
+
     modify {
 //        exec(ICCopyTo(target, block, i));
         exec(((pred_copy:IR_node)=ICCopyTo_otherBlock(target, pred, pred_pred)
@@ -347,10 +347,10 @@ rule ICCopyPred(to:IR_node, from:IR_node, pred:Block, pred_pred:Block, var i:int
         otherBlock
         {
             curNode -:df-> :Block;
-            
+
             modify {
 //                return (curNode);
-            }            
+            }
         }
         isPhi
         {
@@ -358,7 +358,7 @@ rule ICCopyPred(to:IR_node, from:IR_node, pred:Block, pred_pred:Block, var i:int
             if { typeof(curNode) == Phi; }
             curNode -dfphi:df-> pred:IR_node\Block;
             if { dfphi.pos == i; }
-            
+
             modify {
 //                return (pred);
             }
@@ -367,15 +367,15 @@ rule ICCopyPred(to:IR_node, from:IR_node, pred:Block, pred_pred:Block, var i:int
         {
             curNode -:df-> block;            // same block
             if { typeof(curNode) != Phi; }   // not a phi
-            
+
             block -dfblock:df-> :IR_node -:df-> pred_block:Block;
             if { dfblock.pos == i; }
-            
+
             modify {
                 // TODO: Copy all attributes...
                 copy_:typeof(curNode) -:df-> pred_block;
 //                return (copy_);
-                
+
                 exec([ICCopyPred(copy_, curNode, block, i)]);
             }
         }
@@ -451,8 +451,8 @@ rule IFConvRightStart(bottom:Block, top:Block, -left:df->)
 {
     bottom -:df-> :Jmp -:df-> prev:Block -:cdep-> top;
     modify {
-        exec(IFConvRightEnd(prev, 
-    }    
+        exec(IFConvRightEnd(prev,
+    }
 }
 
 test IFConvRightEnd(cur:Block, top:Block)

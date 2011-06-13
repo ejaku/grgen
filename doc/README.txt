@@ -36,7 +36,7 @@ For Windows:
       set PATH=<GrGenNETPath>\bin;%PATH%
 
     Of course you have to replace <GrGenNETPath> by your chosen path.
-      
+
     ATTENTION: Do NOT add ""s around any part of the path, even if it
       contains spaces! Otherwise yComp, a graph visualisation tool, will not
       run out of GrShell!
@@ -59,7 +59,7 @@ Example:
 If you just need the libraries execute GrGen with a .grg-file.
 Example:
   - .NET: Run "GrGen <GrGenNETPath>/examples/Mutex/Mutex.grg"
-    Mono: Run "mono <GrGenNETPath>/bin/GrGen.exe 
+    Mono: Run "mono <GrGenNETPath>/bin/GrGen.exe
                <GrGenNETPath>/examples/Mutex/Mutex.grg"
 
 You can also generate source code, which you can include into your C#
@@ -89,8 +89,8 @@ at http://www.grgen.net.
 
 If you find any bugs or have a suggestion, please send an email to:
     grgen@ipd.info.uni-karlsruhe.de
-    
-    
+
+
 AUTHORS
 -------
 

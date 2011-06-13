@@ -1,9 +1,9 @@
 pattern p {
 	n1:Node -e1:Edge-> n2:Node;
-	
+
 	negative {
 		n2-->n3:Node;
-		
+
 		negative {
 			n3-->n2;
 			n3-->n4:Node;
@@ -18,10 +18,10 @@ pattern pa {
 	alternative {
 		Something {
 			n1:Node -e1:Edge-> n2:Node;
-			
+
 			negative {
 				n2-->n3:Node;
-				
+
 				negative {
 					n3-->n2;
 					n3-->n4:Node;
@@ -42,10 +42,10 @@ pattern pa {
 
 rule r {
 	n1:Node -e1:Edge-> n2:Node;
-	
+
 	negative {
 		n2-->n3:Node;
-		
+
 		negative {
 			n3-->n2;
 			n3-->n4:Node;
@@ -54,7 +54,7 @@ rule r {
 	negative {
 		n2-->n3:Node;
 	}
-	
+
 	replace {
 	}
 }
@@ -63,11 +63,11 @@ test t {
 	alternative {
 		Something {
 			n1:Node -e1:Edge-> n2:Node;
-			
+
 			negative {
 				n2-->n3:Node;
 				p1:p();
-				
+
 				negative {
 					n3-->n2;
 					n3-->n4:Node;

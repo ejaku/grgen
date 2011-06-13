@@ -2,7 +2,7 @@ rule WhileStatement_to_IfStatement_then {
 	while:dom_WhileStatement;
 	while -e:dom_WhileStatement_expression-> expr:dom_Expression;
 	while -f:dom_WhileStatement_body-> then:dom_Statement;
-	
+
 	modify {
 		iff:dom_IfStatement<while>;
 		-:dom_IfStatement_expression<e>->;
@@ -15,7 +15,7 @@ rule WhileStatement_to_IfStatement_else {
 	while:dom_WhileStatement;
 	while -e:dom_WhileStatement_expression-> expr:dom_Expression;
 	while -f:dom_WhileStatement_body-> then:dom_Statement;
-	
+
 	modify {
 		iff:dom_IfStatement<while>;
 		-:dom_IfStatement_expression<e>->;
@@ -26,9 +26,9 @@ rule WhileStatement_to_IfStatement_else {
 
 rule rename_prod_2_k {
 	id:dom_SimpleName;
-	
+
 	if { id._identifier == "prod"; }
-	
+
 	modify {
 		eval {
 			id._identifier = "k";

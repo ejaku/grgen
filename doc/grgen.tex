@@ -102,7 +102,7 @@ morestring=[b]",
 \newsavebox\envbox
 \newcounter{example}
 \newenvironment{example}[1][EXAMPLE]{%
-  \par 
+  \par
   \refstepcounter{example}%
   \SpecialEnv{#1}{exampleborder}{examplebg}{}{\theexample}%
 }{%
@@ -110,7 +110,7 @@ morestring=[b]",
 }
 \newcounter{note}
 \newenvironment{note}[1][NOTE]{%
-  \par 
+  \par
   \refstepcounter{note}%
   \SpecialEnv{#1}{statementborder}{statementbg}{}{\thenote}%
 }{%
@@ -134,7 +134,7 @@ morestring=[b]",
   \par
   \def\EnvSideC{#2}% To use later (in end)
   \def\EnvBackgroundC{#3}%
-  \def\EnvFrameC{#4}%  
+  \def\EnvFrameC{#4}%
   \flushleft
   \setlength\leftskip{-\sidebar}%
   \addtolength\leftskip{-\envborder}%
@@ -150,12 +150,12 @@ morestring=[b]",
      \hspace{\envborder}}%
    \par\nobreak
    \setlength\parskip{-0.2pt}% Tiny overlap to counter pixel round-off errors
-   \nointerlineskip 
+   \nointerlineskip
   \fi
   % Make side-bar
   \textcolor{\EnvSideC}{\vrule width\sidebar}%
   % collect body in \envbox:
-  \begin{lrbox}\envbox 
+  \begin{lrbox}\envbox
   \begin{minipage}{\linewidth}%
   \ignorespaces
 }{\par
@@ -217,10 +217,10 @@ morestring=[b]",
   \includegraphics[width=0.9\linewidth]{fig/title}\\[6ex]
   \LARGE Jakob Blomer \qquad Rubino Gei\ss\\ \qquad Edgar Jakumeit\\[3ex]
   \large \today\\
-  
+
 %  \vfill
 %	\large Technical Report 2007-5\\
-%	\large ISSN 1432-7864	
+%	\large ISSN 1432-7864
 
   \setlength{\parindent}{\saveparindent}
 \end{titlepage}
@@ -232,8 +232,8 @@ morestring=[b]",
 \includegraphics[width=45mm]{fig/grgen-256.png}
 }
 
-\noindent \textsc{GrGen.NET}: transformation of structures made easy 
--- with languages for graph modeling, pattern matching, and rewriting, as well as rule control; 
+\noindent \textsc{GrGen.NET}: transformation of structures made easy
+-- with languages for graph modeling, pattern matching, and rewriting, as well as rule control;
 brought to life by a compiler and a rapid prototyping environment offering graphical and step-wise debugging.
 The Graph Rewrite Generator is a tool enabling elegant and convenient development of graph rewriting applications with comparable performance to conventionally developed ones.
 This user manual contains both, normative statements in the sense of a reference manual as well as an informal guide to the features and usage of \GrG.\\[6ex]
@@ -287,6 +287,6 @@ license.  The license is available at
 \printindex
 
 \end{document}
- 
+
 
 

@@ -45,7 +45,7 @@ public class AnonymousPatternNamer {
 		else curAlt = new IdentNode(env.define(ParserEnvironment.ALTERNATIVES, "alt_" + altCount, coords));
 		++altCount;
 		altCaseCount = 0;
-	}	
+	}
 	public IdentNode alt() {
 		return curAlt;
 	}
@@ -58,7 +58,7 @@ public class AnonymousPatternNamer {
 	public IdentNode altCase() {
 		return curAltCase;
 	}
-	
+
 	public void defIter(IdentNode maybeIdent, Coords coords) {
 		if(maybeIdent!=null) curIter = maybeIdent;
 		else curIter = new IdentNode(env.define(ParserEnvironment.ITERATEDS, "iter_" + iterCount, coords));
@@ -67,7 +67,7 @@ public class AnonymousPatternNamer {
 	public IdentNode iter() {
 		return curIter;
 	}
-	
+
 	public void defNeg(IdentNode maybeIdent, Coords coords) {
 		if(maybeIdent!=null) curNeg = maybeIdent;
 		else curNeg = new IdentNode(env.define(ParserEnvironment.NEGATIVES, "neg_" + negCount, coords));
@@ -81,7 +81,7 @@ public class AnonymousPatternNamer {
 		if(maybeIdent!=null) curIdpt = maybeIdent;
 		else curIdpt = new IdentNode(env.define(ParserEnvironment.INDEPENDENTS, "idpt_" + idptCount, coords));
 		++idptCount;
-	}		
+	}
 	public IdentNode idpt() {
 		return curIdpt;
 	}
@@ -91,12 +91,12 @@ public class AnonymousPatternNamer {
 	private int iterCount;
 	private int negCount;
 	private int idptCount;
-	
+
 	private IdentNode curAlt;
 	private IdentNode curAltCase;
 	private IdentNode curIter;
 	private IdentNode curNeg;
 	private IdentNode curIdpt;
-	
+
 	private ParserEnvironment env;
 }

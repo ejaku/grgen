@@ -4,7 +4,7 @@ rule r {
 	y[prio=800] : Node;
 	[prio=304] :Node;
 	.[prio=302];
-	
+
 	.[prio=100]		-[prio=5]:EINT->	[prio=200]:NINT;
 	.[prio=101]		-[prio=6]->	[prio=201]:NINT;
 	[prio=20]:NINT	<-[prio=7]:EINT-			.[prio=400];

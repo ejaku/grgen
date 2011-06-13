@@ -10,10 +10,10 @@ dump set edge GridEdgeDown color white
 dump set edge GridEdgeLeft color white
 dump set edge GridEdgeRight color white
 
-dump set edge MarkedGridEdgeUp color black 
-dump set edge MarkedGridEdgeDown color black 
-dump set edge MarkedGridEdgeLeft color black 
-dump set edge MarkedGridEdgeRight color black 
+dump set edge MarkedGridEdgeUp color black
+dump set edge MarkedGridEdgeDown color black
+dump set edge MarkedGridEdgeLeft color black
+dump set edge MarkedGridEdgeRight color black
 
 # replace 3 by 4 to calculate two more generations of the Lindenmeyer system
 xgrs init && (replaceX1* | replaceY1* | replaceX2* | replaceY2*)[4]

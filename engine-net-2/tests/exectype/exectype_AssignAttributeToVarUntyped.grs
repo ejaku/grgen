@@ -19,6 +19,6 @@ xgrs y=x && f=y.f && i=y.i && b=y.b && st=y.st && s=y.s && m=y.m && a=y.a && fl=
 	&& emit("value of variable m 5 6 7 8 9 ") && emit(m) && emit("\n") \
 	&& emit("value of variable a 5 6 7 8 9 ") && emit(a) && emit("\n") \
 	&& emit("value of variable fl 5 6 7 8 9 ") && emit(fl) && emit("\n") \
-	&& emit("value of variable d 5 6 7 8 9 ") && emit(d) && emit("\n") 
+	&& emit("value of variable d 5 6 7 8 9 ") && emit(d) && emit("\n")
 quit
-	
+

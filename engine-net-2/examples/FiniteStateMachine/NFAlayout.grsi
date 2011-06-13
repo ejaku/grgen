@@ -1,4 +1,4 @@
-# this is a graph rewrite shell file with layout instructions to be included 
+# this is a graph rewrite shell file with layout instructions to be included
 
 debug set layout Hierarchic
 

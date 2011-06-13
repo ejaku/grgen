@@ -6,16 +6,16 @@ rule r {
 		x:Node;
 		optional {
 			u:Node;
-			
+
 			modify {
 				y:NINT<x>;
 			}
 		}
-		
+
 		modify {
 		}
 	}
-	
+
 	modify {}
 }
 

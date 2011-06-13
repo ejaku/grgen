@@ -48,7 +48,7 @@ public class SetInit extends Expression {
 		assert(member==null && entity!=null);
 		member = entity;
 	}
-	
+
 	public Entity getMember() {
 		return member;
 	}

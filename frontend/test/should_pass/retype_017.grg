@@ -1,6 +1,6 @@
 using attrib_model_001;
 
-rule r {	
+rule r {
 	iterated {
 		x:Node;
 		modify {
@@ -14,6 +14,6 @@ rule r {
 			-y:EINT<x>->;
 		}
 	}
-	
+
 	modify {}
 }

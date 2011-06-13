@@ -12,5 +12,5 @@
 		public const int LPAREN = 9;
 		public const int RPAREN = 10;
 		public const int DIGIT = 11;
-		
+
 	}

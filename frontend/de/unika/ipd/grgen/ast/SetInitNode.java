@@ -208,7 +208,7 @@ public class SetInitNode extends ExprNode
 	protected SetInit getSetInit() {
 		return checkIR(SetInit.class);
 	}
-	
+
 	public static String getUseStr() {
 		return "set initialization";
 	}

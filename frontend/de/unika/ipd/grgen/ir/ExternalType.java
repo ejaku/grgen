@@ -22,7 +22,7 @@ public class ExternalType extends InheritanceType {
 	public ExternalType(Ident ident) {
 		super("node type", ident, 0, null);
 	}
-	
+
 	/** Return a classification of a type for the IR. */
 	public int classify() {
 		return IS_EXTERNAL_TYPE;

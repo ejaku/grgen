@@ -7,24 +7,24 @@ rule r {
 		alternative {
 			Foo {
 				u:Node;
-				
+
 				modify {
 					y:NINT<z>;
 				}
 			}
 			Bar {
 				u:Node;
-				
+
 				modify {
 					y:NINT<x>;
 				}
 			}
 		}
-		
+
 		modify {
 		}
 	}
-	
+
 	modify {}
 }
 

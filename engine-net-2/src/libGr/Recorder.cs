@@ -21,7 +21,7 @@ namespace de.unika.ipd.grGen.libGr
         /// <summary>
         /// Create a recorder
         /// </summary>
-        /// <param name="graph">The graph whose changes are to be recorded; 
+        /// <param name="graph">The graph whose changes are to be recorded;
         /// should be a NamedGraph for things to run smoothly (same holds for Porter methods)</param>
         public Recorder(IGraph graph)
         {
@@ -152,7 +152,7 @@ namespace de.unika.ipd.grGen.libGr
         {
             foreach(StreamWriter writer in recordings.Values)
                 writer.WriteLine("new @(\"" + graph.GetElementName(edge.Source)
-                    + "\") -:" + edge.Type.Name + "($=\"" + graph.GetElementName(edge) + "\")-> @(\"" 
+                    + "\") -:" + edge.Type.Name + "($=\"" + graph.GetElementName(edge) + "\")-> @(\""
                     + graph.GetElementName(edge.Target) + "\")");
         }
 

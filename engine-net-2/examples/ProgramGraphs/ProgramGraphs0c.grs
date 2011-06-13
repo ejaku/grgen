@@ -1,4 +1,4 @@
-# graph rewrite shell script file, shows how to improve the readability of the original graph 
+# graph rewrite shell script file, shows how to improve the readability of the original graph
 #  by using nesting along edges with the "dump add group" command
 # result is not really better, cause now everything is nested along the contains edges,
 # only the def-use edges are not used for nesting

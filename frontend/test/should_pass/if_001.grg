@@ -15,7 +15,7 @@ rule iftest
         | t.a == "aa7" | t.a=="bb7" | t.a=="cc7"
         ;
     }
-    
+
     modify {
         eval {
             t.a = "wow";

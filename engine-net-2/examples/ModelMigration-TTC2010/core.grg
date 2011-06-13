@@ -126,7 +126,7 @@ rule transform_Partition {
 
 rule transform_Transition {
 	transition:minuml1_Transition;
-	
+
 	alternative {
 		incomingObjectFlow {
 			transition <-:minuml1_StateVertex_incoming- :uml_Pin;

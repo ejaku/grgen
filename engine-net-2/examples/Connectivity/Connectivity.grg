@@ -10,7 +10,7 @@ rule init {
 		n5:CountNode;
 		n6:CountNode;
 		n7:CountNode;
-		
+
 		n1 --> n1;
 		n1 --> n2;
 		n2 --> n3;
@@ -78,7 +78,7 @@ rule breakCycle {
 	y:CountNode;
 
 	x -e:Edge-> y;
-	
+
 	modify {
 		delete(x);
 
@@ -90,8 +90,8 @@ rule breakCycle {
 
 exact rule reportSize {
 	x:CountNode;
-	
+
 	replace {
 		emit("size=", x.count, "\n");
 	}
-}	
+}

@@ -266,9 +266,9 @@ public abstract class InheritanceTypeNode extends CompoundTypeNode
 				if(init instanceof MapInit) {
 					inhType.addMapInit(mi.checkIR(MapInit.class));
 				} else if(init instanceof SetInit) {
-					inhType.addSetInit(mi.checkIR(SetInit.class));					
+					inhType.addSetInit(mi.checkIR(SetInit.class));
 				} else if(init instanceof ArrayInit) {
-					inhType.addArrayInit(mi.checkIR(ArrayInit.class));					
+					inhType.addArrayInit(mi.checkIR(ArrayInit.class));
 				} else {
 					inhType.addMemberInit(mi.checkIR(MemberInit.class));
 				}
@@ -293,7 +293,7 @@ public abstract class InheritanceTypeNode extends CompoundTypeNode
 		// to check overwriting of attributes
 		inhType.getAllMembers();
     }
-	
+
 	@Override
 	public String toString() {
 		return getIdentNode().toString() + "(" + super.toString() + ")";

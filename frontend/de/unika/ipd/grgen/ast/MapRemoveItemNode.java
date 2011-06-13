@@ -57,7 +57,7 @@ public class MapRemoveItemNode extends EvalStatementNode
 	protected boolean resolveLocal() {
 		return true;
 	}
-	
+
 	@Override
 	protected boolean checkLocal() {
 		TypeNode targetType = target.getDecl().getDeclType();
@@ -77,7 +77,7 @@ public class MapRemoveItemNode extends EvalStatementNode
 
 	@Override
 	protected IR constructIR() {
-		return new MapRemoveItem(target.checkIR(Qualification.class), 
+		return new MapRemoveItem(target.checkIR(Qualification.class),
 				keyExpr.checkIR(Expression.class));
 	}
 }

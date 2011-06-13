@@ -103,7 +103,7 @@ public class MapTypeNode extends DeclaredTypeNode {
 
 		return res;
 	}
-	
+
 	private static DeclarationTypeResolver<TypeNode> typeResolver = new DeclarationTypeResolver<TypeNode>(TypeNode.class);
 
 	@Override
@@ -112,7 +112,7 @@ public class MapTypeNode extends DeclaredTypeNode {
 			fixupDefinition((IdentNode)keyTypeUnresolved, keyTypeUnresolved.getScope());
 		if(valueTypeUnresolved instanceof IdentNode)
 			fixupDefinition((IdentNode)valueTypeUnresolved, valueTypeUnresolved.getScope());
-		
+
 		keyType   = typeResolver.resolve(keyTypeUnresolved, this);
 		valueType = typeResolver.resolve(valueTypeUnresolved, this);
 
@@ -155,12 +155,12 @@ public class MapTypeNode extends DeclaredTypeNode {
 	protected MapType constructIR() {
 		Type kt = keyType.getType();
 		Type vt = valueType.getType();
-		
+
 		// return if the keyType or valueType construction already constructed the IR object
 		if (isIRAlreadySet()) {
 			return (MapType)getIR();
 		}
-		
+
 		return new MapType(kt, vt);
 	}
 }

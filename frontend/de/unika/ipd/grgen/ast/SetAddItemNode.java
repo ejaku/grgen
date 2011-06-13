@@ -77,7 +77,7 @@ public class SetAddItemNode extends EvalStatementNode
 
 	@Override
 	protected IR constructIR() {
-		return new SetAddItem(target.checkIR(Qualification.class), 
+		return new SetAddItem(target.checkIR(Qualification.class),
 				valueExpr.checkIR(Expression.class));
 	}
 }

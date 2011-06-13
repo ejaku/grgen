@@ -5,6 +5,6 @@ rule to_6 (p:AB) {
     b : typeof(p);
 
 	replace{
-	    x:typeof(p)<a> --> b; 
+	    x:typeof(p)<a> --> b;
 	}
 }

@@ -54,7 +54,7 @@ namespace de.unika.ipd.grGen.libGr
 
         #endregion Abstract members
 
-        
+
         #region Sequence handling
 
         private Dictionary<String, SequenceDefinition> namesToSequenceDefinitions = new Dictionary<string, SequenceDefinition>();
@@ -95,7 +95,7 @@ namespace de.unika.ipd.grGen.libGr
                     seqDef.ReplaceSequenceDefinition(existingSequenceDef, sequenceDef);
                 }
                 existingSequenceDef.WasReplacedBy(sequenceDef); // flush sequence copy cache for this name
-                
+
                 return true;
             }
 
@@ -119,8 +119,8 @@ namespace de.unika.ipd.grGen.libGr
         /// Enumerates all graph rewrite sequence definitions.
         /// </summary>
         public IEnumerable<SequenceDefinition> GraphRewriteSequenceDefinitions
-        { 
-            get 
+        {
+            get
             {
                 foreach(SequenceDefinition seqDef in namesToSequenceDefinitions.Values)
                     yield return seqDef;
@@ -147,7 +147,7 @@ namespace de.unika.ipd.grGen.libGr
         {
             return Graph.ApplyGraphRewriteSequence(ParseSequence(seqStr), env);
         }
-              
+
         /// <summary>
         /// Tests whether the given sequence succeeds on a clone of the associated graph.
         /// </summary>

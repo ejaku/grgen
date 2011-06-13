@@ -73,7 +73,7 @@ public class ArrayPeekNode extends ExprNode
 
 	@Override
 	protected IR constructIR() {
-		return new ArrayPeekExpr(targetExpr.checkIR(Expression.class), 
+		return new ArrayPeekExpr(targetExpr.checkIR(Expression.class),
 				numberExpr.checkIR(Expression.class));
 	}
 }

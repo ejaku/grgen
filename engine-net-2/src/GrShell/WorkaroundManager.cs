@@ -23,7 +23,7 @@ namespace de.unika.ipd.grGen.grShell
     ///  - http://bugzilla.ximian.com/show_bug.cgi?id=80330 : Console.ForegroundColor initially does not reflect console color
     /// </summary>
 
-    [Flags] 
+    [Flags]
     public enum HighlightingMode : int
     {
         None = 0,
@@ -261,7 +261,7 @@ namespace de.unika.ipd.grGen.grShell
                     case (ConsoleKey) 30676:        // context menu
                         Console.ReadKey(true);      // catch second wrong key event
                         break;
-                    
+
                     case (ConsoleKey) 22:           // get(?) focus
                     case (ConsoleKey) 23:           // loose(?) focus
                         break;

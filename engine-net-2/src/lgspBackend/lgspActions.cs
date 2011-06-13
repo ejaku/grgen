@@ -228,12 +228,12 @@ namespace de.unika.ipd.grGen.lgsp
     /// An object representing a (possibly empty) set of matches in a graph before the rewrite has been applied.
     /// It is returned by IAction.Match() and given to the OnMatched, OnFinishing and OnFinished event.
     /// Generic to be instantiated with the exact interface and the exact implementation type of the match object
-    /// Every generated Action contains a LGSPMatchesList, 
+    /// Every generated Action contains a LGSPMatchesList,
     /// the matches contain one LGSPMatchesList per iterated pattern.
     /// A matches list stores the matches found by the last application of the action,
     /// the matches objects within the list are recycled by the next application of the action,
     /// only their content gets updated.
-    /// The purpose of this list is to act as a memory manager 
+    /// The purpose of this list is to act as a memory manager
     /// to save new/garbage collection cycles and improve cache footprint.
     /// Additionally this list is used for storing the results of an iteration in the matches objects, Producer being null in this case.
     /// Then it is just used as a container for already allocated elements.
@@ -363,7 +363,7 @@ namespace de.unika.ipd.grGen.lgsp
         }
 
         /// <summary>
-        /// returns an empty match object from the matches list 
+        /// returns an empty match object from the matches list
         /// to be filled by the matching action with the found nodes, edges and subpatterns.
         /// unless PositionWasFilledFixIt is called you always get the same element
         /// </summary>
@@ -451,8 +451,8 @@ namespace de.unika.ipd.grGen.lgsp
         private Match root;
 
         /// <summary>
-        /// logically last element of list, not necessarily physically the last element 
-        /// as previously generated matches are kept and recycled 
+        /// logically last element of list, not necessarily physically the last element
+        /// as previously generated matches are kept and recycled
         /// denotes the next point of logical insertion i.e. physical update
         /// </summary>
         private Match last;
@@ -480,7 +480,7 @@ namespace de.unika.ipd.grGen.lgsp
         public PatternGraph patternGraph;
 
         /// <summary>
-        /// Performance optimization: saves us usage of new in the old style/unspecific modify/apply methods 
+        /// Performance optimization: saves us usage of new in the old style/unspecific modify/apply methods
         /// of the action interface implementation for returning an array.
         /// </summary>
         public object[] ReturnArray;
@@ -739,7 +739,7 @@ invalidCommand:
         /// <summary>
         /// Enumerates all actions managed by this LGSPActions instance.
         /// </summary>
-        public override IEnumerable<IAction> Actions { get { 
+        public override IEnumerable<IAction> Actions { get {
             foreach(IAction action in actions.Values)
                 yield return action;
         } }
@@ -808,7 +808,7 @@ invalidCommand:
         /// <summary>
         /// Searches for the subpattern as specified by RulePattern.
         /// Takes care of search state as given by found partial matches, negLevel to search at
-        /// and maximum number of matches to search for (zero = find all matches) 
+        /// and maximum number of matches to search for (zero = find all matches)
         /// (and open tasks via this).
         /// </summary>
         public abstract void myMatch(List<Stack<IMatch>> foundPartialMatches, int maxMatches, int negLevel);
@@ -819,12 +819,12 @@ invalidCommand:
     /// Class containing global functions for checking whether node/edge is matched on patternpath
     /// </summary>
     public sealed class PatternpathIsomorphyChecker
-    { 
+    {
         public static bool IsMatched(LGSPNode node, IMatch lastMatchAtPreviousNestingLevel)
         {
             Debug.Assert(lastMatchAtPreviousNestingLevel!=null);
 
-            // move through matches stack backwards to starting rule, 
+            // move through matches stack backwards to starting rule,
             // check if node is already matched somewhere on the derivation path
             IMatch match = lastMatchAtPreviousNestingLevel;
             while (match != null)
@@ -845,7 +845,7 @@ invalidCommand:
         {
             Debug.Assert(lastMatchAtPreviousNestingLevel != null);
 
-            // move through matches stack backwards to starting rule, 
+            // move through matches stack backwards to starting rule,
             // check if edge is already matched somewhere on the derivation path
             IMatch match = lastMatchAtPreviousNestingLevel;
             while (match != null)

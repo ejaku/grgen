@@ -110,7 +110,7 @@ namespace de.unika.ipd.grGen.grShell
         {
             Graph = new NamedGraph(graph);
             Debug.Assert(graph is LGSPGraph);
-            if(graph is LGSPGraph) 
+            if(graph is LGSPGraph)
                 ((LGSPGraph)graph).NamedGraph = Graph;
             DumpInfo = new DumpInfo(Graph.GetElementName);
             BackendFilename = backendFilename;
@@ -149,7 +149,7 @@ namespace de.unika.ipd.grGen.grShell
         string ShowMsgAskForString(string msg);
     }
 
-    public class EOFException : IOException 
+    public class EOFException : IOException
     {
     }
 
@@ -160,7 +160,7 @@ namespace de.unika.ipd.grGen.grShell
     {
         protected TextReader in_;
         protected TextWriter out_;
-    
+
         public GrShellConsoleUI(TextReader in_, TextWriter out_)
         {
             this.in_ = in_;
@@ -288,7 +288,7 @@ namespace de.unika.ipd.grGen.grShell
         public ClonedGraphStack GetGraphStack()
         {
             if (!this.GraphExists()) {
-                return null; 
+                return null;
             }
             return new ClonedGraphStack(this);
         }
@@ -303,7 +303,7 @@ namespace de.unika.ipd.grGen.grShell
         }
 
         private bool BackendExists()
-        {                                       
+        {
             if(curGraphBackend == null)
             {
                 errOut.WriteLine("No backend. Select a backend, first.");
@@ -998,7 +998,7 @@ namespace de.unika.ipd.grGen.grShell
 
             debugOut.WriteLine("List of available commands for \"replay\":\n"
                 + " - replay <filename> [from <linetext>] [to <linetext>]\n"
-                + "   Plays a recording back: the graph at the time the recording was started\n" 
+                + "   Plays a recording back: the graph at the time the recording was started\n"
                 + "   is recreated, then the changes which occured are carried out again,\n"
                 + "   so you end up with the graph at the time the recording was stopped.\n"
                 + "   Instead of replaying the entire GRS file you may restrict replaying\n"
@@ -1352,7 +1352,7 @@ namespace de.unika.ipd.grGen.grShell
             // replace wrong directory separator chars by the right ones
             if(Path.DirectorySeparatorChar != '\\')
                 modelFilename = modelFilename.Replace('\\', Path.DirectorySeparatorChar);
-            
+
             IGraph graph;
             try
             {
@@ -1381,7 +1381,7 @@ namespace de.unika.ipd.grGen.grShell
 
             if(pendingDebugEnable)
                 SetDebugMode(true);
-            
+
             return true;
         }
 
@@ -1410,7 +1410,7 @@ namespace de.unika.ipd.grGen.grShell
             }
             return true;
         }
-        
+
         public bool SelectParser(String parserAssemblyName, String mainMethodName)
         {
             if(!GraphExists()) return false;
@@ -1510,7 +1510,7 @@ namespace de.unika.ipd.grGen.grShell
                     return null;
                 }
             }
-            else 
+            else
             {
                 if (directed) edgeType = curShellGraph.Graph.Model.EdgeModel.GetType("Edge");
                 else edgeType = curShellGraph.Graph.Model.EdgeModel.GetType("UEdge");
@@ -1551,7 +1551,7 @@ namespace de.unika.ipd.grGen.grShell
                 else
                     debugOut.WriteLine("New edge \"{0}\" of type \"{1}\" has been created between \"{2}\" and \"{3}\".", curShellGraph.Graph.GetElementName(edge), edge.Type.Name, curShellGraph.Graph.GetElementName(node1), curShellGraph.Graph.GetElementName(node2));
             }
-            
+
             return edge;
         }
 
@@ -1872,9 +1872,9 @@ namespace de.unika.ipd.grGen.grShell
         public bool Remove(INode node)
         {
             if(node == null) return false;
-            
+
             string name = curShellGraph.Graph.GetElementName(node); // get name before remove
-            
+
             try
             {
                 curShellGraph.Graph.RemoveEdges(node);
@@ -2320,7 +2320,7 @@ namespace de.unika.ipd.grGen.grShell
             }
             else
             {
-                debugOut.WriteLine("The available attributes for {0} \"{1}\":", 
+                debugOut.WriteLine("The available attributes for {0} \"{1}\":",
                     (showOnly ? "node type only" : "node type"), nodeType.Name);
                 ShowAvailableAttributes(nodeType.AttributeTypes, showOnly ? nodeType : null);
             }
@@ -2446,7 +2446,7 @@ namespace de.unika.ipd.grGen.grShell
                 string content;
                 if(val.GetType().Name=="Dictionary`2")
                 {
-                    DictionaryListHelper.ToString((IDictionary)val, out type, out content, 
+                    DictionaryListHelper.ToString((IDictionary)val, out type, out content,
                         null, curShellGraph!=null ? curShellGraph.Graph : null);
                     debugOut.WriteLine("The value of variable \"" + name + "\" of type " + type + " is: \"" + content + "\"");
                     return;
@@ -2472,7 +2472,7 @@ namespace de.unika.ipd.grGen.grShell
                     //ShowElementAttributes((IGraphElement)val);
                     return;
                 }
-                DictionaryListHelper.ToString(val, out type, out content, 
+                DictionaryListHelper.ToString(val, out type, out content,
                     null, curShellGraph!=null ? curShellGraph.Graph : null);
                 debugOut.WriteLine("The value of variable \"" + name + "\" of type " + type + " is: \"" + content + "\"");
                 return;
@@ -3488,7 +3488,7 @@ showavail:
                 errOut.WriteLine(curShellGraph.Graph.GetElementName(elem) + "." + attrName + " is neither a map nor an array.");
             }
         }
- 
+
         public void SetMapArrayRemove(IGraphElement elem, String attrName, object keyObj)
         {
             object attr = GetAttribute(elem, attrName);
@@ -3556,7 +3556,7 @@ showavail:
             if(str.IndexOf('\"') != -1) return "\'" + str + "\'";
             else return "\"" + str + "\"";
         }
-                                         
+
         public void SaveGraph(String filename)
         {
             if(!GraphExists()) return;
@@ -3567,7 +3567,7 @@ showavail:
             {
                 file = new FileStream(filename, FileMode.Create);
                 sw = new StreamWriter(file);
-            }                           
+            }
             catch(IOException e)
             {
                 errOut.WriteLine("Unable to create file \"{0}\": ", e.Message);

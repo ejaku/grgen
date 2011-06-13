@@ -1,4 +1,4 @@
-// GrGen-version of the Petri net simulation benchmark from 
+// GrGen-version of the Petri net simulation benchmark from
 // A Benchmark Evaluation of Incremental Pattern Matching in Graph Transformation
 // see http://viatra.inf.mit.bme.hu/download/icgt2008_pn_benchmark.zip for original/further versions
 
@@ -27,14 +27,14 @@ rule emitTokens(t:Transition)
 	t -i:inArc-> p:Place;
 
 	modify {
-		p -ks:tokens-> k:Token; 
+		p -ks:tokens-> k:Token;
 	}
 }
 
 rule consumeTokens(t:Transition)
 {
 	t <-o:outArc- p:Place;
-	
+
 	modify {
 		exec(deleteToken(p));
 	}
@@ -45,6 +45,6 @@ rule deleteToken(p:Place)
     p -ks:tokens-> k:Token;
 
 	replace{
-		p; 
+		p;
 	}
 }

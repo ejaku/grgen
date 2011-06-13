@@ -90,7 +90,7 @@ public abstract class BasicTypeNode extends DeclaredTypeNode {
 //		addCompatibility(voidType, intType);
 //		addCompatibility(voidType, booleanType);
 		addCompatibility(voidType, stringType);
-		
+
 		addCastability(enumItemType, objectType);
 		addCastability(booleanType, objectType);
 		addCastability(stringType, objectType);

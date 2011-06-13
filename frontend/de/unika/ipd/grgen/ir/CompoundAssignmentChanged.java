@@ -24,9 +24,9 @@ public class CompoundAssignmentChanged extends CompoundAssignment {
 
 	/** The operation of the change assignment */
 	private int changedOperation;
-		
-	
-	public CompoundAssignmentChanged(Qualification target, 
+
+
+	public CompoundAssignmentChanged(Qualification target,
 			int compoundAssignmentType, Expression expr,
 			int changedAssignmentType, Qualification changedTarget) {
 		super(target, compoundAssignmentType, expr);
@@ -37,7 +37,7 @@ public class CompoundAssignmentChanged extends CompoundAssignment {
 	public Qualification getChangedTarget() {
 		return changedTarget;
 	}
-	
+
 	public int getChangedOperation() {
 		return changedOperation;
 	}
@@ -45,11 +45,11 @@ public class CompoundAssignmentChanged extends CompoundAssignment {
 	public String toString() {
 		return super.toString() + (changedOperation==UNION?" |> ":changedOperation==INTERSECTION?" &> ":" => ") + changedTarget.toString();
 	}
-	
+
 	public void collectNeededEntities(NeededEntities needs)
 	{
 		super.collectNeededEntities(needs);
-		
+
 		Entity entity = changedTarget.getOwner();
 		needs.add((GraphEntity) entity);
 

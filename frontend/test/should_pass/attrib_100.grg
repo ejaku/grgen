@@ -25,12 +25,12 @@ rule evalAF {
     a.value == f.x;
   }
   modify {
-    eval { 
+    eval {
       s.s = a.value;
       s.s = f.x;
       s.s = a.value + f.x;
       s.s = (string)a.value + (string)f.x;
-      
+
       abi.value = 1;
       as.value = "42";
       ai.value = 23;

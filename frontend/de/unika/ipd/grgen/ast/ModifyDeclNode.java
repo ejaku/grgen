@@ -124,7 +124,7 @@ public class ModifyDeclNode extends RhsDeclNode {
 				ConstraintDeclNode el = (ConstraintDeclNode)n;
 				Entity ent = el.checkIR(Entity.class);
 				deleteSet.add(ent);
-				if(el.defEntityToBeYieldedTo) 
+				if(el.defEntityToBeYieldedTo)
 					ent.setPatternGraphDefYieldedIsToBeDeleted(right);
 				if(ent instanceof Node) {
 					Node node = el.checkIR(Node.class);
@@ -158,7 +158,7 @@ public class ModifyDeclNode extends RhsDeclNode {
 				right.addDeletedElement(e);
 			}
 		}
-		
+
 		for(SubpatternUsage sub : left.getSubpatternUsages()) {
 			boolean subHasDepModify = false;
 			for(OrderedReplacement orderedRepl: right.getOrderedReplacements()) {
@@ -184,7 +184,7 @@ public class ModifyDeclNode extends RhsDeclNode {
 				right.addSubpatternUsage(sub);
 			}
 		}
-		
+
 		insertElementsFromEvalIntoRhs(left, right);
 
 	    return right;

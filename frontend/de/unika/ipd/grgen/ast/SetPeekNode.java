@@ -74,7 +74,7 @@ public class SetPeekNode extends ExprNode
 
 	@Override
 	protected IR constructIR() {
-		return new SetPeekExpr(targetExpr.checkIR(Expression.class), 
+		return new SetPeekExpr(targetExpr.checkIR(Expression.class),
 				numberExpr.checkIR(Expression.class));
 	}
 }

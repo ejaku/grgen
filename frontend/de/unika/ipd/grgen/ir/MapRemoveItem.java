@@ -31,7 +31,7 @@ public class MapRemoveItem extends EvalStatement {
 	public Expression getKeyExpr() {
 		return keyExpr;
 	}
-	
+
 	public void collectNeededEntities(NeededEntities needs)
 	{
 		Entity entity = target.getOwner();

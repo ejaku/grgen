@@ -1,4 +1,4 @@
-// A multiply inherited node attribute should be rejected when 
+// A multiply inherited node attribute should be rejected when
 // it is declared on a single path through the class hierarchy
 
 node class Type1 {

@@ -7,7 +7,7 @@ test VisitedNotAKeyword1(var visitorID:int) : (Node)
 {
 	visited_:NINT;
 	if { typeof(visited_) > Node; visited_.a == 7; }
-	
+
 	return(visited_);
 }
 
@@ -20,7 +20,7 @@ test FindUnvisitedNode1(var visitorID:int) : (Node)
 {
 	n:Node;
 	if { n.visited[visitorID]; }
-	
+
 	return(n);
 }
 
@@ -28,7 +28,7 @@ rule FindUnvisitedNode2(visitorIDNode:NINT) : (Node)
 {
 	n:Node;
 	if { !n.visited[visitorIDNode.a]; }
-	
+
 	modify {
 		return(n);
 	}
@@ -39,7 +39,7 @@ test FindUnvisitedNode3(visitorIDNode:NINT) : (Node)
 {
 	n:Node;
 	if { !n.visited[visitorIDNode.a + 1]; }
-	
+
 	return(n);
 }
 
@@ -47,7 +47,7 @@ test FindUnvisitedEdge1(var visitorID:int) : (Edge)
 {
 	-e:Edge->;
 	if { e.visited[visitorID]; }
-	
+
 	return(e);
 }
 
@@ -55,7 +55,7 @@ rule FindUnvisitedEdge2(-visitorIDEdge:EINT->) : (Edge)
 {
 	-e:Edge->;
 	if { !e.visited[visitorIDEdge.a]; }
-	
+
 	modify {
 		return(e);
 	}
@@ -66,7 +66,7 @@ test FindUnvisitedEdge3(-visitorIDEdge:EINT->) : (Edge)
 {
 	-e:Edge->;
 	if { !e.visited[visitorIDEdge.a + 1]; }
-	
+
 	return(e);
 }
 

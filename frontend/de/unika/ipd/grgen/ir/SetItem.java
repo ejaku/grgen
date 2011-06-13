@@ -23,7 +23,7 @@ public class SetItem extends IR {
 	public Expression getValueExpr() {
 		return valueExpr;
 	}
-	
+
 	public void collectNeededEntities(NeededEntities needs) {
 		valueExpr.collectNeededEntities(needs);
 	}

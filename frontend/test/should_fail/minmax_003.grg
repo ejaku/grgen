@@ -8,7 +8,7 @@ rule r {
 		ns.a == min(ns.a, es.a);
 		ns.a == max(ns.a, es.a);
 	}
-	
+
 	modify {
 	}
 }

@@ -37,7 +37,7 @@ public class MapAddItem extends EvalStatement {
 	public Expression getValueExpr() {
 		return valueExpr;
 	}
-	
+
 	public void collectNeededEntities(NeededEntities needs)
 	{
 		Entity entity = target.getOwner();

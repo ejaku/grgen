@@ -3,12 +3,12 @@ rule r
 	negative {
         iterated {
             n:Node;
-			
+
             modify {
             }
         }
 	}
-	
+
 	replace {
 	}
 }

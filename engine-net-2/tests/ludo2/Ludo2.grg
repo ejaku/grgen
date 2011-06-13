@@ -50,7 +50,7 @@ rule init {
 		bluePlayer            -:blue-> blueFig2;
 		bluePlayer            -:blue-> lastBlueFigure;
 
-		yellowPlayer:YellowPlayer -:yellow-> firstYellowFigure; 
+		yellowPlayer:YellowPlayer -:yellow-> firstYellowFigure;
 		yellowPlayer              -:yellow-> yellowFig1;
 		yellowPlayer              -:yellow-> yellowFig2;
 		yellowPlayer              -:yellow-> lastYellowFigure;
@@ -62,7 +62,7 @@ rule init {
 
 		redPlayer    -:current-> firstRedFigure;
 		bluePlayer   -:current-> firstBlueFigure;
-		yellowPlayer -:current-> firstYellowFigure; 
+		yellowPlayer -:current-> firstYellowFigure;
 		greenPlayer  -:current-> firstGreenFigure;
 
 		redPlayer    -:last-> lastRedFigure;
@@ -159,7 +159,7 @@ rule move4 {
 	if { d.dots == 4; }
 	p -c:color-> fig:Figure -:occupies-> :Field -:typeof(c)-> :Field -:typeof(c)-> :Field -:typeof(c)-> :Field -:typeof(c)-> field4:Field;
 	p -:current-> fig;
-	
+
 	modify {
 		fig -:intends-> field4;
 	}
@@ -170,7 +170,7 @@ rule move5 {
 	if { d.dots == 5; }
 	p -c:color-> fig:Figure -:occupies-> :Field -:typeof(c)-> :Field -:typeof(c)-> :Field -:typeof(c)-> :Field -:typeof(c)-> :Field -:typeof(c)-> field5:Field;
 	p -:current-> fig;
-	
+
 	modify {
 		fig -:intends-> field5;
 	}

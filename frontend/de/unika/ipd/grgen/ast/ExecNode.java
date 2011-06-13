@@ -168,14 +168,14 @@ public class ExecNode extends BaseNode {
 	 * this error will be caught later on when the xgrs is processed by the libgr sequence parser and symbol table.
 	 */
 	public void addImplicitDefinitions() {
-		for(IdentNode id : usageUnresolved.children)	
+		for(IdentNode id : usageUnresolved.children)
 		{
 			debug.report(NOTE, "Implicit definition for " + id + " in scope " + getScope());
-		
+
 			// Get the definition of the ident's symbol local to the owned scope.
 			Symbol.Definition def = getScope().getCurrDef(id.getSymbol());
 			debug.report(NOTE, "definition is: " + def);
-	
+
 			// If this definition is valid, i.e. it exists, it will be used
 			// else, an ExecVarDeclNode of this name is added to the scope
 			if(def.isValid()) {

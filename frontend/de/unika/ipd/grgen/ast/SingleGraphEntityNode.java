@@ -68,7 +68,7 @@ public class SingleGraphEntityNode extends BaseNode
 	{
 		if(!fixupDefinition(entityUnresolved, entityUnresolved.getScope()))
 			return false;
-		
+
 		Pair<NodeDeclNode, SubpatternUsageNode> pair = entityResolver.resolve(entityUnresolved, this);
 
 		if (pair != null) {
@@ -78,7 +78,7 @@ public class SingleGraphEntityNode extends BaseNode
 
 		return entityNode != null || entitySubpattern != null;
 	}
-	
+
 	/*
 	 * This sets the symbol definition to the right place, if the definition is behind the actual position.
 	 * TODO: extract and unify this method to a common place/code duplication
@@ -88,7 +88,7 @@ public class SingleGraphEntityNode extends BaseNode
 			return true;
 		}
 		IdentNode id = (IdentNode)elem;
-		
+
 		debug.report(NOTE, "Fixup " + id + " in scope " + scope);
 
 		// Get the definition of the ident's symbol local to the owned scope.

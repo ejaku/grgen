@@ -32,7 +32,7 @@ for dirname in $targets; do
   cd $dirname
   echo $dirname
   echo "$dirname:" >> ../testlog.txt
-  
+
   for grs in *.grs; do
     echo -n "- $grs:"
     $exeprefix ../../bin/GrShell.exe -N $grs < /dev/null

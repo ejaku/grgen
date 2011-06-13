@@ -4,14 +4,14 @@ rule emitState(ref nodeToId:map<Node, int>)
 
 	iterated outgoing {
 		s -:Edge-> t:Node;
-		
+
 		modify {
 			emithere(nodeToId[t] + " ");
 		}
 	}
 	iterated incoming {
-		s -:Edge-> t:Node;	
-		
+		s -:Edge-> t:Node;
+
 		modify {
 			emithere(nodeToId[t] + " ");
 		}

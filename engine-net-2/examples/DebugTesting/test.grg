@@ -16,7 +16,7 @@ rule matchmark : (Node)
 {
 	n:Node;
 	if { !n.visited; }
-	
+
 	modify {
 		eval { n.visited = true; }
 		return (n);
@@ -24,14 +24,14 @@ rule matchmark : (Node)
 }
 
 rule setstring(n:N)
-{	
+{
 	modify {
 		eval { n.s = "S"; }
 	}
 }
 
 rule unsetstring(n:N)
-{	
+{
 	modify {
 		eval { n.s = ""; }
 	}

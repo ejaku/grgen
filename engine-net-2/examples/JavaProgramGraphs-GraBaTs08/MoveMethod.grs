@@ -13,12 +13,12 @@ xgrs InsertHelperEdgesForNestedLayout
 
 # a) change access to use parameter if method has some parameter p of type target
 #   -check preconditions
-#   -add source parameter to signature if "this" is accessed in moved method body 
+#   -add source parameter to signature if "this" is accessed in moved method body
 #      (i.e. some source class member is accessed), and rewrite body to use parameter instead of "this"
 #   -move method body and operation from source to target class (change of type of implicit "this" parameter)
 #   -change the access before the call to use the target expression
 #   -with source parameter if needed
-#   todo: (if correspondence formal parameter <-> actual parameter can be established 
+#   todo: (if correspondence formal parameter <-> actual parameter can be established
 #          -- further information must be added to graph (model) in order to do so)
 #   -remove target parameter from signature
 #   -rewrite target parameter usages in moved method body to this
@@ -35,7 +35,7 @@ xgrs InsertHelperEdgesForNestedLayout
 #   -relink method body to target class operation
 #   -add source parameter to target signature if "this" is accessed in moved method body,
 #      and rewrite body to use parameter instead of "this"
-#   -add delegating body, forwarding operation parameters in call 
+#   -add delegating body, forwarding operation parameters in call
 
 # ask user for source class, target class and method to move
 # debug apply (src,tgt,mb)=getSourceAndTargetAndMethodBody(?,?,?)

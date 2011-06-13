@@ -16,7 +16,7 @@ edge class PG; // Phosphate Group
 
 // atoms for building molecules for atomic view of transcription
 
-node class A_C; // Atom C 
+node class A_C; // Atom C
 node class A_H; // Atom H
 node class A_O; // Atom O
 node class A_N; // Atom N

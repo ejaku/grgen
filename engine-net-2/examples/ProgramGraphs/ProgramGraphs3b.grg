@@ -36,5 +36,5 @@ pattern Statements(exOrMb:Entity)
 				exOrMb -:next->;
 			}
 		}
-	}	
+	}
 }

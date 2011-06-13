@@ -126,7 +126,7 @@ public class MemberInitNode extends BaseNode {
 			return new MemberInit(lhs.checkIR(Entity.class), rhs.checkIR(Expression.class));
 		}
 	}
-	
+
 	public static String getUseStr() {
 		return "member initialization";
 	}

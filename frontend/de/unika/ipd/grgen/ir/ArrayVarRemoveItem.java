@@ -28,7 +28,7 @@ public class ArrayVarRemoveItem extends EvalStatement {
 	public Expression getIndexExpr() {
 		return indexExpr;
 	}
-	
+
 	public void collectNeededEntities(NeededEntities needs)
 	{
 		needs.add(target);

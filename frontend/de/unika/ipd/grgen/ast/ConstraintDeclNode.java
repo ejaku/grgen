@@ -30,9 +30,9 @@ public abstract class ConstraintDeclNode extends DeclNode
 
 	protected boolean maybeDeleted = false;
 	protected boolean maybeRetyped = false;
-	protected boolean maybeNull = false; 
+	protected boolean maybeNull = false;
 
-	
+
 	protected ConstraintDeclNode(IdentNode id, BaseNode type, int context, TypeExprNode constraints,
 			PatternGraphNode directlyNestingLHSGraph, boolean maybeNull, boolean defEntityToBeYieldedTo) {
 		super(id, type);

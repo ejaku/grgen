@@ -1,6 +1,6 @@
 rule r {
-	x[prio=10000] : Node;		
-	
+	x[prio=10000] : Node;
+
 	modify {
 	}
 }

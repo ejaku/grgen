@@ -13,7 +13,7 @@ rule InitOutput : (grIO_File, grIO_File_Line, ProcessAssignment, ProcessAssignme
     file -:grIO_File_ContainsLine-> dummyLine:grIO_File_Line;
     counter:Counter;
     lastPa -:processAssignments-> dummyPa:ProcessAssignment;
-    
+
     eval {
       file.path = "output.csp";
       dummyLine.content = "<dummy line>";
@@ -34,11 +34,11 @@ rule PAWriteProcess(file:grIO_File, lastLine:grIO_File_Line, curPa:ProcessAssign
 
   modify {
     file -:grIO_File_ContainsLine-> newLine:grIO_File_Line <-:grIO_File_NextLine- lastLine;
-  
+
     eval {
       newLine.content = procID.name + " = " + proc.name;
     }
-  
+
     return (newLine, nextPa);
   }
 }
@@ -57,11 +57,11 @@ rule PAWritePrefix(file:grIO_File, lastLine:grIO_File_Line, curPa:ProcessAssignm
 
   modify {
     file -:grIO_File_ContainsLine-> newLine:grIO_File_Line <-:grIO_File_NextLine- lastLine;
-  
+
     eval {
       newLine.content = procID.name + " = " + ev.name + " -> " + tgt.name;
     }
-  
+
     return (newLine, nextPa);
   }
 }
@@ -78,11 +78,11 @@ rule PAWriteConditionStart(file:grIO_File, lastLine:grIO_File_Line, curPa:Proces
 
   modify {
     file -:grIO_File_ContainsLine-> newLine:grIO_File_Line <-:grIO_File_NextLine- lastLine;
-    
+
     eval {
       newLine.content = procID.name + " = ";
     }
-    
+
     return (newLine, cond, nextPa);
   }
 }
@@ -141,11 +141,11 @@ rule PAWriteConcurrencyStart(file:grIO_File, lastLine:grIO_File_Line, curPa:Proc
 
   modify {
     file -:grIO_File_ContainsLine-> newLine:grIO_File_Line <-:grIO_File_NextLine- lastLine;
-    
+
     eval {
       newLine.content = procID.name + " = " + forkProc.name;
     }
-    
+
     return (newLine, conc, nextPa);
   }
 }

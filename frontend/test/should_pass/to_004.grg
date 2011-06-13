@@ -2,7 +2,7 @@ using test_model_002;
 
 rule to_1 {
 	a : A;
-    b : AB;		
+    b : AB;
 	c : typeof(a);
     d : typeof(b);
 

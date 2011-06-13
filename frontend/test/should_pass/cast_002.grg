@@ -21,7 +21,7 @@ rule r {
 			ns.a = ns.a + (string) nb.a;
 
 
-			//from int			
+			//from int
 			ni.a = (int) ni.a;
 			nb.a = ni.a == (int) ni.a;
 			ni.a = ni.a + (int) ni.a;
@@ -40,8 +40,8 @@ rule r {
 			ns.a = (string) ni.a;
 			nb.a = ns.a == (string) ni.a;
 			ns.a = ns.a + (string) ni.a;
-			
-			
+
+
 			//from float
 			ni.a = (int) nf.a;
 			nb.a = ni.a == (int) nf.a;
@@ -61,7 +61,7 @@ rule r {
 			ns.a = (string) nf.a;
 			nb.a = ns.a == (string) nf.a;
 			ns.a = ns.a + (string) nf.a;
-			
+
 
 			//from double
 			ni.a = (int) nd.a;

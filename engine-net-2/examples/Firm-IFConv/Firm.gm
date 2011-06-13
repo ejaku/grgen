@@ -24,13 +24,13 @@ edge class FIRM_edge extends Edge {
  * Modes                                      *
  **********************************************/
 
-enum ENUM_sort { 
-	auxiliary, control_flow, memory, internal_boolean, 
-	int_number, float_number, reference, character 
+enum ENUM_sort {
+	auxiliary, control_flow, memory, internal_boolean,
+	int_number, float_number, reference, character
 }
-enum ENUM_arithmetic_kind { 
-	uninitialized, none, twos_complement, ones_complement, 
-	int_BCD, ieee754, float_BCD, max, unknown 
+enum ENUM_arithmetic_kind {
+	uninitialized, none, twos_complement, ones_complement,
+	int_BCD, ieee754, float_BCD, max, unknown
 }
 enum ENUM_modecode {
 	irm_BB, irm_X,   irm_F,   irm_D,  irm_E,  irm_Bs,
@@ -83,7 +83,7 @@ node class Mode_LLu  extends Mode;
 
 enum ENUM_state       { layout_undefined, layout_fixed }
 
-/************* Type Nodes         *************/ 
+/************* Type Nodes         *************/
 
 node class Type extends FIRM_node {
 	id    : int;
@@ -93,7 +93,7 @@ node class Type extends FIRM_node {
 	align : int;
 }
 
-node class Compound extends Type; 
+node class Compound extends Type;
 node class Class extends Compound;
 node class Struct extends Compound;
 node class Union extends Compound;
@@ -109,7 +109,7 @@ node class Enum extends Type;
 node class Pointer extends Type;
 node class Primitive extends Type;
 
-/************* Type Edges         *************/ 
+/************* Type Edges         *************/
 
 // Class (Sub) --> Class (Super)
 edge class is_subtype_of extends FIRM_edge
@@ -117,13 +117,13 @@ edge class is_subtype_of extends FIRM_edge
 edge class member extends FIRM_edge
                 // Entities may or may not be an Compound member: [0:1]
 	connect	Compound [*] --> Entity [0:1];
-edge class parameter extends FIRM_edge 
+edge class parameter extends FIRM_edge
 	connect	Method [*] --> Type [*] {
 	position : int;
 }
-edge class result extends FIRM_edge 
+edge class result extends FIRM_edge
 	connect Method [*] --> Type [*] {
-	position : int; 
+	position : int;
 }
 edge class element_type extends FIRM_edge
 	connect	Array [1] --> Type [*];
@@ -132,7 +132,7 @@ edge class element_ent extends FIRM_edge
 
 
 /* !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
-   TODO XXX const_code_irg is not walked by wif.do_block 
+   TODO XXX const_code_irg is not walked by wif.do_block
    TODO: Implement upper / lower in firm2grs.c
    !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
  */
@@ -159,7 +159,7 @@ edge class has_type extends FIRM_edge
  * Tarval                                     *
  **********************************************/
 
-node class Tarval extends FIRM_node { 
+node class Tarval extends FIRM_node {
 	value : string;		//  is this aprobate
 }
 
@@ -184,7 +184,7 @@ enum ENUM_visibility   { local, global, extern }
 enum ENUM_variability  { uninitialized, initialized, partly_constant, constant }
 enum ENUM_peculiarity  { description, inherited, existent }
 
-/************* Entity Nodes       *************/ 
+/************* Entity Nodes       *************/
 
 node class Entity extends FIRM_node {
 	name        : string;		// the (source) name of the entity
@@ -197,7 +197,7 @@ node class Entity extends FIRM_node {
 	volatility  : boolean;
 }
 
-/************* Entity Edges       *************/ 
+/************* Entity Edges       *************/
 
 edge class overwrites extends FIRM_edge
 	connect Entity --> Entity;		// TODO arity ???
@@ -277,7 +277,7 @@ node class Const extends IR_node, Ordinary {
 	value : string;			// tarval coded as string
 }
 node class IntConst extends Const {
-  // ATTENTION: 
+  // ATTENTION:
 	// value inherited from Const is set to "<INTCONST>" and may not be used
 	intval : int;			// tarval coded as string
 }
@@ -365,16 +365,16 @@ node class IntrinsicFP  extends Intrinsic;	// a intrinsic with fp registers
 node class IntrinsicMMX extends Intrinsic;	// a intrinsic with mmx registers
 node class IntrinsicSSE extends Intrinsic;	// a intrinsic with sse registers
 
-node class Intrinsic_sse_sse_sse extends Intrinsic;	// a intrinsic 
-node class Intrinsic_sse_sse extends Intrinsic;		// a intrinsic 
-node class Intrinsic_sse_addr_sse extends Intrinsic;	// a intrinsic 
-node class Intrinsic_addr_sse_store extends Intrinsic;	// a intrinsic 
-node class Intrinsic_reg_sse_sse extends Intrinsic;	// a intrinsic 
-node class Intrinsic_sse_reg_sse extends Intrinsic;	// a intrinsic 
-node class Intrinsic_sse_addr_store extends Intrinsic;	// a intrinsic 
-node class Intrinsic_addr_addr_store extends Intrinsic;	// a intrinsic 
-node class Intrinsic_addr_sse extends Intrinsic;	// a intrinsic 
-node class Intrinsic_addr_addr_sse extends Intrinsic;	// a intrinsic 
+node class Intrinsic_sse_sse_sse extends Intrinsic;	// a intrinsic
+node class Intrinsic_sse_sse extends Intrinsic;		// a intrinsic
+node class Intrinsic_sse_addr_sse extends Intrinsic;	// a intrinsic
+node class Intrinsic_addr_sse_store extends Intrinsic;	// a intrinsic
+node class Intrinsic_reg_sse_sse extends Intrinsic;	// a intrinsic
+node class Intrinsic_sse_reg_sse extends Intrinsic;	// a intrinsic
+node class Intrinsic_sse_addr_store extends Intrinsic;	// a intrinsic
+node class Intrinsic_addr_addr_store extends Intrinsic;	// a intrinsic
+node class Intrinsic_addr_sse extends Intrinsic;	// a intrinsic
+node class Intrinsic_addr_addr_sse extends Intrinsic;	// a intrinsic
 
 node class max extends IntrinsicGP;	// a max instruction
 node class min extends IntrinsicGP;	// a min instruction
@@ -391,9 +391,9 @@ node class IntrinsicMatch extends Match{
 }
 
 
-/************* IR Edges         *************/ 
+/************* IR Edges         *************/
 
-edge class flow extends FIRM_edge 
+edge class flow extends FIRM_edge
 	connect IR_node [*] --> IR_node [*] {
 	position : int;
 }
@@ -401,13 +401,13 @@ edge class flow extends FIRM_edge
 edge class df extends flow;		// IR_node --> IR_node, data flow
 edge class mem extends df;		// IR_node --> IR_node, memory
 edge class tuple extends df;		// Edges of Mode Tuple
-edge class cf extends flow		// control flow 
+edge class cf extends flow		// control flow
 	connect IR_node [1] --> Block [*],
                 // We cannot distinguish ProjI etc from ProjXi: therefor 0
                 // ProjX form Start has 2 successors
 	        Block   [*] --> Proj  [0:2];
 
-	
+
 /**********************************************
  * Extensions                                 *
  **********************************************/
@@ -451,7 +451,7 @@ edge class ifconv;
 
 /******************
  * SIMD Extension *
- ******************/   
+ ******************/
 
 //select parts of a register (e.g. 32 bit of a 128 bit register)
 node class VProj extends IR_node, Ordinary
@@ -460,13 +460,13 @@ node class VProj extends IR_node, Ordinary
 }
 
 // Add wich can have several operands
-node class MultipleAdd extends IR_node 
+node class MultipleAdd extends IR_node
 {
 	arity: int;
 }
 
 // A node which represents the base pointer of a vector
-node class VectorBase extends IR_node; 
+node class VectorBase extends IR_node;
 
 // A backend node we need to copy simd --> gp register on ia32
 node class IR_Keep extends IR_node;

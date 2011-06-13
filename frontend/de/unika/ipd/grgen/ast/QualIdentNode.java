@@ -78,7 +78,7 @@ public class QualIdentNode extends BaseNode implements DeclaredCharacter {
 		 * 3) resolve now complete/correct right hand side identifier into its declaration */
 		boolean res = fixupDefinition(ownerUnresolved, ownerUnresolved.getScope());
 		if(!res) return false;
-		
+
 		boolean successfullyResolved = true;
 		owner = ownerResolver.resolve(ownerUnresolved, this);
 		successfullyResolved = owner!=null && successfullyResolved;
@@ -107,7 +107,7 @@ public class QualIdentNode extends BaseNode implements DeclaredCharacter {
 
 		return successfullyResolved;
 	}
-	
+
 	/*
 	 * This sets the symbol definition to the right place, if the definition is behind the actual position.
 	 * TODO: extract and unify this method to a common place/code duplication
@@ -118,7 +118,7 @@ public class QualIdentNode extends BaseNode implements DeclaredCharacter {
 			return true;
 		}
 		IdentNode id = (IdentNode)elem;
-		
+
 		debug.report(NOTE, "Fixup " + id + " in scope " + scope);
 
 		// Get the definition of the ident's symbol local to the owned scope.

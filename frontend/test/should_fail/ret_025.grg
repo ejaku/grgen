@@ -2,12 +2,12 @@ rule r : (Edge)
 {
     x:Node;
     y:Node;
-    
+
     x -e:Edge-> y;
     x -f:Edge-> y;
-    
+
     hom(e,f);
-    
+
     modify {
         delete(e);
         return(f);

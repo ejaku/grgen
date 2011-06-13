@@ -3,33 +3,33 @@ using Sierpinski3Model;
 rule init {
  replace {
             a:A;
-            
+
        c-->a;  a-->b;
-            
+
    c:C;    c<--b;    b:B;
  }
 }
 
 rule gen {
                       a:A;
-         
-         
-            
+
+
+
           c-->a;                a-->b;
-         
-         
-            
+
+
+
    c:C;              c<--b;               b:B;
- 
+
  replace {
                        a;
 
               ca-->a;      a-->ab;
-                        
+
           ca:CA;    ca<--ab;    ab:AB;
-             
-     c-->ca;   ca-->bc;   bc-->ab;   ab-->b; 
-      
+
+     c-->ca;   ca-->bc;   bc-->ab;   ab-->b;
+
    c;     c<--bc;    bc:BC;     bc<--b;     b;
  }
 }

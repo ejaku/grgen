@@ -30,7 +30,7 @@ rule linkChainEndToStart(begin:Node) : (Node)
 {
 	def end:Node;
 	c:Chain(begin, yield end);
-	
+
 	modify {
 		end --> begin;
 		return(end);
@@ -40,11 +40,11 @@ rule linkChainEndToStart(begin:Node) : (Node)
 rule linkChainEndToStartIndependent(begin:Node) : (Node)
 {
 	def end:Node;
-	
+
 	independent {
 		c:Chain(begin, yield end);
 	}
-	
+
 	modify {
 		end --> begin;
 		return(end);
@@ -57,7 +57,7 @@ rule deleteWithoutIncoming
 	negative {
 		--> n;
 	}
-	
+
 	replace {
 	}
 }
@@ -85,19 +85,19 @@ test countNINT(start:Node) : (int, int, int)
 	def var io:int = 0;
 	def var jo:int = 0;
 	def var v:int = 0;
-	
+
 	iterated it {
 		def var i:int;
 		def var j:int;
-		
+
 		start --> n:NINT;
-		
+
 		yield {
 			yield i = n.a;
 			yield j = 1;
 			yield v = 42;
 		}
-	} 
+	}
 
 	yield {
 		for{i in it; yield io = io + i};

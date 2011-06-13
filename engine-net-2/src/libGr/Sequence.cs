@@ -17,15 +17,15 @@ namespace de.unika.ipd.grGen.libGr
 {
     /// <summary>
     /// Specifies the actual subtype used for a Sequence.
-    /// A new sequence type -> you must adapt lgspSequenceChecker and lgspSequenceGenerator, 
+    /// A new sequence type -> you must adapt lgspSequenceChecker and lgspSequenceGenerator,
     /// SequenceChecker and Sequence (add the corresponding class down below), the Debugger
     /// </summary>
     public enum SequenceType
     {
-        ThenLeft, ThenRight, LazyOr, LazyAnd, StrictOr, Xor, StrictAnd, Not, 
+        ThenLeft, ThenRight, LazyOr, LazyAnd, StrictOr, Xor, StrictAnd, Not,
         IterationMin, IterationMinMax,
         RuleCall, RuleAllCall, Def, Yield, True, False, VarPredicate,
-        AssignVAllocToVar, AssignContainerSizeToVar, AssignContainerEmptyToVar, 
+        AssignVAllocToVar, AssignContainerSizeToVar, AssignContainerEmptyToVar,
         AssignContainerAccessToVar, AssignVarToIndexedVar,
         AssignVarToVar, AssignElemToVar,
         AssignSequenceResultToVar, OrAssignSequenceResultToVar, AndAssignSequenceResultToVar,
@@ -47,7 +47,7 @@ namespace de.unika.ipd.grGen.libGr
     }
 
     /// <summary>
-    /// Environment for sequence exection giving access to graph element names and user interface 
+    /// Environment for sequence exection giving access to graph element names and user interface
     /// </summary>
     public interface SequenceExecutionEnvironment
     {
@@ -148,7 +148,7 @@ namespace de.unika.ipd.grGen.libGr
         /// <param name="newDef">The new definition which replaces the old one</param>
         internal virtual void ReplaceSequenceDefinition(SequenceDefinition oldDef, SequenceDefinition newDef)
         {
-            // most sequences are basic ones not referencing seqences 
+            // most sequences are basic ones not referencing seqences
             // this null implementation saves us the effort of implementing this method everywhere, needed or not
         }
 
@@ -475,7 +475,7 @@ namespace de.unika.ipd.grGen.libGr
         }
 
         public override IEnumerable<Sequence> Children
-        { 
+        {
             get { foreach(Sequence seq in Sequences) yield return seq; }
         }
     }
@@ -781,7 +781,7 @@ namespace de.unika.ipd.grGen.libGr
             }
             catch (NullReferenceException)
             {
-                System.Console.Error.WriteLine("Null reference exception during rule execution (null parameter?): " + Symbol); 
+                System.Console.Error.WriteLine("Null reference exception during rule execution (null parameter?): " + Symbol);
                 throw;
             }
 
@@ -866,7 +866,7 @@ namespace de.unika.ipd.grGen.libGr
             return sb.ToString();
         }
 
-        public override string Symbol      
+        public override string Symbol
         {
             get
             {
@@ -894,7 +894,7 @@ namespace de.unika.ipd.grGen.libGr
         public SequenceVariable MaxVarChooseRandom;
         private bool choice;
 
-        public SequenceRuleAllCall(RuleInvocationParameterBindings paramBindings, bool special, bool test, 
+        public SequenceRuleAllCall(RuleInvocationParameterBindings paramBindings, bool special, bool test,
             bool chooseRandom, SequenceVariable varChooseRandom,
             bool chooseRandom2, SequenceVariable varChooseRandom2, bool choice)
             : base(paramBindings, special, test)
@@ -1071,8 +1071,8 @@ namespace de.unika.ipd.grGen.libGr
         }
 
         public override string Symbol
-        { 
-            get 
+        {
+            get
             {
                 String prefix = "";
 				if(ChooseRandom) {
@@ -1102,7 +1102,7 @@ namespace de.unika.ipd.grGen.libGr
                     if(Test) prefix += "[?";
                     else prefix += "[";
                 }
-                return prefix + GetRuleString() + "]"; 
+                return prefix + GetRuleString() + "]";
             }
         }
     }
@@ -1131,7 +1131,7 @@ namespace de.unika.ipd.grGen.libGr
         {
             foreach(SequenceVariable defVar in DefVars)
             {
-                if(defVar.GetVariableValue(graph) == null) 
+                if(defVar.GetVariableValue(graph) == null)
                     return false;
             }
             return true;
@@ -1147,7 +1147,7 @@ namespace de.unika.ipd.grGen.libGr
         public override IEnumerable<Sequence> Children { get { yield break; } }
         public override int Precedence { get { return 8; } }
         public override string Symbol { get {
-                StringBuilder sb = new StringBuilder(); 
+                StringBuilder sb = new StringBuilder();
                 sb.Append("def(");
                 for(int i=0; i<DefVars.Length; ++i)
                 {
@@ -1562,7 +1562,7 @@ namespace de.unika.ipd.grGen.libGr
 
     public class SequenceAssignConstToVar : SequenceAssign
     {
-        public object Constant; 
+        public object Constant;
 
         public SequenceAssignConstToVar(SequenceVariable destVar, object constant)
             : base(destVar, SequenceType.AssignConstToVar)
@@ -1687,7 +1687,7 @@ namespace de.unika.ipd.grGen.libGr
             : base(destVar, SequenceType.AssignElemToVar)
         {
             ElementName = elemName;
-            if(ElementName[0]=='\"') ElementName = ElementName.Substring(1, ElementName.Length-2); 
+            if(ElementName[0]=='\"') ElementName = ElementName.Substring(1, ElementName.Length-2);
         }
 
         protected override bool ApplyImpl(IGraph graph, SequenceExecutionEnvironment env)
@@ -1841,9 +1841,9 @@ namespace de.unika.ipd.grGen.libGr
                 if(Choice && !Skip && env != null) seqToExecute = env.ChooseSequence(seqToExecute, sequences, this);
                 bool result = sequences[seqToExecute].Apply(graph, env);
                 sequences.Remove(sequences[seqToExecute]);
-                if(!result) { 
-                    Skip = false; 
-                    return false; 
+                if(!result) {
+                    Skip = false;
+                    return false;
                 }
             }
             Skip = false;
@@ -1937,7 +1937,7 @@ namespace de.unika.ipd.grGen.libGr
             }
         }
 
-        public bool NonRandomAll(int rule) 
+        public bool NonRandomAll(int rule)
         {
             return Sequences[rule] is SequenceRuleAllCall && !((SequenceRuleAllCall)Sequences[rule]).ChooseRandom;
         }
@@ -1953,7 +1953,7 @@ namespace de.unika.ipd.grGen.libGr
             }
             return numTotalMatches;
         } }
-        
+
         public void FromTotalMatch(int totalMatch, out int rule, out int match)
         {
             int curMatch = 0;
@@ -1963,7 +1963,7 @@ namespace de.unika.ipd.grGen.libGr
                 if (NonRandomAll(i))
                 {
                     match = 0;
-                    if (curMatch == totalMatch) 
+                    if (curMatch == totalMatch)
                         return;
                     ++curMatch;
                 }
@@ -2179,7 +2179,7 @@ namespace de.unika.ipd.grGen.libGr
                 return false;
             }
 
-            // apply the rule and the following sequence for every match found, 
+            // apply the rule and the following sequence for every match found,
             // until the first rule and sequence execution succeeded
             // rolling back the changes of failing executions until then
             int matchesTried = 0;
@@ -2482,7 +2482,7 @@ namespace de.unika.ipd.grGen.libGr
         {
             Var.GetLocalVariables(variables);
             if(VarDst != null)
-                VarDst.GetLocalVariables(variables); 
+                VarDst.GetLocalVariables(variables);
             if(Seq.GetLocalVariables(variables, target))
                 return true;
             foreach(SequenceVariable seqVar in VariablesFallingOutOfScopeOnLeavingFor)
@@ -3045,8 +3045,8 @@ namespace de.unika.ipd.grGen.libGr
         public Sequence Seq;
 
         // a cache for copies of sequence definitions, accessed by the name
-        private static Dictionary<String, Stack<SequenceDefinition>> nameToCopies = 
-            new Dictionary<string, Stack<SequenceDefinition>>(); 
+        private static Dictionary<String, Stack<SequenceDefinition>> nameToCopies =
+            new Dictionary<string, Stack<SequenceDefinition>>();
 
         // an empty stack to return an iterator if the copies cache does not contain a value for a given name
         private static Stack<SequenceDefinition> emptyStack =
@@ -3105,7 +3105,7 @@ namespace de.unika.ipd.grGen.libGr
             executionState = res ? SequenceExecutionState.Success : SequenceExecutionState.Fail;
 
             if(env != null) env.EndOfIteration(false, this);
-            
+
             graph.ExitingSequence(this);
 
             ResetExecutionState(); // state is shown by call, we don't exist any more for the debugger

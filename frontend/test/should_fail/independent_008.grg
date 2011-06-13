@@ -3,7 +3,7 @@ pattern p
     independent {
         iterated {
             n:Node;
-			
+
             modify {
             }
         }

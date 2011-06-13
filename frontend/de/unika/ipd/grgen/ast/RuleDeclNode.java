@@ -437,7 +437,7 @@ public class RuleDeclNode extends TestDeclNode {
 				}
 			}
 		}
-		
+
 		for(IteratedNode iter : pattern.iters.getChildren()) {
 			if(iter.right.getChildren().size() != 1) {
 				error.error(getCoords(), "Different number of replacement patterns/rewrite parts in rule " + ident.toString()

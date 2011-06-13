@@ -4,7 +4,7 @@ pattern pa {
 	negative {
 		pattern;
 		patternpath;
-		
+
 		negative {
 			pattern;
 			patternpath;
@@ -14,13 +14,13 @@ pattern pa {
 		pattern;
 		patternpath;
 	}
-			
+
 	alternative {
-		Something {			
+		Something {
 			negative {
 				pattern;
 				patternpath;
-				
+
 				negative {
 					pattern;
 					patternpath;
@@ -41,7 +41,7 @@ test t {
 
 	negative {
 		pattern;
-		
+
 		negative {
 			pattern;
 			p:pa();
@@ -52,10 +52,10 @@ test t {
 	}
 
 	alternative {
-		Something {			
+		Something {
 			negative {
 				pattern;
-				
+
 				negative {
 					pattern;
 					p:pa();

@@ -30,8 +30,8 @@ public class MatchNodeByStorageAccessNode extends NodeDeclNode implements NodeCh
 	private QualIdentNode storageAttribute = null;
 	private IdentExprNode accessorUnresolved;
 	private ConstraintDeclNode accessor = null;
-	
-	public MatchNodeByStorageAccessNode(IdentNode id, BaseNode type, int context, 
+
+	public MatchNodeByStorageAccessNode(IdentNode id, BaseNode type, int context,
 			BaseNode storage, IdentExprNode accessor,
 			PatternGraphNode directlyNestingLHSGraph) {
 		super(id, type, false, context, TypeExprNode.getEmpty(), directlyNestingLHSGraph);
@@ -144,7 +144,7 @@ public class MatchNodeByStorageAccessNode extends NodeDeclNode implements NodeCh
 		if (isIRAlreadySet()) { // break endless recursion in case of cycle in usage
 			return getIR();
 		} else{
-			setIR(node);			
+			setIR(node);
 		}
 		if(storage!=null) node.setStorage(storage.checkIR(Variable.class));
 		else node.setStorageAttribute(storageAttribute.checkIR(Qualification.class));

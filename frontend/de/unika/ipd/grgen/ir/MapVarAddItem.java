@@ -35,11 +35,11 @@ public class MapVarAddItem extends EvalStatement {
 	public Expression getValueExpr() {
 		return valueExpr;
 	}
-	
+
 	public void collectNeededEntities(NeededEntities needs)
 	{
 		needs.add(target);
-	
+
 		getKeyExpr().collectNeededEntities(needs);
 		getValueExpr().collectNeededEntities(needs);
 

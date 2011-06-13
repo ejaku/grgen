@@ -79,7 +79,7 @@ public class SingleNodeConnNode extends BaseNode implements ConnectionCharacter 
 			return true;
 		}
 		IdentNode id = (IdentNode)elem;
-		
+
 		debug.report(NOTE, "Fixup " + id + " in scope " + scope);
 
 		// Get the definition of the ident's symbol local to the owned scope.

@@ -12,7 +12,7 @@ rule transcription()
 	d6 --> :A;
 
 	d2r:DNAChain(d6);
-	
+
 	modify {
 		r:R; // new starting point for rna
 		d2r(r);
@@ -30,21 +30,21 @@ pattern DNAChain(prev:D) modify(rprev:R)
 			prev -:PG-> next:D;
 			n:DNANucleotide(next);
 			d2r:DNAChain(next);
-						
+
 			modify {
-				rprev -:PG-> rnext:R; 
+				rprev -:PG-> rnext:R;
 				n(rnext);
 				d2r(rnext);
 			}
 		}
 		End	{
 			:TerminationSequence(prev);
-			
+
 			modify {
 			}
 		}
 	}
-	
+
 	modify {
 	}
 }
@@ -54,34 +54,34 @@ pattern DNANucleotide(d:D) modify(r:R)
 	alternative	{
 		A {
 			d --> a:A;
-			
+
 			modify {
 				r --> u:U;
 			}
 		}
 		C {
 			d --> c:C;
-			
+
 			modify {
 				r --> g:G;
 			}
 		}
 		G {
-			d --> g:G; 
-			
+			d --> g:G;
+
 			modify {
 				r --> c:C;
 			}
 		}
-		T {	
-			d --> t:T; 
-			
+		T {
+			d --> t:T;
+
 			modify {
 				r --> a:A;
 			}
 		}
 	}
-	
+
 	modify {
 	}
 }

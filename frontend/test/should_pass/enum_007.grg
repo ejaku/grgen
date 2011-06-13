@@ -4,10 +4,10 @@ rule r {
 	xi: NINT;
 	xd: NDOUBLE;
 	xf: NFLOAT;
-	
+
 	xd -e:EFLOAT-> xi;
 	xd <-f:ESTRING- xi;
-	
+
 	u: AA;
 
 	modify {
@@ -19,7 +19,7 @@ rule r {
 
 			xd.a = ee::a;
 			xf.a = ee::a;
-			
+
 			e.a = u.a;
 			e.a = ee::a;
 			e.a = ee::b;

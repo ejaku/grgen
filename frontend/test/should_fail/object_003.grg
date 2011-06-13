@@ -2,8 +2,8 @@ using object_model_001;
 
 rule test1 {
     a:A -x:e-> b:A;
-    if { 
-        b.obj == x.obj; 
+    if {
+        b.obj == x.obj;
         b.obj == null+x.obj;
     }
 

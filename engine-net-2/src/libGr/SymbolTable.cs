@@ -24,7 +24,7 @@ namespace de.unika.ipd.grGen.libGr
     }
 
     /// <summary>
-    /// class of symbol table containing the variables declared in the sequence 
+    /// class of symbol table containing the variables declared in the sequence
     /// variables might be implicitely(graph-global) or explicitely(sequence-local) declared
     /// </summary>
     public class SymbolTable
@@ -50,18 +50,18 @@ namespace de.unika.ipd.grGen.libGr
 			scopes = new Stack<Dictionary<String, SequenceVariable>>();
             scopesMeta = new Stack<ScopeMetaInformation>();
 		}
-		
+
 		public void PushScope(ScopeType scopeType)
 		{
             Debug.Assert(scopes.Count > 0); // initial scope of type Sequence must be handled by PushFirstScope
             Debug.Assert(scopesMeta.Count > 0); // initial scope of type Sequence must be handled by PushFirstScope
-            
+
             scopes.Push(new Dictionary<String, SequenceVariable>());
-            
+
             String scopeName;
             switch (scopeType)
             {
-                case ScopeType.For: 
+                case ScopeType.For:
                     scopeName = "for" + scopesMeta.Peek().forCount;
                     ++scopesMeta.Peek().forCount;
                     break;
@@ -69,7 +69,7 @@ namespace de.unika.ipd.grGen.libGr
                     scopeName = "if" + scopesMeta.Peek().ifCount;
                     ++scopesMeta.Peek().ifCount;
                     break;
-                case ScopeType.IfThenPart: 
+                case ScopeType.IfThenPart:
                     scopeName = "thenpart";
                     break;
                 default: Debug.Assert(false); // only first scope can be of type sequence
@@ -100,7 +100,7 @@ namespace de.unika.ipd.grGen.libGr
 
             scopesMeta.Push(new ScopeMetaInformation("", ScopeType.Sequence));
 		}
-		
+
 		public void PopScope(List<SequenceVariable> seqVarsDefinedInThisScope)
 		{
             foreach(SequenceVariable seqVar in scopes.Peek().Values)
@@ -121,10 +121,10 @@ namespace de.unika.ipd.grGen.libGr
 					return scope[name];
 				}
 			}
-			
+
 			return null;
 		}
-		
+
 		// returns null if variable was already defined
 		public SequenceVariable Define(String name, String type)
 		{
@@ -132,7 +132,7 @@ namespace de.unika.ipd.grGen.libGr
 				return null;
 
             string prefix = "";
-            ScopeMetaInformation[] scopesMeta = this.scopesMeta.ToArray(); // holy shit! no sets, no backward iterators, no direct access to stack, 
+            ScopeMetaInformation[] scopesMeta = this.scopesMeta.ToArray(); // holy shit! no sets, no backward iterators, no direct access to stack,
                                                                         // size sometimes called length, sometimes count ... c# data structures suck
             for (int i = scopesMeta.Length - 1; i >= 0; --i) // stack dumped in reverse ^^
             {
@@ -143,7 +143,7 @@ namespace de.unika.ipd.grGen.libGr
 			scopes.Peek().Add(name, newVar);
 			return newVar;
 		}
-		
+
         // contains the symbols of the current nesting level and the levels it is contained in
         private Stack<Dictionary<String, SequenceVariable>> scopes;
         // contains some information about the current scope and counters for scope name construction

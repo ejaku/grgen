@@ -4,7 +4,7 @@ using retype_n_constraint_model;
 
 rule r {
 	x:N1-e:E1->y:N2;
-	
+
 	replace {
 		a:N3\N2;
 		b:N2;

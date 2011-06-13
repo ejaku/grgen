@@ -312,7 +312,7 @@ public class AlternativeCaseNode extends ActionDeclNode  {
 				}
 			}
 		}
-		
+
 		for(IteratedNode iter : pattern.iters.getChildren()) {
 			if(right.getChildren().size()!=iter.right.getChildren().size()) {
 				error.error(getCoords(), "Different number of replacement patterns/rewrite parts in alternative case " + ident.toString()
@@ -320,7 +320,7 @@ public class AlternativeCaseNode extends ActionDeclNode  {
 				res = false;
 				continue;
 			}
-			
+
 			if(right.getChildren().size()==0) continue;
 
 			Vector<DeclNode> parametersInNestedIterated =
@@ -335,7 +335,7 @@ public class AlternativeCaseNode extends ActionDeclNode  {
 
 		return res;
 	}
-	
+
 	/**
 	 * Check that exec parameters are not deleted.
 	 *
@@ -346,10 +346,10 @@ public class AlternativeCaseNode extends ActionDeclNode  {
 		assert isResolved();
 
 		boolean valid = true;
-		
+
 		if(right.getChildren().size()==0)
 			return valid;
-		
+
 		Set<DeclNode> delete = right.children.get(0).getDelete(pattern);
 		Collection<DeclNode> maybeDeleted = right.children.get(0).getMaybeDeleted(pattern);
 
@@ -441,7 +441,7 @@ public class AlternativeCaseNode extends ActionDeclNode  {
 		}
 
 		return leftHandGraphsOk & SameNumberOfRewritePartsAndNoNestedRewriteParameters()
-			& checkRhsReuse() & noReturnInPatternOk & noReturnInAlterntiveCaseReplacement 
+			& checkRhsReuse() & noReturnInPatternOk & noReturnInAlterntiveCaseReplacement
 			& checkExecParamsNotDeleted() & abstr;
 	}
 
@@ -505,7 +505,7 @@ public class AlternativeCaseNode extends ActionDeclNode  {
 				}
 				for(Rule iter : patternGraph.getIters()) {
 					iter.getRight().addReplParameter(decl.checkIR(Node.class));
-					iter.getRight().addSingleNode(((NodeCharacter) decl).getNode());					
+					iter.getRight().addSingleNode(((NodeCharacter) decl).getNode());
 				}
 			} else if(decl instanceof VarDeclNode) {
 				for(Alternative alt : patternGraph.getAlts()) {
@@ -516,7 +516,7 @@ public class AlternativeCaseNode extends ActionDeclNode  {
 				}
 				for(Rule iter : patternGraph.getIters()) {
 					iter.getRight().addReplParameter(decl.checkIR(Variable.class));
-					iter.getRight().addVariable(((VarDeclNode) decl).getVariable());					
+					iter.getRight().addVariable(((VarDeclNode) decl).getVariable());
 				}
 			} else {
 				throw new IllegalArgumentException("unknown Class: " + decl);

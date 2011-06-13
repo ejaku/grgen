@@ -1,6 +1,6 @@
 new graph "exectype/exectype.gm"
 
-x=3 
+x=3
 show var x
 y="fool"
 show var y

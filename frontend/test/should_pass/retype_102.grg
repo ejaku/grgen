@@ -3,7 +3,7 @@ using retype_model_002;
 rule r {
 	a:Node;
 	b:Node;
-	
+
 	a -x:TYPE1-> b;
 	a -w:TYPE1-> b;
 

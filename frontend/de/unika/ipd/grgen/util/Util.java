@@ -88,7 +88,7 @@ public class Util
 		return name;
 	}
 
-	/** 
+	/**
 	 * Checks if the given filename can be used as a valid action name.
 	 * Stricter than getActionsNameFromFilename, .NET can't handle the rewritten version,
 	 * if the rewritten version is needed for plain old GrGen, then limit this check to GrGen.NET.
@@ -97,7 +97,7 @@ public class Util
 		String name = Util.removePathPrefix(Util.removeFileSuffix(filename, "grg"));
 		return !name.matches("[^a-zA-Z0-9_]");
 	}
-	
+
 	public static File findFile(File[] paths, String file) {
 		for(int i = 0; i < paths.length; i++) {
 			File curr = new File(paths[i], file);

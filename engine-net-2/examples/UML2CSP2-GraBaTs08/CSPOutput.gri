@@ -11,7 +11,7 @@ rule InitOutput
   modify {
     counter:Counter;
     lastPa -:processAssignments-> dummyPa:ProcessAssignment;
-    
+
     exec(x:ProcessAssignment=curPa && ((x)=PAWriteProcess(x)[+]
         | (x)=PAWritePrefix(x)[+]
         | (x)=PAWriteConditionStart(x)

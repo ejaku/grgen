@@ -1,4 +1,4 @@
-// rule file containing rules/tests containing alternative patterns showing how to match patterns 
+// rule file containing rules/tests containing alternative patterns showing how to match patterns
 //  with a common part and different alternative parts
 // showing how alternatives can be nested, and that an alternative case may need a negative to prevent a match,
 //  esp. of the empty pattern, as the order of trying the alternative cases is undefined
@@ -13,7 +13,7 @@ using ProgramGraphs;
 test FirstStatement
 {
 	mb:MethodBody;
-	
+
 	alternative
 	{
 		Assignment {
@@ -48,7 +48,7 @@ rule FirstStatementEx(mb:MethodBody)
 			{
 				Call {
 					sub -ca:calls->;
-					
+
 					modify {
 						delete(ca);
 						sub -:uses-> :Constant <-:contains- mb;
@@ -56,17 +56,17 @@ rule FirstStatementEx(mb:MethodBody)
 				}
 				Use {
 					sub -:uses->;
-					
+
 					modify { }
 				}
 			}
-			
+
 			modify { }
 		}
 		Call {
 			mb -:next-> e:Expression;
 			e -ca:calls->;
-			
+
 			modify {
 				delete(ca);
 				e -:uses-> :Constant <-:contains- mb;
@@ -75,18 +75,18 @@ rule FirstStatementEx(mb:MethodBody)
 		Return {
 			mb -:next-> e:Expression;
 			e -:uses->;
-			
+
 			modify { }
 		}
 		Empty {
 			negative {
 				mb -:next->;
 			}
-			
+
 			modify { }
 		}
 	}
-	
+
 	modify {
 	}
 }

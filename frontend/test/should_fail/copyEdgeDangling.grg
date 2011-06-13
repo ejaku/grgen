@@ -1,6 +1,6 @@
 rule t {
 	x:Node -e:Edge-> x;
-	
+
 	modify {
 		x -ee:copy<e>->;
 	}

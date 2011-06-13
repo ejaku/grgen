@@ -3,90 +3,90 @@ abstract edge class attribute;
 
 //An integer is a primitive type representing integer values.
 node class Integer {
-	
+
 	value : int;
 
 }
 
 //A Boolean type is used for logical expression, consisting of the predefined values true and false.
 node class Boolean {
-	
+
 	value : boolean;
 
 }
 
 //A string is a sequence of characters in some suitable character set used to display information about the model. Character sets may include non-Roman alphabets and characters.
 node class String {
-	
+
 	value : string;
 
 }
 
 //An unlimited natural is a primitive type representing unlimited natural values.
 node class UnlimitedNatural {
-	
+
 	value : int;
 
 }
 
 //VisibilityKind is an enumeration type that defines literals to determine the visibility of elements in a model.
 enum VisibilityKind {
-	
+
 	//A public element is visible to all elements that can access the contents of the namespace that owns it.
-	public, 
+	public,
 	//A private element is only visible inside the namespace that owns it.
-	private, 
+	private,
 	//A protected element is visible to elements that have a generalization relationship to the namespace that owns it.
-	protected, 
+	protected,
 	//A package element is owned by a namespace that is not a package, and is visible to elements that are in the same package as its owning namespace. Only named elements that are not owned by packages can be marked as having package visibility. Any element marked as having package visibility is visible to all elements within the nearest enclosing package (given that other owning elements have proper visibility). Outside the nearest enclosing package, an element marked as having package visibility is not visible.
 	package
-	
+
 }
 
 node class VisibilityKind_Value {
-	
+
 	value : VisibilityKind;
-	
+
 }
 
 //Parameter direction kind is an enumeration type that defines literals used to specify direction of parameters.
 enum ParameterDirectionKind {
-	
+
 	//Indicates that parameter values are passed into the behavioral element by the caller.
-	in, 
+	in,
 	//Indicates that parameter values are passed into a behavioral element by the caller and then back out to the caller from the behavioral element.
-	inout, 
+	inout,
 	//Indicates that parameter values are passed from a behavioral element out to the caller.
-	out, 
+	out,
 	//Indicates that parameter values are passed as return values from a behavioral element back to the caller.
 	return_
-	
+
 }
 
 node class ParameterDirectionKind_Value {
-	
+
 	value : ParameterDirectionKind;
-	
+
 }
 
 //VisibilityKind is an enumeration type that defines literals to determine the visibility of elements in a model.
 enum VisibilityKind {
-	
+
 	//A public element is visible to all elements that can access the contents of the namespace that owns it.
-	public, 
+	public,
 	//A private element is only visible inside the namespace that owns it.
-	private, 
+	private,
 	//A protected element is visible to elements that have a generalization relationship to the namespace that owns it.
-	protected, 
+	protected,
 	//A package element is owned by a namespace that is not a package, and is visible to elements that are in the same package as its owning namespace. Only named elements that are not owned by packages can be marked as having package visibility. Any element marked as having package visibility is visible to all elements within the nearest enclosing package (given that other owning elements have proper visibility). Outside the nearest enclosing package, an element marked as having package visibility is not visible.
 	package
-	
+
 }
 
 node class VisibilityKind_Value {
-	
+
 	value : VisibilityKind;
-	
+
 }
 
 //An element is a constituent of a model. As such, it has the capability of owning other elements.

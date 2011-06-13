@@ -25,10 +25,10 @@ public class ExternalFunctionInvocationExpr extends Expression {
 	/** The function of the function invocation expression. */
 	protected ExternalFunction externalFunction;
 
-	
+
 	public ExternalFunctionInvocationExpr(Type type, ExternalFunction externalFunction) {
 		super("external function invocation expr", type);
-		
+
 		this.externalFunction = externalFunction;
 	}
 
@@ -40,7 +40,7 @@ public class ExternalFunctionInvocationExpr extends Expression {
 	public ExternalFunction getExternalFunc() {
 		return externalFunction;
 	}
-	
+
 	/**
 	 * Get the ith argument.
 	 * @param index The index of the argument

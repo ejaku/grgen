@@ -36,7 +36,7 @@ public class ArrayAddItem extends EvalStatement {
 	public Expression getIndexExpr() {
 		return indexExpr;
 	}
-	
+
 	public void collectNeededEntities(NeededEntities needs)
 	{
 		Entity entity = target.getOwner();
@@ -49,7 +49,7 @@ public class ArrayAddItem extends EvalStatement {
 		needs.variables = varSet;
 
 		getValueExpr().collectNeededEntities(needs);
-		
+
 		if(getIndexExpr()!=null)
 			getIndexExpr().collectNeededEntities(needs);
 

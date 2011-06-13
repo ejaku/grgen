@@ -107,7 +107,7 @@ rule ra
 			}
 		}
 	}
-	
+
 	modify {
 	}
 }
@@ -147,7 +147,7 @@ pattern pa
 			}
 		}
 	}
-	
+
 	modify {
 	}
 }

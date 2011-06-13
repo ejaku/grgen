@@ -144,12 +144,12 @@ namespace de.unika.ipd.grGen.grShell
             }
         }
 
-        public Debugger(GrShellImpl grShellImpl) 
+        public Debugger(GrShellImpl grShellImpl)
             : this(grShellImpl, "Orthogonal", null)
         {
         }
 
-        public Debugger(GrShellImpl grShellImpl, String debugLayout) 
+        public Debugger(GrShellImpl grShellImpl, String debugLayout)
             : this(grShellImpl, debugLayout, null)
         {
         }
@@ -371,8 +371,8 @@ namespace de.unika.ipd.grGen.grShell
                 seq.FromTotalMatch(totalMatchToExecute, out rule, out match);
                 Mark(rule, match, seq);
                 ycompClient.UpdateDisplay();
-                ycompClient.Sync(); 
-                
+                ycompClient.Sync();
+
                 context.highlightSeq = seq.Sequences[rule];
                 context.choice = true;
                 context.sequences = seq.Sequences;
@@ -476,7 +476,7 @@ namespace de.unika.ipd.grGen.grShell
             Console.WriteLine(" Showing the match chosen by random. (" + numFurtherMatchesToApply + " following)");
             Console.WriteLine("Press (0)...(9) to show the corresponding match or (e) to enter the number of the match to show."
                                 + " Press (s) or (n) to commit to the currently shown match and continue.");
-            
+
             if(detailedMode)
             {
                 MarkMatches(matches, null, null);
@@ -497,7 +497,7 @@ namespace de.unika.ipd.grGen.grShell
                 ycompClient.Sync();
 
                 Console.WriteLine("Showing match " + matchToApply + " (of " + matches.Count + " matches available)");
-                
+
                 ConsoleKeyInfo key = ReadKeyWithCancel();
                 switch(key.KeyChar)
                 {
@@ -1278,12 +1278,12 @@ namespace de.unika.ipd.grGen.grShell
         /// <returns>The ConsoleKeyInfo object for the pressed key.</returns>
         ConsoleKeyInfo ReadKeyWithCancel()
         {
-            if(grShellImpl.OperationCancelled) 
+            if(grShellImpl.OperationCancelled)
                 grShellImpl.Cancel();
             Console.TreatControlCAsInput = true;
             ConsoleKeyInfo key = grShellImpl.Workaround.ReadKey(true);
             Console.TreatControlCAsInput = false;
-            if(key.Key == ConsoleKey.C && (key.Modifiers & ConsoleModifiers.Control) != 0) 
+            if(key.Key == ConsoleKey.C && (key.Modifiers & ConsoleModifiers.Control) != 0)
                 grShellImpl.Cancel();
             return key;
         }
@@ -1628,7 +1628,7 @@ namespace de.unika.ipd.grGen.grShell
                 stepMode = true;
             }
 
-            if(seq.SequenceType == SequenceType.IterationMin 
+            if(seq.SequenceType == SequenceType.IterationMin
                 || seq.SequenceType == SequenceType.IterationMinMax
                 || seq.SequenceType == SequenceType.For
                 || seq.SequenceType == SequenceType.Backtrack)
@@ -1644,7 +1644,7 @@ namespace de.unika.ipd.grGen.grShell
         }
 
         void DebugMatched(IMatches matches, bool special)
-        {            
+        {
             if(matches.Count == 0) // todo: how can this happen?
                 return;
 
@@ -1835,7 +1835,7 @@ namespace de.unika.ipd.grGen.grShell
                     ycompClient.AnnotateElement(edgeToName.Key, edgeToName.Value);
             }
         }
-        
+
         private void AnnotateMatches(IEnumerable<IMatch> matches, bool addAnnotation, string prefix, int nestingLevel, bool topLevel)
         {
             foreach(IMatch match in matches)
@@ -1926,7 +1926,7 @@ namespace de.unika.ipd.grGen.grShell
             IEnumerable<IMatches> iteratedsMatches = parentMatch.Iterateds;
             int numIterated, numOptional, numMultiple, numOther;
             classifyIterateds(pattern, out numIterated, out numOptional, out numMultiple, out numOther);
-            
+
             int i = 0;
             foreach(IMatches matches in iteratedsMatches)
             {
@@ -1944,7 +1944,7 @@ namespace de.unika.ipd.grGen.grShell
                     name = "(.)[" + pattern.Iterateds[i].MinMatches + ":" + pattern.Iterateds[i].MaxMatches + "]";
                     if(numOther > 1) name += "'" + i;
                 }
-                
+
                 int j = 0;
                 foreach(IMatch match in matches)
                 {
@@ -2082,7 +2082,7 @@ namespace de.unika.ipd.grGen.grShell
         {
             ycompClient.RetypingElement(oldElem, newElem);
             if(!recordMode) return;
-            
+
             if(oldElem is INode)
             {
                 INode oldNode = (INode) oldElem;

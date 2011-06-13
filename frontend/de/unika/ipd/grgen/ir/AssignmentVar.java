@@ -45,7 +45,7 @@ public class AssignmentVar extends EvalStatement {
 	public String toString() {
 		return getTarget() + " = " + getExpression();
 	}
-	
+
 	public void collectNeededEntities(NeededEntities needs)
 	{
 		needs.add(target);

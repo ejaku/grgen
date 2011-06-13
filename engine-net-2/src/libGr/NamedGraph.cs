@@ -601,7 +601,7 @@ namespace de.unika.ipd.grGen.libGr
         }
 
         #region Simply wrapped functions
-        
+
         /// <summary>
         /// A name associated with the graph.
         /// </summary>
@@ -809,7 +809,7 @@ namespace de.unika.ipd.grGen.libGr
         public IGraph Clone(String newName) { return graph.Clone(newName); }
 
         #region Visited flags management
-        
+
         /// <summary>
         /// Allocates a clean visited flag on the graph elements.
         /// If needed the flag is cleared on all graph elements, so this is an O(n) operation.
@@ -853,7 +853,7 @@ namespace de.unika.ipd.grGen.libGr
         #endregion Visited flags management
 
         #region Names and Variables management
-        
+
         /// <summary>
         /// Returns a linked list of variables mapped to the given graph element
         /// or null, if no variable points to this element
@@ -906,7 +906,7 @@ namespace de.unika.ipd.grGen.libGr
         /// </summary>
         public IEnumerable<Variable> Variables
         {
-            get { return graph.Variables; } 
+            get { return graph.Variables; }
         }
 
         #endregion Variables management
@@ -1036,7 +1036,7 @@ namespace de.unika.ipd.grGen.libGr
         /// Fired before an attribute of a node is changed.
         /// Note for LGSPBackend:
         /// Because graph elements of the LGSPBackend don't know their graph a call to
-        /// LGSPGraphElement.SetAttribute will not fire this event. If you use this function 
+        /// LGSPGraphElement.SetAttribute will not fire this event. If you use this function
         /// and want the event to be fired, you have to fire it yourself
         /// using ChangingNodeAttributes.
         /// </summary>
@@ -1047,7 +1047,7 @@ namespace de.unika.ipd.grGen.libGr
         /// Fired before an attribute of an edge is changed.
         /// Note for LGSPBackend:
         /// Because graph elements of the LGSPBackend don't know their graph a call to
-        /// LGSPGraphElement.SetAttribute will not fire this event. If you use this function 
+        /// LGSPGraphElement.SetAttribute will not fire this event. If you use this function
         /// and want the event to be fired, you have to fire it yourself
         /// using ChangingEdgeAttributes.
         /// </summary>
@@ -1201,7 +1201,7 @@ namespace de.unika.ipd.grGen.libGr
         { graph.ExitingSequence(seq); }
 
         #endregion Events
-        
+
         /// <summary>
         /// Checks whether a graph meets the connection assertions.
         /// </summary>

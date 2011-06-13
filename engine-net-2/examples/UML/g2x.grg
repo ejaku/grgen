@@ -14,8 +14,8 @@ rule createAUX_Counter : (AUX_Counter) {
 rule uniquifyIDs(cntr:AUX_Counter) {
 	x:CMOF_NODE;
 	modify {
-		eval { 
-			x.id = cntr.value; 
+		eval {
+			x.id = cntr.value;
 			cntr.value = cntr.value + 1;
 		}
 	}
@@ -34,11 +34,11 @@ rule toXmi {
 	rootpack:Package -:name-> rootpackname:String;
   	if { rootpackname.value == "Root"; }
 	modify {
-	
+
 		// Calculate unique ids for all CMOF_NODEs
 		cntr:AUX_Counter;
 		exec([uniquifyIDs(cntr)] | deleteAUX_Counter(cntr)); // simultaneous match operator "[...]"
-		
+
 		// Print the XML & XMI header
 		emit (
 			"<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n",
@@ -46,21 +46,21 @@ rule toXmi {
 			"<xmi:Documentation contact=\"www.grgen.net\" exporter=\"GrGen2XMI\" exporterVersion=\"0.1\"/>\n",
 			"<uml:Package xmi:id=\"U00000001\""
 		);
-		
+
 		// Write attributes of package 'Root'
 		exec(writeXmiValueAttribute(rootpack)[*]);
-		
+
 		// Print the closing XML tag
 		emit (
 			"> \n"
 		);
-		
+
 		// Write children that are XmiReferenceElements
 		exec(writeXmiReferenceElement(rootpack)[*]);
-		
+
 		// Write children of the rootpackage (NON-XmiReferenceElements)
 		exec(writeXmiElement(rootpack)[*]);
-		
+
 		// Write the closing XML element tags
 		emit(
 			"</uml:Package>\n",
@@ -74,21 +74,21 @@ rule toXmi {
 // * connected nodes of type 'CMOFValueType' are resolved and emitted (String, Enumeration, ...).		*
 // ******************************************************************************************************
 rule writeXmiValueAttribute(parent:CMOF_NODE) {
-	
+
 	//pattern: The (parent's) child is connected to a value node.
 	child : CMOFValueType;
 	parent -prop:CMOFProperty-> child;
-	
+
 	//pattern: The matching pair elements (of parent&child) in the metamodel graph
 	mmClass : Metamodel_Class;
 	mmProperty : Metamodel_Property;
 	mmValue : Metamodel_ValueNode;
 	mmUpperConstraint : Metamodel_ValueNode;
-	
+
 	mmClass -:Metamodel_ownedAttribute-> mmProperty;
 	mmProperty -:Metamodel_BaseEdge-> mmValue;
 	mmProperty -:Metamodel_upper-> mmUpperConstraint;
-	
+
 	// Metamodel property must have the connection assertion: upper = "1"
 	if { prop.isXmiIdReference == false; mmValue.value == prop.name; mmUpperConstraint.value == "1"; }
 	modify {
@@ -122,11 +122,11 @@ rule writeXmiElement(parent:CMOF_NODE) {
 	mmProperty : Metamodel_Property;
 	mmPropertyName : Metamodel_ValueNode;
 	mmPropertyUpper : Metamodel_ValueNode;
-	
+
 	parent -prop:CMOF_EDGE-> child;
 	mmProperty -:Metamodel_name-> mmPropertyName;
 	mmProperty -:Metamodel_upper-> mmPropertyUpper;
-	
+
 	// Consider only NON-XmiIdReference attributes AND properties whose upper constraint is != "1"
 	if { prop.isXmiIdReference == false; prop.name == mmPropertyName.value; mmPropertyUpper.value != "1"; }
 	modify {
@@ -153,11 +153,11 @@ rule writeXmiElement(parent:CMOF_NODE) {
 // * node that is not of type 'CMOFValueType'										 *
 // ***********************************************************************************
 rule writeXmiReferenceAttribute(parent:CMOF_NODE) {
-	
+
 	child : CMOF_NODE;
-	
+
 	parent -prop:CMOFProperty-> child;
-	
+
 	// Informations about connection assertions from the 'prop' edge can be read from the metamodel graph.
 	// Only metamodel property with condition upper = "1" is accepted.
 	// TODO: the boolean expression ('mm_Class.uuid == parent.uuid') requests if the parent type of
@@ -179,12 +179,12 @@ rule writeXmiReferenceAttribute(parent:CMOF_NODE) {
 // * When found, an XMIReferenceAttribute is emitted.                                  *
 // *************************************************************************************
 rule findAccurateMetaModelPropertyAndWriteReferenceAttribute(parent:CMOF_NODE, -prop:CMOFProperty->) {
-	
+
 	mmClass : Metamodel_Class;
 	mmClass_name : Metamodel_ValueNode;
-	
+
 	mmClass -:Metamodel_name-> mmClass_name;
-	
+
 	// Find the matching pair (of the parent class) in the metamodel.
 	if { mmClass_name.value == parent.uuid; }
 	modify {
@@ -197,13 +197,13 @@ rule writeAttributereferenceIfValidMetaModelClass(parent:CMOF_NODE, mmClass:Meta
 	mmClass_property : Metamodel_Property;
 	mmClass_property_name : Metamodel_ValueNode;
 	mmClass_property_upper : Metamodel_ValueNode;
-	
+
 	mmClass -:Metamodel_ownedAttribute-> mmClass_property;
 	mmClass_property -:Metamodel_name-> mmClass_property_name;
 	mmClass_property -:Metamodel_upper-> mmClass_property_upper;
-	
+
 	-prop-> child : CMOF_NODE;
-	
+
 	if { prop.isXmiIdReference == false; mmClass_property_name.value == prop.name; mmClass_property_upper.value == "1"; }
 	modify {
 		delete(prop);
@@ -212,15 +212,15 @@ rule writeAttributereferenceIfValidMetaModelClass(parent:CMOF_NODE, mmClass:Meta
 }
 
 rule findAccurateMetamodelSuperClassWriteReferenceAttribute(mmClass:Metamodel_Class, -prop:CMOFProperty->, parent:CMOF_NODE) {
-	
+
 	mmSuperClass : Metamodel_Class;
 	mmClassName : Metamodel_ValueNode;
 	mmSuperClassName : Metamodel_ValueNode;
-	
+
 	mmClass -:Metamodel_superClass-> mmSuperClass;
 	mmClass -:Metamodel_name-> mmClassName;
 	mmSuperClass -:Metamodel_name-> mmSuperClassName;
-	
+
 	modify {
 		exec( writeAttributereferenceIfValidMetaModelClass(parent, mmSuperClass, prop) || [findAccurateMetamodelSuperClassWriteReferenceAttribute(mmSuperClass, prop, parent)] );
 	}

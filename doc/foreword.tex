@@ -15,7 +15,7 @@ Thus \GrG\ provides the user with strong expressiveness but leaves the task of p
 To get a prototype quickly, we delegated the costly task of subgraph matching to a relational database system~\cite{Hac:03}.
 Albeit the performance of this implementation could be improved substantially over the years, we believed that there was more to come.
 Inspired by the PhD thesis of Heiko D\"orr~\cite{doerr} we reimplemented our tool to use search plan driven graph pattern matching of its own.
-This matching algorithm evolved over time~\cite{adam,Bat:05:SA,Bat:05:DA,Bat:06,BKG:07} and has been ported from C to C\#~\cite{KG:07,Kro:07}. 
+This matching algorithm evolved over time~\cite{adam,Bat:05:SA,Bat:05:DA,Bat:06,BKG:07} and has been ported from C to C\#~\cite{KG:07,Kro:07}.
 In the year 2005 Varr\'o~\cite{gramot2005_adapt} independently proposed a similar search plan based approach.
 
 Though we started four years ago to facilitate some compiler construction problems, in the meantime \GrG\ has grown into a general purpose tool for graph rewriting.\\[3ex]
@@ -35,12 +35,12 @@ Thank you for using \GrG.\\[6ex]
 
 \chapter*{Foreword}
 
-Since the last version of this manual which was written for \GrG\ v1.4 a lot has happened, 
+Since the last version of this manual which was written for \GrG\ v1.4 a lot has happened,
 as can be seen quite easily in the fact that this manual describes \GrG\ v2.6.
 The porting of C to C\# \cite{Kro:07} allowed for a faster pace of development,
 which yielded alternatives and subpatterns allowing for structural recursion \cite{Jak:08,StructuralRecursion},
-undirected edge support plus fine grain pattern conditions \cite{SABuchwald:2008}, 
-a data model that is more user friendly at the API, support for visited flags, 
+undirected edge support plus fine grain pattern conditions \cite{SABuchwald:2008},
+a data model that is more user friendly at the API, support for visited flags,
 and an prototypical implementation of an embedding of \GrG\ as a domain specific language into C\# \cite{DAMoritz}
 -- resulting in \GrG\ v2.0.
 \medskip
@@ -54,7 +54,7 @@ to an open source project (which is still hosted at the IPD, reachable from \url
 But development continued:
 With the introduction of generic set and map types in the model language to facilitate uses in computer linguistics
 and in the rule control language to allow for more concise rule combinations.
-With the 2+n pushdown automaton for matching patterns with structural recursion extended 
+With the 2+n pushdown automaton for matching patterns with structural recursion extended
 to handle pattern cardinality specifications and positive applications conditions \cite{ExpressiveConvenientFast:2010}.
 With massive API improvements, now featuring an interface of typed, named entities in addition to the old name string and object based interface.
 With the introduction of importers and exporters for GXL (the quasi standard graph exchange format in graph rewriting --- but only in theory),
@@ -64,11 +64,11 @@ Most of these features were introduced due to feedback from users and use cases:
 We want to thank the organizers of GraBaTs\cite{grabats}, the annual meeting of the graph rewrite tool community,
 which gave us the possibility to ruthlessly steal the best ideas of the competing tools.
 Thanks to Berthold Hoffmann, for his ``french''-courses and the ideas about how to handle program graphs.
-And thanks to several early users giving valuable feedback or even code (\emph{code is of course the best contribution you can give to an open source project}), by name: 
+And thanks to several early users giving valuable feedback or even code (\emph{code is of course the best contribution you can give to an open source project}), by name:
 Tom Gelhausen and Bugra Derre (you may have a look at \url{https://svn.ipd.uni-karlsruhe.de/trac/mx/wiki/Home} for their work at the other IPD), Paul Bedaride, Normen Müller, Pieter van Gorp and Nicholas Tung.
 \\[1ex]
 
-\noindent Regarding questions please contact the \GrG-Team 
+\noindent Regarding questions please contact the \GrG-Team
 via email to \texttt{grgen} at the host given by \texttt{ipd.info.uni-karlsruhe.de}.\\[1ex]
 
 \noindent We hope you enjoy using \GrG\ even more than we enjoyed developing it\\ {\small(it was fun but aging projects with code traces from many people are not always nice to work with ;).}

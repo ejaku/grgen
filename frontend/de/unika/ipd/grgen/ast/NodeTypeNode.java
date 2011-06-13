@@ -110,9 +110,9 @@ public class NodeTypeNode extends InheritanceTypeNode {
 		if (isIRAlreadySet()) { // break endless recursion in case of member of set/map of node/edge type
 			return getIR();
 		} else{
-			setIR(nt);			
+			setIR(nt);
 		}
-		
+
 		constructIR(nt);
 
 		return nt;

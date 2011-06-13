@@ -10,7 +10,7 @@ for grs in "$1"/*.grs; do
     echo "$1 does not contain any .grs files!"
     exit 1
   fi
-  
+
   gmfile=`echo "$1"/*.gm`
   echo "$gmfile"
   if [ $gmfile == "" ]; then

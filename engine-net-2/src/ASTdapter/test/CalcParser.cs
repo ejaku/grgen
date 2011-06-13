@@ -2,7 +2,7 @@
 
 	// Generate the header common to all output files.
 	using System;
-	
+
 	using TokenBuffer              = antlr.TokenBuffer;
 	using TokenStreamException     = antlr.TokenStreamException;
 	using TokenStreamIOException   = antlr.TokenStreamIOException;
@@ -21,7 +21,7 @@
 	using ASTPair                  = antlr.ASTPair;
 	using ASTFactory               = antlr.ASTFactory;
 	using ASTArray                 = antlr.collections.impl.ASTArray;
-	
+
 	public 	class CalcParser : antlr.LLkParser
 	{
 		public const int EOF = 1;
@@ -34,45 +34,45 @@
 		public const int LPAREN = 9;
 		public const int RPAREN = 10;
 		public const int DIGIT = 11;
-		
-		
+
+
 		protected void initialize()
 		{
 			tokenNames = tokenNames_;
 			initializeFactory();
 		}
-		
-		
+
+
 		protected CalcParser(TokenBuffer tokenBuf, int k) : base(tokenBuf, k)
 		{
 			initialize();
 		}
-		
+
 		public CalcParser(TokenBuffer tokenBuf) : this(tokenBuf,1)
 		{
 		}
-		
+
 		protected CalcParser(TokenStream lexer, int k) : base(lexer,k)
 		{
 			initialize();
 		}
-		
+
 		public CalcParser(TokenStream lexer) : this(lexer,1)
 		{
 		}
-		
+
 		public CalcParser(ParserSharedInputState state) : base(state,1)
 		{
 			initialize();
 		}
-		
+
 	public void expr() //throws RecognitionException, TokenStreamException
 {
-		
+
 		returnAST = null;
 		ASTPair currentAST = new ASTPair();
 		AST expr_AST = null;
-		
+
 		try {      // for error handling
 			mexpr();
 			astFactory.addASTChild(ref currentAST, returnAST);
@@ -92,7 +92,7 @@
 					{
 						goto _loop3_breakloop;
 					}
-					
+
 				}
 _loop3_breakloop:				;
 			}    // ( ... )*
@@ -106,14 +106,14 @@ _loop3_breakloop:				;
 		}
 		returnAST = expr_AST;
 	}
-	
+
 	public void mexpr() //throws RecognitionException, TokenStreamException
 {
-		
+
 		returnAST = null;
 		ASTPair currentAST = new ASTPair();
 		AST mexpr_AST = null;
-		
+
 		try {      // for error handling
 			atom();
 			astFactory.addASTChild(ref currentAST, returnAST);
@@ -133,7 +133,7 @@ _loop3_breakloop:				;
 					{
 						goto _loop6_breakloop;
 					}
-					
+
 				}
 _loop6_breakloop:				;
 			}    // ( ... )*
@@ -146,14 +146,14 @@ _loop6_breakloop:				;
 		}
 		returnAST = mexpr_AST;
 	}
-	
+
 	public void atom() //throws RecognitionException, TokenStreamException
 {
-		
+
 		returnAST = null;
 		ASTPair currentAST = new ASTPair();
 		AST atom_AST = null;
-		
+
 		try {      // for error handling
 			AST tmp6_AST = null;
 			tmp6_AST = astFactory.create(LT(1));
@@ -168,7 +168,7 @@ _loop6_breakloop:				;
 		}
 		returnAST = atom_AST;
 	}
-	
+
 	private void initializeFactory()
 	{
 		if (astFactory == null)
@@ -181,7 +181,7 @@ _loop6_breakloop:				;
 	{
 		factory.setMaxNodeType(11);
 	}
-	
+
 	public static readonly string[] tokenNames_ = new string[] {
 		@"""<0>""",
 		@"""EOF""",
@@ -196,7 +196,7 @@ _loop6_breakloop:				;
 		@"""RPAREN""",
 		@"""DIGIT"""
 	};
-	
+
 	private static long[] mk_tokenSet_0_()
 	{
 		long[] data = { 2L, 0L};
@@ -215,5 +215,5 @@ _loop6_breakloop:				;
 		return data;
 	}
 	public static readonly BitSet tokenSet_2_ = new BitSet(mk_tokenSet_2_());
-	
+
 }

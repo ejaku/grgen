@@ -41,7 +41,7 @@ public class FunctionInvocationExprNode extends ExprNode
 	private IdentNode functionIdent;
 	private CollectNode<ExprNode> params;
 	private ExprNode result;
-	
+
 	ParserEnvironment env;
 
 	public FunctionInvocationExprNode(IdentNode functionIdent, CollectNode<ExprNode> params, ParserEnvironment env)
@@ -90,7 +90,7 @@ public class FunctionInvocationExprNode extends ExprNode
 			}
 			else
 				result = new MaxExprNode(getCoords(), params.get(0), params.get(1));
-		}		
+		}
 		else if(functionName.equals("pow")) {
 			if(params.size() != 2) {
 				reportError("pow(.,.) takes two parameters.");
@@ -98,7 +98,7 @@ public class FunctionInvocationExprNode extends ExprNode
 			}
 			else
 				result = new PowExprNode(getCoords(), params.get(0), params.get(1));
-		}		
+		}
 		else if(functionName.equals("incoming") || functionName.equals("outgoing")) {
 			boolean outgoing = functionName.equals("outgoing");
 			IdentNode first = null;
@@ -110,14 +110,14 @@ public class FunctionInvocationExprNode extends ExprNode
 					return false;
 				}
 				first = ((IdentExprNode)params.get(0)).getIdent();
-				
+
 				if(params.size() >= 2) {
 					if(!(params.get(1) instanceof IdentExprNode)) {
 						reportError("second parameter of " + functionName + "() must be an edge type (identifier)");
 						return false;
 					}
 					second = ((IdentExprNode)params.get(1)).getIdent();
-					
+
 					if(params.size() >= 3) {
 						if(!(params.get(2) instanceof IdentExprNode)) {
 							reportError("third parameter of " + functionName + "() must be a node type (identifier)");
@@ -137,10 +137,10 @@ public class FunctionInvocationExprNode extends ExprNode
 				result = new IncidentEdgeExprNode(getCoords(), first, second, outgoing, third);
 			}
 			else {
-				reportError(functionName + "() takes 1-3 parameters.");					
+				reportError(functionName + "() takes 1-3 parameters.");
 				return false;
 			}
-		}		
+		}
 		else {
 			reportError("no function " +functionName + " known");
 			return false;

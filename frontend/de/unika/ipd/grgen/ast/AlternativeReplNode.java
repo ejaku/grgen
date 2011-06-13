@@ -26,7 +26,7 @@ public class AlternativeReplNode extends OrderedReplacementNode {
 
 	private IdentNode alternativeUnresolved;
 	private AlternativeNode alternative;
-	
+
 
 	public AlternativeReplNode(IdentNode n) {
 		this.alternativeUnresolved = n;

@@ -35,25 +35,25 @@ public class NodeDeclNode extends ConstraintDeclNode implements NodeCharacter {
 	protected NodeDeclNode typeNodeDecl = null;
 	protected TypeDeclNode typeTypeDecl = null;
 	boolean isCopy;
-	
+
 	private static DeclarationPairResolver<NodeDeclNode, TypeDeclNode> typeResolver =
 		new DeclarationPairResolver<NodeDeclNode, TypeDeclNode>(NodeDeclNode.class, TypeDeclNode.class);
 
-	
+
 	public NodeDeclNode(IdentNode id, BaseNode type, boolean isCopy,
-			int context, TypeExprNode constr, 
-			PatternGraphNode directlyNestingLHSGraph, 
+			int context, TypeExprNode constr,
+			PatternGraphNode directlyNestingLHSGraph,
 			boolean maybeNull, boolean defEntityToBeYieldedTo) {
 		super(id, type, context, constr, directlyNestingLHSGraph, maybeNull, defEntityToBeYieldedTo);
 		this.isCopy = isCopy;
 	}
 
 	public NodeDeclNode(IdentNode id, BaseNode type, boolean isCopy,
-			int context, TypeExprNode constr, 
+			int context, TypeExprNode constr,
 			PatternGraphNode directlyNestingLHSGraph) {
 		this(id, type, isCopy, context, constr, directlyNestingLHSGraph, false, false);
 	}
-	
+
 	/** The TYPE child could be a node in case the type is
 	 *  inherited dynamically via the typeof/copy operator */
 	@Override
@@ -215,7 +215,7 @@ public class NodeDeclNode extends ConstraintDeclNode implements NodeCharacter {
 		if(inheritsType()) {
 			res.setTypeof(typeNodeDecl.checkIR(Node.class), isCopy);
 		}
-		
+
 		res.setMaybeNull(maybeNull);
 
 		return res;

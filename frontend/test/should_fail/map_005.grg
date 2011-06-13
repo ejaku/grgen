@@ -2,7 +2,7 @@ using map_model_001;
 
 rule wrongKeyType {
 	a:A;
-	
+
 	modify {
 		eval {
 			a.intToString = a.intToString \ map<int,string>{ a.stringValue->"" };

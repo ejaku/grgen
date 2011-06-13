@@ -8,7 +8,7 @@ rule r {
 		nb.a == min(nb.a, eb.a);
 		nb.a == max(nb.a, eb.a);
 	}
-	
+
 	modify {
 	}
 }

@@ -30,7 +30,7 @@ namespace de.unika.ipd.grGen.lgsp
         IS_MATCHED_BY_SOME_ENCLOSING_PATTERN = 1 << 1,
 
         /// <summary>
-        /// This element has already been matched within an pattern 
+        /// This element has already been matched within an pattern
         /// of this neg level during the current matching process.
         /// This mask must be shifted left by the current neg level.
         /// </summary>
@@ -144,7 +144,7 @@ namespace de.unika.ipd.grGen.lgsp
             [DebuggerStepThrough]
             get { return ReplacedByNode; }
         }
-    
+
 
         /// <summary>
         /// Returns an IEnumerable&lt;IEdge&gt; over all outgoing edges with the same type or a subtype of the given type

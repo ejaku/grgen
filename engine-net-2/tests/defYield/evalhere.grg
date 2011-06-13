@@ -25,7 +25,7 @@ rule create : (Node)
 pattern P(start:Node) modify(def var i:int)
 {
 	start --> n:NINT;
-	
+
 	modify {
 		eval {
 			yield i = i + n.a;
@@ -38,13 +38,13 @@ pattern Chain(begin:Node) modify(def var count:int)
 	optional {
 		begin --> next:Node\(NINT+NFLOAT+NSTRING);
 		c:Chain(next);
-		
+
 		modify {
 			c(yield count);
 			evalhere { yield count = count + 1; }
 		}
 	}
-	
+
 	modify {
 	}
 }
@@ -53,14 +53,14 @@ rule answer(start:Node) : (int)
 {
 	iterated it {
 		start --> :NSTRING;
-		
+
 		modify {
 			eval {
 				yield i = i-1;
 			}
 		}
 	}
-	
+
 	alternative alt {
 		caseOne {
 			start --> n:NFLOAT;
@@ -74,7 +74,7 @@ rule answer(start:Node) : (int)
 		}
 		caseTwo {
 			start --> n1:NFLOAT --> n2:NFLOAT;
-		
+
 			modify {
 				eval {
 					yield i = i==4 ? i+(int)(n1.a+n2.a) : i;
@@ -82,10 +82,10 @@ rule answer(start:Node) : (int)
 			}
 		}
 	}
-	
+
 	sub1:P(start);
 	sub2:P(start);
-	
+
 	ch:Chain(start);
 
 	modify {

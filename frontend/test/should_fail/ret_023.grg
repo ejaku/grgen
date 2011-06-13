@@ -2,9 +2,9 @@ rule r : (Edge)
 {
     x:Node;
     y:Node;
-    
+
     x -e:Edge-> y;
-    
+
     modify {
         delete(e);
         return(f);

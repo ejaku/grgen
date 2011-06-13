@@ -10,7 +10,7 @@ PARSER_BEGIN(SequenceParser)
 	using System.Collections;
 	using System.Collections.Generic;
 	using de.unika.ipd.grGen.libGr;
-	
+
 	/// <summary>
 	/// A parser class for xgrs strings.
 	/// </summary>
@@ -30,18 +30,18 @@ PARSER_BEGIN(SequenceParser)
 		/// The names of the sequences used in the specification, set if parsing an xgrs to be compiled
 		/// </summary>
 		String[] sequenceNames;
-		
+
 		/// <summary>
 		/// The model used in the specification
 		/// </summary>
 		IGraphModel model;
-		
+
 		/// <summary>
 		/// Symbol table of the sequence variables, maps from name to the prefixed(by block nesting) name and the type;
 		/// a graph-global variable maps to type "", a sequence-local to its type
 		/// </summary>
 		SymbolTable varDecls;
-		
+
         /// <summary>
         /// Parses a given string in xgrs syntax and builds a Sequence object. Used for the interpreted xgrs.
         /// </summary>
@@ -63,7 +63,7 @@ PARSER_BEGIN(SequenceParser)
 			SequenceChecker seqChecker = new SequenceChecker(actions);
 			seqChecker.Check(seq);
 			return seq;
-		}		
+		}
 
         /// <summary>
         /// Parses a given string in sequence definition syntax and builds a SequenceDefinition object. Used for the interpreted xgrs.
@@ -86,7 +86,7 @@ PARSER_BEGIN(SequenceParser)
 			SequenceChecker seqChecker = new SequenceChecker(actions);
 			seqChecker.Check(seq);
 			return seq;
-		}		
+		}
 
         /// <summary>
         /// Parses a given string in xgrs syntax and builds a Sequence object. Used for the compiled xgrs.
@@ -113,7 +113,7 @@ PARSER_BEGIN(SequenceParser)
 			Sequence seq = parser.XGRS();
 			// check will be done by LGSPSequenceChecker from lgsp code afterwards outside of this libGr code
 			return seq;
-		}				
+		}
 	}
 PARSER_END(SequenceParser)
 
@@ -198,13 +198,13 @@ TOKEN: {
 	< NUMBER: ("-")? (["0"-"9"])+ >
 |
 	< HEXNUMBER: "0x" (["0"-"9", "a"-"f", "A"-"F"])+ >
-|	
+|
 	< DOUBLEQUOTEDTEXT : "\"" (~["\"", "\n", "\r"])* "\"" >
 		{ matchedToken.image = matchedToken.image.Substring(1, matchedToken.image.Length-2); }
-|	
+|
 	< SINGLEQUOTEDTEXT : "\'" (~["\'", "\n", "\r"])* "\'" >
 		{ matchedToken.image = matchedToken.image.Substring(1, matchedToken.image.Length-2); }
-|	
+|
 < WORD : ["A"-"Z", "a"-"z", "_"] (["A"-"Z", "a"-"z", "_", "0"-"9"])* >
 }
 
@@ -215,7 +215,7 @@ String Word():
 {
 	tok=<WORD>
 	{
-		return tok.image;		
+		return tok.image;
 	}
 }
 
@@ -237,7 +237,7 @@ String Text():
 {
 	(tok=<DOUBLEQUOTEDTEXT> | tok=<SINGLEQUOTEDTEXT> | tok=<WORD>)
 	{
-		return tok.image;		
+		return tok.image;
 	}
 }
 
@@ -347,9 +347,9 @@ object SimpleConstant():
 		<FALSE> { constant = false; }
 	|
 		<NULL> { constant = null; }
-	| 
-		type=Word() "::" value=Word() 
-		{ 
+	|
+		type=Word() "::" value=Word()
+		{
 			foreach(EnumAttributeType attrType in model.EnumAttributeTypes)
 			{
 				if(attrType.Name == type)
@@ -359,7 +359,7 @@ object SimpleConstant():
 					break;
 				}
 			}
-			if(constant==null) 
+			if(constant==null)
 				throw new ParseException("Invalid constant \""+type+"::"+value+"\"!");
 		}
 	)
@@ -385,11 +385,11 @@ object Constant():
 			dstType = typeof(de.unika.ipd.grGen.libGr.SetValueType);
 			if(srcType!=null)
 				constant = DictionaryListHelper.NewDictionary(srcType, dstType);
-			if(constant==null) 
+			if(constant==null)
 				throw new ParseException("Invalid constant \"set<"+typeName+">\"!");
 		}
 		"{"
-			( src=SimpleConstant() { ((IDictionary)constant).Add(src, null); } )? 
+			( src=SimpleConstant() { ((IDictionary)constant).Add(src, null); } )?
 				( "," src=SimpleConstant() { ((IDictionary)constant).Add(src, null); })*
 		"}"
 	|
@@ -397,9 +397,9 @@ object Constant():
 		{
 			srcType = DictionaryListHelper.GetTypeFromNameForDictionaryOrList(typeName, model);
 			dstType = DictionaryListHelper.GetTypeFromNameForDictionaryOrList(typeNameDst, model);
-			if(srcType!=null && dstType!=null) 
+			if(srcType!=null && dstType!=null)
 				constant = DictionaryListHelper.NewDictionary(srcType, dstType);
-			if(constant==null) 
+			if(constant==null)
 				throw new ParseException("Invalid constant \"map<"+typeName+","+typeNameDst+">\"!");
 		}
 		"{"
@@ -412,11 +412,11 @@ object Constant():
 			srcType = DictionaryListHelper.GetTypeFromNameForDictionaryOrList(typeName, model);
 			if(srcType!=null)
 				constant = DictionaryListHelper.NewList(srcType);
-			if(constant==null) 
+			if(constant==null)
 				throw new ParseException("Invalid constant \"array<"+typeName+">\"!");
 		}
-		"[" 
-			( src=SimpleConstant() { ((IList)constant).Add(src); } )? 
+		"["
+			( src=SimpleConstant() { ((IList)constant).Add(src); } )?
 				( "," src=SimpleConstant() { ((IList)constant).Add(src); })*
 		"]"
 	)
@@ -458,7 +458,7 @@ SequenceVariable Variable(): // usage as well as definition
 			} else {
 				newVariable = oldVariable;
 			}
-		}		
+		}
 		return newVariable;
 	}
 }
@@ -524,7 +524,7 @@ String Type():
 }
 {
 	(type=Word()
-		| "set" "<" typeParam=Word() ">" { type = "set<"+typeParam+">"; } 
+		| "set" "<" typeParam=Word() ">" { type = "set<"+typeParam+">"; }
 			("{" { throw new ParseException("no {} allowed at set declaration, use s:set<T> = set<T>{} for initialization"); })?
 		| "map" "<" typeParam=Word() "," typeParamDst=Word() ">" { type = "map<"+typeParam+","+typeParamDst+">"; }
 			("{" { throw new ParseException("no {} allowed at map declaration, use m:map<S,T> = map<S,T>{} for initialization"); })?
@@ -555,7 +555,7 @@ SequenceDefinition defXGRS():
 	Sequence seq;
 }
 {
-	name=Word() ( "(" VariableDefinitionList(inputVariables) ")" )? ( ":" "(" VariableDefinitionList(outputVariables) ")" )? 
+	name=Word() ( "(" VariableDefinitionList(inputVariables) ")" )? ( ":" "(" VariableDefinitionList(outputVariables) ")" )?
 		"{" seq=RewriteSequence() "}" <EOF>
 	{
 		return new SequenceDefinitionInterpreted(name, inputVariables.ToArray(), outputVariables.ToArray(), seq);
@@ -578,12 +578,12 @@ Sequence RewriteSequence():
 		LOOKAHEAD(3)
 		(
 			LOOKAHEAD(3)
-			("$" { random = true; } ("%" { choice = true; })?)? "<;" seq2=RewriteSequence()							
+			("$" { random = true; } ("%" { choice = true; })?)? "<;" seq2=RewriteSequence()
 			{
 				seq = new SequenceThenLeft(seq, seq2, random, choice);
 			}
 		|
-			("$" { random = true; } ("%" { choice = true; })?)? ";>" seq2=RewriteSequence()							
+			("$" { random = true; } ("%" { choice = true; })?)? ";>" seq2=RewriteSequence()
 			{
 				seq = new SequenceThenRight(seq, seq2, random, choice);
 			}
@@ -603,7 +603,7 @@ Sequence RewriteSequenceLazyOr():
 	seq=RewriteSequenceLazyAnd()
 	(
 		LOOKAHEAD(3)
-		("$" { random = true; } ("%" { choice = true; })?)? "||" seq2=RewriteSequenceLazyOr()							
+		("$" { random = true; } ("%" { choice = true; })?)? "||" seq2=RewriteSequenceLazyOr()
 		{
 			seq = new SequenceLazyOr(seq, seq2, random, choice);
 		}
@@ -695,7 +695,7 @@ Sequence RewriteSequenceNeg():
 	SequenceVariable toVar;
 }
 {
-    "!" seq=RewriteSequenceIteration() 
+    "!" seq=RewriteSequenceIteration()
 		( "=>" toVar=Variable() { return new SequenceAssignSequenceResultToVar(toVar, new SequenceNot(seq)); }
 		| "|>" toVar=Variable() { return new SequenceOrAssignSequenceResultToVar(toVar, new SequenceNot(seq)); }
 		| "&>" toVar=Variable() { return new SequenceAndAssignSequenceResultToVar(toVar, new SequenceNot(seq)); }
@@ -731,7 +731,7 @@ Sequence RewriteSequenceIteration():
 				seq = new SequenceIterationMin(seq, 1);
 			}
 		|
-		    "[" 
+		    "["
 				(
 					minnum=Number()
 				    (
@@ -812,7 +812,7 @@ Sequence SimpleSequence():
 		}
 	|
         LOOKAHEAD(2) fromVar=VariableUse() "(" // deliver understandable error message for case of missing parenthesis at rule result assignment
-        { 
+        {
             throw new ParseException("the destination variable(s) of a rule result assignment must be enclosed in parenthesis");
         }
 	|
@@ -879,12 +879,12 @@ Sequence SimpleSequence():
 	"emit" "("
 		( str=TextString() { seq = new SequenceEmit(str); }
 		| fromVar=VariableUse() { seq = new SequenceEmit(fromVar);} )
-	")" { return seq; } 
+	")" { return seq; }
 |
 	"record" "("
 		( str=TextString() { seq = new SequenceRecord(str); }
 		| fromVar=VariableUse() { seq = new SequenceRecord(fromVar);} )
-	")" { return seq; } 
+	")" { return seq; }
 |
 	LOOKAHEAD(4) toVar=VariableUse() "." attrName=Word() "=" fromVar=VariableUse()
     {
@@ -898,7 +898,7 @@ Sequence SimpleSequence():
 			return new SequenceContainerAdd(fromVar, fromVar2, fromVar3);
 		} else if(method=="rem") {
 			if(fromVar3!=null) throw new ParseException("\"" + method + "\" expects 1(for set,map,array with index) or 0(for array end) parameters )");
-			return new SequenceContainerRem(fromVar, fromVar2); 
+			return new SequenceContainerRem(fromVar, fromVar2);
 		} else if(method=="clear") {
 			if(fromVar2!=null || fromVar3!=null) throw new ParseException("\"" + method + "\" expects no parameters)");
 			return new SequenceContainerClear(fromVar);
@@ -918,7 +918,7 @@ Sequence SimpleSequence():
 	}
 |
 	toVar=VariableUse() "[" fromVar=VariableUse() "]" "=" fromVar2=VariableUse()
-	{ 
+	{
 		return new SequenceAssignVarToIndexedVar(toVar, fromVar, fromVar2);
 	}
 |
@@ -937,31 +937,31 @@ Sequence SimpleSequence():
         return new SequenceFalse(special);
     }
 |
-	LOOKAHEAD(4) "$" ("%" { choice = true; } )? 
+	LOOKAHEAD(4) "$" ("%" { choice = true; } )?
 		"||" "(" seq=RewriteSequence() { sequences.Add(seq); } ("," seq=RewriteSequence() { sequences.Add(seq); })* ")"
 	{
 		return new SequenceLazyOrAll(sequences, choice);
 	}
 |
-	LOOKAHEAD(4) "$" ("%" { choice = true; } )? 
+	LOOKAHEAD(4) "$" ("%" { choice = true; } )?
 		"&&" "(" seq=RewriteSequence() { sequences.Add(seq); } ("," seq=RewriteSequence() { sequences.Add(seq); })* ")"
 	{
 		return new SequenceLazyAndAll(sequences, choice);
 	}
 |
-	LOOKAHEAD(4) "$" ("%" { choice = true; } )? 
+	LOOKAHEAD(4) "$" ("%" { choice = true; } )?
 		"|" "(" seq=RewriteSequence() { sequences.Add(seq); } ("," seq=RewriteSequence() { sequences.Add(seq); })* ")"
 	{
 		return new SequenceStrictOrAll(sequences, choice);
 	}
 |
-	LOOKAHEAD(4) "$" ("%" { choice = true; } )? 
+	LOOKAHEAD(4) "$" ("%" { choice = true; } )?
 		"&" "(" seq=RewriteSequence() { sequences.Add(seq); } ("," seq=RewriteSequence() { sequences.Add(seq); })* ")"
 	{
 		return new SequenceStrictAndAll(sequences, choice);
 	}
 |
-	( "$" { chooseRandSpecified=true; } ("%" { choice = true; } )? )? 
+	( "$" { chooseRandSpecified=true; } ("%" { choice = true; } )? )?
 		"{" seq=Rule() { sequences.Add(seq); } ("," seq=Rule() { sequences.Add(seq); })* "}"
 	{
 		return new SequenceSomeFromSet(sequences, chooseRandSpecified, choice);
@@ -1026,7 +1026,7 @@ Sequence Rule():
 	List<SequenceVariable> returnVars = new List<SequenceVariable>();
 }
 {
-	("(" VariableList(returnVars) ")" "=" )? 
+	("(" VariableList(returnVars) ")" "=" )?
 	(
 		(
 			"$" ("%" { choice = true; })? ( varChooseRand=Variable() ("," (varChooseRand2=Variable() | "*") { chooseRandSpecified2 = true; })? )? { chooseRandSpecified = true; }
@@ -1074,14 +1074,14 @@ Sequence Rule():
 }
 
 CSHARPCODE
-RuleInvocationParameterBindings CreateRuleInvocationParameterBindings(String ruleName, 
+RuleInvocationParameterBindings CreateRuleInvocationParameterBindings(String ruleName,
 				List<SequenceVariable> paramVars, List<Object> paramConsts, List<SequenceVariable> returnVars)
 {
 	IAction action = null;
 	if(actions != null)
 		action = actions.GetAction(ruleName);
-			
-	RuleInvocationParameterBindings paramBindings = new RuleInvocationParameterBindings(action, 
+
+	RuleInvocationParameterBindings paramBindings = new RuleInvocationParameterBindings(action,
 			paramVars.ToArray(), paramConsts.ToArray(), returnVars.ToArray());
 
 	if(action == null)
@@ -1091,15 +1091,15 @@ RuleInvocationParameterBindings CreateRuleInvocationParameterBindings(String rul
 }
 
 CSHARPCODE
-SequenceInvocationParameterBindings CreateSequenceInvocationParameterBindings(String sequenceName, 
+SequenceInvocationParameterBindings CreateSequenceInvocationParameterBindings(String sequenceName,
 				List<SequenceVariable> paramVars, List<Object> paramConsts, List<SequenceVariable> returnVars)
 {
 	SequenceDefinition sequenceDef = null;
 	if(actions != null) {
 		sequenceDef = actions.RetrieveGraphRewriteSequenceDefinition(sequenceName);
 	}
-			
-	SequenceInvocationParameterBindings paramBindings = new SequenceInvocationParameterBindings(sequenceDef, 
+
+	SequenceInvocationParameterBindings paramBindings = new SequenceInvocationParameterBindings(sequenceDef,
 			paramVars.ToArray(), paramConsts.ToArray(), returnVars.ToArray());
 
 	if(sequenceDef == null)

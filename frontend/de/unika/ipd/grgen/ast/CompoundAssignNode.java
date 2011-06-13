@@ -41,13 +41,13 @@ public class CompoundAssignNode extends EvalStatementNode
 	public static final int WITHOUT = 3;
 	public static final int CONCATENATE = 4;
 	public static final int ASSIGN = 5;
-		
+
 	private BaseNode targetUnresolved; // QualIdentNode|IdentExprNode
 	private int compoundAssignmentType;
 	private ExprNode valueExpr;
 	private BaseNode targetChangedUnresolved; // QualIdentNode|IdentExprNode|VisitedNode|null
 	private int targetCompoundAssignmentType;
-	
+
 	private QualIdentNode targetQual;
 	private VarDeclNode targetVar;
 	private QualIdentNode targetChangedQual;
@@ -88,7 +88,7 @@ public class CompoundAssignNode extends EvalStatementNode
 	@Override
 	protected boolean resolveLocal() {
 		boolean successfullyResolved = true;
-		
+
 		if(targetUnresolved instanceof IdentExprNode) {
 			IdentExprNode unresolved = (IdentExprNode)targetUnresolved;
 			if(unresolved.resolve() && unresolved.decl instanceof VarDeclNode) {
@@ -141,7 +141,7 @@ public class CompoundAssignNode extends EvalStatementNode
 				successfullyResolved = false;
 			}
 		}
-		
+
 		return successfullyResolved;
 	}
 
@@ -165,7 +165,7 @@ public class CompoundAssignNode extends EvalStatementNode
 		}
 		if(targetChangedUnresolved!=null) {
 			TypeNode targetChangedType = null;
-			if(targetChangedQual!=null) 
+			if(targetChangedQual!=null)
 				targetChangedType = targetChangedQual.getDecl().getDeclType();
 			else if(targetChangedVar!=null)
 				targetChangedType = targetChangedVar.getDeclType();
@@ -212,7 +212,7 @@ public class CompoundAssignNode extends EvalStatementNode
 						compoundAssignmentType, valueExpr.checkIR(Expression.class),
 						targetCompoundAssignmentType, targetChangedVis.checkIR(Visited.class));
 			else
-				return new CompoundAssignmentVar(targetVar.checkIR(Variable.class), 
+				return new CompoundAssignmentVar(targetVar.checkIR(Variable.class),
 						compoundAssignmentType, valueExpr.checkIR(Expression.class));
 		}
 	}

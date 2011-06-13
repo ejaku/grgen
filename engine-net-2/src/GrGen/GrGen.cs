@@ -182,7 +182,7 @@ namespace de.unika.ipd.grGen.grGen
                         case "-noperfinfo":
                             flags |= ProcessSpecFlags.NoPerformanceInfoUpdates;
                             break;
-                    
+
                         default:
                             Console.Error.WriteLine("Illegal option: " + args[i]);
                             specFile = null;

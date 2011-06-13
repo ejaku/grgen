@@ -17,7 +17,7 @@ dpo rule accept(state:State, var input:string) : (State)
 {
 	state -t:Transition\EpsilonTransition-> successor:State;
 	if { input.length()>0 && t.Trigger==input.substring(0, 1); }
-	
+
 	modify {
 		def last:State;
 		emit( "from " + state.id + " to " + successor.id + " with " + t.Trigger + " of " + input + "\n" );
