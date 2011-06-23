@@ -646,6 +646,12 @@ namespace de.unika.ipd.grGen.lgsp
         public bool isPatternpathLocked;
 
         /// <summary>
+        /// If this pattern graph is a negative or independent nested inside an iterated,
+        /// it breaks the iterated instead of only the current iterated case (if true).
+        /// </summary>
+        public bool isIterationBreaking;
+
+        /// <summary>
         /// An array of all pattern nodes.
         /// </summary>
         public PatternNode[] nodes;
@@ -802,6 +808,8 @@ namespace de.unika.ipd.grGen.lgsp
         /// should be isomorphy locked, i.e. not again matchable, even in negatives/independents,
         /// which are normally hom to all. This allows to match paths without a specified end,
         /// eagerly, i.e. as long as a successor exists, even in case of a cycles in the graph.</param>
+        /// <param name="isIterationBreaking"> If this pattern graph is a negative or independent nested inside an iterated,
+        /// it breaks the iterated instead of only the current iterated case (if true).</param>
         /// <param name="nodes">An array of all pattern nodes.</param>
         /// <param name="edges">An array of all pattern edges.</param>
         /// <param name="variables">An array of all pattern variables.</param>
@@ -826,7 +834,8 @@ namespace de.unika.ipd.grGen.lgsp
         /// in different, but locally nested patterns (alternative cases, iterateds).</param>
         /// <param name="totallyHomomorphicNodes"> An array telling which pattern node is to be matched non-isomorphic(/independent) against any other node.</param>
         /// <param name="totallyHomomorphicEdges"> An array telling which pattern edge is to be matched non-isomorphic(/independent) against any other edge.</param>
-        public PatternGraph(String name, String pathPrefix, bool isPatternpathLocked,
+        public PatternGraph(String name, String pathPrefix, 
+            bool isPatternpathLocked, bool isIterationBreaking,
             PatternNode[] nodes, PatternEdge[] edges,
             PatternVariable[] variables, PatternGraphEmbedding[] embeddedGraphs,
             Alternative[] alternatives, Iterated[] iterateds,
@@ -839,6 +848,7 @@ namespace de.unika.ipd.grGen.lgsp
             this.name = name;
             this.pathPrefix = pathPrefix;
             this.isPatternpathLocked = isPatternpathLocked;
+            this.isIterationBreaking = isIterationBreaking;
             this.nodes = nodes;
             this.edges = edges;
             this.variables = variables;

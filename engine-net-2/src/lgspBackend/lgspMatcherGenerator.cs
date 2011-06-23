@@ -2242,7 +2242,7 @@ exitSecondLoop: ;
             sb.Unindent(); // class level
             sb.AppendFront("}\n\n");
 
-            GenerateTasksMemoryPool(sb, className, false);
+            GenerateTasksMemoryPool(sb, className, false, false);
 
             for (int i = 0; i < patternGraph.nodes.Length; ++i)
             {
@@ -2297,7 +2297,7 @@ exitSecondLoop: ;
             sb.Unindent(); // class level
             sb.AppendFront("}\n\n");
 
-            GenerateTasksMemoryPool(sb, className, true);
+            GenerateTasksMemoryPool(sb, className, true, false);
 
             Dictionary<string, bool> neededNodes = new Dictionary<string,bool>();
             Dictionary<string, bool> neededEdges = new Dictionary<string,bool>();
@@ -2360,15 +2360,20 @@ exitSecondLoop: ;
             sb.AppendFrontFormat("minMatchesIter = {0};\n", iter.embeddingGraph.iterateds[index].minMatches);
             sb.AppendFrontFormat("maxMatchesIter = {0};\n", iter.embeddingGraph.iterateds[index].maxMatches);
             sb.AppendFront("numMatchesIter = 0;\n");
+            if(iter.isIterationBreaking)
+                sb.AppendFront("breakIteration = false;\n");
 
             sb.Unindent(); // class level
             sb.AppendFront("}\n\n");
 
             sb.AppendFront("int minMatchesIter;\n");
             sb.AppendFront("int maxMatchesIter;\n");
-            sb.AppendFront("int numMatchesIter;\n\n");
+            sb.AppendFront("int numMatchesIter;\n");
+            if(iter.isIterationBreaking)
+                sb.AppendFront("bool breakIteration;\n");
+            sb.Append("\n");
 
-            GenerateTasksMemoryPool(sb, className, false);
+            GenerateTasksMemoryPool(sb, className, false, iter.isIterationBreaking);
 
             Dictionary<string, bool> neededNodes = new Dictionary<string, bool>();
             Dictionary<string, bool> neededEdges = new Dictionary<string, bool>();
@@ -2422,7 +2427,7 @@ exitSecondLoop: ;
         /// <summary>
         /// Generates memory pooling code for matching tasks of class given by it's name
         /// </summary>
-        private void GenerateTasksMemoryPool(SourceBuilder sb, String className, bool isAlternative)
+        private void GenerateTasksMemoryPool(SourceBuilder sb, String className, bool isAlternative, bool isIterationBreaking)
         {
             // getNewTask method handing out new task from pool or creating task if pool is empty
             if (isAlternative)
@@ -2439,6 +2444,8 @@ exitSecondLoop: ;
             sb.AppendFront("newTask.graph = graph_; newTask.openTasks = openTasks_;\n");
             if(isAlternative)
                 sb.AppendFront("newTask.patternGraphs = patternGraphs_;\n");
+            else if(isIterationBreaking)
+                sb.AppendFront("newTask.breakIteration = false;\n");
             sb.AppendFront("freeListHead = newTask.next;\n");
             sb.AppendFront("newTask.next = null;\n");
             sb.AppendFront("--numFreeTasks;\n");

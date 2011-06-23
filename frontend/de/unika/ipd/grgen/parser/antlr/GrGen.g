@@ -1316,14 +1316,15 @@ iterated [ AnonymousPatternNamer namer, int context ] returns [ IteratedNode res
 negative [ AnonymousPatternNamer namer, int context ] returns [ PatternGraphNode res = null ]
 	@init{
 		int mod = 0;
+		boolean brk = false;
 	}
 	
-	: n=NEGATIVE (name=negIdentDecl)? { namer.defNeg(name, getCoords(n)); } 
+	: (BREAK { brk = true; })? n=NEGATIVE (name=negIdentDecl)? { namer.defNeg(name, getCoords(n)); } 
 		LBRACE pushScope[namer.neg()]
 			( ( PATTERNPATH { mod = PatternGraphNode.MOD_PATTERNPATH_LOCKED; }
 			| PATTERN { mod = PatternGraphNode.MOD_PATTERN_LOCKED; } ) SEMI )*
 			b=patternBody[getCoords(n), new CollectNode<BaseNode>(), namer, mod, 
-				context|BaseNode.CONTEXT_NEGATIVE, namer.neg().toString()] { res = b; } 
+				context|BaseNode.CONTEXT_NEGATIVE, namer.neg().toString()] { res = b; b.iterationBreaking = brk; } 
 		RBRACE popScope
 	| n=TILDE { namer.defNeg(null, getCoords(n)); }
 		LPAREN pushScope[namer.neg()]
@@ -1337,14 +1338,15 @@ negative [ AnonymousPatternNamer namer, int context ] returns [ PatternGraphNode
 independent [ AnonymousPatternNamer namer, int context ] returns [ PatternGraphNode res = null ]
 	@init{
 		int mod = 0;
+		boolean brk = false;
 	}
 	
-	: i=INDEPENDENT (name=idptIdentDecl)? { namer.defIdpt(name, getCoords(i)); }
+	: (BREAK { brk = true; })? i=INDEPENDENT (name=idptIdentDecl)? { namer.defIdpt(name, getCoords(i)); }
 		LBRACE pushScope[namer.idpt()]
 			( ( PATTERNPATH { mod = PatternGraphNode.MOD_PATTERNPATH_LOCKED; }
 			| PATTERN { mod = PatternGraphNode.MOD_PATTERN_LOCKED; } ) SEMI )*
 			b=patternBody[getCoords(i), new CollectNode<BaseNode>(), namer, mod,
-				context|BaseNode.CONTEXT_INDEPENDENT, namer.idpt().toString()] { res = b; } 
+				context|BaseNode.CONTEXT_INDEPENDENT, namer.idpt().toString()] { res = b; b.iterationBreaking = brk; } 
 		RBRACE popScope
 	| i=BAND { namer.defIdpt(null, getCoords(i)); }
 		LPAREN pushScope[namer.idpt()]
@@ -2995,6 +2997,7 @@ ACTIONS : 'actions';
 ALTERNATIVE : 'alternative';
 ARBITRARY : 'arbitrary';
 ARRAY : 'array';
+BREAK : 'break';
 CLASS : 'class';
 COPY : 'copy';
 CONNECT : 'connect';

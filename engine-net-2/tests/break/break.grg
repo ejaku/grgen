@@ -1,0 +1,120 @@
+rule initAllWithoutAppendix
+{
+	modify {
+		root:Node;
+		root --> .;
+		root --> .;
+		root --> .;
+	}
+}
+
+rule initOneWithAppendix
+{
+	modify {
+		root:Node;
+		root --> . --> .;
+		root --> .;
+		root --> .;
+	}
+}
+
+rule initOneWithoutAppendix
+{
+	modify {
+		root:Node;
+		root --> . --> .;
+		root --> . --> .;
+		root --> .;
+	}
+}
+
+rule initAllWithAppendix
+{
+	modify {
+		root:Node;
+		root --> . --> .;
+		root --> . --> .;
+		root --> . --> .;
+	}
+}
+
+
+rule sergeNegative
+{
+	root:Node;
+	negative {
+		--> root;
+	}
+	
+	iterated {
+		root --> child:Node;
+
+		break negative { // if there's one child with an appendix, break the iterated failing the rule
+			child --> .;
+		}
+		
+		modify {
+			delete(child);
+		}
+	}
+}
+
+rule sergeNegativeNormal
+{
+	root:Node;
+	negative {
+		--> root;
+	}
+
+	iterated {
+		root --> child:Node;
+
+		negative { // if there's one child with an appendix, only that iterated case is not matched
+			child --> .;
+		}
+		
+		modify {
+			delete(child);
+		}
+	}
+}
+
+rule sergeIndependent
+{
+	root:Node;
+	negative {
+		--> root;
+	}
+
+	iterated {
+		root --> child:Node;
+
+		break independent { // if there's one child without an appendix, break the iterated failing the rule
+			child --> .;
+		}
+		
+		modify {
+			delete(child);
+		}
+	}
+}
+
+rule sergeIndependentNormal
+{
+	root:Node;
+	negative {
+		--> root;
+	}
+
+	iterated {
+		root --> child:Node;
+
+		independent { // if there's one child without an appendix, only that iterated case is not matched
+			child --> .;
+		}
+		
+		modify {
+			delete(child);
+		}
+	}
+}

@@ -82,7 +82,7 @@ namespace de.unika.ipd.grGen.lgsp
                 }
             }
 
-            // build outermost search program operation, create the list anchor starting it's program
+            // build outermost search program operation, create the list anchor starting its program
             SearchProgram searchProgram = new SearchProgramOfAction(
                 rulePatternClassName,
                 patternGraph.name, parameterTypes, parameterNames, name,
@@ -159,7 +159,7 @@ namespace de.unika.ipd.grGen.lgsp
             isNestedInNegative = false;
             rulePatternClassName = NamesOfEntities.RulePatternClassName(matchingPattern.name, true);
 
-            // build outermost search program operation, create the list anchor starting it's program
+            // build outermost search program operation, create the list anchor starting its program
             SearchProgram searchProgram = new SearchProgramOfSubpattern(
                 rulePatternClassName,
                 matchingPattern.patternGraph.patternGraphsOnPathToEnclosedPatternpath,
@@ -217,7 +217,7 @@ namespace de.unika.ipd.grGen.lgsp
                 }
             }
 
-            // build outermost search program operation, create the list anchor starting it's program
+            // build outermost search program operation, create the list anchor starting its program
             SearchProgram searchProgram = new SearchProgramOfAlternative(
                 rulePatternClassName,
                 namesOfPatternGraphsOnPathToEnclosedPatternpath,
@@ -298,7 +298,7 @@ namespace de.unika.ipd.grGen.lgsp
             isNestedInNegative = false;
             rulePatternClassName = NamesOfEntities.RulePatternClassName(matchingPattern.name, !(matchingPattern is LGSPRulePattern));
 
-            // build outermost search program operation, create the list anchor starting it's program
+            // build outermost search program operation, create the list anchor starting its program
             SearchProgram searchProgram = new SearchProgramOfIterated(
                 rulePatternClassName,
                 matchingPattern.patternGraph.patternGraphsOnPathToEnclosedPatternpath,
@@ -1919,7 +1919,7 @@ namespace de.unika.ipd.grGen.lgsp
             // the matcher program of independent didn't find a match,
             // we fell through the loops and reached this point -> abort the matching process / try next candidate
             CheckContinueMatchingOfIndependentFailed abortMatching =
-                new CheckContinueMatchingOfIndependentFailed(checkIndependent);
+                new CheckContinueMatchingOfIndependentFailed(checkIndependent, independentPatternGraph.isIterationBreaking);
             checkIndependent.CheckIndependentFailed = abortMatching;
             insertionPoint = insertionPoint.Append(abortMatching);
 
@@ -3071,7 +3071,7 @@ namespace de.unika.ipd.grGen.lgsp
 
             // check whether there were no subpattern matches found
             CheckPartialMatchForSubpatternsFound checkSubpatternsFound =
-                new CheckPartialMatchForSubpatternsFound(negativeIndependentNamePrefix);
+                new CheckPartialMatchForSubpatternsFound(negativeIndependentNamePrefix, patternGraph.isIterationBreaking);
             SearchProgramOperation continuationPointAfterSubpatternsFound =
                    insertionPoint.Append(checkSubpatternsFound);
             checkSubpatternsFound.CheckFailedOperations =
@@ -3137,7 +3137,7 @@ namespace de.unika.ipd.grGen.lgsp
 
             // check whether there were no subpattern matches found
             CheckPartialMatchForSubpatternsFound checkSubpatternsFound =
-                new CheckPartialMatchForSubpatternsFound(negativeIndependentNamePrefix);
+                new CheckPartialMatchForSubpatternsFound(negativeIndependentNamePrefix, patternGraph.isIterationBreaking);
             SearchProgramOperation continuationPointAfterSubpatternsFound =
                    insertionPoint.Append(checkSubpatternsFound);
             checkSubpatternsFound.CheckFailedOperations =
@@ -3154,7 +3154,7 @@ namespace de.unika.ipd.grGen.lgsp
 
                 // ---- abort the matching process
                 CheckContinueMatchingOfNegativeFailed abortMatching =
-                    new CheckContinueMatchingOfNegativeFailed();
+                    new CheckContinueMatchingOfNegativeFailed(patternGraph.isIterationBreaking);
                 insertionPoint = insertionPoint.Append(abortMatching);
             }
             else
@@ -3246,8 +3246,8 @@ namespace de.unika.ipd.grGen.lgsp
                 insertionPoint = insertionPoint.Append(patternMatched);
 
                 // abort the matching process
-                CheckContinueMatchingOfNegativeFailed abortMatching = 
-                    new CheckContinueMatchingOfNegativeFailed();
+                CheckContinueMatchingOfNegativeFailed abortMatching =
+                    new CheckContinueMatchingOfNegativeFailed(patternGraph.isIterationBreaking);
                 insertionPoint = insertionPoint.Append(abortMatching);
             }
             else
@@ -3290,7 +3290,7 @@ namespace de.unika.ipd.grGen.lgsp
             // check whether the pattern was not found / the null match was found
             // if yes the iteration came to an end, handle that case
             CheckContinueMatchingIteratedPatternNonNullMatchFound iteratedPatternFound =
-                new CheckContinueMatchingIteratedPatternNonNullMatchFound();
+                new CheckContinueMatchingIteratedPatternNonNullMatchFound(patternGraph.isIterationBreaking);
             SearchProgramOperation continuationPoint =
                 insertionPoint.Append(iteratedPatternFound);
             iteratedPatternFound.CheckFailedOperations = new SearchProgramList(iteratedPatternFound);

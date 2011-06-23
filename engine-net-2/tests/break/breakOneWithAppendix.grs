@@ -1,0 +1,35 @@
+new graph break\break.grg
+
+xgrs initOneWithAppendix
+show num nodes
+show num edges
+xgrs sergeNegative
+show num nodes
+show num edges
+clear graph
+
+xgrs initOneWithAppendix
+show num nodes
+show num edges
+xgrs sergeNegativeNormal
+show num nodes
+show num edges
+clear graph
+
+xgrs initOneWithAppendix
+show num nodes
+show num edges
+xgrs sergeIndependent
+show num nodes
+show num edges
+clear graph
+
+xgrs initOneWithAppendix
+show num nodes
+show num edges
+xgrs sergeIndependentNormal
+show num nodes
+show num edges
+clear graph
+
+quit

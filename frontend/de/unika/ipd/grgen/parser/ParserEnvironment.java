@@ -337,6 +337,7 @@ public abstract class ParserEnvironment extends Base {
 		keywords.add("alternative");
 		keywords.add("arbitrary");
 		keywords.add("array");
+		keywords.add("break");
 		keywords.add("class");
 		keywords.add("copy");
 		keywords.add("connect");

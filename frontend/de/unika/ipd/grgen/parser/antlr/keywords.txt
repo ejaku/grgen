@@ -3,6 +3,7 @@ ACTIONS : 'actions';
 ALTERNATIVE : 'alternative';
 ARBITRARY : 'arbitrary';
 ARRAY : 'array';
+BREAK : 'break';
 CLASS : 'class';
 COPY : 'copy';
 CONNECT : 'connect';

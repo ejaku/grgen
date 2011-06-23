@@ -2447,7 +2447,7 @@ namespace de.unika.ipd.grGen.lgsp
     /// </summary>
     class CheckPartialMatchForSubpatternsFound : CheckPartialMatch
     {
-        public CheckPartialMatchForSubpatternsFound(string negativeIndependentNamePrefix)
+        public CheckPartialMatchForSubpatternsFound(string negativeIndependentNamePrefix, bool isIterationBreaking)
         {
             NegativeIndependentNamePrefix = negativeIndependentNamePrefix;
         }
@@ -3767,14 +3767,17 @@ namespace de.unika.ipd.grGen.lgsp
     /// </summary>
     class CheckContinueMatchingOfNegativeFailed : CheckContinueMatching
     {
-        public CheckContinueMatchingOfNegativeFailed()
+        public CheckContinueMatchingOfNegativeFailed(bool isIterationBreaking)
         {
+            IsIterationBreaking = isIterationBreaking;
         }
 
         public override void Dump(SourceBuilder builder)
         {
             // first dump check
-            builder.AppendFront("CheckContinueMatching OfNegativeFailed \n");
+            builder.AppendFront("CheckContinueMatching OfNegativeFailed ");
+            builder.Append(IsIterationBreaking ? "IterationBreaking\n" : "\n");
+
             // then operations for case check failed
             if (CheckFailedOperations != null)
             {
@@ -3786,9 +3789,13 @@ namespace de.unika.ipd.grGen.lgsp
 
         public override void Emit(SourceBuilder sourceCode)
         {
-            // nothing locally, just emit check failed code
+            if(IsIterationBreaking)
+                sourceCode.AppendFront("breakIteration = true;\n");
+
             CheckFailedOperations.Emit(sourceCode);
         }
+
+        public bool IsIterationBreaking;
     }
 
     /// <summary>
@@ -3798,15 +3805,17 @@ namespace de.unika.ipd.grGen.lgsp
     /// </summary>
     class CheckContinueMatchingOfIndependentFailed : CheckContinueMatching
     {
-        public CheckContinueMatchingOfIndependentFailed(CheckPartialMatchByIndependent checkIndependent)
+        public CheckContinueMatchingOfIndependentFailed(CheckPartialMatchByIndependent checkIndependent, bool isIterationBreaking)
         {
             CheckIndependent = checkIndependent;
+            IsIterationBreaking = isIterationBreaking;
         }
 
         public override void Dump(SourceBuilder builder)
         {
             // first dump check
-            builder.AppendFront("CheckContinueMatching OfIndependentFailed \n");
+            builder.AppendFront("CheckContinueMatching OfIndependentFailed ");
+            builder.Append(IsIterationBreaking ? "IterationBreaking\n" : "\n");
             // then operations for case check failed
             if (CheckFailedOperations != null)
             {
@@ -3818,12 +3827,15 @@ namespace de.unika.ipd.grGen.lgsp
 
         public override void Emit(SourceBuilder sourceCode)
         {
-            // nothing locally, just emit check failed code
+            if(IsIterationBreaking)
+                sourceCode.AppendFront("breakIteration = true;\n");
+
             CheckFailedOperations.Emit(sourceCode);
         }
 
         // the independent which failed
         public CheckPartialMatchByIndependent CheckIndependent;
+        public bool IsIterationBreaking;
     }
 
     /// <summary>
@@ -3862,14 +3874,16 @@ namespace de.unika.ipd.grGen.lgsp
     /// </summary>
     class CheckContinueMatchingIteratedPatternNonNullMatchFound : CheckContinueMatching
     {
-        public CheckContinueMatchingIteratedPatternNonNullMatchFound()
+        public CheckContinueMatchingIteratedPatternNonNullMatchFound(bool isIterationBreaking)
         {
+            IsIterationBreaking = isIterationBreaking;
         }
 
         public override void Dump(SourceBuilder builder)
         {
             // first dump check
-            builder.AppendFront("CheckContinueMatching IteratedPatternFound\n");
+            builder.AppendFrontFormat("CheckContinueMatching IteratedPatternFound {0}\n",
+                IsIterationBreaking ? "IterationBreaking" : "");
             // then operations for case check failed
             if (CheckFailedOperations != null)
             {
@@ -3885,7 +3899,10 @@ namespace de.unika.ipd.grGen.lgsp
                 sourceCode.AppendFront("// Check whether the iterated pattern null match was found\n");
 
             sourceCode.Append("maxMatchesIterReached:\n");
-            sourceCode.AppendFront("if(!patternFound && numMatchesIter>=minMatchesIter)\n");
+            if(IsIterationBreaking)
+                sourceCode.AppendFront("if(!patternFound && numMatchesIter>=minMatchesIter && !breakIteration)\n");
+            else
+                sourceCode.AppendFront("if(!patternFound && numMatchesIter>=minMatchesIter)\n");
             sourceCode.AppendFront("{\n");
             sourceCode.Indent();
 
@@ -3894,6 +3911,8 @@ namespace de.unika.ipd.grGen.lgsp
             sourceCode.Unindent();
             sourceCode.AppendFront("}\n");
         }
+
+        public bool IsIterationBreaking;
     }
 
     /// <summary>

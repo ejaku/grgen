@@ -861,7 +861,8 @@ public class ActionsGen extends CSharpBase {
 		sb.append("\t\t\t" + patGraphVarName + " = new GRGEN_LGSP.PatternGraph(\n");
 		sb.append("\t\t\t\t\"" + patternName + "\",\n");
 		sb.append("\t\t\t\t\"" + pathPrefix + "\",\n");
-		sb.append("\t\t\t\t" + (pattern.isPatternpathLocked() ? "true" : "false") + ",\n" );
+		sb.append("\t\t\t\t" + (pattern.isPatternpathLocked() ? "true" : "false") + ", " );
+		sb.append((pattern.isIterationBreaking() ? "true" : "false") + ",\n" );
 
 		String pathPrefixForElements = pathPrefix+patternName+"_";
 

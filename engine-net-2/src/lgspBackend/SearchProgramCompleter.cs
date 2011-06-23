@@ -178,10 +178,21 @@ namespace de.unika.ipd.grGen.lgsp
                             (CheckContinueMatchingOfNegativeFailed)currentOperation;
                         checkFailed.CheckFailedOperations =
                             new SearchProgramList(checkFailed);
-                        MoveOutwardsAppendingRemoveIsomorphyAndJump(
-                            checkFailed,
-                            enclosingCheckNegativeOrIndependent.NeededElements,
-                            enclosingAlternative ?? enclosingSearchProgram);
+                        if(checkFailed.IsIterationBreaking)
+                        {
+                            string[] neededElementsForCheckOperation = new string[0];
+                            MoveOutwardsAppendingRemoveIsomorphyAndJump(
+                                checkFailed,
+                                neededElementsForCheckOperation,
+                                enclosingSearchProgram);
+                        }
+                        else
+                        {
+                            MoveOutwardsAppendingRemoveIsomorphyAndJump(
+                                checkFailed,
+                                enclosingCheckNegativeOrIndependent.NeededElements,
+                                enclosingAlternative ?? enclosingSearchProgram);
+                        }
                     }
                     else if (currentOperation is CheckContinueMatchingOfIndependentSucceeded)
                     {
@@ -199,10 +210,21 @@ namespace de.unika.ipd.grGen.lgsp
                             (CheckContinueMatchingOfIndependentFailed)currentOperation;
                         checkFailed.CheckFailedOperations =
                             new SearchProgramList(checkFailed);
-                        MoveOutwardsAppendingRemoveIsomorphyAndJump(
-                            checkFailed,
-                            checkFailed.CheckIndependent.NeededElements,
-                            enclosingAlternative ?? enclosingSearchProgram);
+                        if(checkFailed.IsIterationBreaking)
+                        {
+                            string[] neededElementsForCheckOperation = new string[0];
+                            MoveOutwardsAppendingRemoveIsomorphyAndJump(
+                                checkFailed,
+                                neededElementsForCheckOperation,
+                                enclosingSearchProgram);
+                        }
+                        else
+                        {
+                            MoveOutwardsAppendingRemoveIsomorphyAndJump(
+                                checkFailed,
+                                checkFailed.CheckIndependent.NeededElements,
+                                enclosingAlternative ?? enclosingSearchProgram);
+                        }
                     }
                     else if (currentOperation is CheckContinueMatchingTasksLeft)
                     {

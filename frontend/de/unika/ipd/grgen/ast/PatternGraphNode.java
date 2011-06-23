@@ -117,6 +117,10 @@ public class PatternGraphNode extends GraphNode {
 	// created from pattern modifiers, in order to get unique negative names
 	int implicitNegCounter = 0;
 	
+	// if this pattern graph is a negative or independent nested inside an iterated
+	// it might break the iterated instead of only the current iterated case, if specified
+	public boolean iterationBreaking = false;
+	
 
 	public PatternGraphNode(String nameOfGraph, Coords coords,
 			CollectNode<BaseNode> connections, CollectNode<BaseNode> params, 
@@ -535,6 +539,8 @@ public class PatternGraphNode extends GraphNode {
 		// mark this node as already visited
 		setIR(gr);
 
+		gr.setIterationBreaking(iterationBreaking);
+
 		for (BaseNode connection : connections.getChildren()) {
 			ConnectionCharacter conn = (ConnectionCharacter) connection;
 			conn.addToGraph(gr);
@@ -777,12 +783,16 @@ public class PatternGraphNode extends GraphNode {
 		for (PatternGraphNode pgn : negs.getChildren()) {
 			PatternGraph neg = pgn.getPatternGraph();
 			gr.addNegGraph(neg);
+			if(neg.isIterationBreaking())
+				gr.setIterationBreaking(true);
 		}
 
 		// add independent parts to the IR
 		for (PatternGraphNode pgn : idpts.getChildren()) {
 			PatternGraph idpt = pgn.getPatternGraph();
 			gr.addIdptGraph(idpt);
+			if(idpt.isIterationBreaking())
+				gr.setIterationBreaking(true);
 		}
 		
 		// ensure def to be yielded to elements are hom to all others

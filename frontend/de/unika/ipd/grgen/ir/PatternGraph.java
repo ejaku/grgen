@@ -84,10 +84,12 @@ public class PatternGraph extends Graph {
 	final int PATTERN_NOT_EMPTY = 2;
 	int mayPatternBeEmptyComputationState = PATTERN_NOT_YET_VISITED;
 
-	/**
-	 * A list of the replacement parameters 
-	 */
+	/** A list of the replacement parameters */
 	private final List<Entity> replParams = new LinkedList<Entity>();
+	
+	// if this pattern graph is a negative or independent nested inside an iterated
+	// it might break the iterated instead of only the current iterated case, if specified
+	private boolean iterationBreaking = false;
 
 
 	/** Make a new pattern graph. */
@@ -206,6 +208,14 @@ public class PatternGraph extends Graph {
 	
 	public boolean replParametersContain(Entity entity) {
 		return replParams.contains(entity);
+	}
+	
+	public void setIterationBreaking(boolean value) {
+		iterationBreaking = value;
+	}
+
+	public boolean isIterationBreaking() {
+		return iterationBreaking;
 	}
 
 	/** Get a collection with all conditions in this graph. */

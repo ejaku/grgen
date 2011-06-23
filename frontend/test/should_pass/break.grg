@@ -1,0 +1,47 @@
+test sergeNegative
+{
+	root:Node;
+	iterated {
+		root --> child:Node;
+
+		break negative { // if there's one child with an appendix, break the iterated failing the rule
+			child --> .;
+		}
+	}
+}
+
+test sergeNegativeNormal
+{
+	root:Node;
+	iterated {
+		root --> child:Node;
+
+		negative { // if there's one child with an appendix, only that iterated case is not matched
+			child --> .;
+		}
+	}
+}
+
+test sergeIndependent
+{
+	root:Node;
+	iterated {
+		root --> child:Node;
+
+		break independent { // if there's one child without an appendix, break the iterated failing the rule
+			child --> .;
+		}
+	}
+}
+
+test sergeIndependentNormal
+{
+	root:Node;
+	iterated {
+		root --> child:Node;
+
+		independent { // if there's one child without an appendix, only that iterated case is not matched
+			child --> .;
+		}
+	}
+}
