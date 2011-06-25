@@ -1,6 +1,6 @@
 // This file has been generated automatically by GrGen (www.grgen.net)
 // Do not modify this file! Any changes will be lost!
-// Generated from "..\..\examples\ExternalAttributeEvaluationExample\ExternalAttributeEvaluation.grg" on Sun Jun 12 09:35:14 CEST 2011
+// Generated from "..\..\examples\ExternalAttributeEvaluationExample\ExternalAttributeEvaluation.grg" on Sat Jun 25 14:38:23 CEST 2011
 
 using System;
 using System.Collections.Generic;
@@ -51,7 +51,7 @@ namespace de.unika.ipd.grGen.Action_ExternalAttributeEvaluation
 			pat_init = new GRGEN_LGSP.PatternGraph(
 				"init",
 				"",
-				false,
+				false, false,
 				new GRGEN_LGSP.PatternNode[] {  }, 
 				new GRGEN_LGSP.PatternEdge[] {  }, 
 				new GRGEN_LGSP.PatternVariable[] {  }, 
@@ -251,7 +251,7 @@ namespace de.unika.ipd.grGen.Action_ExternalAttributeEvaluation
 			pat_r = new GRGEN_LGSP.PatternGraph(
 				"r",
 				"",
-				false,
+				false, false,
 				new GRGEN_LGSP.PatternNode[] { r_node_n }, 
 				new GRGEN_LGSP.PatternEdge[] { r_edge_e }, 
 				new GRGEN_LGSP.PatternVariable[] {  }, 

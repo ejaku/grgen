@@ -5,7 +5,7 @@
  * www.grgen.net
  */
 
-// this client might be outdated, only the yCompClient of GrShell is guaranteed to be up to date
+// this client is severly outdated, please have a look at the yCompClient of GrShell
 
 using System;
 using System.Collections;
@@ -230,10 +230,10 @@ namespace de.unika.ipd.grGen.grShell
             NewNodeRealizer = GetNodeRealizer(GrColor.LightRed, GrColor.DarkYellow, GrColor.Black, GrNodeShape.Box);
             DeletedNodeRealizer = GetNodeRealizer(GrColor.LightGrey, GrColor.DarkYellow, GrColor.Black, GrNodeShape.Box);
 
-            NormalEdgeRealizer = GetEdgeRealizer(GrColor.DarkYellow, GrColor.Black, 1, GrLineStyle.Solid);
-            MatchedEdgeRealizer = GetEdgeRealizer(GrColor.DarkYellow, GrColor.Black, 2, GrLineStyle.Solid);
-            NewEdgeRealizer = GetEdgeRealizer(GrColor.LightRed, GrColor.Black, 2, GrLineStyle.Solid);
-            DeletedEdgeRealizer = GetEdgeRealizer(GrColor.LightGrey, GrColor.Black, 2, GrLineStyle.Solid);
+            NormalEdgeRealizer = GetEdgeRealizer(GrColor.DarkYellow, GrColor.Black, 1, GrLineStyle.Continuous);
+            MatchedEdgeRealizer = GetEdgeRealizer(GrColor.DarkYellow, GrColor.Black, 2, GrLineStyle.Continuous);
+            NewEdgeRealizer = GetEdgeRealizer(GrColor.LightRed, GrColor.Black, 2, GrLineStyle.Continuous);
+            DeletedEdgeRealizer = GetEdgeRealizer(GrColor.LightGrey, GrColor.Black, 2, GrLineStyle.Continuous);
 
             dumpInfo.OnNodeTypeAppearanceChanged += new NodeTypeAppearanceChangedHandler(OnNodeTypeAppearanceChanged);
             dumpInfo.OnEdgeTypeAppearanceChanged += new EdgeTypeAppearanceChangedHandler(OnEdgeTypeAppearanceChanged);
@@ -391,7 +391,7 @@ namespace de.unika.ipd.grGen.grShell
 
         String GetEdgeRealizer(EdgeType type)
         {
-            return GetEdgeRealizer(dumpInfo.GetEdgeTypeColor(type), dumpInfo.GetEdgeTypeTextColor(type), 1, GrLineStyle.Solid);
+            return GetEdgeRealizer(dumpInfo.GetEdgeTypeColor(type), dumpInfo.GetEdgeTypeTextColor(type), 1, GrLineStyle.Continuous);
         }
 
         void OnNodeTypeAppearanceChanged(NodeType type)

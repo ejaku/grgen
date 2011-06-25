@@ -1,6 +1,6 @@
 // This file has been generated automatically by GrGen (www.grgen.net)
 // Do not modify this file! Any changes will be lost!
-// Generated from "..\..\tests\iterated\spanningTree.grg" on Sun Jun 12 09:35:18 CEST 2011
+// Generated from "..\..\tests\iterated\spanningTree.grg" on Sat Jun 25 14:38:28 CEST 2011
 
 using System;
 using System.Collections.Generic;
@@ -87,7 +87,7 @@ namespace de.unika.ipd.grGen.Action_spanningTree
 			SpanningTree_iter_0 = new GRGEN_LGSP.PatternGraph(
 				"iter_0",
 				"SpanningTree_",
-				false,
+				false, false,
 				new GRGEN_LGSP.PatternNode[] { SpanningTree_node_root, SpanningTree_iter_0_node_next }, 
 				new GRGEN_LGSP.PatternEdge[] { SpanningTree_iter_0_edge_e }, 
 				new GRGEN_LGSP.PatternVariable[] {  }, 
@@ -117,7 +117,7 @@ namespace de.unika.ipd.grGen.Action_spanningTree
 			pat_SpanningTree = new GRGEN_LGSP.PatternGraph(
 				"SpanningTree",
 				"",
-				false,
+				false, false,
 				new GRGEN_LGSP.PatternNode[] { SpanningTree_node_root }, 
 				new GRGEN_LGSP.PatternEdge[] {  }, 
 				new GRGEN_LGSP.PatternVariable[] {  }, 
@@ -520,7 +520,7 @@ namespace de.unika.ipd.grGen.Action_spanningTree
 			SpanningTreeReverse_iter_0 = new GRGEN_LGSP.PatternGraph(
 				"iter_0",
 				"SpanningTreeReverse_",
-				false,
+				false, false,
 				new GRGEN_LGSP.PatternNode[] { SpanningTreeReverse_node_root, SpanningTreeReverse_iter_0_node_next }, 
 				new GRGEN_LGSP.PatternEdge[] { SpanningTreeReverse_iter_0_edge__edge0 }, 
 				new GRGEN_LGSP.PatternVariable[] {  }, 
@@ -550,7 +550,7 @@ namespace de.unika.ipd.grGen.Action_spanningTree
 			pat_SpanningTreeReverse = new GRGEN_LGSP.PatternGraph(
 				"SpanningTreeReverse",
 				"",
-				false,
+				false, false,
 				new GRGEN_LGSP.PatternNode[] { SpanningTreeReverse_node_root }, 
 				new GRGEN_LGSP.PatternEdge[] {  }, 
 				new GRGEN_LGSP.PatternVariable[] {  }, 
@@ -952,7 +952,7 @@ namespace de.unika.ipd.grGen.Action_spanningTree
 			SpanningTreeOutgoing_iter_0 = new GRGEN_LGSP.PatternGraph(
 				"iter_0",
 				"SpanningTreeOutgoing_",
-				false,
+				false, false,
 				new GRGEN_LGSP.PatternNode[] { SpanningTreeOutgoing_node_root, SpanningTreeOutgoing_iter_0_node_next }, 
 				new GRGEN_LGSP.PatternEdge[] { SpanningTreeOutgoing_iter_0_edge__edge0 }, 
 				new GRGEN_LGSP.PatternVariable[] {  }, 
@@ -982,7 +982,7 @@ namespace de.unika.ipd.grGen.Action_spanningTree
 			pat_SpanningTreeOutgoing = new GRGEN_LGSP.PatternGraph(
 				"SpanningTreeOutgoing",
 				"",
-				false,
+				false, false,
 				new GRGEN_LGSP.PatternNode[] { SpanningTreeOutgoing_node_root }, 
 				new GRGEN_LGSP.PatternEdge[] {  }, 
 				new GRGEN_LGSP.PatternVariable[] {  }, 
@@ -1350,7 +1350,7 @@ namespace de.unika.ipd.grGen.Action_spanningTree
 			SpanningTreeIncoming_iter_0 = new GRGEN_LGSP.PatternGraph(
 				"iter_0",
 				"SpanningTreeIncoming_",
-				false,
+				false, false,
 				new GRGEN_LGSP.PatternNode[] { SpanningTreeIncoming_iter_0_node_next, SpanningTreeIncoming_node_root }, 
 				new GRGEN_LGSP.PatternEdge[] { SpanningTreeIncoming_iter_0_edge__edge0 }, 
 				new GRGEN_LGSP.PatternVariable[] {  }, 
@@ -1380,7 +1380,7 @@ namespace de.unika.ipd.grGen.Action_spanningTree
 			pat_SpanningTreeIncoming = new GRGEN_LGSP.PatternGraph(
 				"SpanningTreeIncoming",
 				"",
-				false,
+				false, false,
 				new GRGEN_LGSP.PatternNode[] { SpanningTreeIncoming_node_root }, 
 				new GRGEN_LGSP.PatternEdge[] {  }, 
 				new GRGEN_LGSP.PatternVariable[] {  }, 
@@ -1714,7 +1714,7 @@ namespace de.unika.ipd.grGen.Action_spanningTree
 			pat_initTree = new GRGEN_LGSP.PatternGraph(
 				"initTree",
 				"",
-				false,
+				false, false,
 				new GRGEN_LGSP.PatternNode[] {  }, 
 				new GRGEN_LGSP.PatternEdge[] {  }, 
 				new GRGEN_LGSP.PatternVariable[] {  }, 
@@ -1912,7 +1912,7 @@ namespace de.unika.ipd.grGen.Action_spanningTree
 			pat_initUndirected = new GRGEN_LGSP.PatternGraph(
 				"initUndirected",
 				"",
-				false,
+				false, false,
 				new GRGEN_LGSP.PatternNode[] {  }, 
 				new GRGEN_LGSP.PatternEdge[] {  }, 
 				new GRGEN_LGSP.PatternVariable[] {  }, 
@@ -2104,7 +2104,7 @@ namespace de.unika.ipd.grGen.Action_spanningTree
 			pat_initDirected = new GRGEN_LGSP.PatternGraph(
 				"initDirected",
 				"",
-				false,
+				false, false,
 				new GRGEN_LGSP.PatternNode[] {  }, 
 				new GRGEN_LGSP.PatternEdge[] {  }, 
 				new GRGEN_LGSP.PatternVariable[] {  }, 
@@ -2306,7 +2306,7 @@ namespace de.unika.ipd.grGen.Action_spanningTree
 			pat_spanningTree = new GRGEN_LGSP.PatternGraph(
 				"spanningTree",
 				"",
-				false,
+				false, false,
 				new GRGEN_LGSP.PatternNode[] { spanningTree_node_root }, 
 				new GRGEN_LGSP.PatternEdge[] {  }, 
 				new GRGEN_LGSP.PatternVariable[] {  }, 
@@ -2505,7 +2505,7 @@ namespace de.unika.ipd.grGen.Action_spanningTree
 			pat_edgesVisited = new GRGEN_LGSP.PatternGraph(
 				"edgesVisited",
 				"",
-				false,
+				false, false,
 				new GRGEN_LGSP.PatternNode[] {  }, 
 				new GRGEN_LGSP.PatternEdge[] { edgesVisited_edge_e }, 
 				new GRGEN_LGSP.PatternVariable[] {  }, 
@@ -2691,7 +2691,7 @@ namespace de.unika.ipd.grGen.Action_spanningTree
 			pat_nodesVisited = new GRGEN_LGSP.PatternGraph(
 				"nodesVisited",
 				"",
-				false,
+				false, false,
 				new GRGEN_LGSP.PatternNode[] { nodesVisited_node_n }, 
 				new GRGEN_LGSP.PatternEdge[] {  }, 
 				new GRGEN_LGSP.PatternVariable[] {  }, 
@@ -2880,7 +2880,7 @@ namespace de.unika.ipd.grGen.Action_spanningTree
 			pat_spanningTreeReverse = new GRGEN_LGSP.PatternGraph(
 				"spanningTreeReverse",
 				"",
-				false,
+				false, false,
 				new GRGEN_LGSP.PatternNode[] { spanningTreeReverse_node_root }, 
 				new GRGEN_LGSP.PatternEdge[] {  }, 
 				new GRGEN_LGSP.PatternVariable[] {  }, 
@@ -3079,7 +3079,7 @@ namespace de.unika.ipd.grGen.Action_spanningTree
 			pat_spanningTreeOutgoing = new GRGEN_LGSP.PatternGraph(
 				"spanningTreeOutgoing",
 				"",
-				false,
+				false, false,
 				new GRGEN_LGSP.PatternNode[] { spanningTreeOutgoing_node_root }, 
 				new GRGEN_LGSP.PatternEdge[] {  }, 
 				new GRGEN_LGSP.PatternVariable[] {  }, 
@@ -3274,7 +3274,7 @@ namespace de.unika.ipd.grGen.Action_spanningTree
 			pat_spanningTreeIncoming = new GRGEN_LGSP.PatternGraph(
 				"spanningTreeIncoming",
 				"",
-				false,
+				false, false,
 				new GRGEN_LGSP.PatternNode[] { spanningTreeIncoming_node_root }, 
 				new GRGEN_LGSP.PatternEdge[] {  }, 
 				new GRGEN_LGSP.PatternVariable[] {  }, 

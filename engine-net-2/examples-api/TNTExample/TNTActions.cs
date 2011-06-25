@@ -1,6 +1,6 @@
 // This file has been generated automatically by GrGen (www.grgen.net)
 // Do not modify this file! Any changes will be lost!
-// Generated from "..\..\tests\TNT\TNT.grg" on Sun Jun 12 09:35:33 CEST 2011
+// Generated from "..\..\tests\TNT\TNT.grg" on Sat Jun 25 14:38:45 CEST 2011
 
 using System;
 using System.Collections.Generic;
@@ -111,7 +111,7 @@ namespace de.unika.ipd.grGen.Action_TNT
 			pat_BenzolRing = new GRGEN_LGSP.PatternGraph(
 				"BenzolRing",
 				"",
-				false,
+				false, false,
 				new GRGEN_LGSP.PatternNode[] { BenzolRing_node_c1, BenzolRing_node_c2, BenzolRing_node_c3, BenzolRing_node_c4, BenzolRing_node_c5, BenzolRing_node_c6 }, 
 				new GRGEN_LGSP.PatternEdge[] { BenzolRing_edge__edge0, BenzolRing_edge__edge1, BenzolRing_edge__edge2, BenzolRing_edge__edge3, BenzolRing_edge__edge4, BenzolRing_edge__edge5, BenzolRing_edge__edge6, BenzolRing_edge__edge7, BenzolRing_edge__edge8 }, 
 				new GRGEN_LGSP.PatternVariable[] {  }, 
@@ -510,7 +510,7 @@ namespace de.unika.ipd.grGen.Action_TNT
 			pat_BenzolRingC123456Exposed = new GRGEN_LGSP.PatternGraph(
 				"BenzolRingC123456Exposed",
 				"",
-				false,
+				false, false,
 				new GRGEN_LGSP.PatternNode[] { BenzolRingC123456Exposed_node_c1, BenzolRingC123456Exposed_node_c2, BenzolRingC123456Exposed_node_c3, BenzolRingC123456Exposed_node_c4, BenzolRingC123456Exposed_node_c5, BenzolRingC123456Exposed_node_c6 }, 
 				new GRGEN_LGSP.PatternEdge[] { BenzolRingC123456Exposed_edge__edge0, BenzolRingC123456Exposed_edge__edge1, BenzolRingC123456Exposed_edge__edge2, BenzolRingC123456Exposed_edge__edge3, BenzolRingC123456Exposed_edge__edge4, BenzolRingC123456Exposed_edge__edge5, BenzolRingC123456Exposed_edge__edge6, BenzolRingC123456Exposed_edge__edge7, BenzolRingC123456Exposed_edge__edge8 }, 
 				new GRGEN_LGSP.PatternVariable[] {  }, 
@@ -885,7 +885,7 @@ namespace de.unika.ipd.grGen.Action_TNT
 			pat_BenzolRingC1Exposed = new GRGEN_LGSP.PatternGraph(
 				"BenzolRingC1Exposed",
 				"",
-				false,
+				false, false,
 				new GRGEN_LGSP.PatternNode[] { BenzolRingC1Exposed_node_c1, BenzolRingC1Exposed_node_c2, BenzolRingC1Exposed_node_c3, BenzolRingC1Exposed_node_c4, BenzolRingC1Exposed_node_c5, BenzolRingC1Exposed_node_c6 }, 
 				new GRGEN_LGSP.PatternEdge[] { BenzolRingC1Exposed_edge__edge0, BenzolRingC1Exposed_edge__edge1, BenzolRingC1Exposed_edge__edge2, BenzolRingC1Exposed_edge__edge3, BenzolRingC1Exposed_edge__edge4, BenzolRingC1Exposed_edge__edge5, BenzolRingC1Exposed_edge__edge6, BenzolRingC1Exposed_edge__edge7, BenzolRingC1Exposed_edge__edge8 }, 
 				new GRGEN_LGSP.PatternVariable[] {  }, 
@@ -1320,7 +1320,7 @@ namespace de.unika.ipd.grGen.Action_TNT
 			BenzolRingC1ExposedNotC6Nitro_neg_0 = new GRGEN_LGSP.PatternGraph(
 				"neg_0",
 				"BenzolRingC1ExposedNotC6Nitro_",
-				false,
+				false, false,
 				new GRGEN_LGSP.PatternNode[] { BenzolRingC1ExposedNotC6Nitro_node_c6, BenzolRingC1ExposedNotC6Nitro_neg_0_node_n, BenzolRingC1ExposedNotC6Nitro_neg_0_node__node0, BenzolRingC1ExposedNotC6Nitro_neg_0_node__node1 }, 
 				new GRGEN_LGSP.PatternEdge[] { BenzolRingC1ExposedNotC6Nitro_neg_0_edge__edge0, BenzolRingC1ExposedNotC6Nitro_neg_0_edge__edge1, BenzolRingC1ExposedNotC6Nitro_neg_0_edge__edge2 }, 
 				new GRGEN_LGSP.PatternVariable[] {  }, 
@@ -1357,7 +1357,7 @@ namespace de.unika.ipd.grGen.Action_TNT
 			pat_BenzolRingC1ExposedNotC6Nitro = new GRGEN_LGSP.PatternGraph(
 				"BenzolRingC1ExposedNotC6Nitro",
 				"",
-				false,
+				false, false,
 				new GRGEN_LGSP.PatternNode[] { BenzolRingC1ExposedNotC6Nitro_node_c1, BenzolRingC1ExposedNotC6Nitro_node_c2, BenzolRingC1ExposedNotC6Nitro_node_c3, BenzolRingC1ExposedNotC6Nitro_node_c4, BenzolRingC1ExposedNotC6Nitro_node_c5, BenzolRingC1ExposedNotC6Nitro_node_c6 }, 
 				new GRGEN_LGSP.PatternEdge[] { BenzolRingC1ExposedNotC6Nitro_edge__edge0, BenzolRingC1ExposedNotC6Nitro_edge__edge1, BenzolRingC1ExposedNotC6Nitro_edge__edge2, BenzolRingC1ExposedNotC6Nitro_edge__edge3, BenzolRingC1ExposedNotC6Nitro_edge__edge4, BenzolRingC1ExposedNotC6Nitro_edge__edge5, BenzolRingC1ExposedNotC6Nitro_edge__edge6, BenzolRingC1ExposedNotC6Nitro_edge__edge7, BenzolRingC1ExposedNotC6Nitro_edge__edge8 }, 
 				new GRGEN_LGSP.PatternVariable[] {  }, 
@@ -1842,7 +1842,7 @@ namespace de.unika.ipd.grGen.Action_TNT
 			pat_Oxygen = new GRGEN_LGSP.PatternGraph(
 				"Oxygen",
 				"",
-				false,
+				false, false,
 				new GRGEN_LGSP.PatternNode[] { Oxygen_node_o1, Oxygen_node_o2 }, 
 				new GRGEN_LGSP.PatternEdge[] { Oxygen_edge__edge0, Oxygen_edge__edge1 }, 
 				new GRGEN_LGSP.PatternVariable[] {  }, 
@@ -2076,7 +2076,7 @@ namespace de.unika.ipd.grGen.Action_TNT
 			pat_Hydrogen = new GRGEN_LGSP.PatternGraph(
 				"Hydrogen",
 				"",
-				false,
+				false, false,
 				new GRGEN_LGSP.PatternNode[] { Hydrogen_node_anchor, Hydrogen_node__node0 }, 
 				new GRGEN_LGSP.PatternEdge[] { Hydrogen_edge__edge0 }, 
 				new GRGEN_LGSP.PatternVariable[] {  }, 
@@ -2303,7 +2303,7 @@ namespace de.unika.ipd.grGen.Action_TNT
 			pat_Hydroxyl = new GRGEN_LGSP.PatternGraph(
 				"Hydroxyl",
 				"",
-				false,
+				false, false,
 				new GRGEN_LGSP.PatternNode[] { Hydroxyl_node_anchor, Hydroxyl_node__node0, Hydroxyl_node__node1 }, 
 				new GRGEN_LGSP.PatternEdge[] { Hydroxyl_edge__edge0, Hydroxyl_edge__edge1 }, 
 				new GRGEN_LGSP.PatternVariable[] {  }, 
@@ -2567,7 +2567,7 @@ namespace de.unika.ipd.grGen.Action_TNT
 			pat_Methyl = new GRGEN_LGSP.PatternGraph(
 				"Methyl",
 				"",
-				false,
+				false, false,
 				new GRGEN_LGSP.PatternNode[] { Methyl_node_anchor, Methyl_node_c, Methyl_node__node0, Methyl_node__node1, Methyl_node__node2 }, 
 				new GRGEN_LGSP.PatternEdge[] { Methyl_edge__edge0, Methyl_edge__edge1, Methyl_edge__edge2, Methyl_edge__edge3 }, 
 				new GRGEN_LGSP.PatternVariable[] {  }, 
@@ -2865,7 +2865,7 @@ namespace de.unika.ipd.grGen.Action_TNT
 			pat_Nitro = new GRGEN_LGSP.PatternGraph(
 				"Nitro",
 				"",
-				false,
+				false, false,
 				new GRGEN_LGSP.PatternNode[] { Nitro_node_anchor, Nitro_node_n, Nitro_node__node0, Nitro_node__node1 }, 
 				new GRGEN_LGSP.PatternEdge[] { Nitro_edge__edge0, Nitro_edge__edge1, Nitro_edge__edge2 }, 
 				new GRGEN_LGSP.PatternVariable[] {  }, 
@@ -3140,7 +3140,7 @@ namespace de.unika.ipd.grGen.Action_TNT
 			pat_TriNitro = new GRGEN_LGSP.PatternGraph(
 				"TriNitro",
 				"",
-				false,
+				false, false,
 				new GRGEN_LGSP.PatternNode[] { TriNitro_node_c2, TriNitro_node_c4, TriNitro_node_c6 }, 
 				new GRGEN_LGSP.PatternEdge[] {  }, 
 				new GRGEN_LGSP.PatternVariable[] {  }, 
@@ -3406,7 +3406,7 @@ namespace de.unika.ipd.grGen.Action_TNT
 			pat_ToluolCoreThenTriNitro = new GRGEN_LGSP.PatternGraph(
 				"ToluolCoreThenTriNitro",
 				"",
-				false,
+				false, false,
 				new GRGEN_LGSP.PatternNode[] { ToluolCoreThenTriNitro_node_c1, ToluolCoreThenTriNitro_node_c2, ToluolCoreThenTriNitro_node_c3, ToluolCoreThenTriNitro_node_c4, ToluolCoreThenTriNitro_node_c5, ToluolCoreThenTriNitro_node_c6 }, 
 				new GRGEN_LGSP.PatternEdge[] {  }, 
 				new GRGEN_LGSP.PatternVariable[] {  }, 
@@ -3656,7 +3656,7 @@ namespace de.unika.ipd.grGen.Action_TNT
 			pat_BenzolRing = new GRGEN_LGSP.PatternGraph(
 				"BenzolRing",
 				"",
-				false,
+				false, false,
 				new GRGEN_LGSP.PatternNode[] {  }, 
 				new GRGEN_LGSP.PatternEdge[] {  }, 
 				new GRGEN_LGSP.PatternVariable[] {  }, 
@@ -3898,7 +3898,7 @@ namespace de.unika.ipd.grGen.Action_TNT
 			pat_TNTTotallyFolded = new GRGEN_LGSP.PatternGraph(
 				"TNTTotallyFolded",
 				"",
-				false,
+				false, false,
 				new GRGEN_LGSP.PatternNode[] { TNTTotallyFolded_node_c1, TNTTotallyFolded_node_c2, TNTTotallyFolded_node_c3, TNTTotallyFolded_node_c4, TNTTotallyFolded_node_c5, TNTTotallyFolded_node_c6 }, 
 				new GRGEN_LGSP.PatternEdge[] {  }, 
 				new GRGEN_LGSP.PatternVariable[] {  }, 
@@ -4199,7 +4199,7 @@ namespace de.unika.ipd.grGen.Action_TNT
 			pat_TNTChain = new GRGEN_LGSP.PatternGraph(
 				"TNTChain",
 				"",
-				false,
+				false, false,
 				new GRGEN_LGSP.PatternNode[] { TNTChain_node_c1, TNTChain_node_c2, TNTChain_node_c3, TNTChain_node_c4, TNTChain_node_c5, TNTChain_node_c6 }, 
 				new GRGEN_LGSP.PatternEdge[] {  }, 
 				new GRGEN_LGSP.PatternVariable[] {  }, 
@@ -4440,7 +4440,7 @@ namespace de.unika.ipd.grGen.Action_TNT
 			pat_ToluolCore = new GRGEN_LGSP.PatternGraph(
 				"ToluolCore",
 				"",
-				false,
+				false, false,
 				new GRGEN_LGSP.PatternNode[] { ToluolCore_node_c1 }, 
 				new GRGEN_LGSP.PatternEdge[] {  }, 
 				new GRGEN_LGSP.PatternVariable[] {  }, 
@@ -4646,7 +4646,7 @@ namespace de.unika.ipd.grGen.Action_TNT
 			pat_ToluolCoreNotC6Nitro = new GRGEN_LGSP.PatternGraph(
 				"ToluolCoreNotC6Nitro",
 				"",
-				false,
+				false, false,
 				new GRGEN_LGSP.PatternNode[] { ToluolCoreNotC6Nitro_node_c1 }, 
 				new GRGEN_LGSP.PatternEdge[] {  }, 
 				new GRGEN_LGSP.PatternVariable[] {  }, 
@@ -4902,7 +4902,7 @@ namespace de.unika.ipd.grGen.Action_TNT
 			pat_Toluol = new GRGEN_LGSP.PatternGraph(
 				"Toluol",
 				"",
-				false,
+				false, false,
 				new GRGEN_LGSP.PatternNode[] { Toluol_node_c1, Toluol_node_c2, Toluol_node_c3, Toluol_node_c4, Toluol_node_c5, Toluol_node_c6 }, 
 				new GRGEN_LGSP.PatternEdge[] {  }, 
 				new GRGEN_LGSP.PatternVariable[] {  }, 
@@ -5250,7 +5250,7 @@ namespace de.unika.ipd.grGen.Action_TNT
 			pat_TNT = new GRGEN_LGSP.PatternGraph(
 				"TNT",
 				"",
-				false,
+				false, false,
 				new GRGEN_LGSP.PatternNode[] { TNT_node_c1, TNT_node_c2, TNT_node_c3, TNT_node_c4, TNT_node_c5, TNT_node_c6 }, 
 				new GRGEN_LGSP.PatternEdge[] { TNT_edge__edge0, TNT_edge__edge1, TNT_edge__edge2, TNT_edge__edge3, TNT_edge__edge4, TNT_edge__edge5, TNT_edge__edge6, TNT_edge__edge7, TNT_edge__edge8 }, 
 				new GRGEN_LGSP.PatternVariable[] {  }, 
@@ -5755,7 +5755,7 @@ namespace de.unika.ipd.grGen.Action_TNT
 			pat_TNTUnfolded = new GRGEN_LGSP.PatternGraph(
 				"TNTUnfolded",
 				"",
-				false,
+				false, false,
 				new GRGEN_LGSP.PatternNode[] { TNTUnfolded_node_c1, TNTUnfolded_node_c2, TNTUnfolded_node_c3, TNTUnfolded_node_c4, TNTUnfolded_node_c5, TNTUnfolded_node_c6, TNTUnfolded_node_c, TNTUnfolded_node__node0, TNTUnfolded_node__node1, TNTUnfolded_node__node2, TNTUnfolded_node_n2, TNTUnfolded_node__node3, TNTUnfolded_node__node4, TNTUnfolded_node__node5, TNTUnfolded_node_n4, TNTUnfolded_node__node6, TNTUnfolded_node__node7, TNTUnfolded_node__node8, TNTUnfolded_node_n6, TNTUnfolded_node__node9, TNTUnfolded_node__node10 }, 
 				new GRGEN_LGSP.PatternEdge[] { TNTUnfolded_edge__edge0, TNTUnfolded_edge__edge1, TNTUnfolded_edge__edge2, TNTUnfolded_edge__edge3, TNTUnfolded_edge__edge4, TNTUnfolded_edge__edge5, TNTUnfolded_edge__edge6, TNTUnfolded_edge__edge7, TNTUnfolded_edge__edge8, TNTUnfolded_edge__edge9, TNTUnfolded_edge__edge10, TNTUnfolded_edge__edge11, TNTUnfolded_edge__edge12, TNTUnfolded_edge__edge13, TNTUnfolded_edge__edge14, TNTUnfolded_edge__edge15, TNTUnfolded_edge__edge16, TNTUnfolded_edge__edge17, TNTUnfolded_edge__edge18, TNTUnfolded_edge__edge19, TNTUnfolded_edge__edge20, TNTUnfolded_edge__edge21, TNTUnfolded_edge__edge22, TNTUnfolded_edge__edge23 }, 
 				new GRGEN_LGSP.PatternVariable[] {  }, 
@@ -6247,7 +6247,7 @@ namespace de.unika.ipd.grGen.Action_TNT
 			pat_createTNT = new GRGEN_LGSP.PatternGraph(
 				"createTNT",
 				"",
-				false,
+				false, false,
 				new GRGEN_LGSP.PatternNode[] {  }, 
 				new GRGEN_LGSP.PatternEdge[] {  }, 
 				new GRGEN_LGSP.PatternVariable[] {  }, 
@@ -6559,7 +6559,7 @@ namespace de.unika.ipd.grGen.Action_TNT
 			pat_DNT = new GRGEN_LGSP.PatternGraph(
 				"DNT",
 				"",
-				false,
+				false, false,
 				new GRGEN_LGSP.PatternNode[] { DNT_node_c1, DNT_node_c2, DNT_node_c3, DNT_node_c4, DNT_node_c5, DNT_node_c6 }, 
 				new GRGEN_LGSP.PatternEdge[] { DNT_edge__edge0, DNT_edge__edge1, DNT_edge__edge2, DNT_edge__edge3, DNT_edge__edge4, DNT_edge__edge5, DNT_edge__edge6, DNT_edge__edge7, DNT_edge__edge8 }, 
 				new GRGEN_LGSP.PatternVariable[] {  }, 
@@ -7048,7 +7048,7 @@ namespace de.unika.ipd.grGen.Action_TNT
 			pat_DNTUnfolded = new GRGEN_LGSP.PatternGraph(
 				"DNTUnfolded",
 				"",
-				false,
+				false, false,
 				new GRGEN_LGSP.PatternNode[] { DNTUnfolded_node_c1, DNTUnfolded_node_c2, DNTUnfolded_node_c3, DNTUnfolded_node_c4, DNTUnfolded_node_c5, DNTUnfolded_node_c6, DNTUnfolded_node_c, DNTUnfolded_node__node0, DNTUnfolded_node__node1, DNTUnfolded_node__node2, DNTUnfolded_node_n2, DNTUnfolded_node__node3, DNTUnfolded_node__node4, DNTUnfolded_node__node5, DNTUnfolded_node_n4, DNTUnfolded_node__node6, DNTUnfolded_node__node7, DNTUnfolded_node__node8, DNTUnfolded_node__node9 }, 
 				new GRGEN_LGSP.PatternEdge[] { DNTUnfolded_edge__edge0, DNTUnfolded_edge__edge1, DNTUnfolded_edge__edge2, DNTUnfolded_edge__edge3, DNTUnfolded_edge__edge4, DNTUnfolded_edge__edge5, DNTUnfolded_edge__edge6, DNTUnfolded_edge__edge7, DNTUnfolded_edge__edge8, DNTUnfolded_edge__edge9, DNTUnfolded_edge__edge10, DNTUnfolded_edge__edge11, DNTUnfolded_edge__edge12, DNTUnfolded_edge__edge13, DNTUnfolded_edge__edge14, DNTUnfolded_edge__edge15, DNTUnfolded_edge__edge16, DNTUnfolded_edge__edge17, DNTUnfolded_edge__edge18, DNTUnfolded_edge__edge19, DNTUnfolded_edge__edge20, DNTUnfolded_edge__edge21 }, 
 				new GRGEN_LGSP.PatternVariable[] {  }, 
@@ -7512,7 +7512,7 @@ namespace de.unika.ipd.grGen.Action_TNT
 			pat_createDNT = new GRGEN_LGSP.PatternGraph(
 				"createDNT",
 				"",
-				false,
+				false, false,
 				new GRGEN_LGSP.PatternNode[] {  }, 
 				new GRGEN_LGSP.PatternEdge[] {  }, 
 				new GRGEN_LGSP.PatternVariable[] {  }, 
@@ -7820,7 +7820,7 @@ namespace de.unika.ipd.grGen.Action_TNT
 			pat_TNB = new GRGEN_LGSP.PatternGraph(
 				"TNB",
 				"",
-				false,
+				false, false,
 				new GRGEN_LGSP.PatternNode[] { TNB_node_c1, TNB_node_c2, TNB_node_c3, TNB_node_c4, TNB_node_c5, TNB_node_c6 }, 
 				new GRGEN_LGSP.PatternEdge[] { TNB_edge__edge0, TNB_edge__edge1, TNB_edge__edge2, TNB_edge__edge3, TNB_edge__edge4, TNB_edge__edge5, TNB_edge__edge6, TNB_edge__edge7, TNB_edge__edge8 }, 
 				new GRGEN_LGSP.PatternVariable[] {  }, 
@@ -8301,7 +8301,7 @@ namespace de.unika.ipd.grGen.Action_TNT
 			pat_TNBUnfolded = new GRGEN_LGSP.PatternGraph(
 				"TNBUnfolded",
 				"",
-				false,
+				false, false,
 				new GRGEN_LGSP.PatternNode[] { TNBUnfolded_node_c1, TNBUnfolded_node_c2, TNBUnfolded_node_c3, TNBUnfolded_node_c4, TNBUnfolded_node_c5, TNBUnfolded_node_c6, TNBUnfolded_node__node0, TNBUnfolded_node_n2, TNBUnfolded_node__node1, TNBUnfolded_node__node2, TNBUnfolded_node__node3, TNBUnfolded_node_n4, TNBUnfolded_node__node4, TNBUnfolded_node__node5, TNBUnfolded_node__node6, TNBUnfolded_node_n6, TNBUnfolded_node__node7, TNBUnfolded_node__node8 }, 
 				new GRGEN_LGSP.PatternEdge[] { TNBUnfolded_edge__edge0, TNBUnfolded_edge__edge1, TNBUnfolded_edge__edge2, TNBUnfolded_edge__edge3, TNBUnfolded_edge__edge4, TNBUnfolded_edge__edge5, TNBUnfolded_edge__edge6, TNBUnfolded_edge__edge7, TNBUnfolded_edge__edge8, TNBUnfolded_edge__edge9, TNBUnfolded_edge__edge10, TNBUnfolded_edge__edge11, TNBUnfolded_edge__edge12, TNBUnfolded_edge__edge13, TNBUnfolded_edge__edge14, TNBUnfolded_edge__edge15, TNBUnfolded_edge__edge16, TNBUnfolded_edge__edge17, TNBUnfolded_edge__edge18, TNBUnfolded_edge__edge19, TNBUnfolded_edge__edge20 }, 
 				new GRGEN_LGSP.PatternVariable[] {  }, 
@@ -8751,7 +8751,7 @@ namespace de.unika.ipd.grGen.Action_TNT
 			pat_createTNB = new GRGEN_LGSP.PatternGraph(
 				"createTNB",
 				"",
-				false,
+				false, false,
 				new GRGEN_LGSP.PatternNode[] {  }, 
 				new GRGEN_LGSP.PatternEdge[] {  }, 
 				new GRGEN_LGSP.PatternVariable[] {  }, 
@@ -8970,7 +8970,7 @@ namespace de.unika.ipd.grGen.Action_TNT
 			pat_keepBenzolRingPattern = new GRGEN_LGSP.PatternGraph(
 				"keepBenzolRingPattern",
 				"",
-				false,
+				false, false,
 				new GRGEN_LGSP.PatternNode[] {  }, 
 				new GRGEN_LGSP.PatternEdge[] {  }, 
 				new GRGEN_LGSP.PatternVariable[] {  }, 
@@ -9152,7 +9152,7 @@ namespace de.unika.ipd.grGen.Action_TNT
 			pat_createBenzolRingPattern = new GRGEN_LGSP.PatternGraph(
 				"createBenzolRingPattern",
 				"",
-				false,
+				false, false,
 				new GRGEN_LGSP.PatternNode[] {  }, 
 				new GRGEN_LGSP.PatternEdge[] {  }, 
 				new GRGEN_LGSP.PatternVariable[] {  }, 
@@ -9333,7 +9333,7 @@ namespace de.unika.ipd.grGen.Action_TNT
 			pat_deleteBenzolRingPattern = new GRGEN_LGSP.PatternGraph(
 				"deleteBenzolRingPattern",
 				"",
-				false,
+				false, false,
 				new GRGEN_LGSP.PatternNode[] {  }, 
 				new GRGEN_LGSP.PatternEdge[] {  }, 
 				new GRGEN_LGSP.PatternVariable[] {  }, 
@@ -9520,7 +9520,7 @@ namespace de.unika.ipd.grGen.Action_TNT
 			pat_deleteInModifyBenzolRingPattern = new GRGEN_LGSP.PatternGraph(
 				"deleteInModifyBenzolRingPattern",
 				"",
-				false,
+				false, false,
 				new GRGEN_LGSP.PatternNode[] {  }, 
 				new GRGEN_LGSP.PatternEdge[] {  }, 
 				new GRGEN_LGSP.PatternVariable[] {  }, 

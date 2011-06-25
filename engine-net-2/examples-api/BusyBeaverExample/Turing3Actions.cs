@@ -1,6 +1,6 @@
 // This file has been generated automatically by GrGen (www.grgen.net)
 // Do not modify this file! Any changes will be lost!
-// Generated from "..\..\examples\Turing3\Turing3.grg" on Sun Jun 12 09:35:10 CEST 2011
+// Generated from "..\..\examples\Turing3\Turing3.grg" on Sat Jun 25 14:38:18 CEST 2011
 
 using System;
 using System.Collections.Generic;
@@ -72,7 +72,7 @@ namespace de.unika.ipd.grGen.Action_Turing3
 			pat_readZeroRule = new GRGEN_LGSP.PatternGraph(
 				"readZeroRule",
 				"",
-				false,
+				false, false,
 				new GRGEN_LGSP.PatternNode[] { readZeroRule_node_s, readZeroRule_node_wv, readZeroRule_node_bp }, 
 				new GRGEN_LGSP.PatternEdge[] { readZeroRule_edge_rv }, 
 				new GRGEN_LGSP.PatternVariable[] {  }, 
@@ -305,7 +305,7 @@ namespace de.unika.ipd.grGen.Action_Turing3
 			pat_readOneRule = new GRGEN_LGSP.PatternGraph(
 				"readOneRule",
 				"",
-				false,
+				false, false,
 				new GRGEN_LGSP.PatternNode[] { readOneRule_node_s, readOneRule_node_wv, readOneRule_node_bp }, 
 				new GRGEN_LGSP.PatternEdge[] { readOneRule_edge_rv }, 
 				new GRGEN_LGSP.PatternVariable[] {  }, 
@@ -559,7 +559,7 @@ namespace de.unika.ipd.grGen.Action_Turing3
 			ensureMoveLeftValidRule_neg_0 = new GRGEN_LGSP.PatternGraph(
 				"neg_0",
 				"ensureMoveLeftValidRule_",
-				false,
+				false, false,
 				new GRGEN_LGSP.PatternNode[] { ensureMoveLeftValidRule_neg_0_node__node0, ensureMoveLeftValidRule_node_bp }, 
 				new GRGEN_LGSP.PatternEdge[] { ensureMoveLeftValidRule_neg_0_edge__edge0 }, 
 				new GRGEN_LGSP.PatternVariable[] {  }, 
@@ -588,7 +588,7 @@ namespace de.unika.ipd.grGen.Action_Turing3
 			pat_ensureMoveLeftValidRule = new GRGEN_LGSP.PatternGraph(
 				"ensureMoveLeftValidRule",
 				"",
-				false,
+				false, false,
 				new GRGEN_LGSP.PatternNode[] { ensureMoveLeftValidRule_node_wv, ensureMoveLeftValidRule_node__node0, ensureMoveLeftValidRule_node_bp }, 
 				new GRGEN_LGSP.PatternEdge[] { ensureMoveLeftValidRule_edge__edge0 }, 
 				new GRGEN_LGSP.PatternVariable[] {  }, 
@@ -951,7 +951,7 @@ namespace de.unika.ipd.grGen.Action_Turing3
 			ensureMoveRightValidRule_neg_0 = new GRGEN_LGSP.PatternGraph(
 				"neg_0",
 				"ensureMoveRightValidRule_",
-				false,
+				false, false,
 				new GRGEN_LGSP.PatternNode[] { ensureMoveRightValidRule_node_bp, ensureMoveRightValidRule_neg_0_node__node0 }, 
 				new GRGEN_LGSP.PatternEdge[] { ensureMoveRightValidRule_neg_0_edge__edge0 }, 
 				new GRGEN_LGSP.PatternVariable[] {  }, 
@@ -980,7 +980,7 @@ namespace de.unika.ipd.grGen.Action_Turing3
 			pat_ensureMoveRightValidRule = new GRGEN_LGSP.PatternGraph(
 				"ensureMoveRightValidRule",
 				"",
-				false,
+				false, false,
 				new GRGEN_LGSP.PatternNode[] { ensureMoveRightValidRule_node_wv, ensureMoveRightValidRule_node__node0, ensureMoveRightValidRule_node_bp }, 
 				new GRGEN_LGSP.PatternEdge[] { ensureMoveRightValidRule_edge__edge0 }, 
 				new GRGEN_LGSP.PatternVariable[] {  }, 
@@ -1327,7 +1327,7 @@ namespace de.unika.ipd.grGen.Action_Turing3
 			pat_moveLeftRule = new GRGEN_LGSP.PatternGraph(
 				"moveLeftRule",
 				"",
-				false,
+				false, false,
 				new GRGEN_LGSP.PatternNode[] { moveLeftRule_node_wv, moveLeftRule_node_s, moveLeftRule_node_lbp, moveLeftRule_node_bp }, 
 				new GRGEN_LGSP.PatternEdge[] { moveLeftRule_edge__edge0, moveLeftRule_edge__edge1 }, 
 				new GRGEN_LGSP.PatternVariable[] {  }, 
@@ -1575,7 +1575,7 @@ namespace de.unika.ipd.grGen.Action_Turing3
 			pat_moveRightRule = new GRGEN_LGSP.PatternGraph(
 				"moveRightRule",
 				"",
-				false,
+				false, false,
 				new GRGEN_LGSP.PatternNode[] { moveRightRule_node_wv, moveRightRule_node_s, moveRightRule_node_bp, moveRightRule_node_rbp }, 
 				new GRGEN_LGSP.PatternEdge[] { moveRightRule_edge__edge0, moveRightRule_edge__edge1 }, 
 				new GRGEN_LGSP.PatternVariable[] {  }, 
@@ -1805,7 +1805,7 @@ namespace de.unika.ipd.grGen.Action_Turing3
 			pat_countZeros = new GRGEN_LGSP.PatternGraph(
 				"countZeros",
 				"",
-				false,
+				false, false,
 				new GRGEN_LGSP.PatternNode[] { countZeros_node_bp }, 
 				new GRGEN_LGSP.PatternEdge[] {  }, 
 				new GRGEN_LGSP.PatternVariable[] {  }, 
@@ -1996,7 +1996,7 @@ namespace de.unika.ipd.grGen.Action_Turing3
 			pat_countOnes = new GRGEN_LGSP.PatternGraph(
 				"countOnes",
 				"",
-				false,
+				false, false,
 				new GRGEN_LGSP.PatternNode[] { countOnes_node_bp }, 
 				new GRGEN_LGSP.PatternEdge[] {  }, 
 				new GRGEN_LGSP.PatternVariable[] {  }, 

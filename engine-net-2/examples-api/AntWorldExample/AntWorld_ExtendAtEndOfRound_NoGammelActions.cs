@@ -1,6 +1,6 @@
 // This file has been generated automatically by GrGen (www.grgen.net)
 // Do not modify this file! Any changes will be lost!
-// Generated from "..\..\tests\antWorld\AntWorld_ExtendAtEndOfRound_NoGammel.grg" on Sun Jun 12 09:35:06 CEST 2011
+// Generated from "..\..\tests\antWorld\AntWorld_ExtendAtEndOfRound_NoGammel.grg" on Sat Jun 25 14:38:13 CEST 2011
 
 using System;
 using System.Collections.Generic;
@@ -51,7 +51,7 @@ namespace de.unika.ipd.grGen.Action_AntWorld_ExtendAtEndOfRound_NoGammel
 			pat_InitWorld = new GRGEN_LGSP.PatternGraph(
 				"InitWorld",
 				"",
-				false,
+				false, false,
 				new GRGEN_LGSP.PatternNode[] {  }, 
 				new GRGEN_LGSP.PatternEdge[] {  }, 
 				new GRGEN_LGSP.PatternVariable[] {  }, 
@@ -317,7 +317,7 @@ namespace de.unika.ipd.grGen.Action_AntWorld_ExtendAtEndOfRound_NoGammel
 			pat_TakeFood = new GRGEN_LGSP.PatternGraph(
 				"TakeFood",
 				"",
-				false,
+				false, false,
 				new GRGEN_LGSP.PatternNode[] { TakeFood_node_curAnt, TakeFood_node_n }, 
 				new GRGEN_LGSP.PatternEdge[] { TakeFood_edge__edge0 }, 
 				new GRGEN_LGSP.PatternVariable[] {  }, 
@@ -550,7 +550,7 @@ namespace de.unika.ipd.grGen.Action_AntWorld_ExtendAtEndOfRound_NoGammel
 			pat_GoHome = new GRGEN_LGSP.PatternGraph(
 				"GoHome",
 				"",
-				false,
+				false, false,
 				new GRGEN_LGSP.PatternNode[] { GoHome_node_curAnt, GoHome_node_old, GoHome_node_new }, 
 				new GRGEN_LGSP.PatternEdge[] { GoHome_edge_oldPos, GoHome_edge__edge0 }, 
 				new GRGEN_LGSP.PatternVariable[] {  }, 
@@ -789,7 +789,7 @@ namespace de.unika.ipd.grGen.Action_AntWorld_ExtendAtEndOfRound_NoGammel
 			pat_DropFood = new GRGEN_LGSP.PatternGraph(
 				"DropFood",
 				"",
-				false,
+				false, false,
 				new GRGEN_LGSP.PatternNode[] { DropFood_node_curAnt, DropFood_node_hill }, 
 				new GRGEN_LGSP.PatternEdge[] { DropFood_edge__edge0 }, 
 				new GRGEN_LGSP.PatternVariable[] {  }, 
@@ -1022,7 +1022,7 @@ namespace de.unika.ipd.grGen.Action_AntWorld_ExtendAtEndOfRound_NoGammel
 			pat_SearchAlongPheromones = new GRGEN_LGSP.PatternGraph(
 				"SearchAlongPheromones",
 				"",
-				false,
+				false, false,
 				new GRGEN_LGSP.PatternNode[] { SearchAlongPheromones_node_curAnt, SearchAlongPheromones_node_old, SearchAlongPheromones_node_new }, 
 				new GRGEN_LGSP.PatternEdge[] { SearchAlongPheromones_edge_oldPos, SearchAlongPheromones_edge__edge0 }, 
 				new GRGEN_LGSP.PatternVariable[] {  }, 
@@ -1261,7 +1261,7 @@ namespace de.unika.ipd.grGen.Action_AntWorld_ExtendAtEndOfRound_NoGammel
 			pat_SearchAimless = new GRGEN_LGSP.PatternGraph(
 				"SearchAimless",
 				"",
-				false,
+				false, false,
 				new GRGEN_LGSP.PatternNode[] { SearchAimless_node_curAnt, SearchAimless_node_old, SearchAimless_node_new }, 
 				new GRGEN_LGSP.PatternEdge[] { SearchAimless_edge_oldPos, SearchAimless_edge__edge0 }, 
 				new GRGEN_LGSP.PatternVariable[] {  }, 
@@ -1511,7 +1511,7 @@ namespace de.unika.ipd.grGen.Action_AntWorld_ExtendAtEndOfRound_NoGammel
 			ReachedEndOfWorld_neg_0 = new GRGEN_LGSP.PatternGraph(
 				"neg_0",
 				"ReachedEndOfWorld_",
-				false,
+				false, false,
 				new GRGEN_LGSP.PatternNode[] { ReachedEndOfWorld_node_n }, 
 				new GRGEN_LGSP.PatternEdge[] { ReachedEndOfWorld_neg_0_edge__edge0 }, 
 				new GRGEN_LGSP.PatternVariable[] {  }, 
@@ -1538,7 +1538,7 @@ namespace de.unika.ipd.grGen.Action_AntWorld_ExtendAtEndOfRound_NoGammel
 			pat_ReachedEndOfWorld = new GRGEN_LGSP.PatternGraph(
 				"ReachedEndOfWorld",
 				"",
-				false,
+				false, false,
 				new GRGEN_LGSP.PatternNode[] { ReachedEndOfWorld_node_curAnt, ReachedEndOfWorld_node_n }, 
 				new GRGEN_LGSP.PatternEdge[] { ReachedEndOfWorld_edge__edge0 }, 
 				new GRGEN_LGSP.PatternVariable[] {  }, 
@@ -1876,7 +1876,7 @@ namespace de.unika.ipd.grGen.Action_AntWorld_ExtendAtEndOfRound_NoGammel
 			ReachedEndOfWorldAnywhere_neg_0 = new GRGEN_LGSP.PatternGraph(
 				"neg_0",
 				"ReachedEndOfWorldAnywhere_",
-				false,
+				false, false,
 				new GRGEN_LGSP.PatternNode[] { ReachedEndOfWorldAnywhere_node_n }, 
 				new GRGEN_LGSP.PatternEdge[] { ReachedEndOfWorldAnywhere_neg_0_edge__edge0 }, 
 				new GRGEN_LGSP.PatternVariable[] {  }, 
@@ -1903,7 +1903,7 @@ namespace de.unika.ipd.grGen.Action_AntWorld_ExtendAtEndOfRound_NoGammel
 			pat_ReachedEndOfWorldAnywhere = new GRGEN_LGSP.PatternGraph(
 				"ReachedEndOfWorldAnywhere",
 				"",
-				false,
+				false, false,
 				new GRGEN_LGSP.PatternNode[] { ReachedEndOfWorldAnywhere_node__node0, ReachedEndOfWorldAnywhere_node_n }, 
 				new GRGEN_LGSP.PatternEdge[] { ReachedEndOfWorldAnywhere_edge__edge0 }, 
 				new GRGEN_LGSP.PatternVariable[] {  }, 
@@ -2222,7 +2222,7 @@ namespace de.unika.ipd.grGen.Action_AntWorld_ExtendAtEndOfRound_NoGammel
 			pat_GrowFoodIfEqual = new GRGEN_LGSP.PatternGraph(
 				"GrowFoodIfEqual",
 				"",
-				false,
+				false, false,
 				new GRGEN_LGSP.PatternNode[] { GrowFoodIfEqual_node_n, GrowFoodIfEqual_node_hill }, 
 				new GRGEN_LGSP.PatternEdge[] {  }, 
 				new GRGEN_LGSP.PatternVariable[] { GrowFoodIfEqual_var_val }, 
@@ -2443,7 +2443,7 @@ namespace de.unika.ipd.grGen.Action_AntWorld_ExtendAtEndOfRound_NoGammel
 			pat_GrowWorldFirstAtCorner = new GRGEN_LGSP.PatternGraph(
 				"GrowWorldFirstAtCorner",
 				"",
-				false,
+				false, false,
 				new GRGEN_LGSP.PatternNode[] { GrowWorldFirstAtCorner_node_cur, GrowWorldFirstAtCorner_node_next, GrowWorldFirstAtCorner_node_hill }, 
 				new GRGEN_LGSP.PatternEdge[] { GrowWorldFirstAtCorner_edge__edge0 }, 
 				new GRGEN_LGSP.PatternVariable[] {  }, 
@@ -2746,7 +2746,7 @@ namespace de.unika.ipd.grGen.Action_AntWorld_ExtendAtEndOfRound_NoGammel
 			pat_GrowWorldFirstNotAtCorner = new GRGEN_LGSP.PatternGraph(
 				"GrowWorldFirstNotAtCorner",
 				"",
-				false,
+				false, false,
 				new GRGEN_LGSP.PatternNode[] { GrowWorldFirstNotAtCorner_node_cur, GrowWorldFirstNotAtCorner_node_next, GrowWorldFirstNotAtCorner_node_hill }, 
 				new GRGEN_LGSP.PatternEdge[] { GrowWorldFirstNotAtCorner_edge__edge0 }, 
 				new GRGEN_LGSP.PatternVariable[] {  }, 
@@ -3025,7 +3025,7 @@ namespace de.unika.ipd.grGen.Action_AntWorld_ExtendAtEndOfRound_NoGammel
 			GrowWorldNextAtCorner_neg_0 = new GRGEN_LGSP.PatternGraph(
 				"neg_0",
 				"GrowWorldNextAtCorner_",
-				false,
+				false, false,
 				new GRGEN_LGSP.PatternNode[] { GrowWorldNextAtCorner_node_cur }, 
 				new GRGEN_LGSP.PatternEdge[] { GrowWorldNextAtCorner_neg_0_edge__edge0 }, 
 				new GRGEN_LGSP.PatternVariable[] {  }, 
@@ -3052,7 +3052,7 @@ namespace de.unika.ipd.grGen.Action_AntWorld_ExtendAtEndOfRound_NoGammel
 			pat_GrowWorldNextAtCorner = new GRGEN_LGSP.PatternGraph(
 				"GrowWorldNextAtCorner",
 				"",
-				false,
+				false, false,
 				new GRGEN_LGSP.PatternNode[] { GrowWorldNextAtCorner_node_cur, GrowWorldNextAtCorner_node_next, GrowWorldNextAtCorner_node_curOuter, GrowWorldNextAtCorner_node_hill }, 
 				new GRGEN_LGSP.PatternEdge[] { GrowWorldNextAtCorner_edge__edge0 }, 
 				new GRGEN_LGSP.PatternVariable[] {  }, 
@@ -3496,7 +3496,7 @@ namespace de.unika.ipd.grGen.Action_AntWorld_ExtendAtEndOfRound_NoGammel
 			GrowWorldNextNotAtCorner_neg_0 = new GRGEN_LGSP.PatternGraph(
 				"neg_0",
 				"GrowWorldNextNotAtCorner_",
-				false,
+				false, false,
 				new GRGEN_LGSP.PatternNode[] { GrowWorldNextNotAtCorner_node_cur }, 
 				new GRGEN_LGSP.PatternEdge[] { GrowWorldNextNotAtCorner_neg_0_edge__edge0 }, 
 				new GRGEN_LGSP.PatternVariable[] {  }, 
@@ -3523,7 +3523,7 @@ namespace de.unika.ipd.grGen.Action_AntWorld_ExtendAtEndOfRound_NoGammel
 			pat_GrowWorldNextNotAtCorner = new GRGEN_LGSP.PatternGraph(
 				"GrowWorldNextNotAtCorner",
 				"",
-				false,
+				false, false,
 				new GRGEN_LGSP.PatternNode[] { GrowWorldNextNotAtCorner_node_cur, GrowWorldNextNotAtCorner_node_next, GrowWorldNextNotAtCorner_node_curOuter, GrowWorldNextNotAtCorner_node_hill }, 
 				new GRGEN_LGSP.PatternEdge[] { GrowWorldNextNotAtCorner_edge__edge0 }, 
 				new GRGEN_LGSP.PatternVariable[] {  }, 
@@ -3895,7 +3895,7 @@ namespace de.unika.ipd.grGen.Action_AntWorld_ExtendAtEndOfRound_NoGammel
 			pat_GrowWorldEnd = new GRGEN_LGSP.PatternGraph(
 				"GrowWorldEnd",
 				"",
-				false,
+				false, false,
 				new GRGEN_LGSP.PatternNode[] { GrowWorldEnd_node_nextOuter, GrowWorldEnd_node_cur, GrowWorldEnd_node_curOuter }, 
 				new GRGEN_LGSP.PatternEdge[] { GrowWorldEnd_edge__edge0 }, 
 				new GRGEN_LGSP.PatternVariable[] {  }, 
@@ -4115,7 +4115,7 @@ namespace de.unika.ipd.grGen.Action_AntWorld_ExtendAtEndOfRound_NoGammel
 			pat_GetNextAnt = new GRGEN_LGSP.PatternGraph(
 				"GetNextAnt",
 				"",
-				false,
+				false, false,
 				new GRGEN_LGSP.PatternNode[] { GetNextAnt_node_curAnt, GetNextAnt_node_next }, 
 				new GRGEN_LGSP.PatternEdge[] { GetNextAnt_edge__edge0 }, 
 				new GRGEN_LGSP.PatternVariable[] {  }, 
@@ -4323,7 +4323,7 @@ namespace de.unika.ipd.grGen.Action_AntWorld_ExtendAtEndOfRound_NoGammel
 			pat_Food2Ant = new GRGEN_LGSP.PatternGraph(
 				"Food2Ant",
 				"",
-				false,
+				false, false,
 				new GRGEN_LGSP.PatternNode[] { Food2Ant_node_lastAnt, Food2Ant_node_hill }, 
 				new GRGEN_LGSP.PatternEdge[] {  }, 
 				new GRGEN_LGSP.PatternVariable[] {  }, 
@@ -4527,7 +4527,7 @@ namespace de.unika.ipd.grGen.Action_AntWorld_ExtendAtEndOfRound_NoGammel
 			pat_EvaporateWorld = new GRGEN_LGSP.PatternGraph(
 				"EvaporateWorld",
 				"",
-				false,
+				false, false,
 				new GRGEN_LGSP.PatternNode[] { EvaporateWorld_node_n }, 
 				new GRGEN_LGSP.PatternEdge[] {  }, 
 				new GRGEN_LGSP.PatternVariable[] {  }, 
@@ -4720,7 +4720,7 @@ namespace de.unika.ipd.grGen.Action_AntWorld_ExtendAtEndOfRound_NoGammel
 			pat_doAntWorld = new GRGEN_LGSP.PatternGraph(
 				"doAntWorld",
 				"",
-				false,
+				false, false,
 				new GRGEN_LGSP.PatternNode[] { doAntWorld_node_firstAnt }, 
 				new GRGEN_LGSP.PatternEdge[] {  }, 
 				new GRGEN_LGSP.PatternVariable[] {  }, 

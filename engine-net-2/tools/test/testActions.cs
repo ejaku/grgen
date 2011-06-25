@@ -1,6 +1,6 @@
 // This file has been generated automatically by GrGen (www.grgen.net)
 // Do not modify this file! Any changes will be lost!
-// Generated from "test.grg" on Sun Jun 12 09:35:09 CEST 2011
+// Generated from "test.grg" on Sat Jun 25 14:38:15 CEST 2011
 
 using System;
 using System.Collections.Generic;
@@ -73,7 +73,7 @@ namespace de.unika.ipd.grGen.Action_test
 			pat_testRule = new GRGEN_LGSP.PatternGraph(
 				"testRule",
 				"",
-				false,
+				false, false,
 				new GRGEN_LGSP.PatternNode[] { testRule_node_a, testRule_node_f, testRule_node_m }, 
 				new GRGEN_LGSP.PatternEdge[] { testRule_edge__edge0, testRule_edge__edge1 }, 
 				new GRGEN_LGSP.PatternVariable[] {  }, 

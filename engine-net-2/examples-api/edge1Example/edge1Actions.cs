@@ -1,6 +1,6 @@
 // This file has been generated automatically by GrGen (www.grgen.net)
 // Do not modify this file! Any changes will be lost!
-// Generated from "..\..\tests\edge1\edge1.grg" on Sun Jun 12 09:35:12 CEST 2011
+// Generated from "..\..\tests\edge1\edge1.grg" on Sat Jun 25 14:38:20 CEST 2011
 
 using System;
 using System.Collections.Generic;
@@ -51,7 +51,7 @@ namespace de.unika.ipd.grGen.Action_edge1
 			pat_init = new GRGEN_LGSP.PatternGraph(
 				"init",
 				"",
-				false,
+				false, false,
 				new GRGEN_LGSP.PatternNode[] {  }, 
 				new GRGEN_LGSP.PatternEdge[] {  }, 
 				new GRGEN_LGSP.PatternVariable[] {  }, 
@@ -233,7 +233,7 @@ namespace de.unika.ipd.grGen.Action_edge1
 			pat_init2 = new GRGEN_LGSP.PatternGraph(
 				"init2",
 				"",
-				false,
+				false, false,
 				new GRGEN_LGSP.PatternNode[] {  }, 
 				new GRGEN_LGSP.PatternEdge[] {  }, 
 				new GRGEN_LGSP.PatternVariable[] {  }, 
@@ -414,7 +414,7 @@ namespace de.unika.ipd.grGen.Action_edge1
 			pat_init3 = new GRGEN_LGSP.PatternGraph(
 				"init3",
 				"",
-				false,
+				false, false,
 				new GRGEN_LGSP.PatternNode[] {  }, 
 				new GRGEN_LGSP.PatternEdge[] {  }, 
 				new GRGEN_LGSP.PatternVariable[] {  }, 
@@ -609,7 +609,7 @@ namespace de.unika.ipd.grGen.Action_edge1
 			pat_findUndirectedEdge = new GRGEN_LGSP.PatternGraph(
 				"findUndirectedEdge",
 				"",
-				false,
+				false, false,
 				new GRGEN_LGSP.PatternNode[] { findUndirectedEdge_node_x, findUndirectedEdge_node_y }, 
 				new GRGEN_LGSP.PatternEdge[] { findUndirectedEdge_edge__edge0 }, 
 				new GRGEN_LGSP.PatternVariable[] {  }, 
@@ -816,7 +816,7 @@ namespace de.unika.ipd.grGen.Action_edge1
 			pat_findArbitraryEdge = new GRGEN_LGSP.PatternGraph(
 				"findArbitraryEdge",
 				"",
-				false,
+				false, false,
 				new GRGEN_LGSP.PatternNode[] { findArbitraryEdge_node_x, findArbitraryEdge_node_y }, 
 				new GRGEN_LGSP.PatternEdge[] { findArbitraryEdge_edge__edge0 }, 
 				new GRGEN_LGSP.PatternVariable[] {  }, 
@@ -1023,7 +1023,7 @@ namespace de.unika.ipd.grGen.Action_edge1
 			pat_findArbitraryDirectedEdge = new GRGEN_LGSP.PatternGraph(
 				"findArbitraryDirectedEdge",
 				"",
-				false,
+				false, false,
 				new GRGEN_LGSP.PatternNode[] { findArbitraryDirectedEdge_node_x, findArbitraryDirectedEdge_node_y }, 
 				new GRGEN_LGSP.PatternEdge[] { findArbitraryDirectedEdge_edge__edge0 }, 
 				new GRGEN_LGSP.PatternVariable[] {  }, 
@@ -1226,7 +1226,7 @@ namespace de.unika.ipd.grGen.Action_edge1
 			pat_findArbitraryDirectedReflexiveEdge = new GRGEN_LGSP.PatternGraph(
 				"findArbitraryDirectedReflexiveEdge",
 				"",
-				false,
+				false, false,
 				new GRGEN_LGSP.PatternNode[] { findArbitraryDirectedReflexiveEdge_node_x }, 
 				new GRGEN_LGSP.PatternEdge[] { findArbitraryDirectedReflexiveEdge_edge__edge0 }, 
 				new GRGEN_LGSP.PatternVariable[] {  }, 
@@ -1431,7 +1431,7 @@ namespace de.unika.ipd.grGen.Action_edge1
 			pat_findArbitraryDirectedReflexiveEdgeAfterUndirectedOne = new GRGEN_LGSP.PatternGraph(
 				"findArbitraryDirectedReflexiveEdgeAfterUndirectedOne",
 				"",
-				false,
+				false, false,
 				new GRGEN_LGSP.PatternNode[] { findArbitraryDirectedReflexiveEdgeAfterUndirectedOne_node_x, findArbitraryDirectedReflexiveEdgeAfterUndirectedOne_node_y }, 
 				new GRGEN_LGSP.PatternEdge[] { findArbitraryDirectedReflexiveEdgeAfterUndirectedOne_edge__edge0, findArbitraryDirectedReflexiveEdgeAfterUndirectedOne_edge__edge1 }, 
 				new GRGEN_LGSP.PatternVariable[] {  }, 
@@ -1654,7 +1654,7 @@ namespace de.unika.ipd.grGen.Action_edge1
 			pat_findArbitraryDirectedTriple = new GRGEN_LGSP.PatternGraph(
 				"findArbitraryDirectedTriple",
 				"",
-				false,
+				false, false,
 				new GRGEN_LGSP.PatternNode[] { findArbitraryDirectedTriple_node__node0, findArbitraryDirectedTriple_node__node1, findArbitraryDirectedTriple_node__node2 }, 
 				new GRGEN_LGSP.PatternEdge[] { findArbitraryDirectedTriple_edge__edge0, findArbitraryDirectedTriple_edge__edge1 }, 
 				new GRGEN_LGSP.PatternVariable[] {  }, 
@@ -1875,7 +1875,7 @@ namespace de.unika.ipd.grGen.Action_edge1
 			pat_findDirectedEdge = new GRGEN_LGSP.PatternGraph(
 				"findDirectedEdge",
 				"",
-				false,
+				false, false,
 				new GRGEN_LGSP.PatternNode[] { findDirectedEdge_node_x, findDirectedEdge_node_y }, 
 				new GRGEN_LGSP.PatternEdge[] { findDirectedEdge_edge__edge0 }, 
 				new GRGEN_LGSP.PatternVariable[] {  }, 
@@ -2094,7 +2094,7 @@ namespace de.unika.ipd.grGen.Action_edge1
 			pat_findTripleCircle = new GRGEN_LGSP.PatternGraph(
 				"findTripleCircle",
 				"",
-				false,
+				false, false,
 				new GRGEN_LGSP.PatternNode[] { findTripleCircle_node_x, findTripleCircle_node_y, findTripleCircle_node_z }, 
 				new GRGEN_LGSP.PatternEdge[] { findTripleCircle_edge__edge0, findTripleCircle_edge__edge1, findTripleCircle_edge__edge2 }, 
 				new GRGEN_LGSP.PatternVariable[] {  }, 

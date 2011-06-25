@@ -1,6 +1,6 @@
 // This file has been generated automatically by GrGen (www.grgen.net)
 // Do not modify this file! Any changes will be lost!
-// Generated from "..\..\tests\Recursive\Recursive.grg" on Sun Jun 12 09:35:31 CEST 2011
+// Generated from "..\..\tests\Recursive\Recursive.grg" on Sat Jun 25 14:38:42 CEST 2011
 
 using System;
 using System.Collections.Generic;
@@ -97,7 +97,7 @@ namespace de.unika.ipd.grGen.Action_Recursive
 			ChainFromTo_alt_0_base = new GRGEN_LGSP.PatternGraph(
 				"base",
 				"ChainFromTo_alt_0_",
-				false,
+				false, false,
 				new GRGEN_LGSP.PatternNode[] { ChainFromTo_node_from, ChainFromTo_node_to }, 
 				new GRGEN_LGSP.PatternEdge[] { ChainFromTo_alt_0_base_edge__edge0 }, 
 				new GRGEN_LGSP.PatternVariable[] {  }, 
@@ -144,7 +144,7 @@ namespace de.unika.ipd.grGen.Action_Recursive
 			ChainFromTo_alt_0_rec = new GRGEN_LGSP.PatternGraph(
 				"rec",
 				"ChainFromTo_alt_0_",
-				false,
+				false, false,
 				new GRGEN_LGSP.PatternNode[] { ChainFromTo_node_from, ChainFromTo_alt_0_rec_node_intermediate, ChainFromTo_node_to }, 
 				new GRGEN_LGSP.PatternEdge[] { ChainFromTo_alt_0_rec_edge__edge0 }, 
 				new GRGEN_LGSP.PatternVariable[] {  }, 
@@ -176,7 +176,7 @@ namespace de.unika.ipd.grGen.Action_Recursive
 			pat_ChainFromTo = new GRGEN_LGSP.PatternGraph(
 				"ChainFromTo",
 				"",
-				false,
+				false, false,
 				new GRGEN_LGSP.PatternNode[] { ChainFromTo_node_from, ChainFromTo_node_to }, 
 				new GRGEN_LGSP.PatternEdge[] {  }, 
 				new GRGEN_LGSP.PatternVariable[] {  }, 
@@ -690,7 +690,7 @@ namespace de.unika.ipd.grGen.Action_Recursive
 			ChainFrom_alt_0_base = new GRGEN_LGSP.PatternGraph(
 				"base",
 				"ChainFrom_alt_0_",
-				false,
+				false, false,
 				new GRGEN_LGSP.PatternNode[] {  }, 
 				new GRGEN_LGSP.PatternEdge[] {  }, 
 				new GRGEN_LGSP.PatternVariable[] {  }, 
@@ -728,7 +728,7 @@ namespace de.unika.ipd.grGen.Action_Recursive
 			ChainFrom_alt_0_rec = new GRGEN_LGSP.PatternGraph(
 				"rec",
 				"ChainFrom_alt_0_",
-				false,
+				false, false,
 				new GRGEN_LGSP.PatternNode[] { ChainFrom_node_from, ChainFrom_alt_0_rec_node_to }, 
 				new GRGEN_LGSP.PatternEdge[] { ChainFrom_alt_0_rec_edge__edge0 }, 
 				new GRGEN_LGSP.PatternVariable[] {  }, 
@@ -759,7 +759,7 @@ namespace de.unika.ipd.grGen.Action_Recursive
 			pat_ChainFrom = new GRGEN_LGSP.PatternGraph(
 				"ChainFrom",
 				"",
-				false,
+				false, false,
 				new GRGEN_LGSP.PatternNode[] { ChainFrom_node_from }, 
 				new GRGEN_LGSP.PatternEdge[] {  }, 
 				new GRGEN_LGSP.PatternVariable[] {  }, 
@@ -1265,7 +1265,7 @@ namespace de.unika.ipd.grGen.Action_Recursive
 			ChainFromComplete_alt_0_base_neg_0 = new GRGEN_LGSP.PatternGraph(
 				"neg_0",
 				"ChainFromComplete_alt_0_base_",
-				false,
+				false, false,
 				new GRGEN_LGSP.PatternNode[] { ChainFromComplete_node_from, ChainFromComplete_alt_0_base_neg_0_node__node0 }, 
 				new GRGEN_LGSP.PatternEdge[] { ChainFromComplete_alt_0_base_neg_0_edge__edge0 }, 
 				new GRGEN_LGSP.PatternVariable[] {  }, 
@@ -1294,7 +1294,7 @@ namespace de.unika.ipd.grGen.Action_Recursive
 			ChainFromComplete_alt_0_base = new GRGEN_LGSP.PatternGraph(
 				"base",
 				"ChainFromComplete_alt_0_",
-				false,
+				false, false,
 				new GRGEN_LGSP.PatternNode[] { ChainFromComplete_node_from }, 
 				new GRGEN_LGSP.PatternEdge[] {  }, 
 				new GRGEN_LGSP.PatternVariable[] {  }, 
@@ -1335,7 +1335,7 @@ namespace de.unika.ipd.grGen.Action_Recursive
 			ChainFromComplete_alt_0_rec = new GRGEN_LGSP.PatternGraph(
 				"rec",
 				"ChainFromComplete_alt_0_",
-				false,
+				false, false,
 				new GRGEN_LGSP.PatternNode[] { ChainFromComplete_node_from, ChainFromComplete_alt_0_rec_node_to }, 
 				new GRGEN_LGSP.PatternEdge[] { ChainFromComplete_alt_0_rec_edge__edge0 }, 
 				new GRGEN_LGSP.PatternVariable[] {  }, 
@@ -1366,7 +1366,7 @@ namespace de.unika.ipd.grGen.Action_Recursive
 			pat_ChainFromComplete = new GRGEN_LGSP.PatternGraph(
 				"ChainFromComplete",
 				"",
-				false,
+				false, false,
 				new GRGEN_LGSP.PatternNode[] { ChainFromComplete_node_from }, 
 				new GRGEN_LGSP.PatternEdge[] {  }, 
 				new GRGEN_LGSP.PatternVariable[] {  }, 
@@ -1992,7 +1992,7 @@ namespace de.unika.ipd.grGen.Action_Recursive
 			ChainFromCompleteArbitraryPatternpathLocked_alt_0_base_neg_0 = new GRGEN_LGSP.PatternGraph(
 				"neg_0",
 				"ChainFromCompleteArbitraryPatternpathLocked_alt_0_base_",
-				true,
+				true, false,
 				new GRGEN_LGSP.PatternNode[] { ChainFromCompleteArbitraryPatternpathLocked_node_from, ChainFromCompleteArbitraryPatternpathLocked_alt_0_base_neg_0_node__node0 }, 
 				new GRGEN_LGSP.PatternEdge[] { ChainFromCompleteArbitraryPatternpathLocked_alt_0_base_neg_0_edge__edge0 }, 
 				new GRGEN_LGSP.PatternVariable[] {  }, 
@@ -2021,7 +2021,7 @@ namespace de.unika.ipd.grGen.Action_Recursive
 			ChainFromCompleteArbitraryPatternpathLocked_alt_0_base = new GRGEN_LGSP.PatternGraph(
 				"base",
 				"ChainFromCompleteArbitraryPatternpathLocked_alt_0_",
-				false,
+				false, false,
 				new GRGEN_LGSP.PatternNode[] { ChainFromCompleteArbitraryPatternpathLocked_node_from }, 
 				new GRGEN_LGSP.PatternEdge[] {  }, 
 				new GRGEN_LGSP.PatternVariable[] {  }, 
@@ -2062,7 +2062,7 @@ namespace de.unika.ipd.grGen.Action_Recursive
 			ChainFromCompleteArbitraryPatternpathLocked_alt_0_rec = new GRGEN_LGSP.PatternGraph(
 				"rec",
 				"ChainFromCompleteArbitraryPatternpathLocked_alt_0_",
-				false,
+				false, false,
 				new GRGEN_LGSP.PatternNode[] { ChainFromCompleteArbitraryPatternpathLocked_node_from, ChainFromCompleteArbitraryPatternpathLocked_alt_0_rec_node_to }, 
 				new GRGEN_LGSP.PatternEdge[] { ChainFromCompleteArbitraryPatternpathLocked_alt_0_rec_edge__edge0 }, 
 				new GRGEN_LGSP.PatternVariable[] {  }, 
@@ -2093,7 +2093,7 @@ namespace de.unika.ipd.grGen.Action_Recursive
 			pat_ChainFromCompleteArbitraryPatternpathLocked = new GRGEN_LGSP.PatternGraph(
 				"ChainFromCompleteArbitraryPatternpathLocked",
 				"",
-				false,
+				false, false,
 				new GRGEN_LGSP.PatternNode[] { ChainFromCompleteArbitraryPatternpathLocked_node_from }, 
 				new GRGEN_LGSP.PatternEdge[] {  }, 
 				new GRGEN_LGSP.PatternVariable[] {  }, 
@@ -2719,7 +2719,7 @@ namespace de.unika.ipd.grGen.Action_Recursive
 			ChainFromCompleteArbitraryBaseAlwaysFailesByGoingBackwards_alt_0_base_neg_0 = new GRGEN_LGSP.PatternGraph(
 				"neg_0",
 				"ChainFromCompleteArbitraryBaseAlwaysFailesByGoingBackwards_alt_0_base_",
-				false,
+				false, false,
 				new GRGEN_LGSP.PatternNode[] { ChainFromCompleteArbitraryBaseAlwaysFailesByGoingBackwards_node_from, ChainFromCompleteArbitraryBaseAlwaysFailesByGoingBackwards_alt_0_base_neg_0_node__node0 }, 
 				new GRGEN_LGSP.PatternEdge[] { ChainFromCompleteArbitraryBaseAlwaysFailesByGoingBackwards_alt_0_base_neg_0_edge__edge0 }, 
 				new GRGEN_LGSP.PatternVariable[] {  }, 
@@ -2748,7 +2748,7 @@ namespace de.unika.ipd.grGen.Action_Recursive
 			ChainFromCompleteArbitraryBaseAlwaysFailesByGoingBackwards_alt_0_base = new GRGEN_LGSP.PatternGraph(
 				"base",
 				"ChainFromCompleteArbitraryBaseAlwaysFailesByGoingBackwards_alt_0_",
-				false,
+				false, false,
 				new GRGEN_LGSP.PatternNode[] { ChainFromCompleteArbitraryBaseAlwaysFailesByGoingBackwards_node_from }, 
 				new GRGEN_LGSP.PatternEdge[] {  }, 
 				new GRGEN_LGSP.PatternVariable[] {  }, 
@@ -2789,7 +2789,7 @@ namespace de.unika.ipd.grGen.Action_Recursive
 			ChainFromCompleteArbitraryBaseAlwaysFailesByGoingBackwards_alt_0_rec = new GRGEN_LGSP.PatternGraph(
 				"rec",
 				"ChainFromCompleteArbitraryBaseAlwaysFailesByGoingBackwards_alt_0_",
-				false,
+				false, false,
 				new GRGEN_LGSP.PatternNode[] { ChainFromCompleteArbitraryBaseAlwaysFailesByGoingBackwards_node_from, ChainFromCompleteArbitraryBaseAlwaysFailesByGoingBackwards_alt_0_rec_node_to }, 
 				new GRGEN_LGSP.PatternEdge[] { ChainFromCompleteArbitraryBaseAlwaysFailesByGoingBackwards_alt_0_rec_edge__edge0 }, 
 				new GRGEN_LGSP.PatternVariable[] {  }, 
@@ -2820,7 +2820,7 @@ namespace de.unika.ipd.grGen.Action_Recursive
 			pat_ChainFromCompleteArbitraryBaseAlwaysFailesByGoingBackwards = new GRGEN_LGSP.PatternGraph(
 				"ChainFromCompleteArbitraryBaseAlwaysFailesByGoingBackwards",
 				"",
-				false,
+				false, false,
 				new GRGEN_LGSP.PatternNode[] { ChainFromCompleteArbitraryBaseAlwaysFailesByGoingBackwards_node_from }, 
 				new GRGEN_LGSP.PatternEdge[] {  }, 
 				new GRGEN_LGSP.PatternVariable[] {  }, 
@@ -3446,7 +3446,7 @@ namespace de.unika.ipd.grGen.Action_Recursive
 			Blowball_alt_0_end_neg_0 = new GRGEN_LGSP.PatternGraph(
 				"neg_0",
 				"Blowball_alt_0_end_",
-				true,
+				true, false,
 				new GRGEN_LGSP.PatternNode[] { Blowball_node_head, Blowball_alt_0_end_neg_0_node__node0 }, 
 				new GRGEN_LGSP.PatternEdge[] { Blowball_alt_0_end_neg_0_edge__edge0 }, 
 				new GRGEN_LGSP.PatternVariable[] {  }, 
@@ -3475,7 +3475,7 @@ namespace de.unika.ipd.grGen.Action_Recursive
 			Blowball_alt_0_end = new GRGEN_LGSP.PatternGraph(
 				"end",
 				"Blowball_alt_0_",
-				false,
+				false, false,
 				new GRGEN_LGSP.PatternNode[] { Blowball_node_head }, 
 				new GRGEN_LGSP.PatternEdge[] {  }, 
 				new GRGEN_LGSP.PatternVariable[] {  }, 
@@ -3516,7 +3516,7 @@ namespace de.unika.ipd.grGen.Action_Recursive
 			Blowball_alt_0_further = new GRGEN_LGSP.PatternGraph(
 				"further",
 				"Blowball_alt_0_",
-				false,
+				false, false,
 				new GRGEN_LGSP.PatternNode[] { Blowball_node_head, Blowball_alt_0_further_node__node0 }, 
 				new GRGEN_LGSP.PatternEdge[] { Blowball_alt_0_further_edge__edge0 }, 
 				new GRGEN_LGSP.PatternVariable[] {  }, 
@@ -3547,7 +3547,7 @@ namespace de.unika.ipd.grGen.Action_Recursive
 			pat_Blowball = new GRGEN_LGSP.PatternGraph(
 				"Blowball",
 				"",
-				false,
+				false, false,
 				new GRGEN_LGSP.PatternNode[] { Blowball_node_head }, 
 				new GRGEN_LGSP.PatternEdge[] {  }, 
 				new GRGEN_LGSP.PatternVariable[] {  }, 
@@ -4159,7 +4159,7 @@ namespace de.unika.ipd.grGen.Action_Recursive
 			ReverseChainFromTo_alt_0_base = new GRGEN_LGSP.PatternGraph(
 				"base",
 				"ReverseChainFromTo_alt_0_",
-				false,
+				false, false,
 				new GRGEN_LGSP.PatternNode[] { ReverseChainFromTo_node_to, ReverseChainFromTo_node_from }, 
 				new GRGEN_LGSP.PatternEdge[] { ReverseChainFromTo_alt_0_base_edge__edge0 }, 
 				new GRGEN_LGSP.PatternVariable[] {  }, 
@@ -4206,7 +4206,7 @@ namespace de.unika.ipd.grGen.Action_Recursive
 			ReverseChainFromTo_alt_0_rec = new GRGEN_LGSP.PatternGraph(
 				"rec",
 				"ReverseChainFromTo_alt_0_",
-				false,
+				false, false,
 				new GRGEN_LGSP.PatternNode[] { ReverseChainFromTo_alt_0_rec_node_intermediate, ReverseChainFromTo_node_from, ReverseChainFromTo_node_to }, 
 				new GRGEN_LGSP.PatternEdge[] { ReverseChainFromTo_alt_0_rec_edge__edge0 }, 
 				new GRGEN_LGSP.PatternVariable[] {  }, 
@@ -4238,7 +4238,7 @@ namespace de.unika.ipd.grGen.Action_Recursive
 			pat_ReverseChainFromTo = new GRGEN_LGSP.PatternGraph(
 				"ReverseChainFromTo",
 				"",
-				false,
+				false, false,
 				new GRGEN_LGSP.PatternNode[] { ReverseChainFromTo_node_from, ReverseChainFromTo_node_to }, 
 				new GRGEN_LGSP.PatternEdge[] {  }, 
 				new GRGEN_LGSP.PatternVariable[] {  }, 
@@ -4767,7 +4767,7 @@ namespace de.unika.ipd.grGen.Action_Recursive
 			ChainFromToReverse_alt_0_base = new GRGEN_LGSP.PatternGraph(
 				"base",
 				"ChainFromToReverse_alt_0_",
-				false,
+				false, false,
 				new GRGEN_LGSP.PatternNode[] { ChainFromToReverse_node_from, ChainFromToReverse_node_to }, 
 				new GRGEN_LGSP.PatternEdge[] { ChainFromToReverse_alt_0_base_edge__edge0 }, 
 				new GRGEN_LGSP.PatternVariable[] {  }, 
@@ -4814,7 +4814,7 @@ namespace de.unika.ipd.grGen.Action_Recursive
 			ChainFromToReverse_alt_0_rec = new GRGEN_LGSP.PatternGraph(
 				"rec",
 				"ChainFromToReverse_alt_0_",
-				false,
+				false, false,
 				new GRGEN_LGSP.PatternNode[] { ChainFromToReverse_node_from, ChainFromToReverse_alt_0_rec_node_intermediate, ChainFromToReverse_node_to }, 
 				new GRGEN_LGSP.PatternEdge[] { ChainFromToReverse_alt_0_rec_edge__edge0 }, 
 				new GRGEN_LGSP.PatternVariable[] {  }, 
@@ -4846,7 +4846,7 @@ namespace de.unika.ipd.grGen.Action_Recursive
 			pat_ChainFromToReverse = new GRGEN_LGSP.PatternGraph(
 				"ChainFromToReverse",
 				"",
-				false,
+				false, false,
 				new GRGEN_LGSP.PatternNode[] { ChainFromToReverse_node_from, ChainFromToReverse_node_to }, 
 				new GRGEN_LGSP.PatternEdge[] {  }, 
 				new GRGEN_LGSP.PatternVariable[] {  }, 
@@ -5429,7 +5429,7 @@ namespace de.unika.ipd.grGen.Action_Recursive
 			ChainFromToReverseToCommon_alt_0_base = new GRGEN_LGSP.PatternGraph(
 				"base",
 				"ChainFromToReverseToCommon_alt_0_",
-				false,
+				false, false,
 				new GRGEN_LGSP.PatternNode[] { ChainFromToReverseToCommon_node_from, ChainFromToReverseToCommon_node_to }, 
 				new GRGEN_LGSP.PatternEdge[] { ChainFromToReverseToCommon_alt_0_base_edge__edge0 }, 
 				new GRGEN_LGSP.PatternVariable[] {  }, 
@@ -5476,7 +5476,7 @@ namespace de.unika.ipd.grGen.Action_Recursive
 			ChainFromToReverseToCommon_alt_0_rec = new GRGEN_LGSP.PatternGraph(
 				"rec",
 				"ChainFromToReverseToCommon_alt_0_",
-				false,
+				false, false,
 				new GRGEN_LGSP.PatternNode[] { ChainFromToReverseToCommon_node_from, ChainFromToReverseToCommon_alt_0_rec_node_intermediate, ChainFromToReverseToCommon_node_to }, 
 				new GRGEN_LGSP.PatternEdge[] { ChainFromToReverseToCommon_alt_0_rec_edge__edge0 }, 
 				new GRGEN_LGSP.PatternVariable[] {  }, 
@@ -5508,7 +5508,7 @@ namespace de.unika.ipd.grGen.Action_Recursive
 			pat_ChainFromToReverseToCommon = new GRGEN_LGSP.PatternGraph(
 				"ChainFromToReverseToCommon",
 				"",
-				false,
+				false, false,
 				new GRGEN_LGSP.PatternNode[] { ChainFromToReverseToCommon_node_from, ChainFromToReverseToCommon_node_to }, 
 				new GRGEN_LGSP.PatternEdge[] {  }, 
 				new GRGEN_LGSP.PatternVariable[] {  }, 
@@ -6102,7 +6102,7 @@ namespace de.unika.ipd.grGen.Action_Recursive
 			ReverseChainFromToToCommon_alt_0_base = new GRGEN_LGSP.PatternGraph(
 				"base",
 				"ReverseChainFromToToCommon_alt_0_",
-				false,
+				false, false,
 				new GRGEN_LGSP.PatternNode[] { ReverseChainFromToToCommon_node_to, ReverseChainFromToToCommon_node_from, ReverseChainFromToToCommon_node_common }, 
 				new GRGEN_LGSP.PatternEdge[] { ReverseChainFromToToCommon_alt_0_base_edge__edge0, ReverseChainFromToToCommon_alt_0_base_edge__edge1 }, 
 				new GRGEN_LGSP.PatternVariable[] {  }, 
@@ -6157,7 +6157,7 @@ namespace de.unika.ipd.grGen.Action_Recursive
 			ReverseChainFromToToCommon_alt_0_rec = new GRGEN_LGSP.PatternGraph(
 				"rec",
 				"ReverseChainFromToToCommon_alt_0_",
-				false,
+				false, false,
 				new GRGEN_LGSP.PatternNode[] { ReverseChainFromToToCommon_alt_0_rec_node_intermediate, ReverseChainFromToToCommon_node_from, ReverseChainFromToToCommon_node_common, ReverseChainFromToToCommon_node_to }, 
 				new GRGEN_LGSP.PatternEdge[] { ReverseChainFromToToCommon_alt_0_rec_edge__edge0, ReverseChainFromToToCommon_alt_0_rec_edge__edge1 }, 
 				new GRGEN_LGSP.PatternVariable[] {  }, 
@@ -6193,7 +6193,7 @@ namespace de.unika.ipd.grGen.Action_Recursive
 			pat_ReverseChainFromToToCommon = new GRGEN_LGSP.PatternGraph(
 				"ReverseChainFromToToCommon",
 				"",
-				false,
+				false, false,
 				new GRGEN_LGSP.PatternNode[] { ReverseChainFromToToCommon_node_from, ReverseChainFromToToCommon_node_to, ReverseChainFromToToCommon_node_common }, 
 				new GRGEN_LGSP.PatternEdge[] {  }, 
 				new GRGEN_LGSP.PatternVariable[] {  }, 
@@ -6707,7 +6707,7 @@ namespace de.unika.ipd.grGen.Action_Recursive
 			pat_createChain = new GRGEN_LGSP.PatternGraph(
 				"createChain",
 				"",
-				false,
+				false, false,
 				new GRGEN_LGSP.PatternNode[] {  }, 
 				new GRGEN_LGSP.PatternEdge[] {  }, 
 				new GRGEN_LGSP.PatternVariable[] {  }, 
@@ -6906,7 +6906,7 @@ namespace de.unika.ipd.grGen.Action_Recursive
 			pat_chainFromTo = new GRGEN_LGSP.PatternGraph(
 				"chainFromTo",
 				"",
-				false,
+				false, false,
 				new GRGEN_LGSP.PatternNode[] { chainFromTo_node_beg, chainFromTo_node_end }, 
 				new GRGEN_LGSP.PatternEdge[] {  }, 
 				new GRGEN_LGSP.PatternVariable[] {  }, 
@@ -7108,7 +7108,7 @@ namespace de.unika.ipd.grGen.Action_Recursive
 			pat_chainFrom = new GRGEN_LGSP.PatternGraph(
 				"chainFrom",
 				"",
-				false,
+				false, false,
 				new GRGEN_LGSP.PatternNode[] { chainFrom_node_beg }, 
 				new GRGEN_LGSP.PatternEdge[] {  }, 
 				new GRGEN_LGSP.PatternVariable[] {  }, 
@@ -7303,7 +7303,7 @@ namespace de.unika.ipd.grGen.Action_Recursive
 			pat_chainFromComplete = new GRGEN_LGSP.PatternGraph(
 				"chainFromComplete",
 				"",
-				false,
+				false, false,
 				new GRGEN_LGSP.PatternNode[] { chainFromComplete_node_beg }, 
 				new GRGEN_LGSP.PatternEdge[] {  }, 
 				new GRGEN_LGSP.PatternVariable[] {  }, 
@@ -7498,7 +7498,7 @@ namespace de.unika.ipd.grGen.Action_Recursive
 			pat_chainFromCompleteArbitraryPatternpathLocked = new GRGEN_LGSP.PatternGraph(
 				"chainFromCompleteArbitraryPatternpathLocked",
 				"",
-				false,
+				false, false,
 				new GRGEN_LGSP.PatternNode[] { chainFromCompleteArbitraryPatternpathLocked_node_beg }, 
 				new GRGEN_LGSP.PatternEdge[] {  }, 
 				new GRGEN_LGSP.PatternVariable[] {  }, 
@@ -7693,7 +7693,7 @@ namespace de.unika.ipd.grGen.Action_Recursive
 			pat_chainFromCompleteArbitraryBaseAlwaysFailesByGoingBackwards = new GRGEN_LGSP.PatternGraph(
 				"chainFromCompleteArbitraryBaseAlwaysFailesByGoingBackwards",
 				"",
-				false,
+				false, false,
 				new GRGEN_LGSP.PatternNode[] { chainFromCompleteArbitraryBaseAlwaysFailesByGoingBackwards_node_beg }, 
 				new GRGEN_LGSP.PatternEdge[] {  }, 
 				new GRGEN_LGSP.PatternVariable[] {  }, 
@@ -7879,7 +7879,7 @@ namespace de.unika.ipd.grGen.Action_Recursive
 			pat_createBlowball = new GRGEN_LGSP.PatternGraph(
 				"createBlowball",
 				"",
-				false,
+				false, false,
 				new GRGEN_LGSP.PatternNode[] {  }, 
 				new GRGEN_LGSP.PatternEdge[] {  }, 
 				new GRGEN_LGSP.PatternVariable[] {  }, 
@@ -8074,7 +8074,7 @@ namespace de.unika.ipd.grGen.Action_Recursive
 			pat_blowball = new GRGEN_LGSP.PatternGraph(
 				"blowball",
 				"",
-				false,
+				false, false,
 				new GRGEN_LGSP.PatternNode[] { blowball_node_head }, 
 				new GRGEN_LGSP.PatternEdge[] {  }, 
 				new GRGEN_LGSP.PatternVariable[] {  }, 
@@ -8274,7 +8274,7 @@ namespace de.unika.ipd.grGen.Action_Recursive
 			pat_reverseChainFromTo = new GRGEN_LGSP.PatternGraph(
 				"reverseChainFromTo",
 				"",
-				false,
+				false, false,
 				new GRGEN_LGSP.PatternNode[] { reverseChainFromTo_node_beg, reverseChainFromTo_node_end }, 
 				new GRGEN_LGSP.PatternEdge[] {  }, 
 				new GRGEN_LGSP.PatternVariable[] {  }, 
@@ -8467,7 +8467,7 @@ namespace de.unika.ipd.grGen.Action_Recursive
 			pat_createReverseChain = new GRGEN_LGSP.PatternGraph(
 				"createReverseChain",
 				"",
-				false,
+				false, false,
 				new GRGEN_LGSP.PatternNode[] {  }, 
 				new GRGEN_LGSP.PatternEdge[] {  }, 
 				new GRGEN_LGSP.PatternVariable[] {  }, 
@@ -8667,7 +8667,7 @@ namespace de.unika.ipd.grGen.Action_Recursive
 			pat_chainFromToReverse = new GRGEN_LGSP.PatternGraph(
 				"chainFromToReverse",
 				"",
-				false,
+				false, false,
 				new GRGEN_LGSP.PatternNode[] { chainFromToReverse_node_beg, chainFromToReverse_node_end }, 
 				new GRGEN_LGSP.PatternEdge[] {  }, 
 				new GRGEN_LGSP.PatternVariable[] {  }, 
@@ -8878,7 +8878,7 @@ namespace de.unika.ipd.grGen.Action_Recursive
 			pat_chainFromToReverseToCommon = new GRGEN_LGSP.PatternGraph(
 				"chainFromToReverseToCommon",
 				"",
-				false,
+				false, false,
 				new GRGEN_LGSP.PatternNode[] { chainFromToReverseToCommon_node_beg, chainFromToReverseToCommon_node_end }, 
 				new GRGEN_LGSP.PatternEdge[] {  }, 
 				new GRGEN_LGSP.PatternVariable[] {  }, 
@@ -9095,7 +9095,7 @@ namespace de.unika.ipd.grGen.Action_Recursive
 			pat_reverseChainFromToToCommon = new GRGEN_LGSP.PatternGraph(
 				"reverseChainFromToToCommon",
 				"",
-				false,
+				false, false,
 				new GRGEN_LGSP.PatternNode[] { reverseChainFromToToCommon_node_beg, reverseChainFromToToCommon_node_end, reverseChainFromToToCommon_node_common }, 
 				new GRGEN_LGSP.PatternEdge[] {  }, 
 				new GRGEN_LGSP.PatternVariable[] {  }, 

@@ -1,6 +1,6 @@
 // This file has been generated automatically by GrGen (www.grgen.net)
 // Do not modify this file! Any changes will be lost!
-// Generated from "..\..\tests\alternatives\Alternatives.grg" on Sun Jun 12 09:35:02 CEST 2011
+// Generated from "..\..\tests\alternatives\Alternatives.grg" on Sat Jun 25 14:38:07 CEST 2011
 
 using System;
 using System.Collections.Generic;
@@ -95,7 +95,7 @@ namespace de.unika.ipd.grGen.Action_Alternatives
 			toAorB_alt_0_toA = new GRGEN_LGSP.PatternGraph(
 				"toA",
 				"toAorB_alt_0_",
-				false,
+				false, false,
 				new GRGEN_LGSP.PatternNode[] { toAorB_alt_0_toA_node_a }, 
 				new GRGEN_LGSP.PatternEdge[] { toAorB_edge_y }, 
 				new GRGEN_LGSP.PatternVariable[] {  }, 
@@ -131,7 +131,7 @@ namespace de.unika.ipd.grGen.Action_Alternatives
 			toAorB_alt_0_toB = new GRGEN_LGSP.PatternGraph(
 				"toB",
 				"toAorB_alt_0_",
-				false,
+				false, false,
 				new GRGEN_LGSP.PatternNode[] { toAorB_alt_0_toB_node_b }, 
 				new GRGEN_LGSP.PatternEdge[] { toAorB_edge_y }, 
 				new GRGEN_LGSP.PatternVariable[] {  }, 
@@ -160,7 +160,7 @@ namespace de.unika.ipd.grGen.Action_Alternatives
 			pat_toAorB = new GRGEN_LGSP.PatternGraph(
 				"toAorB",
 				"",
-				false,
+				false, false,
 				new GRGEN_LGSP.PatternNode[] { toAorB_node_x }, 
 				new GRGEN_LGSP.PatternEdge[] { toAorB_edge_y }, 
 				new GRGEN_LGSP.PatternVariable[] {  }, 
@@ -607,7 +607,7 @@ namespace de.unika.ipd.grGen.Action_Alternatives
 			pat_createA = new GRGEN_LGSP.PatternGraph(
 				"createA",
 				"",
-				false,
+				false, false,
 				new GRGEN_LGSP.PatternNode[] {  }, 
 				new GRGEN_LGSP.PatternEdge[] {  }, 
 				new GRGEN_LGSP.PatternVariable[] {  }, 
@@ -784,7 +784,7 @@ namespace de.unika.ipd.grGen.Action_Alternatives
 			pat_createB = new GRGEN_LGSP.PatternGraph(
 				"createB",
 				"",
-				false,
+				false, false,
 				new GRGEN_LGSP.PatternNode[] {  }, 
 				new GRGEN_LGSP.PatternEdge[] {  }, 
 				new GRGEN_LGSP.PatternVariable[] {  }, 
@@ -961,7 +961,7 @@ namespace de.unika.ipd.grGen.Action_Alternatives
 			pat_createC = new GRGEN_LGSP.PatternGraph(
 				"createC",
 				"",
-				false,
+				false, false,
 				new GRGEN_LGSP.PatternNode[] {  }, 
 				new GRGEN_LGSP.PatternEdge[] {  }, 
 				new GRGEN_LGSP.PatternVariable[] {  }, 
@@ -1138,7 +1138,7 @@ namespace de.unika.ipd.grGen.Action_Alternatives
 			pat_createAtoB = new GRGEN_LGSP.PatternGraph(
 				"createAtoB",
 				"",
-				false,
+				false, false,
 				new GRGEN_LGSP.PatternNode[] {  }, 
 				new GRGEN_LGSP.PatternEdge[] {  }, 
 				new GRGEN_LGSP.PatternVariable[] {  }, 
@@ -1332,7 +1332,7 @@ namespace de.unika.ipd.grGen.Action_Alternatives
 			leer_alt_0_altleer = new GRGEN_LGSP.PatternGraph(
 				"altleer",
 				"leer_alt_0_",
-				false,
+				false, false,
 				new GRGEN_LGSP.PatternNode[] {  }, 
 				new GRGEN_LGSP.PatternEdge[] {  }, 
 				new GRGEN_LGSP.PatternVariable[] {  }, 
@@ -1356,7 +1356,7 @@ namespace de.unika.ipd.grGen.Action_Alternatives
 			pat_leer = new GRGEN_LGSP.PatternGraph(
 				"leer",
 				"",
-				false,
+				false, false,
 				new GRGEN_LGSP.PatternNode[] {  }, 
 				new GRGEN_LGSP.PatternEdge[] {  }, 
 				new GRGEN_LGSP.PatternVariable[] {  }, 
@@ -1676,7 +1676,7 @@ namespace de.unika.ipd.grGen.Action_Alternatives
 			AorB_alt_0_A = new GRGEN_LGSP.PatternGraph(
 				"A",
 				"AorB_alt_0_",
-				false,
+				false, false,
 				new GRGEN_LGSP.PatternNode[] { AorB_alt_0_A_node__node0 }, 
 				new GRGEN_LGSP.PatternEdge[] {  }, 
 				new GRGEN_LGSP.PatternVariable[] {  }, 
@@ -1707,7 +1707,7 @@ namespace de.unika.ipd.grGen.Action_Alternatives
 			AorB_alt_0_B = new GRGEN_LGSP.PatternGraph(
 				"B",
 				"AorB_alt_0_",
-				false,
+				false, false,
 				new GRGEN_LGSP.PatternNode[] { AorB_alt_0_B_node__node0 }, 
 				new GRGEN_LGSP.PatternEdge[] {  }, 
 				new GRGEN_LGSP.PatternVariable[] {  }, 
@@ -1733,7 +1733,7 @@ namespace de.unika.ipd.grGen.Action_Alternatives
 			pat_AorB = new GRGEN_LGSP.PatternGraph(
 				"AorB",
 				"",
-				false,
+				false, false,
 				new GRGEN_LGSP.PatternNode[] {  }, 
 				new GRGEN_LGSP.PatternEdge[] {  }, 
 				new GRGEN_LGSP.PatternVariable[] {  }, 
@@ -2186,7 +2186,7 @@ namespace de.unika.ipd.grGen.Action_Alternatives
 			AandnotCorB_alt_0_A_neg_0 = new GRGEN_LGSP.PatternGraph(
 				"neg_0",
 				"AandnotCorB_alt_0_A_",
-				false,
+				false, false,
 				new GRGEN_LGSP.PatternNode[] { AandnotCorB_alt_0_A_neg_0_node__node0 }, 
 				new GRGEN_LGSP.PatternEdge[] {  }, 
 				new GRGEN_LGSP.PatternVariable[] {  }, 
@@ -2210,7 +2210,7 @@ namespace de.unika.ipd.grGen.Action_Alternatives
 			AandnotCorB_alt_0_A = new GRGEN_LGSP.PatternGraph(
 				"A",
 				"AandnotCorB_alt_0_",
-				false,
+				false, false,
 				new GRGEN_LGSP.PatternNode[] { AandnotCorB_alt_0_A_node__node0 }, 
 				new GRGEN_LGSP.PatternEdge[] {  }, 
 				new GRGEN_LGSP.PatternVariable[] {  }, 
@@ -2242,7 +2242,7 @@ namespace de.unika.ipd.grGen.Action_Alternatives
 			AandnotCorB_alt_0_B = new GRGEN_LGSP.PatternGraph(
 				"B",
 				"AandnotCorB_alt_0_",
-				false,
+				false, false,
 				new GRGEN_LGSP.PatternNode[] { AandnotCorB_alt_0_B_node__node0 }, 
 				new GRGEN_LGSP.PatternEdge[] {  }, 
 				new GRGEN_LGSP.PatternVariable[] {  }, 
@@ -2268,7 +2268,7 @@ namespace de.unika.ipd.grGen.Action_Alternatives
 			pat_AandnotCorB = new GRGEN_LGSP.PatternGraph(
 				"AandnotCorB",
 				"",
-				false,
+				false, false,
 				new GRGEN_LGSP.PatternNode[] {  }, 
 				new GRGEN_LGSP.PatternEdge[] {  }, 
 				new GRGEN_LGSP.PatternVariable[] {  }, 
@@ -2820,7 +2820,7 @@ namespace de.unika.ipd.grGen.Action_Alternatives
 			AorBorC_alt_0_A = new GRGEN_LGSP.PatternGraph(
 				"A",
 				"AorBorC_alt_0_",
-				false,
+				false, false,
 				new GRGEN_LGSP.PatternNode[] { AorBorC_alt_0_A_node__node0 }, 
 				new GRGEN_LGSP.PatternEdge[] {  }, 
 				new GRGEN_LGSP.PatternVariable[] {  }, 
@@ -2851,7 +2851,7 @@ namespace de.unika.ipd.grGen.Action_Alternatives
 			AorBorC_alt_0_B = new GRGEN_LGSP.PatternGraph(
 				"B",
 				"AorBorC_alt_0_",
-				false,
+				false, false,
 				new GRGEN_LGSP.PatternNode[] { AorBorC_alt_0_B_node__node0 }, 
 				new GRGEN_LGSP.PatternEdge[] {  }, 
 				new GRGEN_LGSP.PatternVariable[] {  }, 
@@ -2882,7 +2882,7 @@ namespace de.unika.ipd.grGen.Action_Alternatives
 			AorBorC_alt_0_C = new GRGEN_LGSP.PatternGraph(
 				"C",
 				"AorBorC_alt_0_",
-				false,
+				false, false,
 				new GRGEN_LGSP.PatternNode[] { AorBorC_alt_0_C_node__node0 }, 
 				new GRGEN_LGSP.PatternEdge[] {  }, 
 				new GRGEN_LGSP.PatternVariable[] {  }, 
@@ -2908,7 +2908,7 @@ namespace de.unika.ipd.grGen.Action_Alternatives
 			pat_AorBorC = new GRGEN_LGSP.PatternGraph(
 				"AorBorC",
 				"",
-				false,
+				false, false,
 				new GRGEN_LGSP.PatternNode[] {  }, 
 				new GRGEN_LGSP.PatternEdge[] {  }, 
 				new GRGEN_LGSP.PatternVariable[] {  }, 
@@ -3466,7 +3466,7 @@ namespace de.unika.ipd.grGen.Action_Alternatives
 			AtoAorB_alt_0_toA = new GRGEN_LGSP.PatternGraph(
 				"toA",
 				"AtoAorB_alt_0_",
-				false,
+				false, false,
 				new GRGEN_LGSP.PatternNode[] { AtoAorB_node_a, AtoAorB_alt_0_toA_node__node0 }, 
 				new GRGEN_LGSP.PatternEdge[] { AtoAorB_alt_0_toA_edge__edge0 }, 
 				new GRGEN_LGSP.PatternVariable[] {  }, 
@@ -3506,7 +3506,7 @@ namespace de.unika.ipd.grGen.Action_Alternatives
 			AtoAorB_alt_0_toB = new GRGEN_LGSP.PatternGraph(
 				"toB",
 				"AtoAorB_alt_0_",
-				false,
+				false, false,
 				new GRGEN_LGSP.PatternNode[] { AtoAorB_node_a, AtoAorB_alt_0_toB_node__node0 }, 
 				new GRGEN_LGSP.PatternEdge[] { AtoAorB_alt_0_toB_edge__edge0 }, 
 				new GRGEN_LGSP.PatternVariable[] {  }, 
@@ -3537,7 +3537,7 @@ namespace de.unika.ipd.grGen.Action_Alternatives
 			pat_AtoAorB = new GRGEN_LGSP.PatternGraph(
 				"AtoAorB",
 				"",
-				false,
+				false, false,
 				new GRGEN_LGSP.PatternNode[] { AtoAorB_node_a }, 
 				new GRGEN_LGSP.PatternEdge[] {  }, 
 				new GRGEN_LGSP.PatternVariable[] {  }, 
@@ -3964,7 +3964,7 @@ namespace de.unika.ipd.grGen.Action_Alternatives
 			pat_createComplex = new GRGEN_LGSP.PatternGraph(
 				"createComplex",
 				"",
-				false,
+				false, false,
 				new GRGEN_LGSP.PatternNode[] {  }, 
 				new GRGEN_LGSP.PatternEdge[] {  }, 
 				new GRGEN_LGSP.PatternVariable[] {  }, 
@@ -4272,7 +4272,7 @@ namespace de.unika.ipd.grGen.Action_Alternatives
 			Complex_alt_0_ExtendAv = new GRGEN_LGSP.PatternGraph(
 				"ExtendAv",
 				"Complex_alt_0_",
-				false,
+				false, false,
 				new GRGEN_LGSP.PatternNode[] { Complex_node_a, Complex_alt_0_ExtendAv_node_b2, Complex_node_b, Complex_alt_0_ExtendAv_node__node0, Complex_alt_0_ExtendAv_node__node1 }, 
 				new GRGEN_LGSP.PatternEdge[] { Complex_alt_0_ExtendAv_edge__edge0, Complex_alt_0_ExtendAv_edge__edge1, Complex_alt_0_ExtendAv_edge__edge2, Complex_alt_0_ExtendAv_edge__edge3 }, 
 				new GRGEN_LGSP.PatternVariable[] {  }, 
@@ -4339,7 +4339,7 @@ namespace de.unika.ipd.grGen.Action_Alternatives
 			Complex_alt_0_ExtendAv2 = new GRGEN_LGSP.PatternGraph(
 				"ExtendAv2",
 				"Complex_alt_0_",
-				false,
+				false, false,
 				new GRGEN_LGSP.PatternNode[] { Complex_node_a, Complex_alt_0_ExtendAv2_node_b2, Complex_node_b, Complex_alt_0_ExtendAv2_node__node0, Complex_alt_0_ExtendAv2_node__node1, Complex_alt_0_ExtendAv2_node__node2 }, 
 				new GRGEN_LGSP.PatternEdge[] { Complex_alt_0_ExtendAv2_edge__edge0, Complex_alt_0_ExtendAv2_edge__edge1, Complex_alt_0_ExtendAv2_edge__edge2, Complex_alt_0_ExtendAv2_edge__edge3, Complex_alt_0_ExtendAv2_edge__edge4 }, 
 				new GRGEN_LGSP.PatternVariable[] {  }, 
@@ -4406,7 +4406,7 @@ namespace de.unika.ipd.grGen.Action_Alternatives
 			Complex_alt_0_ExtendNA2 = new GRGEN_LGSP.PatternGraph(
 				"ExtendNA2",
 				"Complex_alt_0_",
-				false,
+				false, false,
 				new GRGEN_LGSP.PatternNode[] { Complex_node_a, Complex_alt_0_ExtendNA2_node__node0, Complex_alt_0_ExtendNA2_node__node1, Complex_node_b, Complex_alt_0_ExtendNA2_node_b2 }, 
 				new GRGEN_LGSP.PatternEdge[] { Complex_alt_0_ExtendNA2_edge__edge0, Complex_alt_0_ExtendNA2_edge__edge1, Complex_alt_0_ExtendNA2_edge__edge2, Complex_alt_0_ExtendNA2_edge__edge3 }, 
 				new GRGEN_LGSP.PatternVariable[] {  }, 
@@ -4449,7 +4449,7 @@ namespace de.unika.ipd.grGen.Action_Alternatives
 			pat_Complex = new GRGEN_LGSP.PatternGraph(
 				"Complex",
 				"",
-				false,
+				false, false,
 				new GRGEN_LGSP.PatternNode[] { Complex_node_a, Complex_node_b }, 
 				new GRGEN_LGSP.PatternEdge[] { Complex_edge__edge0, Complex_edge__edge1 }, 
 				new GRGEN_LGSP.PatternVariable[] {  }, 
@@ -5258,7 +5258,7 @@ namespace de.unika.ipd.grGen.Action_Alternatives
 			ComplexMax_alt_0_ExtendAv_neg_0 = new GRGEN_LGSP.PatternGraph(
 				"neg_0",
 				"ComplexMax_alt_0_ExtendAv_",
-				false,
+				false, false,
 				new GRGEN_LGSP.PatternNode[] { ComplexMax_alt_0_ExtendAv_node_c, ComplexMax_alt_0_ExtendAv_neg_0_node__node0 }, 
 				new GRGEN_LGSP.PatternEdge[] { ComplexMax_alt_0_ExtendAv_neg_0_edge__edge0 }, 
 				new GRGEN_LGSP.PatternVariable[] {  }, 
@@ -5287,7 +5287,7 @@ namespace de.unika.ipd.grGen.Action_Alternatives
 			ComplexMax_alt_0_ExtendAv = new GRGEN_LGSP.PatternGraph(
 				"ExtendAv",
 				"ComplexMax_alt_0_",
-				false,
+				false, false,
 				new GRGEN_LGSP.PatternNode[] { ComplexMax_node_a, ComplexMax_alt_0_ExtendAv_node_b2, ComplexMax_node_b, ComplexMax_alt_0_ExtendAv_node__node0, ComplexMax_alt_0_ExtendAv_node_c }, 
 				new GRGEN_LGSP.PatternEdge[] { ComplexMax_alt_0_ExtendAv_edge__edge0, ComplexMax_alt_0_ExtendAv_edge__edge1, ComplexMax_alt_0_ExtendAv_edge__edge2, ComplexMax_alt_0_ExtendAv_edge__edge3 }, 
 				new GRGEN_LGSP.PatternVariable[] {  }, 
@@ -5355,7 +5355,7 @@ namespace de.unika.ipd.grGen.Action_Alternatives
 			ComplexMax_alt_0_ExtendAv2 = new GRGEN_LGSP.PatternGraph(
 				"ExtendAv2",
 				"ComplexMax_alt_0_",
-				false,
+				false, false,
 				new GRGEN_LGSP.PatternNode[] { ComplexMax_node_a, ComplexMax_alt_0_ExtendAv2_node_b2, ComplexMax_node_b, ComplexMax_alt_0_ExtendAv2_node__node0, ComplexMax_alt_0_ExtendAv2_node__node1, ComplexMax_alt_0_ExtendAv2_node__node2 }, 
 				new GRGEN_LGSP.PatternEdge[] { ComplexMax_alt_0_ExtendAv2_edge__edge0, ComplexMax_alt_0_ExtendAv2_edge__edge1, ComplexMax_alt_0_ExtendAv2_edge__edge2, ComplexMax_alt_0_ExtendAv2_edge__edge3, ComplexMax_alt_0_ExtendAv2_edge__edge4 }, 
 				new GRGEN_LGSP.PatternVariable[] {  }, 
@@ -5422,7 +5422,7 @@ namespace de.unika.ipd.grGen.Action_Alternatives
 			ComplexMax_alt_0_ExtendNA2 = new GRGEN_LGSP.PatternGraph(
 				"ExtendNA2",
 				"ComplexMax_alt_0_",
-				false,
+				false, false,
 				new GRGEN_LGSP.PatternNode[] { ComplexMax_node_a, ComplexMax_alt_0_ExtendNA2_node__node0, ComplexMax_alt_0_ExtendNA2_node__node1, ComplexMax_node_b, ComplexMax_alt_0_ExtendNA2_node_b2 }, 
 				new GRGEN_LGSP.PatternEdge[] { ComplexMax_alt_0_ExtendNA2_edge__edge0, ComplexMax_alt_0_ExtendNA2_edge__edge1, ComplexMax_alt_0_ExtendNA2_edge__edge2, ComplexMax_alt_0_ExtendNA2_edge__edge3 }, 
 				new GRGEN_LGSP.PatternVariable[] {  }, 
@@ -5465,7 +5465,7 @@ namespace de.unika.ipd.grGen.Action_Alternatives
 			pat_ComplexMax = new GRGEN_LGSP.PatternGraph(
 				"ComplexMax",
 				"",
-				false,
+				false, false,
 				new GRGEN_LGSP.PatternNode[] { ComplexMax_node_a, ComplexMax_node_b }, 
 				new GRGEN_LGSP.PatternEdge[] { ComplexMax_edge__edge0, ComplexMax_edge__edge1 }, 
 				new GRGEN_LGSP.PatternVariable[] {  }, 
@@ -6244,7 +6244,7 @@ namespace de.unika.ipd.grGen.Action_Alternatives
 			pat_createABA = new GRGEN_LGSP.PatternGraph(
 				"createABA",
 				"",
-				false,
+				false, false,
 				new GRGEN_LGSP.PatternNode[] {  }, 
 				new GRGEN_LGSP.PatternEdge[] {  }, 
 				new GRGEN_LGSP.PatternVariable[] {  }, 
@@ -6492,7 +6492,7 @@ namespace de.unika.ipd.grGen.Action_Alternatives
 			homm_alt_0_case1 = new GRGEN_LGSP.PatternGraph(
 				"case1",
 				"homm_alt_0_",
-				false,
+				false, false,
 				new GRGEN_LGSP.PatternNode[] { homm_node_a, homm_alt_0_case1_node_b2, homm_node_b }, 
 				new GRGEN_LGSP.PatternEdge[] { homm_alt_0_case1_edge__edge0, homm_alt_0_case1_edge__edge1 }, 
 				new GRGEN_LGSP.PatternVariable[] {  }, 
@@ -6538,7 +6538,7 @@ namespace de.unika.ipd.grGen.Action_Alternatives
 			homm_alt_0_case2 = new GRGEN_LGSP.PatternGraph(
 				"case2",
 				"homm_alt_0_",
-				false,
+				false, false,
 				new GRGEN_LGSP.PatternNode[] { homm_node_a, homm_alt_0_case2_node_b2 }, 
 				new GRGEN_LGSP.PatternEdge[] { homm_alt_0_case2_edge__edge0, homm_alt_0_case2_edge__edge1 }, 
 				new GRGEN_LGSP.PatternVariable[] {  }, 
@@ -6572,7 +6572,7 @@ namespace de.unika.ipd.grGen.Action_Alternatives
 			pat_homm = new GRGEN_LGSP.PatternGraph(
 				"homm",
 				"",
-				false,
+				false, false,
 				new GRGEN_LGSP.PatternNode[] { homm_node_a, homm_node_b }, 
 				new GRGEN_LGSP.PatternEdge[] { homm_edge__edge0, homm_edge__edge1 }, 
 				new GRGEN_LGSP.PatternVariable[] {  }, 
@@ -7045,7 +7045,7 @@ namespace de.unika.ipd.grGen.Action_Alternatives
 			pat_XtoAorB = new GRGEN_LGSP.PatternGraph(
 				"XtoAorB",
 				"",
-				false,
+				false, false,
 				new GRGEN_LGSP.PatternNode[] { XtoAorB_node_x }, 
 				new GRGEN_LGSP.PatternEdge[] {  }, 
 				new GRGEN_LGSP.PatternVariable[] {  }, 
@@ -7282,7 +7282,7 @@ namespace de.unika.ipd.grGen.Action_Alternatives
 			alternative_in_negative_neg_0_alt_0_Foo = new GRGEN_LGSP.PatternGraph(
 				"Foo",
 				"alternative_in_negative_neg_0_alt_0_",
-				false,
+				false, false,
 				new GRGEN_LGSP.PatternNode[] { alternative_in_negative_neg_0_alt_0_Foo_node__node0 }, 
 				new GRGEN_LGSP.PatternEdge[] {  }, 
 				new GRGEN_LGSP.PatternVariable[] {  }, 
@@ -7318,7 +7318,7 @@ namespace de.unika.ipd.grGen.Action_Alternatives
 			alternative_in_negative_neg_0_alt_0_Bar = new GRGEN_LGSP.PatternGraph(
 				"Bar",
 				"alternative_in_negative_neg_0_alt_0_",
-				false,
+				false, false,
 				new GRGEN_LGSP.PatternNode[] { alternative_in_negative_neg_0_alt_0_Bar_node__node0, alternative_in_negative_neg_0_alt_0_Bar_node__node1 }, 
 				new GRGEN_LGSP.PatternEdge[] { alternative_in_negative_neg_0_alt_0_Bar_edge__edge0 }, 
 				new GRGEN_LGSP.PatternVariable[] {  }, 
@@ -7349,7 +7349,7 @@ namespace de.unika.ipd.grGen.Action_Alternatives
 			alternative_in_negative_neg_0 = new GRGEN_LGSP.PatternGraph(
 				"neg_0",
 				"alternative_in_negative_",
-				false,
+				false, false,
 				new GRGEN_LGSP.PatternNode[] {  }, 
 				new GRGEN_LGSP.PatternEdge[] {  }, 
 				new GRGEN_LGSP.PatternVariable[] {  }, 
@@ -7373,7 +7373,7 @@ namespace de.unika.ipd.grGen.Action_Alternatives
 			pat_alternative_in_negative = new GRGEN_LGSP.PatternGraph(
 				"alternative_in_negative",
 				"",
-				false,
+				false, false,
 				new GRGEN_LGSP.PatternNode[] {  }, 
 				new GRGEN_LGSP.PatternEdge[] {  }, 
 				new GRGEN_LGSP.PatternVariable[] {  }, 
@@ -7937,7 +7937,7 @@ namespace de.unika.ipd.grGen.Action_Alternatives
 			alternative_in_iterated_iter_0_alt_0_Foo = new GRGEN_LGSP.PatternGraph(
 				"Foo",
 				"alternative_in_iterated_iter_0_alt_0_",
-				false,
+				false, false,
 				new GRGEN_LGSP.PatternNode[] { alternative_in_iterated_iter_0_alt_0_Foo_node__node0 }, 
 				new GRGEN_LGSP.PatternEdge[] {  }, 
 				new GRGEN_LGSP.PatternVariable[] {  }, 
@@ -7973,7 +7973,7 @@ namespace de.unika.ipd.grGen.Action_Alternatives
 			alternative_in_iterated_iter_0_alt_0_Bar = new GRGEN_LGSP.PatternGraph(
 				"Bar",
 				"alternative_in_iterated_iter_0_alt_0_",
-				false,
+				false, false,
 				new GRGEN_LGSP.PatternNode[] { alternative_in_iterated_iter_0_alt_0_Bar_node__node0, alternative_in_iterated_iter_0_alt_0_Bar_node__node1 }, 
 				new GRGEN_LGSP.PatternEdge[] { alternative_in_iterated_iter_0_alt_0_Bar_edge__edge0 }, 
 				new GRGEN_LGSP.PatternVariable[] {  }, 
@@ -8004,7 +8004,7 @@ namespace de.unika.ipd.grGen.Action_Alternatives
 			alternative_in_iterated_iter_0 = new GRGEN_LGSP.PatternGraph(
 				"iter_0",
 				"alternative_in_iterated_",
-				false,
+				false, false,
 				new GRGEN_LGSP.PatternNode[] { alternative_in_iterated_iter_0_node__node0 }, 
 				new GRGEN_LGSP.PatternEdge[] {  }, 
 				new GRGEN_LGSP.PatternVariable[] {  }, 
@@ -8031,7 +8031,7 @@ namespace de.unika.ipd.grGen.Action_Alternatives
 			pat_alternative_in_iterated = new GRGEN_LGSP.PatternGraph(
 				"alternative_in_iterated",
 				"",
-				false,
+				false, false,
 				new GRGEN_LGSP.PatternNode[] {  }, 
 				new GRGEN_LGSP.PatternEdge[] {  }, 
 				new GRGEN_LGSP.PatternVariable[] {  }, 

@@ -1,6 +1,6 @@
 // This file has been generated automatically by GrGen (www.grgen.net)
 // Do not modify this file! Any changes will be lost!
-// Generated from "..\..\tests\independent\Independent.grg" on Sun Jun 12 09:35:16 CEST 2011
+// Generated from "..\..\tests\independent\Independent.grg" on Sat Jun 25 14:38:26 CEST 2011
 
 using System;
 using System.Collections.Generic;
@@ -97,7 +97,7 @@ namespace de.unika.ipd.grGen.Action_Independent
 			iteratedPath_alt_0_base = new GRGEN_LGSP.PatternGraph(
 				"base",
 				"iteratedPath_alt_0_",
-				false,
+				false, false,
 				new GRGEN_LGSP.PatternNode[] { iteratedPath_node_beg, iteratedPath_node_end }, 
 				new GRGEN_LGSP.PatternEdge[] { iteratedPath_alt_0_base_edge__edge0 }, 
 				new GRGEN_LGSP.PatternVariable[] {  }, 
@@ -144,7 +144,7 @@ namespace de.unika.ipd.grGen.Action_Independent
 			iteratedPath_alt_0_recursive = new GRGEN_LGSP.PatternGraph(
 				"recursive",
 				"iteratedPath_alt_0_",
-				false,
+				false, false,
 				new GRGEN_LGSP.PatternNode[] { iteratedPath_node_beg, iteratedPath_alt_0_recursive_node_intermediate, iteratedPath_node_end }, 
 				new GRGEN_LGSP.PatternEdge[] { iteratedPath_alt_0_recursive_edge__edge0 }, 
 				new GRGEN_LGSP.PatternVariable[] {  }, 
@@ -176,7 +176,7 @@ namespace de.unika.ipd.grGen.Action_Independent
 			pat_iteratedPath = new GRGEN_LGSP.PatternGraph(
 				"iteratedPath",
 				"",
-				false,
+				false, false,
 				new GRGEN_LGSP.PatternNode[] { iteratedPath_node_beg, iteratedPath_node_end }, 
 				new GRGEN_LGSP.PatternEdge[] {  }, 
 				new GRGEN_LGSP.PatternVariable[] {  }, 
@@ -701,7 +701,7 @@ namespace de.unika.ipd.grGen.Action_Independent
 			iteratedPathToIntNode_alt_0_base = new GRGEN_LGSP.PatternGraph(
 				"base",
 				"iteratedPathToIntNode_alt_0_",
-				false,
+				false, false,
 				new GRGEN_LGSP.PatternNode[] { iteratedPathToIntNode_node_beg, iteratedPathToIntNode_alt_0_base_node_end }, 
 				new GRGEN_LGSP.PatternEdge[] { iteratedPathToIntNode_alt_0_base_edge__edge0 }, 
 				new GRGEN_LGSP.PatternVariable[] {  }, 
@@ -746,7 +746,7 @@ namespace de.unika.ipd.grGen.Action_Independent
 			iteratedPathToIntNode_alt_0_recursive = new GRGEN_LGSP.PatternGraph(
 				"recursive",
 				"iteratedPathToIntNode_alt_0_",
-				false,
+				false, false,
 				new GRGEN_LGSP.PatternNode[] { iteratedPathToIntNode_node_beg, iteratedPathToIntNode_alt_0_recursive_node_intermediate }, 
 				new GRGEN_LGSP.PatternEdge[] { iteratedPathToIntNode_alt_0_recursive_edge__edge0 }, 
 				new GRGEN_LGSP.PatternVariable[] {  }, 
@@ -777,7 +777,7 @@ namespace de.unika.ipd.grGen.Action_Independent
 			pat_iteratedPathToIntNode = new GRGEN_LGSP.PatternGraph(
 				"iteratedPathToIntNode",
 				"",
-				false,
+				false, false,
 				new GRGEN_LGSP.PatternNode[] { iteratedPathToIntNode_node_beg }, 
 				new GRGEN_LGSP.PatternEdge[] {  }, 
 				new GRGEN_LGSP.PatternVariable[] {  }, 
@@ -1245,7 +1245,7 @@ namespace de.unika.ipd.grGen.Action_Independent
 			pat_create = new GRGEN_LGSP.PatternGraph(
 				"create",
 				"",
-				false,
+				false, false,
 				new GRGEN_LGSP.PatternNode[] {  }, 
 				new GRGEN_LGSP.PatternEdge[] {  }, 
 				new GRGEN_LGSP.PatternVariable[] {  }, 
@@ -1463,7 +1463,7 @@ namespace de.unika.ipd.grGen.Action_Independent
 			pat_find = new GRGEN_LGSP.PatternGraph(
 				"find",
 				"",
-				false,
+				false, false,
 				new GRGEN_LGSP.PatternNode[] { find_node_beg, find_node__node0, find_node_end, find_node__node1 }, 
 				new GRGEN_LGSP.PatternEdge[] { find_edge__edge0, find_edge__edge1, find_edge__edge2, find_edge__edge3 }, 
 				new GRGEN_LGSP.PatternVariable[] {  }, 
@@ -1743,7 +1743,7 @@ namespace de.unika.ipd.grGen.Action_Independent
 			findIndependent_idpt_0 = new GRGEN_LGSP.PatternGraph(
 				"idpt_0",
 				"findIndependent_",
-				false,
+				false, false,
 				new GRGEN_LGSP.PatternNode[] { findIndependent_idpt_0_node__node0, findIndependent_node_beg, findIndependent_node_end }, 
 				new GRGEN_LGSP.PatternEdge[] { findIndependent_idpt_0_edge__edge0, findIndependent_idpt_0_edge__edge1 }, 
 				new GRGEN_LGSP.PatternVariable[] {  }, 
@@ -1776,7 +1776,7 @@ namespace de.unika.ipd.grGen.Action_Independent
 			pat_findIndependent = new GRGEN_LGSP.PatternGraph(
 				"findIndependent",
 				"",
-				false,
+				false, false,
 				new GRGEN_LGSP.PatternNode[] { findIndependent_node_beg, findIndependent_node__node0, findIndependent_node_end }, 
 				new GRGEN_LGSP.PatternEdge[] { findIndependent_edge__edge0, findIndependent_edge__edge1 }, 
 				new GRGEN_LGSP.PatternVariable[] {  }, 
@@ -2232,7 +2232,7 @@ namespace de.unika.ipd.grGen.Action_Independent
 			findMultiNested_idpt_0_idpt_1 = new GRGEN_LGSP.PatternGraph(
 				"idpt_1",
 				"findMultiNested_idpt_0_",
-				false,
+				false, false,
 				new GRGEN_LGSP.PatternNode[] { findMultiNested_node_beg, findMultiNested_idpt_0_idpt_1_node__node0, findMultiNested_node_end }, 
 				new GRGEN_LGSP.PatternEdge[] { findMultiNested_idpt_0_idpt_1_edge__edge0, findMultiNested_idpt_0_idpt_1_edge__edge1 }, 
 				new GRGEN_LGSP.PatternVariable[] {  }, 
@@ -2265,7 +2265,7 @@ namespace de.unika.ipd.grGen.Action_Independent
 			findMultiNested_idpt_0 = new GRGEN_LGSP.PatternGraph(
 				"idpt_0",
 				"findMultiNested_",
-				false,
+				false, false,
 				new GRGEN_LGSP.PatternNode[] { findMultiNested_idpt_0_node__node0, findMultiNested_node_beg, findMultiNested_node_end }, 
 				new GRGEN_LGSP.PatternEdge[] { findMultiNested_idpt_0_edge__edge0, findMultiNested_idpt_0_edge__edge1 }, 
 				new GRGEN_LGSP.PatternVariable[] {  }, 
@@ -2327,7 +2327,7 @@ namespace de.unika.ipd.grGen.Action_Independent
 			findMultiNested_idpt_2_idpt_3 = new GRGEN_LGSP.PatternGraph(
 				"idpt_3",
 				"findMultiNested_idpt_2_",
-				false,
+				false, false,
 				new GRGEN_LGSP.PatternNode[] { findMultiNested_idpt_2_idpt_3_node__node0, findMultiNested_node_beg, findMultiNested_node_end }, 
 				new GRGEN_LGSP.PatternEdge[] { findMultiNested_idpt_2_idpt_3_edge__edge0, findMultiNested_idpt_2_idpt_3_edge__edge1 }, 
 				new GRGEN_LGSP.PatternVariable[] {  }, 
@@ -2360,7 +2360,7 @@ namespace de.unika.ipd.grGen.Action_Independent
 			findMultiNested_idpt_2 = new GRGEN_LGSP.PatternGraph(
 				"idpt_2",
 				"findMultiNested_",
-				false,
+				false, false,
 				new GRGEN_LGSP.PatternNode[] { findMultiNested_node_beg, findMultiNested_idpt_2_node__node0, findMultiNested_node_end }, 
 				new GRGEN_LGSP.PatternEdge[] { findMultiNested_idpt_2_edge__edge0, findMultiNested_idpt_2_edge__edge1 }, 
 				new GRGEN_LGSP.PatternVariable[] {  }, 
@@ -2394,7 +2394,7 @@ namespace de.unika.ipd.grGen.Action_Independent
 			pat_findMultiNested = new GRGEN_LGSP.PatternGraph(
 				"findMultiNested",
 				"",
-				false,
+				false, false,
 				new GRGEN_LGSP.PatternNode[] { findMultiNested_node_beg, findMultiNested_node__node0, findMultiNested_node_end }, 
 				new GRGEN_LGSP.PatternEdge[] { findMultiNested_edge__edge0, findMultiNested_edge__edge1 }, 
 				new GRGEN_LGSP.PatternVariable[] {  }, 
@@ -3158,7 +3158,7 @@ namespace de.unika.ipd.grGen.Action_Independent
 			pat_createIterated = new GRGEN_LGSP.PatternGraph(
 				"createIterated",
 				"",
-				false,
+				false, false,
 				new GRGEN_LGSP.PatternNode[] {  }, 
 				new GRGEN_LGSP.PatternEdge[] {  }, 
 				new GRGEN_LGSP.PatternVariable[] {  }, 
@@ -3369,7 +3369,7 @@ namespace de.unika.ipd.grGen.Action_Independent
 			pat_findChainPlusChainToInt = new GRGEN_LGSP.PatternGraph(
 				"findChainPlusChainToInt",
 				"",
-				false,
+				false, false,
 				new GRGEN_LGSP.PatternNode[] { findChainPlusChainToInt_node_beg, findChainPlusChainToInt_node_end }, 
 				new GRGEN_LGSP.PatternEdge[] {  }, 
 				new GRGEN_LGSP.PatternVariable[] {  }, 
@@ -3602,7 +3602,7 @@ namespace de.unika.ipd.grGen.Action_Independent
 			findChainPlusChainToIntIndependent_idpt_0 = new GRGEN_LGSP.PatternGraph(
 				"idpt_0",
 				"findChainPlusChainToIntIndependent_",
-				false,
+				false, false,
 				new GRGEN_LGSP.PatternNode[] { findChainPlusChainToIntIndependent_node_end }, 
 				new GRGEN_LGSP.PatternEdge[] {  }, 
 				new GRGEN_LGSP.PatternVariable[] {  }, 
@@ -3626,7 +3626,7 @@ namespace de.unika.ipd.grGen.Action_Independent
 			pat_findChainPlusChainToIntIndependent = new GRGEN_LGSP.PatternGraph(
 				"findChainPlusChainToIntIndependent",
 				"",
-				false,
+				false, false,
 				new GRGEN_LGSP.PatternNode[] { findChainPlusChainToIntIndependent_node_beg, findChainPlusChainToIntIndependent_node_end }, 
 				new GRGEN_LGSP.PatternEdge[] {  }, 
 				new GRGEN_LGSP.PatternVariable[] {  }, 
